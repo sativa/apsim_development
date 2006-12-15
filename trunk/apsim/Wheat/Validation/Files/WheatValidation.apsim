@@ -3880,6 +3880,330 @@
         </layer>
       </SoilCrop>
     </soil>
+    <soil name="Corrigin">
+      <Site>Corrigin</Site>
+      <Region>WA</Region>
+      <LocalName>Corrigin</LocalName>
+      <SoilType>sand
+</SoilType>
+      <NearestTown>Corrigin</NearestTown>
+      <NaturalVegetation>Unknown</NaturalVegetation>
+      <Water>
+        <Cona>2</Cona>
+        <DiffusConst>88</DiffusConst>
+        <DiffusSlope>35</DiffusSlope>
+        <U>6</U>
+        <Salb>0.13</Salb>
+        <Cn2Bare>25</Cn2Bare>
+        <CnRed>20</CnRed>
+        <CnCov>0.8</CnCov>
+        <layer name="1">
+          <thickness>100</thickness>
+          <bd>0.95</bd>
+          <ll15>0.01</ll15>
+          <airdry>0.01</airdry>
+          <dul>0.055</dul>
+          <sat>0.59</sat>
+          <sw>0.12</sw>
+          <swcon>0.6</swcon>
+          <mwcon>1</mwcon>
+        </layer>
+        <layer name="2">
+          <thickness>100</thickness>
+          <bd>1.41</bd>
+          <ll15>0.01</ll15>
+          <airdry>0.01</airdry>
+          <dul>0.072</dul>
+          <sat>0.43</sat>
+          <sw>0.15</sw>
+          <swcon>0.6</swcon>
+          <mwcon>1</mwcon>
+        </layer>
+        <layer name="3">
+          <thickness>100</thickness>
+          <bd>1.61</bd>
+          <ll15>0.04</ll15>
+          <airdry>0.04</airdry>
+          <dul>0.08</dul>
+          <sat>0.36</sat>
+          <sw>0.18</sw>
+          <swcon>0.6</swcon>
+          <mwcon>1</mwcon>
+        </layer>
+        <layer name="4">
+          <thickness>100</thickness>
+          <bd>1.61</bd>
+          <ll15>0.04</ll15>
+          <airdry>0.04</airdry>
+          <dul>0.224</dul>
+          <sat>0.36</sat>
+          <sw>0.2</sw>
+          <swcon>0.6</swcon>
+          <mwcon>1</mwcon>
+        </layer>
+        <layer name="5">
+          <thickness>100</thickness>
+          <bd>1.87</bd>
+          <ll15>0.08</ll15>
+          <airdry>0.08</airdry>
+          <dul>0.243</dul>
+          <sat>0.27</sat>
+          <sw>0.2</sw>
+          <swcon>0.6</swcon>
+          <mwcon>1</mwcon>
+        </layer>
+        <layer name="6">
+          <thickness>100</thickness>
+          <bd>1.87</bd>
+          <ll15>0.08</ll15>
+          <airdry>0.08</airdry>
+          <dul>0.243</dul>
+          <sat>0.27</sat>
+          <sw>0.21</sw>
+          <swcon>0.6</swcon>
+          <mwcon>1</mwcon>
+        </layer>
+        <layer name="7">
+          <thickness>100</thickness>
+          <bd>1.91</bd>
+          <ll15>0.11</ll15>
+          <airdry>0.11</airdry>
+          <dul>0.243</dul>
+          <sat>0.26</sat>
+          <sw>0.22</sw>
+          <swcon>0.6</swcon>
+          <mwcon>1</mwcon>
+        </layer>
+        <layer name="8">
+          <thickness>100</thickness>
+          <bd>1.91</bd>
+          <ll15>0.11</ll15>
+          <airdry>0.11</airdry>
+          <dul>0.243</dul>
+          <sat>0.26</sat>
+          <sw>0.22</sw>
+          <swcon>0.6</swcon>
+          <mwcon>1</mwcon>
+        </layer>
+        <layer name="9">
+          <thickness>100</thickness>
+          <bd>1.91</bd>
+          <ll15>0.11</ll15>
+          <airdry>0.11</airdry>
+          <dul>0.243</dul>
+          <sat>0.26</sat>
+          <sw>0.21</sw>
+          <swcon>0.6</swcon>
+          <mwcon>1</mwcon>
+        </layer>
+        <layer name="10">
+          <thickness>100</thickness>
+          <bd>1.91</bd>
+          <ll15>0.11</ll15>
+          <airdry>0.11</airdry>
+          <dul>0.243</dul>
+          <sat>0.26</sat>
+          <sw>0.19</sw>
+          <swcon>0.6</swcon>
+          <mwcon>1</mwcon>
+        </layer>
+      </Water>
+      <Nitrogen>
+        <CnCanopyFact>0.8</CnCanopyFact>
+        <RootCn>40</RootCn>
+        <RootWt>500</RootWt>
+        <SoilCn>13</SoilCn>
+        <EnrACoeff>1</EnrACoeff>
+        <EnrBCoeff>1</EnrBCoeff>
+        <layer name="1">
+          <fbiom>0.03</fbiom>
+          <finert>0.2</finert>
+          <oc>1.05</oc>
+          <ph>4.7</ph>
+        </layer>
+        <layer name="2">
+          <fbiom>0.02</fbiom>
+          <finert>0.3</finert>
+          <oc>0.42</oc>
+          <ph>4.7</ph>
+        </layer>
+        <layer name="3">
+          <fbiom>0.02</fbiom>
+          <finert>0.3</finert>
+          <oc>0.26</oc>
+          <ph>4.7</ph>
+        </layer>
+        <layer name="4">
+          <fbiom>0.01</fbiom>
+          <finert>0.4</finert>
+          <oc>0.2</oc>
+          <ph>4.7</ph>
+        </layer>
+        <layer name="5">
+          <fbiom>0.01</fbiom>
+          <finert>0.8</finert>
+          <oc>0.2</oc>
+          <ph>6</ph>
+        </layer>
+        <layer name="6">
+          <fbiom>0.01</fbiom>
+          <finert>0.9</finert>
+          <oc>0.22</oc>
+          <ph>6</ph>
+        </layer>
+        <layer name="7">
+          <fbiom>0.01</fbiom>
+          <finert>0.9</finert>
+          <oc>0.19</oc>
+          <ph>6</ph>
+        </layer>
+        <layer name="8">
+          <fbiom>0.01</fbiom>
+          <finert>0.9</finert>
+          <oc>0.19</oc>
+          <ph>6</ph>
+        </layer>
+        <layer name="9">
+          <fbiom>0.01</fbiom>
+          <finert>0.9</finert>
+          <oc>0.1</oc>
+          <ph>6</ph>
+        </layer>
+        <layer name="10">
+          <fbiom>0.01</fbiom>
+          <finert>0.9</finert>
+          <oc>0.1</oc>
+          <ph>6</ph>
+        </layer>
+      </Nitrogen>
+      <other />
+      <InitWater>
+        <layer name="1">
+          <sw>0.01</sw>
+        </layer>
+        <layer name="2">
+          <sw>0.01</sw>
+        </layer>
+        <layer name="3">
+          <sw>0.04</sw>
+        </layer>
+        <layer name="4">
+          <sw>0.04</sw>
+        </layer>
+        <layer name="5">
+          <sw>0.08</sw>
+        </layer>
+        <layer name="6">
+          <sw>0.08</sw>
+        </layer>
+        <layer name="7">
+          <sw>0.11</sw>
+        </layer>
+        <layer name="8">
+          <sw>0.11</sw>
+        </layer>
+        <layer name="9">
+          <sw>0.11</sw>
+        </layer>
+        <layer name="10">
+          <sw>0.11</sw>
+        </layer>
+      </InitWater>
+      <InitNitrogen>
+        <layer name="1">
+          <no3>7</no3>
+          <nh4>6</nh4>
+        </layer>
+        <layer name="2">
+          <no3>1</no3>
+          <nh4>1</nh4>
+        </layer>
+        <layer name="3">
+          <no3>3</no3>
+          <nh4>1</nh4>
+        </layer>
+        <layer name="4">
+          <no3>1</no3>
+          <nh4>1</nh4>
+        </layer>
+        <layer name="5">
+          <no3>1</no3>
+          <nh4>1</nh4>
+        </layer>
+        <layer name="6">
+          <no3>1</no3>
+          <nh4>1</nh4>
+        </layer>
+        <layer name="7">
+          <no3>1</no3>
+          <nh4>1</nh4>
+        </layer>
+        <layer name="8">
+          <no3>1</no3>
+          <nh4>1</nh4>
+        </layer>
+        <layer name="9">
+          <no3>1</no3>
+          <nh4>1</nh4>
+        </layer>
+        <layer name="10">
+          <no3>1</no3>
+          <nh4>1</nh4>
+        </layer>
+      </InitNitrogen>
+      <SoilCrop name="Wheat">
+        <layer name="1">
+          <ll>0.01</ll>
+          <kl>0.06</kl>
+          <xf>0.7</xf>
+        </layer>
+        <layer name="2">
+          <ll>0.01</ll>
+          <kl>0.06</kl>
+          <xf>0.6</xf>
+        </layer>
+        <layer name="3">
+          <ll>0.04</ll>
+          <kl>0.05</kl>
+          <xf>0.5</xf>
+        </layer>
+        <layer name="4">
+          <ll>0.04</ll>
+          <kl>0.05</kl>
+          <xf>0.5</xf>
+        </layer>
+        <layer name="5">
+          <ll>0.08</ll>
+          <kl>0.04</kl>
+          <xf>0.5</xf>
+        </layer>
+        <layer name="6">
+          <ll>0.08</ll>
+          <kl>0.04</kl>
+          <xf>0.5</xf>
+        </layer>
+        <layer name="7">
+          <ll>0.11</ll>
+          <kl>0.04</kl>
+          <xf>0.5</xf>
+        </layer>
+        <layer name="8">
+          <ll>0.11</ll>
+          <kl>0.04</kl>
+          <xf>0.5</xf>
+        </layer>
+        <layer name="9">
+          <ll>0.11</ll>
+          <kl>0.03</kl>
+          <xf>0</xf>
+        </layer>
+        <layer name="10">
+          <ll>0.11</ll>
+          <kl>0.03</kl>
+          <xf>0</xf>
+        </layer>
+      </SoilCrop>
+    </soil>
     <variables name="DailyVariables">
       <variable name="dd/mm/yyyy as Date" description="Date (dd/mm/yyyy)" array="?" />
       <variable name="day" description="Day of Year" array="?" />
@@ -31529,6 +31853,1720 @@
           <cnr description="C:N ratio of initial residue">60</cnr>
           <standing_fraction description="Fraction of residue standing">0.0</standing_fraction>
         </surfaceom>
+      </area>
+    </simulation>
+  </folder>
+  <folder name="Corrigin">
+    <simulation name="Wheat_Corrigin_DryNil">
+      <clock name="clock">
+        <start_date name="start_date" description="Select the start date of the simulation" type="date" lbound="1/01/2005" ubound="31/12/2005">30/05/2005</start_date>
+        <end_date name="end_date" description="Select the end date of the simulation" type="date" lbound="1/01/2005" ubound="31/12/2005">30/12/2005</end_date>
+      </clock>
+      <summaryfile name="summaryfile">
+        <filename name="filename">Wheat_Cunderdin97_DryN50bWilgoyneMid.sum</filename>
+      </summaryfile>
+      <metfile name="met">
+        <filename name="filename">D:\Development\apsim\Wheat\Validation\Files\corrigin.met</filename>
+      </metfile>
+      <area name="paddock">
+        <registrations name="global" />
+        <outputfile name="outputfile">
+          <filename name="filename">Wheat_Cunderdin97_DryN50bWilgoyneMid.out</filename>
+          <variables name="DailyVariables" shortcut="DailyVariables" />
+          <events name="DailyVariables Events" shortcut="DailyVariables Events" />
+        </outputfile>
+        <manager name="Manager">
+          <rule name="Sow on a fixed date">
+            <condition name="start_of_day">
+               if (paddock_is_fallow() = 1 and today = date('[date]')) then
+                 [crop] sow plants =[density], sowing_depth = [depth], cultivar = [cultivar], row_spacing = [row_spacing]
+               endif
+             </condition>
+            <category name="Sowing criteria">
+              <date type="text" description="Enter sowing date (d/m/yyyy) : ">30/05/2005</date>
+            </category>
+            <category name="Sowing parameters">
+              <crop type="modulename" description="Enter name of crop to sow : ">Wheat</crop>
+              <density type="text" description="Enter sowing density  (plants/m2) : ">250</density>
+              <depth type="text" description="Enter sowing depth  (mm) : ">30</depth>
+              <cultivar type="cultivars" croppropertyname="crop" description="Enter cultivar : ">wyalkatchem</cultivar>
+              <row_spacing type="text" description="Enter row spacing (m) : ">250</row_spacing>
+            </category>
+          </rule>
+          <rule name="Harvesting rule">
+            <condition name="end_of_day">
+
+           if [crop].stage_name = 'harvest_ripe' or [crop].plant_status = 'dead' then
+              [crop]  harvest
+              [crop]  end_crop
+           endif
+
+            </condition>
+            <category name="Harvesting criteria">
+              <crop type="modulename" description="Enter name of crop to harvest when ripe : ">Wheat</crop>
+            </category>
+          </rule>
+          <rule name="Fertilise at sowing">
+            <condition name="[modulename].[eventname]">
+           [fertmodule] apply amount = [fert_amount_sow] (kg/ha), depth = 50 (mm), type = [fert_type_sow]
+               </condition>
+            <category name="When should fertiliser be applied">
+              <modulename type="modulename" description="On which module should the event come from : ">wheat</modulename>
+              <eventname type="text" description="On which event should fertiliser be applied : ">sowing</eventname>
+            </category>
+            <category name="Fertiliser application details">
+              <fertmodule type="modulename" description="Module used to apply the fertiliser : ">fertiliser</fertmodule>
+              <fert_amount_sow type="text" description="Amount of starter fertiliser at sowing (kg/ha) : ">0</fert_amount_sow>
+              <fert_type_sow type="list" listvalues="NO3_N, NH4_N, NH4NO3, urea_N, urea_no3, urea" description="Sowing fertiliser type : ">urea_N</fert_type_sow>
+            </category>
+          </rule>
+          <rule name="Fertilise on fixed date">
+            <condition name="start_of_day"><![CDATA[
+            if (today = date('[fert_date]') then
+               N_topsoil = no3(1) + nh4(1) + no3(2) + nh4(2)
+               if (N_topsoil < [fert_criteria]) then
+                  [fertmodule] apply amount = [fert_amount] (kg/ha), depth = 50 (mm), type = [fert_type] ()
+               endif
+            endif ]]></condition>
+            <category name="When should fertiliser be applied">
+              <fert_date type="ddmmmdate" description="Enter fertiliser date (dd-mmm) : ">14-jul</fert_date>
+              <fert_criteria type="text" description="Don't add fertiliser if N in top 2 layers exceeds (kg/ha) : ">1000</fert_criteria>
+            </category>
+            <category name="Fertiliser application details">
+              <fertmodule type="modulename" description="Module used to apply the fertiliser : ">fertiliser</fertmodule>
+              <fert_amount type="text" description="Amount of fertiliser to apply (kg/ha) : ">50</fert_amount>
+              <fert_type type="list" listvalues="NO3_N, NH4_N, NH4NO3, urea_N, urea_no3, urea" description="Sowing fertiliser type : ">urea_N</fert_type>
+            </category>
+          </rule>
+        </manager>
+        <wheat />
+        <irrigation name="Irrigation">
+          <property name="automatic_irrigation" type="text" description="switch">off</property>
+          <property name="asw_depth" type="text" description="Depth to which ASW is calculated. (mm)">600.0</property>
+          <property name="crit_fr_asw" type="text" description="Fraction of ASW below which irrigation is applied (0-1.0)">0.9</property>
+          <property name="irrigation_efficiency" description="Efficiency of the irrigation. (0-1.0)">1.0</property>
+        </irrigation>
+        <logic name="Irrigator">
+          <script name="init" />
+          <script name="startofday"> ! irrigation record from senthold
+
+</script>
+          <script name="endofday" />
+        </logic>
+        <fertiliser name="fertiliser" />
+        <logic name="Fertilizer">
+          <script name="init" />
+          <script name="startofday" />
+          <script name="endofday" />
+        </logic>
+        <soil name="Corrigin" shortcut="Corrigin" />
+        <surfaceom name="Surface Organic Matter">
+          <PoolName description="Organic Matter pool name">canola</PoolName>
+          <type description="Organic Matter type">canola</type>
+          <mass description="Initial surface residue (kg/ha)">500</mass>
+          <cnr description="C:N ratio of initial residue">60</cnr>
+          <standing_fraction description="Fraction of residue standing">0.0</standing_fraction>
+        </surfaceom>
+      </area>
+    </simulation>
+    <simulation name="Wheat_Corrigin_DryBasal">
+      <clock name="clock">
+        <start_date name="start_date" description="Select the start date of the simulation" type="date" lbound="1/01/2005" ubound="31/12/2005">30/05/2005</start_date>
+        <end_date name="end_date" description="Select the end date of the simulation" type="date" lbound="1/01/2005" ubound="31/12/2005">30/12/2005</end_date>
+      </clock>
+      <summaryfile name="summaryfile">
+        <filename name="filename">Wheat_Cunderdin97_DryN50bWilgoyneMid.sum</filename>
+      </summaryfile>
+      <metfile name="met">
+        <filename name="filename">D:\Development\apsim\Wheat\Validation\Files\corrigin.met</filename>
+      </metfile>
+      <area name="paddock">
+        <registrations name="global" />
+        <outputfile name="outputfile">
+          <filename name="filename">Wheat_Cunderdin97_DryN50bWilgoyneMid.out</filename>
+          <variables name="DailyVariables" shortcut="DailyVariables" />
+          <events name="DailyVariables Events" shortcut="DailyVariables Events" />
+        </outputfile>
+        <manager name="Manager">
+          <rule name="Sow on a fixed date">
+            <condition name="start_of_day">
+               if (paddock_is_fallow() = 1 and today = date('[date]')) then
+                 [crop] sow plants =[density], sowing_depth = [depth], cultivar = [cultivar], row_spacing = [row_spacing]
+               endif
+             </condition>
+            <category name="Sowing criteria">
+              <date type="text" description="Enter sowing date (d/m/yyyy) : ">30/05/2005</date>
+            </category>
+            <category name="Sowing parameters">
+              <crop type="modulename" description="Enter name of crop to sow : ">Wheat</crop>
+              <density type="text" description="Enter sowing density  (plants/m2) : ">250</density>
+              <depth type="text" description="Enter sowing depth  (mm) : ">53</depth>
+              <cultivar type="cultivars" croppropertyname="crop" description="Enter cultivar : ">wyalkatchem</cultivar>
+              <row_spacing type="text" description="Enter row spacing (m) : ">250</row_spacing>
+            </category>
+          </rule>
+          <rule name="Harvesting rule">
+            <condition name="end_of_day">
+
+           if [crop].stage_name = 'harvest_ripe' or [crop].plant_status = 'dead' then
+              [crop]  harvest
+              [crop]  end_crop
+           endif
+
+            </condition>
+            <category name="Harvesting criteria">
+              <crop type="modulename" description="Enter name of crop to harvest when ripe : ">Wheat</crop>
+            </category>
+          </rule>
+          <rule name="Fertilise at sowing">
+            <condition name="[modulename].[eventname]">
+           [fertmodule] apply amount = [fert_amount_sow] (kg/ha), depth = 50 (mm), type = [fert_type_sow]
+               </condition>
+            <category name="When should fertiliser be applied">
+              <modulename type="modulename" description="On which module should the event come from : ">wheat</modulename>
+              <eventname type="text" description="On which event should fertiliser be applied : ">sowing</eventname>
+            </category>
+            <category name="Fertiliser application details">
+              <fertmodule type="modulename" description="Module used to apply the fertiliser : ">fertiliser</fertmodule>
+              <fert_amount_sow type="text" description="Amount of starter fertiliser at sowing (kg/ha) : ">25</fert_amount_sow>
+              <fert_type_sow type="list" listvalues="NO3_N, NH4_N, NH4NO3, urea_N, urea_no3, urea" description="Sowing fertiliser type : ">urea_N</fert_type_sow>
+            </category>
+          </rule>
+          <rule name="Fertilise on fixed date">
+            <condition name="start_of_day"><![CDATA[
+            if (today = date('[fert_date]') then
+               N_topsoil = no3(1) + nh4(1) + no3(2) + nh4(2)
+               if (N_topsoil < [fert_criteria]) then
+                  [fertmodule] apply amount = [fert_amount] (kg/ha), depth = 50 (mm), type = [fert_type] ()
+               endif
+            endif ]]></condition>
+            <category name="When should fertiliser be applied">
+              <fert_date type="ddmmmdate" description="Enter fertiliser date (dd-mmm) : ">14-jul</fert_date>
+              <fert_criteria type="text" description="Don't add fertiliser if N in top 2 layers exceeds (kg/ha) : ">1000</fert_criteria>
+            </category>
+            <category name="Fertiliser application details">
+              <fertmodule type="modulename" description="Module used to apply the fertiliser : ">fertiliser</fertmodule>
+              <fert_amount type="text" description="Amount of fertiliser to apply (kg/ha) : ">50</fert_amount>
+              <fert_type type="list" listvalues="NO3_N, NH4_N, NH4NO3, urea_N, urea_no3, urea" description="Sowing fertiliser type : ">urea_N</fert_type>
+            </category>
+          </rule>
+        </manager>
+        <wheat />
+        <irrigation name="Irrigation">
+          <property name="automatic_irrigation" type="text" description="switch">off</property>
+          <property name="asw_depth" type="text" description="Depth to which ASW is calculated. (mm)">600.0</property>
+          <property name="crit_fr_asw" type="text" description="Fraction of ASW below which irrigation is applied (0-1.0)">0.9</property>
+          <property name="irrigation_efficiency" description="Efficiency of the irrigation. (0-1.0)">1.0</property>
+        </irrigation>
+        <logic name="Irrigator">
+          <script name="init" />
+          <script name="startofday"> ! irrigation record from senthold
+
+</script>
+          <script name="endofday" />
+        </logic>
+        <fertiliser name="fertiliser" />
+        <logic name="Fertilizer">
+          <script name="init" />
+          <script name="startofday" />
+          <script name="endofday" />
+        </logic>
+        <soil name="Corrigin" shortcut="Corrigin" />
+        <surfaceom name="Surface Organic Matter">
+          <PoolName description="Organic Matter pool name">canola</PoolName>
+          <type description="Organic Matter type">canola</type>
+          <mass description="Initial surface residue (kg/ha)">500</mass>
+          <cnr description="C:N ratio of initial residue">60</cnr>
+          <standing_fraction description="Fraction of residue standing">0.0</standing_fraction>
+        </surfaceom>
+      </area>
+    </simulation>
+    <simulation name="Wheat_Corrigin_DryNilTopDress">
+      <clock name="clock">
+        <start_date name="start_date" description="Select the start date of the simulation" type="date" lbound="1/01/2005" ubound="31/12/2005">30/05/2005</start_date>
+        <end_date name="end_date" description="Select the end date of the simulation" type="date" lbound="1/01/2005" ubound="31/12/2005">30/12/2005</end_date>
+      </clock>
+      <summaryfile name="summaryfile">
+        <filename name="filename">Wheat_Cunderdin97_DryN50bWilgoyneMid.sum</filename>
+      </summaryfile>
+      <metfile name="met">
+        <filename name="filename">D:\Development\apsim\Wheat\Validation\Files\corrigin.met</filename>
+      </metfile>
+      <area name="paddock">
+        <registrations name="global" />
+        <outputfile name="outputfile">
+          <filename name="filename">Wheat_Cunderdin97_DryN50bWilgoyneMid.out</filename>
+          <variables name="DailyVariables" shortcut="DailyVariables" />
+          <events name="DailyVariables Events" shortcut="DailyVariables Events" />
+        </outputfile>
+        <manager name="Manager">
+          <rule name="Sow on a fixed date">
+            <condition name="start_of_day">
+               if (paddock_is_fallow() = 1 and today = date('[date]')) then
+                 [crop] sow plants =[density], sowing_depth = [depth], cultivar = [cultivar], row_spacing = [row_spacing]
+               endif
+             </condition>
+            <category name="Sowing criteria">
+              <date type="text" description="Enter sowing date (d/m/yyyy) : ">30/05/2005</date>
+            </category>
+            <category name="Sowing parameters">
+              <crop type="modulename" description="Enter name of crop to sow : ">Wheat</crop>
+              <density type="text" description="Enter sowing density  (plants/m2) : ">250</density>
+              <depth type="text" description="Enter sowing depth  (mm) : ">53</depth>
+              <cultivar type="cultivars" croppropertyname="crop" description="Enter cultivar : ">wyalkatchem</cultivar>
+              <row_spacing type="text" description="Enter row spacing (m) : ">250</row_spacing>
+            </category>
+          </rule>
+          <rule name="Harvesting rule">
+            <condition name="end_of_day">
+
+           if [crop].stage_name = 'harvest_ripe' or [crop].plant_status = 'dead' then
+              [crop]  harvest
+              [crop]  end_crop
+           endif
+
+            </condition>
+            <category name="Harvesting criteria">
+              <crop type="modulename" description="Enter name of crop to harvest when ripe : ">Wheat</crop>
+            </category>
+          </rule>
+          <rule name="Fertilise at sowing">
+            <condition name="[modulename].[eventname]">
+           [fertmodule] apply amount = [fert_amount_sow] (kg/ha), depth = 50 (mm), type = [fert_type_sow]
+               </condition>
+            <category name="When should fertiliser be applied">
+              <modulename type="modulename" description="On which module should the event come from : ">wheat</modulename>
+              <eventname type="text" description="On which event should fertiliser be applied : ">sowing</eventname>
+            </category>
+            <category name="Fertiliser application details">
+              <fertmodule type="modulename" description="Module used to apply the fertiliser : ">fertiliser</fertmodule>
+              <fert_amount_sow type="text" description="Amount of starter fertiliser at sowing (kg/ha) : ">0</fert_amount_sow>
+              <fert_type_sow type="list" listvalues="NO3_N, NH4_N, NH4NO3, urea_N, urea_no3, urea" description="Sowing fertiliser type : ">urea_N</fert_type_sow>
+            </category>
+          </rule>
+          <rule name="Fertilise on fixed date">
+            <condition name="start_of_day"><![CDATA[
+            if (today = date('[fert_date]') then
+               N_topsoil = no3(1) + nh4(1) + no3(2) + nh4(2)
+               if (N_topsoil < [fert_criteria]) then
+                  [fertmodule] apply amount = [fert_amount] (kg/ha), depth = 50 (mm), type = [fert_type] ()
+               endif
+            endif ]]></condition>
+            <category name="When should fertiliser be applied">
+              <fert_date type="ddmmmdate" description="Enter fertiliser date (dd-mmm) : ">14-jul</fert_date>
+              <fert_criteria type="text" description="Don't add fertiliser if N in top 2 layers exceeds (kg/ha) : ">1000</fert_criteria>
+            </category>
+            <category name="Fertiliser application details">
+              <fertmodule type="modulename" description="Module used to apply the fertiliser : ">fertiliser</fertmodule>
+              <fert_amount type="text" description="Amount of fertiliser to apply (kg/ha) : ">50</fert_amount>
+              <fert_type type="list" listvalues="NO3_N, NH4_N, NH4NO3, urea_N, urea_no3, urea" description="Sowing fertiliser type : ">urea_N</fert_type>
+            </category>
+          </rule>
+          <rule name="TopDress on fixed date">
+            <condition name="start_of_day"><![CDATA[
+            if (today = date('[fert_date]') then
+               N_topsoil = no3(1) + nh4(1) + no3(2) + nh4(2)
+               if (N_topsoil < [fert_criteria]) then
+                  [fertmodule] apply amount = [fert_amount] (kg/ha), depth = 50 (mm), type = [fert_type] ()
+               endif
+            endif ]]></condition>
+            <category name="When should fertiliser be applied">
+              <fert_date type="ddmmmdate" description="Enter fertiliser date (dd-mmm) : ">22-sep</fert_date>
+              <fert_criteria type="text" description="Don't add fertiliser if N in top 2 layers exceeds (kg/ha) : ">1000</fert_criteria>
+            </category>
+            <category name="Fertiliser application details">
+              <fertmodule type="modulename" description="Module used to apply the fertiliser : ">fertiliser</fertmodule>
+              <fert_amount type="text" description="Amount of fertiliser to apply (kg/ha) : ">50</fert_amount>
+              <fert_type type="list" listvalues="NO3_N, NH4_N, NH4NO3, urea_N, urea_no3, urea" description="Sowing fertiliser type : ">urea_N</fert_type>
+            </category>
+          </rule>
+        </manager>
+        <wheat />
+        <irrigation name="Irrigation">
+          <property name="automatic_irrigation" type="text" description="switch">off</property>
+          <property name="asw_depth" type="text" description="Depth to which ASW is calculated. (mm)">600.0</property>
+          <property name="crit_fr_asw" type="text" description="Fraction of ASW below which irrigation is applied (0-1.0)">0.9</property>
+          <property name="irrigation_efficiency" description="Efficiency of the irrigation. (0-1.0)">1.0</property>
+        </irrigation>
+        <logic name="Irrigator">
+          <script name="init" />
+          <script name="startofday"> ! irrigation record from senthold
+
+</script>
+          <script name="endofday" />
+        </logic>
+        <fertiliser name="fertiliser" />
+        <logic name="Fertilizer">
+          <script name="init" />
+          <script name="startofday" />
+          <script name="endofday" />
+        </logic>
+        <soil name="Corrigin" shortcut="Corrigin" />
+        <surfaceom name="Surface Organic Matter">
+          <PoolName description="Organic Matter pool name">canola</PoolName>
+          <type description="Organic Matter type">canola</type>
+          <mass description="Initial surface residue (kg/ha)">500</mass>
+          <cnr description="C:N ratio of initial residue">60</cnr>
+          <standing_fraction description="Fraction of residue standing">0.0</standing_fraction>
+        </surfaceom>
+      </area>
+    </simulation>
+    <simulation name="Wheat_Corrigin_DryBasalTopDress">
+      <clock name="clock">
+        <start_date name="start_date" description="Select the start date of the simulation" type="date" lbound="1/01/2005" ubound="31/12/2005">30/05/2005</start_date>
+        <end_date name="end_date" description="Select the end date of the simulation" type="date" lbound="1/01/2005" ubound="31/12/2005">30/12/2005</end_date>
+      </clock>
+      <summaryfile name="summaryfile">
+        <filename name="filename">Wheat_Cunderdin97_DryN50bWilgoyneMid.sum</filename>
+      </summaryfile>
+      <metfile name="met">
+        <filename name="filename">D:\Development\apsim\Wheat\Validation\Files\corrigin.met</filename>
+      </metfile>
+      <area name="paddock">
+        <registrations name="global" />
+        <outputfile name="outputfile">
+          <filename name="filename">Wheat_Cunderdin97_DryN50bWilgoyneMid.out</filename>
+          <variables name="DailyVariables" shortcut="DailyVariables" />
+          <events name="DailyVariables Events" shortcut="DailyVariables Events" />
+        </outputfile>
+        <manager name="Manager">
+          <rule name="Sow on a fixed date">
+            <condition name="start_of_day">
+               if (paddock_is_fallow() = 1 and today = date('[date]')) then
+                 [crop] sow plants =[density], sowing_depth = [depth], cultivar = [cultivar], row_spacing = [row_spacing]
+               endif
+             </condition>
+            <category name="Sowing criteria">
+              <date type="text" description="Enter sowing date (d/m/yyyy) : ">30/05/2005</date>
+            </category>
+            <category name="Sowing parameters">
+              <crop type="modulename" description="Enter name of crop to sow : ">Wheat</crop>
+              <density type="text" description="Enter sowing density  (plants/m2) : ">250</density>
+              <depth type="text" description="Enter sowing depth  (mm) : ">53</depth>
+              <cultivar type="cultivars" croppropertyname="crop" description="Enter cultivar : ">wyalkatchem</cultivar>
+              <row_spacing type="text" description="Enter row spacing (m) : ">250</row_spacing>
+            </category>
+          </rule>
+          <rule name="Harvesting rule">
+            <condition name="end_of_day">
+
+           if [crop].stage_name = 'harvest_ripe' or [crop].plant_status = 'dead' then
+              [crop]  harvest
+              [crop]  end_crop
+           endif
+
+            </condition>
+            <category name="Harvesting criteria">
+              <crop type="modulename" description="Enter name of crop to harvest when ripe : ">Wheat</crop>
+            </category>
+          </rule>
+          <rule name="Fertilise at sowing">
+            <condition name="[modulename].[eventname]">
+           [fertmodule] apply amount = [fert_amount_sow] (kg/ha), depth = 50 (mm), type = [fert_type_sow]
+               </condition>
+            <category name="When should fertiliser be applied">
+              <modulename type="modulename" description="On which module should the event come from : ">wheat</modulename>
+              <eventname type="text" description="On which event should fertiliser be applied : ">sowing</eventname>
+            </category>
+            <category name="Fertiliser application details">
+              <fertmodule type="modulename" description="Module used to apply the fertiliser : ">fertiliser</fertmodule>
+              <fert_amount_sow type="text" description="Amount of starter fertiliser at sowing (kg/ha) : ">25</fert_amount_sow>
+              <fert_type_sow type="list" listvalues="NO3_N, NH4_N, NH4NO3, urea_N, urea_no3, urea" description="Sowing fertiliser type : ">urea_N</fert_type_sow>
+            </category>
+          </rule>
+          <rule name="Fertilise on fixed date">
+            <condition name="start_of_day"><![CDATA[
+            if (today = date('[fert_date]') then
+               N_topsoil = no3(1) + nh4(1) + no3(2) + nh4(2)
+               if (N_topsoil < [fert_criteria]) then
+                  [fertmodule] apply amount = [fert_amount] (kg/ha), depth = 50 (mm), type = [fert_type] ()
+               endif
+            endif ]]></condition>
+            <category name="When should fertiliser be applied">
+              <fert_date type="ddmmmdate" description="Enter fertiliser date (dd-mmm) : ">14-jul</fert_date>
+              <fert_criteria type="text" description="Don't add fertiliser if N in top 2 layers exceeds (kg/ha) : ">1000</fert_criteria>
+            </category>
+            <category name="Fertiliser application details">
+              <fertmodule type="modulename" description="Module used to apply the fertiliser : ">fertiliser</fertmodule>
+              <fert_amount type="text" description="Amount of fertiliser to apply (kg/ha) : ">50</fert_amount>
+              <fert_type type="list" listvalues="NO3_N, NH4_N, NH4NO3, urea_N, urea_no3, urea" description="Sowing fertiliser type : ">urea_N</fert_type>
+            </category>
+          </rule>
+          <rule name="TopDress on fixed date">
+            <condition name="start_of_day"><![CDATA[
+            if (today = date('[fert_date]') then
+               N_topsoil = no3(1) + nh4(1) + no3(2) + nh4(2)
+               if (N_topsoil < [fert_criteria]) then
+                  [fertmodule] apply amount = [fert_amount] (kg/ha), depth = 50 (mm), type = [fert_type] ()
+               endif
+            endif ]]></condition>
+            <category name="When should fertiliser be applied">
+              <fert_date type="ddmmmdate" description="Enter fertiliser date (dd-mmm) : ">22-sep</fert_date>
+              <fert_criteria type="text" description="Don't add fertiliser if N in top 2 layers exceeds (kg/ha) : ">1000</fert_criteria>
+            </category>
+            <category name="Fertiliser application details">
+              <fertmodule type="modulename" description="Module used to apply the fertiliser : ">fertiliser</fertmodule>
+              <fert_amount type="text" description="Amount of fertiliser to apply (kg/ha) : ">50</fert_amount>
+              <fert_type type="list" listvalues="NO3_N, NH4_N, NH4NO3, urea_N, urea_no3, urea" description="Sowing fertiliser type : ">urea_N</fert_type>
+            </category>
+          </rule>
+        </manager>
+        <wheat />
+        <irrigation name="Irrigation">
+          <property name="automatic_irrigation" type="text" description="switch">off</property>
+          <property name="asw_depth" type="text" description="Depth to which ASW is calculated. (mm)">600.0</property>
+          <property name="crit_fr_asw" type="text" description="Fraction of ASW below which irrigation is applied (0-1.0)">0.9</property>
+          <property name="irrigation_efficiency" description="Efficiency of the irrigation. (0-1.0)">1.0</property>
+        </irrigation>
+        <logic name="Irrigator">
+          <script name="init" />
+          <script name="startofday"> ! irrigation record from senthold
+
+</script>
+          <script name="endofday" />
+        </logic>
+        <fertiliser name="fertiliser" />
+        <logic name="Fertilizer">
+          <script name="init" />
+          <script name="startofday" />
+          <script name="endofday" />
+        </logic>
+        <soil name="Corrigin" shortcut="Corrigin" />
+        <surfaceom name="Surface Organic Matter">
+          <PoolName description="Organic Matter pool name">canola</PoolName>
+          <type description="Organic Matter type">canola</type>
+          <mass description="Initial surface residue (kg/ha)">500</mass>
+          <cnr description="C:N ratio of initial residue">60</cnr>
+          <standing_fraction description="Fraction of residue standing">0.0</standing_fraction>
+        </surfaceom>
+      </area>
+    </simulation>
+    <simulation name="Wheat_Corrigin_10mmNil">
+      <clock name="clock">
+        <start_date name="start_date" description="Select the start date of the simulation" type="date" lbound="1/01/2005" ubound="31/12/2005">30/05/2005</start_date>
+        <end_date name="end_date" description="Select the end date of the simulation" type="date" lbound="1/01/2005" ubound="31/12/2005">30/12/2005</end_date>
+      </clock>
+      <summaryfile name="summaryfile">
+        <filename name="filename">Wheat_Cunderdin97_DryN50bWilgoyneMid.sum</filename>
+      </summaryfile>
+      <metfile name="met">
+        <filename name="filename">D:\Development\apsim\Wheat\Validation\Files\corrigin.met</filename>
+      </metfile>
+      <area name="paddock">
+        <registrations name="global" />
+        <outputfile name="outputfile">
+          <filename name="filename">Wheat_Cunderdin97_DryN50bWilgoyneMid.out</filename>
+          <variables name="DailyVariables" shortcut="DailyVariables" />
+          <events name="DailyVariables Events" shortcut="DailyVariables Events" />
+        </outputfile>
+        <manager name="Manager">
+          <rule name="Sow on a fixed date">
+            <condition name="start_of_day">
+               if (paddock_is_fallow() = 1 and today = date('[date]')) then
+                 [crop] sow plants =[density], sowing_depth = [depth], cultivar = [cultivar], row_spacing = [row_spacing]
+               endif
+             </condition>
+            <category name="Sowing criteria">
+              <date type="text" description="Enter sowing date (d/m/yyyy) : ">30/05/2005</date>
+            </category>
+            <category name="Sowing parameters">
+              <crop type="modulename" description="Enter name of crop to sow : ">Wheat</crop>
+              <density type="text" description="Enter sowing density  (plants/m2) : ">250</density>
+              <depth type="text" description="Enter sowing depth  (mm) : ">53</depth>
+              <cultivar type="cultivars" croppropertyname="crop" description="Enter cultivar : ">wyalkatchem</cultivar>
+              <row_spacing type="text" description="Enter row spacing (m) : ">250</row_spacing>
+            </category>
+          </rule>
+          <rule name="Harvesting rule">
+            <condition name="end_of_day">
+
+           if [crop].stage_name = 'harvest_ripe' or [crop].plant_status = 'dead' then
+              [crop]  harvest
+              [crop]  end_crop
+           endif
+
+            </condition>
+            <category name="Harvesting criteria">
+              <crop type="modulename" description="Enter name of crop to harvest when ripe : ">Wheat</crop>
+            </category>
+          </rule>
+          <rule name="Fertilise at sowing">
+            <condition name="[modulename].[eventname]">
+           [fertmodule] apply amount = [fert_amount_sow] (kg/ha), depth = 50 (mm), type = [fert_type_sow]
+               </condition>
+            <category name="When should fertiliser be applied">
+              <modulename type="modulename" description="On which module should the event come from : ">wheat</modulename>
+              <eventname type="text" description="On which event should fertiliser be applied : ">sowing</eventname>
+            </category>
+            <category name="Fertiliser application details">
+              <fertmodule type="modulename" description="Module used to apply the fertiliser : ">fertiliser</fertmodule>
+              <fert_amount_sow type="text" description="Amount of starter fertiliser at sowing (kg/ha) : ">0</fert_amount_sow>
+              <fert_type_sow type="list" listvalues="NO3_N, NH4_N, NH4NO3, urea_N, urea_no3, urea" description="Sowing fertiliser type : ">urea_N</fert_type_sow>
+            </category>
+          </rule>
+          <rule name="Fertilise on fixed date">
+            <condition name="start_of_day"><![CDATA[
+            if (today = date('[fert_date]') then
+               N_topsoil = no3(1) + nh4(1) + no3(2) + nh4(2)
+               if (N_topsoil < [fert_criteria]) then
+                  [fertmodule] apply amount = [fert_amount] (kg/ha), depth = 50 (mm), type = [fert_type] ()
+               endif
+            endif ]]></condition>
+            <category name="When should fertiliser be applied">
+              <fert_date type="ddmmmdate" description="Enter fertiliser date (dd-mmm) : ">14-jul</fert_date>
+              <fert_criteria type="text" description="Don't add fertiliser if N in top 2 layers exceeds (kg/ha) : ">1000</fert_criteria>
+            </category>
+            <category name="Fertiliser application details">
+              <fertmodule type="modulename" description="Module used to apply the fertiliser : ">fertiliser</fertmodule>
+              <fert_amount type="text" description="Amount of fertiliser to apply (kg/ha) : ">50</fert_amount>
+              <fert_type type="list" listvalues="NO3_N, NH4_N, NH4NO3, urea_N, urea_no3, urea" description="Sowing fertiliser type : ">urea_N</fert_type>
+            </category>
+          </rule>
+        </manager>
+        <wheat />
+        <irrigation name="Irrigation">
+          <property name="automatic_irrigation" type="text" description="switch">off</property>
+          <property name="asw_depth" type="text" description="Depth to which ASW is calculated. (mm)">600.0</property>
+          <property name="crit_fr_asw" type="text" description="Fraction of ASW below which irrigation is applied (0-1.0)">0.9</property>
+          <property name="irrigation_efficiency" description="Efficiency of the irrigation. (0-1.0)">1.0</property>
+        </irrigation>
+        <fertiliser name="fertiliser" />
+        <soil name="Corrigin" shortcut="Corrigin" />
+        <surfaceom name="Surface Organic Matter">
+          <PoolName description="Organic Matter pool name">canola</PoolName>
+          <type description="Organic Matter type">canola</type>
+          <mass description="Initial surface residue (kg/ha)">500</mass>
+          <cnr description="C:N ratio of initial residue">60</cnr>
+          <standing_fraction description="Fraction of residue standing">0.0</standing_fraction>
+        </surfaceom>
+        <operations>
+          <operation condition="start_of_day">
+            <date>4/08/2005</date>
+            <action>irrigation apply amount = 10</action>
+          </operation>
+          <operation condition="start_of_day">
+            <date>11/08/2005</date>
+            <action>irrigation apply amount = 10</action>
+          </operation>
+          <operation condition="start_of_day">
+            <date>17/08/2005</date>
+            <action>irrigation apply amount = 10</action>
+          </operation>
+          <operation condition="start_of_day">
+            <date>24/08/2005</date>
+            <action>irrigation apply amount = 10</action>
+          </operation>
+          <operation condition="start_of_day">
+            <date>1/09/2005</date>
+            <action>irrigation apply amount = 10</action>
+          </operation>
+          <operation condition="start_of_day">
+            <date>8/09/2005</date>
+            <action>irrigation apply amount = 10</action>
+          </operation>
+          <operation condition="start_of_day">
+            <date>15/09/2005</date>
+            <action>irrigation apply amount = 10</action>
+          </operation>
+          <operation condition="start_of_day">
+            <date>22/09/2005</date>
+            <action>irrigation apply amount = 10</action>
+          </operation>
+          <operation condition="start_of_day">
+            <date>27/09/2005</date>
+            <action>irrigation apply amount = 10</action>
+          </operation>
+          <operation condition="start_of_day">
+            <date>4/10/2005</date>
+            <action>irrigation apply amount = 10</action>
+          </operation>
+          <operation condition="start_of_day">
+            <date>11/10/2005</date>
+            <action>irrigation apply amount = 10</action>
+          </operation>
+          <operation condition="start_of_day">
+            <date>19/10/2005</date>
+            <action>irrigation apply amount = 10</action>
+          </operation>
+          <operation condition="start_of_day">
+            <date>26/10/2005</date>
+            <action>irrigation apply amount = 10</action>
+          </operation>
+        </operations>
+      </area>
+    </simulation>
+    <simulation name="Wheat_Corrigin_10mmBasal">
+      <clock name="clock">
+        <start_date name="start_date" description="Select the start date of the simulation" type="date" lbound="1/01/2005" ubound="31/12/2005">30/05/2005</start_date>
+        <end_date name="end_date" description="Select the end date of the simulation" type="date" lbound="1/01/2005" ubound="31/12/2005">30/12/2005</end_date>
+      </clock>
+      <summaryfile name="summaryfile">
+        <filename name="filename">Wheat_Cunderdin97_DryN50bWilgoyneMid.sum</filename>
+      </summaryfile>
+      <metfile name="met">
+        <filename name="filename">D:\Development\apsim\Wheat\Validation\Files\corrigin.met</filename>
+      </metfile>
+      <area name="paddock">
+        <registrations name="global" />
+        <outputfile name="outputfile">
+          <filename name="filename">Wheat_Cunderdin97_DryN50bWilgoyneMid.out</filename>
+          <variables name="DailyVariables" shortcut="DailyVariables" />
+          <events name="DailyVariables Events" shortcut="DailyVariables Events" />
+        </outputfile>
+        <manager name="Manager">
+          <rule name="Sow on a fixed date">
+            <condition name="start_of_day">
+               if (paddock_is_fallow() = 1 and today = date('[date]')) then
+                 [crop] sow plants =[density], sowing_depth = [depth], cultivar = [cultivar], row_spacing = [row_spacing]
+               endif
+             </condition>
+            <category name="Sowing criteria">
+              <date type="text" description="Enter sowing date (d/m/yyyy) : ">30/05/2005</date>
+            </category>
+            <category name="Sowing parameters">
+              <crop type="modulename" description="Enter name of crop to sow : ">Wheat</crop>
+              <density type="text" description="Enter sowing density  (plants/m2) : ">250</density>
+              <depth type="text" description="Enter sowing depth  (mm) : ">53</depth>
+              <cultivar type="cultivars" croppropertyname="crop" description="Enter cultivar : ">wyalkatchem</cultivar>
+              <row_spacing type="text" description="Enter row spacing (m) : ">250</row_spacing>
+            </category>
+          </rule>
+          <rule name="Harvesting rule">
+            <condition name="end_of_day">
+
+           if [crop].stage_name = 'harvest_ripe' or [crop].plant_status = 'dead' then
+              [crop]  harvest
+              [crop]  end_crop
+           endif
+
+            </condition>
+            <category name="Harvesting criteria">
+              <crop type="modulename" description="Enter name of crop to harvest when ripe : ">Wheat</crop>
+            </category>
+          </rule>
+          <rule name="Fertilise at sowing">
+            <condition name="[modulename].[eventname]">
+           [fertmodule] apply amount = [fert_amount_sow] (kg/ha), depth = 50 (mm), type = [fert_type_sow]
+               </condition>
+            <category name="When should fertiliser be applied">
+              <modulename type="modulename" description="On which module should the event come from : ">wheat</modulename>
+              <eventname type="text" description="On which event should fertiliser be applied : ">sowing</eventname>
+            </category>
+            <category name="Fertiliser application details">
+              <fertmodule type="modulename" description="Module used to apply the fertiliser : ">fertiliser</fertmodule>
+              <fert_amount_sow type="text" description="Amount of starter fertiliser at sowing (kg/ha) : ">25</fert_amount_sow>
+              <fert_type_sow type="list" listvalues="NO3_N, NH4_N, NH4NO3, urea_N, urea_no3, urea" description="Sowing fertiliser type : ">urea_N</fert_type_sow>
+            </category>
+          </rule>
+          <rule name="Fertilise on fixed date">
+            <condition name="start_of_day"><![CDATA[
+            if (today = date('[fert_date]') then
+               N_topsoil = no3(1) + nh4(1) + no3(2) + nh4(2)
+               if (N_topsoil < [fert_criteria]) then
+                  [fertmodule] apply amount = [fert_amount] (kg/ha), depth = 50 (mm), type = [fert_type] ()
+               endif
+            endif ]]></condition>
+            <category name="When should fertiliser be applied">
+              <fert_date type="ddmmmdate" description="Enter fertiliser date (dd-mmm) : ">14-jul</fert_date>
+              <fert_criteria type="text" description="Don't add fertiliser if N in top 2 layers exceeds (kg/ha) : ">1000</fert_criteria>
+            </category>
+            <category name="Fertiliser application details">
+              <fertmodule type="modulename" description="Module used to apply the fertiliser : ">fertiliser</fertmodule>
+              <fert_amount type="text" description="Amount of fertiliser to apply (kg/ha) : ">50</fert_amount>
+              <fert_type type="list" listvalues="NO3_N, NH4_N, NH4NO3, urea_N, urea_no3, urea" description="Sowing fertiliser type : ">urea_N</fert_type>
+            </category>
+          </rule>
+        </manager>
+        <wheat />
+        <irrigation name="Irrigation">
+          <property name="automatic_irrigation" type="text" description="switch">off</property>
+          <property name="asw_depth" type="text" description="Depth to which ASW is calculated. (mm)">600.0</property>
+          <property name="crit_fr_asw" type="text" description="Fraction of ASW below which irrigation is applied (0-1.0)">0.9</property>
+          <property name="irrigation_efficiency" description="Efficiency of the irrigation. (0-1.0)">1.0</property>
+        </irrigation>
+        <logic name="Irrigator">
+          <script name="init" />
+          <script name="startofday"> ! irrigation record from senthold
+
+</script>
+          <script name="endofday" />
+        </logic>
+        <fertiliser name="fertiliser" />
+        <logic name="Fertilizer">
+          <script name="init" />
+          <script name="startofday" />
+          <script name="endofday" />
+        </logic>
+        <soil name="Corrigin" shortcut="Corrigin" />
+        <surfaceom name="Surface Organic Matter">
+          <PoolName description="Organic Matter pool name">canola</PoolName>
+          <type description="Organic Matter type">canola</type>
+          <mass description="Initial surface residue (kg/ha)">500</mass>
+          <cnr description="C:N ratio of initial residue">60</cnr>
+          <standing_fraction description="Fraction of residue standing">0.0</standing_fraction>
+        </surfaceom>
+        <operations>
+          <operation condition="start_of_day">
+            <date>4/08/2005</date>
+            <action>irrigation apply amount = 10</action>
+          </operation>
+          <operation condition="start_of_day">
+            <date>11/08/2005</date>
+            <action>irrigation apply amount = 10</action>
+          </operation>
+          <operation condition="start_of_day">
+            <date>17/08/2005</date>
+            <action>irrigation apply amount = 10</action>
+          </operation>
+          <operation condition="start_of_day">
+            <date>24/08/2005</date>
+            <action>irrigation apply amount = 10</action>
+          </operation>
+          <operation condition="start_of_day">
+            <date>1/09/2005</date>
+            <action>irrigation apply amount = 10</action>
+          </operation>
+          <operation condition="start_of_day">
+            <date>8/09/2005</date>
+            <action>irrigation apply amount = 10</action>
+          </operation>
+          <operation condition="start_of_day">
+            <date>15/09/2005</date>
+            <action>irrigation apply amount = 10</action>
+          </operation>
+          <operation condition="start_of_day">
+            <date>22/09/2005</date>
+            <action>irrigation apply amount = 10</action>
+          </operation>
+          <operation condition="start_of_day">
+            <date>27/09/2005</date>
+            <action>irrigation apply amount = 10</action>
+          </operation>
+          <operation condition="start_of_day">
+            <date>4/10/2005</date>
+            <action>irrigation apply amount = 10</action>
+          </operation>
+          <operation condition="start_of_day">
+            <date>11/10/2005</date>
+            <action>irrigation apply amount = 10</action>
+          </operation>
+          <operation condition="start_of_day">
+            <date>19/10/2005</date>
+            <action>irrigation apply amount = 10</action>
+          </operation>
+          <operation condition="start_of_day">
+            <date>26/10/2005</date>
+            <action>irrigation apply amount = 10</action>
+          </operation>
+        </operations>
+      </area>
+    </simulation>
+    <simulation name="Wheat_Corrigin_10mmNilTopDress">
+      <clock name="clock">
+        <start_date name="start_date" description="Select the start date of the simulation" type="date" lbound="1/01/2005" ubound="31/12/2005">30/05/2005</start_date>
+        <end_date name="end_date" description="Select the end date of the simulation" type="date" lbound="1/01/2005" ubound="31/12/2005">30/12/2005</end_date>
+      </clock>
+      <summaryfile name="summaryfile">
+        <filename name="filename">Wheat_Cunderdin97_DryN50bWilgoyneMid.sum</filename>
+      </summaryfile>
+      <metfile name="met">
+        <filename name="filename">D:\Development\apsim\Wheat\Validation\Files\corrigin.met</filename>
+      </metfile>
+      <area name="paddock">
+        <registrations name="global" />
+        <outputfile name="outputfile">
+          <filename name="filename">Wheat_Cunderdin97_DryN50bWilgoyneMid.out</filename>
+          <variables name="DailyVariables" shortcut="DailyVariables" />
+          <events name="DailyVariables Events" shortcut="DailyVariables Events" />
+        </outputfile>
+        <manager name="Manager">
+          <rule name="Sow on a fixed date">
+            <condition name="start_of_day">
+               if (paddock_is_fallow() = 1 and today = date('[date]')) then
+                 [crop] sow plants =[density], sowing_depth = [depth], cultivar = [cultivar], row_spacing = [row_spacing]
+               endif
+             </condition>
+            <category name="Sowing criteria">
+              <date type="text" description="Enter sowing date (d/m/yyyy) : ">30/05/2005</date>
+            </category>
+            <category name="Sowing parameters">
+              <crop type="modulename" description="Enter name of crop to sow : ">Wheat</crop>
+              <density type="text" description="Enter sowing density  (plants/m2) : ">250</density>
+              <depth type="text" description="Enter sowing depth  (mm) : ">53</depth>
+              <cultivar type="cultivars" croppropertyname="crop" description="Enter cultivar : ">wyalkatchem</cultivar>
+              <row_spacing type="text" description="Enter row spacing (m) : ">250</row_spacing>
+            </category>
+          </rule>
+          <rule name="Harvesting rule">
+            <condition name="end_of_day">
+
+           if [crop].stage_name = 'harvest_ripe' or [crop].plant_status = 'dead' then
+              [crop]  harvest
+              [crop]  end_crop
+           endif
+
+            </condition>
+            <category name="Harvesting criteria">
+              <crop type="modulename" description="Enter name of crop to harvest when ripe : ">Wheat</crop>
+            </category>
+          </rule>
+          <rule name="Fertilise at sowing">
+            <condition name="[modulename].[eventname]">
+           [fertmodule] apply amount = [fert_amount_sow] (kg/ha), depth = 50 (mm), type = [fert_type_sow]
+               </condition>
+            <category name="When should fertiliser be applied">
+              <modulename type="modulename" description="On which module should the event come from : ">wheat</modulename>
+              <eventname type="text" description="On which event should fertiliser be applied : ">sowing</eventname>
+            </category>
+            <category name="Fertiliser application details">
+              <fertmodule type="modulename" description="Module used to apply the fertiliser : ">fertiliser</fertmodule>
+              <fert_amount_sow type="text" description="Amount of starter fertiliser at sowing (kg/ha) : ">0</fert_amount_sow>
+              <fert_type_sow type="list" listvalues="NO3_N, NH4_N, NH4NO3, urea_N, urea_no3, urea" description="Sowing fertiliser type : ">urea_N</fert_type_sow>
+            </category>
+          </rule>
+          <rule name="Fertilise on fixed date">
+            <condition name="start_of_day"><![CDATA[
+            if (today = date('[fert_date]') then
+               N_topsoil = no3(1) + nh4(1) + no3(2) + nh4(2)
+               if (N_topsoil < [fert_criteria]) then
+                  [fertmodule] apply amount = [fert_amount] (kg/ha), depth = 50 (mm), type = [fert_type] ()
+               endif
+            endif ]]></condition>
+            <category name="When should fertiliser be applied">
+              <fert_date type="ddmmmdate" description="Enter fertiliser date (dd-mmm) : ">14-jul</fert_date>
+              <fert_criteria type="text" description="Don't add fertiliser if N in top 2 layers exceeds (kg/ha) : ">1000</fert_criteria>
+            </category>
+            <category name="Fertiliser application details">
+              <fertmodule type="modulename" description="Module used to apply the fertiliser : ">fertiliser</fertmodule>
+              <fert_amount type="text" description="Amount of fertiliser to apply (kg/ha) : ">50</fert_amount>
+              <fert_type type="list" listvalues="NO3_N, NH4_N, NH4NO3, urea_N, urea_no3, urea" description="Sowing fertiliser type : ">urea_N</fert_type>
+            </category>
+          </rule>
+          <rule name="TopDress on fixed date">
+            <condition name="start_of_day"><![CDATA[
+            if (today = date('[fert_date]') then
+               N_topsoil = no3(1) + nh4(1) + no3(2) + nh4(2)
+               if (N_topsoil < [fert_criteria]) then
+                  [fertmodule] apply amount = [fert_amount] (kg/ha), depth = 50 (mm), type = [fert_type] ()
+               endif
+            endif ]]></condition>
+            <category name="When should fertiliser be applied">
+              <fert_date type="ddmmmdate" description="Enter fertiliser date (dd-mmm) : ">22-sep</fert_date>
+              <fert_criteria type="text" description="Don't add fertiliser if N in top 2 layers exceeds (kg/ha) : ">1000</fert_criteria>
+            </category>
+            <category name="Fertiliser application details">
+              <fertmodule type="modulename" description="Module used to apply the fertiliser : ">fertiliser</fertmodule>
+              <fert_amount type="text" description="Amount of fertiliser to apply (kg/ha) : ">50</fert_amount>
+              <fert_type type="list" listvalues="NO3_N, NH4_N, NH4NO3, urea_N, urea_no3, urea" description="Sowing fertiliser type : ">urea_N</fert_type>
+            </category>
+          </rule>
+        </manager>
+        <wheat />
+        <irrigation name="Irrigation">
+          <property name="automatic_irrigation" type="text" description="switch">off</property>
+          <property name="asw_depth" type="text" description="Depth to which ASW is calculated. (mm)">600.0</property>
+          <property name="crit_fr_asw" type="text" description="Fraction of ASW below which irrigation is applied (0-1.0)">0.9</property>
+          <property name="irrigation_efficiency" description="Efficiency of the irrigation. (0-1.0)">1.0</property>
+        </irrigation>
+        <logic name="Irrigator">
+          <script name="init" />
+          <script name="startofday"> ! irrigation record from senthold
+
+</script>
+          <script name="endofday" />
+        </logic>
+        <fertiliser name="fertiliser" />
+        <logic name="Fertilizer">
+          <script name="init" />
+          <script name="startofday" />
+          <script name="endofday" />
+        </logic>
+        <soil name="Corrigin" shortcut="Corrigin" />
+        <surfaceom name="Surface Organic Matter">
+          <PoolName description="Organic Matter pool name">canola</PoolName>
+          <type description="Organic Matter type">canola</type>
+          <mass description="Initial surface residue (kg/ha)">500</mass>
+          <cnr description="C:N ratio of initial residue">60</cnr>
+          <standing_fraction description="Fraction of residue standing">0.0</standing_fraction>
+        </surfaceom>
+        <operations>
+          <operation condition="start_of_day">
+            <date>4/08/2005</date>
+            <action>irrigation apply amount = 10</action>
+          </operation>
+          <operation condition="start_of_day">
+            <date>11/08/2005</date>
+            <action>irrigation apply amount = 10</action>
+          </operation>
+          <operation condition="start_of_day">
+            <date>17/08/2005</date>
+            <action>irrigation apply amount = 10</action>
+          </operation>
+          <operation condition="start_of_day">
+            <date>24/08/2005</date>
+            <action>irrigation apply amount = 10</action>
+          </operation>
+          <operation condition="start_of_day">
+            <date>1/09/2005</date>
+            <action>irrigation apply amount = 10</action>
+          </operation>
+          <operation condition="start_of_day">
+            <date>8/09/2005</date>
+            <action>irrigation apply amount = 10</action>
+          </operation>
+          <operation condition="start_of_day">
+            <date>15/09/2005</date>
+            <action>irrigation apply amount = 10</action>
+          </operation>
+          <operation condition="start_of_day">
+            <date>22/09/2005</date>
+            <action>irrigation apply amount = 10</action>
+          </operation>
+          <operation condition="start_of_day">
+            <date>27/09/2005</date>
+            <action>irrigation apply amount = 10</action>
+          </operation>
+          <operation condition="start_of_day">
+            <date>4/10/2005</date>
+            <action>irrigation apply amount = 10</action>
+          </operation>
+          <operation condition="start_of_day">
+            <date>11/10/2005</date>
+            <action>irrigation apply amount = 10</action>
+          </operation>
+          <operation condition="start_of_day">
+            <date>19/10/2005</date>
+            <action>irrigation apply amount = 10</action>
+          </operation>
+          <operation condition="start_of_day">
+            <date>26/10/2005</date>
+            <action>irrigation apply amount = 10</action>
+          </operation>
+        </operations>
+      </area>
+    </simulation>
+    <simulation name="Wheat_Corrigin_10mmBasalTopDress">
+      <clock name="clock">
+        <start_date name="start_date" description="Select the start date of the simulation" type="date" lbound="1/01/2005" ubound="31/12/2005">30/05/2005</start_date>
+        <end_date name="end_date" description="Select the end date of the simulation" type="date" lbound="1/01/2005" ubound="31/12/2005">30/12/2005</end_date>
+      </clock>
+      <summaryfile name="summaryfile">
+        <filename name="filename">Wheat_Cunderdin97_DryN50bWilgoyneMid.sum</filename>
+      </summaryfile>
+      <metfile name="met">
+        <filename name="filename">D:\Development\apsim\Wheat\Validation\Files\corrigin.met</filename>
+      </metfile>
+      <area name="paddock">
+        <registrations name="global" />
+        <outputfile name="outputfile">
+          <filename name="filename">Wheat_Cunderdin97_DryN50bWilgoyneMid.out</filename>
+          <variables name="DailyVariables" shortcut="DailyVariables" />
+          <events name="DailyVariables Events" shortcut="DailyVariables Events" />
+        </outputfile>
+        <manager name="Manager">
+          <rule name="Sow on a fixed date">
+            <condition name="start_of_day">
+               if (paddock_is_fallow() = 1 and today = date('[date]')) then
+                 [crop] sow plants =[density], sowing_depth = [depth], cultivar = [cultivar], row_spacing = [row_spacing]
+               endif
+             </condition>
+            <category name="Sowing criteria">
+              <date type="text" description="Enter sowing date (d/m/yyyy) : ">30/05/2005</date>
+            </category>
+            <category name="Sowing parameters">
+              <crop type="modulename" description="Enter name of crop to sow : ">Wheat</crop>
+              <density type="text" description="Enter sowing density  (plants/m2) : ">250</density>
+              <depth type="text" description="Enter sowing depth  (mm) : ">53</depth>
+              <cultivar type="cultivars" croppropertyname="crop" description="Enter cultivar : ">wyalkatchem</cultivar>
+              <row_spacing type="text" description="Enter row spacing (m) : ">250</row_spacing>
+            </category>
+          </rule>
+          <rule name="Harvesting rule">
+            <condition name="end_of_day">
+
+           if [crop].stage_name = 'harvest_ripe' or [crop].plant_status = 'dead' then
+              [crop]  harvest
+              [crop]  end_crop
+           endif
+
+            </condition>
+            <category name="Harvesting criteria">
+              <crop type="modulename" description="Enter name of crop to harvest when ripe : ">Wheat</crop>
+            </category>
+          </rule>
+          <rule name="Fertilise at sowing">
+            <condition name="[modulename].[eventname]">
+           [fertmodule] apply amount = [fert_amount_sow] (kg/ha), depth = 50 (mm), type = [fert_type_sow]
+               </condition>
+            <category name="When should fertiliser be applied">
+              <modulename type="modulename" description="On which module should the event come from : ">wheat</modulename>
+              <eventname type="text" description="On which event should fertiliser be applied : ">sowing</eventname>
+            </category>
+            <category name="Fertiliser application details">
+              <fertmodule type="modulename" description="Module used to apply the fertiliser : ">fertiliser</fertmodule>
+              <fert_amount_sow type="text" description="Amount of starter fertiliser at sowing (kg/ha) : ">25</fert_amount_sow>
+              <fert_type_sow type="list" listvalues="NO3_N, NH4_N, NH4NO3, urea_N, urea_no3, urea" description="Sowing fertiliser type : ">urea_N</fert_type_sow>
+            </category>
+          </rule>
+          <rule name="Fertilise on fixed date">
+            <condition name="start_of_day"><![CDATA[
+            if (today = date('[fert_date]') then
+               N_topsoil = no3(1) + nh4(1) + no3(2) + nh4(2)
+               if (N_topsoil < [fert_criteria]) then
+                  [fertmodule] apply amount = [fert_amount] (kg/ha), depth = 50 (mm), type = [fert_type] ()
+               endif
+            endif ]]></condition>
+            <category name="When should fertiliser be applied">
+              <fert_date type="ddmmmdate" description="Enter fertiliser date (dd-mmm) : ">14-jul</fert_date>
+              <fert_criteria type="text" description="Don't add fertiliser if N in top 2 layers exceeds (kg/ha) : ">1000</fert_criteria>
+            </category>
+            <category name="Fertiliser application details">
+              <fertmodule type="modulename" description="Module used to apply the fertiliser : ">fertiliser</fertmodule>
+              <fert_amount type="text" description="Amount of fertiliser to apply (kg/ha) : ">50</fert_amount>
+              <fert_type type="list" listvalues="NO3_N, NH4_N, NH4NO3, urea_N, urea_no3, urea" description="Sowing fertiliser type : ">urea_N</fert_type>
+            </category>
+          </rule>
+          <rule name="TopDress on fixed date">
+            <condition name="start_of_day"><![CDATA[
+            if (today = date('[fert_date]') then
+               N_topsoil = no3(1) + nh4(1) + no3(2) + nh4(2)
+               if (N_topsoil < [fert_criteria]) then
+                  [fertmodule] apply amount = [fert_amount] (kg/ha), depth = 50 (mm), type = [fert_type] ()
+               endif
+            endif ]]></condition>
+            <category name="When should fertiliser be applied">
+              <fert_date type="ddmmmdate" description="Enter fertiliser date (dd-mmm) : ">22-sep</fert_date>
+              <fert_criteria type="text" description="Don't add fertiliser if N in top 2 layers exceeds (kg/ha) : ">1000</fert_criteria>
+            </category>
+            <category name="Fertiliser application details">
+              <fertmodule type="modulename" description="Module used to apply the fertiliser : ">fertiliser</fertmodule>
+              <fert_amount type="text" description="Amount of fertiliser to apply (kg/ha) : ">50</fert_amount>
+              <fert_type type="list" listvalues="NO3_N, NH4_N, NH4NO3, urea_N, urea_no3, urea" description="Sowing fertiliser type : ">urea_N</fert_type>
+            </category>
+          </rule>
+        </manager>
+        <wheat />
+        <irrigation name="Irrigation">
+          <property name="automatic_irrigation" type="text" description="switch">off</property>
+          <property name="asw_depth" type="text" description="Depth to which ASW is calculated. (mm)">600.0</property>
+          <property name="crit_fr_asw" type="text" description="Fraction of ASW below which irrigation is applied (0-1.0)">0.9</property>
+          <property name="irrigation_efficiency" description="Efficiency of the irrigation. (0-1.0)">1.0</property>
+        </irrigation>
+        <logic name="Irrigator">
+          <script name="init" />
+          <script name="startofday"> ! irrigation record from senthold
+
+</script>
+          <script name="endofday" />
+        </logic>
+        <fertiliser name="fertiliser" />
+        <logic name="Fertilizer">
+          <script name="init" />
+          <script name="startofday" />
+          <script name="endofday" />
+        </logic>
+        <soil name="Corrigin" shortcut="Corrigin" />
+        <surfaceom name="Surface Organic Matter">
+          <PoolName description="Organic Matter pool name">canola</PoolName>
+          <type description="Organic Matter type">canola</type>
+          <mass description="Initial surface residue (kg/ha)">500</mass>
+          <cnr description="C:N ratio of initial residue">60</cnr>
+          <standing_fraction description="Fraction of residue standing">0.0</standing_fraction>
+        </surfaceom>
+        <operations>
+          <operation condition="start_of_day">
+            <date>4/08/2005</date>
+            <action>irrigation apply amount = 10</action>
+          </operation>
+          <operation condition="start_of_day">
+            <date>11/08/2005</date>
+            <action>irrigation apply amount = 10</action>
+          </operation>
+          <operation condition="start_of_day">
+            <date>17/08/2005</date>
+            <action>irrigation apply amount = 10</action>
+          </operation>
+          <operation condition="start_of_day">
+            <date>24/08/2005</date>
+            <action>irrigation apply amount = 10</action>
+          </operation>
+          <operation condition="start_of_day">
+            <date>1/09/2005</date>
+            <action>irrigation apply amount = 10</action>
+          </operation>
+          <operation condition="start_of_day">
+            <date>8/09/2005</date>
+            <action>irrigation apply amount = 10</action>
+          </operation>
+          <operation condition="start_of_day">
+            <date>15/09/2005</date>
+            <action>irrigation apply amount = 10</action>
+          </operation>
+          <operation condition="start_of_day">
+            <date>22/09/2005</date>
+            <action>irrigation apply amount = 10</action>
+          </operation>
+          <operation condition="start_of_day">
+            <date>27/09/2005</date>
+            <action>irrigation apply amount = 10</action>
+          </operation>
+          <operation condition="start_of_day">
+            <date>4/10/2005</date>
+            <action>irrigation apply amount = 10</action>
+          </operation>
+          <operation condition="start_of_day">
+            <date>11/10/2005</date>
+            <action>irrigation apply amount = 10</action>
+          </operation>
+          <operation condition="start_of_day">
+            <date>19/10/2005</date>
+            <action>irrigation apply amount = 10</action>
+          </operation>
+          <operation condition="start_of_day">
+            <date>26/10/2005</date>
+            <action>irrigation apply amount = 10</action>
+          </operation>
+        </operations>
+      </area>
+    </simulation>
+    <simulation name="Wheat_Corrigin_40mmNil">
+      <clock name="clock">
+        <start_date name="start_date" description="Select the start date of the simulation" type="date" lbound="1/01/2005" ubound="31/12/2005">30/05/2005</start_date>
+        <end_date name="end_date" description="Select the end date of the simulation" type="date" lbound="1/01/2005" ubound="31/12/2005">30/12/2005</end_date>
+      </clock>
+      <summaryfile name="summaryfile">
+        <filename name="filename">Wheat_Cunderdin97_DryN50bWilgoyneMid.sum</filename>
+      </summaryfile>
+      <metfile name="met">
+        <filename name="filename">D:\Development\apsim\Wheat\Validation\Files\corrigin.met</filename>
+      </metfile>
+      <area name="paddock">
+        <registrations name="global" />
+        <outputfile name="outputfile">
+          <filename name="filename">Wheat_Cunderdin97_DryN50bWilgoyneMid.out</filename>
+          <variables name="DailyVariables" shortcut="DailyVariables" />
+          <events name="DailyVariables Events" shortcut="DailyVariables Events" />
+        </outputfile>
+        <manager name="Manager">
+          <rule name="Sow on a fixed date">
+            <condition name="start_of_day">
+               if (paddock_is_fallow() = 1 and today = date('[date]')) then
+                 [crop] sow plants =[density], sowing_depth = [depth], cultivar = [cultivar], row_spacing = [row_spacing]
+               endif
+             </condition>
+            <category name="Sowing criteria">
+              <date type="text" description="Enter sowing date (d/m/yyyy) : ">30/05/2005</date>
+            </category>
+            <category name="Sowing parameters">
+              <crop type="modulename" description="Enter name of crop to sow : ">Wheat</crop>
+              <density type="text" description="Enter sowing density  (plants/m2) : ">250</density>
+              <depth type="text" description="Enter sowing depth  (mm) : ">53</depth>
+              <cultivar type="cultivars" croppropertyname="crop" description="Enter cultivar : ">wyalkatchem</cultivar>
+              <row_spacing type="text" description="Enter row spacing (m) : ">250</row_spacing>
+            </category>
+          </rule>
+          <rule name="Harvesting rule">
+            <condition name="end_of_day">
+
+           if [crop].stage_name = 'harvest_ripe' or [crop].plant_status = 'dead' then
+              [crop]  harvest
+              [crop]  end_crop
+           endif
+
+            </condition>
+            <category name="Harvesting criteria">
+              <crop type="modulename" description="Enter name of crop to harvest when ripe : ">Wheat</crop>
+            </category>
+          </rule>
+          <rule name="Fertilise at sowing">
+            <condition name="[modulename].[eventname]">
+           [fertmodule] apply amount = [fert_amount_sow] (kg/ha), depth = 50 (mm), type = [fert_type_sow]
+               </condition>
+            <category name="When should fertiliser be applied">
+              <modulename type="modulename" description="On which module should the event come from : ">wheat</modulename>
+              <eventname type="text" description="On which event should fertiliser be applied : ">sowing</eventname>
+            </category>
+            <category name="Fertiliser application details">
+              <fertmodule type="modulename" description="Module used to apply the fertiliser : ">fertiliser</fertmodule>
+              <fert_amount_sow type="text" description="Amount of starter fertiliser at sowing (kg/ha) : ">0</fert_amount_sow>
+              <fert_type_sow type="list" listvalues="NO3_N, NH4_N, NH4NO3, urea_N, urea_no3, urea" description="Sowing fertiliser type : ">urea_N</fert_type_sow>
+            </category>
+          </rule>
+          <rule name="Fertilise on fixed date">
+            <condition name="start_of_day"><![CDATA[
+            if (today = date('[fert_date]') then
+               N_topsoil = no3(1) + nh4(1) + no3(2) + nh4(2)
+               if (N_topsoil < [fert_criteria]) then
+                  [fertmodule] apply amount = [fert_amount] (kg/ha), depth = 50 (mm), type = [fert_type] ()
+               endif
+            endif ]]></condition>
+            <category name="When should fertiliser be applied">
+              <fert_date type="ddmmmdate" description="Enter fertiliser date (dd-mmm) : ">14-jul</fert_date>
+              <fert_criteria type="text" description="Don't add fertiliser if N in top 2 layers exceeds (kg/ha) : ">1000</fert_criteria>
+            </category>
+            <category name="Fertiliser application details">
+              <fertmodule type="modulename" description="Module used to apply the fertiliser : ">fertiliser</fertmodule>
+              <fert_amount type="text" description="Amount of fertiliser to apply (kg/ha) : ">50</fert_amount>
+              <fert_type type="list" listvalues="NO3_N, NH4_N, NH4NO3, urea_N, urea_no3, urea" description="Sowing fertiliser type : ">urea_N</fert_type>
+            </category>
+          </rule>
+        </manager>
+        <wheat />
+        <irrigation name="Irrigation">
+          <property name="automatic_irrigation" type="text" description="switch">off</property>
+          <property name="asw_depth" type="text" description="Depth to which ASW is calculated. (mm)">600.0</property>
+          <property name="crit_fr_asw" type="text" description="Fraction of ASW below which irrigation is applied (0-1.0)">0.9</property>
+          <property name="irrigation_efficiency" description="Efficiency of the irrigation. (0-1.0)">1.0</property>
+        </irrigation>
+        <logic name="Irrigator">
+          <script name="init" />
+          <script name="startofday"> ! irrigation record from senthold
+
+</script>
+          <script name="endofday" />
+        </logic>
+        <fertiliser name="fertiliser" />
+        <logic name="Fertilizer">
+          <script name="init" />
+          <script name="startofday" />
+          <script name="endofday" />
+        </logic>
+        <soil name="Corrigin" shortcut="Corrigin" />
+        <surfaceom name="Surface Organic Matter">
+          <PoolName description="Organic Matter pool name">canola</PoolName>
+          <type description="Organic Matter type">canola</type>
+          <mass description="Initial surface residue (kg/ha)">500</mass>
+          <cnr description="C:N ratio of initial residue">60</cnr>
+          <standing_fraction description="Fraction of residue standing">0.0</standing_fraction>
+        </surfaceom>
+        <operations>
+          <operation condition="start_of_day">
+            <date>3/08/2005</date>
+            <action>irrigation apply amount = 40</action>
+          </operation>
+          <operation condition="start_of_day">
+            <date>31/08/2005</date>
+            <action>irrigation apply amount = 40</action>
+          </operation>
+          <operation condition="start_of_day">
+            <date>28/09/2005</date>
+            <action>irrigation apply amount = 40</action>
+          </operation>
+        </operations>
+      </area>
+    </simulation>
+    <simulation name="Wheat_Corrigin_40mmBasal">
+      <clock name="clock">
+        <start_date name="start_date" description="Select the start date of the simulation" type="date" lbound="1/01/2005" ubound="31/12/2005">30/05/2005</start_date>
+        <end_date name="end_date" description="Select the end date of the simulation" type="date" lbound="1/01/2005" ubound="31/12/2005">30/12/2005</end_date>
+      </clock>
+      <summaryfile name="summaryfile">
+        <filename name="filename">Wheat_Cunderdin97_DryN50bWilgoyneMid.sum</filename>
+      </summaryfile>
+      <metfile name="met">
+        <filename name="filename">D:\Development\apsim\Wheat\Validation\Files\corrigin.met</filename>
+      </metfile>
+      <area name="paddock">
+        <registrations name="global" />
+        <outputfile name="outputfile">
+          <filename name="filename">Wheat_Cunderdin97_DryN50bWilgoyneMid.out</filename>
+          <variables name="DailyVariables" shortcut="DailyVariables" />
+          <events name="DailyVariables Events" shortcut="DailyVariables Events" />
+        </outputfile>
+        <manager name="Manager">
+          <rule name="Sow on a fixed date">
+            <condition name="start_of_day">
+               if (paddock_is_fallow() = 1 and today = date('[date]')) then
+                 [crop] sow plants =[density], sowing_depth = [depth], cultivar = [cultivar], row_spacing = [row_spacing]
+               endif
+             </condition>
+            <category name="Sowing criteria">
+              <date type="text" description="Enter sowing date (d/m/yyyy) : ">30/05/2005</date>
+            </category>
+            <category name="Sowing parameters">
+              <crop type="modulename" description="Enter name of crop to sow : ">Wheat</crop>
+              <density type="text" description="Enter sowing density  (plants/m2) : ">250</density>
+              <depth type="text" description="Enter sowing depth  (mm) : ">53</depth>
+              <cultivar type="cultivars" croppropertyname="crop" description="Enter cultivar : ">wyalkatchem</cultivar>
+              <row_spacing type="text" description="Enter row spacing (m) : ">250</row_spacing>
+            </category>
+          </rule>
+          <rule name="Harvesting rule">
+            <condition name="end_of_day">
+
+           if [crop].stage_name = 'harvest_ripe' or [crop].plant_status = 'dead' then
+              [crop]  harvest
+              [crop]  end_crop
+           endif
+
+            </condition>
+            <category name="Harvesting criteria">
+              <crop type="modulename" description="Enter name of crop to harvest when ripe : ">Wheat</crop>
+            </category>
+          </rule>
+          <rule name="Fertilise at sowing">
+            <condition name="[modulename].[eventname]">
+           [fertmodule] apply amount = [fert_amount_sow] (kg/ha), depth = 50 (mm), type = [fert_type_sow]
+               </condition>
+            <category name="When should fertiliser be applied">
+              <modulename type="modulename" description="On which module should the event come from : ">wheat</modulename>
+              <eventname type="text" description="On which event should fertiliser be applied : ">sowing</eventname>
+            </category>
+            <category name="Fertiliser application details">
+              <fertmodule type="modulename" description="Module used to apply the fertiliser : ">fertiliser</fertmodule>
+              <fert_amount_sow type="text" description="Amount of starter fertiliser at sowing (kg/ha) : ">25</fert_amount_sow>
+              <fert_type_sow type="list" listvalues="NO3_N, NH4_N, NH4NO3, urea_N, urea_no3, urea" description="Sowing fertiliser type : ">urea_N</fert_type_sow>
+            </category>
+          </rule>
+          <rule name="Fertilise on fixed date">
+            <condition name="start_of_day"><![CDATA[
+            if (today = date('[fert_date]') then
+               N_topsoil = no3(1) + nh4(1) + no3(2) + nh4(2)
+               if (N_topsoil < [fert_criteria]) then
+                  [fertmodule] apply amount = [fert_amount] (kg/ha), depth = 50 (mm), type = [fert_type] ()
+               endif
+            endif ]]></condition>
+            <category name="When should fertiliser be applied">
+              <fert_date type="ddmmmdate" description="Enter fertiliser date (dd-mmm) : ">14-jul</fert_date>
+              <fert_criteria type="text" description="Don't add fertiliser if N in top 2 layers exceeds (kg/ha) : ">1000</fert_criteria>
+            </category>
+            <category name="Fertiliser application details">
+              <fertmodule type="modulename" description="Module used to apply the fertiliser : ">fertiliser</fertmodule>
+              <fert_amount type="text" description="Amount of fertiliser to apply (kg/ha) : ">50</fert_amount>
+              <fert_type type="list" listvalues="NO3_N, NH4_N, NH4NO3, urea_N, urea_no3, urea" description="Sowing fertiliser type : ">urea_N</fert_type>
+            </category>
+          </rule>
+        </manager>
+        <wheat />
+        <irrigation name="Irrigation">
+          <property name="automatic_irrigation" type="text" description="switch">off</property>
+          <property name="asw_depth" type="text" description="Depth to which ASW is calculated. (mm)">600.0</property>
+          <property name="crit_fr_asw" type="text" description="Fraction of ASW below which irrigation is applied (0-1.0)">0.9</property>
+          <property name="irrigation_efficiency" description="Efficiency of the irrigation. (0-1.0)">1.0</property>
+        </irrigation>
+        <logic name="Irrigator">
+          <script name="init" />
+          <script name="startofday"> ! irrigation record from senthold
+
+</script>
+          <script name="endofday" />
+        </logic>
+        <fertiliser name="fertiliser" />
+        <logic name="Fertilizer">
+          <script name="init" />
+          <script name="startofday" />
+          <script name="endofday" />
+        </logic>
+        <soil name="Corrigin" shortcut="Corrigin" />
+        <surfaceom name="Surface Organic Matter">
+          <PoolName description="Organic Matter pool name">canola</PoolName>
+          <type description="Organic Matter type">canola</type>
+          <mass description="Initial surface residue (kg/ha)">500</mass>
+          <cnr description="C:N ratio of initial residue">60</cnr>
+          <standing_fraction description="Fraction of residue standing">0.0</standing_fraction>
+        </surfaceom>
+        <operations>
+          <operation condition="start_of_day">
+            <date>3/08/2005</date>
+            <action>irrigation apply amount = 40</action>
+          </operation>
+          <operation condition="start_of_day">
+            <date>31/08/2005</date>
+            <action>irrigation apply amount = 40</action>
+          </operation>
+          <operation condition="start_of_day">
+            <date>28/09/2005</date>
+            <action>irrigation apply amount = 40</action>
+          </operation>
+        </operations>
+      </area>
+    </simulation>
+    <simulation name="Wheat_Corrigin_40mmNilTopDress">
+      <clock name="clock">
+        <start_date name="start_date" description="Select the start date of the simulation" type="date" lbound="1/01/2005" ubound="31/12/2005">30/05/2005</start_date>
+        <end_date name="end_date" description="Select the end date of the simulation" type="date" lbound="1/01/2005" ubound="31/12/2005">30/12/2005</end_date>
+      </clock>
+      <summaryfile name="summaryfile">
+        <filename name="filename">Wheat_Cunderdin97_DryN50bWilgoyneMid.sum</filename>
+      </summaryfile>
+      <metfile name="met">
+        <filename name="filename">D:\Development\apsim\Wheat\Validation\Files\corrigin.met</filename>
+      </metfile>
+      <area name="paddock">
+        <registrations name="global" />
+        <outputfile name="outputfile">
+          <filename name="filename">Wheat_Cunderdin97_DryN50bWilgoyneMid.out</filename>
+          <variables name="DailyVariables" shortcut="DailyVariables" />
+          <events name="DailyVariables Events" shortcut="DailyVariables Events" />
+        </outputfile>
+        <manager name="Manager">
+          <rule name="Sow on a fixed date">
+            <condition name="start_of_day">
+               if (paddock_is_fallow() = 1 and today = date('[date]')) then
+                 [crop] sow plants =[density], sowing_depth = [depth], cultivar = [cultivar], row_spacing = [row_spacing]
+               endif
+             </condition>
+            <category name="Sowing criteria">
+              <date type="text" description="Enter sowing date (d/m/yyyy) : ">30/05/2005</date>
+            </category>
+            <category name="Sowing parameters">
+              <crop type="modulename" description="Enter name of crop to sow : ">Wheat</crop>
+              <density type="text" description="Enter sowing density  (plants/m2) : ">250</density>
+              <depth type="text" description="Enter sowing depth  (mm) : ">53</depth>
+              <cultivar type="cultivars" croppropertyname="crop" description="Enter cultivar : ">wyalkatchem</cultivar>
+              <row_spacing type="text" description="Enter row spacing (m) : ">250</row_spacing>
+            </category>
+          </rule>
+          <rule name="Harvesting rule">
+            <condition name="end_of_day">
+
+           if [crop].stage_name = 'harvest_ripe' or [crop].plant_status = 'dead' then
+              [crop]  harvest
+              [crop]  end_crop
+           endif
+
+            </condition>
+            <category name="Harvesting criteria">
+              <crop type="modulename" description="Enter name of crop to harvest when ripe : ">Wheat</crop>
+            </category>
+          </rule>
+          <rule name="Fertilise at sowing">
+            <condition name="[modulename].[eventname]">
+           [fertmodule] apply amount = [fert_amount_sow] (kg/ha), depth = 50 (mm), type = [fert_type_sow]
+               </condition>
+            <category name="When should fertiliser be applied">
+              <modulename type="modulename" description="On which module should the event come from : ">wheat</modulename>
+              <eventname type="text" description="On which event should fertiliser be applied : ">sowing</eventname>
+            </category>
+            <category name="Fertiliser application details">
+              <fertmodule type="modulename" description="Module used to apply the fertiliser : ">fertiliser</fertmodule>
+              <fert_amount_sow type="text" description="Amount of starter fertiliser at sowing (kg/ha) : ">0</fert_amount_sow>
+              <fert_type_sow type="list" listvalues="NO3_N, NH4_N, NH4NO3, urea_N, urea_no3, urea" description="Sowing fertiliser type : ">urea_N</fert_type_sow>
+            </category>
+          </rule>
+          <rule name="Fertilise on fixed date">
+            <condition name="start_of_day"><![CDATA[
+            if (today = date('[fert_date]') then
+               N_topsoil = no3(1) + nh4(1) + no3(2) + nh4(2)
+               if (N_topsoil < [fert_criteria]) then
+                  [fertmodule] apply amount = [fert_amount] (kg/ha), depth = 50 (mm), type = [fert_type] ()
+               endif
+            endif ]]></condition>
+            <category name="When should fertiliser be applied">
+              <fert_date type="ddmmmdate" description="Enter fertiliser date (dd-mmm) : ">14-jul</fert_date>
+              <fert_criteria type="text" description="Don't add fertiliser if N in top 2 layers exceeds (kg/ha) : ">1000</fert_criteria>
+            </category>
+            <category name="Fertiliser application details">
+              <fertmodule type="modulename" description="Module used to apply the fertiliser : ">fertiliser</fertmodule>
+              <fert_amount type="text" description="Amount of fertiliser to apply (kg/ha) : ">50</fert_amount>
+              <fert_type type="list" listvalues="NO3_N, NH4_N, NH4NO3, urea_N, urea_no3, urea" description="Sowing fertiliser type : ">urea_N</fert_type>
+            </category>
+          </rule>
+          <rule name="TopDress on fixed date">
+            <condition name="start_of_day"><![CDATA[
+            if (today = date('[fert_date]') then
+               N_topsoil = no3(1) + nh4(1) + no3(2) + nh4(2)
+               if (N_topsoil < [fert_criteria]) then
+                  [fertmodule] apply amount = [fert_amount] (kg/ha), depth = 50 (mm), type = [fert_type] ()
+               endif
+            endif ]]></condition>
+            <category name="When should fertiliser be applied">
+              <fert_date type="ddmmmdate" description="Enter fertiliser date (dd-mmm) : ">22-sep</fert_date>
+              <fert_criteria type="text" description="Don't add fertiliser if N in top 2 layers exceeds (kg/ha) : ">1000</fert_criteria>
+            </category>
+            <category name="Fertiliser application details">
+              <fertmodule type="modulename" description="Module used to apply the fertiliser : ">fertiliser</fertmodule>
+              <fert_amount type="text" description="Amount of fertiliser to apply (kg/ha) : ">50</fert_amount>
+              <fert_type type="list" listvalues="NO3_N, NH4_N, NH4NO3, urea_N, urea_no3, urea" description="Sowing fertiliser type : ">urea_N</fert_type>
+            </category>
+          </rule>
+        </manager>
+        <wheat />
+        <irrigation name="Irrigation">
+          <property name="automatic_irrigation" type="text" description="switch">off</property>
+          <property name="asw_depth" type="text" description="Depth to which ASW is calculated. (mm)">600.0</property>
+          <property name="crit_fr_asw" type="text" description="Fraction of ASW below which irrigation is applied (0-1.0)">0.9</property>
+          <property name="irrigation_efficiency" description="Efficiency of the irrigation. (0-1.0)">1.0</property>
+        </irrigation>
+        <logic name="Irrigator">
+          <script name="init" />
+          <script name="startofday"> ! irrigation record from senthold
+
+</script>
+          <script name="endofday" />
+        </logic>
+        <fertiliser name="fertiliser" />
+        <logic name="Fertilizer">
+          <script name="init" />
+          <script name="startofday" />
+          <script name="endofday" />
+        </logic>
+        <soil name="Corrigin" shortcut="Corrigin" />
+        <surfaceom name="Surface Organic Matter">
+          <PoolName description="Organic Matter pool name">canola</PoolName>
+          <type description="Organic Matter type">canola</type>
+          <mass description="Initial surface residue (kg/ha)">500</mass>
+          <cnr description="C:N ratio of initial residue">60</cnr>
+          <standing_fraction description="Fraction of residue standing">0.0</standing_fraction>
+        </surfaceom>
+        <operations>
+          <operation condition="start_of_day">
+            <date>3/08/2005</date>
+            <action>irrigation apply amount = 40</action>
+          </operation>
+          <operation condition="start_of_day">
+            <date>31/08/2005</date>
+            <action>irrigation apply amount = 40</action>
+          </operation>
+          <operation condition="start_of_day">
+            <date>28/09/2005</date>
+            <action>irrigation apply amount = 40</action>
+          </operation>
+        </operations>
+      </area>
+    </simulation>
+    <simulation name="Wheat_Corrigin_40mmBasalTopDress">
+      <clock name="clock">
+        <start_date name="start_date" description="Select the start date of the simulation" type="date" lbound="1/01/2005" ubound="31/12/2005">30/05/2005</start_date>
+        <end_date name="end_date" description="Select the end date of the simulation" type="date" lbound="1/01/2005" ubound="31/12/2005">30/12/2005</end_date>
+      </clock>
+      <summaryfile name="summaryfile">
+        <filename name="filename">Wheat_Cunderdin97_DryN50bWilgoyneMid.sum</filename>
+      </summaryfile>
+      <metfile name="met">
+        <filename name="filename">D:\Development\apsim\Wheat\Validation\Files\corrigin.met</filename>
+      </metfile>
+      <area name="paddock">
+        <registrations name="global" />
+        <outputfile name="outputfile">
+          <filename name="filename">Wheat_Cunderdin97_DryN50bWilgoyneMid.out</filename>
+          <variables name="DailyVariables" shortcut="DailyVariables" />
+          <events name="DailyVariables Events" shortcut="DailyVariables Events" />
+        </outputfile>
+        <manager name="Manager">
+          <rule name="Sow on a fixed date">
+            <condition name="start_of_day">
+               if (paddock_is_fallow() = 1 and today = date('[date]')) then
+                 [crop] sow plants =[density], sowing_depth = [depth], cultivar = [cultivar], row_spacing = [row_spacing]
+               endif
+             </condition>
+            <category name="Sowing criteria">
+              <date type="text" description="Enter sowing date (d/m/yyyy) : ">30/05/2005</date>
+            </category>
+            <category name="Sowing parameters">
+              <crop type="modulename" description="Enter name of crop to sow : ">Wheat</crop>
+              <density type="text" description="Enter sowing density  (plants/m2) : ">250</density>
+              <depth type="text" description="Enter sowing depth  (mm) : ">53</depth>
+              <cultivar type="cultivars" croppropertyname="crop" description="Enter cultivar : ">wyalkatchem</cultivar>
+              <row_spacing type="text" description="Enter row spacing (m) : ">250</row_spacing>
+            </category>
+          </rule>
+          <rule name="Harvesting rule">
+            <condition name="end_of_day">
+
+           if [crop].stage_name = 'harvest_ripe' or [crop].plant_status = 'dead' then
+              [crop]  harvest
+              [crop]  end_crop
+           endif
+
+            </condition>
+            <category name="Harvesting criteria">
+              <crop type="modulename" description="Enter name of crop to harvest when ripe : ">Wheat</crop>
+            </category>
+          </rule>
+          <rule name="Fertilise at sowing">
+            <condition name="[modulename].[eventname]">
+           [fertmodule] apply amount = [fert_amount_sow] (kg/ha), depth = 50 (mm), type = [fert_type_sow]
+               </condition>
+            <category name="When should fertiliser be applied">
+              <modulename type="modulename" description="On which module should the event come from : ">wheat</modulename>
+              <eventname type="text" description="On which event should fertiliser be applied : ">sowing</eventname>
+            </category>
+            <category name="Fertiliser application details">
+              <fertmodule type="modulename" description="Module used to apply the fertiliser : ">fertiliser</fertmodule>
+              <fert_amount_sow type="text" description="Amount of starter fertiliser at sowing (kg/ha) : ">25</fert_amount_sow>
+              <fert_type_sow type="list" listvalues="NO3_N, NH4_N, NH4NO3, urea_N, urea_no3, urea" description="Sowing fertiliser type : ">urea_N</fert_type_sow>
+            </category>
+          </rule>
+          <rule name="Fertilise on fixed date">
+            <condition name="start_of_day"><![CDATA[
+            if (today = date('[fert_date]') then
+               N_topsoil = no3(1) + nh4(1) + no3(2) + nh4(2)
+               if (N_topsoil < [fert_criteria]) then
+                  [fertmodule] apply amount = [fert_amount] (kg/ha), depth = 50 (mm), type = [fert_type] ()
+               endif
+            endif ]]></condition>
+            <category name="When should fertiliser be applied">
+              <fert_date type="ddmmmdate" description="Enter fertiliser date (dd-mmm) : ">14-jul</fert_date>
+              <fert_criteria type="text" description="Don't add fertiliser if N in top 2 layers exceeds (kg/ha) : ">1000</fert_criteria>
+            </category>
+            <category name="Fertiliser application details">
+              <fertmodule type="modulename" description="Module used to apply the fertiliser : ">fertiliser</fertmodule>
+              <fert_amount type="text" description="Amount of fertiliser to apply (kg/ha) : ">50</fert_amount>
+              <fert_type type="list" listvalues="NO3_N, NH4_N, NH4NO3, urea_N, urea_no3, urea" description="Sowing fertiliser type : ">urea_N</fert_type>
+            </category>
+          </rule>
+          <rule name="TopDress on fixed date">
+            <condition name="start_of_day"><![CDATA[
+            if (today = date('[fert_date]') then
+               N_topsoil = no3(1) + nh4(1) + no3(2) + nh4(2)
+               if (N_topsoil < [fert_criteria]) then
+                  [fertmodule] apply amount = [fert_amount] (kg/ha), depth = 50 (mm), type = [fert_type] ()
+               endif
+            endif ]]></condition>
+            <category name="When should fertiliser be applied">
+              <fert_date type="ddmmmdate" description="Enter fertiliser date (dd-mmm) : ">22-sep</fert_date>
+              <fert_criteria type="text" description="Don't add fertiliser if N in top 2 layers exceeds (kg/ha) : ">1000</fert_criteria>
+            </category>
+            <category name="Fertiliser application details">
+              <fertmodule type="modulename" description="Module used to apply the fertiliser : ">fertiliser</fertmodule>
+              <fert_amount type="text" description="Amount of fertiliser to apply (kg/ha) : ">50</fert_amount>
+              <fert_type type="list" listvalues="NO3_N, NH4_N, NH4NO3, urea_N, urea_no3, urea" description="Sowing fertiliser type : ">urea_N</fert_type>
+            </category>
+          </rule>
+        </manager>
+        <wheat />
+        <irrigation name="Irrigation">
+          <property name="automatic_irrigation" type="text" description="switch">off</property>
+          <property name="asw_depth" type="text" description="Depth to which ASW is calculated. (mm)">600.0</property>
+          <property name="crit_fr_asw" type="text" description="Fraction of ASW below which irrigation is applied (0-1.0)">0.9</property>
+          <property name="irrigation_efficiency" description="Efficiency of the irrigation. (0-1.0)">1.0</property>
+        </irrigation>
+        <logic name="Irrigator">
+          <script name="init" />
+          <script name="startofday"> ! irrigation record from senthold
+
+</script>
+          <script name="endofday" />
+        </logic>
+        <fertiliser name="fertiliser" />
+        <logic name="Fertilizer">
+          <script name="init" />
+          <script name="startofday" />
+          <script name="endofday" />
+        </logic>
+        <soil name="Corrigin" shortcut="Corrigin" />
+        <surfaceom name="Surface Organic Matter">
+          <PoolName description="Organic Matter pool name">canola</PoolName>
+          <type description="Organic Matter type">canola</type>
+          <mass description="Initial surface residue (kg/ha)">500</mass>
+          <cnr description="C:N ratio of initial residue">60</cnr>
+          <standing_fraction description="Fraction of residue standing">0.0</standing_fraction>
+        </surfaceom>
+        <operations>
+          <operation condition="start_of_day">
+            <date>3/08/2005</date>
+            <action>irrigation apply amount = 40</action>
+          </operation>
+          <operation condition="start_of_day">
+            <date>31/08/2005</date>
+            <action>irrigation apply amount = 40</action>
+          </operation>
+          <operation condition="start_of_day">
+            <date>28/09/2005</date>
+            <action>irrigation apply amount = 40</action>
+          </operation>
+        </operations>
       </area>
     </simulation>
   </folder>
