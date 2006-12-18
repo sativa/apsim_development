@@ -507,20 +507,20 @@ cjh      endif
           c%die_switch    = '111111111'
       end if
 
-      if (c%crop_type .eq. 'maize') then
-          c%wat_switch    = '111111111'
-          c%phen_switch   = '611111111'
-          c%leafno_switch = '161511111'
-          c%carb_switch   = '111111111'
-          c%part_switch   = '666611111'
-          c%tiller_switch = '000000000'
-          c%can_switch    = '166111111'
-          c%root_switch   = '121111111'
-          c%sen_switch    = '611111111'
-          c%nit_switch    = '116114411'  !'166114411'
-          c%phos_switch   = '111100000'
-          c%die_switch    = '611111111'
-      end if
+c      if (c%crop_type .eq. 'maize') then
+c          c%wat_switch    = '111111111'
+c          c%phen_switch   = '611111111'
+c          c%leafno_switch = '161511111'
+c          c%carb_switch   = '111111111'
+c          c%part_switch   = '666611111'
+c          c%tiller_switch = '000000000'
+c          c%can_switch    = '166111111'
+c          c%root_switch   = '121111111'
+c          c%sen_switch    = '611111111'
+c          c%nit_switch    = '116114411'  !'166114411'
+c          c%phos_switch   = '111100000'
+c          c%die_switch    = '611111111'
+c      end if
 
       !%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
       ! READ MODULE SWITCHES
@@ -5218,6 +5218,7 @@ c           string_to_integer_var(value_string, value, numvals)
 !      endif
 
       call Zero_Daily_Variables ()
+      call fill_real_array(g%dlt_dm_green,         0.0,max_part)
 
 
 *=====GLOBAL VARIABLES =============================
@@ -6158,7 +6159,7 @@ c      g%dlt_n_uptake_stover=0.0
       g%dlt_dm_stress_max   =0.0
       g%dlt_dm_grain_demand =0.0
 
-      call fill_real_array(g%dlt_dm_green,         0.0,max_part)
+!!      call fill_real_array(g%dlt_dm_green,         0.0,max_part)
       call fill_real_array(g%dlt_dm_senesced,      0.0,max_part)
       call fill_real_array(g%dlt_dm_detached,      0.0,max_part)
       call fill_real_array(g%dlt_dm_dead_detached, 0.0,max_part)
@@ -7303,6 +7304,7 @@ cew - added this section
       real       cover_green_leaf_row ! green leaf cover in row
 
 *- Implementation Section ----------------------------------
+c      call Write_string ( my_name)
 
       call push_routine (my_name)
       call print_routine (my_name)
