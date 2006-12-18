@@ -6184,6 +6184,7 @@ cpsc need to develop leaf senescence functions for crop
          else
             ! Crop not in the field, do nothing
             call Zero_Variables (.false.)
+            call PlantP_zero_variables (.false.)
          endif
 
       elseif (action.eq.ACTION_process) then
