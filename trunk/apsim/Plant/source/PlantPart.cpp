@@ -350,6 +350,7 @@ void plantPart::zeroAllGlobals(void)
    PGreen=0.0;
    PSen=0.0;
    PDead=0.0;
+   relativeGrowthRate = 0.0;
 
    zeroDeltas();
    }
@@ -731,6 +732,7 @@ void plantPart::updateDm(void)
    DMGreen += dlt.dm_green;
    DMGreen += dlt.dm_green_retrans;
    DMGreen -= dlt.dm_senesced;
+   relativeGrowthRate = divide (dlt.dm_green, plant->getDltDmGreen(), 0.0);
 
    DMSenesced += dlt.dm_senesced;
    DMSenesced -= dlt.dm_detached;
@@ -997,22 +999,45 @@ void plantPart::doPDemand(void)
 //=======================================================================================
    {
    float    deficit;
-   float    p_conc_max;
-   float    rel_growth_rate;
+   float    pConcMax;
+   float    totalPotentialGrowthRate;
 
    PDemand = 0.0;
-   rel_growth_rate = plant->getRelativeGrowthRate();
+   totalPotentialGrowthRate = plant->getTotalPotentialGrowthRate();
 
-   p_conc_max = linear_interp_real (plant->getStageCode()
-                                  , c.x_p_stage_code
-                                  , c.y_p_conc_max
-                                  , c.num_x_p_stage_code);
+   if (c.p_yield_part)
+      {
+      // A yield part - does not contribute to soil demand
+      PDemand = 0.0;
+      }
+   else
+      {
+      // Not a yield part - therefore it contributes to demand
+      pConcMax = linear_interp_real (plant->getStageCode()
+                                     , c.x_p_stage_code
+                                     , c.y_p_conc_max
+                                     , c.num_x_p_stage_code);
 
    // scale up to include potential new growth
    // assuming partitioning today similar to current
    // plant form - a rough approximation
-   deficit = p_conc_max * DMGreen * (1.0 + rel_growth_rate) - PGreen;
 
+      float dltDMPot = totalPotentialGrowthRate * relativeGrowthRate;
+      float PDemandNew = dltDMPot * pConcMax;
+      float PDemandOld = (DMGreen * pConcMax) - PGreen;
+      PDemandOld = l_bound (PDemandOld, 0.0);
+
+      deficit = PDemandOld + PDemandNew;
+      deficit = l_bound (deficit, 0.0);
+
+      PDemand = deficit;
+   // float pDemandMax = pDemandNew * pUptakeFactor;
+   // PDemand = u_bound (deficit, pDemandMax);
+      }
+ // FIXME - remove following 4 lines after P demand corrections above are activated
+   float rel_growth_rate = plant->getRelativeGrowthRate();
+   p_conc_max = linear_interp_real (plant->getStageCode()
+   deficit = p_conc_max * DMGreen * (1.0 + rel_growth_rate) - PGreen;
    PDemand = l_bound(deficit, 0.0);
    }
 
