@@ -5445,7 +5445,7 @@ void Plant::plant_read_species_const ()
          }
      else
          {
-         	// Unknown N uptake option
+            // Unknown N uptake option
          }
     c.n_supply_preference = parent->readParameter (search_order, "n_supply_preference");
 
@@ -5911,9 +5911,9 @@ bool Plant::set_plant_crop_class(protocol::QuerySetValueData&v)
 void Plant::get_plant_status(protocol::Component *system, protocol::QueryValueData &qd) const
 {
     switch (g.plant_status) {
-    	case out: system->sendVariable(qd, FString("out")); break;
-    	case dead: system->sendVariable(qd, FString("dead")); break;
-    	case alive: system->sendVariable(qd, FString("alive")); break;
+        case out: system->sendVariable(qd, FString("out")); break;
+        case dead: system->sendVariable(qd, FString("dead")); break;
+        case alive: system->sendVariable(qd, FString("alive")); break;
     }
 }
 
@@ -6097,7 +6097,7 @@ void Plant::get_n_fixed_tops(protocol::Component *system, protocol::QueryValueDa
 
 void Plant::get_nfact_grain_tot(protocol::Component *system, protocol::QueryValueData &qd)
 {
-	float sum = g.cnd_grain_conc.getSum();
+    float sum = g.cnd_grain_conc.getSum();
    system->sendVariable(qd, sum);
 }
 
@@ -6643,10 +6643,13 @@ float Plant::getDmGreenVeg(void) const {return (leafPart->dmGreen() + stemPart->
 float Plant::getWaterSupplyPod(void) const {return g.swSupplyFruit;}
 float Plant::getDmTops(void) const{ return topsGreen()+topsSenesced();}
 float Plant::getDltDm(void) const{ return g.dlt_dm;}
+float Plant::getDltDmGreen(void) const{ return plantDltDmGreen();}
 float Plant::getDmVeg(void) const {return leafPart->dmTotal() + stemPart->dmTotal();}
 float Plant::getDmGreenStem(void) const {return stemPart->dmGreen();}
 float Plant::getDmGreenTot(void) const {return plantGreen();}
+! FIXME - remove next line when P demand corrections activated
 float Plant::getRelativeGrowthRate(void) {return divide(arbitrator->dltDMWhole(g.dlt_dm_pot_rue), getDmGreenTot(), 0.0);} // the dlt_dm_pot_rue is only tops, thus either adjust it for roots or leave roots out of the divisor.
+float Plant::getTotalPotentialGrowthRate(void) {return arbitrator->dltDMWhole(g.dlt_dm_pot_rue);} // the dlt_dm_pot_rue is only tops, thus adjust it for roots.
 float Plant::getDyingFractionPlants(void)
    {
        float dying_fract_plants = divide (-g.dlt_plants, g.plants, 0.0);
