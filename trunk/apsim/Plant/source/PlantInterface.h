@@ -38,12 +38,14 @@ class plantInterface {
       virtual float getDmGreenVeg(void) const = 0;
       virtual float getWaterSupplyPod(void) const = 0;
       virtual float getDmTops(void) const = 0;
+      virtual float getDltDmGreen(void) const = 0;
       virtual float getDltDm(void) const = 0;
       virtual float getDmVeg(void) const = 0;
       virtual float getDmGreenStem(void) const = 0;
       virtual float getDmGreenTot(void) const = 0;
-
+        // FIXMW - remove next line after P demand corrections activated
       virtual float getRelativeGrowthRate(void) = 0;
+      virtual float getTotalPotentialGrowthRate(void) = 0;
       // temporary
       virtual float getDyingFractionPlants(void) = 0;
       virtual float getCo2ModifierRue(void) const = 0;
