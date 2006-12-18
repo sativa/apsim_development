@@ -2,10 +2,13 @@
 
 
 * ====================================================================
-       subroutine PlantP_zero_variables ()
+       subroutine PlantP_zero_variables (param_init)
 * ====================================================================
       Use infrastructure
       implicit none
+
+*+  Argument Values
+      logical param_init  !indicate whether model constants and parameters need to be initialised
 
 *+  Purpose
 *     Set all variables in this module to zero.
@@ -32,46 +35,51 @@ c      p%crop_type = ' '       ! Characters
       ! Globals
       ! =======
 
-      g%phosphorus_aware    = .false.
 
       call PlantP_zero_daily_variables ()
 
-      g%growth_Stage = 0.0      ! Reals
-      g%part_p_green(:) = 0.0
-      g%dlt_part_p_green(:) = 0.0
-      g%part_p_sen(:) = 0.0
-      g%part_p_dead(:) = 0.0
-      g%dlt_part_p_dead(:) = 0.0
-      g%dlt_part_p_sen(:) = 0.0
-      g%dlt_part_p_det(:) = 0.0
-      g%dlt_part_p_retrans(:) = 0.0
-
-      g%part_demand(:) = 0.0
-
-      g%part_names(:) = ' '     ! Characters
-
-      g%num_parts = 0           ! Integers
-
-      ! Constants
-      ! =========
-
-      c%stress_determinants(:) = ' '      ! Characters
-
-      c%x_p_stage_code(:) = 0.0           ! Reals
-      c%y_p_conc_max (:,:) = 0.0
-      c%y_p_conc_min (:,:) = 0.0
-      c%y_p_conc_sen (:,:) = 0.0
 
       g%plantPfact_photo = 1.0
       g%plantPfact_expansion = 1.0
       g%plantPfact_pheno = 1.0
       g%plantPfact_grain = 1.0
-      c%pfact_photo_slope = 0.0
 
-      c%pfact_expansion_slope = 0.0
-      c%pfact_pheno_slope = 0.0
+      if (param_init) then
+         g%phosphorus_aware    = .false.
+         g%growth_Stage = 0.0      ! Reals
+         g%part_p_green(:) = 0.0
+         g%dlt_part_p_green(:) = 0.0
+         g%part_p_sen(:) = 0.0
+         g%part_p_dead(:) = 0.0
+         g%dlt_part_p_dead(:) = 0.0
+         g%dlt_part_p_sen(:) = 0.0
+         g%dlt_part_p_det(:) = 0.0
+         g%dlt_part_p_retrans(:) = 0.0
 
-      c%num_x_p_stage_code = 0             ! Integers
+         g%part_demand(:) = 0.0
+
+         g%part_names(:) = ' '     ! Characters
+
+         g%num_parts = 0           ! Integers
+
+      ! Constants
+      ! =========
+
+         c%stress_determinants(:) = ' '      ! Characters
+
+         c%x_p_stage_code(:) = 0.0           ! Reals
+         c%y_p_conc_max (:,:) = 0.0
+         c%y_p_conc_min (:,:) = 0.0
+         c%y_p_conc_sen (:,:) = 0.0
+
+         c%pfact_photo_slope = 0.0
+
+         c%pfact_expansion_slope = 0.0
+         c%pfact_pheno_slope = 0.0
+
+         c%num_x_p_stage_code = 0             ! Integers
+      else
+      endif
 
       call pop_routine (myname)
       return
@@ -553,6 +561,14 @@ c     :          ,1.0)                 ! Upper Limit for bound check
      :                     , 1.0
      :                     , 100.0)
 
+!!      FIXME - make this optional for now until MEP has ok'd the its use.
+      call read_real_var_optional  ('constants'
+     :                     , 'p_uptake_factor'
+     :                     , '()'
+     :                     , c%p_uptake_factor
+     :                     , numvals
+     :                     , 1.0
+     :                     , 10.0)
       call read_real_array ('constants'
      :                     , 'x_p_stage_code'
      :                     , max_table, '()'
@@ -748,6 +764,7 @@ c     :          ,1.0)                 ! Upper Limit for bound check
       real p_uptake
       real total_demand
       character keyword*32
+      character*200 string
 
 
 *- Implementation Section ----------------------------------
@@ -783,6 +800,14 @@ c     :          ,1.0)                 ! Upper Limit for bound check
      :                            * divide(g%part_demand(part)
      :                                     ,total_demand
      :                                     ,0.0)
+!!            write (string,*) 'part, total_demand, g%part_demand(part), '
+!!     :                 //'p_uptake, g%dlt_part_p_green(part), '
+!!     :                 //'g%part_p_green(part)'
+!!            call Write_string (string)
+!!            write (string,*) part, total_demand, g%part_demand(part),
+!!     :                 p_uptake, g%dlt_part_p_green(part),
+!!     :                 g%part_p_green(part)
+!!            call Write_string (string)
   100 continue
 
       call pop_routine (myname)
@@ -943,7 +968,7 @@ c     :          ,1.0)                 ! Upper Limit for bound check
       call push_routine (myname)
       call print_routine (myname)
 
-      call PlantP_zero_variables ()
+      call PlantP_zero_variables (.true.)
 
       call pop_routine (myname)
       return
@@ -1099,7 +1124,7 @@ c     :          ,1.0)                 ! Upper Limit for bound check
 *+  Sub-Program Arguments
       real parts_wt(*)
       real growth_stage
-      real dlt_dm_pot
+      real dlt_dm_pot            ! potential dm increase (g/m2)
 
 *+  Purpose
 *      Calculate plant P demands
@@ -1114,13 +1139,20 @@ c     :          ,1.0)                 ! Upper Limit for bound check
       parameter (myname = 'PlantP_demand')
 
 *+  Local Variables
-      real deficit
+      real       deficit               ! deficit of total plant p (g/m2)
       integer part
       real p_conc_max
       integer counter
       integer num_yield_parts
       real    rel_growth_rate
+      real       p_demand_max          ! maximum P demand (g/m2)
+      real       P_demand_new          ! demand for P by new growth
+                                       ! (g/m^2)
+      real       P_demand_old          ! demand for P by old biomass
+                                       ! (g/m^2)
+      real dlt_dm_pot_part
 
+      character*200 string
 *- Implementation Section ----------------------------------
       call push_routine (myname)
       call print_routine (myname)
@@ -1136,6 +1168,12 @@ c     :          ,1.0)                 ! Upper Limit for bound check
 
       do 100 part = 1, g%num_parts
 
+         dlt_dm_pot_part = dlt_dm_pot
+     :                   * (1.0 + c%ratio_root_shoot(int(growth_stage)))
+     :                   * divide(g%dlt_dm_green(part)
+     :                           , sum(g%dlt_dm_green(1:g%num_parts))
+     :                           , 0.0)
+
          ! Find if this part is a yield part
 
          counter = position_in_char_array
@@ -1147,6 +1185,17 @@ c     :          ,1.0)                 ! Upper Limit for bound check
          if (counter .eq. 0) then
             ! Not a yield part - therefore it contributes to demand
 
+!!            write (string,*) 'dlt_dm_pot_part, dlt_dm_pot, '
+!!     :                 //'sum(g%dlt_dm_green(1:g%num_parts)), '
+!!     :                 //'g%dlt_dm_green(part), growth_stage '
+!!     :                 //'c%ratio_root_shoot(growth_stage)'
+!!            call Write_string (string)
+!!            write (string,*) dlt_dm_pot_part, dlt_dm_pot
+!!     :                 , sum(g%dlt_dm_green(1:g%num_parts))
+!!     :                 , g%dlt_dm_green(part), growth_stage
+!!     :                 , c%ratio_root_shoot(growth_stage)
+!!            call Write_string (string)
+
             p_conc_max = linear_interp_real
      :                   (g%growth_stage
      :                   ,c%x_p_stage_code
@@ -1157,12 +1206,39 @@ c     :          ,1.0)                 ! Upper Limit for bound check
             ! assuming partitioning today similar to current
             ! plant form - a rough approximation
 
-            deficit = p_conc_max
-     :                   * parts_wt(part)
-     :                   * (1. + rel_growth_rate)
-     :              - g%part_p_green(part)
+!!            deficit = p_conc_max
+!!     :                   * parts_wt(part)
+!!     :                   * (1. + rel_growth_rate)
+!!     :              - g%part_p_green(part)
+!!            g%Part_demand(part) = l_bound(deficit, 0.0)
 
-            g%Part_demand(part) = l_bound(deficit, 0.0)
+!!     FIXME - use original method for dlt_dm_pot_part for now
+            dlt_dm_pot_part = parts_wt(part) * rel_growth_rate
+            P_demand_new = dlt_dm_pot_part * P_conc_max
+            P_demand_old = (parts_wt(part) * P_conc_max)
+     :                   - g%part_p_green(part)
+!!     FIXME - don't constrain demand for old for now
+!!            P_demand_old = l_bound (P_demand_old, 0.0)
+
+            deficit = P_demand_old + P_demand_new
+            deficit = l_bound (deficit, 0.0)
+
+            p_demand_max = P_demand_new * c%p_uptake_factor
+!!            p_demand_max = g%Part_demand(part) * c%p_uptake_factor
+!!            write (string,*) 'deficit, p_demand_max, rel_growth_rate, '
+!!     :                 //'dlt_dm_pot, p_conc_max, P_demand_new, '
+!!     :                 //'P_demand_old, g%part_p_green(part), '
+!!     :                 //'parts_wt(part)'
+!!            call Write_string (string)
+!!            write (string,*) deficit, p_demand_max, rel_growth_rate
+!!     :                 , dlt_dm_pot, p_conc_max, P_demand_new
+!!     :                 , P_demand_old, g%part_p_green(part)
+!!     :                 , parts_wt(part)
+!!            call Write_string (string)
+
+!!       FIXME - don't constrain demand until uptake factor is ok'd by MEP.
+!!            g%Part_demand(part) = u_bound (deficit, p_demand_max)
+            g%Part_demand(part) = deficit
 
          else
             ! A yield part - does not contribute to soil demand
