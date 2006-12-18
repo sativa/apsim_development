@@ -47,8 +47,8 @@ C     Last change:  E    14 Sep 2001    1:43 pm
       elseif (c%crop_type.eq.'sorghum') then
          call Read_Constants_Sorghum ()
 
-      elseif (c%crop_type.eq.'maize') then
-         call Read_Constants_Maize ()
+c      elseif (c%crop_type.eq.'maize') then
+c         call Read_Constants_Maize ()
 
 
       else
@@ -111,9 +111,9 @@ C     Last change:  E    14 Sep 2001    1:43 pm
 
            call Read_Cultivar_Params_Sorghum (cultivar)
 
-        elseif (c%crop_type .eq. 'maize') then
+c        elseif (c%crop_type .eq. 'maize') then
 
-           call Read_Cultivar_Params_Maize (cultivar)
+c           call Read_Cultivar_Params_Maize (cultivar)
 
         else
 
@@ -1120,31 +1120,31 @@ c      !CCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCC - CHANGE - DELETE IN 
 
       elseif (option.eq.6)  then
 
-       call maize_phen_init (
-     :          g%current_stage
-     :        , g%days_tot
-     :        , c%shoot_lag
-     :        , g%sowing_depth
-     :        , c%shoot_rate
-     :        , p%tt_emerg_to_endjuv
-     :        , p%tt_endjuv_to_init
-     :        , g%day_of_year
-     :        , g%latitude
-     :        , c%twilight
-     :        , p%photoperiod_crit1
-     :        , p%photoperiod_crit2
-     :        , p%photoperiod_slope
-     :        , g%leaf_no_final
-     :        , c%leaf_no_rate_change
-     :        , c%leaf_no_at_emerg
-     :        , c%leaf_app_rate1
-     :        , c%leaf_app_rate2
-     :        , g%tt_tot
-     :        , p%tt_flag_to_flower
-     :        , p%tt_flower_to_start_grain
-     :        , p%tt_flower_to_maturity
-     :        , p%tt_maturity_to_ripe
-     :        , g%phase_tt)
+c       call maize_phen_init (
+c     :          g%current_stage
+c     :        , g%days_tot
+c     :        , c%shoot_lag
+c     :        , g%sowing_depth
+c     :        , c%shoot_rate
+c     :        , p%tt_emerg_to_endjuv
+c     :        , p%tt_endjuv_to_init
+c     :        , g%day_of_year
+c     :        , g%latitude
+c     :        , c%twilight
+c     :        , p%photoperiod_crit1
+c     :        , p%photoperiod_crit2
+c     :        , p%photoperiod_slope
+c     :        , g%leaf_no_final
+c     :        , c%leaf_no_rate_change
+c     :        , c%leaf_no_at_emerg
+c     :        , c%leaf_app_rate1
+c     :        , c%leaf_app_rate2
+c     :        , g%tt_tot
+c     :        , p%tt_flag_to_flower
+c     :        , p%tt_flower_to_start_grain
+c     :        , p%tt_flower_to_maturity
+c     :        , p%tt_maturity_to_ripe
+c     :        , g%phase_tt)
 
       elseif (Option.eq.0) then
 
@@ -1863,15 +1863,15 @@ c      if (Option.eq.1) Option = 2 !force to use the nwheat original phenology
 
       elseif (Option.eq.6) then
 
-         call Maize_dm_init (g%current_stage
-     :        , g%days_tot
-     :        , c%dm_root_init
-     :        , g%plants
-     :        , c%dm_stem_init
-     :        , c%dm_leaf_init
-     :        , c%stem_trans_frac
-     :        , c%leaf_trans_frac
-     :        , g%dm_green, g%dm_plant_min)
+c         call Maize_dm_init (g%current_stage
+c     :        , g%days_tot
+c     :        , c%dm_root_init
+c     :        , g%plants
+c     :        , c%dm_stem_init
+c     :        , c%dm_leaf_init
+c     :        , c%stem_trans_frac
+c     :        , c%leaf_trans_frac
+c     :        , g%dm_green, g%dm_plant_min)
 
       else if (Option.eq.0) then
 
@@ -2057,49 +2057,49 @@ c      if (Option.eq.1) Option = 2 !force to use the nwheat original phenology
 
       else if (Option .eq. 6) then
 
-          call Maize_heat_stress (g%maxt
-     :                      , c%temp_grain_crit_stress
-     :                      , g%dlt_heat_stress_tt)     ! high temperature stres
-           call Maize_grain_no2(g%current_stage
-     :        , g%days_tot
-     :        , g%dm_plant_top_tot
-     :        , c%grno_grate
-     :        , c%grno_fract
-     :        , c%num_grno_grate
-     :        , p%head_grain_no_max
-     :        , g%heat_stress_tt
-     :        , c%htstress_coeff
-     :        , g%N_conc_min
-     :        , g%dm_green
-     :        , g%N_green
-     :        , g%plants
-     :        , c%seed_wt_min
-     :        , c%grain_N_conc_min
-     :        , g%grain_no)              ! set grain number
-
-           call Maize_dm_grain (
-     :          g%current_stage
-     :        , g%maxt
-     :        , g%mint
-     :        , c%x_temp_grain
-     :        , c%y_grain_rate
-     :        , c%num_temp_grain
-     :        , c%swdf_grain_min
-     :        , g%grain_no
-     :        , p%grain_gth_rate
-     :        , g%N_conc_min
-     :        , g%dm_green
-     :        , g%N_green
-     :        , c%temp_fac_min
-     :        , c%tfac_slope
-     :        , c%sw_fac_max
-     :        , c%sfac_slope
-     :        , g%N_conc_crit
-     :        , g%swdef_photo
-     :        , PlantP_pfact_grain()
-     :        , g%swdef_expansion
-     :        , g%nfact_grain_conc
-     :    , g%dlt_dm_grain_demand)
+c          call Maize_heat_stress (g%maxt
+c     :                      , c%temp_grain_crit_stress
+c     :                      , g%dlt_heat_stress_tt)     ! high temperature stres
+c           call Maize_grain_no2(g%current_stage
+c     :        , g%days_tot
+c     :        , g%dm_plant_top_tot
+c     :        , c%grno_grate
+c     :        , c%grno_fract
+c     :        , c%num_grno_grate
+c     :        , p%head_grain_no_max
+c     :        , g%heat_stress_tt
+c     :        , c%htstress_coeff
+c     :        , g%N_conc_min
+c     :        , g%dm_green
+c     :        , g%N_green
+c     :        , g%plants
+c     :        , c%seed_wt_min
+c     :        , c%grain_N_conc_min
+c     :        , g%grain_no)              ! set grain number
+c
+c           call Maize_dm_grain (
+c     :          g%current_stage
+c     :        , g%maxt
+c     :        , g%mint
+c     :        , c%x_temp_grain
+c     :        , c%y_grain_rate
+c     :        , c%num_temp_grain
+c     :        , c%swdf_grain_min
+c     :        , g%grain_no
+c     :        , p%grain_gth_rate
+c     :        , g%N_conc_min
+c     :        , g%dm_green
+c     :        , g%N_green
+c     :        , c%temp_fac_min
+c     :        , c%tfac_slope
+c     :        , c%sw_fac_max
+c     :        , c%sfac_slope
+c     :        , g%N_conc_crit
+c     :        , g%swdef_photo
+c     :        , PlantP_pfact_grain()
+c     :        , g%swdef_expansion
+c     :        , g%nfact_grain_conc
+c     :    , g%dlt_dm_grain_demand)
 
 
 
@@ -2405,17 +2405,17 @@ c          nw_sla = 22500.0  ! mm2/g - nwheat value
      :                                     , c%lai_sla_min
      :                                     , c%num_x_lai)
 
-         call Maize_dm_partition (
-     :          g%current_stage
-     :        , c%ratio_root_shoot
-     :        , g%dlt_dm
-     :        , g%leaf_no
-     :        , c%partition_rate_leaf
-     :        , g%dlt_lai_stressed
-     :        , interp_sla_min
-     :        , c%frac_stem2flower
-     :        , g%dlt_dm_grain_demand
-     :        , g%dlt_dm_green)
+c         call Maize_dm_partition (
+c     :          g%current_stage
+c     :        , c%ratio_root_shoot
+c     :        , g%dlt_dm
+c     :        , g%leaf_no
+c     :        , c%partition_rate_leaf
+c     :        , g%dlt_lai_stressed
+c     :        , interp_sla_min
+c     :        , c%frac_stem2flower
+c     :        , g%dlt_dm_grain_demand
+c     :        , g%dlt_dm_green)
 
 
       elseif (Option.eq.9) then
@@ -2556,7 +2556,7 @@ c      REAL grain_now
 
       elseif (Option.eq.6) then
 
-             call Maize_bio_retrans ()
+c             call Maize_bio_retrans ()
 
       else if (Option.eq.0) then
 
@@ -2734,17 +2734,17 @@ cccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccc
       elseif (Option.eq.6) then
 
 
-         call maize_leaf_number_final (
-     :          g%current_stage
-     :        , g%days_tot
-     :        , g%phase_tt
-     :        , germ
-     :        , c%leaf_init_rate
-     :        , c%leaf_no_seed
-     :        , c%leaf_no_min
-     :        , c%leaf_no_max
-     :        , g%tt_tot
-     :        , g%leaf_no_final)
+c         call maize_leaf_number_final (
+c     :          g%current_stage
+c     :        , g%days_tot
+c     :        , g%phase_tt
+c     :        , germ
+c     :        , c%leaf_init_rate
+c     :        , c%leaf_no_seed
+c     :        , c%leaf_no_min
+c     :        , c%leaf_no_max
+c     :        , g%tt_tot
+c     :        , g%leaf_no_final)
 
 
 
@@ -2870,16 +2870,16 @@ cccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccc
 
       else if (Option.eq.5) then
 
-         call maize_leaf_appearance (
-     .          g%leaf_no,
-     .          g%leaf_no_final,
-     .          c%leaf_no_rate_change,
-     .          c%leaf_app_rate2,
-     .          c%leaf_app_rate1,
-     .          g%current_stage,
-     .          g%days_tot,
-     .          g%dlt_tt,
-     .          g%dlt_leaf_no) ! fraction of leaf emerged
+c         call maize_leaf_appearance (
+c     .          g%leaf_no,
+c     .          g%leaf_no_final,
+c     .          c%leaf_no_rate_change,
+c     .          c%leaf_app_rate2,
+c     .          c%leaf_app_rate1,
+c     .          g%current_stage,
+c     .          g%days_tot,
+c     .          g%dlt_tt,
+c     .          g%dlt_leaf_no) ! fraction of leaf emerged
 
 
       else if (Option.eq.0) then
@@ -3970,15 +3970,15 @@ c     :                g%dlt_slai )
 
       else if (Option.eq.6) then
 
-         call Maize_leaf_death0 (
-     :          g%leaf_no_dead
-     :        , g%current_stage
-     :        , c%leaf_no_dead_const
-     :        , c%leaf_no_dead_slope
-     :        , g%tt_tot
-     :        , g%leaf_no_final
-     :        , g%days_tot
-     :        , g%dlt_leaf_no_dead)
+c         call Maize_leaf_death0 (
+c     :          g%leaf_no_dead
+c     :        , g%current_stage
+c     :        , c%leaf_no_dead_const
+c     :        , c%leaf_no_dead_slope
+c     :        , g%tt_tot
+c     :        , g%leaf_no_final
+c     :        , g%days_tot
+c     :        , g%dlt_leaf_no_dead)
 
          call cproc_leaf_area_sen1
      :               (
@@ -5907,30 +5907,30 @@ c         g%nfact_tiller = g%nfact_expansion
 
       if (Option.eq.1) then
 
-         call Maize_P_conc_limits (
-     :          g%current_stage
-     :        , c%p_stage_code
-     :        , c%stage_code_list
-     :        , g%tt_tot
-     :        , g%phase_tt
-     :        , c%P_conc_max
-     :        , c%P_conc_min
-     :        , g%P_conc_max
-     :        , g%P_conc_min)
+c         call Maize_P_conc_limits (
+c     :          g%current_stage
+c     :        , c%p_stage_code
+c     :        , c%stage_code_list
+c     :        , g%tt_tot
+c     :        , g%phase_tt
+c     :        , c%P_conc_max
+c     :        , c%P_conc_min
+c     :        , g%P_conc_max
+c     :        , g%P_conc_min)
 
-          call Maize_P_demand (
-     :          g%current_stage
-     :        , g%radn_int
-     :        , g%rue
-     :        , c%ratio_root_shoot
-     :        , g%dm_green
-     :        , g%dm_senesced
-     :        , g%dm_dead
-     :        , max_part
-     :        , g%P_conc_max
-     :        , g%plant_P
-     :        , c%P_uptake_factor
-     :        , g%P_demand)
+c          call Maize_P_demand (
+c     :          g%current_stage
+c     :        , g%radn_int
+c     :        , g%rue
+c     :        , c%ratio_root_shoot
+c     :        , g%dm_green
+c     :        , g%dm_senesced
+c     :        , g%dm_dead
+c     :        , max_part
+c     :        , g%P_conc_max
+c     :        , g%plant_P
+c     :        , c%P_uptake_factor
+c     :        , g%P_demand)
 
 
       else if (Option.eq.0) then
@@ -6268,22 +6268,22 @@ c         g%nfact_tiller = g%nfact_expansion
      :        , g%plants
      :        , g%dlt_plants_death_drought)
 
-         call maize_failure_phen_delay (
-     :          g%cswd_pheno
-     :        , g%current_stage
-     :        , c%swdf_pheno_limit
-     :        , g%plants
-     :        , g%dlt_plants_failure_phen_delay)
-
-         call maize_death_barrenness0 (
-     :          g%current_stage
-     :        , g%days_tot
-     :        , c%head_grain_no_crit
-     :        , p%head_grain_no_max
-     :        , c%barren_crit
-     :        , g%grain_no
-     :        , g%plants
-     :        , g%dlt_plants_death_barrenness)
+c         call maize_failure_phen_delay (
+c     :          g%cswd_pheno
+c     :        , g%current_stage
+c     :        , c%swdf_pheno_limit
+c     :        , g%plants
+c     :        , g%dlt_plants_failure_phen_delay)
+c
+c         call maize_death_barrenness0 (
+c     :          g%current_stage
+c     :        , g%days_tot
+c     :        , c%head_grain_no_crit
+c     :        , p%head_grain_no_max
+c     :        , c%barren_crit
+c     :        , g%grain_no
+c     :        , g%plants
+c     :        , g%dlt_plants_death_barrenness)
 
          call crop_death_actual (
      :          g%dlt_plants_failure_germ
@@ -6347,12 +6347,12 @@ c         g%nfact_tiller = g%nfact_expansion
             call water_demand          (GetSwitchCode(c%wat_switch, 2))
 
 
-            if (c%crop_type.eq.'maize') then
-                 call maize_nit_demand_est (1)
-            else
+c            if (c%crop_type.eq.'maize') then
+c                 call maize_nit_demand_est (1)
+c            else
                 call biomass_rue_partition ()
                 call nitrogen_demand   (GetSwitchCode(c%nit_switch, 3))
-            endif
+c            endif
 
         endif
 

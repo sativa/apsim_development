@@ -3395,119 +3395,120 @@ c     :        - g_dlt_dm_green(root)
 
 
 
-*     ===========================================================
-      subroutine maize_leaf_appearance (
-     :          g_leaf_no
-     :        , g_leaf_no_final
-     :        , c_leaf_no_rate_change
-     :        , c_leaf_app_rate2
-     :        , c_leaf_app_rate1
-     :        , g_current_stage
-     :        , g_days_tot
-     :        , g_dlt_tt
-     :        , dlt_leaf_no)
-*     ===========================================================
-      Use infrastructure
-      implicit none
-
-*+  Sub-Program Arguments
-      real       g_leaf_no(*)
-      real       g_leaf_no_final
-      real       c_leaf_no_rate_change
-      real       c_leaf_app_rate2
-      real       c_leaf_app_rate1
-      real       g_current_stage
-      real       g_days_tot(*)
-      real       g_dlt_tt
-      real       dlt_leaf_no           ! (OUTPUT) new fraction of oldest
-                                       ! expanding leaf
-
-*+  Purpose
-*       Return the fractional increase in emergence of the oldest
-*       expanding leaf.
-*       Note ! this does not take account of the other younger leaves
-*       that are currently expanding
-
-*+  Mission statement
-*       Calculate the fractional increase in emergence of the oldest
-*       expanding leaf.
-
-*+  Changes
-*       031194 jngh specified and programmed
-*       070495 psc  added 2nd leaf appearance rate
-*       260596 glh  corrected error in leaf no calcn
-
-*+  Constant Values
-      character  my_name*(*)           ! name of procedure
-      parameter (my_name = 'maize_leaf_appearance')
-
-*+  Local Variables
-      real       leaf_no_remaining     ! number of leaves to go before all
-                                       ! are fully expanded
-      real       leaf_no_now           ! number of fully expanded leaves
-      real       leaf_app_rate         ! rate of leaf appearance (oCd/leaf)
-
-*- Implementation Section ----------------------------------
-
-      call push_routine (my_name)
-      call print_routine (my_name)
-
-cscc Need to work this out. If you use sowing, not emerg. then the
-c leaf no. appears to be underestimated. Maybe it double counts leaf no.
-c between sowing and emergence. Note use of c_leaf_no_at_emerg.
-c ie. this routine really works out leaf no., when above ground.
-
-cglh uses sowing, not emerg to calc leaf no.
-
-      leaf_no_now = sum_between (sowing, now, g_leaf_no)
-      leaf_no_remaining = g_leaf_no_final - leaf_no_now
-
-c      write(*,*) g_leaf_no
-
-cSCC normal leaf app rate
-
-!      leaf_app_rate = c_leaf_app_rate
-
-!scc Peter's 2 stage version used here, modified to apply
-! to last few leaves before flag
-
-      if (leaf_no_remaining .le. c_leaf_no_rate_change) then
-
-         leaf_app_rate = c_leaf_app_rate2
-
-      else
-
-         leaf_app_rate = c_leaf_app_rate1
-
-      endif
-
-
-      if (on_day_of (emerg, g_current_stage, g_days_tot)) then
-
-             ! initialisation done elsewhere.
-
-      elseif (leaf_no_remaining.gt.0.0) then
-
-!sscc This should halt on day flag leaf is fully expanded ....
-             ! we  haven't reached full number of leaves yet
-
-             ! if leaves are still growing, the cumulative number of
-             ! phyllochrons or fully expanded leaves is calculated from
-             ! daily thermal time for the day.
-
-         dlt_leaf_no = divide (g_dlt_tt, leaf_app_rate, 0.0)
-         dlt_leaf_no = bound (dlt_leaf_no, 0.0, leaf_no_remaining)
-
-      else
-             ! we have full number of leaves.
-
-         dlt_leaf_no = 0.0
-
-      endif
-
-      call pop_routine (my_name)
-      return
-      end subroutine
+c*     ===========================================================
+c      subroutine maize_leaf_appearance (
+c     :          g_leaf_no
+c     :        , g_leaf_no_final
+c     :        , c_leaf_no_rate_change
+c     :        , c_leaf_app_rate2
+c     :        , c_leaf_app_rate1
+c     :        , g_current_stage
+c     :        , g_days_tot
+c     :        , g_dlt_tt
+c     :        , dlt_leaf_no)
+c*     ===========================================================
+c      Use infrastructure
+c      implicit none
+c
+c*+  Sub-Program Arguments
+c      real       g_leaf_no(*)
+c      real       g_leaf_no_final
+c      real       c_leaf_no_rate_change
+c      real       c_leaf_app_rate2
+c      real       c_leaf_app_rate1
+c      real       g_current_stage
+c      real       g_days_tot(*)
+c      real       g_dlt_tt
+c      real       dlt_leaf_no           ! (OUTPUT) new fraction of oldest
+c                                       ! expanding leaf
+c
+c*+  Purpose
+c*       Return the fractional increase in emergence of the oldest
+c*       expanding leaf.
+c*       Note ! this does not take account of the other younger leaves
+c*       that are currently expanding
+c
+c*+  Mission statement
+c*       Calculate the fractional increase in emergence of the oldest
+c*       expanding leaf.
+c
+c*+  Changes
+c*       031194 jngh specified and programmed
+c*       070495 psc  added 2nd leaf appearance rate
+c*       260596 glh  corrected error in leaf no calcn
+c
+c*+  Constant Values
+c      character  my_name*(*)           ! name of procedure
+c      parameter (my_name = 'maize_leaf_appearance')
+c
+c*+  Local Variables
+c      real       leaf_no_remaining     ! number of leaves to go before all
+c                                       ! are fully expanded
+c      real       leaf_no_now           ! number of fully expanded leaves
+c      real       leaf_app_rate         ! rate of leaf appearance (oCd/leaf)
+c
+c*- Implementation Section ----------------------------------
+c      call Write_string ( my_name)
+c
+c      call push_routine (my_name)
+c      call print_routine (my_name)
+c
+ccscc Need to work this out. If you use sowing, not emerg. then the
+cc leaf no. appears to be underestimated. Maybe it double counts leaf no.
+cc between sowing and emergence. Note use of c_leaf_no_at_emerg.
+cc ie. this routine really works out leaf no., when above ground.
+c
+ccglh uses sowing, not emerg to calc leaf no.
+c
+c      leaf_no_now = sum_between (sowing, now, g_leaf_no)
+c      leaf_no_remaining = g_leaf_no_final - leaf_no_now
+c
+cc      write(*,*) g_leaf_no
+c
+ccSCC normal leaf app rate
+c
+c!      leaf_app_rate = c_leaf_app_rate
+c
+c!scc Peter's 2 stage version used here, modified to apply
+c! to last few leaves before flag
+c
+c      if (leaf_no_remaining .le. c_leaf_no_rate_change) then
+c
+c         leaf_app_rate = c_leaf_app_rate2
+c
+c      else
+c
+c         leaf_app_rate = c_leaf_app_rate1
+c
+c      endif
+c
+c
+c      if (on_day_of (emerg, g_current_stage, g_days_tot)) then
+c
+c             ! initialisation done elsewhere.
+c
+c      elseif (leaf_no_remaining.gt.0.0) then
+c
+c!sscc This should halt on day flag leaf is fully expanded ....
+c             ! we  haven't reached full number of leaves yet
+c
+c             ! if leaves are still growing, the cumulative number of
+c             ! phyllochrons or fully expanded leaves is calculated from
+c             ! daily thermal time for the day.
+c
+c         dlt_leaf_no = divide (g_dlt_tt, leaf_app_rate, 0.0)
+c         dlt_leaf_no = bound (dlt_leaf_no, 0.0, leaf_no_remaining)
+c
+c      else
+c             ! we have full number of leaves.
+c
+c         dlt_leaf_no = 0.0
+c
+c      endif
+c
+c      call pop_routine (my_name)
+c      return
+c      end subroutine
 
 
 *     ===========================================================
