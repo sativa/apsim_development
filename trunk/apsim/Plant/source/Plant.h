@@ -437,11 +437,14 @@ public:
    //  float getDltDmVeg(void) const;
    float getWaterSupplyPod(void) const;
    float getDmTops(void) const;
+   float getDltDmGreen(void) const;
    float getDltDm(void) const;
    float getDmVeg(void) const;
    float getDmGreenStem(void) const;
    float getDmGreenTot(void) const;
+// FIXME - remove next line when corrections for P demand activated
    float getRelativeGrowthRate(void);
+   float getTotalPotentialGrowthRate(void);
    float getDyingFractionPlants(void);
    float getCo2ModifierRue(void) const;
    float getCo2ModifierTe(void) const;
