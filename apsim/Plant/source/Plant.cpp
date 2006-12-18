@@ -6647,7 +6647,7 @@ float Plant::getDltDmGreen(void) const{ return plantDltDmGreen();}
 float Plant::getDmVeg(void) const {return leafPart->dmTotal() + stemPart->dmTotal();}
 float Plant::getDmGreenStem(void) const {return stemPart->dmGreen();}
 float Plant::getDmGreenTot(void) const {return plantGreen();}
-! FIXME - remove next line when P demand corrections activated
+// FIXME - remove next line when P demand corrections activated
 float Plant::getRelativeGrowthRate(void) {return divide(arbitrator->dltDMWhole(g.dlt_dm_pot_rue), getDmGreenTot(), 0.0);} // the dlt_dm_pot_rue is only tops, thus either adjust it for roots or leave roots out of the divisor.
 float Plant::getTotalPotentialGrowthRate(void) {return arbitrator->dltDMWhole(g.dlt_dm_pot_rue);} // the dlt_dm_pot_rue is only tops, thus adjust it for roots.
 float Plant::getDyingFractionPlants(void)
