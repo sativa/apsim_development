@@ -51,6 +51,7 @@ class plantPart : public plantThing
    float DMGreen;                     // live plant dry weight (biomass) (g/m^2)
    float DMSenesced;                  // senesced plant dry wt (g/m^2)
    float DMDead;                      // dry wt of dead plants (g/m^2)
+   float relativeGrowthRate;
 
    // deltas
    struct {
