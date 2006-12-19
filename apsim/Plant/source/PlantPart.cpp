@@ -1036,7 +1036,10 @@ void plantPart::doPDemand(void)
       }
  // FIXME - remove following 4 lines after P demand corrections above are activated
    float rel_growth_rate = plant->getRelativeGrowthRate();
-   p_conc_max = linear_interp_real (plant->getStageCode()
+   float p_conc_max = linear_interp_real (plant->getStageCode()
+                                     , c.x_p_stage_code
+                                     , c.y_p_conc_max
+                                     , c.num_x_p_stage_code);
    deficit = p_conc_max * DMGreen * (1.0 + rel_growth_rate) - PGreen;
    PDemand = l_bound(deficit, 0.0);
    }
