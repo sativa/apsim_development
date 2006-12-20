@@ -57,7 +57,7 @@ module = SummaryFile  refdata.par[step6]
 [apsim.step8]
 title = Step 8. swim
 module = clock    refdata.par [gmtb0] %apsuite/apsim/clock/clock.ini[standard]
-module = report   refdata.par [wupt] refdata.par [step8]
+module = report   refdata.par [allswim] refdata.par [wupt] refdata.par [step8]
 module = input(met)      GMTAPSIM.DAT [weather]
 module = manager  refdata.par [all]
 module = apswim   refdata.par [gmtb0]   %apsuite/apsim/apswim/apswim.ini [standard]
