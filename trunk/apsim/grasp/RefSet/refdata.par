@@ -25,6 +25,21 @@ variable = manager.transpiration
 !          [add_residue_msg.residue_wt]
 !          [water_uptake.uptake_water_grass]
 
+[allswim.report.parameters]
+variable = clock.dd/mm/yyyy as date
+variable = apswim.sw_dep()
+variable = apswim.sw_dep
+variable = grasp.basal_area
+variable = grasp.root_depth
+variable = grasp.sw_index
+variable = manager.transpiration
+variable = grasp.vpd_estimation
+variable = grasp.max_n_avail()
+variable = grasp.growth_photo
+variable = grasp.growth_photo
+variable = grasp.death_frost
+variable = surfaceom.surfaceom_wt
+variable = grasp.tsdm
 [ep.report.parameters]
 variable = clock.dd/mm/yyyy as date
 !          [erosion.n_uptake]
@@ -538,7 +553,8 @@ slswt =  0.0
 
 ! ------------------------ climatic inputs ---------------------------
 [gmtb0.apswim.climate]
-rainfall_source =  gmtswms.dat
+rainfall_source = file                   ()  ! get rainfall from a file
+rainfall_file = gmtswms.dat
 evap_source =  calc
 salb =  0.23
 
