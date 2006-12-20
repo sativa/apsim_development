@@ -28,7 +28,7 @@ cd %APSROOT%
 rem --------- Compile GetComponentDescription
 cd %APSROOT%\tools\GetComponentDescription
 echo ------Compiling  GetComponentDescription >> %APSROOT%\dotnet.out
-"C:\Program Files\Microsoft Visual Studio 8\Common7\IDE\devenv" GetComponentDescription.sln /build release >> %APSROOT%\build.out
+"C:\Program Files\Microsoft Visual Studio 8\Common7\IDE\devenv" GetComponentDescription.sln /build release >> %APSROOT%\build.win32.out
 cd %APSROOT%
 
 rem --------- Compile DotNetComponentInterface
