@@ -677,7 +677,7 @@ float CompositePart::dmDeadVegTotal(void) const
 {
    float dmTotal = 0.0;
    for (vector <plantPart * >::const_iterator part = myParts.begin(); part != myParts.end(); part++)
-      dmTotal += (*part)->dmDead();
+      dmTotal += (*part)->dmDeadVegTotal();
    return dmTotal;
 }
 
@@ -1741,14 +1741,14 @@ float CompositePart::dltDmPotRue(void)
 float CompositePart::grainNConcPercent(void) const
    //===========================================================================
 {
-   float nGreen = 0.0;
-   float dmGreen = 0.0;
+   float nTotal = 0.0;
+   float dmTotal = 0.0;
    for (vector <plantPart * >::const_iterator part = myParts.begin(); part != myParts.end(); part++)
    {
-      nGreen += (*part)->nGreenGrainTotal();
-      dmGreen += (*part)->dmGreenGrainTotal();
+      nTotal += (*part)->nGrainTotal();
+      dmTotal += (*part)->dmGrainTotal();
    }
-   return divide (nGreen , dmGreen , 0.0) * fract2pcnt;
+   return divide (nTotal , dmTotal , 0.0) * fract2pcnt;
 }
 
 float CompositePart::dltDmGrainDemand(void) const
