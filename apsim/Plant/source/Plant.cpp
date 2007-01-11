@@ -23,7 +23,8 @@
 #include "PlantPart.h"
 #include "CompositePart.h"
 #include "LeafPart.h"
-#include "FruitCohort.h"
+////#include "FruitCohort.h"
+#include "PlantFruit.h"
 #include "StemPart.h"
 #include "LeafPart.h"
 #include "PodPart.h"
@@ -180,8 +181,8 @@ void Plant::doInit1(protocol::Component *s)
     myParts.push_back(stemPart);
     myStoverParts.push_back(stemPart);
 
-//    fruitPart = new PlantFruit(this, "fruit");      //FIXME reinstate this when Plant fruit fixed for cohorting
-    fruitPart = new FruitCohort(this, "fruit");       //FIXME remove this when Plant fruit fixed for cohorting
+    fruitPart = new PlantFruit(this, "fruit");      //FIXME reinstate this when Plant fruit fixed for cohorting
+////    fruitPart = new FruitCohort(this, "fruit");       //FIXME remove this when Plant fruit fixed for cohorting
     myThings.push_back(fruitPart);
     myParts.push_back(fruitPart);
     myStoverParts.push_back(fruitPart);
