@@ -75,6 +75,7 @@ public:												// member functions
    float calcCover (float canopy_fac);                  // return pod cover   //FIXME  //remove problem
    void doDmDemand (float dlt_dm_supply_by_veg);
    void doNFixRetranslocate(float NFix, float NDemandDifferentialTotal);
+////   void doNRetranslocate( float N_avail_rep, float grain_n_demand);
 
 #if TEST_FruitCohort
    virtual ~FruitCohort();							// destructor
