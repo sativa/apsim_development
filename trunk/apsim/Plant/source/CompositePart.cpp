@@ -1688,7 +1688,7 @@ float CompositePart::calcCover (float canopy_fac)
    float cover = 0.0;
    vector <plantPart *>::iterator part;
    for (part = myParts.begin(); part != myParts.end(); part++)
-      add_covers (cover, (*part)->calcCover(canopy_fac));
+      cover = add_covers (cover, (*part)->calcCover(canopy_fac));
    return cover;
 }
 
