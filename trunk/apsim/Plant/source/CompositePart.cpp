@@ -1627,7 +1627,7 @@ float CompositePart::coverTotal(void)
    float cover = 0.0;
    vector <plantPart *>::iterator part;
    for (part = myParts.begin(); part != myParts.end(); part++)
-      add_covers (cover, (*part)->coverTotal());
+      cover = add_covers (cover, (*part)->coverTotal());
    return cover;
 }
 
@@ -1637,7 +1637,7 @@ float CompositePart::coverGreen(void)
    float cover = 0.0;
    vector <plantPart *>::iterator part;
    for (part = myParts.begin(); part != myParts.end(); part++)
-      add_covers (cover, (*part)->coverGreen());
+      cover = add_covers (cover, (*part)->coverGreen());
    return cover;
 }
 
@@ -1647,7 +1647,7 @@ float CompositePart::coverDead(void)
    float cover = 0.0;
    vector <plantPart *>::iterator part;
    for (part = myParts.begin(); part != myParts.end(); part++)
-      add_covers (cover, (*part)->coverDead());
+      cover = add_covers (cover, (*part)->coverDead());
    return cover;
 }
 
@@ -1657,7 +1657,7 @@ float CompositePart::coverSen(void)
    float cover = 0.0;
    vector <plantPart *>::iterator part;
    for (part = myParts.begin(); part != myParts.end(); part++)
-      add_covers (cover, (*part)->coverSen());
+      cover = add_covers (cover, (*part)->coverSen());
    return cover;
 }
 
