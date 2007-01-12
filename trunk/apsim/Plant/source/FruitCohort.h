@@ -32,7 +32,7 @@ public:												// member functions
    void doNDemand1(float, float);
    void doNDemand1Pot(float, float);
 
-   void doNSenescedRetrans(float navail, float n_demand_tot);   //remove  problem
+////   void doNSenescedRetrans(float navail, float n_demand_tot);   //remove  problem
 
    float grainNConcPercent(void) const;       //remove  problem
 
@@ -51,7 +51,6 @@ public:												// member functions
    float nDeadVegTotal(void)const;
    float nDemandGrain2(void);          //remove  problem
    float nCapacity(void);
-////   void  doNPartition(float nSupply, float n_demand_sum, float n_capacity_sum);
 
    float nMaxPot(void)const;
    float nMax(void)const;
@@ -74,8 +73,7 @@ public:												// member functions
    virtual void display(ostream &os = cout) const;	// display function
    float calcCover (float canopy_fac);                  // return pod cover   //FIXME  //remove problem
    void doDmDemand (float dlt_dm_supply_by_veg);
-   void doNFixRetranslocate(float NFix, float NDemandDifferentialTotal);
-////   void doNRetranslocate( float N_avail_rep, float grain_n_demand);
+////   void doNFixRetranslocate(float NFix, float NDemandDifferentialTotal);
 
 #if TEST_FruitCohort
    virtual ~FruitCohort();							// destructor

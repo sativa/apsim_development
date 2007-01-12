@@ -74,29 +74,6 @@ void PlantFruit::doRegistrations(protocol::Component *system)
       (*part)->doRegistrations(system);
 }
 
-////void PlantFruit::doNPartition(float nSupply, float n_demand_sum, float n_capacity_sum)
-////   //============================================================================
-////{
-////   plantPart::doNPartition(nSupply, n_demand_sum, n_capacity_sum);             //FIXME need to do this differently
-////   vector<plantPart *>::iterator part;
-////
-////   n_demand_sum = nDemand();
-////   n_capacity_sum = nCapacity();
-////
-////   for (part = myParts.begin(); part != myParts.end(); part++)
-////      (*part)->doNPartition(dlt.n_green, n_demand_sum, n_capacity_sum);
-////
-////   float dlt_n_green_sum = dltNGreen();
-////   if (!reals_are_equal(dlt_n_green_sum - dlt.n_green, 0.0))
-////      {
-////      string msg = c.name + " dlt_n_green mass balance is off: dlt_n_green_sum ="
-////         + ftoa(dlt_n_green_sum, ".6")
-////         + " vs nSupply ="
-////         + ftoa(nSupply, ".6");
-////      plant->warningError(msg.c_str());
-////      }
-////}
-
 void PlantFruit::doInit1 ()
    // ====================================================================
 {
@@ -105,18 +82,6 @@ void PlantFruit::doInit1 ()
    for (vector<plantPart *>::iterator myPart = myParts.begin(); myPart != myParts.end(); myPart++)
       (*myPart)->doInit1();
 }
-
-////void PlantFruit::doNSenescedRetrans(float navail, float n_demand_tot)              //remove  problem
-////   //===========================================================================   //remove
-////{                                                                                  //remove
-////   dlt.n_senesced_retrans = 0.0;                                                   //remove
-////   vector<plantPart *>::iterator myPart;                                           //remove
-////   for (myPart = myParts.begin(); myPart != myParts.end(); myPart++)               //remove
-////      {                                                                            //remove
-////      (*myPart)->doNSenescedRetrans(navail, n_demand_tot);                         //remove
-////      dlt.n_senesced_retrans +=(*myPart)->dltNSenescedRetrans();                   //remove
-////      }                                                                            //remove
-////}                                                                                  //remove
 
 void PlantFruit::display(ostream &os) const
 {
@@ -132,38 +97,4 @@ void PlantFruit::display(ostream &os) const
    //	os << "Dead meal: " << dead.meal << endl << endl;
    os << endl;
 }
-
-////void PlantFruit::doNFixRetranslocate(float NFix, float NDemandDifferentialTotal)
-//////=======================================================================================
-////{
-////    plantPart::doNFixRetranslocate(NFix, NDemandDifferentialTotal);                        // FIXME - this needs to be done another way
-////
-////    float n_demand_differential = nDemandDifferential ();
-////
-////        // now distribute the n fixed to plant parts
-////
-////    NFix = NFix * divide (nDemandDifferential(), NDemandDifferentialTotal, 0.0);
-////    for (vector<plantPart *>::iterator part = myParts.begin(); part != myParts.end(); part++)      //FIXME later
-////       (*part)->doNFixRetranslocate (NFix, n_demand_differential);
-////}
-
-////void PlantFruit::doNRetranslocate( float N_supply, float g_grain_n_demand)
-////   //============================================================================
-////   //     Calculate the nitrogen retranslocation from the various plant parts to the grain.
-////{
-////
-////   // available N does not include grain
-////   // this should not presume grain is 0.
-////
-////   // get actual grain N uptake by retransolcation
-////   // limit retranslocation to total available N
-////
-////   vector<plantPart *>::iterator part;
-////   for (part = myParts.begin(); part != myParts.end(); part++)
-////      (*part)->doNRetranslocate(N_supply, g_grain_n_demand);
-////
-////   dlt.n_retrans = 0.0;
-////   for (part = myParts.begin(); part != myParts.end(); part++)
-////      dlt.n_retrans += (*part)->dltNRetrans();
-////}
 

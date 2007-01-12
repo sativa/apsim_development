@@ -2001,12 +2001,13 @@ float CompositePart::nDemandDifferential(void)
 void CompositePart::doNFixRetranslocate(float NFix, float NDemandDifferentialTotal)
 //=======================================================================================
 {
-////    plantPart::doNFixRetranslocate(NFix, NDemandDifferentialTotal);
+    plantPart::doNFixRetranslocate(NFix, NDemandDifferentialTotal);
 ////    float n_demand_differential = 0.0;
    float n_demand_differential = nDemandDifferential();
 
         // now distribute the n fixed to plant parts
 
+////   NFix = NFix * divide (n_demand_differential, NDemandDifferentialTotal, 0.0);
    NFix = NFix * divide (n_demand_differential, NDemandDifferentialTotal, 0.0);
    vector <plantPart *>::iterator part;
    for (part =  myParts.begin(); part != myParts.end(); part++)      //FIXME later
