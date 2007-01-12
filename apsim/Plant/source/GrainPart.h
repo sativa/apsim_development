@@ -12,12 +12,12 @@
 class fruitGrainPart : public CompositePart
 {
    friend ostream &operator<<(ostream &, const fruitGrainPart &);
-public:												// member functions
+public:                                             // member functions
    fruitGrainPart(plantInterface *p, const string &name);
    ~fruitGrainPart();
 
-   //		fruitGrainPart(const fruitGrainPart &fruitGrainPart); 			// copy constructor
-   const fruitGrainPart &operator=(const fruitGrainPart &other);		// Assigment operator
+   //       fruitGrainPart(const fruitGrainPart &fruitGrainPart);           // copy constructor
+   const fruitGrainPart &operator=(const fruitGrainPart &other);        // Assigment operator
 
    void doInit1();
 
@@ -74,6 +74,7 @@ public:												// member functions
    float nConcPercent(void)const;         //remove
    float grainNConcPercent(void) const;
    float nDemandGrain(void) const;
+   float nDemandGrain2(void);
 
    float dltDmDemand(void);
    float dltDmGrainDemand(void) const;
@@ -81,9 +82,11 @@ public:												// member functions
    float grainWt(void) const;
    float nDemand2(void);
 
+   float pConcGrain(void)const;
    float pConcGrainTotal(void) const;
+   float pSenescedGrainTotal(void)const;     //remove
 
-   virtual void display(ostream &os = cout) const;	// display function
+   virtual void display(ostream &os = cout) const;  // display function
 
 
 

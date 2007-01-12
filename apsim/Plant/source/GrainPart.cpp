@@ -11,7 +11,7 @@ static const char* floatType =        "<type kind=\"single\"/>";
 inline bool floatsAreEqual(float A, float B, float C) {return(fabs(A-B)<C);}
 
 // default constructor
-// 	initialise data members.
+//  initialise data members.
 fruitGrainPart::fruitGrainPart(plantInterface *p, const string &name) : CompositePart(p, name)
 {
    //    zeroAllGlobals();
@@ -29,26 +29,26 @@ fruitGrainPart::~fruitGrainPart()
 
 ostream &operator<<(ostream &output, const fruitGrainPart /*&pool*/)
 {
-   //	output << "fruitGrainPart:" << endl;
-   //	output << "   Green meal:    " << pool.green.meal << endl;
-   //	output << "   Senesced meal: " << pool.senesced.meal << endl;
-   //	output << "   Dead meal:     " << pool.dead.meal << endl << endl;
+   //   output << "fruitGrainPart:" << endl;
+   //   output << "   Green meal:    " << pool.green.meal << endl;
+   //   output << "   Senesced meal: " << pool.senesced.meal << endl;
+   //   output << "   Dead meal:     " << pool.dead.meal << endl << endl;
    output << endl;
    return output;
 }
 
 // copy constructor
-//	copy data members of object
+//  copy data members of object
 //===========================================================================
 //fruitGrainPart::fruitGrainPart(const fruitGrainPart &fruitGrainPart)
 ////===========================================================================
 //{
-//	throw std::invalid_argument("Copy constructor NI for fruitGrainPart");
+//  throw std::invalid_argument("Copy constructor NI for fruitGrainPart");
 //}
 
 
 // Assigment operator
-//	assign data members of object
+//  assign data members of object
 
 const fruitGrainPart &fruitGrainPart::operator=(const fruitGrainPart &/*other*/)
    //===========================================================================
@@ -115,11 +115,23 @@ float fruitGrainPart::nDemand2(void)
    return mealPart->nDemand2();
 }
 
+float fruitGrainPart::pConcGrain(void) const
+   //===========================================================================
+{
+   return pConcPercent();
+}
+
 float fruitGrainPart::pConcGrainTotal(void)  const
    //===========================================================================
 {
    float p_conc = divide (pTotal() , dmTotal() , 0.0) * fract2pcnt;
    return p_conc;
+}
+
+float fruitGrainPart::pSenescedGrainTotal(void) const
+   //===========================================================================
+{
+   return pSenesced();
 }
 
 
@@ -635,10 +647,10 @@ void fruitGrainPart::update(void)
 
 void fruitGrainPart::display(ostream &os) const
 {
-   //	os << "fruitGrainPart:" << endl;
-   //	os << "Green meal: " << green.meal << endl;
-   //	os << "Senesced meal: " << senesced.meal << endl;
-   //	os << "Dead meal: " << dead.meal << endl << endl;
+   //   os << "fruitGrainPart:" << endl;
+   //   os << "Green meal: " << green.meal << endl;
+   //   os << "Senesced meal: " << senesced.meal << endl;
+   //   os << "Dead meal: " << dead.meal << endl << endl;
    os << endl;
 }
 
@@ -657,6 +669,7 @@ void fruitGrainPart::doProcessBioDemand(void)
 
 float fruitGrainPart::grainNo(void) const {return gGrain_no;}
 float fruitGrainPart::nDemandGrain(void) const {return gN_grain_demand;}
+float fruitGrainPart::nDemandGrain2(void){return nDemand2();}
 float fruitGrainPart::nConcPercent(void) const {return divide (nTotal(), dmTotal(), 0.0) * fract2pcnt;}   //redmove
 float fruitGrainPart::grainNConcPercent(void) const {return divide (nTotal(), dmTotal(), 0.0) * fract2pcnt;}
 float fruitGrainPart::dltDmDemand(void) {return gDlt_dm_grain_demand;}                               //remove
