@@ -6,7 +6,7 @@
 using namespace std;
 
 // default constructor
-// 	initialise data members.
+//  initialise data members.
 FruitCohort::FruitCohort(plantInterface *p, const string &name) : CompositePart(p, name)
 {
 }
@@ -47,24 +47,24 @@ void FruitCohort::checkBounds (void)
 
 ostream &operator<<(ostream &output, const FruitCohort /*&pool*/)
 {
-   //	output << "FruitCohort:" << endl;
-   //	output << "   Green cover:    " << pool.coverPod.green << endl;
-   //	output << "   Senesced cover: " << pool.coverPod.sen << endl;
-   //	output << "   Dead cover:     " << pool.coverPod.dead << endl;
-   //	output << endl;
-   //	output << "   Green shell:    " << pool.green.shell << endl;
-   //	output << "   Green meal:    " << pool.green.meal << endl;
-   //	output << "   Senesced shell: " << pool.senesced.shell << endl;
-   //	output << "   Senesced meal: " << pool.senesced.meal << endl;
-   //	output << "   Dead shell:     " << pool.dead.shell << endl;
-   //	output << "   Dead meal:     " << pool.dead.meal << endl << endl;
+   //   output << "FruitCohort:" << endl;
+   //   output << "   Green cover:    " << pool.coverPod.green << endl;
+   //   output << "   Senesced cover: " << pool.coverPod.sen << endl;
+   //   output << "   Dead cover:     " << pool.coverPod.dead << endl;
+   //   output << endl;
+   //   output << "   Green shell:    " << pool.green.shell << endl;
+   //   output << "   Green meal:    " << pool.green.meal << endl;
+   //   output << "   Senesced shell: " << pool.senesced.shell << endl;
+   //   output << "   Senesced meal: " << pool.senesced.meal << endl;
+   //   output << "   Dead shell:     " << pool.dead.shell << endl;
+   //   output << "   Dead meal:     " << pool.dead.meal << endl << endl;
    output << endl;
    return output;
 }
 
 
 // Assigment operator
-//	assign data members of object
+//  assign data members of object
 const FruitCohort &FruitCohort::operator=(const FruitCohort &/*other*/)
    //===========================================================================
 {
@@ -242,13 +242,6 @@ float FruitCohort::nMinPot(void)const
    return nMinPot;
 }
 
-float FruitCohort::nDemandGrain2(void)                                             //remove  problem
-   //===========================================================================  //remove
-{                                                                                 //remove
-   return grainPart->nDemand2();                                                  //remove
-}                                                                                 //remove
-
-
 float FruitCohort::nCapacity(void)
    //============================================================================
 {
@@ -312,16 +305,16 @@ float FruitCohort::pGreenVegTotal(void) const
 }
 
 
-float FruitCohort::pSenescedGrainTotal(void) const                                     //remove
-   //=========================================================================== //remove
-{                                                                                //remove
-   float pTotal = 0.0;                                                           //remove
-   vector<plantPart *>::const_iterator part;                                           //remove
-   for (part = myGrainParts.begin(); part != myGrainParts.end(); part++)         //remove
-      pTotal += (*part)->pSenesced();                                            //remove
-   return pTotal;                                                                //remove
-}                                                                                //remove
-
+////float FruitCohort::pSenescedGrainTotal(void) const                                     //remove
+////   //=========================================================================== //remove
+////{                                                                                //remove
+////   float pTotal = 0.0;                                                           //remove
+////   vector<plantPart *>::const_iterator part;                                           //remove
+////   for (part = myGrainParts.begin(); part != myGrainParts.end(); part++)         //remove
+////      pTotal += (*part)->pSenesced();                                            //remove
+////   return pTotal;                                                                //remove
+////}                                                                                //remove
+////
 float FruitCohort::pSenescedVegTotal(void)const
    //===========================================================================
 {
@@ -344,17 +337,16 @@ float FruitCohort::pDeadVegTotal(void) const
 }
 
 
-float FruitCohort::pConcGrain(void) const                                              //remove
-   //=========================================================================== //remove
-{                                                                                //remove
-   return grainPart->pConcPercent();                                                    //remove
-}                                                                                //remove
-
-float FruitCohort::pConcGrainTotal(void) const                                          //remove
-   //===========================================================================  //remove
-{                                                                                 //remove
-   return grainPart->pConcGrainTotal();                                           //remove
-}                                                                                 //remove
+////float FruitCohort::pConcGrain(void) const                                              //remove
+////   //=========================================================================== //remove
+////{                                                                                //remove
+////   return grainPart->pConcPercent();                                                    //remove
+////}                                                                                //remove
+////float FruitCohort::pConcGrainTotal(void) const                                          //remove
+////   //===========================================================================  //remove
+////{                                                                                 //remove
+////   return grainPart->pConcGrainTotal();                                           //remove
+////}                                                                                 //remove
 
 float FruitCohort::pMaxPot(void) const
    //===========================================================================
@@ -412,46 +404,26 @@ void FruitCohort::get_head_p(protocol::Component *systemInterface, protocol::Que
 }
 
 
-
-
-////void FruitCohort::doNSenescedRetrans(float navail, float n_demand_tot)              //remove  problem
-////   //===========================================================================   //remove
-////{                                                                                  //remove
-////   dlt.n_senesced_retrans = 0.0;                                                   //remove
-////   vector<plantPart *>::iterator myPart;                                           //remove
-////   for (myPart = myParts.begin(); myPart != myParts.end(); myPart++)               //remove
-////      {                                                                            //remove
-////      (*myPart)->doNSenescedRetrans(navail, n_demand_tot);                         //remove
-////      dlt.n_senesced_retrans +=(*myPart)->dltNSenescedRetrans();                   //remove
-////      }                                                                            //remove
-////}                                                                                  //remove
-
-
 //float FruitCohort::total()
 //{
 //
-//	return green.shell + green.meal + senesced.shell + senesced.meal + dead.shell + dead.meal;
+//  return green.shell + green.meal + senesced.shell + senesced.meal + dead.shell + dead.meal;
 //}
 
 void FruitCohort::display(ostream &os) const
 {
-   //	os << "FruitCohort:" << endl;
-   //	os << "Green cover:    " << coverPod.green << endl;
-   //	os << "Senesced cover: " << coverPod.sen << endl;
-   //	os << "Dead cover:     " << coverPod.dead << endl;
-   //	os << "Green shell: " << green.shell << endl;
-   //	os << "Green meal: " << green.meal << endl;
-   //	os << "Senesced shell: " << senesced.shell << endl;
-   //	os << "Senesced meal: " << senesced.meal << endl;
-   //	os << "Dead shell: " << dead.shell << endl;
-   //	os << "Dead meal: " << dead.meal << endl << endl;
+   //   os << "FruitCohort:" << endl;
+   //   os << "Green cover:    " << coverPod.green << endl;
+   //   os << "Senesced cover: " << coverPod.sen << endl;
+   //   os << "Dead cover:     " << coverPod.dead << endl;
+   //   os << "Green shell: " << green.shell << endl;
+   //   os << "Green meal: " << green.meal << endl;
+   //   os << "Senesced shell: " << senesced.shell << endl;
+   //   os << "Senesced meal: " << senesced.meal << endl;
+   //   os << "Dead shell: " << dead.shell << endl;
+   //   os << "Dead meal: " << dead.meal << endl << endl;
    os << endl;
 }
-
-
-float FruitCohort::calcCover (float canopy_fac) {return  podPart->calcCover(canopy_fac);}    //remove problem
-
-float FruitCohort::grainNConcPercent(void) const {return grainPart->nConcPercent();}     //remove problem
 
 void FruitCohort::doDmDemand ( float dlt_dm_veg_supply)
    //===========================================================================
@@ -471,21 +443,6 @@ float FruitCohort::availableRetranslocateN(void)
 
    return nAvail;
 }
-
-
-////void FruitCohort::doNFixRetranslocate(float NFix, float NDemandDifferentialTotal)
-//////=======================================================================================
-////{
-////    plantPart::doNFixRetranslocate(NFix, NDemandDifferentialTotal);                        // FIXME - this needs to be done another way
-////
-////    float n_demand_differential = nDemandDifferential ();
-////
-////        // now distribute the n fixed to plant parts
-////
-////    NFix = NFix * divide (nDemandDifferential(), NDemandDifferentialTotal, 0.0);
-////    for (vector<plantPart *>::iterator part = myParts.begin(); part != myParts.end(); part++)      //FIXME later
-////       (*part)->doNFixRetranslocate (NFix, n_demand_differential);
-////}
 
 void FruitCohort::doNDemand1(float dlt_dm             // (INPUT)  Whole plant the daily biomass production (g/m^2)
                             , float dlt_dm_pot_rue)  // (INPUT)  Whole plant potential dry matter production (g/m^2)

@@ -12,10 +12,10 @@
 class FruitCohort : public CompositePart
 {
    friend ostream &operator<<(ostream &, const FruitCohort &);
-public:												// member functions
+public:                                             // member functions
    FruitCohort(plantInterface *p, const string &name);
 
-   const FruitCohort &operator=(const FruitCohort &other);		// Assigment operator
+   const FruitCohort &operator=(const FruitCohort &other);      // Assigment operator
 
    void doInit1();
    void checkBounds(void);
@@ -32,9 +32,6 @@ public:												// member functions
    void doNDemand1(float, float);
    void doNDemand1Pot(float, float);
 
-////   void doNSenescedRetrans(float navail, float n_demand_tot);   //remove  problem
-
-   float grainNConcPercent(void) const;       //remove  problem
 
    float dmGrainTotal(void) const;
    float dmVegTotal(void) const;
@@ -49,7 +46,6 @@ public:												// member functions
    float nGreenVegTotal(void)const;
    float nSenescedVegTotal(void)const;
    float nDeadVegTotal(void)const;
-   float nDemandGrain2(void);          //remove  problem
    float nCapacity(void);
 
    float nMaxPot(void)const;
@@ -60,23 +56,21 @@ public:												// member functions
    float pGreenGrainTotal(void)const;
    float pDeadGrainTotal(void)const;
    float pGreenVegTotal(void)const;
-   float pSenescedGrainTotal(void)const;     //remove
+////   float pSenescedGrainTotal(void)const;     //remove
    float pSenescedVegTotal(void)const;
    float pDeadVegTotal(void)const;
-   float pConcGrain(void)const;              //remove
-   float pConcGrainTotal(void)const;        //remove
+////   float pConcGrain(void)const;              //remove
+////   float pConcGrainTotal(void)const;        //remove
    float pMaxPot(void)const;
    float pMinPot(void)const;
 
 
 
-   virtual void display(ostream &os = cout) const;	// display function
-   float calcCover (float canopy_fac);                  // return pod cover   //FIXME  //remove problem
+   virtual void display(ostream &os = cout) const;  // display function
    void doDmDemand (float dlt_dm_supply_by_veg);
-////   void doNFixRetranslocate(float NFix, float NDemandDifferentialTotal);
 
 #if TEST_FruitCohort
-   virtual ~FruitCohort();							// destructor
+   virtual ~FruitCohort();                          // destructor
 #else
    ~FruitCohort();
 #endif
