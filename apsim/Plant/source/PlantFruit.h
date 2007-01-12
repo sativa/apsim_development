@@ -24,10 +24,6 @@ public:												// member functions
    void doInit1();
 
    void doRegistrations(protocol::Component *);
-////   void  doNPartition(float nSupply, float n_demand_sum, float n_capacity_sum);
-////   void doNFixRetranslocate(float NFix, float NDemandDifferentialTotal);
-////   void doNRetranslocate( float N_avail_rep, float grain_n_demand);
-////   void doNSenescedRetrans(float navail, float n_demand_tot);
 };
 
 #endif
