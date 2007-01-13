@@ -21,9 +21,13 @@ public:												// member functions
    //		PlantFruit(const PlantFruit &PlantFruit); 			// copy constructor
    const PlantFruit &operator=(const PlantFruit &other);		// Assigment operator
 
-   void doInit1();
+   void doInit1(void);
 
    void doRegistrations(protocol::Component *);
+   void addNewCohort (void);
+
+private:
+   int cohortNum;
 };
 
 #endif
