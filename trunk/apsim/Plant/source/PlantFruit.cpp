@@ -16,6 +16,7 @@ inline bool floatsAreEqual(float A, float B, float C) {return(fabs(A-B)<C);}
 // 	initialise data members.
 PlantFruit::PlantFruit(plantInterface *p, const string &name) : CompositePart(p, name)
 {
+   cohortNum = 0;
 }
 
 // destructor
@@ -77,10 +78,7 @@ void PlantFruit::doRegistrations(protocol::Component *system)
 void PlantFruit::doInit1 ()
    // ====================================================================
 {
-   plantPart *c1 = new FruitCohort(plant, "cohort1");
-   myParts.push_back(c1);
-   for (vector<plantPart *>::iterator myPart = myParts.begin(); myPart != myParts.end(); myPart++)
-      (*myPart)->doInit1();
+   addNewCohort();
 }
 
 void PlantFruit::display(ostream &os) const
@@ -96,5 +94,17 @@ void PlantFruit::display(ostream &os) const
    //	os << "Dead shell: " << dead.shell << endl;
    //	os << "Dead meal: " << dead.meal << endl << endl;
    os << endl;
+}
+
+void PlantFruit::addNewCohort ()
+   // ====================================================================
+{
+   cohortNum ++;
+   ostringstream cohortName;
+   cohortName << "cohort" << cohortNum;
+   myParts.push_back(new FruitCohort(plant, cohortName.str()));
+
+   vector<plantPart *>::iterator myPart = & myParts.back();
+   (*myPart)->doInit1();
 }
 
