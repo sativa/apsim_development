@@ -11,6 +11,9 @@ static const char* floatType =        "<type kind=\"single\"/>";
 inline bool floatsAreEqual(float A, float B, float C) {return(fabs(A-B)<C);}
 
 // default constructor
+fruitGrainPart::fruitGrainPart()
+{}
+
 //  initialise data members.
 fruitGrainPart::fruitGrainPart(plantInterface *p, const string &name) : CompositePart(p, name)
 {
@@ -40,11 +43,11 @@ ostream &operator<<(ostream &output, const fruitGrainPart /*&pool*/)
 // copy constructor
 //  copy data members of object
 //===========================================================================
-//fruitGrainPart::fruitGrainPart(const fruitGrainPart &fruitGrainPart)
-////===========================================================================
-//{
-//  throw std::invalid_argument("Copy constructor NI for fruitGrainPart");
-//}
+fruitGrainPart::fruitGrainPart(const fruitGrainPart &fruitGrainPart)
+//===========================================================================
+{
+  throw std::invalid_argument("Copy constructor NI for fruitGrainPart");
+}
 
 
 // Assigment operator

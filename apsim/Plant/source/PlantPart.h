@@ -159,6 +159,7 @@ class plantPart : public plantThing
 
 public:
 
+   plantPart() {};
    plantPart(plantInterface *p, const string &name)
      {
      zeroAllGlobals();

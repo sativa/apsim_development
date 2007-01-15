@@ -11,6 +11,7 @@ class CompositePart : public plantPart
 {
    friend ostream &operator<<(ostream &, const CompositePart &);
 public:												// member functions
+   CompositePart();    //default constructor
    CompositePart(plantInterface *p, const string &name);
 
    const CompositePart &operator=(const CompositePart &other);		// Assigment operator

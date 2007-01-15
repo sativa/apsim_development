@@ -14,9 +14,10 @@ class fruitGrainPart : public CompositePart
    friend ostream &operator<<(ostream &, const fruitGrainPart &);
 public:                                             // member functions
    fruitGrainPart(plantInterface *p, const string &name);
+   fruitGrainPart();
    ~fruitGrainPart();
 
-   //       fruitGrainPart(const fruitGrainPart &fruitGrainPart);           // copy constructor
+   fruitGrainPart(const fruitGrainPart &fruitGrainPart);           // copy constructor
    const fruitGrainPart &operator=(const fruitGrainPart &other);        // Assigment operator
 
    void doInit1();

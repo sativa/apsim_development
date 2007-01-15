@@ -15,10 +15,11 @@ class PlantFruit : public CompositePart
    friend ostream &operator<<(ostream &, const PlantFruit &);
 public:												// member functions
    PlantFruit(plantInterface *p, const string &name);
+   PlantFruit();
    ~PlantFruit();
    void display(ostream &os) const;
 
-   //		PlantFruit(const PlantFruit &PlantFruit); 			// copy constructor
+   PlantFruit(const PlantFruit &PlantFruit); 			// copy constructor
    const PlantFruit &operator=(const PlantFruit &other);		// Assigment operator
 
    void doInit1(void);
