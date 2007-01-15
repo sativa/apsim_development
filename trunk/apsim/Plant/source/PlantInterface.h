@@ -73,7 +73,7 @@ class plantInterface {
 // Something that plugs into a plant
 class plantThing {
    public:
-     virtual ~plantThing() {};  
+     virtual ~plantThing() {};
      virtual void doRegistrations(protocol::Component *) = 0;
      virtual void readConstants (protocol::Component *, const string &) = 0;
      virtual void readSpeciesParameters (protocol::Component *, vector<string> &) = 0;

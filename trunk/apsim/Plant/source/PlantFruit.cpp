@@ -13,6 +13,9 @@ void pop_routine (const char *) {};
 inline bool floatsAreEqual(float A, float B, float C) {return(fabs(A-B)<C);}
 
 // default constructor
+PlantFruit::PlantFruit()
+{}
+
 // 	initialise data members.
 PlantFruit::PlantFruit(plantInterface *p, const string &name) : CompositePart(p, name)
 {
@@ -46,11 +49,11 @@ ostream &operator<<(ostream &output, const PlantFruit /*&pool*/)
 
 // copy constructor
 //	copy data members of object
-//PlantFruit::PlantFruit(const PlantFruit &PlantFruit)
-////===========================================================================
-//{
-//	throw std::invalid_argument("Copy constructor NI for plantFruit");
-//}
+PlantFruit::PlantFruit(const PlantFruit &PlantFruit)
+//===========================================================================
+{
+	throw std::invalid_argument("Copy constructor NI for plantFruit");
+}
 
 
 // Assigment operator
