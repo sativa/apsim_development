@@ -48,6 +48,7 @@ namespace APSRU.Howwet
         private String apsimToSimPath = "\\bin\\apsimtosim.exe";
         private String howwetReportFileName = "\\howwetv2\\HowwetReport.xml";
         private String howwetSetupFileName = "\\howwetv2\\HowwetSetup.xml";
+        private String howwetRegionFileName="\\howwetv2\\HowwetRegions.xml";
         private const int WUEDefault = 3;
         private const int ThresholdWaterDefault = 100;
 
@@ -70,7 +71,7 @@ namespace APSRU.Howwet
             {
           //  toolStripStatusLabel1.Text = "Select a Soil";
             util = new HowwetUtility(Application.ExecutablePath, howwetSetupFileName);
-            config = new HowwetConfiguration(util.ApplicationDirectory +  howwetSetupFileName);
+            config = new HowwetConfiguration(util.ApplicationDirectory + howwetSetupFileName, util.ApplicationDirectory + howwetRegionFileName);
             version.Text=config.Version;
             if (this.selectedFileName == "")
                 {
@@ -79,7 +80,27 @@ namespace APSRU.Howwet
                 erosionSlopeLengthOriginal = simulationObject.ErosionSlopeLength;
                 erosionErodibiltyOriginal = simulationObject.ErosionErodibilty;
                 simulationObject.FileName = "untitled";
-                loadDefaultSoilFile();
+                if (!(config.DefaultSoilFileName == ""))
+                    {
+                    if (LoadSoilFile(config.DefaultSoilFileName))
+                        {
+                        if (!(config.DefaultSoilName == ""))
+                            {
+                            APSIMData soils = new APSIMData();
+                            soils.LoadFromFile(config.DefaultSoilFileName);
+                            APSIMData soil = soils.GetNode("name", config.DefaultSoilName);
+                            LoadSoil(soil);
+                            }
+                        }
+                    }
+               if (!(config.DefaultMetfile == ""))
+                    {
+                    LoadMetFile(config.DefaultMetfile);
+                    }
+              //  if (!(config.DefaultRegionName == ""))
+               //     {
+               //     }
+             //   loadDefaultSoilFile();
                 resetFormValues();
                 }
             else
@@ -89,25 +110,54 @@ namespace APSRU.Howwet
                 simulationObject = new SimulationIn(apsimDataObject);
                 resetFormValues();
                 }
-            
             }
 
-        private void loadDefaultSoilFile()
+        public void LoadMetFile(String metFileName)
             {
-            FileInfo fileInfo = new FileInfo(util.ApplicationDirectory + "\\apsoil\\" + config.DefaultSoilFileName);
+            metObject = new MetData(metFileName);
+            txtMetFile.Text = metFileName;
+
+            simulationObject.MetFileName = metObject.FileName;
+            //set datetime picker
+            if (!(metObject.EndDate.Subtract(new TimeSpan(400, 0, 0, 0, 0)) < metObject.StartDate))
+                {
+                StartDatePicker.Value = metObject.EndDate.Subtract(new TimeSpan(400, 0, 0, 0, 0));
+                }
+            else
+                {
+                StartDatePicker.Value = metObject.StartDate;
+                }
+            EndDatePicker.MaxDate = metObject.EndDate;
+            EndDatePicker.Value = metObject.EndDate;
+            config.DefaultMetfile = txtMetFile.Text;
+            }
+
+        public Boolean LoadSoilFile(String fileName)
+            {
+            Boolean isLoaded = false;
+            FileInfo fileInfo = new FileInfo(fileName);
             if (fileInfo.Exists)
                 {
                 soilFileName.Text = fileInfo.Name;
                 this.soilsFileName = fileInfo.FullName;
-              //  toolStripStatusLabel1.Text = "Select a Soil";
-                toolTip1.Show("tes", this, 1000);
+                config.DefaultSoilFileName = this.soilsFileName;
+                isLoaded = true;
                 }
             else
                 {
                 soilFileName.Text = "<Select a Soil file>";
-             //   toolStripStatusLabel1.Text = "Select a Soil file";
                 }
+            return isLoaded;
             }
+
+
+        public void LoadSoil(APSIMData soil)
+            {
+            simulationObject.AddSoil(soil);
+            config.DefaultSoilName = simulationObject.Soil.Name;
+            displayProposedCropList();
+            }
+
         private void resetFormValues()
             {
             TrainingModeCheckBox.Checked = config.TrainingMode;
@@ -122,7 +172,6 @@ namespace APSRU.Howwet
             WaterPanel.Visible = false;
             CoverPanel.Visible = false;
             NitrogenPanel.Visible = false;
-            PawPanel.Visible = false;
             NRequirementPanel.Visible = false;
 
             label61.Visible = false;
@@ -373,7 +422,7 @@ namespace APSRU.Howwet
                 appsimDataObject.LoadFromFile(openDialog.FileName);
                 simulationObject = new SimulationIn(appsimDataObject);
                 simulationObject.FileName=openDialog.FileName;
-                loadDefaultSoilFile();
+               // loadDefaultSoilFile();
                 resetFormValues();
                 }
             }
@@ -420,12 +469,6 @@ namespace APSRU.Howwet
             {
             try
                 {
-
-               // Thread t = new Thread(new ThreadStart(STAOpenFileDialog));
-               // t.SetApartmentState(ApartmentState.STA);
-               // t.Start();
-               // while (t.ThreadState == System.Threading.ThreadState.Running) ;
-
                 OpenFileDialog openDialog = new OpenFileDialog();
                 openDialog.Title = "Browse for Soil File";
                 openDialog.Filter = "Soils files (*.soils)|*.soils";
@@ -452,27 +495,6 @@ namespace APSRU.Howwet
             catch (Exception err)
                 {
                 showExceptionMessages(err);
-                }
-            }
-        private void STAOpenFileDialog()
-            {
-            OpenFileDialog openDialog = new OpenFileDialog();
-            openDialog.Title = "Browse for Soil File";
-            openDialog.Filter = "Soils files (*.soils)|*.soils";
-            openDialog.ShowDialog();
-            if (!(openDialog.FileName == ""))
-                {
-                FileInfo fileInfo = new FileInfo(openDialog.FileName);
-                soilFileName.Text = fileInfo.Name;
-                this.soilsFileName = fileInfo.Name;
-
-                if (!SoilSelection.Instance.isLoaded)
-                    {
-                    SoilSelection.Instance.loadObject(this.soilsFileName);
-                    SoilSelection.Instance.SoilSelectedEvent += new SoilSelection.SoilSelected(soilForm_SoilSelectedEvent);
-                    }
-                SoilSelection.Instance.Focus();
-                SoilSelection.Instance.Show();
                 }
             }
         
@@ -509,12 +531,7 @@ namespace APSRU.Howwet
             {
             try
                 {
-                //add soil to simulation object
-                simulationObject.AddSoil(soil);
-                //after changing a soil reset the erosion values back to the template file default
-                simulationObject.ErosionSlope = erosionSlopeOriginal;
-                simulationObject.ErosionSlopeLength = erosionSlopeLengthOriginal;
-                simulationObject.ErosionErodibilty = erosionErodibiltyOriginal;
+                LoadSoil(soil);
                 updateFormSoilValues();
                 }
             catch (CustomException err)
@@ -708,8 +725,9 @@ namespace APSRU.Howwet
               if (!(openDialog.FileName == ""))
                 {
                 //hydrate metObject       
-                metObject = new MetData(openDialog.FileName);
-                metObject.BuildAverages();
+               // metObject = new MetData(openDialog.FileName);
+               // metObject.BuildAverages();
+                LoadMetFile(openDialog.FileName);
                 updateFormMetValues();
                 }
               }
@@ -825,8 +843,8 @@ namespace APSRU.Howwet
                 {
                 cLL = simulationObject.Soil.LL(selectedCrop);
                 }
-                endPAW.Text = result.calcPAWEnd(cLL).ToString("f0");
-            calculateNitrogenRequirement();
+        //        endPAW.Text = result.calcPAWEnd(cLL).ToString("f0");
+          //  calculateNitrogenRequirement();
             }
 
         private void daystoMaturityUpDown_ValueChanged(object sender, EventArgs e)
@@ -947,14 +965,12 @@ namespace APSRU.Howwet
                 startSoilNitrate.Text = result.nitrateStart.ToString("f0");
                 endSoilNitrate.Text = result.nitrateEnd.ToString("f0");
                 gainNitrate.Text = result.nitrateGain.ToString("f0");
-                nitrateEfficiency.Text = result.nitrateEfficiency.ToString("f0");
 
                 //n Requirement
                 thresholdWater.Text = ThresholdWaterDefault.ToString("f0");
                 WUE.Text = WUEDefault.ToString("f0");
                 inCropRainfall.Text = metObject.averageRainInNext(EndDatePicker.Value, Convert.ToInt16(daystoMaturityUpDown.Value)).ToString("f0");
                 displayProposedCropList();
-                endPAW.Text = result.calcPAWEnd(cLL).ToString("f0");
                 chartDataTable = outputObject.Data;
               
                 RainfallSWChart.Axes.Left.Automatic = false;
@@ -1040,9 +1056,9 @@ namespace APSRU.Howwet
                     ErosionChart.Axes.Right.Minimum = minRunoff;
                     //Long term rainfall
                     LTRainfallChart.Axes.Left.Maximum = maxLTRainfall;
-                    LTRainfallChart.Axes.Left.Minimum = minLTRainfall;
-                    //    LTRainfallChart.Axes.Right.Maximum = maxLTAvRainfall;
-                    //    LTRainfallChart.Axes.Right.Minimum = minLTAvRainfall;
+                    LTRainfallChart.Axes.Left.Minimum = 0;
+                    LTRainfallChart.Axes.Right.Maximum = maxLTRainfall;
+                    LTRainfallChart.Axes.Right.Minimum = 0;
                     StatusLabel2.Text = "Building chart";
                     ProgressBar1.Minimum = 0;
                     ProgressBar1.Maximum = chartDataTable.Rows.Count;
@@ -1070,9 +1086,11 @@ namespace APSRU.Howwet
                     SoilNitrogenChart.Axes.Bottom.Automatic = true;
                     axis1.AutomaticMaximum = true;
                     axis1.Minimum = 0;
-                    LTRainfallChart.Axes.Left.Automatic = true;
-                    LTRainfallChart.Axes.Right.Automatic = true;
+                    LTRainfallChart.Axes.Left.Automatic = false;
+                    LTRainfallChart.Axes.Right.Automatic = false;
                     LTRainfallChart.Axes.Bottom.Automatic = true;
+                    LTRainfallChart.Axes.Left.Minimum = 0;
+                    LTRainfallChart.Axes.Right.Minimum = 0;
                     StatusLabel2.Text = "Building chart";
                     ProgressBar1.Minimum = 0;
                     ProgressBar1.Maximum = chartDataTable.Rows.Count;
@@ -1137,7 +1155,6 @@ namespace APSRU.Howwet
                 WaterPanel.Visible = true;
                 CoverPanel.Visible = true;
                 NitrogenPanel.Visible = true;
-                PawPanel.Visible = true;
                 NRequirementPanel.Visible = true;
                 ReportButton.Enabled = true;
                 }
@@ -1230,15 +1247,12 @@ namespace APSRU.Howwet
 
         private void saveAllData()
             {
+            config.SaveDefaults();
             //write form values
             if (simulationObject.FileName == "untitled")
                 {
-               // Thread t= new Thread(new ThreadStart(STATest));
-               // t.SetApartmentState(ApartmentState.STA);
-               // t.Start();
-               // while(t.ThreadState == System.Threading.ThreadState.Running);
-                 SaveFileDialog saveDialog = new SaveFileDialog();
-                 saveDialog.Filter = "APSIM files (*.apsim)|*.apsim";
+                SaveFileDialog saveDialog = new SaveFileDialog();
+                saveDialog.Filter = "APSIM files (*.apsim)|*.apsim";
                 if (saveDialog.ShowDialog() == DialogResult.OK)
                     {
                     simulationObject.FileName = saveDialog.FileName;
