@@ -22,10 +22,10 @@ public:												// member functions
    PlantFruit(const PlantFruit &PlantFruit); 			// copy constructor
    const PlantFruit &operator=(const PlantFruit &other);		// Assigment operator
 
-   void doInit1(void);
+   void doInit1(protocol::Component *system);
 
    void doRegistrations(protocol::Component *);
-   void addNewCohort (void);
+   void addNewCohort (protocol::Component *system);
 
 private:
    int cohortNum;

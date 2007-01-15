@@ -17,7 +17,7 @@ public:                                             // member functions
 
    const FruitCohort &operator=(const FruitCohort &other);      // Assigment operator
 
-   void doInit1();
+   void doInit1(protocol::Component *system);
    void checkBounds(void);
    void doRegistrations(protocol::Component *);
    float availableRetranslocateN(void);

@@ -1814,7 +1814,7 @@ void plantPart::doDmDemand (float dlt_dm_supply_by_veg){}
 void plantPart::doDmPotRUE (double  radn_int_pod){}                      //FIXME   // (OUTPUT) potential dry matter (carbohydrate) production (g/m^2)
 void plantPart::doDmPotTE(void){}                                       //(OUTPUT) potential dry matter production by transpiration (g/m^2)//FIXME
 void plantPart::doGrainNumber (void){}
-void plantPart::doInit1(){}
+void plantPart::doInit1(protocol::Component *system){}
 void plantPart::doNDemandGrain(float nfact_grain_conc, float swdef_expansion){}
 void plantPart::doNewMet(protocol::NewMetType &newmet) {}
 void plantPart::doNInit (void){}

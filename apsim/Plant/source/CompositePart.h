@@ -14,9 +14,10 @@ public:												// member functions
    CompositePart();    //default constructor
    CompositePart(plantInterface *p, const string &name);
 
+   CompositePart(const CompositePart &CompositePart);           // copy constructor
    const CompositePart &operator=(const CompositePart &other);		// Assigment operator
 
-   virtual void doInit1();
+   virtual void doInit1(protocol::Component *system);
 
    virtual void doRegistrations(protocol::Component *);
    virtual void doTick(protocol::TimeType &tick) ;

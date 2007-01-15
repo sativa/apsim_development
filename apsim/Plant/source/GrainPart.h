@@ -20,7 +20,7 @@ public:                                             // member functions
    fruitGrainPart(const fruitGrainPart &fruitGrainPart);           // copy constructor
    const fruitGrainPart &operator=(const fruitGrainPart &other);        // Assigment operator
 
-   void doInit1();
+   void doInit1(protocol::Component *system);
 
    void doRegistrations(protocol::Component *);
    void doTick(protocol::TimeType &tick) ;
