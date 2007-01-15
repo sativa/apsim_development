@@ -299,6 +299,25 @@ Public Class APSIMData
         End If
         Return Nothing
     End Function
+
+    '*********************
+    ' Rurcusive search of an APSIMData object that returns an APSIMData object that matches the given
+    ' attribute / value pair 
+    Public Function GetNode(ByVal attribute As String, ByVal value As String) As APSIMData
+        ChildrenLoaded = False
+        For Each ChildNode As APSIMData In Children
+            If Me.Attribute(attribute) <> value Then
+                Dim ReturnData As APSIMData = ChildNode.GetNode(attribute, value)
+                If Not IsNothing(ReturnData) Then
+                    Return ReturnData
+                End If
+            Else
+                Return Me
+            End If
+        Next
+        Return Nothing
+    End Function
+
     '*****************************************************************************
     Function FindChildByType(ByVal ChildPath As String, Optional ByVal Delimiter As Char = "|") As APSIMData
         Dim name As String
