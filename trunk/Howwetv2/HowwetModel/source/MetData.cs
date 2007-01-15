@@ -43,6 +43,37 @@ namespace APSRU.Model.Howwet
             {
             String errString = "";
             const String FUNCTION_NAME = "MetData";
+            
+            APSIMInputFile metInput = new APSIMInputFile();
+            DateTime startDate = new DateTime();
+            DateTime endDate = new DateTime();
+            Boolean isAPSIMMetFile = true;
+            //get values from met file
+            errString = "reading Met file";
+            APSIMInputFile tempMetInput=new APSIMInputFile();
+            //test if is an APSIM format file or not
+            try
+                {
+                tempMetInput.GetStartEndDate(fileName, ref startDate, ref endDate);
+                }
+            catch (Exception e)
+                {
+                isAPSIMMetFile = false;
+                }
+            if (isAPSIMMetFile)
+                {
+                ReadAPSIMMetFile(fileName);
+                }
+            else
+                {
+                ReadNonAPSIMMetFile(fileName);
+                }
+            }
+
+        private void ReadAPSIMMetFile(String fileName)
+            {
+            String errString = "";
+            const String FUNCTION_NAME = "MetData";
             try
                 {
                 APSIMInputFile metInput = new APSIMInputFile();
@@ -83,6 +114,10 @@ namespace APSRU.Model.Howwet
                 {
                 throw new CustomException(new CustomError("", "Cannot read Met file", errString + "\n Exception:" + err.ToString(), FUNCTION_NAME, this.GetType().FullName, true));
                 }
+            }
+
+        private void ReadNonAPSIMMetFile(String fileName)
+            {
             }
 
         public bool BuildAverages()
