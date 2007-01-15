@@ -56,11 +56,8 @@ public:                                             // member functions
    float pGreenGrainTotal(void)const;
    float pDeadGrainTotal(void)const;
    float pGreenVegTotal(void)const;
-////   float pSenescedGrainTotal(void)const;     //remove
    float pSenescedVegTotal(void)const;
    float pDeadVegTotal(void)const;
-////   float pConcGrain(void)const;              //remove
-////   float pConcGrainTotal(void)const;        //remove
    float pMaxPot(void)const;
    float pMinPot(void)const;
 

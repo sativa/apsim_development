@@ -304,17 +304,6 @@ float FruitCohort::pGreenVegTotal(void) const
    return pTotal;
 }
 
-
-////float FruitCohort::pSenescedGrainTotal(void) const                                     //remove
-////   //=========================================================================== //remove
-////{                                                                                //remove
-////   float pTotal = 0.0;                                                           //remove
-////   vector<plantPart *>::const_iterator part;                                           //remove
-////   for (part = myGrainParts.begin(); part != myGrainParts.end(); part++)         //remove
-////      pTotal += (*part)->pSenesced();                                            //remove
-////   return pTotal;                                                                //remove
-////}                                                                                //remove
-////
 float FruitCohort::pSenescedVegTotal(void)const
    //===========================================================================
 {
@@ -335,18 +324,6 @@ float FruitCohort::pDeadVegTotal(void) const
       pTotal += (*part)->pDead();
    return pTotal;
 }
-
-
-////float FruitCohort::pConcGrain(void) const                                              //remove
-////   //=========================================================================== //remove
-////{                                                                                //remove
-////   return grainPart->pConcPercent();                                                    //remove
-////}                                                                                //remove
-////float FruitCohort::pConcGrainTotal(void) const                                          //remove
-////   //===========================================================================  //remove
-////{                                                                                 //remove
-////   return grainPart->pConcGrainTotal();                                           //remove
-////}                                                                                 //remove
 
 float FruitCohort::pMaxPot(void) const
    //===========================================================================
