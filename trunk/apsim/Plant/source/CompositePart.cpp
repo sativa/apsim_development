@@ -31,11 +31,11 @@ ostream &operator<<(ostream &output, const CompositePart /*&pool*/)
 
 // copy constructor
 //	copy data members of object
-//CompositePart::CompositePart(const CompositePart &CompositePart)
-////===========================================================================
-//{
-//	throw std::invalid_argument("Copy constructor NI for CompositePart");
-//}
+CompositePart::CompositePart(const CompositePart &CompositePart)
+//===========================================================================
+{
+	throw std::invalid_argument("Copy constructor NI for CompositePart");
+}
 
 
 // Assigment operator
@@ -1513,12 +1513,12 @@ void CompositePart::onEndCrop(vector<string> &dm_type,
 }
 
 
-void CompositePart::doInit1 ()
+void CompositePart::doInit1(protocol::Component *system) 
    // ====================================================================
 {
    vector <plantPart *>::iterator part;
    for (part =  myParts.begin(); part != myParts.end(); part++)
-      (*part)->doInit1 ();
+      (*part)->doInit1(system);
 }
 
 void CompositePart::readConstants(protocol::Component *system, const string &section)

@@ -457,7 +457,7 @@ void fruitGrainPart::onKillStem(void)
    gGrain_no = 0.0;
 }
 
-void fruitGrainPart::doInit1 ()
+void fruitGrainPart::doInit1(protocol::Component *system)
    // ====================================================================
 {
    mealPart = new fruitMealPart(plant, "meal");
@@ -863,9 +863,6 @@ void fruitGrainPart::doNDemandGrain1(float nfact_grain_conc      //   (INPUT)
                                      , nfact_grain_conc
                                      , swdef_expansion);
 
-
-
-
    gN_grain_demand = u_bound (gN_grain_demand, mealPart->nCapacity2());
 }
 
@@ -915,7 +912,7 @@ float fruitGrainPart::dltNGrainConc(float sfac_slope      //(INPUT)  soil water 
                                     , float ave_temp        //(INPUT)  mean air temperature (oC)
                                     , float nfact_grain_conc// (INPUT)
                                     , float swdef_expansion) // (INPUT)
-                                                               //==========================================================================
+   //==========================================================================
 
    /*  Purpose
       *     Calculate the nitrogen concentration required to meet the increase

@@ -21,21 +21,30 @@ FruitCohort::~FruitCohort()
       delete (*part);
 }
 
-void FruitCohort::doInit1 ()
+void FruitCohort::doInit1(protocol::Component *system)
    // ====================================================================
 {
    zeroAllGlobals(); zeroDeltas();
-   grainPart = new fruitGrainPart(plant, "grain");
+
+   string grainType = system->readParameter ("constants", "grain_part_type");
+   if (grainType == "harvest_index")
+      grainPart = new fruitGrainPart(plant, "grain");
+   else if (grainType == "grain_no")
+      grainPart = new fruitGrainPart(plant, "grain");
+   else
+     throw std::runtime_error("Unknown grain_part_type '" + grainType + "'");
+
+//   grainPart = new fruitGrainPart(plant, "grain");
    podPart = new fruitPodPart(plant, grainPart, "pod");
 
    myParts.push_back(podPart);
    myVegParts.push_back(podPart);
    supplyPools.push_back(podPart);
-   podPart->doInit1();
+   podPart->doInit1(system);
 
    myParts.push_back(grainPart);
    myGrainParts.push_back(grainPart);
-   grainPart->doInit1();
+   grainPart->doInit1(system);
 }
 void FruitCohort::checkBounds (void)
 {

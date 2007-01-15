@@ -78,10 +78,10 @@ void PlantFruit::doRegistrations(protocol::Component *system)
       (*part)->doRegistrations(system);
 }
 
-void PlantFruit::doInit1 ()
+void PlantFruit::doInit1(protocol::Component *system)
    // ====================================================================
 {
-   addNewCohort();
+   addNewCohort(system);
 }
 
 void PlantFruit::display(ostream &os) const
@@ -99,7 +99,7 @@ void PlantFruit::display(ostream &os) const
    os << endl;
 }
 
-void PlantFruit::addNewCohort ()
+void PlantFruit::addNewCohort (protocol::Component *system)
    // ====================================================================
 {
    cohortNum ++;
@@ -108,6 +108,6 @@ void PlantFruit::addNewCohort ()
    myParts.push_back(new FruitCohort(plant, cohortName.str()));
 
    vector<plantPart *>::iterator myPart = & myParts.back();
-   (*myPart)->doInit1();
+   (*myPart)->doInit1(system);
 }
 

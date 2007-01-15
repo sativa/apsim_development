@@ -441,7 +441,7 @@ public:
    virtual void doDmPotRUE (double  radn_int_pod);                      //FIXME   // (OUTPUT) potential dry matter (carbohydrate) production (g/m^2)
    virtual void doDmPotTE(void);                                       //(OUTPUT) potential dry matter production by transpiration (g/m^2)//FIXME
    virtual void doGrainNumber (void);
-   virtual void doInit1();
+   virtual void doInit1(protocol::Component *system);
    virtual void doNDemandGrain(float nfact_grain_conc, float swdef_expansion);
    virtual void doNewMet(protocol::NewMetType &newmet) ;
    virtual void doNInit (void);
