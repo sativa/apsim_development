@@ -670,7 +670,7 @@ void fruitGrainPart::doProcessBioDemand(void)
 float fruitGrainPart::grainNo(void) const {return gGrain_no;}
 float fruitGrainPart::nDemandGrain(void) const {return gN_grain_demand;}
 float fruitGrainPart::nDemandGrain2(void){return nDemand2();}
-float fruitGrainPart::nConcPercent(void) const {return divide (nTotal(), dmTotal(), 0.0) * fract2pcnt;}   //redmove
+float fruitGrainPart::nConcPercent(void) const {return divide (nTotal(), dmTotal(), 0.0) * fract2pcnt;}   //remove
 float fruitGrainPart::grainNConcPercent(void) const {return divide (nTotal(), dmTotal(), 0.0) * fract2pcnt;}
 float fruitGrainPart::dltDmDemand(void) {return gDlt_dm_grain_demand;}                               //remove
 float fruitGrainPart::dltDmGrainDemand(void) const {return gDlt_dm_grain_demand;}
