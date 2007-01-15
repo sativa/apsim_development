@@ -31,11 +31,10 @@ namespace APSRUUIControls
             this.tabControl1 = new System.Windows.Forms.TabControl();
             this.tabPage1 = new System.Windows.Forms.TabPage();
             this.tabPage2 = new System.Windows.Forms.TabPage();
-            this.howwetPageTemplate1 = new APSRU.UIControls.HowwetPageTemplate();
             this.label1 = new System.Windows.Forms.Label();
+            this.howwetPageTemplate2 = new APSRU.UIControls.HowwetPageTemplate();
             this.tabControl1.SuspendLayout();
             this.tabPage1.SuspendLayout();
-            this.howwetPageTemplate1.SuspendLayout();
             this.SuspendLayout();
             // 
             // tabControl1
@@ -51,14 +50,11 @@ namespace APSRUUIControls
             // 
             // tabPage1
             // 
-            this.tabPage1.Controls.Add(this.howwetPageTemplate1);
+            this.tabPage1.Controls.Add(this.howwetPageTemplate2);
             this.tabPage1.Location = new System.Drawing.Point(4, 29);
             this.tabPage1.Name = "tabPage1";
-            this.tabPage1.Padding = new System.Windows.Forms.Padding(3);
             this.tabPage1.Size = new System.Drawing.Size(621, 494);
             this.tabPage1.TabIndex = 0;
-            this.tabPage1.Text = "tabPage1";
-            this.tabPage1.UseVisualStyleBackColor = true;
             // 
             // tabPage2
             // 
@@ -69,19 +65,6 @@ namespace APSRUUIControls
             this.tabPage2.TabIndex = 1;
             this.tabPage2.Text = "tabPage2";
             this.tabPage2.UseVisualStyleBackColor = true;
-            // 
-            // howwetPageTemplate1
-            // 
-            this.howwetPageTemplate1.BackColor = System.Drawing.Color.White;
-            this.howwetPageTemplate1.Controls.Add(this.label1);
-            this.howwetPageTemplate1.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.howwetPageTemplate1.LeftText = null;
-            this.howwetPageTemplate1.Location = new System.Drawing.Point(41, 51);
-            this.howwetPageTemplate1.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
-            this.howwetPageTemplate1.Name = "howwetPageTemplate1";
-            this.howwetPageTemplate1.Size = new System.Drawing.Size(507, 188);
-            this.howwetPageTemplate1.TabIndex = 0;
-            this.howwetPageTemplate1.Text1 = null;
             // 
             // label1
             // 
@@ -94,6 +77,18 @@ namespace APSRUUIControls
             this.label1.TabIndex = 9;
             this.label1.Text = "label1";
             // 
+            // howwetPageTemplate2
+            // 
+            this.howwetPageTemplate2.BackColor = System.Drawing.Color.White;
+            this.howwetPageTemplate2.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.howwetPageTemplate2.LeftText = null;
+            this.howwetPageTemplate2.Location = new System.Drawing.Point(56, 64);
+            this.howwetPageTemplate2.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
+            this.howwetPageTemplate2.Name = "howwetPageTemplate2";
+            this.howwetPageTemplate2.Size = new System.Drawing.Size(1004, 685);
+            this.howwetPageTemplate2.TabIndex = 0;
+            this.howwetPageTemplate2.Text1 = null;
+            // 
             // TestForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -105,8 +100,6 @@ namespace APSRUUIControls
             this.Load += new System.EventHandler(this.TestForm_Load);
             this.tabControl1.ResumeLayout(false);
             this.tabPage1.ResumeLayout(false);
-            this.howwetPageTemplate1.ResumeLayout(false);
-            this.howwetPageTemplate1.PerformLayout();
             this.ResumeLayout(false);
 
             }
@@ -118,6 +111,7 @@ namespace APSRUUIControls
         private System.Windows.Forms.TabPage tabPage2;
         private APSRU.UIControls.HowwetPageTemplate howwetPageTemplate1;
         private System.Windows.Forms.Label label1;
+        private APSRU.UIControls.HowwetPageTemplate howwetPageTemplate2;
 
 
 
