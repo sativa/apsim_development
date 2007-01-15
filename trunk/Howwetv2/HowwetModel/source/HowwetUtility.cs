@@ -34,6 +34,48 @@ namespace APSRU.Model.Howwet
             get{return cnr;}
             }
     }
+
+    public class Region
+        {
+        private String name;
+        private String description;
+        private String[] averageMonthlyRain;
+        private String[] averageMonthlyRadiation;
+        private String[] averageMonthlyMaxT;
+        private String[] averageMonthlyMinT;
+
+        public String Name
+            {
+            set { name = value; }
+            get { return name; }
+            }
+        public String Description
+            {
+            set { description = value; }
+            get { return description; }
+            }
+        public String[] AverageMonthlyRain
+            {
+            set { averageMonthlyRain = value; }
+            get { return averageMonthlyRain; }
+            }
+        public String[] AverageMonthlyRadiation
+            {
+            set { averageMonthlyRadiation = value; }
+            get { return averageMonthlyRadiation; }
+            }
+        public String[] AverageMonthlyMaxT
+            {
+            set { averageMonthlyMaxT = value; }
+            get { return averageMonthlyMaxT; }
+            }
+        public String[] AverageMonthlyMinT
+            {
+            set { averageMonthlyMinT = value; }
+            get { return averageMonthlyMinT; }
+            }
+        }
+
     public class HowwetConfiguration
         {
         String version;
@@ -45,20 +87,65 @@ namespace APSRU.Model.Howwet
         String defaultMetfile;
         String defaultRegionName;
         ArrayList cropList;
-        XmlDocument doc;
+        ArrayList regionList;
+        XmlDocument setupDoc;
+        XmlDocument regionsDoc;
         String setupFile;
+        String regionsFile;
         
 
-        public HowwetConfiguration(String fileName)
+        public HowwetConfiguration(String setupFileName,String regionsFileName)
+            {
+            ReadSetupFile(setupFileName);
+            ReadRegionsFile(regionsFileName);
+            }
+
+        public void ReadRegionsFile(String fileName)
+            {
+            String errString = "";
+            try
+                {
+                regionsFile = fileName;
+                errString = "reading " + fileName;
+                regionsDoc = new XmlDocument();
+                regionsDoc.Load(fileName);
+                XmlElement element = regionsDoc.DocumentElement;
+                                        
+                //Region
+                XmlNodeList regionNodeList = element.SelectNodes("region");
+                IEnumerator regionNodeEnum = regionNodeList.GetEnumerator();
+                ArrayList list = new ArrayList();
+                while (regionNodeEnum.MoveNext())
+                    {
+                    Region region = new Region();
+                    XmlNode regionNode = (XmlNode)regionNodeEnum.Current;
+                    region.Name = regionNode.SelectSingleNode("name").InnerText;
+                    region.Description = regionNode.SelectSingleNode("description").InnerText;
+                    region.AverageMonthlyRain = regionNode.SelectSingleNode("average_monthly_rain").InnerText.Split(new Char[] { ',' });
+                    region.AverageMonthlyRadiation = regionNode.SelectSingleNode("average_monthly_radiation").InnerText.Split(new Char[] { ',' });
+                    region.AverageMonthlyMaxT = regionNode.SelectSingleNode("average_monthly_max_temperture").InnerText.Split(new Char[] { ',' });
+                    region.AverageMonthlyMinT = regionNode.SelectSingleNode("average_monthly_min_temperture").InnerText.Split(new Char[] { ',' });
+                    list.Add(region);
+                    }
+                this.regionList = list;
+               
+                }
+            catch (Exception e)
+                {
+                throw new CustomException(new CustomError("", "Problem reading Howwet region file", errString + "\n Exception:" + e.ToString(), this.GetType().Name, this.GetType().FullName, true));
+                }
+            }
+
+        public void ReadSetupFile(String fileName)
             {
             String errString = "";
             try
                 {
                 setupFile = fileName;
                 errString = "reading " + fileName;
-                doc = new XmlDocument();
-                doc.Load(fileName);
-                XmlElement element = doc.DocumentElement;
+                setupDoc = new XmlDocument();
+                setupDoc.Load(fileName);
+                XmlElement element = setupDoc.DocumentElement;
                 //version
                 this.Version = element.SelectSingleNode("/howwet/version").InnerText;
                 //debug
@@ -98,16 +185,16 @@ namespace APSRU.Model.Howwet
                 {
                 throw new CustomException(new CustomError("", "Problem reading Howwet setup file", errString + "\n Exception:" + e.ToString(), this.GetType().Name, this.GetType().FullName, true));
                 }
-            }
+}
 
         public void SaveDefaults()
             {
-            XmlElement element = doc.DocumentElement;
+            XmlElement element = setupDoc.DocumentElement;
             element.SelectSingleNode("/howwet/default_soil_file_name").InnerText = this.DefaultSoilFileName;
             element.SelectSingleNode("/howwet/default_soil").InnerText = this.DefaultSoilName;
             element.SelectSingleNode("/howwet/default_metfile").InnerText = this.DefaultMetfile;
             element.SelectSingleNode("/howwet/default_region").InnerText = this.DefaultRegionName;
-            doc.Save(setupFile);
+            setupDoc.Save(setupFile);
             }
 
         public String Version
@@ -150,13 +237,18 @@ namespace APSRU.Model.Howwet
             set { defaultRegionName = value; }
             get { return defaultRegionName; }
             }
-
         public ArrayList CropList
             {
             set {cropList=value;}
             get {return cropList;}
             }
+        public ArrayList RegionList
+            {
+            set { regionList = value; }
+            get { return regionList; }
+            }
         }
+
     public class HowwetUtility
         {
         private APSIMData apsimData=new APSIMData();
