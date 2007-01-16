@@ -7,6 +7,8 @@
 
 #include "CompositePart.h"
 #include "GrainPart.h"
+#include "GrainPartGN.h"
+#include "GrainPartHI.h"
 #include "PodPart.h"
 
 class FruitCohort : public CompositePart

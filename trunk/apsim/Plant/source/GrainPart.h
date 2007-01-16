@@ -33,7 +33,6 @@ public:                                             // member functions
 
    //             bool set_plant_grain_oil_conc(protocol::QuerySetValueData&v);
 
-   void get_grain_size(protocol::Component *system, protocol::QueryValueData &qd);
    //  void get_dlt_dm_grain_demand(protocol::Component *, protocol::QueryValueData &);
    void get_grain_wt(protocol::Component *, protocol::QueryValueData &);
    void get_yield(protocol::Component *, protocol::QueryValueData &);
@@ -57,7 +56,6 @@ public:                                             // member functions
    void doNDemand1Pot(float, float);
    void doNDemand2(float, float);
 
-   void doGrainNumber (void);
 
    void onKillStem(void);
    //            void onEmergence(void);
@@ -71,7 +69,6 @@ public:                                             // member functions
    void update(void);
 
    float grainEnergy(void);        //remove
-   float grainNo(void) const;
    float nConcPercent(void)const;         //remove
    float grainNConcPercent(void) const;
    float nDemandGrain(void) const;
@@ -80,7 +77,6 @@ public:                                             // member functions
    float dltDmDemand(void);
    float dltDmGrainDemand(void) const;
 
-   float grainWt(void) const;
    float nDemand2(void);
 
    float pConcGrain(void)const;
@@ -91,10 +87,7 @@ public:                                             // member functions
 
 
 
-   //FIXME
    void doNDemandGrain(float nfact_grain_conc, float swdef_expansion);
-   void doNDemandGrain1(float nfact_grain_conc, float swdef_expansion);
-   void doNDemandGrain2(float nfact_grain_conc);
 
    float calcDmDemand (void);
 
@@ -106,16 +99,11 @@ public:                                             // member functions
    //      protected:
    //         plantInterface *plant;                 // The plant we are attached to
 
-private:
-   void doDMDemandGrain1 (void) ;
-   void doDMDemandGrain2(void) ;
+protected:
+   void doDMDemandGrain (void) ;
 
-   void doDMDemandGrain (void);
    void doDMDemandStress(void);
    float meanT (void);
-
-   float grainNumber (float stem_dm
-                      ,float pGrains_per_gram_stem);
 
    float dltNGrainConc(float sfac_slope      //(INPUT)  soil water stress factor slope
                        , float sw_fac_max      //(INPUT)  soil water stress factor maximum
@@ -140,8 +128,6 @@ private:
    float gN_grain_demand;
    float gP_grain_demand;
 
-   float gGrain_no;                 // multiplier of grain weight to account for seed energy content
-
    bool  gDelayGrnFill;
    int   gDaysDelayedGrnFill;
 
@@ -158,22 +144,13 @@ private:
    stateObserver gDm_stress_max;                      // sum of maximum daily stress on dm production per phase
    float gDlt_dm_stress_max;                          // maximum daily stress on dm production (0-1)
 
-   float cGrain_fill_option;
    float cX_temp_grainfill[max_table];
    int   cNum_temp_grainfill;
    float cY_rel_grainfill[max_table];
-   float cGrain_no_option;
-   float cGrain_n_option;
    float cSw_fac_max;
    float cTemp_fac_min;
    float cSfac_slope;
    float cTfac_slope;
-   float cPotential_grain_n_filling_rate ;
-   float cMinimum_grain_n_filling_rate ;
-   float cCrit_grainfill_rate;
-   float cX_temp_grain_n_fill[max_table];
-   int   cNum_temp_grain_n_fill;
-   float cY_rel_grain_n_fill[max_table];
    float cGrn_water_cont;
    int   cNum_n_conc_stage;
    float cX_stage_code[max_table];
@@ -184,17 +161,6 @@ private:
                                                       // sunset and end of twilight - altitude
                                                       // of sun. (deg)
                                                       // to grain
-   float pGrains_per_gram_stem;
-   float pPotential_grain_filling_rate;
-   float pPotential_grain_growth_rate;
-   float pMaxGrainSize;
-
-   float pX_pp_hi_incr[max_table];
-   float pY_hi_incr[max_table];                       // harvest index increment per day ()
-   int   pNum_pp_hi_incr;
-   int   pNum_hi_max_pot;
-   float pX_hi_max_pot_stress[max_table];             // maximum harvest index (g grain/g biomass)
-   float pY_hi_max_pot[max_table];                    // maximum harvest index (g grain/g biomass)
    float pMinTempGrnFill;
    int   pDaysDelayGrnFill;
 

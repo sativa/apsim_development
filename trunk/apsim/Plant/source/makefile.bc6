@@ -37,6 +37,8 @@ OBJFILES=PlantComponent.obj \
    MealPart.obj \
    OilPart.obj \
    GrainPart.obj \
+   GrainPartHI.obj \
+   GrainPartGN.obj \
    CompositePart.obj \
    RootPart.obj \
    FruitCohort.obj \
@@ -133,6 +135,8 @@ MealPart.obj: MealPart.cpp MealPart.h PlantPart.h
 RootPart.obj: RootPart.cpp RootPart.h PlantPart.h
 OilPart.obj: OilPart.cpp OilPart.h PlantPart.h
 GrainPart.obj: GrainPart.cpp GrainPart.h CompositePart.h PlantPart.h
+GrainPartHI.obj: GrainPartHI.cpp GrainPartHI.h GrainPart.cpp GrainPart.h CompositePart.h PlantPart.h
+GrainPartGN.obj: GrainPartGN.cpp GrainPartGN.h GrainPart.cpp GrainPart.h CompositePart.h PlantPart.h
 LeafAppPhase.obj: LeafAppPhase.cpp LeafAppPhase.h
 Output.obj: Output.cpp Output.h
 OutputVariable.obj: OutputVariable.cpp OutputVariable.h
