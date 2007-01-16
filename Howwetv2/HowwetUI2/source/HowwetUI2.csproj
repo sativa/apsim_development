@@ -29,11 +29,15 @@
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="Accessibility" />
-    <Reference Include="CSUIControls, Version=1.0.2537.15733, Culture=neutral, processorArchitecture=MSIL" />
     <Reference Include="FarPoint.Win, Version=2.5.2001.2005, Culture=neutral, PublicKeyToken=327c3516b1b18457, processorArchitecture=MSIL" />
     <Reference Include="FarPoint.Win.Spread, Version=2.5.2001.2005, Culture=neutral, PublicKeyToken=327c3516b1b18457, processorArchitecture=MSIL" />
     <Reference Include="FarPoint.Win.Spread.Design, Version=2.5.2001.2005, Culture=neutral, PublicKeyToken=327c3516b1b18457, processorArchitecture=MSIL" />
     <Reference Include="FarPoint.Win.TextRenderer, Version=2.5.2001.2005, Culture=neutral, PublicKeyToken=64fbbfff0d07f045, processorArchitecture=MSIL" />
+    <Reference Include="Janus.Windows.Common.v3, Version=3.0.0.0, Culture=neutral, PublicKeyToken=21d5517571b185bf" />
+    <Reference Include="Janus.Windows.ExplorerBar.v3, Version=3.0.0.0, Culture=neutral, PublicKeyToken=21d5517571b185bf, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\..\..\Documents and Settings\gra518\My Documents\Visual Studio 2005\Controls\Janus WinForms Controls v3\Janus.Windows.ExplorerBar.v3.dll</HintPath>
+    </Reference>
     <Reference Include="Navigation, Version=1.0.2523.17543, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\..\..\..\Documents and Settings\gra518\My Documents\MSDN\winforms07202004_sample\winforms07202004 _sample\Navigation\bin\Debug\Navigation.dll</HintPath>
@@ -42,6 +46,7 @@
     <Reference Include="System" />
     <Reference Include="System.Data" />
     <Reference Include="System.Deployment" />
+    <Reference Include="System.Design" />
     <Reference Include="System.Drawing" />
     <Reference Include="System.Windows.Forms" />
     <Reference Include="System.Xml" />
@@ -191,6 +196,10 @@
     <ProjectReference Include="..\..\..\Shared\C#General\CSGeneral.csproj">
       <Project>{D2EDEF3F-995D-4E9D-9E7C-608D46259E9C}</Project>
       <Name>CSGeneral</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\..\Shared\CSUIControls\CSUIControls.csproj">
+      <Project>{25C8E90E-D464-4F49-B29E-2811F1B266DE}</Project>
+      <Name>CSUIControls</Name>
     </ProjectReference>
     <ProjectReference Include="..\..\..\Shared\VBGeneral\VBGeneral.vbproj">
       <Project>{F1F780B2-4762-48B6-B0D7-A68C57DDB347}</Project>

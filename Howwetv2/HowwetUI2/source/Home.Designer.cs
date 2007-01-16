@@ -43,11 +43,12 @@ namespace APSRU.Howwet
             this.label84 = new System.Windows.Forms.Label();
             this.label85 = new System.Windows.Forms.Label();
             this.label86 = new System.Windows.Forms.Label();
-            this.selectRegion = new System.Windows.Forms.ComboBox();
+            this.regionList = new System.Windows.Forms.ComboBox();
             this.label87 = new System.Windows.Forms.Label();
             this.nextStepButton = new System.Windows.Forms.Button();
             this.openSimulation = new System.Windows.Forms.LinkLabel();
             this.editMetfile = new System.Windows.Forms.LinkLabel();
+            this.saveSimulation = new System.Windows.Forms.LinkLabel();
             this.SuspendLayout();
             // 
             // newSimulation
@@ -226,16 +227,16 @@ namespace APSRU.Howwet
             this.label86.Text = "Select your closest region from the list";
             this.label86.UseWaitCursor = true;
             // 
-            // selectRegion
+            // regionList
             // 
-            this.selectRegion.Font = new System.Drawing.Font("Verdana", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.selectRegion.FormattingEnabled = true;
-            this.selectRegion.Location = new System.Drawing.Point(255, 467);
-            this.selectRegion.Margin = new System.Windows.Forms.Padding(3, 1, 3, 1);
-            this.selectRegion.Name = "selectRegion";
-            this.selectRegion.Size = new System.Drawing.Size(382, 26);
-            this.selectRegion.TabIndex = 108;
-            this.selectRegion.UseWaitCursor = true;
+            this.regionList.Font = new System.Drawing.Font("Verdana", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.regionList.FormattingEnabled = true;
+            this.regionList.Location = new System.Drawing.Point(255, 467);
+            this.regionList.Margin = new System.Windows.Forms.Padding(3, 1, 3, 1);
+            this.regionList.Name = "regionList";
+            this.regionList.Size = new System.Drawing.Size(382, 26);
+            this.regionList.TabIndex = 108;
+            this.regionList.UseWaitCursor = true;
             // 
             // label87
             // 
@@ -264,7 +265,7 @@ namespace APSRU.Howwet
             this.openSimulation.BackColor = System.Drawing.Color.DarkGreen;
             this.openSimulation.Font = new System.Drawing.Font("Verdana", 11.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.openSimulation.LinkColor = System.Drawing.Color.White;
-            this.openSimulation.Location = new System.Drawing.Point(3, 227);
+            this.openSimulation.Location = new System.Drawing.Point(3, 216);
             this.openSimulation.Name = "openSimulation";
             this.openSimulation.Size = new System.Drawing.Size(127, 18);
             this.openSimulation.TabIndex = 120;
@@ -278,7 +279,7 @@ namespace APSRU.Howwet
             this.editMetfile.BackColor = System.Drawing.Color.DarkGreen;
             this.editMetfile.Font = new System.Drawing.Font("Verdana", 11.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.editMetfile.LinkColor = System.Drawing.Color.White;
-            this.editMetfile.Location = new System.Drawing.Point(3, 261);
+            this.editMetfile.Location = new System.Drawing.Point(3, 328);
             this.editMetfile.Name = "editMetfile";
             this.editMetfile.Size = new System.Drawing.Size(129, 18);
             this.editMetfile.TabIndex = 121;
@@ -286,9 +287,24 @@ namespace APSRU.Howwet
             this.editMetfile.Text = "Edit your metfile";
             this.editMetfile.LinkClicked += new System.Windows.Forms.LinkLabelLinkClickedEventHandler(this.editMetfile_LinkClicked);
             // 
+            // saveSimulation
+            // 
+            this.saveSimulation.AutoSize = true;
+            this.saveSimulation.BackColor = System.Drawing.Color.DarkGreen;
+            this.saveSimulation.Font = new System.Drawing.Font("Verdana", 11.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.saveSimulation.LinkColor = System.Drawing.Color.White;
+            this.saveSimulation.Location = new System.Drawing.Point(3, 247);
+            this.saveSimulation.Name = "saveSimulation";
+            this.saveSimulation.Size = new System.Drawing.Size(127, 18);
+            this.saveSimulation.TabIndex = 122;
+            this.saveSimulation.TabStop = true;
+            this.saveSimulation.Text = "Save Simulation";
+            this.saveSimulation.LinkClicked += new System.Windows.Forms.LinkLabelLinkClickedEventHandler(this.saveSimulation_LinkClicked);
+            // 
             // Home
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
+            this.Controls.Add(this.saveSimulation);
             this.Controls.Add(this.editMetfile);
             this.Controls.Add(this.openSimulation);
             this.Controls.Add(this.nextStepButton);
@@ -306,13 +322,13 @@ namespace APSRU.Howwet
             this.Controls.Add(this.label84);
             this.Controls.Add(this.label85);
             this.Controls.Add(this.label86);
-            this.Controls.Add(this.selectRegion);
+            this.Controls.Add(this.regionList);
             this.Controls.Add(this.label87);
             this.Controls.Add(this.newSimulation);
             this.Name = "Home";
             this.Controls.SetChildIndex(this.newSimulation, 0);
             this.Controls.SetChildIndex(this.label87, 0);
-            this.Controls.SetChildIndex(this.selectRegion, 0);
+            this.Controls.SetChildIndex(this.regionList, 0);
             this.Controls.SetChildIndex(this.label86, 0);
             this.Controls.SetChildIndex(this.label85, 0);
             this.Controls.SetChildIndex(this.label84, 0);
@@ -330,6 +346,7 @@ namespace APSRU.Howwet
             this.Controls.SetChildIndex(this.nextStepButton, 0);
             this.Controls.SetChildIndex(this.openSimulation, 0);
             this.Controls.SetChildIndex(this.editMetfile, 0);
+            this.Controls.SetChildIndex(this.saveSimulation, 0);
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -352,10 +369,11 @@ namespace APSRU.Howwet
         private System.Windows.Forms.Label label84;
         private System.Windows.Forms.Label label85;
         private System.Windows.Forms.Label label86;
-        private System.Windows.Forms.ComboBox selectRegion;
+        private System.Windows.Forms.ComboBox regionList;
         private System.Windows.Forms.Label label87;
         private System.Windows.Forms.Button nextStepButton;
         private System.Windows.Forms.LinkLabel openSimulation;
         private System.Windows.Forms.LinkLabel editMetfile;
+        private System.Windows.Forms.LinkLabel saveSimulation;
         }
     }

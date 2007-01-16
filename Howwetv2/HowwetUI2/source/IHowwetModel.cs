@@ -13,9 +13,12 @@ namespace APSRU.Howwet
         string SoilName { get;set;}
         string MetFileName { get;set;}
         string SoilFileFullName { get;set;}
+        ArrayList RegionList { get;set;}
+        string Region { get;set;}
         
         //Fallow Settings Page
         string SoilRegion { get;set;}
+        String OcDepthFirstLayer { get;set;}
         double OrganicCarbonContent { get;set;}
         double SoilDepth { get;set;}
         double PAWC { get;set;}
@@ -23,11 +26,10 @@ namespace APSRU.Howwet
         double InitialWater { get;set;}
         int InitialWaterPercent { get;set;}
         string CropToGrow { get;set;}
-        string CoverType { get;set;}
         ArrayList CoverTypeCropList { get;set;}
         string[] CropToGrowList { get;set;}
-        string CoverStart { get;set;}
-        string CoverEnd { get;set;}
+        decimal CoverStart { get;set;}
+        decimal CoverEnd { get;set;}
         DateTime FallowDateStart { get;set;}
         DateTime FallowDateEnd { get;set;}
 

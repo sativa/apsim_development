@@ -28,10 +28,13 @@ namespace APSRU.Howwet
         /// </summary>
         private void InitializeComponent()
             {
+            this.components = new System.ComponentModel.Container();
+            Janus.Windows.Common.JanusColorScheme janusColorScheme1 = ((Janus.Windows.Common.JanusColorScheme)(new Janus.Windows.Common.JanusColorScheme()));
             this.pageSite = new System.Windows.Forms.Panel();
             this.backButton = new System.Windows.Forms.Button();
             this.forwardButton = new System.Windows.Forms.Button();
             this.homeButton = new System.Windows.Forms.Button();
+            this.visualStyleManager1 = new Janus.Windows.Common.VisualStyleManager(this.components);
             this.SuspendLayout();
             // 
             // pageSite
@@ -72,6 +75,27 @@ namespace APSRU.Howwet
             this.homeButton.UseVisualStyleBackColor = true;
             this.homeButton.Click += new System.EventHandler(this.homeButton_Click);
             // 
+            // visualStyleManager1
+            // 
+            janusColorScheme1.ActiveCaptionColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(76)))), ((int)(((byte)(0)))));
+            janusColorScheme1.ActiveCaptionTextColor = System.Drawing.Color.White;
+            janusColorScheme1.ControlColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(116)))), ((int)(((byte)(0)))));
+            janusColorScheme1.ControlDarkColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(76)))), ((int)(((byte)(0)))));
+            janusColorScheme1.ControlTextColor = System.Drawing.Color.Black;
+            janusColorScheme1.DisabledColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(116)))), ((int)(((byte)(0)))));
+            janusColorScheme1.GrayTextColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(76)))), ((int)(((byte)(0)))));
+            janusColorScheme1.HighlightColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(76)))), ((int)(((byte)(0)))));
+            janusColorScheme1.HighlightTextColor = System.Drawing.Color.White;
+            janusColorScheme1.InfoColor = System.Drawing.Color.White;
+            janusColorScheme1.InfoTextColor = System.Drawing.Color.Black;
+            janusColorScheme1.MenuColor = System.Drawing.Color.White;
+            janusColorScheme1.MenuTextColor = System.Drawing.Color.Black;
+            janusColorScheme1.Name = "Scheme0";
+            janusColorScheme1.UseThemes = false;
+            janusColorScheme1.WindowColor = System.Drawing.Color.White;
+            janusColorScheme1.WindowTextColor = System.Drawing.Color.Black;
+            this.visualStyleManager1.ColorSchemes.Add(janusColorScheme1);
+            // 
             // Explorer
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -93,5 +117,6 @@ namespace APSRU.Howwet
         private System.Windows.Forms.Button backButton;
         private System.Windows.Forms.Button forwardButton;
         private System.Windows.Forms.Button homeButton;
+        private Janus.Windows.Common.VisualStyleManager visualStyleManager1;
         }
     }

@@ -28,7 +28,7 @@ namespace APSRU.Howwet
         /// </summary>
         private void InitializeComponent()
             {
-            this.simulationGraphs = new System.Windows.Forms.LinkLabel();
+            this.components = new System.ComponentModel.Container();
             this.label46 = new System.Windows.Forms.Label();
             this.label25 = new System.Windows.Forms.Label();
             this.label43 = new System.Windows.Forms.Label();
@@ -70,21 +70,13 @@ namespace APSRU.Howwet
             this.viewReport = new System.Windows.Forms.LinkLabel();
             this.line1 = new APSRU.UIControls.Line();
             this.line2 = new APSRU.UIControls.Line();
+            this.visualStyleManager1 = new Janus.Windows.Common.VisualStyleManager(this.components);
+            this.linkLabelPaw = new System.Windows.Forms.LinkLabel();
+            this.linkLabelSoilNitrogen = new System.Windows.Forms.LinkLabel();
+            this.linkLabelErosion = new System.Windows.Forms.LinkLabel();
+            this.linkLabelSoilProfile = new System.Windows.Forms.LinkLabel();
+            this.simulationGraphs = new System.Windows.Forms.LinkLabel();
             this.SuspendLayout();
-            // 
-            // simulationGraphs
-            // 
-            this.simulationGraphs.AutoSize = true;
-            this.simulationGraphs.BackColor = System.Drawing.Color.DarkGreen;
-            this.simulationGraphs.Font = new System.Drawing.Font("Verdana", 11.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.simulationGraphs.LinkColor = System.Drawing.Color.White;
-            this.simulationGraphs.Location = new System.Drawing.Point(3, 188);
-            this.simulationGraphs.Name = "simulationGraphs";
-            this.simulationGraphs.Size = new System.Drawing.Size(143, 18);
-            this.simulationGraphs.TabIndex = 7;
-            this.simulationGraphs.TabStop = true;
-            this.simulationGraphs.Text = "Simulation Graphs";
-            this.simulationGraphs.LinkClicked += new System.Windows.Forms.LinkLabelLinkClickedEventHandler(this.simulationGraphs_LinkClicked);
             // 
             // label46
             // 
@@ -150,7 +142,7 @@ namespace APSRU.Howwet
             // 
             this.label63.AutoSize = true;
             this.label63.Font = new System.Drawing.Font("Verdana", 13F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label63.Location = new System.Drawing.Point(581, 131);
+            this.label63.Location = new System.Drawing.Point(581, 126);
             this.label63.Name = "label63";
             this.label63.Size = new System.Drawing.Size(87, 22);
             this.label63.TabIndex = 178;
@@ -390,7 +382,7 @@ namespace APSRU.Howwet
             // 
             this.label62.AutoSize = true;
             this.label62.Font = new System.Drawing.Font("Verdana", 13F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label62.Location = new System.Drawing.Point(224, 131);
+            this.label62.Location = new System.Drawing.Point(224, 126);
             this.label62.Name = "label62";
             this.label62.Size = new System.Drawing.Size(65, 22);
             this.label62.TabIndex = 179;
@@ -464,7 +456,7 @@ namespace APSRU.Howwet
             this.nRequirement.BackColor = System.Drawing.Color.DarkGreen;
             this.nRequirement.Font = new System.Drawing.Font("Verdana", 11.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.nRequirement.LinkColor = System.Drawing.Color.White;
-            this.nRequirement.Location = new System.Drawing.Point(3, 229);
+            this.nRequirement.Location = new System.Drawing.Point(3, 317);
             this.nRequirement.Name = "nRequirement";
             this.nRequirement.Size = new System.Drawing.Size(118, 18);
             this.nRequirement.TabIndex = 207;
@@ -478,7 +470,7 @@ namespace APSRU.Howwet
             this.viewReport.BackColor = System.Drawing.Color.DarkGreen;
             this.viewReport.Font = new System.Drawing.Font("Verdana", 11.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.viewReport.LinkColor = System.Drawing.Color.White;
-            this.viewReport.Location = new System.Drawing.Point(3, 269);
+            this.viewReport.Location = new System.Drawing.Point(3, 350);
             this.viewReport.Name = "viewReport";
             this.viewReport.Size = new System.Drawing.Size(98, 18);
             this.viewReport.TabIndex = 208;
@@ -508,9 +500,80 @@ namespace APSRU.Howwet
             this.line2.Size = new System.Drawing.Size(278, 10);
             this.line2.TabIndex = 210;
             // 
+            // linkLabelPaw
+            // 
+            this.linkLabelPaw.AutoSize = true;
+            this.linkLabelPaw.BackColor = System.Drawing.Color.DarkGreen;
+            this.linkLabelPaw.Font = new System.Drawing.Font("Verdana", 11.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.linkLabelPaw.LinkColor = System.Drawing.Color.White;
+            this.linkLabelPaw.Location = new System.Drawing.Point(18, 126);
+            this.linkLabelPaw.Name = "linkLabelPaw";
+            this.linkLabelPaw.Size = new System.Drawing.Size(42, 18);
+            this.linkLabelPaw.TabIndex = 216;
+            this.linkLabelPaw.TabStop = true;
+            this.linkLabelPaw.Text = "PAW";
+            // 
+            // linkLabelSoilNitrogen
+            // 
+            this.linkLabelSoilNitrogen.AutoSize = true;
+            this.linkLabelSoilNitrogen.BackColor = System.Drawing.Color.DarkGreen;
+            this.linkLabelSoilNitrogen.Font = new System.Drawing.Font("Verdana", 11.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.linkLabelSoilNitrogen.LinkColor = System.Drawing.Color.White;
+            this.linkLabelSoilNitrogen.Location = new System.Drawing.Point(19, 155);
+            this.linkLabelSoilNitrogen.Name = "linkLabelSoilNitrogen";
+            this.linkLabelSoilNitrogen.Size = new System.Drawing.Size(102, 18);
+            this.linkLabelSoilNitrogen.TabIndex = 217;
+            this.linkLabelSoilNitrogen.TabStop = true;
+            this.linkLabelSoilNitrogen.Text = "Soil Nitrogen";
+            // 
+            // linkLabelErosion
+            // 
+            this.linkLabelErosion.AutoSize = true;
+            this.linkLabelErosion.BackColor = System.Drawing.Color.DarkGreen;
+            this.linkLabelErosion.Font = new System.Drawing.Font("Verdana", 11.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.linkLabelErosion.LinkColor = System.Drawing.Color.White;
+            this.linkLabelErosion.Location = new System.Drawing.Point(19, 184);
+            this.linkLabelErosion.Name = "linkLabelErosion";
+            this.linkLabelErosion.Size = new System.Drawing.Size(63, 18);
+            this.linkLabelErosion.TabIndex = 218;
+            this.linkLabelErosion.TabStop = true;
+            this.linkLabelErosion.Text = "Erosion";
+            // 
+            // linkLabelSoilProfile
+            // 
+            this.linkLabelSoilProfile.AutoSize = true;
+            this.linkLabelSoilProfile.BackColor = System.Drawing.Color.DarkGreen;
+            this.linkLabelSoilProfile.Font = new System.Drawing.Font("Verdana", 11.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.linkLabelSoilProfile.LinkColor = System.Drawing.Color.White;
+            this.linkLabelSoilProfile.Location = new System.Drawing.Point(19, 221);
+            this.linkLabelSoilProfile.Name = "linkLabelSoilProfile";
+            this.linkLabelSoilProfile.Size = new System.Drawing.Size(84, 18);
+            this.linkLabelSoilProfile.TabIndex = 219;
+            this.linkLabelSoilProfile.TabStop = true;
+            this.linkLabelSoilProfile.Text = "Soil Profile";
+            // 
+            // simulationGraphs
+            // 
+            this.simulationGraphs.AutoSize = true;
+            this.simulationGraphs.BackColor = System.Drawing.Color.DarkGreen;
+            this.simulationGraphs.Font = new System.Drawing.Font("Verdana", 11.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.simulationGraphs.LinkColor = System.Drawing.Color.White;
+            this.simulationGraphs.Location = new System.Drawing.Point(3, 108);
+            this.simulationGraphs.Name = "simulationGraphs";
+            this.simulationGraphs.Size = new System.Drawing.Size(139, 18);
+            this.simulationGraphs.TabIndex = 220;
+            this.simulationGraphs.TabStop = true;
+            this.simulationGraphs.Text = "Simulation Charts";
+            this.simulationGraphs.LinkClicked += new System.Windows.Forms.LinkLabelLinkClickedEventHandler(this.simulationGraphs_LinkClicked);
+            // 
             // Results
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
+            this.Controls.Add(this.simulationGraphs);
+            this.Controls.Add(this.linkLabelSoilProfile);
+            this.Controls.Add(this.linkLabelErosion);
+            this.Controls.Add(this.linkLabelSoilNitrogen);
+            this.Controls.Add(this.linkLabelPaw);
             this.Controls.Add(this.line2);
             this.Controls.Add(this.line1);
             this.Controls.Add(this.viewReport);
@@ -552,9 +615,7 @@ namespace APSRU.Howwet
             this.Controls.Add(this.fallowRainfall);
             this.Controls.Add(this.line5);
             this.Controls.Add(this.line4);
-            this.Controls.Add(this.simulationGraphs);
             this.Name = "Results";
-            this.Controls.SetChildIndex(this.simulationGraphs, 0);
             this.Controls.SetChildIndex(this.line4, 0);
             this.Controls.SetChildIndex(this.line5, 0);
             this.Controls.SetChildIndex(this.fallowRainfall, 0);
@@ -596,6 +657,11 @@ namespace APSRU.Howwet
             this.Controls.SetChildIndex(this.viewReport, 0);
             this.Controls.SetChildIndex(this.line1, 0);
             this.Controls.SetChildIndex(this.line2, 0);
+            this.Controls.SetChildIndex(this.linkLabelPaw, 0);
+            this.Controls.SetChildIndex(this.linkLabelSoilNitrogen, 0);
+            this.Controls.SetChildIndex(this.linkLabelErosion, 0);
+            this.Controls.SetChildIndex(this.linkLabelSoilProfile, 0);
+            this.Controls.SetChildIndex(this.simulationGraphs, 0);
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -603,7 +669,6 @@ namespace APSRU.Howwet
 
         #endregion
 
-        private System.Windows.Forms.LinkLabel simulationGraphs;
         private System.Windows.Forms.Label label46;
         private System.Windows.Forms.Label label25;
         private System.Windows.Forms.Label label43;
@@ -645,5 +710,11 @@ namespace APSRU.Howwet
         private System.Windows.Forms.LinkLabel viewReport;
         private APSRU.UIControls.Line line1;
         private APSRU.UIControls.Line line2;
+        private Janus.Windows.Common.VisualStyleManager visualStyleManager1;
+        private System.Windows.Forms.LinkLabel linkLabelPaw;
+        private System.Windows.Forms.LinkLabel linkLabelSoilNitrogen;
+        private System.Windows.Forms.LinkLabel linkLabelErosion;
+        private System.Windows.Forms.LinkLabel linkLabelSoilProfile;
+        private System.Windows.Forms.LinkLabel simulationGraphs;
         }
     }

@@ -105,37 +105,46 @@ namespace APSRU.Howwet
                 }
             }
 
-
         void Instance_ErosionChangedEvent(string slope, string slopeLength, string erodibilty)
             {
-            this.Explorer.simulationObject.ErosionSlope = slope;
-            this.Explorer.simulationObject.ErosionSlopeLength = slopeLength;
-            this.Explorer.simulationObject.ErosionErodibilty = erodibilty;
+            this.Explorer.UpdateErosion(slope, slopeLength, erodibilty);
             }
 
         private void editMetfile_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
             {
-
+            if (!(this.Explorer.metObject == null))
+                {
+                if (!RainfallEditor.Instance.isLoaded)
+                    {
+                    RainfallEditor.Instance.loadObject(this.Explorer.metObject);
+                    }
+                RainfallEditor.Instance.Focus();
+                RainfallEditor.Instance.Show();
+                }
+            else
+                {
+                MessageBox.Show("Please select a Met file to edit");
+                }
             }
 
         private void StartDatePicker_ValueChanged(object sender, EventArgs e)
             {
-            this.Explorer.UpdateStartFallowDate(StartDatePicker.Value.ToShortDateString());
+            this.Explorer.UpdateStartFallowDate(StartDatePicker.Value);
             }
 
         private void EndDatePicker_ValueChanged(object sender, EventArgs e)
             {
-            this.Explorer.UpdateEndFallowDate(EndDatePicker.Value.ToShortDateString());
+            this.Explorer.UpdateEndFallowDate(EndDatePicker.Value);
             }
 
         private void coverStartPercent_ValueChanged(object sender, EventArgs e)
             {
-            this.Explorer.UpdateStartCover(Convert.ToInt32(coverStartPercent.Value));
+            this.Explorer.UpdateStartCover(coverStartPercent.Value);
             }
 
         private void coverEndPercent_ValueChanged(object sender, EventArgs e)
             {
-            this.Explorer.UpdateEndCover(Convert.ToInt32(coverEndPercent.Value));
+            this.Explorer.UpdateEndCover(coverEndPercent.Value);
             }
 
         private void button1_Click(object sender, EventArgs e)
@@ -158,8 +167,9 @@ namespace APSRU.Howwet
 
         public override void OnNotification(IHowwetModel publisher)
             {
-            //soilName.Text = publisher.SoilName;
-            //publisher.SoilRegion;
+            soilName.Text = publisher.SoilName;
+            soilRegion.Text=publisher.SoilRegion;
+            ocDepthLabel.Text = publisher.OcDepthFirstLayer;
             organicCarbonContent.Text = publisher.OrganicCarbonContent.ToString("f0");
             soilDepth.Text = publisher.SoilDepth.ToString("f0");
             PAWC.Text = publisher.PAWC.ToString("f0");
@@ -172,8 +182,9 @@ namespace APSRU.Howwet
             StartDatePicker.MinDate = publisher.FallowDateStart;
             StartDatePicker.Value=publisher.FallowDateStart;
             EndDatePicker.Value = publisher.FallowDateEnd;
+            coverStartPercent.Value=publisher.CoverStart;
+            coverEndPercent.Value=publisher.CoverEnd;
             }
-
         #endregion
       
         

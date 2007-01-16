@@ -68,7 +68,6 @@ namespace APSRU.Howwet
             this.rainfallAnalysis = new System.Windows.Forms.LinkLabel();
             this.line1 = new APSRU.UIControls.Line();
             this.viewMetdata = new System.Windows.Forms.LinkLabel();
-            this.button1 = new System.Windows.Forms.Button();
             this.label3 = new System.Windows.Forms.Label();
             this.soilRegion = new System.Windows.Forms.Label();
             this.line2 = new APSRU.UIControls.Line();
@@ -102,7 +101,7 @@ namespace APSRU.Howwet
             // 
             // runSimulation
             // 
-            this.runSimulation.Location = new System.Drawing.Point(771, 711);
+            this.runSimulation.Location = new System.Drawing.Point(803, 604);
             this.runSimulation.Margin = new System.Windows.Forms.Padding(2);
             this.runSimulation.Name = "runSimulation";
             this.runSimulation.Size = new System.Drawing.Size(114, 36);
@@ -206,6 +205,7 @@ namespace APSRU.Howwet
             this.coverCropList.Name = "coverCropList";
             this.coverCropList.Size = new System.Drawing.Size(73, 28);
             this.coverCropList.TabIndex = 210;
+            this.coverCropList.SelectedValueChanged += new System.EventHandler(this.coverCropList_SelectedValueChanged);
             // 
             // coverStartPercent
             // 
@@ -512,16 +512,6 @@ namespace APSRU.Howwet
             this.viewMetdata.TabStop = true;
             this.viewMetdata.Text = "View Met Graphs";
             // 
-            // button1
-            // 
-            this.button1.Location = new System.Drawing.Point(763, 406);
-            this.button1.Name = "button1";
-            this.button1.Size = new System.Drawing.Size(75, 23);
-            this.button1.TabIndex = 237;
-            this.button1.Text = "button1";
-            this.button1.UseVisualStyleBackColor = true;
-            this.button1.Click += new System.EventHandler(this.button1_Click);
-            // 
             // label3
             // 
             this.label3.AutoSize = true;
@@ -566,7 +556,7 @@ namespace APSRU.Howwet
             // 
             this.label6.AutoSize = true;
             this.label6.Font = new System.Drawing.Font("Verdana", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label6.Location = new System.Drawing.Point(379, 558);
+            this.label6.Location = new System.Drawing.Point(379, 549);
             this.label6.Name = "label6";
             this.label6.Size = new System.Drawing.Size(48, 18);
             this.label6.TabIndex = 242;
@@ -576,7 +566,7 @@ namespace APSRU.Howwet
             // 
             this.label7.AutoSize = true;
             this.label7.Font = new System.Drawing.Font("Verdana", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label7.Location = new System.Drawing.Point(516, 558);
+            this.label7.Location = new System.Drawing.Point(516, 549);
             this.label7.Name = "label7";
             this.label7.Size = new System.Drawing.Size(38, 18);
             this.label7.TabIndex = 243;
@@ -591,7 +581,6 @@ namespace APSRU.Howwet
             this.Controls.Add(this.line2);
             this.Controls.Add(this.soilRegion);
             this.Controls.Add(this.label3);
-            this.Controls.Add(this.button1);
             this.Controls.Add(this.viewMetdata);
             this.Controls.Add(this.line1);
             this.Controls.Add(this.rainfallAnalysis);
@@ -671,7 +660,6 @@ namespace APSRU.Howwet
             this.Controls.SetChildIndex(this.rainfallAnalysis, 0);
             this.Controls.SetChildIndex(this.line1, 0);
             this.Controls.SetChildIndex(this.viewMetdata, 0);
-            this.Controls.SetChildIndex(this.button1, 0);
             this.Controls.SetChildIndex(this.label3, 0);
             this.Controls.SetChildIndex(this.soilRegion, 0);
             this.Controls.SetChildIndex(this.line2, 0);
@@ -728,7 +716,6 @@ namespace APSRU.Howwet
         private System.Windows.Forms.LinkLabel rainfallAnalysis;
         private APSRU.UIControls.Line line1;
         private System.Windows.Forms.LinkLabel viewMetdata;
-        private System.Windows.Forms.Button button1;
         private System.Windows.Forms.Label label3;
         private System.Windows.Forms.Label soilRegion;
         private APSRU.UIControls.Line line2;

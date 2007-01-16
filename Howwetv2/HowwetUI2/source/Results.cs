@@ -29,7 +29,7 @@ namespace APSRU.Howwet
 
         private void viewReport_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
             {
-
+            this.Explorer.DisplayReport();
             }
 
         #region IEventListener Members
@@ -54,7 +54,10 @@ namespace APSRU.Howwet
 
         #endregion
 
-       
+      
+
+    
+     
        
         }
     }
