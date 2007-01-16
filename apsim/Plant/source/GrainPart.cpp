@@ -69,8 +69,6 @@ void fruitGrainPart::doRegistrations(protocol::Component *system)
 
    system->addGettableVar("dlt_dm_grain_demand",gDlt_dm_grain_demand, "g/m^2", "??");
    system->addGettableVar("dlt_dm_fruit", gDlt_dm, "g/m^2", "Change in dry matter");
-   system->addGettableVar("grain_no",gGrain_no, "/m^2", "Grain number");
-   setupGetFunction(system, "grain_size", protocol::DTsingle, false, &fruitGrainPart::get_grain_size, "g", "Size of each grain");
    setupGetFunction(system, "grain_wt", protocol::DTsingle, false, &fruitGrainPart::get_grain_wt, "g/m^2", "Weight of grain");
    setupGetFunction(system, "yield", protocol::DTsingle, false,&fruitGrainPart::get_yield,  "kg/ha", "Yield");
    system->addGettableVar("grain_n_demand", gN_grain_demand, "g/m^2", "N demand of grain");
@@ -106,12 +104,6 @@ void fruitGrainPart::doRegistrations(protocol::Component *system)
       (*part)->doRegistrations(system);
 }
 
-float fruitGrainPart::grainWt(void) const
-   //===========================================================================
-{
-   return divide (dmTotal(), gGrain_no, 0.0);
-}
-
 float fruitGrainPart::nDemand2(void)
    //===========================================================================
 {
@@ -142,14 +134,6 @@ void fruitGrainPart::get_grain_wt(protocol::Component *system, protocol::QueryVa
    //===========================================================================
 {
    system->sendVariable(qd, dmGreen());
-}
-
-void fruitGrainPart::get_grain_size(protocol::Component *system, protocol::QueryValueData &qd)
-   //===========================================================================
-{
-   float grain_size = divide (dmTotal(), gGrain_no, 0.0);
-
-   system->sendVariable(qd, grain_size);
 }
 
 void fruitGrainPart::get_grain_n(protocol::Component *system, protocol::QueryValueData &qd)
@@ -206,52 +190,6 @@ void fruitGrainPart::get_p_conc_grain(protocol::Component *systemInterface, prot
 }
 
 
-
-void fruitGrainPart::doGrainNumber (void)
-   //===========================================================================
-   //       Calculate Grain Number
-{
-   if (cGrain_no_option == 1)
-      {
-      // do not use grain number
-      gGrain_no = 0;
-      }
-   else if (cGrain_no_option == 2)
-      {
-      gGrain_no = grainNumber (plant->getDmGreenStem()
-                              , pGrains_per_gram_stem);
-      }
-   else
-      {
-      throw std::invalid_argument ("invalid template option");
-      }
-
-   return;
-}
-
-float fruitGrainPart::grainNumber (float stem_dm_green
-                                      , float p_grains_per_gram_stem)    // OUTPUT
-   //===========================================================================
-   //       Perform grain number calculations
-{
-   float grain_no;
-   if (plant->on_day_of ("emergence"))
-      {
-      // seedling has just emerged.
-      grain_no = 0.0;
-      }
-   else if (plant->on_day_of ("flowering"))
-      {
-      // we are at first day of grainfill.
-      grain_no = p_grains_per_gram_stem * stem_dm_green;
-      }
-   else
-      {
-      grain_no = gGrain_no;   // no changes
-      }
-   return grain_no;
-}
-
 void fruitGrainPart::doTick(protocol::TimeType &tick)
    //===========================================================================
 {
@@ -277,29 +215,6 @@ void fruitGrainPart::readCultivarParameters (protocol::Component *system, const 
 
    system->writeString (" - reading grain cultivar parameters");
 
-   //  plant_dm_grain_hi
-   system->readParameter (cultivar.c_str()
-                          , "x_pp_hi_incr"/*,  "(h)"*/
-                          , pX_pp_hi_incr
-                          , pNum_pp_hi_incr
-                          , 0.0, 24.0);
-
-   system->readParameter (cultivar.c_str()
-                          , "y_hi_incr"/*,  "()"*/
-                          , pY_hi_incr
-                          , pNum_pp_hi_incr
-                          , 0.0, 1.0);
-
-   system->readParameter (cultivar.c_str()
-                          , "x_hi_max_pot_stress"/*,  "(0-1)"*/
-                          , pX_hi_max_pot_stress, pNum_hi_max_pot
-                          , 0.0, 1.0);
-
-   system->readParameter (cultivar.c_str()
-                          , "y_hi_max_pot"//, "(0-1)"
-                          , pY_hi_max_pot, pNum_hi_max_pot
-                          , 0.0, 1.0);
-
    if (system->readParameter (cultivar.c_str()
                               , "min_temp_grnfill"//, "()"
                               , pMinTempGrnFill
@@ -316,29 +231,6 @@ void fruitGrainPart::readCultivarParameters (protocol::Component *system, const 
                              , 0, 10);
       }
 
-   if (cGrain_no_option==2)
-      {
-      system->readParameter (cultivar.c_str()
-                             , "grains_per_gram_stem"//, "(/g)"
-                             , pGrains_per_gram_stem
-                             , 0.0, 10000.0);
-      }
-   if (cGrain_fill_option==2)
-      {
-      system->readParameter (cultivar.c_str()
-                             , "potential_grain_filling_rate"//, "(g/grain/day)"
-                             , pPotential_grain_filling_rate
-                             , 0.0, 1.0);
-      system->readParameter (cultivar.c_str()
-                             , "potential_grain_growth_rate"//, "(g/grain/day)"
-                             , pPotential_grain_growth_rate
-                             , 0.0, 1.0);
-      system->readParameter (cultivar.c_str()
-                             , "max_grain_size"//, "(g)"
-                             , pMaxGrainSize
-                             , 0.0, 1.0);
-      }
-
    for (vector<plantPart *>::iterator part = myParts.begin(); part != myParts.end(); part++)
       (*part)->readCultivarParameters(system, cultivar);
 }
@@ -346,31 +238,6 @@ void fruitGrainPart::readCultivarParameters (protocol::Component *system, const 
 void fruitGrainPart::writeCultivarInfo (protocol::Component *system)
    //===========================================================================
 {
-
-   // report
-   string s;
-
-   // TEMPLATE OPTION
-   s = string("   x_pp_hi_incr               = ");
-   for (int i = 0; i < pNum_pp_hi_incr; i++)
-      s = s + ftoa(pX_pp_hi_incr[i], "10.2") + " ";
-   system->writeString (s.c_str());
-
-   s = string("   y_hi_incr                  = ");
-   for (int i = 0; i < pNum_pp_hi_incr; i++)
-      s = s + ftoa(pY_hi_incr[i], "10.4") + " ";
-   system->writeString (s.c_str());
-
-   s = string("   x_hi_max_pot_stress        = ");
-   for (int i = 0; i < pNum_hi_max_pot; i++)
-      s = s + ftoa(pX_hi_max_pot_stress[i], "10.2") + " ";
-   system->writeString (s.c_str());
-
-   s = string("   y_hi_max_pot               = ");
-   for (int i = 0; i < pNum_hi_max_pot; i++)
-      s = s + ftoa(pY_hi_max_pot[i], "10.2") + " ";
-   system->writeString (s.c_str());
-
 }
 
 void fruitGrainPart::morphology(void)
@@ -388,18 +255,11 @@ void fruitGrainPart::zeroAllGlobals(void)
 
    gDelayGrnFill  = 0.0;
    gDaysDelayedGrnFill  = 0;
-   cGrain_no_option  = 0.0;
-   cGrain_fill_option  = 0.0;
    cNum_temp_grainfill = 0;
-   cGrain_n_option  = 0.0;
    cSw_fac_max  = 0.0;
    cTemp_fac_min  = 0.0;
    cSfac_slope  = 0.0;
    cTfac_slope  = 0.0;
-   cPotential_grain_n_filling_rate  = 0.0;
-   cMinimum_grain_n_filling_rate  = 0.0;
-   cCrit_grainfill_rate  = 0.0;
-   cNum_temp_grain_n_fill;
    cGrn_water_cont  = 0.0;
    cNum_n_conc_stage;
    cN_conc_crit_grain  = 0.0;
@@ -407,23 +267,9 @@ void fruitGrainPart::zeroAllGlobals(void)
    cN_conc_min_grain  = 0.0;
 
    cTwilight = 0.0;
-   fill_real_array (pX_pp_hi_incr, 0.0, max_table);
-   pGrains_per_gram_stem = 0.0;
-   pPotential_grain_filling_rate = 0.0;
-   pPotential_grain_growth_rate = 0.0;
-   pMaxGrainSize = 0.0;
-
-   fill_real_array (pX_pp_hi_incr, 0.0, max_table);
-   fill_real_array (pY_hi_incr, 0.0, max_table);
-   pNum_pp_hi_incr = 0;
-   pNum_hi_max_pot = 0;
-   fill_real_array (pX_hi_max_pot_stress, 0.0, max_table);
-   fill_real_array (pY_hi_max_pot, 0.0, max_table);
 
    pMinTempGrnFill = 0.0;
    pDaysDelayGrnFill = 0;
-
-   gGrain_no = 0.0;
 
    gDlt_dm_stress_max        = 0.0;
 
@@ -453,8 +299,6 @@ void fruitGrainPart::onKillStem(void)
 {
    for (vector<plantPart *>::iterator part = myParts.begin(); part != myParts.end(); part++)
       (*part)->onKillStem();
-
-   gGrain_no = 0.0;
 }
 
 void fruitGrainPart::doInit1(protocol::Component *system)
@@ -484,50 +328,7 @@ void fruitGrainPart::readSpeciesParameters(protocol::Component *system, vector<s
 
 
    //    plant_phenology_init
-   system->readParameter (sections
-                          , "twilight"//, "(o)"
-                          , cTwilight
-                          , -90.0, 90.0);
 
-   //    grain number
-   system->readParameter (sections
-                          ,"grain_no_option"//, "()"
-                          , cGrain_no_option
-                          , 1, 2);
-
-   //    legume grain filling
-   system->readParameter (sections
-                          ,"grain_fill_option"//,/ "()"
-                          , cGrain_fill_option
-                          , 1, 3);
-
-   if (cGrain_fill_option==2 || cGrain_fill_option==3)
-      {
-      system->readParameter (sections
-                             , "x_temp_grainfill"
-                             //, "(oc)"
-                             , cX_temp_grainfill
-                             , cNum_temp_grainfill
-                             , 0.0
-                             , 40.0);
-
-      system->readParameter (sections
-                             ,"y_rel_grainfill"
-                             //, "(-)"
-                             , cY_rel_grainfill
-                             , cNum_temp_grainfill
-                             , 0.0
-                             , 1.0);
-      }
-
-   //    Grain _n_dlt_grain_conc
-   system->readParameter (sections
-                          , "grain_n_option"//, "()"
-                          , cGrain_n_option
-                          , 1, 2);
-
-   if (cGrain_n_option==1)
-      {
       system->readParameter (sections
                              ,"sw_fac_max"//, "()"
                              , cSw_fac_max
@@ -547,39 +348,6 @@ void fruitGrainPart::readSpeciesParameters(protocol::Component *system, vector<s
                              ,"tfac_slope"//, "()"
                              , cTfac_slope
                              , 0.0, 100.0);
-      }
-   else
-      {
-      system->readParameter (sections
-                             , "potential_grain_n_filling_rate"//, "()"
-                             , cPotential_grain_n_filling_rate
-                             , 0.0, 1.0);
-      system->readParameter (sections
-                             , "minimum_grain_n_filling_rate"//, "()"
-                             , cMinimum_grain_n_filling_rate
-                             , 0.0, 1.0);
-
-      system->readParameter (sections
-                             , "crit_grainfill_rate"//, "(mg/grain/d)"
-                             , cCrit_grainfill_rate
-                             , 0.0, 1.0);
-
-      system->readParameter (sections
-                             , "x_temp_grain_n_fill"//,  "(oC)"
-                             , cX_temp_grain_n_fill
-                             , cNum_temp_grain_n_fill
-                             , 0.0
-                             , 40.0);
-
-      system->readParameter (sections
-                             , "y_rel_grain_n_fill"
-                             //, "(-)"
-                             , cY_rel_grain_n_fill
-                             , cNum_temp_grain_n_fill
-                             , 0.0
-                             , 1.0);
-      }
-
    //    plant_event
    system->readParameter (sections
                           ,"grn_water_cont"//, "(g/g)"
@@ -606,24 +374,6 @@ void fruitGrainPart::readSpeciesParameters(protocol::Component *system, vector<s
                           , cN_conc_min_grain
                           , 0.0, 100.0);
 
-   if (cGrain_fill_option == 3)
-      {
-      system->readParameter (sections
-                             , "x_temp_grainfill"
-                             //, "(oC)"
-                             , cX_temp_grainfill
-                             , cNum_temp_grainfill
-                             , 0.0
-                             , 40.0);
-
-      system->readParameter (sections
-                             , "y_rel_grainfill"
-                             //, "(-)"
-                             , cY_rel_grainfill
-                             , cNum_temp_grainfill
-                             , 0.0
-                             , 1.0);
-      }
    gHasreadconstants = true;
 
    for (vector<plantPart *>::iterator part = myParts.begin(); part != myParts.end(); part++)
@@ -640,10 +390,6 @@ void fruitGrainPart::update(void)
    // Update
    for (part = myParts.begin(); part != myParts.end(); part++)
       (*part)->update();
-
-   // transfer plant grain no.
-   float dlt_grain_no_lost  = gGrain_no * plant->getDyingFractionPlants();
-   gGrain_no -= dlt_grain_no_lost;
 
    if (plant->inPhase("hi_stress_sensitive")) gDm_stress_max.update();
 }
@@ -663,14 +409,12 @@ void fruitGrainPart::doProcessBioDemand(void)
 {
 
    doDMDemandStress ();
-   doGrainNumber();
    oilPart->doBioGrainOil ();
    doDMDemandGrain ();
 
    return;
 }
 
-float fruitGrainPart::grainNo(void) const {return gGrain_no;}
 float fruitGrainPart::nDemandGrain(void) const {return gN_grain_demand;}
 float fruitGrainPart::nDemandGrain2(void){return nDemand2();}
 float fruitGrainPart::nConcPercent(void) const {return divide (nTotal(), dmTotal(), 0.0) * fract2pcnt;}   //remove
@@ -680,182 +424,23 @@ float fruitGrainPart::dltDmGrainDemand(void) const {return gDlt_dm_grain_demand;
 
 float fruitGrainPart::meanT (void) {return 0.5 * (gMaxt + gMint);}
 
-void fruitGrainPart::doDMDemandGrain (void)
+void fruitGrainPart::doDMDemandGrain(void)
    //===========================================================================
 {
-   //       Simulate crop grain biomass demand.
-
-   if (cGrain_fill_option == 1)
-      {
-      doDMDemandGrain1();
-      }
-   else if (cGrain_fill_option == 2)
-      {
-      doDMDemandGrain2();
-      }
-   else
-      {
-      throw std::invalid_argument("invalid template option in doDMDemandGrain");
-      }
-
-   return;
 }
 
-void fruitGrainPart::doDMDemandGrain2(void)
-   //===========================================================================
-   {
-   if (plant->inPhase("postflowering"))
-      {
-      //       Perform grain filling calculations
-      float tav;
-      tav = meanT();
-
-      if (plant->inPhase("grainfill"))
-         gDlt_dm_grain_demand = gGrain_no
-                              * pPotential_grain_filling_rate
-                              * linear_interp_real(tav
-                                                   ,cX_temp_grainfill
-                                                   ,cY_rel_grainfill
-                                                  ,cNum_temp_grainfill);
-      else
-         {
-         // we are in the flowering to grainfill phase
-         gDlt_dm_grain_demand = gGrain_no
-                              * pPotential_grain_growth_rate
-                              * linear_interp_real(tav
-                                                   ,cX_temp_grainfill
-                                                   ,cY_rel_grainfill
-                                                  ,cNum_temp_grainfill);
-          }
-       // check that grain growth will not result in daily n conc below minimum conc
-       // for daily grain growth
-      float nfact_grain_conc = plant->getNfactGrainConc();
-      float nfact_grain_fill = min(1.0, nfact_grain_conc*cPotential_grain_n_filling_rate/cMinimum_grain_n_filling_rate);
-      gDlt_dm_grain_demand = gDlt_dm_grain_demand * nfact_grain_fill;
-
-      // Check that growth does not exceed maximum grain size
-      float max_grain = gGrain_no * pMaxGrainSize;
-      float max_dlt = max (max_grain - mealPart->dmGreen(), 0.0);
-      gDlt_dm_grain_demand = min (gDlt_dm_grain_demand, max_dlt);
-
-      mealPart->doDMDemandGrain(gDlt_dm_grain_demand);
-      }
-   else
-      gDlt_dm_grain_demand = 0.0;
-
-   }
-
-void fruitGrainPart::doDMDemandGrain1(void)
-   //===========================================================================
-{
-   //        Find grain demand for carbohydrate using harvest index (g/m^2)
-
-
-   //+  Local Variables
-   float dlt_dm_yield;                           // grain demand for carbohydrate (g/m^2)
-   float dlt_dm_yield_unadj;                     // grain demand for carbohydrate, unadjusted
-   float harvest_index;                          // last harvest index (g grain/g biomass)
-   float hi_max_pot;                             // max potential HI due to stress
-   float dm_tops_new;                            // new drymatter  tops (g/m^2)
-   float harvest_index_new;                      // next harvest index (g grain/g biomass)
-   float dm_grain_new;                           // new drymatter grain (g/m^2)
-   float hi_incr;                                // harvest index increment per day
-   float photoperiod;                            // hours of photosynthetic light (hours)
-   float dlt_dm_grain_demand;                    // total dm demand of grain (g/m^2)
-
-   //- Implementation Section ----------------------------------
-
-   if (plant->inPhase("grainfill"))
-      {
-
-      hi_max_pot = linear_interp_real(gDm_stress_max.getAverage()
-                                      ,pX_hi_max_pot_stress
-                                      ,pY_hi_max_pot
-                                      ,pNum_hi_max_pot);
-
-      photoperiod = day_length (gDay_of_year, gLatitude, cTwilight);
-
-      hi_incr = linear_interp_real(photoperiod
-                                   ,pX_pp_hi_incr
-                                   ,pY_hi_incr
-                                   ,pNum_pp_hi_incr);
-
-      // effective grain filling period
-      float dm_green_yield_parts = mealPart->dmGreen() + oilPart->dmGreen();
-
-      harvest_index = divide (dm_green_yield_parts, plant->getDmTops(), 0.0);
-      dm_tops_new = plant->getDmTops() + plant->getDltDm();
-
-      harvest_index_new = u_bound (harvest_index + hi_incr, hi_max_pot);
-
-      dm_grain_new = dm_tops_new * harvest_index_new;
-      dlt_dm_yield_unadj = dm_grain_new - dm_green_yield_parts;
-
-      // adjust for grain energy
-
-      dlt_dm_yield_unadj = bound (dlt_dm_yield_unadj, 0.0, dm_grain_new);
-
-      dlt_dm_yield = dlt_dm_yield_unadj * oilPart->energyAdjustHI(harvest_index_new);
-
-      dlt_dm_grain_demand = oilPart->energyAdjustDM(dlt_dm_yield);
-
-
-      // delay grainfill after cold snap
-      if (gMint <= pMinTempGrnFill)
-         gDelayGrnFill = true;
-      if (gDelayGrnFill)
-         {
-         dlt_dm_grain_demand = 0.0;
-         gDaysDelayedGrnFill = gDaysDelayedGrnFill + 1;
-         if (gDaysDelayedGrnFill == pDaysDelayGrnFill)
-            {
-            gDelayGrnFill = false ;
-            gDaysDelayedGrnFill = 0;
-            }
-         }
-      }
-   else
-      {
-      // we are out of grain fill period
-         dlt_dm_grain_demand = 0.0;
-      }
-   gDlt_dm_grain_demand = dlt_dm_grain_demand;
-
-      oilPart->doDMDemandGrain(dlt_dm_grain_demand);
-      mealPart->doDMDemandGrain(dlt_dm_grain_demand - oilPart->dmGreenDemand());
-
-   return;
-}
-
-//    Get the grain nitrogen demand
-void fruitGrainPart::doNDemandGrain (float nfact_grain_conc      //   (INPUT)
-                                     , float swdef_expansion)    //   grain N demand (g/m^2)
-   //===========================================================================
-
-   {
-   if (cGrain_n_option == 1)
-      {
-      if (plant->inPhase("grainfill"))
-         doNDemandGrain1(nfact_grain_conc, swdef_expansion);
-      }
-
-   else if (cGrain_n_option == 2)
-      doNDemandGrain2(nfact_grain_conc);   // start grain n filling immediately after flowering
-
-   else
-      throw std::invalid_argument ("Invalid n demand option");
-}
-
-void fruitGrainPart::doNDemandGrain1(float nfact_grain_conc      //   (INPUT)
+void fruitGrainPart::doNDemandGrain(float nfact_grain_conc      //   (INPUT)
                                      , float swdef_expansion)    //   grain N demand (g/m^2)
    //===========================================================================
 {
    //    Calculate plant n demand
 
-   float   n_potential;           // maximum grain N demand (g/m^2)
+//   float   n_potential;           // maximum grain N demand (g/m^2)
 
-   gN_grain_demand = mealPart->dltDmGreenNew()
-                     * dltNGrainConc(cSfac_slope
+   if (plant->inPhase("grainfill"))
+   {
+      gN_grain_demand = mealPart->dltDmGreenNew()
+                      * dltNGrainConc(cSfac_slope
                                      , cSw_fac_max
                                      , cTemp_fac_min
                                      , cTfac_slope
@@ -863,46 +448,8 @@ void fruitGrainPart::doNDemandGrain1(float nfact_grain_conc      //   (INPUT)
                                      , nfact_grain_conc
                                      , swdef_expansion);
 
-   gN_grain_demand = u_bound (gN_grain_demand, mealPart->nCapacity2());
-}
-
-void fruitGrainPart::doNDemandGrain2 (float nfact_grain_conc)
-   //===========================================================================
-{
-   float Tav ;
-   float grain_growth;
-
-   // default case
-   gN_grain_demand = 0.0;
-
-   if (plant->inPhase("reproductive"))
-      {
-      // we are in grain filling stage
-      Tav = meanT();
-
-      gN_grain_demand = gGrain_no
-                     * cPotential_grain_n_filling_rate * nfact_grain_conc
-                     * linear_interp_real (Tav, cX_temp_grain_n_fill, cY_rel_grain_n_fill, cNum_temp_grain_n_fill);
-      }
-
-   if (plant->inPhase("postflowering"))
-   //if (plant->inPhase("grainfill"))
-      {
-      // during grain C filling period so make sure that C filling is still
-      // going on otherwise stop putting N in now
-
-      grain_growth = divide(mealPart->dltDmGreenNew()
-                            , gGrain_no
-                            , 0.0);
-      if (grain_growth < cCrit_grainfill_rate)
-         {
-         //! grain filling has stopped - stop n flow as well
-         gN_grain_demand = 0.0;
-         }
-      float dailyNconc = divide(gN_grain_demand,mealPart->dltDmGreenNew(),1.0);
-      if (dailyNconc > 0.03) gN_grain_demand = mealPart->dltDmGreenNew()*0.03;
-      }
-
+      gN_grain_demand = u_bound (gN_grain_demand, mealPart->nCapacity2());
+   }
 }
 
 float fruitGrainPart::dltNGrainConc(float sfac_slope      //(INPUT)  soil water stress factor slope

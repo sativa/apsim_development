@@ -28,9 +28,9 @@ void FruitCohort::doInit1(protocol::Component *system)
 
    string grainType = system->readParameter ("constants", "grain_part_type");
    if (grainType == "harvest_index")
-      grainPart = new fruitGrainPart(plant, "grain");
+      grainPart = new fruitGrainPartHI(plant, "grain");
    else if (grainType == "grain_no")
-      grainPart = new fruitGrainPart(plant, "grain");
+      grainPart = new fruitGrainPartGN(plant, "grain");
    else
      throw std::runtime_error("Unknown grain_part_type '" + grainType + "'");
 
