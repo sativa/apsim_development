@@ -21,7 +21,7 @@
         <type description="Organic Matter type">wheat</type>
         <mass description="Initial surface residue (kg/ha)">1000.</mass>
         <cnr description="C:N ratio of initial residue">80.0</cnr>
-        <standing_fraction description="Fraction of residue standing">0.0</standing_fraction>
+        <standing_fraction description="Fraction of residue standing">1</standing_fraction>
       </surfaceom>
       <outputfile name="outputfile">
         <variables name="My Variables">
@@ -55,7 +55,7 @@
       </erosion>
       <logic name="Logic">
         <script name="init"> delta = 5000/365</script>
-        <script name="startofday"> fraction = delta/5000 'surface organic matter' tillage f_incorp = fraction, tillage_depth = 50,type=decomp_fugde</script>
+        <script name="startofday"> fraction = delta/surfaceom_wt 'surface organic matter' tillage f_incorp = fraction, tillage_depth = 50,type=decomp_fugde</script>
         <script name="endofday" />
       </logic>
     </area>
