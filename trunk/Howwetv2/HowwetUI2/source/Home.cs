@@ -1,7 +1,7 @@
 using System;
 using System.IO;
-
 using System.Collections.Generic;
+using System.Collections;
 using System.ComponentModel;
 using System.Data;
 using System.Drawing;
@@ -33,6 +33,11 @@ namespace APSRU.Howwet
 
             }
 
+        private void saveSimulation_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
+            {
+
+            }
+
 
         private void nextStepButton_Click(object sender, EventArgs e)
             {
@@ -41,7 +46,19 @@ namespace APSRU.Howwet
 
         private void editMetfile_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
             {
-             
+            if (!(this.Explorer.metObject == null))
+                {
+                if (!RainfallEditor.Instance.isLoaded)
+                    {
+                    RainfallEditor.Instance.loadObject(this.Explorer.metObject);
+                    }
+                RainfallEditor.Instance.Focus();
+                RainfallEditor.Instance.Show();
+                }
+            else
+                {
+                MessageBox.Show("Please select a Met file to edit");
+                } 
             }
         
         private void selectSoil_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
@@ -98,6 +115,27 @@ namespace APSRU.Howwet
                 }
             }
 
+        private void regionList_SelectedValueChanged(object sender, EventArgs e)
+            {
+            this.Explorer.LoadRegion((String)regionList.SelectedItem);
+            }
+
+        private void displayRegionList(ArrayList regions)
+            {
+            if (!(regions == null))
+                {
+                regionList.Items.Clear();
+                for (int i = 0; i < regions.Count; i++)
+                    {
+                    APSRU.Model.Howwet.Region region = (APSRU.Model.Howwet.Region)regions[i];
+                    regionList.Items.Add(region.Name);
+                    }
+                this.regionList.SelectedValueChanged -= new System.EventHandler(this.regionList_SelectedValueChanged);
+                regionList.SelectedIndex = 0;
+                this.regionList.SelectedValueChanged += new System.EventHandler(this.regionList_SelectedValueChanged);
+                }
+            }
+    
         #region IEventListener Members
 
         public override void OnNotification(IHowwetModel publisher) 
@@ -106,13 +144,10 @@ namespace APSRU.Howwet
             soilFileFullName = publisher.SoilFileFullName;
             soilName.Text=publisher.SoilName;
             txtMetFile.Text=publisher.MetFileName;
+            displayRegionList(publisher.RegionList);
             }
 
         #endregion
-
-      
-      
-     
        
         }
     }

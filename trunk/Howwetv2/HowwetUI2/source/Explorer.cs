@@ -27,6 +27,7 @@ namespace APSRU.Howwet
         private String soilName;
         private String soilFileFullName;
         private String soilRegion;
+        private String ocDepthFirstLayer;
         private double organicCarbonContent;
         private double soilDepth;
         private double pAWC;
@@ -34,12 +35,13 @@ namespace APSRU.Howwet
         private double initialWater;
         private int initialWaterPercent;
         private String cropToGrow;
-        private String coverType;
-        private String coverStart;
-        private String coverEnd;
+        private decimal coverStart=30;
+        private decimal coverEnd=10;
         private DateTime fallowDateStart=DateTime.Now;
         private DateTime fallowDateEnd=DateTime.Now;
         private ArrayList coverTypeCropList;
+        private ArrayList regionList;
+        private String region;
         private String[] cropToGrowList;
         private double startPAW; 
         private double fallowRainfall; 
@@ -72,6 +74,7 @@ namespace APSRU.Howwet
         private String apsimToSimPath = "\\bin\\apsimtosim.exe";
         private String howwetReportFileName = "\\howwetv2\\HowwetReport.xml";
         private String howwetSetupFileName = "\\howwetv2\\HowwetSetup.xml";
+        private String howwetRegionSetupFileName = "\\howwetv2\\HowwetRegions.xml";
          
         public Explorer()
             {
@@ -82,7 +85,10 @@ namespace APSRU.Howwet
         public void Startup()
             {
             util = new HowwetUtility(Application.ExecutablePath, howwetSetupFileName);
-            config = new HowwetConfiguration(util.ApplicationDirectory + howwetSetupFileName);
+            config = new HowwetConfiguration(util.ApplicationDirectory + howwetSetupFileName, util.ApplicationDirectory + howwetRegionSetupFileName);
+            //load drop down lists
+            CoverTypeCropList = config.CropList;
+            RegionList = config.RegionList;
             //load template or existing simulation
             if (this.selectedFileName == "")
                 {
@@ -96,7 +102,7 @@ namespace APSRU.Howwet
                             {
                             APSIMData soils = new APSIMData();
                             soils.LoadFromFile(config.DefaultSoilFileName);
-                            APSIMData soil = soils.FindNode(config.DefaultSoilName);
+                            APSIMData soil = soils.GetNode("name",config.DefaultSoilName);
                             LoadSoil(soil);
                             }
                         }
@@ -115,8 +121,7 @@ namespace APSRU.Howwet
                 apsimDataObject.LoadFromFile(this.selectedFileName);
                 simulationObject = new SimulationIn(apsimDataObject);
                 }
-            //load drop down lists
-            CoverTypeCropList = config.CropList;
+          
             inUpdate = true;
             this.NotifyListeners();
             inUpdate = false;
@@ -219,6 +224,8 @@ namespace APSRU.Howwet
             simulationObject.AddSoil(soil);
             SoilName = simulationObject.Soil.Name;
             SoilRegion = simulationObject.Soil.Region;
+            String[] layers = simulationObject.Soil.DepthStrings;
+            OcDepthFirstLayer = layers[0];//top layer string
             OrganicCarbonContent = Convert.ToDouble(simulationObject.Soil.OC.GetValue(0));
             SoilDepth = MathUtility.Sum(simulationObject.Soil.Thickness);
             PAWC=MathUtility.Sum(simulationObject.Soil.PAWC());
@@ -233,6 +240,18 @@ namespace APSRU.Howwet
             inUpdate = true;
             this.NotifyListeners();
             inUpdate = false;
+            }
+
+        public void LoadRegion(String region)
+            {
+            //build temp met file
+            //if selected met file does not have raidation and max/min temp then build a metobject that
+
+
+
+            config.DefaultRegionName = Region;
+
+            this.NotifyListeners();
             }
 
         public void UpdateInitialWater(int percentage)
@@ -261,8 +280,8 @@ namespace APSRU.Howwet
             {
             CoverCrop crop = util.GetCrop(CoverTypeCropList, selectedCrop);
             simulationObject.SOMType = crop.Name;
-         //   simulationObject.SOMMass = Convert.ToString(util.ConvertCoverPercentToKg((coverPercent.Value / 100), crop.SpecificArea));
             simulationObject.SOMCNRatio = Convert.ToString(crop.Cnr);
+            UpdateCover();
             }
 
         public bool ExecuteAPSIM()
@@ -363,24 +382,69 @@ namespace APSRU.Howwet
             this.Text = simulationObject.FileName;
             }
 
-        public void UpdateStartCover(int coverAmount)
+        public void UpdateStartCover(decimal coverAmount)
             {
-            simulationObject.StartCover = coverAmount;
+            CoverStart=coverAmount;
+            UpdateCover();
             }
 
-        public void UpdateEndCover(int coverAmount)
+        public void UpdateEndCover(decimal coverAmount)
             {
-            simulationObject.EndCover = coverAmount;
+            CoverEnd = coverAmount;
+            UpdateCover();
             }
 
-        public void UpdateStartFallowDate(String date)
+        private void UpdateCover()
             {
-            simulationObject.StartDate = date;
+            CoverCrop crop = util.GetCrop(coverTypeCropList, simulationObject.SOMType);
+            double startCoverKg = util.ConvertCoverPercentToKg(CoverStart/100, crop.SpecificArea);
+            double endCoverKg = util.ConvertCoverPercentToKg(CoverEnd/100, crop.SpecificArea);
+            double diffCover = startCoverKg - endCoverKg;
+            TimeSpan diffTime = FallowDateEnd.Subtract(FallowDateStart);
+            simulationObject.SOMMass = startCoverKg.ToString();
+            simulationObject.AddLogic(diffCover, diffTime.TotalDays);
             }
 
-        public void UpdateEndFallowDate(String date)
+
+        public void UpdateFallowDates()
             {
-            simulationObject.EndDate = date;
+            simulationObject.StartDate=FallowDateStart.ToShortDateString();
+            simulationObject.EndDate = FallowDateEnd.ToShortDateString();
+            UpdateCover();
+            }
+
+        public void UpdateStartFallowDate(DateTime date)
+            {
+            FallowDateStart = date;
+            UpdateFallowDates();
+            }
+
+        public void UpdateEndFallowDate(DateTime date)
+            {
+            FallowDateEnd = date;
+            UpdateFallowDates();
+            }
+
+        public void UpdateErosion(string slope, string slopeLength, string erodibilty)
+            {
+            simulationObject.ErosionSlope = slope;
+            simulationObject.ErosionSlopeLength = slopeLength;
+            simulationObject.ErosionErodibilty = erodibilty;
+            }
+
+        public void DisplayReport()
+            {
+            String fileName = util.ApplicationDirectory + howwetReportFileName;
+            StreamWriter stream = new StreamWriter(fileName);
+            stream.WriteLine("<?xml-stylesheet type=\"text/xsl\" href=\"HowwetReport.xsl\"?>");
+            System.Xml.Serialization.XmlSerializer xmlStream = new System.Xml.Serialization.XmlSerializer(result.GetType());
+            xmlStream.Serialize(stream, result);
+         //   RainfallSWChart.Export.Image.GIF.Save(util.ApplicationDirectory + "\\howwetv2\\RainfallSWChart.gif");
+         //   SoilNitrogenChart.Export.Image.GIF.Save(util.ApplicationDirectory + "\\howwetv2\\SoilNitorgenChart.gif");
+         //   ErosionChart.Export.Image.GIF.Save(util.ApplicationDirectory + "\\howwetv2\\ErosionChart.gif");
+         //   LTRainfallChart.Export.Image.GIF.Save(util.ApplicationDirectory + "\\howwetv2\\LTRainfallChart.gif");
+         //   ProfileChart.Export.Image.GIF.Save(util.ApplicationDirectory + "\\howwetv2\\ProfileChart.gif");
+            System.Diagnostics.Process.Start("IExplore.exe", util.ApplicationDirectory + howwetReportFileName);
             }
 
         public string SoilFileFullName
@@ -411,6 +475,12 @@ namespace APSRU.Howwet
             {
             get{return this.soilRegion;}
             set { this.soilRegion = value; }
+            }
+
+        public String OcDepthFirstLayer
+            {
+            get { return this.ocDepthFirstLayer; }
+            set { this.ocDepthFirstLayer = value; }
             }
 
         public double OrganicCarbonContent
@@ -455,16 +525,22 @@ namespace APSRU.Howwet
             set{this.cropToGrow=value;}
             }
 
-        public string CoverType
-            {
-            get { return this.CoverType; }
-            set { this.CoverType = value; }
-            }
-
         public ArrayList CoverTypeCropList
             {
             get { return this.coverTypeCropList; }
             set { this.coverTypeCropList = value; }
+            }
+
+        public string Region
+            {
+            get { return this.region; }
+            set { this.region = value; }
+            }
+
+        public ArrayList RegionList
+            {
+            get { return this.regionList; }
+            set { this.regionList = value; }
             }
 
         public String[] CropToGrowList
@@ -473,16 +549,16 @@ namespace APSRU.Howwet
             set { this.cropToGrowList = value; }
             }
 
-        public string CoverStart
+        public decimal CoverStart
             {
             get { return this.coverStart; }
             set {this.coverStart=value;}
             }
 
-        public string CoverEnd
+        public decimal CoverEnd
             {
             get { return this.coverEnd; }
-            set { this.CoverEnd = value; }
+            set { this.coverEnd = value; }
             }
 
         public DateTime FallowDateStart
