@@ -51,6 +51,7 @@ namespace APSRU.Howwet
         private String howwetRegionFileName="\\howwetv2\\HowwetRegions.xml";
         private const int WUEDefault = 3;
         private const int ThresholdWaterDefault = 100;
+      //  private String selectedCrop = "";
 
         ToolTip toolTip1 = new System.Windows.Forms.ToolTip();
         #endregion
@@ -170,7 +171,6 @@ namespace APSRU.Howwet
             ProfileChart.Visible = false;
             ReportButton.Enabled = false;
             WaterPanel.Visible = false;
-            CoverPanel.Visible = false;
             NitrogenPanel.Visible = false;
             NRequirementPanel.Visible = false;
 
@@ -214,9 +214,9 @@ namespace APSRU.Howwet
            // this.initialSoilWaterPercent.ValueChanged -= new System.EventHandler(this.initialSoilWaterPercent_ValueChanged);
             initialSoilWaterPercent.Value = 20;
           //  this.initialSoilWaterPercent.ValueChanged += new System.EventHandler(this.initialSoilWaterPercent_ValueChanged);
-            coverPercent.Maximum = 99;
-            coverPercent.Minimum = 0;
-            coverPercent.Value = 30;
+            startCoverPercent.Maximum = 99;
+            startCoverPercent.Minimum = 0;
+            startCoverPercent.Value = 30;
             }
 
         private void updateFormSoilValues()
@@ -228,7 +228,7 @@ namespace APSRU.Howwet
             ocDepthLabel.Text = layers[0];//top layer string
             organicCarbonContent.Text = simulationObject.Soil.OC.GetValue(0).ToString();
             soilDepthSumOriginal = MathUtility.Sum(simulationObject.Soil.Thickness);
-            soilPAWCSumOriginal = MathUtility.Sum(simulationObject.Soil.PAWC());
+            soilPAWCSumOriginal = MathUtility.Sum(simulationObject.Soil.PAWC(simulationObject.GetCrop));
             soilNitrogenSumOriginal = MathUtility.Sum(simulationObject.Soil.InitialNitrogen.NO3KgHa);
             lL15Original = simulationObject.Soil.LL15;
             thicknessOriginal = simulationObject.Soil.Thickness;
@@ -239,9 +239,9 @@ namespace APSRU.Howwet
            // this.initialSoilWaterPercent.ValueChanged -= new System.EventHandler(this.initialSoilWaterPercent_ValueChanged);
             initialSoilWaterPercent.Value = 20;
           //  this.initialSoilWaterPercent.ValueChanged += new System.EventHandler(this.initialSoilWaterPercent_ValueChanged);
-            coverPercent.Maximum = 99;
-            coverPercent.Minimum = 0;
-            coverPercent.Value = 30;
+            startCoverPercent.Maximum = 99;
+            startCoverPercent.Minimum = 0;
+            startCoverPercent.Value = 30;
           //  toolStripStatusLabel1.Text = "Select a Met file";
             }
 
@@ -576,8 +576,8 @@ namespace APSRU.Howwet
                         }
                     //cut off soil
                     simulationObject.Soil.ApplyMaxSoilDepth(Convert.ToInt16(soilDepth.Text));
-                    waterCapacity.Text = MathUtility.Sum(simulationObject.Soil.PAWC()).ToString("f0");
-                    initialWaterCapacity.Text = MathUtility.Sum(simulationObject.Soil.PAWC()).ToString("f0");
+                    waterCapacity.Text = MathUtility.Sum(simulationObject.Soil.PAWC(simulationObject.GetCrop)).ToString("f0");
+                    initialWaterCapacity.Text = MathUtility.Sum(simulationObject.Soil.PAWC(simulationObject.GetCrop)).ToString("f0");
                     }
                 }
             catch (CustomException err)
@@ -633,7 +633,7 @@ namespace APSRU.Howwet
                     //adjust water capacity
                     simulationObject.Soil.ApplyMaxWaterCapacity(Convert.ToInt16(waterCapacity.Text));
                     //display new values
-                    initialWaterCapacity.Text = MathUtility.Sum(simulationObject.Soil.PAWC()).ToString("f0");
+                    initialWaterCapacity.Text = MathUtility.Sum(simulationObject.Soil.PAWC(simulationObject.GetCrop)).ToString("f0");
                     }
                 }
             catch (CustomException err)
@@ -655,11 +655,11 @@ namespace APSRU.Howwet
                     int percent = Convert.ToInt32(initialSoilWaterPercent.Value);
                     simulationObject.Soil.InitialWater.SetUsingPercent(percent, true);
                     double Proportion = Convert.ToInt32(initialSoilWaterPercent.Value) / 100.0;
-                    double AmountWater = MathUtility.Sum(simulationObject.Soil.PAWC()) * Proportion;
+                    double AmountWater = MathUtility.Sum(simulationObject.Soil.PAWC(simulationObject.GetCrop)) * Proportion;
                     this.initialWaterCapacity.TextChanged -= new System.EventHandler(this.initialWaterCapacity_TextChanged);
                     initialWaterCapacity.Text = AmountWater.ToString("f0");
                     this.initialWaterCapacity.TextChanged += new System.EventHandler(this.initialWaterCapacity_TextChanged);
-                    double[] pawc = simulationObject.Soil.PAWC();
+                    double[] pawc = simulationObject.Soil.PAWC(simulationObject.GetCrop);
                     }
                 }
             catch (CustomException err)
@@ -676,7 +676,7 @@ namespace APSRU.Howwet
             {
             try
                 {
-                double TotalPAWC = MathUtility.Sum(simulationObject.Soil.PAWC());
+                double TotalPAWC = MathUtility.Sum(simulationObject.Soil.PAWC(simulationObject.GetCrop));
                 int percent = 0;
                 if (initialWaterCapacity.Text != "")
                     percent = Convert.ToInt32(Convert.ToDouble(initialWaterCapacity.Text) / TotalPAWC * 100);
@@ -741,7 +741,6 @@ namespace APSRU.Howwet
                 }
             }
 
-
         //Populate combo list with corps from the setup  file
         private void displayCoverCropList()
             {
@@ -760,19 +759,30 @@ namespace APSRU.Howwet
         //On selecting the cover crop 
         private void coverCropList_SelectedValueChanged(object sender, EventArgs e)
             {
-            String selectedCrop = (String)coverCropList.SelectedItem;
-            CoverCrop crop = util.GetCrop(coverCrops, selectedCrop);
-            simulationObject.SOMType = crop.Name;
-            simulationObject.SOMMass = Convert.ToString(util.ConvertCoverPercentToKg((coverPercent.Value/100), crop.SpecificArea));
-            simulationObject.SOMCNRatio = Convert.ToString(crop.Cnr);
+            UpdateCover();
             }
 
-        private void coverPercent_ValueChanged(object sender, EventArgs e)
+        private void startCoverPercent_ValueChanged(object sender, EventArgs e)
             {
-            decimal percent = coverPercent.Value;
-            String selectedCrop = (String)coverCropList.SelectedItem;
-            CoverCrop crop = util.GetCrop(coverCrops, selectedCrop);
-            simulationObject.SOMMass = Convert.ToString(util.ConvertCoverPercentToKg(percent / 100, crop.SpecificArea));
+            UpdateCover();
+            }
+
+        private void endCoverPercent_ValueChanged(object sender, EventArgs e)
+            {
+            UpdateCover();
+            }
+
+        private void UpdateCover()
+            {
+            CoverCrop crop = util.GetCrop(coverCrops, simulationObject.SOMType);
+            double startCoverKg = util.ConvertCoverPercentToKg(startCoverPercent.Value / 100, crop.SpecificArea);
+            double endCoverKg = util.ConvertCoverPercentToKg(endCoverPercent.Value / 100, crop.SpecificArea);
+            double diffCover = startCoverKg - endCoverKg;
+            TimeSpan diffTime = EndDatePicker.Value.Subtract(StartDatePicker.Value);
+            simulationObject.SOMType = crop.Name;
+            simulationObject.SOMMass = startCoverKg.ToString();
+            simulationObject.SOMCNRatio = Convert.ToString(crop.Cnr);
+            simulationObject.AddLogic(diffCover, diffTime.TotalDays);
             }
 
         private void editRainfallButton_Click(object sender, EventArgs e)
@@ -801,16 +811,18 @@ namespace APSRU.Howwet
         private void StartDatePicker_ValueChanged(object sender, EventArgs e)
             {
             simulationObject.StartDate = StartDatePicker.Value.ToShortDateString();
+            UpdateCover();
             }
 
         private void EndDatePicker_ValueChanged(object sender, EventArgs e)
             {
             simulationObject.EndDate = EndDatePicker.Value.ToShortDateString();
+            UpdateCover();
             }
 
         #endregion
 
-        #region Events Output side of Form
+       
 
         //Populate combo list with crops from the soil file
         private void displayProposedCropList()
@@ -831,21 +843,14 @@ namespace APSRU.Howwet
                 }
             }
 
-        //After selecting a proposed corp subtract the corp from the esw to get PAWC 
         private void proposedCropList_SelectedValueChanged(object sender, System.EventArgs e)
             {
             String selectedCrop = (String)proposedCropList.SelectedItem;
-            if (selectedCrop == "Using LL15")
-                {
-                cLL=simulationObject.Soil.LL15;
-                }
-            else
-                {
-                cLL = simulationObject.Soil.LL(selectedCrop);
-                }
-        //        endPAW.Text = result.calcPAWEnd(cLL).ToString("f0");
-          //  calculateNitrogenRequirement();
+            simulationObject.AddCrop(selectedCrop);
+            updateFormSoilValues();
             }
+
+        #region Events Output side of Form
 
         private void daystoMaturityUpDown_ValueChanged(object sender, EventArgs e)
             {
@@ -953,13 +958,7 @@ namespace APSRU.Howwet
                 //cover
                 CoverCrop crop = util.GetCrop(coverCrops, simulationObject.SOMType);
                 decimal startCoverPercent = util.ConvertCoverKgToPercent(result.startCover, crop.SpecificArea);
-                ToolTip a=new ToolTip();
-                a.Show(result.startCover.ToString("f0") + " kg/ha", startingCover, 1000);
-                startingCover.Text = startCoverPercent.ToString("f0");
                 decimal endCoverPrecent=util.ConvertCoverKgToPercent(result.endCover, crop.SpecificArea);
-                ToolTip b = new ToolTip();
-                b.Show(result.endCover.ToString("f0") + " kg/ha", endCover, 1000);
-                endCover.Text = endCoverPrecent.ToString("f0");
                 
                 //Nitrogen
                 startSoilNitrate.Text = result.nitrateStart.ToString("f0");
@@ -970,7 +969,6 @@ namespace APSRU.Howwet
                 thresholdWater.Text = ThresholdWaterDefault.ToString("f0");
                 WUE.Text = WUEDefault.ToString("f0");
                 inCropRainfall.Text = metObject.averageRainInNext(EndDatePicker.Value, Convert.ToInt16(daystoMaturityUpDown.Value)).ToString("f0");
-                displayProposedCropList();
                 chartDataTable = outputObject.Data;
               
                 RainfallSWChart.Axes.Left.Automatic = false;
@@ -1074,6 +1072,7 @@ namespace APSRU.Howwet
                     }
                 else
                     {
+                    colorLine1.Value = MathUtility.Sum(simulationObject.Soil.PAWC(simulationObject.GetCrop));
                     RainfallSWChart.Axes.Left.Automatic = true;
                     RainfallSWChart.Axes.Right.AutomaticMaximum = true;
                     RainfallSWChart.Axes.Right.Minimum = 0;
@@ -1153,7 +1152,6 @@ namespace APSRU.Howwet
                 LTRainfallChart.Visible = false;
                 ProfileChart.Visible = false;
                 WaterPanel.Visible = true;
-                CoverPanel.Visible = true;
                 NitrogenPanel.Visible = true;
                 NRequirementPanel.Visible = true;
                 ReportButton.Enabled = true;
@@ -1279,6 +1277,8 @@ namespace APSRU.Howwet
                 }
             }
         #endregion
+
+        
 
         
 
