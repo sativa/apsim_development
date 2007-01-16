@@ -184,7 +184,7 @@ void Plant::doInit1(protocol::Component *s)
     myThings.push_back(fruitPart);
     myParts.push_back(fruitPart);
     myStoverParts.push_back(fruitPart);
-    fruitPart->doInit1(protocol::Component *s);
+    fruitPart->doInit1(s);
 
     reproStruct = new ReproStruct(this, "bruce");
     //myThings.push_back(reproStruct);
