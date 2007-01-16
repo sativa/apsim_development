@@ -22,7 +22,7 @@ namespace APSRU.Model.Howwet
         public double startCover, endCover;
         public String coverType;
         public double fallowWaterGain, fallowWaterEfficiency;
-        public double nitrateStart, nitrateEnd, nitrateGain, nitrateEfficiency;
+        public double nitrateStart, nitrateEnd, nitrateGain;
         public double[] soilWaterEndByLayer;
         public double[] thickness;
         public String nitrogenRequirementCropType;
@@ -74,24 +74,21 @@ namespace APSRU.Model.Howwet
             DataRow lastRow = (DataRow)dataOut.Data.Rows[dataOut.Data.Rows.Count - 1];
             nitrateEnd = Convert.ToDouble(lastRow["NO3Total"]);
             nitrateGain = nitrateEnd - nitrateStart;
-            nitrateEfficiency = (nitrateGain / nitrateStart) * 100;
 
             nitrateStart = Math.Round(nitrateStart);
             nitrateEnd = Math.Round(nitrateEnd);
             nitrateGain = Math.Round(nitrateGain);
-            nitrateEfficiency = Math.Round(nitrateEfficiency);
-
-
+            
             //SoilWater Start
             for (int layer = 0; layer < dataIn.Soil.InitialWater.SW.Length - 1; layer++)
                 {
-                soilWaterStart = soilWaterStart + ((dataIn.Soil.InitialWater.SW[layer] - dataIn.Soil.LL15[layer]) * dataIn.Soil.Thickness[layer]);
+                soilWaterStart = soilWaterStart + (Math.Max((dataIn.Soil.InitialWater.SW[layer] - dataIn.Soil.LL(dataIn.GetCrop)[layer]),0.0) * dataIn.Soil.Thickness[layer]);
                 }
             //SoilWater End
             soilWaterEndByLayer = (double[])lastRow["SoilWaterLayers"];
             for (int layer = 0; layer < soilWaterEndByLayer.Length; layer++)
                 {
-                soilWaterEnd = soilWaterEnd + (Math.Abs(Convert.ToDouble(soilWaterEndByLayer[layer]) - dataIn.Soil.LL15[layer]) * dataIn.Soil.Thickness[layer]);
+                soilWaterEnd = soilWaterEnd + (Math.Max((Convert.ToDouble(soilWaterEndByLayer[layer]) - dataIn.Soil.LL(dataIn.GetCrop)[layer]),0.0) * dataIn.Soil.Thickness[layer]);
                 }
             //fallow water gain
             fallowWaterGain = soilWaterEnd - soilWaterStart;

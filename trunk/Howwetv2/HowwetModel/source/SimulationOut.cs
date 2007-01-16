@@ -62,9 +62,11 @@ namespace APSRU.Model.Howwet
                     double sw = 0;
                     for (int layer = 0; layer < tmpSoilWaterLayers.Length; layer++)
                         {
-                        sw = sw + (simulationIn.Soil.Thickness[layer] * (Math.Abs(tmpSoilWaterLayers[layer] - simulationIn.Soil.LL15[layer])));
+                        sw = sw + (simulationIn.Soil.Thickness[layer] * (Math.Max((tmpSoilWaterLayers[layer] - simulationIn.Soil.LL(simulationIn.GetCrop)[layer]),0.0)));
+                    //    Console.WriteLine("Layer=" + layer + " SoilWater=" + tmpSoilWaterLayers[layer] + " " + simulationIn.GetCrop + " ll=" + simulationIn.Soil.LL(simulationIn.GetCrop)[layer]+" PAW="+(simulationIn.Soil.Thickness[layer] * (Math.Abs(tmpSoilWaterLayers[layer] - simulationIn.Soil.LL(simulationIn.GetCrop)[layer]))));
                         }
                     row["SoilWater"] = sw;
+                   // Console.WriteLine("Total PAW="+sw);
                     }
                 }
             catch (Exception e)

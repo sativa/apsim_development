@@ -74,6 +74,14 @@ namespace APSRU.Model.Howwet
                 }
             }
 
+        public String GetCrop
+            {
+            get
+                {
+                return oldCrop;
+                }
+            }
+
         public void AddLogic(double mass, double days)
             {
             String errString = "";
@@ -83,7 +91,7 @@ namespace APSRU.Model.Howwet
                 if (days == 0) days = 1;
                 APSIMData logicNode = myData.FindChildByType("simulation|area|logic", '|');
                 logicNode.set_ChildValue("init", "delta="+mass.ToString("f0")+"/"+days.ToString("f0"));
-                logicNode.set_ChildValue("startofday","fraction = delta/"+mass.ToString("f0")+ " 'surface organic matter' tillage f_incorp = fraction, tillage_depth = 50,type=decomp_fugde");
+                logicNode.set_ChildValue("startofday","fraction = delta/surfaceom_wt \n 'surface organic matter' tillage f_incorp = fraction, tillage_depth = 50,type=decomp_fugde");
                 }
             catch (Exception e)
                 {
@@ -91,6 +99,7 @@ namespace APSRU.Model.Howwet
                 }
             }
 
+        
         public Soil Soil
             {
             get
