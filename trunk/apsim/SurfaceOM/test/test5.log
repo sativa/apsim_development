@@ -357,9 +357,9 @@
          <message3 to="MasterPM" msgtype="Register" ack="false" kind="event" name="error" type="type name='error'   field name='fatal' kind='boolean'   field name='message' kind='string'   type"/>
          <message3 to="MasterPM" msgtype="Register" ack="false" kind="event" name="summaryFileWrite" type="type name='SummaryFileWrite'   field name='componentName' kind='string'   field name='lines' kind='string'   type"/>
          <message3 to="MasterPM" msgtype="Register" ack="false" kind="respondToEvent" name="tick" type="type name = 'Time'   field name='startday' kind='integer4'   field name='startsec' kind='integer4'   field name='startsecpart' kind='double'   field name='endday' kind='integer4'   field name='endsec' kind='integer4'   field name='endsecpart' kind='double'   type"/>
-         <message3 to="MasterPM" msgtype="Register" ack="false" kind="event" name="new_pot_growth" type="type"/>
+         <message3 to="MasterPM" msgtype="Register" ack="false" kind="event" name="newpotentialgrowth" type="type name='NewPotentialGrowth'   field name='sender' kind='string'   field name='frgr' kind='single'   type"/>
          <message3 to="MasterPM" msgtype="Register" ack="false" kind="event" name="new_canopy" type="type"/>
-         <message3 to="MasterPM" msgtype="Register" ack="false" kind="event" name="new_crop" type="type name='NewCrop'   field name='sender' kind='string'   field name='crop_type' kind='string'   type"/>
+         <message3 to="MasterPM" msgtype="Register" ack="false" kind="event" name="newcrop" type="type name='NewCrop'   field name='sender' kind='string'   field name='crop_type' kind='string'   type"/>
          <message3 to="MasterPM" msgtype="Register" ack="false" kind="event" name="incorp_fom" type="type name='IncorpFom'   field name='dlt_fom_type_name' kind='string'   field name='dlt_fom_type_numbytes' kind='integer4'   field name='dlt_fom_type_code' kind='integer4'   field name='dlt_fom_type_isarray' kind='boolean'   field name='dlt_fom_type_value' kind='string'   field name='dlt_fom_wt_name' kind='string'   field name='dlt_fom_wt_numbytes' kind='integer4'   field name='dlt_fom_wt_code' kind='integer4'   field name='dlt_fom_wt_isarray' kind='boolean'   field name='dlt_fom_wt_value' kind='single' array='T'   field name='dlt_fom_n_name' kind='string'   field name='dlt_fom_n_numbytes' kind='integer4'   field name='dlt_fom_n_code' kind='integer4'   field name='dlt_fom_n_isarray' kind='boolean'   field name='dlt_fom_n_value' kind='single' array='T'   field name='dlt_fom_p_name' kind='string'   field name='dlt_fom_p_numbytes' kind='integer4'   field name='dlt_fom_p_code' kind='integer4'   field name='dlt_fom_p_isarray' kind='boolean'   field name='dlt_fom_p_value' kind='single' array='T'   type"/>
          <message3 to="MasterPM" msgtype="Register" ack="false" kind="event" name="crop_chopped" type="type name='CropChopped'   field name='crop_type' kind='string'   field name='dm_type' kind='string' array='T'   field name='dlt_crop_dm' kind='single' array='T'   field name='dlt_dm_n' kind='single' array='T'   field name='fraction_to_residue' kind='single' array='T'   type"/>
          <message3 to="MasterPM" msgtype="Register" ack="false" kind="event" name="killing" type="type"/>
@@ -979,7 +979,7 @@
          <message3 to="MasterPM" msgtype="Complete" ack="false"/>
       </message2>
       <message2 to="bambatsi" msgtype="Init2" ack="true">
-         <message3 to="MasterPM" msgtype="PublishEvent" ack="false" regName="new_crop" type="type name='NewCrop'   field name='sender' kind='string'   field name='crop_type' kind='string'   type"/>
+         <message3 to="MasterPM" msgtype="PublishEvent" ack="false" regName="newcrop" type="type name='NewCrop'   field name='sender' kind='string'   field name='crop_type' kind='string'   type"/>
          <message3 to="MasterPM" msgtype="Register" ack="false" kind="get" name="latitude" type="type kind='single'"/>
          <message3 to="MasterPM" msgtype="GetValue" ack="true" regName="latitude">
             <message4 to="Met" msgtype="QueryValue" ack="false">
