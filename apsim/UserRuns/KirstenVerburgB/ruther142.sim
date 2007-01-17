@@ -787,6 +787,11 @@
             <fom_type>danthonia</fom_type>
             <specific_area>0.0005</specific_area>
          </danthonia>
+         <nativepasture>
+            <derived_from>base_type</derived_from>
+            <fom_type>nativepasture</fom_type>
+            <specific_area>0.0005</specific_area>
+         </nativepasture>
          <globulus>
             <derived_from>base_type</derived_from>
             <fom_type>globulus</fom_type>
@@ -980,10 +985,10 @@
             <fr_biom_biom>0.6</fr_biom_biom>
             <fr_fom_biom>0.9</fr_fom_biom>
             <fr_res_biom>0.9</fr_res_biom>
-            <fom_type>default manure  goose_poo  hippo</fom_type>
-            <fr_carb>0.2      0.3      0.3        0.2</fr_carb>
-            <fr_cell>0.7      0.3     0.3        0.2</fr_cell>
-            <fr_lign>0.1      0.4     0.4        0.6</fr_lign>
+            <fom_type>default manure  goose_poo  hippo  goatmanure tithonia</fom_type>
+            <fr_carb>0.2      0.3      0.3        0.2   0.0        0.2</fr_carb>
+            <fr_cell>0.7      0.3     0.3        0.2    0.6        0.7</fr_cell>
+            <fr_lign>0.1      0.4     0.4        0.6    0.4        0.1</fr_lign>
             <oc2om_factor>1.7</oc2om_factor>
             <mcn>8.0</mcn>
             <opt_temp>32.0</opt_temp>
@@ -1021,6 +1026,7 @@
          <crop_type>canola</crop_type>
          <default_crop_class>plant</default_crop_class>
          <leaf_part>generic_leaf</leaf_part>
+         <grain_part_type>harvest_index</grain_part_type>
          <stress_determinants>leaf stem meal</stress_determinants>
          <yield_parts>meal oil</yield_parts>
          <retrans_parts>leaf stem</retrans_parts>
@@ -1075,10 +1081,7 @@
             <class_action>harvest</class_action>
             <class_change>unchanged</class_change>
             <n_uptake_option>1</n_uptake_option>
-            <grain_fill_option>1</grain_fill_option>
             <leaf_no_pot_option>1</leaf_no_pot_option>
-            <grain_no_option>1</grain_no_option>
-            <grain_n_option>1</grain_n_option>
             <n_retrans_option>1</n_retrans_option>
             <dm_senescence_option>1</dm_senescence_option>
             <n_senescence_option>1</n_senescence_option>
@@ -1849,6 +1852,7 @@
          <crop_type>lucerne</crop_type>
          <default_crop_class>plant</default_crop_class>
          <leaf_part>generic_leaf</leaf_part>
+         <grain_part_type>harvest_index</grain_part_type>
          <sw_ub>1.0</sw_ub>
          <sw_lb>0.0</sw_lb>
          <year_ub>2000      ()</year_ub>
@@ -1904,10 +1908,7 @@
             <class_change>regrowth  sprayed delayed reduced regrowth dormant      regrowth</class_change>
             <partition_option>1</partition_option>
             <n_uptake_option>1</n_uptake_option>
-            <grain_fill_option>1</grain_fill_option>
             <leaf_no_pot_option>1</leaf_no_pot_option>
-            <grain_no_option>1</grain_no_option>
-            <grain_n_option>1</grain_n_option>
             <n_retrans_option>1</n_retrans_option>
             <dm_senescence_option>1</dm_senescence_option>
             <n_senescence_option>1</n_senescence_option>
@@ -2342,6 +2343,7 @@
          <crop_type>lupin</crop_type>
          <default_crop_class>plant</default_crop_class>
          <leaf_part>generic_leaf</leaf_part>
+         <grain_part_type>harvest_index</grain_part_type>
          <stress_determinants>leaf stem meal</stress_determinants>
          <yield_parts>meal oil</yield_parts>
          <retrans_parts>leaf stem</retrans_parts>
@@ -2395,10 +2397,7 @@
             <class_change>unchanged</class_change>
             <partition_option>1</partition_option>
             <n_uptake_option>1</n_uptake_option>
-            <grain_fill_option>1</grain_fill_option>
             <leaf_no_pot_option>1</leaf_no_pot_option>
-            <grain_no_option>1</grain_no_option>
-            <grain_n_option>1</grain_n_option>
             <n_retrans_option>1</n_retrans_option>
             <dm_senescence_option>1</dm_senescence_option>
             <n_senescence_option>1</n_senescence_option>
@@ -2848,6 +2847,7 @@
          <crop_type>weed</crop_type>
          <default_crop_class>plant</default_crop_class>
          <leaf_part>generic_leaf</leaf_part>
+         <grain_part_type>harvest_index</grain_part_type>
          <sw_ub>1.0</sw_ub>
          <sw_lb>0.0</sw_lb>
          <year_ub>2000      ()</year_ub>
@@ -2902,10 +2902,7 @@
             <class_change>unchanged</class_change>
             <partition_option>1</partition_option>
             <n_uptake_option>1</n_uptake_option>
-            <grain_fill_option>1</grain_fill_option>
             <leaf_no_pot_option>1</leaf_no_pot_option>
-            <grain_no_option>1</grain_no_option>
-            <grain_n_option>1</grain_n_option>
             <n_retrans_option>1</n_retrans_option>
             <dm_senescence_option>1</dm_senescence_option>
             <n_senescence_option>1</n_senescence_option>
@@ -3229,6 +3226,7 @@
          <crop_type>wheat</crop_type>
          <default_crop_class>plant</default_crop_class>
          <leaf_part>generic_leaf</leaf_part>
+         <grain_part_type>grain_no</grain_part_type>
          <stress_determinants>leaf stem</stress_determinants>
          <yield_parts>meal</yield_parts>
          <retrans_parts>stem leaf</retrans_parts>
@@ -3292,12 +3290,10 @@
             <photop_sens>3.5</photop_sens>
          </goldmark>
          <wheat>
-            <grain_no_option>2</grain_no_option>
             <partition_option>2</partition_option>
             <n_retrans_option>2</n_retrans_option>
             <n_retrans_fraction>1.0</n_retrans_fraction>
             <n_deficit_uptake_fraction>0.0001</n_deficit_uptake_fraction>
-            <grain_fill_option>2</grain_fill_option>
             <x_temp_grainfill>0 26 35</x_temp_grainfill>
             <y_rel_grainfill>0  1  1</y_rel_grainfill>
             <n_uptake_option>3</n_uptake_option>
@@ -3375,7 +3371,6 @@
             <y_ratio_root_shoot>0      0    1.0   1.0  0.3       0.30  0.30  0.08    0.01   0      0     0     0      0   (0-1)</y_ratio_root_shoot>
             <y_frac_leaf>0      0    0.6   0.6  0.6       0.42  0.0   0.0     0.0    0      0     0     0      0   (0-1)</y_frac_leaf>
             <y_frac_pod>0      0    0     0     0        0     0.33  0.33    0.33   0      0     0     0      0   (0-1)</y_frac_pod>
-            <grain_n_option>2</grain_n_option>
             <sw_fac_max>1.125     ()</sw_fac_max>
             <temp_fac_min>0.69      ()</temp_fac_min>
             <sfac_slope>-0.125    ()</sfac_slope>
