@@ -136,35 +136,22 @@ void fruitGrainPartGN::readCultivarParameters (protocol::Component *system, cons
                              , 0.0, 1.0);
 }
 
-//void fruitGrainPartGN::writeCultivarInfo (protocol::Component *system)
-//   //===========================================================================
-//{
-//
-//   // report
-//   string s;
-//
-//   // TEMPLATE OPTION
-//   s = string("   x_pp_hi_incr               = ");
-//   for (int i = 0; i < pNum_pp_hi_incr; i++)
-//      s = s + ftoa(pX_pp_hi_incr[i], "10.2") + " ";
-//   system->writeString (s.c_str());
-//
-//   s = string("   y_hi_incr                  = ");
-//   for (int i = 0; i < pNum_pp_hi_incr; i++)
-//      s = s + ftoa(pY_hi_incr[i], "10.4") + " ";
-//   system->writeString (s.c_str());
-//
-//   s = string("   x_hi_max_pot_stress        = ");
-//   for (int i = 0; i < pNum_hi_max_pot; i++)
-//      s = s + ftoa(pX_hi_max_pot_stress[i], "10.2") + " ";
-//   system->writeString (s.c_str());
-//
-//   s = string("   y_hi_max_pot               = ");
-//   for (int i = 0; i < pNum_hi_max_pot; i++)
-//      s = s + ftoa(pY_hi_max_pot[i], "10.2") + " ";
-//   system->writeString (s.c_str());
-//
-//}
+void fruitGrainPartGN::writeCultivarInfo (protocol::Component *system)
+   //===========================================================================
+{
+
+   // report
+     ostringstream msg;
+     msg.flags ( ios::right | ios::fixed);
+     msg.precision(1);
+     msg << "   grains_per_gram_stem           = " << setw(10) << pGrains_per_gram_stem << " (/g)" << endl;
+     msg.precision(4);
+     msg << "   potential_grain_filling_rate   = " << setw(10) << pPotential_grain_filling_rate << " (g/grain/day)" << endl;
+     msg << "   potential_grain_growth_rate    = " << setw(10) << pPotential_grain_growth_rate << " (g/grain/day)" << endl;
+     msg << "   max_grain_size                 = " << setw(10) << pMaxGrainSize << " (g)" << ends;
+     system->writeString (msg.str().c_str());
+
+}
 
 void fruitGrainPartGN::zeroAllGlobals(void)
 {

@@ -6,6 +6,7 @@
 #include <map>
 #include <string>
 #include <stdexcept>
+#include <iomanip>
 
 #include <boost/function.hpp>
 #include <boost/bind.hpp>
