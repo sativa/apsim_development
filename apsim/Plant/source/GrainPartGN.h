@@ -21,7 +21,7 @@ public:                                             // member functions
    void doRegistrations(protocol::Component *);
    void readSpeciesParameters (protocol::Component *, vector<string> &);
    void readCultivarParameters (protocol::Component *, const string &);
-//   void writeCultivarInfo (protocol::Component *);
+   void writeCultivarInfo (protocol::Component *);
    void doProcessBioDemand(void);
    void get_grain_size(protocol::Component *system, protocol::QueryValueData &qd);
 

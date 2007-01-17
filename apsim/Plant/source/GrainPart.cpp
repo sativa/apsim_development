@@ -30,34 +30,6 @@ fruitGrainPart::~fruitGrainPart()
 
 }
 
-ostream &operator<<(ostream &output, const fruitGrainPart /*&pool*/)
-{
-   //   output << "fruitGrainPart:" << endl;
-   //   output << "   Green meal:    " << pool.green.meal << endl;
-   //   output << "   Senesced meal: " << pool.senesced.meal << endl;
-   //   output << "   Dead meal:     " << pool.dead.meal << endl << endl;
-   output << endl;
-   return output;
-}
-
-// copy constructor
-//  copy data members of object
-//===========================================================================
-fruitGrainPart::fruitGrainPart(const fruitGrainPart &fruitGrainPart)
-//===========================================================================
-{
-  throw std::invalid_argument("Copy constructor NI for fruitGrainPart");
-}
-
-
-// Assigment operator
-//  assign data members of object
-
-const fruitGrainPart &fruitGrainPart::operator=(const fruitGrainPart &/*other*/)
-   //===========================================================================
-{
-   throw std::invalid_argument("Assignment operator NI for fruitGrainPart");
-}
 
 void fruitGrainPart::doRegistrations(protocol::Component *system)
    //===========================================================================
