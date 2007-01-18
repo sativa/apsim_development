@@ -17,6 +17,12 @@ static const char*  singleTypeDDML = "<type kind=\"single\"/>";
       float divide (float dividend, float divisor, float default_value);
 
 // ------------------------------------------------------------------
+// default constructor
+// ------------------------------------------------------------------
+HerbageConverter::HerbageConverter(void)
+   {
+   }
+// ------------------------------------------------------------------
 // constructor
 // ------------------------------------------------------------------
 HerbageConverter::HerbageConverter(protocol::Component *s) : ConverterBase(s)

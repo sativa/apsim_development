@@ -17,6 +17,7 @@
 class HerbageConverter : public ConverterBase
    {
    public:
+      HerbageConverter(void);
       HerbageConverter(protocol::Component *system);
       virtual ~HerbageConverter(void);
       virtual void doInit1(const FString& sdml);

@@ -18,7 +18,7 @@
 //    initialise data members.
 // ----------------------------- PlantPartType ---------------------------------
 
-PlantPartType::PlantPartType()                   // member initialisation
+PlantPartType::PlantPartType(void)                   // member initialisation
 {
    leaf = 0.0;
    stem = 0.0;
@@ -34,7 +34,7 @@ PlantPartType::PlantPartType(float leafInit, float stemInit, float podInit)
 }
 
 // destructor
-PlantPartType::~PlantPartType()
+PlantPartType::~PlantPartType(void)
 {
 }
 
@@ -256,7 +256,7 @@ void PlantPartType::setValue(float leafValue, float stemValue, float podValue)
       pod = podValue;
 }
 
-float PlantPartType::total() const
+float PlantPartType::total(void) const
 //===========================================================================
 {
 
@@ -337,7 +337,7 @@ float PlantPartType::divide (const float dividend, const float divisor, float de
 
 // default constructor
 //    initialise data members.
-PlantPool::PlantPool()                     // member initialisation
+PlantPool::PlantPool(void)                     // member initialisation
 {
    green.setValue(0.0, 0.0, 0.0);
    senesced.setValue(0.0, 0.0, 0.0);
@@ -353,7 +353,7 @@ PlantPool::PlantPool(float greenLeaf, float greenStem, float greenPod, float sen
 }
 
 // destructor
-PlantPool::~PlantPool()
+PlantPool::~PlantPool(void)
 {
 }
 
@@ -546,7 +546,7 @@ void PlantPool::setValue(PlantPartType &greenValue, PlantPartType &senescedValue
 
 
 // Query
-float PlantPool::total() const
+float PlantPool::total(void) const
 {
       return (green.total() + senesced.total() + dead.total());
 }
@@ -584,7 +584,7 @@ void PlantPool::display(ostream &os) const
 #include "PlantPool.h"
 #endif
 
-int main()
+int main(void)
 {
       cout << "PlantPool test started" << endl;
 

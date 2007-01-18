@@ -24,6 +24,7 @@
 class NonHerbageConverter : public ConverterBase
    {
    public:
+      NonHerbageConverter(void);
       NonHerbageConverter(protocol::Component *system);
       ~NonHerbageConverter(void);
       virtual void doInit1(const FString& sdml);

@@ -101,6 +101,8 @@ ProductVersion=1.0.0.0
 Comments=
 
 [Excluded Packages]
+c:\program files\borland\cbuilder6\Bin\dcl31w60.bpl=Delphi 1.0 Compatibility Components
+c:\program files\borland\cbuilder6\Bin\dclclxdb60.bpl=Borland CLX Database Components
 c:\program files\borland\cbuilder6\Bin\dclite60.bpl=Borland Integrated Translation Environment
 
 [HistoryLists\hlIncludePath]
@@ -136,7 +138,7 @@ Item1=..\lib
 DebugSourceDirs=$(BCB)\source\vcl;c:\data\Apsim\development\Shared\ComponentInterface\;c:\data\Apsim\development\apsim\SummaryFile\Source\
 
 [Parameters]
-RunParams=C:\data\Apsim\development\apsim\Stock\sample\stockResidue.sim
+RunParams=&quot;C:\data\Apsim\development\apsim\Stock\sample\stock.sim&quot;
 Launcher=
 UseLauncher=0
 DebugCWD=

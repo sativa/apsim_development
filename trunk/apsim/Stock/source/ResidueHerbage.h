@@ -9,6 +9,7 @@
 class ResidueHerbage : public HerbageBase
    {
    public:
+      ResidueHerbage(void);
       ResidueHerbage(protocol::Component *system);
       ~ResidueHerbage(void);
       void doInit2(void);

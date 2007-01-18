@@ -39,16 +39,17 @@ std::string itoa(int value, int width);
 class HerbageBase : public protocol::Component
    {
    public:
+      HerbageBase(void);
       HerbageBase(protocol::Component *system);
       virtual ~HerbageBase(void);
 
     virtual void doInit1(const FString& sdml) = 0;
-    virtual void doInit2() = 0;
+    virtual void doInit2(void) = 0;
     virtual void doGrazed(protocol::RemoveHerbageType &grazed) = 0;
-    virtual void doDigestibility() = 0;
+    virtual void doDigestibility(void) = 0;
 
-    virtual float dmTotalVeg() = 0;
-    virtual int numDmdPoolsVeg() = 0;
+    virtual float dmTotalVeg(void) = 0;
+    virtual int numDmdPoolsVeg(void) = 0;
     virtual float dmTotVeg(int pool) = 0;
     virtual float dmdValueVeg(int pool) = 0;
     virtual float cpConcVeg(int pool) = 0;
@@ -57,11 +58,11 @@ class HerbageBase : public protocol::Component
     virtual float protDgVeg(int pool) = 0;
     virtual float ashAlkVeg(int pool) = 0;
     virtual float heightRatioVeg(int pool) = 0;
-    virtual float bD() = 0;
-    virtual float hHeight() = 0;
+    virtual float bD(void) = 0;
+    virtual float hHeight(void) = 0;
 
-    virtual float dmTotalSeed() = 0;
-    virtual int numDmdPoolsSeed() = 0;
+    virtual float dmTotalSeed(void) = 0;
+    virtual int numDmdPoolsSeed(void) = 0;
     virtual float dmTotSeed(int pool) = 0;
     virtual float dmdValueSeed(int pool) = 0;
     virtual float cpConcSeed(int pool) = 0;
@@ -73,9 +74,9 @@ class HerbageBase : public protocol::Component
     virtual void getStage(void) = 0;
     virtual float trampling(void) = 0;
 
-    virtual float proportionGreen() = 0;
-    virtual float proportionLegume() = 0;
-    virtual float selectionFactor() = 0; // ??
+    virtual float proportionGreen(void) = 0;
+    virtual float proportionLegume(void) = 0;
+    virtual float selectionFactor(void) = 0; // ??
     virtual int seedClass(int pool) = 0;
     virtual int seedMaturity(void) = 0;
 

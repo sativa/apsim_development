@@ -26,6 +26,13 @@ using namespace std;
       float divide (float dividend, float divisor, float default_value);
 
 // ------------------------------------------------------------------
+// default constructor
+// ------------------------------------------------------------------
+ResidueHerbage::ResidueHerbage(void)
+   {
+   }
+
+// ------------------------------------------------------------------
 // constructor
 // ------------------------------------------------------------------
 ResidueHerbage::ResidueHerbage(protocol::Component *s) : HerbageBase(s)
