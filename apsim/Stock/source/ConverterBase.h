@@ -21,6 +21,7 @@
 class ConverterBase : public protocol::Component
    {
    public:
+      ConverterBase(void);
       ConverterBase(protocol::Component *system);
       virtual ~ConverterBase(void);
       virtual void doInit1(const FString& sdml) = 0;

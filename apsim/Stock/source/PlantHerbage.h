@@ -10,6 +10,7 @@
 class PlantHerbage : public HerbageBase
    {
    public:
+      PlantHerbage(void);
       PlantHerbage(protocol::Component *system);
       ~PlantHerbage(void);
 

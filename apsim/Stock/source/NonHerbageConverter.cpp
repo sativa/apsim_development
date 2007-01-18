@@ -13,6 +13,12 @@ using namespace std;
    "<type  kind=\"string\"/>"
 
 // ------------------------------------------------------------------
+// default constructor
+// ------------------------------------------------------------------
+NonHerbageConverter::NonHerbageConverter(void)
+   {
+   }
+// ------------------------------------------------------------------
 // constructor
 // ------------------------------------------------------------------
 NonHerbageConverter::NonHerbageConverter(protocol::Component *s) : ConverterBase(s)
