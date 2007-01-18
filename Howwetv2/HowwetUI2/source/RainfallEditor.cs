@@ -22,6 +22,8 @@ namespace APSRU.Howwet
         private static RainfallEditor instance = null;
         public bool isLoaded = false;
         private DataRow lastRowInFile;
+        public delegate void RainfallEditorSave(MetData met);
+        public event RainfallEditorSave RainfallEditorSaveEvent;
 
         public RainfallEditor()
             {
@@ -197,7 +199,8 @@ namespace APSRU.Howwet
         private void saveCloseButton_Click(object sender, EventArgs e)
             {
             this.metObject = this.tempMetObject;
-            this.metObject.overWriteMetFile();
+            RainfallEditorSaveEvent(this.metObject);
+           // this.metObject.overWriteMetFile();
             this.Close();
             }
         
@@ -205,7 +208,6 @@ namespace APSRU.Howwet
             {
             this.Close();
             }
-      
 
         private void fpSpread1_KeyDown(object sender, KeyEventArgs e)
             {

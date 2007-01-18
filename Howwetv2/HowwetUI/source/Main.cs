@@ -31,6 +31,8 @@ namespace APSRU.Howwet
         private Results result;
         public String soilsFileName = "";
         private ArrayList coverCrops;
+        private ArrayList regions;
+        private APSRU.Model.Howwet.Region selectedRegion;
         int rowCount = 0;
         private double soilPAWCSumOriginal;
         private double soilDepthSumOriginal;
@@ -51,7 +53,6 @@ namespace APSRU.Howwet
         private String howwetRegionFileName="\\howwetv2\\HowwetRegions.xml";
         private const int WUEDefault = 3;
         private const int ThresholdWaterDefault = 100;
-      //  private String selectedCrop = "";
 
         ToolTip toolTip1 = new System.Windows.Forms.ToolTip();
         #endregion
@@ -117,22 +118,27 @@ namespace APSRU.Howwet
             {
             metObject = new MetData(metFileName);
             txtMetFile.Text = metFileName;
-
+            config.DefaultMetfile = metObject.FileName;
             simulationObject.MetFileName = metObject.FileName;
-            //set datetime picker
-            if (!(metObject.EndDate.Subtract(new TimeSpan(400, 0, 0, 0, 0)) < metObject.StartDate))
+            UpdateDateTimePickerBounds();
+            }
+
+        //sync pickers with metObject 
+        private void UpdateDateTimePickerBounds()
+            {
+            StartDatePicker.MinDate = metObject.StartDate();
+            if (!(metObject.EndDate().Subtract(new TimeSpan(400, 0, 0, 0, 0)) < metObject.StartDate()))
                 {
-                StartDatePicker.Value = metObject.EndDate.Subtract(new TimeSpan(400, 0, 0, 0, 0));
+                StartDatePicker.Value = metObject.EndDate().Subtract(new TimeSpan(400, 0, 0, 0, 0));
                 }
             else
                 {
-                StartDatePicker.Value = metObject.StartDate;
+                StartDatePicker.Value = metObject.StartDate();
                 }
-            EndDatePicker.MaxDate = metObject.EndDate;
-            EndDatePicker.Value = metObject.EndDate;
-            config.DefaultMetfile = txtMetFile.Text;
+            EndDatePicker.MaxDate = metObject.EndDate();
+            EndDatePicker.Value = metObject.EndDate();
             }
-
+       
         public Boolean LoadSoilFile(String fileName)
             {
             Boolean isLoaded = false;
@@ -150,7 +156,6 @@ namespace APSRU.Howwet
                 }
             return isLoaded;
             }
-
 
         public void LoadSoil(APSIMData soil)
             {
@@ -170,8 +175,6 @@ namespace APSRU.Howwet
             LTRainfallChart.Visible = false;
             ProfileChart.Visible = false;
             ReportButton.Enabled = false;
-            WaterPanel.Visible = false;
-            NitrogenPanel.Visible = false;
             NRequirementPanel.Visible = false;
 
             label61.Visible = false;
@@ -187,8 +190,7 @@ namespace APSRU.Howwet
             //check if simulationObject has a met file
             if (!(simulationObject.MetFileName == ""))
                 {
-                metObject = new MetData(simulationObject.MetFileName);
-                metObject.BuildAverages();
+                LoadMetFile(simulationObject.MetFileName);
                 updateFormMetValues();
                 }
             else
@@ -211,6 +213,7 @@ namespace APSRU.Howwet
             waterCapacity.Text = "";
             initialSoilNitrogen.Text = "";
             displayCoverCropList();
+            displayRegionList();
            // this.initialSoilWaterPercent.ValueChanged -= new System.EventHandler(this.initialSoilWaterPercent_ValueChanged);
             initialSoilWaterPercent.Value = 20;
           //  this.initialSoilWaterPercent.ValueChanged += new System.EventHandler(this.initialSoilWaterPercent_ValueChanged);
@@ -236,6 +239,7 @@ namespace APSRU.Howwet
             waterCapacity.Text = soilPAWCSumOriginal.ToString("f0");
             initialSoilNitrogen.Text = soilNitrogenSumOriginal.ToString("f0");
             displayCoverCropList();
+            displayRegionList();
            // this.initialSoilWaterPercent.ValueChanged -= new System.EventHandler(this.initialSoilWaterPercent_ValueChanged);
             initialSoilWaterPercent.Value = 20;
           //  this.initialSoilWaterPercent.ValueChanged += new System.EventHandler(this.initialSoilWaterPercent_ValueChanged);
@@ -249,22 +253,9 @@ namespace APSRU.Howwet
             {
             FileInfo fileInfo = new FileInfo(metObject.FileName);
             txtMetFile.Text = fileInfo.Name;
-            //set metfileName in simulation object
             simulationObject.MetFileName = metObject.FileName;
-            //set datetime picker
-            StartDatePicker.MinDate = metObject.StartDate;
-            if (!(metObject.EndDate.Subtract(new TimeSpan(400, 0, 0, 0, 0)) < metObject.StartDate)) 
-                {
-                StartDatePicker.Value = metObject.EndDate.Subtract(new TimeSpan(400, 0, 0, 0, 0)); 
-                }
-            else
-                {
-                StartDatePicker.Value = metObject.StartDate;
-                }
-            EndDatePicker.MaxDate = metObject.EndDate;
-            EndDatePicker.Value = metObject.EndDate;
-          //  toolStripStatusLabel1.Text = "Check soil Water and Nitrogen values are correct, then run the simulation";
-            }
+            UpdateDateTimePickerBounds();
+         }
 
         private void clearFormMetValues()
             {
@@ -724,9 +715,6 @@ namespace APSRU.Howwet
               openDialog.ShowDialog();
               if (!(openDialog.FileName == ""))
                 {
-                //hydrate metObject       
-               // metObject = new MetData(openDialog.FileName);
-               // metObject.BuildAverages();
                 LoadMetFile(openDialog.FileName);
                 updateFormMetValues();
                 }
@@ -740,20 +728,49 @@ namespace APSRU.Howwet
                 showExceptionMessages(err);
                 }
             }
+        private void regionList_SelectedValueChanged(object sender, EventArgs e)
+            {
+            LoadRegion((String)regionList.SelectedItem);
+            }
+
+        private void displayRegionList()
+            {
+            regions = config.RegionList;
+            if (!(regions == null))
+                {
+                regionList.Items.Clear();
+                for (int i = 0; i < regions.Count; i++)
+                    {
+                    APSRU.Model.Howwet.Region region = (APSRU.Model.Howwet.Region)regions[i];
+                    regionList.Items.Add(region.Name);
+                    }
+                regionList.SelectedIndex = 0;
+                }
+            }
+
+        public void LoadRegion(String region)
+            {
+            //load the regions met averages in to metData
+            selectedRegion = config.GetRegion(regions, region);
+            config.DefaultRegionName = selectedRegion.Name;
+            }
 
         //Populate combo list with corps from the setup  file
         private void displayCoverCropList()
             {
-            coverCropList.Items.Clear();
-            coverCrops  = config.CropList;
-            for (int i = 0; i < coverCrops.Count; i++)
+            coverCrops = config.CropList;
+            if(!(coverCrops==null))
                 {
-                CoverCrop crop = (CoverCrop)coverCrops[i];
-                coverCropList.Items.Add(crop.Name);
+                coverCropList.Items.Clear();
+                for (int i = 0; i < coverCrops.Count; i++)
+                    {
+                    CoverCrop crop = (CoverCrop)coverCrops[i];
+                    coverCropList.Items.Add(crop.Name);
+                    }
+                this.coverCropList.SelectedValueChanged -= new System.EventHandler(this.coverCropList_SelectedValueChanged);
+                coverCropList.SelectedIndex = 0;
+                this.coverCropList.SelectedValueChanged += new System.EventHandler(this.coverCropList_SelectedValueChanged);
                 }
-            this.coverCropList.SelectedValueChanged -= new System.EventHandler(this.coverCropList_SelectedValueChanged);
-            coverCropList.SelectedIndex = 0;
-            this.coverCropList.SelectedValueChanged += new System.EventHandler(this.coverCropList_SelectedValueChanged);
             }
 
         //On selecting the cover crop 
@@ -792,7 +809,9 @@ namespace APSRU.Howwet
                 StatusLabel2.Text = "Please wait: Loading Met file";
                 if (!RainfallEditor.Instance.isLoaded)
                     {
-                    RainfallEditor.Instance.loadObject(this.metObject);
+                    RainfallEditor.Instance.loadObject(this.metObject,this.selectedRegion);
+                    RainfallEditor.Instance.RainfallEditorSaveEvent += new RainfallEditor.RainfallEditorSave(rainfallForm_RainfallEditorSaveEvent);
+
                     }
                 RainfallEditor.Instance.Focus();
                 RainfallEditor.Instance.Show();
@@ -800,6 +819,23 @@ namespace APSRU.Howwet
             else
                 {
                 MessageBox.Show("Please select a Met file to edit");
+                }
+            }
+
+        void rainfallForm_RainfallEditorSaveEvent(MetData met)
+            {
+            try
+                {
+                util.WriteAPSIMMetFile(util.TestMetObject(met,selectedRegion));
+                UpdateDateTimePickerBounds();
+                }
+            catch (CustomException err)
+                {
+                showCustomExceptionMessages(err);
+                }
+            catch (Exception err)
+                {
+                showExceptionMessages(err);
                 }
             }
 
@@ -968,7 +1004,7 @@ namespace APSRU.Howwet
                 //n Requirement
                 thresholdWater.Text = ThresholdWaterDefault.ToString("f0");
                 WUE.Text = WUEDefault.ToString("f0");
-                inCropRainfall.Text = metObject.averageRainInNext(EndDatePicker.Value, Convert.ToInt16(daystoMaturityUpDown.Value)).ToString("f0");
+               // inCropRainfall.Text = metObject.averageRainInNext(EndDatePicker.Value, Convert.ToInt16(daystoMaturityUpDown.Value)).ToString("f0");
                 chartDataTable = outputObject.Data;
               
                 RainfallSWChart.Axes.Left.Automatic = false;
@@ -1094,7 +1130,7 @@ namespace APSRU.Howwet
                     ProgressBar1.Minimum = 0;
                     ProgressBar1.Maximum = chartDataTable.Rows.Count;
                     ProgressBar1.Step = 1;
-                    DataTable longTermRain = metObject.RainMonthlyAverage;
+                 //   DataTable longTermRain = metObject.RainMonthlyAverage;
 
                     foreach (DataRow row in chartDataTable.Rows)
                         {
@@ -1112,21 +1148,21 @@ namespace APSRU.Howwet
                         ErosionRunoffCumLine.Add(date, Convert.ToDouble(row["RunoffCum"]));
                         ErosionSoilLossCumLine.Add(date, Convert.ToDouble(row["SoilLossCum"]));
                         //Long term rainfall
-                        if (date.Day == 1)
-                            {
-                            DataRow yearRow=null;
-                            foreach (DataRow tableRow in longTermRain.Rows)
-                                {
-                                if (Convert.ToInt16(tableRow[0]) == date.Year)
-                                    {
-                                    yearRow = tableRow;
-                                    break;
-                                    }
-                                }
-                            double monthlyAverageRain = Convert.ToDouble(yearRow[date.Month]);
-                            LTRainfallBar.Add(date, monthlyAverageRain);
-                            LTAvRainfallLine.Add(date, metObject.RainMonthlyYearlyAverage[date.Month]);
-                            }
+                      //  if (date.Day == 1)
+                      //      {
+                      //      DataRow yearRow=null;
+                      //      foreach (DataRow tableRow in longTermRain.Rows)
+                      //          {
+                      //          if (Convert.ToInt16(tableRow[0]) == date.Year)
+                      //              {
+                      //              yearRow = tableRow;
+                      //              break;
+                      //              }
+                      //          }
+                      //      double monthlyAverageRain = Convert.ToDouble(yearRow[date.Month]);
+                       //     LTRainfallBar.Add(date, monthlyAverageRain);
+                      //      LTAvRainfallLine.Add(date, metObject.RainMonthlyYearlyAverage[date.Month]);
+                      //      }
                         ProgressBar1.PerformStep();
                         }
                     StatusLabel2.Text = "";
@@ -1151,8 +1187,6 @@ namespace APSRU.Howwet
                 ErosionChart.Visible = false;
                 LTRainfallChart.Visible = false;
                 ProfileChart.Visible = false;
-                WaterPanel.Visible = true;
-                NitrogenPanel.Visible = true;
                 NRequirementPanel.Visible = true;
                 ReportButton.Enabled = true;
                 }
@@ -1277,6 +1311,8 @@ namespace APSRU.Howwet
                 }
             }
         #endregion
+
+       
 
         
 

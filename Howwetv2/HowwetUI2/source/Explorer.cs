@@ -186,15 +186,15 @@ namespace APSRU.Howwet
 
             simulationObject.MetFileName = metObject.FileName;
             //set datetime picker
-            if (!(metObject.EndDate.Subtract(new TimeSpan(400, 0, 0, 0, 0)) < metObject.StartDate))
+            if (!(metObject.EndDate().Subtract(new TimeSpan(400, 0, 0, 0, 0)) < metObject.StartDate()))
                 {
-                FallowDateStart= metObject.EndDate.Subtract(new TimeSpan(400, 0, 0, 0, 0));
+                FallowDateStart= metObject.EndDate().Subtract(new TimeSpan(400, 0, 0, 0, 0));
                 }
             else
                 {
-                FallowDateStart = metObject.StartDate;
+                FallowDateStart = metObject.StartDate();
                 }
-            FallowDateEnd = metObject.EndDate;
+            FallowDateEnd = metObject.EndDate();
             config.DefaultMetfile = MetFileName;
             this.NotifyListeners();
             }
