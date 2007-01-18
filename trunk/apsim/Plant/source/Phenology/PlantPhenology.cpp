@@ -194,7 +194,7 @@ void PlantPhenology::zeroDeltas(void)
    dltStage = 0;
    }
 
-void PlantPhenology::prepare(const environment_t &sw)
+void PlantPhenology::prepare(const environment_t &/* sw*/)
    {
    previousStage = currentStage;
    }

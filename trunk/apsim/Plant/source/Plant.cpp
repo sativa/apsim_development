@@ -823,7 +823,7 @@ void Plant::doNewMet(unsigned &, unsigned &, protocol::Variant &v)
   }
 
 
-void Plant::plant_bio_actual (int option /* (INPUT) option number*/)
+void Plant::plant_bio_actual (int /*option  (INPUT) option number*/)
 //=======================================================================================
 //       Takes the minimum of biomass production limited by radiation and
 //       biomass production limited by water.
@@ -1484,13 +1484,6 @@ void Plant::plant_nit_retrans (int option/* (INPUT) option number*/)
     pop_routine (my_name);
     return;
     }
-
-void Plant::doNDemandGrain (void)
-//=======================================================================================
-//      Find grain nitrogen demand.
-{
-   fruitPart->doNDemandGrain(g.nfact_grain_conc, g.swdef_expansion);
-}
 
 void Plant::plant_nit_demand (int option /* (INPUT) option number*/)
 //=======================================================================================
@@ -2154,7 +2147,7 @@ void Plant::plant_event()
 
 
 
-void Plant::plant_water_supply (int option /* (INPUT) option number*/)
+void Plant::plant_water_supply (int /* option (INPUT) option number*/)
 //       Plant water supply
     {
      rootPart->CalcWaterSupply();
@@ -2649,17 +2642,12 @@ void Plant::legnew_n_partition
 
 //+  Local Variables
     int   deepest_layer;                          // deepest layer in which the roots are growing
-    float plant_part_fract;                       // fraction of nitrogen to use (0-1) for plant part
     vector<plantPart *>::iterator part;           // iterator
     float n_uptake_sum;                           // total plant N uptake (g/m^2)
-    float n_excess;                               // N uptake above N crit (g/m^2)
     vector<float> n_capacity(allParts.size());    // amount of N that can be stored in plant part above Ncrit (g/m^2)
     float n_capacity_sum;                         // total excess N storage (g/m^2)
     float n_demand_sum;                               // total nitrogen demand (g/m^2)
     float n_fix_demand_tot;                       // total demand for N fixation (g/m^2)
-    float fix_demand;                             // demand for fixed N per plant part (g/m^
-    float fix_part_fract;                         // fraction of fixed N per plant part (g/m
-    float dlt_n_green_part;
 
     // find the proportion of uptake to be distributed to
     // each plant part and distribute it.
@@ -2703,7 +2691,7 @@ void Plant::legnew_dm_retranslocate
     (vector<plantPart *> &allParts         // (INPUT) all parts of plant
     ,vector<plantPart *> &supply_pools     // (INPUT) parts that can supply retranslocate
     ,float  g_dm_demand_differential      // (INPUT)  grain dm demand (g/m^2)
-    ,float  g_plants                      // (INPUT)  Plant density (plants/m^2)
+    ,float // g_plants                      // (INPUT)  Plant density (plants/m^2)
     ,float  *dlt_dm_retrans_to_fruit)      // (OUTPUT) dm retranslocated to fruit (g/m^2)
 {
 
@@ -2918,8 +2906,6 @@ void Plant::plant_N_senescence (void)
 //=====================================================================
 //      Derives seneseced plant nitrogen (g N/m^2)
    {
-   float    green_n_conc;  //! N conc of green material (g/g)
-   float    sen_n_conc;    //! N conc of senescing material (g/g)
    float    dlt_n_in_senescing_leaf;
    float    navail;
    float    n_demand_tot;
@@ -3043,7 +3029,7 @@ void Plant::plant_process ( void )
         rootPart->sen_length();
 
         fruitPart->doNInit();
-        doNDemandGrain();
+        fruitPart->doNDemandGrain(g.nfact_grain_conc, g.swdef_expansion);
 
         plant_nit_supply (c.n_uptake_option);
         if (c.n_retrans_option==1)
@@ -3438,12 +3424,6 @@ void Plant::plant_harvest_update (protocol::Variant &v/*(INPUT)message arguments
     float height;                                 // cutting height
     float canopy_fac;
     float temp;
-    float dlt_dm_harvest;                         // dry matter harvested (g/m^2)
-    float dlt_n_harvest;                          // N content of dm harvested (g/m^2)
-    float dlt_p_harvest;                          // N content of dm harvested (kg/ha)
-    float dlt_dm_die;                             // dry matter in dieback of roots (g/m^2)
-    float dlt_n_die;                              // N content of drymatter in dieback (g/m^2)
-    float dlt_p_die;                              // P content of drymatter in dieback (g/m^2)
     float cover_pod;
 
 //- Implementation Section ----------------------------------
@@ -3686,7 +3666,6 @@ void Plant::plant_kill_stem_update (protocol::Variant &v/*(INPUT) message argume
        (*part)->onKillStem();
 
     // JNGH need to account for dead pai
-    g.pai = 0.0;
 
     // transfer plant grain no.
 
@@ -3773,15 +3752,11 @@ void Plant::plant_remove_biomass_update (protocol::RemoveCropDmType dmRemoved)
     const char*  my_name = "plant_remove_biomass_update" ;
 
 //+  Local Variables
-    //c      real       dlt_leaf_area         ;     // leaf area increase (mm^2/plant)
     vector<plantPart *>::iterator part;
 
     float cover_pod;
 
-    float dm_init;
-    float n_init;
     float canopy_fac;
-//    float fraction_to_residue[max_part];          // fraction sent to residue (0-1)
 
     vector<plantPart *> allParts;
     allParts.push_back(rootPart);
@@ -3945,7 +3920,6 @@ void Plant::plant_zero_all_globals (void)
       g.swdef_photo = 1.0;
       g.swdef_pheno = 1.0;
       g.swdef_fixation = 1.0;
-      g.sw_avail_fac_deepest_layer = 0;
       g.nfact_expansion = 1.0;
       g.nfact_photo = 1.0;
       g.nfact_grain_conc = 1.0;
@@ -3990,10 +3964,7 @@ void Plant::plant_zero_all_globals (void)
       g.radnIntGreenFruit = 0.0;
       g.transp_eff = 0.0;
       g.lai_canopy_green = 0.0;
-      g.leaf_no_final = 0.0;
 
-
-      g.grain_n_supply = 0.0;
       g.n_fix_pot = 0.0;
       fill_real_array (g.no3gsm_uptake_pot, 0.0, max_layer);
       fill_real_array (g.nh4gsm_uptake_pot, 0.0, max_layer);
@@ -4016,9 +3987,6 @@ void Plant::plant_zero_all_globals (void)
       g.n_uptake_stover_tot = 0.0;
       g.lai_max = 0.0;
       g.ext_n_demand = 0.0;
-      g.ext_sw_demand = 0.0;
-
-
 
       p.eo_crop_factor = 0.0;
 
@@ -4034,10 +4002,6 @@ void Plant::plant_zero_all_globals (void)
       c.remove_biomass_report = "off";
 
       c.n_supply_preference = "";
-      fill_real_array (c.x_ws_root , 0.0, max_table);
-      fill_real_array (c.y_ws_root_fac , 0.0, max_table);
-      c.num_ws_root = 0;
-
 
       c.n_fact_photo = 0.0;
       c.n_fact_pheno = 0.0;
@@ -4045,7 +4009,6 @@ void Plant::plant_zero_all_globals (void)
       fill_real_array (c.x_row_spacing, 0.0, max_table);
       fill_real_array (c.y_extinct_coef, 0.0, max_table);
       fill_real_array (c.y_extinct_coef_dead, 0.0, max_table);
-      fill_real_array (c.root_depth_rate, 0.0, max_table);
       c.num_row_spacing = 0;
       c.leaf_no_crit = 0.0;
       c.tt_emerg_limit = 0.0;
@@ -4055,52 +4018,23 @@ void Plant::plant_zero_all_globals (void)
       c.swdf_photo_rate = 0.0;
       c.svp_fract = 0.0;
       fill_real_array (c.transp_eff_cf, 0.0, max_table);
-      c.grain_n_conc_min = 0.0;
-      c.seed_wt_min = 0.0;
       c.no3_diffn_const = 0.0;
       fill_real_array (c.n_fix_rate, 0.0,max_table);
-      c.leaf_init_rate = 0.0;
-      c.leaf_no_seed = 0.0;
-      c.swdf_grain_min = 0.0;
-      c.hi_min = 0.0;
-      c.sfac_slope = 0.0;
-      c.tfac_slope = 0.0;
-      c.sw_fac_max = 0.0;
-      c.temp_fac_min = 0.0;
-      c.spla_slope = 0.0;
-      c.sen_threshold = 0.0;
-      c.grn_water_cont = 0.0;
-      c.leaf_trans_frac = 0.0;
-      c.htstress_coeff = 0.0;
-      c.temp_grain_crit_stress = 0.0;
-      c.n_fact_lf_sen_rate = 0.0;
+      c.grn_water_cont = 0.0;     //FIXME put into grainpart
       fill_real_array (c.x_ave_temp, 0.0, max_table);
       fill_real_array (c.y_stress_photo, 0.0, max_table);
       fill_real_array (c.x_weighted_temp, 0.0, max_table);
       fill_real_array (c.y_plant_death, 0.0, max_table);
-      c.num_temp = 0;
       c.num_ave_temp = 0;
-      c.num_temp_grain = 0;
       c.num_factors = 0;
-      c.num_temp_other = 0;
       c.num_weighted_temp = 0;
 
       c.no3_ub = 0.0;
       c.no3_lb = 0.0;
       c.nh4_ub = 0.0;
       c.nh4_lb = 0.0;
-      c.leaf_no_min = 0.0;
-      c.leaf_no_max = 0.0;
       c.latitude_ub = 0.0;
       c.latitude_lb = 0.0;
-      c.maxt_ub = 0.0;
-      c.maxt_lb = 0.0;
-      c.mint_ub = 0.0;
-      c.mint_lb = 0.0;
-      c.radn_ub = 0.0;
-      c.radn_lb = 0.0;
-      c.dlayer_ub = 0.0;
-      c.dlayer_lb = 0.0;
       c.row_spacing_default = 0.0;
       c.skip_row_default = 0.0;
       c.skip_plant_default = 0.0;
@@ -4167,7 +4101,6 @@ void Plant::plant_zero_variables (void)
 
     g.plants                = 0.0;
     g.canopy_width         = 0.0;
-    g.leaf_no_final         = 0.0;
     g.n_conc_act_stover_tot = 0.0;
     g.n_conc_crit_stover_tot = 0.0;
     g.n_demand_tot          = 0.0;
@@ -4234,12 +4167,6 @@ void Plant::plant_zero_daily_variables ()
         t != myThings.end();
         t++)
        (*t)->zeroDeltas();
-
-
-
-    g.grain_n_supply = 0.0;
-
-
 
     fill_real_array (g.no3gsm_uptake_pot, 0.0, max_layer);
     fill_real_array (g.nh4gsm_uptake_pot, 0.0, max_layer);
@@ -4610,7 +4537,6 @@ void Plant::plant_end_crop ()
     float p_root;                                 // phosphorus added to soil (g/m^2)
     char  msg[400];
     float yield;                                  // grain wt (kg/ha)
-    int part;                                     // part
 
     push_routine (my_name);
 
@@ -5098,46 +5024,6 @@ void Plant::plant_read_constants ( void )
     , c.latitude_lb
     , -90.0, 90.0);
 
-    parent->readParameter (section_name
-    , "maxt_ub"//, "(oc)"
-    , c.maxt_ub
-    , -60.0, 60.0);
-
-    parent->readParameter (section_name
-    , "maxt_lb"//, "(oc)"
-    , c.maxt_lb
-    , -60.0, 60.0);
-
-    parent->readParameter (section_name
-    , "mint_ub"//, "(oc)"
-    , c.mint_ub
-    , -60.0, 40.0);
-
-    parent->readParameter (section_name
-    , "mint_lb"//, "(oc)"
-    , c.mint_lb
-    , -100.0, 100.0);
-
-    parent->readParameter (section_name
-    , "radn_ub"//, "(mj/m^2)"
-    , c.radn_ub
-    , 0.0, 100.0);
-
-    parent->readParameter (section_name
-    , "radn_lb"//, "(mj/m^2)"
-    , c.radn_lb
-    , 0.0, 100.0);
-
-    parent->readParameter (section_name
-    , "dlayer_ub"//, "(mm)"
-    , c.dlayer_ub
-    , 0.0, 10000.0);
-
-    parent->readParameter (section_name
-    , "dlayer_lb"//, "(mm)"
-    , c.dlayer_lb
-    , 0.0, 10000.0);
-
 // 8th block
 
 
@@ -5262,9 +5148,7 @@ void Plant::plant_read_species_const ()
 
 //+  Local Variables
     int   numvals;                                // number of values returned
-    int   part;                                   // plant part counter
     vector<string> search_order;                  // sections to search
-    char  name[200];                              // scratch area
 //- Implementation Section ----------------------------------
 
     push_routine (my_name);
@@ -5462,22 +5346,16 @@ void Plant::plant_read_species_const ()
                         , 1, 2);
 
     //    plant_event
-    parent->readParameter (search_order
-                   ,"grn_water_cont"//, "(g/g)"
-                   , c.grn_water_cont
-                   , 0.0, 1.0);
+    parent->readParameter (search_order              //FIXME put into grainpart
+                   ,"grn_water_cont"//, "(g/g)"      //FIXME put into grainpart
+                   , c.grn_water_cont                //FIXME put into grainpart
+                   , 0.0, 1.0);                      //FIXME put into grainpart
 
     //    plant_dm_senescence
     parent->readParameter (search_order
                       , "dm_senescence_option"//, "()"
                       , c.dm_senescence_option
                       , 1, 3);
-
-    //    plant_phenology_init
-    parent->readParameter (search_order
-                   , "twilight"//, "(o)"
-                   , c.twilight
-                   , -90.0, 90.0);
 
     //    plant_n_senescence
     parent->readParameter (search_order
@@ -5531,19 +5409,6 @@ void Plant::plant_read_species_const ()
                      , "y_plant_death"//, "(oc)"
                      , c.y_plant_death, c.num_weighted_temp
                      , 0.0, 100.0);
-
-    //    plant_swdef
-
-    parent->readParameter (search_order
-                     , "x_ws_root"//,  "()"
-                     , c.x_ws_root, c.num_ws_root
-                     , 0.0, 1.0);
-
-    parent->readParameter (search_order
-                     , "y_ws_root_fac"//, "()"
-                     , c.y_ws_root_fac, c.num_ws_root
-                     , 0.0, 1.0);
-
 
     parent->readParameter (search_order
                      , "co2_default"//, "()"
@@ -5623,7 +5488,7 @@ void Plant::plant_harvest_report ()
     yield = fruitPart->dmGrainTotal() * gm2kg / sm2ha;
 
     // include the grain water content
-    yield_wet = yield / (1.0 - c.grn_water_cont);
+    yield_wet = yield / (1.0 - c.grn_water_cont);       //FIXME put into grainpart
 
     grain_wt = fruitPart->grainWt();
 
@@ -5854,18 +5719,13 @@ void Plant::doNewProfile(unsigned &, unsigned &, protocol::Variant &v /* (INPUT)
     {
 
 //+  Local Variables
-    float profile_depth;                          // depth of soil profile (mm)
 
 //+  Constant Values
     const char*  myname = "doNewProfile" ;
 
 //- Implementation Section ----------------------------------
     push_routine (myname);
-
-
-rootPart->doNewProfile(v);
-
-
+    rootPart->doNewProfile(v);
     pop_routine (myname);
     return;
     }
@@ -6940,3 +6800,5 @@ void Plant::warningError (const char *msg) {parent->warningError(msg);};
 
 const std::string & Plant::getCropType(void) {return c.crop_type;};
 protocol::Component *Plant::getComponent(void) {return parent;};
+
+

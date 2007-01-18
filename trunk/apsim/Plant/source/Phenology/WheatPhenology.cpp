@@ -325,7 +325,7 @@ float WheatPhenology::wheat_photoperiod_effect(float photoperiod, float p_photop
 float WheatPhenology::wheat_vernaliz_days(float g_maxt    //Daily maximum Temperature
                                          ,float g_mint    //Daily minimum temperature
                                          ,float tempcr    //Crown temperature
-                                         ,float g_snow    //Snow depth of the day (mm)
+                                         ,float //g_snow    //Snow depth of the day (mm)
                                          ,float g_cumvd)  //cumulative vernalisation days till yesterday
    {
    float dlt_cumvd = 0.0;

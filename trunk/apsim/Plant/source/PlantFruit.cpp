@@ -49,7 +49,7 @@ ostream &operator<<(ostream &output, const PlantFruit /*&pool*/)
 
 // copy constructor
 //	copy data members of object
-PlantFruit::PlantFruit(const PlantFruit &PlantFruit)
+PlantFruit::PlantFruit(const PlantFruit &/* PlantFruit*/)
 //===========================================================================
 {
 	throw std::invalid_argument("Copy constructor NI for plantFruit");

@@ -225,8 +225,8 @@ void crop_leaf_area_sen_light2 (float radn_int,                //(INPUT)
 //===========================================================================
 void crop_leaf_area_sen_age1 (int emergence,                   //(INPUT)  emergence stage no.
                               int this_stage,                  //(INPUT)  This current stage
-                              float g_dlt_lai_stressed,        //(INPUT)  potential change in live
-                              float g_dlt_leaf_no,             //(INPUT)  actual fraction of oldest leaf
+                              float /* g_dlt_lai_stressed*/,        //(INPUT)  potential change in live
+                              float /* g_dlt_leaf_no*/,             //(INPUT)  actual fraction of oldest leaf
                               float g_dlt_leaf_no_dead,        //(INPUT)  fraction of oldest green leaf
                               float g_lai,                     //(INPUT)  live plant green lai
                               float *g_leaf_area,              //(INPUT)  leaf area of each leaf (mm^2)
@@ -409,7 +409,7 @@ void cproc_leaf_area_sen1 (int emergence,                 // (INPUT)  emergence 
 void cproc_leaf_area_init1 (float c_initial_tpla,     //(INPUT)  initial plant leaf area (mm^2)
                             int   init_stage,         //(INPUT)  initialisation stage
                             float g_current_stage,    //(INPUT)  current phenological stage
-                            float *g_days_tot,        // (INPUT)  duration of each phase (days)
+                            float */* g_days_tot*/,        // (INPUT)  duration of each phase (days)
                             float  g_plants,          // (INPUT)  Plant density (plants/m^2)
                             float *lai)               //(OUTPUT) total plant leaf area
 //===========================================================================
@@ -474,7 +474,7 @@ void cproc_canopy_height (float g_canopy_height,          // (INPUT)  canopy hei
 void cproc_leaf_no_init1 (float c_leaf_no_at_emerg,       //(INPUT)  leaf number at emergence ()
                           float g_current_stage,          //(INPUT)  current phenological stage
                           int   emerg,                    //(INPUT)  emergence stage no
-                          float *g_days_tot,               //(INPUT)  duration of each phase (days)
+                          float */* g_days_tot*/,               //(INPUT)  duration of each phase (days)
                           float *leaf_no,                  //(OUTPUT) initial leaf number
                           float *node_no)                  //(OUTPUT) initial node number
 //===========================================================================
@@ -602,7 +602,7 @@ void cproc_leaf_no_pot2 (float *c_x_node_no_app,       //(INPUT)
                          int start_node_app,          //(INPUT)  stage of start of leaf appeara
                          int end_node_app,            //(INPUT)  stage of end of leaf appearanc
                          int emerg,                   //(INPUT)  emergence stage
-                         float *g_days_tot,            //(INPUT)  duration of each phase (days)
+                         float */* g_days_tot*/,            //(INPUT)  duration of each phase (days)
                          float g_dlt_tt,              //(INPUT)  daily thermal time (growing de
                          float *g_node_no,             //(INPUT)  number of fully expanded nodes
                          float *dlt_leaf_no_pot,       //(OUTPUT) new fraction of oldest expanding leaf
@@ -689,7 +689,7 @@ void cproc_leaf_area_pot_tpla (int  begin_stage,                 // (INPUT)  sta
                                int  now,                         // (INPUT)  stage number now = max_stage + 1
                                float *g_phase_tt,                // (INPUT)  required thermal time between stages
                                float *g_tt_tot,                  // (INPUT)  elapsed thermal time between stages
-                               float *g_days_tot,                // (INPUT)  elapsed days between stages
+                               float */* g_days_tot*/,                // (INPUT)  elapsed days between stages
                                float  g_current_stage,           // (INPUT)  current stage
                                float  c_initial_tpla,            // (INPUT)  initial total plant area (mm2)
                                float  tpla_max,                  // (INPUT)  maximum total plant area (mm2)
@@ -828,7 +828,7 @@ void cproc_leaf_area_pot_bellshapecurve (int  begin_stage,             //
                                          float  cBSlope2,              //
                                          float  g_dlt_leaf_no,         //
                                          float  g_plants,              //
-                                         float  g_swdef_expansion,     //
+                                         float  /* g_swdef_expansion*/,     //
                                          float *dlt_lai_pot)           // (OUTPUT) change in leaf area
 //===========================================================================
 /*Purpose

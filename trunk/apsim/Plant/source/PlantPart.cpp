@@ -828,16 +828,16 @@ void plantPart::doRemoveBiomass(protocol::RemoveCropDmType dmRemoved, string &c_
        msg1 << "Remove Crop Biomass 2:-" << endl;
        float dmTotal1 = 0.0;
 
-       msg1 << "   dm green "+c.name+" = " << dltDmGreenRemoved() << " (g/m2)" << endl;
+       msg1 << ("   dm green "+c.name+" = ") << dltDmGreenRemoved() << " (g/m2)" << endl;
        dmTotal1 += dltDmGreenRemoved();
 
-       msg1 << "   dm senesced "+c.name+" = " << dltDmSenescedRemoved() << " (g/m2)" << endl;
+       msg1 << ("   dm senesced "+c.name+" = ") << dltDmSenescedRemoved() << " (g/m2)" << endl;
        dmTotal1 +=  dltDmSenescedRemoved();
 
-       msg1 << "   dm dead "+c.name+" = " << dltDmDeadRemoved() << " (g/m2)" << endl;
+       msg1 << ("   dm dead "+c.name+" = ") << dltDmDeadRemoved() << " (g/m2)" << endl;
        dmTotal1 +=  dltDmDeadRemoved();
 
-       msg1 << endl << "   dm total "+c.name+" = " << dmTotal1 << " (g/m2)" << endl << ends;
+       msg1 << endl << ("   dm total "+c.name+" = ") << dmTotal1 << " (g/m2)" << endl << ends;
 
        plant->writeString (msg1.str().c_str());
 
@@ -845,16 +845,16 @@ void plantPart::doRemoveBiomass(protocol::RemoveCropDmType dmRemoved, string &c_
        msg2 << "Crop Biomass Available:-" << endl;
        float dmTotal2 = 0.0;
 
-       msg2 << "   dm green "+c.name+" = " << dmGreen() << " (g/m2)" << endl;
+       msg2 << ("   dm green "+c.name+" = ") << dmGreen() << " (g/m2)" << endl;
        dmTotal2 +=  dmGreen();
 
-       msg2 << "   dm senesced "+c.name+" = " << dmSenesced() << " (g/m2)" << endl;
+       msg2 << ("   dm senesced "+c.name+" = ") << dmSenesced() << " (g/m2)" << endl;
        dmTotal2 +=  dmSenesced();
 
-       msg2 << "   dm dead "+c.name+" = " << dmDead() << " (g/m2)" << endl;
+       msg2 << ("   dm dead "+c.name+" = ") << dmDead() << " (g/m2)" << endl;
        dmTotal2 +=  dmDead();
 
-       msg2 << endl << "   dm total "+c.name+" = " << dmTotal2 << " (g/m2)" << endl << ends;
+       msg2 << endl << ("   dm total "+c.name+" = ") << dmTotal2 << " (g/m2)" << endl << ends;
 
        plant->writeString (msg2.str().c_str());
     }
@@ -1086,7 +1086,7 @@ float plantPart::dmDemandDifferential(void) const
    return l_bound(dmGreenDemand() - dltDmGreen(), 0.0);
    }
 
-float plantPart::dltDmRetranslocateSupply(float DemandDifferential)
+float plantPart::dltDmRetranslocateSupply(float /* DemandDifferential*/)
 //=======================================================================================
    {
 //   float DMPartPot = DMGreen + dlt.dm_green_retrans;
@@ -1769,7 +1769,7 @@ void plantPart::get_dlt_p_sen(vector<float> &dlt_p_sen) {dlt_p_sen.push_back(dlt
 
    //needed to standardise interface for composite subclass
 
-float plantPart::calcCover (float canopy_fac){return 0;}                  // return pod cover   //FIXME
+float plantPart::calcCover (float /* canopy_fac*/){return 0;}                  // return pod cover   //FIXME
 float plantPart::coverDead(void) {return 0;}
 float plantPart::coverGreen(void) {return 0;}
 float plantPart::coverSen(void) {return 0;}
@@ -1787,7 +1787,7 @@ float plantPart::dmVegTotal(void) const {return 0;}
 float plantPart::grainNConcPercent(void) const {return 0;}
 float plantPart::grainNo(void) const {return 0;}
 float plantPart::grainWt(void) const {return 0;}
-float plantPart::interceptRadiation(float radiation){return 0;}        //FIXME
+float plantPart::interceptRadiation(float /* radiation*/){return 0;}        //FIXME
 float plantPart::nConcGrain(void)const{return 0;}
 float plantPart::nDeadVegTotal(void) const{return 0;}
 float plantPart::nDemandGrain(void) const {return 0;}
@@ -1810,16 +1810,16 @@ float plantPart::pVegTotal(void)const{return 0;}
 float plantPart::SWDemand(void){return 0;}                           //(OUTPUT) crop water demand (mm)               //FIXME
 void plantPart::calcDlt_pod_area (void){}   //FIXME
 void plantPart::doBioActual (void){}
-void plantPart::doDmDemand (float dlt_dm_supply_by_veg){}
-void plantPart::doDmPotRUE (double  radn_int_pod){}                      //FIXME   // (OUTPUT) potential dry matter (carbohydrate) production (g/m^2)
+void plantPart::doDmDemand (float /* dlt_dm_supply_by_veg*/){}
+void plantPart::doDmPotRUE (double  /* radn_int_pod*/){}                      //FIXME   // (OUTPUT) potential dry matter (carbohydrate) production (g/m^2)
 void plantPart::doDmPotTE(void){}                                       //(OUTPUT) potential dry matter production by transpiration (g/m^2)//FIXME
 void plantPart::doGrainNumber (void){}
-void plantPart::doInit1(protocol::Component *system){}
-void plantPart::doNDemandGrain(float nfact_grain_conc, float swdef_expansion){}
-void plantPart::doNewMet(protocol::NewMetType &newmet) {}
+void plantPart::doInit1(protocol::Component */* system*/){}
+void plantPart::doNDemandGrain(float /* nfact_grain_conc*/, float /* swdef_expansion*/){}
+void plantPart::doNewMet(protocol::NewMetType &/* newmet*/) {}
 void plantPart::doNInit (void){}
 void plantPart::doTECO2(void){}                                       // (OUTPUT) transpiration coefficient                         //FIXME
-void plantPart::doTick(protocol::TimeType &tick) {}
+void plantPart::doTick(protocol::TimeType &/* tick*/) {}
 void plantPart::writeCultivarInfo (protocol::Component *){}
 
 float plantPart::giveDmGreen(float delta)

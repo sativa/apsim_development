@@ -56,7 +56,7 @@ float root_proportion (int    layer,              // (INPUT) layer to look at
 void  cproc_root_depth_init1(float initial_root_depth,         // (INPUT)  initial depth of roots (mm)
                              float current_stage,              // (INPUT)  current phenological stage
                              int   initialisation_stage,       // (INPUT)  stage at which to initialise
-                             float *days_tot,                   // (INPUT)  duration of each phase (days)
+                             float * /* days_tot*/,                   // (INPUT)  duration of each phase (days)
                              float *root_depth)                 // (OUTPUT) initial root depth (mm)
 //==========================================================================
 

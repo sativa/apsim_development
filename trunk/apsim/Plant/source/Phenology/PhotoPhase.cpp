@@ -43,7 +43,7 @@ void PhotoPhase::readSpeciesParameters (protocol::Component *s, vector<string> &
    }
 
 
-void PhotoPhase::updateTTTargets(PlantPhenology &parent,const environment_t &e)
+void PhotoPhase::updateTTTargets(PlantPhenology &/* parent*/,const environment_t &e)
 //=======================================================================================
    {
    if (cutoff == "start")

@@ -516,7 +516,7 @@ void cohortingLeafPart::leaf_no_actual (void)
    }
 
 
-void cohortingLeafPart::leaf_death (float  g_nfact_expansion, float  g_dlt_tt)
+void cohortingLeafPart::leaf_death (float  /* g_nfact_expansion*/, float  /* g_dlt_tt*/)
 //=======================================================================================
 //     Calculate the fractional death of oldest green leaf.
    {
@@ -773,7 +773,7 @@ void cohortingLeafPart::update(void)
 }
 
 // Remove detachment from leaf area record
-void cohortingLeafPart::remove_detachment (float dlt_slai_detached, float dlt_lai_removed )
+void cohortingLeafPart::remove_detachment (float /* dlt_slai_detached*/, float /* dlt_lai_removed*/ )
 //=======================================================================================
    {
 

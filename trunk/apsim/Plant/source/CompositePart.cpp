@@ -31,7 +31,7 @@ ostream &operator<<(ostream &output, const CompositePart /*&pool*/)
 
 // copy constructor
 //	copy data members of object
-CompositePart::CompositePart(const CompositePart &CompositePart)
+CompositePart::CompositePart(const CompositePart &/* CompositePart*/)
 //===========================================================================
 {
 	throw std::invalid_argument("Copy constructor NI for CompositePart");
@@ -1556,7 +1556,7 @@ float CompositePart::dltDmGreen(void) const
 }
 
 
-float CompositePart::dltDmRetranslocateSupply(float demand_differential)
+float CompositePart::dltDmRetranslocateSupply(float /* demand_differential*/)
    //===========================================================================
 {
    float dlt_dm_green_retrans = 0.0;

@@ -249,7 +249,6 @@ public:
    void plant_nit_uptake (int option       /* (INPUT) option number*/);
    void plant_nit_partition ();
    void plant_nit_stress (int option       /* (INPUT) option number*/);
-   void doNDemandGrain (void);
    void plant_soil_nit_demand ();
 
    void plant_nit_demand_est (int option);
@@ -685,7 +684,6 @@ private:
       float swdef_photo;
       float swdef_pheno;
       float swdef_fixation;
-      float sw_avail_fac_deepest_layer;
       float nfact_expansion;
       float nfact_photo;
       float nfact_grain_conc;
@@ -739,12 +737,6 @@ private:
       float transpEffFruit;                             // transpiration efficiency of fruit (g dm/m^2/mm water)
 
       float lai_canopy_green;                           // green lai of canopy
-      float pai;
-      float dlt_pai;
-
-      float leaf_no_final;                              // total number of leaves the plant produces
-      float grain_n_demand;                             // grain n demand from soil OR retrans
-      float grain_n_supply;                             // grain n supply from soil OR retrans
 
       float no3gsm_diffn_pot[max_layer];                // potential NO3 (supply) from soil (g/m^2), by diffusion
       float no3gsm_mflow_avail[max_layer];              // potential NO3 (supply) from soil (g/m^2) by mass flow
@@ -770,7 +762,6 @@ private:
       float n_uptake_stover_tot;                        // sum of tops N uptake (g N/m^2)
       float lai_max;                                    // maximum lai - occurs at flowering
       float ext_n_demand;
-      float ext_sw_demand;                              // Note: currently unused - use sw_demand
       float grain_energy;                               // multiplier of grain weight to account
                                                         // for seed energy content
 
@@ -802,20 +793,7 @@ private:
    //       plant Parameters
    //     ================================================================
    struct {
-      //      float grains_per_gram_stem;
-      //      float potential_grain_filling_rate;
-
-      float x_pp_hi_incr[max_table];
-      float y_hi_incr[max_table];                       // harvest index increment per day ()
-      int   num_pp_hi_incr;
-      int   num_hi_max_pot;
-      float x_hi_max_pot_stress[max_table];             // maximum harvest index (g grain/g biomass)
-      float y_hi_max_pot[max_table];                    // maximum harvest index (g grain/g biomass)
-
       float eo_crop_factor;                             // Crop factor for sw demand applied to Eo
-
-      float minTempGrnFill;
-      int   daysDelayGrnFill;
    } p; // Parameters
 
 
@@ -823,8 +801,6 @@ private:
    //       plant Constants
    //     ================================================================
    struct {
-      int   grain_fill_option;
-      int   grain_n_option;
       int   n_uptake_option;
       int   leaf_no_pot_option;
       int   n_retrans_option;
@@ -845,28 +821,13 @@ private:
       string default_crop_class;                         // crop class
       vector<string> part_names;                         // names of plant parts
       string n_supply_preference;                        // preference of n supply
-      float x_ws_root [max_table];
-      float y_ws_root_fac [max_table];
-      int   num_ws_root;
-      float twilight;                                   // twilight in angular distance between
-                                                        // sunset and end of twilight - altitude
-                                                        // of sun. (deg)
-//      float n_conc_crit_root;                           // critical N concentration of root (g N/g biomass)
-//      float n_conc_max_root;                            // maximum N concentration of root (g N/g biomass)
-//      float n_conc_min_root;                            // minimum N concentration of root (g N/g biomass)
-//      float x_stage_code[max_table];                    // stage table for N concentrations (g N/g biomass)
-//      float y_n_conc_crit_leaf[max_table];              // critical N concentration of leaf (g N/g biomass)
-//      float y_n_conc_max_leaf[max_table];               // maximum N concentration of leaf (g N/g biomass)
-//      float y_n_conc_min_leaf[max_table];               // minimum N concentration of leaf (g N/g biomass)
       float n_fact_photo;                               // multipler for N deficit effect on photosynthesis
       float n_fact_pheno;                               // multipler for N deficit effect on phenology
       float n_fact_expansion;
-      int   num_n_conc_stage;                           // no of values in stage table
       float x_row_spacing[max_table];
       float y_extinct_coef[max_table];
       float y_extinct_coef_dead[max_table];
       interpolationFunction rue;                        // radiation use efficiency as f(stage number) (g dm/mj)
-      float root_depth_rate[max_table];                 // root growth rate potential (mm depth/day)
 
       int   num_row_spacing;
       float leaf_no_crit;                               // critical number of leaves below
@@ -897,9 +858,6 @@ private:
                                                         // and this can be converted to
                                                         // kpa*g carbo per m^2 / mm water
                                                         // because 1g water = 1 cm^3 water
-      float grain_n_conc_min;                           // minimum nitrogen concentration of grain
-
-      float seed_wt_min;                                // minimum grain weight (g/kernel)
       float no3_diffn_const;                            // time constant for uptake by
                                                         // diffusion (days). H van Keulen &
                                                         // NG Seligman. Purdoe 1987. This is the
@@ -908,44 +866,7 @@ private:
                                                         // it wasn't depleted between time steps
       float n_fix_rate[max_table];                      // potential rate of N fixation (g N fixed
                                                         // per g above ground biomass
-      float leaf_init_rate;                             // growing degree days to initiate each le
-                                                        // primordium until fl_initling (deg day)
-      float leaf_no_seed;                               // number of leaf primordia present in
-                                                        // seed
-      float **x_dm_sen_frac;
-      float **y_dm_sen_frac;
-      int   *num_dm_sen_frac;
-
-      float swdf_grain_min;                             // minimum of water stress factor
-      float hi_min;                                     // minimum harvest index (g grain/
-                                                        // g biomass)
-      float sfac_slope;                                 // soil water stress factor slope
-      float tfac_slope;                                 // temperature stress factor slope
-      float sw_fac_max;                                 // soil water stress factor maximum
-      float temp_fac_min;                               // temperature stress factor minimum
-                                                        // optimum temp
-      float spla_slope;                                 // regression slope for calculating
-                                                        // inflection point for leaf senescence
-      float sen_threshold;                              // supply:demand ratio for onset of
-                                                        // water senescence
       float grn_water_cont;                             // water content of grain g/g
-//xxremove
-//      float partition_rate_leaf;                        // rate coefficient of sigmoidal
-//                                                        // function between leaf partition
-//                                                        // fraction and internode no**2 (0-1)
-
-
-      float leaf_trans_frac;                            // fraction of leaf used in translocat
-                                                        // to grain
-                                                        // to grain
-      float htstress_coeff;                             // coeff for conversion of heat stress
-                                                        // during flowering to
-                                                        // heat stress factor on grain number
-                                                        // development.
-      float temp_grain_crit_stress;                     // temperature above which heat stress
-                                                        // occurs
-      float n_fact_lf_sen_rate;
-      float grain_oil_conc;                             // fractional oil content of grain (0-1)
       float x_ave_temp[max_table];                      // critical temperatures for
                                                         // photosynthesis (oC)
       float y_stress_photo[max_table];                  // Factors for critical temperatures
@@ -958,11 +879,8 @@ private:
       float y_plant_death[max_table];                   // index of plant death
                                                         // rates for critical temperatures
                                                         // (0-1)
-      int   num_temp;                                   // size_of table
       int   num_ave_temp;                               // size_of critical temperature table
-      int   num_temp_grain;                             // size_of table
       int   num_factors;                                // size_of table
-      int   num_temp_other;                             //
       int   num_weighted_temp;                          // size of table
 
 
@@ -970,18 +888,8 @@ private:
       float no3_lb;                                     // lower limit of soil NO3 (kg/ha)
       float nh4_ub;                                     // upper limit of soil NH4 (kg/ha)
       float nh4_lb;                                     // lower limit of soil NH4 (kg/ha)
-      float leaf_no_min;                                // lower limit of leaf number ()
-      float leaf_no_max;                                // upper limit of leaf number ()
       float latitude_ub;                                // upper limit of latitude for model (oL)
       float latitude_lb;                                // lower limit of latitude for model(oL)
-      float maxt_ub;                                    // upper limit of maximum temperature (oC)
-      float maxt_lb;                                    // lower limit of maximum temperature (oC)
-      float mint_ub;                                    // upper limit of minimum temperature (oC)
-      float mint_lb;                                    // lower limit of minimum temperature (oC)
-      float radn_ub;                                    // upper limit of solar radiation (Mj/m^2)
-      float radn_lb;                                    // lower limit of solar radiation (Mj/M^2)
-      float dlayer_ub;                                  // upper limit of layer depth (mm)
-      float dlayer_lb;                                  // lower limit of layer depth (mm)
       float row_spacing_default;
       float skip_row_default;                           //Default skip row ()
       float skip_plant_default;                         //Default skip plant ()

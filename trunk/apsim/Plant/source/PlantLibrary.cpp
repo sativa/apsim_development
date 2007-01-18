@@ -168,7 +168,6 @@ float linint_3hrly_temp (float tmax,          //(INPUT) maximum temperature (oC)
    // Local Variables
    int period;                  // three hourly period number
    float tot;                   // sum_of of 3 hr interpolations
-   float y_3hour;               // 3 hr interpolated value
 
    // Implementation Section ----------------------------------
    tot = 0.0;
