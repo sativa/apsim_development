@@ -451,7 +451,7 @@ void plantRootPart::onStartGrainFill(void)
    DMPlantMin = 0.0;
    }
 
-void plantRootPart::onHarvest(float /*cutting_height*/, float remove_fr,
+void plantRootPart::onHarvest(float /*cutting_height*/, float /* remove_fr*/,
                               vector<string> &dm_type,
                               vector<float> &dlt_crop_dm,
                               vector<float> &dlt_dm_n,
@@ -627,21 +627,23 @@ void plantRootPart::root_dist_dead(float root_sum, vector<float> &root_array)   
                            divide (root_length_dead[layer], root_length_sum, 0.0);
    }
 
-void plantRootPart::collectDetachedForResidue(vector<string> &part_name
-                              , vector<float> &dm_residue
-                              , vector<float> &dm_n
-                              , vector<float> &dm_p
-                              , vector<float> &fract_to_residue)
+void plantRootPart::collectDetachedForResidue(vector<string> &//part_name
+                              , vector<float> &//dm_residue
+                              , vector<float> &//dm_n
+                              , vector<float> &//dm_p
+                              , vector<float> &//fract_to_residue
+                              )
 //=======================================================================================
 // Unlike above ground parts, no roots go to surface residue module.
    {
    }
 
-void plantRootPart::collectDeadDetachedForResidue(vector<string> &part_name
-                              , vector<float> &dm_residue
-                              , vector<float> &dm_n
-                              , vector<float> &dm_p
-                              , vector<float> &fract_to_residue)
+void plantRootPart::collectDeadDetachedForResidue(vector<string> &//part_name
+                              , vector<float> &//dm_residue
+                              , vector<float> &//dm_n
+                              , vector<float> &//dm_p
+                              , vector<float> &//fract_to_residue
+                              )
 //=======================================================================================
 // Unlike above ground parts, no roots go to surface residue module.
    {
@@ -940,7 +942,6 @@ void rootGrowthOption2::root_length_growth (void)
 //   layer explored by roots.
     {
     float dlt_length_tot;                         // total root length increase (mm/m^2)
-    int   layer;                                  // simple layer counter variable
     float rlv_factor_tot;                         // total rooting factors across profile
     float branching_factor;                       //
     float plant_rld;

@@ -121,7 +121,7 @@ void CropPhenology::update(void)
    }
 
 bool CropPhenology::plant_germination(float pesw_germ,         // plant extractable soil water required for germination
-                                      float sowing_depth,      // depth of seed (mm)
+                                      float /* sowing_depth*/,      // depth of seed (mm)
                                       float pesw_seed) // soil water structure
 //=======================================================================================
 //    Determine whether seed germinates based on soil water availability

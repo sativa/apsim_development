@@ -21,7 +21,7 @@ class Arbitrator : public plantThing
    virtual void readConstants (protocol::Component *, const string &) {};
    virtual void readCultivarParameters (protocol::Component *, const string &) {};
    virtual void update(void) {};
-   virtual float dltDMWhole(float dlt_dm) {};
+   virtual float dltDMWhole(float dlt_dm) {return 0.0;};
    virtual void zeroDeltas(void) {};
    virtual void zeroAllGlobals(void) {};
    };

@@ -127,7 +127,7 @@ void crop_dm_dead_detachment(const int num_part,
 
 //============================================================================
 void cproc_dm_senescence1 (const int num_part,           //(INPUT)  number of plant parts
-                           const int max_table,          //(INPUT)  max lookup length
+                           const int /* max_table*/,          //(INPUT)  max lookup length
                            float independant_variable,   //(INPUT)  independant variable which
                            float **c_x_dm_sen_frac,      //(INPUT)  lookup for independant variabl   is said to drive senescence.
                            float **c_y_dm_sen_frac,      // (INPUT)  fraction of  material senescin
@@ -410,8 +410,8 @@ void cproc_bio_init1(float *C_dm_init,         //(INPUT)
 void cproc_rue_n_gradients(int   day,                  // !day of the year
                            float latitude,           //latitude in degree
                            float radiation,          //daily global radiation (MJ/m2/d)
-                           float tempmax,            //daily maximum tempeature (C)
-                           float tempmin,            //daily minimum tempeature (C)
+                           float /* tempmax*/,            //daily maximum tempeature (C)
+                           float /* tempmin*/,            //daily minimum tempeature (C)
                            float lai_green,          //leaf area index (-)
                            float sln_gradient,      //SLN gradients in canopy (g N/m2 leaf)
                            float pmaxmax,            //potential assimilation rate (SLN ASYMPTOTE) (mg CO2/m2.s)
@@ -759,7 +759,7 @@ void crop_dm_pot_rue_co2 (float current_stage,
 //  Mission Statement
 //  Calculate biomass senescence as a function of %3
 void plant_dm_senescence (int num_part               // (INPUT) number of plant parts
-                               , float max_Table            // (INPUT) max lookup length
+                               , float // max_Table            // (INPUT) max lookup length
                                , float independant_variable // (INPUT) independant variable which is said to drive senescence.
                                , float **c_x_dm_sen_frac    // (INPUT)  lookup for independant variabl
                                , float **c_y_dm_sen_frac    // (INPUT)  fraction of  material senescin

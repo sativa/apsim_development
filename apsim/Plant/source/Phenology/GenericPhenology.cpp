@@ -88,7 +88,7 @@ float GenericPhenology::TT(const environment_t &e)
    return linint_3hrly_temp (e.maxt, e.mint, &y_tt);
    }
 
-void GenericPhenology::process (const environment_t &e, const pheno_stress_t &ps,float fasw_seed, float pesw_seed)
+void GenericPhenology::process (const environment_t &e, const pheno_stress_t &/* ps*/,float fasw_seed, float pesw_seed)
 //=======================================================================================
 //     Use temperature, photoperiod and genetic characteristics
 //     to determine when the crop begins a new growth phase.

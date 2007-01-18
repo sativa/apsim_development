@@ -768,7 +768,7 @@ void cproc_n_uptake3
     ,float  g_n_fix_pot                          // (INPUT) potential N fixation (g/m2)
     ,const char   *c_n_supply_preference         // (INPUT)c_n_supply_preference*(*)
     ,float  n_demand                             // (INPUT)  critical plant nitrogen demand
-    ,float  n_max                                // (INPUT)  maximum plant nitrogen demand
+    ,float  //n_max                                // (INPUT)  maximum plant nitrogen demand
     ,float  g_root_depth                         // (INPUT)  depth of roots (mm)
     ,float  *dlt_no3gsm                          // (OUTPUT) actual plant N uptake from NO3 in each layer (g/m^2)
     ,float  *dlt_nh4gsm                          // (OUTPUT) actual plant N uptake from NH4 in each layer (g/m^2)

@@ -37,7 +37,7 @@ ostream &operator<<(ostream &output, const fruitGrainPartGN /*&pool*/)
 // copy constructor
 //  copy data members of object
 //===========================================================================
-fruitGrainPartGN::fruitGrainPartGN(const fruitGrainPartGN &fruitGrainPartGN)
+fruitGrainPartGN::fruitGrainPartGN(const fruitGrainPartGN &/* fruitGrainPartGN*/)
 //===========================================================================
 {
   throw std::invalid_argument("Copy constructor NI for fruitGrainPartGN");
@@ -305,7 +305,7 @@ void fruitGrainPartGN::doDMDemandGrain(void)
    }
 
 void fruitGrainPartGN::doNDemandGrain (float nfact_grain_conc      //   (INPUT)
-                                     , float swdef_expansion)    //   grain N demand (g/m^2)
+                                     , float /* swdef_expansion*/)    //   grain N demand (g/m^2)
    //===========================================================================
 {
    float Tav ;
@@ -343,4 +343,5 @@ void fruitGrainPartGN::doNDemandGrain (float nfact_grain_conc      //   (INPUT)
       }
 
 }
+
 

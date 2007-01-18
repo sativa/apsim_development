@@ -207,7 +207,7 @@ void fruitGrainPart::readCultivarParameters (protocol::Component *system, const 
       (*part)->readCultivarParameters(system, cultivar);
 }
 
-void fruitGrainPart::writeCultivarInfo (protocol::Component *system)
+void fruitGrainPart::writeCultivarInfo (protocol::Component */* system*/)
    //===========================================================================
 {
 }
@@ -273,7 +273,7 @@ void fruitGrainPart::onKillStem(void)
       (*part)->onKillStem();
 }
 
-void fruitGrainPart::doInit1(protocol::Component *system)
+void fruitGrainPart::doInit1(protocol::Component */* system*/)
    // ====================================================================
 {
    mealPart = new fruitMealPart(plant, "meal");

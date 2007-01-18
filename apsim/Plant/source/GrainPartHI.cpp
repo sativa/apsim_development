@@ -37,7 +37,7 @@ ostream &operator<<(ostream &output, const fruitGrainPartHI /*&pool*/)
 // copy constructor
 //  copy data members of object
 //===========================================================================
-fruitGrainPartHI::fruitGrainPartHI(const fruitGrainPartHI &fruitGrainPartHI)
+fruitGrainPartHI::fruitGrainPartHI(const fruitGrainPartHI &/* fruitGrainPartHI*/)
 //===========================================================================
 {
   throw std::invalid_argument("Copy constructor NI for fruitGrainPartHI");

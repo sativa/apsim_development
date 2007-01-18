@@ -26,9 +26,9 @@ void externalFunction::read(protocol::Component *P, const string &section,
       search(P, t, xname, xunits, x0, x1, yname, yunits, y0, y1);
       }
 
-void externalFunction::search(protocol::Component *P, vector<string> &sections,
-                       const char *xname, const char * xunits, float x0, float x1,
-                       const char *yname, const char * yunits, float y0, float y1)
+void externalFunction::search(protocol::Component */* P*/, vector<string> &/* sections*/,
+                       const char *xname, const char * xunits, float /* x0*/, float /* x1*/,
+                       const char *yname, const char * yunits, float /* y0*/, float /* y1*/)
       {
       xName = string(xname); yName = string(yname);
       xUnits = string(xunits); yUnits = string(yunits);
