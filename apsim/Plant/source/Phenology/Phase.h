@@ -39,8 +39,8 @@ class pPhase
      void  update(void)            {empty = false;};
      bool  isFirstDay(void) const  {return empty == true;};
      bool  isEmpty(void) const {return empty;};
-     string name() const {return myName;}
-     virtual string description() const {return "";};
+     string name(void) const {return myName;};
+     virtual string description(void) const {return "";};
      virtual void readCultivarParameters(protocol::Component *s, const string & cultivar){};
      virtual void readSpeciesParameters (protocol::Component *, std::vector<string> &){};
      virtual void updateTTTargets(PlantPhenology &parent, const environment_t &e){};
