@@ -1,174 +1,7 @@
-Version = 3.0
-NumPages = 1
-object data: TForm
-  Left = 4
-  Top = 4
-  Align = alClient
-  BorderIcons = []
-  BorderStyle = bsNone
-  ClientHeight = 411
-  ClientWidth = 1039
-  Color = clBtnFace
-  Font.Charset = DEFAULT_CHARSET
-  Font.Color = clWindowText
-  Font.Height = -11
-  Font.Name = 'MS Sans Serif'
-  Font.Style = []
-  OldCreateOrder = False
-  PixelsPerInch = 96
-  TextHeight = 13
-  object Observed: TApsimFileReader
-    Active = True
-    DesignActivation = True
-    AttachedAutoRefresh = True
-    AttachMaxCount = 1
-    FieldDefs = <
-      item
-        Name = 'title'
-        DataType = ftString
-        Size = 200
-      end
-      item
-        Name = 'Crop'
-        DataType = ftFloat
-      end
-      item
-        Name = 'SowDay'
-        DataType = ftFloat
-      end
-      item
-        Name = 'EmeDAS'
-        DataType = ftFloat
-      end
-      item
-        Name = 'FIDAS'
-        DataType = ftFloat
-      end
-      item
-        Name = 'HMDAS'
-        DataType = ftFloat
-      end
-      item
-        Name = 'Stover'
-        DataType = ftFloat
-      end
-      item
-        Name = 'Head'
-        DataType = ftFloat
-      end
-      item
-        Name = 'Biomass'
-        DataType = ftFloat
-      end
-      item
-        Name = 'BiomassWet'
-        DataType = ftFloat
-      end
-      item
-        Name = 'HeadWet'
-        DataType = ftFloat
-      end
-      item
-        Name = 'StoverWet'
-        DataType = ftFloat
-      end
-      item
-        Name = 'HeadDiam'
-        DataType = ftFloat
-      end>
-    IndexDefs = <>
-    SortOptions = []
-    AllDataOptions = [mtfSaveData, mtfSaveNonVisible, mtfSaveBlobs, mtfSaveFiltered, mtfSaveIgnoreRange, mtfSaveIgnoreMasterDetail, mtfSaveDeltas]
-    CommaTextOptions = [mtfSaveData]
-    CSVQuote = '"'
-    CSVFieldDelimiter = ','
-    CSVRecordDelimiter = ','
-    CSVTrueString = 'True'
-    CSVFalseString = 'False'
-    PersistentSaveOptions = [mtfSaveData, mtfSaveNonVisible, mtfSaveIgnoreRange, mtfSaveIgnoreMasterDetail]
-    PersistentBackup = False
-    ProgressFlags = [mtpcLoad, mtpcSave, mtpcCopy]
-    FilterOptions = []
-    Version = '2.53g'
-    LanguageID = 0
-    SortID = 0
-    SubLanguageID = 1
-    LocaleID = 1024
-    subscriptionComponentNames.Strings = (
-      'XYGraph3.afterDataRefresh'
-      'XYGraph4.afterDataRefresh')
-    filenames.Strings = (
-      'GreenBeltLawes97.txt')
-    Left = 169
-    Top = 72
-  end
-  object Predicted: TApsimFileReader
-    Active = True
-    DesignActivation = True
-    AttachedAutoRefresh = True
-    AttachMaxCount = 1
-    FieldDefs = <
-      item
-        Name = 'title'
-        DataType = ftString
-        Size = 200
-      end
-      item
-        Name = 'Date'
-        DataType = ftDate
-      end
-      item
-        Name = 'biomass_wt'
-        DataType = ftFloat
-      end
-      item
-        Name = 'leaf_no'
-        DataType = ftFloat
-      end
-      item
-        Name = 'lai'
-        DataType = ftFloat
-      end
-      item
-        Name = 'floral_initiation_das'
-        DataType = ftFloat
-      end
-      item
-        Name = 'maturity_das'
-        DataType = ftFloat
-      end>
-    IndexDefs = <>
-    SortOptions = []
-    AllDataOptions = [mtfSaveData, mtfSaveNonVisible, mtfSaveBlobs, mtfSaveFiltered, mtfSaveIgnoreRange, mtfSaveIgnoreMasterDetail, mtfSaveDeltas]
-    CommaTextOptions = [mtfSaveData]
-    CSVQuote = '"'
-    CSVFieldDelimiter = ','
-    CSVRecordDelimiter = ','
-    CSVTrueString = 'True'
-    CSVFalseString = 'False'
-    PersistentSaveOptions = [mtfSaveData, mtfSaveNonVisible, mtfSaveIgnoreRange, mtfSaveIgnoreMasterDetail]
-    PersistentBackup = False
-    ProgressFlags = [mtpcLoad, mtpcSave, mtpcCopy]
-    FilterOptions = []
-    Version = '2.53g'
-    LanguageID = 0
-    SortID = 0
-    SubLanguageID = 1
-    LocaleID = 1024
-    filenames.Strings = (
-      'GreenBelt1997 Planting8.out'
-      'GreenBelt1997 Planting1.out'
-      'GreenBelt1997 Planting2.out'
-      'GreenBelt1997 Planting3.out'
-      'GreenBelt1997 Planting4.out'
-      'GreenBelt1997 Planting5.out'
-      'GreenBelt1997 Planting6.out'
-      'GreenBelt1997 Planting7.out')
-    Left = 227
-    Top = 189
-  end
-end
-object Page1: TQuickRep
+<?xml version="1.0"?>
+<report version="4">
+  <Data><ApsimFileReader name="Observed"><FileName type="filenames">GreenBeltLawes97.txt</FileName></ApsimFileReader><ApsimFileReader name="Predicted"><FileName type="filenames">GreenBelt1997 Planting8.out</FileName><FileName type="filenames">GreenBelt1997 Planting1.out</FileName><FileName type="filenames">GreenBelt1997 Planting2.out</FileName><FileName type="filenames">GreenBelt1997 Planting3.out</FileName><FileName type="filenames">GreenBelt1997 Planting4.out</FileName><FileName type="filenames">GreenBelt1997 Planting5.out</FileName><FileName type="filenames">GreenBelt1997 Planting6.out</FileName><FileName type="filenames">GreenBelt1997 Planting7.out</FileName></ApsimFileReader></Data>
+  <page><![CDATA[object Page1: TQuickRep
   Left = 241
   Top = 0
   Width = 556
@@ -323,7 +156,7 @@ object Page1: TQuickRep
         object TPointSeries
           Marks.Callout.Brush.Color = clBlack
           Marks.Visible = False
-          DataSource = data.Observed
+          DataSource = Observed
           Title = 'Days to Floral Initiation'
           ClickableLine = False
           Pointer.InflateMargins = True
@@ -339,7 +172,7 @@ object Page1: TQuickRep
         object TPointSeries
           Marks.Callout.Brush.Color = clBlack
           Marks.Visible = False
-          DataSource = data.Observed
+          DataSource = Observed
           Title = 'Days to Harvest'
           ClickableLine = False
           Pointer.InflateMargins = True
@@ -445,7 +278,7 @@ object Page1: TQuickRep
         object TPointSeries
           Marks.Callout.Brush.Color = clBlack
           Marks.Visible = False
-          DataSource = data.Observed
+          DataSource = Observed
           Title = 'Head Mass'
           ClickableLine = False
           Pointer.InflateMargins = True
@@ -461,7 +294,7 @@ object Page1: TQuickRep
         object TPointSeries
           Marks.Callout.Brush.Color = clBlack
           Marks.Visible = False
-          DataSource = data.Observed
+          DataSource = Observed
           Title = 'Total Biomass'
           ClickableLine = False
           Pointer.InflateMargins = True
@@ -531,3 +364,5 @@ object Page1: TQuickRep
     end
   end
 end
+]]></page>
+</report>
