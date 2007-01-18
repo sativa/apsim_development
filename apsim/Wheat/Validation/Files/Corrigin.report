@@ -1,46 +1,40 @@
 <report version="4">
 <Data>
    <ApsimFileReader name="Observed">
-      <FileName type="filenames">D:\Development\apsim\Wheat\Validation\Files\Observed\Corrigin.txt</FileName>
+      <FileName type="filenames">c:\Development\apsim\Wheat\Validation\Files\Observed\Corrigin.txt</FileName>
       <ParseTitle type="yesno">yes</ParseTitle>
    </ApsimFileReader>
    <ApsimFileReader name="Predicted">
       <ParseTitle type="yesno">yes</ParseTitle>
-      <FileName type="filenames">D:\Development\apsim\Wheat\Validation\Files\Wheat_Corrigin_DryNil.out</FileName>
-      <FileName type="filenames">D:\Development\apsim\Wheat\Validation\Files\Wheat_Corrigin_DryBasal.out</FileName>
-      <FileName type="filenames">D:\Development\apsim\Wheat\Validation\Files\Wheat_Corrigin_DryNilTopDress.out</FileName>
-      <FileName type="filenames">D:\Development\apsim\Wheat\Validation\Files\Wheat_Corrigin_DryBasalTopDress.out</FileName>
-      <FileName type="filenames">D:\Development\apsim\Wheat\Validation\Files\Wheat_Corrigin_10mmNil.out</FileName>
-      <FileName type="filenames">D:\Development\apsim\Wheat\Validation\Files\Wheat_Corrigin_10mmBasal.out</FileName>
-      <FileName type="filenames">D:\Development\apsim\Wheat\Validation\Files\Wheat_Corrigin_10mmNilTopDress.out</FileName>
-      <FileName type="filenames">D:\Development\apsim\Wheat\Validation\Files\Wheat_Corrigin_10mmBasalTopDress.out</FileName>
-      <FileName type="filenames">D:\Development\apsim\Wheat\Validation\Files\Wheat_Corrigin_40mmNil.out</FileName>
-      <FileName type="filenames">D:\Development\apsim\Wheat\Validation\Files\Wheat_Corrigin_40mmBasal.out</FileName>
-      <FileName type="filenames">D:\Development\apsim\Wheat\Validation\Files\Wheat_Corrigin_40mmNilTopDress.out</FileName>
-      <FileName type="filenames">D:\Development\apsim\Wheat\Validation\Files\Wheat_Corrigin_40mmBasalTopDress.out</FileName>
+      <FileName type="filenames">c:\Development\apsim\Wheat\Validation\Files\Wheat_Corrigin_DryBasal.out</FileName>
+      <FileName type="filenames">c:\Development\apsim\Wheat\Validation\Files\Wheat_Corrigin_DryBasalTopDress.out</FileName>
+      <FileName type="filenames">c:\Development\apsim\Wheat\Validation\Files\Wheat_Corrigin_10mmBasal.out</FileName>
+      <FileName type="filenames">c:\Development\apsim\Wheat\Validation\Files\Wheat_Corrigin_10mmBasalTopDress.out</FileName>
+      <FileName type="filenames">c:\Development\apsim\Wheat\Validation\Files\Wheat_Corrigin_40mmBasal.out</FileName>
+      <FileName type="filenames">c:\Development\apsim\Wheat\Validation\Files\Wheat_Corrigin_40mmBasalTopDress.out</FileName>
       <Filter name="PredictedFinal">
          <FilterString>zadok_stage = 90</FilterString>
          <GroupByFieldName type="fieldnames"/>
       </Filter>
    </ApsimFileReader>
    <ApsimFileReader name="ObsPhenology">
-      <FileName type="filenames">D:\Development\apsim\Wheat\Validation\Files\Observed\CorriginPhenology.txt</FileName>
+      <FileName type="filenames">c:\Development\apsim\Wheat\Validation\Files\Observed\CorriginPhenology.txt</FileName>
       <ParseTitle type="yesno">yes</ParseTitle>
    </ApsimFileReader>
    <ApsimFileReader name="PrePhenology">
-      <FileName type="filenames">D:\Development\apsim\Wheat\Validation\Files\Wheat_Corrigin_10mmBasalTopDress.out</FileName>
+      <FileName type="filenames">c:\Development\apsim\Wheat\Validation\Files\Wheat_Corrigin_10mmBasalTopDress.out</FileName>
       <ParseTitle type="yesno">yes</ParseTitle>
    </ApsimFileReader>
    <ApsimFileReader name="ObsTimeSeries">
-      <FileName type="filenames">D:\Development\apsim\Wheat\Validation\Files\Observed\CorriginTimeSeries.txt</FileName>
+      <FileName type="filenames">c:\Development\apsim\Wheat\Validation\Files\Observed\CorriginTimeSeries.txt</FileName>
       <ParseTitle type="yesno">yes</ParseTitle>
    </ApsimFileReader>
-   <ApsimFileReader name="PreDryNil">
-      <FileName type="filenames">D:\Development\apsim\Wheat\Validation\Files\Wheat_Corrigin_DryNil.out</FileName>
+   <ApsimFileReader name="PreDryBasal">
+      <FileName type="filenames">c:\Development\apsim\Wheat\Validation\Files\Wheat_Corrigin_DryBasal.out</FileName>
       <ParseTitle type="yesno">yes</ParseTitle>
    </ApsimFileReader>
    <ApsimFileReader name="PreDryDeep">
-      <FileName type="filenames">D:\Development\apsim\Wheat\Validation\Files\Wheat_Corrigin_DryBasal.out</FileName>
+      <FileName type="filenames">c:\Development\apsim\Wheat\Validation\Files\Wheat_Corrigin_DryBasal.out</FileName>
       <ParseTitle type="yesno">yes</ParseTitle>
    </ApsimFileReader>
 
@@ -48,8 +42,8 @@
 
    <page> <![CDATA[
 object Page1: TQuickRep
-  Left = 134
-  Top = 0
+  Left = 358
+  Top = 48
   Width = 556
   Height = 786
   Frame.Color = clBlack
@@ -386,8 +380,8 @@ end
    </page>
    <page> <![CDATA[
 object Page2: TQuickRep
-  Left = 55
-  Top = 359
+  Left = 279
+  Top = 0
   Width = 714
   Height = 1010
   Frame.Color = clBlack
@@ -571,8 +565,8 @@ object Page2: TQuickRep
       rightAxisTitle = ' '
       bottomAxisTitle = ' '
       footTitle = ' '
-      seriesTitle1 = 'Dry Nil'
-      seriesTitle2 = 'Dry Basal'
+      seriesTitle1 = 'Dry Basal'
+      seriesTitle2 = ' '
       seriesTitle3 = ' '
       seriesTitle4 = ' '
       seriesTitle5 = ' '
@@ -613,23 +607,6 @@ object Page2: TQuickRep
         TopAxis.MinorTicks.Visible = False
         TopAxis.TickLength = 7
         View3D = False
-        object Series5: TPointSeries
-          Marks.Callout.Brush.Color = clBlack
-          Marks.Visible = False
-          DataSource = ObsTimeSeries
-          Title = 'Dry Nil'
-          ClickableLine = False
-          Pointer.InflateMargins = True
-          Pointer.Style = psRectangle
-          Pointer.Visible = True
-          XValues.DateTime = True
-          XValues.Name = 'X'
-          XValues.Order = loAscending
-          XValues.ValueSource = 'date'
-          YValues.Name = 'Y'
-          YValues.Order = loNone
-          YValues.ValueSource = 'BiomNil'
-        end
         object Series6: TPointSeries
           Marks.Callout.Brush.Color = clBlack
           Marks.Visible = False
@@ -646,25 +623,6 @@ object Page2: TQuickRep
           YValues.Name = 'Y'
           YValues.Order = loNone
           YValues.ValueSource = 'BiomDeep'
-        end
-        object Series7: TPointSeries
-          Depth = 0
-          Marks.Callout.Brush.Color = clBlack
-          Marks.Visible = False
-          DataSource = ObsTimeSeries
-          ShowInLegend = False
-          ClickableLine = False
-          Pointer.Brush.Color = clRed
-          Pointer.InflateMargins = True
-          Pointer.Style = psRectangle
-          Pointer.Visible = True
-          XValues.DateTime = True
-          XValues.Name = 'X'
-          XValues.Order = loAscending
-          XValues.ValueSource = 'date'
-          YValues.Name = 'Y'
-          YValues.Order = loNone
-          YValues.ValueSource = 'GrainNil'
         end
         object Series8: TPointSeries
           Depth = 0
@@ -684,42 +642,6 @@ object Page2: TQuickRep
           YValues.Name = 'Y'
           YValues.Order = loNone
           YValues.ValueSource = 'GrainDeep'
-        end
-        object Series9: TLineSeries
-          Depth = 0
-          Marks.Callout.Brush.Color = clBlack
-          Marks.Visible = False
-          DataSource = PreDryNil
-          SeriesColor = clRed
-          ShowInLegend = False
-          Pointer.InflateMargins = True
-          Pointer.Style = psRectangle
-          Pointer.Visible = False
-          XValues.DateTime = True
-          XValues.Name = 'X'
-          XValues.Order = loAscending
-          XValues.ValueSource = 'date'
-          YValues.Name = 'Y'
-          YValues.Order = loNone
-          YValues.ValueSource = 'biomass_wt'
-        end
-        object Series10: TLineSeries
-          Depth = 0
-          Marks.Callout.Brush.Color = clBlack
-          Marks.Visible = False
-          DataSource = PreDryNil
-          SeriesColor = clRed
-          ShowInLegend = False
-          Pointer.InflateMargins = True
-          Pointer.Style = psRectangle
-          Pointer.Visible = False
-          XValues.DateTime = True
-          XValues.Name = 'X'
-          XValues.Order = loAscending
-          XValues.ValueSource = 'date'
-          YValues.Name = 'Y'
-          YValues.Order = loNone
-          YValues.ValueSource = 'grain_wt'
         end
         object Series11: TLineSeries
           Depth = 0
@@ -823,23 +745,6 @@ object Page2: TQuickRep
         TopAxis.MinorTicks.Visible = False
         TopAxis.TickLength = 7
         View3D = False
-        object PointSeries1: TPointSeries
-          Marks.Callout.Brush.Color = clBlack
-          Marks.Visible = False
-          DataSource = ObsTimeSeries
-          Title = 'Dry Nil'
-          ClickableLine = False
-          Pointer.InflateMargins = True
-          Pointer.Style = psRectangle
-          Pointer.Visible = True
-          XValues.DateTime = True
-          XValues.Name = 'X'
-          XValues.Order = loAscending
-          XValues.ValueSource = 'Date'
-          YValues.Name = 'Y'
-          YValues.Order = loNone
-          YValues.ValueSource = 'BiomNNil'
-        end
         object PointSeries2: TPointSeries
           Marks.Callout.Brush.Color = clBlack
           Marks.Visible = False
@@ -856,24 +761,6 @@ object Page2: TQuickRep
           YValues.Name = 'Y'
           YValues.Order = loNone
           YValues.ValueSource = 'BiomNDeep'
-        end
-        object LineSeries1: TLineSeries
-          Depth = 0
-          Marks.Callout.Brush.Color = clBlack
-          Marks.Visible = False
-          DataSource = PreDryNil
-          SeriesColor = clRed
-          ShowInLegend = False
-          Pointer.InflateMargins = True
-          Pointer.Style = psRectangle
-          Pointer.Visible = False
-          XValues.DateTime = True
-          XValues.Name = 'X'
-          XValues.Order = loAscending
-          XValues.ValueSource = 'Date'
-          YValues.Name = 'Y'
-          YValues.Order = loNone
-          YValues.ValueSource = 'biomass_n'
         end
         object LineSeries3: TLineSeries
           Depth = 0
