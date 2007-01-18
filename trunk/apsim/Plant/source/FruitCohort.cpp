@@ -34,8 +34,8 @@ void FruitCohort::doInit1(protocol::Component *system)
    else
      throw std::runtime_error("Unknown grain_part_type '" + grainType + "'");
 
-//   grainPart = new fruitGrainPart(plant, "grain");
    podPart = new fruitPodPart(plant, grainPart, "pod");
+////   fruitPhenology = constructPhenology(plant, system->readParameter ("constants", "phenology_model"));
 
    myParts.push_back(podPart);
    myVegParts.push_back(podPart);

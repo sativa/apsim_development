@@ -5,6 +5,7 @@
 #ifndef FruitCohort_H
 #define FruitCohort_H
 
+////#include "Phenology/PlantPhenology.h"
 #include "CompositePart.h"
 #include "GrainPart.h"
 #include "GrainPartGN.h"
@@ -87,6 +88,7 @@ private:
 
    fruitPodPart  *podPart;
    fruitGrainPart  *grainPart;
+////   PlantPhenology *fruitPhenology;
 
    bool  gHasreadconstants;
    float dmRetranslocate;
