@@ -18,11 +18,13 @@ namespace APSRU.Howwet
     {
     public partial class RainfallEditor : Form
         {
-        private MetData metObject;
-        private MetData tempMetObject;
+        private APSRU.Model.Howwet.Region selectedRegion;
+        private MetData tempMetObject=null;
         private static RainfallEditor instance = null;
         public bool isLoaded = false;
         private DataRow lastRowInFile;
+        public delegate void RainfallEditorSave(MetData met);
+        public event RainfallEditorSave RainfallEditorSaveEvent;
 
         public RainfallEditor()
             {
@@ -33,14 +35,15 @@ namespace APSRU.Howwet
             {
             get
               {
-              if(RainfallEditor.instance==null)RainfallEditor.instance = new RainfallEditor();
-              return RainfallEditor.instance;
+              if(instance==null)instance = new RainfallEditor();
+              return instance;
               }
             }
 
-        public void loadObject(MetData data)
+        public void loadObject(MetData data, APSRU.Model.Howwet.Region region)
             {
             this.tempMetObject = data;
+            this.selectedRegion = region;
             isLoaded = true;
             fpSpread1.Sheets[0].ClearRange(0, 1, 31, 13, true);
             DateTime firstDate = (DateTime)this.tempMetObject.Data.Rows[0]["date"];
@@ -88,35 +91,6 @@ namespace APSRU.Howwet
                 {
                 fpSpread1.Sheets[0].ClearRange(0, 1, 31, 13, true);
                 }
-            //fill in the rows between last row and the end of year with averaged data and rain of zero
-            if (!(yearRows.Length == 0))
-                {
-                DataRow lastRow = yearRows[yearRows.Length - 1];
-                DateTime lastDate = (DateTime)lastRow["Date"];
-                DateTime lastDayOfYear = new DateTime(selectedYear, 12, 31);
-                TimeSpan diff = lastDayOfYear - lastDate;
-                int newRowCount = 1;
-                if (diff.Days > 0)
-                    {
-                    while (newRowCount <= diff.Days)
-                        {
-                        DataRow newRow = this.tempMetObject.Data.NewRow();
-                        if (!(this.tempMetObject.Site == ""))
-                            {
-                            newRow["site"] = this.tempMetObject.Site;
-                            }
-                        TimeSpan incTime = new TimeSpan(newRowCount, 0, 0, 0);
-                        DateTime selectedDate = lastDate.Add(incTime);
-                        newRow["Date"] = selectedDate;
-                        newRow["radn"] = this.tempMetObject.RadnDailyYearlyAverage[selectedDate.Month];
-                        newRow["maxt"] = this.tempMetObject.MaxtDailyYearlyAverage[selectedDate.Month];
-                        newRow["mint"] = this.tempMetObject.MintDailyYearlyAverage[selectedDate.Month];
-                        newRow["rain"] = 0;
-                        this.tempMetObject.Data.Rows.Add(newRow);
-                        newRowCount++;
-                        }
-                    }
-                }
             updateRainfallTotal();
             }
             
@@ -155,9 +129,9 @@ namespace APSRU.Howwet
                     newRow["site"] = this.tempMetObject.Site;
                     }
                 newRow["Date"] = selectedDate;
-                newRow["radn"] = this.tempMetObject.RadnDailyYearlyAverage[selectedDate.Month];
-                newRow["maxt"] = this.tempMetObject.MaxtDailyYearlyAverage[selectedDate.Month];
-                newRow["mint"] = this.tempMetObject.MintDailyYearlyAverage[selectedDate.Month];
+                newRow["radn"] = selectedRegion.AverageMonthlyRadiation[selectedDate.Month-1];
+                newRow["maxt"] = selectedRegion.AverageMonthlyMaxT[selectedDate.Month-1];
+                newRow["mint"] = selectedRegion.AverageMonthlyMinT[selectedDate.Month-1];
                 newRow["rain"] = Convert.ToInt16(fpSpread1.Sheets[0].Cells[e.Row, e.Column].Value);
                 this.tempMetObject.Data.Rows.Add(newRow);
                 }
@@ -165,6 +139,7 @@ namespace APSRU.Howwet
                 
         void RainfallEditor_FormClosing(object sender, System.Windows.Forms.FormClosingEventArgs e)
             {
+            isLoaded = false;
             instance = null;
             }
        
@@ -177,36 +152,20 @@ namespace APSRU.Howwet
                 //default all values in the year to averages and zero the rain
                 DateTime startDate=new DateTime((int)yearSelectUpDown.Value,1,1);
                 DateTime endDate =new DateTime ((int)yearSelectUpDown.Value,12,31);
-                while (startDate <= endDate)
-                    {
-                    DataRow newRow = this.tempMetObject.Data.NewRow();
-                    if (!(this.tempMetObject.Site == ""))
-                        {
-                        newRow["site"] = this.tempMetObject.Site;
-                        }
-                    newRow["Date"] = startDate;
-                    newRow["radn"] = this.tempMetObject.RadnDailyYearlyAverage[startDate.Month];
-                    newRow["maxt"] = this.tempMetObject.MaxtDailyYearlyAverage[startDate.Month];
-                    newRow["mint"] = this.tempMetObject.MintDailyYearlyAverage[startDate.Month];
-                    newRow["rain"] = 0;
-                    this.tempMetObject.Data.Rows.Add(newRow);
-                    startDate = startDate.AddDays(1);
-                    }
                 }
             }
 
         private void saveCloseButton_Click(object sender, EventArgs e)
             {
-            this.metObject = this.tempMetObject;
-            this.metObject.overWriteMetFile();
+            RainfallEditorSaveEvent(this.tempMetObject);
             this.Close();
             }
-        
+ 
+
         private void closeButton_Click(object sender, EventArgs e)
             {
             this.Close();
             }
-      
 
         private void fpSpread1_KeyDown(object sender, KeyEventArgs e)
             {
@@ -214,7 +173,6 @@ namespace APSRU.Howwet
                 {
                 fpSpread1.Sheets[0].ActiveCell.Value = null;
                 }
-
             }
         
         }

@@ -10,8 +10,10 @@ using APSRU.Error;
 namespace APSRU.Model.Howwet
     {
     // This class reads in the output file and builds a datatable in the format required
+    //
     public class SimulationOut
         {
+        private APSRU.Model.Howwet.Region selectedRegion;
         private DataTable output;
         public SimulationOut(SimulationIn simulationIn)
             {
@@ -74,9 +76,16 @@ namespace APSRU.Model.Howwet
                 throw new CustomException(new CustomError("", "Problem reading Howwet output file", errString + "\n Exception:" + e.ToString(), FUNCTION_NAME, this.GetType().FullName, true));
                 }
             }
+        
         public DataTable Data
             {
             get { return output; }
+            }
+
+        public APSRU.Model.Howwet.Region RegionData
+            {
+            get { return selectedRegion; }
+            set { selectedRegion = value; }
             }
         }
     }
