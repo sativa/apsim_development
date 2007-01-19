@@ -53,9 +53,15 @@ class plantPart : public plantThing
    float DMSenesced;                  // senesced plant dry wt (g/m^2)
    float DMDead;                      // dry wt of dead plants (g/m^2)
    float relativeGrowthRate;
+   float radiationInterceptedGreen;
+   float radiationInterceptedTotal;
+   float transpEff;
 
    // deltas
    struct {
+      float dm_pot_te;
+      float dm_pot_rue;
+
       float dm_green;                     // biomass growth (g/m^2)
       float dm_senesced;                  // biomass senescence (g/m^2)
       float dm_dead;                      // biomass dead (g/m^2)
@@ -154,6 +160,15 @@ class plantPart : public plantThing
       interpolationFunction dm_sen_frac;
       interpolationFunction fr_remain;
       string name;                        // What we call ourselves
+      float transpEffCf[max_table];                  // transpiration efficiency coefficient
+                                                        // to convert vpd to
+                                                        // transpiration efficiency (kpa)
+                                                        // although this is expressed as a
+                                                        // pressure it is really in the form
+                                                        // kpa*g carbo per m^2 / g water per m^2
+                                                        // and this can be converted to
+                                                        // kpa*g carbo per m^2 / mm water
+                                                        // because 1g water = 1 cm^3 water
    } c;
 
    plantInterface *plant;                 // The plant we are attached to
@@ -397,13 +412,13 @@ public:
    //needed to standardise interface for composite subclass
 
    virtual float availableRetranslocateN(void);
-   virtual float calcCover (float canopy_fac);                  // return pod cover   //FIXME
+   virtual float doCover (float canopy_fac, float g_row_spacing);                  // return pod cover   //FIXME
    virtual float coverDead(void) ;
    virtual float coverGreen(void) ;
    virtual float coverSen(void) ;
    virtual float coverTotal(void) ;
    virtual float dltDmGrainDemand(void) const;
-   virtual float dltDmPotRue(void);        //FIXME
+   virtual float dltDmPotRue(void) const;        //FIXME
    virtual float dltDmPotTe(void);            //FIXME
    virtual float dltLeafAreaPot(void) {throw std::runtime_error("plantPart::dltLeafAreaPot() called");};
    virtual float dmDeadVegTotal(void)const;
@@ -415,7 +430,8 @@ public:
    virtual float grainNConcPercent(void) const;
    virtual float grainNo(void) const;
    virtual float grainWt(void) const;
-   virtual float interceptRadiation(float radiation);        //FIXME
+   virtual float interceptRadiationGreen(float radiation);        //FIXME
+   virtual float interceptRadiationTotal(float radiation);        //FIXME
    virtual float nConcGrain(void)const;
    virtual float nDeadVegTotal(void) const;
    virtual float nDemandGrain(void) const;
@@ -439,7 +455,7 @@ public:
    virtual void calcDlt_pod_area (void);   //FIXME
    virtual void doBioActual (void);
    virtual void doDmDemand (float dlt_dm_supply_by_veg);
-   virtual void doDmPotRUE (double  radn_int_pod);                      //FIXME   // (OUTPUT) potential dry matter (carbohydrate) production (g/m^2)
+   virtual void doDmPotRUE (void );                      //FIXME   // (OUTPUT) potential dry matter (carbohydrate) production (g/m^2)
    virtual void doDmPotTE(void);                                       //(OUTPUT) potential dry matter production by transpiration (g/m^2)//FIXME
    virtual void doGrainNumber (void);
    virtual void doInit1(protocol::Component *system);

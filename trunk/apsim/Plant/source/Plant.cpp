@@ -1756,10 +1756,6 @@ void Plant::plant_cleanup ()
     plant_update( g.row_spacing
                 , g.skip_row_fac
                 , g.skip_plant_fac
-                , c.x_row_spacing
-                , c.y_extinct_coef
-                , c.y_extinct_coef_dead
-                , c.num_row_spacing
                 , &g.canopy_width
                 , &g.cover_dead
                 , &g.cover_green
@@ -1829,10 +1825,6 @@ void Plant::plant_cleanup ()
 void Plant::plant_update(float  g_row_spacing                          // (INPUT)  row spacing (m) [optional]
     ,float  g_skip_row_fac                         // skip row factor
     ,float  g_skip_plant_fac                       // skip plant factor
-    ,float *c_x_row_spacing
-    ,float *c_y_extinct_coef
-    ,float *c_y_extinct_coef_dead
-    ,int    c_num_row_spacing
     ,float  *g_canopy_width                               // (INPUT)  canopy width (mm)
     ,float  *g_cover_dead                                 // (out/INPUT)  fraction of radiation reaching
     ,float  *g_cover_green                                // (out/INPUT)  fraction of radiation reaching
@@ -1882,33 +1874,14 @@ void Plant::plant_update(float  g_row_spacing                          // (INPUT
         }
 
     // now update new canopy covers
-    float cover_green_leaf;
-    legnew_cover(g_row_spacing
-                          ,c_x_row_spacing
-                          ,c_y_extinct_coef
-                          ,c_num_row_spacing
-                          , canopy_fac
-                          ,leafPart->getLAI()
-                          ,&cover_green_leaf);
+    leafPart->doCover(canopy_fac, g_row_spacing);
 
-    float cover_pod = fruitPart->calcCover(canopy_fac);
-    *g_cover_green = add_covers (cover_green_leaf, cover_pod);
+    fruitPart->doCover(canopy_fac, g_row_spacing);
+    *g_cover_green = add_covers (leafPart->coverGreen(), fruitPart->coverGreen());
 
-    legnew_cover(g_row_spacing
-                ,c_x_row_spacing
-                ,c_y_extinct_coef_dead
-                ,c_num_row_spacing
-                , canopy_fac
-                ,leafPart->getSLAI()
-                ,g_cover_sen);
+    *g_cover_sen = leafPart->coverSen();
 
-    legnew_cover(g_row_spacing
-                 ,c_x_row_spacing
-                 ,c_y_extinct_coef_dead
-                 ,c_num_row_spacing
-                 , canopy_fac
-                 ,leafPart->getTLAI_dead()
-                 ,g_cover_dead);
+    *g_cover_dead = leafPart->coverDead();
 
     // plant stress observers
     stageObservers.update();
@@ -2179,7 +2152,7 @@ void Plant::plant_water_demand (int option /* (INPUT) option number*/)
         g.swDemandTEFruit = fruitPart->SWDemand ();
 
         float swDemandTEVeg = 0.0;                                        //
-        float dltDmPotRueveg = g.dlt_dm_pot_rue - fruitPart->dltDmPotRue();     // FIXME when fruit is proper class
+        float dltDmPotRueveg = leafPart->dltDmPotRue();     // FIXME when fruit is proper class
         cproc_sw_demand1 (dltDmPotRueveg,                                 //
                           g.transp_eff,                                   //
                           &swDemandTEVeg);                                //
@@ -2362,31 +2335,21 @@ void Plant::plant_light_supply_partition (int option /*(INPUT) option number*/)
            canopy_fac = g.skip_row_fac;
            }
 
-             // calc the green fruit interception
-          float frIntcRadnGreenFruit = g.fr_intc_radn * divide (fruitPart->calcCover(canopy_fac), g.cover_green, 0.0);
-          crop_radn_int0(fruitPart->calcCover(canopy_fac)
-                       , frIntcRadnGreenFruit
+          float solarRadiation = 0.0;
+          crop_radn_int0(1.0                       //lazy way to calc radiation
+                       , g.fr_intc_radn
                        , Environment.radn
-                       , &g.radnIntGreenFruit);
+                       , &solarRadiation);
+
+          g.radnIntGreenFruit = fruitPart->interceptRadiationGreen (solarRadiation);
 
              // calc the total fruit interception - what is left is transmitted to the vegetative parts)
              // fruit is considered to be at top of canopy
-          float radnIntTotFruit = 0.0;
-          float frIntcRadnTotFruit = g.fr_intc_radn * divide (fruitPart->calcCover(canopy_fac), g.cover_green, 0.0);
-          crop_radn_int0(fruitPart->calcCover(canopy_fac)
-                       , frIntcRadnTotFruit
-                       , Environment.radn
-                       , &radnIntTotFruit);
+          float radnIntTotFruit = fruitPart->interceptRadiationTotal (solarRadiation);
 
-             // calc the total interception
-          float radnIntTot = 0.0;
-          crop_radn_int0(g.cover_green
-                       , g.fr_intc_radn
-                       , Environment.radn
-                       , &radnIntTot);
+          solarRadiation -= radnIntTotFruit;
 
-             // calc the green veg interception
-          float radnIntGreenVeg = radnIntTot - radnIntTotFruit;
+          float radnIntGreenVeg = leafPart->interceptRadiationGreen (solarRadiation);
 
                // for now, put both interceptions into radn_int
           g.radn_int =  radnIntGreenVeg + g.radnIntGreenFruit;  // FIXME when turned into proper fruit class
@@ -2418,19 +2381,10 @@ void Plant::plant_bio_rue (int option /*(INPUT) option number*/)
     if (option == 1)
         {
 
-        fruitPart->doDmPotRUE( g.radnIntGreenFruit);
+        fruitPart->doDmPotRUE();
+        leafPart->doDmPotRUE();
 
-
-        float radnIntGreenVeg = g.radn_int - g.radnIntGreenFruit;  //  FIXME temporary until proper fruit class
-
-        float dlt_dm_pot_rue_veg = 0.0;
-        plant_dm_pot_rue_veg(&c.rue
-                           , radnIntGreenVeg
-                           , min(min(min(g.temp_stress_photo, g.nfact_photo),
-                               g.oxdef_photo), g.pfact_photo)
-                           , &dlt_dm_pot_rue_veg);
-
-        g.dlt_dm_pot_rue = dlt_dm_pot_rue_veg + fruitPart->dltDmPotRue();  // FIXME when fruit is made proper class
+        g.dlt_dm_pot_rue = leafPart->dltDmPotRue() + fruitPart->dltDmPotRue();  // FIXME when fruit is made proper class
         }
     else
         {
@@ -3575,33 +3529,12 @@ void Plant::plant_harvest_update (protocol::Variant &v/*(INPUT)message arguments
 
 // now update new canopy covers
 
-    float cover_green_leaf;
-    legnew_cover(g.row_spacing
-                          ,c.x_row_spacing
-                          ,c.y_extinct_coef
-                          ,c.num_row_spacing
-                          , canopy_fac
-                          ,leafPart->getLAI()
-                          ,&cover_green_leaf);
+    leafPart->doCover(canopy_fac, g.row_spacing);
 
-    cover_pod = fruitPart->calcCover(canopy_fac);
-    g.cover_green = add_covers (cover_green_leaf, cover_pod);
+    fruitPart->doCover(canopy_fac, g.row_spacing);
+    g.cover_green = add_covers (leafPart->coverGreen(), fruitPart->coverGreen());
 
-
-    legnew_cover (g.row_spacing
-                  ,c.x_row_spacing
-                  ,c.y_extinct_coef_dead
-                  ,c.num_row_spacing
-                  , canopy_fac
-                  ,leafPart->getSLAI()
-                  ,&g.cover_sen);
-    legnew_cover (g.row_spacing
-                  ,c.x_row_spacing
-                  ,c.y_extinct_coef_dead
-                  ,c.num_row_spacing
-                  , canopy_fac
-                  ,leafPart->getTLAI_dead()
-                  ,&g.cover_dead);
+    g.cover_dead = leafPart->coverDead();
 
 // other plant states
     plant_n_conc_limits (g.co2_modifier_n_conc);
@@ -3685,33 +3618,14 @@ void Plant::plant_kill_stem_update (protocol::Variant &v/*(INPUT) message argume
 
     // now update new canopy covers
 
-    float cover_green_leaf;
-    legnew_cover(g.row_spacing
-                          ,c.x_row_spacing
-                          ,c.y_extinct_coef
-                          ,c.num_row_spacing
-                          , canopy_fac
-                          ,leafPart->getLAI()
-                          ,&cover_green_leaf);
+    leafPart->doCover(canopy_fac, g.row_spacing);
 
-    cover_pod = fruitPart->calcCover(canopy_fac);
-    g.cover_green = add_covers (cover_green_leaf, cover_pod);
+    fruitPart->doCover(canopy_fac, g.row_spacing);
+    g.cover_green = add_covers (leafPart->coverGreen(), fruitPart->coverGreen());
 
+    g.cover_sen = leafPart->coverSen();
 
-    legnew_cover (g.row_spacing
-                  , c.x_row_spacing
-                  , c.y_extinct_coef_dead
-                  , c.num_row_spacing
-                  , canopy_fac
-                  , leafPart->getSLAI()
-                  , &g.cover_sen);
-    legnew_cover (g.row_spacing
-                  , c.x_row_spacing
-                  , c.y_extinct_coef_dead
-                  , c.num_row_spacing
-                  , canopy_fac
-                  , leafPart->getTLAI_dead()
-                  , &g.cover_dead);
+    g.cover_dead = leafPart->coverDead();
 
     plant_n_conc_limits ( g.co2_modifier_n_conc )  ;                  // plant N concentr
 
@@ -3836,33 +3750,15 @@ void Plant::plant_remove_biomass_update (protocol::RemoveCropDmType dmRemoved)
         }
 
     // now update new canopy covers
-    float cover_green_leaf;
-    legnew_cover(g.row_spacing
-                          ,c.x_row_spacing
-                          ,c.y_extinct_coef
-                          ,c.num_row_spacing
-                          , canopy_fac
-                          ,leafPart->getLAI()
-                          ,&cover_green_leaf);
+    leafPart->doCover(canopy_fac, g.row_spacing);
 
-    cover_pod = fruitPart->calcCover(canopy_fac);
-    g.cover_green = add_covers (cover_green_leaf, cover_pod);
+    fruitPart->doCover(canopy_fac, g.row_spacing);
+    g.cover_green = add_covers (leafPart->coverGreen(), fruitPart->coverGreen());
 
 
-    legnew_cover (g.row_spacing
-                  ,c.x_row_spacing
-                  ,c.y_extinct_coef_dead
-                  ,c.num_row_spacing
-                  , canopy_fac
-                  ,leafPart->getSLAI()
-                  ,&g.cover_sen);
-    legnew_cover (g.row_spacing
-                  ,c.x_row_spacing
-                  ,c.y_extinct_coef_dead
-                  ,c.num_row_spacing
-                  , canopy_fac
-                  ,leafPart->getTLAI_dead()
-                  ,&g.cover_dead);
+    g.cover_sen = leafPart->coverSen();
+
+    g.cover_dead = leafPart->coverDead();
 
     phenology->onRemoveBiomass(g.remove_biom_pheno);
 
@@ -4006,10 +3902,6 @@ void Plant::plant_zero_all_globals (void)
       c.n_fact_photo = 0.0;
       c.n_fact_pheno = 0.0;
       c.n_fact_expansion = 0.0;
-      fill_real_array (c.x_row_spacing, 0.0, max_table);
-      fill_real_array (c.y_extinct_coef, 0.0, max_table);
-      fill_real_array (c.y_extinct_coef_dead, 0.0, max_table);
-      c.num_row_spacing = 0;
       c.leaf_no_crit = 0.0;
       c.tt_emerg_limit = 0.0;
       c.days_germ_limit = 0;
@@ -5202,21 +5094,6 @@ void Plant::plant_read_species_const ()
                    ,"skiprow_default"//, "()"
                    , c.skip_row_default
                    , 0.0, 2.0);
-
-    parent->readParameter (search_order
-                     ,"x_row_spacing"//,  "(mm)"
-                     , c.x_row_spacing, c.num_row_spacing
-                     , 0.0, 2000.);
-
-    parent->readParameter (search_order
-                     ,"y_extinct_coef"//, "()"
-                     , c.y_extinct_coef, c.num_row_spacing
-                     , 0.0, 1.0);
-
-    parent->readParameter (search_order
-                     ,"y_extinct_coef_dead"//, "()"
-                     , c.y_extinct_coef_dead, c.num_row_spacing
-                     , 0.0, 1.0);
 
 // crop failure
 
@@ -6500,6 +6377,7 @@ float Plant::getDltDMPotRueVeg(void) const {return g.dlt_dm_pot_rue - fruitPart-
 float Plant::getDmGreenVeg(void) const {return (leafPart->dmGreen() + stemPart->dmGreen());}
 //float Plant::getDltDmVeg(void) const {return leafPart->dltDmTotal() + stemPart->dltDmTotal();}
 float Plant::getWaterSupplyPod(void) const {return g.swSupplyFruit;}
+float Plant::getWaterSupplyLeaf(void) const {return g.swSupplyVeg;}
 float Plant::getDmTops(void) const{ return topsGreen()+topsSenesced();}
 float Plant::getDltDm(void) const{ return g.dlt_dm;}
 float Plant::getDltDmGreen(void) const{ return plantDltDmGreen();}

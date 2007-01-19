@@ -10,12 +10,12 @@
 class CompositePart : public plantPart
 {
    friend ostream &operator<<(ostream &, const CompositePart &);
-public:												// member functions
+public:                                             // member functions
    CompositePart();    //default constructor
    CompositePart(plantInterface *p, const string &name);
 
    CompositePart(const CompositePart &CompositePart);           // copy constructor
-   const CompositePart &operator=(const CompositePart &other);		// Assigment operator
+   const CompositePart &operator=(const CompositePart &other);      // Assigment operator
 
    virtual void doInit1(protocol::Component *system);
 
@@ -122,7 +122,8 @@ public:												// member functions
    virtual float coverGreen(void) ;
    virtual float coverSen(void) ;
    virtual float coverDead(void) ;
-   virtual float interceptRadiation(float radiation);        //FIXME
+   virtual float interceptRadiationGreen(float radiation);        //FIXME
+   virtual float interceptRadiationTotal(float radiation);        //FIXME
    virtual float grainNo(void) const;
    virtual float grainNConcPercent(void) const;
    virtual float nDemandGrain(void) const;
@@ -132,7 +133,7 @@ public:												// member functions
    virtual float dltDmRetranslocateSupply(float demand_differential) ;
    virtual float dltDmGreenRetransUptake(void) const ;
    virtual float dltDmPotTe(void);            //FIXME
-   virtual float dltDmPotRue(void);           //FIXME
+   virtual float dltDmPotRue(void) const;           //FIXME
 
    virtual float dltDmGreen(void) const ;
    virtual float dltDmDead(void) const;
@@ -209,12 +210,12 @@ public:												// member functions
 
    virtual void doPInit(void);
 
-   virtual void display(ostream &os = cout) const;	// display function
-   virtual float calcCover (float canopy_fac);                  // return pod cover   //FIXME
+   virtual void display(ostream &os = cout) const;  // display function
+   virtual float doCover (float canopy_fac, float g_row_spacing);                  // return pod cover   //FIXME
 
    virtual void calcDlt_pod_area (void);   //FIXME
 
-   virtual void doDmPotRUE (double  radn_int_pod);                      //FIXME   // (OUTPUT) potential dry matter (carbohydrate) production (g/m^2)
+   virtual void doDmPotRUE (void );                      //FIXME   // (OUTPUT) potential dry matter (carbohydrate) production (g/m^2)
    virtual void doTECO2(void);                                       // (OUTPUT) transpiration coefficient                         //FIXME
    virtual float SWDemand(void);                           //(OUTPUT) crop water demand (mm)               //FIXME
    virtual void doDmPotTE(void);                                       //(OUTPUT) potential dry matter production by transpiration (g/m^2)//FIXME
@@ -257,7 +258,7 @@ public:												// member functions
    virtual bool isRetransPart(void) const;
 
 #if TEST_CompositePart
-   virtual ~CompositePart();							// destructor
+   virtual ~CompositePart();                            // destructor
 #else
    ~CompositePart();
 #endif

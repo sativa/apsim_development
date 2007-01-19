@@ -136,6 +136,31 @@ void cohortingLeafPart::readSpeciesParameters (protocol::Component *system, vect
                         "x_leaf_cohort", "(cohort)", 0, 50.0,
                         "y_leaf_area_pot", "(mm^2)", 0.0, 2000000.0);
 
+    system->readParameter (search_order
+                     ,"x_row_spacing"//,  "(mm)"
+                     , cXRowSpacing, cNumRowSpacing
+                     , 0.0, 2000.);
+
+    system->readParameter (search_order
+                     ,"y_extinct_coef"//, "()"
+                     , cYExtinctCoef, cNumRowSpacing
+                     , 0.0, 1.0);
+
+    system->readParameter (search_order
+                     ,"y_extinct_coef_dead"//, "()"
+                     , cYExtinctCoefDead, cNumRowSpacing
+                     , 0.0, 1.0);
+
+    cRue.search(system, search_order,
+                 "x_stage_rue", "()", 0.0, 1000.0,
+                 "y_rue", "(g dm/mj)", 0.0, 1000.0);
+
+   int   numvals;                                // number of values returned
+   system->readParameter (search_order,
+                          "transp_eff_cf"//, "(kpa)"
+                          , c.transpEffCf, numvals
+                          , 0.0, 1.0);
+
    }
 
 
@@ -597,7 +622,7 @@ void cohortingLeafPart::detachment (void)
 
    float area_detached = divide(dltSLAI_detached,  plant->getPlants(), 0.0) * sm2smm;
 
-   for (unsigned int cohort = 0; cohort != gLeafArea.size(); cohort++) 
+   for (unsigned int cohort = 0; cohort != gLeafArea.size(); cohort++)
       {
       if(area_detached > gLeafAreaSen[cohort])
         {
@@ -789,3 +814,140 @@ float cohortingLeafPart::senFract (void) const
 
    return(divide (dltSLAI, getLAI() + dltLAI, 0.0));             // fraction of canopy senescing
    }
+
+float cohortingLeafPart::coverTotal(void)
+//=======================================================================================
+{
+   return 1.0 - (1.0 - coverLeaf.green) * (1.0 - coverLeaf.sen) * (1.0 - coverLeaf.dead);
+}
+
+float cohortingLeafPart::coverGreen(void)
+//=======================================================================================
+{
+   return coverLeaf.green;
+}
+
+float cohortingLeafPart::coverDead(void)
+//=======================================================================================
+{
+   return coverLeaf.dead;
+}
+
+float cohortingLeafPart::coverSen(void)
+//=======================================================================================
+{
+   return coverLeaf.sen;
+}
+
+float cohortingLeafPart::doCover (float canopy_fac, float g_row_spacing)
+   //===========================================================================
+{
+
+   //+  Purpose
+   //     Calculate leaf cover
+
+   //+  Changes
+   //     19 Jan 2006 JNGH - Programmed and Specified
+
+   //- Implementation Section ----------------------------------
+
+    legnew_cover(g_row_spacing
+                 , cXRowSpacing
+                 , cYExtinctCoef
+                 , cNumRowSpacing
+                 , canopy_fac
+                 , getLAI()
+                 , &coverLeaf.green);
+
+
+    legnew_cover (g_row_spacing
+                 , cXRowSpacing
+                 , cYExtinctCoefDead
+                 , cNumRowSpacing
+                 , canopy_fac
+                 , getSLAI()
+                 , &coverLeaf.sen);
+
+    legnew_cover (g_row_spacing
+                 , cXRowSpacing
+                 , cYExtinctCoefDead
+                 , cNumRowSpacing
+                 , canopy_fac
+                 , getTLAI_dead()
+                 , &coverLeaf.dead);
+
+   return coverLeaf.green;
+}
+
+float cohortingLeafPart::interceptRadiationGreen (float radiation)    // incident radiation on leafs
+    //===========================================================================
+{
+   //     Calculate leaf total radiation interception and return transmitted radiation
+
+   radiationInterceptedGreen = coverGreen() * radiation;
+   return radiationInterceptedGreen;
+}
+
+float cohortingLeafPart::interceptRadiationTotal (float radiation)    // incident radiation on leafs
+    //===========================================================================
+{
+   //     Calculate leaf total radiation interception and return transmitted radiation
+
+   radiationInterceptedTotal = coverTotal() * radiation;
+   return radiationInterceptedTotal;
+}
+
+void cohortingLeafPart::doDmPotRUE (void )                    // (OUTPUT) potential dry matter (carbohydrate) production (g/m^2)
+   //===========================================================================
+{
+   //       Potential biomass (carbohydrate) production from
+   //       photosynthesis (g/m^2).  The effect of factors such
+   //       temperature and nutritional status of the plant are
+   //       taken into account in the radiation use efficiency.
+
+   double stress_factor = min(min(min(plant->getTempStressPhoto(), plant->getNfactPhoto())
+                                  , plant->getOxdefPhoto()), plant->getPfactPhoto());
+
+   dlt.dm_pot_rue = (radiationInterceptedGreen * cRue.value(plant->getStageNumber())) * stress_factor * plant->getCo2ModifierRue();
+}
+
+void cohortingLeafPart::doTECO2()          // (OUTPUT) transpiration coefficient
+   //==========================================================================
+{
+   cproc_transp_eff_co2_1(plant->getVpd()
+                          , c.transpEffCf[(int)plant->getStageNumber()-1]
+                          , plant->getCo2ModifierTe()
+                          , &transpEff);
+}
+
+float cohortingLeafPart::SWDemand(void)         //(OUTPUT) crop water demand (mm)
+   //===========================================================================
+   /*  Purpose
+   *       Return crop water demand from soil by the crop (mm) calculated by
+   *       dividing biomass production limited by radiation by transpiration efficiency.
+   */
+{
+   // get potential transpiration from potential
+   // carbohydrate production and transpiration efficiency
+   float sw_demand = 0.0;
+   cproc_sw_demand1 (dlt.dm_pot_rue
+                     , transpEff
+                     , &sw_demand);
+   return sw_demand;
+}
+
+void cohortingLeafPart::doDmPotTE (void)  //(OUTPUT) potential dry matter production by transpiration (g/m^2)
+   //===========================================================================
+   //   Calculate the potential biomass production based upon today's water supply.
+
+{
+   // potential (supply) by transpiration
+
+   dlt.dm_pot_rue = plant->getWaterSupplyLeaf() * transpEff;
+
+   // Capping of sw demand will create an effective TE- recalculate it here       //FIXME
+   // In an ideal world this should NOT be changed here - NIH
+   //       g.transp_eff = g.transp_eff * divide(g.sw_demand_te,g.sw_demand, 1.0);
+   //       g.swDemandTEFruit = g.swDemandTEFruit * divide(g.sw_demand,g.sw_demand_te, 1.0);          // Hack to correct TE for fruit
+}
+

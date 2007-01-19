@@ -6,13 +6,13 @@ using namespace std;
 fruitPodPart::fruitPodPart(plantInterface *p, fruitGrainPart *g, const string &name) : plantPart(p, name)
    {
    myGrain = g;
-   fill_real_array (cTransp_eff_cf, 0.0, max_table);
+////   fill_real_array (c.transpEffCf, 0.0, max_table);
    fill_real_array (cX_co2_te_modifier, 0.0, max_table);
    fill_real_array (cY_co2_te_modifier, 0.0, max_table);
    cPartition_option = 0;
    cNum_co2_te_modifier = 0;
    }
-   
+
 void fruitPodPart::doRegistrations(protocol::Component *system)
 //=======================================================================================
 {
@@ -20,8 +20,8 @@ void fruitPodPart::doRegistrations(protocol::Component *system)
 
    system->addGettableVar("pai", gPai, "m^2/m^2", "Pod area index");
    system->addGettableVar("dlt_pai", gDlt_pai, "m^2/m^2", "Delta Pod area index");
-   system->addGettableVar("dlt_dm_pot_rue_pod", gDlt_dm_pot_rue, "g/m^2", "Potential dry matter production via photosynthesis");
-   system->addGettableVar("dlt_dm_pot_te_pod", gDlt_dm_pot_te, "g/m^2", "Potential dry matter production via transpiration");
+   system->addGettableVar("dlt_dm_pot_rue_pod", dlt.dm_pot_rue, "g/m^2", "Potential dry matter production via photosynthesis");
+   system->addGettableVar("dlt_dm_pot_te_pod", dlt.dm_pot_rue, "g/m^2", "Potential dry matter production via transpiration");
 
 }
 
@@ -96,9 +96,9 @@ void fruitPodPart::doDmDemand1(float dlt_dm_supply)
 {
    float dlt_dm_supply_by_pod = 0.0;  // FIXME
    dlt_dm_supply += dlt_dm_supply_by_pod;
-   
+
    float dm_grain_demand = myGrain->calcDmDemand();
-   
+
    if (dm_grain_demand > 0.0)
       DMGreenDemand = dm_grain_demand * fracPod1() - dlt_dm_supply_by_pod;
    else
@@ -125,7 +125,7 @@ void fruitPodPart::doDmRetranslocate(float DMAvail, float DMDemandDifferentialTo
    dlt.dm_green_retrans += DMAvail * divide (dmDemandDifferential(), DMDemandDifferentialTotal, 0.0);
    }
 
-float fruitPodPart::dltDmRetranslocateSupply(float DemandDifferential) 
+float fruitPodPart::dltDmRetranslocateSupply(float DemandDifferential)
 //=======================================================================================
    {
    float DMPartPot = DMGreen + dlt.dm_green_retrans;
@@ -143,7 +143,7 @@ void fruitPodPart::zeroAllGlobals(void)
    coverPod.green = 0.0;
    coverPod.sen   = 0.0;
    coverPod.dead  = 0.0;
-   gTranspEff = 0.0;
+////   gTranspEff = 0.0;
    gPai = 0.0;
 }
 
@@ -154,8 +154,8 @@ void fruitPodPart::zeroDeltas(void)
 
    gDlt_pai = 0.0;
    gDlt_dm = 0.0;
-   gDlt_dm_pot_rue = 0.0;
-   gDlt_dm_pot_te = 0.0;
+   dlt.dm_pot_rue = 0.0;
+////   gDlt_dm_pot_te = 0.0;
 }
 
 
@@ -173,7 +173,7 @@ void fruitPodPart::readSpeciesParameters(protocol::Component *system, vector<str
 
    system->readParameter (sections,
                           "transp_eff_cf"//, "(kpa)"
-                          , cTransp_eff_cf, numvals
+                          , c.transpEffCf, numvals
                           , 0.0, 1.0);
 
    system->readParameter (sections
@@ -260,7 +260,7 @@ float fruitPodPart::coverSen(void)
    return coverPod.sen;
 }
 
-float fruitPodPart::calcCover (float canopy_fac)
+float fruitPodPart::doCover (float canopy_fac, float /*g_row_spacing*/)
    //===========================================================================
 {
 
@@ -287,8 +287,8 @@ float fruitPodPart::calcCover (float canopy_fac)
    return cover;
 }
 
-float fruitPodPart::dltDmPotTe(void) {return gDlt_dm_pot_te;}
-float fruitPodPart::dltDmPotRue(void) {return gDlt_dm_pot_rue;}
+float fruitPodPart::dltDmPotTe(void) {return dlt.dm_pot_rue;}
+float fruitPodPart::dltDmPotRue(void) const {return dlt.dm_pot_rue;}
 
 float fruitPodPart::fracPod (void)
    //===========================================================================
@@ -322,7 +322,7 @@ void fruitPodPart::doBioActual (void)                                           
    //       biomass production limited by water.
 
    // use whichever is limiting
-   gDlt_dm = min (gDlt_dm_pot_rue, gDlt_dm_pot_te);
+   gDlt_dm = min (dlt.dm_pot_rue, dlt.dm_pot_rue);
 }
 
 void fruitPodPart::calcDlt_pod_area (void)
@@ -331,16 +331,25 @@ void fruitPodPart::calcDlt_pod_area (void)
    gDlt_pai = dltDmGreen() * cSpec_pod_area * smm2sm;
 }
 
-float fruitPodPart::interceptRadiation (float radiation)    // incident radiation on pods
+float fruitPodPart::interceptRadiationGreen (float radiation)    // incident radiation on pods
     //===========================================================================
 {
    //     Calculate pod total radiation interception and return transmitted radiation
 
-   float radiationIntercepted = coverTotal() * radiation;
-   return radiation - radiationIntercepted;
+   radiationInterceptedGreen = coverGreen() * radiation;
+   return radiationInterceptedGreen;
 }
 
-void fruitPodPart::doDmPotRUE (double  radn_int_pod)                    // (OUTPUT) potential dry matter (carbohydrate) production (g/m^2)
+float fruitPodPart::interceptRadiationTotal (float radiation)    // incident radiation on pods
+    //===========================================================================
+{
+   //     Calculate pod total radiation interception and return transmitted radiation
+
+   radiationInterceptedTotal = coverTotal() * radiation;
+   return radiationInterceptedTotal;
+}
+
+void fruitPodPart::doDmPotRUE (void )                    // (OUTPUT) potential dry matter (carbohydrate) production (g/m^2)
    //===========================================================================
 {
    //       Potential biomass (carbohydrate) production from
@@ -351,7 +360,7 @@ void fruitPodPart::doDmPotRUE (double  radn_int_pod)                    // (OUTP
    double stress_factor = min(min(min(plant->getTempStressPhoto(), plant->getNfactPhoto())
                                   , plant->getOxdefPhoto()), plant->getPfactPhoto());
 
-   gDlt_dm_pot_rue = (radn_int_pod * cRue_pod) * stress_factor * plant->getCo2ModifierRue();
+   dlt.dm_pot_rue = (radiationInterceptedGreen * cRue_pod) * stress_factor * plant->getCo2ModifierRue();
 }
 
 
@@ -359,9 +368,9 @@ void fruitPodPart::doTECO2()          // (OUTPUT) transpiration coefficient
    //==========================================================================
 {
    cproc_transp_eff_co2_1(plant->getVpd()
-                          , cTransp_eff_cf[(int)plant->getStageNumber()-1]
+                          , c.transpEffCf[(int)plant->getStageNumber()-1]
                           , plant->getCo2ModifierTe()
-                          , &gTranspEff);
+                          , &transpEff);
 }
 
 float fruitPodPart::SWDemand(void)         //(OUTPUT) crop water demand (mm)
@@ -374,8 +383,8 @@ float fruitPodPart::SWDemand(void)         //(OUTPUT) crop water demand (mm)
    // get potential transpiration from potential
    // carbohydrate production and transpiration efficiency
    float sw_demand = 0.0;
-   cproc_sw_demand1 (gDlt_dm_pot_rue
-                     , gTranspEff
+   cproc_sw_demand1 (dlt.dm_pot_rue
+                     , transpEff
                      , &sw_demand);
    return sw_demand;
 }
@@ -387,7 +396,7 @@ void fruitPodPart::doDmPotTE (void)  //(OUTPUT) potential dry matter production 
 {
    // potential (supply) by transpiration
 
-   gDlt_dm_pot_te = plant->getWaterSupplyPod() * gTranspEff;
+   dlt.dm_pot_rue = plant->getWaterSupplyPod() * transpEff;
 
    // Capping of sw demand will create an effective TE- recalculate it here       //FIXME
    // In an ideal world this should NOT be changed here - NIH

@@ -2,6 +2,8 @@
 #define genericLeafPartH
 
 #define max_node 1000                         // maximum number of plant nodes
+#define max_table 30
+
 class genericLeafPart : public plantLeafPart {
   private:
    void leaf_no_pot (int option, float, float);
@@ -60,6 +62,17 @@ class genericLeafPart : public plantLeafPart {
    void remove_detachment (float dlt_slai_detached, float dlt_lai_removed );
    void removeBiomass(void);
 
+   float interceptRadiationGreen(float radiation);
+   float interceptRadiationTotal(float radiation);
+   float coverTotal(void)  ;
+   float coverGreen(void)  ;
+   float coverSen(void)  ;
+   float coverDead(void)  ;
+   float doCover (float canopy_fac, float g_row_spacing);
+   void doDmPotRUE (void );
+   void doTECO2();
+   float SWDemand(void);
+   void doDmPotTE(void);
 
   private:
    float gLAI;                                        // area of leaf
@@ -115,6 +128,20 @@ class genericLeafPart : public plantLeafPart {
    float dltNodeNo;                                // actual fraction of oldest node expanding ()
    float dltLeafNoPot;                            // potential fraction of oldest leaf expanding ()
    float dltNodeNoPot;                            // potential fraction of oldest leaf expanding ()
+
+   float cXRowSpacing[max_table];
+   float cYExtinctCoef[max_table];
+   float cYExtinctCoefDead[max_table];
+   int cNumRowSpacing;
+
+   struct Cover
+   {
+      float green;
+      float sen;
+      float dead;
+   };
+   Cover coverLeaf;
+   interpolationFunction cRue;                        // radiation use efficiency as f(stage number) (g dm/mj)
 };
 
 #endif
