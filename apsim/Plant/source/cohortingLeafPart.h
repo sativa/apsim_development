@@ -43,6 +43,18 @@ class cohortingLeafPart : public plantLeafPart {
 
    void remove_detachment (float dlt_slai_detached, float dlt_lai_removed );
 
+   float interceptRadiationGreen(float radiation);
+   float interceptRadiationTotal(float radiation);
+   float coverTotal(void)  ;
+   float coverGreen(void)  ;
+   float coverSen(void)  ;
+   float coverDead(void)  ;
+   float doCover (float canopy_fac, float g_row_spacing);
+   void doDmPotRUE (void );
+   void doTECO2();
+   float SWDemand(void);
+   void doDmPotTE(void);
+
   private:
    void get_tlai(protocol::Component *system, protocol::QueryValueData &qd);
    void get_lai_sum(protocol::Component *system, protocol::QueryValueData &qd);
@@ -128,6 +140,20 @@ class cohortingLeafPart : public plantLeafPart {
    float dltLeafNo;                                // actual fraction of oldest leaf expanding ()
    float dltNodeNo;                                // actual fraction of oldest node expanding ()
    float dltLeafNoPot;                            // potential fraction of oldest leaf expanding ()
+
+   float cXRowSpacing[max_table];
+   float cYExtinctCoef[max_table];
+   float cYExtinctCoefDead[max_table];
+   int cNumRowSpacing;
+
+   struct Cover
+   {
+      float green;
+      float sen;
+      float dead;
+   };
+   Cover coverLeaf;
+   interpolationFunction cRue;                        // radiation use efficiency as f(stage number) (g dm/mj)
 };
 
 

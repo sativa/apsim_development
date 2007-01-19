@@ -351,6 +351,10 @@ void plantPart::zeroAllGlobals(void)
    PSen=0.0;
    PDead=0.0;
    relativeGrowthRate = 0.0;
+   radiationInterceptedGreen = 0.0;
+   radiationInterceptedTotal = 0.0;
+   transpEff = 0.0;
+////   transpEffCf = 0.0;
 
    zeroDeltas();
    }
@@ -358,6 +362,8 @@ void plantPart::zeroAllGlobals(void)
 void plantPart::zeroDeltas(void)
 //=======================================================================================
    {
+   dlt.dm_pot_te = 0.0;
+   dlt.dm_pot_rue = 0.0;
    dlt.dm_green = 0.0;
    dlt.dm_senesced = 0.0;
    dlt.dm_detached = 0.0;
@@ -1364,6 +1370,12 @@ float plantPart::dltDmGreen(void) const
    return (dlt.dm_green);
    }
 
+float plantPart::dltDmPotRue(void) const
+//=======================================================================================
+   {
+   return (dlt.dm_pot_rue);
+   }
+
 float plantPart::dltDmRetranslocate(void) const
 //=======================================================================================
    {
@@ -1769,13 +1781,13 @@ void plantPart::get_dlt_p_sen(vector<float> &dlt_p_sen) {dlt_p_sen.push_back(dlt
 
    //needed to standardise interface for composite subclass
 
-float plantPart::calcCover (float /* canopy_fac*/){return 0;}                  // return pod cover   //FIXME
+float plantPart::doCover (float /* canopy_fac*/, float /*g_row_spacing*/){return 0;}                  // return pod cover   //FIXME
 float plantPart::coverDead(void) {return 0;}
 float plantPart::coverGreen(void) {return 0;}
 float plantPart::coverSen(void) {return 0;}
 float plantPart::coverTotal(void) {return 0;}
 float plantPart::dltDmGrainDemand(void) const {return 0;}
-float plantPart::dltDmPotRue(void){return 0;}        //FIXME
+////float plantPart::dltDmPotRue(void){return 0;}        //FIXME
 float plantPart::dltDmPotTe(void){return 0;}            //FIXME
 ////float plantPart::dltDmRetranslocate(void){return 0;}
 float plantPart::dmDeadVegTotal(void)const{return 0;}
@@ -1787,7 +1799,8 @@ float plantPart::dmVegTotal(void) const {return 0;}
 float plantPart::grainNConcPercent(void) const {return 0;}
 float plantPart::grainNo(void) const {return 0;}
 float plantPart::grainWt(void) const {return 0;}
-float plantPart::interceptRadiation(float /* radiation*/){return 0;}        //FIXME
+float plantPart::interceptRadiationGreen(float /* radiation*/){return 0;}        //FIXME
+float plantPart::interceptRadiationTotal(float /* radiation*/){return 0;}        //FIXME
 float plantPart::nConcGrain(void)const{return 0;}
 float plantPart::nDeadVegTotal(void) const{return 0;}
 float plantPart::nDemandGrain(void) const {return 0;}
@@ -1811,7 +1824,7 @@ float plantPart::SWDemand(void){return 0;}                           //(OUTPUT) 
 void plantPart::calcDlt_pod_area (void){}   //FIXME
 void plantPart::doBioActual (void){}
 void plantPart::doDmDemand (float /* dlt_dm_supply_by_veg*/){}
-void plantPart::doDmPotRUE (double  /* radn_int_pod*/){}                      //FIXME   // (OUTPUT) potential dry matter (carbohydrate) production (g/m^2)
+void plantPart::doDmPotRUE (void){}                      //FIXME   // (OUTPUT) potential dry matter (carbohydrate) production (g/m^2)
 void plantPart::doDmPotTE(void){}                                       //(OUTPUT) potential dry matter production by transpiration (g/m^2)//FIXME
 void plantPart::doGrainNumber (void){}
 void plantPart::doInit1(protocol::Component */* system*/){}

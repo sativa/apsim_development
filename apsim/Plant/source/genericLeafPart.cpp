@@ -32,7 +32,7 @@ const float  tolerance_lai = 1.0e-4 ;
 void genericLeafPart::readConstants (protocol::Component *system, const string &section)
 {
     plantPart::readConstants(system, section);
-    // Nothing to do here..
+   // Nothing to do here..
 }
 
 // Read species specific parameters
@@ -122,6 +122,31 @@ void genericLeafPart::readSpeciesParameters (protocol::Component *system, vector
     cLeavesPerNode.search(system, search_order
                         , "x_node_no_leaf",  "()", 0.0, 200.0
                         , "y_leaves_per_node", "()", 0.0, 50.0);
+
+    system->readParameter (search_order
+                     ,"x_row_spacing"//,  "(mm)"
+                     , cXRowSpacing, cNumRowSpacing
+                     , 0.0, 2000.);
+
+    system->readParameter (search_order
+                     ,"y_extinct_coef"//, "()"
+                     , cYExtinctCoef, cNumRowSpacing
+                     , 0.0, 1.0);
+
+    system->readParameter (search_order
+                     ,"y_extinct_coef_dead"//, "()"
+                     , cYExtinctCoefDead, cNumRowSpacing
+                     , 0.0, 1.0);
+
+    cRue.search(system, search_order,
+                 "x_stage_rue", "()", 0.0, 1000.0,
+                 "y_rue", "(g dm/mj)", 0.0, 1000.0);
+
+   int   numvals;                                // number of values returned
+   system->readParameter (search_order,
+                          "transp_eff_cf"//, "(kpa)"
+                          , c.transpEffCf, numvals
+                          , 0.0, 1.0);
 
 }
 
@@ -259,6 +284,15 @@ void genericLeafPart::zeroAllGlobals(void)
    gNodeNo = 0.0;
    gLeavesPerNode = 0.0;
    dltNodeNo = 0.0;
+
+   coverLeaf.green = 0.0;
+   coverLeaf.sen   = 0.0;
+   coverLeaf.dead  = 0.0;
+
+   fill_real_array (cXRowSpacing, 0.0, max_table);
+   fill_real_array (cYExtinctCoef, 0.0, max_table);
+   fill_real_array (cYExtinctCoefDead, 0.0, max_table);
+   cNumRowSpacing = 0;
 }
 
 // Leaf, Node number and area initialisation
@@ -714,5 +748,141 @@ void genericLeafPart::removeBiomass(void)
 
     float n_init = dm_init * c.n_init_conc;
     NGreen = l_bound (NGreen, n_init);
+}
+
+float genericLeafPart::coverTotal(void)
+//=======================================================================================
+{
+   return 1.0 - (1.0 - coverLeaf.green) * (1.0 - coverLeaf.sen) * (1.0 - coverLeaf.dead);
+}
+
+float genericLeafPart::coverGreen(void)
+//=======================================================================================
+{
+   return coverLeaf.green;
+}
+
+float genericLeafPart::coverDead(void)
+//=======================================================================================
+{
+   return coverLeaf.dead;
+}
+
+float genericLeafPart::coverSen(void)
+//=======================================================================================
+{
+   return coverLeaf.sen;
+}
+
+float genericLeafPart::doCover (float canopy_fac, float g_row_spacing)
+   //===========================================================================
+{
+
+   //+  Purpose
+   //     Calculate leaf cover
+
+   //+  Changes
+   //     19 Jan 2006 JNGH - Programmed and Specified
+
+   //- Implementation Section ----------------------------------
+
+    legnew_cover(g_row_spacing
+                 , cXRowSpacing
+                 , cYExtinctCoef
+                 , cNumRowSpacing
+                 , canopy_fac
+                 , getLAI()
+                 , &coverLeaf.green);
+
+
+    legnew_cover (g_row_spacing
+                 , cXRowSpacing
+                 , cYExtinctCoefDead
+                 , cNumRowSpacing
+                 , canopy_fac
+                 , getSLAI()
+                 , &coverLeaf.sen);
+
+    legnew_cover (g_row_spacing
+                 , cXRowSpacing
+                 , cYExtinctCoefDead
+                 , cNumRowSpacing
+                 , canopy_fac
+                 , getTLAI_dead()
+                 , &coverLeaf.dead);
+
+   return coverLeaf.green;
+}
+
+float genericLeafPart::interceptRadiationGreen (float radiation)    // incident radiation on leafs
+    //===========================================================================
+{
+   //     Calculate leaf total radiation interception and return transmitted radiation
+
+   radiationInterceptedGreen = coverGreen() * radiation;
+   return radiationInterceptedGreen;
+}
+
+float genericLeafPart::interceptRadiationTotal (float radiation)    // incident radiation on leafs
+    //===========================================================================
+{
+   //     Calculate leaf total radiation interception and return transmitted radiation
+
+   radiationInterceptedTotal = coverTotal() * radiation;
+   return radiationInterceptedTotal;
+}
+
+void genericLeafPart::doDmPotRUE (void )                    // (OUTPUT) potential dry matter (carbohydrate) production (g/m^2)
+   //===========================================================================
+{
+   //       Potential biomass (carbohydrate) production from
+   //       photosynthesis (g/m^2).  The effect of factors such
+   //       temperature and nutritional status of the plant are
+   //       taken into account in the radiation use efficiency.
+
+   double stress_factor = min(min(min(plant->getTempStressPhoto(), plant->getNfactPhoto())
+                                  , plant->getOxdefPhoto()), plant->getPfactPhoto());
+
+   dlt.dm_pot_rue = (radiationInterceptedGreen * cRue.value(plant->getStageNumber())) * stress_factor * plant->getCo2ModifierRue();
+}
+
+void genericLeafPart::doTECO2()          // (OUTPUT) transpiration coefficient
+   //==========================================================================
+{
+   cproc_transp_eff_co2_1(plant->getVpd()
+                          , c.transpEffCf[(int)plant->getStageNumber()-1]
+                          , plant->getCo2ModifierTe()
+                          , &transpEff);
+}
+
+float genericLeafPart::SWDemand(void)         //(OUTPUT) crop water demand (mm)
+   //===========================================================================
+   /*  Purpose
+   *       Return crop water demand from soil by the crop (mm) calculated by
+   *       dividing biomass production limited by radiation by transpiration efficiency.
+   */
+{
+   // get potential transpiration from potential
+   // carbohydrate production and transpiration efficiency
+   float sw_demand = 0.0;
+   cproc_sw_demand1 (dlt.dm_pot_rue
+                     , transpEff
+                     , &sw_demand);
+   return sw_demand;
+}
+
+void genericLeafPart::doDmPotTE (void)  //(OUTPUT) potential dry matter production by transpiration (g/m^2)
+   //===========================================================================
+   //   Calculate the potential biomass production based upon today's water supply.
+
+{
+   // potential (supply) by transpiration
+
+   dlt.dm_pot_rue = plant->getWaterSupplyLeaf() * transpEff;
+
+   // Capping of sw demand will create an effective TE- recalculate it here       //FIXME
+   // In an ideal world this should NOT be changed here - NIH
+   //       g.transp_eff = g.transp_eff * divide(g.sw_demand_te,g.sw_demand, 1.0);
+   //       g.swDemandTEFruit = g.swDemandTEFruit * divide(g.sw_demand,g.sw_demand_te, 1.0);          // Hack to correct TE for fruit
 }
 

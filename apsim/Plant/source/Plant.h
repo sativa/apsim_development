@@ -262,10 +262,6 @@ public:
    void plant_update(float  g_row_spacing
                      ,float  g_skip_row_fac
                      ,float  g_skip_plant_fac
-                     ,float *c_x_row_spacing
-                     ,float *c_y_extinct_coef
-                     ,float *c_y_extinct_coef_dead
-                     ,int    c_num_row_spacing
                      ,float  *g_canopy_width
                      ,float  *g_cover_dead
                      ,float  *g_cover_green
@@ -433,6 +429,7 @@ public:
    float getDmGreenVeg(void) const;
    //  float getDltDmVeg(void) const;
    float getWaterSupplyPod(void) const;
+   float getWaterSupplyLeaf(void) const;
    float getDmTops(void) const;
    float getDltDmGreen(void) const;
    float getDltDm(void) const;
@@ -824,12 +821,8 @@ private:
       float n_fact_photo;                               // multipler for N deficit effect on photosynthesis
       float n_fact_pheno;                               // multipler for N deficit effect on phenology
       float n_fact_expansion;
-      float x_row_spacing[max_table];
-      float y_extinct_coef[max_table];
-      float y_extinct_coef_dead[max_table];
       interpolationFunction rue;                        // radiation use efficiency as f(stage number) (g dm/mj)
 
-      int   num_row_spacing;
       float leaf_no_crit;                               // critical number of leaves below
                                                         // which portion of the crop may
                                                         // die due to water stress

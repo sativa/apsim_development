@@ -12,7 +12,7 @@ CompositePart::CompositePart()
 {
 }
 
-// 	initialise data members.
+//  initialise data members.
 CompositePart::CompositePart(plantInterface *p, const string &name) : plantPart(p, name)
 {
 }
@@ -24,22 +24,22 @@ CompositePart::~CompositePart()
 
 ostream &operator<<(ostream &output, const CompositePart /*&pool*/)
 {
-   //	output << "CompositePart:" << endl;
+   //   output << "CompositePart:" << endl;
    output << endl;
    return output;
 }
 
 // copy constructor
-//	copy data members of object
+//  copy data members of object
 CompositePart::CompositePart(const CompositePart &/* CompositePart*/)
 //===========================================================================
 {
-	throw std::invalid_argument("Copy constructor NI for CompositePart");
+    throw std::invalid_argument("Copy constructor NI for CompositePart");
 }
 
 
 // Assigment operator
-//	assign data members of object
+//  assign data members of object
 const CompositePart &CompositePart::operator=(const CompositePart &/*other*/)
    //===========================================================================
 {
@@ -1513,7 +1513,7 @@ void CompositePart::onEndCrop(vector<string> &dm_type,
 }
 
 
-void CompositePart::doInit1(protocol::Component *system) 
+void CompositePart::doInit1(protocol::Component *system)
    // ====================================================================
 {
    vector <plantPart *>::iterator part;
@@ -1668,31 +1668,31 @@ float CompositePart::coverSen(void)
 //float CompositePart::total()
 //{
 //
-//	return green.shell + green.meal + senesced.shell + senesced.meal + dead.shell + dead.meal;
+//  return green.shell + green.meal + senesced.shell + senesced.meal + dead.shell + dead.meal;
 //}
 
 void CompositePart::display(ostream &os) const
 {
-   //	os << "CompositePart:" << endl;
-   //	os << "Green cover:    " << coverPod.green << endl;
-   //	os << "Senesced cover: " << coverPod.sen << endl;
-   //	os << "Dead cover:     " << coverPod.dead << endl;
-   //	os << "Green shell: " << green.shell << endl;
-   //	os << "Green meal: " << green.meal << endl;
-   //	os << "Senesced shell: " << senesced.shell << endl;
-   //	os << "Senesced meal: " << senesced.meal << endl;
-   //	os << "Dead shell: " << dead.shell << endl;
-   //	os << "Dead meal: " << dead.meal << endl << endl;
+   //   os << "CompositePart:" << endl;
+   //   os << "Green cover:    " << coverPod.green << endl;
+   //   os << "Senesced cover: " << coverPod.sen << endl;
+   //   os << "Dead cover:     " << coverPod.dead << endl;
+   //   os << "Green shell: " << green.shell << endl;
+   //   os << "Green meal: " << green.meal << endl;
+   //   os << "Senesced shell: " << senesced.shell << endl;
+   //   os << "Senesced meal: " << senesced.meal << endl;
+   //   os << "Dead shell: " << dead.shell << endl;
+   //   os << "Dead meal: " << dead.meal << endl << endl;
    os << endl;
 }
 
 
-float CompositePart::calcCover (float canopy_fac)
+float CompositePart::doCover (float canopy_fac, float g_row_spacing)
 {
    float cover = 0.0;
    vector <plantPart *>::iterator part;
    for (part = myParts.begin(); part != myParts.end(); part++)
-      cover = add_covers (cover, (*part)->calcCover(canopy_fac));
+      cover = add_covers (cover, (*part)->doCover(canopy_fac, g_row_spacing));
    return cover;
 }
 
@@ -1732,11 +1732,11 @@ float CompositePart::dltDmPotTe(void)
    return dltDmPotTe;
 }
 
-float CompositePart::dltDmPotRue(void)
+float CompositePart::dltDmPotRue(void) const
    //===========================================================================
 {
    float dltDmPotRue = 0.0;
-   vector <plantPart *>::iterator part;
+   vector <plantPart *>::const_iterator part;
    for (part =  myParts.begin(); part != myParts.end(); part++)
       dltDmPotRue += (*part)->dltDmPotRue();
    return dltDmPotRue;
@@ -1793,22 +1793,32 @@ float CompositePart::dltDmGreenRetransUptake(void) const
    return dltDmUptake;
 }
 
-float CompositePart::interceptRadiation (float radiation)
+float CompositePart::interceptRadiationGreen (float radiation)
    //===========================================================================
 {
    float interceptRadiation = 0.0;
    vector <plantPart *>::iterator part;
    for (part =  myParts.begin(); part != myParts.end(); part++)
-      interceptRadiation += (*part)->interceptRadiation (radiation);         //FIXME - divey up radiation
+      interceptRadiation += (*part)->interceptRadiationGreen (radiation);         //FIXME - divey up radiation
    return interceptRadiation;
 }
 
-void CompositePart::doDmPotRUE (double  radn_int_pod )
+float CompositePart::interceptRadiationTotal (float radiation)
+   //===========================================================================
+{
+   float interceptRadiation = 0.0;
+   vector <plantPart *>::iterator part;
+   for (part =  myParts.begin(); part != myParts.end(); part++)
+      interceptRadiation += (*part)->interceptRadiationTotal (radiation);         //FIXME - divey up radiation
+   return interceptRadiation;
+}
+
+void CompositePart::doDmPotRUE (void )
    //===========================================================================
 {
    vector <plantPart *>::iterator part;
    for (part =  myParts.begin(); part != myParts.end(); part++)
-      (*part)->doDmPotRUE(radn_int_pod);                                     //FIXME divey up radiation intercepted
+      (*part)->doDmPotRUE ();                                     //FIXME divey up radiation intercepted
 }
 
 void CompositePart::doTECO2(void)
