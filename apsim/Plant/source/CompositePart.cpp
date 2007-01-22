@@ -1722,11 +1722,11 @@ float CompositePart::nDemandGrain(void) const
    return nDemandGrain;
 }
 
-float CompositePart::dltDmPotTe(void)
+float CompositePart::dltDmPotTe(void) const
    //===========================================================================
 {
    float dltDmPotTe = 0.0;
-   vector <plantPart *>::iterator part;
+   vector <plantPart *>::const_iterator part;
    for (part =  myParts.begin(); part != myParts.end(); part++)
       dltDmPotTe += (*part)->dltDmPotTe();
    return dltDmPotTe;
@@ -1740,6 +1740,16 @@ float CompositePart::dltDmPotRue(void) const
    for (part =  myParts.begin(); part != myParts.end(); part++)
       dltDmPotRue += (*part)->dltDmPotRue();
    return dltDmPotRue;
+}
+
+float CompositePart::dltDm(void) const
+   //===========================================================================
+{
+   float dltDm = 0.0;
+   vector <plantPart *>::const_iterator part;
+   for (part =  myParts.begin(); part != myParts.end(); part++)
+      dltDm += (*part)->dltDm();
+   return dltDm;
 }
 
 float CompositePart::grainNConcPercent(void) const
@@ -1829,6 +1839,14 @@ void CompositePart::doTECO2(void)
       (*part)->doTECO2();
 }
 
+void CompositePart::doSWDemand(float SWDemandMaxFactor)
+   //===========================================================================
+{
+   vector <plantPart *>::iterator part;
+   for (part =  myParts.begin(); part != myParts.end(); part++)
+      (*part)->doSWDemand(SWDemandMaxFactor);
+}
+
 float CompositePart::SWDemand(void)
    //===========================================================================
 {
@@ -1837,6 +1855,16 @@ float CompositePart::SWDemand(void)
    for (part =  myParts.begin(); part != myParts.end(); part++)
       SWDemand += (*part)->SWDemand();
    return SWDemand;
+}
+
+float CompositePart::SWDemandTE(void)
+   //===========================================================================
+{
+   float SWDemandTE = 0.0;
+   vector <plantPart *>::iterator part;
+   for (part =  myParts.begin(); part != myParts.end(); part++)
+      SWDemandTE += (*part)->SWDemandTE();
+   return SWDemandTE;
 }
 
 void CompositePart::doDmPotTE (void)

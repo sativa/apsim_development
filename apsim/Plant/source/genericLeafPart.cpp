@@ -855,7 +855,7 @@ void genericLeafPart::doTECO2()          // (OUTPUT) transpiration coefficient
                           , &transpEff);
 }
 
-float genericLeafPart::SWDemand(void)         //(OUTPUT) crop water demand (mm)
+void genericLeafPart::doSWDemand(float SWDemandMaxFactor)         //(OUTPUT) crop water demand (mm)
    //===========================================================================
    /*  Purpose
    *       Return crop water demand from soil by the crop (mm) calculated by
@@ -864,11 +864,17 @@ float genericLeafPart::SWDemand(void)         //(OUTPUT) crop water demand (mm)
 {
    // get potential transpiration from potential
    // carbohydrate production and transpiration efficiency
-   float sw_demand = 0.0;
+
    cproc_sw_demand1 (dlt.dm_pot_rue
                      , transpEff
-                     , &sw_demand);
-   return sw_demand;
+                     , &sw_demand_te);
+
+       // Capping of sw demand will create an effective TE- recalculate it here
+       // In an ideal world this should NOT be changed here - NIH
+
+   float SWDemandMax = SWDemandMaxFactor * coverGreen() ;
+   sw_demand = u_bound(sw_demand_te, SWDemandMax);
+   transpEff = transpEff * divide(sw_demand_te, sw_demand, 1.0);
 }
 
 void genericLeafPart::doDmPotTE (void)  //(OUTPUT) potential dry matter production by transpiration (g/m^2)
@@ -878,11 +884,21 @@ void genericLeafPart::doDmPotTE (void)  //(OUTPUT) potential dry matter producti
 {
    // potential (supply) by transpiration
 
-   dlt.dm_pot_rue = plant->getWaterSupplyLeaf() * transpEff;
+   dlt.dm_pot_te = plant->getWaterSupplyLeaf() * transpEff;
 
    // Capping of sw demand will create an effective TE- recalculate it here       //FIXME
    // In an ideal world this should NOT be changed here - NIH
    //       g.transp_eff = g.transp_eff * divide(g.sw_demand_te,g.sw_demand, 1.0);
    //       g.swDemandTEFruit = g.swDemandTEFruit * divide(g.sw_demand,g.sw_demand_te, 1.0);          // Hack to correct TE for fruit
+}
+
+void genericLeafPart::doBioActual (void)                                             //FIXME
+   //===========================================================================
+{
+   //       Takes the minimum of biomass production limited by radiation and
+   //       biomass production limited by water.
+
+   // use whichever is limiting
+   dlt.dm = min (dlt.dm_pot_rue, dlt.dm_pot_te);
 }
 

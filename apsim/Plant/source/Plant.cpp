@@ -352,19 +352,18 @@ void Plant::doRegistrations(protocol::Component *system)
    setupGetFunction(parent, "dm_plant_min", protocol::DTsingle, true,
                     &Plant::get_dm_plant_min, "g/m^2", "Minimum weights");
 
+   setupGetFunction(parent, "dlt_dm", protocol::DTsingle, false,
+                    &Plant::get_dlt_dm,  "g/m^2", "Actual above_ground dry matter production");
 
-   parent->addGettableVar("dlt_dm",
-               g.dlt_dm, "g/m^2", "Change in dry matter");
+   setupGetFunction(parent, "dlt_dm_pot_rue", protocol::DTsingle, false,
+                    &Plant::get_dlt_dm_pot_rue,  "g/m^2", "Potential above_ground dry matter production via photosynthesis");
 
-   parent->addGettableVar("dlt_dm_pot_rue",
-               g.dlt_dm_pot_rue, "g/m^2", "Potential dry matter production via photosynthesis");
-
-   parent->addGettableVar("dlt_dm_pot_te",
-               g.dlt_dm_pot_te, "g/m^2", "Potential dry matter production via transpiration");
-
+   setupGetFunction(parent, "dlt_dm_pot_te", protocol::DTsingle, false,
+                    &Plant::get_dlt_dm_pot_te,  "g/m^2", "Potential above_ground dry matter production via transpiration");
 
    setupGetFunction(parent, "dlt_dm_green", protocol::DTsingle, true,
                     &Plant::get_dlt_dm_green,  "g/m^2", "change in green pool");
+
 
    setupGetFunction(parent, "dlt_dm_green_retrans", protocol::DTsingle, true,
                     &Plant::get_dlt_dm_green_retrans, "g/m^2", "change in green pool from retranslocation");
@@ -544,11 +543,17 @@ void Plant::doRegistrations(protocol::Component *system)
                     &Plant::get_no3_demand,
                     "kg/ha", "Demand for NO3");
 
-   parent->addGettableVar("sw_demand",
-               g.sw_demand, "mm", "Demand for sw");
+   setupGetFunction(parent, "sw_demand", protocol::DTsingle, true,
+                    &Plant::get_sw_demand,
+                    "mm", "Demand for sw");
 
-   parent->addGettableVar("sw_demand_te",
-               g.sw_demand_te, "mm", "Demand for sw");
+   setupGetFunction(parent, "sw_demand_te", protocol::DTsingle, true,
+                    &Plant::get_sw_demand_te,
+                    "mm", "TE Demand for sw");
+
+   setupGetFunction(parent, "no3gsm_uptake_pot", protocol::DTsingle, true,
+                    &Plant::get_no3gsm_uptake_pot,
+                    "g/m2", "Pot NO3 uptake");
 
    setupGetFunction(parent, "no3gsm_uptake_pot", protocol::DTsingle, true,
                     &Plant::get_no3gsm_uptake_pot,
@@ -828,7 +833,9 @@ void Plant::plant_bio_actual (int /*option  (INPUT) option number*/)
 //       Takes the minimum of biomass production limited by radiation and
 //       biomass production limited by water.
     {
-        g.dlt_dm = min (g.dlt_dm_pot_rue, g.dlt_dm_pot_te);
+        leafPart->doBioActual();
+        fruitPart->doBioActual();
+        g.dlt_dm = fruitPart->dltDm() + leafPart->dltDm();
     }
 
 
@@ -891,7 +898,8 @@ void Plant::plant_water_stress (void)
 //     ===========================================================
 //         Get current water stress factors (0-1)
     {
-    rootPart->plant_water_stress (g.sw_demand,
+    float sw_demand = leafPart->SWDemand() + fruitPart->SWDemand();
+    rootPart->plant_water_stress (sw_demand,
                                   g.swdef_photo,
                                   g.swdef_pheno,
                                   g.swdef_pheno_flower,
@@ -915,10 +923,8 @@ void Plant::plant_bio_water (void)
 //     ===========================================================
 //     Calculate biomass transpiration efficiency
     {
-    float dltDmPotTeVeg = 0.0;
     fruitPart->doDmPotTE ();
-    plant_bio_water1 (g.swSupplyVeg, g.transp_eff, &dltDmPotTeVeg);
-    g.dlt_dm_pot_te = dltDmPotTeVeg + fruitPart->dltDmPotTe();
+    leafPart->doDmPotTE ();
     }
 
 
@@ -1875,8 +1881,8 @@ void Plant::plant_update(float  g_row_spacing                          // (INPUT
 
     // now update new canopy covers
     leafPart->doCover(canopy_fac, g_row_spacing);
-
     fruitPart->doCover(canopy_fac, g_row_spacing);
+
     *g_cover_green = add_covers (leafPart->coverGreen(), fruitPart->coverGreen());
 
     *g_cover_sen = leafPart->coverSen();
@@ -2149,29 +2155,9 @@ void Plant::plant_water_demand (int option /* (INPUT) option number*/)
     if (option == 1)
         {
 
-        g.swDemandTEFruit = fruitPart->SWDemand ();
-
-        float swDemandTEVeg = 0.0;                                        //
-        float dltDmPotRueveg = leafPart->dltDmPotRue();     // FIXME when fruit is proper class
-        cproc_sw_demand1 (dltDmPotRueveg,                                 //
-                          g.transp_eff,                                   //
-                          &swDemandTEVeg);                                //
-
-        g.sw_demand_te = swDemandTEVeg + g.swDemandTEFruit;
-
-
-        //g.sw_demand_te = g.sw_demand_te + g.dlt_dm_parasite_demand
-
-        cproc_sw_demand_bound(g.sw_demand_te
-                             ,p.eo_crop_factor
-                              ,g.eo
-                              ,g.cover_green
-                              ,&g.sw_demand);
-
-       // Capping of sw demand will create an effective TE- recalculate it here
-       // In an ideal world this should NOT be changed here - NIH
-       g.transp_eff = g.transp_eff * divide(g.sw_demand_te,g.sw_demand, 1.0);
-       g.swDemandTEFruit = g.swDemandTEFruit * divide(g.sw_demand,g.sw_demand_te, 1.0);  // Hack to correct TE for fruit
+        float SWDemandMaxFactor = p.eo_crop_factor * g.eo ;
+        fruitPart->doSWDemand(SWDemandMaxFactor);
+        leafPart->doSWDemand(SWDemandMaxFactor);
 
         }
     else
@@ -2218,7 +2204,8 @@ void Plant::plant_water_uptake (int option /*(INPUT) option number*/)
         }
     else if (option == 1)
         {
-        rootPart->doWaterUptake(g.sw_demand);
+        float sw_demand = leafPart->SWDemand() + fruitPart->SWDemand();
+        rootPart->doWaterUptake(sw_demand);
         }
     else
         {
@@ -2250,10 +2237,11 @@ void Plant::plant_water_distribute (int option /*(INPUT) option number*/)
 
     if (option == 1)
     {
-      float swDemandVeg = g.sw_demand - g.swDemandTEFruit;
+      float swDemandVeg = leafPart->SWDemand();;
       float swSupply = - sum_real_array(rootPart->dlt_sw_dep, max_layer);
 
-      plant_water_supply_partition (g.sw_demand
+      float sw_demand = leafPart->SWDemand() + fruitPart->SWDemand();
+      plant_water_supply_partition (sw_demand
                                   , swDemandVeg
                                   , swSupply
                                   , &g.swSupplyVeg
@@ -2335,11 +2323,17 @@ void Plant::plant_light_supply_partition (int option /*(INPUT) option number*/)
            canopy_fac = g.skip_row_fac;
            }
 
-          float solarRadiation = 0.0;
-          crop_radn_int0(1.0                       //lazy way to calc radiation
-                       , g.fr_intc_radn
-                       , Environment.radn
-                       , &solarRadiation);
+            // back calculate transmitted solar radiation to canopy
+          float fractTransmittedRadn = 0.0;
+          if (g.fr_intc_radn <= 0.0)
+          {
+            fractTransmittedRadn = 1.0;
+          }
+          else
+          {
+            fractTransmittedRadn = divide (g.fr_intc_radn, g.cover_green, 0.0);
+          }
+          float solarRadiation = Environment.radn * fractTransmittedRadn;
 
           g.radnIntGreenFruit = fruitPart->interceptRadiationGreen (solarRadiation);
 
@@ -2520,6 +2514,7 @@ void Plant::plant_transpiration_eff (int option /*(INPUT) option number*/)
         float te_coeff = c.transp_eff_cf[(int)phenology->stageNumber()-1];
 
         fruitPart->doTECO2();
+        leafPart->doTECO2();
 
         cproc_transp_eff_co2(c.svp_fract, te_coeff,
                              Environment.maxt, Environment.mint, g.co2,
@@ -3378,7 +3373,6 @@ void Plant::plant_harvest_update (protocol::Variant &v/*(INPUT)message arguments
     float height;                                 // cutting height
     float canopy_fac;
     float temp;
-    float cover_pod;
 
 //- Implementation Section ----------------------------------
     push_routine (my_name);
@@ -3530,8 +3524,8 @@ void Plant::plant_harvest_update (protocol::Variant &v/*(INPUT)message arguments
 // now update new canopy covers
 
     leafPart->doCover(canopy_fac, g.row_spacing);
-
     fruitPart->doCover(canopy_fac, g.row_spacing);
+
     g.cover_green = add_covers (leafPart->coverGreen(), fruitPart->coverGreen());
 
     g.cover_dead = leafPart->coverDead();
@@ -3575,7 +3569,6 @@ void Plant::plant_kill_stem_update (protocol::Variant &v/*(INPUT) message argume
 //+  Local Variables
     float temp;
     float canopy_fac;
-    float cover_pod;
 
 //- Implementation Section ----------------------------------
     push_routine (my_name);
@@ -3619,12 +3612,10 @@ void Plant::plant_kill_stem_update (protocol::Variant &v/*(INPUT) message argume
     // now update new canopy covers
 
     leafPart->doCover(canopy_fac, g.row_spacing);
-
     fruitPart->doCover(canopy_fac, g.row_spacing);
+
     g.cover_green = add_covers (leafPart->coverGreen(), fruitPart->coverGreen());
-
     g.cover_sen = leafPart->coverSen();
-
     g.cover_dead = leafPart->coverDead();
 
     plant_n_conc_limits ( g.co2_modifier_n_conc )  ;                  // plant N concentr
@@ -3667,8 +3658,6 @@ void Plant::plant_remove_biomass_update (protocol::RemoveCropDmType dmRemoved)
 
 //+  Local Variables
     vector<plantPart *>::iterator part;
-
-    float cover_pod;
 
     float canopy_fac;
 
@@ -3852,7 +3841,6 @@ void Plant::plant_zero_all_globals (void)
       g.dlt_plants_death_external = 0.0;
       g.dlt_dm = 0.0;
       g.dlt_dm_pot_rue = 0.0;
-      g.dlt_dm_pot_te = 0.0;
       g.dlt_dm_parasite  =  0.0;
       g.dlt_dm_parasite_demand = 0.0;
       g.dlt_sw_parasite_demand = 0.0;
@@ -3868,9 +3856,6 @@ void Plant::plant_zero_all_globals (void)
       g.n_fixed_tops = 0.0;
 
 
-      g.sw_demand = 0.0;
-      g.sw_demand_te = 0.0;
-      g.swDemandTEFruit = 0.0;
       g.swSupplyFruit   = 0.0;
       g.swSupplyVeg   = 0.0;
 
@@ -4068,9 +4053,6 @@ void Plant::plant_zero_daily_variables ()
     g.dlt_dm                   = 0.0;
 
     g.dlt_plants               = 0.0;
-    g.sw_demand                = 0.0;
-    g.sw_demand_te             = 0.0;
-    g.swDemandTEFruit             = 0.0;
     g.ext_n_demand             = 0.0;
 
 //      g%dlt_plants_death_barrenness     = 0.0
@@ -4080,11 +4062,6 @@ void Plant::plant_zero_daily_variables ()
     g.dlt_plants_failure_leaf_sen     = 0.0;
     g.dlt_plants_failure_emergence    = 0.0;
     g.dlt_plants_failure_germ         = 0.0;
-//      g%dlt_plants_death_external       = 0.0
-
-//      g.dlt_dm_pot_rue = 0.0;
-//      g.dlt_dm_pot_te  = 0.0;
-//      g%radn_int = 0.0
 
     //g.pfact_photo        = 1.0;  NO!! needed during prepare()
     //g.pfact_expansion    = 1.0;
@@ -5844,9 +5821,16 @@ void Plant::get_no3_demand(protocol::Component *system, protocol::QueryValueData
     system->sendVariable(qd, (float)g.ext_n_demand*gm2kg/sm2ha);
 }
 
+void Plant::get_sw_demand(protocol::Component *system, protocol::QueryValueData &qd)
+{
+    float swDemand = leafPart->SWDemand() + leafPart->SWDemand();
+    system->sendVariable(qd, swDemand);
+}
+
 void Plant::get_sw_demand_te(protocol::Component *system, protocol::QueryValueData &qd)
 {
-    system->sendVariable(qd, g.sw_demand_te);
+    float swDemandTE = leafPart->SWDemandTE() + leafPart->SWDemandTE();
+    system->sendVariable(qd, swDemandTE);
 }
 
 void Plant::get_no3gsm_uptake_pot(protocol::Component *system, protocol::QueryValueData &qd)
@@ -6066,15 +6050,33 @@ void Plant::get_dm_senesced(protocol::Component *systemInterface, protocol::Quer
    systemInterface->sendVariable(qd, dm_senesced);
 }
 
+void Plant::get_dlt_dm(protocol::Component *systemInterface, protocol::QueryValueData &qd)
+{
+   float  dlt_dm = leafPart->dltDm() +  fruitPart->dltDm();
+   systemInterface->sendVariable(qd, dlt_dm);
+}
+
+void Plant::get_dlt_dm_pot_te(protocol::Component *systemInterface, protocol::QueryValueData &qd)
+{
+   float  dlt_dm_pot_te = leafPart->dltDmPotTe() +  fruitPart->dltDmPotTe();
+   systemInterface->sendVariable(qd, dlt_dm_pot_te);
+}
+
+void Plant::get_dlt_dm_pot_rue(protocol::Component *systemInterface, protocol::QueryValueData &qd)
+{
+   float  get_dlt_dm_pot_rue = leafPart->dltDmPotRue() +  fruitPart->dltDmPotRue();
+   systemInterface->sendVariable(qd, get_dlt_dm_pot_rue);
+}
+
 void Plant::get_dlt_dm_green(protocol::Component *systemInterface, protocol::QueryValueData &qd)
 {
    vector<plantPart*>::iterator part;
-   vector<float>  dlt_dm_green;
+   vector<float>  get_dlt_dm_green;
 
    for (part = myParts.begin(); part != myParts.end(); part++)
-      (*part)->get_dlt_dm_green(dlt_dm_green);
+      (*part)->get_dlt_dm_green(get_dlt_dm_green);
 
-   systemInterface->sendVariable(qd, dlt_dm_green);
+   systemInterface->sendVariable(qd, get_dlt_dm_green);
 }
 void Plant::get_dlt_dm_green_retrans(protocol::Component *systemInterface, protocol::QueryValueData &qd)
 {

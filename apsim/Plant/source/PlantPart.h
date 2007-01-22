@@ -56,11 +56,13 @@ class plantPart : public plantThing
    float radiationInterceptedGreen;
    float radiationInterceptedTotal;
    float transpEff;
+   float pEoCropFactor;                             // Crop factor for sw demand applied to Eo
 
    // deltas
    struct {
       float dm_pot_te;
       float dm_pot_rue;
+      float dm;
 
       float dm_green;                     // biomass growth (g/m^2)
       float dm_senesced;                  // biomass senescence (g/m^2)
@@ -112,6 +114,8 @@ class plantPart : public plantThing
    float DMGreenDemand;              // biomass demand (g/m^2)
    float NDemand ;                   // critical plant nitrogen demand (g/m^2)
    float PDemand;
+   float sw_demand_te;
+   float sw_demand;
 
    float SoilNDemand;
    float NCapacity;                  // amount of nitrogen this part can take(g/m^2)
@@ -169,6 +173,7 @@ class plantPart : public plantThing
                                                         // and this can be converted to
                                                         // kpa*g carbo per m^2 / mm water
                                                         // because 1g water = 1 cm^3 water
+      float eoCropFactorDefault;                     // Default Crop factor for sw demand applied to Eo
    } c;
 
    plantInterface *plant;                 // The plant we are attached to
@@ -419,7 +424,8 @@ public:
    virtual float coverTotal(void) ;
    virtual float dltDmGrainDemand(void) const;
    virtual float dltDmPotRue(void) const;        //FIXME
-   virtual float dltDmPotTe(void);            //FIXME
+   virtual float dltDmPotTe(void) const;            //FIXME
+   virtual float dltDm(void) const;            //FIXME
    virtual float dltLeafAreaPot(void) {throw std::runtime_error("plantPart::dltLeafAreaPot() called");};
    virtual float dmDeadVegTotal(void)const;
    virtual float dmGrainTotal(void) const;
@@ -451,7 +457,9 @@ public:
    virtual float pSenescedGrainTotal(void)const;
    virtual float pSenescedVegTotal(void)const;
    virtual float pVegTotal(void)const;
-   virtual float SWDemand(void);                           //(OUTPUT) crop water demand (mm)               //FIXME
+   virtual void doSWDemand(float SWDemandMaxFactor);
+   virtual float SWDemand(void);
+   virtual float SWDemandTE(void);
    virtual void calcDlt_pod_area (void);   //FIXME
    virtual void doBioActual (void);
    virtual void doDmDemand (float dlt_dm_supply_by_veg);
