@@ -1795,14 +1795,12 @@ void plantPart::get_dlt_p_sen(vector<float> &dlt_p_sen) {dlt_p_sen.push_back(dlt
 
    //needed to standardise interface for composite subclass
 
-float plantPart::doCover (float /* canopy_fac*/, float /*g_row_spacing*/){return 0;}                  // return pod cover   //FIXME
+void plantPart::doCover (float /* canopy_fac*/, float /*g_row_spacing*/){}                  
 float plantPart::coverDead(void) {return 0;}
 float plantPart::coverGreen(void) {return 0;}
 float plantPart::coverSen(void) {return 0;}
 float plantPart::coverTotal(void) {return 0;}
 float plantPart::dltDmGrainDemand(void) const {return 0;}
-////float plantPart::dltDmPotRue(void){return 0;}        //FIXME
-////float plantPart::dltDmPotTe(void){return 0;}            //FIXME
 ////float plantPart::dltDmRetranslocate(void){return 0;}
 float plantPart::dmDeadVegTotal(void)const{return 0;}
 float plantPart::dmGrainTotal(void) const{return 0;}
@@ -1813,8 +1811,8 @@ float plantPart::dmVegTotal(void) const {return 0;}
 float plantPart::grainNConcPercent(void) const {return 0;}
 float plantPart::grainNo(void) const {return 0;}
 float plantPart::grainWt(void) const {return 0;}
-float plantPart::interceptRadiationGreen(float /* radiation*/){return 0;}        //FIXME
-float plantPart::interceptRadiationTotal(float /* radiation*/){return 0;}        //FIXME
+float plantPart::interceptRadiationGreen(float /* radiation*/){return 0;}        
+float plantPart::interceptRadiationTotal(float /* radiation*/){return 0;}        
 float plantPart::nConcGrain(void)const{return 0;}
 float plantPart::nDeadVegTotal(void) const{return 0;}
 float plantPart::nDemandGrain(void) const {return 0;}
@@ -1840,14 +1838,14 @@ float plantPart::SWDemandTE(void){return sw_demand_te;}
 void plantPart::calcDlt_pod_area (void){}   //FIXME
 void plantPart::doBioActual (void){}
 void plantPart::doDmDemand (float /* dlt_dm_supply_by_veg*/){}
-void plantPart::doDmPotRUE (void){}                      //FIXME   // (OUTPUT) potential dry matter (carbohydrate) production (g/m^2)
-void plantPart::doDmPotTE(void){}                                       //(OUTPUT) potential dry matter production by transpiration (g/m^2)//FIXME
+void plantPart::doDmPotRUE (void){}                         // (OUTPUT) potential dry matter (carbohydrate) production (g/m^2)
+void plantPart::doDmPotTE(void){}                           //(OUTPUT) potential dry matter production by transpiration (g/m^2)
 void plantPart::doGrainNumber (void){}
 void plantPart::doInit1(protocol::Component */* system*/){}
 void plantPart::doNDemandGrain(float /* nfact_grain_conc*/, float /* swdef_expansion*/){}
 void plantPart::doNewMet(protocol::NewMetType &/* newmet*/) {}
 void plantPart::doNInit (void){}
-void plantPart::doTECO2(void){}                                       // (OUTPUT) transpiration coefficient                         //FIXME
+void plantPart::doTECO2(void){}                              // (OUTPUT) transpiration coefficient                         //FIXME
 void plantPart::doTick(protocol::TimeType &/* tick*/) {}
 void plantPart::writeCultivarInfo (protocol::Component *){}
 

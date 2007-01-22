@@ -1687,13 +1687,11 @@ void CompositePart::display(ostream &os) const
 }
 
 
-float CompositePart::doCover (float canopy_fac, float g_row_spacing)
+void CompositePart::doCover (float canopy_fac, float g_row_spacing)
 {
-   float cover = 0.0;
    vector <plantPart *>::iterator part;
    for (part = myParts.begin(); part != myParts.end(); part++)
-      cover = add_covers (cover, (*part)->doCover(canopy_fac, g_row_spacing));
-   return cover;
+      (*part)->doCover(canopy_fac, g_row_spacing);
 }
 
 void CompositePart::doProcessBioDemand(void)
@@ -1828,7 +1826,7 @@ void CompositePart::doDmPotRUE (void )
 {
    vector <plantPart *>::iterator part;
    for (part =  myParts.begin(); part != myParts.end(); part++)
-      (*part)->doDmPotRUE ();                                     //FIXME divey up radiation intercepted
+      (*part)->doDmPotRUE ();                                     
 }
 
 void CompositePart::doTECO2(void)

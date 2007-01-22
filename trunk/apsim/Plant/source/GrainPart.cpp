@@ -584,7 +584,7 @@ void fruitGrainPart::doNDemand2(float /*dlt_dm*/             // (INPUT)  Whole p
 {
    NDemand = 0.0;
    NMax = 0.0;
-   NDemand -= mealPart->nDemand();           //fixme can do this stuff better in mealpart?
+   NDemand -= mealPart->nDemand();           //FIXME can do this stuff better in mealpart?
    mealPart->doNDemand(gN_grain_demand);
    NDemand += mealPart->nDemand();
 }

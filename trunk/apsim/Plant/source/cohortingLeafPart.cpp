@@ -839,7 +839,7 @@ float cohortingLeafPart::coverSen(void)
    return coverLeaf.sen;
 }
 
-float cohortingLeafPart::doCover (float canopy_fac, float g_row_spacing)
+void cohortingLeafPart::doCover (float canopy_fac, float g_row_spacing)
    //===========================================================================
 {
 
@@ -875,8 +875,6 @@ float cohortingLeafPart::doCover (float canopy_fac, float g_row_spacing)
                  , canopy_fac
                  , getTLAI_dead()
                  , &coverLeaf.dead);
-
-   return coverLeaf.green;
 }
 
 float cohortingLeafPart::interceptRadiationGreen (float radiation)    // incident radiation on leafs
@@ -950,14 +948,9 @@ void cohortingLeafPart::doDmPotTE (void)  //(OUTPUT) potential dry matter produc
    // potential (supply) by transpiration
 
    dlt.dm_pot_te = plant->getWaterSupplyLeaf() * transpEff;
-
-   // Capping of sw demand will create an effective TE- recalculate it here       //FIXME
-   // In an ideal world this should NOT be changed here - NIH
-   //       g.transp_eff = g.transp_eff * divide(g.sw_demand_te,g.sw_demand, 1.0);
-   //       g.swDemandTEFruit = g.swDemandTEFruit * divide(g.sw_demand,g.sw_demand_te, 1.0);          // Hack to correct TE for fruit
 }
 
-void cohortingLeafPart::doBioActual (void)                                             //FIXME
+void cohortingLeafPart::doBioActual (void)                                         
    //===========================================================================
 {
    //       Takes the minimum of biomass production limited by radiation and
