@@ -1500,14 +1500,14 @@ void Plant::plant_nit_demand (int option /* (INPUT) option number*/)
         for (vector<plantPart *>::iterator t = myParts.begin();
              t != myParts.end();
              t++)
-           (*t)->doNDemand1(g.dlt_dm, g.dlt_dm_pot_rue);        //FIXME Should be able to doaway with the arguments someday
+           (*t)->doNDemand1(g.dlt_dm, g.dlt_dm_pot_rue);        //FIXME Should be able to do away with the arguments someday
         }
      else if (option == 2)
          {
          for (vector<plantPart *>::iterator t = myParts.begin();
               t != myParts.end();
               t++)
-            (*t)->doNDemand2(g.dlt_dm, g.dlt_dm_pot_rue);      //FIXME Should be able to doaway with the arguments someday
+            (*t)->doNDemand2(g.dlt_dm, g.dlt_dm_pot_rue);      //FIXME Should be able to do away with the arguments someday
         }
     else
         {
@@ -2385,32 +2385,6 @@ void Plant::plant_bio_rue (int option /*(INPUT) option number*/)
     return;
     }
 
-//////+  Purpose
-//////       Potential biomass (carbohydrate) production from
-//////       photosynthesis (g/m^2).  The effect of factors such
-//////       temperature and nutritional status of the plant are
-//////       taken into account in the radiation use efficiency.
-////
-//////+  Mission Statement
-//////     Get the potential biomass production - limited by stress factors
-////
-//////+  Changes
-//////       181197 nih specified and programmed
-////void Plant::plant_dm_pot_rue_veg (externalFunction *c_rue
-////                                , double  radn_int
-////                                , double  stress_factor
-////                                , float  *dlt_dm_pot)                    // (OUTPUT) potential dry matter (carbohydrate) production (g/m^2)
-////  {
-////  //+  Local Variables
-////  double rue_leaf;
-////
-////  rue_leaf = c_rue->value(phenology->stageNumber());
-////
-////  *dlt_dm_pot = (radn_int * rue_leaf) * stress_factor * g.co2_modifier_rue;
-////
-//////  fprintf(stdout, "%f,%f,%f\n", phenology->stageNumber(), stress_factor, *dlt_dm_pot);
-////  }
-////
 void Plant::plant_co2_modifier_rue(void)
 {
   plant_rue_co2_modifier(g.co2,

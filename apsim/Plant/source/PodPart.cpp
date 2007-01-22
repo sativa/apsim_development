@@ -255,7 +255,7 @@ float fruitPodPart::coverSen(void)
    return coverPod.sen;
 }
 
-float fruitPodPart::doCover (float canopy_fac, float /*g_row_spacing*/)
+void fruitPodPart::doCover (float canopy_fac, float /*g_row_spacing*/)
    //===========================================================================
 {
 
@@ -279,7 +279,6 @@ float fruitPodPart::doCover (float canopy_fac, float /*g_row_spacing*/)
       cover = 0.0;
 
    coverPod.green = cover;
-   return cover;
 }
 
 ////float fruitPodPart::dltDmPotTe(void) {return dlt.dm_pot_rue;}
@@ -310,7 +309,7 @@ void fruitPodPart::doProcessBioDemand(void)
    return;
 }
 
-void fruitPodPart::doBioActual (void)                                             //FIXME
+void fruitPodPart::doBioActual (void)                                             
    //===========================================================================
 {
    //       Takes the minimum of biomass production limited by radiation and
