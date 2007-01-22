@@ -132,8 +132,9 @@ public:                                             // member functions
    virtual float dltDmRetranslocate(void) const;
    virtual float dltDmRetranslocateSupply(float demand_differential) ;
    virtual float dltDmGreenRetransUptake(void) const ;
-   virtual float dltDmPotTe(void);            //FIXME
+   virtual float dltDmPotTe(void) const;            //FIXME
    virtual float dltDmPotRue(void) const;           //FIXME
+   virtual float dltDm(void) const;           //FIXME
 
    virtual float dltDmGreen(void) const ;
    virtual float dltDmDead(void) const;
@@ -217,7 +218,9 @@ public:                                             // member functions
 
    virtual void doDmPotRUE (void );                      //FIXME   // (OUTPUT) potential dry matter (carbohydrate) production (g/m^2)
    virtual void doTECO2(void);                                       // (OUTPUT) transpiration coefficient                         //FIXME
+   virtual void doSWDemand(float SWDemandMaxFactor);                           //(OUTPUT) crop water demand (mm)               //FIXME
    virtual float SWDemand(void);                           //(OUTPUT) crop water demand (mm)               //FIXME
+   virtual float SWDemandTE(void);                           //(OUTPUT) crop water demand (mm)               //FIXME
    virtual void doDmPotTE(void);                                       //(OUTPUT) potential dry matter production by transpiration (g/m^2)//FIXME
 
    virtual void doNDemandGrain(float nfact_grain_conc, float swdef_expansion);

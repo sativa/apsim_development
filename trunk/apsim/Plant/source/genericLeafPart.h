@@ -71,8 +71,9 @@ class genericLeafPart : public plantLeafPart {
    float doCover (float canopy_fac, float g_row_spacing);
    void doDmPotRUE (void );
    void doTECO2();
-   float SWDemand(void);
+   void doSWDemand(float SWDemandMaxFactor);
    void doDmPotTE(void);
+   void doBioActual (void);
 
   private:
    float gLAI;                                        // area of leaf

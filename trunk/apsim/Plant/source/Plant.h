@@ -749,7 +749,6 @@ private:
       float swSupplyFruit;                              // crop water water supply to fruit (mm)
       float swSupplyVeg;                                // crop water water supply to vegetative parts (mm)
       float sw_demand;                                  // total crop demand for water (mm)
-      float sw_demand_te;                               // crop demand for water calculated from transpiration efficiency (mm)
       float swDemandTEFruit;                            // crop fruit demand for water calculated from transpiration efficiency (mm)
       float transpiration_tot;                          // cumulative transpiration (mm)
       float n_uptake_tot;                               // cumulative total N uptake (g/m^2)

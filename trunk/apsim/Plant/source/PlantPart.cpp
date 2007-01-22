@@ -354,7 +354,6 @@ void plantPart::zeroAllGlobals(void)
    radiationInterceptedGreen = 0.0;
    radiationInterceptedTotal = 0.0;
    transpEff = 0.0;
-////   transpEffCf = 0.0;
 
    zeroDeltas();
    }
@@ -364,6 +363,7 @@ void plantPart::zeroDeltas(void)
    {
    dlt.dm_pot_te = 0.0;
    dlt.dm_pot_rue = 0.0;
+   dlt.dm = 0.0;
    dlt.dm_green = 0.0;
    dlt.dm_senesced = 0.0;
    dlt.dm_detached = 0.0;
@@ -405,6 +405,8 @@ void plantPart::zeroDeltas(void)
    SoilNDemand = 0.0;
    NMax = 0.0 ;
    PDemand = 0.0;
+   sw_demand_te = 0.0;
+   sw_demand = 0.0;
    }
 
 void plantPart::zeroDltNSenescedTrans(void)
@@ -1376,6 +1378,18 @@ float plantPart::dltDmPotRue(void) const
    return (dlt.dm_pot_rue);
    }
 
+float plantPart::dltDmPotTe(void) const
+//=======================================================================================
+   {
+   return (dlt.dm_pot_te);
+   }
+
+float plantPart::dltDm(void) const
+//=======================================================================================
+   {
+   return (dlt.dm);
+   }
+
 float plantPart::dltDmRetranslocate(void) const
 //=======================================================================================
    {
@@ -1788,7 +1802,7 @@ float plantPart::coverSen(void) {return 0;}
 float plantPart::coverTotal(void) {return 0;}
 float plantPart::dltDmGrainDemand(void) const {return 0;}
 ////float plantPart::dltDmPotRue(void){return 0;}        //FIXME
-float plantPart::dltDmPotTe(void){return 0;}            //FIXME
+////float plantPart::dltDmPotTe(void){return 0;}            //FIXME
 ////float plantPart::dltDmRetranslocate(void){return 0;}
 float plantPart::dmDeadVegTotal(void)const{return 0;}
 float plantPart::dmGrainTotal(void) const{return 0;}
@@ -1820,7 +1834,9 @@ float plantPart::pGreenVegTotal(void)const{return 0;}
 float plantPart::pSenescedGrainTotal(void)const{return 0;}
 float plantPart::pSenescedVegTotal(void)const{return 0;}
 float plantPart::pVegTotal(void)const{return 0;}
-float plantPart::SWDemand(void){return 0;}                           //(OUTPUT) crop water demand (mm)               //FIXME
+void plantPart::doSWDemand(float SWDemandMaxFactor){}
+float plantPart::SWDemand(void){return sw_demand;}
+float plantPart::SWDemandTE(void){return sw_demand_te;}
 void plantPart::calcDlt_pod_area (void){}   //FIXME
 void plantPart::doBioActual (void){}
 void plantPart::doDmDemand (float /* dlt_dm_supply_by_veg*/){}
