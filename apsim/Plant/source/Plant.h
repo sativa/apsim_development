@@ -308,11 +308,11 @@ public:
                                      , float *swSupplyVeg
                                      , float *swSupplyFruit);
 
-   void plant_dm_pot_rue_veg (externalFunction *c_rue
-                              , double  radn_int
-                              , double  stress_factor
-                              , float  *dlt_dm_pot);
-
+////   void plant_dm_pot_rue_veg (externalFunction *c_rue
+////                              , double  radn_int
+////                              , double  stress_factor
+////                              , float  *dlt_dm_pot);
+////
    void plant_rue_co2_modifier(float co2,                 //!CO2 level (ppm)
                                float maxt,                //!daily max temp (C)
                                float mint,                //!daily min temp (C)

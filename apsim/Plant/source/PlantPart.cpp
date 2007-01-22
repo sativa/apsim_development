@@ -1834,7 +1834,7 @@ float plantPart::pGreenVegTotal(void)const{return 0;}
 float plantPart::pSenescedGrainTotal(void)const{return 0;}
 float plantPart::pSenescedVegTotal(void)const{return 0;}
 float plantPart::pVegTotal(void)const{return 0;}
-void plantPart::doSWDemand(float SWDemandMaxFactor){}
+void plantPart::doSWDemand(float /*SWDemandMaxFactor*/){}
 float plantPart::SWDemand(void){return sw_demand;}
 float plantPart::SWDemandTE(void){return sw_demand_te;}
 void plantPart::calcDlt_pod_area (void){}   //FIXME
