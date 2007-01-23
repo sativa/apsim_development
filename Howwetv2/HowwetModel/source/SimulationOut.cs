@@ -6,6 +6,7 @@ using System.Data;
 using VBGeneral;
 using CSGeneral;
 using APSRU.Error;
+using APSRU.Model;
 
 namespace APSRU.Model.Howwet
     {
