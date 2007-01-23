@@ -9,7 +9,7 @@ using VBGeneral;
 using CSGeneral;
 using System.Xml;
 using APSRU.Error;
-
+// This contains the CoverCrop, Region, HowwetConfiguration, and HowwetUtility classes 
 namespace APSRU.Model.Howwet
     {
     public class CoverCrop
@@ -135,7 +135,7 @@ namespace APSRU.Model.Howwet
                 }
             }
 
-        public Region GetRegion(ArrayList regionList, String region)
+        public Region GetRegion(String region)
             {
             Region regionOut = new Region();
             for (int i = 0; i < regionList.Count; i++)
