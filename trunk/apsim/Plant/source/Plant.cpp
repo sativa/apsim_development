@@ -2077,7 +2077,7 @@ void Plant::plant_event()
        }
 
     char msg[80];
-    sprintf(msg, " stage %.1f %s"
+    sprintf(msg, " stage %.1f %s"                                    // BANNISH sprintf
               , phenology->stageNumber()
               , phenology->stageName().c_str());
     parent->writeString(msg);
@@ -2222,21 +2222,6 @@ void Plant::plant_light_supply_partition (int option /*(INPUT) option number*/)
 
     if (option == 1)
     {
-          float canopy_fac;
-          if (g.canopy_width > 0.0)
-           {
-           legnew_canopy_fac (g.row_spacing
-                              , g.plants
-                              , g.skip_row_fac
-                              , g.skip_plant_fac
-                              , g.canopy_width
-                              , &canopy_fac);
-           }
-          else
-           {
-           canopy_fac = g.skip_row_fac;
-           }
-
             // back calculate transmitted solar radiation to canopy
           float fractIncidentRadn = 0.0;
           if (g.fr_intc_radn <= 0.0)
