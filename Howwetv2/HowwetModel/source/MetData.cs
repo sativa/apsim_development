@@ -19,12 +19,9 @@ namespace APSRU.Model.Howwet
         private DataTable data;
         private String site;
         private String fileName;
-        private DateTime startDate;
-        private DateTime endDate;
         private ArrayList constants;
         private StringCollection headings;
         private StringCollection units;
-
 
         public MetData(MetData met)
             {
