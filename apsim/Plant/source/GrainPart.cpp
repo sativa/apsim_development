@@ -383,8 +383,6 @@ void fruitGrainPart::doProcessBioDemand(void)
    doDMDemandStress ();
    oilPart->doBioGrainOil ();
    doDMDemandGrain ();
-
-   return;
 }
 
 float fruitGrainPart::nDemandGrain(void) const {return gN_grain_demand;}

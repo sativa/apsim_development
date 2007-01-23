@@ -305,11 +305,9 @@ float fruitPodPart::fracPod1 (void)
 void fruitPodPart::doProcessBioDemand(void)
    //===========================================================================
 {
-   doDmPotTE ();
-   return;
 }
 
-void fruitPodPart::doBioActual (void)                                             
+void fruitPodPart::doBioActual (void)
    //===========================================================================
 {
    //       Takes the minimum of biomass production limited by radiation and
@@ -389,13 +387,13 @@ void fruitPodPart::doSWDemand(float SWDemandMaxFactor)         //(OUTPUT) crop w
    transpEff = transpEff * divide(sw_demand_te, sw_demand, 1.0);
 }
 
-void fruitPodPart::doDmPotTE (void)  //(OUTPUT) potential dry matter production by transpiration (g/m^2)
+void fruitPodPart::doDmPotTE (float swSupply)  //(OUTPUT) potential dry matter production by transpiration (g/m^2)
    //===========================================================================
    //   Calculate the potential biomass production based upon today's water supply.
 
 {
    // potential (supply) by transpiration
 
-   dlt.dm_pot_te = plant->getWaterSupplyPod() * transpEff;
+   dlt.dm_pot_te = swSupply * transpEff;
 }
 

@@ -940,17 +940,17 @@ void cohortingLeafPart::doSWDemand(float SWDemandMaxFactor)         //(OUTPUT) c
    transpEff = transpEff * divide(sw_demand_te, sw_demand, 1.0);
 }
 
-void cohortingLeafPart::doDmPotTE (void)  //(OUTPUT) potential dry matter production by transpiration (g/m^2)
+void cohortingLeafPart::doDmPotTE (float swSupply)  //(OUTPUT) potential dry matter production by transpiration (g/m^2)
    //===========================================================================
    //   Calculate the potential biomass production based upon today's water supply.
 
 {
    // potential (supply) by transpiration
 
-   dlt.dm_pot_te = plant->getWaterSupplyLeaf() * transpEff;
+   dlt.dm_pot_te = swSupply * transpEff;
 }
 
-void cohortingLeafPart::doBioActual (void)                                         
+void cohortingLeafPart::doBioActual (void)
    //===========================================================================
 {
    //       Takes the minimum of biomass production limited by radiation and

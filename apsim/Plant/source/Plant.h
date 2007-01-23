@@ -77,6 +77,14 @@ private:
    eventObserver *maturityEventObserver;   // Bookkeeper for maturity events
    Arbitrator    *arbitrator;
 
+   float plantCoverGreen(void) const;
+   float plantCoverDead(void) const;
+   float plantCoverSenesced(void) const;
+
+   float plantDltDm(void) const;
+   float plantDltDmPotRue(void) const;
+   float plantDltDmPotTe(void) const;
+
    float plantGreen(void) const;
    float plantSenesced(void) const;
    float plantDead(void) const;
@@ -144,6 +152,8 @@ private:
    float grainPConcTot(void) const;
    float sumNMax(void) ;
    float sumSoilNDemand(void) ;
+   float SWDemandTE(void) ;
+   float SWDemand(void) ;
    float nDemand(void) ;
    float nCapacity(void) ;
    void doRegistrations(protocol::Component *) ;
@@ -263,9 +273,6 @@ public:
                      ,float  g_skip_row_fac
                      ,float  g_skip_plant_fac
                      ,float  *g_canopy_width
-                     ,float  *g_cover_dead
-                     ,float  *g_cover_green
-                     ,float  *g_cover_sen
                      ,float  g_dlt_plants
                      ,float *g_plants) ;
    void plant_check_bounds(float  g_cover_dead
@@ -423,8 +430,6 @@ public:
    float getDltDMPotRueVeg(void) const;
    float getDmGreenVeg(void) const;
    //  float getDltDmVeg(void) const;
-   float getWaterSupplyPod(void) const;
-   float getWaterSupplyLeaf(void) const;
    float getDmTops(void) const;
    float getDltDmGreen(void) const;
    float getDltDm(void) const;
@@ -702,15 +707,6 @@ private:
       float canopy_width;                               // canopy height (mm)
       float plants;                                     // Plant density (plants/m^2)
       float dlt_plants;                                 // change in Plant density (plants/m^2)
-      float cover_green;                                // fraction of radiation reaching the
-                                                        // canopy that is intercepted by the
-                                                        // green leaves of the canopy (0-1)
-      float cover_sen;                                  // fraction of radiation reaching the
-                                                        // canopy that is intercepted by the
-                                                        // senesced leaves of the canopy (0-1)
-      float cover_dead;                                 // fraction of radiation reaching the
-                                                        // canopy that is intercepted by the
-                                                        // dead leaves of the dead canopy (0-1)
       float dlt_plants_death_seedling;
       float dlt_plants_death_drought;
       float dlt_plants_failure_phen_delay;
@@ -718,17 +714,8 @@ private:
       float dlt_plants_failure_emergence;
       float dlt_plants_failure_germ;
       float dlt_plants_death_external;
-      float dlt_dm;                                     // the daily biomass production (g/m^2)
-      float dlt_dm_pot_rue;                             // potential dry matter production with
-                                                        // optimum water and nitrogen and
-                                                        // temperature stress conditions (g/m^2)
-      float dlt_dm_pot_te;                              // the potential daily biomass production from te (g/m^2)
-      float radn_int;                                   // radn intercepted by leaves (mj/m^2)
-      float radnIntGreenFruit;                          // radn intercepted by fruit (mj/m^2)
-      float transp_eff;                                 // transpiration efficiency (g dm/m^2/mm water)
-      float transpEffFruit;                             // transpiration efficiency of fruit (g dm/m^2/mm water)
 
-      float lai_canopy_green;                           // green lai of canopy
+//      float lai_canopy_green;                           // green lai of canopy
 
       float no3gsm_diffn_pot[max_layer];                // potential NO3 (supply) from soil (g/m^2), by diffusion
       float no3gsm_mflow_avail[max_layer];              // potential NO3 (supply) from soil (g/m^2) by mass flow
@@ -741,10 +728,6 @@ private:
       float n_fix_uptake;                               // N fixation actual (g/m^2)
       float n_fixed_tops;                               // cum. fixed N in tops
 
-      float swSupplyFruit;                              // crop water water supply to fruit (mm)
-      float swSupplyVeg;                                // crop water water supply to vegetative parts (mm)
-      float sw_demand;                                  // total crop demand for water (mm)
-      float swDemandTEFruit;                            // crop fruit demand for water calculated from transpiration efficiency (mm)
       float transpiration_tot;                          // cumulative transpiration (mm)
       float n_uptake_tot;                               // cumulative total N uptake (g/m^2)
       float n_demand_tot;                               // sum of N demand since last output (g/m^2)
@@ -753,8 +736,6 @@ private:
       float n_uptake_stover_tot;                        // sum of tops N uptake (g N/m^2)
       float lai_max;                                    // maximum lai - occurs at flowering
       float ext_n_demand;
-      float grain_energy;                               // multiplier of grain weight to account
-                                                        // for seed energy content
 
       float swdef_pheno_flower;
       float swdef_pheno_grainfill;
@@ -815,7 +796,6 @@ private:
       float n_fact_photo;                               // multipler for N deficit effect on photosynthesis
       float n_fact_pheno;                               // multipler for N deficit effect on phenology
       float n_fact_expansion;
-      interpolationFunction rue;                        // radiation use efficiency as f(stage number) (g dm/mj)
 
       float leaf_no_crit;                               // critical number of leaves below
                                                         // which portion of the crop may
@@ -885,9 +865,6 @@ private:
 
       float eo_crop_factor_default;                     // Default Crop factor for sw demand applied to Eo
       float total_n_uptake_max;
-
-      int        root_growth_option;
-
 
       float      co2_default;
       float      x_co2_te_modifier[max_table], y_co2_te_modifier[max_table];

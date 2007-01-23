@@ -417,15 +417,16 @@ public:
    //needed to standardise interface for composite subclass
 
    virtual float availableRetranslocateN(void);
-   virtual void doCover (float canopy_fac, float g_row_spacing);                 
+   virtual void doCover (float canopy_fac, float g_row_spacing);
    virtual float coverDead(void) ;
    virtual float coverGreen(void) ;
    virtual float coverSen(void) ;
    virtual float coverTotal(void) ;
    virtual float dltDmGrainDemand(void) const;
-   virtual float dltDmPotRue(void) const;        
-   virtual float dltDmPotTe(void) const;           
-   virtual float dltDm(void) const;            
+   virtual float transpirationEfficiency(void) const;
+   virtual float dltDmPotRue(void) const;
+   virtual float dltDmPotTe(void) const;
+   virtual float dltDm(void) const;
    virtual float dltLeafAreaPot(void) {throw std::runtime_error("plantPart::dltLeafAreaPot() called");};
    virtual float dmDeadVegTotal(void)const;
    virtual float dmGrainTotal(void) const;
@@ -436,8 +437,8 @@ public:
    virtual float grainNConcPercent(void) const;
    virtual float grainNo(void) const;
    virtual float grainWt(void) const;
-   virtual float interceptRadiationGreen(float radiation);        
-   virtual float interceptRadiationTotal(float radiation);        
+   virtual float interceptRadiationGreen(float radiation);
+   virtual float interceptRadiationTotal(float radiation);
    virtual float nConcGrain(void)const;
    virtual float nDeadVegTotal(void) const;
    virtual float nDemandGrain(void) const;
@@ -464,7 +465,7 @@ public:
    virtual void doBioActual (void);
    virtual void doDmDemand (float dlt_dm_supply_by_veg);
    virtual void doDmPotRUE (void );                      // (OUTPUT) potential dry matter (carbohydrate) production (g/m^2)
-   virtual void doDmPotTE(void);                         //(OUTPUT) potential dry matter production by transpiration (g/m^2)
+   virtual void doDmPotTE(float swSupply);                         //(OUTPUT) potential dry matter production by transpiration (g/m^2)
    virtual void doGrainNumber (void);
    virtual void doInit1(protocol::Component *system);
    virtual void doNDemandGrain(float nfact_grain_conc, float swdef_expansion);

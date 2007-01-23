@@ -144,8 +144,6 @@ void fruitGrainPartHI::doProcessBioDemand(void)
    doDMDemandStress ();
    oilPart->doBioGrainOil ();
    doDMDemandGrain ();
-
-   return;
 }
 
 void fruitGrainPartHI::doDMDemandGrain(void)
@@ -226,7 +224,5 @@ void fruitGrainPartHI::doDMDemandGrain(void)
 
       oilPart->doDMDemandGrain(dlt_dm_grain_demand);
       mealPart->doDMDemandGrain(dlt_dm_grain_demand - oilPart->dmGreenDemand());
-
-   return;
 }
 

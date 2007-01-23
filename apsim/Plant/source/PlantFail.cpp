@@ -224,7 +224,7 @@ void crop_death_seedling_hightemp (plantInterface *iface,
       {
       *dlt_plants = 0.0;
       }
-      return;
+      
    }
 
 //==========================================================================

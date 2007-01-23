@@ -105,10 +105,11 @@ class plantRootPart : public plantPart
 
       void CalcWaterSupply();
       void doWaterUptake(float sw_demand);
+      float waterUptake(void);
       void getOtherVariables(protocol::Component *system);
       void UpdateOtherVariables(protocol::Component *system);
       void DoIDs(protocol::Component *system);
-      
+
       float oxdef_stress ();
       void doNewProfile(protocol::Variant &v);
 
