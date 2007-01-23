@@ -173,6 +173,7 @@ namespace APSRU.Howwet
             this.proposedCropList.Name = "proposedCropList";
             this.proposedCropList.Size = new System.Drawing.Size(74, 28);
             this.proposedCropList.TabIndex = 226;
+            this.proposedCropList.SelectedValueChanged+=new System.EventHandler(proposedCropList_SelectedValueChanged);
             // 
             // label77
             // 

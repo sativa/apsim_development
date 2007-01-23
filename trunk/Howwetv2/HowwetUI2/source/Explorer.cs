@@ -284,6 +284,11 @@ namespace APSRU.Howwet
             UpdateCover();
             }
 
+        public void UpdateCropToGrow(String selectedCrop)
+            {
+            simulationObject.AddCrop(selectedCrop);
+            }
+
         public bool ExecuteAPSIM()
             {
             bool success = false;
