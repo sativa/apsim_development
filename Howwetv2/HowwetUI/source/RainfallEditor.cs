@@ -107,18 +107,26 @@ namespace APSRU.Howwet
         //cell changed
         private void fpSpread1_Change(object sender, ChangeEventArgs e)
             {
-            DateTime selectedDate=new DateTime((int)yearSelectUpDown.Value,(int)e.Column,(int)e.Row+1);
+            int row = e.Row;
+            int col = e.Column;
+            UpdateMetObject(row, col);
+           
+            }
+
+        void UpdateMetObject(int row,int col)
+            {
+            DateTime selectedDate = new DateTime((int)yearSelectUpDown.Value, col, row + 1);
             int year = selectedDate.Year;
             int month = selectedDate.Month;
             int day = selectedDate.Day;
-            
-            String sql = "Date = '"+day+"-"+month+"-"+ year+"'";
+
+            String sql = "Date = '" + day + "-" + month + "-" + year + "'";
             DataRow[] rows = this.tempMetObject.Data.Select(sql);
 
             if (!(rows.Length == 0))
                 {//update
-                DataRow row = (DataRow)rows.GetValue(0);
-                row["rain"] = Convert.ToInt16(fpSpread1.Sheets[0].Cells[e.Row, e.Column].Value);
+                DataRow currentRow = (DataRow)rows.GetValue(0);
+                currentRow["rain"] = Convert.ToInt16(fpSpread1.Sheets[0].Cells[row, col].Value);
                 updateRainfallTotal();
                 }
             else
@@ -129,14 +137,14 @@ namespace APSRU.Howwet
                     newRow["site"] = this.tempMetObject.Site;
                     }
                 newRow["Date"] = selectedDate;
-                newRow["radn"] = selectedRegion.AverageMonthlyRadiation[selectedDate.Month-1];
-                newRow["maxt"] = selectedRegion.AverageMonthlyMaxT[selectedDate.Month-1];
-                newRow["mint"] = selectedRegion.AverageMonthlyMinT[selectedDate.Month-1];
-                newRow["rain"] = Convert.ToInt16(fpSpread1.Sheets[0].Cells[e.Row, e.Column].Value);
+                newRow["radn"] = selectedRegion.AverageMonthlyRadiation[selectedDate.Month - 1];
+                newRow["maxt"] = selectedRegion.AverageMonthlyMaxT[selectedDate.Month - 1];
+                newRow["mint"] = selectedRegion.AverageMonthlyMinT[selectedDate.Month - 1];
+                newRow["rain"] = Convert.ToInt16(fpSpread1.Sheets[0].Cells[row, col].Value);
                 this.tempMetObject.Data.Rows.Add(newRow);
                 }
             }
-                
+
         void RainfallEditor_FormClosing(object sender, System.Windows.Forms.FormClosingEventArgs e)
             {
             isLoaded = false;
@@ -171,7 +179,8 @@ namespace APSRU.Howwet
             {
             if (e.KeyCode == Keys.Delete)
                 {
-                fpSpread1.Sheets[0].ActiveCell.Value = null;
+                fpSpread1.Sheets[0].ActiveCell.Value = 0;
+                UpdateMetObject(fpSpread1.Sheets[0].ActiveCell.Row.Index, fpSpread1.Sheets[0].ActiveCell.Column.Index);
                 }
             }
         

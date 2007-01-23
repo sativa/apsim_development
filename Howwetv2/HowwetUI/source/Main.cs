@@ -75,6 +75,8 @@ namespace APSRU.Howwet
             util = new HowwetUtility(Application.ExecutablePath, howwetSetupFileName);
             config = new HowwetConfiguration(util.ApplicationDirectory + howwetSetupFileName, util.ApplicationDirectory + howwetRegionFileName);
             version.Text=config.Version;
+            regions = config.RegionList;
+
             if (this.selectedFileName == "")
                 {
                 simulationObject = new SimulationIn(util.ReadTemplateFile(util.ApplicationDirectory + "\\howwetv2\\" + config.TemplateFileName));
@@ -99,10 +101,10 @@ namespace APSRU.Howwet
                     {
                     LoadMetFile(config.DefaultMetfile);
                     }
-              //  if (!(config.DefaultRegionName == ""))
-               //     {
-               //     }
-             //   loadDefaultSoilFile();
+               if (!(config.DefaultRegionName == ""))
+                    {
+                    LoadRegion(config.DefaultRegionName);
+                    }
                 resetFormValues();
                 }
             else
@@ -169,33 +171,33 @@ namespace APSRU.Howwet
             TrainingModeCheckBox.Checked = config.TrainingMode;
             this.Text = simulationObject.FileName;
             tabControl1.Visible = false;
-            RainfallSWChart.Visible = false;
-            SoilNitrogenChart.Visible = false;
-            ErosionChart.Visible = false;
-            LTRainfallChart.Visible = false;
-            ProfileChart.Visible = false;
+           // RainfallSWChart.Visible = false;
+          //  SoilNitrogenChart.Visible = false;
+          //  ErosionChart.Visible = false;
+          //  LTRainfallChart.Visible = false;
+          //  ProfileChart.Visible = false;
             ReportButton.Enabled = false;
-            NRequirementPanel.Visible = false;
+         //   NRequirementPanel.Visible = false;
 
             label61.Visible = false;
             //check if simluationObject has a soil
-            if (!(simulationObject.Soil == null))
-                {
-                updateFormSoilValues();
-                }
-            else
+            if (simulationObject.Soil == null)
                 {
                 clearFormSoilValues();
                 }
-            //check if simulationObject has a met file
-            if (!(simulationObject.MetFileName == ""))
+            else
                 {
-                LoadMetFile(simulationObject.MetFileName);
-                updateFormMetValues();
+                updateFormSoilValues();
+                }
+            //check if simulationObject has a met file
+            if (simulationObject.MetFileName == "")
+                {
+                clearFormMetValues();
                 }
             else
                 {
-                clearFormMetValues();
+                LoadMetFile(simulationObject.MetFileName);
+                updateFormMetValues();
                 }
             updateFormOutputValues();
             }
@@ -214,9 +216,7 @@ namespace APSRU.Howwet
             initialSoilNitrogen.Text = "";
             displayCoverCropList();
             displayRegionList();
-           // this.initialSoilWaterPercent.ValueChanged -= new System.EventHandler(this.initialSoilWaterPercent_ValueChanged);
             initialSoilWaterPercent.Value = 20;
-          //  this.initialSoilWaterPercent.ValueChanged += new System.EventHandler(this.initialSoilWaterPercent_ValueChanged);
             startCoverPercent.Maximum = 99;
             startCoverPercent.Minimum = 0;
             startCoverPercent.Value = 30;
@@ -231,6 +231,7 @@ namespace APSRU.Howwet
             ocDepthLabel.Text = layers[0];//top layer string
             organicCarbonContent.Text = simulationObject.Soil.OC.GetValue(0).ToString();
             soilDepthSumOriginal = MathUtility.Sum(simulationObject.Soil.Thickness);
+          //  displayProposedCropList();
             soilPAWCSumOriginal = MathUtility.Sum(simulationObject.Soil.PAWC(simulationObject.GetCrop));
             soilNitrogenSumOriginal = MathUtility.Sum(simulationObject.Soil.InitialNitrogen.NO3KgHa);
             lL15Original = simulationObject.Soil.LL15;
@@ -240,13 +241,10 @@ namespace APSRU.Howwet
             initialSoilNitrogen.Text = soilNitrogenSumOriginal.ToString("f0");
             displayCoverCropList();
             displayRegionList();
-           // this.initialSoilWaterPercent.ValueChanged -= new System.EventHandler(this.initialSoilWaterPercent_ValueChanged);
             initialSoilWaterPercent.Value = 20;
-          //  this.initialSoilWaterPercent.ValueChanged += new System.EventHandler(this.initialSoilWaterPercent_ValueChanged);
             startCoverPercent.Maximum = 99;
             startCoverPercent.Minimum = 0;
             startCoverPercent.Value = 30;
-          //  toolStripStatusLabel1.Text = "Select a Met file";
             }
 
         private void updateFormMetValues()
@@ -290,10 +288,10 @@ namespace APSRU.Howwet
             {
             saveAllData();
             tabControl1.Visible = false;
-            RainfallSWChart.Visible = false;
-            SoilNitrogenChart.Visible = false;
-            ErosionChart.Visible = false;
-            LTRainfallChart.Visible = false;
+           // RainfallSWChart.Visible = false;
+           // SoilNitrogenChart.Visible = false;
+           // ErosionChart.Visible = false;
+          //  LTRainfallChart.Visible = false;
             label61.Visible = true;
             if (ExecuteAPSIM())
                 {
@@ -413,7 +411,6 @@ namespace APSRU.Howwet
                 appsimDataObject.LoadFromFile(openDialog.FileName);
                 simulationObject = new SimulationIn(appsimDataObject);
                 simulationObject.FileName=openDialog.FileName;
-               // loadDefaultSoilFile();
                 resetFormValues();
                 }
             }
@@ -611,29 +608,31 @@ namespace APSRU.Howwet
 
         private void waterCapacity_Leave(object sender, EventArgs e)
             {
-            try
+            UpdatePAWC();
+            }
+
+        private void waterCapacity_KeyDown(object sender, KeyEventArgs e)
+            {
+            if (e.KeyCode == Keys.Enter)
                 {
-                if (!(waterCapacity.Text == ""))
+                UpdatePAWC();
+                }
+            }
+
+        void UpdatePAWC()
+            {
+            if (!(waterCapacity.Text == ""))
+                {
+                if (Convert.ToDouble(waterCapacity.Text) > soilPAWCSumOriginal)
                     {
-                    if (Convert.ToDouble(waterCapacity.Text) > soilPAWCSumOriginal)
-                        {
-                        waterCapacity.Text = soilPAWCSumOriginal.ToString("f0");
-                        simulationObject.Soil.LL15 = lL15Original;
-                        simulationObject.Soil.Thickness = thicknessOriginal;
-                        }
-                    //adjust water capacity
-                    simulationObject.Soil.ApplyMaxWaterCapacity(Convert.ToInt16(waterCapacity.Text));
-                    //display new values
-                    initialWaterCapacity.Text = MathUtility.Sum(simulationObject.Soil.PAWC(simulationObject.GetCrop)).ToString("f0");
+                    waterCapacity.Text = soilPAWCSumOriginal.ToString("f0");
+                    simulationObject.Soil.LL15 = lL15Original;
+                    simulationObject.Soil.Thickness = thicknessOriginal;
                     }
-                }
-            catch (CustomException err)
-                {
-                showCustomExceptionMessages(err);
-                }
-            catch (Exception err)
-                {
-                showExceptionMessages(err);
+                //adjust water capacity
+                simulationObject.Soil.ApplyMaxWaterCapacity(Convert.ToInt16(waterCapacity.Text));
+                //display new values
+                initialWaterCapacity.Text = MathUtility.Sum(simulationObject.Soil.PAWC(simulationObject.GetCrop)).ToString("f0");
                 }
             }
 
@@ -735,7 +734,7 @@ namespace APSRU.Howwet
 
         private void displayRegionList()
             {
-            regions = config.RegionList;
+            int selectedIndex=0;
             if (!(regions == null))
                 {
                 regionList.Items.Clear();
@@ -743,15 +742,16 @@ namespace APSRU.Howwet
                     {
                     APSRU.Model.Howwet.Region region = (APSRU.Model.Howwet.Region)regions[i];
                     regionList.Items.Add(region.Name);
+                    if (config.DefaultRegionName == region.Name) selectedIndex = i;
                     }
-                regionList.SelectedIndex = 0;
+                regionList.SelectedIndex = selectedIndex;
                 }
             }
 
         public void LoadRegion(String region)
             {
             //load the regions met averages in to metData
-            selectedRegion = config.GetRegion(regions, region);
+            selectedRegion = config.GetRegion(region);
             config.DefaultRegionName = selectedRegion.Name;
             }
 
@@ -871,7 +871,9 @@ namespace APSRU.Howwet
                     {
                     proposedCropList.Items.Add(crops[i]);
                     }
+               // this.proposedCropList.SelectedValueChanged -= new System.EventHandler(this.proposedCropList_SelectedValueChanged);
                 proposedCropList.SelectedIndex = 0;
+               // this.proposedCropList.SelectedValueChanged += new System.EventHandler(this.proposedCropList_SelectedValueChanged);
                 }
             else
                 {
@@ -914,50 +916,7 @@ namespace APSRU.Howwet
             }
         //************
         
-        private void tabControl1_Click(object sender, EventArgs e)
-            {
-                TabControl tabControl= (TabControl) sender;
-                switch (tabControl.SelectedIndex)
-                    {
-                    case 0:
-                        RainfallSWChart.Visible=true;
-                        SoilNitrogenChart.Visible = false;
-                        ErosionChart.Visible = false;
-                        LTRainfallChart.Visible = false;
-                        ProfileChart.Visible = false;
-                        break;
-                    case 1:
-                        SoilNitrogenChart.Visible = true;
-                        RainfallSWChart.Visible = false;
-                        ErosionChart.Visible = false;
-                        LTRainfallChart.Visible = false;
-                        ProfileChart.Visible = false;
-                        break;
-                    case 2:
-                        ErosionChart.Visible = true;
-                        SoilNitrogenChart.Visible = false;
-                        RainfallSWChart.Visible = false;
-                        LTRainfallChart.Visible = false;
-                        ProfileChart.Visible = false;
-                        break;
-                    case 3:
-                        LTRainfallChart.Visible = true;
-                        SoilNitrogenChart.Visible = false;
-                        RainfallSWChart.Visible = false;
-                        ErosionChart.Visible = false;
-                        ProfileChart.Visible = false;
-                        break;
-                    case 4:
-                        ProfileChart.Visible = true;
-                        SoilNitrogenChart.Visible = false;
-                        LTRainfallChart.Visible = false;
-                        RainfallSWChart.Visible = false;
-                        ErosionChart.Visible = false;
-                        break;
-                    }
-            }
-
-         private void ShowGraph()
+       private void ShowGraph()
             {
             try
                 {
@@ -967,6 +926,8 @@ namespace APSRU.Howwet
                 NitrateLine.Clear();
                 SurfaceMoistureLine.Clear();
                 MaxTemperatureLine.Clear();
+                NitrogenCoverLine.Clear();
+                CoverNitrogenLine.Clear();
                 ErosionRunoffCumLine.Clear();
                 ErosionSoilLossCumLine.Clear();
                 LTRainfallBar.Clear();
@@ -1047,8 +1008,9 @@ namespace APSRU.Howwet
                         {
                         //Rainfall soil water; subtract cll from soilwater and sum the absolute values to get sw
                         if (Convert.ToDouble(row["Rainfall"]) > maxRainfallSW) maxRainfallSW = Convert.ToDouble(row["Rainfall"]);
-                        if(Convert.ToDouble(row["SoilWater"]) > maxSW)maxSW=Convert.ToDouble(row["SoilWater"]);
-                        if(Convert.ToDouble(row["SoilWater"]) < minSW)minSW=Convert.ToDouble(row["SoilWater"]);
+                        if (Convert.ToDouble(row["SoilWater"]) > maxSW)maxSW=Convert.ToDouble(row["SoilWater"]);
+                        if (Convert.ToDouble(row["SoilWater"]) < minSW)minSW=Convert.ToDouble(row["SoilWater"]);
+                        
                         //Soil Nitrogen
                         if (Convert.ToDouble(row["NO3Total"]) > maxNitrate) maxNitrate = Convert.ToDouble(row["NO3Total"]);
                         if (Convert.ToDouble(row["NO3Total"]) < minNitrate) minNitrate = Convert.ToDouble(row["NO3Total"]);
@@ -1057,12 +1019,15 @@ namespace APSRU.Howwet
                         if (Convert.ToDouble(row["MaxTemp"]) > maxMaxTemp) maxMaxTemp = Convert.ToDouble(row["MaxTemp"]);
                         if (Convert.ToDouble(row["MaxTemp"]) < minMaxTemp) minMaxTemp = Convert.ToDouble(row["MaxTemp"]);
 
+                        //NitrogenCover
+
+
                         //Erosion
                         if (Convert.ToDouble(row["SoilLossCum"]) > maxSoilLoss) maxSoilLoss = Convert.ToDouble(row["SoilLossCum"]);
                         if (Convert.ToDouble(row["RunoffCum"]) > maxRunoff) maxRunoff = Convert.ToDouble(row["RunoffCum"]);
+                        
                         //Long term rainfall
                         if (Convert.ToDouble(row["Rainfall"]) > maxLTRainfall) maxLTRainfall = Convert.ToDouble(row["Rainfall"]);
-                        //  if (Convert.ToDouble(row["Rainfall"]) > maxLTAvRainfall) maxLTAvRainfall = Convert.ToDouble(row["Rainfall"]);
                         ProgressBar1.PerformStep();
                         }
                     StatusLabel2.Text = "";
@@ -1102,6 +1067,7 @@ namespace APSRU.Howwet
                     timer1.Interval = 2;
                     timer1.Start();
                     RainfallSWChart.Refresh();
+                    NitrogenCoverChart.Refresh();
                     SoilNitrogenChart.Refresh();
                     ErosionChart.Refresh();
                     LTRainfallChart.Refresh();
@@ -1113,6 +1079,9 @@ namespace APSRU.Howwet
                     RainfallSWChart.Axes.Right.AutomaticMaximum = true;
                     RainfallSWChart.Axes.Right.Minimum = 0;
                     RainfallSWChart.Axes.Bottom.Automatic = true;
+                    NitrogenCoverChart.Axes.Bottom.Automatic = true;
+                    NitrogenCoverChart.Axes.Right.Automatic = true;
+                    NitrogenCoverChart.Axes.Left.Automatic = true;
                     ErosionChart.Axes.Left.Automatic = true;
                     ErosionChart.Axes.Right.Automatic = true;
                     ErosionChart.Axes.Bottom.Automatic = true;
@@ -1130,7 +1099,7 @@ namespace APSRU.Howwet
                     ProgressBar1.Minimum = 0;
                     ProgressBar1.Maximum = chartDataTable.Rows.Count;
                     ProgressBar1.Step = 1;
-                 //   DataTable longTermRain = metObject.RainMonthlyAverage;
+                    String[] ltAverageMonthlyRain = selectedRegion.AverageMonthlyRain;
 
                     foreach (DataRow row in chartDataTable.Rows)
                         {
@@ -1140,6 +1109,9 @@ namespace APSRU.Howwet
                         RainfallBar.Add(date, Convert.ToDouble(row["Rainfall"]));
                         RunoffBar.Add(date, Convert.ToDouble(row["Runoff"]));
                         SWLine.Add(date, Convert.ToDouble(row["SoilWater"]));
+                        //Nitrogen/Cover
+                        NitrogenCoverLine.Add(date, Convert.ToDouble(row["NO3Total"]));
+                        CoverNitrogenLine.Add(date, Convert.ToDouble(row["SurfaceOrganicMatter"]));
                         //Soil Nitrogen graph
                         NitrateLine.Add(date, Convert.ToDouble(row["NO3Total"]));
                         SurfaceMoistureLine.Add(date, (Convert.ToDouble(row["SoilWaterTopLayer"]) * 150));
@@ -1148,21 +1120,9 @@ namespace APSRU.Howwet
                         ErosionRunoffCumLine.Add(date, Convert.ToDouble(row["RunoffCum"]));
                         ErosionSoilLossCumLine.Add(date, Convert.ToDouble(row["SoilLossCum"]));
                         //Long term rainfall
-                      //  if (date.Day == 1)
-                      //      {
-                      //      DataRow yearRow=null;
-                      //      foreach (DataRow tableRow in longTermRain.Rows)
-                      //          {
-                      //          if (Convert.ToInt16(tableRow[0]) == date.Year)
-                      //              {
-                      //              yearRow = tableRow;
-                      //              break;
-                      //              }
-                      //          }
-                      //      double monthlyAverageRain = Convert.ToDouble(yearRow[date.Month]);
-                       //     LTRainfallBar.Add(date, monthlyAverageRain);
-                      //      LTAvRainfallLine.Add(date, metObject.RainMonthlyYearlyAverage[date.Month]);
-                      //      }
+                        LTRainfallBar.Add(date, Convert.ToDouble(row["Rainfall"]));
+                        LTAvRainfallLine.Add(date, Convert.ToDouble(ltAverageMonthlyRain[date.Month-1]));
+                        
                         ProgressBar1.PerformStep();
                         }
                     StatusLabel2.Text = "";
@@ -1171,6 +1131,7 @@ namespace APSRU.Howwet
                     SoilNitrogenChart.Refresh();
                     ErosionChart.Refresh();
                     LTRainfallChart.Refresh();
+                    NitrogenCoverChart.Refresh();
                     }
                 //Profile chart
                 ProfileChart.Axes.Top.Minimum = 0;
@@ -1179,14 +1140,15 @@ namespace APSRU.Howwet
                 ProfileLL15Line.Add(simulationObject.Soil.LL15, simulationObject.Soil.CumThickness);
                 ProfileSWLine.Add(result.soilWaterEndByLayer, simulationObject.Soil.CumThickness);
                 ProfileDULLine.Add(simulationObject.Soil.DUL, simulationObject.Soil.CumThickness);
-                //make everthing visable;
+                //make everthing visible;
                 tabControl1.Visible = true;
                 tabControl1.SelectedIndex = 0;
                 RainfallSWChart.Visible = true;
-                SoilNitrogenChart.Visible = false;
-                ErosionChart.Visible = false;
-                LTRainfallChart.Visible = false;
-                ProfileChart.Visible = false;
+                NitrogenCoverChart.Visible = true;
+                SoilNitrogenChart.Visible = true;
+                ErosionChart.Visible = true;
+                LTRainfallChart.Visible = true;
+                ProfileChart.Visible = true;
                 NRequirementPanel.Visible = true;
                 ReportButton.Enabled = true;
                 }
@@ -1222,6 +1184,7 @@ namespace APSRU.Howwet
                 rowCount++;
               
                 RainfallSWChart.Refresh();
+                NitrogenCoverChart.Refresh();
                 SoilNitrogenChart.Refresh();
                 ErosionChart.Refresh();
                 LTRainfallChart.Refresh();
@@ -1311,6 +1274,8 @@ namespace APSRU.Howwet
                 }
             }
         #endregion
+
+       
 
        
 
