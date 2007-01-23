@@ -543,11 +543,11 @@ void Plant::doRegistrations(protocol::Component *system)
                     &Plant::get_no3_demand,
                     "kg/ha", "Demand for NO3");
 
-   setupGetFunction(parent, "sw_demand", protocol::DTsingle, true,
+   setupGetFunction(parent, "sw_demand", protocol::DTsingle, false,
                     &Plant::get_sw_demand,
                     "mm", "Demand for sw");
 
-   setupGetFunction(parent, "sw_demand_te", protocol::DTsingle, true,
+   setupGetFunction(parent, "sw_demand_te", protocol::DTsingle, false,
                     &Plant::get_sw_demand_te,
                     "mm", "TE Demand for sw");
 
@@ -5793,13 +5793,13 @@ void Plant::get_no3_demand(protocol::Component *system, protocol::QueryValueData
 
 void Plant::get_sw_demand(protocol::Component *system, protocol::QueryValueData &qd)
 {
-    float swDemand = leafPart->SWDemand() + leafPart->SWDemand();
+    float swDemand = leafPart->SWDemand() + fruitPart->SWDemand();
     system->sendVariable(qd, swDemand);
 }
 
 void Plant::get_sw_demand_te(protocol::Component *system, protocol::QueryValueData &qd)
 {
-    float swDemandTE = leafPart->SWDemandTE() + leafPart->SWDemandTE();
+    float swDemandTE = leafPart->SWDemandTE() + fruitPart->SWDemandTE();
     system->sendVariable(qd, swDemandTE);
 }
 
