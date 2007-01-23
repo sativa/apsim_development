@@ -9,9 +9,11 @@ using VBGeneral;
 using CSGeneral;
 using System.Xml;
 using APSRU.Error;
+using APSRU.Model;
 // This contains the CoverCrop, Region, HowwetConfiguration, and HowwetUtility classes 
 namespace APSRU.Model.Howwet
     {
+    //CoverCrop Enity object class
     public class CoverCrop
         {
         private String name;
@@ -34,48 +36,11 @@ namespace APSRU.Model.Howwet
             get{return cnr;}
             }
     }
+  
 
-    public class Region
-        {
-        private String name;
-        private String description;
-        private String[] averageMonthlyRain;
-        private String[] averageMonthlyRadiation;
-        private String[] averageMonthlyMaxT;
-        private String[] averageMonthlyMinT;
-
-        public String Name
-            {
-            set { name = value; }
-            get { return name; }
-            }
-        public String Description
-            {
-            set { description = value; }
-            get { return description; }
-            }
-        public String[] AverageMonthlyRain
-            {
-            set { averageMonthlyRain = value; }
-            get { return averageMonthlyRain; }
-            }
-        public String[] AverageMonthlyRadiation
-            {
-            set { averageMonthlyRadiation = value; }
-            get { return averageMonthlyRadiation; }
-            }
-        public String[] AverageMonthlyMaxT
-            {
-            set { averageMonthlyMaxT = value; }
-            get { return averageMonthlyMaxT; }
-            }
-        public String[] AverageMonthlyMinT
-            {
-            set { averageMonthlyMinT = value; }
-            get { return averageMonthlyMinT; }
-            }
-        }
-
+    // This class encapsulates Howwet initial configuration functionality such as; 
+    // Reading and Writing the HowwetSetup.xml file
+    // Reading the HowwetRegions.xml file
     public class HowwetConfiguration
         {
         String version;
@@ -135,12 +100,12 @@ namespace APSRU.Model.Howwet
                 }
             }
 
-        public Region GetRegion(String region)
+        public APSRU.Model.Howwet.Region GetRegion(String region)
             {
-            Region regionOut = new Region();
+            APSRU.Model.Howwet.Region regionOut = new APSRU.Model.Howwet.Region();
             for (int i = 0; i < regionList.Count; i++)
                 {
-                Region regionTemp = (Region)regionList[i];
+                APSRU.Model.Howwet.Region regionTemp = (APSRU.Model.Howwet.Region)regionList[i];
                 if (regionTemp.Name == region)
                     {
                     regionOut = regionTemp;
@@ -216,53 +181,67 @@ namespace APSRU.Model.Howwet
             set { version = value; }
             get { return version; }
             }
+
         public bool Debug
             {
             set { debug = value; }
             get { return debug; }
             }
+
         public bool TrainingMode
             {
             set { trainingMode = value; }
             get { return trainingMode; }
             }
+
         public String TemplateFileName
             {
             set { templateFileName = value; }
             get { return templateFileName; }
             }
+
         public String DefaultSoilFileName
             {
             set { defaultSoilFileName = value; }
             get { return defaultSoilFileName; }
             }
+
         public String DefaultSoilName
             {
             set { defaultSoilName = value; }
             get { return defaultSoilName; }
             }
+
         public String DefaultMetfile
             {
             set { defaultMetfile = value; }
             get { return defaultMetfile; }
             }
+
         public String DefaultRegionName
             {
             set { defaultRegionName = value; }
             get { return defaultRegionName; }
             }
+
         public ArrayList CropList
             {
             set {cropList=value;}
             get {return cropList;}
             }
+
         public ArrayList RegionList
             {
             set { regionList = value; }
             get { return regionList; }
             }
+
         }
 
+
+    // This class encapsulates Howwet general functionality  
+    // 
+    // 
     public class HowwetUtility
         {
         private APSIMData apsimData=new APSIMData();
