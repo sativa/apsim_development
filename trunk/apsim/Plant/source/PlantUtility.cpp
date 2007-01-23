@@ -215,7 +215,7 @@ extern "C" EXPORT void STDCALL crop_radn_int1(float *extinction_coef, float *fr_
             // interception has already been calculated for us
       *radn_int = *fr_intc_radn * *radn;
       }
-   return;
+   
    }
 
 //---------------------------------------------------------------------------

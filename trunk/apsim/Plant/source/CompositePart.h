@@ -122,8 +122,8 @@ public:                                             // member functions
    virtual float coverGreen(void) ;
    virtual float coverSen(void) ;
    virtual float coverDead(void) ;
-   virtual float interceptRadiationGreen(float radiation);        
-   virtual float interceptRadiationTotal(float radiation);       
+   virtual float interceptRadiationGreen(float radiation);
+   virtual float interceptRadiationTotal(float radiation);
    virtual float grainNo(void) const;
    virtual float grainNConcPercent(void) const;
    virtual float nDemandGrain(void) const;
@@ -132,9 +132,10 @@ public:                                             // member functions
    virtual float dltDmRetranslocate(void) const;
    virtual float dltDmRetranslocateSupply(float demand_differential) ;
    virtual float dltDmGreenRetransUptake(void) const ;
-   virtual float dltDmPotTe(void) const;            
-   virtual float dltDmPotRue(void) const;           
-   virtual float dltDm(void) const;           
+   virtual float transpirationEfficiency(void) const;
+   virtual float dltDmPotTe(void) const;
+   virtual float dltDmPotRue(void) const;
+   virtual float dltDm(void) const;
 
    virtual float dltDmGreen(void) const ;
    virtual float dltDmDead(void) const;
@@ -212,7 +213,7 @@ public:                                             // member functions
    virtual void doPInit(void);
 
    virtual void display(ostream &os = cout) const;  // display function
-   virtual void doCover (float canopy_fac, float g_row_spacing);                  
+   virtual void doCover (float canopy_fac, float g_row_spacing);
 
    virtual void calcDlt_pod_area (void);   //FIXME
 
@@ -221,7 +222,7 @@ public:                                             // member functions
    virtual void doSWDemand(float SWDemandMaxFactor);     //(OUTPUT) crop water demand (mm)               //FIXME
    virtual float SWDemand(void);                         //(OUTPUT) crop water demand (mm)               //FIXME
    virtual float SWDemandTE(void);                       //(OUTPUT) crop water demand (mm)               //FIXME
-   virtual void doDmPotTE(void);                         //(OUTPUT) potential dry matter production by transpiration (g/m^2)//FIXME
+   virtual void doDmPotTE(float swSupply);                         //(OUTPUT) potential dry matter production by transpiration (g/m^2)//FIXME
 
    virtual void doNDemandGrain(float nfact_grain_conc, float swdef_expansion);
    virtual void doDmDemand (float dlt_dm_supply_by_veg);

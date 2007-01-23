@@ -322,9 +322,9 @@ void Plant::doRegistrations(protocol::Component *system)
    setupGetFunction(parent, "cover_tot", protocol::DTsingle, false,
                      &Plant::get_cover_tot, "", "Total cover");
 
-   parent->addGettableVar("lai_canopy_green",
-               g.lai_canopy_green, "m^2/m^2", "Green lai");
-
+//   parent->addGettableVar("lai_canopy_green",
+//               g.lai_canopy_green, "m^2/m^2", "Green lai");
+//
    setupGetFunction(parent, "dm_green", protocol::DTsingle, true,
                     &Plant::get_dm_green, "g/m^2", "Weight of green material");
 
@@ -462,8 +462,9 @@ void Plant::doRegistrations(protocol::Component *system)
                     &Plant::get_swstress_fixation,
                     "","Soil water stress for N fixation");
 
-   parent->addGettableVar("transp_eff",
-               g.transp_eff, "g/m2/mm", "Transpiration Efficiency");
+   setupGetFunction(parent, "transp_eff", protocol::DTsingle, false,
+                    &Plant::get_transp_eff,
+                    "g/m2/mm", "Transpiration Efficiency");
 
    setupGetFunction(parent, "cep", protocol::DTsingle, false,
                     &Plant::get_cep,
@@ -550,10 +551,6 @@ void Plant::doRegistrations(protocol::Component *system)
    setupGetFunction(parent, "sw_demand_te", protocol::DTsingle, false,
                     &Plant::get_sw_demand_te,
                     "mm", "TE Demand for sw");
-
-   setupGetFunction(parent, "no3gsm_uptake_pot", protocol::DTsingle, true,
-                    &Plant::get_no3gsm_uptake_pot,
-                    "g/m2", "Pot NO3 uptake");
 
    setupGetFunction(parent, "no3gsm_uptake_pot", protocol::DTsingle, true,
                     &Plant::get_no3gsm_uptake_pot,
@@ -835,7 +832,6 @@ void Plant::plant_bio_actual (int /*option  (INPUT) option number*/)
     {
         leafPart->doBioActual();
         fruitPart->doBioActual();
-        g.dlt_dm = fruitPart->dltDm() + leafPart->dltDm();
     }
 
 
@@ -898,8 +894,7 @@ void Plant::plant_water_stress (void)
 //     ===========================================================
 //         Get current water stress factors (0-1)
     {
-    float sw_demand = leafPart->SWDemand() + fruitPart->SWDemand();
-    rootPart->plant_water_stress (sw_demand,
+    rootPart->plant_water_stress (SWDemand(),
                                   g.swdef_photo,
                                   g.swdef_pheno,
                                   g.swdef_pheno_flower,
@@ -923,8 +918,12 @@ void Plant::plant_bio_water (void)
 //     ===========================================================
 //     Calculate biomass transpiration efficiency
     {
-    fruitPart->doDmPotTE ();
-    leafPart->doDmPotTE ();
+    float swSupply = rootPart->waterUptake();
+    float swSupplyVeg = swSupply * divide (leafPart->SWDemand(), SWDemand(), 0.0);
+    float swSupplyFruit = swSupply - swSupplyVeg;
+
+    fruitPart->doDmPotTE (swSupplyFruit);
+    leafPart->doDmPotTE (swSupplyVeg);
     }
 
 
@@ -1045,7 +1044,7 @@ void Plant::plant_plant_death (int option /* (INPUT) option number*/)
         }
 
     pop_routine (my_name);
-    return;
+
     }
 
 //+  Purpose
@@ -1170,7 +1169,7 @@ void Plant::plant_death_external_action(protocol::Variant &v         // (INPUT) 
         }
 
     pop_routine (my_name);
-    return;
+
     }
 
 
@@ -1205,7 +1204,7 @@ void Plant::plant_death_crop_killed
         }
 
     pop_routine (my_name);
-    return;
+
     }
 
 
@@ -1248,7 +1247,7 @@ void Plant::plant_death_actual
 
     *g_dlt_plants_death_external = 0.0;                //Ugly hack here??
     pop_routine (my_name);
-    return;
+
     }
 
 
@@ -1297,7 +1296,7 @@ void Plant::plant_plants_temp
                                 , c_num_weighted_temp);
 
     pop_routine (my_name);
-    return;
+
     }
 
 
@@ -1338,7 +1337,7 @@ void Plant::plant_kill_crop (status_t *g_plant_status)
         }
 
     pop_routine (my_name);
-    return;
+
     }
 
 
@@ -1356,7 +1355,7 @@ void Plant::plant_kill_crop (status_t *g_plant_status)
 
 //+  Changes
 //      250894 jngh specified and programmed
-void Plant::plant_nit_supply (int option /* (INPUT) option number*/)
+void Plant::plant_nit_supply (int option /* (INPUT) option number*/)     //FIXME - code of this function probably should be in rootPart
     {
 
 //+  Constant Values
@@ -1371,7 +1370,7 @@ void Plant::plant_nit_supply (int option /* (INPUT) option number*/)
 // find potential N uptake (supply, available N)
     if (option == 1)
         {
-        biomass = topsGreen() + g.dlt_dm;
+        biomass = topsGreen() + plantDltDm();
         float no3gsm_min[max_layer];   // minimum allowable NO3 in soil (g/m^2)
         fill_real_array (no3gsm_min, 0.0, max_layer);
 
@@ -1393,7 +1392,7 @@ void Plant::plant_nit_supply (int option /* (INPUT) option number*/)
         }
     else if (option == 2)
         {
-        biomass = topsGreen() + g.dlt_dm;
+        biomass = topsGreen() + plantDltDm();
         float no3gsm_min[max_layer];   // minimum allowable NO3 in soil (g/m^2)
         fill_real_array (no3gsm_min, 0.0, max_layer);
 
@@ -1418,7 +1417,7 @@ void Plant::plant_nit_supply (int option /* (INPUT) option number*/)
         }
      else if (option == 3)
         {
-        biomass = topsGreen()  + g.dlt_dm;
+        biomass = topsGreen()  + plantDltDm();
         float no3gsm_min[max_layer];   // minimum allowable NO3 in soil (g/m^2)
         fill_real_array (no3gsm_min, 0.0, max_layer);
         float nh4gsm_min[max_layer];   // minimum allowable NH4 in soil (g/m^2)
@@ -1453,7 +1452,7 @@ void Plant::plant_nit_supply (int option /* (INPUT) option number*/)
         }
 
     pop_routine (my_name);
-    return;
+
     }
 
 
@@ -1488,26 +1487,28 @@ void Plant::plant_nit_retrans (int option/* (INPUT) option number*/)
         }
 
     pop_routine (my_name);
-    return;
+
     }
 
 void Plant::plant_nit_demand (int option /* (INPUT) option number*/)
 //=======================================================================================
 //       Find nitrogen demand.
     {
+    float dlt_dm = plantDltDm();
+    float dlt_dm_pot_rue = plantDltDmPotRue();
     if (option == 1)
         {
         for (vector<plantPart *>::iterator t = myParts.begin();
              t != myParts.end();
              t++)
-           (*t)->doNDemand1(g.dlt_dm, g.dlt_dm_pot_rue);        //FIXME Should be able to do away with the arguments someday
+           (*t)->doNDemand1(dlt_dm, dlt_dm_pot_rue);        //FIXME Should be able to do away with the arguments someday
         }
      else if (option == 2)
          {
          for (vector<plantPart *>::iterator t = myParts.begin();
               t != myParts.end();
               t++)
-            (*t)->doNDemand2(g.dlt_dm, g.dlt_dm_pot_rue);      //FIXME Should be able to do away with the arguments someday
+            (*t)->doNDemand2(dlt_dm, dlt_dm_pot_rue);      //FIXME Should be able to do away with the arguments someday
         }
     else
         {
@@ -1527,48 +1528,48 @@ void Plant::plant_soil_nit_demand()
 
 void Plant::plant_nit_uptake (int option/* (INPUT) option number*/)
 //=======================================================================================
-//       Find nitrogen uptake.
-    {
-    if (Str_i_Eq(rootPart->uptake_source, "apsim"))
-        {
-        // NIH - note that I use a -ve conversion
-        // factor FOR NOW to make it a delta.
-        plant_get_ext_uptakes(rootPart->uptake_source.c_str()
-                             ,c.crop_type.c_str()
-                             ,"no3"
-                             ,-kg2gm/ha2sm
-                             ,0.0
-                             ,100.0
-                             ,rootPart->dlt_no3gsm);
-
-
-        }
-    else if (option == 1)
-        {
-        cproc_n_uptake1(c.no3_diffn_const
-                       , rootPart->dlayer
-                       , g.no3gsm_diffn_pot
-                       , g.no3gsm_mflow_avail
-                       , g.n_fix_pot
-                       , c.n_supply_preference.c_str()
-                       , nDemand()
-                       , sumNMax()
-                       , rootPart->root_depth
-                       , rootPart->dlt_no3gsm);
-        }
-    else if ((option == 2) || (option == 3))
-        {
-        cproc_n_uptake3(rootPart->dlayer
-                        , g.no3gsm_uptake_pot
-                        , g.nh4gsm_uptake_pot
-                        , g.n_fix_pot
-                        , c.n_supply_preference.c_str()
-                        , sumSoilNDemand()
-                        , sumNMax()
-                        , rootPart->root_depth
-                        , rootPart->dlt_no3gsm
-                        , rootPart->dlt_nh4gsm);
-        }
+//       Find nitrogen uptake.                                   //FIXME - this function should probably be in rootpart
+    {                                                            //FIXME - this function should probably be in rootpart
+    if (Str_i_Eq(rootPart->uptake_source, "apsim"))              //FIXME - this function should probably be in rootpart
+        {                                                        //FIXME - this function should probably be in rootpart
+        // NIH - note that I use a -ve conversion                //FIXME - this function should probably be in rootpart
+        // factor FOR NOW to make it a delta.                    //FIXME - this function should probably be in rootpart
+        plant_get_ext_uptakes(rootPart->uptake_source.c_str()    //FIXME - this function should probably be in rootpart
+                             ,c.crop_type.c_str()                //FIXME - this function should probably be in rootpart
+                             ,"no3"                              //FIXME - this function should probably be in rootpart
+                             ,-kg2gm/ha2sm                       //FIXME - this function should probably be in rootpart
+                             ,0.0                                //FIXME - this function should probably be in rootpart
+                             ,100.0                              //FIXME - this function should probably be in rootpart
+                             ,rootPart->dlt_no3gsm);             //FIXME - this function should probably be in rootpart
+                                                                 //FIXME - this function should probably be in rootpart
+                                                                 //FIXME - this function should probably be in rootpart
+        }                                                        //FIXME - this function should probably be in rootpart
+    else if (option == 1)                                        //FIXME - this function should probably be in rootpart
+        {                                                        //FIXME - this function should probably be in rootpart
+        cproc_n_uptake1(c.no3_diffn_const                        //FIXME - this function should probably be in rootpart
+                       , rootPart->dlayer                        //FIXME - this function should probably be in rootpart
+                       , g.no3gsm_diffn_pot                      //FIXME - this function should probably be in rootpart
+                       , g.no3gsm_mflow_avail                    //FIXME - this function should probably be in rootpart
+                       , g.n_fix_pot                             //FIXME - this function should probably be in rootpart
+                       , c.n_supply_preference.c_str()           //FIXME - this function should probably be in rootpart
+                       , nDemand()                               //FIXME - this function should probably be in rootpart
+                       , sumNMax()                               //FIXME - this function should probably be in rootpart
+                       , rootPart->root_depth                    //FIXME - this function should probably be in rootpart
+                       , rootPart->dlt_no3gsm);                  //FIXME - this function should probably be in rootpart
+        }                                                        //FIXME - this function should probably be in rootpart
+    else if ((option == 2) || (option == 3))                     //FIXME - this function should probably be in rootpart
+        {                                                        //FIXME - this function should probably be in rootpart
+        cproc_n_uptake3(rootPart->dlayer                         //FIXME - this function should probably be in rootpart
+                        , g.no3gsm_uptake_pot                    //FIXME - this function should probably be in rootpart
+                        , g.nh4gsm_uptake_pot                    //FIXME - this function should probably be in rootpart
+                        , g.n_fix_pot                            //FIXME - this function should probably be in rootpart
+                        , c.n_supply_preference.c_str()          //FIXME - this function should probably be in rootpart
+                        , sumSoilNDemand()                       //FIXME - this function should probably be in rootpart
+                        , sumNMax()                              //FIXME - this function should probably be in rootpart
+                        , rootPart->root_depth                   //FIXME - this function should probably be in rootpart
+                        , rootPart->dlt_no3gsm                   //FIXME - this function should probably be in rootpart
+                        , rootPart->dlt_nh4gsm);                 //FIXME - this function should probably be in rootpart
+        }                                                        //FIXME - this function should probably be in rootpart
     else
         {
         throw std::invalid_argument ("invalid template option");
@@ -1576,7 +1577,7 @@ void Plant::plant_nit_uptake (int option/* (INPUT) option number*/)
     }
 
 
-void Plant::plant_nit_partition ()
+void Plant::plant_nit_partition ()                                     //FIXME - another candidate for rootPart??
 //=======================================================================================
 //     Calculate the nitrogen and phosporous partitioning in the plant
     {
@@ -1646,7 +1647,7 @@ void Plant::plant_nit_stress (int option /* (INPUT) option number*/)
         }
 
     pop_routine (my_name);
-    return;
+
     }
 
 void Plant::plant_nit_demand_est (int option)
@@ -1661,11 +1662,12 @@ void Plant::plant_nit_demand_est (int option)
         // C will be similar after today and so N demand is that
         // required to raise all plant parts to max N conc.
 
+        float dlt_dm_pot_rue = plantDltDmPotRue();
         for (vector<plantPart *>::iterator t = myParts.begin();
              t != myParts.end();
              t++)
            {
-           (*t)->doNDemand1Pot(g.dlt_dm_pot_rue, g.dlt_dm_pot_rue);
+           (*t)->doNDemand1Pot(dlt_dm_pot_rue, dlt_dm_pot_rue);
            }
 
         g.ext_n_demand = nDemand();
@@ -1763,15 +1765,12 @@ void Plant::plant_cleanup ()
                 , g.skip_row_fac
                 , g.skip_plant_fac
                 , &g.canopy_width
-                , &g.cover_dead
-                , &g.cover_green
-                , &g.cover_sen
                 , g.dlt_plants
                 , &g.plants);
 
-    plant_check_bounds(g.cover_dead
-                       , g.cover_green
-                       , g.cover_sen
+    plant_check_bounds(plantCoverDead()
+                       , plantCoverGreen()
+                       , plantCoverSenesced()
                        , rootPart->dlayer
                        , g.plants
                        , rootPart->root_depth);
@@ -1832,9 +1831,6 @@ void Plant::plant_update(float  g_row_spacing                          // (INPUT
     ,float  g_skip_row_fac                         // skip row factor
     ,float  g_skip_plant_fac                       // skip plant factor
     ,float  *g_canopy_width                               // (INPUT)  canopy width (mm)
-    ,float  *g_cover_dead                                 // (out/INPUT)  fraction of radiation reaching
-    ,float  *g_cover_green                                // (out/INPUT)  fraction of radiation reaching
-    ,float  *g_cover_sen                                  // (out/INPUT)  fraction of radiation reaching
     ,float  g_dlt_plants                                       // (INPUT)  change in Plant density (plant
     ,float *g_plants)                                           // (out/INPUT)  Plant density (plants/m^2)
 {
@@ -1882,12 +1878,6 @@ void Plant::plant_update(float  g_row_spacing                          // (INPUT
     // now update new canopy covers
     leafPart->doCover(canopy_fac, g_row_spacing);
     fruitPart->doCover(canopy_fac, g_row_spacing);
-
-    *g_cover_green = add_covers (leafPart->coverGreen(), fruitPart->coverGreen());
-
-    *g_cover_sen = leafPart->coverSen();
-
-    *g_cover_dead = leafPart->coverDead();
 
     // plant stress observers
     stageObservers.update();
@@ -2047,14 +2037,14 @@ void Plant::plant_totals
 
         }
 
-    *g_lai_max = max (*g_lai_max, leafPart->getLAI());
+    *g_lai_max = max (*g_lai_max, leafPart->getLAI());             //FIXME - should be returned from leafPart method
 // note - oil has no N, thus it is not included in calculations
 
     *g_n_uptake_stover_tot = stoverNTot();
     *g_n_uptake_tot = fruitPart->nGrainTotal() + stoverNTot();
 
     pop_routine (my_name);
-    return;
+
     }
 
 //+  Purpose
@@ -2100,13 +2090,13 @@ void Plant::plant_event()
 
     n_green_conc_percent = divide (n_green, dm_green, 0.0) * fract2pcnt;
 
-    deepest_layer = find_layer_no (rootPart->root_depth, rootPart->dlayer, max_layer);
-    for (layer = 0; layer <= deepest_layer; layer++)
-       {
-       pesw[layer] = rootPart->sw_dep[layer] - rootPart->ll_dep[layer];
-       pesw[layer] = l_bound (pesw[layer], 0.0);
-       }
-    pesw_tot = sum_real_array (pesw, deepest_layer+1);
+    deepest_layer = find_layer_no (rootPart->root_depth, rootPart->dlayer, max_layer);  //FIXME - should be returned from a rootPart method
+    for (layer = 0; layer <= deepest_layer; layer++)                     //FIXME - should be returned from a rootPart method
+       {                                                                 //FIXME - should be returned from a rootPart method
+       pesw[layer] = rootPart->sw_dep[layer] - rootPart->ll_dep[layer];  //FIXME - should be returned from a rootPart method
+       pesw[layer] = l_bound (pesw[layer], 0.0);                         //FIXME - should be returned from a rootPart method
+       }                                                                 //FIXME - should be returned from a rootPart method
+    pesw_tot = sum_real_array (pesw, deepest_layer+1);                   //FIXME - should be returned from a rootPart method
 
     if (phenology->inPhase ("above_ground"))
             {
@@ -2162,7 +2152,7 @@ void Plant::plant_water_demand (int option /* (INPUT) option number*/)
         }
 
     pop_routine (my_name);
-    return;
+
     }
 
 
@@ -2183,25 +2173,24 @@ void Plant::plant_water_uptake (int option /*(INPUT) option number*/)
 
     push_routine (my_name);
 
-    if (Str_i_Eq(rootPart->uptake_source,"apsim"))
-        {
-        plant_get_ext_uptakes(rootPart->uptake_source.c_str()
-                             ,c.crop_type.c_str()
-                             ,"water"
-                             ,1.0
-                             ,0.0
-                             ,100.0
-                             ,ext_sw_supply);
-
-        for (layer = 0; layer < rootPart->num_layers; layer++)
-           {
-           rootPart->dlt_sw_dep[layer] = -ext_sw_supply[layer];
-           }
-        }
+    if (Str_i_Eq(rootPart->uptake_source,"apsim"))                     //FIXME - this should be in rootPart doWaterUptake
+        {                                                              //FIXME - this should be in rootPart doWaterUptake
+        plant_get_ext_uptakes(rootPart->uptake_source.c_str()          //FIXME - this should be in rootPart doWaterUptake
+                             ,c.crop_type.c_str()                      //FIXME - this should be in rootPart doWaterUptake
+                             ,"water"                                  //FIXME - this should be in rootPart doWaterUptake
+                             ,1.0                                      //FIXME - this should be in rootPart doWaterUptake
+                             ,0.0                                      //FIXME - this should be in rootPart doWaterUptake
+                             ,100.0                                    //FIXME - this should be in rootPart doWaterUptake
+                             ,ext_sw_supply);                          //FIXME - this should be in rootPart doWaterUptake
+                                                                       //FIXME - this should be in rootPart doWaterUptake
+        for (layer = 0; layer < rootPart->num_layers; layer++)         //FIXME - this should be in rootPart doWaterUptake
+           {                                                           //FIXME - this should be in rootPart doWaterUptake
+           rootPart->dlt_sw_dep[layer] = -ext_sw_supply[layer];        //FIXME - this should be in rootPart doWaterUptake
+           }                                                           //FIXME - this should be in rootPart doWaterUptake
+        }                                                              //FIXME - this should be in rootPart doWaterUptake
     else if (option == 1)
         {
-        float sw_demand = leafPart->SWDemand() + fruitPart->SWDemand();
-        rootPart->doWaterUptake(sw_demand);
+        rootPart->doWaterUptake(SWDemand());
         }
     else
         {
@@ -2209,79 +2198,8 @@ void Plant::plant_water_uptake (int option /*(INPUT) option number*/)
         }
 
     pop_routine (my_name);
-    return;
-    }
-
-//===========================================================================
-void Plant::plant_water_distribute (int option /*(INPUT) option number*/)
-//===========================================================================
-{
-//+  Purpose
-//       light supply
-
-//+  Mission Statement
-//     Seek the light intercepted by the leaves
-
-//+  Changes
-///      250894 jngh specified and programmed
-
-//+  Constant Values
-    const char*  my_name = "plant_water_distribute" ;
-
-//- Implementation Section ----------------------------------
-    push_routine (my_name);
-
-    if (option == 1)
-    {
-      float swDemandVeg = leafPart->SWDemand();;
-      float swSupply = - sum_real_array(rootPart->dlt_sw_dep, max_layer);
-
-      float sw_demand = leafPart->SWDemand() + fruitPart->SWDemand();
-      plant_water_supply_partition (sw_demand
-                                  , swDemandVeg
-                                  , swSupply
-                                  , &g.swSupplyVeg
-                                  , &g.swSupplyFruit);
 
     }
-    else
-    {
-        throw std::invalid_argument ("invalid template option");
-    }
-
-    pop_routine (my_name);
-}
-
-//===========================================================================
-void Plant::plant_water_supply_partition(float gSwDemand
-                                       , float gSwDemandVeg
-                                       , float gSwSupply
-                                       , float *gSwSupplyVeg
-                                       , float *gSwSupplyFruit)
-//===========================================================================
-{
-
-//+  Purpose
-//       Partitions water uptake between plant components (g/m^2)
-
-//+  Mission Statement
-//     Partitions water between plant components
-
-//+  Changes
-//       010994 jngh specified and programmed
-
-//+  Constant Values
-    const char*  my_name = "plant_water_supply_partition" ;
-
-//- Implementation Section ----------------------------------
-    push_routine (my_name);
-
-    *gSwSupplyVeg = gSwSupply * divide (gSwDemandVeg, gSwDemand, 0.0);
-    *gSwSupplyFruit = gSwSupply - *gSwSupplyVeg;
-
-    pop_routine (my_name);
-}
-
 
 //===========================================================================
 void Plant::plant_light_supply_partition (int option /*(INPUT) option number*/)
@@ -2320,30 +2238,24 @@ void Plant::plant_light_supply_partition (int option /*(INPUT) option number*/)
            }
 
             // back calculate transmitted solar radiation to canopy
-          float fractTransmittedRadn = 0.0;
+          float fractIncidentRadn = 0.0;
           if (g.fr_intc_radn <= 0.0)
           {
-            fractTransmittedRadn = 1.0;
+            fractIncidentRadn = 1.0;
           }
           else
           {
-            fractTransmittedRadn = divide (g.fr_intc_radn, g.cover_green, 0.0);
+            fractIncidentRadn = divide (g.fr_intc_radn, plantCoverGreen(), 0.0);
           }
-          float solarRadiation = Environment.radn * fractTransmittedRadn;
-
-          g.radnIntGreenFruit = fruitPart->interceptRadiationGreen (solarRadiation);
+          float incomingSolarRadiation = Environment.radn * fractIncidentRadn;
+          fruitPart->interceptRadiationGreen (incomingSolarRadiation);
 
              // calc the total fruit interception - what is left is transmitted to the vegetative parts)
              // fruit is considered to be at top of canopy
-          float radnIntTotFruit = fruitPart->interceptRadiationTotal (solarRadiation);
+          float radnIntTotFruit = fruitPart->interceptRadiationTotal (incomingSolarRadiation);
 
-          solarRadiation -= radnIntTotFruit;
-
-          float radnIntGreenVeg = leafPart->interceptRadiationGreen (solarRadiation);
-
-               // for now, put both interceptions into radn_int
-          g.radn_int =  radnIntGreenVeg + g.radnIntGreenFruit;  // FIXME when turned into proper fruit class
-
+          incomingSolarRadiation -= radnIntTotFruit;
+          leafPart->interceptRadiationGreen (incomingSolarRadiation);
     }
     else
     {
@@ -2370,11 +2282,8 @@ void Plant::plant_bio_rue (int option /*(INPUT) option number*/)
 
     if (option == 1)
         {
-
         fruitPart->doDmPotRUE();
         leafPart->doDmPotRUE();
-
-        g.dlt_dm_pot_rue = leafPart->dltDmPotRue() + fruitPart->dltDmPotRue();  // FIXME when fruit is made proper class
         }
     else
         {
@@ -2382,7 +2291,7 @@ void Plant::plant_bio_rue (int option /*(INPUT) option number*/)
         }
 
     pop_routine (my_name);
-    return;
+
     }
 
 void Plant::plant_co2_modifier_rue(void)
@@ -2481,16 +2390,8 @@ void Plant::plant_transpiration_eff (int option /*(INPUT) option number*/)
 
     if (option == 1)
         {
-        float te_coeff = c.transp_eff_cf[(int)phenology->stageNumber()-1];
-
         fruitPart->doTECO2();
         leafPart->doTECO2();
-
-        cproc_transp_eff_co2(c.svp_fract, te_coeff,
-                             Environment.maxt, Environment.mint, g.co2,
-                             c.x_co2_te_modifier, c.y_co2_te_modifier,
-                             c.num_co2_te_modifier,
-                             &g.transp_eff);
         }
     else
         {
@@ -2498,7 +2399,7 @@ void Plant::plant_transpiration_eff (int option /*(INPUT) option number*/)
         }
 
     pop_routine (my_name);
-    return;
+
     }
 
 
@@ -2660,106 +2561,6 @@ void Plant::legnew_dm_retranslocate
 }
 
 
-//  Purpose
-//      Partitions new dm (assimilate) between plant components (g/m^2)
-//
-//  Mission Statement
-//    Partitions new biomass between plant components
-//
-//  Changes
-//      010994 jngh specified and programmed     //FIXME need to be called
-//JNGH Implement?void Plant::legnew_dm_part_demands(float c_frac_pod              // (INPUT)  fraction of remaining dm allocated to pod
-//JNGH Implement?                                 , float g_grain_energy          // multiplier of grain weight to account f
-//JNGH Implement?                                 , float c_grain_oil_conc        // (INPUT)  grain dm demand (g/m^2)
-//JNGH Implement?                                 , float g_dlt_dm_grain_demand   // multiplier of grain weight to account f
-//JNGH Implement?                                 , float *dm_oil_conv_demand      // assimilate demand for reproductive parts (g/m^2)
-//JNGH Implement?                                 , float *dlt_dm_demand_meal      // assimilate demand for reproductive parts (g/m^2)
-//JNGH Implement?                                 , float *dlt_dm_demand_oil       // assimilate demand for reproductive parts (g/m^2)
-//JNGH Implement?                                 , float *dlt_dm_demand_pod )     // assimilate demand for conversion to oil (g/m^2)
-//JNGH Implement?   {
-//JNGH Implement?   float       dm_grain_demand;       // assimilate demand for grain (g/m^2)
-//JNGH Implement?
-//JNGH Implement?   // calculate demands of reproductive parts
-//JNGH Implement?   dm_grain_demand = divide (g_dlt_dm_grain_demand, g_grain_energy, 0.0);
-//JNGH Implement?   *dlt_dm_demand_meal = dm_grain_demand * (1.0 - c_grain_oil_conc);
-//JNGH Implement?   *dlt_dm_demand_oil = dm_grain_demand - *dlt_dm_demand_meal;
-//JNGH Implement?   *dm_oil_conv_demand= g_dlt_dm_grain_demand - dm_grain_demand;
-//JNGH Implement?   *dlt_dm_demand_pod = dm_grain_demand * c_frac_pod;
-//JNGH Implement?   }
-//JNGH Implement?
-//JNGH Implement?//  Purpose
-//      Partitions new dm (assimilate) between plant components (g/m^2)
-//
-//  Mission Statement
-//    Partitions new biomass between plant components
-//
-//  Changes
-//      010994 jngh specified and programmed      //FIXME not used yet - will need for arbitrating dm to plant parts based on demands
-//JNGH Implement? void Plant::legnew_dm_distribute(int max_part
-//JNGH Implement?                                , float *dm_remaining          // interim dm pool for partitioning
-//JNGH Implement?                                , float dlt_dm_demand_meal    // assimilate demand for reproductive parts (g/m^2)
-//JNGH Implement?                                , float dlt_dm_demand_oil     // assimilate demand for reproductive parts (g/m^2)
-//JNGH Implement?                                , float dlt_dm_demand_pod     // assimilate demand for reproductive parts (g/m^2)
-//JNGH Implement?                                , float dm_oil_conv_demand    // assimilate demand for conversion to oil (g/m^2)
-//JNGH Implement?                                , float dlt_dm_oil_conv       // (OUTPUT) actual biomass used in conversion to oil (g/m2)
-//JNGH Implement?                                , float *dlt_dm_green          // (OUTPUT) actual biomass partitioned
-//JNGH Implement?                                 )
-//JNGH Implement?     {
-//JNGH Implement?     float  yield_demand;   // sum of grain, energy & pod
-//JNGH Implement?
-//JNGH Implement?     if (*dm_remaining > 0.0)
-//JNGH Implement?         {
-//JNGH Implement?         // still have some assimilate to partition
-//JNGH Implement?
-//JNGH Implement?         yield_demand = dlt_dm_demand_pod
-//JNGH Implement?                         + dlt_dm_demand_meal
-//JNGH Implement?                         + dlt_dm_demand_oil
-//JNGH Implement?                         + dm_oil_conv_demand;
-//JNGH Implement?
-//JNGH Implement?         if (yield_demand >= *dm_remaining)
-//JNGH Implement?             {
-//JNGH Implement?             // reproductive demand exceeds supply - distribute assimilate to those parts only
-//JNGH Implement?             dlt_dm_green[meal] = *dm_remaining
-//JNGH Implement?                            * divide (dlt_dm_demand_meal
-//JNGH Implement?                                    , yield_demand, 0.0);
-//JNGH Implement?             dlt_dm_green[oil] = *dm_remaining
-//JNGH Implement?                             * divide (dlt_dm_demand_oil
-//JNGH Implement?                                     , yield_demand, 0.0);
-//JNGH Implement?             dlt_dm_oil_conv = *dm_remaining
-//JNGH Implement?                            * divide (dm_oil_conv_demand
-//JNGH Implement?                                    , yield_demand, 0.0);
-//JNGH Implement?             dlt_dm_green[pod] = *dm_remaining
-//JNGH Implement?                                     - dlt_dm_green[meal]
-//JNGH Implement?                                     - dlt_dm_green[oil]
-//JNGH Implement?                                     - dlt_dm_oil_conv;
-//JNGH Implement?             *dm_remaining = 0.0;
-//JNGH Implement?             }
-//JNGH Implement?         else
-//JNGH Implement?             {
-//JNGH Implement?             // more than enough assimilate to go around
-//JNGH Implement?             dlt_dm_green[meal] =  dlt_dm_green[meal]
-//JNGH Implement?                                +  dlt_dm_demand_meal;
-//JNGH Implement?             dlt_dm_green[oil]  =  dlt_dm_green[oil]
-//JNGH Implement?                                +  dlt_dm_demand_oil;
-//JNGH Implement?             dlt_dm_oil_conv   =  dlt_dm_oil_conv
-//JNGH Implement?                               +  dm_oil_conv_demand;
-//JNGH Implement?             dlt_dm_green[pod]  = dlt_dm_green[pod]
-//JNGH Implement?                                + dlt_dm_demand_pod;
-//JNGH Implement?
-//JNGH Implement?             *dm_remaining = *dm_remaining - yield_demand;
-//JNGH Implement?             }
-//JNGH Implement?         }
-//JNGH Implement?      else
-//JNGH Implement?          {
-//JNGH Implement?          // no assimilate left to partition
-//JNGH Implement?          dlt_dm_green[meal] = 0.0;
-//JNGH Implement?          dlt_dm_green[oil]  = 0.0;
-//JNGH Implement?          dlt_dm_oil_conv   = 0.0;
-//JNGH Implement?          dlt_dm_green[pod]  = 0.0;
-//JNGH Implement?          }
-//JNGH Implement?    }
-//JNGH Implement?
-//JNGH Implement?
 //+  Purpose
 //     Calculate the nitrogen retranslocation from the various plant parts
 //     to the grain.
@@ -2897,12 +2698,12 @@ void Plant::plant_process ( void )
         ps.swdef_grainfill = g.swdef_pheno_grainfill;
         ps.remove_biom_pheno = g.remove_biom_pheno;
 
-        int layer_no_seed = rootPart->find_layer_no (g.sowing_depth);
-        float fasw_seed = divide (rootPart->sw_dep[layer_no_seed] - rootPart->ll_dep[layer_no_seed],
-                                rootPart->dul_dep[layer_no_seed] - rootPart->ll_dep[layer_no_seed], 0.0);
-         fasw_seed = bound (fasw_seed, 0.0, 1.0);
-        float pesw_seed = divide (rootPart->sw_dep[layer_no_seed] - rootPart->ll_dep[layer_no_seed],
-                       rootPart->dlayer[layer_no_seed], 0.0);
+        int layer_no_seed = rootPart->find_layer_no (g.sowing_depth);                                         //FIXME - should be returned from a rootPart method
+        float fasw_seed = divide (rootPart->sw_dep[layer_no_seed] - rootPart->ll_dep[layer_no_seed],          //FIXME - should be returned from a rootPart method
+                                rootPart->dul_dep[layer_no_seed] - rootPart->ll_dep[layer_no_seed], 0.0);     //FIXME - should be returned from a rootPart method
+         fasw_seed = bound (fasw_seed, 0.0, 1.0);                                                             //FIXME - should be returned from a rootPart method
+        float pesw_seed = divide (rootPart->sw_dep[layer_no_seed] - rootPart->ll_dep[layer_no_seed],          //FIXME - should be returned from a rootPart method
+                       rootPart->dlayer[layer_no_seed], 0.0);                                                 //FIXME - should be returned from a rootPart method
 
         phenology->process (Environment, ps, fasw_seed, pesw_seed);
 
@@ -2917,7 +2718,6 @@ void Plant::plant_process ( void )
 
         leafPart->leaf_area_stressed (min(g.swdef_expansion, min(g.nfact_expansion, g.pfact_expansion)));
 
-        plant_water_distribute (1);
         plant_bio_water ();
         plant_bio_rue (1);
 
@@ -2927,12 +2727,13 @@ void Plant::plant_process ( void )
         plant_bio_actual (1);
 
         // Now calculate DM demands
+        float dlt_dm = plantDltDm();
         for (vector<plantPart *>::iterator t = myParts.begin();
              t != myParts.end();
              t++)
-            (*t)->doDmDemand (g.dlt_dm);
+            (*t)->doDmDemand (dlt_dm);
 
-        arbitrator->partitionDM(g.dlt_dm, rootPart, leafPart, stemPart, fruitPart);
+        arbitrator->partitionDM(dlt_dm, rootPart, leafPart, stemPart, fruitPart);
 
         plant_bio_retrans ();
 
@@ -3062,7 +2863,7 @@ void Plant::plant_harvest (protocol::Variant &v/*(INPUT) message variant*/)
         }
 
     pop_routine (my_name);
-    return;
+
     }
 
 
@@ -3103,7 +2904,7 @@ void Plant::plant_kill_stem (protocol::Variant &v/*(INPUT) incoming message vari
 
 
     pop_routine (my_name);
-    return;
+
     }
 
 
@@ -3152,7 +2953,7 @@ void Plant::plant_remove_crop_biomass (protocol::Variant &v/*(INPUT) incoming me
     plant_remove_biomass_update(dmRemoved);
 
     pop_routine (my_name);
-    return;
+
     }
 
 //       Detach crop biomass.
@@ -3235,7 +3036,7 @@ void Plant::plant_detach_crop_biomass (protocol::Variant &v/*(INPUT) incoming me
 
     plant_remove_biomass_update(dmRemoved);
 
-    return;
+
     }
 
 
@@ -3295,7 +3096,7 @@ void Plant::plant_dormancy (protocol::Variant &v/*(INPUT) incoming message varia
         }
 
     pop_routine (my_name);
-    return;
+
     }
 
 
@@ -3496,10 +3297,6 @@ void Plant::plant_harvest_update (protocol::Variant &v/*(INPUT)message arguments
     leafPart->doCover(canopy_fac, g.row_spacing);
     fruitPart->doCover(canopy_fac, g.row_spacing);
 
-    g.cover_green = add_covers (leafPart->coverGreen(), fruitPart->coverGreen());
-
-    g.cover_dead = leafPart->coverDead();
-
 // other plant states
     plant_n_conc_limits (g.co2_modifier_n_conc);
 
@@ -3584,10 +3381,6 @@ void Plant::plant_kill_stem_update (protocol::Variant &v/*(INPUT) message argume
     leafPart->doCover(canopy_fac, g.row_spacing);
     fruitPart->doCover(canopy_fac, g.row_spacing);
 
-    g.cover_green = add_covers (leafPart->coverGreen(), fruitPart->coverGreen());
-    g.cover_sen = leafPart->coverSen();
-    g.cover_dead = leafPart->coverDead();
-
     plant_n_conc_limits ( g.co2_modifier_n_conc )  ;                  // plant N concentr
 
     if (g.plant_status == alive &&
@@ -3602,7 +3395,7 @@ void Plant::plant_kill_stem_update (protocol::Variant &v/*(INPUT) message argume
 
 
     pop_routine (my_name);
-    return;
+
     }
 
 //NIH up to here
@@ -3710,14 +3503,7 @@ void Plant::plant_remove_biomass_update (protocol::RemoveCropDmType dmRemoved)
 
     // now update new canopy covers
     leafPart->doCover(canopy_fac, g.row_spacing);
-
     fruitPart->doCover(canopy_fac, g.row_spacing);
-    g.cover_green = add_covers (leafPart->coverGreen(), fruitPart->coverGreen());
-
-
-    g.cover_sen = leafPart->coverSen();
-
-    g.cover_dead = leafPart->coverDead();
 
     phenology->onRemoveBiomass(g.remove_biom_pheno);
 
@@ -3799,9 +3585,6 @@ void Plant::plant_zero_all_globals (void)
       g.canopy_width = 0.0;
       g.plants = 0.0;
       g.dlt_plants = 0.0;
-      g.cover_green = 0.0;
-      g.cover_sen = 0.0;
-      g.cover_dead = 0.0;
       g.dlt_plants_death_seedling = 0.0;
       g.dlt_plants_death_drought = 0.0;
       g.dlt_plants_failure_phen_delay = 0.0;
@@ -3809,26 +3592,15 @@ void Plant::plant_zero_all_globals (void)
       g.dlt_plants_failure_emergence = 0.0;
       g.dlt_plants_failure_germ = 0.0;
       g.dlt_plants_death_external = 0.0;
-      g.dlt_dm = 0.0;
-      g.dlt_dm_pot_rue = 0.0;
       g.dlt_dm_parasite  =  0.0;
       g.dlt_dm_parasite_demand = 0.0;
       g.dlt_sw_parasite_demand = 0.0;
-      g.radn_int = 0.0;
-      g.radnIntGreenFruit = 0.0;
-      g.transp_eff = 0.0;
-      g.lai_canopy_green = 0.0;
 
       g.n_fix_pot = 0.0;
       fill_real_array (g.no3gsm_uptake_pot, 0.0, max_layer);
       fill_real_array (g.nh4gsm_uptake_pot, 0.0, max_layer);
       g.n_fix_uptake = 0.0;
       g.n_fixed_tops = 0.0;
-
-
-      g.swSupplyFruit   = 0.0;
-      g.swSupplyVeg   = 0.0;
-
 
       g.transpiration_tot = 0.0;
       g.n_uptake_tot = 0.0;
@@ -3864,7 +3636,6 @@ void Plant::plant_zero_all_globals (void)
       c.swdf_photo_limit = 0.0;
       c.swdf_photo_rate = 0.0;
       c.svp_fract = 0.0;
-      fill_real_array (c.transp_eff_cf, 0.0, max_table);
       c.no3_diffn_const = 0.0;
       fill_real_array (c.n_fix_rate, 0.0,max_table);
       c.grn_water_cont = 0.0;     //FIXME put into grainpart
@@ -3906,7 +3677,7 @@ void Plant::plant_zero_all_globals (void)
       c.photosynthetic_pathway = photosynthetic_pathway_UNDEF;
 
     pop_routine (my_name);
-    return;
+
     }
 
 
@@ -3961,10 +3732,6 @@ void Plant::plant_zero_variables (void)
     g.skip_plant_fac        = 0.0;
     g.row_spacing           = 0.0;
 
-    g.cover_green           = 0.0;
-    g.cover_sen             = 0.0;
-    g.cover_dead            = 0.0;
-
     g.swdef_pheno = 1.0;
     g.swdef_photo = 1.0;
     g.swdef_expansion = 1.0;
@@ -3987,7 +3754,7 @@ void Plant::plant_zero_variables (void)
     g.pfact_grain        = 1.0;
 
     pop_routine (my_name);
-    return;
+
     }
 
 
@@ -4018,10 +3785,6 @@ void Plant::plant_zero_daily_variables ()
     fill_real_array (g.no3gsm_uptake_pot, 0.0, max_layer);
     fill_real_array (g.nh4gsm_uptake_pot, 0.0, max_layer);
 
-    g.swSupplyFruit   = 0.0;
-    g.swSupplyVeg   = 0.0;
-    g.dlt_dm                   = 0.0;
-
     g.dlt_plants               = 0.0;
     g.ext_n_demand             = 0.0;
 
@@ -4039,7 +3802,6 @@ void Plant::plant_zero_daily_variables ()
     //g.pfact_grain        = 1.0;
 
     pop_routine (my_name);
-    return;
     }
 
 
@@ -4070,31 +3832,31 @@ void Plant::plant_init (void)
     g.plant_status = out;
     g.module_name = parent->getName();
 
-    vector<float> ll;
-    if (parent->readParameter ("parameters"
-                              , "ll"//, "()"
-                              , ll, 0.0, rootPart->sw_ub, true))
-       {
-       for (unsigned int layer = 0; layer != ll.size(); layer++)
-          rootPart->ll_dep[layer] = ll[layer]*rootPart->dlayer[layer];
-
-       if ((int)ll.size() != rootPart->num_layers)
-          {
-          parent->warningError ("LL parameter doesn't match soil profile?");
-          }
-       }
-    else
-       {
-       unsigned int id = parent->addRegistration(RegistrationType::get,
-                                                 "ll15", floatArrayType,
-                                                 "", "");
-       parent->getVariable(id, ll, 0.0, rootPart->sw_ub, true);
-       if (ll.size() == 0)
-          throw std::runtime_error("No Crop Lower Limit found");
-
-       for (unsigned int i=0; i< ll.size(); i++) rootPart->ll_dep[i] = ll[i]*rootPart->dlayer[i];
-       parent->writeString ("   Using externally supplied Lower Limit (ll15)");
-       }
+    vector<float> ll;                                                                               //FIXME - belongs in RootPsrt
+    if (parent->readParameter ("parameters"                                                         //FIXME - belongs in RootPsrt
+                              , "ll"//, "()"                                                        //FIXME - belongs in RootPsrt
+                              , ll, 0.0, rootPart->sw_ub, true))                                    //FIXME - belongs in RootPsrt
+       {                                                                                            //FIXME - belongs in RootPsrt
+       for (unsigned int layer = 0; layer != ll.size(); layer++)                                    //FIXME - belongs in RootPsrt
+          rootPart->ll_dep[layer] = ll[layer]*rootPart->dlayer[layer];                              //FIXME - belongs in RootPsrt
+                                                                                                    //FIXME - belongs in RootPsrt
+       if ((int)ll.size() != rootPart->num_layers)                                                  //FIXME - belongs in RootPsrt
+          {                                                                                         //FIXME - belongs in RootPsrt
+          parent->warningError ("LL parameter doesn't match soil profile?");                        //FIXME - belongs in RootPsrt
+          }                                                                                         //FIXME - belongs in RootPsrt
+       }                                                                                            //FIXME - belongs in RootPsrt
+    else                                                                                            //FIXME - belongs in RootPsrt
+       {                                                                                            //FIXME - belongs in RootPsrt
+       unsigned int id = parent->addRegistration(RegistrationType::get,                             //FIXME - belongs in RootPsrt
+                                                 "ll15", floatArrayType,                            //FIXME - belongs in RootPsrt
+                                                 "", "");                                           //FIXME - belongs in RootPsrt
+       parent->getVariable(id, ll, 0.0, rootPart->sw_ub, true);                                     //FIXME - belongs in RootPsrt
+       if (ll.size() == 0)                                                                          //FIXME - belongs in RootPsrt
+          throw std::runtime_error("No Crop Lower Limit found");                                    //FIXME - belongs in RootPsrt
+                                                                                                    //FIXME - belongs in RootPsrt
+       for (unsigned int i=0; i< ll.size(); i++) rootPart->ll_dep[i] = ll[i]*rootPart->dlayer[i];   //FIXME - belongs in RootPsrt
+       parent->writeString ("   Using externally supplied Lower Limit (ll15)");                     //FIXME - belongs in RootPsrt
+       }                                                                                            //FIXME - belongs in RootPsrt
 
 //    rootPart->readRootParameters(parent, "parameters");
 
@@ -4246,7 +4008,6 @@ void Plant::plant_start_crop (protocol::Variant &v/*(INPUT) message arguments*/)
     }
 
     pop_routine (my_name);
-    return;
     }
 
 
@@ -4399,9 +4160,9 @@ void Plant::plant_end_crop ()
         n_residue =topsNTot();
         p_residue =topsPTot();
 
-        dm_root = rootPart->dmGreen()+ rootPart->dmDead() + rootPart->dmSenesced();
-        n_root  = rootPart->nGreen() + rootPart->nDead() + rootPart->nSenesced();
-        p_root  = rootPart->pGreen() + rootPart->pDead() + rootPart->pSenesced();
+        dm_root = rootPart->dmGreen()+ rootPart->dmDead() + rootPart->dmSenesced();     //FIXME - should be returned from a rootPart method
+        n_root  = rootPart->nGreen() + rootPart->nDead() + rootPart->nSenesced();       //FIXME - should be returned from a rootPart method
+        p_root  = rootPart->pGreen() + rootPart->pDead() + rootPart->pSenesced();       //FIXME - should be returned from a rootPart method
 
        if (dm_residue + dm_root > 0.0)
           {
@@ -4508,7 +4269,6 @@ void Plant::plant_kill_crop_action (protocol::Variant &mVar)
         }
 
     pop_routine (my_name);
-    return;
     }
 
 
@@ -4544,7 +4304,6 @@ void Plant::plant_store_value (
         {
         }
     pop_routine (my_name);
-    return;
     }
 
 
@@ -4616,29 +4375,29 @@ void Plant::plant_get_other_variables ()
 
     //assert (values.size() == Environment.num_layers);
 
-    values.clear();
-    if (!parent->getVariable(id.no3, values, c.no3_lb, c.no3_ub, true))
-        {
-        // we have no N supply - make non-limiting.
-        for (int i = 0; i < rootPart->num_layers; i++)
-           values.push_back(10000.0);
-        }
-    for (int i = 0; i < rootPart->num_layers; i++)
-       {
-       rootPart->no3gsm[i] = values[i] * kg2gm /ha2sm;
-       }
-
-    values.clear();
-    if (!parent->getVariable(id.nh4, values, c.nh4_lb, c.nh4_ub, true))
-        {
-        // we have no N supply - make non-limiting.
-        for (int i = 0; i < rootPart->num_layers; i++)
-           values.push_back(10000.0);
-        }
-    for (int i = 0; i < rootPart->num_layers; i++)
-       {
-       rootPart->nh4gsm[i] = values[i] * kg2gm /ha2sm;
-       }
+    values.clear();                                                         //FIXME - belongs in rootPart
+    if (!parent->getVariable(id.no3, values, c.no3_lb, c.no3_ub, true))     //FIXME - belongs in rootPart
+        {                                                                   //FIXME - belongs in rootPart
+        // we have no N supply - make non-limiting.                         //FIXME - belongs in rootPart
+        for (int i = 0; i < rootPart->num_layers; i++)                      //FIXME - belongs in rootPart
+           values.push_back(10000.0);                                       //FIXME - belongs in rootPart
+        }                                                                   //FIXME - belongs in rootPart
+    for (int i = 0; i < rootPart->num_layers; i++)                          //FIXME - belongs in rootPart
+       {                                                                    //FIXME - belongs in rootPart
+       rootPart->no3gsm[i] = values[i] * kg2gm /ha2sm;                      //FIXME - belongs in rootPart
+       }                                                                    //FIXME - belongs in rootPart
+                                                                            //FIXME - belongs in rootPart
+    values.clear();                                                         //FIXME - belongs in rootPart
+    if (!parent->getVariable(id.nh4, values, c.nh4_lb, c.nh4_ub, true))     //FIXME - belongs in rootPart
+        {                                                                   //FIXME - belongs in rootPart
+        // we have no N supply - make non-limiting.                         //FIXME - belongs in rootPart
+        for (int i = 0; i < rootPart->num_layers; i++)                      //FIXME - belongs in rootPart
+           values.push_back(10000.0);                                       //FIXME - belongs in rootPart
+        }                                                                   //FIXME - belongs in rootPart
+    for (int i = 0; i < rootPart->num_layers; i++)                          //FIXME - belongs in rootPart
+       {                                                                    //FIXME - belongs in rootPart
+       rootPart->nh4gsm[i] = values[i] * kg2gm /ha2sm;                      //FIXME - belongs in rootPart
+       }                                                                    //FIXME - belongs in rootPart
 
     if (!parent->getVariable(id.co2, g.co2, 0.0, 1500.0, true))
        {
@@ -4730,20 +4489,20 @@ void Plant::plant_set_other_variables ()
 
     plant_update_other_variables ();
 
-    if (Str_i_Eq(rootPart->uptake_source, "calc"))
-        {
-        //!!! perhaps we should get number of layers at init and keep it
-        num_layers = rootPart->num_layers;
-
-        for (layer = 0; layer< num_layers;layer++) {scratch[layer] = rootPart->dlt_no3gsm[layer] * gm2kg /sm2ha;}
-        protocol::vector<float> dlt_no3_values(scratch, scratch+num_layers);
-        parent->setVariable(id.dlt_no3, dlt_no3_values);
-
-        for (layer = 0; layer< num_layers;layer++) {scratch[layer] = rootPart->dlt_nh4gsm[layer] * gm2kg /sm2ha;}
-        protocol::vector<float> dlt_nh4_values(scratch, scratch+num_layers);
-        parent->setVariable(id.dlt_nh4, dlt_nh4_values);
-
-        rootPart->UpdateOtherVariables(parent);
+    if (Str_i_Eq(rootPart->uptake_source, "calc"))                                                                  //FIXME - belongs in rootPart
+        {                                                                                                           //FIXME - belongs in rootPart
+        //!!! perhaps we should get number of layers at init and keep it                                            //FIXME - belongs in rootPart
+        num_layers = rootPart->num_layers;                                                                          //FIXME - belongs in rootPart
+                                                                                                                    //FIXME - belongs in rootPart
+        for (layer = 0; layer< num_layers;layer++) {scratch[layer] = rootPart->dlt_no3gsm[layer] * gm2kg /sm2ha;}   //FIXME - belongs in rootPart
+        protocol::vector<float> dlt_no3_values(scratch, scratch+num_layers);                                        //FIXME - belongs in rootPart
+        parent->setVariable(id.dlt_no3, dlt_no3_values);                                                            //FIXME - belongs in rootPart
+                                                                                                                    //FIXME - belongs in rootPart
+        for (layer = 0; layer< num_layers;layer++) {scratch[layer] = rootPart->dlt_nh4gsm[layer] * gm2kg /sm2ha;}   //FIXME - belongs in rootPart
+        protocol::vector<float> dlt_nh4_values(scratch, scratch+num_layers);                                        //FIXME - belongs in rootPart
+        parent->setVariable(id.dlt_nh4, dlt_nh4_values);                                                            //FIXME - belongs in rootPart
+                                                                                                                    //FIXME - belongs in rootPart
+        rootPart->UpdateOtherVariables(parent);                                                                     //FIXME - belongs in rootPart
 
         }
     else
@@ -4752,7 +4511,6 @@ void Plant::plant_set_other_variables ()
         }
 
     pop_routine (my_name);
-    return;
     }
 
 
@@ -4896,7 +4654,6 @@ void Plant::plant_read_constants ( void )
 
     g.hasreadconstants = true;
     pop_routine (my_name);
-    return;
     }
 
 
@@ -5018,18 +4775,9 @@ void Plant::plant_read_species_const ()
         t++)
       (*t)->readSpeciesParameters(parent, search_order);
 
-    c.rue.search(parent, search_order,
-                 "x_stage_rue", "()", 0.0, 1000.0,
-                 "y_rue", "(g dm/mj)", 0.0, 1000.0);
-
     parent->readParameter (search_order,
                       "n_fix_rate"//, "()"
                      , c.n_fix_rate, numvals
-                     , 0.0, 1.0);
-
-    parent->readParameter (search_order,
-                      "transp_eff_cf"//, "(kpa)"
-                     , c.transp_eff_cf, numvals
                      , 0.0, 1.0);
 
     parent->readParameter (search_order
@@ -5156,11 +4904,11 @@ void Plant::plant_read_species_const ()
          }
     c.n_supply_preference = parent->readParameter (search_order, "n_supply_preference");
 
-    //    plant_phenology_init
-    parent->readParameter (search_order,
-                       "leaf_no_pot_option"//, "()"
-                      , c.leaf_no_pot_option
-                      , 1, 2);
+    //    plant_phenology_init                           //FIXME - should be in leafPart
+    parent->readParameter (search_order,                 //FIXME - should be in leafPart
+                       "leaf_no_pot_option"//, "()"      //FIXME - should be in leafPart
+                      , c.leaf_no_pot_option             //FIXME - should be in leafPart
+                      , 1, 2);                           //FIXME - should be in leafPart
 
 
 
@@ -5424,7 +5172,6 @@ void Plant::plant_harvest_report ()
     g.averageStressMessage = "";
 
     pop_routine (my_name);
-    return;
     }
 
 
@@ -5527,7 +5274,6 @@ void Plant::plant_send_crop_chopped_event (const string&  crop_type             
     parent->publish (id.crop_chopped, outgoingApsimVariant);
 #endif
     pop_routine (myname);
-    return;
     }
 
 
@@ -5551,7 +5297,6 @@ void Plant::doNewProfile(unsigned &, unsigned &, protocol::Variant &v /* (INPUT)
     push_routine (myname);
     rootPart->doNewProfile(v);
     pop_routine (myname);
-    return;
     }
 
 
@@ -5576,7 +5321,6 @@ void Plant::plant_get_site_characteristics ()
     parent->getVariable(id.latitude, Environment.latitude, c.latitude_lb, c.latitude_ub);
 
     pop_routine (my_name);
-    return;
     }
 
 
@@ -5625,16 +5369,16 @@ void Plant::get_plants(protocol::Component *system, protocol::QueryValueData &qd
 
 void Plant::get_cover_green(protocol::Component *system, protocol::QueryValueData &qd)
 {
-    system->sendVariable(qd, g.cover_green);
+    system->sendVariable(qd, plantCoverGreen());
 }
 
 
 void Plant::get_cover_tot(protocol::Component *system, protocol::QueryValueData &qd)
 {
     float cover_tot = 1.0
-        - (1.0 - g.cover_green)
-        * (1.0 - g.cover_sen)
-        * (1.0 - g.cover_dead);
+        - (1.0 - plantCoverGreen())
+        * (1.0 - plantCoverSenesced())
+        * (1.0 - plantCoverDead());
 
     system->sendVariable(qd, cover_tot);
 }
@@ -5757,7 +5501,7 @@ void Plant::get_n_demanded(protocol::Component *systemInterface, protocol::Query
    systemInterface->sendVariable(qd, n_demanded);
 }
 
-void Plant::get_n_supply_soil(protocol::Component *system, protocol::QueryValueData &qd)
+void Plant::get_n_supply_soil(protocol::Component *system, protocol::QueryValueData &qd)    //FIXME - belongs in rootPart
 {
     int deepest_layer = rootPart->find_layer_no (rootPart->root_depth);
     float n_uptake_sum = sum_real_array (rootPart->dlt_no3gsm, deepest_layer+1)
@@ -5791,31 +5535,35 @@ void Plant::get_no3_demand(protocol::Component *system, protocol::QueryValueData
     system->sendVariable(qd, (float)g.ext_n_demand*gm2kg/sm2ha);
 }
 
+void Plant::get_transp_eff(protocol::Component *system, protocol::QueryValueData &qd)
+{
+    float transp_eff = leafPart->transpirationEfficiency(); //FIXME - ?? how to handle fruitPart->transpirationEfficiency();
+    system->sendVariable(qd, transp_eff);
+}
+
 void Plant::get_sw_demand(protocol::Component *system, protocol::QueryValueData &qd)
 {
-    float swDemand = leafPart->SWDemand() + fruitPart->SWDemand();
-    system->sendVariable(qd, swDemand);
+    system->sendVariable(qd, SWDemand());
 }
 
 void Plant::get_sw_demand_te(protocol::Component *system, protocol::QueryValueData &qd)
 {
-    float swDemandTE = leafPart->SWDemandTE() + fruitPart->SWDemandTE();
-    system->sendVariable(qd, swDemandTE);
+    system->sendVariable(qd, SWDemandTE());
 }
 
-void Plant::get_no3gsm_uptake_pot(protocol::Component *system, protocol::QueryValueData &qd)
+void Plant::get_no3gsm_uptake_pot(protocol::Component *system, protocol::QueryValueData &qd)                  //FIXME - belongs in rootPart
 {
     int num_layers = rootPart->num_layers;
     system->sendVariable(qd, protocol::vector<float>(g.no3gsm_uptake_pot, g.no3gsm_uptake_pot+num_layers));
 }
 
-void Plant::get_nh4gsm_uptake_pot(protocol::Component *system, protocol::QueryValueData &qd)
+void Plant::get_nh4gsm_uptake_pot(protocol::Component *system, protocol::QueryValueData &qd)                  //FIXME - belongs in rootPart
 {
     int num_layers = rootPart->num_layers;
     system->sendVariable(qd, protocol::vector<float>(g.nh4gsm_uptake_pot, g.nh4gsm_uptake_pot+num_layers));
 }
 
-void Plant::get_no3_swfac(protocol::Component *system, protocol::QueryValueData &qd)
+void Plant::get_no3_swfac(protocol::Component *system, protocol::QueryValueData &qd)                          //FIXME - belongs in rootPart
 {
     float swfac[max_layer];
     int num_layers = rootPart->num_layers;
@@ -6022,20 +5770,17 @@ void Plant::get_dm_senesced(protocol::Component *systemInterface, protocol::Quer
 
 void Plant::get_dlt_dm(protocol::Component *systemInterface, protocol::QueryValueData &qd)
 {
-   float  dlt_dm = leafPart->dltDm() +  fruitPart->dltDm();
-   systemInterface->sendVariable(qd, dlt_dm);
+   systemInterface->sendVariable(qd, plantDltDm());
 }
 
 void Plant::get_dlt_dm_pot_te(protocol::Component *systemInterface, protocol::QueryValueData &qd)
 {
-   float  dlt_dm_pot_te = leafPart->dltDmPotTe() +  fruitPart->dltDmPotTe();
-   systemInterface->sendVariable(qd, dlt_dm_pot_te);
+   systemInterface->sendVariable(qd, plantDltDmPotTe());
 }
 
 void Plant::get_dlt_dm_pot_rue(protocol::Component *systemInterface, protocol::QueryValueData &qd)
 {
-   float  get_dlt_dm_pot_rue = leafPart->dltDmPotRue() +  fruitPart->dltDmPotRue();
-   systemInterface->sendVariable(qd, get_dlt_dm_pot_rue);
+   systemInterface->sendVariable(qd, plantDltDmPotRue());
 }
 
 void Plant::get_dlt_dm_green(protocol::Component *systemInterface, protocol::QueryValueData &qd)
@@ -6345,20 +6090,20 @@ float Plant::getStageNumber(void) const {return phenology->stageNumber();}
 float Plant::getPlants(void) const {return g.plants;}
 float Plant::getCo2(void) const {return g.co2;}
 //float Plant::getRadnInterceptedPod(void) const {return g.radn_int_pod;}
-float Plant::getDltDMPotRueVeg(void) const {return g.dlt_dm_pot_rue - fruitPart->dltDmPotRue();}
+float Plant::getDltDMPotRueVeg(void) const {return leafPart->dltDmPotRue();}
 float Plant::getDmGreenVeg(void) const {return (leafPart->dmGreen() + stemPart->dmGreen());}
 //float Plant::getDltDmVeg(void) const {return leafPart->dltDmTotal() + stemPart->dltDmTotal();}
-float Plant::getWaterSupplyPod(void) const {return g.swSupplyFruit;}
-float Plant::getWaterSupplyLeaf(void) const {return g.swSupplyVeg;}
+////float Plant::getWaterSupplyPod(void) const {return g.swSupplyFruit;}
+////float Plant::getWaterSupplyLeaf(void) const {return g.swSupplyVeg;}
 float Plant::getDmTops(void) const{ return topsGreen()+topsSenesced();}
-float Plant::getDltDm(void) const{ return g.dlt_dm;}
+float Plant::getDltDm(void) const{ return plantDltDm();}
 float Plant::getDltDmGreen(void) const{ return plantDltDmGreen();}
 float Plant::getDmVeg(void) const {return leafPart->dmTotal() + stemPart->dmTotal();}
 float Plant::getDmGreenStem(void) const {return stemPart->dmGreen();}
 float Plant::getDmGreenTot(void) const {return plantGreen();}
 // FIXME - remove next line when P demand corrections activated
-float Plant::getRelativeGrowthRate(void) {return divide(arbitrator->dltDMWhole(g.dlt_dm_pot_rue), getDmGreenTot(), 0.0);} // the dlt_dm_pot_rue is only tops, thus either adjust it for roots or leave roots out of the divisor.
-float Plant::getTotalPotentialGrowthRate(void) {return arbitrator->dltDMWhole(g.dlt_dm_pot_rue);} // the dlt_dm_pot_rue is only tops, thus adjust it for roots.
+float Plant::getRelativeGrowthRate(void) {return divide(arbitrator->dltDMWhole(plantDltDmPotRue()), getDmGreenTot(), 0.0);} // the dlt_dm_pot_rue is only tops, thus either adjust it for roots or leave roots out of the divisor.
+float Plant::getTotalPotentialGrowthRate(void) {return arbitrator->dltDMWhole(plantDltDmPotRue());} // the dlt_dm_pot_rue is only tops, thus adjust it for roots.
 float Plant::getDyingFractionPlants(void)
    {
        float dying_fract_plants = divide (-g.dlt_plants, g.plants, 0.0);
@@ -6376,6 +6121,36 @@ float Plant::getNfactGrainConc(void) const {return g.nfact_grain_conc;}
 float Plant::getOxdefPhoto(void) const {return g.oxdef_photo;}
 float Plant::getPfactPhoto(void) const {return g.pfact_photo;}
 float Plant::getSwdefPhoto(void) const {return g.swdef_photo;}
+
+float Plant::plantCoverGreen(void) const
+   {
+      return  add_covers (leafPart->coverGreen(), fruitPart->coverGreen());
+   }
+
+float Plant::plantCoverSenesced(void) const
+   {
+      return  add_covers (leafPart->coverSen(), fruitPart->coverSen());
+   }
+
+float Plant::plantCoverDead(void) const
+   {
+      return  add_covers (leafPart->coverDead(), fruitPart->coverDead());
+   }
+
+float Plant::plantDltDm(void) const
+   {
+      return  fruitPart->dltDm() + leafPart->dltDm();
+   }
+
+float Plant::plantDltDmPotRue(void) const
+   {
+      return  fruitPart->dltDmPotRue() + leafPart->dltDmPotRue();
+   }
+
+float Plant::plantDltDmPotTe(void) const
+   {
+      return  fruitPart->dltDmPotTe() + leafPart->dltDmPotTe();
+   }
 
 float Plant::plantGreen(void) const
    {
@@ -6610,6 +6385,17 @@ float Plant::grainPConcTot(void) const
 float Plant::topsPTot(void) const
    {
    return  topsPGreen() + topsPSenesced() + topsPDead();
+   }
+float Plant::SWDemandTE(void)
+   {
+   return leafPart->SWDemandTE() + fruitPart->SWDemandTE();
+   }
+float Plant::SWDemand(void)
+   {
+      float sw_demand = 0.0;
+      for (vector<plantPart *>::iterator t = myParts.begin(); t != myParts.end(); t++)
+         sw_demand += (*t)->SWDemand();
+      return sw_demand;
    }
 float Plant::nCapacity(void)
    {

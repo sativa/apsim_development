@@ -1720,6 +1720,16 @@ float CompositePart::nDemandGrain(void) const
    return nDemandGrain;
 }
 
+float CompositePart::transpirationEfficiency(void) const
+   //===========================================================================
+{
+   float transpEff = 0.0;
+   vector <plantPart *>::const_iterator part;
+   for (part =  myParts.begin(); part != myParts.end(); part++)
+      transpEff += (*part)->transpirationEfficiency();   //FIXME - the sum is not the correct result
+   return transpEff;
+}
+
 float CompositePart::dltDmPotTe(void) const
    //===========================================================================
 {
@@ -1826,7 +1836,7 @@ void CompositePart::doDmPotRUE (void )
 {
    vector <plantPart *>::iterator part;
    for (part =  myParts.begin(); part != myParts.end(); part++)
-      (*part)->doDmPotRUE ();                                     
+      (*part)->doDmPotRUE ();
 }
 
 void CompositePart::doTECO2(void)
@@ -1865,12 +1875,15 @@ float CompositePart::SWDemandTE(void)
    return SWDemandTE;
 }
 
-void CompositePart::doDmPotTE (void)
+void CompositePart::doDmPotTE (float swSupply)
    //===========================================================================
 {
    vector <plantPart *>::iterator part;
    for (part =  myParts.begin(); part != myParts.end(); part++)
-      (*part)->doDmPotTE();
+   {
+      float swSupplyPart = swSupply * divide ((*part)->SWDemand(), SWDemand(), 0.0);
+      (*part)->doDmPotTE(swSupplyPart);
+   }
 }
 
 void CompositePart::doBioActual (void)

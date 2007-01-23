@@ -823,7 +823,7 @@ void crop_check_sw(plantInterface *iface,
          {
          }
       }
-   return;
+   
    }
 
 

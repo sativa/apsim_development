@@ -547,7 +547,7 @@ void crop_n_fixation_pot1( float G_current_stage,              // (INPUT) Curren
    current_phase = int(G_current_stage);
 
    *N_fix_pot = C_n_fix_rate[current_phase-1] * fixation_determinant * G_swdef_fixation;
-   return;
+   
    }
 
 //============================================================================

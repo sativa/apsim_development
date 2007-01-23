@@ -111,3 +111,10 @@ void PlantFruit::addNewCohort (protocol::Component *system)
    (*myPart)->doInit1(system);
 }
 
+void PlantFruit::doNewCohort (protocol::Component *system)
+   // ====================================================================
+{
+   // insert rules to make new cohort here
+   addNewCohort(system);
+}
+

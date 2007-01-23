@@ -1372,6 +1372,12 @@ float plantPart::dltDmGreen(void) const
    return (dlt.dm_green);
    }
 
+float plantPart::transpirationEfficiency(void) const
+//=======================================================================================
+   {
+   return (transpEff);
+   }
+
 float plantPart::dltDmPotRue(void) const
 //=======================================================================================
    {
@@ -1795,7 +1801,7 @@ void plantPart::get_dlt_p_sen(vector<float> &dlt_p_sen) {dlt_p_sen.push_back(dlt
 
    //needed to standardise interface for composite subclass
 
-void plantPart::doCover (float /* canopy_fac*/, float /*g_row_spacing*/){}                  
+void plantPart::doCover (float /* canopy_fac*/, float /*g_row_spacing*/){}
 float plantPart::coverDead(void) {return 0;}
 float plantPart::coverGreen(void) {return 0;}
 float plantPart::coverSen(void) {return 0;}
@@ -1811,8 +1817,8 @@ float plantPart::dmVegTotal(void) const {return 0;}
 float plantPart::grainNConcPercent(void) const {return 0;}
 float plantPart::grainNo(void) const {return 0;}
 float plantPart::grainWt(void) const {return 0;}
-float plantPart::interceptRadiationGreen(float /* radiation*/){return 0;}        
-float plantPart::interceptRadiationTotal(float /* radiation*/){return 0;}        
+float plantPart::interceptRadiationGreen(float /* radiation*/){return 0;}
+float plantPart::interceptRadiationTotal(float /* radiation*/){return 0;}
 float plantPart::nConcGrain(void)const{return 0;}
 float plantPart::nDeadVegTotal(void) const{return 0;}
 float plantPart::nDemandGrain(void) const {return 0;}
@@ -1839,7 +1845,7 @@ void plantPart::calcDlt_pod_area (void){}   //FIXME
 void plantPart::doBioActual (void){}
 void plantPart::doDmDemand (float /* dlt_dm_supply_by_veg*/){}
 void plantPart::doDmPotRUE (void){}                         // (OUTPUT) potential dry matter (carbohydrate) production (g/m^2)
-void plantPart::doDmPotTE(void){}                           //(OUTPUT) potential dry matter production by transpiration (g/m^2)
+void plantPart::doDmPotTE(float /*swSupply*/){}                           //(OUTPUT) potential dry matter production by transpiration (g/m^2)
 void plantPart::doGrainNumber (void){}
 void plantPart::doInit1(protocol::Component */* system*/){}
 void plantPart::doNDemandGrain(float /* nfact_grain_conc*/, float /* swdef_expansion*/){}

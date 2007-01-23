@@ -1385,5 +1385,5 @@ void plant_leaf_detachment (float *leaf_area           // OUT
         }
       }
 
-    return;
+    
     }

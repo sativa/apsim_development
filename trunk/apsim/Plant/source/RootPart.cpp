@@ -1051,6 +1051,11 @@ void plantRootPart::CalcWaterSupply ()
 
    }
 
+float plantRootPart::waterUptake (void)
+   {
+   return (- sum_real_array(dlt_sw_dep, max_layer));;
+   }
+
 void plantRootPart::doWaterUptake (float sw_demand)
    {
    cproc_sw_uptake1(max_layer, dlayer, root_depth, sw_demand, sw_supply, dlt_sw_dep);

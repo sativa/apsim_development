@@ -53,7 +53,7 @@ class cohortingLeafPart : public plantLeafPart {
    void doDmPotRUE (void );
    void doTECO2();
    void doSWDemand(float SWDemandMaxFactor);
-   void doDmPotTE(void);
+   void doDmPotTE(float swSupply);
    void doBioActual (void);
 
   private:

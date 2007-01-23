@@ -85,7 +85,6 @@ void fruitGrainPartGN::doGrainNumber (void)
 {
       gGrain_no = grainNumber (plant->getDmGreenStem()
                               , pGrains_per_gram_stem);
-   return;
 }
 
 float fruitGrainPartGN::grainNumber (float stem_dm_green
@@ -254,8 +253,6 @@ void fruitGrainPartGN::doProcessBioDemand(void)
    doGrainNumber();
    oilPart->doBioGrainOil ();
    doDMDemandGrain ();
-
-   return;
 }
 
 float fruitGrainPartGN::grainNo(void) const {return gGrain_no;}
