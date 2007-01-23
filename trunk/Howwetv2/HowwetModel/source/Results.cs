@@ -8,7 +8,6 @@ using CSGeneral;
 
 namespace APSRU.Model.Howwet
     {
-
     //This class encapsluates the data manipulation activities required 
     //for the UI to display summary results and build charts given the simulation output object  
     public class Results
