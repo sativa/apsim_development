@@ -11,6 +11,10 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "HowwetUI", "..\HowwetUI\sou
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Soil", "..\..\Shared\Soil\Soil.csproj", "{6FAC5AE5-F7B4-4C02-B0D4-B992E0F96CAA}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "HowwetUI2", "..\HowwetUI2\source\HowwetUI2.csproj", "{CBF07566-AF9C-4FE2-B48C-63F2DCEFBDF5}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CSUIControls", "..\..\Shared\CSUIControls\CSUIControls.csproj", "{25C8E90E-D464-4F49-B29E-2811F1B266DE}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -37,6 +41,14 @@ Global
 		{6FAC5AE5-F7B4-4C02-B0D4-B992E0F96CAA}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{6FAC5AE5-F7B4-4C02-B0D4-B992E0F96CAA}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{6FAC5AE5-F7B4-4C02-B0D4-B992E0F96CAA}.Release|Any CPU.Build.0 = Release|Any CPU
+		{CBF07566-AF9C-4FE2-B48C-63F2DCEFBDF5}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{CBF07566-AF9C-4FE2-B48C-63F2DCEFBDF5}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{CBF07566-AF9C-4FE2-B48C-63F2DCEFBDF5}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{CBF07566-AF9C-4FE2-B48C-63F2DCEFBDF5}.Release|Any CPU.Build.0 = Release|Any CPU
+		{25C8E90E-D464-4F49-B29E-2811F1B266DE}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{25C8E90E-D464-4F49-B29E-2811F1B266DE}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{25C8E90E-D464-4F49-B29E-2811F1B266DE}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{25C8E90E-D464-4F49-B29E-2811F1B266DE}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
