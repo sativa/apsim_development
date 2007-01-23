@@ -68,7 +68,10 @@ namespace APSRU.Howwet
                     {
                     proposedCropList.Items.Add(crops[i]);
                     }
+                this.proposedCropList.SelectedValueChanged -= new System.EventHandler(this.proposedCropList_SelectedValueChanged);
                 proposedCropList.SelectedIndex = 0;
+                this.proposedCropList.SelectedValueChanged += new System.EventHandler(this.proposedCropList_SelectedValueChanged);
+
                 }
             else
                 {
@@ -76,20 +79,10 @@ namespace APSRU.Howwet
                 }
             }
 
-        //After selecting a proposed corp subtract the corp from the esw to get PAWC 
         private void proposedCropList_SelectedValueChanged(object sender, System.EventArgs e)
             {
-           // String selectedCrop = (String)proposedCropList.SelectedItem;
-          //  if (selectedCrop == "Using LL15")
-          //      {
-          //      cLL = simulationObject.Soil.LL15;
-          //      }
-          //  else
-          //      {
-          //      cLL = simulationObject.Soil.LL(selectedCrop);
-          //      }
-         //   endPAW.Text = result.calcPAWEnd(cLL).ToString("f0");
-         //   calculateNitrogenRequirement();
+            String selectedCrop = (String)proposedCropList.SelectedItem;
+            this.Explorer.UpdateCropToGrow(selectedCrop);
             }
 
         private void erosionOptions_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
@@ -116,7 +109,7 @@ namespace APSRU.Howwet
                 {
                 if (!RainfallEditor.Instance.isLoaded)
                     {
-                    RainfallEditor.Instance.loadObject(this.Explorer.metObject);
+                    RainfallEditor.Instance.loadObject(this.Explorer.metObject,null);
                     }
                 RainfallEditor.Instance.Focus();
                 RainfallEditor.Instance.Show();

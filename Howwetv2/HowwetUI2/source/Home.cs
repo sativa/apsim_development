@@ -50,7 +50,7 @@ namespace APSRU.Howwet
                 {
                 if (!RainfallEditor.Instance.isLoaded)
                     {
-                    RainfallEditor.Instance.loadObject(this.Explorer.metObject);
+                    RainfallEditor.Instance.loadObject(this.Explorer.metObject,null);
                     }
                 RainfallEditor.Instance.Focus();
                 RainfallEditor.Instance.Show();
