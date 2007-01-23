@@ -76,6 +76,10 @@ namespace APSRU.Howwet
         this.RainfallBar = new Steema.TeeChart.Styles.Bar();
         this.RunoffBar = new Steema.TeeChart.Styles.Bar();
         this.colorLine1 = new Steema.TeeChart.Tools.ColorLine();
+        this.tabPage2 = new System.Windows.Forms.TabPage();
+        this.NitrogenCoverChart = new Steema.TeeChart.TChart();
+        this.NitrogenCoverLine = new Steema.TeeChart.Styles.Line();
+        this.CoverNitrogenLine = new Steema.TeeChart.Styles.Line();
         this.chart2 = new System.Windows.Forms.TabPage();
         this.label61 = new System.Windows.Forms.Label();
         this.SoilNitrogenChart = new Steema.TeeChart.TChart();
@@ -197,6 +201,7 @@ namespace APSRU.Howwet
         this.groupBox9.SuspendLayout();
         this.tabControl1.SuspendLayout();
         this.chart1.SuspendLayout();
+        this.tabPage2.SuspendLayout();
         this.chart2.SuspendLayout();
         this.chart3.SuspendLayout();
         this.chart4.SuspendLayout();
@@ -513,6 +518,7 @@ namespace APSRU.Howwet
         this.waterCapacity.Size = new System.Drawing.Size(45, 20);
         this.waterCapacity.TabIndex = 3;
         this.waterCapacity.Leave += new System.EventHandler(this.waterCapacity_Leave);
+        this.waterCapacity.KeyDown += new System.Windows.Forms.KeyEventHandler(this.waterCapacity_KeyDown);
         // 
         // label19
         // 
@@ -614,6 +620,7 @@ namespace APSRU.Howwet
         // tabControl1
         // 
         this.tabControl1.Controls.Add(this.chart1);
+        this.tabControl1.Controls.Add(this.tabPage2);
         this.tabControl1.Controls.Add(this.chart2);
         this.tabControl1.Controls.Add(this.chart3);
         this.tabControl1.Controls.Add(this.chart4);
@@ -624,7 +631,6 @@ namespace APSRU.Howwet
         this.tabControl1.SelectedIndex = 0;
         this.tabControl1.Size = new System.Drawing.Size(996, 420);
         this.tabControl1.TabIndex = 11;
-        this.tabControl1.Click += new System.EventHandler(this.tabControl1_Click);
         // 
         // chart1
         // 
@@ -633,7 +639,7 @@ namespace APSRU.Howwet
         this.chart1.Name = "chart1";
         this.chart1.Size = new System.Drawing.Size(988, 394);
         this.chart1.TabIndex = 0;
-        this.chart1.Text = "Rainfall/Plant Availabe Water";
+        this.chart1.Text = "Rainfall/Plant Available Water";
         this.chart1.UseVisualStyleBackColor = true;
         // 
         // RainfallSWChart
@@ -997,7 +1003,7 @@ namespace APSRU.Howwet
         // 
         // 
         // 
-        this.RainfallSWChart.Panel.Brush.Color = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(255)))), ((int)(((byte)(255)))), ((int)(((byte)(255)))));
+        this.RainfallSWChart.Panel.Brush.Color = System.Drawing.Color.FromArgb(((int)(((byte)(236)))), ((int)(((byte)(233)))), ((int)(((byte)(216)))));
         // 
         // 
         // 
@@ -1239,6 +1245,555 @@ namespace APSRU.Howwet
         this.colorLine1.Pen.Style = System.Drawing.Drawing2D.DashStyle.Dash;
         this.colorLine1.Pen.Width = 2;
         // 
+        // tabPage2
+        // 
+        this.tabPage2.Controls.Add(this.NitrogenCoverChart);
+        this.tabPage2.Location = new System.Drawing.Point(4, 22);
+        this.tabPage2.Name = "tabPage2";
+        this.tabPage2.Size = new System.Drawing.Size(988, 394);
+        this.tabPage2.TabIndex = 6;
+        this.tabPage2.Text = "Soil Nitrogen/Cover";
+        this.tabPage2.UseVisualStyleBackColor = true;
+        // 
+        // NitrogenCoverChart
+        // 
+        // 
+        // 
+        // 
+        this.NitrogenCoverChart.Aspect.ColorPaletteIndex = -1;
+        this.NitrogenCoverChart.Aspect.ElevationFloat = 345;
+        this.NitrogenCoverChart.Aspect.RotationFloat = 345;
+        this.NitrogenCoverChart.Aspect.View3D = false;
+        // 
+        // 
+        // 
+        // 
+        // 
+        // 
+        this.NitrogenCoverChart.Axes.Bottom.AutomaticMaximum = false;
+        this.NitrogenCoverChart.Axes.Bottom.AutomaticMinimum = false;
+        // 
+        // 
+        // 
+        this.NitrogenCoverChart.Axes.Bottom.Grid.Style = System.Drawing.Drawing2D.DashStyle.Dash;
+        this.NitrogenCoverChart.Axes.Bottom.Grid.Visible = false;
+        this.NitrogenCoverChart.Axes.Bottom.Grid.ZPosition = 0;
+        this.NitrogenCoverChart.Axes.Bottom.Increment = 30;
+        // 
+        // 
+        // 
+        // 
+        // 
+        // 
+        // 
+        // 
+        // 
+        this.NitrogenCoverChart.Axes.Bottom.Labels.Font.Shadow.Visible = false;
+        this.NitrogenCoverChart.Axes.Bottom.Labels.OnAxis = false;
+        this.NitrogenCoverChart.Axes.Bottom.Labels.RoundFirstLabel = false;
+        // 
+        // 
+        // 
+        this.NitrogenCoverChart.Axes.Bottom.Labels.Shadow.Visible = false;
+        this.NitrogenCoverChart.Axes.Bottom.Maximum = 24;
+        this.NitrogenCoverChart.Axes.Bottom.Minimum = 0;
+        // 
+        // 
+        // 
+        this.NitrogenCoverChart.Axes.Bottom.Title.Caption = "Date";
+        // 
+        // 
+        // 
+        // 
+        // 
+        // 
+        this.NitrogenCoverChart.Axes.Bottom.Title.Font.Shadow.Visible = false;
+        this.NitrogenCoverChart.Axes.Bottom.Title.Lines = new string[] {
+        "Date"};
+        // 
+        // 
+        // 
+        this.NitrogenCoverChart.Axes.Bottom.Title.Shadow.Visible = false;
+        // 
+        // 
+        // 
+        this.NitrogenCoverChart.Axes.Depth.Automatic = true;
+        // 
+        // 
+        // 
+        this.NitrogenCoverChart.Axes.Depth.Grid.Style = System.Drawing.Drawing2D.DashStyle.Dash;
+        this.NitrogenCoverChart.Axes.Depth.Grid.ZPosition = 0;
+        // 
+        // 
+        // 
+        // 
+        // 
+        // 
+        // 
+        // 
+        // 
+        this.NitrogenCoverChart.Axes.Depth.Labels.Font.Shadow.Visible = false;
+        // 
+        // 
+        // 
+        this.NitrogenCoverChart.Axes.Depth.Labels.Shadow.Visible = false;
+        // 
+        // 
+        // 
+        // 
+        // 
+        // 
+        // 
+        // 
+        // 
+        this.NitrogenCoverChart.Axes.Depth.Title.Font.Shadow.Visible = false;
+        // 
+        // 
+        // 
+        this.NitrogenCoverChart.Axes.Depth.Title.Shadow.Visible = false;
+        // 
+        // 
+        // 
+        this.NitrogenCoverChart.Axes.DepthTop.Automatic = true;
+        // 
+        // 
+        // 
+        this.NitrogenCoverChart.Axes.DepthTop.Grid.Style = System.Drawing.Drawing2D.DashStyle.Dash;
+        this.NitrogenCoverChart.Axes.DepthTop.Grid.ZPosition = 0;
+        // 
+        // 
+        // 
+        // 
+        // 
+        // 
+        // 
+        // 
+        // 
+        this.NitrogenCoverChart.Axes.DepthTop.Labels.Font.Shadow.Visible = false;
+        // 
+        // 
+        // 
+        this.NitrogenCoverChart.Axes.DepthTop.Labels.Shadow.Visible = false;
+        // 
+        // 
+        // 
+        // 
+        // 
+        // 
+        // 
+        // 
+        // 
+        this.NitrogenCoverChart.Axes.DepthTop.Title.Font.Shadow.Visible = false;
+        // 
+        // 
+        // 
+        this.NitrogenCoverChart.Axes.DepthTop.Title.Shadow.Visible = false;
+        // 
+        // 
+        // 
+        this.NitrogenCoverChart.Axes.Left.AutomaticMaximum = false;
+        this.NitrogenCoverChart.Axes.Left.AutomaticMinimum = false;
+        // 
+        // 
+        // 
+        this.NitrogenCoverChart.Axes.Left.Grid.Style = System.Drawing.Drawing2D.DashStyle.Dash;
+        this.NitrogenCoverChart.Axes.Left.Grid.Visible = false;
+        this.NitrogenCoverChart.Axes.Left.Grid.ZPosition = 0;
+        // 
+        // 
+        // 
+        // 
+        // 
+        // 
+        // 
+        // 
+        // 
+        this.NitrogenCoverChart.Axes.Left.Labels.Font.Shadow.Visible = false;
+        // 
+        // 
+        // 
+        this.NitrogenCoverChart.Axes.Left.Labels.Shadow.Visible = false;
+        this.NitrogenCoverChart.Axes.Left.Maximum = 803;
+        this.NitrogenCoverChart.Axes.Left.Minimum = 628;
+        // 
+        // 
+        // 
+        this.NitrogenCoverChart.Axes.Left.Ticks.Visible = false;
+        // 
+        // 
+        // 
+        this.NitrogenCoverChart.Axes.Left.TicksInner.Visible = false;
+        // 
+        // 
+        // 
+        this.NitrogenCoverChart.Axes.Left.Title.Caption = "Nitrogen (kg/ha)";
+        // 
+        // 
+        // 
+        // 
+        // 
+        // 
+        this.NitrogenCoverChart.Axes.Left.Title.Font.Shadow.Visible = false;
+        this.NitrogenCoverChart.Axes.Left.Title.Lines = new string[] {
+        "Nitrogen (kg/ha)"};
+        // 
+        // 
+        // 
+        this.NitrogenCoverChart.Axes.Left.Title.Shadow.Visible = false;
+        // 
+        // 
+        // 
+        this.NitrogenCoverChart.Axes.Right.AutomaticMaximum = false;
+        this.NitrogenCoverChart.Axes.Right.AutomaticMinimum = false;
+        // 
+        // 
+        // 
+        this.NitrogenCoverChart.Axes.Right.Grid.Style = System.Drawing.Drawing2D.DashStyle.Dash;
+        this.NitrogenCoverChart.Axes.Right.Grid.Visible = false;
+        this.NitrogenCoverChart.Axes.Right.Grid.ZPosition = 0;
+        // 
+        // 
+        // 
+        // 
+        // 
+        // 
+        // 
+        // 
+        // 
+        this.NitrogenCoverChart.Axes.Right.Labels.Font.Shadow.Visible = false;
+        // 
+        // 
+        // 
+        this.NitrogenCoverChart.Axes.Right.Labels.Shadow.Visible = false;
+        this.NitrogenCoverChart.Axes.Right.Maximum = 839;
+        this.NitrogenCoverChart.Axes.Right.Minimum = 706;
+        // 
+        // 
+        // 
+        this.NitrogenCoverChart.Axes.Right.Ticks.Visible = false;
+        // 
+        // 
+        // 
+        this.NitrogenCoverChart.Axes.Right.TicksInner.Visible = false;
+        // 
+        // 
+        // 
+        this.NitrogenCoverChart.Axes.Right.Title.Caption = "Cover (kg/ha)";
+        // 
+        // 
+        // 
+        // 
+        // 
+        // 
+        this.NitrogenCoverChart.Axes.Right.Title.Font.Shadow.Visible = false;
+        this.NitrogenCoverChart.Axes.Right.Title.Lines = new string[] {
+        "Cover (kg/ha)"};
+        // 
+        // 
+        // 
+        this.NitrogenCoverChart.Axes.Right.Title.Shadow.Visible = false;
+        // 
+        // 
+        // 
+        this.NitrogenCoverChart.Axes.Top.Automatic = true;
+        // 
+        // 
+        // 
+        this.NitrogenCoverChart.Axes.Top.Grid.Style = System.Drawing.Drawing2D.DashStyle.Dash;
+        this.NitrogenCoverChart.Axes.Top.Grid.ZPosition = 0;
+        // 
+        // 
+        // 
+        // 
+        // 
+        // 
+        // 
+        // 
+        // 
+        this.NitrogenCoverChart.Axes.Top.Labels.Font.Shadow.Visible = false;
+        // 
+        // 
+        // 
+        this.NitrogenCoverChart.Axes.Top.Labels.Shadow.Visible = false;
+        // 
+        // 
+        // 
+        // 
+        // 
+        // 
+        // 
+        // 
+        // 
+        this.NitrogenCoverChart.Axes.Top.Title.Font.Shadow.Visible = false;
+        // 
+        // 
+        // 
+        this.NitrogenCoverChart.Axes.Top.Title.Shadow.Visible = false;
+        this.NitrogenCoverChart.BackColor = System.Drawing.Color.Transparent;
+        this.NitrogenCoverChart.Cursor = System.Windows.Forms.Cursors.Default;
+        // 
+        // 
+        // 
+        // 
+        // 
+        // 
+        // 
+        // 
+        // 
+        this.NitrogenCoverChart.Footer.Font.Shadow.Visible = false;
+        // 
+        // 
+        // 
+        this.NitrogenCoverChart.Footer.Shadow.Visible = false;
+        // 
+        // 
+        // 
+        // 
+        // 
+        // 
+        // 
+        // 
+        // 
+        this.NitrogenCoverChart.Header.Font.Shadow.Visible = false;
+        this.NitrogenCoverChart.Header.Lines = new string[] {
+        ""};
+        // 
+        // 
+        // 
+        this.NitrogenCoverChart.Header.Shadow.Visible = false;
+        // 
+        // 
+        // 
+        this.NitrogenCoverChart.Legend.Alignment = Steema.TeeChart.LegendAlignments.Top;
+        this.NitrogenCoverChart.Legend.Bottom = 26;
+        this.NitrogenCoverChart.Legend.CheckBoxes = true;
+        this.NitrogenCoverChart.Legend.CustomPosition = true;
+        // 
+        // 
+        // 
+        // 
+        // 
+        // 
+        this.NitrogenCoverChart.Legend.Font.Shadow.Visible = false;
+        this.NitrogenCoverChart.Legend.Left = 432;
+        this.NitrogenCoverChart.Legend.Right = 608;
+        // 
+        // 
+        // 
+        // 
+        // 
+        // 
+        this.NitrogenCoverChart.Legend.Title.Font.Bold = true;
+        // 
+        // 
+        // 
+        this.NitrogenCoverChart.Legend.Title.Font.Shadow.Visible = false;
+        // 
+        // 
+        // 
+        this.NitrogenCoverChart.Legend.Title.Pen.Visible = false;
+        // 
+        // 
+        // 
+        this.NitrogenCoverChart.Legend.Title.Shadow.Visible = false;
+        this.NitrogenCoverChart.Legend.Top = 7;
+        this.NitrogenCoverChart.Location = new System.Drawing.Point(3, 3);
+        this.NitrogenCoverChart.Name = "NitrogenCoverChart";
+        // 
+        // 
+        // 
+        // 
+        // 
+        // 
+        this.NitrogenCoverChart.Panel.Brush.Color = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(255)))), ((int)(((byte)(255)))));
+        // 
+        // 
+        // 
+        this.NitrogenCoverChart.Panel.ImageBevel.Width = 1;
+        this.NitrogenCoverChart.Panel.MarginBottom = 0;
+        this.NitrogenCoverChart.Panel.MarginLeft = 1;
+        this.NitrogenCoverChart.Panel.MarginRight = 1;
+        this.NitrogenCoverChart.Panel.MarginTop = 0;
+        // 
+        // 
+        // 
+        this.NitrogenCoverChart.Panel.Shadow.Visible = false;
+        this.NitrogenCoverChart.Series.Add(this.NitrogenCoverLine);
+        this.NitrogenCoverChart.Series.Add(this.CoverNitrogenLine);
+        this.NitrogenCoverChart.Size = new System.Drawing.Size(982, 388);
+        // 
+        // 
+        // 
+        // 
+        // 
+        // 
+        // 
+        // 
+        // 
+        this.NitrogenCoverChart.SubFooter.Font.Shadow.Visible = false;
+        // 
+        // 
+        // 
+        this.NitrogenCoverChart.SubFooter.Shadow.Visible = false;
+        // 
+        // 
+        // 
+        // 
+        // 
+        // 
+        // 
+        // 
+        // 
+        this.NitrogenCoverChart.SubHeader.Font.Shadow.Visible = false;
+        // 
+        // 
+        // 
+        this.NitrogenCoverChart.SubHeader.Shadow.Visible = false;
+        this.NitrogenCoverChart.TabIndex = 0;
+        // 
+        // 
+        // 
+        // 
+        // 
+        // 
+        this.NitrogenCoverChart.Walls.Back.AutoHide = false;
+        // 
+        // 
+        // 
+        this.NitrogenCoverChart.Walls.Back.Shadow.Visible = false;
+        // 
+        // 
+        // 
+        this.NitrogenCoverChart.Walls.Bottom.AutoHide = false;
+        // 
+        // 
+        // 
+        this.NitrogenCoverChart.Walls.Bottom.Shadow.Visible = false;
+        // 
+        // 
+        // 
+        this.NitrogenCoverChart.Walls.Left.AutoHide = false;
+        // 
+        // 
+        // 
+        this.NitrogenCoverChart.Walls.Left.Shadow.Visible = false;
+        // 
+        // 
+        // 
+        this.NitrogenCoverChart.Walls.Right.AutoHide = false;
+        // 
+        // 
+        // 
+        this.NitrogenCoverChart.Walls.Right.Shadow.Visible = false;
+        this.NitrogenCoverChart.Walls.Visible = false;
+        // 
+        // NitrogenCoverLine
+        // 
+        // 
+        // 
+        // 
+        this.NitrogenCoverLine.Brush.Color = System.Drawing.Color.Red;
+        // 
+        // 
+        // 
+        this.NitrogenCoverLine.LinePen.Color = System.Drawing.Color.FromArgb(((int)(((byte)(153)))), ((int)(((byte)(0)))), ((int)(((byte)(0)))));
+        // 
+        // 
+        // 
+        // 
+        // 
+        // 
+        this.NitrogenCoverLine.Marks.Callout.ArrowHead = Steema.TeeChart.Styles.ArrowHeadStyles.None;
+        this.NitrogenCoverLine.Marks.Callout.ArrowHeadSize = 8;
+        // 
+        // 
+        // 
+        this.NitrogenCoverLine.Marks.Callout.Brush.Color = System.Drawing.Color.Black;
+        this.NitrogenCoverLine.Marks.Callout.Distance = 0;
+        this.NitrogenCoverLine.Marks.Callout.Draw3D = false;
+        this.NitrogenCoverLine.Marks.Callout.Length = 10;
+        this.NitrogenCoverLine.Marks.Callout.Style = Steema.TeeChart.Styles.PointerStyles.Rectangle;
+        // 
+        // 
+        // 
+        // 
+        // 
+        // 
+        this.NitrogenCoverLine.Marks.Font.Shadow.Visible = false;
+        // 
+        // 
+        // 
+        // 
+        // 
+        // 
+        this.NitrogenCoverLine.Pointer.Brush.Color = System.Drawing.Color.Red;
+        this.NitrogenCoverLine.Pointer.Style = Steema.TeeChart.Styles.PointerStyles.Rectangle;
+        this.NitrogenCoverLine.Title = "Nitrogen";
+        // 
+        // 
+        // 
+        this.NitrogenCoverLine.XValues.DataMember = "X";
+        this.NitrogenCoverLine.XValues.DateTime = true;
+        this.NitrogenCoverLine.XValues.Order = Steema.TeeChart.Styles.ValueListOrder.Ascending;
+        // 
+        // 
+        // 
+        this.NitrogenCoverLine.YValues.DataMember = "Y";
+        // 
+        // CoverNitrogenLine
+        // 
+        // 
+        // 
+        // 
+        this.CoverNitrogenLine.Brush.Color = System.Drawing.Color.Green;
+        // 
+        // 
+        // 
+        this.CoverNitrogenLine.LinePen.Color = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(77)))), ((int)(((byte)(0)))));
+        // 
+        // 
+        // 
+        // 
+        // 
+        // 
+        this.CoverNitrogenLine.Marks.Callout.ArrowHead = Steema.TeeChart.Styles.ArrowHeadStyles.None;
+        this.CoverNitrogenLine.Marks.Callout.ArrowHeadSize = 8;
+        // 
+        // 
+        // 
+        this.CoverNitrogenLine.Marks.Callout.Brush.Color = System.Drawing.Color.Black;
+        this.CoverNitrogenLine.Marks.Callout.Distance = 0;
+        this.CoverNitrogenLine.Marks.Callout.Draw3D = false;
+        this.CoverNitrogenLine.Marks.Callout.Length = 10;
+        this.CoverNitrogenLine.Marks.Callout.Style = Steema.TeeChart.Styles.PointerStyles.Rectangle;
+        // 
+        // 
+        // 
+        // 
+        // 
+        // 
+        this.CoverNitrogenLine.Marks.Font.Shadow.Visible = false;
+        // 
+        // 
+        // 
+        // 
+        // 
+        // 
+        this.CoverNitrogenLine.Pointer.Brush.Color = System.Drawing.Color.Green;
+        this.CoverNitrogenLine.Pointer.Style = Steema.TeeChart.Styles.PointerStyles.Rectangle;
+        this.CoverNitrogenLine.Title = "Cover";
+        this.CoverNitrogenLine.VertAxis = Steema.TeeChart.Styles.VerticalAxis.Right;
+        // 
+        // 
+        // 
+        this.CoverNitrogenLine.XValues.DataMember = "X";
+        this.CoverNitrogenLine.XValues.DateTime = true;
+        this.CoverNitrogenLine.XValues.Order = Steema.TeeChart.Styles.ValueListOrder.Ascending;
+        // 
+        // 
+        // 
+        this.CoverNitrogenLine.YValues.DataMember = "Y";
+        // 
         // chart2
         // 
         this.chart2.Controls.Add(this.label61);
@@ -1247,7 +1802,7 @@ namespace APSRU.Howwet
         this.chart2.Name = "chart2";
         this.chart2.Size = new System.Drawing.Size(988, 394);
         this.chart2.TabIndex = 1;
-        this.chart2.Text = "Soil Nitrogen";
+        this.chart2.Text = "Soil Nitrogen/Temp";
         this.chart2.UseVisualStyleBackColor = true;
         // 
         // label61
@@ -4322,7 +4877,7 @@ namespace APSRU.Howwet
             this.toolStripSeparator5});
         this.toolStrip1.Location = new System.Drawing.Point(3, 0);
         this.toolStrip1.Name = "toolStrip1";
-        this.toolStrip1.Size = new System.Drawing.Size(1013, 36);
+        this.toolStrip1.Size = new System.Drawing.Size(990, 36);
         this.toolStrip1.TabIndex = 40;
         this.toolStrip1.Text = "toolStrip1";
         // 
@@ -4555,8 +5110,8 @@ namespace APSRU.Howwet
         // StatusLabel2
         // 
         this.StatusLabel2.Name = "StatusLabel2";
-        this.StatusLabel2.Size = new System.Drawing.Size(69, 17);
-        this.StatusLabel2.Text = "StatusLabel2";
+        this.StatusLabel2.Size = new System.Drawing.Size(38, 17);
+        this.StatusLabel2.Text = "Status";
         // 
         // timerProgresBar
         // 
@@ -4600,6 +5155,7 @@ namespace APSRU.Howwet
         this.groupBox9.ResumeLayout(false);
         this.tabControl1.ResumeLayout(false);
         this.chart1.ResumeLayout(false);
+        this.tabPage2.ResumeLayout(false);
         this.chart2.ResumeLayout(false);
         this.chart2.PerformLayout();
         this.chart3.ResumeLayout(false);
@@ -4796,6 +5352,10 @@ namespace APSRU.Howwet
         private System.Windows.Forms.Label label16;
         private System.Windows.Forms.Label label36;
         private System.Windows.Forms.ComboBox regionList;
+        private System.Windows.Forms.TabPage tabPage2;
+        private Steema.TeeChart.TChart NitrogenCoverChart;
+        private Steema.TeeChart.Styles.Line NitrogenCoverLine;
+        private Steema.TeeChart.Styles.Line CoverNitrogenLine;
         
 
     }
