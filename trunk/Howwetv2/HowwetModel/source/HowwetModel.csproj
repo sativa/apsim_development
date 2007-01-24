@@ -34,9 +34,13 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Configuration.cs" />
+    <Compile Include="CoverCrop.cs" />
+    <Compile Include="CropNDemand.cs" />
     <Compile Include="CustomError.cs" />
     <Compile Include="CustomException.cs" />
     <Compile Include="MetData.cs" />
+    <Compile Include="NitrogenRequirement.cs" />
     <Compile Include="Properties\Settings.Designer.cs">
       <AutoGen>True</AutoGen>
       <DesignTimeSharedInput>True</DesignTimeSharedInput>
@@ -47,7 +51,7 @@
     <Compile Include="SimulationOut.cs" />
     <Compile Include="SimulationIn.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="HowwetUtility.cs" />
+    <Compile Include="Utility.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\..\..\..\..\..\..\Development\Shared\C#General\CSGeneral.csproj">

@@ -1,28 +1,42 @@
 using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Text;
+using System.Data;
+using CSGeneral;
 
 namespace APSRU.Model.Howwet
     {
     public class NitrogenRequirement
         {
-        public NitrogenRequirement()
+        private double nitrogenRequirementPAW, nitrogenRequirementYield, nitrogenRequirementDemand, nitrogenRequirementGap;
+        private double nitrateEnd;
+        private double[] soilWaterEndByLayer;
+        private double[] thickness;
+        private CropNDemand crop;
+
+        public NitrogenRequirement(SimulationIn dataIn, SimulationOut dataOut, CropNDemand crop)
             {
+            this.crop = crop;
+            DataRow lastRow = (DataRow)dataOut.Data.Rows[dataOut.Data.Rows.Count - 1];
+            nitrateEnd = Convert.ToDouble(lastRow["NO3Total"]);
+            soilWaterEndByLayer = (double[])lastRow["SoilWaterLayers"];
+            thickness = dataIn.Soil.Thickness;
             }
 
         public double calcNitrogenGap()
             {
             nitrogenRequirementGap = 0;
-            nitrogenRequirementGap = this.nitrogenRequirementDemand - this.nitrateEnd;
+            nitrogenRequirementGap = nitrogenRequirementDemand - nitrateEnd;
             return nitrogenRequirementGap;
             }
 
         public double calcNitrogenDemand()
             {
             nitrogenRequirementDemand = 0;
-            double grainProtein = 11.5;
-            double efficiencyOfNUptake = 1.7;
-            double fractionOfNinProtein = (10 / 5.7);
+            double grainProtein = crop.Protein_target;
+            double efficiencyOfNUptake = crop.N_uptake_efficiency;
+            double fractionOfNinProtein = (10 / crop.Fraction_of_n_in_protein);
             nitrogenRequirementDemand = Math.Round((nitrogenRequirementYield * grainProtein * fractionOfNinProtein) * efficiencyOfNUptake);
             return nitrogenRequirementDemand;
             }

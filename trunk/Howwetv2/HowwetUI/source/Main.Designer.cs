@@ -194,6 +194,8 @@ namespace APSRU.Howwet
         this.timerProgresBar = new System.Windows.Forms.Timer(this.components);
         this.TrainingModeCheckBox = new System.Windows.Forms.CheckBox();
         this.helpProvider1 = new System.Windows.Forms.HelpProvider();
+        this.PAWCFull = new Steema.TeeChart.Styles.Line();
+        this.PAWCHalfFull = new Steema.TeeChart.Styles.Line();
         this.groupBox1.SuspendLayout();
         ((System.ComponentModel.ISupportInitialize)(this.endCoverPercent)).BeginInit();
         ((System.ComponentModel.ISupportInitialize)(this.startCoverPercent)).BeginInit();
@@ -221,6 +223,7 @@ namespace APSRU.Howwet
         this.groupBox1.BackColor = System.Drawing.SystemColors.Control;
         this.groupBox1.Controls.Add(this.label36);
         this.groupBox1.Controls.Add(this.regionList);
+        this.groupBox1.Controls.Add(this.version);
         this.groupBox1.Controls.Add(this.label34);
         this.groupBox1.Controls.Add(this.label22);
         this.groupBox1.Controls.Add(this.endCoverPercent);
@@ -258,7 +261,7 @@ namespace APSRU.Howwet
         this.groupBox1.Controls.Add(this.label17);
         this.groupBox1.Location = new System.Drawing.Point(3, 40);
         this.groupBox1.Name = "groupBox1";
-        this.groupBox1.Size = new System.Drawing.Size(413, 220);
+        this.groupBox1.Size = new System.Drawing.Size(427, 245);
         this.groupBox1.TabIndex = 28;
         this.groupBox1.TabStop = false;
         this.groupBox1.Text = "Input parameters";
@@ -266,7 +269,7 @@ namespace APSRU.Howwet
         // label36
         // 
         this.label36.AutoSize = true;
-        this.label36.Location = new System.Drawing.Point(275, 101);
+        this.label36.Location = new System.Drawing.Point(58, 26);
         this.label36.Name = "label36";
         this.label36.Size = new System.Drawing.Size(44, 13);
         this.label36.TabIndex = 60;
@@ -275,7 +278,7 @@ namespace APSRU.Howwet
         // regionList
         // 
         this.regionList.FormattingEnabled = true;
-        this.regionList.Location = new System.Drawing.Point(322, 98);
+        this.regionList.Location = new System.Drawing.Point(108, 23);
         this.regionList.Name = "regionList";
         this.regionList.Size = new System.Drawing.Size(85, 21);
         this.regionList.TabIndex = 59;
@@ -284,7 +287,7 @@ namespace APSRU.Howwet
         // label34
         // 
         this.label34.AutoSize = true;
-        this.label34.Location = new System.Drawing.Point(266, 178);
+        this.label34.Location = new System.Drawing.Point(378, 200);
         this.label34.Name = "label34";
         this.label34.Size = new System.Drawing.Size(15, 13);
         this.label34.TabIndex = 58;
@@ -293,7 +296,7 @@ namespace APSRU.Howwet
         // label22
         // 
         this.label22.AutoSize = true;
-        this.label22.Location = new System.Drawing.Point(220, 160);
+        this.label22.Location = new System.Drawing.Point(327, 177);
         this.label22.Name = "label22";
         this.label22.Size = new System.Drawing.Size(29, 13);
         this.label22.TabIndex = 57;
@@ -301,7 +304,7 @@ namespace APSRU.Howwet
         // 
         // endCoverPercent
         // 
-        this.endCoverPercent.Location = new System.Drawing.Point(223, 174);
+        this.endCoverPercent.Location = new System.Drawing.Point(330, 193);
         this.endCoverPercent.Name = "endCoverPercent";
         this.endCoverPercent.Size = new System.Drawing.Size(42, 20);
         this.endCoverPercent.TabIndex = 56;
@@ -310,7 +313,7 @@ namespace APSRU.Howwet
         // label23
         // 
         this.label23.AutoSize = true;
-        this.label23.Location = new System.Drawing.Point(45, 38);
+        this.label23.Location = new System.Drawing.Point(32, 82);
         this.label23.Name = "label23";
         this.label23.Size = new System.Drawing.Size(70, 13);
         this.label23.TabIndex = 42;
@@ -319,7 +322,7 @@ namespace APSRU.Howwet
         // erosionButton
         // 
         this.erosionButton.Image = global::Howwet.Properties.Resources.chart;
-        this.erosionButton.Location = new System.Drawing.Point(305, 58);
+        this.erosionButton.Location = new System.Drawing.Point(399, 105);
         this.erosionButton.Name = "erosionButton";
         this.erosionButton.Size = new System.Drawing.Size(14, 16);
         this.erosionButton.TabIndex = 54;
@@ -329,7 +332,7 @@ namespace APSRU.Howwet
         // proposedCropList
         // 
         this.proposedCropList.FormattingEnabled = true;
-        this.proposedCropList.Location = new System.Drawing.Point(121, 35);
+        this.proposedCropList.Location = new System.Drawing.Point(108, 76);
         this.proposedCropList.Name = "proposedCropList";
         this.proposedCropList.Size = new System.Drawing.Size(83, 21);
         this.proposedCropList.TabIndex = 41;
@@ -338,7 +341,7 @@ namespace APSRU.Howwet
         // label3
         // 
         this.label3.AutoSize = true;
-        this.label3.Location = new System.Drawing.Point(215, 62);
+        this.label3.Location = new System.Drawing.Point(296, 107);
         this.label3.Name = "label3";
         this.label3.Size = new System.Drawing.Size(84, 13);
         this.label3.TabIndex = 53;
@@ -347,7 +350,7 @@ namespace APSRU.Howwet
         // label5
         // 
         this.label5.AutoSize = true;
-        this.label5.Location = new System.Drawing.Point(118, 160);
+        this.label5.Location = new System.Drawing.Point(242, 176);
         this.label5.Name = "label5";
         this.label5.Size = new System.Drawing.Size(32, 13);
         this.label5.TabIndex = 22;
@@ -356,7 +359,7 @@ namespace APSRU.Howwet
         // StartDatePicker
         // 
         this.StartDatePicker.Format = System.Windows.Forms.DateTimePickerFormat.Short;
-        this.StartDatePicker.Location = new System.Drawing.Point(121, 195);
+        this.StartDatePicker.Location = new System.Drawing.Point(245, 219);
         this.StartDatePicker.Name = "StartDatePicker";
         this.StartDatePicker.Size = new System.Drawing.Size(83, 20);
         this.StartDatePicker.TabIndex = 9;
@@ -365,7 +368,7 @@ namespace APSRU.Howwet
         // EndDatePicker
         // 
         this.EndDatePicker.Format = System.Windows.Forms.DateTimePickerFormat.Short;
-        this.EndDatePicker.Location = new System.Drawing.Point(223, 195);
+        this.EndDatePicker.Location = new System.Drawing.Point(330, 219);
         this.EndDatePicker.Name = "EndDatePicker";
         this.EndDatePicker.Size = new System.Drawing.Size(83, 20);
         this.EndDatePicker.TabIndex = 10;
@@ -374,7 +377,7 @@ namespace APSRU.Howwet
         // label4
         // 
         this.label4.AutoSize = true;
-        this.label4.Location = new System.Drawing.Point(82, 201);
+        this.label4.Location = new System.Drawing.Point(215, 223);
         this.label4.Name = "label4";
         this.label4.Size = new System.Drawing.Size(33, 13);
         this.label4.TabIndex = 21;
@@ -383,7 +386,7 @@ namespace APSRU.Howwet
         // label12
         // 
         this.label12.AutoSize = true;
-        this.label12.Location = new System.Drawing.Point(50, 129);
+        this.label12.Location = new System.Drawing.Point(39, 196);
         this.label12.Name = "label12";
         this.label12.Size = new System.Drawing.Size(65, 13);
         this.label12.TabIndex = 0;
@@ -392,7 +395,7 @@ namespace APSRU.Howwet
         // coverCropList
         // 
         this.coverCropList.FormattingEnabled = true;
-        this.coverCropList.Location = new System.Drawing.Point(121, 126);
+        this.coverCropList.Location = new System.Drawing.Point(107, 193);
         this.coverCropList.Name = "coverCropList";
         this.coverCropList.Size = new System.Drawing.Size(92, 21);
         this.coverCropList.TabIndex = 8;
@@ -401,7 +404,7 @@ namespace APSRU.Howwet
         // label9
         // 
         this.label9.AutoSize = true;
-        this.label9.Location = new System.Drawing.Point(24, 83);
+        this.label9.Location = new System.Drawing.Point(9, 133);
         this.label9.Name = "label9";
         this.label9.Size = new System.Drawing.Size(93, 13);
         this.label9.TabIndex = 1;
@@ -410,7 +413,7 @@ namespace APSRU.Howwet
         // label14
         // 
         this.label14.AutoSize = true;
-        this.label14.Location = new System.Drawing.Point(172, 178);
+        this.label14.Location = new System.Drawing.Point(296, 200);
         this.label14.Name = "label14";
         this.label14.Size = new System.Drawing.Size(15, 13);
         this.label14.TabIndex = 29;
@@ -418,7 +421,7 @@ namespace APSRU.Howwet
         // 
         // startCoverPercent
         // 
-        this.startCoverPercent.Location = new System.Drawing.Point(121, 174);
+        this.startCoverPercent.Location = new System.Drawing.Point(245, 193);
         this.startCoverPercent.Name = "startCoverPercent";
         this.startCoverPercent.Size = new System.Drawing.Size(45, 20);
         this.startCoverPercent.TabIndex = 7;
@@ -427,7 +430,7 @@ namespace APSRU.Howwet
         // label13
         // 
         this.label13.AutoSize = true;
-        this.label13.Location = new System.Drawing.Point(168, 83);
+        this.label13.Location = new System.Drawing.Point(155, 133);
         this.label13.Name = "label13";
         this.label13.Size = new System.Drawing.Size(36, 13);
         this.label13.TabIndex = 3;
@@ -436,16 +439,16 @@ namespace APSRU.Howwet
         // label1
         // 
         this.label1.AutoSize = true;
-        this.label1.Location = new System.Drawing.Point(38, 178);
+        this.label1.Location = new System.Drawing.Point(202, 196);
         this.label1.Name = "label1";
-        this.label1.Size = new System.Drawing.Size(77, 13);
+        this.label1.Size = new System.Drawing.Size(46, 13);
         this.label1.TabIndex = 30;
-        this.label1.Text = "Cover Amount:";
+        this.label1.Text = "Amount:";
         // 
         // label29
         // 
         this.label29.AutoSize = true;
-        this.label29.Location = new System.Drawing.Point(53, 106);
+        this.label29.Location = new System.Drawing.Point(42, 159);
         this.label29.Name = "label29";
         this.label29.Size = new System.Drawing.Size(62, 13);
         this.label29.TabIndex = 36;
@@ -453,7 +456,7 @@ namespace APSRU.Howwet
         // 
         // initialSoilWaterPercent
         // 
-        this.initialSoilWaterPercent.Location = new System.Drawing.Point(121, 103);
+        this.initialSoilWaterPercent.Location = new System.Drawing.Point(107, 156);
         this.initialSoilWaterPercent.Name = "initialSoilWaterPercent";
         this.initialSoilWaterPercent.Size = new System.Drawing.Size(45, 20);
         this.initialSoilWaterPercent.TabIndex = 5;
@@ -461,7 +464,7 @@ namespace APSRU.Howwet
         // 
         // initialSoilNitrogen
         // 
-        this.initialSoilNitrogen.Location = new System.Drawing.Point(121, 80);
+        this.initialSoilNitrogen.Location = new System.Drawing.Point(107, 130);
         this.initialSoilNitrogen.Name = "initialSoilNitrogen";
         this.initialSoilNitrogen.Size = new System.Drawing.Size(45, 20);
         this.initialSoilNitrogen.TabIndex = 4;
@@ -470,7 +473,7 @@ namespace APSRU.Howwet
         // label30
         // 
         this.label30.AutoSize = true;
-        this.label30.Location = new System.Drawing.Point(172, 110);
+        this.label30.Location = new System.Drawing.Point(155, 158);
         this.label30.Name = "label30";
         this.label30.Size = new System.Drawing.Size(15, 13);
         this.label30.TabIndex = 39;
@@ -479,7 +482,7 @@ namespace APSRU.Howwet
         // label26
         // 
         this.label26.AutoSize = true;
-        this.label26.Location = new System.Drawing.Point(189, 110);
+        this.label26.Location = new System.Drawing.Point(171, 158);
         this.label26.Name = "label26";
         this.label26.Size = new System.Drawing.Size(16, 13);
         this.label26.TabIndex = 44;
@@ -487,7 +490,7 @@ namespace APSRU.Howwet
         // 
         // initialWaterCapacity
         // 
-        this.initialWaterCapacity.Location = new System.Drawing.Point(211, 103);
+        this.initialWaterCapacity.Location = new System.Drawing.Point(187, 156);
         this.initialWaterCapacity.Name = "initialWaterCapacity";
         this.initialWaterCapacity.Size = new System.Drawing.Size(38, 20);
         this.initialWaterCapacity.TabIndex = 6;
@@ -496,7 +499,7 @@ namespace APSRU.Howwet
         // label31
         // 
         this.label31.AutoSize = true;
-        this.label31.Location = new System.Drawing.Point(255, 110);
+        this.label31.Location = new System.Drawing.Point(231, 159);
         this.label31.Name = "label31";
         this.label31.Size = new System.Drawing.Size(23, 13);
         this.label31.TabIndex = 40;
@@ -505,7 +508,7 @@ namespace APSRU.Howwet
         // label21
         // 
         this.label21.AutoSize = true;
-        this.label21.Location = new System.Drawing.Point(168, 62);
+        this.label21.Location = new System.Drawing.Point(155, 107);
         this.label21.Name = "label21";
         this.label21.Size = new System.Drawing.Size(23, 13);
         this.label21.TabIndex = 33;
@@ -513,7 +516,7 @@ namespace APSRU.Howwet
         // 
         // waterCapacity
         // 
-        this.waterCapacity.Location = new System.Drawing.Point(121, 58);
+        this.waterCapacity.Location = new System.Drawing.Point(107, 104);
         this.waterCapacity.Name = "waterCapacity";
         this.waterCapacity.Size = new System.Drawing.Size(45, 20);
         this.waterCapacity.TabIndex = 3;
@@ -523,7 +526,7 @@ namespace APSRU.Howwet
         // label19
         // 
         this.label19.AutoSize = true;
-        this.label19.Location = new System.Drawing.Point(73, 61);
+        this.label19.Location = new System.Drawing.Point(60, 107);
         this.label19.Name = "label19";
         this.label19.Size = new System.Drawing.Size(42, 13);
         this.label19.TabIndex = 7;
@@ -532,7 +535,7 @@ namespace APSRU.Howwet
         // label20
         // 
         this.label20.AutoSize = true;
-        this.label20.Location = new System.Drawing.Point(296, 17);
+        this.label20.Location = new System.Drawing.Point(296, 53);
         this.label20.Name = "label20";
         this.label20.Size = new System.Drawing.Size(23, 13);
         this.label20.TabIndex = 32;
@@ -540,7 +543,7 @@ namespace APSRU.Howwet
         // 
         // soilDepth
         // 
-        this.soilDepth.Location = new System.Drawing.Point(245, 12);
+        this.soilDepth.Location = new System.Drawing.Point(245, 50);
         this.soilDepth.Name = "soilDepth";
         this.soilDepth.Size = new System.Drawing.Size(45, 20);
         this.soilDepth.TabIndex = 2;
@@ -550,7 +553,7 @@ namespace APSRU.Howwet
         // soilDepthLabel
         // 
         this.soilDepthLabel.AutoSize = true;
-        this.soilDepthLabel.Location = new System.Drawing.Point(189, 16);
+        this.soilDepthLabel.Location = new System.Drawing.Point(184, 53);
         this.soilDepthLabel.Name = "soilDepthLabel";
         this.soilDepthLabel.Size = new System.Drawing.Size(57, 13);
         this.soilDepthLabel.TabIndex = 5;
@@ -559,7 +562,7 @@ namespace APSRU.Howwet
         // label18
         // 
         this.label18.AutoSize = true;
-        this.label18.Location = new System.Drawing.Point(168, 16);
+        this.label18.Location = new System.Drawing.Point(159, 53);
         this.label18.Name = "label18";
         this.label18.Size = new System.Drawing.Size(15, 13);
         this.label18.TabIndex = 4;
@@ -568,7 +571,7 @@ namespace APSRU.Howwet
         // ocDepthLabel
         // 
         this.ocDepthLabel.AutoSize = true;
-        this.ocDepthLabel.Location = new System.Drawing.Point(91, 16);
+        this.ocDepthLabel.Location = new System.Drawing.Point(75, 53);
         this.ocDepthLabel.Name = "ocDepthLabel";
         this.ocDepthLabel.Size = new System.Drawing.Size(29, 13);
         this.ocDepthLabel.TabIndex = 3;
@@ -578,7 +581,7 @@ namespace APSRU.Howwet
         // 
         this.helpProvider1.SetHelpKeyword(this.organicCarbonContent, "OC");
         this.helpProvider1.SetHelpNavigator(this.organicCarbonContent, System.Windows.Forms.HelpNavigator.Topic);
-        this.organicCarbonContent.Location = new System.Drawing.Point(121, 13);
+        this.organicCarbonContent.Location = new System.Drawing.Point(108, 50);
         this.organicCarbonContent.Name = "organicCarbonContent";
         this.helpProvider1.SetShowHelp(this.organicCarbonContent, true);
         this.organicCarbonContent.Size = new System.Drawing.Size(45, 20);
@@ -589,7 +592,7 @@ namespace APSRU.Howwet
         // label17
         // 
         this.label17.AutoSize = true;
-        this.label17.Location = new System.Drawing.Point(9, 16);
+        this.label17.Location = new System.Drawing.Point(-3, 53);
         this.label17.Name = "label17";
         this.label17.Size = new System.Drawing.Size(80, 13);
         this.label17.TabIndex = 0;
@@ -598,7 +601,7 @@ namespace APSRU.Howwet
         // version
         // 
         this.version.AutoSize = true;
-        this.version.Location = new System.Drawing.Point(539, 11);
+        this.version.Location = new System.Drawing.Point(372, 11);
         this.version.Name = "version";
         this.version.Size = new System.Drawing.Size(41, 13);
         this.version.TabIndex = 55;
@@ -610,15 +613,18 @@ namespace APSRU.Howwet
                     | System.Windows.Forms.AnchorStyles.Left)
                     | System.Windows.Forms.AnchorStyles.Right)));
         this.groupBox9.Controls.Add(this.tabControl1);
-        this.groupBox9.Location = new System.Drawing.Point(3, 262);
+        this.groupBox9.Location = new System.Drawing.Point(3, 291);
         this.groupBox9.Name = "groupBox9";
-        this.groupBox9.Size = new System.Drawing.Size(1010, 447);
+        this.groupBox9.Size = new System.Drawing.Size(1010, 408);
         this.groupBox9.TabIndex = 34;
         this.groupBox9.TabStop = false;
         this.groupBox9.Text = "Output charts";
         // 
         // tabControl1
         // 
+        this.tabControl1.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom)
+                    | System.Windows.Forms.AnchorStyles.Left)
+                    | System.Windows.Forms.AnchorStyles.Right)));
         this.tabControl1.Controls.Add(this.chart1);
         this.tabControl1.Controls.Add(this.tabPage2);
         this.tabControl1.Controls.Add(this.chart2);
@@ -629,7 +635,7 @@ namespace APSRU.Howwet
         this.tabControl1.Location = new System.Drawing.Point(8, 21);
         this.tabControl1.Name = "tabControl1";
         this.tabControl1.SelectedIndex = 0;
-        this.tabControl1.Size = new System.Drawing.Size(996, 420);
+        this.tabControl1.Size = new System.Drawing.Size(996, 381);
         this.tabControl1.TabIndex = 11;
         // 
         // chart1
@@ -637,7 +643,7 @@ namespace APSRU.Howwet
         this.chart1.Controls.Add(this.RainfallSWChart);
         this.chart1.Location = new System.Drawing.Point(4, 22);
         this.chart1.Name = "chart1";
-        this.chart1.Size = new System.Drawing.Size(988, 394);
+        this.chart1.Size = new System.Drawing.Size(988, 355);
         this.chart1.TabIndex = 0;
         this.chart1.Text = "Rainfall/Plant Available Water";
         this.chart1.UseVisualStyleBackColor = true;
@@ -1019,7 +1025,9 @@ namespace APSRU.Howwet
         this.RainfallSWChart.Series.Add(this.SWLine);
         this.RainfallSWChart.Series.Add(this.RainfallBar);
         this.RainfallSWChart.Series.Add(this.RunoffBar);
-        this.RainfallSWChart.Size = new System.Drawing.Size(985, 391);
+        this.RainfallSWChart.Series.Add(this.PAWCFull);
+        this.RainfallSWChart.Series.Add(this.PAWCHalfFull);
+        this.RainfallSWChart.Size = new System.Drawing.Size(985, 352);
         // 
         // 
         // 
@@ -1120,6 +1128,10 @@ namespace APSRU.Howwet
         // 
         // 
         this.SWLine.Marks.Font.Shadow.Visible = false;
+        // 
+        // 
+        // 
+        this.SWLine.OutLine.Width = 3;
         // 
         // 
         // 
@@ -1250,13 +1262,16 @@ namespace APSRU.Howwet
         this.tabPage2.Controls.Add(this.NitrogenCoverChart);
         this.tabPage2.Location = new System.Drawing.Point(4, 22);
         this.tabPage2.Name = "tabPage2";
-        this.tabPage2.Size = new System.Drawing.Size(988, 394);
+        this.tabPage2.Size = new System.Drawing.Size(988, 355);
         this.tabPage2.TabIndex = 6;
         this.tabPage2.Text = "Soil Nitrogen/Cover";
         this.tabPage2.UseVisualStyleBackColor = true;
         // 
         // NitrogenCoverChart
         // 
+        this.NitrogenCoverChart.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom)
+                    | System.Windows.Forms.AnchorStyles.Left)
+                    | System.Windows.Forms.AnchorStyles.Right)));
         // 
         // 
         // 
@@ -1620,7 +1635,7 @@ namespace APSRU.Howwet
         this.NitrogenCoverChart.Panel.Shadow.Visible = false;
         this.NitrogenCoverChart.Series.Add(this.NitrogenCoverLine);
         this.NitrogenCoverChart.Series.Add(this.CoverNitrogenLine);
-        this.NitrogenCoverChart.Size = new System.Drawing.Size(982, 388);
+        this.NitrogenCoverChart.Size = new System.Drawing.Size(982, 349);
         // 
         // 
         // 
@@ -1692,11 +1707,11 @@ namespace APSRU.Howwet
         // 
         // 
         // 
-        this.NitrogenCoverLine.Brush.Color = System.Drawing.Color.Red;
+        this.NitrogenCoverLine.Brush.Color = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(192)))), ((int)(((byte)(0)))));
         // 
         // 
         // 
-        this.NitrogenCoverLine.LinePen.Color = System.Drawing.Color.FromArgb(((int)(((byte)(153)))), ((int)(((byte)(0)))), ((int)(((byte)(0)))));
+        this.NitrogenCoverLine.LinePen.Color = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(115)))), ((int)(((byte)(0)))));
         // 
         // 
         // 
@@ -1745,11 +1760,11 @@ namespace APSRU.Howwet
         // 
         // 
         // 
-        this.CoverNitrogenLine.Brush.Color = System.Drawing.Color.Green;
+        this.CoverNitrogenLine.Brush.Color = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(0)))), ((int)(((byte)(0)))));
         // 
         // 
         // 
-        this.CoverNitrogenLine.LinePen.Color = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(77)))), ((int)(((byte)(0)))));
+        this.CoverNitrogenLine.LinePen.Color = System.Drawing.Color.FromArgb(((int)(((byte)(153)))), ((int)(((byte)(0)))), ((int)(((byte)(0)))));
         // 
         // 
         // 
@@ -1800,7 +1815,7 @@ namespace APSRU.Howwet
         this.chart2.Controls.Add(this.SoilNitrogenChart);
         this.chart2.Location = new System.Drawing.Point(4, 22);
         this.chart2.Name = "chart2";
-        this.chart2.Size = new System.Drawing.Size(988, 394);
+        this.chart2.Size = new System.Drawing.Size(988, 355);
         this.chart2.TabIndex = 1;
         this.chart2.Text = "Soil Nitrogen/Temp";
         this.chart2.UseVisualStyleBackColor = true;
@@ -2192,7 +2207,7 @@ namespace APSRU.Howwet
         this.SoilNitrogenChart.Series.Add(this.MaxTemperatureLine);
         this.SoilNitrogenChart.Series.Add(this.SurfaceMoistureLine);
         this.SoilNitrogenChart.Series.Add(this.NitrateLine);
-        this.SoilNitrogenChart.Size = new System.Drawing.Size(978, 391);
+        this.SoilNitrogenChart.Size = new System.Drawing.Size(978, 352);
         // 
         // 
         // 
@@ -2482,7 +2497,7 @@ namespace APSRU.Howwet
         this.chart3.Controls.Add(this.ErosionChart);
         this.chart3.Location = new System.Drawing.Point(4, 22);
         this.chart3.Name = "chart3";
-        this.chart3.Size = new System.Drawing.Size(988, 394);
+        this.chart3.Size = new System.Drawing.Size(988, 355);
         this.chart3.TabIndex = 2;
         this.chart3.Text = "Erosion Estimate";
         this.chart3.UseVisualStyleBackColor = true;
@@ -2859,7 +2874,7 @@ namespace APSRU.Howwet
         this.ErosionChart.Panel.Shadow.Visible = false;
         this.ErosionChart.Series.Add(this.ErosionRunoffCumLine);
         this.ErosionChart.Series.Add(this.ErosionSoilLossCumLine);
-        this.ErosionChart.Size = new System.Drawing.Size(998, 391);
+        this.ErosionChart.Size = new System.Drawing.Size(998, 352);
         // 
         // 
         // 
@@ -3038,13 +3053,16 @@ namespace APSRU.Howwet
         this.chart4.Controls.Add(this.LTRainfallChart);
         this.chart4.Location = new System.Drawing.Point(4, 22);
         this.chart4.Name = "chart4";
-        this.chart4.Size = new System.Drawing.Size(988, 394);
+        this.chart4.Size = new System.Drawing.Size(988, 355);
         this.chart4.TabIndex = 3;
         this.chart4.Text = "Rainfall";
         this.chart4.UseVisualStyleBackColor = true;
         // 
         // LTRainfallChart
         // 
+        this.LTRainfallChart.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom)
+                    | System.Windows.Forms.AnchorStyles.Left)
+                    | System.Windows.Forms.AnchorStyles.Right)));
         // 
         // 
         // 
@@ -3416,7 +3434,7 @@ namespace APSRU.Howwet
         this.LTRainfallChart.Panel.Shadow.Visible = false;
         this.LTRainfallChart.Series.Add(this.LTRainfallBar);
         this.LTRainfallChart.Series.Add(this.LTAvRainfallLine);
-        this.LTRainfallChart.Size = new System.Drawing.Size(985, 394);
+        this.LTRainfallChart.Size = new System.Drawing.Size(985, 355);
         // 
         // 
         // 
@@ -3588,7 +3606,7 @@ namespace APSRU.Howwet
         this.chart5.Controls.Add(this.ProfileChart);
         this.chart5.Location = new System.Drawing.Point(4, 22);
         this.chart5.Name = "chart5";
-        this.chart5.Size = new System.Drawing.Size(988, 394);
+        this.chart5.Size = new System.Drawing.Size(988, 355);
         this.chart5.TabIndex = 4;
         this.chart5.Text = "Soil Water Profile";
         this.chart5.UseVisualStyleBackColor = true;
@@ -3931,7 +3949,7 @@ namespace APSRU.Howwet
         this.ProfileChart.Series.Add(this.ProfileLL15Line);
         this.ProfileChart.Series.Add(this.ProfileDULLine);
         this.ProfileChart.Series.Add(this.ProfileSWLine);
-        this.ProfileChart.Size = new System.Drawing.Size(988, 391);
+        this.ProfileChart.Size = new System.Drawing.Size(988, 352);
         // 
         // 
         // 
@@ -4221,7 +4239,7 @@ namespace APSRU.Howwet
         this.tabPage1.Controls.Add(this.NRequirementPanel);
         this.tabPage1.Location = new System.Drawing.Point(4, 22);
         this.tabPage1.Name = "tabPage1";
-        this.tabPage1.Size = new System.Drawing.Size(988, 394);
+        this.tabPage1.Size = new System.Drawing.Size(988, 344);
         this.tabPage1.TabIndex = 5;
         this.tabPage1.Text = "Nitrogen Requirment";
         this.tabPage1.UseVisualStyleBackColor = true;
@@ -4281,6 +4299,7 @@ namespace APSRU.Howwet
         this.daystoMaturityUpDown.Name = "daystoMaturityUpDown";
         this.daystoMaturityUpDown.Size = new System.Drawing.Size(47, 20);
         this.daystoMaturityUpDown.TabIndex = 121;
+        this.daystoMaturityUpDown.ValueChanged += new System.EventHandler(this.daystoMaturityUpDown_ValueChanged);
         // 
         // label76
         // 
@@ -4453,7 +4472,6 @@ namespace APSRU.Howwet
                     | System.Windows.Forms.AnchorStyles.Right)));
         this.groupBox5.Controls.Add(this.label43);
         this.groupBox5.Controls.Add(this.label63);
-        this.groupBox5.Controls.Add(this.version);
         this.groupBox5.Controls.Add(this.drainage);
         this.groupBox5.Controls.Add(this.label51);
         this.groupBox5.Controls.Add(this.label28);
@@ -4487,9 +4505,9 @@ namespace APSRU.Howwet
         this.groupBox5.Controls.Add(this.label52);
         this.groupBox5.Controls.Add(this.endSoilWater);
         this.groupBox5.Controls.Add(this.label40);
-        this.groupBox5.Location = new System.Drawing.Point(423, 40);
+        this.groupBox5.Location = new System.Drawing.Point(436, 40);
         this.groupBox5.Name = "groupBox5";
-        this.groupBox5.Size = new System.Drawing.Size(590, 220);
+        this.groupBox5.Size = new System.Drawing.Size(577, 245);
         this.groupBox5.TabIndex = 32;
         this.groupBox5.TabStop = false;
         this.groupBox5.Text = "Output results";
@@ -5133,6 +5151,134 @@ namespace APSRU.Howwet
         // 
         this.helpProvider1.HelpNamespace = "C:\\Development\\Howwetv2\\Help\\HowwetHelp.htm";
         // 
+        // PAWCFull
+        // 
+        // 
+        // 
+        // 
+        this.PAWCFull.Brush.Color = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(0)))), ((int)(((byte)(192)))));
+        // 
+        // 
+        // 
+        this.PAWCFull.Brush.Gradient.Visible = true;
+        this.PAWCFull.Dark3D = false;
+        // 
+        // 
+        // 
+        this.PAWCFull.LinePen.Color = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(0)))), ((int)(((byte)(115)))));
+        // 
+        // 
+        // 
+        // 
+        // 
+        // 
+        this.PAWCFull.Marks.Callout.ArrowHead = Steema.TeeChart.Styles.ArrowHeadStyles.None;
+        this.PAWCFull.Marks.Callout.ArrowHeadSize = 8;
+        // 
+        // 
+        // 
+        this.PAWCFull.Marks.Callout.Brush.Color = System.Drawing.Color.Black;
+        this.PAWCFull.Marks.Callout.Distance = 0;
+        this.PAWCFull.Marks.Callout.Draw3D = false;
+        this.PAWCFull.Marks.Callout.Length = 10;
+        this.PAWCFull.Marks.Callout.Style = Steema.TeeChart.Styles.PointerStyles.Rectangle;
+        // 
+        // 
+        // 
+        // 
+        // 
+        // 
+        this.PAWCFull.Marks.Font.Shadow.Visible = false;
+        // 
+        // 
+        // 
+        this.PAWCFull.OutLine.Style = System.Drawing.Drawing2D.DashStyle.Dash;
+        // 
+        // 
+        // 
+        // 
+        // 
+        // 
+        this.PAWCFull.Pointer.Brush.Color = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(0)))), ((int)(((byte)(192)))));
+        this.PAWCFull.Pointer.Style = Steema.TeeChart.Styles.PointerStyles.Rectangle;
+        this.PAWCFull.ShowInLegend = false;
+        this.PAWCFull.Title = "PAWC Full";
+        this.PAWCFull.VertAxis = Steema.TeeChart.Styles.VerticalAxis.Right;
+        // 
+        // 
+        // 
+        this.PAWCFull.XValues.DataMember = "X";
+        this.PAWCFull.XValues.Order = Steema.TeeChart.Styles.ValueListOrder.Ascending;
+        // 
+        // 
+        // 
+        this.PAWCFull.YValues.DataMember = "Y";
+        // 
+        // PAWCHalfFull
+        // 
+        // 
+        // 
+        // 
+        this.PAWCHalfFull.Brush.Color = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(0)))), ((int)(((byte)(255)))));
+        // 
+        // 
+        // 
+        this.PAWCHalfFull.Brush.Gradient.Visible = true;
+        this.PAWCHalfFull.Brush.Solid = false;
+        this.PAWCHalfFull.ClickableLine = false;
+        this.PAWCHalfFull.Dark3D = false;
+        // 
+        // 
+        // 
+        this.PAWCHalfFull.LinePen.Color = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(0)))), ((int)(((byte)(153)))));
+        // 
+        // 
+        // 
+        // 
+        // 
+        // 
+        this.PAWCHalfFull.Marks.Callout.ArrowHead = Steema.TeeChart.Styles.ArrowHeadStyles.None;
+        this.PAWCHalfFull.Marks.Callout.ArrowHeadSize = 8;
+        // 
+        // 
+        // 
+        this.PAWCHalfFull.Marks.Callout.Brush.Color = System.Drawing.Color.Black;
+        this.PAWCHalfFull.Marks.Callout.Distance = 0;
+        this.PAWCHalfFull.Marks.Callout.Draw3D = false;
+        this.PAWCHalfFull.Marks.Callout.Length = 10;
+        this.PAWCHalfFull.Marks.Callout.Style = Steema.TeeChart.Styles.PointerStyles.Rectangle;
+        // 
+        // 
+        // 
+        // 
+        // 
+        // 
+        this.PAWCHalfFull.Marks.Font.Shadow.Visible = false;
+        // 
+        // 
+        // 
+        this.PAWCHalfFull.OutLine.Style = System.Drawing.Drawing2D.DashStyle.Dot;
+        // 
+        // 
+        // 
+        // 
+        // 
+        // 
+        this.PAWCHalfFull.Pointer.Brush.Color = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(0)))), ((int)(((byte)(255)))));
+        this.PAWCHalfFull.Pointer.Style = Steema.TeeChart.Styles.PointerStyles.Rectangle;
+        this.PAWCHalfFull.ShowInLegend = false;
+        this.PAWCHalfFull.Title = "PAWC Half Full";
+        this.PAWCHalfFull.VertAxis = Steema.TeeChart.Styles.VerticalAxis.Right;
+        // 
+        // 
+        // 
+        this.PAWCHalfFull.XValues.DataMember = "X";
+        this.PAWCHalfFull.XValues.Order = Steema.TeeChart.Styles.ValueListOrder.Ascending;
+        // 
+        // 
+        // 
+        this.PAWCHalfFull.YValues.DataMember = "Y";
+        // 
         // Main
         // 
         this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -5356,6 +5502,8 @@ namespace APSRU.Howwet
         private Steema.TeeChart.TChart NitrogenCoverChart;
         private Steema.TeeChart.Styles.Line NitrogenCoverLine;
         private Steema.TeeChart.Styles.Line CoverNitrogenLine;
+        private Steema.TeeChart.Styles.Line PAWCFull;
+        private Steema.TeeChart.Styles.Line PAWCHalfFull;
         
 
     }
