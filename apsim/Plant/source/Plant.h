@@ -743,7 +743,6 @@ private:
       float pfact_grain;
       bool  phosphorus_aware;
 
-////      float     co2;
       float     co2_modifier_rue;
       float     co2_modifier_te;
       float     co2_modifier_n_conc;
