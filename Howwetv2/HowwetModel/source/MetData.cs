@@ -108,19 +108,25 @@ namespace APSRU.Model.Howwet
                 }
             }
        
-        public double averageRainInNext(DateTime startDate,int days)
+        public double averageRainInNext(DateTime startDate,int days,Region region)
             {
-          //  double totalAverageRain = 0;
+            double totalAverageRain = 0;
             TimeSpan daySpan = new TimeSpan(days, 0, 0, 0);
-        //    int day=1;
-         //   while (day <= daySpan.Days)
-         //       {
-         //       DateTime newStartDate = startDate.Add(new TimeSpan(day, 0, 0, 0));
-         //       totalAverageRain = totalAverageRain + RainDailyYearlyAverage[newStartDate.Month];
-         //       day++;
-         //       }
-           // return totalAverageRain;
-            return 0;
+            int day=1;
+            while (day <= daySpan.Days)
+                {
+                DateTime newStartDate = startDate.Add(new TimeSpan(day, 0, 0, 0));
+                totalAverageRain = totalAverageRain + DailyRain(newStartDate,region);
+                day++;
+                }
+            return totalAverageRain;
+            }
+
+        private double DailyRain(DateTime date,Region region)
+            {
+            double dailyRain = 0;
+            dailyRain=Convert.ToDouble(region.AverageMonthlyRain[date.Month-1])/System.DateTime.DaysInMonth(date.Year,date.Month);
+            return dailyRain;
             }
 
         public String Site

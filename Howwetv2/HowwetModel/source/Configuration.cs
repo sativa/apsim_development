@@ -27,6 +27,7 @@ namespace APSRU.Model.Howwet
             String defaultMetfile;
             String defaultRegionName;
             ArrayList cropList;
+            ArrayList nDemandList;
             ArrayList regionList;
             XmlDocument setupDoc;
             XmlDocument regionsDoc;
@@ -90,6 +91,21 @@ namespace APSRU.Model.Howwet
                 return regionOut;
                 }
 
+            public APSRU.Model.Howwet.CropNDemand GetCropNDemand(String crop)
+                {
+                APSRU.Model.Howwet.CropNDemand cropOut = new APSRU.Model.Howwet.CropNDemand();
+                for (int i = 0; i < nDemandList.Count; i++)
+                    {
+                    APSRU.Model.Howwet.CropNDemand cropTemp = (APSRU.Model.Howwet.CropNDemand)nDemandList[i];
+                    if (cropTemp.Name == crop)
+                        {
+                        cropOut = cropTemp;
+                        break;
+                        }
+                    }
+                return cropOut;
+                }
+
             public void ReadSetupFile(String fileName)
                 {
                 String errString = "";
@@ -121,7 +137,7 @@ namespace APSRU.Model.Howwet
                     //SurfaceOM
                     XmlNodeList surfaceOMNodeList = element.SelectNodes("/howwet/surfaceOM/crop");
                     IEnumerator surfaceOMNodeEnum = surfaceOMNodeList.GetEnumerator();
-                    ArrayList list = new ArrayList();
+                    ArrayList surfaceOMList = new ArrayList();
                     while (surfaceOMNodeEnum.MoveNext())
                         {
                         CoverCrop newCrop = new CoverCrop();
@@ -129,9 +145,25 @@ namespace APSRU.Model.Howwet
                         newCrop.Name = cropNode.SelectSingleNode("name").InnerText;
                         newCrop.SpecificArea = Convert.ToDouble(cropNode.SelectSingleNode("specific_area").InnerText);
                         newCrop.Cnr = Convert.ToInt16(cropNode.SelectSingleNode("cnr").InnerText);
-                        list.Add(newCrop);
+                        surfaceOMList.Add(newCrop);
                         }
-                    this.CropList = list;
+                    this.CropList = surfaceOMList;
+
+                    //CropN demand
+                    XmlNodeList cropNDemandNodeList = element.SelectNodes("/howwet/cropNDemand/crop");
+                    IEnumerator cropNDemandNodeEnum = cropNDemandNodeList.GetEnumerator();
+                    ArrayList cropNDemandList = new ArrayList();
+                    while (cropNDemandNodeEnum.MoveNext())
+                        {
+                        CropNDemand newCropN = new CropNDemand();
+                        XmlNode cropNodeN = (XmlNode)cropNDemandNodeEnum.Current;
+                        newCropN.Name = cropNodeN.SelectSingleNode("name").InnerText;
+                        newCropN.Protein_target = Convert.ToDouble(cropNodeN.SelectSingleNode("protein_target").InnerText);
+                        newCropN.Fraction_of_n_in_protein = Convert.ToDouble(cropNodeN.SelectSingleNode("fraction_of_n_in_protein").InnerText);
+                        newCropN.N_uptake_efficiency = Convert.ToDouble(cropNodeN.SelectSingleNode("n_uptake_efficiency").InnerText);
+                        cropNDemandList.Add(newCropN);
+                        }
+                    this.NDemandList = cropNDemandList;
                     //RecentFiles
                     //Other defaults
                     }
@@ -203,6 +235,12 @@ namespace APSRU.Model.Howwet
                 {
                 set { cropList = value; }
                 get { return cropList; }
+                }
+
+            public ArrayList NDemandList
+                {
+                set { nDemandList = value; }
+                get { return nDemandList; }
                 }
 
             public ArrayList RegionList

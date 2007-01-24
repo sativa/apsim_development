@@ -12,8 +12,6 @@ using APSRU.Error;
 using APSRU.Model;
 namespace APSRU.Model.Howwet
     {
-   
-
     // This class encapsulates Howwet general functionality  
     public class Utility
         {
