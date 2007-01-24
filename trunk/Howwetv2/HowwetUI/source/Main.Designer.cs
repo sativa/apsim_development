@@ -609,6 +609,7 @@ namespace APSRU.Howwet
         // 
         // groupBox9
         // 
+        this.groupBox9.Controls.Add(this.label61);
         this.groupBox9.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom)
                     | System.Windows.Forms.AnchorStyles.Left)
                     | System.Windows.Forms.AnchorStyles.Right)));
@@ -1811,7 +1812,7 @@ namespace APSRU.Howwet
         // 
         // chart2
         // 
-        this.chart2.Controls.Add(this.label61);
+        
         this.chart2.Controls.Add(this.SoilNitrogenChart);
         this.chart2.Location = new System.Drawing.Point(4, 22);
         this.chart2.Name = "chart2";
@@ -1825,7 +1826,7 @@ namespace APSRU.Howwet
         this.label61.AutoSize = true;
         this.label61.Font = new System.Drawing.Font("Microsoft Sans Serif", 30F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
         this.label61.ForeColor = System.Drawing.SystemColors.ControlDarkDark;
-        this.label61.Location = new System.Drawing.Point(451, 150);
+        this.label61.Location = new System.Drawing.Point(332, 137);
         this.label61.Name = "label61";
         this.label61.Size = new System.Drawing.Size(233, 46);
         this.label61.TabIndex = 45;

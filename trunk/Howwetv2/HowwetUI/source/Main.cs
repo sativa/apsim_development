@@ -303,6 +303,7 @@ namespace APSRU.Howwet
             String errString = "";
             const String FUNCTION_NAME = "ExecuteAPSIM";
             bool success = false;
+            Console.WriteLine("Execute Apsim");
             try
                 {
                 String ApsimToSimPath = util.ApplicationDirectory +  apsimToSimPath;
@@ -320,10 +321,16 @@ namespace APSRU.Howwet
                 errString = "ApsimToSimPath=" + ApsimToSimPath;
                 if (File.Exists(ApsimToSimPath))
                     {
+                    Console.WriteLine("Execute Apsim p1 start");
+                    ProcessStartInfo processStart = new ProcessStartInfo();
+                    processStart.FileName=ApsimToSimPath;
+                    processStart.Arguments=simulationFileName;
+                    if(!config.Debug) processStart.WindowStyle = ProcessWindowStyle.Hidden;
                     ProgressBar1.PerformStep();
-                    Process p = Process.Start("\""+ApsimToSimPath+"\"", "\"" + simulationFileName + "\"");
+                    Process p = Process.Start(processStart);
                     p.WaitForExit();
                     this.Refresh();
+                    Console.WriteLine("Execute Apsim p1 end");
                   
                     String simFileName = simulationParentPath+"\\"+simulationObject.SimulationName + ".sim";
                     errString = "Apsim=" + Apsim+ " Sim="+simFileName;
@@ -331,10 +338,16 @@ namespace APSRU.Howwet
                         {
                         if (File.Exists(Apsim))
                             {
+                            Console.WriteLine("Execute Apsim p2 start");
                             ProgressBar1.PerformStep();
-                            p = Process.Start("\""+ Apsim +"\"", "\""+ simFileName +"\"");
+                            ProcessStartInfo processStart1 = new ProcessStartInfo();
+                            processStart1.FileName = Apsim;
+                            processStart1.Arguments = simFileName;
+                            if (!config.Debug) processStart1.WindowStyle = ProcessWindowStyle.Hidden;
+                            p = Process.Start(processStart1);
                             p.WaitForExit();
                             this.Refresh();
+                            Console.WriteLine("Execute Apsim p2 end");
 
                             String outFileName = simulationObject.SimulationName + ".out";
                             errString = "Output file=" + outFileName;
@@ -358,7 +371,7 @@ namespace APSRU.Howwet
                     new CustomException(new CustomError("", "Cannot find ApsimToSim file", errString, FUNCTION_NAME, this.GetType().FullName, false));
                     }
                 ProgressBar1.Value = 0;
-                StatusLabel2.Text = "";
+                StatusLabel2.Text = "Status";
                 return success;
                 }
             catch (CustomException err)
@@ -910,8 +923,21 @@ namespace APSRU.Howwet
         
        private void ShowGraph()
             {
+            Console.WriteLine("showGraph start");
             try
                 {
+                outputObject = new SimulationOut(simulationObject);
+                result = new Results();
+                nRequirementObject = new NitrogenRequirement(simulationObject, outputObject, config.GetCropNDemand("wheat"));
+                chartDataTable = outputObject.Data;
+                result.loadResults(simulationObject, outputObject);
+                result.softwareVersion = config.Version;
+ 
+                StatusLabel2.Text = "Parsing  chart data";
+                ProgressBar1.Minimum = 0;
+                ProgressBar1.Maximum = chartDataTable.Rows.Count;
+                ProgressBar1.Step = 1;
+
                 RainfallBar.Clear();
                 RunoffBar.Clear();
                 SWLine.Clear();
@@ -928,13 +954,7 @@ namespace APSRU.Howwet
                 ProfileDULLine.Clear();
                 ProfileLL15Line.Clear();
                 ProfileSWLine.Clear();
-
-                outputObject = new SimulationOut(simulationObject);
-                result = new Results();
-                nRequirementObject = new NitrogenRequirement(simulationObject, outputObject,config.GetCropNDemand("wheat"));
-                result.loadResults(simulationObject,outputObject);
-                result.softwareVersion = config.Version;
-               
+              
                 //output summary results
                 //water
                 startSoilWater.Text = result.soilWaterStart.ToString("f0");
@@ -958,7 +978,6 @@ namespace APSRU.Howwet
                 //n Requirement
                 thresholdWater.Text = ThresholdWaterDefault.ToString("f0");
                 WUE.Text = WUEDefault.ToString("f0");
-                chartDataTable = outputObject.Data;
               
                 RainfallSWChart.Axes.Left.Automatic = false;
                 RainfallSWChart.Axes.Right.Automatic = false;
@@ -991,38 +1010,36 @@ namespace APSRU.Howwet
                 double maxLTRainfall = 0;
 
                 String[] ltAverageMonthlyRain = selectedRegion.AverageMonthlyRain;
+                
+                Console.WriteLine("showGraph find max min start");
+                foreach (DataRow row in chartDataTable.Rows)
+                    {
+                    DateTime date = new DateTime();
+                    date = Convert.ToDateTime(row["Date"]);
+                    //Rainfall soil water; subtract cll from soilwater and sum the absolute values to get sw
+                    if (Convert.ToDouble(row["Rainfall"]) > maxRainfallSW) maxRainfallSW = Convert.ToDouble(row["Rainfall"]);
+                    if (Convert.ToDouble(row["SoilWater"]) > maxSW)maxSW=Convert.ToDouble(row["SoilWater"]);
+                    
+                    //Soil/Nitrogen
+                    if (Convert.ToDouble(row["NO3Total"]) > maxNitrate) maxNitrate = Convert.ToDouble(row["NO3Total"]);
+                    if (Convert.ToDouble(row["SoilWaterTopLayer"]) > maxSurfaceMoisture) maxSurfaceMoisture = Convert.ToDouble(row["SoilWaterTopLayer"]);
+                    if (Convert.ToDouble(row["MaxTemp"]) > maxMaxTemp) maxMaxTemp = Convert.ToDouble(row["MaxTemp"]);
 
-                    StatusLabel2.Text = "Parsing  chart data";
-                    ProgressBar1.Minimum = 0;
-                    ProgressBar1.Maximum = chartDataTable.Rows.Count;
-                    ProgressBar1.Step = 1;
-                   // Console.WriteLine("finding axes max min");
-                    foreach (DataRow row in chartDataTable.Rows)
-                        {
-                        DateTime date = new DateTime();
-                        date = Convert.ToDateTime(row["Date"]);
-                        //Rainfall soil water; subtract cll from soilwater and sum the absolute values to get sw
-                        if (Convert.ToDouble(row["Rainfall"]) > maxRainfallSW) maxRainfallSW = Convert.ToDouble(row["Rainfall"]);
-                        if (Convert.ToDouble(row["SoilWater"]) > maxSW)maxSW=Convert.ToDouble(row["SoilWater"]);
-                        
-                        //Soil/Nitrogen
-                        if (Convert.ToDouble(row["NO3Total"]) > maxNitrate) maxNitrate = Convert.ToDouble(row["NO3Total"]);
-                        if (Convert.ToDouble(row["SoilWaterTopLayer"]) > maxSurfaceMoisture) maxSurfaceMoisture = Convert.ToDouble(row["SoilWaterTopLayer"]);
-                        if (Convert.ToDouble(row["MaxTemp"]) > maxMaxTemp) maxMaxTemp = Convert.ToDouble(row["MaxTemp"]);
+                    //Nitrogen/Cover
+                    if (Convert.ToDouble(row["SurfaceOrganicMatter"]) > maxCover) maxCover = Convert.ToDouble(row["SurfaceOrganicMatter"]);
 
-                        //Nitrogen/Cover
-                        if (Convert.ToDouble(row["SurfaceOrganicMatter"]) > maxCover) maxCover = Convert.ToDouble(row["SurfaceOrganicMatter"]);
+                    //Erosion
+                    if (Convert.ToDouble(row["SoilLossCum"]) > maxSoilLoss) maxSoilLoss = Convert.ToDouble(row["SoilLossCum"]);
+                    if (Convert.ToDouble(row["RunoffCum"]) > maxRunoff) maxRunoff = Convert.ToDouble(row["RunoffCum"]);
+                    
+                    //Long term rainfall
+                    if (Convert.ToDouble(ltAverageMonthlyRain[date.Month - 1]) > maxLTRainfall) maxLTRainfall = Convert.ToDouble(ltAverageMonthlyRain[date.Month - 1])+10;
+                  
+                    ProgressBar1.PerformStep();
+                    }
+                Console.WriteLine("showGraph find max min end");
 
-                        //Erosion
-                        if (Convert.ToDouble(row["SoilLossCum"]) > maxSoilLoss) maxSoilLoss = Convert.ToDouble(row["SoilLossCum"]);
-                        if (Convert.ToDouble(row["RunoffCum"]) > maxRunoff) maxRunoff = Convert.ToDouble(row["RunoffCum"]);
-                        
-                        //Long term rainfall
-                        if (Convert.ToDouble(ltAverageMonthlyRain[date.Month - 1]) > maxLTRainfall) maxLTRainfall = Convert.ToDouble(ltAverageMonthlyRain[date.Month - 1])+10;
-                      
-                        ProgressBar1.PerformStep();
-                        }
-                    StatusLabel2.Text = "";
+                    StatusLabel2.Text = "Status";
                     ProgressBar1.Value = 0;
 
                     axis1.AutomaticMaximum = true;
@@ -1067,7 +1084,6 @@ namespace APSRU.Howwet
                     ProgressBar1.Maximum = chartDataTable.Rows.Count;
                     ProgressBar1.Step = 1;
 
-
                 if (config.TrainingMode)
                     {
                     rowCount = 0;
@@ -1081,10 +1097,7 @@ namespace APSRU.Howwet
                     }
                 else
                     {
-                    StatusLabel2.Text = "Building chart";
-                    ProgressBar1.Minimum = 0;
-                    ProgressBar1.Maximum = chartDataTable.Rows.Count;
-                    ProgressBar1.Step = 1;
+                    Console.WriteLine("showGraph building chart");
 
                     foreach (DataRow row in chartDataTable.Rows)
                         {
@@ -1112,7 +1125,7 @@ namespace APSRU.Howwet
                         
                         ProgressBar1.PerformStep();
                         }
-                    StatusLabel2.Text = "";
+                    StatusLabel2.Text = "Status";
                     ProgressBar1.Value = 0;
                     RainfallSWChart.Refresh();
                     SoilNitrogenChart.Refresh();
@@ -1161,6 +1174,8 @@ namespace APSRU.Howwet
                 RainfallBar.Add(date, Convert.ToDouble(row["Rainfall"]));
                 RunoffBar.Add(date, Convert.ToDouble(row["Runoff"]));
                 SWLine.Add(date, Convert.ToDouble(row["SoilWater"]));
+                PAWCFull.Add(date, MathUtility.Sum(simulationObject.Soil.PAWC(simulationObject.GetCrop)));
+                PAWCHalfFull.Add(date, MathUtility.Sum(simulationObject.Soil.PAWC(simulationObject.GetCrop)) / 2);
                 //Soil Nitrogen graph
                 NitrateLine.Add(date, Convert.ToDouble(row["NO3Total"]));
                 SurfaceMoistureLine.Add(date, (Convert.ToDouble(row["SoilWaterTopLayer"]) * 150));
@@ -1185,7 +1200,7 @@ namespace APSRU.Howwet
                 }
             else
                 {
-                StatusLabel2.Text = "";
+                StatusLabel2.Text = "Status";
                 ProgressBar1.Value = 0;
                 timer1.Stop();
                 }
