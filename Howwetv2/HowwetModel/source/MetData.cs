@@ -110,9 +110,9 @@ namespace APSRU.Model.Howwet
        
         public double averageRainInNext(DateTime startDate,int days)
             {
-            double totalAverageRain = 0;
+          //  double totalAverageRain = 0;
             TimeSpan daySpan = new TimeSpan(days, 0, 0, 0);
-            int day=1;
+        //    int day=1;
          //   while (day <= daySpan.Days)
          //       {
          //       DateTime newStartDate = startDate.Add(new TimeSpan(day, 0, 0, 0));
