@@ -286,6 +286,9 @@ namespace APSRU.Howwet
                
         private void RunButton_Click(object sender, EventArgs e)
             {
+            String errString = "";
+            const String FUNCTION_NAME = "RunButton_Click";
+            errString = "Saving all Data";
             saveAllData();
             tabControl1.Visible = false;
            // RainfallSWChart.Visible = false;
@@ -293,13 +296,15 @@ namespace APSRU.Howwet
            // ErosionChart.Visible = false;
           //  LTRainfallChart.Visible = false;
             label61.Visible = true;
+            errString = "Executing APSIM";
             if (ExecuteAPSIM())
                 {
+                errString = "Showing Graphs";
                 ShowGraph();
                 }
             else
                 {
-
+                new CustomException(new CustomError("", "Could not execute APSIM", errString, FUNCTION_NAME, this.GetType().FullName, false));
                 }
             label61.Visible=false;
             }
