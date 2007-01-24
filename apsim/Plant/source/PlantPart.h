@@ -24,6 +24,7 @@
 #include "PlantLibrary.h"
 #include "PlantComponent.h"
 #include "PlantInterface.h"
+#include "PlantSpatial.h"
 #include "Plant.h"
 
 
@@ -344,6 +345,7 @@ public:
    virtual float pRetransSupply(void);
    virtual float pRetransDemand(void);
    virtual float height(void);
+   virtual float width(void);
 
    virtual void  doRemoveBiomass(protocol::RemoveCropDmType dmRemoved, string &c_remove_biomass_report);
    virtual void  removeBiomass(void);
@@ -417,7 +419,7 @@ public:
    //needed to standardise interface for composite subclass
 
    virtual float availableRetranslocateN(void);
-   virtual void doCover (float canopy_fac, float g_row_spacing);
+   virtual void doCover (PlantSpatial &spatial);
    virtual float coverDead(void) ;
    virtual float coverGreen(void) ;
    virtual float coverSen(void) ;

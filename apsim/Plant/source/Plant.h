@@ -18,6 +18,7 @@ class Arbitrator;
 
 #include "PlantInterface.h"
 #include "Environment.h"
+#include "PlantSpatial.h"
 
 typedef bool (Plant::*ptr2setFn) (protocol::QuerySetValueData&);
 
@@ -59,6 +60,8 @@ private:
    friend class plantPartHack;
    stageSubject   stageObservers;            // A collection of state variable observers, reset at each new stage
    stageSubject   otherObservers;            // Another collection of state variable observers
+
+   PlantSpatial plantSpatial;
 
    vector <plantThing *> myThings;
    vector <plantPart *> myParts;
@@ -195,7 +198,7 @@ public:
    void plant_co2_modifier_rue(void);
    void plant_co2_modifier_te(void);
    void plant_co2_modifier_n_conc(void);
-   void plant_vpd (float c_svp_fract, float g_maxt, float g_min);
+////   void plant_vpd (float c_svp_fract, float g_maxt, float g_min);
 
    void plant_bio_actual (int option /* (INPUT) option number*/);
    void plant_bio_retrans (void);
@@ -269,11 +272,7 @@ public:
    void plant_leaf_death (int   option/*(INPUT) option number*/);
    void plant_leaf_area_sen (int   option/*(INPUT) option number*/);
    void plant_cleanup ();
-   void plant_update(float  g_row_spacing
-                     ,float  g_skip_row_fac
-                     ,float  g_skip_plant_fac
-                     ,float  *g_canopy_width
-                     ,float  g_dlt_plants
+   void plant_update(float  g_dlt_plants
                      ,float *g_plants) ;
    void plant_check_bounds(float  g_cover_dead
                            ,float  g_cover_green
@@ -635,7 +634,7 @@ private:
       unsigned int parasite_c_demand;
       unsigned int parasite_sw_demand;
       unsigned int maxt_soil_surface;
-      unsigned int co2;
+////      unsigned int co2;
 
       unsigned int add_residue_p;
       unsigned int layered_p_uptake;
@@ -688,12 +687,6 @@ private:
       float remove_biom_pheno;
       float temp_stress_photo;
       float oxdef_photo;
-      float sowing_depth;
-      float row_spacing;                                // row spacing (m) [optional]
-      float skip_row;                                   // skip row (0, 1, 2)
-      float skip_plant;                                 // skip plant (0, 1, 2)
-      float skip_row_fac;                               // skip row factor
-      float skip_plant_fac;                             // skip plant factor
       float fr_intc_radn;                               // fraction of radiation intercepted by canopy
       float soil_temp[366+1];                           // soil surface temperature (oC)
       float eo;                                         // potential evapotranspiration (mm)
@@ -753,7 +746,7 @@ private:
       float pfact_grain;
       bool  phosphorus_aware;
 
-      float     co2;
+////      float     co2;
       float     co2_modifier_rue;
       float     co2_modifier_te;
       float     co2_modifier_n_conc;
@@ -857,16 +850,13 @@ private:
       float nh4_lb;                                     // lower limit of soil NH4 (kg/ha)
       float latitude_ub;                                // upper limit of latitude for model (oL)
       float latitude_lb;                                // lower limit of latitude for model(oL)
-      float row_spacing_default;
-      float skip_row_default;                           //Default skip row ()
-      float skip_plant_default;                         //Default skip plant ()
       vector<string> class_action;
       vector<string> class_change;
 
       float eo_crop_factor_default;                     // Default Crop factor for sw demand applied to Eo
       float total_n_uptake_max;
 
-      float      co2_default;
+////      float      co2_default;
       float      x_co2_te_modifier[max_table], y_co2_te_modifier[max_table];
       int        num_co2_te_modifier;
       float      x_co2_nconc_modifier[max_table], y_co2_nconc_modifier[max_table];

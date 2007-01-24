@@ -1687,11 +1687,11 @@ void CompositePart::display(ostream &os) const
 }
 
 
-void CompositePart::doCover (float canopy_fac, float g_row_spacing)
+void CompositePart::doCover(PlantSpatial &spatial)
 {
    vector <plantPart *>::iterator part;
    for (part = myParts.begin(); part != myParts.end(); part++)
-      (*part)->doCover(canopy_fac, g_row_spacing);
+      (*part)->doCover(spatial);
 }
 
 void CompositePart::doProcessBioDemand(void)

@@ -213,7 +213,7 @@ public:                                             // member functions
    virtual void doPInit(void);
 
    virtual void display(ostream &os = cout) const;  // display function
-   virtual void doCover (float canopy_fac, float g_row_spacing);
+   virtual void doCover (PlantSpatial &spatial);
 
    virtual void calcDlt_pod_area (void);   //FIXME
 

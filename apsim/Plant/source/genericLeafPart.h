@@ -68,7 +68,7 @@ class genericLeafPart : public plantLeafPart {
    float coverGreen(void)  ;
    float coverSen(void)  ;
    float coverDead(void)  ;
-   void doCover (float canopy_fac, float g_row_spacing);
+   void doCover (PlantSpatial &spatial);
    void doDmPotRUE (void );
    void doTECO2();
    void doSWDemand(float SWDemandMaxFactor);

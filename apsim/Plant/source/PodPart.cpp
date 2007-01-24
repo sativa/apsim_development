@@ -255,7 +255,8 @@ float fruitPodPart::coverSen(void)
    return coverPod.sen;
 }
 
-void fruitPodPart::doCover (float canopy_fac, float /*g_row_spacing*/)
+void fruitPodPart::doCover (PlantSpatial &spatial)
+
    //===========================================================================
 {
 
@@ -270,19 +271,17 @@ void fruitPodPart::doCover (float canopy_fac, float /*g_row_spacing*/)
    float coverA;
 
    //- Implementation Section ----------------------------------
+
    if (gPai > 0.0)
       {
-      coverA = 1.0 - exp(-cExtinctionCoeffPod * gPai*canopy_fac);
-      cover = divide (coverA, canopy_fac, 0.0);
+      coverA = 1.0 - exp(-cExtinctionCoeffPod * gPai*spatial.canopyFac());
+      cover = divide (coverA, spatial.canopyFac(), 0.0);
       }
    else
       cover = 0.0;
 
    coverPod.green = cover;
 }
-
-////float fruitPodPart::dltDmPotTe(void) {return dlt.dm_pot_rue;}
-////float fruitPodPart::dltDmPotRue(void) const {return dlt.dm_pot_rue;}
 
 float fruitPodPart::fracPod (void)
    //===========================================================================

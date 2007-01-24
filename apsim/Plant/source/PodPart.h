@@ -36,7 +36,7 @@ class fruitPodPart : public plantPart {
    float coverGreen(void)  ;
    float coverSen(void)  ;
    float coverDead(void)  ;
-   void doCover (float canopy_fac, float g_row_spacing);
+   void doCover (PlantSpatial &spatial);
    void calcDlt_pod_area (void);
    void doDmPotRUE (void );
 

@@ -1547,6 +1547,7 @@ float plantPart::pMinPotStressDeterminant(void)
    }
 
 float plantPart::height(void) {return Height;}
+float plantPart::width(void) {return Width;}
 
 float plantPart::soilNDemand(void) {return (SoilNDemand);}
 float plantPart::nDemand(void) const {return (NDemand);}
@@ -1801,7 +1802,7 @@ void plantPart::get_dlt_p_sen(vector<float> &dlt_p_sen) {dlt_p_sen.push_back(dlt
 
    //needed to standardise interface for composite subclass
 
-void plantPart::doCover (float /* canopy_fac*/, float /*g_row_spacing*/){}
+void plantPart::doCover (PlantSpatial &/*spatial*/){}
 float plantPart::coverDead(void) {return 0;}
 float plantPart::coverGreen(void) {return 0;}
 float plantPart::coverSen(void) {return 0;}
