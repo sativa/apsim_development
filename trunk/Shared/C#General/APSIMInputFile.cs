@@ -296,15 +296,18 @@ namespace CSGeneral
 															Convert.ToInt32(DateWords[2]));
 
 				}
-			int Year = Convert.ToInt32(Words[YearIndex]);
+			//int Year = Convert.ToInt16(Words[YearIndex]);
+            int Year=Convert.ToInt16(Decimal.Truncate((decimal)Convert.ToSingle(Words[YearIndex])));
 			if (DayIndex != -1)
 				{
-				int Day = Convert.ToInt32(Words[DayIndex]);
+				//int Day = Convert.ToInt32(Words[DayIndex]);
+                int Day = Convert.ToInt32(Decimal.Truncate((decimal)Convert.ToSingle(Words[DayIndex])));
 				return new DateTime(Year, 1, 1).AddDays(Day-1);
 				}
 			if (MonthIndex != -1 && DayOfMonthIndex != -1)
 				{
-				int Month = Convert.ToInt32(Words[MonthIndex]);
+			//	int Month = Convert.ToInt32(Words[MonthIndex]);
+                int Month = Convert.ToInt32(Decimal.Truncate((decimal)Convert.ToSingle(Words[MonthIndex])));
 				int DayOfMonth = Convert.ToInt32(Words[DayOfMonthIndex]);
 				return new DateTime(Year, Month, DayOfMonth);
 				}
