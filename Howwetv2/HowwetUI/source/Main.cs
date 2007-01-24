@@ -73,6 +73,7 @@ namespace APSRU.Howwet
         private void resetSimulationValues()
             {
             util = new APSRU.Model.Howwet.Utility(Application.ExecutablePath, howwetSetupFileName);
+            MessageBox.Show(util.ApplicationDirectory);
             config = new APSRU.Model.Howwet.Configuration(util.ApplicationDirectory + howwetSetupFileName, util.ApplicationDirectory + howwetRegionFileName);
             version.Text=config.Version;
             regions = config.RegionList;
@@ -307,7 +308,9 @@ namespace APSRU.Howwet
             try
                 {
                 String ApsimToSimPath = util.ApplicationDirectory +  apsimToSimPath;
+                MessageBox.Show("ApsimToSimPath "+ApsimToSimPath);
                 String Apsim = util.ApplicationDirectory+ apsimPath;
+                MessageBox.Show("Apsim " + Apsim);
                 String simulationFileName = simulationObject.FileName;
                 String simulationParentPath = Directory.GetParent(simulationFileName).ToString();
                 //remove old .sum, .out, and .sim files if they exist
@@ -473,7 +476,7 @@ namespace APSRU.Howwet
                     FileInfo fileInfo = new FileInfo(openDialog.FileName);
                     soilFileName.Text = fileInfo.Name;
                     this.soilsFileName = fileInfo.Name;
-
+                    config.DefaultSoilFileName = this.soilsFileName;
                     if (!SoilSelection.Instance.isLoaded)
                         {
                         SoilSelection.Instance.loadObject(this.soilsFileName);
