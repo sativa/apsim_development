@@ -256,10 +256,7 @@ void Plant::doIDs(void)
    id.maxt_soil_surface = parent->addRegistration(RegistrationType::get,
                                    "maxt_soil_surface", addUnitsToDDML(floatType, "degree Celsius").c_str(),
                                    "", "");
-////   id.co2 = parent->addRegistration(RegistrationType::get,
-////                                    "co2", addUnitsToDDML(floatType, "ppm").c_str(),
-////                                    "", "");
-////
+
    string canopyName = string("fr_intc_radn_") + string(parent->getName());
    id.fr_intc_radn = parent->addRegistration(RegistrationType::get,
                                    canopyName.c_str(),
@@ -2286,12 +2283,6 @@ void Plant::plant_co2_modifier_n_conc(void)
                                          , c.num_co2_nconc_modifier);
 }
 
-////void Plant::plant_vpd (float c_svp_fract, float g_maxt, float g_mint)
-////{
-////   g.vpd = vpd(c_svp_fract, g_maxt, g_mint);
-////}
-////
-////
 //==========================================================================
 void Plant::plant_rue_co2_modifier(float co2,                 //!CO2 level (ppm)
                                    float maxt,                //!daily max temp (C)
@@ -2645,7 +2636,6 @@ void Plant::plant_process ( void )
     plant_co2_modifier_rue ();
     plant_co2_modifier_te ();
     plant_co2_modifier_n_conc ();
-////    plant_vpd (c.svp_fract, Environment.maxt, Environment.mint);
 
     rootPart->plant_root_depth ();
 
@@ -3474,7 +3464,6 @@ void Plant::plant_zero_all_globals (void)
   memset (&p, 0xdeadbeef, sizeof(p));
   memset (&c, 0xdeadbeef, sizeof(c)); //not for <x>_dm_sen_frac
 #endif
-////      g.vpd = 0.0;
       g.co2_modifier_te = 0.0;
       g.co2_modifier_n_conc = 0.0;
       g.co2_modifier_rue = 0.0;
@@ -3557,10 +3546,8 @@ void Plant::plant_zero_all_globals (void)
       c.swdf_pheno_limit = 0.0;
       c.swdf_photo_limit = 0.0;
       c.swdf_photo_rate = 0.0;
-////      c.svp_fract = 0.0;
       c.no3_diffn_const = 0.0;
       fill_real_array (c.n_fix_rate, 0.0,max_table);
-      c.grn_water_cont = 0.0;     //FIXME put into grainpart
       fill_real_array (c.x_ave_temp, 0.0, max_table);
       fill_real_array (c.y_stress_photo, 0.0, max_table);
       fill_real_array (c.x_weighted_temp, 0.0, max_table);
@@ -3640,7 +3627,6 @@ void Plant::plant_zero_variables (void)
     g.lai_max               = 0.0;
 
     g.plants                = 0.0;
-////    g.canopy_width         = 0.0;
     g.n_conc_act_stover_tot = 0.0;
     g.n_conc_crit_stover_tot = 0.0;
     g.n_demand_tot          = 0.0;
@@ -4290,11 +4276,6 @@ void Plant::plant_get_other_variables ()
        rootPart->nh4gsm[i] = values[i] * kg2gm /ha2sm;                      //FIXME - belongs in rootPart
        }                                                                    //FIXME - belongs in rootPart
 
-////    if (!parent->getVariable(id.co2, g.co2, 0.0, 1500.0, true))
-////       {
-////       g.co2 = c.co2_default;
-////       }
-////
     Environment.getOtherVariables(parent);
 
     //Environment.num_layers = count_of_real_vals(g.dlayer, max_layer);
@@ -4572,7 +4553,6 @@ void Plant::plant_prepare (void)
     plant_co2_modifier_rue ();
     plant_co2_modifier_te ();
     plant_co2_modifier_n_conc ();
-////    plant_vpd (c.svp_fract, Environment.maxt, Environment.mint);
 
     for (vector<plantPart *>::iterator t = myParts.begin(); t != myParts.end(); t++)
        (*t)->prepare();
@@ -4708,17 +4688,6 @@ void Plant::plant_read_species_const ()
                    , c.swdf_photo_rate
                    , 0.0, 1.0);
 
-
-////// TEMPLATE OPTION
-//////    plant_leaf_area
-////
-//////    plant_transp_eff
-////
-////    parent->readParameter (search_order
-////                   ,"svp_fract"//, "()"
-////                   , c.svp_fract
-////                   , 0.0, 1.0);
-
 //    cproc_sw_demand_bound
 
     parent->readParameter (search_order
@@ -4803,12 +4772,6 @@ void Plant::plant_read_species_const ()
                         , c.n_retrans_option
                         , 1, 2);
 
-    //    plant_event
-    parent->readParameter (search_order              //FIXME put into grainpart
-                   ,"grn_water_cont"//, "(g/g)"      //FIXME put into grainpart
-                   , c.grn_water_cont                //FIXME put into grainpart
-                   , 0.0, 1.0);                      //FIXME put into grainpart
-
     //    plant_dm_senescence
     parent->readParameter (search_order
                       , "dm_senescence_option"//, "()"
@@ -4868,11 +4831,6 @@ void Plant::plant_read_species_const ()
                      , c.y_plant_death, c.num_weighted_temp
                      , 0.0, 100.0);
 
-////    parent->readParameter (search_order
-////                     , "co2_default"//, "()"
-////                     , c.co2_default
-////                     , 0.0, 1000.0);
-////
     parent->readParameter (search_order
                      , "x_co2_te_modifier"//, "()"
                      , c.x_co2_te_modifier, c.num_co2_te_modifier
@@ -4946,7 +4904,7 @@ void Plant::plant_harvest_report ()
     yield = fruitPart->dmGrainTotal() * gm2kg / sm2ha;
 
     // include the grain water content
-    yield_wet = yield / (1.0 - c.grn_water_cont);       //FIXME put into grainpart
+    yield_wet = fruitPart->dmGrainWetTotal() * gm2kg / sm2ha;
 
     grain_wt = fruitPart->grainWt();
 
@@ -4983,7 +4941,7 @@ void Plant::plant_harvest_report ()
     parent->writeString (msg);
 
     sprintf (msg, "%s%6.1f%24s%s%10.1f"
-             , " grain % water content  = ", c.grn_water_cont * fract2pcnt, " "
+             , " grain % water content  = ", fruitPart->grainWaterContent() * fract2pcnt, " "
              , " grain yield wet (kg/ha)= ", yield_wet);
     parent->writeString (msg);
 

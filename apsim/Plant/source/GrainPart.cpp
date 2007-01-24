@@ -147,6 +147,12 @@ void fruitGrainPart::get_yield(protocol::Component *system, protocol::QueryValue
    system->sendVariable(qd, dmTotal() * gm2kg / sm2ha);
 }
 
+void fruitGrainPart::get_yield_wet(protocol::Component *system, protocol::QueryValueData &qd)
+   //===========================================================================
+{
+   system->sendVariable(qd, dmTotal() * gm2kg / sm2ha / (1.0 - cGrn_water_cont));
+}
+
 void fruitGrainPart::get_grain_p(protocol::Component *systemInterface, protocol::QueryValueData &qd)
    //===========================================================================
 {
@@ -586,3 +592,11 @@ void fruitGrainPart::doNDemand2(float /*dlt_dm*/             // (INPUT)  Whole p
    mealPart->doNDemand(gN_grain_demand);
    NDemand += mealPart->nDemand();
 }
+
+float fruitGrainPart::dmGrainWetTotal(void) const
+//=======================================================================================
+   {
+   return (divide(dmTotal(), (1.0 - cGrn_water_cont), 0.0));
+   }
+
+float fruitGrainPart::grainWaterContent(void) const{return cGrn_water_cont;}

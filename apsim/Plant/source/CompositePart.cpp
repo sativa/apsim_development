@@ -604,6 +604,21 @@ float CompositePart::dmGreenDemand(void)  const
    return dmGreenDemand;
 }
 
+float CompositePart::grainWaterContent(void) const
+   //===========================================================================
+{
+   float total = 0.0;
+   float count = 0.0;
+   vector<plantPart *>::const_iterator part;
+   for (part = myParts.begin(); part != myParts.end(); part++)
+   {
+      total += (*part)->grainWaterContent();
+      count +=1.0;
+   }
+//   return divide (total, count, 0.0);
+   return total;                       //FIXME
+}
+
 float CompositePart::grainWt(void) const
    //===========================================================================
 {
@@ -619,6 +634,15 @@ float CompositePart::dmGrainTotal(void) const
    float dmTotal = 0.0;
    for (vector <plantPart * >::const_iterator part = myParts.begin(); part != myParts.end(); part++)
       dmTotal += (*part)->dmGrainTotal();
+   return dmTotal;
+}
+
+float CompositePart::dmGrainWetTotal(void) const
+   //===========================================================================
+{
+   float dmTotal = 0.0;
+   for (vector <plantPart * >::const_iterator part = myParts.begin(); part != myParts.end(); part++)
+      dmTotal += (*part)->dmGrainWetTotal();
    return dmTotal;
 }
 

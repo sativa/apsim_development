@@ -149,9 +149,11 @@ public:                                             // member functions
    virtual float dltDmRemoved(void) const;
    virtual float dltNRemoved(void) const;
 
+   virtual float grainWaterContent(void) const;
    virtual float dmGreenDemand(void) const;
    virtual float dmTotal(void) const;
    virtual float dmGrainTotal(void) const;
+   virtual float dmGrainWetTotal(void) const;
    virtual float dmVegTotal(void) const;
    virtual float dmGreenGrainTotal(void) const;
    virtual float dmGreen(void) const;

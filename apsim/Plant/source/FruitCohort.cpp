@@ -96,6 +96,20 @@ void FruitCohort::doRegistrations(protocol::Component *system)
 
 
 
+//float FruitCohort::grainWaterContent(void) const
+//   //===========================================================================
+//{
+//   float total = 0.0;
+//   float count = 0.0;
+//   vector<plantPart *>::const_iterator part;
+//   for (part = myGrainParts.begin(); part != myGrainParts.end(); part++)
+//   {
+//      total += (*part)->grainWaterContent();
+//      count +=1.0;
+//   }
+//   return divide (total, count, 0.0);
+//}
+
 float FruitCohort::dmGrainTotal(void) const
    //===========================================================================
 {
@@ -103,6 +117,16 @@ float FruitCohort::dmGrainTotal(void) const
    vector<plantPart *>::const_iterator part;
    for (part = myGrainParts.begin(); part != myGrainParts.end(); part++)
       dmTotal += (*part)->dmTotal();
+   return dmTotal;
+}
+
+float FruitCohort::dmGrainWetTotal(void) const
+   //===========================================================================
+{
+   float dmTotal = 0.0;
+   vector<plantPart *>::const_iterator part;
+   for (part = myGrainParts.begin(); part != myGrainParts.end(); part++)
+      dmTotal += (*part)->dmGrainWetTotal();
    return dmTotal;
 }
 

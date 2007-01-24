@@ -198,7 +198,6 @@ public:
    void plant_co2_modifier_rue(void);
    void plant_co2_modifier_te(void);
    void plant_co2_modifier_n_conc(void);
-////   void plant_vpd (float c_svp_fract, float g_maxt, float g_min);
 
    void plant_bio_actual (int option /* (INPUT) option number*/);
    void plant_bio_retrans (void);
@@ -634,8 +633,6 @@ private:
       unsigned int parasite_c_demand;
       unsigned int parasite_sw_demand;
       unsigned int maxt_soil_surface;
-////      unsigned int co2;
-
       unsigned int add_residue_p;
       unsigned int layered_p_uptake;
 
@@ -826,7 +823,6 @@ private:
                                                         // it wasn't depleted between time steps
       float n_fix_rate[max_table];                      // potential rate of N fixation (g N fixed
                                                         // per g above ground biomass
-      float grn_water_cont;                             // water content of grain g/g
       float x_ave_temp[max_table];                      // critical temperatures for
                                                         // photosynthesis (oC)
       float y_stress_photo[max_table];                  // Factors for critical temperatures
@@ -856,7 +852,6 @@ private:
       float eo_crop_factor_default;                     // Default Crop factor for sw demand applied to Eo
       float total_n_uptake_max;
 
-////      float      co2_default;
       float      x_co2_te_modifier[max_table], y_co2_te_modifier[max_table];
       int        num_co2_te_modifier;
       float      x_co2_nconc_modifier[max_table], y_co2_nconc_modifier[max_table];
