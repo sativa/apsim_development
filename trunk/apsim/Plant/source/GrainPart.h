@@ -33,6 +33,7 @@ public:                                             // member functions
    //  void get_dlt_dm_grain_demand(protocol::Component *, protocol::QueryValueData &);
    void get_grain_wt(protocol::Component *, protocol::QueryValueData &);
    void get_yield(protocol::Component *, protocol::QueryValueData &);
+   void get_yield_wet(protocol::Component *, protocol::QueryValueData &);
 
    void get_n_conc_grain(protocol::Component *, protocol::QueryValueData &);
    void get_grain_n(protocol::Component *, protocol::QueryValueData &);
@@ -82,6 +83,8 @@ public:                                             // member functions
 
    virtual void display(ostream &os = cout) const;  // display function
 
+   float dmGrainWetTotal(void) const;
+   float grainWaterContent(void) const;
 
 
    void doNDemandGrain(float nfact_grain_conc, float swdef_expansion);

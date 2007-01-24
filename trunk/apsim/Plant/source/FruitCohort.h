@@ -36,7 +36,9 @@ public:                                             // member functions
    void doNDemand1Pot(float, float);
 
 
+//   float grainWaterContent(void) const;
    float dmGrainTotal(void) const;
+   float dmGrainWetTotal(void) const;
    float dmVegTotal(void) const;
    float dmGreenGrainTotal(void) const;
    float dmGreenVegTotal(void)const;

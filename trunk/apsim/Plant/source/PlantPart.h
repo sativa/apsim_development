@@ -431,7 +431,9 @@ public:
    virtual float dltDm(void) const;
    virtual float dltLeafAreaPot(void) {throw std::runtime_error("plantPart::dltLeafAreaPot() called");};
    virtual float dmDeadVegTotal(void)const;
+   virtual float grainWaterContent(void) const;
    virtual float dmGrainTotal(void) const;
+   virtual float dmGrainWetTotal(void) const;
    virtual float dmGreenGrainTotal(void)const;
    virtual float dmGreenVegTotal(void)const;
    virtual float dmSenescedVegTotal(void)const;

@@ -1811,6 +1811,8 @@ float plantPart::dltDmGrainDemand(void) const {return 0;}
 ////float plantPart::dltDmRetranslocate(void){return 0;}
 float plantPart::dmDeadVegTotal(void)const{return 0;}
 float plantPart::dmGrainTotal(void) const{return 0;}
+float plantPart::dmGrainWetTotal(void) const{return 0;}
+float plantPart::grainWaterContent(void) const{return 0;}
 float plantPart::dmGreenGrainTotal(void) const{return 0;}
 float plantPart::dmGreenVegTotal(void)const{return 0;}
 float plantPart::dmSenescedVegTotal(void)const{return 0;}
