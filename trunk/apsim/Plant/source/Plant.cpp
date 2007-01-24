@@ -147,6 +147,8 @@ Plant::Plant(PlantComponent *P)
     stageObservers.addObserver(&g.cnd_grain_conc);
     stageObservers.addObserver(&g.cnd_photo);
     otherObservers.addObserver(&g.cswd_pheno);
+
+    plantSpatial.init(this);
     }
 
 Plant::~Plant()
@@ -230,6 +232,7 @@ void Plant::doIDs(void)
    {
    // gets
    rootPart->DoIDs(parent);
+   Environment.doIDs(parent);
 
    id.eo = parent->addRegistration(RegistrationType::get,
                                    "eo", addUnitsToDDML(floatType, "mm").c_str(),
@@ -253,10 +256,10 @@ void Plant::doIDs(void)
    id.maxt_soil_surface = parent->addRegistration(RegistrationType::get,
                                    "maxt_soil_surface", addUnitsToDDML(floatType, "degree Celsius").c_str(),
                                    "", "");
-   id.co2 = parent->addRegistration(RegistrationType::get,
-                                    "co2", addUnitsToDDML(floatType, "ppm").c_str(),
-                                    "", "");
-
+////   id.co2 = parent->addRegistration(RegistrationType::get,
+////                                    "co2", addUnitsToDDML(floatType, "ppm").c_str(),
+////                                    "", "");
+////
    string canopyName = string("fr_intc_radn_") + string(parent->getName());
    id.fr_intc_radn = parent->addRegistration(RegistrationType::get,
                                    canopyName.c_str(),
@@ -311,7 +314,7 @@ void Plant::doRegistrations(protocol::Component *system)
                      &Plant::get_height, "mm", "Height of crop");
 
    parent->addGettableVar("width",
-               g.canopy_width, "mm", "canopy row width");
+               leafPart->width(), "mm", "canopy row width");
 
    parent->addGettableVar("plants",
                g.plants, "plants/m^2", "Plant desnity");
@@ -1761,11 +1764,7 @@ void Plant::plant_cleanup ()
     push_routine (my_name);
     g.remove_biom_pheno = 1.0;
 
-    plant_update( g.row_spacing
-                , g.skip_row_fac
-                , g.skip_plant_fac
-                , &g.canopy_width
-                , g.dlt_plants
+    plant_update( g.dlt_plants
                 , &g.plants);
 
     plant_check_bounds(plantCoverDead()
@@ -1827,11 +1826,7 @@ void Plant::plant_cleanup ()
 
 //+  Changes
 //      250894 jngh specified and programmed
-void Plant::plant_update(float  g_row_spacing                          // (INPUT)  row spacing (m) [optional]
-    ,float  g_skip_row_fac                         // skip row factor
-    ,float  g_skip_plant_fac                       // skip plant factor
-    ,float  *g_canopy_width                               // (INPUT)  canopy width (mm)
-    ,float  g_dlt_plants                                       // (INPUT)  change in Plant density (plant
+void Plant::plant_update(float  g_dlt_plants                                       // (INPUT)  change in Plant density (plant
     ,float *g_plants)                                           // (out/INPUT)  Plant density (plants/m^2)
 {
 
@@ -1839,7 +1834,6 @@ void Plant::plant_update(float  g_row_spacing                          // (INPUT
     const char*  my_name = "plant_update" ;
 
 //+  Local Variables
-    float canopy_fac;
 
 //- Implementation Section ----------------------------------
     push_routine (my_name);
@@ -1861,23 +1855,12 @@ void Plant::plant_update(float  g_row_spacing                          // (INPUT
          part++)
        (*part)->update();
 
-    if (*g_canopy_width > 0.0)
-        {
-        legnew_canopy_fac (g_row_spacing
-                           , *g_plants
-                           , g_skip_row_fac
-                           , g_skip_plant_fac
-                           , *g_canopy_width
-                           , &canopy_fac);
-        }
-    else
-        {
-        canopy_fac = g_skip_row_fac;
-        }
-
     // now update new canopy covers
-    leafPart->doCover(canopy_fac, g_row_spacing);
-    fruitPart->doCover(canopy_fac, g_row_spacing);
+    plantSpatial.setPlants(*g_plants);
+    plantSpatial.setCanopyWidth(leafPart->width());
+
+    leafPart->doCover(plantSpatial);
+    fruitPart->doCover(plantSpatial);
 
     // plant stress observers
     stageObservers.update();
@@ -2281,7 +2264,7 @@ void Plant::plant_bio_rue (int option /*(INPUT) option number*/)
 
 void Plant::plant_co2_modifier_rue(void)
 {
-  plant_rue_co2_modifier(g.co2,
+  plant_rue_co2_modifier(Environment.co2,
                          Environment.maxt,
                          Environment.mint,
                          &g.co2_modifier_rue);
@@ -2289,7 +2272,7 @@ void Plant::plant_co2_modifier_rue(void)
 
 void Plant::plant_co2_modifier_te(void)
 {
-   g.co2_modifier_te = linear_interp_real (g.co2
+   g.co2_modifier_te = linear_interp_real (Environment.co2
                                          , c.x_co2_te_modifier
                                          , c.y_co2_te_modifier
                                          , c.num_co2_te_modifier);
@@ -2297,18 +2280,18 @@ void Plant::plant_co2_modifier_te(void)
 
 void Plant::plant_co2_modifier_n_conc(void)
 {
-   g.co2_modifier_n_conc = linear_interp_real (g.co2
+   g.co2_modifier_n_conc = linear_interp_real (Environment.co2
                                          , c.x_co2_nconc_modifier
                                          , c.y_co2_nconc_modifier
                                          , c.num_co2_nconc_modifier);
 }
 
-void Plant::plant_vpd (float c_svp_fract, float g_maxt, float g_mint)
-{
-   g.vpd = vpd(c_svp_fract, g_maxt, g_mint);
-}
-
-
+////void Plant::plant_vpd (float c_svp_fract, float g_maxt, float g_mint)
+////{
+////   g.vpd = vpd(c_svp_fract, g_maxt, g_mint);
+////}
+////
+////
 //==========================================================================
 void Plant::plant_rue_co2_modifier(float co2,                 //!CO2 level (ppm)
                                    float maxt,                //!daily max temp (C)
@@ -2662,7 +2645,7 @@ void Plant::plant_process ( void )
     plant_co2_modifier_rue ();
     plant_co2_modifier_te ();
     plant_co2_modifier_n_conc ();
-    plant_vpd (c.svp_fract, Environment.maxt, Environment.mint);
+////    plant_vpd (c.svp_fract, Environment.maxt, Environment.mint);
 
     rootPart->plant_root_depth ();
 
@@ -2683,7 +2666,7 @@ void Plant::plant_process ( void )
         ps.swdef_grainfill = g.swdef_pheno_grainfill;
         ps.remove_biom_pheno = g.remove_biom_pheno;
 
-        int layer_no_seed = rootPart->find_layer_no (g.sowing_depth);                                         //FIXME - should be returned from a rootPart method
+        int layer_no_seed = rootPart->find_layer_no (plantSpatial.sowing_depth);                                         //FIXME - should be returned from a rootPart method
         float fasw_seed = divide (rootPart->sw_dep[layer_no_seed] - rootPart->ll_dep[layer_no_seed],          //FIXME - should be returned from a rootPart method
                                 rootPart->dul_dep[layer_no_seed] - rootPart->ll_dep[layer_no_seed], 0.0);     //FIXME - should be returned from a rootPart method
          fasw_seed = bound (fasw_seed, 0.0, 1.0);                                                             //FIXME - should be returned from a rootPart method
@@ -3127,7 +3110,6 @@ void Plant::plant_harvest_update (protocol::Variant &v/*(INPUT)message arguments
 
     float remove_fr;
     float height;                                 // cutting height
-    float canopy_fac;
     float temp;
 
 //- Implementation Section ----------------------------------
@@ -3263,24 +3245,13 @@ void Plant::plant_harvest_update (protocol::Variant &v/*(INPUT)message arguments
        }
     parent->writeString (" ");
 
-    if (g.canopy_width > 0.0)
-        {
-        legnew_canopy_fac (g.row_spacing
-                           , g.plants
-                           , g.skip_row_fac
-                           , g.skip_plant_fac
-                           , g.canopy_width
-                           , &canopy_fac);
-        }
-    else
-        {
-        canopy_fac = g.skip_row_fac;
-        }
-
 // now update new canopy covers
 
-    leafPart->doCover(canopy_fac, g.row_spacing);
-    fruitPart->doCover(canopy_fac, g.row_spacing);
+    plantSpatial.setPlants(g.plants);
+    plantSpatial.setCanopyWidth(leafPart->width());
+
+    leafPart->doCover(plantSpatial);
+    fruitPart->doCover(plantSpatial);
 
 // other plant states
     plant_n_conc_limits (g.co2_modifier_n_conc);
@@ -3320,7 +3291,6 @@ void Plant::plant_kill_stem_update (protocol::Variant &v/*(INPUT) message argume
 
 //+  Local Variables
     float temp;
-    float canopy_fac;
 
 //- Implementation Section ----------------------------------
     push_routine (my_name);
@@ -3345,26 +3315,13 @@ void Plant::plant_kill_stem_update (protocol::Variant &v/*(INPUT) message argume
 
     // JNGH need to account for dead pai
 
-    // transfer plant grain no.
-
-    if (g.canopy_width > 0.0)
-        {
-        legnew_canopy_fac (g.row_spacing
-                           , g.plants
-                           , g.skip_row_fac
-                           , g.skip_plant_fac
-                           , g.canopy_width
-                           , &canopy_fac);
-        }
-    else
-        {
-        canopy_fac = g.skip_row_fac;
-        }
-
     // now update new canopy covers
 
-    leafPart->doCover(canopy_fac, g.row_spacing);
-    fruitPart->doCover(canopy_fac, g.row_spacing);
+    plantSpatial.setPlants(g.plants);
+    plantSpatial.setCanopyWidth(leafPart->width());
+
+    leafPart->doCover(plantSpatial);
+    fruitPart->doCover(plantSpatial);
 
     plant_n_conc_limits ( g.co2_modifier_n_conc )  ;                  // plant N concentr
 
@@ -3406,8 +3363,6 @@ void Plant::plant_remove_biomass_update (protocol::RemoveCropDmType dmRemoved)
 
 //+  Local Variables
     vector<plantPart *>::iterator part;
-
-    float canopy_fac;
 
     vector<plantPart *> allParts;
     allParts.push_back(rootPart);
@@ -3471,24 +3426,12 @@ void Plant::plant_remove_biomass_update (protocol::RemoveCropDmType dmRemoved)
 
     stemPart->removeBiomass2(-1.0); // the values calculated here are overwritten in plantPart::morphology(void)
 
-
-    if (g.canopy_width > 0.0)
-        {
-        legnew_canopy_fac (g.row_spacing
-                           , g.plants
-                           , g.skip_row_fac
-                           , g.skip_plant_fac
-                           , g.canopy_width
-                           , &canopy_fac);
-        }
-    else
-        {
-        canopy_fac = g.skip_row_fac;
-        }
-
     // now update new canopy covers
-    leafPart->doCover(canopy_fac, g.row_spacing);
-    fruitPart->doCover(canopy_fac, g.row_spacing);
+    plantSpatial.setPlants(g.plants);
+    plantSpatial.setCanopyWidth(leafPart->width());
+
+    leafPart->doCover(plantSpatial);
+    fruitPart->doCover(plantSpatial);
 
     phenology->onRemoveBiomass(g.remove_biom_pheno);
 
@@ -3531,7 +3474,7 @@ void Plant::plant_zero_all_globals (void)
   memset (&p, 0xdeadbeef, sizeof(p));
   memset (&c, 0xdeadbeef, sizeof(c)); //not for <x>_dm_sen_frac
 #endif
-      g.vpd = 0.0;
+////      g.vpd = 0.0;
       g.co2_modifier_te = 0.0;
       g.co2_modifier_n_conc = 0.0;
       g.co2_modifier_rue = 0.0;
@@ -3553,11 +3496,6 @@ void Plant::plant_zero_all_globals (void)
       g.remove_biom_pheno = 1.0;
       g.temp_stress_photo = 1.0;
       g.oxdef_photo = 1.0;
-      g.row_spacing = 0.0;
-      g.skip_row = 0.0;
-      g.skip_plant = 0.0;
-      g.skip_row_fac = 0.0;
-      g.skip_plant_fac = 0.0;
       g.fr_intc_radn = 0.0;
       Environment.year = 0;
       Environment.day_of_year = 0;
@@ -3567,7 +3505,6 @@ void Plant::plant_zero_all_globals (void)
       Environment.radn = 0.0;
       fill_real_array (g.soil_temp, 0.0, 366+1);
       g.eo = 0.0;
-      g.canopy_width = 0.0;
       g.plants = 0.0;
       g.dlt_plants = 0.0;
       g.dlt_plants_death_seedling = 0.0;
@@ -3620,7 +3557,7 @@ void Plant::plant_zero_all_globals (void)
       c.swdf_pheno_limit = 0.0;
       c.swdf_photo_limit = 0.0;
       c.swdf_photo_rate = 0.0;
-      c.svp_fract = 0.0;
+////      c.svp_fract = 0.0;
       c.no3_diffn_const = 0.0;
       fill_real_array (c.n_fix_rate, 0.0,max_table);
       c.grn_water_cont = 0.0;     //FIXME put into grainpart
@@ -3638,9 +3575,6 @@ void Plant::plant_zero_all_globals (void)
       c.nh4_lb = 0.0;
       c.latitude_ub = 0.0;
       c.latitude_lb = 0.0;
-      c.row_spacing_default = 0.0;
-      c.skip_row_default = 0.0;
-      c.skip_plant_default = 0.0;
       c.class_action.clear();
       c.class_change.clear();
       c.eo_crop_factor_default = 0.0;
@@ -3695,6 +3629,9 @@ void Plant::plant_zero_variables (void)
         t++)
        (*t)->zeroAllGlobals();
 
+    Environment.zeroAllGlobals();
+    plantSpatial.zeroAllGlobals();
+
     fill_real_array (g.soil_temp , 0.0, 366);
 
 //    fill_real_array (p.ll_dep , 0.0, max_layer);
@@ -3703,19 +3640,13 @@ void Plant::plant_zero_variables (void)
     g.lai_max               = 0.0;
 
     g.plants                = 0.0;
-    g.canopy_width         = 0.0;
+////    g.canopy_width         = 0.0;
     g.n_conc_act_stover_tot = 0.0;
     g.n_conc_crit_stover_tot = 0.0;
     g.n_demand_tot          = 0.0;
     g.n_uptake_stover_tot   = 0.0;
     g.n_uptake_tot          = 0.0;
     g.transpiration_tot     = 0.0;
-
-    g.skip_row              = 0.0;
-    g.skip_row_fac          = 0.0;
-    g.skip_plant            = 0.0;
-    g.skip_plant_fac        = 0.0;
-    g.row_spacing           = 0.0;
 
     g.swdef_pheno = 1.0;
     g.swdef_photo = 1.0;
@@ -3923,32 +3854,7 @@ void Plant::plant_start_crop (protocol::Variant &v/*(INPUT) message arguments*/)
                }
            bound_check_real_var(this,g.plants, 0.0, 1000.0, "plants");
 
-           if (incomingApsimVariant.get("sowing_depth", protocol::DTsingle, false, g.sowing_depth) == false)
-               {
-               throw std::invalid_argument("sowing_depth not specified");
-               }
-           bound_check_real_var(this,g.sowing_depth, 10.0, 200.0, "sowing_depth");
-
-           if (incomingApsimVariant.get("row_spacing", protocol::DTsingle, false, g.row_spacing) == false)
-               {
-               g.row_spacing = c.row_spacing_default;
-               }
-           bound_check_real_var(this,g.row_spacing, 0.0, 2000.0, "row_spacing");
-
-
-           if (incomingApsimVariant.get("skipplant", protocol::DTsingle, false, g.skip_plant) == false)
-               {
-               g.skip_plant = c.skip_plant_default;
-               }
-           bound_check_real_var(this,g.skip_plant, 0.0, 2.0, "skipplant");
-           g.skip_plant_fac = (2.0 + g.skip_plant)/2.0;
-
-           if (incomingApsimVariant.get("skiprow", protocol::DTsingle, false, g.skip_row) == false)
-               {
-               g.skip_row = c.skip_row_default;
-               }
-           bound_check_real_var(this,g.skip_row, 0.0, 2.0, "skiprow");
-           g.skip_row_fac = (2.0 + g.skip_row)/2.0;
+           plantSpatial.startCrop (parent, v);
 
            // Bang.
            g.plant_status = alive;
@@ -3964,9 +3870,9 @@ void Plant::plant_start_crop (protocol::Variant &v/*(INPUT) message arguments*/)
            parent->writeString ("    ------------------------------------------------");
 
            sprintf(msg, "   %7d%7.1f%7.1f%7.1f%6.1f%6.1f %s"
-                  , Environment.day_of_year, g.sowing_depth
-                  , g.plants, g.row_spacing
-                  , g.skip_row, g.skip_plant, g.cultivar.c_str());
+                  , Environment.day_of_year, plantSpatial.sowing_depth
+                  , g.plants, plantSpatial.row_spacing
+                  , plantSpatial.skip_row, plantSpatial.skip_plant, g.cultivar.c_str());
            parent->writeString (msg);
 
            parent->writeString ("    ------------------------------------------------\n");
@@ -4384,10 +4290,12 @@ void Plant::plant_get_other_variables ()
        rootPart->nh4gsm[i] = values[i] * kg2gm /ha2sm;                      //FIXME - belongs in rootPart
        }                                                                    //FIXME - belongs in rootPart
 
-    if (!parent->getVariable(id.co2, g.co2, 0.0, 1500.0, true))
-       {
-       g.co2 = c.co2_default;
-       }
+////    if (!parent->getVariable(id.co2, g.co2, 0.0, 1500.0, true))
+////       {
+////       g.co2 = c.co2_default;
+////       }
+////
+    Environment.getOtherVariables(parent);
 
     //Environment.num_layers = count_of_real_vals(g.dlayer, max_layer);
     //Environment.dlayer = vector<float>(g.dlayer, g.dlayer + Environment.num_layers);
@@ -4664,7 +4572,7 @@ void Plant::plant_prepare (void)
     plant_co2_modifier_rue ();
     plant_co2_modifier_te ();
     plant_co2_modifier_n_conc ();
-    plant_vpd (c.svp_fract, Environment.maxt, Environment.mint);
+////    plant_vpd (c.svp_fract, Environment.maxt, Environment.mint);
 
     for (vector<plantPart *>::iterator t = myParts.begin(); t != myParts.end(); t++)
        (*t)->prepare();
@@ -4760,20 +4668,13 @@ void Plant::plant_read_species_const ()
         t++)
       (*t)->readSpeciesParameters(parent, search_order);
 
+    Environment.readSpeciesParameters(parent, search_order);
+    plantSpatial.readSpeciesParameters(parent, search_order);
+
     parent->readParameter (search_order,
                       "n_fix_rate"//, "()"
                      , c.n_fix_rate, numvals
                      , 0.0, 1.0);
-
-    parent->readParameter (search_order
-                   ,"row_spacing_default"//, "(mm)"
-                   , c.row_spacing_default
-                   , 0.0, 2000.);
-
-    parent->readParameter (search_order
-                   ,"skiprow_default"//, "()"
-                   , c.skip_row_default
-                   , 0.0, 2.0);
 
 // crop failure
 
@@ -4808,15 +4709,15 @@ void Plant::plant_read_species_const ()
                    , 0.0, 1.0);
 
 
-// TEMPLATE OPTION
-//    plant_leaf_area
-
-//    plant_transp_eff
-
-    parent->readParameter (search_order
-                   ,"svp_fract"//, "()"
-                   , c.svp_fract
-                   , 0.0, 1.0);
+////// TEMPLATE OPTION
+//////    plant_leaf_area
+////
+//////    plant_transp_eff
+////
+////    parent->readParameter (search_order
+////                   ,"svp_fract"//, "()"
+////                   , c.svp_fract
+////                   , 0.0, 1.0);
 
 //    cproc_sw_demand_bound
 
@@ -4967,11 +4868,11 @@ void Plant::plant_read_species_const ()
                      , c.y_plant_death, c.num_weighted_temp
                      , 0.0, 100.0);
 
-    parent->readParameter (search_order
-                     , "co2_default"//, "()"
-                     , c.co2_default
-                     , 0.0, 1000.0);
-
+////    parent->readParameter (search_order
+////                     , "co2_default"//, "()"
+////                     , c.co2_default
+////                     , 0.0, 1000.0);
+////
     parent->readParameter (search_order
                      , "x_co2_te_modifier"//, "()"
                      , c.x_co2_te_modifier, c.num_co2_te_modifier
@@ -6073,7 +5974,7 @@ void Plant::get_dlt_p_sen(protocol::Component *systemInterface, protocol::QueryV
 float Plant::getStageCode(void) const {return phenology->stageCode();}
 float Plant::getStageNumber(void) const {return phenology->stageNumber();}
 float Plant::getPlants(void) const {return g.plants;}
-float Plant::getCo2(void) const {return g.co2;}
+float Plant::getCo2(void) const {return Environment.co2;}
 //float Plant::getRadnInterceptedPod(void) const {return g.radn_int_pod;}
 float Plant::getDltDMPotRueVeg(void) const {return leafPart->dltDmPotRue();}
 float Plant::getDmGreenVeg(void) const {return (leafPart->dmGreen() + stemPart->dmGreen());}
@@ -6099,7 +6000,7 @@ float Plant::getDyingFractionPlants(void)
 float Plant::getCo2ModifierRue(void) const {return g.co2_modifier_rue;}
 float Plant::getCo2ModifierTe(void) const {return g.co2_modifier_te;}
 float Plant::getCo2ModifierNConc(void) const {return g.co2_modifier_n_conc;}
-float Plant::getVpd(void) const {return g.vpd;}
+float Plant::getVpd(void) const {return Environment.vpdEstimate();}
 float Plant::getTempStressPhoto(void) const {return g.temp_stress_photo;}
 float Plant::getNfactPhoto(void) const {return g.nfact_photo;}
 float Plant::getNfactGrainConc(void) const {return g.nfact_grain_conc;}

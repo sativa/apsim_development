@@ -839,7 +839,7 @@ float cohortingLeafPart::coverSen(void)
    return coverLeaf.sen;
 }
 
-void cohortingLeafPart::doCover (float canopy_fac, float g_row_spacing)
+void cohortingLeafPart::doCover (PlantSpatial &spatial)
    //===========================================================================
 {
 
@@ -851,28 +851,28 @@ void cohortingLeafPart::doCover (float canopy_fac, float g_row_spacing)
 
    //- Implementation Section ----------------------------------
 
-    legnew_cover(g_row_spacing
+    legnew_cover(spatial.rowSpacing()
                  , cXRowSpacing
                  , cYExtinctCoef
                  , cNumRowSpacing
-                 , canopy_fac
+                 , spatial.canopyFac()
                  , getLAI()
                  , &coverLeaf.green);
 
 
-    legnew_cover (g_row_spacing
+    legnew_cover (spatial.rowSpacing()
                  , cXRowSpacing
                  , cYExtinctCoefDead
                  , cNumRowSpacing
-                 , canopy_fac
+                 , spatial.canopyFac()
                  , getSLAI()
                  , &coverLeaf.sen);
 
-    legnew_cover (g_row_spacing
+    legnew_cover (spatial.rowSpacing()
                  , cXRowSpacing
                  , cYExtinctCoefDead
                  , cNumRowSpacing
-                 , canopy_fac
+                 , spatial.canopyFac()
                  , getTLAI_dead()
                  , &coverLeaf.dead);
 }
