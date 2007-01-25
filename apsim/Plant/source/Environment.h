@@ -17,6 +17,7 @@ class environment_t {
    environment_t(const environment_t &environment_t); 			// copy constructor
    const environment_t &operator=(const environment_t &other);		// Assigment operator
 
+   void doNewMet(protocol::NewMetType &newmet) ;
    void readSpeciesParameters (protocol::Component *, vector<string> &);
    void zeroAllGlobals(void);
    void doIDs(protocol::Component *system);
