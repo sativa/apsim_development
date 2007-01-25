@@ -73,10 +73,11 @@ namespace APSRU.Howwet
         private void resetSimulationValues()
             {
             util = new APSRU.Model.Howwet.Utility(Application.ExecutablePath, howwetSetupFileName);
-            MessageBox.Show(util.ApplicationDirectory);
+           // MessageBox.Show(util.ApplicationDirectory);
             config = new APSRU.Model.Howwet.Configuration(util.ApplicationDirectory + howwetSetupFileName, util.ApplicationDirectory + howwetRegionFileName);
             version.Text=config.Version;
             regions = config.RegionList;
+            coverCrops = config.CropList;
 
             if (this.selectedFileName == "")
                 {
@@ -225,7 +226,6 @@ namespace APSRU.Howwet
             ocDepthLabel.Text = layers[0];//top layer string
             organicCarbonContent.Text = simulationObject.Soil.OC.GetValue(0).ToString();
             soilDepthSumOriginal = MathUtility.Sum(simulationObject.Soil.Thickness);
-          //  displayProposedCropList();
             soilPAWCSumOriginal = MathUtility.Sum(simulationObject.Soil.PAWC(simulationObject.GetCrop));
             soilNitrogenSumOriginal = MathUtility.Sum(simulationObject.Soil.InitialNitrogen.NO3KgHa);
             lL15Original = simulationObject.Soil.LL15;
@@ -308,9 +308,9 @@ namespace APSRU.Howwet
             try
                 {
                 String ApsimToSimPath = util.ApplicationDirectory +  apsimToSimPath;
-                MessageBox.Show("ApsimToSimPath "+ApsimToSimPath);
+               // MessageBox.Show("ApsimToSimPath "+ApsimToSimPath);
                 String Apsim = util.ApplicationDirectory+ apsimPath;
-                MessageBox.Show("Apsim " + Apsim);
+               // MessageBox.Show("Apsim " + Apsim);
                 String simulationFileName = simulationObject.FileName;
                 String simulationParentPath = Directory.GetParent(simulationFileName).ToString();
                 //remove old .sum, .out, and .sim files if they exist
@@ -475,7 +475,7 @@ namespace APSRU.Howwet
                     {
                     FileInfo fileInfo = new FileInfo(openDialog.FileName);
                     soilFileName.Text = fileInfo.Name;
-                    this.soilsFileName = fileInfo.Name;
+                    this.soilsFileName = fileInfo.FullName;
                     config.DefaultSoilFileName = this.soilsFileName;
                     if (!SoilSelection.Instance.isLoaded)
                         {
@@ -768,7 +768,6 @@ namespace APSRU.Howwet
         //Populate combo list with corps from the setup  file
         private void displayCoverCropList()
             {
-            coverCrops = config.CropList;
             if(!(coverCrops==null))
                 {
                 coverCropList.Items.Clear();
