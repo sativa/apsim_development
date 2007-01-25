@@ -73,7 +73,6 @@ namespace APSRU.Howwet
         private void resetSimulationValues()
             {
             util = new APSRU.Model.Howwet.Utility(Application.ExecutablePath, howwetSetupFileName);
-           // MessageBox.Show(util.ApplicationDirectory);
             config = new APSRU.Model.Howwet.Configuration(util.ApplicationDirectory + howwetSetupFileName, util.ApplicationDirectory + howwetRegionFileName);
             version.Text=config.Version;
             regions = config.RegionList;
@@ -280,9 +279,11 @@ namespace APSRU.Howwet
                
         private void RunButton_Click(object sender, EventArgs e)
             {
+            StatusLabel2.Text = "Run Simulation";
             String errString = "";
             const String FUNCTION_NAME = "RunButton_Click";
             errString = "Saving all Data";
+            StatusLabel2.Text = "Saving Simulation";
             saveAllData();
             tabControl1.Visible = false;
             label61.Visible = true;
@@ -290,6 +291,7 @@ namespace APSRU.Howwet
             if (ExecuteAPSIM())
                 {
                 errString = "Showing Graphs";
+                StatusLabel2.Text = "Graphing";
                 ShowGraph();
                 }
             else
@@ -301,18 +303,18 @@ namespace APSRU.Howwet
 
         private bool ExecuteAPSIM()
             {
+            StatusLabel2.Text = "Execute APSIM";
             String errString = "";
             const String FUNCTION_NAME = "ExecuteAPSIM";
             bool success = false;
-            Console.WriteLine("Execute Apsim");
+            StatusLabel2.Text = "Execute APSIM";
             try
                 {
                 String ApsimToSimPath = util.ApplicationDirectory +  apsimToSimPath;
-               // MessageBox.Show("ApsimToSimPath "+ApsimToSimPath);
                 String Apsim = util.ApplicationDirectory+ apsimPath;
-               // MessageBox.Show("Apsim " + Apsim);
                 String simulationFileName = simulationObject.FileName;
                 String simulationParentPath = Directory.GetParent(simulationFileName).ToString();
+                StatusLabel2.Text = "Removing old APSIM files";
                 //remove old .sum, .out, and .sim files if they exist
                 if (File.Exists(simulationObject.OutputFileName)) File.Delete(simulationObject.OutputFileName);
                 if (File.Exists(simulationObject.SummaryFileName)) File.Delete(simulationObject.SummaryFileName);
@@ -320,61 +322,53 @@ namespace APSRU.Howwet
                 ProgressBar1.Minimum = 0;
                 ProgressBar1.Maximum = 2;
                 ProgressBar1.Step = 1;
-                StatusLabel2.Text = "Running APSIM";
+                
                 errString = "ApsimToSimPath=" + ApsimToSimPath;
-                if (File.Exists(ApsimToSimPath))
+               
+                StatusLabel2.Text = "Running APSIMToSim";
+               // ProcessStartInfo processStart = new ProcessStartInfo();
+               // processStart.FileName=ApsimToSimPath;
+              //  processStart.Arguments=simulationFileName;
+              //  if(!config.Debug) processStart.WindowStyle = ProcessWindowStyle.Hidden;
+                ProgressBar1.PerformStep();
+              //  Process p = Process.Start(processStart);
+                Process p = Process.Start("\"" + ApsimToSimPath + "\"", "\"" + simulationFileName + "\"");
+                p.WaitForExit();
+                this.Refresh();
+                StatusLabel2.Text = "Completed running APSIMToSim";
+                String simFileName = simulationParentPath+"\\"+simulationObject.SimulationName + ".sim";
+                errString = "Apsim=" + Apsim+ " Sim="+simFileName;
+                if (File.Exists(simFileName))
                     {
-                    Console.WriteLine("Execute Apsim p1 start");
-                    ProcessStartInfo processStart = new ProcessStartInfo();
-                    processStart.FileName=ApsimToSimPath;
-                    processStart.Arguments=simulationFileName;
-                    if(!config.Debug) processStart.WindowStyle = ProcessWindowStyle.Hidden;
+                    StatusLabel2.Text = "Running APSIM";
                     ProgressBar1.PerformStep();
-                    Process p = Process.Start(processStart);
+                   // ProcessStartInfo processStart1 = new ProcessStartInfo();
+                  //  processStart1.FileName = Apsim;
+                  //  processStart1.Arguments = simFileName;
+                  //  if (!config.Debug) processStart1.WindowStyle = ProcessWindowStyle.Hidden;
+                  //  p = Process.Start(processStart1);
+                    p = Process.Start("\"" + Apsim + "\"", "\"" + simFileName + "\"");
                     p.WaitForExit();
                     this.Refresh();
-                    Console.WriteLine("Execute Apsim p1 end");
-                  
-                    String simFileName = simulationParentPath+"\\"+simulationObject.SimulationName + ".sim";
-                    errString = "Apsim=" + Apsim+ " Sim="+simFileName;
-                    if(File.Exists(simFileName))
+                    StatusLabel2.Text = "Completed running APSIM";
+                    String outFileName = simulationObject.SimulationName + ".out";
+                    errString = "Output file=" + outFileName;
+                    StatusLabel2.Text = "Checking APSIM output files";
+                    if (File.Exists(outFileName))
                         {
-                        if (File.Exists(Apsim))
-                            {
-                            Console.WriteLine("Execute Apsim p2 start");
-                            ProgressBar1.PerformStep();
-                            ProcessStartInfo processStart1 = new ProcessStartInfo();
-                            processStart1.FileName = Apsim;
-                            processStart1.Arguments = simFileName;
-                            if (!config.Debug) processStart1.WindowStyle = ProcessWindowStyle.Hidden;
-                            p = Process.Start(processStart1);
-                            p.WaitForExit();
-                            this.Refresh();
-                            Console.WriteLine("Execute Apsim p2 end");
-
-                            String outFileName = simulationObject.SimulationName + ".out";
-                            errString = "Output file=" + outFileName;
-                            if (File.Exists(outFileName))
-                                {
-                                success = true;
-                                }
-                            else
-                                {
-                                new CustomException(new CustomError("", "Cannot find simulation output file", errString, FUNCTION_NAME, this.GetType().FullName, false));
-                                }
-                            }
-                        else
-                            {
-                            new CustomException(new CustomError("", "Cannot find Apsim file", errString, FUNCTION_NAME, this.GetType().FullName, false));
-                            }
+                        success = true;
+                        StatusLabel2.Text = "Successfully run Simulation";
+                        }
+                    else
+                        {
+                        throw new CustomException(new CustomError("", "Cannot find output file", errString, FUNCTION_NAME, this.GetType().FullName, false));
                         }
                     }
                 else
                     {
-                    new CustomException(new CustomError("", "Cannot find ApsimToSim file", errString, FUNCTION_NAME, this.GetType().FullName, false));
+                    throw new CustomException(new CustomError("", "Cannot find sim file", errString, FUNCTION_NAME, this.GetType().FullName, false));
                     }
                 ProgressBar1.Value = 0;
-                StatusLabel2.Text = "Status";
                 return success;
                 }
             catch (CustomException err)
@@ -1010,10 +1004,9 @@ namespace APSRU.Howwet
                 double maxNitrate = 0, maxSurfaceMoisture = 0, maxMaxTemp = 0;
                 double maxSoilLoss = 0 ,maxRunoff = 0;
                 double maxLTRainfall = 0;
-
+                StatusLabel2.Text = "Max and Min";
                 String[] ltAverageMonthlyRain = selectedRegion.AverageMonthlyRain;
                 
-                Console.WriteLine("showGraph find max min start");
                 foreach (DataRow row in chartDataTable.Rows)
                     {
                     DateTime date = new DateTime();
@@ -1039,9 +1032,8 @@ namespace APSRU.Howwet
                   
                     ProgressBar1.PerformStep();
                     }
-                Console.WriteLine("showGraph find max min end");
 
-                    StatusLabel2.Text = "Status";
+                    StatusLabel2.Text = "Completed Max Min";
                     ProgressBar1.Value = 0;
 
                     axis1.AutomaticMaximum = true;
@@ -1099,8 +1091,7 @@ namespace APSRU.Howwet
                     }
                 else
                     {
-                    Console.WriteLine("showGraph building chart");
-
+                    StatusLabel2.Text = "Drawing charts";
                     foreach (DataRow row in chartDataTable.Rows)
                         {
                         DateTime date = new DateTime();
@@ -1124,10 +1115,9 @@ namespace APSRU.Howwet
                         //Long term rainfall
                         LTRainfallBar.Add(date, Convert.ToDouble(row["Rainfall"]));
                         LTAvRainfallLine.Add(date, Convert.ToDouble(ltAverageMonthlyRain[date.Month-1]));
-                        
                         ProgressBar1.PerformStep();
                         }
-                    StatusLabel2.Text = "Status";
+                    StatusLabel2.Text = "Drawing charts completed";
                     ProgressBar1.Value = 0;
                     RainfallSWChart.Refresh();
                     SoilNitrogenChart.Refresh();
@@ -1202,7 +1192,7 @@ namespace APSRU.Howwet
                 }
             else
                 {
-                StatusLabel2.Text = "Status";
+                StatusLabel2.Text = "Drawing charts completed";
                 ProgressBar1.Value = 0;
                 timer1.Stop();
                 }
@@ -1252,6 +1242,7 @@ namespace APSRU.Howwet
 
         private void saveAllData()
             {
+            StatusLabel2.Text = "Saving Data";
             config.SaveDefaults();
             //write form values
             if (simulationObject.FileName == "untitled")
@@ -1273,16 +1264,9 @@ namespace APSRU.Howwet
                              
             apsimObject.SaveToFile(simulationObject.FileName);
             this.Text = simulationObject.FileName;
+            StatusLabel2.Text = "Saved Data";
             }
-        private void STATest()
-            {
-            SaveFileDialog saveDialog = new SaveFileDialog();
-            saveDialog.Filter = "APSIM files (*.apsim)|*.apsim";
-            if (saveDialog.ShowDialog() == DialogResult.OK)
-                {
-                simulationObject.FileName = saveDialog.FileName;
-                }
-            }
+
         #endregion
 
     
