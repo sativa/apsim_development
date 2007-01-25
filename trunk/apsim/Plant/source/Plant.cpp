@@ -816,11 +816,9 @@ void Plant::doNewMet(unsigned &, unsigned &, protocol::Variant &v)
      {
      struct protocol::NewMetType newmet;
      v.unpack(newmet);
-     Environment.radn = newmet.radn;
-     Environment.maxt = newmet.maxt;
-     Environment.mint = newmet.mint;
-     fruitPart->doNewMet(newmet);
 
+     Environment.doNewMet(newmet) ;
+     fruitPart->doNewMet(newmet);
      }
   }
 
@@ -851,7 +849,7 @@ void Plant::plant_bio_retrans (void)
    allParts.push_back(stemPart);
    allParts.push_back(fruitPart);
 
-   float dm_demand_differential = fruitPart->dmGreenDemand ()
+   float dm_demand_differential = fruitPart->dmGreenDemand ()   //FIXME - should be returned from a fruitPart method
                                 - fruitPart->dltDmGreen();
 
    float dlt_dm_retrans_to_fruit = 0.0;                    // dry matter retranslocated to fruit (g/m^2)
@@ -864,7 +862,7 @@ void Plant::plant_bio_retrans (void)
    fruitPart->doDmRetranslocate (dlt_dm_retrans_to_fruit, dm_demand_differential);
 
    // Finally, a mass balance check
-//   float mbSum = 0.0;
+//   float mbSum = 0.0;                                                    //FIXME - need to reinstate this check
 //   for (vector<plantPart *>::iterator part = myParts.begin();
 //        part != myParts.end();
 //        part++)

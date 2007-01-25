@@ -35,6 +35,15 @@ void environment_t::doIDs(protocol::Component *system)
                                     "", "");
    }
 
+// Field a NewMet event
+void environment_t::doNewMet(protocol::NewMetType &newmet)
+   //===========================================================================
+  {
+     radn = newmet.radn;
+     maxt = newmet.maxt;
+     mint = newmet.mint;
+  }
+
 void environment_t::getOtherVariables(protocol::Component *system)
    //===========================================================================
    {
