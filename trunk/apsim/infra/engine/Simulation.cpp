@@ -14,9 +14,7 @@
 #include <ApsimShared/ApsimSystemData.h>
 #include <ApsimShared/ApsimServiceData.h>
 #include <ApsimShared/ApsimSimulationFile.h>
-#ifdef __WIN32__
-   #include <ApsimShared/SimCreator.h>
-#endif
+#include <ApsimShared/SimCreator.h>
 #include <ApsimShared/ApsimDirectories.h>
 
 #include <ComponentInterface/Interfaces.h>
@@ -218,7 +216,6 @@ void Simulation::resolveIncludes(string& sdml)
    replaceAll(sdml, "%apsuite", getApsimDirectory());
 
    unsigned posInclude = sdml.find("<include>");
-#ifdef __WIN32__
    while (posInclude != string::npos)
       {
       unsigned posFileName = posInclude + strlen("<include>");
@@ -227,7 +224,7 @@ void Simulation::resolveIncludes(string& sdml)
          throw runtime_error("Cannot find </include> tag");
       string includeFileName = sdml.substr(posFileName, posEndFileName-posFileName);
 
-      if (!Path(includeFileName).Exists())
+      if (! fileExists(includeFileName))
          throw runtime_error("Cannot find include file: " + includeFileName);
       string contents;
       if (includeFileName.find(".ini") != string::npos)
@@ -248,6 +245,5 @@ void Simulation::resolveIncludes(string& sdml)
 
       posInclude = sdml.find("<include>");
       }
-#endif
    }
 
