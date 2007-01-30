@@ -1,9 +1,11 @@
 # (Borlandish) Makefile for apsim infrastructure module
 
-# Platform specific defns
-!include $(APSROOT)\APSBuild\platform.make
+!if !$d(BCB)
+BCB = $(MAKEDIR)\..
+!endif
 
-# Fortran compiler defns
+!include $(APSROOT)\APSBuild\platform.make
+!include $(APSROOT)\APSBuild\cpp.make
 !include $(APSROOT)\APSBuild\fortran.make
 
 OBJECTS=FORScienceAPI.obj   \
@@ -16,7 +18,37 @@ OBJECTS=FORScienceAPI.obj   \
         science.obj         \
         Infrastructure.obj
 
-FortranScienceAPI.lib: $(OBJECTS) FortranEntryPoints.obj
+all: ../../bin/FortranComponentInterface.dll FortranScienceAPI.lib FORTRANEntryPoints.obj
+
+SYSDEFINES = NO_STRICT;_NO_VCL;_RTLDLL;USEPACKAGES
+INCLUDEPATH = $(SYSINCLUDES);$(APSROOT)\Shared;$(BCB)\Components\Boost
+
+PACKAGES = vcl.bpi rtl.bpi
+USERDEFINES =
+LIBPATH = $(SYSLIBPATH)
+LIBRARIES = rtl.lib
+LIBFILES = $(SYSLIBS)                                    \
+           $(APSROOT)\Shared\general\general.lib         \
+           $(BCB)\Components\LibXml2\win32\LibXml2.lib
+
+ALLRES = $(RESFILES)
+ALLLIB = vcl.lib $(LIBFILES) $(LIBRARIES) import32.lib cw32mti.lib
+# ---------------------------------------------------------------------------
+# For ComponentInterface.dll, use:
+CFLAG1 =  $(SYSCFLAGS) -tWD -tWM
+# Use this with lahey fortran-linked objects
+CFLAGLF95 =  -x- -RT- -r- -H=$(APSROOT)\Bin\vcl60.csm -Hc -Vx -Ve -X- -a8 -b- -k -y -v -vi- -tWD -tWM -c
+
+WARNINGS = -w-par
+LFLAGS = $(SYSLDFLAGS) -aa -Tpd -x -Gn -Gi -v
+
+CC=$(BCB)\Bin\bcc32.exe
+LINKER=$(BCB)\Bin\ilink32.exe
+IMPLIB=$(BCB)\Bin\implib.exe
+IMPDEF=$(BCB)\Bin\impdef.exe
+
+
+FortranScienceAPI.lib: $(OBJECTS) 
 	if exist FortranScienceAPI.lib $(RM) FortranScienceAPI.lib
 	$(ECHO) FortranScienceAPI.lib > linker.tmp
 	$(ECHO) +convertmodule.obj +constantsModule.obj +string.obj +data.obj +datastr.obj +date.obj +science.obj +FORScienceAPI.obj +Infrastructure.obj >> linker.tmp
@@ -24,13 +56,33 @@ FortranScienceAPI.lib: $(OBJECTS) FortranEntryPoints.obj
 	$(LFLM) @linker.tmp
 	$(RM) *.tmp
 
+../../bin/FortranComponentInterface.dll: FortranComponentInterface.obj \
+   FortranWrapper.obj \
+   ../ComponentInterface2/EntryPoints.obj \
+   FortranScienceAPIImpl.obj
+	$(LINKER) @&&!
+$(LFLAGS) -L$(LIBPATH) +
+c0d32.obj $(PACKAGES) \
+   FortranComponentInterface.obj \
+   FortranWrapper.obj \
+   ..\ComponentInterface2\EntryPoints.obj \
+   FortranScienceAPIImpl.obj, +
+FortranComponentInterface.dll,, +
+$(ALLLIB) ..\ComponentInterface2\ComponentInterface2.lib, +
+$(DEFFILE), +
+$(ALLRES)
+!
+	$(IMPLIB) FortranComponentInterface.lib FortranComponentInterface.dll
+	move /Y FortranComponentInterface.dll ..\..\bin
 
 FORScienceAPI.f90: $(APSROOT)\apsim\infra\datatypes.interface datatypes.macro
    call datatypes.bat
 
-SYSDEFINES = NO_STRICT;_RTLDLL;USEPACKAGES
-INCLUDEPATH = $(SYSINCLUDES);$(APSROOT)\Shared;$(BCB)\Components\Boost
-CFLAGLF95 =  -x- -RT- -r- -H=$(APSROOT)\Bin\vcl60.csm -Hc -Vx -Ve -X- -a8 -b- -k -y -v -vi- -tWD -tWM -c
-WARNINGS = -w-par
 FortranEntryPoints.obj : FortranEntryPoints.cpp
     $(CC) $(CFLAGLF95) $(WARNINGS) -I$(INCLUDEPATH) -D$(SYSDEFINES) -n$(@D) FortranEntryPoints.cpp
+
+.cpp.obj:
+    $(CC) $(CFLAG1) $(WARNINGS) -I$(INCLUDEPATH) -D$(USERDEFINES);$(SYSDEFINES) -n$(@D) {$< }
+
+clean:
+    $(RM) $(OBJECTS) FortranScienceAPI.lib FORScienceAPI.f90 FortranEntryPoints.obj *.mod *.obj
