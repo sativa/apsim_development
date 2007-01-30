@@ -10,6 +10,7 @@
 #include <sys/stat.h>
 #include <libiberty.h>
 #include <sys/types.h>
+#include <unistd.h>
 #endif
 
 #include "path.h"
