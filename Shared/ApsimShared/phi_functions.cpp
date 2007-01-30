@@ -2,6 +2,8 @@
 
 #ifdef __WIN32__
    #include <dir.h>
+#else
+   #include <unistd.h>
 #endif
 using namespace std;
 

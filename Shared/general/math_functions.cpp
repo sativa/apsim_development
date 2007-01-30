@@ -373,7 +373,7 @@ void Round_using_magnitude (double& Value, bool Round_up)
    if (fabs(Value) > 0)
       {
       int Magnitude = (int)log10(fabs(Value));
-      int Nearest = (int)pow(10, Magnitude);
+      int Nearest = (int)pow(10.0, Magnitude);
       Round_to_nearest (Value, Nearest, Round_up);
       }
    }
