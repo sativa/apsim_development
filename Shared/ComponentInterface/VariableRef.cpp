@@ -18,7 +18,7 @@ class WrapBuiltInRef : public IData
 		virtual void Unpack(protocol::MessageData & message)
          {message >> value;}
 		virtual std::string DDML()
-         {return ::DDML(value);}
+         {return protocol::DDML(value);}
       virtual unsigned Size()
          {return memorySize(value);}
    };
