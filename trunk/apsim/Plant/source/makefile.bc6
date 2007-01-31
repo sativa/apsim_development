@@ -48,7 +48,7 @@ OBJFILES=PlantComponent.obj \
    genericLeafPart.obj \
    cohortingLeafPart.obj \
    Arbitrator.obj \
-   plantSpatial.obj \
+   PlantSpatial.obj \
     \
    Phenology\PlantPhenology.obj \
    Phenology\Phase.obj \
@@ -141,7 +141,7 @@ GrainPartGN.obj: GrainPartGN.cpp GrainPartGN.h GrainPart.cpp GrainPart.h Composi
 LeafAppPhase.obj: LeafAppPhase.cpp LeafAppPhase.h
 Output.obj: Output.cpp Output.h
 OutputVariable.obj: OutputVariable.cpp OutputVariable.h
-plantSpatial.obj: plantSpatial.cpp plantSpatial.h PlantInterface.h PlantLibrary.h
+PlantSpatial.obj: PlantSpatial.cpp PlantSpatial.h PlantInterface.h PlantLibrary.h
 
 Phenology\PlantPhenology.obj: Phenology\PlantPhenology.cpp Phenology\PlantPhenology.h
 Phenology\BroccoliPhenology.obj: Phenology\BroccoliPhenology.cpp Phenology\BroccoliPhenology.h
