@@ -310,8 +310,8 @@ void Plant::doRegistrations(protocol::Component *system)
    setupGetFunction(parent, "height", protocol::DTsingle, false,
                      &Plant::get_height, "mm", "Height of crop");
 
-   parent->addGettableVar("width",
-               leafPart->width(), "mm", "canopy row width");
+   setupGetFunction(parent, "width", protocol::DTsingle, false,
+                     &Plant::get_width, "mm", "canopy row width");
 
    parent->addGettableVar("plants",
                g.plants, "plants/m^2", "Plant desnity");
@@ -5201,6 +5201,11 @@ float Plant::getLeafNo(void) const
 void Plant::get_height(protocol::Component *system, protocol::QueryValueData &qd)
 {
    system->sendVariable(qd, stemPart->height());
+}
+
+void Plant::get_width(protocol::Component *system, protocol::QueryValueData &qd)
+{
+   system->sendVariable(qd, leafPart->width());
 }
 
 void Plant::get_plants(protocol::Component *system, protocol::QueryValueData &qd)
