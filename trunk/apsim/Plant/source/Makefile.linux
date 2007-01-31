@@ -6,7 +6,7 @@
 
 DESTDIR ?= /usr/local/apsim
 
-LIB=	../lib/Plant.so
+LIB=    ../lib/Plant.so
     
 OBJ=PlantComponent.o \
    Plant.o \
@@ -33,14 +33,18 @@ OBJ=PlantComponent.o \
    MealPart.o \
    OilPart.o \
    GrainPart.o \
+   GrainPartHI.o \
+   GrainPartGN.o \
    CompositePart.o \
    RootPart.o \
    FruitCohort.o \
+   PlantFruit.o \
    Output.o \
    OutputVariable.o \
    genericLeafPart.o \
    cohortingLeafPart.o \
    arbitrator.o \
+   PlantSpatial.o \
    Phenology/PlantPhenology.o \
    Phenology/Phase.o \
    Phenology/CompositePhase.o \
@@ -59,47 +63,47 @@ OBJ=PlantComponent.o \
 #-----------------------------------------------------------------------
 # Compiler options
 
-CC=		/usr/bin/gcc
-CPPFLAGS=	-I/usr/include/boost -I/usr/include/libxml2	\
-		-I$(APSROOT)/Shared				\
-		-I$(APSROOT)/Shared/ComponentInterface		\
-		-I$(APSROOT)/apsim/Plant/source                 \
-		-Wno-deprecated 				\
-		-fpermissive -fPIC $(CPPDEBUGFLAGS)
+CC=     /usr/bin/gcc
+CPPFLAGS=   -I/usr/include/boost -I/usr/include/libxml2 \
+        -I$(APSROOT)/Shared             \
+        -I$(APSROOT)/Shared/ComponentInterface      \
+        -I$(APSROOT)/apsim/Plant/source                 \
+        -Wno-deprecated                 \
+        -fpermissive -fPIC $(CPPDEBUGFLAGS)
 
 #-----------------------------------------------------------------------
 # Required libraries
 
-LDFLAGS=	-L$(APSROOT)/lib		\
-		-L/usr/lib $(LDDEBUGFLAGS)
+LDFLAGS=    -L$(APSROOT)/lib        \
+        -L/usr/lib $(LDDEBUGFLAGS)
 
-LIBS=		-lComponentInterface	\
-		-lprotocol		\
-		-lApsimShared		\
-		-lgeneral		\
-		-lboost_filesystem 	\
-		-lxml2
+LIBS=       -lComponentInterface    \
+        -lprotocol      \
+        -lApsimShared       \
+        -lgeneral       \
+        -lboost_filesystem  \
+        -lxml2
 
 #-----------------------------------------------------------------------
 # The rules
 
 all: $(LIB)
 
-%.o:	%.cpp
-	$(CC) $(CPPFLAGS) $(CFLAGS) -c -o $@ $<
+%.o:    %.cpp
+    $(CC) $(CPPFLAGS) $(CFLAGS) -c -o $@ $<
 
-$(LIB):	$(OBJ)
-	$(CC) -shared -o $(LIB) $(OBJ) $(LDFLAGS) $(LIBS)
+$(LIB): $(OBJ)
+    $(CC) -shared -o $(LIB) $(OBJ) $(LDFLAGS) $(LIBS)
 
 FORCE:
 
 clean:
-	rm -f $(OBJ)
+    rm -f $(OBJ)
 
-clobber:	clean
-	rm -f $(LIB)
+clobber:    clean
+    rm -f $(LIB)
 
 install: all
-	if [ ! -d $(DESTDIR)/apsim/Plant/lib ]; then mkdir -p $(DESTDIR)/apsim/Plant/lib; fi 
-	cp $(LIB) $(DESTDIR)/apsim/Plant/lib
+    if [ ! -d $(DESTDIR)/apsim/Plant/lib ]; then mkdir -p $(DESTDIR)/apsim/Plant/lib; fi 
+    cp $(LIB) $(DESTDIR)/apsim/Plant/lib
 
