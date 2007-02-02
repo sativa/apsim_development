@@ -14,10 +14,6 @@ proc getValue {id thing} {
    }
 }
 
-foreach v {name desc price units updated nodes} {
-   catch {unset $v}
-}
-
 ## Decode the XML string for this applet
 set doc [dom parse $XMLDoc]
 set docroot [$doc documentElement]
@@ -29,7 +25,11 @@ catch {destroy .w}
 #set sf [ScrollableFrame $sw.f]
 #$sw setwidget $sf
 #set w [$sf getframe]
-frame .w
+set w [frame .w]
+
+foreach v {desc name price units updated nodes} {
+   catch {unset $v}
+}
 
 set nodes {}
 foreach node [$docroot selectNodes //$category] {
