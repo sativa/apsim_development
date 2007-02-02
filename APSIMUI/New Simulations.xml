@@ -4799,6 +4799,7 @@ trace add variable XMLDoc read setXML
         </tclui>
         <tclui name="Rotation Management">
           <uiscript><![CDATA[
+package req Tk
 package req struct
 package req tdom
 trace remove variable XMLDoc read setXML
@@ -4824,7 +4825,6 @@ proc getValues {id thing} {
    return $result
 }
 
-
 # return the tag of an item near (x,y)
 proc getTag {c x y} {
    set tag [lindex [$c find overlapping [expr $x-5] [expr $y-5] [expr $x+5] [expr $y+5]] end]
@@ -4849,7 +4849,6 @@ proc select {w x y} {
           catch {$cfg(c) itemconf $cfg(selected) -fill black -width 1}
       }
    }
-   ## set x [$cfg(c) canvasx $x]; set y [$cfg(c) canvasy $y]
    set tag [getTag $cfg(c) $x $y]
    if {$tag != {}} {
       set cfg(selected) $tag
@@ -4885,7 +4884,7 @@ proc move {w x y} {
          foreach {x1 y1 x2 y2} [$cfg(c) coords $cfg(selected)] {}
          foreach what {x1 y1 x2 y2} {$cfg(g) node set $name $what [set $what]}
          foreach arc [$cfg(g) arcs -adj $name] {
-             fixupArrow $w arc:$arc "node:[$cfg(g) arc source $arc]" "node:[$cfg(g) arc target $arc]"
+            fixupArrow $w arc:$arc "node:[$cfg(g) arc source $arc]" "node:[$cfg(g) arc target $arc]"
          }
       } elseif {$type == "arc"} {
          set coords [$cfg(c) coords $cfg(selected)]
@@ -4896,6 +4895,7 @@ proc move {w x y} {
          fixupArrow $w $cfg(selected) "node:[$cfg(g) arc source $name]" "node:[$cfg(g) arc target $name]"
       }  
    }
+   $cfg(c) configure -scrollregion [$cfg(c) bbox all]
 }
 
  
@@ -4940,29 +4940,27 @@ proc fixupArrow {w arc srcNode destNode} {
    set p1 [findEdge $w $xm $ym $destNode]
    
    $cfg(c) coords arc:$arc [concat $p0 $xm $ym $p1]
-   #set cfg(message) "$arc = '[$cfg(c) coords arc:$arc]'"
-   #set cfg(message) "$arc = [concat $p0 $xm $ym $p1]"
 }
 
 # Right button click - post a context sensitive menu
-proc action {w x y} {
+proc action {w x y cx cy} {
    upvar #0 $w cfg
-   set tag [getTag $cfg(c) $x $y]
+   set tag [getTag $cfg(c) $cx $cy]
    if {$cfg(selected) == {}} {
-      postNewNodeMenu $w $x $y
+      postNewNodeMenu $w $x $y $cx $cy
    } elseif {$cfg(selected) != {} && "$tag" == $cfg(selected)} {
-      postChangeMenu $w $tag $x $y 
+      postChangeMenu $w $tag $x $y $cx $cy 
    } elseif {$cfg(selected) != {} && "$tag" != {} && "$tag" != $cfg(selected)} {
-      postAddArcMenu $w $cfg(selected) $tag $x $y 
+      postAddArcMenu $w $cfg(selected) $tag $x $y $cx $cy 
    }
 }
 
-proc postNewNodeMenu {w x y} {
+proc postNewNodeMenu {w x y cx cy} {
    upvar #0 $w cfg
    if {[winfo exists $cfg(c).newNodeMenu]} {destroy $cfg(c).newNodeMenu}
    menu $cfg(c).newNodeMenu -tearoff 0
-   $cfg(c).newNodeMenu add command -label "Add New State" -command "addNewNode $w $x $y"
-   tk_popup $cfg(c).newNodeMenu [expr [winfo rootx $cfg(c)]+$x] [expr [winfo rooty $cfg(c)]+$y] 
+   $cfg(c).newNodeMenu add command -label "Add New State" -command "addNewNode $w $cx $cy"
+   tk_popup $cfg(c).newNodeMenu $x $y 
 }
 
 proc addNewNode {w x y} {
@@ -4982,7 +4980,50 @@ proc addNewNode {w x y} {
    set mx($n) [expr ($x1 + $x2) / 2.0]; set my($n) [expr ($y1 + $y2) / 2.0]
    $cfg(c) create text $mx($n) $my($n) -text "$n" -anchor center -tags node:$n
 
-   select $w $x $y
+   select $w [$cfg(c) canvasx $x] [$cfg(c) canvasy $y]
+   $cfg(c) configure -scrollregion [$cfg(c) bbox all]
+}
+
+proc dupNode {w tag} {
+   upvar #0 $w cfg
+   set srcNode [lindex [split $tag :] 1] 
+
+   set n 0; while {[$cfg(g) node exists n$n]} {incr n}; set n "n$n"
+   $cfg(g) node insert $n
+   $cfg(g) node set $n x1 [set x1 [expr [$cfg(g) node get $srcNode x1]+50]]
+   $cfg(g) node set $n y1 [set y1 [expr [$cfg(g) node get $srcNode y1]+50]]
+   $cfg(g) node set $n x2 [set x2 [expr [$cfg(g) node get $srcNode x2]+50]]
+   $cfg(g) node set $n y2 [set y2 [expr [$cfg(g) node get $srcNode y2]+50]]
+   $cfg(g) node set $n fill [$cfg(g) node get $srcNode fill]
+   $cfg(g) node set $n name [$cfg(g) node get $srcNode name]
+   $cfg(g) node set $n desc [$cfg(g) node get $srcNode desc]
+   $cfg(g) node set $n alias [$cfg(g) node get $srcNode alias]
+
+   $cfg(c) create oval $x1 $y1 $x2 $y2 -fill [$cfg(g) node get $srcNode fill] -tags node:$n
+   set mx($n) [expr ($x1 + $x2) / 2.0]; set my($n) [expr ($y1 + $y2) / 2.0]
+   $cfg(c) create text $mx($n) $my($n) -text [$cfg(g) node get $srcNode name] -anchor center -tags node:$n
+
+   foreach arc [$cfg(g) arcs -in $srcNode] {
+      set src  "node:[$cfg(g) arc source $arc]"
+      set dest "node:$n"
+      set newArc [addNewArc $w $src $dest]
+      foreach what {rules actions} {
+        foreach thing [$cfg(g) arc get $arc $what] {
+           $cfg(g) arc lappend $newArc $what $thing
+        }
+      }     
+   }  
+
+   foreach arc [$cfg(g) arcs -out $srcNode] {
+      set src  "node:$n"
+      set dest "node:[$cfg(g) arc target $arc]"
+      set newArc [addNewArc $w $src $dest]
+      foreach what {rules actions} {
+        foreach thing [$cfg(g) arc get $arc $what] {
+           $cfg(g) arc lappend $newArc $what $thing
+        }
+      }     
+   }  
 }
 
 proc deleteNode {w tag} {
@@ -4997,17 +5038,18 @@ proc deleteNode {w tag} {
    select $w 0 0
 }
 
-proc postAddArcMenu {w srcTag destTag x y} {
+proc postAddArcMenu {w srcTag destTag x y cx cy} {
    upvar #0 $w cfg
    catch {destroy $cfg(c).addArcMenu}
    menu $cfg(c).addArcMenu -tearoff 0
    set srcName [lindex [split $srcTag :] 1]; set destName [lindex [split $destTag :] 1]
    
-   if {![catch {set src [$cfg(g) node get $srcName name]; set dest [$cfg(g) node get $destName name]}]} {
+   if {![catch {set src [$cfg(g) node get $srcName name]; 
+                set dest [$cfg(g) node get $destName name]}]} {
       $cfg(c).addArcMenu add command \
           -label "Add arc from $src to $dest" \
           -command "addNewArc $w $srcTag $destTag"
-      tk_popup $cfg(c).addArcMenu [expr [winfo rootx $cfg(c)]+$x] [expr [winfo rooty $cfg(c)]+$y] 
+      tk_popup $cfg(c).addArcMenu $x $y 
    }  
 }
 
@@ -5029,6 +5071,9 @@ proc addNewArc {w srcTag destTag} {
    $cfg(g) arc lappend $arc actions {}
    $cfg(g) arc set $arc x $mx
    $cfg(g) arc set $arc y $my
+   $cfg(c) configure -scrollregion [$cfg(c) bbox all]
+
+   return $arc
 }
 
 proc deleteArc {w tag} {
@@ -5037,30 +5082,55 @@ proc deleteArc {w tag} {
    $cfg(g) arc delete [lindex [split $tag :] 1]
 }
 
-proc postChangeMenu {w tag x y} {
+proc dupArc {w tag} {
+   upvar #0 $w cfg
+   set arc [lindex [split $tag :] 1]
+   set src  "node:[$cfg(g) arc source $arc]"
+   set dest "node:[$cfg(g) arc target $arc]"
+   set newArc [addNewArc $w $src $dest]
+
+   foreach rule [$cfg(g) arc get $arc rules] {
+     $cfg(g) arc lappend $newArc rules  $rule
+   }  
+   foreach action [$cfg(g) arc get $arc actions] {
+     $cfg(g) arc lappend $newArc actions $action
+   }
+}
+
+proc postChangeMenu {w tag x y cx cy} {
    upvar #0 $w cfg
    set isNode [string match "node*" $tag]
    catch {destroy $cfg(c).postChangeMenu}
    menu $cfg(c).postChangeMenu -tearoff 0
    if {$isNode} {
       $cfg(c).postChangeMenu add command -label "Delete" -command "deleteNode $w $tag"
+      $cfg(c).postChangeMenu add command -label "Duplicate" -command "dupNode $w $tag"
    } else {
       $cfg(c).postChangeMenu add command -label "Delete" -command "deleteArc $w $tag"
+      $cfg(c).postChangeMenu add command -label "Duplicate" -command "dupArc $w $tag"
    }
-   tk_popup $cfg(c).postChangeMenu  [expr [winfo rootx $cfg(c)]+$x] [expr [winfo rooty $cfg(c)]+$y] 
+   tk_popup $cfg(c).postChangeMenu  $x $y
 }
 
 # Create the UI for the current object and fill it out 
 proc showSelection {w type name} {
    upvar #0 $w cfg
-   if {"$cfg(s)" != "$w.$type"} { setup_$type $w $name}
+
+   # Save old edits
+   if {$cfg(edit) != {}} {
+      catch {set_$cfg(editType) $w}
+   }
+   if {"$cfg(s)" != "$w.$type"} {
+      catch {$w forget $cfg(s)}
+      $w add $w.$type
+      set cfg(s) "$w.$type"
+   }
    show_$type $w 
 }
 
 proc setup_help {w junk} {
    upvar #0 $w cfg
-   catch {destroy $cfg(s)}
-   set f [set cfg(s) [text $w.help -width 70 -height 10]]
+   set f [text $w.help -width 70 -height 10]
    $f insert end {<left-click>: select a node or arc.
 <right-click>:  shows a context-sensitive  menu.
 
@@ -5071,15 +5141,14 @@ Nodes are created by right-clicking on a blank area.
 Arcs are created by firstly selecting a source node, then right-
 clicking over a target node.
 }
-   grid $f -row 3 -column 1 -sticky ew
+   return $f
 }
 proc show_help {w} {}
 
 # UI for node editing
 proc setup_node {w name} {
    upvar #0 $w cfg
-   catch {destroy $cfg(s)}
-   set f [set cfg(s) [frame $w.node]]
+   set f [frame $w.node]
    label $f.l1 -text "Name" 
    entry $f.e1 -textvariable $w\(name\) -width 12 -validate key -vcmd {string is wordchar %P}
    label $f.l2 -text "Alias" 
@@ -5089,15 +5158,6 @@ proc setup_node {w name} {
    label $f.l4 -text "Colour" 
    entry $f.e4 -textvariable $w\(fill\) -width 12 
 
-   frame $f.b
-   button $f.b.apply -text Apply -command "set_node $w" -state disabled
-   button $f.b.revert -text Revert -command "show_node $w" -state disabled
-   set cfg(buttons) [list $f.b.apply $f.b.revert]
-   foreach e [list $f.e1 $f.e2 $f.e3 $f.e4] {
-      bind $e  <Any-KeyRelease> "+armButtons $w"
-      bind $e  <Key-Return> "+set_node $w"
-   }  
-   
    grid $f.l1 -row 1 -column 1 -sticky w
    grid $f.e1 -row 1 -column 2 -sticky w
    grid $f.l2 -row 2 -column 1 -sticky w
@@ -5106,10 +5166,10 @@ proc setup_node {w name} {
    grid $f.e3 -row 3 -column 2 -sticky ew
    grid $f.l4 -row 4 -column 1 -sticky w
    grid $f.e4 -row 4 -column 2 -sticky w
-   grid $f.b.apply -row 1 -column 1 -sticky w -padx 20 
-   grid $f.b.revert -row 1 -column 2 -sticky w -padx 20 
-   grid $f.b -row 5 -column 1 -sticky ew
-   grid $f -row 3 -column 1 -sticky ew
+   grid columnconf $f 3 -weight 1
+   grid rowconf    $f 6 -weight 1
+
+   return $f
 }
 
 proc show_node {w} {
@@ -5121,13 +5181,14 @@ proc show_node {w} {
    set cfg(fill) [$cfg(g) node get $node fill]
 
    set cfg(message) "State $cfg(name)"
-   disarmButtons $w
+   set cfg(edit) $node; set cfg(editType) "node"
 }
 
 proc set_node {w} {
    upvar #0 $w cfg
-   set node [lindex [split $cfg(selected) :] 1]
-
+   set node $cfg(edit)
+   if {$node == {}} {return}
+   
    # Make the node name unique: append a "_1", "_2" etc.. if needed.
    set candidate $cfg(name); set found 1
    while {$found} {
@@ -5157,39 +5218,43 @@ proc set_node {w} {
      if {[$cfg(c) type $id] == "text"}  {$cfg(c) itemconf $id -text $cfg(name)}
      if {[$cfg(c) type $id] == "oval"}  {$cfg(c) itemconf $id -fill $cfg(fill)}
    }  
-   disarmButtons $w
+   set cfg(edit) {}
 }
 
 proc setup_arc {w name} {
    upvar #0 $w cfg
-   catch {destroy $cfg(s)}
-   set f [set cfg(s) [frame $w.arc]]
-   label $f.l1 -text "Rules" 
-   set cfg(rulesW) [text $f.rules -height 4 -wrap none  -yscrollcommand "$f.rsbar set"]
-   scrollbar $f.rsbar -orient vertical -command "$f.rules yview"
-   label $f.l2 -text "Actions" 
-   set cfg(actionsW) [text $f.actions -height 3 -wrap none  -yscrollcommand "$f.asbar set"]
-   scrollbar $f.asbar -orient vertical -command "$f.actions yview"
+   set f [frame $w.arc]
+   set p [panedwindow $f.p -orient vertical]
 
-   frame $f.b
-   button $f.b.apply -text Apply -command "set_arc $w" -state disabled
-   button $f.b.revert -text Revert -command "show_arc $w" -state disabled
-   set cfg(buttons) [list $f.b.apply $f.b.revert]
+   frame $p.r
+   label $p.r.l1 -text "Rules" 
+   set cfg(rulesW) [text $p.r.rules -height 4 -wrap none  -yscrollcommand "$p.r.rsbar set"]
+   scrollbar $p.r.rsbar -orient vertical -command "$p.r.rules yview"
+   grid $p.r.l1 -row 1 -column 1 -sticky w
+   grid $p.r.rules -row 2 -column 1 -sticky nsew
+   grid $p.r.rsbar -row 2 -column 2 -sticky w
+   grid rowconfig $p.r 2 -weight 1
+   grid columnconfig $p.r 1 -weight 1
 
-   foreach t [list $cfg(actionsW) $cfg(rulesW)] {
-      bind $t  <Any-KeyRelease>  "+armButtons $w "
-   }  
-   grid $f.l1 -row 1 -column 1 -sticky w
-   grid $f.rules -row 2 -column 1 -sticky ew
-   grid $f.rsbar -row 2 -column 2 -sticky w
-   grid $f.l2 -row 3 -column 1 -sticky w
-   grid $f.actions -row 4 -column 1 -sticky ew
-   grid $f.asbar -row 3 -column 2 -sticky w -rowspan 2
-   grid $f.b.apply -row 1 -column 1 -sticky w -padx 20 
-   grid $f.b.revert -row 1 -column 2 -sticky w -padx 20 
-   grid $f.b -row 5 -column 1 -sticky ew
+   frame $p.a
+   label $p.a.l2 -text "Actions" 
+   set cfg(actionsW) [text $p.a.actions -height 3 -wrap none  -yscrollcommand "$p.a.asbar set"]
+   scrollbar $p.a.asbar -orient vertical -command "$p.a.actions yview"
+   grid $p.a.l2 -row 1 -column 1 -sticky w
+   grid $p.a.actions -row 2 -column 1 -sticky nsew
+   grid $p.a.asbar   -row 2 -column 2 -sticky w 
+   grid rowconfig $p.a 2 -weight 1
+   grid columnconfig $p.a 1 -weight 1
 
-   grid $f -row 3 -column 1 -sticky ew
+   $p add $p.r $p.a 
+
+   grid $f.p -row 1 -column 1 -sticky nsew
+   grid rowconfig $f 1 -weight 1
+   grid columnconfig $f 1 -weight 1
+
+   #if {[info exists cfg(rules_height)]} {$p sash place 0 2 $cfg(rules_height)}
+   #bind $p <ButtonRelease-1> "+ set $w\(rules_height\) \[lindex \[$p sash coord 0\] 1\]; set $w\(message\) \[lindex \[$p sash coord 0\] 1\]"
+   return $f
 }
 proc show_arc {w} {
    upvar #0 $w cfg
@@ -5206,31 +5271,24 @@ proc show_arc {w} {
    set src [$cfg(g) node get [$cfg(g) arc source $arc] name]
    set dest [$cfg(g) node get [$cfg(g) arc target $arc] name]
    set cfg(message) "Transition from $src to $dest"
-   disarmButtons $w
+
+   set cfg(edit) $arc; set cfg(editType) "arc"
 }
 
 proc set_arc {w} {
    upvar #0 $w cfg
-   set arc [lindex [split $cfg(selected) :] 1]
-
-   $cfg(g) arc set $arc rules {}
-   foreach rule [split [$cfg(rulesW) get 0.0 end] "\n"] {
-      if {$rule != {}} {$cfg(g) arc lappend $arc rules $rule}
+   set arc $cfg(edit)
+   if {$arc != {}} {
+      $cfg(g) arc set $arc rules {}
+      foreach rule [split [$cfg(rulesW) get 0.0 end] "\n"] {
+         if {$rule != {}} {$cfg(g) arc lappend $arc rules $rule}
+      }
+      $cfg(g) arc set $arc actions {}
+      foreach action [split [$cfg(actionsW) get 0.0 end] "\n"] {
+         if {$action != {}} {$cfg(g) arc lappend $arc actions $action}
+      }
    }
-   $cfg(g) arc set $arc actions {}
-   foreach action [split [$cfg(actionsW) get 0.0 end] "\n"] {
-      $cfg(g) arc lappend $arc actions $action
-   }
-   disarmButtons $w
-}
-
-proc disarmButtons {w} {
-   upvar #0 $w cfg
-   foreach b $cfg(buttons) { $b config -state disabled }
-}
-proc armButtons {w} {
-   upvar #0 $w cfg
-   foreach b $cfg(buttons) { $b config -state active }
+   set cfg(edit) {}
 }
 
 # Save the graph to an XML tree. Makes both our node/ arc  objects, and an invisible rule
@@ -5240,8 +5298,17 @@ proc saveGraph {w} {
 
    if {!$cfg(setupOk)} {error "Initialisation failed - Not saving"}
 
+   # Clean up any edits in progress
+   if {$cfg(edit) != {}} {
+      catch {set_$cfg(editType) $w}
+   }
+
    set x "<tclui name=\"[$cfg(docroot) getAttribute name]\">\n"
    append x "<uiscript><!\[CDATA\[[getValue $cfg(docroot) uiscript]\]\]></uiscript>\n"
+   foreach what {canvas_height rules_height} {
+      append x "<$what>$cfg($what)</$what>\n"
+   }
+
    set rule "<rule name=\"Init rule\" invisible=\"yes\" condition=\"init\">\n"
    append rule "<!\[CDATA\[package require struct\n"
    append rule "::struct::graph stateGraph\n"
@@ -5270,15 +5337,19 @@ proc saveGraph {w} {
             append x " <$key>$value</$key>\n"
          } else {
             foreach thing [$cfg(g) arc get $arc $key] {
-               append rule "stateGraph arc lappend \"$arc\" $key \{$thing\}\n"
-               set thing [string map {\< "&lt;"  \> "&gt;" 
-                                      \& "&amp;" \" "&quot;" 
-                                      \[ "&#91;" \] "&#93;"} $thing]
-               append x " <$key>$thing</$key>\n"
+               if {$thing != {}} {
+                  append rule "stateGraph arc lappend \"$arc\" $key \{$thing\}\n"
+                  set thing [string map {\< "&lt;"  \> "&gt;" 
+                                         \& "&amp;" \" "&quot;" 
+                                         \[ "&#91;" \] "&#93;"} $thing]
+                  append x " <$key>$thing</$key>\n"
+               }   
             }
          }
       }
+      append x " <rules/><actions/>\n"
       append x "</arc>\n"
+      append rule "stateGraph arc lappend \"$arc\" actions \{\}\n"
    }
 
    append x "$rule\]\]></rule>\n"
@@ -5295,11 +5366,15 @@ proc openGraph {w} {
 
    set errorsFound 0
 
+   set cfg(g) [::struct::graph g]
+
    global XMLDoc 
    set cfg(doc) [dom parse $XMLDoc]
    set cfg(docroot) [$cfg(doc) documentElement]
 
-   set cfg(g) [::struct::graph g]
+   set cfg(canvas_height) [getValue $cfg(docroot) canvas_height]; if {$cfg(canvas_height) == {}} {set cfg(canvas_height) 400}
+   set cfg(rules_height) [getValue $cfg(docroot) rules_height]; if {$cfg(rules_height) == {}} {set cfg(rules_height) 40}
+   
    foreach node [$cfg(docroot) selectNodes //node] {
       $cfg(g) node insert [set nodeName [getValue $node name]]
       $cfg(g) node set $nodeName name $nodeName
@@ -5359,11 +5434,16 @@ proc createGraph {w} {
       $cfg(c) create line 0 0 0 0 -smooth bezier -tags arc:$a -arrow last -arrowshape {15 25 10}
       fixupArrow $w arc:$a "node:$n1" "node:$n2"
    }
+   $cfg(c) configure -scrollregion [$cfg(c) bbox all]
 
-   bind $cfg(c) <Button-1>  "+select $w %x %y"
-   bind $cfg(c) <B1-Motion> "+move $w %x %y"
-   bind $cfg(c) <Button-3>  "+action $w %x %y"
+   bind $cfg(c) <Button-1>  "+select $w \[$cfg(c) canvasx %x\] \[$cfg(c) canvasy %y\]"
+   bind $cfg(c) <B1-Motion> "+move $w   \[$cfg(c) canvasx %x\] \[$cfg(c) canvasy %y\]"
+   bind $cfg(c) <Button-3>  "+action $w %X %Y \[$cfg(c) canvasx %x\] \[$cfg(c) canvasy %y\]"
    set cfg(selected) {}
+
+   setup_node $w dummy
+   setup_arc  $w dummy
+   setup_help $w dummy
    showSelection $w help dummy
 }
 
@@ -5372,27 +5452,38 @@ catch {unset .w}
 catch {destroy .w}
 
 set .w(g) {}
-set .w(c) .w.c
 set .w(s) {}
+set .w(edit) {}
 set .w(setupOk) 0
 
 if {[catch {openGraph .w}]} {tk_messageBox -title "openGraph" -message "$errorInfo" -type ok}
 
-frame .w
-canvas .w.c 
-label .w.m -width 40 -textvariable .w(message) -anchor w
+panedwindow .w -orient vertical
+
+frame .w.t
+scrollbar .w.t.hs -orient horiz -command ".w.t.c xview"
+scrollbar .w.t.vs -orient vert  -command ".w.t.c yview"
+set .w(c) [canvas .w.t.c -xscrollcommand ".w.t.hs set" -yscrollcommand ".w.t.vs set"]
+label .w.t.m -width 40 -textvariable .w(message) -anchor w
+
+grid .w.t.c -row 1 -column 1 -sticky nsew
+grid .w.t.hs -row 2 -column 1 -sticky ew
+grid .w.t.vs -row 1 -column 2 -sticky ns
+grid .w.t.m -row 3 -column 1 -sticky ew
+grid columnconf .w.t 1 -weight 1
+grid rowconf    .w.t 1 -weight 1
+.w add .w.t                 -sticky nswe
 
 if {[catch {createGraph .w}]} {tk_messageBox -title "createGraph" -message "$errorInfo" -type ok}
 
 grid forget .
-grid .w.c -row 1 -column 1 -sticky nsew
-grid .w.m -row 2 -column 1 -sticky ew
 grid .w -row 1 -column 1   -sticky nsew
-
-grid columnconf .w 1 -weight 1
-grid rowconf    .w 1 -weight 1
 grid columnconf . 1 -weight 1
 grid rowconf    . 1 -weight 1
+update
+
+if {[info exists .w(canvas_height)]} {.w sash place 0 2 [set .w(canvas_height)]}
+bind .w <Leave> "+ set .w\(canvas_height\) \[lindex \[.w sash coord 0\] 1\]"
 
 trace add variable XMLDoc read setXML
 proc setXML {name1 name2 op} {
@@ -5404,6 +5495,8 @@ proc setXML {name1 name2 op} {
       set XMLDoc $newXML
    }
 }   
+
+##bind . <Escape> {+console show}         ;# quick restart
 ]]></uiscript>
           <node>
             <x1>568.0</x1>
