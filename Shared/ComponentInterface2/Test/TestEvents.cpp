@@ -33,7 +33,7 @@ class EventClass
       vector<int> ints;
       EventClass()
          {
-         scienceAPI->subscribe("MyEvent", intArrayFunction(&EventClass::eventHandler));
+         scienceAPI->subscribe("MyEvent", IntArrayFunction(&EventClass::eventHandler));
          ints.push_back(11); ints.push_back(12);
          }
 

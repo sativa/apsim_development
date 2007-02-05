@@ -103,8 +103,8 @@ class ScienceAPI
       [foreach types.builtin]
       // [builtin.cpptype]
       #define [builtin.name]Function(address) boost::function1<void, [builtin.cpptype]& >(boost::bind(address, this, _1))
-      virtual bool read(const std::string& name, const std::string& units, bool optional, [builtin.cpptype]& data[if [builtin.boundable] = T], [builtin.cpptype] lower, [builtin.cpptype] upper[endif]) = 0;
-      virtual bool get(const std::string& name, const std::string& units, bool optional, [builtin.cpptype]& data[if [builtin.boundable] = T], [builtin.cpptype] lower, [builtin.cpptype] upper[endif]) = 0;
+      virtual bool read(const std::string& name, const std::string& units, bool optional, [builtin.cpptype]& data[if [builtin.boundable] = T], [builtin.ctype] lower, [builtin.ctype] upper[endif]) = 0;
+      virtual bool get(const std::string& name, const std::string& units, bool optional, [builtin.cpptype]& data[if [builtin.boundable] = T], [builtin.ctype] lower, [builtin.ctype] upper[endif]) = 0;
       virtual void set(const std::string& name, const std::string& units, [builtin.cpptype]& data) = 0;
       virtual void expose(const std::string& name, const std::string& units, const std::string& description, bool writable, [builtin.cpptype]& variable) = 0;
       virtual void exposeFunction(const std::string& name, const std::string& units, const std::string& description, boost::function1<void, [builtin.cpptype]&> fn) = 0;
@@ -147,8 +147,8 @@ class EXPORT CMPScienceAPI : public ScienceAPI
 
       [foreach types.builtin]
       // [builtin.cpptype]
-      virtual bool read(const std::string& name, const std::string& units, bool optional, [builtin.cpptype]& data[if [builtin.boundable] = T], [builtin.cpptype] lower, [builtin.cpptype] upper[endif]);
-      virtual bool get(const std::string& name, const std::string& units, bool optional, [builtin.cpptype]& data[if [builtin.boundable] = T], [builtin.cpptype] lower, [builtin.cpptype] upper[endif]);
+      virtual bool read(const std::string& name, const std::string& units, bool optional, [builtin.cpptype]& data[if [builtin.boundable] = T], [builtin.ctype] lower, [builtin.ctype] upper[endif]);
+      virtual bool get(const std::string& name, const std::string& units, bool optional, [builtin.cpptype]& data[if [builtin.boundable] = T], [builtin.ctype] lower, [builtin.ctype] upper[endif]);
       virtual void set(const std::string& name, const std::string& units, [builtin.cpptype]& data);
       virtual void expose(const std::string& name, const std::string& units, const std::string& description, bool writable, [builtin.cpptype]& variable);
       virtual void exposeFunction(const std::string& name, const std::string& units, const std::string& description, boost::function1<void, [builtin.cpptype]&> method);
@@ -204,18 +204,18 @@ void CMPScienceAPI::publish(const std::string& name)
 
 [foreach types.builtin]
 // [builtin.cpptype]
-bool CMPScienceAPI::read(const std::string& name, const std::string& units, bool optional, [builtin.cpptype]& data[if [builtin.boundable] = T], [builtin.cpptype] lower, [builtin.cpptype] upper[endif])
+bool CMPScienceAPI::read(const std::string& name, const std::string& units, bool optional, [builtin.cpptype]& data[if [builtin.boundable] = T], [builtin.ctype] lower, [builtin.ctype] upper[endif])
    {
    [if [builtin.boundable] = T]
-   return componentInterface.read(name, CMPBuiltInBounded<[builtin.cpptype] >(name, data, lower, upper), optional);
+   return componentInterface.read(name, CMPBuiltInBounded<[builtin.cpptype], [builtin.ctype] >(name, data, lower, upper), optional);
    [else]
    return componentInterface.read(name, CMPBuiltIn<[builtin.cpptype] >(data), optional);
    [endif]
    }
-bool CMPScienceAPI::get(const std::string& name, const std::string& units, bool optional, [builtin.cpptype]& data[if [builtin.boundable] = T], [builtin.cpptype] lower, [builtin.cpptype] upper[endif])
+bool CMPScienceAPI::get(const std::string& name, const std::string& units, bool optional, [builtin.cpptype]& data[if [builtin.boundable] = T], [builtin.ctype] lower, [builtin.ctype] upper[endif])
    {
    [if [builtin.boundable] = T]
-   return componentInterface.get(name, units, optional, new CMPBuiltInBounded<[builtin.cpptype] >(name, data, lower, upper));
+   return componentInterface.get(name, units, optional, new CMPBuiltInBounded<[builtin.cpptype], [builtin.ctype] >(name, data, lower, upper));
    [else]
    return componentInterface.get(name, units, optional, new CMPBuiltIn<[builtin.cpptype] >(data));
    [endif]
