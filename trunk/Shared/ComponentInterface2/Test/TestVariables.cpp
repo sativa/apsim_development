@@ -8,6 +8,7 @@
 #include "../MessageData.h"
 #include <boost/test/unit_test.hpp>
 
+using namespace std;
 using namespace boost::unit_test_framework;
 
 CMPComponentInterface* componentInterface;
@@ -184,11 +185,12 @@ class SWClass
    public:
       SWClass()
          {
-         scienceAPI->exposeFunction("sw", "mm/mm", "Soil water",floatArrayFunction(&SWClass::getter));
+         scienceAPI->exposeFunction("sw", "mm/mm", "Soil water",FloatArrayFunction(&SWClass::getter));
          sw.push_back(1.0); sw.push_back(2.0);
          }
 
       void getter(vector<float>& values) {values = sw;}
+      void setter(vector<float>& values) {sw = values;}
    };
 
 void ExposeVariableUsingFunction()
@@ -233,8 +235,10 @@ void GetVariable()
    setup();
 
    vector<float> sw;
-   BOOST_CHECK_THROW(scienceAPI->get("doesntexist", "mm", sw), runtime_error);
-   scienceAPI->get("sw", "mm", sw);
+   float lb = 0.0;
+   float ub = 100.0;
+   BOOST_CHECK_THROW(scienceAPI->get("doesntexist", "mm", false, sw, lb, ub), runtime_error);
+   scienceAPI->get("sw", "mm", false, sw, lb, ub);
    BOOST_CHECK(sw.size() == 4);
    BOOST_CHECK(sw[0] == 11);
    BOOST_CHECK(sw[1] == 22);
@@ -252,7 +256,7 @@ void GetVariableFloatToString()
    setup();
 
    string swString;
-   scienceAPI->get("sw", "mm", swString);
+   scienceAPI->get("sw", "mm", false, swString);
    BOOST_CHECK(swString == "11.000000 22.000000 33.000000 44.000000");
 
    teardown();
@@ -266,7 +270,7 @@ void GetVariableWithArraySpec()
    setup();
 
    string swString;
-   scienceAPI->get("sw(2)", "mm", swString);
+   scienceAPI->get("sw(2)", "mm", false, swString);
 
    // make sure the message sent was a getvalue without the arrayspec.
    Register registerData;
@@ -276,16 +280,16 @@ void GetVariableWithArraySpec()
    // make sure the correct element was returned.
    BOOST_CHECK(swString == "22.000000");
 
-   scienceAPI->get("sw(2-3)", "mm", swString);
+   scienceAPI->get("sw(2-3)", "mm", false, swString);
    BOOST_CHECK(swString == "22.000000 33.000000");
 
-   scienceAPI->get("sw()", "mm", swString);
+   scienceAPI->get("sw()", "mm",false,  swString);
    BOOST_CHECK(swString == "110.000000");
 
-   scienceAPI->get("sum(sw)", "mm", swString);
+   scienceAPI->get("sum(sw)", "mm",false,  swString);
    BOOST_CHECK(swString == "110.000000");
 
-   scienceAPI->get("sum(sw(3-4))", "mm", swString);
+   scienceAPI->get("sum(sw(3-4))", "mm",false,  swString);
    BOOST_CHECK(swString == "77.000000");
 
    teardown();
@@ -342,7 +346,7 @@ class StClass
       std::string st;
       StClass()
          {
-         scienceAPI->exposeFunction("st", "", "", stringFunction(&StClass::getter), stringFunction(&StClass::setter));
+         scienceAPI->exposeFunction("st", "", "", StringFunction(&StClass::getter), StringFunction(&StClass::setter));
          st = "empty string";
          }
 
@@ -438,9 +442,7 @@ void Query()
    BOOST_ASSERT(queryInfo.kind == 2 /* variable */);
    BOOST_ASSERT(matches.size() == 2);
    BOOST_ASSERT(matches[0].name == "comp1.sw");
-   BOOST_ASSERT(matches[0].units == "mm");
    BOOST_ASSERT(matches[1].name == "comp2.sw");
-   BOOST_ASSERT(matches[1].units == "mm");
 
    teardown();
    }

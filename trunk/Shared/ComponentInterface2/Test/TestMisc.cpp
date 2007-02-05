@@ -41,9 +41,7 @@ void Query()
    BOOST_ASSERT(queryInfo.kind == 2 /* variable */);
    BOOST_ASSERT(matches.size() == 2);
    BOOST_ASSERT(matches[0].name == "comp1.sw");
-   BOOST_ASSERT(matches[0].units == "mm");
    BOOST_ASSERT(matches[1].name == "comp2.sw");
-   BOOST_ASSERT(matches[1].units == "mm");
 
    teardown();
    }

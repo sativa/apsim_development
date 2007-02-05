@@ -58,18 +58,24 @@ void ReadParameter()
    BOOST_ASSERT(scienceAPI->parent() == "parent");
 
    float a;
-   scienceAPI->read("a", a, false);
+   scienceAPI->read("a", "", false, a, (float)0.0, (float)1.0);
+   BOOST_ASSERT(a == 1);
+
+   scienceAPI->read("a", "", false, a, (float)0.0, (float)0.5);
    BOOST_ASSERT(a == 1);
 
    int b;
-   scienceAPI->read("b", b, false);
+   scienceAPI->read("b", "", false, b, 0, 4);
+   BOOST_ASSERT(b == 2);
+
+   scienceAPI->read("b", "", false, b, 0, 1);
    BOOST_ASSERT(b == 2);
 
    string c;
-   scienceAPI->read("c", c, false);
+   scienceAPI->read("c", "", false, c);
    BOOST_ASSERT(c == "Three");
 
-   BOOST_ASSERT(!scienceAPI->read("notfound", c, true));
+   BOOST_ASSERT(!scienceAPI->read("notfound", "", true, c));
 
    teardown();
    }

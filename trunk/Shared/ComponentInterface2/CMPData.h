@@ -166,20 +166,20 @@ void performBoundCheck(const std::string& name, T value, T lower, T upper)
       printf("Value of variable is out of bounds.\n"
              "Variable: %s\n"
              "Value: %16.7f\n"
-             "Bounds: %16.7f to %16.7f",
+             "Bounds: %16.7f to %16.7f", /* WRONG WRONG WRONG THIS IS REALLY REALLY WRONG */
              name.c_str(), value, lower, upper);
    }
 
-template <class T>
+template <class T, class B>
 class CMPBuiltInBounded : public CMPBuiltIn<T>
    {
    private:
       T& variable;
-      T lowerBound;
-      T upperBound;
+      B lowerBound;
+      B upperBound;
       std::string name;
    public:
-      CMPBuiltInBounded(const std::string& variableName,  T& value, T lower, T upper)
+      CMPBuiltInBounded(const std::string& variableName,  T& value, B lower, B upper)
          : name(variableName), variable(value), lowerBound(lower), upperBound(upper),
            CMPBuiltIn<T>(value) { }
 
