@@ -306,6 +306,11 @@ void CContextMenuHandler::createMenus(string& subMenuName,
                                "Run the APSIM user interface",
                                "apsimUI",
                                &apsimFiles));
+            menuDescriptions.push_back(
+               MenuDescription("&Run Apsim",
+                               "Run Apsim",
+                               "run",
+                               &runFiles));
             }
 
          }
