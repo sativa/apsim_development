@@ -968,31 +968,31 @@
    //------ SoluteProfile ------
    struct SoluteProfile
       {
-      std::string Name;
+      std::string name;
       std::vector<layer> layer;
       };
 
    inline void pack(MessageData& messageData, const SoluteProfile& data)
       {
-      pack(messageData, data.Name);
+      pack(messageData, data.name);
       pack(messageData, data.layer);
       }
    inline void unpack(MessageData& messageData, SoluteProfile& data)
       {
-      unpack(messageData, data.Name);
+      unpack(messageData, data.name);
       unpack(messageData, data.layer);
       }
    inline unsigned memorySize(const SoluteProfile& data)
       {
       return 0
-              + ::memorySize(data.Name)
+              + ::memorySize(data.name)
               + ::memorySize(data.layer)
               ;
       }
    std::string DDML(const SoluteProfile& data)
       {return "<type name=\"SoluteProfile\" array=\"T\">"
                "<element>"
-               "<field name=\"Name\" kind=\"string\" />"
+               "<field name=\"name\" kind=\"string\" />"
                "<field name=\"layer\" array=\"T\">"
                "<element>"
                "<field name=\"thickness\" kind=\"single\" />"

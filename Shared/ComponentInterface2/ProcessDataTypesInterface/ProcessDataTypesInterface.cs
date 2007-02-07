@@ -1,9 +1,9 @@
 using System;
 using System.Collections.Generic;
 using System.Collections.Specialized;
+using System.IO;
 using System.Text;
-using CSGeneral;
-using VBGeneral;
+using System.Xml;
 
 namespace ProcessDataTypesInterface
     {
@@ -19,20 +19,23 @@ namespace ProcessDataTypesInterface
             try
                 {
                 // Comment the next 3 lines when not debugging.
-                //string StdInPath = "d:\\development\\apsim\\infra\\datatypes.interface";
+                //string StdInPath = "c:\\development\\apsim\\infra\\datatypes.interface";
                 //System.IO.TextReader StdInTextReader = new System.IO.StreamReader(StdInPath);
                 //Console.SetIn(StdInTextReader);
 
                 // read from stdin all contents, loop through all child nodes and create
                 // a new <type> under 'NewInterfaceFile'
-                string Contents = Console.In.ReadToEnd();
-                APSIMData InterfaceFile = new APSIMData(Contents);
-                APSIMData NewInterfaceFile = new APSIMData("types", "");
-                foreach (APSIMData DataType in InterfaceFile.get_Children(null))
-                    ProcessType(DataType, NewInterfaceFile, DataType.Type);
+                XmlDocument InterfaceFile = new XmlDocument();
+                InterfaceFile.Load(Console.In);
+
+                XmlDocument NewInterfaceFile = new XmlDocument();
+                NewInterfaceFile.Load(new StringReader("<?xml version=\"1.0\"?><types/>"));
+
+                foreach (XmlNode DataType in InterfaceFile.DocumentElement.ChildNodes)
+                    ProcessType(DataType, NewInterfaceFile, DataType.Name);
 
                 // write new interface file to stdout.
-                Console.Out.Write(NewInterfaceFile.XML);
+                NewInterfaceFile.Save(Console.Out);
                 return 0;
                 }
             catch (Exception err)
@@ -42,15 +45,16 @@ namespace ProcessDataTypesInterface
             return 1;
             }
 
-        private static void ProcessType(APSIMData OldDataType, APSIMData NewDataTypes, string Type)
+        private static void ProcessType(XmlNode OldDataType, XmlDocument NewDataTypes, string Type)
             {
+            if (OldDataType.Name == "#comment") return;
             // -------------------------------------------------------------
             // Process the specified type and create a new <type> under
             // 'NewDataTypes'
             // -------------------------------------------------------------
-            bool IsArray = (OldDataType.Attribute("array") == "T");
+            bool IsArray = hasAttribute(OldDataType, "array");
 
-            string TypeName = OldDataType.Name;
+            string TypeName = getAttribute(OldDataType, "name");
             if (TypeName == "type")
                 TypeName = "Null";
 
@@ -59,57 +63,56 @@ namespace ProcessDataTypesInterface
                 TypesAlreadyDone.Add(TypeName);
 
                 // If this type is an array type then skip past the <element> tag.
-                APSIMData ThisNode = OldDataType;
-                if (IsArray && OldDataType.Child("element") != null)
-                    ThisNode = OldDataType.Child("element");
+                XmlNode ThisNode = OldDataType; 
+                if (IsArray && hasChildTypeNamed(OldDataType, "element"))
+                    ThisNode = getChildTypeNamed(OldDataType, "element");
 
                 // Go through all child types first and process them.
-                foreach (APSIMData child in ThisNode.get_Children(null))
-                    {
-                    if (child.ChildNames(null).Length > 0)
-                        ProcessType(child, NewDataTypes, "type");
-                    }
+                foreach (XmlNode child in ThisNode.ChildNodes)
+                    if (child.ChildNodes.Count > 0)
+                        ProcessType(child, NewDataTypes, Type);
 
                 // Now create a new type and process all fields.
-                APSIMData NewDataType = NewDataTypes.Add(new APSIMData(Type, TypeName));
+                XmlElement NewDataType = NewDataTypes.CreateElement(Type);
+                NewDataTypes.DocumentElement.AppendChild(NewDataType);
+                NewDataType.SetAttribute("name", TypeName);
                 NewDataType.SetAttribute("cpptype", CalcCPPType(OldDataType));
                 NewDataType.SetAttribute("ctype", CalcCType(OldDataType));
                 NewDataType.SetAttribute("fortype", CalcForType(OldDataType));
-                if (OldDataType.Attribute("boundable") == "T")
+                if (getAttribute(OldDataType,"boundable") == "T")
                     NewDataType.SetAttribute("boundable", "T");
-                NewDataType.set_ChildValue("cddml", DDMLToCPP(OldDataType));
-                NewDataType.set_ChildValue("forddml", DDMLToFOR(OldDataType));
-                NewDataType.set_ChildValue("dotnetddml", DDMLToCPP(OldDataType));
+
+                createCDataChild(NewDataType, "cddml", DDMLToCPP(OldDataType));
+                createCDataChild(NewDataType, "forddml", DDMLToFOR(OldDataType));
+                createCDataChild(NewDataType, "dotnetddml", DDMLToCPP(OldDataType));
                 if (IsArray)
                     NewDataType.SetAttribute("array", "T");
 
                 // copy fields to new data type.
-                foreach (APSIMData child in ThisNode.get_Children(null))
+                foreach (XmlNode child in ThisNode.ChildNodes)
                     {
-                    APSIMData FieldDataType = NewDataType.Add(new APSIMData("field", child.Name));
-                    string Kind = child.Attribute("kind");
+                    XmlElement FieldDataType = createEmptyChild(NewDataType, "field");
+                    FieldDataType.SetAttribute("name", getAttribute(child, "name"));
+                    string Kind = getAttribute(child, "kind");
                     if (Kind != "")
                         {
-                        string KKind = Kind.Substring(0, 1).ToUpper() + Kind.Substring(1);
                         FieldDataType.SetAttribute("kind", Kind);
-                        //FieldDataType.SetAttribute("KKind", KKind);
                         FieldDataType.SetAttribute("dotnettype", DDMLKindToDotNet(Kind));
                         }
                     FieldDataType.SetAttribute("cpptype", CalcCPPType(child));
                     FieldDataType.SetAttribute("ctype", CalcCType(child));
                     }
                 }
-
             }
 
-        private static string CalcCPPType(APSIMData DataType)
+        private static string CalcCPPType(XmlNode DataType)
             {
             // ------------------------------------------------------------------
             // convert a DDML 'kind' string to a CPP built in type.
             // ------------------------------------------------------------------
-            string TypeName = DataType.Attribute("kind");
+            string TypeName = getAttribute(DataType,"kind");
             if (TypeName == "")
-                TypeName = DataType.Name;
+                TypeName = getAttribute(DataType,"name");
             string LowerTypeName = TypeName.ToLower();
             string CTypeName;
             if (LowerTypeName == "integer4")
@@ -126,19 +129,19 @@ namespace ProcessDataTypesInterface
                 CTypeName = "std::string";
             else
                 CTypeName = TypeName;
-            if (DataType.Attribute("array") == "T")
+            if (getAttribute(DataType,"array") == "T")
                 CTypeName = "std::vector<" + CTypeName + ">";
             return CTypeName;
             }
 
-        private static string CalcCType(APSIMData DataType)
+        private static string CalcCType(XmlNode DataType)
             {
             // ------------------------------------------------------------------
             // convert a DDML 'kind' string to a CPP built in type.
             // ------------------------------------------------------------------
-            string TypeName = DataType.Attribute("kind");
+                string TypeName = getAttribute(DataType,"kind");
             if (TypeName == "")
-                TypeName = DataType.Name;
+                TypeName = getAttribute(DataType, "name");
             string LowerTypeName = TypeName.ToLower();
             string CTypeName;
             if (LowerTypeName == "integer4")
@@ -180,12 +183,12 @@ namespace ProcessDataTypesInterface
                 return kind;
             }
 
-        private static string CalcForType(APSIMData DataType)
+        private static string CalcForType(XmlNode DataType)
             {
             // ------------------------------------------------------------------
             // convert a DDML 'kind' string to a FOR built in type.
             // ------------------------------------------------------------------
-            string LowerKind = DataType.Attribute("kind").ToLower();
+            string LowerKind = getAttribute(DataType,"kind").ToLower();
             if (LowerKind == "integer4")
                 return "integer";
             else if (LowerKind == "single")
@@ -202,29 +205,98 @@ namespace ProcessDataTypesInterface
                 return "";
             }
 
-        private static string DDMLToCPP(APSIMData DataType)
+        private static string DDMLToCPP(XmlNode DataType)
             {
             // ------------------------------------------------------------------
             // convert a DDML string to a C formatted string
             // ------------------------------------------------------------------
-            string st = DataType.XML;
+            string st = DataType.OuterXml;
             st = "\"" + st.Replace("\"", "\\\"") + "\"";
             st = st.Replace("\r\n", "");
             st = st.Replace("><", ">\"\r\n               \"<");
             return st;
             }
 
-        private static string DDMLToFOR(APSIMData DataType)
+        private static string DDMLToFOR(XmlNode DataType)
             {
             // ------------------------------------------------------------------
             // convert a DDML string to a C formatted string
             // ------------------------------------------------------------------
-            string st = DataType.XML;
+                string st = DataType.OuterXml;
             st = "'" + st + "'";
             st = st.Replace("\n", "");
             st = st.Replace("\r", "");
             return st;
             }
 
+        private static bool hasAttribute(XmlNode node, string attribute)
+            {
+            if (node != null) 
+                foreach (XmlAttribute a in node.Attributes)
+                    if (a.Name == attribute)
+                        return true;
+            return false;
+            }
+        private static string getAttribute(XmlNode node, string attribute)
+            {
+            if (node != null)
+                foreach (XmlAttribute a in node.Attributes)
+                    if (a.Name == attribute)
+                        return a.Value;
+            return "";
+            }
+        private static void setAttribute(XmlElement node, string name, string attribute)
+            {
+            if (node != null)
+                node.SetAttribute(name, attribute);
+            }
+        private static bool hasChildTypeNamed(XmlNode node, string name)
+            {
+            if (node != null)
+                foreach (XmlNode child in node.ChildNodes)
+                   if (child.Name == name)
+                      return true;
+            return false;
+            }
+        private static XmlNode getChildTypeNamed(XmlNode node, string name)
+            {
+            if (node != null)
+                foreach (XmlNode child in node.ChildNodes) 
+                   if (child.Name == name)
+                      return child;
+            return null;
+            }
+            private static XmlElement createCDataChild(XmlNode node, string name, string value)
+            {
+                if (node != null)
+                {
+                    XmlElement elem = node.OwnerDocument.CreateElement(name);
+                    elem.AppendChild(node.OwnerDocument.CreateCDataSection(value));
+                    node.AppendChild(elem);
+                    return elem;
+                }
+                return null;
+            }
+            private static XmlElement createTextChild(XmlNode node, string name, string value)
+            {
+                if (node != null)
+                {
+                    XmlElement elem = node.OwnerDocument.CreateElement(name);
+                    elem.AppendChild(node.OwnerDocument.CreateTextNode(value));
+                    node.AppendChild(elem);
+                    return elem;
+                }
+                return null;
+            }
+            private static XmlElement createEmptyChild(XmlNode node, string name)
+            {
+                if (node != null)
+                {
+                    XmlElement elem = node.OwnerDocument.CreateElement(name);
+                    node.AppendChild(elem);
+                    return elem;
+                }
+                return null;
+            }
         }
-    }
+}
