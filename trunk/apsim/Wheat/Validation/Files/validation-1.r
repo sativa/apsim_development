@@ -136,5 +136,3 @@ for (e in 1:dim(experiments)[1]) {
 
   }
 }
-cat(file=mhtml, "</p></body></html>\n", append=T)
-close(mhtml)
