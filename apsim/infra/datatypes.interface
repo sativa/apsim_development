@@ -12,7 +12,7 @@
    <builtin name="DoubleArray" kind="double" array="T" boundable="T"/>
    <builtin name="StringArray" kind="string" array="T"/>
 
-   !!!!! Message types !!!!!!
+   <!--   !!!!!! Message types !!!!!!-->
    <type name="Complete">
       <field name="ackID" kind="integer4"/>
    </type>
@@ -90,15 +90,14 @@
       <field name="msg" kind="string"/>
    </type>
 
-   !!!!! Layered type !!!!!!
+   <!--   !!!!! Layered type !!!!!! -->
    <type name="Layered" description="Layered soil data">
       <field name="layer" kind="double" array="T"/>
       <field name="value" kind="double" array="T"/>
    </type>
 
 
-   !!!!! CLOCK types !!!!!
-
+   <!--   !!!!! CLOCK types !!!!! -->
    <type name="Time" description="Change in the simulation system time and the duration of the new time step">
       <field name="startday" kind="integer4" description="Day number of the start of the timestep"/>
       <field name="startsec" kind="integer4" description="Seconds past midnight of the start of the timestep (0-86399)"/>
@@ -108,8 +107,7 @@
       <field name="endsecpart" kind="double" description="Fraction of a second of the end of the timestep (0-1)"/>
    </type>
 
-   !!!!! MET types !!!!!
-
+   <!--   !!!!! MET types !!!!!-->
    <type name="NewMet">
       <field name="today"  kind="double"/>
       <field name="radn"  kind="single" lower_bound="0.0" upper_bound="50.0" units="MJ/m2/d"/>
@@ -150,7 +148,7 @@
       </field>
    </type>
 
-   !!!!! SOLUTE types !!!!!
+   <!--   !!!!! SOLUTE types !!!!! -->
 
    <type name="NewSolute">
       <field name="sender_name" kind="string"/>
@@ -169,9 +167,10 @@
       <field name="solute_names_isarray" kind="boolean"/>
       <field name="solute_names_value" kind="string" array="T" />
    </type>
+
    <type name="SoluteProfile" array="T">
       <element>
-      <field name="Name" kind="string"/>
+      <field name="name" kind="string"/>
       <field name="layer" array="T">
          <element>
          <field name="thickness" kind="single"/>
@@ -182,7 +181,7 @@
    </type>
 
 
-   !!!!! IRRIGATE types !!!!!
+   <!--      !!!!! IRRIGATE types !!!!!  -->
    <type name="Irrigated" description="Sent when an irrigation occurs">
       <field name="amount" kind="double" unit="mm" description="Amount of irrigation applied"/>
       <field name="depth"  kind="double" unit="mm" description="Depth of irrigation applied"/>
@@ -195,7 +194,7 @@
    </type>
 
 
-   !!!!! CROP types !!!!!
+   <!--      !!!!! CROP types !!!!!-->
 
    <type name="CropWaterSupply" array = "T">
       <element>
@@ -240,8 +239,10 @@
       </element>
    </type>
 
+<!--
 !  dsg 030702  array sized for number of crops
 !
+-->
    <type name="CropNitrogenSupply" array = "T">
       <element>
       <field name="name" kind="string" description="Crop type + instance name"/>
@@ -259,7 +260,7 @@
       </element>
    </type>
 
-   !!!!! MICROMET types !!!!!
+   <!--      !!!!! MICROMET types !!!!!-->
 
    <type name="LightProfile">
       <field name="Interception" array="T">
@@ -307,7 +308,7 @@
       </element>
    </type>
 
-   !!!!! RESIDUE types !!!!!
+   <!--      !!!!! RESIDUE types !!!!!-->
 
    <type name="Residue" array="T">
       <element>
@@ -327,7 +328,7 @@
    </type>
 
 
-   !!!!! SURFACE types !!!!!
+   <!--      !!!!! SURFACE types !!!!!-->
 
    <type name="SurfaceWater">
       <field name="amount" kind="single"/>
@@ -346,7 +347,7 @@
       <field name="WaterInput" kind="single"/>
    </type>
 
-    !!!! FERTILISER Types !!!!!!
+   <!--       !!!! FERTILISER Types !!!!!!-->
 
    <type name="FertiliserConstituents" array="T">
       <element>
@@ -361,8 +362,7 @@
       </element>
    </type>
 
-    !!!! ORGANIC MATTER Types !!!!!!
-
+   <!--       !!!! ORGANIC MATTER Types !!!!!!
 ! dsg040702  this individual structure is currently part of several other structures, and can be used when inheritance is implemented
 !            It's currently redundant
 !   <type name="OrganicMatterFraction" array="T" >
@@ -372,11 +372,10 @@
 !      <field name="P"       kind="single" units="kg/ha"/>
 !      <field name="AshAlk"  kind="single" units="kg/ha"/>
 !   </type>
-
-
 !dsg 021203  This structure is an array of soil layers which contains the layer's thickness
 !            and the fpool additions to that layer.  Sent by SurfOM to SOILN2 and SOILP as part
 !            of the 'FreshOrganicMatterIncorporated' Event
+-->
 
    <type name="FPoolProfileLayer" array="T">
          <element>
@@ -394,11 +393,11 @@
          </field>
          </element>
    </type>
-
-
+<!--
 !dsg 030702 for each residue instance, the array allows SOILN2 to fill "ActualResidueDecomCalc"
 !   for all the system residues and it also allows a residue instance to send data for, say, "woody"
 !   "leafy" etc, components of itself.
+-->
    <type name="SurfaceOrganicMatter" array="T">
       <element>
       <field name="Name" kind="string"/>
@@ -428,9 +427,10 @@
       </element>
    </type>
 
-
+<!--
 !080903 dsg and nih  This structure will carry SOM 'potential residue decomposition' data
 !       and also the returned 'actual residue decomposition' from soiln2
+-->
    <type name="SurfaceOrganicMatterDecomp" array="T">
       <element>
       <field name="Name" kind="string"/>
@@ -444,9 +444,7 @@
    </type>
 
 
-
-!
-!   !!!!! SOILN2  types  !!!!!!!!!!!!!!!!!!!!!!
+   <!--!!!!! SOILN2  types  !!!!!!!!!!!!!!!!!!!!!!-->
 
       <type name="NBalance" description="Notification of the completion of the soil N calculations">
          <field name="sender_name" kind="string"/>
@@ -528,7 +526,6 @@
          <field name="dlt_fom_p_value" kind="single" array="T" />
       </type>
 
-      !dsg 030702
    <type name="SoilOrganicMatter">
       <field name="OrganicMatterType" kind="string"/>
       <field name="layer" array = "T">
@@ -547,7 +544,7 @@
    </type>
 
 
-!dsg 040702  array sized for number of soil layers
+<!--!dsg 040702  array sized for number of soil layers-->
    <type name="SoilNitrogenFlowsLayer" array = "T">
       <element>
       <field name="nh4_transform_net" kind="single" units="kg/ha"/>
@@ -568,7 +565,7 @@
    </type>
 
 
-!dsg 040702  inputs and losses of N for 'NitrogenBalanceCalculated' Event, array sized for soil layers
+<!--dsg 040702  inputs and losses of N for 'NitrogenBalanceCalculated' Event, array sized for soil layers-->
    <type name="NitrogenBalance" array = "T">
       <element>
       <field name="Fertilizer"              kind="single" units="kg/ha"/>
@@ -581,9 +578,7 @@
       </element>
    </type>
 
-
-!
-!   !!!!! WaterStorage  types  !!!!!!!!!!!!!!!!!!!!!!
+   <!--!!!!! WaterStorage  types  !!!!!!!!!!!!!!!!!!!!!!-->
 
       <type name="CropChopped">
          <field name="crop_type" kind="string"/>
@@ -778,7 +773,7 @@
       <field name="wind" unit="m/s" kind="double"/>
    </type>
 
-!   !!!!! STOCK  types  !!!!!!!!!!!!!!!!!!!!!!
+   <!--!!!!! STOCK  types  !!!!!!!!!!!!!!!!!!!!!!-->
 
       <type name="Faeces" array="T">
          <element>
@@ -972,7 +967,7 @@
          <field name="dlt_residue_dm" kind="single" array="T"/>
       </type>
 
-!   !!!!! SUPPLEMENT  types  !!!!!!!!!!!!!!!!!!!!!!
+   <!--!   !!!!! SUPPLEMENT  types  !!!!!!!!!!!!!!!!!!!!!!-->
 
    <type name="SupplementBuy">
       <field name="supplement" kind="string" unit="-"/>
@@ -992,6 +987,3 @@
    </type>
 
 </types>
-
-
-
