@@ -8,16 +8,16 @@
     <RESFILES value=""/>
     <DEFFILE value=""/>
     <RESDEPEN value="$(RESFILES)"/>
-    <LIBFILES value="&quot;C:\Program Files\Borland\CBuilder6\Components\Boost\libs\test\test.lib&quot;
-      ..\..\..\Shared\ApsimShared\ApsimShared.lib
+    <LIBFILES value="&quot;C:\Program Files\Borland\CBuilder6\Components\Boost\libs\test\test.lib&quot; 
+      ..\..\..\Shared\ApsimShared\ApsimShared.lib 
       ..\..\..\Shared\general\general.lib"/>
     <LIBRARIES value=""/>
     <SPARELIBS value="rtl.lib"/>
-    <PACKAGES value="vcl.bpi rtl.bpi vclx.bpi bcbsmp.bpi dbrtl.bpi adortl.bpi vcldb.bpi
-      qrpt.bpi bdertl.bpi vcldbx.bpi dsnap.bpi cds.bpi bdecds.bpi teeui.bpi
-      teedb.bpi tee.bpi teeqr.bpi ibxpress.bpi visualclx.bpi visualdbclx.bpi
-      vclie.bpi xmlrtl.bpi inet.bpi inetdbbde.bpi inetdbxpress.bpi inetdb.bpi
-      nmfast.bpi bcbie.bpi soaprtl.bpi dclocx.bpi dbexpress.bpi dbxcds.bpi
+    <PACKAGES value="vcl.bpi rtl.bpi vclx.bpi bcbsmp.bpi dbrtl.bpi adortl.bpi vcldb.bpi 
+      qrpt.bpi bdertl.bpi vcldbx.bpi dsnap.bpi cds.bpi bdecds.bpi teeui.bpi 
+      teedb.bpi tee.bpi teeqr.bpi ibxpress.bpi visualclx.bpi visualdbclx.bpi 
+      vclie.bpi xmlrtl.bpi inet.bpi inetdbbde.bpi inetdbxpress.bpi inetdb.bpi 
+      nmfast.bpi bcbie.bpi soaprtl.bpi dclocx.bpi dbexpress.bpi dbxcds.bpi 
       indy.bpi bcb2kaxserver.bpi"/>
     <PATHCPP value=".;"/>
     <PATHPAS value=".;"/>
@@ -29,7 +29,7 @@
     <USERDEFINES value="_DEBUG"/>
     <SYSDEFINES value="NO_STRICT;_NO_VCL;_RTLDLL;USEPACKAGES"/>
     <MAINSOURCE value="TestAPSRun.bpf"/>
-    <INCLUDEPATH value="$(BCB)\include;$(BCB)\include\vcl;$(BCB)\components\boost;$(SHARED)"/>
+    <INCLUDEPATH value="$(BCB)\include;$(BCB)\include\vcl;$(BCB)\components\boost;..\..\..\Shared"/>
     <LIBPATH value="$(BCB)\lib\obj;$(BCB)\lib"/>
     <WARNINGS value="-w-par"/>
     <OTHERFILES value=""/>
@@ -87,24 +87,20 @@ ProductName=Viewer
 ProductVersion=1.0.0.0
 Comments=APSIM Report Viewer
 
-[Excluded Packages]
-C:\Program Files\Borland\CBuilder6\Components\TeeChart\source\Sources\Compiled\BuilderC6\System\TeeImage7C6.bpl=TeeChart Pro Graphic Exporting formats
-C:\Program Files\Borland\CBuilder6\Components\MemTable\kbmMemC6Des.bpl=kbmMemC6Des
-D:\development\Bin\APSData.bpl=APSuite data components
-
 [HistoryLists\hlIncludePath]
-Count=11
-Item0=$(BCB)\include;$(BCB)\include\vcl;$(BCB)\components\boost;$(SHARED)
-Item1=..\;..;$(BCB)\include;$(BCB)\include\vcl;$(BCB)\components\boost;$(SHARED)
-Item2=..\;$(BCB)\include;$(BCB)\include\vcl;$(BCB)\components\boost;$(SHARED)
-Item3=c:\Documents and Settings\hol353\Desktop;$(BCB)\include;$(BCB)\include\vcl;$(SHARED)
-Item4=$(BCB)\include;$(BCB)\include\vcl;$(SHARED)
-Item5=D:\development\Shared\ComponentInterface\Test;$(BCB)\include;$(BCB)\include\vcl;$(BCB)\Components\ThirdParty;$(BCB)\Components\tms
-Item6=$(BCB)\include;$(BCB)\include\vcl;$(BCB)\Components\ThirdParty;$(BCB)\Components\tms
-Item7=C:\Program Files\Borland\CBuilder6\Components\ThirdParty;D:\Projects\Viewer;$(BCB)\include;$(BCB)\include\vcl;$(tmsDir);$(tmsDir)\xlsAdapter;C:\Program Files\Borland\CBuilder6\Projects
-Item8=D:\Projects\Viewer;$(BCB)\include;$(BCB)\include\vcl;$(tmsDir);$(tmsDir)\xlsAdapter;C:\Program Files\Borland\CBuilder6\Projects
-Item9=$(BCB)\include;$(BCB)\include\vcl;$(tmsDir);$(tmsDir)\xlsAdapter;C:\Program Files\Borland\CBuilder6\Projects
-Item10=D:\Projects\PIONEER\STAR\ftp;C:\Program Files\Borland\CBuilder6\Projects;D:\Projects\PIONEER\TXML;$(BCB)\include;$(BCB)\include\vcl
+Count=12
+Item0=$(BCB)\include;$(BCB)\include\vcl;$(BCB)\components\boost;..\..\..\Shared
+Item1=$(BCB)\include;$(BCB)\include\vcl;$(BCB)\components\boost;$(SHARED)
+Item2=..\;..;$(BCB)\include;$(BCB)\include\vcl;$(BCB)\components\boost;$(SHARED)
+Item3=..\;$(BCB)\include;$(BCB)\include\vcl;$(BCB)\components\boost;$(SHARED)
+Item4=c:\Documents and Settings\hol353\Desktop;$(BCB)\include;$(BCB)\include\vcl;$(SHARED)
+Item5=$(BCB)\include;$(BCB)\include\vcl;$(SHARED)
+Item6=D:\development\Shared\ComponentInterface\Test;$(BCB)\include;$(BCB)\include\vcl;$(BCB)\Components\ThirdParty;$(BCB)\Components\tms
+Item7=$(BCB)\include;$(BCB)\include\vcl;$(BCB)\Components\ThirdParty;$(BCB)\Components\tms
+Item8=C:\Program Files\Borland\CBuilder6\Components\ThirdParty;D:\Projects\Viewer;$(BCB)\include;$(BCB)\include\vcl;$(tmsDir);$(tmsDir)\xlsAdapter;C:\Program Files\Borland\CBuilder6\Projects
+Item9=D:\Projects\Viewer;$(BCB)\include;$(BCB)\include\vcl;$(tmsDir);$(tmsDir)\xlsAdapter;C:\Program Files\Borland\CBuilder6\Projects
+Item10=$(BCB)\include;$(BCB)\include\vcl;$(tmsDir);$(tmsDir)\xlsAdapter;C:\Program Files\Borland\CBuilder6\Projects
+Item11=D:\Projects\PIONEER\STAR\ftp;C:\Program Files\Borland\CBuilder6\Projects;D:\Projects\PIONEER\TXML;$(BCB)\include;$(BCB)\include\vcl
 
 [HistoryLists\hlLibraryPath]
 Count=14

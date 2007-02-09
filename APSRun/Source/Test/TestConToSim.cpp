@@ -7,6 +7,7 @@
 #include <string>
 #include "TestConToSim.h"
 #include <ApsimShared/SimCreator.h>
+#include <ApsimShared/ApsimVersion.h>
 
 #include <boost/test/unit_test.hpp>
 using boost::unit_test_framework::test_suite;
@@ -19,7 +20,7 @@ void TestAmpersandInTitle()
    // -----------------------------------------------------------------
    {
    ofstream con("test.con");
-   con << "version = 5" << endl;
+   con << "version = " << getApsimVersion()  << endl;
    con << "[apsim.wheat_sample]" << endl;
    con << "title=WHEAT & SAMPLE Simulation" << endl;
    con.close();
@@ -31,12 +32,13 @@ void TestAmpersandInTitle()
    ostringstream contentsBuffer;
    contentsBuffer << sim.rdbuf();
    string contents = contentsBuffer.str();
+   string expected =  string("<?xml version=\"1.0\"?>\n") + 
+      string("<simulation executable=\"%apsuite/apsim/protocolmanager/lib/protocolmanager.dll\" version=\"") + 
+      getApsimVersion() + string("\">\n") +
+      string("   <title><![CDATA[WHEAT & SAMPLE Simulation]]></title>\n") +
+      string("</simulation>\n");
 
-   BOOST_CHECK(contents ==
-      "<?xml version=\"1.0\"?>\n"
-      "<simulation executable=\"%apsuite/apsim/protocolmanager/lib/protocolmanager.dll\" version=\"5.2\">\n"
-      "   <title><![CDATA[WHEAT & SAMPLE Simulation]]></title>\n"
-      "</simulation>\n");
+   BOOST_CHECK(contents == expected);
 
 
    }
