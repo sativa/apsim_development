@@ -2,7 +2,7 @@ pushd
 cd \development\apsim\barley\validation\files
 
 \development\bin\apsrun.exe /auto  \development\apsim\barley\validation\files\barley_validation.apsim  
-c:\progra~1\R\rw2010\bin\Rterm.exe --slave < validation-1.r
+c:\progra~1\R\R-2.4.0\bin\Rterm.exe --slave < validation-1.r
 
 \development\bin\apsimreport.exe HB90Sow1.report         ../HB90Sow1.gif
 \development\bin\apsimreport.exe HB90Sow2.report         ../HB90Sow2.gif
