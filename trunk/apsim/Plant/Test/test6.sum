@@ -58,24 +58,15 @@
         lablab.dlt_lai_pot
         lablab.dlt_lai_stressed
         lablab.dlt_leaf_no_pot
-        lablab.lai_canopy_green
         lablab.tlai_dead
         lablab.pai
         lablab.dlt_slai_age
         lablab.dlt_slai_light
         lablab.dlt_slai_water
         lablab.dlt_slai_frost
-        lablab.grain_no
-        lablab.grain_size
         lablab.root_wt
         lablab.stem_wt
         lablab.leaf_wt
-        lablab.head_wt
-        lablab.pod_wt
-        lablab.grain_wt
-        lablab.meal_wt
-        lablab.oil_wt
-        lablab.yield
         lablab.biomass
         lablab.biomass_wt
         lablab.green_biomass
@@ -87,25 +78,18 @@
         lablab.dlt_dm
         lablab.dlt_dm_pot_rue
         lablab.dlt_dm_pot_te
-        lablab.dlt_dm_grain_demand
         lablab.dlt_dm_green
         lablab.dlt_dm_green_retrans
         lablab.dlt_dm_detached
         lablab.dlt_dm_senesced
         lablab.dlt_dm_dead_detached
-        lablab.grain_oil_conc
-        lablab.dlt_dm_oil_conv
-        lablab.dlt_dm_oil_conv_retrans
         lablab.biomass_n
         lablab.n_uptake
         lablab.green_biomass_n
-        lablab.grain_n
         lablab.leaf_n
         lablab.root_n
         lablab.stem_n
-        lablab.pod_n
         lablab.deadleaf_n
-        lablab.head_n
         lablab.n_green
         lablab.n_senesced
         lablab.n_dead
@@ -137,8 +121,8 @@
         lablab.sw_supply_layr
         lablab.esw_layr
      
-     Output file = test6.csv
-     Format = csv
+     Output file = test6.out
+     Format = normal
 
 ------- met Initialisation ----------------------------------------------------
      Sparse data is not allowed

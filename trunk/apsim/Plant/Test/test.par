@@ -123,9 +123,8 @@ report do_end_day_output
 summaryfile=test6.sum
 
 [test6.report.parameters]
-outputfile  =test6.csv
+outputfile  =test6.out
 NAString = #N/A
-format = csv
 variable = clock.year
 variable = clock.day
 variable = lablab.crop_class
@@ -154,25 +153,16 @@ variable = lablab.lai
 variable = lablab.dlt_lai_pot
 variable = lablab.dlt_lai_stressed
 variable = lablab.dlt_leaf_no_pot
-variable = lablab.lai_canopy_green
 variable = lablab.tlai_dead
 variable = lablab.pai
 variable = lablab.dlt_slai_age
 variable = lablab.dlt_slai_light
 variable = lablab.dlt_slai_water
 variable = lablab.dlt_slai_frost
-variable = lablab.grain_no
-variable = lablab.grain_size
 
 variable = lablab.root_wt
 variable = lablab.stem_wt
 variable = lablab.leaf_wt
-variable = lablab.head_wt
-variable = lablab.pod_wt
-variable = lablab.grain_wt
-variable = lablab.meal_wt
-variable = lablab.oil_wt
-variable = lablab.yield
 variable = lablab.biomass
 variable = lablab.biomass_wt
 variable = lablab.green_biomass
@@ -184,25 +174,18 @@ variable = lablab.dm_plant_min
 variable = lablab.dlt_dm
 variable = lablab.dlt_dm_pot_rue
 variable = lablab.dlt_dm_pot_te
-variable = lablab.dlt_dm_grain_demand
 variable = lablab.dlt_dm_green
 variable = lablab.dlt_dm_green_retrans
 variable = lablab.dlt_dm_detached
 variable = lablab.dlt_dm_senesced
 variable = lablab.dlt_dm_dead_detached
-variable = lablab.grain_oil_conc
-variable = lablab.dlt_dm_oil_conv
-variable = lablab.dlt_dm_oil_conv_retrans
 variable = lablab.biomass_n
 variable = lablab.n_uptake
 variable = lablab.green_biomass_n
-variable = lablab.grain_n
 variable = lablab.leaf_n
 variable = lablab.root_n
 variable = lablab.stem_n
-variable = lablab.pod_n
 variable = lablab.deadleaf_n
-variable = lablab.head_n
 variable = lablab.n_green
 variable = lablab.n_senesced
 variable = lablab.n_dead
@@ -233,6 +216,44 @@ variable = lablab.cep
 variable = lablab.sw_supply
 variable = lablab.sw_supply_layr
 variable = lablab.esw_layr
+
+[test6_grain_hi.report.parameters]
+outputfile  =test6_grain_hi.out
+variable = clock.year
+variable = clock.day
+variable = lablab.grain_wt
+variable = lablab.grain_n
+variable = lablab.head_wt
+variable = lablab.pod_wt
+variable = lablab.meal_wt
+variable = lablab.oil_wt
+variable = lablab.yield
+variable = lablab.dlt_dm_grain_demand
+variable = lablab.grain_oil_conc
+variable = lablab.dlt_dm_oil_conv
+variable = lablab.dlt_dm_oil_conv_retrans
+variable = lablab.pod_n
+variable = lablab.head_n
+
+[test6_grain_grno.report.parameters]
+outputfile  =test6_grain_grno.out
+variable = clock.year
+variable = clock.day
+variable = wheat.grain_wt
+variable = wheat.grain_n
+variable = wheat.grain_no
+variable = wheat.grain_size
+variable = wheat.head_wt
+variable = wheat.pod_wt
+variable = wheat.meal_wt
+variable = wheat.oil_wt
+variable = wheat.yield
+variable = wheat.dlt_dm_grain_demand
+variable = wheat.grain_oil_conc
+variable = wheat.dlt_dm_oil_conv
+variable = wheat.dlt_dm_oil_conv_retrans
+variable = wheat.pod_n
+variable = wheat.head_n
 
 [test7.SummaryFile.parameters]
 summaryfile=test7.sum
