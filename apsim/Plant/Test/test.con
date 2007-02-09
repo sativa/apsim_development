@@ -73,6 +73,29 @@ module = soiln2     %apsuite/apsim/soiln2/sample/soiln2.par[black_earth]      %a
 module = Plant(lablab) test.par[test5] %apsuite/apsim/lablab/lablab.ini[standard]
 module = SummaryFile  test.par[test6]
 
+[APSIM.test6_grain_hi]
+title=Test report variables 1
+module = clock      test.par[test5] %apsuite/apsim/clock/clock.ini[standard]
+module = report     test.par[test6_grain_hi]
+module = input(met) %apsuite/apsim/met/sample/dalby.met[weather]
+module = manager    test.par[test5]
+module = soilwat2   %apsuite/apsim/soilwat2/sample/soilwat2.par[black_earth]  %apsuite/apsim/soilwat2/soilwat2.ini[standard]
+module = SurfaceOM   %apsuite/apsim/SurfaceOM/sample/SurfaceOM.par [legume_residue] %apsuite/apsim/SurfaceOM/SurfaceOM.ini [standard]
+module = soiln2     %apsuite/apsim/soiln2/sample/soiln2.par[black_earth]      %apsuite/apsim/soiln2/soiln2.ini[standard]
+module = Plant(lablab) test.par[test5] %apsuite/apsim/lablab/lablab.ini[standard]
+
+[APSIM.test6_grain_grno]
+title=Test report variables 1
+module = clock      test.par[test5] %apsuite/apsim/clock/clock.ini[standard]
+module = report     test.par[test6_grain_grno]
+module = input(met) %apsuite/apsim/met/sample/dalby.met[weather]
+module = manager    test.par[wheat]
+module = soilwat2   %apsuite/apsim/soilwat2/sample/soilwat2.par[black_earth]  %apsuite/apsim/soilwat2/soilwat2.ini[standard]
+module = SurfaceOM   %apsuite/apsim/SurfaceOM/sample/SurfaceOM.par [legume_residue] %apsuite/apsim/SurfaceOM/SurfaceOM.ini [standard]
+module = soiln2     %apsuite/apsim/soiln2/sample/soiln2.par[black_earth]      %apsuite/apsim/soiln2/soiln2.ini[standard]
+module = Plant(wheat) test.par[test5] %apsuite/apsim/wheat/wheat.ini[standard]
+
+
 
 [APSIM.test7]
 title=Test report variables 2
