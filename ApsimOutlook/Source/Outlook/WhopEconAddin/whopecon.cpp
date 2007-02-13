@@ -199,7 +199,7 @@ void WhopEcon::doCalculations(TAPSTable& data, const Scenario& scenario)
                      // get yield from file and add a new WET weight column.
                      string yieldFieldName = cropFields.getCropFieldName
                         (*record, "yield", *cropAcronymI);
-                     string wetYieldFieldName = yieldFieldName + "WET";
+                     string wetYieldFieldName = "Wet grain yield (kg/ha)-GM";
 
                      float dryYield = 0.0;
                      if (!cropFields.getCropValue(*record, "yield", *cropAcronymI, dryYield))
