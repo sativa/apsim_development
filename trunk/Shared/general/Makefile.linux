@@ -33,16 +33,13 @@ OBJ=	$(SRC:.cpp=.o)
 #-----------------------------------------------------------------------
 # Compiler options
 
-CC=		   /usr/bin/gcc
-CPPFLAGS=	$(BOOST_INCLUDEDIR) $(XML2_INCLUDEDIR) -I$(APSROOT)/Shared 	\
-		      -Wno-deprecated -fpermissive -fPIC $(CPPDEBUGFLAGS)
+CC = /usr/bin/gcc
+CPPFLAGS = $(BOOST_INCLUDEDIR) $(XML2_INCLUDEDIR) -I$(APSROOT)/Shared \
+	-Wno-deprecated -fpermissive -fPIC $(CPPDEBUGFLAGS)
 
 #-----------------------------------------------------------------------
 # Required libraries
 
-LDFLAGS=	-L/usr/lib $(XML2_LIBDIR) $(LDDEBUGFLAGS)
-
-LIBS=		-lxml2 -lboost_filesystem -libiberty
 
 #-----------------------------------------------------------------------
 # The rules
@@ -50,9 +47,6 @@ LIBS=		-lxml2 -lboost_filesystem -libiberty
 all: $(LIB)
 
 $(LIB):	$(LIB)($(OBJ))
-
-
-FORCE:
 
 clean:
 	rm -f *.o *.mod
