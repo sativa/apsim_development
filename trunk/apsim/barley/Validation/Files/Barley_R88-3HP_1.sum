@@ -326,10 +326,10 @@
         photoperiod sensitivity    =       3.90 ()
         phyllochron                =         30 ()
         tt start gf to maturity    =        580 (dd)
-        x_pp_hi_incr               =       1.00      24.00
-        y_hi_incr                  =     0.0130     0.0130
-        x_hi_max_pot_stress        =       0.00       1.00
-        y_hi_max_pot               =       0.50       0.50
+        grains_per_gram_stem           =       25.0 (/g)
+        potential_grain_filling_rate   =     0.0020 (g/grain/day)
+        potential_grain_growth_rate    =     0.0010 (g/grain/day)
+        max_grain_size                 =     0.1000 (g)
          ------------------------------------------------
      
      
@@ -394,64 +394,64 @@
                      stover N conc =     1.08 (%)    extractable sw =   61.10 (mm)
 28 September 1988(Day of year=272), barley: 
       stage 8.0 end_grain_fill
-                     biomass =         972.02 (g/m^2)   lai          =   0.684 (m^2/m^2)
-                     stover N conc =     0.31 (%)    extractable sw =   11.92 (mm)
+                     biomass =         953.27 (g/m^2)   lai          =   0.896 (m^2/m^2)
+                     stover N conc =     0.32 (%)    extractable sw =   15.12 (mm)
 29 September 1988(Day of year=273), barley: 
       stage 9.0 maturity
-                     biomass =         972.02 (g/m^2)   lai          =   0.626 (m^2/m^2)
-                     stover N conc =     0.31 (%)    extractable sw =   11.42 (mm)
+                     biomass =         953.27 (g/m^2)   lai          =   0.825 (m^2/m^2)
+                     stover N conc =     0.32 (%)    extractable sw =   14.39 (mm)
 30 September 1988(Day of year=274), barley: 
       stage 10.0 harvest_ripe
-                     biomass =         972.02 (g/m^2)   lai          =   0.001 (m^2/m^2)
-                     stover N conc =     0.30 (%)    extractable sw =   10.94 (mm)
+                     biomass =         953.27 (g/m^2)   lai          =   0.001 (m^2/m^2)
+                     stover N conc =     0.30 (%)    extractable sw =   13.71 (mm)
 30 September 1988(Day of year=274), Manager: 
      Manager sending message :- barley harvest
 30 September 1988(Day of year=274), barley: 
      
-      flowering day          =  231                           stover (kg/ha)         =     7054.5
-      maturity day           =  273                           grain yield (kg/ha)    =     2665.7
-      grain % water content  =   12.5                         grain yield wet (kg/ha)=     3046.5
-      grain wt (g)           =    0.032                       grains/m^2             =   8458.387
+      flowering day          =  231                           stover (kg/ha)         =     6710.3
+      maturity day           =  273                           grain yield (kg/ha)    =     2822.4
+      grain % water content  =   12.5                         grain yield wet (kg/ha)=     3225.6
+      grain wt (g)           =    0.033                       grains/m^2             =   8458.387
       grains/plant           =   48.3                         maximum lai            =      5.209
-      total above ground biomass (kg/ha)    =     9720.2
-      live above ground biomass (kg/ha)     =     9720.2
-      green above ground biomass (kg/ha)    =     7069.4
+      total above ground biomass (kg/ha)    =     9532.7
+      live above ground biomass (kg/ha)     =     9532.7
+      green above ground biomass (kg/ha)    =     6881.9
       senesced above ground biomass (kg/ha) =     2650.8
       dead above ground biomass (kg/ha)     =        0.0
       number of leaves       =   59.6
-      DM Root:Shoot ratio    =    0.207                       Harvest Index          =      0.274
-      Stover C:N ratio       =  106.466                       Root C:N ratio         =     31.539
-      grain N percent        =       2.03                     total N content (kg/ha)=      80.75
-      grain N uptake (kg/ha) =      54.24                     senesced N content (kg/ha)=   13.25
-      green N content (kg/ha)=      13.25                     dead N content (kg/ha) =       0.00
+      DM Root:Shoot ratio    =    0.211                       Harvest Index          =      0.296
+      Stover C:N ratio       =  105.375                       Root C:N ratio         =     31.538
+      grain N percent        =       1.96                     total N content (kg/ha)=      80.93
+      grain N uptake (kg/ha) =      55.46                     senesced N content (kg/ha)=   13.25
+      green N content (kg/ha)=      12.22                     dead N content (kg/ha) =       0.00
      
       Average Stress Indices:                          Water Photo  Water Expan  N Photo      N grain conc
          emergence            to end_of_juvenile         0.000        0.000        0.000        0.000
          end_of_juvenile      to floral_initiation       0.000        0.000        0.382        0.397
          floral_initiation    to flowering               0.154        0.196        0.206        0.244
          flowering            to start_grain_fill        0.349        0.406        0.000        0.000
-         start_grain_fill     to end_grain_fill          0.355        0.435        0.381        0.596
+         start_grain_fill     to end_grain_fill          0.275        0.334        0.382        0.583
      
      
      Crop harvested.
          Organic matter from crop:-      Tops to surface residue      Roots to soil FOM
-                          DM (kg/ha) =               7054.15                    0.00
-                          N  (kg/ha) =                 26.48                    0.00
+                          DM (kg/ha) =               6709.93                    0.00
+                          N  (kg/ha) =                 25.45                    0.00
      
          Organic matter removed from system:-      From Tops               From Roots
-                          DM (kg/ha) =               2665.71                    0.00
-                          N  (kg/ha) =                 54.24                    0.00
+                          DM (kg/ha) =               2822.39                    0.00
+                          N  (kg/ha) =                 55.46                    0.00
      
       stage 4.0 end_of_juvenile
                      biomass =           0.03 (g/m^2)   lai          =   0.035 (m^2/m^2)
-                     stover N conc =     6.30 (%)    extractable sw =   10.94 (mm)
+                     stover N conc =     6.30 (%)    extractable sw =   13.71 (mm)
 30 September 1988(Day of year=274), Manager: 
      Manager sending message :- barley end_crop
 30 September 1988(Day of year=274), barley: 
      Crop ended. Yield (dw) =     0.0  (kg/ha)
          Organic matter from crop:-      Tops to surface residue      Roots to soil FOM
                           DM (kg/ha) =                  0.33                 2012.58
-                          N  (kg/ha) =                  0.02                   25.52
+                          N  (kg/ha) =                  0.02                   25.53
      
 4 October 1988(Day of year=278), clock: 
      Simulation is terminating due to end criteria being met.
