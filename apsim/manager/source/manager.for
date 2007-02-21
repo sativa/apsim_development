@@ -1327,7 +1327,8 @@ C     Last change:  P    25 Oct 2000    9:26 am
       call Replace_local_variables(Data_string)
 
       if (index(Action_string, 'do_output') .eq. 0 .and.
-     :    index(Action_string, 'do_end_day_output') .eq. 0) then
+     :    index(Action_string, 'do_end_day_output') .eq. 0 .and.
+     :    index(Action_string, 'set') .eq. 0) then
 
          write (msg, '(6a)' )
      :      'Manager sending message :- ',
