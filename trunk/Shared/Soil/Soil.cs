@@ -981,8 +981,11 @@ namespace CSGeneral
 			Template = Template.Replace("$NO3$", NO3Line);
 			Template = Template.Replace("$NH4$", NH4Line);
             Template = Template.Replace("$PH$", PHLine);
+
             Macro SoilMacro = new Macro();
-			Out.Write(SoilMacro.Go(Data, Template));
+            string Contents = SoilMacro.Go(Data, Template);
+            Contents = Contents.Replace("<soiltype>[soil.soiltype]</soiltype>", "");
+			Out.Write(Contents);
 			}
 
 		public void ExportCropToSim(TextWriter Out, string CropName)
@@ -1263,10 +1266,10 @@ namespace CSGeneral
 					errorMessages += "BD value of " + bd[layer].ToString("f3")
 						          +  " in layer " + RealLayerNumber.ToString() + " is greater than the theoretical maximum of 2.65"
 								  + "\r\n";
-				if (OC[layer] < 0.01)
-					errorMessages += "OC value of " + OC[layer].ToString("f3")
-						          +  " in layer " + RealLayerNumber.ToString() + " is less than 0.01"
-								  + "\r\n";
+                if (OC[layer] < 0.01)
+                    errorMessages += "OC value of " + OC[layer].ToString("f3")
+                                  +  " in layer " + RealLayerNumber.ToString() + " is less than 0.01"
+                                  + "\r\n";
                 if (PH[layer] < 3.5)
                     errorMessages += "PH value of " + PH[layer].ToString("f3")
                                   + " in layer " + RealLayerNumber.ToString() + " is less than 3.5"
