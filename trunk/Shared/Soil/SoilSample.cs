@@ -34,7 +34,8 @@ namespace CSGeneral
 		public StoredWaterFormatType StoredWaterFormat
 			{
 			get {
-				if (Data.get_ChildValue("WaterFormat") == "GravimetricPercent")
+				if (Data.get_ChildValue("WaterFormat") == "GravimetricPercent" ||
+                    Data.get_ChildValue("swunit") == "gravimetric")
 					return StoredWaterFormatType.GravimetricPercent;
 				else if (Data.get_ChildValue("WaterFormat") == "GravimetricWetDry") 
 					return StoredWaterFormatType.GravimetricWetDry;
@@ -159,12 +160,12 @@ namespace CSGeneral
 
 		public double[] OC
 			{
-			get {return getLayered("other", "oc");}
+            get { return getLayered("nitrogen", "oc"); }
             set { setLayered("nitrogen", "oc", value); }
 			}
 		public double[] PH
 			{
-			get {return getLayered("other", "ph");}
+            get { return getLayered("nitrogen", "ph"); }
 			set {setLayered("nitrogen", "ph", value);}
 			}
 		public double[] EC

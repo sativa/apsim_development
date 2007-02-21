@@ -563,6 +563,20 @@ Public Class APSIMData
             FireDataChangedEvent()
         End If
     End Sub
+    Public Sub DeleteNode(ByVal ChildToDelete As APSIMData)
+        ' ---------------------------------
+        ' Delete the specified child
+        ' ---------------------------------
+        Dim SomeDeleted As Boolean = False
+        If Not IsNothing(ChildToDelete) Then
+            Node.RemoveChild(ChildToDelete.InternalNode)
+            SomeDeleted = True
+        End If
+        If SomeDeleted Then
+            ChildrenLoaded = False
+            FireDataChangedEvent()
+        End If
+    End Sub
 
     Public Sub EnsureNameIsUnique()
         ' ------------------------------------------------
