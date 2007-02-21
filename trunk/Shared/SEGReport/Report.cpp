@@ -1058,7 +1058,7 @@ void Report::addObjectToXML(istream& in, const string& objectName,
       else if (Str_i_Eq(key, "labels.Strings"))
         addMultipleElements(in, "fieldname", "Label", elements, types, values);
       else if (Str_i_Eq(key, "filters.Strings"))
-        addMultipleElements(in, "", "FilterString", elements, types, values);
+        addMultipleElements(in, "filters", "FilterString", elements, types, values);
       else if (Str_i_Eq(key, "Percent"))
          addElement("Percent", "yesno", "yes", elements, types, values);
       else if (Str_i_Eq(key, "obsData"))
