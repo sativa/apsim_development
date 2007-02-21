@@ -10,7 +10,7 @@ namespace ChangeTool
 	// ------------------------------------------
 	public class APSIMChangeTool
 		{
-		private static int CurrentVersion = 5;	   
+		private static int CurrentVersion = 6;	   
 		private delegate void UpgraderDelegate(APSIMData Data);
 
 		// ------------------------------------------
@@ -41,6 +41,10 @@ namespace ChangeTool
                 // Upgrade from version 4 to 5.
                 if (DataVersion < 5)
                     Upgrade(Data, new UpgraderDelegate(UpdateToVersion5));
+
+                // Upgrade from version 4 to 5.
+                if (DataVersion < 6)
+                    Upgrade(Data, new UpgraderDelegate(UpdateToVersion6));
 
                 // All finished upgrading - write version number out.
                 Data.SetAttribute("version", CurrentVersion.ToString());
@@ -267,6 +271,23 @@ namespace ChangeTool
                     EventsGroup.SetAttribute("shortcut", outputfiledescription.Attribute("shortcut") + " Events");
                     }
                 outputfiledescription.Parent.Delete(outputfiledescription.Name);
+                }
+            }
+        // -----------------------------
+        // Upgrade the data to version 6.
+        // -----------------------------
+        private static void UpdateToVersion6(APSIMData Data)
+            {
+            if (Data.Type.ToLower() == "logic")
+                {
+                foreach (APSIMData script in Data.get_Children("script"))
+                    {
+                    string text = script.Value;
+                    script.Value = "";
+                    script.set_ChildValue("event", script.Name);
+                    script.set_ChildValue("text", text);
+                    script.DeleteAttribute("name");
+                    }
                 }
             }
 

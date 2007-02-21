@@ -289,9 +289,11 @@
          <type>component</type>
          <dll>%apsuite\apsim\manager\lib\manager.dll</dll>
          <sim>
-            <rule name="init" condition="init">[logic.init]</rule>
-            <rule name="end_of_day" condition="end_of_day">[logic.endofday]</rule>
-            <rule name="start_of_day" condition="start_of_day">[logic.startofday]</rule>
+            [foreach logic.script]
+            [foreach script.event]
+            <rule name="[event.innerxml]" condition="[event.innerxml]">[script.text]</rule>
+            [endfor]            
+            [endfor]
          </sim>
       </ApsimToSim>
    </logic>
@@ -2918,8 +2920,19 @@
    </millet>
    <SiloInput>
       <UItype>generic</UItype>
-      <ShowInMainTree>No</ShowInMainTree>
+      <ShowInMainTree>Yes</ShowInMainTree>
       <Documentation name="Science documentation">../apsim/SiloInput/docs/SiloInput.htm</Documentation>
+      <Image>%apsuite\apsimui\images\banner2.jpg</Image>
+      <LargeIcon>Images\thermometer32.png</LargeIcon>
+      <SmallIcon>Images\thermometer16.png</SmallIcon>
+      <drops>
+         <drop name="simulation"/>
+         <drop name="folder"/>
+      </drops>
+      <ApsimToSim>
+         <type>component</type>
+         <dll>%apsuite\apsim\siloinput\lib\siloinput.dll</dll>
+      </ApsimToSim>
    </SiloInput>
    <soilph>
       <UItype>generic</UItype>
