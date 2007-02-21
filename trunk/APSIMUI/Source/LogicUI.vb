@@ -1,6 +1,7 @@
 Imports VBGeneral
 Public Class LogicUI
     Inherits VBGeneral.BaseView
+    Private CurrentScriptNode As APSIMData = Nothing
 
 #Region " Windows Form Designer generated code "
 
@@ -32,107 +33,96 @@ Public Class LogicUI
     'Do not modify it using the code editor.
     Friend WithEvents TabControl As System.Windows.Forms.TabControl
     Friend WithEvents InitTab As System.Windows.Forms.TabPage
-    Friend WithEvents StartOfDayTab As System.Windows.Forms.TabPage
-    Friend WithEvents EndOfDayTab As System.Windows.Forms.TabPage
-    Friend WithEvents InitTextBox As System.Windows.Forms.RichTextBox
-    Friend WithEvents StartOfDayTextBox As System.Windows.Forms.RichTextBox
-    Friend WithEvents EndOfDayTextBox As System.Windows.Forms.RichTextBox
+    Friend WithEvents PopupMenu As System.Windows.Forms.ContextMenuStrip
+    Friend WithEvents AddMenuItem As System.Windows.Forms.ToolStripMenuItem
+    Friend WithEvents DeleteMenuItem As System.Windows.Forms.ToolStripMenuItem
+    Friend WithEvents ToolStripSeparator1 As System.Windows.Forms.ToolStripSeparator
+    Friend WithEvents ScriptBox As System.Windows.Forms.RichTextBox
+    Friend WithEvents PropertiesMenuItem As System.Windows.Forms.ToolStripMenuItem
     <System.Diagnostics.DebuggerStepThrough()> Private Sub InitializeComponent()
+        Me.components = New System.ComponentModel.Container
         Me.TabControl = New System.Windows.Forms.TabControl
+        Me.PopupMenu = New System.Windows.Forms.ContextMenuStrip(Me.components)
+        Me.AddMenuItem = New System.Windows.Forms.ToolStripMenuItem
+        Me.DeleteMenuItem = New System.Windows.Forms.ToolStripMenuItem
+        Me.ToolStripSeparator1 = New System.Windows.Forms.ToolStripSeparator
+        Me.PropertiesMenuItem = New System.Windows.Forms.ToolStripMenuItem
         Me.InitTab = New System.Windows.Forms.TabPage
-        Me.InitTextBox = New System.Windows.Forms.RichTextBox
-        Me.StartOfDayTab = New System.Windows.Forms.TabPage
-        Me.StartOfDayTextBox = New System.Windows.Forms.RichTextBox
-        Me.EndOfDayTab = New System.Windows.Forms.TabPage
-        Me.EndOfDayTextBox = New System.Windows.Forms.RichTextBox
+        Me.ScriptBox = New System.Windows.Forms.RichTextBox
         Me.TabControl.SuspendLayout()
-        Me.InitTab.SuspendLayout()
-        Me.StartOfDayTab.SuspendLayout()
-        Me.EndOfDayTab.SuspendLayout()
+        Me.PopupMenu.SuspendLayout()
         Me.SuspendLayout()
         '
         'TabControl
         '
+        Me.TabControl.ContextMenuStrip = Me.PopupMenu
         Me.TabControl.Controls.Add(Me.InitTab)
-        Me.TabControl.Controls.Add(Me.StartOfDayTab)
-        Me.TabControl.Controls.Add(Me.EndOfDayTab)
-        Me.TabControl.Dock = System.Windows.Forms.DockStyle.Fill
+        Me.TabControl.Dock = System.Windows.Forms.DockStyle.Top
         Me.TabControl.Location = New System.Drawing.Point(0, 40)
         Me.TabControl.Name = "TabControl"
         Me.TabControl.SelectedIndex = 0
-        Me.TabControl.Size = New System.Drawing.Size(1020, 552)
+        Me.TabControl.Size = New System.Drawing.Size(1020, 24)
         Me.TabControl.TabIndex = 0
+        '
+        'PopupMenu
+        '
+        Me.PopupMenu.Items.AddRange(New System.Windows.Forms.ToolStripItem() {Me.AddMenuItem, Me.DeleteMenuItem, Me.ToolStripSeparator1, Me.PropertiesMenuItem})
+        Me.PopupMenu.Name = "ContextMenuStrip"
+        Me.PopupMenu.Size = New System.Drawing.Size(200, 98)
+        '
+        'AddMenuItem
+        '
+        Me.AddMenuItem.Name = "AddMenuItem"
+        Me.AddMenuItem.Size = New System.Drawing.Size(199, 22)
+        Me.AddMenuItem.Text = "&Add another script item"
+        '
+        'DeleteMenuItem
+        '
+        Me.DeleteMenuItem.Name = "DeleteMenuItem"
+        Me.DeleteMenuItem.Size = New System.Drawing.Size(199, 22)
+        Me.DeleteMenuItem.Text = "&Delete this script item"
+        '
+        'ToolStripSeparator1
+        '
+        Me.ToolStripSeparator1.Name = "ToolStripSeparator1"
+        Me.ToolStripSeparator1.Size = New System.Drawing.Size(196, 6)
+        '
+        'PropertiesMenuItem
+        '
+        Me.PropertiesMenuItem.Name = "PropertiesMenuItem"
+        Me.PropertiesMenuItem.Size = New System.Drawing.Size(199, 22)
+        Me.PropertiesMenuItem.Text = "&Properties"
         '
         'InitTab
         '
-        Me.InitTab.Controls.Add(Me.InitTextBox)
         Me.InitTab.Location = New System.Drawing.Point(4, 22)
         Me.InitTab.Name = "InitTab"
-        Me.InitTab.Size = New System.Drawing.Size(1012, 526)
+        Me.InitTab.Size = New System.Drawing.Size(1012, 0)
         Me.InitTab.TabIndex = 0
-        Me.InitTab.Text = "Initialisation"
+        Me.InitTab.Text = "<default>"
+        Me.InitTab.UseVisualStyleBackColor = True
         '
-        'InitTextBox
+        'ScriptBox
         '
-        Me.InitTextBox.Dock = System.Windows.Forms.DockStyle.Fill
-        Me.InitTextBox.Font = New System.Drawing.Font("Microsoft Sans Serif", 9.75!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.InitTextBox.Location = New System.Drawing.Point(0, 0)
-        Me.InitTextBox.Name = "InitTextBox"
-        Me.InitTextBox.Size = New System.Drawing.Size(1012, 526)
-        Me.InitTextBox.TabIndex = 0
-        Me.InitTextBox.Text = ""
-        Me.InitTextBox.WordWrap = False
-        '
-        'StartOfDayTab
-        '
-        Me.StartOfDayTab.Controls.Add(Me.StartOfDayTextBox)
-        Me.StartOfDayTab.Location = New System.Drawing.Point(4, 22)
-        Me.StartOfDayTab.Name = "StartOfDayTab"
-        Me.StartOfDayTab.Size = New System.Drawing.Size(680, 526)
-        Me.StartOfDayTab.TabIndex = 1
-        Me.StartOfDayTab.Text = "Start Of Day"
-        '
-        'StartOfDayTextBox
-        '
-        Me.StartOfDayTextBox.Dock = System.Windows.Forms.DockStyle.Fill
-        Me.StartOfDayTextBox.Font = New System.Drawing.Font("Microsoft Sans Serif", 9.75!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.StartOfDayTextBox.Location = New System.Drawing.Point(0, 0)
-        Me.StartOfDayTextBox.Name = "StartOfDayTextBox"
-        Me.StartOfDayTextBox.Size = New System.Drawing.Size(680, 526)
-        Me.StartOfDayTextBox.TabIndex = 1
-        Me.StartOfDayTextBox.Text = ""
-        Me.StartOfDayTextBox.WordWrap = False
-        '
-        'EndOfDayTab
-        '
-        Me.EndOfDayTab.Controls.Add(Me.EndOfDayTextBox)
-        Me.EndOfDayTab.Location = New System.Drawing.Point(4, 22)
-        Me.EndOfDayTab.Name = "EndOfDayTab"
-        Me.EndOfDayTab.Size = New System.Drawing.Size(680, 526)
-        Me.EndOfDayTab.TabIndex = 2
-        Me.EndOfDayTab.Text = "End Of Day"
-        '
-        'EndOfDayTextBox
-        '
-        Me.EndOfDayTextBox.Dock = System.Windows.Forms.DockStyle.Fill
-        Me.EndOfDayTextBox.Font = New System.Drawing.Font("Microsoft Sans Serif", 9.75!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.EndOfDayTextBox.Location = New System.Drawing.Point(0, 0)
-        Me.EndOfDayTextBox.Name = "EndOfDayTextBox"
-        Me.EndOfDayTextBox.Size = New System.Drawing.Size(680, 526)
-        Me.EndOfDayTextBox.TabIndex = 2
-        Me.EndOfDayTextBox.Text = ""
-        Me.EndOfDayTextBox.WordWrap = False
+        Me.ScriptBox.Dock = System.Windows.Forms.DockStyle.Fill
+        Me.ScriptBox.Font = New System.Drawing.Font("Microsoft Sans Serif", 9.75!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.ScriptBox.Location = New System.Drawing.Point(0, 64)
+        Me.ScriptBox.Name = "ScriptBox"
+        Me.ScriptBox.Size = New System.Drawing.Size(1020, 528)
+        Me.ScriptBox.TabIndex = 3
+        Me.ScriptBox.Text = ""
+        Me.ScriptBox.WordWrap = False
         '
         'LogicUI
         '
+        Me.Controls.Add(Me.ScriptBox)
         Me.Controls.Add(Me.TabControl)
         Me.Name = "LogicUI"
         Me.Size = New System.Drawing.Size(1020, 592)
         Me.Controls.SetChildIndex(Me.TabControl, 0)
+        Me.Controls.SetChildIndex(Me.ScriptBox, 0)
         Me.TabControl.ResumeLayout(False)
-        Me.InitTab.ResumeLayout(False)
-        Me.StartOfDayTab.ResumeLayout(False)
-        Me.EndOfDayTab.ResumeLayout(False)
+        Me.PopupMenu.ResumeLayout(False)
         Me.ResumeLayout(False)
 
     End Sub
@@ -141,45 +131,87 @@ Public Class LogicUI
 
     Overrides Sub RefreshView(ByVal Controller As BaseController)
         MyBase.RefreshView(Controller)
-        InitTextBox.Text = Replace(Controller.Data.Child("init").Value, "[cr]", vbCrLf)
-        StartOfDayTextBox.Text = Replace(Controller.Data.Child("startofday").Value, "[cr]", vbCrLf)
 
-        EndOfDayTextBox.Text = Replace(Controller.Data.Child("endofday").Value, "[cr]", vbCrLf)
-        HelpText = "Enter your management logic into the edit box above."
+        TabControl.TabPages.Clear()
+        CurrentScriptNode = Nothing
+
+        For Each Script As APSIMData In Controller.Data.Children
+            Dim TabName As String = ""
+            For Each EventData As APSIMData In Script.Children("event")
+                If TabName <> "" Then
+                    TabName = TabName + ","
+                End If
+                TabName = TabName + EventData.Value
+            Next
+            TabControl.TabPages.Add(TabName)
+        Next
+        HelpText = "Enter your management logic into the edit box below."
+        TabControl_SelectedIndexChanged(Nothing, Nothing)
     End Sub
 
+    Private Sub TabControl_SelectedIndexChanged(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles TabControl.SelectedIndexChanged
+        ' save old script.
+        Save()
 
-    Private Sub InitTextBox_Leave(ByVal sender As Object, ByVal e As System.EventArgs) Handles InitTextBox.Leave
-        Dim text As String = Replace(InitTextBox.Text, vbCrLf, "[cr]")
-        If text = Nothing Then
-            text = ""
-        ElseIf Not text.StartsWith(" ") Then
-            text = " " + text
+        ' load new script
+        If TabControl.SelectedIndex >= 0 Then
+            CurrentScriptNode = Controller.Data.Children("script")(TabControl.SelectedIndex)
+            ScriptBox.Text = CurrentScriptNode.ChildValue("text").Replace("[cr]", vbCrLf)
         End If
-        Controller.Data.Child("init").Value = text
-    End Sub
-    Private Sub StartOfDayTextBox_Leave(ByVal sender As Object, ByVal e As System.EventArgs) Handles StartOfDayTextBox.Leave
-        Dim text As String = Replace(StartOfDayTextBox.Text, vbCrLf, "[cr]")
-        If text = Nothing Then
-            text = ""
-        ElseIf Not text.StartsWith(" ") Then
-            text = " " + text
-        End If
-        Controller.Data.Child("startofday").Value = text
-    End Sub
-    Private Sub EndOfDayTextBox_Leave(ByVal sender As Object, ByVal e As System.EventArgs) Handles EndOfDayTextBox.Leave
-        Dim text As String = Replace(EndOfDayTextBox.Text, vbCrLf, "[cr]")
-        If text = Nothing Then
-            text = ""
-        ElseIf Not text.StartsWith(" ") Then
-            text = " " + text
-        End If
-        Controller.Data.Child("endofday").Value = text
     End Sub
 
     Public Overrides Sub Save()
-        InitTextBox_Leave(Nothing, Nothing)
-        StartOfDayTextBox_Leave(Nothing, Nothing)
-        EndOfDayTextBox_Leave(Nothing, Nothing)
+        If Not IsNothing(CurrentScriptNode) Then
+            Dim text As String = Replace(ScriptBox.Text, vbCrLf, "[cr]")
+            If text = Nothing Then
+                text = ""
+            ElseIf Not text.StartsWith(" ") Then
+                text = " " + text
+            End If
+            CurrentScriptNode.ChildValue("text") = text
+        End If
+    End Sub
+
+    Private Sub TabControl_MouseDown(ByVal sender As System.Object, ByVal e As System.Windows.Forms.MouseEventArgs) Handles TabControl.MouseDown
+        For i As Integer = 0 To TabControl.TabCount - 1
+            If TabControl.GetTabRect(i).Contains(e.Location) Then
+                TabControl.SelectTab(i)
+            End If
+        Next
+        DeleteMenuItem.Enabled = TabControl.TabCount > 1
+    End Sub
+
+    Private Sub AddMenuItem_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles AddMenuItem.Click
+        Dim EventNamesString As String = InputDialog.InputBox("Enter event name(s) to run script on", "APSIM event names (comma separated)", "", False)
+        If EventNamesString <> "" Then
+            Dim EventNames() As String = EventNamesString.Split(",".ToCharArray())
+            Dim NewScriptNode As APSIMData = Controller.Data.Add(New APSIMData("script", ""))
+            For Each EventName As String In EventNames
+                NewScriptNode.Add(New APSIMData("event", "")).Value = EventName
+            Next
+            TabControl.TabPages.Add(EventNamesString)
+            TabControl.SelectedIndex = TabControl.TabCount - 1
+        End If
+    End Sub
+
+    Private Sub DeleteMenuItem_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles DeleteMenuItem.Click
+        Dim CurrentTabName As String = TabControl.TabPages(TabControl.SelectedIndex).Text
+        If MessageBox.Show("Are you sure you want to delete " + CurrentTabName + "?", "Confirmation required", MessageBoxButtons.YesNo, MessageBoxIcon.Question) = DialogResult.Yes Then
+            CurrentScriptNode.Parent.DeleteNode(CurrentScriptNode)
+            CurrentScriptNode = Nothing
+            TabControl.TabPages.Remove(TabControl.SelectedTab)
+        End If
+    End Sub
+
+    Private Sub PropertiesMenuItem_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles PropertiesMenuItem.Click
+        Dim EventNamesString As String = InputDialog.InputBox("Enter event name(s) to run script on", "APSIM event names (comma separated)", TabControl.SelectedTab.Text, False)
+        If EventNamesString <> TabControl.SelectedTab.Text Then
+            Dim EventNames() As String = EventNamesString.Split(",".ToCharArray())
+            CurrentScriptNode.DeleteByType("event")
+            For Each EventName As String In EventNames
+                CurrentScriptNode.Add(New APSIMData("event", "")).Value = EventName
+            Next
+            TabControl.SelectedTab.Text = EventNamesString
+        End If
     End Sub
 End Class
