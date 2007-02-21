@@ -55,7 +55,7 @@ __fastcall TWebSession::TWebSession (TComponent* Owner)
 // Session has been created - set ourselves up.
 //---------------------------------------------------------------------------
 void TWebSession::setup(TIWApplication* webApp)
-   {
+   {  
    webApplication = webApp;
    if (data == NULL)
       {

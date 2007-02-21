@@ -25,7 +25,9 @@
       bcbie.bpi inet.bpi adortl.bpi bcbsmp.bpi dsnap.bpi cds.bpi dbexpress.bpi 
       dbxcds.bpi ibxpress.bpi vclie.bpi inetdbbde.bpi inetdbxpress.bpi 
       dclocx.bpi soaprtl.bpi IntrawebDB_70_60.bpi Intraweb_70_60.bpi IW7TMSC6.bpi 
-      VclSmp.bpi IW7TMSGRIDC6.bpi IW7TMSGRIDDEC6.bpi"/>
+      VclSmp.bpi IW7TMSGRIDC6.bpi IW7TMSGRIDDEC6.bpi TeeDB7C6.bpi Tee7C6.bpi 
+      TeeUI7C6.bpi TeeLanguage7C6.bpi TeePro7C6.bpi TeeGL7C6.bpi qrpt.bpi 
+      TeeQR7C6.bpi TMSC6.bpi"/>
     <PATHCPP value=".;"/>
     <PATHPAS value=".;"/>
     <PATHRC value=".;"/>
@@ -101,10 +103,6 @@ ProductName=
 ProductVersion=1.0.0.0
 Comments=
 
-[Excluded Packages]
-C:\Program Files\Borland\CBuilder6\Components\TeeChart\source\Sources\Compiled\BuilderC6\System\TeeImage7C6.bpl=TeeChart Pro Graphic Exporting formats
-C:\Program Files\Borland\CBuilder6\Components\MemTable\kbmMemC6Des.bpl=kbmMemC6Des
-
 [HistoryLists\hlIncludePath]
 Count=8
 Item0=..\..\Shared\ApsimShared;$(BCB)\include;$(BCB)\include\vcl;$(BCB)\Components\IntraWeb\LibCB6;$(BCB)\components\tms\intraweb;$(BCB)\components\boost;$(SHARED)
@@ -153,10 +151,5 @@ RemoteDebug=0
 ShowInfoMsgs=0
 LinkDebugVcl=0
 LinkCGLIB=0
-
-[Language]
-ActiveLang=
-ProjectLang=
-RootDir=
   </IDEOPTIONS>
 </PROJECT>
