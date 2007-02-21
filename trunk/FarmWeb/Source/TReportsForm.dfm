@@ -14,7 +14,7 @@ object ReportsForm: TReportsForm
   DesignSize = (
     893
     684)
-  DesignLeft = 476
+  DesignLeft = 371
   DesignTop = 241
   object IWRectangle1: TIWRectangle
     Left = 0

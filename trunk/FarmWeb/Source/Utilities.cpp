@@ -320,13 +320,9 @@ bool generateReport(std::string toEmailAddress,
 
       // To generate the rainfall file try and use the resetdate if it exists.
       // Otherwise use the sowing date.
-      date firstRainfallDate(pos_infin);
       string sowDateString = data->getProperty(userName, paddockName, "sowdate");
-      date sowDate = date(from_string(sowDateString));
-      if (sowDate.month() >= 4 && sowDate.month() <= 8)
-         firstRainfallDate = date(sowDate.year(), 4, 1);
-      else
-         firstRainfallDate = date(sowDate.year(), 9, 1);
+      date firstRainfallDate = date(from_string(sowDateString));
+      firstRainfallDate = firstRainfallDate - date_duration(150);
 
       if (!firstRainfallDate.is_infinity())
          {

@@ -21,7 +21,11 @@
       TDataForm.dfm"/>
     <LIBFILES value=""/>
     <LIBRARIES value=""/>
-    <PACKAGES value=""/>
+    <PACKAGES value="vcl.bpi rtl.bpi vclx.bpi bcbsmp.bpi dbrtl.bpi adortl.bpi vcldb.bpi 
+      qrpt.bpi bdertl.bpi vcldbx.bpi dsnap.bpi cds.bpi bdecds.bpi ibxpress.bpi 
+      visualclx.bpi visualdbclx.bpi TeeDB7C6.bpi Tee7C6.bpi TeeUI7C6.bpi 
+      TeeLanguage7C6.bpi TeePro7C6.bpi TeeGL7C6.bpi TeeQR7C6.bpi TMSC6.bpi 
+      VclSmp.bpi IntrawebDB_70_60.bpi Intraweb_70_60.bpi"/>
     <PATHCPP value=".;..\..\Shared\ApsimShared;Soil"/>
     <PATHPAS value=".;"/>
     <PATHRC value=".;"/>
@@ -107,8 +111,8 @@ Comments=
 
 [HistoryLists\hlIncludePath]
 Count=17
-Item0=Soil;..\..\Shared\ApsimShared;$(BCB)\include;$(BCB)\include\vcl;$(BCB)\Components\IntraWeb\LibCB6;$(BCB)\components\tms\intraweb;$(BCB)\components\boost;$(SHARED);.;C:\Program Files\Borland\CBuilder6\Components\IntraWeb\LibCB6
-Item1=Soil;..\..\Shared\ApsimShared;$(BCB)\include;$(BCB)\include\vcl;$(BCB)\Components\IntraWeb\LibCB6;$(BCB)\components\tms\intraweb;$(BCB)\components\boost;$(SHARED);.
+Item0=Soil;..\..\Shared\ApsimShared;$(BCB)\include;$(BCB)\include\vcl;$(BCB)\Components\IntraWeb\LibCB6;$(BCB)\components\tms\intraweb;$(BCB)\components\boost;$(SHARED);.
+Item1=Soil;..\..\Shared\ApsimShared;$(BCB)\include;$(BCB)\include\vcl;$(BCB)\Components\IntraWeb\LibCB6;$(BCB)\components\tms\intraweb;$(BCB)\components\boost;$(SHARED);.;C:\Program Files\Borland\CBuilder6\Components\IntraWeb\LibCB6
 Item2=Soil;..\..\Shared\ApsimShared;$(BCB)\include;$(BCB)\include\vcl;$(BCB)\Components\IntraWeb\LibCB6;$(BCB)\components\tms\intraweb;$(BCB)\components\boost;$(SHARED)
 Item3=Soil;..\..\Shared\ApsimShared;$(BCB)\include;$(BCB)\include\vcl;$(BCB)\Components\IntraWeb\LibCB6;$(BCB)\components\tms\intraweb;$(BCB)\components\boost;$(SHARED);D:\development\FarmWeb\Source\Soil
 Item4=..\..\Shared\ApsimShared;$(BCB)\include;$(BCB)\include\vcl;$(BCB)\Components\IntraWeb\LibCB6;$(BCB)\components\tms\intraweb;$(BCB)\components\boost;$(SHARED);D:\development\FarmWeb\Source\Soil
@@ -166,10 +170,5 @@ RemoteDebug=0
 ShowInfoMsgs=0
 LinkDebugVcl=0
 LinkCGLIB=0
-
-[Language]
-ActiveLang=
-ProjectLang=
-RootDir=
   </IDEOPTIONS>
 </PROJECT>
