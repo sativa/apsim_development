@@ -34,8 +34,8 @@ Field::Field (ScienceAPI& scienceAPI,
    if (units[0] != '(')
       this->units = "(" + this->units + ")";
 
-   if (fqn.find('.') == string::npos)
-      throw runtime_error("Invalid fqn variable name found in report variable: " + fqn);
+//   if (fqn.find('.') == string::npos)
+//      throw runtime_error("Invalid fqn variable name found in report variable: " + fqn);
    }
 
 // ------------------------------------------------------------------
@@ -53,7 +53,12 @@ void Field::writeHeadings(ostream& out)
       // Work out a heading.
       string heading;
       if (alias == "")
-         heading = fqn.substr(fqn.find('.')+1);
+         {
+         if (fqn.find('.') != string::npos)
+            heading = fqn.substr(fqn.find('.')+1);
+         else
+            heading = fqn;
+         }
       else
          heading = alias;
 
