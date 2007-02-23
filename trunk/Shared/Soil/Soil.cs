@@ -704,7 +704,7 @@ namespace CSGeneral
 		// ------------------------------------------------------------------
 		public double[] PAWC(string CropName)
 			{
-			return PAWC(this.LL(CropName));
+			return PAWC(this.LL(CropName), this.XF(CropName));
 			}
 		// ------------------------------------------------------------------
 		// return plant available water content by layer (mm) given
@@ -712,12 +712,16 @@ namespace CSGeneral
 		// ------------------------------------------------------------------
 		public double[] PAWC()
 			{
-			return PAWC(this.LL15);
+            double[] xf = new double[LL15.Length];
+            for (int i = 0; i != xf.Length; i++)
+                xf[i] = 1;
+
+			return PAWC(this.LL15, xf);
 			}
 		// ------------------------------------------------------------------
 		// return plant available water content by layer (mm)
 		// ------------------------------------------------------------------
-		private double[] PAWC(double[] LL)
+		private double[] PAWC(double[] LL, double[] XF)
 			{
 			double[] Thickness = this.Thickness;
 			double[] DUL = this.DUL;
@@ -728,7 +732,9 @@ namespace CSGeneral
 
 			for (int layer = 0; layer != Thickness.Length; layer++)
 				if (DUL[layer] == MathUtility.MissingValue ||
-					LL[layer] == MathUtility.MissingValue)
+					LL[layer] == MathUtility.MissingValue ||
+                    XF[layer] == 0 ||
+                    (layer > 0 && PAWC[layer-1] == 0) )
 					PAWC[layer] = 0;
 				else
 					PAWC[layer] = (DUL[layer] - LL[layer]) * Thickness[layer];
