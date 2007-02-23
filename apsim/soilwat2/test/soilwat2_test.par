@@ -12,14 +12,27 @@ variable = soilwat2.sw_dep()
 variable = soilwat2.sw_dep(100)
 variable = soilwat2.sw_dep
 
+[seasonalevap.report.parameters]
+outputfile = seasonalevap.out
+
+variable = clock.dd/mmm/yyyy as date
+variable = soilwat2.cona
+variable = soilwat2.u
+
 [test_array_size_100.clock.parameters]
 ! Start and end date of run (day number of year and year)
 start_date=1/1/1988     ! dd/mm/yyyy
 end_date=30/1/1988     ! dd/mm/yyyy
+[seasonalevap.clock.parameters]
+! Start and end date of run (day number of year and year)
+start_date=1/1/1988     ! dd/mm/yyyy
+end_date=31/12/1988     ! dd/mm/yyyy
 
 [test_array_size_100.manager.end_of_day]
 report do_output
 soilwat2 set sw =       .280 .364  .43 .43  .40  .41  .41  .41  .41  .41  .41  .41  .41  .41  .41  .41  .41  .41  .41  .41  .41  .41  .41  .41  .41  .41  .41  .41  .41  .41  .41  .41  .41  .41  .41  .41  .41  .41  .41  .41  .41  .41  .41  .41  .41  .41  .41  .41  .41  .41   .41  .41  .41  .41  .41  .41  .41  .41  .41  .41   .41  .41  .41  .41  .41  .41  .41  .41  .41  .41  .41  .41  .41  .41  .41  .41  .41  .41  .41  .41  .41  .41  .41  .41  .41  .41  .41  .41  .41  .41  .41  .41  .41  .41  .41  .41  .41  .41  .41  .41
+[seasonalevap.manager.end_of_day]
+report do_output
 
 
 [black_earth.soilwat2.parameters]
@@ -50,7 +63,42 @@ air_dry =  .10  .20  .20  .20  .20  .20  .20  .20  .20  .20  .20  .20  .20  .20 
 swcon =     0.2  0.2  0.2  0.2  0.2  0.2  0.2  0.2  0.2  0.2  0.2  0.2  0.2  0.2  0.2  0.2  0.2  0.2  0.2  0.2  0.2  0.2  0.2  0.2  0.2  0.2  0.2  0.2  0.2  0.2  0.2  0.2  0.2  0.2  0.2  0.2  0.2  0.2  0.2  0.2  0.2  0.2  0.2  0.2  0.2  0.2  0.2  0.2  0.2  0.2   0.2  0.2  0.2  0.2  0.2  0.2  0.2  0.2  0.2  0.2   0.2  0.2  0.2  0.2  0.2  0.2  0.2  0.2  0.2  0.2  0.2  0.2  0.2  0.2  0.2  0.2  0.2  0.2  0.2  0.2  0.2  0.2  0.2  0.2  0.2  0.2  0.2  0.2  0.2  0.2  0.2  0.2  0.2  0.2  0.2  0.2  0.2  0.2  0.2  0.2
 bd =       1.30 1.30 1.29 1.31 1.35 1.36 1.36 1.36 1.36 1.36 1.36 1.36 1.36 1.36 1.36 1.36 1.36 1.36 1.36 1.36 1.36 1.36 1.36 1.36 1.36 1.36 1.36 1.36 1.36 1.36 1.36 1.36 1.36 1.36 1.36 1.36 1.36 1.36 1.36 1.36 1.36 1.36 1.36 1.36 1.36 1.36 1.36 1.36 1.36 1.36  1.36 1.36 1.36 1.36 1.36 1.36 1.36 1.36 1.36 1.36  1.36 1.36 1.36 1.36 1.36 1.36 1.36 1.36 1.36 1.36 1.36 1.36 1.36 1.36 1.36 1.36 1.36 1.36 1.36 1.36 1.36 1.36 1.36 1.36 1.36 1.36 1.36 1.36 1.36 1.36 1.36 1.36 1.36 1.36 1.36 1.36 1.36 1.36 1.36 1.36
 
+[seasonalevap.soilwat2.parameters]
+insoil =    2.0 ()  ! indicator for initial soil water
+                    ! 0 to 1 = fraction of max avail soil water (0=ll15,
+                    !          1 = dul) used to initialise each soil layer
+                    !  > 1   = initialise to user specified volumetric
+                    !          soil water content information
+
+diffus_const =    88. ()   !   coeffs for unsaturated water flow
+diffus_slope =    35.4  ()   !     "
+
+
+cn2_bare =    80 ()   ! bare soil runoff curve number
+cn_red =    20   ! potetial reduction in curve number due to residue
+cn_cov =    .8   ! cover for maximum reduction in curve number
+salb =    0.13  ()   ! bare soil albedo
+summeru =    4 (mm)   ! stage 1 soil evaporation coefficient (mm)
+winteru =    3
+summercona = 3.5
+wintercona = 2
+summerdate = 15-oct
+winterdate = 15-apr
+
+
+   !layer    1    2    3    4    5    6    7
+dlayer =     150  150  300  300  300  300  300   ! layer thickness mm soil
+sat =      .500 .509 .510 .505 .490 .480 .480   ! saturation mm water/mm soil
+dul =      .450 .459  .45 .44  .42  .41  .41   ! drained upper limit mm water/mm soil
+sw =       .280 .364  .43 .43  .40  .41  .41   ! initial soil water mm water/mm soil
+ll15 =     .230 .240 .240 .250 .260 .270 .280   ! lower limit mm water/mm soil
+air_dry =    .10 .20 .20 .20 .20 .20 .20   ! air dry mm water/ mm soil
+swcon =     0.2  0.2  0.2  0.2  0.2  0.2  0.2   ! drainage coefficient
+bd =       1.30 1.30 1.29 1.31 1.35 1.36 1.36   ! bulk density gm dry soil/cc moist soil
+
 
 
 [test_array_size_100.summaryfile.parameters]
 summaryfile=test_array_size_100.sum
+[seasonalevap.summaryfile.parameters]
+summaryfile=seasonalevap.sum
