@@ -292,7 +292,7 @@
             [foreach logic.script]
             [foreach script.event]
             <rule name="[event.innerxml]" condition="[event.innerxml]">[script.text]</rule>
-            [endfor]            
+            [endfor]
             [endfor]
          </sim>
       </ApsimToSim>
@@ -1044,32 +1044,6 @@
          <drop name="StockScienceConverter"/>
          <drop name="PastureScienceConverter"/>
          <drop name="SupplementScienceConverter"/>
-         <drop name="barley"/>
-         <drop name="canola"/>
-         <drop name="chickpea"/>
-         <drop name="cowpea"/>
-         <drop name="fababean"/>
-         <drop name="fieldpea"/>
-         <drop name="lablab"/>
-         <drop name="lucerne"/>
-         <drop name="lupin"/>
-         <drop name="maize"/>
-         <drop name="mucuna"/>
-         <drop name="horsegram"/>
-         <drop name="mungbean"/>
-         <drop name="navybean"/>
-         <drop name="pasture"/>
-         <drop name="peanut"/>
-         <drop name="pigeonp"/>
-         <drop name="sorghum"/>
-         <drop name="soybean"/>
-         <drop name="stylo"/>
-         <drop name="sugar"/>
-         <drop name="sunflower"/>
-         <drop name="weed"/>
-         <drop name="wheat"/>
-         <drop name="ozcot"/>
-         <drop name="rice"/>
      </drops>
    </rule>
    <vinelogic>
