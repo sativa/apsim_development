@@ -101,6 +101,7 @@
          integer num_crops                            ! number of crops ()
          integer year                                 ! year
          integer day                                  ! day of year
+         double precision today                       ! today's julian date
          real    sumes1                               ! cumulative soil evaporation in stage 1 (mm)
          real    sumes2                               ! cumulative soil evaporation in stage 2 (mm)
          real    t                                    ! time after 2nd-stage soil evaporation
@@ -211,12 +212,17 @@
          real   cn_cov                                ! cover at which c_cn_red occurs
          real   cn_red                                ! maximum reduction in p_cn2_bare due to cover
          real   cona                                  ! stage 2 drying coefficient
+         real   summercona                            ! cona to use in summer (OPTIONAL)
+         real   wintercona                            ! cona to use in winter (OPTIONAL)
+         character winterdate*6                       ! Date for start of winter evaporation (dd-mmm)
+         character summerdate*6                       ! Date for start of summer evaporation (dd-mmm)
          real   diffus_const                          ! diffusivity constant for soil testure
          real   diffus_slope                          ! slope for diffusivity/soil water content
                                                       ! relationship
          real   salb                                  ! bare soil albedo (unitless)
-         real   u                                     ! upper limit of stage 1 soil evaporation
-                                                      ! (mm)
+         real   u                                     ! upper limit of stage 1 soil evaporation (mm)
+         real   summeru                               ! U to use in summer (OPTIONAL)
+         real   winteru                               ! U to use in winter (OPTIONAL)
          real   insoil                                ! switch describing initial soil water
          real   profile_esw_depth                     ! initial depth of extractable soil water distributed from the top down (mm)
          real   wet_soil_depth                        ! initial depth of soil filled to drained upper limit (field capacity) (mm)
@@ -1308,6 +1314,15 @@ cjh      g%cn2_new = l_bound (g%cn2_new, p%cn2_bare - p%cn_red)
 *- Implementation Section ----------------------------------
 
       call push_routine (my_name)
+
+      if (date_within(p%winterdate,p%summerdate,g%today))then
+         p%cona = p%wintercona
+         p%u = p%winteru
+      else
+         p%cona = p%summercona
+         p%u = p%summeru
+      endif
+
 
       sumes1_max = p%u
       w_inf = g%infiltration
@@ -2851,6 +2866,8 @@ cjh
 
 *+  Local Variables
       integer    numvals               ! number of values returned
+      integer    numvals1
+      integer    numvals2
 
 *- Implementation Section ----------------------------------
 
@@ -2934,24 +2951,106 @@ cjh
      :                   , 0.0001, 1.0)
 
 *     Extra parameters for evaporation models:
-      if (c%evap_method .eq. ritchie_method .or.
-     :     c%evap_method .eq. bs_acs_method) then
+      if (c%evap_method .eq. ritchie_method) then
+         call read_real_var_optional (section_name
+     :        , 'u', '()'
+     :        , p%u, numvals
+     :        , 0.0001, 40.0)
+         if (numvals.le.0) then
+            call read_real_var_optional (section_name
+     :        , 'summeru', '()'
+     :        , p%summeru, numvals1
+     :        , 0.0001, 40.0)
+            call read_real_var_optional (section_name
+     :        , 'winteru', '()'
+     :        , p%winteru, numvals2
+     :        , 0.0001, 10.0)
+            if ((numvals1.le.0).or.(numvals2.le.0))then
+                 call fatal_error (ERR_USER,
+     :             'Individual value for U '
+     :           //'or values for winter and summer '
+     :           //'must be specified.')
+
+            endif
+         else
+            p%summeru = p%u
+            p%winteru = p%u
+         endif
+
+         call read_real_var_optional (section_name
+     :        , 'cona', '()'
+     :        , p%cona, numvals
+     :        , 0.0001, 10.0)
+
+         if (numvals.le.0) then
+            call read_real_var_optional (section_name
+     :        , 'summercona', '()'
+     :        , p%summercona, numvals1
+     :        , 0.0001, 10.0)
+            call read_real_var_optional (section_name
+     :        , 'wintercona', '()'
+     :        , p%wintercona, numvals2
+     :        , 0.0001, 10.0)
+            if ((numvals1.le.0).or.(numvals2.le.0))then
+                 call fatal_error (ERR_USER,
+     :             'Individual value for CONA '
+     :           //'or values for winter and summer '
+     :           //'must be specified.')
+
+            endif
+         else
+            p%summercona = p%cona
+            p%wintercona = p%cona
+         endif
+
+         if ((p%summercona.ne.p%wintercona).or.
+     :       (p%summeru.ne.p%winteru))then
+            call read_char_var (section_name
+     :                   ,'winterdate', '(dd-mmm)'
+     :                   , p%winterdate
+     :                   , numvals)
+
+         else
+            call read_char_var_optional (section_name
+     :                   ,'winterdate', '(dd-mmm)'
+     :                   , p%winterdate
+     :                   , numvals)
+            if (numvals.le.0) then
+               p%winterdate = '1-apr'
+            endif
+
+         endif
+
+         if ((p%summercona.ne.p%wintercona).or.
+     :       (p%summeru.ne.p%winteru))then
+            call read_char_var (section_name
+     :                   ,'summerdate', '(dd-mmm)'
+     :                   , p%summerdate
+     :                   , numvals)
+
+         else
+            call read_char_var_optional (section_name
+     :                   ,'summerdate', '(dd-mmm)'
+     :                   , p%summerdate
+     :                   , numvals)
+            if (numvals.le.0) then
+               p%summerdate = '1-oct'
+            endif
+
+         endif
+
+
+      elseif (c%evap_method .eq. bs_acs_method) then
+         call read_real_var (section_name
+     :        , 'u', '()'
+     :        , p%u, numvals
+     :        , 0.0001, 40.0)
+
          call read_real_var (section_name
      :        , 'cona', '()'
      :        , p%cona, numvals
      :        , 0.0001, 10.0)
 
-      else
-
-         p%cona = 0.0001
-      endif
-
-      if (c%evap_method .eq. ritchie_method .or.
-     :     c%evap_method .eq. bs_acs_method) then
-         call read_real_var (section_name
-     :        , 'u', '()'
-     :        , p%u, numvals
-     :        , 0.0001, 40.0)
       else
          p%u = 0.0001
       endif
@@ -5582,7 +5681,7 @@ cjh            out_solute = solute_kg_layer*divide (out_w, water, 0.0) *0.5
       real       depth_layer_bottom    ! depth to bottom of layer (mm)
       integer    layer                 ! layer number
       integer    num_layers            ! number of soil profile layers
-      character  line*100              ! temp output record
+      character  line*200              ! temp output record
       real       runoff_wf(max_layer)  ! weighting factor for runoff
       real       usw(max_layer)        ! unavail. sw (mm)
       real       asw(max_layer)        ! avail. sw (mm)
@@ -5780,13 +5879,40 @@ cjh            out_solute = solute_kg_layer*divide (out_w, water, 0.0) *0.5
          line = '      Using Ritchie evaporation model'
          call write_string (line)
 
-         write (line, '(7x, a, f8.2, a)') 'Cuml evap (U):        ',
+         if (p%winteru.eq.p%summeru) then
+            write (line, '(7x, a, f8.2, a)') 'Cuml evap (U):        ',
      :        p%u, ' (mm^0.5)'
-         call write_string (line)
+            call write_string (line)
+         else
 
-         write (line, '(7x, a, f8.2, a)') 'CONA:                 ',
+            write (line, '(7x, a, f8.2, a,7x,a,f8.2,a)')
+     :     'Stage 1 Duration (U): Summer    ',
+     :        p%summeru, ' (mm)'//new_line,
+     :     '                      Winter    ',
+     :        p%winteru, ' (mm)'
+            call write_string (line)
+         endif
+
+         if (p%wintercona.eq.p%summercona) then
+            write (line, '(7x, a, f8.2, a)') 'CONA:                 ',
      :        p%cona, ' ()'
-         call write_string (line)
+            call write_string (line)
+         else
+            write (line, '(7x, a, f8.2, a,7x,a,f8.2,a)')
+     :     'Stage 2       (CONA): Summer    ',
+     :        p%summercona, ' (mm^0.5)'//new_line,
+     :     '                      Winter    ',
+     :        p%wintercona, ' (mm^0.5)'
+            call write_string (line)
+         endif
+         if ((p%wintercona.ne.p%summercona).or.
+     :       (p%winteru.ne.p%summeru))then
+            call write_string(
+     :     '       Critical Dates:       Summer        '//p%summerdate
+     :     //new_line//
+     :     '                             Winter        '//p%winterdate)
+         endif
+
 
       else if (c%evap_method .eq. bs_a_method) then
          line = '      Using B&S option A evaporation method'
@@ -5845,7 +5971,7 @@ cjh            out_solute = solute_kg_layer*divide (out_w, water, 0.0) *0.5
      :        g%eo_source
          call write_string (line)
       else
-         write (line, '(6x, a)') 'Eo from priestly-taylor'
+         write (line, '(7x, a)') 'Eo from priestly-taylor'
          call write_string (line)
       endif
 
@@ -6580,6 +6706,7 @@ c dsg 070302 added runon
 
       call unpack_time(variant, tick)
       call jday_to_day_of_year(dble(tick%startday), g%day, g%year)
+      g%today = tick%startday
 
       call pop_routine (myname)
       return
