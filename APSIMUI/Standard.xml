@@ -15,6 +15,7 @@
     <bambatsi />
     <broccoli />
     <butterflypea />
+    <bambatsi />
     <canola />
     <chickpea />
     <cowpea />
@@ -376,7 +377,7 @@ IB0001 CABERNET FRANC   IB0001    07   590   020  4000  1000   0.8   4.5  42.0  
     <start_date name="start_date" description="Select the start date of the simulation" type="date">1/01/1988</start_date>
     <end_date name="end_date" description="Select the end date of the simulation" type="date">31/12/1988</end_date>
   </clock>
-  <clock name="ClockAllYears"/>
+  <clock name="ClockAllYears" />
   <outputfile name="Outputfile">
     <filename name="filename">sample.out</filename>
     <variables name="Variables">
@@ -724,21 +725,21 @@ IB0001 CABERNET FRANC   IB0001    07   590   020  4000  1000   0.8   4.5  42.0  
           <irrig_amount_evt type="text" description="Amount of irrigation to apply (mm) : ">50</irrig_amount_evt>
         </category>
       </rule>
-       <rule name="Irrigate on fixed date">
-         <condition name="start_of_day">
+      <rule name="Irrigate on fixed date">
+        <condition name="start_of_day">
             if (today = date('[irrigate_date]')) then
                '[irrigate_module]' set irrigation_efficiency = [irrigate_efficiency]
                '[irrigate_module]' apply amount = [irrigate_amount] (mm)
             endif </condition>
-         <category name="When should irrigation be applied">
-           <irrigate_date type="ddmmmdate" description="Enter irrigation date (dd-mmm) : ">dd-mmm</irrigate_date>
-         </category>
-         <category name="Irrigation application details">
-           <irrigate_module type="modulename" description="Module used to apply the irrigation : ">ClockAllYears</irrigate_module>
-           <irrigate_amount type="text" description="Amount of irrigation to apply (mm) : ">50</irrigate_amount>
-           <irrigate_efficiency type="text" description="Irrigation efficiency (0-1) : ">1.0</irrigate_efficiency>
-         </category>
-       </rule>
+        <category name="When should irrigation be applied">
+          <irrigate_date type="ddmmmdate" description="Enter irrigation date (dd-mmm) : ">dd-mmm</irrigate_date>
+        </category>
+        <category name="Irrigation application details">
+          <irrigate_module type="modulename" description="Module used to apply the irrigation : ">ClockAllYears</irrigate_module>
+          <irrigate_amount type="text" description="Amount of irrigation to apply (mm) : ">50</irrigate_amount>
+          <irrigate_efficiency type="text" description="Irrigation efficiency (0-1) : ">1.0</irrigate_efficiency>
+        </category>
+      </rule>
       <rule name="Tillage on fixed date">
         <condition name="start_of_day"><![CDATA[
          if (today = date('[tillage_date]') then
@@ -761,21 +762,21 @@ IB0001 CABERNET FRANC   IB0001    07   590   020  4000  1000   0.8   4.5  42.0  
           <tillage_f_incorp description="User_defined fraction of surface residues to incorporate (0-1): ">0</tillage_f_incorp>
         </category>
       </rule>
-       <rule name="Tillage on an event">
-         <condition name="[modulename].[eventname]">
+      <rule name="Tillage on an event">
+        <condition name="[modulename].[eventname]">
             '[surfaceommodule]' tillage type = [tillage_type], f_incorp = [tillage_f_incorp] (), tillage_depth = [tillage_depth]
       </condition>
-         <category name="When should tillage be performed">
-           <modulename type="modulename" description="The module the event come from : ">ClockAllYears</modulename>
-           <eventname type="text" description="On which event should tillage be done : ">sowing</eventname>
-         </category>
-         <category name="Tillage details">
-           <surfaceommodule type="modulename" description="Module used to apply the tillage : ">ClockAllYears</surfaceommodule>
-           <tillage_type type="list" listvalues="user_defined, chisel, disc, planter, burn, burn_90, graze, scarifier, rip, blade, tine" description="Tillage type : ">disc</tillage_type>
-           <tillage_depth description="User_defined depth of seedbed preparation (mm) : ">0</tillage_depth>
-           <tillage_f_incorp description="User_defined fraction of surface residues to incorporate (0-1): ">0</tillage_f_incorp>
-         </category>
-       </rule>
+        <category name="When should tillage be performed">
+          <modulename type="modulename" description="The module the event come from : ">ClockAllYears</modulename>
+          <eventname type="text" description="On which event should tillage be done : ">sowing</eventname>
+        </category>
+        <category name="Tillage details">
+          <surfaceommodule type="modulename" description="Module used to apply the tillage : ">ClockAllYears</surfaceommodule>
+          <tillage_type type="list" listvalues="user_defined, chisel, disc, planter, burn, burn_90, graze, scarifier, rip, blade, tine" description="Tillage type : ">disc</tillage_type>
+          <tillage_depth description="User_defined depth of seedbed preparation (mm) : ">0</tillage_depth>
+          <tillage_f_incorp description="User_defined fraction of surface residues to incorporate (0-1): ">0</tillage_f_incorp>
+        </category>
+      </rule>
       <rule name="Reset water, nitrogen and surfaceOM on fixed date">
         <condition name="start_of_day">
          if (today = date('[reset_date]')) then
@@ -791,7 +792,7 @@ IB0001 CABERNET FRANC   IB0001    07   590   020  4000  1000   0.8   4.5  42.0  
             if (resetSurfaceOM = 'yes') then
                 '[surfaceommodule]' reset
             endif
-            act_mods reseting            
+            act_mods reseting
          endif
       </condition>
         <category name="When should a reset be done">
@@ -954,8 +955,8 @@ IB0001 CABERNET FRANC   IB0001    07   590   020  4000  1000   0.8   4.5  42.0  
           <crop20 type="crop" description="Enter 20th crop : ">nil</crop20>
         </category>
       </rule>
-       <rule name="Summer and winter Cona/U">
-         <condition name="start_of_day">
+      <rule name="Summer and winter Cona/U">
+        <condition name="start_of_day">
              ! Modify evap for winter or summer
             if (date_within('[StartWinterDate], [EndWinterDate]') = 1) then
                '[SoilModule] water' set cona = [WinterCona]
@@ -965,24 +966,24 @@ IB0001 CABERNET FRANC   IB0001    07   590   020  4000  1000   0.8   4.5  42.0  
                '[SoilModule] water' set u = [SummerU]
             endif
           </condition>
-         <category name="Properties">
-           <SoilModule type="modulename" description="Name of soil module : ">ClockAllYears</SoilModule>
-           <StartWinterDate type="text" description="Date for start of winter (dd-mmm) : ">1-apr</StartWinterDate>
-           <EndWinterDate type="text" description="Date for end of winter (dd-mmm) : ">30-sep</EndWinterDate>
-           <SummerCona type="text" description="Summer Cona value : ">3.5</SummerCona>
-           <SummerU type="text" description="Summer U value : ">4.0</SummerU>
-           <WinterCona type="text" description="Winter Cona value : ">2.0</WinterCona>
-           <WinterU type="text" description="Winter U value : ">2.0</WinterU>
-         </category>
-       </rule>
-       <rule name="Yield moisture correction">
-         <condition name="start_of_day">
+        <category name="Properties">
+          <SoilModule type="modulename" description="Name of soil module : ">ClockAllYears</SoilModule>
+          <StartWinterDate type="text" description="Date for start of winter (dd-mmm) : ">1-apr</StartWinterDate>
+          <EndWinterDate type="text" description="Date for end of winter (dd-mmm) : ">30-sep</EndWinterDate>
+          <SummerCona type="text" description="Summer Cona value : ">3.5</SummerCona>
+          <SummerU type="text" description="Summer U value : ">4.0</SummerU>
+          <WinterCona type="text" description="Winter Cona value : ">2.0</WinterCona>
+          <WinterU type="text" description="Winter U value : ">2.0</WinterU>
+        </category>
+      </rule>
+      <rule name="Yield moisture correction">
+        <condition name="start_of_day">
           WetYield = yield / (1 - [MoistureContent]/100)
           </condition>
-         <category name="Properties">
-           <MoistureContent type="text" description="Moisture content of grain (%) : ">12</MoistureContent>
-         </category>
-       </rule>
+        <category name="Properties">
+          <MoistureContent type="text" description="Moisture content of grain (%) : ">12</MoistureContent>
+        </category>
+      </rule>
     </manager>
     <folder name="Africa-India">
       <manager name="Phosphorus and Manure">
