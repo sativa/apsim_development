@@ -24,7 +24,7 @@
          real    dul_dep(max_layer)
          real    swf(max_layer)
          real max_evap_depth
-         real max_evap        
+         real max_evap
          real first_stage_evap
          real evap_swf_curvature
          real relative_evap(max_table)
@@ -37,7 +37,7 @@
 ! ===========================================================================
 
 ! Public Interface to Module
-! ========================== 
+! ==========================
       public EvapData
       public Evap_alloc_dealloc_instance
       public Evap_Create
@@ -56,10 +56,10 @@
 
 *+  Purpose
 *     Set all variables in this module to zero.
-                   
+
 *+  Sub-Program Arguments
       type(evapData), pointer :: g
-                   
+
 *+  Changes
 *     <insert here>
 
@@ -173,7 +173,7 @@ c     :     ,1000.)          ! Upper Limit for bound checking
 
       call push_routine (myname)
 
-      call read_real_var (
+      call read_real_var_optional (
      :           section_name,          ! Section header
      :           'max_evap_depth',      ! Keyword
      :           '(mm)',                ! Units
@@ -182,7 +182,7 @@ c     :     ,1000.)          ! Upper Limit for bound checking
      :           0.0,                   ! Lower Limit for bound checking
      :           1000.)                 ! Upper Limit for bound checking
 
-      call read_real_var (
+      call read_real_var_optional (
      :           section_name,          ! Section header
      :           'max_evap',            ! Keyword
      :           '(mm)',                ! Units
@@ -190,8 +190,18 @@ c     :     ,1000.)          ! Upper Limit for bound checking
      :           numvals,               ! Number of values returned
      :           0.0,                   ! Lower Limit for bound checking
      :           100.)                  ! Upper Limit for bound checking
-
+      if (numvals.le.0) then
       call read_real_var (
+     :           section_name,          ! Section header
+     :           'u',            ! Keyword
+     :           '(mm)',                ! Units
+     :           g%max_evap,            ! Array
+     :           numvals,               ! Number of values returned
+     :           0.0,                   ! Lower Limit for bound checking
+     :           100.)                  ! Upper Limit for bound checking
+
+      endif
+      call read_real_var_optional (
      :           section_name,          ! Section header
      :           'first_stage_evap',    ! Keyword
      :           '(mm)',                ! Units
@@ -199,7 +209,16 @@ c     :     ,1000.)          ! Upper Limit for bound checking
      :           numvals,               ! Number of values returned
      :           0.0,                   ! Lower Limit for bound checking
      :           100.)                  ! Upper Limit for bound checking
-
+      if (numvals.le.0) then
+      call read_real_var (
+     :           section_name,          ! Section header
+     :           'u',            ! Keyword
+     :           '(mm)',                ! Units
+     :           g%first_stage_evap,            ! Array
+     :           numvals,               ! Number of values returned
+     :           0.0,                   ! Lower Limit for bound checking
+     :           100.)                  ! Upper Limit for bound checking
+      endif
       call pop_routine  (myname)
       return
       end subroutine
@@ -450,7 +469,7 @@ c     :              1.0)                   ! Upper Limit for bound checking
 *+  Purpose
 *     <insert here>
 
-*+  Changes                                   
+*+  Changes
 
 *+  Sub-Program Arguments
       type(evapData), pointer :: g
@@ -535,6 +554,10 @@ c     :              1.0)                   ! Upper Limit for bound checking
       g%dlayer(1:num_layers) = dlayer(1:num_layers)
       g%air_dry_dep(1:num_layers) = air_dry_dep(1:num_layers)
       g%dul_dep(1:num_layers) = dul_dep(1:num_layers)
+
+      if (g%max_evap_depth.le.0) then
+         g%max_evap_depth = g%dlayer(1) !+g%dlayer(2)
+      endif
 
       call Evap_get_other_variables (g)
 
