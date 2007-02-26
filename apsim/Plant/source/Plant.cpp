@@ -22,14 +22,14 @@
 #include "Plant.h"
 #include "PlantPart.h"
 #include "CompositePart.h"
-#include "LeafPart.h"
+#include "Leaf/LeafPart.h"
 #include "PlantFruit.h"
 #include "StemPart.h"
-#include "LeafPart.h"
+#include "Leaf/LeafPart.h"
 #include "PodPart.h"
 #include "MealPart.h"
 #include "OilPart.h"
-#include "RootPart.h"
+#include "Root/RootPart.h"
 #include "Observers.h"
 #include "Reprostruct.h"
 #include "arbitrator.h"
@@ -130,6 +130,7 @@ static const char* cropChoppedDDML =  "<type name = \"CropChopped\">" \
 
 
 Plant::Plant(PlantComponent *P)
+//=======================================================================================
     {
     parent = P;
 
@@ -149,6 +150,7 @@ Plant::Plant(PlantComponent *P)
     }
 
 Plant::~Plant()
+//=======================================================================================
     {
     for (vector<plantThing *>::iterator t = myThings.begin();
          t != myThings.end();
@@ -157,8 +159,9 @@ Plant::~Plant()
     }
 
 
-// Init1. Set up plant structure
 void Plant::doInit1(protocol::Component *s)
+//=======================================================================================
+// Init1. Set up plant structure
     {
     plant_zero_variables (); // Zero global states
 
@@ -213,8 +216,9 @@ void Plant::doInit1(protocol::Component *s)
     doIDs();                 // Gather IDs for getVariable requests
    }
 
-// Init2. The rest of the system is here now..
 void Plant::doInit2(protocol::Component *)
+//=======================================================================================
+// Init2. The rest of the system is here now..
    {
    PlantP_set_phosphorus_aware(parent); // See whether a P module is plugged in
    plant_read_constants (); // Read constants
@@ -226,6 +230,7 @@ void Plant::doInit2(protocol::Component *)
 
 
 void Plant::doIDs(void)
+//=======================================================================================
    {
    // gets
    rootPart->DoIDs(parent);
@@ -274,8 +279,10 @@ void Plant::doIDs(void)
                                    "", "");
    }
 
-// Register Methods, Events,
 void Plant::doRegistrations(protocol::Component *system)
+//=======================================================================================
+// Register Methods, Events,
+
    {
    // Events
    setupEvent(parent, "prepare",     RegistrationType::respondToEvent, &Plant::onPrepare, nullTypeDDML);
@@ -686,6 +693,7 @@ void Plant::doRegistrations(protocol::Component *system)
 
 
 void Plant::doPlantEvent(const string &e)
+//=======================================================================================
    {
    for (vector<plantThing *>::iterator t = myThings.begin();
         t != myThings.end();
@@ -693,14 +701,17 @@ void Plant::doPlantEvent(const string &e)
       (*t)->onPlantEvent(e);
    }
 
-// Set a variable from the system.
 bool Plant::respondToSet(unsigned int &id, protocol::QuerySetValueData& qd)
+//=======================================================================================
+// Set a variable from the system.
   {
     ptr2setFn pf = IDtoSetFn[id];
     if (pf) {return((this->*pf)(qd));}
     return false;
   }
+
 void Plant::sendStageMessage(const char *what)
+//=======================================================================================
   {
   unsigned int id = parent->addRegistration(RegistrationType::event,
                                             what, "<type/>",
@@ -712,6 +723,8 @@ void Plant::sendStageMessage(const char *what)
 
 // Field a Prepare message
 void Plant::onPrepare(unsigned &, unsigned &, protocol::Variant &)
+//=======================================================================================
+// Event Handler for Prepare Event
   {
   plant_zero_daily_variables ();
   zero_daily_p_variables();
@@ -727,8 +740,9 @@ void Plant::onPrepare(unsigned &, unsigned &, protocol::Variant &)
      }
   }
 
-// Field a Process message
 void Plant::onProcess(unsigned &, unsigned &, protocol::Variant &)
+//=======================================================================================
+// Event Handler for Process Event
   {
   if (g.plant_status != out)
      {
@@ -740,51 +754,60 @@ void Plant::onProcess(unsigned &, unsigned &, protocol::Variant &)
      {} // plant is out
   }
 
-// Field a Sow event
 void Plant::onSow(unsigned &, unsigned &, protocol::Variant &v)
+//=======================================================================================
+// Event Handler for Sowing Event
   {
   plant_get_other_variables (); // request and receive variables from owner-modules
   plant_start_crop (v);          // start crop and do  more initialisations
   }
 
-// Field a Harvest event
+
 void Plant::onHarvest(unsigned &, unsigned &, protocol::Variant &v)
+//=======================================================================================
+// Event Handler for a Harvest Event
   {
   plant_harvest (v);             // harvest crop - turn into residue
   }
 
-// Field a End crop event
 void Plant::onEndCrop(unsigned &, unsigned &, protocol::Variant &)
+//=======================================================================================
+// Event Handler for End of Crop Event
   {
   plant_end_crop ();            //end crop - turn into residue
   }
 
-// Field a Kill crop event
 void Plant::onKillCrop(unsigned &, unsigned &, protocol::Variant &v)
+//=======================================================================================
+// Event Handler for Kill Crop Event
    {
    plant_kill_crop_action (v);  //kill crop - turn into dead population
    }
 
-// Field a Kill Stem event
 void Plant::onKillStem(unsigned &, unsigned &, protocol::Variant &v)
+//=======================================================================================
+// Event Handler for a Kill Stem Event
    {
    plant_kill_stem (v);            //die
    }
 
-// Field a end run event
 void Plant::onEndRun(unsigned &, unsigned &,protocol::Variant &/*v*/)
+//=======================================================================================
+// Event Handler for the end of run event
    {
    plant_zero_variables ();
    }
 
-// Field a Remove Crop Biomass event
 void Plant::onRemoveCropBiomass(unsigned &, unsigned &, protocol::Variant &v)
+//=======================================================================================
+// Event Handler for a RemoveCropBiomass Event
    {
    plant_remove_crop_biomass (v);
    }
 
-// Field a Remove Crop Biomass event
 void Plant::onDetachCropBiomass(unsigned &, unsigned &, protocol::Variant &v)
+//=======================================================================================
+// Event Handler for a DetachCropBiomass Event
    {
    plant_detach_crop_biomass (v);
    }

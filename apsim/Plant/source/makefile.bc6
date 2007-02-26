@@ -19,7 +19,7 @@ OBJFILES=PlantComponent.obj \
    PlantFail.obj \
    PlantLibrary.obj \
    PlantNitrogen.obj \
-   PlantRoot.obj \
+   Root\PlantRoot.obj \
    PlantTemp.obj \
    PlantUtility.obj \
    PlantWater.obj \
@@ -31,7 +31,7 @@ OBJFILES=PlantComponent.obj \
    ..\..\..\Shared\ComponentInterface\EntryPoints.obj \
    Environment.obj \
    Observers.obj \
-   LeafPart.obj \
+   Leaf\LeafPart.obj \
    StemPart.obj \
    PodPart.obj \
    MealPart.obj \
@@ -40,13 +40,13 @@ OBJFILES=PlantComponent.obj \
    GrainPartHI.obj \
    GrainPartGN.obj \
    CompositePart.obj \
-   RootPart.obj \
+   Root\RootPart.obj \
    FruitCohort.obj \
    PlantFruit.obj \
    Output.obj \
    OutputVariable.obj \
-   genericLeafPart.obj \
-   cohortingLeafPart.obj \
+   Leaf\genericLeafPart.obj \
+   Leaf\cohortingLeafPart.obj \
    Arbitrator.obj \
    PlantSpatial.obj \
     \
@@ -107,14 +107,14 @@ clean:
 	del $(OBJFILES) *.bak *.csm
 
 PlantComponent.obj: PlantComponent.cpp plant.h
-Plant.obj: plant.cpp plant.h PlantLibrary.h Phenology\PlantPhenology.h PlantFruit.h PlantPart.h LeafPart.h
+Plant.obj: plant.cpp plant.h PlantLibrary.h Phenology\PlantPhenology.h PlantFruit.h PlantPart.h Leaf\LeafPart.h
 PlantBiomass.obj: PlantBiomass.cpp PlantLibrary.h
 PlantCanopy.obj: PlantCanopy.cpp PlantLibrary.h
 PlantComms.obj: PlantComms.cpp PlantLibrary.h
 PlantFail.obj: PlantFail.cpp PlantLibrary.h
 PlantLibrary.obj: PlantLibrary.cpp PlantLibrary.h
 PlantNitrogen.obj: PlantNitrogen.cpp PlantLibrary.h
-PlantRoot.obj: PlantRoot.cpp PlantLibrary.h
+Root\PlantRoot.obj: Root\PlantRoot.cpp PlantLibrary.h
 PlantTemp.obj: PlantTemp.cpp PlantLibrary.h
 PlantUtility.obj: PlantUtility.cpp PlantLibrary.h
 PlantWater.obj: PlantWater.cpp PlantLibrary.h
@@ -129,11 +129,11 @@ Science.obj: Science.cpp PlantLibrary.h
 Error.obj: Error.cpp PlantLibrary.h
 Environment.obj: Environment.cpp Environment.h
 Observers.obj: Observers.cpp Observers.h
-LeafPart.obj: LeafPart.cpp PlantPart.h LeafPart.h
+Leaf\LeafPart.obj: Leaf\LeafPart.cpp PlantPart.h Leaf\LeafPart.h
 StemPart.obj: StemPart.cpp StemPart.h PlantPart.h
 PodPart.obj: PodPart.cpp PodPart.h PlantPart.h
 MealPart.obj: MealPart.cpp MealPart.h PlantPart.h
-RootPart.obj: RootPart.cpp RootPart.h PlantPart.h
+Root\RootPart.obj: Root\RootPart.cpp Root\RootPart.h PlantPart.h
 OilPart.obj: OilPart.cpp OilPart.h PlantPart.h
 GrainPart.obj: GrainPart.cpp GrainPart.h CompositePart.h PlantPart.h
 GrainPartHI.obj: GrainPartHI.cpp GrainPartHI.h GrainPart.cpp GrainPart.h CompositePart.h PlantPart.h
