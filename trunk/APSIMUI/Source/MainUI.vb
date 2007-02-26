@@ -953,9 +953,14 @@ Public Class MainUI
                 MessageBox.Show(Output, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error)
                 RunNextSimulation()
             Else
+                ' Kludge fix for now - I THINK IT WORKS
+                Dim BatchFileName As String = Path.GetTempPath + "\run.bat"
+                Dim SWriter As New StreamWriter(BatchFileName)
+                Dim Cmd As String = Path.GetDirectoryName(Application.ExecutablePath) + "\apsim.exe " + SimFileName + " > " + Path.GetFileNameWithoutExtension(SimFileName) + ".sum"
+                SWriter.WriteLine(Cmd)
+                SWriter.Close()
                 Dim ApsimInfo As New ProcessStartInfo
-                ApsimInfo.FileName = Path.GetDirectoryName(Application.ExecutablePath) + "\apsim.exe"
-                ApsimInfo.Arguments = """" + SimFileName + """"
+                ApsimInfo.FileName = BatchFileName
                 ApsimInfo.WorkingDirectory = Path.GetDirectoryName(ApsimUI.FileName)
                 ApsimInfo.WindowStyle = ProcessWindowStyle.Hidden
                 Dim ApsimProcess As Process = Process.Start(ApsimInfo)
