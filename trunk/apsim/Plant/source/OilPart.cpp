@@ -23,30 +23,35 @@
 using namespace std;
 
 void fruitOilPart::doRegistrations(protocol::Component *system)
-   //===========================================================================
-{
+//===========================================================================
+   {
    plantPart::doRegistrations(system);
    system->addGettableVar("dlt_dm_oil_conv",gDlt_dm_oil_conv,"g/m^2", "change in oil via ??");
    system->addGettableVar("dlt_dm_oil_conv_retrans", dmOil_conv_retranslocate, "g/m^2", "change in oil via retranslocation");
    system->addGettableVar("grain_oil_conc", cGrain_oil_conc, "%", "??");
-}
+   }
 
 float fruitOilPart::grainEnergy(void) const {return gGrain_energy;}
+//=======================================================================================
 
 void fruitOilPart::zeroAllGlobals(void)
-{
+//=======================================================================================
+// Zero all data
+   {
    plantPart::zeroAllGlobals();
    cCarbo_oil_conv_ratio  = 0.0;
    cGrain_oil_conc  = 0.0;
    gGrain_energy = 0.0;
    dmOil_conv_retranslocate = 0.0;
-}
+   }
 
 void fruitOilPart::zeroDeltas(void)
-{
+//=======================================================================================
+// Zero daily deltas
+   {
    plantPart::zeroDeltas();
    gDlt_dm_oil_conv = 0.0;
-}
+   }
 
 
 void fruitOilPart::onHarvest(float /* cutting_height */, float /*remove_fr*/,
@@ -56,30 +61,33 @@ void fruitOilPart::onHarvest(float /* cutting_height */, float /*remove_fr*/,
                              vector<float> &dlt_dm_p,
                              vector<float> &fraction_to_residue)
 //=======================================================================================
-// biomass is removed, nothing is sent to surface residues..
-{
-     dm_type.push_back (c.name);
-     fraction_to_residue.push_back (0.0);
-     dlt_crop_dm.push_back ((DMDead+DMGreen+DMSenesced) * gm2kg/sm2ha);
-     dlt_dm_n.push_back    ((NDead+NGreen+NSenesced)  * gm2kg/sm2ha);
-     dlt_dm_p.push_back    ((PDead+PGreen+PSen)  * gm2kg/sm2ha);
+// Event Handler for harvesting event
+   {
+   // biomass is removed, nothing is sent to surface residues..
+   dm_type.push_back (c.name);
+   fraction_to_residue.push_back (0.0);
+   dlt_crop_dm.push_back ((DMDead+DMGreen+DMSenesced) * gm2kg/sm2ha);
+   dlt_dm_n.push_back    ((NDead+NGreen+NSenesced)  * gm2kg/sm2ha);
+   dlt_dm_p.push_back    ((PDead+PGreen+PSen)  * gm2kg/sm2ha);
 
-     DMDead     = 0.0;
-     DMSenesced = 0.0;
-     DMGreen    = 0.0;
+   DMDead     = 0.0;
+   DMSenesced = 0.0;
+   DMGreen    = 0.0;
 
-     NDead     = 0.0;
-     NSenesced = 0.0;
-     NGreen    = 0.0;
+   NDead     = 0.0;
+   NSenesced = 0.0;
+   NGreen    = 0.0;
 
-     PDead     = 0.0;
-     PSen      = 0.0;
-     PGreen    = 0.0;
-}
+   PDead     = 0.0;
+   PSen      = 0.0;
+   PGreen    = 0.0;
+   }
 
 
 void fruitOilPart::onKillStem(void)
-{
+//=======================================================================================
+// Event Handler for KillStem event
+   {
    DMDead += DMGreen + DMSenesced;
    DMGreen = 0.0;
    DMSenesced = 0.0;
@@ -91,45 +99,48 @@ void fruitOilPart::onKillStem(void)
    PDead += PGreen + PSen;
    PGreen = 0.0;
    PSen = 0.0;
-}
+   }
 
 void fruitOilPart::onFlowering(void)
-{  // do nothing
-}
+//=======================================================================================
+// Event Handler for Flowering event
+   {  // do nothing
+   }
 
-// set the minimum weight of part; used for retranslocation to grain
 void fruitOilPart::onStartGrainFill(void)
-{  // do nothing
-}
+//=======================================================================================
+// Event Handler for the start of grain filling event
+   {  // do nothing
+   }
 
 void fruitOilPart::doBioGrainOil (void)    // for seed energy content (>= 1.0)
-   //===========================================================================
-{
-   //       Calculate grain oil factors
-
+//=======================================================================================
+//  Calculate grain oil factors
+   {
    gGrain_energy = 1.0 + cGrain_oil_conc * (cCarbo_oil_conv_ratio - 1.0);
    bound_check_real_var (plant, gGrain_energy, 1.0, 2.0, "grain_energy");
-}
+   }
 
 float fruitOilPart::energyAdjustHI (float harvestIndex)
-   //===========================================================================
-{
+//=======================================================================================
+// Returns an adjustment factor for converting biomass to account for oil (high c) content
+   {
    return divide (1.0
                  , 1.0 + harvestIndex*(gGrain_energy - 1.0)
                  , 0.0);
-}
+   }
 
 float fruitOilPart::energyAdjustDM (float DM)
-   //===========================================================================
-{
+//=======================================================================================
+   {
    return DM * gGrain_energy;
-}
+   }
 
 float fruitOilPart::calcDmDemand (float dmDemand)
-   //===========================================================================
-{
+//=======================================================================================
+   {
    return divide (dmDemand, gGrain_energy, 0.0);
-}
+   }
 
 float fruitOilPart::dltDmGreen(void) const
 //=======================================================================================
@@ -144,20 +155,20 @@ float fruitOilPart::dltDmGreenRetransUptake(void) const
    }
 
 void fruitOilPart::doDMDemand (float dlt_dm_grain_demand)                                                    //remove
-//     ===========================================================                                          //remove
-{                                                                                                           //remove
-    float dltDmOil = divide (dlt_dm_grain_demand, gGrain_energy, 0.0) * cGrain_oil_conc;                    //remove
-    float dltDmOilConversion =  divide (dlt_dm_grain_demand, gGrain_energy, 0.0) * (gGrain_energy - 1.0);   //remove
-    DMGreenDemand = dltDmOil + dltDmOilConversion;                                                          //remove
-}                                                                                                           //remove
+//=======================================================================================
+   {                                                                                                           //remove
+   float dltDmOil = divide (dlt_dm_grain_demand, gGrain_energy, 0.0) * cGrain_oil_conc;                    //remove
+   float dltDmOilConversion =  divide (dlt_dm_grain_demand, gGrain_energy, 0.0) * (gGrain_energy - 1.0);   //remove
+   DMGreenDemand = dltDmOil + dltDmOilConversion;                                                          //remove
+   }                                                                                                           //remove
 
 void fruitOilPart::doDMDemandGrain (float dlt_dm_grain_demand)
-//     ===========================================================
-{
-    float dltDmOil = divide (dlt_dm_grain_demand, gGrain_energy, 0.0) * cGrain_oil_conc;
-    float dltDmOilConversion =  divide (dlt_dm_grain_demand, gGrain_energy, 0.0) * (gGrain_energy - 1.0);
-    DMGreenDemand = dltDmOil + dltDmOilConversion;
-}
+//=======================================================================================
+   {
+   float dltDmOil = divide (dlt_dm_grain_demand, gGrain_energy, 0.0) * cGrain_oil_conc;
+   float dltDmOilConversion =  divide (dlt_dm_grain_demand, gGrain_energy, 0.0) * (gGrain_energy - 1.0);
+   DMGreenDemand = dltDmOil + dltDmOilConversion;
+   }
 
 float fruitOilPart::giveDmGreen(float delta)
 //=======================================================================================
@@ -183,8 +194,8 @@ float fruitOilPart::dmDemandDifferential(void) const
    }
 
 void fruitOilPart::readSpeciesParameters(protocol::Component *system, vector<string> &sections)
-   //===========================================================================
-{
+//=======================================================================================
+   {
    plantPart::readSpeciesParameters(system, sections);
 
    system->readParameter (sections
@@ -197,6 +208,6 @@ void fruitOilPart::readSpeciesParameters(protocol::Component *system, vector<str
                           , cGrain_oil_conc
                           , 0.0, 1.0);
 
-}
+   }
 
 
