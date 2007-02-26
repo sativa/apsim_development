@@ -54,6 +54,9 @@ namespace CSGeneral
         private ToolStripSeparator toolStripSeparator1;
         private ToolStripButton PrintButton;
         private ToolStripButton PHButton;
+        private ToolStripButton AddLayerButton;
+        private ToolStripButton DeleteLayerButton;
+        private ToolStripSeparator toolStripSeparator2;
 		private string AttachmentFileName;
 		
 		// -------------
@@ -94,21 +97,21 @@ namespace CSGeneral
 		{
         this.components = new System.ComponentModel.Container();
         System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(SoilUI));
-        FarPoint.Win.Spread.TipAppearance tipAppearance1 = new FarPoint.Win.Spread.TipAppearance();
-        FarPoint.Win.Spread.CellType.TextCellType textCellType1 = new FarPoint.Win.Spread.CellType.TextCellType();
-        FarPoint.Win.Spread.CellType.TextCellType textCellType2 = new FarPoint.Win.Spread.CellType.TextCellType();
-        FarPoint.Win.Spread.CellType.TextCellType textCellType3 = new FarPoint.Win.Spread.CellType.TextCellType();
-        FarPoint.Win.BevelBorder bevelBorder1 = new FarPoint.Win.BevelBorder(FarPoint.Win.BevelBorderType.Raised);
-        FarPoint.Win.BevelBorder bevelBorder2 = new FarPoint.Win.BevelBorder(FarPoint.Win.BevelBorderType.Raised);
-        FarPoint.Win.Spread.CellType.ComboBoxCellType comboBoxCellType1 = new FarPoint.Win.Spread.CellType.ComboBoxCellType();
-        FarPoint.Win.Spread.CellType.TextCellType textCellType4 = new FarPoint.Win.Spread.CellType.TextCellType();
-        FarPoint.Win.Spread.CellType.TextCellType textCellType5 = new FarPoint.Win.Spread.CellType.TextCellType();
-        FarPoint.Win.Spread.CellType.TextCellType textCellType6 = new FarPoint.Win.Spread.CellType.TextCellType();
-        FarPoint.Win.Spread.CellType.TextCellType textCellType7 = new FarPoint.Win.Spread.CellType.TextCellType();
-        FarPoint.Win.Spread.CellType.ButtonCellType buttonCellType1 = new FarPoint.Win.Spread.CellType.ButtonCellType();
-        FarPoint.Win.Spread.CellType.ButtonCellType buttonCellType2 = new FarPoint.Win.Spread.CellType.ButtonCellType();
-        FarPoint.Win.Spread.CellType.ButtonCellType buttonCellType3 = new FarPoint.Win.Spread.CellType.ButtonCellType();
-        FarPoint.Win.Spread.CellType.ImageCellType imageCellType1 = new FarPoint.Win.Spread.CellType.ImageCellType();
+        FarPoint.Win.Spread.TipAppearance tipAppearance2 = new FarPoint.Win.Spread.TipAppearance();
+        FarPoint.Win.Spread.CellType.TextCellType textCellType8 = new FarPoint.Win.Spread.CellType.TextCellType();
+        FarPoint.Win.Spread.CellType.TextCellType textCellType9 = new FarPoint.Win.Spread.CellType.TextCellType();
+        FarPoint.Win.Spread.CellType.TextCellType textCellType10 = new FarPoint.Win.Spread.CellType.TextCellType();
+        FarPoint.Win.BevelBorder bevelBorder3 = new FarPoint.Win.BevelBorder(FarPoint.Win.BevelBorderType.Raised);
+        FarPoint.Win.BevelBorder bevelBorder4 = new FarPoint.Win.BevelBorder(FarPoint.Win.BevelBorderType.Raised);
+        FarPoint.Win.Spread.CellType.ComboBoxCellType comboBoxCellType2 = new FarPoint.Win.Spread.CellType.ComboBoxCellType();
+        FarPoint.Win.Spread.CellType.TextCellType textCellType11 = new FarPoint.Win.Spread.CellType.TextCellType();
+        FarPoint.Win.Spread.CellType.TextCellType textCellType12 = new FarPoint.Win.Spread.CellType.TextCellType();
+        FarPoint.Win.Spread.CellType.TextCellType textCellType13 = new FarPoint.Win.Spread.CellType.TextCellType();
+        FarPoint.Win.Spread.CellType.TextCellType textCellType14 = new FarPoint.Win.Spread.CellType.TextCellType();
+        FarPoint.Win.Spread.CellType.ButtonCellType buttonCellType4 = new FarPoint.Win.Spread.CellType.ButtonCellType();
+        FarPoint.Win.Spread.CellType.ButtonCellType buttonCellType5 = new FarPoint.Win.Spread.CellType.ButtonCellType();
+        FarPoint.Win.Spread.CellType.ButtonCellType buttonCellType6 = new FarPoint.Win.Spread.CellType.ButtonCellType();
+        FarPoint.Win.Spread.CellType.ImageCellType imageCellType2 = new FarPoint.Win.Spread.CellType.ImageCellType();
         this.ButtonImageList = new System.Windows.Forms.ImageList(this.components);
         this.fontDialog1 = new System.Windows.Forms.FontDialog();
         this.Grid = new FarPoint.Win.Spread.FpSpread();
@@ -133,6 +136,9 @@ namespace CSGeneral
         this.printDialog1 = new System.Windows.Forms.PrintDialog();
         this.OpenAttachmentDialog = new System.Windows.Forms.OpenFileDialog();
         this.toolStrip1 = new System.Windows.Forms.ToolStrip();
+        this.AddLayerButton = new System.Windows.Forms.ToolStripButton();
+        this.DeleteLayerButton = new System.Windows.Forms.ToolStripButton();
+        this.toolStripSeparator2 = new System.Windows.Forms.ToolStripSeparator();
         this.AddButton = new System.Windows.Forms.ToolStripButton();
         this.DeleteButton = new System.Windows.Forms.ToolStripButton();
         this.ReorderButton = new System.Windows.Forms.ToolStripButton();
@@ -167,7 +173,7 @@ namespace CSGeneral
         this.Grid.Dock = System.Windows.Forms.DockStyle.Top;
         this.Grid.EditModeReplace = true;
         this.Grid.HorizontalScrollBarPolicy = FarPoint.Win.Spread.ScrollBarPolicy.AsNeeded;
-        this.Grid.Location = new System.Drawing.Point(0, 87);
+        this.Grid.Location = new System.Drawing.Point(0, 86);
         this.Grid.Name = "Grid";
         this.Grid.SelectionBlockOptions = ((FarPoint.Win.Spread.SelectionBlockOptions)(((FarPoint.Win.Spread.SelectionBlockOptions.Cells | FarPoint.Win.Spread.SelectionBlockOptions.Rows)
                     | FarPoint.Win.Spread.SelectionBlockOptions.Sheet)));
@@ -183,10 +189,10 @@ namespace CSGeneral
         this.Grid.TabStrip.ButtonPolicy = FarPoint.Win.Spread.TabStripButtonPolicy.AsNeeded;
         this.Grid.TabStripPolicy = FarPoint.Win.Spread.TabStripPolicy.Always;
         this.Grid.TabStripRatio = 0.512295081967213;
-        tipAppearance1.BackColor = System.Drawing.SystemColors.Info;
-        tipAppearance1.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-        tipAppearance1.ForeColor = System.Drawing.SystemColors.InfoText;
-        this.Grid.TextTipAppearance = tipAppearance1;
+        tipAppearance2.BackColor = System.Drawing.SystemColors.Info;
+        tipAppearance2.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+        tipAppearance2.ForeColor = System.Drawing.SystemColors.InfoText;
+        this.Grid.TextTipAppearance = tipAppearance2;
         this.Grid.TextTipPolicy = FarPoint.Win.Spread.TextTipPolicy.Floating;
         this.Grid.ButtonClicked += new FarPoint.Win.Spread.EditorNotifyEventHandler(this.Grid_ButtonClicked);
         this.Grid.ActiveSheetChanged += new System.EventHandler(this.Grid_ActiveSheetChanged_1);
@@ -264,21 +270,21 @@ namespace CSGeneral
         this.General.Cells.Get(4, 0).Value = "Name: ";
         this.General.Cells.Get(4, 1).Locked = true;
         this.General.Cells.Get(5, 0).Value = "Classification: ";
-        textCellType1.MaxLength = 500;
-        textCellType1.Multiline = true;
-        textCellType1.WordWrap = true;
-        this.General.Cells.Get(5, 1).CellType = textCellType1;
+        textCellType8.MaxLength = 500;
+        textCellType8.Multiline = true;
+        textCellType8.WordWrap = true;
+        this.General.Cells.Get(5, 1).CellType = textCellType8;
         this.General.Cells.Get(6, 0).Value = "Natural Vegetation: ";
         this.General.Cells.Get(7, 0).Value = "Data source: ";
-        textCellType2.MaxLength = 500;
-        textCellType2.Multiline = true;
-        textCellType2.WordWrap = true;
-        this.General.Cells.Get(7, 1).CellType = textCellType2;
+        textCellType9.MaxLength = 500;
+        textCellType9.Multiline = true;
+        textCellType9.WordWrap = true;
+        this.General.Cells.Get(7, 1).CellType = textCellType9;
         this.General.Cells.Get(8, 0).Value = "Comments: ";
-        textCellType3.MaxLength = 500;
-        textCellType3.Multiline = true;
-        textCellType3.WordWrap = true;
-        this.General.Cells.Get(8, 1).CellType = textCellType3;
+        textCellType10.MaxLength = 500;
+        textCellType10.Multiline = true;
+        textCellType10.WordWrap = true;
+        this.General.Cells.Get(8, 1).CellType = textCellType10;
         this.General.ColumnHeader.Visible = false;
         this.General.Columns.Get(0).Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
         this.General.Columns.Get(0).HorizontalAlignment = FarPoint.Win.Spread.CellHorizontalAlignment.Right;
@@ -305,12 +311,12 @@ namespace CSGeneral
         this.Water.ColumnHeader.RowCount = 3;
         this.Water.RowCount = 100;
         this.Water.AutoUpdateNotes = true;
-        this.Water.ColumnHeader.Cells.Get(0, 0).Border = bevelBorder1;
+        this.Water.ColumnHeader.Cells.Get(0, 0).Border = bevelBorder3;
         this.Water.ColumnHeader.Cells.Get(0, 0).ColumnSpan = 7;
         this.Water.ColumnHeader.Cells.Get(0, 0).HorizontalAlignment = FarPoint.Win.Spread.CellHorizontalAlignment.Center;
         this.Water.ColumnHeader.Cells.Get(0, 0).Value = "Soil properties";
         this.Water.ColumnHeader.Cells.Get(0, 6).VerticalAlignment = FarPoint.Win.Spread.CellVerticalAlignment.General;
-        this.Water.ColumnHeader.Cells.Get(1, 0).Border = bevelBorder2;
+        this.Water.ColumnHeader.Cells.Get(1, 0).Border = bevelBorder4;
         this.Water.ColumnHeader.Cells.Get(1, 0).Value = "Depth";
         this.Water.ColumnHeader.Cells.Get(1, 1).Value = "BD";
         this.Water.ColumnHeader.Cells.Get(1, 2).Value = "% Rocks";
@@ -422,11 +428,11 @@ namespace CSGeneral
         this.APSIM.Cells.Get(0, 0).Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
         this.APSIM.Cells.Get(0, 0).HorizontalAlignment = FarPoint.Win.Spread.CellHorizontalAlignment.Right;
         this.APSIM.Cells.Get(0, 0).Value = "Evaporation";
-        comboBoxCellType1.ButtonAlign = FarPoint.Win.ButtonAlign.Right;
-        comboBoxCellType1.Items = new string[] {
+        comboBoxCellType2.ButtonAlign = FarPoint.Win.ButtonAlign.Right;
+        comboBoxCellType2.Items = new string[] {
         "1 value for U and Cona",
         "Summer/Winter values for U and Cona"};
-        this.APSIM.Cells.Get(0, 1).CellType = comboBoxCellType1;
+        this.APSIM.Cells.Get(0, 1).CellType = comboBoxCellType2;
         this.APSIM.Cells.Get(0, 1).Locked = false;
         this.APSIM.Cells.Get(0, 1).Value = "1 value for U and Cona";
         this.APSIM.Cells.Get(1, 0).HorizontalAlignment = FarPoint.Win.Spread.CellHorizontalAlignment.Right;
@@ -504,17 +510,17 @@ namespace CSGeneral
         this.Phosphorus.Columns.Get(0).HorizontalAlignment = FarPoint.Win.Spread.CellHorizontalAlignment.Right;
         this.Phosphorus.Columns.Get(0).Label = "(cm)";
         this.Phosphorus.Columns.Get(0).Width = 70F;
-        this.Phosphorus.Columns.Get(1).CellType = textCellType4;
+        this.Phosphorus.Columns.Get(1).CellType = textCellType11;
         this.Phosphorus.Columns.Get(1).HorizontalAlignment = FarPoint.Win.Spread.CellHorizontalAlignment.Right;
         this.Phosphorus.Columns.Get(1).Label = "(mg/kg)";
         this.Phosphorus.Columns.Get(1).Width = 71F;
-        this.Phosphorus.Columns.Get(2).CellType = textCellType5;
+        this.Phosphorus.Columns.Get(2).CellType = textCellType12;
         this.Phosphorus.Columns.Get(2).HorizontalAlignment = FarPoint.Win.Spread.CellHorizontalAlignment.Right;
         this.Phosphorus.Columns.Get(2).Label = "(kg/ha)";
-        this.Phosphorus.Columns.Get(3).CellType = textCellType6;
+        this.Phosphorus.Columns.Get(3).CellType = textCellType13;
         this.Phosphorus.Columns.Get(3).HorizontalAlignment = FarPoint.Win.Spread.CellHorizontalAlignment.Right;
         this.Phosphorus.Columns.Get(3).Label = "(kg/ha)";
-        this.Phosphorus.Columns.Get(4).CellType = textCellType7;
+        this.Phosphorus.Columns.Get(4).CellType = textCellType14;
         this.Phosphorus.Columns.Get(4).HorizontalAlignment = FarPoint.Win.Spread.CellHorizontalAlignment.Right;
         this.Phosphorus.RowHeader.Columns.Default.Resizable = false;
         this.Phosphorus.Rows.Get(14).HorizontalAlignment = FarPoint.Win.Spread.CellHorizontalAlignment.Right;
@@ -533,20 +539,20 @@ namespace CSGeneral
         this.PhotoAttachSheet.RowHeader.ColumnCount = 0;
         this.PhotoAttachSheet.ActiveRowIndex = 1;
         this.PhotoAttachSheet.AutoUpdateNotes = true;
-        buttonCellType1.Text = "Load";
-        this.PhotoAttachSheet.Cells.Get(0, 0).CellType = buttonCellType1;
-        buttonCellType2.Text = "Remove";
-        this.PhotoAttachSheet.Cells.Get(0, 1).CellType = buttonCellType2;
-        buttonCellType3.Text = "Show";
-        this.PhotoAttachSheet.Cells.Get(0, 2).CellType = buttonCellType3;
+        buttonCellType4.Text = "Load";
+        this.PhotoAttachSheet.Cells.Get(0, 0).CellType = buttonCellType4;
+        buttonCellType5.Text = "Remove";
+        this.PhotoAttachSheet.Cells.Get(0, 1).CellType = buttonCellType5;
+        buttonCellType6.Text = "Show";
+        this.PhotoAttachSheet.Cells.Get(0, 2).CellType = buttonCellType6;
         this.PhotoAttachSheet.Cells.Get(0, 3).Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
         this.PhotoAttachSheet.Cells.Get(0, 3).HorizontalAlignment = FarPoint.Win.Spread.CellHorizontalAlignment.Center;
         this.PhotoAttachSheet.Cells.Get(0, 3).Locked = true;
         this.PhotoAttachSheet.Cells.Get(0, 3).VerticalAlignment = FarPoint.Win.Spread.CellVerticalAlignment.Center;
-        imageCellType1.Style = FarPoint.Win.RenderStyle.StretchAndScale;
-        imageCellType1.TransparencyColor = System.Drawing.Color.Empty;
-        imageCellType1.TransparencyTolerance = 0;
-        this.PhotoAttachSheet.Cells.Get(1, 0).CellType = imageCellType1;
+        imageCellType2.Style = FarPoint.Win.RenderStyle.StretchAndScale;
+        imageCellType2.TransparencyColor = System.Drawing.Color.Empty;
+        imageCellType2.TransparencyTolerance = 0;
+        this.PhotoAttachSheet.Cells.Get(1, 0).CellType = imageCellType2;
         this.PhotoAttachSheet.Cells.Get(1, 0).ColumnSpan = 4;
         this.PhotoAttachSheet.Cells.Get(1, 0).Locked = true;
         this.PhotoAttachSheet.Columns.Get(0).Locked = false;
@@ -565,7 +571,7 @@ namespace CSGeneral
         // splitter1
         // 
         this.splitter1.Dock = System.Windows.Forms.DockStyle.Top;
-        this.splitter1.Location = new System.Drawing.Point(0, 379);
+        this.splitter1.Location = new System.Drawing.Point(0, 378);
         this.splitter1.Name = "splitter1";
         this.splitter1.Size = new System.Drawing.Size(906, 3);
         this.splitter1.TabIndex = 13;
@@ -608,6 +614,9 @@ namespace CSGeneral
         // 
         this.toolStrip1.ImageScalingSize = new System.Drawing.Size(24, 24);
         this.toolStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.AddLayerButton,
+            this.DeleteLayerButton,
+            this.toolStripSeparator2,
             this.AddButton,
             this.DeleteButton,
             this.ReorderButton,
@@ -617,9 +626,37 @@ namespace CSGeneral
             this.CheckSoilButton});
         this.toolStrip1.Location = new System.Drawing.Point(0, 40);
         this.toolStrip1.Name = "toolStrip1";
-        this.toolStrip1.Size = new System.Drawing.Size(906, 47);
+        this.toolStrip1.Size = new System.Drawing.Size(906, 46);
         this.toolStrip1.TabIndex = 15;
         this.toolStrip1.Text = "toolStrip1";
+        // 
+        // AddLayerButton
+        // 
+        this.AddLayerButton.Image = global::SoilNamespace.Properties.Resources.add2;
+        this.AddLayerButton.ImageScaling = System.Windows.Forms.ToolStripItemImageScaling.None;
+        this.AddLayerButton.ImageTransparentColor = System.Drawing.Color.Magenta;
+        this.AddLayerButton.Name = "AddLayerButton";
+        this.AddLayerButton.Size = new System.Drawing.Size(61, 43);
+        this.AddLayerButton.Text = "&Add layer";
+        this.AddLayerButton.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageAboveText;
+        this.AddLayerButton.Click += new System.EventHandler(this.AddLayerButton_Click);
+        // 
+        // DeleteLayerButton
+        // 
+        this.DeleteLayerButton.Image = global::SoilNamespace.Properties.Resources.delete2;
+        this.DeleteLayerButton.ImageScaling = System.Windows.Forms.ToolStripItemImageScaling.None;
+        this.DeleteLayerButton.ImageTransparentColor = System.Drawing.Color.Magenta;
+        this.DeleteLayerButton.Name = "DeleteLayerButton";
+        this.DeleteLayerButton.Size = new System.Drawing.Size(72, 43);
+        this.DeleteLayerButton.Text = "&Delete layer";
+        this.DeleteLayerButton.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageAboveText;
+        this.DeleteLayerButton.ToolTipText = "Delete layer";
+        this.DeleteLayerButton.Click += new System.EventHandler(this.DeleteLayerButton_Click);
+        // 
+        // toolStripSeparator2
+        // 
+        this.toolStripSeparator2.Name = "toolStripSeparator2";
+        this.toolStripSeparator2.Size = new System.Drawing.Size(6, 46);
         // 
         // AddButton
         // 
@@ -627,8 +664,8 @@ namespace CSGeneral
         this.AddButton.ImageScaling = System.Windows.Forms.ToolStripItemImageScaling.None;
         this.AddButton.ImageTransparentColor = System.Drawing.Color.Magenta;
         this.AddButton.Name = "AddButton";
-        this.AddButton.Size = new System.Drawing.Size(63, 44);
-        this.AddButton.Text = "&Add crop";
+        this.AddButton.Size = new System.Drawing.Size(60, 43);
+        this.AddButton.Text = "Add crop";
         this.AddButton.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageAboveText;
         this.AddButton.Click += new System.EventHandler(this.AddCropMenuItem_Click);
         // 
@@ -638,8 +675,8 @@ namespace CSGeneral
         this.DeleteButton.ImageScaling = System.Windows.Forms.ToolStripItemImageScaling.None;
         this.DeleteButton.ImageTransparentColor = System.Drawing.Color.Magenta;
         this.DeleteButton.Name = "DeleteButton";
-        this.DeleteButton.Size = new System.Drawing.Size(77, 44);
-        this.DeleteButton.Text = "&Delete crop";
+        this.DeleteButton.Size = new System.Drawing.Size(71, 43);
+        this.DeleteButton.Text = "Delete crop";
         this.DeleteButton.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageAboveText;
         this.DeleteButton.Click += new System.EventHandler(this.DeleteCropMenuItem_Click);
         // 
@@ -649,8 +686,8 @@ namespace CSGeneral
         this.ReorderButton.ImageScaling = System.Windows.Forms.ToolStripItemImageScaling.None;
         this.ReorderButton.ImageTransparentColor = System.Drawing.Color.Magenta;
         this.ReorderButton.Name = "ReorderButton";
-        this.ReorderButton.Size = new System.Drawing.Size(93, 44);
-        this.ReorderButton.Text = "&Reorder crops";
+        this.ReorderButton.Size = new System.Drawing.Size(84, 43);
+        this.ReorderButton.Text = "Reorder crops";
         this.ReorderButton.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageAboveText;
         this.ReorderButton.Click += new System.EventHandler(this.ReorderCropsMenuItem_Click);
         // 
@@ -660,7 +697,7 @@ namespace CSGeneral
         this.PHButton.Image = global::SoilNamespace.Properties.Resources.potion_yellow;
         this.PHButton.ImageTransparentColor = System.Drawing.Color.Magenta;
         this.PHButton.Name = "PHButton";
-        this.PHButton.Size = new System.Drawing.Size(105, 44);
+        this.PHButton.Size = new System.Drawing.Size(100, 43);
         this.PHButton.Text = "Change pH units";
         this.PHButton.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageAboveText;
         this.PHButton.Click += new System.EventHandler(this.PHButton_Click);
@@ -668,7 +705,7 @@ namespace CSGeneral
         // toolStripSeparator1
         // 
         this.toolStripSeparator1.Name = "toolStripSeparator1";
-        this.toolStripSeparator1.Size = new System.Drawing.Size(6, 47);
+        this.toolStripSeparator1.Size = new System.Drawing.Size(6, 46);
         // 
         // PrintButton
         // 
@@ -676,7 +713,7 @@ namespace CSGeneral
         this.PrintButton.ImageScaling = System.Windows.Forms.ToolStripItemImageScaling.None;
         this.PrintButton.ImageTransparentColor = System.Drawing.Color.Magenta;
         this.PrintButton.Name = "PrintButton";
-        this.PrintButton.Size = new System.Drawing.Size(61, 44);
+        this.PrintButton.Size = new System.Drawing.Size(57, 43);
         this.PrintButton.Text = "&Print soil";
         this.PrintButton.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageAboveText;
         this.PrintButton.Click += new System.EventHandler(this.PrintClick);
@@ -687,7 +724,7 @@ namespace CSGeneral
         this.CheckSoilButton.ImageScaling = System.Windows.Forms.ToolStripItemImageScaling.None;
         this.CheckSoilButton.ImageTransparentColor = System.Drawing.Color.Magenta;
         this.CheckSoilButton.Name = "CheckSoilButton";
-        this.CheckSoilButton.Size = new System.Drawing.Size(69, 44);
+        this.CheckSoilButton.Size = new System.Drawing.Size(65, 43);
         this.CheckSoilButton.Text = "&Check soil";
         this.CheckSoilButton.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageAboveText;
         this.CheckSoilButton.Click += new System.EventHandler(this.CheckSoilMenuItem_Click);
@@ -696,10 +733,10 @@ namespace CSGeneral
         // 
         this.WaterChartControl.Dock = System.Windows.Forms.DockStyle.Fill;
         this.WaterChartControl.LinkedSoil = null;
-        this.WaterChartControl.Location = new System.Drawing.Point(0, 379);
+        this.WaterChartControl.Location = new System.Drawing.Point(0, 378);
         this.WaterChartControl.Name = "WaterChartControl";
         this.WaterChartControl.ShowSoilWaterLine = false;
-        this.WaterChartControl.Size = new System.Drawing.Size(906, 383);
+        this.WaterChartControl.Size = new System.Drawing.Size(906, 384);
         this.WaterChartControl.TabIndex = 14;
         // 
         // SoilUI
@@ -789,7 +826,9 @@ namespace CSGeneral
 				SoilProfile.OperationMode = mode;
 				APSIM.OperationMode = mode;
 				Phosphorus.OperationMode = mode;
-				}
+                AddLayerButton.Enabled = (MySoil.Thickness.Length > 0);
+                DeleteLayerButton.Enabled = (MySoil.Thickness.Length > 0);
+                }
 			catch (Exception err)
 				{
 				MessageBox.Show(err.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
@@ -1725,6 +1764,18 @@ namespace CSGeneral
             else
                 SoilProfile.ColumnHeader.Cells[1, 8].Text = "(water)";
             SaveProfileGrid(8);
+            }
+
+        private void AddLayerButton_Click(object sender, EventArgs e)
+            {
+            MySoil.AddLayerToBottom();
+            RefreshView(SoilController);
+            }
+
+        private void DeleteLayerButton_Click(object sender, EventArgs e)
+            {
+            MySoil.DeleteLayerFromBottom();
+            RefreshView(SoilController);
             }
 
 	

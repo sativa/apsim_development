@@ -50,7 +50,7 @@ namespace CSGeneral
 				double[] MissingValues = new double[Thickness.Length];
 				for (int i = 0; i != MissingValues.Length; i++)
 					MissingValues[i] = MathUtility.MissingValue;
-				setLayered("water", "sw", MissingValues);
+				setLayered("water", "sw", "", MissingValues);
 				Data.set_ChildValue("WaterFormat", "GravimetricWetDry");
 				}
 			else
@@ -58,8 +58,8 @@ namespace CSGeneral
 				double[] MissingValues = new double[Thickness.Length];
 				for (int i = 0; i != MissingValues.Length; i++)
 					MissingValues[i] = MathUtility.MissingValue;
-				setLayered("water", "wet", MissingValues);
-                setLayered("water", "dry", MissingValues);
+				setLayered("water", "wet", "", MissingValues);
+                setLayered("water", "dry", "", MissingValues);
 
 				if (WaterFormat == StoredWaterFormatType.GravimetricPercent)
 					Data.set_ChildValue("WaterFormat", "GravimetricPercent");
@@ -71,7 +71,7 @@ namespace CSGeneral
 		private double[] GetLayeredAsVol(string PropertyType, string PropertyName)
 			{
 			if (StoredWaterFormat == StoredWaterFormatType.VolumetricPercent)
-				return getLayered(PropertyType, PropertyName);
+				return getLayered("profile", PropertyType, PropertyName);
 			else
 				{
 				double[] BD = MapSoilToSampleUsingSpatial(ParentSoil.BD, ParentSoil.Thickness, Thickness);
@@ -83,11 +83,11 @@ namespace CSGeneral
 			if (StoredWaterFormat == StoredWaterFormatType.VolumetricPercent)
 				{
 				double[] BD = MapSoilToSampleUsingSpatial(ParentSoil.BD, ParentSoil.Thickness, Thickness);
-				return MathUtility.Divide(getLayered(PropertyType, PropertyName),
+				return MathUtility.Divide(getLayered("profile", PropertyType, PropertyName),
 											BD);
 				}
 			else if (StoredWaterFormat == StoredWaterFormatType.GravimetricPercent)
-				return getLayered(PropertyType, PropertyName);
+				return getLayered("profile", PropertyType, PropertyName);
 			else
 				{
 				double[] Gravimetric = new double[Thickness.Length];
@@ -118,7 +118,7 @@ namespace CSGeneral
 			{
 			get {return GetLayeredAsVol("water", "sw");}
 			set {
-                setLayered("water", "sw", value);
+                setLayered("profile", "sw", "", value);
 				SetStoredWaterFormat(StoredWaterFormatType.VolumetricPercent);
 				}                           				
 			}
@@ -126,57 +126,57 @@ namespace CSGeneral
 			{
 			get {return GetLayeredAsGrav("water", "sw");}
 			set {
-                setLayered("water", "sw", value);
+                setLayered("profile", "sw", "", value);
 				SetStoredWaterFormat(StoredWaterFormatType.GravimetricPercent);
 				}                           				
 			}
 		public double[] Wet
 			{
-			get {return getLayered("water", "wet");}
+			get {return getLayered("profile", "wet", "");}
 			set {
-                setLayered("water", "wet", value);
+                setLayered("profile", "wet", "", value);
 				SetStoredWaterFormat(StoredWaterFormatType.GravimetricWetDry);
 				}                           				
 			}
 		public double[] Dry
 			{
-			get {return getLayered("water", "dry");}
+			get {return getLayered("profile", "dry", "");}
 			set {
-                setLayered("water", "dry", value);
+                setLayered("profile", "dry", "", value);
 				SetStoredWaterFormat(StoredWaterFormatType.GravimetricWetDry);
 				}                           				
 			}
 
 		public double[] NO3
 			{
-			get {return getLayered("nitrogen", "no3");}
-			set {setLayered("nitrogen", "no3", value);}
+			get {return getLayered("profile", "no3", "");}
+			set {setLayered("profile", "no3", "", value);}
 			}
 		public double[] NH4
 			{
-			get {return getLayered("nitrogen", "nh4");}
-            set { setLayered("nitrogen", "nh4", value); }
+            get { return getLayered("profile", "nh4", ""); }
+            set { setLayered("profile", "nh4", "", value); }
 			}
 
 		public double[] OC
 			{
-            get { return getLayered("nitrogen", "oc"); }
-            set { setLayered("nitrogen", "oc", value); }
+            get { return getLayered("profile", "oc", ""); }
+            set { setLayered("profile", "oc", "", value); }
 			}
 		public double[] PH
 			{
-            get { return getLayered("nitrogen", "ph"); }
-			set {setLayered("nitrogen", "ph", value);}
+            get { return getLayered("profile", "ph", ""); }
+            set { setLayered("profile", "ph", "", value); }
 			}
 		public double[] EC
 			{
-			get {return getLayered("other", "ec");}
-            set { setLayered("other", "ec", value); }
+            get { return getLayered("profile", "ec", ""); }
+            set { setLayered("profile", "ec", "", value); }
 			}
 		public double[] ESP
 			{
-			get {return getLayered("other", "esp");}
-            set { setLayered("other", "esp", value); }
+            get { return getLayered("profile", "esp", ""); }
+            set { setLayered("profile", "esp", "", value); }
 			}
 		#endregion
                     
@@ -447,27 +447,35 @@ namespace CSGeneral
 			else
 				SetStoredWaterFormat(StoredWaterFormatType.GravimetricPercent);
 
-			double[] oc = getLayered("nitrogen", "oc");
+            double[] oc = getLayered("profile", "oc", "");
 			if (oc.Length > 0)
 				{
-                setLayered("other", "oc", oc);    // moves to other
+                setLayered("profile", "oc", "", oc);    // moves to other
 
 				for (int i = 0; i != oc.Length; i++)
 					oc[i] = MathUtility.MissingValue;
-                setLayered("nitrogen", "oc", oc); // deletes old values.
+                setLayered("profile", "oc", "", oc); // deletes old values.
 				}
 
-			double[] ph = getLayered("nitrogen", "ph");
+            double[] ph = getLayered("profile", "ph", "");
 			if (ph.Length > 0)
 				{
-                setLayered("other", "ph", ph);    // moves to other
+                setLayered("profile", "ph", "", ph);    // moves to other
 
 				for (int i = 0; i != ph.Length; i++)
 					ph[i] = MathUtility.MissingValue;
-                setLayered("nitrogen", "ph", ph); // deletes old values.
+                setLayered("profile", "ph", "", ph); // deletes old values.
 				}
 		
 			}
+
+        // -------------------------------------
+        // Convert old soil file to new format 7
+        // -------------------------------------
+        public void UpgradeToVersion7()
+            {
+
+            }
 
 		
 		}

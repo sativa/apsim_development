@@ -133,7 +133,7 @@ namespace CSGeneral
 						break;
 						}
 					case MethodType.Layered:
-						sw = getLayered("", "sw");
+						sw = getLayered("", "sw", "");
 						break;
 					}
 				return sw;
@@ -185,9 +185,29 @@ namespace CSGeneral
                 {
                 Data.DeleteByType("DepthWetSoilMethod");
                 Data.DeleteByType("PercentMethod");
-                setLayered("", "sw", sw);
+                setLayered("", "sw", "", sw);
                 }
 			}
 
-		}
+
+        internal void ValidateAgainstLayerStructure()
+            {
+            if (Method == MethodType.Layered)
+                {
+                double[] sw = SW;
+                int NumLayersCurrent = sw.Length;
+                int NumLayers = ParentSoil.Thickness.Length;
+
+                Array.Resize(ref sw, NumLayers);
+                if (NumLayersCurrent > 0 && NumLayersCurrent < NumLayers)
+                    {
+                    // we don't have enough layers - add extra ones.
+                    for (int i = NumLayersCurrent; i < NumLayers; i++)
+                        sw[i] = sw[NumLayersCurrent - 1];
+                    }
+
+                SetUsingLayered(sw);
+                }
+            }
+        }
 	}

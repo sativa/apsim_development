@@ -144,12 +144,19 @@ namespace CSGeneral
 		public void AddCrop()
 			{
 			string NewCropName = InputDialog.InputBox("Enter the name of the new crop:", "New crop", "", false);
-			if (NewCropName != "")
-				{
-				Soil MySoil = new Soil(Data);
-				MySoil.AddCrop(NewCropName);
-				AddCropEvent();
-				}
+            if (NewCropName != "")
+                {
+                try
+                    {
+                    Soil MySoil = new Soil(Data);
+                    MySoil.AddCrop(NewCropName);
+                    AddCropEvent();
+                    }
+                catch (Exception err)
+                    {
+                    MessageBox.Show(err.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    }
+                }
 			}
 
 		public void DeleteCrop()
