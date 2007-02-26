@@ -3158,6 +3158,9 @@
          <variable name="adm_green" array = "T" description ="E. grandis Live Above-ground Biomass Pools"/>
          <variable name="adm_dead" array = "T" description ="E. grandis Dead Above-ground Biomass Pools"/>
          <variable name="adm_sen" array = "T" description ="E. grandis Senesced Above-ground Biomass Pools"/>
+         <variable name="root_mass" description ="E. grandis root mass"/>
+         <variable name="root_n" description ="E. grandis root N mass"/>
+         <variable name="root_depth" description ="E. grandis rooting depth"/>
      </variables>
 
       <ApsimToSim>
