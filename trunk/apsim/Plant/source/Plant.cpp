@@ -128,9 +128,6 @@ static const char* cropChoppedDDML =  "<type name = \"CropChopped\">" \
                                       "   <field name=\"fraction_to_residue_value\" kind=\"single\" array=\"T\"/>" \
                                       "</type>";
 
-/////////////These might be redundancies??//////////
-void push_routine (const char *) {};
-void pop_routine (const char *) {};
 
 Plant::Plant(PlantComponent *P)
     {
@@ -281,19 +278,19 @@ void Plant::doIDs(void)
 void Plant::doRegistrations(protocol::Component *system)
    {
    // Events
-   setupEvent(parent, "prepare",     RegistrationType::respondToEvent, &Plant::doPrepare, nullTypeDDML);
-   setupEvent(parent, "process",     RegistrationType::respondToEvent, &Plant::doProcess, nullTypeDDML);
-   setupEvent(parent, "tick",        RegistrationType::respondToEvent, &Plant::doTick, DDML(protocol::TimeType()).c_str());
-   setupEvent(parent, "newmet",      RegistrationType::respondToEvent, &Plant::doNewMet, DDML(protocol::NewMetType()).c_str());
-   setupEvent(parent, "new_profile", RegistrationType::respondToEvent, &Plant::doNewProfile, DDML(protocol::NewProfileType()).c_str());
-   setupEvent(parent, "sow",         RegistrationType::respondToEvent, &Plant::doSow, sowDDML);
-   setupEvent(parent, "harvest",     RegistrationType::respondToEvent, &Plant::doHarvest, nullTypeDDML);
-   setupEvent(parent, "end_crop",    RegistrationType::respondToEvent, &Plant::doEndCrop, nullTypeDDML);
-   setupEvent(parent, "kill_crop",   RegistrationType::respondToEvent, &Plant::doKillCrop, nullTypeDDML);
-   setupEvent(parent, "end_run",     RegistrationType::respondToEvent, &Plant::doEndRun, nullTypeDDML);
-   setupEvent(parent, "kill_stem",   RegistrationType::respondToEvent, &Plant::doKillStem, killStemDDML);
-   setupEvent(parent, "remove_crop_biomass",   RegistrationType::respondToEvent, &Plant::doRemoveCropBiomass, DDML(protocol::RemoveCropDmType()).c_str());
-   setupEvent(parent, "detach_crop_biomass_rate",   RegistrationType::respondToEvent, &Plant::doDetachCropBiomass, doubleType);
+   setupEvent(parent, "prepare",     RegistrationType::respondToEvent, &Plant::onPrepare, nullTypeDDML);
+   setupEvent(parent, "process",     RegistrationType::respondToEvent, &Plant::onProcess, nullTypeDDML);
+   setupEvent(parent, "tick",        RegistrationType::respondToEvent, &Plant::onTick, DDML(protocol::TimeType()).c_str());
+   setupEvent(parent, "newmet",      RegistrationType::respondToEvent, &Plant::onNewMet, DDML(protocol::NewMetType()).c_str());
+   setupEvent(parent, "new_profile", RegistrationType::respondToEvent, &Plant::onNewProfile, DDML(protocol::NewProfileType()).c_str());
+   setupEvent(parent, "sow",         RegistrationType::respondToEvent, &Plant::onSow, sowDDML);
+   setupEvent(parent, "harvest",     RegistrationType::respondToEvent, &Plant::onHarvest, nullTypeDDML);
+   setupEvent(parent, "end_crop",    RegistrationType::respondToEvent, &Plant::onEndCrop, nullTypeDDML);
+   setupEvent(parent, "kill_crop",   RegistrationType::respondToEvent, &Plant::onKillCrop, nullTypeDDML);
+   setupEvent(parent, "end_run",     RegistrationType::respondToEvent, &Plant::onEndRun, nullTypeDDML);
+   setupEvent(parent, "kill_stem",   RegistrationType::respondToEvent, &Plant::onKillStem, killStemDDML);
+   setupEvent(parent, "remove_crop_biomass",   RegistrationType::respondToEvent, &Plant::onRemoveCropBiomass, DDML(protocol::RemoveCropDmType()).c_str());
+   setupEvent(parent, "detach_crop_biomass_rate",   RegistrationType::respondToEvent, &Plant::onDetachCropBiomass, doubleType);
 
 
    // Send My Variable
@@ -714,7 +711,7 @@ void Plant::sendStageMessage(const char *what)
 /////////////////////////These routines are portions of the fortran "main" routine.
 
 // Field a Prepare message
-void Plant::doPrepare(unsigned &, unsigned &, protocol::Variant &)
+void Plant::onPrepare(unsigned &, unsigned &, protocol::Variant &)
   {
   plant_zero_daily_variables ();
   zero_daily_p_variables();
@@ -731,7 +728,7 @@ void Plant::doPrepare(unsigned &, unsigned &, protocol::Variant &)
   }
 
 // Field a Process message
-void Plant::doProcess(unsigned &, unsigned &, protocol::Variant &)
+void Plant::onProcess(unsigned &, unsigned &, protocol::Variant &)
   {
   if (g.plant_status != out)
      {
@@ -744,50 +741,50 @@ void Plant::doProcess(unsigned &, unsigned &, protocol::Variant &)
   }
 
 // Field a Sow event
-void Plant::doSow(unsigned &, unsigned &, protocol::Variant &v)
+void Plant::onSow(unsigned &, unsigned &, protocol::Variant &v)
   {
   plant_get_other_variables (); // request and receive variables from owner-modules
   plant_start_crop (v);          // start crop and do  more initialisations
   }
 
 // Field a Harvest event
-void Plant::doHarvest(unsigned &, unsigned &, protocol::Variant &v)
+void Plant::onHarvest(unsigned &, unsigned &, protocol::Variant &v)
   {
   plant_harvest (v);             // harvest crop - turn into residue
   }
 
 // Field a End crop event
-void Plant::doEndCrop(unsigned &, unsigned &, protocol::Variant &)
+void Plant::onEndCrop(unsigned &, unsigned &, protocol::Variant &)
   {
   plant_end_crop ();            //end crop - turn into residue
   }
 
 // Field a Kill crop event
-void Plant::doKillCrop(unsigned &, unsigned &, protocol::Variant &v)
+void Plant::onKillCrop(unsigned &, unsigned &, protocol::Variant &v)
    {
    plant_kill_crop_action (v);  //kill crop - turn into dead population
    }
 
 // Field a Kill Stem event
-void Plant::doKillStem(unsigned &, unsigned &, protocol::Variant &v)
+void Plant::onKillStem(unsigned &, unsigned &, protocol::Variant &v)
    {
    plant_kill_stem (v);            //die
    }
 
 // Field a end run event
-void Plant::doEndRun(unsigned &, unsigned &,protocol::Variant &/*v*/)
+void Plant::onEndRun(unsigned &, unsigned &,protocol::Variant &/*v*/)
    {
    plant_zero_variables ();
    }
 
 // Field a Remove Crop Biomass event
-void Plant::doRemoveCropBiomass(unsigned &, unsigned &, protocol::Variant &v)
+void Plant::onRemoveCropBiomass(unsigned &, unsigned &, protocol::Variant &v)
    {
    plant_remove_crop_biomass (v);
    }
 
 // Field a Remove Crop Biomass event
-void Plant::doDetachCropBiomass(unsigned &, unsigned &, protocol::Variant &v)
+void Plant::onDetachCropBiomass(unsigned &, unsigned &, protocol::Variant &v)
    {
    plant_detach_crop_biomass (v);
    }
@@ -800,7 +797,7 @@ void Plant::doAutoClassChange(unsigned &/*fromId*/, unsigned &eventId, protocol:
   }
 
 // Field a Tick event
-void Plant::doTick(unsigned &, unsigned &, protocol::Variant &v)
+void Plant::onTick(unsigned &, unsigned &, protocol::Variant &v)
   {
   struct protocol::TimeType tick;
   v.unpack(tick);
@@ -810,7 +807,7 @@ void Plant::doTick(unsigned &, unsigned &, protocol::Variant &v)
   }
 
 // Field a NewMet event
-void Plant::doNewMet(unsigned &, unsigned &, protocol::Variant &v)
+void Plant::onNewMet(unsigned &, unsigned &, protocol::Variant &v)
   {
   if (g.hasreadconstants)
      {
@@ -945,12 +942,8 @@ void Plant::plant_plant_death (int option /* (INPUT) option number*/)
 //      Determine plant death in crop
 
     {
-//+  Constant Values
-    const char*  my_name = "plant_plant_death" ;
 
 //- Implementation Section ----------------------------------
-
-    push_routine (my_name);
 
     if (option == 1)
         {
@@ -1041,15 +1034,10 @@ void Plant::plant_plant_death (int option /* (INPUT) option number*/)
         throw std::invalid_argument ("invalid template option in plant_death");
         }
 
-    pop_routine (my_name);
-
     }
 
 //+  Purpose
 //      Determine plant seedling death.
-
-//+  Mission Statement
-//     Determine plant seeding death
 float Plant::plant_death_seedling
     (
      int    c_num_weighted_temp      // (INPUT)  size of table
@@ -1087,10 +1075,6 @@ float Plant::plant_death_seedling
 //+  Purpose
 //      Determine plant death from drought.
 
-//+  Mission Statement
-//     Determine plant death from drought
-
-
 float Plant::plant_death_drought
     (
      float  c_leaf_no_crit              // (INPUT)  critical number of leaves belo
@@ -1123,21 +1107,14 @@ float Plant::plant_death_drought
 
 //+  Purpose
 //      Determine plant seedling death.
-
-//+  Mission Statement
-//     Determine plant seeding death
-
-//+  Changes
-//       290902 jngh specified and programmed
 void Plant::plant_death_external_action(protocol::Variant &v         // (INPUT) message variant
                                         ,float g_plants              // (INPUT) Plant density (plants/m^2)
                                         ,float *dlt_plants           // (OUTPUT) change in plant number
                                         ) {
-    const char*  my_name = "plant_death_external_action" ;
 
     float killfr;                                 // fraction of crop population to kill
 
-    push_routine (my_name);
+
 
     protocol::ApsimVariant incomingApsimVariant(parent);
     incomingApsimVariant.aliasTo(v.getMessageData());
@@ -1166,32 +1143,19 @@ void Plant::plant_death_external_action(protocol::Variant &v         // (INPUT) 
         // do nothing - no fraction
         }
 
-    pop_routine (my_name);
-
     }
 
 
 //+  Purpose
 //      Determine plant death from external action.
-
-//+  Mission Statement
-//     Determine plant death from external action
-
-//+  Changes
-//       290994 jngh specified and programmed
-//       110695 psc  added plant death from high soil temp
-//       100795 jngh moved plant_kill crop to end of routine
 void Plant::plant_death_crop_killed
     (
       float    g_plants                           // (INPUT)  Plant density (plants/m^2)
     , status_t g_plant_status                     // (INPUT)
     , float    *dlt_plants                        // (OUTPUT) change in plant number
     ) {
-    const char*  my_name = "plant_death_crop_killed" ;
 
-    push_routine (my_name);
-
-    if (g_plant_status == dead)
+        if (g_plant_status == dead)
         {
         *dlt_plants = - g_plants;
         parent->writeString ("Crop killed because of external action.");
@@ -1201,21 +1165,11 @@ void Plant::plant_death_crop_killed
         *dlt_plants = 0.0;
         }
 
-    pop_routine (my_name);
-
     }
 
 
 //+  Purpose
 //      Determine actual plant death.
-
-//+  Mission Statement
-//     Determine actual plant death
-
-//+  Changes
-//       290994 jngh specified and programmed
-//       110695 psc  added plant death from high soil temp
-//       100795 jngh moved plant_kill crop to end of routine
 void Plant::plant_death_actual
     (
      float g_dlt_plants_death_drought                 // (INPUT)
@@ -1227,12 +1181,9 @@ void Plant::plant_death_actual
     ,float g_dlt_plants_failure_phen_delay          // (INPUT)
     ,float *dlt_plants                               // (OUTPUT) change in plant number
     ) {
-    const char*  my_name = "plant_death_actual" ;
 
 
-    push_routine (my_name);
-
-    // dlt's are negative so take minimum.
+        // dlt's are negative so take minimum.
     float pmin = g_dlt_plants_failure_germ;             // Progressive minimum
     pmin = min(pmin, g_dlt_plants_failure_emergence);
     pmin = min(pmin, g_dlt_plants_failure_leaf_sen);
@@ -1244,7 +1195,6 @@ void Plant::plant_death_actual
     *dlt_plants = pmin;
 
     *g_dlt_plants_death_external = 0.0;                //Ugly hack here??
-    pop_routine (my_name);
 
     }
 
@@ -1252,12 +1202,6 @@ void Plant::plant_death_actual
 //+  Purpose
 //        Calculate fraction of plants killed by high temperature during
 //        emergence (0-1).
-
-//+  Mission Statement
-//     Calculate fraction of plants killed by high temperature during emergence
-
-//+  Changes
-//     230695 jngh specified and programmed
 void Plant::plant_plants_temp
     (
      int    c_num_weighted_temp                          // (INPUT)  size of table
@@ -1270,8 +1214,6 @@ void Plant::plant_plants_temp
     ) {
 
 //+  Constant Values
-    const char*  my_name = "plant_plants_temp" ;
-
 //+  Local Variables
     int   day_before;                             // day of year number of day before
                                                   // yesterday ()
@@ -1279,7 +1221,6 @@ void Plant::plant_plants_temp
     int   yesterday;                              // day of year number of yesterday
 
 //- Implementation Section ----------------------------------
-    push_routine (my_name);
 
     yesterday = offset_day_of_year (g_year, g_day_of_year, - 1);
     day_before = offset_day_of_year (g_year, g_day_of_year, - 2);
@@ -1293,7 +1234,6 @@ void Plant::plant_plants_temp
                                 , c_y_plant_death
                                 , c_num_weighted_temp);
 
-    pop_routine (my_name);
 
     }
 
@@ -1301,15 +1241,9 @@ void Plant::plant_plants_temp
 //+  Purpose
 //       Kill crop
 
-//+  Mission Statement
-//     Kill the crop
-
-//+  Changes
-//       290994 jngh specified and programmed
 void Plant::plant_kill_crop (status_t *g_plant_status)
     {
 //+  Constant Values
-    const char*  my_name = "plant_kill_crop" ;
 
 //+  Local Variables
     float biomass;                                // above ground dm (kg/ha)
@@ -1317,7 +1251,6 @@ void Plant::plant_kill_crop (status_t *g_plant_status)
 //- Implementation Section ----------------------------------
 
 //!!!!! fix problem with deltas in update when change from alive to dead ?zero deltas
-    push_routine (my_name);
 
     if (*g_plant_status == alive)
         {
@@ -1334,7 +1267,6 @@ void Plant::plant_kill_crop (status_t *g_plant_status)
         {
         }
 
-    pop_routine (my_name);
 
     }
 
@@ -1348,22 +1280,13 @@ void Plant::plant_kill_crop (status_t *g_plant_status)
 //+  Purpose
 //       Find nitrogen supply.
 
-//+  Mission Statement
-//     Get the nitrogen supply for plant
-
-//+  Changes
-//      250894 jngh specified and programmed
 void Plant::plant_nit_supply (int option /* (INPUT) option number*/)     //FIXME - code of this function probably should be in rootPart
     {
-
-//+  Constant Values
-    const char*  my_name = "plant_nit_supply" ;
 
 //+  Local Variables
     float biomass;
 
 //- Implementation Section ----------------------------------
-    push_routine (my_name);
 
 // find potential N uptake (supply, available N)
     if (option == 1)
@@ -1449,27 +1372,17 @@ void Plant::plant_nit_supply (int option /* (INPUT) option number*/)     //FIXME
         throw std::invalid_argument ("invalid template N uptake option");
         }
 
-    pop_routine (my_name);
 
     }
 
 
 //+  Purpose
 //       Do nitrogen retranslocation.
-
-//+  Mission Statement
-//     Calculate nitrogen retranslocation
-
-//+  Changes
-//      250894 jngh specified and programmed
 void Plant::plant_nit_retrans (int option/* (INPUT) option number*/)
     {
-//+  Constant Values
-    const char*  my_name = "plant_nit_retrans" ;
 
 
 //- Implementation Section ----------------------------------
-    push_routine (my_name);
 
     if (option == 1)
         {
@@ -1483,8 +1396,6 @@ void Plant::plant_nit_retrans (int option/* (INPUT) option number*/)
         {
         throw std::invalid_argument ("invalid n retrans option");
         }
-
-    pop_routine (my_name);
 
     }
 
@@ -1595,21 +1506,10 @@ void Plant::plant_nit_partition ()                                     //FIXME -
 
 //+  Purpose
 //         Get current Nitrogen stress factors (0-1)
-
-//+  Mission Statement
-//         Gets the current Nitrogen stress factors
-
-//+  Changes
-//     010994 jngh specified and programmed
-//     250297 slw modified to split stress factors
-
 void Plant::plant_nit_stress (int option /* (INPUT) option number*/)
     {
-//+  Constant Values
-    const char*  my_name = "plant_nit_stress" ;
 
 //- Implementation Section ----------------------------------
-    push_routine (my_name);
 
     if (option == 1)
         {
@@ -1643,8 +1543,6 @@ void Plant::plant_nit_stress (int option /* (INPUT) option number*/)
         {
         throw std::invalid_argument ("invalid template option in plant_nit_stress");
         }
-
-    pop_routine (my_name);
 
     }
 
@@ -1754,9 +1652,7 @@ void Plant::plant_cleanup ()
 //=======================================================================================
 //       cleanup after crop processes
     {
-    const char*  my_name = "plant_cleanup" ;
 
-    push_routine (my_name);
     g.remove_biom_pheno = 1.0;
 
     plant_update( g.dlt_plants
@@ -1808,30 +1704,19 @@ void Plant::plant_cleanup ()
 
         }
 
-    pop_routine (my_name);
     }
 
 
 
 //+  Purpose
 //       Update states
-
-//+  Mission Statement
-//     Update states of variables
-
-//+  Changes
-//      250894 jngh specified and programmed
 void Plant::plant_update(float  g_dlt_plants                                       // (INPUT)  change in Plant density (plant
     ,float *g_plants)                                           // (out/INPUT)  Plant density (plants/m^2)
 {
 
-//+  Constant Values
-    const char*  my_name = "plant_update" ;
-
 //+  Local Variables
 
 //- Implementation Section ----------------------------------
-    push_routine (my_name);
 
     // Let me register my surprise at how this is done on the next few lines
     // - why intrinsically limit processes to leaf etc right here!!! - NIH
@@ -1866,18 +1751,11 @@ void Plant::plant_update(float  g_dlt_plants                                    
 
     plant_n_conc_limits( g.co2_modifier_n_conc);
 
-    pop_routine (my_name);
     }
 
 
 //+  Purpose
 //         Check bounds of internal pools
-
-//+  Mission Statement
-//     Check bounds of internal pools
-
-//+  Changes
-//     010994 jngh specified and programmed
 void Plant::plant_check_bounds
     (float  g_cover_dead                        // (INPUT)  fraction of radiation reaching
     ,float  g_cover_green                       // (INPUT)  fraction of radiation reaching
@@ -1887,14 +1765,9 @@ void Plant::plant_check_bounds
     ,float  g_root_depth                        // (INPUT)  depth of roots (mm)
     ) {
 
-//+  Constant Values
-    const char*  my_name = "plant_check_bounds" ;
-
 //+  Local Variables
 
 //- Implementation Section ----------------------------------
-
-    push_routine (my_name);
 
     bound_check_real_var(this,g_root_depth
                          , 0.0
@@ -1926,18 +1799,11 @@ void Plant::plant_check_bounds
        (*t)->checkBounds();
        }
 
-    pop_routine (my_name);
     }
 
 
 //+  Purpose
 //         Collect totals of crop variables for output
-
-//+  Mission Statement
-//     Collect totals of crop variables for output
-
-//+  Changes
-//     010994 jngh specified and programmed
 void Plant::plant_totals
     (float *g_dlayer                     // (INPUT)  thickness of soil layer I (mm)
     ,float *g_dlt_sw_dep                 // (INPUT)  water uptake in each layer (mm water)
@@ -1953,9 +1819,6 @@ void Plant::plant_totals
     ,float  *g_transpiration_tot               // (out/INPUT)  cumulative transpiration (mm)
     )  {
 
-//+  Constant Values
-    const char*  my_name = "plant_totals" ;
-
 //+  Local Variables
     float n_conc_stover;                          // tops actual N concentration (g N/g part)
     int   deepest_layer;                          // deepest layer in which the roots are growing
@@ -1967,8 +1830,6 @@ void Plant::plant_totals
     float n_uptake_soil_tops;                     // daily N taken up by roots going into tops
 
 //- Implementation Section ----------------------------------
-
-    push_routine (my_name);
 
 // get totals
     n_conc_stover = divide (stoverNGreen(),stoverGreen() , 0.0);
@@ -2021,20 +1882,12 @@ void Plant::plant_totals
     *g_n_uptake_stover_tot = stoverNTot();
     *g_n_uptake_tot = fruitPart->nGrainTotal() + stoverNTot();
 
-    pop_routine (my_name);
-
     }
 
 //+  Purpose
 //       Report occurence of event and the current status of specific
 //       variables.
 //       Called when a new phase has begun.
-
-//+  Mission Statement
-//     Report occurence of event and the current status of specific variables
-
-//+  Changes
-//     010994 jngh specified and programmed
 void Plant::plant_event()
     {
 //+  Local Variables
@@ -2100,21 +1953,11 @@ void Plant::plant_water_supply (int /* option (INPUT) option number*/)
 
 //+  Purpose
 //       Plant water demand
-
-//+  Mission Statement
-//     Calculate the plant water demand
-
-//+  Changes
-//      250894 jngh specified and programmed
 void Plant::plant_water_demand (int option /* (INPUT) option number*/)
     {
 
-//+  Constant Values
-    const char*  my_name = "plant_water_demand" ;
-
 //- Implementation Section ----------------------------------
     //!!!!!!!! check order dependency of deltas
-    push_routine (my_name);
 
     if (option == 1)
         {
@@ -2129,27 +1972,15 @@ void Plant::plant_water_demand (int option /* (INPUT) option number*/)
         throw std::invalid_argument ("invalid template option");
         }
 
-    pop_routine (my_name);
-
     }
 
 
 //+  Purpose
 //       Plant transpiration and soil water extraction
-
-//+  Mission Statement
-//     Get the plant water uptake
-
-//+  Changes
-//      250894 jngh specified and programmed
-
 void Plant::plant_water_uptake (int option /*(INPUT) option number*/)
     {
     int   layer;                                  // layer number of profile ()
     float ext_sw_supply[max_layer];
-    const char*  my_name = "plant_water_uptake" ;
-
-    push_routine (my_name);
 
     if (Str_i_Eq(rootPart->uptake_source,"apsim"))                     //FIXME - this should be in rootPart doWaterUptake
         {                                                              //FIXME - this should be in rootPart doWaterUptake
@@ -2175,8 +2006,6 @@ void Plant::plant_water_uptake (int option /*(INPUT) option number*/)
         throw std::invalid_argument ("invalid template option");
         }
 
-    pop_routine (my_name);
-
     }
 
 //===========================================================================
@@ -2185,18 +2014,6 @@ void Plant::plant_light_supply_partition (int option /*(INPUT) option number*/)
 {
 //+  Purpose
 //       light supply
-
-//+  Mission Statement
-//     Seek the light intercepted by the leaves
-
-//+  Changes
-//      5/9/96 dph
-
-//+  Constant Values
-    const char*  my_name = "plant_light_supply_partition" ;
-
-//- Implementation Section ----------------------------------
-    push_routine (my_name);
 
     if (option == 1)
     {
@@ -2225,23 +2042,14 @@ void Plant::plant_light_supply_partition (int option /*(INPUT) option number*/)
         throw std::invalid_argument ("invalid template option");
     }
 
-    pop_routine (my_name);
     }
 
 
 //+  Purpose
 //       biomass light
 
-//+  Mission Statement
-//     Biomass radiation use efficiency
-
-//+  Changes
-//      5/9/96 dph
 void Plant::plant_bio_rue (int option /*(INPUT) option number*/)
     {
-    const char*  my_name = "plant_bio_rue" ;
-
-    push_routine (my_name);
 
     if (option == 1)
         {
@@ -2252,8 +2060,6 @@ void Plant::plant_bio_rue (int option /*(INPUT) option number*/)
         {
         throw std::invalid_argument ("invalid template option");
         }
-
-    pop_routine (my_name);
 
     }
 
@@ -2330,20 +2136,10 @@ void Plant::plant_rue_co2_modifier(float co2,                 //!CO2 level (ppm)
 //       Calculate today's transpiration efficiency from min and max
 //       temperatures and converting mm water to g dry matter
 //       (g dm/m^2/mm water)
-
-//+  Mission Statement
-//     Get today's transpiration efficiency calculations
-
-//+  Changes
-//      5/9/96 dph
 void Plant::plant_transpiration_eff (int option /*(INPUT) option number*/)
     {
 
-//+  Constant Values
-    const char*  my_name = "plant_transpiration_efficiency" ;
-
 //- Implementation Section ----------------------------------
-    push_routine (my_name);
 
     if (option == 1)
         {
@@ -2354,8 +2150,6 @@ void Plant::plant_transpiration_eff (int option /*(INPUT) option number*/)
         {
         throw std::invalid_argument ("invalid template option");
         }
-
-    pop_routine (my_name);
 
     }
 
@@ -2401,12 +2195,6 @@ void Plant::plant_n_conc_limits(float  g_co2_modifier_n_conc)
 //+  Purpose
 //       Return actual plant nitrogen uptake to each plant part.
 
-//+  Mission Statement
-//     Calculate actual plant nitrogen uptake to each plant part
-
-//+  Changes
-//       080994 jngh specified and programmed
-//       150995 psc  mungbpea + fixation
 void Plant::legnew_n_partition
     (float  *g_dlayer            // (INPUT)  thickness of soil layer I (mm)
     ,float  *g_dlt_no3gsm        // (INPUT)  actual NO3 uptake from soil (g
@@ -2476,13 +2264,6 @@ void Plant::legnew_dm_retranslocate
 //     Calculate plant dry matter delta's due to retranslocation
 //     to grain, pod and energy (g/m^2)
 
-//+  Mission Statement
-//   Calculate biomass retranslocation to the yield component
-
-//+  Changes
-//       150900 jngh specified and programmed
-
-//+  Local Variables
     vector<plantPart *>::iterator part;
 
     float dlt_dm_retrans_part;                    // carbohydrate removed from part (g/m^2)
@@ -2522,15 +2303,9 @@ void Plant::legnew_dm_retranslocate
 //     Calculate the nitrogen retranslocation from the various plant parts
 //     to the grain.
 
-//+  Mission Statement
-//     Calculate N retranslocation from various plant parts to grain
-
-//+  Changes
-//       080994 jngh specified and programmed
 void Plant::legnew_n_retranslocate (float g_grain_n_demand)
 {
 //+  Constant Values
-    const char*  my_name = "legnew_n_retranslocate" ;
     const float  tolerence = 0.001 ;
 
     vector<plantPart *> allParts;
@@ -2553,7 +2328,6 @@ void Plant::legnew_n_retranslocate (float g_grain_n_demand)
     vector<plantPart*>::iterator part;            // plant part
 
 //- Implementation Section ----------------------------------
-    push_routine (my_name);
 
           //! available N does not include roots or grain
           //! this should not presume roots and grain are 0.
@@ -2616,20 +2390,11 @@ void Plant::plant_N_senescence (void)
 //       Simulate crop processes.  These include biomass production,
 //       phenological stages, plant component development,
 //       water uptake and nitrogen uptake, and plant senescense.
-
-//+  Mission Statement
-//     Performs actions for the current day
-
-//+  Changes
-//      250894 jngh specified and programmed
 void Plant::plant_process ( void )
     {
-//+  Constant Values
-    const char*  my_name = "plant_process" ;
 
 //- Implementation Section ----------------------------------
     //!!!!!!!! check order dependency of deltas
-    push_routine (my_name);
 
     plant_co2_modifier_rue ();
     plant_co2_modifier_te ();
@@ -2758,18 +2523,12 @@ void Plant::plant_process ( void )
     plant_water_stress ();
     plant_nit_stress (c.n_stress_option);
 
-    pop_routine (my_name);
     }
 
 
 //+  Purpose
 //       Set up states for dead crop
 
-//+  Mission Statement
-//     Sets up states for dead crop
-
-//+  Changes
-//      091095 jngh specified and programmed
 void Plant::plant_dead (void)
     {
 
@@ -2780,17 +2539,10 @@ void Plant::plant_dead (void)
 //       Report occurence of harvest and the current status of specific
 //       variables.
 
-//+  Mission Statement
-//     Carry out all the harvest routines
-
-//+  Changes
-//     010994 jngh specified and programmed
 
 void Plant::plant_harvest (protocol::Variant &v/*(INPUT) message variant*/)
     {
-    const char*  my_name = "plant_harvest" ;
     FString  report_flag;
-    push_routine (my_name);
 
     protocol::ApsimVariant incomingApsimVariant(parent);
     incomingApsimVariant.aliasTo(v.getMessageData());
@@ -2818,7 +2570,6 @@ void Plant::plant_harvest (protocol::Variant &v/*(INPUT) message variant*/)
         parent->warningError (msg);
         }
 
-    pop_routine (my_name);
 
     }
 
@@ -2827,21 +2578,8 @@ void Plant::plant_harvest (protocol::Variant &v/*(INPUT) message variant*/)
 //       Report occurence of harvest and the current status of specific
 //       variables.
 
-//+  Mission Statement
-//     Carry out all the harvest routines
-
-//+  Changes
-//     010994 jngh specified and programmed
 void Plant::plant_kill_stem (protocol::Variant &v/*(INPUT) incoming message variant*/)
     {
-//+  Constant Values
-    const char*  my_name = "plant_kill_stem" ;
-
-//+  Local Variables
-
-//- Implementation Section ----------------------------------
-    push_routine (my_name);
-
     if (g.plant_status != out)
         {
           plant_auto_class_change("kill_stem");
@@ -2858,30 +2596,14 @@ void Plant::plant_kill_stem (protocol::Variant &v/*(INPUT) incoming message vari
         parent->warningError (msg);
         }
 
-
-    pop_routine (my_name);
-
     }
 
 
 //+  Purpose
 //       Remove crop biomass.
 
-//+  Mission Statement
-//     Remove crop biomass
-
-//+  Changes
-//     200904 jngh specified and programmed
 void Plant::plant_remove_crop_biomass (protocol::Variant &v/*(INPUT) incoming message variant*/)
     {
-//+  Constant Values
-    const char*  my_name = "plant_remove_crop_biomass" ;
-
-//+  Local Variables
-
-//- Implementation Section ----------------------------------
-    push_routine (my_name);
-
     //plant_auto_class_change("remove_biomass");
 
     protocol::RemoveCropDmType dmRemoved;
@@ -2908,7 +2630,6 @@ void Plant::plant_remove_crop_biomass (protocol::Variant &v/*(INPUT) incoming me
 
     plant_remove_biomass_update(dmRemoved);
 
-    pop_routine (my_name);
 
     }
 
@@ -2999,16 +2720,8 @@ void Plant::plant_detach_crop_biomass (protocol::Variant &v/*(INPUT) incoming me
 //+  Purpose
 //       Report occurence of harvest and the current status of specific
 //       variables.
-
-//+  Mission Statement
-//     Carry out all the harvest routines
-
-//+  Changes
-//     010994 jngh specified and programmed
 void Plant::plant_dormancy (protocol::Variant &v/*(INPUT) incoming message variant*/)
     {
-//+  Constant Values
-    const char*  my_name = "plant_dormancy" ;
 
 //+  Local Variables
     FString  dormancy_flag;
@@ -3016,7 +2729,6 @@ void Plant::plant_dormancy (protocol::Variant &v/*(INPUT) incoming message varia
 
 //- Implementation Section ----------------------------------
 
-    push_routine (my_name);
 
     protocol::ApsimVariant incomingApsimVariant(parent);
     incomingApsimVariant.aliasTo(v.getMessageData());
@@ -3051,7 +2763,6 @@ void Plant::plant_dormancy (protocol::Variant &v/*(INPUT) incoming message varia
         throw std::invalid_argument ("dormancy state is unknown - neither on nor off");
         }
 
-    pop_routine (my_name);
 
     }
 
@@ -3059,21 +2770,8 @@ void Plant::plant_dormancy (protocol::Variant &v/*(INPUT) incoming message varia
 //+  Purpose
 //       Update states after a harvest
 
-//+  Mission Statement
-//     Update the states of variables after a harvest
-
-//+  Changes
-//      171297 nih specified and programmed
-//      160798 nih fixed bug in n_init calculation
-//      191099 jngh changed to plant_Send_Crop_Chopped_Event
-//      261099 jngh removed energy from residue components
-//      131100 jngh removed energy
-//      210201 dsg replaced unprotected divides with 'divide' function
 void Plant::plant_harvest_update (protocol::Variant &v/*(INPUT)message arguments*/)
     {
-
-//+  Constant Values
-    const char*  my_name = "plant_harvest_update" ;
 
 //+  Local Variables
     float dm_chopped;                             // dry matter added to chopped pool (kg/ha)
@@ -3101,7 +2799,6 @@ void Plant::plant_harvest_update (protocol::Variant &v/*(INPUT)message arguments
     float temp;
 
 //- Implementation Section ----------------------------------
-    push_routine (my_name);
 
     // Tell the rest of the system we are about to harvest
     sendStageMessage("harvesting");
@@ -3254,34 +2951,18 @@ void Plant::plant_harvest_update (protocol::Variant &v/*(INPUT)message arguments
         otherObservers.reset();
         }
 
-    pop_routine (my_name);
     }
 
 
 //+  Purpose
 //       Update states after a kill stem event
-
-//+  Mission Statement
-//     Update the states of variables after a sen
-
-//+  Changes
-//      171297 nih specified and programmed
-//      160798 nih fixed bug in n_init calculation
-//      191099 jngh changed to plant_Send_Crop_Chopped_Event
-//      261099 jngh removed energy from residue components
-//      131100 jngh removed energy
-//      210201 dsg replaced unprotected divides with 'divide' function
 void Plant::plant_kill_stem_update (protocol::Variant &v/*(INPUT) message arguments*/)
     {
-
-//+  Constant Values
-    const char*  my_name = "plant_kill_stem_update" ;
 
 //+  Local Variables
     float temp;
 
 //- Implementation Section ----------------------------------
-    push_routine (my_name);
 
     protocol::ApsimVariant aV(parent);
     aV.aliasTo(v.getMessageData());
@@ -3324,8 +3005,6 @@ void Plant::plant_kill_stem_update (protocol::Variant &v/*(INPUT) message argume
         }
 
 
-    pop_routine (my_name);
-
     }
 
 //NIH up to here
@@ -3333,21 +3012,8 @@ void Plant::plant_kill_stem_update (protocol::Variant &v/*(INPUT) message argume
 //+  Purpose
 //       Zero crop variables & arrays
 
-//+  Mission Statement
-//     Update the states of variables after a harvest
-
-//+  Changes
-//      171297 nih specified and programmed
-//      160798 nih fixed bug in n_init calculation
-//      191099 jngh changed to plant_Send_Crop_Chopped_Event
-//      261099 jngh removed energy from residue components
-//      131100 jngh removed energy
-//      210201 dsg replaced unprotected divides with 'divide' function
 void Plant::plant_remove_biomass_update (protocol::RemoveCropDmType dmRemoved)
     {
-
-//+  Constant Values
-    const char*  my_name = "plant_remove_biomass_update" ;
 
 //+  Local Variables
     vector<plantPart *>::iterator part;
@@ -3367,7 +3033,6 @@ void Plant::plant_remove_biomass_update (protocol::RemoveCropDmType dmRemoved)
     topsParts.push_back(fruitPart);
 
 //- Implementation Section ----------------------------------
-    push_routine (my_name);
 
     // Unpack the DmRemoved structure
      for (vector<plantPart *>::iterator part = topsParts.begin(); part != topsParts.end(); part++)
@@ -3435,34 +3100,17 @@ void Plant::plant_remove_biomass_update (protocol::RemoveCropDmType dmRemoved)
         otherObservers.reset();
         }
 
-    pop_routine (my_name);
     }
 
 
 //+  Purpose
 //       Zero crop variables & arrays
-
-//+  Mission Statement
-//     Zero all the global variables and arrays
-
-//+  Changes
-//     060495 nih taken from template
-
 void Plant::plant_zero_all_globals (void)
     {
-//+  Constant Values
-    const char*  my_name = "plant_zero_all_globals" ;
 
 //- Implementation Section ----------------------------------
 
-    push_routine (my_name);
-
-#if 0
-  memset (&g, 0xdeadbeef, sizeof(g));
-  memset (&p, 0xdeadbeef, sizeof(p));
-  memset (&c, 0xdeadbeef, sizeof(c)); //not for <x>_dm_sen_frac
-#endif
-      g.co2_modifier_te = 0.0;
+          g.co2_modifier_te = 0.0;
       g.co2_modifier_n_conc = 0.0;
       g.co2_modifier_rue = 0.0;
       g.hasreadconstants = false;
@@ -3580,28 +3228,15 @@ void Plant::plant_zero_all_globals (void)
 
       c.photosynthetic_pathway = photosynthetic_pathway_UNDEF;
 
-    pop_routine (my_name);
 
     }
 
 
 //+  Purpose
 //       Zero crop variables & arrays
-
-//+  Mission Statement
-//     Set the crop variables and arrays to zero
-
-//+  Changes
-//     010994 jngh specified and programmed
-//     090695 psc  add row spacing = 0
 void Plant::plant_zero_variables (void)
     {
-//+  Constant Values
-    const char*  my_name = "plant_zero_variables" ;
 
-//- Implementation Section ----------------------------------
-
-    push_routine (my_name);
 
 // zero pools etc.
 
@@ -3653,27 +3288,16 @@ void Plant::plant_zero_variables (void)
     g.pfact_pheno        = 1.0;
     g.pfact_grain        = 1.0;
 
-    pop_routine (my_name);
-
     }
 
 
 //+  Purpose
 //       Zero crop daily variables & arrays
-
-//+  Mission Statement
-//     Set crop daily variables & arrays to zero
-
-//+  Changes
-//     010994 jngh specified and programmed
 void Plant::plant_zero_daily_variables ()
     {
-//+  Constant Values
-    const char*  my_name = "plant_zero_daily_variables" ;
 
 //- Implementation Section ----------------------------------
 
-    push_routine (my_name);
 
 // zero pools etc.
 
@@ -3701,30 +3325,16 @@ void Plant::plant_zero_daily_variables ()
     //g.pfact_pheno        = 1.0;
     //g.pfact_grain        = 1.0;
 
-    pop_routine (my_name);
     }
 
 
 //+  Purpose
 //       Crop initialisation
 
-//+  Mission Statement
-//     Crop initialisation
-
-//+  Changes
-//     010994 jngh specified and programmed
-//     050599 sdb removed version reference
-//     011099 dph added code to get type of module.
 void Plant::plant_init (void)
     {
-//+  Constant Values
-    const char*  my_name = "plant_init" ;
-
-//+  Calls
 
 //- Implementation Section ----------------------------------
-
-    push_routine (my_name);
 
     // initialize crop variables
     plant_get_site_characteristics();
@@ -3766,27 +3376,14 @@ void Plant::plant_init (void)
 
 //+  Purpose
 //       Start crop using parameters specified in passed record
-
-//+  Mission Statement
-//     Start the crop using passed parameters
-
-//+  Changes
-//     010994 jngh specified and programmed
-//     090695 psc  add row spacing read
-//     220696 jngh changed extract to collect
 void Plant::plant_start_crop (protocol::Variant &v/*(INPUT) message arguments*/)
     {
-
-//+  Constant Values
-    const char*  my_name = "plant_start_crop" ;
 
 //+  Local Variables
     char  msg[200];                               // output string
     FString  dummy;                               // dummy variable
 
 //- Implementation Section ----------------------------------
-
-    push_routine (my_name);
 
     if (g.plant_status == out)
     {
@@ -3882,24 +3479,14 @@ void Plant::plant_start_crop (protocol::Variant &v/*(INPUT) message arguments*/)
 //        throw std::runtime_error (m.c_str());
     }
 
-    pop_routine (my_name);
     }
 
 
 /////////////////////////////////////////////////////////////////
 //+  Purpose
 //       Get cultivar parameters for named cultivar, from crop parameter file.
-
-//+  Mission Statement
-//     Get cultivar parameters for named cultivar
-
-//+  Changes
-//       090994 jngh specified and programmed
-//       270801 jngh changed hi_incr to pp effect
 void Plant::plant_read_cultivar_params ()
     {
-//+  Constant Values
-    const char*  my_name = "plant_read_cultivar_params" ;
 
 //+  Local Variables
     string s;
@@ -3907,7 +3494,6 @@ void Plant::plant_read_cultivar_params ()
 
 //- Implementation Section ----------------------------------
 
-    push_routine (my_name);
 
     parent->writeString (" - reading cultivar parameters");
 
@@ -3957,7 +3543,6 @@ XXX
 
     parent->writeString ("    ------------------------------------------------\n\n");
 
-    pop_routine (my_name);
     }
 
 void Plant::plant_read_root_params ()
@@ -3994,15 +3579,8 @@ void Plant::plant_read_root_params ()
 //+  Purpose
 //       End crop
 
-//+  Mission Statement
-//     End the crop
-
-//+  Changes
-//       290994 jngh specified and programmed
-//      191099 jngh changed to plant_Send_Crop_Chopped_Event
 void Plant::plant_end_crop ()
     {
-    const char*  my_name = "plant_end_crop" ;
 
     float dm_residue;                             // dry matter added to residue (g/m^2)
     float n_residue;                              // nitrogen added to residue (g/m^2)
@@ -4012,8 +3590,6 @@ void Plant::plant_end_crop ()
     float p_root;                                 // phosphorus added to soil (g/m^2)
     char  msg[400];
     float yield;                                  // grain wt (kg/ha)
-
-    push_routine (my_name);
 
     if (g.plant_status != out)
         {
@@ -4095,29 +3671,14 @@ void Plant::plant_end_crop ()
         parent->warningError (msg);
         }
 
-    pop_routine (my_name);
     }
 
 
 //+  Purpose
 //       Kill crop
 
-//+  Mission Statement
-//     Kill the crop
-
-//+  Changes
-//       151102 jngh specified and programmed
-
 void Plant::plant_kill_crop_action (protocol::Variant &mVar)
     {
-//+  Constant Values
-    const char*  my_name = "plant_kill_crop_action" ;
-
-//+  Local Variables
-
-//- Implementation Section ----------------------------------
-
-    push_routine (my_name);
 
     if (g.plant_status != out)
         {
@@ -4143,18 +3704,11 @@ void Plant::plant_kill_crop_action (protocol::Variant &mVar)
         parent->warningError (msg);
         }
 
-    pop_routine (my_name);
     }
 
 
 //+  Purpose
 //       Stores a value in an annual circular array
-
-//+  Mission Statement
-//     Stores a value in an array
-
-//+  Changes
-//     230695 jngh specified and programmed
 void Plant::plant_store_value (
      int    g_day_of_year        // (INPUT)  day of year
     ,int    g_year               // (INPUT)  year
@@ -4162,14 +3716,9 @@ void Plant::plant_store_value (
     ,float  value                // (INPUT) value to be stored
     ) {
 
-//+  Constant Values
-    const char*  my_name = "plant_store_value" ;
-
 //- Implementation Section ----------------------------------
 
-    push_routine (my_name);
-
-    array[g_day_of_year] = value;
+        array[g_day_of_year] = value;
 
     if (g_day_of_year==365 && leap_year (g_year - 1))
         {
@@ -4178,36 +3727,19 @@ void Plant::plant_store_value (
     else
         {
         }
-    pop_routine (my_name);
     }
 
 
 //+  Purpose
 //      Get the values of variables/arrays from other modules.
-
-//+  Mission Statement
-//     Gets the values of variables/arrays from other modules
-
-//+  Assumptions
-//      assumes variable has the following format
-//         <variable_name> = <variable_value/s> (<units>)
-
-//+  Changes
-//     010994 jngh specified and programmed
-//     220696 jngh optimised order of gets
-//     140896 jngh modified fr_intc_radn name to inclued a suffix of module name
-//     010998 sb Used min_year and max_year instead of consts from ini file.
-//     191200 jngh changed soil_temp to maxt_soil_surface
 void Plant::plant_get_other_variables ()
     {
-    const char*  my_name = "plant_get_other_variables" ;
     std::vector<float> values;               // Scratch area
 
     float soil_temp;                              // soil surface temperature (oC)
 
 //- Implementation Section ----------------------------------
 
-    push_routine (my_name);
 
     // Parasite assimilate demand
     if (id.parasite_c_demand != 0)
@@ -4279,7 +3811,6 @@ void Plant::plant_get_other_variables ()
     //Environment.num_layers = count_of_real_vals(g.dlayer, max_layer);
     //Environment.dlayer = vector<float>(g.dlayer, g.dlayer + Environment.num_layers);
 
-    pop_routine (my_name);
     }
 
 // SWIM
@@ -4333,22 +3864,11 @@ void Plant::plant_get_ext_uptakes (const char *uptake_source,        //(INPUT) u
 
 //+  Purpose
 //      Set the value of a variable or array in other module/s.
-
-//+  Mission Statement
-//     Set the value of a variable or array in other modules
-
 //+  Notes
 //      a flag is set if any of the totals is requested.  The totals are
 //      reset during the next process phase when this happens.
-
-//+  Changes
-//     010994 jngh specified and programmed
-//     240696 jngh changed set_ to post_ construct
-//     011100 dph  change post_ back to set_ construct
 void Plant::plant_set_other_variables ()
     {
-//+  Constant Values
-    const char*  my_name = "plant_set_other_variables" ;
 
 //+  Local Variables
     float scratch[max_layer];                     // soil NO3 change (kg/ha)
@@ -4357,7 +3877,6 @@ void Plant::plant_set_other_variables ()
 
 //- Implementation Section ----------------------------------
 
-    push_routine (my_name);
 
     plant_update_other_variables ();
 
@@ -4382,7 +3901,6 @@ void Plant::plant_set_other_variables ()
         // no need to send updates
         }
 
-    pop_routine (my_name);
     }
 
 
@@ -4447,27 +3965,14 @@ void Plant::plant_update_other_variables (void)
 
 //+  Purpose
 //       Crop initialisation - reads constants from constants file
-
-//+  Mission Statement
-//     Read in the constants for plant
-
-//+  Changes
-//     010994 jngh specified and programmed
-//     070495 psc added extra constants (leaf_app etc.)
-//     110695 psc added soil temp effects on plant establishment
-//     250996 jngh corrected type of lower limit of parent->readParameter
-//     010998 sb removed year upper and lower bounds.
 void Plant::plant_read_constants ( void )
     {
 
 //+  Constant Values
-    const char*  my_name = "plant_read_constants" ;
     const char*  section_name = "constants" ;
 
 
 //- Implementation Section ----------------------------------
-
-    push_routine (my_name);
 
     // call write_string (new_line            //"    - reading constants");
 
@@ -4525,7 +4030,6 @@ void Plant::plant_read_constants ( void )
        read_p_constants(parent);
 
     g.hasreadconstants = true;
-    pop_routine (my_name);
     }
 
 
@@ -4534,19 +4038,8 @@ void Plant::plant_read_constants ( void )
 //     the standard APSim timestep.  This model uses this opportunity
 //     to calculate potential growth variables for the coming day
 //     and phenological development.
-
-//+  Mission Statement
-//     Perform preparatory calculations for the next timestep
-
-//+  Changes
-//     21-08-1997 - huth - Programmed and Specified
 void Plant::plant_prepare (void)
     {
-//+  Constant Values
-    const char*  myname = "plant_prepare" ;
-
-//- Implementation Section ----------------------------------
-    push_routine (myname);
 
     plant_co2_modifier_rue ();
     plant_co2_modifier_te ();
@@ -4567,7 +4060,6 @@ void Plant::plant_prepare (void)
     // potential growth rather than just tops - NIH
     prepare_p();
 
-    pop_routine (myname);
     }
 
 void Plant::registerClassActions(void)
@@ -4601,24 +4093,13 @@ void Plant::registerClassActions(void)
 
 //+  Purpose
 //       Species initialisation - reads constants from constants file
-
-//+  Mission Statement
-//     Species initialisation - reads constants from constants file
-
-//+  Changes
-//     25-11-1997 neilh adapted from old template approach
 void Plant::plant_read_species_const ()
     {
-
-//+  Constant Values
-    const char*  my_name = "plant_read_species_const" ;
 
 //+  Local Variables
     int   numvals;                                // number of values returned
     vector<string> search_order;                  // sections to search
 //- Implementation Section ----------------------------------
-
-    push_routine (my_name);
 
     string scratch = parent->readParameter (c.crop_type.c_str(), g.crop_class.c_str());
     Split_string(scratch, " ", search_order);
@@ -4860,23 +4341,16 @@ void Plant::plant_read_species_const ()
     }
     printf("photosynthetic_pathway =%d\n", c.photosynthetic_pathway);
 
-    pop_routine (my_name);
     }
 
 
 //+  Purpose
 //       Report occurence of harvest and the current status of specific
 //       variables.
-
-//+  Mission Statement
-//     Report occurance of harvest and the current status of specific variables
-
-//+  Changes
-//     1712997 nih specified and programmed
 void Plant::plant_harvest_report ()
     {
 //+  Constant Values
-    const char*  my_name = "plant_harvest_report" ;
+
     const float  plant_c_frac = 0.4;    // fraction of c in resiudes
 
 
@@ -4895,7 +4369,7 @@ void Plant::plant_harvest_report ()
     float yield_wet;                              // grain yield including moisture (kg/ha)
 
     //- Implementation Section ----------------------------------
-    push_routine (my_name);
+
 
     // crop harvested. Report status
 
@@ -5013,24 +4487,16 @@ void Plant::plant_harvest_report ()
     parent->writeString (g.averageStressMessage.c_str());
     g.averageStressMessage = "";
 
-    pop_routine (my_name);
     }
 
 
 //+  Purpose
 //     Changes crop class automatically
-
-//+  Mission Statement
-//     Changes crop class automatically
-
-//+  Changes
-//     10-02-1998 - unknown - Programmed and Specified
 bool  Plant::plant_auto_class_change (const char *action)
    {
-    const char*  myname = "plant_auto_class_change" ;
 
     //- Implementation Section ----------------------------------
-    push_routine (myname);
+
 
     vector<string>::iterator i = find(c.class_action.begin(), c.class_action.end(),
                                       action);
@@ -5052,13 +4518,6 @@ bool  Plant::plant_auto_class_change (const char *action)
 
 //+  Purpose
 //     Notify other modules of crop chopped.
-
-//+  Mission Statement
-//     Notify other modules of crop chopped.
-
-//+  Changes
-//   070999 jngh - Programmed and Specified
-//   190901 jngh - corrected dm_type to array
 void Plant::plant_send_crop_chopped_event (const string&  crop_type             // (INPUT) crop type
                                            ,vector<string> &dm_type             // (INPUT) residue type
                                            ,vector<float>  &dlt_crop_dm         // (INPUT) residue weight (kg/ha)
@@ -5066,10 +4525,6 @@ void Plant::plant_send_crop_chopped_event (const string&  crop_type             
                                            ,vector<float>  &dlt_dm_p            // (INPUT) residue P weight (kg/ha)
                                            ,vector<float>  &fraction_to_residue) // (INPUT) fraction going to residue
 {
-//+  Constant Values
-    const char*  myname = "plant_send_crop_chopped_event" ;
-//- Implementation Section ----------------------------------
-    push_routine (myname);
 
     if (dm_type.size() != dlt_crop_dm.size() ||
         dm_type.size() != dlt_dm_n.size() ||
@@ -5115,54 +4570,23 @@ void Plant::plant_send_crop_chopped_event (const string&  crop_type             
     outgoingApsimVariant.store("fraction_to_residue", protocol::DTsingle, true, fraction_to_residue);
     parent->publish (id.crop_chopped, outgoingApsimVariant);
 #endif
-    pop_routine (myname);
     }
 
 
 //+  Purpose
 //     Update internal soil layer structure with new data
-
-//+  Mission Statement
-//     Update internal soil layer structure with new data
-
-//+  Changes
-//        150600 nih
-void Plant::doNewProfile(unsigned &, unsigned &, protocol::Variant &v /* (INPUT) message arguments*/)
+void Plant::onNewProfile(unsigned &, unsigned &, protocol::Variant &v /* (INPUT) message arguments*/)
     {
-
-//+  Local Variables
-
-//+  Constant Values
-    const char*  myname = "doNewProfile" ;
-
-//- Implementation Section ----------------------------------
-    push_routine (myname);
-    rootPart->doNewProfile(v);
-    pop_routine (myname);
+    rootPart->onNewProfile(v);
     }
 
 
 //+  Purpose
 //      Get the values of site characteristics (that will not change
 //      during the simulation.
-
-//+  Mission Statement
-//     Get the geographic attributes of the site
-
-//+  Changes
-//     200600 nih specified and programmed
 void Plant::plant_get_site_characteristics ()
     {
-//+  Constant Values
-    const char*  my_name = "plant_get_site_characteristics" ;
-
-//- Implementation Section ----------------------------------
-
-    push_routine (my_name);
-
     parent->getVariable(id.latitude, Environment.latitude, c.latitude_lb, c.latitude_ub);
-
-    pop_routine (my_name);
     }
 
 

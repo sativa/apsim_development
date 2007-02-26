@@ -111,7 +111,7 @@ class plantRootPart : public plantPart
       void DoIDs(protocol::Component *system);
 
       float oxdef_stress ();
-      void doNewProfile(protocol::Variant &v);
+      void onNewProfile(protocol::Variant &v);
 
    private:
 
