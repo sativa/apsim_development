@@ -85,11 +85,6 @@
       <field name="ddml" kind="string"/>
    </type>
 
-   <type name="Summary">
-      <field name="name" kind="string"/>
-      <field name="msg" kind="string"/>
-   </type>
-
    <!--   !!!!! Layered type !!!!!! -->
    <type name="Layered" description="Layered soil data">
       <field name="layer" kind="double" array="T"/>

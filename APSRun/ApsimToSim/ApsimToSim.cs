@@ -104,6 +104,9 @@ namespace ApsimToSim
 					string ModuleType = ApsimToSim.get_ChildValue("type");
                     string ComponentInterfaceType = ApsimToSim.get_ChildValue("componentinterface");
                     APSIMData ini = Component.Child("ini");
+                    // This ini bit is wrong. Its broken when:
+                    // a) user has an ini object not called "ini"
+                    // b) user has more than one ini object.
                     string ModuleINI = "";
                     if (ini != null)
                         {

@@ -4,8 +4,10 @@
 #include <limits.h>
 
 #include <string>
-#include <iostream>
+#include <sstream>
 #include <fstream>
+#include <iostream>
+#include <iomanip>
 #include <boost/lexical_cast.hpp>
 
 #include <ApsimShared/FStringExt.h>
@@ -47,11 +49,12 @@ Component::Component(void)
    dllName = NULL;
    componentData = NULL;
    name = NULL;
-   beforeInit2 = true;
+   beforeInit2 = true;  
+   beforeCommence = true;
    tick.startday = 0;
    initMessages();
    component = this;
-   haveWritenToStdOutToday = false;
+   haveWrittenToStdOutToday = false;
    sendTickToComponent = false;
    }
 
@@ -158,6 +161,7 @@ try {
                                  break;}
       case Init2:               {beforeInit2 = false;
                                  doInit2();
+                                 beforeCommence = false;
                                  break;}
       case Commence:            {doCommence();
                                  break;}
@@ -167,7 +171,7 @@ try {
                                     {
                                     eventData.params.unpack(tick);
                                     eventData.params.getMessageData().reset();
-                                    haveWritenToStdOutToday = false;
+                                    haveWrittenToStdOutToday = false;
                                     if (sendTickToComponent)
                                        respondToEvent(eventData.publishedByID, eventData.ID, eventData.params);
                                     }
@@ -545,7 +549,7 @@ void Component::error(const FString& msg, bool isFatal)
    strcat(cMessage, name);
    strcat(cMessage, "\n!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!\n\n");
 
-   writeToStdOut(cMessage);
+   writeString(cMessage);
 
    // create and send a message.
    Message* errorMessage = newPublishEventMessage(componentID,
@@ -777,48 +781,43 @@ namespace protocol {
       }
    };
 
-void Component::writeToStdOut(const FString& st)
+void Component::writeString(const FString& lines)
    {
-   if (!haveWritenToStdOutToday)
+   if (!haveWrittenToStdOutToday)
       {
-      if (tick.startday > 0)
+      if (beforeCommence)
+         {
+         cout << endl;
+         cout << "------- " << name << " Initialisation ";
+         cout.width(79-24-strlen(name));
+         cout.fill('-');
+         cout << '-' << endl;
+         cout.fill(' ');
+         }
+      else
          {
          GDate Today;
          Today.Set(tick.startday);
-         Today.Write(std::cout);
+         Today.Set_write_format("D MMMMMM YYYY");
+         Today.Write(cout);
+         cout << "(Day of year=" << Today.Get_day_of_year() << ")";
+         cout << ", " << name << ": " << endl;
          }
-      else
-         std::cout << "Initialising";
-
-      std::cout << ": " << name << " \n";
-      haveWritenToStdOutToday = true;
+      haveWrittenToStdOutToday = true;
       }
 
-   string text = "      " + asString(st);
-   unsigned posEoln = 0;
-   while ((posEoln = text.find('\n', posEoln)) != string::npos)
+   // write out the lines.
+   unsigned posStart = 0;
+   unsigned posCR;
+   do
       {
-      posEoln++;
-      text.insert(posEoln, "      ");
+      posCR = lines.find("\n", posStart);
+      if (posCR == FString::npos)
+         posCR = lines.length();
+      std::cout << "     " << asString(lines.substr(posStart, posCR-posStart)) << endl;
+      posStart = posCR + 1;
       }
-   std::cout << text << "\n";
-   }
-
-void Component::writeString(const FString& st)
-   {
-   if (st.find("Date:") != FString::npos)
-      std::cout << asString(st) << "\n";
-   else
-      {
-      writeToStdOut(st);
-      protocol::SummaryData summaryData(name, st);
-
-      sendMessage(newPublishEventMessage(componentID,
-                                         parentID,
-                                         summaryID,
-                                         SUMMARY_FILE_WRITE_TYPE,
-                                         summaryData));
-      }
+   while (posCR < lines.length());
    }
 
 // ------------------------------------------------------------------

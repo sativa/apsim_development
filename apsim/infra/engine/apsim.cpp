@@ -32,6 +32,18 @@ int main(int argc, char **argv) {
 
       if (argc == 2)
          {
+         const char* Banner  = "     ###     ######     #####   #   #     #   \n"
+                               "    #   #    #     #   #        #   ##   ##   \n"
+                               "   #     #   #     #   #        #   ##   ##   \n"
+                               "   #######   ######     #####   #   # # # #   \n"
+                               "   #     #   #              #   #   #  #  #   \n"
+                               "   #     #   #         #####    #   #  #  #   \n"
+                               "                                              \n"
+                               "                                              \n"
+                               " The Agricultural Production Systems Simulator\n"
+                               "             Copyright(c) APSRU               \n\n";
+         cout << Banner;
+
          chdir(fileDirName(argv[1]).c_str());
          simulation.go(argv[1]);
          }

@@ -1,5 +1,7 @@
 #pragma hdrstop
 
+#include <iostream>
+
 #include "CMPComponentInterface.h"
 #include <ComponentInterface2/datatypes.h>
 #include <ComponentInterface2/CMPData.h>
@@ -309,10 +311,7 @@ void CMPComponentInterface::write(const std::string& msg)
    // write a message to the summary stream.
    // -----------------------------------------------------------------------
 
-   Summary summary;
-   summary.name = name;
-   summary.msg = msg;
-   publish("SummaryFileWrite", new CMPType<Summary> (summary));
+   cout <<  msg;
    }
 
 
