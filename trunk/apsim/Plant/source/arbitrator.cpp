@@ -8,10 +8,11 @@
 #include "PlantLibrary.h"
 #include "Plant.h"
 #include "PlantPart.h"
-#include "LeafPart.h"
+#include "Leaf/LeafPart.h"
 #include "arbitrator.h"
 
 Arbitrator* constructArbitrator(plantInterface *p, const string &type)
+//=======================================================================================
    {
    Arbitrator *object;
    if (type == "")
@@ -29,12 +30,14 @@ Arbitrator* constructArbitrator(plantInterface *p, const string &type)
    }
 
 void genericArbitrator::zeroAllGlobals(void)
+//=======================================================================================
    {
    fill_real_array (frac_leaf,0.0,max_table);
    fill_real_array (ratio_root_shoot, 0.0, max_table);
    }
 
 void genericArbitrator::readSpeciesParameters(protocol::Component *system, vector<string> &sections)
+//=======================================================================================
    {
    int numvals;
    system->readParameter (sections
@@ -53,6 +56,7 @@ void genericArbitrator::partitionDM(float dlt_dm,
                                     plantLeafPart *leafPart,
                                     plantPart *stemPart,
                                     plantPart *fruitPart)
+//=======================================================================================
    //  Partitions new dm (assimilate) between plant components (g/m^2)
    // Root must be satisfied. The roots don't take any of the
    // carbohydrate produced - that is for tops only.  Here we assume
@@ -121,12 +125,14 @@ void genericArbitrator::partitionDM(float dlt_dm,
    }
 
 float genericArbitrator::dltDMWhole(float dlt_dm)
+//=======================================================================================
    {
    return ((1.0 + ratio_root_shoot[(int)plant->getStageNumber()-1]) * dlt_dm);
    }
 
 ////////////////End generic parts
 void cerealArbitrator::zeroAllGlobals(void)
+//=======================================================================================
    {
    fill_real_array (x_stage_no_partition, 0.0, max_table);
    fill_real_array (y_frac_leaf, 0.0, max_table);
@@ -135,6 +141,7 @@ void cerealArbitrator::zeroAllGlobals(void)
    }
 
 void cerealArbitrator::readSpeciesParameters(protocol::Component *system, vector<string> &sections)
+//=======================================================================================
    {
    int numvals;
    system->readParameter (sections
@@ -158,6 +165,7 @@ void cerealArbitrator::partitionDM(float dlt_dm,
                                     plantLeafPart *leafPart,
                                     plantPart *stemPart,
                                     plantPart *fruitPart)
+//=======================================================================================
    // Parcel out dlt DM to all parts
    // Root must be satisfied. The roots don't take any of the
    // carbohydrate produced - that is for tops only.  Here we assume
@@ -237,6 +245,7 @@ void cerealArbitrator::partitionDM(float dlt_dm,
 }
 
 float cerealArbitrator::dltDMWhole(float dlt_dm)
+//=======================================================================================
    {
    return ((1.0 + linear_interp_real(plant->getStageNumber()
                                           ,x_stage_no_partition
@@ -246,20 +255,24 @@ float cerealArbitrator::dltDMWhole(float dlt_dm)
 
 //////////allometricArbitrator
 void allometricArbitrator::zeroAllGlobals(void)
+//=======================================================================================
    {
    SLAmin  = 0.0;
    }
 
 void allometricArbitrator::doRegistrations(protocol::Component *system)
-{
+//=======================================================================================
+   {
    Arbitrator::doRegistrations(system);
    system->addGettableVar("SLAcalc", SLAcalc, "mm^2/g", "SLA of new leaf dm");
-}
+   }
 void allometricArbitrator::undoRegistrations(protocol::Component *system)
+//=======================================================================================
    {
    system->removeGettableVar("SLAcalc");
    }
 void allometricArbitrator::readSpeciesParameters(protocol::Component *system, vector<string> &sections)
+//=======================================================================================
    {
    ratio_stem_leaf.search(system, sections,
                 "x_frac_leaf_stage", "(oCd)", 0.0, 5000.0,
@@ -283,6 +296,7 @@ void allometricArbitrator::partitionDM(float dlt_dm,
                                     plantLeafPart *leafPart,
                                     plantPart *stemPart,
                                     plantPart *fruitPart)
+//=======================================================================================
    // Parcel out dlt DM to all parts
    // Root must be satisfied. The roots don't take any of the
    // carbohydrate produced - that is for tops only.  Here we assume
@@ -380,6 +394,7 @@ void allometricArbitrator::partitionDM(float dlt_dm,
       }
 }
 float allometricArbitrator::dltDMWhole(float dlt_dm)
+//=======================================================================================
    {
    return ((1.0 + ratio_root_shoot[plant->getStageNumber()]) * dlt_dm);
    }
