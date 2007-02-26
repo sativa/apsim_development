@@ -143,6 +143,9 @@ void plantRootPart::zeroSoil(void)
 
       sw_lb = 0.0;
       sw_ub = 0.0;
+      xf.clear();
+      //for (unsigned int layer = 1; layer != max_layer; layer++)
+      //xf.push_back(0.0);
 
    }
 
@@ -183,6 +186,12 @@ void plantRootPart::doRegistrations(protocol::Component *system)
 
    setupGetFunction(system, "rld", protocol::DTsingle, true,
                     &plantRootPart::get_rlv, "mm/mm^3", "Root length density");
+
+   setupGetFunction(system, "kl", protocol::DTsingle, true,
+                    &plantRootPart::get_kl, "", "Root Water Uptake Parameter");
+
+   setupGetFunction(system, "xf", protocol::DTsingle, true,
+                    &plantRootPart::get_xf, "", "Root Exploration Factor");
 
    incorp_fom_ID = plant->getComponent()->addRegistration(RegistrationType::event,
                                                           "incorp_fom", IncorpFOMType,
@@ -885,6 +894,16 @@ void plantRootPart::get_root_length_dead(protocol::Component *system, protocol::
     system->sendVariable(qd, protocol::vector<float>(root_length_dead, root_length_dead+num_layers));
 }
 
+void plantRootPart::get_kl(protocol::Component *system, protocol::QueryValueData &qd)
+{
+    system->sendVariable(qd, protocol::vector<float>(kl,kl+num_layers));
+}
+
+void plantRootPart::get_xf(protocol::Component *system, protocol::QueryValueData &qd)
+{
+    system->sendVariable(qd, xf);
+}
+
 void rootGrowthOption1::root_length_growth (void)
 //============================================================================
 //  (was cproc_root_length_growth1)
@@ -1157,6 +1176,10 @@ void plantRootPart::doNewProfile(protocol::Variant &v)
 
     for (unsigned layer = 0; layer != scratch.size(); layer++)
        dlayer[layer] = scratch[layer];
+
+    if (xf.size()==0)
+       for (unsigned layer = 0; layer != scratch.size(); layer++)
+          xf.push_back(0.0);
 
 
     av.get("ll15_dep", protocol::DTsingle, true, scratch);

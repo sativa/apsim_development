@@ -139,6 +139,8 @@ class plantRootPart : public plantPart
       void get_rlv(protocol::Component *system, protocol::QueryValueData &qd);
       void get_root_length(protocol::Component *system, protocol::QueryValueData &qd);
       void get_root_length_dead(protocol::Component *system, protocol::QueryValueData &qd);
+      void get_kl(protocol::Component *system, protocol::QueryValueData &qd);
+      void get_xf(protocol::Component *system, protocol::QueryValueData &qd);
 
       float root_proportion(int layer);
       void root_dist(float root_sum, vector<float> &root_array);
