@@ -140,7 +140,7 @@ Public Class GenericUI
             End If
 
             Grid.RowCount = 0
-            Grid.RowCount = 100
+            Grid.RowCount = 1000
             PropertyData.Clear()
             Dim Row As Integer = 0
             If Controller.Data.Children("category").Length > 0 Then
