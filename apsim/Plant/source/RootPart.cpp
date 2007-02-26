@@ -55,6 +55,8 @@ static const char* floatArrayType =   "<type kind=\"single\" array=\"T\"/>";
 
 plantRootPart::plantRootPart(plantInterface *p, const string &name)
    : plantPart(p, name)
+//=======================================================================================
+// Constructor
    {
    sw_dep_id = 0;
    dlt_sw_dep_id = 0;
@@ -65,6 +67,8 @@ plantRootPart::plantRootPart(plantInterface *p, const string &name)
    }
 
 plantRootPart* constructRootPart(plantInterface *p, const string &type, const string &name)
+//=======================================================================================
+// Setup correct root model for user-defined type
    {
    if (type == "Jones+RitchieGrowthPattern")
      return new rootGrowthOption2(p, name);
@@ -75,6 +79,7 @@ plantRootPart* constructRootPart(plantInterface *p, const string &type, const st
 
 void plantRootPart::zeroAllGlobals(void)
 //=======================================================================================
+// Zero all global values
    {
    plantPart::zeroAllGlobals();
    root_depth            = 0.0;
@@ -129,6 +134,8 @@ void plantRootPart::zeroAllGlobals(void)
    }
 
 void plantRootPart::zeroSoil(void)
+//=======================================================================================
+// Zero all Soil variables
    {
       fill_real_array (dlayer , 0.0, max_layer);
       fill_real_array (ll15_dep , 0.0, max_layer);
@@ -151,6 +158,7 @@ void plantRootPart::zeroSoil(void)
 
 void plantRootPart::zeroDeltas(void)
 //=======================================================================================
+// Zero all daily deltas
    {
    plantPart::zeroDeltas();
    dltRootDepth = 0.0;
@@ -169,6 +177,7 @@ void plantRootPart::zeroDeltas(void)
 
 void plantRootPart::doRegistrations(protocol::Component *system)
 //=======================================================================================
+// Register data with the communications protocol
    {
    plantPart::doRegistrations(system);
    system->addGettableVar("root_depth",
@@ -198,8 +207,9 @@ void plantRootPart::doRegistrations(protocol::Component *system)
                                                           "", "");
    }
 
-// Read Constants
 void plantRootPart::readConstants (protocol::Component *system, const string &section)
+//=======================================================================================
+// Read Constants
 {
     plantPart::readConstants(system, section);
 
@@ -211,6 +221,7 @@ void plantRootPart::readConstants (protocol::Component *system, const string &se
 
 void plantRootPart::readSpeciesParameters(protocol::Component *system, vector<string> &sections)
 //=======================================================================================
+// Read species-specific parameters
     {
     plantPart::readSpeciesParameters(system, sections);
 
@@ -335,6 +346,8 @@ void plantRootPart::readSpeciesParameters(protocol::Component *system, vector<st
 
 
 void plantRootPart::readRootParameters(protocol::Component *system, const char *section_name)
+//=======================================================================================
+// Read Rooting parameters
    {
     vector<float> ll ;   // lower limit of plant-extractable
                          // soil water for soil layer l
@@ -411,6 +424,8 @@ void plantRootPart::readRootParameters(protocol::Component *system, const char *
    }
 
 void plantRootPart::onSowing(void)
+//=======================================================================================
+// Sowing Event Handler
    {
    int n = num_layers;
    dltRootLength.clear(); dltRootLength.resize(n);
@@ -419,6 +434,8 @@ void plantRootPart::onSowing(void)
    }
 
 void plantRootPart::onGermination(void)
+//=======================================================================================
+// Germination Event Handler
    {
    plantPart::onGermination();
    root_depth = initialRootDepth;
@@ -450,12 +467,14 @@ void plantRootPart::onEmergence(void)
 
 void plantRootPart::onFlowering(void)
 //=======================================================================================
+// Flowering Event Handler
    {
    DMPlantMin = 0.0; //override default implementation
    }
 
 void plantRootPart::onStartGrainFill(void)
 //=======================================================================================
+// Start of Grain Filling Event Handler
    {
    DMPlantMin = 0.0;
    }
@@ -467,6 +486,7 @@ void plantRootPart::onHarvest(float /*cutting_height*/, float /* remove_fr*/,
                               vector<float> &dlt_dm_p,
                               vector<float> &fraction_to_residue)
 //=======================================================================================
+// Harvesting Event Handler
    {
    // Push dead fraction into senesced pool
    float dlt_dm_die = DMGreen * rootDieBackFraction;
@@ -492,6 +512,7 @@ void plantRootPart::onHarvest(float /*cutting_height*/, float /* remove_fr*/,
 
 void plantRootPart::onKillStem(void)
 //=======================================================================================
+// Kill Stem Event Handler
    {
    // Calculate Root Die Back
    float dlt_dm_sen = DMGreen * rootDieBackFraction;
@@ -511,8 +532,7 @@ void plantRootPart::onKillStem(void)
 
 void plantRootPart::plant_root_depth (void)
 //=======================================================================================
-// Plant root distribution in the soil
-//   Was cproc_root_depth2
+//  Calculate change in plant rooting depth
    {
    const environment_t *e = plant->getEnvironment();
    //Temperature factor
@@ -572,6 +592,8 @@ void plantRootPart::plant_root_depth (void)
    }
 
 void plantRootPart::update(void)
+//=======================================================================================
+// Update Daily State
    {
    plantPart::update();
    root_depth += dltRootDepth;
@@ -608,10 +630,8 @@ void plantRootPart::sen_length(void)
 
 void plantRootPart::root_dist(float root_sum, vector<float> &root_array)           //(INPUT) Material to be distributed
 //=========================================================================
-//  Purpose
 //       Distribute root material over profile based upon root
 //       length distribution.
-//
    {
    // distribute roots over profile to root_depth
    int deepest_layer = find_layer_no (root_depth);
@@ -623,10 +643,8 @@ void plantRootPart::root_dist(float root_sum, vector<float> &root_array)        
 
 void plantRootPart::root_dist_dead(float root_sum, vector<float> &root_array)      //(INPUT) Material to be distributed
 //=========================================================================
-//  Purpose
 //       Distribute root material over profile based upon dead root
 //       length distribution.
-//
    {
    // distribute roots over profile to root_depth
    int deepest_layer = find_layer_no (root_depth);
@@ -875,11 +893,15 @@ void plantRootPart::redistribute(const vector<float> &dlayer_old,        //  old
    }
 
 void plantRootPart::get_root_length(protocol::Component *system, protocol::QueryValueData &qd)
+//=======================================================================================
+// Getter Function for root length
 {
     system->sendVariable(qd, protocol::vector<float>(root_length,root_length+num_layers));
 }
 
 void plantRootPart::get_rlv(protocol::Component *system, protocol::QueryValueData &qd)
+//=======================================================================================
+// Getter Function for Root Length Volume
 {
     float rlv[max_layer];
     for (int layer = 0; layer < num_layers; layer++)
@@ -890,16 +912,22 @@ void plantRootPart::get_rlv(protocol::Component *system, protocol::QueryValueDat
 }
 
 void plantRootPart::get_root_length_dead(protocol::Component *system, protocol::QueryValueData &qd)
+//=======================================================================================
+// Getter Function for dead plant root length
 {
     system->sendVariable(qd, protocol::vector<float>(root_length_dead, root_length_dead+num_layers));
 }
 
 void plantRootPart::get_kl(protocol::Component *system, protocol::QueryValueData &qd)
+//=======================================================================================
+// Getter Function for KL
 {
     system->sendVariable(qd, protocol::vector<float>(kl,kl+num_layers));
 }
 
 void plantRootPart::get_xf(protocol::Component *system, protocol::QueryValueData &qd)
+//=======================================================================================
+// Getter Function of XF
 {
     system->sendVariable(qd, xf);
 }
@@ -1024,6 +1052,8 @@ void rootGrowthOption2::root_length_growth (void)
 
 
 void rootGrowthOption2::readSpeciesParameters(protocol::Component *system, vector<string> &sections)
+//=======================================================================================
+// Read Species-specific Parameters
    {
    plantRootPart::readSpeciesParameters(system, sections);
    system->readParameter (sections, "root_distribution_pattern",
@@ -1033,6 +1063,8 @@ void rootGrowthOption2::readSpeciesParameters(protocol::Component *system, vecto
    }
 
 void plantRootPart::checkBounds(void)
+//=======================================================================================
+// Check for data outside of realistic bounds
    {
    if (root_depth < 0)
      throw std::runtime_error(c.name + " depth is negative! (" + ftoa(root_depth,".4") +")");
@@ -1046,6 +1078,8 @@ void plantRootPart::checkBounds(void)
    }
 
 void plantRootPart::getOtherVariables (protocol::Component *system)
+//=======================================================================================
+// Get data from other modules as required
    {
     std::vector<float> values;               // Scratch area
     system->getVariable(sw_dep_id, values, sw_dep_lb, sw_dep_ub);
@@ -1054,6 +1088,8 @@ void plantRootPart::getOtherVariables (protocol::Component *system)
 
    }
 void plantRootPart::CalcWaterSupply ()
+//=======================================================================================
+// Calculate today's daily water supply from this root system
    {
               cproc_sw_supply1 (plant
                           ,sw_lb
@@ -1067,18 +1103,22 @@ void plantRootPart::CalcWaterSupply ()
                           ,sw_avail_pot
                           ,sw_supply);
 
-
    }
 
 float plantRootPart::waterUptake (void)
+//=======================================================================================
+// Return the total daily water uptake from this root system
    {
    return (- sum_real_array(dlt_sw_dep, max_layer));;
    }
 
 void plantRootPart::doWaterUptake (float sw_demand)
+//=======================================================================================
+// Calculate todays daily water uptake by this root system
    {
    cproc_sw_uptake1(max_layer, dlayer, root_depth, sw_demand, sw_supply, dlt_sw_dep);
    }
+
 void plantRootPart::plant_water_stress (
                                        float sw_demand,
                                        float& swdef_photo,
@@ -1119,6 +1159,8 @@ void plantRootPart::plant_water_stress (
     }
 
 float plantRootPart::oxdef_stress ()
+//=======================================================================================
+// Calculate today's oxygen deficit (i.e. water logging) stress factor
     {
         float stress;
 
@@ -1136,6 +1178,8 @@ float plantRootPart::oxdef_stress ()
     }
 
 void plantRootPart::removeBiomass2(float chop_fr)
+//=======================================================================================
+// Remove biomass from the root system due to senescence or plant death
    {
    float dlt_dm_die = DMGreen * rootDieBackFraction * chop_fr;
    DMSenesced += dlt_dm_die;
@@ -1156,9 +1200,10 @@ void plantRootPart::removeBiomass2(float chop_fr)
 
    }
 
-void plantRootPart::doNewProfile(protocol::Variant &v)
+void plantRootPart::onNewProfile(protocol::Variant &v)
+//=======================================================================================
+// Handler for OnNewProfile event
     {
-
 
     float profile_depth;                          // depth of soil profile (mm)
 
@@ -1215,8 +1260,9 @@ void plantRootPart::doNewProfile(protocol::Variant &v)
         }
     }
 
-// Return the index of the layer that contains "depth"
 int plantRootPart::find_layer_no(float depth) const
+//=======================================================================================
+// Return the index of the layer corresponding to the given depth
    {
    unsigned int indx;
    float progressive_sum = 0.0;
@@ -1233,14 +1279,10 @@ int plantRootPart::find_layer_no(float depth) const
 
 float plantRootPart::sw_avail_ratio(int layer) const //(INPUT) soil profile layer number
 //===========================================================================
-
-/*  Purpose
-*      Get the soil water availability factor in a layer.  For a layer,
-*      it is 1.0 unless the plant-extractable soil water declines
-*      below a fraction of plant-extractable soil water capacity for
-*      that layer.
-*/
-
+//     Get the soil water availability factor in a layer.  For a layer,
+//     it is 1.0 unless the plant-extractable soil water declines
+//     below a fraction of plant-extractable soil water capacity for
+//     that layer.
    {
    //  Local Variables
    float pesw;                // plant extractable soil-water (mm/mm)
@@ -1254,7 +1296,6 @@ float plantRootPart::sw_avail_ratio(int layer) const //(INPUT) soil profile laye
    }
 
 
-//===========================================================================
 int plantRootPart::find_layer_no(float depth,      // depth in profile
                   float *dlayr,     // layer depth array
                   int num_layers)   // lowest layer
@@ -1297,6 +1338,8 @@ int plantRootPart::find_layer_no(float depth, const vector<float> &dlayer )
    }
 
 void plantRootPart::DoIDs(protocol::Component *system)
+//=======================================================================================
+// Register outputs and store variable ID's
    {
    // Get
    sw_dep_id= system->addRegistration(RegistrationType::get,
@@ -1332,6 +1375,8 @@ void plantRootPart::DoIDs(protocol::Component *system)
    }
 
 void plantRootPart::UpdateOtherVariables(protocol::Component *system)
+//=======================================================================================
+// Update data owned by other modules that has changed due to calculations by this root system
    {
     float scratch[max_layer];                     // soil NO3 change (kg/ha)
     int   layer;                                  // soil layer no.
@@ -1342,6 +1387,8 @@ void plantRootPart::UpdateOtherVariables(protocol::Component *system)
    }
 
 void plantRootPart::get_sw_uptake(protocol::Component *system, protocol::QueryValueData &qd)
+//=======================================================================================
+// Getter Function for Soil Water uptake
 {
     float rwu[max_layer];
     for (int layer = 0; layer < num_layers; layer++)
@@ -1353,6 +1400,8 @@ void plantRootPart::get_sw_uptake(protocol::Component *system, protocol::QueryVa
 
 
 void plantRootPart::get_sw_supply(protocol::Component *system, protocol::QueryValueData &qd)
+//=======================================================================================
+// Getter Function for Total Profile Soil Water Supply
 {
     int deepest_layer = find_layer_no (root_depth);
     float sw_supply_sum = sum_real_array (sw_supply, deepest_layer+1);
@@ -1360,11 +1409,15 @@ void plantRootPart::get_sw_supply(protocol::Component *system, protocol::QueryVa
 }
 
 void plantRootPart::get_sw_supply_layr(protocol::Component *system, protocol::QueryValueData &qd)
+//=======================================================================================
+// Getter function for soil water supply from each layer
 {
     system->sendVariable(qd, protocol::vector<float>(sw_supply, sw_supply+num_layers));
 }
 
 void plantRootPart::get_ep(protocol::Component *system, protocol::QueryValueData &qd)
+//=======================================================================================
+// Getter Function for plant EP
 {
     float sum = 0.0;
     for (int layer = 0; layer < num_layers; layer++)
@@ -1375,6 +1428,8 @@ void plantRootPart::get_ep(protocol::Component *system, protocol::QueryValueData
 }
 
 void plantRootPart::get_esw_layr(protocol::Component *system, protocol::QueryValueData &qd)
+//=======================================================================================
+// Getter function for extractable soil water content of each layer
 {
     float esw_layr[max_layer];
     for (int layer = 0; layer < num_layers; layer++)
@@ -1384,6 +1439,8 @@ void plantRootPart::get_esw_layr(protocol::Component *system, protocol::QueryVal
     system->sendVariable(qd, protocol::vector<float>(esw_layr,esw_layr+num_layers));
 }
 void plantRootPart::get_no3_uptake(protocol::Component *system, protocol::QueryValueData &qd)
+//=======================================================================================
+// Getter function for no3 uptake from each soil layer
 {
     float no3_uptake[max_layer];
     fill_real_array(no3_uptake,0.0, max_layer);
@@ -1394,6 +1451,8 @@ void plantRootPart::get_no3_uptake(protocol::Component *system, protocol::QueryV
 }
 
 void plantRootPart::get_nh4_uptake(protocol::Component *system, protocol::QueryValueData &qd)
+//=======================================================================================
+// Getter function for nh4 uptake from each soil layer
 {
     float nh4_uptake[max_layer];
     fill_real_array(nh4_uptake,0.0, max_layer);
@@ -1404,12 +1463,16 @@ void plantRootPart::get_nh4_uptake(protocol::Component *system, protocol::QueryV
 }
 
 void plantRootPart::get_no3_tot(protocol::Component *system, protocol::QueryValueData &qd)
+//=======================================================================================
+// Getter Function for total profile no3 uptake
 {
     int deepest_layer = find_layer_no (root_depth);
     float no3gsm_tot = sum_real_array (no3gsm, deepest_layer+1);
     system->sendVariable(qd, no3gsm_tot);
 }
 void plantRootPart::get_ll_dep(protocol::Component *systemInterface, protocol::QueryValueData &qd)
+//=======================================================================================
+// Getter function for crop lower limit (mm)
    {
    vector<float> lldep;
    for(int layer = 0; layer <= num_layers; layer++)
@@ -1418,6 +1481,8 @@ void plantRootPart::get_ll_dep(protocol::Component *systemInterface, protocol::Q
 }
 
 void plantRootPart::get_ll(protocol::Component *systemInterface, protocol::QueryValueData &qd)
+//=======================================================================================
+// Getter function for crop lower limit (volumetric)
    {
    vector<float> ll;
    for(int layer = 0; layer <= num_layers; layer++)

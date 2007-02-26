@@ -170,20 +170,20 @@ public:
    void doInit2(protocol::Component *);
    bool respondToSet(unsigned int &id, protocol::QuerySetValueData& qd) ;
 
-   void doPrepare(unsigned &, unsigned &, protocol::Variant &) ;
-   void doProcess(unsigned &, unsigned &, protocol::Variant &) ;
-   void doSow(unsigned &, unsigned &, protocol::Variant &v) ;
-   void doHarvest(unsigned &, unsigned &, protocol::Variant &v) ;
-   void doEndCrop(unsigned &, unsigned &, protocol::Variant &v) ;
-   void doKillCrop(unsigned &, unsigned &, protocol::Variant &v) ;
-   void doKillStem(unsigned &, unsigned &, protocol::Variant &v) ;
-   void doRemoveCropBiomass(unsigned &, unsigned &, protocol::Variant &v) ;
-   void doDetachCropBiomass(unsigned &, unsigned &, protocol::Variant &v) ;
-   void doEndRun(unsigned &, unsigned &, protocol::Variant &v) ;
+   void onPrepare(unsigned &, unsigned &, protocol::Variant &) ;
+   void onProcess(unsigned &, unsigned &, protocol::Variant &) ;
+   void onSow(unsigned &, unsigned &, protocol::Variant &v) ;
+   void onHarvest(unsigned &, unsigned &, protocol::Variant &v) ;
+   void onEndCrop(unsigned &, unsigned &, protocol::Variant &v) ;
+   void onKillCrop(unsigned &, unsigned &, protocol::Variant &v) ;
+   void onKillStem(unsigned &, unsigned &, protocol::Variant &v) ;
+   void onRemoveCropBiomass(unsigned &, unsigned &, protocol::Variant &v) ;
+   void onDetachCropBiomass(unsigned &, unsigned &, protocol::Variant &v) ;
+   void onEndRun(unsigned &, unsigned &, protocol::Variant &v) ;
    void doAutoClassChange(unsigned &, unsigned &, protocol::Variant &v) ;
-   void doTick(unsigned &, unsigned &, protocol::Variant &v) ;
-   void doNewMet(unsigned &, unsigned &, protocol::Variant &v) ;
-   void doNewProfile(unsigned &, unsigned &, protocol::Variant &v) ;
+   void onTick(unsigned &, unsigned &, protocol::Variant &v) ;
+   void onNewMet(unsigned &, unsigned &, protocol::Variant &v) ;
+   void onNewProfile(unsigned &, unsigned &, protocol::Variant &v) ;
 
    void registerClassActions(void);
    void sendStageMessage(const char *what);
