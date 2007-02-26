@@ -59,7 +59,6 @@
       <ApsimToSim>
          <type>registrations</type>
          <sim>
-            <event name="summaryFileWrite" type="string"/>
             <event name="error" type="string"/>
             <event name="NotifyTermination" type="string"/>
             <event name="gimme_water" type="string"/>
@@ -214,12 +213,6 @@
          <drop name="simulation"/>
          <drop name="folder"/>
      </drops>
-      <ApsimToSim>
-         <type>component</type>
-         <dll>%apsuite\apsim\summaryfile\lib\summaryfile.dll</dll>
-         <sim>
-         </sim>
-      </ApsimToSim>
    </summaryfile>
    <outputfile>
       <UItype>file</UItype>
