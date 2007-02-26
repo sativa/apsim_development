@@ -10,7 +10,7 @@ namespace ChangeTool
 	// ------------------------------------------
 	public class APSIMChangeTool
 		{
-		private static int CurrentVersion = 6;	   
+		private static int CurrentVersion = 7;	   
 		private delegate void UpgraderDelegate(APSIMData Data);
 
 		// ------------------------------------------
@@ -19,7 +19,7 @@ namespace ChangeTool
 		// ------------------------------------------
         public static void Upgrade(APSIMData Data)
             {
-            if (Data != null)
+            if (Data != null && Data.AttributeExists("version"))
                 {
                 // Get version number of data.
                 int DataVersion = 1;
@@ -42,9 +42,13 @@ namespace ChangeTool
                 if (DataVersion < 5)
                     Upgrade(Data, new UpgraderDelegate(UpdateToVersion5));
 
-                // Upgrade from version 4 to 5.
+                // Upgrade from version 5 to 6.
                 if (DataVersion < 6)
                     Upgrade(Data, new UpgraderDelegate(UpdateToVersion6));
+                
+                // Upgrade from version 6 to 7.
+                if (DataVersion < 7)
+                    Upgrade(Data, new UpgraderDelegate(UpdateToVersion7));
 
                 // All finished upgrading - write version number out.
                 Data.SetAttribute("version", CurrentVersion.ToString());
@@ -291,6 +295,22 @@ namespace ChangeTool
                 }
             }
 
+        // -----------------------------
+        // Upgrade the data to version 7.
+        // -----------------------------
+        private static void UpdateToVersion7(APSIMData Data)
+            {
+            if (Data.Type.ToLower() == "soil")
+                {
+                CSGeneral.Soil MySoil = new CSGeneral.Soil(Data);
+                MySoil.UpgradeToVersion7();
+                }
+            else if (Data.Type.ToLower() == "sample")
+                {
+                SoilSample MySample = new SoilSample(Data);
+                MySample.UpgradeToVersion7();
+                }
+            }	
             	
 
 

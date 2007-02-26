@@ -25,8 +25,8 @@ namespace CSGeneral
 		// ------------------------------------
 		public double[] NO3
 			{
-			get {return getLayered("InitNitrogen", "no3");}
-            set { setLayered("InitNitrogen", "no3", value); }
+			get {return getLayered("InitNitrogen", "no3", "");}
+            set { setLayered("InitNitrogen", "no3", "", value); }
 			}
 
 		// ------------------------------------
@@ -34,8 +34,8 @@ namespace CSGeneral
 		// ------------------------------------
 		public double[] NH4
 			{
-			get {return getLayered("InitNitrogen", "nh4");}
-            set { setLayered("InitNitrogen", "nh4", value); }
+			get {return getLayered("InitNitrogen", "nh4", "");}
+            set { setLayered("InitNitrogen", "nh4", "", value); }
 			}
 
 		// ------------------------------------
@@ -44,7 +44,7 @@ namespace CSGeneral
 		public double[] NO3KgHa
 			{
 			get {return ToKgHa(NO3);}
-            set { setLayered("InitNitrogen", "no3", ToPpm(value)); }
+            set { setLayered("InitNitrogen", "no3", "", ToPpm(value)); }
 			}
 
 		// ------------------------------------
@@ -53,7 +53,7 @@ namespace CSGeneral
 		public double[] NH4KgHa
 			{
 			get {return ToKgHa(NH4);}
-            set { setLayered("InitNitrogen", "nh4", ToPpm(value)); }
+            set { setLayered("InitNitrogen", "nh4", "", ToPpm(value)); }
 			}
 
 		// ------------------------------------
@@ -142,6 +142,31 @@ namespace CSGeneral
 
 			return Ppm; 
 			}
-	
-		}
+
+
+        internal void ValidateAgainstLayerStructure()
+            {
+            double[] no3 = NO3;
+            double[] nh4 = NH4;
+            int NumLayersCurrent = no3.Length;
+            int NumLayers = ParentSoil.Thickness.Length;
+            
+            Array.Resize(ref no3, NumLayers);
+            Array.Resize(ref nh4, NumLayers);
+            if (NumLayersCurrent > 0 && NumLayersCurrent < NumLayers)
+                {
+                // we don't have enough layers - add extra ones.
+                for (int i = NumLayersCurrent; i < NumLayers; i++)
+                    {
+                    no3[i] = no3[NumLayersCurrent - 1];
+                    nh4[i] = nh4[NumLayersCurrent - 1];
+                    }
+                }
+
+            NO3 = no3;
+            NH4 = nh4;
+            }
+
+
+        }
 	}

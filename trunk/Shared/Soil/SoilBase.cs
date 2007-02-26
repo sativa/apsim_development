@@ -98,39 +98,65 @@ namespace CSGeneral
 				}
 			}
 
-        protected string[] getLayeredAsStrings(string propertyType, string propertyName)
+        protected string[] getLayeredAsStrings(string ParentNodeName, string propertyType, string propertyName)
             // ---------------------------------------
             // Return a layered variable as strings
             // ---------------------------------------
             {
-            APSIMData PropertyData = Data;
-            if (propertyType != "")
-                PropertyData = Data.Child(propertyType);
-            if (PropertyData == null)
-                return new string[0];
-
-            string[] values = new string[PropertyData.ChildNames("layer").Length];
-            int index = 0;
-            foreach (APSIMData layer in PropertyData.get_Children("layer"))
+            APSIMData Profile;
+            if (ParentNodeName == "")
+                Profile = Data;
+            else
+                Profile = Data.Child(ParentNodeName);
+            if (Profile != null)
                 {
-                if (layer.Child(propertyName) == null)
-                    values[index] = "";
-                else if (layer.Child(propertyName).InnerXML == "" || layer.Child(propertyName).InnerXML == null)
-                    values[index] = "";
-                else
-                    values[index] = layer.Child(propertyName).InnerXML;
-                index++;
+                string[] values = new string[Profile.ChildNames("layer").Length];
+                int index = 0;
+                foreach (APSIMData layer in Profile.get_Children("layer"))
+                    {
+                    APSIMData MatchingValueNode = FindNodeByTypeAndName(layer, propertyType, propertyName);
+                    if (MatchingValueNode != null && 
+                        MatchingValueNode.InnerXML != null)
+                        values[index] = MatchingValueNode.InnerXML;
+                    else
+                        values[index] = "";
+                    index++;
+                    }
+                return values;
                 }
-            return values;
+            else
+                return new string[0];
             }
 
-		
-		protected double[] getLayered(string propertyType, string propertyName)
+        private APSIMData FindNodeByTypeAndName(APSIMData ParentNode, string Type, string Name)
+            {
+            // ----------------------------------------------------------
+            // Find a child name under Parent that matches the specified
+            // type and name. 
+            // ----------------------------------------------------------
+            foreach (APSIMData Child in ParentNode.get_Children(null))
+                {
+                bool ThisChildMatches = false;
+                if (Type != "" && Name != "")
+                    ThisChildMatches = (Child.Type.ToLower() == Type.ToLower() &&
+                                        Child.Name.ToLower() == Name.ToLower());
+                else if (Type == "" && Name != "")
+                    ThisChildMatches = (Child.Name.ToLower() == Name.ToLower());
+                else if (Type != "" && Name == "")
+                    ThisChildMatches = (Child.Type.ToLower() == Type.ToLower());
+
+                if (ThisChildMatches)
+                    return Child;
+                }
+            return null;
+            }
+
+        protected double[] getLayered(string ParentNodeName, string propertyType, string propertyName)
             // ---------------------------------------
             // Return a layered variable as doubles.
             // ---------------------------------------
             {
-            string[] StringValues = getLayeredAsStrings(propertyType, propertyName);
+            string[] StringValues = getLayeredAsStrings(ParentNodeName, propertyType, propertyName);
 			double[] values = new double[StringValues.Length];
             int Index = 0;
 			foreach (string StringValue in StringValues)
@@ -148,64 +174,38 @@ namespace CSGeneral
 			return values;
 			}
 
-
-		protected void setLayered(string ParentNodeType, string PropertyName, double[] Values)
-            //--------------------------------------------------------------------------
-            // Sets the values of the specified node
-            //--------------------------------------------------------------------------	
+        protected void setLayeredAsStrings(string ParentNodeName, string PropertyType, string PropertyName, string[] Values)
             {
-			setLayered(ParentNodeType, "", PropertyName, Values);
-			}
-		protected void setLayeredAsStrings(string ParentNodeType, string ParentNodeName, string PropertyName, string[] Values)
             //--------------------------------------------------------------------------
             // Sets the values of the specified node as strings.
             //--------------------------------------------------------------------------	
-            {
-			string NodeNameToLookFor = ParentNodeName;
-			if (ParentNodeName == "")
-				NodeNameToLookFor = ParentNodeType;
-			APSIMData node;
-			if (NodeNameToLookFor == "")
-				node = Data;	
-			else
-				{
-				if (Data.Child(NodeNameToLookFor) == null)
-					Data.Add(new APSIMData(ParentNodeType, ParentNodeName));
-				node = Data.Child(NodeNameToLookFor);
-				}
-	
-			int iIndex = 0;
+            APSIMData Profile = Data.Child(ParentNodeName);
+            if (Profile == null)
+                Profile = Data.Add(new APSIMData("profile", ""));
 
-			// make sure we have enough layer nodes.
-			int FirstLayerToAdd = node.get_Children("layer").Length + 1;
-			for (int LayerNumber = FirstLayerToAdd; LayerNumber <= Values.Length; LayerNumber++)
-				node.Add(new APSIMData("layer", LayerNumber.ToString()));
+			// make sure we have the right amount of layer nodes.
+            Profile.EnsureNumberOfChildren("layer", "", Values.Length);
 
-			if (Values.Length > 0)
+            APSIMData[] Layers = Profile.get_Children("layer");
+            for (int i = 0; i != Values.Length; i++)
 				{
-				// make sure we don't have too many layers.
-				int FirstLayerToDelete = node.get_Children("layer").Length;
-				for (int LayerNumber = FirstLayerToDelete; LayerNumber > Values.Length; LayerNumber--)
-					node.Delete(LayerNumber.ToString());
-				foreach (APSIMData layer in node.get_Children("layer"))
-					{
-					if (Values[iIndex] == "")
-						{
-						if (layer.Child(PropertyName) != null)
-							layer.Delete(PropertyName);
-						}
-					else
-						layer.set_ChildValue(PropertyName, Values[iIndex]);
-					iIndex++;
-					}
+                APSIMData MatchingValueNode = FindNodeByTypeAndName(Layers[i], PropertyType, PropertyName);
+                if (MatchingValueNode == null)
+                    {
+                    if (Values[i] != "")
+                        MatchingValueNode = Layers[i].Add(new APSIMData(PropertyType, PropertyName));
+                    }
+                else if (Values[i] == "")
+                    Layers[i].DeleteNode(MatchingValueNode);
+                MatchingValueNode.Value = Values[i];
 				}
 			}
 
-        protected void setLayered(string ParentNodeType, string ParentNodeName, string PropertyName, double[] Values)
+        protected void setLayered(string ParentNodeName, string PropertyType, string PropertyName, double[] Values)
+            {
             //--------------------------------------------------------------------------
             // Sets the values of the specified node as doubles
             //--------------------------------------------------------------------------	
-            {
             string[] StringValues = new string[Values.Length];
             int Index = 0;
             foreach (double Value in Values)
@@ -216,7 +216,18 @@ namespace CSGeneral
                     StringValues[Index] = Values[Index].ToString();
                 Index++;
                 }
-            setLayeredAsStrings(ParentNodeType, ParentNodeName, PropertyName, StringValues);
+            setLayeredAsStrings(ParentNodeName, PropertyType, PropertyName, StringValues);
+            }
+
+        protected void DeleteLayered(string ParentNodeName, string PropertyType, string PropertyName)
+            {
+            //--------------------------------------------------------------------------
+            // Deletes the values of the specified property
+            //--------------------------------------------------------------------------	
+            string[] StringValues = new string[Thickness.Length];
+            for (int i = 0; i != StringValues.Length; i++)
+                StringValues[i] = "";
+            setLayeredAsStrings(ParentNodeName, PropertyType, PropertyName, StringValues);
             }
 
 
@@ -225,8 +236,8 @@ namespace CSGeneral
 		//-------------------------------------------------------------------------
 		public double[] Thickness
 			{
-			get {return getLayered("water", "thickness");}
-			set {setLayered("water", "thickness", value);}
+			get {return getLayered("profile", "thickness", "");}
+            set {setLayered("profile", "thickness", "", value);}
 			}
 
 
