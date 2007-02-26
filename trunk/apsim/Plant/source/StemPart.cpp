@@ -84,20 +84,19 @@ void plantStemPart::onHarvest(float cutting_height, float remove_fr,
    }
 
 void plantStemPart::update(void)
-{
-    plantPart::update();
-}
+//=======================================================================================
+   {
+   plantPart::update();
+   }
 
 void plantStemPart::removeBiomass2(float )
-{
-//    Height *= (1.0 - divide(dlt.dm_green, DMGreen, 0.0)); // these values are overwritten in plantPart::morphology(void)
-//    Width *= (1.0 - divide(dlt.dm_green, DMGreen, 0.0));
-    float dm_plant;               // dry matter of part (g/plant)
-    dm_plant = divide (DMGreen, plant->getPlants(), 0.0);
+//=======================================================================================
+   {
+   float dm_plant;               // dry matter of part (g/plant)
+   dm_plant = divide (DMGreen, plant->getPlants(), 0.0);
 
    if (c.height.isInitialised())
       Height = c.height.value(dm_plant);       // new plant height (mm)
    if (c.width.isInitialised())
       Width = c.width.value(dm_plant);
-}
-
+   }
