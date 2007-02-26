@@ -413,7 +413,8 @@ IB0001 CABERNET FRANC   IB0001    07   590   020  4000  1000   0.8   4.5  42.0  
     <max_pond>100</max_pond>
   </soilwatkludge>
   <folder name="Management">
-    <manager name="Manager">
+    <manager name="Manager"/>
+    <manager name="Manager with examples">
       <rule name="Sow using a variable rule">
         <condition name="start_of_day"><![CDATA[
       if (paddock_is_fallow() = 1 and FallowIn <> 'yes' and (NextCrop = 0 or NextCrop = '[crop]')) then
