@@ -991,6 +991,7 @@ Public Class MainUI
         End If
         St += ": " + Suffix
         RunPanelListBox.Items.Item(CurrentRunningSimulationIndex) = St
+        RunPanelListBox.SetSelected(CurrentRunningSimulationIndex, True)
     End Sub
     Private Sub EnableRunButton(ByVal Sender As Object, ByVal e As System.EventArgs)
         ' ---------------------------------------------
