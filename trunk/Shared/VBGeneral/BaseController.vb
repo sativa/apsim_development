@@ -105,7 +105,7 @@ Public MustInherit Class BaseController
     End Property
     Public Property AllData() As APSIMData
         ' --------------------------------------------------------
-        ' Provides readwrite access to the entire data, usually 
+        ' Provides readwrite access to the entire data, usually
         ' the contents of a file. This will clear the current
         ' selections.
         ' --------------------------------------------------------
@@ -250,7 +250,7 @@ Public MustInherit Class BaseController
     End Function
     Public Function FileSaveAfterPrompt() As Boolean
         ' --------------------------------------------------------
-        ' Often called at program exit to optionally prompt the 
+        ' Often called at program exit to optionally prompt the
         ' user to save the current data if something has changed.
         ' --------------------------------------------------------
         If DirtyData Then
@@ -315,7 +315,7 @@ Public MustInherit Class BaseController
         Get
             ' --------------------------------------------------------
             ' Provide readwrite access to the current selections.
-            ' The strings returned contain data paths to all 
+            ' The strings returned contain data paths to all
             ' selected nodes.
             ' --------------------------------------------------------
             Dim ReturnValues As New StringCollection
@@ -378,7 +378,22 @@ Public MustInherit Class BaseController
         ' --------------------------------------------------------
         ' Perform a clipboard cut operation
         ' --------------------------------------------------------
-        If AllowCut() Then
+
+        'Firstly check if any of the selections are the root node and if so
+        ' do nothing
+        Dim Selections As StringCollection = MySelectedData
+        SelectedPaths = New StringCollection()
+        Dim DeletingRoot As Boolean = False
+        For Each FullPath As String In Selections
+            Dim NodeToDelete As APSIMData = AllData.Find(FullPath)
+            ' Make sure we do not delete the root node
+            If Not IsNothing(NodeToDelete.Parent) Then
+                DeletingRoot = True
+                Exit For
+            End If
+        Next
+
+        If AllowCut() And Not DeletingRoot Then
             Copy()
             DeleteSelected()
         End If
@@ -494,13 +509,16 @@ Public MustInherit Class BaseController
         SelectedPaths = New StringCollection()
         For Each FullPath As String In Selections
             Dim NodeToDelete As APSIMData = AllData.Find(FullPath)
-            NodeToDelete.Parent.Delete(NodeToDelete.Name)
+            ' Make sure we do not delete the root node
+            If Not IsNothing(NodeToDelete.Parent) Then
+                NodeToDelete.Parent.Delete(NodeToDelete.Name)
+            End If
         Next
         RefreshView()
     End Sub
     Public Sub MoveSelectedUp()
         ' --------------------------------------------------------------
-        ' Move all selected items up 
+        ' Move all selected items up
         ' --------------------------------------------------------------
         If AllowMoveSelectedUp Then
             Dim FirstSelectedData As APSIMData = AllData.Find(MySelectedData(0))
@@ -516,7 +534,7 @@ Public MustInherit Class BaseController
     End Sub
     Public Sub MoveSelectedDown()
         ' --------------------------------------------------------------
-        ' Move all selected items down 
+        ' Move all selected items down
         ' --------------------------------------------------------------
         If AllowMoveSelectedDown Then
             Dim LastSelectedData As APSIMData = AllData.Find(MySelectedData(MySelectedData.Count - 1))
@@ -536,7 +554,7 @@ Public MustInherit Class BaseController
     Private ReadOnly Property AllSelectedNodesAreSiblings() As Boolean
         Get
             ' --------------------------------------------------------------
-            ' Return true if all selected nodes are siblings. 
+            ' Return true if all selected nodes are siblings.
             ' --------------------------------------------------------------
             If MySelectedData.Count > 0 Then
                 Dim Path As String = ""
@@ -586,7 +604,7 @@ Public MustInherit Class BaseController
                     Prop.Value = Prop.Attribute("ubound")
                     DateEditor.DateDefault = Prop.Value
                     Me.MsgBoxString = "The " + Prop.Type + " selected is after the dates in the Met file." & vbCrLf & _
-                                "Automaticly adjusting simulation end date to match the Met file end date"
+                                "Automatically adjusting simulation end date to match the Met file end date"
                     DateEditor.MaximumDate = ubound
                 End If
             End If
@@ -596,7 +614,7 @@ Public MustInherit Class BaseController
                     Prop.Value = Prop.Attribute("lbound")
                     DateEditor.DateDefault = Prop.Value
                     Me.MsgBoxString = "The " + Prop.Type + " selected is before the dates in the Met file." & vbCrLf & _
-                                "Automaticly adjusting simulation start date to match the Met file start date"
+                                "Automatically adjusting simulation start date to match the Met file start date"
                     DateEditor.MinimumDate = lbound
                 End If
 
