@@ -317,6 +317,8 @@ class EXPORT Component
       ApsimComponentData* componentData;
       char* name;
       bool beforeInit2;
+      bool beforeCommence;
+      bool haveWrittenToStdOutToday;
 
       // ********* LOW LEVEL ROUTINES - should not be used by regular components.
       virtual void onRequestComponentIDMessage(unsigned int fromID, RequestComponentIDData& data) { }
@@ -363,7 +365,6 @@ class EXPORT Component
       unsigned getRegistrationID(const RegistrationType& type, const FString& eventName);
       bool getSetVariableSuccess(void) {return setVariableSuccess;}
       void setVariableError(unsigned int regID);
-      void writeToStdOut(const FString& st);
 
    private:
       Registrations* registrations;
@@ -382,9 +383,7 @@ class EXPORT Component
       bool completeFound;
       protocol::TimeType tick;
       bool sendTickToComponent;
-      bool haveWritenToStdOutToday;
       unsigned currentMsgID;
-
 
       UInt2InfoMap getVarMap;                  // List of variables we can send to system
       UInt2EventMap eventMap;                  // List of events we handle

@@ -4,6 +4,7 @@
 #include <assert.h>
 
 #include <sstream>
+#include <iomanip>
 #include <list>
 #include <functional>
 #include <memory>
@@ -21,6 +22,7 @@
 #include <ApsimShared/ApsimServiceData.h>
 #include <ApsimShared/ApsimRegistrationData.h>
 #include <ApsimShared/ApsimSimulationFile.h>
+#include <ApsimShared/ApsimVersion.h>
 
 #include <ComponentInterface/MessageDataExt.h>
 #include <ComponentInterface/Component.h>
@@ -104,12 +106,16 @@ void Coordinator::doInit1(const FString& sdml)
    {
    try
       {
+      cout << "Version                = " + getApsimVersion() << endl;
+
       Component::doInit1(sdml);
 
       string sdmlString = string(sdml.f_str(), sdml.length());
       ApsimSimulationFile simulationData(sdmlString, true);
 
       title = simulationData.getTitle();
+      cout << "Title                  = " + title << endl; 
+
       if (componentID == parentID)
          {
          titleID = addRegistration(RegistrationType::respondToGet, "title", "<type kind=\"string\"/>");
@@ -117,22 +123,6 @@ void Coordinator::doInit1(const FString& sdml)
          }
       printReport = simulationData.doPrintReport();
       readAllRegistrations();
-
-
-      // loop through all services specified in SDML and create
-      // and add a componentAlias object to our list of components.
-      std::vector<string> serviceNames;
-      simulationData.getServiceNames(serviceNames);
-      for (std::vector<string>::iterator serviceI = serviceNames.begin();
-                                         serviceI != serviceNames.end();
-                                         serviceI++)
-         {
-         ApsimServiceData service = simulationData.getService(*serviceI);
-         addComponent(service.getName(),
-                      service.getExecutableFileName(),
-                      "",
-                      service.getXML());
-         }
 
       // loop through all components specified in SDML and create
       // and add a componentAlias object to our list of components.
@@ -143,6 +133,14 @@ void Coordinator::doInit1(const FString& sdml)
                                          componentI++)
          {
          ApsimComponentData component = simulationData.getComponent(*componentI);
+
+         string dll = component.getExecutableFileName();
+#ifdef __WIN32__
+         // Convert unix style paths to native DOS format
+         Replace_all(dll, "/", "\\");
+#endif
+         cout << "Component " << setw(12) << ("\"" + component.getName() + "\"") << " = " + dll << endl;
+
          addComponent(component.getName(),
                       component.getExecutableFileName(),
                       component.getComponentInterfaceFileName(),
@@ -220,6 +218,7 @@ void Coordinator::doCommence(void)
    {
    // should only be called as a top level PM
    assert (parentID == 0);
+   cout << "------- Start of simulation  --------------------------------------------------" << endl;
 
    // send the commence message on to the sequencer.
    sendMessage(newCommenceMessage(componentID, sequencerID));

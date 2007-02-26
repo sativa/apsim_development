@@ -81,7 +81,9 @@ class ApsimRuns
       //---------------------------------------------------------------------------
       void addSimulationsFromApsimFile(const std::string& fileName, XMLNode parent);
 
-      bool ApsExec(const char* Command_line, TApsimRunEvent msgEvent);
+      bool ApsExec(const char *Command_line,
+                   const char *summaryFileName, 
+                   TApsimRunEvent msgEvent);
 
    };
 #endif

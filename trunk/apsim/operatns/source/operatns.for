@@ -513,7 +513,6 @@
 
                ! extract components from string
             Line = adjustl(Line)
-            print *, 'Line=',Line
             call split_line_with_quotes(Line, Destination, Line, Blank)
             Line = adjustl(Line)
             call split_line_with_quotes(Line, Action, Line, Blank)

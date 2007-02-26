@@ -115,15 +115,7 @@ void SimCreator::ConToSimInternal(const std::string& controlFileName,
       con.getAllSectionNames(sectionNames);
    for (unsigned s = 0; s != sectionNames.size(); s++)
       {
-      int simNumber = 0;
-      if (sectionNames.size() > 1)
-         simNumber = s + 1;
-
-      string simNumberString;
-      if (simNumber > 0)
-         simNumberString = itoa(simNumber);
-
-      string simFileName = fileRoot(controlFileName) + simNumberString + ".sim";
+      string simFileName = fileRoot(controlFileName) + "." + sectionNames[s] + ".sim";
       ofstream out(simFileName.c_str());
 
       out << "<?xml version=\"1.0\"?>\n";

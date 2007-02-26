@@ -78,7 +78,7 @@
          ! create an external table object and open it
          g%LU_SOI = 10
          open(unit=g%LU_SOI, file=filename, status='old',
-     .        iostat=errCode)
+     .         action='read', iostat=errCode)
          if (errCode .ne. 0) then
             call Fatal_error(ERR_user,
      .         'Cannot find SOI phase file: ' // filename)

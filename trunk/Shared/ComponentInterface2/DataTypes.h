@@ -512,36 +512,6 @@
                "<field name=\"ddml\" kind=\"string\" />"
                "</type>";}
 
-   //------ Summary ------
-   struct Summary
-      {
-      std::string name;
-      std::string msg;
-      };
-
-   inline void pack(MessageData& messageData, const Summary& data)
-      {
-      pack(messageData, data.name);
-      pack(messageData, data.msg);
-      }
-   inline void unpack(MessageData& messageData, Summary& data)
-      {
-      unpack(messageData, data.name);
-      unpack(messageData, data.msg);
-      }
-   inline unsigned memorySize(const Summary& data)
-      {
-      return 0
-              + ::memorySize(data.name)
-              + ::memorySize(data.msg)
-              ;
-      }
-   std::string DDML(const Summary& data)
-      {return "<type name=\"Summary\">"
-               "<field name=\"name\" kind=\"string\" />"
-               "<field name=\"msg\" kind=\"string\" />"
-               "</type>";}
-
    //------ Layered ------
    struct Layered
       {

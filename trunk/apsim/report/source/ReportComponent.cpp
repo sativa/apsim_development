@@ -204,6 +204,13 @@ void ReportComponent::onInit1()
 // ------------------------------------------------------------------
 void ReportComponent::onInit2(void)
    {
+   cout << endl;
+   cout << "------- " << scienceAPI.name() << " Initialisation ";
+   cout.width(79-24-scienceAPI.name().length());
+   cout.fill('-');
+   cout << '-' << endl;
+   cout.fill(' ');
+
    // work out a filename.
    string fileName;
    if (!scienceAPI.read("outputfile", "", true, fileName))
@@ -217,12 +224,12 @@ void ReportComponent::onInit2(void)
    if (scienceAPI.read("outputfrequency", "", true, frequencies))
       {
       if (frequencies.size() > 0)
-         scienceAPI.write("Output frequency:");
+         cout << "     Output frequency:" << endl;
       for (unsigned f = 0; f != frequencies.size(); f++)
          {
          stripLeadingTrailing(frequencies[f], " ");
-         string name = "   " + frequencies[f];
-         scienceAPI.write(name);
+         string name = "        " + frequencies[f];
+         cout << name << endl;
          scienceAPI.subscribe(frequencies[f], nullFunction(&ReportComponent::onFrequency));
          }
       }
@@ -246,24 +253,24 @@ void ReportComponent::onInit2(void)
 
    // enumerate through all output variables
    // and create a field for each.
-   scienceAPI.write("Output variables:");
+   cout << "     Output variables:" << endl;
    scienceAPI.read("variable", "", true, variableLines);
    for (unsigned i = 0; i != variableLines.size(); i++)
-      scienceAPI.write("   " + variableLines[i]);
+      cout << "        " + variableLines[i] << endl;
 
-   scienceAPI.write("");
+   cout << endl;
 
    daysSinceLastReport = 1;
 
    // write out all initial conditions.
-   string msg = "Output file = " + fileName;
-   scienceAPI.write(msg);
-   msg = "Format = ";
+   string msg = "     Output file = " + fileName;
+   cout << msg << endl;
+   msg = "     Format = ";
    if (csv)
       msg += "csv";
    else
       msg += "normal";
-   scienceAPI.write(msg);
+   cout << msg << endl;
    haveWrittenHeadings = false;
    }
 

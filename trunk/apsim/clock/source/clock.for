@@ -156,7 +156,6 @@ C     Last change:  E     5 Dec 2000    8:52 am
      .                             g%day,
      .                             g%year)
 
-         call clock_advance_clock()
 
          ! write parameters to summary file.
          call jday_to_date (day, month, year, g%start_date)
@@ -181,6 +180,7 @@ C     Last change:  E     5 Dec 2000    8:52 am
      .      'Time step =           = ', g%timestep, ' (mins)'
          call Write_string (msg)
 
+         call clock_advance_clock()
 !          call Clock_DoTick()
 
       endif
@@ -325,14 +325,6 @@ C     Last change:  E     5 Dec 2000    8:52 am
      .                                g%year)
 
             g%end_current_run = .false.
-
-            if (End_week (g%day, g%year)) then
-               call day_of_year_to_date (g%day, g%year, thisdate)
-               write (str, '(a,i2,a,i2,a,i4)')
-     .             'Date:', thisdate(1), '/',
-     .             thisdate(2), '/', thisdate(3)
-               call write_string(str)
-            endif
 
             call Clock_DoTick()
 

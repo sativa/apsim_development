@@ -131,26 +131,31 @@ void ApsimRuns::runApsim(bool quiet,  TApsimRunEvent notifyEvent, TApsimRunEvent
    for (unsigned f = 0; f != fileNames.size() && !stopApsim; f++)
       {
       string simFileName = fileNames[f];
+      string summaryFileName;
       bool conversionOk = false;
+      bool needsDeletion = true;
 
       // Convert file to .sim if necessary (i.e. if it's a .con or a .apsim)
       // There's a subtle difference in the name of each simulation that the converter writes
       if (fileExtensionEquals(simFileName, "con"))
          {
          // Delete any old simfiles lying about
-         string newSimName = fileRoot(simFileName) + ".sim";
+         string newSimName = fileRoot(simFileName) + "." + simNames[f] + ".sim";
          if (fileExists(newSimName.c_str())) unlink(newSimName.c_str());
 
          string commandLine = "\"" + getApsimDirectory() + "\\bin\\contosim.exe\" \""
                             + simFileName + "\" \"" + simNames[f] + "\"";
-         if (!ApsExec(commandLine.c_str(), msgEvent))
+
+         if (!ApsExec(commandLine.c_str(), NULL, msgEvent))
             {
             msgEvent(".con To .sim file conversion failed");
             conversionOk = false;
             }
          else
             conversionOk = true;
+
          simFileName = newSimName;
+         summaryFileName = fileRoot(simFileName) + ".sum";
          }
       else if (fileExtensionEquals(simFileName, "apsim"))
          {
@@ -167,19 +172,24 @@ void ApsimRuns::runApsim(bool quiet,  TApsimRunEvent notifyEvent, TApsimRunEvent
 
          string commandLine = "\"" + getApsimDirectory() + "\\bin\\apsimtosim.exe\" \""
                             + simFileName + "\" \"" + simNames[f] + "\"";
-         if (!ApsExec(commandLine.c_str(), msgEvent))
+
+         if (!ApsExec(commandLine.c_str(), NULL, msgEvent))
             {
             msgEvent(".apsim to .sim file conversion failed");
             conversionOk = false;
             }
          else
             conversionOk = true;
+
          simFileName = newSimName;
+         summaryFileName = fileRoot(newSimName) + ".sum";
          }
       else if (fileExtensionEquals(simFileName, "sim"))
          {
          // No conversion needed
          conversionOk = true;
+         summaryFileName = fileRoot(simFileName) + ".sum";
+         needsDeletion = false;
          }
       // go build a command line and pass it to ApsExec to do the real work.
       if (conversionOk)
@@ -187,13 +197,19 @@ void ApsimRuns::runApsim(bool quiet,  TApsimRunEvent notifyEvent, TApsimRunEvent
          string commandLine = "\"" + getApsimDirectory() + "\\bin\\apsim.exe\" ";
          commandLine += "\"" + simFileName + "\"";
 
+         if (fileExists(summaryFileName.c_str())) unlink(summaryFileName.c_str());
+
          if (notifyEvent != NULL)
             notifyEvent(simFileName);
 
-         if (!ApsExec(commandLine.c_str(), msgEvent))
+         if (!ApsExec(commandLine.c_str(), summaryFileName.c_str(), msgEvent))
             {
             msgEvent("apsim simulation terminated with non-zero error code");
             }
+         else 
+            {
+            if (needsDeletion) unlink(simFileName.c_str());
+            }   
          }
       }
    }
@@ -254,7 +270,7 @@ void ThrowWindowsError()
    }
 
 
-void ReadStdOut(HANDLE hChildStdoutRd, TApsimRunEvent msgEvent)
+void ReadStdOut(HANDLE hChildStdoutRd, FILE *summaryFP, TApsimRunEvent msgEvent)
    // --------------------------------------------------------------------------
    // Read from the specified handle and send to msgEvent.
    {
@@ -278,6 +294,7 @@ void ReadStdOut(HANDLE hChildStdoutRd, TApsimRunEvent msgEvent)
                 ThrowWindowsError();
              if (msgEvent != NULL)
                  msgEvent(string(buffer, nBytesRead));
+             if (summaryFP) {fwrite(buffer, 1, nBytesRead, summaryFP);}
              bzero(buffer);
              }
          }
@@ -288,12 +305,15 @@ void ReadStdOut(HANDLE hChildStdoutRd, TApsimRunEvent msgEvent)
 
          if (msgEvent != NULL)
              msgEvent(string(buffer, nBytesRead));
+         if (summaryFP) {fwrite(buffer, 1, nBytesRead, summaryFP);}
          bzero(buffer);
          }
       }
    }
 
-bool ApsimRuns::ApsExec(const char* Command_line, TApsimRunEvent msgEvent)
+bool ApsimRuns::ApsExec(const char* Command_line, 
+                        const char * summaryFileName, 
+                        TApsimRunEvent msgEvent)
    //------------------------------------------------------------------------------
    // Run a console process and capture stdout/err.
    {
@@ -306,7 +326,9 @@ bool ApsimRuns::ApsExec(const char* Command_line, TApsimRunEvent msgEvent)
    HANDLE hChildStdoutRd, hChildStdoutWr, hChildStdinRd;
    SECURITY_ATTRIBUTES sa;
    SECURITY_DESCRIPTOR sd;
-
+   
+   FILE *summaryFP;
+   
    if (IsWinNT())        //initialize security descriptor (Windows NT)
       {
       InitializeSecurityDescriptor(&sd,SECURITY_DESCRIPTOR_REVISION);
@@ -333,6 +355,12 @@ bool ApsimRuns::ApsExec(const char* Command_line, TApsimRunEvent msgEvent)
    StartupInfo.wShowWindow = SW_HIDE;
    StartupInfo.dwFlags = STARTF_USESHOWWINDOW | STARTF_USESTDHANDLES;
 
+   if (summaryFileName != NULL) {
+      summaryFP = fopen(summaryFileName, "wb");
+   } else {
+      summaryFP = NULL;
+   }
+
    if (!CreateProcess( NULL,
                        (char*) Command_line,   // pointer to command line string
                        NULL,                    // pointer to process security attributes
@@ -356,7 +384,7 @@ bool ApsimRuns::ApsExec(const char* Command_line, TApsimRunEvent msgEvent)
 
       // Read stdout.
       if (!paused)
-         ReadStdOut(hChildStdoutRd, msgEvent);
+         ReadStdOut(hChildStdoutRd, summaryFP, msgEvent);
 
       // See if the process has exited
       exitCode=0;
@@ -368,8 +396,8 @@ bool ApsimRuns::ApsExec(const char* Command_line, TApsimRunEvent msgEvent)
 
       Sleep(100);
       }
-   ReadStdOut(hChildStdoutRd, msgEvent);
-
+   ReadStdOut(hChildStdoutRd, summaryFP, msgEvent);
+   if (summaryFP) {fclose(summaryFP);}
    if (!CloseHandle(ProcessInfo.hProcess) ) ThrowWindowsError();
    if (!CloseHandle(ProcessInfo.hThread)) ThrowWindowsError();
    if (!CloseHandle(hChildStdoutRd)) ThrowWindowsError();
