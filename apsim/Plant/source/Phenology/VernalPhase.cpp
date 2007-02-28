@@ -14,8 +14,8 @@
 #include "Environment.h"
 #include "Phase.h"
 #include "VernalPhase.h"
-#include "Output.h"
-#include "OutputVariable.h"
+#include "Utility/Output.h"
+#include "Utility/OutputVariable.h"
 #include "iostream.h"
 
 void VernalPhase::reset()

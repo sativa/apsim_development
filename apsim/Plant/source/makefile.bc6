@@ -21,33 +21,37 @@ OBJFILES=PlantComponent.obj \
    PlantNitrogen.obj \
    Root\PlantRoot.obj \
    PlantTemp.obj \
-   PlantUtility.obj \
+   Utility\PlantUtility.obj \
    PlantWater.obj \
-   Data.obj \
-   Science.obj \
-   Date.obj \
+   Utility\Data.obj \
+   Utility\Science.obj \
+   Utility\Date.obj \
    PlantComms.obj \
    PlantP.obj \
    ..\..\..\Shared\ComponentInterface\EntryPoints.obj \
    Environment.obj \
-   Observers.obj \
+   Utility\Observers.obj \
    Leaf\LeafPart.obj \
    StemPart.obj \
-   PodPart.obj \
-   MealPart.obj \
-   OilPart.obj \
-   GrainPart.obj \
-   GrainPartHI.obj \
-   GrainPartGN.obj \
+   Reproductive\PodPart.obj \
+   Reproductive\MealPart.obj \
+   Reproductive\OilPart.obj \
+   Reproductive\GrainPart.obj \
+   Reproductive\GrainPartHI.obj \
+   Reproductive\GrainPartGN.obj \
    CompositePart.obj \
    Root\RootPart.obj \
-   FruitCohort.obj \
-   PlantFruit.obj \
-   Output.obj \
-   OutputVariable.obj \
+   Root\RootGrowthOption1.obj \
+   Root\RootGrowthOption2.obj \
+   Reproductive\FruitCohort.obj \
+   Reproductive\PlantFruit.obj \
+   Utility\Output.obj \
+   Utility\OutputVariable.obj \
    Leaf\genericLeafPart.obj \
    Leaf\cohortingLeafPart.obj \
-   Arbitrator.obj \
+   Arbitrators\Arbitrator.obj \
+   Arbitrators\NullArbitrator.obj \
+   Arbitrators\GenericArbitrator.obj \
    PlantSpatial.obj \
     \
    Phenology\PlantPhenology.obj \
@@ -107,7 +111,7 @@ clean:
 	del $(OBJFILES) *.bak *.csm
 
 PlantComponent.obj: PlantComponent.cpp plant.h
-Plant.obj: plant.cpp plant.h PlantLibrary.h Phenology\PlantPhenology.h PlantFruit.h PlantPart.h Leaf\LeafPart.h
+Plant.obj: plant.cpp plant.h PlantLibrary.h Phenology\PlantPhenology.h Reproductive\PlantFruit.h PlantPart.h Leaf\LeafPart.h
 PlantBiomass.obj: PlantBiomass.cpp PlantLibrary.h
 PlantCanopy.obj: PlantCanopy.cpp PlantLibrary.h
 PlantComms.obj: PlantComms.cpp PlantLibrary.h
@@ -116,31 +120,33 @@ PlantLibrary.obj: PlantLibrary.cpp PlantLibrary.h
 PlantNitrogen.obj: PlantNitrogen.cpp PlantLibrary.h
 Root\PlantRoot.obj: Root\PlantRoot.cpp PlantLibrary.h
 PlantTemp.obj: PlantTemp.cpp PlantLibrary.h
-PlantUtility.obj: PlantUtility.cpp PlantLibrary.h
+Utility\PlantUtility.obj: Utility\PlantUtility.cpp Utility\PlantUtility.h PlantLibrary.h
 PlantWater.obj: PlantWater.cpp PlantLibrary.h
 PlantP.obj: PlantP.cpp
 PlantPart.obj: PlantPart.cpp PlantPart.h
 CompositePart.obj: CompositePart.cpp CompositePart.h PlantPart.h
-PlantFruit.obj: PlantFruit.cpp PlantFruit.h CompositePart.h
-FruitCohort.obj: FruitCohort.cpp FruitCohort.h PlantPart.h CompositePart.h
-Data.obj: Data.cpp PlantLibrary.h
-Date.obj: Date.cpp PlantLibrary.h
-Science.obj: Science.cpp PlantLibrary.h
+Reproductive\PlantFruit.obj: Reproductive\PlantFruit.cpp Reproductive\PlantFruit.h CompositePart.h
+Reproductive\FruitCohort.obj: Reproductive\FruitCohort.cpp Reproductive\FruitCohort.h PlantPart.h CompositePart.h
+Utility\Data.obj: Utility\Data.cpp PlantLibrary.h
+Date.obj: Utility\Date.cpp PlantLibrary.h
+Science.obj: Utility\Science.cpp PlantLibrary.h
 Error.obj: Error.cpp PlantLibrary.h
 Environment.obj: Environment.cpp Environment.h
-Observers.obj: Observers.cpp Observers.h
+Utility\Observers.obj: Utility\Observers.cpp Utility\Observers.h
 Leaf\LeafPart.obj: Leaf\LeafPart.cpp PlantPart.h Leaf\LeafPart.h
 StemPart.obj: StemPart.cpp StemPart.h PlantPart.h
-PodPart.obj: PodPart.cpp PodPart.h PlantPart.h
-MealPart.obj: MealPart.cpp MealPart.h PlantPart.h
+Reproductive\PodPart.obj: Reproductive\PodPart.cpp Reproductive\PodPart.h PlantPart.h
+Reproductive\MealPart.obj: Reproductive\MealPart.cpp Reproductive\MealPart.h PlantPart.h
 Root\RootPart.obj: Root\RootPart.cpp Root\RootPart.h PlantPart.h
-OilPart.obj: OilPart.cpp OilPart.h PlantPart.h
-GrainPart.obj: GrainPart.cpp GrainPart.h CompositePart.h PlantPart.h
-GrainPartHI.obj: GrainPartHI.cpp GrainPartHI.h GrainPart.cpp GrainPart.h CompositePart.h PlantPart.h
-GrainPartGN.obj: GrainPartGN.cpp GrainPartGN.h GrainPart.cpp GrainPart.h CompositePart.h PlantPart.h
+Root\RootGrowthOption1.obj: Root\RootPart.cpp Root\RootPart.h PlantPart.h Root\RootGrowthOption1.cpp Root\RootGrowthOption1.h
+Root\RootGrowthOption2.obj: Root\RootPart.cpp Root\RootPart.h PlantPart.h Root\RootGrowthOption2.cpp Root\RootGrowthOption2.h
+Reproductive\OilPart.obj: Reproductive\OilPart.cpp Reproductive\OilPart.h PlantPart.h
+Reproductive\GrainPart.obj: Reproductive\GrainPart.cpp Reproductive\GrainPart.h CompositePart.h PlantPart.h
+GrainPartHI.obj: Reproductive\GrainPartHI.cpp Reproductive\GrainPartHI.h Reproductive\GrainPart.cpp Reproductive\GrainPart.h CompositePart.h PlantPart.h
+GrainPartGN.obj: Reproductive\GrainPartGN.cpp Reproductive\GrainPartGN.h Reproductive\GrainPart.cpp Reproductive\GrainPart.h CompositePart.h PlantPart.h
 LeafAppPhase.obj: LeafAppPhase.cpp LeafAppPhase.h
-Output.obj: Output.cpp Output.h
-OutputVariable.obj: OutputVariable.cpp OutputVariable.h
+Utility\Output.obj: Utility\Output.cpp Utility\Output.h
+Utility\OutputVariable.obj: Utility\OutputVariable.cpp Utility\OutputVariable.h
 PlantSpatial.obj: PlantSpatial.cpp PlantSpatial.h PlantInterface.h PlantLibrary.h
 
 Phenology\PlantPhenology.obj: Phenology\PlantPhenology.cpp Phenology\PlantPhenology.h
@@ -156,3 +162,6 @@ Phenology\TTTRatePhenology.obj: Phenology\TTTRatePhenology.cpp Phenology\TTTRate
 Phenology\CompositePhase.obj: Phenology\CompositePhase.cpp Phenology\CompositePhase.h
 Phenology\Phase.obj: Phenology\Phase.cpp Phenology\Phase.h
 Phenology\WheatPhenology.obj: Phenology\WheatPhenology.cpp Phenology\WheatPhenology.h
+
+Arbitrators\NullArbitrator.obj:  Arbitrators\NullArbitrator.cpp Arbitrators\NullArbitrator.h Arbitrators\Arbitrator.cpp Arbitrators\Arbitrator.h
+Arbitrators\GenericArbitrator.obj: Arbitrators\GenericArbitrator.cpp Arbitrators\GenericArbitrator.h Arbitrators\Arbitrator.cpp Arbitrators\Arbitrator.h
