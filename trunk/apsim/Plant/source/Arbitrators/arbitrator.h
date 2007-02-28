@@ -26,34 +26,6 @@ class Arbitrator : public plantThing
    virtual void zeroAllGlobals(void) {};
    };
 
-// A null arbitrator used to plug an empty hole...
-class nullArbitrator : public Arbitrator
-   {
-  public:
-   nullArbitrator(plantInterface *p) : Arbitrator(p) {};
-   ~nullArbitrator(void) {};
-   virtual void partitionDM(float,plantPart *,plantLeafPart *,plantPart *,plantPart *)
-      {
-      throw std::runtime_error("Aieee! Null arbitrator called!!");
-      };
-   };
-
-
-class genericArbitrator : public Arbitrator
-   {
-  private:
-   float frac_leaf[max_table];                       // fraction of remaining dm allocated to leaves
-   float ratio_root_shoot[max_table];                // root:shoot ratio of new dm ()
-
-  public:
-   genericArbitrator(plantInterface *p) : Arbitrator(p) {};
-   ~genericArbitrator(void) {};
-
-   virtual void readSpeciesParameters (protocol::Component *, vector<string> &);
-   virtual void partitionDM(float,plantPart *,plantLeafPart *,plantPart *,plantPart *);
-   virtual void zeroAllGlobals(void) ;
-   virtual float dltDMWhole(float dlt_dm);
-   };
 
 class cerealArbitrator : public Arbitrator
    {

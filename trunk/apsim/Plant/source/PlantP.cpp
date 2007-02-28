@@ -40,7 +40,7 @@ using namespace std;
 #include "Plant.h"
 #include "PlantPart.h"
 #include "CompositePart.h"
-#include "PlantFruit.h"
+#include "Reproductive/PlantFruit.h"
 #include "Phenology/PlantPhenology.h"
 
 

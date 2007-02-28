@@ -6,7 +6,7 @@
 #include <ComponentInterface/Component.h>
 #include <ComponentInterface/Type.h>
 
-#include "PlantUtility.h"
+#include "Utility/PlantUtility.h"
 #include "PlantLibrary.h"
 
 class environment_t {

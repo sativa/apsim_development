@@ -7,7 +7,7 @@
 DESTDIR ?= /usr/local/apsim
 
 LIB=    ../lib/Plant.so
-    
+
 OBJ=PlantComponent.o \
    Plant.o \
    PlantPart.o \
@@ -16,33 +16,33 @@ OBJ=PlantComponent.o \
    PlantFail.o \
    PlantLibrary.o \
    PlantNitrogen.o \
-   PlantRoot.o \
+   Root/PlantRoot.o \
    PlantTemp.o \
-   PlantUtility.o \
+   Utility/PlantUtility.o \
    PlantWater.o \
-   Data.o \
-   Science.o \
-   Date.o \
+   Utility/Data.o \
+   Utility/Science.o \
+   Utility/Date.o \
    PlantComms.o \
    PlantP.o \
    Environment.o \
-   Observers.o \
-   LeafPart.o \
+   Utility/Observers.o \
+   Leaf/LeafPart.o \
    StemPart.o \
-   PodPart.o \
-   MealPart.o \
-   OilPart.o \
-   GrainPart.o \
-   GrainPartHI.o \
-   GrainPartGN.o \
+   Reproductive/PodPart.o \
+   Reproductive/MealPart.o \
+   Reproductive/OilPart.o \
+   Reproductive/GrainPart.o \
+   Reproductive/GrainPartHI.o \
+   Reproductive/GrainPartGN.o \
    CompositePart.o \
-   RootPart.o \
-   FruitCohort.o \
-   PlantFruit.o \
-   Output.o \
-   OutputVariable.o \
-   genericLeafPart.o \
-   cohortingLeafPart.o \
+   Root/RootPart.o \
+   Reproductive/FruitCohort.o \
+   Reproductive/PlantFruit.o \
+   Utility/Output.o \
+   Utility/OutputVariable.o \
+   Leaf/genericLeafPart.o \
+   Leaf/cohortingLeafPart.o \
    arbitrator.o \
    PlantSpatial.o \
    Phenology/PlantPhenology.o \
@@ -104,6 +104,6 @@ clobber:    clean
     rm -f $(LIB)
 
 install: all
-    if [ ! -d $(DESTDIR)/apsim/Plant/lib ]; then mkdir -p $(DESTDIR)/apsim/Plant/lib; fi 
+    if [ ! -d $(DESTDIR)/apsim/Plant/lib ]; then mkdir -p $(DESTDIR)/apsim/Plant/lib; fi
     cp $(LIB) $(DESTDIR)/apsim/Plant/lib
 

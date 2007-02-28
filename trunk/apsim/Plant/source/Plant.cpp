@@ -23,17 +23,16 @@
 #include "PlantPart.h"
 #include "CompositePart.h"
 #include "Leaf/LeafPart.h"
-#include "PlantFruit.h"
+#include "Reproductive/PlantFruit.h"
 #include "StemPart.h"
 #include "Leaf/LeafPart.h"
-#include "PodPart.h"
-#include "MealPart.h"
-#include "OilPart.h"
+#include "Reproductive/PodPart.h"
+#include "Reproductive/MealPart.h"
+#include "Reproductive/OilPart.h"
 #include "Root/RootPart.h"
-#include "Observers.h"
-#include "Reprostruct.h"
-#include "arbitrator.h"
-#include "PlantUtility.h"
+#include "Utility/Observers.h"
+#include "Arbitrators/arbitrator.h"
+#include "Utility/PlantUtility.h"
 
 using namespace std;
 
@@ -187,10 +186,6 @@ void Plant::doInit1(protocol::Component *s)
     myParts.push_back(fruitPart);
     myStoverParts.push_back(fruitPart);
     fruitPart->doInit1(s);
-
-    reproStruct = new ReproStruct(this, "bruce");
-    //myThings.push_back(reproStruct);
-    //myParts.push_back(reproStruct);
 
     arbitrator = constructArbitrator(this, "");       // Make a null arbitrator until we call readSpecies...
     myThings.push_back(arbitrator);
@@ -812,15 +807,17 @@ void Plant::onDetachCropBiomass(unsigned &, unsigned &, protocol::Variant &v)
    plant_detach_crop_biomass (v);
    }
 
-// Field a class change event
 void Plant::doAutoClassChange(unsigned &/*fromId*/, unsigned &eventId, protocol::Variant &)
+//=======================================================================================
+// Change crop class due to given event
   {
   string ps = IDtoAction[eventId];
   plant_auto_class_change(ps.c_str());
   }
 
-// Field a Tick event
 void Plant::onTick(unsigned &, unsigned &, protocol::Variant &v)
+//=======================================================================================
+// Event Handler for the Tick Event
   {
   struct protocol::TimeType tick;
   v.unpack(tick);
@@ -829,8 +826,9 @@ void Plant::onTick(unsigned &, unsigned &, protocol::Variant &v)
   fruitPart->doTick(tick);
   }
 
-// Field a NewMet event
 void Plant::onNewMet(unsigned &, unsigned &, protocol::Variant &v)
+//=======================================================================================
+//  Event handler for the NewMet Event
   {
   if (g.hasreadconstants)
      {
@@ -962,12 +960,9 @@ void Plant::plant_detachment (void)
     }
 
 void Plant::plant_plant_death (int option /* (INPUT) option number*/)
-//      Determine plant death in crop
-
+//=======================================================================================
+//   Determine plant death rate
     {
-
-//- Implementation Section ----------------------------------
-
     if (option == 1)
         {
         if (phenology->inPhase("sowing"))
@@ -1059,9 +1054,9 @@ void Plant::plant_plant_death (int option /* (INPUT) option number*/)
 
     }
 
-//+  Purpose
-//      Determine plant seedling death.
 float Plant::plant_death_seedling
+//=======================================================================================
+//   Determine seedling death rate due to high soil temperatures
     (
      int    c_num_weighted_temp      // (INPUT)  size of table
     ,float  *c_x_weighted_temp        // (INPUT)  temperature table for poor est
@@ -1095,10 +1090,9 @@ float Plant::plant_death_seedling
     }
 
 
-//+  Purpose
-//      Determine plant death from drought.
-
 float Plant::plant_death_drought
+//=======================================================================================
+//   Determine plant death rate due to drought
     (
      float  c_leaf_no_crit              // (INPUT)  critical number of leaves belo
     ,float  c_swdf_photo_limit          // (INPUT)  critical cumulative photosynth
@@ -1106,10 +1100,10 @@ float Plant::plant_death_drought
     ,float  cswd_photo                 // (INPUT)  cumulative water stress type 1
     ,float  g_plants                    // (INPUT)  Plant density (plants/m^2)
     ,float  g_swdef_photo               // (INPUT)
-    ) {
+    )
+    {
     float killfr;                                 // fraction of crop population to kill
     float dlt_plants = 0.0;                       // population to kill
-
 
     if (getLeafNo() < c_leaf_no_crit
         && cswd_photo>c_swdf_photo_limit
@@ -1120,8 +1114,8 @@ float Plant::plant_death_drought
         dlt_plants = - g_plants*killfr;
 
         string msg= "Plant kill. ";
-          msg = msg + ftoa(killfr*fract2pcnt, ".2").c_str();
-          msg = msg + "% failure because of water stress.";
+        msg = msg + ftoa(killfr*fract2pcnt, ".2").c_str();
+        msg = msg + "% failure because of water stress.";
         parent->writeString (msg.c_str());
         }
     return dlt_plants;
@@ -1169,31 +1163,29 @@ void Plant::plant_death_external_action(protocol::Variant &v         // (INPUT) 
     }
 
 
-//+  Purpose
-//      Determine plant death from external action.
 void Plant::plant_death_crop_killed
-    (
-      float    g_plants                           // (INPUT)  Plant density (plants/m^2)
-    , status_t g_plant_status                     // (INPUT)
-    , float    *dlt_plants                        // (OUTPUT) change in plant number
-    ) {
+//=======================================================================================
+//   Kill off all plants due to external action
+   ( float    g_plants                           // (INPUT)  Plant density (plants/m^2)
+   , status_t g_plant_status                     // (INPUT)
+   , float    *dlt_plants                        // (OUTPUT) change in plant number
+   )
+   {
+   if (g_plant_status == dead)
+      {
+      *dlt_plants = - g_plants;
+      parent->writeString ("Crop killed because of external action.");
+      }
+   else
+      {
+      *dlt_plants = 0.0;
+      }
+   }
 
-        if (g_plant_status == dead)
-        {
-        *dlt_plants = - g_plants;
-        parent->writeString ("Crop killed because of external action.");
-        }
-    else
-        {
-        *dlt_plants = 0.0;
-        }
 
-    }
-
-
-//+  Purpose
-//      Determine actual plant death.
 void Plant::plant_death_actual
+//=======================================================================================
+//   Determine plant death rate due to a range of given processes
     (
      float g_dlt_plants_death_drought                 // (INPUT)
     ,float *g_dlt_plants_death_external              // (INPUT)
@@ -1203,9 +1195,8 @@ void Plant::plant_death_actual
     ,float g_dlt_plants_failure_leaf_sen            // (INPUT)
     ,float g_dlt_plants_failure_phen_delay          // (INPUT)
     ,float *dlt_plants                               // (OUTPUT) change in plant number
-    ) {
-
-
+    )
+    {
         // dlt's are negative so take minimum.
     float pmin = g_dlt_plants_failure_germ;             // Progressive minimum
     pmin = min(pmin, g_dlt_plants_failure_emergence);
@@ -1236,7 +1227,6 @@ void Plant::plant_plants_temp
     ,float  *killfr                                      // (OUTPUT) fraction of plants killed  (plants/m^2)
     ) {
 
-//+  Constant Values
 //+  Local Variables
     int   day_before;                             // day of year number of day before
                                                   // yesterday ()
@@ -1261,57 +1251,35 @@ void Plant::plant_plants_temp
     }
 
 
-//+  Purpose
-//       Kill crop
-
 void Plant::plant_kill_crop (status_t *g_plant_status)
-    {
-//+  Constant Values
-
-//+  Local Variables
-    float biomass;                                // above ground dm (kg/ha)
-
-//- Implementation Section ----------------------------------
-
+//=======================================================================================
+// Kill the Crop
+   {
+   float biomass;                                // above ground dm (kg/ha)
 //!!!!! fix problem with deltas in update when change from alive to dead ?zero deltas
 
-    if (*g_plant_status == alive)
-        {
-        *g_plant_status = dead;
+   if (*g_plant_status == alive)
+      {
+      *g_plant_status = dead;
+      biomass = (topsGreen()+topsSenesced()+topsDead()) * gm2kg /sm2ha;
 
-        biomass = (topsGreen()+topsSenesced()+topsDead()) * gm2kg /sm2ha;
-
-        // report
-        char msg[80];
-        sprintf(msg, "Plant death. standing above-ground dm = %.2f (kg/ha)", biomass);
-        parent->writeString (msg);
-        }
-    else
-        {
-        }
-
-
-    }
-
-
-
-
-
-
-
-
-//+  Purpose
-//       Find nitrogen supply.
+      // report
+      char msg[80];
+      sprintf(msg, "Plant death. standing above-ground dm = %.2f (kg/ha)", biomass);
+      parent->writeString (msg);
+      }
+   else
+      {
+      }
+   }
 
 void Plant::plant_nit_supply (int option /* (INPUT) option number*/)     //FIXME - code of this function probably should be in rootPart
+//=======================================================================================
+// Calculate Plant Nitrogen Supply
     {
-
 //+  Local Variables
     float biomass;
 
-//- Implementation Section ----------------------------------
-
-// find potential N uptake (supply, available N)
     if (option == 1)
         {
         biomass = topsGreen() + plantDltDm();
@@ -1395,18 +1363,13 @@ void Plant::plant_nit_supply (int option /* (INPUT) option number*/)     //FIXME
         throw std::invalid_argument ("invalid template N uptake option");
         }
 
-
     }
 
 
-//+  Purpose
-//       Do nitrogen retranslocation.
 void Plant::plant_nit_retrans (int option/* (INPUT) option number*/)
+//=======================================================================================
+// Do Plant Nitrogen Retranslocation
     {
-
-
-//- Implementation Section ----------------------------------
-
     if (option == 1)
         {
         legnew_n_retranslocate(fruitPart->nDemandGrain());
@@ -1419,7 +1382,6 @@ void Plant::plant_nit_retrans (int option/* (INPUT) option number*/)
         {
         throw std::invalid_argument ("invalid n retrans option");
         }
-
     }
 
 void Plant::plant_nit_demand (int option /* (INPUT) option number*/)
@@ -1527,13 +1489,10 @@ void Plant::plant_nit_partition ()                                     //FIXME -
        }
     }
 
-//+  Purpose
-//         Get current Nitrogen stress factors (0-1)
 void Plant::plant_nit_stress (int option /* (INPUT) option number*/)
+//=======================================================================================
+// Calculate Plant Nitrogen Stress Factors
     {
-
-//- Implementation Section ----------------------------------
-
     if (option == 1)
         {
         vector<const plantPart *> parts;
@@ -1776,9 +1735,6 @@ void Plant::plant_update(float  g_dlt_plants                                    
 
     }
 
-
-//+  Purpose
-//         Check bounds of internal pools
 void Plant::plant_check_bounds
     (float  g_cover_dead                        // (INPUT)  fraction of radiation reaching
     ,float  g_cover_green                       // (INPUT)  fraction of radiation reaching
@@ -1786,12 +1742,11 @@ void Plant::plant_check_bounds
     ,float *g_dlayer                            // (INPUT)  thickness of soil layer I (mm)
     ,float  g_plants                            // (INPUT)  Plant density (plants/m^2)
     ,float  g_root_depth                        // (INPUT)  depth of roots (mm)
-    ) {
+    )
+//=======================================================================================
+// Check bounds of internal plant data
 
-//+  Local Variables
-
-//- Implementation Section ----------------------------------
-
+    {
     bound_check_real_var(this,g_root_depth
                          , 0.0
                          , sum_real_array (g_dlayer, max_layer)
@@ -1892,7 +1847,7 @@ void Plant::plant_totals
         *g_n_conc_crit_stover_tot = n_conc_stover_crit;
         *g_n_demand_tot = (*g_n_demand_tot) + n_green_demand;
         *g_n_uptake_stover_tot = (*g_n_uptake_stover_tot) + n_uptake_stover;
-//        n_uptake_soil = sum_real_array(g_dlt_n_green,max_part) + reproStruct->dlt.n_green + stemPart->dlt.n_green + leafPart->dlt.n_green;
+
         n_uptake_soil = plantDltNGreen();
         n_uptake_soil_tops = n_uptake_soil - rootPart->dltNGreen();
         *g_n_fixed_tops = *g_n_fixed_tops + n_uptake_soil_tops * divide (*g_n_fix_uptake ,n_uptake_soil ,0.0);
@@ -2548,22 +2503,16 @@ void Plant::plant_process ( void )
 
     }
 
-
-//+  Purpose
-//       Set up states for dead crop
-
 void Plant::plant_dead (void)
+//=======================================================================================
+// Set up states for dead crop
     {
-
     }
 
 
-//+  Purpose
-//       Report occurence of harvest and the current status of specific
-//       variables.
-
-
 void Plant::plant_harvest (protocol::Variant &v/*(INPUT) message variant*/)
+//=======================================================================================
+// Report Harvest info and current status of specific variables
     {
     FString  report_flag;
 
@@ -2592,16 +2541,11 @@ void Plant::plant_harvest (protocol::Variant &v/*(INPUT) message variant*/)
                 , " is not in the ground - unable to harvest.");
         parent->warningError (msg);
         }
-
-
     }
 
-
-//+  Purpose
-//       Report occurence of harvest and the current status of specific
-//       variables.
-
 void Plant::plant_kill_stem (protocol::Variant &v/*(INPUT) incoming message variant*/)
+//=======================================================================================
+// Event handler for Kill Stem event
     {
     if (g.plant_status != out)
         {
@@ -2618,42 +2562,35 @@ void Plant::plant_kill_stem (protocol::Variant &v/*(INPUT) incoming message vari
          , " unable to kill stem.");
         parent->warningError (msg);
         }
-
     }
 
-
-//+  Purpose
-//       Remove crop biomass.
-
 void Plant::plant_remove_crop_biomass (protocol::Variant &v/*(INPUT) incoming message variant*/)
+//=======================================================================================
+// Event Handler for RemoveCropBiomass Event
     {
-    //plant_auto_class_change("remove_biomass");
-
     protocol::RemoveCropDmType dmRemoved;
     v.unpack(dmRemoved);
 
     if (c.remove_biomass_report == "on")
-    {
+       {
        ostringstream msg;
        msg << "Remove Crop Biomass:-" << endl;
        float dmTotal = 0.0;
 
        for (unsigned int pool=0; pool < dmRemoved.dm.size(); pool++)
-       {
-          for (unsigned int part = 0; part < dmRemoved.dm[pool].part.size(); part++)
           {
+          for (unsigned int part = 0; part < dmRemoved.dm[pool].part.size(); part++)
+             {
              msg << "   dm " << dmRemoved.dm[pool].pool << " " << dmRemoved.dm[pool].part[part] << " = " << dmRemoved.dm[pool].dlt[part] << " (g/m2)" << endl;
              dmTotal +=  dmRemoved.dm[pool].dlt[part];
+             }
           }
-       }
        msg << endl << "   dm total = " << dmTotal << " (g/m2)" << endl << ends;
 
        parent->writeString (msg.str().c_str());
-    }
+       }
 
     plant_remove_biomass_update(dmRemoved);
-
-
     }
 
 //       Detach crop biomass.
@@ -4056,34 +3993,33 @@ void Plant::plant_read_constants ( void )
     }
 
 
-//+  Purpose
-//     APSim allows modules to perform calculations in preparation for
-//     the standard APSim timestep.  This model uses this opportunity
-//     to calculate potential growth variables for the coming day
-//     and phenological development.
 void Plant::plant_prepare (void)
-    {
+//=======================================================================================
+// Event Handler for the Prepare Event
+   {
+   //     APSim allows modules to perform calculations in preparation for
+   //     the standard APSim timestep.  This model uses this opportunity
+   //     to calculate potential growth variables for the coming day
+   //     and phenological development.
+   plant_co2_modifier_rue ();
+   plant_co2_modifier_te ();
+   plant_co2_modifier_n_conc ();
 
-    plant_co2_modifier_rue ();
-    plant_co2_modifier_te ();
-    plant_co2_modifier_n_conc ();
+   for (vector<plantPart *>::iterator t = myParts.begin(); t != myParts.end(); t++)
+      (*t)->prepare();
 
-    for (vector<plantPart *>::iterator t = myParts.begin(); t != myParts.end(); t++)
-       (*t)->prepare();
+   plant_nit_stress (c.n_stress_option);
+   plant_temp_stress ();
+   plant_light_supply_partition (1);
+   plant_bio_rue (1);
+   plant_transpiration_eff (1);
+   plant_water_demand (1);
+   plant_nit_demand_est(1);
 
-    plant_nit_stress (c.n_stress_option);
-    plant_temp_stress ();
-    plant_light_supply_partition (1);
-    plant_bio_rue (1);
-    plant_transpiration_eff (1);
-    plant_water_demand (1);
-    plant_nit_demand_est(1);
-
-    // Note actually should send total plant
-    // potential growth rather than just tops - NIH
-    prepare_p();
-
-    }
+   // Note actually should send total plant
+   // potential growth rather than just tops - NIH
+   prepare_p();
+   }
 
 void Plant::registerClassActions(void)
    {
@@ -4366,18 +4302,15 @@ void Plant::plant_read_species_const ()
 
     }
 
-
-//+  Purpose
-//       Report occurence of harvest and the current status of specific
-//       variables.
 void Plant::plant_harvest_report ()
+//=======================================================================================
+// Report the state of the crop at harvest time
     {
-//+  Constant Values
-
+    //+  Constant Values
     const float  plant_c_frac = 0.4;    // fraction of c in resiudes
 
 
-//+  Local Variables
+    //+  Local Variables
     float grain_wt;                               // grain dry weight (g/kernel)
     float plant_grain_no;                          // final grains /head
     float n_grain;                                // total grain N uptake (kg/ha)
@@ -4512,15 +4445,10 @@ void Plant::plant_harvest_report ()
 
     }
 
-
-//+  Purpose
-//     Changes crop class automatically
 bool  Plant::plant_auto_class_change (const char *action)
+//=======================================================================================
+// Change the Crop Class in response to a given action
    {
-
-    //- Implementation Section ----------------------------------
-
-
     vector<string>::iterator i = find(c.class_action.begin(), c.class_action.end(),
                                       action);
     if (i == c.class_action.end()
@@ -4537,23 +4465,20 @@ bool  Plant::plant_auto_class_change (const char *action)
         }
     }
 
-
-
-//+  Purpose
-//     Notify other modules of crop chopped.
 void Plant::plant_send_crop_chopped_event (const string&  crop_type             // (INPUT) crop type
                                            ,vector<string> &dm_type             // (INPUT) residue type
                                            ,vector<float>  &dlt_crop_dm         // (INPUT) residue weight (kg/ha)
                                            ,vector<float>  &dlt_dm_n            // (INPUT) residue N weight (kg/ha)
                                            ,vector<float>  &dlt_dm_p            // (INPUT) residue P weight (kg/ha)
                                            ,vector<float>  &fraction_to_residue) // (INPUT) fraction going to residue
-{
-
+//=======================================================================================
+// Send a CropChoppedEvent via the communications system
+   {
     if (dm_type.size() != dlt_crop_dm.size() ||
         dm_type.size() != dlt_dm_n.size() ||
         dm_type.size() != dlt_dm_p.size() ||
         dm_type.size() != fraction_to_residue.size())
-       throw std::runtime_error("Vector size mismatch in plant_send_crop_chopped_event");
+        throw std::runtime_error("Vector size mismatch in plant_send_crop_chopped_event");
 
 #ifdef PROTOCOL_WORKS_PROPERLY
     protocol::crop_choppedType chopped;
@@ -4595,19 +4520,16 @@ void Plant::plant_send_crop_chopped_event (const string&  crop_type             
 #endif
     }
 
-
-//+  Purpose
-//     Update internal soil layer structure with new data
 void Plant::onNewProfile(unsigned &, unsigned &, protocol::Variant &v /* (INPUT) message arguments*/)
+//=======================================================================================
+// Event Handler for the NewProfile Event
     {
     rootPart->onNewProfile(v);
     }
 
-
-//+  Purpose
-//      Get the values of site characteristics (that will not change
-//      during the simulation.
 void Plant::plant_get_site_characteristics ()
+ //=======================================================================================
+// Get Site Specific Data from the communications system
     {
     parent->getVariable(id.latitude, Environment.latitude, c.latitude_lb, c.latitude_ub);
     }
@@ -5449,22 +5371,18 @@ float Plant::plantDltDmPotTe(void) const
 float Plant::plantGreen(void) const
    {
      return  rootPart->dmGreen() + fruitPart->dmGreen() + leafPart->dmGreen() + stemPart->dmGreen();
-                    //     + reproStruct->DMGreen;
    }
 float Plant::plantSenesced(void) const
    {
       return  rootPart->dmSenesced() + fruitPart->dmSenesced() + leafPart->dmSenesced() + stemPart->dmSenesced();
-                   //      + reproStruct->DMSenesced;
    }
 float Plant::plantDead(void) const
    {
       return  rootPart->dmDead() + fruitPart->dmDead() + leafPart->dmDead() + stemPart->dmDead();
-                 //        + reproStruct->DMDead;
    }
 float Plant::plantDltDmGreen(void) const
    {
       return  rootPart->dltDmGreen() + fruitPart->dltDmGreen() + leafPart->dltDmGreen() + stemPart->dltDmGreen();
-                       //  + reproStruct->dlt.dm_green;
    }
 float Plant::plantTot(void) const
    {
@@ -5474,22 +5392,18 @@ float Plant::plantTot(void) const
 float Plant::topsGreen(void) const
    {
      return  fruitPart->dmGreen() + leafPart->dmGreen() + stemPart->dmGreen();
-                    //     + reproStruct->DMGreen;
    }
 float Plant::topsSenesced(void) const
    {
       return  fruitPart->dmSenesced() + leafPart->dmSenesced() + stemPart->dmSenesced();
-                   //      + reproStruct->DMSenesced;
    }
 float Plant::topsDead(void) const
    {
       return  fruitPart->dmDead() + leafPart->dmDead() + stemPart->dmDead();
-                 //        + reproStruct->DMDead;
    }
 float Plant::topsDltDmGreen(void) const
    {
       return  fruitPart->dltDmGreen() + leafPart->dltDmGreen() + stemPart->dltDmGreen();
-                       //  + reproStruct->dlt.dm_green;
    }
 float Plant::topsTot(void) const
    {
@@ -5499,17 +5413,14 @@ float Plant::topsTot(void) const
 float Plant::stoverGreen(void) const
    {
       return  leafPart->dmGreen() + fruitPart->dmGreenVegTotal() + stemPart->dmGreen();
-              //           + reproStruct->DMGreen;
     }
 float Plant::stoverSenesced(void) const
    {
       return  leafPart->dmSenesced() + fruitPart->dmSenescedVegTotal() +  stemPart->dmSenesced();
-                    //     + reproStruct->DMSenesced;
     }
 float Plant::stoverDead(void) const
    {
       return  leafPart->dmDead() + fruitPart->dmDeadVegTotal() +  stemPart->dmDead();
-                  //       + reproStruct->DMDead;
     }
 
 float Plant::stoverTot(void) const

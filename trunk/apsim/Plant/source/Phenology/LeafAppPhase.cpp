@@ -14,7 +14,7 @@
 #include "Phase.h"
 #include "LeafAppPhase.h"
 #include "PlantPhenology.h"
-#include "OutputVariable.h"
+#include "Utility/OutputVariable.h"
 
 #include <iostream.h>
 
@@ -95,5 +95,5 @@ string LeafAppPhase::description() const
 //=======================================================================================
    {
    return "   Stage duration determined by leaf appearance rates";
-   } 
+   }
 

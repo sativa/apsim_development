@@ -188,22 +188,5 @@ class plantRootPart : public plantPart
       lookupFunction root_depth_rate;
    };
 
-class rootGrowthOption1 : public plantRootPart
-   {
- public:
-   rootGrowthOption1(plantInterface *p, const string &name) : plantRootPart(p, name) {};
-   void root_length_growth (void);
-   };
-
-class rootGrowthOption2 : public plantRootPart
-   {
- private:
-   float rootDistributionPattern;
- public:
-   rootGrowthOption2(plantInterface *p, const string &name) : plantRootPart(p, name) {};
-   void readSpeciesParameters(protocol::Component *system, vector<string> &sections);
-   void root_length_growth (void);
-   };
-
 plantRootPart* constructRootPart(plantInterface *p, const string &type, const string &name);
 #endif /* RootPartH */

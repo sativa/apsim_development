@@ -24,10 +24,10 @@
 #include "WheatPhenology.h"
 #include "BroccoliPhenology.h"
 
-#include "OutputVariable.h"
+#include "Utility/OutputVariable.h"
 #include "iostream.h"
 
-PlantPhenology * constructPhenology(plantInterface *plant, const string &name) 
+PlantPhenology * constructPhenology(plantInterface *plant, const string &name)
     {
     class PlantPhenology *phenology = NULL;
     if (name == "")
