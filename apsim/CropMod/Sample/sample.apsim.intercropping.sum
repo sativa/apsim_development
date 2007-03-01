@@ -1,0 +1,546 @@
+     ###     ######     #####   #   #     #   
+    #   #    #     #   #        #   ##   ##   
+   #     #   #     #   #        #   ##   ##   
+   #######   ######     #####   #   # # # #   
+   #     #   #              #   #   #  #  #   
+   #     #   #         #####    #   #  #  #   
+                                              
+                                              
+ The Agricultural Production Systems Simulator
+             Copyright(c) APSRU               
+
+Version                = 5.3
+Title                  = Canopy Sample Simulation
+Component      "clock" = c:\development\apsim\clock\lib\clock.dll
+Component     "report" = c:\development\apsim\report\lib\report.dll
+Component        "Met" = c:\development\apsim\input\lib\input.dll
+Component     "canopy" = c:\development\apsim\canopy\lib\canopy.dll
+Component   "fertiliz" = c:\development\apsim\fertiliz\lib\fertiliz.dll
+Component   "irrigate" = c:\development\apsim\irrigate\lib\irrigate.dll
+Component    "manager" = c:\development\apsim\manager\lib\manager.dll
+Component   "soilwat2" = c:\development\apsim\soilwat2\lib\soilwat2.dll
+Component  "SurfaceOM" = c:\development\apsim\SurfaceOM\lib\SurfaceOM.dll
+Component     "soiln2" = c:\development\apsim\soiln2\lib\soiln2.dll
+Component     "cowpea" = c:\development\apsim\Plant\lib\Plant.dll
+Component  "sunflower" = c:\development\apsim\cropmod\lib\cropmod.dll
+
+------- clock Initialisation --------------------------------------------------
+     Sequencer phases:
+        prepare
+        process
+        post
+     Simulation start date =  1/01/1988
+     Simulation end date   =  1/01/1990
+     Time step =           = 1440 (mins)
+
+------- report Initialisation -------------------------------------------------
+     Output variables:
+        clock.day
+        clock.year
+        sunflower.stage   as stage_sunflower
+        sunflower.lai     as lai_sunflower
+        sunflower.biomass as biom_sunflower
+        cowpea.stage   as stage_cowpea
+        cowpea.lai     as lai_cowpea
+        cowpea.biomass as biom_cowpea
+        soilwat2.sw_dep()
+
+     Output file = intercropping.out
+     Format = normal
+
+------- Met Initialisation ----------------------------------------------------
+     Sparse data is not allowed
+     INPUT File name: c:\development\apsim\met\sample\dalby.met
+
+------- canopy Initialisation -------------------------------------------------
+      Initialising
+      Module rotation for intercropping :
+     sunflower                       cowpea
+
+------- fertiliz Initialisation -----------------------------------------------
+      Initialising
+     
+        - Reading Parameters
+     
+     
+     
+                    Fertiliser Schedule (kg/ha)
+          -----------------------------------------------
+           No fertiliser schedule is used
+          -----------------------------------------------
+
+------- irrigate Initialisation -----------------------------------------------
+      Initialising
+     
+        - Reading Parameters
+     
+     
+     
+                      Irrigation parameters
+          -----------------------------------------------
+           Irrigation Schedule (Disabled)
+           Automatic Irrigation Application (Disabled)
+           critical fraction of available soil water =  0.00
+           depth for calculating available soil water =       0.00
+           Irrigation Allocation Budget (Disabled)
+          -----------------------------------------------
+
+------- manager Initialisation ------------------------------------------------
+     Manager rules:
+     
+     SECTION:- start_of_day
+     if day = 10 and year = 1988 then
+        sunflower sow cultivar = sunfola68-2, plants = 5, sowing_depth = 50 (mm)
+     endif
+     if day = 10 and year = 1988 then
+         cowpea sow cultivar = banjo, plants = 25 (/m2), sowing_depth = 40 (mm)
+     endif
+     if (sunflower.stage = 11) then
+       sunflower harvest
+       sunflower end_crop
+     endif
+     if cowpea.stage_name = 'harvest_ripe' or cowpea.plant_status = 'dead' then
+        cowpea harvest
+        cowpea end_crop
+     endif
+     if ((sunflower.stage > 0 and sunflower.stage <12) or
+         (cowpea.stage >= 1 and cowpea.stage <= 11 )) then
+         report do_output
+     endif
+     END of rules
+     
+
+------- soilwat2 Initialisation -----------------------------------------------
+     
+         - Reading constants
+     
+        - Reading Soil Property Parameters
+     
+        - Reading Soil Profile Parameters
+     Initial soilwater distributed using "sw" parameter.
+     
+     
+     
+                      Soil Profile Properties
+        ---------------------------------------------------------------------
+              Depth  Air_Dry  LL15   Dul    Sat     Sw     BD   Runoff  SWCON
+                mm     mm/mm  mm/mm  mm/mm  mm/mm  mm/mm  g/cc    wf
+        ---------------------------------------------------------------------
+            0.-  150.  0.100  0.230  0.450  0.500  0.280  1.300  0.762  0.200
+          150.-  300.  0.200  0.240  0.459  0.509  0.364  1.300  0.190  0.200
+          300.-  600.  0.200  0.240  0.450  0.510  0.430  1.290  0.048  0.200
+          600.-  900.  0.200  0.250  0.440  0.505  0.430  1.310  0.000  0.200
+          900.- 1200.  0.200  0.260  0.420  0.490  0.400  1.350  0.000  0.200
+         1200.- 1500.  0.200  0.270  0.410  0.480  0.410  1.360  0.000  0.200
+         1500.- 1800.  0.200  0.280  0.410  0.480  0.410  1.360  0.000  0.200
+        ---------------------------------------------------------------------
+     
+     
+     
+                  Soil Water Holding Capacity
+          ---------------------------------------------------------
+              Depth    Unavailable Available  Max Avail.  Drainable
+                          (LL15)   (SW-LL15)  (DUL-LL15)  (SAT-DUL)
+                            mm        mm          mm         mm
+          ---------------------------------------------------------
+            0.-  150.      34.50       7.50      33.00       7.50
+          150.-  300.      36.00      18.60      32.85       7.50
+          300.-  600.      72.00      57.00      63.00      18.00
+          600.-  900.      75.00      54.00      57.00      19.50
+          900.- 1200.      78.00      42.00      48.00      21.00
+         1200.- 1500.      81.00      42.00      42.00      21.00
+         1500.- 1800.      84.00      39.00      39.00      21.00
+          ---------------------------------------------------------
+               Totals     460.50     260.10     314.85     115.50
+          ---------------------------------------------------------
+     
+     
+     
+     
+     
+     
+                  Initial Soil Parameters
+          ---------------------------------------------------------
+                 Insoil        Salb     Dif_Con   Dif_Slope
+          ---------------------------------------------------------
+                   2.00        0.13       88.00       35.40
+          ---------------------------------------------------------
+     
+     
+     
+                  Runoff is predicted using scs curve number:
+                Cn2  Cn_Red  Cn_Cov   H_Eff_Depth
+                                           mm
+          ---------------------------------------------------------
+              80.00   20.00    0.80  450.00
+          ---------------------------------------------------------
+     
+     
+     
+           Using Ritchie evaporation model
+            Cuml evap (U):            4.00 (mm^0.5)
+            CONA:                     2.50 ()
+            Eo from priestly-taylor
+
+------- SurfaceOM Initialisation ----------------------------------------------
+     
+         - Reading constants
+     
+         - Reading parameters
+     
+     
+     
+                         Initial Surface Organic Matter Data
+         ----------------------------------------------------------------------
+            Name   Type        Dry matter   C        N        P    Cover  Standing_fr
+                                (kg/ha)  (kg/ha)  (kg/ha)  (kg/ha) (0-1)     (0-1)
+         ----------------------------------------------------------------------
+          mungbean  mungbean      2000.0   800.0    26.7     0.0   0.330     0.0
+         ----------------------------------------------------------------------
+     
+                      Effective Cover from Surface Materials =   0.3
+     
+
+------- soiln2 Initialisation -------------------------------------------------
+     
+        - Reading Parameters
+     
+        - Reading Constants
+     
+     
+     
+           TAV and AMP supplied externally
+     
+     
+     
+                      Soil Profile Properties
+          ------------------------------------------------
+           Layer    pH    OC     NO3     NH4    Urea
+                         (%) (kg/ha) (kg/ha) (kg/ha)
+          ------------------------------------------------
+             1     8.20  1.00   17.94    0.58    0.00
+             2     8.50  0.84   14.82    0.58    0.00
+             3     8.60  0.77   18.96    1.16    0.00
+             4     8.60  0.65   10.61    1.18    0.00
+             5     7.40  0.54    6.07    1.22    0.00
+             6     5.30  0.48    7.34    2.04    0.00
+             7     5.00  0.43    5.71    2.04    0.00
+          ------------------------------------------------
+           Totals               81.46    8.81    0.00
+          ------------------------------------------------
+     
+     
+     
+     
+     
+     
+                  Initial Soil Organic Matter Status
+          ---------------------------------------------------------
+           Layer      Hum-C   Hum-N  Biom-C  Biom-N   FOM-C   FOM-N
+                    (kg/ha) (kg/ha) (kg/ha) (kg/ha) (kg/ha) (kg/ha)
+          ---------------------------------------------------------
+             1      19038.4  1313.0   461.6    57.7   138.9     6.9
+             2      16180.2  1115.9   199.8    25.0   108.1     5.4
+             3      29622.8  2043.0   176.2    22.0    65.6     3.3
+             4      25481.8  1757.4    63.2     7.9    39.8     2.0
+             5      21848.3  1506.8    21.7     2.7    24.1     1.2
+             6      19582.1  1350.5     1.9     0.2    14.6     0.7
+             7      17542.3  1209.8     1.7     0.2     8.9     0.4
+          ---------------------------------------------------------
+           Totals  149295.9 10296.3   926.1   115.8   400.0    20.0
+          ---------------------------------------------------------
+
+------- cowpea Initialisation -------------------------------------------------
+     phenology model: TTT
+
+------- sunflower Initialisation ----------------------------------------------
+      Initialising, V1.0 2000.01.21
+     
+         - Reading constants
+------- Start of simulation  --------------------------------------------------
+10 January 1988(Day of year=10), manager: 
+     Manager sending message :- sunflower sow  cultivar = sunfola68-2, plants = 5, sowing_depth = 50 (mm)
+10 January 1988(Day of year=10), sunflower: 
+     Sowing initiate
+     
+     
+     
+                      Crop Sowing Data
+         -------------------------------------------------------
+         Sowing   Depth  Plants Spacing Skiprow Cultivar    FTN
+         Day no    mm      m^2    m      code     name       no
+         -------------------------------------------------------
+             10   50.0    5.0    0.0    0.0   sunfola68-    0.00
+         -------------------------------------------------------
+     
+        - Reading root profile parameters
+     Uptake of NO3 and water calculated by sunflower
+     
+     
+     
+     
+                         Root Profile
+         ------------------------------------------------
+           Layer      Kl      Lower Exploration
+           Depth              limit   Factor
+           (mm)       ()     (mm/mm)    ()
+         ------------------------------------------------
+          150.000    0.060    0.230    1.000
+          150.000    0.060    0.240    0.600
+          300.000    0.060    0.240    0.450
+          300.000    0.060    0.250    0.220
+          300.000    0.060    0.260    0.100
+          300.000    0.060    0.270    0.080
+          300.000    0.020    0.280    0.050
+          ------------------------------------------------
+     
+            Crop factor for bounding water use is set to  100.0  times eo.
+     
+     
+     
+     
+        - Reading Cultivar Parameters
+         ------------------------------------------------
+         Cultivar                 = sunfola68-2
+         rel_leaf_init_rate       =    1.00
+         photoperiod_crit1        =   12.50
+         photoperiod_crit2        =   14.50
+         photoperiod_slope        =   -1.00
+         tt_emerg_to_endjuv       =  200.00
+         tt_endjuv_to_init        =  370.00
+         tt_fi_to_flag            =  380.00
+         tt_flag_to_flower        =    1.00
+         tt_flower_to_start_grain =  100.00
+         tt_flower_to_maturity    =  714.00
+         tt_maturity_to_ripe      =    1.00
+         hi_incr                  =   0.009
+         x_hi_max_pot_stress      =    0.00   1.00
+         y_hi_max_pot             =    0.10   0.40
+         tpla_prod_coef           =   0.010
+         tpla_inflection          = 495.000
+         spla_prod_coef           =   0.004
+         spla_intercept           =   0.018
+         x_stem_wt                =     0.0   80.0
+         y_height                 =     0.0 2800.0
+         ------------------------------------------------
+     
+     
+     
+     Manager sending message :- cowpea sow  cultivar = banjo, plants = 25 (/m2), sowing_depth = 40 (mm)
+10 January 1988(Day of year=10), cowpea: 
+     Crop Sow
+      - reading constants for plant(cowpea)
+C3 photosynthetic_pathway read=1222145
+photosynthetic_pathway =845866497
+      - reading cultivar parameters
+      - reading grain cultivar parameters
+         ------------------------------------------------
+        cultivar                   = banjo
+        est_days_emerg_to_init     = 20 (days)
+        cum_vernal_days            =       0     100 (vd)
+        tt_emerg_to_endjuv         =     552     552 (dd)
+        x_pp_endjuv_to_init        =    13.3      18 (h)
+        y_tt_endjuv_to_init        =       1     229 (dd)
+        x_pp_init_to_flower        =       1      24 (h)
+        y_tt_init_to_flower        =      20      20 (dd)
+        x_pp_flower_to_start_grain =       1      24 (h)
+        y_tt_flower_to_start_grain =     100     100 (dd)
+        x_pp_start_to_end_grain    =       1      24 (h)
+        y_tt_start_to_end_grain    =     280     280 (dd)
+        tt_end_grain_to_maturity   =         20 (dd)
+        tt_maturity_to_ripe        =          5 (dd)
+        x_pp_hi_incr               =       1.00      24.00
+        y_hi_incr                  =     0.0140     0.0140
+        x_hi_max_pot_stress        =       0.00       1.00
+        y_hi_max_pot               =       0.40       0.40
+         ------------------------------------------------
+     
+     
+      - reading root profile parameters
+                        Root Profile
+         -----------------------------------------------
+          Layer       Kl           Lower    Exploration
+          Depth     Factor         Limit      Factor
+          (mm)         ()        (mm/mm)       (0-1)
+         -----------------------------------------------
+         150.0     0.060          0.230       1.000
+         150.0     0.060          0.240       0.600
+         300.0     0.060          0.240       0.450
+         300.0     0.060          0.250       0.220
+         300.0     0.060          0.260       0.100
+         300.0     0.060          0.270       0.080
+         300.0     0.020          0.280       0.050
+         -----------------------------------------------
+         Extractable SW:   315mm in  1800mm total depth ( 17%).
+         Crop factor for bounding water use is set to 100.0 times eo.
+     
+                      Crop Sowing Data
+         ------------------------------------------------
+         Sowing  Depth Plants Spacing Skip  Skip  Cultivar
+         Day no   mm     m^2     mm   row   plant name
+         ------------------------------------------------
+             10   40.0   25.0  500.0   0.0   0.0 banjo
+         ------------------------------------------------
+     
+11 January 1988(Day of year=11), sunflower: 
+      stage    2.0 germination
+11 January 1988(Day of year=11), cowpea: 
+      stage 2.0 germination
+15 January 1988(Day of year=15), sunflower: 
+      stage    3.0 emergence
+                          biomass =           1.000000       lai =    0.2000000E-02
+                          stover N conc =    5.000000       extractable sw =    50.69073
+16 January 1988(Day of year=16), cowpea: 
+      stage 3.0 emergence
+                     biomass =           0.75 (g/m^2)   lai          =   0.020 (m^2/m^2)
+                     stover N conc =     6.00 (%)    extractable sw =   59.12 (mm)
+26 January 1988(Day of year=26), sunflower: 
+      stage    4.0 end_of_juvenile
+                          biomass =           8.104183       lai =    0.6129503E-01
+                          stover N conc =    4.019068       extractable sw =    127.6742
+16 February 1988(Day of year=47), sunflower: 
+      stage    5.0 floral_initiation
+                          biomass =           141.9149       lai =     1.214986
+                          stover N conc =    3.374259       extractable sw =    211.0997
+23 February 1988(Day of year=54), cowpea: 
+      stage 4.0 end_of_juvenile
+                     biomass =          98.60 (g/m^2)   lai          =   1.579 (m^2/m^2)
+                     stover N conc =     3.98 (%)    extractable sw =  161.49 (mm)
+25 February 1988(Day of year=56), cowpea: 
+      stage 5.0 floral_initiation
+                     biomass =         102.86 (g/m^2)   lai          =   1.637 (m^2/m^2)
+                     stover N conc =     3.88 (%)    extractable sw =  151.67 (mm)
+26 February 1988(Day of year=57), cowpea: 
+      stage 6.0 flowering
+                     biomass =         103.92 (g/m^2)   lai          =   1.648 (m^2/m^2)
+                     stover N conc =     3.84 (%)    extractable sw =  149.99 (mm)
+5 March 1988(Day of year=65), cowpea: 
+      stage 7.0 start_grain_fill
+                     biomass =         116.02 (g/m^2)   lai          =   1.704 (m^2/m^2)
+                     stover N conc =     3.47 (%)    extractable sw =  176.19 (mm)
+27 March 1988(Day of year=87), sunflower: 
+      stage    6.0 flag_leaf
+                          biomass =           471.4635       lai =     1.991603
+                          stover N conc =    1.515144       extractable sw =    153.6335
+28 March 1988(Day of year=88), sunflower: 
+      stage    7.0 flowering
+                          biomass =           483.3068       lai =     1.983482
+                          stover N conc =    1.485629       extractable sw =    148.6409
+30 March 1988(Day of year=90), cowpea: 
+      stage 8.0 end_grain_fill
+                     biomass =         150.15 (g/m^2)   lai          =   0.953 (m^2/m^2)
+                     stover N conc =     2.26 (%)    extractable sw =   98.36 (mm)
+1 April 1988(Day of year=92), cowpea: 
+      stage 9.0 maturity
+                     biomass =         150.49 (g/m^2)   lai          =   0.850 (m^2/m^2)
+                     stover N conc =     2.25 (%)    extractable sw =  130.46 (mm)
+1 April 1988(Day of year=92), sunflower: 
+      stage    8.0 start_grain_fill
+                          biomass =           518.1309       lai =     1.922493
+                          stover N conc =    1.423279       extractable sw =    169.7958
+2 April 1988(Day of year=93), cowpea: 
+      stage 10.0 harvest_ripe
+                     biomass =         150.71 (g/m^2)   lai          =   0.000 (m^2/m^2)
+                     stover N conc =     2.39 (%)    extractable sw =  144.26 (mm)
+3 April 1988(Day of year=94), manager: 
+     Manager sending message :- cowpea harvest
+3 April 1988(Day of year=94), cowpea: 
+     
+      flowering day          =   57                           stover (kg/ha)         =     1086.1
+      maturity day           =   92                           grain yield (kg/ha)    =      421.0
+      grain % water content  =   12.0                         grain yield wet (kg/ha)=      478.4
+      grain wt (g)           =    0.000                       grains/m^2             =      0.000
+      grains/plant           =    0.0                         maximum lai            =      1.716
+      total above ground biomass (kg/ha)    =     1507.1
+      live above ground biomass (kg/ha)     =     1507.1
+      green above ground biomass (kg/ha)    =      922.0
+      senesced above ground biomass (kg/ha) =      585.1
+      dead above ground biomass (kg/ha)     =        0.0
+      number of leaves       =    8.2
+      DM Root:Shoot ratio    =    0.579                       Harvest Index          =      0.279
+      Stover C:N ratio       =   18.353                       Root C:N ratio         =     26.667
+      grain N percent        =       4.50                     total N content (kg/ha)=      42.62
+      grain N uptake (kg/ha) =      18.94                     senesced N content (kg/ha)=   11.70
+      green N content (kg/ha)=      11.97                     dead N content (kg/ha) =       0.00
+     
+      Average Stress Indices:                          Water Photo  Water Expan  N Photo      N grain conc
+         emergence            to end_of_juvenile         0.000        0.000        0.000        0.019
+         end_of_juvenile      to floral_initiation       0.000        0.000        0.000        0.000
+         floral_initiation    to flowering               0.000        0.000        0.000        0.000
+         flowering            to start_grain_fill        0.000        0.000        0.000        0.000
+         start_grain_fill     to end_grain_fill          0.000        0.000        0.000        0.000
+     
+     
+     Crop harvested.
+         Organic matter from crop:-      Tops to surface residue      Roots to soil FOM
+                          DM (kg/ha) =               1086.09                    0.00
+                          N  (kg/ha) =                 23.67                    0.00
+     
+         Organic matter removed from system:-      From Tops               From Roots
+                          DM (kg/ha) =                420.97                    0.00
+                          N  (kg/ha) =                 18.94                    0.00
+     
+      stage 11.0 end_crop
+     Manager sending message :- cowpea end_crop
+     Crop ended. Yield (dw) =     0.0  (kg/ha)
+         Organic matter from crop:-      Tops to surface residue      Roots to soil FOM
+                          DM (kg/ha) =                  0.00                  872.44
+                          N  (kg/ha) =                  0.00                   13.09
+     
+30 April 1988(Day of year=121), sunflower: 
+      stage    9.0 end_grain_fill
+                          biomass =           700.5328       lai =    0.4131291
+                          stover N conc =    1.314099       extractable sw =    218.4088
+2 May 1988(Day of year=123), sunflower: 
+      stage   10.0 maturity
+                          biomass =           706.7032       lai =    0.1473827
+                          stover N conc =    1.339197       extractable sw =    213.9413
+3 May 1988(Day of year=124), sunflower: 
+      stage   11.0 harvest_ripe
+                          biomass =           706.7032       lai =     0.000000
+                          stover N conc =    1.355534       extractable sw =    212.6504
+4 May 1988(Day of year=125), manager: 
+     Manager sending message :- sunflower harvest
+4 May 1988(Day of year=125), sunflower: 
+     
+     
+     
+     flowering (DAS) =   79                                maturity (DAS)  =     114
+      flowering day  =   88                                 stover (kg/ha) =    5187.9
+      maturity day        =  123                            grain yield (kg/ha) =    1879.1
+      grain % water content   =    9.0                      grain yield wet (kg/ha) =    2065.0
+      grain wt (g) =     0.000                              grains/m^2   =     0.000
+      grains/head =   0.0                                   maximum lai = 2.000
+      total above ground biomass (kg/ha) =    7067.0
+      live above ground biomass (kg/ha) =    7067.0
+      green above ground biomass (kg/ha) =    5136.4
+      senesced above ground biomass (kg/ha) =    1930.6
+      dead above ground biomass (kg/ha) =       0.0
+      number of leaves =  31.8
+      grain N percent =      1.90                           total N content (kg/ha) =     83.14
+      grain N uptake (kg/ha) =     35.77                    senesced N content (kg/ha) =     13.51
+      green N content (kg/ha) =     33.86                   dead N content (kg/ha) =      0.00
+     
+     
+      Average Stress Indices:                          Water Photo  Water Expan  N Photo      N grain conc
+         emergence           to end_of_juvenile         0.000        0.000        0.007        0.185
+         end_of_juvenile     to floral_initiation       0.000        0.066        0.040        0.231
+         floral_initiation   to flag_leaf               0.000        0.021        0.509        0.607
+         flag_leaf           to flowering               0.000        0.415        0.365        0.492
+         flowering           to start_grain_fill        0.000        0.318        0.354        0.483
+         start_grain_fill    to end_grain_fill          0.000        0.000        0.222        0.378
+     
+     Crop harvested.
+         Organic matter removed from system:-      From Tops               From Roots
+                          DM (kg/ha) =               1879.14                    0.00
+                          N  (kg/ha) =                 35.77                    0.00
+     
+     Manager sending message :- sunflower end_crop
+         Crop ended. Yield (dw) =     0.0
+         Organic matter from crop:-      Tops to surface residue     Roots to soil FOM
+                          DM (kg/ha) =               5582.42                 2086.36
+                          N  (kg/ha) =                 47.37                   17.19
+                          P  (kg/ha) =                  0.00                    0.00
+     
+1 January 1990(Day of year=1), clock: 
+     Simulation is terminating due to end criteria being met.

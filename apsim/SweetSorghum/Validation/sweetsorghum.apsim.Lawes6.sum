@@ -1,0 +1,43 @@
+     ###     ######     #####   #   #     #   
+    #   #    #     #   #        #   ##   ##   
+   #     #   #     #   #        #   ##   ##   
+   #######   ######     #####   #   # # # #   
+   #     #   #              #   #   #  #  #   
+   #     #   #         #####    #   #  #  #   
+                                              
+                                              
+ The Agricultural Production Systems Simulator
+             Copyright(c) APSRU               
+
+Version                = 5.3
+Title                  = Lawes Planting Six
+Component      "clock" = c:\development\apsim\clock\lib\clock.dll
+Component     "report" = c:\development\apsim\report\lib\report.dll
+Component        "Met" = c:\development\apsim\Input\lib\Input.dll
+Component   "fertiliz" = c:\development\apsim\fertiliz\lib\fertiliz.dll
+Component   "irrigate" = c:\development\apsim\irrigate\lib\irrigate.dll
+Component    "manager" = c:\development\apsim\manager\lib\manager.dll
+Component   "soilwat2" = c:\development\apsim\soilwat2\lib\soilwat2.dll
+Component  "surfaceom" = c:\development\apsim\surfaceom\lib\surfaceom.dll
+Component     "soiln2" = c:\development\apsim\soiln2\lib\soiln2.dll
+Component "sweetsorghum" = c:\development\apsim\plant\lib\plant.dll
+
+------- clock Initialisation --------------------------------------------------
+     Sequencer phases:
+        prepare
+        process
+        post
+     Simulation start date = 15/09/2004
+     Simulation end date   = 31/01/2005
+     Time step =           = 1440 (mins)
+
+------- Met Initialisation ----------------------------------------------------
+     !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+                      APSIM  Fatal  Error
+                      -------------------
+     Cannot find data in INPUT file for date 2004-Sep-15
+     Component name: Met
+     !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+     
+     
+------- Start of simulation  --------------------------------------------------

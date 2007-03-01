@@ -12,6 +12,5 @@ module = soiln2             soil.par   [sample]    %apsuite/apsim/soiln2/soiln2.
 module = SurfaceOM          soil.par   [sample]    %apsuite/apsim/SurfaceOM/SurfaceOM.ini [standard]
 module = SoilP              soil.par   [sample]    %apsuite/apsim/SoilP/soilp.ini [standard]
 module = Plant(navybean)    soil.par   [sample]    %apsuite/apsim/navybean/navybean.ini [standard]
-module = SummaryFile        sample.man [navybean]
 !module = Log debug.par[debug]
 

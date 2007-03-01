@@ -1,0 +1,416 @@
+     ###     ######     #####   #   #     #   
+    #   #    #     #   #        #   ##   ##   
+   #     #   #     #   #        #   ##   ##   
+   #######   ######     #####   #   # # # #   
+   #     #   #              #   #   #  #  #   
+   #     #   #         #####    #   #  #  #   
+                                              
+                                              
+ The Agricultural Production Systems Simulator
+             Copyright(c) APSRU               
+
+Version                = 5.3
+Title                  = peanut P Sample Simulation
+Component      "clock" = c:\development\apsim\clock\lib\clock.dll
+Component     "report" = c:\development\apsim\report\lib\report.dll
+Component        "met" = c:\development\apsim\input\lib\input.dll
+Component    "manager" = c:\development\apsim\manager\lib\manager.dll
+Component   "soilwat2" = c:\development\apsim\soilwat2\lib\soilwat2.dll
+Component  "SurfaceOM" = c:\development\apsim\SurfaceOM\lib\SurfaceOM.dll
+Component     "soiln2" = c:\development\apsim\soiln2\lib\soiln2.dll
+Component      "SoilP" = c:\development\apsim\SoilP\lib\SoilP.dll
+Component     "peanut" = c:\development\apsim\Plant\lib\Plant.dll
+
+------- clock Initialisation --------------------------------------------------
+     Sequencer phases:
+        prepare
+        process
+        post
+     Simulation start date = 15/11/1988
+     Simulation end date   = 20/04/1989
+     Time step =           = 1440 (mins)
+
+------- report Initialisation -------------------------------------------------
+     Output variables:
+        clock.day
+        clock.year
+        peanut.lai
+        peanut.biomass
+        peanut.green_biomass
+        peanut.dm_green()
+        peanut.dm_green
+        peanut.p_green()
+        peanut.p_green
+        peanut.p_sen()
+        peanut.p_sen
+        peanut.p_demand
+        peanut.pfact_photo
+        peanut.pfact_pheno
+        peanut.pfact_expansion
+        peanut.pfact_grain
+        peanut.biomass_p
+        peanut.green_biomass_p
+        peanut.grain_p
+        peanut.leaf_p
+        peanut.stem_p
+        peanut.root_p
+        peanut.deadleaf_p
+        peanut.pod_p
+        peanut.head_p
+        peanut.p_senesced()
+        peanut.p_dead()
+        peanut.dlt_p_green()
+        peanut.dlt_p_retrans()
+        peanut.dlt_p_detached()
+        peanut.dlt_p_dead()
+        peanut.dlt_p_sen()
+        peanut.p_conc_stover
+        peanut.p_conc_leaf
+        peanut.p_conc_stem
+        peanut.p_conc_grain
+        peanut.p_uptake_stover
+        peanut.grain_p_demand
+        surfaceom.surfaceom_p
+
+     Output file = peanut.out
+     Format = normal
+
+------- met Initialisation ----------------------------------------------------
+     Sparse data is not allowed
+     INPUT File name: c:\development\apsim\met\sample\dalby.met
+
+------- manager Initialisation ------------------------------------------------
+     Manager rules:
+     
+     SECTION:- start_of_day
+     if day = 330 and year  = 1988 then
+        peanut sow cultivar = early_bunch, plants = 10 (/m2), sowing_depth = 40 (mm)
+     endif
+     if peanut.stage_name = 'harvest_ripe' or peanut.plant_status = 'dead' then
+        peanut harvest
+        peanut end_crop
+     endif
+     
+     SECTION:- end_of_day
+     report do_output
+     END of rules
+     
+
+------- soilwat2 Initialisation -----------------------------------------------
+     
+         - Reading constants
+     
+        - Reading Soil Property Parameters
+     
+        - Reading Soil Profile Parameters
+     Initial soilwater distributed using "sw" parameter.
+     
+     
+     
+                      Soil Profile Properties
+        ---------------------------------------------------------------------
+              Depth  Air_Dry  LL15   Dul    Sat     Sw     BD   Runoff  SWCON
+                mm     mm/mm  mm/mm  mm/mm  mm/mm  mm/mm  g/cc    wf
+        ---------------------------------------------------------------------
+            0.-  150.  0.100  0.230  0.450  0.500  0.280  1.300  0.762  0.200
+          150.-  300.  0.200  0.240  0.459  0.509  0.364  1.300  0.190  0.200
+          300.-  600.  0.200  0.240  0.450  0.510  0.430  1.290  0.048  0.200
+          600.-  900.  0.200  0.250  0.440  0.505  0.430  1.310  0.000  0.200
+          900.- 1200.  0.200  0.260  0.420  0.490  0.400  1.350  0.000  0.200
+         1200.- 1500.  0.200  0.270  0.410  0.480  0.410  1.360  0.000  0.200
+         1500.- 1800.  0.200  0.280  0.410  0.480  0.410  1.360  0.000  0.200
+        ---------------------------------------------------------------------
+     
+     
+     
+                  Soil Water Holding Capacity
+          ---------------------------------------------------------
+              Depth    Unavailable Available  Max Avail.  Drainable
+                          (LL15)   (SW-LL15)  (DUL-LL15)  (SAT-DUL)
+                            mm        mm          mm         mm
+          ---------------------------------------------------------
+            0.-  150.      34.50       7.50      33.00       7.50
+          150.-  300.      36.00      18.60      32.85       7.50
+          300.-  600.      72.00      57.00      63.00      18.00
+          600.-  900.      75.00      54.00      57.00      19.50
+          900.- 1200.      78.00      42.00      48.00      21.00
+         1200.- 1500.      81.00      42.00      42.00      21.00
+         1500.- 1800.      84.00      39.00      39.00      21.00
+          ---------------------------------------------------------
+               Totals     460.50     260.10     314.85     115.50
+          ---------------------------------------------------------
+     
+     
+     
+     
+     
+     
+                  Initial Soil Parameters
+          ---------------------------------------------------------
+                 Insoil        Salb     Dif_Con   Dif_Slope
+          ---------------------------------------------------------
+                   2.00        0.13       88.00       35.40
+          ---------------------------------------------------------
+     
+     
+     
+                  Runoff is predicted using scs curve number:
+                Cn2  Cn_Red  Cn_Cov   H_Eff_Depth
+                                           mm
+          ---------------------------------------------------------
+              80.00   20.00    0.80  450.00
+          ---------------------------------------------------------
+     
+     
+     
+           Using Ritchie evaporation model
+            Cuml evap (U):            4.00 (mm^0.5)
+            CONA:                     2.50 ()
+            Eo from priestly-taylor
+
+------- SurfaceOM Initialisation ----------------------------------------------
+     
+         - Reading constants
+     
+         - Reading parameters
+     
+     
+     
+                         Initial Surface Organic Matter Data
+         ----------------------------------------------------------------------
+            Name   Type        Dry matter   C        N        P    Cover  Standing_fr
+                                (kg/ha)  (kg/ha)  (kg/ha)  (kg/ha) (0-1)     (0-1)
+         ----------------------------------------------------------------------
+          mungbean  mungbean      2000.0   800.0    26.7     0.0   0.330     0.0
+         ----------------------------------------------------------------------
+     
+                      Effective Cover from Surface Materials =   0.3
+     
+
+------- soiln2 Initialisation -------------------------------------------------
+     
+        - Reading Parameters
+     
+        - Reading Constants
+     
+     
+     
+           TAV and AMP supplied externally
+     
+     
+     
+                      Soil Profile Properties
+          ------------------------------------------------
+           Layer    pH    OC     NO3     NH4    Urea
+                         (%) (kg/ha) (kg/ha) (kg/ha)
+          ------------------------------------------------
+             1     8.20  1.00   17.94    0.58    0.00
+             2     8.50  0.84   14.82    0.58    0.00
+             3     8.60  0.77   18.96    1.16    0.00
+             4     8.60  0.65   10.61    1.18    0.00
+             5     7.40  0.54    6.07    1.22    0.00
+             6     5.30  0.48    7.34    2.04    0.00
+             7     5.00  0.43    5.71    2.04    0.00
+          ------------------------------------------------
+           Totals               81.46    8.81    0.00
+          ------------------------------------------------
+     
+     
+     
+     
+     
+     
+                  Initial Soil Organic Matter Status
+          ---------------------------------------------------------
+           Layer      Hum-C   Hum-N  Biom-C  Biom-N   FOM-C   FOM-N
+                    (kg/ha) (kg/ha) (kg/ha) (kg/ha) (kg/ha) (kg/ha)
+          ---------------------------------------------------------
+             1      19038.4  1313.0   461.6    57.7   138.9     6.9
+             2      16180.2  1115.9   199.8    25.0   108.1     5.4
+             3      29622.8  2043.0   176.2    22.0    65.6     3.3
+             4      25481.8  1757.4    63.2     7.9    39.8     2.0
+             5      21848.3  1506.8    21.7     2.7    24.1     1.2
+             6      19582.1  1350.5     1.9     0.2    14.6     0.7
+             7      17542.3  1209.8     1.7     0.2     8.9     0.4
+          ---------------------------------------------------------
+           Totals  149295.9 10296.3   926.1   115.8   400.0    20.0
+          ---------------------------------------------------------
+
+------- SoilP Initialisation --------------------------------------------------
+     
+        - Reading Constants
+     
+        - Reading Parameters
+     
+     
+     
+                   Phosphorus Initial Data
+          ---------------------------------------------------------
+           Layer    Labile  Unavailable Banded     Rock    Sorption
+                    (kg/ha)   (kg/ha)   (kg/ha)   (kg/ha)     ()
+          ---------------------------------------------------------
+             1        9.7      97.5       0.0       0.0      50.0
+             2        1.9      19.5       0.0       0.0     100.0
+             3        3.9      38.7       0.0       0.0     200.0
+             4        3.9      39.3       0.0       0.0     200.0
+             5        4.1      40.5       0.0       0.0     200.0
+             6        4.1      40.8       0.0       0.0     200.0
+             7        4.1      40.8       0.0       0.0     200.0
+          ---------------------------------------------------------
+           Totals    31.7     317.1       0.0       0.0
+          ---------------------------------------------------------
+     
+     
+     
+           Dissolution rate of rock P :    0.00061   (/yr)
+           Root C:P :                    200.0
+
+------- peanut Initialisation -------------------------------------------------
+        - Module is set phosphorus aware
+     
+     phenology model: TTT
+------- Start of simulation  --------------------------------------------------
+25 November 1988(Day of year=330), manager: 
+     Manager sending message :- peanut sow  cultivar = early_bunch, plants = 10 (/m2), sowing_depth = 40 (mm)
+25 November 1988(Day of year=330), peanut: 
+     Crop Sow
+      - reading constants for plant(peanut)
+C3 photosynthetic_pathway read=1222145
+photosynthetic_pathway =845866497
+      - reading cultivar parameters
+      - reading grain cultivar parameters
+         ------------------------------------------------
+        cultivar                   = early_bunch
+        est_days_emerg_to_init     = 2 (days)
+        cum_vernal_days            =       0     100 (vd)
+        tt_emerg_to_endjuv         =       5       5 (dd)
+        x_pp_endjuv_to_init        =      12      17 (h)
+        y_tt_endjuv_to_init        =       1       5 (dd)
+        x_pp_init_to_flower        =       1      24 (h)
+        y_tt_init_to_flower        =     380     380 (dd)
+        x_pp_flower_to_start_grain =       1      24 (h)
+        y_tt_flower_to_start_grain =     300     300 (dd)
+        x_pp_start_to_end_grain    =       1      24 (h)
+        y_tt_start_to_end_grain    =  1020.5  1020.5 (dd)
+        tt_end_grain_to_maturity   =         70 (dd)
+        tt_maturity_to_ripe        =          5 (dd)
+        x_pp_hi_incr               =       1.00      24.00
+        y_hi_incr                  =     0.0064     0.0064
+        x_hi_max_pot_stress        =       0.00       1.00
+        y_hi_max_pot               =       0.45       0.45
+         ------------------------------------------------
+     
+     
+      - reading root profile parameters
+                        Root Profile
+         -----------------------------------------------
+          Layer       Kl           Lower    Exploration
+          Depth     Factor         Limit      Factor
+          (mm)         ()        (mm/mm)       (0-1)
+         -----------------------------------------------
+         150.0     0.080          0.230       1.000
+         150.0     0.080          0.240       1.000
+         300.0     0.080          0.240       1.000
+         300.0     0.080          0.250       1.000
+         300.0     0.050          0.260       1.000
+         300.0     0.030          0.270       1.000
+         300.0     0.010          0.280       1.000
+         -----------------------------------------------
+         Extractable SW:   315mm in  1800mm total depth ( 17%).
+         Crop factor for bounding water use is set to 100.0 times eo.
+     
+                      Crop Sowing Data
+         ------------------------------------------------
+         Sowing  Depth Plants Spacing Skip  Skip  Cultivar
+         Day no   mm     m^2     mm   row   plant name
+         ------------------------------------------------
+            330   40.0   10.0  500.0   0.0   0.0 early_bunch
+         ------------------------------------------------
+     
+26 November 1988(Day of year=331), peanut: 
+      stage 2.0 germination
+2 December 1988(Day of year=337), peanut: 
+      stage 3.0 emergence
+                     biomass =           0.45 (g/m^2)   lai          =   0.006 (m^2/m^2)
+                     stover N conc =     4.60 (%)    extractable sw =   45.67 (mm)
+3 December 1988(Day of year=338), peanut: 
+      stage 4.0 end_of_juvenile
+                     biomass =           0.52 (g/m^2)   lai          =   0.007 (m^2/m^2)
+                     stover N conc =     4.01 (%)    extractable sw =   45.62 (mm)
+4 December 1988(Day of year=339), peanut: 
+      stage 5.0 floral_initiation
+                     biomass =           0.63 (g/m^2)   lai          =   0.010 (m^2/m^2)
+                     stover N conc =     3.66 (%)    extractable sw =   45.55 (mm)
+29 December 1988(Day of year=364), peanut: 
+      stage 6.0 flowering
+                     biomass =          47.07 (g/m^2)   lai          =   0.773 (m^2/m^2)
+                     stover N conc =     2.65 (%)    extractable sw =  217.46 (mm)
+19 January 1989(Day of year=19), peanut: 
+      stage 7.0 start_grain_fill
+                     biomass =         142.99 (g/m^2)   lai          =   1.492 (m^2/m^2)
+                     stover N conc =     2.36 (%)    extractable sw =  289.19 (mm)
+4 April 1989(Day of year=94), peanut: 
+      stage 8.0 end_grain_fill
+                     biomass =         377.10 (g/m^2)   lai          =   1.100 (m^2/m^2)
+                     stover N conc =     2.08 (%)    extractable sw =  299.46 (mm)
+10 April 1989(Day of year=100), peanut: 
+      stage 9.0 maturity
+                     biomass =         381.68 (g/m^2)   lai          =   1.010 (m^2/m^2)
+                     stover N conc =     2.02 (%)    extractable sw =  285.25 (mm)
+11 April 1989(Day of year=101), peanut: 
+      stage 10.0 harvest_ripe
+                     biomass =         381.68 (g/m^2)   lai          =   0.000 (m^2/m^2)
+                     stover N conc =     2.37 (%)    extractable sw =  282.76 (mm)
+12 April 1989(Day of year=102), manager: 
+     Manager sending message :- peanut harvest
+12 April 1989(Day of year=102), peanut: 
+     
+      flowering day          =  364                           stover (kg/ha)         =     2099.2
+      maturity day           =  100                           grain yield (kg/ha)    =     1717.5
+      grain % water content  =   13.0                         grain yield wet (kg/ha)=     1974.2
+      grain wt (g)           =    0.000                       grains/m^2             =      0.000
+      grains/plant           =    0.0                         maximum lai            =      1.752
+      total above ground biomass (kg/ha)    =     3816.8
+      live above ground biomass (kg/ha)     =     3816.8
+      green above ground biomass (kg/ha)    =     2978.2
+      senesced above ground biomass (kg/ha) =      838.6
+      dead above ground biomass (kg/ha)     =        0.0
+      number of leaves       =  345.7
+      DM Root:Shoot ratio    =    0.137                       Harvest Index          =      0.450
+      Stover C:N ratio       =   21.948                       Root C:N ratio         =     18.124
+      grain N percent        =       5.00                     total N content (kg/ha)=     124.14
+      grain N uptake (kg/ha) =      85.88                     senesced N content (kg/ha)=    8.39
+      green N content (kg/ha)=      29.87                     dead N content (kg/ha) =       0.00
+      grain P percent        =       0.20                     total P content (kg/ha)=       8.76
+      grain P uptake (kg/ha) =       3.46                     senesced P content (kg/ha)=    1.51
+      green P content (kg/ha)=       3.78                     dead P content (kg/ha) =       0.00
+     
+      Average Stress Indices:                          Water Photo  Water Expan  N Photo      N grain conc
+         emergence            to end_of_juvenile         0.000        0.000        0.000        0.000
+         end_of_juvenile      to floral_initiation       0.000        0.000        0.000        0.000
+         floral_initiation    to flowering               0.000        0.000        0.000        0.042
+         flowering            to start_grain_fill        0.000        0.000        0.000        0.000
+         start_grain_fill     to end_grain_fill          0.000        0.000        0.000        0.000
+     
+     
+     Crop harvested.
+         Organic matter from crop:-      Tops to surface residue      Roots to soil FOM
+                          DM (kg/ha) =               2099.22                    0.00
+                          N  (kg/ha) =                 38.26                    0.00
+                          P  (kg/ha) =                  5.29                    0.00
+     
+         Organic matter removed from system:-      From Tops               From Roots
+                          DM (kg/ha) =               1717.55                    0.00
+                          N  (kg/ha) =                 85.88                    0.00
+                          P  (kg/ha) =                  3.46                    0.00
+     
+      stage 11.0 end_crop
+     Manager sending message :- peanut end_crop
+     Crop ended. Yield (dw) =     0.0  (kg/ha)
+         Organic matter from crop:-      Tops to surface residue      Roots to soil FOM
+                          DM (kg/ha) =                  0.00                  524.42
+                          N  (kg/ha) =                  0.00                   11.57
+                          P  (kg/ha) =                  0.00                    0.80
+     
+20 April 1989(Day of year=110), clock: 
+     Simulation is terminating due to end criteria being met.

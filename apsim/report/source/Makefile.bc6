@@ -14,7 +14,8 @@ PROJECT=..\lib\Report.dll
 OBJFILES=Report.obj ReportComponent.obj ..\..\..\Shared\ComponentInterface2\CMPComponentEntryPoints.obj
 
 LIBFILES = $(APSROOT)\Shared\general\general.lib                \
-   $(APSROOT)\Shared\ComponentInterface2\ComponentInterface2.lib \
+   $(APSROOT)\Shared\ApsimShared\ApsimShared.lib \
+   $(APSROOT)\Shared\ComponentInterface2\ComponentInterface2.lib
 
 USERDEFINES =
 SYSDEFINES = _RTLDLL;NO_STRICT;USEPACKAGES

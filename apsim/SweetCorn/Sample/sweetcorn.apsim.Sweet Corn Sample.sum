@@ -1,0 +1,412 @@
+     ###     ######     #####   #   #     #   
+    #   #    #     #   #        #   ##   ##   
+   #     #   #     #   #        #   ##   ##   
+   #######   ######     #####   #   # # # #   
+   #     #   #              #   #   #  #  #   
+   #     #   #         #####    #   #  #  #   
+                                              
+                                              
+ The Agricultural Production Systems Simulator
+             Copyright(c) APSRU               
+
+Version                = 5.3
+Title                  = Sweet Corn Sample Simulation
+Component      "clock" = c:\development\apsim\clock\lib\clock.dll
+Component     "report" = c:\development\apsim\report\lib\report.dll
+Component        "Met" = c:\development\apsim\Input\lib\Input.dll
+Component   "fertiliz" = c:\development\apsim\fertiliz\lib\fertiliz.dll
+Component    "manager" = c:\development\apsim\manager\lib\manager.dll
+Component   "soilwat2" = c:\development\apsim\soilwat2\lib\soilwat2.dll
+Component     "soiln2" = c:\development\apsim\soiln2\lib\soiln2.dll
+Component  "SweetCorn" = c:\development\apsim\plant\lib\plant.dll
+
+------- clock Initialisation --------------------------------------------------
+     Sequencer phases:
+        prepare
+        process
+        post
+     Simulation start date =  1/09/1998
+     Simulation end date   = 30/06/1999
+     Time step =           = 1440 (mins)
+
+------- report Initialisation -------------------------------------------------
+     Output variables:
+        clock.dd/mmm/yyyy as Date
+        met.rain as rain
+        SweetCorn.das
+        SweetCorn.zadok_stage
+        met.day_length
+        SweetCorn.stage
+        SweetCorn.lai
+        SweetCorn.biomass
+        SweetCorn.yield
+        SweetCorn.root_depth
+        SweetCorn.ep
+        SweetCorn.swdef_photo
+        SweetCorn.swdef_expan
+        SweetCorn.nfact_photo
+        SweetCorn.temp_stress_photo
+        SweetCorn.tt_tot
+        met.maxt
+        met.mint
+        met.radn
+        SweetCorn.tt_tot()
+        SweetCorn.dlt_tt
+        SweetCorn.leaf_wt
+        SweetCorn.stem_wt
+
+     Output file = SweetCorn.out
+     Format = normal
+
+------- Met Initialisation ----------------------------------------------------
+     Sparse data is not allowed
+     INPUT File name: c:\development\apsim\met\sample\Gatton.met
+
+------- fertiliz Initialisation -----------------------------------------------
+      Initialising
+     
+        - Reading Parameters
+     
+     
+     
+                    Fertiliser Schedule (kg/ha)
+          -----------------------------------------------
+           No fertiliser schedule is used
+          -----------------------------------------------
+
+------- manager Initialisation ------------------------------------------------
+     Manager rules:
+     
+     SECTION:- start_of_day
+     if today = date('9/12/98') then
+        sweetcorn sow cultivar = h5, plants = 6.6, sowing_depth = 50 (mm)
+        fertiliz apply amount = 200, type = urea_n, depth = 50
+     endif
+     
+     SECTION:- end_of_day
+     if sweetcorn.stage_name = 'harvest_ripe' or sweetcorn.plant_status = 'dead' then
+        sweetcorn harvest
+        sweetcorn end_crop
+     endif
+        report do_output
+     END of rules
+     
+
+------- soilwat2 Initialisation -----------------------------------------------
+     
+         - Reading constants
+     
+        - Reading Soil Property Parameters
+     
+        - Reading Soil Profile Parameters
+     Initial soilwater distributed using "sw" parameter.
+     
+     
+     
+                      Soil Profile Properties
+        ---------------------------------------------------------------------
+              Depth  Air_Dry  LL15   Dul    Sat     Sw     BD   Runoff  SWCON
+                mm     mm/mm  mm/mm  mm/mm  mm/mm  mm/mm  g/cc    wf
+        ---------------------------------------------------------------------
+            0.-  150.  0.100  0.230  0.450  0.500  0.280  1.300  0.762  0.200
+          150.-  300.  0.200  0.240  0.459  0.509  0.364  1.300  0.190  0.200
+          300.-  600.  0.200  0.240  0.450  0.510  0.430  1.290  0.048  0.200
+          600.-  900.  0.200  0.250  0.440  0.505  0.430  1.310  0.000  0.200
+          900.- 1200.  0.200  0.260  0.420  0.490  0.400  1.350  0.000  0.200
+         1200.- 1500.  0.200  0.270  0.410  0.480  0.410  1.360  0.000  0.200
+         1500.- 1800.  0.200  0.280  0.410  0.480  0.410  1.360  0.000  0.200
+        ---------------------------------------------------------------------
+     
+     
+     
+                  Soil Water Holding Capacity
+          ---------------------------------------------------------
+              Depth    Unavailable Available  Max Avail.  Drainable
+                          (LL15)   (SW-LL15)  (DUL-LL15)  (SAT-DUL)
+                            mm        mm          mm         mm
+          ---------------------------------------------------------
+            0.-  150.      34.50       7.50      33.00       7.50
+          150.-  300.      36.00      18.60      32.85       7.50
+          300.-  600.      72.00      57.00      63.00      18.00
+          600.-  900.      75.00      54.00      57.00      19.50
+          900.- 1200.      78.00      42.00      48.00      21.00
+         1200.- 1500.      81.00      42.00      42.00      21.00
+         1500.- 1800.      84.00      39.00      39.00      21.00
+          ---------------------------------------------------------
+               Totals     460.50     260.10     314.85     115.50
+          ---------------------------------------------------------
+     
+     
+     
+     
+     
+     
+                  Initial Soil Parameters
+          ---------------------------------------------------------
+                 Insoil        Salb     Dif_Con   Dif_Slope
+          ---------------------------------------------------------
+                   2.00        0.13       88.00       35.40
+          ---------------------------------------------------------
+     
+     
+     
+                  Runoff is predicted using scs curve number:
+                Cn2  Cn_Red  Cn_Cov   H_Eff_Depth
+                                           mm
+          ---------------------------------------------------------
+              80.00   20.00    0.80  450.00
+          ---------------------------------------------------------
+     
+     
+     
+           Using Ritchie evaporation model
+            Cuml evap (U):            4.00 (mm^0.5)
+            CONA:                     2.50 ()
+            Eo from priestly-taylor
+
+------- soiln2 Initialisation -------------------------------------------------
+     
+        - Reading Parameters
+     
+        - Reading Constants
+     
+     
+     
+           TAV and AMP supplied externally
+     
+     
+     
+                      Soil Profile Properties
+          ------------------------------------------------
+           Layer    pH    OC     NO3     NH4    Urea
+                         (%) (kg/ha) (kg/ha) (kg/ha)
+          ------------------------------------------------
+             1     8.20  1.00   17.94    0.58    0.00
+             2     8.50  0.84   14.82    0.58    0.00
+             3     8.60  0.77   18.96    1.16    0.00
+             4     8.60  0.65   10.61    1.18    0.00
+             5     7.40  0.54    6.07    1.22    0.00
+             6     5.30  0.48    7.34    2.04    0.00
+             7     5.00  0.43    5.71    2.04    0.00
+          ------------------------------------------------
+           Totals               81.46    8.81    0.00
+          ------------------------------------------------
+     
+     
+     
+     
+     
+     
+                  Initial Soil Organic Matter Status
+          ---------------------------------------------------------
+           Layer      Hum-C   Hum-N  Biom-C  Biom-N   FOM-C   FOM-N
+                    (kg/ha) (kg/ha) (kg/ha) (kg/ha) (kg/ha) (kg/ha)
+          ---------------------------------------------------------
+             1      19038.4  1313.0   461.6    57.7   138.9     6.9
+             2      16180.2  1115.9   199.8    25.0   108.1     5.4
+             3      29622.8  2043.0   176.2    22.0    65.6     3.3
+             4      25481.8  1757.4    63.2     7.9    39.8     2.0
+             5      21848.3  1506.8    21.7     2.7    24.1     1.2
+             6      19582.1  1350.5     1.9     0.2    14.6     0.7
+             7      17542.3  1209.8     1.7     0.2     8.9     0.4
+          ---------------------------------------------------------
+           Totals  149295.9 10296.3   926.1   115.8   400.0    20.0
+          ---------------------------------------------------------
+15738860
+------- SweetCorn Initialisation ----------------------------------------------
+     phenology model: Generic
+------- Start of simulation  --------------------------------------------------
+9 December 1998(Day of year=343), manager: 
+     Manager sending message :- sweetcorn sow  cultivar = h5, plants = 6.6, sowing_depth = 50 (mm)
+9 December 1998(Day of year=343), SweetCorn: 
+     Crop Sow
+      - reading constants for plant(sweetcorn)
+     !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+                      APSIM Warning Error
+                      -------------------
+     Bound check warning while reading parameter.
+     Variable  : y_leaf_size(6)
+     Condition : 0.00 <= 77439.30856 <= 60000.00
+     Component name: SweetCorn
+     !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+     
+     
+     !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+                      APSIM Warning Error
+                      -------------------
+     Bound check warning while reading parameter.
+     Variable  : y_leaf_size(7)
+     Condition : 0.00 <= 78596.49147 <= 60000.00
+     Component name: SweetCorn
+     !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+     
+     
+     !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+                      APSIM Warning Error
+                      -------------------
+     Bound check warning while reading parameter.
+     Variable  : x_temp_grainfill(3)
+     Condition : 0.00 <= 56.32 <= 40.00
+     Component name: SweetCorn
+     !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+     
+     
+C4 photosynthetic_pathway read=2
+photosynthetic_pathway =845866498
+      - reading cultivar parameters
+      - reading grain cultivar parameters
+         ------------------------------------------------
+        cultivar                   = h5
+     out
+     
+     sowing
+     
+     germination
+     shoot_lag =         15 (dd)
+     shoot_rate =          1 (dd/mm)
+     
+     emergence
+        tt_emergence =        221 (dd)
+     endjuv_to_fi
+        x_pp_endjuv_to_fi          =    13.9    14.7 (h)
+        y_tt_endjuv_to_fi          =      75      75 (dd)
+     
+     fi_to_flag
+        Stage duration determined by leaf appearance rates
+     flag_to_flower
+        tt_flag_to_flower =        101 (dd)
+     flowering
+        tt_flowering =        170 (dd)
+     start_grain_fill
+        tt_start_grain_fill =        800 (dd)
+     end_grain_fill
+        tt_end_grain_fill =          5 (dd)
+     maturity
+        tt_maturity =          1 (dd)
+     harvest_ripe
+        tt_harvest_ripe =          1 (dd)
+     end_crop
+     
+     
+        grains_per_gram_stem           =        3.3 (/g)
+        potential_grain_filling_rate   =     0.0100 (g/grain/day)
+        potential_grain_growth_rate    =     0.0000 (g/grain/day)
+        max_grain_size                 =     0.5000 (g)
+         ------------------------------------------------
+     
+     
+      - reading root profile parameters
+                        Root Profile
+         -----------------------------------------------
+          Layer       Kl           Lower    Exploration
+          Depth     Factor         Limit      Factor
+          (mm)         ()        (mm/mm)       (0-1)
+         -----------------------------------------------
+         150.0     0.070          0.230       1.000
+         150.0     0.070          0.240       1.000
+         300.0     0.070          0.240       1.000
+         300.0     0.070          0.250       1.000
+         300.0     0.050          0.260       1.000
+         300.0     0.050          0.270       1.000
+         300.0     0.040          0.280       1.000
+         -----------------------------------------------
+         Extractable SW:   315mm in  1800mm total depth ( 17%).
+         Crop factor for bounding water use is set to   1.0 times eo.
+     
+                      Crop Sowing Data
+         ------------------------------------------------
+         Sowing  Depth Plants Spacing Skip  Skip  Cultivar
+         Day no   mm     m^2     mm   row   plant name
+         ------------------------------------------------
+            343   50.0    6.6  750.0   0.0   0.0 h5
+         ------------------------------------------------
+     
+     Manager sending message :- fertiliz apply  amount = 200, type = urea_n, depth = 50
+9 December 1998(Day of year=343), fertiliz: 
+     
+        - Reading Fertiliser Type Parameters
+       200.00 of N as urea (urea_n)
+                                              added at depth   50.00 (layer   1)
+10 December 1998(Day of year=344), SweetCorn: 
+      stage 2.0 germination
+13 December 1998(Day of year=347), SweetCorn: 
+      stage 3.0 emergence
+                     biomass =           0.13 (g/m^2)   lai          =   0.007 (m^2/m^2)
+                     stover N conc =     5.00 (%)    extractable sw =   31.62 (mm)
+26 December 1998(Day of year=360), SweetCorn: 
+      stage 4.0 endjuv_to_fi
+                     biomass =           9.19 (g/m^2)   lai          =   0.107 (m^2/m^2)
+                     stover N conc =     3.77 (%)    extractable sw =   33.00 (mm)
+30 December 1998(Day of year=364), SweetCorn: 
+      stage 5.0 fi_to_flag
+                     biomass =          18.08 (g/m^2)   lai          =   0.214 (m^2/m^2)
+                     stover N conc =     3.64 (%)    extractable sw =   62.56 (mm)
+31 January 1999(Day of year=31), SweetCorn: 
+      stage 6.0 flag_to_flower
+                     biomass =         564.86 (g/m^2)   lai          =   3.602 (m^2/m^2)
+                     stover N conc =     2.82 (%)    extractable sw =  224.51 (mm)
+7 February 1999(Day of year=38), SweetCorn: 
+      stage 7.0 flowering
+                     biomass =         749.73 (g/m^2)   lai          =   4.049 (m^2/m^2)
+                     stover N conc =     2.40 (%)    extractable sw =  212.39 (mm)
+17 February 1999(Day of year=48), SweetCorn: 
+      stage 8.0 start_grain_fill
+                     biomass =         986.92 (g/m^2)   lai          =   3.932 (m^2/m^2)
+                     stover N conc =     2.02 (%)    extractable sw =  265.75 (mm)
+10 April 1999(Day of year=100), SweetCorn: 
+      stage 9.0 end_grain_fill
+                     biomass =        1743.68 (g/m^2)   lai          =   0.022 (m^2/m^2)
+                     stover N conc =     1.64 (%)    extractable sw =  196.28 (mm)
+11 April 1999(Day of year=101), SweetCorn: 
+      stage 10.0 maturity
+                     biomass =        1743.87 (g/m^2)   lai          =   0.000 (m^2/m^2)
+                     stover N conc =     1.64 (%)    extractable sw =  196.03 (mm)
+12 April 1999(Day of year=102), SweetCorn: 
+     Crop failure because of total leaf senescence.
+     Plant death. standing above-ground dm = 17438.70 (kg/ha)
+12 April 1999(Day of year=102), manager: 
+     Manager sending message :- sweetcorn harvest
+     
+      flowering day          =   38                           stover (kg/ha)         =    11777.1
+      maturity day           =  101                           grain yield (kg/ha)    =     5661.6
+      grain % water content  =   12.5                         grain yield wet (kg/ha)=     6470.4
+      grain wt (g)           =    0.000                       grains/m^2             =      0.000
+      grains/plant           =    0.0                         maximum lai            =      4.051
+      total above ground biomass (kg/ha)    =    17438.7
+      live above ground biomass (kg/ha)     =        0.0
+      green above ground biomass (kg/ha)    =        0.0
+      senesced above ground biomass (kg/ha) =        0.0
+      dead above ground biomass (kg/ha)     =    17438.7
+      number of leaves       =    0.5
+      DM Root:Shoot ratio    =    0.114                       Harvest Index          =      0.325
+      Stover C:N ratio       =   27.807                       Root C:N ratio         =     37.497
+      grain N percent        =       1.13                     total N content (kg/ha)=     233.37
+      grain N uptake (kg/ha) =      63.95                     senesced N content (kg/ha)=    0.00
+      green N content (kg/ha)=       0.00                     dead N content (kg/ha) =     169.41
+     
+      Average Stress Indices:                          Water Photo  Water Expan  N Photo      N grain conc
+         emergence            to endjuv_to_fi            0.000        0.000        0.000        0.020
+         endjuv_to_fi         to fi_to_flag              0.000        0.000        0.000        0.000
+         fi_to_flag           to flag_to_flower          0.000        0.000        0.000        0.055
+         flag_to_flower       to flowering               0.000        0.000        0.000        0.005
+         flowering            to start_grain_fill        0.000        0.000        0.000        0.000
+         start_grain_fill     to end_grain_fill          0.000        0.000        0.000        0.000
+     
+     
+     Crop harvested.
+         Organic matter from crop:-      Tops to surface residue      Roots to soil FOM
+                          DM (kg/ha) =               11777.13                    0.00
+                          N  (kg/ha) =                169.41                    0.00
+     
+         Organic matter removed from system:-      From Tops               From Roots
+                          DM (kg/ha) =               5661.57                    0.00
+                          N  (kg/ha) =                 63.95                    0.00
+     
+     Manager sending message :- sweetcorn end_crop
+     Crop ended. Yield (dw) =     0.0  (kg/ha)
+         Organic matter from crop:-      Tops to surface residue      Roots to soil FOM
+                          DM (kg/ha) =                  0.00                 1982.93
+                          N  (kg/ha) =                  0.00                   21.15
+     
+30 June 1999(Day of year=181), clock: 
+     Simulation is terminating due to end criteria being met.

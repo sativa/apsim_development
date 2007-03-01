@@ -33,10 +33,12 @@
 ------- report Initialisation -------------------------------------------------
      Output variables:
         clock.day
-        clock.year
         pigeonp.lai
         pigeonp.biomass
-        pigeonp.green_biomass
+        pigeonp.leaf_wt
+        pigeonp.stem_wt
+        pigeonp.grain_wt
+        surfaceom.surfaceom_wt
      
      Output file = pigeonp.out
      Format = normal
@@ -53,8 +55,13 @@
         pigeonp sow cultivar = short_duration, plants = 10 (/m2), sowing_depth = 40 (mm)
      endif
      if pigeonp.stage_name = 'harvest_ripe' or pigeonp.plant_status = 'dead' then
-        pigeonp harvest
+        stems = pigeonp.stem_wt
+     report do_output
+        pigeonp harvest height = 10000
+     report do_output
+        pigeonp harvest remove= 1.0
         pigeonp end_crop
+     report do_output
      endif
      
      SECTION:- end_of_day
@@ -295,7 +302,8 @@
                      biomass =        1313.90 (g/m^2)   lai          =   0.000 (m^2/m^2)
                      stover N conc =     1.95 (%)    extractable sw =   75.45 (mm)
 22 April 1989(Day of year=112), manager: 
-     Manager sending message :- pigeonp harvest
+     Manager creating a new local real variable : stems =     428.542297000000
+     Manager sending message :- pigeonp harvest  height = 10000
 22 April 1989(Day of year=112), pigeonp: 
      
       flowering day          =   62                           stover (kg/ha)         =     9572.6
@@ -322,26 +330,71 @@
          flowering            to start_grain_fill        0.326        0.409        0.000        0.000
          start_grain_fill     to end_grain_fill          0.184        0.216        0.000        0.000
      
+     !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+                      APSIM Warning Error
+                      -------------------
+     height = 10000.000000
+             exceeds upper limit of 1000.000000
+     Component name: pigeonp
+     !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+     
+     
      
      Crop harvested.
          Organic matter from crop:-      Tops to surface residue      Roots to soil FOM
-                          DM (kg/ha) =               9572.61                    0.00
-                          N  (kg/ha) =                188.76                    0.00
+                          DM (kg/ha) =               5287.19                    0.00
+                          N  (kg/ha) =                103.63                    0.00
      
          Organic matter removed from system:-      From Tops               From Roots
                           DM (kg/ha) =               3566.37                    0.00
                           N  (kg/ha) =                142.65                    0.00
      
       stage 4.0 end_of_juvenile
-                     biomass =           0.00 (g/m^2)   lai          =   0.013 (m^2/m^2)
-                     stover N conc =     0.00 (%)    extractable sw =   75.45 (mm)
+                     biomass =         428.54 (g/m^2)   lai          =   0.013 (m^2/m^2)
+                     stover N conc =     1.99 (%)    extractable sw =   75.45 (mm)
+22 April 1989(Day of year=112), manager: 
+     Manager sending message :- pigeonp harvest  remove = 1.0
+22 April 1989(Day of year=112), pigeonp: 
+     
+      flowering day          =   62                           stover (kg/ha)         =     4285.4
+      maturity day           =  107                           grain yield (kg/ha)    =        0.0
+      grain % water content  =   12.0                         grain yield wet (kg/ha)=        0.0
+      grain wt (g)           =    0.000                       grains/m^2             =      0.000
+      grains/plant           =    0.0                         maximum lai            =      4.142
+      total above ground biomass (kg/ha)    =     4285.4
+      live above ground biomass (kg/ha)     =     4285.4
+      green above ground biomass (kg/ha)    =     4285.4
+      senesced above ground biomass (kg/ha) =        0.0
+      dead above ground biomass (kg/ha)     =        0.0
+      number of leaves       =    1.0
+      DM Root:Shoot ratio    =    0.599                       Harvest Index          =      0.000
+      Stover C:N ratio       =   20.138                       Root C:N ratio         =     20.377
+      grain N percent        =       0.00                     total N content (kg/ha)=      85.12
+      grain N uptake (kg/ha) =       0.00                     senesced N content (kg/ha)=    0.00
+      green N content (kg/ha)=      85.12                     dead N content (kg/ha) =       0.00
+     
+      Average Stress Indices:                          Water Photo  Water Expan  N Photo      N grain conc
+     
+     
+     Crop harvested.
+         Organic matter from crop:-      Tops to surface residue      Roots to soil FOM
+                          DM (kg/ha) =                  0.00                    0.00
+                          N  (kg/ha) =                  0.00                    0.00
+     
+         Organic matter removed from system:-      From Tops               From Roots
+                          DM (kg/ha) =               4285.42                    0.00
+                          N  (kg/ha) =                 85.12                    0.00
+     
+      stage 3.0 emergence
+                     biomass =           0.65 (g/m^2)   lai          =   0.013 (m^2/m^2)
+                     stover N conc =     4.46 (%)    extractable sw =   75.45 (mm)
 22 April 1989(Day of year=112), manager: 
      Manager sending message :- pigeonp end_crop
 22 April 1989(Day of year=112), pigeonp: 
      Crop ended. Yield (dw) =     0.0  (kg/ha)
          Organic matter from crop:-      Tops to surface residue      Roots to soil FOM
-                          DM (kg/ha) =                  0.00                 2565.88
-                          N  (kg/ha) =                  0.00                   50.37
+                          DM (kg/ha) =                  6.50                  501.91
+                          N  (kg/ha) =                  0.29                    7.59
      
 30 April 1989(Day of year=120), clock: 
      Simulation is terminating due to end criteria being met.

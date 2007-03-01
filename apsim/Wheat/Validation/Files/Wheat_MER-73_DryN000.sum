@@ -9,12 +9,23 @@
  The Agricultural Production Systems Simulator
              Copyright(c) APSRU               
 
-     Version                = 5.3
-     Title                  = Wheat_MER-73_DryN000
-     Component DLL          = c:\development\apsim\summaryfile\lib\summaryfile.dll
-     Component DLL          = c:\development\apsim\clock\lib\clock.dll
-     Component DLL          = c:\development\apsim\input\lib\input.dll
-     Component DLL          = c:\development\apsim\protocolmanager\lib\protocolmanager.dll
+Version                = 5.3
+Title                  = Wheat_MER-73_DryN000
+Component      "clock" = c:\development\apsim\clock\lib\clock.dll
+Component        "met" = c:\development\apsim\input\lib\input.dll
+Version                = 5.3
+Title                  = 
+Component "outputfile" = c:\development\apsim\report\lib\report.dll
+Component      "accum" = c:\development\apsim\accum\lib\accum.dll
+Component "fertiliser" = c:\development\apsim\fertiliz\lib\fertiliz.dll
+Component "Irrigation" = c:\development\apsim\irrigate\lib\irrigate.dll
+Component    "Manager" = c:\development\apsim\manager\lib\manager.dll
+Component  "Irrigator" = c:\development\apsim\manager\lib\manager.dll
+Component "Fertilizer" = c:\development\apsim\manager\lib\manager.dll
+Component "MER-73Field Water" = c:\development\apsim\soilwat2\lib\soilwat2.dll
+Component "Surface Organic Matter" = c:\development\apsim\surfaceom\lib\surfaceom.dll
+Component "MER-73Field Nitrogen" = c:\development\apsim\soiln2\lib\soiln2.dll
+Component      "wheat" = c:\development\apsim\plant\lib\plant.dll
 
 ------- clock Initialisation --------------------------------------------------
      Sequencer phases:
@@ -63,7 +74,7 @@
         wheat.root_depth
         wheat.ep
         eo
-     
+
      Output file = Wheat_MER-73_DryN000.out
      Format = normal
 
@@ -127,12 +138,6 @@
 
 ------- Irrigator Initialisation ----------------------------------------------
      Manager rules:
-     
-     SECTION:- init
-     
-     SECTION:- end_of_day
-     
-     SECTION:- start_of_day
      !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
                       APSIM Warning Error
                       -------------------
@@ -144,12 +149,6 @@
 
 ------- Fertilizer Initialisation ---------------------------------------------
      Manager rules:
-     
-     SECTION:- init
-     
-     SECTION:- end_of_day
-     
-     SECTION:- start_of_day
      !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
                       APSIM Warning Error
                       -------------------
@@ -235,7 +234,7 @@
            Using Ritchie evaporation model
             Cuml evap (U):            6.00 (mm^0.5)
             CONA:                     2.00 ()
-           Eo from priestly-taylor
+            Eo from priestly-taylor
 
 ------- Surface Organic Matter Initialisation ---------------------------------
      
@@ -320,6 +319,8 @@
 21 June 1973(Day of year=172), wheat: 
      Crop Sow
       - reading constants for plant(wheat)
+C3 photosynthetic_pathway read=1220865
+photosynthetic_pathway =845866497
       - reading cultivar parameters
       - reading grain cultivar parameters
          ------------------------------------------------
@@ -365,7 +366,6 @@
             172   30.0  100.0  250.0   0.0   0.0 gamenya
          ------------------------------------------------
      
-21 June 1973(Day of year=172), Manager: 
      Manager sending message :- surface organic matter tillage  type = disc
 21 June 1973(Day of year=172), Surface Organic Matter: 
      
@@ -373,7 +373,6 @@
      Residue removed using disc
                                              Fraction Incorporated =     0.50
                                              Incorporated Depth    =   200.00
-21 June 1973(Day of year=172), Manager: 
      Manager creating a new local real variable : ready_to_till_pre_sow =     0.00000000000000
      Manager creating a new local real variable : till_day_pre_sow =     0.00000000000000
 22 June 1973(Day of year=173), wheat: 
@@ -412,7 +411,6 @@
                      stover N conc =     0.30 (%)    extractable sw =    7.87 (mm)
 26 November 1973(Day of year=330), Manager: 
      Manager sending message :- wheat harvest
-26 November 1973(Day of year=330), wheat: 
      
       flowering day          =  282                           stover (kg/ha)         =     4341.8
       maturity day           =  329                           grain yield (kg/ha)    =     2541.1
@@ -451,9 +449,7 @@
       stage 4.0 end_of_juvenile
                      biomass =           0.02 (g/m^2)   lai          =   0.020 (m^2/m^2)
                      stover N conc =     6.30 (%)    extractable sw =    7.87 (mm)
-26 November 1973(Day of year=330), Manager: 
      Manager sending message :- wheat end_crop
-26 November 1973(Day of year=330), wheat: 
      Crop ended. Yield (dw) =     0.0  (kg/ha)
          Organic matter from crop:-      Tops to surface residue      Roots to soil FOM
                           DM (kg/ha) =                  0.19                 1002.18
