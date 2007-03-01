@@ -3,6 +3,7 @@
 #define ApsimDataFileH
 #include <general/platform.h>
 #include <general/string_functions.h>
+#include <boost/date_time/gregorian/gregorian.hpp>
 //---------------------------------------------------------------------------
 // This class a single 'value' whether it be a constant or a value for
 // a specific date. NB A 'value' can have multiple values ie an array.
