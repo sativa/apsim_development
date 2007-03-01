@@ -165,3 +165,38 @@ foreach {name value} [array get typesSeen] {
    puts $fp "$name:  $value"
 }
 close $fp
+
+[spyOnPlant.tcllink.init]
+# Spy on plant messages 
+source [file dirname $tcl_library]/apsimDatatypes.tcl
+
+proc spy {args} {
+  foreach arg $args {array set z $arg}
+  if {[info exists z(type)]} {
+    global fp
+    puts $fp "-----------------"
+    puts $fp "type=$z(type)"
+    if {[info comm unpack_$z(type)] != "" && [info exists z(data)]} {
+       foreach {name value} [unpack_$z(type) $z(data)] {
+          puts $fp "$name=$value"
+       }   
+    } else {
+       puts $fp "(No handler)"
+    }
+  }
+}
+
+set fp [open spyOnPlant.out w]
+apsimCatchMessages spy
+
+[spyOnPlant.tcllink.process]
+# Turn on message hook
+#if {[apsimGet day] == 296} {
+#  apsimCatchMessages spy
+#}  
+#if {[apsimGet day] == 299} {
+#  apsimCatchMessages ""
+#}  
+
+[spyOnPlant.tcllink.exit]
+close $fp

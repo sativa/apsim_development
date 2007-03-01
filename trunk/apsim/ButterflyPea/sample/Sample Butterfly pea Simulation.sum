@@ -9,12 +9,20 @@
  The Agricultural Production Systems Simulator
              Copyright(c) APSRU               
 
-     Version                = 5.3
-     Title                  = Sample Butterfly pea Simulation
-     Component DLL          = c:\development\apsim\summaryfile\lib\summaryfile.dll
-     Component DLL          = c:\development\apsim\clock\lib\clock.dll
-     Component DLL          = c:\development\apsim\input\lib\input.dll
-     Component DLL          = c:\development\apsim\protocolmanager\lib\protocolmanager.dll
+Version                = 5.3
+Title                  = Sample Butterfly pea Simulation
+Component      "clock" = c:\development\apsim\clock\lib\clock.dll
+Component        "met" = c:\development\apsim\input\lib\input.dll
+Version                = 5.3
+Title                  = 
+Component "outputfile" = c:\development\apsim\report\lib\report.dll
+Component      "accum" = c:\development\apsim\accum\lib\accum.dll
+Component "fertiliser" = c:\development\apsim\fertiliz\lib\fertiliz.dll
+Component    "Manager" = c:\development\apsim\manager\lib\manager.dll
+Component "#063 - Roma Res Stn, Roma,Brown Vertosol Water" = c:\development\apsim\soilwat2\lib\soilwat2.dll
+Component "surface organic matter" = c:\development\apsim\surfaceom\lib\surfaceom.dll
+Component "#063 - Roma Res Stn, Roma,Brown Vertosol Nitrogen" = c:\development\apsim\soiln2\lib\soiln2.dll
+Component "butterflypea" = c:\development\apsim\plant\lib\plant.dll
 
 ------- clock Initialisation --------------------------------------------------
      Sequencer phases:
@@ -47,7 +55,7 @@
         butterflypea.sw_stress_fixation
         butterflypea.sw_stress_expan
         butterflypea.stage_name
-     
+
      Output file = Sample Butterfly pea Simulation.out
      Format = normal
 
@@ -151,7 +159,7 @@
            Using Ritchie evaporation model
             Cuml evap (U):            6.00 (mm^0.5)
             CONA:                     3.50 ()
-           Eo from priestly-taylor
+            Eo from priestly-taylor
 
 ------- surface organic matter Initialisation ---------------------------------
      
@@ -177,7 +185,6 @@
         - Reading Parameters
      
         - Reading Constants
-     Using standard soil mineralisation for soil type [soil.soiltype]
      
      
      
@@ -221,7 +228,6 @@
 ------- butterflypea Initialisation -------------------------------------------
      phenology model: TTT
 ------- Start of simulation  --------------------------------------------------
-1 January 1989(Day of year=1), Manager: 
      Manager creating a new local real variable : fallowin =     0.00000000000000
      Manager creating a new local real variable : nextcrop =     0.00000000000000
 31 January 1989(Day of year=31), Manager: 
@@ -230,6 +236,8 @@
 31 January 1989(Day of year=31), butterflypea: 
      Crop Sow
       - reading constants for plant(butterflypea)
+C3 photosynthetic_pathway read=1220865
+photosynthetic_pathway =845866497
       - reading cultivar parameters
       - reading grain cultivar parameters
          ------------------------------------------------

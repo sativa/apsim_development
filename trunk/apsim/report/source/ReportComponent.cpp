@@ -1,12 +1,13 @@
 #pragma hdrstop
+#include <sstream>
 
+#include <ApsimShared/ApsimVersion.h>
 #include <ComponentInterface2/ScienceAPI.h>
 #include <general/math_functions.h>
 #include <general/stl_functions.h>
 #include <general/string_functions.h>
 #include <general/date_class.h>
 #include <general/StringTokenizer.h>
-#include <sstream>
 
 #include "ReportComponent.h"
 using namespace std;
@@ -446,10 +447,8 @@ void ReportComponent::writeHeadings(void)
       f->writeUnits(unitLine);
       }
 
-   // output summary_file
-   string summaryFile;
-   scienceAPI.get("summaryfile", "", true, summaryFile);
-   file << "Summary_file = " << summaryFile << endl;
+   // output header
+   file << "APSIM output file, version = " << getApsimVersion() << endl;
 
    // output title
    string title;

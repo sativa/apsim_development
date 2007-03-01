@@ -1,0 +1,69 @@
+     ###     ######     #####   #   #     #   
+    #   #    #     #   #        #   ##   ##   
+   #     #   #     #   #        #   ##   ##   
+   #######   ######     #####   #   # # # #   
+   #     #   #              #   #   #  #  #   
+   #     #   #         #####    #   #  #  #   
+                                              
+                                              
+ The Agricultural Production Systems Simulator
+             Copyright(c) APSRU               
+
+Version                = 5.3
+Title                  = Test Tcl library
+Component      "clock" = c:\development\apsim\clock\lib\clock.dll
+Component     "report" = c:\development\apsim\report\lib\report.dll
+Component        "met" = c:\development\apsim\input\lib\input.dll
+Component    "manager" = c:\development\apsim\manager\lib\manager.dll
+Component    "tcllink" = c:\development\apsim\tcllink\lib\tcllink.dll
+
+------- clock Initialisation --------------------------------------------------
+     Sequencer phases:
+        prepare
+        process
+        post
+     Simulation start date =  1/01/1988
+     Simulation end date   = 31/01/1988
+     Time step =           = 1440 (mins)
+
+------- report Initialisation -------------------------------------------------
+     Output variables:
+        clock.day
+        clock.year
+        manager.test
+
+     Output file = tcllink.out
+     Format = normal
+
+------- met Initialisation ----------------------------------------------------
+     Sparse data is not allowed
+     INPUT File name: c:\development\apsim\met\sample\dalby.met
+
+------- manager Initialisation ------------------------------------------------
+     Manager rules:
+     
+     SECTION:- init
+     test = 0
+     
+     SECTION:- process
+     report do_output
+     END of rules
+     
+     Manager creating a new local real variable : test =     0.00000000000000
+
+------- tcllink Initialisation ------------------------------------------------
+     Copyright (C) 1991-1994 The Regents of the University of California.
+     Copyright (C) 1996-1997 Sun Microsystems, Inc.
+     Copyright (C) 2001      ActiveState.
+     Interpreter name: 'tcllink'
+     --->Section: process
+     
+     
+                 # Shows the get/set interface
+                 apsimSet manager.test [apsimGet clock.day]
+     
+     
+     --->End
+------- Start of simulation  --------------------------------------------------
+31 January 1988(Day of year=31), clock: 
+     Simulation is terminating due to end criteria being met.

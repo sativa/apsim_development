@@ -9,5 +9,4 @@ module = manager        sysbal.par [sample]
 module = soilwat2       sysbal.par [black_earth]      %apsuite/apsim/soilwat2/soilwat2.ini [standard]
 module = soiln2         sysbal.par [black_earth]      %apsuite/apsim/soiln2/soiln2.ini [standard]
 module = plant(wheat)   sysbal.par [sample]           %apsuite/apsim/wheat/wheat.ini [standard]
-module = SummaryFile    sysbal.par[sample]
 module = sysbal

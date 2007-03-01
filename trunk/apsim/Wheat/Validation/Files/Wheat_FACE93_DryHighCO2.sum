@@ -9,12 +9,22 @@
  The Agricultural Production Systems Simulator
              Copyright(c) APSRU               
 
-     Version                = 5.3
-     Title                  = Wheat_FACE93_DryHighCO2
-     Component DLL          = c:\development\apsim\summaryfile\lib\summaryfile.dll
-     Component DLL          = c:\development\apsim\clock\lib\clock.dll
-     Component DLL          = c:\development\apsim\input\lib\input.dll
-     Component DLL          = c:\development\apsim\protocolmanager\lib\protocolmanager.dll
+Version                = 5.3
+Title                  = Wheat_FACE93_DryHighCO2
+Component      "clock" = c:\development\apsim\clock\lib\clock.dll
+Component        "met" = c:\development\apsim\input\lib\input.dll
+Version                = 5.3
+Title                  = 
+Component "outputfile" = c:\development\apsim\report\lib\report.dll
+Component      "accum" = c:\development\apsim\accum\lib\accum.dll
+Component "fertiliser" = c:\development\apsim\fertiliz\lib\fertiliz.dll
+Component "Irrigation" = c:\development\apsim\irrigate\lib\irrigate.dll
+Component    "Manager" = c:\development\apsim\manager\lib\manager.dll
+Component  "Irrigator" = c:\development\apsim\manager\lib\manager.dll
+Component "Fertilizer" = c:\development\apsim\manager\lib\manager.dll
+Component "FACEField Water" = c:\development\apsim\soilwat2\lib\soilwat2.dll
+Component "FACEField Nitrogen" = c:\development\apsim\soiln2\lib\soiln2.dll
+Component      "wheat" = c:\development\apsim\plant\lib\plant.dll
 
 ------- clock Initialisation --------------------------------------------------
      Sequencer phases:
@@ -63,7 +73,7 @@
         wheat.root_depth
         wheat.ep
         eo
-     
+
      Output file = Wheat_FACE93_DryHighCO2.out
      Format = normal
 
@@ -116,72 +126,24 @@
 
 ------- Irrigator Initialisation ----------------------------------------------
      Manager rules:
+     !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+                      APSIM Warning Error
+                      -------------------
+     No manager lines were found in any parameter file.
+     Component name: Irrigator
+     !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
      
-     SECTION:- init
-     
-     SECTION:- end_of_day
-     
-     SECTION:- start_of_day
-               if (day = 347) then
-                   irrigation apply amount = 13 (mm)
-               endif
-               if (day = 351) then
-                   irrigation apply amount = 17 (mm)
-               endif
-               if (day = 34) then
-                   irrigation apply amount = 30 (mm)
-               endif
-               if (day = 75) then
-                   irrigation apply amount = 30 (mm)
-               endif
-               if (day = 87) then
-                   irrigation apply amount = 30 (mm)
-               endif
-               if (day = 98) then
-                   irrigation apply amount = 50 (mm)
-               endif
-               if (day = 109) then
-                   irrigation apply amount = 50 (mm)
-               endif
-               if (day = 120) then
-                   irrigation apply amount = 7 (mm)
-               endif
-               if (day = 124) then
-                   irrigation apply amount = 60 (mm)
-               endif
-     END of rules
      
 
 ------- Fertilizer Initialisation ---------------------------------------------
      Manager rules:
+     !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+                      APSIM Warning Error
+                      -------------------
+     No manager lines were found in any parameter file.
+     Component name: Fertilizer
+     !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
      
-     SECTION:- init
-     
-     SECTION:- end_of_day
-     
-     SECTION:- start_of_day
-               if (day = 341) then
-                   fertiliser apply amount = 54 (kg/ha), depth = 50 (mm), type = no3_n ()
-               endif
-               if (day = 342) then
-                   fertiliser apply amount = 10 (kg/ha), depth = 50 (mm), type = no3_n ()
-               endif
-               if (day = 35) then
-                   fertiliser apply amount = 92 (kg/ha), depth = 50 (mm), type = no3_n ()
-               endif
-               if (day = 36) then
-                   fertiliser apply amount = 10 (kg/ha), depth = 50 (mm), type = no3_n ()
-               endif
-               if (day = 75) then
-                   fertiliser apply amount = 69 (kg/ha), depth = 50 (mm), type = no3_n ()
-               endif
-               if (day = 76) then
-                   fertiliser apply amount = 10 (kg/ha), depth = 50 (mm), type = no3_n ()
-               endif
-               if (day = 98) then
-                   fertiliser apply amount = 46 (kg/ha), depth = 50 (mm), type = no3_n ()
-               endif
-     END of rules
      
 
 ------- FACEField Water Initialisation ----------------------------------------
@@ -268,7 +230,7 @@
            Using Ritchie evaporation model
             Cuml evap (U):            6.00 (mm^0.5)
             CONA:                     2.00 ()
-           Eo from priestly-taylor
+            Eo from priestly-taylor
 
 ------- FACEField Nitrogen Initialisation -------------------------------------
      
@@ -337,25 +299,13 @@
 ------- wheat Initialisation --------------------------------------------------
      phenology model: Wheat
 ------- Start of simulation  --------------------------------------------------
-7 December 1993(Day of year=341), Fertilizer: 
-     Manager sending message :- fertiliser apply  amount = 54 (kg/ha), depth = 50 (mm), type = no3_n
-7 December 1993(Day of year=341), fertiliser: 
-     
-        - Reading Fertiliser Type Parameters
-        54.00 of N as nitrate (no3_n)
-                                              added at depth   50.00 (layer   1)
-8 December 1993(Day of year=342), Fertilizer: 
-     Manager sending message :- fertiliser apply  amount = 10 (kg/ha), depth = 50 (mm), type = no3_n
-8 December 1993(Day of year=342), fertiliser: 
-     
-        - Reading Fertiliser Type Parameters
-        10.00 of N as nitrate (no3_n)
-                                              added at depth   50.00 (layer   1)
 13 December 1993(Day of year=347), Manager: 
      Manager sending message :- wheat sow  plants = 186, sowing_depth = 40, cultivar = yecora, row_spacing = 250
 13 December 1993(Day of year=347), wheat: 
      Crop Sow
       - reading constants for plant(wheat)
+C3 photosynthetic_pathway read=1220865
+photosynthetic_pathway =845866497
       - reading cultivar parameters
       - reading grain cultivar parameters
          ------------------------------------------------
@@ -405,141 +355,85 @@
             347   40.0  186.0  250.0   0.0   0.0 yecora
          ------------------------------------------------
      
-13 December 1993(Day of year=347), Irrigator: 
-     Manager sending message :- irrigation apply  amount = 13 (mm)
 14 December 1993(Day of year=348), wheat: 
       stage 2.0 germination
-17 December 1993(Day of year=351), Irrigator: 
-     Manager sending message :- irrigation apply  amount = 17 (mm)
 26 December 1993(Day of year=360), wheat: 
       stage 3.0 emergence
                      biomass =           0.86 (g/m^2)   lai          =   0.037 (m^2/m^2)
-                     stover N conc =     5.85 (%)    extractable sw =   15.71 (mm)
+                     stover N conc =     5.85 (%)    extractable sw =   11.38 (mm)
 27 December 1993(Day of year=361), wheat: 
       stage 4.0 end_of_juvenile
                      biomass =           1.04 (g/m^2)   lai          =   0.040 (m^2/m^2)
-                     stover N conc =     5.84 (%)    extractable sw =   15.58 (mm)
-3 February 1994(Day of year=34), Irrigator: 
-     Manager sending message :- irrigation apply  amount = 30 (mm)
-4 February 1994(Day of year=35), Fertilizer: 
-     Manager sending message :- fertiliser apply  amount = 92 (kg/ha), depth = 50 (mm), type = no3_n
-4 February 1994(Day of year=35), fertiliser: 
-     
-        - Reading Fertiliser Type Parameters
-        92.00 of N as nitrate (no3_n)
-                                              added at depth   50.00 (layer   1)
-5 February 1994(Day of year=36), Fertilizer: 
-     Manager sending message :- fertiliser apply  amount = 10 (kg/ha), depth = 50 (mm), type = no3_n
-5 February 1994(Day of year=36), fertiliser: 
-     
-        - Reading Fertiliser Type Parameters
-        10.00 of N as nitrate (no3_n)
-                                              added at depth   50.00 (layer   1)
+                     stover N conc =     5.84 (%)    extractable sw =   11.08 (mm)
 9 March 1994(Day of year=68), wheat: 
       stage 5.0 floral_initiation
-                     biomass =         505.00 (g/m^2)   lai          =   3.226 (m^2/m^2)
-                     stover N conc =     3.90 (%)    extractable sw =   25.66 (mm)
-16 March 1994(Day of year=75), Irrigator: 
-     Manager sending message :- irrigation apply  amount = 30 (mm)
-16 March 1994(Day of year=75), Fertilizer: 
-     Manager sending message :- fertiliser apply  amount = 69 (kg/ha), depth = 50 (mm), type = no3_n
-16 March 1994(Day of year=75), fertiliser: 
-     
-        - Reading Fertiliser Type Parameters
-        69.00 of N as nitrate (no3_n)
-                                              added at depth   50.00 (layer   1)
-17 March 1994(Day of year=76), Fertilizer: 
-     Manager sending message :- fertiliser apply  amount = 10 (kg/ha), depth = 50 (mm), type = no3_n
-17 March 1994(Day of year=76), fertiliser: 
-     
-        - Reading Fertiliser Type Parameters
-        10.00 of N as nitrate (no3_n)
-                                              added at depth   50.00 (layer   1)
-28 March 1994(Day of year=87), Irrigator: 
-     Manager sending message :- irrigation apply  amount = 30 (mm)
-8 April 1994(Day of year=98), Irrigator: 
-     Manager sending message :- irrigation apply  amount = 50 (mm)
-8 April 1994(Day of year=98), Fertilizer: 
-     Manager sending message :- fertiliser apply  amount = 46 (kg/ha), depth = 50 (mm), type = no3_n
-8 April 1994(Day of year=98), fertiliser: 
-     
-        - Reading Fertiliser Type Parameters
-        46.00 of N as nitrate (no3_n)
-                                              added at depth   50.00 (layer   1)
+                     biomass =         275.54 (g/m^2)   lai          =   2.725 (m^2/m^2)
+                     stover N conc =     2.26 (%)    extractable sw =   11.98 (mm)
 13 April 1994(Day of year=103), wheat: 
       stage 6.0 flowering
-                     biomass =         831.91 (g/m^2)   lai          =   1.087 (m^2/m^2)
-                     stover N conc =     2.24 (%)    extractable sw =   53.94 (mm)
-19 April 1994(Day of year=109), Irrigator: 
-     Manager sending message :- irrigation apply  amount = 50 (mm)
+                     biomass =         333.86 (g/m^2)   lai          =   0.170 (m^2/m^2)
+                     stover N conc =     1.99 (%)    extractable sw =    1.15 (mm)
 19 April 1994(Day of year=109), wheat: 
       stage 7.0 start_grain_fill
-                     biomass =         891.23 (g/m^2)   lai          =   0.960 (m^2/m^2)
-                     stover N conc =     2.08 (%)    extractable sw =   82.34 (mm)
-30 April 1994(Day of year=120), Irrigator: 
-     Manager sending message :- irrigation apply  amount = 7 (mm)
-4 May 1994(Day of year=124), Irrigator: 
-     Manager sending message :- irrigation apply  amount = 60 (mm)
+                     biomass =         335.03 (g/m^2)   lai          =   0.096 (m^2/m^2)
+                     stover N conc =     1.97 (%)    extractable sw =    0.76 (mm)
 16 May 1994(Day of year=136), wheat: 
       stage 8.0 end_grain_fill
-                     biomass =        1182.80 (g/m^2)   lai          =   0.380 (m^2/m^2)
-                     stover N conc =     1.66 (%)    extractable sw =   52.13 (mm)
+                     biomass =         337.28 (g/m^2)   lai          =   0.009 (m^2/m^2)
+                     stover N conc =     1.59 (%)    extractable sw =    0.11 (mm)
 17 May 1994(Day of year=137), wheat: 
       stage 9.0 maturity
-                     biomass =        1182.80 (g/m^2)   lai          =   0.340 (m^2/m^2)
-                     stover N conc =     1.66 (%)    extractable sw =   49.67 (mm)
+                     biomass =         337.28 (g/m^2)   lai          =   0.008 (m^2/m^2)
+                     stover N conc =     1.59 (%)    extractable sw =    0.11 (mm)
 18 May 1994(Day of year=138), wheat: 
       stage 10.0 harvest_ripe
-                     biomass =        1182.80 (g/m^2)   lai          =   0.001 (m^2/m^2)
-                     stover N conc =     1.70 (%)    extractable sw =   47.51 (mm)
+                     biomass =         337.28 (g/m^2)   lai          =   0.001 (m^2/m^2)
+                     stover N conc =     1.59 (%)    extractable sw =    0.10 (mm)
 18 May 1994(Day of year=138), Manager: 
      Manager sending message :- wheat harvest
-18 May 1994(Day of year=138), wheat: 
      
-      flowering day          =  103                           stover (kg/ha)         =     8410.8
-      maturity day           =  137                           grain yield (kg/ha)    =     3417.3
-      grain % water content  =   12.5                         grain yield wet (kg/ha)=     3905.5
-      grain wt (g)           =    0.041                       grains/m^2             =   8334.832
-      grains/plant           =   44.8                         maximum lai            =      5.451
-      total above ground biomass (kg/ha)    =    11828.0
-      live above ground biomass (kg/ha)     =    11828.0
-      green above ground biomass (kg/ha)    =     8713.4
-      senesced above ground biomass (kg/ha) =     3114.7
+      flowering day          =  103                           stover (kg/ha)         =     2807.7
+      maturity day           =  137                           grain yield (kg/ha)    =      565.1
+      grain % water content  =   12.5                         grain yield wet (kg/ha)=      645.9
+      grain wt (g)           =    0.019                       grains/m^2             =   3035.581
+      grains/plant           =   16.3                         maximum lai            =      3.506
+      total above ground biomass (kg/ha)    =     3372.8
+      live above ground biomass (kg/ha)     =     3372.8
+      green above ground biomass (kg/ha)    =     1705.3
+      senesced above ground biomass (kg/ha) =     1667.5
       dead above ground biomass (kg/ha)     =        0.0
-      number of leaves       =   48.4
-      DM Root:Shoot ratio    =    0.187                       Harvest Index          =      0.289
-      Stover C:N ratio       =   31.930                       Root C:N ratio         =     17.596
-      grain N percent        =       2.88                     total N content (kg/ha)=     203.71
-      grain N uptake (kg/ha) =      98.34                     senesced N content (kg/ha)=   15.57
-      green N content (kg/ha)=      89.79                     dead N content (kg/ha) =       0.00
+      number of leaves       =   42.0
+      DM Root:Shoot ratio    =    0.318                       Harvest Index          =      0.168
+      Stover C:N ratio       =   42.372                       Root C:N ratio         =     16.754
+      grain N percent        =       2.87                     total N content (kg/ha)=      42.74
+      grain N uptake (kg/ha) =      16.23                     senesced N content (kg/ha)=    8.34
+      green N content (kg/ha)=      18.17                     dead N content (kg/ha) =       0.00
      
       Average Stress Indices:                          Water Photo  Water Expan  N Photo      N grain conc
          emergence            to end_of_juvenile         0.000        0.000        0.000        0.000
-         end_of_juvenile      to floral_initiation       0.124        0.149        0.000        0.027
-         floral_initiation    to flowering               0.341        0.414        0.000        0.000
-         flowering            to start_grain_fill        0.244        0.344        0.000        0.000
-         start_grain_fill     to end_grain_fill          0.032        0.055        0.000        0.000
+         end_of_juvenile      to floral_initiation       0.070        0.094        0.283        0.331
+         floral_initiation    to flowering               0.773        0.867        0.058        0.051
+         flowering            to start_grain_fill        1.083        1.192        0.000        0.000
+         start_grain_fill     to end_grain_fill          0.858        0.957        0.000        0.000
      
      
      Crop harvested.
          Organic matter from crop:-      Tops to surface residue      Roots to soil FOM
-                          DM (kg/ha) =               8410.37                    0.00
-                          N  (kg/ha) =                105.34                    0.00
+                          DM (kg/ha) =               2807.36                    0.00
+                          N  (kg/ha) =                 26.48                    0.00
      
          Organic matter removed from system:-      From Tops               From Roots
-                          DM (kg/ha) =               3417.28                    0.00
-                          N  (kg/ha) =                 98.34                    0.00
+                          DM (kg/ha) =                565.12                    0.00
+                          N  (kg/ha) =                 16.23                    0.00
      
       stage 4.0 end_of_juvenile
                      biomass =           0.04 (g/m^2)   lai          =   0.037 (m^2/m^2)
-                     stover N conc =     6.30 (%)    extractable sw =   47.51 (mm)
-18 May 1994(Day of year=138), Manager: 
+                     stover N conc =     6.30 (%)    extractable sw =    0.10 (mm)
      Manager sending message :- wheat end_crop
-18 May 1994(Day of year=138), wheat: 
      Crop ended. Yield (dw) =     0.0  (kg/ha)
          Organic matter from crop:-      Tops to surface residue      Roots to soil FOM
-                          DM (kg/ha) =                  0.39                 2212.13
-                          N  (kg/ha) =                  0.02                   50.29
+                          DM (kg/ha) =                  0.37                 1074.10
+                          N  (kg/ha) =                  0.02                   25.64
      
 30 May 1994(Day of year=150), clock: 
      Simulation is terminating due to end criteria being met.

@@ -9,16 +9,15 @@
  The Agricultural Production Systems Simulator
              Copyright(c) APSRU               
 
-     Version                = 5.3
-     Title                  = Solute Sample Simulation
-     Component DLL          = c:\development\apsim\SummaryFile\lib\SummaryFile.dll
-     Component DLL          = c:\development\apsim\clock\lib\clock.dll
-     Component DLL          = c:\development\apsim\report\lib\report.dll
-     Component DLL          = c:\development\apsim\input\lib\input.dll
-     Component DLL          = c:\development\apsim\fertiliz\lib\fertiliz.dll
-     Component DLL          = c:\development\apsim\manager\lib\manager.dll
-     Component DLL          = c:\development\apsim\soilwat2\lib\soilwat2.dll
-     Component DLL          = c:\development\apsim\solute\lib\solute.dll
+Version                = 5.3
+Title                  = Solute Sample Simulation
+Component      "clock" = c:\development\apsim\clock\lib\clock.dll
+Component     "report" = c:\development\apsim\report\lib\report.dll
+Component        "Met" = c:\development\apsim\input\lib\input.dll
+Component   "fertiliz" = c:\development\apsim\fertiliz\lib\fertiliz.dll
+Component    "manager" = c:\development\apsim\manager\lib\manager.dll
+Component   "soilwat2" = c:\development\apsim\soilwat2\lib\soilwat2.dll
+Component     "solute" = c:\development\apsim\solute\lib\solute.dll
 
 ------- clock Initialisation --------------------------------------------------
      Sequencer phases:
@@ -38,7 +37,7 @@
         solute.max_cl
         solute.maxppm_cl
         solute.maxlayer_cl
-     
+
      Output file = Solute.out
      Format = normal
 
@@ -141,14 +140,12 @@
            Using Ritchie evaporation model
             Cuml evap (U):            4.00 (mm^0.5)
             CONA:                     2.50 ()
-           Eo from priestly-taylor
+            Eo from priestly-taylor
 
 ------- solute Initialisation -------------------------------------------------
      Initialising
      
         - Reading Constants
 ------- Start of simulation  --------------------------------------------------
-5 January 1988(Day of year=5), manager: 
-     Manager sending message :- solute set  dlt_cl = 100 0 0 0 0 0 0 0 (kg/ha)
 30 January 1988(Day of year=30), clock: 
      Simulation is terminating due to end criteria being met.
