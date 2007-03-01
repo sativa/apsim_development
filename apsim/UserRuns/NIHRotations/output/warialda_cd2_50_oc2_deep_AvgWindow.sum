@@ -9,21 +9,20 @@
  The Agricultural Production Systems Simulator
              Copyright(c) APSRU               
 
-     Version                = 5.3
-     Title                  = site=warialda; soil=cd2; treatment=oc2; Nrate=50; RootDepth=deep; Sowing = AvgWindow
-     Component DLL          = c:\development\apsim\SummaryFile\lib\SummaryFile.dll
-     Component DLL          = c:\development\apsim\clock\lib\clock.dll
-     Component DLL          = c:\development\apsim\report\lib\report.dll
-     Component DLL          = c:\development\apsim\input\lib\input.dll
-     Component DLL          = c:\development\apsim\fertiliz\lib\fertiliz.dll
-     Component DLL          = c:\development\apsim\manager\lib\manager.dll
-     Component DLL          = c:\development\apsim\soilwat2\lib\soilwat2.dll
-     Component DLL          = c:\development\apsim\SurfaceOM\lib\SurfaceOM.dll
-     Component DLL          = c:\development\apsim\soiln2\lib\soiln2.dll
-     Component DLL          = c:\development\apsim\plant\lib\plant.dll
-     Component DLL          = c:\development\apsim\plant\lib\plant.dll
-     Component DLL          = c:\development\apsim\sorghum\lib\sorghum.dll
-     Component DLL          = c:\development\apsim\tracker\lib\tracker.dll
+Version                = 5.3
+Title                  = site=warialda; soil=cd2; treatment=oc2; Nrate=50; RootDepth=deep; Sowing = AvgWindow
+Component      "clock" = c:\development\apsim\clock\lib\clock.dll
+Component     "report" = c:\development\apsim\report\lib\report.dll
+Component        "met" = c:\development\apsim\input\lib\input.dll
+Component   "fertiliz" = c:\development\apsim\fertiliz\lib\fertiliz.dll
+Component    "manager" = c:\development\apsim\manager\lib\manager.dll
+Component   "soilwat2" = c:\development\apsim\soilwat2\lib\soilwat2.dll
+Component  "SurfaceOM" = c:\development\apsim\SurfaceOM\lib\SurfaceOM.dll
+Component     "soiln2" = c:\development\apsim\soiln2\lib\soiln2.dll
+Component   "chickpea" = c:\development\apsim\plant\lib\plant.dll
+Component      "wheat" = c:\development\apsim\plant\lib\plant.dll
+Component    "sorghum" = c:\development\apsim\sorghum\lib\sorghum.dll
+Component    "tracker" = c:\development\apsim\tracker\lib\tracker.dll
 
 ------- clock Initialisation --------------------------------------------------
      Sequencer phases:
@@ -54,7 +53,7 @@
         tracker.annual_runoff
         tracker.annual_es
         tracker.annual_drain
-     
+
      Output file = output\warialda_cd2_50_oc2_deep_AvgWindow.out
      Format = normal
 
@@ -350,7 +349,7 @@
            Using Ritchie evaporation model
             Cuml evap (U):            7.34 (mm^0.5)
             CONA:                     5.00 ()
-           Eo from priestly-taylor
+            Eo from priestly-taylor
 
 ------- SurfaceOM Initialisation ----------------------------------------------
      
@@ -463,7 +462,6 @@
         sum of soilwat2.es on end_of_day from reported to now as annual_es
         sum of soilwat2.drain on end_of_day from reported to now as annual_drain
 ------- Start of simulation  --------------------------------------------------
-1 January 1957(Day of year=1), manager: 
      Manager creating a new local real variable : maw10 =     16.9999961000000
      Manager creating a new local real variable : maw30 =     41.7999997000000
      Manager creating a new local real variable : maw50 =     66.6000023000000
@@ -555,14 +553,12 @@
              200.0     0.000          0.459       0.000
          ---------------------------------------------------
      
-3 January 1957(Day of year=3), manager: 
      Manager creating a new local real variable : rz_no3 =     16.2490730300000
 3 January 1957(Day of year=3), fertiliz: 
      
         - Reading Fertiliser Type Parameters
         33.75 of N as nitrate (no3_n)
                                               added at depth    1.00 (layer   1)
-3 January 1957(Day of year=3), manager: 
      Manager sending message :- surfaceom tillage  type = planter
 3 January 1957(Day of year=3), SurfaceOM: 
      
@@ -645,14 +641,10 @@
         Organic matter removed from system:-      From Tops		From Roots
                          DM (kg/ha) =               3022.19		    0.00
                          N  (kg/ha) =                 45.91		    0.00
-15 April 1957(Day of year=105), manager: 
      Manager sending message :- sorghum kill_crop
-15 April 1957(Day of year=105), sorghum: 
      Kill Crop
      Crop kill. Standing above-ground dm =  3045.2 kg/ha
-15 April 1957(Day of year=105), manager: 
      Manager sending message :- sorghum end_crop
-15 April 1957(Day of year=105), sorghum: 
      Crop ended. Yield (dw) =     0.0 kg/ha
      Organic matter from crop:-      Tops to surface residue	 Roots to soil FOM
                          DM (kg/ha) =               3045.21		 1196.69
@@ -665,6 +657,8 @@
 21 May 1958(Day of year=141), wheat: 
      Crop Sow
       - reading constants for plant(wheat)
+C3 photosynthetic_pathway read=1222145
+photosynthetic_pathway =845866497
       - reading cultivar parameters
       - reading grain cultivar parameters
          ------------------------------------------------
@@ -721,7 +715,6 @@
         - Reading Fertiliser Type Parameters
         20.50 of N as nitrate (no3_n)
                                               added at depth    1.00 (layer   1)
-21 May 1958(Day of year=141), manager: 
      Manager sending message :- surfaceom tillage  type = planter
 21 May 1958(Day of year=141), SurfaceOM: 
      
@@ -805,13 +798,9 @@
       stage 4.0 end_of_juvenile
                      biomass =           0.02 (g/m^2)   lai          =   0.020 (m^2/m^2)
                      stover N conc =     6.30 (%)    extractable sw =   30.86 (mm)
-7 November 1958(Day of year=311), manager: 
      Manager sending message :- wheat kill_crop
-7 November 1958(Day of year=311), wheat: 
      Plant kill. 100.00% crop killed because of external action.
-7 November 1958(Day of year=311), manager: 
      Manager sending message :- wheat end_crop
-7 November 1958(Day of year=311), wheat: 
      Crop ended. Yield (dw) =     0.0  (kg/ha)
          Organic matter from crop:-      Tops to surface residue      Roots to soil FOM
                           DM (kg/ha) =                  0.20                 1471.57
@@ -883,7 +872,6 @@
         - Reading Fertiliser Type Parameters
         43.20 of N as nitrate (no3_n)
                                               added at depth    1.00 (layer   1)
-8 January 1959(Day of year=8), manager: 
      Manager sending message :- surfaceom tillage  type = planter
 8 January 1959(Day of year=8), SurfaceOM: 
      
@@ -965,14 +953,10 @@
         Organic matter removed from system:-      From Tops		From Roots
                          DM (kg/ha) =               4276.97		    0.00
                          N  (kg/ha) =                 38.77		    0.00
-23 April 1959(Day of year=113), manager: 
      Manager sending message :- sorghum kill_crop
-23 April 1959(Day of year=113), sorghum: 
      Kill Crop
      Crop kill. Standing above-ground dm =  4260.0 kg/ha
-23 April 1959(Day of year=113), manager: 
      Manager sending message :- sorghum end_crop
-23 April 1959(Day of year=113), sorghum: 
      Crop ended. Yield (dw) =     0.0 kg/ha
      Organic matter from crop:-      Tops to surface residue	 Roots to soil FOM
                          DM (kg/ha) =               4260.00		 1730.40
@@ -983,6 +967,8 @@
 23 May 1959(Day of year=143), chickpea: 
      Crop Sow
       - reading constants for plant(chickpea)
+C3 photosynthetic_pathway read=1222145
+photosynthetic_pathway =845866497
       - reading cultivar parameters
       - reading grain cultivar parameters
          ------------------------------------------------
@@ -1042,7 +1028,6 @@
             143   80.0   25.0  350.0   0.0   0.0 amethyst
          ------------------------------------------------
      
-23 May 1959(Day of year=143), manager: 
      Manager sending message :- surfaceom tillage  type = planter
 23 May 1959(Day of year=143), SurfaceOM: 
      
@@ -1126,9 +1111,7 @@
                           DM (kg/ha) =               2212.12                    0.00
                           N  (kg/ha) =                 79.64                    0.00
      
-11 November 1959(Day of year=315), manager: 
      Manager sending message :- chickpea end_crop
-11 November 1959(Day of year=315), chickpea: 
      Crop ended. Yield (dw) =     0.0  (kg/ha)
          Organic matter from crop:-      Tops to surface residue      Roots to soil FOM
                           DM (kg/ha) =                  0.00                  985.46
@@ -1200,7 +1183,6 @@
         - Reading Fertiliser Type Parameters
         48.33 of N as nitrate (no3_n)
                                               added at depth    1.00 (layer   1)
-19 November 1959(Day of year=323), manager: 
      Manager sending message :- surfaceom tillage  type = planter
 19 November 1959(Day of year=323), SurfaceOM: 
      
@@ -1282,14 +1264,10 @@
         Organic matter removed from system:-      From Tops		From Roots
                          DM (kg/ha) =               3601.29		    0.00
                          N  (kg/ha) =                 27.73		    0.00
-20 February 1960(Day of year=51), manager: 
      Manager sending message :- sorghum kill_crop
-20 February 1960(Day of year=51), sorghum: 
      Kill Crop
      Crop kill. Standing above-ground dm =  3924.7 kg/ha
-20 February 1960(Day of year=51), manager: 
      Manager sending message :- sorghum end_crop
-20 February 1960(Day of year=51), sorghum: 
      Crop ended. Yield (dw) =     0.0 kg/ha
      Organic matter from crop:-      Tops to surface residue	 Roots to soil FOM
                          DM (kg/ha) =               3924.66		 1655.50
@@ -1300,6 +1278,8 @@
 19 July 1960(Day of year=201), wheat: 
      Crop Sow
       - reading constants for plant(wheat)
+C3 photosynthetic_pathway read=1222145
+photosynthetic_pathway =845866497
       - reading cultivar parameters
       - reading grain cultivar parameters
          ------------------------------------------------
@@ -1356,7 +1336,6 @@
         - Reading Fertiliser Type Parameters
         38.98 of N as nitrate (no3_n)
                                               added at depth    1.00 (layer   1)
-19 July 1960(Day of year=201), manager: 
      Manager sending message :- surfaceom tillage  type = planter
 19 July 1960(Day of year=201), SurfaceOM: 
      
@@ -1439,13 +1418,9 @@
       stage 4.0 end_of_juvenile
                      biomass =           0.02 (g/m^2)   lai          =   0.020 (m^2/m^2)
                      stover N conc =     6.30 (%)    extractable sw =   53.85 (mm)
-2 December 1960(Day of year=337), manager: 
      Manager sending message :- wheat kill_crop
-2 December 1960(Day of year=337), wheat: 
      Plant kill. 100.00% crop killed because of external action.
-2 December 1960(Day of year=337), manager: 
      Manager sending message :- wheat end_crop
-2 December 1960(Day of year=337), wheat: 
      Crop ended. Yield (dw) =     0.0  (kg/ha)
          Organic matter from crop:-      Tops to surface residue      Roots to soil FOM
                           DM (kg/ha) =                  0.19                  756.72
@@ -1456,6 +1431,8 @@
 1 June 1961(Day of year=152), chickpea: 
      Crop Sow
       - reading constants for plant(chickpea)
+C3 photosynthetic_pathway read=1222145
+photosynthetic_pathway =845866497
       - reading cultivar parameters
       - reading grain cultivar parameters
          ------------------------------------------------
@@ -1515,7 +1492,6 @@
             152   80.0   25.0  350.0   0.0   0.0 amethyst
          ------------------------------------------------
      
-1 June 1961(Day of year=152), manager: 
      Manager sending message :- surfaceom tillage  type = planter
 1 June 1961(Day of year=152), SurfaceOM: 
      
@@ -1598,9 +1574,7 @@
                           DM (kg/ha) =               1026.87                    0.00
                           N  (kg/ha) =                 36.97                    0.00
      
-14 November 1961(Day of year=318), manager: 
      Manager sending message :- chickpea end_crop
-14 November 1961(Day of year=318), chickpea: 
      Crop ended. Yield (dw) =     0.0  (kg/ha)
          Organic matter from crop:-      Tops to surface residue      Roots to soil FOM
                           DM (kg/ha) =                  0.00                  915.25
@@ -1672,7 +1646,6 @@
         - Reading Fertiliser Type Parameters
         30.47 of N as nitrate (no3_n)
                                               added at depth    1.00 (layer   1)
-8 January 1962(Day of year=8), manager: 
      Manager sending message :- surfaceom tillage  type = planter
 8 January 1962(Day of year=8), SurfaceOM: 
      
@@ -1754,14 +1727,10 @@
         Organic matter removed from system:-      From Tops		From Roots
                          DM (kg/ha) =               3931.32		    0.00
                          N  (kg/ha) =                 57.01		    0.00
-27 April 1962(Day of year=117), manager: 
      Manager sending message :- sorghum kill_crop
-27 April 1962(Day of year=117), sorghum: 
      Kill Crop
      Crop kill. Standing above-ground dm =  4580.1 kg/ha
-27 April 1962(Day of year=117), manager: 
      Manager sending message :- sorghum end_crop
-27 April 1962(Day of year=117), sorghum: 
      Crop ended. Yield (dw) =     0.0 kg/ha
      Organic matter from crop:-      Tops to surface residue	 Roots to soil FOM
                          DM (kg/ha) =               4580.14		 1290.73
@@ -1833,7 +1802,6 @@
         - Reading Fertiliser Type Parameters
         23.30 of N as nitrate (no3_n)
                                               added at depth    1.00 (layer   1)
-29 December 1962(Day of year=363), manager: 
      Manager sending message :- surfaceom tillage  type = planter
 29 December 1962(Day of year=363), SurfaceOM: 
      
@@ -1915,14 +1883,10 @@
         Organic matter removed from system:-      From Tops		From Roots
                          DM (kg/ha) =               2299.95		    0.00
                          N  (kg/ha) =                 39.53		    0.00
-3 April 1963(Day of year=93), manager: 
      Manager sending message :- sorghum kill_crop
-3 April 1963(Day of year=93), sorghum: 
      Kill Crop
      Crop kill. Standing above-ground dm =  3099.4 kg/ha
-3 April 1963(Day of year=93), manager: 
      Manager sending message :- sorghum end_crop
-3 April 1963(Day of year=93), sorghum: 
      Crop ended. Yield (dw) =     0.0 kg/ha
      Organic matter from crop:-      Tops to surface residue	 Roots to soil FOM
                          DM (kg/ha) =               3099.38		 1181.74
@@ -1933,6 +1897,8 @@
 21 May 1963(Day of year=141), wheat: 
      Crop Sow
       - reading constants for plant(wheat)
+C3 photosynthetic_pathway read=1222145
+photosynthetic_pathway =845866497
       - reading cultivar parameters
       - reading grain cultivar parameters
          ------------------------------------------------
@@ -1989,7 +1955,6 @@
         - Reading Fertiliser Type Parameters
         21.90 of N as nitrate (no3_n)
                                               added at depth    1.00 (layer   1)
-21 May 1963(Day of year=141), manager: 
      Manager sending message :- surfaceom tillage  type = planter
 21 May 1963(Day of year=141), SurfaceOM: 
      
@@ -2072,13 +2037,9 @@
       stage 4.0 end_of_juvenile
                      biomass =           0.02 (g/m^2)   lai          =   0.020 (m^2/m^2)
                      stover N conc =     6.30 (%)    extractable sw =   15.05 (mm)
-9 November 1963(Day of year=313), manager: 
      Manager sending message :- wheat kill_crop
-9 November 1963(Day of year=313), wheat: 
      Plant kill. 100.00% crop killed because of external action.
-9 November 1963(Day of year=313), manager: 
      Manager sending message :- wheat end_crop
-9 November 1963(Day of year=313), wheat: 
      Crop ended. Yield (dw) =     0.0  (kg/ha)
          Organic matter from crop:-      Tops to surface residue      Roots to soil FOM
                           DM (kg/ha) =                  0.19                  748.82
@@ -2150,7 +2111,6 @@
         - Reading Fertiliser Type Parameters
         43.95 of N as nitrate (no3_n)
                                               added at depth    1.00 (layer   1)
-20 November 1963(Day of year=324), manager: 
      Manager sending message :- surfaceom tillage  type = planter
 20 November 1963(Day of year=324), SurfaceOM: 
      
@@ -2232,14 +2192,10 @@
         Organic matter removed from system:-      From Tops		From Roots
                          DM (kg/ha) =               2917.81		    0.00
                          N  (kg/ha) =                 44.76		    0.00
-29 February 1964(Day of year=60), manager: 
      Manager sending message :- sorghum kill_crop
-29 February 1964(Day of year=60), sorghum: 
      Kill Crop
      Crop kill. Standing above-ground dm =  3388.1 kg/ha
-29 February 1964(Day of year=60), manager: 
      Manager sending message :- sorghum end_crop
-29 February 1964(Day of year=60), sorghum: 
      Crop ended. Yield (dw) =     0.0 kg/ha
      Organic matter from crop:-      Tops to surface residue	 Roots to soil FOM
                          DM (kg/ha) =               3388.13		 1404.56
@@ -2250,6 +2206,8 @@
 20 May 1964(Day of year=141), chickpea: 
      Crop Sow
       - reading constants for plant(chickpea)
+C3 photosynthetic_pathway read=1222145
+photosynthetic_pathway =845866497
       - reading cultivar parameters
       - reading grain cultivar parameters
          ------------------------------------------------
@@ -2309,7 +2267,6 @@
             141   80.0   25.0  350.0   0.0   0.0 amethyst
          ------------------------------------------------
      
-20 May 1964(Day of year=141), manager: 
      Manager sending message :- surfaceom tillage  type = planter
 20 May 1964(Day of year=141), SurfaceOM: 
      
@@ -2392,9 +2349,7 @@
                           DM (kg/ha) =               2540.30                    0.00
                           N  (kg/ha) =                 91.45                    0.00
      
-16 November 1964(Day of year=321), manager: 
      Manager sending message :- chickpea end_crop
-16 November 1964(Day of year=321), chickpea: 
      Crop ended. Yield (dw) =     0.0  (kg/ha)
          Organic matter from crop:-      Tops to surface residue      Roots to soil FOM
                           DM (kg/ha) =                  0.00                 1022.05
@@ -2461,7 +2416,6 @@
              200.0     0.000          0.459       0.000
          ---------------------------------------------------
      
-9 November 1966(Day of year=313), manager: 
      Manager sending message :- surfaceom tillage  type = planter
 9 November 1966(Day of year=313), SurfaceOM: 
      
@@ -2543,14 +2497,10 @@
         Organic matter removed from system:-      From Tops		From Roots
                          DM (kg/ha) =               1493.96		    0.00
                          N  (kg/ha) =                 31.07		    0.00
-15 February 1967(Day of year=46), manager: 
      Manager sending message :- sorghum kill_crop
-15 February 1967(Day of year=46), sorghum: 
      Kill Crop
      Crop kill. Standing above-ground dm =  3035.1 kg/ha
-15 February 1967(Day of year=46), manager: 
      Manager sending message :- sorghum end_crop
-15 February 1967(Day of year=46), sorghum: 
      Crop ended. Yield (dw) =     0.0 kg/ha
      Organic matter from crop:-      Tops to surface residue	 Roots to soil FOM
                          DM (kg/ha) =               3035.14		 1300.88
@@ -2561,6 +2511,8 @@
 24 May 1967(Day of year=144), wheat: 
      Crop Sow
       - reading constants for plant(wheat)
+C3 photosynthetic_pathway read=1222145
+photosynthetic_pathway =845866497
       - reading cultivar parameters
       - reading grain cultivar parameters
          ------------------------------------------------
@@ -2612,7 +2564,6 @@
             144   80.0  100.0  250.0   0.0   0.0 sunco
          ------------------------------------------------
      
-24 May 1967(Day of year=144), manager: 
      Manager sending message :- surfaceom tillage  type = planter
 24 May 1967(Day of year=144), SurfaceOM: 
      
@@ -2695,13 +2646,9 @@
       stage 4.0 end_of_juvenile
                      biomass =           0.02 (g/m^2)   lai          =   0.020 (m^2/m^2)
                      stover N conc =     6.30 (%)    extractable sw =   12.14 (mm)
-7 November 1967(Day of year=311), manager: 
      Manager sending message :- wheat kill_crop
-7 November 1967(Day of year=311), wheat: 
      Plant kill. 100.00% crop killed because of external action.
-7 November 1967(Day of year=311), manager: 
      Manager sending message :- wheat end_crop
-7 November 1967(Day of year=311), wheat: 
      Crop ended. Yield (dw) =     0.0  (kg/ha)
          Organic matter from crop:-      Tops to surface residue      Roots to soil FOM
                           DM (kg/ha) =                  0.21                 1229.79
@@ -2712,6 +2659,8 @@
 20 May 1968(Day of year=141), chickpea: 
      Crop Sow
       - reading constants for plant(chickpea)
+C3 photosynthetic_pathway read=1222145
+photosynthetic_pathway =845866497
       - reading cultivar parameters
       - reading grain cultivar parameters
          ------------------------------------------------
@@ -2771,7 +2720,6 @@
             141   80.0   25.0  350.0   0.0   0.0 amethyst
          ------------------------------------------------
      
-20 May 1968(Day of year=141), manager: 
      Manager sending message :- surfaceom tillage  type = planter
 20 May 1968(Day of year=141), SurfaceOM: 
      
@@ -2854,9 +2802,7 @@
                           DM (kg/ha) =               1302.58                    0.00
                           N  (kg/ha) =                 46.89                    0.00
      
-19 November 1968(Day of year=324), manager: 
      Manager sending message :- chickpea end_crop
-19 November 1968(Day of year=324), chickpea: 
      Crop ended. Yield (dw) =     0.0  (kg/ha)
          Organic matter from crop:-      Tops to surface residue      Roots to soil FOM
                           DM (kg/ha) =                  0.00                  809.71
@@ -2867,6 +2813,8 @@
 30 May 1969(Day of year=150), wheat: 
      Crop Sow
       - reading constants for plant(wheat)
+C3 photosynthetic_pathway read=1222145
+photosynthetic_pathway =845866497
       - reading cultivar parameters
       - reading grain cultivar parameters
          ------------------------------------------------
@@ -2918,7 +2866,6 @@
             150   80.0  100.0  250.0   0.0   0.0 sunco
          ------------------------------------------------
      
-30 May 1969(Day of year=150), manager: 
      Manager sending message :- surfaceom tillage  type = planter
 30 May 1969(Day of year=150), SurfaceOM: 
      
@@ -3001,13 +2948,9 @@
       stage 4.0 end_of_juvenile
                      biomass =           0.02 (g/m^2)   lai          =   0.020 (m^2/m^2)
                      stover N conc =     6.30 (%)    extractable sw =   48.43 (mm)
-12 November 1969(Day of year=316), manager: 
      Manager sending message :- wheat kill_crop
-12 November 1969(Day of year=316), wheat: 
      Plant kill. 100.00% crop killed because of external action.
-12 November 1969(Day of year=316), manager: 
      Manager sending message :- wheat end_crop
-12 November 1969(Day of year=316), wheat: 
      Crop ended. Yield (dw) =     0.0  (kg/ha)
          Organic matter from crop:-      Tops to surface residue      Roots to soil FOM
                           DM (kg/ha) =                  0.19                 1069.22
@@ -3079,7 +3022,6 @@
         - Reading Fertiliser Type Parameters
         37.85 of N as nitrate (no3_n)
                                               added at depth    1.00 (layer   1)
-20 November 1969(Day of year=324), manager: 
      Manager sending message :- surfaceom tillage  type = planter
 20 November 1969(Day of year=324), SurfaceOM: 
      
@@ -3161,14 +3103,10 @@
         Organic matter removed from system:-      From Tops		From Roots
                          DM (kg/ha) =               2089.93		    0.00
                          N  (kg/ha) =                 38.78		    0.00
-2 March 1970(Day of year=61), manager: 
      Manager sending message :- sorghum kill_crop
-2 March 1970(Day of year=61), sorghum: 
      Kill Crop
      Crop kill. Standing above-ground dm =  3376.1 kg/ha
-2 March 1970(Day of year=61), manager: 
      Manager sending message :- sorghum end_crop
-2 March 1970(Day of year=61), sorghum: 
      Crop ended. Yield (dw) =     0.0 kg/ha
      Organic matter from crop:-      Tops to surface residue	 Roots to soil FOM
                          DM (kg/ha) =               3376.12		 1260.46
@@ -3240,7 +3178,6 @@
         - Reading Fertiliser Type Parameters
         17.26 of N as nitrate (no3_n)
                                               added at depth    1.00 (layer   1)
-9 November 1970(Day of year=313), manager: 
      Manager sending message :- surfaceom tillage  type = planter
 9 November 1970(Day of year=313), SurfaceOM: 
      
@@ -3322,14 +3259,10 @@
         Organic matter removed from system:-      From Tops		From Roots
                          DM (kg/ha) =               4552.35		    0.00
                          N  (kg/ha) =                 61.16		    0.00
-19 February 1971(Day of year=50), manager: 
      Manager sending message :- sorghum kill_crop
-19 February 1971(Day of year=50), sorghum: 
      Kill Crop
      Crop kill. Standing above-ground dm =  4729.3 kg/ha
-19 February 1971(Day of year=50), manager: 
      Manager sending message :- sorghum end_crop
-19 February 1971(Day of year=50), sorghum: 
      Crop ended. Yield (dw) =     0.0 kg/ha
      Organic matter from crop:-      Tops to surface residue	 Roots to soil FOM
                          DM (kg/ha) =               4729.32		 1726.60
@@ -3340,6 +3273,8 @@
 21 July 1971(Day of year=202), wheat: 
      Crop Sow
       - reading constants for plant(wheat)
+C3 photosynthetic_pathway read=1222145
+photosynthetic_pathway =845866497
       - reading cultivar parameters
       - reading grain cultivar parameters
          ------------------------------------------------
@@ -3396,7 +3331,6 @@
         - Reading Fertiliser Type Parameters
         39.07 of N as nitrate (no3_n)
                                               added at depth    1.00 (layer   1)
-21 July 1971(Day of year=202), manager: 
      Manager sending message :- surfaceom tillage  type = planter
 21 July 1971(Day of year=202), SurfaceOM: 
      
@@ -3479,13 +3413,9 @@
       stage 4.0 end_of_juvenile
                      biomass =           0.02 (g/m^2)   lai          =   0.020 (m^2/m^2)
                      stover N conc =     6.30 (%)    extractable sw =   33.73 (mm)
-6 December 1971(Day of year=340), manager: 
      Manager sending message :- wheat kill_crop
-6 December 1971(Day of year=340), wheat: 
      Plant kill. 100.00% crop killed because of external action.
-6 December 1971(Day of year=340), manager: 
      Manager sending message :- wheat end_crop
-6 December 1971(Day of year=340), wheat: 
      Crop ended. Yield (dw) =     0.0  (kg/ha)
          Organic matter from crop:-      Tops to surface residue      Roots to soil FOM
                           DM (kg/ha) =                  0.19                  862.99
@@ -3557,7 +3487,6 @@
         - Reading Fertiliser Type Parameters
          0.48 of N as nitrate (no3_n)
                                               added at depth    1.00 (layer   1)
-13 November 1972(Day of year=318), manager: 
      Manager sending message :- surfaceom tillage  type = planter
 13 November 1972(Day of year=318), SurfaceOM: 
      
@@ -3639,14 +3568,10 @@
         Organic matter removed from system:-      From Tops		From Roots
                          DM (kg/ha) =               2369.52		    0.00
                          N  (kg/ha) =                 36.77		    0.00
-20 February 1973(Day of year=51), manager: 
      Manager sending message :- sorghum kill_crop
-20 February 1973(Day of year=51), sorghum: 
      Kill Crop
      Crop kill. Standing above-ground dm =  3412.7 kg/ha
-20 February 1973(Day of year=51), manager: 
      Manager sending message :- sorghum end_crop
-20 February 1973(Day of year=51), sorghum: 
      Crop ended. Yield (dw) =     0.0 kg/ha
      Organic matter from crop:-      Tops to surface residue	 Roots to soil FOM
                          DM (kg/ha) =               3412.65		 1424.51
@@ -3657,6 +3582,8 @@
 22 July 1973(Day of year=203), wheat: 
      Crop Sow
       - reading constants for plant(wheat)
+C3 photosynthetic_pathway read=1222145
+photosynthetic_pathway =845866497
       - reading cultivar parameters
       - reading grain cultivar parameters
          ------------------------------------------------
@@ -3713,7 +3640,6 @@
         - Reading Fertiliser Type Parameters
         16.43 of N as nitrate (no3_n)
                                               added at depth    1.00 (layer   1)
-22 July 1973(Day of year=203), manager: 
      Manager sending message :- surfaceom tillage  type = planter
 22 July 1973(Day of year=203), SurfaceOM: 
      
@@ -3796,13 +3722,9 @@
       stage 4.0 end_of_juvenile
                      biomass =           0.02 (g/m^2)   lai          =   0.020 (m^2/m^2)
                      stover N conc =     6.30 (%)    extractable sw =   27.19 (mm)
-27 November 1973(Day of year=331), manager: 
      Manager sending message :- wheat kill_crop
-27 November 1973(Day of year=331), wheat: 
      Plant kill. 100.00% crop killed because of external action.
-27 November 1973(Day of year=331), manager: 
      Manager sending message :- wheat end_crop
-27 November 1973(Day of year=331), wheat: 
      Crop ended. Yield (dw) =     0.0  (kg/ha)
          Organic matter from crop:-      Tops to surface residue      Roots to soil FOM
                           DM (kg/ha) =                  0.20                  961.48
@@ -3874,7 +3796,6 @@
         - Reading Fertiliser Type Parameters
         35.48 of N as nitrate (no3_n)
                                               added at depth    1.00 (layer   1)
-11 December 1973(Day of year=345), manager: 
      Manager sending message :- surfaceom tillage  type = planter
 11 December 1973(Day of year=345), SurfaceOM: 
      
@@ -3956,14 +3877,10 @@
         Organic matter removed from system:-      From Tops		From Roots
                          DM (kg/ha) =               2879.73		    0.00
                          N  (kg/ha) =                 44.81		    0.00
-16 March 1974(Day of year=75), manager: 
      Manager sending message :- sorghum kill_crop
-16 March 1974(Day of year=75), sorghum: 
      Kill Crop
      Crop kill. Standing above-ground dm =  3185.9 kg/ha
-16 March 1974(Day of year=75), manager: 
      Manager sending message :- sorghum end_crop
-16 March 1974(Day of year=75), sorghum: 
      Crop ended. Yield (dw) =     0.0 kg/ha
      Organic matter from crop:-      Tops to surface residue	 Roots to soil FOM
                          DM (kg/ha) =               3185.90		 1297.72
@@ -4035,7 +3952,6 @@
         - Reading Fertiliser Type Parameters
         47.54 of N as nitrate (no3_n)
                                               added at depth    1.00 (layer   1)
-23 November 1974(Day of year=327), manager: 
      Manager sending message :- surfaceom tillage  type = planter
 23 November 1974(Day of year=327), SurfaceOM: 
      
@@ -4117,14 +4033,10 @@
         Organic matter removed from system:-      From Tops		From Roots
                          DM (kg/ha) =               1633.89		    0.00
                          N  (kg/ha) =                 26.81		    0.00
-12 March 1975(Day of year=71), manager: 
      Manager sending message :- sorghum kill_crop
-12 March 1975(Day of year=71), sorghum: 
      Kill Crop
      Crop kill. Standing above-ground dm =  3143.0 kg/ha
-12 March 1975(Day of year=71), manager: 
      Manager sending message :- sorghum end_crop
-12 March 1975(Day of year=71), sorghum: 
      Crop ended. Yield (dw) =     0.0 kg/ha
      Organic matter from crop:-      Tops to surface residue	 Roots to soil FOM
                          DM (kg/ha) =               3142.98		 1066.57
@@ -4135,6 +4047,8 @@
 28 June 1975(Day of year=179), wheat: 
      Crop Sow
       - reading constants for plant(wheat)
+C3 photosynthetic_pathway read=1222145
+photosynthetic_pathway =845866497
       - reading cultivar parameters
       - reading grain cultivar parameters
          ------------------------------------------------
@@ -4191,7 +4105,6 @@
         - Reading Fertiliser Type Parameters
         31.47 of N as nitrate (no3_n)
                                               added at depth    1.00 (layer   1)
-28 June 1975(Day of year=179), manager: 
      Manager sending message :- surfaceom tillage  type = planter
 28 June 1975(Day of year=179), SurfaceOM: 
      
@@ -4274,13 +4187,9 @@
       stage 4.0 end_of_juvenile
                      biomass =           0.02 (g/m^2)   lai          =   0.020 (m^2/m^2)
                      stover N conc =     6.30 (%)    extractable sw =  113.38 (mm)
-22 November 1975(Day of year=326), manager: 
      Manager sending message :- wheat kill_crop
-22 November 1975(Day of year=326), wheat: 
      Plant kill. 100.00% crop killed because of external action.
-22 November 1975(Day of year=326), manager: 
      Manager sending message :- wheat end_crop
-22 November 1975(Day of year=326), wheat: 
      Crop ended. Yield (dw) =     0.0  (kg/ha)
          Organic matter from crop:-      Tops to surface residue      Roots to soil FOM
                           DM (kg/ha) =                  0.20                 1071.43
@@ -4352,7 +4261,6 @@
         - Reading Fertiliser Type Parameters
         36.59 of N as nitrate (no3_n)
                                               added at depth    1.00 (layer   1)
-11 December 1975(Day of year=345), manager: 
      Manager sending message :- surfaceom tillage  type = planter
 11 December 1975(Day of year=345), SurfaceOM: 
      
@@ -4434,14 +4342,10 @@
         Organic matter removed from system:-      From Tops		From Roots
                          DM (kg/ha) =               4840.81		    0.00
                          N  (kg/ha) =                 41.42		    0.00
-29 March 1976(Day of year=89), manager: 
      Manager sending message :- sorghum kill_crop
-29 March 1976(Day of year=89), sorghum: 
      Kill Crop
      Crop kill. Standing above-ground dm =  4575.6 kg/ha
-29 March 1976(Day of year=89), manager: 
      Manager sending message :- sorghum end_crop
-29 March 1976(Day of year=89), sorghum: 
      Crop ended. Yield (dw) =     0.0 kg/ha
      Organic matter from crop:-      Tops to surface residue	 Roots to soil FOM
                          DM (kg/ha) =               4575.60		 1631.79
@@ -4452,6 +4356,8 @@
 26 June 1976(Day of year=178), chickpea: 
      Crop Sow
       - reading constants for plant(chickpea)
+C3 photosynthetic_pathway read=1222145
+photosynthetic_pathway =845866497
       - reading cultivar parameters
       - reading grain cultivar parameters
          ------------------------------------------------
@@ -4511,7 +4417,6 @@
             178   80.0   25.0  350.0   0.0   0.0 amethyst
          ------------------------------------------------
      
-26 June 1976(Day of year=178), manager: 
      Manager sending message :- surfaceom tillage  type = planter
 26 June 1976(Day of year=178), SurfaceOM: 
      
@@ -4594,9 +4499,7 @@
                           DM (kg/ha) =               1660.37                    0.00
                           N  (kg/ha) =                 59.77                    0.00
      
-6 December 1976(Day of year=341), manager: 
      Manager sending message :- chickpea end_crop
-6 December 1976(Day of year=341), chickpea: 
      Crop ended. Yield (dw) =     0.0  (kg/ha)
          Organic matter from crop:-      Tops to surface residue      Roots to soil FOM
                           DM (kg/ha) =                  0.00                  992.62
@@ -4607,6 +4510,8 @@
 21 May 1977(Day of year=141), wheat: 
      Crop Sow
       - reading constants for plant(wheat)
+C3 photosynthetic_pathway read=1222145
+photosynthetic_pathway =845866497
       - reading cultivar parameters
       - reading grain cultivar parameters
          ------------------------------------------------
@@ -4663,7 +4568,6 @@
         - Reading Fertiliser Type Parameters
          8.67 of N as nitrate (no3_n)
                                               added at depth    1.00 (layer   1)
-21 May 1977(Day of year=141), manager: 
      Manager sending message :- surfaceom tillage  type = planter
 21 May 1977(Day of year=141), SurfaceOM: 
      
@@ -4746,13 +4650,9 @@
       stage 4.0 end_of_juvenile
                      biomass =           0.02 (g/m^2)   lai          =   0.020 (m^2/m^2)
                      stover N conc =     6.30 (%)    extractable sw =   21.22 (mm)
-10 November 1977(Day of year=314), manager: 
      Manager sending message :- wheat kill_crop
-10 November 1977(Day of year=314), wheat: 
      Plant kill. 100.00% crop killed because of external action.
-10 November 1977(Day of year=314), manager: 
      Manager sending message :- wheat end_crop
-10 November 1977(Day of year=314), wheat: 
      Crop ended. Yield (dw) =     0.0  (kg/ha)
          Organic matter from crop:-      Tops to surface residue      Roots to soil FOM
                           DM (kg/ha) =                  0.20                  958.62
@@ -4763,6 +4663,8 @@
 24 May 1978(Day of year=144), chickpea: 
      Crop Sow
       - reading constants for plant(chickpea)
+C3 photosynthetic_pathway read=1222145
+photosynthetic_pathway =845866497
       - reading cultivar parameters
       - reading grain cultivar parameters
          ------------------------------------------------
@@ -4822,7 +4724,6 @@
             144   80.0   25.0  350.0   0.0   0.0 amethyst
          ------------------------------------------------
      
-24 May 1978(Day of year=144), manager: 
      Manager sending message :- surfaceom tillage  type = planter
 24 May 1978(Day of year=144), SurfaceOM: 
      
@@ -4905,9 +4806,7 @@
                           DM (kg/ha) =               2104.48                    0.00
                           N  (kg/ha) =                 75.76                    0.00
      
-21 November 1978(Day of year=325), manager: 
      Manager sending message :- chickpea end_crop
-21 November 1978(Day of year=325), chickpea: 
      Crop ended. Yield (dw) =     0.0  (kg/ha)
          Organic matter from crop:-      Tops to surface residue      Roots to soil FOM
                           DM (kg/ha) =                  0.00                  864.89
@@ -4918,6 +4817,8 @@
 23 June 1979(Day of year=174), wheat: 
      Crop Sow
       - reading constants for plant(wheat)
+C3 photosynthetic_pathway read=1222145
+photosynthetic_pathway =845866497
       - reading cultivar parameters
       - reading grain cultivar parameters
          ------------------------------------------------
@@ -4969,7 +4870,6 @@
             174   80.0  100.0  250.0   0.0   0.0 hartog
          ------------------------------------------------
      
-23 June 1979(Day of year=174), manager: 
      Manager sending message :- surfaceom tillage  type = planter
 23 June 1979(Day of year=174), SurfaceOM: 
      
@@ -5052,13 +4952,9 @@
       stage 4.0 end_of_juvenile
                      biomass =           0.02 (g/m^2)   lai          =   0.020 (m^2/m^2)
                      stover N conc =     6.30 (%)    extractable sw =   86.73 (mm)
-18 November 1979(Day of year=322), manager: 
      Manager sending message :- wheat kill_crop
-18 November 1979(Day of year=322), wheat: 
      Plant kill. 100.00% crop killed because of external action.
-18 November 1979(Day of year=322), manager: 
      Manager sending message :- wheat end_crop
-18 November 1979(Day of year=322), wheat: 
      Crop ended. Yield (dw) =     0.0  (kg/ha)
          Organic matter from crop:-      Tops to surface residue      Roots to soil FOM
                           DM (kg/ha) =                  0.20                 1117.48
@@ -5069,6 +4965,8 @@
 20 May 1980(Day of year=141), chickpea: 
      Crop Sow
       - reading constants for plant(chickpea)
+C3 photosynthetic_pathway read=1222145
+photosynthetic_pathway =845866497
       - reading cultivar parameters
       - reading grain cultivar parameters
          ------------------------------------------------
@@ -5128,7 +5026,6 @@
             141   80.0   25.0  350.0   0.0   0.0 amethyst
          ------------------------------------------------
      
-20 May 1980(Day of year=141), manager: 
      Manager sending message :- surfaceom tillage  type = planter
 20 May 1980(Day of year=141), SurfaceOM: 
      
@@ -5211,9 +5108,7 @@
                           DM (kg/ha) =                822.04                    0.00
                           N  (kg/ha) =                 29.59                    0.00
      
-3 November 1980(Day of year=308), manager: 
      Manager sending message :- chickpea end_crop
-3 November 1980(Day of year=308), chickpea: 
      Crop ended. Yield (dw) =     0.0  (kg/ha)
          Organic matter from crop:-      Tops to surface residue      Roots to soil FOM
                           DM (kg/ha) =                  0.00                  806.05
@@ -5285,7 +5180,6 @@
         - Reading Fertiliser Type Parameters
         27.02 of N as nitrate (no3_n)
                                               added at depth    1.00 (layer   1)
-2 January 1981(Day of year=2), manager: 
      Manager sending message :- surfaceom tillage  type = planter
 2 January 1981(Day of year=2), SurfaceOM: 
      
@@ -5367,14 +5261,10 @@
         Organic matter removed from system:-      From Tops		From Roots
                          DM (kg/ha) =               2015.11		    0.00
                          N  (kg/ha) =                 39.48		    0.00
-4 April 1981(Day of year=94), manager: 
      Manager sending message :- sorghum kill_crop
-4 April 1981(Day of year=94), sorghum: 
      Kill Crop
      Crop kill. Standing above-ground dm =  2793.1 kg/ha
-4 April 1981(Day of year=94), manager: 
      Manager sending message :- sorghum end_crop
-4 April 1981(Day of year=94), sorghum: 
      Crop ended. Yield (dw) =     0.0 kg/ha
      Organic matter from crop:-      Tops to surface residue	 Roots to soil FOM
                          DM (kg/ha) =               2793.10		 1137.01
@@ -5385,6 +5275,8 @@
 6 June 1981(Day of year=157), wheat: 
      Crop Sow
       - reading constants for plant(wheat)
+C3 photosynthetic_pathway read=1222145
+photosynthetic_pathway =845866497
       - reading cultivar parameters
       - reading grain cultivar parameters
          ------------------------------------------------
@@ -5441,7 +5333,6 @@
         - Reading Fertiliser Type Parameters
         29.79 of N as nitrate (no3_n)
                                               added at depth    1.00 (layer   1)
-6 June 1981(Day of year=157), manager: 
      Manager sending message :- surfaceom tillage  type = planter
 6 June 1981(Day of year=157), SurfaceOM: 
      
@@ -5524,13 +5415,9 @@
       stage 4.0 end_of_juvenile
                      biomass =           0.02 (g/m^2)   lai          =   0.020 (m^2/m^2)
                      stover N conc =     6.30 (%)    extractable sw =   34.26 (mm)
-18 November 1981(Day of year=322), manager: 
      Manager sending message :- wheat kill_crop
-18 November 1981(Day of year=322), wheat: 
      Plant kill. 100.00% crop killed because of external action.
-18 November 1981(Day of year=322), manager: 
      Manager sending message :- wheat end_crop
-18 November 1981(Day of year=322), wheat: 
      Crop ended. Yield (dw) =     0.0  (kg/ha)
          Organic matter from crop:-      Tops to surface residue      Roots to soil FOM
                           DM (kg/ha) =                  0.20                  954.66
@@ -5541,6 +5428,8 @@
 1 June 1982(Day of year=152), chickpea: 
      Crop Sow
       - reading constants for plant(chickpea)
+C3 photosynthetic_pathway read=1222145
+photosynthetic_pathway =845866497
       - reading cultivar parameters
       - reading grain cultivar parameters
          ------------------------------------------------
@@ -5600,7 +5489,6 @@
             152   80.0   25.0  350.0   0.0   0.0 amethyst
          ------------------------------------------------
      
-1 June 1982(Day of year=152), manager: 
      Manager sending message :- surfaceom tillage  type = planter
 1 June 1982(Day of year=152), SurfaceOM: 
      
@@ -5645,9 +5533,7 @@
                           DM (kg/ha) =                  0.00                    0.00
                           N  (kg/ha) =                  0.00                    0.00
      
-11 July 1982(Day of year=192), manager: 
      Manager sending message :- chickpea end_crop
-11 July 1982(Day of year=192), chickpea: 
      Crop ended. Yield (dw) =     0.0  (kg/ha)
          Organic matter from crop:-      Tops to surface residue      Roots to soil FOM
                           DM (kg/ha) =                  0.00                    0.00
@@ -5714,7 +5600,6 @@
              200.0     0.000          0.459       0.000
          ---------------------------------------------------
      
-28 October 1982(Day of year=301), manager: 
      Manager sending message :- surfaceom tillage  type = planter
 28 October 1982(Day of year=301), SurfaceOM: 
      
@@ -5796,14 +5681,10 @@
         Organic matter removed from system:-      From Tops		From Roots
                          DM (kg/ha) =               1333.60		    0.00
                          N  (kg/ha) =                 17.41		    0.00
-24 February 1983(Day of year=55), manager: 
      Manager sending message :- sorghum kill_crop
-24 February 1983(Day of year=55), sorghum: 
      Kill Crop
      Crop kill. Standing above-ground dm =  1499.7 kg/ha
-24 February 1983(Day of year=55), manager: 
      Manager sending message :- sorghum end_crop
-24 February 1983(Day of year=55), sorghum: 
      Crop ended. Yield (dw) =     0.0 kg/ha
      Organic matter from crop:-      Tops to surface residue	 Roots to soil FOM
                          DM (kg/ha) =               1499.68		  316.53
@@ -5814,6 +5695,8 @@
 23 May 1983(Day of year=143), wheat: 
      Crop Sow
       - reading constants for plant(wheat)
+C3 photosynthetic_pathway read=1222145
+photosynthetic_pathway =845866497
       - reading cultivar parameters
       - reading grain cultivar parameters
          ------------------------------------------------
@@ -5870,7 +5753,6 @@
         - Reading Fertiliser Type Parameters
          3.06 of N as nitrate (no3_n)
                                               added at depth    1.00 (layer   1)
-23 May 1983(Day of year=143), manager: 
      Manager sending message :- surfaceom tillage  type = planter
 23 May 1983(Day of year=143), SurfaceOM: 
      
@@ -5953,13 +5835,9 @@
       stage 4.0 end_of_juvenile
                      biomass =           0.02 (g/m^2)   lai          =   0.020 (m^2/m^2)
                      stover N conc =     6.30 (%)    extractable sw =  138.82 (mm)
-7 November 1983(Day of year=311), manager: 
      Manager sending message :- wheat kill_crop
-7 November 1983(Day of year=311), wheat: 
      Plant kill. 100.00% crop killed because of external action.
-7 November 1983(Day of year=311), manager: 
      Manager sending message :- wheat end_crop
-7 November 1983(Day of year=311), wheat: 
      Crop ended. Yield (dw) =     0.0  (kg/ha)
          Organic matter from crop:-      Tops to surface residue      Roots to soil FOM
                           DM (kg/ha) =                  0.20                 1676.11
@@ -6031,7 +5909,6 @@
         - Reading Fertiliser Type Parameters
         42.08 of N as nitrate (no3_n)
                                               added at depth    1.00 (layer   1)
-15 November 1983(Day of year=319), manager: 
      Manager sending message :- surfaceom tillage  type = planter
 15 November 1983(Day of year=319), SurfaceOM: 
      
@@ -6113,14 +5990,10 @@
         Organic matter removed from system:-      From Tops		From Roots
                          DM (kg/ha) =               4143.92		    0.00
                          N  (kg/ha) =                 27.91		    0.00
-1 March 1984(Day of year=61), manager: 
      Manager sending message :- sorghum kill_crop
-1 March 1984(Day of year=61), sorghum: 
      Kill Crop
      Crop kill. Standing above-ground dm =  4171.9 kg/ha
-1 March 1984(Day of year=61), manager: 
      Manager sending message :- sorghum end_crop
-1 March 1984(Day of year=61), sorghum: 
      Crop ended. Yield (dw) =     0.0 kg/ha
      Organic matter from crop:-      Tops to surface residue	 Roots to soil FOM
                          DM (kg/ha) =               4171.90		 1725.18
@@ -6131,6 +6004,8 @@
 16 July 1984(Day of year=198), chickpea: 
      Crop Sow
       - reading constants for plant(chickpea)
+C3 photosynthetic_pathway read=1222145
+photosynthetic_pathway =845866497
       - reading cultivar parameters
       - reading grain cultivar parameters
          ------------------------------------------------
@@ -6190,7 +6065,6 @@
             198   80.0   25.0  350.0   0.0   0.0 amethyst
          ------------------------------------------------
      
-16 July 1984(Day of year=198), manager: 
      Manager sending message :- surfaceom tillage  type = planter
 16 July 1984(Day of year=198), SurfaceOM: 
      
@@ -6273,9 +6147,7 @@
                           DM (kg/ha) =               1612.68                    0.00
                           N  (kg/ha) =                 58.06                    0.00
      
-11 December 1984(Day of year=346), manager: 
      Manager sending message :- chickpea end_crop
-11 December 1984(Day of year=346), chickpea: 
      Crop ended. Yield (dw) =     0.0  (kg/ha)
          Organic matter from crop:-      Tops to surface residue      Roots to soil FOM
                           DM (kg/ha) =                  0.00                  965.02
@@ -6286,6 +6158,8 @@
 13 July 1985(Day of year=194), wheat: 
      Crop Sow
       - reading constants for plant(wheat)
+C3 photosynthetic_pathway read=1222145
+photosynthetic_pathway =845866497
       - reading cultivar parameters
       - reading grain cultivar parameters
          ------------------------------------------------
@@ -6342,7 +6216,6 @@
         - Reading Fertiliser Type Parameters
         21.23 of N as nitrate (no3_n)
                                               added at depth    1.00 (layer   1)
-13 July 1985(Day of year=194), manager: 
      Manager sending message :- surfaceom tillage  type = planter
 13 July 1985(Day of year=194), SurfaceOM: 
      
@@ -6425,13 +6298,9 @@
       stage 4.0 end_of_juvenile
                      biomass =           0.02 (g/m^2)   lai          =   0.020 (m^2/m^2)
                      stover N conc =     6.30 (%)    extractable sw =   34.56 (mm)
-30 November 1985(Day of year=334), manager: 
      Manager sending message :- wheat kill_crop
-30 November 1985(Day of year=334), wheat: 
      Plant kill. 100.00% crop killed because of external action.
-30 November 1985(Day of year=334), manager: 
      Manager sending message :- wheat end_crop
-30 November 1985(Day of year=334), wheat: 
      Crop ended. Yield (dw) =     0.0  (kg/ha)
          Organic matter from crop:-      Tops to surface residue      Roots to soil FOM
                           DM (kg/ha) =                  0.20                 1033.78
@@ -6503,7 +6372,6 @@
         - Reading Fertiliser Type Parameters
         40.57 of N as nitrate (no3_n)
                                               added at depth    1.00 (layer   1)
-13 December 1985(Day of year=347), manager: 
      Manager sending message :- surfaceom tillage  type = planter
 13 December 1985(Day of year=347), SurfaceOM: 
      
@@ -6585,14 +6453,10 @@
         Organic matter removed from system:-      From Tops		From Roots
                          DM (kg/ha) =               2116.46		    0.00
                          N  (kg/ha) =                 34.33		    0.00
-20 March 1986(Day of year=79), manager: 
      Manager sending message :- sorghum kill_crop
-20 March 1986(Day of year=79), sorghum: 
      Kill Crop
      Crop kill. Standing above-ground dm =  3730.2 kg/ha
-20 March 1986(Day of year=79), manager: 
      Manager sending message :- sorghum end_crop
-20 March 1986(Day of year=79), sorghum: 
      Crop ended. Yield (dw) =     0.0 kg/ha
      Organic matter from crop:-      Tops to surface residue	 Roots to soil FOM
                          DM (kg/ha) =               3730.16		 1479.53
@@ -6664,7 +6528,6 @@
         - Reading Fertiliser Type Parameters
         44.72 of N as nitrate (no3_n)
                                               added at depth    1.00 (layer   1)
-5 December 1986(Day of year=339), manager: 
      Manager sending message :- surfaceom tillage  type = planter
 5 December 1986(Day of year=339), SurfaceOM: 
      
@@ -6746,14 +6609,10 @@
         Organic matter removed from system:-      From Tops		From Roots
                          DM (kg/ha) =               3075.18		    0.00
                          N  (kg/ha) =                 38.13		    0.00
-9 March 1987(Day of year=68), manager: 
      Manager sending message :- sorghum kill_crop
-9 March 1987(Day of year=68), sorghum: 
      Kill Crop
      Crop kill. Standing above-ground dm =  2977.1 kg/ha
-9 March 1987(Day of year=68), manager: 
      Manager sending message :- sorghum end_crop
-9 March 1987(Day of year=68), sorghum: 
      Crop ended. Yield (dw) =     0.0 kg/ha
      Organic matter from crop:-      Tops to surface residue	 Roots to soil FOM
                          DM (kg/ha) =               2977.14		 1151.99
@@ -6764,6 +6623,8 @@
 25 June 1987(Day of year=176), wheat: 
      Crop Sow
       - reading constants for plant(wheat)
+C3 photosynthetic_pathway read=1222145
+photosynthetic_pathway =845866497
       - reading cultivar parameters
       - reading grain cultivar parameters
          ------------------------------------------------
@@ -6820,7 +6681,6 @@
         - Reading Fertiliser Type Parameters
         21.51 of N as nitrate (no3_n)
                                               added at depth    1.00 (layer   1)
-25 June 1987(Day of year=176), manager: 
      Manager sending message :- surfaceom tillage  type = planter
 25 June 1987(Day of year=176), SurfaceOM: 
      
@@ -6903,13 +6763,9 @@
       stage 4.0 end_of_juvenile
                      biomass =           0.02 (g/m^2)   lai          =   0.020 (m^2/m^2)
                      stover N conc =     6.30 (%)    extractable sw =   17.42 (mm)
-22 November 1987(Day of year=326), manager: 
      Manager sending message :- wheat kill_crop
-22 November 1987(Day of year=326), wheat: 
      Plant kill. 100.00% crop killed because of external action.
-22 November 1987(Day of year=326), manager: 
      Manager sending message :- wheat end_crop
-22 November 1987(Day of year=326), wheat: 
      Crop ended. Yield (dw) =     0.0  (kg/ha)
          Organic matter from crop:-      Tops to surface residue      Roots to soil FOM
                           DM (kg/ha) =                  0.20                  946.15
@@ -6920,6 +6776,8 @@
 20 May 1988(Day of year=141), chickpea: 
      Crop Sow
       - reading constants for plant(chickpea)
+C3 photosynthetic_pathway read=1222145
+photosynthetic_pathway =845866497
       - reading cultivar parameters
       - reading grain cultivar parameters
          ------------------------------------------------
@@ -6979,7 +6837,6 @@
             141   80.0   25.0  350.0   0.0   0.0 amethyst
          ------------------------------------------------
      
-20 May 1988(Day of year=141), manager: 
      Manager sending message :- surfaceom tillage  type = planter
 20 May 1988(Day of year=141), SurfaceOM: 
      
@@ -7062,9 +6919,7 @@
                           DM (kg/ha) =               1820.62                    0.00
                           N  (kg/ha) =                 65.54                    0.00
      
-4 November 1988(Day of year=309), manager: 
      Manager sending message :- chickpea end_crop
-4 November 1988(Day of year=309), chickpea: 
      Crop ended. Yield (dw) =     0.0  (kg/ha)
          Organic matter from crop:-      Tops to surface residue      Roots to soil FOM
                           DM (kg/ha) =                  0.00                 1022.45
@@ -7075,6 +6930,8 @@
 20 May 1989(Day of year=140), wheat: 
      Crop Sow
       - reading constants for plant(wheat)
+C3 photosynthetic_pathway read=1222145
+photosynthetic_pathway =845866497
       - reading cultivar parameters
       - reading grain cultivar parameters
          ------------------------------------------------
@@ -7131,7 +6988,6 @@
         - Reading Fertiliser Type Parameters
          1.56 of N as nitrate (no3_n)
                                               added at depth    1.00 (layer   1)
-20 May 1989(Day of year=140), manager: 
      Manager sending message :- surfaceom tillage  type = planter
 20 May 1989(Day of year=140), SurfaceOM: 
      
@@ -7214,13 +7070,9 @@
       stage 4.0 end_of_juvenile
                      biomass =           0.02 (g/m^2)   lai          =   0.020 (m^2/m^2)
                      stover N conc =     6.30 (%)    extractable sw =   85.10 (mm)
-13 November 1989(Day of year=317), manager: 
      Manager sending message :- wheat kill_crop
-13 November 1989(Day of year=317), wheat: 
      Plant kill. 100.00% crop killed because of external action.
-13 November 1989(Day of year=317), manager: 
      Manager sending message :- wheat end_crop
-13 November 1989(Day of year=317), wheat: 
      Crop ended. Yield (dw) =     0.0  (kg/ha)
          Organic matter from crop:-      Tops to surface residue      Roots to soil FOM
                           DM (kg/ha) =                  0.21                 1387.00
@@ -7292,7 +7144,6 @@
         - Reading Fertiliser Type Parameters
         43.40 of N as nitrate (no3_n)
                                               added at depth    1.00 (layer   1)
-21 November 1989(Day of year=325), manager: 
      Manager sending message :- surfaceom tillage  type = planter
 21 November 1989(Day of year=325), SurfaceOM: 
      
@@ -7374,14 +7225,10 @@
         Organic matter removed from system:-      From Tops		From Roots
                          DM (kg/ha) =               2581.48		    0.00
                          N  (kg/ha) =                 30.66		    0.00
-25 February 1990(Day of year=56), manager: 
      Manager sending message :- sorghum kill_crop
-25 February 1990(Day of year=56), sorghum: 
      Kill Crop
      Crop kill. Standing above-ground dm =  3403.4 kg/ha
-25 February 1990(Day of year=56), manager: 
      Manager sending message :- sorghum end_crop
-25 February 1990(Day of year=56), sorghum: 
      Crop ended. Yield (dw) =     0.0 kg/ha
      Organic matter from crop:-      Tops to surface residue	 Roots to soil FOM
                          DM (kg/ha) =               3403.36		 1341.97
@@ -7392,6 +7239,8 @@
 24 May 1990(Day of year=144), chickpea: 
      Crop Sow
       - reading constants for plant(chickpea)
+C3 photosynthetic_pathway read=1222145
+photosynthetic_pathway =845866497
       - reading cultivar parameters
       - reading grain cultivar parameters
          ------------------------------------------------
@@ -7451,7 +7300,6 @@
             144   80.0   25.0  350.0   0.0   0.0 amethyst
          ------------------------------------------------
      
-24 May 1990(Day of year=144), manager: 
      Manager sending message :- surfaceom tillage  type = planter
 24 May 1990(Day of year=144), SurfaceOM: 
      
@@ -7534,9 +7382,7 @@
                           DM (kg/ha) =               1278.68                    0.00
                           N  (kg/ha) =                 46.03                    0.00
      
-15 November 1990(Day of year=319), manager: 
      Manager sending message :- chickpea end_crop
-15 November 1990(Day of year=319), chickpea: 
      Crop ended. Yield (dw) =     0.0  (kg/ha)
          Organic matter from crop:-      Tops to surface residue      Roots to soil FOM
                           DM (kg/ha) =                  0.00                  822.85
@@ -7547,6 +7393,8 @@
 23 May 1991(Day of year=143), wheat: 
      Crop Sow
       - reading constants for plant(wheat)
+C3 photosynthetic_pathway read=1222145
+photosynthetic_pathway =845866497
       - reading cultivar parameters
       - reading grain cultivar parameters
          ------------------------------------------------
@@ -7603,7 +7451,6 @@
         - Reading Fertiliser Type Parameters
          9.46 of N as nitrate (no3_n)
                                               added at depth    1.00 (layer   1)
-23 May 1991(Day of year=143), manager: 
      Manager sending message :- surfaceom tillage  type = planter
 23 May 1991(Day of year=143), SurfaceOM: 
      
@@ -7686,13 +7533,9 @@
       stage 4.0 end_of_juvenile
                      biomass =           0.02 (g/m^2)   lai          =   0.020 (m^2/m^2)
                      stover N conc =     6.30 (%)    extractable sw =   18.43 (mm)
-5 November 1991(Day of year=309), manager: 
      Manager sending message :- wheat kill_crop
-5 November 1991(Day of year=309), wheat: 
      Plant kill. 100.00% crop killed because of external action.
-5 November 1991(Day of year=309), manager: 
      Manager sending message :- wheat end_crop
-5 November 1991(Day of year=309), wheat: 
      Crop ended. Yield (dw) =     0.0  (kg/ha)
          Organic matter from crop:-      Tops to surface residue      Roots to soil FOM
                           DM (kg/ha) =                  0.20                 1239.49
@@ -7703,6 +7546,8 @@
 20 May 1992(Day of year=141), chickpea: 
      Crop Sow
       - reading constants for plant(chickpea)
+C3 photosynthetic_pathway read=1222145
+photosynthetic_pathway =845866497
       - reading cultivar parameters
       - reading grain cultivar parameters
          ------------------------------------------------
@@ -7762,7 +7607,6 @@
             141   80.0   25.0  350.0   0.0   0.0 amethyst
          ------------------------------------------------
      
-20 May 1992(Day of year=141), manager: 
      Manager sending message :- surfaceom tillage  type = planter
 20 May 1992(Day of year=141), SurfaceOM: 
      
@@ -7845,9 +7689,7 @@
                           DM (kg/ha) =               1180.04                    0.00
                           N  (kg/ha) =                 42.48                    0.00
      
-17 November 1992(Day of year=322), manager: 
      Manager sending message :- chickpea end_crop
-17 November 1992(Day of year=322), chickpea: 
      Crop ended. Yield (dw) =     0.0  (kg/ha)
          Organic matter from crop:-      Tops to surface residue      Roots to soil FOM
                           DM (kg/ha) =                  0.00                  842.54
@@ -7914,7 +7756,6 @@
              200.0     0.000          0.459       0.000
          ---------------------------------------------------
      
-11 December 1993(Day of year=345), manager: 
      Manager sending message :- surfaceom tillage  type = planter
 11 December 1993(Day of year=345), SurfaceOM: 
      
@@ -7996,14 +7837,10 @@
         Organic matter removed from system:-      From Tops		From Roots
                          DM (kg/ha) =               2754.45		    0.00
                          N  (kg/ha) =                 37.44		    0.00
-20 March 1994(Day of year=79), manager: 
      Manager sending message :- sorghum kill_crop
-20 March 1994(Day of year=79), sorghum: 
      Kill Crop
      Crop kill. Standing above-ground dm =  3143.4 kg/ha
-20 March 1994(Day of year=79), manager: 
      Manager sending message :- sorghum end_crop
-20 March 1994(Day of year=79), sorghum: 
      Crop ended. Yield (dw) =     0.0 kg/ha
      Organic matter from crop:-      Tops to surface residue	 Roots to soil FOM
                          DM (kg/ha) =               3143.40		 1079.80
@@ -8014,6 +7851,8 @@
 10 June 1994(Day of year=161), wheat: 
      Crop Sow
       - reading constants for plant(wheat)
+C3 photosynthetic_pathway read=1222145
+photosynthetic_pathway =845866497
       - reading cultivar parameters
       - reading grain cultivar parameters
          ------------------------------------------------
@@ -8070,7 +7909,6 @@
         - Reading Fertiliser Type Parameters
         11.31 of N as nitrate (no3_n)
                                               added at depth    1.00 (layer   1)
-10 June 1994(Day of year=161), manager: 
      Manager sending message :- surfaceom tillage  type = planter
 10 June 1994(Day of year=161), SurfaceOM: 
      
@@ -8153,13 +7991,9 @@
       stage 4.0 end_of_juvenile
                      biomass =           0.02 (g/m^2)   lai          =   0.020 (m^2/m^2)
                      stover N conc =     6.30 (%)    extractable sw =    8.46 (mm)
-15 November 1994(Day of year=319), manager: 
      Manager sending message :- wheat kill_crop
-15 November 1994(Day of year=319), wheat: 
      Plant kill. 100.00% crop killed because of external action.
-15 November 1994(Day of year=319), manager: 
      Manager sending message :- wheat end_crop
-15 November 1994(Day of year=319), wheat: 
      Crop ended. Yield (dw) =     0.0  (kg/ha)
          Organic matter from crop:-      Tops to surface residue      Roots to soil FOM
                           DM (kg/ha) =                  0.19                  768.09
@@ -8170,6 +8004,8 @@
 19 June 1995(Day of year=170), chickpea: 
      Crop Sow
       - reading constants for plant(chickpea)
+C3 photosynthetic_pathway read=1222145
+photosynthetic_pathway =845866497
       - reading cultivar parameters
       - reading grain cultivar parameters
          ------------------------------------------------
@@ -8229,7 +8065,6 @@
             170   80.0   25.0  350.0   0.0   0.0 amethyst
          ------------------------------------------------
      
-19 June 1995(Day of year=170), manager: 
      Manager sending message :- surfaceom tillage  type = planter
 19 June 1995(Day of year=170), SurfaceOM: 
      
@@ -8312,9 +8147,7 @@
                           DM (kg/ha) =                884.35                    0.00
                           N  (kg/ha) =                 31.84                    0.00
      
-23 November 1995(Day of year=327), manager: 
      Manager sending message :- chickpea end_crop
-23 November 1995(Day of year=327), chickpea: 
      Crop ended. Yield (dw) =     0.0  (kg/ha)
          Organic matter from crop:-      Tops to surface residue      Roots to soil FOM
                           DM (kg/ha) =                  0.00                  816.26
@@ -8386,7 +8219,6 @@
         - Reading Fertiliser Type Parameters
         38.90 of N as nitrate (no3_n)
                                               added at depth    1.00 (layer   1)
-1 December 1995(Day of year=335), manager: 
      Manager sending message :- surfaceom tillage  type = planter
 1 December 1995(Day of year=335), SurfaceOM: 
      
@@ -8468,14 +8300,10 @@
         Organic matter removed from system:-      From Tops		From Roots
                          DM (kg/ha) =               5400.03		    0.00
                          N  (kg/ha) =                 74.00		    0.00
-12 March 1996(Day of year=72), manager: 
      Manager sending message :- sorghum kill_crop
-12 March 1996(Day of year=72), sorghum: 
      Kill Crop
      Crop kill. Standing above-ground dm =  5110.6 kg/ha
-12 March 1996(Day of year=72), manager: 
      Manager sending message :- sorghum end_crop
-12 March 1996(Day of year=72), sorghum: 
      Crop ended. Yield (dw) =     0.0 kg/ha
      Organic matter from crop:-      Tops to surface residue	 Roots to soil FOM
                          DM (kg/ha) =               5110.56		 1781.79
@@ -8486,6 +8314,8 @@
 20 May 1996(Day of year=141), wheat: 
      Crop Sow
       - reading constants for plant(wheat)
+C3 photosynthetic_pathway read=1222145
+photosynthetic_pathway =845866497
       - reading cultivar parameters
       - reading grain cultivar parameters
          ------------------------------------------------
@@ -8542,7 +8372,6 @@
         - Reading Fertiliser Type Parameters
         48.02 of N as nitrate (no3_n)
                                               added at depth    1.00 (layer   1)
-20 May 1996(Day of year=141), manager: 
      Manager sending message :- surfaceom tillage  type = planter
 20 May 1996(Day of year=141), SurfaceOM: 
      
@@ -8625,13 +8454,9 @@
       stage 4.0 end_of_juvenile
                      biomass =           0.02 (g/m^2)   lai          =   0.020 (m^2/m^2)
                      stover N conc =     6.30 (%)    extractable sw =   70.49 (mm)
-8 November 1996(Day of year=313), manager: 
      Manager sending message :- wheat kill_crop
-8 November 1996(Day of year=313), wheat: 
      Plant kill. 100.00% crop killed because of external action.
-8 November 1996(Day of year=313), manager: 
      Manager sending message :- wheat end_crop
-8 November 1996(Day of year=313), wheat: 
      Crop ended. Yield (dw) =     0.0  (kg/ha)
          Organic matter from crop:-      Tops to surface residue      Roots to soil FOM
                           DM (kg/ha) =                  0.19                  822.65
@@ -8642,6 +8467,8 @@
 21 May 1997(Day of year=141), chickpea: 
      Crop Sow
       - reading constants for plant(chickpea)
+C3 photosynthetic_pathway read=1222145
+photosynthetic_pathway =845866497
       - reading cultivar parameters
       - reading grain cultivar parameters
          ------------------------------------------------
@@ -8701,7 +8528,6 @@
             141   80.0   25.0  350.0   0.0   0.0 amethyst
          ------------------------------------------------
      
-21 May 1997(Day of year=141), manager: 
      Manager sending message :- surfaceom tillage  type = planter
 21 May 1997(Day of year=141), SurfaceOM: 
      
@@ -8784,9 +8610,7 @@
                           DM (kg/ha) =               1698.46                    0.00
                           N  (kg/ha) =                 61.14                    0.00
      
-11 November 1997(Day of year=315), manager: 
      Manager sending message :- chickpea end_crop
-11 November 1997(Day of year=315), chickpea: 
      Crop ended. Yield (dw) =     0.0  (kg/ha)
          Organic matter from crop:-      Tops to surface residue      Roots to soil FOM
                           DM (kg/ha) =                  0.00                  957.01
@@ -8797,6 +8621,8 @@
 22 May 1998(Day of year=142), wheat: 
      Crop Sow
       - reading constants for plant(wheat)
+C3 photosynthetic_pathway read=1222145
+photosynthetic_pathway =845866497
       - reading cultivar parameters
       - reading grain cultivar parameters
          ------------------------------------------------
@@ -8848,7 +8674,6 @@
             142   80.0  100.0  250.0   0.0   0.0 sunco
          ------------------------------------------------
      
-22 May 1998(Day of year=142), manager: 
      Manager sending message :- surfaceom tillage  type = planter
 22 May 1998(Day of year=142), SurfaceOM: 
      
@@ -8931,13 +8756,9 @@
       stage 4.0 end_of_juvenile
                      biomass =           0.02 (g/m^2)   lai          =   0.020 (m^2/m^2)
                      stover N conc =     6.30 (%)    extractable sw =   80.04 (mm)
-5 November 1998(Day of year=309), manager: 
      Manager sending message :- wheat kill_crop
-5 November 1998(Day of year=309), wheat: 
      Plant kill. 100.00% crop killed because of external action.
-5 November 1998(Day of year=309), manager: 
      Manager sending message :- wheat end_crop
-5 November 1998(Day of year=309), wheat: 
      Crop ended. Yield (dw) =     0.0  (kg/ha)
          Organic matter from crop:-      Tops to surface residue      Roots to soil FOM
                           DM (kg/ha) =                  0.20                 1486.82
@@ -9009,7 +8830,6 @@
         - Reading Fertiliser Type Parameters
         46.21 of N as nitrate (no3_n)
                                               added at depth    1.00 (layer   1)
-30 November 1998(Day of year=334), manager: 
      Manager sending message :- surfaceom tillage  type = planter
 30 November 1998(Day of year=334), SurfaceOM: 
      
@@ -9091,14 +8911,10 @@
         Organic matter removed from system:-      From Tops		From Roots
                          DM (kg/ha) =               3395.45		    0.00
                          N  (kg/ha) =                 38.79		    0.00
-5 March 1999(Day of year=64), manager: 
      Manager sending message :- sorghum kill_crop
-5 March 1999(Day of year=64), sorghum: 
      Kill Crop
      Crop kill. Standing above-ground dm =  3207.0 kg/ha
-5 March 1999(Day of year=64), manager: 
      Manager sending message :- sorghum end_crop
-5 March 1999(Day of year=64), sorghum: 
      Crop ended. Yield (dw) =     0.0 kg/ha
      Organic matter from crop:-      Tops to surface residue	 Roots to soil FOM
                          DM (kg/ha) =               3206.99		 1293.92
@@ -9109,6 +8925,8 @@
 10 June 1999(Day of year=161), chickpea: 
      Crop Sow
       - reading constants for plant(chickpea)
+C3 photosynthetic_pathway read=1222145
+photosynthetic_pathway =845866497
       - reading cultivar parameters
       - reading grain cultivar parameters
          ------------------------------------------------
@@ -9168,7 +8986,6 @@
             161   80.0   25.0  350.0   0.0   0.0 amethyst
          ------------------------------------------------
      
-10 June 1999(Day of year=161), manager: 
      Manager sending message :- surfaceom tillage  type = planter
 10 June 1999(Day of year=161), SurfaceOM: 
      
@@ -9251,9 +9068,7 @@
                           DM (kg/ha) =               2625.49                    0.00
                           N  (kg/ha) =                 94.52                    0.00
      
-18 November 1999(Day of year=322), manager: 
      Manager sending message :- chickpea end_crop
-18 November 1999(Day of year=322), chickpea: 
      Crop ended. Yield (dw) =     0.0  (kg/ha)
          Organic matter from crop:-      Tops to surface residue      Roots to soil FOM
                           DM (kg/ha) =                  0.00                 1129.11
@@ -9325,7 +9140,6 @@
         - Reading Fertiliser Type Parameters
         42.61 of N as nitrate (no3_n)
                                               added at depth    1.00 (layer   1)
-26 November 1999(Day of year=330), manager: 
      Manager sending message :- surfaceom tillage  type = planter
 26 November 1999(Day of year=330), SurfaceOM: 
      
@@ -9407,14 +9221,10 @@
         Organic matter removed from system:-      From Tops		From Roots
                          DM (kg/ha) =               1814.83		    0.00
                          N  (kg/ha) =                 36.15		    0.00
-8 March 2000(Day of year=68), manager: 
      Manager sending message :- sorghum kill_crop
-8 March 2000(Day of year=68), sorghum: 
      Kill Crop
      Crop kill. Standing above-ground dm =  3455.0 kg/ha
-8 March 2000(Day of year=68), manager: 
      Manager sending message :- sorghum end_crop
-8 March 2000(Day of year=68), sorghum: 
      Crop ended. Yield (dw) =     0.0 kg/ha
      Organic matter from crop:-      Tops to surface residue	 Roots to soil FOM
                          DM (kg/ha) =               3455.05		 1383.67
@@ -9425,6 +9235,8 @@
 28 May 2000(Day of year=149), wheat: 
      Crop Sow
       - reading constants for plant(wheat)
+C3 photosynthetic_pathway read=1222145
+photosynthetic_pathway =845866497
       - reading cultivar parameters
       - reading grain cultivar parameters
          ------------------------------------------------
@@ -9481,7 +9293,6 @@
         - Reading Fertiliser Type Parameters
         31.45 of N as nitrate (no3_n)
                                               added at depth    1.00 (layer   1)
-28 May 2000(Day of year=149), manager: 
      Manager sending message :- surfaceom tillage  type = planter
 28 May 2000(Day of year=149), SurfaceOM: 
      
@@ -9526,13 +9337,9 @@
                           DM (kg/ha) =                  0.00                    0.00
                           N  (kg/ha) =                  0.00                    0.00
      
-7 July 2000(Day of year=189), manager: 
      Manager sending message :- wheat kill_crop
-7 July 2000(Day of year=189), wheat: 
      Plant kill. 100.00% crop killed because of external action.
-7 July 2000(Day of year=189), manager: 
      Manager sending message :- wheat end_crop
-7 July 2000(Day of year=189), wheat: 
      Crop ended. Yield (dw) =     0.0  (kg/ha)
          Organic matter from crop:-      Tops to surface residue      Roots to soil FOM
                           DM (kg/ha) =                  0.00                    0.00
@@ -9599,7 +9406,6 @@
              200.0     0.000          0.459       0.000
          ---------------------------------------------------
      
-27 October 2000(Day of year=301), manager: 
      Manager sending message :- surfaceom tillage  type = planter
 27 October 2000(Day of year=301), SurfaceOM: 
      
@@ -9681,14 +9487,10 @@
         Organic matter removed from system:-      From Tops		From Roots
                          DM (kg/ha) =               2965.02		    0.00
                          N  (kg/ha) =                 49.83		    0.00
-5 February 2001(Day of year=36), manager: 
      Manager sending message :- sorghum kill_crop
-5 February 2001(Day of year=36), sorghum: 
      Kill Crop
      Crop kill. Standing above-ground dm =  4201.3 kg/ha
-5 February 2001(Day of year=36), manager: 
      Manager sending message :- sorghum end_crop
-5 February 2001(Day of year=36), sorghum: 
      Crop ended. Yield (dw) =     0.0 kg/ha
      Organic matter from crop:-      Tops to surface residue	 Roots to soil FOM
                          DM (kg/ha) =               4201.34		 1623.90
@@ -9699,6 +9501,8 @@
 24 May 2001(Day of year=144), chickpea: 
      Crop Sow
       - reading constants for plant(chickpea)
+C3 photosynthetic_pathway read=1222145
+photosynthetic_pathway =845866497
       - reading cultivar parameters
       - reading grain cultivar parameters
          ------------------------------------------------
@@ -9758,7 +9562,6 @@
             144   80.0   25.0  350.0   0.0   0.0 amethyst
          ------------------------------------------------
      
-24 May 2001(Day of year=144), manager: 
      Manager sending message :- surfaceom tillage  type = planter
 24 May 2001(Day of year=144), SurfaceOM: 
      
@@ -9841,9 +9644,7 @@
                           DM (kg/ha) =               1395.21                    0.00
                           N  (kg/ha) =                 50.23                    0.00
      
-13 November 2001(Day of year=317), manager: 
      Manager sending message :- chickpea end_crop
-13 November 2001(Day of year=317), chickpea: 
      Crop ended. Yield (dw) =     0.0  (kg/ha)
          Organic matter from crop:-      Tops to surface residue      Roots to soil FOM
                           DM (kg/ha) =                  0.00                  915.23
@@ -9915,7 +9716,6 @@
         - Reading Fertiliser Type Parameters
         40.97 of N as nitrate (no3_n)
                                               added at depth    1.00 (layer   1)
-29 November 2001(Day of year=333), manager: 
      Manager sending message :- surfaceom tillage  type = planter
 29 November 2001(Day of year=333), SurfaceOM: 
      
@@ -9997,14 +9797,10 @@
         Organic matter removed from system:-      From Tops		From Roots
                          DM (kg/ha) =               2461.21		    0.00
                          N  (kg/ha) =                 31.24		    0.00
-3 March 2002(Day of year=62), manager: 
      Manager sending message :- sorghum kill_crop
-3 March 2002(Day of year=62), sorghum: 
      Kill Crop
      Crop kill. Standing above-ground dm =  3420.4 kg/ha
-3 March 2002(Day of year=62), manager: 
      Manager sending message :- sorghum end_crop
-3 March 2002(Day of year=62), sorghum: 
      Crop ended. Yield (dw) =     0.0 kg/ha
      Organic matter from crop:-      Tops to surface residue	 Roots to soil FOM
                          DM (kg/ha) =               3420.38		 1378.58
@@ -10076,7 +9872,6 @@
         - Reading Fertiliser Type Parameters
         27.32 of N as nitrate (no3_n)
                                               added at depth    1.00 (layer   1)
-30 October 2002(Day of year=303), manager: 
      Manager sending message :- surfaceom tillage  type = planter
 30 October 2002(Day of year=303), SurfaceOM: 
      
