@@ -9,21 +9,20 @@
  The Agricultural Production Systems Simulator
              Copyright(c) APSRU               
 
-     Version                = 5.3
-     Title                  = site=coonamble; soil=cd2; treatment=s1; Nrate=200; RootDepth=deep; Sowing = AvgWindow
-     Component DLL          = c:\development\apsim\SummaryFile\lib\SummaryFile.dll
-     Component DLL          = c:\development\apsim\clock\lib\clock.dll
-     Component DLL          = c:\development\apsim\report\lib\report.dll
-     Component DLL          = c:\development\apsim\input\lib\input.dll
-     Component DLL          = c:\development\apsim\fertiliz\lib\fertiliz.dll
-     Component DLL          = c:\development\apsim\manager\lib\manager.dll
-     Component DLL          = c:\development\apsim\soilwat2\lib\soilwat2.dll
-     Component DLL          = c:\development\apsim\SurfaceOM\lib\SurfaceOM.dll
-     Component DLL          = c:\development\apsim\soiln2\lib\soiln2.dll
-     Component DLL          = c:\development\apsim\plant\lib\plant.dll
-     Component DLL          = c:\development\apsim\plant\lib\plant.dll
-     Component DLL          = c:\development\apsim\sorghum\lib\sorghum.dll
-     Component DLL          = c:\development\apsim\tracker\lib\tracker.dll
+Version                = 5.3
+Title                  = site=coonamble; soil=cd2; treatment=s1; Nrate=200; RootDepth=deep; Sowing = AvgWindow
+Component      "clock" = c:\development\apsim\clock\lib\clock.dll
+Component     "report" = c:\development\apsim\report\lib\report.dll
+Component        "met" = c:\development\apsim\input\lib\input.dll
+Component   "fertiliz" = c:\development\apsim\fertiliz\lib\fertiliz.dll
+Component    "manager" = c:\development\apsim\manager\lib\manager.dll
+Component   "soilwat2" = c:\development\apsim\soilwat2\lib\soilwat2.dll
+Component  "SurfaceOM" = c:\development\apsim\SurfaceOM\lib\SurfaceOM.dll
+Component     "soiln2" = c:\development\apsim\soiln2\lib\soiln2.dll
+Component   "chickpea" = c:\development\apsim\plant\lib\plant.dll
+Component      "wheat" = c:\development\apsim\plant\lib\plant.dll
+Component    "sorghum" = c:\development\apsim\sorghum\lib\sorghum.dll
+Component    "tracker" = c:\development\apsim\tracker\lib\tracker.dll
 
 ------- clock Initialisation --------------------------------------------------
      Sequencer phases:
@@ -54,7 +53,7 @@
         tracker.annual_runoff
         tracker.annual_es
         tracker.annual_drain
-     
+
      Output file = output\coonamble_cd2_200_s1_deep_AvgWindow.out
      Format = normal
 
@@ -350,7 +349,7 @@
            Using Ritchie evaporation model
             Cuml evap (U):            7.34 (mm^0.5)
             CONA:                     5.00 ()
-           Eo from priestly-taylor
+            Eo from priestly-taylor
 
 ------- SurfaceOM Initialisation ----------------------------------------------
      
@@ -463,7 +462,6 @@
         sum of soilwat2.es on end_of_day from reported to now as annual_es
         sum of soilwat2.drain on end_of_day from reported to now as annual_drain
 ------- Start of simulation  --------------------------------------------------
-1 January 1957(Day of year=1), manager: 
      Manager creating a new local real variable : maw10 =     16.9999961000000
      Manager creating a new local real variable : maw30 =     41.7999997000000
      Manager creating a new local real variable : maw50 =     66.6000023000000
@@ -555,14 +553,12 @@
              200.0     0.000          0.459       0.000
          ---------------------------------------------------
      
-3 January 1957(Day of year=3), manager: 
      Manager creating a new local real variable : rz_no3 =     16.2229471200000
 3 January 1957(Day of year=3), fertiliz: 
      
         - Reading Fertiliser Type Parameters
        183.78 of N as nitrate (no3_n)
                                               added at depth    1.00 (layer   1)
-3 January 1957(Day of year=3), manager: 
      Manager sending message :- surfaceom tillage  type = planter
 3 January 1957(Day of year=3), SurfaceOM: 
      
@@ -635,13 +631,9 @@
         Organic matter removed from system:-      From Tops		From Roots
                          DM (kg/ha) =               1289.75		    0.00
                          N  (kg/ha) =                 17.29		    0.00
-25 May 1957(Day of year=145), manager: 
      Manager sending message :- sorghum kill_crop
-25 May 1957(Day of year=145), sorghum: 
      Kill Crop
-25 May 1957(Day of year=145), manager: 
      Manager sending message :- sorghum end_crop
-25 May 1957(Day of year=145), sorghum: 
      Crop ended. Yield (dw) =     0.0 kg/ha
      Organic matter from crop:-      Tops to surface residue	 Roots to soil FOM
                          DM (kg/ha) =               3864.31		 1285.48
@@ -713,7 +705,6 @@
         - Reading Fertiliser Type Parameters
         77.62 of N as nitrate (no3_n)
                                               added at depth    1.00 (layer   1)
-21 November 1960(Day of year=326), manager: 
      Manager sending message :- surfaceom tillage  type = planter
 21 November 1960(Day of year=326), SurfaceOM: 
      
@@ -795,14 +786,10 @@
         Organic matter removed from system:-      From Tops		From Roots
                          DM (kg/ha) =               1548.61		    0.00
                          N  (kg/ha) =                 35.93		    0.00
-24 February 1961(Day of year=55), manager: 
      Manager sending message :- sorghum kill_crop
-24 February 1961(Day of year=55), sorghum: 
      Kill Crop
      Crop kill. Standing above-ground dm =  3232.6 kg/ha
-24 February 1961(Day of year=55), manager: 
      Manager sending message :- sorghum end_crop
-24 February 1961(Day of year=55), sorghum: 
      Crop ended. Yield (dw) =     0.0 kg/ha
      Organic matter from crop:-      Tops to surface residue	 Roots to soil FOM
                          DM (kg/ha) =               3232.61		 1332.09
@@ -874,7 +861,6 @@
         - Reading Fertiliser Type Parameters
         45.62 of N as nitrate (no3_n)
                                               added at depth    1.00 (layer   1)
-28 October 1962(Day of year=301), manager: 
      Manager sending message :- surfaceom tillage  type = planter
 28 October 1962(Day of year=301), SurfaceOM: 
      
@@ -956,14 +942,10 @@
         Organic matter removed from system:-      From Tops		From Roots
                          DM (kg/ha) =               3775.58		    0.00
                          N  (kg/ha) =                 54.95		    0.00
-20 February 1963(Day of year=51), manager: 
      Manager sending message :- sorghum kill_crop
-20 February 1963(Day of year=51), sorghum: 
      Kill Crop
      Crop kill. Standing above-ground dm =  4251.1 kg/ha
-20 February 1963(Day of year=51), manager: 
      Manager sending message :- sorghum end_crop
-20 February 1963(Day of year=51), sorghum: 
      Crop ended. Yield (dw) =     0.0 kg/ha
      Organic matter from crop:-      Tops to surface residue	 Roots to soil FOM
                          DM (kg/ha) =               4251.07		 1005.64
@@ -1035,7 +1017,6 @@
         - Reading Fertiliser Type Parameters
         96.68 of N as nitrate (no3_n)
                                               added at depth    1.00 (layer   1)
-1 November 1964(Day of year=306), manager: 
      Manager sending message :- surfaceom tillage  type = planter
 1 November 1964(Day of year=306), SurfaceOM: 
      
@@ -1117,14 +1098,10 @@
         Organic matter removed from system:-      From Tops		From Roots
                          DM (kg/ha) =               1529.08		    0.00
                          N  (kg/ha) =                 33.81		    0.00
-7 February 1965(Day of year=38), manager: 
      Manager sending message :- sorghum kill_crop
-7 February 1965(Day of year=38), sorghum: 
      Kill Crop
      Crop kill. Standing above-ground dm =  3264.0 kg/ha
-7 February 1965(Day of year=38), manager: 
      Manager sending message :- sorghum end_crop
-7 February 1965(Day of year=38), sorghum: 
      Crop ended. Yield (dw) =     0.0 kg/ha
      Organic matter from crop:-      Tops to surface residue	 Roots to soil FOM
                          DM (kg/ha) =               3264.03		 1331.11
@@ -1196,7 +1173,6 @@
         - Reading Fertiliser Type Parameters
         37.86 of N as nitrate (no3_n)
                                               added at depth    1.00 (layer   1)
-17 December 1965(Day of year=351), manager: 
      Manager sending message :- surfaceom tillage  type = planter
 17 December 1965(Day of year=351), SurfaceOM: 
      
@@ -1278,14 +1254,10 @@
         Organic matter removed from system:-      From Tops		From Roots
                          DM (kg/ha) =               1146.53		    0.00
                          N  (kg/ha) =                 26.32		    0.00
-22 March 1966(Day of year=81), manager: 
      Manager sending message :- sorghum kill_crop
-22 March 1966(Day of year=81), sorghum: 
      Kill Crop
      Crop kill. Standing above-ground dm =  2404.2 kg/ha
-22 March 1966(Day of year=81), manager: 
      Manager sending message :- sorghum end_crop
-22 March 1966(Day of year=81), sorghum: 
      Crop ended. Yield (dw) =     0.0 kg/ha
      Organic matter from crop:-      Tops to surface residue	 Roots to soil FOM
                          DM (kg/ha) =               2404.20		  949.00
@@ -1357,7 +1329,6 @@
         - Reading Fertiliser Type Parameters
         19.51 of N as nitrate (no3_n)
                                               added at depth    1.00 (layer   1)
-8 January 1968(Day of year=8), manager: 
      Manager sending message :- surfaceom tillage  type = planter
 8 January 1968(Day of year=8), SurfaceOM: 
      
@@ -1439,14 +1410,10 @@
         Organic matter removed from system:-      From Tops		From Roots
                          DM (kg/ha) =               2337.42		    0.00
                          N  (kg/ha) =                 44.19		    0.00
-10 April 1968(Day of year=101), manager: 
      Manager sending message :- sorghum kill_crop
-10 April 1968(Day of year=101), sorghum: 
      Kill Crop
      Crop kill. Standing above-ground dm =  2992.5 kg/ha
-10 April 1968(Day of year=101), manager: 
      Manager sending message :- sorghum end_crop
-10 April 1968(Day of year=101), sorghum: 
      Crop ended. Yield (dw) =     0.0 kg/ha
      Organic matter from crop:-      Tops to surface residue	 Roots to soil FOM
                          DM (kg/ha) =               2992.51		 1246.07
@@ -1518,7 +1485,6 @@
         - Reading Fertiliser Type Parameters
         69.27 of N as nitrate (no3_n)
                                               added at depth    1.00 (layer   1)
-28 October 1969(Day of year=301), manager: 
      Manager sending message :- surfaceom tillage  type = planter
 28 October 1969(Day of year=301), SurfaceOM: 
      
@@ -1600,14 +1566,10 @@
         Organic matter removed from system:-      From Tops		From Roots
                          DM (kg/ha) =               2551.47		    0.00
                          N  (kg/ha) =                 37.70		    0.00
-2 March 1970(Day of year=61), manager: 
      Manager sending message :- sorghum kill_crop
-2 March 1970(Day of year=61), sorghum: 
      Kill Crop
      Crop kill. Standing above-ground dm =  2709.4 kg/ha
-2 March 1970(Day of year=61), manager: 
      Manager sending message :- sorghum end_crop
-2 March 1970(Day of year=61), sorghum: 
      Crop ended. Yield (dw) =     0.0 kg/ha
      Organic matter from crop:-      Tops to surface residue	 Roots to soil FOM
                          DM (kg/ha) =               2709.38		  684.95
@@ -1679,7 +1641,6 @@
         - Reading Fertiliser Type Parameters
         25.29 of N as nitrate (no3_n)
                                               added at depth    1.00 (layer   1)
-28 October 1970(Day of year=301), manager: 
      Manager sending message :- surfaceom tillage  type = planter
 28 October 1970(Day of year=301), SurfaceOM: 
      
@@ -1761,14 +1722,10 @@
         Organic matter removed from system:-      From Tops		From Roots
                          DM (kg/ha) =               3192.38		    0.00
                          N  (kg/ha) =                 56.10		    0.00
-6 February 1971(Day of year=37), manager: 
      Manager sending message :- sorghum kill_crop
-6 February 1971(Day of year=37), sorghum: 
      Kill Crop
      Crop kill. Standing above-ground dm =  3986.7 kg/ha
-6 February 1971(Day of year=37), manager: 
      Manager sending message :- sorghum end_crop
-6 February 1971(Day of year=37), sorghum: 
      Crop ended. Yield (dw) =     0.0 kg/ha
      Organic matter from crop:-      Tops to surface residue	 Roots to soil FOM
                          DM (kg/ha) =               3986.69		 1543.61
@@ -1840,7 +1797,6 @@
         - Reading Fertiliser Type Parameters
        135.62 of N as nitrate (no3_n)
                                               added at depth    1.00 (layer   1)
-9 November 1971(Day of year=313), manager: 
      Manager sending message :- surfaceom tillage  type = planter
 9 November 1971(Day of year=313), SurfaceOM: 
      
@@ -1922,14 +1878,10 @@
         Organic matter removed from system:-      From Tops		From Roots
                          DM (kg/ha) =               4065.82		    0.00
                          N  (kg/ha) =                 66.45		    0.00
-1 March 1972(Day of year=61), manager: 
      Manager sending message :- sorghum kill_crop
-1 March 1972(Day of year=61), sorghum: 
      Kill Crop
      Crop kill. Standing above-ground dm =  4009.7 kg/ha
-1 March 1972(Day of year=61), manager: 
      Manager sending message :- sorghum end_crop
-1 March 1972(Day of year=61), sorghum: 
      Crop ended. Yield (dw) =     0.0 kg/ha
      Organic matter from crop:-      Tops to surface residue	 Roots to soil FOM
                          DM (kg/ha) =               4009.69		 1401.30
@@ -2001,7 +1953,6 @@
         - Reading Fertiliser Type Parameters
        118.93 of N as nitrate (no3_n)
                                               added at depth    1.00 (layer   1)
-28 October 1973(Day of year=301), manager: 
      Manager sending message :- surfaceom tillage  type = planter
 28 October 1973(Day of year=301), SurfaceOM: 
      
@@ -2083,14 +2034,10 @@
         Organic matter removed from system:-      From Tops		From Roots
                          DM (kg/ha) =               3497.38		    0.00
                          N  (kg/ha) =                 49.35		    0.00
-2 February 1974(Day of year=33), manager: 
      Manager sending message :- sorghum kill_crop
-2 February 1974(Day of year=33), sorghum: 
      Kill Crop
      Crop kill. Standing above-ground dm =  3398.7 kg/ha
-2 February 1974(Day of year=33), manager: 
      Manager sending message :- sorghum end_crop
-2 February 1974(Day of year=33), sorghum: 
      Crop ended. Yield (dw) =     0.0 kg/ha
      Organic matter from crop:-      Tops to surface residue	 Roots to soil FOM
                          DM (kg/ha) =               3398.69		 1251.97
@@ -2162,7 +2109,6 @@
         - Reading Fertiliser Type Parameters
         90.23 of N as nitrate (no3_n)
                                               added at depth    1.00 (layer   1)
-28 October 1974(Day of year=301), manager: 
      Manager sending message :- surfaceom tillage  type = planter
 28 October 1974(Day of year=301), SurfaceOM: 
      
@@ -2244,14 +2190,10 @@
         Organic matter removed from system:-      From Tops		From Roots
                          DM (kg/ha) =               1767.84		    0.00
                          N  (kg/ha) =                 38.23		    0.00
-8 February 1975(Day of year=39), manager: 
      Manager sending message :- sorghum kill_crop
-8 February 1975(Day of year=39), sorghum: 
      Kill Crop
      Crop kill. Standing above-ground dm =  2813.9 kg/ha
-8 February 1975(Day of year=39), manager: 
      Manager sending message :- sorghum end_crop
-8 February 1975(Day of year=39), sorghum: 
      Crop ended. Yield (dw) =     0.0 kg/ha
      Organic matter from crop:-      Tops to surface residue	 Roots to soil FOM
                          DM (kg/ha) =               2813.85		 1281.27
@@ -2323,7 +2265,6 @@
         - Reading Fertiliser Type Parameters
         99.66 of N as nitrate (no3_n)
                                               added at depth    1.00 (layer   1)
-5 November 1978(Day of year=309), manager: 
      Manager sending message :- surfaceom tillage  type = planter
 5 November 1978(Day of year=309), SurfaceOM: 
      
@@ -2405,14 +2346,10 @@
         Organic matter removed from system:-      From Tops		From Roots
                          DM (kg/ha) =               2838.09		    0.00
                          N  (kg/ha) =                 59.96		    0.00
-9 February 1979(Day of year=40), manager: 
      Manager sending message :- sorghum kill_crop
-9 February 1979(Day of year=40), sorghum: 
      Kill Crop
      Crop kill. Standing above-ground dm =  4244.3 kg/ha
-9 February 1979(Day of year=40), manager: 
      Manager sending message :- sorghum end_crop
-9 February 1979(Day of year=40), sorghum: 
      Crop ended. Yield (dw) =     0.0 kg/ha
      Organic matter from crop:-      Tops to surface residue	 Roots to soil FOM
                          DM (kg/ha) =               4244.25		 1703.63
@@ -2484,7 +2421,6 @@
         - Reading Fertiliser Type Parameters
         90.23 of N as nitrate (no3_n)
                                               added at depth    1.00 (layer   1)
-16 December 1980(Day of year=351), manager: 
      Manager sending message :- surfaceom tillage  type = planter
 16 December 1980(Day of year=351), SurfaceOM: 
      
@@ -2566,14 +2502,10 @@
         Organic matter removed from system:-      From Tops		From Roots
                          DM (kg/ha) =               2042.72		    0.00
                          N  (kg/ha) =                 39.59		    0.00
-14 March 1981(Day of year=73), manager: 
      Manager sending message :- sorghum kill_crop
-14 March 1981(Day of year=73), sorghum: 
      Kill Crop
      Crop kill. Standing above-ground dm =  2440.7 kg/ha
-14 March 1981(Day of year=73), manager: 
      Manager sending message :- sorghum end_crop
-14 March 1981(Day of year=73), sorghum: 
      Crop ended. Yield (dw) =     0.0 kg/ha
      Organic matter from crop:-      Tops to surface residue	 Roots to soil FOM
                          DM (kg/ha) =               2440.66		 1025.42
@@ -2645,7 +2577,6 @@
         - Reading Fertiliser Type Parameters
         58.54 of N as nitrate (no3_n)
                                               added at depth    1.00 (layer   1)
-27 October 1981(Day of year=300), manager: 
      Manager sending message :- surfaceom tillage  type = planter
 27 October 1981(Day of year=300), SurfaceOM: 
      
@@ -2727,14 +2658,10 @@
         Organic matter removed from system:-      From Tops		From Roots
                          DM (kg/ha) =               2161.77		    0.00
                          N  (kg/ha) =                 40.81		    0.00
-2 February 1982(Day of year=33), manager: 
      Manager sending message :- sorghum kill_crop
-2 February 1982(Day of year=33), sorghum: 
      Kill Crop
      Crop kill. Standing above-ground dm =  3751.1 kg/ha
-2 February 1982(Day of year=33), manager: 
      Manager sending message :- sorghum end_crop
-2 February 1982(Day of year=33), sorghum: 
      Crop ended. Yield (dw) =     0.0 kg/ha
      Organic matter from crop:-      Tops to surface residue	 Roots to soil FOM
                          DM (kg/ha) =               3751.07		 1297.77
@@ -2806,7 +2733,6 @@
         - Reading Fertiliser Type Parameters
         44.61 of N as nitrate (no3_n)
                                               added at depth    1.00 (layer   1)
-6 January 1983(Day of year=6), manager: 
      Manager sending message :- surfaceom tillage  type = planter
 6 January 1983(Day of year=6), SurfaceOM: 
      
@@ -2888,14 +2814,10 @@
         Organic matter removed from system:-      From Tops		From Roots
                          DM (kg/ha) =                491.40		    0.00
                          N  (kg/ha) =                  5.49		    0.00
-10 May 1983(Day of year=130), manager: 
      Manager sending message :- sorghum kill_crop
-10 May 1983(Day of year=130), sorghum: 
      Kill Crop
      Crop kill. Standing above-ground dm =   610.2 kg/ha
-10 May 1983(Day of year=130), manager: 
      Manager sending message :- sorghum end_crop
-10 May 1983(Day of year=130), sorghum: 
      Crop ended. Yield (dw) =     0.0 kg/ha
      Organic matter from crop:-      Tops to surface residue	 Roots to soil FOM
                          DM (kg/ha) =                610.15		  105.77
@@ -2967,7 +2889,6 @@
         - Reading Fertiliser Type Parameters
         46.17 of N as nitrate (no3_n)
                                               added at depth    1.00 (layer   1)
-28 October 1983(Day of year=301), manager: 
      Manager sending message :- surfaceom tillage  type = planter
 28 October 1983(Day of year=301), SurfaceOM: 
      
@@ -3049,14 +2970,10 @@
         Organic matter removed from system:-      From Tops		From Roots
                          DM (kg/ha) =               3806.05		    0.00
                          N  (kg/ha) =                 54.50		    0.00
-12 February 1984(Day of year=43), manager: 
      Manager sending message :- sorghum kill_crop
-12 February 1984(Day of year=43), sorghum: 
      Kill Crop
      Crop kill. Standing above-ground dm =  4257.7 kg/ha
-12 February 1984(Day of year=43), manager: 
      Manager sending message :- sorghum end_crop
-12 February 1984(Day of year=43), sorghum: 
      Crop ended. Yield (dw) =     0.0 kg/ha
      Organic matter from crop:-      Tops to surface residue	 Roots to soil FOM
                          DM (kg/ha) =               4257.71		  987.59
@@ -3128,7 +3045,6 @@
         - Reading Fertiliser Type Parameters
        152.55 of N as nitrate (no3_n)
                                               added at depth    1.00 (layer   1)
-31 October 1984(Day of year=305), manager: 
      Manager sending message :- surfaceom tillage  type = planter
 31 October 1984(Day of year=305), SurfaceOM: 
      
@@ -3210,14 +3126,10 @@
         Organic matter removed from system:-      From Tops		From Roots
                          DM (kg/ha) =               1458.62		    0.00
                          N  (kg/ha) =                 36.03		    0.00
-7 February 1985(Day of year=38), manager: 
      Manager sending message :- sorghum kill_crop
-7 February 1985(Day of year=38), sorghum: 
      Kill Crop
      Crop kill. Standing above-ground dm =  3130.6 kg/ha
-7 February 1985(Day of year=38), manager: 
      Manager sending message :- sorghum end_crop
-7 February 1985(Day of year=38), sorghum: 
      Crop ended. Yield (dw) =     0.0 kg/ha
      Organic matter from crop:-      Tops to surface residue	 Roots to soil FOM
                          DM (kg/ha) =               3130.65		 1308.50
@@ -3284,7 +3196,6 @@
              200.0     0.000          0.459       0.000
          ---------------------------------------------------
      
-18 November 1988(Day of year=323), manager: 
      Manager sending message :- surfaceom tillage  type = planter
 18 November 1988(Day of year=323), SurfaceOM: 
      
@@ -3366,14 +3277,10 @@
         Organic matter removed from system:-      From Tops		From Roots
                          DM (kg/ha) =               2745.86		    0.00
                          N  (kg/ha) =                 66.73		    0.00
-19 February 1989(Day of year=50), manager: 
      Manager sending message :- sorghum kill_crop
-19 February 1989(Day of year=50), sorghum: 
      Kill Crop
      Crop kill. Standing above-ground dm =  4215.4 kg/ha
-19 February 1989(Day of year=50), manager: 
      Manager sending message :- sorghum end_crop
-19 February 1989(Day of year=50), sorghum: 
      Crop ended. Yield (dw) =     0.0 kg/ha
      Organic matter from crop:-      Tops to surface residue	 Roots to soil FOM
                          DM (kg/ha) =               4215.35		 1696.91
@@ -3445,7 +3352,6 @@
         - Reading Fertiliser Type Parameters
         72.44 of N as nitrate (no3_n)
                                               added at depth    1.00 (layer   1)
-16 December 1991(Day of year=350), manager: 
      Manager sending message :- surfaceom tillage  type = planter
 16 December 1991(Day of year=350), SurfaceOM: 
      
@@ -3527,14 +3433,10 @@
         Organic matter removed from system:-      From Tops		From Roots
                          DM (kg/ha) =               2784.37		    0.00
                          N  (kg/ha) =                 43.41		    0.00
-19 March 1992(Day of year=79), manager: 
      Manager sending message :- sorghum kill_crop
-19 March 1992(Day of year=79), sorghum: 
      Kill Crop
      Crop kill. Standing above-ground dm =  2943.9 kg/ha
-19 March 1992(Day of year=79), manager: 
      Manager sending message :- sorghum end_crop
-19 March 1992(Day of year=79), sorghum: 
      Crop ended. Yield (dw) =     0.0 kg/ha
      Organic matter from crop:-      Tops to surface residue	 Roots to soil FOM
                          DM (kg/ha) =               2943.90		 1206.97
@@ -3606,7 +3508,6 @@
         - Reading Fertiliser Type Parameters
         35.74 of N as nitrate (no3_n)
                                               added at depth    1.00 (layer   1)
-28 October 1993(Day of year=301), manager: 
      Manager sending message :- surfaceom tillage  type = planter
 28 October 1993(Day of year=301), SurfaceOM: 
      
@@ -3688,14 +3589,10 @@
         Organic matter removed from system:-      From Tops		From Roots
                          DM (kg/ha) =               1082.18		    0.00
                          N  (kg/ha) =                 31.40		    0.00
-12 February 1994(Day of year=43), manager: 
      Manager sending message :- sorghum kill_crop
-12 February 1994(Day of year=43), sorghum: 
      Kill Crop
      Crop kill. Standing above-ground dm =  2763.2 kg/ha
-12 February 1994(Day of year=43), manager: 
      Manager sending message :- sorghum end_crop
-12 February 1994(Day of year=43), sorghum: 
      Crop ended. Yield (dw) =     0.0 kg/ha
      Organic matter from crop:-      Tops to surface residue	 Roots to soil FOM
                          DM (kg/ha) =               2763.17		 1162.78
@@ -3767,7 +3664,6 @@
         - Reading Fertiliser Type Parameters
         40.98 of N as nitrate (no3_n)
                                               added at depth    1.00 (layer   1)
-2 December 1994(Day of year=336), manager: 
      Manager sending message :- surfaceom tillage  type = planter
 2 December 1994(Day of year=336), SurfaceOM: 
      
@@ -3849,14 +3745,10 @@
         Organic matter removed from system:-      From Tops		From Roots
                          DM (kg/ha) =               3949.91		    0.00
                          N  (kg/ha) =                 61.69		    0.00
-8 March 1995(Day of year=67), manager: 
      Manager sending message :- sorghum kill_crop
-8 March 1995(Day of year=67), sorghum: 
      Kill Crop
      Crop kill. Standing above-ground dm =  3803.0 kg/ha
-8 March 1995(Day of year=67), manager: 
      Manager sending message :- sorghum end_crop
-8 March 1995(Day of year=67), sorghum: 
      Crop ended. Yield (dw) =     0.0 kg/ha
      Organic matter from crop:-      Tops to surface residue	 Roots to soil FOM
                          DM (kg/ha) =               3802.99		 1501.52
@@ -3928,7 +3820,6 @@
         - Reading Fertiliser Type Parameters
        124.52 of N as nitrate (no3_n)
                                               added at depth    1.00 (layer   1)
-19 November 1995(Day of year=323), manager: 
      Manager sending message :- surfaceom tillage  type = planter
 19 November 1995(Day of year=323), SurfaceOM: 
      
@@ -4010,14 +3901,10 @@
         Organic matter removed from system:-      From Tops		From Roots
                          DM (kg/ha) =               2156.69		    0.00
                          N  (kg/ha) =                 51.70		    0.00
-23 February 1996(Day of year=54), manager: 
      Manager sending message :- sorghum kill_crop
-23 February 1996(Day of year=54), sorghum: 
      Kill Crop
      Crop kill. Standing above-ground dm =  3387.3 kg/ha
-23 February 1996(Day of year=54), manager: 
      Manager sending message :- sorghum end_crop
-23 February 1996(Day of year=54), sorghum: 
      Crop ended. Yield (dw) =     0.0 kg/ha
      Organic matter from crop:-      Tops to surface residue	 Roots to soil FOM
                          DM (kg/ha) =               3387.31		 1366.80
@@ -4089,7 +3976,6 @@
         - Reading Fertiliser Type Parameters
         39.54 of N as nitrate (no3_n)
                                               added at depth    1.00 (layer   1)
-21 December 1996(Day of year=356), manager: 
      Manager sending message :- surfaceom tillage  type = planter
 21 December 1996(Day of year=356), SurfaceOM: 
      
@@ -4171,14 +4057,10 @@
         Organic matter removed from system:-      From Tops		From Roots
                          DM (kg/ha) =               1492.96		    0.00
                          N  (kg/ha) =                 33.85		    0.00
-15 April 1997(Day of year=105), manager: 
      Manager sending message :- sorghum kill_crop
-15 April 1997(Day of year=105), sorghum: 
      Kill Crop
      Crop kill. Standing above-ground dm =  1818.2 kg/ha
-15 April 1997(Day of year=105), manager: 
      Manager sending message :- sorghum end_crop
-15 April 1997(Day of year=105), sorghum: 
      Crop ended. Yield (dw) =     0.0 kg/ha
      Organic matter from crop:-      Tops to surface residue	 Roots to soil FOM
                          DM (kg/ha) =               1818.24		  588.25
@@ -4250,7 +4132,6 @@
         - Reading Fertiliser Type Parameters
         42.55 of N as nitrate (no3_n)
                                               added at depth    1.00 (layer   1)
-17 December 1997(Day of year=351), manager: 
      Manager sending message :- surfaceom tillage  type = planter
 17 December 1997(Day of year=351), SurfaceOM: 
      
@@ -4332,14 +4213,10 @@
         Organic matter removed from system:-      From Tops		From Roots
                          DM (kg/ha) =               1747.53		    0.00
                          N  (kg/ha) =                 34.65		    0.00
-20 March 1998(Day of year=79), manager: 
      Manager sending message :- sorghum kill_crop
-20 March 1998(Day of year=79), sorghum: 
      Kill Crop
      Crop kill. Standing above-ground dm =  2175.4 kg/ha
-20 March 1998(Day of year=79), manager: 
      Manager sending message :- sorghum end_crop
-20 March 1998(Day of year=79), sorghum: 
      Crop ended. Yield (dw) =     0.0 kg/ha
      Organic matter from crop:-      Tops to surface residue	 Roots to soil FOM
                          DM (kg/ha) =               2175.35		  932.57
@@ -4411,7 +4288,6 @@
         - Reading Fertiliser Type Parameters
        116.64 of N as nitrate (no3_n)
                                               added at depth    1.00 (layer   1)
-28 October 1998(Day of year=301), manager: 
      Manager sending message :- surfaceom tillage  type = planter
 28 October 1998(Day of year=301), SurfaceOM: 
      
@@ -4493,14 +4369,10 @@
         Organic matter removed from system:-      From Tops		From Roots
                          DM (kg/ha) =               1607.93		    0.00
                          N  (kg/ha) =                 35.85		    0.00
-16 February 1999(Day of year=47), manager: 
      Manager sending message :- sorghum kill_crop
-16 February 1999(Day of year=47), sorghum: 
      Kill Crop
      Crop kill. Standing above-ground dm =  2720.6 kg/ha
-16 February 1999(Day of year=47), manager: 
      Manager sending message :- sorghum end_crop
-16 February 1999(Day of year=47), sorghum: 
      Crop ended. Yield (dw) =     0.0 kg/ha
      Organic matter from crop:-      Tops to surface residue	 Roots to soil FOM
                          DM (kg/ha) =               2720.58		 1157.12
@@ -4572,7 +4444,6 @@
         - Reading Fertiliser Type Parameters
         38.12 of N as nitrate (no3_n)
                                               added at depth    1.00 (layer   1)
-3 November 1999(Day of year=307), manager: 
      Manager sending message :- surfaceom tillage  type = planter
 3 November 1999(Day of year=307), SurfaceOM: 
      
@@ -4654,14 +4525,10 @@
         Organic matter removed from system:-      From Tops		From Roots
                          DM (kg/ha) =               1706.07		    0.00
                          N  (kg/ha) =                 39.84		    0.00
-14 February 2000(Day of year=45), manager: 
      Manager sending message :- sorghum kill_crop
-14 February 2000(Day of year=45), sorghum: 
      Kill Crop
      Crop kill. Standing above-ground dm =  3644.0 kg/ha
-14 February 2000(Day of year=45), manager: 
      Manager sending message :- sorghum end_crop
-14 February 2000(Day of year=45), sorghum: 
      Crop ended. Yield (dw) =     0.0 kg/ha
      Organic matter from crop:-      Tops to surface residue	 Roots to soil FOM
                          DM (kg/ha) =               3644.01		 1454.05
@@ -4733,7 +4600,6 @@
         - Reading Fertiliser Type Parameters
         89.56 of N as nitrate (no3_n)
                                               added at depth    1.00 (layer   1)
-27 October 2000(Day of year=301), manager: 
      Manager sending message :- surfaceom tillage  type = planter
 27 October 2000(Day of year=301), SurfaceOM: 
      
@@ -4815,14 +4681,10 @@
         Organic matter removed from system:-      From Tops		From Roots
                          DM (kg/ha) =               1510.93		    0.00
                          N  (kg/ha) =                 37.96		    0.00
-31 January 2001(Day of year=31), manager: 
      Manager sending message :- sorghum kill_crop
-31 January 2001(Day of year=31), sorghum: 
      Kill Crop
      Crop kill. Standing above-ground dm =  3073.7 kg/ha
-31 January 2001(Day of year=31), manager: 
      Manager sending message :- sorghum end_crop
-31 January 2001(Day of year=31), sorghum: 
      Crop ended. Yield (dw) =     0.0 kg/ha
      Organic matter from crop:-      Tops to surface residue	 Roots to soil FOM
                          DM (kg/ha) =               3073.68		 1238.20
