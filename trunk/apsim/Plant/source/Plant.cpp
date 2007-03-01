@@ -4290,15 +4290,12 @@ void Plant::plant_read_species_const ()
     string pathway = parent->readParameter (search_order, "photosynthetic_pathway");
     if (Str_i_Eq(pathway.c_str(), "C3")) {
       c.photosynthetic_pathway = photosynthetic_pathway_C3;
-      printf("C3 photosynthetic_pathway read=%d\n", c.photosynthetic_pathway);
     } else if(Str_i_Eq(pathway.c_str(), "C4")) {
       c.photosynthetic_pathway = photosynthetic_pathway_C4;
-      printf("C4 photosynthetic_pathway read=%d\n", c.photosynthetic_pathway);
     } else {
       c.photosynthetic_pathway = photosynthetic_pathway_UNDEF;
       printf("undefined photosynthetic_pathway read!!!!\n");
     }
-    printf("photosynthetic_pathway =%d\n", c.photosynthetic_pathway);
 
     }
 
