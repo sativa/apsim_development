@@ -26,15 +26,13 @@ void setUp(void)
                               "module = input(met)  %apsuite\\apsim\\met\\SAMPLE\\DALBY.MET [weather]\n"
                               "module = accum    accum.par [sample]\n"
                               "module = manager  accum.par [sample]\n"
-                              "module = summaryfile  accum.par [sample]\n"
-                              "[Section2]\n"
+                              "[Section 2]\n"
                               "Title = test2\n"
                               "module = clock    accum.par [sample]\n"
                               "module = report(rep1)   accum.par [sample]\n"
                               "module = input(met)   %apsuite\\apsim\\met\\SAMPLE\\DALBY.MET [weather]\n"
                               "module = accum    accum.par [sample]\n"
-                              "module = manager  accum.par [sample]\n"
-                              "module = summaryfile  accum.par [sample]\n";
+                              "module = manager  accum.par [sample 2]\n";
 
 
    ofstream out("accum.con");
@@ -97,8 +95,8 @@ void tearDown(void)
    DeleteFile("accum.con");
    DeleteFile("accum.par");
    DeleteFile("test.config");
-   DeleteFile("accum1.sim");
-   DeleteFile("accum2.sim");
+   DeleteFile("accum.Section1.sim");
+   DeleteFile("accum.Section 2.sim");
    }
 //---------------------------------------------------------------------------
 // test createSim method
@@ -106,10 +104,10 @@ void tearDown(void)
 void testSimCreation(void)
    {
    setUp();
-   SimCreator simCreate("accum.con");
-   simCreate.createSims("", (TSimCreatorEvent)NULL);
-   BOOST_CHECK(FileExists("accum1.sim"));
-   BOOST_CHECK(FileExists("accum2.sim"));
+   SimCreator simCreate(false);
+   simCreate.ConToSim("accum.con");
+   BOOST_CHECK(FileExists("accum.Section1.sim"));
+   BOOST_CHECK(FileExists("accum.Section 2.sim"));
    tearDown();
    }
 //---------------------------------------------------------------------------
@@ -124,7 +122,7 @@ void testFileToSimConversion(void)
    out << "a = 1" << endl;
    out.close();
 
-   SimCreator simCreate;
+   SimCreator simCreate(true);
    string simContents = simCreate.convertIniToSim("clock.ini");
    BOOST_CHECK(simContents ==
       "<constants name=\"standard\"><property name=\"timestep_events\">prepare process post</property></constants>"
