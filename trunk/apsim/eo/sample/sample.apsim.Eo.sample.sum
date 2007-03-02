@@ -9,14 +9,13 @@
  The Agricultural Production Systems Simulator
              Copyright(c) APSRU               
 
-     Version                = 5.3
-     Title                  = eo sample
-     Component DLL          = c:\development\apsim\SummaryFile\lib\SummaryFile.dll
-     Component DLL          = c:\development\apsim\clock\lib\clock.dll
-     Component DLL          = c:\development\apsim\report\lib\report.dll
-     Component DLL          = c:\development\apsim\input\lib\input.dll
-     Component DLL          = c:\development\apsim\manager\lib\manager.dll
-     Component DLL          = c:\development\apsim\eo\lib\eo.dll
+Version                = 5.3
+Title                  = eo sample
+Component      "clock" = c:\development\apsim\clock\lib\clock.dll
+Component     "report" = c:\development\apsim\report\lib\report.dll
+Component        "met" = c:\development\apsim\input\lib\input.dll
+Component    "manager" = c:\development\apsim\manager\lib\manager.dll
+Component         "eo" = c:\development\apsim\eo\lib\eo.dll
 
 ------- clock Initialisation --------------------------------------------------
      Sequencer phases:
@@ -34,7 +33,7 @@
         eo.eo_pm
         eo.ra
         met.evap
-     
+
      Output file = eo.out
      Format = normal
 
