@@ -9,18 +9,17 @@
  The Agricultural Production Systems Simulator
              Copyright(c) APSRU               
 
-     Version                = 5.3
-     Title                  = Alan Hunter
-     Component DLL          = c:\development\apsim\SummaryFile\lib\SummaryFile.dll
-     Component DLL          = c:\development\apsim\clock\lib\clock.dll
-     Component DLL          = c:\development\apsim\report\lib\report.dll
-     Component DLL          = c:\development\apsim\input\lib\input.dll
-     Component DLL          = c:\development\apsim\fertiliz\lib\fertiliz.dll
-     Component DLL          = c:\development\apsim\manager\lib\manager.dll
-     Component DLL          = c:\development\apsim\soilwat2\lib\soilwat2.dll
-     Component DLL          = c:\development\apsim\SurfaceOM\lib\SurfaceOM.dll
-     Component DLL          = c:\development\apsim\soiln2\lib\soiln2.dll
-     Component DLL          = c:\development\apsim\ozcot\lib\ozcot.dll
+Version                = 5.3
+Title                  = Alan Hunter
+Component      "clock" = c:\development\apsim\clock\lib\clock.dll
+Component     "report" = c:\development\apsim\report\lib\report.dll
+Component        "met" = c:\development\apsim\input\lib\input.dll
+Component   "fertiliz" = c:\development\apsim\fertiliz\lib\fertiliz.dll
+Component    "manager" = c:\development\apsim\manager\lib\manager.dll
+Component   "soilwat2" = c:\development\apsim\soilwat2\lib\soilwat2.dll
+Component  "SurfaceOM" = c:\development\apsim\SurfaceOM\lib\SurfaceOM.dll
+Component     "soiln2" = c:\development\apsim\soiln2\lib\soiln2.dll
+Component      "ozcot" = c:\development\apsim\ozcot\lib\ozcot.dll
 
 ------- clock Initialisation --------------------------------------------------
      Sequencer phases:
@@ -49,7 +48,7 @@
         soilwat2.es
         soilwat2.esw as pesw
         soiln2.no3()
-     
+
      Output file = o_971_1.out
      Format = normal
 
@@ -167,7 +166,7 @@
            Using Ritchie evaporation model
             Cuml evap (U):            6.00 (mm^0.5)
             CONA:                     3.50 ()
-           Eo from priestly-taylor
+            Eo from priestly-taylor
 
 ------- SurfaceOM Initialisation ----------------------------------------------
      
@@ -264,7 +263,6 @@
      
      
 ------- Start of simulation  --------------------------------------------------
-22 September 1995(Day of year=265), manager: 
      Manager creating a new local real variable : yield_acre =     0.00000000000000
 7 October 1995(Day of year=280), manager: 
      Manager sending message :- ozcot sow  cultivar = siok, sowing_depth = 50 (mm), row_spacing = 2000 (mm), plants_pm = 12.0, skiprow = 1
@@ -313,7 +311,6 @@
          Crop terminated: first pick.
 10 May 1996(Day of year=131), manager: 
      Manager sending message :- ozcot harvest
-10 May 1996(Day of year=131), ozcot: 
      harvest
      
      
@@ -324,7 +321,6 @@
       max squares das (days) =    104        max lai das (days)     =    155
       maximum squares/m2     =  57.83        maximum lai (m2/m2)    =  0.985
       total above ground biomass (kg/ha) =     6056.5
-10 May 1996(Day of year=131), manager: 
      Manager creating a new local real variable : cotton_status =     0.00000000000000
 11 May 1996(Day of year=132), ozcot: 
      Initialising
