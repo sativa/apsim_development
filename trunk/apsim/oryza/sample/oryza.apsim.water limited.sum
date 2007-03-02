@@ -9,17 +9,16 @@
  The Agricultural Production Systems Simulator
              Copyright(c) APSRU               
 
-     Version                = 5.3
-     Title                  = oryza Sample Simulation - water limited
-     Component DLL          = c:\development\apsim\SummaryFile\lib\SummaryFile.dll
-     Component DLL          = c:\development\apsim\clock\lib\clock.dll
-     Component DLL          = c:\development\apsim\report\lib\report.dll
-     Component DLL          = c:\development\apsim\input\lib\input.dll
-     Component DLL          = c:\development\apsim\micromet\lib\micromet.dll
-     Component DLL          = c:\development\apsim\manager\lib\manager.dll
-     Component DLL          = c:\development\apsim\eo\lib\eo.dll
-     Component DLL          = c:\development\apsim\soilwat2\lib\soilwat2.dll
-     Component DLL          = c:\development\apsim\oryza\lib\oryza.dll
+Version                = 5.3
+Title                  = oryza Sample Simulation - water limited
+Component      "clock" = c:\development\apsim\clock\lib\clock.dll
+Component     "report" = c:\development\apsim\report\lib\report.dll
+Component        "met" = c:\development\apsim\input\lib\input.dll
+Component   "micromet" = c:\development\apsim\micromet\lib\micromet.dll
+Component    "manager" = c:\development\apsim\manager\lib\manager.dll
+Component         "eo" = c:\development\apsim\eo\lib\eo.dll
+Component   "soilwat2" = c:\development\apsim\soilwat2\lib\soilwat2.dll
+Component      "oryza" = c:\development\apsim\oryza\lib\oryza.dll
 
 ------- clock Initialisation --------------------------------------------------
      Sequencer phases:
@@ -68,7 +67,7 @@
         oryza.etrd
         oryza.etae
         oryza.trc
-     
+
      Output file = oryza-wl.out
      Format = normal
 
@@ -198,7 +197,7 @@
            Using Ritchie evaporation model
             Cuml evap (U):            4.00 (mm^0.5)
             CONA:                     2.50 ()
-           Eo from priestly-taylor
+            Eo from priestly-taylor
 
 ------- oryza Initialisation --------------------------------------------------
         - Initialising
@@ -214,7 +213,6 @@
      Maturity
 22 April 1992(Day of year=113), manager: 
      Manager sending message :- oryza end_crop
-22 April 1992(Day of year=113), oryza: 
          Crop ended. Rough Rice Yield (dw) =  1142.0 (kg/ha)
                              straw residue =  1431.9 (kg/ha)
                              straw N       =     0.0 (kg/ha)
@@ -231,7 +229,6 @@
      Maturity
 24 September 1992(Day of year=268), manager: 
      Manager sending message :- oryza end_crop
-24 September 1992(Day of year=268), oryza: 
          Crop ended. Rough Rice Yield (dw) =  5165.2 (kg/ha)
                              straw residue =  4118.2 (kg/ha)
                              straw N       =     0.0 (kg/ha)
