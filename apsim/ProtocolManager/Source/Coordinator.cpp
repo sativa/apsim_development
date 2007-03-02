@@ -106,20 +106,24 @@ void Coordinator::doInit1(const FString& sdml)
    {
    try
       {
-      cout << "Version                = " + getApsimVersion() << endl;
+      if (componentID == parentID) {cout << "Version                = " + getApsimVersion() << endl;}
 
       Component::doInit1(sdml);
 
       string sdmlString = string(sdml.f_str(), sdml.length());
       ApsimSimulationFile simulationData(sdmlString, true);
 
-      title = simulationData.getTitle();
-      cout << "Title                  = " + title << endl; 
 
       if (componentID == parentID)
          {
+         title = simulationData.getTitle();
+         cout << "Title                  = " + title << endl; 
          titleID = addRegistration(RegistrationType::respondToGet, "title", "<type kind=\"string\"/>");
          componentsID = addRegistration(RegistrationType::respondToGet, "components", "<type kind=\"string\" array=\"T\"/>");
+         }
+      else 
+         {
+         cout << "Paddock:" << endl; 
          }
       printReport = simulationData.doPrintReport();
       readAllRegistrations();
@@ -846,7 +850,7 @@ void Coordinator::reorderSubscriptions(::Registrations::Subscriptions& subs)
                if (s->componentId == componentOrders[o])
                   {
                   newSubs.push_back(*s);
-                  s = subsToMove.erase(s);
+                  subsToMove.erase(s);
                   break;
                   }
                }
