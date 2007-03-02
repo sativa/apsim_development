@@ -9,13 +9,12 @@
  The Agricultural Production Systems Simulator
              Copyright(c) APSRU               
 
-     Version                = 5.3
-     Title                  = manager test
-     Component DLL          = c:\development\apsim\SummaryFile\lib\SummaryFile.dll
-     Component DLL          = c:\development\apsim\clock\lib\clock.dll
-     Component DLL          = c:\development\apsim\report\lib\report.dll
-     Component DLL          = c:\development\apsim\input\lib\input.dll
-     Component DLL          = c:\development\apsim\manager\lib\manager.dll
+Version                = 5.3
+Title                  = manager test
+Component      "clock" = c:\development\apsim\clock\lib\clock.dll
+Component     "report" = c:\development\apsim\report\lib\report.dll
+Component        "Met" = c:\development\apsim\input\lib\input.dll
+Component    "manager" = c:\development\apsim\manager\lib\manager.dll
 
 ------- clock Initialisation --------------------------------------------------
      Sequencer phases:
@@ -28,7 +27,7 @@
 
 ------- report Initialisation -------------------------------------------------
      Output variables:
-     
+
      Output file = test.out
      Format = normal
 
@@ -44,13 +43,20 @@
      END of rules
      
 ------- Start of simulation  --------------------------------------------------
-1 January 1988(Day of year=1), manager: 
      Manager sending message :- foo test  x = 1, y = 2, z = 3.14159
 1 January 1988(Day of year=1), MasterPM: 
      !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
                       APSIM  Fatal  Error
                       -------------------
      Cannot find component foo
+     Component name: MasterPM
+     !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+     
+     
+     !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+                      APSIM  Fatal  Error
+                      -------------------
+     Cannot get subscriptions for registration 12374452
      Component name: MasterPM
      !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
      
