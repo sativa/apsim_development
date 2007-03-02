@@ -12,7 +12,6 @@ module = soilwat2   %apsuite/apsim/soilwat2/sample/soilwat2.par[black_earth]    
 module = SurfaceOM   %apsuite/apsim/SurfaceOM/sample/SurfaceOM.par [legume_residue] %apsuite/apsim/SurfaceOM/SurfaceOM.ini [standard]
 module = soiln2     %apsuite/apsim/soiln2/sample/soiln2.par[black_earth]        %apsuite/apsim/soiln2/soiln2.ini[standard]
 module = Plant(wheat)  %apsuite/apsim/wheat/sample/wheat.par [sample] %apsuite/apsim/wheat/wheat.ini [standard]
-module = SummaryFile tracker.par [singlecrop_sample]
 
 [tracker Lucerne sample]
 title=Tracker Sample Lucerne Simulation
@@ -25,7 +24,6 @@ module = soilwat2   %apsuite/apsim/soilwat2/sample/soilwat2.par[black_earth]    
 module = SurfaceOM   %apsuite/apsim/SurfaceOM/sample/SurfaceOM.par [legume_residue] %apsuite/apsim/SurfaceOM/SurfaceOM.ini [standard]
 module = soiln2     %apsuite/apsim/soiln2/sample/soiln2.par[black_earth]        %apsuite/apsim/soiln2/soiln2.ini[standard]
 module = Plant(lucerne)    %apsuite/apsim/lucerne/sample/lucerne.par[sample] %apsuite/apsim/lucerne/lucerne.ini[standard]
-module = SummaryFile tracker.par [lucerne_sample]
 
 
 [tracker Crop Rotation sample]
@@ -40,6 +38,5 @@ module = SurfaceOM   %apsuite/apsim/SurfaceOM/sample/SurfaceOM.par [legume_resid
 module = soiln2     %apsuite/apsim/soiln2/sample/soiln2.par[black_earth]        %apsuite/apsim/soiln2/soiln2.ini[standard]
 module = Plant(wheat)  %apsuite/apsim/wheat/sample/wheat.par [sample] %apsuite/apsim/wheat/wheat.ini [standard]
 module = Plant(chickpea)    %apsuite/apsim/chickpea/sample/chickpea.par[sample] %apsuite/apsim/chickpea/chickpea.ini[standard]
-module = SummaryFile tracker.par [rotation_sample]
 
 

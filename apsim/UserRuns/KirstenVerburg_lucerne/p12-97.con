@@ -21,7 +21,6 @@ module = plant(canola)    p12-97.par [all]   %apsuite/apsim/canola/canola.ini [s
 module = plant(weed)      p12-97.par [all]   %apsuite/apsim/weed/weed.ini [standard]
 module = fertiliz                     %apsuite/apsim/fertiliz/fertiliz.ini [standard]
 module = solute    p12-97.par [all]   %apsuite/apsim/solute/solute.ini [standard]
-module = SummaryFile   p12-97.par [p12]
 module = tracker(tracker1)   p12-99.par [all]
 module = tracker(tracker2)   p12-99.par [all]
 module = tracker(tracker4)   p12-99.par [all]

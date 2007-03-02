@@ -9,4 +9,3 @@ module = soilwat2   %apsuite/apsim/soilwat2/sample/soilwat2.par[black_earth]  %a
 module = SurfaceOM   %apsuite/apsim/SurfaceOM/sample/SurfaceOM.par [legume_residue] %apsuite/apsim/SurfaceOM/SurfaceOM.ini [standard]
 module = soiln2     %apsuite/apsim/soiln2/sample/soiln2.par[black_earth]      %apsuite/apsim/soiln2/soiln2.ini[standard]
 module = Plant(mungbean)   mungbean.par[sample] %apsuite/apsim/mungbean/mungbean.ini[standard]
-module = SummaryFile  mungbean.par[sample]

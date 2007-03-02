@@ -13,7 +13,6 @@ module = soilwat2        %apsuite/apsim/soilwat2/sample/soilwat2.par [black_eart
 module = soiln2          %apsuite/apsim/soiln2/sample/soiln2.par [black_earth]    %apsuite/apsim/soiln2/soiln2.ini     [standard]
 module = surfaceom       %apsuite/apsim/surfaceom/sample/surfaceom.par[legume_residue]  %apsuite/apsim/surfaceom/surfaceom.ini [standard]
 module = plant(sweetsorghum)  SweetSorghum.par [all   ] ../sweetsorghum.ini [standard]
-module = SummaryFile     SweetSorghum.par [PacSeeds1]
 
 [apsim.PacSeeds2]
 title= Pacific Seeds Planting Two
@@ -28,7 +27,6 @@ module = soilwat2        %apsuite/apsim/soilwat2/sample/soilwat2.par [black_eart
 module = soiln2          %apsuite/apsim/soiln2/sample/soiln2.par [black_earth]    %apsuite/apsim/soiln2/soiln2.ini     [standard]
 module = surfaceom       %apsuite/apsim/surfaceom/sample/surfaceom.par[legume_residue]  %apsuite/apsim/surfaceom/surfaceom.ini [standard]
 module = plant(sweetsorghum)  SweetSorghum.par [all   ] ../sweetsorghum.ini [standard]
-module = SummaryFile     SweetSorghum.par [PacSeeds2]
 
 [apsim.Lawes1]
 title= Lawes Planting One
@@ -43,7 +41,6 @@ module = soilwat2        %apsuite/apsim/soilwat2/sample/soilwat2.par [black_eart
 module = soiln2          %apsuite/apsim/soiln2/sample/soiln2.par [black_earth]    %apsuite/apsim/soiln2/soiln2.ini     [standard]
 module = surfaceom       %apsuite/apsim/surfaceom/sample/surfaceom.par[legume_residue]  %apsuite/apsim/surfaceom/surfaceom.ini [standard]
 module = plant(sweetsorghum)  SweetSorghum.par [all   ] ../sweetsorghum.ini [standard]
-module = SummaryFile     SweetSorghum.par [Lawes1]
 
 [apsim.Lawes2]
 title= Lawes Planting Two
@@ -58,7 +55,6 @@ module = soilwat2        %apsuite/apsim/soilwat2/sample/soilwat2.par [black_eart
 module = soiln2          %apsuite/apsim/soiln2/sample/soiln2.par [black_earth]    %apsuite/apsim/soiln2/soiln2.ini     [standard]
 module = surfaceom       %apsuite/apsim/surfaceom/sample/surfaceom.par[legume_residue]  %apsuite/apsim/surfaceom/surfaceom.ini [standard]
 module = plant(sweetsorghum)  SweetSorghum.par [all   ] ../sweetsorghum.ini [standard]
-module = SummaryFile     SweetSorghum.par [Lawes2]
 
 [apsim.Lawes3]
 title= Lawes Planting Three
@@ -73,7 +69,6 @@ module = soilwat2        %apsuite/apsim/soilwat2/sample/soilwat2.par [black_eart
 module = soiln2          %apsuite/apsim/soiln2/sample/soiln2.par [black_earth]    %apsuite/apsim/soiln2/soiln2.ini     [standard]
 module = surfaceom       %apsuite/apsim/surfaceom/sample/surfaceom.par[legume_residue]  %apsuite/apsim/surfaceom/surfaceom.ini [standard]
 module = plant(sweetsorghum)  SweetSorghum.par [all   ] ../sweetsorghum.ini [standard]
-module = SummaryFile     SweetSorghum.par [Lawes3]
 
 [apsim.Lawes4]
 title= Lawes Planting Four
@@ -88,7 +83,6 @@ module = soilwat2        %apsuite/apsim/soilwat2/sample/soilwat2.par [black_eart
 module = soiln2          %apsuite/apsim/soiln2/sample/soiln2.par [black_earth]    %apsuite/apsim/soiln2/soiln2.ini     [standard]
 module = surfaceom       %apsuite/apsim/surfaceom/sample/surfaceom.par[legume_residue]  %apsuite/apsim/surfaceom/surfaceom.ini [standard]
 module = plant(sweetsorghum)  SweetSorghum.par [all   ] ../sweetsorghum.ini [standard]
-module = SummaryFile     SweetSorghum.par [Lawes4]
 
 [apsim.Lawes5]
 title= Lawes Planting Five
@@ -103,7 +97,6 @@ module = soilwat2        %apsuite/apsim/soilwat2/sample/soilwat2.par [black_eart
 module = soiln2          %apsuite/apsim/soiln2/sample/soiln2.par [black_earth]    %apsuite/apsim/soiln2/soiln2.ini     [standard]
 module = surfaceom       %apsuite/apsim/surfaceom/sample/surfaceom.par[legume_residue]  %apsuite/apsim/surfaceom/surfaceom.ini [standard]
 module = plant(sweetsorghum)  SweetSorghum.par [all   ] %apsuite/apsim/sweetsorghum/sweetsorghum.ini [standard]
-module = SummaryFile     SweetSorghum.par [Lawes5]
 
 [apsim.Lawes6]
 title= Lawes Planting Six
@@ -118,7 +111,6 @@ module = soilwat2        %apsuite/apsim/soilwat2/sample/soilwat2.par [black_eart
 module = soiln2          %apsuite/apsim/soiln2/sample/soiln2.par [black_earth]    %apsuite/apsim/soiln2/soiln2.ini     [standard]
 module = surfaceom       %apsuite/apsim/surfaceom/sample/surfaceom.par[legume_residue]  %apsuite/apsim/surfaceom/surfaceom.ini [standard]
 module = plant(sweetsorghum)  SweetSorghum.par [all   ] %apsuite/apsim/sweetsorghum/sweetsorghum.ini [standard]
-module = SummaryFile     SweetSorghum.par [Lawes6]
 
 [apsim.Biboohra]
 title= Biboohra
@@ -132,7 +124,6 @@ module = soilwat2        %apsuite/apsim/soilwat2/sample/soilwat2.par [black_eart
 module = soiln2          %apsuite/apsim/soiln2/sample/soiln2.par [black_earth]    %apsuite/apsim/soiln2/soiln2.ini     [standard]
 module = surfaceom       %apsuite/apsim/surfaceom/sample/surfaceom.par[legume_residue]  %apsuite/apsim/surfaceom/surfaceom.ini [standard]
 module = plant(sweetsorghum)  SweetSorghum.par [all   ] %apsuite/apsim/sweetsorghum/sweetsorghum.ini [standard]
-module = SummaryFile     SweetSorghum.par [Biboohra]
 
 [apsim.Miallo]
 title= Miallo
@@ -146,7 +137,6 @@ module = soilwat2        %apsuite/apsim/soilwat2/sample/soilwat2.par [black_eart
 module = soiln2          %apsuite/apsim/soiln2/sample/soiln2.par [black_earth]    %apsuite/apsim/soiln2/soiln2.ini     [standard]
 module = surfaceom       %apsuite/apsim/surfaceom/sample/surfaceom.par[legume_residue]  %apsuite/apsim/surfaceom/surfaceom.ini [standard]
 module = plant(sweetsorghum)  SweetSorghum.par [all   ] %apsuite/apsim/sweetsorghum/sweetsorghum.ini [standard]
-module = SummaryFile     SweetSorghum.par [Miallo]
 
 [apsim.MaryFarms]
 title= MaryFarms
@@ -160,4 +150,3 @@ module = soilwat2        %apsuite/apsim/soilwat2/sample/soilwat2.par [black_eart
 module = soiln2          %apsuite/apsim/soiln2/sample/soiln2.par [black_earth]    %apsuite/apsim/soiln2/soiln2.ini     [standard]
 module = surfaceom       %apsuite/apsim/surfaceom/sample/surfaceom.par[legume_residue]  %apsuite/apsim/surfaceom/surfaceom.ini [standard]
 module = plant(sweetsorghum)  SweetSorghum.par [all   ] %apsuite/apsim/sweetsorghum/sweetsorghum.ini [standard]
-module = SummaryFile     SweetSorghum.par [MaryFarms]

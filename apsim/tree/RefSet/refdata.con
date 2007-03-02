@@ -12,7 +12,6 @@ module = input(met) narayen.met[weather]
 module = manager refdata.par[all]
 module = soilwat2 refdata.par[all] %apsuite/apsim/soilwat2/soilwat2.ini[standard]
 module = tree refdata.par[all] refdata.par[step1] refdata.par[soilwat] %apsuite/apsim/tree/tree.ini[standard]
-module = SummaryFile  refdata.par[step1]
 
 ! Transpiration
 [APSIM.step2.control]
@@ -23,7 +22,6 @@ module = input(met) narayen.met[weather]
 module = manager refdata.par[all]
 module = soilwat2 refdata.par[all] %apsuite/apsim/soilwat2/soilwat2.ini[standard]
 module = tree refdata.par[all] refdata.par[step2] refdata.par[soilwat] %apsuite/apsim/tree/tree.ini[standard]
-module = SummaryFile  refdata.par[step2]
 
 ! SWIM interface.
 [APSIM.step3.control]
@@ -34,4 +32,3 @@ module = input(met) gmtapsim.dat[weather]
 module = manager refdata.par[all]
 module = apswim refdata.par[gmtb0] %apsuite/apsim/apswim/apswim.ini[standard]
 module = tree refdata.par[all] refdata.par[step3] refdata.par[swim] %apsuite/apsim/tree/tree.ini[standard]
-module = SummaryFile  refdata.par[gmtb0]

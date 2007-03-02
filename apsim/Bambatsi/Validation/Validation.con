@@ -13,7 +13,6 @@ module = SurfaceOM   hudson.par [all] %apsuite/apsim/SurfaceOM/SurfaceOM.ini [st
 module = soiln2   hudson.par [all] hudson.par [p3]  %apsuite/apsim/soiln2/soiln2.ini [standard]
 module = solute   hudson.par [all]                  %apsuite/apsim/solute/solute.ini [standard]
 module = growth(bambatsi) hudson.par [all]          %apsuite/apsim/bambatsi/bambatsi.ini [standard]
-module = SummaryFile   report.par[p3_stdrep]
 module = tracker(tracker1)   hudson.par[all]
 module = log   report.par[log]
 title = P3 Base Simulation

@@ -9,7 +9,6 @@ module = soilwat2 test.par [sample]     %apsuite/apsim/soilwat2/soilwat2.ini [st
 module = SurfaceOM   test.par [test1] %apsuite/apsim/SurfaceOM/SurfaceOM.ini [standard]
 module = soiln2   test.par [sample]     %apsuite/apsim/soiln2/soiln2.ini [standard]
 module = soilp    test.par [sample]     %apsuite/apsim/soilp/soilp.ini [standard]
-module = summaryfile test.par [test1]
 module = log test.par[test1]
 
 [apsim.Test2]
@@ -23,7 +22,6 @@ module = soilwat2 test.par [sample]     %apsuite/apsim/soilwat2/soilwat2.ini [st
 module = SurfaceOM   test.par [test2] %apsuite/apsim/SurfaceOM/SurfaceOM.ini [standard]
 module = soiln2   test.par [sample]     %apsuite/apsim/soiln2/soiln2.ini [standard]
 module = soilp    test.par [sample]     %apsuite/apsim/soilp/soilp.ini [standard]
-module = summaryfile test.par [test2]
 module = log test.par[test2]
 
 [apsim.Test3]
@@ -37,7 +35,6 @@ module = soilwat2 test.par [sample]     %apsuite/apsim/soilwat2/soilwat2.ini [st
 module = SurfaceOM   test.par [test3] %apsuite/apsim/SurfaceOM/SurfaceOM.ini [standard]
 module = soiln2   test.par [sample]     %apsuite/apsim/soiln2/soiln2.ini [standard]
 module = soilp    test.par [sample]     %apsuite/apsim/soilp/soilp.ini [standard]
-module = summaryfile test.par [test3]
 module = log test.par[test3]
 
 [apsim.Test4]
@@ -51,7 +48,6 @@ module = soilwat2 test.par [sample]     %apsuite/apsim/soilwat2/soilwat2.ini [st
 module = SurfaceOM   test.par [test4] %apsuite/apsim/SurfaceOM/SurfaceOM.ini [standard]
 module = soiln2   test.par [sample]     %apsuite/apsim/soiln2/soiln2.ini [standard]
 module = soilp    test.par [sample]     %apsuite/apsim/soilp/soilp.ini [standard]
-module = summaryfile test.par [test4]
 module = log test.par[test4]
 
 
@@ -66,7 +62,6 @@ module = soilwat2 test.par [sample]     %apsuite/apsim/soilwat2/soilwat2.ini [st
 module = SurfaceOM   test.par [test5] %apsuite/apsim/SurfaceOM/SurfaceOM.ini [standard]
 module = soiln2   test.par [sample]     %apsuite/apsim/soiln2/soiln2.ini [standard]
 module = soilp    test.par [sample]     %apsuite/apsim/soilp/soilp.ini [standard]
-module = summaryfile test.par [test5]
 module = log test.par[test5]
 
 [apsim.Test6]
@@ -81,7 +76,6 @@ module = soilwat2 test.par [sample]     %apsuite/apsim/soilwat2/soilwat2.ini [st
 module = SurfaceOM   test.par [test6] %apsuite/apsim/SurfaceOM/SurfaceOM.ini [standard]
 module = soiln2   test.par [sample]     %apsuite/apsim/soiln2/soiln2.ini [standard]
 module = soilp    test.par [sample]     %apsuite/apsim/soilp/soilp.ini [standard]
-module = summaryfile test.par [test6]
 module = log test.par[test6]
 
 [apsim.Test7]
@@ -96,5 +90,4 @@ module = soilwat2 test.par [sample]     %apsuite/apsim/soilwat2/soilwat2.ini [st
 module = SurfaceOM   test.par [test7] %apsuite/apsim/SurfaceOM/SurfaceOM.ini [standard]
 module = soiln2   test.par [sample]     %apsuite/apsim/soiln2/soiln2.ini [standard]
 module = soilp    test.par [sample]     %apsuite/apsim/soilp/soilp.ini [standard]
-module = summaryfile test.par [test7]
 module = log test.par[test6]

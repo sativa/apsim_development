@@ -8,4 +8,3 @@ module = micromet     slurp.par[sample] %apsuite/apsim/micromet/micromet.ini[sta
 module = manager  slurp.par [sample]
 module = soilwat2 %apsuite/apsim/soilwat2/sample/soilwat2.par [black_earth]     %apsuite/apsim/soilwat2/soilwat2.ini [standard]
 module = slurp    slurp.par [sample]
-module = SummaryFile   slurp.par[sample]

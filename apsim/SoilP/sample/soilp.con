@@ -11,4 +11,3 @@ module = soilwat2 %apsuite/apsim/soilwat2/sample/soilwat2.par [black_earth] %aps
 module = SurfaceOM   soilp.par [sample] %apsuite/apsim/SurfaceOM/SurfaceOM.ini [standard]
 module = soiln2   %apsuite/apsim/soiln2/sample/soiln2.par [black_earth]     %apsuite/apsim/soiln2/soiln2.ini [standard]
 module = SoilP    soilp.par [sample]                               %apsuite/apsim/SoilP/soilp.ini [standard]
-module = SummaryFile soilp.par [sample]

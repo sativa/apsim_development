@@ -11,4 +11,3 @@ module = SurfaceOM   cohort_soils.par [all] cohort_soils.par [standard] %apsuite
 module = soiln2           cohort_soils.par [clay_loam]           %apsuite\apsim\soiln2\soiln2.ini [standard]
 module = fertiliz         %apsuite\apsim\fertiliz\fertiliz.ini[standard]
 module = VenLink          vensim.par [all]  vensim.ini [standard]
-module = SummaryFile      vensim.par[all]

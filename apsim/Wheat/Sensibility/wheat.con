@@ -11,7 +11,6 @@ module = SurfaceOM   %apsuite/apsim/SurfaceOM/sample/SurfaceOM.par [legume_resid
 module = soiln2     %apsuite/apsim/Common Files/BlackVertosol.par[BlackVertosol]      %apsuite/apsim/soiln2/soiln2.ini[standard]
 module = Plant(Wheat)   %apsuite/apsim/Common Files/BlackVertosol.par[BlackVertosol] %apsuite/apsim/Wheat/wheat.ini[standard]
 module = Tracker    wheat.par[sensibility]
-module = SummaryFile  wheat.par[Dalby600]
 
 [APSIM.Dalby 1500mm]
 title=Dalby 1500mm wet soil
@@ -25,7 +24,6 @@ module = SurfaceOM   %apsuite/apsim/SurfaceOM/sample/SurfaceOM.par [legume_resid
 module = soiln2     %apsuite/apsim/Common Files/BlackVertosol.par[BlackVertosol]      %apsuite/apsim/soiln2/soiln2.ini[standard]
 module = Plant(Wheat)   %apsuite/apsim/Common Files/BlackVertosol.par[BlackVertosol] %apsuite/apsim/Wheat/wheat.ini[standard]
 module = Tracker    wheat.par[sensibility]
-module = SummaryFile  wheat.par[Dalby1500]
 
 [APSIM.Roma 400mm]
 title=Roma 400mm wet soil
@@ -39,7 +37,6 @@ module = SurfaceOM   %apsuite/apsim/SurfaceOM/sample/SurfaceOM.par [legume_resid
 module = soiln2     %apsuite/apsim/Common Files/BrownVertosol.par[BrownVertosol]      %apsuite/apsim/soiln2/soiln2.ini[standard]
 module = Plant(Wheat)   %apsuite/apsim/Common Files/BrownVertosol.par[BrownVertosol] %apsuite/apsim/Wheat/wheat.ini[standard]
 module = Tracker    wheat.par[sensibility]
-module = SummaryFile  wheat.par[Roma400]
 
 [APSIM.Roma 800mm]
 title=Roma 800mm wet soil
@@ -53,7 +50,6 @@ module = SurfaceOM   %apsuite/apsim/SurfaceOM/sample/SurfaceOM.par [legume_resid
 module = soiln2     %apsuite/apsim/Common Files/BrownVertosol.par[BrownVertosol]      %apsuite/apsim/soiln2/soiln2.ini[standard]
 module = Plant(Wheat)   %apsuite/apsim/Common Files/BrownVertosol.par[BrownVertosol] %apsuite/apsim/Wheat/wheat.ini[standard]
 module = Tracker    wheat.par[sensibility]
-module = SummaryFile  wheat.par[Roma800]
 
 
 [APSIM.Emerald 600mm Early]
@@ -68,7 +64,6 @@ module = SurfaceOM   %apsuite/apsim/SurfaceOM/sample/SurfaceOM.par [legume_resid
 module = soiln2     %apsuite/apsim/Common Files/GreyVertosol.par[GreyVertosol]      %apsuite/apsim/soiln2/soiln2.ini[standard]
 module = Plant(Wheat)   %apsuite/apsim/Common Files/GreyVertosol.par[GreyVertosol] %apsuite/apsim/Wheat/wheat.ini[standard]
 module = Tracker    wheat.par[sensibility]
-module = SummaryFile  wheat.par[Emerald600early]
 
 [APSIM.Emerald 1500mm Early]
 title=Emerald 1500mm wet soil Early sowing
@@ -82,7 +77,6 @@ module = SurfaceOM   %apsuite/apsim/SurfaceOM/sample/SurfaceOM.par [legume_resid
 module = soiln2     %apsuite/apsim/Common Files/GreyVertosol.par[GreyVertosol]      %apsuite/apsim/soiln2/soiln2.ini[standard]
 module = Plant(Wheat)   %apsuite/apsim/Common Files/GreyVertosol.par[GreyVertosol] %apsuite/apsim/Wheat/wheat.ini[standard]
 module = Tracker    wheat.par[sensibility]
-module = SummaryFile  wheat.par[Emerald1500early]
 
 [APSIM.Emerald 600mm Late]
 title=Emerald 600mm wet soil Late sowing
@@ -96,7 +90,6 @@ module = SurfaceOM   %apsuite/apsim/SurfaceOM/sample/SurfaceOM.par [legume_resid
 module = soiln2     %apsuite/apsim/Common Files/GreyVertosol.par[GreyVertosol]      %apsuite/apsim/soiln2/soiln2.ini[standard]
 module = Plant(Wheat)   %apsuite/apsim/Common Files/GreyVertosol.par[GreyVertosol] %apsuite/apsim/Wheat/wheat.ini[standard]
 module = Tracker    wheat.par[sensibility]
-module = SummaryFile  wheat.par[Emerald600late]
 
 [APSIM.Emerald 1500mm Late]
 title=Emerald 1500mm wet soil Late sowing
@@ -110,7 +103,6 @@ module = SurfaceOM   %apsuite/apsim/SurfaceOM/sample/SurfaceOM.par [legume_resid
 module = soiln2     %apsuite/apsim/Common Files/GreyVertosol.par[GreyVertosol]      %apsuite/apsim/soiln2/soiln2.ini[standard]
 module = Plant(Wheat)   %apsuite/apsim/Common Files/GreyVertosol.par[GreyVertosol] %apsuite/apsim/Wheat/wheat.ini[standard]
 module = Tracker    wheat.par[sensibility]
-module = SummaryFile  wheat.par[Emerald1500late]
 
 [APSIM.Gunnedah 750mm]
 title=Gunnedah 750mm wet soil
@@ -124,7 +116,6 @@ module = SurfaceOM   %apsuite/apsim/SurfaceOM/sample/SurfaceOM.par [legume_resid
 module = soiln2     %apsuite/apsim/Common Files/lg1.par[lg1]      %apsuite/apsim/soiln2/soiln2.ini[standard]
 module = Plant(Wheat)   %apsuite/apsim/Common Files/lg1.par[lg1] %apsuite/apsim/Wheat/wheat.ini[standard]
 module = Tracker    wheat.par[sensibility]
-module = SummaryFile  wheat.par[Gunnedah750]
 
 [APSIM.Gunnedah 1500mm]
 title=Gunnedah 1500mm wet soil
@@ -138,7 +129,6 @@ module = SurfaceOM   %apsuite/apsim/SurfaceOM/sample/SurfaceOM.par [legume_resid
 module = soiln2     %apsuite/apsim/Common Files/lg1.par[lg1]      %apsuite/apsim/soiln2/soiln2.ini[standard]
 module = Plant(Wheat)   %apsuite/apsim/Common Files/lg1.par[lg1] %apsuite/apsim/Wheat/wheat.ini[standard]
 module = Tracker    wheat.par[sensibility]
-module = SummaryFile  wheat.par[Gunnedah1500]
 
 
 [APSIM.Walgett 750mm]
@@ -153,7 +143,6 @@ module = SurfaceOM   %apsuite/apsim/SurfaceOM/sample/SurfaceOM.par [legume_resid
 module = soiln2     %apsuite/apsim/Common Files/lg1.par[lg1]      %apsuite/apsim/soiln2/soiln2.ini[standard]
 module = Plant(Wheat)   %apsuite/apsim/Common Files/lg1.par[lg1] %apsuite/apsim/Wheat/wheat.ini[standard]
 module = Tracker    wheat.par[sensibility]
-module = SummaryFile  wheat.par[Walgett750]
 
 [APSIM.Walgett 1500mm]
 title=Walgett 1500mm wet soil
@@ -167,7 +156,6 @@ module = SurfaceOM   %apsuite/apsim/SurfaceOM/sample/SurfaceOM.par [legume_resid
 module = soiln2     %apsuite/apsim/Common Files/lg1.par[lg1]      %apsuite/apsim/soiln2/soiln2.ini[standard]
 module = Plant(Wheat)   %apsuite/apsim/Common Files/lg1.par[lg1] %apsuite/apsim/Wheat/wheat.ini[standard]
 module = Tracker    wheat.par[sensibility]
-module = SummaryFile  wheat.par[Walgett1500]
 
 
 [APSIM.Birchip 300mm]
@@ -182,7 +170,6 @@ module = SurfaceOM   %apsuite/apsim/SurfaceOM/sample/SurfaceOM.par [legume_resid
 module = soiln2     %apsuite/apsim/Common Files/Birchip.par[birchip]      %apsuite/apsim/soiln2/soiln2.ini[standard]
 module = Plant(Wheat)   %apsuite/apsim/Common Files/Birchip.par[birchip] %apsuite/apsim/Wheat/wheat.ini[standard]
 module = Tracker    wheat.par[sensibility]
-module = SummaryFile  wheat.par[Birchip300]
 
 [APSIM.Birchip 300mm HighN]
 title=Birchip 300mm wet soil
@@ -196,7 +183,6 @@ module = SurfaceOM   %apsuite/apsim/SurfaceOM/sample/SurfaceOM.par [legume_resid
 module = soiln2     %apsuite/apsim/Common Files/Birchip.par[birchip]      %apsuite/apsim/soiln2/soiln2.ini[standard]
 module = Plant(Wheat)   %apsuite/apsim/Common Files/Birchip.par[birchip] %apsuite/apsim/Wheat/wheat.ini[standard]
 module = Tracker    wheat.par[sensibility]
-module = SummaryFile  wheat.par[Birchip300HighN]
 
 [APSIM.Warra 600mm Low N]
 title=Warra 600mm wet soil Low N
@@ -210,7 +196,6 @@ module = SurfaceOM   %apsuite/apsim/SurfaceOM/sample/SurfaceOM.par [legume_resid
 module = soiln2     %apsuite/apsim/Common Files/warra.par[WarraN50] %apsuite/apsim/Common Files/warra.par[common]     %apsuite/apsim/soiln2/soiln2.ini[standard]
 module = Plant(Wheat)   %apsuite/apsim/Common Files/warra.par[Warra] %apsuite/apsim/Wheat/wheat.ini[standard]
 module = Tracker    wheat.par[sensibility]
-module = SummaryFile  wheat.par[Warra600LowN]
 
 [APSIM.Warra 1500mm Low N]
 title=Warra 1500mm wet soil Low N
@@ -224,7 +209,6 @@ module = SurfaceOM   %apsuite/apsim/SurfaceOM/sample/SurfaceOM.par [legume_resid
 module = soiln2     %apsuite/apsim/Common Files/warra.par[WarraN50] %apsuite/apsim/Common Files/warra.par[common]     %apsuite/apsim/soiln2/soiln2.ini[standard]
 module = Plant(Wheat)   %apsuite/apsim/Common Files/warra.par[Warra] %apsuite/apsim/Wheat/wheat.ini[standard]
 module = Tracker    wheat.par[sensibility]
-module = SummaryFile  wheat.par[Warra1500LowN]
 
 [APSIM.Warra 600mm High N]
 title=Warra 600mm wet soil High N
@@ -238,7 +222,6 @@ module = SurfaceOM   %apsuite/apsim/SurfaceOM/sample/SurfaceOM.par [legume_resid
 module = soiln2     %apsuite/apsim/Common Files/warra.par[WarraN100] %apsuite/apsim/Common Files/warra.par[common]     %apsuite/apsim/soiln2/soiln2.ini[standard]
 module = Plant(Wheat)   %apsuite/apsim/Common Files/warra.par[Warra] %apsuite/apsim/Wheat/wheat.ini[standard]
 module = Tracker    wheat.par[sensibility]
-module = SummaryFile  wheat.par[Warra600HighN]
 
 [APSIM.Warra 1500mm High N]
 title=Warra 1500mm wet soil High N
@@ -252,7 +235,6 @@ module = SurfaceOM   %apsuite/apsim/SurfaceOM/sample/SurfaceOM.par [legume_resid
 module = soiln2     %apsuite/apsim/Common Files/warra.par[WarraN100]   %apsuite/apsim/Common Files/warra.par[common]   %apsuite/apsim/soiln2/soiln2.ini[standard]
 module = Plant(Wheat)   %apsuite/apsim/Common Files/warra.par[Warra] %apsuite/apsim/Wheat/wheat.ini[standard]
 module = Tracker    wheat.par[sensibility]
-module = SummaryFile  wheat.par[Warra1500HighN]
 
 [APSIM.Mingenew 300mm Sand]
 title=Mingenew 300mm wet soil Sand
@@ -266,7 +248,6 @@ module = SurfaceOM   %apsuite/apsim/SurfaceOM/sample/SurfaceOM.par [legume_resid
 module = soiln2     %apsuite/apsim/Common Files/Sand.par[sand]      %apsuite/apsim/soiln2/soiln2.ini[standard]
 module = Plant(Wheat)   %apsuite/apsim/Common Files/Sand.par[Sand] %apsuite/apsim/Wheat/wheat.ini[standard]
 module = Tracker    wheat.par[sensibility]
-module = SummaryFile  wheat.par[Mingenew300Sand]
 
 [APSIM.Mingenew 300mm RedSCL]
 title=Mingenew 300mm wet soil RedSCL
@@ -280,7 +261,6 @@ module = SurfaceOM   %apsuite/apsim/SurfaceOM/sample/SurfaceOM.par [legume_resid
 module = soiln2     %apsuite/apsim/Common Files/RedSCL.par[RedSCL]      %apsuite/apsim/soiln2/soiln2.ini[standard]
 module = Plant(Wheat)   %apsuite/apsim/Common Files/RedSCL.par[RedSCL] %apsuite/apsim/Wheat/wheat.ini[standard]
 module = Tracker    wheat.par[sensibility]
-module = SummaryFile  wheat.par[Mingenew300RedSCL]
 
 [APSIM.Latham 200mm SandGravel]
 title=Latham 200mm wet soil SandGravel
@@ -294,7 +274,6 @@ module = SurfaceOM   %apsuite/apsim/SurfaceOM/sample/SurfaceOM.par [legume_resid
 module = soiln2     %apsuite/apsim/Common Files/SandGravel.par[SandGravel]      %apsuite/apsim/soiln2/soiln2.ini[standard]
 module = Plant(Wheat)   %apsuite/apsim/Common Files/SandGravel.par[SandGravel] %apsuite/apsim/Wheat/wheat.ini[standard]
 module = Tracker    wheat.par[sensibility]
-module = SummaryFile  wheat.par[Latham200SandGravel]
 
 [APSIM.Merredin 300mm]
 title=Merredin 300mm wet soil
@@ -308,7 +287,6 @@ module = SurfaceOM   %apsuite/apsim/SurfaceOM/sample/SurfaceOM.par [legume_resid
 module = soiln2     %apsuite/apsim/Common Files/Merredin.par[merredin]      %apsuite/apsim/soiln2/soiln2.ini[standard]
 module = Plant(Wheat)   %apsuite/apsim/Common Files/Merredin.par[merredin] %apsuite/apsim/Wheat/wheat.ini[standard]
 module = Tracker    wheat.par[sensibility]
-module = SummaryFile  wheat.par[Merredin300]
 
 [APSIM.wagga 600mm]
 title=wagga 600mm wet soil
@@ -322,7 +300,6 @@ module = SurfaceOM   %apsuite/apsim/SurfaceOM/sample/SurfaceOM.par [legume_resid
 module = soiln2     %apsuite/apsim/Common Files/RedBrownEarth.par[RedBrownEarth]      %apsuite/apsim/soiln2/soiln2.ini[standard]
 module = Plant(Wheat)   %apsuite/apsim/Common Files/RedBrownEarth.par[RedBrownEarth] %apsuite/apsim/Wheat/wheat.ini[standard]
 module = Tracker    wheat.par[sensibility]
-module = SummaryFile  wheat.par[wagga600]
 
 [APSIM.wagga 1500mm]
 title=wagga 1500mm wet soil
@@ -336,7 +313,6 @@ module = SurfaceOM   %apsuite/apsim/SurfaceOM/sample/SurfaceOM.par [legume_resid
 module = soiln2     %apsuite/apsim/Common Files/RedBrownEarth.par[RedBrownEarth]      %apsuite/apsim/soiln2/soiln2.ini[standard]
 module = Plant(Wheat)   %apsuite/apsim/Common Files/RedBrownEarth.par[RedBrownEarth] %apsuite/apsim/Wheat/wheat.ini[standard]
 module = Tracker    wheat.par[sensibility]
-module = SummaryFile  wheat.par[wagga1500]
 
 [APSIM.walpeup 200mm]
 title=walpeup 200mm wet soil
@@ -350,7 +326,6 @@ module = SurfaceOM   %apsuite/apsim/SurfaceOM/sample/SurfaceOM.par [legume_resid
 module = soiln2     %apsuite/apsim/Common Files/Walpeup.par[Walpeup]      %apsuite/apsim/soiln2/soiln2.ini[standard]
 module = Plant(Wheat)   %apsuite/apsim/Common Files/Walpeup.par[Walpeup] %apsuite/apsim/Wheat/wheat.ini[standard]
 module = Tracker    wheat.par[sensibility]
-module = SummaryFile  wheat.par[walpeup200]
 
 ! ================================================================
 ! ROSEWORTHY
@@ -368,7 +343,6 @@ module = SurfaceOM   %apsuite/apsim/SurfaceOM/sample/SurfaceOM.par [legume_resid
 module = soiln2     %apsuite/apsim/Common Files/Roseworthy.par[RoseworthyN120]   %apsuite/apsim/Common Files/Roseworthy.par[common]   %apsuite/apsim/soiln2/soiln2.ini[standard]
 module = Plant(Wheat)   %apsuite/apsim/Common Files/Roseworthy.par[Roseworthy] %apsuite/apsim/Wheat/wheat.ini[standard]
 module = Tracker    wheat.par[sensibility]
-module = SummaryFile  wheat.par[RoseworthyEarly]
 
 [APSIM.Roseworthy Mid]
 title=Roseworthy Mid Sowing
@@ -382,7 +356,6 @@ module = SurfaceOM   %apsuite/apsim/SurfaceOM/sample/SurfaceOM.par [legume_resid
 module = soiln2     %apsuite/apsim/Common Files/Roseworthy.par[RoseworthyN120]   %apsuite/apsim/Common Files/Roseworthy.par[common]      %apsuite/apsim/soiln2/soiln2.ini[standard]
 module = Plant(Wheat)   %apsuite/apsim/Common Files/Roseworthy.par[Roseworthy] %apsuite/apsim/Wheat/wheat.ini[standard]
 module = Tracker    wheat.par[sensibility]
-module = SummaryFile  wheat.par[RoseworthyMid]
 
 [APSIM.Roseworthy Late]
 title=Roseworthy Late Sowing
@@ -396,7 +369,6 @@ module = SurfaceOM   %apsuite/apsim/SurfaceOM/sample/SurfaceOM.par [legume_resid
 module = soiln2     %apsuite/apsim/Common Files/Roseworthy.par[RoseworthyN120]    %apsuite/apsim/Common Files/Roseworthy.par[common]     %apsuite/apsim/soiln2/soiln2.ini[standard]
 module = Plant(Wheat)   %apsuite/apsim/Common Files/Roseworthy.par[Roseworthy] %apsuite/apsim/Wheat/wheat.ini[standard]
 module = Tracker    wheat.par[sensibility]
-module = SummaryFile  wheat.par[RoseworthyLate]
 
 
 [APSIM.Roseworthy Mid TopDress]
@@ -411,7 +383,6 @@ module = SurfaceOM   %apsuite/apsim/SurfaceOM/sample/SurfaceOM.par [legume_resid
 module = soiln2     %apsuite/apsim/Common Files/Roseworthy.par[RoseworthyN120]    %apsuite/apsim/Common Files/Roseworthy.par[common]     %apsuite/apsim/soiln2/soiln2.ini[standard]
 module = Plant(Wheat)   %apsuite/apsim/Common Files/Roseworthy.par[Roseworthy] %apsuite/apsim/Wheat/wheat.ini[standard]
 module = Tracker    wheat.par[sensibility]
-module = SummaryFile  wheat.par[RoseworthyMidTopDress]
 
 [APSIM.Roseworthy Mid Low N]
 title=Roseworthy Mid Sowing Low N
@@ -425,7 +396,6 @@ module = SurfaceOM   %apsuite/apsim/SurfaceOM/sample/SurfaceOM.par [legume_resid
 module = soiln2     %apsuite/apsim/Common Files/Roseworthy.par[RoseworthyN40]    %apsuite/apsim/Common Files/Roseworthy.par[common]     %apsuite/apsim/soiln2/soiln2.ini[standard]
 module = Plant(Wheat)   %apsuite/apsim/Common Files/Roseworthy.par[Roseworthy] %apsuite/apsim/Wheat/wheat.ini[standard]
 module = Tracker    wheat.par[sensibility]
-module = SummaryFile  wheat.par[RoseworthyMidLowN]
 
 [APSIM.Roseworthy Mid Low N TopDress]
 title=Roseworthy Mid Sowing Low N TopDress
@@ -439,7 +409,6 @@ module = SurfaceOM   %apsuite/apsim/SurfaceOM/sample/SurfaceOM.par [legume_resid
 module = soiln2     %apsuite/apsim/Common Files/Roseworthy.par[RoseworthyN40]    %apsuite/apsim/Common Files/Roseworthy.par[common]     %apsuite/apsim/soiln2/soiln2.ini[standard]
 module = Plant(Wheat)   %apsuite/apsim/Common Files/Roseworthy.par[Roseworthy] %apsuite/apsim/Wheat/wheat.ini[standard]
 module = Tracker    wheat.par[sensibility]
-module = SummaryFile  wheat.par[RoseworthyMidLowNTopDress]
 
 
 ! ================================================================
@@ -459,7 +428,6 @@ module = SurfaceOM   %apsuite/apsim/SurfaceOM/sample/SurfaceOM.par [legume_resid
 module = soiln2     %apsuite/apsim/Common Files/SAsoils.par[cummins]      %apsuite/apsim/soiln2/soiln2.ini[standard]
 module = Plant(Wheat)   %apsuite/apsim/Common Files/SAsoils.par[cummins] %apsuite/apsim/Wheat/wheat.ini[standard]
 module = Tracker    wheat.par[sensibility]
-module = SummaryFile  wheat.par[Cummins]
 
 [APSIM.Keith]
 title=Keith
@@ -474,7 +442,6 @@ module = SurfaceOM   %apsuite/apsim/SurfaceOM/sample/SurfaceOM.par [legume_resid
 module = soiln2     %apsuite/apsim/Common Files/SAsoils.par[keith]      %apsuite/apsim/soiln2/soiln2.ini[standard]
 module = Plant(Wheat)   %apsuite/apsim/Common Files/SAsoils.par[keith] %apsuite/apsim/Wheat/wheat.ini[standard]
 module = Tracker    wheat.par[sensibility]
-module = SummaryFile  wheat.par[Keith]
 
 [APSIM.Lameroo]
 title=Lameroo
@@ -489,7 +456,6 @@ module = SurfaceOM   %apsuite/apsim/SurfaceOM/sample/SurfaceOM.par [legume_resid
 module = soiln2     %apsuite/apsim/Common Files/SAsoils.par[Lameroo]      %apsuite/apsim/soiln2/soiln2.ini[standard]
 module = Plant(Wheat)   %apsuite/apsim/Common Files/SAsoils.par[Lameroo] %apsuite/apsim/Wheat/wheat.ini[standard]
 module = Tracker    wheat.par[sensibility]
-module = SummaryFile  wheat.par[Lameroo]
 
 [APSIM.Minnipa]
 title=Minnipa
@@ -504,7 +470,6 @@ module = SurfaceOM   %apsuite/apsim/SurfaceOM/sample/SurfaceOM.par [legume_resid
 module = soiln2     %apsuite/apsim/Common Files/SAsoils.par[Minnipa]      %apsuite/apsim/soiln2/soiln2.ini[standard]
 module = Plant(Wheat)   %apsuite/apsim/Common Files/SAsoils.par[Minnipa] %apsuite/apsim/Wheat/wheat.ini[standard]
 module = Tracker    wheat.par[sensibility]
-module = SummaryFile  wheat.par[Minnipa]
 
 [APSIM.Naracoorte]
 title=Naracoorte
@@ -519,7 +484,6 @@ module = SurfaceOM   %apsuite/apsim/SurfaceOM/sample/SurfaceOM.par [legume_resid
 module = soiln2     %apsuite/apsim/Common Files/SAsoils.par[Naracoorte]      %apsuite/apsim/soiln2/soiln2.ini[standard]
 module = Plant(Wheat)   %apsuite/apsim/Common Files/SAsoils.par[Naracoorte] %apsuite/apsim/Wheat/wheat.ini[standard]
 module = Tracker    wheat.par[sensibility]
-module = SummaryFile  wheat.par[Naracoorte]
 
 [APSIM.Orroroo]
 title=Orroroo
@@ -534,7 +498,6 @@ module = SurfaceOM   %apsuite/apsim/SurfaceOM/sample/SurfaceOM.par [legume_resid
 module = soiln2     %apsuite/apsim/Common Files/SAsoils.par[Orroroo]      %apsuite/apsim/soiln2/soiln2.ini[standard]
 module = Plant(Wheat)   %apsuite/apsim/Common Files/SAsoils.par[Orroroo] %apsuite/apsim/Wheat/wheat.ini[standard]
 module = Tracker    wheat.par[sensibility]
-module = SummaryFile  wheat.par[Orroroo]
 
 [APSIM.Roseworthy]
 title=Roseworthy
@@ -549,7 +512,6 @@ module = SurfaceOM   %apsuite/apsim/SurfaceOM/sample/SurfaceOM.par [legume_resid
 module = soiln2     %apsuite/apsim/Common Files/SAsoils.par[Roseworthy]      %apsuite/apsim/soiln2/soiln2.ini[standard]
 module = Plant(Wheat)   %apsuite/apsim/Common Files/SAsoils.par[Roseworthy] %apsuite/apsim/Wheat/wheat.ini[standard]
 module = Tracker    wheat.par[sensibility]
-module = SummaryFile  wheat.par[Roseworthy]
 
 [APSIM.Wanbi]
 title=Wanbi
@@ -564,7 +526,6 @@ module = SurfaceOM   %apsuite/apsim/SurfaceOM/sample/SurfaceOM.par [legume_resid
 module = soiln2     %apsuite/apsim/Common Files/SAsoils.par[Wanbi]      %apsuite/apsim/soiln2/soiln2.ini[standard]
 module = Plant(Wheat)   %apsuite/apsim/Common Files/SAsoils.par[Wanbi] %apsuite/apsim/Wheat/wheat.ini[standard]
 module = Tracker    wheat.par[sensibility]
-module = SummaryFile  wheat.par[Wanbi]
 
 
 

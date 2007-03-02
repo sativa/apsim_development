@@ -7,7 +7,6 @@ module = input(met)       %apsuite/apsim/met/sample/dalby.met [weather]
 module = report           tcllink.par [all]
 module = manager          tcllink.par [all]
 module = tcllink          tcllink.par [all]
-module = SummaryFile      tcllink.par [all]
 
 ![apsim.rtg]
 !title = run time graphics
@@ -30,7 +29,6 @@ module = soilwat2        %apsuite/apsim/soilwat2/sample/soilwat2.par [black_eart
 module = soiln2          %apsuite/apsim/soiln2/sample/soiln2.par [black_earth]    %apsuite/apsim/soiln2/soiln2.ini     [standard]
 module = sorghum         %apsuite/apsim/sorghum/sample/sorghum.par [sample] %apsuite/apsim/sorghum/sorghum.ini [standard]
 module = tcllink          tcllink.par [catchEvent]
-module = SummaryFile     %apsuite/apsim/sorghum/sample/sorghum.par [sample]
 
 [apsim.catchEvent2]
 module = clock           %apsuite/apsim/sorghum/sample/sorghum.par [sample] %apsuite/apsim/clock/clock.ini[standard]
@@ -41,7 +39,6 @@ module = soilwat2        %apsuite/apsim/soilwat2/sample/soilwat2.par [black_eart
 module = soiln2          %apsuite/apsim/soiln2/sample/soiln2.par [black_earth]    %apsuite/apsim/soiln2/soiln2.ini     [standard]
 module = sorghum         %apsuite/apsim/sorghum/sample/sorghum.par [sample] %apsuite/apsim/sorghum/sorghum.ini [standard]
 module = tcllink         tcllink.par [catchEvent2]
-module = SummaryFile     %apsuite/apsim/sorghum/sample/sorghum.par [sample]
 
 
 [apsim.profileMessages]
@@ -54,7 +51,6 @@ module = soilwat2        %apsuite/apsim/soilwat2/sample/soilwat2.par [black_eart
 module = soiln2          %apsuite/apsim/soiln2/sample/soiln2.par [black_earth]    %apsuite/apsim/soiln2/soiln2.ini     [standard]
 module = sorghum         %apsuite/apsim/sorghum/sample/sorghum.par [sample] %apsuite/apsim/sorghum/sorghum.ini [standard]
 module = tcllink         tcllink.par [profileMessages]
-module = SummaryFile     %apsuite/apsim/sorghum/sample/sorghum.par [sample]
 
 [apsim.profilePlant]
 title = test
@@ -66,4 +62,3 @@ module = soilwat2        %apsuite/apsim/soilwat2/sample/soilwat2.par [black_eart
 module = soiln2          %apsuite/apsim/soiln2/sample/soiln2.par [black_earth]    %apsuite/apsim/soiln2/soiln2.ini     [standard]
 module = Plant(wheat)         %apsuite/apsim/Wheat/Sample/wheat.par [sample] %apsuite/apsim/Wheat/wheat.ini [standard]
 module = tcllink         tcllink.par [profilePlant]
-module = SummaryFile     %apsuite/apsim/Wheat/Sample/wheat.par [sample]

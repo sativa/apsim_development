@@ -16,7 +16,6 @@ module = solute          apswim.par [all]            %apsuite/apsim/solute/solut
 module = SurfaceOM   apswim.par [all] %apsuite/apsim/SurfaceOM/SurfaceOM.ini [standard]
 module = maize           apswim.par [all]            %apsuite/apsim/maize/maize.ini [standard]
 module = Plant(cowpea)  apswim.par [all]            %apsuite/apsim/cowpea/cowpea.ini [standard]
-module = SummaryFile     apswim.par [sample]
 
 [apsim.Sample2]
 title=Sample Simulation with observed evaporation data
@@ -35,5 +34,4 @@ module = solute          apswim.par [all]            %apsuite/apsim/solute/solut
 module = SurfaceOM   apswim.par [all] %apsuite/apsim/SurfaceOM/SurfaceOM.ini [standard]
 module = maize           apswim.par [all]            %apsuite/apsim/maize/maize.ini [standard]
 module = Plant(cowpea)  apswim.par [all]            %apsuite/apsim/cowpea/cowpea.ini [standard]
-module = SummaryFile     apswim.par [sample2]
 

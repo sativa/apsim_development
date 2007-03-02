@@ -18,7 +18,6 @@ module = SurfaceOM   soil.par [xifeng] %apsuite/apsim/SurfaceOM/SurfaceOM.ini [s
 module = soiln2     soil.par [xifeng]     %apsuite/apsim/soiln2/soiln2.ini [standard]
 module = plant(wheat)     soil.par [xifeng]   %apsuite/apsim/wheat/wheat.ini [standard]
 module = fertiliz           %apsuite/apsim/fertiliz/fertiliz.ini [standard]
-module = SummaryFile  report.par [xifeng_w]
 module = tracker(tracker1)   gansu.man [all]
 
 [apsim.xifeng_w_n0] 
@@ -33,7 +32,6 @@ module = SurfaceOM   soil.par [xifeng] %apsuite/apsim/SurfaceOM/SurfaceOM.ini [s
 module = soiln2     soil.par [xifeng]     %apsuite/apsim/soiln2/soiln2.ini [standard]
 module = plant(wheat)     soil.par [xifeng]   %apsuite/apsim/wheat/wheat.ini [standard]
 module = fertiliz           %apsuite/apsim/fertiliz/fertiliz.ini [standard]
-module = SummaryFile  report.par [xifeng_w_n0]
 module = tracker(tracker1)   gansu.man [all]
 
 
@@ -49,7 +47,6 @@ module = SurfaceOM   soil.par [dingxi] %apsuite/apsim/SurfaceOM/SurfaceOM.ini [s
 module = soiln2     soil.par [dingxi]     %apsuite/apsim/soiln2/soiln2.ini [standard]
 module = plant(wheat)     soil.par [dingxi]   %apsuite/apsim/wheat/wheat.ini [standard]
 module = fertiliz           %apsuite/apsim/fertiliz/fertiliz.ini [standard]
-module = SummaryFile  report.par [dingxi_w]
 module = tracker(tracker1)   gansu.man [all]
 
 

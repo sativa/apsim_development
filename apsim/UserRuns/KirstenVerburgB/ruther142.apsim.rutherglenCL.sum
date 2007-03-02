@@ -806,8 +806,6 @@ Component   "tracker2" = c:\development\apsim\tracker\lib\tracker.dll
 27 September 1993(Day of year=270), lucerne: 
      Crop Sow
       - reading constants for plant(lucerne)
-C3 photosynthetic_pathway read=1222145
-photosynthetic_pathway =845866497
       - reading cultivar parameters
       - reading grain cultivar parameters
          ------------------------------------------------
@@ -923,8 +921,6 @@ photosynthetic_pathway =845866497
          floral_initiation    to flowering               0.068        0.096        0.000        0.000
      
       - reading constants for regrowth(lucerne)
-C3 photosynthetic_pathway read=1224449
-photosynthetic_pathway =845866497
      
      Crop harvested.
          Organic matter from crop:-      Tops to surface residue      Roots to soil FOM
@@ -1001,8 +997,6 @@ photosynthetic_pathway =845866497
      Manager sending message :- lucerne reduce
 31 March 1994(Day of year=90), lucerne: 
       - reading constants for reduced(lucerne)
-C3 photosynthetic_pathway read=1234433
-photosynthetic_pathway =845866497
 23 April 1994(Day of year=113), lucerne: 
       stage 5.0 floral_initiation
                      biomass =          57.78 (g/m^2)   lai          =   0.123 (m^2/m^2)
@@ -1019,8 +1013,6 @@ photosynthetic_pathway =845866497
      Manager sending message :- lucerne spring
 1 August 1994(Day of year=213), lucerne: 
       - reading constants for regrowth(lucerne)
-C3 photosynthetic_pathway read=1234433
-photosynthetic_pathway =845866497
 19 October 1994(Day of year=292), operatns: 
       Sending harvest message to lucerne
 19 October 1994(Day of year=292), lucerne: 
@@ -1189,14 +1181,10 @@ photosynthetic_pathway =845866497
      Manager sending message :- lucerne reduce
 31 March 1995(Day of year=90), lucerne: 
       - reading constants for reduced(lucerne)
-C3 photosynthetic_pathway read=1234433
-photosynthetic_pathway =845866497
 1 August 1995(Day of year=213), manager: 
      Manager sending message :- lucerne spring
 1 August 1995(Day of year=213), lucerne: 
       - reading constants for regrowth(lucerne)
-C3 photosynthetic_pathway read=1234433
-photosynthetic_pathway =845866497
 23 August 1995(Day of year=235), operatns: 
       Sending harvest message to lucerne
 23 August 1995(Day of year=235), lucerne: 
@@ -1445,8 +1433,6 @@ photosynthetic_pathway =845866497
      Manager sending message :- lucerne reduce
 30 March 1996(Day of year=90), lucerne: 
       - reading constants for reduced(lucerne)
-C3 photosynthetic_pathway read=1234433
-photosynthetic_pathway =845866497
 9 April 1996(Day of year=100), lucerne: 
       stage 5.0 floral_initiation
                      biomass =         107.53 (g/m^2)   lai          =   0.700 (m^2/m^2)
@@ -1463,8 +1449,6 @@ photosynthetic_pathway =845866497
      Manager sending message :- lucerne spring
 31 July 1996(Day of year=213), lucerne: 
       - reading constants for regrowth(lucerne)
-C3 photosynthetic_pathway read=1234433
-photosynthetic_pathway =845866497
 17 August 1996(Day of year=230), operatns: 
       Sending harvest message to lucerne
 17 August 1996(Day of year=230), lucerne: 
@@ -1620,8 +1604,6 @@ photosynthetic_pathway =845866497
      Manager sending message :- lucerne reduce
 31 March 1997(Day of year=90), lucerne: 
       - reading constants for reduced(lucerne)
-C3 photosynthetic_pathway read=1234433
-photosynthetic_pathway =845866497
 30 May 1997(Day of year=150), operatns: 
       Sending harvest message to lucerne
 30 May 1997(Day of year=150), lucerne: 
@@ -1665,8 +1647,6 @@ photosynthetic_pathway =845866497
      Manager sending message :- lucerne spring
 1 August 1997(Day of year=213), lucerne: 
       - reading constants for regrowth(lucerne)
-C3 photosynthetic_pathway read=1234433
-photosynthetic_pathway =845866497
 6 August 1997(Day of year=218), lucerne: 
       stage 5.0 floral_initiation
                      biomass =          21.64 (g/m^2)   lai          =   0.017 (m^2/m^2)
@@ -1780,8 +1760,6 @@ photosynthetic_pathway =845866497
      Manager sending message :- lucerne reduce
 31 March 1998(Day of year=90), lucerne: 
       - reading constants for reduced(lucerne)
-C3 photosynthetic_pathway read=1234433
-photosynthetic_pathway =845866497
 6 May 1998(Day of year=126), operatns: 
       Sending harvest message to lucerne
 6 May 1998(Day of year=126), lucerne: 
@@ -1829,8 +1807,6 @@ photosynthetic_pathway =845866497
      Manager sending message :- lucerne spring
 1 August 1998(Day of year=213), lucerne: 
       - reading constants for regrowth(lucerne)
-C3 photosynthetic_pathway read=1234433
-photosynthetic_pathway =845866497
 7 August 1998(Day of year=219), lucerne: 
       stage 6.0 flowering
                      biomass =           2.20 (g/m^2)   lai          =   0.021 (m^2/m^2)
@@ -2027,8 +2003,6 @@ photosynthetic_pathway =845866497
      Manager sending message :- lucerne reduce
 31 March 1999(Day of year=90), lucerne: 
       - reading constants for reduced(lucerne)
-C3 photosynthetic_pathway read=1234433
-photosynthetic_pathway =845866497
 13 April 1999(Day of year=103), lucerne: 
       stage 6.0 flowering
                      biomass =          73.52 (g/m^2)   lai          =   0.588 (m^2/m^2)
@@ -2091,8 +2065,6 @@ photosynthetic_pathway =845866497
      Manager sending message :- lucerne spring
 1 August 1999(Day of year=213), lucerne: 
       - reading constants for regrowth(lucerne)
-C3 photosynthetic_pathway read=1234433
-photosynthetic_pathway =845866497
       stage 7.0 start_grain_fill
                      biomass =           9.79 (g/m^2)   lai          =   0.008 (m^2/m^2)
                      stover N conc =    85.64 (%)    extractable sw =  140.95 (mm)

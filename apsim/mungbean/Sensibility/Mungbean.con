@@ -10,7 +10,6 @@ module = SurfaceOM   %apsuite/apsim/SurfaceOM/sample/SurfaceOM.par [legume_resid
 module = soiln2     %apsuite/apsim/common files/waco.par[waco]      %apsuite/apsim/soiln2/soiln2.ini[standard]
 module = plant(mungbean)   %apsuite/apsim/common files/waco.par[waco] %apsuite/apsim/mungbean/mungbean.ini[standard]
 module = Tracker    mungbean.par[sensibility]
-module = SummaryFile  mungbean.par[Dalby600]
 
 [APSIM.Dalby 1200mm]
 title=Dalby 1200mm wet soil
@@ -23,7 +22,6 @@ module = SurfaceOM   %apsuite/apsim/SurfaceOM/sample/SurfaceOM.par [legume_resid
 module = soiln2     %apsuite/apsim/common files/waco.par[waco]      %apsuite/apsim/soiln2/soiln2.ini[standard]
 module = plant(mungbean)   %apsuite/apsim/common files/waco.par[waco] %apsuite/apsim/mungbean/mungbean.ini[standard]
 module = Tracker    mungbean.par[sensibility]
-module = SummaryFile  mungbean.par[Dalby1200]
 
 [APSIM.Roma 400mm]
 title=Roma 400mm wet soil
@@ -36,7 +34,6 @@ module = SurfaceOM   %apsuite/apsim/SurfaceOM/sample/SurfaceOM.par [legume_resid
 module = soiln2     %apsuite/apsim/common files/brownvertosol.par[brownvertosol]      %apsuite/apsim/soiln2/soiln2.ini[standard]
 module = plant(mungbean)   %apsuite/apsim/common files/brownvertosol.par[brownvertosol] %apsuite/apsim/mungbean/mungbean.ini[standard]
 module = Tracker    mungbean.par[sensibility]
-module = SummaryFile  mungbean.par[Roma400]
 
 [APSIM.Roma 800mm]
 title=Roma 800mm wet soil
@@ -49,4 +46,3 @@ module = SurfaceOM   %apsuite/apsim/SurfaceOM/sample/SurfaceOM.par [legume_resid
 module = soiln2     %apsuite/apsim/common files/brownvertosol.par[brownvertosol]      %apsuite/apsim/soiln2/soiln2.ini[standard]
 module = plant(mungbean)   %apsuite/apsim/common files/brownvertosol.par[brownvertosol] %apsuite/apsim/mungbean/mungbean.ini[standard]
 module = Tracker    mungbean.par[sensibility]
-module = SummaryFile  mungbean.par[Roma800]

@@ -16,5 +16,4 @@ module = Plant(ryegrass) soils.par[sand]                                  ryegra
 module = Plant(ryegras2) soils.par[sand]                                  ryegrass.ini [standard]
 module = canopy           sow_rule.par[all]
 module = accum            sow_rule.par[all]
-module = SummaryFile   sow_rule.par [rd1000_timeA]
 

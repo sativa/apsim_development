@@ -11,7 +11,6 @@ module = SurfaceOM   sample.par [all] %apsuite/apsim/SurfaceOM/SurfaceOM.ini [st
 module = soiln2            GAT_SITE_ALL.PAR[gatton_heavy] sample.par[all] %apsuite/apsim/soiln2/soiln2.ini[standard]
 module = Plant(lablab)     sample.par[gatton_heavy]                       %apsuite/apsim/lablab/lablab.ini[standard]
 module = irrigate
-module = SummaryFile       sample.par[Highworth]
 module = accum             sample.par[common]
 
 [APSIM.Endurance]
@@ -25,6 +24,5 @@ module = SurfaceOM   sample.par [all] %apsuite/apsim/SurfaceOM/SurfaceOM.ini [st
 module = soiln2            GAT_SITE_ALL.PAR[gatton_heavy] sample.par[all] %apsuite/apsim/soiln2/soiln2.ini[standard]
 module = Plant(lablab)     sample.par[gatton_heavy]                       %apsuite/apsim/lablab/lablab.ini[standard]
 module = irrigate
-module = SummaryFile       sample.par[Endurance]
 module = accum             sample.par[common]
 

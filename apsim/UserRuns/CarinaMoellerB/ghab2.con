@@ -12,7 +12,6 @@ module = soilwat2  THsoil.par [telhadya] THsoil.par [b2] THsoil.par [inig2w1]  %
 module = SurfaceOM   THsoil.par [b2cp00] %apsuite/apsim/SurfaceOM/SurfaceOM.ini [standard]
 module = soiln2    THsoil.par [telhadya]  THsoil.par [b2cp00]   %apsuite/apsim/soiln2/soiln2.ini [standard]
 module = Plant(chickpea)  chickpea.par [standard]  THsoil.par [B2]  %apsuite/apsim/chickpea/chickpea.ini [standard]
-module = SummaryFile   reportCP.par[g2w1_00]
 
 
 [apsim.g2w0] 
@@ -25,7 +24,6 @@ module = soilwat2  THsoil.par [telhadya]   THsoil.par [b2] THsoil.par [inig2w0] 
 module = SurfaceOM   THsoil.par [b2cp00] %apsuite/apsim/SurfaceOM/SurfaceOM.ini [standard]
 module = soiln2    THsoil.par [telhadya]  THsoil.par [b2cp00]   %apsuite/apsim/soiln2/soiln2.ini [standard]
 module = Plant(chickpea)  chickpea.par [standard] THsoil.par [B2] %apsuite/apsim/chickpea/chickpea.ini [standard]
-module = SummaryFile   reportCP.par[g2w0_00]
 
 
 
@@ -39,7 +37,6 @@ module = soilwat2  THsoil.par [telhadya]   THsoil.par [b7]  THsoil.par [inig2]  
 module = SurfaceOM   THsoil.par [b7cp99] %apsuite/apsim/SurfaceOM/SurfaceOM.ini [standard]
 module = soiln2    THsoil.par [telhadya]  THsoil.par [b7cp99] %apsuite/apsim/soiln2/soiln2.ini [standard]
 module = Plant(chickpea)  chickpea.par [standard]  THsoil.par [B7]  %apsuite/apsim/chickpea/chickpea.ini [standard]
-module = SummaryFile   reportCP.par[g2rf_99]
 
 
 

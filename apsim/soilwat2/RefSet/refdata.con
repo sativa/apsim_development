@@ -10,7 +10,6 @@ module = report   refdata.par [swat]     refdata.par [standard]
 module = input(Met)      gmtr.met [weather]
 module = soilwat2 refdata.par [swat]     %apsuite/apsim/soilwat2/soilwat2.ini [standard]
 module = manager  refdata.par [swat]
-module = SummaryFile refdata.par [swat]
 module = irrigate
 
 
@@ -21,5 +20,4 @@ module = report   refdata.par [swat]     refdata.par [calibrators]
 module = input(Met)      gmtr.met [weather]
 module = soilwat2 refdata.par [swat]     refdata.par [calibrators]     %apsuite/apsim/soilwat2/soilwat2.ini [standard]
 module = manager  refdata.par [swat]
-module = SummaryFile refdata.par [calibrators]
 module = irrigate

@@ -2,7 +2,6 @@ version = 5.3
 !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!  apsfront run  !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 [apsfront run]
 title  = jambincerealonly1995
-module = SummaryFile jambincerealonly1995.par [default]
 module = clock       jambincerealonly1995.par [default] %apsuite/apsim/clock/clock.ini[standard]
 module = report      jambincerealonly1995.par [default]
 module = input(met)  %apsuite/apsim/met/sample/emerald.met [weather]

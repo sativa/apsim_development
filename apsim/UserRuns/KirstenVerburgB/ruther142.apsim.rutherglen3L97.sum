@@ -799,8 +799,6 @@ Component   "tracker2" = c:\development\apsim\tracker\lib\tracker.dll
 10 May 1994(Day of year=130), lucerne: 
      Crop Sow
       - reading constants for plant(lucerne)
-C3 photosynthetic_pathway read=1222145
-photosynthetic_pathway =845866497
       - reading cultivar parameters
       - reading grain cultivar parameters
          ------------------------------------------------
@@ -906,8 +904,6 @@ photosynthetic_pathway =845866497
          emergence            to end_of_juvenile         0.000        0.000        0.000        0.021
      
       - reading constants for regrowth(lucerne)
-C3 photosynthetic_pathway read=1224449
-photosynthetic_pathway =845866497
      
      Crop harvested.
          Organic matter from crop:-      Tops to surface residue      Roots to soil FOM
@@ -1047,14 +1043,10 @@ photosynthetic_pathway =845866497
      Manager sending message :- lucerne reduce
 31 March 1995(Day of year=90), lucerne: 
       - reading constants for reduced(lucerne)
-C3 photosynthetic_pathway read=1234433
-photosynthetic_pathway =845866497
 1 August 1995(Day of year=213), manager: 
      Manager sending message :- lucerne spring
 1 August 1995(Day of year=213), lucerne: 
       - reading constants for regrowth(lucerne)
-C3 photosynthetic_pathway read=1234433
-photosynthetic_pathway =845866497
 23 August 1995(Day of year=235), operatns: 
       Sending harvest message to lucerne
 23 August 1995(Day of year=235), lucerne: 
@@ -1303,8 +1295,6 @@ photosynthetic_pathway =845866497
      Manager sending message :- lucerne reduce
 30 March 1996(Day of year=90), lucerne: 
       - reading constants for reduced(lucerne)
-C3 photosynthetic_pathway read=1234433
-photosynthetic_pathway =845866497
 9 April 1996(Day of year=100), lucerne: 
       stage 5.0 floral_initiation
                      biomass =         112.65 (g/m^2)   lai          =   0.736 (m^2/m^2)
@@ -1321,8 +1311,6 @@ photosynthetic_pathway =845866497
      Manager sending message :- lucerne spring
 31 July 1996(Day of year=213), lucerne: 
       - reading constants for regrowth(lucerne)
-C3 photosynthetic_pathway read=1234433
-photosynthetic_pathway =845866497
 17 August 1996(Day of year=230), operatns: 
       Sending harvest message to lucerne
 17 August 1996(Day of year=230), lucerne: 
@@ -1478,8 +1466,6 @@ photosynthetic_pathway =845866497
      Manager sending message :- lucerne reduce
 31 March 1997(Day of year=90), lucerne: 
       - reading constants for reduced(lucerne)
-C3 photosynthetic_pathway read=1234433
-photosynthetic_pathway =845866497
 3 April 1997(Day of year=93), operatns: 
       Sending harvest message to lucerne
 3 April 1997(Day of year=93), lucerne: 
@@ -1530,8 +1516,6 @@ photosynthetic_pathway =845866497
 13 May 1997(Day of year=133), wheat: 
      Crop Sow
       - reading constants for plant(wheat)
-C3 photosynthetic_pathway read=1222145
-photosynthetic_pathway =845866497
       - reading cultivar parameters
       - reading grain cultivar parameters
          ------------------------------------------------
@@ -1608,8 +1592,6 @@ photosynthetic_pathway =845866497
      Manager sending message :- lucerne spring
 1 August 1997(Day of year=213), lucerne: 
       - reading constants for regrowth(lucerne)
-C3 photosynthetic_pathway read=1234433
-photosynthetic_pathway =845866497
 30 August 1997(Day of year=242), wheat: 
       stage 5.0 floral_initiation
                      biomass =         222.60 (g/m^2)   lai          =   3.100 (m^2/m^2)
@@ -1687,8 +1669,6 @@ photosynthetic_pathway =845866497
      Manager sending message :- lucerne reduce
 31 March 1998(Day of year=90), lucerne: 
       - reading constants for reduced(lucerne)
-C3 photosynthetic_pathway read=1234433
-photosynthetic_pathway =845866497
 20 April 1998(Day of year=110), operatns: 
       Sending tillage message to surfaceom
 20 April 1998(Day of year=110), SurfaceOM: 
@@ -1702,8 +1682,6 @@ photosynthetic_pathway =845866497
 30 April 1998(Day of year=120), wheat: 
      Crop Sow
       - reading constants for plant(wheat)
-C3 photosynthetic_pathway read=1222145
-photosynthetic_pathway =845866497
       - reading cultivar parameters
       - reading grain cultivar parameters
          ------------------------------------------------
@@ -1780,8 +1758,6 @@ photosynthetic_pathway =845866497
      Manager sending message :- lucerne spring
 1 August 1998(Day of year=213), lucerne: 
       - reading constants for regrowth(lucerne)
-C3 photosynthetic_pathway read=1234433
-photosynthetic_pathway =845866497
 23 August 1998(Day of year=235), wheat: 
       stage 5.0 floral_initiation
                      biomass =         177.21 (g/m^2)   lai          =   2.200 (m^2/m^2)
@@ -1799,8 +1775,6 @@ photosynthetic_pathway =845866497
 12 November 1998(Day of year=316), weed: 
      Crop Sow
       - reading constants for winter_grass(weed)
-C3 photosynthetic_pathway read=1222145
-photosynthetic_pathway =845866497
       - reading cultivar parameters
       - reading grain cultivar parameters
          ------------------------------------------------
@@ -1973,8 +1947,6 @@ photosynthetic_pathway =845866497
      Manager sending message :- lucerne reduce
 31 March 1999(Day of year=90), lucerne: 
       - reading constants for reduced(lucerne)
-C3 photosynthetic_pathway read=1234433
-photosynthetic_pathway =845866497
 29 April 1999(Day of year=119), operatns: 
       Sending harvest message to weed
 29 April 1999(Day of year=119), weed: 
@@ -2034,8 +2006,6 @@ photosynthetic_pathway =845866497
 25 May 1999(Day of year=145), canola: 
      Crop Sow
       - reading constants for triazine(canola)
-C3 photosynthetic_pathway read=1222145
-photosynthetic_pathway =845866497
       - reading cultivar parameters
       - reading grain cultivar parameters
          ------------------------------------------------
@@ -2120,8 +2090,6 @@ photosynthetic_pathway =845866497
      Manager sending message :- lucerne spring
 1 August 1999(Day of year=213), lucerne: 
       - reading constants for regrowth(lucerne)
-C3 photosynthetic_pathway read=1234433
-photosynthetic_pathway =845866497
 28 August 1999(Day of year=240), canola: 
       stage 5.0 floral_initiation
                      biomass =         146.19 (g/m^2)   lai          =   1.683 (m^2/m^2)
