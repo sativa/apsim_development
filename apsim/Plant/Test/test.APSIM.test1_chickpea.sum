@@ -9,17 +9,16 @@
  The Agricultural Production Systems Simulator
              Copyright(c) APSRU               
 
-     Version                = 5.3
-     Title                  = Test long array reporting
-     Component DLL          = c:\development\apsim\SummaryFile\lib\SummaryFile.dll
-     Component DLL          = c:\development\apsim\clock\lib\clock.dll
-     Component DLL          = c:\development\apsim\report\lib\report.dll
-     Component DLL          = c:\development\apsim\input\lib\input.dll
-     Component DLL          = c:\development\apsim\manager\lib\manager.dll
-     Component DLL          = c:\development\apsim\soilwat2\lib\soilwat2.dll
-     Component DLL          = c:\development\apsim\SurfaceOM\lib\SurfaceOM.dll
-     Component DLL          = c:\development\apsim\soiln2\lib\soiln2.dll
-     Component DLL          = c:\development\apsim\Plant\lib\Plant.dll
+Version                = 5.3
+Title                  = Test sowing before out
+Component      "clock" = c:\development\apsim\clock\lib\clock.dll
+Component     "report" = c:\development\apsim\report\lib\report.dll
+Component        "met" = c:\development\apsim\input\lib\input.dll
+Component    "manager" = c:\development\apsim\manager\lib\manager.dll
+Component   "soilwat2" = c:\development\apsim\soilwat2\lib\soilwat2.dll
+Component  "SurfaceOM" = c:\development\apsim\SurfaceOM\lib\SurfaceOM.dll
+Component     "soiln2" = c:\development\apsim\soiln2\lib\soiln2.dll
+Component   "chickpea" = c:\development\apsim\Plant\lib\Plant.dll
 
 ------- clock Initialisation --------------------------------------------------
      Sequencer phases:
@@ -27,18 +26,18 @@
         process
         post
      Simulation start date =  9/05/1988
-     Simulation end date   = 26/10/1989
+     Simulation end date   = 26/10/1988
      Time step =           = 1440 (mins)
 
 ------- report Initialisation -------------------------------------------------
      Output variables:
         clock.day
         clock.year
-        lablab.lai
-        lablab.biomass
-        lablab.leaf_area()
-     
-     Output file = test5.out
+        chickpea.lai
+        chickpea.biomass
+        chickpea.green_biomass
+
+     Output file = test1.out
      Format = normal
 
 ------- met Initialisation ----------------------------------------------------
@@ -49,12 +48,24 @@
      Manager rules:
      
      SECTION:- start_of_day
-     if day = 270 and year  = 1988 then
-       lablab sow cultivar = highworth, plants = 10 (/m2), sowing_depth = 40 (mm)
+     if chickpea.stage_name = 'harvest_ripe' or chickpea.plant_status = 'dead' then
+        chickpea harvest
+        chickpea sow cultivar = amethyst, plants = 25 (/m2), sowing_depth = 40 (mm)
      endif
+     
+     SECTION:- init
+     harvest = 0
+     
+     SECTION:- start_of_day
+     if day = 130 and year  = 1988 then
+        chickpea sow cultivar = amethyst, plants = 25 (/m2), sowing_depth = 40 (mm)
+     endif
+     
+     SECTION:- end_of_day
      report do_end_day_output
      END of rules
      
+     Manager creating a new local real variable : harvest =     0.00000000000000
 
 ------- soilwat2 Initialisation -----------------------------------------------
      
@@ -126,7 +137,7 @@
            Using Ritchie evaporation model
             Cuml evap (U):            4.00 (mm^0.5)
             CONA:                     2.50 ()
-           Eo from priestly-taylor
+            Eo from priestly-taylor
 
 ------- SurfaceOM Initialisation ----------------------------------------------
      
@@ -196,35 +207,33 @@
            Totals  149295.9 10296.3   926.1   115.8   400.0    20.0
           ---------------------------------------------------------
 
-------- lablab Initialisation -------------------------------------------------
+------- chickpea Initialisation -----------------------------------------------
      phenology model: TTT
 ------- Start of simulation  --------------------------------------------------
-26 September 1988(Day of year=270), manager: 
-     Manager sending message :- lablab sow  cultivar = highworth, plants = 10 (/m2), sowing_depth = 40 (mm)
-26 September 1988(Day of year=270), lablab: 
+     Manager sending message :- chickpea sow  cultivar = amethyst, plants = 25 (/m2), sowing_depth = 40 (mm)
      Crop Sow
-      - reading constants for plant(lablab)
+      - reading constants for plant(chickpea)
       - reading cultivar parameters
       - reading grain cultivar parameters
          ------------------------------------------------
-        cultivar                   = highworth
-        est_days_emerg_to_init     = 20 (days)
+        cultivar                   = amethyst
+        est_days_emerg_to_init     = 83 (days)
         cum_vernal_days            =       0     100 (vd)
-        tt_emerg_to_endjuv         =     500     500 (dd)
-        x_pp_endjuv_to_init        =    13.3      18 (h)
-        y_tt_endjuv_to_init        =     600     600 (dd)
+        tt_emerg_to_endjuv         =     515     515 (dd)
+        x_pp_endjuv_to_init        =    10.7      17 (h)
+        y_tt_endjuv_to_init        =     446       0 (dd)
         x_pp_init_to_flower        =       1      24 (h)
-        y_tt_init_to_flower        =      20      20 (dd)
+        y_tt_init_to_flower        =      33      33 (dd)
         x_pp_flower_to_start_grain =       1      24 (h)
-        y_tt_flower_to_start_grain =     100     100 (dd)
+        y_tt_flower_to_start_grain =     450     450 (dd)
         x_pp_start_to_end_grain    =       1      24 (h)
-        y_tt_start_to_end_grain    =     900     900 (dd)
-        tt_end_grain_to_maturity   =        400 (dd)
-        tt_maturity_to_ripe        =          5 (dd)
+        y_tt_start_to_end_grain    =     690     690 (dd)
+        tt_end_grain_to_maturity   =         60 (dd)
+        tt_maturity_to_ripe        =          1 (dd)
         x_pp_hi_incr               =       1.00      24.00
-        y_hi_incr                  =     0.0300     0.0300
+        y_hi_incr                  =     0.0100     0.0100
         x_hi_max_pot_stress        =       0.00       1.00
-        y_hi_max_pot               =       0.20       0.20
+        y_hi_max_pot               =       0.50       0.50
          ------------------------------------------------
      
      
@@ -235,15 +244,15 @@
           Depth     Factor         Limit      Factor
           (mm)         ()        (mm/mm)       (0-1)
          -----------------------------------------------
-         150.0     0.080          0.200       1.000
-         150.0     0.080          0.280       1.000
-         300.0     0.080          0.320       1.000
-         300.0     0.080          0.300       1.000
-         300.0     0.050          0.270       1.000
-         300.0     0.030          0.240       1.000
-         300.0     0.010          0.310       1.000
+         150.0     0.080          0.230       1.000
+         150.0     0.080          0.240       1.000
+         300.0     0.080          0.240       1.000
+         300.0     0.080          0.250       1.000
+         300.0     0.050          0.260       1.000
+         300.0     0.030          0.270       1.000
+         300.0     0.010          0.280       1.000
          -----------------------------------------------
-         Extractable SW:   271mm in  1800mm total depth ( 15%).
+         Extractable SW:   315mm in  1800mm total depth ( 17%).
          Crop factor for bounding water use is set to 100.0 times eo.
      
                       Crop Sowing Data
@@ -251,45 +260,90 @@
          Sowing  Depth Plants Spacing Skip  Skip  Cultivar
          Day no   mm     m^2     mm   row   plant name
          ------------------------------------------------
-            270   40.0   10.0  500.0   0.0   0.0 highworth
+            130   40.0   25.0  350.0   0.0   0.0 amethyst
          ------------------------------------------------
      
-27 September 1988(Day of year=271), lablab: 
+10 May 1988(Day of year=131), chickpea: 
       stage 2.0 germination
-9 October 1988(Day of year=283), lablab: 
+16 May 1988(Day of year=137), chickpea: 
       stage 3.0 emergence
-                     biomass =           7.00 (g/m^2)   lai          =   0.035 (m^2/m^2)
-                     stover N conc =     5.64 (%)    extractable sw =   59.86 (mm)
-21 November 1988(Day of year=326), lablab: 
+                     biomass =           5.00 (g/m^2)   lai          =   0.002 (m^2/m^2)
+                     stover N conc =     6.00 (%)    extractable sw =   18.71 (mm)
+20 June 1988(Day of year=172), chickpea: 
       stage 4.0 end_of_juvenile
-                     biomass =         321.64 (g/m^2)   lai          =   3.329 (m^2/m^2)
-                     stover N conc =     6.27 (%)    extractable sw =   63.59 (mm)
-4 January 1989(Day of year=4), lablab: 
+                     biomass =           7.22 (g/m^2)   lai          =   0.044 (m^2/m^2)
+                     stover N conc =     4.99 (%)    extractable sw =  149.19 (mm)
+20 July 1988(Day of year=202), chickpea: 
       stage 5.0 floral_initiation
-                     biomass =         767.74 (g/m^2)   lai          =   5.632 (m^2/m^2)
-                     stover N conc =     7.21 (%)    extractable sw =   66.81 (mm)
-5 January 1989(Day of year=5), lablab: 
+                     biomass =          27.88 (g/m^2)   lai          =   0.516 (m^2/m^2)
+                     stover N conc =     3.76 (%)    extractable sw =  273.95 (mm)
+22 July 1988(Day of year=204), chickpea: 
       stage 6.0 flowering
-                     biomass =         773.49 (g/m^2)   lai          =   5.475 (m^2/m^2)
-                     stover N conc =     7.23 (%)    extractable sw =   62.60 (mm)
-12 January 1989(Day of year=12), lablab: 
+                     biomass =          31.22 (g/m^2)   lai          =   0.589 (m^2/m^2)
+                     stover N conc =     3.39 (%)    extractable sw =  279.51 (mm)
+23 August 1988(Day of year=236), chickpea: 
       stage 7.0 start_grain_fill
-                     biomass =         846.30 (g/m^2)   lai          =   5.006 (m^2/m^2)
-                     stover N conc =     6.84 (%)    extractable sw =   83.41 (mm)
-22 March 1989(Day of year=81), lablab: 
+                     biomass =         181.29 (g/m^2)   lai          =   2.308 (m^2/m^2)
+                     stover N conc =     1.84 (%)    extractable sw =  292.92 (mm)
+3 October 1988(Day of year=277), chickpea: 
       stage 8.0 end_grain_fill
-                     biomass =        1112.08 (g/m^2)   lai          =   2.920 (m^2/m^2)
-                     stover N conc =     4.60 (%)    extractable sw =   82.98 (mm)
-26 April 1989(Day of year=116), lablab: 
+                     biomass =         540.07 (g/m^2)   lai          =   2.367 (m^2/m^2)
+                     stover N conc =     1.76 (%)    extractable sw =  201.89 (mm)
+5 October 1988(Day of year=279), chickpea: 
       stage 9.0 maturity
-                     biomass =        1112.08 (g/m^2)   lai          =   2.920 (m^2/m^2)
-                     stover N conc =     4.60 (%)    extractable sw =  206.97 (mm)
-27 April 1989(Day of year=117), lablab: 
+                     biomass =         562.73 (g/m^2)   lai          =   2.290 (m^2/m^2)
+                     stover N conc =     1.72 (%)    extractable sw =  186.53 (mm)
+6 October 1988(Day of year=280), chickpea: 
       stage 10.0 harvest_ripe
-                     biomass =        1112.08 (g/m^2)   lai          =   0.000 (m^2/m^2)
-                     stover N conc =     5.70 (%)    extractable sw =  208.86 (mm)
-28 April 1989(Day of year=118), lablab: 
-     Crop failure because of total leaf senescence.
-     Plant death. standing above-ground dm = 11120.77 (kg/ha)
-26 October 1989(Day of year=299), clock: 
-     Simulation is terminating due to end criteria being met.
+                     biomass =         572.91 (g/m^2)   lai          =   0.000 (m^2/m^2)
+                     stover N conc =     1.79 (%)    extractable sw =  178.66 (mm)
+7 October 1988(Day of year=281), manager: 
+     Manager sending message :- chickpea harvest
+7 October 1988(Day of year=281), chickpea: 
+     
+      flowering day          =  204                           stover (kg/ha)         =     3358.1
+      maturity day           =  279                           grain yield (kg/ha)    =     2371.1
+      grain % water content  =   12.0                         grain yield wet (kg/ha)=     2694.4
+      grain wt (g)           =    0.000                       grains/m^2             =      0.000
+      grains/plant           =    0.0                         maximum lai            =      2.736
+      total above ground biomass (kg/ha)    =     5729.1
+      live above ground biomass (kg/ha)     =     5729.1
+      green above ground biomass (kg/ha)    =     4655.9
+      senesced above ground biomass (kg/ha) =     1073.2
+      dead above ground biomass (kg/ha)     =        0.0
+      number of leaves       =  269.8
+      DM Root:Shoot ratio    =    0.143                       Harvest Index          =      0.414
+      Stover C:N ratio       =   23.596                       Root C:N ratio         =     26.417
+      grain N percent        =       3.60                     total N content (kg/ha)=     142.29
+      grain N uptake (kg/ha) =      85.36                     senesced N content (kg/ha)=   16.10
+      green N content (kg/ha)=      40.83                     dead N content (kg/ha) =       0.00
+     
+      Average Stress Indices:                          Water Photo  Water Expan  N Photo      N grain conc
+         emergence            to end_of_juvenile         0.000        0.000        0.000        0.000
+         end_of_juvenile      to floral_initiation       0.000        0.000        0.000        0.002
+         floral_initiation    to flowering               0.000        0.000        0.000        0.000
+         flowering            to start_grain_fill        0.000        0.000        0.000        0.000
+         start_grain_fill     to end_grain_fill          0.000        0.000        0.000        0.000
+     
+     
+     Crop harvested.
+         Organic matter from crop:-      Tops to surface residue      Roots to soil FOM
+                          DM (kg/ha) =               3358.08                    0.00
+                          N  (kg/ha) =                 56.93                    0.00
+     
+         Organic matter removed from system:-      From Tops               From Roots
+                          DM (kg/ha) =               2371.06                    0.00
+                          N  (kg/ha) =                 85.36                    0.00
+     
+      stage 11.0 end_crop
+     Manager sending message :- chickpea sow  cultivar = amethyst, plants = 25 (/m2), sowing_depth = 40 (mm)
+     !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+                      APSIM  Fatal  Error
+                      -------------------
+     chickpea is still in the ground -
+      Unable to sow until it is taken out by "end_crop" action.
+     
+     Component name: chickpea
+     !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+     
+     
