@@ -9,23 +9,22 @@
  The Agricultural Production Systems Simulator
              Copyright(c) APSRU               
 
-     Version                = 5.3
-     Title                  = P3 Base Simulation
-     Component DLL          = c:\development\apsim\log\lib\log.dll
-     Component DLL          = c:\development\apsim\SummaryFile\lib\SummaryFile.dll
-     Component DLL          = c:\development\apsim\clock\lib\clock.dll
-     Component DLL          = c:\development\apsim\report\lib\report.dll
-     Component DLL          = c:\development\apsim\input\lib\input.dll
-     Component DLL          = c:\development\apsim\micromet\lib\micromet.dll
-     Component DLL          = c:\development\apsim\operatns\lib\operatns.dll
-     Component DLL          = c:\development\apsim\fertiliz\lib\fertiliz.dll
-     Component DLL          = c:\development\apsim\manager\lib\manager.dll
-     Component DLL          = c:\development\apsim\soilwat2\lib\soilwat2.dll
-     Component DLL          = c:\development\apsim\SurfaceOM\lib\SurfaceOM.dll
-     Component DLL          = c:\development\apsim\soiln2\lib\soiln2.dll
-     Component DLL          = c:\development\apsim\solute\lib\solute.dll
-     Component DLL          = c:\development\apsim\tracker\lib\tracker.dll
-     Component DLL          = c:\development\apsim\growth\lib\growth.dll
+Version                = 5.3
+Title                  = P3 Base Simulation
+Component        "log" = c:\development\apsim\log\lib\log.dll
+Component      "clock" = c:\development\apsim\clock\lib\clock.dll
+Component     "report" = c:\development\apsim\report\lib\report.dll
+Component        "met" = c:\development\apsim\input\lib\input.dll
+Component   "micromet" = c:\development\apsim\micromet\lib\micromet.dll
+Component   "operatns" = c:\development\apsim\operatns\lib\operatns.dll
+Component   "fertiliz" = c:\development\apsim\fertiliz\lib\fertiliz.dll
+Component    "manager" = c:\development\apsim\manager\lib\manager.dll
+Component   "soilwat2" = c:\development\apsim\soilwat2\lib\soilwat2.dll
+Component  "SurfaceOM" = c:\development\apsim\SurfaceOM\lib\SurfaceOM.dll
+Component     "soiln2" = c:\development\apsim\soiln2\lib\soiln2.dll
+Component     "solute" = c:\development\apsim\solute\lib\solute.dll
+Component   "tracker1" = c:\development\apsim\tracker\lib\tracker.dll
+Component   "bambatsi" = c:\development\apsim\growth\lib\growth.dll
 
 ------- clock Initialisation --------------------------------------------------
      Sequencer phases:
@@ -86,7 +85,7 @@
         manager.cum_production
         manager.cum_runoff
         soilwat2.cn2_new
-     
+
      Output file = p3.out
      Format = normal
 
@@ -258,7 +257,7 @@
            Using Ritchie evaporation model
             Cuml evap (U):            9.00 (mm^0.5)
             CONA:                     5.00 ()
-           Eo from priestly-taylor
+            Eo from priestly-taylor
 
 ------- SurfaceOM Initialisation ----------------------------------------------
      
@@ -359,7 +358,6 @@
         sum of soiln2.dnit() on process from report.reported to now as sum@soiln2_dnit[]
         sum of soilwat2.flow_no3(16) on process from report.reported to now as sum@soilwat2_flow_no3[16]
 ------- Start of simulation  --------------------------------------------------
-5 August 1994(Day of year=217), manager: 
      Manager creating a new local real variable : surf_biomn =     28.0230656000000
      Manager creating a new local real variable : subsurf_biomn =     91.8310566000000
      Manager creating a new local real variable : surf_humn =     950.044067000000
