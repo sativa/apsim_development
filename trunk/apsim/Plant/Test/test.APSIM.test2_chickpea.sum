@@ -9,17 +9,16 @@
  The Agricultural Production Systems Simulator
              Copyright(c) APSRU               
 
-     Version                = 5.3
-     Title                  = Test sowing next day after out
-     Component DLL          = c:\development\apsim\SummaryFile\lib\SummaryFile.dll
-     Component DLL          = c:\development\apsim\clock\lib\clock.dll
-     Component DLL          = c:\development\apsim\report\lib\report.dll
-     Component DLL          = c:\development\apsim\input\lib\input.dll
-     Component DLL          = c:\development\apsim\manager\lib\manager.dll
-     Component DLL          = c:\development\apsim\soilwat2\lib\soilwat2.dll
-     Component DLL          = c:\development\apsim\SurfaceOM\lib\SurfaceOM.dll
-     Component DLL          = c:\development\apsim\soiln2\lib\soiln2.dll
-     Component DLL          = c:\development\apsim\Plant\lib\Plant.dll
+Version                = 5.3
+Title                  = Test sowing after out on same day
+Component      "clock" = c:\development\apsim\clock\lib\clock.dll
+Component     "report" = c:\development\apsim\report\lib\report.dll
+Component        "met" = c:\development\apsim\input\lib\input.dll
+Component    "manager" = c:\development\apsim\manager\lib\manager.dll
+Component   "soilwat2" = c:\development\apsim\soilwat2\lib\soilwat2.dll
+Component  "SurfaceOM" = c:\development\apsim\SurfaceOM\lib\SurfaceOM.dll
+Component     "soiln2" = c:\development\apsim\soiln2\lib\soiln2.dll
+Component   "chickpea" = c:\development\apsim\Plant\lib\Plant.dll
 
 ------- clock Initialisation --------------------------------------------------
      Sequencer phases:
@@ -37,8 +36,8 @@
         chickpea.lai
         chickpea.biomass
         chickpea.green_biomass
-     
-     Output file = test3.out
+
+     Output file = test2.out
      Format = normal
 
 ------- met Initialisation ----------------------------------------------------
@@ -49,14 +48,10 @@
      Manager rules:
      
      SECTION:- start_of_day
-     if harvest = 1 then
-        chickpea sow cultivar = amethyst, plants = 25 (/m2), sowing_depth = 40 (mm)
-        harvest = 2
-     endif
      if chickpea.stage_name = 'harvest_ripe' or chickpea.plant_status = 'dead' then
         chickpea harvest
         chickpea end_crop
-        harvest = 1
+        chickpea sow cultivar = amethyst, plants = 25 (/m2), sowing_depth = 40 (mm)
      endif
      
      SECTION:- init
@@ -143,7 +138,7 @@
            Using Ritchie evaporation model
             Cuml evap (U):            4.00 (mm^0.5)
             CONA:                     2.50 ()
-           Eo from priestly-taylor
+            Eo from priestly-taylor
 
 ------- SurfaceOM Initialisation ----------------------------------------------
      
@@ -216,9 +211,7 @@
 ------- chickpea Initialisation -----------------------------------------------
      phenology model: TTT
 ------- Start of simulation  --------------------------------------------------
-9 May 1988(Day of year=130), manager: 
      Manager sending message :- chickpea sow  cultivar = amethyst, plants = 25 (/m2), sowing_depth = 40 (mm)
-9 May 1988(Day of year=130), chickpea: 
      Crop Sow
       - reading constants for plant(chickpea)
       - reading cultivar parameters
@@ -344,74 +337,20 @@
                           N  (kg/ha) =                 85.36                    0.00
      
       stage 11.0 end_crop
-7 October 1988(Day of year=281), manager: 
      Manager sending message :- chickpea end_crop
-7 October 1988(Day of year=281), chickpea: 
      Crop ended. Yield (dw) =     0.0  (kg/ha)
          Organic matter from crop:-      Tops to surface residue      Roots to soil FOM
                           DM (kg/ha) =                  0.00                  819.95
                           N  (kg/ha) =                  0.00                   12.42
      
-8 October 1988(Day of year=282), manager: 
      Manager sending message :- chickpea sow  cultivar = amethyst, plants = 25 (/m2), sowing_depth = 40 (mm)
-8 October 1988(Day of year=282), chickpea: 
-     Crop Sow
-      - reading constants for plant(chickpea)
-      - reading cultivar parameters
-      - reading grain cultivar parameters
-         ------------------------------------------------
-        cultivar                   = amethyst
-        est_days_emerg_to_init     = 83 (days)
-        cum_vernal_days            =       0     100 (vd)
-        tt_emerg_to_endjuv         =     515     515 (dd)
-        x_pp_endjuv_to_init        =    10.7      17 (h)
-        y_tt_endjuv_to_init        =     446       0 (dd)
-        x_pp_init_to_flower        =       1      24 (h)
-        y_tt_init_to_flower        =      33      33 (dd)
-        x_pp_flower_to_start_grain =       1      24 (h)
-        y_tt_flower_to_start_grain =     450     450 (dd)
-        x_pp_start_to_end_grain    =       1      24 (h)
-        y_tt_start_to_end_grain    =     690     690 (dd)
-        tt_end_grain_to_maturity   =         60 (dd)
-        tt_maturity_to_ripe        =          1 (dd)
-        x_pp_hi_incr               =       1.00      24.00
-        y_hi_incr                  =     0.0100     0.0100
-        x_hi_max_pot_stress        =       0.00       1.00
-        y_hi_max_pot               =       0.50       0.50
-         ------------------------------------------------
+     !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+                      APSIM  Fatal  Error
+                      -------------------
+     chickpea was taken out today by "end_crop" action -
+      Unable to accept "sow" action until the next day.
+     
+     Component name: chickpea
+     !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
      
      
-      - reading root profile parameters
-                        Root Profile
-         -----------------------------------------------
-          Layer       Kl           Lower    Exploration
-          Depth     Factor         Limit      Factor
-          (mm)         ()        (mm/mm)       (0-1)
-         -----------------------------------------------
-         150.0     0.080          0.230       1.000
-         150.0     0.080          0.240       1.000
-         300.0     0.080          0.240       1.000
-         300.0     0.080          0.250       1.000
-         300.0     0.050          0.260       1.000
-         300.0     0.030          0.270       1.000
-         300.0     0.010          0.280       1.000
-         -----------------------------------------------
-         Extractable SW:   315mm in  1800mm total depth ( 17%).
-         Crop factor for bounding water use is set to 100.0 times eo.
-     
-                      Crop Sowing Data
-         ------------------------------------------------
-         Sowing  Depth Plants Spacing Skip  Skip  Cultivar
-         Day no   mm     m^2     mm   row   plant name
-         ------------------------------------------------
-            282   40.0   25.0  350.0   0.0   0.0 amethyst
-         ------------------------------------------------
-     
-9 October 1988(Day of year=283), chickpea: 
-      stage 2.0 germination
-13 October 1988(Day of year=287), chickpea: 
-      stage 3.0 emergence
-                     biomass =           5.00 (g/m^2)   lai          =   0.002 (m^2/m^2)
-                     stover N conc =     6.00 (%)    extractable sw =   10.25 (mm)
-26 October 1988(Day of year=300), clock: 
-     Simulation is terminating due to end criteria being met.

@@ -9,17 +9,16 @@
  The Agricultural Production Systems Simulator
              Copyright(c) APSRU               
 
-     Version                = 5.3
-     Title                  = Test missing LL
-     Component DLL          = c:\development\apsim\SummaryFile\lib\SummaryFile.dll
-     Component DLL          = c:\development\apsim\clock\lib\clock.dll
-     Component DLL          = c:\development\apsim\report\lib\report.dll
-     Component DLL          = c:\development\apsim\input\lib\input.dll
-     Component DLL          = c:\development\apsim\manager\lib\manager.dll
-     Component DLL          = c:\development\apsim\soilwat2\lib\soilwat2.dll
-     Component DLL          = c:\development\apsim\SurfaceOM\lib\SurfaceOM.dll
-     Component DLL          = c:\development\apsim\soiln2\lib\soiln2.dll
-     Component DLL          = c:\development\apsim\Plant\lib\Plant.dll
+Version                = 5.3
+Title                  = Test missing KL
+Component      "clock" = c:\development\apsim\clock\lib\clock.dll
+Component     "report" = c:\development\apsim\report\lib\report.dll
+Component        "met" = c:\development\apsim\input\lib\input.dll
+Component    "manager" = c:\development\apsim\manager\lib\manager.dll
+Component   "soilwat2" = c:\development\apsim\soilwat2\lib\soilwat2.dll
+Component  "SurfaceOM" = c:\development\apsim\SurfaceOM\lib\SurfaceOM.dll
+Component     "soiln2" = c:\development\apsim\soiln2\lib\soiln2.dll
+Component   "chickpea" = c:\development\apsim\Plant\lib\Plant.dll
 
 ------- clock Initialisation --------------------------------------------------
      Sequencer phases:
@@ -32,8 +31,8 @@
 
 ------- report Initialisation -------------------------------------------------
      Output variables:
-     
-     Output file = test9_missingLL.out
+
+     Output file = test9_missingKL.out
      Format = normal
 
 ------- met Initialisation ----------------------------------------------------
@@ -127,7 +126,7 @@
            Using Ritchie evaporation model
             Cuml evap (U):            4.00 (mm^0.5)
             CONA:                     2.50 ()
-           Eo from priestly-taylor
+            Eo from priestly-taylor
 
 ------- SurfaceOM Initialisation ----------------------------------------------
      
@@ -199,11 +198,8 @@
 
 ------- chickpea Initialisation -----------------------------------------------
      phenology model: TTT
-        Using externally supplied Lower Limit (ll15)
 ------- Start of simulation  --------------------------------------------------
-9 May 1988(Day of year=130), manager: 
      Manager sending message :- chickpea sow  cultivar = amethyst, plants = 25 (/m2), sowing_depth = 40 (mm)
-9 May 1988(Day of year=130), chickpea: 
      Crop Sow
       - reading constants for plant(chickpea)
       - reading cultivar parameters
@@ -231,68 +227,22 @@
      
      
       - reading root profile parameters
-        Using externally supplied Lower Limit (ll15)
-                        Root Profile
-         -----------------------------------------------
-          Layer       Kl           Lower    Exploration
-          Depth     Factor         Limit      Factor
-          (mm)         ()        (mm/mm)       (0-1)
-         -----------------------------------------------
-         150.0     0.080          0.230       1.000
-         150.0     0.080          0.240       1.000
-         300.0     0.080          0.240       1.000
-         300.0     0.080          0.250       1.000
-         300.0     0.050          0.260       1.000
-         300.0     0.030          0.270       1.000
-         300.0     0.010          0.280       1.000
-         -----------------------------------------------
-         Extractable SW:   315mm in  1800mm total depth ( 17%).
-         Crop factor for bounding water use is set to 100.0 times eo.
+     !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+                      APSIM  Fatal  Error
+                      -------------------
+     Cannot find a parameter in any of the files/sections
+     specified in the control file.
+     Parameter name = kl
+     Section name = parameters
+     Component name: chickpea
+     !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
      
-                      Crop Sowing Data
-         ------------------------------------------------
-         Sowing  Depth Plants Spacing Skip  Skip  Cultivar
-         Day no   mm     m^2     mm   row   plant name
-         ------------------------------------------------
-            130   40.0   25.0  350.0   0.0   0.0 amethyst
-         ------------------------------------------------
      
-10 May 1988(Day of year=131), chickpea: 
-      stage 2.0 germination
-16 May 1988(Day of year=137), chickpea: 
-      stage 3.0 emergence
-                     biomass =           5.00 (g/m^2)   lai          =   0.002 (m^2/m^2)
-                     stover N conc =     6.00 (%)    extractable sw =   18.71 (mm)
-20 June 1988(Day of year=172), chickpea: 
-      stage 4.0 end_of_juvenile
-                     biomass =           7.22 (g/m^2)   lai          =   0.044 (m^2/m^2)
-                     stover N conc =     4.99 (%)    extractable sw =  149.19 (mm)
-20 July 1988(Day of year=202), chickpea: 
-      stage 5.0 floral_initiation
-                     biomass =          27.88 (g/m^2)   lai          =   0.516 (m^2/m^2)
-                     stover N conc =     3.76 (%)    extractable sw =  273.95 (mm)
-22 July 1988(Day of year=204), chickpea: 
-      stage 6.0 flowering
-                     biomass =          31.22 (g/m^2)   lai          =   0.589 (m^2/m^2)
-                     stover N conc =     3.39 (%)    extractable sw =  279.51 (mm)
-23 August 1988(Day of year=236), chickpea: 
-      stage 7.0 start_grain_fill
-                     biomass =         181.29 (g/m^2)   lai          =   2.308 (m^2/m^2)
-                     stover N conc =     1.84 (%)    extractable sw =  292.92 (mm)
-3 October 1988(Day of year=277), chickpea: 
-      stage 8.0 end_grain_fill
-                     biomass =         540.07 (g/m^2)   lai          =   2.367 (m^2/m^2)
-                     stover N conc =     1.76 (%)    extractable sw =  201.89 (mm)
-5 October 1988(Day of year=279), chickpea: 
-      stage 9.0 maturity
-                     biomass =         562.73 (g/m^2)   lai          =   2.290 (m^2/m^2)
-                     stover N conc =     1.72 (%)    extractable sw =  186.53 (mm)
-6 October 1988(Day of year=280), chickpea: 
-      stage 10.0 harvest_ripe
-                     biomass =         572.91 (g/m^2)   lai          =   0.000 (m^2/m^2)
-                     stover N conc =     1.79 (%)    extractable sw =  178.66 (mm)
-7 October 1988(Day of year=281), chickpea: 
-     Crop failure because of total leaf senescence.
-     Plant death. standing above-ground dm = 5729.14 (kg/ha)
-26 October 1988(Day of year=300), clock: 
-     Simulation is terminating due to end criteria being met.
+     !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+                      APSIM  Fatal  Error
+                      -------------------
+     Size of KL array doesn't match soil profile.
+     Component name: chickpea
+     !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+     
+     
