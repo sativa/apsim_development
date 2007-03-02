@@ -13,8 +13,7 @@ Version                = 5.3
 Title                  = Barley_R88-3MP_1
 Component      "clock" = c:\development\apsim\clock\lib\clock.dll
 Component        "met" = c:\development\apsim\input\lib\input.dll
-Version                = 5.3
-Title                  = 
+Paddock:
 Component "outputfile" = c:\development\apsim\report\lib\report.dll
 Component      "accum" = c:\development\apsim\accum\lib\accum.dll
 Component "fertiliser" = c:\development\apsim\fertiliz\lib\fertiliz.dll
@@ -304,8 +303,6 @@ Component     "barley" = c:\development\apsim\plant\lib\plant.dll
      Manager sending message :- barley sow  plants = 66.6, sowing_depth = 50, cultivar = grimmett, row_spacing = 250
      Crop Sow
       - reading constants for plant(barley)
-C3 photosynthetic_pathway read=1220865
-photosynthetic_pathway =845866497
       - reading cultivar parameters
       - reading grain cultivar parameters
          ------------------------------------------------
