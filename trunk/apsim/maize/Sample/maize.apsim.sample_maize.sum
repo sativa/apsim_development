@@ -9,16 +9,15 @@
  The Agricultural Production Systems Simulator
              Copyright(c) APSRU               
 
-     Version                = 5.3
-     Title                  = Maize Sample Simulation
-     Component DLL          = c:\development\apsim\SummaryFile\lib\SummaryFile.dll
-     Component DLL          = c:\development\apsim\clock\lib\clock.dll
-     Component DLL          = c:\development\apsim\report\lib\report.dll
-     Component DLL          = c:\development\apsim\Input\lib\Input.dll
-     Component DLL          = c:\development\apsim\manager\lib\manager.dll
-     Component DLL          = c:\development\apsim\soilwat2\lib\soilwat2.dll
-     Component DLL          = c:\development\apsim\soiln2\lib\soiln2.dll
-     Component DLL          = c:\development\apsim\maize\lib\maize.dll
+Version                = 5.3
+Title                  = Maize Sample Simulation
+Component      "clock" = c:\development\apsim\clock\lib\clock.dll
+Component     "report" = c:\development\apsim\report\lib\report.dll
+Component        "Met" = c:\development\apsim\Input\lib\Input.dll
+Component    "manager" = c:\development\apsim\manager\lib\manager.dll
+Component   "soilwat2" = c:\development\apsim\soilwat2\lib\soilwat2.dll
+Component     "soiln2" = c:\development\apsim\soiln2\lib\soiln2.dll
+Component      "maize" = c:\development\apsim\maize\lib\maize.dll
 
 ------- clock Initialisation --------------------------------------------------
      Sequencer phases:
@@ -40,7 +39,7 @@
         maize.swdef_expan
         maize.nfact_expan
         maize.das
-     
+
      Output file = maize.out
      Format = normal
 
@@ -135,7 +134,7 @@
            Using Ritchie evaporation model
             Cuml evap (U):            4.00 (mm^0.5)
             CONA:                     2.50 ()
-           Eo from priestly-taylor
+            Eo from priestly-taylor
 
 ------- soiln2 Initialisation -------------------------------------------------
      
@@ -334,9 +333,7 @@
                           DM (kg/ha) =               6742.95                    0.00
                           N  (kg/ha) =                 83.25                    0.00
      
-11 March 1990(Day of year=70), manager: 
      Manager sending message :- maize end_crop
-11 March 1990(Day of year=70), maize: 
          Crop ended. Yield (dw) =     0.0
          Organic matter from crop:-      Tops to surface residue     Roots to soil FOM
                           DM (kg/ha) =               8484.15                 2395.06
