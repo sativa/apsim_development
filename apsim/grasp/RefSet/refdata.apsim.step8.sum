@@ -9,19 +9,18 @@
  The Agricultural Production Systems Simulator
              Copyright(c) APSRU               
 
-     Version                = 5.3
-     Title                  = Step 8. swim
-     Component DLL          = c:\development\apsim\SummaryFile\lib\SummaryFile.dll
-     Component DLL          = c:\development\apsim\clock\lib\clock.dll
-     Component DLL          = c:\development\apsim\report\lib\report.dll
-     Component DLL          = c:\development\apsim\input\lib\input.dll
-     Component DLL          = c:\development\apsim\canopy\lib\canopy.dll
-     Component DLL          = c:\development\apsim\manager\lib\manager.dll
-     Component DLL          = c:\development\apsim\apswim\lib\apswim.dll
-     Component DLL          = c:\development\apsim\SurfaceOM\lib\SurfaceOM.dll
-     Component DLL          = c:\development\apsim\soiln2\lib\soiln2.dll
-     Component DLL          = c:\development\apsim\surface\lib\surface.dll
-     Component DLL          = c:\development\apsim\grasp\lib\grasp.dll
+Version                = 5.3
+Title                  = Step 8. swim
+Component      "clock" = c:\development\apsim\clock\lib\clock.dll
+Component     "report" = c:\development\apsim\report\lib\report.dll
+Component        "met" = c:\development\apsim\input\lib\input.dll
+Component     "canopy" = c:\development\apsim\canopy\lib\canopy.dll
+Component    "manager" = c:\development\apsim\manager\lib\manager.dll
+Component     "apswim" = c:\development\apsim\apswim\lib\apswim.dll
+Component  "SurfaceOM" = c:\development\apsim\SurfaceOM\lib\SurfaceOM.dll
+Component     "soiln2" = c:\development\apsim\soiln2\lib\soiln2.dll
+Component    "surface" = c:\development\apsim\surface\lib\surface.dll
+Component      "grasp" = c:\development\apsim\grasp\lib\grasp.dll
 
 ------- clock Initialisation --------------------------------------------------
      Sequencer phases:
@@ -52,7 +51,7 @@
         grasp.tsdm
         clock.dd/mm/yyyy as date
         manager.transpiration
-     
+
      Output file = step8.out
      Format = normal
 
@@ -216,13 +215,9 @@
         - Reading Parameters
      
         - Reading Constants
-
-------- apswim Initialisation -------------------------------------------------
      Note - APSwim will not redistribute no3
      Note - APSwim will not redistribute nh4
      Note - APSwim will not redistribute urea
-
-------- soiln2 Initialisation -------------------------------------------------
      
      
      
@@ -302,9 +297,7 @@
          --------------------------------------------
      
 ------- Start of simulation  --------------------------------------------------
-5 August 1976(Day of year=218), manager: 
      Manager sending message :- grasp establish  init_section = seedling
-5 August 1976(Day of year=218), grasp: 
      Establishing Sward
      Initial conditions:
        Basal area :    4.00 %
