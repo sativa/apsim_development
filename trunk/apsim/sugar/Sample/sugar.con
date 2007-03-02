@@ -13,4 +13,3 @@ module = SurfaceOM   %apsuite/apsim/SurfaceOM/sample/SurfaceOM.par [sugar_residu
 module = soiln2   %apsuite/apsim/soiln2/sample/soiln2.par [black_earth]     %apsuite/apsim/soiln2/soiln2.ini [standard]
 module = sugar    sugar.par [sample]      %apsuite/apsim/sugar/sugar.ini [standard]
 module = Tracker  sugar.par [sample]
-module = SummaryFile sugar.par [sample]

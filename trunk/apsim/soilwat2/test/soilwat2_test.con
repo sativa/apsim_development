@@ -7,7 +7,6 @@ module = report   soilwat2_test.par [test_array_size_100]
 module = input(Met)      %apsuite/apsim/met/sample/dalby.met[weather]
 module = manager  soilwat2_test.par [test_array_size_100]
 module = soilwat2 soilwat2_test.par [black_earth]     %apsuite/apsim/soilwat2/soilwat2.ini [standard]
-module = SummaryFile soilwat2_test.par[test_array_size_100]
 
 [apsim.test_seasonal_evap_stuff]
 
@@ -17,4 +16,3 @@ module = report   soilwat2_test.par [seasonalevap]
 module = input(Met)      %apsuite/apsim/met/sample/dalby.met[weather]
 module = manager  soilwat2_test.par [seasonalevap]
 module = soilwat2 soilwat2_test.par [seasonalevap]     %apsuite/apsim/soilwat2/soilwat2.ini [standard]
-module = SummaryFile soilwat2_test.par[seasonalevap]

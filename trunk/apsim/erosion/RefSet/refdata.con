@@ -14,7 +14,6 @@ module = soilwat2 refdata.par[gmtb0] %apsuite/apsim/soilwat2/soilwat2.ini[standa
 module = erosion refdata.par[gmtb0a]
 module = SurfaceOM   refdata.par [gmtb0] %apsuite/apsim/SurfaceOM/SurfaceOM.ini [standard]
 module = grasp refdata.par[gmtb0] %apsuite/apsim/grasp/grasp.ini[standard]
-module = SummaryFile  refdata.par[gmtb0a]
 [apsim.gmtb0b.control]
 
 title=Greenmount B0_SOILWAT
@@ -27,7 +26,6 @@ module = soilwat2 refdata.par[gmtb0] %apsuite/apsim/soilwat2/soilwat2.ini[standa
 module = erosion refdata.par[gmtb0b]
 module = SurfaceOM   refdata.par [gmtb0] %apsuite/apsim/SurfaceOM/SurfaceOM.ini [standard]
 module = grasp refdata.par[gmtb0] grasp.ini[standard]
-module = SummaryFile  refdata.par[gmtb0b]
 [apsim.gmtb0c.control]
 
 title=Greenmount B0_SOILWAT
@@ -40,7 +38,6 @@ module = soilwat2 refdata.par[gmtb0] %apsuite/apsim/soilwat2/soilwat2.ini[standa
 module = erosion refdata.par[gmtb0c]
 module = SurfaceOM   refdata.par [gmtb0] %apsuite/apsim/SurfaceOM/SurfaceOM.ini [standard]
 module = grasp refdata.par[gmtb0] %apsuite/apsim/grasp/grasp.ini[standard]
-module = SummaryFile  refdata.par[gmtb0c]
 [apsim.gmtb0d.control]
 
 title=Greenmount B0_SOILWAT
@@ -53,7 +50,6 @@ module = soilwat2 refdata.par[gmtb0] %apsuite/apsim/soilwat2/soilwat2.ini[standa
 module = erosion refdata.par[gmtb0d]
 module = SurfaceOM   refdata.par [gmtb0] %apsuite/apsim/SurfaceOM/SurfaceOM.ini [standard]
 module = grasp refdata.par[gmtb0] %apsuite/apsim/grasp/grasp.ini[standard]
-module = SummaryFile  refdata.par[gmtb0d]
 
 ! NB.
 !     This will throw report into chaos when a profile layer disappears.
@@ -69,7 +65,6 @@ module = soilwat2 refdata.par[gmtb0] %apsuite/apsim/soilwat2/soilwat2.ini[standa
 module = erosion refdata.par[gmtb0e]
 module = SurfaceOM   refdata.par [gmtb0] %apsuite/apsim/SurfaceOM/SurfaceOM.ini [standard]
 module = grasp refdata.par[gmtb0] %apsuite/apsim/grasp/grasp.ini[standard]
-module = SummaryFile  refdata.par[gmtb0e]
 [apsim.gmtb0s.control]
 
 title=Greenmount B0_SWIM
@@ -85,4 +80,3 @@ module = soiln2   gmtswim.par [gmtb0]     %apsuite/apsim/soiln2/soiln2.ini [stan
 module = grasp    gmtswim.par [gmtb0]     %apsuite/apsim/grasp/grasp.ini [standard]
 module = surface  gmtswim.par [gmtb0]
 module = canopy
-module = SummaryFile  gmtswim.par[gmtb0]

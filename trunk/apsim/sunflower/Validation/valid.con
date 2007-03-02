@@ -14,7 +14,6 @@ module = SurfaceOM   sunfsoil.par [General] %apsuite/apsim/SurfaceOM/SurfaceOM.i
 module = manager valid.man[allexp] valid.man[sow49]
 module = fertiliz %apsuite/apsim/fertiliz/fertiliz.ini[standard]
 module = CropMod(sunflower)  sunfsoil.par[emerald] %apsuite/apsim/sunflower/Sunflower.ini[standard]
-module = SummaryFile  report.par[em81dhi]
 
 [APSIM.da84]
 !----------------------------------------------------------------------------------------------------
@@ -31,7 +30,6 @@ module = SurfaceOM   sunfsoil.par [General] %apsuite/apsim/SurfaceOM/SurfaceOM.i
 module = manager valid.man[allexp] valid.man[sow18]
 module = CropMod(sunflower) sunfsoil.par[DALBY]  %apsuite/apsim/sunflower/Sunflower.ini[standard]
 module = fertiliz %apsuite/apsim/fertiliz/fertiliz.ini[standard]
-module = SummaryFile  report.par[da84]
 
 [APSIM.ta81j1]
 !----------------------------------------------------------------------------------------------------
@@ -48,7 +46,6 @@ module = SurfaceOM   sunfsoil.par [General] %apsuite/apsim/SurfaceOM/SurfaceOM.i
 module = manager valid.man[allexp] valid.man[sow330]
 module = CropMod(sunflower) sunfsoil.par[TATURA] %apsuite/apsim/sunflower/Sunflower.ini[standard]
 module = fertiliz %apsuite/apsim/fertiliz/fertiliz.ini[standard]
-module = SummaryFile  report.par[ta81j1]
 
 [APSIM.ta81j2]
 
@@ -63,7 +60,6 @@ module = SurfaceOM   sunfsoil.par [General] %apsuite/apsim/SurfaceOM/SurfaceOM.i
 module = manager valid.man[allexp] valid.man[sow330]
 module = CropMod(sunflower) sunfsoil.par[TATURA] %apsuite/apsim/sunflower/Sunflower.ini[standard]
 module = fertiliz %apsuite/apsim/fertiliz/fertiliz.ini[standard]
-module = SummaryFile  report.par[ta81j2]
 
 
 [APSIM.BI723a]
@@ -81,7 +77,6 @@ module = SurfaceOM   sunfsoil.par [General] %apsuite/apsim/SurfaceOM/SurfaceOM.i
 module = manager valid.man[allexp] valid.man[sow249]
 module = CropMod(sunflower) sunfsoil.par[BI723] %apsuite/apsim/sunflower/Sunflower.ini[standard]
 module = fertiliz %apsuite/apsim/fertiliz/fertiliz.ini[standard]
-module = SummaryFile  report.par[BI723a]
 
 
 [APSIM.BI723b]
@@ -97,7 +92,6 @@ module = SurfaceOM   sunfsoil.par [General] %apsuite/apsim/SurfaceOM/SurfaceOM.i
 module = manager valid.man[allexp] valid.man[sow277]
 module = CropMod(sunflower) sunfsoil.par[BI723] %apsuite/apsim/sunflower/Sunflower.ini[standard]
 module = fertiliz %apsuite/apsim/fertiliz/fertiliz.ini[standard]
-module = SummaryFile  report.par[BI723b]
 
 
 [APSIM.BI723c]
@@ -113,7 +107,6 @@ module = SurfaceOM   sunfsoil.par [General] %apsuite/apsim/SurfaceOM/SurfaceOM.i
 module = manager valid.man[allexp] valid.man[sow335]
 module = CropMod(sunflower) sunfsoil.par[BI723] %apsuite/apsim/sunflower/Sunflower.ini[standard]
 module = fertiliz %apsuite/apsim/fertiliz/fertiliz.ini[standard]
-module = SummaryFile  report.par[BI723c]
 
 
 [APSIM.BI723d]
@@ -129,7 +122,6 @@ module = SurfaceOM   sunfsoil.par [General] %apsuite/apsim/SurfaceOM/SurfaceOM.i
 module = manager valid.man[allexp] valid.man[sow38]
 module = CropMod(sunflower) sunfsoil.par[BI723] %apsuite/apsim/sunflower/Sunflower.ini[standard]
 module = fertiliz %apsuite/apsim/fertiliz/fertiliz.ini[standard]
-module = SummaryFile  report.par[BI723d]
 
 [APSIM.BI723e]
 !----------------------------------------------------------------------------------------------------
@@ -145,7 +137,6 @@ module = SurfaceOM   sunfsoil.par [General] %apsuite/apsim/SurfaceOM/SurfaceOM.i
 module = manager valid.man[allexp] valid.man[sow60]
 module = CropMod(sunflower) sunfsoil.par[BI723] %apsuite/apsim/sunflower/Sunflower.ini[standard]
 module = fertiliz %apsuite/apsim/fertiliz/fertiliz.ini[standard]
-module = SummaryFile  report.par[BI723e]
 
 
 [APSIM.BI734a]
@@ -161,7 +152,6 @@ module = SurfaceOM   sunfsoil.par [General] %apsuite/apsim/SurfaceOM/SurfaceOM.i
 module = manager valid.man[allexp] valid.man[sow215]
 module = CropMod(sunflower) sunfsoil.par[BI734] %apsuite/apsim/sunflower/Sunflower.ini[standard]
 module = fertiliz %apsuite/apsim/fertiliz/fertiliz.ini[standard]
-module = SummaryFile  report.par[BI734a]
 
 
 [APSIM.BI734c]
@@ -177,7 +167,6 @@ module = SurfaceOM   sunfsoil.par [General] %apsuite/apsim/SurfaceOM/SurfaceOM.i
 module = manager valid.man[allexp] valid.man[sow274]
 module = CropMod(sunflower) sunfsoil.par[BI734] %apsuite/apsim/sunflower/Sunflower.ini[standard]
 module = fertiliz %apsuite/apsim/fertiliz/fertiliz.ini[standard]
-module = SummaryFile  report.par[BI734c]
 
 
 [APSIM.BI734e]
@@ -194,7 +183,6 @@ module = SurfaceOM   sunfsoil.par [General] %apsuite/apsim/SurfaceOM/SurfaceOM.i
 module = manager valid.man[allexp] valid.man[sow36]
 module = CropMod(sunflower) sunfsoil.par[BI734] %apsuite/apsim/sunflower/Sunflower.ini[standard]
 module = fertiliz %apsuite/apsim/fertiliz/fertiliz.ini[standard]
-module = SummaryFile  report.par[BI734e]
 
 
 [APSIM.BI745a]
@@ -210,7 +198,6 @@ module = SurfaceOM   sunfsoil.par [General] %apsuite/apsim/SurfaceOM/SurfaceOM.i
 module = manager valid.man[allexp] valid.man[sow218]
 module = CropMod(sunflower) sunfsoil.par[BI745] %apsuite/apsim/sunflower/Sunflower.ini[standard]
 module = fertiliz %apsuite/apsim/fertiliz/fertiliz.ini[standard]
-module = SummaryFile  report.par[BI745a]
 
 
 [APSIM.BI745b]
@@ -226,7 +213,6 @@ module = SurfaceOM   sunfsoil.par [General] %apsuite/apsim/SurfaceOM/SurfaceOM.i
 module = manager valid.man[allexp] valid.man[sow277]
 module = CropMod(sunflower) sunfsoil.par[BI745] %apsuite/apsim/sunflower/Sunflower.ini[standard]
 module = fertiliz %apsuite/apsim/fertiliz/fertiliz.ini[standard]
-module = SummaryFile  report.par[BI745b]
 
 
 [APSIM.BI745c]
@@ -242,7 +228,6 @@ module = SurfaceOM   sunfsoil.par [General] %apsuite/apsim/SurfaceOM/SurfaceOM.i
 module = manager valid.man[allexp] valid.man[sow274]
 module = CropMod(sunflower) sunfsoil.par[BI745] %apsuite/apsim/sunflower/Sunflower.ini[standard]
 module = fertiliz %apsuite/apsim/fertiliz/fertiliz.ini[standard]
-module = SummaryFile  report.par[BI745c]
 
 
 [APSIM.BI745d]
@@ -258,7 +243,6 @@ module = SurfaceOM   sunfsoil.par [General] %apsuite/apsim/SurfaceOM/SurfaceOM.i
 module = manager valid.man[allexp] valid.man[sow333]
 module = CropMod(sunflower) sunfsoil.par[BI745] %apsuite/apsim/sunflower/Sunflower.ini[standard]
 module = fertiliz %apsuite/apsim/fertiliz/fertiliz.ini[standard]
-module = SummaryFile  report.par[BI745d]
 
 [APSIM.BI745e]
 
@@ -273,7 +257,6 @@ module = SurfaceOM   sunfsoil.par [General] %apsuite/apsim/SurfaceOM/SurfaceOM.i
 module = manager valid.man[allexp] valid.man[sow38]
 module = CropMod(sunflower) sunfsoil.par[BI745] %apsuite/apsim/sunflower/Sunflower.ini[standard]
 module = fertiliz %apsuite/apsim/fertiliz/fertiliz.ini[standard]
-module = SummaryFile  report.par[BI745e]
 
 [APSIM.BI745f]
 !----------------------------------------------------------------------------------------------------
@@ -290,7 +273,6 @@ module = SurfaceOM   sunfsoil.par [General] %apsuite/apsim/SurfaceOM/SurfaceOM.i
 module = manager valid.man[allexp] valid.man[sow63]
 module = CropMod(sunflower) sunfsoil.par[BI745] %apsuite/apsim/sunflower/Sunflower.ini[standard]
 module = fertiliz %apsuite/apsim/fertiliz/fertiliz.ini[standard]
-module = SummaryFile  report.par[BI745f]
 
 
 [APSIM.mvs3d]
@@ -306,7 +288,6 @@ module = SurfaceOM   sunfsoil.par [General] %apsuite/apsim/SurfaceOM/SurfaceOM.i
 module = manager valid.man[allexp] valid.man[sow267]
 module = CropMod(sunflower) sunfsoil.par[MVS3] %apsuite/apsim/sunflower/Sunflower.ini[standard]
 module = fertiliz %apsuite/apsim/fertiliz/fertiliz.ini[standard]
-module = SummaryFile  report.par[mvs3d]
 
 
 [APSIM.mvs3i]
@@ -322,7 +303,6 @@ module = SurfaceOM   sunfsoil.par [General] %apsuite/apsim/SurfaceOM/SurfaceOM.i
 module = manager valid.man[allexp] valid.man[sow267]
 module = CropMod(sunflower) sunfsoil.par[MVS3] %apsuite/apsim/sunflower/Sunflower.ini[standard]
 module = fertiliz %apsuite/apsim/fertiliz/fertiliz.ini[standard]
-module = SummaryFile  report.par[mvs3i]
 
 
 [APSIM.mvs3dv53]
@@ -338,7 +318,6 @@ module = SurfaceOM   sunfsoil.par [General] %apsuite/apsim/SurfaceOM/SurfaceOM.i
 module = manager valid.man[allexp] valid.man[sow267v5]
 module = CropMod(sunflower) sunfsoil.par[MVS3] %apsuite/apsim/sunflower/Sunflower.ini[standard]
 module = fertiliz %apsuite/apsim/fertiliz/fertiliz.ini[standard]
-module = SummaryFile  report.par[mvs3dv53]
 
 
 [APSIM.mvs3iv53]
@@ -354,7 +333,6 @@ module = SurfaceOM   sunfsoil.par [General] %apsuite/apsim/SurfaceOM/SurfaceOM.i
 module = manager valid.man[allexp] valid.man[sow267v5]
 module = CropMod(sunflower) sunfsoil.par[MVS3] %apsuite/apsim/sunflower/Sunflower.ini[standard]
 module = fertiliz %apsuite/apsim/fertiliz/fertiliz.ini[standard]
-module = SummaryFile  report.par[mvs3iv53]
 
 
 [APSIM.mvs4d]
@@ -371,7 +349,6 @@ module = SurfaceOM   sunfsoil.par [General] %apsuite/apsim/SurfaceOM/SurfaceOM.i
 module = manager valid.man[allexp] valid.man[sow350]
 module = CropMod(sunflower) sunfsoil.par[MVS4] %apsuite/apsim/sunflower/Sunflower.ini[standard]
 module = fertiliz %apsuite/apsim/fertiliz/fertiliz.ini[standard]
-module = SummaryFile  report.par[mvs4d]
 
 [APSIM.mvs4i]
 
@@ -387,7 +364,6 @@ module = SurfaceOM   sunfsoil.par [General] %apsuite/apsim/SurfaceOM/SurfaceOM.i
 module = manager valid.man[allexp] valid.man[sow350]
 module = CropMod(sunflower) sunfsoil.par[MVS4] %apsuite/apsim/sunflower/Sunflower.ini[standard]
 module = fertiliz %apsuite/apsim/fertiliz/fertiliz.ini[standard]
-module = SummaryFile  report.par[mvs4i]
 
 [APSIM.mvs5d]
 
@@ -403,7 +379,6 @@ module = SurfaceOM   sunfsoil.par [General] %apsuite/apsim/SurfaceOM/SurfaceOM.i
 module = manager valid.man[allexp] valid.man[sow21s5d]
 module = CropMod(sunflower) sunfsoil.par[MVS5] %apsuite/apsim/sunflower/Sunflower.ini[standard]
 module = fertiliz %apsuite/apsim/fertiliz/fertiliz.ini[standard]
-module = SummaryFile  report.par[mvs5d]
 
 [APSIM.mvs5i]
 
@@ -419,7 +394,6 @@ module = SurfaceOM   sunfsoil.par [General] %apsuite/apsim/SurfaceOM/SurfaceOM.i
 module = manager valid.man[allexp] valid.man[sow21s5d]
 module = CropMod(sunflower) sunfsoil.par[MVS5] %apsuite/apsim/sunflower/Sunflower.ini[standard]
 module = fertiliz %apsuite/apsim/fertiliz/fertiliz.ini[standard]
-module = SummaryFile  report.par[mvs5i]
 
 [APSIM.mvs5dv53]
 
@@ -435,7 +409,6 @@ module = SurfaceOM   sunfsoil.par [General] %apsuite/apsim/SurfaceOM/SurfaceOM.i
 module = manager valid.man[allexp] valid.man[sow21v53]
 module = CropMod(sunflower) sunfsoil.par[MVS5] %apsuite/apsim/sunflower/Sunflower.ini[standard]
 module = fertiliz %apsuite/apsim/fertiliz/fertiliz.ini[standard]
-module = SummaryFile  report.par[mvs5dv53]
 
 [APSIM.mvs5iv53]
 
@@ -450,4 +423,3 @@ module = SurfaceOM   sunfsoil.par [General] %apsuite/apsim/SurfaceOM/SurfaceOM.i
 module = manager valid.man[allexp] valid.man[sow21v53]
 module = CropMod(sunflower) sunfsoil.par[MVS5] %apsuite/apsim/sunflower/Sunflower.ini[standard]
 module = fertiliz %apsuite/apsim/fertiliz/fertiliz.ini[standard]
-module = SummaryFile  report.par[mvs5iv53]

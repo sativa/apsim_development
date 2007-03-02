@@ -10,7 +10,6 @@ module = SurfaceOM   %apsuite/apsim/SurfaceOM/sample/SurfaceOM.par [legume_resid
 module = soiln2     %apsuite/apsim/Common Files/waco.par[waco]      %apsuite/apsim/soiln2/soiln2.ini[standard]
 module = Plant(Fababean)   %apsuite/apsim/Common Files/waco.par[waco] %apsuite/apsim/fababean/fababean.ini[standard]
 module = Tracker    Fababean.par[sensibility]
-module = SummaryFile  Fababean.par[Dalby600]
 
 [APSIM.Dalby 1500mm]
 title=Dalby 1500mm wet soil
@@ -23,7 +22,6 @@ module = SurfaceOM   %apsuite/apsim/SurfaceOM/sample/SurfaceOM.par [legume_resid
 module = soiln2     %apsuite/apsim/Common Files/waco.par[waco]      %apsuite/apsim/soiln2/soiln2.ini[standard]
 module = Plant(Fababean)   %apsuite/apsim/Common Files/waco.par[waco] %apsuite/apsim/fababean/fababean.ini[standard]
 module = Tracker    Fababean.par[sensibility]
-module = SummaryFile  Fababean.par[Dalby1500]
 
 [APSIM.Roma 400mm]
 title=Roma 400mm wet soil
@@ -36,7 +34,6 @@ module = SurfaceOM   %apsuite/apsim/SurfaceOM/sample/SurfaceOM.par [legume_resid
 module = soiln2     %apsuite/apsim/Common Files/BrownVertosol.par[BrownVertosol]      %apsuite/apsim/soiln2/soiln2.ini[standard]
 module = Plant(Fababean)   %apsuite/apsim/Common Files/BrownVertosol.par[BrownVertosol] %apsuite/apsim/fababean/fababean.ini[standard]
 module = Tracker    Fababean.par[sensibility]
-module = SummaryFile  Fababean.par[Roma400]
 
 [APSIM.Roma 800mm]
 title=Roma 800mm wet soil
@@ -49,4 +46,3 @@ module = SurfaceOM   %apsuite/apsim/SurfaceOM/sample/SurfaceOM.par [legume_resid
 module = soiln2     %apsuite/apsim/Common Files/BrownVertosol.par[BrownVertosol]      %apsuite/apsim/soiln2/soiln2.ini[standard]
 module = Plant(Fababean)   %apsuite/apsim/Common Files/BrownVertosol.par[BrownVertosol] %apsuite/apsim/fababean/fababean.ini[standard]
 module = Tracker    Fababean.par[sensibility]
-module = SummaryFile  Fababean.par[Roma800]

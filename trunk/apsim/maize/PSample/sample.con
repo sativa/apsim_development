@@ -12,4 +12,3 @@ module = soiln2              soil.par   [sample]     %apsuite/apsim/soiln2/soiln
 module = SurfaceOM           soil.par   [sample]     %apsuite/apsim/SurfaceOM/SurfaceOM.ini [standard]
 module = SoilP               soil.par   [sample]     %apsuite/apsim/SoilP/soilp.ini [standard]
 module = maize               soil.par   [sample]     %apsuite/apsim/maize/maize.ini [standard]
-module = SummaryFile         sample.man [maize]

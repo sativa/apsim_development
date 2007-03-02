@@ -842,17 +842,6 @@
                            </message9>
                         </message8>
                      </message7>
-                     <message7 to="MasterPM" msgtype="Register" ack="false" kind="get" name="summaryfile" type="type kind='string'"/>
-                     <message7 to="MasterPM" msgtype="GetValue" ack="false" regName="summaryfile">
-                        <message8 to="log" msgtype="ApsimGetQuery" ack="false" name="summaryfile"/>
-                        <message8 to="clock" msgtype="ApsimGetQuery" ack="false" name="summaryfile"/>
-                        <message8 to="report" msgtype="ApsimGetQuery" ack="false" name="summaryfile"/>
-                        <message8 to="Met" msgtype="ApsimGetQuery" ack="false" name="summaryfile"/>
-                        <message8 to="manager" msgtype="ApsimGetQuery" ack="false" name="summaryfile"/>
-                        <message8 to="soilwat2" msgtype="ApsimGetQuery" ack="false" name="summaryfile"/>
-                        <message8 to="SurfaceOM" msgtype="ApsimGetQuery" ack="false" name="summaryfile"/>
-                        <message8 to="soiln2" msgtype="ApsimGetQuery" ack="false" name="summaryfile"/>
-                     </message7>
                      <message7 to="MasterPM" msgtype="Register" ack="false" kind="get" name="title" type="type kind='string'"/>
                      <message7 to="MasterPM" msgtype="GetValue" ack="false" regName="title">
                         <message8 to="MasterPM" msgtype="QueryValue" ack="false">

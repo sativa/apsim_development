@@ -8,5 +8,4 @@ module = soilwat2  THsoil.par [telhadya]   THsoil.par [b2] THsoil.par [inig2w0] 
 module = SurfaceOM   THsoil.par [b2cp00] %apsuite/apsim/SurfaceOM/SurfaceOM.ini [standard]
 module = soiln2    THsoil.par [telhadya]  THsoil.par [b2cp00]   %apsuite/apsim/soiln2/soiln2.ini [standard]
 module = Plant(chickpea)  chickpea.par [standard] THsoil.par [B2] %apsuite/apsim/chickpea/chickpea.ini [standard]
-module = SummaryFile   ghab2.man [g2w0_00]
 title = Ghab2_W0_9900

@@ -10,6 +10,5 @@ module = manager         Broccoli.par [sample]
 module = soilwat2        %apsuite\apsim\soilwat2\sample\soilwat2.par [black_earth]    %apsuite\apsim\soilwat2\soilwat2.ini [standard]
 module = soiln2          %apsuite\apsim\soiln2\sample\soiln2.par [black_earth]    %apsuite\apsim\soiln2\soiln2.ini     [standard]
 module = plant(Broccoli)  Broccoli.par [sample] %apsuite\apsim\Broccoli\Broccoli.ini [standard]
-module = SummaryFile     Broccoli.par [sample]
 
  

@@ -34,7 +34,6 @@ module = fertiliz    %apsuite/apsim/fertiliz/fertiliz.ini [standard]
 module = accum    runs.par [all]
 module = plant(wheat)   soil.par [salmon_gums] %apsuite/apsim/wheat/wheat.ini [standard]
 module = sorghum     soil.par [salmon_gums] %apsuite/apsim/sorghum/sorghum.ini [standard]
-module = Summaryfile report.par[sal_cw]
 module = tracker   report.par[all]
  
 !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
@@ -52,7 +51,6 @@ module = fertiliz    %apsuite/apsim/fertiliz/fertiliz.ini [standard]
 module = accum    runs.par [all]
 module = plant(wheat)   soil.par [salmon_gums] %apsuite/apsim/wheat/wheat.ini [standard]
 module = sorghum     soil.par [salmon_gums] %apsuite/apsim/sorghum/sorghum.ini [standard]
-module = Summaryfile report.par[sal_sw]
 module = tracker   report.par[all]
 
 !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
@@ -72,7 +70,6 @@ module = fertiliz    %apsuite/apsim/fertiliz/fertiliz.ini [standard]
 module = accum    runs.par [all]
 module = plant(wheat)   soil.par [salmon_gums] %apsuite/apsim/wheat/wheat.ini [standard]
 module = sorghum     soil.par [salmon_gums] %apsuite/apsim/sorghum/sorghum.ini [standard]
-module = Summaryfile report.par[sal_psw_r]
 module = tracker   report.par[all]
 
 !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!  
@@ -90,7 +87,6 @@ module = fertiliz    %apsuite/apsim/fertiliz/fertiliz.ini [standard]
 module = accum    runs.par [all]
 module = plant(wheat)   soil.par [salmon_gums] %apsuite/apsim/wheat/wheat.ini [standard]
 module = sorghum     soil.par [salmon_gums] %apsuite/apsim/sorghum/sorghum.ini [standard]
-module = Summaryfile report.par[sal_pfw]
 module = tracker   report.par[all]
 
 !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!  
@@ -114,7 +110,6 @@ module = fertiliz    %apsuite/apsim/fertiliz/fertiliz.ini [standard]
 module = accum    runs.par [all]
 module = plant(wheat)   soil.par [myrup] %apsuite/apsim/wheat/wheat.ini [standard]
 module = sorghum     soil.par [myrup] %apsuite/apsim/sorghum/sorghum.ini [standard]
-module = Summaryfile report.par[myr_cw]
 module = tracker   report.par[all]
 
 !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
@@ -132,7 +127,6 @@ module = fertiliz    %apsuite/apsim/fertiliz/fertiliz.ini [standard]
 module = accum    runs.par [all]
 module = plant(wheat)   soil.par [myrup] %apsuite/apsim/wheat/wheat.ini [standard]
 module = sorghum     soil.par [myrup] %apsuite/apsim/sorghum/sorghum.ini [standard]
-module = Summaryfile report.par[myr_sw]
 module = tracker   report.par[all]
 
 !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
@@ -150,7 +144,6 @@ module = fertiliz    %apsuite/apsim/fertiliz/fertiliz.ini [standard]
 module = accum    runs.par [all]
 module = plant(wheat)   soil.par [myrup] %apsuite/apsim/wheat/wheat.ini [standard]
 module = sorghum     soil.par [myrup] %apsuite/apsim/sorghum/sorghum.ini [standard]
-module = Summaryfile report.par[myr_psw_r]
 module = tracker   report.par[all]
 
 !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!  
@@ -168,7 +161,6 @@ module = fertiliz    %apsuite/apsim/fertiliz/fertiliz.ini [standard]
 module = accum    runs.par [all]
 module = plant(wheat)   soil.par [myrup] %apsuite/apsim/wheat/wheat.ini [standard]
 module = sorghum     soil.par [myrup] %apsuite/apsim/sorghum/sorghum.ini [standard]
-module = Summaryfile report.par[myr_pfw]
 module = tracker   report.par[all]
 
 !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!  
@@ -192,7 +184,6 @@ module = fertiliz    %apsuite/apsim/fertiliz/fertiliz.ini [standard]
 module = accum    runs.par [all]
 module = plant(wheat)   soil.par [kendenup] %apsuite/apsim/wheat/wheat.ini [standard]
 module = sorghum     soil.par [kendenup] %apsuite/apsim/sorghum/sorghum.ini [standard]
-module = Summaryfile report.par[kend_cw]
 module = tracker   report.par[all]
 
 !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
@@ -210,7 +201,6 @@ module = fertiliz    %apsuite/apsim/fertiliz/fertiliz.ini [standard]
 module = accum    runs.par [all]
 module = plant(wheat)   soil.par [kendenup] %apsuite/apsim/wheat/wheat.ini [standard]
 module = sorghum     soil.par [kendenup] %apsuite/apsim/sorghum/sorghum.ini [standard]
-module = Summaryfile report.par[kend_sw]
 module = tracker   report.par[all]
 
 !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
@@ -228,7 +218,6 @@ module = fertiliz    %apsuite/apsim/fertiliz/fertiliz.ini [standard]
 module = accum    runs.par [all]
 module = plant(wheat)   soil.par [kendenup] %apsuite/apsim/wheat/wheat.ini [standard]
 module = sorghum     soil.par [kendenup] %apsuite/apsim/sorghum/sorghum.ini [standard]
-module = Summaryfile report.par[kend_psw_r]
 module = tracker   report.par[all]
 
 !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!  
@@ -246,7 +235,6 @@ module = fertiliz    %apsuite/apsim/fertiliz/fertiliz.ini [standard]
 module = accum    runs.par [all]
 module = plant(wheat)   soil.par [kendenup] %apsuite/apsim/wheat/wheat.ini [standard]
 module = sorghum     soil.par [kendenup] %apsuite/apsim/sorghum/sorghum.ini [standard]
-module = Summaryfile report.par[kend_pfw]
 module = tracker   report.par[all]
 
 !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!  

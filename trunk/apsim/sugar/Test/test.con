@@ -15,7 +15,6 @@ module = soilwat2 %apsuite/apsim/soilwat2/sample/soilwat2.par [black_earth]     
 module = SurfaceOM   %apsuite/apsim/SurfaceOM/sample/SurfaceOM.par [sugar_residue] %apsuite/apsim/SurfaceOM/SurfaceOM.ini [standard]
 module = soiln2   %apsuite/apsim/soiln2/sample/soiln2.par [black_earth]     %apsuite/apsim/soiln2/soiln2.ini [standard]
 module = sugar    Test.par [sample]      %apsuite/apsim/sugar/sugar.ini [standard]
-module = SummaryFile   Test.par [sample]
 
 
 [apsim.sample2_sugar]
@@ -32,4 +31,3 @@ module = soilwat2 %apsuite/apsim/soilwat2/sample/soilwat2.par [black_earth]     
 module = SurfaceOM   %apsuite/apsim/SurfaceOM/sample/SurfaceOM.par [sugar_residue] %apsuite/apsim/SurfaceOM/SurfaceOM.ini [standard]
 module = soiln2   %apsuite/apsim/soiln2/sample/soiln2.par [black_earth]     %apsuite/apsim/soiln2/soiln2.ini [standard]
 module = sugar    Test.par [sample]      %apsuite/apsim/sugar/sugar.ini [standard]
-module = SummaryFile   Test.par [sample2]

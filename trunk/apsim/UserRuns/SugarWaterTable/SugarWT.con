@@ -12,4 +12,3 @@ module = apswim   SugarWT.par [sample] hyprops.par[hyprops] swim.par[all]     %a
 module = soiln2   SugarWT.par [sample] %apsuite/apsim/soiln2/soiln2.ini[standard]
 module = SurfaceOM   SugarWT.par [sample] %apsuite/apsim/SurfaceOM/SurfaceOM.ini [standard]
 module = sugar    SugarWT.par [sample] %apsuite/apsim/sugar/sugar.ini[standard]
-module = SummaryFile  SugarWT.par[sample]

@@ -11,7 +11,6 @@ module = SurfaceOM   %apsuite/apsim/SurfaceOM/sample/SurfaceOM.par [legume_resid
 module = soiln2     %apsuite/apsim/Common Files/waco.par[waco]      %apsuite/apsim/soiln2/soiln2.ini[standard]
 module = maize   %apsuite/apsim/Common Files/waco.par[waco] %apsuite/apsim/maize/maize.ini[standard]
 module = Tracker    maize.par[sensibility]
-module = SummaryFile  maize.par[Dalby600High]
 
 [APSIM.Dalby 1500mm High]
 title=Dalby 1500mm wet soil High Population
@@ -25,7 +24,6 @@ module = SurfaceOM   %apsuite/apsim/SurfaceOM/sample/SurfaceOM.par [legume_resid
 module = soiln2     %apsuite/apsim/Common Files/waco.par[waco]      %apsuite/apsim/soiln2/soiln2.ini[standard]
 module = maize   %apsuite/apsim/Common Files/waco.par[waco] %apsuite/apsim/maize/maize.ini[standard]
 module = Tracker    maize.par[sensibility]
-module = SummaryFile  maize.par[Dalby1500High]
 
 [APSIM.Roma 400mm High]
 title=Roma 400mm wet soil High Population
@@ -39,7 +37,6 @@ module = SurfaceOM   %apsuite/apsim/SurfaceOM/sample/SurfaceOM.par [legume_resid
 module = soiln2     %apsuite/apsim/Common Files/BrownVertosol.par[BrownVertosol]      %apsuite/apsim/soiln2/soiln2.ini[standard]
 module = maize   %apsuite/apsim/Common Files/BrownVertosol.par[BrownVertosol] %apsuite/apsim/maize/maize.ini[standard]
 module = Tracker    maize.par[sensibility]
-module = SummaryFile  maize.par[Roma400High]
 
 [APSIM.Roma 800mm High]
 title=Roma 800mm wet soil High Population
@@ -53,7 +50,6 @@ module = SurfaceOM   %apsuite/apsim/SurfaceOM/sample/SurfaceOM.par [legume_resid
 module = soiln2     %apsuite/apsim/Common Files/BrownVertosol.par[BrownVertosol]      %apsuite/apsim/soiln2/soiln2.ini[standard]
 module = maize   %apsuite/apsim/Common Files/BrownVertosol.par[BrownVertosol] %apsuite/apsim/maize/maize.ini[standard]
 module = Tracker    maize.par[sensibility]
-module = SummaryFile  maize.par[Roma800High]
 
 [APSIM.Dalby 600mm Low]
 title=Dalby 600mm wet soil Low Population
@@ -67,7 +63,6 @@ module = SurfaceOM   %apsuite/apsim/SurfaceOM/sample/SurfaceOM.par [legume_resid
 module = soiln2     %apsuite/apsim/Common Files/waco.par[waco]      %apsuite/apsim/soiln2/soiln2.ini[standard]
 module = maize   %apsuite/apsim/Common Files/waco.par[waco] %apsuite/apsim/maize/maize.ini[standard]
 module = Tracker    maize.par[sensibility]
-module = SummaryFile  maize.par[Dalby600Low]
 
 [APSIM.Dalby 1500mm Low]
 title=Dalby 1500mm wet soil Low Population
@@ -81,7 +76,6 @@ module = SurfaceOM   %apsuite/apsim/SurfaceOM/sample/SurfaceOM.par [legume_resid
 module = soiln2     %apsuite/apsim/Common Files/waco.par[waco]      %apsuite/apsim/soiln2/soiln2.ini[standard]
 module = maize   %apsuite/apsim/Common Files/waco.par[waco] %apsuite/apsim/maize/maize.ini[standard]
 module = Tracker    maize.par[sensibility]
-module = SummaryFile  maize.par[Dalby1500Low]
 
 [APSIM.Roma 400mm Low]
 title=Roma 400mm wet soil Low Population
@@ -95,7 +89,6 @@ module = SurfaceOM   %apsuite/apsim/SurfaceOM/sample/SurfaceOM.par [legume_resid
 module = soiln2     %apsuite/apsim/Common Files/BrownVertosol.par[BrownVertosol]      %apsuite/apsim/soiln2/soiln2.ini[standard]
 module = maize   %apsuite/apsim/Common Files/BrownVertosol.par[BrownVertosol] %apsuite/apsim/maize/maize.ini[standard]
 module = Tracker    maize.par[sensibility]
-module = SummaryFile  maize.par[Roma400Low]
 
 [APSIM.Roma 800mm Low]
 title=Roma 800mm wet soil Low Population
@@ -109,4 +102,3 @@ module = SurfaceOM   %apsuite/apsim/SurfaceOM/sample/SurfaceOM.par [legume_resid
 module = soiln2     %apsuite/apsim/Common Files/BrownVertosol.par[BrownVertosol]      %apsuite/apsim/soiln2/soiln2.ini[standard]
 module = maize   %apsuite/apsim/Common Files/BrownVertosol.par[BrownVertosol] %apsuite/apsim/maize/maize.ini[standard]
 module = Tracker    maize.par[sensibility]
-module = SummaryFile  maize.par[Roma800Low]

@@ -9,7 +9,6 @@ module = soilwat2   %apsuite/apsim/soilwat2/sample/soilwat2.par[black_earth]  %a
 module = SurfaceOM   %apsuite/apsim/SurfaceOM/sample/SurfaceOM.par [legume_residue] %apsuite/apsim/SurfaceOM/SurfaceOM.ini [standard]
 module = soiln2     %apsuite/apsim/soiln2/sample/soiln2.par[black_earth]      %apsuite/apsim/soiln2/soiln2.ini[standard]
 module = sugar    testA.par [all]      %apsuite/apsim/sugar/sugar.ini [standard]
-module = SummaryFile  testA.par[test1]
 
 [APSIM.test2_sugar]
 title=Test sowing after out on same day
@@ -21,7 +20,6 @@ module = soilwat2   %apsuite/apsim/soilwat2/sample/soilwat2.par[black_earth]  %a
 module = SurfaceOM   %apsuite/apsim/SurfaceOM/sample/SurfaceOM.par [legume_residue] %apsuite/apsim/SurfaceOM/SurfaceOM.ini [standard]
 module = soiln2     %apsuite/apsim/soiln2/sample/soiln2.par[black_earth]      %apsuite/apsim/soiln2/soiln2.ini[standard]
 module = sugar    testA.par [all]      %apsuite/apsim/sugar/sugar.ini [standard]
-module = SummaryFile  testA.par[test2]
 
 [APSIM.test3_sugar]
 title=Test sowing next day after out
@@ -33,5 +31,4 @@ module = soilwat2   %apsuite/apsim/soilwat2/sample/soilwat2.par[black_earth]  %a
 module = SurfaceOM   %apsuite/apsim/SurfaceOM/sample/SurfaceOM.par [legume_residue] %apsuite/apsim/SurfaceOM/SurfaceOM.ini [standard]
 module = soiln2     %apsuite/apsim/soiln2/sample/soiln2.par[black_earth]      %apsuite/apsim/soiln2/soiln2.ini[standard]
 module = sugar    testA.par [all]      %apsuite/apsim/sugar/sugar.ini [standard]
-module = SummaryFile  testA.par[test3]
 

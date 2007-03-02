@@ -15,7 +15,6 @@ module = millet (millet2)       test.par[all]     %apsuite/apsim/millet/millet.i
 module = millet (millet3)       test.par[all]     %apsuite/apsim/millet/millet.ini [standard]
 module = millet (millet4)       test.par[all]     %apsuite/apsim/millet/millet.ini [standard]
 module = millet (millet5)       test.par[all]     %apsuite/apsim/millet/millet.ini [standard]
-module = SummaryFile  test.par[test1]
 
 [APSIM.test2_millet]
 title=Test sowing after out on same day
@@ -33,7 +32,6 @@ module = millet (millet2)       test.par[all]     %apsuite/apsim/millet/millet.i
 module = millet (millet3)       test.par[all]     %apsuite/apsim/millet/millet.ini [standard]
 module = millet (millet4)       test.par[all]     %apsuite/apsim/millet/millet.ini [standard]
 module = millet (millet5)       test.par[all]     %apsuite/apsim/millet/millet.ini [standard]
-module = SummaryFile  test.par[test2]
 
 [APSIM.test3_millet]
 title=Test sowing next day after out
@@ -51,5 +49,4 @@ module = millet (millet2)       test.par[all]     %apsuite/apsim/millet/millet.i
 module = millet (millet3)       test.par[all]     %apsuite/apsim/millet/millet.ini [standard]
 module = millet (millet4)       test.par[all]     %apsuite/apsim/millet/millet.ini [standard]
 module = millet (millet5)       test.par[all]     %apsuite/apsim/millet/millet.ini [standard]
-module = SummaryFile  test.par[test3]
 
