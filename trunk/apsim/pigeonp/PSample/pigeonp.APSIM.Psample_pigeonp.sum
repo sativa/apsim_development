@@ -9,18 +9,17 @@
  The Agricultural Production Systems Simulator
              Copyright(c) APSRU               
 
-     Version                = 5.3
-     Title                  = pigeonp P Sample Simulation
-     Component DLL          = c:\development\apsim\SummaryFile\lib\SummaryFile.dll
-     Component DLL          = c:\development\apsim\clock\lib\clock.dll
-     Component DLL          = c:\development\apsim\report\lib\report.dll
-     Component DLL          = c:\development\apsim\input\lib\input.dll
-     Component DLL          = c:\development\apsim\manager\lib\manager.dll
-     Component DLL          = c:\development\apsim\soilwat2\lib\soilwat2.dll
-     Component DLL          = c:\development\apsim\SurfaceOM\lib\SurfaceOM.dll
-     Component DLL          = c:\development\apsim\soiln2\lib\soiln2.dll
-     Component DLL          = c:\development\apsim\SoilP\lib\SoilP.dll
-     Component DLL          = c:\development\apsim\Plant\lib\Plant.dll
+Version                = 5.3
+Title                  = pigeonp P Sample Simulation
+Component      "clock" = c:\development\apsim\clock\lib\clock.dll
+Component     "report" = c:\development\apsim\report\lib\report.dll
+Component        "met" = c:\development\apsim\input\lib\input.dll
+Component    "manager" = c:\development\apsim\manager\lib\manager.dll
+Component   "soilwat2" = c:\development\apsim\soilwat2\lib\soilwat2.dll
+Component  "SurfaceOM" = c:\development\apsim\SurfaceOM\lib\SurfaceOM.dll
+Component     "soiln2" = c:\development\apsim\soiln2\lib\soiln2.dll
+Component      "SoilP" = c:\development\apsim\SoilP\lib\SoilP.dll
+Component    "pigeonp" = c:\development\apsim\Plant\lib\Plant.dll
 
 ------- clock Initialisation --------------------------------------------------
      Sequencer phases:
@@ -72,7 +71,7 @@
         pigeonp.p_uptake_stover
         pigeonp.grain_p_demand
         surfaceom.surfaceom_p
-     
+
      Output file = pigeonp.out
      Format = normal
 
@@ -167,7 +166,7 @@
            Using Ritchie evaporation model
             Cuml evap (U):            4.00 (mm^0.5)
             CONA:                     2.50 ()
-           Eo from priestly-taylor
+            Eo from priestly-taylor
 
 ------- SurfaceOM Initialisation ----------------------------------------------
      
@@ -406,9 +405,7 @@
       stage 4.0 end_of_juvenile
                      biomass =           0.00 (g/m^2)   lai          =   0.013 (m^2/m^2)
                      stover N conc =     0.00 (%)    extractable sw =  277.83 (mm)
-22 April 1989(Day of year=112), manager: 
      Manager sending message :- pigeonp end_crop
-22 April 1989(Day of year=112), pigeonp: 
      Crop ended. Yield (dw) =     0.0  (kg/ha)
          Organic matter from crop:-      Tops to surface residue      Roots to soil FOM
                           DM (kg/ha) =                  0.00                 1211.35
