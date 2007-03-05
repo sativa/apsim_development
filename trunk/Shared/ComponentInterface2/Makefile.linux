@@ -1,14 +1,13 @@
 #=======================================================================
 #-----------------------------------------------------------------------
-#     Makefile for ComponentInterface Module
+#     Makefile for ComponentInterface2 Module
 #-----------------------------------------------------------------------
 #=======================================================================
 DESTDIR ?= /usr/local/apsim
 
 LIB=	$(APSROOT)/lib/libComponentInterface2.so
 
-OBJ = ComponentInterface.o       \
-          message.o                  \
+OBJ = message.o                  \
           TypeConverter.o            \
           ArraySpecifier.o           \
           CMPScienceAPI.o            \
@@ -22,10 +21,8 @@ OBJ = ComponentInterface.o       \
 # Compiler options
 
 CC=		/usr/bin/gcc
-CPPFLAGS=	-I/usr/include/boost -I/usr/include/libxml2	\
-		-I$(APSROOT)/Shared				\
-		-Wno-deprecated -fpermissive -fPIC $(CPPDEBUGFLAGS)
-
+CPPFLAGS = $(BOOST_INCLUDEDIR) $(XML2_INCLUDEDIR) -I$(APSROOT)/Shared \
+	-Wno-deprecated -fpermissive -fPIC $(CPPDEBUGFLAGS)
 
 #-----------------------------------------------------------------------
 # Required libraries
@@ -38,19 +35,15 @@ LIBS=		-lprotocol		\
 		-lApsimShared		\
 		-lgeneral		\
 		-lxml2 			\
-		-lboost_filesystem 	\
-		-lboost_date_time 	\
 		-lc
 
 
 #-----------------------------------------------------------------------
 # The rules
 
-all: $(LIB) FortranInterface
+all: $(LIB)
 
 lib: $(LIB)
-
-FortranInterface: $(OBJ2)
 
 $(LIB):	$(OBJ)
 	$(CC) -shared -lc -o $(LIB) $(OBJ) $(LDFLAGS) $(LIBS)
@@ -66,18 +59,4 @@ clobber:	clean
 install: all
 	if [ ! -d $(DESTDIR)/lib ]; then mkdir -p $(DESTDIR)/lib; fi 
 	cp $(LIB) $(DESTDIR)/lib
-
-%.o:	%.cpp datatypes.h 
-	$(CC) $(CPPFLAGS) $(CFLAGS) -c -o $@ $<
-
-datatypes.o: datatypes.h datatypes.cpp \
-		$(APSROOT)/apsim/infra/datatypes.interface \
-		$(APSROOT)/APSBuild/datatypes.macro 
-
-FORTRANdatatypes.o: FORTRANdatatypes.cpp
- 
-FORTRANdatatypes.cpp datatypes.cpp datatypes.h:  $(APSROOT)/apsim/infra/datatypes.interface \
-				$(APSROOT)/APSBuild/datatypes.macro \
-				$(APSROOT)/Bin/CreateDataTypesSource
-	( cd $(APSROOT)/Bin && $(APSROOT)/Bin/CreateDataTypesSource $(APSROOT)/apsim/infra/datatypes.interface $(APSROOT)/APSBuild/datatypes.macro )
 
