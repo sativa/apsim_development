@@ -1,10 +1,5 @@
 <Simulation name="Stock" executable="%apsuite\apsim\protocolmanager\lib\protocolmanager.dll">
    <title>stock lablab SAMPLE Simulation</title>
-   <component name="SummaryFile" executable="%apsuite\apsim\SummaryFile\lib\SummaryFile.dll">
-      <initdata>
-         <summaryfile>lablab.sum</summaryfile>
-      </initdata>
-   </component>
    <component name="clock" executable="%apsuite\apsim\clock\lib\clock.dll">
       <initdata>
          <include>%apsuite\apsim\clock\clock.ini</include>

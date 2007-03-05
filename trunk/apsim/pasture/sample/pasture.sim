@@ -6,11 +6,6 @@
          <debug_output>off</debug_output>
       </initdata>
    </component>
-   <component name="SummaryFile" executable="%apsuite\apsim\SummaryFile\lib\SummaryFile.dll">
-      <initdata>
-         <summaryfile>pasture.sum</summaryfile>
-      </initdata>
-   </component>
    <component name="clock" executable="%apsuite\apsim\clock\lib\clock.dll">
       <initdata>
          <include>%apsuite\apsim\clock\clock.ini</include>
