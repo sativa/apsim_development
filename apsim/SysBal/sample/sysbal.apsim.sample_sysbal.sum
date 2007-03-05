@@ -9,17 +9,16 @@
  The Agricultural Production Systems Simulator
              Copyright(c) APSRU               
 
-     Version                = 5.3
-     Title                  = sysbal Sample Simulation
-     Component DLL          = c:\development\apsim\SummaryFile\lib\SummaryFile.dll
-     Component DLL          = c:\development\apsim\clock\lib\clock.dll
-     Component DLL          = c:\development\apsim\report\lib\report.dll
-     Component DLL          = c:\development\apsim\input\lib\input.dll
-     Component DLL          = c:\development\apsim\manager\lib\manager.dll
-     Component DLL          = c:\development\apsim\soilwat2\lib\soilwat2.dll
-     Component DLL          = c:\development\apsim\soiln2\lib\soiln2.dll
-     Component DLL          = c:\development\apsim\plant\lib\plant.dll
-     Component DLL          = c:\development\apsim\sysbal\lib\sysbal.dll
+Version                = 5.3
+Title                  = sysbal Sample Simulation
+Component      "clock" = c:\development\apsim\clock\lib\clock.dll
+Component     "report" = c:\development\apsim\report\lib\report.dll
+Component        "met" = c:\development\apsim\input\lib\input.dll
+Component    "manager" = c:\development\apsim\manager\lib\manager.dll
+Component   "soilwat2" = c:\development\apsim\soilwat2\lib\soilwat2.dll
+Component     "soiln2" = c:\development\apsim\soiln2\lib\soiln2.dll
+Component      "wheat" = c:\development\apsim\plant\lib\plant.dll
+Component     "sysbal" = c:\development\apsim\sysbal\lib\sysbal.dll
 
 ------- clock Initialisation --------------------------------------------------
      Sequencer phases:
@@ -53,7 +52,7 @@
         sysbal.dm_cum_error_system
         sysbal.c_error_system
         sysbal.c_cum_error_system
-     
+
      Output file = sysbal.out
      Format = normal
 
@@ -151,7 +150,7 @@
            Using Ritchie evaporation model
             Cuml evap (U):            4.00 (mm^0.5)
             CONA:                     2.50 ()
-           Eo from priestly-taylor
+            Eo from priestly-taylor
 
 ------- soiln2 Initialisation -------------------------------------------------
      
@@ -331,9 +330,7 @@
       stage 4.0 end_of_juvenile
                      biomass =           0.02 (g/m^2)   lai          =   0.024 (m^2/m^2)
                      stover N conc =     6.30 (%)    extractable sw =  140.00 (mm)
-23 October 1988(Day of year=297), manager: 
      Manager sending message :- wheat end_crop
-23 October 1988(Day of year=297), wheat: 
      Crop ended. Yield (dw) =     0.0  (kg/ha)
          Organic matter from crop:-      Tops to surface residue      Roots to soil FOM
                           DM (kg/ha) =                  0.24                 1301.99
