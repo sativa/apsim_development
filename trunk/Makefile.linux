@@ -92,13 +92,13 @@ all: system modules
 system:
 	if [ ! -d $(APSROOT)/lib ]; then mkdir $(APSROOT)/lib; fi ; \
 	for dir in $(SYSDIRS); do \
-		$(MAKE) -f Makefile.linux  CPPDEBUGFLAGS=$(CPPDEBUGFLAGS) LDDEBUGFLAGS=$(LDDEBUGFLAGS) XML2_INCLUDEDIR=$(XML2_INCLUDEDIR) BOOST_INCLUDEDIR=$(BOOST_INCLUDEDIR) -C $$dir; \
+		$(MAKE) -f Makefile.linux  CPPDEBUGFLAGS=$(CPPDEBUGFLAGS) LDDEBUGFLAGS=$(LDDEBUGFLAGS) -C $$dir; \
 	done
 
 modules:
 	for dir in $(MODULEDIRS); do \
 		if [ ! -d `dirname $$dir`/lib ]; then mkdir `dirname $$dir`/lib; fi ; \
-		$(MAKE) -f Makefile.linux CPPDEBUGFLAGS=$(CPPDEBUGFLAGS) LDDEBUGFLAGS=$(LDDEBUGFLAGS) XML2_INCLUDEDIR=$(XML2_INCLUDEDIR) BOOST_INCLUDEDIR=$(BOOST_INCLUDEDIR) -C $(APSROOT)/$$dir; \
+		$(MAKE) -f Makefile.linux CPPDEBUGFLAGS=$(CPPDEBUGFLAGS) LDDEBUGFLAGS=$(LDDEBUGFLAGS) -C $(APSROOT)/$$dir; \
 	done
 
 clobber: 

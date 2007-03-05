@@ -3,7 +3,10 @@
 #     Makefile for ProtocolManager module
 #-----------------------------------------------------------------------
 #=======================================================================
-DESTDIR ?= /usr/local/apsim
+DESTDIR ?=/usr/local/apsim
+BOOST_INCLUDEDIR ?=-I/usr/include
+XML2_INCLUDEDIR ?=-I/usr/include/libxml2
+XML2_LIBDIR ?=-L/usr/lib
 
 LIB=	../lib/ProtocolManager.so
 
@@ -20,15 +23,13 @@ OBJ=	ComponentAlias.o		\
 # Compiler options
 
 CC=		/usr/bin/gcc
-CPPFLAGS=	-I/usr/include/boost -I/usr/include/libxml2	\
-		-I$(APSROOT)/Shared				\
+CPPFLAGS=$(BOOST_INCLUDEDIR) $(XML2_INCLUDEDIR) -I$(APSROOT)/Shared 	\
 		-Wno-deprecated -fpermissive -fPIC $(CPPDEBUGFLAGS)
 
 #-----------------------------------------------------------------------
 # Required libraries
 
-LDFLAGS=	-L/usr/lib 		\
-		-L$(APSROOT)/lib $(LDDEBUGFLAGS)
+LDFLAGS=	$(XML2_LIBDIR)	-L$(APSROOT)/lib $(LDDEBUGFLAGS)
 
 LIBS=		-lComponentInterface	\
 		-lprotocol		\

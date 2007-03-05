@@ -100,3 +100,4 @@ void plantStemPart::removeBiomass2(float )
    if (c.width.isInitialised())
       Width = c.width.value(dm_plant);
    }
+

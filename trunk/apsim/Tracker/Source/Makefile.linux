@@ -3,8 +3,10 @@
 #     Makefile for APSIM MET module
 #-----------------------------------------------------------------------
 #=======================================================================
-
-DESTDIR ?= /usr/local/apsim
+DESTDIR ?=/usr/local/apsim
+BOOST_INCLUDEDIR ?=-I/usr/include
+XML2_INCLUDEDIR ?=-I/usr/include/libxml2
+XML2_LIBDIR ?=-L/usr/lib
 
 LIB=	../lib/Tracker.so
 
@@ -17,8 +19,7 @@ OBJ=    $(SRC:.cpp=.o) $(APSROOT)/Shared/ComponentInterface/EntryPoints.o
 # Compiler options
 
 CC=		/usr/bin/gcc
-CPPFLAGS=	-I/usr/include/boost -I/usr/include/libxml2	\
-		-I$(APSROOT)/Shared				\
+CPPFLAGS=$(BOOST_INCLUDEDIR) $(XML2_INCLUDEDIR) -I$(APSROOT)/Shared 	\
 		-I$(APSROOT)/Shared/ComponentInterface		\
 		-Wno-deprecated 				\
 		-fpermissive -fPIC -D_NO_VCL  $(CPPDEBUGFLAGS)
@@ -27,8 +28,7 @@ CPPFLAGS=	-I/usr/include/boost -I/usr/include/libxml2	\
 #-----------------------------------------------------------------------
 # Required libraries
 
-LDFLAGS=	-L/usr/lib		\
-		-L$(APSROOT)/lib $(LDDEBUGFLAGS)
+LDFLAGS= $(XML2_LIBDIR)	-L$(APSROOT)/lib $(LDDEBUGFLAGS)
 
 LIBS=		-lComponentInterface	\
 		-lprotocol		\
