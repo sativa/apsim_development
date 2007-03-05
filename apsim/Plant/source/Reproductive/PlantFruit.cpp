@@ -107,8 +107,8 @@ void PlantFruit::addNewCohort (protocol::Component *system)
    cohortName << "cohort" << cohortNum;
    myParts.push_back(new FruitCohort(plant, cohortName.str()));
 
-   vector<plantPart *>::iterator myPart = & myParts.back();
-   (*myPart)->doInit1(system);
+   plantPart *myPart = myParts.back();
+   myPart->doInit1(system);
 }
 
 void PlantFruit::doNewCohort (protocol::Component *system)
