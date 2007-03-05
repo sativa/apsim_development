@@ -9,20 +9,19 @@
  The Agricultural Production Systems Simulator
              Copyright(c) APSRU               
 
-     Version                = 5.3
-     Title                  =
-     Component DLL          = c:\development\apsim\SummaryFile\lib\SummaryFile.dll
-     Component DLL          = c:\development\apsim\clock\lib\clock.dll
-     Component DLL          = c:\development\apsim\report\lib\report.dll
-     Component DLL          = c:\development\apsim\input\lib\input.dll
-     Component DLL          = c:\development\apsim\fertiliz\lib\fertiliz.dll
-     Component DLL          = c:\development\apsim\irrigate\lib\irrigate.dll
-     Component DLL          = c:\development\apsim\manager\lib\manager.dll
-     Component DLL          = c:\development\apsim\soilwat2\lib\soilwat2.dll
-     Component DLL          = c:\development\apsim\SurfaceOM\lib\SurfaceOM.dll
-     Component DLL          = c:\development\apsim\soiln2\lib\soiln2.dll
-     Component DLL          = c:\development\apsim\maize\lib\maize.dll
-     Component DLL          = c:\development\apsim\Tracker\lib\Tracker.dll
+Version                = 5.3
+Title                  = 
+Component      "clock" = c:\development\apsim\clock\lib\clock.dll
+Component     "report" = c:\development\apsim\report\lib\report.dll
+Component        "met" = c:\development\apsim\input\lib\input.dll
+Component   "fertiliz" = c:\development\apsim\fertiliz\lib\fertiliz.dll
+Component   "irrigate" = c:\development\apsim\irrigate\lib\irrigate.dll
+Component    "manager" = c:\development\apsim\manager\lib\manager.dll
+Component   "soilwat2" = c:\development\apsim\soilwat2\lib\soilwat2.dll
+Component  "SurfaceOM" = c:\development\apsim\SurfaceOM\lib\SurfaceOM.dll
+Component     "soiln2" = c:\development\apsim\soiln2\lib\soiln2.dll
+Component      "maize" = c:\development\apsim\maize\lib\maize.dll
+Component    "Tracker" = c:\development\apsim\Tracker\lib\Tracker.dll
 
 ------- clock Initialisation --------------------------------------------------
      Sequencer phases:
@@ -55,7 +54,7 @@
         soiln2.fom_c()
         soiln2.fom_n()
         maize.leaf_no
-     
+
      Output file = referenc.out
      Format = normal
 
@@ -216,7 +215,7 @@
            Using Ritchie evaporation model
             Cuml evap (U):            9.00 (mm^0.5)
             CONA:                     2.00 ()
-           Eo from priestly-taylor
+            Eo from priestly-taylor
 
 ------- SurfaceOM Initialisation ----------------------------------------------
      
@@ -353,10 +352,6 @@
      
      
      
-10 January 1993(Day of year=10), manager: 
-     Manager sending message :- soilwat2 set  sw = 0.15 0.15 0.1
-     Manager sending message :- soiln2 set  no3 = 1 1 1
-     Manager sending message :- soiln2 set  nh4 = 1 1 1
      Manager sending message :- surfaceom tillage  type = burn
 10 January 1993(Day of year=10), SurfaceOM: 
      
@@ -364,10 +359,6 @@
      Residue removed using burn
                                              Fraction Incorporated =     1.00
                                              Incorporated Depth    =     0.00
-10 January 1993(Day of year=10), manager: 
-     Manager sending message :- irrigate set  crit_fr_asw = 0.9
-     Manager sending message :- irrigate set  asw_depth = 900
-     Manager sending message :- irrigate set  automatic_irrigation = on
      Manager sending message :- fertiliz apply  amount = 200, type = no3_n, depth = 5
 10 January 1993(Day of year=10), fertiliz: 
      
@@ -414,7 +405,6 @@
                           stover N conc =    1.335475       extractable sw =    93.30207
 31 May 1993(Day of year=151), manager: 
      Manager sending message :- maize harvest
-31 May 1993(Day of year=151), maize: 
      
      
      
@@ -448,9 +438,7 @@
                           DM (kg/ha) =               7757.49                    0.00
                           N  (kg/ha) =                123.01                    0.00
      
-31 May 1993(Day of year=151), manager: 
      Manager sending message :- maize kill_crop
-31 May 1993(Day of year=151), maize: 
          kill. Standing above-ground dm =  6619.1 (kg/ha)
 1 June 1993(Day of year=152), maize: 
       stage   11.0 harvest_ripe
@@ -458,7 +446,6 @@
                           stover N conc =   0.9869443       extractable sw =    92.57370
 1 June 1993(Day of year=152), manager: 
      Manager sending message :- maize end_crop
-1 June 1993(Day of year=152), maize: 
          Crop ended. Yield (dw) =     0.0
          Organic matter from crop:-      Tops to surface residue     Roots to soil FOM
                           DM (kg/ha) =               6619.07                 1711.59
@@ -519,10 +506,6 @@
      
      
      
-9 June 1993(Day of year=160), manager: 
-     Manager sending message :- soilwat2 set  sw = 0.15 0.15 0.1
-     Manager sending message :- soiln2 set  no3 = 1 1 1
-     Manager sending message :- soiln2 set  nh4 = 1 1 1
      Manager sending message :- surfaceom tillage  type = burn
 9 June 1993(Day of year=160), SurfaceOM: 
      
@@ -530,10 +513,6 @@
      Residue removed using burn
                                              Fraction Incorporated =     1.00
                                              Incorporated Depth    =     0.00
-9 June 1993(Day of year=160), manager: 
-     Manager sending message :- irrigate set  crit_fr_asw = 0.9
-     Manager sending message :- irrigate set  asw_depth = 900
-     Manager sending message :- irrigate set  automatic_irrigation = on
      Manager sending message :- fertiliz apply  amount = 100, type = no3_n, depth = 5
 9 June 1993(Day of year=160), fertiliz: 
      
@@ -580,7 +559,6 @@
                           stover N conc =    1.147954       extractable sw =    95.83180
 18 October 1993(Day of year=291), manager: 
      Manager sending message :- maize harvest
-18 October 1993(Day of year=291), maize: 
      
      
      
@@ -614,9 +592,7 @@
                           DM (kg/ha) =               3434.14                    0.00
                           N  (kg/ha) =                 60.18                    0.00
      
-18 October 1993(Day of year=291), manager: 
      Manager sending message :- maize kill_crop
-18 October 1993(Day of year=291), maize: 
          kill. Standing above-ground dm =  7187.0 (kg/ha)
 19 October 1993(Day of year=292), maize: 
       stage   11.0 harvest_ripe
@@ -624,7 +600,6 @@
                           stover N conc =   0.8293670       extractable sw =    92.70488
 19 October 1993(Day of year=292), manager: 
      Manager sending message :- maize end_crop
-19 October 1993(Day of year=292), maize: 
          Crop ended. Yield (dw) =     0.0
          Organic matter from crop:-      Tops to surface residue     Roots to soil FOM
                           DM (kg/ha) =               7187.02                  949.11
@@ -685,10 +660,6 @@
      
      
      
-27 October 1993(Day of year=300), manager: 
-     Manager sending message :- soilwat2 set  sw = 0.25 0.25 0.2
-     Manager sending message :- soiln2 set  no3 = 10 1 1
-     Manager sending message :- soiln2 set  nh4 = 1 1 1
      Manager sending message :- surfaceom tillage  type = burn
 27 October 1993(Day of year=300), SurfaceOM: 
      
@@ -696,10 +667,6 @@
      Residue removed using burn
                                              Fraction Incorporated =     1.00
                                              Incorporated Depth    =     0.00
-27 October 1993(Day of year=300), manager: 
-     Manager sending message :- irrigate set  crit_fr_asw = 0.3
-     Manager sending message :- irrigate set  asw_depth = 900
-     Manager sending message :- irrigate set  automatic_irrigation = on
 28 October 1993(Day of year=301), maize: 
       stage    2.0 germination
 30 October 1993(Day of year=303), maize: 
@@ -740,7 +707,6 @@
                           stover N conc =   0.9842927       extractable sw =    68.16375
 8 March 1994(Day of year=67), manager: 
      Manager sending message :- maize harvest
-8 March 1994(Day of year=67), maize: 
      
      
      
@@ -774,9 +740,7 @@
                           DM (kg/ha) =                  0.00                    0.00
                           N  (kg/ha) =                  0.00                    0.00
      
-8 March 1994(Day of year=67), manager: 
      Manager sending message :- maize kill_crop
-8 March 1994(Day of year=67), maize: 
          kill. Standing above-ground dm =  4906.4 (kg/ha)
 9 March 1994(Day of year=68), maize: 
       stage   11.0 harvest_ripe
@@ -784,7 +748,6 @@
                           stover N conc =   0.9842927       extractable sw =    67.91060
 9 March 1994(Day of year=68), manager: 
      Manager sending message :- maize end_crop
-9 March 1994(Day of year=68), maize: 
          Crop ended. Yield (dw) =     0.0
          Organic matter from crop:-      Tops to surface residue     Roots to soil FOM
                           DM (kg/ha) =               4906.38                  710.77
@@ -845,10 +808,6 @@
      
      
      
-21 March 1994(Day of year=80), manager: 
-     Manager sending message :- soilwat2 set  sw = 0.25 0.25 0.2
-     Manager sending message :- soiln2 set  no3 = 1 1 1
-     Manager sending message :- soiln2 set  nh4 = 1 1 1
      Manager sending message :- surfaceom tillage  type = burn
 21 March 1994(Day of year=80), SurfaceOM: 
      
@@ -856,10 +815,6 @@
      Residue removed using burn
                                              Fraction Incorporated =     1.00
                                              Incorporated Depth    =     0.00
-21 March 1994(Day of year=80), manager: 
-     Manager sending message :- irrigate set  crit_fr_asw = 0.4
-     Manager sending message :- irrigate set  asw_depth = 900
-     Manager sending message :- irrigate set  automatic_irrigation = on
      Manager sending message :- fertiliz apply  amount = 50, type = no3_n, depth = 5
 21 March 1994(Day of year=80), fertiliz: 
      
@@ -906,7 +861,6 @@
                           stover N conc =    1.281805       extractable sw =    57.51058
 2 October 1994(Day of year=275), manager: 
      Manager sending message :- maize harvest
-2 October 1994(Day of year=275), maize: 
      
      
      
@@ -940,9 +894,7 @@
                           DM (kg/ha) =               1761.73                    0.00
                           N  (kg/ha) =                 15.17                    0.00
      
-2 October 1994(Day of year=275), manager: 
      Manager sending message :- maize kill_crop
-2 October 1994(Day of year=275), maize: 
          kill. Standing above-ground dm =  4604.2 (kg/ha)
 3 October 1994(Day of year=276), maize: 
       stage   11.0 harvest_ripe
@@ -950,7 +902,6 @@
                           stover N conc =    1.474028       extractable sw =    57.45435
 3 October 1994(Day of year=276), manager: 
      Manager sending message :- maize end_crop
-3 October 1994(Day of year=276), maize: 
          Crop ended. Yield (dw) =     0.0
          Organic matter from crop:-      Tops to surface residue     Roots to soil FOM
                           DM (kg/ha) =               4604.16                 1087.08
