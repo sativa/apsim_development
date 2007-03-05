@@ -71,6 +71,7 @@ class ArraySpecifier
 
       std::string variableName() {return varName;}
       void adornVariableName(std::string& varName);
+      unsigned length(void) {return 0;};
 
    private:
       unsigned startIndex;

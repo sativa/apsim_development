@@ -10,7 +10,7 @@
 #include <ComponentInterface2/DataTypes.h>
 #include <ComponentInterface2/TypeConverter.h>
 #include <boost/function.hpp>
-#include <typeinfo.h>
+
 void getKindAndArray(const std::string& ddml,
                      std::string& kind, bool& isArray);
 

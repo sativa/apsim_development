@@ -3,10 +3,10 @@
 #include <vector>
 #include <string>
 #include <stdexcept>
-#include <stdio>
-#include <stdlib>
+#include <stdio.h>
+#include <stdlib.h>
 #include <general/string_functions.h>
-#include <ComponentInterface2/ArraySpecifier.h>
+#include "ArraySpecifier.h"
 
 class TypeConverter
    {
@@ -16,7 +16,7 @@ class TypeConverter
          {
          if (arraySpec.length() != 0)
             {
-            ArraySpecifier arrayS(arraySpecifier);
+            ArraySpecifier arrayS(arraySpec);
             arrayS.processArray(values);
             }
          };
@@ -106,7 +106,7 @@ class TypeConverter
       TypeConverter(float source, bool& dest)
          {dest = source;}
       TypeConverter(float source, int& dest)
-         {dest = source;}
+         {dest = (int)source;}
       TypeConverter(float source, float& dest)
          {dest = source;}
       TypeConverter(float source, double& dest)
@@ -125,7 +125,7 @@ class TypeConverter
       TypeConverter(float source, std::vector<int>& dest)
          {
          dest.erase(dest.begin(), dest.end());
-         dest.push_back(source);
+         dest.push_back((int)source);
          }
       TypeConverter(float source, std::vector<float>& dest)
          {
@@ -151,7 +151,7 @@ class TypeConverter
       TypeConverter(double source, bool& dest)
          {dest = source;}
       TypeConverter(double source, int& dest)
-         {dest = source;}
+         {dest = (int)source;}
       TypeConverter(double source, float& dest)
          {dest = source;}
       TypeConverter(double source, double& dest)
@@ -170,7 +170,7 @@ class TypeConverter
       TypeConverter(double source, std::vector<int>& dest)
          {
          dest.erase(dest.begin(), dest.end());
-         dest.push_back(source);
+         dest.push_back((int)source);
          }
       TypeConverter(double source, std::vector<float>& dest)
          {
@@ -314,7 +314,7 @@ class TypeConverter
          if (values.size() != 1)
             throw std::runtime_error("Data type conversion error. Cannot convert from float array to integer");
          else
-            dest = values[0];
+            dest = (int)values[0];
          }
       TypeConverter(const std::vector<float>& source, float& dest, ArraySpecifier* arraySpecifier)
          {
@@ -380,7 +380,7 @@ class TypeConverter
          if (values.size() != 1)
             throw std::runtime_error("Data type conversion error. Cannot convert from double array to integer");
          else
-            dest = values[0];
+            dest = (int)values[0];
          }
       TypeConverter(const std::vector<double>& source, float& dest, ArraySpecifier* arraySpecifier)
          {
