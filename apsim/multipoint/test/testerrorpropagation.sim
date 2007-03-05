@@ -6,12 +6,6 @@
          <logfile>log.txt</logfile>
       </initdata>
    </component>
-
-   <component name="SummaryFile" executable="%apsuite\apsim\summaryfile\lib\summaryfile.dll">
-      <initdata>
-         <summaryfile>wheat.sum</summaryfile>
-      </initdata>
-   </component>
    <component name="clock" executable="%apsuite\apsim\clock\lib\clock.dll">
       <initdata>
          <timestep_events>prepare process post rep</timestep_events>
