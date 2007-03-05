@@ -5,31 +5,18 @@
 #=======================================================================
 DESTDIR ?= /usr/local/apsim
 
-LIB=	$(APSROOT)/lib/libComponentInterface.so
+LIB=	$(APSROOT)/lib/libComponentInterface2.so
 
-SRC=	Component.cpp			\
-	message.cpp			\
-	MessageData.cpp			\
-	ArraySpecifier.cpp		\
-	ProtocolVector.cpp		\
-	RegistrationType.cpp		\
-	Variant.cpp			\
-	Variants.cpp			\
-	Type.cpp			\
-	TypeConverter.cpp		\
-	ApsimVariant.cpp		\
-	Registrations.cpp		\
-	RegistrationItem.cpp            \
-	Variable.cpp                    \
-	VariableRef.cpp                 \
-	datatypes.cpp
-
-OBJ=	$(SRC:.cpp=.o) 	
-
-OBJ2=	FORTRANComponentWrapper.o	\
-	EntryPoints.o			\
-	SimpleWrapper.o			\
-	FORTRANdatatypes.o
+OBJ = ComponentInterface.o       \
+          message.o                  \
+          TypeConverter.o            \
+          ArraySpecifier.o           \
+          CMPScienceAPI.o            \
+          CMPComponentInterface.o    \
+          CMPData.o                  \
+          CMPComponentEntryPoints.o  \
+          EntryPoints.o              \
+          CreateComponent.o
 
 #-----------------------------------------------------------------------
 # Compiler options
