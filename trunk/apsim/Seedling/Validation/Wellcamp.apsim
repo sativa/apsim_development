@@ -1,4 +1,4 @@
-<folder name="Simulations" version="5">
+<folder name="Simulations" version="7">
   <simulation name="Bare">
     <clock name="clock">
       <start_date name="start_date" description="Select the start date of the simulation" type="date" lbound="1/01/2006" ubound="14/11/2006">1/03/2006</start_date>
@@ -23,7 +23,6 @@
           <action>'WellCamp Water' set sw = 0.53 0.49 0.48 0.41 0.30 0.31 0.32</action>
         </operation>
       </operations>
-      <soil name="WellCamp" shortcut="WellCamp" />
       <outputfile name="outputfile" shortcut="outputfile" />
       <irrigation name="Irrigation">
         <automatic_irrigation type="list" listvalues="on,off" description="Automatic irrigation">off</automatic_irrigation>
@@ -34,6 +33,199 @@
       <surfaceom name="surface organic matter" shortcut="surface organic matter" />
       <seedling name="seedling" shortcut="seedling" />
       <logic name="OutputCalculator" shortcut="OutputCalculator" />
+      <soil name="WellCamp">
+        <Site>Jimbour</Site>
+        <Region>South East Queensland</Region>
+        <LocalName>Waco</LocalName>
+        <SoilType>Black Vertosol</SoilType>
+        <NearestTown>Jimbour, Q 4352</NearestTown>
+        <NaturalVegetation>Grassland, mainly Qld bluegrass</NaturalVegetation>
+        <profile>
+          <layer>
+            <thickness>150</thickness>
+            <bd>1.02</bd>
+            <ll15>0.2</ll15>
+            <airdry>0.18</airdry>
+            <dul>0.54</dul>
+            <sat>0.59</sat>
+            <sw>9999.99</sw>
+            <swcon>0.3</swcon>
+            <oc>1.04</oc>
+            <ph>8.4</ph>
+            <fbiom>0.025</fbiom>
+            <finert>0.4</finert>
+            <no3>6.5</no3>
+            <nh4>0.6</nh4>
+            <ec>0.2</ec>
+            <ll name="Sorghum">0.2</ll>
+            <kl name="Sorghum">0.1</kl>
+            <xf name="Sorghum">1</xf>
+            <ll name="Seedling">0.2</ll>
+            <xf name="Seedling">0.5</xf>
+            <kl name="Seedling">0.02</kl>
+          </layer>
+          <layer>
+            <thickness>150</thickness>
+            <bd>1.03</bd>
+            <ll15>0.3</ll15>
+            <airdry>0.25</airdry>
+            <dul>0.53</dul>
+            <sat>0.58</sat>
+            <sw>9999.99</sw>
+            <swcon>0.3</swcon>
+            <oc>0.89</oc>
+            <ph>8.8</ph>
+            <fbiom>0.02</fbiom>
+            <finert>0.6</finert>
+            <no3>2.1</no3>
+            <nh4>0.1</nh4>
+            <ec>0.25</ec>
+            <ll name="Sorghum">0.3</ll>
+            <kl name="Sorghum">0.1</kl>
+            <xf name="Sorghum">1</xf>
+            <ll name="Seedling">0.25</ll>
+            <xf name="Seedling">0.5</xf>
+            <kl name="Seedling">0.02</kl>
+          </layer>
+          <layer>
+            <thickness>300</thickness>
+            <bd>1.02</bd>
+            <ll15>0.3</ll15>
+            <airdry>0.3</airdry>
+            <dul>0.54</dul>
+            <sat>0.59</sat>
+            <sw>9999.99</sw>
+            <swcon>0.3</swcon>
+            <oc>0.89</oc>
+            <ph>9</ph>
+            <fbiom>0.015</fbiom>
+            <finert>0.8</finert>
+            <no3>2.1</no3>
+            <nh4>0.1</nh4>
+            <ec>0.31</ec>
+            <ll name="Sorghum">0.32</ll>
+            <kl name="Sorghum">0.1</kl>
+            <xf name="Sorghum">1</xf>
+            <ll name="Seedling">0.3</ll>
+            <xf name="Seedling">0.75</xf>
+            <kl name="Seedling">0.02</kl>
+          </layer>
+          <layer>
+            <thickness>300</thickness>
+            <bd>1.02</bd>
+            <ll15>0.25</ll15>
+            <airdry>0.25</airdry>
+            <dul>0.48</dul>
+            <sat>0.53</sat>
+            <sw>9999.99</sw>
+            <swcon>0.3</swcon>
+            <oc>0.89</oc>
+            <ph>9.2</ph>
+            <fbiom>0.01</fbiom>
+            <finert>0.9</finert>
+            <no3>1.7</no3>
+            <nh4>0.1</nh4>
+            <ec>0.4</ec>
+            <ll name="Sorghum">0.25</ll>
+            <kl name="Sorghum">0.08</kl>
+            <xf name="Sorghum">1</xf>
+            <ll name="Seedling">0.25</ll>
+            <xf name="Seedling">1</xf>
+            <kl name="Seedling">0.02</kl>
+          </layer>
+          <layer>
+            <thickness>300</thickness>
+            <bd>1.06</bd>
+            <ll15>0.21</ll15>
+            <airdry>0.21</airdry>
+            <dul>0.4</dul>
+            <sat>0.45</sat>
+            <sw>9999.99</sw>
+            <swcon>0.3</swcon>
+            <oc>0.77</oc>
+            <ph>9.2</ph>
+            <fbiom>0.01</fbiom>
+            <finert>0.95</finert>
+            <no3>1.7</no3>
+            <nh4>0.1</nh4>
+            <ec>0.59</ec>
+            <ll name="Sorghum">0.21</ll>
+            <kl name="Sorghum">0.06</kl>
+            <xf name="Sorghum">1</xf>
+            <ll name="Seedling">0.21</ll>
+            <xf name="Seedling">1</xf>
+            <kl name="Seedling">0.02</kl>
+          </layer>
+          <layer>
+            <thickness>300</thickness>
+            <bd>1.11</bd>
+            <ll15>0.21</ll15>
+            <airdry>0.21</airdry>
+            <dul>0.38</dul>
+            <sat>0.43</sat>
+            <sw>9999.99</sw>
+            <swcon>0.3</swcon>
+            <oc>0.45</oc>
+            <ph>9.1</ph>
+            <fbiom>0.01</fbiom>
+            <finert>0.95</finert>
+            <no3>1.7</no3>
+            <nh4>0.1</nh4>
+            <ec>0.84</ec>
+            <ll name="Sorghum">0.21</ll>
+            <kl name="Sorghum">0.04</kl>
+            <xf name="Sorghum">1</xf>
+            <ll name="Seedling">0.21</ll>
+            <xf name="Seedling">1</xf>
+            <kl name="Seedling">0.02</kl>
+          </layer>
+        </profile>
+        <Cona>5</Cona>
+        <DiffusConst>40</DiffusConst>
+        <DiffusSlope>16</DiffusSlope>
+        <U>11</U>
+        <Salb>0.09</Salb>
+        <Cn2Bare>76</Cn2Bare>
+        <CnRed>20</CnRed>
+        <CnCov>0.8</CnCov>
+        <CnCanopyFact>1</CnCanopyFact>
+        <RootCn>40</RootCn>
+        <RootWt>200</RootWt>
+        <SoilCn>12.5</SoilCn>
+        <EnrACoeff>7.4</EnrACoeff>
+        <EnrBCoeff>0.2</EnrBCoeff>
+        <InitWater>
+          <DepthWetSoilMethod>
+            <Depth>200</Depth>
+          </DepthWetSoilMethod>
+        </InitWater>
+        <InitNitrogen>
+          <layer name="1">
+            <no3>6.50251233431099</no3>
+            <nh4>0.599196200219218</nh4>
+          </layer>
+          <layer name="2">
+            <no3>5</no3>
+            <nh4>0.0998660333698697</nh4>
+          </layer>
+          <layer name="3">
+            <no3>5</no3>
+            <nh4>0.0998660333698697</nh4>
+          </layer>
+          <layer name="4">
+            <no3>5</no3>
+            <nh4>0.0998660333698697</nh4>
+          </layer>
+          <layer name="5">
+            <no3>5</no3>
+            <nh4>0.0998660333698697</nh4>
+          </layer>
+          <layer name="6">
+            <no3>5</no3>
+            <nh4>0.0998660333698697</nh4>
+          </layer>
+        </InitNitrogen>
+      </soil>
     </area>
   </simulation>
   <simulation name="MelliodoraOutside">
@@ -57,7 +249,6 @@
           <action>'WellCamp Water' set sw = 0.43 0.49 0.49 0.43 0.31 0.36 </action>
         </operation>
       </operations>
-      <soil name="WellCamp" shortcut="WellCamp" />
       <outputfile name="outputfile" shortcut="outputfile" />
       <irrigation name="Irrigation">
         <automatic_irrigation type="list" listvalues="on,off" description="Automatic irrigation">off</automatic_irrigation>
@@ -68,6 +259,199 @@
       <surfaceom name="surface organic matter" shortcut="surface organic matter" />
       <seedling name="seedling" shortcut="seedling" />
       <logic name="OutputCalculator" shortcut="OutputCalculator" />
+      <soil name="WellCamp">
+        <Site>Jimbour</Site>
+        <Region>South East Queensland</Region>
+        <LocalName>Waco</LocalName>
+        <SoilType>Black Vertosol</SoilType>
+        <NearestTown>Jimbour, Q 4352</NearestTown>
+        <NaturalVegetation>Grassland, mainly Qld bluegrass</NaturalVegetation>
+        <profile>
+          <layer>
+            <thickness>150</thickness>
+            <bd>1.02</bd>
+            <ll15>0.2</ll15>
+            <airdry>0.18</airdry>
+            <dul>0.54</dul>
+            <sat>0.59</sat>
+            <sw>9999.99</sw>
+            <swcon>0.3</swcon>
+            <oc>1.04</oc>
+            <ph>8.4</ph>
+            <fbiom>0.025</fbiom>
+            <finert>0.4</finert>
+            <no3>6.5</no3>
+            <nh4>0.6</nh4>
+            <ec>0.2</ec>
+            <ll name="Sorghum">0.2</ll>
+            <kl name="Sorghum">0.1</kl>
+            <xf name="Sorghum">1</xf>
+            <ll name="Seedling">0.2</ll>
+            <xf name="Seedling">0.5</xf>
+            <kl name="Seedling">0.02</kl>
+          </layer>
+          <layer>
+            <thickness>150</thickness>
+            <bd>1.03</bd>
+            <ll15>0.3</ll15>
+            <airdry>0.25</airdry>
+            <dul>0.53</dul>
+            <sat>0.58</sat>
+            <sw>9999.99</sw>
+            <swcon>0.3</swcon>
+            <oc>0.89</oc>
+            <ph>8.8</ph>
+            <fbiom>0.02</fbiom>
+            <finert>0.6</finert>
+            <no3>2.1</no3>
+            <nh4>0.1</nh4>
+            <ec>0.25</ec>
+            <ll name="Sorghum">0.3</ll>
+            <kl name="Sorghum">0.1</kl>
+            <xf name="Sorghum">1</xf>
+            <ll name="Seedling">0.25</ll>
+            <xf name="Seedling">0.5</xf>
+            <kl name="Seedling">0.02</kl>
+          </layer>
+          <layer>
+            <thickness>300</thickness>
+            <bd>1.02</bd>
+            <ll15>0.3</ll15>
+            <airdry>0.3</airdry>
+            <dul>0.54</dul>
+            <sat>0.59</sat>
+            <sw>9999.99</sw>
+            <swcon>0.3</swcon>
+            <oc>0.89</oc>
+            <ph>9</ph>
+            <fbiom>0.015</fbiom>
+            <finert>0.8</finert>
+            <no3>2.1</no3>
+            <nh4>0.1</nh4>
+            <ec>0.31</ec>
+            <ll name="Sorghum">0.32</ll>
+            <kl name="Sorghum">0.1</kl>
+            <xf name="Sorghum">1</xf>
+            <ll name="Seedling">0.3</ll>
+            <xf name="Seedling">0.75</xf>
+            <kl name="Seedling">0.02</kl>
+          </layer>
+          <layer>
+            <thickness>300</thickness>
+            <bd>1.02</bd>
+            <ll15>0.25</ll15>
+            <airdry>0.25</airdry>
+            <dul>0.48</dul>
+            <sat>0.53</sat>
+            <sw>9999.99</sw>
+            <swcon>0.3</swcon>
+            <oc>0.89</oc>
+            <ph>9.2</ph>
+            <fbiom>0.01</fbiom>
+            <finert>0.9</finert>
+            <no3>1.7</no3>
+            <nh4>0.1</nh4>
+            <ec>0.4</ec>
+            <ll name="Sorghum">0.25</ll>
+            <kl name="Sorghum">0.08</kl>
+            <xf name="Sorghum">1</xf>
+            <ll name="Seedling">0.25</ll>
+            <xf name="Seedling">1</xf>
+            <kl name="Seedling">0.02</kl>
+          </layer>
+          <layer>
+            <thickness>300</thickness>
+            <bd>1.06</bd>
+            <ll15>0.21</ll15>
+            <airdry>0.21</airdry>
+            <dul>0.4</dul>
+            <sat>0.45</sat>
+            <sw>9999.99</sw>
+            <swcon>0.3</swcon>
+            <oc>0.77</oc>
+            <ph>9.2</ph>
+            <fbiom>0.01</fbiom>
+            <finert>0.95</finert>
+            <no3>1.7</no3>
+            <nh4>0.1</nh4>
+            <ec>0.59</ec>
+            <ll name="Sorghum">0.21</ll>
+            <kl name="Sorghum">0.06</kl>
+            <xf name="Sorghum">1</xf>
+            <ll name="Seedling">0.21</ll>
+            <xf name="Seedling">1</xf>
+            <kl name="Seedling">0.02</kl>
+          </layer>
+          <layer>
+            <thickness>300</thickness>
+            <bd>1.11</bd>
+            <ll15>0.21</ll15>
+            <airdry>0.21</airdry>
+            <dul>0.38</dul>
+            <sat>0.43</sat>
+            <sw>9999.99</sw>
+            <swcon>0.3</swcon>
+            <oc>0.45</oc>
+            <ph>9.1</ph>
+            <fbiom>0.01</fbiom>
+            <finert>0.95</finert>
+            <no3>1.7</no3>
+            <nh4>0.1</nh4>
+            <ec>0.84</ec>
+            <ll name="Sorghum">0.21</ll>
+            <kl name="Sorghum">0.04</kl>
+            <xf name="Sorghum">1</xf>
+            <ll name="Seedling">0.21</ll>
+            <xf name="Seedling">1</xf>
+            <kl name="Seedling">0.02</kl>
+          </layer>
+        </profile>
+        <Cona>5</Cona>
+        <DiffusConst>40</DiffusConst>
+        <DiffusSlope>16</DiffusSlope>
+        <U>11</U>
+        <Salb>0.09</Salb>
+        <Cn2Bare>76</Cn2Bare>
+        <CnRed>20</CnRed>
+        <CnCov>0.8</CnCov>
+        <CnCanopyFact>1</CnCanopyFact>
+        <RootCn>40</RootCn>
+        <RootWt>200</RootWt>
+        <SoilCn>12.5</SoilCn>
+        <EnrACoeff>7.4</EnrACoeff>
+        <EnrBCoeff>0.2</EnrBCoeff>
+        <InitWater>
+          <DepthWetSoilMethod>
+            <Depth>200</Depth>
+          </DepthWetSoilMethod>
+        </InitWater>
+        <InitNitrogen>
+          <layer name="1">
+            <no3>6.50251233431099</no3>
+            <nh4>0.599196200219218</nh4>
+          </layer>
+          <layer name="2">
+            <no3>5</no3>
+            <nh4>0.0998660333698697</nh4>
+          </layer>
+          <layer name="3">
+            <no3>5</no3>
+            <nh4>0.0998660333698697</nh4>
+          </layer>
+          <layer name="4">
+            <no3>5</no3>
+            <nh4>0.0998660333698697</nh4>
+          </layer>
+          <layer name="5">
+            <no3>5</no3>
+            <nh4>0.0998660333698697</nh4>
+          </layer>
+          <layer name="6">
+            <no3>5</no3>
+            <nh4>0.0998660333698697</nh4>
+          </layer>
+        </InitNitrogen>
+      </soil>
     </area>
   </simulation>
   <simulation name="MelliodoraW1">
@@ -92,7 +476,6 @@
           <action>'WellCamp Water' set sw = 0.25 0.36 0.3 0.25 0.21 0.21 0.28</action>
         </operation>
       </operations>
-      <soil name="WellCamp" shortcut="WellCamp" />
       <outputfile name="outputfile" shortcut="outputfile" />
       <irrigation name="Irrigation">
         <automatic_irrigation type="list" listvalues="on,off" description="Automatic irrigation">off</automatic_irrigation>
@@ -103,6 +486,199 @@
       <surfaceom name="surface organic matter" shortcut="surface organic matter" />
       <seedling name="seedling" shortcut="seedling" />
       <logic name="OutputCalculator" shortcut="OutputCalculator" />
+      <soil name="WellCamp">
+        <Site>Jimbour</Site>
+        <Region>South East Queensland</Region>
+        <LocalName>Waco</LocalName>
+        <SoilType>Black Vertosol</SoilType>
+        <NearestTown>Jimbour, Q 4352</NearestTown>
+        <NaturalVegetation>Grassland, mainly Qld bluegrass</NaturalVegetation>
+        <profile>
+          <layer>
+            <thickness>150</thickness>
+            <bd>1.02</bd>
+            <ll15>0.2</ll15>
+            <airdry>0.18</airdry>
+            <dul>0.54</dul>
+            <sat>0.59</sat>
+            <sw>9999.99</sw>
+            <swcon>0.3</swcon>
+            <oc>1.04</oc>
+            <ph>8.4</ph>
+            <fbiom>0.025</fbiom>
+            <finert>0.4</finert>
+            <no3>6.5</no3>
+            <nh4>0.6</nh4>
+            <ec>0.2</ec>
+            <ll name="Sorghum">0.2</ll>
+            <kl name="Sorghum">0.1</kl>
+            <xf name="Sorghum">1</xf>
+            <ll name="Seedling">0.2</ll>
+            <xf name="Seedling">0.5</xf>
+            <kl name="Seedling">0.02</kl>
+          </layer>
+          <layer>
+            <thickness>150</thickness>
+            <bd>1.03</bd>
+            <ll15>0.3</ll15>
+            <airdry>0.25</airdry>
+            <dul>0.53</dul>
+            <sat>0.58</sat>
+            <sw>9999.99</sw>
+            <swcon>0.3</swcon>
+            <oc>0.89</oc>
+            <ph>8.8</ph>
+            <fbiom>0.02</fbiom>
+            <finert>0.6</finert>
+            <no3>2.1</no3>
+            <nh4>0.1</nh4>
+            <ec>0.25</ec>
+            <ll name="Sorghum">0.3</ll>
+            <kl name="Sorghum">0.1</kl>
+            <xf name="Sorghum">1</xf>
+            <ll name="Seedling">0.25</ll>
+            <xf name="Seedling">0.5</xf>
+            <kl name="Seedling">0.02</kl>
+          </layer>
+          <layer>
+            <thickness>300</thickness>
+            <bd>1.02</bd>
+            <ll15>0.3</ll15>
+            <airdry>0.3</airdry>
+            <dul>0.54</dul>
+            <sat>0.59</sat>
+            <sw>9999.99</sw>
+            <swcon>0.3</swcon>
+            <oc>0.89</oc>
+            <ph>9</ph>
+            <fbiom>0.015</fbiom>
+            <finert>0.8</finert>
+            <no3>2.1</no3>
+            <nh4>0.1</nh4>
+            <ec>0.31</ec>
+            <ll name="Sorghum">0.32</ll>
+            <kl name="Sorghum">0.1</kl>
+            <xf name="Sorghum">1</xf>
+            <ll name="Seedling">0.3</ll>
+            <xf name="Seedling">0.75</xf>
+            <kl name="Seedling">0.02</kl>
+          </layer>
+          <layer>
+            <thickness>300</thickness>
+            <bd>1.02</bd>
+            <ll15>0.25</ll15>
+            <airdry>0.25</airdry>
+            <dul>0.48</dul>
+            <sat>0.53</sat>
+            <sw>9999.99</sw>
+            <swcon>0.3</swcon>
+            <oc>0.89</oc>
+            <ph>9.2</ph>
+            <fbiom>0.01</fbiom>
+            <finert>0.9</finert>
+            <no3>1.7</no3>
+            <nh4>0.1</nh4>
+            <ec>0.4</ec>
+            <ll name="Sorghum">0.25</ll>
+            <kl name="Sorghum">0.08</kl>
+            <xf name="Sorghum">1</xf>
+            <ll name="Seedling">0.25</ll>
+            <xf name="Seedling">1</xf>
+            <kl name="Seedling">0.02</kl>
+          </layer>
+          <layer>
+            <thickness>300</thickness>
+            <bd>1.06</bd>
+            <ll15>0.21</ll15>
+            <airdry>0.21</airdry>
+            <dul>0.4</dul>
+            <sat>0.45</sat>
+            <sw>9999.99</sw>
+            <swcon>0.3</swcon>
+            <oc>0.77</oc>
+            <ph>9.2</ph>
+            <fbiom>0.01</fbiom>
+            <finert>0.95</finert>
+            <no3>1.7</no3>
+            <nh4>0.1</nh4>
+            <ec>0.59</ec>
+            <ll name="Sorghum">0.21</ll>
+            <kl name="Sorghum">0.06</kl>
+            <xf name="Sorghum">1</xf>
+            <ll name="Seedling">0.21</ll>
+            <xf name="Seedling">1</xf>
+            <kl name="Seedling">0.02</kl>
+          </layer>
+          <layer>
+            <thickness>300</thickness>
+            <bd>1.11</bd>
+            <ll15>0.21</ll15>
+            <airdry>0.21</airdry>
+            <dul>0.38</dul>
+            <sat>0.43</sat>
+            <sw>9999.99</sw>
+            <swcon>0.3</swcon>
+            <oc>0.45</oc>
+            <ph>9.1</ph>
+            <fbiom>0.01</fbiom>
+            <finert>0.95</finert>
+            <no3>1.7</no3>
+            <nh4>0.1</nh4>
+            <ec>0.84</ec>
+            <ll name="Sorghum">0.21</ll>
+            <kl name="Sorghum">0.04</kl>
+            <xf name="Sorghum">1</xf>
+            <ll name="Seedling">0.21</ll>
+            <xf name="Seedling">1</xf>
+            <kl name="Seedling">0.02</kl>
+          </layer>
+        </profile>
+        <Cona>5</Cona>
+        <DiffusConst>40</DiffusConst>
+        <DiffusSlope>16</DiffusSlope>
+        <U>11</U>
+        <Salb>0.09</Salb>
+        <Cn2Bare>76</Cn2Bare>
+        <CnRed>20</CnRed>
+        <CnCov>0.8</CnCov>
+        <CnCanopyFact>1</CnCanopyFact>
+        <RootCn>40</RootCn>
+        <RootWt>200</RootWt>
+        <SoilCn>12.5</SoilCn>
+        <EnrACoeff>7.4</EnrACoeff>
+        <EnrBCoeff>0.2</EnrBCoeff>
+        <InitWater>
+          <DepthWetSoilMethod>
+            <Depth>200</Depth>
+          </DepthWetSoilMethod>
+        </InitWater>
+        <InitNitrogen>
+          <layer name="1">
+            <no3>6.50251233431099</no3>
+            <nh4>0.599196200219218</nh4>
+          </layer>
+          <layer name="2">
+            <no3>5</no3>
+            <nh4>0.0998660333698697</nh4>
+          </layer>
+          <layer name="3">
+            <no3>5</no3>
+            <nh4>0.0998660333698697</nh4>
+          </layer>
+          <layer name="4">
+            <no3>5</no3>
+            <nh4>0.0998660333698697</nh4>
+          </layer>
+          <layer name="5">
+            <no3>5</no3>
+            <nh4>0.0998660333698697</nh4>
+          </layer>
+          <layer name="6">
+            <no3>5</no3>
+            <nh4>0.0998660333698697</nh4>
+          </layer>
+        </InitNitrogen>
+      </soil>
     </area>
   </simulation>
   <simulation name="MelliodoraW2">
@@ -127,7 +703,6 @@
           <action>'WellCamp Water' set sw = 0.25 0.39 0.35 0.25 0.21 0.21 0.28</action>
         </operation>
       </operations>
-      <soil name="WellCamp" shortcut="WellCamp" />
       <outputfile name="outputfile" shortcut="outputfile" />
       <irrigation name="Irrigation">
         <automatic_irrigation type="list" listvalues="on,off" description="Automatic irrigation">off</automatic_irrigation>
@@ -138,6 +713,199 @@
       <surfaceom name="surface organic matter" shortcut="surface organic matter" />
       <seedling name="seedling" shortcut="seedling" />
       <logic name="OutputCalculator" shortcut="OutputCalculator" />
+      <soil name="WellCamp">
+        <Site>Jimbour</Site>
+        <Region>South East Queensland</Region>
+        <LocalName>Waco</LocalName>
+        <SoilType>Black Vertosol</SoilType>
+        <NearestTown>Jimbour, Q 4352</NearestTown>
+        <NaturalVegetation>Grassland, mainly Qld bluegrass</NaturalVegetation>
+        <profile>
+          <layer>
+            <thickness>150</thickness>
+            <bd>1.02</bd>
+            <ll15>0.2</ll15>
+            <airdry>0.18</airdry>
+            <dul>0.54</dul>
+            <sat>0.59</sat>
+            <sw>9999.99</sw>
+            <swcon>0.3</swcon>
+            <oc>1.04</oc>
+            <ph>8.4</ph>
+            <fbiom>0.025</fbiom>
+            <finert>0.4</finert>
+            <no3>6.5</no3>
+            <nh4>0.6</nh4>
+            <ec>0.2</ec>
+            <ll name="Sorghum">0.2</ll>
+            <kl name="Sorghum">0.1</kl>
+            <xf name="Sorghum">1</xf>
+            <ll name="Seedling">0.2</ll>
+            <xf name="Seedling">0.5</xf>
+            <kl name="Seedling">0.02</kl>
+          </layer>
+          <layer>
+            <thickness>150</thickness>
+            <bd>1.03</bd>
+            <ll15>0.3</ll15>
+            <airdry>0.25</airdry>
+            <dul>0.53</dul>
+            <sat>0.58</sat>
+            <sw>9999.99</sw>
+            <swcon>0.3</swcon>
+            <oc>0.89</oc>
+            <ph>8.8</ph>
+            <fbiom>0.02</fbiom>
+            <finert>0.6</finert>
+            <no3>2.1</no3>
+            <nh4>0.1</nh4>
+            <ec>0.25</ec>
+            <ll name="Sorghum">0.3</ll>
+            <kl name="Sorghum">0.1</kl>
+            <xf name="Sorghum">1</xf>
+            <ll name="Seedling">0.25</ll>
+            <xf name="Seedling">0.5</xf>
+            <kl name="Seedling">0.02</kl>
+          </layer>
+          <layer>
+            <thickness>300</thickness>
+            <bd>1.02</bd>
+            <ll15>0.3</ll15>
+            <airdry>0.3</airdry>
+            <dul>0.54</dul>
+            <sat>0.59</sat>
+            <sw>9999.99</sw>
+            <swcon>0.3</swcon>
+            <oc>0.89</oc>
+            <ph>9</ph>
+            <fbiom>0.015</fbiom>
+            <finert>0.8</finert>
+            <no3>2.1</no3>
+            <nh4>0.1</nh4>
+            <ec>0.31</ec>
+            <ll name="Sorghum">0.32</ll>
+            <kl name="Sorghum">0.1</kl>
+            <xf name="Sorghum">1</xf>
+            <ll name="Seedling">0.3</ll>
+            <xf name="Seedling">0.75</xf>
+            <kl name="Seedling">0.02</kl>
+          </layer>
+          <layer>
+            <thickness>300</thickness>
+            <bd>1.02</bd>
+            <ll15>0.25</ll15>
+            <airdry>0.25</airdry>
+            <dul>0.48</dul>
+            <sat>0.53</sat>
+            <sw>9999.99</sw>
+            <swcon>0.3</swcon>
+            <oc>0.89</oc>
+            <ph>9.2</ph>
+            <fbiom>0.01</fbiom>
+            <finert>0.9</finert>
+            <no3>1.7</no3>
+            <nh4>0.1</nh4>
+            <ec>0.4</ec>
+            <ll name="Sorghum">0.25</ll>
+            <kl name="Sorghum">0.08</kl>
+            <xf name="Sorghum">1</xf>
+            <ll name="Seedling">0.25</ll>
+            <xf name="Seedling">1</xf>
+            <kl name="Seedling">0.02</kl>
+          </layer>
+          <layer>
+            <thickness>300</thickness>
+            <bd>1.06</bd>
+            <ll15>0.21</ll15>
+            <airdry>0.21</airdry>
+            <dul>0.4</dul>
+            <sat>0.45</sat>
+            <sw>9999.99</sw>
+            <swcon>0.3</swcon>
+            <oc>0.77</oc>
+            <ph>9.2</ph>
+            <fbiom>0.01</fbiom>
+            <finert>0.95</finert>
+            <no3>1.7</no3>
+            <nh4>0.1</nh4>
+            <ec>0.59</ec>
+            <ll name="Sorghum">0.21</ll>
+            <kl name="Sorghum">0.06</kl>
+            <xf name="Sorghum">1</xf>
+            <ll name="Seedling">0.21</ll>
+            <xf name="Seedling">1</xf>
+            <kl name="Seedling">0.02</kl>
+          </layer>
+          <layer>
+            <thickness>300</thickness>
+            <bd>1.11</bd>
+            <ll15>0.21</ll15>
+            <airdry>0.21</airdry>
+            <dul>0.38</dul>
+            <sat>0.43</sat>
+            <sw>9999.99</sw>
+            <swcon>0.3</swcon>
+            <oc>0.45</oc>
+            <ph>9.1</ph>
+            <fbiom>0.01</fbiom>
+            <finert>0.95</finert>
+            <no3>1.7</no3>
+            <nh4>0.1</nh4>
+            <ec>0.84</ec>
+            <ll name="Sorghum">0.21</ll>
+            <kl name="Sorghum">0.04</kl>
+            <xf name="Sorghum">1</xf>
+            <ll name="Seedling">0.21</ll>
+            <xf name="Seedling">1</xf>
+            <kl name="Seedling">0.02</kl>
+          </layer>
+        </profile>
+        <Cona>5</Cona>
+        <DiffusConst>40</DiffusConst>
+        <DiffusSlope>16</DiffusSlope>
+        <U>11</U>
+        <Salb>0.09</Salb>
+        <Cn2Bare>76</Cn2Bare>
+        <CnRed>20</CnRed>
+        <CnCov>0.8</CnCov>
+        <CnCanopyFact>1</CnCanopyFact>
+        <RootCn>40</RootCn>
+        <RootWt>200</RootWt>
+        <SoilCn>12.5</SoilCn>
+        <EnrACoeff>7.4</EnrACoeff>
+        <EnrBCoeff>0.2</EnrBCoeff>
+        <InitWater>
+          <DepthWetSoilMethod>
+            <Depth>200</Depth>
+          </DepthWetSoilMethod>
+        </InitWater>
+        <InitNitrogen>
+          <layer name="1">
+            <no3>6.50251233431099</no3>
+            <nh4>0.599196200219218</nh4>
+          </layer>
+          <layer name="2">
+            <no3>5</no3>
+            <nh4>0.0998660333698697</nh4>
+          </layer>
+          <layer name="3">
+            <no3>5</no3>
+            <nh4>0.0998660333698697</nh4>
+          </layer>
+          <layer name="4">
+            <no3>5</no3>
+            <nh4>0.0998660333698697</nh4>
+          </layer>
+          <layer name="5">
+            <no3>5</no3>
+            <nh4>0.0998660333698697</nh4>
+          </layer>
+          <layer name="6">
+            <no3>5</no3>
+            <nh4>0.0998660333698697</nh4>
+          </layer>
+        </InitNitrogen>
+      </soil>
     </area>
   </simulation>
   <simulation name="MelliodoraW3">
@@ -162,7 +930,6 @@
           <action>'WellCamp Water' set sw = 0.25 0.43 0.36 0.25 0.21 0.21 0.28</action>
         </operation>
       </operations>
-      <soil name="WellCamp" shortcut="WellCamp" />
       <outputfile name="outputfile" shortcut="outputfile" />
       <irrigation name="Irrigation">
         <automatic_irrigation type="list" listvalues="on,off" description="Automatic irrigation">off</automatic_irrigation>
@@ -173,6 +940,199 @@
       <surfaceom name="surface organic matter" shortcut="surface organic matter" />
       <seedling name="seedling" shortcut="seedling" />
       <logic name="OutputCalculator" shortcut="OutputCalculator" />
+      <soil name="WellCamp">
+        <Site>Jimbour</Site>
+        <Region>South East Queensland</Region>
+        <LocalName>Waco</LocalName>
+        <SoilType>Black Vertosol</SoilType>
+        <NearestTown>Jimbour, Q 4352</NearestTown>
+        <NaturalVegetation>Grassland, mainly Qld bluegrass</NaturalVegetation>
+        <profile>
+          <layer>
+            <thickness>150</thickness>
+            <bd>1.02</bd>
+            <ll15>0.2</ll15>
+            <airdry>0.18</airdry>
+            <dul>0.54</dul>
+            <sat>0.59</sat>
+            <sw>9999.99</sw>
+            <swcon>0.3</swcon>
+            <oc>1.04</oc>
+            <ph>8.4</ph>
+            <fbiom>0.025</fbiom>
+            <finert>0.4</finert>
+            <no3>6.5</no3>
+            <nh4>0.6</nh4>
+            <ec>0.2</ec>
+            <ll name="Sorghum">0.2</ll>
+            <kl name="Sorghum">0.1</kl>
+            <xf name="Sorghum">1</xf>
+            <ll name="Seedling">0.2</ll>
+            <xf name="Seedling">0.5</xf>
+            <kl name="Seedling">0.02</kl>
+          </layer>
+          <layer>
+            <thickness>150</thickness>
+            <bd>1.03</bd>
+            <ll15>0.3</ll15>
+            <airdry>0.25</airdry>
+            <dul>0.53</dul>
+            <sat>0.58</sat>
+            <sw>9999.99</sw>
+            <swcon>0.3</swcon>
+            <oc>0.89</oc>
+            <ph>8.8</ph>
+            <fbiom>0.02</fbiom>
+            <finert>0.6</finert>
+            <no3>2.1</no3>
+            <nh4>0.1</nh4>
+            <ec>0.25</ec>
+            <ll name="Sorghum">0.3</ll>
+            <kl name="Sorghum">0.1</kl>
+            <xf name="Sorghum">1</xf>
+            <ll name="Seedling">0.25</ll>
+            <xf name="Seedling">0.5</xf>
+            <kl name="Seedling">0.02</kl>
+          </layer>
+          <layer>
+            <thickness>300</thickness>
+            <bd>1.02</bd>
+            <ll15>0.3</ll15>
+            <airdry>0.3</airdry>
+            <dul>0.54</dul>
+            <sat>0.59</sat>
+            <sw>9999.99</sw>
+            <swcon>0.3</swcon>
+            <oc>0.89</oc>
+            <ph>9</ph>
+            <fbiom>0.015</fbiom>
+            <finert>0.8</finert>
+            <no3>2.1</no3>
+            <nh4>0.1</nh4>
+            <ec>0.31</ec>
+            <ll name="Sorghum">0.32</ll>
+            <kl name="Sorghum">0.1</kl>
+            <xf name="Sorghum">1</xf>
+            <ll name="Seedling">0.3</ll>
+            <xf name="Seedling">0.75</xf>
+            <kl name="Seedling">0.02</kl>
+          </layer>
+          <layer>
+            <thickness>300</thickness>
+            <bd>1.02</bd>
+            <ll15>0.25</ll15>
+            <airdry>0.25</airdry>
+            <dul>0.48</dul>
+            <sat>0.53</sat>
+            <sw>9999.99</sw>
+            <swcon>0.3</swcon>
+            <oc>0.89</oc>
+            <ph>9.2</ph>
+            <fbiom>0.01</fbiom>
+            <finert>0.9</finert>
+            <no3>1.7</no3>
+            <nh4>0.1</nh4>
+            <ec>0.4</ec>
+            <ll name="Sorghum">0.25</ll>
+            <kl name="Sorghum">0.08</kl>
+            <xf name="Sorghum">1</xf>
+            <ll name="Seedling">0.25</ll>
+            <xf name="Seedling">1</xf>
+            <kl name="Seedling">0.02</kl>
+          </layer>
+          <layer>
+            <thickness>300</thickness>
+            <bd>1.06</bd>
+            <ll15>0.21</ll15>
+            <airdry>0.21</airdry>
+            <dul>0.4</dul>
+            <sat>0.45</sat>
+            <sw>9999.99</sw>
+            <swcon>0.3</swcon>
+            <oc>0.77</oc>
+            <ph>9.2</ph>
+            <fbiom>0.01</fbiom>
+            <finert>0.95</finert>
+            <no3>1.7</no3>
+            <nh4>0.1</nh4>
+            <ec>0.59</ec>
+            <ll name="Sorghum">0.21</ll>
+            <kl name="Sorghum">0.06</kl>
+            <xf name="Sorghum">1</xf>
+            <ll name="Seedling">0.21</ll>
+            <xf name="Seedling">1</xf>
+            <kl name="Seedling">0.02</kl>
+          </layer>
+          <layer>
+            <thickness>300</thickness>
+            <bd>1.11</bd>
+            <ll15>0.21</ll15>
+            <airdry>0.21</airdry>
+            <dul>0.38</dul>
+            <sat>0.43</sat>
+            <sw>9999.99</sw>
+            <swcon>0.3</swcon>
+            <oc>0.45</oc>
+            <ph>9.1</ph>
+            <fbiom>0.01</fbiom>
+            <finert>0.95</finert>
+            <no3>1.7</no3>
+            <nh4>0.1</nh4>
+            <ec>0.84</ec>
+            <ll name="Sorghum">0.21</ll>
+            <kl name="Sorghum">0.04</kl>
+            <xf name="Sorghum">1</xf>
+            <ll name="Seedling">0.21</ll>
+            <xf name="Seedling">1</xf>
+            <kl name="Seedling">0.02</kl>
+          </layer>
+        </profile>
+        <Cona>5</Cona>
+        <DiffusConst>40</DiffusConst>
+        <DiffusSlope>16</DiffusSlope>
+        <U>11</U>
+        <Salb>0.09</Salb>
+        <Cn2Bare>76</Cn2Bare>
+        <CnRed>20</CnRed>
+        <CnCov>0.8</CnCov>
+        <CnCanopyFact>1</CnCanopyFact>
+        <RootCn>40</RootCn>
+        <RootWt>200</RootWt>
+        <SoilCn>12.5</SoilCn>
+        <EnrACoeff>7.4</EnrACoeff>
+        <EnrBCoeff>0.2</EnrBCoeff>
+        <InitWater>
+          <DepthWetSoilMethod>
+            <Depth>200</Depth>
+          </DepthWetSoilMethod>
+        </InitWater>
+        <InitNitrogen>
+          <layer name="1">
+            <no3>6.50251233431099</no3>
+            <nh4>0.599196200219218</nh4>
+          </layer>
+          <layer name="2">
+            <no3>5</no3>
+            <nh4>0.0998660333698697</nh4>
+          </layer>
+          <layer name="3">
+            <no3>5</no3>
+            <nh4>0.0998660333698697</nh4>
+          </layer>
+          <layer name="4">
+            <no3>5</no3>
+            <nh4>0.0998660333698697</nh4>
+          </layer>
+          <layer name="5">
+            <no3>5</no3>
+            <nh4>0.0998660333698697</nh4>
+          </layer>
+          <layer name="6">
+            <no3>5</no3>
+            <nh4>0.0998660333698697</nh4>
+          </layer>
+        </InitNitrogen>
+      </soil>
     </area>
   </simulation>
   <simulation name="MelliodoraW4">
@@ -197,7 +1157,6 @@
           <action>'WellCamp Water' set sw = 0.54 0.52 0.53 0.48 0.21 0.21 0.28</action>
         </operation>
       </operations>
-      <soil name="WellCamp" shortcut="WellCamp" />
       <outputfile name="outputfile" shortcut="outputfile" />
       <irrigation name="Irrigation">
         <automatic_irrigation type="list" listvalues="on,off" description="Automatic irrigation">off</automatic_irrigation>
@@ -208,6 +1167,199 @@
       <surfaceom name="surface organic matter" shortcut="surface organic matter" />
       <seedling name="seedling" shortcut="seedling" />
       <logic name="OutputCalculator" shortcut="OutputCalculator" />
+      <soil name="WellCamp">
+        <Site>Jimbour</Site>
+        <Region>South East Queensland</Region>
+        <LocalName>Waco</LocalName>
+        <SoilType>Black Vertosol</SoilType>
+        <NearestTown>Jimbour, Q 4352</NearestTown>
+        <NaturalVegetation>Grassland, mainly Qld bluegrass</NaturalVegetation>
+        <profile>
+          <layer>
+            <thickness>150</thickness>
+            <bd>1.02</bd>
+            <ll15>0.2</ll15>
+            <airdry>0.18</airdry>
+            <dul>0.54</dul>
+            <sat>0.59</sat>
+            <sw>9999.99</sw>
+            <swcon>0.3</swcon>
+            <oc>1.04</oc>
+            <ph>8.4</ph>
+            <fbiom>0.025</fbiom>
+            <finert>0.4</finert>
+            <no3>6.5</no3>
+            <nh4>0.6</nh4>
+            <ec>0.2</ec>
+            <ll name="Sorghum">0.2</ll>
+            <kl name="Sorghum">0.1</kl>
+            <xf name="Sorghum">1</xf>
+            <ll name="Seedling">0.2</ll>
+            <xf name="Seedling">0.5</xf>
+            <kl name="Seedling">0.02</kl>
+          </layer>
+          <layer>
+            <thickness>150</thickness>
+            <bd>1.03</bd>
+            <ll15>0.3</ll15>
+            <airdry>0.25</airdry>
+            <dul>0.53</dul>
+            <sat>0.58</sat>
+            <sw>9999.99</sw>
+            <swcon>0.3</swcon>
+            <oc>0.89</oc>
+            <ph>8.8</ph>
+            <fbiom>0.02</fbiom>
+            <finert>0.6</finert>
+            <no3>2.1</no3>
+            <nh4>0.1</nh4>
+            <ec>0.25</ec>
+            <ll name="Sorghum">0.3</ll>
+            <kl name="Sorghum">0.1</kl>
+            <xf name="Sorghum">1</xf>
+            <ll name="Seedling">0.25</ll>
+            <xf name="Seedling">0.5</xf>
+            <kl name="Seedling">0.02</kl>
+          </layer>
+          <layer>
+            <thickness>300</thickness>
+            <bd>1.02</bd>
+            <ll15>0.3</ll15>
+            <airdry>0.3</airdry>
+            <dul>0.54</dul>
+            <sat>0.59</sat>
+            <sw>9999.99</sw>
+            <swcon>0.3</swcon>
+            <oc>0.89</oc>
+            <ph>9</ph>
+            <fbiom>0.015</fbiom>
+            <finert>0.8</finert>
+            <no3>2.1</no3>
+            <nh4>0.1</nh4>
+            <ec>0.31</ec>
+            <ll name="Sorghum">0.32</ll>
+            <kl name="Sorghum">0.1</kl>
+            <xf name="Sorghum">1</xf>
+            <ll name="Seedling">0.3</ll>
+            <xf name="Seedling">0.75</xf>
+            <kl name="Seedling">0.02</kl>
+          </layer>
+          <layer>
+            <thickness>300</thickness>
+            <bd>1.02</bd>
+            <ll15>0.25</ll15>
+            <airdry>0.25</airdry>
+            <dul>0.48</dul>
+            <sat>0.53</sat>
+            <sw>9999.99</sw>
+            <swcon>0.3</swcon>
+            <oc>0.89</oc>
+            <ph>9.2</ph>
+            <fbiom>0.01</fbiom>
+            <finert>0.9</finert>
+            <no3>1.7</no3>
+            <nh4>0.1</nh4>
+            <ec>0.4</ec>
+            <ll name="Sorghum">0.25</ll>
+            <kl name="Sorghum">0.08</kl>
+            <xf name="Sorghum">1</xf>
+            <ll name="Seedling">0.25</ll>
+            <xf name="Seedling">1</xf>
+            <kl name="Seedling">0.02</kl>
+          </layer>
+          <layer>
+            <thickness>300</thickness>
+            <bd>1.06</bd>
+            <ll15>0.21</ll15>
+            <airdry>0.21</airdry>
+            <dul>0.4</dul>
+            <sat>0.45</sat>
+            <sw>9999.99</sw>
+            <swcon>0.3</swcon>
+            <oc>0.77</oc>
+            <ph>9.2</ph>
+            <fbiom>0.01</fbiom>
+            <finert>0.95</finert>
+            <no3>1.7</no3>
+            <nh4>0.1</nh4>
+            <ec>0.59</ec>
+            <ll name="Sorghum">0.21</ll>
+            <kl name="Sorghum">0.06</kl>
+            <xf name="Sorghum">1</xf>
+            <ll name="Seedling">0.21</ll>
+            <xf name="Seedling">1</xf>
+            <kl name="Seedling">0.02</kl>
+          </layer>
+          <layer>
+            <thickness>300</thickness>
+            <bd>1.11</bd>
+            <ll15>0.21</ll15>
+            <airdry>0.21</airdry>
+            <dul>0.38</dul>
+            <sat>0.43</sat>
+            <sw>9999.99</sw>
+            <swcon>0.3</swcon>
+            <oc>0.45</oc>
+            <ph>9.1</ph>
+            <fbiom>0.01</fbiom>
+            <finert>0.95</finert>
+            <no3>1.7</no3>
+            <nh4>0.1</nh4>
+            <ec>0.84</ec>
+            <ll name="Sorghum">0.21</ll>
+            <kl name="Sorghum">0.04</kl>
+            <xf name="Sorghum">1</xf>
+            <ll name="Seedling">0.21</ll>
+            <xf name="Seedling">1</xf>
+            <kl name="Seedling">0.02</kl>
+          </layer>
+        </profile>
+        <Cona>5</Cona>
+        <DiffusConst>40</DiffusConst>
+        <DiffusSlope>16</DiffusSlope>
+        <U>11</U>
+        <Salb>0.09</Salb>
+        <Cn2Bare>76</Cn2Bare>
+        <CnRed>20</CnRed>
+        <CnCov>0.8</CnCov>
+        <CnCanopyFact>1</CnCanopyFact>
+        <RootCn>40</RootCn>
+        <RootWt>200</RootWt>
+        <SoilCn>12.5</SoilCn>
+        <EnrACoeff>7.4</EnrACoeff>
+        <EnrBCoeff>0.2</EnrBCoeff>
+        <InitWater>
+          <DepthWetSoilMethod>
+            <Depth>200</Depth>
+          </DepthWetSoilMethod>
+        </InitWater>
+        <InitNitrogen>
+          <layer name="1">
+            <no3>6.50251233431099</no3>
+            <nh4>0.599196200219218</nh4>
+          </layer>
+          <layer name="2">
+            <no3>5</no3>
+            <nh4>0.0998660333698697</nh4>
+          </layer>
+          <layer name="3">
+            <no3>5</no3>
+            <nh4>0.0998660333698697</nh4>
+          </layer>
+          <layer name="4">
+            <no3>5</no3>
+            <nh4>0.0998660333698697</nh4>
+          </layer>
+          <layer name="5">
+            <no3>5</no3>
+            <nh4>0.0998660333698697</nh4>
+          </layer>
+          <layer name="6">
+            <no3>5</no3>
+            <nh4>0.0998660333698697</nh4>
+          </layer>
+        </InitNitrogen>
+      </soil>
     </area>
   </simulation>
   <simulation name="MelliodoraW5">
@@ -232,7 +1384,6 @@
           <action>'WellCamp Water' set sw = 0.54 0.52 0.53 0.48 0.40 0.21 0.28</action>
         </operation>
       </operations>
-      <soil name="WellCamp" shortcut="WellCamp" />
       <outputfile name="outputfile" shortcut="outputfile" />
       <irrigation name="Irrigation">
         <automatic_irrigation type="list" listvalues="on,off" description="Automatic irrigation">off</automatic_irrigation>
@@ -243,6 +1394,199 @@
       <surfaceom name="surface organic matter" shortcut="surface organic matter" />
       <seedling name="seedling" shortcut="seedling" />
       <logic name="OutputCalculator" shortcut="OutputCalculator" />
+      <soil name="WellCamp">
+        <Site>Jimbour</Site>
+        <Region>South East Queensland</Region>
+        <LocalName>Waco</LocalName>
+        <SoilType>Black Vertosol</SoilType>
+        <NearestTown>Jimbour, Q 4352</NearestTown>
+        <NaturalVegetation>Grassland, mainly Qld bluegrass</NaturalVegetation>
+        <profile>
+          <layer>
+            <thickness>150</thickness>
+            <bd>1.02</bd>
+            <ll15>0.2</ll15>
+            <airdry>0.18</airdry>
+            <dul>0.54</dul>
+            <sat>0.59</sat>
+            <sw>9999.99</sw>
+            <swcon>0.3</swcon>
+            <oc>1.04</oc>
+            <ph>8.4</ph>
+            <fbiom>0.025</fbiom>
+            <finert>0.4</finert>
+            <no3>6.5</no3>
+            <nh4>0.6</nh4>
+            <ec>0.2</ec>
+            <ll name="Sorghum">0.2</ll>
+            <kl name="Sorghum">0.1</kl>
+            <xf name="Sorghum">1</xf>
+            <ll name="Seedling">0.2</ll>
+            <xf name="Seedling">0.5</xf>
+            <kl name="Seedling">0.02</kl>
+          </layer>
+          <layer>
+            <thickness>150</thickness>
+            <bd>1.03</bd>
+            <ll15>0.3</ll15>
+            <airdry>0.25</airdry>
+            <dul>0.53</dul>
+            <sat>0.58</sat>
+            <sw>9999.99</sw>
+            <swcon>0.3</swcon>
+            <oc>0.89</oc>
+            <ph>8.8</ph>
+            <fbiom>0.02</fbiom>
+            <finert>0.6</finert>
+            <no3>2.1</no3>
+            <nh4>0.1</nh4>
+            <ec>0.25</ec>
+            <ll name="Sorghum">0.3</ll>
+            <kl name="Sorghum">0.1</kl>
+            <xf name="Sorghum">1</xf>
+            <ll name="Seedling">0.25</ll>
+            <xf name="Seedling">0.5</xf>
+            <kl name="Seedling">0.02</kl>
+          </layer>
+          <layer>
+            <thickness>300</thickness>
+            <bd>1.02</bd>
+            <ll15>0.3</ll15>
+            <airdry>0.3</airdry>
+            <dul>0.54</dul>
+            <sat>0.59</sat>
+            <sw>9999.99</sw>
+            <swcon>0.3</swcon>
+            <oc>0.89</oc>
+            <ph>9</ph>
+            <fbiom>0.015</fbiom>
+            <finert>0.8</finert>
+            <no3>2.1</no3>
+            <nh4>0.1</nh4>
+            <ec>0.31</ec>
+            <ll name="Sorghum">0.32</ll>
+            <kl name="Sorghum">0.1</kl>
+            <xf name="Sorghum">1</xf>
+            <ll name="Seedling">0.3</ll>
+            <xf name="Seedling">0.75</xf>
+            <kl name="Seedling">0.02</kl>
+          </layer>
+          <layer>
+            <thickness>300</thickness>
+            <bd>1.02</bd>
+            <ll15>0.25</ll15>
+            <airdry>0.25</airdry>
+            <dul>0.48</dul>
+            <sat>0.53</sat>
+            <sw>9999.99</sw>
+            <swcon>0.3</swcon>
+            <oc>0.89</oc>
+            <ph>9.2</ph>
+            <fbiom>0.01</fbiom>
+            <finert>0.9</finert>
+            <no3>1.7</no3>
+            <nh4>0.1</nh4>
+            <ec>0.4</ec>
+            <ll name="Sorghum">0.25</ll>
+            <kl name="Sorghum">0.08</kl>
+            <xf name="Sorghum">1</xf>
+            <ll name="Seedling">0.25</ll>
+            <xf name="Seedling">1</xf>
+            <kl name="Seedling">0.02</kl>
+          </layer>
+          <layer>
+            <thickness>300</thickness>
+            <bd>1.06</bd>
+            <ll15>0.21</ll15>
+            <airdry>0.21</airdry>
+            <dul>0.4</dul>
+            <sat>0.45</sat>
+            <sw>9999.99</sw>
+            <swcon>0.3</swcon>
+            <oc>0.77</oc>
+            <ph>9.2</ph>
+            <fbiom>0.01</fbiom>
+            <finert>0.95</finert>
+            <no3>1.7</no3>
+            <nh4>0.1</nh4>
+            <ec>0.59</ec>
+            <ll name="Sorghum">0.21</ll>
+            <kl name="Sorghum">0.06</kl>
+            <xf name="Sorghum">1</xf>
+            <ll name="Seedling">0.21</ll>
+            <xf name="Seedling">1</xf>
+            <kl name="Seedling">0.02</kl>
+          </layer>
+          <layer>
+            <thickness>300</thickness>
+            <bd>1.11</bd>
+            <ll15>0.21</ll15>
+            <airdry>0.21</airdry>
+            <dul>0.38</dul>
+            <sat>0.43</sat>
+            <sw>9999.99</sw>
+            <swcon>0.3</swcon>
+            <oc>0.45</oc>
+            <ph>9.1</ph>
+            <fbiom>0.01</fbiom>
+            <finert>0.95</finert>
+            <no3>1.7</no3>
+            <nh4>0.1</nh4>
+            <ec>0.84</ec>
+            <ll name="Sorghum">0.21</ll>
+            <kl name="Sorghum">0.04</kl>
+            <xf name="Sorghum">1</xf>
+            <ll name="Seedling">0.21</ll>
+            <xf name="Seedling">1</xf>
+            <kl name="Seedling">0.02</kl>
+          </layer>
+        </profile>
+        <Cona>5</Cona>
+        <DiffusConst>40</DiffusConst>
+        <DiffusSlope>16</DiffusSlope>
+        <U>11</U>
+        <Salb>0.09</Salb>
+        <Cn2Bare>76</Cn2Bare>
+        <CnRed>20</CnRed>
+        <CnCov>0.8</CnCov>
+        <CnCanopyFact>1</CnCanopyFact>
+        <RootCn>40</RootCn>
+        <RootWt>200</RootWt>
+        <SoilCn>12.5</SoilCn>
+        <EnrACoeff>7.4</EnrACoeff>
+        <EnrBCoeff>0.2</EnrBCoeff>
+        <InitWater>
+          <DepthWetSoilMethod>
+            <Depth>200</Depth>
+          </DepthWetSoilMethod>
+        </InitWater>
+        <InitNitrogen>
+          <layer name="1">
+            <no3>6.50251233431099</no3>
+            <nh4>0.599196200219218</nh4>
+          </layer>
+          <layer name="2">
+            <no3>5</no3>
+            <nh4>0.0998660333698697</nh4>
+          </layer>
+          <layer name="3">
+            <no3>5</no3>
+            <nh4>0.0998660333698697</nh4>
+          </layer>
+          <layer name="4">
+            <no3>5</no3>
+            <nh4>0.0998660333698697</nh4>
+          </layer>
+          <layer name="5">
+            <no3>5</no3>
+            <nh4>0.0998660333698697</nh4>
+          </layer>
+          <layer name="6">
+            <no3>5</no3>
+            <nh4>0.0998660333698697</nh4>
+          </layer>
+        </InitNitrogen>
+      </soil>
     </area>
   </simulation>
   <simulation name="MelliodoraW6">
@@ -267,7 +1611,6 @@
           <action>'WellCamp Water' set sw = 0.37 0.48 0.47 0.40 0.29 0.32</action>
         </operation>
       </operations>
-      <soil name="WellCamp" shortcut="WellCamp" />
       <outputfile name="outputfile" shortcut="outputfile" />
       <irrigation name="Irrigation">
         <automatic_irrigation type="list" listvalues="on,off" description="Automatic irrigation">off</automatic_irrigation>
@@ -278,6 +1621,199 @@
       <surfaceom name="surface organic matter" shortcut="surface organic matter" />
       <seedling name="seedling" shortcut="seedling" />
       <logic name="OutputCalculator" shortcut="OutputCalculator" />
+      <soil name="WellCamp">
+        <Site>Jimbour</Site>
+        <Region>South East Queensland</Region>
+        <LocalName>Waco</LocalName>
+        <SoilType>Black Vertosol</SoilType>
+        <NearestTown>Jimbour, Q 4352</NearestTown>
+        <NaturalVegetation>Grassland, mainly Qld bluegrass</NaturalVegetation>
+        <profile>
+          <layer>
+            <thickness>150</thickness>
+            <bd>1.02</bd>
+            <ll15>0.2</ll15>
+            <airdry>0.18</airdry>
+            <dul>0.54</dul>
+            <sat>0.59</sat>
+            <sw>9999.99</sw>
+            <swcon>0.3</swcon>
+            <oc>1.04</oc>
+            <ph>8.4</ph>
+            <fbiom>0.025</fbiom>
+            <finert>0.4</finert>
+            <no3>6.5</no3>
+            <nh4>0.6</nh4>
+            <ec>0.2</ec>
+            <ll name="Sorghum">0.2</ll>
+            <kl name="Sorghum">0.1</kl>
+            <xf name="Sorghum">1</xf>
+            <ll name="Seedling">0.2</ll>
+            <xf name="Seedling">0.5</xf>
+            <kl name="Seedling">0.02</kl>
+          </layer>
+          <layer>
+            <thickness>150</thickness>
+            <bd>1.03</bd>
+            <ll15>0.3</ll15>
+            <airdry>0.25</airdry>
+            <dul>0.53</dul>
+            <sat>0.58</sat>
+            <sw>9999.99</sw>
+            <swcon>0.3</swcon>
+            <oc>0.89</oc>
+            <ph>8.8</ph>
+            <fbiom>0.02</fbiom>
+            <finert>0.6</finert>
+            <no3>2.1</no3>
+            <nh4>0.1</nh4>
+            <ec>0.25</ec>
+            <ll name="Sorghum">0.3</ll>
+            <kl name="Sorghum">0.1</kl>
+            <xf name="Sorghum">1</xf>
+            <ll name="Seedling">0.25</ll>
+            <xf name="Seedling">0.5</xf>
+            <kl name="Seedling">0.02</kl>
+          </layer>
+          <layer>
+            <thickness>300</thickness>
+            <bd>1.02</bd>
+            <ll15>0.3</ll15>
+            <airdry>0.3</airdry>
+            <dul>0.54</dul>
+            <sat>0.59</sat>
+            <sw>9999.99</sw>
+            <swcon>0.3</swcon>
+            <oc>0.89</oc>
+            <ph>9</ph>
+            <fbiom>0.015</fbiom>
+            <finert>0.8</finert>
+            <no3>2.1</no3>
+            <nh4>0.1</nh4>
+            <ec>0.31</ec>
+            <ll name="Sorghum">0.32</ll>
+            <kl name="Sorghum">0.1</kl>
+            <xf name="Sorghum">1</xf>
+            <ll name="Seedling">0.3</ll>
+            <xf name="Seedling">0.75</xf>
+            <kl name="Seedling">0.02</kl>
+          </layer>
+          <layer>
+            <thickness>300</thickness>
+            <bd>1.02</bd>
+            <ll15>0.25</ll15>
+            <airdry>0.25</airdry>
+            <dul>0.48</dul>
+            <sat>0.53</sat>
+            <sw>9999.99</sw>
+            <swcon>0.3</swcon>
+            <oc>0.89</oc>
+            <ph>9.2</ph>
+            <fbiom>0.01</fbiom>
+            <finert>0.9</finert>
+            <no3>1.7</no3>
+            <nh4>0.1</nh4>
+            <ec>0.4</ec>
+            <ll name="Sorghum">0.25</ll>
+            <kl name="Sorghum">0.08</kl>
+            <xf name="Sorghum">1</xf>
+            <ll name="Seedling">0.25</ll>
+            <xf name="Seedling">1</xf>
+            <kl name="Seedling">0.02</kl>
+          </layer>
+          <layer>
+            <thickness>300</thickness>
+            <bd>1.06</bd>
+            <ll15>0.21</ll15>
+            <airdry>0.21</airdry>
+            <dul>0.4</dul>
+            <sat>0.45</sat>
+            <sw>9999.99</sw>
+            <swcon>0.3</swcon>
+            <oc>0.77</oc>
+            <ph>9.2</ph>
+            <fbiom>0.01</fbiom>
+            <finert>0.95</finert>
+            <no3>1.7</no3>
+            <nh4>0.1</nh4>
+            <ec>0.59</ec>
+            <ll name="Sorghum">0.21</ll>
+            <kl name="Sorghum">0.06</kl>
+            <xf name="Sorghum">1</xf>
+            <ll name="Seedling">0.21</ll>
+            <xf name="Seedling">1</xf>
+            <kl name="Seedling">0.02</kl>
+          </layer>
+          <layer>
+            <thickness>300</thickness>
+            <bd>1.11</bd>
+            <ll15>0.21</ll15>
+            <airdry>0.21</airdry>
+            <dul>0.38</dul>
+            <sat>0.43</sat>
+            <sw>9999.99</sw>
+            <swcon>0.3</swcon>
+            <oc>0.45</oc>
+            <ph>9.1</ph>
+            <fbiom>0.01</fbiom>
+            <finert>0.95</finert>
+            <no3>1.7</no3>
+            <nh4>0.1</nh4>
+            <ec>0.84</ec>
+            <ll name="Sorghum">0.21</ll>
+            <kl name="Sorghum">0.04</kl>
+            <xf name="Sorghum">1</xf>
+            <ll name="Seedling">0.21</ll>
+            <xf name="Seedling">1</xf>
+            <kl name="Seedling">0.02</kl>
+          </layer>
+        </profile>
+        <Cona>5</Cona>
+        <DiffusConst>40</DiffusConst>
+        <DiffusSlope>16</DiffusSlope>
+        <U>11</U>
+        <Salb>0.09</Salb>
+        <Cn2Bare>76</Cn2Bare>
+        <CnRed>20</CnRed>
+        <CnCov>0.8</CnCov>
+        <CnCanopyFact>1</CnCanopyFact>
+        <RootCn>40</RootCn>
+        <RootWt>200</RootWt>
+        <SoilCn>12.5</SoilCn>
+        <EnrACoeff>7.4</EnrACoeff>
+        <EnrBCoeff>0.2</EnrBCoeff>
+        <InitWater>
+          <DepthWetSoilMethod>
+            <Depth>200</Depth>
+          </DepthWetSoilMethod>
+        </InitWater>
+        <InitNitrogen>
+          <layer name="1">
+            <no3>6.50251233431099</no3>
+            <nh4>0.599196200219218</nh4>
+          </layer>
+          <layer name="2">
+            <no3>5</no3>
+            <nh4>0.0998660333698697</nh4>
+          </layer>
+          <layer name="3">
+            <no3>5</no3>
+            <nh4>0.0998660333698697</nh4>
+          </layer>
+          <layer name="4">
+            <no3>5</no3>
+            <nh4>0.0998660333698697</nh4>
+          </layer>
+          <layer name="5">
+            <no3>5</no3>
+            <nh4>0.0998660333698697</nh4>
+          </layer>
+          <layer name="6">
+            <no3>5</no3>
+            <nh4>0.0998660333698697</nh4>
+          </layer>
+        </InitNitrogen>
+      </soil>
     </area>
   </simulation>
   <simulation name="MelliodoraWet">
@@ -302,7 +1838,6 @@
           <action>'WellCamp Water' set sw = 0.41 0.49 0.49 0.41 0.30 0.31 </action>
         </operation>
       </operations>
-      <soil name="WellCamp" shortcut="WellCamp" />
       <outputfile name="outputfile" shortcut="outputfile" />
       <irrigation name="Irrigation">
         <automatic_irrigation type="list" listvalues="on,off" description="Automatic irrigation">on</automatic_irrigation>
@@ -313,17 +1848,153 @@
       <surfaceom name="surface organic matter" shortcut="surface organic matter" />
       <seedling name="seedling" shortcut="seedling" />
       <logic name="OutputCalculator" shortcut="OutputCalculator" />
-    </area>
-  </simulation>
-  <folder name="shared">
-    <soil name="WellCamp">
-      <Site>Jimbour</Site>
-      <Region>South East Queensland</Region>
-      <LocalName>Waco</LocalName>
-      <SoilType>Black Vertosol</SoilType>
-      <NearestTown>Jimbour, Q 4352</NearestTown>
-      <NaturalVegetation>Grassland, mainly Qld bluegrass</NaturalVegetation>
-      <Water>
+      <soil name="WellCamp">
+        <Site>Jimbour</Site>
+        <Region>South East Queensland</Region>
+        <LocalName>Waco</LocalName>
+        <SoilType>Black Vertosol</SoilType>
+        <NearestTown>Jimbour, Q 4352</NearestTown>
+        <NaturalVegetation>Grassland, mainly Qld bluegrass</NaturalVegetation>
+        <profile>
+          <layer>
+            <thickness>150</thickness>
+            <bd>1.02</bd>
+            <ll15>0.2</ll15>
+            <airdry>0.18</airdry>
+            <dul>0.54</dul>
+            <sat>0.59</sat>
+            <sw>9999.99</sw>
+            <swcon>0.3</swcon>
+            <oc>1.04</oc>
+            <ph>8.4</ph>
+            <fbiom>0.025</fbiom>
+            <finert>0.4</finert>
+            <no3>6.5</no3>
+            <nh4>0.6</nh4>
+            <ec>0.2</ec>
+            <ll name="Sorghum">0.2</ll>
+            <kl name="Sorghum">0.1</kl>
+            <xf name="Sorghum">1</xf>
+            <ll name="Seedling">0.2</ll>
+            <xf name="Seedling">0.5</xf>
+            <kl name="Seedling">0.02</kl>
+          </layer>
+          <layer>
+            <thickness>150</thickness>
+            <bd>1.03</bd>
+            <ll15>0.3</ll15>
+            <airdry>0.25</airdry>
+            <dul>0.53</dul>
+            <sat>0.58</sat>
+            <sw>9999.99</sw>
+            <swcon>0.3</swcon>
+            <oc>0.89</oc>
+            <ph>8.8</ph>
+            <fbiom>0.02</fbiom>
+            <finert>0.6</finert>
+            <no3>2.1</no3>
+            <nh4>0.1</nh4>
+            <ec>0.25</ec>
+            <ll name="Sorghum">0.3</ll>
+            <kl name="Sorghum">0.1</kl>
+            <xf name="Sorghum">1</xf>
+            <ll name="Seedling">0.25</ll>
+            <xf name="Seedling">0.5</xf>
+            <kl name="Seedling">0.02</kl>
+          </layer>
+          <layer>
+            <thickness>300</thickness>
+            <bd>1.02</bd>
+            <ll15>0.3</ll15>
+            <airdry>0.3</airdry>
+            <dul>0.54</dul>
+            <sat>0.59</sat>
+            <sw>9999.99</sw>
+            <swcon>0.3</swcon>
+            <oc>0.89</oc>
+            <ph>9</ph>
+            <fbiom>0.015</fbiom>
+            <finert>0.8</finert>
+            <no3>2.1</no3>
+            <nh4>0.1</nh4>
+            <ec>0.31</ec>
+            <ll name="Sorghum">0.32</ll>
+            <kl name="Sorghum">0.1</kl>
+            <xf name="Sorghum">1</xf>
+            <ll name="Seedling">0.3</ll>
+            <xf name="Seedling">0.75</xf>
+            <kl name="Seedling">0.02</kl>
+          </layer>
+          <layer>
+            <thickness>300</thickness>
+            <bd>1.02</bd>
+            <ll15>0.25</ll15>
+            <airdry>0.25</airdry>
+            <dul>0.48</dul>
+            <sat>0.53</sat>
+            <sw>9999.99</sw>
+            <swcon>0.3</swcon>
+            <oc>0.89</oc>
+            <ph>9.2</ph>
+            <fbiom>0.01</fbiom>
+            <finert>0.9</finert>
+            <no3>1.7</no3>
+            <nh4>0.1</nh4>
+            <ec>0.4</ec>
+            <ll name="Sorghum">0.25</ll>
+            <kl name="Sorghum">0.08</kl>
+            <xf name="Sorghum">1</xf>
+            <ll name="Seedling">0.25</ll>
+            <xf name="Seedling">1</xf>
+            <kl name="Seedling">0.02</kl>
+          </layer>
+          <layer>
+            <thickness>300</thickness>
+            <bd>1.06</bd>
+            <ll15>0.21</ll15>
+            <airdry>0.21</airdry>
+            <dul>0.4</dul>
+            <sat>0.45</sat>
+            <sw>9999.99</sw>
+            <swcon>0.3</swcon>
+            <oc>0.77</oc>
+            <ph>9.2</ph>
+            <fbiom>0.01</fbiom>
+            <finert>0.95</finert>
+            <no3>1.7</no3>
+            <nh4>0.1</nh4>
+            <ec>0.59</ec>
+            <ll name="Sorghum">0.21</ll>
+            <kl name="Sorghum">0.06</kl>
+            <xf name="Sorghum">1</xf>
+            <ll name="Seedling">0.21</ll>
+            <xf name="Seedling">1</xf>
+            <kl name="Seedling">0.02</kl>
+          </layer>
+          <layer>
+            <thickness>300</thickness>
+            <bd>1.11</bd>
+            <ll15>0.21</ll15>
+            <airdry>0.21</airdry>
+            <dul>0.38</dul>
+            <sat>0.43</sat>
+            <sw>9999.99</sw>
+            <swcon>0.3</swcon>
+            <oc>0.45</oc>
+            <ph>9.1</ph>
+            <fbiom>0.01</fbiom>
+            <finert>0.95</finert>
+            <no3>1.7</no3>
+            <nh4>0.1</nh4>
+            <ec>0.84</ec>
+            <ll name="Sorghum">0.21</ll>
+            <kl name="Sorghum">0.04</kl>
+            <xf name="Sorghum">1</xf>
+            <ll name="Seedling">0.21</ll>
+            <xf name="Seedling">1</xf>
+            <kl name="Seedling">0.02</kl>
+          </layer>
+        </profile>
         <Cona>5</Cona>
         <DiffusConst>40</DiffusConst>
         <DiffusSlope>16</DiffusSlope>
@@ -332,239 +2003,47 @@
         <Cn2Bare>76</Cn2Bare>
         <CnRed>20</CnRed>
         <CnCov>0.8</CnCov>
-        <layer name="1">
-          <thickness>150</thickness>
-          <bd>1.02</bd>
-          <ll15>0.2</ll15>
-          <airdry>0.18</airdry>
-          <dul>0.54</dul>
-          <sat>0.59</sat>
-          <sw>9999.99</sw>
-          <swcon>0.3</swcon>
-        </layer>
-        <layer name="2">
-          <thickness>150</thickness>
-          <bd>1.03</bd>
-          <ll15>0.3</ll15>
-          <airdry>0.25</airdry>
-          <dul>0.53</dul>
-          <sat>0.58</sat>
-          <sw>9999.99</sw>
-          <swcon>0.3</swcon>
-        </layer>
-        <layer name="3">
-          <thickness>300</thickness>
-          <bd>1.02</bd>
-          <ll15>0.3</ll15>
-          <airdry>0.3</airdry>
-          <dul>0.54</dul>
-          <sat>0.59</sat>
-          <sw>9999.99</sw>
-          <swcon>0.3</swcon>
-        </layer>
-        <layer name="4">
-          <thickness>300</thickness>
-          <bd>1.02</bd>
-          <ll15>0.25</ll15>
-          <airdry>0.25</airdry>
-          <dul>0.48</dul>
-          <sat>0.53</sat>
-          <sw>9999.99</sw>
-          <swcon>0.3</swcon>
-        </layer>
-        <layer name="5">
-          <thickness>300</thickness>
-          <bd>1.06</bd>
-          <ll15>0.21</ll15>
-          <airdry>0.21</airdry>
-          <dul>0.4</dul>
-          <sat>0.45</sat>
-          <sw>9999.99</sw>
-          <swcon>0.3</swcon>
-        </layer>
-        <layer name="6">
-          <thickness>300</thickness>
-          <bd>1.11</bd>
-          <ll15>0.21</ll15>
-          <airdry>0.21</airdry>
-          <dul>0.38</dul>
-          <sat>0.43</sat>
-          <sw>9999.99</sw>
-          <swcon>0.3</swcon>
-        </layer>
-      </Water>
-      <Nitrogen>
         <CnCanopyFact>1</CnCanopyFact>
         <RootCn>40</RootCn>
         <RootWt>200</RootWt>
         <SoilCn>12.5</SoilCn>
         <EnrACoeff>7.4</EnrACoeff>
         <EnrBCoeff>0.2</EnrBCoeff>
-        <layer name="1">
-          <oc>1.04</oc>
-          <ph>8.4</ph>
-          <fbiom>0.025</fbiom>
-          <finert>0.4</finert>
-          <no3>6.5</no3>
-          <nh4>0.6</nh4>
-        </layer>
-        <layer name="2">
-          <oc>0.89</oc>
-          <ph>8.8</ph>
-          <fbiom>0.02</fbiom>
-          <finert>0.6</finert>
-          <no3>2.1</no3>
-          <nh4>0.1</nh4>
-        </layer>
-        <layer name="3">
-          <oc>0.89</oc>
-          <ph>9</ph>
-          <fbiom>0.015</fbiom>
-          <finert>0.8</finert>
-          <no3>2.1</no3>
-          <nh4>0.1</nh4>
-        </layer>
-        <layer name="4">
-          <oc>0.89</oc>
-          <ph>9.2</ph>
-          <fbiom>0.01</fbiom>
-          <finert>0.9</finert>
-          <no3>1.7</no3>
-          <nh4>0.1</nh4>
-        </layer>
-        <layer name="5">
-          <oc>0.77</oc>
-          <ph>9.2</ph>
-          <fbiom>0.01</fbiom>
-          <finert>0.95</finert>
-          <no3>1.7</no3>
-          <nh4>0.1</nh4>
-        </layer>
-        <layer name="6">
-          <oc>0.45</oc>
-          <ph>9.1</ph>
-          <fbiom>0.01</fbiom>
-          <finert>0.95</finert>
-          <no3>1.7</no3>
-          <nh4>0.1</nh4>
-        </layer>
-      </Nitrogen>
-      <other>
-        <layer name="1">
-          <ec>0.2</ec>
-        </layer>
-        <layer name="2">
-          <ec>0.25</ec>
-        </layer>
-        <layer name="3">
-          <ec>0.31</ec>
-        </layer>
-        <layer name="4">
-          <ec>0.4</ec>
-        </layer>
-        <layer name="5">
-          <ec>0.59</ec>
-        </layer>
-        <layer name="6">
-          <ec>0.84</ec>
-        </layer>
-      </other>
-      <InitWater>
-        <DepthWetSoilMethod>
-          <Depth>200</Depth>
-        </DepthWetSoilMethod>
-      </InitWater>
-      <SoilCrop name="Sorghum">
-        <layer name="1">
-          <ll>0.2</ll>
-          <kl>0.1</kl>
-          <xf>1</xf>
-        </layer>
-        <layer name="2">
-          <ll>0.3</ll>
-          <kl>0.1</kl>
-          <xf>1</xf>
-        </layer>
-        <layer name="3">
-          <ll>0.32</ll>
-          <kl>0.1</kl>
-          <xf>1</xf>
-        </layer>
-        <layer name="4">
-          <ll>0.25</ll>
-          <kl>0.08</kl>
-          <xf>1</xf>
-        </layer>
-        <layer name="5">
-          <ll>0.21</ll>
-          <kl>0.06</kl>
-          <xf>1</xf>
-        </layer>
-        <layer name="6">
-          <ll>0.21</ll>
-          <kl>0.04</kl>
-          <xf>1</xf>
-        </layer>
-      </SoilCrop>
-      <InitNitrogen>
-        <layer name="1">
-          <no3>6.50251233431099</no3>
-          <nh4>0.599196200219218</nh4>
-        </layer>
-        <layer name="2">
-          <no3>5</no3>
-          <nh4>0.0998660333698697</nh4>
-        </layer>
-        <layer name="3">
-          <no3>5</no3>
-          <nh4>0.0998660333698697</nh4>
-        </layer>
-        <layer name="4">
-          <no3>5</no3>
-          <nh4>0.0998660333698697</nh4>
-        </layer>
-        <layer name="5">
-          <no3>5</no3>
-          <nh4>0.0998660333698697</nh4>
-        </layer>
-        <layer name="6">
-          <no3>5</no3>
-          <nh4>0.0998660333698697</nh4>
-        </layer>
-      </InitNitrogen>
-      <SoilCrop name="Seedling">
-        <layer name="1">
-          <ll>0.2</ll>
-          <xf>0.5</xf>
-          <kl>0.02</kl>
-        </layer>
-        <layer name="2">
-          <ll>0.25</ll>
-          <xf>0.5</xf>
-          <kl>0.02</kl>
-        </layer>
-        <layer name="3">
-          <ll>0.3</ll>
-          <xf>0.75</xf>
-          <kl>0.02</kl>
-        </layer>
-        <layer name="4">
-          <ll>0.25</ll>
-          <xf>1</xf>
-          <kl>0.02</kl>
-        </layer>
-        <layer name="5">
-          <ll>0.21</ll>
-          <xf>1</xf>
-          <kl>0.02</kl>
-        </layer>
-        <layer name="6">
-          <ll>0.21</ll>
-          <xf>1</xf>
-          <kl>0.02</kl>
-        </layer>
-      </SoilCrop>
-    </soil>
+        <InitWater>
+          <DepthWetSoilMethod>
+            <Depth>200</Depth>
+          </DepthWetSoilMethod>
+        </InitWater>
+        <InitNitrogen>
+          <layer name="1">
+            <no3>6.50251233431099</no3>
+            <nh4>0.599196200219218</nh4>
+          </layer>
+          <layer name="2">
+            <no3>5</no3>
+            <nh4>0.0998660333698697</nh4>
+          </layer>
+          <layer name="3">
+            <no3>5</no3>
+            <nh4>0.0998660333698697</nh4>
+          </layer>
+          <layer name="4">
+            <no3>5</no3>
+            <nh4>0.0998660333698697</nh4>
+          </layer>
+          <layer name="5">
+            <no3>5</no3>
+            <nh4>0.0998660333698697</nh4>
+          </layer>
+          <layer name="6">
+            <no3>5</no3>
+            <nh4>0.0998660333698697</nh4>
+          </layer>
+        </InitNitrogen>
+      </soil>
+    </area>
+  </simulation>
+  <folder name="shared">
     <outputfile name="outputfile">
       <variables name="Variables">
         <variable name="dd/mm/yyyy as Date" description="Date (dd/mm/yyyy)" array="?" />
@@ -638,7 +2117,9 @@
       <co2 description="Atmospheric C02 concentration (ppm)">350</co2>
     </climatechange>
     <logic name="OutputCalculator">
-      <script name="init"> 
+      <script>
+        <event>script</event>
+        <text>scriptscriptscriptscriptscriptscriptscriptscriptinit 
 plantbiomass = 0 
 plantleaf = 0
 plantstem = 0
@@ -646,9 +2127,15 @@ plantla = 0
 SWSI = 0
 nodes = 0
 RTR = 0
-</script>
-      <script name="startofday" />
-      <script name="endofday"><![CDATA[ if lai > 0 then
+</text>
+      </script>
+      <script>
+        <event>script</event>
+        <text>scriptscriptscriptscriptscriptscriptscriptscriptstartofday</text>
+      </script>
+      <script>
+        <event>script</event>
+        <text><![CDATA[scriptscriptscriptscriptscriptscriptscriptscriptendofday if lai > 0 then
    plantbiomass = green_biomass_wt/plants
    plantleaf = dm_green_leaf / plants
    plantstem = dm_green_stem / plants
@@ -656,7 +2143,201 @@ RTR = 0
    nodes = node_no + 17
    SWSI = SWSI + (1.0 - swdef_photo)
    RTR = ep / (eo * cover_green)
-endif]]></script>
+endif]]></text>
+      </script>
     </logic>
+    <soil name="WellCamp">
+      <Site>Jimbour</Site>
+      <Region>South East Queensland</Region>
+      <LocalName>Waco</LocalName>
+      <SoilType>Black Vertosol</SoilType>
+      <NearestTown>Jimbour, Q 4352</NearestTown>
+      <NaturalVegetation>Grassland, mainly Qld bluegrass</NaturalVegetation>
+      <profile>
+        <layer>
+          <thickness>150</thickness>
+          <bd>1.02</bd>
+          <ll15>0.2</ll15>
+          <airdry>0.18</airdry>
+          <dul>0.54</dul>
+          <sat>0.59</sat>
+          <sw>9999.99</sw>
+          <swcon>0.3</swcon>
+          <oc>1.04</oc>
+          <ph>8.4</ph>
+          <fbiom>0.025</fbiom>
+          <finert>0.4</finert>
+          <no3>6.5</no3>
+          <nh4>0.6</nh4>
+          <ec>0.2</ec>
+          <ll name="Sorghum">0.2</ll>
+          <kl name="Sorghum">0.1</kl>
+          <xf name="Sorghum">1</xf>
+          <ll name="Seedling">0.2</ll>
+          <xf name="Seedling">0.5</xf>
+          <kl name="Seedling">0.02</kl>
+        </layer>
+        <layer>
+          <thickness>150</thickness>
+          <bd>1.03</bd>
+          <ll15>0.3</ll15>
+          <airdry>0.25</airdry>
+          <dul>0.53</dul>
+          <sat>0.58</sat>
+          <sw>9999.99</sw>
+          <swcon>0.3</swcon>
+          <oc>0.89</oc>
+          <ph>8.8</ph>
+          <fbiom>0.02</fbiom>
+          <finert>0.6</finert>
+          <no3>2.1</no3>
+          <nh4>0.1</nh4>
+          <ec>0.25</ec>
+          <ll name="Sorghum">0.3</ll>
+          <kl name="Sorghum">0.1</kl>
+          <xf name="Sorghum">1</xf>
+          <ll name="Seedling">0.25</ll>
+          <xf name="Seedling">0.5</xf>
+          <kl name="Seedling">0.02</kl>
+        </layer>
+        <layer>
+          <thickness>300</thickness>
+          <bd>1.02</bd>
+          <ll15>0.3</ll15>
+          <airdry>0.3</airdry>
+          <dul>0.54</dul>
+          <sat>0.59</sat>
+          <sw>9999.99</sw>
+          <swcon>0.3</swcon>
+          <oc>0.89</oc>
+          <ph>9</ph>
+          <fbiom>0.015</fbiom>
+          <finert>0.8</finert>
+          <no3>2.1</no3>
+          <nh4>0.1</nh4>
+          <ec>0.31</ec>
+          <ll name="Sorghum">0.32</ll>
+          <kl name="Sorghum">0.1</kl>
+          <xf name="Sorghum">1</xf>
+          <ll name="Seedling">0.3</ll>
+          <xf name="Seedling">0.75</xf>
+          <kl name="Seedling">0.02</kl>
+        </layer>
+        <layer>
+          <thickness>300</thickness>
+          <bd>1.02</bd>
+          <ll15>0.25</ll15>
+          <airdry>0.25</airdry>
+          <dul>0.48</dul>
+          <sat>0.53</sat>
+          <sw>9999.99</sw>
+          <swcon>0.3</swcon>
+          <oc>0.89</oc>
+          <ph>9.2</ph>
+          <fbiom>0.01</fbiom>
+          <finert>0.9</finert>
+          <no3>1.7</no3>
+          <nh4>0.1</nh4>
+          <ec>0.4</ec>
+          <ll name="Sorghum">0.25</ll>
+          <kl name="Sorghum">0.08</kl>
+          <xf name="Sorghum">1</xf>
+          <ll name="Seedling">0.25</ll>
+          <xf name="Seedling">1</xf>
+          <kl name="Seedling">0.02</kl>
+        </layer>
+        <layer>
+          <thickness>300</thickness>
+          <bd>1.06</bd>
+          <ll15>0.21</ll15>
+          <airdry>0.21</airdry>
+          <dul>0.4</dul>
+          <sat>0.45</sat>
+          <sw>9999.99</sw>
+          <swcon>0.3</swcon>
+          <oc>0.77</oc>
+          <ph>9.2</ph>
+          <fbiom>0.01</fbiom>
+          <finert>0.95</finert>
+          <no3>1.7</no3>
+          <nh4>0.1</nh4>
+          <ec>0.59</ec>
+          <ll name="Sorghum">0.21</ll>
+          <kl name="Sorghum">0.06</kl>
+          <xf name="Sorghum">1</xf>
+          <ll name="Seedling">0.21</ll>
+          <xf name="Seedling">1</xf>
+          <kl name="Seedling">0.02</kl>
+        </layer>
+        <layer>
+          <thickness>300</thickness>
+          <bd>1.11</bd>
+          <ll15>0.21</ll15>
+          <airdry>0.21</airdry>
+          <dul>0.38</dul>
+          <sat>0.43</sat>
+          <sw>9999.99</sw>
+          <swcon>0.3</swcon>
+          <oc>0.45</oc>
+          <ph>9.1</ph>
+          <fbiom>0.01</fbiom>
+          <finert>0.95</finert>
+          <no3>1.7</no3>
+          <nh4>0.1</nh4>
+          <ec>0.84</ec>
+          <ll name="Sorghum">0.21</ll>
+          <kl name="Sorghum">0.04</kl>
+          <xf name="Sorghum">1</xf>
+          <ll name="Seedling">0.21</ll>
+          <xf name="Seedling">1</xf>
+          <kl name="Seedling">0.02</kl>
+        </layer>
+      </profile>
+      <Cona>5</Cona>
+      <DiffusConst>40</DiffusConst>
+      <DiffusSlope>16</DiffusSlope>
+      <U>11</U>
+      <Salb>0.09</Salb>
+      <Cn2Bare>76</Cn2Bare>
+      <CnRed>20</CnRed>
+      <CnCov>0.8</CnCov>
+      <CnCanopyFact>1</CnCanopyFact>
+      <RootCn>40</RootCn>
+      <RootWt>200</RootWt>
+      <SoilCn>12.5</SoilCn>
+      <EnrACoeff>7.4</EnrACoeff>
+      <EnrBCoeff>0.2</EnrBCoeff>
+      <InitWater>
+        <DepthWetSoilMethod>
+          <Depth>200</Depth>
+        </DepthWetSoilMethod>
+      </InitWater>
+      <InitNitrogen>
+        <layer name="1">
+          <no3>6.50251233431099</no3>
+          <nh4>0.599196200219218</nh4>
+        </layer>
+        <layer name="2">
+          <no3>5</no3>
+          <nh4>0.0998660333698697</nh4>
+        </layer>
+        <layer name="3">
+          <no3>5</no3>
+          <nh4>0.0998660333698697</nh4>
+        </layer>
+        <layer name="4">
+          <no3>5</no3>
+          <nh4>0.0998660333698697</nh4>
+        </layer>
+        <layer name="5">
+          <no3>5</no3>
+          <nh4>0.0998660333698697</nh4>
+        </layer>
+        <layer name="6">
+          <no3>5</no3>
+          <nh4>0.0998660333698697</nh4>
+        </layer>
+      </InitNitrogen>
+    </soil>
   </folder>
 </folder>
