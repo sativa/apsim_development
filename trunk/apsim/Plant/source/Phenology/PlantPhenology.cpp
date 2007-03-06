@@ -143,7 +143,6 @@ void PlantPhenology::readConstants (protocol::Component *s, const string &sectio
       for (unsigned o=0; o!=Outputs.size();o++)
          {
          OutputVariable *Variable = dynamic_cast<OutputVariable*> (Outputs[o]);
-         cout << Variable ;
          s->addGettableVar(Outputs[o]->Name.c_str(), *((float*)Variable->Variable), Outputs[o]->Units.c_str(), Outputs[o]->Description.c_str());
          delete Outputs[o];
          }
