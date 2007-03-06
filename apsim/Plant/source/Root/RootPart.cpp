@@ -1316,7 +1316,7 @@ void plantRootPart::get_no3_uptake(protocol::Component *system, protocol::QueryV
 {
     float no3_uptake[max_layer];
     fill_real_array(no3_uptake,0.0, max_layer);
-    for (int layer = 0; layer <= num_layers; layer++) {
+    for (int layer = 0; layer < num_layers; layer++) {
        no3_uptake[layer] =  dlt_no3gsm[layer] * gm2kg/sm2ha;
     }
     system->sendVariable(qd, protocol::vector<float>(no3_uptake, no3_uptake+num_layers));
@@ -1347,7 +1347,7 @@ void plantRootPart::get_ll_dep(protocol::Component *systemInterface, protocol::Q
 // Getter function for crop lower limit (mm)
    {
    vector<float> lldep;
-   for(int layer = 0; layer <= num_layers; layer++)
+   for(int layer = 0; layer < num_layers; layer++)
       lldep.push_back(ll_dep[layer]);
    systemInterface->sendVariable(qd, lldep);
 }
@@ -1357,7 +1357,7 @@ void plantRootPart::get_ll(protocol::Component *systemInterface, protocol::Query
 // Getter function for crop lower limit (volumetric)
    {
    vector<float> ll;
-   for(int layer = 0; layer <= num_layers; layer++)
+   for(int layer = 0; layer < num_layers; layer++)
       ll.push_back(ll_dep[layer] / dlayer[layer]);
    systemInterface->sendVariable(qd, ll);
    }
