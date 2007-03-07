@@ -29,7 +29,7 @@
       </outputfile>
       <logic name="Logic">
         <script name="init" />
-        <script name="startofday"> ! MAIZE SOWING AND HARVEST ************
+        <script name="start_of_day"> ! MAIZE SOWING AND HARVEST ************
 if day = 10 and year = 1988 then
       maize sow cultivar = dekalb_xl82, plants = 10, sowing_depth = 30 (mm)
 endif
@@ -49,7 +49,7 @@ if cowpea.stage_name = 'harvest_ripe' or cowpea.plant_status = 'dead' then
    cowpea end_crop   
 endif
 </script>
-        <script name="endofday" />
+        <script name="end_of_day" />
       </logic>
       <canopy name="Canopy">
         <intercrop name="intercrop" description="Enter crop names to intercrop" type="text">maize cowpea</intercrop>
