@@ -7367,7 +7367,7 @@ C        IF(DEF.LT.2.5) THEN                          ! waterlogging
      :                                    floatarrayTypeDDML, 'kg/ha')
 
       dummy = add_registration_with_units(respondToGetReg, 'das',
-     :                                    floatTypeDDML, 'days')
+     :                                    intTypeDDML, 'days')
       dummy = add_registration_with_units(respondToGetReg, 'crop_type',
      :                                    stringTypeDDML, '')
       dummy = add_registration_with_units(respondToGetReg, 'sumdd',
