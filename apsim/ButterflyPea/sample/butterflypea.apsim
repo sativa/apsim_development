@@ -1,4 +1,4 @@
-<simulations name="untitled" version="5">
+<simulations name="untitled" version="7">
   <simulation name="Sample Butterfly pea Simulation">
     <clock name="clock">
       <start_date name="start_date" description="Select the start date of the simulation" type="date" lbound="1/01/1940" ubound="31/12/1989">1/01/1989</start_date>
@@ -76,22 +76,14 @@
         </events>
       </outputfile>
       <butterflypea />
-      <Soil name="#063 - Roma Res Stn, Roma,Brown Vertosol">
+      <soil name="#063 - Roma Res Stn, Roma,Brown Vertosol">
         <region>Maranoa</region>
         <site>Roma Res Stn, Roma</site>
         <nearesttown>Roma, Q 4455</nearesttown>
         <DataSource>Data provided by B Robinson, S Cawley, G Thomas, extracted from ESD; estimated OC (WB*1.3); estimated pH; unknown EC, Cl</DataSource>
         <naturalvegetation>Mitchell grass, scattered Poplar Box</naturalvegetation>
-        <Water>
-          <U>6</U>
-          <Cona>3.5</Cona>
-          <Salb>0.13</Salb>
-          <DiffusConst>40</DiffusConst>
-          <DiffusSlope>16</DiffusSlope>
-          <CN2Bare>73</CN2Bare>
-          <CNRed>20</CNRed>
-          <CNCov>0.8</CNCov>
-          <layer name="1">
+        <profile>
+          <layer>
             <thickness>100</thickness>
             <bd>1.29</bd>
             <ll15>0.2</ll15>
@@ -99,8 +91,17 @@
             <dul>0.4</dul>
             <sat>0.48</sat>
             <swcon>0.3</swcon>
+            <fbiom>0.035</fbiom>
+            <finert>0.4</finert>
+            <oc>1.19</oc>
+            <ph>8.2</ph>
+            <ec>0</ec>
+            <cl>0</cl>
+            <ll name="Butterflypea">0.2</ll>
+            <xf name="Butterflypea">1</xf>
+            <kl name="Butterflypea">0.08</kl>
           </layer>
-          <layer name="2">
+          <layer>
             <thickness>100</thickness>
             <bd>1.32</bd>
             <ll15>0.22</ll15>
@@ -108,8 +109,17 @@
             <dul>0.41</dul>
             <sat>0.47</sat>
             <swcon>0.3</swcon>
+            <fbiom>0.02</fbiom>
+            <finert>0.6</finert>
+            <oc>1.01</oc>
+            <ph>8.5</ph>
+            <ec>0</ec>
+            <cl>0</cl>
+            <ll name="Butterflypea">0.22</ll>
+            <xf name="Butterflypea">1</xf>
+            <kl name="Butterflypea">0.08</kl>
           </layer>
-          <layer name="3">
+          <layer>
             <thickness>200</thickness>
             <bd>1.32</bd>
             <ll15>0.24</ll15>
@@ -117,8 +127,17 @@
             <dul>0.42</dul>
             <sat>0.47</sat>
             <swcon>0.3</swcon>
+            <fbiom>0.015</fbiom>
+            <finert>0.8</finert>
+            <oc>0.45</oc>
+            <ph>8.6</ph>
+            <ec>0</ec>
+            <cl>0</cl>
+            <ll name="Butterflypea">0.24</ll>
+            <xf name="Butterflypea">1</xf>
+            <kl name="Butterflypea">0.08</kl>
           </layer>
-          <layer name="4">
+          <layer>
             <thickness>200</thickness>
             <bd>1.33</bd>
             <ll15>0.26</ll15>
@@ -126,8 +145,17 @@
             <dul>0.42</dul>
             <sat>0.47</sat>
             <swcon>0.3</swcon>
+            <fbiom>0.015</fbiom>
+            <finert>0.9</finert>
+            <oc>0.3</oc>
+            <ph>8.6</ph>
+            <ec>0</ec>
+            <cl>0</cl>
+            <ll name="Butterflypea">0.26</ll>
+            <xf name="Butterflypea">1</xf>
+            <kl name="Butterflypea">0.08</kl>
           </layer>
-          <layer name="5">
+          <layer>
             <thickness>100</thickness>
             <bd>1.39</bd>
             <ll15>0.28</ll15>
@@ -135,45 +163,30 @@
             <dul>0.4</dul>
             <sat>0.45</sat>
             <swcon>0.3</swcon>
-          </layer>
-        </Water>
-        <Nitrogen>
-          <RootCN>40</RootCN>
-          <RootWT>200</RootWT>
-          <SoilCN>12.5</SoilCN>
-          <EnrACoeff>7.4</EnrACoeff>
-          <EnrBCoeff>0.2</EnrBCoeff>
-          <layer name="1">
-            <fbiom>0.035</fbiom>
-            <finert>0.4</finert>
-            <oc>1.19</oc>
-            <ph>8.2</ph>
-          </layer>
-          <layer name="2">
-            <fbiom>0.02</fbiom>
-            <finert>0.6</finert>
-            <oc>1.01</oc>
-            <ph>8.5</ph>
-          </layer>
-          <layer name="3">
-            <fbiom>0.015</fbiom>
-            <finert>0.8</finert>
-            <oc>0.45</oc>
-            <ph>8.6</ph>
-          </layer>
-          <layer name="4">
-            <fbiom>0.015</fbiom>
-            <finert>0.9</finert>
-            <oc>0.3</oc>
-            <ph>8.6</ph>
-          </layer>
-          <layer name="5">
             <fbiom>0.01</fbiom>
             <finert>0.95</finert>
             <oc>0.2</oc>
             <ph>7.4</ph>
+            <ec>0</ec>
+            <cl>0</cl>
+            <ll name="Butterflypea">0.28</ll>
+            <xf name="Butterflypea">1</xf>
+            <kl name="Butterflypea">0.05</kl>
           </layer>
-        </Nitrogen>
+        </profile>
+        <U>6</U>
+        <Cona>3.5</Cona>
+        <Salb>0.13</Salb>
+        <DiffusConst>40</DiffusConst>
+        <DiffusSlope>16</DiffusSlope>
+        <CN2Bare>73</CN2Bare>
+        <CNRed>20</CNRed>
+        <CNCov>0.8</CNCov>
+        <RootCN>40</RootCN>
+        <RootWT>200</RootWT>
+        <SoilCN>12.5</SoilCN>
+        <EnrACoeff>7.4</EnrACoeff>
+        <EnrBCoeff>0.2</EnrBCoeff>
         <WaterFormat>VolumetricPercent</WaterFormat>
         <InitWater>
           <layer name="1">
@@ -192,28 +205,6 @@
             <sw>0.28</sw>
           </layer>
         </InitWater>
-        <other>
-          <layer name="1">
-            <ec>0</ec>
-            <cl>0</cl>
-          </layer>
-          <layer name="2">
-            <ec>0</ec>
-            <cl>0</cl>
-          </layer>
-          <layer name="3">
-            <ec>0</ec>
-            <cl>0</cl>
-          </layer>
-          <layer name="4">
-            <ec>0</ec>
-            <cl>0</cl>
-          </layer>
-          <layer name="5">
-            <ec>0</ec>
-            <cl>0</cl>
-          </layer>
-        </other>
         <InitNitrogen>
           <layer name="1">
             <no3>6.5</no3>
@@ -236,34 +227,7 @@
             <nh4>0.1</nh4>
           </layer>
         </InitNitrogen>
-        <SoilCrop name="Butterflypea">
-          <layer name="1">
-            <ll>0.2</ll>
-            <xf>1</xf>
-            <kl>0.08</kl>
-          </layer>
-          <layer name="2">
-            <ll>0.22</ll>
-            <xf>1</xf>
-            <kl>0.08</kl>
-          </layer>
-          <layer name="3">
-            <ll>0.24</ll>
-            <xf>1</xf>
-            <kl>0.08</kl>
-          </layer>
-          <layer name="4">
-            <ll>0.26</ll>
-            <xf>1</xf>
-            <kl>0.08</kl>
-          </layer>
-          <layer name="5">
-            <ll>0.28</ll>
-            <xf>1</xf>
-            <kl>0.05</kl>
-          </layer>
-        </SoilCrop>
-      </Soil>
+      </soil>
     </area>
   </simulation>
   <shared name="shared" />
