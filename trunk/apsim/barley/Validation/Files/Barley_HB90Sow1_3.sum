@@ -132,17 +132,33 @@ Component     "barley" = c:\development\apsim\plant\lib\plant.dll
 
 ------- Calculator Initialisation ---------------------------------------------
      Manager rules:
-     !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-                      APSIM Warning Error
-                      -------------------
-     No manager lines were found in any parameter file.
-     Component name: Calculator
-     !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
      
+     SECTION:- init
+       sd = 0
      
+     SECTION:- start_of_day
+     
+     SECTION:- end_of_day
+     if (sw_demand > 0) then
+        sd = sw_supply / sw_demand
+     else
+        sd = 1
+     endif
+     if (sd > 1) then
+        sd = 1
+     endif
+     END of rules
+     
+     Manager creating a new local real variable : sd =     0.00000000000000
 
 ------- Irrigator Initialisation ----------------------------------------------
      Manager rules:
+     
+     SECTION:- init
+     
+     SECTION:- start_of_day
+     
+     SECTION:- end_of_day
      !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
                       APSIM Warning Error
                       -------------------
@@ -154,6 +170,12 @@ Component     "barley" = c:\development\apsim\plant\lib\plant.dll
 
 ------- Fertilizer Initialisation ---------------------------------------------
      Manager rules:
+     
+     SECTION:- init
+     
+     SECTION:- start_of_day
+     
+     SECTION:- end_of_day
      !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
                       APSIM Warning Error
                       -------------------
