@@ -3708,11 +3708,11 @@
           <property name="irrigation_efficiency" description="Efficiency of the irrigation. (0-1.0)">1.0</property>
         </irrigation>
         <logic name="Irrigator">
-          <event>end_of_day>
+          <script>
             <event>init</event>
             <text />
           </script>
-          <event>end_of_day>
+          <script>
             <event>start_of_day</event>
             <text>
 
@@ -3765,23 +3765,23 @@
 
            </text>
           </script>
-          <event>end_of_day>
-            <event>endofday</event>
+          <script>
+            <event>end_of_day</event>
             <text />
           </script>
         </logic>
         <fertiliser name="fertiliser" />
         <logic name="Fertilizer">
-          <event>end_of_day>
+          <script>
             <event>init</event>
             <text />
           </script>
-          <event>end_of_day>
+          <script>
             <event>start_of_day</event>
             <text />
           </script>
-          <event>end_of_day>
-            <event>endofday</event>
+          <script>
+            <event>end_of_day</event>
             <text />
           </script>
         </logic>
@@ -4065,11 +4065,11 @@
           <property name="irrigation_efficiency" description="Efficiency of the irrigation. (0-1.0)">1.0</property>
         </irrigation>
         <logic name="Irrigator">
-          <event>end_of_day>
+          <script>
             <event>init</event>
             <text />
           </script>
-          <event>end_of_day>
+          <script>
             <event>start_of_day</event>
             <text>
 
@@ -4122,18 +4122,18 @@
 
            </text>
           </script>
-          <event>end_of_day>
-            <event>endofday</event>
+          <script>
+            <event>end_of_day</event>
             <text />
           </script>
         </logic>
         <fertiliser name="fertiliser" />
         <logic name="Fertilizer">
-          <event>end_of_day>
+          <script>
             <event>init</event>
             <text />
           </script>
-          <event>end_of_day>
+          <script>
             <event>start_of_day</event>
             <text>
 
@@ -4144,8 +4144,8 @@
 
            </text>
           </script>
-          <event>end_of_day>
-            <event>endofday</event>
+          <script>
+            <event>end_of_day</event>
             <text />
           </script>
         </logic>
@@ -4429,11 +4429,11 @@
           <property name="irrigation_efficiency" description="Efficiency of the irrigation. (0-1.0)">1.0</property>
         </irrigation>
         <logic name="Irrigator">
-          <event>end_of_day>
+          <script>
             <event>init</event>
             <text />
           </script>
-          <event>end_of_day>
+          <script>
             <event>start_of_day</event>
             <text>
 
@@ -4486,18 +4486,18 @@
 
            </text>
           </script>
-          <event>end_of_day>
-            <event>endofday</event>
+          <script>
+            <event>end_of_day</event>
             <text />
           </script>
         </logic>
         <fertiliser name="fertiliser" />
         <logic name="Fertilizer">
-          <event>end_of_day>
+          <script>
             <event>init</event>
             <text />
           </script>
-          <event>end_of_day>
+          <script>
             <event>start_of_day</event>
             <text>
 
@@ -4508,8 +4508,8 @@
 
            </text>
           </script>
-          <event>end_of_day>
-            <event>endofday</event>
+          <script>
+            <event>end_of_day</event>
             <text />
           </script>
         </logic>
@@ -4793,11 +4793,11 @@
           <property name="irrigation_efficiency" description="Efficiency of the irrigation. (0-1.0)">1.0</property>
         </irrigation>
         <logic name="Irrigator">
-          <event>end_of_day>
+          <script>
             <event>init</event>
             <text />
           </script>
-          <event>end_of_day>
+          <script>
             <event>start_of_day</event>
             <text>
 
@@ -4850,18 +4850,18 @@
 
            </text>
           </script>
-          <event>end_of_day>
-            <event>endofday</event>
+          <script>
+            <event>end_of_day</event>
             <text />
           </script>
         </logic>
         <fertiliser name="fertiliser" />
         <logic name="Fertilizer">
-          <event>end_of_day>
+          <script>
             <event>init</event>
             <text />
           </script>
-          <event>end_of_day>
+          <script>
             <event>start_of_day</event>
             <text>
 
@@ -4872,8 +4872,8 @@
 
            </text>
           </script>
-          <event>end_of_day>
-            <event>endofday</event>
+          <script>
+            <event>end_of_day</event>
             <text />
           </script>
         </logic>
@@ -5157,11 +5157,11 @@
           <property name="irrigation_efficiency" description="Efficiency of the irrigation. (0-1.0)">1.0</property>
         </irrigation>
         <logic name="Irrigator">
-          <event>end_of_day>
+          <script>
             <event>init</event>
             <text />
           </script>
-          <event>end_of_day>
+          <script>
             <event>start_of_day</event>
             <text>
 
@@ -5268,23 +5268,23 @@
 
            </text>
           </script>
-          <event>end_of_day>
-            <event>endofday</event>
+          <script>
+            <event>end_of_day</event>
             <text />
           </script>
         </logic>
         <fertiliser name="fertiliser" />
         <logic name="Fertilizer">
-          <event>end_of_day>
+          <script>
             <event>init</event>
             <text />
           </script>
-          <event>end_of_day>
+          <script>
             <event>start_of_day</event>
             <text />
           </script>
-          <event>end_of_day>
-            <event>endofday</event>
+          <script>
+            <event>end_of_day</event>
             <text />
           </script>
         </logic>
@@ -5568,11 +5568,11 @@
           <property name="irrigation_efficiency" description="Efficiency of the irrigation. (0-1.0)">1.0</property>
         </irrigation>
         <logic name="Irrigator">
-          <event>end_of_day>
+          <script>
             <event>init</event>
             <text />
           </script>
-          <event>end_of_day>
+          <script>
             <event>start_of_day</event>
             <text>
 
@@ -5679,18 +5679,18 @@
 
            </text>
           </script>
-          <event>end_of_day>
-            <event>endofday</event>
+          <script>
+            <event>end_of_day</event>
             <text />
           </script>
         </logic>
         <fertiliser name="fertiliser" />
         <logic name="Fertilizer">
-          <event>end_of_day>
+          <script>
             <event>init</event>
             <text />
           </script>
-          <event>end_of_day>
+          <script>
             <event>start_of_day</event>
             <text> 
 
@@ -5701,8 +5701,8 @@
 
         </text>
           </script>
-          <event>end_of_day>
-            <event>endofday</event>
+          <script>
+            <event>end_of_day</event>
             <text />
           </script>
         </logic>
@@ -5986,11 +5986,11 @@
           <property name="irrigation_efficiency" description="Efficiency of the irrigation. (0-1.0)">1.0</property>
         </irrigation>
         <logic name="Irrigator">
-          <event>end_of_day>
+          <script>
             <event>init</event>
             <text />
           </script>
-          <event>end_of_day>
+          <script>
             <event>start_of_day</event>
             <text>
 
@@ -6097,18 +6097,18 @@
 
            </text>
           </script>
-          <event>end_of_day>
-            <event>endofday</event>
+          <script>
+            <event>end_of_day</event>
             <text />
           </script>
         </logic>
         <fertiliser name="fertiliser" />
         <logic name="Fertilizer">
-          <event>end_of_day>
+          <script>
             <event>init</event>
             <text />
           </script>
-          <event>end_of_day>
+          <script>
             <event>start_of_day</event>
             <text>
 
@@ -6119,8 +6119,8 @@
 
            </text>
           </script>
-          <event>end_of_day>
-            <event>endofday</event>
+          <script>
+            <event>end_of_day</event>
             <text />
           </script>
         </logic>
@@ -6404,11 +6404,11 @@
           <property name="irrigation_efficiency" description="Efficiency of the irrigation. (0-1.0)">1.0</property>
         </irrigation>
         <logic name="Irrigator">
-          <event>end_of_day>
+          <script>
             <event>init</event>
             <text />
           </script>
-          <event>end_of_day>
+          <script>
             <event>start_of_day</event>
             <text>
 
@@ -6515,18 +6515,18 @@
 
            </text>
           </script>
-          <event>end_of_day>
-            <event>endofday</event>
+          <script>
+            <event>end_of_day</event>
             <text />
           </script>
         </logic>
         <fertiliser name="fertiliser" />
         <logic name="Fertilizer">
-          <event>end_of_day>
+          <script>
             <event>init</event>
             <text />
           </script>
-          <event>end_of_day>
+          <script>
             <event>start_of_day</event>
             <text>
 
@@ -6537,8 +6537,8 @@
 
            </text>
           </script>
-          <event>end_of_day>
-            <event>endofday</event>
+          <script>
+            <event>end_of_day</event>
             <text />
           </script>
         </logic>
@@ -6824,11 +6824,11 @@
           <property name="irrigation_efficiency" description="Efficiency of the irrigation. (0-1.0)">1.0</property>
         </irrigation>
         <logic name="Irrigator">
-          <event>end_of_day>
+          <script>
             <event>init</event>
             <text />
           </script>
-          <event>end_of_day>
+          <script>
             <event>start_of_day</event>
             <text>
 
@@ -6911,23 +6911,23 @@
 
            </text>
           </script>
-          <event>end_of_day>
-            <event>endofday</event>
+          <script>
+            <event>end_of_day</event>
             <text />
           </script>
         </logic>
         <fertiliser name="fertiliser" />
         <logic name="Fertilizer">
-          <event>end_of_day>
+          <script>
             <event>init</event>
             <text />
           </script>
-          <event>end_of_day>
+          <script>
             <event>start_of_day</event>
             <text> [cr][cr]           if (day = 167) then[cr]               fertiliser apply amount = 0 (kg/ha), depth = 50 (mm), type = NO3_N ()[cr]           endif[cr][cr][cr]        </text>
           </script>
-          <event>end_of_day>
-            <event>endofday</event>
+          <script>
+            <event>end_of_day</event>
             <text />
           </script>
         </logic>
@@ -7208,11 +7208,11 @@
           <property name="irrigation_efficiency" description="Efficiency of the irrigation. (0-1.0)">1.0</property>
         </irrigation>
         <logic name="Irrigator">
-          <event>end_of_day>
+          <script>
             <event>init</event>
             <text />
           </script>
-          <event>end_of_day>
+          <script>
             <event>start_of_day</event>
             <text>
 
@@ -7295,18 +7295,18 @@
 
            </text>
           </script>
-          <event>end_of_day>
-            <event>endofday</event>
+          <script>
+            <event>end_of_day</event>
             <text />
           </script>
         </logic>
         <fertiliser name="fertiliser" />
         <logic name="Fertilizer">
-          <event>end_of_day>
+          <script>
             <event>init</event>
             <text />
           </script>
-          <event>end_of_day>
+          <script>
             <event>start_of_day</event>
             <text>
 
@@ -7317,8 +7317,8 @@
 
            </text>
           </script>
-          <event>end_of_day>
-            <event>endofday</event>
+          <script>
+            <event>end_of_day</event>
             <text />
           </script>
         </logic>
@@ -7599,11 +7599,11 @@
           <property name="irrigation_efficiency" description="Efficiency of the irrigation. (0-1.0)">1.0</property>
         </irrigation>
         <logic name="Irrigator">
-          <event>end_of_day>
+          <script>
             <event>init</event>
             <text />
           </script>
-          <event>end_of_day>
+          <script>
             <event>start_of_day</event>
             <text>
 
@@ -7686,18 +7686,18 @@
 
            </text>
           </script>
-          <event>end_of_day>
-            <event>endofday</event>
+          <script>
+            <event>end_of_day</event>
             <text />
           </script>
         </logic>
         <fertiliser name="fertiliser" />
         <logic name="Fertilizer">
-          <event>end_of_day>
+          <script>
             <event>init</event>
             <text />
           </script>
-          <event>end_of_day>
+          <script>
             <event>start_of_day</event>
             <text>
 
@@ -7708,8 +7708,8 @@
 
            </text>
           </script>
-          <event>end_of_day>
-            <event>endofday</event>
+          <script>
+            <event>end_of_day</event>
             <text />
           </script>
         </logic>
@@ -7990,11 +7990,11 @@
           <property name="irrigation_efficiency" description="Efficiency of the irrigation. (0-1.0)">1.0</property>
         </irrigation>
         <logic name="Irrigator">
-          <event>end_of_day>
+          <script>
             <event>init</event>
             <text />
           </script>
-          <event>end_of_day>
+          <script>
             <event>start_of_day</event>
             <text>
 
@@ -8077,18 +8077,18 @@
 
            </text>
           </script>
-          <event>end_of_day>
-            <event>endofday</event>
+          <script>
+            <event>end_of_day</event>
             <text />
           </script>
         </logic>
         <fertiliser name="fertiliser" />
         <logic name="Fertilizer">
-          <event>end_of_day>
+          <script>
             <event>init</event>
             <text />
           </script>
-          <event>end_of_day>
+          <script>
             <event>start_of_day</event>
             <text>
 
@@ -8105,8 +8105,8 @@
 
            </text>
           </script>
-          <event>end_of_day>
-            <event>endofday</event>
+          <script>
+            <event>end_of_day</event>
             <text />
           </script>
         </logic>
@@ -8387,11 +8387,11 @@
           <property name="irrigation_efficiency" description="Efficiency of the irrigation. (0-1.0)">1.0</property>
         </irrigation>
         <logic name="Irrigator">
-          <event>end_of_day>
+          <script>
             <event>init</event>
             <text />
           </script>
-          <event>end_of_day>
+          <script>
             <event>start_of_day</event>
             <text>
 
@@ -8474,18 +8474,18 @@
 
            </text>
           </script>
-          <event>end_of_day>
-            <event>endofday</event>
+          <script>
+            <event>end_of_day</event>
             <text />
           </script>
         </logic>
         <fertiliser name="fertiliser" />
         <logic name="Fertilizer">
-          <event>end_of_day>
+          <script>
             <event>init</event>
             <text />
           </script>
-          <event>end_of_day>
+          <script>
             <event>start_of_day</event>
             <text>
 
@@ -8502,8 +8502,8 @@
 
            </text>
           </script>
-          <event>end_of_day>
-            <event>endofday</event>
+          <script>
+            <event>end_of_day</event>
             <text />
           </script>
         </logic>
@@ -8784,11 +8784,11 @@
           <property name="irrigation_efficiency" description="Efficiency of the irrigation. (0-1.0)">1.0</property>
         </irrigation>
         <logic name="Irrigator">
-          <event>end_of_day>
+          <script>
             <event>init</event>
             <text />
           </script>
-          <event>end_of_day>
+          <script>
             <event>start_of_day</event>
             <text>
 
@@ -8871,18 +8871,18 @@
 
            </text>
           </script>
-          <event>end_of_day>
-            <event>endofday</event>
+          <script>
+            <event>end_of_day</event>
             <text />
           </script>
         </logic>
         <fertiliser name="fertiliser" />
         <logic name="Fertilizer">
-          <event>end_of_day>
+          <script>
             <event>init</event>
             <text />
           </script>
-          <event>end_of_day>
+          <script>
             <event>start_of_day</event>
             <text>
 
@@ -8905,8 +8905,8 @@
 
            </text>
           </script>
-          <event>end_of_day>
-            <event>endofday</event>
+          <script>
+            <event>end_of_day</event>
             <text />
           </script>
         </logic>
@@ -9189,11 +9189,11 @@
           <property name="irrigation_efficiency" description="Efficiency of the irrigation. (0-1.0)">1.0</property>
         </irrigation>
         <logic name="Irrigator">
-          <event>end_of_day>
+          <script>
             <event>init</event>
             <text />
           </script>
-          <event>end_of_day>
+          <script>
             <event>start_of_day</event>
             <text>
 
@@ -9264,18 +9264,18 @@
 
            </text>
           </script>
-          <event>end_of_day>
-            <event>endofday</event>
+          <script>
+            <event>end_of_day</event>
             <text />
           </script>
         </logic>
         <fertiliser name="fertiliser" />
         <logic name="Fertilizer">
-          <event>end_of_day>
+          <script>
             <event>init</event>
             <text />
           </script>
-          <event>end_of_day>
+          <script>
             <event>start_of_day</event>
             <text>
 
@@ -9286,8 +9286,8 @@
 
            </text>
           </script>
-          <event>end_of_day>
-            <event>endofday</event>
+          <script>
+            <event>end_of_day</event>
             <text />
           </script>
         </logic>
@@ -9571,11 +9571,11 @@
           <property name="irrigation_efficiency" description="Efficiency of the irrigation. (0-1.0)">1.0</property>
         </irrigation>
         <logic name="Irrigator">
-          <event>end_of_day>
+          <script>
             <event>init</event>
             <text />
           </script>
-          <event>end_of_day>
+          <script>
             <event>start_of_day</event>
             <text>
 
@@ -9646,18 +9646,18 @@
 
            </text>
           </script>
-          <event>end_of_day>
-            <event>endofday</event>
+          <script>
+            <event>end_of_day</event>
             <text />
           </script>
         </logic>
         <fertiliser name="fertiliser" />
         <logic name="Fertilizer">
-          <event>end_of_day>
+          <script>
             <event>init</event>
             <text />
           </script>
-          <event>end_of_day>
+          <script>
             <event>start_of_day</event>
             <text>
 
@@ -9668,8 +9668,8 @@
 
            </text>
           </script>
-          <event>end_of_day>
-            <event>endofday</event>
+          <script>
+            <event>end_of_day</event>
             <text />
           </script>
         </logic>
@@ -9953,11 +9953,11 @@
           <property name="irrigation_efficiency" description="Efficiency of the irrigation. (0-1.0)">1.0</property>
         </irrigation>
         <logic name="Irrigator">
-          <event>end_of_day>
+          <script>
             <event>init</event>
             <text />
           </script>
-          <event>end_of_day>
+          <script>
             <event>start_of_day</event>
             <text>
 
@@ -10028,18 +10028,18 @@
 
            </text>
           </script>
-          <event>end_of_day>
-            <event>endofday</event>
+          <script>
+            <event>end_of_day</event>
             <text />
           </script>
         </logic>
         <fertiliser name="fertiliser" />
         <logic name="Fertilizer">
-          <event>end_of_day>
+          <script>
             <event>init</event>
             <text />
           </script>
-          <event>end_of_day>
+          <script>
             <event>start_of_day</event>
             <text>
 
@@ -10050,8 +10050,8 @@
 
            </text>
           </script>
-          <event>end_of_day>
-            <event>endofday</event>
+          <script>
+            <event>end_of_day</event>
             <text />
           </script>
         </logic>
@@ -10335,11 +10335,11 @@
           <property name="irrigation_efficiency" description="Efficiency of the irrigation. (0-1.0)">1.0</property>
         </irrigation>
         <logic name="Irrigator">
-          <event>end_of_day>
+          <script>
             <event>init</event>
             <text />
           </script>
-          <event>end_of_day>
+          <script>
             <event>start_of_day</event>
             <text>
 
@@ -10410,18 +10410,18 @@
 
            </text>
           </script>
-          <event>end_of_day>
-            <event>endofday</event>
+          <script>
+            <event>end_of_day</event>
             <text />
           </script>
         </logic>
         <fertiliser name="fertiliser" />
         <logic name="Fertilizer">
-          <event>end_of_day>
+          <script>
             <event>init</event>
             <text />
           </script>
-          <event>end_of_day>
+          <script>
             <event>start_of_day</event>
             <text>
 
@@ -10438,8 +10438,8 @@
 
            </text>
           </script>
-          <event>end_of_day>
-            <event>endofday</event>
+          <script>
+            <event>end_of_day</event>
             <text />
           </script>
         </logic>
@@ -10723,11 +10723,11 @@
           <property name="irrigation_efficiency" description="Efficiency of the irrigation. (0-1.0)">1.0</property>
         </irrigation>
         <logic name="Irrigator">
-          <event>end_of_day>
+          <script>
             <event>init</event>
             <text />
           </script>
-          <event>end_of_day>
+          <script>
             <event>start_of_day</event>
             <text>
 
@@ -10798,18 +10798,18 @@
 
            </text>
           </script>
-          <event>end_of_day>
-            <event>endofday</event>
+          <script>
+            <event>end_of_day</event>
             <text />
           </script>
         </logic>
         <fertiliser name="fertiliser" />
         <logic name="Fertilizer">
-          <event>end_of_day>
+          <script>
             <event>init</event>
             <text />
           </script>
-          <event>end_of_day>
+          <script>
             <event>start_of_day</event>
             <text>
 
@@ -10820,8 +10820,8 @@
 
            </text>
           </script>
-          <event>end_of_day>
-            <event>endofday</event>
+          <script>
+            <event>end_of_day</event>
             <text />
           </script>
         </logic>
@@ -11122,11 +11122,11 @@
           <property name="irrigation_efficiency" description="Efficiency of the irrigation. (0-1.0)">1.0</property>
         </irrigation>
         <logic name="Irrigator">
-          <event>end_of_day>
+          <script>
             <event>init</event>
             <text />
           </script>
-          <event>end_of_day>
+          <script>
             <event>start_of_day</event>
             <text>
 
@@ -11197,18 +11197,18 @@
 
            </text>
           </script>
-          <event>end_of_day>
-            <event>endofday</event>
+          <script>
+            <event>end_of_day</event>
             <text />
           </script>
         </logic>
         <fertiliser name="fertiliser" />
         <logic name="Fertilizer">
-          <event>end_of_day>
+          <script>
             <event>init</event>
             <text />
           </script>
-          <event>end_of_day>
+          <script>
             <event>start_of_day</event>
             <text>
 
@@ -11219,8 +11219,8 @@
 
            </text>
           </script>
-          <event>end_of_day>
-            <event>endofday</event>
+          <script>
+            <event>end_of_day</event>
             <text />
           </script>
         </logic>
@@ -11521,11 +11521,11 @@
           <property name="irrigation_efficiency" description="Efficiency of the irrigation. (0-1.0)">1.0</property>
         </irrigation>
         <logic name="Irrigator">
-          <event>end_of_day>
+          <script>
             <event>init</event>
             <text />
           </script>
-          <event>end_of_day>
+          <script>
             <event>start_of_day</event>
             <text>
 
@@ -11596,18 +11596,18 @@
 
            </text>
           </script>
-          <event>end_of_day>
-            <event>endofday</event>
+          <script>
+            <event>end_of_day</event>
             <text />
           </script>
         </logic>
         <fertiliser name="fertiliser" />
         <logic name="Fertilizer">
-          <event>end_of_day>
+          <script>
             <event>init</event>
             <text />
           </script>
-          <event>end_of_day>
+          <script>
             <event>start_of_day</event>
             <text>
 
@@ -11618,8 +11618,8 @@
 
            </text>
           </script>
-          <event>end_of_day>
-            <event>endofday</event>
+          <script>
+            <event>end_of_day</event>
             <text />
           </script>
         </logic>
@@ -11920,11 +11920,11 @@
           <property name="irrigation_efficiency" description="Efficiency of the irrigation. (0-1.0)">1.0</property>
         </irrigation>
         <logic name="Irrigator">
-          <event>end_of_day>
+          <script>
             <event>init</event>
             <text />
           </script>
-          <event>end_of_day>
+          <script>
             <event>start_of_day</event>
             <text>
 
@@ -11995,18 +11995,18 @@
 
            </text>
           </script>
-          <event>end_of_day>
-            <event>endofday</event>
+          <script>
+            <event>end_of_day</event>
             <text />
           </script>
         </logic>
         <fertiliser name="fertiliser" />
         <logic name="Fertilizer">
-          <event>end_of_day>
+          <script>
             <event>init</event>
             <text />
           </script>
-          <event>end_of_day>
+          <script>
             <event>start_of_day</event>
             <text>
 
@@ -12023,8 +12023,8 @@
 
            </text>
           </script>
-          <event>end_of_day>
-            <event>endofday</event>
+          <script>
+            <event>end_of_day</event>
             <text />
           </script>
         </logic>
@@ -12325,11 +12325,11 @@
           <property name="irrigation_efficiency" description="Efficiency of the irrigation. (0-1.0)">1.0</property>
         </irrigation>
         <logic name="Irrigator">
-          <event>end_of_day>
+          <script>
             <event>init</event>
             <text />
           </script>
-          <event>end_of_day>
+          <script>
             <event>start_of_day</event>
             <text>
 
@@ -12400,18 +12400,18 @@
 
            </text>
           </script>
-          <event>end_of_day>
-            <event>endofday</event>
+          <script>
+            <event>end_of_day</event>
             <text />
           </script>
         </logic>
         <fertiliser name="fertiliser" />
         <logic name="Fertilizer">
-          <event>end_of_day>
+          <script>
             <event>init</event>
             <text />
           </script>
-          <event>end_of_day>
+          <script>
             <event>start_of_day</event>
             <text>
 
@@ -12422,8 +12422,8 @@
 
            </text>
           </script>
-          <event>end_of_day>
-            <event>endofday</event>
+          <script>
+            <event>end_of_day</event>
             <text />
           </script>
         </logic>
@@ -12724,11 +12724,11 @@
           <property name="irrigation_efficiency" description="Efficiency of the irrigation. (0-1.0)">1.0</property>
         </irrigation>
         <logic name="Irrigator">
-          <event>end_of_day>
+          <script>
             <event>init</event>
             <text />
           </script>
-          <event>end_of_day>
+          <script>
             <event>start_of_day</event>
             <text>
 
@@ -12799,18 +12799,18 @@
 
            </text>
           </script>
-          <event>end_of_day>
-            <event>endofday</event>
+          <script>
+            <event>end_of_day</event>
             <text />
           </script>
         </logic>
         <fertiliser name="fertiliser" />
         <logic name="Fertilizer">
-          <event>end_of_day>
+          <script>
             <event>init</event>
             <text />
           </script>
-          <event>end_of_day>
+          <script>
             <event>start_of_day</event>
             <text>
 
@@ -12821,8 +12821,8 @@
 
            </text>
           </script>
-          <event>end_of_day>
-            <event>endofday</event>
+          <script>
+            <event>end_of_day</event>
             <text />
           </script>
         </logic>
@@ -13123,11 +13123,11 @@
           <property name="irrigation_efficiency" description="Efficiency of the irrigation. (0-1.0)">1.0</property>
         </irrigation>
         <logic name="Irrigator">
-          <event>end_of_day>
+          <script>
             <event>init</event>
             <text />
           </script>
-          <event>end_of_day>
+          <script>
             <event>start_of_day</event>
             <text>
 
@@ -13198,18 +13198,18 @@
 
            </text>
           </script>
-          <event>end_of_day>
-            <event>endofday</event>
+          <script>
+            <event>end_of_day</event>
             <text />
           </script>
         </logic>
         <fertiliser name="fertiliser" />
         <logic name="Fertilizer">
-          <event>end_of_day>
+          <script>
             <event>init</event>
             <text />
           </script>
-          <event>end_of_day>
+          <script>
             <event>start_of_day</event>
             <text>
 
@@ -13220,8 +13220,8 @@
 
            </text>
           </script>
-          <event>end_of_day>
-            <event>endofday</event>
+          <script>
+            <event>end_of_day</event>
             <text />
           </script>
         </logic>
@@ -13522,11 +13522,11 @@
           <property name="irrigation_efficiency" description="Efficiency of the irrigation. (0-1.0)">1.0</property>
         </irrigation>
         <logic name="Irrigator">
-          <event>end_of_day>
+          <script>
             <event>init</event>
             <text />
           </script>
-          <event>end_of_day>
+          <script>
             <event>start_of_day</event>
             <text>
 
@@ -13597,18 +13597,18 @@
 
            </text>
           </script>
-          <event>end_of_day>
-            <event>endofday</event>
+          <script>
+            <event>end_of_day</event>
             <text />
           </script>
         </logic>
         <fertiliser name="fertiliser" />
         <logic name="Fertilizer">
-          <event>end_of_day>
+          <script>
             <event>init</event>
             <text />
           </script>
-          <event>end_of_day>
+          <script>
             <event>start_of_day</event>
             <text>
 
@@ -13625,8 +13625,8 @@
 
            </text>
           </script>
-          <event>end_of_day>
-            <event>endofday</event>
+          <script>
+            <event>end_of_day</event>
             <text />
           </script>
         </logic>
@@ -13929,26 +13929,26 @@
           <property name="irrigation_efficiency" description="Efficiency of the irrigation. (0-1.0)">1.0</property>
         </irrigation>
         <logic name="Irrigator">
-          <event>end_of_day>
+          <script>
             <event>init</event>
             <text />
           </script>
-          <event>end_of_day>
+          <script>
             <event>start_of_day</event>
             <text />
           </script>
-          <event>end_of_day>
-            <event>endofday</event>
+          <script>
+            <event>end_of_day</event>
             <text />
           </script>
         </logic>
         <fertiliser name="fertiliser" />
         <logic name="Fertilizer">
-          <event>end_of_day>
+          <script>
             <event>init</event>
             <text />
           </script>
-          <event>end_of_day>
+          <script>
             <event>start_of_day</event>
             <text>
 
@@ -13959,8 +13959,8 @@
 
            </text>
           </script>
-          <event>end_of_day>
-            <event>endofday</event>
+          <script>
+            <event>end_of_day</event>
             <text />
           </script>
         </logic>
@@ -14292,26 +14292,26 @@
           <property name="irrigation_efficiency" description="Efficiency of the irrigation. (0-1.0)">1.0</property>
         </irrigation>
         <logic name="Irrigator">
-          <event>end_of_day>
+          <script>
             <event>init</event>
             <text />
           </script>
-          <event>end_of_day>
+          <script>
             <event>start_of_day</event>
             <text />
           </script>
-          <event>end_of_day>
-            <event>endofday</event>
+          <script>
+            <event>end_of_day</event>
             <text />
           </script>
         </logic>
         <fertiliser name="fertiliser" />
         <logic name="Fertilizer">
-          <event>end_of_day>
+          <script>
             <event>init</event>
             <text />
           </script>
-          <event>end_of_day>
+          <script>
             <event>start_of_day</event>
             <text>
 
@@ -14322,8 +14322,8 @@
 
            </text>
           </script>
-          <event>end_of_day>
-            <event>endofday</event>
+          <script>
+            <event>end_of_day</event>
             <text />
           </script>
         </logic>
@@ -14655,11 +14655,11 @@
           <property name="irrigation_efficiency" description="Efficiency of the irrigation. (0-1.0)">1.0</property>
         </irrigation>
         <logic name="Irrigator">
-          <event>end_of_day>
+          <script>
             <event>init</event>
             <text />
           </script>
-          <event>end_of_day>
+          <script>
             <event>start_of_day</event>
             <text>
 
@@ -14838,18 +14838,18 @@
 
            </text>
           </script>
-          <event>end_of_day>
-            <event>endofday</event>
+          <script>
+            <event>end_of_day</event>
             <text />
           </script>
         </logic>
         <fertiliser name="fertiliser" />
         <logic name="Fertilizer">
-          <event>end_of_day>
+          <script>
             <event>init</event>
             <text />
           </script>
-          <event>end_of_day>
+          <script>
             <event>start_of_day</event>
             <text>
 
@@ -14860,8 +14860,8 @@
 
            </text>
           </script>
-          <event>end_of_day>
-            <event>endofday</event>
+          <script>
+            <event>end_of_day</event>
             <text />
           </script>
         </logic>
@@ -15193,11 +15193,11 @@
           <property name="irrigation_efficiency" description="Efficiency of the irrigation. (0-1.0)">1.0</property>
         </irrigation>
         <logic name="Irrigator">
-          <event>end_of_day>
+          <script>
             <event>init</event>
             <text />
           </script>
-          <event>end_of_day>
+          <script>
             <event>start_of_day</event>
             <text>
 
@@ -15382,18 +15382,18 @@
 
            </text>
           </script>
-          <event>end_of_day>
-            <event>endofday</event>
+          <script>
+            <event>end_of_day</event>
             <text />
           </script>
         </logic>
         <fertiliser name="fertiliser" />
         <logic name="Fertilizer">
-          <event>end_of_day>
+          <script>
             <event>init</event>
             <text />
           </script>
-          <event>end_of_day>
+          <script>
             <event>start_of_day</event>
             <text>
 
@@ -15404,8 +15404,8 @@
 
            </text>
           </script>
-          <event>end_of_day>
-            <event>endofday</event>
+          <script>
+            <event>end_of_day</event>
             <text />
           </script>
         </logic>
@@ -15761,31 +15761,31 @@
           <property name="irrigation_efficiency" description="Efficiency of the irrigation. (0-1.0)">1.0</property>
         </irrigation>
         <logic name="Irrigator">
-          <event>end_of_day>
+          <script>
             <event>init</event>
             <text />
           </script>
-          <event>end_of_day>
+          <script>
             <event>start_of_day</event>
             <text />
           </script>
-          <event>end_of_day>
-            <event>endofday</event>
+          <script>
+            <event>end_of_day</event>
             <text />
           </script>
         </logic>
         <fertiliser name="fertiliser" />
         <logic name="Fertilizer">
-          <event>end_of_day>
+          <script>
             <event>init</event>
             <text />
           </script>
-          <event>end_of_day>
+          <script>
             <event>start_of_day</event>
             <text />
           </script>
-          <event>end_of_day>
-            <event>endofday</event>
+          <script>
+            <event>end_of_day</event>
             <text />
           </script>
         </logic>
@@ -16157,26 +16157,26 @@
           <property name="irrigation_efficiency" description="Efficiency of the irrigation. (0-1.0)">1.0</property>
         </irrigation>
         <logic name="Irrigator">
-          <event>end_of_day>
+          <script>
             <event>init</event>
             <text />
           </script>
-          <event>end_of_day>
+          <script>
             <event>start_of_day</event>
             <text />
           </script>
-          <event>end_of_day>
-            <event>endofday</event>
+          <script>
+            <event>end_of_day</event>
             <text />
           </script>
         </logic>
         <fertiliser name="fertiliser" />
         <logic name="Fertilizer">
-          <event>end_of_day>
+          <script>
             <event>init</event>
             <text />
           </script>
-          <event>end_of_day>
+          <script>
             <event>start_of_day</event>
             <text>
 
@@ -16187,8 +16187,8 @@
 
            </text>
           </script>
-          <event>end_of_day>
-            <event>endofday</event>
+          <script>
+            <event>end_of_day</event>
             <text />
           </script>
         </logic>
@@ -16560,11 +16560,11 @@
           <property name="irrigation_efficiency" description="Efficiency of the irrigation. (0-1.0)">1.0</property>
         </irrigation>
         <logic name="Irrigator">
-          <event>end_of_day>
+          <script>
             <event>init</event>
             <text />
           </script>
-          <event>end_of_day>
+          <script>
             <event>start_of_day</event>
             <text>
 
@@ -16575,18 +16575,18 @@
 
            </text>
           </script>
-          <event>end_of_day>
-            <event>endofday</event>
+          <script>
+            <event>end_of_day</event>
             <text />
           </script>
         </logic>
         <fertiliser name="fertiliser" />
         <logic name="Fertilizer">
-          <event>end_of_day>
+          <script>
             <event>init</event>
             <text />
           </script>
-          <event>end_of_day>
+          <script>
             <event>start_of_day</event>
             <text>
 
@@ -16597,8 +16597,8 @@
 
            </text>
           </script>
-          <event>end_of_day>
-            <event>endofday</event>
+          <script>
+            <event>end_of_day</event>
             <text />
           </script>
         </logic>
@@ -16970,11 +16970,11 @@
           <property name="irrigation_efficiency" description="Efficiency of the irrigation. (0-1.0)">1.0</property>
         </irrigation>
         <logic name="Irrigator">
-          <event>end_of_day>
+          <script>
             <event>init</event>
             <text />
           </script>
-          <event>end_of_day>
+          <script>
             <event>start_of_day</event>
             <text>
 
@@ -17003,18 +17003,18 @@
 
            </text>
           </script>
-          <event>end_of_day>
-            <event>endofday</event>
+          <script>
+            <event>end_of_day</event>
             <text />
           </script>
         </logic>
         <fertiliser name="fertiliser" />
         <logic name="Fertilizer">
-          <event>end_of_day>
+          <script>
             <event>init</event>
             <text />
           </script>
-          <event>end_of_day>
+          <script>
             <event>start_of_day</event>
             <text>
 
@@ -17025,8 +17025,8 @@
 
            </text>
           </script>
-          <event>end_of_day>
-            <event>endofday</event>
+          <script>
+            <event>end_of_day</event>
             <text />
           </script>
         </logic>
@@ -17406,11 +17406,11 @@
           <property name="irrigation_efficiency" description="Efficiency of the irrigation. (0-1.0)">1.0</property>
         </irrigation>
         <logic name="Irrigator">
-          <event>end_of_day>
+          <script>
             <event>init</event>
             <text />
           </script>
-          <event>end_of_day>
+          <script>
             <event>start_of_day</event>
             <text> 
 
@@ -17547,18 +17547,18 @@
 
         </text>
           </script>
-          <event>end_of_day>
-            <event>endofday</event>
+          <script>
+            <event>end_of_day</event>
             <text />
           </script>
         </logic>
         <fertiliser name="fertiliser" />
         <logic name="Fertilizer">
-          <event>end_of_day>
+          <script>
             <event>init</event>
             <text />
           </script>
-          <event>end_of_day>
+          <script>
             <event>start_of_day</event>
             <text> 
 
@@ -17581,8 +17581,8 @@
 
         </text>
           </script>
-          <event>end_of_day>
-            <event>endofday</event>
+          <script>
+            <event>end_of_day</event>
             <text />
           </script>
         </logic>
@@ -17958,11 +17958,11 @@
           <property name="irrigation_efficiency" description="Efficiency of the irrigation. (0-1.0)">1.0</property>
         </irrigation>
         <logic name="Irrigator">
-          <event>end_of_day>
+          <script>
             <event>init</event>
             <text />
           </script>
-          <event>end_of_day>
+          <script>
             <event>start_of_day</event>
             <text>
 
@@ -18063,18 +18063,18 @@
 
            </text>
           </script>
-          <event>end_of_day>
-            <event>endofday</event>
+          <script>
+            <event>end_of_day</event>
             <text />
           </script>
         </logic>
         <fertiliser name="fertiliser" />
         <logic name="Fertilizer">
-          <event>end_of_day>
+          <script>
             <event>init</event>
             <text />
           </script>
-          <event>end_of_day>
+          <script>
             <event>start_of_day</event>
             <text>
 
@@ -18097,8 +18097,8 @@
 
            </text>
           </script>
-          <event>end_of_day>
-            <event>endofday</event>
+          <script>
+            <event>end_of_day</event>
             <text />
           </script>
         </logic>
@@ -18474,11 +18474,11 @@
           <property name="irrigation_efficiency" description="Efficiency of the irrigation. (0-1.0)">1.0</property>
         </irrigation>
         <logic name="Irrigator">
-          <event>end_of_day>
+          <script>
             <event>init</event>
             <text />
           </script>
-          <event>end_of_day>
+          <script>
             <event>start_of_day</event>
             <text>
 
@@ -18525,23 +18525,23 @@
 
            </text>
           </script>
-          <event>end_of_day>
-            <event>endofday</event>
+          <script>
+            <event>end_of_day</event>
             <text />
           </script>
         </logic>
         <fertiliser name="fertiliser" />
         <logic name="Fertilizer">
-          <event>end_of_day>
+          <script>
             <event>init</event>
             <text />
           </script>
-          <event>end_of_day>
+          <script>
             <event>start_of_day</event>
             <text> [cr][cr]           if (day = 161) then[cr]               fertiliser apply amount = 30 (kg/ha), depth = 50 (mm), type = NO3_N ()[cr]           endif[cr][cr][cr][cr]           if (day = 228) then[cr]               fertiliser apply amount = 100 (kg/ha), depth = 50 (mm), type = NO3_N ()[cr]           endif[cr][cr][cr][cr]           if (day = 269) then[cr]               fertiliser apply amount = 50 (kg/ha), depth = 50 (mm), type = NO3_N ()[cr]           endif[cr][cr][cr]        </text>
           </script>
-          <event>end_of_day>
-            <event>endofday</event>
+          <script>
+            <event>end_of_day</event>
             <text />
           </script>
         </logic>
@@ -18917,11 +18917,11 @@
           <property name="irrigation_efficiency" description="Efficiency of the irrigation. (0-1.0)">1.0</property>
         </irrigation>
         <logic name="Irrigator">
-          <event>end_of_day>
+          <script>
             <event>init</event>
             <text />
           </script>
-          <event>end_of_day>
+          <script>
             <event>start_of_day</event>
             <text>
 
@@ -18968,18 +18968,18 @@
 
            </text>
           </script>
-          <event>end_of_day>
-            <event>endofday</event>
+          <script>
+            <event>end_of_day</event>
             <text />
           </script>
         </logic>
         <fertiliser name="fertiliser" />
         <logic name="Fertilizer">
-          <event>end_of_day>
+          <script>
             <event>init</event>
             <text />
           </script>
-          <event>end_of_day>
+          <script>
             <event>start_of_day</event>
             <text>
 
@@ -19002,8 +19002,8 @@
 
            </text>
           </script>
-          <event>end_of_day>
-            <event>endofday</event>
+          <script>
+            <event>end_of_day</event>
             <text />
           </script>
         </logic>
@@ -19379,11 +19379,11 @@
           <property name="irrigation_efficiency" description="Efficiency of the irrigation. (0-1.0)">1.0</property>
         </irrigation>
         <logic name="Irrigator">
-          <event>end_of_day>
+          <script>
             <event>init</event>
             <text />
           </script>
-          <event>end_of_day>
+          <script>
             <event>start_of_day</event>
             <text>
 
@@ -19448,18 +19448,18 @@
 
            </text>
           </script>
-          <event>end_of_day>
-            <event>endofday</event>
+          <script>
+            <event>end_of_day</event>
             <text />
           </script>
         </logic>
         <fertiliser name="fertiliser" />
         <logic name="Fertilizer">
-          <event>end_of_day>
+          <script>
             <event>init</event>
             <text />
           </script>
-          <event>end_of_day>
+          <script>
             <event>start_of_day</event>
             <text>
 
@@ -19482,8 +19482,8 @@
 
            </text>
           </script>
-          <event>end_of_day>
-            <event>endofday</event>
+          <script>
+            <event>end_of_day</event>
             <text />
           </script>
         </logic>
@@ -19859,11 +19859,11 @@
           <property name="irrigation_efficiency" description="Efficiency of the irrigation. (0-1.0)">1.0</property>
         </irrigation>
         <logic name="Irrigator">
-          <event>end_of_day>
+          <script>
             <event>init</event>
             <text />
           </script>
-          <event>end_of_day>
+          <script>
             <event>start_of_day</event>
             <text>
 
@@ -19946,18 +19946,18 @@
 
            </text>
           </script>
-          <event>end_of_day>
-            <event>endofday</event>
+          <script>
+            <event>end_of_day</event>
             <text />
           </script>
         </logic>
         <fertiliser name="fertiliser" />
         <logic name="Fertilizer">
-          <event>end_of_day>
+          <script>
             <event>init</event>
             <text />
           </script>
-          <event>end_of_day>
+          <script>
             <event>start_of_day</event>
             <text>
 
@@ -19980,8 +19980,8 @@
 
            </text>
           </script>
-          <event>end_of_day>
-            <event>endofday</event>
+          <script>
+            <event>end_of_day</event>
             <text />
           </script>
         </logic>
@@ -20357,11 +20357,11 @@
           <property name="irrigation_efficiency" description="Efficiency of the irrigation. (0-1.0)">1.0</property>
         </irrigation>
         <logic name="Irrigator">
-          <event>end_of_day>
+          <script>
             <event>init</event>
             <text />
           </script>
-          <event>end_of_day>
+          <script>
             <event>start_of_day</event>
             <text>
 
@@ -20384,18 +20384,18 @@
 
            </text>
           </script>
-          <event>end_of_day>
-            <event>endofday</event>
+          <script>
+            <event>end_of_day</event>
             <text />
           </script>
         </logic>
         <fertiliser name="fertiliser" />
         <logic name="Fertilizer">
-          <event>end_of_day>
+          <script>
             <event>init</event>
             <text />
           </script>
-          <event>end_of_day>
+          <script>
             <event>start_of_day</event>
             <text>
 
@@ -20418,8 +20418,8 @@
 
            </text>
           </script>
-          <event>end_of_day>
-            <event>endofday</event>
+          <script>
+            <event>end_of_day</event>
             <text />
           </script>
         </logic>
@@ -20769,11 +20769,11 @@
           <property name="irrigation_efficiency" description="Efficiency of the irrigation. (0-1.0)">1.0</property>
         </irrigation>
         <logic name="Irrigator">
-          <event>end_of_day>
+          <script>
             <event>init</event>
             <text />
           </script>
-          <event>end_of_day>
+          <script>
             <event>start_of_day</event>
             <text>
 
@@ -20880,18 +20880,18 @@
 
            </text>
           </script>
-          <event>end_of_day>
-            <event>endofday</event>
+          <script>
+            <event>end_of_day</event>
             <text />
           </script>
         </logic>
         <fertiliser name="fertiliser" />
         <logic name="Fertilizer">
-          <event>end_of_day>
+          <script>
             <event>init</event>
             <text />
           </script>
-          <event>end_of_day>
+          <script>
             <event>start_of_day</event>
             <text>
 
@@ -20944,8 +20944,8 @@
 
            </text>
           </script>
-          <event>end_of_day>
-            <event>endofday</event>
+          <script>
+            <event>end_of_day</event>
             <text />
           </script>
         </logic>
@@ -21401,11 +21401,11 @@
           <property name="irrigation_efficiency" description="Efficiency of the irrigation. (0-1.0)">1.0</property>
         </irrigation>
         <logic name="Irrigator">
-          <event>end_of_day>
+          <script>
             <event>init</event>
             <text />
           </script>
-          <event>end_of_day>
+          <script>
             <event>start_of_day</event>
             <text>
 
@@ -21524,18 +21524,18 @@
 
            </text>
           </script>
-          <event>end_of_day>
-            <event>endofday</event>
+          <script>
+            <event>end_of_day</event>
             <text />
           </script>
         </logic>
         <fertiliser name="fertiliser" />
         <logic name="Fertilizer">
-          <event>end_of_day>
+          <script>
             <event>init</event>
             <text />
           </script>
-          <event>end_of_day>
+          <script>
             <event>start_of_day</event>
             <text>
 
@@ -21588,8 +21588,8 @@
 
            </text>
           </script>
-          <event>end_of_day>
-            <event>endofday</event>
+          <script>
+            <event>end_of_day</event>
             <text />
           </script>
         </logic>
@@ -22045,11 +22045,11 @@
           <property name="irrigation_efficiency" description="Efficiency of the irrigation. (0-1.0)">1.0</property>
         </irrigation>
         <logic name="Irrigator">
-          <event>end_of_day>
+          <script>
             <event>init</event>
             <text />
           </script>
-          <event>end_of_day>
+          <script>
             <event>start_of_day</event>
             <text>
 
@@ -22156,18 +22156,18 @@
 
            </text>
           </script>
-          <event>end_of_day>
-            <event>endofday</event>
+          <script>
+            <event>end_of_day</event>
             <text />
           </script>
         </logic>
         <fertiliser name="fertiliser" />
         <logic name="Fertilizer">
-          <event>end_of_day>
+          <script>
             <event>init</event>
             <text />
           </script>
-          <event>end_of_day>
+          <script>
             <event>start_of_day</event>
             <text>
 
@@ -22220,8 +22220,8 @@
 
            </text>
           </script>
-          <event>end_of_day>
-            <event>endofday</event>
+          <script>
+            <event>end_of_day</event>
             <text />
           </script>
         </logic>
@@ -22677,11 +22677,11 @@
           <property name="irrigation_efficiency" description="Efficiency of the irrigation. (0-1.0)">1.0</property>
         </irrigation>
         <logic name="Irrigator">
-          <event>end_of_day>
+          <script>
             <event>init</event>
             <text />
           </script>
-          <event>end_of_day>
+          <script>
             <event>start_of_day</event>
             <text>
 
@@ -22800,18 +22800,18 @@
 
            </text>
           </script>
-          <event>end_of_day>
-            <event>endofday</event>
+          <script>
+            <event>end_of_day</event>
             <text />
           </script>
         </logic>
         <fertiliser name="fertiliser" />
         <logic name="Fertilizer">
-          <event>end_of_day>
+          <script>
             <event>init</event>
             <text />
           </script>
-          <event>end_of_day>
+          <script>
             <event>start_of_day</event>
             <text>
 
@@ -22864,8 +22864,8 @@
 
            </text>
           </script>
-          <event>end_of_day>
-            <event>endofday</event>
+          <script>
+            <event>end_of_day</event>
             <text />
           </script>
         </logic>
@@ -23321,11 +23321,11 @@
           <property name="irrigation_efficiency" description="Efficiency of the irrigation. (0-1.0)">1.0</property>
         </irrigation>
         <logic name="Irrigator">
-          <event>end_of_day>
+          <script>
             <event>init</event>
             <text />
           </script>
-          <event>end_of_day>
+          <script>
             <event>start_of_day</event>
             <text>
 
@@ -23384,18 +23384,18 @@
 
            </text>
           </script>
-          <event>end_of_day>
-            <event>endofday</event>
+          <script>
+            <event>end_of_day</event>
             <text />
           </script>
         </logic>
         <fertiliser name="fertiliser" />
         <logic name="Fertilizer">
-          <event>end_of_day>
+          <script>
             <event>init</event>
             <text />
           </script>
-          <event>end_of_day>
+          <script>
             <event>start_of_day</event>
             <text>
 
@@ -23442,8 +23442,8 @@
 
            </text>
           </script>
-          <event>end_of_day>
-            <event>endofday</event>
+          <script>
+            <event>end_of_day</event>
             <text />
           </script>
         </logic>
@@ -23899,11 +23899,11 @@
           <property name="irrigation_efficiency" description="Efficiency of the irrigation. (0-1.0)">1.0</property>
         </irrigation>
         <logic name="Irrigator">
-          <event>end_of_day>
+          <script>
             <event>init</event>
             <text />
           </script>
-          <event>end_of_day>
+          <script>
             <event>start_of_day</event>
             <text>
 
@@ -24016,18 +24016,18 @@
 
            </text>
           </script>
-          <event>end_of_day>
-            <event>endofday</event>
+          <script>
+            <event>end_of_day</event>
             <text />
           </script>
         </logic>
         <fertiliser name="fertiliser" />
         <logic name="Fertilizer">
-          <event>end_of_day>
+          <script>
             <event>init</event>
             <text />
           </script>
-          <event>end_of_day>
+          <script>
             <event>start_of_day</event>
             <text>
 
@@ -24074,8 +24074,8 @@
 
            </text>
           </script>
-          <event>end_of_day>
-            <event>endofday</event>
+          <script>
+            <event>end_of_day</event>
             <text />
           </script>
         </logic>
@@ -24531,11 +24531,11 @@
           <property name="irrigation_efficiency" description="Efficiency of the irrigation. (0-1.0)">1.0</property>
         </irrigation>
         <logic name="Irrigator">
-          <event>end_of_day>
+          <script>
             <event>init</event>
             <text />
           </script>
-          <event>end_of_day>
+          <script>
             <event>start_of_day</event>
             <text>
 
@@ -24594,18 +24594,18 @@
 
            </text>
           </script>
-          <event>end_of_day>
-            <event>endofday</event>
+          <script>
+            <event>end_of_day</event>
             <text />
           </script>
         </logic>
         <fertiliser name="fertiliser" />
         <logic name="Fertilizer">
-          <event>end_of_day>
+          <script>
             <event>init</event>
             <text />
           </script>
-          <event>end_of_day>
+          <script>
             <event>start_of_day</event>
             <text>
 
@@ -24652,8 +24652,8 @@
 
            </text>
           </script>
-          <event>end_of_day>
-            <event>endofday</event>
+          <script>
+            <event>end_of_day</event>
             <text />
           </script>
         </logic>
@@ -25109,11 +25109,11 @@
           <property name="irrigation_efficiency" description="Efficiency of the irrigation. (0-1.0)">1.0</property>
         </irrigation>
         <logic name="Irrigator">
-          <event>end_of_day>
+          <script>
             <event>init</event>
             <text />
           </script>
-          <event>end_of_day>
+          <script>
             <event>start_of_day</event>
             <text>
 
@@ -25226,18 +25226,18 @@
 
            </text>
           </script>
-          <event>end_of_day>
-            <event>endofday</event>
+          <script>
+            <event>end_of_day</event>
             <text />
           </script>
         </logic>
         <fertiliser name="fertiliser" />
         <logic name="Fertilizer">
-          <event>end_of_day>
+          <script>
             <event>init</event>
             <text />
           </script>
-          <event>end_of_day>
+          <script>
             <event>start_of_day</event>
             <text>
 
@@ -25284,8 +25284,8 @@
 
            </text>
           </script>
-          <event>end_of_day>
-            <event>endofday</event>
+          <script>
+            <event>end_of_day</event>
             <text />
           </script>
         </logic>
@@ -25741,11 +25741,11 @@
           <property name="irrigation_efficiency" description="Efficiency of the irrigation. (0-1.0)">1.0</property>
         </irrigation>
         <logic name="Irrigator">
-          <event>end_of_day>
+          <script>
             <event>init</event>
             <text />
           </script>
-          <event>end_of_day>
+          <script>
             <event>start_of_day</event>
             <text>
 
@@ -25846,18 +25846,18 @@
 
            </text>
           </script>
-          <event>end_of_day>
-            <event>endofday</event>
+          <script>
+            <event>end_of_day</event>
             <text />
           </script>
         </logic>
         <fertiliser name="fertiliser" />
         <logic name="Fertilizer">
-          <event>end_of_day>
+          <script>
             <event>init</event>
             <text />
           </script>
-          <event>end_of_day>
+          <script>
             <event>start_of_day</event>
             <text>
 
@@ -25958,8 +25958,8 @@
 
            </text>
           </script>
-          <event>end_of_day>
-            <event>endofday</event>
+          <script>
+            <event>end_of_day</event>
             <text />
           </script>
         </logic>
@@ -26415,11 +26415,11 @@
           <property name="irrigation_efficiency" description="Efficiency of the irrigation. (0-1.0)">1.0</property>
         </irrigation>
         <logic name="Irrigator">
-          <event>end_of_day>
+          <script>
             <event>init</event>
             <text />
           </script>
-          <event>end_of_day>
+          <script>
             <event>start_of_day</event>
             <text>
 
@@ -26526,18 +26526,18 @@
 
            </text>
           </script>
-          <event>end_of_day>
-            <event>endofday</event>
+          <script>
+            <event>end_of_day</event>
             <text />
           </script>
         </logic>
         <fertiliser name="fertiliser" />
         <logic name="Fertilizer">
-          <event>end_of_day>
+          <script>
             <event>init</event>
             <text />
           </script>
-          <event>end_of_day>
+          <script>
             <event>start_of_day</event>
             <text>
 
@@ -26644,8 +26644,8 @@
 
            </text>
           </script>
-          <event>end_of_day>
-            <event>endofday</event>
+          <script>
+            <event>end_of_day</event>
             <text />
           </script>
         </logic>
@@ -27101,11 +27101,11 @@
           <property name="irrigation_efficiency" description="Efficiency of the irrigation. (0-1.0)">1.0</property>
         </irrigation>
         <logic name="Irrigator">
-          <event>end_of_day>
+          <script>
             <event>init</event>
             <text />
           </script>
-          <event>end_of_day>
+          <script>
             <event>start_of_day</event>
             <text>
 
@@ -27206,18 +27206,18 @@
 
            </text>
           </script>
-          <event>end_of_day>
-            <event>endofday</event>
+          <script>
+            <event>end_of_day</event>
             <text />
           </script>
         </logic>
         <fertiliser name="fertiliser" />
         <logic name="Fertilizer">
-          <event>end_of_day>
+          <script>
             <event>init</event>
             <text />
           </script>
-          <event>end_of_day>
+          <script>
             <event>start_of_day</event>
             <text>
 
@@ -27318,8 +27318,8 @@
 
            </text>
           </script>
-          <event>end_of_day>
-            <event>endofday</event>
+          <script>
+            <event>end_of_day</event>
             <text />
           </script>
         </logic>
@@ -27775,11 +27775,11 @@
           <property name="irrigation_efficiency" description="Efficiency of the irrigation. (0-1.0)">1.0</property>
         </irrigation>
         <logic name="Irrigator">
-          <event>end_of_day>
+          <script>
             <event>init</event>
             <text />
           </script>
-          <event>end_of_day>
+          <script>
             <event>start_of_day</event>
             <text>
 
@@ -27886,18 +27886,18 @@
 
            </text>
           </script>
-          <event>end_of_day>
-            <event>endofday</event>
+          <script>
+            <event>end_of_day</event>
             <text />
           </script>
         </logic>
         <fertiliser name="fertiliser" />
         <logic name="Fertilizer">
-          <event>end_of_day>
+          <script>
             <event>init</event>
             <text />
           </script>
-          <event>end_of_day>
+          <script>
             <event>start_of_day</event>
             <text>
 
@@ -28004,8 +28004,8 @@
 
            </text>
           </script>
-          <event>end_of_day>
-            <event>endofday</event>
+          <script>
+            <event>end_of_day</event>
             <text />
           </script>
         </logic>
@@ -28461,11 +28461,11 @@
           <property name="irrigation_efficiency" description="Efficiency of the irrigation. (0-1.0)">1.0</property>
         </irrigation>
         <logic name="Irrigator">
-          <event>end_of_day>
+          <script>
             <event>init</event>
             <text />
           </script>
-          <event>end_of_day>
+          <script>
             <event>start_of_day</event>
             <text>
 
@@ -28560,18 +28560,18 @@
 
            </text>
           </script>
-          <event>end_of_day>
-            <event>endofday</event>
+          <script>
+            <event>end_of_day</event>
             <text />
           </script>
         </logic>
         <fertiliser name="fertiliser" />
         <logic name="Fertilizer">
-          <event>end_of_day>
+          <script>
             <event>init</event>
             <text />
           </script>
-          <event>end_of_day>
+          <script>
             <event>start_of_day</event>
             <text>
 
@@ -28678,8 +28678,8 @@
 
            </text>
           </script>
-          <event>end_of_day>
-            <event>endofday</event>
+          <script>
+            <event>end_of_day</event>
             <text />
           </script>
         </logic>
@@ -29135,11 +29135,11 @@
           <property name="irrigation_efficiency" description="Efficiency of the irrigation. (0-1.0)">1.0</property>
         </irrigation>
         <logic name="Irrigator">
-          <event>end_of_day>
+          <script>
             <event>init</event>
             <text />
           </script>
-          <event>end_of_day>
+          <script>
             <event>start_of_day</event>
             <text>
 
@@ -29240,18 +29240,18 @@
 
            </text>
           </script>
-          <event>end_of_day>
-            <event>endofday</event>
+          <script>
+            <event>end_of_day</event>
             <text />
           </script>
         </logic>
         <fertiliser name="fertiliser" />
         <logic name="Fertilizer">
-          <event>end_of_day>
+          <script>
             <event>init</event>
             <text />
           </script>
-          <event>end_of_day>
+          <script>
             <event>start_of_day</event>
             <text>
 
@@ -29358,8 +29358,8 @@
 
            </text>
           </script>
-          <event>end_of_day>
-            <event>endofday</event>
+          <script>
+            <event>end_of_day</event>
             <text />
           </script>
         </logic>
@@ -29815,11 +29815,11 @@
           <property name="irrigation_efficiency" description="Efficiency of the irrigation. (0-1.0)">1.0</property>
         </irrigation>
         <logic name="Irrigator">
-          <event>end_of_day>
+          <script>
             <event>init</event>
             <text />
           </script>
-          <event>end_of_day>
+          <script>
             <event>start_of_day</event>
             <text>
 
@@ -29914,18 +29914,18 @@
 
            </text>
           </script>
-          <event>end_of_day>
-            <event>endofday</event>
+          <script>
+            <event>end_of_day</event>
             <text />
           </script>
         </logic>
         <fertiliser name="fertiliser" />
         <logic name="Fertilizer">
-          <event>end_of_day>
+          <script>
             <event>init</event>
             <text />
           </script>
-          <event>end_of_day>
+          <script>
             <event>start_of_day</event>
             <text>
 
@@ -30026,8 +30026,8 @@
 
            </text>
           </script>
-          <event>end_of_day>
-            <event>endofday</event>
+          <script>
+            <event>end_of_day</event>
             <text />
           </script>
         </logic>
@@ -30483,11 +30483,11 @@
           <property name="irrigation_efficiency" description="Efficiency of the irrigation. (0-1.0)">1.0</property>
         </irrigation>
         <logic name="Irrigator">
-          <event>end_of_day>
+          <script>
             <event>init</event>
             <text />
           </script>
-          <event>end_of_day>
+          <script>
             <event>start_of_day</event>
             <text>
 
@@ -30588,18 +30588,18 @@
 
            </text>
           </script>
-          <event>end_of_day>
-            <event>endofday</event>
+          <script>
+            <event>end_of_day</event>
             <text />
           </script>
         </logic>
         <fertiliser name="fertiliser" />
         <logic name="Fertilizer">
-          <event>end_of_day>
+          <script>
             <event>init</event>
             <text />
           </script>
-          <event>end_of_day>
+          <script>
             <event>start_of_day</event>
             <text>
 
@@ -30706,8 +30706,8 @@
 
            </text>
           </script>
-          <event>end_of_day>
-            <event>endofday</event>
+          <script>
+            <event>end_of_day</event>
             <text />
           </script>
         </logic>
@@ -31165,26 +31165,26 @@
           <property name="irrigation_efficiency" description="Efficiency of the irrigation. (0-1.0)">1.0</property>
         </irrigation>
         <logic name="Irrigator">
-          <event>end_of_day>
+          <script>
             <event>init</event>
             <text />
           </script>
-          <event>end_of_day>
+          <script>
             <event>start_of_day</event>
             <text />
           </script>
-          <event>end_of_day>
-            <event>endofday</event>
+          <script>
+            <event>end_of_day</event>
             <text />
           </script>
         </logic>
         <fertiliser name="fertiliser" />
         <logic name="Fertilizer">
-          <event>end_of_day>
+          <script>
             <event>init</event>
             <text />
           </script>
-          <event>end_of_day>
+          <script>
             <event>start_of_day</event>
             <text> 
 
@@ -31201,8 +31201,8 @@
 
         </text>
           </script>
-          <event>end_of_day>
-            <event>endofday</event>
+          <script>
+            <event>end_of_day</event>
             <text />
           </script>
         </logic>
@@ -31551,26 +31551,26 @@
           <property name="irrigation_efficiency" description="Efficiency of the irrigation. (0-1.0)">1.0</property>
         </irrigation>
         <logic name="Irrigator">
-          <event>end_of_day>
+          <script>
             <event>init</event>
             <text />
           </script>
-          <event>end_of_day>
+          <script>
             <event>start_of_day</event>
             <text />
           </script>
-          <event>end_of_day>
-            <event>endofday</event>
+          <script>
+            <event>end_of_day</event>
             <text />
           </script>
         </logic>
         <fertiliser name="fertiliser" />
         <logic name="Fertilizer">
-          <event>end_of_day>
+          <script>
             <event>init</event>
             <text />
           </script>
-          <event>end_of_day>
+          <script>
             <event>start_of_day</event>
             <text>
 
@@ -31587,8 +31587,8 @@
 
            </text>
           </script>
-          <event>end_of_day>
-            <event>endofday</event>
+          <script>
+            <event>end_of_day</event>
             <text />
           </script>
         </logic>
@@ -31937,26 +31937,26 @@
           <property name="irrigation_efficiency" description="Efficiency of the irrigation. (0-1.0)">1.0</property>
         </irrigation>
         <logic name="Irrigator">
-          <event>end_of_day>
+          <script>
             <event>init</event>
             <text />
           </script>
-          <event>end_of_day>
+          <script>
             <event>start_of_day</event>
             <text />
           </script>
-          <event>end_of_day>
-            <event>endofday</event>
+          <script>
+            <event>end_of_day</event>
             <text />
           </script>
         </logic>
         <fertiliser name="fertiliser" />
         <logic name="Fertilizer">
-          <event>end_of_day>
+          <script>
             <event>init</event>
             <text />
           </script>
-          <event>end_of_day>
+          <script>
             <event>start_of_day</event>
             <text> 
 
@@ -31973,8 +31973,8 @@
 
         </text>
           </script>
-          <event>end_of_day>
-            <event>endofday</event>
+          <script>
+            <event>end_of_day</event>
             <text />
           </script>
         </logic>
@@ -32323,26 +32323,26 @@
           <property name="irrigation_efficiency" description="Efficiency of the irrigation. (0-1.0)">1.0</property>
         </irrigation>
         <logic name="Irrigator">
-          <event>end_of_day>
+          <script>
             <event>init</event>
             <text />
           </script>
-          <event>end_of_day>
+          <script>
             <event>start_of_day</event>
             <text />
           </script>
-          <event>end_of_day>
-            <event>endofday</event>
+          <script>
+            <event>end_of_day</event>
             <text />
           </script>
         </logic>
         <fertiliser name="fertiliser" />
         <logic name="Fertilizer">
-          <event>end_of_day>
+          <script>
             <event>init</event>
             <text />
           </script>
-          <event>end_of_day>
+          <script>
             <event>start_of_day</event>
             <text>
 
@@ -32359,8 +32359,8 @@
 
            </text>
           </script>
-          <event>end_of_day>
-            <event>endofday</event>
+          <script>
+            <event>end_of_day</event>
             <text />
           </script>
         </logic>
@@ -32709,26 +32709,26 @@
           <property name="irrigation_efficiency" description="Efficiency of the irrigation. (0-1.0)">1.0</property>
         </irrigation>
         <logic name="Irrigator">
-          <event>end_of_day>
+          <script>
             <event>init</event>
             <text />
           </script>
-          <event>end_of_day>
+          <script>
             <event>start_of_day</event>
             <text />
           </script>
-          <event>end_of_day>
-            <event>endofday</event>
+          <script>
+            <event>end_of_day</event>
             <text />
           </script>
         </logic>
         <fertiliser name="fertiliser" />
         <logic name="Fertilizer">
-          <event>end_of_day>
+          <script>
             <event>init</event>
             <text />
           </script>
-          <event>end_of_day>
+          <script>
             <event>start_of_day</event>
             <text>
 
@@ -32745,8 +32745,8 @@
 
            </text>
           </script>
-          <event>end_of_day>
-            <event>endofday</event>
+          <script>
+            <event>end_of_day</event>
             <text />
           </script>
         </logic>
@@ -33095,26 +33095,26 @@
           <property name="irrigation_efficiency" description="Efficiency of the irrigation. (0-1.0)">1.0</property>
         </irrigation>
         <logic name="Irrigator">
-          <event>end_of_day>
+          <script>
             <event>init</event>
             <text />
           </script>
-          <event>end_of_day>
+          <script>
             <event>start_of_day</event>
             <text />
           </script>
-          <event>end_of_day>
-            <event>endofday</event>
+          <script>
+            <event>end_of_day</event>
             <text />
           </script>
         </logic>
         <fertiliser name="fertiliser" />
         <logic name="Fertilizer">
-          <event>end_of_day>
+          <script>
             <event>init</event>
             <text />
           </script>
-          <event>end_of_day>
+          <script>
             <event>start_of_day</event>
             <text>
 
@@ -33137,8 +33137,8 @@
 
            </text>
           </script>
-          <event>end_of_day>
-            <event>endofday</event>
+          <script>
+            <event>end_of_day</event>
             <text />
           </script>
         </logic>
@@ -33480,26 +33480,26 @@
           <property name="irrigation_efficiency" description="Efficiency of the irrigation. (0-1.0)">1.0</property>
         </irrigation>
         <logic name="Irrigator">
-          <event>end_of_day>
+          <script>
             <event>init</event>
             <text />
           </script>
-          <event>end_of_day>
+          <script>
             <event>start_of_day</event>
             <text />
           </script>
-          <event>end_of_day>
-            <event>endofday</event>
+          <script>
+            <event>end_of_day</event>
             <text />
           </script>
         </logic>
         <fertiliser name="fertiliser" />
         <logic name="Fertilizer">
-          <event>end_of_day>
+          <script>
             <event>init</event>
             <text />
           </script>
-          <event>end_of_day>
+          <script>
             <event>start_of_day</event>
             <text>
 
@@ -33516,8 +33516,8 @@
 
            </text>
           </script>
-          <event>end_of_day>
-            <event>endofday</event>
+          <script>
+            <event>end_of_day</event>
             <text />
           </script>
         </logic>
@@ -33859,26 +33859,26 @@
           <property name="irrigation_efficiency" description="Efficiency of the irrigation. (0-1.0)">1.0</property>
         </irrigation>
         <logic name="Irrigator">
-          <event>end_of_day>
+          <script>
             <event>init</event>
             <text />
           </script>
-          <event>end_of_day>
+          <script>
             <event>start_of_day</event>
             <text />
           </script>
-          <event>end_of_day>
-            <event>endofday</event>
+          <script>
+            <event>end_of_day</event>
             <text />
           </script>
         </logic>
         <fertiliser name="fertiliser" />
         <logic name="Fertilizer">
-          <event>end_of_day>
+          <script>
             <event>init</event>
             <text />
           </script>
-          <event>end_of_day>
+          <script>
             <event>start_of_day</event>
             <text>
 
@@ -33901,8 +33901,8 @@
 
            </text>
           </script>
-          <event>end_of_day>
-            <event>endofday</event>
+          <script>
+            <event>end_of_day</event>
             <text />
           </script>
         </logic>
@@ -34244,26 +34244,26 @@
           <property name="irrigation_efficiency" description="Efficiency of the irrigation. (0-1.0)">1.0</property>
         </irrigation>
         <logic name="Irrigator">
-          <event>end_of_day>
+          <script>
             <event>init</event>
             <text />
           </script>
-          <event>end_of_day>
+          <script>
             <event>start_of_day</event>
             <text />
           </script>
-          <event>end_of_day>
-            <event>endofday</event>
+          <script>
+            <event>end_of_day</event>
             <text />
           </script>
         </logic>
         <fertiliser name="fertiliser" />
         <logic name="Fertilizer">
-          <event>end_of_day>
+          <script>
             <event>init</event>
             <text />
           </script>
-          <event>end_of_day>
+          <script>
             <event>start_of_day</event>
             <text>
 
@@ -34286,8 +34286,8 @@
 
            </text>
           </script>
-          <event>end_of_day>
-            <event>endofday</event>
+          <script>
+            <event>end_of_day</event>
             <text />
           </script>
         </logic>
@@ -34629,26 +34629,26 @@
           <property name="irrigation_efficiency" description="Efficiency of the irrigation. (0-1.0)">1.0</property>
         </irrigation>
         <logic name="Irrigator">
-          <event>end_of_day>
+          <script>
             <event>init</event>
             <text />
           </script>
-          <event>end_of_day>
+          <script>
             <event>start_of_day</event>
             <text />
           </script>
-          <event>end_of_day>
-            <event>endofday</event>
+          <script>
+            <event>end_of_day</event>
             <text />
           </script>
         </logic>
         <fertiliser name="fertiliser" />
         <logic name="Fertilizer">
-          <event>end_of_day>
+          <script>
             <event>init</event>
             <text />
           </script>
-          <event>end_of_day>
+          <script>
             <event>start_of_day</event>
             <text>
 
@@ -34671,8 +34671,8 @@
 
            </text>
           </script>
-          <event>end_of_day>
-            <event>endofday</event>
+          <script>
+            <event>end_of_day</event>
             <text />
           </script>
         </logic>
@@ -35014,26 +35014,26 @@
           <property name="irrigation_efficiency" description="Efficiency of the irrigation. (0-1.0)">1.0</property>
         </irrigation>
         <logic name="Irrigator">
-          <event>end_of_day>
+          <script>
             <event>init</event>
             <text />
           </script>
-          <event>end_of_day>
+          <script>
             <event>start_of_day</event>
             <text />
           </script>
-          <event>end_of_day>
-            <event>endofday</event>
+          <script>
+            <event>end_of_day</event>
             <text />
           </script>
         </logic>
         <fertiliser name="fertiliser" />
         <logic name="Fertilizer">
-          <event>end_of_day>
+          <script>
             <event>init</event>
             <text />
           </script>
-          <event>end_of_day>
+          <script>
             <event>start_of_day</event>
             <text>
 
@@ -35056,8 +35056,8 @@
 
            </text>
           </script>
-          <event>end_of_day>
-            <event>endofday</event>
+          <script>
+            <event>end_of_day</event>
             <text />
           </script>
         </logic>
@@ -35399,26 +35399,26 @@
           <property name="irrigation_efficiency" description="Efficiency of the irrigation. (0-1.0)">1.0</property>
         </irrigation>
         <logic name="Irrigator">
-          <event>end_of_day>
+          <script>
             <event>init</event>
             <text />
           </script>
-          <event>end_of_day>
+          <script>
             <event>start_of_day</event>
             <text />
           </script>
-          <event>end_of_day>
-            <event>endofday</event>
+          <script>
+            <event>end_of_day</event>
             <text />
           </script>
         </logic>
         <fertiliser name="fertiliser" />
         <logic name="Fertilizer">
-          <event>end_of_day>
+          <script>
             <event>init</event>
             <text />
           </script>
-          <event>end_of_day>
+          <script>
             <event>start_of_day</event>
             <text>
 
@@ -35429,8 +35429,8 @@
 
            </text>
           </script>
-          <event>end_of_day>
-            <event>endofday</event>
+          <script>
+            <event>end_of_day</event>
             <text />
           </script>
         </logic>
@@ -35772,11 +35772,11 @@
           <property name="irrigation_efficiency" description="Efficiency of the irrigation. (0-1.0)">1.0</property>
         </irrigation>
         <logic name="Irrigator">
-          <event>end_of_day>
+          <script>
             <event>init</event>
             <text />
           </script>
-          <event>end_of_day>
+          <script>
             <event>start_of_day</event>
             <text>
 
@@ -35817,18 +35817,18 @@
 
            </text>
           </script>
-          <event>end_of_day>
-            <event>endofday</event>
+          <script>
+            <event>end_of_day</event>
             <text />
           </script>
         </logic>
         <fertiliser name="fertiliser" />
         <logic name="Fertilizer">
-          <event>end_of_day>
+          <script>
             <event>init</event>
             <text />
           </script>
-          <event>end_of_day>
+          <script>
             <event>start_of_day</event>
             <text>
 
@@ -35839,8 +35839,8 @@
 
            </text>
           </script>
-          <event>end_of_day>
-            <event>endofday</event>
+          <script>
+            <event>end_of_day</event>
             <text />
           </script>
         </logic>
@@ -36182,11 +36182,11 @@
           <property name="irrigation_efficiency" description="Efficiency of the irrigation. (0-1.0)">1.0</property>
         </irrigation>
         <logic name="Irrigator">
-          <event>end_of_day>
+          <script>
             <event>init</event>
             <text />
           </script>
-          <event>end_of_day>
+          <script>
             <event>start_of_day</event>
             <text>
 
@@ -36227,18 +36227,18 @@
 
            </text>
           </script>
-          <event>end_of_day>
-            <event>endofday</event>
+          <script>
+            <event>end_of_day</event>
             <text />
           </script>
         </logic>
         <fertiliser name="fertiliser" />
         <logic name="Fertilizer">
-          <event>end_of_day>
+          <script>
             <event>init</event>
             <text />
           </script>
-          <event>end_of_day>
+          <script>
             <event>start_of_day</event>
             <text>
 
@@ -36249,8 +36249,8 @@
 
            </text>
           </script>
-          <event>end_of_day>
-            <event>endofday</event>
+          <script>
+            <event>end_of_day</event>
             <text />
           </script>
         </logic>
@@ -36592,26 +36592,26 @@
           <property name="irrigation_efficiency" description="Efficiency of the irrigation. (0-1.0)">1.0</property>
         </irrigation>
         <logic name="Irrigator">
-          <event>end_of_day>
+          <script>
             <event>init</event>
             <text />
           </script>
-          <event>end_of_day>
+          <script>
             <event>start_of_day</event>
             <text />
           </script>
-          <event>end_of_day>
-            <event>endofday</event>
+          <script>
+            <event>end_of_day</event>
             <text />
           </script>
         </logic>
         <fertiliser name="fertiliser" />
         <logic name="Fertilizer">
-          <event>end_of_day>
+          <script>
             <event>init</event>
             <text />
           </script>
-          <event>end_of_day>
+          <script>
             <event>start_of_day</event>
             <text>
 
@@ -36628,8 +36628,8 @@
 
            </text>
           </script>
-          <event>end_of_day>
-            <event>endofday</event>
+          <script>
+            <event>end_of_day</event>
             <text />
           </script>
         </logic>
@@ -36971,31 +36971,31 @@
           <property name="irrigation_efficiency" description="Efficiency of the irrigation. (0-1.0)">1.0</property>
         </irrigation>
         <logic name="Irrigator">
-          <event>end_of_day>
+          <script>
             <event>init</event>
             <text />
           </script>
-          <event>end_of_day>
+          <script>
             <event>start_of_day</event>
             <text />
           </script>
-          <event>end_of_day>
-            <event>endofday</event>
+          <script>
+            <event>end_of_day</event>
             <text />
           </script>
         </logic>
         <fertiliser name="fertiliser" />
         <logic name="Fertilizer">
-          <event>end_of_day>
+          <script>
             <event>init</event>
             <text />
           </script>
-          <event>end_of_day>
+          <script>
             <event>start_of_day</event>
             <text />
           </script>
-          <event>end_of_day>
-            <event>endofday</event>
+          <script>
+            <event>end_of_day</event>
             <text />
           </script>
         </logic>
@@ -37337,26 +37337,26 @@
           <property name="irrigation_efficiency" description="Efficiency of the irrigation. (0-1.0)">1.0</property>
         </irrigation>
         <logic name="Irrigator">
-          <event>end_of_day>
+          <script>
             <event>init</event>
             <text />
           </script>
-          <event>end_of_day>
+          <script>
             <event>start_of_day</event>
             <text />
           </script>
-          <event>end_of_day>
-            <event>endofday</event>
+          <script>
+            <event>end_of_day</event>
             <text />
           </script>
         </logic>
         <fertiliser name="fertiliser" />
         <logic name="Fertilizer">
-          <event>end_of_day>
+          <script>
             <event>init</event>
             <text />
           </script>
-          <event>end_of_day>
+          <script>
             <event>start_of_day</event>
             <text>
 
@@ -37373,8 +37373,8 @@
 
            </text>
           </script>
-          <event>end_of_day>
-            <event>endofday</event>
+          <script>
+            <event>end_of_day</event>
             <text />
           </script>
         </logic>
@@ -37718,26 +37718,26 @@
           <property name="irrigation_efficiency" description="Efficiency of the irrigation. (0-1.0)">1.0</property>
         </irrigation>
         <logic name="Irrigator">
-          <event>end_of_day>
+          <script>
             <event>init</event>
             <text />
           </script>
-          <event>end_of_day>
+          <script>
             <event>start_of_day</event>
             <text />
           </script>
-          <event>end_of_day>
-            <event>endofday</event>
+          <script>
+            <event>end_of_day</event>
             <text />
           </script>
         </logic>
         <fertiliser name="fertiliser" />
         <logic name="Fertilizer">
-          <event>end_of_day>
+          <script>
             <event>init</event>
             <text />
           </script>
-          <event>end_of_day>
+          <script>
             <event>start_of_day</event>
             <text>
 
@@ -37748,8 +37748,8 @@
 
            </text>
           </script>
-          <event>end_of_day>
-            <event>endofday</event>
+          <script>
+            <event>end_of_day</event>
             <text />
           </script>
         </logic>
@@ -38102,31 +38102,31 @@
           <property name="irrigation_efficiency" description="Efficiency of the irrigation. (0-1.0)">1.0</property>
         </irrigation>
         <logic name="Irrigator">
-          <event>end_of_day>
+          <script>
             <event>init</event>
             <text />
           </script>
-          <event>end_of_day>
+          <script>
             <event>start_of_day</event>
             <text />
           </script>
-          <event>end_of_day>
-            <event>endofday</event>
+          <script>
+            <event>end_of_day</event>
             <text />
           </script>
         </logic>
         <fertiliser name="fertiliser" />
         <logic name="Fertilizer">
-          <event>end_of_day>
+          <script>
             <event>init</event>
             <text />
           </script>
-          <event>end_of_day>
+          <script>
             <event>start_of_day</event>
             <text />
           </script>
-          <event>end_of_day>
-            <event>endofday</event>
+          <script>
+            <event>end_of_day</event>
             <text />
           </script>
         </logic>
@@ -38486,26 +38486,26 @@
           <property name="irrigation_efficiency" description="Efficiency of the irrigation. (0-1.0)">1.0</property>
         </irrigation>
         <logic name="Irrigator">
-          <event>end_of_day>
+          <script>
             <event>init</event>
             <text />
           </script>
-          <event>end_of_day>
+          <script>
             <event>start_of_day</event>
             <text />
           </script>
-          <event>end_of_day>
-            <event>endofday</event>
+          <script>
+            <event>end_of_day</event>
             <text />
           </script>
         </logic>
         <fertiliser name="fertiliser" />
         <logic name="Fertilizer">
-          <event>end_of_day>
+          <script>
             <event>init</event>
             <text />
           </script>
-          <event>end_of_day>
+          <script>
             <event>start_of_day</event>
             <text> 
 
@@ -38516,8 +38516,8 @@
 
         </text>
           </script>
-          <event>end_of_day>
-            <event>endofday</event>
+          <script>
+            <event>end_of_day</event>
             <text />
           </script>
         </logic>
@@ -38877,26 +38877,26 @@
           <property name="irrigation_efficiency" description="Efficiency of the irrigation. (0-1.0)">1.0</property>
         </irrigation>
         <logic name="Irrigator">
-          <event>end_of_day>
+          <script>
             <event>init</event>
             <text />
           </script>
-          <event>end_of_day>
+          <script>
             <event>start_of_day</event>
             <text />
           </script>
-          <event>end_of_day>
-            <event>endofday</event>
+          <script>
+            <event>end_of_day</event>
             <text />
           </script>
         </logic>
         <fertiliser name="fertiliser" />
         <logic name="Fertilizer">
-          <event>end_of_day>
+          <script>
             <event>init</event>
             <text />
           </script>
-          <event>end_of_day>
+          <script>
             <event>start_of_day</event>
             <text> 
 
@@ -38907,8 +38907,8 @@
 
         </text>
           </script>
-          <event>end_of_day>
-            <event>endofday</event>
+          <script>
+            <event>end_of_day</event>
             <text />
           </script>
         </logic>
@@ -39268,26 +39268,26 @@
           <property name="irrigation_efficiency" description="Efficiency of the irrigation. (0-1.0)">1.0</property>
         </irrigation>
         <logic name="Irrigator">
-          <event>end_of_day>
+          <script>
             <event>init</event>
             <text />
           </script>
-          <event>end_of_day>
+          <script>
             <event>start_of_day</event>
             <text />
           </script>
-          <event>end_of_day>
-            <event>endofday</event>
+          <script>
+            <event>end_of_day</event>
             <text />
           </script>
         </logic>
         <fertiliser name="fertiliser" />
         <logic name="Fertilizer">
-          <event>end_of_day>
+          <script>
             <event>init</event>
             <text />
           </script>
-          <event>end_of_day>
+          <script>
             <event>start_of_day</event>
             <text> 
 
@@ -39298,8 +39298,8 @@
 
         </text>
           </script>
-          <event>end_of_day>
-            <event>endofday</event>
+          <script>
+            <event>end_of_day</event>
             <text />
           </script>
         </logic>
@@ -39659,26 +39659,26 @@
           <property name="irrigation_efficiency" description="Efficiency of the irrigation. (0-1.0)">1.0</property>
         </irrigation>
         <logic name="Irrigator">
-          <event>end_of_day>
+          <script>
             <event>init</event>
             <text />
           </script>
-          <event>end_of_day>
+          <script>
             <event>start_of_day</event>
             <text />
           </script>
-          <event>end_of_day>
-            <event>endofday</event>
+          <script>
+            <event>end_of_day</event>
             <text />
           </script>
         </logic>
         <fertiliser name="fertiliser" />
         <logic name="Fertilizer">
-          <event>end_of_day>
+          <script>
             <event>init</event>
             <text />
           </script>
-          <event>end_of_day>
+          <script>
             <event>start_of_day</event>
             <text> 
 
@@ -39689,8 +39689,8 @@
 
         </text>
           </script>
-          <event>end_of_day>
-            <event>endofday</event>
+          <script>
+            <event>end_of_day</event>
             <text />
           </script>
         </logic>
@@ -40050,31 +40050,31 @@
           <property name="irrigation_efficiency" description="Efficiency of the irrigation. (0-1.0)">1.0</property>
         </irrigation>
         <logic name="Irrigator">
-          <event>end_of_day>
+          <script>
             <event>init</event>
             <text />
           </script>
-          <event>end_of_day>
+          <script>
             <event>start_of_day</event>
             <text />
           </script>
-          <event>end_of_day>
-            <event>endofday</event>
+          <script>
+            <event>end_of_day</event>
             <text />
           </script>
         </logic>
         <fertiliser name="fertiliser" />
         <logic name="Fertilizer">
-          <event>end_of_day>
+          <script>
             <event>init</event>
             <text />
           </script>
-          <event>end_of_day>
+          <script>
             <event>start_of_day</event>
             <text />
           </script>
-          <event>end_of_day>
-            <event>endofday</event>
+          <script>
+            <event>end_of_day</event>
             <text />
           </script>
         </logic>
@@ -40434,26 +40434,26 @@
           <property name="irrigation_efficiency" description="Efficiency of the irrigation. (0-1.0)">1.0</property>
         </irrigation>
         <logic name="Irrigator">
-          <event>end_of_day>
+          <script>
             <event>init</event>
             <text />
           </script>
-          <event>end_of_day>
+          <script>
             <event>start_of_day</event>
             <text />
           </script>
-          <event>end_of_day>
-            <event>endofday</event>
+          <script>
+            <event>end_of_day</event>
             <text />
           </script>
         </logic>
         <fertiliser name="fertiliser" />
         <logic name="Fertilizer">
-          <event>end_of_day>
+          <script>
             <event>init</event>
             <text />
           </script>
-          <event>end_of_day>
+          <script>
             <event>start_of_day</event>
             <text> 
 
@@ -40464,8 +40464,8 @@
 
         </text>
           </script>
-          <event>end_of_day>
-            <event>endofday</event>
+          <script>
+            <event>end_of_day</event>
             <text />
           </script>
         </logic>
@@ -40825,26 +40825,26 @@
           <property name="irrigation_efficiency" description="Efficiency of the irrigation. (0-1.0)">1.0</property>
         </irrigation>
         <logic name="Irrigator">
-          <event>end_of_day>
+          <script>
             <event>init</event>
             <text />
           </script>
-          <event>end_of_day>
+          <script>
             <event>start_of_day</event>
             <text />
           </script>
-          <event>end_of_day>
-            <event>endofday</event>
+          <script>
+            <event>end_of_day</event>
             <text />
           </script>
         </logic>
         <fertiliser name="fertiliser" />
         <logic name="Fertilizer">
-          <event>end_of_day>
+          <script>
             <event>init</event>
             <text />
           </script>
-          <event>end_of_day>
+          <script>
             <event>start_of_day</event>
             <text> 
 
@@ -40855,8 +40855,8 @@
 
         </text>
           </script>
-          <event>end_of_day>
-            <event>endofday</event>
+          <script>
+            <event>end_of_day</event>
             <text />
           </script>
         </logic>
@@ -41216,26 +41216,26 @@
           <property name="irrigation_efficiency" description="Efficiency of the irrigation. (0-1.0)">1.0</property>
         </irrigation>
         <logic name="Irrigator">
-          <event>end_of_day>
+          <script>
             <event>init</event>
             <text />
           </script>
-          <event>end_of_day>
+          <script>
             <event>start_of_day</event>
             <text />
           </script>
-          <event>end_of_day>
-            <event>endofday</event>
+          <script>
+            <event>end_of_day</event>
             <text />
           </script>
         </logic>
         <fertiliser name="fertiliser" />
         <logic name="Fertilizer">
-          <event>end_of_day>
+          <script>
             <event>init</event>
             <text />
           </script>
-          <event>end_of_day>
+          <script>
             <event>start_of_day</event>
             <text> 
 
@@ -41246,8 +41246,8 @@
 
         </text>
           </script>
-          <event>end_of_day>
-            <event>endofday</event>
+          <script>
+            <event>end_of_day</event>
             <text />
           </script>
         </logic>
@@ -41607,26 +41607,26 @@
           <property name="irrigation_efficiency" description="Efficiency of the irrigation. (0-1.0)">1.0</property>
         </irrigation>
         <logic name="Irrigator">
-          <event>end_of_day>
+          <script>
             <event>init</event>
             <text />
           </script>
-          <event>end_of_day>
+          <script>
             <event>start_of_day</event>
             <text />
           </script>
-          <event>end_of_day>
-            <event>endofday</event>
+          <script>
+            <event>end_of_day</event>
             <text />
           </script>
         </logic>
         <fertiliser name="fertiliser" />
         <logic name="Fertilizer">
-          <event>end_of_day>
+          <script>
             <event>init</event>
             <text />
           </script>
-          <event>end_of_day>
+          <script>
             <event>start_of_day</event>
             <text> 
 
@@ -41637,8 +41637,8 @@
 
         </text>
           </script>
-          <event>end_of_day>
-            <event>endofday</event>
+          <script>
+            <event>end_of_day</event>
             <text />
           </script>
         </logic>
@@ -42000,31 +42000,31 @@
           <property name="irrigation_efficiency" description="Efficiency of the irrigation. (0-1.0)">1.0</property>
         </irrigation>
         <logic name="Irrigator">
-          <event>end_of_day>
+          <script>
             <event>init</event>
             <text />
           </script>
-          <event>end_of_day>
+          <script>
             <event>start_of_day</event>
             <text />
           </script>
-          <event>end_of_day>
-            <event>endofday</event>
+          <script>
+            <event>end_of_day</event>
             <text />
           </script>
         </logic>
         <fertiliser name="fertiliser" />
         <logic name="Fertilizer">
-          <event>end_of_day>
+          <script>
             <event>init</event>
             <text />
           </script>
-          <event>end_of_day>
+          <script>
             <event>start_of_day</event>
             <text />
           </script>
-          <event>end_of_day>
-            <event>endofday</event>
+          <script>
+            <event>end_of_day</event>
             <text />
           </script>
         </logic>
@@ -42376,26 +42376,26 @@
           <property name="irrigation_efficiency" description="Efficiency of the irrigation. (0-1.0)">1.0</property>
         </irrigation>
         <logic name="Irrigator">
-          <event>end_of_day>
+          <script>
             <event>init</event>
             <text />
           </script>
-          <event>end_of_day>
+          <script>
             <event>start_of_day</event>
             <text />
           </script>
-          <event>end_of_day>
-            <event>endofday</event>
+          <script>
+            <event>end_of_day</event>
             <text />
           </script>
         </logic>
         <fertiliser name="fertiliser" />
         <logic name="Fertilizer">
-          <event>end_of_day>
+          <script>
             <event>init</event>
             <text />
           </script>
-          <event>end_of_day>
+          <script>
             <event>start_of_day</event>
             <text>
 
@@ -42406,8 +42406,8 @@
 
            </text>
           </script>
-          <event>end_of_day>
-            <event>endofday</event>
+          <script>
+            <event>end_of_day</event>
             <text />
           </script>
         </logic>
@@ -42759,26 +42759,26 @@
           <property name="irrigation_efficiency" description="Efficiency of the irrigation. (0-1.0)">1.0</property>
         </irrigation>
         <logic name="Irrigator">
-          <event>end_of_day>
+          <script>
             <event>init</event>
             <text />
           </script>
-          <event>end_of_day>
+          <script>
             <event>start_of_day</event>
             <text />
           </script>
-          <event>end_of_day>
-            <event>endofday</event>
+          <script>
+            <event>end_of_day</event>
             <text />
           </script>
         </logic>
         <fertiliser name="fertiliser" />
         <logic name="Fertilizer">
-          <event>end_of_day>
+          <script>
             <event>init</event>
             <text />
           </script>
-          <event>end_of_day>
+          <script>
             <event>start_of_day</event>
             <text>
 
@@ -42789,8 +42789,8 @@
 
            </text>
           </script>
-          <event>end_of_day>
-            <event>endofday</event>
+          <script>
+            <event>end_of_day</event>
             <text />
           </script>
         </logic>
@@ -43142,26 +43142,26 @@
           <property name="irrigation_efficiency" description="Efficiency of the irrigation. (0-1.0)">1.0</property>
         </irrigation>
         <logic name="Irrigator">
-          <event>end_of_day>
+          <script>
             <event>init</event>
             <text />
           </script>
-          <event>end_of_day>
+          <script>
             <event>start_of_day</event>
             <text />
           </script>
-          <event>end_of_day>
-            <event>endofday</event>
+          <script>
+            <event>end_of_day</event>
             <text />
           </script>
         </logic>
         <fertiliser name="fertiliser" />
         <logic name="Fertilizer">
-          <event>end_of_day>
+          <script>
             <event>init</event>
             <text />
           </script>
-          <event>end_of_day>
+          <script>
             <event>start_of_day</event>
             <text>
 
@@ -43184,8 +43184,8 @@
 
            </text>
           </script>
-          <event>end_of_day>
-            <event>endofday</event>
+          <script>
+            <event>end_of_day</event>
             <text />
           </script>
         </logic>
@@ -43539,11 +43539,11 @@
           <property name="irrigation_efficiency" description="Efficiency of the irrigation. (0-1.0)">1.0</property>
         </irrigation>
         <logic name="Irrigator">
-          <event>end_of_day>
+          <script>
             <event>init</event>
             <text />
           </script>
-          <event>end_of_day>
+          <script>
             <event>start_of_day</event>
             <text> ! irrigation record from senthold
 
@@ -43572,23 +43572,23 @@
            endif
 </text>
           </script>
-          <event>end_of_day>
-            <event>endofday</event>
+          <script>
+            <event>end_of_day</event>
             <text />
           </script>
         </logic>
         <fertiliser name="fertiliser" />
         <logic name="Fertilizer">
-          <event>end_of_day>
+          <script>
             <event>init</event>
             <text />
           </script>
-          <event>end_of_day>
+          <script>
             <event>start_of_day</event>
             <text />
           </script>
-          <event>end_of_day>
-            <event>endofday</event>
+          <script>
+            <event>end_of_day</event>
             <text />
           </script>
         </logic>
@@ -44106,11 +44106,11 @@
           <property name="irrigation_efficiency" description="Efficiency of the irrigation. (0-1.0)">1.0</property>
         </irrigation>
         <logic name="Irrigator">
-          <event>end_of_day>
+          <script>
             <event>init</event>
             <text />
           </script>
-          <event>end_of_day>
+          <script>
             <event>start_of_day</event>
             <text> ! irrigation record from senthold
 
@@ -44139,23 +44139,23 @@
            endif
 </text>
           </script>
-          <event>end_of_day>
-            <event>endofday</event>
+          <script>
+            <event>end_of_day</event>
             <text />
           </script>
         </logic>
         <fertiliser name="fertiliser" />
         <logic name="Fertilizer">
-          <event>end_of_day>
+          <script>
             <event>init</event>
             <text />
           </script>
-          <event>end_of_day>
+          <script>
             <event>start_of_day</event>
             <text />
           </script>
-          <event>end_of_day>
-            <event>endofday</event>
+          <script>
+            <event>end_of_day</event>
             <text />
           </script>
         </logic>
@@ -44687,11 +44687,11 @@
           <property name="irrigation_efficiency" description="Efficiency of the irrigation. (0-1.0)">1.0</property>
         </irrigation>
         <logic name="Irrigator">
-          <event>end_of_day>
+          <script>
             <event>init</event>
             <text />
           </script>
-          <event>end_of_day>
+          <script>
             <event>start_of_day</event>
             <text> ! irrigation record from senthold
 
@@ -44720,23 +44720,23 @@
            endif
 </text>
           </script>
-          <event>end_of_day>
-            <event>endofday</event>
+          <script>
+            <event>end_of_day</event>
             <text />
           </script>
         </logic>
         <fertiliser name="fertiliser" />
         <logic name="Fertilizer">
-          <event>end_of_day>
+          <script>
             <event>init</event>
             <text />
           </script>
-          <event>end_of_day>
+          <script>
             <event>start_of_day</event>
             <text />
           </script>
-          <event>end_of_day>
-            <event>endofday</event>
+          <script>
+            <event>end_of_day</event>
             <text />
           </script>
         </logic>
@@ -45268,11 +45268,11 @@
           <property name="irrigation_efficiency" description="Efficiency of the irrigation. (0-1.0)">1.0</property>
         </irrigation>
         <logic name="Irrigator">
-          <event>end_of_day>
+          <script>
             <event>init</event>
             <text />
           </script>
-          <event>end_of_day>
+          <script>
             <event>start_of_day</event>
             <text> ! irrigation record from senthold
 
@@ -45301,23 +45301,23 @@
            endif
 </text>
           </script>
-          <event>end_of_day>
-            <event>endofday</event>
+          <script>
+            <event>end_of_day</event>
             <text />
           </script>
         </logic>
         <fertiliser name="fertiliser" />
         <logic name="Fertilizer">
-          <event>end_of_day>
+          <script>
             <event>init</event>
             <text />
           </script>
-          <event>end_of_day>
+          <script>
             <event>start_of_day</event>
             <text />
           </script>
-          <event>end_of_day>
-            <event>endofday</event>
+          <script>
+            <event>end_of_day</event>
             <text />
           </script>
         </logic>
@@ -45835,31 +45835,31 @@
           <property name="irrigation_efficiency" description="Efficiency of the irrigation. (0-1.0)">1.0</property>
         </irrigation>
         <logic name="Irrigator">
-          <event>end_of_day>
+          <script>
             <event>init</event>
             <text />
           </script>
-          <event>end_of_day>
+          <script>
             <event>start_of_day</event>
             <text />
           </script>
-          <event>end_of_day>
-            <event>endofday</event>
+          <script>
+            <event>end_of_day</event>
             <text />
           </script>
         </logic>
         <fertiliser name="fertiliser" />
         <logic name="Fertilizer">
-          <event>end_of_day>
+          <script>
             <event>init</event>
             <text />
           </script>
-          <event>end_of_day>
+          <script>
             <event>start_of_day</event>
             <text />
           </script>
-          <event>end_of_day>
-            <event>endofday</event>
+          <script>
+            <event>end_of_day</event>
             <text />
           </script>
         </logic>
@@ -46377,31 +46377,31 @@
           <property name="irrigation_efficiency" description="Efficiency of the irrigation. (0-1.0)">1.0</property>
         </irrigation>
         <logic name="Irrigator">
-          <event>end_of_day>
+          <script>
             <event>init</event>
             <text />
           </script>
-          <event>end_of_day>
+          <script>
             <event>start_of_day</event>
             <text />
           </script>
-          <event>end_of_day>
-            <event>endofday</event>
+          <script>
+            <event>end_of_day</event>
             <text />
           </script>
         </logic>
         <fertiliser name="fertiliser" />
         <logic name="Fertilizer">
-          <event>end_of_day>
+          <script>
             <event>init</event>
             <text />
           </script>
-          <event>end_of_day>
+          <script>
             <event>start_of_day</event>
             <text />
           </script>
-          <event>end_of_day>
-            <event>endofday</event>
+          <script>
+            <event>end_of_day</event>
             <text />
           </script>
         </logic>
@@ -46933,31 +46933,31 @@
           <property name="irrigation_efficiency" description="Efficiency of the irrigation. (0-1.0)">1.0</property>
         </irrigation>
         <logic name="Irrigator">
-          <event>end_of_day>
+          <script>
             <event>init</event>
             <text />
           </script>
-          <event>end_of_day>
+          <script>
             <event>start_of_day</event>
             <text />
           </script>
-          <event>end_of_day>
-            <event>endofday</event>
+          <script>
+            <event>end_of_day</event>
             <text />
           </script>
         </logic>
         <fertiliser name="fertiliser" />
         <logic name="Fertilizer">
-          <event>end_of_day>
+          <script>
             <event>init</event>
             <text />
           </script>
-          <event>end_of_day>
+          <script>
             <event>start_of_day</event>
             <text />
           </script>
-          <event>end_of_day>
-            <event>endofday</event>
+          <script>
+            <event>end_of_day</event>
             <text />
           </script>
         </logic>
@@ -47489,33 +47489,33 @@
           <property name="irrigation_efficiency" description="Efficiency of the irrigation. (0-1.0)">1.0</property>
         </irrigation>
         <logic name="Irrigator">
-          <event>end_of_day>
+          <script>
             <event>init</event>
             <text />
           </script>
-          <event>end_of_day>
+          <script>
             <event>start_of_day</event>
             <text> ! irrigation record from senthold
 
 </text>
           </script>
-          <event>end_of_day>
-            <event>endofday</event>
+          <script>
+            <event>end_of_day</event>
             <text />
           </script>
         </logic>
         <fertiliser name="fertiliser" />
         <logic name="Fertilizer">
-          <event>end_of_day>
+          <script>
             <event>init</event>
             <text />
           </script>
-          <event>end_of_day>
+          <script>
             <event>start_of_day</event>
             <text />
           </script>
-          <event>end_of_day>
-            <event>endofday</event>
+          <script>
+            <event>end_of_day</event>
             <text />
           </script>
         </logic>
@@ -48033,11 +48033,11 @@
           <property name="irrigation_efficiency" description="Efficiency of the irrigation. (0-1.0)">1.0</property>
         </irrigation>
         <logic name="Irrigator">
-          <event>end_of_day>
+          <script>
             <event>init</event>
             <text />
           </script>
-          <event>end_of_day>
+          <script>
             <event>start_of_day</event>
             <text> ! irrigation record from senthold
 
@@ -48066,23 +48066,23 @@
            endif
 </text>
           </script>
-          <event>end_of_day>
-            <event>endofday</event>
+          <script>
+            <event>end_of_day</event>
             <text />
           </script>
         </logic>
         <fertiliser name="fertiliser" />
         <logic name="Fertilizer">
-          <event>end_of_day>
+          <script>
             <event>init</event>
             <text />
           </script>
-          <event>end_of_day>
+          <script>
             <event>start_of_day</event>
             <text />
           </script>
-          <event>end_of_day>
-            <event>endofday</event>
+          <script>
+            <event>end_of_day</event>
             <text />
           </script>
         </logic>
@@ -48600,11 +48600,11 @@
           <property name="irrigation_efficiency" description="Efficiency of the irrigation. (0-1.0)">1.0</property>
         </irrigation>
         <logic name="Irrigator">
-          <event>end_of_day>
+          <script>
             <event>init</event>
             <text />
           </script>
-          <event>end_of_day>
+          <script>
             <event>start_of_day</event>
             <text> ! irrigation record from senthold
 
@@ -48633,23 +48633,23 @@
            endif
 </text>
           </script>
-          <event>end_of_day>
-            <event>endofday</event>
+          <script>
+            <event>end_of_day</event>
             <text />
           </script>
         </logic>
         <fertiliser name="fertiliser" />
         <logic name="Fertilizer">
-          <event>end_of_day>
+          <script>
             <event>init</event>
             <text />
           </script>
-          <event>end_of_day>
+          <script>
             <event>start_of_day</event>
             <text />
           </script>
-          <event>end_of_day>
-            <event>endofday</event>
+          <script>
+            <event>end_of_day</event>
             <text />
           </script>
         </logic>
@@ -49167,11 +49167,11 @@
           <property name="irrigation_efficiency" description="Efficiency of the irrigation. (0-1.0)">1.0</property>
         </irrigation>
         <logic name="Irrigator">
-          <event>end_of_day>
+          <script>
             <event>init</event>
             <text />
           </script>
-          <event>end_of_day>
+          <script>
             <event>start_of_day</event>
             <text> ! irrigation record from senthold
 
@@ -49200,23 +49200,23 @@
            endif
 </text>
           </script>
-          <event>end_of_day>
-            <event>endofday</event>
+          <script>
+            <event>end_of_day</event>
             <text />
           </script>
         </logic>
         <fertiliser name="fertiliser" />
         <logic name="Fertilizer">
-          <event>end_of_day>
+          <script>
             <event>init</event>
             <text />
           </script>
-          <event>end_of_day>
+          <script>
             <event>start_of_day</event>
             <text />
           </script>
-          <event>end_of_day>
-            <event>endofday</event>
+          <script>
+            <event>end_of_day</event>
             <text />
           </script>
         </logic>
@@ -49748,11 +49748,11 @@
           <property name="irrigation_efficiency" description="Efficiency of the irrigation. (0-1.0)">1.0</property>
         </irrigation>
         <logic name="Irrigator">
-          <event>end_of_day>
+          <script>
             <event>init</event>
             <text />
           </script>
-          <event>end_of_day>
+          <script>
             <event>start_of_day</event>
             <text> ! irrigation record from senthold
 
@@ -49781,23 +49781,23 @@
            endif
 </text>
           </script>
-          <event>end_of_day>
-            <event>endofday</event>
+          <script>
+            <event>end_of_day</event>
             <text />
           </script>
         </logic>
         <fertiliser name="fertiliser" />
         <logic name="Fertilizer">
-          <event>end_of_day>
+          <script>
             <event>init</event>
             <text />
           </script>
-          <event>end_of_day>
+          <script>
             <event>start_of_day</event>
             <text />
           </script>
-          <event>end_of_day>
-            <event>endofday</event>
+          <script>
+            <event>end_of_day</event>
             <text />
           </script>
         </logic>
@@ -50329,11 +50329,11 @@
           <property name="irrigation_efficiency" description="Efficiency of the irrigation. (0-1.0)">1.0</property>
         </irrigation>
         <logic name="Irrigator">
-          <event>end_of_day>
+          <script>
             <event>init</event>
             <text />
           </script>
-          <event>end_of_day>
+          <script>
             <event>start_of_day</event>
             <text> ! irrigation record from senthold
 
@@ -50362,23 +50362,23 @@
            endif
 </text>
           </script>
-          <event>end_of_day>
-            <event>endofday</event>
+          <script>
+            <event>end_of_day</event>
             <text />
           </script>
         </logic>
         <fertiliser name="fertiliser" />
         <logic name="Fertilizer">
-          <event>end_of_day>
+          <script>
             <event>init</event>
             <text />
           </script>
-          <event>end_of_day>
+          <script>
             <event>start_of_day</event>
             <text />
           </script>
-          <event>end_of_day>
-            <event>endofday</event>
+          <script>
+            <event>end_of_day</event>
             <text />
           </script>
         </logic>
@@ -50896,31 +50896,31 @@
           <property name="irrigation_efficiency" description="Efficiency of the irrigation. (0-1.0)">1.0</property>
         </irrigation>
         <logic name="Irrigator">
-          <event>end_of_day>
+          <script>
             <event>init</event>
             <text />
           </script>
-          <event>end_of_day>
+          <script>
             <event>start_of_day</event>
             <text />
           </script>
-          <event>end_of_day>
-            <event>endofday</event>
+          <script>
+            <event>end_of_day</event>
             <text />
           </script>
         </logic>
         <fertiliser name="fertiliser" />
         <logic name="Fertilizer">
-          <event>end_of_day>
+          <script>
             <event>init</event>
             <text />
           </script>
-          <event>end_of_day>
+          <script>
             <event>start_of_day</event>
             <text />
           </script>
-          <event>end_of_day>
-            <event>endofday</event>
+          <script>
+            <event>end_of_day</event>
             <text />
           </script>
         </logic>
@@ -51438,31 +51438,31 @@
           <property name="irrigation_efficiency" description="Efficiency of the irrigation. (0-1.0)">1.0</property>
         </irrigation>
         <logic name="Irrigator">
-          <event>end_of_day>
+          <script>
             <event>init</event>
             <text />
           </script>
-          <event>end_of_day>
+          <script>
             <event>start_of_day</event>
             <text />
           </script>
-          <event>end_of_day>
-            <event>endofday</event>
+          <script>
+            <event>end_of_day</event>
             <text />
           </script>
         </logic>
         <fertiliser name="fertiliser" />
         <logic name="Fertilizer">
-          <event>end_of_day>
+          <script>
             <event>init</event>
             <text />
           </script>
-          <event>end_of_day>
+          <script>
             <event>start_of_day</event>
             <text />
           </script>
-          <event>end_of_day>
-            <event>endofday</event>
+          <script>
+            <event>end_of_day</event>
             <text />
           </script>
         </logic>
@@ -51980,31 +51980,31 @@
           <property name="irrigation_efficiency" description="Efficiency of the irrigation. (0-1.0)">1.0</property>
         </irrigation>
         <logic name="Irrigator">
-          <event>end_of_day>
+          <script>
             <event>init</event>
             <text />
           </script>
-          <event>end_of_day>
+          <script>
             <event>start_of_day</event>
             <text />
           </script>
-          <event>end_of_day>
-            <event>endofday</event>
+          <script>
+            <event>end_of_day</event>
             <text />
           </script>
         </logic>
         <fertiliser name="fertiliser" />
         <logic name="Fertilizer">
-          <event>end_of_day>
+          <script>
             <event>init</event>
             <text />
           </script>
-          <event>end_of_day>
+          <script>
             <event>start_of_day</event>
             <text />
           </script>
-          <event>end_of_day>
-            <event>endofday</event>
+          <script>
+            <event>end_of_day</event>
             <text />
           </script>
         </logic>
@@ -52536,31 +52536,31 @@
           <property name="irrigation_efficiency" description="Efficiency of the irrigation. (0-1.0)">1.0</property>
         </irrigation>
         <logic name="Irrigator">
-          <event>end_of_day>
+          <script>
             <event>init</event>
             <text />
           </script>
-          <event>end_of_day>
+          <script>
             <event>start_of_day</event>
             <text />
           </script>
-          <event>end_of_day>
-            <event>endofday</event>
+          <script>
+            <event>end_of_day</event>
             <text />
           </script>
         </logic>
         <fertiliser name="fertiliser" />
         <logic name="Fertilizer">
-          <event>end_of_day>
+          <script>
             <event>init</event>
             <text />
           </script>
-          <event>end_of_day>
+          <script>
             <event>start_of_day</event>
             <text />
           </script>
-          <event>end_of_day>
-            <event>endofday</event>
+          <script>
+            <event>end_of_day</event>
             <text />
           </script>
         </logic>
@@ -53092,33 +53092,33 @@
           <property name="irrigation_efficiency" description="Efficiency of the irrigation. (0-1.0)">1.0</property>
         </irrigation>
         <logic name="Irrigator">
-          <event>end_of_day>
+          <script>
             <event>init</event>
             <text />
           </script>
-          <event>end_of_day>
+          <script>
             <event>start_of_day</event>
             <text> ! irrigation record from senthold
 
 </text>
           </script>
-          <event>end_of_day>
-            <event>endofday</event>
+          <script>
+            <event>end_of_day</event>
             <text />
           </script>
         </logic>
         <fertiliser name="fertiliser" />
         <logic name="Fertilizer">
-          <event>end_of_day>
+          <script>
             <event>init</event>
             <text />
           </script>
-          <event>end_of_day>
+          <script>
             <event>start_of_day</event>
             <text />
           </script>
-          <event>end_of_day>
-            <event>endofday</event>
+          <script>
+            <event>end_of_day</event>
             <text />
           </script>
         </logic>
@@ -53654,11 +53654,11 @@
           <property name="irrigation_efficiency" description="Efficiency of the irrigation. (0-1.0)">1.0</property>
         </irrigation>
         <logic name="Irrigator">
-          <event>end_of_day>
+          <script>
             <event>init</event>
             <text />
           </script>
-          <event>end_of_day>
+          <script>
             <event>start_of_day</event>
             <text> ! irrigation record from senthold
 
@@ -53687,23 +53687,23 @@
            endif
 </text>
           </script>
-          <event>end_of_day>
-            <event>endofday</event>
+          <script>
+            <event>end_of_day</event>
             <text />
           </script>
         </logic>
         <fertiliser name="fertiliser" />
         <logic name="Fertilizer">
-          <event>end_of_day>
+          <script>
             <event>init</event>
             <text />
           </script>
-          <event>end_of_day>
+          <script>
             <event>start_of_day</event>
             <text />
           </script>
-          <event>end_of_day>
-            <event>endofday</event>
+          <script>
+            <event>end_of_day</event>
             <text />
           </script>
         </logic>
@@ -54239,11 +54239,11 @@
           <property name="irrigation_efficiency" description="Efficiency of the irrigation. (0-1.0)">1.0</property>
         </irrigation>
         <logic name="Irrigator">
-          <event>end_of_day>
+          <script>
             <event>init</event>
             <text />
           </script>
-          <event>end_of_day>
+          <script>
             <event>start_of_day</event>
             <text> ! irrigation record from senthold
 
@@ -54272,23 +54272,23 @@
            endif
 </text>
           </script>
-          <event>end_of_day>
-            <event>endofday</event>
+          <script>
+            <event>end_of_day</event>
             <text />
           </script>
         </logic>
         <fertiliser name="fertiliser" />
         <logic name="Fertilizer">
-          <event>end_of_day>
+          <script>
             <event>init</event>
             <text />
           </script>
-          <event>end_of_day>
+          <script>
             <event>start_of_day</event>
             <text />
           </script>
-          <event>end_of_day>
-            <event>endofday</event>
+          <script>
+            <event>end_of_day</event>
             <text />
           </script>
         </logic>
@@ -54838,11 +54838,11 @@
           <property name="irrigation_efficiency" description="Efficiency of the irrigation. (0-1.0)">1.0</property>
         </irrigation>
         <logic name="Irrigator">
-          <event>end_of_day>
+          <script>
             <event>init</event>
             <text />
           </script>
-          <event>end_of_day>
+          <script>
             <event>start_of_day</event>
             <text> ! irrigation record from senthold
 
@@ -54871,23 +54871,23 @@
            endif
 </text>
           </script>
-          <event>end_of_day>
-            <event>endofday</event>
+          <script>
+            <event>end_of_day</event>
             <text />
           </script>
         </logic>
         <fertiliser name="fertiliser" />
         <logic name="Fertilizer">
-          <event>end_of_day>
+          <script>
             <event>init</event>
             <text />
           </script>
-          <event>end_of_day>
+          <script>
             <event>start_of_day</event>
             <text />
           </script>
-          <event>end_of_day>
-            <event>endofday</event>
+          <script>
+            <event>end_of_day</event>
             <text />
           </script>
         </logic>
@@ -55437,11 +55437,11 @@
           <property name="irrigation_efficiency" description="Efficiency of the irrigation. (0-1.0)">1.0</property>
         </irrigation>
         <logic name="Irrigator">
-          <event>end_of_day>
+          <script>
             <event>init</event>
             <text />
           </script>
-          <event>end_of_day>
+          <script>
             <event>start_of_day</event>
             <text> ! irrigation record from senthold
 
@@ -55470,23 +55470,23 @@
            endif
 </text>
           </script>
-          <event>end_of_day>
-            <event>endofday</event>
+          <script>
+            <event>end_of_day</event>
             <text />
           </script>
         </logic>
         <fertiliser name="fertiliser" />
         <logic name="Fertilizer">
-          <event>end_of_day>
+          <script>
             <event>init</event>
             <text />
           </script>
-          <event>end_of_day>
+          <script>
             <event>start_of_day</event>
             <text />
           </script>
-          <event>end_of_day>
-            <event>endofday</event>
+          <script>
+            <event>end_of_day</event>
             <text />
           </script>
         </logic>
@@ -56022,31 +56022,31 @@
           <property name="irrigation_efficiency" description="Efficiency of the irrigation. (0-1.0)">1.0</property>
         </irrigation>
         <logic name="Irrigator">
-          <event>end_of_day>
+          <script>
             <event>init</event>
             <text />
           </script>
-          <event>end_of_day>
+          <script>
             <event>start_of_day</event>
             <text />
           </script>
-          <event>end_of_day>
-            <event>endofday</event>
+          <script>
+            <event>end_of_day</event>
             <text />
           </script>
         </logic>
         <fertiliser name="fertiliser" />
         <logic name="Fertilizer">
-          <event>end_of_day>
+          <script>
             <event>init</event>
             <text />
           </script>
-          <event>end_of_day>
+          <script>
             <event>start_of_day</event>
             <text />
           </script>
-          <event>end_of_day>
-            <event>endofday</event>
+          <script>
+            <event>end_of_day</event>
             <text />
           </script>
         </logic>
@@ -56582,31 +56582,31 @@
           <property name="irrigation_efficiency" description="Efficiency of the irrigation. (0-1.0)">1.0</property>
         </irrigation>
         <logic name="Irrigator">
-          <event>end_of_day>
+          <script>
             <event>init</event>
             <text />
           </script>
-          <event>end_of_day>
+          <script>
             <event>start_of_day</event>
             <text />
           </script>
-          <event>end_of_day>
-            <event>endofday</event>
+          <script>
+            <event>end_of_day</event>
             <text />
           </script>
         </logic>
         <fertiliser name="fertiliser" />
         <logic name="Fertilizer">
-          <event>end_of_day>
+          <script>
             <event>init</event>
             <text />
           </script>
-          <event>end_of_day>
+          <script>
             <event>start_of_day</event>
             <text />
           </script>
-          <event>end_of_day>
-            <event>endofday</event>
+          <script>
+            <event>end_of_day</event>
             <text />
           </script>
         </logic>
@@ -57156,31 +57156,31 @@
           <property name="irrigation_efficiency" description="Efficiency of the irrigation. (0-1.0)">1.0</property>
         </irrigation>
         <logic name="Irrigator">
-          <event>end_of_day>
+          <script>
             <event>init</event>
             <text />
           </script>
-          <event>end_of_day>
+          <script>
             <event>start_of_day</event>
             <text />
           </script>
-          <event>end_of_day>
-            <event>endofday</event>
+          <script>
+            <event>end_of_day</event>
             <text />
           </script>
         </logic>
         <fertiliser name="fertiliser" />
         <logic name="Fertilizer">
-          <event>end_of_day>
+          <script>
             <event>init</event>
             <text />
           </script>
-          <event>end_of_day>
+          <script>
             <event>start_of_day</event>
             <text />
           </script>
-          <event>end_of_day>
-            <event>endofday</event>
+          <script>
+            <event>end_of_day</event>
             <text />
           </script>
         </logic>
@@ -57730,33 +57730,33 @@
           <property name="irrigation_efficiency" description="Efficiency of the irrigation. (0-1.0)">1.0</property>
         </irrigation>
         <logic name="Irrigator">
-          <event>end_of_day>
+          <script>
             <event>init</event>
             <text />
           </script>
-          <event>end_of_day>
+          <script>
             <event>start_of_day</event>
             <text> ! irrigation record from senthold
 
 </text>
           </script>
-          <event>end_of_day>
-            <event>endofday</event>
+          <script>
+            <event>end_of_day</event>
             <text />
           </script>
         </logic>
         <fertiliser name="fertiliser" />
         <logic name="Fertilizer">
-          <event>end_of_day>
+          <script>
             <event>init</event>
             <text />
           </script>
-          <event>end_of_day>
+          <script>
             <event>start_of_day</event>
             <text />
           </script>
-          <event>end_of_day>
-            <event>endofday</event>
+          <script>
+            <event>end_of_day</event>
             <text />
           </script>
         </logic>
@@ -58292,11 +58292,11 @@
           <property name="irrigation_efficiency" description="Efficiency of the irrigation. (0-1.0)">1.0</property>
         </irrigation>
         <logic name="Irrigator">
-          <event>end_of_day>
+          <script>
             <event>init</event>
             <text />
           </script>
-          <event>end_of_day>
+          <script>
             <event>start_of_day</event>
             <text> ! irrigation record from senthold
 
@@ -58325,23 +58325,23 @@
            endif
 </text>
           </script>
-          <event>end_of_day>
-            <event>endofday</event>
+          <script>
+            <event>end_of_day</event>
             <text />
           </script>
         </logic>
         <fertiliser name="fertiliser" />
         <logic name="Fertilizer">
-          <event>end_of_day>
+          <script>
             <event>init</event>
             <text />
           </script>
-          <event>end_of_day>
+          <script>
             <event>start_of_day</event>
             <text />
           </script>
-          <event>end_of_day>
-            <event>endofday</event>
+          <script>
+            <event>end_of_day</event>
             <text />
           </script>
         </logic>
@@ -58877,11 +58877,11 @@
           <property name="irrigation_efficiency" description="Efficiency of the irrigation. (0-1.0)">1.0</property>
         </irrigation>
         <logic name="Irrigator">
-          <event>end_of_day>
+          <script>
             <event>init</event>
             <text />
           </script>
-          <event>end_of_day>
+          <script>
             <event>start_of_day</event>
             <text> ! irrigation record from senthold
 
@@ -58910,23 +58910,23 @@
            endif
 </text>
           </script>
-          <event>end_of_day>
-            <event>endofday</event>
+          <script>
+            <event>end_of_day</event>
             <text />
           </script>
         </logic>
         <fertiliser name="fertiliser" />
         <logic name="Fertilizer">
-          <event>end_of_day>
+          <script>
             <event>init</event>
             <text />
           </script>
-          <event>end_of_day>
+          <script>
             <event>start_of_day</event>
             <text />
           </script>
-          <event>end_of_day>
-            <event>endofday</event>
+          <script>
+            <event>end_of_day</event>
             <text />
           </script>
         </logic>
@@ -59476,11 +59476,11 @@
           <property name="irrigation_efficiency" description="Efficiency of the irrigation. (0-1.0)">1.0</property>
         </irrigation>
         <logic name="Irrigator">
-          <event>end_of_day>
+          <script>
             <event>init</event>
             <text />
           </script>
-          <event>end_of_day>
+          <script>
             <event>start_of_day</event>
             <text> ! irrigation record from senthold
 
@@ -59509,23 +59509,23 @@
            endif
 </text>
           </script>
-          <event>end_of_day>
-            <event>endofday</event>
+          <script>
+            <event>end_of_day</event>
             <text />
           </script>
         </logic>
         <fertiliser name="fertiliser" />
         <logic name="Fertilizer">
-          <event>end_of_day>
+          <script>
             <event>init</event>
             <text />
           </script>
-          <event>end_of_day>
+          <script>
             <event>start_of_day</event>
             <text />
           </script>
-          <event>end_of_day>
-            <event>endofday</event>
+          <script>
+            <event>end_of_day</event>
             <text />
           </script>
         </logic>
@@ -60075,11 +60075,11 @@
           <property name="irrigation_efficiency" description="Efficiency of the irrigation. (0-1.0)">1.0</property>
         </irrigation>
         <logic name="Irrigator">
-          <event>end_of_day>
+          <script>
             <event>init</event>
             <text />
           </script>
-          <event>end_of_day>
+          <script>
             <event>start_of_day</event>
             <text> ! irrigation record from senthold
 
@@ -60108,23 +60108,23 @@
            endif
 </text>
           </script>
-          <event>end_of_day>
-            <event>endofday</event>
+          <script>
+            <event>end_of_day</event>
             <text />
           </script>
         </logic>
         <fertiliser name="fertiliser" />
         <logic name="Fertilizer">
-          <event>end_of_day>
+          <script>
             <event>init</event>
             <text />
           </script>
-          <event>end_of_day>
+          <script>
             <event>start_of_day</event>
             <text />
           </script>
-          <event>end_of_day>
-            <event>endofday</event>
+          <script>
+            <event>end_of_day</event>
             <text />
           </script>
         </logic>
@@ -60660,31 +60660,31 @@
           <property name="irrigation_efficiency" description="Efficiency of the irrigation. (0-1.0)">1.0</property>
         </irrigation>
         <logic name="Irrigator">
-          <event>end_of_day>
+          <script>
             <event>init</event>
             <text />
           </script>
-          <event>end_of_day>
+          <script>
             <event>start_of_day</event>
             <text />
           </script>
-          <event>end_of_day>
-            <event>endofday</event>
+          <script>
+            <event>end_of_day</event>
             <text />
           </script>
         </logic>
         <fertiliser name="fertiliser" />
         <logic name="Fertilizer">
-          <event>end_of_day>
+          <script>
             <event>init</event>
             <text />
           </script>
-          <event>end_of_day>
+          <script>
             <event>start_of_day</event>
             <text />
           </script>
-          <event>end_of_day>
-            <event>endofday</event>
+          <script>
+            <event>end_of_day</event>
             <text />
           </script>
         </logic>
@@ -61220,31 +61220,31 @@
           <property name="irrigation_efficiency" description="Efficiency of the irrigation. (0-1.0)">1.0</property>
         </irrigation>
         <logic name="Irrigator">
-          <event>end_of_day>
+          <script>
             <event>init</event>
             <text />
           </script>
-          <event>end_of_day>
+          <script>
             <event>start_of_day</event>
             <text />
           </script>
-          <event>end_of_day>
-            <event>endofday</event>
+          <script>
+            <event>end_of_day</event>
             <text />
           </script>
         </logic>
         <fertiliser name="fertiliser" />
         <logic name="Fertilizer">
-          <event>end_of_day>
+          <script>
             <event>init</event>
             <text />
           </script>
-          <event>end_of_day>
+          <script>
             <event>start_of_day</event>
             <text />
           </script>
-          <event>end_of_day>
-            <event>endofday</event>
+          <script>
+            <event>end_of_day</event>
             <text />
           </script>
         </logic>
@@ -61794,31 +61794,31 @@
           <property name="irrigation_efficiency" description="Efficiency of the irrigation. (0-1.0)">1.0</property>
         </irrigation>
         <logic name="Irrigator">
-          <event>end_of_day>
+          <script>
             <event>init</event>
             <text />
           </script>
-          <event>end_of_day>
+          <script>
             <event>start_of_day</event>
             <text />
           </script>
-          <event>end_of_day>
-            <event>endofday</event>
+          <script>
+            <event>end_of_day</event>
             <text />
           </script>
         </logic>
         <fertiliser name="fertiliser" />
         <logic name="Fertilizer">
-          <event>end_of_day>
+          <script>
             <event>init</event>
             <text />
           </script>
-          <event>end_of_day>
+          <script>
             <event>start_of_day</event>
             <text />
           </script>
-          <event>end_of_day>
-            <event>endofday</event>
+          <script>
+            <event>end_of_day</event>
             <text />
           </script>
         </logic>
@@ -62368,33 +62368,33 @@
           <property name="irrigation_efficiency" description="Efficiency of the irrigation. (0-1.0)">1.0</property>
         </irrigation>
         <logic name="Irrigator">
-          <event>end_of_day>
+          <script>
             <event>init</event>
             <text />
           </script>
-          <event>end_of_day>
+          <script>
             <event>start_of_day</event>
             <text> ! irrigation record from senthold
 
 </text>
           </script>
-          <event>end_of_day>
-            <event>endofday</event>
+          <script>
+            <event>end_of_day</event>
             <text />
           </script>
         </logic>
         <fertiliser name="fertiliser" />
         <logic name="Fertilizer">
-          <event>end_of_day>
+          <script>
             <event>init</event>
             <text />
           </script>
-          <event>end_of_day>
+          <script>
             <event>start_of_day</event>
             <text />
           </script>
-          <event>end_of_day>
-            <event>endofday</event>
+          <script>
+            <event>end_of_day</event>
             <text />
           </script>
         </logic>
@@ -62946,33 +62946,33 @@
           <property name="irrigation_efficiency" description="Efficiency of the irrigation. (0-1.0)">1.0</property>
         </irrigation>
         <logic name="Irrigator">
-          <event>end_of_day>
+          <script>
             <event>init</event>
             <text />
           </script>
-          <event>end_of_day>
+          <script>
             <event>start_of_day</event>
             <text> ! irrigation record from senthold
 
 </text>
           </script>
-          <event>end_of_day>
-            <event>endofday</event>
+          <script>
+            <event>end_of_day</event>
             <text />
           </script>
         </logic>
         <fertiliser name="fertiliser" />
         <logic name="Fertilizer">
-          <event>end_of_day>
+          <script>
             <event>init</event>
             <text />
           </script>
-          <event>end_of_day>
+          <script>
             <event>start_of_day</event>
             <text />
           </script>
-          <event>end_of_day>
-            <event>endofday</event>
+          <script>
+            <event>end_of_day</event>
             <text />
           </script>
         </logic>
@@ -63372,33 +63372,33 @@
           <property name="irrigation_efficiency" description="Efficiency of the irrigation. (0-1.0)">1.0</property>
         </irrigation>
         <logic name="Irrigator">
-          <event>end_of_day>
+          <script>
             <event>init</event>
             <text />
           </script>
-          <event>end_of_day>
+          <script>
             <event>start_of_day</event>
             <text> ! irrigation record from senthold
 
 </text>
           </script>
-          <event>end_of_day>
-            <event>endofday</event>
+          <script>
+            <event>end_of_day</event>
             <text />
           </script>
         </logic>
         <fertiliser name="fertiliser" />
         <logic name="Fertilizer">
-          <event>end_of_day>
+          <script>
             <event>init</event>
             <text />
           </script>
-          <event>end_of_day>
+          <script>
             <event>start_of_day</event>
             <text />
           </script>
-          <event>end_of_day>
-            <event>endofday</event>
+          <script>
+            <event>end_of_day</event>
             <text />
           </script>
         </logic>
@@ -63780,33 +63780,33 @@
           <property name="irrigation_efficiency" description="Efficiency of the irrigation. (0-1.0)">1.0</property>
         </irrigation>
         <logic name="Irrigator">
-          <event>end_of_day>
+          <script>
             <event>init</event>
             <text />
           </script>
-          <event>end_of_day>
+          <script>
             <event>start_of_day</event>
             <text> ! irrigation record from senthold
 
 </text>
           </script>
-          <event>end_of_day>
-            <event>endofday</event>
+          <script>
+            <event>end_of_day</event>
             <text />
           </script>
         </logic>
         <fertiliser name="fertiliser" />
         <logic name="Fertilizer">
-          <event>end_of_day>
+          <script>
             <event>init</event>
             <text />
           </script>
-          <event>end_of_day>
+          <script>
             <event>start_of_day</event>
             <text />
           </script>
-          <event>end_of_day>
-            <event>endofday</event>
+          <script>
+            <event>end_of_day</event>
             <text />
           </script>
         </logic>
@@ -64276,33 +64276,33 @@
           <property name="irrigation_efficiency" description="Efficiency of the irrigation. (0-1.0)">1.0</property>
         </irrigation>
         <logic name="Irrigator">
-          <event>end_of_day>
+          <script>
             <event>init</event>
             <text />
           </script>
-          <event>end_of_day>
+          <script>
             <event>start_of_day</event>
             <text> ! irrigation record from senthold
 
 </text>
           </script>
-          <event>end_of_day>
-            <event>endofday</event>
+          <script>
+            <event>end_of_day</event>
             <text />
           </script>
         </logic>
         <fertiliser name="fertiliser" />
         <logic name="Fertilizer">
-          <event>end_of_day>
+          <script>
             <event>init</event>
             <text />
           </script>
-          <event>end_of_day>
+          <script>
             <event>start_of_day</event>
             <text />
           </script>
-          <event>end_of_day>
-            <event>endofday</event>
+          <script>
+            <event>end_of_day</event>
             <text />
           </script>
         </logic>
@@ -64754,33 +64754,33 @@
           <property name="irrigation_efficiency" description="Efficiency of the irrigation. (0-1.0)">1.0</property>
         </irrigation>
         <logic name="Irrigator">
-          <event>end_of_day>
+          <script>
             <event>init</event>
             <text />
           </script>
-          <event>end_of_day>
+          <script>
             <event>start_of_day</event>
             <text> ! irrigation record from senthold
 
 </text>
           </script>
-          <event>end_of_day>
-            <event>endofday</event>
+          <script>
+            <event>end_of_day</event>
             <text />
           </script>
         </logic>
         <fertiliser name="fertiliser" />
         <logic name="Fertilizer">
-          <event>end_of_day>
+          <script>
             <event>init</event>
             <text />
           </script>
-          <event>end_of_day>
+          <script>
             <event>start_of_day</event>
             <text />
           </script>
-          <event>end_of_day>
-            <event>endofday</event>
+          <script>
+            <event>end_of_day</event>
             <text />
           </script>
         </logic>
@@ -65194,33 +65194,33 @@
           <property name="irrigation_efficiency" description="Efficiency of the irrigation. (0-1.0)">1.0</property>
         </irrigation>
         <logic name="Irrigator">
-          <event>end_of_day>
+          <script>
             <event>init</event>
             <text />
           </script>
-          <event>end_of_day>
+          <script>
             <event>start_of_day</event>
             <text> ! irrigation record from senthold
 
 </text>
           </script>
-          <event>end_of_day>
-            <event>endofday</event>
+          <script>
+            <event>end_of_day</event>
             <text />
           </script>
         </logic>
         <fertiliser name="fertiliser" />
         <logic name="Fertilizer">
-          <event>end_of_day>
+          <script>
             <event>init</event>
             <text />
           </script>
-          <event>end_of_day>
+          <script>
             <event>start_of_day</event>
             <text />
           </script>
-          <event>end_of_day>
-            <event>endofday</event>
+          <script>
+            <event>end_of_day</event>
             <text />
           </script>
         </logic>
