@@ -107,7 +107,7 @@
           <text />
         </script>
         <script>
-          <event>endofday</event>
+          <event>end_of_day</event>
           <text><![CDATA[ 
 if (sw_demand > 0) then
    sd = sw_supply / sw_demand
@@ -131,7 +131,7 @@ endif
           <text />
         </script>
         <script>
-          <event>endofday</event>
+          <event>end_of_day</event>
           <text />
         </script>
       </logic>
@@ -146,7 +146,7 @@ endif
           <text />
         </script>
         <script>
-          <event>endofday</event>
+          <event>end_of_day</event>
           <text />
         </script>
       </logic>
@@ -554,7 +554,7 @@ endif
           <text />
         </script>
         <script>
-          <event>endofday</event>
+          <event>end_of_day</event>
           <text><![CDATA[[cr]if (sw_demand > 0) then[cr]   sd = sw_supply / sw_demand[cr]else[cr]   sd = 1[cr]endif[cr][cr]if (sd > 1) then[cr]   sd = 1[cr]endif[cr]]]></text>
         </script>
       </logic>
@@ -569,7 +569,7 @@ endif
           <text />
         </script>
         <script>
-          <event>endofday</event>
+          <event>end_of_day</event>
           <text />
         </script>
       </logic>
@@ -977,7 +977,7 @@ endif
           <text />
         </script>
         <script>
-          <event>endofday</event>
+          <event>end_of_day</event>
           <text><![CDATA[[cr]if (sw_demand > 0) then[cr]   sd = sw_supply / sw_demand[cr]else[cr]   sd = 1[cr]endif[cr][cr]if (sd > 1) then[cr]   sd = 1[cr]endif[cr]]]></text>
         </script>
       </logic>
@@ -991,7 +991,7 @@ endif
           <text />
         </script>
         <script>
-          <event>endofday</event>
+          <event>end_of_day</event>
           <text />
         </script>
       </logic>
@@ -1006,7 +1006,7 @@ endif
           <text />
         </script>
         <script>
-          <event>endofday</event>
+          <event>end_of_day</event>
           <text />
         </script>
       </logic>
@@ -1414,7 +1414,7 @@ endif
           <text />
         </script>
         <script>
-          <event>endofday</event>
+          <event>end_of_day</event>
           <text><![CDATA[[cr]if (sw_demand > 0) then[cr]   sd = sw_supply / sw_demand[cr]else[cr]   sd = 1[cr]endif[cr][cr]if (sd > 1) then[cr]   sd = 1[cr]endif[cr]]]></text>
         </script>
       </logic>
@@ -1434,7 +1434,7 @@ endif
           <text />
         </script>
         <script>
-          <event>endofday</event>
+          <event>end_of_day</event>
           <text />
         </script>
       </logic>
@@ -1449,7 +1449,7 @@ endif
           <text />
         </script>
         <script>
-          <event>endofday</event>
+          <event>end_of_day</event>
           <text />
         </script>
       </logic>
@@ -1851,7 +1851,7 @@ endif
           <text />
         </script>
         <script>
-          <event>endofday</event>
+          <event>end_of_day</event>
           <text><![CDATA[[cr]if (sw_demand > 0) then[cr]   sd = sw_supply / sw_demand[cr]else[cr]   sd = 1[cr]endif[cr][cr]if (sd > 1) then[cr]   sd = 1[cr]endif[cr]]]></text>
         </script>
       </logic>
@@ -1871,7 +1871,7 @@ endif
           <text />
         </script>
         <script>
-          <event>endofday</event>
+          <event>end_of_day</event>
           <text />
         </script>
       </logic>
@@ -1886,7 +1886,7 @@ endif
           <text />
         </script>
         <script>
-          <event>endofday</event>
+          <event>end_of_day</event>
           <text />
         </script>
       </logic>
@@ -2288,7 +2288,7 @@ endif
           <text />
         </script>
         <script>
-          <event>endofday</event>
+          <event>end_of_day</event>
           <text><![CDATA[[cr]if (sw_demand > 0) then[cr]   sd = sw_supply / sw_demand[cr]else[cr]   sd = 1[cr]endif[cr][cr]if (sd > 1) then[cr]   sd = 1[cr]endif[cr]]]></text>
         </script>
       </logic>
@@ -2321,7 +2321,7 @@ endif
         </text>
         </script>
         <script>
-          <event>endofday</event>
+          <event>end_of_day</event>
           <text />
         </script>
       </logic>
@@ -2336,7 +2336,7 @@ endif
           <text />
         </script>
         <script>
-          <event>endofday</event>
+          <event>end_of_day</event>
           <text />
         </script>
       </logic>
@@ -2738,7 +2738,7 @@ endif
           <text />
         </script>
         <script>
-          <event>endofday</event>
+          <event>end_of_day</event>
           <text><![CDATA[[cr]if (sw_demand > 0) then[cr]   sd = sw_supply / sw_demand[cr]else[cr]   sd = 1[cr]endif[cr][cr]if (sd > 1) then[cr]   sd = 1[cr]endif[cr]]]></text>
         </script>
       </logic>
@@ -2813,7 +2813,7 @@ endif
         </text>
         </script>
         <script>
-          <event>endofday</event>
+          <event>end_of_day</event>
           <text />
         </script>
       </logic>
@@ -2828,7 +2828,7 @@ endif
           <text />
         </script>
         <script>
-          <event>endofday</event>
+          <event>end_of_day</event>
           <text />
         </script>
       </logic>
@@ -3230,7 +3230,7 @@ endif
           <text />
         </script>
         <script>
-          <event>endofday</event>
+          <event>end_of_day</event>
           <text><![CDATA[[cr]if (sw_demand > 0) then[cr]   sd = sw_supply / sw_demand[cr]else[cr]   sd = 1[cr]endif[cr][cr]if (sd > 1) then[cr]   sd = 1[cr]endif[cr]]]></text>
         </script>
       </logic>
@@ -3329,7 +3329,7 @@ endif
         </text>
         </script>
         <script>
-          <event>endofday</event>
+          <event>end_of_day</event>
           <text />
         </script>
       </logic>
@@ -3344,7 +3344,7 @@ endif
           <text />
         </script>
         <script>
-          <event>endofday</event>
+          <event>end_of_day</event>
           <text />
         </script>
       </logic>
@@ -3746,7 +3746,7 @@ endif
           <text />
         </script>
         <script>
-          <event>endofday</event>
+          <event>end_of_day</event>
           <text><![CDATA[[cr]if (sw_demand > 0) then[cr]   sd = sw_supply / sw_demand[cr]else[cr]   sd = 1[cr]endif[cr][cr]if (sd > 1) then[cr]   sd = 1[cr]endif[cr]]]></text>
         </script>
       </logic>
@@ -3766,7 +3766,7 @@ endif
           <text />
         </script>
         <script>
-          <event>endofday</event>
+          <event>end_of_day</event>
           <text />
         </script>
       </logic>
@@ -3781,7 +3781,7 @@ endif
           <text />
         </script>
         <script>
-          <event>endofday</event>
+          <event>end_of_day</event>
           <text />
         </script>
       </logic>
@@ -4183,7 +4183,7 @@ endif
           <text />
         </script>
         <script>
-          <event>endofday</event>
+          <event>end_of_day</event>
           <text><![CDATA[[cr]if (sw_demand > 0) then[cr]   sd = sw_supply / sw_demand[cr]else[cr]   sd = 1[cr]endif[cr][cr]if (sd > 1) then[cr]   sd = 1[cr]endif[cr]]]></text>
         </script>
       </logic>
@@ -4197,7 +4197,7 @@ endif
           <text />
         </script>
         <script>
-          <event>endofday</event>
+          <event>end_of_day</event>
           <text />
         </script>
       </logic>
@@ -4212,7 +4212,7 @@ endif
           <text />
         </script>
         <script>
-          <event>endofday</event>
+          <event>end_of_day</event>
           <text />
         </script>
       </logic>
@@ -4541,7 +4541,7 @@ endif
           <text />
         </script>
         <script>
-          <event>endofday</event>
+          <event>end_of_day</event>
           <text><![CDATA[[cr]if (sw_demand > 0) then[cr]   sd = sw_supply / sw_demand[cr]else[cr]   sd = 1[cr]endif[cr][cr]if (sd > 1) then[cr]   sd = 1[cr]endif[cr]]]></text>
         </script>
       </logic>
@@ -4561,7 +4561,7 @@ endif
           <text />
         </script>
         <script>
-          <event>endofday</event>
+          <event>end_of_day</event>
           <text />
         </script>
       </logic>
@@ -4576,7 +4576,7 @@ endif
           <text />
         </script>
         <script>
-          <event>endofday</event>
+          <event>end_of_day</event>
           <text />
         </script>
       </logic>
@@ -4977,7 +4977,7 @@ endif
           <text />
         </script>
         <script>
-          <event>endofday</event>
+          <event>end_of_day</event>
           <text><![CDATA[[cr]if (sw_demand > 0) then[cr]   sd = sw_supply / sw_demand[cr]else[cr]   sd = 1[cr]endif[cr][cr]if (sd > 1) then[cr]   sd = 1[cr]endif[cr]]]></text>
         </script>
       </logic>
@@ -4997,7 +4997,7 @@ endif
           <text />
         </script>
         <script>
-          <event>endofday</event>
+          <event>end_of_day</event>
           <text />
         </script>
       </logic>
@@ -5012,7 +5012,7 @@ endif
           <text />
         </script>
         <script>
-          <event>endofday</event>
+          <event>end_of_day</event>
           <text />
         </script>
       </logic>
@@ -5413,7 +5413,7 @@ endif
           <text />
         </script>
         <script>
-          <event>endofday</event>
+          <event>end_of_day</event>
           <text><![CDATA[[cr]if (sw_demand > 0) then[cr]   sd = sw_supply / sw_demand[cr]else[cr]   sd = 1[cr]endif[cr][cr]if (sd > 1) then[cr]   sd = 1[cr]endif[cr]]]></text>
         </script>
       </logic>
@@ -5433,7 +5433,7 @@ endif
           <text />
         </script>
         <script>
-          <event>endofday</event>
+          <event>end_of_day</event>
           <text />
         </script>
       </logic>
@@ -5448,7 +5448,7 @@ endif
           <text />
         </script>
         <script>
-          <event>endofday</event>
+          <event>end_of_day</event>
           <text />
         </script>
       </logic>
@@ -5849,7 +5849,7 @@ endif
           <text />
         </script>
         <script>
-          <event>endofday</event>
+          <event>end_of_day</event>
           <text><![CDATA[[cr]if (sw_demand > 0) then[cr]   sd = sw_supply / sw_demand[cr]else[cr]   sd = 1[cr]endif[cr][cr]if (sd > 1) then[cr]   sd = 1[cr]endif[cr]]]></text>
         </script>
       </logic>
@@ -5869,7 +5869,7 @@ endif
           <text />
         </script>
         <script>
-          <event>endofday</event>
+          <event>end_of_day</event>
           <text />
         </script>
       </logic>
@@ -5884,7 +5884,7 @@ endif
           <text />
         </script>
         <script>
-          <event>endofday</event>
+          <event>end_of_day</event>
           <text />
         </script>
       </logic>
@@ -6285,7 +6285,7 @@ endif
           <text />
         </script>
         <script>
-          <event>endofday</event>
+          <event>end_of_day</event>
           <text><![CDATA[[cr]if (sw_demand > 0) then[cr]   sd = sw_supply / sw_demand[cr]else[cr]   sd = 1[cr]endif[cr][cr]if (sd > 1) then[cr]   sd = 1[cr]endif[cr]]]></text>
         </script>
       </logic>
@@ -6305,7 +6305,7 @@ endif
           <text />
         </script>
         <script>
-          <event>endofday</event>
+          <event>end_of_day</event>
           <text />
         </script>
       </logic>
@@ -6320,7 +6320,7 @@ endif
           <text />
         </script>
         <script>
-          <event>endofday</event>
+          <event>end_of_day</event>
           <text />
         </script>
       </logic>
@@ -6721,7 +6721,7 @@ endif
           <text />
         </script>
         <script>
-          <event>endofday</event>
+          <event>end_of_day</event>
           <text><![CDATA[[cr]if (sw_demand > 0) then[cr]   sd = sw_supply / sw_demand[cr]else[cr]   sd = 1[cr]endif[cr][cr]if (sd > 1) then[cr]   sd = 1[cr]endif[cr]]]></text>
         </script>
       </logic>
@@ -6741,7 +6741,7 @@ endif
           <text />
         </script>
         <script>
-          <event>endofday</event>
+          <event>end_of_day</event>
           <text />
         </script>
       </logic>
@@ -6756,7 +6756,7 @@ endif
           <text />
         </script>
         <script>
-          <event>endofday</event>
+          <event>end_of_day</event>
           <text />
         </script>
       </logic>
@@ -7157,7 +7157,7 @@ endif
           <text />
         </script>
         <script>
-          <event>endofday</event>
+          <event>end_of_day</event>
           <text><![CDATA[[cr]if (sw_demand > 0) then[cr]   sd = sw_supply / sw_demand[cr]else[cr]   sd = 1[cr]endif[cr][cr]if (sd > 1) then[cr]   sd = 1[cr]endif[cr]]]></text>
         </script>
       </logic>
@@ -7177,7 +7177,7 @@ endif
           <text />
         </script>
         <script>
-          <event>endofday</event>
+          <event>end_of_day</event>
           <text />
         </script>
       </logic>
@@ -7192,7 +7192,7 @@ endif
           <text />
         </script>
         <script>
-          <event>endofday</event>
+          <event>end_of_day</event>
           <text />
         </script>
       </logic>
@@ -7593,7 +7593,7 @@ endif
           <text />
         </script>
         <script>
-          <event>endofday</event>
+          <event>end_of_day</event>
           <text><![CDATA[[cr]if (sw_demand > 0) then[cr]   sd = sw_supply / sw_demand[cr]else[cr]   sd = 1[cr]endif[cr][cr]if (sd > 1) then[cr]   sd = 1[cr]endif[cr]]]></text>
         </script>
       </logic>
@@ -7613,7 +7613,7 @@ endif
           <text />
         </script>
         <script>
-          <event>endofday</event>
+          <event>end_of_day</event>
           <text />
         </script>
       </logic>
@@ -7628,7 +7628,7 @@ endif
           <text />
         </script>
         <script>
-          <event>endofday</event>
+          <event>end_of_day</event>
           <text />
         </script>
       </logic>
