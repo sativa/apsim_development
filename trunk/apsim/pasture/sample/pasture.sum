@@ -9,13 +9,13 @@
  The Agricultural Production Systems Simulator
              Copyright(c) APSRU               
 
-     Version                = 5.3
-     Title                  = Pasture PI SAMPLE Simulation
-     Component DLL          = c:\development\apsim\log\lib\log.dll
-     Component DLL          = c:\development\apsim\SummaryFile\lib\SummaryFile.dll
-     Component DLL          = c:\development\apsim\clock\lib\clock.dll
-     Component DLL          = c:\development\apsim\Input\lib\Input.dll
-     Component DLL          = c:\development\apsim\\FarmwiseSequencer\lib\FarmwComponent     "report" = c:\development\apsim\report\lib\report.dll
+Version                = 5.3
+Title                  = Pasture PI SAMPLE Simulation
+Component        "Log" = c:\development\apsim\log\lib\log.dll
+Component      "clock" = c:\development\apsim\clock\lib\clock.dll
+Component        "Met" = c:\development\apsim\Input\lib\Input.dll
+Component "FarmwiseSequencer" = c:\development\apsim\\FarmwiseSequencer\lib\FarmwiseSequencerConverter.dll
+Component     "report" = c:\development\apsim\report\lib\report.dll
 Component    "manager" = c:\development\apsim\manager\lib\manager.dll
 Component   "soilwat2" = c:\development\apsim\soilwat2\lib\soilwat2.dll
 Component     "soiln2" = c:\development\apsim\soiln2\lib\soiln2.dll
@@ -219,7 +219,7 @@ Component    "Pasture" = C:\Program Files\FarmWise\PASTURE.dll
                       APSIM  Fatal  Error
                       -------------------
      Invalid complete message.  Was waiting for a complete
-     message with ID=500
+     message with ID=465
      Component name: MasterPM
      !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
      
