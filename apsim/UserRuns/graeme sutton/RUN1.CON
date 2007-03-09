@@ -11,6 +11,5 @@ module = SurfaceOM   run1.par [run1] %apsuite\apsim\SurfaceOM\SurfaceOM.ini [sta
 module = ozcot       run1.par [run1] %apsuite\apsim\ozcot\ozcot.ini [standard]
 module = accum       run1.par [run1]
 module = fertiliz    %apsuite\apsim\fertiliz\fertiliz.ini [standard]
-module = SummaryFile   run1.par [run1]
 
 title = GrantCottonKamaniV1.61(61-62)
