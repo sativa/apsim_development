@@ -219,6 +219,7 @@
          character    uptake_source*50 ! who does water uptake calculation
 
          ! /grasp1_initial_pools/
+         integer   basal_area_option    ! initial basal area (?)
          real   basal_area_init    ! initial basal area (?)
          real   root_depth_init    ! initial depth of roots (mm)
          real   dm_green_leaf_init ! initial pool green leaf (kg/ha)
@@ -408,26 +409,26 @@
       if ( g%crop_status .eq. crop_alive) then
 
          call grasp_save_yesterday () ! save for mass balance check
-    
+
          call grasp_soil_loss ()      ! erode N from profile
-    
+
 c        do N at start of day to calculate N indexes for growth.
          call grasp_nitrogen ()   ! N uptake
-    
+
          call grasp_transpiration () ! water uptake
-    
+
          call grasp_phenology ()  ! phenological processes
-    
+
          call grasp_biomass ()    ! biomass production
-    
+
          call grasp_plant_death () ! see if sward has died (unused)
-    
+
          call grasp_store_report_vars () ! collect totals for output
-    
+
          call grasp_update ()     ! update pools
-    
+
          call grasp_balance_check () ! check we haven't gone silly
-    
+
          call grasp_event ()      ! do events of interest (date resets etc)
       endif
 
@@ -460,14 +461,14 @@ c        do N at start of day to calculate N indexes for growth.
 
       call grasp_zero_daily_variables ()
       call grasp_get_other_variables ()
-      
+
       if ( g%crop_status .eq. crop_alive) then
          call grasp_calculate_swi ()
-   
+
          g%out_sw_demand = grasp_sw_pot ()        !!  = f(pan)
          g%out_total_cover = grasp_total_cover () !!  = f(pool size)
       endif
-      
+
       call pop_routine (my_name)
       return
       end subroutine
@@ -1415,6 +1416,9 @@ c     Get vapour pressure deficit when net radiation is positive.
 *+  Changes
 *       010994 jngh specified and programmed
 
+      real summer_growth
+      character string*1000
+
 *+  Constant Values
       character  my_name*(*)    ! name of procedure
       parameter (my_name  = 'grasp_basal_area_init')
@@ -1423,15 +1427,26 @@ c     Get vapour pressure deficit when net radiation is positive.
 
       call push_routine (my_name)
 
-      if (g%day_of_year .eq. c%day_end_summer) then
+      if (g%day_of_year .eq. c%day_end_summer) then          !JNGH DEBUG
 
-         basal_area = (g%acc_growth_last_summer +
-     :        g%acc_et_summer * c%et_use_efficiency) * 0.001
+         if (p%basal_area_option .eq. 0
+     :      .or. p%basal_area_option .eq. 3) then
+                ! explicit constant GBA - no action MSS 25/04/97
 
-         basal_area = bound(basal_area, c%ba_ll, c%ba_ul)
-
+         else if (p%basal_area_option .eq. 1 .or.
+     :            p%basal_area_option .eq. 2) then
+            summer_growth = g%acc_et_summer
+     :                    * c%et_use_efficiency
+     :                    * 0.001
+            basal_area = g%acc_growth_last_summer + summer_growth
+            basal_area = bound(basal_area, c%ba_ll, c%ba_ul)
+         else
+            write (string, *) 'Unknown basal area option: '
+     :                        , p%basal_area_option
+            call fatal_error(err_user, 'Unknown basal area option.')
+         endif
       else
-                                ! Nothing
+         ! do nothing
       endif
 
       call pop_routine (my_name)
@@ -1795,8 +1810,8 @@ C     Limit cover to potential maximum
                                 ! first, zero all plant component deltas
       call fill_real_array (dlt_dm_plant, 0.0, max_part)
 
-      dm_tot = sum_real_array (g%dm_green, max_part) -
-     :     g%dm_green(root)
+      dm_tot = sum_real_array (g%dm_green, max_part)
+     :       - g%dm_green(root)
 
       if (dm_tot .le. c%stem_thresh) then
 
@@ -1812,14 +1827,14 @@ C     Limit cover to potential maximum
                                 ! do quick mass balance check - roots
                                 ! are not included
       dlt_dm_plant_tot = sum_real_array (dlt_dm_plant, max_part)
-     :     - dlt_dm_plant(root)
+     :                 - dlt_dm_plant(root)
 
       call bound_check_real_var (dlt_dm_plant_tot, 0.0, g%dlt_dm
-     :     , 'dlt_dm_plant_tot mass balance')
+     :                         , 'dlt_dm_plant_tot mass balance')
 
                                 ! check that deltas are in legal range
       call bound_check_real_array (dlt_dm_plant, 0.0, g%dlt_dm
-     :     , 'dlt_dm_plant', max_part)
+     :                            , 'dlt_dm_plant', max_part)
 
       call pop_routine (my_name)
       return
@@ -1959,33 +1974,39 @@ c     NB. straight from grasp - may be another method:
       integer   layer
       integer   deepest_layer
       character string*1000
+      real      biomass
 
 *- Implementation Section ----------------------------------
       call push_routine (my_name)
 
       call fill_real_array (N_avail, 0.0, max_layer)
       deepest_layer = find_layer_no (g%root_depth,
-     :     g%dlayer, max_layer)
+     :                               g%dlayer, max_layer)
 
       max_n_sum = 0.0
       do 500 layer = 1, deepest_layer
 
-         max_n_sum = max_n_sum + p%max_n_avail(layer) *
-     :        root_proportion (layer, g%dlayer,
-     :        g%root_depth)
+         max_n_sum = max_n_sum
+     :             + p%max_n_avail(layer)* root_proportion (layer
+     :                                   , g%dlayer, g%root_depth)
  500  continue
       max_n_sum = l_bound (max_n_sum,  c%residual_plant_N)
 
-      N_uptake = c%residual_plant_N +
-     :     c%N_uptk_per100 * g%acc_trans_for_N / 100.0
+      if (g%acc_trans_for_N  .gt. 0.0000001) then
+         N_uptake = c%residual_plant_N
+     :            + c%N_uptk_per100 * g%acc_trans_for_N / 100.0
+         dlt_N_uptake = bound (N_uptake - g%N_uptake, 0.0, N_uptake)
+      else
+         N_uptake = 0.0
+         dlt_N_uptake = 0.0
+      endif
 
-      N_uptake = bound (N_uptake, c%residual_plant_N, max_N_sum)
+!      N_uptake = bound (N_uptake, c%residual_plant_N, max_N_sum)
 
-      dlt_N_uptake = bound (N_uptake - g%N_uptake, 0.0, N_uptake)
       g%N_uptake = N_uptake
 
-!         write(string, *) ' N_uptake, max_N_sum, deepest_layer: ',
-!     :        N_uptake, max_N_sum, deepest_layer
+!         write(string, *) ' N_uptake, max_N_sum, dlt_N_uptake: ',
+!     :        N_uptake, max_N_sum, dlt_N_uptake
 !         call write_string(string)
 
 
@@ -2002,17 +2023,17 @@ c     PdeV 7/96.
  1000 continue
 
 *     Adjust for root penetration into lowest layer
-      N_avail(deepest_layer) =
-     :     N_avail(deepest_layer) *
-     :     root_proportion (deepest_layer, g%dlayer,
-     :                      g%root_depth)
+      N_avail(deepest_layer) = N_avail(deepest_layer)
+     :                       * root_proportion (deepest_layer
+     :                                        , g%dlayer
+     :                                        , g%root_depth)
 
       N_avail_sum = sum_real_array (N_avail, max_layer)
 
       dlt_N_uptake = bound (dlt_N_uptake, 0.0, N_avail_sum)
 
       do 2000 layer = 1, deepest_layer
-         dlt_No3(layer) = -1.0 * dlt_N_uptake
+         dlt_No3(layer) = - dlt_N_uptake
      :                  * divide (N_avail(layer), N_avail_sum, 0.0)
 
  2000 continue
@@ -2062,6 +2083,7 @@ c     PdeV 7/96.
 
 *+  Local Variables
       real       dm_N_conc
+      character string*1000
 
 *- Implementation Section ----------------------------------
 
@@ -2074,17 +2096,25 @@ c      need to be changed. FIXME!
                         ! if acc_growth is zero (ie reset yesterday),
                         ! then assume no N stress. this test is only
                         ! required for the first day after reset..
+
       if (g%acc_growth_for_N .gt. 0.00000001) then
         dm_N_conc = 100.0 * divide (g%N_uptake,
-     :            g%acc_growth_for_N, 0.0)
-        dm_N_conc = bound (dm_N_conc, 0.0, c%N_conc_dm_crit )
+     :                              g%acc_growth_for_N, 0.0)
+        dm_N_conc = bound (dm_N_conc, c%N_conc_dm_min, c%N_conc_dm_crit)
+!        dm_N_conc = bound (dm_N_conc, 0.0, c%N_conc_dm_crit )
       else
         dm_N_conc = c%N_conc_dm_crit
       endif
 
       grasp_nfact = divide((dm_N_conc - c%N_conc_dm_min),
-     :     (c%N_conc_dm_max - c%N_conc_dm_min), 0.0)
+     :                     (c%N_conc_dm_max - c%N_conc_dm_min), 1.0)
 
+!         write(string, *)
+!     :     ' dm_N_conc, grasp_nfact, g%N_uptake, g%acc_growth_for_N: '
+!     :    ,  dm_N_conc, grasp_nfact, g%N_uptake, g%acc_growth_for_N
+!         call write_string(string)
+
+!      grasp_nfact = 1.0     !JNGH DEBUG
       grasp_nfact = bound (grasp_nfact, 0.0, 1.0)
 
       call pop_routine (my_name)
@@ -2111,6 +2141,17 @@ c      need to be changed. FIXME!
 
 *+  Local Variables
       integer    part
+      real       dlt_N_green_stem
+      real       dlt_N_green_leaf
+      real       dlt_N_green_leaf_min
+      real       dlt_N_sen_part
+
+      real       NconcGreenPart
+      real       NconcSenPart
+      real       N_remaining
+
+      real       N_detach(max_part)
+      character string*1000
 
 *- Implementation Section ----------------------------------
       call push_routine (my_name)
@@ -2120,49 +2161,64 @@ c      need to be changed. FIXME!
       g%canopy_height = g%canopy_height + g%dlt_canopy_height
 
                                 ! Plant dry matter.
-         g%N_green(stem) = g%N_green(stem)
-     :                   + g%dlt_dm_plant(stem)*c%litter_n/100.0
-         g%N_green(leaf) = g%N_green(leaf) + g%dlt_n_uptake
-     :                   - g%dlt_dm_plant(stem)*c%litter_n/100.0
+      dlt_N_green_leaf_min = g%dlt_dm_plant(leaf)*c%litter_n/100.0
+      N_remaining = max(g%dlt_n_uptake - dlt_N_green_leaf_min, 0.0)
+      dlt_N_green_stem  = min (g%dlt_dm_plant(stem)*c%litter_n/100.0
+     :                        , N_remaining)
+      g%N_green(stem) = g%N_green(stem) + dlt_N_green_stem
+
+      dlt_N_green_leaf = g%dlt_n_uptake - dlt_N_green_stem
+      g%N_green(leaf) = g%N_green(leaf) + dlt_N_green_leaf
+
+
       do 1000 part = 1, max_part
+         NconcGreenPart = divide(g%N_green(part), g%dm_green(part), 0.0)
+         NconcSenPart = divide(g%N_dead(part), g%dm_dead(part), 0.0)
+
          g%dm_green(part) = g%dm_green(part) + g%dlt_dm_plant(part)
          g%dm_green(part) = g%dm_green(part) - g%dlt_dm_sen(part)
-         g%dm_dead(part) = g%dm_dead(part) + g%dlt_dm_sen(part)
-         g%dm_dead(part) = g%dm_dead(part) - g%detach(part)
+
+         g%dm_dead(part)  = g%dm_dead(part)  + g%dlt_dm_sen(part)
+         g%dm_dead(part)  = g%dm_dead(part)  - g%detach(part)
+
          g%litter = g%litter + g%detach(part)
-         g%N_green(part) = g%N_green(part)
-     :                   - g%dlt_dm_sen(part)*c%litter_n/100.0
-         g%N_dead(part) = g%N_dead(part)
-     :                  + g%dlt_dm_sen(part)*c%litter_n/100.0
-         g%N_dead(part) = g%N_dead(part)
-     :                  - g%detach(part)*c%litter_n/100.0
+
+         dlt_N_sen_part = g%dlt_dm_sen(part)
+     :                  * NconcGreenPart
+!     :                  * min(NconcGreenPart, c%litter_n/100.0)
+         g%N_green(part) = g%N_green(part) - dlt_N_sen_part
+         g%N_dead(part) = g%N_dead(part) + dlt_N_sen_part
+
+         N_detach(part) = g%detach(part)
+     :                  * NconcSenPart
+!     :                  * min(NconcSenPart, c%litter_n/100.0)
+         g%N_dead(part) = g%N_dead(part) - N_detach(part)
  1000    continue
 
-      call Grasp_Send_Crop_Chopped_Event (g%detach(:)
-     :                                  ,g%detach(:)*c%litter_n/100.0)
+      call Grasp_Send_Crop_Chopped_Event (g%detach(:), N_detach(:))
 
 
 C     Accumulate soilevap + grass transpiration (evapotranspiration) for
 C     basal area calculation. Note the obscureness of the date
 C     condition. This is because of the wrap-around between years.
 
-      if ((g%day_of_year .ge. c%day_start_summer) .or.
-     :     (g%day_of_year .le. c%day_end_summer)) then
-         g%acc_et_summer = g%acc_et_summer +
-     :        g%es +
-     :        (-1.0 * sum_real_array(g%dlt_sw_dep, max_layer))
+      if ((g%day_of_year .ge. c%day_start_summer)
+     :  .or. (g%day_of_year .le. c%day_end_summer)) then
+         g%acc_et_summer = g%acc_et_summer
+     :                   + g%es
+     :                   - sum_real_array(g%dlt_sw_dep, max_layer)
       else
                                 !nothing
       endif
 
-      g%acc_trans_for_n = g%acc_trans_for_n +
-     :     (-1.0 * sum_real_array(g%dlt_sw_dep, max_layer))
+      g%acc_trans_for_n = g%acc_trans_for_n
+     :                  - sum_real_array(g%dlt_sw_dep, max_layer)
 
-      g%acc_growth_for_N = g%acc_growth_for_N +
-     :     sum_real_array(g%dlt_dm_plant, max_part)
+      g%acc_growth_for_N = g%acc_growth_for_N
+     :                   + sum_real_array(g%dlt_dm_plant, max_part)
 
-      g%acc_growth = g%acc_growth +
-     :     sum_real_array(g%dlt_dm_plant, max_part)
+      g%acc_growth = g%acc_growth
+     :             + sum_real_array(g%dlt_dm_plant, max_part)
 
 cplp
 c      write (*,*) 'g%acc_et_summer: ', g%acc_et_summer
@@ -2390,6 +2446,7 @@ c     Bound to reasonable values:
 
 *+  Calls
 
+      real summer_growth
 
 *+  Constant Values
       character  my_name*(*)           ! name of procedure
@@ -2408,13 +2465,11 @@ c     Bound to reasonable values:
 *     after the end of the summer growth period.
 
       if (g%day_of_year .eq. c%growth_for_n_reset) then
-         g%acc_growth_for_N = -1.0 * sum_real_array(g%dlt_dm_plant,
-     :                                       max_part)
+         g%acc_growth_for_N = - sum_real_array(g%dlt_dm_plant, max_part)
       endif
 
       if (g%day_of_year .eq. c%trans_for_n_reset) then
-         g%acc_trans_for_N = -1.0 * sum_real_array(g%dlt_sw_dep,
-     :                                             max_layer)
+         g%acc_trans_for_N = - sum_real_array(g%dlt_sw_dep, max_layer)
       endif
 
       if (g%day_of_year .eq. c%acc_growth_reset) then
@@ -2425,9 +2480,8 @@ c     Bound to reasonable values:
       endif
 
       if (g%day_of_year .eq. c%day_end_summer) then
-
-         g%acc_growth_last_summer = g%acc_et_summer *
-     :        c%et_use_efficiency
+         summer_growth = g%acc_et_summer * c%et_use_efficiency
+         g%acc_growth_last_summer = summer_growth
 
       endif
 
@@ -2691,6 +2745,7 @@ c     Bound to reasonable values:
       p%dm_green_stem_init = 0.0
       p%root_depth_init = 0.0
       p%basal_area_init = 0.0
+      p%basal_area_option = 0
       p%acc_trans_for_n_init = 0.0
       p%acc_growth_for_n_init = 0.0
 
@@ -2805,7 +2860,7 @@ c     Bound to reasonable values:
                                 ! parameter file
       call grasp_read_parameters ()
       call Grasp_write_summary()
-      
+
       call pop_routine (my_name)
       return
       end subroutine
@@ -2874,12 +2929,12 @@ c     write (*,*) 'biomass = ', g%biomass_yesterday
 *- Implementation Section ----------------------------------
       call push_routine (my_name)
 
-      total_biomass = sum_real_array (g%dm_green, max_part) +
-     :     sum_real_array (g%dm_dead, max_part)
+      total_biomass = sum_real_array (g%dm_green, max_part)
+     :              + sum_real_array (g%dm_dead, max_part)
 
-      yesterday = g%biomass_yesterday +
-     :     sum_real_array (g%dlt_dm_plant, max_part) -
-     :     g%litter
+      yesterday = g%biomass_yesterday
+     :          + sum_real_array (g%dlt_dm_plant, max_part)
+     :          - g%litter
 
       biomass_check = abs(yesterday - total_biomass)
 
@@ -3355,6 +3410,7 @@ cpdev  bound required?..
       integer  layer
       integer  num_layers
       integer  numvals
+      real     n_conc
 
 *- Implementation Section ----------------------------------
 
@@ -3364,74 +3420,168 @@ cpdev  bound required?..
          call collect_real_var ('green_leaf', '(kg/ha)'
      :                               , temp, numvals
      :                               , 0.0, 10000.0)
+              ! Need to set N_green
+         if (g%dm_green(leaf) .gt. 0.0) then
+            n_conc = g%n_green(leaf) / g%dm_green(leaf)
+         else
+            n_conc = c%litter_n / 100.0
+         endif
          g%dm_green(leaf) = temp
+         g%n_green(leaf) = temp * n_conc
 
       elseif (variable_name .eq. 'dlt_green_leaf') then
          call collect_real_var ('dlt_green_leaf', '(kg/ha)'
      :                               , temp, numvals
      :                               , -10000.0, 10000.0)
+           ! Need to set N_green
+         if (g%dm_green(leaf) .gt. 0.0) then
+            n_conc = g%n_green(leaf) / g%dm_green(leaf)
+         else
+            n_conc = c%litter_n / 100.0
+         endif
          g%dm_green(leaf) = g%dm_green(leaf) + temp
+         g%n_green(leaf) = g%n_green(leaf) + temp * n_conc
+
 
 
       elseif (variable_name .eq. 'green_stem') then
          call collect_real_var ('green_stem', '(kg/ha)'
      :                               , temp, numvals
      :                               , 0.0, 10000.0)
+              ! Need to set N_green
+         if (g%dm_green(stem) .gt. 0.0) then
+            n_conc = g%n_green(stem) / g%dm_green(stem)
+         else
+            n_conc = c%litter_n / 100.0
+         endif
          g%dm_green(stem) = temp
+         g%n_green(stem) = temp * n_conc
+
 
       elseif (variable_name .eq. 'dlt_green_stem') then
          call collect_real_var ('dlt_green_stem', '(kg/ha)'
      :                               , temp, numvals
      :                               , -10000.0, 10000.0)
+           ! Need to set N_green
+         if (g%dm_green(stem) .gt. 0.0) then
+            n_conc = g%n_green(stem) / g%dm_green(stem)
+         else
+            n_conc = c%litter_n / 100.0
+         endif
          g%dm_green(stem) = g%dm_green(stem) + temp
+         g%n_green(stem) = g%n_green(stem) + temp * n_conc
+
 
       elseif (variable_name .eq. 'green_root') then
          call collect_real_var ('green_root', '(kg/ha)'
      :                               , temp, numvals
      :                               , 0.0, 10000.0)
+              ! Need to set N_green
+         if (g%dm_green(root) .gt. 0.0) then
+            n_conc = g%n_green(root) / g%dm_green(root)
+         else
+            n_conc = c%litter_n / 100.0
+         endif
          g%dm_green(root) = temp
+         g%n_green(root) = temp * n_conc
+
 
       elseif (variable_name .eq. 'dlt_green_root') then
          call collect_real_var ('dlt_green_root', '(kg/ha)'
      :                               , temp, numvals
      :                               , 10000.0, 10000.0)
+           ! Need to set N_green
+         if (g%dm_green(root) .gt. 0.0) then
+            n_conc = g%n_green(root) / g%dm_green(root)
+         else
+            n_conc = c%litter_n / 100.0
+         endif
          g%dm_green(root) = g%dm_green(root) + temp
+         g%n_green(root) = g%n_green(root) + temp * n_conc
+
 
       elseif (variable_name .eq. 'dead_leaf') then
          call collect_real_var ('dead_leaf', '(kg/ha)'
      :                               , temp, numvals
      :                               , 0.0, 10000.0)
+           ! Need to set N_dead
+         if (g%dm_dead(leaf) .gt. 0.0) then
+            n_conc = g%n_dead(leaf) / g%dm_dead(leaf)
+         else
+            n_conc = c%litter_n / 100.0
+         endif
          g%dm_dead(leaf) = temp
+         g%n_dead(leaf) = temp * n_conc
+
 
       elseif (variable_name .eq. 'dlt_dead_leaf') then
          call collect_real_var ('dlt_dead_leaf', '(kg/ha)'
      :                               , temp, numvals
      :                               , -10000.0, 10000.0)
+           ! Need to set N_dead
+         if (g%dm_dead(leaf) .gt. 0.0) then
+            n_conc = g%n_dead(leaf) / g%dm_dead(leaf)
+         else
+            n_conc = c%litter_n / 100.0
+         endif
          g%dm_dead(leaf) = g%dm_dead(leaf) + temp
+         g%n_dead(leaf) = g%n_dead(leaf) + temp * n_conc
 
       elseif (variable_name .eq. 'dead_stem') then
          call collect_real_var ('dead_stem', '(kg/ha)'
      :                               , temp, numvals
      :                               , 0.0, 10000.0)
+           ! Need to set N_dead
+         if (g%dm_dead(stem) .gt. 0.0) then
+            n_conc = g%n_dead(stem) / g%dm_dead(stem)
+         else
+            n_conc = c%litter_n / 100.0
+         endif
          g%dm_dead(stem) = temp
+         g%n_dead(stem) = temp * n_conc
+
 
       elseif (variable_name .eq. 'dlt_dead_stem') then
          call collect_real_var ('dlt_dead_stem', '(kg/ha)'
      :                               , temp, numvals
      :                               , -10000.0, 10000.0)
+           ! Need to set N_dead
+         if (g%dm_dead(stem) .gt. 0.0) then
+            n_conc = g%n_dead(stem) / g%dm_dead(stem)
+         else
+            n_conc = c%litter_n / 100.0
+         endif
          g%dm_dead(stem) = g%dm_dead(stem) + temp
+         g%n_dead(stem) = g%n_dead(stem) + temp * n_conc
+
 
       elseif (variable_name .eq. 'dead_root') then
          call collect_real_var ('dead_root', '(kg/ha)'
      :                               , temp, numvals
      :                               , 0.0, 10000.0)
+           ! Need to set N_dead
+         if (g%dm_dead(root) .gt. 0.0) then
+            n_conc = g%n_dead(root) / g%dm_dead(root)
+         else
+            n_conc = c%litter_n / 100.0
+         endif
          g%dm_dead(root) = temp
+         g%n_dead(root) = temp * n_conc
+
 
       elseif (variable_name .eq. 'dlt_dead_root') then
          call collect_real_var ('dlt_dead_root', '(kg/ha)'
      :                               , temp, numvals
      :                               , -10000.0, 10000.0)
+           ! Need to set N_dead
+         if (g%dm_dead(root) .gt. 0.0) then
+            n_conc = g%n_dead(root) / g%dm_dead(root)
+         else
+            n_conc = c%litter_n / 100.0
+         endif
          g%dm_dead(root) = g%dm_dead(root) + temp
+         g%n_dead(root) = g%n_dead(root) + temp * n_conc
+
 
       elseif (variable_name .eq. 'green_pool') then
          call collect_real_var ('green_pool', '(kg/ha)'
@@ -3440,8 +3590,23 @@ cpdev  bound required?..
          frac_leaf = divide (g%dm_green(leaf),
      :        g%dm_green(leaf) + g%dm_green(stem), 0.5)
          frac_leaf = bound (frac_leaf, 0.0, 1.0)
+              ! Need to set N_green
+         if (g%dm_green(leaf) .gt. 0.0) then
+            n_conc = g%n_green(leaf) / g%dm_green(leaf)
+         else
+            n_conc = c%litter_n / 100.0
+         endif
          g%dm_green(leaf) = temp * frac_leaf
+         g%n_green(leaf) = temp * frac_leaf * n_conc
+
+         if (g%dm_green(stem) .gt. 0.0) then
+            n_conc = g%n_green(stem) / g%dm_green(stem)
+         else
+            n_conc = c%litter_n / 100.0
+         endif
          g%dm_green(stem) = temp * (1.0 - frac_leaf)
+         g%n_green(stem) = temp * (1.0 - frac_leaf) * n_conc
+
 
       elseif (variable_name .eq. 'dlt_green_pool') then
          call collect_real_var ('dlt_green_pool', '(kg/ha)'
@@ -3450,9 +3615,24 @@ cpdev  bound required?..
          frac_leaf = divide (g%dm_green(leaf),
      :        g%dm_green(leaf) + g%dm_green(stem), 0.5)
          frac_leaf = bound (frac_leaf, 0.0, 1.0)
+              ! Need to set N_green
+         if (g%dm_green(leaf) .gt. 0.0) then
+            n_conc = g%n_green(leaf) / g%dm_green(leaf)
+         else
+            n_conc = c%litter_n / 100.0
+         endif
          g%dm_green(leaf) = g%dm_green(leaf) + temp * frac_leaf
+         g%n_green(leaf) = g%n_green(leaf) + temp * frac_leaf * n_conc
+
+         if (g%dm_green(stem) .gt. 0.0) then
+            n_conc = g%n_green(stem) / g%dm_green(stem)
+         else
+            n_conc = c%litter_n / 100.0
+         endif
          g%dm_green(stem) = g%dm_green(stem) +
      :                        temp * (1.0 - frac_leaf)
+         g%n_green(stem) = g%n_green(stem)
+     :                   + temp * (1.0 - frac_leaf) * n_conc
 
       elseif (variable_name .eq. 'dead_pool') then
          call collect_real_var ('dead_pool', '(kg/ha)'
@@ -3461,8 +3641,22 @@ cpdev  bound required?..
          frac_leaf = divide (g%dm_dead(leaf),
      :        g%dm_dead(leaf) + g%dm_dead(stem), 0.5)
          frac_leaf = bound (frac_leaf, 0.0, 1.0)
+           ! Need to set N_dead
+         if (g%dm_dead(leaf) .gt. 0.0) then
+            n_conc = g%n_dead(leaf) / g%dm_dead(leaf)
+         else
+            n_conc = c%litter_n / 100.0
+         endif
          g%dm_dead(leaf) = temp * frac_leaf
+         g%n_dead(leaf) = temp * frac_leaf * n_conc
+
+         if (g%dm_dead(leaf) .gt. 0.0) then
+            n_conc = g%n_dead(leaf) / g%dm_dead(leaf)
+         else
+            n_conc = c%litter_n / 100.0
+         endif
          g%dm_dead(stem) = temp * (1.0 - frac_leaf)
+         g%n_dead(stem) = temp * (1.0 - frac_leaf) * n_conc
 
       elseif (variable_name .eq. 'dlt_dead_pool') then
          call collect_real_var ('dlt_dead_pool', '(kg/ha)'
@@ -3471,9 +3665,24 @@ cpdev  bound required?..
          frac_leaf = divide (g%dm_dead(leaf),
      :        g%dm_dead(leaf) + g%dm_dead(stem), 0.5)
          frac_leaf = bound (frac_leaf, 0.0, 1.0)
+           ! Need to set N_dead
+         if (g%dm_dead(leaf) .gt. 0.0) then
+            n_conc = g%n_dead(leaf) / g%dm_dead(leaf)
+         else
+            n_conc = c%litter_n / 100.0
+         endif
          g%dm_dead(leaf) = g%dm_dead(leaf) + temp * frac_leaf
+         g%n_dead(leaf) = g%n_dead(leaf) + temp * frac_leaf * n_conc
+
+         if (g%dm_dead(leaf) .gt. 0.0) then
+            n_conc = g%n_dead(leaf) / g%dm_dead(leaf)
+         else
+            n_conc = c%litter_n / 100.0
+         endif
          g%dm_dead(stem) = g%dm_dead(leaf) +
      :                        temp * (1.0 - frac_leaf)
+         g%n_dead(stem) = g%n_dead(stem)
+     :                   + temp * (1.0 - frac_leaf) * n_conc
 
       elseif (variable_name .eq. 'basal_area') then
          call collect_real_var ('basal_area', '(%)'
@@ -3604,6 +3813,7 @@ c     real       N_demand              ! sum N demand for plant parts (g/plant)
       elseif (variable_name .eq. 'cover_tot') then
          call respond2get_real_var (
      :        'cover_tot',
+!     :        '()', 1.0 )                                !JNGH DEBUG
      :        '()', grasp_total_cover() )
 
 cpdev. One of these is right. I don't know which...
@@ -3751,6 +3961,16 @@ cpdev. One of these is right. I don't know which...
          call respond2get_real_var (
      :        'acc_growth',
      :        '(kg/ha)', g%acc_growth)
+
+      elseif (variable_name .eq. 'acc_growth_for_n') then
+         call respond2get_real_var (
+     :        'acc_growth_for_n',
+     :        '(kg/ha)', g%acc_growth_for_n)
+
+      elseif (variable_name .eq. 'acc_trans_for_n') then
+         call respond2get_real_var (
+     :        'acc_trans_for_n',
+     :        '(kg/ha)', g%acc_trans_for_n)
 
       elseif (variable_name .eq. 'ep') then
          num_layers = count_of_real_vals (g%dlayer, max_layer)
@@ -4272,6 +4492,15 @@ c     :                    , 0.0, 365.0)
      :                   , p%basal_area_init, numvals
      :                   , 0.0, 10.0)
 
+      call read_integer_var_optional (section_name
+     :                   , 'basal_area_option', '()'
+     :                   , p%basal_area_option, numvals
+     :                   , 0, 1)
+      if (numvals .eq. 0) then
+         p%basal_area_option = 0
+      else
+      endif
+
       call read_real_var (section_name
      :                   , 'acc_trans_for_n_init', '()'
      :                   , p%acc_trans_for_N_init, numvals
@@ -4374,8 +4603,8 @@ c     :                    , 0.0, 365.0)
              g%ll_dep(layer) = ll(layer)*g%dlayer(layer)
           enddo
       else
-          call get_real_array_optional (unknown_module 
-     :                                  , 'll15' 
+          call get_real_array_optional (unknown_module
+     :                                  , 'll15'
      :                                  , max_layer, '()'
      :                                  , ll, num_layers
      :                                  , 0.0, c%ll_ub)
@@ -4386,7 +4615,7 @@ c     :                    , 0.0, 365.0)
              call Write_String(
      :            'Using externally supplied Lower Limit (ll15)')
           else
-             call Fatal_error (ERR_internal, 
+             call Fatal_error (ERR_internal,
      :                         'No Crop Lower Limit found')
           endif
       endif
@@ -4965,6 +5194,8 @@ c     :                    , 0.0, 10000.0)
 *+  Local Variables
       character*(80) section_name          ! name of section with initial values
       integer  numvals
+      real n_conc
+      real dm
 
 *- Implementation Section ----------------------------------
       call push_routine (my_name)
@@ -4982,11 +5213,23 @@ c     :                    , 0.0, 10000.0)
       g%dm_green(root) = p%dm_green_root_init
       g%dm_green(stem) = p%dm_green_stem_init
       g%dm_green(leaf) = p%dm_green_leaf_init
-      g%n_green(leaf) = c%residual_plant_N
+      dm = g%dm_green(leaf) + g%dm_green(leaf)
+      if (dm .gt. 0.0) then
+         n_conc = c%residual_plant_N / dm
+      else
+         n_conc = 0.0
+      endif
+      g%n_green(leaf) = g%dm_green(leaf) * n_conc
+      g%n_green(stem) = g%dm_green(stem) * n_conc
+      g%n_green(root) = g%dm_green(stem) * c%litter_n / 100.0
 
       g%dm_dead(root) = p%dm_dead_root_init
       g%dm_dead(stem) = p%dm_dead_stem_init
       g%dm_dead(leaf) = p%dm_dead_leaf_init
+      n_conc = c%litter_n /100.0
+      g%n_dead(leaf) = g%dm_dead(leaf) * n_conc
+      g%n_dead(stem) = g%dm_dead(stem) * n_conc
+      g%n_dead(root) = g%dm_dead(stem) * n_conc
 
       g%basal_area = p%basal_area_init
       g%root_depth = p%root_depth_init
@@ -5041,7 +5284,7 @@ c      dlt_n(leaf) = g%N_uptake
 
       call Grasp_Send_Crop_Chopped_Event (dlt_dm, dlt_n)
 
-C     zero a few important state variables      
+C     zero a few important state variables
       g%current_stage = real (crop_end)
       g%crop_status = crop_out
       call fill_real_array (g%dm_green, 0.0, max_part)
