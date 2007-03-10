@@ -295,6 +295,10 @@
          real    DW_LEAF
          real    DW_ROOT
          real    DW_STEM
+         real    N_BOLL
+         real    N_LEAF
+         real    N_ROOT
+         real    N_STEM
          real    DW_TOTAL
          real    RESERVE
          real    RES_CAP
@@ -874,6 +878,10 @@
       c%A_STEM_LEAF         = 0.0
       g%BOLLGR              = 0.0
       g%DLAI_POT            = 0.0
+      g%N_BOLL             = 0.0
+      g%N_LEAF             = 0.0
+      g%N_ROOT             = 0.0
+      g%N_STEM             = 0.0
       g%DW_BOLL             = 0.0
       g%DW_LEAF             = 0.0
       g%DW_ROOT             = 0.0
@@ -1708,6 +1716,8 @@
       real    d_nup                    ! daily N uptake kg/ha
       real    bollsc
       real    cover
+      real       dm_crop(max_part)           ! dry matter of crop (kg/ha)
+      real       dm_N(max_part)              ! N content of dry matter (kg/ha)
 
 *- Implementation Section ----------------------------------
       call push_routine(myname)
@@ -1917,6 +1927,10 @@
          call respond2get_real_var (variable_name
      :        , '(cm)', g%et)
 
+      else if (variable_name .eq. 'ep') then
+         call respond2get_real_var (variable_name
+     :        , '(mm)', g%ep*cm2mm)
+
       else if (variable_name .eq. 'ozcot_crop_in') then
          call respond2get_logical_var (variable_name
      :        , '()', g%crop_in)
@@ -1953,6 +1967,63 @@
       else if (variable_name .eq. 'i_def2') then
          call respond2get_integer_var (variable_name
      :        , '(das)', g%i_def2)
+
+      else if (variable_name .eq. 'dlt_dm_green') then
+         dm_crop(:) = 0.0
+         dm_crop(root) = g%ddw_root
+         dm_crop(meal) = 0.0  ! meal included in pod
+         dm_crop(stem) = g%ddw_stem
+         dm_crop(leaf) = g%ddw_leaf
+         dm_crop(pod) = g%ddw_boll
+
+         call respond2get_real_array (variable_name
+     :        , '(g/m2)', dm_crop, Max_part)
+
+
+      else if (variable_name .eq. 'dm_green') then
+         dm_crop(:) = 0.0
+         dm_crop(root) = g%dw_root
+         dm_crop(meal) = g%openwt
+         dm_crop(stem) = g%dw_stem
+         dm_crop(leaf) = g%dw_leaf
+         dm_crop(pod) = (g%dw_boll - g%openwt)
+         dm_crop(pod) = l_bound(dm_crop(pod), 0.0)
+
+         call respond2get_real_array (variable_name
+     :        , '(g/m2)', dm_crop, Max_part)
+
+      else if (variable_name .eq. 'dm_senesced') then
+         dm_crop(:) = 0.0
+         dm_crop(root) =  0.0
+         dm_crop(meal) =  0.0
+         dm_crop(stem) =  0.0
+         dm_crop(leaf) =  g%leaf_res
+         dm_crop(pod) =  0.0 !g%frudw_shed
+
+         call respond2get_real_array (variable_name
+     :        , '(g/m2)', dm_crop, Max_part)
+
+      else if (variable_name .eq. 'n_senesced') then
+         dm_N(:) = 0.0
+         dm_N(root) =  0.0
+         dm_N(meal) =  0.0
+         dm_N(stem) =  0.0
+         dm_N(leaf) =  g%leaf_res_n
+         dm_N(pod) =  0.0 !g%frudw_shed
+
+         call respond2get_real_array (variable_name
+     :        , '(g/m2)', dm_N, Max_part)
+
+      else if (variable_name .eq. 'n_green') then
+         dm_N(:) = 0.0
+         dm_N(root) =  g%n_root
+         dm_N(meal) =  0.0  ! meal included in pod
+         dm_N(stem) =  g%n_stem
+         dm_N(leaf) =  g%n_leaf
+         dm_N(pod) =   g%n_boll
+
+         call respond2get_real_array (variable_name
+     :        , '(g/m2)', dm_N, Max_part)
 
       else
             ! Nothing
@@ -2297,6 +2368,9 @@
 !----- housekeeping -----------------------------------------------------------
 *- Implementation Section ----------------------------------
       call push_routine(myname)
+
+      call ozcot_update ()
+
 !psc      iday=i-isow ! replaced ncrpdy throughout, 15 nov 1983
       g%iday=g%das
 
@@ -2430,6 +2504,7 @@
       ENDIF
 
 !------------------------------------------------------------------------------
+
       call pop_routine(myname)
 
       RETURN
@@ -4167,6 +4242,7 @@
 21    continue
 
       g%leaf_res_n = g%leaf_res * c%leaf_res_n_conc ! N content of leaf residues
+      g%N_LEAF = g%N_LEAF - g%leaf_res_n
 
       call pop_routine(myname)
       RETURN
@@ -5471,6 +5547,10 @@ C        IF(DEF.LT.2.5) THEN                          ! waterlogging
 !      print*,  g%iend, g%total_n, uptakn_max/10.0
 
       g%total_n = g%total_n + g%dn_plant ! adjust uptake for season
+          g%N_LEAF = dN_LEAF + g%N_LEAF
+          g%N_STEM = dN_STEM + g%N_STEM
+          g%N_ROOT = dN_ROOT + g%N_ROOT
+          g%N_BOLL = dN_BOLL + g%N_BOLL
 
 !      write(4,222) iday,supply_n,dn_plant,total_n,uptakn,dw_total
 !222   format(i5,5f8.3)
@@ -6860,6 +6940,7 @@ C        IF(DEF.LT.2.5) THEN                          ! waterlogging
       real       fraction_to_Residue(max_part)   ! fraction sent to residue (0-1)
       real       dlt_dm_crop(max_part)           ! change in dry matter of crop (kg/ha)
       real       dlt_dm_N(max_part)              ! change in N content of dry matter (kg/ha)
+      real       root_length(max_layers)
 
 
 *- Implementation Section ----------------------------------
@@ -6882,25 +6963,155 @@ C        IF(DEF.LT.2.5) THEN                          ! waterlogging
       ! =====================
 
       dlt_dm_crop(root) = g%dw_root * gm2kg/sm2ha
-      dlt_dm_N(root) =  dlt_dm_crop(root) * 0.4 / 100.0
-      fraction_to_Residue(root) = 1.0
+      dlt_dm_N(root) =  g%n_root * gm2kg/sm2ha
+      fraction_to_Residue(root) = 0.0
 
       dlt_dm_crop(meal) = g%openwt * gm2kg/sm2ha
       dlt_dm_N(meal) =  dlt_dm_crop(meal) * 0.4 / 100.0
       fraction_to_Residue(meal) = 0.0
 
       dlt_dm_crop(stem) = g%dw_stem * gm2kg/sm2ha
-      dlt_dm_N(stem) = dlt_dm_crop(stem) * 0.4 / 100.0
+      dlt_dm_N(stem) = g%n_stem * gm2kg/sm2ha
       fraction_to_Residue(stem) = 1.0
 
       dlt_dm_crop(leaf) = g%dw_leaf * gm2kg/sm2ha
-      dlt_dm_N(leaf) = dlt_dm_crop(leaf) * 0.4 / 100.0
+      dlt_dm_N(leaf) = g%n_leaf * gm2kg/sm2ha
       fraction_to_Residue(leaf) = 1.0
 
-      dlt_dm_crop(pod) = (g%dw_boll - g%openwt) * gm2kg/sm2ha
+      dlt_dm_crop(pod) = (g%dw_boll - g%ddw_boll- g%openwt)*gm2kg/sm2ha
       dlt_dm_crop(pod) = l_bound(dlt_dm_crop(pod), 0.0)
-      dlt_dm_N(pod) = dlt_dm_crop(pod) * 0.4 / 100.0
+      dlt_dm_N(pod) = g%n_boll * gm2kg/sm2ha - dlt_dm_N(meal)
+      dlt_dm_N(pod) = l_bound(dlt_dm_N(pod), 0.0)
       fraction_to_Residue(pod) = 1.0
+!     call crop_top_residue (c%crop_type, dm_residue, N_residue)
+
+      if (sum(dlt_dm_crop) .gt. 0.0) then
+         call Send_Crop_Chopped_Event
+     :             (c%crop_type
+     :            , part_name
+     :            , dlt_dm_crop
+     :            , dlt_dm_N
+     :            , fraction_to_Residue
+     :            , max_part)
+      else
+         ! no surface residue
+      endif
+
+         call ozcot_root_distrib (root_length
+     :                          , dlt_dm_crop(root))
+
+         call crop_root_incorp (
+     .          dlt_dm_crop(root)
+     :         ,dlt_dm_N(root)
+     :         ,g%dlayr
+     :         ,root_length
+     :         ,g%rtdep
+     :         ,c%crop_type
+     :         ,max_layers)
+
+!      call New_postbox ()
+!
+!      call post_char_var('dlt_residue_type','()','cotton')
+!
+!      call post_real_var ('dlt_residue_wt'
+!     :                   ,'(kg/ha)'
+!     :                   ,res_dm)
+!
+!      call post_real_var ('dlt_residue_n'
+!     :                   ,'(kg/ha)'
+!     :                   ,res_N)
+!
+!      call event_send ('add_residue')
+!
+!      call Delete_postbox ()
+
+      g%crop_in = .false.
+      g%plant_status = status_out
+      g%zero_variables = .true.
+      g%iend = 0
+
+      g%openwt             = 0.0
+      g%total_n             = 0.0
+      g%N_BOLL             = 0.0
+      g%N_LEAF             = 0.0
+      g%N_ROOT             = 0.0
+      g%N_STEM             = 0.0
+      g%DW_BOLL             = 0.0
+      g%DW_LEAF             = 0.0
+      g%DW_ROOT             = 0.0
+      g%DW_STEM             = 0.0
+      g%dDW_BOLL             = 0.0
+      g%dDW_LEAF             = 0.0
+      g%dDW_ROOT             = 0.0
+      g%dDW_STEM             = 0.0
+      g%DW_TOTAL            = 0.0
+      g%leaf_res = 0.0
+      g%leaf_res_n = 0.0
+      g%dlai   = 0.0
+
+      call pop_routine (my_name)
+      return
+      end subroutine
+
+*     ===========================================================
+      subroutine ozcot_update ()
+*     ===========================================================
+      Use Infrastructure
+      implicit none
+
+*+  Purpose
+*       Report the current status of specific
+*       variables.
+
+*+  Changes
+*     051101 jngh specified and programmed
+
+*+  Constant Values
+      character  my_name*(*)           ! name of procedure
+      parameter (my_name = 'ozcot_update')
+
+*+  Local Variables
+!       real    res_dm                  ! Residue dry weight (kg/ha)
+!       real    res_N                   ! Amount of N in residue (kg/ha)
+
+      real       fraction_to_Residue(max_part)   ! fraction sent to residue (0-1)
+      real       dlt_dm_crop(max_part)           ! change in dry matter of crop (kg/ha)
+      real       dlt_dm_N(max_part)              ! change in N content of dry matter (kg/ha)
+
+
+*- Implementation Section ----------------------------------
+
+      call push_routine (my_name)
+
+      fraction_to_residue(:) = 0.0
+      dlt_dm_crop(:) = 0.0
+      dlt_dm_N(:) = 0.0
+
+      ! Update biomass and N pools.  Different types of plant pools are
+      ! ===============================================================
+      ! affected differently.
+      ! =====================
+
+!      dlt_dm_crop(root) = g%dw_root * gm2kg/sm2ha
+!      dlt_dm_N(root) =  dlt_dm_crop(root) * 0.4 / 100.0
+!      fraction_to_Residue(root) = 1.0
+!
+!      dlt_dm_crop(meal) = g%openwt * gm2kg/sm2ha
+!      dlt_dm_N(meal) =  dlt_dm_crop(meal) * 0.4 / 100.0
+!      fraction_to_Residue(meal) = 0.0
+!
+!      dlt_dm_crop(stem) = g%dw_stem * gm2kg/sm2ha
+!      dlt_dm_N(stem) = dlt_dm_crop(stem) * 0.4 / 100.0
+!      fraction_to_Residue(stem) = 1.0
+
+      dlt_dm_crop(leaf) = g%leaf_res * gm2kg/sm2ha
+      dlt_dm_N(leaf) = g%leaf_res_n * gm2kg/sm2ha
+      fraction_to_Residue(leaf) = 1.0
+
+!      dlt_dm_crop(pod) = (g%dw_boll - g%openwt) * gm2kg/sm2ha
+!      dlt_dm_crop(pod) = l_bound(dlt_dm_crop(pod), 0.0)
+!      dlt_dm_N(pod) = dlt_dm_crop(pod) * 0.4 / 100.0
+!      fraction_to_Residue(pod) = 1.0
 !     call crop_top_residue (c%crop_type, dm_residue, N_residue)
 
       if (sum(dlt_dm_crop) .gt. 0.0) then
@@ -6931,10 +7142,10 @@ C        IF(DEF.LT.2.5) THEN                          ! waterlogging
 !
 !      call Delete_postbox ()
 
-      g%crop_in = .false.
-      g%plant_status = status_out
-      g%zero_variables = .true.
-      g%iend = 0
+      g%dDW_BOLL             = 0.0
+      g%dDW_LEAF             = 0.0
+      g%dDW_ROOT             = 0.0
+      g%dDW_STEM             = 0.0
 
       call pop_routine (my_name)
       return
@@ -7010,6 +7221,70 @@ C        IF(DEF.LT.2.5) THEN                          ! waterlogging
       call write_string (string)
 
 
+
+      call pop_routine (my_name)
+      return
+      end subroutine
+
+*     ===========================================================
+      subroutine ozcot_root_distrib (root_array, root_sum)
+*     ===========================================================
+      Use infrastructure
+      implicit none
+
+*+  Sub-Program Arguments
+      real       root_array(*)         ! (OUTPUT) array to contain
+                                       ! distributed material
+      real       root_sum              ! (INPUT) Material to be distributed
+
+*+  Purpose
+*       Distribute root material over profile
+
+*+  Mission statement
+*       Distribute root material over profile
+
+*+  Changes
+*       290994 jngh specified and programmed
+
+*+  Constant Values
+      character  my_name*(*)           ! name of procedure
+      parameter (my_name  = 'ozcot_root_distrib')
+
+*+  Local Variables
+      real       cum_depth             ! cumulative depth (mm)
+      integer    layer                 ! layer number ()
+      integer    deepest_layer         ! deepest layer in which the roots are
+                                       ! growing
+      real       root_distrb(max_layers) ! root distribution ()
+      real       root_distrb_sum       ! sum of root distribution array
+
+      real       c_root_extinction
+      parameter (c_root_extinction = 3.0)
+
+*- Implementation Section ----------------------------------
+
+      call push_routine (my_name)
+             ! distribute roots over profile to root_depth
+
+      call fill_real_array (root_array, 0.0, max_layers)
+      call fill_real_array (root_distrb, 0.0, max_layers)
+
+      deepest_layer = find_layer_no (g%rtdep, g%dlayr
+     :                                , max_layers)
+      cum_depth = 0.0
+      do 1000 layer = 1, deepest_layer
+         cum_depth = cum_depth + g%dlayr(layer)
+         cum_depth = u_bound (cum_depth, g%rtdep)
+         root_distrb(layer) = exp (-c_root_extinction
+     :                      * divide (cum_depth, g%rtdep, 0.0))
+1000  continue
+
+!      root_distrb_sum = sum_real_array (root_distrb, deepest_layer)
+!      do 2000 layer = 1, deepest_layer
+!         root_array(layer) = root_sum * divide (root_distrb(layer)
+!     :                                        , root_distrb_sum, 0.0)
+!
+!2000  continue
 
       call pop_routine (my_name)
       return
