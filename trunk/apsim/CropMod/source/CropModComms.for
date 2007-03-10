@@ -2944,7 +2944,7 @@ c        end if
       chop_fr_sen(root) = 0.0
       chop_fr_dead(:) = 0.0
 
-      if (sum(dm_residue) .gt. 0.0) then
+      if (sum(dm_residue(leaf:)) .gt. 0.0) then
          call PlantP_residue_chopped (chop_fr_green  ! green
      :                              , chop_fr_sen  ! senesced
      :                              , chop_fr_dead  ! dead
@@ -2953,7 +2953,11 @@ c        end if
      :                              , P_residue
      :                              )
 
-            call Send_Crop_Chopped_Event_N_P
+         dm_residue(root) = 0.0
+         N_residue (root) = 0.0
+         P_residue (root) = 0.0
+
+         call Send_Crop_Chopped_Event_N_P
      :                (c%crop_type
      :               , part_name
      :               , dm_residue
@@ -2996,7 +3000,11 @@ c        end if
      :                           , P_residue
      :                           )
 
-      if (sum(dm_residue) .gt. 0.0) then
+      if (sum(dm_residue(leaf:)) .gt. 0.0) then
+         dm_residue(root) = 0.0
+         N_residue (root) = 0.0
+         P_residue (root) = 0.0
+
             call Send_Crop_Chopped_Event_N_P
      :                (c%crop_type
      :               , part_name
@@ -3169,12 +3177,60 @@ c        end if
       real       n_removed_tops
       real       n_removed_root
 
+      real       P_residue             ! Phosphorus added to residue (g/m^2)
+      real       dlt_dm_crop(max_part) ! change in dry matter of crop (kg/ha)
+      real       dlt_dm_N(max_part)    ! N content of changeed dry matter (kg/ha)
+      real       dlt_dm_P(max_part)    ! P content of changeed dry matter (kg/ha)
+      real       incorp_fr(max_part)   ! fraction of each pool to incorporate(0-1)
 *- Implementation Section ----------------------------------
 
       call push_routine (my_name)
       call print_routine (my_name)
 
       call publish_null(id%harvesting)
+
+         dlt_dm_crop(:) = 0.0
+         dlt_dm_N (:) = 0.0
+         dlt_dm_P (:) = 0.0
+
+         dlt_dm_crop(grain) = (g%dm_green(grain)
+     :                  + g%dm_senesced(grain)
+     :                  + g%dm_dead(grain))
+     :                  * gm2kg/sm2ha
+
+         dlt_dm_N   (grain) = (g%N_green(grain)
+     :                  + g%N_senesced(grain)
+     :                  + g%N_dead(grain))
+     :                  * gm2kg/sm2ha
+
+
+         fraction_to_residue(:)    = 0.0
+         chop_fr(:) = 0.0
+         chop_fr(grain) = 1.0
+         chop_fr(root) = 0.0
+
+         call PlantP_residue_chopped (chop_fr  ! green
+     :                           , chop_fr  ! senesced
+     :                           , chop_fr  ! dead
+     :                           , fraction_to_residue
+     :                           , P_residue
+     :                           , dlt_dm_P
+     :                           )
+
+         if (sum(dlt_dm_crop(leaf:)) .gt. 0.0) then
+
+            call Send_Crop_Chopped_Event_N_P
+     :                (c%crop_type
+     :               , part_name
+     :               , dlt_dm_crop
+     :               , dlt_dm_N
+     :               , dlt_dm_P
+     :               , fraction_to_Residue
+     :               , max_part)
+
+         else
+            ! no surface residue
+         endif
 
           ! crop harvested. Report status
 
@@ -3363,15 +3419,15 @@ c        end if
        ! all grain is removed and none of this is added to residue pool
        ! NIH - note that crop mod really should send a crop chopped event
        ! here to tell soilpH that grain has been removed.
-       chop_fr(:) = 0.0
-       chop_fr(grain) = 1.0
-       fraction_to_residue(:) = 0.0
+!       chop_fr(:) = 0.0
+!       chop_fr(grain) = 1.0
+!       fraction_to_residue(:) = 0.0
 
-       call PlantP_add_residue(chop_fr  ! green
-     :                        ,chop_fr  ! senesced
-     :                        ,chop_fr  ! dead
-     :                        ,fraction_to_residue
-     :                        )
+!       call PlantP_add_residue(chop_fr  ! green
+!     :                        ,chop_fr  ! senesced
+!     :                        ,chop_fr  ! dead
+!     :                        ,fraction_to_residue
+!     :                        )
 
       call pop_routine (my_name)
       return
@@ -3516,7 +3572,11 @@ c    :             - g%N_dead(root) - g%N_dead(grain))
      :                           , dlt_dm_P
      :                           )
 
-         if (sum(dlt_dm_crop) .gt. 0.0) then
+         if (sum(dlt_dm_crop(leaf:)) .gt. 0.0) then
+
+            dlt_dm_crop(root) = 0.0
+            dlt_dm_N (root) = 0.0
+            dlt_dm_P (root) = 0.0
 
             call Send_Crop_Chopped_Event_N_P
      :                (c%crop_type
@@ -3560,6 +3620,13 @@ c    :             - g%N_dead(root) - g%N_dead(grain))
          call write_string ( string)
          call write_string (' ')
 
+         g%dm_green(:) = 0.0
+         g%dm_senesced(:) = 0.0
+         g%dm_dead(:)    = 0.0
+
+         g%N_green(:)   = 0.0
+         g%N_senesced(:) = 0.0
+         g%N_dead(:)    = 0.0
 
       else
          ! crop is already out
