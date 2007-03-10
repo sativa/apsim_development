@@ -964,6 +964,13 @@ c+!!!!!!!!! check order dependency of deltas
       real       yield                 ! grain yield dry wt (kg/ha)
       real       yield_wet             ! grain yield including moisture
                                        ! (kg/ha)
+      real       fraction_to_residue(max_part) ! fraction of dm 'chopped' that
+                                       ! ends up in residue pool
+      real       chop_fr(max_part)     ! fraction of dm pool 'chopped'
+      real       dlt_dm_crop(max_part) ! change in dry matter of crop (kg/ha)
+      real       dlt_dm_N(max_part)    ! N content of changeed dry matter (kg/ha)
+      real       dlt_dm_P(max_part)    ! P content of changeed dry matter (kg/ha)
+      real       incorp_fr(max_part)   ! fraction of each pool to incorporate(0-1)
 
 *- Implementation Section ----------------------------------
 
@@ -971,6 +978,40 @@ c+!!!!!!!!! check order dependency of deltas
 
           ! crop harvested. Report status
       call publish_null(id%harvesting)
+
+         dlt_dm_crop(:) = 0.0
+         dlt_dm_N (:) = 0.0
+
+         dlt_dm_crop(grain) = (g%dm_green(grain)
+     :                  + g%dm_senesced(grain)
+     :                  + g%dm_dead(grain))
+     :                  * gm2kg/sm2ha
+
+         dlt_dm_N   (grain) = (g%N_green(grain)
+     :                  + g%N_senesced(grain)
+     :                  + g%N_dead(grain))
+     :                  * gm2kg/sm2ha
+
+
+         fraction_to_residue(:)    = 0.0
+         chop_fr(:) = 0.0
+         chop_fr(grain) = 1.0
+         chop_fr(root) = 0.0
+
+
+         if (sum(dlt_dm_crop(leaf:)) .gt. 0.0) then
+
+            call Send_Crop_Chopped_Event
+     :                (c%crop_type
+     :               , part_name
+     :               , dlt_dm_crop
+     :               , dlt_dm_N
+     :               , fraction_to_Residue
+     :               , max_part)
+
+         else
+            ! no surface residue
+         endif
 
       yield = (g%dm_green(grain) + g%dm_dead(grain))
      :      * gm2kg / sm2ha
@@ -2579,6 +2620,9 @@ cgd   Eriks modifications for Leaf Area
          fraction_to_Residue(root) = 0.0
 
          if (sum(dlt_dm_crop) .gt. 0.0) then
+            dlt_dm_crop(root) = 0.0
+            dlt_dm_N (root) = 0.0
+
             call millet_Send_Crop_Chopped_Event
      :                (c%crop_type
      :               , part_name
@@ -2606,6 +2650,14 @@ cgd   Eriks modifications for Leaf Area
      :                  , N_root * gm2kg /sm2ha, ' kg/ha'
 
          call write_string (string)
+
+         g%dm_green(:) = 0.0
+         g%dm_senesced(:) = 0.0
+         g%dm_dead(:)    = 0.0
+
+         g%N_green(:)   = 0.0
+         g%N_senesced(:) = 0.0
+         g%N_dead(:)    = 0.0
 
       else
       endif
