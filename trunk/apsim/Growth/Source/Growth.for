@@ -780,6 +780,7 @@
        real    biomass
        real    total_n
        real    total_dm
+       real    temp(3)
 
 *- Implementation Section ----------------------------------
       call push_routine (myname)
@@ -826,6 +827,11 @@
      :               variable_name     ! variable name
      :              ,'(kg/ha)'           ! variable units
      :              ,g%dlt_foliage_mass_sen)         ! variable
+      elseif (variable_name .eq. 'foliage_mass_sen') then
+          call respond2get_real_var (
+     :               variable_name     ! variable name
+     :              ,'(kg/ha)'           ! variable units
+     :              ,g%foliage_mass_sen)         ! variable
       elseif (variable_name .eq. 'dlt_foliage_mass_detached') then
           call respond2get_real_var (
      :               variable_name     ! variable name
@@ -1054,7 +1060,7 @@ cnh         cover = 1.0 - exp (-g%extinction_coef*g%lai)
 
          call respond2get_real_var (
      :               variable_name       ! variable name
-     :              ,'()'                ! variable units
+     :              ,'(kg/ha)'                ! variable units
      :              ,g%dlt_root_mass)    ! variable
 
       elseif (variable_name .eq. 'root_n') then
@@ -1368,6 +1374,14 @@ cnh         cover = 1.0 - exp (-g%extinction_coef*g%lai)
      :              ,g%bdm_green       ! variable
      :              ,max(1,c%num_below_gnd_parts))! array size
 
+      elseif (variable_name .eq. 'dlt_bdm_green') then
+
+         call respond2get_real_array (
+     :               variable_name     ! variable name
+     :              ,'(kg/ha)'         ! variable units
+     :              ,g%dlt_bdm_green       ! variable
+     :              ,max(1,c%num_below_gnd_parts))! array size
+
       elseif (variable_name .eq. 'bn_green') then
 
          call respond2get_real_array (
@@ -1428,6 +1442,90 @@ cnh         cover = 1.0 - exp (-g%extinction_coef*g%lai)
      :              ,'(kg/ha)'         ! variable units
      :              ,g%dlt_no3     ! variable
      :              ,num_layers)
+
+      elseif (variable_name .eq. 'dm_green') then
+
+         temp(1) = (g%root_mass + sum(g%bdm_green)) * kg2gm / ha2sm     ! roots
+         temp(2) = g%foliage_mass * kg2gm / ha2sm        ! leaf
+         temp(3) = sum(g%adm_green) * kg2gm / ha2sm      ! stem
+
+         call respond2get_real_array (
+     :               variable_name     ! variable name
+     :              ,'(g/m^2)'         ! variable units
+     :              ,temp              ! variable
+     :              ,3)                 ! array size
+
+      elseif (variable_name .eq. 'dm_senesced') then
+
+         temp(1) = sum(g%bdm_sen) * kg2gm / ha2sm     ! roots
+         temp(2) = g%foliage_mass_sen * kg2gm / ha2sm        ! leaf
+         temp(3) = sum(g%adm_sen) * kg2gm / ha2sm      ! stem
+
+         call respond2get_real_array (
+     :               variable_name     ! variable name
+     :              ,'(g/m^2)'         ! variable units
+     :              ,temp              ! variable
+     :              ,3)                 ! array size
+
+      elseif (variable_name .eq. 'dm_dead') then
+
+         temp(1) = sum(g%bdm_dead) * kg2gm / ha2sm     ! roots
+         temp(2) = 0.0        ! leaf
+         temp(3) = sum(g%adm_dead) * kg2gm / ha2sm      ! stem
+
+         call respond2get_real_array (
+     :               variable_name     ! variable name
+     :              ,'(g/m^2)'         ! variable units
+     :              ,temp              ! variable
+     :              ,3)                 ! array size
+
+      elseif (variable_name .eq. 'dlt_dm_green') then
+
+         temp(1) = (g%dlt_root_mass + sum(g%dlt_bdm_green))*kg2gm /ha2sm     ! roots
+         temp(2) = g%dlt_foliage_mass * kg2gm / ha2sm          ! leaf
+         temp(3) = sum(g%dlt_adm_green) * kg2gm / ha2sm      ! stem
+
+         call respond2get_real_array (
+     :               variable_name     ! variable name
+     :              ,'(g/m^2)'         ! variable units
+     :              ,temp              ! variable
+     :              ,3)                 ! array size
+
+      elseif (variable_name .eq. 'n_green') then
+
+         temp(1) = (g%root_n + sum(g%bn_green)) * kg2gm / ha2sm     ! roots
+         temp(2) = g%foliage_n * kg2gm / ha2sm        ! leaf
+         temp(3) = sum(g%an_green) * kg2gm / ha2sm      ! stem
+
+         call respond2get_real_array (
+     :               variable_name     ! variable name
+     :              ,'(g/m^2)'         ! variable units
+     :              ,temp              ! variable
+     :              ,3)                 ! array size
+
+      elseif (variable_name .eq. 'n_senesced') then
+
+         temp(1) = sum(g%bn_sen) * kg2gm / ha2sm     ! roots
+         temp(2) = g%foliage_n_sen * kg2gm / ha2sm        ! leaf
+         temp(3) = sum(g%an_sen) * kg2gm / ha2sm      ! stem
+
+         call respond2get_real_array (
+     :               variable_name     ! variable name
+     :              ,'(g/m^2)'         ! variable units
+     :              ,temp              ! variable
+     :              ,3)                 ! array size
+
+      elseif (variable_name .eq. 'n_dead') then
+
+         temp(1) = sum(g%bn_dead) * kg2gm / ha2sm     ! roots
+         temp(2) = 0.0        ! leaf
+         temp(3) = sum(g%an_dead) * kg2gm / ha2sm      ! stem
+
+         call respond2get_real_array (
+     :               variable_name     ! variable name
+     :              ,'(g/m^2)'         ! variable units
+     :              ,temp              ! variable
+     :              ,3)                 ! array size
 
       else
          call Message_Unused ()
