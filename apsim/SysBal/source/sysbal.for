@@ -35,6 +35,11 @@
       real       fraction_C_FOM             ! Fraction Cin FOM
       parameter (fraction_C_FOM = 0.4)
 
+      integer    MaxStringSize           ! max length of the crop type.
+      parameter (MaxStringSize = 100)
+
+      integer    MaxArraySize                 ! maximum number of dry matter types
+      parameter (MaxArraySize = 10)
 
       type SysBalGlobals
          sequence
@@ -104,6 +109,14 @@
          real SWstate_crop_yest
          real SWstate_soil_yest
 
+         real irrigation
+         real       dm_removed          ! amount of residue added (kg/ha)
+         real       N_removed        ! amount of residue N removed (kg/ha)
+         real       P_removed       ! amount of residue N removed (kg/ha)
+         real       dm_added          ! amount of residue added (kg/ha)
+         real       N_added        ! amount of residue N removed (kg/ha)
+         real       P_added       ! amount of residue N removed (kg/ha)
+         logical    phosphorus_aware
 
       end type SysBalGlobals
 ! ====================================================================
@@ -116,35 +129,35 @@
       contains
 
 
-*     ===========================================================
+!     ===========================================================
       subroutine sysbal_init ()
-*     ===========================================================
+!     ===========================================================
 
       Use Infrastructure
       implicit none
 
-*+  Purpose
-*      Initialise sysbal module. Output mesage and get list from control file.
+!+  Purpose
+!      Initialise sysbal module. Output mesage and get list from control file.
 
-*+  Changes
-*     201093 jngh specified and programmed
-*     210395 jngh changed from unknown_section to a defined section
-*     280999 sdb removed version reference
+!+  Changes
+!     201093 jngh specified and programmed
+!     210395 jngh changed from unknown_section to a defined section
+!     280999 sdb removed version reference
 
 
-*+  Constant Values
+!+  Constant Values
       character  my_name*(*)           ! procedure name
       parameter (my_name  = 'sysbal_init')
-*
+!
       character  section_name*(*)      ! name of parameter section
       parameter (section_name = 'parameters')
 
-*+  Local Variables
+!+  Local Variables
       integer    num_modules           ! number of module names in list
       character  line*200              ! message
       integer    i                     ! loop counter
 
-*- Implementation Section ----------------------------------
+!- Implementation Section ----------------------------------
 
       call push_routine (my_name)
 
@@ -183,31 +196,31 @@
 
 
 
-* ====================================================================
+! ====================================================================
       subroutine sysbal_find_modules ()
-* ====================================================================
+! ====================================================================
 
       Use Infrastructure
       implicit none
 
-*+  Purpose
-*      Find what modules are in system
+!+  Purpose
+!      Find what modules are in system
 
-*+  Changes
-*     090896 jngh - Programmed and Specified
-*     261196 jngh lengthened module_type to 100 from 20 and set it blank before us
+!+  Changes
+!     090896 jngh - Programmed and Specified
+!     261196 jngh lengthened module_type to 100 from 20 and set it blank before us
 
-*+  Constant Values
+!+  Constant Values
       character*(*) myname               ! name of current procedure
       parameter (myname = 'sysbal_find_modules')
 
-*+  Local Variables
+!+  Local Variables
       integer    module                  ! index for modules
       character  module_type*100         ! type of module
       integer    numvals               ! number of values in string
       integer owner_module             ! owner module of variable
 
-*- Implementation Section ----------------------------------
+!- Implementation Section ----------------------------------
       call push_routine (myname)
 
 
@@ -244,24 +257,24 @@
 
 
 
-*     ===========================================================
+!     ===========================================================
       subroutine sysbal_zero_all_variables ()
-*     ===========================================================
+!     ===========================================================
 
       Use Infrastructure
       implicit none
 
-*+  Purpose
-*     Set all variables in this module to zero.
+!+  Purpose
+!     Set all variables in this module to zero.
 
-*+  Changes
-*      201093 jngh specified and programmed
+!+  Changes
+!      201093 jngh specified and programmed
 
-*+  Constant Values
+!+  Constant Values
       character  my_name*(*)           ! procedure name
       parameter (my_name  = 'sysbal_zero_all_variables')
 
-*- Implementation Section ----------------------------------
+!- Implementation Section ----------------------------------
 
       call push_routine (my_name)
 
@@ -331,30 +344,39 @@
       g%SWstate_crop_yest  = 0.0
       g%SWstate_soil_yest    = 0.0
 
+      g%dm_removed           = 0.0
+      g%N_removed            = 0.0
+      g%P_removed            = 0.0
+
+      g%dm_added           = 0.0
+      g%N_added            = 0.0
+      g%P_added            = 0.0
+      g%irrigation           = 0.0
+      g%phosphorus_aware     = .false.
 
 
       call pop_routine (my_name)
       return
       end subroutine
 
-*     ===========================================================
+!     ===========================================================
       subroutine sysbal_zero_variables ()
-*     ===========================================================
+!     ===========================================================
 
       Use Infrastructure
       implicit none
 
-*+  Purpose
-*     Set all variables in this module to zero.
+!+  Purpose
+!     Set all variables in this module to zero.
 
-*+  Changes
-*      201093 jngh specified and programmed
+!+  Changes
+!      201093 jngh specified and programmed
 
-*+  Constant Values
+!+  Constant Values
       character  my_name*(*)           ! procedure name
       parameter (my_name  = 'sysbal_zero_variables')
 
-*- Implementation Section ----------------------------------
+!- Implementation Section ----------------------------------
 
       call push_routine (my_name)
 
@@ -369,7 +391,7 @@
 
 
 
-*     ===========================================================
+!     ===========================================================
       subroutine sysbal_get_N_variables (
      :                                    state_crop
      :                                  , state_soil
@@ -381,7 +403,7 @@
      :                                  , gain_crop
      :                                  , gain_surface
      :                                  )
-*     ===========================================================
+!     ===========================================================
 
       Use Infrastructure
       implicit none
@@ -396,15 +418,15 @@
       real       gain_crop
       real       gain_surface
 
-*+  Purpose
-*      Get the values of variables from other modules
+!+  Purpose
+!      Get the values of variables from other modules
 
-*+  Changes
-*      201093 jngh specified and programmed
-*      261196 jngh tested incoming cover for 1. Set log to 100.0 if it is.
+!+  Changes
+!      201093 jngh specified and programmed
+!      261196 jngh tested incoming cover for 1. Set log to 100.0 if it is.
 
-*+  Constant Values
-*
+!+  Constant Values
+!
       character  my_name*(*)           ! procedure name
       parameter (my_name='sysbal_get_N_variables')
 
@@ -447,9 +469,9 @@
       character  dlayer*30
       parameter (dlayer = 'dlayer')
 
-*+  Local Variables
+!+  Local Variables
 
-*- Implementation Section ----------------------------------
+!- Implementation Section ----------------------------------
 
       call push_routine (my_name)
 
@@ -487,20 +509,20 @@
      :          + sysbal_get_variable(leach_NO3, kgha)
      :          + sysbal_get_variable(leach_NH4, kgha)
 
-      loss_crop    = 0.0
+      loss_crop    = g%N_removed
       loss_surface = 0.0
 
   ! define system gains
   !-------------
       gain_soil    = 0.0
       gain_crop    = sysbal_get_variable(dlt_n_fixed, gm2) * gm2kg/sm2ha
-      gain_surface = 0.0
+      gain_surface = g%N_added
 
       call pop_routine (my_name)
       return
       end subroutine
 
-*     ===========================================================
+!     ===========================================================
       subroutine sysbal_get_P_variables (
      :                                    state_crop
      :                                  , state_soil
@@ -512,7 +534,7 @@
      :                                  , gain_crop
      :                                  , gain_surface
      :                                  )
-*     ===========================================================
+!     ===========================================================
 
       Use Infrastructure
       implicit none
@@ -527,15 +549,15 @@
       real       gain_crop
       real       gain_surface
 
-*+  Purpose
-*      Get the values of variables from other crops
+!+  Purpose
+!      Get the values of variables from other crops
 
-*+  Changes
-*      201093 jngh specified and programmed
-*      261196 jngh tested incoming cover for 1. Set log to 100.0 if it is.
+!+  Changes
+!      201093 jngh specified and programmed
+!      261196 jngh tested incoming cover for 1. Set log to 100.0 if it is.
 
-*+  Constant Values
-*
+!+  Constant Values
+!
       character  my_name*(*)           ! procedure name
       parameter (my_name='sysbal_get_P_variables')
 
@@ -578,9 +600,9 @@
       character  surfaceom_p*30
       parameter (surfaceom_p = 'surfaceom_p')
 
-*+  Local Variables
+!+  Local Variables
 
-*- Implementation Section ----------------------------------
+!- Implementation Section ----------------------------------
 
       call push_routine (my_name)
 
@@ -618,20 +640,20 @@
   ! define system losses
   !--------------
       loss_soil = 0.0
-      loss_crop    = 0.0
+      loss_crop    = g%P_removed
       loss_surface = 0.0
 
   ! define system gains
   !-------------
       gain_soil    = 0.0
       gain_crop    = 0.0
-      gain_surface = 0.0
+      gain_surface = g%P_added
 
       call pop_routine (my_name)
       return
       end subroutine
 
-*     ===========================================================
+!     ===========================================================
       subroutine sysbal_get_C_variables (
      :                                    state_crop
      :                                  , state_soil
@@ -643,7 +665,7 @@
      :                                  , gain_crop
      :                                  , gain_surface
      :                                  )
-*     ===========================================================
+!     ===========================================================
 
       Use Infrastructure
       implicit none
@@ -658,15 +680,15 @@
       real       gain_crop
       real       gain_surface
 
-*+  Purpose
-*      Get the values of variables from other modules
+!+  Purpose
+!      Get the values of variables from other modules
 
-*+  Changes
-*      201093 jngh specified and programmed
-*      261196 jngh tested incoming cover for 1. Set log to 100.0 if it is.
+!+  Changes
+!      201093 jngh specified and programmed
+!      261196 jngh tested incoming cover for 1. Set log to 100.0 if it is.
 
-*+  Constant Values
-*
+!+  Constant Values
+!
       character  my_name*(*)           ! procedure name
       parameter (my_name='sysbal_get_C_variables')
 
@@ -713,9 +735,9 @@
       parameter (dlt_dm_green = 'dlt_dm_green()')
 
 
-*+  Local Variables
+!+  Local Variables
 
-*- Implementation Section ----------------------------------
+!- Implementation Section ----------------------------------
 
       call push_routine (my_name)
 
@@ -759,6 +781,7 @@
 !     :   sysbal_get_variable(dlt_dm_oil_conv, gm2) * gm2kg/sm2ha * 0.4     ! conversion is not included in the dlt_dm_green
      : + sysbal_get_variable(dlt_dm_oil_conv_retrans, gm2)
      :   * gm2kg/sm2ha * 0.4
+     :   + g%dm_removed * 0.4
       loss_surface = sysbal_get_variable(dlt_res_c_atm, kgha)
 
   ! define system gains
@@ -767,13 +790,13 @@
       gain_soil = 0.0
       gain_crop = sysbal_get_variable(dlt_dm_green, gm2)
      :          * gm2kg/sm2ha * 0.4
-      gain_surface = 0.0
+      gain_surface = g%dm_added * 0.4
 
       call pop_routine (my_name)
       return
       end subroutine
 
-*     ===========================================================
+!     ===========================================================
       subroutine sysbal_get_DM_variables (
      :                                    state_crop
      :                                  , state_soil
@@ -785,7 +808,7 @@
      :                                  , gain_crop
      :                                  , gain_surface
      :                                  )
-*     ===========================================================
+!     ===========================================================
 
       Use Infrastructure
       implicit none
@@ -800,15 +823,15 @@
       real       gain_crop
       real       gain_surface
 
-*+  Purpose
-*      Get the values of variables from other modules
+!+  Purpose
+!      Get the values of variables from other modules
 
-*+  Changes
-*      201093 jngh specified and programmed
-*      261196 jngh tested incoming cover for 1. Set log to 100.0 if it is.
+!+  Changes
+!      201093 jngh specified and programmed
+!      261196 jngh tested incoming cover for 1. Set log to 100.0 if it is.
 
-*+  Constant Values
-*
+!+  Constant Values
+!
       character  my_name*(*)           ! procedure name
       parameter (my_name='sysbal_get_DM_variables')
 
@@ -854,9 +877,9 @@
       character  dlt_dm_green*30
       parameter (dlt_dm_green = 'dlt_dm_green()')
 
-*+  Local Variables
+!+  Local Variables
 
-*- Implementation Section ----------------------------------
+!- Implementation Section ----------------------------------
 
       call push_routine (my_name)
 
@@ -898,19 +921,20 @@
       loss_crop    =
 !     :   sysbal_get_variable(dlt_dm_oil_conv, gm2) * gm2kg/sm2ha          ! conversion is not included in the dlt_dm_green
      : + sysbal_get_variable(dlt_dm_oil_conv_retrans, gm2) * gm2kg/sm2ha
+     :   + g%dm_removed
       loss_surface = sysbal_get_variable(dlt_res_c_atm, kgha) / 0.4
 
   ! define system gains
   !-------------
       gain_soil = 0.0
       gain_crop = sysbal_get_variable(dlt_dm_green, gm2) * gm2kg/sm2ha
-      gain_surface = 0.0
+      gain_surface = g%dm_added
 
       call pop_routine (my_name)
       return
       end subroutine
 
-*     ===========================================================
+!     ===========================================================
       subroutine sysbal_get_SW_variables (
      :                                    state_crop
      :                                  , state_soil
@@ -922,7 +946,7 @@
      :                                  , gain_crop
      :                                  , gain_surface
      :                                  )
-*     ===========================================================
+!     ===========================================================
 
       Use Infrastructure
       implicit none
@@ -937,15 +961,15 @@
       real       gain_crop
       real       gain_surface
 
-*+  Purpose
-*      Get the values of variables from other modules
+!+  Purpose
+!      Get the values of variables from other modules
 
-*+  Changes
-*      201093 jngh specified and programmed
-*      261196 jngh tested incoming cover for 1. Set log to 100.0 if it is.
+!+  Changes
+!      201093 jngh specified and programmed
+!      261196 jngh tested incoming cover for 1. Set log to 100.0 if it is.
 
-*+  Constant Values
-*
+!+  Constant Values
+!
       character  my_name*(*)           ! procedure name
       parameter (my_name='sysbal_get_SW_variables')
 
@@ -973,9 +997,9 @@
       character  rain*30
       parameter (rain = 'rain')
 
-*+  Local Variables
+!+  Local Variables
 
-*- Implementation Section ----------------------------------
+!- Implementation Section ----------------------------------
 
       call push_routine (my_name)
 
@@ -1004,15 +1028,17 @@
       gain_soil    = 0.0
       gain_crop    = 0.0
       gain_surface = sysbal_get_variable(rain, mm)
+     :             + g%irrigation
+
 
       call pop_routine (my_name)
       return
       end subroutine
 
 
-*     ===========================================================
+!     ===========================================================
       real function sysbal_get_variable (var_name, units)
-*     ===========================================================
+!     ===========================================================
 
       Use Infrastructure
       implicit none
@@ -1020,18 +1046,18 @@
       character var_name*(*)
       character units*(*)
 
-*+  Purpose
-*      Get the values of variables from other modules
+!+  Purpose
+!      Get the values of variables from other modules
 
-*+  Changes
-*      201093 jngh specified and programmed
-*      261196 jngh tested incoming cover for 1. Set log to 100.0 if it is.
+!+  Changes
+!      201093 jngh specified and programmed
+!      261196 jngh tested incoming cover for 1. Set log to 100.0 if it is.
 
-*+  Constant Values
+!+  Constant Values
       character  my_name*(*)           ! procedure name
       parameter (my_name='sysbal_get_variable')
 
-*+  Local Variables
+!+  Local Variables
       integer    module                  ! index for modules
       real       temp                  !
       integer    numvals               ! number of values in string
@@ -1041,7 +1067,7 @@
       character  unit*30
       character  string*400            ! output string
 
-*- Implementation Section ----------------------------------
+!- Implementation Section ----------------------------------
 
       call push_routine (my_name)
 
@@ -1086,9 +1112,9 @@
       return
       end function
 
-*     ===========================================================
+!     ===========================================================
       subroutine sysbal_reg_variable (mod_name, var_name, units)
-*     ===========================================================
+!     ===========================================================
 
       Use Infrastructure
       implicit none
@@ -1097,24 +1123,24 @@
       character var_name*(*)
       character units*(*)
 
-*+  Purpose
-*      Register get variables from other modules
+!+  Purpose
+!      Register get variables from other modules
 
-*+  Changes
-*      201093 jngh specified and programmed
+!+  Changes
+!      201093 jngh specified and programmed
 
-*+  Constant Values
+!+  Constant Values
       character  my_name*(*)           ! procedure name
       parameter (my_name='sysbal_reg_variable')
 
-*+  Local Variables
+!+  Local Variables
       real dummy
       integer numvals
       logical ok
       integer modNameID
 
 
-*- Implementation Section ----------------------------------
+!- Implementation Section ----------------------------------
 
       call push_routine (my_name)
 
@@ -1131,9 +1157,9 @@
       return
       end subroutine
 
-*     ===========================================================
+!     ===========================================================
       integer function sysbal_get_last_index (var_name, units)
-*     ===========================================================
+!     ===========================================================
 
       Use Infrastructure
       implicit none
@@ -1141,25 +1167,25 @@
       character var_name*(*)
       character units*(*)
 
-*+  Purpose
-*      Get the last index of an array
+!+  Purpose
+!      Get the last index of an array
 
-*+  Changes
-*      201093 jngh specified and programmed
-*      261196 jngh tested incoming cover for 1. Set log to 100.0 if it is.
+!+  Changes
+!      201093 jngh specified and programmed
+!      261196 jngh tested incoming cover for 1. Set log to 100.0 if it is.
 
-*+  Constant Values
+!+  Constant Values
       character  my_name*(*)           ! procedure name
       parameter (my_name='sysbal_get_variable')
 
-*+  Local Variables
+!+  Local Variables
       integer    module                  ! index for modules
       real       temp                  !
       integer    numvals               ! number of values in string
       integer    owner_module          ! owner module of variable
       real       array(max_layer)
 
-*- Implementation Section ----------------------------------
+!- Implementation Section ----------------------------------
 
       call push_routine (my_name)
 
@@ -1178,33 +1204,33 @@
 
 
 
-*     ===========================================================
+!     ===========================================================
       subroutine sysbal_send_my_variable (Variable_name)
-*     ===========================================================
+!     ===========================================================
 
       Use Infrastructure
       implicit none
 
-*+  Sub-Program Arguments
+!+  Sub-Program Arguments
       character  Variable_name*(*)     ! (INPUT) Variable name to search for
 
-*+  Purpose
-*      Return the value of one of our variables to caller
+!+  Purpose
+!      Return the value of one of our variables to caller
 
-*+  Changes
-*      201093 jngh specified and programmed
-*      011195 jngh  added call to message_unused
-*      010896 jngh changed method of getting module name for gets
-*      120996 jngh removed print statement
-*      021199 jngh added export of cover_tot_all and cover_height_all arrays
+!+  Changes
+!      201093 jngh specified and programmed
+!      011195 jngh  added call to message_unused
+!      010896 jngh changed method of getting module name for gets
+!      120996 jngh removed print statement
+!      021199 jngh added export of cover_tot_all and cover_height_all arrays
 
-*+  Calls
-c      integer    sysbal_module_number    ! function
+!+  Calls
+!      integer    sysbal_module_number    ! function
 
-*+  Constant Values
+!+  Constant Values
       character  my_name*(*)           ! procedure name
       parameter (my_name='sysbal_send_my_variable')
-*+  Local Variables
+!+  Local Variables
       real       cover                 ! temporary cover variable
       integer    module                ! module counter
       character  module_string*(max_module_name_size) ! module name
@@ -1214,7 +1240,7 @@ c      integer    sysbal_module_number    ! function
       integer    numvals
       logical    found
 
-*- Implementation Section ----------------------------------
+!- Implementation Section ----------------------------------
 
       call push_routine (my_name)
 
@@ -1470,31 +1496,31 @@ c      integer    sysbal_module_number    ! function
 
 
 
-* ====================================================================
+! ====================================================================
        integer function sysbal_module_number (module_id)
-* ====================================================================
+! ====================================================================
 
       Use Infrastructure
       implicit none
 
-*+  Sub-Program Arguments
+!+  Sub-Program Arguments
       integer  module_id         ! (INPUT) id of module to locate
 
-*+  Purpose
-*     Return the position of the module_name in module_names array
+!+  Purpose
+!     Return the position of the module_name in module_names array
 
-*+  Changes
-*        090896 jngh - Programmed and Specified
+!+  Changes
+!        090896 jngh - Programmed and Specified
 
-*+  Constant Values
+!+  Constant Values
       character*(*) myname               ! name of current procedure
       parameter (myname = 'sysbal_module_number')
 
-*+  Local Variables
+!+  Local Variables
       integer    module                  ! module counter
       integer    module_num              ! position of module in array
 
-*- Implementation Section ----------------------------------
+!- Implementation Section ----------------------------------
       call push_routine (myname)
 
 
@@ -1520,25 +1546,25 @@ c      integer    sysbal_module_number    ! function
 
 
 
-*     ===========================================================
+!     ===========================================================
       subroutine sysbal_prepare ()
-*     ===========================================================
+!     ===========================================================
 
       Use Infrastructure
       implicit none
 
-*+  Purpose
-*     Perform calculations before the current timestep. This is the main
-*     processing for the arbitrator
+!+  Purpose
+!     Perform calculations before the current timestep. This is the main
+!     processing for the arbitrator
 
-*+  Changes
-*      201093 jngh specified and programmed
+!+  Changes
+!      201093 jngh specified and programmed
 
-*+  Constant Values
+!+  Constant Values
       character  my_name*(*)           ! procedure name
       parameter (my_name='sysbal_prepare')
 
-*- Implementation Section ----------------------------------
+!- Implementation Section ----------------------------------
 
       call push_routine (my_name)
 
@@ -1560,38 +1586,39 @@ c      integer    sysbal_module_number    ! function
             ! no modules present
       endif
 
+      call sysbal_set_phosphorus_aware ()
       call pop_routine (my_name)
       return
       end subroutine
 
 
 
-*     ===========================================================
+!     ===========================================================
       subroutine sysbal_modules_present (sysbal_index, num_modules)
-*     ===========================================================
+!     ===========================================================
 
       Use Infrastructure
       implicit none
 
-*+  Sub-Program Arguments
+!+  Sub-Program Arguments
       integer    sysbal_index(*)       ! (OUTPUT) presence of sysbal and order
       integer    num_modules          ! (OUTPUT) number of modules present
 
-*+  Purpose
-*     Determine which modules are present and their order from top down.
+!+  Purpose
+!     Determine which modules are present and their order from top down.
 
-*+  Changes
-*      201093 jngh specified and programmed
+!+  Changes
+!      201093 jngh specified and programmed
 
-*+  Constant Values
+!+  Constant Values
       character  my_name*(*)           ! procedure name
       parameter (my_name='sysbal_modules_present')
 
-*+  Local Variables
+!+  Local Variables
       real       temp(max_modules)       ! temporary height array for sorting
       real       temp1(max_modules)      ! temporary height array for counting
 
-*- Implementation Section ----------------------------------
+!- Implementation Section ----------------------------------
 
       call push_routine (my_name)
 
@@ -1619,31 +1646,31 @@ c      integer    sysbal_module_number    ! function
       end subroutine
 
 
-*     ===========================================================
+!     ===========================================================
       subroutine sysbal_post ()
-*     ===========================================================
+!     ===========================================================
 
       Use Infrastructure
       implicit none
 
-*+  Purpose
-*     Perform calculations after the current timestep.
+!+  Purpose
+!     Perform calculations after the current timestep.
 
-*+  Changes
-*      201093 jngh specified and programmed
+!+  Changes
+!      201093 jngh specified and programmed
 
-*+  Constant Values
+!+  Constant Values
       character  my_name*(*)           ! procedure name
       parameter (my_name='sysbal_post')
 
-*+  Local Variables
+!+  Local Variables
       integer    num_in_list           ! number of names in module list
       character  string*400            ! output string
 
       real       error_threshold
       Parameter (error_threshold = 0.1)
 
-*- Implementation Section ----------------------------------
+!- Implementation Section ----------------------------------
 
       call push_routine (my_name)
 
@@ -1678,7 +1705,8 @@ c      integer    sysbal_module_number    ! function
          ! balance is ok
       endif
 
-      call sysbal_Bal (sysbal_get_P_variables
+      if ( g%phosphorus_aware ) then
+         call sysbal_Bal (sysbal_get_P_variables
      :               , g%Ploss_system
      :               , g%Pgain_system
      :               , g%Pdlt_system
@@ -1693,20 +1721,24 @@ c      integer    sysbal_module_number    ! function
      :               , g%Pstate_soil_yest
      :               )
 
-      if (g%Perror_system .gt. error_threshold*0.1/8.0) then
-         write (string, *)
+         if (g%Perror_system .gt. error_threshold*0.1/8.0) then
+            write (string, *)
      :                   '**** P balance - unaccounted gain (kg/ha) = '
      :                  , g%Perror_system
-         call Write_string (string)
+            call Write_string (string)
 
-      elseif (g%Perror_system .lt. -error_threshold*0.1/8.0) then
-         write (string, *)
+         elseif (g%Perror_system .lt. -error_threshold*0.1/8.0) then
+            write (string, *)
      :                   '**** P balance - unaccounted loss (kg/ha) = '
      :                  , g%Perror_system
-         call Write_string (string)
+            call Write_string (string)
+
+         else
+            ! balance is ok
+         endif
 
       else
-         ! balance is ok
+         ! no P
       endif
 
 
@@ -1812,12 +1844,21 @@ c      integer    sysbal_module_number    ! function
          ! balance is ok
       endif
 
+         ! Zero event data
+      g%irrigation = 0.0
+      g%dm_removed           = 0.0
+      g%N_removed            = 0.0
+      g%P_removed            = 0.0
+
+      g%dm_added           = 0.0
+      g%N_added            = 0.0
+      g%P_added            = 0.0
 
       call pop_routine (my_name)
       return
       end subroutine
 
-*     ===========================================================
+!     ===========================================================
       subroutine sysbal_Bal ( fun
      :                      , loss_system
      :                      , gain_system
@@ -1832,7 +1873,7 @@ c      integer    sysbal_module_number    ! function
      :                      , state_crop_yest
      :                      , state_soil_yest
      :                      )
-*     ===========================================================
+!     ===========================================================
 
       Use Infrastructure
       implicit none
@@ -1855,17 +1896,17 @@ c      integer    sysbal_module_number    ! function
       real  state_crop_yest
       real  state_soil_yest
 
-*+  Purpose
-*     Perform calculations after the current timestep.
+!+  Purpose
+!     Perform calculations after the current timestep.
 
-*+  Changes
-*      201093 jngh specified and programmed
+!+  Changes
+!      201093 jngh specified and programmed
 
-*+  Constant Values
+!+  Constant Values
       character  my_name*(*)           ! procedure name
       parameter (my_name='sysbal_bal')
 
-*+  Local Variables
+!+  Local Variables
       real  state_soil
       real  state_surface
       real  state_crop
@@ -1880,7 +1921,7 @@ c      integer    sysbal_module_number    ! function
       real  gain_crop
 
 
-*- Implementation Section ----------------------------------
+!- Implementation Section ----------------------------------
 
       call push_routine (my_name)
 
@@ -1925,6 +1966,276 @@ c      integer    sysbal_module_number    ! function
       return
       end subroutine
 
+! ====================================================================
+       subroutine sysbal_ONirrigated ()
+! ====================================================================
+      Use Infrastructure
+      implicit none
+
+!+  Purpose
+!     <insert here>
+
+!+  Mission Statement
+!     Add Water
+
+!+  Changes
+!   neilh - 18-08-1995 - Programmed and Specified
+!   neilh - 07-06-1996 - removed data_String from argument list
+!                      - changed extract calls to collect calls
+!   neilh - 30-08-1999 - routine name changed to ONirrigated
+
+!+  Local Variables
+       real             amount           ! amount of irrigation (mm)
+       integer          numvals          ! no. of values read from string
+       real             solconc          ! solute conc in water(kg/ha)
+       integer          solnum           ! solute no. counter variable
+
+!- Implementation Section ----------------------------------
+
+      call collect_real_var (DATA_irrigate_amount
+     :                      ,'(mm)'
+     :                      ,amount
+     :                      ,numvals
+     :                      ,0.0
+     :                      ,1000.)
+
+      g%irrigation = g%irrigation + amount
+
+!      do 100 solnum = 1, g%num_solutes
+!
+!         call collect_real_var_optional (
+!     :                         g%solute_names(solnum)
+!     :                        ,'(kg/ha)'
+!     :                        ,solconc
+!     :                        ,numvals
+!     :                        ,0.0
+!     :                        ,1000.)
+!
+!        if (numvals.gt.0) then
+!           g%irrigation_solute(solnum) = g%irrigation_solute(solnum)
+!     :                                 + solconc
+!        else
+!        endif
+!  100 continue
+
+      return
+      end subroutine
+
+!===========================================================
+      subroutine sysbal_ON_Crop_chopped ()
+!===========================================================
+      Use Infrastructure
+      implicit none
+
+!+  Purpose
+!     Get information on surfom added from the crops
+
+!+  Local Variables
+      real      dm_removed
+      real      N_removed
+      real      P_removed
+      real      dlt_crop_dm(MaxArraySize)
+      real      dlt_dm_N(MaxArraySize)
+      real      dlt_dm_P(MaxArraySize)
+      real      fraction_to_Residue(MaxArraySize)
+      real      fraction_removed(MaxArraySize)
+      character  Event_string*400      ! Event message string
+      character  flag*5                ! p data flag
+      integer    NumVals               ! number of values read from file
+      integer    NumVal_dm             ! number of values read from file
+      integer    NumVal_N              ! number of values read from file
+      integer    NumVal_P              ! number of values read from file
+      integer    SOMNo     ! system number of the surface organic matter added
+      integer    residue               ! system surfom counter
+
+
+!- Implementation Section ----------------------------------
+
+      fraction_to_Residue(:) = 0.0
+      call collect_real_array (DATA_fraction_to_Residue, MaxArraySize
+     :                      , '()', fraction_to_Residue, numvals
+     :                      , 0.0, 100000.0)
+
+
+         ! Find the amount of surfom to be removed today
+      dlt_crop_dm(:) = 0.0
+      call collect_real_array (DATA_dlt_crop_dm, MaxArraySize, '()'
+     :                      , dlt_crop_dm, numval_dm, 0.0, 100000.0)
+      fraction_removed(:numvals) = 1.0 - fraction_to_Residue(:numvals)
+      dm_removed = sum(dlt_crop_dm(:numvals)
+     :           * fraction_removed(:numvals))
+
+      if (dm_removed .gt. 0.0) then
+
+          ! Find the amount of N removed in surfom today
+         dlt_dm_N(:) = 0.0
+         call collect_real_array(DATA_dlt_dm_n, MaxArraySize, '(kg/ha)'
+     :                      , dlt_dm_n, numval_n, -10000.0, 10000.0)
+         N_removed = sum(dlt_dm_N(:numvals)
+     :             *  fraction_removed(:numvals))
+
+             ! Find the amount of P removed in surfom today, if phosphorus aware
+
+         if ( g%phosphorus_aware ) then
+            dlt_dm_P(:) = 0.0
+            call collect_real_array_optional (DATA_dlt_dm_p
+     :                        , MaxArraySize
+     :                        , '(kg/ha)'
+     :                        , dlt_dm_p
+     :                        , numval_p
+     :                        , -10000.0
+     :                        , 10000.0)
+            P_removed = sum(dlt_dm_P(:numvals)
+     :                * fraction_removed(:numvals))
+         else
+            ! Not phosphorus aware
+            dlt_dm_P(:) = 0.0
+            P_removed = 0.0
+         endif
+
+         g%dm_removed = g%dm_removed + dm_removed
+         g%N_removed = g%N_removed + N_removed
+         g%P_removed = g%P_removed + P_removed
+      else
+            !nothing to add
+      endif
+
+      return
+      end subroutine
+
+!================================================================
+      subroutine sysbal_add_surfom ()
+!================================================================
+      Use Infrastructure
+      implicit none
+
+!+  Purpose
+!   Calculates surfom addition as a result of add_surfom message
+
+!
+!!+  Local Variables
+      character  Err_string*300         ! Error message string
+      integer    numvals               ! number of values read from file
+      integer    numval_n              ! number of N values read from file
+      integer    numval_cnr            ! number of cnr values read from file
+      integer    numval_p              ! number of N values read from file
+      integer    numval_cpr            ! number of cnr values read from file
+      integer    residue               ! residue counter
+      integer    SOMNo     ! specific system number for this residue name
+      character  surfom_name*30        ! unique 'name' of residue to be added ()
+      character  surfom_type*30        ! 'type' of residue to be added ()
+      real       surfom_added          ! Mass of new surfom added (kg/ha)
+      real       surfom_n_added        ! N added in new material (kg/ha)
+      real       surfom_cnr_added      ! C:N ratio of new material
+      real       surfom_p_added        ! P added in new material (kg/ha)
+      real       surfom_cpr_added      ! C:P ratio of new material
+      real       added_wt
+
+   !- Implementation Section ----------------------------------
+
+      ! Get Mass of material added
+      call collect_real_var ('mass', '(kg/ha)', surfom_added, numvals
+     :                        , -100000.0, 100000.0)
+
+      if (surfom_added .gt. 0.0) then
+         ! Get N content of material added
+         call collect_real_var_optional ('n', '(kg/ha)', surfom_N_added
+     :                        , numval_n, -10000.0, 10000.0)
+!         if (numval_n.eq.0) then
+!            call collect_real_var_optional ('cnr', '()'
+!     :                        , surfom_cnr_added, numval_cnr
+!     :                        , 0.0, 10000.0)
+!            surfom_N_added = divide ((surfom_added * 0.08) !c%C_fract(SOMNo))
+!     :                               , surfom_cnr_added, 0.0)
+!
+!         else
+!         endif
+
+         ! collect P information from this new member
+         surfom_p_added = 0.0
+         call collect_real_var_optional ('p', '(kg/ha)', surfom_p_added
+     :                        , numval_p, -10000.0, 10000.0)
+!         if (numval_p.eq.0) then
+!            surfom_cpr_added = 0.0
+!            call collect_real_var_optional ('cpr', '()'
+!     :                        , surfom_cpr_added, numval_cpr
+!     :                        , 0.0, 10000.0)
+!            surfom_P_added = divide ((surfom_added* c%C_fract(SOMNo))
+!     :                        , surfom_cpr_added, 0.0)
+!            ! If no P info provided, and no cpr info provided then
+!            ! use default cpr and throw warning error to notify user
+!            If (numval_CPr .eq. 0) then
+!               surfom_p_added = divide ((surfom_added*c%C_fract(SOMNo))
+!     :                        ,c%default_cpr,0.0)
+!         Endif
+         g%dm_added = g%dm_added + surfom_added
+         g%N_added = g%N_added + surfom_N_added
+         g%P_added = g%P_added + surfom_p_added
+
+      else
+      endif
+
+      return
+      end subroutine
+
+!================================================================
+      subroutine sysbal_set_phosphorus_aware ()
+!================================================================
+      Use infrastructure
+      implicit none
+
+!+  Purpose
+!      Check that soil phosphorus is in system
+
+!+  Local Variables
+      integer   numvals
+      real labile_p(max_layer)      ! labile p from soil phosphorous
+
+!- Implementation Section ----------------------------------
+
+      numvals = 0
+      call Get_real_array_optional(unknown_module, 'labile_p'
+     :                      , max_layer, '(kg/ha)', labile_p
+     :                      , numvals, 0.5, 1000.0)
+
+      if(numvals .gt. 0) then
+         ! is p aware
+         g%phosphorus_aware = .true.
+      else
+         g%phosphorus_aware = .false.
+
+      endif
+
+      return
+      end subroutine
+
+! ====================================================================
+       subroutine sysbal_create ()
+! ====================================================================
+      Use Infrastructure
+      implicit none
+
+!+  Purpose
+!     Create
+
+!+  Mission statement
+!     Create
+
+!+  Changes
+!   neilh - 04-01-2002 - Programmed and Specified
+
+
+!+  Local Variables
+
+!- Implementation Section ----------------------------------
+
+
+         call sysbal_zero_all_variables ()
+         call sysbal_init ()
+         call sysbal_find_modules ()
+
+      return
+      end subroutine
 
 
       end module SysBalModule
@@ -1957,41 +2268,51 @@ c      integer    sysbal_module_number    ! function
 
 
 
-*     ===========================================================
+!     ===========================================================
       subroutine Main (Action, Data_string)
-*     ===========================================================
+!     ===========================================================
 
       Use Infrastructure
       use SysBalModule
       implicit none
       ml_external Main
 
-*+  Sub-Program Arguments
+!+  Sub-Program Arguments
       character  Action*(*)            ! (INPUT) Message action to perform
       character  Data_string*(*)       ! (INPUT) Message data
 
-*+  Purpose
-*      This routine is the interface between the main system and the
-*      sysbal module.
+!+  Purpose
+!      This routine is the interface between the main system and the
+!      sysbal module.
 
-*+  Changes
-*      201093 jngh specified and programmed
-*      011195 jngh  added call to message_unused
-*      090299 jngh removed find modules and get other variables from init
-*      100299 jngh added find modules back in
-*      280999 sdb removed version reference
+!+  Changes
+!      201093 jngh specified and programmed
+!      011195 jngh  added call to message_unused
+!      090299 jngh removed find modules and get other variables from init
+!      100299 jngh added find modules back in
+!      280999 sdb removed version reference
 
-*+  Constant Values
+!+  Constant Values
       character  my_name*(*)
       parameter (my_name = 'sysbal_main')
 
-*- Implementation Section ----------------------------------
+!- Implementation Section ----------------------------------
 
       call push_routine (my_name)
 
       if (Action.eq.ACTION_Get_variable) then
             ! respond to requests from other modules
          call sysbal_send_my_variable (Data_string)
+
+      else if (action .eq. EVENT_irrigated) then
+               ! respond to addition of irrigation
+         call sysbal_ONirrigated ()
+
+      elseif (Action .eq. EVENT_Crop_Chopped) then
+         call sysbal_ON_Crop_Chopped ()
+
+      else if (Action.eq.'add_surfaceom') then
+         call sysbal_Add_surfom ()
 
       elseif (Action .eq. ACTION_Prepare) then
          call sysbal_zero_variables ()
