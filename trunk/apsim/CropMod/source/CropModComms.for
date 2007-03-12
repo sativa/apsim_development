@@ -3189,49 +3189,6 @@ c        end if
 
       call publish_null(id%harvesting)
 
-         dlt_dm_crop(:) = 0.0
-         dlt_dm_N (:) = 0.0
-         dlt_dm_P (:) = 0.0
-
-         dlt_dm_crop(grain) = (g%dm_green(grain)
-     :                  + g%dm_senesced(grain)
-     :                  + g%dm_dead(grain))
-     :                  * gm2kg/sm2ha
-
-         dlt_dm_N   (grain) = (g%N_green(grain)
-     :                  + g%N_senesced(grain)
-     :                  + g%N_dead(grain))
-     :                  * gm2kg/sm2ha
-
-
-         fraction_to_residue(:)    = 0.0
-         chop_fr(:) = 0.0
-         chop_fr(grain) = 1.0
-         chop_fr(root) = 0.0
-
-         call PlantP_residue_chopped (chop_fr  ! green
-     :                           , chop_fr  ! senesced
-     :                           , chop_fr  ! dead
-     :                           , fraction_to_residue
-     :                           , P_residue
-     :                           , dlt_dm_P
-     :                           )
-
-         if (sum(dlt_dm_crop(leaf:)) .gt. 0.0) then
-
-            call Send_Crop_Chopped_Event_N_P
-     :                (c%crop_type
-     :               , part_name
-     :               , dlt_dm_crop
-     :               , dlt_dm_N
-     :               , dlt_dm_P
-     :               , fraction_to_Residue
-     :               , max_part)
-
-         else
-            ! no surface residue
-         endif
-
           ! crop harvested. Report status
 
       yield = (g_dm_green(grain) + g_dm_dead(grain))
@@ -3408,6 +3365,49 @@ c        end if
      :  , n_removed_tops, n_removed_root
          call write_string ( string)
       call write_string (' ')
+
+         dlt_dm_crop(:) = 0.0
+         dlt_dm_N (:) = 0.0
+         dlt_dm_P (:) = 0.0
+
+         dlt_dm_crop(grain) = (g%dm_green(grain)
+     :                  + g%dm_senesced(grain)
+     :                  + g%dm_dead(grain))
+     :                  * gm2kg/sm2ha
+
+         dlt_dm_N   (grain) = (g%N_green(grain)
+     :                  + g%N_senesced(grain)
+     :                  + g%N_dead(grain))
+     :                  * gm2kg/sm2ha
+
+
+         fraction_to_residue(:)    = 0.0
+         chop_fr(:) = 0.0
+         chop_fr(grain) = 1.0
+         chop_fr(root) = 0.0
+
+         call PlantP_residue_chopped (chop_fr  ! green
+     :                           , chop_fr  ! senesced
+     :                           , chop_fr  ! dead
+     :                           , fraction_to_residue
+     :                           , P_residue
+     :                           , dlt_dm_P
+     :                           )
+
+         if (sum(dlt_dm_crop(leaf:)) .gt. 0.0) then
+
+            call Send_Crop_Chopped_Event_N_P
+     :                (c%crop_type
+     :               , part_name
+     :               , dlt_dm_crop
+     :               , dlt_dm_N
+     :               , dlt_dm_P
+     :               , fraction_to_Residue
+     :               , max_part)
+
+         else
+            ! no surface residue
+         endif
 
       g_dm_green(grain) = 0.0
       g_N_green(grain) = 0.0
