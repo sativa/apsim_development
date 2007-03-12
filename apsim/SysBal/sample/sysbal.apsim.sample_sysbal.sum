@@ -9,16 +9,18 @@
  The Agricultural Production Systems Simulator
              Copyright(c) APSRU               
 
-Version                = 5.3
-Title                  = sysbal Sample Simulation
-Component      "clock" = c:\development\apsim\clock\lib\clock.dll
-Component     "report" = c:\development\apsim\report\lib\report.dll
-Component        "met" = c:\development\apsim\input\lib\input.dll
-Component    "manager" = c:\development\apsim\manager\lib\manager.dll
-Component   "soilwat2" = c:\development\apsim\soilwat2\lib\soilwat2.dll
-Component     "soiln2" = c:\development\apsim\soiln2\lib\soiln2.dll
-Component      "wheat" = c:\development\apsim\plant\lib\plant.dll
-Component     "sysbal" = c:\development\apsim\sysbal\lib\sysbal.dll
+     Version                = 5.3
+     Title                  = sysbal Sample Simulation
+     Component DLL          = c:\data\apsim\development\apsim\SummaryFile\lib\SummaryFile.dll
+     Component DLL          = c:\data\apsim\development\apsim\clock\lib\clock.dll
+     Component DLL          = c:\data\apsim\development\apsim\report\lib\report.dll
+     Component DLL          = c:\data\apsim\development\apsim\input\lib\input.dll
+     Component DLL          = c:\data\apsim\development\apsim\manager\lib\manager.dll
+     Component DLL          = c:\data\apsim\development\apsim\soilwat2\lib\soilwat2.dll
+     Component DLL          = c:\data\apsim\development\apsim\SurfaceOM\lib\SurfaceOM.dll
+     Component DLL          = c:\data\apsim\development\apsim\soiln2\lib\soiln2.dll
+     Component DLL          = c:\data\apsim\development\apsim\plant\lib\plant.dll
+     Component DLL          = c:\data\apsim\development\apsim\sysbal\lib\sysbal.dll
 
 ------- clock Initialisation --------------------------------------------------
      Sequencer phases:
@@ -44,21 +46,73 @@ Component     "sysbal" = c:\development\apsim\sysbal\lib\sysbal.dll
         soilwat2.es
         soilwat2.pond
         soilwat2.sw_dep()
+        sysbal.n_loss_system
+        sysbal.n_gain_system
+        sysbal.n_dlt_system
+        sysbal.n_dlt_surface
+        sysbal.n_dlt_crop
+        sysbal.n_dlt_soil
         sysbal.n_error_system
         sysbal.n_cum_error_system
-        sysbal.sw_error_system
-        sysbal.sw_cum_error_system
-        sysbal.dm_error_system
-        sysbal.dm_cum_error_system
+        sysbal.n_state_system
+        sysbal.n_state_surface
+        sysbal.n_state_crop
+        sysbal.n_state_soil
+        sysbal.p_loss_system
+        sysbal.p_gain_system
+        sysbal.p_dlt_system
+        sysbal.p_dlt_surface
+        sysbal.p_dlt_crop
+        sysbal.p_dlt_soil
+        sysbal.p_error_system
+        sysbal.p_cum_error_system
+        sysbal.p_state_system
+        sysbal.p_state_surface
+        sysbal.p_state_crop
+        sysbal.p_state_soil
+        sysbal.c_loss_system
+        sysbal.c_gain_system
+        sysbal.c_dlt_system
+        sysbal.c_dlt_surface
+        sysbal.c_dlt_crop
+        sysbal.c_dlt_soil
         sysbal.c_error_system
         sysbal.c_cum_error_system
-
+        sysbal.c_state_system
+        sysbal.c_state_surface
+        sysbal.c_state_crop
+        sysbal.c_state_soil
+        sysbal.dm_loss_system
+        sysbal.dm_gain_system
+        sysbal.dm_dlt_system
+        sysbal.dm_dlt_surface
+        sysbal.dm_dlt_crop
+        sysbal.dm_dlt_soil
+        sysbal.dm_error_system
+        sysbal.dm_cum_error_system
+        sysbal.dm_state_system
+        sysbal.dm_state_surface
+        sysbal.dm_state_crop
+        sysbal.dm_state_soil
+        sysbal.sw_loss_system
+        sysbal.sw_gain_system
+        sysbal.sw_dlt_system
+        sysbal.sw_dlt_surface
+        sysbal.sw_dlt_crop
+        sysbal.sw_dlt_soil
+        sysbal.sw_error_system
+        sysbal.sw_cum_error_system
+        sysbal.sw_state_system
+        sysbal.sw_state_surface
+        sysbal.sw_state_crop
+        sysbal.sw_state_soil
+     
      Output file = sysbal.out
      Format = normal
 
 ------- met Initialisation ----------------------------------------------------
      Sparse data is not allowed
-     INPUT File name: c:\development\apsim\MET\SAMPLE\DALBY.MET
+     INPUT File name: c:\data\apsim\development\apsim\MET\SAMPLE\DALBY.MET
 
 ------- manager Initialisation ------------------------------------------------
      Manager rules:
@@ -150,7 +204,26 @@ Component     "sysbal" = c:\development\apsim\sysbal\lib\sysbal.dll
            Using Ritchie evaporation model
             Cuml evap (U):            4.00 (mm^0.5)
             CONA:                     2.50 ()
-            Eo from priestly-taylor
+           Eo from priestly-taylor
+
+------- SurfaceOM Initialisation ----------------------------------------------
+     
+         - Reading constants
+     
+         - Reading parameters
+     
+     
+     
+                         Initial Surface Organic Matter Data
+         ----------------------------------------------------------------------
+            Name   Type        Dry matter   C        N        P    Cover  Standing_fr
+                                (kg/ha)  (kg/ha)  (kg/ha)  (kg/ha) (0-1)     (0-1)
+         ----------------------------------------------------------------------
+          mungbean  mungbean      2000.0   800.0    26.7     0.0   0.330     0.0
+         ----------------------------------------------------------------------
+     
+                      Effective Cover from Surface Materials =   0.3
+     
 
 ------- soiln2 Initialisation -------------------------------------------------
      
@@ -259,86 +332,84 @@ Component     "sysbal" = c:\development\apsim\sysbal\lib\sysbal.dll
                      stover N conc =     5.85 (%)    extractable sw =   20.39 (mm)
 24 June 1988(Day of year=176), sysbal: 
       **** N balance - unaccounted gain (kg/ha) =  0.562500000
-      **** C balance - unaccounted gain (kg/ha) =  6.99981499
-      ****        equivalent DM as FOM  (kg/ha) =  17.4995365
+      **** C balance - unaccounted gain (kg/ha) =  6.99502468
+      ****        equivalent DM as FOM  (kg/ha) =  17.4875622
 25 June 1988(Day of year=177), wheat: 
       stage 4.0 end_of_juvenile
                      biomass =           0.73 (g/m^2)   lai          =   0.027 (m^2/m^2)
                      stover N conc =     5.83 (%)    extractable sw =   20.67 (mm)
 16 August 1988(Day of year=229), wheat: 
       stage 5.0 floral_initiation
-                     biomass =         205.34 (g/m^2)   lai          =   2.951 (m^2/m^2)
-                     stover N conc =     2.23 (%)    extractable sw =  174.17 (mm)
+                     biomass =         191.82 (g/m^2)   lai          =   2.765 (m^2/m^2)
+                     stover N conc =     2.20 (%)    extractable sw =  183.18 (mm)
 19 September 1988(Day of year=263), wheat: 
       stage 6.0 flowering
-                     biomass =         617.33 (g/m^2)   lai          =   2.276 (m^2/m^2)
-                     stover N conc =     1.06 (%)    extractable sw =  249.32 (mm)
+                     biomass =         582.65 (g/m^2)   lai          =   2.061 (m^2/m^2)
+                     stover N conc =     1.04 (%)    extractable sw =  262.08 (mm)
 26 September 1988(Day of year=270), wheat: 
       stage 7.0 start_grain_fill
-                     biomass =         736.93 (g/m^2)   lai          =   1.864 (m^2/m^2)
-                     stover N conc =     0.78 (%)    extractable sw =  214.17 (mm)
+                     biomass =         695.27 (g/m^2)   lai          =   1.675 (m^2/m^2)
+                     stover N conc =     0.77 (%)    extractable sw =  228.59 (mm)
 20 October 1988(Day of year=294), wheat: 
       stage 8.0 end_grain_fill
-                     biomass =         941.22 (g/m^2)   lai          =   0.301 (m^2/m^2)
-                     stover N conc =     0.33 (%)    extractable sw =  142.75 (mm)
+                     biomass =         888.77 (g/m^2)   lai          =   0.281 (m^2/m^2)
+                     stover N conc =     0.34 (%)    extractable sw =  160.46 (mm)
 21 October 1988(Day of year=295), wheat: 
       stage 9.0 maturity
-                     biomass =         941.22 (g/m^2)   lai          =   0.274 (m^2/m^2)
-                     stover N conc =     0.33 (%)    extractable sw =  141.74 (mm)
+                     biomass =         888.77 (g/m^2)   lai          =   0.256 (m^2/m^2)
+                     stover N conc =     0.34 (%)    extractable sw =  159.23 (mm)
 22 October 1988(Day of year=296), wheat: 
       stage 10.0 harvest_ripe
-                     biomass =         941.22 (g/m^2)   lai          =   0.001 (m^2/m^2)
-                     stover N conc =     0.33 (%)    extractable sw =  140.00 (mm)
+                     biomass =         888.77 (g/m^2)   lai          =   0.001 (m^2/m^2)
+                     stover N conc =     0.33 (%)    extractable sw =  157.39 (mm)
 23 October 1988(Day of year=297), manager: 
      Manager sending message :- wheat harvest
 23 October 1988(Day of year=297), wheat: 
      
-      flowering day          =  263                           stover (kg/ha)         =     5871.9
-      maturity day           =  295                           grain yield (kg/ha)    =     3540.3
-      grain % water content  =   12.5                         grain yield wet (kg/ha)=     4046.1
-      grain wt (g)           =    0.041                       grains/m^2             =   8702.218
-      grains/plant           =   72.5                         maximum lai            =      3.169
-      total above ground biomass (kg/ha)    =     9412.2
-      live above ground biomass (kg/ha)     =     9412.2
-      green above ground biomass (kg/ha)    =     8044.2
-      senesced above ground biomass (kg/ha) =     1368.0
+      flowering day          =  263                           stover (kg/ha)         =     5516.8
+      maturity day           =  295                           grain yield (kg/ha)    =     3370.8
+      grain % water content  =   12.5                         grain yield wet (kg/ha)=     3852.4
+      grain wt (g)           =    0.041                       grains/m^2             =   8221.519
+      grains/plant           =   68.5                         maximum lai            =      2.953
+      total above ground biomass (kg/ha)    =     8887.7
+      live above ground biomass (kg/ha)     =     8887.7
+      green above ground biomass (kg/ha)    =     7610.7
+      senesced above ground biomass (kg/ha) =     1277.0
       dead above ground biomass (kg/ha)     =        0.0
       number of leaves       =   40.2
-      DM Root:Shoot ratio    =    0.138                       Harvest Index          =      0.376
-      Stover C:N ratio       =  109.238                       Root C:N ratio         =     31.488
-      grain N percent        =       1.56                     total N content (kg/ha)=      76.69
-      grain N uptake (kg/ha) =      55.19                     senesced N content (kg/ha)=    6.84
-      green N content (kg/ha)=      14.66                     dead N content (kg/ha) =       0.00
+      DM Root:Shoot ratio    =    0.139                       Harvest Index          =      0.379
+      Stover C:N ratio       =  107.914                       Root C:N ratio         =     31.812
+      grain N percent        =       1.55                     total N content (kg/ha)=      72.60
+      grain N uptake (kg/ha) =      52.15                     senesced N content (kg/ha)=    6.38
+      green N content (kg/ha)=      14.06                     dead N content (kg/ha) =       0.00
      
       Average Stress Indices:                          Water Photo  Water Expan  N Photo      N grain conc
          emergence            to end_of_juvenile         0.000        0.000        0.000        0.000
-         end_of_juvenile      to floral_initiation       0.000        0.000        0.084        0.121
-         floral_initiation    to flowering               0.000        0.000        0.151        0.293
+         end_of_juvenile      to floral_initiation       0.000        0.000        0.103        0.138
+         floral_initiation    to flowering               0.000        0.000        0.165        0.301
          flowering            to start_grain_fill        0.000        0.000        0.000        0.000
-         start_grain_fill     to end_grain_fill          0.000        0.000        0.235        0.612
+         start_grain_fill     to end_grain_fill          0.000        0.000        0.212        0.604
      
      
      Crop harvested.
          Organic matter from crop:-      Tops to surface residue      Roots to soil FOM
-                          DM (kg/ha) =               5871.62                    0.00
-                          N  (kg/ha) =                 21.49                    0.00
+                          DM (kg/ha) =               5516.59                    0.00
+                          N  (kg/ha) =                 20.43                    0.00
      
          Organic matter removed from system:-      From Tops               From Roots
-                          DM (kg/ha) =               3540.33                    0.00
-                          N  (kg/ha) =                 55.19                    0.00
+                          DM (kg/ha) =               3370.82                    0.00
+                          N  (kg/ha) =                 52.15                    0.00
      
       stage 4.0 end_of_juvenile
                      biomass =           0.02 (g/m^2)   lai          =   0.024 (m^2/m^2)
-                     stover N conc =     6.30 (%)    extractable sw =  140.00 (mm)
+                     stover N conc =     6.30 (%)    extractable sw =  157.39 (mm)
+23 October 1988(Day of year=297), manager: 
      Manager sending message :- wheat end_crop
+23 October 1988(Day of year=297), wheat: 
      Crop ended. Yield (dw) =     0.0  (kg/ha)
          Organic matter from crop:-      Tops to surface residue      Roots to soil FOM
-                          DM (kg/ha) =                  0.24                 1301.99
-                          N  (kg/ha) =                  0.01                   16.54
+                          DM (kg/ha) =                  0.24                 1232.54
+                          N  (kg/ha) =                  0.01                   15.50
      
-23 October 1988(Day of year=297), sysbal: 
-      **** N balance - unaccounted loss (kg/ha) =  -76.6884766
-      **** C balance - unaccounted loss (kg/ha) =  -3764.86670
-      ****        equivalent DM as FOM  (kg/ha) =  -9412.16699
 17 November 1988(Day of year=322), clock: 
      Simulation is terminating due to end criteria being met.
