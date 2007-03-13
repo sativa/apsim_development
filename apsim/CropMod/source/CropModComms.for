@@ -3383,6 +3383,7 @@ c        end if
 
          fraction_to_residue(:)    = 1.0
          fraction_to_residue(root)    = 0.0
+         fraction_to_residue(grain)    = 0.0
          chop_fr(:) = 0.0
          chop_fr(grain) = 1.0
          chop_fr(root) = 0.0
