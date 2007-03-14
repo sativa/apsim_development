@@ -17,6 +17,7 @@ module = plant(wheat)       soil.par[lg1deep]        %apsuite/apsim/wheat/wheat.
 module = plant(chickpea)    soil.par[lg1deep]        %apsuite/apsim/chickpea/chickpea.ini [standard]
 module = sorghum         soil.par[lg1deep]                           %apsuite/apsim/sorghum/sorghum.ini [standard]
 module = tracker   report.par[all]
+module = sysbal
 
 !!!!!!!!!!!!!!!!!!!!!!!! warialda lg1 Nfert=200 system=w1  Root = deep sowing = AvgWindow !!!!!!!!!!!!!!!!!!!!!!!
 
@@ -35,6 +36,7 @@ module = plant(wheat)       soil.par[lg1deep]        %apsuite/apsim/wheat/wheat.
 module = plant(chickpea)    soil.par[lg1deep]        %apsuite/apsim/chickpea/chickpea.ini [standard]
 module = sorghum         soil.par[lg1deep]                           %apsuite/apsim/sorghum/sorghum.ini [standard]
 module = tracker   report.par[all]
+module = sysbal
 
 !!!!!!!!!!!!!!!!!!!!!!!! warialda cd2 Nfert=50 system=w1  Root = deep sowing = AvgWindow !!!!!!!!!!!!!!!!!!!!!!!
 
@@ -53,6 +55,7 @@ module = plant(wheat)       soil.par[cd2deep]        %apsuite/apsim/wheat/wheat.
 module = plant(chickpea)    soil.par[cd2deep]        %apsuite/apsim/chickpea/chickpea.ini [standard]
 module = sorghum         soil.par[cd2deep]                           %apsuite/apsim/sorghum/sorghum.ini [standard]
 module = tracker   report.par[all]
+module = sysbal
 
 !!!!!!!!!!!!!!!!!!!!!!!! warialda cd2 Nfert=200 system=w1  Root = deep sowing = AvgWindow !!!!!!!!!!!!!!!!!!!!!!!
 
@@ -71,6 +74,7 @@ module = plant(wheat)       soil.par[cd2deep]        %apsuite/apsim/wheat/wheat.
 module = plant(chickpea)    soil.par[cd2deep]        %apsuite/apsim/chickpea/chickpea.ini [standard]
 module = sorghum         soil.par[cd2deep]                           %apsuite/apsim/sorghum/sorghum.ini [standard]
 module = tracker   report.par[all]
+module = sysbal
 
 !!!!!!!!!!!!!!!!!!!!!!!! goondiwindi lg1 Nfert=50 system=w1  Root = deep sowing = AvgWindow !!!!!!!!!!!!!!!!!!!!!!!
 
@@ -89,6 +93,7 @@ module = plant(wheat)       soil.par[lg1deep]        %apsuite/apsim/wheat/wheat.
 module = plant(chickpea)    soil.par[lg1deep]        %apsuite/apsim/chickpea/chickpea.ini [standard]
 module = sorghum         soil.par[lg1deep]                           %apsuite/apsim/sorghum/sorghum.ini [standard]
 module = tracker   report.par[all]
+module = sysbal
 
 !!!!!!!!!!!!!!!!!!!!!!!! goondiwindi lg1 Nfert=200 system=w1  Root = deep sowing = AvgWindow !!!!!!!!!!!!!!!!!!!!!!!
 
@@ -107,6 +112,7 @@ module = plant(wheat)       soil.par[lg1deep]        %apsuite/apsim/wheat/wheat.
 module = plant(chickpea)    soil.par[lg1deep]        %apsuite/apsim/chickpea/chickpea.ini [standard]
 module = sorghum         soil.par[lg1deep]                           %apsuite/apsim/sorghum/sorghum.ini [standard]
 module = tracker   report.par[all]
+module = sysbal
 
 !!!!!!!!!!!!!!!!!!!!!!!! goondiwindi cd2 Nfert=50 system=w1  Root = deep sowing = AvgWindow !!!!!!!!!!!!!!!!!!!!!!!
 
@@ -125,6 +131,7 @@ module = plant(wheat)       soil.par[cd2deep]        %apsuite/apsim/wheat/wheat.
 module = plant(chickpea)    soil.par[cd2deep]        %apsuite/apsim/chickpea/chickpea.ini [standard]
 module = sorghum         soil.par[cd2deep]                           %apsuite/apsim/sorghum/sorghum.ini [standard]
 module = tracker   report.par[all]
+module = sysbal
 
 !!!!!!!!!!!!!!!!!!!!!!!! goondiwindi cd2 Nfert=200 system=w1  Root = deep sowing = AvgWindow !!!!!!!!!!!!!!!!!!!!!!!
 
@@ -143,6 +150,7 @@ module = plant(wheat)       soil.par[cd2deep]        %apsuite/apsim/wheat/wheat.
 module = plant(chickpea)    soil.par[cd2deep]        %apsuite/apsim/chickpea/chickpea.ini [standard]
 module = sorghum         soil.par[cd2deep]                           %apsuite/apsim/sorghum/sorghum.ini [standard]
 module = tracker   report.par[all]
+module = sysbal
 
 !!!!!!!!!!!!!!!!!!!!!!!! coonamble lg1 Nfert=50 system=w1  Root = deep sowing = AvgWindow !!!!!!!!!!!!!!!!!!!!!!!
 
@@ -161,6 +169,7 @@ module = plant(wheat)       soil.par[lg1deep]        %apsuite/apsim/wheat/wheat.
 module = plant(chickpea)    soil.par[lg1deep]        %apsuite/apsim/chickpea/chickpea.ini [standard]
 module = sorghum         soil.par[lg1deep]                           %apsuite/apsim/sorghum/sorghum.ini [standard]
 module = tracker   report.par[all]
+module = sysbal
 
 !!!!!!!!!!!!!!!!!!!!!!!! coonamble lg1 Nfert=200 system=w1  Root = deep sowing = AvgWindow !!!!!!!!!!!!!!!!!!!!!!!
 
@@ -179,6 +188,7 @@ module = plant(wheat)       soil.par[lg1deep]        %apsuite/apsim/wheat/wheat.
 module = plant(chickpea)    soil.par[lg1deep]        %apsuite/apsim/chickpea/chickpea.ini [standard]
 module = sorghum         soil.par[lg1deep]                           %apsuite/apsim/sorghum/sorghum.ini [standard]
 module = tracker   report.par[all]
+module = sysbal
 
 !!!!!!!!!!!!!!!!!!!!!!!! coonamble cd2 Nfert=50 system=w1  Root = deep sowing = AvgWindow !!!!!!!!!!!!!!!!!!!!!!!
 
@@ -197,6 +207,7 @@ module = plant(wheat)       soil.par[cd2deep]        %apsuite/apsim/wheat/wheat.
 module = plant(chickpea)    soil.par[cd2deep]        %apsuite/apsim/chickpea/chickpea.ini [standard]
 module = sorghum         soil.par[cd2deep]                           %apsuite/apsim/sorghum/sorghum.ini [standard]
 module = tracker   report.par[all]
+module = sysbal
 
 !!!!!!!!!!!!!!!!!!!!!!!! coonamble cd2 Nfert=200 system=w1  Root = deep sowing = AvgWindow !!!!!!!!!!!!!!!!!!!!!!!
 
@@ -215,6 +226,7 @@ module = plant(wheat)       soil.par[cd2deep]        %apsuite/apsim/wheat/wheat.
 module = plant(chickpea)    soil.par[cd2deep]        %apsuite/apsim/chickpea/chickpea.ini [standard]
 module = sorghum         soil.par[cd2deep]                           %apsuite/apsim/sorghum/sorghum.ini [standard]
 module = tracker   report.par[all]
+module = sysbal
 
 !!!!!!!!!!!!!!!!!!!!!!!! warialda lg1 Nfert=50 system=w3  Root = deep sowing = AvgWindow !!!!!!!!!!!!!!!!!!!!!!!
 
@@ -233,6 +245,7 @@ module = plant(wheat)       soil.par[lg1deep]        %apsuite/apsim/wheat/wheat.
 module = plant(chickpea)    soil.par[lg1deep]        %apsuite/apsim/chickpea/chickpea.ini [standard]
 module = sorghum         soil.par[lg1deep]                           %apsuite/apsim/sorghum/sorghum.ini [standard]
 module = tracker   report.par[all]
+module = sysbal
 
 !!!!!!!!!!!!!!!!!!!!!!!! warialda lg1 Nfert=200 system=w3  Root = deep sowing = AvgWindow !!!!!!!!!!!!!!!!!!!!!!!
 
@@ -251,6 +264,7 @@ module = plant(wheat)       soil.par[lg1deep]        %apsuite/apsim/wheat/wheat.
 module = plant(chickpea)    soil.par[lg1deep]        %apsuite/apsim/chickpea/chickpea.ini [standard]
 module = sorghum         soil.par[lg1deep]                           %apsuite/apsim/sorghum/sorghum.ini [standard]
 module = tracker   report.par[all]
+module = sysbal
 
 !!!!!!!!!!!!!!!!!!!!!!!! warialda cd2 Nfert=50 system=w3  Root = deep sowing = AvgWindow !!!!!!!!!!!!!!!!!!!!!!!
 
@@ -269,6 +283,7 @@ module = plant(wheat)       soil.par[cd2deep]        %apsuite/apsim/wheat/wheat.
 module = plant(chickpea)    soil.par[cd2deep]        %apsuite/apsim/chickpea/chickpea.ini [standard]
 module = sorghum         soil.par[cd2deep]                           %apsuite/apsim/sorghum/sorghum.ini [standard]
 module = tracker   report.par[all]
+module = sysbal
 
 !!!!!!!!!!!!!!!!!!!!!!!! warialda cd2 Nfert=200 system=w3  Root = deep sowing = AvgWindow !!!!!!!!!!!!!!!!!!!!!!!
 
@@ -287,6 +302,7 @@ module = plant(wheat)       soil.par[cd2deep]        %apsuite/apsim/wheat/wheat.
 module = plant(chickpea)    soil.par[cd2deep]        %apsuite/apsim/chickpea/chickpea.ini [standard]
 module = sorghum         soil.par[cd2deep]                           %apsuite/apsim/sorghum/sorghum.ini [standard]
 module = tracker   report.par[all]
+module = sysbal
 
 !!!!!!!!!!!!!!!!!!!!!!!! goondiwindi lg1 Nfert=50 system=w3  Root = deep sowing = AvgWindow !!!!!!!!!!!!!!!!!!!!!!!
 
@@ -305,6 +321,7 @@ module = plant(wheat)       soil.par[lg1deep]        %apsuite/apsim/wheat/wheat.
 module = plant(chickpea)    soil.par[lg1deep]        %apsuite/apsim/chickpea/chickpea.ini [standard]
 module = sorghum         soil.par[lg1deep]                           %apsuite/apsim/sorghum/sorghum.ini [standard]
 module = tracker   report.par[all]
+module = sysbal
 
 !!!!!!!!!!!!!!!!!!!!!!!! goondiwindi lg1 Nfert=200 system=w3  Root = deep sowing = AvgWindow !!!!!!!!!!!!!!!!!!!!!!!
 
@@ -323,6 +340,7 @@ module = plant(wheat)       soil.par[lg1deep]        %apsuite/apsim/wheat/wheat.
 module = plant(chickpea)    soil.par[lg1deep]        %apsuite/apsim/chickpea/chickpea.ini [standard]
 module = sorghum         soil.par[lg1deep]                           %apsuite/apsim/sorghum/sorghum.ini [standard]
 module = tracker   report.par[all]
+module = sysbal
 
 !!!!!!!!!!!!!!!!!!!!!!!! goondiwindi cd2 Nfert=50 system=w3  Root = deep sowing = AvgWindow !!!!!!!!!!!!!!!!!!!!!!!
 
@@ -341,6 +359,7 @@ module = plant(wheat)       soil.par[cd2deep]        %apsuite/apsim/wheat/wheat.
 module = plant(chickpea)    soil.par[cd2deep]        %apsuite/apsim/chickpea/chickpea.ini [standard]
 module = sorghum         soil.par[cd2deep]                           %apsuite/apsim/sorghum/sorghum.ini [standard]
 module = tracker   report.par[all]
+module = sysbal
 
 !!!!!!!!!!!!!!!!!!!!!!!! goondiwindi cd2 Nfert=200 system=w3  Root = deep sowing = AvgWindow !!!!!!!!!!!!!!!!!!!!!!!
 
@@ -359,6 +378,7 @@ module = plant(wheat)       soil.par[cd2deep]        %apsuite/apsim/wheat/wheat.
 module = plant(chickpea)    soil.par[cd2deep]        %apsuite/apsim/chickpea/chickpea.ini [standard]
 module = sorghum         soil.par[cd2deep]                           %apsuite/apsim/sorghum/sorghum.ini [standard]
 module = tracker   report.par[all]
+module = sysbal
 
 !!!!!!!!!!!!!!!!!!!!!!!! coonamble lg1 Nfert=50 system=w3  Root = deep sowing = AvgWindow !!!!!!!!!!!!!!!!!!!!!!!
 
@@ -377,6 +397,7 @@ module = plant(wheat)       soil.par[lg1deep]        %apsuite/apsim/wheat/wheat.
 module = plant(chickpea)    soil.par[lg1deep]        %apsuite/apsim/chickpea/chickpea.ini [standard]
 module = sorghum         soil.par[lg1deep]                           %apsuite/apsim/sorghum/sorghum.ini [standard]
 module = tracker   report.par[all]
+module = sysbal
 
 !!!!!!!!!!!!!!!!!!!!!!!! coonamble lg1 Nfert=200 system=w3  Root = deep sowing = AvgWindow !!!!!!!!!!!!!!!!!!!!!!!
 
@@ -395,6 +416,7 @@ module = plant(wheat)       soil.par[lg1deep]        %apsuite/apsim/wheat/wheat.
 module = plant(chickpea)    soil.par[lg1deep]        %apsuite/apsim/chickpea/chickpea.ini [standard]
 module = sorghum         soil.par[lg1deep]                           %apsuite/apsim/sorghum/sorghum.ini [standard]
 module = tracker   report.par[all]
+module = sysbal
 
 !!!!!!!!!!!!!!!!!!!!!!!! coonamble cd2 Nfert=50 system=w3  Root = deep sowing = AvgWindow !!!!!!!!!!!!!!!!!!!!!!!
 
@@ -413,6 +435,7 @@ module = plant(wheat)       soil.par[cd2deep]        %apsuite/apsim/wheat/wheat.
 module = plant(chickpea)    soil.par[cd2deep]        %apsuite/apsim/chickpea/chickpea.ini [standard]
 module = sorghum         soil.par[cd2deep]                           %apsuite/apsim/sorghum/sorghum.ini [standard]
 module = tracker   report.par[all]
+module = sysbal
 
 !!!!!!!!!!!!!!!!!!!!!!!! coonamble cd2 Nfert=200 system=w3  Root = deep sowing = AvgWindow !!!!!!!!!!!!!!!!!!!!!!!
 
@@ -431,6 +454,7 @@ module = plant(wheat)       soil.par[cd2deep]        %apsuite/apsim/wheat/wheat.
 module = plant(chickpea)    soil.par[cd2deep]        %apsuite/apsim/chickpea/chickpea.ini [standard]
 module = sorghum         soil.par[cd2deep]                           %apsuite/apsim/sorghum/sorghum.ini [standard]
 module = tracker   report.par[all]
+module = sysbal
 
 !!!!!!!!!!!!!!!!!!!!!!!! warialda lg1 Nfert=50 system=s1  Root = deep sowing = AvgWindow !!!!!!!!!!!!!!!!!!!!!!!
 
@@ -449,6 +473,7 @@ module = plant(wheat)       soil.par[lg1deep]        %apsuite/apsim/wheat/wheat.
 module = plant(chickpea)    soil.par[lg1deep]        %apsuite/apsim/chickpea/chickpea.ini [standard]
 module = sorghum         soil.par[lg1deep]                           %apsuite/apsim/sorghum/sorghum.ini [standard]
 module = tracker   report.par[all]
+module = sysbal
 
 !!!!!!!!!!!!!!!!!!!!!!!! warialda lg1 Nfert=200 system=s1  Root = deep sowing = AvgWindow !!!!!!!!!!!!!!!!!!!!!!!
 
@@ -467,6 +492,7 @@ module = plant(wheat)       soil.par[lg1deep]        %apsuite/apsim/wheat/wheat.
 module = plant(chickpea)    soil.par[lg1deep]        %apsuite/apsim/chickpea/chickpea.ini [standard]
 module = sorghum         soil.par[lg1deep]                           %apsuite/apsim/sorghum/sorghum.ini [standard]
 module = tracker   report.par[all]
+module = sysbal
 
 !!!!!!!!!!!!!!!!!!!!!!!! warialda cd2 Nfert=50 system=s1  Root = deep sowing = AvgWindow !!!!!!!!!!!!!!!!!!!!!!!
 
@@ -485,6 +511,7 @@ module = plant(wheat)       soil.par[cd2deep]        %apsuite/apsim/wheat/wheat.
 module = plant(chickpea)    soil.par[cd2deep]        %apsuite/apsim/chickpea/chickpea.ini [standard]
 module = sorghum         soil.par[cd2deep]                           %apsuite/apsim/sorghum/sorghum.ini [standard]
 module = tracker   report.par[all]
+module = sysbal
 
 !!!!!!!!!!!!!!!!!!!!!!!! warialda cd2 Nfert=200 system=s1  Root = deep sowing = AvgWindow !!!!!!!!!!!!!!!!!!!!!!!
 
@@ -503,6 +530,7 @@ module = plant(wheat)       soil.par[cd2deep]        %apsuite/apsim/wheat/wheat.
 module = plant(chickpea)    soil.par[cd2deep]        %apsuite/apsim/chickpea/chickpea.ini [standard]
 module = sorghum         soil.par[cd2deep]                           %apsuite/apsim/sorghum/sorghum.ini [standard]
 module = tracker   report.par[all]
+module = sysbal
 
 !!!!!!!!!!!!!!!!!!!!!!!! goondiwindi lg1 Nfert=50 system=s1  Root = deep sowing = AvgWindow !!!!!!!!!!!!!!!!!!!!!!!
 
@@ -521,6 +549,7 @@ module = plant(wheat)       soil.par[lg1deep]        %apsuite/apsim/wheat/wheat.
 module = plant(chickpea)    soil.par[lg1deep]        %apsuite/apsim/chickpea/chickpea.ini [standard]
 module = sorghum         soil.par[lg1deep]                           %apsuite/apsim/sorghum/sorghum.ini [standard]
 module = tracker   report.par[all]
+module = sysbal
 
 !!!!!!!!!!!!!!!!!!!!!!!! goondiwindi lg1 Nfert=200 system=s1  Root = deep sowing = AvgWindow !!!!!!!!!!!!!!!!!!!!!!!
 
@@ -539,6 +568,7 @@ module = plant(wheat)       soil.par[lg1deep]        %apsuite/apsim/wheat/wheat.
 module = plant(chickpea)    soil.par[lg1deep]        %apsuite/apsim/chickpea/chickpea.ini [standard]
 module = sorghum         soil.par[lg1deep]                           %apsuite/apsim/sorghum/sorghum.ini [standard]
 module = tracker   report.par[all]
+module = sysbal
 
 !!!!!!!!!!!!!!!!!!!!!!!! goondiwindi cd2 Nfert=50 system=s1  Root = deep sowing = AvgWindow !!!!!!!!!!!!!!!!!!!!!!!
 
@@ -557,6 +587,7 @@ module = plant(wheat)       soil.par[cd2deep]        %apsuite/apsim/wheat/wheat.
 module = plant(chickpea)    soil.par[cd2deep]        %apsuite/apsim/chickpea/chickpea.ini [standard]
 module = sorghum         soil.par[cd2deep]                           %apsuite/apsim/sorghum/sorghum.ini [standard]
 module = tracker   report.par[all]
+module = sysbal
 
 !!!!!!!!!!!!!!!!!!!!!!!! goondiwindi cd2 Nfert=200 system=s1  Root = deep sowing = AvgWindow !!!!!!!!!!!!!!!!!!!!!!!
 
@@ -575,6 +606,7 @@ module = plant(wheat)       soil.par[cd2deep]        %apsuite/apsim/wheat/wheat.
 module = plant(chickpea)    soil.par[cd2deep]        %apsuite/apsim/chickpea/chickpea.ini [standard]
 module = sorghum         soil.par[cd2deep]                           %apsuite/apsim/sorghum/sorghum.ini [standard]
 module = tracker   report.par[all]
+module = sysbal
 
 !!!!!!!!!!!!!!!!!!!!!!!! coonamble lg1 Nfert=50 system=s1  Root = deep sowing = AvgWindow !!!!!!!!!!!!!!!!!!!!!!!
 
@@ -593,6 +625,7 @@ module = plant(wheat)       soil.par[lg1deep]        %apsuite/apsim/wheat/wheat.
 module = plant(chickpea)    soil.par[lg1deep]        %apsuite/apsim/chickpea/chickpea.ini [standard]
 module = sorghum         soil.par[lg1deep]                           %apsuite/apsim/sorghum/sorghum.ini [standard]
 module = tracker   report.par[all]
+module = sysbal
 
 !!!!!!!!!!!!!!!!!!!!!!!! coonamble lg1 Nfert=200 system=s1  Root = deep sowing = AvgWindow !!!!!!!!!!!!!!!!!!!!!!!
 
@@ -611,6 +644,7 @@ module = plant(wheat)       soil.par[lg1deep]        %apsuite/apsim/wheat/wheat.
 module = plant(chickpea)    soil.par[lg1deep]        %apsuite/apsim/chickpea/chickpea.ini [standard]
 module = sorghum         soil.par[lg1deep]                           %apsuite/apsim/sorghum/sorghum.ini [standard]
 module = tracker   report.par[all]
+module = sysbal
 
 !!!!!!!!!!!!!!!!!!!!!!!! coonamble cd2 Nfert=50 system=s1  Root = deep sowing = AvgWindow !!!!!!!!!!!!!!!!!!!!!!!
 
@@ -629,6 +663,7 @@ module = plant(wheat)       soil.par[cd2deep]        %apsuite/apsim/wheat/wheat.
 module = plant(chickpea)    soil.par[cd2deep]        %apsuite/apsim/chickpea/chickpea.ini [standard]
 module = sorghum         soil.par[cd2deep]                           %apsuite/apsim/sorghum/sorghum.ini [standard]
 module = tracker   report.par[all]
+module = sysbal
 
 !!!!!!!!!!!!!!!!!!!!!!!! coonamble cd2 Nfert=200 system=s1  Root = deep sowing = AvgWindow !!!!!!!!!!!!!!!!!!!!!!!
 
@@ -647,6 +682,7 @@ module = plant(wheat)       soil.par[cd2deep]        %apsuite/apsim/wheat/wheat.
 module = plant(chickpea)    soil.par[cd2deep]        %apsuite/apsim/chickpea/chickpea.ini [standard]
 module = sorghum         soil.par[cd2deep]                           %apsuite/apsim/sorghum/sorghum.ini [standard]
 module = tracker   report.par[all]
+module = sysbal
 
 !!!!!!!!!!!!!!!!!!!!!!!! warialda lg1 Nfert=50 system=LongFallow1  Root = deep sowing = AvgWindow !!!!!!!!!!!!!!!!!!!!!!!
 
@@ -665,6 +701,7 @@ module = plant(wheat)       soil.par[lg1deep]        %apsuite/apsim/wheat/wheat.
 module = plant(chickpea)    soil.par[lg1deep]        %apsuite/apsim/chickpea/chickpea.ini [standard]
 module = sorghum         soil.par[lg1deep]                           %apsuite/apsim/sorghum/sorghum.ini [standard]
 module = tracker   report.par[all]
+module = sysbal
 
 !!!!!!!!!!!!!!!!!!!!!!!! warialda lg1 Nfert=200 system=LongFallow1  Root = deep sowing = AvgWindow !!!!!!!!!!!!!!!!!!!!!!!
 
@@ -683,6 +720,7 @@ module = plant(wheat)       soil.par[lg1deep]        %apsuite/apsim/wheat/wheat.
 module = plant(chickpea)    soil.par[lg1deep]        %apsuite/apsim/chickpea/chickpea.ini [standard]
 module = sorghum         soil.par[lg1deep]                           %apsuite/apsim/sorghum/sorghum.ini [standard]
 module = tracker   report.par[all]
+module = sysbal
 
 !!!!!!!!!!!!!!!!!!!!!!!! warialda cd2 Nfert=50 system=LongFallow1  Root = deep sowing = AvgWindow !!!!!!!!!!!!!!!!!!!!!!!
 
@@ -701,6 +739,7 @@ module = plant(wheat)       soil.par[cd2deep]        %apsuite/apsim/wheat/wheat.
 module = plant(chickpea)    soil.par[cd2deep]        %apsuite/apsim/chickpea/chickpea.ini [standard]
 module = sorghum         soil.par[cd2deep]                           %apsuite/apsim/sorghum/sorghum.ini [standard]
 module = tracker   report.par[all]
+module = sysbal
 
 !!!!!!!!!!!!!!!!!!!!!!!! warialda cd2 Nfert=200 system=LongFallow1  Root = deep sowing = AvgWindow !!!!!!!!!!!!!!!!!!!!!!!
 
@@ -719,6 +758,7 @@ module = plant(wheat)       soil.par[cd2deep]        %apsuite/apsim/wheat/wheat.
 module = plant(chickpea)    soil.par[cd2deep]        %apsuite/apsim/chickpea/chickpea.ini [standard]
 module = sorghum         soil.par[cd2deep]                           %apsuite/apsim/sorghum/sorghum.ini [standard]
 module = tracker   report.par[all]
+module = sysbal
 
 !!!!!!!!!!!!!!!!!!!!!!!! goondiwindi lg1 Nfert=50 system=LongFallow1  Root = deep sowing = AvgWindow !!!!!!!!!!!!!!!!!!!!!!!
 
@@ -737,6 +777,7 @@ module = plant(wheat)       soil.par[lg1deep]        %apsuite/apsim/wheat/wheat.
 module = plant(chickpea)    soil.par[lg1deep]        %apsuite/apsim/chickpea/chickpea.ini [standard]
 module = sorghum         soil.par[lg1deep]                           %apsuite/apsim/sorghum/sorghum.ini [standard]
 module = tracker   report.par[all]
+module = sysbal
 
 !!!!!!!!!!!!!!!!!!!!!!!! goondiwindi lg1 Nfert=200 system=LongFallow1  Root = deep sowing = AvgWindow !!!!!!!!!!!!!!!!!!!!!!!
 
@@ -755,6 +796,7 @@ module = plant(wheat)       soil.par[lg1deep]        %apsuite/apsim/wheat/wheat.
 module = plant(chickpea)    soil.par[lg1deep]        %apsuite/apsim/chickpea/chickpea.ini [standard]
 module = sorghum         soil.par[lg1deep]                           %apsuite/apsim/sorghum/sorghum.ini [standard]
 module = tracker   report.par[all]
+module = sysbal
 
 !!!!!!!!!!!!!!!!!!!!!!!! goondiwindi cd2 Nfert=50 system=LongFallow1  Root = deep sowing = AvgWindow !!!!!!!!!!!!!!!!!!!!!!!
 
@@ -773,6 +815,7 @@ module = plant(wheat)       soil.par[cd2deep]        %apsuite/apsim/wheat/wheat.
 module = plant(chickpea)    soil.par[cd2deep]        %apsuite/apsim/chickpea/chickpea.ini [standard]
 module = sorghum         soil.par[cd2deep]                           %apsuite/apsim/sorghum/sorghum.ini [standard]
 module = tracker   report.par[all]
+module = sysbal
 
 !!!!!!!!!!!!!!!!!!!!!!!! goondiwindi cd2 Nfert=200 system=LongFallow1  Root = deep sowing = AvgWindow !!!!!!!!!!!!!!!!!!!!!!!
 
@@ -791,6 +834,7 @@ module = plant(wheat)       soil.par[cd2deep]        %apsuite/apsim/wheat/wheat.
 module = plant(chickpea)    soil.par[cd2deep]        %apsuite/apsim/chickpea/chickpea.ini [standard]
 module = sorghum         soil.par[cd2deep]                           %apsuite/apsim/sorghum/sorghum.ini [standard]
 module = tracker   report.par[all]
+module = sysbal
 
 !!!!!!!!!!!!!!!!!!!!!!!! coonamble lg1 Nfert=50 system=LongFallow1  Root = deep sowing = AvgWindow !!!!!!!!!!!!!!!!!!!!!!!
 
@@ -809,6 +853,7 @@ module = plant(wheat)       soil.par[lg1deep]        %apsuite/apsim/wheat/wheat.
 module = plant(chickpea)    soil.par[lg1deep]        %apsuite/apsim/chickpea/chickpea.ini [standard]
 module = sorghum         soil.par[lg1deep]                           %apsuite/apsim/sorghum/sorghum.ini [standard]
 module = tracker   report.par[all]
+module = sysbal
 
 !!!!!!!!!!!!!!!!!!!!!!!! coonamble lg1 Nfert=200 system=LongFallow1  Root = deep sowing = AvgWindow !!!!!!!!!!!!!!!!!!!!!!!
 
@@ -827,6 +872,7 @@ module = plant(wheat)       soil.par[lg1deep]        %apsuite/apsim/wheat/wheat.
 module = plant(chickpea)    soil.par[lg1deep]        %apsuite/apsim/chickpea/chickpea.ini [standard]
 module = sorghum         soil.par[lg1deep]                           %apsuite/apsim/sorghum/sorghum.ini [standard]
 module = tracker   report.par[all]
+module = sysbal
 
 !!!!!!!!!!!!!!!!!!!!!!!! coonamble cd2 Nfert=50 system=LongFallow1  Root = deep sowing = AvgWindow !!!!!!!!!!!!!!!!!!!!!!!
 
@@ -845,6 +891,7 @@ module = plant(wheat)       soil.par[cd2deep]        %apsuite/apsim/wheat/wheat.
 module = plant(chickpea)    soil.par[cd2deep]        %apsuite/apsim/chickpea/chickpea.ini [standard]
 module = sorghum         soil.par[cd2deep]                           %apsuite/apsim/sorghum/sorghum.ini [standard]
 module = tracker   report.par[all]
+module = sysbal
 
 !!!!!!!!!!!!!!!!!!!!!!!! coonamble cd2 Nfert=200 system=LongFallow1  Root = deep sowing = AvgWindow !!!!!!!!!!!!!!!!!!!!!!!
 
@@ -863,6 +910,7 @@ module = plant(wheat)       soil.par[cd2deep]        %apsuite/apsim/wheat/wheat.
 module = plant(chickpea)    soil.par[cd2deep]        %apsuite/apsim/chickpea/chickpea.ini [standard]
 module = sorghum         soil.par[cd2deep]                           %apsuite/apsim/sorghum/sorghum.ini [standard]
 module = tracker   report.par[all]
+module = sysbal
 
 !!!!!!!!!!!!!!!!!!!!!!!! warialda lg1 Nfert=50 system=oc2  Root = deep sowing = AvgWindow !!!!!!!!!!!!!!!!!!!!!!!
 
@@ -881,6 +929,7 @@ module = plant(wheat)       soil.par[lg1deep]        %apsuite/apsim/wheat/wheat.
 module = plant(chickpea)    soil.par[lg1deep]        %apsuite/apsim/chickpea/chickpea.ini [standard]
 module = sorghum         soil.par[lg1deep]                           %apsuite/apsim/sorghum/sorghum.ini [standard]
 module = tracker   report.par[all]
+module = sysbal
 
 !!!!!!!!!!!!!!!!!!!!!!!! warialda lg1 Nfert=200 system=oc2  Root = deep sowing = AvgWindow !!!!!!!!!!!!!!!!!!!!!!!
 
@@ -899,6 +948,7 @@ module = plant(wheat)       soil.par[lg1deep]        %apsuite/apsim/wheat/wheat.
 module = plant(chickpea)    soil.par[lg1deep]        %apsuite/apsim/chickpea/chickpea.ini [standard]
 module = sorghum         soil.par[lg1deep]                           %apsuite/apsim/sorghum/sorghum.ini [standard]
 module = tracker   report.par[all]
+module = sysbal
 
 !!!!!!!!!!!!!!!!!!!!!!!! warialda cd2 Nfert=50 system=oc2  Root = deep sowing = AvgWindow !!!!!!!!!!!!!!!!!!!!!!!
 
@@ -917,6 +967,7 @@ module = plant(wheat)       soil.par[cd2deep]        %apsuite/apsim/wheat/wheat.
 module = plant(chickpea)    soil.par[cd2deep]        %apsuite/apsim/chickpea/chickpea.ini [standard]
 module = sorghum         soil.par[cd2deep]                           %apsuite/apsim/sorghum/sorghum.ini [standard]
 module = tracker   report.par[all]
+module = sysbal
 
 !!!!!!!!!!!!!!!!!!!!!!!! warialda cd2 Nfert=200 system=oc2  Root = deep sowing = AvgWindow !!!!!!!!!!!!!!!!!!!!!!!
 
@@ -935,6 +986,7 @@ module = plant(wheat)       soil.par[cd2deep]        %apsuite/apsim/wheat/wheat.
 module = plant(chickpea)    soil.par[cd2deep]        %apsuite/apsim/chickpea/chickpea.ini [standard]
 module = sorghum         soil.par[cd2deep]                           %apsuite/apsim/sorghum/sorghum.ini [standard]
 module = tracker   report.par[all]
+module = sysbal
 
 !!!!!!!!!!!!!!!!!!!!!!!! goondiwindi lg1 Nfert=50 system=oc2  Root = deep sowing = AvgWindow !!!!!!!!!!!!!!!!!!!!!!!
 
@@ -953,6 +1005,7 @@ module = plant(wheat)       soil.par[lg1deep]        %apsuite/apsim/wheat/wheat.
 module = plant(chickpea)    soil.par[lg1deep]        %apsuite/apsim/chickpea/chickpea.ini [standard]
 module = sorghum         soil.par[lg1deep]                           %apsuite/apsim/sorghum/sorghum.ini [standard]
 module = tracker   report.par[all]
+module = sysbal
 
 !!!!!!!!!!!!!!!!!!!!!!!! goondiwindi lg1 Nfert=200 system=oc2  Root = deep sowing = AvgWindow !!!!!!!!!!!!!!!!!!!!!!!
 
@@ -971,6 +1024,7 @@ module = plant(wheat)       soil.par[lg1deep]        %apsuite/apsim/wheat/wheat.
 module = plant(chickpea)    soil.par[lg1deep]        %apsuite/apsim/chickpea/chickpea.ini [standard]
 module = sorghum         soil.par[lg1deep]                           %apsuite/apsim/sorghum/sorghum.ini [standard]
 module = tracker   report.par[all]
+module = sysbal
 
 !!!!!!!!!!!!!!!!!!!!!!!! goondiwindi cd2 Nfert=50 system=oc2  Root = deep sowing = AvgWindow !!!!!!!!!!!!!!!!!!!!!!!
 
@@ -989,6 +1043,7 @@ module = plant(wheat)       soil.par[cd2deep]        %apsuite/apsim/wheat/wheat.
 module = plant(chickpea)    soil.par[cd2deep]        %apsuite/apsim/chickpea/chickpea.ini [standard]
 module = sorghum         soil.par[cd2deep]                           %apsuite/apsim/sorghum/sorghum.ini [standard]
 module = tracker   report.par[all]
+module = sysbal
 
 !!!!!!!!!!!!!!!!!!!!!!!! goondiwindi cd2 Nfert=200 system=oc2  Root = deep sowing = AvgWindow !!!!!!!!!!!!!!!!!!!!!!!
 
@@ -1007,6 +1062,7 @@ module = plant(wheat)       soil.par[cd2deep]        %apsuite/apsim/wheat/wheat.
 module = plant(chickpea)    soil.par[cd2deep]        %apsuite/apsim/chickpea/chickpea.ini [standard]
 module = sorghum         soil.par[cd2deep]                           %apsuite/apsim/sorghum/sorghum.ini [standard]
 module = tracker   report.par[all]
+module = sysbal
 
 !!!!!!!!!!!!!!!!!!!!!!!! coonamble lg1 Nfert=50 system=oc2  Root = deep sowing = AvgWindow !!!!!!!!!!!!!!!!!!!!!!!
 
@@ -1025,6 +1081,7 @@ module = plant(wheat)       soil.par[lg1deep]        %apsuite/apsim/wheat/wheat.
 module = plant(chickpea)    soil.par[lg1deep]        %apsuite/apsim/chickpea/chickpea.ini [standard]
 module = sorghum         soil.par[lg1deep]                           %apsuite/apsim/sorghum/sorghum.ini [standard]
 module = tracker   report.par[all]
+module = sysbal
 
 !!!!!!!!!!!!!!!!!!!!!!!! coonamble lg1 Nfert=200 system=oc2  Root = deep sowing = AvgWindow !!!!!!!!!!!!!!!!!!!!!!!
 
@@ -1043,6 +1100,7 @@ module = plant(wheat)       soil.par[lg1deep]        %apsuite/apsim/wheat/wheat.
 module = plant(chickpea)    soil.par[lg1deep]        %apsuite/apsim/chickpea/chickpea.ini [standard]
 module = sorghum         soil.par[lg1deep]                           %apsuite/apsim/sorghum/sorghum.ini [standard]
 module = tracker   report.par[all]
+module = sysbal
 
 !!!!!!!!!!!!!!!!!!!!!!!! coonamble cd2 Nfert=50 system=oc2  Root = deep sowing = AvgWindow !!!!!!!!!!!!!!!!!!!!!!!
 
@@ -1061,6 +1119,7 @@ module = plant(wheat)       soil.par[cd2deep]        %apsuite/apsim/wheat/wheat.
 module = plant(chickpea)    soil.par[cd2deep]        %apsuite/apsim/chickpea/chickpea.ini [standard]
 module = sorghum         soil.par[cd2deep]                           %apsuite/apsim/sorghum/sorghum.ini [standard]
 module = tracker   report.par[all]
+module = sysbal
 
 !!!!!!!!!!!!!!!!!!!!!!!! coonamble cd2 Nfert=200 system=oc2  Root = deep sowing = AvgWindow !!!!!!!!!!!!!!!!!!!!!!!
 
@@ -1079,4 +1138,5 @@ module = plant(wheat)       soil.par[cd2deep]        %apsuite/apsim/wheat/wheat.
 module = plant(chickpea)    soil.par[cd2deep]        %apsuite/apsim/chickpea/chickpea.ini [standard]
 module = sorghum         soil.par[cd2deep]                           %apsuite/apsim/sorghum/sorghum.ini [standard]
 module = tracker   report.par[all]
+module = sysbal
 
