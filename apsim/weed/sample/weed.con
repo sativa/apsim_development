@@ -10,6 +10,8 @@ module = soilwat2     %apsuite/apsim/soilwat2/sample/soilwat2.par[black_earth]  
 module = SurfaceOM   %apsuite/apsim/SurfaceOM/sample/SurfaceOM.par [legume_residue] %apsuite/apsim/SurfaceOM/SurfaceOM.ini [standard]
 module = soiln2       %apsuite/apsim/soiln2/sample/soiln2.par[black_earth]      %apsuite/apsim/soiln2/soiln2.ini[standard]
 module = Plant(weed)         weed.par[sample_weed] %apsuite/apsim/weed/weed.ini[standard]
+module = sysbal
+
 [APSIM.wheat_weed]
 
 title=Wheat Winter - weed Simulation
@@ -25,6 +27,7 @@ module = canopy         weed.par[wheat_weed]
 module = Plant(wheat) weed.par [sample_wheat] %apsuite/apsim/Wheat/wheat.ini [standard]
 module = Plant(weed)           weed.par[sample_weed] %apsuite/apsim/weed/weed.ini[standard]
 module = Log  weed.par[all]
+module = sysbal
 
 [APSIM.sorghum_weed]
 title=Sorghum summer-grass Simulation
@@ -39,3 +42,4 @@ module = soiln2         %apsuite/apsim/soiln2/sample/soiln2.par[black_earth]    
 module = canopy         weed.par[sorghum_weed]
 module = sorghum        weed.par [sample_sorghum] %apsuite/apsim/sorghum/sorghum.ini [standard]
 module = Plant(weed)           weed.par[sample_weed] %apsuite/apsim/weed/weed.ini[standard]
+module = sysbal
