@@ -1586,7 +1586,6 @@
             ! no modules present
       endif
 
-      call sysbal_set_phosphorus_aware ()
       call pop_routine (my_name)
       return
       end subroutine
@@ -2319,6 +2318,7 @@
          call sysbal_find_modules ()
 !         call sysbal_get_other_variables ()
 !         call sysbal_prepare ()
+          call sysbal_set_phosphorus_aware ()
 
       else if (Action .eq. ACTION_Post) then
          call sysbal_find_modules ()
