@@ -1,27 +1,27 @@
 ! Changes jpd 9 April 1997
 !
 ! jpd  1. Removed Residue, initialising with residue_wt = 0, therefore not necessary.
-! jpd  2. Soilwat and Soiln now point to "Soils.par". Same soil description now in use 
+! jpd  2. Soilwat and Soiln now point to "Soils.par". Same soil description now in use
 !          for both pigeonpea and millet (RCE 2 and RCE 24)
 ! jpd  3.  Millet (and tiller modules) also point to "soils.par" for LL and kl.
 ! jpd  4. As a result, rooting depth is now 170cm and PAWC is 189mm (from 180cm and 255mm)
-! jpd  5.  Fixed sw update with grav% in "millete.man" 
+! jpd  5.  Fixed sw update with grav% in "millete.man"
 ! jpd  6  Changed start date to 170. Since update with measured mineral N on day 174
 !          not necessary to apply fertiliser on day 154
 !
 ! Changes gol 24 October 1997
-! gol  7. Patancheru solar radiation data calculated for 1974 to 1977 (pat74-97.aps) 
+! gol  7. Patancheru solar radiation data calculated for 1974 to 1977 (pat74-97.aps)
 ! gol  8. Jodhpur solar radiation data calculated for all years except 1993/4 when
 !          it was measured (jod63-97.aps) Oct-Dec 1974 and Dec 1977 still missing
 ! gol  9. Residue module added back, Irrigate module added where irrigation used
 ! gol 10. Special weather data file made with extended daylength by amending latitude
 !          (pat85ed1.aps and pat86ed.aps) located in /apswork/millet/weather IR
-! gol 11. Fertiliser proportions corrected in fertiliz par file (not ini) 
+! gol 11. Fertiliser proportions corrected in fertiliz par file (not ini)
 
 !!!!!!!!!!!!!!!!!!!!!!!!!!PATANCHERU RABI 1977 NOTTINGHAM GROUP RAINFED!!!!!
 
 version = 5.3
-[apsim.pat77_rf.control]    
+[apsim.pat77_rf.control]
 
 !!!!!!!!!!!!!!!!!!!!!!!!!!PATANCHERU RABI 1977 NOTTINGHAM GROUP IRRIGATED!!!
 
@@ -43,7 +43,8 @@ module = millet (millet2)       soils.par [icrisat_alf2]     %apsuite/apsim/mill
 module = millet (millet3)       soils.par [icrisat_alf2]     %apsuite/apsim/millet/millet.ini [standard]
 module = millet (millet4)       soils.par [icrisat_alf2]     %apsuite/apsim/millet/millet.ini [standard]
 module = millet (millet5)       soils.par [icrisat_alf2]     %apsuite/apsim/millet/millet.ini [standard]
-[apsim.pat77_irr.control]    
+module = sysbal
+[apsim.pat77_irr.control]
 
 !!!!!!!!!!!!!!!!!!!!!!!!!!PATANCHERU KHARIF 1978 NOTTINGHAM GROUP!!!!!!!!!!!
 
@@ -65,7 +66,8 @@ module = millet (millet2)       soils.par [icrisat_alf2]     %apsuite/apsim/mill
 module = millet (millet3)       soils.par [icrisat_alf2]     %apsuite/apsim/millet/millet.ini [standard]
 module = millet (millet4)       soils.par [icrisat_alf2]     %apsuite/apsim/millet/millet.ini [standard]
 module = millet (millet5)       soils.par [icrisat_alf2]     %apsuite/apsim/millet/millet.ini [standard]
-[apsim.pat78.control]    
+module = sysbal
+[apsim.pat78.control]
 
 !!!!!!!!!!!!!!!!!!!!!!!!!!PATANCHERU KHARIF 1982 PS CARBERRY DENSITY 1!!!!!!
 
@@ -87,7 +89,8 @@ module = millet (millet2)       soils.par [icrisat_alf1]     %apsuite/apsim/mill
 module = millet (millet3)       soils.par [icrisat_alf1]     %apsuite/apsim/millet/millet.ini [standard]
 module = millet (millet4)       soils.par [icrisat_alf1]     %apsuite/apsim/millet/millet.ini [standard]
 module = millet (millet5)       soils.par [icrisat_alf1]     %apsuite/apsim/millet/millet.ini [standard]
-[apsim.pat82_d1.control]    
+module = sysbal
+[apsim.pat82_d1.control]
 
 
 !!!!!!!!!!!!!!!!!!!!!!!!!!PATANCHERU KHARIF 1982 PS CARBERRY DENSITY 2!!!!!!
@@ -110,7 +113,8 @@ module = millet (millet2)       soils.par [icrisat_alf1]     %apsuite/apsim/mill
 module = millet (millet3)       soils.par [icrisat_alf1]     %apsuite/apsim/millet/millet.ini [standard]
 module = millet (millet4)       soils.par [icrisat_alf1]     %apsuite/apsim/millet/millet.ini [standard]
 module = millet (millet5)       soils.par [icrisat_alf1]     %apsuite/apsim/millet/millet.ini [standard]
-[apsim.pat82_d2.control]    
+module = sysbal
+[apsim.pat82_d2.control]
 
 !!!!!!!!!!!!!!!!!!!!!!!!!!PATANCHERU KHARIF 1982 PS CARBERRY DENSITY 3!!!!!!
 
@@ -132,7 +136,8 @@ module = millet (millet2)       soils.par [icrisat_alf1]     %apsuite/apsim/mill
 module = millet (millet3)       soils.par [icrisat_alf1]     %apsuite/apsim/millet/millet.ini [standard]
 module = millet (millet4)       soils.par [icrisat_alf1]     %apsuite/apsim/millet/millet.ini [standard]
 module = millet (millet5)       soils.par [icrisat_alf1]     %apsuite/apsim/millet/millet.ini [standard]
-[apsim.pat82_d3.control]    
+module = sysbal
+[apsim.pat82_d3.control]
 
 !!!!!!!!!!!!!!!!!!!!!!!!!!PATANCHERU KHARIF 1982 PS CARBERRY DENSITY 4!!!!!!
 
@@ -154,7 +159,8 @@ module = millet (millet2)       soils.par [icrisat_alf1]     %apsuite/apsim/mill
 module = millet (millet3)       soils.par [icrisat_alf1]     %apsuite/apsim/millet/millet.ini [standard]
 module = millet (millet4)       soils.par [icrisat_alf1]     %apsuite/apsim/millet/millet.ini [standard]
 module = millet (millet5)       soils.par [icrisat_alf1]     %apsuite/apsim/millet/millet.ini [standard]
-[apsim.pat82_d4.control]    
+module = sysbal
+[apsim.pat82_d4.control]
 
 !!!!!!!!!!!!!!!!!!!!!!!!!!PATANCHERU KHARIF 1985 PQ CRAUFURD NORMAL DAYLENTH!!
 
@@ -176,7 +182,8 @@ module = millet (millet2)       soils.par [icrisat_alf1]     %apsuite/apsim/mill
 module = millet (millet3)       soils.par [icrisat_alf1]     %apsuite/apsim/millet/millet.ini [standard]
 module = millet (millet4)       soils.par [icrisat_alf1]     %apsuite/apsim/millet/millet.ini [standard]
 module = millet (millet5)       soils.par [icrisat_alf1]     %apsuite/apsim/millet/millet.ini [standard]
-[apsim.pat85_nd.control]    
+module = sysbal
+[apsim.pat85_nd.control]
 
 !!!!!!!!!!!!!!!!!!!!!!!!!!PATANCHERU KHARIF 1985 PQ CRAUFURD 14.5 H DAYLENGTH!!!
 
@@ -198,7 +205,8 @@ module = millet (millet2)       soils.par [icrisat_alf1]     %apsuite/apsim/mill
 module = millet (millet3)       soils.par [icrisat_alf1]     %apsuite/apsim/millet/millet.ini [standard]
 module = millet (millet4)       soils.par [icrisat_alf1]     %apsuite/apsim/millet/millet.ini [standard]
 module = millet (millet5)       soils.par [icrisat_alf1]     %apsuite/apsim/millet/millet.ini [standard]
-[apsim.pat85_ed1.control]    
+module = sysbal
+[apsim.pat85_ed1.control]
 
 !!!!!!!!!!!!!!!!!!!!!!!!!!PATANCHERU KHARIF 1985 PQ CRAUFURD 15.5 H DAYLENGTH!!
 
@@ -220,7 +228,8 @@ module = millet (millet2)       soils.par [icrisat_alf1]     %apsuite/apsim/mill
 module = millet (millet3)       soils.par [icrisat_alf1]     %apsuite/apsim/millet/millet.ini [standard]
 module = millet (millet4)       soils.par [icrisat_alf1]     %apsuite/apsim/millet/millet.ini [standard]
 module = millet (millet5)       soils.par [icrisat_alf1]     %apsuite/apsim/millet/millet.ini [standard]
-[apsim.pat85_ed2.control]    
+module = sysbal
+[apsim.pat85_ed2.control]
 
 !!!!!!!!!!!!!!!!!!!!!!!!!!PATANCHERU KHARIF 1986 PQ CRAUFURD normal day low density!!
 
@@ -242,7 +251,8 @@ module = millet (millet2)       soils.par [icrisat_alf1]     %apsuite/apsim/mill
 module = millet (millet3)       soils.par [icrisat_alf1]     %apsuite/apsim/millet/millet.ini [standard]
 module = millet (millet4)       soils.par [icrisat_alf1]     %apsuite/apsim/millet/millet.ini [standard]
 module = millet (millet5)       soils.par [icrisat_alf1]     %apsuite/apsim/millet/millet.ini [standard]
-[apsim.pat86_d1.control]    
+module = sysbal
+[apsim.pat86_d1.control]
 
 !!!!!!!!!!!!!!!!!!!!!!!!!!PATANCHERU KHARIF 1986 PQ CRAUFURD normal day high density!!
 
@@ -264,7 +274,8 @@ module = millet (millet2)       soils.par [icrisat_alf1]     %apsuite/apsim/mill
 module = millet (millet3)       soils.par [icrisat_alf1]     %apsuite/apsim/millet/millet.ini [standard]
 module = millet (millet4)       soils.par [icrisat_alf1]     %apsuite/apsim/millet/millet.ini [standard]
 module = millet (millet5)       soils.par [icrisat_alf1]     %apsuite/apsim/millet/millet.ini [standard]
-[apsim.pat86_d2.control]    
+module = sysbal
+[apsim.pat86_d2.control]
 
 !!!!!!!!!!!!!!!!!!!!!!!!!!PATANCHERU KHARIF 1986 PQ CRAUFURD extended day low density!!
 
@@ -286,7 +297,8 @@ module = millet (millet2)       soils.par [icrisat_alf1]     %apsuite/apsim/mill
 module = millet (millet3)       soils.par [icrisat_alf1]     %apsuite/apsim/millet/millet.ini [standard]
 module = millet (millet4)       soils.par [icrisat_alf1]     %apsuite/apsim/millet/millet.ini [standard]
 module = millet (millet5)       soils.par [icrisat_alf1]     %apsuite/apsim/millet/millet.ini [standard]
-[apsim.pat86_ed_d1.control]    
+module = sysbal
+[apsim.pat86_ed_d1.control]
 
 !!!!!!!!!!!!!!!!!!!!!!!!!!PATANCHERU KHARIF 1986 PQ CRAUFURD extended day high density!!
 
@@ -308,7 +320,8 @@ module = millet (millet2)       soils.par [icrisat_alf1]     %apsuite/apsim/mill
 module = millet (millet3)       soils.par [icrisat_alf1]     %apsuite/apsim/millet/millet.ini [standard]
 module = millet (millet4)       soils.par [icrisat_alf1]     %apsuite/apsim/millet/millet.ini [standard]
 module = millet (millet5)       soils.par [icrisat_alf1]     %apsuite/apsim/millet/millet.ini [standard]
-[apsim.pat86_ed_d2.control]    
+module = sysbal
+[apsim.pat86_ed_d2.control]
 
 !!!!!!!!!!!!!!!!!!!!!!!!!!PATANCHERU KHARIF 1995 EJ VAN OOSTEROM!!!!!!!!!!!!
 
@@ -330,7 +343,8 @@ module = millet (millet2)       soils.par [icrisat_alf1]     %apsuite/apsim/mill
 module = millet (millet3)       soils.par [icrisat_alf1]     %apsuite/apsim/millet/millet.ini [standard]
 module = millet (millet4)       soils.par [icrisat_alf1]     %apsuite/apsim/millet/millet.ini [standard]
 module = millet (millet5)       soils.par [icrisat_alf1]     %apsuite/apsim/millet/millet.ini [standard]
-[apsim.pat95_wrajpop.control]    
+module = sysbal
+[apsim.pat95_wrajpop.control]
 
 title=pat95_wrajpop
 module = clock    valid_1.man [pat95] %apsuite/apsim/clock/clock.ini[standard]
@@ -350,11 +364,12 @@ module = millet (millet2)       soils.par [icrisat_alf1]     %apsuite/apsim/mill
 module = millet (millet3)       soils.par [icrisat_alf1]     %apsuite/apsim/millet/millet.ini [standard]
 module = millet (millet4)       soils.par [icrisat_alf1]     %apsuite/apsim/millet/millet.ini [standard]
 module = millet (millet5)       soils.par [icrisat_alf1]     %apsuite/apsim/millet/millet.ini [standard]
-[apsim.pat95_rcbic911.control]    
+module = sysbal
+[apsim.pat95_rcbic911.control]
 
 
 !!!!!!!!!!!!!!!!!!!!!!!!!!JODHPUR KHARIF 1995 EJ VAN OOSTEROM:  0N!!!!!!!!!
-   
+
 title=pat95_rcbic911
 module = clock    valid_1.man [pat95] %apsuite/apsim/clock/clock.ini[standard]
 module = report   valid_1.man [pat95_rcbic911]     valid_1.man [daily]
@@ -373,7 +388,8 @@ module = millet (millet2)       soils.par [icrisat_alf1]     %apsuite/apsim/mill
 module = millet (millet3)       soils.par [icrisat_alf1]     %apsuite/apsim/millet/millet.ini [standard]
 module = millet (millet4)       soils.par [icrisat_alf1]     %apsuite/apsim/millet/millet.ini [standard]
 module = millet (millet5)       soils.par [icrisat_alf1]     %apsuite/apsim/millet/millet.ini [standard]
-[apsim.jod95_n0.control]    
+module = sysbal
+[apsim.jod95_n0.control]
 
 !!!!!!!!!!!!!!!!!!!!!!!!!!JODHPUR KHARIF 1995 EJ VAN OOSTEROM: 20N!!!!!!!!!
 
@@ -395,7 +411,8 @@ module = millet (millet2)       soils.par [jodhpur_aridisol]     %apsuite/apsim/
 module = millet (millet3)       soils.par [jodhpur_aridisol]     %apsuite/apsim/millet/millet.ini [standard]
 module = millet (millet4)       soils.par [jodhpur_aridisol]     %apsuite/apsim/millet/millet.ini [standard]
 module = millet (millet5)       soils.par [jodhpur_aridisol]     %apsuite/apsim/millet/millet.ini [standard]
-[apsim.jod95_n20.control]    
+module = sysbal
+[apsim.jod95_n20.control]
 
 !!!!!!!!!!!!!!!!!!!!!!!!!!JODHPUR KHARIF 1995 EJ VAN OOSTEROM: 40N!!!!!!!!!
 
@@ -417,10 +434,11 @@ module = millet (millet2)       soils.par [jodhpur_aridisol]     %apsuite/apsim/
 module = millet (millet3)       soils.par [jodhpur_aridisol]     %apsuite/apsim/millet/millet.ini [standard]
 module = millet (millet4)       soils.par [jodhpur_aridisol]     %apsuite/apsim/millet/millet.ini [standard]
 module = millet (millet5)       soils.par [jodhpur_aridisol]     %apsuite/apsim/millet/millet.ini [standard]
-[apsim.jod95_n40.control]    
+module = sysbal
+[apsim.jod95_n40.control]
 
 !!!!!!!!!!!!!!!!!!!!!!!!!!JODHPUR KHARIF 1996 EJ VAN OOSTEROM:  0N!!!!!!!!!
-   
+
 title=jod95_n40
 module = clock    valid_1.man [jod95] %apsuite/apsim/clock/clock.ini[standard]
 module = report   valid_1.man [jod95_n40]     valid_1.man [daily]
@@ -439,7 +457,8 @@ module = millet (millet2)       soils.par [jodhpur_aridisol]     %apsuite/apsim/
 module = millet (millet3)       soils.par [jodhpur_aridisol]     %apsuite/apsim/millet/millet.ini [standard]
 module = millet (millet4)       soils.par [jodhpur_aridisol]     %apsuite/apsim/millet/millet.ini [standard]
 module = millet (millet5)       soils.par [jodhpur_aridisol]     %apsuite/apsim/millet/millet.ini [standard]
-[apsim.jod96_n0.control]    
+module = sysbal
+[apsim.jod96_n0.control]
 
 !!!!!!!!!!!!!!!!!!!!!!!!!!JODHPUR KHARIF 1996 EJ VAN OOSTEROM: 20N!!!!!!!!!
 
@@ -461,7 +480,8 @@ module = millet (millet2)       soils.par [jodhpur_aridisol]     %apsuite/apsim/
 module = millet (millet3)       soils.par [jodhpur_aridisol]     %apsuite/apsim/millet/millet.ini [standard]
 module = millet (millet4)       soils.par [jodhpur_aridisol]     %apsuite/apsim/millet/millet.ini [standard]
 module = millet (millet5)       soils.par [jodhpur_aridisol]     %apsuite/apsim/millet/millet.ini [standard]
-[apsim.jod96_n20.control]    
+module = sysbal
+[apsim.jod96_n20.control]
 
 !!!!!!!!!!!!!!!!!!!!!!!!!!JODHPUR KHARIF 1996 EJ VAN OOSTEROM: 40N!!!!!!!!!
 
@@ -483,7 +503,8 @@ module = millet (millet2)       soils.par [jodhpur_aridisol]     %apsuite/apsim/
 module = millet (millet3)       soils.par [jodhpur_aridisol]     %apsuite/apsim/millet/millet.ini [standard]
 module = millet (millet4)       soils.par [jodhpur_aridisol]     %apsuite/apsim/millet/millet.ini [standard]
 module = millet (millet5)       soils.par [jodhpur_aridisol]     %apsuite/apsim/millet/millet.ini [standard]
-[apsim.jod96_n40.control]    
+module = sysbal
+[apsim.jod96_n40.control]
 
 !!!!!!!!!!!!!!!!!!!!!!!!!!PATANCHERU KHARIF 1997 EJ VAN OOSTEROM!!!!!!!!!!!!
 
@@ -505,7 +526,8 @@ module = millet (millet2)       soils.par [jodhpur_aridisol]     %apsuite/apsim/
 module = millet (millet3)       soils.par [jodhpur_aridisol]     %apsuite/apsim/millet/millet.ini [standard]
 module = millet (millet4)       soils.par [jodhpur_aridisol]     %apsuite/apsim/millet/millet.ini [standard]
 module = millet (millet5)       soils.par [jodhpur_aridisol]     %apsuite/apsim/millet/millet.ini [standard]
-[apsim.pat97_bj104.control]    
+module = sysbal
+[apsim.pat97_bj104.control]
 
 title=pat97_bj104
 module = clock    valid_1.man [pat97] %apsuite/apsim/clock/clock.ini[standard]
@@ -525,7 +547,8 @@ module = millet (millet2)       soils.par [icrisat_alf2]     %apsuite/apsim/mill
 module = millet (millet3)       soils.par [icrisat_alf2]     %apsuite/apsim/millet/millet.ini [standard]
 module = millet (millet4)       soils.par [icrisat_alf2]     %apsuite/apsim/millet/millet.ini [standard]
 module = millet (millet5)       soils.par [icrisat_alf2]     %apsuite/apsim/millet/millet.ini [standard]
-[apsim.pat97_hhb67.control]    
+module = sysbal
+[apsim.pat97_hhb67.control]
 
 title=pat97_hhb67
 module = clock    valid_1.man [pat97] %apsuite/apsim/clock/clock.ini[standard]
@@ -545,6 +568,7 @@ module = millet (millet2)       soils.par [icrisat_alf2]     %apsuite/apsim/mill
 module = millet (millet3)       soils.par [icrisat_alf2]     %apsuite/apsim/millet/millet.ini [standard]
 module = millet (millet4)       soils.par [icrisat_alf2]     %apsuite/apsim/millet/millet.ini [standard]
 module = millet (millet5)       soils.par [icrisat_alf2]     %apsuite/apsim/millet/millet.ini [standard]
+module = sysbal
 [apsim.pat97_rcbic911.control]    
 
 title=pat97_rcbic911
@@ -565,7 +589,8 @@ module = millet (millet2)       soils.par [icrisat_alf2]     %apsuite/apsim/mill
 module = millet (millet3)       soils.par [icrisat_alf2]     %apsuite/apsim/millet/millet.ini [standard]
 module = millet (millet4)       soils.par [icrisat_alf2]     %apsuite/apsim/millet/millet.ini [standard]
 module = millet (millet5)       soils.par [icrisat_alf2]     %apsuite/apsim/millet/millet.ini [standard]
-[apsim.pat97_wrajpop.control]    
+module = sysbal
+[apsim.pat97_wrajpop.control]
 
 !!!!!!!!!!!!!!!!!!!!!!!!!!PATANCHERU KHARIF 1994 EJ VAN OOSTEROM!!!!!!!!!!!!
 
@@ -587,7 +612,8 @@ module = millet (millet2)       soils.par [icrisat_alf2]     %apsuite/apsim/mill
 module = millet (millet3)       soils.par [icrisat_alf2]     %apsuite/apsim/millet/millet.ini [standard]
 module = millet (millet4)       soils.par [icrisat_alf2]     %apsuite/apsim/millet/millet.ini [standard]
 module = millet (millet5)       soils.par [icrisat_alf2]     %apsuite/apsim/millet/millet.ini [standard]
-[apsim.pat94_wrajpop.control]    
+module = sysbal
+[apsim.pat94_wrajpop.control]
 
 title=pat94_wrajpop
 module = clock    valid_1.man [pat94] %apsuite/apsim/clock/clock.ini[standard]
@@ -607,7 +633,8 @@ module = millet (millet2)       soils.par [icrisat_alf1]     %apsuite/apsim/mill
 module = millet (millet3)       soils.par [icrisat_alf1]     %apsuite/apsim/millet/millet.ini [standard]
 module = millet (millet4)       soils.par [icrisat_alf1]     %apsuite/apsim/millet/millet.ini [standard]
 module = millet (millet5)       soils.par [icrisat_alf1]     %apsuite/apsim/millet/millet.ini [standard]
-[apsim.pat94_rcbic911.control]    
+module = sysbal
+[apsim.pat94_rcbic911.control]
 
 
 title=pat94_rcbic911
@@ -628,3 +655,4 @@ module = millet (millet2)       soils.par [icrisat_alf1]     %apsuite/apsim/mill
 module = millet (millet3)       soils.par [icrisat_alf1]     %apsuite/apsim/millet/millet.ini [standard]
 module = millet (millet4)       soils.par [icrisat_alf1]     %apsuite/apsim/millet/millet.ini [standard]
 module = millet (millet5)       soils.par [icrisat_alf1]     %apsuite/apsim/millet/millet.ini [standard]
+module = sysbal
