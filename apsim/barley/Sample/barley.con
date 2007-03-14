@@ -10,6 +10,7 @@ module = soilwat2        %apsuite/apsim/soilwat2/sample/soilwat2.par [black_eart
 module = soiln2          %apsuite/apsim/soiln2/sample/soiln2.par [black_earth]    %apsuite/apsim/soiln2/soiln2.ini     [standard]
 module = SurfaceOM       %apsuite/apsim/SurfaceOM/sample/SurfaceOM.par [legume_residue] %apsuite/apsim/SurfaceOM/SurfaceOM.ini [standard]
 module = Plant(barley)   barley.par [sample] %apsuite/apsim/barley/barley.ini [standard]
+module = sysbal
 
 [apsim.standard_co2]
 title=Constant CO2 levels
@@ -21,6 +22,7 @@ module = soilwat2        %apsuite/apsim/soilwat2/sample/soilwat2.par [black_eart
 module = soiln2          %apsuite/apsim/soiln2/sample/soiln2.par [black_earth]    %apsuite/apsim/soiln2/soiln2.ini     [standard]
 module = SurfaceOM       %apsuite/apsim/SurfaceOM/sample/SurfaceOM.par [legume_residue] %apsuite/apsim/SurfaceOM/SurfaceOM.ini [standard]
 module = Plant(barley)   barley.par [sample] %apsuite/apsim/barley/barley.ini [standard]
+module = sysbal
 
 [apsim.rising_co2]
 title=Rising CO2 levels
@@ -32,3 +34,4 @@ module = soilwat2        %apsuite/apsim/soilwat2/sample/soilwat2.par [black_eart
 module = soiln2          %apsuite/apsim/soiln2/sample/soiln2.par [black_earth]    %apsuite/apsim/soiln2/soiln2.ini     [standard]
 module = SurfaceOM       %apsuite/apsim/SurfaceOM/sample/SurfaceOM.par [legume_residue] %apsuite/apsim/SurfaceOM/SurfaceOM.ini [standard]
 module = Plant(barley)   barley.par [sample] %apsuite/apsim/barley/barley.ini [standard]
+module = sysbal
