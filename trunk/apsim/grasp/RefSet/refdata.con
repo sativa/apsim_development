@@ -12,6 +12,7 @@ module = soilwat2 refdata.par [all]     soilwat2.ini [standard]
 module = soiln2 refdata.par [all]     %apsuite/apsim/soiln2/soiln2.ini [standard]
 module = grasp    refdata.par [all]     refdata.par [step1]     refdata.par [soilwat]     %apsuite/apsim/grasp/grasp.ini [standard]
 module = SurfaceOM   refdata.par [all] %apsuite/apsim/SurfaceOM/SurfaceOM.ini [standard]
+module = sysbal
 
 ! Introduce dead grass
 [apsim.step3]
@@ -24,6 +25,7 @@ module = soilwat2 refdata.par [all]     soilwat2.ini [standard]
 module = soiln2 refdata.par [all]     %apsuite/apsim/soiln2/soiln2.ini [standard]
 module = grasp    refdata.par [all]     refdata.par [step3]     refdata.par [soilwat]     %apsuite/apsim/grasp/grasp.ini [standard]
 module = SurfaceOM   refdata.par [all] %apsuite/apsim/SurfaceOM/SurfaceOM.ini [standard]
+module = sysbal
 
 ! Add growth by regrowth
 [apsim.step5]
@@ -36,6 +38,7 @@ module = soilwat2 refdata.par [all]     soilwat2.ini [standard]
 module = soiln2 refdata.par [all]     %apsuite/apsim/soiln2/soiln2.ini [standard]
 module = grasp    refdata.par [all]     refdata.par [step5]     refdata.par [soilwat]     %apsuite/apsim/grasp/grasp.ini [standard]
 module = SurfaceOM   refdata.par [all] %apsuite/apsim/SurfaceOM/SurfaceOM.ini [standard]
+module = sysbal
 
 ! And growth by transpiration
 [apsim.step6]
@@ -48,6 +51,7 @@ module = soilwat2 refdata.par [all]     soilwat2.ini [standard]
 module = soiln2 refdata.par [all]     %apsuite/apsim/soiln2/soiln2.ini [standard]
 module = grasp    refdata.par [all]     refdata.par [step6]     refdata.par [soilwat]     %apsuite/apsim/grasp/grasp.ini [standard]
 module = SurfaceOM   refdata.par [all] %apsuite/apsim/SurfaceOM/SurfaceOM.ini [standard]
+module = sysbal
 
 ! SWIM interface.
 [apsim.step8]
@@ -62,6 +66,7 @@ module = grasp    refdata.par [all]     refdata.par [step8]     refdata.par [swi
 module = SurfaceOM   refdata.par [gmtb0] %apsuite/apsim/SurfaceOM/SurfaceOM.ini [standard]
 module = surface  refdata.par [gmtb0]
 module = canopy   refdata.par [gmtb0]
+module = sysbal
 
 ! EP effect on Nitrogen uptake
 [apsim.ep-on]
@@ -75,6 +80,7 @@ module = erosion  refdata.par [ep]
 module = grasp    refdata.par [all]     refdata.par [ep]     refdata.par [soilwat]     %apsuite/apsim/grasp/grasp.ini [standard]
 module = SurfaceOM   refdata.par [all] %apsuite/apsim/SurfaceOM/SurfaceOM.ini [standard]
 module = manager  refdata.par [ep]
+module = sysbal
 
 [apsim.ep-off]
 title = erosion productivity off
@@ -86,3 +92,4 @@ module = soiln2 refdata.par [all]     %apsuite/apsim/soiln2/soiln2.ini [standard
 module = grasp    refdata.par [all]     refdata.par [ep]     refdata.par [soilwat]     %apsuite/apsim/grasp/grasp.ini [standard]
 module = SurfaceOM   refdata.par [all] %apsuite/apsim/SurfaceOM/SurfaceOM.ini [standard]
 module = manager  refdata.par [ep]
+module = sysbal
