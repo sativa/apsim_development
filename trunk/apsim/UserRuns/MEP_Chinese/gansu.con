@@ -6,7 +6,7 @@ version = 5.3
 
 ! +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 ! ++++++ LONG TERM RUNS WITHOUR RESETTING +++++++++++++++++++++++++++++++++++++
-[apsim.xifeng_w] 
+[apsim.xifeng_w]
 title = Continuous winter wheat at Xifeng
 
 module = clock   gansu.man [xifeng] %apsuite/apsim/clock/clock.ini [standard]
@@ -19,8 +19,9 @@ module = soiln2     soil.par [xifeng]     %apsuite/apsim/soiln2/soiln2.ini [stan
 module = plant(wheat)     soil.par [xifeng]   %apsuite/apsim/wheat/wheat.ini [standard]
 module = fertiliz           %apsuite/apsim/fertiliz/fertiliz.ini [standard]
 module = tracker(tracker1)   gansu.man [all]
+module = sysbal
 
-[apsim.xifeng_w_n0] 
+[apsim.xifeng_w_n0]
 title = Continuous winter wheat at Xifeng with low N
 
 module = clock   gansu.man [xifeng] %apsuite/apsim/clock/clock.ini [standard]
@@ -33,9 +34,10 @@ module = soiln2     soil.par [xifeng]     %apsuite/apsim/soiln2/soiln2.ini [stan
 module = plant(wheat)     soil.par [xifeng]   %apsuite/apsim/wheat/wheat.ini [standard]
 module = fertiliz           %apsuite/apsim/fertiliz/fertiliz.ini [standard]
 module = tracker(tracker1)   gansu.man [all]
+module = sysbal
 
 
-[apsim.dingxi_w] 
+[apsim.dingxi_w]
 title = Continuous spring wheat at Dingxi
 
 module = clock   gansu.man [dingxi] %apsuite/apsim/clock/clock.ini [standard]
@@ -48,6 +50,7 @@ module = soiln2     soil.par [dingxi]     %apsuite/apsim/soiln2/soiln2.ini [stan
 module = plant(wheat)     soil.par [dingxi]   %apsuite/apsim/wheat/wheat.ini [standard]
 module = fertiliz           %apsuite/apsim/fertiliz/fertiliz.ini [standard]
 module = tracker(tracker1)   gansu.man [all]
+module = sysbal
 
 
 
