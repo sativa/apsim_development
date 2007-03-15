@@ -313,8 +313,8 @@ Simulation_file=%apsuite/apsim/SurfaceOM/test/test.con
 [sweetcorn]
 Simulation_file=%apsuite/apsim/sweetcorn/Sample/sweetcorn.con
 
-![sweetcorn_validation]
-!Simulation_file=%apsuite/apsim/sweetcorn/Validation/sweetcorn.apsim
+[sweetcorn_validation]
+Simulation_file=%apsuite/apsim/sweetcorn/Validation/sweetcorn.apsim
 
 [sweetsorghum]
 Simulation_file=%apsuite/apsim/SweetSorghum/Sample/sweetsorghum.con
