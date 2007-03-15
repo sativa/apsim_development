@@ -68,6 +68,7 @@
             <respondToEvent name="prepare" type="prepare"/>
             <respondToEvent name="process" type="process"/>
             <respondToEvent name="post" type="post"/>
+            <respondToEvent name="report" type="post"/>
             <respondToEvent name="do_stock" type="post"/>
             <respondToEvent name="end_week" type="string"/>
             <respondToEvent name="end_month" type="string"/>
@@ -94,11 +95,20 @@
             <get name="dd/mm/yyyy" type="string"/>
             <get name="dd/mmm/yyyy" type="string"/>
             <get name="day_length" type="single"/>
+            <get name="start_week" type="integer4"/>
+            <get name="start_month" type="integer4"/>
+            <get name="end_week" type="integer4"/>
+            <get name="end_month" type="integer4"/>
             <get name="time" type="time"/>
             <get name="rain" type="single"/>
+            <set name="rain" type="single" internalname="settablerain"/>
             <get name="radn" type="single"/>
             <get name="maxt" type="single"/>
             <get name="mint" type="single"/>
+            <get name="unpatched_rain" type="single"/>
+            <get name="unpatched_radn" type="single"/>
+            <get name="unpatched_maxt" type="single"/>
+            <get name="unpatched_mint" type="single"/>
             <get name="latitude" type="single"/>
             <get name="tav" type="single"/>
             <get name="amp" type="single"/>
@@ -106,6 +116,10 @@
             <get name="title" type="string"/>
             <get name="components" type="string"/>
             <get name="timestep" type="integer4"/>
+            <get name="met_start_date" type="integer4"/>
+            <get name="met_end_date" type="integer4"/>
+            <get name="met_start_date_string" type="string"/>
+            <get name="met_end_date_string" type="string"/>
 
             <respondToGet name="plant2stock" array="F" type="plant2stock" />
             <respondToGet name="streamflow" type="single"/>
@@ -429,7 +443,7 @@
       <ApsimToSim>
          <calldll>
             <dll>%apsuite\bin\soil.dll</dll>
-            <class>CSGeneral.Soil</class>
+            <class>Soils.Soil</class>
             <method>ExportToSim</method>
             <ConstructorArgument>this</ConstructorArgument>
          </calldll>
@@ -1270,7 +1284,7 @@
          <ini>%apsuite\apsim\broccoli\broccoli.ini</ini>
          <calldll>
             <dll>%apsuite\bin\soil.dll</dll>
-            <class>CSGeneral.Soil</class>
+            <class>Soils.Soil</class>
             <method>ExportCropToSim</method>
             <ConstructorArgument>soil</ConstructorArgument>
             <argument>broccoli</argument>
@@ -1302,7 +1316,7 @@
          <ini>%apsuite\apsim\butterflypea\butterflypea.ini</ini>
          <calldll>
             <dll>%apsuite\bin\soil.dll</dll>
-            <class>CSGeneral.Soil</class>
+            <class>Soils.Soil</class>
             <method>ExportCropToSim</method>
             <ConstructorArgument>soil</ConstructorArgument>
             <argument>butterflypea</argument>
@@ -1363,7 +1377,7 @@
          <ini>%apsuite\apsim\canola\canola.ini</ini>
          <calldll>
             <dll>%apsuite\bin\soil.dll</dll>
-            <class>CSGeneral.Soil</class>
+            <class>Soils.Soil</class>
             <method>ExportCropToSim</method>
             <ConstructorArgument>soil</ConstructorArgument>
             <argument>canola</argument>
@@ -1402,7 +1416,7 @@
          <ini>%apsuite\apsim\chickpea\chickpea.ini</ini>
          <calldll>
             <dll>%apsuite\bin\soil.dll</dll>
-            <class>CSGeneral.Soil</class>
+            <class>Soils.Soil</class>
             <method>ExportCropToSim</method>
             <ConstructorArgument>soil</ConstructorArgument>
             <argument>chickpea</argument>
@@ -1438,7 +1452,7 @@
          <ini>%apsuite\apsim\cowpea\cowpea.ini</ini>
          <calldll>
             <dll>%apsuite\bin\soil.dll</dll>
-            <class>CSGeneral.Soil</class>
+            <class>Soils.Soil</class>
             <method>ExportCropToSim</method>
             <ConstructorArgument>soil</ConstructorArgument>
             <argument>cowpea</argument>
@@ -1472,7 +1486,7 @@
          <ini>%apsuite\apsim\fababean\fababean.ini</ini>
          <calldll>
             <dll>%apsuite\bin\soil.dll</dll>
-            <class>CSGeneral.Soil</class>
+            <class>Soils.Soil</class>
             <method>ExportCropToSim</method>
             <ConstructorArgument>soil</ConstructorArgument>
             <argument>fababean</argument>
@@ -1509,7 +1523,7 @@
          <ini>%apsuite\apsim\fieldpea\fieldpea.ini</ini>
          <calldll>
             <dll>%apsuite\bin\soil.dll</dll>
-            <class>CSGeneral.Soil</class>
+            <class>Soils.Soil</class>
             <method>ExportCropToSim</method>
             <ConstructorArgument>soil</ConstructorArgument>
             <argument>fieldpea</argument>
@@ -1545,7 +1559,7 @@
          <ini>%apsuite\apsim\lablab\lablab.ini</ini>
          <calldll>
             <dll>%apsuite\bin\soil.dll</dll>
-            <class>CSGeneral.Soil</class>
+            <class>Soils.Soil</class>
             <method>ExportCropToSim</method>
             <ConstructorArgument>soil</ConstructorArgument>
             <argument>lablab</argument>
@@ -1589,7 +1603,7 @@
          <ini>%apsuite\apsim\lucerne\lucerne.ini</ini>
          <calldll>
             <dll>%apsuite\bin\soil.dll</dll>
-            <class>CSGeneral.Soil</class>
+            <class>Soils.Soil</class>
             <method>ExportCropToSim</method>
             <ConstructorArgument>soil</ConstructorArgument>
             <argument>lucerne</argument>
@@ -1631,7 +1645,7 @@
          <ini>%apsuite\apsim\lupin\lupin.ini</ini>
          <calldll>
             <dll>%apsuite\bin\soil.dll</dll>
-            <class>CSGeneral.Soil</class>
+            <class>Soils.Soil</class>
             <method>ExportCropToSim</method>
             <ConstructorArgument>soil</ConstructorArgument>
             <argument>lupin</argument>
@@ -1737,7 +1751,7 @@
          <ini>%apsuite\apsim\maize\maize.ini</ini>
          <calldll>
             <dll>%apsuite\bin\soil.dll</dll>
-            <class>CSGeneral.Soil</class>
+            <class>Soils.Soil</class>
             <method>ExportCropToSim</method>
             <ConstructorArgument>soil</ConstructorArgument>
             <argument>maize</argument>
@@ -1769,7 +1783,7 @@
          <ini>%apsuite\apsim\mucuna\mucuna.ini</ini>
          <calldll>
             <dll>%apsuite\bin\soil.dll</dll>
-            <class>CSGeneral.Soil</class>
+            <class>Soils.Soil</class>
             <method>ExportCropToSim</method>
             <ConstructorArgument>soil</ConstructorArgument>
             <argument>mucuna</argument>
@@ -1811,7 +1825,7 @@
          <ini>%apsuite\apsim\mungbean\mungbean.ini</ini>
          <calldll>
             <dll>%apsuite\bin\soil.dll</dll>
-            <class>CSGeneral.Soil</class>
+            <class>Soils.Soil</class>
             <method>ExportCropToSim</method>
             <ConstructorArgument>soil</ConstructorArgument>
             <argument>mungbean</argument>
@@ -1845,7 +1859,7 @@
          <ini>%apsuite\apsim\horsegram\horsegram.ini</ini>
          <calldll>
             <dll>%apsuite\bin\soil.dll</dll>
-            <class>CSGeneral.Soil</class>
+            <class>Soils.Soil</class>
             <method>ExportCropToSim</method>
             <ConstructorArgument>soil</ConstructorArgument>
             <argument>horsegram</argument>
@@ -1882,7 +1896,7 @@
          <ini>%apsuite\apsim\navybean\navybean.ini</ini>
          <calldll>
             <dll>%apsuite\bin\soil.dll</dll>
-            <class>CSGeneral.Soil</class>
+            <class>Soils.Soil</class>
             <method>ExportCropToSim</method>
             <ConstructorArgument>soil</ConstructorArgument>
             <argument>navybean</argument>
@@ -1945,7 +1959,7 @@
          <ini>%apsuite\apsim\ozcot\ozcot.ini</ini>
          <calldll>
             <dll>%apsuite\bin\soil.dll</dll>
-            <class>CSGeneral.Soil</class>
+            <class>Soils.Soil</class>
             <method>ExportCropToSim</method>
             <ConstructorArgument>soil</ConstructorArgument>
             <argument>ozcot</argument>
@@ -2064,7 +2078,7 @@
          <ini>%apsuite\apsim\peanut\peanut.ini</ini>
          <calldll>
             <dll>%apsuite\bin\soil.dll</dll>
-            <class>CSGeneral.Soil</class>
+            <class>Soils.Soil</class>
             <method>ExportCropToSim</method>
             <ConstructorArgument>soil</ConstructorArgument>
             <argument>peanut</argument>
@@ -2100,7 +2114,7 @@
          <ini>%apsuite\apsim\pigeonp\pigeonp.ini</ini>
          <calldll>
             <dll>%apsuite\bin\soil.dll</dll>
-            <class>CSGeneral.Soil</class>
+            <class>Soils.Soil</class>
             <method>ExportCropToSim</method>
             <ConstructorArgument>soil</ConstructorArgument>
             <argument>pigeonp</argument>
@@ -2154,7 +2168,7 @@
          </sim>
          <calldll>
             <dll>%apsuite\bin\soil.dll</dll>
-            <class>CSGeneral.Soil</class>
+            <class>Soils.Soil</class>
             <method>ExportCropToSim</method>
             <ConstructorArgument>soil</ConstructorArgument>
             <argument>seedling</argument>
@@ -2230,7 +2244,7 @@
          </sim>
          <calldll>
             <dll>%apsuite\bin\soil.dll</dll>
-            <class>CSGeneral.Soil</class>
+            <class>Soils.Soil</class>
             <method>ExportCropToSim</method>
             <ConstructorArgument>soil</ConstructorArgument>
             <argument>[component_name]</argument>
@@ -2276,7 +2290,7 @@
          <ini>%apsuite\apsim\sorghum\sorghum.ini</ini>
          <calldll>
             <dll>%apsuite\bin\soil.dll</dll>
-            <class>CSGeneral.Soil</class>
+            <class>Soils.Soil</class>
             <method>ExportCropToSim</method>
             <ConstructorArgument>soil</ConstructorArgument>
             <argument>sorghum</argument>
@@ -2318,7 +2332,7 @@
          <ini>%apsuite\apsim\soybean\soybean.ini</ini>
          <calldll>
             <dll>%apsuite\bin\soil.dll</dll>
-            <class>CSGeneral.Soil</class>
+            <class>Soils.Soil</class>
             <method>ExportCropToSim</method>
             <ConstructorArgument>soil</ConstructorArgument>
             <argument>soybean</argument>
@@ -2350,7 +2364,7 @@
          <ini>%apsuite\apsim\stylo\stylo.ini</ini>
          <calldll>
             <dll>%apsuite\bin\soil.dll</dll>
-            <class>CSGeneral.Soil</class>
+            <class>Soils.Soil</class>
             <method>ExportCropToSim</method>
             <ConstructorArgument>soil</ConstructorArgument>
             <argument>stylo</argument>
@@ -2461,7 +2475,7 @@
          </sim>
          <calldll>
             <dll>%apsuite\bin\soil.dll</dll>
-            <class>CSGeneral.Soil</class>
+            <class>Soils.Soil</class>
             <method>ExportCropToSim</method>
             <ConstructorArgument>soil</ConstructorArgument>
             <argument>sugar</argument>
@@ -2553,7 +2567,7 @@
          <ini>%apsuite\apsim\sunflower\sunflower.ini</ini>
          <calldll>
             <dll>%apsuite\bin\soil.dll</dll>
-            <class>CSGeneral.Soil</class>
+            <class>Soils.Soil</class>
             <method>ExportCropToSim</method>
             <ConstructorArgument>soil</ConstructorArgument>
             <argument>sunflower</argument>
@@ -2585,7 +2599,7 @@
          <ini>%apsuite\apsim\SweetCorn\SweetCorn.ini</ini>
          <calldll>
             <dll>%apsuite\bin\soil.dll</dll>
-            <class>CSGeneral.Soil</class>
+            <class>Soils.Soil</class>
             <method>ExportCropToSim</method>
             <ConstructorArgument>soil</ConstructorArgument>
             <argument>SweetCorn</argument>
@@ -2617,7 +2631,7 @@
          <ini>%apsuite\apsim\sweetsorghum\sweetsorghum.ini</ini>
          <calldll>
             <dll>%apsuite\bin\soil.dll</dll>
-            <class>CSGeneral.Soil</class>
+            <class>Soils.Soil</class>
             <method>ExportCropToSim</method>
             <ConstructorArgument>soil</ConstructorArgument>
             <argument>sweetsorghum</argument>
@@ -2669,7 +2683,7 @@
          <ini>%apsuite\apsim\weed\weed.ini</ini>
          <calldll>
             <dll>%apsuite\bin\soil.dll</dll>
-            <class>CSGeneral.Soil</class>
+            <class>Soils.Soil</class>
             <method>ExportCropToSim</method>
             <ConstructorArgument>soil</ConstructorArgument>
             <argument>weed</argument>
@@ -2798,7 +2812,7 @@
          <ini>%apsuite\apsim\wheat\wheat.ini</ini>
          <calldll>
             <dll>%apsuite\bin\soil.dll</dll>
-            <class>CSGeneral.Soil</class>
+            <class>Soils.Soil</class>
             <method>ExportCropToSim</method>
             <ConstructorArgument>soil</ConstructorArgument>
             <argument>wheat</argument>
@@ -2831,7 +2845,7 @@
          <ini>%apsuite\apsim\oats\oats.ini</ini>
          <calldll>
             <dll>%apsuite\bin\soil.dll</dll>
-            <class>CSGeneral.Soil</class>
+            <class>Soils.Soil</class>
             <method>ExportCropToSim</method>
             <ConstructorArgument>soil</ConstructorArgument>
             <argument>oats</argument>
@@ -2875,7 +2889,7 @@
          <ini>%apsuite\apsim\barley\barley.ini</ini>
          <calldll>
             <dll>%apsuite\bin\soil.dll</dll>
-            <class>CSGeneral.Soil</class>
+            <class>Soils.Soil</class>
             <method>ExportCropToSim</method>
             <ConstructorArgument>soil</ConstructorArgument>
             <argument>barley</argument>
@@ -3174,7 +3188,7 @@
          </sim>
          <calldll>
             <dll>%apsuite\bin\soil.dll</dll>
-            <class>CSGeneral.Soil</class>
+            <class>Soils.Soil</class>
             <method>ExportCropToSim</method>
             <ConstructorArgument>soil</ConstructorArgument>
             <argument>egrandis</argument>
@@ -3951,5 +3965,19 @@
          <drop name="excelreader"/>
      </drops>
    </SOI>
+   <YPCalc>
+      <UItype>empty</UItype>
+      <ShowInMainTree>Yes</ShowInMainTree>
+      <Image>%apsuite\apsimui\images\banner2.jpg</Image>
+      <LargeIcon>Images\layout_center32.png</LargeIcon>
+      <SmallIcon>Images\layout_center16.png</SmallIcon>
+      <drops>
+         <drop name="area"/>
+     </drops>
+     <ApsimToSim>
+        <type>component</type>
+        <dll>%apsuite\apsim\YPCalc\lib\YPCalc.dll</dll>
+     </ApsimToSim>
+   </YPCalc>
 </Types>
 

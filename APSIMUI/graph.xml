@@ -97,20 +97,17 @@
     <Stats>
       <FieldName type="fieldnames">
       </FieldName>
-      <Stat type="multilist" values="Mean, Count, Minimum, Maximum, Sum, 10, 20, 30, 40, 50, 60, 70, 80, 90">
+      <Stat type="multilist" listvalues="Mean, Count, Minimum, Maximum, Sum, 10, 20, 30, 40, 50, 60, 70, 80, 90">
       </Stat>
       <GroupByFieldName type="fieldnames">
       </GroupByFieldName>
     </Stats>
     <SOI>
-      <FileName type="filename">
+      <FileName type="filename">\\Thor\public\Met\soi\phases.soi
       </FileName>
-      <GetSOIFromSource type="yesno">
-      </GetSOIFromSource>
       <Month type="month">
       </Month>
-      <Phase type="multilist" values="Negative,Positive,Falling,Rising,Zero,AllOtherYears">
-      </Phase>
+      <Phase type="multilist" listvalues="Negative,Positive,Falling,Rising,Zero,AllOtherYears"></Phase>
     </SOI>
     <REMS>
       <FileName type="filename">
@@ -119,7 +116,7 @@
       </Experiment>
       <Treatment type="treatment">
       </Treatment>
-      <DataSource type="list" values="Crop,Statistics,Soil layered">Crop</DataSource>
+      <DataSource type="list" listvalues="Crop,Statistics,Soil layered">Crop</DataSource>
     </REMS>
     <ExcelReader>
       <FileName type="filename">
@@ -127,5 +124,10 @@
       <PageName>
       </PageName>
     </ExcelReader>
+    <RecordFilter>
+      <FirstRecord type="yesno">no</FirstRecord>
+      <LastRecord type="yesno">no</LastRecord>
+      <RecordNumber type="yesno">no</RecordNumber>
+    </RecordFilter>
   </folder>
 </folder>
