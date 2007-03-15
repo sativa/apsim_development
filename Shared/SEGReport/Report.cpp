@@ -42,7 +42,7 @@ Report::Report(TWinControl* p)
    data = NULL;
    handle = NULL;
 
-   reportForm = new TForm((TComponent*)NULL);
+   reportForm = new TForm(parent);
    reportForm->Parent = parent;
    reportForm->Name = "report";
    reportForm->Align = alClient;
@@ -77,9 +77,11 @@ Report::~Report(void)
         FreeLibrary(handle);
    if (isEditing)
       edit(false);
-   delete buttonImages;
-   delete reportForm;
+  for (unsigned i = 0; i != pages.size(); i++)
+      delete pages[i];
    pages.erase(pages.begin(), pages.end());
+
+   delete buttonImages;
    }
 //---------------------------------------------------------------------------
 // Clear the report and create a new one.
@@ -210,8 +212,8 @@ void Report::loadFromContents(const string& contents, bool quiet)
       if (Str_i_Eq(i->getName(), "data"))
          {
          delete data;
-         data = new DataContainer(reportForm);
-         data->setProperties("", i->write());
+         data = new DataContainer(reportForm, NULL);
+         data->setXML(i->write());
          }
       else if (Str_i_Eq(i->getName(), "page"))
          {
@@ -253,28 +255,13 @@ void Report::save(const std::string& fileName)
    }
 
 //---------------------------------------------------------------------------
-// return the Data as xml
-//---------------------------------------------------------------------------
-string Report::getDataXml()
-   {
-   if (data != NULL)
-      {
-      string returnString = "<Data>\n";
-      data->save(returnString, 0);
-      returnString += "\n</Data>\n";
-      return returnString;
-      }
-   else
-      return "";
-   }
-//---------------------------------------------------------------------------
 // write the full report xml to the specified stream.
 //---------------------------------------------------------------------------
 string Report::getReportXml()
    {
    ostringstream out;
    out << "<report version=\"4\">" << endl;
-   out << getDataXml() << endl;
+   out << data->getXML() << endl;
    for (unsigned p = 0; p != pages.size(); p++)
       {
       out << "   <page> <![CDATA[" << endl;
@@ -303,8 +290,12 @@ TForm* Report::edit(bool turnOn)
       formDesigner->LimitControl = scrollBox;
       formDesigner->ShowComponents = false;
       formDesigner->ShowPalette = true;
+      formDesigner->ShowCaptions = false;
       formDesigner->Active = true;
       GetPalForm()->AutoSize = false;
+      GetPalForm()->BorderIcons = TBorderIcons();
+      GetPalForm()->BorderStyle = bsSizeToolWin;
+      GetPalForm()->Caption = "";
       return dynamic_cast<TForm*> (GetPalForm());
       }
    else if (!turnOn && formDesigner != NULL)
@@ -360,8 +351,8 @@ void Report::updateObjectInspector(TComponent* component)
          {
          uiForm->BorderStyle = bsNone;
          uiForm->Parent = objectInspector;
-         uiForm->Align = alClient;
          uiForm->Show();
+         uiForm->Align = alClient;
          }
       isDirty = true;
       }
@@ -427,8 +418,8 @@ void Report::showPage(unsigned pageNumber)
          currentPage->Parent = NULL;
          }
       currentPage = pages[pageNumber];
-      currentPage->Visible = true;
       currentPage->Parent = scrollBox;
+      currentPage->Visible = true;
       centrePage();
       }
    }
@@ -439,7 +430,7 @@ void Report::showPage(unsigned pageNumber)
 void Report::showDataPage()
    {
    ostringstream argument;
-   argument << (unsigned) data << ',' << getDataXml();
+   argument << (unsigned) data;
 
    string dllFileName = getApsimDirectory() + "\\bin\\ApsimReportData.dll";
 
@@ -453,7 +444,7 @@ void Report::showDataPage()
         ::MessageBox(NULL, "Cannot find CallManagedDLL.dll", "Error", MB_ICONSTOP | MB_OK);
    else
         {
-        (*callDLL)(dllFileName.c_str(), "ApsimReportData.MainForm", "Go", argument.str().c_str());
+           (*callDLL)(dllFileName.c_str(), "ApsimReportData.MainForm", "Go", argument.str().c_str());
         refreshAllPages();
         isDirty = true;
         }
@@ -527,6 +518,8 @@ void Report::centrePage(void)
       titleBand->Size->Width = currentPage->Page->Width
                              - currentPage->Page->LeftMargin
                              - currentPage->Page->RightMargin;
+//      ShowMessage((int)titleBand->Size->Height);
+//      ShowMessage((int)titleBand->Size->Width);
       }
    }
 //---------------------------------------------------------------------------
@@ -639,10 +632,15 @@ void Report::refresh(bool quiet)
    {
    TCursor savedCursor = Screen->Cursor;
    Screen->Cursor = crHourGlass;
-
-   data->refresh("");
-
-   refreshAllPages();
+   try
+      {
+      data->refresh();
+      refreshAllPages();
+      }
+   catch (Exception& err)
+      {
+      MessageBox(NULL, err.Message.c_str(), "Error", MB_ICONSTOP | MB_OK);
+      }
 
    Screen->Cursor = savedCursor;
    }
@@ -678,9 +676,9 @@ void Report::refreshControls(TWinControl* control)
             refreshControls(dynamic_cast<TWinControl*> (control->Controls[i]));
          }
       }
-   catch (Exception* err)
+   catch (Exception& err)
       {
-      MessageBox(NULL, err->Message.c_str(), "Error", MB_ICONSTOP | MB_OK);
+      MessageBox(NULL, err.Message.c_str(), "Error", MB_ICONSTOP | MB_OK);
       }
    Screen->Cursor = savedCursor;
    }

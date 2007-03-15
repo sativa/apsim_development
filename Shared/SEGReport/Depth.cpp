@@ -61,6 +61,8 @@ void Depth::process(TDataSet* source, TDataSet* result)
 // ------------------------------------------------------------------
 void Depth::discoverVariables(TDataSet* source)
    {
+   variableNames.erase(variableNames.begin(), variableNames.end());
+   
    // firstly look for dlayer to get the number of layers.
    numLayers = 0;
    for (int f = 0; f != source->FieldDefs->Count; f++)

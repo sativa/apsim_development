@@ -13,6 +13,7 @@ class Cumulative : public DataProcessor
       virtual void process(TDataSet* source, TDataSet* result);
 
    public:
-      Cumulative(const std::string& type) : DataProcessor(type) { };
+      Cumulative(const std::string& type, TComponent* owner)
+         : DataProcessor(type, owner) { };
    };
 #endif

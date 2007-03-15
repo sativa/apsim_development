@@ -43,10 +43,6 @@ string ReportMacros::resolve(TComponent* owner, const string& macro)
                if (arguments.size() == 2)
                   recNo = StrToInt(arguments[1].c_str());
                value = resolveComponentPropertyMacro(owner, arguments[0].c_str(), recNo).c_str();
-
-               // get the referenced component name.
-               unsigned posPeriod = arguments[0].find('.');
-               componentNames.push_back(arguments[0].substr(0, posPeriod));
                }
             else if (macroName == "$decplaces" && arguments.size() == 2)
                {
@@ -82,11 +78,11 @@ string ReportMacros::resolve(TComponent* owner, const string& macro)
             }
          catch (Exception& err)
             {
-            returnValue = "?";
+            value = "?";
             }
          catch (exception& err)
             {
-            returnValue = "?";
+            value = "?";
             }
 
          returnValue.replace(posMacro, posCloseBracket-posMacro+1, value);
@@ -96,13 +92,5 @@ string ReportMacros::resolve(TComponent* owner, const string& macro)
       }
 
    return returnValue;
-   }
-
-//---------------------------------------------------------------------------
-// Do all macro replacements. Does not modify the input text.
-//---------------------------------------------------------------------------
-AnsiString ReportMacros::doReplacement(TComponent* owner, AnsiString text)
-   {
-   return resolve(owner, text.c_str()).c_str();
    }
 

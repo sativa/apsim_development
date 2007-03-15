@@ -7,6 +7,7 @@
 #include <general\db_functions.h>
 #include <general\math_functions.h>
 #include <general\string_functions.h>
+#include <general\vcl_functions.h>
 #include <numeric>
 
 using namespace std;
@@ -54,7 +55,7 @@ void Diff::process(TDataSet* source, TDataSet* result)
 
    if (source2Name != "")
       {
-      TDataSet* source2 = getDataSet(source2Name);
+      TDataSet* source2 = getComponent<TDataSet> (source->Owner, source2Name.c_str());
       if (source2 != NULL && source2->Active)
          {
          source->First();

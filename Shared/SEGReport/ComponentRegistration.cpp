@@ -39,9 +39,9 @@ TForm* createComponentUI(TComponent* component, TWinControl* parent,
    TPropertyForm* form;
 
    if (component->ClassType() == __classid(TText))
-      form = new TTextForm(NULL);
+      form = new TTextForm(parent);
    else if (component->ClassType() == __classid(::TShape))
-      form = new TShapeForm(NULL);
+      form = new TShapeForm(parent);
    else if (component->ClassType() == __classid(::TImage))
       form = new TImageForm(parent);
    else if (component->ClassType() == __classid(::TGraph))

@@ -1,69 +1,51 @@
 //---------------------------------------------------------------------------
 #ifndef DataContainerH
 #define DataContainerH
-#include "DataProcessor.h"
+#include <general\xml.h>
+
+class DataProcessor;
 //---------------------------------------------------------------------------
 // This class houses a data processor and result data and a collection of child
 // data containers. This in effect gives us a tree of data processors and their
 // resulting datasets.
-//    Paths are of the form:  root\child1\subchild1
-//    Property strings are XML.
+// Paths should be of the form: rootNode\childNode\subChildNode
 //---------------------------------------------------------------------------
-class __declspec(dllexport) DataContainer
+class DataContainer
    {
    public:
-      DataContainer(TComponent* _owner) : processor(NULL), data(NULL), owner(_owner) {}
-      virtual ~DataContainer() {clear();}
+      DataContainer(TComponent* _owner, DataContainer* parentContainer);
+      ~DataContainer();
 
-      // Clear everything from this data container and all children.
-      void clear();
+      // Get and set the full XML for the system.
+      void setXML(const std::string& xml);
+      std::string getXML();
 
-      // Setup the data container using the specified properties. This method is
-      // called to completely initialise the system.
-      void setup(const std::string& properties);
-
-      // Set the properties for the specified data path.
-      // Path must be an absolute path including the name of the root node.
-      // e.g. data\apsimfilereader
-      // Return true if properties were actually changed ie. a refresh is needed.
-      bool setProperties(const std::string& path, const std::string& properties);
-
-      // Go find the DataContainer as specified by path.
-      // Path must be an absolute path including the name of the root node.
-      // e.g. data\apsimfilereader
-      DataContainer* findContainer(const std::string& path);
-
-      // Return a result dataset for the absolute edata path.
+      // Return a dataset for the object at the specified path.
       TDataSet* findData(const std::string& path);
 
-      // Return a result dataset for the specified container name.
-      // Name (not a path) will be searched for recursively through the
-      // tree of containers.
-      TDataSet* searchForData(const std::string& name);
+      // Return all matching properties for the object at the
+      // specified path.
+      std::vector<std::string> findProperties(const std::string& path,
+                                              const std::string& propertyName);
 
-      // Return an error message for the specified data path.
-      std::string getErrorMessage(const std::string& path);
+      // Return an error message for the object as specified
+      // by the path.
+      std::string findErrorMessage(const std::string& path);
 
-      // Refresh the data container as specified by path.
-      void refresh(const std::string& path);
+      // Refresh all data
+      void refresh();
 
-      // return processor to caller.
-      DataProcessor* getProcessor() {return processor;}
-
-      // save all properties to the specified xml node.
-      void save(string& st, int level);
-
-      // return name to caller.
-      std::string getName() {return name;}
    private:
       std::string name;
+      DataContainer* parent;
       DataProcessor* processor;
       TDataSet* data;
       std::vector<DataContainer*> children;
       TComponent* owner;
 
-      bool setProperties(const XMLNode& properties);
-      void refresh(TDataSet* source);
+      void setProperties(const XMLNode& properties);
+      void save(string& st, int level);
+      DataContainer* findContainer(const std::string& path);
 
    };
 #endif

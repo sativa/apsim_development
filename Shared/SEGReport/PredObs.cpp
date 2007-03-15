@@ -150,7 +150,7 @@ TDataSet* PredObs::getObservedData(const std::string& obsFileName)
    if (!FileExists(obsFileName.c_str()))
       throw runtime_error("Cannot find observed file: " + obsFileName);
 
-   ApsimFileReader obsReader("ApsimFileReader");
+   ApsimFileReader obsReader("ApsimFileReader", owner);
 
    string fileReaderProperties = "<ApsimFileReader><FileName>" + obsFileName + "</FileName><ParseTitle>yes</ParseTitle></ApsimFileReader>";
    XMLDocument doc(fileReaderProperties, XMLDocument::xmlContents);

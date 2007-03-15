@@ -511,6 +511,26 @@ void saveComponent(ostream& out, TComponent* component)
    }
 
 //---------------------------------------------------------------------------
+// Used in resultComponentPropertyMacro to locate a particular record in
+// the specified dataset where the first field value = the specified
+// propertyName. When found the value in the 2nd field is returned.
+//---------------------------------------------------------------------------
+AnsiString getDataSetValue(TDataSet* dataSet, const std::string& propertyName)
+   {
+   if (dataSet->FieldDefs->Count == 2)
+      {
+      dataSet->First();
+      while (!dataSet->Eof)
+         {
+         if (Str_i_Eq(propertyName, dataSet->Fields->Fields[0]->AsString.c_str()))
+            return dataSet->Fields->Fields[1]->AsString;
+         dataSet->Next();
+         }
+      }
+   return "";
+   }
+
+//---------------------------------------------------------------------------
 // Resolve the componentName.propertyName passed in with the value
 // of the specified property.  Only component owned by the specified owner
 // will be found.
@@ -543,7 +563,9 @@ AnsiString resolveComponentPropertyMacro(TComponent* owner, AnsiString st, int r
             value = dataset->FieldValues[propertyName.c_str()];
             }
          catch (Exception& error)
-            { }
+            {
+            value = getDataSetValue(dataset, propertyName);
+            }
          }
       if (value == "")
          {

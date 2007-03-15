@@ -3,6 +3,7 @@
 #define DataProcessorH
 
 #include <db.hpp>
+
 class XMLNode;
 //---------------------------------------------------------------------------
 // This class is a base class for all data processors.
@@ -12,13 +13,14 @@ class XMLNode;
 class DataProcessor
    {
    public:
-      DataProcessor(const std::string& type) : typeOfProcessor(type) { }
+      DataProcessor(const std::string& type, TComponent* ownr)
+         : typeOfProcessor(type), owner(ownr) { }
       virtual ~DataProcessor() { }
 
       // Create a dataprocessor object based on the settings
       // passed in. Caller is expected to free the object
       // when finished with it.
-      static DataProcessor* factory(const XMLNode& properties);
+      static DataProcessor* factory(const XMLNode& properties, TComponent* owner);
 
       // Return true if the specified type is a valid one.
       static bool isValidType(const std::string& propertyType);
@@ -38,11 +40,12 @@ class DataProcessor
       // Save the current properties to the specified node.
       void save(std::string& st, int level);
 
-   protected:
-      TDataSet* getDataSet(const std::string& dataSetName);
-
       std::string getProperty(const std::string& name);
-      std::vector<std::string> getProperties(const std::string& name);
+      virtual std::vector<std::string> getProperties(const std::string& name);
+
+   protected:
+      TComponent* owner;
+      TDataSet* getDataSet(const std::string& dataSetName);
 
    private:
       std::string typeOfProcessor;
@@ -67,6 +70,4 @@ class DataProcessor
 
    };
 
-class DataContainer;
-extern DataContainer* TopLevelContainer;   
 #endif

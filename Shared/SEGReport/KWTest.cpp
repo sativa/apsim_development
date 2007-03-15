@@ -9,6 +9,7 @@
 #include <general\db_functions.h>
 #include <general\math_functions.h>
 #include <general\string_functions.h>
+#include <general\vcl_functions.h>
 
 using namespace std;
 
@@ -39,7 +40,10 @@ void KWTest::process(TDataSet* source, TDataSet* result)
 
    if (fieldName != "")
       {
-      TDataSet* source2 = getDataSet(source2Name);
+      TDataSet* source2 = getComponent<TDataSet> (owner, source2Name.c_str());
+      if (source2 == NULL)
+         throw runtime_error("Cannot find dataset: " + source2Name);
+
       vector<RealSet> distributions;
       AddDistributionFromTable(source, distributions, fieldName);
       AddDistributionFromTable(source2, distributions, fieldName);

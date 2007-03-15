@@ -15,6 +15,7 @@ class Diff : public DataProcessor
       virtual void process(TDataSet* source, TDataSet* result);
 
    public:
-      Diff(const std::string& type) : DataProcessor(type) { };
+      Diff(const std::string& type, TComponent* owner)
+         : DataProcessor(type, owner) { };
    };
 #endif

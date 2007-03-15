@@ -22,6 +22,7 @@ class SOI : public DataProcessor
       bool keepPhase(const string& phaseName, const std::vector<std::string>& phaseNamesToKeep);
 
    public:
-      SOI(const std::string& type) : DataProcessor(type) { }
+      SOI(const std::string& type, TComponent* owner)
+         : DataProcessor(type, owner) { };
    };
 #endif

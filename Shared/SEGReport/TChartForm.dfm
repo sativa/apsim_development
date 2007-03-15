@@ -22,6 +22,37 @@ inherited ChartForm: TChartForm
     ParentFont = False
     OnClick = ChartPropertyLabelClick
   end
+  object Label2: TLabel
+    Left = 48
+    Top = 68
+    Width = 121
+    Height = 77
+    Caption = 'Ensure bottom date/time axis is a specified number of months'
+    WordWrap = True
+  end
+  object NumMonthsLabel: TLabel
+    Left = 112
+    Top = 148
+    Width = 34
+    Height = 13
+    Caption = 'months'
+  end
+  object NumMonthsEdit: TEdit
+    Left = 48
+    Top = 144
+    Width = 57
+    Height = 21
+    TabOrder = 0
+    OnChange = NumMonthsEditChange
+  end
+  object NumMonthsCheckBox: TCheckBox
+    Left = 24
+    Top = 72
+    Width = 17
+    Height = 17
+    TabOrder = 1
+    OnClick = NumMonthsCheckBoxClick
+  end
   object TImageList
     Height = 17
     Width = 25

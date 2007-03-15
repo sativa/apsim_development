@@ -12,6 +12,7 @@
 #include <general\stl_functions.h>
 #include <general\date_functions.h>
 #include <general\db_functions.h>
+#include <general\vcl_functions.h>
 #include <general\path.h>
 #include <general\xml.h>
 #include <ApsimShared\ApsimSettings.h>
@@ -38,19 +39,11 @@ void SOI::createFields(TDataSet* source, TDataSet* result)
 void SOI::process(TDataSet* source, TDataSet* result)
    {
    string soiFilename = getProperty("filename");
-   bool getSOIFromSource = Str_i_Eq("getSOIFromSource", "yes");
-   unsigned month = longMonthToInt(getProperty("month"));
+   unsigned monthToUse = longMonthToInt(getProperty("month"));
    vector<string> phaseNamesToKeep = getProperties("Phase");
-
    allOtherYears = (find_if(phaseNamesToKeep.begin(), phaseNamesToKeep.end(),
                             CaseInsensitiveStringComparison("AllOtherYears"))
                     != phaseNamesToKeep.end());
-   if (getSOIFromSource)
-      {
-      phaseNamesToKeep.erase(phaseNamesToKeep.begin(), phaseNamesToKeep.end());
-      phaseNamesToKeep.push_back(AnsiString(source->FieldValues["SoiPhase"]).c_str());
-      }
-
    if (soiFilename == "")
       {
       ApsimSettings settings;
@@ -62,13 +55,6 @@ void SOI::process(TDataSet* source, TDataSet* result)
 
    // get the sowing year field name
    string sowYearFieldName = getSowYearFieldName(source);
-
-   int monthToUse;
-   if (getSOIFromSource)
-      monthToUse = longMonthToInt(AnsiString(source->FieldValues["SoiMonth"]).c_str());
-
-   else
-      monthToUse = month;
 
    // loop through all records.
    source->First();

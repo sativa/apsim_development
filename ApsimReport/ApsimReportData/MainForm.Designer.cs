@@ -160,7 +160,7 @@ namespace ApsimReportData
             this.ShowHideToolboxButton.Image = global::ApsimReportData.Properties.Resources.toolbox;
             this.ShowHideToolboxButton.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.ShowHideToolboxButton.Name = "ShowHideToolboxButton";
-            this.ShowHideToolboxButton.Size = new System.Drawing.Size(143, 22);
+            this.ShowHideToolboxButton.Size = new System.Drawing.Size(135, 22);
             this.ShowHideToolboxButton.Text = "Show / Hide toolbox";
             this.ShowHideToolboxButton.Click += new System.EventHandler(this.ShowHideToolboxButton_Click);
             // 
@@ -176,6 +176,7 @@ namespace ApsimReportData
             this.Controls.Add(this.RightPanel);
             this.Name = "MainForm";
             this.Text = "ApsimReport Data Manager";
+            this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.MainForm_FormClosing);
             this.Load += new System.EventHandler(this.MainForm_Load);
             this.BottomPanel.ResumeLayout(false);
             this.ToolboxLabel.ResumeLayout(false);

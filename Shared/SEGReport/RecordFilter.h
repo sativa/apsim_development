@@ -1,26 +1,21 @@
 //---------------------------------------------------------------------------
-#ifndef DepthH
-#define DepthH
+
+#ifndef RecordFilterH
+#define RecordFilterH
 
 #include "DataProcessor.h"
-
 //---------------------------------------------------------------------------
-// derived from TSEGTable, this creates a dataset that represents a
-// probability distribution of the source dataset.
+// This filters an existing dataset extracting specified records.
 //---------------------------------------------------------------------------
-class Depth : public DataProcessor
+class RecordFilter : public DataProcessor
    {
    private:
-      std::vector<std::string> variableNames;
-      int numLayers;
-
       virtual void createFields(TDataSet* source, TDataSet* result);
       virtual void process(TDataSet* source, TDataSet* result);
 
-      void discoverVariables(TDataSet* source);
-
    public:
-      Depth(const std::string& type, TComponent* owner)
+      RecordFilter(const std::string& type, TComponent* owner)
          : DataProcessor(type, owner) { };
+
    };
 #endif

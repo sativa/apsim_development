@@ -13,6 +13,7 @@ class Frequency : public DataProcessor
       virtual void process(TDataSet* source, TDataSet* result);
 
    public:
-      Frequency(const std::string& type) : DataProcessor(type) { }
+      Frequency(const std::string& type, TComponent* owner)
+         : DataProcessor(type, owner) { };
     };
 #endif

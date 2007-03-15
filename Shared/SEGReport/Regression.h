@@ -14,7 +14,8 @@ class Regression : public DataProcessor
       virtual void process(TDataSet* source, TDataSet* result);
 
    public:
-      Regression(const std::string& type) : DataProcessor(type) { }
+      Regression(const std::string& type, TComponent* owner)
+         : DataProcessor(type, owner) { };
 
    };
 #endif

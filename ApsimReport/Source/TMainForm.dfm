@@ -1,6 +1,6 @@
 object MainForm: TMainForm
-  Left = 239
-  Top = 181
+  Left = 193
+  Top = 142
   Cursor = crArrow
   AutoScroll = False
   Caption = 'APSIM Report'
@@ -20,9 +20,9 @@ object MainForm: TMainForm
   TextHeight = 13
   object ObjectInspectorSplitter: TSplitter
     Left = 193
-    Top = 56
+    Top = 52
     Width = 3
-    Height = 729
+    Height = 733
     Cursor = crHSplit
     Visible = False
   end
@@ -37,9 +37,9 @@ object MainForm: TMainForm
   end
   object TabControl: TTabControl
     Left = 196
-    Top = 56
+    Top = 52
     Width = 866
-    Height = 729
+    Height = 733
     Align = alClient
     TabOrder = 1
     OnChange = pageChanged
@@ -51,7 +51,7 @@ object MainForm: TMainForm
     Left = 0
     Top = 0
     Width = 1062
-    Height = 56
+    Height = 52
     Align = alTop
     AutoSize = True
     BevelInner = bvNone
@@ -63,11 +63,11 @@ object MainForm: TMainForm
       Left = 11
       Top = 2
       Width = 800
-      Height = 52
+      Height = 48
       AutoSize = True
       BevelOuter = bvNone
       BorderWidth = 1
-      Color = clInactiveCaptionText
+      Color = clWindow
       TabOrder = 0
       object NewButton: TSpeedButton
         Left = 1
@@ -1069,7 +1069,7 @@ object MainForm: TMainForm
         Height = 49
         Hint = 'Specify the zoom level for the report'
         BevelOuter = bvNone
-        Color = clInactiveCaptionText
+        Color = clWindow
         TabOrder = 0
         object Label1: TLabel
           Left = 20
@@ -1133,9 +1133,9 @@ object MainForm: TMainForm
   end
   object ObjectInspector: TPanel
     Left = 0
-    Top = 56
+    Top = 52
     Width = 193
-    Height = 729
+    Height = 733
     Align = alLeft
     Color = clWindow
     TabOrder = 3

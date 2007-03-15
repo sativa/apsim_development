@@ -23,6 +23,7 @@ class XmlFileReader : public DataProcessor
                        std::vector<std::string>& fieldValues);
 
    public:
-      XmlFileReader(const std::string& type) : DataProcessor(type) { };
+      XmlFileReader(const std::string& type, TComponent* owner)
+         : DataProcessor(type, owner) { };
    };
 #endif

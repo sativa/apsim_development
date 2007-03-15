@@ -8,6 +8,9 @@
 #include <general\db_functions.h>
 #include <general\stl_functions.h>
 #include <general\string_functions.h>
+#include <general\io_functions.h>
+#include <general\path.h>
+#include <dir.h>
 
 using namespace std;
 
@@ -16,7 +19,7 @@ using namespace std;
 //---------------------------------------------------------------------------
 void ApsimFileReader::createFields(TDataSet* source, TDataSet* result)
    {
-   vector<string> fileNames = getProperties("filename");
+   vector<string> fileNames = getFileNames();
    bool parseTitle = Str_i_Eq(getProperty("parseTitle"), "yes");
 
    if (fileNames.size() > 0)
@@ -54,7 +57,7 @@ void ApsimFileReader::createFields(TDataSet* source, TDataSet* result)
 //---------------------------------------------------------------------------
 void ApsimFileReader::process(TDataSet* source, TDataSet* result)
    {
-   vector<string> fileNames = getProperties("filename");
+   vector<string> fileNames = getFileNames();
    bool parseTitle = Str_i_Eq(getProperty("parseTitle"), "yes");
 
    for (unsigned f = 0; f != fileNames.size(); f++)
@@ -139,7 +142,7 @@ bool ApsimFileReader::readNextRecord(istream& in,
       for (unsigned i = 0; i != fieldValues.size(); i++)
          {
          replaceAll(fieldValues[i], "\"", "");
-         if (fieldValues[i] == "*")
+         if (fieldValues[i] == "*" || fieldValues[i] == "?")
             fieldValues[i] = "";
          }
       return true;
@@ -165,4 +168,22 @@ void ApsimFileReader::splitTitleIntoFactors(const string& title,
       }
    }
 
+//---------------------------------------------------------------------------
+// Get a list of file names for this reader - takes care of filespecs.
+//---------------------------------------------------------------------------
+vector<string> ApsimFileReader::getFileNames()
+   {
+   vector<string> fileNames;
+   vector<string> fileSpecs = getProperties("filename");
+
+   for (unsigned i = 0; i != fileSpecs.size(); i++)
+      {
+      getDirectoryListing(Path(fileSpecs[i]).Get_directory(),
+                          Path(fileSpecs[i]).Get_name(),
+                          fileNames,
+                          FA_NORMAL,
+                          true);
+      }
+   return fileNames;
+   }
 

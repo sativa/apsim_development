@@ -9,7 +9,6 @@
 #include <Forms.hpp>
 #include <gtQrCtrls.hpp>
 #include <QuickRpt.hpp>
-#include "ReportMacros.h"
 class SeriesDataSource;
 //---------------------------------------------------------------------------
 // This chart component extends the base QuickReport Chart component by adding
@@ -33,12 +32,12 @@ class PACKAGE TGraph : public TgtQRChart
       AnsiString seriesTitle4;
       AnsiString seriesTitle5;
       AnsiString* stRef;
-      bool ourScaling;
-      ReportMacros macros;
+      int bottomAxisScaleMonths;
 
       virtual void __fastcall DefineProperties(TFiler *Filer);
       void __fastcall LoadStringProperty(TReader *Reader);
       void __fastcall StoreStringProperty(TWriter *Writer);
+      void __fastcall setNumMonths(int numMonths);
 
       virtual void __fastcall Loaded(void);
       void replaceChartMacros(void);
@@ -50,6 +49,10 @@ class PACKAGE TGraph : public TgtQRChart
 
       void refresh(void);
       void userEdit(void);
+
+   __published:
+      __property int NumMonthsBottomAxis = {read=bottomAxisScaleMonths, write=setNumMonths};
+
    };
 //---------------------------------------------------------------------------
 #endif

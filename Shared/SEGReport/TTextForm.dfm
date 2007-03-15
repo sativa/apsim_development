@@ -98,9 +98,9 @@ inherited TextForm: TTextForm
     WordWrap = True
   end
   object AlignmentCombo: TComboBox
-    Left = 63
+    Left = 64
     Top = 17
-    Width = 202
+    Width = 193
     Height = 21
     BevelKind = bkSoft
     Anchors = [akLeft, akTop, akRight]
@@ -127,7 +127,7 @@ inherited TextForm: TTextForm
   object TextEdit: TRichEdit
     Left = 7
     Top = 111
-    Width = 258
+    Width = 250
     Height = 220
     Anchors = [akLeft, akTop, akRight, akBottom]
     BevelInner = bvNone

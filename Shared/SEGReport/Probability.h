@@ -9,7 +9,8 @@
 class Probability : public DataProcessor
    {
    public:
-      Probability(const std::string& type) : DataProcessor(type) { }
+      Probability(const std::string& type, TComponent* owner)
+         : DataProcessor(type, owner) { }
    private:
       virtual void createFields(TDataSet* source, TDataSet* result);
       virtual void process(TDataSet* source, TDataSet* result);
