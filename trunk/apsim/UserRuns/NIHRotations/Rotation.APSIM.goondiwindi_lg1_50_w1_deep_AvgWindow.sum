@@ -23,6 +23,7 @@ Component   "chickpea" = c:\development\apsim\plant\lib\plant.dll
 Component      "wheat" = c:\development\apsim\plant\lib\plant.dll
 Component    "sorghum" = c:\development\apsim\sorghum\lib\sorghum.dll
 Component    "tracker" = c:\development\apsim\tracker\lib\tracker.dll
+Component     "sysbal" = c:\development\apsim\sysbal\lib\sysbal.dll
 
 ------- clock Initialisation --------------------------------------------------
      Sequencer phases:
@@ -563,6 +564,10 @@ Component    "tracker" = c:\development\apsim\tracker\lib\tracker.dll
       stage 3.0 emergence
                      biomass =           0.46 (g/m^2)   lai          =   0.020 (m^2/m^2)
                      stover N conc =     5.85 (%)    extractable sw =   31.71 (mm)
+9 July 1957(Day of year=190), sysbal: 
+      **** N balance - unaccounted gain (kg/ha) =  0.467774957
+      **** C balance - unaccounted gain (kg/ha) =  5.81271887
+      ****        equivalent DM as FOM  (kg/ha) =  14.5317974
 10 July 1957(Day of year=191), wheat: 
       stage 4.0 end_of_juvenile
                      biomass =           0.64 (g/m^2)   lai          =   0.023 (m^2/m^2)
@@ -709,12 +714,18 @@ Component    "tracker" = c:\development\apsim\tracker\lib\tracker.dll
      Residue removed using planter
                                              Fraction Incorporated =     0.10
                                              Incorporated Depth    =    50.00
+13 June 1958(Day of year=164), sysbal: 
+      **** N balance - unaccounted gain (kg/ha) =  11.7503357
 14 June 1958(Day of year=165), wheat: 
       stage 2.0 germination
 25 June 1958(Day of year=176), wheat: 
       stage 3.0 emergence
                      biomass =           0.46 (g/m^2)   lai          =   0.020 (m^2/m^2)
                      stover N conc =     5.85 (%)    extractable sw =   33.59 (mm)
+25 June 1958(Day of year=176), sysbal: 
+      **** N balance - unaccounted gain (kg/ha) =  0.468951523
+      **** C balance - unaccounted gain (kg/ha) =  5.80319595
+      ****        equivalent DM as FOM  (kg/ha) =  14.5079899
 26 June 1958(Day of year=177), wheat: 
       stage 4.0 end_of_juvenile
                      biomass =           0.60 (g/m^2)   lai          =   0.022 (m^2/m^2)
@@ -860,12 +871,18 @@ Component    "tracker" = c:\development\apsim\tracker\lib\tracker.dll
      Residue removed using planter
                                              Fraction Incorporated =     0.10
                                              Incorporated Depth    =    50.00
+21 May 1959(Day of year=141), sysbal: 
+      **** N balance - unaccounted gain (kg/ha) =  18.5153236
 22 May 1959(Day of year=142), wheat: 
       stage 2.0 germination
 4 June 1959(Day of year=155), wheat: 
       stage 3.0 emergence
                      biomass =           0.46 (g/m^2)   lai          =   0.020 (m^2/m^2)
                      stover N conc =     5.85 (%)    extractable sw =   44.15 (mm)
+4 June 1959(Day of year=155), sysbal: 
+      **** N balance - unaccounted gain (kg/ha) =  0.469484776
+      **** C balance - unaccounted gain (kg/ha) =  5.84875584
+      ****        equivalent DM as FOM  (kg/ha) =  14.6218891
 5 June 1959(Day of year=156), wheat: 
       stage 4.0 end_of_juvenile
                      biomass =           0.57 (g/m^2)   lai          =   0.022 (m^2/m^2)
@@ -1011,12 +1028,18 @@ Component    "tracker" = c:\development\apsim\tracker\lib\tracker.dll
      Residue removed using planter
                                              Fraction Incorporated =     0.10
                                              Incorporated Depth    =    50.00
+20 May 1960(Day of year=141), sysbal: 
+      **** N balance - unaccounted gain (kg/ha) =  19.6222820
 21 May 1960(Day of year=142), wheat: 
       stage 2.0 germination
 31 May 1960(Day of year=152), wheat: 
       stage 3.0 emergence
                      biomass =           0.46 (g/m^2)   lai          =   0.020 (m^2/m^2)
                      stover N conc =     5.85 (%)    extractable sw =   39.56 (mm)
+31 May 1960(Day of year=152), sysbal: 
+      **** N balance - unaccounted gain (kg/ha) =  0.471820533
+      **** C balance - unaccounted gain (kg/ha) =  5.82830620
+      ****        equivalent DM as FOM  (kg/ha) =  14.5707655
 1 June 1960(Day of year=153), wheat: 
       stage 4.0 end_of_juvenile
                      biomass =           0.63 (g/m^2)   lai          =   0.023 (m^2/m^2)
@@ -1162,12 +1185,18 @@ Component    "tracker" = c:\development\apsim\tracker\lib\tracker.dll
      Residue removed using planter
                                              Fraction Incorporated =     0.10
                                              Incorporated Depth    =    50.00
+31 May 1961(Day of year=151), sysbal: 
+      **** N balance - unaccounted gain (kg/ha) =  17.5644531
 1 June 1961(Day of year=152), wheat: 
       stage 2.0 germination
 11 June 1961(Day of year=162), wheat: 
       stage 3.0 emergence
                      biomass =           0.46 (g/m^2)   lai          =   0.020 (m^2/m^2)
                      stover N conc =     5.85 (%)    extractable sw =   45.78 (mm)
+11 June 1961(Day of year=162), sysbal: 
+      **** N balance - unaccounted gain (kg/ha) =  0.468750000
+      **** C balance - unaccounted gain (kg/ha) =  5.87565422
+      ****        equivalent DM as FOM  (kg/ha) =  14.6891356
 12 June 1961(Day of year=163), wheat: 
       stage 4.0 end_of_juvenile
                      biomass =           0.65 (g/m^2)   lai          =   0.023 (m^2/m^2)
@@ -1313,12 +1342,18 @@ Component    "tracker" = c:\development\apsim\tracker\lib\tracker.dll
      Residue removed using planter
                                              Fraction Incorporated =     0.10
                                              Incorporated Depth    =    50.00
+30 May 1962(Day of year=150), sysbal: 
+      **** N balance - unaccounted gain (kg/ha) =  29.5698223
 31 May 1962(Day of year=151), wheat: 
       stage 2.0 germination
 11 June 1962(Day of year=162), wheat: 
       stage 3.0 emergence
                      biomass =           0.46 (g/m^2)   lai          =   0.020 (m^2/m^2)
                      stover N conc =     5.85 (%)    extractable sw =   26.55 (mm)
+11 June 1962(Day of year=162), sysbal: 
+      **** N balance - unaccounted gain (kg/ha) =  0.468725860
+      **** C balance - unaccounted gain (kg/ha) =  5.82815456
+      ****        equivalent DM as FOM  (kg/ha) =  14.5703859
 12 June 1962(Day of year=163), wheat: 
       stage 4.0 end_of_juvenile
                      biomass =           0.65 (g/m^2)   lai          =   0.023 (m^2/m^2)
@@ -1464,12 +1499,18 @@ Component    "tracker" = c:\development\apsim\tracker\lib\tracker.dll
      Residue removed using planter
                                              Fraction Incorporated =     0.10
                                              Incorporated Depth    =    50.00
+21 May 1963(Day of year=141), sysbal: 
+      **** N balance - unaccounted gain (kg/ha) =  25.7892990
 22 May 1963(Day of year=142), wheat: 
       stage 2.0 germination
 2 June 1963(Day of year=153), wheat: 
       stage 3.0 emergence
                      biomass =           0.46 (g/m^2)   lai          =   0.020 (m^2/m^2)
                      stover N conc =     5.85 (%)    extractable sw =   33.45 (mm)
+2 June 1963(Day of year=153), sysbal: 
+      **** N balance - unaccounted gain (kg/ha) =  0.471453160
+      **** C balance - unaccounted gain (kg/ha) =  5.85325527
+      ****        equivalent DM as FOM  (kg/ha) =  14.6331377
 3 June 1963(Day of year=154), wheat: 
       stage 4.0 end_of_juvenile
                      biomass =           0.58 (g/m^2)   lai          =   0.022 (m^2/m^2)
@@ -1615,12 +1656,18 @@ Component    "tracker" = c:\development\apsim\tracker\lib\tracker.dll
      Residue removed using planter
                                              Fraction Incorporated =     0.10
                                              Incorporated Depth    =    50.00
+2 June 1964(Day of year=154), sysbal: 
+      **** N balance - unaccounted gain (kg/ha) =  8.66987419
 3 June 1964(Day of year=155), wheat: 
       stage 2.0 germination
 16 June 1964(Day of year=168), wheat: 
       stage 3.0 emergence
                      biomass =           0.46 (g/m^2)   lai          =   0.020 (m^2/m^2)
                      stover N conc =     5.85 (%)    extractable sw =   35.12 (mm)
+16 June 1964(Day of year=168), sysbal: 
+      **** N balance - unaccounted gain (kg/ha) =  0.465942621
+      **** C balance - unaccounted gain (kg/ha) =  5.82982540
+      ****        equivalent DM as FOM  (kg/ha) =  14.5745630
 17 June 1964(Day of year=169), wheat: 
       stage 4.0 end_of_juvenile
                      biomass =           0.58 (g/m^2)   lai          =   0.022 (m^2/m^2)
@@ -1767,6 +1814,10 @@ Component    "tracker" = c:\development\apsim\tracker\lib\tracker.dll
       stage 3.0 emergence
                      biomass =           0.46 (g/m^2)   lai          =   0.020 (m^2/m^2)
                      stover N conc =     5.85 (%)    extractable sw =   35.67 (mm)
+17 June 1966(Day of year=168), sysbal: 
+      **** N balance - unaccounted gain (kg/ha) =  0.470379889
+      **** C balance - unaccounted gain (kg/ha) =  5.81642532
+      ****        equivalent DM as FOM  (kg/ha) =  14.5410633
 18 June 1966(Day of year=169), wheat: 
       stage 4.0 end_of_juvenile
                      biomass =           0.65 (g/m^2)   lai          =   0.023 (m^2/m^2)
@@ -1912,12 +1963,18 @@ Component    "tracker" = c:\development\apsim\tracker\lib\tracker.dll
      Residue removed using planter
                                              Fraction Incorporated =     0.10
                                              Incorporated Depth    =    50.00
+24 May 1967(Day of year=144), sysbal: 
+      **** N balance - unaccounted gain (kg/ha) =  15.2658834
 25 May 1967(Day of year=145), wheat: 
       stage 2.0 germination
 6 June 1967(Day of year=157), wheat: 
       stage 3.0 emergence
                      biomass =           0.46 (g/m^2)   lai          =   0.020 (m^2/m^2)
                      stover N conc =     5.85 (%)    extractable sw =   39.76 (mm)
+6 June 1967(Day of year=157), sysbal: 
+      **** N balance - unaccounted gain (kg/ha) =  0.468750000
+      **** C balance - unaccounted gain (kg/ha) =  5.83621407
+      ****        equivalent DM as FOM  (kg/ha) =  14.5905352
 7 June 1967(Day of year=158), wheat: 
       stage 4.0 end_of_juvenile
                      biomass =           0.52 (g/m^2)   lai          =   0.021 (m^2/m^2)
@@ -2063,12 +2120,18 @@ Component    "tracker" = c:\development\apsim\tracker\lib\tracker.dll
      Residue removed using planter
                                              Fraction Incorporated =     0.10
                                              Incorporated Depth    =    50.00
+20 May 1968(Day of year=141), sysbal: 
+      **** N balance - unaccounted gain (kg/ha) =  24.8309917
 21 May 1968(Day of year=142), wheat: 
       stage 2.0 germination
 3 June 1968(Day of year=155), wheat: 
       stage 3.0 emergence
                      biomass =           0.46 (g/m^2)   lai          =   0.020 (m^2/m^2)
                      stover N conc =     5.85 (%)    extractable sw =   35.11 (mm)
+3 June 1968(Day of year=155), sysbal: 
+      **** N balance - unaccounted gain (kg/ha) =  0.468658149
+      **** C balance - unaccounted gain (kg/ha) =  5.85232353
+      ****        equivalent DM as FOM  (kg/ha) =  14.6308088
 4 June 1968(Day of year=156), wheat: 
       stage 4.0 end_of_juvenile
                      biomass =           0.63 (g/m^2)   lai          =   0.023 (m^2/m^2)
@@ -2214,12 +2277,18 @@ Component    "tracker" = c:\development\apsim\tracker\lib\tracker.dll
      Residue removed using planter
                                              Fraction Incorporated =     0.10
                                              Incorporated Depth    =    50.00
+20 May 1969(Day of year=140), sysbal: 
+      **** N balance - unaccounted gain (kg/ha) =  14.5748625
 21 May 1969(Day of year=141), wheat: 
       stage 2.0 germination
 31 May 1969(Day of year=151), wheat: 
       stage 3.0 emergence
                      biomass =           0.46 (g/m^2)   lai          =   0.020 (m^2/m^2)
                      stover N conc =     5.85 (%)    extractable sw =   50.41 (mm)
+31 May 1969(Day of year=151), sysbal: 
+      **** N balance - unaccounted gain (kg/ha) =  0.468243599
+      **** C balance - unaccounted gain (kg/ha) =  5.84140015
+      ****        equivalent DM as FOM  (kg/ha) =  14.6035004
 1 June 1969(Day of year=152), wheat: 
       stage 4.0 end_of_juvenile
                      biomass =           0.58 (g/m^2)   lai          =   0.022 (m^2/m^2)
@@ -2365,12 +2434,18 @@ Component    "tracker" = c:\development\apsim\tracker\lib\tracker.dll
      Residue removed using planter
                                              Fraction Incorporated =     0.10
                                              Incorporated Depth    =    50.00
+29 May 1970(Day of year=149), sysbal: 
+      **** N balance - unaccounted gain (kg/ha) =  6.59481382
 30 May 1970(Day of year=150), wheat: 
       stage 2.0 germination
 11 June 1970(Day of year=162), wheat: 
       stage 3.0 emergence
                      biomass =           0.46 (g/m^2)   lai          =   0.020 (m^2/m^2)
                      stover N conc =     5.85 (%)    extractable sw =   33.06 (mm)
+11 June 1970(Day of year=162), sysbal: 
+      **** N balance - unaccounted gain (kg/ha) =  0.468762815
+      **** C balance - unaccounted gain (kg/ha) =  5.84893608
+      ****        equivalent DM as FOM  (kg/ha) =  14.6223402
 12 June 1970(Day of year=163), wheat: 
       stage 4.0 end_of_juvenile
                      biomass =           0.65 (g/m^2)   lai          =   0.023 (m^2/m^2)
@@ -2516,12 +2591,18 @@ Component    "tracker" = c:\development\apsim\tracker\lib\tracker.dll
      Residue removed using planter
                                              Fraction Incorporated =     0.10
                                              Incorporated Depth    =    50.00
+25 July 1971(Day of year=206), sysbal: 
+      **** N balance - unaccounted gain (kg/ha) =  20.1210938
 26 July 1971(Day of year=207), wheat: 
       stage 2.0 germination
 7 August 1971(Day of year=219), wheat: 
       stage 3.0 emergence
                      biomass =           0.46 (g/m^2)   lai          =   0.020 (m^2/m^2)
                      stover N conc =     5.85 (%)    extractable sw =   41.45 (mm)
+7 August 1971(Day of year=219), sysbal: 
+      **** N balance - unaccounted gain (kg/ha) =  0.469727337
+      **** C balance - unaccounted gain (kg/ha) =  5.85729599
+      ****        equivalent DM as FOM  (kg/ha) =  14.6432400
 8 August 1971(Day of year=220), wheat: 
       stage 4.0 end_of_juvenile
                      biomass =           0.61 (g/m^2)   lai          =   0.022 (m^2/m^2)
@@ -2668,6 +2749,10 @@ Component    "tracker" = c:\development\apsim\tracker\lib\tracker.dll
       stage 3.0 emergence
                      biomass =           0.46 (g/m^2)   lai          =   0.020 (m^2/m^2)
                      stover N conc =     5.85 (%)    extractable sw =   45.15 (mm)
+20 July 1973(Day of year=201), sysbal: 
+      **** N balance - unaccounted gain (kg/ha) =  0.470975816
+      **** C balance - unaccounted gain (kg/ha) =  5.82698393
+      ****        equivalent DM as FOM  (kg/ha) =  14.5674601
 21 July 1973(Day of year=202), wheat: 
       stage 4.0 end_of_juvenile
                      biomass =           0.66 (g/m^2)   lai          =   0.023 (m^2/m^2)
@@ -2814,6 +2899,10 @@ Component    "tracker" = c:\development\apsim\tracker\lib\tracker.dll
       stage 3.0 emergence
                      biomass =           0.46 (g/m^2)   lai          =   0.020 (m^2/m^2)
                      stover N conc =     5.85 (%)    extractable sw =   41.63 (mm)
+9 July 1975(Day of year=190), sysbal: 
+      **** N balance - unaccounted gain (kg/ha) =  0.469772518
+      **** C balance - unaccounted gain (kg/ha) =  5.78072882
+      ****        equivalent DM as FOM  (kg/ha) =  14.4518223
 10 July 1975(Day of year=191), wheat: 
       stage 4.0 end_of_juvenile
                      biomass =           0.63 (g/m^2)   lai          =   0.023 (m^2/m^2)
@@ -2959,12 +3048,18 @@ Component    "tracker" = c:\development\apsim\tracker\lib\tracker.dll
      Residue removed using planter
                                              Fraction Incorporated =     0.10
                                              Incorporated Depth    =    50.00
+26 May 1976(Day of year=147), sysbal: 
+      **** N balance - unaccounted gain (kg/ha) =  31.8445835
 27 May 1976(Day of year=148), wheat: 
       stage 2.0 germination
 6 June 1976(Day of year=158), wheat: 
       stage 3.0 emergence
                      biomass =           0.46 (g/m^2)   lai          =   0.020 (m^2/m^2)
                      stover N conc =     5.85 (%)    extractable sw =   28.66 (mm)
+6 June 1976(Day of year=158), sysbal: 
+      **** N balance - unaccounted gain (kg/ha) =  0.470228314
+      **** C balance - unaccounted gain (kg/ha) =  5.82414818
+      ****        equivalent DM as FOM  (kg/ha) =  14.5603704
 7 June 1976(Day of year=159), wheat: 
       stage 4.0 end_of_juvenile
                      biomass =           0.63 (g/m^2)   lai          =   0.023 (m^2/m^2)
@@ -3110,12 +3205,18 @@ Component    "tracker" = c:\development\apsim\tracker\lib\tracker.dll
      Residue removed using planter
                                              Fraction Incorporated =     0.10
                                              Incorporated Depth    =    50.00
+20 May 1977(Day of year=140), sysbal: 
+      **** N balance - unaccounted gain (kg/ha) =  30.6353836
 21 May 1977(Day of year=141), wheat: 
       stage 2.0 germination
 2 June 1977(Day of year=153), wheat: 
       stage 3.0 emergence
                      biomass =           0.46 (g/m^2)   lai          =   0.020 (m^2/m^2)
                      stover N conc =     5.85 (%)    extractable sw =   43.35 (mm)
+2 June 1977(Day of year=153), sysbal: 
+      **** N balance - unaccounted gain (kg/ha) =  0.469773233
+      **** C balance - unaccounted gain (kg/ha) =  5.83118868
+      ****        equivalent DM as FOM  (kg/ha) =  14.5779715
 3 June 1977(Day of year=154), wheat: 
       stage 4.0 end_of_juvenile
                      biomass =           0.63 (g/m^2)   lai          =   0.023 (m^2/m^2)
@@ -3261,12 +3362,18 @@ Component    "tracker" = c:\development\apsim\tracker\lib\tracker.dll
      Residue removed using planter
                                              Fraction Incorporated =     0.10
                                              Incorporated Depth    =    50.00
+21 May 1978(Day of year=141), sysbal: 
+      **** N balance - unaccounted gain (kg/ha) =  28.0566463
 22 May 1978(Day of year=142), wheat: 
       stage 2.0 germination
 31 May 1978(Day of year=151), wheat: 
       stage 3.0 emergence
                      biomass =           0.46 (g/m^2)   lai          =   0.020 (m^2/m^2)
                      stover N conc =     5.85 (%)    extractable sw =   32.60 (mm)
+31 May 1978(Day of year=151), sysbal: 
+      **** N balance - unaccounted gain (kg/ha) =  0.467891574
+      **** C balance - unaccounted gain (kg/ha) =  5.80259228
+      ****        equivalent DM as FOM  (kg/ha) =  14.5064802
 1 June 1978(Day of year=152), wheat: 
       stage 4.0 end_of_juvenile
                      biomass =           0.53 (g/m^2)   lai          =   0.021 (m^2/m^2)
@@ -3412,12 +3519,18 @@ Component    "tracker" = c:\development\apsim\tracker\lib\tracker.dll
      Residue removed using planter
                                              Fraction Incorporated =     0.10
                                              Incorporated Depth    =    50.00
+21 May 1979(Day of year=141), sysbal: 
+      **** N balance - unaccounted gain (kg/ha) =  24.5972939
 22 May 1979(Day of year=142), wheat: 
       stage 2.0 germination
 1 June 1979(Day of year=152), wheat: 
       stage 3.0 emergence
                      biomass =           0.46 (g/m^2)   lai          =   0.020 (m^2/m^2)
                      stover N conc =     5.85 (%)    extractable sw =   29.26 (mm)
+1 June 1979(Day of year=152), sysbal: 
+      **** N balance - unaccounted gain (kg/ha) =  0.469098508
+      **** C balance - unaccounted gain (kg/ha) =  5.84844589
+      ****        equivalent DM as FOM  (kg/ha) =  14.6211147
 2 June 1979(Day of year=153), wheat: 
       stage 4.0 end_of_juvenile
                      biomass =           0.65 (g/m^2)   lai          =   0.023 (m^2/m^2)
@@ -3563,12 +3676,18 @@ Component    "tracker" = c:\development\apsim\tracker\lib\tracker.dll
      Residue removed using planter
                                              Fraction Incorporated =     0.10
                                              Incorporated Depth    =    50.00
+30 May 1980(Day of year=151), sysbal: 
+      **** N balance - unaccounted gain (kg/ha) =  7.42273474
 31 May 1980(Day of year=152), wheat: 
       stage 2.0 germination
 11 June 1980(Day of year=163), wheat: 
       stage 3.0 emergence
                      biomass =           0.46 (g/m^2)   lai          =   0.020 (m^2/m^2)
                      stover N conc =     5.85 (%)    extractable sw =   38.86 (mm)
+11 June 1980(Day of year=163), sysbal: 
+      **** N balance - unaccounted gain (kg/ha) =  0.469813377
+      **** C balance - unaccounted gain (kg/ha) =  5.83717632
+      ****        equivalent DM as FOM  (kg/ha) =  14.5929403
 12 June 1980(Day of year=164), wheat: 
       stage 4.0 end_of_juvenile
                      biomass =           0.63 (g/m^2)   lai          =   0.023 (m^2/m^2)
@@ -3714,12 +3833,18 @@ Component    "tracker" = c:\development\apsim\tracker\lib\tracker.dll
      Residue removed using planter
                                              Fraction Incorporated =     0.10
                                              Incorporated Depth    =    50.00
+24 May 1981(Day of year=144), sysbal: 
+      **** N balance - unaccounted gain (kg/ha) =  15.9800968
 25 May 1981(Day of year=145), wheat: 
       stage 2.0 germination
 4 June 1981(Day of year=155), wheat: 
       stage 3.0 emergence
                      biomass =           0.46 (g/m^2)   lai          =   0.020 (m^2/m^2)
                      stover N conc =     5.85 (%)    extractable sw =   48.10 (mm)
+4 June 1981(Day of year=155), sysbal: 
+      **** N balance - unaccounted gain (kg/ha) =  0.468335867
+      **** C balance - unaccounted gain (kg/ha) =  5.85008812
+      ****        equivalent DM as FOM  (kg/ha) =  14.6252203
 5 June 1981(Day of year=156), wheat: 
       stage 4.0 end_of_juvenile
                      biomass =           0.62 (g/m^2)   lai          =   0.023 (m^2/m^2)
@@ -3866,6 +3991,10 @@ Component    "tracker" = c:\development\apsim\tracker\lib\tracker.dll
       stage 3.0 emergence
                      biomass =           0.46 (g/m^2)   lai          =   0.020 (m^2/m^2)
                      stover N conc =     5.85 (%)    extractable sw =   36.83 (mm)
+3 June 1983(Day of year=154), sysbal: 
+      **** N balance - unaccounted gain (kg/ha) =  0.470003903
+      **** C balance - unaccounted gain (kg/ha) =  5.80074692
+      ****        equivalent DM as FOM  (kg/ha) =  14.5018673
 4 June 1983(Day of year=155), wheat: 
       stage 4.0 end_of_juvenile
                      biomass =           0.62 (g/m^2)   lai          =   0.023 (m^2/m^2)
@@ -4011,12 +4140,18 @@ Component    "tracker" = c:\development\apsim\tracker\lib\tracker.dll
      Residue removed using planter
                                              Fraction Incorporated =     0.10
                                              Incorporated Depth    =    50.00
+20 June 1984(Day of year=172), sysbal: 
+      **** N balance - unaccounted gain (kg/ha) =  30.0516930
 21 June 1984(Day of year=173), wheat: 
       stage 2.0 germination
 6 July 1984(Day of year=188), wheat: 
       stage 3.0 emergence
                      biomass =           0.46 (g/m^2)   lai          =   0.020 (m^2/m^2)
                      stover N conc =     5.85 (%)    extractable sw =   35.11 (mm)
+6 July 1984(Day of year=188), sysbal: 
+      **** N balance - unaccounted gain (kg/ha) =  0.467880011
+      **** C balance - unaccounted gain (kg/ha) =  5.85373497
+      ****        equivalent DM as FOM  (kg/ha) =  14.6343374
 7 July 1984(Day of year=189), wheat: 
       stage 4.0 end_of_juvenile
                      biomass =           0.59 (g/m^2)   lai          =   0.022 (m^2/m^2)
@@ -4162,12 +4297,18 @@ Component    "tracker" = c:\development\apsim\tracker\lib\tracker.dll
      Residue removed using planter
                                              Fraction Incorporated =     0.10
                                              Incorporated Depth    =    50.00
+20 May 1985(Day of year=140), sysbal: 
+      **** N balance - unaccounted gain (kg/ha) =  20.5546875
 21 May 1985(Day of year=141), wheat: 
       stage 2.0 germination
 30 May 1985(Day of year=150), wheat: 
       stage 3.0 emergence
                      biomass =           0.46 (g/m^2)   lai          =   0.020 (m^2/m^2)
                      stover N conc =     5.85 (%)    extractable sw =   32.51 (mm)
+30 May 1985(Day of year=150), sysbal: 
+      **** N balance - unaccounted gain (kg/ha) =  0.469726563
+      **** C balance - unaccounted gain (kg/ha) =  5.84821320
+      ****        equivalent DM as FOM  (kg/ha) =  14.6205330
 31 May 1985(Day of year=151), wheat: 
       stage 4.0 end_of_juvenile
                      biomass =           0.52 (g/m^2)   lai          =   0.021 (m^2/m^2)
@@ -4313,6 +4454,8 @@ Component    "tracker" = c:\development\apsim\tracker\lib\tracker.dll
      Residue removed using planter
                                              Fraction Incorporated =     0.10
                                              Incorporated Depth    =    50.00
+21 May 1986(Day of year=141), sysbal: 
+      **** N balance - unaccounted gain (kg/ha) =  23.0543919
 29 June 1986(Day of year=180), wheat: 
       crop failure because of lack of
               germination within 40 days of sowing
@@ -4427,6 +4570,10 @@ Component    "tracker" = c:\development\apsim\tracker\lib\tracker.dll
       stage 3.0 emergence
                      biomass =           0.46 (g/m^2)   lai          =   0.020 (m^2/m^2)
                      stover N conc =     5.85 (%)    extractable sw =   32.30 (mm)
+3 June 1987(Day of year=154), sysbal: 
+      **** N balance - unaccounted gain (kg/ha) =  0.468751252
+      **** C balance - unaccounted gain (kg/ha) =  5.83474731
+      ****        equivalent DM as FOM  (kg/ha) =  14.5868683
 4 June 1987(Day of year=155), wheat: 
       stage 4.0 end_of_juvenile
                      biomass =           0.63 (g/m^2)   lai          =   0.023 (m^2/m^2)
@@ -4572,12 +4719,18 @@ Component    "tracker" = c:\development\apsim\tracker\lib\tracker.dll
      Residue removed using planter
                                              Fraction Incorporated =     0.10
                                              Incorporated Depth    =    50.00
+20 May 1988(Day of year=141), sysbal: 
+      **** N balance - unaccounted gain (kg/ha) =  38.5565758
 21 May 1988(Day of year=142), wheat: 
       stage 2.0 germination
 1 June 1988(Day of year=153), wheat: 
       stage 3.0 emergence
                      biomass =           0.46 (g/m^2)   lai          =   0.020 (m^2/m^2)
                      stover N conc =     5.85 (%)    extractable sw =   28.27 (mm)
+1 June 1988(Day of year=153), sysbal: 
+      **** N balance - unaccounted gain (kg/ha) =  0.468367547
+      **** C balance - unaccounted gain (kg/ha) =  5.85181618
+      ****        equivalent DM as FOM  (kg/ha) =  14.6295404
 2 June 1988(Day of year=154), wheat: 
       stage 4.0 end_of_juvenile
                      biomass =           0.60 (g/m^2)   lai          =   0.022 (m^2/m^2)
@@ -4723,12 +4876,18 @@ Component    "tracker" = c:\development\apsim\tracker\lib\tracker.dll
      Residue removed using planter
                                              Fraction Incorporated =     0.10
                                              Incorporated Depth    =    50.00
+20 May 1989(Day of year=140), sysbal: 
+      **** N balance - unaccounted gain (kg/ha) =  35.0585594
 21 May 1989(Day of year=141), wheat: 
       stage 2.0 germination
 30 May 1989(Day of year=150), wheat: 
       stage 3.0 emergence
                      biomass =           0.46 (g/m^2)   lai          =   0.020 (m^2/m^2)
                      stover N conc =     5.85 (%)    extractable sw =   39.61 (mm)
+30 May 1989(Day of year=150), sysbal: 
+      **** N balance - unaccounted gain (kg/ha) =  0.469409734
+      **** C balance - unaccounted gain (kg/ha) =  5.86471176
+      ****        equivalent DM as FOM  (kg/ha) =  14.6617794
 31 May 1989(Day of year=151), wheat: 
       stage 4.0 end_of_juvenile
                      biomass =           0.58 (g/m^2)   lai          =   0.022 (m^2/m^2)
@@ -4874,12 +5033,18 @@ Component    "tracker" = c:\development\apsim\tracker\lib\tracker.dll
      Residue removed using planter
                                              Fraction Incorporated =     0.10
                                              Incorporated Depth    =    50.00
+21 May 1990(Day of year=141), sysbal: 
+      **** N balance - unaccounted gain (kg/ha) =  34.5531845
 22 May 1990(Day of year=142), wheat: 
       stage 2.0 germination
 1 June 1990(Day of year=152), wheat: 
       stage 3.0 emergence
                      biomass =           0.46 (g/m^2)   lai          =   0.020 (m^2/m^2)
                      stover N conc =     5.85 (%)    extractable sw =   43.70 (mm)
+1 June 1990(Day of year=152), sysbal: 
+      **** N balance - unaccounted gain (kg/ha) =  0.467590988
+      **** C balance - unaccounted gain (kg/ha) =  5.84350300
+      ****        equivalent DM as FOM  (kg/ha) =  14.6087570
 2 June 1990(Day of year=153), wheat: 
       stage 4.0 end_of_juvenile
                      biomass =           0.62 (g/m^2)   lai          =   0.023 (m^2/m^2)
@@ -5025,12 +5190,18 @@ Component    "tracker" = c:\development\apsim\tracker\lib\tracker.dll
      Residue removed using planter
                                              Fraction Incorporated =     0.10
                                              Incorporated Depth    =    50.00
+24 May 1991(Day of year=144), sysbal: 
+      **** N balance - unaccounted gain (kg/ha) =  26.4921875
 25 May 1991(Day of year=145), wheat: 
       stage 2.0 germination
 2 June 1991(Day of year=153), wheat: 
       stage 3.0 emergence
                      biomass =           0.46 (g/m^2)   lai          =   0.020 (m^2/m^2)
                      stover N conc =     5.85 (%)    extractable sw =   45.02 (mm)
+2 June 1991(Day of year=153), sysbal: 
+      **** N balance - unaccounted gain (kg/ha) =  0.469128072
+      **** C balance - unaccounted gain (kg/ha) =  5.82877636
+      ****        equivalent DM as FOM  (kg/ha) =  14.5719404
 3 June 1991(Day of year=154), wheat: 
       stage 4.0 end_of_juvenile
                      biomass =           0.62 (g/m^2)   lai          =   0.023 (m^2/m^2)
@@ -5176,12 +5347,18 @@ Component    "tracker" = c:\development\apsim\tracker\lib\tracker.dll
      Residue removed using planter
                                              Fraction Incorporated =     0.10
                                              Incorporated Depth    =    50.00
+20 May 1992(Day of year=141), sysbal: 
+      **** N balance - unaccounted gain (kg/ha) =  25.5136719
 21 May 1992(Day of year=142), wheat: 
       stage 2.0 germination
 1 June 1992(Day of year=153), wheat: 
       stage 3.0 emergence
                      biomass =           0.46 (g/m^2)   lai          =   0.020 (m^2/m^2)
                      stover N conc =     5.85 (%)    extractable sw =   34.82 (mm)
+1 June 1992(Day of year=153), sysbal: 
+      **** N balance - unaccounted gain (kg/ha) =  0.469726563
+      **** C balance - unaccounted gain (kg/ha) =  5.84281778
+      ****        equivalent DM as FOM  (kg/ha) =  14.6070442
 2 June 1992(Day of year=154), wheat: 
       stage 4.0 end_of_juvenile
                      biomass =           0.56 (g/m^2)   lai          =   0.022 (m^2/m^2)
@@ -5327,12 +5504,18 @@ Component    "tracker" = c:\development\apsim\tracker\lib\tracker.dll
      Residue removed using planter
                                              Fraction Incorporated =     0.10
                                              Incorporated Depth    =    50.00
+14 July 1993(Day of year=195), sysbal: 
+      **** N balance - unaccounted gain (kg/ha) =  34.3725128
 15 July 1993(Day of year=196), wheat: 
       stage 2.0 germination
 26 July 1993(Day of year=207), wheat: 
       stage 3.0 emergence
                      biomass =           0.46 (g/m^2)   lai          =   0.020 (m^2/m^2)
                      stover N conc =     5.85 (%)    extractable sw =   38.72 (mm)
+26 July 1993(Day of year=207), sysbal: 
+      **** N balance - unaccounted gain (kg/ha) =  0.467773438
+      **** C balance - unaccounted gain (kg/ha) =  5.80936432
+      ****        equivalent DM as FOM  (kg/ha) =  14.5234108
 27 July 1993(Day of year=208), wheat: 
       stage 4.0 end_of_juvenile
                      biomass =           0.67 (g/m^2)   lai          =   0.023 (m^2/m^2)
@@ -5479,6 +5662,10 @@ Component    "tracker" = c:\development\apsim\tracker\lib\tracker.dll
       stage 3.0 emergence
                      biomass =           0.46 (g/m^2)   lai          =   0.020 (m^2/m^2)
                      stover N conc =     5.85 (%)    extractable sw =   33.19 (mm)
+3 July 1995(Day of year=184), sysbal: 
+      **** N balance - unaccounted gain (kg/ha) =  0.469727665
+      **** C balance - unaccounted gain (kg/ha) =  5.85569286
+      ****        equivalent DM as FOM  (kg/ha) =  14.6392317
 4 July 1995(Day of year=185), wheat: 
       stage 4.0 end_of_juvenile
                      biomass =           0.63 (g/m^2)   lai          =   0.023 (m^2/m^2)
@@ -5624,12 +5811,18 @@ Component    "tracker" = c:\development\apsim\tracker\lib\tracker.dll
      Residue removed using planter
                                              Fraction Incorporated =     0.10
                                              Incorporated Depth    =    50.00
+20 May 1996(Day of year=141), sysbal: 
+      **** N balance - unaccounted gain (kg/ha) =  23.3338890
 21 May 1996(Day of year=142), wheat: 
       stage 2.0 germination
 1 June 1996(Day of year=153), wheat: 
       stage 3.0 emergence
                      biomass =           0.46 (g/m^2)   lai          =   0.020 (m^2/m^2)
                      stover N conc =     5.85 (%)    extractable sw =   30.74 (mm)
+1 June 1996(Day of year=153), sysbal: 
+      **** N balance - unaccounted gain (kg/ha) =  0.468295425
+      **** C balance - unaccounted gain (kg/ha) =  5.85684156
+      ****        equivalent DM as FOM  (kg/ha) =  14.6421041
 2 June 1996(Day of year=154), wheat: 
       stage 4.0 end_of_juvenile
                      biomass =           0.61 (g/m^2)   lai          =   0.022 (m^2/m^2)
@@ -5775,12 +5968,18 @@ Component    "tracker" = c:\development\apsim\tracker\lib\tracker.dll
      Residue removed using planter
                                              Fraction Incorporated =     0.10
                                              Incorporated Depth    =    50.00
+20 May 1997(Day of year=140), sysbal: 
+      **** N balance - unaccounted gain (kg/ha) =  33.6983948
 21 May 1997(Day of year=141), wheat: 
       stage 2.0 germination
 31 May 1997(Day of year=151), wheat: 
       stage 3.0 emergence
                      biomass =           0.46 (g/m^2)   lai          =   0.020 (m^2/m^2)
                      stover N conc =     5.85 (%)    extractable sw =   44.11 (mm)
+31 May 1997(Day of year=151), sysbal: 
+      **** N balance - unaccounted gain (kg/ha) =  0.471705109
+      **** C balance - unaccounted gain (kg/ha) =  5.85024071
+      ****        equivalent DM as FOM  (kg/ha) =  14.6256018
 1 June 1997(Day of year=152), wheat: 
       stage 4.0 end_of_juvenile
                      biomass =           0.65 (g/m^2)   lai          =   0.023 (m^2/m^2)
@@ -5926,12 +6125,18 @@ Component    "tracker" = c:\development\apsim\tracker\lib\tracker.dll
      Residue removed using planter
                                              Fraction Incorporated =     0.10
                                              Incorporated Depth    =    50.00
+21 May 1998(Day of year=141), sysbal: 
+      **** N balance - unaccounted gain (kg/ha) =  26.3627930
 22 May 1998(Day of year=142), wheat: 
       stage 2.0 germination
 2 June 1998(Day of year=153), wheat: 
       stage 3.0 emergence
                      biomass =           0.46 (g/m^2)   lai          =   0.020 (m^2/m^2)
                      stover N conc =     5.85 (%)    extractable sw =   31.15 (mm)
+2 June 1998(Day of year=153), sysbal: 
+      **** N balance - unaccounted gain (kg/ha) =  0.468729764
+      **** C balance - unaccounted gain (kg/ha) =  5.85355377
+      ****        equivalent DM as FOM  (kg/ha) =  14.6338844
 3 June 1998(Day of year=154), wheat: 
       stage 4.0 end_of_juvenile
                      biomass =           0.62 (g/m^2)   lai          =   0.023 (m^2/m^2)
@@ -6077,12 +6282,18 @@ Component    "tracker" = c:\development\apsim\tracker\lib\tracker.dll
      Residue removed using planter
                                              Fraction Incorporated =     0.10
                                              Incorporated Depth    =    50.00
+11 June 1999(Day of year=162), sysbal: 
+      **** N balance - unaccounted gain (kg/ha) =  27.6573105
 12 June 1999(Day of year=163), wheat: 
       stage 2.0 germination
 27 June 1999(Day of year=178), wheat: 
       stage 3.0 emergence
                      biomass =           0.46 (g/m^2)   lai          =   0.020 (m^2/m^2)
                      stover N conc =     5.85 (%)    extractable sw =   30.07 (mm)
+27 June 1999(Day of year=178), sysbal: 
+      **** N balance - unaccounted gain (kg/ha) =  0.468758672
+      **** C balance - unaccounted gain (kg/ha) =  5.84077168
+      ****        equivalent DM as FOM  (kg/ha) =  14.6019287
 28 June 1999(Day of year=179), wheat: 
       stage 4.0 end_of_juvenile
                      biomass =           0.60 (g/m^2)   lai          =   0.022 (m^2/m^2)
@@ -6229,6 +6440,10 @@ Component    "tracker" = c:\development\apsim\tracker\lib\tracker.dll
       stage 3.0 emergence
                      biomass =           0.46 (g/m^2)   lai          =   0.020 (m^2/m^2)
                      stover N conc =     5.85 (%)    extractable sw =   28.00 (mm)
+24 June 2001(Day of year=175), sysbal: 
+      **** N balance - unaccounted gain (kg/ha) =  0.468125015
+      **** C balance - unaccounted gain (kg/ha) =  5.86113310
+      ****        equivalent DM as FOM  (kg/ha) =  14.6528330
 25 June 2001(Day of year=176), wheat: 
       stage 4.0 end_of_juvenile
                      biomass =           0.65 (g/m^2)   lai          =   0.023 (m^2/m^2)
