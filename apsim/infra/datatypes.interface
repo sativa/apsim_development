@@ -178,14 +178,21 @@
 
    <!--      !!!!! IRRIGATE types !!!!!  -->
    <type name="Irrigated" description="Sent when an irrigation occurs">
-      <field name="amount" kind="double" unit="mm" description="Amount of irrigation applied"/>
-      <field name="depth"  kind="double" unit="mm" description="Depth of irrigation applied"/>
-      <field name="solute" array="T">
-         <element>
-         <field name="name" kind="string"/>
-         <field name="amount" kind="single"/>
-         </element>
-      </field>
+      <field name="sender_name" kind="string"/>
+      <field name="sender_numbytes" kind="integer4"/>
+      <field name="sender_code" kind="integer4"/>
+      <field name="sender_isarray" kind="boolean"/>
+      <field name="sender_value" kind="string" />
+      <field name="sender_id_name" kind="string"/>
+      <field name="sender_id_numbytes" kind="integer4"/>
+      <field name="sender_id_code" kind="integer4"/>
+      <field name="sender_id_isarray" kind="boolean"/>
+      <field name="sender_id_value" kind="integer4" />
+      <field name="amount_name" kind="string"/>
+      <field name="amount_numbytes" kind="integer4"/>
+      <field name="amount_code" kind="integer4"/>
+      <field name="amount_isarray" kind="boolean"/>
+      <field name="amount_value" kind="single"/>
    </type>
 
 
