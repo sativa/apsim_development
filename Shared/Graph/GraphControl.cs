@@ -21,7 +21,7 @@ namespace Graph
             APSIMData GraphData = Controller.Data.Parent.Child("Data");
             if (GraphData == null)
                 GraphData = Controller.Data.Child("Data");
-            GraphController GraphController = new GraphController(Controller, GraphData.FullPath);
+            GraphController GraphController = new GraphController(Controller.SmallImageList, GraphData);
 
             Chart.Series.Clear();
             Chart.Axes.Bottom.Title.Text = "";

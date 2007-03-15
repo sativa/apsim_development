@@ -1,22 +1,24 @@
 using System;
 using VBGeneral;
+using CSGeneral;
 
-namespace CSGeneral
+namespace Soils
 	{
 	//------------------------------------
 	// Encapsulates an initial water type
 	// -----------------------------------
-	public class InitWater : SoilBase
+	public class InitWater
 		{
+        private APSIMData Data;
 		private Soil ParentSoil;
 
 		// -----------
 		// Constructor
 		// -----------
 		public InitWater(Soil soil)
-			: base(soil.Data.Child("InitWater"))
 			{
 			ParentSoil = soil;
+            Data = soil.Data.Child("InitWater");
 			}
 
 
@@ -63,6 +65,12 @@ namespace CSGeneral
             set {
                 Data.set_ChildValue("RelativeTo", value);
                 }
+            }
+
+        public double[] Thickness
+            {
+            get { return Utility.getLayered(Data, "profile", "thickness", ""); }
+            set { Utility.setLayered(Data, "profile", "thickness", "", value); }
             }
 
 		// ------------------------------------
@@ -133,7 +141,7 @@ namespace CSGeneral
 						break;
 						}
 					case MethodType.Layered:
-						sw = getLayered("", "sw", "");
+                        sw = Utility.getLayered(Data, "profile", "sw", "");
 						break;
 					}
 				return sw;
@@ -185,7 +193,7 @@ namespace CSGeneral
                 {
                 Data.DeleteByType("DepthWetSoilMethod");
                 Data.DeleteByType("PercentMethod");
-                setLayered("", "sw", "", sw);
+                Utility.setLayered(Data, "profile", "sw", "", sw);
                 }
 			}
 

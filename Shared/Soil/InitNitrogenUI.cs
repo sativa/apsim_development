@@ -5,6 +5,7 @@ using System.Drawing;
 using System.Windows.Forms;
 using CSGeneral;
 using VBGeneral;
+using Soils;
 
 
 namespace CSGeneral
@@ -840,12 +841,12 @@ namespace CSGeneral
 		private void PopulateGrid()
 			{
 			UserChange = false;
-			GridUtils.SetColumnAsStrings(NitrogenGrid, 0, SoilData.DepthStrings);
+			GridUtils.SetColumnAsStrings(NitrogenGrid, 0, Soils.Utility.ToDepthStrings(SoilData.Thickness));
 			GridUtils.SetColumnAsDoubles(NitrogenGrid, 1, InitialNitrogen.NO3KgHa);
 			GridUtils.SetColumnAsDoubles(NitrogenGrid, 2, InitialNitrogen.NH4KgHa);
 			GridUtils.SetColumnAsDoubles(NitrogenGrid, 3, InitialNitrogen.NO3);
 			GridUtils.SetColumnAsDoubles(NitrogenGrid, 4, InitialNitrogen.NH4);
-			NitrogenGrid.RowCount = SoilData.DepthStrings.Length+1;
+			NitrogenGrid.RowCount = SoilData.Thickness.Length+1;
 
 			int SummaryRow = NitrogenGrid.RowCount-1;
 			NitrogenGrid.Cells[SummaryRow, 0].Value = "Totals:";
@@ -918,7 +919,7 @@ namespace CSGeneral
 		
 		private void UpdateGraph()
 			{
-            double[] CumThicknessMidPoints = MathUtility.Divide_Value(SoilData.CumThicknessMidPoints, 10);
+            double[] CumThicknessMidPoints = MathUtility.Divide_Value(Soils.Utility.ToMidPoints(SoilData.Thickness), 10);
            
             No3KgHaLine.Add(InitialNitrogen.NO3KgHa, CumThicknessMidPoints);
             Nh4KgHaLine.Add(InitialNitrogen.NH4KgHa, CumThicknessMidPoints);

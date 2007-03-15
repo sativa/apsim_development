@@ -3,26 +3,25 @@ using System.Collections.Specialized;
 using System.Collections.Generic;
 using System.IO;
 using VBGeneral;
+using CSGeneral;
 
-
-namespace CSGeneral
+namespace Soils
 {
 	// ---------------------------------
 	// A class for encapsulating a soil
 	// ---------------------------------
-	public class Soil : SoilBase
+	public class Soil
 		{
+        public APSIMData Data;
 		private APSIMData PredLLCoeff = null;
         private APSIMData PredKLCoeff = null;
-		public Soil(APSIMData data)	: base(data) 
+		public Soil(APSIMData data)
             {
-            InitWater w = InitialWater;
-            InitNitrogen n = InitialNitrogen;
+            Data = data;
             }
 
-		// -----------------------------------
-		// General soil descriptive properties
-		// -----------------------------------
+        #region General soil descriptive properties
+
         public string Name
             {
             get { return Data.Name; }
@@ -30,81 +29,99 @@ namespace CSGeneral
             }
         public string State
             {
-            get { return GetStringValue("", "state"); }
-            set { SetValue("", "state", value); }
+            get { return Utility.GetStringValue(Data, "", "state"); }
+            set { Utility.SetValue(Data, "", "state", value); }
             }
         public string Region
 			{
-			get {return GetStringValue("", "region");}
-			set {SetValue("", "region", value);}
+            get { return Utility.GetStringValue(Data, "", "region"); }
+            set { Utility.SetValue(Data, "", "region", value); }
 			}
-
         public string NearestTown
             {
-            get { return GetStringValue("", "nearesttown"); }
-            set { SetValue("", "nearesttown", value); }
+            get { return Utility.GetStringValue(Data, "", "nearesttown"); }
+            set { Utility.SetValue(Data, "", "nearesttown", value); }
             }
         public string Site
 			{
-			get {return GetStringValue("", "site");}
-			set {SetValue("", "site", value);}
+			get {return Utility.GetStringValue(Data, "", "site");}
+			set {Utility.SetValue(Data, "", "site", value);}
 			}
-
 		public string Classification
 			{
-			get {return GetStringValue("", "SoilType");}
-			set {SetValue("", "SoilType", value);}
+			get {return Utility.GetStringValue(Data, "", "SoilType");}
+			set {Utility.SetValue(Data, "", "SoilType", value);}
 			}
-
 		public string DataSource
 			{
-			get {return GetStringValue("", "datasource");}
-			set {SetValue("", "DataSource", value);}
+			get {return Utility.GetStringValue(Data, "", "datasource");}
+			set {Utility.SetValue(Data, "", "DataSource", value);}
 			}
 		public string Comment
 			{
-			get {return GetStringValue("", "comment");}
-			set {SetValue("", "comment", value);}
+			get {return Utility.GetStringValue(Data, "", "comment");}
+			set {Utility.SetValue(Data, "", "comment", value);}
 			}
-
 		public string NaturalVegetation
 			{
-			get {return GetStringValue("", "naturalvegetation");}
-			set {SetValue("", "naturalvegetation", value);}
+			get {return Utility.GetStringValue(Data, "", "naturalvegetation");}
+			set {Utility.SetValue(Data, "", "naturalvegetation", value);}
 			}
-
+        public bool UseEC
+            {
+            get { return (Utility.GetStringValue(Data, "", "UseEC").ToLower() == "yes"); }
+            set { 
+                if (value)
+                    Utility.SetValue(Data, "", "UseEC", "yes"); 
+                else
+                    Utility.SetValue(Data, "", "UseEC", "no"); 
+                }
+            }
+        public int MaxRootDepth
+            {
+            get {
+                string StringValue = Utility.GetStringValue(Data, "", "MaxRootDepth");
+                if (StringValue != "")
+                    return Convert.ToInt32(StringValue);
+                else
+                    return 0;
+                }
+            set
+                {
+                Utility.SetValue(Data, "", "MaxRootDepth", value.ToString());
+                }
+            }
 		public string AttachmentFileName
 			{	
-			get {return GetStringValue("attachment", "filename");}
+			get {return Utility.GetStringValue(Data, "attachment", "filename");}
 			set {
 				if (File.Exists(value))
 					{
-					SetValue("attachment", "filename", Path.GetFileName(value));
+					Utility.SetValue(Data, "attachment", "filename", Path.GetFileName(value));
 			        FileStream fs = File.OpenRead(value);
 					int NumBytes = Convert.ToInt32(fs.Length);
 					byte[] buffer = new byte[NumBytes+1];
 					fs.Read(buffer, 0, NumBytes);
 					string Contents = Convert.ToBase64String(buffer);
-					SetValue("attachment", "bytes", Contents);
+					Utility.SetValue(Data, "attachment", "bytes", Contents);
 					fs.Close();
 					fs = null;
 					}
 				else
-					SetValue("", "attachment", "");
+					Utility.SetValue(Data, "", "attachment", "");
 				}
 			}
 		public string Attachment
 			{
-			get {return GetStringValue("attachment", "bytes");}
+			get {return Utility.GetStringValue(Data, "attachment", "bytes");}
 			}
-
 		public string CreateAttachment()
 			{
 			if (AttachmentFileName != "")
 				{
 				string TempFileName = Path.GetTempPath() + AttachmentFileName;
 		        FileStream fs = new FileStream(TempFileName, FileMode.Create);
-				byte[] buffer = Convert.FromBase64String(GetStringValue("attachment", "bytes"));
+				byte[] buffer = Convert.FromBase64String(Utility.GetStringValue(Data, "attachment", "bytes"));
 				fs.Write(buffer, 0, buffer.Length);
 				fs.Close();
 				fs = null;
@@ -113,180 +130,185 @@ namespace CSGeneral
 			else
 				return "";
 			}
+        #endregion
 
+        #region Profile
+        public double[] Thickness
+            {
+            get { return Utility.getLayered(Data, "profile", "thickness", ""); }
+            set { Utility.setLayered(Data, "profile", "thickness", "", value); }
+            }
 		public double[] LL15
 			{
-            get { return getLayered("profile", "ll15", ""); }
-            set { setLayered("profile", "ll15", "", value); }
+            get { return Utility.getLayered(Data, "profile", "ll15", ""); }
+            set { Utility.setLayered(Data, "profile", "ll15", "", value); }
 			}
 		public double[] Airdry
 			{
-            get { return getLayered("profile", "airdry", ""); }
-            set { setLayered("profile", "airdry", "", value); }
+            get { return Utility.getLayered(Data, "profile", "airdry", ""); }
+            set { Utility.setLayered(Data, "profile", "airdry", "", value); }
 			}
 		public double[] DUL
 			{
-            get { return getLayered("profile", "dul", ""); }
-            set { setLayered("profile", "dul", "", value); }
+            get { return Utility.getLayered(Data, "profile", "dul", ""); }
+            set { Utility.setLayered(Data, "profile", "dul", "", value); }
 			}
 		public double[] SAT
 			{
-            get { return getLayered("profile", "sat", ""); }
-            set { setLayered("profile", "sat", "", value); }
+            get { return Utility.getLayered(Data, "profile", "sat", ""); }
+            set { Utility.setLayered(Data, "profile", "sat", "", value); }
 			}
 		public double[] BD
 			{
-            get { return getLayered("profile", "bd", ""); }
-            set { setLayered("profile", "bd", "", value); }
+            get { return Utility.getLayered(Data, "profile", "bd", ""); }
+            set { Utility.setLayered(Data, "profile", "bd", "", value); }
 			}
         public double[] Rocks
             {
-            get { return getLayered("profile", "Rocks", ""); }
-            set { setLayered("profile", "Rocks", "", value); }
+            get { return Utility.getLayered(Data, "profile", "Rocks", ""); }
+            set { Utility.setLayered(Data, "profile", "Rocks", "", value); }
             }
         public double[] SWCON
 			{
-            get { return getLayered("profile", "swcon", ""); }
-            set { setLayered("profile", "swcon", "", value); }
+            get { return Utility.getLayered(Data, "profile", "swcon", ""); }
+            set { Utility.setLayered(Data, "profile", "swcon", "", value); }
 			}
 		public double[] MWCON
 			{
-            get { return getLayered("profile", "mwcon", ""); }
-            set { setLayered("profile", "mwcon", "", value); }
+            get { return Utility.getLayered(Data, "profile", "mwcon", ""); }
+            set { Utility.setLayered(Data, "profile", "mwcon", "", value); }
 			}
 		public double[] FBIOM
 			{
-            get { return getLayered("profile", "fbiom", ""); }
-            set { setLayered("profile", "fbiom", "", value); }
+            get { return Utility.getLayered(Data, "profile", "fbiom", ""); }
+            set { Utility.setLayered(Data, "profile", "fbiom", "", value); }
 			}
 		public double[] FINERT
 			{
-            get { return getLayered("profile", "finert", ""); }
-            set { setLayered("profile", "finert", "", value); }
+            get { return Utility.getLayered(Data, "profile", "finert", ""); }
+            set { Utility.setLayered(Data, "profile", "finert", "", value); }
 			}
 		public double[] OC
 			{
-            get { return getLayered("profile", "oc", ""); }
-            set { setLayered("profile", "oc", "", value); }
+            get { return Utility.getLayered(Data, "profile", "oc", ""); }
+            set { Utility.setLayered(Data, "profile", "oc", "", value); }
 			}
-        public bool PHStoredAsWater() { return (GetStringValue("profile", "phunits") != "CaCl"); }
+        public bool PHStoredAsWater() { return (Utility.GetStringValue(Data, "profile", "phunits") != "CaCl"); }
         public double[] PH          // pH in water = (pH in CaCl X 1.1045) - 0.1375
 			{
 			get {
                 if (PHStoredAsWater())
-                    return getLayered("profile", "ph", "");
+                    return Utility.getLayered(Data, "profile", "ph", "");
                 else
-                    return MathUtility.Subtract_Value(MathUtility.Multiply_Value(getLayered("profile", "ph", ""), 1.1045), 0.1375);
+                    return MathUtility.Subtract_Value(MathUtility.Multiply_Value(Utility.getLayered(Data, "profile", "ph", ""), 1.1045), 0.1375);
                 }
             set {
-                SetValue("profile", "phunits", "");
-                setLayered("profile", "ph", "", value); 
+                Utility.SetValue(Data, "profile", "phunits", "");
+                Utility.setLayered(Data, "profile", "ph", "", value); 
                 }
 			}
         public double[] PHCaCl         
             {
             get {
                 if (PHStoredAsWater())
-                    return MathUtility.Add_Value(MathUtility.Divide_Value(getLayered("profile", "ph", ""), 1.1045), 0.1375);
+                    return MathUtility.Add_Value(MathUtility.Divide_Value(Utility.getLayered(Data, "profile", "ph", ""), 1.1045), 0.1375);
                 else
-                    return getLayered("profile", "ph", "");
+                    return Utility.getLayered(Data, "profile", "ph", "");
                 }                  
             set {
-                setLayered("profile", "ph", "", value);
-                SetValue("profile", "phunits", "CaCl");
+                Utility.setLayered(Data, "profile", "ph", "", value);
+                Utility.SetValue(Data, "profile", "phunits", "CaCl");
                 }
             }
 		public double[] EC
 			{
-            get { return getLayered("profile", "ec", ""); }
-            set { setLayered("profile", "ec", "", value); }
+            get { return Utility.getLayered(Data, "profile", "ec", ""); }
+            set { Utility.setLayered(Data, "profile", "ec", "", value); }
 			}
 		public double[] CL
 			{
-            get { return getLayered("profile", "cl", ""); }
-            set { setLayered("profile", "cl", "", value); }
+            get { return Utility.getLayered(Data, "profile", "cl", ""); }
+            set { Utility.setLayered(Data, "profile", "cl", "", value); }
 			}
 		public double[] Boron
 			{
-            get { return getLayered("profile", "boron", ""); }
-            set { setLayered("profile", "boron", "", value); }
+            get { return Utility.getLayered(Data, "profile", "boron", ""); }
+            set { Utility.setLayered(Data, "profile", "boron", "", value); }
 			}
 		public double[] CEC
 			{
-            get { return getLayered("profile", "cec", ""); }
-            set { setLayered("profile", "cec", "", value); }
+            get { return Utility.getLayered(Data, "profile", "cec", ""); }
+            set { Utility.setLayered(Data, "profile", "cec", "", value); }
 			}
 		public double[] Ca
 			{
-            get { return getLayered("profile", "ca", ""); }
-            set { setLayered("profile", "ca", "", value); }
+            get { return Utility.getLayered(Data, "profile", "ca", ""); }
+            set { Utility.setLayered(Data, "profile", "ca", "", value); }
 			}
 		public double[] Mg
 			{
-            get { return getLayered("profile", "Mg", ""); }
-            set { setLayered("profile", "Mg", "", value); }
+            get { return Utility.getLayered(Data, "profile", "Mg", ""); }
+            set { Utility.setLayered(Data, "profile", "Mg", "", value); }
 			}
 		public double[] Na
 			{
-            get { return getLayered("profile", "Na", ""); }
-            set { setLayered("profile", "Na", "", value); }
+            get { return Utility.getLayered(Data, "profile", "Na", ""); }
+            set { Utility.setLayered(Data, "profile", "Na", "", value); }
 			}
 		public double[] K
 			{
-            get { return getLayered("profile", "K", ""); }
-            set { setLayered("profile", "K", "", value); }
+            get { return Utility.getLayered(Data, "profile", "K", ""); }
+            set { Utility.setLayered(Data, "profile", "K", "", value); }
 			}
 		public double[] ESP
 			{
-            get { return getLayered("profile", "esp", ""); }
-            set { setLayered("profile", "esp", "", value); }
+            get { return Utility.getLayered(Data, "profile", "esp", ""); }
+            set { Utility.setLayered(Data, "profile", "esp", "", value); }
 			}
 		public double[] ParticleSizeSand
 			{
-            get { return getLayered("profile", "ParticleSizeSand", ""); }
-            set { setLayered("profile", "ParticleSizeSand", "", value); }
+            get { return Utility.getLayered(Data, "profile", "ParticleSizeSand", ""); }
+            set { Utility.setLayered(Data, "profile", "ParticleSizeSand", "", value); }
 			}
 		public double[] ParticleSizeSilt
 			{
-            get { return getLayered("profile", "ParticleSizeSilt", ""); }
-            set { setLayered("profile", "ParticleSizeSilt", "", value); }
+            get { return Utility.getLayered(Data, "profile", "ParticleSizeSilt", ""); }
+            set { Utility.setLayered(Data, "profile", "ParticleSizeSilt", "", value); }
 			}
 		public double[] ParticleSizeClay
 			{
-            get { return getLayered("profile", "ParticleSizeClay", ""); }
-            set { setLayered("profile", "ParticleSizeClay", "", value); }
+            get { return Utility.getLayered(Data, "profile", "ParticleSizeClay", ""); }
+            set { Utility.setLayered(Data, "profile", "ParticleSizeClay", "", value); }
 			}
         public string[] Texture
             {
-            get { return getLayeredAsStrings("profile", "texture", ""); }
-            set { setLayeredAsStrings("profile", "texture", "", value); }
+            get { return Utility.getLayeredAsStrings(Data, "profile", "texture", ""); }
+            set { Utility.setLayeredAsStrings(Data, "profile", "texture", "", value); }
             }
 		public double[] LabileP
 			{
-            get { return getLayered("profile", "LabileP", ""); }
-            set { setLayered("profile", "LabileP", "", value); }
+            get { return Utility.getLayered(Data, "profile", "LabileP", ""); }
+            set { Utility.setLayered(Data, "profile", "LabileP", "", value); }
 			}
 		public double[] BandedP
 			{
-            get { return getLayered("profile", "BandedP", ""); }
-            set { setLayered("profile", "BandedP", "", value); }
+            get { return Utility.getLayered(Data, "profile", "BandedP", ""); }
+            set { Utility.setLayered(Data, "profile", "BandedP", "", value); }
 			}
 		public double[] RockP
 			{
-            get { return getLayered("profile", "RockP", ""); }
-            set { setLayered("profile", "RockP", "", value); }
+            get { return Utility.getLayered(Data, "profile", "RockP", ""); }
+            set { Utility.setLayered(Data, "profile", "RockP", "", value); }
 			}
 		public double[] Sorption
 			{
-            get { return getLayered("profile", "Sorption", ""); }
-            set { setLayered("profile", "Sorption", "", value); }
-			}
+            get { return Utility.getLayered(Data, "profile", "Sorption", ""); }
+            set { Utility.setLayered(Data, "profile", "Sorption", "", value); }
+            }
+        #endregion
 
-
-		// ------------------------------------------------------
-		// Crop properties
-		// ------------------------------------------------------
-		public string[] Crops
+        #region Crop 
+        public string[] Crops
 			{
 			get {
                 String[] ReturnListCollection = CropsMeasured;
@@ -343,36 +365,36 @@ namespace CSGeneral
             }
         public void DeleteCrop(string CropName)
 			{
-            DeleteLayered("profile", "ll", CropName);
-            DeleteLayered("profile", "kl", CropName);
-            DeleteLayered("profile", "xf", CropName);
+            Utility.DeleteLayered(Data, "profile", "ll", CropName);
+            Utility.DeleteLayered(Data, "profile", "kl", CropName);
+            Utility.DeleteLayered(Data, "profile", "xf", CropName);
             }
 		public double[] LL(string CropName)
 			{
 			if (CropExists(CropName))
-                return getLayered("profile", "ll", CropName);
+                return Utility.getLayered(Data, "profile", "ll", CropName);
 			else
 				return PredictedLL(CropName);
 			}
 		public double[] KL(string CropName)
 			{
 			if (CropExists(CropName))
-                return getLayered("profile", "kl", CropName);
+                return Utility.getLayered(Data, "profile", "kl", CropName);
 			else
 				return PredictedKL(CropName);
 			}
 		public double[] XF(string CropName)
 			{
 			if (CropExists(CropName))
-                return getLayered("profile", "xf", CropName);
+                return Utility.getLayered(Data, "profile", "xf", CropName);
 			else
 				return PredictedXF(CropName);
 			}
 		public void SetCrop(string CropName, double[] ll, double[] kl, double[] xf)
 			{
-            setLayered("profile", "ll", CropName, ll);
-            setLayered("profile", "kl", CropName, kl);
-            setLayered("profile", "xf", CropName, xf);
+            Utility.setLayered(Data, "profile", "ll", CropName, ll);
+            Utility.setLayered(Data, "profile", "kl", CropName, kl);
+            Utility.setLayered(Data, "profile", "xf", CropName, xf);
 			}
 
         struct SavedCrop
@@ -398,13 +420,11 @@ namespace CSGeneral
                 }
             foreach (SavedCrop Crop in Crops)
                 SetCrop(Crop.Name, Crop.ll, Crop.kl, Crop.xf);
-			}
+            }
+        #endregion
 
-
-		// ------------------------------------------------------
-		// Predicted crop properties
-		// ------------------------------------------------------
-		private bool OpenPredLLCoeffFile()
+        #region Predicted Crop
+        private bool OpenPredLLCoeffFile()
 			{
 			if (PredLLCoeff == null)
 				{
@@ -436,11 +456,11 @@ namespace CSGeneral
 			{
 			get {
 				StringCollection PredCrops = new StringCollection();
-				if (OpenPredLLCoeffFile() && CumThicknessMidPoints.Length > 0)
+				if (OpenPredLLCoeffFile() && Utility.ToMidPoints(Thickness).Length > 0)
 					{
 					// get a list of all possible predicted crops.
                     string SoilNameNoSpaces = Classification.Replace(" ", "");
-					double[] SoilDepthCentre = this.CumThicknessMidPoints;
+                    double[] SoilDepthCentre = Utility.ToMidPoints(Thickness);
 				
 					foreach (APSIMData PredSoil in  PredLLCoeff.get_Children(null))
 						if (PredSoil.Name.ToLower() == SoilNameNoSpaces.ToLower())
@@ -488,7 +508,7 @@ namespace CSGeneral
 
 		private double[] PredictedLL(string CropName)
 			{
-			if (OpenPredLLCoeffFile() && Utility.IndexOfCaseInsensitive(PredictedCrops, CropName) != -1)
+			if (OpenPredLLCoeffFile() && VBGeneral.Utility.IndexOfCaseInsensitive(PredictedCrops, CropName) != -1)
 				{
 				double[] a = null;
 				double[] b = null;
@@ -496,7 +516,7 @@ namespace CSGeneral
 				PredictedCoeffs(CropName, ref a, ref b, ref CoeffDepthCentre);
 
 				// Get some soil numbers we're going to need.
-				double[] SoilDepthCentre = this.CumThicknessMidPoints;
+                double[] SoilDepthCentre = Utility.ToMidPoints(Thickness);
 				double[] SoilDUL = MathUtility.Multiply_Value(this.DUL, 100);
 
                 // Find the lowest measured crop LL in 3rd layer.
@@ -574,7 +594,7 @@ namespace CSGeneral
                         CoeffDepthCentre[i] = Convert.ToDouble(LayerCentreStrings[i]);
                         }
 
-                    double[] SoilDepthCentre = this.CumThicknessMidPoints;
+                    double[] SoilDepthCentre = Utility.ToMidPoints(Thickness);
                     double[] Values = new double[SoilDepthCentre.Length];
                     bool DidInterpolate = true;
                     for (int i = 0; i != SoilDepthCentre.Length; i++)
@@ -597,152 +617,144 @@ namespace CSGeneral
                     Values[i] = 1.0;
                 return Values;
                 }
-			}
+            }
+        #endregion
 
-		// -----------------------------------
-		// APSIM soil properties
-		// -----------------------------------
-		public double U
+        #region APSIM 
+        public double U
 			{
-			get {return GetDoubleValue("", "U");}
+			get {return Utility.GetDoubleValue(Data, "", "U");}
 			}
 		public double Cona
 			{
-			get {return GetDoubleValue("", "Cona");}
+            get { return Utility.GetDoubleValue(Data, "", "Cona"); }
 			}
         public void SetUCona(double U, double Cona)
             {
-            SetValue("", "Cona", Cona);
-            SetValue("", "U", U);
-            SetValue("", "SummerCona", "");
-            SetValue("", "WinterCona", "");
-            SetValue("", "SummerU", "");
-            SetValue("", "WinterU", "");
-            SetValue("", "SummerDate", "");
-            SetValue("", "WinterDate", "");
+            Utility.SetValue(Data, "", "Cona", Cona);
+            Utility.SetValue(Data, "", "U", U);
+            Utility.SetValue(Data, "", "SummerCona", "");
+            Utility.SetValue(Data, "", "WinterCona", "");
+            Utility.SetValue(Data, "", "SummerU", "");
+            Utility.SetValue(Data, "", "WinterU", "");
+            Utility.SetValue(Data, "", "SummerDate", "");
+            Utility.SetValue(Data, "", "WinterDate", "");
             }
 
         public void SetSummerWinterUCona(double SummerU, double WinterU, 
                                          double SummerCona, double WinterCona,   
                                          string SummerDate, string WinterDate)
             {
-            SetValue("", "Cona", "");
-            SetValue("", "U", "");
-            SetValue("", "SummerCona", SummerCona);
-            SetValue("", "WinterCona", WinterCona);
-            SetValue("", "SummerU", SummerU);
-            SetValue("", "WinterU", WinterU);
-            SetValue("", "SummerDate", SummerDate);
-            SetValue("", "WinterDate", WinterDate);
+            Utility.SetValue(Data, "", "Cona", "");
+            Utility.SetValue(Data, "", "U", "");
+            Utility.SetValue(Data, "", "SummerCona", SummerCona);
+            Utility.SetValue(Data, "", "WinterCona", WinterCona);
+            Utility.SetValue(Data, "", "SummerU", SummerU);
+            Utility.SetValue(Data, "", "WinterU", WinterU);
+            Utility.SetValue(Data, "", "SummerDate", SummerDate);
+            Utility.SetValue(Data, "", "WinterDate", WinterDate);
             }
         public double WinterU
             {
-            get { return GetDoubleValue("", "WinterU"); }
+            get { return Utility.GetDoubleValue(Data, "", "WinterU"); }
             }
         public double SummerU
             {
-            get { return GetDoubleValue("", "SummerU"); }
+            get { return Utility.GetDoubleValue(Data, "", "SummerU"); }
             }
         public double WinterCona
             {
-            get { return GetDoubleValue("", "WinterCona"); }
+            get { return Utility.GetDoubleValue(Data, "", "WinterCona"); }
             }
         public double SummerCona
             {
-            get { return GetDoubleValue("", "SummerCona"); }
+            get { return Utility.GetDoubleValue(Data, "", "SummerCona"); }
             }
         public string WinterDate
             {
-            get { return GetStringValue("", "WinterDate"); }
+            get { return Utility.GetStringValue(Data, "", "WinterDate"); }
             }
         public string SummerDate
             {
-            get { return GetStringValue("", "SummerDate"); }
+            get { return Utility.GetStringValue(Data, "", "SummerDate"); }
             }
-
 		public double Salb
 			{
-			get {return GetDoubleValue("", "Salb");}
-			set {SetValue("", "Salb", value);}
+            get { return Utility.GetDoubleValue(Data, "", "Salb"); }
+			set {Utility.SetValue(Data, "", "Salb", value);}
 			}
 		public double DiffusConst
 			{
-			get {return GetDoubleValue("", "DiffusConst");}
-			set {SetValue("", "DiffusConst", value);}
+            get { return Utility.GetDoubleValue(Data, "", "DiffusConst"); }
+			set {Utility.SetValue(Data, "", "DiffusConst", value);}
 			}
 		public double DiffusSlope
 			{
-			get {return GetDoubleValue("", "DiffusSlope");}
-			set {SetValue("", "DiffusSlope", value);}
+            get { return Utility.GetDoubleValue(Data, "", "DiffusSlope"); }
+			set {Utility.SetValue(Data, "", "DiffusSlope", value);}
 			}
 		public double CN2Bare
 			{
-			get {return GetDoubleValue("", "CN2Bare");}
-			set {SetValue("", "CN2Bare", value);}
+            get { return Utility.GetDoubleValue(Data, "", "CN2Bare"); }
+			set {Utility.SetValue(Data, "", "CN2Bare", value);}
 			}
 		public double CNRed
 			{
-			get {return GetDoubleValue("", "CNRed");}
-			set {SetValue("", "CNRed", value);}
+            get { return Utility.GetDoubleValue(Data, "", "CNRed"); }
+			set {Utility.SetValue(Data, "", "CNRed", value);}
 			}
 		public double CNCov
 			{
-			get {return GetDoubleValue("", "CNCov");}
-			set {SetValue("", "CNCov", value);}
+            get { return Utility.GetDoubleValue(Data, "", "CNCov"); }
+			set {Utility.SetValue(Data, "", "CNCov", value);}
 			}
 		public double RootCN
 			{
-			get {return GetDoubleValue("", "RootCN");}
-			set {SetValue("", "RootCN", value);}
+            get { return Utility.GetDoubleValue(Data, "", "RootCN"); }
+			set {Utility.SetValue(Data, "", "RootCN", value);}
 			}
 		public double RootWT
 			{
-			get {return GetDoubleValue("", "RootWT");}
-			set {SetValue("", "RootWT", value);}
+			get {return Utility.GetDoubleValue(Data, "", "RootWT");}
+			set {Utility.SetValue(Data, "", "RootWT", value);}
 			}
 		public double SoilCN
 			{
-			get {return GetDoubleValue("", "SoilCN");}
-			set {SetValue("", "SoilCN", value);}
+			get {return Utility.GetDoubleValue(Data, "", "SoilCN");}
+			set {Utility.SetValue(Data, "", "SoilCN", value);}
 			}
 		public double EnrACoeff
 			{
-			get {return GetDoubleValue("", "EnrACoeff");}
-			set {SetValue("", "EnrACoeff", value);}
+			get {return Utility.GetDoubleValue(Data, "", "EnrACoeff");}
+			set {Utility.SetValue(Data, "", "EnrACoeff", value);}
 			}
 		public double EnrBCoeff
 			{
-			get {return GetDoubleValue("", "EnrBCoeff");}
-			set {SetValue("", "EnrBCoeff", value);}
+			get {return Utility.GetDoubleValue(Data, "", "EnrBCoeff");}
+			set {Utility.SetValue(Data, "", "EnrBCoeff", value);}
 			}
 		public double ResidueCP
 			{
-			get {return GetDoubleValue("", "ResidueCP");}
-			set {SetValue("", "ResidueCP", value);}
+			get {return Utility.GetDoubleValue(Data, "", "ResidueCP");}
+			set {Utility.SetValue(Data, "", "ResidueCP", value);}
 			}
 		public double RootCP
 			{
-			get {return GetDoubleValue("", "RootCP");}
-			set {SetValue("", "RootCP", value);}
+			get {return Utility.GetDoubleValue(Data, "", "RootCP");}
+			set {Utility.SetValue(Data, "", "RootCP", value);}
 			}
 		public double RateDissolRock
 			{
-			get {return GetDoubleValue("", "RateDissolRock");}
-			set {SetValue("", "RateDissolRock", value);}
-			}
+			get {return Utility.GetDoubleValue(Data, "", "RateDissolRock");}
+			set {Utility.SetValue(Data, "", "RateDissolRock", value);}
+            }
+        #endregion
 
-
-		// ------------------------------------------------------------------
-		// return plant available water content by layer (mm)
-		// ------------------------------------------------------------------
+        #region PAWC calculations
 		public double[] PAWC(string CropName)
 			{
 			return PAWC(this.LL(CropName), this.XF(CropName));
 			}
-		// ------------------------------------------------------------------
-		// return plant available water content by layer (mm) given
-		// depth, lower limit and dul all in (mm).
-		// ------------------------------------------------------------------
 		public double[] PAWC()
 			{
             double[] xf = new double[LL15.Length];
@@ -751,9 +763,6 @@ namespace CSGeneral
 
 			return PAWC(this.LL15, xf);
 			}
-		// ------------------------------------------------------------------
-		// return plant available water content by layer (mm)
-		// ------------------------------------------------------------------
 		private double[] PAWC(double[] LL, double[] XF)
 			{
 			double[] Thickness = this.Thickness;
@@ -773,14 +782,11 @@ namespace CSGeneral
 					PAWC[layer] = (DUL[layer] - LL[layer]) * Thickness[layer];
 			return PAWC;
 			}
-		// ------------------------------------------------------------------
-		// return plant available water by layer (mm)
-		// ------------------------------------------------------------------
 		public double[] PAW(string cropName)
 			{
 			double[] Thickness = this.Thickness;
 			double[] LL = this.LL(cropName);
-			double[] SW = InitialWater.SW;
+			double[] SW = InitialSW;
 			double[] PAW = new double[Thickness.Length];
 
 			// calculate depth increments.
@@ -790,12 +796,10 @@ namespace CSGeneral
 					PAW[layer] = Math.Max((SW[layer] - LL[layer]), 0.0) * Thickness[layer];
 				}
 			return PAW;
-			}
+            }
+        #endregion
 
-
-		// ----------------------------------------------------------------
-		// Export the soil to a PAR file.
-		// ----------------------------------------------------------------
+        #region Export
 		public void ExportToPar(string FileName, string SectionName, bool AppendToFile)
 			{
 			string Template =
@@ -900,9 +904,9 @@ namespace CSGeneral
 			string NO3Line = "";
 			string NH4Line = "";
             string PHLine = "";
-			double[] sw = InitialWater.SW;
-			double[] no3 = InitialNitrogen.NO3;
-			double[] nh4 = InitialNitrogen.NH4;
+			double[] sw = InitialSW;
+			double[] no3 = InitialNO3;
+			double[] nh4 = InitialNH4;
             double[] ph = PH;
 
 			int NumLayers = Thickness.Length;
@@ -926,8 +930,6 @@ namespace CSGeneral
 														Path.GetDirectoryName(FileName),
 														AppendToFile);
 			}
-
-
 		public void ExportToSim(TextWriter Out)
 			{
             string Template =
@@ -958,10 +960,10 @@ namespace CSGeneral
             Template +=
                 "[foreach soil.profile]\r\n" +
                 "      <dlayer> [foreach profile.layer as l][l.thickness] [endfor] </dlayer>\r\n" +
-                "      <sat>[foreach profile.layer as l][l.sat] [endfor]</sat>\r\n" +
-                "      <dul>[foreach profile.layer as l][l.dul] [endfor]</dul>\r\n" +
-                "      <ll15>[foreach profile.layer as l][l.ll15] [endfor]</ll15>\r\n" +
-                "      <air_dry>[foreach profile.layer as l][l.airdry] [endfor]</air_dry>\r\n" +
+                "      <sat>[foreach profile.layer as l][l.sat.3] [endfor]</sat>\r\n" +
+                "      <dul>[foreach profile.layer as l][l.dul.3] [endfor]</dul>\r\n" +
+                "      <ll15>[foreach profile.layer as l][l.ll15.3] [endfor]</ll15>\r\n" +
+                "      <air_dry>[foreach profile.layer as l][l.airdry.3] [endfor]</air_dry>\r\n" +
                 "      <swcon>[foreach profile.layer as l][l.swcon] [endfor]</swcon>\r\n" +
                 "      <bd>[foreach profile.layer as l][l.bd] [endfor]</bd>\r\n";
             if (MWCON.Length > 0 && MWCON[0] != MathUtility.MissingValue)
@@ -984,7 +986,7 @@ namespace CSGeneral
                 "      <enr_b_coeff>[soil.EnrBCoeff]</enr_b_coeff>\r\n" +
                 "      <profile_reduction>off</profile_reduction>\r\n" +
                 "[foreach soil.profile]\r\n" +
-                "      <oc>[foreach profile.layer as l] [l.oc][endfor]</oc>\r\n" +
+                "      <oc>$OC$</oc>\r\n" +
                 "      <ph>$PH$</ph>\r\n" +
                 "      <fbiom>[foreach profile.layer as l] [l.fbiom][endfor]</fbiom>\r\n" +
                 "      <finert>[foreach profile.layer as l] [l.finert][endfor]</finert>\r\n" +
@@ -1020,10 +1022,17 @@ namespace CSGeneral
 			string NO3Line = "";
 			string NH4Line = "";
             string PHLine = "";
-			double[] sw = InitialWater.SW;
-			double[] no3 = InitialNitrogen.NO3;
-			double[] nh4 = InitialNitrogen.NH4;
-            double[] ph = PH;
+            string OCLine = "";
+			double[] sw = InitialSW;
+			double[] no3 = InitialNO3;
+			double[] nh4 = InitialNH4;
+            double[] ph = SamplePH();
+            double[] oc = SampleOC();
+
+            if (ph.Length == 0)
+                ph = PH;
+            if (oc.Length == 0)
+                oc = OC;
 
 			int NumLayers = Thickness.Length;
 			for (int i = 0; i != NumLayers; i++)
@@ -1032,19 +1041,20 @@ namespace CSGeneral
 				NO3Line += "      " + no3[i].ToString("f3");
 				NH4Line += "      " + nh4[i].ToString("f3");
                 PHLine += "      " + ph[i].ToString("f3");
-				}
+                OCLine += "      " + oc[i].ToString("f3");
+                }
 
 			Template = Template.Replace("$SW$", SWLine);
 			Template = Template.Replace("$NO3$", NO3Line);
 			Template = Template.Replace("$NH4$", NH4Line);
             Template = Template.Replace("$PH$", PHLine);
+            Template = Template.Replace("$OC$", OCLine);
 
             Macro SoilMacro = new Macro();
             string Contents = SoilMacro.Go(Data, Template);
             Contents = Contents.Replace("<soiltype>[soil.soiltype]</soiltype>", "");
 			Out.Write(Contents);
 			}
-
 		public void ExportCropToSim(TextWriter Out, string CropName)
 			{
 			string Template =
@@ -1058,6 +1068,10 @@ namespace CSGeneral
 			double[] ll = LL(CropName);
 			double[] kl = KL(CropName);
 			double[] xf = XF(CropName);
+            if (UseEC)
+                ApplyECXFFunction(Thickness, SampleEC(), ref xf);
+            if (MaxRootDepth > 0)
+                ApplyMaxRootDepth(Thickness, MaxRootDepth*10, ref xf);
 
 			for (int i = 0; i != ll.Length; i++)
 				{
@@ -1071,81 +1085,187 @@ namespace CSGeneral
 			Template = Template.Replace("$KL$", KLLine);
 			Template = Template.Replace("$XF$", XFLine);
             Out.Write(Template);
-			}
+            }
+        #endregion
 
+        #region Initial water and nitrogen
+        public double[] InitialSW
+            {
+            get {
+                double[] sw = SampleSW();
+                if (sw.Length > 0)
+                    {
+                    for (int i = 0; i != sw.Length; i++)
+                        {
+                        sw[i] = Math.Max(sw[i], Airdry[i]);
+                        sw[i] = Math.Min(sw[i], SAT[i]);
+                        }
+                    }
+                return sw;
+                }
+            }
+        public double[] InitialNO3
+            {
+            get { return SampleNO3(); }
+            }
+        public double[] InitialNH4
+            {
+            get {return SampleNH4();}
+            }
+        private double[] SampleSW()
+            {
+            // -------------------------------------------
+            // go find a sample with SW values 
+            // -------------------------------------------
+            foreach (APSIMData SampleData in Data.get_Children("soilsample"))
+                {
+                SoilSample Sample = new SoilSample(SampleData);
+                if (MathUtility.ValuesInArray(Sample.SW))
+                    {
+                    double[] sw = Sample.SWMapedToSoil;
+                    if (sw.Length > 0)
+                        return sw;
+                    }
+                }
+            return new double[0];
+            }
+        private double[] SampleNO3()
+            {
+            // -------------------------------------------
+            // go find a sample with NO3 values 
+            // -------------------------------------------
+            foreach (APSIMData SampleData in Data.get_Children("soilsample"))
+                {
+                SoilSample Sample = new SoilSample(SampleData);
+                if (MathUtility.ValuesInArray(Sample.NO3))
+                    {
+                    double[] no3 = Sample.NO3MapedToSoil;
+                    if (no3.Length > 0)
+                        return no3;
+                    }
+                }
+            return new double[0];
+            }
+        private double[] SampleNH4()
+            {
+            // -------------------------------------------
+            // go find a sample with NH4 values 
+            // -------------------------------------------
+            foreach (APSIMData SampleData in Data.get_Children("soilsample"))
+                {
+                SoilSample Sample = new SoilSample(SampleData);
+                if (MathUtility.ValuesInArray(Sample.NH4))
+                    {
+                    double[] nh4 = Sample.NH4MapedToSoil;
+                    if (nh4.Length > 0)
+                        return nh4;
+                    }
+                }
+            // for YP: use default values of 0.2 down the profile.
+            double[] DummyNH4 = new double[Thickness.Length];
+            for (int i = 0; i != DummyNH4.Length; i++)
+                DummyNH4[i] = 0.2;
+            return DummyNH4;
+            }
+        private double[] SampleOC()
+            {
+            // -------------------------------------------
+            // go find a sample with OC values 
+            // -------------------------------------------
+            foreach (APSIMData SampleData in Data.get_Children("soilsample"))
+                {
+                SoilSample Sample = new SoilSample(SampleData);
+                if (MathUtility.ValuesInArray(Sample.OC))
+                    {
+                    double[] oc = Sample.OCMapedToSoil;
+                    if (oc.Length > 0)
+                        return oc;
+                    }
+                }
+            return new double[0];
+            }
+        private double[] SampleEC()
+            {
+            // -------------------------------------------
+            // go find a sample with EC values 
+            // -------------------------------------------
+            foreach (APSIMData SampleData in Data.get_Children("soilsample"))
+                {
+                SoilSample Sample = new SoilSample(SampleData);
+                if (MathUtility.ValuesInArray(Sample.EC))
+                    {
+                    double[] ec = Sample.ECMapedToSoil;
+                    if (ec.Length > 0)
+                        return ec;
+                    }
+                }
+            return new double[0];
+            }
+        private double[] SamplePH()
+            {
+            // -------------------------------------------
+            // go find a sample with PH values 
+            // -------------------------------------------
+            foreach (APSIMData SampleData in Data.get_Children("soilsample"))
+                {
+                SoilSample Sample = new SoilSample(SampleData);
+                if (MathUtility.ValuesInArray(Sample.PH))
+                    {
+                    double[] ph = Sample.PHMapedToSoil;
+                    if (ph.Length > 0)
+                        return ph;
+                    }
+                }
+            return new double[0];
+            }
 
-		// ------------------------
-		// Initial water property
-		// ------------------------
-		public InitWater InitialWater
+        #endregion
+
+        #region Upgrade version
+        public void UpgradeToVersion2()
 			{
-			get {
-				if (Data.Child("InitWater") == null)
-                    Data.Add(new APSIMData("<InitWater><PercentMethod><Percent>100</Percent><Distributed>filled from top</Distributed></PercentMethod></InitWater>"));
-				return new InitWater(this);
-				}
-			}
-
-
-		// ------------------------
-		// Initial water property
-		// ------------------------
-		public InitNitrogen InitialNitrogen
-			{
-			get {
-				if (Data.Child("InitNitrogen") == null)
-					Data.Add(new APSIMData("InitNitrogen", ""));
-				return new InitNitrogen(this);
-				}
-			}
-
-
-		// -----------------------------------
-		// Convert old soil file to new format
-		// -----------------------------------
-		public void UpgradeToVersion2()
-			{
-			if (Data.Child("InitWater") == null)
+            APSIMData InitWaterNode = Data.Child("InitWater");
+			if (InitWaterNode == null || InitWaterNode.get_Children(null).Length == 0)
 				{
-				Data.Add(new APSIMData("InitWater", ""));
-				double[] OldSW = getLayered("profile", "sw", "");
-				if (OldSW != null && OldSW.Length > 0)
-					InitialWater.SetUsingLayered(OldSW);
+                InitWaterNode = Data.Add(new APSIMData("InitWater", ""));
+				double[] OldSW = Utility.getLayered(Data, "water", "sw", "");
+                if (OldSW != null && OldSW.Length > 0)
+                    {
+                    Utility.setLayered(InitWaterNode, "", "sw", "", OldSW);
+                    }
 				}
 
-			if (Data.Child("InitNitrogen") == null)
+            APSIMData InitNitrogenNode = Data.Child("InitNitrogen");
+            if (InitNitrogenNode == null || InitNitrogenNode.get_Children(null).Length == 0)
 				{
-				Data.Add(new APSIMData("InitNitrogen", ""));
-				double[] OldNO3 = getLayered("profile", "no3", "");
-				if (OldNO3 != null && OldNO3.Length > 0)
-					InitialNitrogen.NO3 = OldNO3;
-				double[] OldNH4 = getLayered("profile", "nh4", "");
-				if (OldNH4 != null && OldNH4.Length > 0)
-					InitialNitrogen.NH4 = OldNH4;
+                InitNitrogenNode = Data.Add(new APSIMData("InitNitrogen", ""));
+				double[] OldNO3 = Utility.getLayered(Data, "nitrogen", "no3", "");
+                if (OldNO3 != null && OldNO3.Length > 0)
+                    {
+                    Utility.setLayered(InitNitrogenNode, "", "no3", "", OldNO3);
+                    }
+                double[] OldNH4 = Utility.getLayered(Data, "nitrogen", "nh4", "");
+                if (OldNH4 != null && OldNH4.Length > 0)
+                    {
+                    Utility.setLayered(InitNitrogenNode, "", "nh4", "", OldNH4);
+                    }
 				}
-            setLayered("profile", "sw", "", new double[0]);
-            setLayered("profile", "no3", "", new double[0]);
-            setLayered("profile", "nh4", "", new double[0]);
 
-			// Look for missing crop names.
+            Utility.DeleteLayered(Data, "water", "sw", "");
+            Utility.DeleteLayered(Data, "nitrogen", "no3", "");
+            Utility.DeleteLayered(Data, "nitrogen", "nh4", "");
+
+            // Look for missing crop names.
 			foreach (string Crop in Crops)
 				{
 				if (Crop.ToLower() == "soilcrop")
 					DeleteCrop("soilcrop");
 				}
 			}
-
-		// -----------------------------------
-		// Convert old soil file to new format
-		// -----------------------------------
 		public void UpgradeToVersion3()
 			{
 			}
-
-        // -------------------------------------
-        // Convert old soil file to new format 7
-        // -------------------------------------
-        public void UpgradeToVersion7()
+        public APSIMData UpgradeToVersion7()
             {
             APSIMData Result = new APSIMData("soil", Data.Name);
             foreach (APSIMData Child in Data.get_Children(null))
@@ -1155,14 +1275,22 @@ namespace CSGeneral
                     Child.Type.ToLower() == "other" ||
                     Child.Type.ToLower() == "soilcrop")
                     UpgradeToNodeVersion7(Child, Result);
+                else if (Child.Type.ToLower() == "initwater" ||
+                         Child.Type.ToLower() == "initnitrogen")
+                    {
+                    APSIMData SampleNode = Result.Add(new APSIMData("soilsample", Child.Type));
+                    double[] Thickness = Utility.getLayered(Data, "water", "thickness", "");
+                    foreach (APSIMData SampleChild in Child.get_Children(null))
+                        SampleNode.Add(SampleChild);
+                    Utility.setLayered(SampleNode, "profile", "thickness", "", Thickness);
+                    }
                 else
                     Result.Add(Child);
                 }
             APSIMData DataParent = Data.Parent;
             DataParent.DeleteNode(Data);
-            DataParent.Add(Result);
+            return DataParent.Add(Result);
             }
-
         private void UpgradeToNodeVersion7(APSIMData Data, APSIMData Result)
             {
             // ---------------------------------------------------------
@@ -1187,6 +1315,14 @@ namespace CSGeneral
                         if (Convert.ToDouble(Value.Value) != MathUtility.MissingValue)
                             {
                             APSIMData LayerData = Layer.Add(Value);
+
+                            // truncates to 3 dec places.
+                            if (Value.Value.IndexOf('.') != -1)
+                                {
+                                double DoubleValue = Convert.ToDouble(Value.Value);
+                                LayerData.Value = DoubleValue.ToString("f3");
+                                }
+
                             if (Data.Type.ToLower() == "soilcrop")
                                 LayerData.Name = Data.Name;
                             }
@@ -1194,30 +1330,31 @@ namespace CSGeneral
                     }
                 else
                     Result.Add(Child);  
-                }            
+                }
             }
+        #endregion
 
-
-		//-------------------------------------------------------------------------
-		// This checks the soil for errors and returns an error message if a
-		// problem was found. A blank string returned indicates no problems.
-		//-------------------------------------------------------------------------
-		public string CheckForErrors()
+        #region Error checking
+        public string CheckForErrors()
 			{
-			string ErrorMessages = "";
+            //-------------------------------------------------------------------------
+            // This checks the soil for errors and returns an error message if a
+            // problem was found. A blank string returned indicates no problems.
+            //-------------------------------------------------------------------------
+            string ErrorMessages = "";
 			ErrorMessages += CheckForMissing(this.Thickness, "THICKNESS");
 			ErrorMessages += CheckForMissing(this.Airdry, "AIRDRY");
 			ErrorMessages += CheckForMissing(this.DUL, "DUL");
 			ErrorMessages += CheckForMissing(this.SAT, "SAT");
 			ErrorMessages += CheckForMissing(this.SWCON, "SWCON");
-			ErrorMessages += CheckForMissing(this.InitialWater.SW, "SW");
+			ErrorMessages += CheckForMissing(this.InitialSW, "SW");
 			ErrorMessages += CheckForMissing(this.BD, "BD");
 			ErrorMessages += CheckForMissing(this.OC, "OC");
 			ErrorMessages += CheckForMissing(this.PH, "PH");
 			ErrorMessages += CheckForMissing(this.FBIOM, "FBIOM");
 			ErrorMessages += CheckForMissing(this.FINERT, "FINERT");
-			ErrorMessages += CheckForMissing(this.InitialNitrogen.NO3, "NO3");
-			ErrorMessages += CheckForMissing(this.InitialNitrogen.NH4, "NH4");
+			ErrorMessages += CheckForMissing(this.InitialNO3, "NO3");
+			ErrorMessages += CheckForMissing(this.InitialNH4, "NH4");
 			ErrorMessages += CheckForMissing(this.Salb, "SALB");
 			ErrorMessages += CheckForMissing(this.CN2Bare, "CN2BARE");
 			ErrorMessages += CheckForMissing(this.CNRed, "CNRED");
@@ -1246,15 +1383,13 @@ namespace CSGeneral
 
 			return ErrorMessages;
 			}
-
-
-		// -----------------------------------------------------
-		// Checks the specified array for missing values.
-		// Returns an error message if a problem was found.
-		// -----------------------------------------------------
 		private string CheckForMissing(double[] Values, string PropertyName)
 			{
-			bool AllMissing = true;
+            // -----------------------------------------------------
+            // Checks the specified array for missing values.
+            // Returns an error message if a problem was found.
+            // -----------------------------------------------------
+            bool AllMissing = true;
 			for (int i = 0; i != Values.Length; i++)
 				AllMissing = (AllMissing && Values[i] == MathUtility.MissingValue);
 			if (AllMissing)
@@ -1268,27 +1403,23 @@ namespace CSGeneral
 				}
 			return "";
 			}
-
-
-		// -----------------------------------------------------
-		// Checks the specified value for missing number.
-		// Returns an error message if a problem was found.
-		// -----------------------------------------------------
 		private string CheckForMissing(double Value, string PropertyName)
 			{
-			if (Value == MathUtility.MissingValue)
+            // -----------------------------------------------------
+            // Checks the specified value for missing number.
+            // Returns an error message if a problem was found.
+            // -----------------------------------------------------
+            if (Value == MathUtility.MissingValue)
 				return "Missing a value for " + PropertyName + "\r\n";
 			return "";
 			}
-
-
-		// ------------------------------------------------------------------
-		// Checks validity of soil water parameters for a soil profile layer
-		// This is a port of the soilwat2_check_profile routine.
-		// ------------------------------------------------------------------
 		private string CheckProfile()
 			{
-			string errorMessages = "";
+            // ------------------------------------------------------------------
+            // Checks validity of soil water parameters for a soil profile layer
+            // This is a port of the soilwat2_check_profile routine.
+            // ------------------------------------------------------------------
+            string errorMessages = "";
 			const double min_sw = 0.0;
 			const double specific_bd =  2.65; // (g/cc)
 
@@ -1298,11 +1429,11 @@ namespace CSGeneral
 			double[] dul = this.DUL;
 			double[] sat = this.SAT;
 			double[] bd = this.BD;
-			double[] sw = this.InitialWater.SW;
+            double[] sw = this.InitialSW;
 
 			for (int layer = 0; layer != thickness.Length; layer++)
 				{
-				double max_sw = 1.0 - bd[layer] / specific_bd;
+				double max_sw = MathUtility.Round(1.0 - bd[layer] / specific_bd, 3);
 				int RealLayerNumber = layer + 1;
 
 				if (airdry[layer] < min_sw)
@@ -1393,17 +1524,18 @@ namespace CSGeneral
                                   + "\r\n";
 				}
 			return errorMessages;
-			}
+            }
+        #endregion
 
-		// -------------------------------------------------
-		// Using the soil's EC values - create an XF profile
-		// -------------------------------------------------
-		public void ApplyECXFFunction(string CropName)
+        #region Manipulation / fudges
+        private static void ApplyECXFFunction(double[] Thickness, double[] EC, ref double[] xf)
 			{
-			if (EC.Length > 0)
+            // -------------------------------------------------
+            // Using the soil's EC values - create an XF profile
+            // -------------------------------------------------
+            if (EC.Length > 0 && MathUtility.ValuesInArray(EC))
 				{
-				double[] xf = new double[Thickness.Length];
-				for (int i = 0; i != this.CumThickness.Length; i++)
+				for (int i = 0; i != Thickness.Length; i++)
 					{
 					if (EC[i] <= 0.68)
 						xf[i] = 1.0;
@@ -1413,24 +1545,17 @@ namespace CSGeneral
 						xf[i] = CSGeneral.MathUtility.Constrain(0.0, 1.0, xf[i]);
 						}
 					}
-
-				double[] ll = LL(CropName);
-				double[] kl = KL(CropName);
-
-				SetCrop(CropName, ll, kl, xf);
 				}
 			}
-
-
-		// -------------------------------------------------
-		// Using the soil's EC values - create an XF profile
-		// -------------------------------------------------
-		public void ApplyMaxRootDepth(string CropName, int RootingDepth)
+        private static void ApplyMaxRootDepth(double[] Thickness, int RootingDepth, ref double[] xf)
 			{
-			double[] xf = XF(CropName);
-			if (xf.Length > 0)
+            // --------------------------------------------------------
+            // Using the specified rooting depth modify the XF profile
+            // --------------------------------------------------------
+            if (xf.Length > 0 && MathUtility.ValuesInArray(xf) && RootingDepth > 0)
 				{
-				for (int i = 0; i != this.CumThickness.Length; i++)
+                double[] CumThickness = Utility.ToCumThickness(Thickness);
+				for (int i = 0; i != CumThickness.Length; i++)
 					{
 					if (CumThickness[i] > RootingDepth)
 						{
@@ -1448,21 +1573,15 @@ namespace CSGeneral
 							}
 						}
 					}
-
-				double[] ll = LL(CropName);
-				double[] kl = KL(CropName);
-
-				SetCrop(CropName, ll, kl, xf);
 				}
 			}
-        
-        //---------------------------------------------------
-        // Adjust the DUL curve, given a max water Capacity
-        // start from bottom most layer that has water in it and reduced to zero or until
-        // the whole profile equals the given max water capacity
-        //---------------------------------------------------
         public void ApplyMaxWaterCapacity(int maxWaterCapacity)
             {
+            //---------------------------------------------------
+            // Adjust the DUL curve, given a max water Capacity
+            // start from bottom most layer that has water in it and reduced to zero or until
+            // the whole profile equals the given max water capacity
+            //---------------------------------------------------
             double[] localDUL = DUL;
             double[] localLL15 = LL15;
             double[] localThickness = Thickness;
@@ -1505,18 +1624,18 @@ namespace CSGeneral
                 }
             Thickness=localThickness;
             }
-
-        // -------------------------------------------------
-        // Adjust the DUL curve, given a max soil depth(cutoff)
-        // Leave the DUL number for all whole layers above the cutoff layer
-        // Work out the proportional DUL number for the layer that has the cutoff within it
-        // Set the LL15 to the DUL for the whole layers below the cutoff
-        // -------------------------------------------------
         public void ApplyMaxSoilDepth(int soilDepth)
             {
+            // -------------------------------------------------
+            // Adjust the DUL curve, given a max soil depth(cutoff)
+            // Leave the DUL number for all whole layers above the cutoff layer
+            // Work out the proportional DUL number for the layer that has the cutoff within it
+            // Set the LL15 to the DUL for the whole layers below the cutoff
+            // -------------------------------------------------
             double[] localDUL = DUL;
             double[] localLL15 = LL15;
-            for (int i = 0; i != this.CumThickness.Length; i++)
+            double[] CumThickness = Utility.ToCumThickness(Thickness);
+            for (int i = 0; i != CumThickness.Length; i++)
                 {
                 if (CumThickness[i] > soilDepth)
                     {
@@ -1538,11 +1657,10 @@ namespace CSGeneral
             DUL = localDUL;
             LL15 = localLL15;
             }
+        #endregion
 
-		// ----------------------
-		// Methods for cell notes
-		// ----------------------
-		public void DeleteNote(string GridName, int Col, int Row)
+        #region Note methods
+        public void DeleteNote(string GridName, int Col, int Row)
 			{
 			string NoteNameToDelete = "";
 			foreach (APSIMData Note in Data.get_Children("note"))
@@ -1555,14 +1673,12 @@ namespace CSGeneral
 			if (NoteNameToDelete != "")
 				Data.Delete(NoteNameToDelete);
 			}
-
 		public struct Note
 			{
 			public string GridName;
 			public int Col, Row;
 			public string Text;
 			};
-
 		public void AddNote(string GridName, int Col, int Row, string Text)
 			{
 			APSIMData Note = new APSIMData("note", "note");
@@ -1572,7 +1688,6 @@ namespace CSGeneral
 			Note.set_ChildValue("text", Text);
 			Data.Add(Note);
 			}
-
 		public Note[] GetNotes()
 			{
 			Note[] ReturnList = new Note[Data.get_Children("note").Length];
@@ -1587,10 +1702,10 @@ namespace CSGeneral
 				i++;
 				}
 			return ReturnList;
-			}
+            }
+        #endregion
 
-
-
+        #region Add/Delete layer
         internal void AddLayerToBottom()
             {
             // ----------------------------------
@@ -1617,7 +1732,6 @@ namespace CSGeneral
                     }
                 }
             }
-
         internal void DeleteLayerFromBottom()
             {
             // ----------------------------------
@@ -1644,5 +1758,6 @@ namespace CSGeneral
                     }
                 }
             }
+        #endregion
         }
 	}

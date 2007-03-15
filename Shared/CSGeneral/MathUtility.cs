@@ -277,6 +277,16 @@ namespace CSGeneral
 				}
 			return ReturnValues;
 			}
+
+        static public bool ValuesInArray(double[] Values)
+            {
+            foreach (double Value in Values)
+                {
+                if (Value != MathUtility.MissingValue)
+                    return true;
+                }
+            return false;
+            }
 		
 		//-------------------------------------------------------------------------
 		}

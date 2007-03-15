@@ -32,7 +32,7 @@ namespace Graph
             APSIMData GraphData = Controller.Data.Parent.Child("Data");
             if (GraphData == null)
                 GraphData = Controller.Data.Parent.Parent.Child("Data");
-            this.GraphController = new GraphController(Controller, GraphData.FullPath);
+            this.GraphController = new GraphController(Controller.SmallImageList, GraphData);
 
             Updating = true;
 

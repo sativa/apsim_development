@@ -174,6 +174,9 @@ Public Class APSIMData
         ' Return parent node data or nothing if root node
         ' ------------------------------------------------
         Get
+            If (IsNothing(InternalNode.ParentNode)) Then
+                Return Nothing
+            End If
             Dim A As New APSIMData(InternalNode.ParentNode, DataChangedEvent)
             If A.Type = "#document" Then
                 Return Nothing

@@ -3,6 +3,7 @@ using System.Windows.Forms;
 using System.IO;
 using VBGeneral;
 using CSGeneral;
+using Soils;
 using System.Collections;
 
 namespace CSGeneral
@@ -129,8 +130,8 @@ namespace CSGeneral
 				{
 				case "soil"         : return new SoilUI();
 				case "sample"       : return new SampleUI();
-				case "initwater"    : return new InitWaterUI();
-				case "initnitrogen" : return new InitNitrogenUI();
+				//case "initwater"    : return new InitWaterUI();
+				//case "initnitrogen" : return new InitNitrogenUI();
 				default             : return null;
 				}
 			}

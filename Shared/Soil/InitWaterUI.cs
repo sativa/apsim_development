@@ -6,6 +6,7 @@ using System.Windows.Forms;
 using System.Collections.Specialized;
 using CSGeneral;
 using VBGeneral;
+using Soils;
 									    
 namespace CSGeneral
 	{
@@ -388,7 +389,7 @@ namespace CSGeneral
 				 	 + " and then filling in the details.";
 
 			SoilData = new Soil(Controller.Data.Parent);
-			InitialWater = SoilData.InitialWater;
+			InitialWater = SoilData.InitialSW;
 			WaterChartControl.LinkedSoil = SoilData;
 			WaterChartControl.ShowSoilWaterLine = true;
             RelativeToCombo.Items.Add("ll15");
@@ -484,11 +485,11 @@ namespace CSGeneral
 			else
 				WaterGrid.DefaultStyle.BackColor = SystemColors.Control;
 				
-			GridUtils.SetColumnAsStrings(WaterGrid, 0, SoilData.DepthStrings);
+			GridUtils.SetColumnAsStrings(WaterGrid, 0, Soils.Utility.ToDepthStrings(SoilData.Thickness));
 			GridUtils.SetColumnAsDoubles(WaterGrid, 1, MathUtility.Multiply_Value(SoilData.LL15, 100));
 			GridUtils.SetColumnAsDoubles(WaterGrid, 2, MathUtility.Multiply_Value(SoilData.DUL, 100));
 			GridUtils.SetColumnAsDoubles(WaterGrid, 3, MathUtility.Multiply_Value(InitialWater.SW, 100));
-			WaterGrid.RowCount = SoilData.DepthStrings.Length;
+			WaterGrid.RowCount = SoilData.Thickness.Length;
 
 			WaterChartControl.RefreshView();
 			UserChange = true;

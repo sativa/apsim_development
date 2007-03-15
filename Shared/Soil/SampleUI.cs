@@ -5,6 +5,7 @@ using System.Drawing;
 using System.Data;
 using System.Windows.Forms;
 using VBGeneral;
+using Soils;
 
 namespace CSGeneral
 	{
@@ -21,7 +22,7 @@ namespace CSGeneral
 		private System.Windows.Forms.DateTimePicker SampleDate;
 		private FarPoint.Win.Spread.FpSpread FpSpread;
 		private FarPoint.Win.Spread.SheetView Grid;
-		private CSGeneral.SoilSample MySample;
+		private SoilSample MySample;
 		private bool UserChange = true;
 
 		public SampleUI()
@@ -211,7 +212,7 @@ namespace CSGeneral
 					InputMap.Put(new FarPoint.Win.Spread.Keystroke(Keys.Enter, Keys.None), 
 								FarPoint.Win.Spread.SpreadActions.MoveToNextRow); 
 					}
-				MySample = new CSGeneral.SoilSample(Controller.Data);
+				MySample = new SoilSample(Controller.Data);
 				PopulateGrid();
 				}
 			catch (Exception err)
@@ -225,7 +226,7 @@ namespace CSGeneral
 			UserChange = false;
 			Grid.RowCount = 1;
 			Grid.RowCount = 20;
-			GridUtils.SetColumnAsStrings(Grid, 0, MySample.DepthStrings);
+			GridUtils.SetColumnAsStrings(Grid, 0, Soils.Utility.ToDepthStrings(MySample.Thickness));
 
 			SampleDate.Value = MySample.SampleDate;
 			if (MySample.StoredWaterFormat == SoilSample.StoredWaterFormatType.VolumetricPercent)
@@ -266,7 +267,7 @@ namespace CSGeneral
 		private void SaveGrid()
 			{
 			int NumLayers = GridUtils.FindFirstBlankCell(Grid, 0);
-			MySample.DepthStrings = GridUtils.GetColumnAsStrings(Grid, 0, NumLayers);
+			MySample.Thickness = Soils.Utility.ToThickness(GridUtils.GetColumnAsStrings(Grid, 0, NumLayers));
 			if (WaterUnits.SelectedIndex == 0)
                 MySample.SW = GridUtils.GetColumnAsDoubles(Grid, 1, NumLayers);
 			else if (WaterUnits.SelectedIndex == 1)
