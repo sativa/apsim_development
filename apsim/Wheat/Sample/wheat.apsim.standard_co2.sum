@@ -19,6 +19,7 @@ Component   "soilwat2" = c:\development\apsim\soilwat2\lib\soilwat2.dll
 Component  "SurfaceOM" = c:\development\apsim\SurfaceOM\lib\SurfaceOM.dll
 Component     "soiln2" = c:\development\apsim\soiln2\lib\soiln2.dll
 Component      "wheat" = c:\development\apsim\Plant\lib\Plant.dll
+Component     "sysbal" = c:\development\apsim\sysbal\lib\sysbal.dll
 
 ------- clock Initialisation --------------------------------------------------
      Sequencer phases:
@@ -257,6 +258,10 @@ Component      "wheat" = c:\development\apsim\Plant\lib\Plant.dll
       stage 3.0 emergence
                      biomass =           0.55 (g/m^2)   lai          =   0.024 (m^2/m^2)
                      stover N conc =     5.85 (%)    extractable sw =   30.04 (mm)
+25 June 1940(Day of year=177), sysbal: 
+      **** N balance - unaccounted gain (kg/ha) =  0.562501729
+      **** C balance - unaccounted gain (kg/ha) =  7.01782608
+      ****        equivalent DM as FOM  (kg/ha) =  17.5445652
 26 June 1940(Day of year=178), wheat: 
       stage 4.0 end_of_juvenile
                      biomass =           0.68 (g/m^2)   lai          =   0.026 (m^2/m^2)
@@ -385,6 +390,10 @@ Component      "wheat" = c:\development\apsim\Plant\lib\Plant.dll
       stage 3.0 emergence
                      biomass =           0.55 (g/m^2)   lai          =   0.024 (m^2/m^2)
                      stover N conc =     5.85 (%)    extractable sw =   28.25 (mm)
+26 June 1941(Day of year=177), sysbal: 
+      **** N balance - unaccounted gain (kg/ha) =  0.561523438
+      **** C balance - unaccounted gain (kg/ha) =  6.99807310
+      ****        equivalent DM as FOM  (kg/ha) =  17.4951820
 27 June 1941(Day of year=178), wheat: 
       stage 4.0 end_of_juvenile
                      biomass =           0.74 (g/m^2)   lai          =   0.027 (m^2/m^2)
@@ -513,6 +522,10 @@ Component      "wheat" = c:\development\apsim\Plant\lib\Plant.dll
       stage 3.0 emergence
                      biomass =           0.55 (g/m^2)   lai          =   0.024 (m^2/m^2)
                      stover N conc =     5.85 (%)    extractable sw =   21.46 (mm)
+24 June 1942(Day of year=175), sysbal: 
+      **** N balance - unaccounted gain (kg/ha) =  0.562500000
+      **** C balance - unaccounted gain (kg/ha) =  7.00390816
+      ****        equivalent DM as FOM  (kg/ha) =  17.5097694
 25 June 1942(Day of year=176), wheat: 
       stage 4.0 end_of_juvenile
                      biomass =           0.73 (g/m^2)   lai          =   0.027 (m^2/m^2)
@@ -641,6 +654,10 @@ Component      "wheat" = c:\development\apsim\Plant\lib\Plant.dll
       stage 3.0 emergence
                      biomass =           0.55 (g/m^2)   lai          =   0.024 (m^2/m^2)
                      stover N conc =     5.85 (%)    extractable sw =   26.18 (mm)
+28 June 1943(Day of year=179), sysbal: 
+      **** N balance - unaccounted gain (kg/ha) =  0.563476563
+      **** C balance - unaccounted gain (kg/ha) =  7.00239277
+      ****        equivalent DM as FOM  (kg/ha) =  17.5059814
 29 June 1943(Day of year=180), wheat: 
       stage 4.0 end_of_juvenile
                      biomass =           0.75 (g/m^2)   lai          =   0.027 (m^2/m^2)
@@ -769,6 +786,10 @@ Component      "wheat" = c:\development\apsim\Plant\lib\Plant.dll
       stage 3.0 emergence
                      biomass =           0.55 (g/m^2)   lai          =   0.024 (m^2/m^2)
                      stover N conc =     5.85 (%)    extractable sw =   29.57 (mm)
+26 June 1944(Day of year=178), sysbal: 
+      **** N balance - unaccounted gain (kg/ha) =  0.563476920
+      **** C balance - unaccounted gain (kg/ha) =  6.99995565
+      ****        equivalent DM as FOM  (kg/ha) =  17.4998894
 27 June 1944(Day of year=179), wheat: 
       stage 4.0 end_of_juvenile
                      biomass =           0.74 (g/m^2)   lai          =   0.027 (m^2/m^2)
@@ -897,6 +918,10 @@ Component      "wheat" = c:\development\apsim\Plant\lib\Plant.dll
       stage 3.0 emergence
                      biomass =           0.55 (g/m^2)   lai          =   0.024 (m^2/m^2)
                      stover N conc =     5.85 (%)    extractable sw =   32.07 (mm)
+24 June 1945(Day of year=175), sysbal: 
+      **** N balance - unaccounted gain (kg/ha) =  0.562833607
+      **** C balance - unaccounted gain (kg/ha) =  7.01533937
+      ****        equivalent DM as FOM  (kg/ha) =  17.5383472
 25 June 1945(Day of year=176), wheat: 
       stage 4.0 end_of_juvenile
                      biomass =           0.74 (g/m^2)   lai          =   0.027 (m^2/m^2)
@@ -1025,6 +1050,10 @@ Component      "wheat" = c:\development\apsim\Plant\lib\Plant.dll
       stage 3.0 emergence
                      biomass =           0.55 (g/m^2)   lai          =   0.024 (m^2/m^2)
                      stover N conc =     5.85 (%)    extractable sw =   28.93 (mm)
+27 June 1946(Day of year=178), sysbal: 
+      **** N balance - unaccounted gain (kg/ha) =  0.562502503
+      **** C balance - unaccounted gain (kg/ha) =  6.97540665
+      ****        equivalent DM as FOM  (kg/ha) =  17.4385166
 28 June 1946(Day of year=179), wheat: 
       stage 4.0 end_of_juvenile
                      biomass =           0.68 (g/m^2)   lai          =   0.026 (m^2/m^2)
@@ -1153,6 +1182,10 @@ Component      "wheat" = c:\development\apsim\Plant\lib\Plant.dll
       stage 3.0 emergence
                      biomass =           0.55 (g/m^2)   lai          =   0.024 (m^2/m^2)
                      stover N conc =     5.85 (%)    extractable sw =   30.46 (mm)
+25 June 1947(Day of year=176), sysbal: 
+      **** N balance - unaccounted gain (kg/ha) =  0.564452052
+      **** C balance - unaccounted gain (kg/ha) =  7.00858688
+      ****        equivalent DM as FOM  (kg/ha) =  17.5214672
 26 June 1947(Day of year=177), wheat: 
       stage 4.0 end_of_juvenile
                      biomass =           0.73 (g/m^2)   lai          =   0.027 (m^2/m^2)
@@ -1281,6 +1314,10 @@ Component      "wheat" = c:\development\apsim\Plant\lib\Plant.dll
       stage 3.0 emergence
                      biomass =           0.55 (g/m^2)   lai          =   0.024 (m^2/m^2)
                      stover N conc =     5.85 (%)    extractable sw =   37.24 (mm)
+23 June 1948(Day of year=175), sysbal: 
+      **** N balance - unaccounted gain (kg/ha) =  0.562541604
+      **** C balance - unaccounted gain (kg/ha) =  7.02842045
+      ****        equivalent DM as FOM  (kg/ha) =  17.5710506
 24 June 1948(Day of year=176), wheat: 
       stage 4.0 end_of_juvenile
                      biomass =           0.71 (g/m^2)   lai          =   0.027 (m^2/m^2)
@@ -1409,6 +1446,10 @@ Component      "wheat" = c:\development\apsim\Plant\lib\Plant.dll
       stage 3.0 emergence
                      biomass =           0.55 (g/m^2)   lai          =   0.024 (m^2/m^2)
                      stover N conc =     5.85 (%)    extractable sw =   31.60 (mm)
+27 June 1949(Day of year=178), sysbal: 
+      **** N balance - unaccounted gain (kg/ha) =  0.562568367
+      **** C balance - unaccounted gain (kg/ha) =  7.03155422
+      ****        equivalent DM as FOM  (kg/ha) =  17.5788860
 28 June 1949(Day of year=179), wheat: 
       stage 4.0 end_of_juvenile
                      biomass =           0.75 (g/m^2)   lai          =   0.027 (m^2/m^2)
@@ -1537,6 +1578,10 @@ Component      "wheat" = c:\development\apsim\Plant\lib\Plant.dll
       stage 3.0 emergence
                      biomass =           0.55 (g/m^2)   lai          =   0.024 (m^2/m^2)
                      stover N conc =     5.85 (%)    extractable sw =   37.08 (mm)
+25 June 1950(Day of year=176), sysbal: 
+      **** N balance - unaccounted gain (kg/ha) =  0.562636554
+      **** C balance - unaccounted gain (kg/ha) =  6.99231911
+      ****        equivalent DM as FOM  (kg/ha) =  17.4807968
 26 June 1950(Day of year=177), wheat: 
       stage 4.0 end_of_juvenile
                      biomass =           0.63 (g/m^2)   lai          =   0.025 (m^2/m^2)
@@ -1665,6 +1710,10 @@ Component      "wheat" = c:\development\apsim\Plant\lib\Plant.dll
       stage 3.0 emergence
                      biomass =           0.55 (g/m^2)   lai          =   0.024 (m^2/m^2)
                      stover N conc =     5.85 (%)    extractable sw =   32.00 (mm)
+25 June 1951(Day of year=176), sysbal: 
+      **** N balance - unaccounted gain (kg/ha) =  0.562460601
+      **** C balance - unaccounted gain (kg/ha) =  7.02141190
+      ****        equivalent DM as FOM  (kg/ha) =  17.5535297
 26 June 1951(Day of year=177), wheat: 
       stage 4.0 end_of_juvenile
                      biomass =           0.63 (g/m^2)   lai          =   0.025 (m^2/m^2)
@@ -1793,6 +1842,10 @@ Component      "wheat" = c:\development\apsim\Plant\lib\Plant.dll
       stage 3.0 emergence
                      biomass =           0.55 (g/m^2)   lai          =   0.024 (m^2/m^2)
                      stover N conc =     5.85 (%)    extractable sw =   32.31 (mm)
+25 June 1952(Day of year=177), sysbal: 
+      **** N balance - unaccounted gain (kg/ha) =  0.560606182
+      **** C balance - unaccounted gain (kg/ha) =  7.01473379
+      ****        equivalent DM as FOM  (kg/ha) =  17.5368347
 26 June 1952(Day of year=178), wheat: 
       stage 4.0 end_of_juvenile
                      biomass =           0.75 (g/m^2)   lai          =   0.027 (m^2/m^2)
@@ -1921,6 +1974,10 @@ Component      "wheat" = c:\development\apsim\Plant\lib\Plant.dll
       stage 3.0 emergence
                      biomass =           0.55 (g/m^2)   lai          =   0.024 (m^2/m^2)
                      stover N conc =     5.85 (%)    extractable sw =   28.93 (mm)
+27 June 1953(Day of year=178), sysbal: 
+      **** N balance - unaccounted gain (kg/ha) =  0.562025726
+      **** C balance - unaccounted gain (kg/ha) =  6.99081516
+      ****        equivalent DM as FOM  (kg/ha) =  17.4770374
 28 June 1953(Day of year=179), wheat: 
       stage 4.0 end_of_juvenile
                      biomass =           0.76 (g/m^2)   lai          =   0.027 (m^2/m^2)
@@ -2049,6 +2106,10 @@ Component      "wheat" = c:\development\apsim\Plant\lib\Plant.dll
       stage 3.0 emergence
                      biomass =           0.55 (g/m^2)   lai          =   0.024 (m^2/m^2)
                      stover N conc =     5.85 (%)    extractable sw =   30.66 (mm)
+25 June 1954(Day of year=176), sysbal: 
+      **** N balance - unaccounted gain (kg/ha) =  0.561523795
+      **** C balance - unaccounted gain (kg/ha) =  6.99686956
+      ****        equivalent DM as FOM  (kg/ha) =  17.4921741
 26 June 1954(Day of year=177), wheat: 
       stage 4.0 end_of_juvenile
                      biomass =           0.75 (g/m^2)   lai          =   0.027 (m^2/m^2)
@@ -2177,6 +2238,10 @@ Component      "wheat" = c:\development\apsim\Plant\lib\Plant.dll
       stage 3.0 emergence
                      biomass =           0.55 (g/m^2)   lai          =   0.024 (m^2/m^2)
                      stover N conc =     5.85 (%)    extractable sw =   32.44 (mm)
+24 June 1955(Day of year=175), sysbal: 
+      **** N balance - unaccounted gain (kg/ha) =  0.564500391
+      **** C balance - unaccounted gain (kg/ha) =  7.02429295
+      ****        equivalent DM as FOM  (kg/ha) =  17.5607319
 25 June 1955(Day of year=176), wheat: 
       stage 4.0 end_of_juvenile
                      biomass =           0.71 (g/m^2)   lai          =   0.027 (m^2/m^2)
@@ -2305,6 +2370,10 @@ Component      "wheat" = c:\development\apsim\Plant\lib\Plant.dll
       stage 3.0 emergence
                      biomass =           0.55 (g/m^2)   lai          =   0.024 (m^2/m^2)
                      stover N conc =     5.85 (%)    extractable sw =   38.19 (mm)
+25 June 1956(Day of year=177), sysbal: 
+      **** N balance - unaccounted gain (kg/ha) =  0.563267529
+      **** C balance - unaccounted gain (kg/ha) =  7.02597523
+      ****        equivalent DM as FOM  (kg/ha) =  17.5649376
 26 June 1956(Day of year=178), wheat: 
       stage 4.0 end_of_juvenile
                      biomass =           0.64 (g/m^2)   lai          =   0.025 (m^2/m^2)
@@ -2433,6 +2502,10 @@ Component      "wheat" = c:\development\apsim\Plant\lib\Plant.dll
       stage 3.0 emergence
                      biomass =           0.55 (g/m^2)   lai          =   0.024 (m^2/m^2)
                      stover N conc =     5.85 (%)    extractable sw =   33.41 (mm)
+24 June 1957(Day of year=175), sysbal: 
+      **** N balance - unaccounted gain (kg/ha) =  0.563275754
+      **** C balance - unaccounted gain (kg/ha) =  7.01463079
+      ****        equivalent DM as FOM  (kg/ha) =  17.5365772
 25 June 1957(Day of year=176), wheat: 
       stage 4.0 end_of_juvenile
                      biomass =           0.74 (g/m^2)   lai          =   0.027 (m^2/m^2)
@@ -2561,6 +2634,10 @@ Component      "wheat" = c:\development\apsim\Plant\lib\Plant.dll
       stage 3.0 emergence
                      biomass =           0.55 (g/m^2)   lai          =   0.024 (m^2/m^2)
                      stover N conc =     5.85 (%)    extractable sw =   31.63 (mm)
+24 June 1958(Day of year=175), sysbal: 
+      **** N balance - unaccounted gain (kg/ha) =  0.563399792
+      **** C balance - unaccounted gain (kg/ha) =  6.99706078
+      ****        equivalent DM as FOM  (kg/ha) =  17.4926510
 25 June 1958(Day of year=176), wheat: 
       stage 4.0 end_of_juvenile
                      biomass =           0.74 (g/m^2)   lai          =   0.027 (m^2/m^2)
@@ -2689,6 +2766,10 @@ Component      "wheat" = c:\development\apsim\Plant\lib\Plant.dll
       stage 3.0 emergence
                      biomass =           0.55 (g/m^2)   lai          =   0.024 (m^2/m^2)
                      stover N conc =     5.85 (%)    extractable sw =   30.38 (mm)
+24 June 1959(Day of year=175), sysbal: 
+      **** N balance - unaccounted gain (kg/ha) =  0.564578593
+      **** C balance - unaccounted gain (kg/ha) =  7.02212524
+      ****        equivalent DM as FOM  (kg/ha) =  17.5553131
 25 June 1959(Day of year=176), wheat: 
       stage 4.0 end_of_juvenile
                      biomass =           0.75 (g/m^2)   lai          =   0.027 (m^2/m^2)
@@ -2817,6 +2898,10 @@ Component      "wheat" = c:\development\apsim\Plant\lib\Plant.dll
       stage 3.0 emergence
                      biomass =           0.55 (g/m^2)   lai          =   0.024 (m^2/m^2)
                      stover N conc =     5.85 (%)    extractable sw =   33.00 (mm)
+26 June 1960(Day of year=178), sysbal: 
+      **** N balance - unaccounted gain (kg/ha) =  0.562859714
+      **** C balance - unaccounted gain (kg/ha) =  7.01567078
+      ****        equivalent DM as FOM  (kg/ha) =  17.5391769
 27 June 1960(Day of year=179), wheat: 
       stage 4.0 end_of_juvenile
                      biomass =           0.74 (g/m^2)   lai          =   0.027 (m^2/m^2)
@@ -2945,6 +3030,10 @@ Component      "wheat" = c:\development\apsim\Plant\lib\Plant.dll
       stage 3.0 emergence
                      biomass =           0.55 (g/m^2)   lai          =   0.024 (m^2/m^2)
                      stover N conc =     5.85 (%)    extractable sw =   26.12 (mm)
+28 June 1961(Day of year=179), sysbal: 
+      **** N balance - unaccounted gain (kg/ha) =  0.562500000
+      **** C balance - unaccounted gain (kg/ha) =  7.02448750
+      ****        equivalent DM as FOM  (kg/ha) =  17.5612183
 29 June 1961(Day of year=180), wheat: 
       stage 4.0 end_of_juvenile
                      biomass =           0.75 (g/m^2)   lai          =   0.027 (m^2/m^2)
@@ -3073,6 +3162,10 @@ Component      "wheat" = c:\development\apsim\Plant\lib\Plant.dll
       stage 3.0 emergence
                      biomass =           0.55 (g/m^2)   lai          =   0.024 (m^2/m^2)
                      stover N conc =     5.85 (%)    extractable sw =   30.27 (mm)
+25 June 1962(Day of year=176), sysbal: 
+      **** N balance - unaccounted gain (kg/ha) =  0.562749565
+      **** C balance - unaccounted gain (kg/ha) =  6.99707031
+      ****        equivalent DM as FOM  (kg/ha) =  17.4926758
 26 June 1962(Day of year=177), wheat: 
       stage 4.0 end_of_juvenile
                      biomass =           0.73 (g/m^2)   lai          =   0.027 (m^2/m^2)
@@ -3201,6 +3294,10 @@ Component      "wheat" = c:\development\apsim\Plant\lib\Plant.dll
       stage 3.0 emergence
                      biomass =           0.55 (g/m^2)   lai          =   0.024 (m^2/m^2)
                      stover N conc =     5.85 (%)    extractable sw =   30.21 (mm)
+27 June 1963(Day of year=178), sysbal: 
+      **** N balance - unaccounted gain (kg/ha) =  0.562904119
+      **** C balance - unaccounted gain (kg/ha) =  7.03315735
+      ****        equivalent DM as FOM  (kg/ha) =  17.5828934
 28 June 1963(Day of year=179), wheat: 
       stage 4.0 end_of_juvenile
                      biomass =           0.75 (g/m^2)   lai          =   0.027 (m^2/m^2)
@@ -3329,6 +3426,10 @@ Component      "wheat" = c:\development\apsim\Plant\lib\Plant.dll
       stage 3.0 emergence
                      biomass =           0.55 (g/m^2)   lai          =   0.024 (m^2/m^2)
                      stover N conc =     5.85 (%)    extractable sw =   33.00 (mm)
+24 June 1964(Day of year=176), sysbal: 
+      **** N balance - unaccounted gain (kg/ha) =  0.562891543
+      **** C balance - unaccounted gain (kg/ha) =  7.02672529
+      ****        equivalent DM as FOM  (kg/ha) =  17.5668125
 25 June 1964(Day of year=177), wheat: 
       stage 4.0 end_of_juvenile
                      biomass =           0.75 (g/m^2)   lai          =   0.027 (m^2/m^2)
@@ -3457,6 +3558,10 @@ Component      "wheat" = c:\development\apsim\Plant\lib\Plant.dll
       stage 3.0 emergence
                      biomass =           0.55 (g/m^2)   lai          =   0.024 (m^2/m^2)
                      stover N conc =     5.85 (%)    extractable sw =   25.51 (mm)
+26 June 1965(Day of year=177), sysbal: 
+      **** N balance - unaccounted gain (kg/ha) =  0.563476563
+      **** C balance - unaccounted gain (kg/ha) =  7.00623941
+      ****        equivalent DM as FOM  (kg/ha) =  17.5155983
 27 June 1965(Day of year=178), wheat: 
       stage 4.0 end_of_juvenile
                      biomass =           0.75 (g/m^2)   lai          =   0.027 (m^2/m^2)
@@ -3585,6 +3690,10 @@ Component      "wheat" = c:\development\apsim\Plant\lib\Plant.dll
       stage 3.0 emergence
                      biomass =           0.55 (g/m^2)   lai          =   0.024 (m^2/m^2)
                      stover N conc =     5.85 (%)    extractable sw =   31.34 (mm)
+25 June 1966(Day of year=176), sysbal: 
+      **** N balance - unaccounted gain (kg/ha) =  0.564449966
+      **** C balance - unaccounted gain (kg/ha) =  7.02403736
+      ****        equivalent DM as FOM  (kg/ha) =  17.5600929
 26 June 1966(Day of year=177), wheat: 
       stage 4.0 end_of_juvenile
                      biomass =           0.76 (g/m^2)   lai          =   0.027 (m^2/m^2)
@@ -3713,6 +3822,10 @@ Component      "wheat" = c:\development\apsim\Plant\lib\Plant.dll
       stage 3.0 emergence
                      biomass =           0.55 (g/m^2)   lai          =   0.024 (m^2/m^2)
                      stover N conc =     5.85 (%)    extractable sw =   36.92 (mm)
+24 June 1967(Day of year=175), sysbal: 
+      **** N balance - unaccounted gain (kg/ha) =  0.561485112
+      **** C balance - unaccounted gain (kg/ha) =  7.02825356
+      ****        equivalent DM as FOM  (kg/ha) =  17.5706329
 25 June 1967(Day of year=176), wheat: 
       stage 4.0 end_of_juvenile
                      biomass =           0.63 (g/m^2)   lai          =   0.025 (m^2/m^2)
@@ -3841,6 +3954,10 @@ Component      "wheat" = c:\development\apsim\Plant\lib\Plant.dll
       stage 3.0 emergence
                      biomass =           0.55 (g/m^2)   lai          =   0.024 (m^2/m^2)
                      stover N conc =     5.85 (%)    extractable sw =   29.74 (mm)
+26 June 1968(Day of year=178), sysbal: 
+      **** N balance - unaccounted gain (kg/ha) =  0.562386334
+      **** C balance - unaccounted gain (kg/ha) =  6.99618244
+      ****        equivalent DM as FOM  (kg/ha) =  17.4904556
 27 June 1968(Day of year=179), wheat: 
       stage 4.0 end_of_juvenile
                      biomass =           0.70 (g/m^2)   lai          =   0.026 (m^2/m^2)
@@ -3969,6 +4086,10 @@ Component      "wheat" = c:\development\apsim\Plant\lib\Plant.dll
       stage 3.0 emergence
                      biomass =           0.55 (g/m^2)   lai          =   0.024 (m^2/m^2)
                      stover N conc =     5.85 (%)    extractable sw =   33.00 (mm)
+25 June 1969(Day of year=176), sysbal: 
+      **** N balance - unaccounted gain (kg/ha) =  0.562103748
+      **** C balance - unaccounted gain (kg/ha) =  7.02606583
+      ****        equivalent DM as FOM  (kg/ha) =  17.5651646
 26 June 1969(Day of year=177), wheat: 
       stage 4.0 end_of_juvenile
                      biomass =           0.72 (g/m^2)   lai          =   0.027 (m^2/m^2)
@@ -4097,6 +4218,10 @@ Component      "wheat" = c:\development\apsim\Plant\lib\Plant.dll
       stage 3.0 emergence
                      biomass =           0.55 (g/m^2)   lai          =   0.024 (m^2/m^2)
                      stover N conc =     5.85 (%)    extractable sw =   33.97 (mm)
+25 June 1970(Day of year=176), sysbal: 
+      **** N balance - unaccounted gain (kg/ha) =  0.562060118
+      **** C balance - unaccounted gain (kg/ha) =  7.01467609
+      ****        equivalent DM as FOM  (kg/ha) =  17.5366898
 26 June 1970(Day of year=177), wheat: 
       stage 4.0 end_of_juvenile
                      biomass =           0.74 (g/m^2)   lai          =   0.027 (m^2/m^2)
@@ -4225,6 +4350,10 @@ Component      "wheat" = c:\development\apsim\Plant\lib\Plant.dll
       stage 3.0 emergence
                      biomass =           0.55 (g/m^2)   lai          =   0.024 (m^2/m^2)
                      stover N conc =     5.85 (%)    extractable sw =   28.97 (mm)
+27 June 1971(Day of year=178), sysbal: 
+      **** N balance - unaccounted gain (kg/ha) =  0.562500179
+      **** C balance - unaccounted gain (kg/ha) =  7.01524448
+      ****        equivalent DM as FOM  (kg/ha) =  17.5381107
 28 June 1971(Day of year=179), wheat: 
       stage 4.0 end_of_juvenile
                      biomass =           0.76 (g/m^2)   lai          =   0.027 (m^2/m^2)
@@ -4353,6 +4482,10 @@ Component      "wheat" = c:\development\apsim\Plant\lib\Plant.dll
       stage 3.0 emergence
                      biomass =           0.55 (g/m^2)   lai          =   0.024 (m^2/m^2)
                      stover N conc =     5.85 (%)    extractable sw =   31.79 (mm)
+25 June 1972(Day of year=177), sysbal: 
+      **** N balance - unaccounted gain (kg/ha) =  0.563010931
+      **** C balance - unaccounted gain (kg/ha) =  7.00928593
+      ****        equivalent DM as FOM  (kg/ha) =  17.5232143
 26 June 1972(Day of year=178), wheat: 
       stage 4.0 end_of_juvenile
                      biomass =           0.75 (g/m^2)   lai          =   0.027 (m^2/m^2)
@@ -4481,6 +4614,10 @@ Component      "wheat" = c:\development\apsim\Plant\lib\Plant.dll
       stage 3.0 emergence
                      biomass =           0.55 (g/m^2)   lai          =   0.024 (m^2/m^2)
                      stover N conc =     5.85 (%)    extractable sw =   29.36 (mm)
+24 June 1973(Day of year=175), sysbal: 
+      **** N balance - unaccounted gain (kg/ha) =  0.562551200
+      **** C balance - unaccounted gain (kg/ha) =  7.00236893
+      ****        equivalent DM as FOM  (kg/ha) =  17.5059223
 25 June 1973(Day of year=176), wheat: 
       stage 4.0 end_of_juvenile
                      biomass =           0.68 (g/m^2)   lai          =   0.026 (m^2/m^2)
@@ -4609,6 +4746,10 @@ Component      "wheat" = c:\development\apsim\Plant\lib\Plant.dll
       stage 3.0 emergence
                      biomass =           0.55 (g/m^2)   lai          =   0.024 (m^2/m^2)
                      stover N conc =     5.85 (%)    extractable sw =   37.52 (mm)
+26 June 1974(Day of year=177), sysbal: 
+      **** N balance - unaccounted gain (kg/ha) =  0.562302828
+      **** C balance - unaccounted gain (kg/ha) =  7.01613569
+      ****        equivalent DM as FOM  (kg/ha) =  17.5403385
 27 June 1974(Day of year=178), wheat: 
       stage 4.0 end_of_juvenile
                      biomass =           0.72 (g/m^2)   lai          =   0.027 (m^2/m^2)
@@ -4737,6 +4878,10 @@ Component      "wheat" = c:\development\apsim\Plant\lib\Plant.dll
       stage 3.0 emergence
                      biomass =           0.55 (g/m^2)   lai          =   0.024 (m^2/m^2)
                      stover N conc =     5.85 (%)    extractable sw =   35.32 (mm)
+26 June 1975(Day of year=177), sysbal: 
+      **** N balance - unaccounted gain (kg/ha) =  0.563168108
+      **** C balance - unaccounted gain (kg/ha) =  7.00980282
+      ****        equivalent DM as FOM  (kg/ha) =  17.5245075
 27 June 1975(Day of year=178), wheat: 
       stage 4.0 end_of_juvenile
                      biomass =           0.75 (g/m^2)   lai          =   0.027 (m^2/m^2)
@@ -4865,6 +5010,10 @@ Component      "wheat" = c:\development\apsim\Plant\lib\Plant.dll
       stage 3.0 emergence
                      biomass =           0.55 (g/m^2)   lai          =   0.024 (m^2/m^2)
                      stover N conc =     5.85 (%)    extractable sw =   32.71 (mm)
+25 June 1976(Day of year=177), sysbal: 
+      **** N balance - unaccounted gain (kg/ha) =  0.561843514
+      **** C balance - unaccounted gain (kg/ha) =  7.01352215
+      ****        equivalent DM as FOM  (kg/ha) =  17.5338058
 26 June 1976(Day of year=178), wheat: 
       stage 4.0 end_of_juvenile
                      biomass =           0.72 (g/m^2)   lai          =   0.027 (m^2/m^2)
@@ -4993,6 +5142,10 @@ Component      "wheat" = c:\development\apsim\Plant\lib\Plant.dll
       stage 3.0 emergence
                      biomass =           0.55 (g/m^2)   lai          =   0.024 (m^2/m^2)
                      stover N conc =     5.85 (%)    extractable sw =   37.81 (mm)
+25 June 1977(Day of year=176), sysbal: 
+      **** N balance - unaccounted gain (kg/ha) =  0.563432693
+      **** C balance - unaccounted gain (kg/ha) =  7.01874876
+      ****        equivalent DM as FOM  (kg/ha) =  17.5468712
 26 June 1977(Day of year=177), wheat: 
       stage 4.0 end_of_juvenile
                      biomass =           0.69 (g/m^2)   lai          =   0.026 (m^2/m^2)
@@ -5121,6 +5274,10 @@ Component      "wheat" = c:\development\apsim\Plant\lib\Plant.dll
       stage 3.0 emergence
                      biomass =           0.55 (g/m^2)   lai          =   0.024 (m^2/m^2)
                      stover N conc =     5.85 (%)    extractable sw =   31.11 (mm)
+26 June 1978(Day of year=177), sysbal: 
+      **** N balance - unaccounted gain (kg/ha) =  0.563405931
+      **** C balance - unaccounted gain (kg/ha) =  6.99138165
+      ****        equivalent DM as FOM  (kg/ha) =  17.4784546
 27 June 1978(Day of year=178), wheat: 
       stage 4.0 end_of_juvenile
                      biomass =           0.66 (g/m^2)   lai          =   0.026 (m^2/m^2)
@@ -5249,6 +5406,10 @@ Component      "wheat" = c:\development\apsim\Plant\lib\Plant.dll
       stage 3.0 emergence
                      biomass =           0.55 (g/m^2)   lai          =   0.024 (m^2/m^2)
                      stover N conc =     5.85 (%)    extractable sw =   34.07 (mm)
+24 June 1979(Day of year=175), sysbal: 
+      **** N balance - unaccounted gain (kg/ha) =  0.562591255
+      **** C balance - unaccounted gain (kg/ha) =  7.00772572
+      ****        equivalent DM as FOM  (kg/ha) =  17.5193138
 25 June 1979(Day of year=176), wheat: 
       stage 4.0 end_of_juvenile
                      biomass =           0.74 (g/m^2)   lai          =   0.027 (m^2/m^2)
@@ -5377,6 +5538,10 @@ Component      "wheat" = c:\development\apsim\Plant\lib\Plant.dll
       stage 3.0 emergence
                      biomass =           0.55 (g/m^2)   lai          =   0.024 (m^2/m^2)
                      stover N conc =     5.85 (%)    extractable sw =   30.79 (mm)
+24 June 1980(Day of year=176), sysbal: 
+      **** N balance - unaccounted gain (kg/ha) =  0.561712146
+      **** C balance - unaccounted gain (kg/ha) =  7.01670074
+      ****        equivalent DM as FOM  (kg/ha) =  17.5417519
 25 June 1980(Day of year=177), wheat: 
       stage 4.0 end_of_juvenile
                      biomass =           0.73 (g/m^2)   lai          =   0.027 (m^2/m^2)
@@ -5505,6 +5670,10 @@ Component      "wheat" = c:\development\apsim\Plant\lib\Plant.dll
       stage 3.0 emergence
                      biomass =           0.55 (g/m^2)   lai          =   0.024 (m^2/m^2)
                      stover N conc =     5.85 (%)    extractable sw =   31.02 (mm)
+26 June 1981(Day of year=177), sysbal: 
+      **** N balance - unaccounted gain (kg/ha) =  0.563503265
+      **** C balance - unaccounted gain (kg/ha) =  7.00962210
+      ****        equivalent DM as FOM  (kg/ha) =  17.5240555
 27 June 1981(Day of year=178), wheat: 
       stage 4.0 end_of_juvenile
                      biomass =           0.70 (g/m^2)   lai          =   0.026 (m^2/m^2)
@@ -5633,6 +5802,10 @@ Component      "wheat" = c:\development\apsim\Plant\lib\Plant.dll
       stage 3.0 emergence
                      biomass =           0.55 (g/m^2)   lai          =   0.024 (m^2/m^2)
                      stover N conc =     5.85 (%)    extractable sw =   30.27 (mm)
+28 June 1982(Day of year=179), sysbal: 
+      **** N balance - unaccounted gain (kg/ha) =  0.562695444
+      **** C balance - unaccounted gain (kg/ha) =  7.01341200
+      ****        equivalent DM as FOM  (kg/ha) =  17.5335293
 29 June 1982(Day of year=180), wheat: 
       stage 4.0 end_of_juvenile
                      biomass =           0.76 (g/m^2)   lai          =   0.027 (m^2/m^2)
@@ -5761,6 +5934,10 @@ Component      "wheat" = c:\development\apsim\Plant\lib\Plant.dll
       stage 3.0 emergence
                      biomass =           0.55 (g/m^2)   lai          =   0.024 (m^2/m^2)
                      stover N conc =     5.85 (%)    extractable sw =   35.29 (mm)
+24 June 1983(Day of year=175), sysbal: 
+      **** N balance - unaccounted gain (kg/ha) =  0.562409639
+      **** C balance - unaccounted gain (kg/ha) =  7.00636005
+      ****        equivalent DM as FOM  (kg/ha) =  17.5158997
 25 June 1983(Day of year=176), wheat: 
       stage 4.0 end_of_juvenile
                      biomass =           0.63 (g/m^2)   lai          =   0.025 (m^2/m^2)
@@ -5889,6 +6066,10 @@ Component      "wheat" = c:\development\apsim\Plant\lib\Plant.dll
       stage 3.0 emergence
                      biomass =           0.55 (g/m^2)   lai          =   0.024 (m^2/m^2)
                      stover N conc =     5.85 (%)    extractable sw =   32.75 (mm)
+24 June 1984(Day of year=176), sysbal: 
+      **** N balance - unaccounted gain (kg/ha) =  0.562374949
+      **** C balance - unaccounted gain (kg/ha) =  7.00236130
+      ****        equivalent DM as FOM  (kg/ha) =  17.5059032
 25 June 1984(Day of year=177), wheat: 
       stage 4.0 end_of_juvenile
                      biomass =           0.64 (g/m^2)   lai          =   0.025 (m^2/m^2)
@@ -6017,6 +6198,10 @@ Component      "wheat" = c:\development\apsim\Plant\lib\Plant.dll
       stage 3.0 emergence
                      biomass =           0.55 (g/m^2)   lai          =   0.024 (m^2/m^2)
                      stover N conc =     5.85 (%)    extractable sw =   30.56 (mm)
+27 June 1985(Day of year=178), sysbal: 
+      **** N balance - unaccounted gain (kg/ha) =  0.563764751
+      **** C balance - unaccounted gain (kg/ha) =  7.00758076
+      ****        equivalent DM as FOM  (kg/ha) =  17.5189514
 28 June 1985(Day of year=179), wheat: 
       stage 4.0 end_of_juvenile
                      biomass =           0.75 (g/m^2)   lai          =   0.027 (m^2/m^2)
@@ -6145,6 +6330,10 @@ Component      "wheat" = c:\development\apsim\Plant\lib\Plant.dll
       stage 3.0 emergence
                      biomass =           0.55 (g/m^2)   lai          =   0.024 (m^2/m^2)
                      stover N conc =     5.85 (%)    extractable sw =   29.73 (mm)
+28 June 1986(Day of year=179), sysbal: 
+      **** N balance - unaccounted gain (kg/ha) =  0.562770963
+      **** C balance - unaccounted gain (kg/ha) =  7.01426649
+      ****        equivalent DM as FOM  (kg/ha) =  17.5356655
 29 June 1986(Day of year=180), wheat: 
       stage 4.0 end_of_juvenile
                      biomass =           0.75 (g/m^2)   lai          =   0.027 (m^2/m^2)
@@ -6273,6 +6462,10 @@ Component      "wheat" = c:\development\apsim\Plant\lib\Plant.dll
       stage 3.0 emergence
                      biomass =           0.55 (g/m^2)   lai          =   0.024 (m^2/m^2)
                      stover N conc =     5.85 (%)    extractable sw =   33.00 (mm)
+24 June 1987(Day of year=175), sysbal: 
+      **** N balance - unaccounted gain (kg/ha) =  0.561741471
+      **** C balance - unaccounted gain (kg/ha) =  6.99726582
+      ****        equivalent DM as FOM  (kg/ha) =  17.4931641
 25 June 1987(Day of year=176), wheat: 
       stage 4.0 end_of_juvenile
                      biomass =           0.65 (g/m^2)   lai          =   0.026 (m^2/m^2)
@@ -6401,6 +6594,10 @@ Component      "wheat" = c:\development\apsim\Plant\lib\Plant.dll
       stage 3.0 emergence
                      biomass =           0.55 (g/m^2)   lai          =   0.024 (m^2/m^2)
                      stover N conc =     5.85 (%)    extractable sw =   30.75 (mm)
+24 June 1988(Day of year=176), sysbal: 
+      **** N balance - unaccounted gain (kg/ha) =  0.563495994
+      **** C balance - unaccounted gain (kg/ha) =  7.00935793
+      ****        equivalent DM as FOM  (kg/ha) =  17.5233936
 25 June 1988(Day of year=177), wheat: 
       stage 4.0 end_of_juvenile
                      biomass =           0.74 (g/m^2)   lai          =   0.027 (m^2/m^2)
@@ -6529,6 +6726,10 @@ Component      "wheat" = c:\development\apsim\Plant\lib\Plant.dll
       stage 3.0 emergence
                      biomass =           0.55 (g/m^2)   lai          =   0.024 (m^2/m^2)
                      stover N conc =     5.85 (%)    extractable sw =   31.10 (mm)
+25 June 1989(Day of year=176), sysbal: 
+      **** N balance - unaccounted gain (kg/ha) =  0.562939942
+      **** C balance - unaccounted gain (kg/ha) =  7.01153231
+      ****        equivalent DM as FOM  (kg/ha) =  17.5288296
 26 June 1989(Day of year=177), wheat: 
       stage 4.0 end_of_juvenile
                      biomass =           0.74 (g/m^2)   lai          =   0.027 (m^2/m^2)
