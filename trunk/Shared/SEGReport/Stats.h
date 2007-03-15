@@ -14,6 +14,7 @@ class Stats : public DataProcessor
       virtual void process(TDataSet* source, TDataSet* result);
 
    public:
-      Stats(const std::string& type) : DataProcessor(type) { }
+      Stats(const std::string& type, TComponent* owner)
+         : DataProcessor(type, owner) { };
    };
 #endif

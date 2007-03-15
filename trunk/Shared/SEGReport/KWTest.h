@@ -17,6 +17,7 @@ class KWTest : public DataProcessor
                                     const std::string& fieldName);
 
    public:
-      KWTest(const std::string& type) : DataProcessor(type) { };
+      KWTest(const std::string& type, TComponent* owner)
+         : DataProcessor(type, owner) { };
    };
 #endif

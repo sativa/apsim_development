@@ -14,6 +14,7 @@ class ExcelReader : public DataProcessor
       virtual void process(TDataSet* source, TDataSet* result);
 
    public:
-      ExcelReader(const std::string& type) : DataProcessor(type) { }
+      ExcelReader(const std::string& type, TComponent* owner)
+         : DataProcessor(type, owner) { };
    };
 #endif

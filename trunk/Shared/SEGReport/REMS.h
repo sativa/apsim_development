@@ -26,9 +26,9 @@ class REMS : public DataProcessor
       TADOQuery* createQuery(const std::string treatmentName,
                              const std::string& dataSourceName);
    public:
-      REMS(const std::string& type) : DataProcessor(type) { }
+      REMS(const std::string& type, TComponent* owner)
+         : DataProcessor(type, owner) { };
 
-      std::vector<std::string> getExperimentNames() {return allExperimentNames;}
-      std::vector<std::string> getTreatmentNames() {return allTreatmentNames;}
+      virtual std::vector<std::string> getProperties(const std::string& name);
    };
 #endif

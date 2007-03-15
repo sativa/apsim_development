@@ -20,10 +20,8 @@ using namespace std;
 //---------------------------------------------------------------------------
 void XmlFileReader::createFields(TDataSet* source, TDataSet* result)
    {
-   std::string fileName = getProperty("filename");
-
-   readXmlFile(fileName, fieldNames, fieldValues);
-   addDBFields(result, fieldNames, fieldValues);
+   addDBField(result, "name", "xx");
+   addDBField(result, "value", "xx");
    }
 
 //---------------------------------------------------------------------------
@@ -31,7 +29,15 @@ void XmlFileReader::createFields(TDataSet* source, TDataSet* result)
 //---------------------------------------------------------------------------
 void XmlFileReader::process(TDataSet* pred, TDataSet* result)
    {
-   appendDBRecord(result, fieldNames, fieldValues);
+   std::string fileName = getProperty("filename");
+   readXmlFile(fileName, fieldNames, fieldValues);
+   for (unsigned i = 0; i != fieldNames.size(); i++)
+      {
+      result->Append();
+      result->FieldValues["name"] = fieldNames[i].c_str();
+      result->FieldValues["value"] = fieldValues[i].c_str();
+      result->Post();
+      }
    }
 
 //---------------------------------------------------------------------------
@@ -81,19 +87,16 @@ void XmlFileReader::readXmlNode(const XMLNode& node, const string& name,
       }
    else
       {
+      if (node.getAttribute("name") != "")
+         {
+         fieldNames.push_back(name + ".name");
+         fieldValues.push_back(node.getAttribute("name"));
+         }
       for (XMLNode::iterator child = node.begin();
                              child != node.end();
                              child++)
          {
-         string childName = child->getAttribute("name");
-         if (Str_i_Eq(child->getName(), "YPPaddock"))
-            {
-            fieldNames.push_back("paddockname");
-            fieldValues.push_back(childName);
-            childName = "";
-            }
-         else if (childName == "")
-            childName = child->getName();
+         string childName = child->getName();
          if (name  != "")
             childName = name + "." + childName;
          readXmlNode(*child, childName, fieldNames, fieldValues);

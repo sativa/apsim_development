@@ -13,6 +13,7 @@ class Filter : public DataProcessor
       virtual void process(TDataSet* source, TDataSet* result);
 
    public:
-      Filter(const std::string& type) : DataProcessor(type) { };
+      Filter(const std::string& type, TComponent* owner)
+         : DataProcessor(type, owner) { };
    };
 #endif

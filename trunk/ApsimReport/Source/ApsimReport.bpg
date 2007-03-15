@@ -9,8 +9,8 @@ MAKE = $(ROOT)\bin\make.exe -$(MAKEFLAGS) -f$**
 DCC = $(ROOT)\bin\dcc32.exe $**
 BRCC = $(ROOT)\bin\brcc32.exe $**
 #------------------------------------------------------------------------------
-PROJECTS = general.lib ApsimShared.dll SEGReport.dll ApsimReport.exe \
-  general_vcl.lib
+PROJECTS = general.lib general_vcl.lib ApsimShared.dll SEGReport.dll \
+  ApsimReport.exe
 #------------------------------------------------------------------------------
 default: $(PROJECTS)
 #------------------------------------------------------------------------------

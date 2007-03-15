@@ -4,15 +4,26 @@
 #pragma hdrstop
 
 #include "DataContainer.h"
-#include <general\xml.h>
+#include "DataProcessor.h"
 #include <general\string_functions.h>
+#include <general\stl_functions.h>
+#include <general\db_functions.h>
 #include <kbmmemtable.hpp>
 #include <DBAdvgrd.hpp>
 #include "TGridForm.h"
+
+//---------------------------------------------------------------------------
+// constructor
+//---------------------------------------------------------------------------
+DataContainer::DataContainer(TComponent* _owner, DataContainer* parentContainer)
+   : processor(NULL), data(NULL), owner(_owner), parent(parentContainer)
+   {
+   }
+
 //---------------------------------------------------------------------------
 // destructor
 //---------------------------------------------------------------------------
-void DataContainer::clear()
+DataContainer::~DataContainer()
    {
    delete processor;
    processor = NULL;
@@ -24,40 +35,31 @@ void DataContainer::clear()
    }
 
 //---------------------------------------------------------------------------
-// Setup the data container using the specified properties. This method is
-// called to completely initialise the system.
+// Set the full XML for the system.
 //---------------------------------------------------------------------------
-void DataContainer::setup(const string& properties)
+void DataContainer::setXML(const string& xml)
    {
-   clear();
-   XMLDocument doc(properties, XMLDocument::xmlContents);
+   XMLDocument doc(xml, XMLDocument::xmlContents);
    setProperties(doc.documentElement());
-   TopLevelContainer = this;
    }
 
 //---------------------------------------------------------------------------
-// Set the properties for the specified data path.
-// Path must be an absolute path including the name of the root node.
-// e.g. data\apsimfilereader
-// Return true if properties were actually changed ie. a refresh is needed.
+// Return the xml for the system.
 //---------------------------------------------------------------------------
-bool DataContainer::setProperties(const std::string& path, const std::string& properties)
+std::string DataContainer::getXML()
    {
-   DataContainer* container = findContainer(path);
-   XMLDocument doc(properties, XMLDocument::xmlContents);
-   if (container != NULL)
-      return container->setProperties(doc.documentElement());
-   return false;
+   string xml;
+   save(xml, 0);
+   xml = "<Data>\n" + xml + "</Data>";
+   return xml;
    }
 
 //---------------------------------------------------------------------------
-// Go parse the xml settings passed in and set ourselves up.
-// Return true if properties were actually changed ie. a refresh is needed.
+// Go parse the xml settings passed in and set ourselves up, refreshing
+// all data as necessary.
 //---------------------------------------------------------------------------
-bool DataContainer::setProperties(const XMLNode& properties)
+void DataContainer::setProperties(const XMLNode& properties)
    {
-   bool dataWasChanged = false;
-
    name = properties.getAttribute("name");
    if (name == "")
       name = properties.getName();
@@ -69,7 +71,7 @@ bool DataContainer::setProperties(const XMLNode& properties)
    if (createNewProcessor)
       {
       delete processor;
-      processor = DataProcessor::factory(properties);
+      processor = DataProcessor::factory(properties, owner);
       if (processor != NULL)
          {
          if (data == NULL)
@@ -79,9 +81,27 @@ bool DataContainer::setProperties(const XMLNode& properties)
    if (data != NULL)
       data->Name = name.c_str();
 
-   // give properties to processor.
+   // give properties to processor and refresh ourselves if necessary.
    if (processor != NULL)
-      dataWasChanged = processor->setProperties(properties);
+      if (processor->setProperties(properties))
+         refresh();
+
+   // remove unwanted children.
+   for (unsigned i = 0; i != children.size(); i++)
+      {
+      bool found = false;
+      for (XMLNode::iterator child = properties.begin();
+                             child != properties.end() && !found;
+                             child++)
+         found = (child->getName() == children[i]->name ||
+                  child->getAttribute("name") == children[i]->name);
+      if (!found)
+         {
+         // we need to delete this child.
+         delete children[i];
+         children.erase(children.begin() + i);
+         }
+      }
 
    // setup all children
    unsigned childIndex = 0;
@@ -92,21 +112,11 @@ bool DataContainer::setProperties(const XMLNode& properties)
       if (DataProcessor::isValidType(child->getName()))
          {
          if (children.size() <= childIndex)
-            children.push_back(new DataContainer(owner));
-         dataWasChanged = (children[childIndex]->setProperties(*child)
-                           || dataWasChanged);
+            children.push_back(new DataContainer(owner, this));
+         children[childIndex]->setProperties(*child);
          childIndex++;
          }
       }
-
-   // remove unwanted children.
-   for (unsigned i = childIndex; i < children.size(); i++)
-      {
-      delete children[i];
-      children.erase(children.begin() + i);
-      dataWasChanged = true;
-      }
-   return dataWasChanged;
    }
 
 //---------------------------------------------------------------------------
@@ -139,7 +149,7 @@ DataContainer* DataContainer::findContainer(const std::string& path)
    }
 
 //---------------------------------------------------------------------------
-// Return a result dataset for the absolute data path.
+// Return a dataset for the object at the specified path.
 //---------------------------------------------------------------------------
 TDataSet* DataContainer::findData(const std::string& path)
    {
@@ -151,27 +161,9 @@ TDataSet* DataContainer::findData(const std::string& path)
    }
 
 //---------------------------------------------------------------------------
-// Return a result dataset for the specified name.
-// name will be searched for recursively through the
-// tree of containers.
+// Return an error message for the object as specified by the path.
 //---------------------------------------------------------------------------
-TDataSet* DataContainer::searchForData(const std::string& nameToFind)
-   {
-   if (Str_i_Eq(name, nameToFind))
-      return data;
-   for (unsigned c = 0; c != children.size(); c++)
-      {
-      TDataSet* dataToReturn = children[c]->searchForData(nameToFind);
-      if (dataToReturn != NULL)
-         return dataToReturn;
-      }
-   return NULL;
-   }
-
-//---------------------------------------------------------------------------
-// Return an error message for the specified data path.
-//---------------------------------------------------------------------------
-string DataContainer::getErrorMessage(const std::string& path)
+string DataContainer::findErrorMessage(const std::string& path)
    {
    DataContainer* container = findContainer(path);
    if (container != NULL && container->processor != NULL)
@@ -181,38 +173,22 @@ string DataContainer::getErrorMessage(const std::string& path)
    }
 
 //---------------------------------------------------------------------------
-// Refresh the data container as specified by path.
+// Refresh all data
 //---------------------------------------------------------------------------
-void DataContainer::refresh(const string& path)
+void DataContainer::refresh()
    {
-   // first we need to find the parent container (if any) so that we can
-   // get the source data. Then we can find the container we're interested in
-   // and then refresh it.
-   TDataSet* parentData = NULL;
-   unsigned pos = path.rfind('\\');
-   if (pos != string::npos)
-      parentData =  findData(path.substr(0, pos));
+   TDataSet* source = NULL;
+   if (parent != NULL)
+      source = parent->data;
 
-   DataContainer* container = findContainer(path);
-   if (container == NULL)
-      refresh(parentData);
-   else
-      container->refresh(parentData);
-   }
-
-//---------------------------------------------------------------------------
-// refresh the result data for this container and all children using
-// the specified source data.
-//---------------------------------------------------------------------------
-void DataContainer::refresh(TDataSet* source)
-   {
    if (data != NULL)
+      {
       data->DisableControls();
-
-   if (processor != NULL && data != NULL)
       processor->refresh(source, data);
+      }
+
    for (unsigned c = 0; c != children.size(); c++)
-      children[c]->refresh(data);
+      children[c]->refresh();
 
    if (data != NULL)
       data->EnableControls();
@@ -238,7 +214,143 @@ void DataContainer::save(string& st, int level)
       }
    }
 
+//---------------------------------------------------------------------------
+// Return all matching properties for the object at the
+// specified path.
+//---------------------------------------------------------------------------
+std::vector<std::string> DataContainer::findProperties(const std::string& path,
+                                                       const std::string& propertyName)
+   {
+   DataContainer* container = findContainer(path);
+   if (container != NULL && container->processor != NULL)
+      return container->processor->getProperties(propertyName);
+   else
+      return vector<string>();
+   }
 
+
+
+//---------------------------------------------------------------------------
+//- INTERFACE CALLABLE FROM .NET --------------------------------------------
+//---------------------------------------------------------------------------
+extern "C" DataContainer* _export __stdcall CreateDataContainer()
+   {
+   return new DataContainer(NULL, NULL);
+   }
+
+extern "C" void _export __stdcall DeleteDataContainer(DataContainer* container)
+   {
+   delete container;
+   }
+
+extern "C" void _export __stdcall GetXml(DataContainer* container,
+                                         char* returnString)
+   {
+   strcpy(returnString, "");
+   if (container != NULL)
+      strcpy(returnString, container->getXML().c_str());
+   }
+
+
+extern "C" void _export __stdcall SetXml(DataContainer* container,
+                                         const char* xml)
+   {
+   TCursor savedCursor = Screen->Cursor;
+   Screen->Cursor = crHourGlass;
+
+   try
+      {
+      container->setXML(xml);
+      }
+   catch (const runtime_error& err)
+      {
+      ::MessageBox(NULL, err.what(), "Error", MB_ICONSTOP | MB_OK);
+      }
+   catch (Exception& err)
+      {
+      ::MessageBox(NULL, err.Message.c_str(), "Error", MB_ICONSTOP | MB_OK);
+      }
+   catch (...)
+      {
+      }
+   Screen->Cursor = savedCursor;
+   }
+
+extern "C" void _export __stdcall FindErrorMessage(DataContainer* container,
+                                                   const char* path,
+                                                   char* errorMessage)
+   {
+   strcpy(errorMessage, "");
+   if (container != NULL)
+      strcpy(errorMessage, container->findErrorMessage(path).c_str());
+   }
+
+extern "C" void _export __stdcall GetFieldNames(DataContainer* container,
+                                                const char* path,
+                                                char* returnString)
+   {
+   strcpy(returnString, "");
+   if (container != NULL)
+      {
+      TDataSet* data = container->findData(path);
+      if (data != NULL && data->FieldDefs->Count > 0)
+         {
+         vector<string> fieldNames;
+         getDBFieldNames(data, fieldNames);
+         strcpy(returnString, buildString(fieldNames, "\t").c_str());
+         }
+      }
+   }
+
+extern "C" void _export __stdcall FindProperties(DataContainer* container,
+                                                 const char* path,
+                                                 const char* propertyName,
+                                                 char* returnString)
+   {
+   strcpy(returnString, "");
+   if (container != NULL)
+      {
+      vector<string> values = container->findProperties(path, propertyName);
+      strcpy(returnString, buildString(values, "\t").c_str());
+      }
+   }
+
+extern "C" unsigned _export __stdcall CreateDataForm(HWND parent)
+   {
+   TGridForm* form = new TGridForm((void*)parent);
+   form->Show();
+   return (unsigned) form;
+   }
+extern "C" void _export __stdcall DeleteDataForm(TForm* form)
+   {
+   delete form;
+   }
+extern "C" HWND _export __stdcall GetHandleOfDataForm(TForm* form)
+   {
+   return form->Handle;
+   }
+extern "C" void _export __stdcall FillDataFormWithData(TForm* form,
+                                                       DataContainer* container,
+                                                       const char* path)
+   {
+   TGridForm* GridForm = dynamic_cast<TGridForm*> (form);
+   if (container != NULL && GridForm != NULL)
+      {
+      TDataSet* data = container->findData(path);
+      if (data != NULL && data->Active)
+         {
+         GridForm->DataSource->DataSet = data;
+         GridForm->DataSource->Enabled = true;
+         }
+      else
+         GridForm->DataSource->DataSet = NULL;
+      }
+   }
+
+//---------------------------------------------------------------------------
+// A routine to store a field of data into the dataString - c# can then
+// extract the data.
+//---------------------------------------------------------------------------
 char* StoreColumnInData(TDataSet* data, const char* fieldName, char* dataString)
    {
    int columnIndex = -1;
@@ -298,160 +410,6 @@ char* StoreColumnInData(TDataSet* data, const char* fieldName, char* dataString)
       }
    return pos;
    }
-
-
-#include "rems.h"
-//---------------------------------------------------------------------------
-//- INTERFACE CALLABLE FROM .NET --------------------------------------------
-//---------------------------------------------------------------------------
-extern "C" DataContainer* _export __stdcall CreateDataContainer()
-   {
-   return new DataContainer(NULL);
-   }
-
-extern "C" void _export __stdcall DeleteDataContainer(DataContainer* container)
-   {
-   delete container;
-   }
-
-
-extern "C" void _export __stdcall SetProperties(DataContainer* container,
-                                                const char* path,
-                                                const char* properties)
-   {
-   TCursor savedCursor = Screen->Cursor;
-   Screen->Cursor = crHourGlass;
-
-   try
-      {
-      if (strlen(path) == 0)
-         {
-         container->setup(properties);
-         container->refresh(container->getName());
-         }
-      else if (container != NULL && container->setProperties(path, properties))
-         container->refresh(path);
-      }
-   catch (...)
-      {
-      }
-   Screen->Cursor = savedCursor;
-   }
-
-extern "C" void _export __stdcall GetErrorMessage(DataContainer* container,
-                                                  const char* path,
-                                                  char* errorMessage)
-   {
-   strcpy(errorMessage, "");
-   if (container != NULL)
-      strcpy(errorMessage, container->getErrorMessage(path).c_str());
-   }
-
-extern "C" void _export __stdcall GetFieldNames(DataContainer* container,
-                                                const char* path,
-                                                char* fieldNames)
-   {
-   strcpy(fieldNames, "");
-
-   if (container != NULL)
-      {
-      TDataSet* data = container->findData(path);
-      if (data != NULL && data->FieldDefs->Count > 0)
-         {
-         for (int f = 0; f != data->FieldDefs->Count; f++)
-            {
-            if (f > 0)
-               strcat(fieldNames, "\t");
-            strcat(fieldNames, data->FieldDefs->Items[f]->Name.c_str());
-            }
-         }
-      }
-   }
-
-extern "C" void _export __stdcall GetREMSExperimentNames(DataContainer* container,
-                                                         const char* path,
-                                                         char* experimentNames)
-   {
-   strcpy(experimentNames, "");
-
-   if (container != NULL)
-      {
-      DataContainer* REMSContainer = dynamic_cast<DataContainer*> (container->findContainer(path));
-      if (REMSContainer != NULL)
-         {
-         REMS* REMSProcessor = dynamic_cast<REMS*> (REMSContainer->getProcessor());
-         if (REMSProcessor != NULL)
-            {
-            vector<string> names = REMSProcessor->getExperimentNames();
-            for (unsigned e = 0; e != names.size(); e++)
-               {
-               if (e > 0)
-                  strcat(experimentNames, "\t");
-               strcat(experimentNames, names[e].c_str());
-               }
-            }
-         }
-      }
-   }
-
-extern "C" void _export __stdcall GetREMSTreatmentNames(DataContainer* container,
-                                                        const char* path,
-                                                        char* treatmentNames)
-   {
-   strcpy(treatmentNames, "");
-
-   if (container != NULL)
-      {
-      DataContainer* REMSContainer = dynamic_cast<DataContainer*> (container->findContainer(path));
-      if (REMSContainer != NULL)
-         {
-         REMS* REMSProcessor = dynamic_cast<REMS*> (REMSContainer->getProcessor());
-         if (REMSProcessor != NULL)
-            {
-            vector<string> names = REMSProcessor->getTreatmentNames();
-            for (unsigned e = 0; e != names.size(); e++)
-               {
-               if (e > 0)
-                  strcat(treatmentNames, "\t");
-               strcat(treatmentNames, names[e].c_str());
-               }
-            }
-         }
-      }
-   }
-
-extern "C" unsigned _export __stdcall CreateDataForm(HWND parent)
-   {
-   TGridForm* form = new TGridForm((void*)parent);
-   form->Show();
-   return (unsigned) form;
-   }
-extern "C" void _export __stdcall DeleteDataForm(TForm* form)
-   {
-   delete form;
-   }
-extern "C" HWND _export __stdcall GetHandleOfForm(TForm* form)
-   {
-   return form->Handle;
-   }
-extern "C" void _export __stdcall FillDataFormWithData(TForm* form,
-                                                       DataContainer* container,
-                                                       const char* path)
-   {
-   TGridForm* GridForm = dynamic_cast<TGridForm*> (form);
-   if (container != NULL && GridForm != NULL)
-      {
-      TDataSet* data = container->findData(path);
-      if (data != NULL && data->Active)
-         {
-         GridForm->DataSource->DataSet = data;
-         GridForm->DataSource->Enabled = true;
-         }
-      else
-         GridForm->DataSource->DataSet = NULL;
-      }
-   }
-
 
 
 extern "C" void _export __stdcall GetXYData(DataContainer* container,

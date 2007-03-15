@@ -86,8 +86,16 @@ void __fastcall TMainForm::EditReportActionExecute(TObject *Sender)
       palette->Parent = ButtonBar;
       }
    report.setObjectInspector(ObjectInspector, NULL);
-   ObjectInspector->Visible = turnOn;
-   ObjectInspectorSplitter->Visible = turnOn;
+   if (turnOn)
+      {
+      ObjectInspector->Visible = true;
+      ObjectInspectorSplitter->Visible = true;
+      }
+   else
+      {
+      ObjectInspectorSplitter->Visible = false;
+      ObjectInspector->Visible = false;
+      }
    }
 //---------------------------------------------------------------------------
 // User wants to edit the data.
@@ -102,6 +110,8 @@ void __fastcall TMainForm::EditDataActionExecute(TObject *Sender)
 void __fastcall TMainForm::pageChanged(TObject* sender)
    {
    ZoomUpDown->Position = report.getZoom();
+   report.showPage(TabControl->TabIndex);
+   report.showPage(TabControl->TabIndex+1);
    report.showPage(TabControl->TabIndex);
    }
 //---------------------------------------------------------------------------

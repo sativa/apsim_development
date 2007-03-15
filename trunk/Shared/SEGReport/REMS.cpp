@@ -203,3 +203,16 @@ TADOQuery* REMS::createQuery(const std::string treatmentName,
    return query;
    }
 
+//---------------------------------------------------------------------------
+// Return multiple properties to caller.
+//---------------------------------------------------------------------------
+vector<string> REMS::getProperties(const std::string& name)
+   {
+   if (Str_i_Eq(name, "experiment"))
+      return allExperimentNames;
+   else if (Str_i_Eq(name, "treatment"))
+      return allTreatmentNames;
+   else
+      return DataProcessor::getProperties(name);
+   }
+   

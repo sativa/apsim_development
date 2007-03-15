@@ -8,7 +8,8 @@
 class ApsimFileReader : public DataProcessor
    {
    public:
-      ApsimFileReader(const std::string& type) : DataProcessor(type) { }
+      ApsimFileReader(const std::string& type, TComponent* owner)
+      : DataProcessor(type, owner) { }
       virtual void createFields(TDataSet* source, TDataSet* result);
       virtual void process(TDataSet* source, TDataSet* result);
 
@@ -24,5 +25,6 @@ class ApsimFileReader : public DataProcessor
       void splitTitleIntoFactors(const std::string& title,
                                  std::vector<std::string>& factorNames,
                                  std::vector<std::string>& factorValues);
+      std::vector<std::string> getFileNames();
    };
 #endif

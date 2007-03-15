@@ -25,15 +25,12 @@ namespace ApsimReportData
 
         public void Go(string CommandLine)
             {
-            int PosComma = CommandLine.IndexOf(',');
-            if (PosComma == -1)
+            if (CommandLine == "")
                 MessageBox.Show("Invalid command line to ApsimReportData: " + CommandLine);
             else
                 {
-                UInt32 DataContainer = Convert.ToUInt32(CommandLine.Substring(0, PosComma));
-                string xml = CommandLine.Substring(PosComma + 1);
+                UInt32 DataContainer = Convert.ToUInt32(CommandLine);
                 Graph = new GraphController(SmallImages, DataContainer);
-                Graph.AllData = new APSIMData(xml);
                 this.Show();
                 Application.Run(this);
                 }
@@ -50,12 +47,14 @@ namespace ApsimReportData
             DataExplorer.RefreshView(Graph);
 
             // Setup but don't show the Toolbox Explorer.
-            Toolbox = new GraphController(SmallImages, 0);
             ToolboxExplorer = new ExplorerUI(null);
             ToolboxExplorer.Parent = ToolboxPanel;
             ToolboxExplorer.Dock = DockStyle.Fill;
             ToolboxExplorer.Visible = true;
-            Toolbox.FileOpen(APSIMSettings.ApsimDirectory() + "\\apsimui\\graph.xml");
+            APSIMData ToolBoxData = new APSIMData();
+            ToolBoxData.LoadFromFile(APSIMSettings.ApsimDirectory() + "\\apsimui\\graph.xml");
+            Toolbox = new GraphController(SmallImages, ToolBoxData);
+            Toolbox.FileNew(ToolBoxData);
             ToolboxExplorer.RefreshView(Toolbox);
             }
 
@@ -69,6 +68,14 @@ namespace ApsimReportData
         private void CloseButtonClick(object sender, EventArgs e)
             {
             Close();
+            }
+
+        private void MainForm_FormClosing(object sender, FormClosingEventArgs e)
+            {
+            e.Cancel = false;
+            DataExplorer.SaveCurrentView();
+            ToolboxExplorer.SaveCurrentView();
+            Graph.Save();
             }
 
         }

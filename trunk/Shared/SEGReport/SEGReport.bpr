@@ -9,7 +9,8 @@
       TShape.obj TText.obj ComponentRegistration.obj Report.obj ReportMacros.obj 
       DataContainer.obj DataProcessor.obj ApsimFileReader.obj Probability.obj 
       PredObs.obj XmlFileReader.obj Filter.obj Cumulative.obj Depth.obj Diff.obj 
-      Frequency.obj KWTest.obj REMS.obj Regression.obj Soi.obj Stats.obj"/>
+      Frequency.obj KWTest.obj REMS.obj Regression.obj SOI.obj Stats.obj 
+      RecordFilter.obj"/>
     <RESFILES value="SEGReport.res"/>
     <DEFFILE value=""/>
     <RESDEPEN value="$(RESFILES) TPropertyForm.dfm TTextForm.dfm TChartForm.dfm TImageForm.dfm 
@@ -106,9 +107,10 @@
       <FILE FILENAME="KWTest.cpp" FORMNAME="" UNITNAME="KWTest" CONTAINERID="CCompiler" DESIGNCLASS="" LOCALCOMMAND=""/>
       <FILE FILENAME="REMS.cpp" FORMNAME="" UNITNAME="REMS" CONTAINERID="CCompiler" DESIGNCLASS="" LOCALCOMMAND=""/>
       <FILE FILENAME="Regression.cpp" FORMNAME="" UNITNAME="Regression" CONTAINERID="CCompiler" DESIGNCLASS="" LOCALCOMMAND=""/>
-      <FILE FILENAME="Soi.cpp" FORMNAME="" UNITNAME="Soi" CONTAINERID="CCompiler" DESIGNCLASS="" LOCALCOMMAND=""/>
+      <FILE FILENAME="SOI.cpp" FORMNAME="" UNITNAME="Soi" CONTAINERID="CCompiler" DESIGNCLASS="" LOCALCOMMAND=""/>
       <FILE FILENAME="Stats.cpp" FORMNAME="" UNITNAME="Stats" CONTAINERID="CCompiler" DESIGNCLASS="" LOCALCOMMAND=""/>
       <FILE FILENAME="CallManagedDLL.lib" FORMNAME="" UNITNAME="CallManagedDLL.lib" CONTAINERID="LibTool" DESIGNCLASS="" LOCALCOMMAND=""/>
+      <FILE FILENAME="RecordFilter.cpp" FORMNAME="" UNITNAME="RecordFilter" CONTAINERID="CCompiler" DESIGNCLASS="" LOCALCOMMAND=""/>
   </FILELIST>
   <BUILDTOOLS>
   </BUILDTOOLS>

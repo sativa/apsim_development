@@ -6,6 +6,8 @@
 #include "TText.h"
 #include <general\stringtokenizer.h>
 #include <general\vcl_functions.h>
+#include "ReportMacros.h"
+
 #pragma package(smart_init)
 using namespace std;
 //---------------------------------------------------------------------------
@@ -65,7 +67,7 @@ void __fastcall TText::setAlignment(AnsiString alignmentString)
 //---------------------------------------------------------------------------
 void TText::refresh(void)
    {
-   Lines->Text = macros.doReplacement(Owner, contentsWithMacros);
+   Lines->Text = ReportMacros::resolve(Owner, contentsWithMacros.c_str()).c_str();
    Paint();
    }
 

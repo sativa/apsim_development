@@ -12,9 +12,9 @@ inherited ImageForm: TImageForm
     Caption = 'Filename:'
   end
   object ImageFileEdit: TAdvEditBtn
-    Left = 61
+    Left = 64
     Top = 22
-    Width = 236
+    Width = 217
     Height = 21
     AutoFocus = False
     EditAlign = eaLeft

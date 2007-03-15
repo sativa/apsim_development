@@ -17,6 +17,7 @@ class PredObs : public DataProcessor
       bool isKeyField(const std::vector<std::string>& keyFieldNames, const std::string& fieldName);
 
    public:
-      PredObs(const std::string& type) : DataProcessor(type) { };
+      PredObs(const std::string& type, TComponent* owner)
+         : DataProcessor(type, owner) { };
    };
 #endif

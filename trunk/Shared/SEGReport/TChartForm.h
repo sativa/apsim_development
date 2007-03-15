@@ -24,7 +24,13 @@ class TChartForm : public TPropertyForm
 __published:	// IDE-managed Components
    TImageList *ImageList1;
    TLabel *Label1;
+   TLabel *Label2;
+   TEdit *NumMonthsEdit;
+   TLabel *NumMonthsLabel;
+   TCheckBox *NumMonthsCheckBox;
    void __fastcall ChartPropertyLabelClick(TObject *Sender);
+   void __fastcall NumMonthsCheckBoxClick(TObject *Sender);
+   void __fastcall NumMonthsEditChange(TObject *Sender);
 private:	// User declarations
    TGraph* graph;
 public:		// User declarations

@@ -13,6 +13,7 @@
 #include <DBEditCh.hpp>
 #include <EditChar.hpp>
 #include <sstream>
+#include "ReportMacros.h"
 using namespace std;
 #pragma package(smart_init)
 //---------------------------------------------------------------------------
@@ -73,6 +74,14 @@ __fastcall TGraph::TGraph(TComponent* Owner)
 //---------------------------------------------------------------------------
 __fastcall TGraph::~TGraph(void)
    {
+   }
+//---------------------------------------------------------------------------
+// set the NumMonths property.
+//---------------------------------------------------------------------------
+void __fastcall TGraph::setNumMonths(int NumMonths)
+   {
+   bottomAxisScaleMonths = NumMonths;
+   refresh();
    }
 //---------------------------------------------------------------------------
 // Read in additional properties from stream.
@@ -150,29 +159,29 @@ void TGraph::refresh(void)
 void TGraph::replaceChartMacros(void)
    {
    if (title != "")
-      Chart->Title->Text->Text = macros.doReplacement(Owner, title);
+      Chart->Title->Text->Text = ReportMacros::resolve(Owner, title.c_str()).c_str();
    if (subTitle != "")
-      Chart->SubTitle->Text->Text = macros.doReplacement(Owner, subTitle);
+      Chart->SubTitle->Text->Text = ReportMacros::resolve(Owner, subTitle.c_str()).c_str();
    if (leftAxisTitle != "")
-      Chart->LeftAxis->Title->Caption = macros.doReplacement(Owner, leftAxisTitle);
+      Chart->LeftAxis->Title->Caption = ReportMacros::resolve(Owner, leftAxisTitle.c_str()).c_str();
    if (topAxisTitle != "")
-      Chart->TopAxis->Title->Caption = macros.doReplacement(Owner, topAxisTitle);
+      Chart->TopAxis->Title->Caption = ReportMacros::resolve(Owner, topAxisTitle.c_str()).c_str();
    if (rightAxisTitle != "")
-      Chart->RightAxis->Title->Caption = macros.doReplacement(Owner, rightAxisTitle);
+      Chart->RightAxis->Title->Caption = ReportMacros::resolve(Owner, rightAxisTitle.c_str()).c_str();
    if (bottomAxisTitle != "")
-      Chart->BottomAxis->Title->Caption = macros.doReplacement(Owner, bottomAxisTitle);
+      Chart->BottomAxis->Title->Caption = ReportMacros::resolve(Owner, bottomAxisTitle.c_str()).c_str();
    if (footTitle != "")
-      Chart->Foot->Text->Text = macros.doReplacement(Owner, footTitle);
+      Chart->Foot->Text->Text = ReportMacros::resolve(Owner, footTitle.c_str()).c_str();
    if (Chart->SeriesCount() >= 1 && seriesTitle1 != "" && seriesTitle1 != "$seriesName")
-      Chart->Series[0]->Title = macros.doReplacement(Owner, seriesTitle1);
+      Chart->Series[0]->Title = ReportMacros::resolve(Owner, seriesTitle1.c_str()).c_str();
    if (Chart->SeriesCount() >= 2 && seriesTitle2 != "")
-      Chart->Series[1]->Title = macros.doReplacement(Owner, seriesTitle2);
+      Chart->Series[1]->Title = ReportMacros::resolve(Owner, seriesTitle2.c_str()).c_str();
    if (Chart->SeriesCount() >= 3 && seriesTitle3 != "")
-      Chart->Series[2]->Title = macros.doReplacement(Owner, seriesTitle3);
+      Chart->Series[2]->Title = ReportMacros::resolve(Owner, seriesTitle3.c_str()).c_str();
    if (Chart->SeriesCount() >= 4 && seriesTitle4 != "")
-      Chart->Series[3]->Title = macros.doReplacement(Owner, seriesTitle4);
+      Chart->Series[3]->Title = ReportMacros::resolve(Owner, seriesTitle4.c_str()).c_str();
    if (Chart->SeriesCount() >= 5 && seriesTitle5 != "")
-      Chart->Series[4]->Title = macros.doReplacement(Owner, seriesTitle5);
+      Chart->Series[4]->Title = ReportMacros::resolve(Owner, seriesTitle5.c_str()).c_str();
    }
 //---------------------------------------------------------------------------
 // Let the user edit the chart.
@@ -223,13 +232,6 @@ void TGraph::userEdit(void)
    replaceChartMacros();
    }
 
-//void dummyLink(void)
-//  {
-//   // This next line forces the linker to link in the DBEditCh unit.
-//   // This will in turn add dataset to the list of series data sources.
-//   new TDBChartEditor((TComponent*)NULL);
-//   }
-
 //---------------------------------------------------------------------------
 // When the x axis is a date time axis and it's interval is set to 1 month
 // and the data range is less than a month, then the axis doesn't show anything.
@@ -238,25 +240,24 @@ void TGraph::userEdit(void)
 void TGraph::fixBottomAxisScaling()
    {
    TChartAxis* BottomAxis = Chart->BottomAxis;
-   if (BottomAxis->Automatic && BottomAxis->ExactDateTime)
+   if (bottomAxisScaleMonths > 0)
       {
       BottomAxis->AdjustMaxMin();
       if (BottomAxis->Minimum > 0 && BottomAxis->Maximum > 0)
          {
          TDateTime MinDate = TDateTime(BottomAxis->Minimum);
-         TDateTime MaxDate = TDateTime(BottomAxis->Maximum);
-         unsigned short minYear, minMonth, minDay, maxYear, maxMonth, maxDay;
-         MinDate.DecodeDate(&minYear, &minMonth, &minDay);
-         MaxDate.DecodeDate(&maxYear, &maxMonth, &maxDay);
-         maxMonth++;
-         if (maxMonth == 13)
+         unsigned short year, month, day;
+         MinDate.DecodeDate(&year, &month, &day);
+
+         month += bottomAxisScaleMonths;
+         while (month > 12)
             {
-            maxMonth = 1;
-            maxYear++;
+            year++;
+            month -= 12;
             }
-         TDateTime MinDateOnAxis = TDateTime(minYear, minMonth, 1);
-         TDateTime MaxDateOnAxis = TDateTime(maxYear, maxMonth, 1);
-         BottomAxis->SetMinMax(MinDateOnAxis, MaxDateOnAxis);
+         TDateTime MaxDate = TDateTime(year, month, day);
+         BottomAxis->AutomaticMaximum = false;
+         BottomAxis->Maximum = MaxDate;
          }
       }
    }

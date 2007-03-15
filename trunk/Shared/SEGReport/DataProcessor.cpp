@@ -24,15 +24,16 @@
 #include "SOI.h"
 #include "Stats.h"
 #include "DataContainer.h"
+#include "RecordFilter.h"
+#include "ReportMacros.h"
 
-DataContainer* TopLevelContainer;
-
-const int numTypes = 3 * 5;
+const int numTypes = 3 * 5 + 1;
 const char* validTypes[numTypes] = {"ApsimFileReader", "Probability", "PredObs",
                                     "XmlFileReader",   "Filter",      "Cumulative",
                                     "Depth",           "Diff",        "ExcelReader",
                                     "Frequency",       "KWTest",      "REMS",
-                                    "Regression",      "SOI",         "Stats"};
+                                    "Regression",      "SOI",         "Stats",
+                                    "RecordFilter"};
 
 //---------------------------------------------------------------------------
 // Return true if the specified type is a valid one.
@@ -50,39 +51,41 @@ bool DataProcessor::isValidType(const std::string& propertyType)
 // passed in. Caller is expected to free the object
 // when finished with it.
 //---------------------------------------------------------------------------
-DataProcessor* DataProcessor::factory(const XMLNode& properties)
+DataProcessor* DataProcessor::factory(const XMLNode& properties, TComponent* owner)
    {
    string componentName = properties.getName();
    if (Str_i_Eq(componentName, "ApsimFileReader"))
-      return new ApsimFileReader("ApsimFileReader");
+      return new ApsimFileReader("ApsimFileReader", owner);
    else if (Str_i_Eq(componentName, "Probability"))
-      return new Probability("Probability");
+      return new Probability("Probability", owner);
    else if (Str_i_Eq(componentName, "PredObs"))
-      return new PredObs("PredObs");
+      return new PredObs("PredObs", owner);
    else if (Str_i_Eq(componentName, "XmlFileReader"))
-      return new XmlFileReader("XmlFileReader");
+      return new XmlFileReader("XmlFileReader", owner);
    else if (Str_i_Eq(componentName, "Filter"))
-      return new Filter("Filter");
+      return new Filter("Filter", owner);
    else if (Str_i_Eq(componentName, "Cumulative"))
-      return new Cumulative("Cumulative");
+      return new Cumulative("Cumulative", owner);
    else if (Str_i_Eq(componentName, "Depth"))
-      return new Depth("Depth");
+      return new Depth("Depth", owner);
    else if (Str_i_Eq(componentName, "Diff"))
-      return new Diff("Diff");
+      return new Diff("Diff", owner);
 //   else if (Str_i_Eq(componentName, "ExcelReader"))
 //      return new ExcelReader("ExcelReader");
    else if (Str_i_Eq(componentName, "Frequency"))
-      return new Frequency("Frequency");
+      return new Frequency("Frequency", owner);
    else if (Str_i_Eq(componentName, "KWTest"))
-      return new KWTest("KWTest");
+      return new KWTest("KWTest", owner);
    else if (Str_i_Eq(componentName, "REMS"))
-      return new REMS("REMS");
+      return new REMS("REMS", owner);
    else if (Str_i_Eq(componentName, "Regression"))
-      return new Regression("Regression");
+      return new Regression("Regression", owner);
    else if (Str_i_Eq(componentName, "SOI"))
-      return new SOI("SOI");
+      return new SOI("SOI", owner);
    else if (Str_i_Eq(componentName, "Stats"))
-      return new Stats("Stats");
+      return new Stats("Stats", owner);
+   else if (Str_i_Eq(componentName, "RecordFilter"))
+      return new RecordFilter("RecordFilter", owner);
    else
       return NULL;
    }
@@ -99,8 +102,7 @@ bool DataProcessor::setProperties(const XMLNode& properties)
                           child != properties.end();
                           child++)
       {
-      bool childHasChildren = (child->begin() != child->end());
-      if (!childHasChildren)
+      if (!DataProcessor::isValidType(child->getName()))
          {
          propertyXMLElements.push_back(child->write());
          if (child->getValue() != "")
@@ -150,13 +152,19 @@ void DataProcessor::refresh(TDataSet* source, TDataSet* result)
       {
       errorMessage += err.what();
       if (source != NULL)
+         {
          source->Filtered = false;
+         source->Filter = "";
+         }
       }
    catch (const Sysutils::Exception& err)
       {
       errorMessage += err.Message.c_str();
       if (source != NULL)
+         {
          source->Filtered = false;
+         source->Filter = "";
+         }
       }
    }
 
@@ -166,13 +174,9 @@ void DataProcessor::refresh(TDataSet* source, TDataSet* result)
 //---------------------------------------------------------------------------
 string DataProcessor::getProperty(const std::string& name)
    {
-   vector<string>::iterator i = find_if(propertyNames.begin(), propertyNames.end(),
-                                        CaseInsensitiveStringComparison(name));
-   if (i != propertyNames.end())
-      {
-      unsigned indx = i - propertyNames.begin();
-      return propertyValues[indx];
-      }
+   vector<string> values = getProperties(name);
+   if (values.size() > 0)
+      return values[0];
    return "";
    }
 
@@ -185,20 +189,9 @@ vector<string> DataProcessor::getProperties(const std::string& name)
    for (unsigned i = 0; i != propertyNames.size(); i++)
       {
       if (Str_i_Eq(propertyNames[i], name))
-         values.push_back(propertyValues[i]);
+         values.push_back(ReportMacros::resolve(owner, propertyValues[i]));
       }
    return values;
-   }
-
-//---------------------------------------------------------------------------
-// Return a specific dataset.
-//---------------------------------------------------------------------------
-TDataSet* DataProcessor::getDataSet(const std::string& dataSetName)
-   {
-   if (TopLevelContainer != NULL)
-      return TopLevelContainer->searchForData(dataSetName);
-   else
-      return NULL;
    }
 
 //---------------------------------------------------------------------------
@@ -209,7 +202,11 @@ bool DataProcessor::groupRecords(TDataSet* source)
    {
    if (currentGroupByFilter == groupByFilters.end())
       {
-      if (source != NULL) source->Filtered = false;
+      if (source != NULL)
+         {
+         source->Filtered = false;
+         source->Filter = "";
+         }
       return false;
       }
    else
