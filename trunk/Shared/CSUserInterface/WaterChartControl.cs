@@ -8,13 +8,13 @@ using CSGeneral;
 using VBGeneral;
 using Soils;
 
-namespace CSGeneral
+namespace CSUserInterface
 	{
 	public class WaterChartControl : System.Windows.Forms.UserControl
         {
 		private System.ComponentModel.Container components = null;
         private Soil MySoil;
-        private System.ServiceProcess.ServiceController serviceController1;
+        //private System.ServiceProcess.ServiceController serviceController1;
         public Steema.TeeChart.TChart WaterChart;
         private Steema.TeeChart.Styles.Line AirDryLine;
         private Steema.TeeChart.Styles.Line SatLine;
@@ -48,7 +48,7 @@ namespace CSGeneral
 		/// </summary>
 		private void InitializeComponent()
 		{
-        this.serviceController1 = new System.ServiceProcess.ServiceController();
+        //this.serviceController1 = new System.ServiceProcess.ServiceController();
         this.WaterChart = new Steema.TeeChart.TChart();
         this.SatLine = new Steema.TeeChart.Styles.Line();
         this.DulLine = new Steema.TeeChart.Styles.Line();

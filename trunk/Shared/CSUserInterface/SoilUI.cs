@@ -7,16 +7,17 @@ using System.Windows.Forms;
 using System.IO;
 using CSGeneral;
 using VBGeneral;
+using VBUserInterface;
 using Soils;
 using FarPoint.Win.Spread;
 
-namespace CSGeneral
+namespace CSUserInterface
 	{
 
 	// -------------------------------------------
 	// A user interface for soil stuff.
 	// -------------------------------------------
-	public class SoilUI : VBGeneral.BaseView
+	public class SoilUI : BaseView
 		{
         private ApsoilController SoilController;
 		private System.ComponentModel.IContainer components = null;
@@ -34,7 +35,7 @@ namespace CSGeneral
 		private System.Windows.Forms.MenuItem AddCropMenuItem;
 		private System.Windows.Forms.MenuItem DeleteCropMenuItem;
 		private System.Windows.Forms.Splitter splitter1;
-		private CSGeneral.WaterChartControl WaterChartControl;
+		private WaterChartControl WaterChartControl;
 		private System.Windows.Forms.MenuItem ReorderCropsMenuItem;
 		private System.Windows.Forms.MenuItem menuItem1;
 		private System.Windows.Forms.MenuItem PrintMenuItem;
@@ -147,7 +148,7 @@ namespace CSGeneral
         this.toolStripSeparator1 = new System.Windows.Forms.ToolStripSeparator();
         this.PrintButton = new System.Windows.Forms.ToolStripButton();
         this.CheckSoilButton = new System.Windows.Forms.ToolStripButton();
-        this.WaterChartControl = new CSGeneral.WaterChartControl();
+        this.WaterChartControl = new WaterChartControl();
         ((System.ComponentModel.ISupportInitialize)(this.Grid)).BeginInit();
         ((System.ComponentModel.ISupportInitialize)(this.General)).BeginInit();
         ((System.ComponentModel.ISupportInitialize)(this.Water)).BeginInit();
@@ -633,7 +634,7 @@ namespace CSGeneral
         // 
         // AddLayerButton
         // 
-        this.AddLayerButton.Image = global::SoilNamespace.Properties.Resources.add2;
+        this.AddLayerButton.Image = global::CSUserInterface.Properties.Resources.add2;
         this.AddLayerButton.ImageScaling = System.Windows.Forms.ToolStripItemImageScaling.None;
         this.AddLayerButton.ImageTransparentColor = System.Drawing.Color.Magenta;
         this.AddLayerButton.Name = "AddLayerButton";
@@ -644,7 +645,7 @@ namespace CSGeneral
         // 
         // DeleteLayerButton
         // 
-        this.DeleteLayerButton.Image = global::SoilNamespace.Properties.Resources.delete2;
+        this.DeleteLayerButton.Image = global::CSUserInterface.Properties.Resources.delete2;
         this.DeleteLayerButton.ImageScaling = System.Windows.Forms.ToolStripItemImageScaling.None;
         this.DeleteLayerButton.ImageTransparentColor = System.Drawing.Color.Magenta;
         this.DeleteLayerButton.Name = "DeleteLayerButton";
@@ -661,7 +662,7 @@ namespace CSGeneral
         // 
         // AddButton
         // 
-        this.AddButton.Image = global::SoilNamespace.Properties.Resources.add2;
+        this.AddButton.Image = global::CSUserInterface.Properties.Resources.add2;
         this.AddButton.ImageScaling = System.Windows.Forms.ToolStripItemImageScaling.None;
         this.AddButton.ImageTransparentColor = System.Drawing.Color.Magenta;
         this.AddButton.Name = "AddButton";
@@ -672,7 +673,7 @@ namespace CSGeneral
         // 
         // DeleteButton
         // 
-        this.DeleteButton.Image = global::SoilNamespace.Properties.Resources.delete2;
+        this.DeleteButton.Image = global::CSUserInterface.Properties.Resources.delete2;
         this.DeleteButton.ImageScaling = System.Windows.Forms.ToolStripItemImageScaling.None;
         this.DeleteButton.ImageTransparentColor = System.Drawing.Color.Magenta;
         this.DeleteButton.Name = "DeleteButton";
@@ -683,7 +684,7 @@ namespace CSGeneral
         // 
         // ReorderButton
         // 
-        this.ReorderButton.Image = global::SoilNamespace.Properties.Resources.up_down;
+        this.ReorderButton.Image = global::CSUserInterface.Properties.Resources.up_down;
         this.ReorderButton.ImageScaling = System.Windows.Forms.ToolStripItemImageScaling.None;
         this.ReorderButton.ImageTransparentColor = System.Drawing.Color.Magenta;
         this.ReorderButton.Name = "ReorderButton";
@@ -695,7 +696,7 @@ namespace CSGeneral
         // PHButton
         // 
         this.PHButton.Enabled = false;
-        this.PHButton.Image = global::SoilNamespace.Properties.Resources.potion_yellow;
+        this.PHButton.Image = global::CSUserInterface.Properties.Resources.potion_yellow;
         this.PHButton.ImageTransparentColor = System.Drawing.Color.Magenta;
         this.PHButton.Name = "PHButton";
         this.PHButton.Size = new System.Drawing.Size(100, 43);
@@ -710,7 +711,7 @@ namespace CSGeneral
         // 
         // PrintButton
         // 
-        this.PrintButton.Image = global::SoilNamespace.Properties.Resources.printer;
+        this.PrintButton.Image = global::CSUserInterface.Properties.Resources.printer;
         this.PrintButton.ImageScaling = System.Windows.Forms.ToolStripItemImageScaling.None;
         this.PrintButton.ImageTransparentColor = System.Drawing.Color.Magenta;
         this.PrintButton.Name = "PrintButton";
@@ -721,7 +722,7 @@ namespace CSGeneral
         // 
         // CheckSoilButton
         // 
-        this.CheckSoilButton.Image = global::SoilNamespace.Properties.Resources.check2;
+        this.CheckSoilButton.Image = global::CSUserInterface.Properties.Resources.check2;
         this.CheckSoilButton.ImageScaling = System.Windows.Forms.ToolStripItemImageScaling.None;
         this.CheckSoilButton.ImageTransparentColor = System.Drawing.Color.Magenta;
         this.CheckSoilButton.Name = "CheckSoilButton";

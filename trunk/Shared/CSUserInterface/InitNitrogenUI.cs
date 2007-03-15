@@ -5,19 +5,20 @@ using System.Drawing;
 using System.Windows.Forms;
 using CSGeneral;
 using VBGeneral;
+using VBUserInterface;
 using Soils;
 
 
-namespace CSGeneral
+namespace CSUserInterface
 	{
-	public class InitNitrogenUI : VBGeneral.BaseView
+	public class InitNitrogenUI : BaseView
 		{
 		private System.ComponentModel.IContainer components = null;
 		private System.Windows.Forms.Panel panel1;
 		private FarPoint.Win.Spread.FpSpread Grid;
 		private FarPoint.Win.Spread.SheetView NitrogenGrid;
 		private bool UserChange = true;
-        private InitNitrogen InitialNitrogen;
+        private InitNitrogen InitialNitrogen = null;
         public Steema.TeeChart.TChart NitrogenChart;
         private Steema.TeeChart.Styles.Line No3KgHaLine;
         private Steema.TeeChart.Styles.Line Nh4PpmLine;
@@ -827,7 +828,7 @@ namespace CSGeneral
 					 + " or a total NO3 / NH4 number (kg/ha only) on the last row of the grid.";
 
 			SoilData = new Soil(Controller.Data.Parent);
-			InitialNitrogen = SoilData.InitialNitrogen;
+			//InitialNitrogen = SoilData.InitialNitrogen;
 			FarPoint.Win.Spread.InputMap InputMap = Grid.GetInputMap(FarPoint.Win.Spread.InputMapMode.WhenAncestorOfFocused); 
 			InputMap.Put(new FarPoint.Win.Spread.Keystroke(Keys.Delete, Keys.None), 
 							FarPoint.Win.Spread.SpreadActions.ClipboardCut); 

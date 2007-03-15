@@ -33,7 +33,7 @@ namespace APSRU.Howwet
             this.imageList1 = new System.Windows.Forms.ImageList(this.components);
             this.SaveCloseButton = new System.Windows.Forms.Button();
             this.SoilCloseButton = new System.Windows.Forms.Button();
-            this.dataTree1 = new VBGeneral.DataTree();
+            this.dataTree1 = new VBUserInterface.DataTree();
             this.SuspendLayout();
             // 
             // imageList1
@@ -80,7 +80,7 @@ namespace APSRU.Howwet
             this.dataTree1.Size = new System.Drawing.Size(369, 320);
             this.dataTree1.Sorted = false;
             this.dataTree1.TabIndex = 0;
-            this.dataTree1.DoubleClickEvent += new VBGeneral.DataTree.NotifyEventHandler(this.dataTree1_DoubleClickEvent);
+            this.dataTree1.DoubleClickEvent += new VBUserInterface.DataTree.NotifyEventHandler(this.dataTree1_DoubleClickEvent);
             // 
             // SoilSelection
             // 
@@ -103,7 +103,7 @@ namespace APSRU.Howwet
         #endregion
 
         private System.Windows.Forms.ImageList imageList1;
-        private VBGeneral.DataTree dataTree1;
+        private VBUserInterface.DataTree dataTree1;
         private System.Windows.Forms.Button SaveCloseButton;
         private System.Windows.Forms.Button SoilCloseButton;
 

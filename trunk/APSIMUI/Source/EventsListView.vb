@@ -1,5 +1,7 @@
 Imports VBGeneral
 Imports System.Collections.Specialized
+Imports VBUserInterface
+
 Public Class EventsListView
     Inherits BaseView
 

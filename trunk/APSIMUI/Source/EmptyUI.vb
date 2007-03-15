@@ -1,9 +1,10 @@
 Imports VBGeneral
 Imports System.Collections
 Imports System.Collections.Specialized
+Imports VBUserInterface
 
 Public Class EmptyUI
-    Inherits VBGeneral.BaseView
+    Inherits BaseView
 
 #Region " Windows Form Designer generated code "
 

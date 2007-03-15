@@ -7,9 +7,12 @@ using System.Data;
 using System.IO;
 using VBGeneral;
 using CSGeneral;
-using ChangeTool;
+using CSUserInterface;
+using VBUserInterface;
+using ApsimFile;
 using System.Reflection;
-using System.Collections.Specialized; 
+using System.Collections.Specialized;
+using Soils;
 
 namespace APSoil
 	{

@@ -110,23 +110,11 @@
     <Compile Include="DataTableUtility.cs">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="HyperTextLabel.cs">
-      <SubType>UserControl</SubType>
-    </Compile>
-    <Compile Include="HyperTextLink.cs">
-      <SubType>Code</SubType>
-    </Compile>
-    <Compile Include="ListviewAPI.cs">
-      <SubType>Code</SubType>
-    </Compile>
     <Compile Include="Macro.cs">
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="MathUtility.cs">
       <SubType>Code</SubType>
-    </Compile>
-    <Compile Include="MemoUI.cs">
-      <SubType>UserControl</SubType>
     </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="StringManip.cs">
@@ -135,14 +123,6 @@
     <Compile Include="Utility.cs">
       <SubType>Code</SubType>
     </Compile>
-    <EmbeddedResource Include="HyperTextLabel.resx">
-      <DependentUpon>HyperTextLabel.cs</DependentUpon>
-      <SubType>Designer</SubType>
-    </EmbeddedResource>
-    <EmbeddedResource Include="MemoUI.resx">
-      <DependentUpon>MemoUI.cs</DependentUpon>
-      <SubType>Designer</SubType>
-    </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\VBGeneral\VBGeneral.vbproj">

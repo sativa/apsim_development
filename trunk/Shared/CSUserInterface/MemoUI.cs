@@ -5,7 +5,7 @@ using System.Drawing;
 using System.Data;
 using System.Windows.Forms;
 
-namespace CSGeneral
+namespace CSUserInterface
 {
 	/// <summary>
 	/// Summary description for MemoUI.

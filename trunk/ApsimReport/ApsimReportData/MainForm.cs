@@ -8,6 +8,7 @@ using System.Windows.Forms;
 using System.IO;
 using Graph;
 using VBGeneral;
+using VBUserInterface;
 
 namespace ApsimReportData
     {

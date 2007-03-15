@@ -221,12 +221,12 @@ namespace APSRU.Howwet
             selectedSoilName.Text = simulationObject.Soil.Name;
             String soilString = "Soil Name: "+simulationObject.Soil.Name+ "\nRegion: " + simulationObject.Soil.Region;
             selectedSoilName.ToolTipText = soilString;
-            String[] layers = simulationObject.Soil.DepthStrings;
-            ocDepthLabel.Text = layers[0];//top layer string
+            //dph            String[] layers = simulationObject.Soil.DepthStrings;
+            //dph ocDepthLabel.Text = layers[0];//top layer string
             organicCarbonContent.Text = simulationObject.Soil.OC.GetValue(0).ToString();
             soilDepthSumOriginal = MathUtility.Sum(simulationObject.Soil.Thickness);
             soilPAWCSumOriginal = MathUtility.Sum(simulationObject.Soil.PAWC(simulationObject.GetCrop));
-            soilNitrogenSumOriginal = MathUtility.Sum(simulationObject.Soil.InitialNitrogen.NO3KgHa);
+            //dph soilNitrogenSumOriginal = MathUtility.Sum(simulationObject.Soil.InitialNitrogen.NO3KgHa);
             lL15Original = simulationObject.Soil.LL15;
             thicknessOriginal = simulationObject.Soil.Thickness;
             soilDepth.Text = soilDepthSumOriginal.ToString("f0");
@@ -647,7 +647,7 @@ namespace APSRU.Howwet
                 if (!(simulationObject.Soil == null))
                     {
                     int percent = Convert.ToInt32(initialSoilWaterPercent.Value);
-                    simulationObject.Soil.InitialWater.SetUsingPercent(percent, true);
+                    //dph simulationObject.Soil.InitialWater.SetUsingPercent(percent, true);
                     double Proportion = Convert.ToInt32(initialSoilWaterPercent.Value) / 100.0;
                     double AmountWater = MathUtility.Sum(simulationObject.Soil.PAWC(simulationObject.GetCrop)) * Proportion;
                     this.initialWaterCapacity.TextChanged -= new System.EventHandler(this.initialWaterCapacity_TextChanged);
@@ -679,8 +679,8 @@ namespace APSRU.Howwet
                 this.initialSoilWaterPercent.ValueChanged -= new System.EventHandler(this.initialSoilWaterPercent_ValueChanged);
                 initialSoilWaterPercent.Value = percent;
                 this.initialSoilWaterPercent.ValueChanged += new System.EventHandler(this.initialSoilWaterPercent_ValueChanged);
-                simulationObject.Soil.InitialWater.SetUsingPercent(percent, true);
-                double[] sw=simulationObject.Soil.InitialWater.SW;
+                //dph simulationObject.Soil.InitialWater.SetUsingPercent(percent, true);
+                //dph double[] sw=simulationObject.Soil.InitialWater.SW;
                 }
             catch (CustomException err)
                 {
@@ -702,7 +702,7 @@ namespace APSRU.Howwet
                     }
                 else
                     {
-                    simulationObject.Soil.InitialNitrogen.TotalNO3KgHa = Convert.ToDouble(initialSoilNitrogen.Text);
+                    //dph simulationObject.Soil.InitialNitrogen.TotalNO3KgHa = Convert.ToDouble(initialSoilNitrogen.Text);
                     }
                 }
             }
@@ -1128,10 +1128,10 @@ namespace APSRU.Howwet
                 //Profile chart
                 ProfileChart.Axes.Top.Minimum = 0;
                 ProfileChart.Axes.Left.Minimum = 0;
-                ProfileCLLLine.Add(simulationObject.Soil.LL(simulationObject.GetCrop), simulationObject.Soil.CumThickness);
-                ProfileLL15Line.Add(simulationObject.Soil.LL15, simulationObject.Soil.CumThickness);
-                ProfileSWLine.Add(result.soilWaterEndByLayer, simulationObject.Soil.CumThickness);
-                ProfileDULLine.Add(simulationObject.Soil.DUL, simulationObject.Soil.CumThickness);
+                //dph ProfileCLLLine.Add(simulationObject.Soil.LL(simulationObject.GetCrop), simulationObject.Soil.CumThickness);
+                //dph ProfileLL15Line.Add(simulationObject.Soil.LL15, simulationObject.Soil.CumThickness);
+                //dph ProfileSWLine.Add(result.soilWaterEndByLayer, simulationObject.Soil.CumThickness);
+                //dph ProfileDULLine.Add(simulationObject.Soil.DUL, simulationObject.Soil.CumThickness);
                 //make everthing visible;
                 tabControl1.Visible = true;
                 tabControl1.SelectedIndex = 0;

@@ -248,9 +248,11 @@
     </EmbeddedResource>
     <EmbeddedResource Include="EmptyUI.resx">
       <DependentUpon>EmptyUI.vb</DependentUpon>
+      <SubType>Designer</SubType>
     </EmbeddedResource>
     <EmbeddedResource Include="EventsListView.resx">
       <DependentUpon>EventsListView.vb</DependentUpon>
+      <SubType>Designer</SubType>
     </EmbeddedResource>
     <EmbeddedResource Include="FileUI.resx">
       <DependentUpon>FileUI.vb</DependentUpon>
@@ -258,13 +260,16 @@
     </EmbeddedResource>
     <EmbeddedResource Include="HelpAboutForm.resx">
       <DependentUpon>HelpAboutForm.vb</DependentUpon>
+      <SubType>Designer</SubType>
     </EmbeddedResource>
     <EmbeddedResource Include="HypropsControl.resx">
       <DependentUpon>HypropsControl.vb</DependentUpon>
+      <SubType>Designer</SubType>
     </EmbeddedResource>
     <EmbeddedResource Include="licenses.licx" />
     <EmbeddedResource Include="ListBoxDialog.resx">
       <DependentUpon>ListBoxDialog.vb</DependentUpon>
+      <SubType>Designer</SubType>
     </EmbeddedResource>
     <EmbeddedResource Include="LogicUI.resx">
       <DependentUpon>LogicUI.vb</DependentUpon>
@@ -276,9 +281,11 @@
     </EmbeddedResource>
     <EmbeddedResource Include="ManagerUI.resx">
       <DependentUpon>ManagerUI.vb</DependentUpon>
+      <SubType>Designer</SubType>
     </EmbeddedResource>
     <EmbeddedResource Include="MemoUI.resx">
       <DependentUpon>MemoUI.vb</DependentUpon>
+      <SubType>Designer</SubType>
     </EmbeddedResource>
     <EmbeddedResource Include="MetGraphControl.resx">
       <DependentUpon>MetGraphControl.vb</DependentUpon>
@@ -296,6 +303,7 @@
     </EmbeddedResource>
     <EmbeddedResource Include="NewDocumentForm.resx">
       <DependentUpon>NewDocumentForm.vb</DependentUpon>
+      <SubType>Designer</SubType>
     </EmbeddedResource>
     <EmbeddedResource Include="OperationsUI.resx">
       <SubType>Designer</SubType>
@@ -303,6 +311,7 @@
     </EmbeddedResource>
     <EmbeddedResource Include="OptionsForm.resx">
       <DependentUpon>OptionsForm.vb</DependentUpon>
+      <SubType>Designer</SubType>
     </EmbeddedResource>
     <EmbeddedResource Include="OutputFileDescUI.resx">
       <DependentUpon>OutputFileDescUI.vb</DependentUpon>
@@ -326,6 +335,7 @@
     </EmbeddedResource>
     <EmbeddedResource Include="SplashScreenForm.resx">
       <DependentUpon>SplashScreenForm.vb</DependentUpon>
+      <SubType>Designer</SubType>
     </EmbeddedResource>
     <EmbeddedResource Include="SwimSoilUI.resx">
       <DependentUpon>SwimSoilUI.vb</DependentUpon>
@@ -337,13 +347,17 @@
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\..\Shared\C#General\CSGeneral.csproj">
+    <ProjectReference Include="..\..\Shared\ApsimFile\ApsimFile.csproj">
+      <Project>{416A3885-FD38-46D0-BE42-54AA33D146B7}</Project>
+      <Name>ApsimFile</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\Shared\CSGeneral\CSGeneral.csproj">
       <Project>{D2EDEF3F-995D-4E9D-9E7C-608D46259E9C}</Project>
       <Name>CSGeneral</Name>
     </ProjectReference>
-    <ProjectReference Include="..\..\Shared\ChangeTool\ChangeTool.csproj">
-      <Project>{416A3885-FD38-46D0-BE42-54AA33D146B7}</Project>
-      <Name>ChangeTool</Name>
+    <ProjectReference Include="..\..\Shared\CSUserInterface\CSUserInterface.csproj">
+      <Project>{25C8E90E-D464-4F49-B29E-2811F1B266DE}</Project>
+      <Name>CSUserInterface</Name>
     </ProjectReference>
     <ProjectReference Include="..\..\Shared\Graph\Graph.csproj">
       <Project>{97151919-5377-4FD3-ABF9-9400A332CE6C}</Project>
@@ -361,11 +375,13 @@
       <Project>{C922784D-0AF8-4CFD-878B-EC7D276F499F}</Project>
       <Name>VBMet</Name>
     </ProjectReference>
+    <ProjectReference Include="..\..\Shared\VBUserInterface\VBUserInterface.vbproj">
+      <Project>{E78183EC-403E-4ED6-B6B0-9F60013FFEF4}</Project>
+      <Name>VBUserInterface</Name>
+    </ProjectReference>
   </ItemGroup>
   <ItemGroup>
     <None Include="app.config" />
-    <None Include="ClassDiagram1.cd" />
-  </ItemGroup>
   <ItemGroup>
     <COMReference Include="AxTCLCONTROLPRJ2Lib">
       <Guid>{E796A720-F130-11D2-8003-0040055861F2}</Guid>

@@ -1,8 +1,11 @@
 Imports System
 Imports System.IO
 Imports VBGeneral
+Imports VBUserInterface
+
+
 Public Class VineLogicUI
-    Inherits VBGeneral.BaseView
+    Inherits BaseView
 
 #Region " Windows Form Designer generated code "
 

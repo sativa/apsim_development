@@ -1,6 +1,8 @@
 Imports System.Windows.Forms
 Imports System.Collections.Specialized
 Imports System.IO
+Imports VBGeneral
+
 Public Class ExplorerUI
     Inherits BaseView
     Private MyParentForm As Form
@@ -36,7 +38,7 @@ Public Class ExplorerUI
     Friend WithEvents UIPanel As System.Windows.Forms.Panel
     Friend WithEvents DataTree As DataTree
     <System.Diagnostics.DebuggerStepThrough()> Private Sub InitializeComponent()
-        Me.DataTree = New VBGeneral.DataTree
+        Me.DataTree = New DataTree
         Me.Splitter = New System.Windows.Forms.Splitter
         Me.UIPanel = New System.Windows.Forms.Panel
         Me.SuspendLayout()

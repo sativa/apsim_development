@@ -2,6 +2,7 @@ Imports System.Xml
 Imports System.Collections.Specialized
 Imports System.Windows.Forms
 Imports System.Drawing
+Imports VBGeneral
 
 ' ------------------------------------------
 ' Data control for displaying a tree based

@@ -7,7 +7,8 @@ Imports System.io
 Imports System.IO.Path
 Imports VBGeneral
 Imports CSGeneral
-Imports ChangeTool
+Imports ApsimFile
+Imports VBUserInterface
 
 Public Class MainUI
     Inherits System.Windows.Forms.Form

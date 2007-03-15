@@ -1,8 +1,10 @@
 Imports System
 Imports System.IO
 Imports VBGeneral
+Imports VBUserInterface
+
 Public Class MetUI
-    Inherits VBGeneral.BaseView
+    Inherits BaseView
 
 #Region " Windows Form Designer generated code "
 

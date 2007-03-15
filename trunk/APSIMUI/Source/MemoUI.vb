@@ -1,6 +1,8 @@
 Imports VBGeneral
+Imports VBUserInterface
+
 Public Class MemoUI
-    Inherits VBGeneral.BaseView
+    Inherits BaseView
 
 #Region " Windows Form Designer generated code "
 
@@ -30,9 +32,9 @@ Public Class MemoUI
     'NOTE: The following procedure is required by the Windows Form Designer
     'It can be modified using the Windows Form Designer.  
     'Do not modify it using the code editor.
-    Friend WithEvents Memo As CSGeneral.MemoUI
+    Friend WithEvents Memo As CSUserInterface.MemoUI
     <System.Diagnostics.DebuggerStepThrough()> Private Sub InitializeComponent()
-        Me.Memo = New CSGeneral.MemoUI
+        Me.Memo = New CSUserInterface.MemoUI
         Me.SuspendLayout()
         '
         'Memo

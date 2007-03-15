@@ -1,6 +1,7 @@
+Imports VBUserInterface
 <Global.Microsoft.VisualBasic.CompilerServices.DesignerGenerated()> _
 Partial Class OperationsUI
-    Inherits VBGeneral.BaseView
+    Inherits BaseView
 
     'Form overrides dispose to clean up the component list.
     <System.Diagnostics.DebuggerNonUserCode()> _

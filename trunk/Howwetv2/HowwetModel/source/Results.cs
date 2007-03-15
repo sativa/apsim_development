@@ -66,7 +66,7 @@ namespace APSRU.Model.Howwet
             drain = Math.Round(drain);
 
             //nitrate start
-            nitrateStart = MathUtility.Sum(dataIn.Soil.InitialNitrogen.NO3KgHa);
+            //dph nitrateStart = MathUtility.Sum(dataIn.Soil.InitialNitrogen.NO3KgHa);
             //Nitrate End
             DataRow lastRow = (DataRow)dataOut.Data.Rows[dataOut.Data.Rows.Count - 1];
             nitrateEnd = Convert.ToDouble(lastRow["NO3Total"]);
@@ -77,10 +77,10 @@ namespace APSRU.Model.Howwet
             nitrateGain = Math.Round(nitrateGain);
             
             //SoilWater Start
-            for (int layer = 0; layer < dataIn.Soil.InitialWater.SW.Length - 1; layer++)
-                {
-                soilWaterStart = soilWaterStart + (Math.Max((dataIn.Soil.InitialWater.SW[layer] - dataIn.Soil.LL(dataIn.GetCrop)[layer]),0.0) * dataIn.Soil.Thickness[layer]);
-                }
+            //dph             for (int layer = 0; layer < dataIn.Soil.InitialWater.SW.Length - 1; layer++)
+                //dph {
+                //dph soilWaterStart = soilWaterStart + (Math.Max((dataIn.Soil.InitialWater.SW[layer] - dataIn.Soil.LL(dataIn.GetCrop)[layer]),0.0) * dataIn.Soil.Thickness[layer]);
+            //dph }
             //SoilWater End
             soilWaterEndByLayer = (double[])lastRow["SoilWaterLayers"];
             for (int layer = 0; layer < soilWaterEndByLayer.Length; layer++)

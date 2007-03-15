@@ -10,11 +10,12 @@ using VBGeneral;
 using System.Collections;
 using FarPoint.Win.Spread;
 using Steema.TeeChart;
+using VBUserInterface;
 
 
 namespace Graph
     {
-    public partial class GraphUI : VBGeneral.BaseView
+    public partial class GraphUI : BaseView
         {
         public GraphUI()
             {

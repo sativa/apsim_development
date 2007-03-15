@@ -7,6 +7,8 @@ using CSGeneral;
 using VBGeneral;
 using System.IO;
 using System.Collections;
+using CSUserInterface;
+using Soils;
 
 namespace APSoil
 	{
@@ -106,9 +108,9 @@ namespace APSoil
 			DataTableUtility.AddColumn(Data, "Airdry", MySoil.Airdry, Row, NumLayers);
 			DataTableUtility.AddColumn(Data, "DUL", MySoil.DUL, Row, NumLayers);
 			DataTableUtility.AddColumn(Data, "SAT", MySoil.SAT, Row, NumLayers);
-			DataTableUtility.AddColumn(Data, "SW", MySoil.InitialWater.SW, Row, NumLayers);
-			DataTableUtility.AddColumn(Data, "NO3", MySoil.InitialNitrogen.NO3, Row, NumLayers);
-			DataTableUtility.AddColumn(Data, "NH4", MySoil.InitialNitrogen.NH4, Row, NumLayers);
+            //dph DataTableUtility.AddColumn(Data, "SW", MySoil.InitialWater.SW, Row, NumLayers);
+            //dph DataTableUtility.AddColumn(Data, "NO3", MySoil.InitialNitrogen.NO3, Row, NumLayers);
+            //dph DataTableUtility.AddColumn(Data, "NH4", MySoil.InitialNitrogen.NH4, Row, NumLayers);
 
 			foreach (string Crop in MySoil.Crops)
 				{
@@ -192,7 +194,7 @@ namespace APSoil
 			NewSoil.Airdry = GetDoubleValues(Table, "Airdry", NumLayers, Row, 3);
 			NewSoil.DUL = GetDoubleValues(Table, "DUL", NumLayers, Row, 3);
 			NewSoil.SAT = GetDoubleValues(Table, "SAT", NumLayers, Row, 3);
-			NewSoil.InitialWater.SetUsingLayered(GetDoubleValues(Table, "SW", NumLayers, Row, 2));
+            //dph NewSoil.InitialWater.SetUsingLayered(GetDoubleValues(Table, "SW", NumLayers, Row, 2));
 
             NewSoil.Texture = GetStringValues(Table, "Texture", NumLayers, Row);
             NewSoil.SWCON = GetDoubleValues(Table, "SWCON", NumLayers, Row, 2);
@@ -213,8 +215,8 @@ namespace APSoil
             NewSoil.ParticleSizeSand = GetDoubleValues(Table, "ParticleSizeSand", NumLayers, Row, 1);
             NewSoil.ParticleSizeSilt = GetDoubleValues(Table, "ParticleSizeSilt", NumLayers, Row, 1);
             NewSoil.ParticleSizeClay = GetDoubleValues(Table, "ParticleSizeClay", NumLayers, Row, 1);
-			NewSoil.InitialNitrogen.NO3 = GetDoubleValues(Table, "NO3", NumLayers, Row, 3);
-			NewSoil.InitialNitrogen.NH4 = GetDoubleValues(Table, "NH4", NumLayers, Row, 3);
+            //dph NewSoil.InitialNitrogen.NO3 = GetDoubleValues(Table, "NO3", NumLayers, Row, 3);
+            //dph NewSoil.InitialNitrogen.NH4 = GetDoubleValues(Table, "NH4", NumLayers, Row, 3);
 
 			// Now get a list of all crop names.
 			StringCollection Crops = new StringCollection();

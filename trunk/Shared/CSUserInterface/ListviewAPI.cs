@@ -2,7 +2,7 @@ using System;
 using System.Drawing;
 using System.Runtime.InteropServices;
 
-namespace CSGeneral
+namespace CSUserInterface
 {
 	public enum ImagePosition{
 		TopLeft,

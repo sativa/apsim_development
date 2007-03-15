@@ -4,6 +4,7 @@ Imports System.IO
 Imports System.Convert
 Imports CSGeneral
 Imports VBGeneral
+Imports VBUserInterface
 
 Public Class areaui
     Inherits BaseView
@@ -117,7 +118,7 @@ Public Class areaui
                 Dim x As String = Child.Attribute("x")
                 Dim y As String = Child.Attribute("y")
                 If x <> "" And y <> "" Then
-                    CSGeneral.ListViewAPI.SetItemPosition(ListView, item.Index, Convert.ToInt32(x), Convert.ToInt32(y))
+                    CSUserInterface.ListViewAPI.SetItemPosition(ListView, item.Index, Convert.ToInt32(x), Convert.ToInt32(y))
                 End If
             End If
         Next
@@ -128,7 +129,7 @@ Public Class areaui
             Dim TempFileName As String = Path.GetTempPath() + "\\apsimui.jpg"
             Dim b As Bitmap = CSUtility.DecodeStringToBitmap(BitmapNode.Value)
             b.Save(TempFileName)
-            CSGeneral.ListViewAPI.SetListViewImage(ListView, TempFileName, ImagePosition.TopLeft)
+            CSUserInterface.ListViewAPI.SetListViewImage(ListView, TempFileName, CSUserInterface.ImagePosition.TopLeft)
         End If
 
     End Sub
@@ -153,7 +154,7 @@ Public Class areaui
     Private Sub MenuItem1_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles MenuItem1.Click
         If OpenFileDialog.ShowDialog = DialogResult.OK Then
             Dim FileName As String = OpenFileDialog.FileName
-            CSGeneral.ListViewAPI.SetListViewImage(ListView, FileName, ImagePosition.TopLeft)
+            CSUserInterface.ListViewAPI.SetListViewImage(ListView, FileName, CSUserInterface.ImagePosition.TopLeft)
 
             Dim BitmapNode As APSIMData = Controller.Data.Child("bitmap")
             If IsNothing(BitmapNode) Then
@@ -203,7 +204,7 @@ Public Class areaui
             RefreshView(Controller)
         Else
             For Each item As ListViewItem In ListView.SelectedItems
-                CSGeneral.ListViewAPI.SetItemPosition(ListView, ListView.SelectedItems.Item(0).Index, p.X, p.Y)
+                CSUserInterface.ListViewAPI.SetItemPosition(ListView, ListView.SelectedItems.Item(0).Index, p.X, p.Y)
                 Dim child As APSIMData = Controller.Data.Child(item.Text)
                 child.SetAttribute("x", p.X.ToString)
                 child.SetAttribute("y", p.Y.ToString)
