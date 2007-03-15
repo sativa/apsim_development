@@ -20,6 +20,7 @@ Component    "manager" = c:\development\apsim\manager\lib\manager.dll
 Component   "soilwat2" = c:\development\apsim\soilwat2\lib\soilwat2.dll
 Component  "SurfaceOM" = c:\development\apsim\SurfaceOM\lib\SurfaceOM.dll
 Component     "soiln2" = c:\development\apsim\soiln2\lib\soiln2.dll
+Component     "SYSBAL" = c:\development\apsim\SYSBAL\lib\SYSBAL.dll
 Component  "sunflower" = c:\development\apsim\CropMod\lib\CropMod.dll
 
 ------- clock Initialisation --------------------------------------------------
@@ -368,12 +369,18 @@ Component  "sunflower" = c:\development\apsim\CropMod\lib\CropMod.dll
      Manager creating a new local real variable : supply_demand_ratio =     0.00000000000000
      Manager creating a new local real variable : dw1000gr =     0.00000000000000
      Manager creating a new local real variable : n_biomass =     0.00000000000000
+1 October 1974(Day of year=274), SYSBAL: 
+      **** N balance - unaccounted gain (kg/ha) =  249.999023
 2 October 1974(Day of year=275), sunflower: 
       stage    2.0 germination
 8 October 1974(Day of year=281), sunflower: 
       stage    3.0 emergence
                           biomass =           1.000000       lai =    0.2000000E-02
                           stover N conc =    5.000000       extractable sw =    84.09819
+8 October 1974(Day of year=281), SYSBAL: 
+      **** N balance - unaccounted gain (kg/ha) =  0.600148976
+      **** C balance - unaccounted gain (kg/ha) =  5.98762989
+      ****        equivalent DM as FOM  (kg/ha) =  14.9690742
 21 October 1974(Day of year=294), sunflower: 
       stage    4.0 end_of_juvenile
                           biomass =           8.967166       lai =    0.7507481E-01

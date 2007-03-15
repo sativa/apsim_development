@@ -20,6 +20,7 @@ Component    "manager" = c:\development\apsim\manager\lib\manager.dll
 Component   "soilwat2" = c:\development\apsim\soilwat2\lib\soilwat2.dll
 Component  "SurfaceOM" = c:\development\apsim\SurfaceOM\lib\SurfaceOM.dll
 Component     "soiln2" = c:\development\apsim\soiln2\lib\soiln2.dll
+Component     "SYSBAL" = c:\development\apsim\SYSBAL\lib\SYSBAL.dll
 Component  "sunflower" = c:\development\apsim\CropMod\lib\CropMod.dll
 
 ------- clock Initialisation --------------------------------------------------
@@ -371,6 +372,10 @@ Component  "sunflower" = c:\development\apsim\CropMod\lib\CropMod.dll
       stage    3.0 emergence
                           biomass =           1.000000       lai =    0.2000000E-02
                           stover N conc =    5.000000       extractable sw =    71.87910
+21 December 1980(Day of year=356), SYSBAL: 
+      **** N balance - unaccounted gain (kg/ha) =  0.601562500
+      **** C balance - unaccounted gain (kg/ha) =  6.00586510
+      ****        equivalent DM as FOM  (kg/ha) =  15.0146627
 4 January 1981(Day of year=4), sunflower: 
       stage    4.0 end_of_juvenile
                           biomass =           12.64900       lai =    0.9409056E-01
