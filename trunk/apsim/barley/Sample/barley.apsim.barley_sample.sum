@@ -19,6 +19,7 @@ Component   "soilwat2" = c:\development\apsim\soilwat2\lib\soilwat2.dll
 Component  "SurfaceOM" = c:\development\apsim\SurfaceOM\lib\SurfaceOM.dll
 Component     "soiln2" = c:\development\apsim\soiln2\lib\soiln2.dll
 Component     "barley" = c:\development\apsim\Plant\lib\Plant.dll
+Component     "sysbal" = c:\development\apsim\sysbal\lib\sysbal.dll
 
 ------- clock Initialisation --------------------------------------------------
      Sequencer phases:
@@ -396,6 +397,10 @@ Component     "barley" = c:\development\apsim\Plant\lib\Plant.dll
       stage 3.0 emergence
                      biomass =           0.55 (g/m^2)   lai          =   0.024 (m^2/m^2)
                      stover N conc =     5.85 (%)    extractable sw =   20.39 (mm)
+24 June 1988(Day of year=176), sysbal: 
+      **** N balance - unaccounted gain (kg/ha) =  0.562500000
+      **** C balance - unaccounted gain (kg/ha) =  6.99502468
+      ****        equivalent DM as FOM  (kg/ha) =  17.4875622
 25 June 1988(Day of year=177), barley: 
       stage 4.0 end_of_juvenile
                      biomass =           0.73 (g/m^2)   lai          =   0.027 (m^2/m^2)
