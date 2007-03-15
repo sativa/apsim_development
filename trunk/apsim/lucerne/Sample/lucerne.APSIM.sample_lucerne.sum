@@ -19,6 +19,7 @@ Component   "soilwat2" = c:\development\apsim\soilwat2\lib\soilwat2.dll
 Component  "SurfaceOM" = c:\development\apsim\SurfaceOM\lib\SurfaceOM.dll
 Component     "soiln2" = c:\development\apsim\soiln2\lib\soiln2.dll
 Component    "lucerne" = c:\development\apsim\Plant\lib\Plant.dll
+Component     "sysbal" = c:\development\apsim\sysbal\lib\sysbal.dll
 
 ------- clock Initialisation --------------------------------------------------
      Sequencer phases:
@@ -264,6 +265,10 @@ Component    "lucerne" = c:\development\apsim\Plant\lib\Plant.dll
       stage 3.0 emergence
                      biomass =           1.00 (g/m^2)   lai          =   0.000 (m^2/m^2)
                      stover N conc =     6.00 (%)    extractable sw =   27.53 (mm)
+7 June 1988(Day of year=159), sysbal: 
+      **** N balance - unaccounted gain (kg/ha) =  0.700195313
+      **** C balance - unaccounted gain (kg/ha) =  5.58710480
+      ****        equivalent DM as FOM  (kg/ha) =  13.9677620
 21 August 1988(Day of year=234), lucerne: 
       stage 4.0 end_of_juvenile
                      biomass =         123.23 (g/m^2)   lai          =   1.336 (m^2/m^2)
