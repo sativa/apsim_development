@@ -74,15 +74,22 @@ namespace ApsimToSim
                     bool convertSim = (SimNames.Length == 0 || Array.IndexOf(SimNames, SimName) != -1);
                     if (convertSim)
                         {
-                        StringWriter Out = new StringWriter();
+                        try
+                            {
+                            StringWriter Out = new StringWriter();
 
-                        WriteSimForComponent(child, Out, 0);
-                        Out.Close();
-                        string SortedContents = SortSim(Out.ToString());
+                            WriteSimForComponent(child, Out, 0);
+                            Out.Close();
+                            string SortedContents = SortSim(Out.ToString());
 
-                        StreamWriter FileOut = new StreamWriter(SimName + ".sim");
-                        FileOut.Write(SortedContents);
-                        FileOut.Close();
+                            StreamWriter FileOut = new StreamWriter(SimName + ".sim");
+                            FileOut.Write(SortedContents);
+                            FileOut.Close();
+                            }
+                        catch (Exception err)
+                            {
+                            throw new Exception(SimName + ": " + err.Message);
+                            }
                         }
                     }
                 if (child.Type.ToLower() == "folder")
