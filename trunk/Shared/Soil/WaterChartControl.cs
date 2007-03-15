@@ -6,6 +6,7 @@ using System.Data;
 using System.Windows.Forms;
 using CSGeneral;
 using VBGeneral;
+using Soils;
 
 namespace CSGeneral
 	{
@@ -823,7 +824,7 @@ namespace CSGeneral
 		// ---------------------------
 		private void PopulateWaterChart()
 			{
-            double[] CumThicknessMidPoints = MathUtility.Divide_Value(MySoil.CumThicknessMidPoints, 10);
+            double[] CumThicknessMidPoints = MathUtility.Divide_Value(Soils.Utility.ToMidPoints(MySoil.Thickness), 10);
             if (CumThicknessMidPoints.Length == 0)
                 return;
             if ((MySoil.SAT[MySoil.SAT.Length - 1] <= 1) && (MySoil.DUL[MySoil.DUL.Length - 1] <= 1) && (MySoil.LL15[MySoil.LL15.Length - 1] <= 1) && (MySoil.Airdry[MySoil.Airdry.Length - 1] <= 1))
@@ -832,10 +833,10 @@ namespace CSGeneral
                 DulLine.Add(MathUtility.Multiply_Value(MySoil.DUL, 100), CumThicknessMidPoints);
                 LL15Line.Add(MathUtility.Multiply_Value(MySoil.LL15, 100), CumThicknessMidPoints);
                 AirDryLine.Add(MathUtility.Multiply_Value(MySoil.Airdry, 100), CumThicknessMidPoints);
-                InitialWaterLine.Active = (ShowSW && MySoil.InitialWater.SW.Length > 0);
+                InitialWaterLine.Active = (ShowSW && MySoil.InitialSW.Length > 0);
                 InitialWaterLine.ShowInLegend = InitialWaterLine.Active;
 			    if (InitialWaterLine.Active)
-				    InitialWaterLine.Add(MathUtility.Multiply_Value(MySoil.InitialWater.SW, 100), CumThicknessMidPoints);
+				    InitialWaterLine.Add(MathUtility.Multiply_Value(MySoil.InitialSW, 100), CumThicknessMidPoints);
 
                 // remove existing crops.
                 while (WaterChart.Series.Count > 5)

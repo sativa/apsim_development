@@ -1,6 +1,7 @@
 using System;
 using CSGeneral;
 using VBGeneral;
+using Soils;
 
 namespace ChangeTool
 	{
@@ -15,9 +16,10 @@ namespace ChangeTool
 
 		// ------------------------------------------
 		// Upgrade the specified data
-		// to the 'current' version
+		// to the 'current' version. Returns true
+        // if something was upgraded.
 		// ------------------------------------------
-        public static void Upgrade(APSIMData Data)
+        public static bool Upgrade(APSIMData Data)
             {
             if (Data != null && Data.AttributeExists("version"))
                 {
@@ -45,14 +47,17 @@ namespace ChangeTool
                 // Upgrade from version 5 to 6.
                 if (DataVersion < 6)
                     Upgrade(Data, new UpgraderDelegate(UpdateToVersion6));
-                
+
                 // Upgrade from version 6 to 7.
                 if (DataVersion < 7)
                     Upgrade(Data, new UpgraderDelegate(UpdateToVersion7));
 
                 // All finished upgrading - write version number out.
                 Data.SetAttribute("version", CurrentVersion.ToString());
+                return (DataVersion != CurrentVersion);
                 }
+            else
+                return false;
             }
 
 
@@ -68,6 +73,7 @@ namespace ChangeTool
                 if (Child != null)
                     {
                     if (Child.Type.ToLower() == "area"
+                       || Child.Type.ToLower() == "paddock"
                        || Child.Type.ToLower() == "folder"
                        || Child.Type.ToLower() == "simulation"
                        || Child.Type.ToLower() == "manager"
@@ -90,7 +96,7 @@ namespace ChangeTool
 			{
 			if (Data.Type.ToLower() == "soil")
 				{
-                CSGeneral.Soil MySoil = new CSGeneral.Soil(Data);
+                Soil MySoil = new Soil(Data);
 				double[] thickness = MySoil.Thickness;
 				MySoil.UpgradeToVersion2();
 				}
@@ -123,7 +129,7 @@ namespace ChangeTool
 			{
 			if (Data.Type.ToLower() == "soil")
 				{
-                CSGeneral.Soil MySoil = new CSGeneral.Soil(Data);
+                Soil MySoil = new Soil(Data);
 				MySoil.UpgradeToVersion3();
 				}
 			else if (Data.Type.ToLower() == "sample")
@@ -302,13 +308,14 @@ namespace ChangeTool
             {
             if (Data.Type.ToLower() == "soil")
                 {
-                CSGeneral.Soil MySoil = new CSGeneral.Soil(Data);
-                MySoil.UpgradeToVersion7();
-                }
-            else if (Data.Type.ToLower() == "sample")
-                {
-                SoilSample MySample = new SoilSample(Data);
-                MySample.UpgradeToVersion7();
+                Soil MySoil = new Soil(Data);
+                APSIMData NewSoilData = MySoil.UpgradeToVersion7();
+                foreach (APSIMData Child in NewSoilData.get_Children("soilsample"))
+                    {
+                    Soil NewSoil = new Soil(NewSoilData);
+                    SoilSample MySample = new SoilSample(Child);
+                    MySample.UpgradeToVersion7();
+                    }
                 }
             }	
             	

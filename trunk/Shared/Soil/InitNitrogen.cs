@@ -1,67 +1,67 @@
 using System;
 using VBGeneral;
+using CSGeneral;
 
-namespace CSGeneral
+namespace Soils
 	{
 	//------------------------------------
 	// Encapsulates an initial water type
 	// -----------------------------------
-	public class InitNitrogen : SoilBase
+	public class InitNitrogen
 		{
 		private Soil ParentSoil;
+        private APSIMData Data;
 
-		// -----------
-		// Constructor
-		// -----------
 		public InitNitrogen(Soil soil)
-			: base(soil.Data)
 			{
-			ParentSoil = soil;
+            // -----------
+            // Constructor
+            // -----------
+            ParentSoil = soil;
+            Data = soil.Data.Child("InitNitrogen");
 			}
-
-
-		// ------------------------------------
-		// Return the soil water for this class
-		// ------------------------------------
 		public double[] NO3
 			{
-			get {return getLayered("InitNitrogen", "no3", "");}
-            set { setLayered("InitNitrogen", "no3", "", value); }
+            // ------------------------------------
+            // Return the nitrate for this class
+            // ------------------------------------
+            get { return Utility.getLayered(Data, "profile", "no3", ""); }
+            set { Utility.setLayered(Data, "profile", "no3", "", value); }
 			}
 
-		// ------------------------------------
-		// Return the soil water for this class
-		// ------------------------------------
 		public double[] NH4
 			{
-			get {return getLayered("InitNitrogen", "nh4", "");}
-            set { setLayered("InitNitrogen", "nh4", "", value); }
+            // ------------------------------------
+            // Return the ammonia for this class
+            // ------------------------------------
+            get { return Utility.getLayered(Data, "profile", "nh4", ""); }
+            set { Utility.setLayered(Data, "profile", "nh4", "", value); }
 			}
 
-		// ------------------------------------
-		// Return the soil water for this class
-		// ------------------------------------
 		public double[] NO3KgHa
 			{
-			get {return ToKgHa(NO3);}
-            set { setLayered("InitNitrogen", "no3", "", ToPpm(value)); }
+            // ------------------------------------
+            // Return the nitrate(kg/ha) for this class
+            // ------------------------------------
+            get { return ToKgHa(NO3); }
+            set { Utility.setLayered(Data, "profile", "no3", "", ToPpm(value)); }
 			}
 
-		// ------------------------------------
-		// Return the soil water for this class
-		// ------------------------------------
 		public double[] NH4KgHa
 			{
-			get {return ToKgHa(NH4);}
-            set { setLayered("InitNitrogen", "nh4", "", ToPpm(value)); }
+            // ------------------------------------
+            // Return the ammonia (kg/ha) for this class
+            // ------------------------------------
+            get { return ToKgHa(NH4); }
+            set { Utility.setLayered(Data, "profile", "nh4", "", ToPpm(value)); }
 			}
 
-		// ------------------------------------
-		// Return the soil water for this class
-		// ------------------------------------
 		public double TotalNO3KgHa
 			{
-			get {return MathUtility.Sum(ToKgHa(NO3));}
+            // ------------------------------------
+            // Return the total no3 (kg/ha) for this class
+            // ------------------------------------
+            get { return MathUtility.Sum(ToKgHa(NO3)); }
 			set {
 				double[] no3 = NO3KgHa;
 				double TotalNO3Required = value;
@@ -82,12 +82,12 @@ namespace CSGeneral
 				}
 			}
 
-		// ------------------------------------
-		// Return the soil water for this class
-		// ------------------------------------
 		public double TotalNH4KgHa
 			{
-			get {return MathUtility.Sum(ToKgHa(NH4));}
+            // ------------------------------------
+            // Return the total ammonia (kg/ha) for this class
+            // ------------------------------------
+            get { return MathUtility.Sum(ToKgHa(NH4)); }
 			set {
 				double[] nh4 = NH4KgHa;
 				double TotalNH4Required = value;
@@ -109,13 +109,13 @@ namespace CSGeneral
 			}
 
 
-		// ----------------------------------------------
-		// Convert from ppm to kg/ha
-		//		ppm = kg/ha * 100 / (BD * Thickness(mm))
-		// ----------------------------------------------
 		private double[] ToKgHa(double[] ppm)
 			{
-			double[] BD = ParentSoil.BD;
+            // ----------------------------------------------
+            // Convert from ppm to kg/ha
+            //		ppm = kg/ha * 100 / (BD * Thickness(mm))
+            // ----------------------------------------------
+            double[] BD = ParentSoil.BD;
 			double[] Thickness = ParentSoil.Thickness;
 			double[] KgHa = new double[ppm.Length];
 
@@ -127,13 +127,13 @@ namespace CSGeneral
 			}
 
 
-		// ----------------------------------------------
-		// Convert from ppm to kg/ha
-		//		ppm = kg/ha * 100 / (BD * Thickness(mm))
-		// ----------------------------------------------
 		private double[] ToPpm(double[] KgHa)
 			{
-			double[] BD = ParentSoil.BD;
+            // ----------------------------------------------
+            // Convert from ppm to kg/ha
+            //		ppm = kg/ha * 100 / (BD * Thickness(mm))
+            // ----------------------------------------------
+            double[] BD = ParentSoil.BD;
 			double[] Thickness = ParentSoil.Thickness;
 			double[] Ppm = new double[KgHa.Length];
 

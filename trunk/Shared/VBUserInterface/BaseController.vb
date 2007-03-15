@@ -633,6 +633,7 @@ Public MustInherit Class BaseController
             Dim Combo As CheckedListBoxCellType = New CheckedListBoxCellType
             Combo.Items = Prop.Attribute("listvalues").Split(",")
             Grid.Cells(Row, 1).CellType = Combo
+            Grid.Rows(Row).Height = 80
 
         ElseIf Prop.Attribute("type") = "filenames" Or Prop.Attribute("type") = "filename" Then
             If Prop.Attribute("type") = "filenames" Then
@@ -641,6 +642,7 @@ Public MustInherit Class BaseController
                 Text.MaxLength = 65536
                 Text.ScrollBars = ScrollBars.Both
                 Grid.Cells(Row, 1).CellType = Text
+                Grid.Rows(Row).Height = 80
             End If
 
             Grid.Columns(2).Visible = True
@@ -652,6 +654,7 @@ Public MustInherit Class BaseController
         ElseIf Prop.Attribute("type") = "multiedit" Then
             Dim Text As FarPoint.Win.Spread.CellType.TextCellType = New FarPoint.Win.Spread.CellType.TextCellType
             Text.Multiline = True
+            Text.MaxLength = 5000
             Grid.Cells(Row, 1).CellType = Text
             Grid.Rows(Row).Height = 80
         End If

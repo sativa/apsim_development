@@ -169,7 +169,7 @@ Public Class ExplorerUI
         End If
     End Sub
 
-    Private Sub SaveCurrentView()
+    Public Sub SaveCurrentView()
         ' -----------------------------------------------------
         ' Tell current view to save.
         ' -----------------------------------------------------

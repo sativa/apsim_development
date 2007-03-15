@@ -12,7 +12,6 @@ namespace Graph
     {
     public partial class GraphDataUI : VBGeneral.BaseView
         {
-        private string DataPath;
         private UInt32 DataWindow = 0;
         private GraphController GraphController;
 
@@ -47,10 +46,9 @@ namespace Graph
                 GraphData = GraphData.Parent;
 
             // Give all graph data to a newly created graphcontroller.
-            this.GraphController = new GraphController(Controller, GraphData.FullPath);
-
-            // Work out a data path relative to the root node data path.
-            DataPath = Controller.Data.FullPath.Replace(GraphData.FullPath + "\\", "");
+            this.GraphController = (GraphController)Controller;
+            if (this.GraphController == null)
+                this.GraphController = new GraphController(Controller.SmallImageList, GraphData);
 
             // Create a data window if necessary.
             if (DataWindow == 0)
@@ -69,10 +67,10 @@ namespace Graph
             GenericUI.RefreshView(GraphController);
 
             // refresh our data window
-            GraphController.RefreshDataWindow(DataWindow, DataPath);
+            GraphController.RefreshDataWindow(DataWindow, GraphController.Data.FullPath);
 
             // refresh our help text.
-            HelpText = GraphController.GetErrorMessage(DataPath);
+            HelpText = GraphController.GetErrorMessage(GraphController.Data.FullPath);
 
             DataPanel_Resize(null, null);
             }
@@ -84,7 +82,7 @@ namespace Graph
             // ----------------------------------------------------------
 
             // give new properties to our graph controller.
-            GraphController.SetProperties(DataPath, Controller.Data.XML);
+            GraphController.Save();
 
             PopulateView();
             }
@@ -96,6 +94,7 @@ namespace Graph
             // property changed event.
             // ----------------------------------------------------------
             base.Save();
+            OnPropertiesChanged();
             GenericUI.PropertiesChangedEvent -= new GenericUI.NotifyEventHandler(OnPropertiesChanged);
             if (DataWindow != 0)
                 {

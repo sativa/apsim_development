@@ -7,6 +7,7 @@ using System.Windows.Forms;
 using System.IO;
 using CSGeneral;
 using VBGeneral;
+using Soils;
 using FarPoint.Win.Spread;
 
 namespace CSGeneral
@@ -19,7 +20,7 @@ namespace CSGeneral
 		{
         private ApsoilController SoilController;
 		private System.ComponentModel.IContainer components = null;
-		private CSGeneral.Soil MySoil;
+		private Soil MySoil;
 		private System.Windows.Forms.ImageList ButtonImageList;
 		private static int NUMBER_OF_STATIC_COLS = 7;
 		private System.Windows.Forms.FontDialog fontDialog1;
@@ -792,7 +793,7 @@ namespace CSGeneral
 								FarPoint.Win.Spread.SpreadActions.MoveToNextRow); 
 					Grid_ActiveSheetChanged(null, null);
 					}
-				MySoil = new CSGeneral.Soil(this.SoilController.Data);
+				MySoil = new Soil(this.SoilController.Data);
 				ApsoilController Apsoil = this.SoilController as ApsoilController;
                 Apsoil.AddCropEvent -= new BaseController.NotifyEventHandler(Refresh);
 				Apsoil.AddCropEvent += new BaseController.NotifyEventHandler(Refresh);
@@ -898,7 +899,7 @@ namespace CSGeneral
 			{
 			UserChange = false;
             Water.ClearRange(0, 0, Water.RowCount, Water.ColumnCount, false);
-			GridUtils.SetColumnAsStrings(Water, 0, MySoil.DepthStrings);
+			GridUtils.SetColumnAsStrings(Water, 0, Soils.Utility.ToDepthStrings(MySoil.Thickness));
 			GridUtils.SetColumnAsDoubles(Water, 1, MySoil.BD);
             GridUtils.SetColumnAsDoubles(Water, 2, MySoil.Rocks);
 			GridUtils.SetColumnAsDoubles(Water, 3, MySoil.SAT);
@@ -1018,7 +1019,7 @@ namespace CSGeneral
 			int NumLayers = GridUtils.FindFirstBlankCell(Water, 0);
 			switch (ColumnIndex)
 				{
-				case 0: MySoil.DepthStrings = GridUtils.GetColumnAsStrings(Water, 0, NumLayers); break;
+				case 0: MySoil.Thickness = Soils.Utility.ToThickness(GridUtils.GetColumnAsStrings(Water, 0, NumLayers)); break;
 				case 1: MySoil.BD = GridUtils.GetColumnAsDoubles(Water, 1, NumLayers); break;
                 case 2: MySoil.Rocks = GridUtils.GetColumnAsDoubles(Water, 2, NumLayers); break;
                 case 3: MySoil.SAT = GridUtils.GetColumnAsDoubles(Water, 3, NumLayers); break;
@@ -1055,7 +1056,7 @@ namespace CSGeneral
 			{
 			UserChange = false;
 			SoilProfile.ClearRange(0, 0, SoilProfile.RowCount, SoilProfile.ColumnCount, true);
-			GridUtils.SetColumnAsStrings(SoilProfile, 0, MySoil.DepthStrings);
+			GridUtils.SetColumnAsStrings(SoilProfile, 0, Soils.Utility.ToDepthStrings(MySoil.Thickness));
             GridUtils.SetColumnAsStrings(SoilProfile, 1, MySoil.Texture);
             GridUtils.SetColumnAsDoubles(SoilProfile, 2, MySoil.SWCON);
 			GridUtils.SetColumnAsDoubles(SoilProfile, 3, MySoil.MWCON);
@@ -1246,7 +1247,7 @@ namespace CSGeneral
 			{
 			UserChange = false;
 			Phosphorus.ClearRange(0, 0, Phosphorus.RowCount, Phosphorus.ColumnCount, true);
-			GridUtils.SetColumnAsStrings(Phosphorus, 0, MySoil.DepthStrings);
+			GridUtils.SetColumnAsStrings(Phosphorus, 0, Soils.Utility.ToDepthStrings(MySoil.Thickness));
 			GridUtils.SetColumnAsDoubles(Phosphorus, 1, MySoil.LabileP);
 			GridUtils.SetColumnAsDoubles(Phosphorus, 2, MySoil.BandedP);
 			GridUtils.SetColumnAsDoubles(Phosphorus, 3, MySoil.RockP);
