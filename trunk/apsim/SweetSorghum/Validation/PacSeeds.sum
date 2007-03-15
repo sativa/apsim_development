@@ -9,13 +9,30 @@
  The Agricultural Production Systems Simulator
              Copyright(c) APSRU               
 
-     Version                = 5.2
-     Title                  = PacSeeds
-     Component DLL          = c:\development\apsim\summaryfile\lib\summaryfile.dll
-     Component DLL          = c:\development\apsim\clock\lib\clock.dll
-     Component DLL          = c:\development\apsim\input\lib\input.dll
-     Component DLL          = c:\development\apsim\protocolmanager\lib\protocolmanager.dll
-     Component DLL          = c:\development\apsim\protocolmanager\lib\protocolmanager.dll
+Version                = 5.3
+Title                  = PacSeeds
+Component      "clock" = c:\development\apsim\clock\lib\clock.dll
+Component        "met" = c:\development\apsim\input\lib\input.dll
+Paddock:
+Component "outputfile" = c:\development\apsim\report\lib\report.dll
+Component      "accum" = c:\development\apsim\accum\lib\accum.dll
+Component "fertiliser" = c:\development\apsim\fertiliz\lib\fertiliz.dll
+Component "Irrigation" = c:\development\apsim\irrigate\lib\irrigate.dll
+Component    "Manager" = c:\development\apsim\manager\lib\manager.dll
+Component "Soil Water" = c:\development\apsim\soilwat2\lib\soilwat2.dll
+Component "surface organic matter" = c:\development\apsim\surfaceom\lib\surfaceom.dll
+Component "Soil Nitrogen" = c:\development\apsim\soiln2\lib\soiln2.dll
+Component "SweetSorghum" = c:\development\apsim\plant\lib\plant.dll
+Paddock:
+Component "outputfile" = c:\development\apsim\report\lib\report.dll
+Component      "accum" = c:\development\apsim\accum\lib\accum.dll
+Component "fertiliser" = c:\development\apsim\fertiliz\lib\fertiliz.dll
+Component "Irrigation" = c:\development\apsim\irrigate\lib\irrigate.dll
+Component    "Manager" = c:\development\apsim\manager\lib\manager.dll
+Component "Soil Water" = c:\development\apsim\soilwat2\lib\soilwat2.dll
+Component "surface organic matter" = c:\development\apsim\surfaceom\lib\surfaceom.dll
+Component "Soil Nitrogen" = c:\development\apsim\soiln2\lib\soiln2.dll
+Component "SweetSorghum" = c:\development\apsim\plant\lib\plant.dll
 
 ------- clock Initialisation --------------------------------------------------
      Sequencer phases:
@@ -41,7 +58,7 @@
         SweetSorghum.stem_wt
         SweetSorghum.head_wt
         SweetSorghum.biomass_wt
-     
+
      Output file = PacSeeds Planting1.out
      Format = normal
 
@@ -165,7 +182,7 @@
            Using Ritchie evaporation model
             Cuml evap (U):            6.00 (mm^0.5)
             CONA:                     3.50 ()
-           Eo from priestly-taylor
+            Eo from priestly-taylor
 
 ------- surface organic matter Initialisation ---------------------------------
      
@@ -250,7 +267,7 @@
         SweetSorghum.stem_wt
         SweetSorghum.head_wt
         SweetSorghum.biomass_wt
-     
+
      Output file = PacSeeds Planting2.out
      Format = normal
 
@@ -374,7 +391,7 @@
            Using Ritchie evaporation model
             Cuml evap (U):            6.00 (mm^0.5)
             CONA:                     3.50 ()
-           Eo from priestly-taylor
+            Eo from priestly-taylor
 
 ------- surface organic matter Initialisation ---------------------------------
      
@@ -500,10 +517,10 @@
         y_tt_start_to_end_grain    =     200     200 (dd)
         tt_end_grain_to_maturity   =          5 (dd)
         tt_maturity_to_ripe        =          5 (dd)
-        x_pp_hi_incr               =       1.00      24.00
-        y_hi_incr                  =     0.0130     0.0130
-        x_hi_max_pot_stress        =       0.00       1.00
-        y_hi_max_pot               =       0.50       0.50
+        grains_per_gram_stem           =       10.0 (/g)
+        potential_grain_filling_rate   =     0.0020 (g/grain/day)
+        potential_grain_growth_rate    =     0.0000 (g/grain/day)
+        max_grain_size                 =     0.5000 (g)
          ------------------------------------------------
      
      
@@ -524,14 +541,12 @@
          -----------------------------------------------
          Extractable SW:   243mm in  1800mm total depth ( 14%).
          Crop factor for bounding water use is set to   1.1 times eo.
-15 September 2004(Day of year=259), Manager: 
      Manager sending message :- fertiliser apply  amount = 300 (kg/ha), depth = 50 (mm), type = no3_n
 15 September 2004(Day of year=259), fertiliser: 
      
         - Reading Fertiliser Type Parameters
        300.00 of N as nitrate (no3_n)
                                               added at depth   50.00 (layer   1)
-15 September 2004(Day of year=259), SweetSorghum: 
      
                       Crop Sowing Data
          ------------------------------------------------
@@ -577,7 +592,6 @@
                      stover N conc =     0.91 (%)    extractable sw =  153.71 (mm)
 8 January 2005(Day of year=8), Manager: 
      Manager sending message :- sweetsorghum harvest
-8 January 2005(Day of year=8), SweetSorghum: 
      
       flowering day          =  348                           stover (kg/ha)         =    21308.0
       maturity day           =    7                           grain yield (kg/ha)    =     2653.4
@@ -614,9 +628,7 @@
                           N  (kg/ha) =                 67.73                    0.00
      
       stage 11.0 end_crop
-8 January 2005(Day of year=8), Manager: 
      Manager sending message :- sweetsorghum end_crop
-8 January 2005(Day of year=8), SweetSorghum: 
      Crop ended. Yield (dw) =     0.0  (kg/ha)
          Organic matter from crop:-      Tops to surface residue      Roots to soil FOM
                           DM (kg/ha) =                  0.04                 4030.80
@@ -674,10 +686,10 @@
         y_tt_start_to_end_grain    =     200     200 (dd)
         tt_end_grain_to_maturity   =          5 (dd)
         tt_maturity_to_ripe        =          5 (dd)
-        x_pp_hi_incr               =       1.00      24.00
-        y_hi_incr                  =     0.0130     0.0130
-        x_hi_max_pot_stress        =       0.00       1.00
-        y_hi_max_pot               =       0.50       0.50
+        grains_per_gram_stem           =       10.0 (/g)
+        potential_grain_filling_rate   =     0.0020 (g/grain/day)
+        potential_grain_growth_rate    =     0.0000 (g/grain/day)
+        max_grain_size                 =     0.5000 (g)
          ------------------------------------------------
      
      
@@ -698,14 +710,12 @@
          -----------------------------------------------
          Extractable SW:   243mm in  1800mm total depth ( 14%).
          Crop factor for bounding water use is set to   1.1 times eo.
-12 January 2005(Day of year=12), Manager: 
      Manager sending message :- fertiliser apply  amount = 300 (kg/ha), depth = 50 (mm), type = no3_n
 12 January 2005(Day of year=12), fertiliser: 
      
         - Reading Fertiliser Type Parameters
        300.00 of N as nitrate (no3_n)
                                               added at depth   50.00 (layer   1)
-12 January 2005(Day of year=12), SweetSorghum: 
      
                       Crop Sowing Data
          ------------------------------------------------
@@ -751,7 +761,6 @@
                      stover N conc =     1.28 (%)    extractable sw =  100.89 (mm)
 2 May 2005(Day of year=122), Manager: 
      Manager sending message :- sweetsorghum harvest
-2 May 2005(Day of year=122), SweetSorghum: 
      
       flowering day          =   94                           stover (kg/ha)         =    18384.5
       maturity day           =  121                           grain yield (kg/ha)    =     2117.1
@@ -788,9 +797,7 @@
                           N  (kg/ha) =                 57.29                    0.00
      
       stage 11.0 end_crop
-2 May 2005(Day of year=122), Manager: 
      Manager sending message :- sweetsorghum end_crop
-2 May 2005(Day of year=122), SweetSorghum: 
      Crop ended. Yield (dw) =     0.0  (kg/ha)
          Organic matter from crop:-      Tops to surface residue      Roots to soil FOM
                           DM (kg/ha) =                  0.03                 3440.09
