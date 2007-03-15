@@ -207,10 +207,14 @@ void CMPScienceAPI::publish(const std::string& name)
 bool CMPScienceAPI::read(const std::string& name, const std::string& units, bool optional, [builtin.cpptype]& data[if [builtin.boundable] = T], [builtin.ctype] lower, [builtin.ctype] upper[endif])
    {
    [if [builtin.boundable] = T]
-   return componentInterface.read(name, CMPBuiltInBounded<[builtin.cpptype], [builtin.ctype] >(name, data, lower, upper), optional);
+   IPackableData* temp = new CMPBuiltInBounded<[builtin.cpptype], [builtin.ctype] >(name, data, lower, upper);
+   bool ok = componentInterface.read(name, temp, optional);
    [else]
-   return componentInterface.read(name, CMPBuiltIn<[builtin.cpptype] >(data), optional);
+   IPackableData* temp = new CMPBuiltIn<[builtin.cpptype] >(data);
+   bool ok = componentInterface.read(name, temp, optional);
    [endif]
+   delete temp;
+   return ok;
    }
 bool CMPScienceAPI::get(const std::string& name, const std::string& units, bool optional, [builtin.cpptype]& data[if [builtin.boundable] = T], [builtin.ctype] lower, [builtin.ctype] upper[endif])
    {

@@ -172,7 +172,7 @@ void CMPComponentInterface::set(const std::string& name,
 	sendMessage(requestSetValueMessage);
    }
 
-bool CMPComponentInterface::read(const std::string& parName, IPackableData& value, bool optional)
+bool CMPComponentInterface::read(const std::string& parName, IPackableData* value, bool optional)
    {
    // -----------------------------------------------------------------------
    // Read a parameter from the initial SIM script.
@@ -190,7 +190,7 @@ bool CMPComponentInterface::read(const std::string& parName, IPackableData& valu
                EqualToName<XMLNode>(parName));
    if (values.size() >= 1)
       {
-      value.setValue(values);
+      value->setValue(values);
       return true;
       }
    else if (!optional)

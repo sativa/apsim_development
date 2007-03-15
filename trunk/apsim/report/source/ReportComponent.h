@@ -28,7 +28,7 @@ class Field
       void writeToSummary(void);
 
    private:
-      ScienceAPI& scienceAPI;
+      ScienceAPI* scienceAPI;
       std::string fqn;
       std::string units;
       std::string kind;

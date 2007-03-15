@@ -34,7 +34,10 @@ void CMPScienceAPI::publish(const std::string& name)
 // bool
 bool CMPScienceAPI::read(const std::string& name, const std::string& units, bool optional, bool& data)
    {
-   return componentInterface.read(name, CMPBuiltIn<bool >(data), optional);
+   IPackableData* temp = new CMPBuiltIn<bool >(data);
+   bool ok = componentInterface.read(name, temp, optional);
+   delete temp;
+   return ok;
    }
 bool CMPScienceAPI::get(const std::string& name, const std::string& units, bool optional, bool& data)
    {
@@ -62,7 +65,10 @@ void CMPScienceAPI::publish(const std::string& name, bool& data)
 // int
 bool CMPScienceAPI::read(const std::string& name, const std::string& units, bool optional, int& data, int lower, int upper)
    {
-   return componentInterface.read(name, CMPBuiltInBounded<int, int >(name, data, lower, upper), optional);
+   IPackableData* temp = new CMPBuiltInBounded<int, int >(name, data, lower, upper);
+   bool ok = componentInterface.read(name, temp, optional);
+   delete temp;
+   return ok;
    }
 bool CMPScienceAPI::get(const std::string& name, const std::string& units, bool optional, int& data, int lower, int upper)
    {
@@ -90,7 +96,10 @@ void CMPScienceAPI::publish(const std::string& name, int& data)
 // float
 bool CMPScienceAPI::read(const std::string& name, const std::string& units, bool optional, float& data, float lower, float upper)
    {
-   return componentInterface.read(name, CMPBuiltInBounded<float, float >(name, data, lower, upper), optional);
+   IPackableData* temp = new CMPBuiltInBounded<float, float >(name, data, lower, upper);
+   bool ok = componentInterface.read(name, temp, optional);
+   delete temp;
+   return ok;
    }
 bool CMPScienceAPI::get(const std::string& name, const std::string& units, bool optional, float& data, float lower, float upper)
    {
@@ -118,7 +127,10 @@ void CMPScienceAPI::publish(const std::string& name, float& data)
 // double
 bool CMPScienceAPI::read(const std::string& name, const std::string& units, bool optional, double& data, double lower, double upper)
    {
-   return componentInterface.read(name, CMPBuiltInBounded<double, double >(name, data, lower, upper), optional);
+   IPackableData* temp = new CMPBuiltInBounded<double, double >(name, data, lower, upper);
+   bool ok = componentInterface.read(name, temp, optional);
+   delete temp;
+   return ok;
    }
 bool CMPScienceAPI::get(const std::string& name, const std::string& units, bool optional, double& data, double lower, double upper)
    {
@@ -146,7 +158,10 @@ void CMPScienceAPI::publish(const std::string& name, double& data)
 // std::string
 bool CMPScienceAPI::read(const std::string& name, const std::string& units, bool optional, std::string& data)
    {
-   return componentInterface.read(name, CMPBuiltIn<std::string >(data), optional);
+   IPackableData* temp = new CMPBuiltIn<std::string >(data);
+   bool ok = componentInterface.read(name, temp, optional);
+   delete temp;
+   return ok;
    }
 bool CMPScienceAPI::get(const std::string& name, const std::string& units, bool optional, std::string& data)
    {
@@ -174,7 +189,10 @@ void CMPScienceAPI::publish(const std::string& name, std::string& data)
 // std::vector<bool>
 bool CMPScienceAPI::read(const std::string& name, const std::string& units, bool optional, std::vector<bool>& data)
    {
-   return componentInterface.read(name, CMPBuiltIn<std::vector<bool> >(data), optional);
+   IPackableData* temp = new CMPBuiltIn<std::vector<bool> >(data);
+   bool ok = componentInterface.read(name, temp, optional);
+   delete temp;
+   return ok;
    }
 bool CMPScienceAPI::get(const std::string& name, const std::string& units, bool optional, std::vector<bool>& data)
    {
@@ -202,7 +220,10 @@ void CMPScienceAPI::publish(const std::string& name, std::vector<bool>& data)
 // std::vector<int>
 bool CMPScienceAPI::read(const std::string& name, const std::string& units, bool optional, std::vector<int>& data, int lower, int upper)
    {
-   return componentInterface.read(name, CMPBuiltInBounded<std::vector<int>, int >(name, data, lower, upper), optional);
+   IPackableData* temp = new CMPBuiltInBounded<std::vector<int>, int >(name, data, lower, upper);
+   bool ok = componentInterface.read(name, temp, optional);
+   delete temp;
+   return ok;
    }
 bool CMPScienceAPI::get(const std::string& name, const std::string& units, bool optional, std::vector<int>& data, int lower, int upper)
    {
@@ -230,7 +251,10 @@ void CMPScienceAPI::publish(const std::string& name, std::vector<int>& data)
 // std::vector<float>
 bool CMPScienceAPI::read(const std::string& name, const std::string& units, bool optional, std::vector<float>& data, float lower, float upper)
    {
-   return componentInterface.read(name, CMPBuiltInBounded<std::vector<float>, float >(name, data, lower, upper), optional);
+   IPackableData* temp = new CMPBuiltInBounded<std::vector<float>, float >(name, data, lower, upper);
+   bool ok = componentInterface.read(name, temp, optional);
+   delete temp;
+   return ok;
    }
 bool CMPScienceAPI::get(const std::string& name, const std::string& units, bool optional, std::vector<float>& data, float lower, float upper)
    {
@@ -258,7 +282,10 @@ void CMPScienceAPI::publish(const std::string& name, std::vector<float>& data)
 // std::vector<double>
 bool CMPScienceAPI::read(const std::string& name, const std::string& units, bool optional, std::vector<double>& data, double lower, double upper)
    {
-   return componentInterface.read(name, CMPBuiltInBounded<std::vector<double>, double >(name, data, lower, upper), optional);
+   IPackableData* temp = new CMPBuiltInBounded<std::vector<double>, double >(name, data, lower, upper);
+   bool ok = componentInterface.read(name, temp, optional);
+   delete temp;
+   return ok;
    }
 bool CMPScienceAPI::get(const std::string& name, const std::string& units, bool optional, std::vector<double>& data, double lower, double upper)
    {
@@ -286,7 +313,10 @@ void CMPScienceAPI::publish(const std::string& name, std::vector<double>& data)
 // std::vector<std::string>
 bool CMPScienceAPI::read(const std::string& name, const std::string& units, bool optional, std::vector<std::string>& data)
    {
-   return componentInterface.read(name, CMPBuiltIn<std::vector<std::string> >(data), optional);
+   IPackableData* temp = new CMPBuiltIn<std::vector<std::string> >(data);
+   bool ok = componentInterface.read(name, temp, optional);
+   delete temp;
+   return ok;
    }
 bool CMPScienceAPI::get(const std::string& name, const std::string& units, bool optional, std::vector<std::string>& data)
    {
