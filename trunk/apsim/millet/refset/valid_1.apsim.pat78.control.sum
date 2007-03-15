@@ -28,6 +28,7 @@ Component    "millet2" = c:\development\apsim\millet\lib\millet.dll
 Component    "millet3" = c:\development\apsim\millet\lib\millet.dll
 Component    "millet4" = c:\development\apsim\millet\lib\millet.dll
 Component    "millet5" = c:\development\apsim\millet\lib\millet.dll
+Component     "sysbal" = c:\development\apsim\sysbal\lib\sysbal.dll
 
 ------- clock Initialisation --------------------------------------------------
      Sequencer phases:
@@ -458,6 +459,10 @@ Component    "millet5" = c:\development\apsim\millet\lib\millet.dll
       stage    3.0 emergence
                           biomass =          0.8880001E-01   lai =    0.4440000E-02
                           stover N conc =    4.399999       extractable sw =    12.58493
+28 June 1978(Day of year=179), sysbal: 
+      **** N balance - unaccounted gain (kg/ha) =  6.76052123E-02
+      **** C balance - unaccounted gain (kg/ha) =  0.887718201
+      ****        equivalent DM as FOM  (kg/ha) =  2.21929550
 7 July 1978(Day of year=188), operatns: 
       Sending apply message to fertiliz
 7 July 1978(Day of year=188), fertiliz: 
@@ -526,6 +531,8 @@ Component    "millet5" = c:\development\apsim\millet\lib\millet.dll
       stage    3.0 emergence
                           biomass =          0.2220000E-01   lai =    0.4440000E-02
                           stover N conc =    4.400001       extractable sw =    19.40747
+7 July 1978(Day of year=188), sysbal: 
+      **** N balance - unaccounted gain (kg/ha) =  80.0095673
 10 July 1978(Day of year=191), millet2: 
      Initiate
      
@@ -784,6 +791,8 @@ Component    "millet5" = c:\development\apsim\millet\lib\millet.dll
       stage    3.0 emergence
                           biomass =          0.2220000E-01   lai =    0.4440000E-02
                           stover N conc =    4.400001       extractable sw =    20.39844
+17 July 1978(Day of year=198), sysbal: 
+      **** N balance - unaccounted gain (kg/ha) =  1.02288723E-02
 19 July 1978(Day of year=200), millet1: 
       stage    5.0 floral_initiation
                           biomass =           10.69136       lai =    0.2958235
@@ -827,6 +836,8 @@ Component    "millet5" = c:\development\apsim\millet\lib\millet.dll
         - Reading Fertiliser Type Parameters
         80.00 of N as nitrate (no3_n)
                                               added at depth   10.00 (layer   1)
+28 July 1978(Day of year=209), sysbal: 
+      **** N balance - unaccounted gain (kg/ha) =  80.0002213
 6 August 1978(Day of year=218), millet: 
       stage    6.0 flag_leaf
                           biomass =           337.9004       lai =     2.086430
@@ -1027,6 +1038,10 @@ Component    "millet5" = c:\development\apsim\millet\lib\millet.dll
      Residue removed using burn
                                              Fraction Incorporated =     1.00
                                              Incorporated Depth    =     0.00
+16 August 1978(Day of year=228), sysbal: 
+      **** N balance - unaccounted loss (kg/ha) =  -14.8683796
+      **** C balance - unaccounted loss (kg/ha) =  -325.582733
+      ****        equivalent DM as FOM  (kg/ha) =  -813.956848
 18 August 1978(Day of year=230), millet4: 
      plant_kill. 100% failure because of barreness.
          kill. Standing above-ground dm =    48.8 (kg/ha)
@@ -1100,6 +1115,10 @@ Component    "millet5" = c:\development\apsim\millet\lib\millet.dll
      Residue removed using burn
                                              Fraction Incorporated =     1.00
                                              Incorporated Depth    =     0.00
+18 August 1978(Day of year=230), sysbal: 
+      **** N balance - unaccounted loss (kg/ha) =  -0.991173506
+      **** C balance - unaccounted loss (kg/ha) =  -20.1038799
+      ****        equivalent DM as FOM  (kg/ha) =  -50.2597008
 19 August 1978(Day of year=231), millet5: 
      plant_kill. 100% failure because of barreness.
          kill. Standing above-ground dm =    22.9 (kg/ha)
@@ -1173,6 +1192,10 @@ Component    "millet5" = c:\development\apsim\millet\lib\millet.dll
      Residue removed using burn
                                              Fraction Incorporated =     1.00
                                              Incorporated Depth    =     0.00
+19 August 1978(Day of year=231), sysbal: 
+      **** N balance - unaccounted loss (kg/ha) =  -0.498764992
+      **** C balance - unaccounted loss (kg/ha) =  -9.36409092
+      ****        equivalent DM as FOM  (kg/ha) =  -23.4102268
 8 September 1978(Day of year=251), millet: 
       stage    9.0 end_grain_fill
                           biomass =           768.8940       lai =    0.7191672
@@ -1335,5 +1358,9 @@ Component    "millet5" = c:\development\apsim\millet\lib\millet.dll
      Residue removed using burn
                                              Fraction Incorporated =     1.00
                                              Incorporated Depth    =     0.00
+11 September 1978(Day of year=254), sysbal: 
+      **** N balance - unaccounted loss (kg/ha) =  -52.2251930
+      **** C balance - unaccounted loss (kg/ha) =  -2794.19824
+      ****        equivalent DM as FOM  (kg/ha) =  -6985.49561
 30 September 1978(Day of year=273), clock: 
      Simulation is terminating due to end criteria being met.

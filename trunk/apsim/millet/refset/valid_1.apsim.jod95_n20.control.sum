@@ -28,6 +28,7 @@ Component    "millet2" = c:\development\apsim\millet\lib\millet.dll
 Component    "millet3" = c:\development\apsim\millet\lib\millet.dll
 Component    "millet4" = c:\development\apsim\millet\lib\millet.dll
 Component    "millet5" = c:\development\apsim\millet\lib\millet.dll
+Component     "sysbal" = c:\development\apsim\sysbal\lib\sysbal.dll
 
 ------- clock Initialisation --------------------------------------------------
      Sequencer phases:
@@ -422,9 +423,13 @@ Component    "millet5" = c:\development\apsim\millet\lib\millet.dll
 ------- Start of simulation  --------------------------------------------------
 29 June 1995(Day of year=180), operatns: 
       Sending set message to soilwat2
+29 June 1995(Day of year=180), sysbal: 
+      **** SW balance - unaccounted gain (mm) =  145.867386
 30 June 1995(Day of year=181), operatns: 
       Sending set message to soiln2
       Sending set message to soiln2
+30 June 1995(Day of year=181), sysbal: 
+      **** N balance - unaccounted loss (kg/ha) =  -109.734245
 6 July 1995(Day of year=187), operatns: 
       Sending apply message to fertiliz
 6 July 1995(Day of year=187), fertiliz: 
@@ -432,6 +437,8 @@ Component    "millet5" = c:\development\apsim\millet\lib\millet.dll
         - Reading Fertiliser Type Parameters
         20.00 of N as nitrate (no3_n)
                                               added at depth   70.00 (layer   1)
+6 July 1995(Day of year=187), sysbal: 
+      **** N balance - unaccounted gain (kg/ha) =  19.9999638
 21 July 1995(Day of year=202), operatns: 
       Sending sow message to millet
 21 July 1995(Day of year=202), millet: 
@@ -498,10 +505,18 @@ Component    "millet5" = c:\development\apsim\millet\lib\millet.dll
       stage    3.0 emergence
                           biomass =          0.3600000E-01   lai =    0.1800000E-02
                           stover N conc =    4.400000       extractable sw =    6.457686
+24 July 1995(Day of year=205), sysbal: 
+      **** N balance - unaccounted gain (kg/ha) =  2.78320313E-02
+      **** C balance - unaccounted gain (kg/ha) =  0.357427359
+      ****        equivalent DM as FOM  (kg/ha) =  0.893568397
 28 July 1995(Day of year=209), operatns: 
       Sending set message to soilwat2
+28 July 1995(Day of year=209), sysbal: 
+      **** SW balance - unaccounted loss (mm) =  -31.0501556
 31 July 1995(Day of year=212), operatns: 
       Sending set message to soilwat2
+31 July 1995(Day of year=212), sysbal: 
+      **** SW balance - unaccounted gain (mm) =  29.9321976
 1 August 1995(Day of year=213), millet1: 
      Initiate
      
@@ -626,6 +641,8 @@ Component    "millet5" = c:\development\apsim\millet\lib\millet.dll
       stage    3.0 emergence
                           biomass =          0.9000001E-02   lai =    0.1800000E-02
                           stover N conc =    4.400000       extractable sw =    6.503257
+3 August 1995(Day of year=215), sysbal: 
+      **** SW balance - unaccounted loss (mm) =  -5.87554550
 5 August 1995(Day of year=217), millet3: 
      Initiate
      
@@ -751,6 +768,8 @@ Component    "millet5" = c:\development\apsim\millet\lib\millet.dll
      
      
      
+7 August 1995(Day of year=219), sysbal: 
+      **** SW balance - unaccounted gain (mm) =  3.13511753
 8 August 1995(Day of year=220), millet4: 
       stage    3.0 emergence
                           biomass =          0.9000001E-02   lai =    0.1800000E-02
@@ -827,6 +846,8 @@ Component    "millet5" = c:\development\apsim\millet\lib\millet.dll
       stage    5.0 floral_initiation
                           biomass =           10.39852       lai =    0.1443819
                           stover N conc =    3.923485       extractable sw =    23.56297
+9 August 1995(Day of year=221), sysbal: 
+      **** SW balance - unaccounted gain (mm) =  1.76415539
 10 August 1995(Day of year=222), millet2: 
       stage    4.0 end_of_juvenile
                           biomass =          0.9046694       lai =    0.4080640E-01
@@ -849,6 +870,8 @@ Component    "millet5" = c:\development\apsim\millet\lib\millet.dll
                           stover N conc =    3.469121       extractable sw =    5.609813
 17 August 1995(Day of year=229), operatns: 
       Sending set message to soilwat2
+17 August 1995(Day of year=229), sysbal: 
+      **** SW balance - unaccounted gain (mm) =  5.72108841
 19 August 1995(Day of year=231), millet4: 
       stage    4.0 end_of_juvenile
                           biomass =          0.5674418       lai =    0.2108440E-01
@@ -871,8 +894,12 @@ Component    "millet5" = c:\development\apsim\millet\lib\millet.dll
      plant_kill.   1% failure because of water stress.
 24 August 1995(Day of year=236), operatns: 
       Sending set message to soilwat2
+24 August 1995(Day of year=236), sysbal: 
+      **** SW balance - unaccounted gain (mm) =  13.9703798
 26 August 1995(Day of year=238), operatns: 
       Sending set message to soilwat2
+26 August 1995(Day of year=238), sysbal: 
+      **** SW balance - unaccounted gain (mm) =  28.4936485
 27 August 1995(Day of year=239), millet: 
       stage    6.0 flag_leaf
                           biomass =           158.9397       lai =    0.8541197
@@ -891,6 +918,8 @@ Component    "millet5" = c:\development\apsim\millet\lib\millet.dll
       stage    6.0 flag_leaf
                           biomass =           25.48705       lai =    0.4266166
                           stover N conc =    1.842018       extractable sw =    59.62432
+29 August 1995(Day of year=241), sysbal: 
+      **** SW balance - unaccounted loss (mm) =  -23.9217777
 30 August 1995(Day of year=242), millet: 
       stage    7.0 flowering
                           biomass =           191.8898       lai =    0.8247713
@@ -905,6 +934,8 @@ Component    "millet5" = c:\development\apsim\millet\lib\millet.dll
       stage    7.0 flowering
                           biomass =           70.59081       lai =    0.6996785
                           stover N conc =    1.419923       extractable sw =    58.89436
+1 September 1995(Day of year=244), sysbal: 
+      **** SW balance - unaccounted loss (mm) =  -6.08261585
 2 September 1995(Day of year=245), millet3: 
       stage    7.0 flowering
                           biomass =           35.41192       lai =    0.4153002
@@ -935,6 +966,8 @@ Component    "millet5" = c:\development\apsim\millet\lib\millet.dll
                           stover N conc =    1.883920       extractable sw =    18.20644
 8 September 1995(Day of year=251), operatns: 
       Sending set message to soilwat2
+8 September 1995(Day of year=251), sysbal: 
+      **** SW balance - unaccounted loss (mm) =  -1.92361498
 10 September 1995(Day of year=253), millet4: 
       stage    7.0 flowering
                           biomass =           8.620086       lai =    0.8913885E-01
@@ -1087,10 +1120,18 @@ Component    "millet5" = c:\development\apsim\millet\lib\millet.dll
      Residue removed using burn
                                              Fraction Incorporated =     1.00
                                              Incorporated Depth    =     0.00
+14 September 1995(Day of year=257), sysbal: 
+      **** N balance - unaccounted loss (kg/ha) =  -2.38769531
+      **** C balance - unaccounted loss (kg/ha) =  -75.6179886
+      ****        equivalent DM as FOM  (kg/ha) =  -189.044968
 15 September 1995(Day of year=258), operatns: 
       Sending set message to soilwat2
+15 September 1995(Day of year=258), sysbal: 
+      **** SW balance - unaccounted loss (mm) =  -6.98752928
 22 September 1995(Day of year=265), operatns: 
       Sending set message to soilwat2
+22 September 1995(Day of year=265), sysbal: 
+      **** SW balance - unaccounted loss (mm) =  -10.4483700
 23 September 1995(Day of year=266), millet1: 
       stage    9.0 end_grain_fill
                           biomass =           206.7402       lai =    0.2309268
@@ -1189,6 +1230,10 @@ Component    "millet5" = c:\development\apsim\millet\lib\millet.dll
      Residue removed using burn
                                              Fraction Incorporated =     1.00
                                              Incorporated Depth    =     0.00
+25 September 1995(Day of year=268), sysbal: 
+      **** N balance - unaccounted loss (kg/ha) =  -24.7335548
+      **** C balance - unaccounted loss (kg/ha) =  -1142.18494
+      ****        equivalent DM as FOM  (kg/ha) =  -2855.46240
 26 September 1995(Day of year=269), millet1: 
       stage   11.0 harvest_ripe
                           biomass =           210.1553       lai =    0.1799911E-02
@@ -1271,6 +1316,10 @@ Component    "millet5" = c:\development\apsim\millet\lib\millet.dll
      Residue removed using burn
                                              Fraction Incorporated =     1.00
                                              Incorporated Depth    =     0.00
+26 September 1995(Day of year=269), sysbal: 
+      **** N balance - unaccounted loss (kg/ha) =  -12.9213581
+      **** C balance - unaccounted loss (kg/ha) =  -648.749634
+      ****        equivalent DM as FOM  (kg/ha) =  -1621.87402
 27 September 1995(Day of year=270), millet2: 
       stage   11.0 harvest_ripe
                           biomass =           138.8207       lai =    0.1800120E-02
@@ -1417,18 +1466,34 @@ Component    "millet5" = c:\development\apsim\millet\lib\millet.dll
      Residue removed using burn
                                              Fraction Incorporated =     1.00
                                              Incorporated Depth    =     0.00
+27 September 1995(Day of year=270), sysbal: 
+      **** N balance - unaccounted loss (kg/ha) =  -12.3629169
+      **** C balance - unaccounted loss (kg/ha) =  -646.409058
+      ****        equivalent DM as FOM  (kg/ha) =  -1616.02258
 29 September 1995(Day of year=272), operatns: 
       Sending set message to soilwat2
+29 September 1995(Day of year=272), sysbal: 
+      **** SW balance - unaccounted loss (mm) =  -2.05935669
 6 October 1995(Day of year=279), operatns: 
       Sending set message to soilwat2
+6 October 1995(Day of year=279), sysbal: 
+      **** SW balance - unaccounted loss (mm) =  -6.71565247
 10 October 1995(Day of year=283), operatns: 
       Sending set message to soiln2
       Sending set message to soiln2
+10 October 1995(Day of year=283), sysbal: 
+      **** N balance - unaccounted gain (kg/ha) =  68.7075195
 13 October 1995(Day of year=286), operatns: 
       Sending set message to soilwat2
+13 October 1995(Day of year=286), sysbal: 
+      **** SW balance - unaccounted loss (mm) =  -4.65836811
 20 October 1995(Day of year=293), operatns: 
       Sending set message to soilwat2
+20 October 1995(Day of year=293), sysbal: 
+      **** SW balance - unaccounted loss (mm) =  -1.55204296
 27 October 1995(Day of year=300), operatns: 
       Sending set message to soilwat2
+27 October 1995(Day of year=300), sysbal: 
+      **** SW balance - unaccounted gain (mm) =  1.72779083
 31 October 1995(Day of year=304), clock: 
      Simulation is terminating due to end criteria being met.
