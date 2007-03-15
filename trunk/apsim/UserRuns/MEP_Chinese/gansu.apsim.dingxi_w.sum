@@ -21,6 +21,7 @@ Component  "SurfaceOM" = c:\development\apsim\SurfaceOM\lib\SurfaceOM.dll
 Component     "soiln2" = c:\development\apsim\soiln2\lib\soiln2.dll
 Component      "wheat" = c:\development\apsim\plant\lib\plant.dll
 Component   "tracker1" = c:\development\apsim\tracker\lib\tracker.dll
+Component     "sysbal" = c:\development\apsim\sysbal\lib\sysbal.dll
 
 ------- clock Initialisation --------------------------------------------------
      Sequencer phases:
@@ -336,6 +337,8 @@ Component   "tracker1" = c:\development\apsim\tracker\lib\tracker.dll
         - Reading Fertiliser Type Parameters
         30.00 of N as ammonium (nh4_n)
                                               added at depth   50.00 (layer   1)
+16 March 1970(Day of year=75), sysbal: 
+      **** N balance - unaccounted gain (kg/ha) =  29.9990234
 17 March 1970(Day of year=76), wheat: 
       stage 2.0 germination
 31 March 1970(Day of year=90), manager: 
@@ -344,6 +347,10 @@ Component   "tracker1" = c:\development\apsim\tracker\lib\tracker.dll
       stage 3.0 emergence
                      biomass =           1.84 (g/m^2)   lai          =   0.080 (m^2/m^2)
                      stover N conc =     5.85 (%)    extractable sw =   12.90 (mm)
+10 April 1970(Day of year=100), sysbal: 
+      **** N balance - unaccounted gain (kg/ha) =  1.87695313
+      **** C balance - unaccounted gain (kg/ha) =  23.3557014
+      ****        equivalent DM as FOM  (kg/ha) =  58.3892517
 11 April 1970(Day of year=101), wheat: 
       stage 4.0 end_of_juvenile
                      biomass =           1.85 (g/m^2)   lai          =   0.080 (m^2/m^2)
@@ -355,6 +362,8 @@ Component   "tracker1" = c:\development\apsim\tracker\lib\tracker.dll
         - Reading Fertiliser Type Parameters
        120.00 of N as ammonium (nh4_n)
                                               added at depth   50.00 (layer   1)
+30 April 1970(Day of year=120), sysbal: 
+      **** N balance - unaccounted gain (kg/ha) =  120.000000
 21 May 1970(Day of year=141), wheat: 
       stage 5.0 floral_initiation
                      biomass =         240.02 (g/m^2)   lai          =   2.257 (m^2/m^2)
@@ -431,6 +440,10 @@ Component   "tracker1" = c:\development\apsim\tracker\lib\tracker.dll
      Residue removed using user_defined
                                              Fraction Incorporated =     0.95
                                              Incorporated Depth    =     0.00
+6 August 1970(Day of year=218), sysbal: 
+      **** N balance - unaccounted loss (kg/ha) =  -37.7656708
+      **** C balance - unaccounted loss (kg/ha) =  -1635.57910
+      ****        equivalent DM as FOM  (kg/ha) =  -4088.94775
 16 March 1971(Day of year=75), manager: 
      Manager sending message :- surfaceom tillage  type = planter
 16 March 1971(Day of year=75), SurfaceOM: 
@@ -492,12 +505,18 @@ Component   "tracker1" = c:\development\apsim\tracker\lib\tracker.dll
         - Reading Fertiliser Type Parameters
         30.00 of N as ammonium (nh4_n)
                                               added at depth   50.00 (layer   1)
+16 March 1971(Day of year=75), sysbal: 
+      **** N balance - unaccounted gain (kg/ha) =  30.0019531
 17 March 1971(Day of year=76), wheat: 
       stage 2.0 germination
 1 April 1971(Day of year=91), wheat: 
       stage 3.0 emergence
                      biomass =           1.84 (g/m^2)   lai          =   0.080 (m^2/m^2)
                      stover N conc =     5.85 (%)    extractable sw =   12.75 (mm)
+1 April 1971(Day of year=91), sysbal: 
+      **** N balance - unaccounted gain (kg/ha) =  1.87402344
+      **** C balance - unaccounted gain (kg/ha) =  23.3718624
+      ****        equivalent DM as FOM  (kg/ha) =  58.4296570
 2 April 1971(Day of year=92), wheat: 
       stage 4.0 end_of_juvenile
                      biomass =           2.57 (g/m^2)   lai          =   0.092 (m^2/m^2)
@@ -509,6 +528,8 @@ Component   "tracker1" = c:\development\apsim\tracker\lib\tracker.dll
         - Reading Fertiliser Type Parameters
        120.00 of N as ammonium (nh4_n)
                                               added at depth   50.00 (layer   1)
+30 April 1971(Day of year=120), sysbal: 
+      **** N balance - unaccounted gain (kg/ha) =  119.999023
 14 May 1971(Day of year=134), wheat: 
       stage 5.0 floral_initiation
                      biomass =         149.62 (g/m^2)   lai          =   1.300 (m^2/m^2)
@@ -585,6 +606,10 @@ Component   "tracker1" = c:\development\apsim\tracker\lib\tracker.dll
      Residue removed using user_defined
                                              Fraction Incorporated =     0.95
                                              Incorporated Depth    =     0.00
+27 July 1971(Day of year=208), sysbal: 
+      **** N balance - unaccounted loss (kg/ha) =  -35.0252075
+      **** C balance - unaccounted loss (kg/ha) =  -1277.80054
+      ****        equivalent DM as FOM  (kg/ha) =  -3194.50122
 15 March 1972(Day of year=75), manager: 
      Manager sending message :- surfaceom tillage  type = planter
 15 March 1972(Day of year=75), SurfaceOM: 
@@ -646,12 +671,18 @@ Component   "tracker1" = c:\development\apsim\tracker\lib\tracker.dll
         - Reading Fertiliser Type Parameters
         30.00 of N as ammonium (nh4_n)
                                               added at depth   50.00 (layer   1)
+15 March 1972(Day of year=75), sysbal: 
+      **** N balance - unaccounted gain (kg/ha) =  29.9980469
 16 March 1972(Day of year=76), wheat: 
       stage 2.0 germination
 3 April 1972(Day of year=94), wheat: 
       stage 3.0 emergence
                      biomass =           1.84 (g/m^2)   lai          =   0.080 (m^2/m^2)
                      stover N conc =     5.85 (%)    extractable sw =   14.36 (mm)
+3 April 1972(Day of year=94), sysbal: 
+      **** N balance - unaccounted gain (kg/ha) =  1.87500000
+      **** C balance - unaccounted gain (kg/ha) =  23.3388023
+      ****        equivalent DM as FOM  (kg/ha) =  58.3470039
 4 April 1972(Day of year=95), wheat: 
       stage 4.0 end_of_juvenile
                      biomass =           2.86 (g/m^2)   lai          =   0.096 (m^2/m^2)
@@ -663,6 +694,8 @@ Component   "tracker1" = c:\development\apsim\tracker\lib\tracker.dll
         - Reading Fertiliser Type Parameters
        120.00 of N as ammonium (nh4_n)
                                               added at depth   50.00 (layer   1)
+29 April 1972(Day of year=120), sysbal: 
+      **** N balance - unaccounted gain (kg/ha) =  120.001953
 13 May 1972(Day of year=134), wheat: 
       stage 5.0 floral_initiation
                      biomass =         217.65 (g/m^2)   lai          =   2.235 (m^2/m^2)
@@ -739,6 +772,10 @@ Component   "tracker1" = c:\development\apsim\tracker\lib\tracker.dll
      Residue removed using user_defined
                                              Fraction Incorporated =     0.95
                                              Incorporated Depth    =     0.00
+31 July 1972(Day of year=213), sysbal: 
+      **** N balance - unaccounted loss (kg/ha) =  -59.3224792
+      **** C balance - unaccounted loss (kg/ha) =  -1611.83850
+      ****        equivalent DM as FOM  (kg/ha) =  -4029.59619
 16 March 1973(Day of year=75), manager: 
      Manager sending message :- surfaceom tillage  type = planter
 16 March 1973(Day of year=75), SurfaceOM: 
@@ -800,12 +837,18 @@ Component   "tracker1" = c:\development\apsim\tracker\lib\tracker.dll
         - Reading Fertiliser Type Parameters
         30.00 of N as ammonium (nh4_n)
                                               added at depth   50.00 (layer   1)
+16 March 1973(Day of year=75), sysbal: 
+      **** N balance - unaccounted gain (kg/ha) =  30.0009766
 10 April 1973(Day of year=100), wheat: 
       stage 2.0 germination
 12 April 1973(Day of year=102), wheat: 
       stage 3.0 emergence
                      biomass =           1.84 (g/m^2)   lai          =   0.080 (m^2/m^2)
                      stover N conc =     5.85 (%)    extractable sw =    1.33 (mm)
+12 April 1973(Day of year=102), sysbal: 
+      **** N balance - unaccounted gain (kg/ha) =  1.87695313
+      **** C balance - unaccounted gain (kg/ha) =  23.3684139
+      ****        equivalent DM as FOM  (kg/ha) =  58.4210358
 13 April 1973(Day of year=103), wheat: 
       stage 4.0 end_of_juvenile
                      biomass =           2.06 (g/m^2)   lai          =   0.077 (m^2/m^2)
@@ -817,6 +860,8 @@ Component   "tracker1" = c:\development\apsim\tracker\lib\tracker.dll
         - Reading Fertiliser Type Parameters
        120.00 of N as ammonium (nh4_n)
                                               added at depth   50.00 (layer   1)
+30 April 1973(Day of year=120), sysbal: 
+      **** N balance - unaccounted gain (kg/ha) =  119.999023
 21 May 1973(Day of year=141), wheat: 
       stage 5.0 floral_initiation
                      biomass =          80.45 (g/m^2)   lai          =   1.078 (m^2/m^2)
@@ -893,6 +938,10 @@ Component   "tracker1" = c:\development\apsim\tracker\lib\tracker.dll
      Residue removed using user_defined
                                              Fraction Incorporated =     0.95
                                              Incorporated Depth    =     0.00
+5 August 1973(Day of year=217), sysbal: 
+      **** N balance - unaccounted loss (kg/ha) =  -29.9473534
+      **** C balance - unaccounted loss (kg/ha) =  -764.677917
+      ****        equivalent DM as FOM  (kg/ha) =  -1911.69482
 16 March 1974(Day of year=75), manager: 
      Manager sending message :- surfaceom tillage  type = planter
 16 March 1974(Day of year=75), SurfaceOM: 
@@ -954,12 +1003,18 @@ Component   "tracker1" = c:\development\apsim\tracker\lib\tracker.dll
         - Reading Fertiliser Type Parameters
         30.00 of N as ammonium (nh4_n)
                                               added at depth   50.00 (layer   1)
+16 March 1974(Day of year=75), sysbal: 
+      **** N balance - unaccounted gain (kg/ha) =  30.0000000
 17 March 1974(Day of year=76), wheat: 
       stage 2.0 germination
 1 April 1974(Day of year=91), wheat: 
       stage 3.0 emergence
                      biomass =           1.84 (g/m^2)   lai          =   0.080 (m^2/m^2)
                      stover N conc =     5.85 (%)    extractable sw =   13.62 (mm)
+1 April 1974(Day of year=91), sysbal: 
+      **** N balance - unaccounted gain (kg/ha) =  1.87304688
+      **** C balance - unaccounted gain (kg/ha) =  23.3661060
+      ****        equivalent DM as FOM  (kg/ha) =  58.4152641
 2 April 1974(Day of year=92), wheat: 
       stage 4.0 end_of_juvenile
                      biomass =           2.83 (g/m^2)   lai          =   0.096 (m^2/m^2)
@@ -971,6 +1026,8 @@ Component   "tracker1" = c:\development\apsim\tracker\lib\tracker.dll
         - Reading Fertiliser Type Parameters
        120.00 of N as ammonium (nh4_n)
                                               added at depth   50.00 (layer   1)
+30 April 1974(Day of year=120), sysbal: 
+      **** N balance - unaccounted gain (kg/ha) =  119.998047
 12 May 1974(Day of year=132), wheat: 
       stage 5.0 floral_initiation
                      biomass =         125.78 (g/m^2)   lai          =   1.023 (m^2/m^2)
@@ -1047,6 +1104,10 @@ Component   "tracker1" = c:\development\apsim\tracker\lib\tracker.dll
      Residue removed using user_defined
                                              Fraction Incorporated =     0.95
                                              Incorporated Depth    =     0.00
+28 July 1974(Day of year=209), sysbal: 
+      **** N balance - unaccounted loss (kg/ha) =  -33.2376747
+      **** C balance - unaccounted loss (kg/ha) =  -1041.49500
+      ****        equivalent DM as FOM  (kg/ha) =  -2603.73755
 16 March 1975(Day of year=75), manager: 
      Manager sending message :- surfaceom tillage  type = planter
 16 March 1975(Day of year=75), SurfaceOM: 
@@ -1108,12 +1169,18 @@ Component   "tracker1" = c:\development\apsim\tracker\lib\tracker.dll
         - Reading Fertiliser Type Parameters
         30.00 of N as ammonium (nh4_n)
                                               added at depth   50.00 (layer   1)
+16 March 1975(Day of year=75), sysbal: 
+      **** N balance - unaccounted gain (kg/ha) =  30.0000000
 18 April 1975(Day of year=108), wheat: 
       stage 2.0 germination
 19 April 1975(Day of year=109), wheat: 
       stage 3.0 emergence
                      biomass =           1.84 (g/m^2)   lai          =   0.080 (m^2/m^2)
                      stover N conc =     5.85 (%)    extractable sw =    5.81 (mm)
+19 April 1975(Day of year=109), sysbal: 
+      **** N balance - unaccounted gain (kg/ha) =  1.87500000
+      **** C balance - unaccounted gain (kg/ha) =  23.3317719
+      ****        equivalent DM as FOM  (kg/ha) =  58.3294296
 20 April 1975(Day of year=110), wheat: 
       stage 4.0 end_of_juvenile
                      biomass =           1.86 (g/m^2)   lai          =   0.072 (m^2/m^2)
@@ -1125,6 +1192,8 @@ Component   "tracker1" = c:\development\apsim\tracker\lib\tracker.dll
         - Reading Fertiliser Type Parameters
        120.00 of N as ammonium (nh4_n)
                                               added at depth   50.00 (layer   1)
+30 April 1975(Day of year=120), sysbal: 
+      **** N balance - unaccounted gain (kg/ha) =  120.000000
 28 May 1975(Day of year=148), wheat: 
       stage 5.0 floral_initiation
                      biomass =         234.21 (g/m^2)   lai          =   2.619 (m^2/m^2)
@@ -1201,6 +1270,10 @@ Component   "tracker1" = c:\development\apsim\tracker\lib\tracker.dll
      Residue removed using user_defined
                                              Fraction Incorporated =     0.95
                                              Incorporated Depth    =     0.00
+10 August 1975(Day of year=222), sysbal: 
+      **** N balance - unaccounted loss (kg/ha) =  -49.3897057
+      **** C balance - unaccounted loss (kg/ha) =  -1250.24365
+      ****        equivalent DM as FOM  (kg/ha) =  -3125.60913
 15 March 1976(Day of year=75), manager: 
      Manager sending message :- surfaceom tillage  type = planter
 15 March 1976(Day of year=75), SurfaceOM: 
@@ -1262,12 +1335,18 @@ Component   "tracker1" = c:\development\apsim\tracker\lib\tracker.dll
         - Reading Fertiliser Type Parameters
         30.00 of N as ammonium (nh4_n)
                                               added at depth   50.00 (layer   1)
+15 March 1976(Day of year=75), sysbal: 
+      **** N balance - unaccounted gain (kg/ha) =  30.0019531
 16 March 1976(Day of year=76), wheat: 
       stage 2.0 germination
 12 April 1976(Day of year=103), wheat: 
       stage 3.0 emergence
                      biomass =           1.84 (g/m^2)   lai          =   0.080 (m^2/m^2)
                      stover N conc =     5.85 (%)    extractable sw =   10.28 (mm)
+12 April 1976(Day of year=103), sysbal: 
+      **** N balance - unaccounted gain (kg/ha) =  1.87500000
+      **** C balance - unaccounted gain (kg/ha) =  23.3505039
+      ****        equivalent DM as FOM  (kg/ha) =  58.3762589
 13 April 1976(Day of year=104), wheat: 
       stage 4.0 end_of_juvenile
                      biomass =           2.68 (g/m^2)   lai          =   0.094 (m^2/m^2)
@@ -1279,6 +1358,8 @@ Component   "tracker1" = c:\development\apsim\tracker\lib\tracker.dll
         - Reading Fertiliser Type Parameters
        120.00 of N as ammonium (nh4_n)
                                               added at depth   50.00 (layer   1)
+29 April 1976(Day of year=120), sysbal: 
+      **** N balance - unaccounted gain (kg/ha) =  120.000000
 21 May 1976(Day of year=142), wheat: 
       stage 5.0 floral_initiation
                      biomass =         114.12 (g/m^2)   lai          =   0.886 (m^2/m^2)
@@ -1355,6 +1436,10 @@ Component   "tracker1" = c:\development\apsim\tracker\lib\tracker.dll
      Residue removed using user_defined
                                              Fraction Incorporated =     0.95
                                              Incorporated Depth    =     0.00
+6 August 1976(Day of year=219), sysbal: 
+      **** N balance - unaccounted loss (kg/ha) =  -32.5101547
+      **** C balance - unaccounted loss (kg/ha) =  -1000.14856
+      ****        equivalent DM as FOM  (kg/ha) =  -2500.37134
 16 March 1977(Day of year=75), manager: 
      Manager sending message :- surfaceom tillage  type = planter
 16 March 1977(Day of year=75), SurfaceOM: 
@@ -1416,12 +1501,18 @@ Component   "tracker1" = c:\development\apsim\tracker\lib\tracker.dll
         - Reading Fertiliser Type Parameters
         30.00 of N as ammonium (nh4_n)
                                               added at depth   50.00 (layer   1)
+16 March 1977(Day of year=75), sysbal: 
+      **** N balance - unaccounted gain (kg/ha) =  30.0000000
 17 March 1977(Day of year=76), wheat: 
       stage 2.0 germination
 6 April 1977(Day of year=96), wheat: 
       stage 3.0 emergence
                      biomass =           1.84 (g/m^2)   lai          =   0.080 (m^2/m^2)
                      stover N conc =     5.85 (%)    extractable sw =   13.18 (mm)
+6 April 1977(Day of year=96), sysbal: 
+      **** N balance - unaccounted gain (kg/ha) =  1.87500000
+      **** C balance - unaccounted gain (kg/ha) =  23.3534431
+      ****        equivalent DM as FOM  (kg/ha) =  58.3836060
 7 April 1977(Day of year=97), wheat: 
       stage 4.0 end_of_juvenile
                      biomass =           2.30 (g/m^2)   lai          =   0.087 (m^2/m^2)
@@ -1433,6 +1524,8 @@ Component   "tracker1" = c:\development\apsim\tracker\lib\tracker.dll
         - Reading Fertiliser Type Parameters
        120.00 of N as ammonium (nh4_n)
                                               added at depth   50.00 (layer   1)
+30 April 1977(Day of year=120), sysbal: 
+      **** N balance - unaccounted gain (kg/ha) =  119.998047
 21 May 1977(Day of year=141), wheat: 
       stage 5.0 floral_initiation
                      biomass =         381.37 (g/m^2)   lai          =   4.316 (m^2/m^2)
@@ -1509,6 +1602,10 @@ Component   "tracker1" = c:\development\apsim\tracker\lib\tracker.dll
      Residue removed using user_defined
                                              Fraction Incorporated =     0.95
                                              Incorporated Depth    =     0.00
+6 August 1977(Day of year=218), sysbal: 
+      **** N balance - unaccounted loss (kg/ha) =  -107.998466
+      **** C balance - unaccounted loss (kg/ha) =  -2013.12891
+      ****        equivalent DM as FOM  (kg/ha) =  -5032.82227
 16 March 1978(Day of year=75), manager: 
      Manager sending message :- surfaceom tillage  type = planter
 16 March 1978(Day of year=75), SurfaceOM: 
@@ -1570,12 +1667,18 @@ Component   "tracker1" = c:\development\apsim\tracker\lib\tracker.dll
         - Reading Fertiliser Type Parameters
         30.00 of N as ammonium (nh4_n)
                                               added at depth   50.00 (layer   1)
+16 March 1978(Day of year=75), sysbal: 
+      **** N balance - unaccounted gain (kg/ha) =  29.9980469
 17 March 1978(Day of year=76), wheat: 
       stage 2.0 germination
 9 April 1978(Day of year=99), wheat: 
       stage 3.0 emergence
                      biomass =           1.84 (g/m^2)   lai          =   0.080 (m^2/m^2)
                      stover N conc =     5.85 (%)    extractable sw =   23.97 (mm)
+9 April 1978(Day of year=99), sysbal: 
+      **** N balance - unaccounted gain (kg/ha) =  1.87695313
+      **** C balance - unaccounted gain (kg/ha) =  23.3615150
+      ****        equivalent DM as FOM  (kg/ha) =  58.4037857
 10 April 1978(Day of year=100), wheat: 
       stage 4.0 end_of_juvenile
                      biomass =           3.02 (g/m^2)   lai          =   0.099 (m^2/m^2)
@@ -1587,6 +1690,8 @@ Component   "tracker1" = c:\development\apsim\tracker\lib\tracker.dll
         - Reading Fertiliser Type Parameters
        120.00 of N as ammonium (nh4_n)
                                               added at depth   50.00 (layer   1)
+30 April 1978(Day of year=120), sysbal: 
+      **** N balance - unaccounted gain (kg/ha) =  119.998047
 14 May 1978(Day of year=134), wheat: 
       stage 5.0 floral_initiation
                      biomass =         164.46 (g/m^2)   lai          =   1.445 (m^2/m^2)
@@ -1663,6 +1768,10 @@ Component   "tracker1" = c:\development\apsim\tracker\lib\tracker.dll
      Residue removed using user_defined
                                              Fraction Incorporated =     0.95
                                              Incorporated Depth    =     0.00
+28 July 1978(Day of year=209), sysbal: 
+      **** N balance - unaccounted loss (kg/ha) =  -42.3588104
+      **** C balance - unaccounted loss (kg/ha) =  -1618.71021
+      ****        equivalent DM as FOM  (kg/ha) =  -4046.77539
 16 March 1979(Day of year=75), manager: 
      Manager sending message :- surfaceom tillage  type = planter
 16 March 1979(Day of year=75), SurfaceOM: 
@@ -1724,12 +1833,18 @@ Component   "tracker1" = c:\development\apsim\tracker\lib\tracker.dll
         - Reading Fertiliser Type Parameters
         30.00 of N as ammonium (nh4_n)
                                               added at depth   50.00 (layer   1)
+16 March 1979(Day of year=75), sysbal: 
+      **** N balance - unaccounted gain (kg/ha) =  30.0000000
 17 March 1979(Day of year=76), wheat: 
       stage 2.0 germination
 7 April 1979(Day of year=97), wheat: 
       stage 3.0 emergence
                      biomass =           1.84 (g/m^2)   lai          =   0.080 (m^2/m^2)
                      stover N conc =     5.85 (%)    extractable sw =   17.33 (mm)
+7 April 1979(Day of year=97), sysbal: 
+      **** N balance - unaccounted gain (kg/ha) =  1.87500000
+      **** C balance - unaccounted gain (kg/ha) =  23.3533630
+      ****        equivalent DM as FOM  (kg/ha) =  58.3834076
 8 April 1979(Day of year=98), wheat: 
       stage 4.0 end_of_juvenile
                      biomass =           2.12 (g/m^2)   lai          =   0.084 (m^2/m^2)
@@ -1741,6 +1856,8 @@ Component   "tracker1" = c:\development\apsim\tracker\lib\tracker.dll
         - Reading Fertiliser Type Parameters
        120.00 of N as ammonium (nh4_n)
                                               added at depth   50.00 (layer   1)
+30 April 1979(Day of year=120), sysbal: 
+      **** N balance - unaccounted gain (kg/ha) =  119.998047
 17 May 1979(Day of year=137), wheat: 
       stage 5.0 floral_initiation
                      biomass =         206.82 (g/m^2)   lai          =   1.717 (m^2/m^2)
@@ -1817,6 +1934,10 @@ Component   "tracker1" = c:\development\apsim\tracker\lib\tracker.dll
      Residue removed using user_defined
                                              Fraction Incorporated =     0.95
                                              Incorporated Depth    =     0.00
+5 August 1979(Day of year=217), sysbal: 
+      **** N balance - unaccounted loss (kg/ha) =  -51.9580612
+      **** C balance - unaccounted loss (kg/ha) =  -1857.38599
+      ****        equivalent DM as FOM  (kg/ha) =  -4643.46484
 15 March 1980(Day of year=75), manager: 
      Manager sending message :- surfaceom tillage  type = planter
 15 March 1980(Day of year=75), SurfaceOM: 
@@ -1878,12 +1999,18 @@ Component   "tracker1" = c:\development\apsim\tracker\lib\tracker.dll
         - Reading Fertiliser Type Parameters
         30.00 of N as ammonium (nh4_n)
                                               added at depth   50.00 (layer   1)
+15 March 1980(Day of year=75), sysbal: 
+      **** N balance - unaccounted gain (kg/ha) =  29.9980469
 16 March 1980(Day of year=76), wheat: 
       stage 2.0 germination
 4 April 1980(Day of year=95), wheat: 
       stage 3.0 emergence
                      biomass =           1.84 (g/m^2)   lai          =   0.080 (m^2/m^2)
                      stover N conc =     5.85 (%)    extractable sw =   31.23 (mm)
+4 April 1980(Day of year=95), sysbal: 
+      **** N balance - unaccounted gain (kg/ha) =  1.87304688
+      **** C balance - unaccounted gain (kg/ha) =  23.3594131
+      ****        equivalent DM as FOM  (kg/ha) =  58.3985329
 5 April 1980(Day of year=96), wheat: 
       stage 4.0 end_of_juvenile
                      biomass =           2.34 (g/m^2)   lai          =   0.088 (m^2/m^2)
@@ -1895,6 +2022,8 @@ Component   "tracker1" = c:\development\apsim\tracker\lib\tracker.dll
         - Reading Fertiliser Type Parameters
        120.00 of N as ammonium (nh4_n)
                                               added at depth   50.00 (layer   1)
+29 April 1980(Day of year=120), sysbal: 
+      **** N balance - unaccounted gain (kg/ha) =  120.000000
 14 May 1980(Day of year=135), wheat: 
       stage 5.0 floral_initiation
                      biomass =         331.39 (g/m^2)   lai          =   3.359 (m^2/m^2)
@@ -1971,6 +2100,10 @@ Component   "tracker1" = c:\development\apsim\tracker\lib\tracker.dll
      Residue removed using user_defined
                                              Fraction Incorporated =     0.95
                                              Incorporated Depth    =     0.00
+3 August 1980(Day of year=216), sysbal: 
+      **** N balance - unaccounted loss (kg/ha) =  -89.8422089
+      **** C balance - unaccounted loss (kg/ha) =  -3320.43921
+      ****        equivalent DM as FOM  (kg/ha) =  -8301.09766
 16 March 1981(Day of year=75), manager: 
      Manager sending message :- surfaceom tillage  type = planter
 16 March 1981(Day of year=75), SurfaceOM: 
@@ -2032,12 +2165,18 @@ Component   "tracker1" = c:\development\apsim\tracker\lib\tracker.dll
         - Reading Fertiliser Type Parameters
         30.00 of N as ammonium (nh4_n)
                                               added at depth   50.00 (layer   1)
+16 March 1981(Day of year=75), sysbal: 
+      **** N balance - unaccounted gain (kg/ha) =  30.0000000
 23 March 1981(Day of year=82), wheat: 
       stage 2.0 germination
 4 April 1981(Day of year=94), wheat: 
       stage 3.0 emergence
                      biomass =           1.84 (g/m^2)   lai          =   0.080 (m^2/m^2)
                      stover N conc =     5.85 (%)    extractable sw =    0.24 (mm)
+4 April 1981(Day of year=94), sysbal: 
+      **** N balance - unaccounted gain (kg/ha) =  1.87695313
+      **** C balance - unaccounted gain (kg/ha) =  23.3560905
+      ****        equivalent DM as FOM  (kg/ha) =  58.3902245
 5 April 1981(Day of year=95), wheat: 
       stage 4.0 end_of_juvenile
                      biomass =           1.84 (g/m^2)   lai          =   0.072 (m^2/m^2)
@@ -2049,6 +2188,8 @@ Component   "tracker1" = c:\development\apsim\tracker\lib\tracker.dll
         - Reading Fertiliser Type Parameters
        120.00 of N as ammonium (nh4_n)
                                               added at depth   50.00 (layer   1)
+30 April 1981(Day of year=120), sysbal: 
+      **** N balance - unaccounted gain (kg/ha) =  120.000000
 15 May 1981(Day of year=135), wheat: 
       stage 5.0 floral_initiation
                      biomass =           9.65 (g/m^2)   lai          =   0.026 (m^2/m^2)
@@ -2125,6 +2266,10 @@ Component   "tracker1" = c:\development\apsim\tracker\lib\tracker.dll
      Residue removed using user_defined
                                              Fraction Incorporated =     0.95
                                              Incorporated Depth    =     0.00
+29 July 1981(Day of year=210), sysbal: 
+      **** N balance - unaccounted loss (kg/ha) =  -4.22030544
+      **** C balance - unaccounted loss (kg/ha) =  -42.4401321
+      ****        equivalent DM as FOM  (kg/ha) =  -106.100327
 16 March 1982(Day of year=75), manager: 
      Manager sending message :- surfaceom tillage  type = planter
 16 March 1982(Day of year=75), SurfaceOM: 
@@ -2186,12 +2331,18 @@ Component   "tracker1" = c:\development\apsim\tracker\lib\tracker.dll
         - Reading Fertiliser Type Parameters
         30.00 of N as ammonium (nh4_n)
                                               added at depth   50.00 (layer   1)
+16 March 1982(Day of year=75), sysbal: 
+      **** N balance - unaccounted gain (kg/ha) =  30.0019531
 17 March 1982(Day of year=76), wheat: 
       stage 2.0 germination
 5 April 1982(Day of year=95), wheat: 
       stage 3.0 emergence
                      biomass =           1.84 (g/m^2)   lai          =   0.080 (m^2/m^2)
                      stover N conc =     5.85 (%)    extractable sw =   24.56 (mm)
+5 April 1982(Day of year=95), sysbal: 
+      **** N balance - unaccounted gain (kg/ha) =  1.87890625
+      **** C balance - unaccounted gain (kg/ha) =  23.3462963
+      ****        equivalent DM as FOM  (kg/ha) =  58.3657417
 6 April 1982(Day of year=96), wheat: 
       stage 4.0 end_of_juvenile
                      biomass =           2.60 (g/m^2)   lai          =   0.092 (m^2/m^2)
@@ -2203,6 +2354,8 @@ Component   "tracker1" = c:\development\apsim\tracker\lib\tracker.dll
         - Reading Fertiliser Type Parameters
        120.00 of N as ammonium (nh4_n)
                                               added at depth   50.00 (layer   1)
+30 April 1982(Day of year=120), sysbal: 
+      **** N balance - unaccounted gain (kg/ha) =  120.000000
 20 May 1982(Day of year=140), wheat: 
       stage 5.0 floral_initiation
                      biomass =         232.17 (g/m^2)   lai          =   1.836 (m^2/m^2)
@@ -2279,6 +2432,10 @@ Component   "tracker1" = c:\development\apsim\tracker\lib\tracker.dll
      Residue removed using user_defined
                                              Fraction Incorporated =     0.95
                                              Incorporated Depth    =     0.00
+1 August 1982(Day of year=213), sysbal: 
+      **** N balance - unaccounted loss (kg/ha) =  -47.1769295
+      **** C balance - unaccounted loss (kg/ha) =  -1326.57166
+      ****        equivalent DM as FOM  (kg/ha) =  -3316.42920
 16 March 1983(Day of year=75), manager: 
      Manager sending message :- surfaceom tillage  type = planter
 16 March 1983(Day of year=75), SurfaceOM: 
@@ -2340,12 +2497,18 @@ Component   "tracker1" = c:\development\apsim\tracker\lib\tracker.dll
         - Reading Fertiliser Type Parameters
         30.00 of N as ammonium (nh4_n)
                                               added at depth   50.00 (layer   1)
+16 March 1983(Day of year=75), sysbal: 
+      **** N balance - unaccounted gain (kg/ha) =  30.0000000
 22 March 1983(Day of year=81), wheat: 
       stage 2.0 germination
 10 April 1983(Day of year=100), wheat: 
       stage 3.0 emergence
                      biomass =           1.84 (g/m^2)   lai          =   0.080 (m^2/m^2)
                      stover N conc =     5.85 (%)    extractable sw =   15.99 (mm)
+10 April 1983(Day of year=100), sysbal: 
+      **** N balance - unaccounted gain (kg/ha) =  1.87695313
+      **** C balance - unaccounted gain (kg/ha) =  23.3584576
+      ****        equivalent DM as FOM  (kg/ha) =  58.3961449
 11 April 1983(Day of year=101), wheat: 
       stage 4.0 end_of_juvenile
                      biomass =           2.67 (g/m^2)   lai          =   0.093 (m^2/m^2)
@@ -2357,6 +2520,8 @@ Component   "tracker1" = c:\development\apsim\tracker\lib\tracker.dll
         - Reading Fertiliser Type Parameters
        120.00 of N as ammonium (nh4_n)
                                               added at depth   50.00 (layer   1)
+30 April 1983(Day of year=120), sysbal: 
+      **** N balance - unaccounted gain (kg/ha) =  120.000000
 22 May 1983(Day of year=142), wheat: 
       stage 5.0 floral_initiation
                      biomass =         173.18 (g/m^2)   lai          =   1.263 (m^2/m^2)
@@ -2433,6 +2598,10 @@ Component   "tracker1" = c:\development\apsim\tracker\lib\tracker.dll
      Residue removed using user_defined
                                              Fraction Incorporated =     0.95
                                              Incorporated Depth    =     0.00
+7 August 1983(Day of year=219), sysbal: 
+      **** N balance - unaccounted loss (kg/ha) =  -36.2370796
+      **** C balance - unaccounted loss (kg/ha) =  -1097.49585
+      ****        equivalent DM as FOM  (kg/ha) =  -2743.73950
 15 March 1984(Day of year=75), manager: 
      Manager sending message :- surfaceom tillage  type = planter
 15 March 1984(Day of year=75), SurfaceOM: 
@@ -2494,12 +2663,18 @@ Component   "tracker1" = c:\development\apsim\tracker\lib\tracker.dll
         - Reading Fertiliser Type Parameters
         30.00 of N as ammonium (nh4_n)
                                               added at depth   50.00 (layer   1)
+15 March 1984(Day of year=75), sysbal: 
+      **** N balance - unaccounted gain (kg/ha) =  30.0000000
 16 March 1984(Day of year=76), wheat: 
       stage 2.0 germination
 3 April 1984(Day of year=94), wheat: 
       stage 3.0 emergence
                      biomass =           1.84 (g/m^2)   lai          =   0.080 (m^2/m^2)
                      stover N conc =     5.85 (%)    extractable sw =    8.31 (mm)
+3 April 1984(Day of year=94), sysbal: 
+      **** N balance - unaccounted gain (kg/ha) =  1.87695313
+      **** C balance - unaccounted gain (kg/ha) =  23.3293304
+      ****        equivalent DM as FOM  (kg/ha) =  58.3233261
 4 April 1984(Day of year=95), wheat: 
       stage 4.0 end_of_juvenile
                      biomass =           2.11 (g/m^2)   lai          =   0.084 (m^2/m^2)
@@ -2511,6 +2686,8 @@ Component   "tracker1" = c:\development\apsim\tracker\lib\tracker.dll
         - Reading Fertiliser Type Parameters
        120.00 of N as ammonium (nh4_n)
                                               added at depth   50.00 (layer   1)
+29 April 1984(Day of year=120), sysbal: 
+      **** N balance - unaccounted gain (kg/ha) =  120.000000
 13 May 1984(Day of year=134), wheat: 
       stage 5.0 floral_initiation
                      biomass =         148.06 (g/m^2)   lai          =   1.126 (m^2/m^2)
@@ -2587,6 +2764,10 @@ Component   "tracker1" = c:\development\apsim\tracker\lib\tracker.dll
      Residue removed using user_defined
                                              Fraction Incorporated =     0.95
                                              Incorporated Depth    =     0.00
+1 August 1984(Day of year=214), sysbal: 
+      **** N balance - unaccounted loss (kg/ha) =  -63.9810867
+      **** C balance - unaccounted loss (kg/ha) =  -2118.36841
+      ****        equivalent DM as FOM  (kg/ha) =  -5295.92090
 16 March 1985(Day of year=75), manager: 
      Manager sending message :- surfaceom tillage  type = planter
 16 March 1985(Day of year=75), SurfaceOM: 
@@ -2648,12 +2829,18 @@ Component   "tracker1" = c:\development\apsim\tracker\lib\tracker.dll
         - Reading Fertiliser Type Parameters
         30.00 of N as ammonium (nh4_n)
                                               added at depth   50.00 (layer   1)
+16 March 1985(Day of year=75), sysbal: 
+      **** N balance - unaccounted gain (kg/ha) =  29.9980469
 19 March 1985(Day of year=78), wheat: 
       stage 2.0 germination
 7 April 1985(Day of year=97), wheat: 
       stage 3.0 emergence
                      biomass =           1.84 (g/m^2)   lai          =   0.080 (m^2/m^2)
                      stover N conc =     5.85 (%)    extractable sw =    7.11 (mm)
+7 April 1985(Day of year=97), sysbal: 
+      **** N balance - unaccounted gain (kg/ha) =  1.87500000
+      **** C balance - unaccounted gain (kg/ha) =  23.3435516
+      ****        equivalent DM as FOM  (kg/ha) =  58.3588791
 8 April 1985(Day of year=98), wheat: 
       stage 4.0 end_of_juvenile
                      biomass =           2.20 (g/m^2)   lai          =   0.081 (m^2/m^2)
@@ -2665,6 +2852,8 @@ Component   "tracker1" = c:\development\apsim\tracker\lib\tracker.dll
         - Reading Fertiliser Type Parameters
        120.00 of N as ammonium (nh4_n)
                                               added at depth   50.00 (layer   1)
+30 April 1985(Day of year=120), sysbal: 
+      **** N balance - unaccounted gain (kg/ha) =  120.000000
 12 May 1985(Day of year=132), wheat: 
       stage 5.0 floral_initiation
                      biomass =         146.32 (g/m^2)   lai          =   1.369 (m^2/m^2)
@@ -2741,6 +2930,10 @@ Component   "tracker1" = c:\development\apsim\tracker\lib\tracker.dll
      Residue removed using user_defined
                                              Fraction Incorporated =     0.95
                                              Incorporated Depth    =     0.00
+31 July 1985(Day of year=212), sysbal: 
+      **** N balance - unaccounted loss (kg/ha) =  -54.1664429
+      **** C balance - unaccounted loss (kg/ha) =  -1796.90076
+      ****        equivalent DM as FOM  (kg/ha) =  -4492.25195
 16 March 1986(Day of year=75), manager: 
      Manager sending message :- surfaceom tillage  type = planter
 16 March 1986(Day of year=75), SurfaceOM: 
@@ -2802,12 +2995,18 @@ Component   "tracker1" = c:\development\apsim\tracker\lib\tracker.dll
         - Reading Fertiliser Type Parameters
         30.00 of N as ammonium (nh4_n)
                                               added at depth   50.00 (layer   1)
+16 March 1986(Day of year=75), sysbal: 
+      **** N balance - unaccounted gain (kg/ha) =  30.0000000
 17 March 1986(Day of year=76), wheat: 
       stage 2.0 germination
 9 April 1986(Day of year=99), wheat: 
       stage 3.0 emergence
                      biomass =           1.84 (g/m^2)   lai          =   0.080 (m^2/m^2)
                      stover N conc =     5.85 (%)    extractable sw =    7.60 (mm)
+9 April 1986(Day of year=99), sysbal: 
+      **** N balance - unaccounted gain (kg/ha) =  1.87500000
+      **** C balance - unaccounted gain (kg/ha) =  23.3611259
+      ****        equivalent DM as FOM  (kg/ha) =  58.4028130
 10 April 1986(Day of year=100), wheat: 
       stage 4.0 end_of_juvenile
                      biomass =           2.38 (g/m^2)   lai          =   0.089 (m^2/m^2)
@@ -2819,6 +3018,8 @@ Component   "tracker1" = c:\development\apsim\tracker\lib\tracker.dll
         - Reading Fertiliser Type Parameters
        120.00 of N as ammonium (nh4_n)
                                               added at depth   50.00 (layer   1)
+30 April 1986(Day of year=120), sysbal: 
+      **** N balance - unaccounted gain (kg/ha) =  119.998047
 18 May 1986(Day of year=138), wheat: 
       stage 5.0 floral_initiation
                      biomass =         107.88 (g/m^2)   lai          =   0.831 (m^2/m^2)
@@ -2895,6 +3096,10 @@ Component   "tracker1" = c:\development\apsim\tracker\lib\tracker.dll
      Residue removed using user_defined
                                              Fraction Incorporated =     0.95
                                              Incorporated Depth    =     0.00
+4 August 1986(Day of year=216), sysbal: 
+      **** N balance - unaccounted loss (kg/ha) =  -54.8948746
+      **** C balance - unaccounted loss (kg/ha) =  -2079.62744
+      ****        equivalent DM as FOM  (kg/ha) =  -5199.06836
 16 March 1987(Day of year=75), manager: 
      Manager sending message :- surfaceom tillage  type = planter
 16 March 1987(Day of year=75), SurfaceOM: 
@@ -2956,12 +3161,18 @@ Component   "tracker1" = c:\development\apsim\tracker\lib\tracker.dll
         - Reading Fertiliser Type Parameters
         30.00 of N as ammonium (nh4_n)
                                               added at depth   50.00 (layer   1)
+16 March 1987(Day of year=75), sysbal: 
+      **** N balance - unaccounted gain (kg/ha) =  29.9980469
 11 April 1987(Day of year=101), wheat: 
       stage 2.0 germination
 15 April 1987(Day of year=105), wheat: 
       stage 3.0 emergence
                      biomass =           1.84 (g/m^2)   lai          =   0.080 (m^2/m^2)
                      stover N conc =     5.85 (%)    extractable sw =    7.12 (mm)
+15 April 1987(Day of year=105), sysbal: 
+      **** N balance - unaccounted gain (kg/ha) =  1.87500000
+      **** C balance - unaccounted gain (kg/ha) =  23.3409653
+      ****        equivalent DM as FOM  (kg/ha) =  58.3524132
 16 April 1987(Day of year=106), wheat: 
       stage 4.0 end_of_juvenile
                      biomass =           2.90 (g/m^2)   lai          =   0.097 (m^2/m^2)
@@ -2973,6 +3184,8 @@ Component   "tracker1" = c:\development\apsim\tracker\lib\tracker.dll
         - Reading Fertiliser Type Parameters
        120.00 of N as ammonium (nh4_n)
                                               added at depth   50.00 (layer   1)
+30 April 1987(Day of year=120), sysbal: 
+      **** N balance - unaccounted gain (kg/ha) =  120.001953
 22 May 1987(Day of year=142), wheat: 
       stage 5.0 floral_initiation
                      biomass =         155.90 (g/m^2)   lai          =   1.357 (m^2/m^2)
@@ -3049,6 +3262,10 @@ Component   "tracker1" = c:\development\apsim\tracker\lib\tracker.dll
      Residue removed using user_defined
                                              Fraction Incorporated =     0.95
                                              Incorporated Depth    =     0.00
+4 August 1987(Day of year=216), sysbal: 
+      **** N balance - unaccounted loss (kg/ha) =  -47.5009384
+      **** C balance - unaccounted loss (kg/ha) =  -1624.64404
+      ****        equivalent DM as FOM  (kg/ha) =  -4061.61011
 15 March 1988(Day of year=75), manager: 
      Manager sending message :- surfaceom tillage  type = planter
 15 March 1988(Day of year=75), SurfaceOM: 
@@ -3110,12 +3327,18 @@ Component   "tracker1" = c:\development\apsim\tracker\lib\tracker.dll
         - Reading Fertiliser Type Parameters
         30.00 of N as ammonium (nh4_n)
                                               added at depth   50.00 (layer   1)
+15 March 1988(Day of year=75), sysbal: 
+      **** N balance - unaccounted gain (kg/ha) =  30.0019531
 20 March 1988(Day of year=80), wheat: 
       stage 2.0 germination
 11 April 1988(Day of year=102), wheat: 
       stage 3.0 emergence
                      biomass =           1.84 (g/m^2)   lai          =   0.080 (m^2/m^2)
                      stover N conc =     5.85 (%)    extractable sw =    2.43 (mm)
+11 April 1988(Day of year=102), sysbal: 
+      **** N balance - unaccounted gain (kg/ha) =  1.87890625
+      **** C balance - unaccounted gain (kg/ha) =  23.3566246
+      ****        equivalent DM as FOM  (kg/ha) =  58.3915596
 12 April 1988(Day of year=103), wheat: 
       stage 4.0 end_of_juvenile
                      biomass =           1.88 (g/m^2)   lai          =   0.072 (m^2/m^2)
@@ -3127,6 +3350,8 @@ Component   "tracker1" = c:\development\apsim\tracker\lib\tracker.dll
         - Reading Fertiliser Type Parameters
        120.00 of N as ammonium (nh4_n)
                                               added at depth   50.00 (layer   1)
+29 April 1988(Day of year=120), sysbal: 
+      **** N balance - unaccounted gain (kg/ha) =  120.000000
 17 May 1988(Day of year=138), wheat: 
       stage 5.0 floral_initiation
                      biomass =          46.07 (g/m^2)   lai          =   0.591 (m^2/m^2)
@@ -3203,6 +3428,10 @@ Component   "tracker1" = c:\development\apsim\tracker\lib\tracker.dll
      Residue removed using user_defined
                                              Fraction Incorporated =     0.95
                                              Incorporated Depth    =     0.00
+29 July 1988(Day of year=211), sysbal: 
+      **** N balance - unaccounted loss (kg/ha) =  -28.5565720
+      **** C balance - unaccounted loss (kg/ha) =  -689.980103
+      ****        equivalent DM as FOM  (kg/ha) =  -1724.95020
 16 March 1989(Day of year=75), manager: 
      Manager sending message :- surfaceom tillage  type = planter
 16 March 1989(Day of year=75), SurfaceOM: 
@@ -3264,12 +3493,18 @@ Component   "tracker1" = c:\development\apsim\tracker\lib\tracker.dll
         - Reading Fertiliser Type Parameters
         30.00 of N as ammonium (nh4_n)
                                               added at depth   50.00 (layer   1)
+16 March 1989(Day of year=75), sysbal: 
+      **** N balance - unaccounted gain (kg/ha) =  30.0000000
 17 March 1989(Day of year=76), wheat: 
       stage 2.0 germination
 7 April 1989(Day of year=97), wheat: 
       stage 3.0 emergence
                      biomass =           1.84 (g/m^2)   lai          =   0.080 (m^2/m^2)
                      stover N conc =     5.85 (%)    extractable sw =    3.54 (mm)
+7 April 1989(Day of year=97), sysbal: 
+      **** N balance - unaccounted gain (kg/ha) =  1.87695313
+      **** C balance - unaccounted gain (kg/ha) =  23.3568420
+      ****        equivalent DM as FOM  (kg/ha) =  58.3921051
 8 April 1989(Day of year=98), wheat: 
       stage 4.0 end_of_juvenile
                      biomass =           2.04 (g/m^2)   lai          =   0.077 (m^2/m^2)
@@ -3281,6 +3516,8 @@ Component   "tracker1" = c:\development\apsim\tracker\lib\tracker.dll
         - Reading Fertiliser Type Parameters
        120.00 of N as ammonium (nh4_n)
                                               added at depth   50.00 (layer   1)
+30 April 1989(Day of year=120), sysbal: 
+      **** N balance - unaccounted gain (kg/ha) =  120.001953
 18 May 1989(Day of year=138), wheat: 
       stage 5.0 floral_initiation
                      biomass =          92.52 (g/m^2)   lai          =   0.892 (m^2/m^2)
@@ -3357,6 +3594,10 @@ Component   "tracker1" = c:\development\apsim\tracker\lib\tracker.dll
      Residue removed using user_defined
                                              Fraction Incorporated =     0.95
                                              Incorporated Depth    =     0.00
+30 July 1989(Day of year=211), sysbal: 
+      **** N balance - unaccounted loss (kg/ha) =  -23.8292084
+      **** C balance - unaccounted loss (kg/ha) =  -684.171509
+      ****        equivalent DM as FOM  (kg/ha) =  -1710.42871
 16 March 1990(Day of year=75), manager: 
      Manager sending message :- surfaceom tillage  type = planter
 16 March 1990(Day of year=75), SurfaceOM: 
@@ -3418,12 +3659,18 @@ Component   "tracker1" = c:\development\apsim\tracker\lib\tracker.dll
         - Reading Fertiliser Type Parameters
         30.00 of N as ammonium (nh4_n)
                                               added at depth   50.00 (layer   1)
+16 March 1990(Day of year=75), sysbal: 
+      **** N balance - unaccounted gain (kg/ha) =  30.0000000
 17 March 1990(Day of year=76), wheat: 
       stage 2.0 germination
 5 April 1990(Day of year=95), wheat: 
       stage 3.0 emergence
                      biomass =           1.84 (g/m^2)   lai          =   0.080 (m^2/m^2)
                      stover N conc =     5.85 (%)    extractable sw =   26.71 (mm)
+5 April 1990(Day of year=95), sysbal: 
+      **** N balance - unaccounted gain (kg/ha) =  1.87304688
+      **** C balance - unaccounted gain (kg/ha) =  23.3457432
+      ****        equivalent DM as FOM  (kg/ha) =  58.3643570
 6 April 1990(Day of year=96), wheat: 
       stage 4.0 end_of_juvenile
                      biomass =           2.04 (g/m^2)   lai          =   0.083 (m^2/m^2)
@@ -3435,6 +3682,8 @@ Component   "tracker1" = c:\development\apsim\tracker\lib\tracker.dll
         - Reading Fertiliser Type Parameters
        120.00 of N as ammonium (nh4_n)
                                               added at depth   50.00 (layer   1)
+30 April 1990(Day of year=120), sysbal: 
+      **** N balance - unaccounted gain (kg/ha) =  120.000000
 17 May 1990(Day of year=137), wheat: 
       stage 5.0 floral_initiation
                      biomass =         300.20 (g/m^2)   lai          =   2.807 (m^2/m^2)
@@ -3511,6 +3760,10 @@ Component   "tracker1" = c:\development\apsim\tracker\lib\tracker.dll
      Residue removed using user_defined
                                              Fraction Incorporated =     0.95
                                              Incorporated Depth    =     0.00
+1 August 1990(Day of year=213), sysbal: 
+      **** N balance - unaccounted loss (kg/ha) =  -78.7602005
+      **** C balance - unaccounted loss (kg/ha) =  -2015.53040
+      ****        equivalent DM as FOM  (kg/ha) =  -5038.82568
 16 March 1991(Day of year=75), manager: 
      Manager sending message :- surfaceom tillage  type = planter
 16 March 1991(Day of year=75), SurfaceOM: 
@@ -3572,12 +3825,18 @@ Component   "tracker1" = c:\development\apsim\tracker\lib\tracker.dll
         - Reading Fertiliser Type Parameters
         30.00 of N as ammonium (nh4_n)
                                               added at depth   50.00 (layer   1)
+16 March 1991(Day of year=75), sysbal: 
+      **** N balance - unaccounted gain (kg/ha) =  30.0000000
 26 March 1991(Day of year=85), wheat: 
       stage 2.0 germination
 7 April 1991(Day of year=97), wheat: 
       stage 3.0 emergence
                      biomass =           1.84 (g/m^2)   lai          =   0.080 (m^2/m^2)
                      stover N conc =     5.85 (%)    extractable sw =    8.53 (mm)
+7 April 1991(Day of year=97), sysbal: 
+      **** N balance - unaccounted gain (kg/ha) =  1.87500000
+      **** C balance - unaccounted gain (kg/ha) =  23.3714294
+      ****        equivalent DM as FOM  (kg/ha) =  58.4285736
 8 April 1991(Day of year=98), wheat: 
       stage 4.0 end_of_juvenile
                      biomass =           2.85 (g/m^2)   lai          =   0.096 (m^2/m^2)
@@ -3589,6 +3848,8 @@ Component   "tracker1" = c:\development\apsim\tracker\lib\tracker.dll
         - Reading Fertiliser Type Parameters
        120.00 of N as ammonium (nh4_n)
                                               added at depth   50.00 (layer   1)
+30 April 1991(Day of year=120), sysbal: 
+      **** N balance - unaccounted gain (kg/ha) =  119.998047
 21 May 1991(Day of year=141), wheat: 
       stage 5.0 floral_initiation
                      biomass =         183.71 (g/m^2)   lai          =   1.149 (m^2/m^2)
@@ -3665,6 +3926,10 @@ Component   "tracker1" = c:\development\apsim\tracker\lib\tracker.dll
      Residue removed using user_defined
                                              Fraction Incorporated =     0.95
                                              Incorporated Depth    =     0.00
+30 July 1991(Day of year=211), sysbal: 
+      **** N balance - unaccounted loss (kg/ha) =  -63.9856415
+      **** C balance - unaccounted loss (kg/ha) =  -2023.58960
+      ****        equivalent DM as FOM  (kg/ha) =  -5058.97412
 15 March 1992(Day of year=75), manager: 
      Manager sending message :- surfaceom tillage  type = planter
 15 March 1992(Day of year=75), SurfaceOM: 
@@ -3726,6 +3991,8 @@ Component   "tracker1" = c:\development\apsim\tracker\lib\tracker.dll
         - Reading Fertiliser Type Parameters
         30.00 of N as ammonium (nh4_n)
                                               added at depth   50.00 (layer   1)
+15 March 1992(Day of year=75), sysbal: 
+      **** N balance - unaccounted gain (kg/ha) =  29.9980469
 23 April 1992(Day of year=114), wheat: 
       crop failure because of lack of
               germination within 40 days of sowing
@@ -3774,6 +4041,10 @@ Component   "tracker1" = c:\development\apsim\tracker\lib\tracker.dll
      Residue removed using user_defined
                                              Fraction Incorporated =     0.95
                                              Incorporated Depth    =     0.00
+24 April 1992(Day of year=115), sysbal: 
+      **** N balance - unaccounted loss (kg/ha) =  -0.691406250
+      **** C balance - unaccounted loss (kg/ha) =  -21.9086380
+      ****        equivalent DM as FOM  (kg/ha) =  -54.7715950
 29 April 1992(Day of year=120), manager: 
      Manager sending message :- fertiliz apply  amount = 120 (kg/ha), depth = 50 (mm), type = nh4_n
 29 April 1992(Day of year=120), fertiliz: 
@@ -3781,6 +4052,8 @@ Component   "tracker1" = c:\development\apsim\tracker\lib\tracker.dll
         - Reading Fertiliser Type Parameters
        120.00 of N as ammonium (nh4_n)
                                               added at depth   50.00 (layer   1)
+29 April 1992(Day of year=120), sysbal: 
+      **** N balance - unaccounted gain (kg/ha) =  120.000000
 16 March 1993(Day of year=75), manager: 
      Manager sending message :- surfaceom tillage  type = planter
 16 March 1993(Day of year=75), SurfaceOM: 
@@ -3842,12 +4115,18 @@ Component   "tracker1" = c:\development\apsim\tracker\lib\tracker.dll
         - Reading Fertiliser Type Parameters
         30.00 of N as ammonium (nh4_n)
                                               added at depth   50.00 (layer   1)
+16 March 1993(Day of year=75), sysbal: 
+      **** N balance - unaccounted gain (kg/ha) =  30.0000000
 17 March 1993(Day of year=76), wheat: 
       stage 2.0 germination
 11 April 1993(Day of year=101), wheat: 
       stage 3.0 emergence
                      biomass =           1.84 (g/m^2)   lai          =   0.080 (m^2/m^2)
                      stover N conc =     5.85 (%)    extractable sw =    8.84 (mm)
+11 April 1993(Day of year=101), sysbal: 
+      **** N balance - unaccounted gain (kg/ha) =  1.87695313
+      **** C balance - unaccounted gain (kg/ha) =  23.3599110
+      ****        equivalent DM as FOM  (kg/ha) =  58.3997765
 12 April 1993(Day of year=102), wheat: 
       stage 4.0 end_of_juvenile
                      biomass =           2.26 (g/m^2)   lai          =   0.087 (m^2/m^2)
@@ -3859,6 +4138,8 @@ Component   "tracker1" = c:\development\apsim\tracker\lib\tracker.dll
         - Reading Fertiliser Type Parameters
        120.00 of N as ammonium (nh4_n)
                                               added at depth   50.00 (layer   1)
+30 April 1993(Day of year=120), sysbal: 
+      **** N balance - unaccounted gain (kg/ha) =  120.000000
 17 May 1993(Day of year=137), wheat: 
       stage 5.0 floral_initiation
                      biomass =         166.27 (g/m^2)   lai          =   1.983 (m^2/m^2)
@@ -3935,6 +4216,10 @@ Component   "tracker1" = c:\development\apsim\tracker\lib\tracker.dll
      Residue removed using user_defined
                                              Fraction Incorporated =     0.95
                                              Incorporated Depth    =     0.00
+3 August 1993(Day of year=215), sysbal: 
+      **** N balance - unaccounted loss (kg/ha) =  -70.1656494
+      **** C balance - unaccounted loss (kg/ha) =  -2076.64648
+      ****        equivalent DM as FOM  (kg/ha) =  -5191.61621
 16 March 1994(Day of year=75), manager: 
      Manager sending message :- surfaceom tillage  type = planter
 16 March 1994(Day of year=75), SurfaceOM: 
@@ -3996,12 +4281,18 @@ Component   "tracker1" = c:\development\apsim\tracker\lib\tracker.dll
         - Reading Fertiliser Type Parameters
         30.00 of N as ammonium (nh4_n)
                                               added at depth   50.00 (layer   1)
+16 March 1994(Day of year=75), sysbal: 
+      **** N balance - unaccounted gain (kg/ha) =  30.0019531
 23 April 1994(Day of year=113), wheat: 
       stage 2.0 germination
 24 April 1994(Day of year=114), wheat: 
       stage 3.0 emergence
                      biomass =           1.84 (g/m^2)   lai          =   0.080 (m^2/m^2)
                      stover N conc =     5.85 (%)    extractable sw =    2.85 (mm)
+24 April 1994(Day of year=114), sysbal: 
+      **** N balance - unaccounted gain (kg/ha) =  1.87695313
+      **** C balance - unaccounted gain (kg/ha) =  23.3648090
+      ****        equivalent DM as FOM  (kg/ha) =  58.4120216
 25 April 1994(Day of year=115), wheat: 
       stage 4.0 end_of_juvenile
                      biomass =           2.44 (g/m^2)   lai          =   0.086 (m^2/m^2)
@@ -4013,6 +4304,8 @@ Component   "tracker1" = c:\development\apsim\tracker\lib\tracker.dll
         - Reading Fertiliser Type Parameters
        120.00 of N as ammonium (nh4_n)
                                               added at depth   50.00 (layer   1)
+30 April 1994(Day of year=120), sysbal: 
+      **** N balance - unaccounted gain (kg/ha) =  120.000000
 24 May 1994(Day of year=144), wheat: 
       stage 5.0 floral_initiation
                      biomass =           4.67 (g/m^2)   lai          =   0.018 (m^2/m^2)
@@ -4089,6 +4382,10 @@ Component   "tracker1" = c:\development\apsim\tracker\lib\tracker.dll
      Residue removed using user_defined
                                              Fraction Incorporated =     0.95
                                              Incorporated Depth    =     0.00
+4 August 1994(Day of year=216), sysbal: 
+      **** N balance - unaccounted loss (kg/ha) =  -2.34966445
+      **** C balance - unaccounted loss (kg/ha) =  -27.5743408
+      ****        equivalent DM as FOM  (kg/ha) =  -68.9358521
 16 March 1995(Day of year=75), manager: 
      Manager sending message :- surfaceom tillage  type = planter
 16 March 1995(Day of year=75), SurfaceOM: 
@@ -4150,12 +4447,18 @@ Component   "tracker1" = c:\development\apsim\tracker\lib\tracker.dll
         - Reading Fertiliser Type Parameters
         30.00 of N as ammonium (nh4_n)
                                               added at depth   50.00 (layer   1)
+16 March 1995(Day of year=75), sysbal: 
+      **** N balance - unaccounted gain (kg/ha) =  30.0019531
 30 March 1995(Day of year=89), wheat: 
       stage 2.0 germination
 12 April 1995(Day of year=102), wheat: 
       stage 3.0 emergence
                      biomass =           1.84 (g/m^2)   lai          =   0.080 (m^2/m^2)
                      stover N conc =     5.85 (%)    extractable sw =    7.55 (mm)
+12 April 1995(Day of year=102), sysbal: 
+      **** N balance - unaccounted gain (kg/ha) =  1.87500000
+      **** C balance - unaccounted gain (kg/ha) =  23.3724709
+      ****        equivalent DM as FOM  (kg/ha) =  58.4311752
 13 April 1995(Day of year=103), wheat: 
       stage 4.0 end_of_juvenile
                      biomass =           2.59 (g/m^2)   lai          =   0.092 (m^2/m^2)
@@ -4167,6 +4470,8 @@ Component   "tracker1" = c:\development\apsim\tracker\lib\tracker.dll
         - Reading Fertiliser Type Parameters
        120.00 of N as ammonium (nh4_n)
                                               added at depth   50.00 (layer   1)
+30 April 1995(Day of year=120), sysbal: 
+      **** N balance - unaccounted gain (kg/ha) =  120.001953
 20 May 1995(Day of year=140), wheat: 
       stage 5.0 floral_initiation
                      biomass =         106.86 (g/m^2)   lai          =   0.844 (m^2/m^2)
@@ -4243,6 +4548,10 @@ Component   "tracker1" = c:\development\apsim\tracker\lib\tracker.dll
      Residue removed using user_defined
                                              Fraction Incorporated =     0.95
                                              Incorporated Depth    =     0.00
+29 July 1995(Day of year=210), sysbal: 
+      **** N balance - unaccounted loss (kg/ha) =  -23.4798508
+      **** C balance - unaccounted loss (kg/ha) =  -810.725586
+      ****        equivalent DM as FOM  (kg/ha) =  -2026.81396
 15 March 1996(Day of year=75), manager: 
      Manager sending message :- surfaceom tillage  type = planter
 15 March 1996(Day of year=75), SurfaceOM: 
@@ -4304,12 +4613,18 @@ Component   "tracker1" = c:\development\apsim\tracker\lib\tracker.dll
         - Reading Fertiliser Type Parameters
         30.00 of N as ammonium (nh4_n)
                                               added at depth   50.00 (layer   1)
+15 March 1996(Day of year=75), sysbal: 
+      **** N balance - unaccounted gain (kg/ha) =  29.9980469
 16 March 1996(Day of year=76), wheat: 
       stage 2.0 germination
 15 April 1996(Day of year=106), wheat: 
       stage 3.0 emergence
                      biomass =           1.84 (g/m^2)   lai          =   0.080 (m^2/m^2)
                      stover N conc =     5.85 (%)    extractable sw =   10.81 (mm)
+15 April 1996(Day of year=106), sysbal: 
+      **** N balance - unaccounted gain (kg/ha) =  1.87500000
+      **** C balance - unaccounted gain (kg/ha) =  23.3616199
+      ****        equivalent DM as FOM  (kg/ha) =  58.4040489
 16 April 1996(Day of year=107), wheat: 
       stage 4.0 end_of_juvenile
                      biomass =           2.98 (g/m^2)   lai          =   0.098 (m^2/m^2)
@@ -4321,6 +4636,8 @@ Component   "tracker1" = c:\development\apsim\tracker\lib\tracker.dll
         - Reading Fertiliser Type Parameters
        120.00 of N as ammonium (nh4_n)
                                               added at depth   50.00 (layer   1)
+29 April 1996(Day of year=120), sysbal: 
+      **** N balance - unaccounted gain (kg/ha) =  120.000000
 22 May 1996(Day of year=143), wheat: 
       stage 5.0 floral_initiation
                      biomass =         183.73 (g/m^2)   lai          =   1.787 (m^2/m^2)
@@ -4397,6 +4714,10 @@ Component   "tracker1" = c:\development\apsim\tracker\lib\tracker.dll
      Residue removed using user_defined
                                              Fraction Incorporated =     0.95
                                              Incorporated Depth    =     0.00
+2 August 1996(Day of year=215), sysbal: 
+      **** N balance - unaccounted loss (kg/ha) =  -47.7536469
+      **** C balance - unaccounted loss (kg/ha) =  -1488.18530
+      ****        equivalent DM as FOM  (kg/ha) =  -3720.46313
 16 March 1997(Day of year=75), manager: 
      Manager sending message :- surfaceom tillage  type = planter
 16 March 1997(Day of year=75), SurfaceOM: 
@@ -4458,12 +4779,18 @@ Component   "tracker1" = c:\development\apsim\tracker\lib\tracker.dll
         - Reading Fertiliser Type Parameters
         30.00 of N as ammonium (nh4_n)
                                               added at depth   50.00 (layer   1)
+16 March 1997(Day of year=75), sysbal: 
+      **** N balance - unaccounted gain (kg/ha) =  30.0000000
 23 April 1997(Day of year=113), wheat: 
       stage 2.0 germination
 24 April 1997(Day of year=114), wheat: 
       stage 3.0 emergence
                      biomass =           1.84 (g/m^2)   lai          =   0.080 (m^2/m^2)
                      stover N conc =     5.85 (%)    extractable sw =    7.83 (mm)
+24 April 1997(Day of year=114), sysbal: 
+      **** N balance - unaccounted gain (kg/ha) =  1.87500000
+      **** C balance - unaccounted gain (kg/ha) =  23.3356953
+      ****        equivalent DM as FOM  (kg/ha) =  58.3392372
 25 April 1997(Day of year=115), wheat: 
       stage 4.0 end_of_juvenile
                      biomass =           3.22 (g/m^2)   lai          =   0.102 (m^2/m^2)
@@ -4475,6 +4802,8 @@ Component   "tracker1" = c:\development\apsim\tracker\lib\tracker.dll
         - Reading Fertiliser Type Parameters
        120.00 of N as ammonium (nh4_n)
                                               added at depth   50.00 (layer   1)
+30 April 1997(Day of year=120), sysbal: 
+      **** N balance - unaccounted gain (kg/ha) =  120.000000
 22 May 1997(Day of year=142), wheat: 
       stage 5.0 floral_initiation
                      biomass =          50.74 (g/m^2)   lai          =   0.560 (m^2/m^2)
@@ -4551,6 +4880,10 @@ Component   "tracker1" = c:\development\apsim\tracker\lib\tracker.dll
      Residue removed using user_defined
                                              Fraction Incorporated =     0.95
                                              Incorporated Depth    =     0.00
+31 July 1997(Day of year=212), sysbal: 
+      **** N balance - unaccounted loss (kg/ha) =  -13.5354271
+      **** C balance - unaccounted loss (kg/ha) =  -460.602844
+      ****        equivalent DM as FOM  (kg/ha) =  -1151.50708
 16 March 1998(Day of year=75), manager: 
      Manager sending message :- surfaceom tillage  type = planter
 16 March 1998(Day of year=75), SurfaceOM: 
@@ -4612,12 +4945,18 @@ Component   "tracker1" = c:\development\apsim\tracker\lib\tracker.dll
         - Reading Fertiliser Type Parameters
         30.00 of N as ammonium (nh4_n)
                                               added at depth   50.00 (layer   1)
+16 March 1998(Day of year=75), sysbal: 
+      **** N balance - unaccounted gain (kg/ha) =  30.0000000
 30 March 1998(Day of year=89), wheat: 
       stage 2.0 germination
 8 April 1998(Day of year=98), wheat: 
       stage 3.0 emergence
                      biomass =           1.84 (g/m^2)   lai          =   0.080 (m^2/m^2)
                      stover N conc =     5.85 (%)    extractable sw =   23.25 (mm)
+8 April 1998(Day of year=98), sysbal: 
+      **** N balance - unaccounted gain (kg/ha) =  1.87500000
+      **** C balance - unaccounted gain (kg/ha) =  23.3479843
+      ****        equivalent DM as FOM  (kg/ha) =  58.3699608
 9 April 1998(Day of year=99), wheat: 
       stage 4.0 end_of_juvenile
                      biomass =           3.07 (g/m^2)   lai          =   0.100 (m^2/m^2)
@@ -4629,6 +4968,8 @@ Component   "tracker1" = c:\development\apsim\tracker\lib\tracker.dll
         - Reading Fertiliser Type Parameters
        120.00 of N as ammonium (nh4_n)
                                               added at depth   50.00 (layer   1)
+30 April 1998(Day of year=120), sysbal: 
+      **** N balance - unaccounted gain (kg/ha) =  120.000000
 10 May 1998(Day of year=130), wheat: 
       stage 5.0 floral_initiation
                      biomass =         207.77 (g/m^2)   lai          =   2.691 (m^2/m^2)
@@ -4705,6 +5046,10 @@ Component   "tracker1" = c:\development\apsim\tracker\lib\tracker.dll
      Residue removed using user_defined
                                              Fraction Incorporated =     0.95
                                              Incorporated Depth    =     0.00
+22 July 1998(Day of year=203), sysbal: 
+      **** N balance - unaccounted loss (kg/ha) =  -84.9615173
+      **** C balance - unaccounted loss (kg/ha) =  -2299.55762
+      ****        equivalent DM as FOM  (kg/ha) =  -5748.89404
 16 March 1999(Day of year=75), manager: 
      Manager sending message :- surfaceom tillage  type = planter
 16 March 1999(Day of year=75), SurfaceOM: 
@@ -4766,12 +5111,18 @@ Component   "tracker1" = c:\development\apsim\tracker\lib\tracker.dll
         - Reading Fertiliser Type Parameters
         30.00 of N as ammonium (nh4_n)
                                               added at depth   50.00 (layer   1)
+16 March 1999(Day of year=75), sysbal: 
+      **** N balance - unaccounted gain (kg/ha) =  30.0019531
 19 April 1999(Day of year=109), wheat: 
       stage 2.0 germination
 20 April 1999(Day of year=110), wheat: 
       stage 3.0 emergence
                      biomass =           1.84 (g/m^2)   lai          =   0.080 (m^2/m^2)
                      stover N conc =     5.85 (%)    extractable sw =   16.82 (mm)
+20 April 1999(Day of year=110), sysbal: 
+      **** N balance - unaccounted gain (kg/ha) =  1.87500000
+      **** C balance - unaccounted gain (kg/ha) =  23.3648643
+      ****        equivalent DM as FOM  (kg/ha) =  58.4121590
 21 April 1999(Day of year=111), wheat: 
       stage 4.0 end_of_juvenile
                      biomass =           3.21 (g/m^2)   lai          =   0.102 (m^2/m^2)
@@ -4783,6 +5134,8 @@ Component   "tracker1" = c:\development\apsim\tracker\lib\tracker.dll
         - Reading Fertiliser Type Parameters
        120.00 of N as ammonium (nh4_n)
                                               added at depth   50.00 (layer   1)
+30 April 1999(Day of year=120), sysbal: 
+      **** N balance - unaccounted gain (kg/ha) =  120.000000
 23 May 1999(Day of year=143), wheat: 
       stage 5.0 floral_initiation
                      biomass =         219.12 (g/m^2)   lai          =   2.475 (m^2/m^2)
@@ -4859,6 +5212,10 @@ Component   "tracker1" = c:\development\apsim\tracker\lib\tracker.dll
      Residue removed using user_defined
                                              Fraction Incorporated =     0.95
                                              Incorporated Depth    =     0.00
+3 August 1999(Day of year=215), sysbal: 
+      **** N balance - unaccounted loss (kg/ha) =  -68.4168243
+      **** C balance - unaccounted loss (kg/ha) =  -2583.92920
+      ****        equivalent DM as FOM  (kg/ha) =  -6459.82275
 15 March 2000(Day of year=75), manager: 
      Manager sending message :- surfaceom tillage  type = planter
 15 March 2000(Day of year=75), SurfaceOM: 
@@ -4920,12 +5277,18 @@ Component   "tracker1" = c:\development\apsim\tracker\lib\tracker.dll
         - Reading Fertiliser Type Parameters
         30.00 of N as ammonium (nh4_n)
                                               added at depth   50.00 (layer   1)
+15 March 2000(Day of year=75), sysbal: 
+      **** N balance - unaccounted gain (kg/ha) =  30.0000000
 31 March 2000(Day of year=91), wheat: 
       stage 2.0 germination
 7 April 2000(Day of year=98), wheat: 
       stage 3.0 emergence
                      biomass =           1.84 (g/m^2)   lai          =   0.080 (m^2/m^2)
                      stover N conc =     5.85 (%)    extractable sw =   11.08 (mm)
+7 April 2000(Day of year=98), sysbal: 
+      **** N balance - unaccounted gain (kg/ha) =  1.87500000
+      **** C balance - unaccounted gain (kg/ha) =  23.3623066
+      ****        equivalent DM as FOM  (kg/ha) =  58.4057655
 8 April 2000(Day of year=99), wheat: 
       stage 4.0 end_of_juvenile
                      biomass =           2.84 (g/m^2)   lai          =   0.096 (m^2/m^2)
@@ -4937,6 +5300,8 @@ Component   "tracker1" = c:\development\apsim\tracker\lib\tracker.dll
         - Reading Fertiliser Type Parameters
        120.00 of N as ammonium (nh4_n)
                                               added at depth   50.00 (layer   1)
+29 April 2000(Day of year=120), sysbal: 
+      **** N balance - unaccounted gain (kg/ha) =  120.001953
 14 May 2000(Day of year=135), wheat: 
       stage 5.0 floral_initiation
                      biomass =          50.65 (g/m^2)   lai          =   0.343 (m^2/m^2)
@@ -5013,6 +5378,10 @@ Component   "tracker1" = c:\development\apsim\tracker\lib\tracker.dll
      Residue removed using user_defined
                                              Fraction Incorporated =     0.95
                                              Incorporated Depth    =     0.00
+23 July 2000(Day of year=205), sysbal: 
+      **** N balance - unaccounted loss (kg/ha) =  -13.7934761
+      **** C balance - unaccounted loss (kg/ha) =  -597.758179
+      ****        equivalent DM as FOM  (kg/ha) =  -1494.39539
 16 March 2001(Day of year=75), manager: 
      Manager sending message :- surfaceom tillage  type = planter
 16 March 2001(Day of year=75), SurfaceOM: 
@@ -5074,12 +5443,18 @@ Component   "tracker1" = c:\development\apsim\tracker\lib\tracker.dll
         - Reading Fertiliser Type Parameters
         30.00 of N as ammonium (nh4_n)
                                               added at depth   50.00 (layer   1)
+16 March 2001(Day of year=75), sysbal: 
+      **** N balance - unaccounted gain (kg/ha) =  30.0000000
 17 March 2001(Day of year=76), wheat: 
       stage 2.0 germination
 2 April 2001(Day of year=92), wheat: 
       stage 3.0 emergence
                      biomass =           1.84 (g/m^2)   lai          =   0.080 (m^2/m^2)
                      stover N conc =     5.85 (%)    extractable sw =   17.99 (mm)
+2 April 2001(Day of year=92), sysbal: 
+      **** N balance - unaccounted gain (kg/ha) =  1.87500000
+      **** C balance - unaccounted gain (kg/ha) =  23.3535728
+      ****        equivalent DM as FOM  (kg/ha) =  58.3839302
 3 April 2001(Day of year=93), wheat: 
       stage 4.0 end_of_juvenile
                      biomass =           2.59 (g/m^2)   lai          =   0.092 (m^2/m^2)
@@ -5091,6 +5466,8 @@ Component   "tracker1" = c:\development\apsim\tracker\lib\tracker.dll
         - Reading Fertiliser Type Parameters
        120.00 of N as ammonium (nh4_n)
                                               added at depth   50.00 (layer   1)
+30 April 2001(Day of year=120), sysbal: 
+      **** N balance - unaccounted gain (kg/ha) =  119.996094
 15 May 2001(Day of year=135), wheat: 
       stage 5.0 floral_initiation
                      biomass =         238.07 (g/m^2)   lai          =   2.436 (m^2/m^2)
@@ -5167,6 +5544,10 @@ Component   "tracker1" = c:\development\apsim\tracker\lib\tracker.dll
      Residue removed using user_defined
                                              Fraction Incorporated =     0.95
                                              Incorporated Depth    =     0.00
+25 July 2001(Day of year=206), sysbal: 
+      **** N balance - unaccounted loss (kg/ha) =  -56.1731110
+      **** C balance - unaccounted loss (kg/ha) =  -1561.12720
+      ****        equivalent DM as FOM  (kg/ha) =  -3902.81787
 16 March 2002(Day of year=75), manager: 
      Manager sending message :- surfaceom tillage  type = planter
 16 March 2002(Day of year=75), SurfaceOM: 
@@ -5228,12 +5609,18 @@ Component   "tracker1" = c:\development\apsim\tracker\lib\tracker.dll
         - Reading Fertiliser Type Parameters
         30.00 of N as ammonium (nh4_n)
                                               added at depth   50.00 (layer   1)
+16 March 2002(Day of year=75), sysbal: 
+      **** N balance - unaccounted gain (kg/ha) =  30.0000000
 17 March 2002(Day of year=76), wheat: 
       stage 2.0 germination
 1 April 2002(Day of year=91), wheat: 
       stage 3.0 emergence
                      biomass =           1.84 (g/m^2)   lai          =   0.080 (m^2/m^2)
                      stover N conc =     5.85 (%)    extractable sw =   13.76 (mm)
+1 April 2002(Day of year=91), sysbal: 
+      **** N balance - unaccounted gain (kg/ha) =  1.87500000
+      **** C balance - unaccounted gain (kg/ha) =  23.3434200
+      ****        equivalent DM as FOM  (kg/ha) =  58.3585510
 2 April 2002(Day of year=92), wheat: 
       stage 4.0 end_of_juvenile
                      biomass =           2.85 (g/m^2)   lai          =   0.096 (m^2/m^2)
@@ -5245,6 +5632,8 @@ Component   "tracker1" = c:\development\apsim\tracker\lib\tracker.dll
         - Reading Fertiliser Type Parameters
        120.00 of N as ammonium (nh4_n)
                                               added at depth   50.00 (layer   1)
+30 April 2002(Day of year=120), sysbal: 
+      **** N balance - unaccounted gain (kg/ha) =  120.001953
 12 May 2002(Day of year=132), wheat: 
       stage 5.0 floral_initiation
                      biomass =         332.93 (g/m^2)   lai          =   3.780 (m^2/m^2)
@@ -5321,6 +5710,10 @@ Component   "tracker1" = c:\development\apsim\tracker\lib\tracker.dll
      Residue removed using user_defined
                                              Fraction Incorporated =     0.95
                                              Incorporated Depth    =     0.00
+22 July 2002(Day of year=203), sysbal: 
+      **** N balance - unaccounted loss (kg/ha) =  -93.7474365
+      **** C balance - unaccounted loss (kg/ha) =  -2338.72314
+      ****        equivalent DM as FOM  (kg/ha) =  -5846.80762
 16 March 2003(Day of year=75), manager: 
      Manager sending message :- surfaceom tillage  type = planter
 16 March 2003(Day of year=75), SurfaceOM: 
@@ -5382,12 +5775,18 @@ Component   "tracker1" = c:\development\apsim\tracker\lib\tracker.dll
         - Reading Fertiliser Type Parameters
         30.00 of N as ammonium (nh4_n)
                                               added at depth   50.00 (layer   1)
+16 March 2003(Day of year=75), sysbal: 
+      **** N balance - unaccounted gain (kg/ha) =  30.0000000
 21 March 2003(Day of year=80), wheat: 
       stage 2.0 germination
 2 April 2003(Day of year=92), wheat: 
       stage 3.0 emergence
                      biomass =           1.84 (g/m^2)   lai          =   0.080 (m^2/m^2)
                      stover N conc =     5.85 (%)    extractable sw =    7.55 (mm)
+2 April 2003(Day of year=92), sysbal: 
+      **** N balance - unaccounted gain (kg/ha) =  1.87500000
+      **** C balance - unaccounted gain (kg/ha) =  23.3544750
+      ****        equivalent DM as FOM  (kg/ha) =  58.3861885
 3 April 2003(Day of year=93), wheat: 
       stage 4.0 end_of_juvenile
                      biomass =           2.06 (g/m^2)   lai          =   0.084 (m^2/m^2)
@@ -5399,6 +5798,8 @@ Component   "tracker1" = c:\development\apsim\tracker\lib\tracker.dll
         - Reading Fertiliser Type Parameters
        120.00 of N as ammonium (nh4_n)
                                               added at depth   50.00 (layer   1)
+30 April 2003(Day of year=120), sysbal: 
+      **** N balance - unaccounted gain (kg/ha) =  120.000000
 16 May 2003(Day of year=136), wheat: 
       stage 5.0 floral_initiation
                      biomass =          57.36 (g/m^2)   lai          =   0.658 (m^2/m^2)
@@ -5475,5 +5876,9 @@ Component   "tracker1" = c:\development\apsim\tracker\lib\tracker.dll
      Residue removed using user_defined
                                              Fraction Incorporated =     0.95
                                              Incorporated Depth    =     0.00
+1 August 2003(Day of year=213), sysbal: 
+      **** N balance - unaccounted loss (kg/ha) =  -27.1713696
+      **** C balance - unaccounted loss (kg/ha) =  -571.410889
+      ****        equivalent DM as FOM  (kg/ha) =  -1428.52722
 10 October 2003(Day of year=283), clock: 
      Simulation is terminating due to end criteria being met.
