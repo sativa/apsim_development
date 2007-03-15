@@ -25,6 +25,7 @@ Component     "soiln2" = c:\development\apsim\soiln2\lib\soiln2.dll
 Component     "solute" = c:\development\apsim\solute\lib\solute.dll
 Component     "cowpea" = c:\development\apsim\Plant\lib\Plant.dll
 Component      "maize" = c:\development\apsim\maize\lib\maize.dll
+Component     "sysbal" = c:\development\apsim\sysbal\lib\sysbal.dll
 
 ------- clock Initialisation --------------------------------------------------
      Sequencer phases:
@@ -432,12 +433,18 @@ Component      "maize" = c:\development\apsim\maize\lib\maize.dll
        150.00 of N as nitrate (no3_n)
                                               added at depth    5.00 (layer   1)
       Sending apply message to irrigate
+26 October 1988(Day of year=300), sysbal: 
+      **** N balance - unaccounted gain (kg/ha) =  149.999710
 27 October 1988(Day of year=301), maize: 
       stage    2.0 germination
 29 October 1988(Day of year=303), maize: 
       stage    3.0 emergence
                           biomass =          0.2000000       lai =    0.3800000E-02
                           stover N conc =    4.399999       extractable sw =    11.10876
+29 October 1988(Day of year=303), sysbal: 
+      **** N balance - unaccounted gain (kg/ha) =  0.109668128
+      **** C balance - unaccounted gain (kg/ha) =  1.20198393
+      ****        equivalent DM as FOM  (kg/ha) =  3.00495982
 30 October 1988(Day of year=304), apswim: 
      !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
                       APSIM Warning Error
@@ -523,6 +530,10 @@ Component      "maize" = c:\development\apsim\maize\lib\maize.dll
       stage 3.0 emergence
                      biomass =           0.75 (g/m^2)   lai          =   0.020 (m^2/m^2)
                      stover N conc =     6.00 (%)    extractable sw =   57.38 (mm)
+12 November 1988(Day of year=317), sysbal: 
+      **** N balance - unaccounted gain (kg/ha) =  1.54979372
+      **** C balance - unaccounted gain (kg/ha) =  23.0021591
+      ****        equivalent DM as FOM  (kg/ha) =  57.5053978
 13 November 1988(Day of year=318), cowpea: 
      !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
                       APSIM Warning Error
@@ -545,6 +556,8 @@ Component      "maize" = c:\development\apsim\maize\lib\maize.dll
      !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
      
      
+19 November 1988(Day of year=324), sysbal: 
+      **** N balance - unaccounted loss (kg/ha) =  -6.21314198E-02
 23 December 1988(Day of year=358), cowpea: 
       stage 4.0 end_of_juvenile
                      biomass =          74.65 (g/m^2)   lai          =   1.188 (m^2/m^2)
@@ -654,6 +667,14 @@ Component      "maize" = c:\development\apsim\maize\lib\maize.dll
                           DM (kg/ha) =                  0.00                  732.23
                           N  (kg/ha) =                  0.00                   10.99
      
+24 January 1989(Day of year=24), sysbal: 
+      **** N balance - unaccounted gain (kg/ha) =  10.9937553
+      **** C balance - unaccounted gain (kg/ha) =  292.888855
+      ****        equivalent DM as FOM  (kg/ha) =  732.222107
+25 January 1989(Day of year=25), sysbal: 
+      **** N balance - unaccounted loss (kg/ha) =  -10.9947329
+      **** C balance - unaccounted loss (kg/ha) =  -292.889832
+      ****        equivalent DM as FOM  (kg/ha) =  -732.224548
 2 March 1989(Day of year=61), maize: 
       stage    9.0 end_grain_fill
                           biomass =           1812.766       lai =     1.425187
