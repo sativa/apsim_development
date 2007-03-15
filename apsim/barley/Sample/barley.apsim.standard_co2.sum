@@ -19,6 +19,7 @@ Component   "soilwat2" = c:\development\apsim\soilwat2\lib\soilwat2.dll
 Component  "SurfaceOM" = c:\development\apsim\SurfaceOM\lib\SurfaceOM.dll
 Component     "soiln2" = c:\development\apsim\soiln2\lib\soiln2.dll
 Component     "barley" = c:\development\apsim\Plant\lib\Plant.dll
+Component     "sysbal" = c:\development\apsim\sysbal\lib\sysbal.dll
 
 ------- clock Initialisation --------------------------------------------------
      Sequencer phases:
@@ -257,6 +258,10 @@ Component     "barley" = c:\development\apsim\Plant\lib\Plant.dll
       stage 3.0 emergence
                      biomass =           0.55 (g/m^2)   lai          =   0.024 (m^2/m^2)
                      stover N conc =     5.85 (%)    extractable sw =   30.04 (mm)
+25 June 1940(Day of year=177), sysbal: 
+      **** N balance - unaccounted gain (kg/ha) =  0.562501729
+      **** C balance - unaccounted gain (kg/ha) =  7.01782608
+      ****        equivalent DM as FOM  (kg/ha) =  17.5445652
 26 June 1940(Day of year=178), barley: 
       stage 4.0 end_of_juvenile
                      biomass =           0.68 (g/m^2)   lai          =   0.026 (m^2/m^2)
@@ -385,6 +390,10 @@ Component     "barley" = c:\development\apsim\Plant\lib\Plant.dll
       stage 3.0 emergence
                      biomass =           0.55 (g/m^2)   lai          =   0.024 (m^2/m^2)
                      stover N conc =     5.85 (%)    extractable sw =   27.50 (mm)
+26 June 1941(Day of year=177), sysbal: 
+      **** N balance - unaccounted gain (kg/ha) =  0.563476563
+      **** C balance - unaccounted gain (kg/ha) =  6.99797201
+      ****        equivalent DM as FOM  (kg/ha) =  17.4949303
 27 June 1941(Day of year=178), barley: 
       stage 4.0 end_of_juvenile
                      biomass =           0.74 (g/m^2)   lai          =   0.027 (m^2/m^2)
@@ -513,6 +522,10 @@ Component     "barley" = c:\development\apsim\Plant\lib\Plant.dll
       stage 3.0 emergence
                      biomass =           0.55 (g/m^2)   lai          =   0.024 (m^2/m^2)
                      stover N conc =     5.85 (%)    extractable sw =   19.64 (mm)
+24 June 1942(Day of year=175), sysbal: 
+      **** N balance - unaccounted gain (kg/ha) =  0.561523438
+      **** C balance - unaccounted gain (kg/ha) =  7.00241756
+      ****        equivalent DM as FOM  (kg/ha) =  17.5060444
 25 June 1942(Day of year=176), barley: 
       stage 4.0 end_of_juvenile
                      biomass =           0.73 (g/m^2)   lai          =   0.027 (m^2/m^2)
@@ -641,6 +654,10 @@ Component     "barley" = c:\development\apsim\Plant\lib\Plant.dll
       stage 3.0 emergence
                      biomass =           0.55 (g/m^2)   lai          =   0.024 (m^2/m^2)
                      stover N conc =     5.85 (%)    extractable sw =   23.47 (mm)
+28 June 1943(Day of year=179), sysbal: 
+      **** N balance - unaccounted gain (kg/ha) =  0.561523438
+      **** C balance - unaccounted gain (kg/ha) =  7.00597763
+      ****        equivalent DM as FOM  (kg/ha) =  17.5149441
 29 June 1943(Day of year=180), barley: 
       stage 4.0 end_of_juvenile
                      biomass =           0.75 (g/m^2)   lai          =   0.028 (m^2/m^2)
@@ -769,6 +786,10 @@ Component     "barley" = c:\development\apsim\Plant\lib\Plant.dll
       stage 3.0 emergence
                      biomass =           0.55 (g/m^2)   lai          =   0.024 (m^2/m^2)
                      stover N conc =     5.85 (%)    extractable sw =   24.87 (mm)
+26 June 1944(Day of year=178), sysbal: 
+      **** N balance - unaccounted gain (kg/ha) =  0.563476563
+      **** C balance - unaccounted gain (kg/ha) =  7.00429487
+      ****        equivalent DM as FOM  (kg/ha) =  17.5107365
 27 June 1944(Day of year=179), barley: 
       stage 4.0 end_of_juvenile
                      biomass =           0.74 (g/m^2)   lai          =   0.027 (m^2/m^2)
@@ -897,6 +918,10 @@ Component     "barley" = c:\development\apsim\Plant\lib\Plant.dll
       stage 3.0 emergence
                      biomass =           0.55 (g/m^2)   lai          =   0.024 (m^2/m^2)
                      stover N conc =     5.85 (%)    extractable sw =   31.94 (mm)
+24 June 1945(Day of year=175), sysbal: 
+      **** N balance - unaccounted gain (kg/ha) =  0.562269449
+      **** C balance - unaccounted gain (kg/ha) =  7.01182270
+      ****        equivalent DM as FOM  (kg/ha) =  17.5295563
 25 June 1945(Day of year=176), barley: 
       stage 4.0 end_of_juvenile
                      biomass =           0.74 (g/m^2)   lai          =   0.027 (m^2/m^2)
@@ -1025,6 +1050,10 @@ Component     "barley" = c:\development\apsim\Plant\lib\Plant.dll
       stage 3.0 emergence
                      biomass =           0.55 (g/m^2)   lai          =   0.024 (m^2/m^2)
                      stover N conc =     5.85 (%)    extractable sw =   28.45 (mm)
+27 June 1946(Day of year=178), sysbal: 
+      **** N balance - unaccounted gain (kg/ha) =  0.561523438
+      **** C balance - unaccounted gain (kg/ha) =  7.00639820
+      ****        equivalent DM as FOM  (kg/ha) =  17.5159950
 28 June 1946(Day of year=179), barley: 
       stage 4.0 end_of_juvenile
                      biomass =           0.68 (g/m^2)   lai          =   0.026 (m^2/m^2)
@@ -1153,6 +1182,10 @@ Component     "barley" = c:\development\apsim\Plant\lib\Plant.dll
       stage 3.0 emergence
                      biomass =           0.55 (g/m^2)   lai          =   0.024 (m^2/m^2)
                      stover N conc =     5.85 (%)    extractable sw =   30.74 (mm)
+25 June 1947(Day of year=176), sysbal: 
+      **** N balance - unaccounted gain (kg/ha) =  0.562264502
+      **** C balance - unaccounted gain (kg/ha) =  7.01395607
+      ****        equivalent DM as FOM  (kg/ha) =  17.5348892
 26 June 1947(Day of year=177), barley: 
       stage 4.0 end_of_juvenile
                      biomass =           0.73 (g/m^2)   lai          =   0.027 (m^2/m^2)
@@ -1281,6 +1314,10 @@ Component     "barley" = c:\development\apsim\Plant\lib\Plant.dll
       stage 3.0 emergence
                      biomass =           0.55 (g/m^2)   lai          =   0.024 (m^2/m^2)
                      stover N conc =     5.85 (%)    extractable sw =   36.80 (mm)
+23 June 1948(Day of year=175), sysbal: 
+      **** N balance - unaccounted gain (kg/ha) =  0.561905265
+      **** C balance - unaccounted gain (kg/ha) =  7.01040506
+      ****        equivalent DM as FOM  (kg/ha) =  17.5260124
 24 June 1948(Day of year=176), barley: 
       stage 4.0 end_of_juvenile
                      biomass =           0.71 (g/m^2)   lai          =   0.027 (m^2/m^2)
@@ -1409,6 +1446,10 @@ Component     "barley" = c:\development\apsim\Plant\lib\Plant.dll
       stage 3.0 emergence
                      biomass =           0.55 (g/m^2)   lai          =   0.024 (m^2/m^2)
                      stover N conc =     5.85 (%)    extractable sw =   31.60 (mm)
+27 June 1949(Day of year=178), sysbal: 
+      **** N balance - unaccounted gain (kg/ha) =  0.562648416
+      **** C balance - unaccounted gain (kg/ha) =  7.02942085
+      ****        equivalent DM as FOM  (kg/ha) =  17.5735512
 28 June 1949(Day of year=179), barley: 
       stage 4.0 end_of_juvenile
                      biomass =           0.75 (g/m^2)   lai          =   0.028 (m^2/m^2)
@@ -1537,6 +1578,10 @@ Component     "barley" = c:\development\apsim\Plant\lib\Plant.dll
       stage 3.0 emergence
                      biomass =           0.55 (g/m^2)   lai          =   0.024 (m^2/m^2)
                      stover N conc =     5.85 (%)    extractable sw =   36.86 (mm)
+25 June 1950(Day of year=176), sysbal: 
+      **** N balance - unaccounted gain (kg/ha) =  0.563230634
+      **** C balance - unaccounted gain (kg/ha) =  6.99930716
+      ****        equivalent DM as FOM  (kg/ha) =  17.4982681
 26 June 1950(Day of year=177), barley: 
       stage 4.0 end_of_juvenile
                      biomass =           0.63 (g/m^2)   lai          =   0.025 (m^2/m^2)
@@ -1665,6 +1710,10 @@ Component     "barley" = c:\development\apsim\Plant\lib\Plant.dll
       stage 3.0 emergence
                      biomass =           0.55 (g/m^2)   lai          =   0.024 (m^2/m^2)
                      stover N conc =     5.85 (%)    extractable sw =   31.95 (mm)
+25 June 1951(Day of year=176), sysbal: 
+      **** N balance - unaccounted gain (kg/ha) =  0.564197540
+      **** C balance - unaccounted gain (kg/ha) =  7.02905273
+      ****        equivalent DM as FOM  (kg/ha) =  17.5726318
 26 June 1951(Day of year=177), barley: 
       stage 4.0 end_of_juvenile
                      biomass =           0.63 (g/m^2)   lai          =   0.025 (m^2/m^2)
@@ -1793,6 +1842,10 @@ Component     "barley" = c:\development\apsim\Plant\lib\Plant.dll
       stage 3.0 emergence
                      biomass =           0.55 (g/m^2)   lai          =   0.024 (m^2/m^2)
                      stover N conc =     5.85 (%)    extractable sw =   32.21 (mm)
+25 June 1952(Day of year=177), sysbal: 
+      **** N balance - unaccounted gain (kg/ha) =  0.562527299
+      **** C balance - unaccounted gain (kg/ha) =  7.00807953
+      ****        equivalent DM as FOM  (kg/ha) =  17.5201988
 26 June 1952(Day of year=178), barley: 
       stage 4.0 end_of_juvenile
                      biomass =           0.75 (g/m^2)   lai          =   0.028 (m^2/m^2)
@@ -1921,6 +1974,10 @@ Component     "barley" = c:\development\apsim\Plant\lib\Plant.dll
       stage 3.0 emergence
                      biomass =           0.55 (g/m^2)   lai          =   0.024 (m^2/m^2)
                      stover N conc =     5.85 (%)    extractable sw =   29.08 (mm)
+27 June 1953(Day of year=178), sysbal: 
+      **** N balance - unaccounted gain (kg/ha) =  0.563953221
+      **** C balance - unaccounted gain (kg/ha) =  6.99175882
+      ****        equivalent DM as FOM  (kg/ha) =  17.4793968
 28 June 1953(Day of year=179), barley: 
       stage 4.0 end_of_juvenile
                      biomass =           0.76 (g/m^2)   lai          =   0.028 (m^2/m^2)
@@ -2049,6 +2106,10 @@ Component     "barley" = c:\development\apsim\Plant\lib\Plant.dll
       stage 3.0 emergence
                      biomass =           0.55 (g/m^2)   lai          =   0.024 (m^2/m^2)
                      stover N conc =     5.85 (%)    extractable sw =   30.53 (mm)
+25 June 1954(Day of year=176), sysbal: 
+      **** N balance - unaccounted gain (kg/ha) =  0.562500417
+      **** C balance - unaccounted gain (kg/ha) =  7.00103569
+      ****        equivalent DM as FOM  (kg/ha) =  17.5025883
 26 June 1954(Day of year=177), barley: 
       stage 4.0 end_of_juvenile
                      biomass =           0.75 (g/m^2)   lai          =   0.028 (m^2/m^2)
@@ -2177,6 +2238,10 @@ Component     "barley" = c:\development\apsim\Plant\lib\Plant.dll
       stage 3.0 emergence
                      biomass =           0.55 (g/m^2)   lai          =   0.024 (m^2/m^2)
                      stover N conc =     5.85 (%)    extractable sw =   32.30 (mm)
+24 June 1955(Day of year=175), sysbal: 
+      **** N balance - unaccounted gain (kg/ha) =  0.563885272
+      **** C balance - unaccounted gain (kg/ha) =  6.99884796
+      ****        equivalent DM as FOM  (kg/ha) =  17.4971199
 25 June 1955(Day of year=176), barley: 
       stage 4.0 end_of_juvenile
                      biomass =           0.71 (g/m^2)   lai          =   0.027 (m^2/m^2)
@@ -2305,6 +2370,10 @@ Component     "barley" = c:\development\apsim\Plant\lib\Plant.dll
       stage 3.0 emergence
                      biomass =           0.55 (g/m^2)   lai          =   0.024 (m^2/m^2)
                      stover N conc =     5.85 (%)    extractable sw =   38.14 (mm)
+25 June 1956(Day of year=177), sysbal: 
+      **** N balance - unaccounted gain (kg/ha) =  0.562046826
+      **** C balance - unaccounted gain (kg/ha) =  7.01518822
+      ****        equivalent DM as FOM  (kg/ha) =  17.5379696
 26 June 1956(Day of year=178), barley: 
       stage 4.0 end_of_juvenile
                      biomass =           0.64 (g/m^2)   lai          =   0.026 (m^2/m^2)
@@ -2433,6 +2502,10 @@ Component     "barley" = c:\development\apsim\Plant\lib\Plant.dll
       stage 3.0 emergence
                      biomass =           0.55 (g/m^2)   lai          =   0.024 (m^2/m^2)
                      stover N conc =     5.85 (%)    extractable sw =   32.35 (mm)
+24 June 1957(Day of year=175), sysbal: 
+      **** N balance - unaccounted gain (kg/ha) =  0.563476563
+      **** C balance - unaccounted gain (kg/ha) =  7.00428104
+      ****        equivalent DM as FOM  (kg/ha) =  17.5107021
 25 June 1957(Day of year=176), barley: 
       stage 4.0 end_of_juvenile
                      biomass =           0.74 (g/m^2)   lai          =   0.027 (m^2/m^2)
@@ -2561,6 +2634,10 @@ Component     "barley" = c:\development\apsim\Plant\lib\Plant.dll
       stage 3.0 emergence
                      biomass =           0.55 (g/m^2)   lai          =   0.024 (m^2/m^2)
                      stover N conc =     5.85 (%)    extractable sw =   31.82 (mm)
+24 June 1958(Day of year=175), sysbal: 
+      **** N balance - unaccounted gain (kg/ha) =  0.561376929
+      **** C balance - unaccounted gain (kg/ha) =  7.00671482
+      ****        equivalent DM as FOM  (kg/ha) =  17.5167866
 25 June 1958(Day of year=176), barley: 
       stage 4.0 end_of_juvenile
                      biomass =           0.74 (g/m^2)   lai          =   0.027 (m^2/m^2)
@@ -2689,6 +2766,10 @@ Component     "barley" = c:\development\apsim\Plant\lib\Plant.dll
       stage 3.0 emergence
                      biomass =           0.55 (g/m^2)   lai          =   0.024 (m^2/m^2)
                      stover N conc =     5.85 (%)    extractable sw =   30.39 (mm)
+24 June 1959(Day of year=175), sysbal: 
+      **** N balance - unaccounted gain (kg/ha) =  0.562434852
+      **** C balance - unaccounted gain (kg/ha) =  7.01893187
+      ****        equivalent DM as FOM  (kg/ha) =  17.5473289
 25 June 1959(Day of year=176), barley: 
       stage 4.0 end_of_juvenile
                      biomass =           0.75 (g/m^2)   lai          =   0.028 (m^2/m^2)
@@ -2817,6 +2898,10 @@ Component     "barley" = c:\development\apsim\Plant\lib\Plant.dll
       stage 3.0 emergence
                      biomass =           0.55 (g/m^2)   lai          =   0.024 (m^2/m^2)
                      stover N conc =     5.85 (%)    extractable sw =   33.00 (mm)
+26 June 1960(Day of year=178), sysbal: 
+      **** N balance - unaccounted gain (kg/ha) =  0.563446045
+      **** C balance - unaccounted gain (kg/ha) =  7.01203871
+      ****        equivalent DM as FOM  (kg/ha) =  17.5300961
 27 June 1960(Day of year=179), barley: 
       stage 4.0 end_of_juvenile
                      biomass =           0.74 (g/m^2)   lai          =   0.027 (m^2/m^2)
@@ -2945,6 +3030,10 @@ Component     "barley" = c:\development\apsim\Plant\lib\Plant.dll
       stage 3.0 emergence
                      biomass =           0.55 (g/m^2)   lai          =   0.024 (m^2/m^2)
                      stover N conc =     5.85 (%)    extractable sw =   25.86 (mm)
+28 June 1961(Day of year=179), sysbal: 
+      **** N balance - unaccounted gain (kg/ha) =  0.562500000
+      **** C balance - unaccounted gain (kg/ha) =  6.99647045
+      ****        equivalent DM as FOM  (kg/ha) =  17.4911766
 29 June 1961(Day of year=180), barley: 
       stage 4.0 end_of_juvenile
                      biomass =           0.75 (g/m^2)   lai          =   0.028 (m^2/m^2)
@@ -3073,6 +3162,10 @@ Component     "barley" = c:\development\apsim\Plant\lib\Plant.dll
       stage 3.0 emergence
                      biomass =           0.55 (g/m^2)   lai          =   0.024 (m^2/m^2)
                      stover N conc =     5.85 (%)    extractable sw =   30.31 (mm)
+25 June 1962(Day of year=176), sysbal: 
+      **** N balance - unaccounted gain (kg/ha) =  0.563983321
+      **** C balance - unaccounted gain (kg/ha) =  7.01857901
+      ****        equivalent DM as FOM  (kg/ha) =  17.5464478
 26 June 1962(Day of year=177), barley: 
       stage 4.0 end_of_juvenile
                      biomass =           0.73 (g/m^2)   lai          =   0.027 (m^2/m^2)
@@ -3201,6 +3294,10 @@ Component     "barley" = c:\development\apsim\Plant\lib\Plant.dll
       stage 3.0 emergence
                      biomass =           0.55 (g/m^2)   lai          =   0.024 (m^2/m^2)
                      stover N conc =     5.85 (%)    extractable sw =   30.21 (mm)
+27 June 1963(Day of year=178), sysbal: 
+      **** N balance - unaccounted gain (kg/ha) =  0.562038302
+      **** C balance - unaccounted gain (kg/ha) =  7.00260639
+      ****        equivalent DM as FOM  (kg/ha) =  17.5065155
 28 June 1963(Day of year=179), barley: 
       stage 4.0 end_of_juvenile
                      biomass =           0.75 (g/m^2)   lai          =   0.028 (m^2/m^2)
@@ -3329,6 +3426,10 @@ Component     "barley" = c:\development\apsim\Plant\lib\Plant.dll
       stage 3.0 emergence
                      biomass =           0.55 (g/m^2)   lai          =   0.024 (m^2/m^2)
                      stover N conc =     5.85 (%)    extractable sw =   33.00 (mm)
+24 June 1964(Day of year=176), sysbal: 
+      **** N balance - unaccounted gain (kg/ha) =  0.564197421
+      **** C balance - unaccounted gain (kg/ha) =  7.03594875
+      ****        equivalent DM as FOM  (kg/ha) =  17.5898724
 25 June 1964(Day of year=177), barley: 
       stage 4.0 end_of_juvenile
                      biomass =           0.75 (g/m^2)   lai          =   0.028 (m^2/m^2)
@@ -3457,6 +3558,10 @@ Component     "barley" = c:\development\apsim\Plant\lib\Plant.dll
       stage 3.0 emergence
                      biomass =           0.55 (g/m^2)   lai          =   0.024 (m^2/m^2)
                      stover N conc =     5.85 (%)    extractable sw =   23.02 (mm)
+26 June 1965(Day of year=177), sysbal: 
+      **** N balance - unaccounted gain (kg/ha) =  0.564453125
+      **** C balance - unaccounted gain (kg/ha) =  6.98976851
+      ****        equivalent DM as FOM  (kg/ha) =  17.4744205
 27 June 1965(Day of year=178), barley: 
       stage 4.0 end_of_juvenile
                      biomass =           0.75 (g/m^2)   lai          =   0.028 (m^2/m^2)
@@ -3585,6 +3690,10 @@ Component     "barley" = c:\development\apsim\Plant\lib\Plant.dll
       stage 3.0 emergence
                      biomass =           0.55 (g/m^2)   lai          =   0.024 (m^2/m^2)
                      stover N conc =     5.85 (%)    extractable sw =   31.52 (mm)
+25 June 1966(Day of year=176), sysbal: 
+      **** N balance - unaccounted gain (kg/ha) =  0.563369334
+      **** C balance - unaccounted gain (kg/ha) =  7.01391792
+      ****        equivalent DM as FOM  (kg/ha) =  17.5347939
 26 June 1966(Day of year=177), barley: 
       stage 4.0 end_of_juvenile
                      biomass =           0.76 (g/m^2)   lai          =   0.028 (m^2/m^2)
@@ -3713,6 +3822,10 @@ Component     "barley" = c:\development\apsim\Plant\lib\Plant.dll
       stage 3.0 emergence
                      biomass =           0.55 (g/m^2)   lai          =   0.024 (m^2/m^2)
                      stover N conc =     5.85 (%)    extractable sw =   36.92 (mm)
+24 June 1967(Day of year=175), sysbal: 
+      **** N balance - unaccounted gain (kg/ha) =  0.562754869
+      **** C balance - unaccounted gain (kg/ha) =  7.00569344
+      ****        equivalent DM as FOM  (kg/ha) =  17.5142326
 25 June 1967(Day of year=176), barley: 
       stage 4.0 end_of_juvenile
                      biomass =           0.63 (g/m^2)   lai          =   0.025 (m^2/m^2)
@@ -3841,6 +3954,10 @@ Component     "barley" = c:\development\apsim\Plant\lib\Plant.dll
       stage 3.0 emergence
                      biomass =           0.55 (g/m^2)   lai          =   0.024 (m^2/m^2)
                      stover N conc =     5.85 (%)    extractable sw =   29.83 (mm)
+26 June 1968(Day of year=178), sysbal: 
+      **** N balance - unaccounted gain (kg/ha) =  0.562429130
+      **** C balance - unaccounted gain (kg/ha) =  6.99380112
+      ****        equivalent DM as FOM  (kg/ha) =  17.4845028
 27 June 1968(Day of year=179), barley: 
       stage 4.0 end_of_juvenile
                      biomass =           0.70 (g/m^2)   lai          =   0.027 (m^2/m^2)
@@ -3969,6 +4086,10 @@ Component     "barley" = c:\development\apsim\Plant\lib\Plant.dll
       stage 3.0 emergence
                      biomass =           0.55 (g/m^2)   lai          =   0.024 (m^2/m^2)
                      stover N conc =     5.85 (%)    extractable sw =   33.00 (mm)
+25 June 1969(Day of year=176), sysbal: 
+      **** N balance - unaccounted gain (kg/ha) =  0.563667178
+      **** C balance - unaccounted gain (kg/ha) =  7.00418949
+      ****        equivalent DM as FOM  (kg/ha) =  17.5104733
 26 June 1969(Day of year=177), barley: 
       stage 4.0 end_of_juvenile
                      biomass =           0.72 (g/m^2)   lai          =   0.027 (m^2/m^2)
@@ -4097,6 +4218,10 @@ Component     "barley" = c:\development\apsim\Plant\lib\Plant.dll
       stage 3.0 emergence
                      biomass =           0.55 (g/m^2)   lai          =   0.024 (m^2/m^2)
                      stover N conc =     5.85 (%)    extractable sw =   33.36 (mm)
+25 June 1970(Day of year=176), sysbal: 
+      **** N balance - unaccounted gain (kg/ha) =  0.563169837
+      **** C balance - unaccounted gain (kg/ha) =  7.00011349
+      ****        equivalent DM as FOM  (kg/ha) =  17.5002842
 26 June 1970(Day of year=177), barley: 
       stage 4.0 end_of_juvenile
                      biomass =           0.74 (g/m^2)   lai          =   0.027 (m^2/m^2)
@@ -4225,6 +4350,10 @@ Component     "barley" = c:\development\apsim\Plant\lib\Plant.dll
       stage 3.0 emergence
                      biomass =           0.55 (g/m^2)   lai          =   0.024 (m^2/m^2)
                      stover N conc =     5.85 (%)    extractable sw =   28.94 (mm)
+27 June 1971(Day of year=178), sysbal: 
+      **** N balance - unaccounted gain (kg/ha) =  0.563476741
+      **** C balance - unaccounted gain (kg/ha) =  6.99804497
+      ****        equivalent DM as FOM  (kg/ha) =  17.4951115
 28 June 1971(Day of year=179), barley: 
       stage 4.0 end_of_juvenile
                      biomass =           0.76 (g/m^2)   lai          =   0.028 (m^2/m^2)
@@ -4353,6 +4482,10 @@ Component     "barley" = c:\development\apsim\Plant\lib\Plant.dll
       stage 3.0 emergence
                      biomass =           0.55 (g/m^2)   lai          =   0.024 (m^2/m^2)
                      stover N conc =     5.85 (%)    extractable sw =   31.82 (mm)
+25 June 1972(Day of year=177), sysbal: 
+      **** N balance - unaccounted gain (kg/ha) =  0.562050819
+      **** C balance - unaccounted gain (kg/ha) =  6.99232388
+      ****        equivalent DM as FOM  (kg/ha) =  17.4808102
 26 June 1972(Day of year=178), barley: 
       stage 4.0 end_of_juvenile
                      biomass =           0.75 (g/m^2)   lai          =   0.027 (m^2/m^2)
@@ -4481,6 +4614,10 @@ Component     "barley" = c:\development\apsim\Plant\lib\Plant.dll
       stage 3.0 emergence
                      biomass =           0.55 (g/m^2)   lai          =   0.024 (m^2/m^2)
                      stover N conc =     5.85 (%)    extractable sw =   29.27 (mm)
+24 June 1973(Day of year=175), sysbal: 
+      **** N balance - unaccounted gain (kg/ha) =  0.562529445
+      **** C balance - unaccounted gain (kg/ha) =  6.99581861
+      ****        equivalent DM as FOM  (kg/ha) =  17.4895458
 25 June 1973(Day of year=176), barley: 
       stage 4.0 end_of_juvenile
                      biomass =           0.68 (g/m^2)   lai          =   0.026 (m^2/m^2)
@@ -4609,6 +4746,10 @@ Component     "barley" = c:\development\apsim\Plant\lib\Plant.dll
       stage 3.0 emergence
                      biomass =           0.55 (g/m^2)   lai          =   0.024 (m^2/m^2)
                      stover N conc =     5.85 (%)    extractable sw =   37.51 (mm)
+26 June 1974(Day of year=177), sysbal: 
+      **** N balance - unaccounted gain (kg/ha) =  0.563205481
+      **** C balance - unaccounted gain (kg/ha) =  7.01939297
+      ****        equivalent DM as FOM  (kg/ha) =  17.5484829
 27 June 1974(Day of year=178), barley: 
       stage 4.0 end_of_juvenile
                      biomass =           0.72 (g/m^2)   lai          =   0.027 (m^2/m^2)
@@ -4737,6 +4878,10 @@ Component     "barley" = c:\development\apsim\Plant\lib\Plant.dll
       stage 3.0 emergence
                      biomass =           0.55 (g/m^2)   lai          =   0.024 (m^2/m^2)
                      stover N conc =     5.85 (%)    extractable sw =   34.03 (mm)
+26 June 1975(Day of year=177), sysbal: 
+      **** N balance - unaccounted gain (kg/ha) =  0.562781990
+      **** C balance - unaccounted gain (kg/ha) =  6.99633265
+      ****        equivalent DM as FOM  (kg/ha) =  17.4908314
 27 June 1975(Day of year=178), barley: 
       stage 4.0 end_of_juvenile
                      biomass =           0.75 (g/m^2)   lai          =   0.028 (m^2/m^2)
@@ -4865,6 +5010,10 @@ Component     "barley" = c:\development\apsim\Plant\lib\Plant.dll
       stage 3.0 emergence
                      biomass =           0.55 (g/m^2)   lai          =   0.024 (m^2/m^2)
                      stover N conc =     5.85 (%)    extractable sw =   32.66 (mm)
+25 June 1976(Day of year=177), sysbal: 
+      **** N balance - unaccounted gain (kg/ha) =  0.561732233
+      **** C balance - unaccounted gain (kg/ha) =  7.00809669
+      ****        equivalent DM as FOM  (kg/ha) =  17.5202408
 26 June 1976(Day of year=178), barley: 
       stage 4.0 end_of_juvenile
                      biomass =           0.72 (g/m^2)   lai          =   0.027 (m^2/m^2)
@@ -4993,6 +5142,10 @@ Component     "barley" = c:\development\apsim\Plant\lib\Plant.dll
       stage 3.0 emergence
                      biomass =           0.55 (g/m^2)   lai          =   0.024 (m^2/m^2)
                      stover N conc =     5.85 (%)    extractable sw =   37.85 (mm)
+25 June 1977(Day of year=176), sysbal: 
+      **** N balance - unaccounted gain (kg/ha) =  0.563654423
+      **** C balance - unaccounted gain (kg/ha) =  6.99979067
+      ****        equivalent DM as FOM  (kg/ha) =  17.4994755
 26 June 1977(Day of year=177), barley: 
       stage 4.0 end_of_juvenile
                      biomass =           0.69 (g/m^2)   lai          =   0.026 (m^2/m^2)
@@ -5121,6 +5274,10 @@ Component     "barley" = c:\development\apsim\Plant\lib\Plant.dll
       stage 3.0 emergence
                      biomass =           0.55 (g/m^2)   lai          =   0.024 (m^2/m^2)
                      stover N conc =     5.85 (%)    extractable sw =   30.99 (mm)
+26 June 1978(Day of year=177), sysbal: 
+      **** N balance - unaccounted gain (kg/ha) =  0.562886178
+      **** C balance - unaccounted gain (kg/ha) =  7.00768232
+      ****        equivalent DM as FOM  (kg/ha) =  17.5192051
 27 June 1978(Day of year=178), barley: 
       stage 4.0 end_of_juvenile
                      biomass =           0.66 (g/m^2)   lai          =   0.026 (m^2/m^2)
@@ -5249,6 +5406,10 @@ Component     "barley" = c:\development\apsim\Plant\lib\Plant.dll
       stage 3.0 emergence
                      biomass =           0.55 (g/m^2)   lai          =   0.024 (m^2/m^2)
                      stover N conc =     5.85 (%)    extractable sw =   34.22 (mm)
+24 June 1979(Day of year=175), sysbal: 
+      **** N balance - unaccounted gain (kg/ha) =  0.562215328
+      **** C balance - unaccounted gain (kg/ha) =  7.01345062
+      ****        equivalent DM as FOM  (kg/ha) =  17.5336266
 25 June 1979(Day of year=176), barley: 
       stage 4.0 end_of_juvenile
                      biomass =           0.74 (g/m^2)   lai          =   0.027 (m^2/m^2)
@@ -5377,6 +5538,10 @@ Component     "barley" = c:\development\apsim\Plant\lib\Plant.dll
       stage 3.0 emergence
                      biomass =           0.55 (g/m^2)   lai          =   0.024 (m^2/m^2)
                      stover N conc =     5.85 (%)    extractable sw =   30.81 (mm)
+24 June 1980(Day of year=176), sysbal: 
+      **** N balance - unaccounted gain (kg/ha) =  0.561756730
+      **** C balance - unaccounted gain (kg/ha) =  7.01860094
+      ****        equivalent DM as FOM  (kg/ha) =  17.5465012
 25 June 1980(Day of year=177), barley: 
       stage 4.0 end_of_juvenile
                      biomass =           0.73 (g/m^2)   lai          =   0.027 (m^2/m^2)
@@ -5505,6 +5670,10 @@ Component     "barley" = c:\development\apsim\Plant\lib\Plant.dll
       stage 3.0 emergence
                      biomass =           0.55 (g/m^2)   lai          =   0.024 (m^2/m^2)
                      stover N conc =     5.85 (%)    extractable sw =   30.83 (mm)
+26 June 1981(Day of year=177), sysbal: 
+      **** N balance - unaccounted gain (kg/ha) =  0.562755644
+      **** C balance - unaccounted gain (kg/ha) =  7.01693439
+      ****        equivalent DM as FOM  (kg/ha) =  17.5423355
 27 June 1981(Day of year=178), barley: 
       stage 4.0 end_of_juvenile
                      biomass =           0.70 (g/m^2)   lai          =   0.027 (m^2/m^2)
@@ -5633,6 +5802,10 @@ Component     "barley" = c:\development\apsim\Plant\lib\Plant.dll
       stage 3.0 emergence
                      biomass =           0.55 (g/m^2)   lai          =   0.024 (m^2/m^2)
                      stover N conc =     5.85 (%)    extractable sw =   30.26 (mm)
+28 June 1982(Day of year=179), sysbal: 
+      **** N balance - unaccounted gain (kg/ha) =  0.562616050
+      **** C balance - unaccounted gain (kg/ha) =  7.01001835
+      ****        equivalent DM as FOM  (kg/ha) =  17.5250454
 29 June 1982(Day of year=180), barley: 
       stage 4.0 end_of_juvenile
                      biomass =           0.76 (g/m^2)   lai          =   0.028 (m^2/m^2)
@@ -5761,6 +5934,10 @@ Component     "barley" = c:\development\apsim\Plant\lib\Plant.dll
       stage 3.0 emergence
                      biomass =           0.55 (g/m^2)   lai          =   0.024 (m^2/m^2)
                      stover N conc =     5.85 (%)    extractable sw =   35.26 (mm)
+24 June 1983(Day of year=175), sysbal: 
+      **** N balance - unaccounted gain (kg/ha) =  0.563477278
+      **** C balance - unaccounted gain (kg/ha) =  6.99581861
+      ****        equivalent DM as FOM  (kg/ha) =  17.4895458
 25 June 1983(Day of year=176), barley: 
       stage 4.0 end_of_juvenile
                      biomass =           0.63 (g/m^2)   lai          =   0.025 (m^2/m^2)
@@ -5889,6 +6066,10 @@ Component     "barley" = c:\development\apsim\Plant\lib\Plant.dll
       stage 3.0 emergence
                      biomass =           0.55 (g/m^2)   lai          =   0.024 (m^2/m^2)
                      stover N conc =     5.85 (%)    extractable sw =   32.71 (mm)
+24 June 1984(Day of year=176), sysbal: 
+      **** N balance - unaccounted gain (kg/ha) =  0.562697887
+      **** C balance - unaccounted gain (kg/ha) =  7.01039362
+      ****        equivalent DM as FOM  (kg/ha) =  17.5259838
 25 June 1984(Day of year=177), barley: 
       stage 4.0 end_of_juvenile
                      biomass =           0.64 (g/m^2)   lai          =   0.026 (m^2/m^2)
@@ -6017,6 +6198,10 @@ Component     "barley" = c:\development\apsim\Plant\lib\Plant.dll
       stage 3.0 emergence
                      biomass =           0.55 (g/m^2)   lai          =   0.024 (m^2/m^2)
                      stover N conc =     5.85 (%)    extractable sw =   30.61 (mm)
+27 June 1985(Day of year=178), sysbal: 
+      **** N balance - unaccounted gain (kg/ha) =  0.563097000
+      **** C balance - unaccounted gain (kg/ha) =  7.01262474
+      ****        equivalent DM as FOM  (kg/ha) =  17.5315609
 28 June 1985(Day of year=179), barley: 
       stage 4.0 end_of_juvenile
                      biomass =           0.75 (g/m^2)   lai          =   0.028 (m^2/m^2)
@@ -6145,6 +6330,10 @@ Component     "barley" = c:\development\apsim\Plant\lib\Plant.dll
       stage 3.0 emergence
                      biomass =           0.55 (g/m^2)   lai          =   0.024 (m^2/m^2)
                      stover N conc =     5.85 (%)    extractable sw =   29.66 (mm)
+28 June 1986(Day of year=179), sysbal: 
+      **** N balance - unaccounted gain (kg/ha) =  0.561775804
+      **** C balance - unaccounted gain (kg/ha) =  7.00653744
+      ****        equivalent DM as FOM  (kg/ha) =  17.5163441
 29 June 1986(Day of year=180), barley: 
       stage 4.0 end_of_juvenile
                      biomass =           0.75 (g/m^2)   lai          =   0.028 (m^2/m^2)
@@ -6273,6 +6462,10 @@ Component     "barley" = c:\development\apsim\Plant\lib\Plant.dll
       stage 3.0 emergence
                      biomass =           0.55 (g/m^2)   lai          =   0.024 (m^2/m^2)
                      stover N conc =     5.85 (%)    extractable sw =   33.00 (mm)
+24 June 1987(Day of year=175), sysbal: 
+      **** N balance - unaccounted gain (kg/ha) =  0.563225925
+      **** C balance - unaccounted gain (kg/ha) =  7.01278257
+      ****        equivalent DM as FOM  (kg/ha) =  17.5319557
 25 June 1987(Day of year=176), barley: 
       stage 4.0 end_of_juvenile
                      biomass =           0.65 (g/m^2)   lai          =   0.026 (m^2/m^2)
@@ -6401,6 +6594,10 @@ Component     "barley" = c:\development\apsim\Plant\lib\Plant.dll
       stage 3.0 emergence
                      biomass =           0.55 (g/m^2)   lai          =   0.024 (m^2/m^2)
                      stover N conc =     5.85 (%)    extractable sw =   30.73 (mm)
+24 June 1988(Day of year=176), sysbal: 
+      **** N balance - unaccounted gain (kg/ha) =  0.563349605
+      **** C balance - unaccounted gain (kg/ha) =  7.00656509
+      ****        equivalent DM as FOM  (kg/ha) =  17.5164127
 25 June 1988(Day of year=177), barley: 
       stage 4.0 end_of_juvenile
                      biomass =           0.74 (g/m^2)   lai          =   0.027 (m^2/m^2)
@@ -6529,6 +6726,10 @@ Component     "barley" = c:\development\apsim\Plant\lib\Plant.dll
       stage 3.0 emergence
                      biomass =           0.55 (g/m^2)   lai          =   0.024 (m^2/m^2)
                      stover N conc =     5.85 (%)    extractable sw =   31.10 (mm)
+25 June 1989(Day of year=176), sysbal: 
+      **** N balance - unaccounted gain (kg/ha) =  0.563037753
+      **** C balance - unaccounted gain (kg/ha) =  6.99594116
+      ****        equivalent DM as FOM  (kg/ha) =  17.4898529
 26 June 1989(Day of year=177), barley: 
       stage 4.0 end_of_juvenile
                      biomass =           0.74 (g/m^2)   lai          =   0.027 (m^2/m^2)
