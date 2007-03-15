@@ -30,14 +30,14 @@ Public Class NewDocumentForm
     Friend WithEvents PictureBox1 As System.Windows.Forms.PictureBox
     Friend WithEvents OKButton As System.Windows.Forms.Button
     Friend WithEvents CancelButton1 As System.Windows.Forms.Button
-    Friend WithEvents DataTree As VBGeneral.DataTree
+    Friend WithEvents DataTree As VBUserInterface.DataTree
     <System.Diagnostics.DebuggerStepThrough()> Private Sub InitializeComponent()
         Dim resources As System.Resources.ResourceManager = New System.Resources.ResourceManager(GetType(NewDocumentForm))
         Me.Label1 = New System.Windows.Forms.Label
         Me.PictureBox1 = New System.Windows.Forms.PictureBox
         Me.OKButton = New System.Windows.Forms.Button
         Me.CancelButton1 = New System.Windows.Forms.Button
-        Me.DataTree = New VBGeneral.DataTree
+        Me.DataTree = New VBUserInterface.DataTree
         Me.SuspendLayout()
         '
         'Label1

@@ -8,11 +8,11 @@ Imports System.Runtime.InteropServices
 
 ' Review the values of the assembly attributes
 
-<Assembly: AssemblyTitle("VBUIControls")> 
+<Assembly: AssemblyTitle("VBUserInterface")> 
 <Assembly: AssemblyDescription("")> 
-<Assembly: AssemblyCompany("CSIRO")> 
-<Assembly: AssemblyProduct("VBUIControls")> 
-<Assembly: AssemblyCopyright("Copyright © CSIRO 2006")> 
+<Assembly: AssemblyCompany("APSRU")> 
+<Assembly: AssemblyProduct("VBUserInterface")> 
+<Assembly: AssemblyCopyright("Copyright © APSRU 2006")> 
 <Assembly: AssemblyTrademark("")> 
 
 <Assembly: ComVisible(False)>

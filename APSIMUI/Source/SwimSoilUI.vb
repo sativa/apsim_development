@@ -1,6 +1,8 @@
 Imports VBGeneral
+Imports VBUserInterface
+
 Public Class SwimSoilUI
-    Inherits VBGeneral.BaseView
+    Inherits BaseView
 
 #Region " Windows Form Designer generated code "
 

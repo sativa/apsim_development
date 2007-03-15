@@ -1,4 +1,4 @@
-namespace APSRU.UIControls
+namespace CSUserInterface
     {
     partial class HowwetPageTemplate
         {
@@ -32,8 +32,8 @@ namespace APSRU.UIControls
             this.button1 = new System.Windows.Forms.Button();
             this.button2 = new System.Windows.Forms.Button();
             this.button3 = new System.Windows.Forms.Button();
-            this.textHeader1 = new APSRU.UIControls.TextHeader();
-            this.colorBox1 = new APSRU.UIControls.ColorBox();
+            this.textHeader1 = new CSUserInterface.TextHeader();
+            this.colorBox1 = new CSUserInterface.ColorBox();
             this.SuspendLayout();
             // 
             // leftLabel
@@ -51,7 +51,7 @@ namespace APSRU.UIControls
             // 
             // button1
             // 
-            this.button1.Image = global::APSRU.UIControls.Properties.Resources.nav_left_green1;
+            this.button1.Image = global::CSUserInterface.Properties.Resources.nav_left_green1;
             this.button1.Location = new System.Drawing.Point(6, 3);
             this.button1.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
             this.button1.Name = "button1";
@@ -61,7 +61,7 @@ namespace APSRU.UIControls
             // 
             // button2
             // 
-            this.button2.Image = global::APSRU.UIControls.Properties.Resources.home1;
+            this.button2.Image = global::CSUserInterface.Properties.Resources.home1;
             this.button2.Location = new System.Drawing.Point(99, 3);
             this.button2.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
             this.button2.Name = "button2";
@@ -71,7 +71,7 @@ namespace APSRU.UIControls
             // 
             // button3
             // 
-            this.button3.Image = global::APSRU.UIControls.Properties.Resources.nav_right_green1;
+            this.button3.Image = global::CSUserInterface.Properties.Resources.nav_right_green1;
             this.button3.Location = new System.Drawing.Point(52, 3);
             this.button3.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
             this.button3.Name = "button3";

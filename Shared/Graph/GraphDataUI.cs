@@ -6,11 +6,12 @@ using System.Drawing;
 using System.Text;
 using System.Windows.Forms;
 using VBGeneral;
+using VBUserInterface;
 
 
 namespace Graph
     {
-    public partial class GraphDataUI : VBGeneral.BaseView
+    public partial class GraphDataUI : BaseView
         {
         private UInt32 DataWindow = 0;
         private GraphController GraphController;

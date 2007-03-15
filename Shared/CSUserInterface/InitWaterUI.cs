@@ -6,11 +6,12 @@ using System.Windows.Forms;
 using System.Collections.Specialized;
 using CSGeneral;
 using VBGeneral;
+using VBUserInterface;
 using Soils;
-									    
-namespace CSGeneral
+
+namespace CSUserInterface
 	{
-	public class InitWaterUI : VBGeneral.BaseView
+	public class InitWaterUI : BaseView
 		{
 		private System.Windows.Forms.Panel panel1;
 		internal System.Windows.Forms.RadioButton LayeredRadio;
@@ -30,8 +31,8 @@ namespace CSGeneral
 		private System.Windows.Forms.Splitter splitter1;
 		private System.ComponentModel.IContainer components = null;
 		private Soil SoilData;
-		private InitWater InitialWater;
-		private CSGeneral.WaterChartControl WaterChartControl;
+		private InitWater InitialWater = null;
+		private WaterChartControl WaterChartControl;
 		private FarPoint.Win.Spread.FpSpread Grid;
 		private FarPoint.Win.Spread.SheetView WaterGrid;
         private Label label4;
@@ -93,7 +94,7 @@ namespace CSGeneral
         this.splitter1 = new System.Windows.Forms.Splitter();
         this.label4 = new System.Windows.Forms.Label();
         this.RelativeToCombo = new System.Windows.Forms.ComboBox();
-        this.WaterChartControl = new CSGeneral.WaterChartControl();
+        this.WaterChartControl = new CSUserInterface.WaterChartControl();
         this.WaterGrid = new FarPoint.Win.Spread.SheetView();
         this.panel1.SuspendLayout();
         ((System.ComponentModel.ISupportInitialize)(this.Grid)).BeginInit();
@@ -389,7 +390,7 @@ namespace CSGeneral
 				 	 + " and then filling in the details.";
 
 			SoilData = new Soil(Controller.Data.Parent);
-			InitialWater = SoilData.InitialSW;
+			//InitialWater = SoilData.InitialSW;
 			WaterChartControl.LinkedSoil = SoilData;
 			WaterChartControl.ShowSoilWaterLine = true;
             RelativeToCombo.Items.Add("ll15");

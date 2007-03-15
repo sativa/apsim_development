@@ -135,7 +135,6 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="APSoilController.cs" />
     <Compile Include="InitNitrogen.cs">
       <SubType>Code</SubType>
     </Compile>
@@ -148,46 +147,17 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>Resources.resx</DependentUpon>
     </Compile>
-    <Compile Include="ReorderForm.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="SampleUI.cs">
-      <SubType>UserControl</SubType>
-    </Compile>
     <Compile Include="Soil.cs">
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="SoilSample.cs">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="SoilUI.cs">
-      <SubType>UserControl</SubType>
-    </Compile>
     <Compile Include="Utility.cs" />
-    <Compile Include="WaterChartControl.cs">
-      <SubType>UserControl</SubType>
-    </Compile>
-    <EmbeddedResource Include="licenses.licx" />
     <EmbeddedResource Include="Properties\Resources.resx">
       <SubType>Designer</SubType>
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
-    </EmbeddedResource>
-    <EmbeddedResource Include="ReorderForm.resx">
-      <DependentUpon>ReorderForm.cs</DependentUpon>
-      <SubType>Designer</SubType>
-    </EmbeddedResource>
-    <EmbeddedResource Include="SampleUI.resx">
-      <DependentUpon>SampleUI.cs</DependentUpon>
-      <SubType>Designer</SubType>
-    </EmbeddedResource>
-    <EmbeddedResource Include="SoilUI.resx">
-      <DependentUpon>SoilUI.cs</DependentUpon>
-      <SubType>Designer</SubType>
-    </EmbeddedResource>
-    <EmbeddedResource Include="WaterChartControl.resx">
-      <DependentUpon>WaterChartControl.cs</DependentUpon>
-      <SubType>Designer</SubType>
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>
@@ -206,7 +176,7 @@
     <None Include="Resources\printer.png" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\C#General\CSGeneral.csproj">
+    <ProjectReference Include="..\CSGeneral\CSGeneral.csproj">
       <Project>{D2EDEF3F-995D-4E9D-9E7C-608D46259E9C}</Project>
       <Name>CSGeneral</Name>
     </ProjectReference>

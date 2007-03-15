@@ -9,10 +9,11 @@ using System.Windows.Forms;
 using FarPoint.Win.Spread;
 using FarPoint.Win.Spread.CellType;
 using VBGeneral;
+using VBUserInterface;
 
 namespace Graph
     {
-    public partial class SeriesUI : VBGeneral.BaseView
+    public partial class SeriesUI : BaseView
         {
         private GraphController GraphController;
         private bool Updating = false;

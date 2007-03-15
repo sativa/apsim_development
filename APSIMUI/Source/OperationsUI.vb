@@ -1,6 +1,9 @@
 Imports VBGeneral
+Imports VBUserInterface
+
 
 Public Class OperationsUI
+    Inherits BaseView
 
 
     Overrides Sub RefreshView(ByVal Controller As BaseController)

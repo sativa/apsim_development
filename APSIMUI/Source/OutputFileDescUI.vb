@@ -4,6 +4,8 @@ Imports System.Collections
 Imports System.Collections.Specialized
 Imports VBGeneral
 Imports CSGeneral
+Imports VBUserInterface
+
 
 Public Class OutputFileDescUI
     Inherits BaseView

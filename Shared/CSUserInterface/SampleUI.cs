@@ -5,16 +5,17 @@ using System.Drawing;
 using System.Data;
 using System.Windows.Forms;
 using VBGeneral;
+using VBUserInterface;
 using Soils;
 
-namespace CSGeneral
+namespace CSUserInterface
 	{
 
-	public class SampleUI : VBGeneral.BaseView
+	public class SampleUI : BaseView
 		{
 		private System.Windows.Forms.Panel UnitsPanel;
 		private System.Windows.Forms.Splitter splitter1;
-		private CSGeneral.WaterChartControl waterChartControl1;
+		private WaterChartControl waterChartControl1;
 		private System.ComponentModel.Container components = null;
 		private System.Windows.Forms.Label label1;
 		private System.Windows.Forms.Label label2;
@@ -57,7 +58,7 @@ namespace CSGeneral
 			this.SampleDate = new System.Windows.Forms.DateTimePicker();
 			this.label1 = new System.Windows.Forms.Label();
 			this.splitter1 = new System.Windows.Forms.Splitter();
-			this.waterChartControl1 = new CSGeneral.WaterChartControl();
+            this.waterChartControl1 = new CSUserInterface.WaterChartControl();
 			((System.ComponentModel.ISupportInitialize)(this.FpSpread)).BeginInit();
 			((System.ComponentModel.ISupportInitialize)(this.Grid)).BeginInit();
 			this.UnitsPanel.SuspendLayout();

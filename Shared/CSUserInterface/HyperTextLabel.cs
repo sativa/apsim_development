@@ -5,7 +5,7 @@ using System.Drawing;
 using System.Data;
 using System.Windows.Forms;
 
-namespace CSGeneral
+namespace CSUserInterface
 {
 	/// <summary>
 	/// The HyperTextLabel class works in a similar way to a System.Windows.Forms.LinkLabel, where hyperlinks
@@ -55,7 +55,7 @@ namespace CSGeneral
 		/// <summary>
 		/// The delegate for the 'LinkClicked' event for this class.
 		/// </summary>
-		public delegate void OnLinkClicked( object sender, CSGeneral.HyperTextLink link );
+		public delegate void OnLinkClicked( object sender, HyperTextLink link );
 		public event OnLinkClicked LinkClicked;
 
 		# endregion
@@ -114,7 +114,7 @@ namespace CSGeneral
 				this.lblHyperText.Text = value;
 
 				// Loop through each HyperText.HyperTextLink, recreating the LinkLabelLink collection.
-				foreach( CSGeneral.HyperTextLink link in this.GetHyperTextArray() )
+                foreach (HyperTextLink link in this.GetHyperTextArray())
 				{
 						link.TextPosition = this.Text.IndexOf( link.Text, link.StartPosition );
 						this.lblHyperText.Links.Add( link.StartPosition, link.Text.Length, link.HyperTextData );
@@ -259,14 +259,14 @@ namespace CSGeneral
 		/// Retrieve an Array of HyperText.HyperTextLink objects.
 		/// </summary>
 		/// <returns>An array of HyperText.HyperTextLink objects.</returns>
-		public CSGeneral.HyperTextLink[] HyperTextCollection()
+		public HyperTextLink[] HyperTextCollection()
 		{
-			CSGeneral.HyperTextLink[] arrHyperText = new HyperTextLink[ this.GetHyperTextArray().Count ];
+			HyperTextLink[] arrHyperText = new HyperTextLink[ this.GetHyperTextArray().Count ];
 
 			// Loop through the System.Collections.ArrayList adding it a standard array object.
 			for( int i = 0; i < this.GetHyperTextArray().Count; i++ )
 			{
-				arrHyperText[i] = (CSGeneral.HyperTextLink) this.GetHyperTextArray()[i];
+				arrHyperText[i] = (HyperTextLink) this.GetHyperTextArray()[i];
 
 			}
 
@@ -281,9 +281,9 @@ namespace CSGeneral
 		/// <param name="text">Matches a portion of text defined within the 'Text' property.</param>
 		/// <param name="hyperTextData">The underlying value of the hyperlink, eg a URL.</param>
 		/// <returns>HyperText.HyperTextLink object.</returns>
-		public CSGeneral.HyperTextLink AddHyperText(string text, string hyperTextData)
+		public HyperTextLink AddHyperText(string text, string hyperTextData)
 		{
-			CSGeneral.HyperTextLink newLink = new CSGeneral.HyperTextLink();
+			HyperTextLink newLink = new HyperTextLink();
 			newLink.Text = text ;
 			newLink.HyperTextData = hyperTextData;
 
@@ -302,10 +302,10 @@ namespace CSGeneral
 		/// <param name="hyperTextData">The underlying value of the hyperlink, eg a URL.</param>
 		/// <param name="startPosition">The starting position from which to locate the given text within the 'Text' property</param>
 		/// <returns>HyperText.HyperTextLink object.</returns>
-		public CSGeneral.HyperTextLink AddHyperText(string text, string hyperTextData, int startPosition )
+		public HyperTextLink AddHyperText(string text, string hyperTextData, int startPosition )
 		{
 			
-			CSGeneral.HyperTextLink newLink = new CSGeneral.HyperTextLink();
+			HyperTextLink newLink = new HyperTextLink();
 			newLink.Text = text ;
 			newLink.HyperTextData = hyperTextData;
 			newLink.TextPosition = startPosition;
@@ -324,7 +324,7 @@ namespace CSGeneral
 		/// <param name="link">The new link.</param>
 		/// <param name="index">The point in the HyperTexLink array to add the link.</param>
 		/// <returns></returns>
-		public CSGeneral.HyperTextLink AddHyperText(CSGeneral.HyperTextLink link, int index)
+		public HyperTextLink AddHyperText(HyperTextLink link, int index)
 		{
 			this.GetHyperTextArray()[index] = link;
 			return link;
@@ -335,7 +335,7 @@ namespace CSGeneral
 		/// Remove the given link from the the 'Text' property.
 		/// </summary>
 		/// <param name="link">The HyperText.HyperTextLink object to remove.</param>
-		public void RemoveHyperText( CSGeneral.HyperTextLink link )
+		public void RemoveHyperText(HyperTextLink link )
 		{
 			this.GetHyperTextArray().Remove(link);
 			this.Text = this.Text;
@@ -348,7 +348,7 @@ namespace CSGeneral
 		/// <param name="oldLink">The existing HyperText.HyperTextLink object to replace.</param>
 		/// <param name="newText">The new text portion of the HyperText.HyperTextLink.</param>
 		/// <param name="newHyperTextData">the underlying hyperlink value.</param>
-		public CSGeneral.HyperTextLink ReplaceLink( CSGeneral.HyperTextLink oldLink, string newText, string newHyperTextData )
+		public HyperTextLink ReplaceLink( HyperTextLink oldLink, string newText, string newHyperTextData )
 		{
 			// Get the current postion of the text about to be replaced.
 			int oldTextStartPosition = this.Text.IndexOf( oldLink.Text, oldLink.StartPosition);
@@ -363,7 +363,7 @@ namespace CSGeneral
 
 
 			//loop through current links and adjust the start position of each according to the balance of each
-			foreach( CSGeneral.HyperTextLink alink in this.GetHyperTextArray() )
+			foreach( HyperTextLink alink in this.GetHyperTextArray() )
 			{
 				// reset the starting positions for all links found after the old link.
 				if( !alink.Equals( oldLink ) && alink.TextPosition >= oldTextStartPosition ) 
@@ -374,12 +374,12 @@ namespace CSGeneral
 			}
 
 			// Update the labels text, forcing a refresh of the labels link locations.
-			CSGeneral.HyperTextLink newLink = new HyperTextLink();
+			HyperTextLink newLink = new HyperTextLink();
 			newLink.Text = newText;
 			newLink.HyperTextData = newHyperTextData;
 			newLink.TextPosition = oldTextStartPosition;
 			
-			CSGeneral.HyperTextLink replacedLink = this.AddHyperText( newLink, oldLinkIndex );
+			HyperTextLink replacedLink = this.AddHyperText( newLink, oldLinkIndex );
 
 			this.Text = newLabelText;
 
@@ -405,7 +405,7 @@ namespace CSGeneral
 			if( this.LinkClicked == null) return;
 
 			//find which HyperText.HyperTextLink was clicked and fire this event for registered objects.
-			foreach( CSGeneral.HyperTextLink alink in this.GetHyperTextArray() )
+			foreach( HyperTextLink alink in this.GetHyperTextArray() )
 			{
 				if( alink.HyperTextData.Equals( e.Link.LinkData ) )
 				{

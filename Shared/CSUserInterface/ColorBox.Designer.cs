@@ -1,4 +1,4 @@
-namespace APSRU.UIControls
+namespace CSUserInterface
     {
     partial class ColorBox
         {

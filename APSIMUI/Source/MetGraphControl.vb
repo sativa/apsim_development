@@ -5,6 +5,8 @@ Imports System.IO
 Imports CSGeneral
 Imports VBMet
 Imports System.Drawing
+Imports VBUserInterface
+
 
 Public Class MetGraphControl
     Inherits BaseView

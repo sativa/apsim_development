@@ -1,6 +1,7 @@
 Imports System.Windows.Forms
 Imports System.Collections.Specialized
 Imports System.io
+Imports VBGeneral
 
 
 Public MustInherit Class BaseController

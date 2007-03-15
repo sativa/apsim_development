@@ -5,7 +5,7 @@ Imports FarPoint.Win.Spread
 Imports System.IO
 
 Public Class GenericUI
-    Inherits VBGeneral.BaseView
+    Inherits BaseView
     Dim InRefresh As Boolean
     Dim PropertyData As New ArrayList
     Delegate Sub NotifyEventHandler()

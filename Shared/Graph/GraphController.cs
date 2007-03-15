@@ -7,6 +7,7 @@ using System.Text;
 using System.Runtime.InteropServices;
 using System.Data;
 using System.Collections.Specialized;
+using VBUserInterface;
 
 namespace Graph
 	{

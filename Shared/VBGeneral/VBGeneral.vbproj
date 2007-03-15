@@ -32,8 +32,6 @@
     <NoWarn>42016,41999,42017,42018,42019,42032,42036,42020,42021,42022</NoWarn>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="FarPoint.Win, Version=2.5.2001.2005, Culture=neutral, PublicKeyToken=327c3516b1b18457, processorArchitecture=MSIL" />
-    <Reference Include="FarPoint.Win.Spread, Version=2.5.2001.2005, Culture=neutral, PublicKeyToken=327c3516b1b18457, processorArchitecture=MSIL" />
     <Reference Include="System" />
     <Reference Include="System.Data" />
     <Reference Include="System.Drawing" />
@@ -51,25 +49,6 @@
   <ItemGroup>
     <Compile Include="APSIMData.vb" />
     <Compile Include="APSIMSettings.vb" />
-    <Compile Include="APSIMUIDateTimeCellType.vb" />
-    <Compile Include="BaseController.vb" />
-    <Compile Include="BaseView.vb">
-      <SubType>UserControl</SubType>
-    </Compile>
-    <Compile Include="CheckedListBoxCellType.vb" />
-    <Compile Include="DataTree.vb">
-      <SubType>UserControl</SubType>
-    </Compile>
-    <Compile Include="ExplorerUI.vb">
-      <SubType>UserControl</SubType>
-    </Compile>
-    <Compile Include="GenericUI.vb">
-      <SubType>UserControl</SubType>
-    </Compile>
-    <Compile Include="Grid.vb" />
-    <Compile Include="InputDialog.vb">
-      <SubType>Form</SubType>
-    </Compile>
     <Compile Include="MacroFile.vb" />
     <Compile Include="MacroV2File.vb" />
     <Compile Include="My Project\AssemblyInfo.vb" />
@@ -90,26 +69,6 @@
     <Compile Include="Utility.vb" />
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="BaseView.resx">
-      <DependentUpon>BaseView.vb</DependentUpon>
-      <SubType>Designer</SubType>
-    </EmbeddedResource>
-    <EmbeddedResource Include="DataTree.resx">
-      <DependentUpon>DataTree.vb</DependentUpon>
-      <SubType>Designer</SubType>
-    </EmbeddedResource>
-    <EmbeddedResource Include="ExplorerUI.resx">
-      <DependentUpon>ExplorerUI.vb</DependentUpon>
-      <SubType>Designer</SubType>
-    </EmbeddedResource>
-    <EmbeddedResource Include="GenericUI.resx">
-      <DependentUpon>GenericUI.vb</DependentUpon>
-      <SubType>Designer</SubType>
-    </EmbeddedResource>
-    <EmbeddedResource Include="InputDialog.resx">
-      <DependentUpon>InputDialog.vb</DependentUpon>
-      <SubType>Designer</SubType>
-    </EmbeddedResource>
     <EmbeddedResource Include="My Project\licenses.licx" />
     <EmbeddedResource Include="My Project\Resources.resx">
       <Generator>VbMyResourcesResXFileCodeGenerator</Generator>
@@ -129,9 +88,6 @@
       <CustomToolNamespace>My</CustomToolNamespace>
       <LastGenOutput>Settings.Designer.vb</LastGenOutput>
     </None>
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="Resources\folder.png" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.VisualBasic.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it.

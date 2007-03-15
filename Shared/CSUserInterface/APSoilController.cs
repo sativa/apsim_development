@@ -2,11 +2,12 @@ using System;
 using System.Windows.Forms;
 using System.IO;
 using VBGeneral;
+using VBUserInterface;
 using CSGeneral;
 using Soils;
 using System.Collections;
 
-namespace CSGeneral
+namespace CSUserInterface
 	{
 
 	public class ApsoilController : BaseController

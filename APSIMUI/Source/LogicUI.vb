@@ -1,6 +1,8 @@
 Imports VBGeneral
+Imports VBUserInterface
+
 Public Class LogicUI
-    Inherits VBGeneral.BaseView
+    Inherits BaseView
     Private CurrentScriptNode As APSIMData = Nothing
 
 #Region " Windows Form Designer generated code "
@@ -129,7 +131,7 @@ Public Class LogicUI
 
 #End Region
 
-    Overrides Sub RefreshView(ByVal Controller As BaseController)
+    Overrides Sub RefreshView(ByVal Cntroller As BaseController)
         MyBase.RefreshView(Controller)
 
         TabControl.TabPages.Clear()

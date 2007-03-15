@@ -1,6 +1,8 @@
 Imports System
 Imports System.IO
 Imports VBGeneral
+Imports VBUserInterface
+
 Public Class FileUI
     Inherits BaseView
     Dim FileDateTime As DateTime

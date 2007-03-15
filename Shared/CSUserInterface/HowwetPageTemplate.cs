@@ -7,7 +7,7 @@ using System.Text;
 using System.Windows.Forms;
 using System.ComponentModel.Design;
 
-namespace APSRU.UIControls
+namespace CSUserInterface
     {
     [Designer("System.Windows.Forms.Design.ParentControlDesigner, System.Design", typeof(IDesigner))] 
     public partial class HowwetPageTemplate : UserControl

@@ -1706,7 +1706,7 @@ namespace Soils
         #endregion
 
         #region Add/Delete layer
-        internal void AddLayerToBottom()
+        public void AddLayerToBottom()
             {
             // ----------------------------------
             // Add another layer to the profile.
@@ -1732,7 +1732,7 @@ namespace Soils
                     }
                 }
             }
-        internal void DeleteLayerFromBottom()
+        public void DeleteLayerFromBottom()
             {
             // ----------------------------------
             // Add another layer to the profile.

@@ -4,6 +4,7 @@ Imports System.Collections
 Imports System.Collections.Specialized
 Imports VBGeneral
 Imports CSGeneral
+Imports VBUserInterface
 
 Public Class OutputVariablesDataTree
     Inherits BaseView
@@ -50,10 +51,10 @@ Public Class OutputVariablesDataTree
     'NOTE: The following procedure is required by the Windows Form Designer
     'It can be modified using the Windows Form Designer.  
     'Do not modify it using the code editor.
-    Friend WithEvents DataTree As VBGeneral.DataTree
+    Friend WithEvents DataTree As VBUserInterface.DataTree
 
     <System.Diagnostics.DebuggerStepThrough()> Private Sub InitializeComponent()
-        Me.DataTree = New VBGeneral.DataTree
+        Me.DataTree = New VBUserInterface.DataTree
         Me.SuspendLayout()
         '
         'DataTree

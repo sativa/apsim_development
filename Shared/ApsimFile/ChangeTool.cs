@@ -3,7 +3,7 @@ using CSGeneral;
 using VBGeneral;
 using Soils;
 
-namespace ChangeTool
+namespace ApsimFile
 	{
 	// ------------------------------------------
 	// This class converts an APSIM file from one 

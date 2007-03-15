@@ -1,5 +1,6 @@
+Imports VBUserInterface
 Public Class ManagerUI
-    Inherits VBGeneral.BaseView
+    Inherits BaseView
 
 #Region " Windows Form Designer generated code "
 

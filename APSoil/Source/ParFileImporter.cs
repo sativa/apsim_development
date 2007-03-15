@@ -4,6 +4,8 @@ using System.Windows.Forms;
 using System.Collections.Specialized;
 using VBGeneral;
 using CSGeneral;
+using CSUserInterface;
+using Soils;
 
 namespace APSoil
 	{
@@ -126,7 +128,7 @@ namespace APSoil
 			NewSoil.Airdry = GetDoubleValues(FileName, SectionName, "air_dry");
 			NewSoil.DUL = GetDoubleValues(FileName, SectionName, "dul");
 			NewSoil.SAT = GetDoubleValues(FileName, SectionName, "sat");
-			NewSoil.InitialWater.SetUsingLayered(GetDoubleValues(FileName, SectionName, "sw"));
+            //dph NewSoil.InitialWater.SetUsingLayered(GetDoubleValues(FileName, SectionName, "sw"));
 			NewSoil.SWCON = GetDoubleValues(FileName, SectionName, "swcon");
 			NewSoil.MWCON = GetDoubleValues(FileName, SectionName, "mwcon");
 			NewSoil.BD = GetDoubleValues(FileName, SectionName, "bd");
@@ -184,8 +186,8 @@ namespace APSoil
 			NewSoil.OC = GetDoubleValues(FileName, SectionName, "oc");
 			NewSoil.FBIOM = GetDoubleValues(FileName, SectionName, "fbiom");
 			NewSoil.FINERT = GetDoubleValues(FileName, SectionName, "finert");
-			NewSoil.InitialNitrogen.NO3 = GetDoubleValues(FileName, SectionName, "no3ppm");
-			NewSoil.InitialNitrogen.NH4 = GetDoubleValues(FileName, SectionName, "nh4ppm");
+            //dph NewSoil.InitialNitrogen.NO3 = GetDoubleValues(FileName, SectionName, "no3ppm");
+            //dph NewSoil.InitialNitrogen.NH4 = GetDoubleValues(FileName, SectionName, "nh4ppm");
 			}
 
 

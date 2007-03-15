@@ -1,6 +1,6 @@
 using System;
 
-namespace CSGeneral
+namespace CSUserInterface
 {
 	/// <summary>
 	/// Instances of the HyperTextLink class are typically instanciated via the 'AddHyperText' method

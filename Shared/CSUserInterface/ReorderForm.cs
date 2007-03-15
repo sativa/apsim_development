@@ -4,7 +4,7 @@ using System.Collections;
 using System.ComponentModel;
 using System.Windows.Forms;
 
-namespace CSGeneral
+namespace CSUserInterface
 	{
 
 	public class ReorderForm : System.Windows.Forms.Form

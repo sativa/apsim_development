@@ -1,4 +1,6 @@
 Imports vbgeneral
+Imports VBUserInterface
+
 Public Class OutputVariablesForm
     Inherits System.Windows.Forms.Form
 
@@ -12,7 +14,7 @@ Public Class OutputVariablesForm
         InitializeComponent()
     End Sub
 
-    Public Sub New(ByVal DataTreeController As VBGeneral.BaseController, ByVal treeType As OutputVariablesDataTree.TreeTypeEnum)
+    Public Sub New(ByVal DataTreeController As VBUserInterface.BaseController, ByVal treeType As OutputVariablesDataTree.TreeTypeEnum)
         MyBase.New()
         Controller = DataTreeController
         VariableDataTree.TreeType = treeType

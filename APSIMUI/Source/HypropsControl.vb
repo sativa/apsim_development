@@ -1,7 +1,8 @@
 Imports VBGeneral
+Imports VBUserInterface
 
 Public Class HypropsControl
-    Inherits VBGeneral.BaseView
+    Inherits BaseView
     Private Hypropsdata As New Hyprops
 #Region " Windows Form Designer generated code "
 
@@ -37,10 +38,10 @@ Public Class HypropsControl
     Friend WithEvents MCPage As System.Windows.Forms.TabPage
     Friend WithEvents HKPage As System.Windows.Forms.TabPage
 
-    Friend WithEvents DataTree As VBGeneral.DataTree
+    Friend WithEvents DataTree As VBUserInterface.DataTree
     <System.Diagnostics.DebuggerStepThrough()> Private Sub InitializeComponent()
         Me.Panel1 = New System.Windows.Forms.Panel
-        Me.DataTree = New VBGeneral.DataTree
+        Me.DataTree = New VBUserInterface.DataTree
         Me.PropertyGrid = New System.Windows.Forms.PropertyGrid
         Me.TabControl = New System.Windows.Forms.TabControl
         Me.MCPage = New System.Windows.Forms.TabPage

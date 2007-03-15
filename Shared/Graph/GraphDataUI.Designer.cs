@@ -17,7 +17,7 @@ namespace Graph
         /// </summary>
         private void InitializeComponent()
             {
-            this.GenericUI = new VBGeneral.GenericUI();
+            this.GenericUI = new VBUserInterface.GenericUI();
             this.splitter2 = new System.Windows.Forms.Splitter();
             this.DataPanel = new System.Windows.Forms.Panel();
             this.SuspendLayout();
@@ -68,7 +68,7 @@ namespace Graph
 
         #endregion
 
-        private VBGeneral.GenericUI GenericUI;
+        private VBUserInterface.GenericUI GenericUI;
         private System.Windows.Forms.Splitter splitter2;
         private System.Windows.Forms.Panel DataPanel;
         }

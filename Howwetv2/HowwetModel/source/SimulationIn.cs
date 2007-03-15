@@ -6,6 +6,7 @@ using System.Xml;
 using VBGeneral;
 using CSGeneral;
 using APSRU.Error;
+using Soils;
 
 // The purpose of this class it to have a complete simulation entity object.
 // The constructor of this class requires a template APSIMData object that would normal be the basic shell of a fallow simulation.

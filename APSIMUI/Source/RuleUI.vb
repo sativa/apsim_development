@@ -3,11 +3,13 @@ Imports System.Collections
 Imports System.Collections.Specialized
 Imports System.IO
 Imports FarPoint.Win.Spread
+Imports VBUserInterface
+
 
 Public Class RuleUI
-    Inherits VBGeneral.BaseView
+    Inherits BaseView
     Dim InRefresh As Boolean
-    Friend WithEvents GenericUI As VBGeneral.GenericUI
+    Friend WithEvents GenericUI As GenericUI
     Dim Cultivars As APSIMData
 
 
@@ -44,7 +46,7 @@ Public Class RuleUI
     <System.Diagnostics.DebuggerStepThrough()> Private Sub InitializeComponent()
         Me.TabControl1 = New System.Windows.Forms.TabControl
         Me.TabPage1 = New System.Windows.Forms.TabPage
-        Me.GenericUI = New VBGeneral.GenericUI
+        Me.GenericUI = New VBUserInterface.GenericUI
         Me.TabControl1.SuspendLayout()
         Me.TabPage1.SuspendLayout()
         Me.SuspendLayout()
