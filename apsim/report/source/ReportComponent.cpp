@@ -22,7 +22,7 @@ Field::Field (ScienceAPI& scienceAPI,
               const std::string& nastring,
               const std::string& format,
               bool csv)
-   : scienceAPI(scienceAPI)
+   : scienceAPI(&scienceAPI)
    {
    this->fqn = fqn;
    this->units = getAttributeFromXML(ddml, "unit");
@@ -68,9 +68,9 @@ void Field::writeHeadings(ostream& out)
          heading += "(" + itoa(i+1) + ")";
 
       // Now calculate a field width.
-      int fieldWidth = max(15, heading.length() + 1);
-      fieldWidth = max(fieldWidth, values[i].length() + 1);
-      fieldWidth = max(fieldWidth, units.length() + 1);
+      int fieldWidth = max((unsigned)15, heading.length() + 1);
+      fieldWidth = max((unsigned)fieldWidth, values[i].length() + 1);
+      fieldWidth = max((unsigned)fieldWidth, units.length() + 1);
       widths.push_back(fieldWidth);
 
       writeValueTo(out, heading, fieldWidth);
@@ -96,7 +96,7 @@ void Field::writeUnits(ostream& out)
 void Field::getValues()
    {
    values.erase(values.begin(), values.end());
-   scienceAPI.get(fqn, "", true, values);
+   scienceAPI->get(fqn, "", true, values);
    if (values.size() == 0)
       values.push_back(nastring);
    else

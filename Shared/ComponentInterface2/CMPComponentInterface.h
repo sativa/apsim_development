@@ -23,7 +23,7 @@ class EXPORT CMPComponentInterface
 
       bool get(const std::string& name, const std::string& units, bool optional, IPackableData* data);
       void set(const std::string& name, const std::string& units, IPackableData* data);
-      bool read(const std::string& name, IPackableData& value, bool optional);
+      bool read(const std::string& name, IPackableData* value, bool optional);
 
       void publish(const std::string& name, IPackableData* data);
       void subscribe(const std::string& eventName, IPackableData* handler);

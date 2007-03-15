@@ -512,6 +512,36 @@
                "<field name=\"ddml\" kind=\"string\" />"
                "</type>";}
 
+   //------ Summary ------
+   struct Summary
+      {
+      std::string name;
+      std::string msg;
+      };
+
+   inline void pack(MessageData& messageData, const Summary& data)
+      {
+      pack(messageData, data.name);
+      pack(messageData, data.msg);
+      }
+   inline void unpack(MessageData& messageData, Summary& data)
+      {
+      unpack(messageData, data.name);
+      unpack(messageData, data.msg);
+      }
+   inline unsigned memorySize(const Summary& data)
+      {
+      return 0
+              + ::memorySize(data.name)
+              + ::memorySize(data.msg)
+              ;
+      }
+   std::string DDML(const Summary& data)
+      {return "<type name=\"Summary\">"
+               "<field name=\"name\" kind=\"string\" />"
+               "<field name=\"msg\" kind=\"string\" />"
+               "</type>";}
+
    //------ Layered ------
    struct Layered
       {
@@ -769,7 +799,7 @@
       float infiltration;
       float drainage;
       float evaporation;
-      std::vector<struct LateralFlowLayer> LateralFlowLayer;
+      std::vector<LateralFlowLayer> LateralFlowLayer;
       };
 
    inline void pack(MessageData& messageData, const SoilWaterBalance& data)
@@ -938,31 +968,31 @@
    //------ SoluteProfile ------
    struct SoluteProfile
       {
-      std::string name;
-      std::vector<struct layer> layer;
+      std::string Name;
+      std::vector<layer> layer;
       };
 
    inline void pack(MessageData& messageData, const SoluteProfile& data)
       {
-      pack(messageData, data.name);
+      pack(messageData, data.Name);
       pack(messageData, data.layer);
       }
    inline void unpack(MessageData& messageData, SoluteProfile& data)
       {
-      unpack(messageData, data.name);
+      unpack(messageData, data.Name);
       unpack(messageData, data.layer);
       }
    inline unsigned memorySize(const SoluteProfile& data)
       {
       return 0
-              + ::memorySize(data.name)
+              + ::memorySize(data.Name)
               + ::memorySize(data.layer)
               ;
       }
    std::string DDML(const SoluteProfile& data)
       {return "<type name=\"SoluteProfile\" array=\"T\">"
                "<element>"
-               "<field name=\"name\" kind=\"string\" />"
+               "<field name=\"Name\" kind=\"string\" />"
                "<field name=\"layer\" array=\"T\">"
                "<element>"
                "<field name=\"thickness\" kind=\"single\" />"
@@ -1009,7 +1039,7 @@
       {
       double amount;
       double depth;
-      std::vector<struct solute> solute;
+      std::vector<solute> solute;
       };
 
    inline void pack(MessageData& messageData, const Irrigated& data)
@@ -1048,7 +1078,7 @@
    struct CropWaterSupply
       {
       std::string name;
-      std::vector<struct layer> layer;
+      std::vector<layer> layer;
       };
 
    inline void pack(MessageData& messageData, const CropWaterSupply& data)
@@ -1123,7 +1153,7 @@
       {
       std::string Name;
       std::string CropType;
-      std::vector<struct RootLayer> RootLayer;
+      std::vector<RootLayer> RootLayer;
       float amount;
       };
 
@@ -1171,7 +1201,7 @@
       {
       std::string Name;
       std::string CropType;
-      std::vector<struct RootLayer> RootLayer;
+      std::vector<RootLayer> RootLayer;
       float amount;
       };
 
@@ -1219,7 +1249,7 @@
    struct CropNitrogenSupply
       {
       std::string name;
-      std::vector<struct layer> layer;
+      std::vector<layer> layer;
       };
 
    inline void pack(MessageData& messageData, const CropNitrogenSupply& data)
@@ -1262,7 +1292,7 @@
       {
       std::string name;
       std::string CropType;
-      std::vector<struct layer> layer;
+      std::vector<layer> layer;
       };
 
    inline void pack(MessageData& messageData, const Interception& data)
@@ -1302,7 +1332,7 @@
    //------ LightProfile ------
    struct LightProfile
       {
-      std::vector<struct Interception> Interception;
+      std::vector<Interception> Interception;
       float transmission;
       };
 
@@ -1380,7 +1410,7 @@
    //------ CanopyWaterBalance ------
    struct CanopyWaterBalance
       {
-      std::vector<struct Canopy> Canopy;
+      std::vector<Canopy> Canopy;
       float eo;
       float interception;
       };
@@ -1470,7 +1500,7 @@
       {
       std::string name;
       std::string OrganicMatterType;
-      std::vector<struct OrganicMatterFraction> OrganicMatterFraction;
+      std::vector<OrganicMatterFraction> OrganicMatterFraction;
       float Cover;
       };
 
@@ -1519,7 +1549,7 @@
    struct SurfaceWater
       {
       float amount;
-      std::vector<struct solute> solute;
+      std::vector<solute> solute;
       };
 
    inline void pack(MessageData& messageData, const SurfaceWater& data)
@@ -1595,7 +1625,7 @@
       {
       std::string name;
       float SurfaceAmount;
-      std::vector<struct layer> layer;
+      std::vector<layer> layer;
       };
 
    inline void pack(MessageData& messageData, const FertiliserConstituents& data)
@@ -1681,7 +1711,7 @@
       float no3;
       float nh4;
       float po4;
-      std::vector<struct FPool> FPool;
+      std::vector<FPool> FPool;
       };
 
    inline void pack(MessageData& messageData, const FPoolProfileLayer& data)
@@ -1831,8 +1861,8 @@
       float no3;
       float nh4;
       float po4;
-      std::vector<struct StandingFraction> StandingFraction;
-      std::vector<struct LyingFraction> LyingFraction;
+      std::vector<StandingFraction> StandingFraction;
+      std::vector<LyingFraction> LyingFraction;
       };
 
    inline void pack(MessageData& messageData, const SurfaceOrganicMatter& data)
@@ -2371,7 +2401,7 @@
    struct SoilOrganicMatter
       {
       std::string OrganicMatterType;
-      std::vector<struct layer> layer;
+      std::vector<layer> layer;
       };
 
    inline void pack(MessageData& messageData, const SoilOrganicMatter& data)
@@ -3028,7 +3058,7 @@
       {
       std::string crop_ident;
       std::string crop_type;
-      struct rlv_layer rlv_layer;
+      rlv_layer rlv_layer;
       double demand;
       };
 
@@ -3071,7 +3101,7 @@
    //------ PastureWaterDemand ------
    struct PastureWaterDemand
       {
-      std::vector<struct demands> demands;
+      std::vector<demands> demands;
       };
 
    inline void pack(MessageData& messageData, const PastureWaterDemand& data)
@@ -3143,7 +3173,7 @@
    //------ PastureWaterSupply ------
    struct PastureWaterSupply
       {
-      std::vector<struct supplies> supplies;
+      std::vector<supplies> supplies;
       };
 
    inline void pack(MessageData& messageData, const PastureWaterSupply& data)
@@ -3211,7 +3241,7 @@
    //------ PastureWaterUptake ------
    struct PastureWaterUptake
       {
-      std::vector<struct water_uptake> water_uptake;
+      std::vector<water_uptake> water_uptake;
       };
 
    inline void pack(MessageData& messageData, const PastureWaterUptake& data)
@@ -3294,7 +3324,7 @@
    //------ WaterInfo ------
    struct WaterInfo
       {
-      std::vector<struct water_info> water_info;
+      std::vector<water_info> water_info;
       };
 
    inline void pack(MessageData& messageData, const WaterInfo& data)
@@ -3376,7 +3406,7 @@
    struct FomAdded
       {
       std::vector<double> layers;
-      std::vector<struct fom> fom;
+      std::vector<fom> fom;
       };
 
    inline void pack(MessageData& messageData, const FomAdded& data)
@@ -4038,9 +4068,9 @@
    //------ AddExcreta ------
    struct AddExcreta
       {
-      struct faeces_om faeces_om;
-      struct faeces_inorg faeces_inorg;
-      struct urine urine;
+      faeces_om faeces_om;
+      faeces_inorg faeces_inorg;
+      urine urine;
       };
 
    inline void pack(MessageData& messageData, const AddExcreta& data)
@@ -4275,11 +4305,11 @@
    //------ Plant2Stock ------
    struct Plant2Stock
       {
-      std::vector<struct herbage> herbage;
+      std::vector<herbage> herbage;
       double propn_green;
       double legume;
       double select_factor;
-      std::vector<struct seed> seed;
+      std::vector<seed> seed;
       std::vector<int> seed_class;
       };
 
@@ -4754,7 +4784,7 @@
    //------ RemoveCropDm ------
    struct RemoveCropDm
       {
-      std::vector<struct dm> dm;
+      std::vector<dm> dm;
       };
 
    inline void pack(MessageData& messageData, const RemoveCropDm& data)

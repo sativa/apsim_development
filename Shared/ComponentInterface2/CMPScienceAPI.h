@@ -1,7 +1,7 @@
 #ifndef CMPScienceAPIH
 #define CMPScienceAPIH
+#include <ComponentInterface2/ScienceAPI.h>
 #include <general/platform.h>
-#include "ScienceAPI.h"
 class CMPComponentInterface;
 
 // ------------------------------------------------------------------
