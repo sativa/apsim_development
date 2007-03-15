@@ -23,6 +23,7 @@ Component     "soiln2" = c:\development\apsim\soiln2\lib\soiln2.dll
 Component      "wheat" = c:\development\apsim\plant\lib\plant.dll
 Component    "sorghum" = c:\development\apsim\sorghum\lib\sorghum.dll
 Component    "tracker" = c:\development\apsim\tracker\lib\tracker.dll
+Component     "sysbal" = c:\development\apsim\sysbal\lib\sysbal.dll
 
 ------- clock Initialisation --------------------------------------------------
      Sequencer phases:
@@ -406,6 +407,10 @@ Component    "tracker" = c:\development\apsim\tracker\lib\tracker.dll
       stage 3.0 emergence
                      biomass =           0.46 (g/m^2)   lai          =   0.020 (m^2/m^2)
                      stover N conc =     5.85 (%)    extractable sw =    5.06 (mm)
+22 May 1958(Day of year=142), sysbal: 
+      **** N balance - unaccounted gain (kg/ha) =  0.468750179
+      **** C balance - unaccounted gain (kg/ha) =  5.83705616
+      ****        equivalent DM as FOM  (kg/ha) =  14.5926399
 23 May 1958(Day of year=143), wheat: 
       stage 4.0 end_of_juvenile
                      biomass =           0.57 (g/m^2)   lai          =   0.022 (m^2/m^2)
@@ -506,6 +511,8 @@ Component    "tracker" = c:\development\apsim\tracker\lib\tracker.dll
         - Reading Fertiliser Type Parameters
         23.95 of N as nitrate (no3_n)
                                               added at depth    1.00 (layer   1)
+26 September 1958(Day of year=269), sysbal: 
+      **** N balance - unaccounted gain (kg/ha) =  23.9546967
 27 September 1958(Day of year=270), sorghum: 
       stage 2.0 germination
      		biomass =   0.00 		 lai =   0.00
@@ -514,6 +521,10 @@ Component    "tracker" = c:\development\apsim\tracker\lib\tracker.dll
       stage 3.0 emergence
      		biomass =   0.00 		 lai =   0.00
      		stover N conc =   0.00 		 extractable sw =  26.98
+11 October 1958(Day of year=284), sysbal: 
+      **** N balance - unaccounted gain (kg/ha) =  0.165386736
+      **** C balance - unaccounted gain (kg/ha) =  5.99954605
+      ****        equivalent DM as FOM  (kg/ha) =  14.9988651
 5 November 1958(Day of year=309), sorghum: 
       stage 4.0 end_of_juvenile
      		biomass =   3.59 		 lai =   0.04
@@ -588,6 +599,10 @@ Component    "tracker" = c:\development\apsim\tracker\lib\tracker.dll
      Residue removed using graze
                                              Fraction Incorporated =     0.75
                                              Incorporated Depth    =     0.00
+24 February 1959(Day of year=55), sysbal: 
+      **** N balance - unaccounted loss (kg/ha) =  -22.8023338
+      **** C balance - unaccounted loss (kg/ha) =  -1494.20386
+      ****        equivalent DM as FOM  (kg/ha) =  -3735.50952
 3 June 1959(Day of year=154), manager: 
      Manager sending message :- wheat sow  plants = 100 (/m2), sowing_depth = 40 (mm), cultivar = hartog
 3 June 1959(Day of year=154), wheat: 
@@ -640,12 +655,18 @@ Component    "tracker" = c:\development\apsim\tracker\lib\tracker.dll
         - Reading Fertiliser Type Parameters
         97.07 of N as nitrate (no3_n)
                                               added at depth    1.00 (layer   1)
+3 June 1959(Day of year=154), sysbal: 
+      **** N balance - unaccounted gain (kg/ha) =  97.0661011
 4 June 1959(Day of year=155), wheat: 
       stage 2.0 germination
 11 June 1959(Day of year=162), wheat: 
       stage 3.0 emergence
                      biomass =           0.46 (g/m^2)   lai          =   0.020 (m^2/m^2)
                      stover N conc =     5.85 (%)    extractable sw =    4.11 (mm)
+11 June 1959(Day of year=162), sysbal: 
+      **** N balance - unaccounted gain (kg/ha) =  0.468388885
+      **** C balance - unaccounted gain (kg/ha) =  5.84025383
+      ****        equivalent DM as FOM  (kg/ha) =  14.6006346
 12 June 1959(Day of year=163), wheat: 
       stage 4.0 end_of_juvenile
                      biomass =           0.57 (g/m^2)   lai          =   0.022 (m^2/m^2)
@@ -773,12 +794,18 @@ Component    "tracker" = c:\development\apsim\tracker\lib\tracker.dll
         - Reading Fertiliser Type Parameters
         30.64 of N as nitrate (no3_n)
                                               added at depth    1.00 (layer   1)
+14 May 1960(Day of year=135), sysbal: 
+      **** N balance - unaccounted gain (kg/ha) =  30.6450214
 15 May 1960(Day of year=136), wheat: 
       stage 2.0 germination
 22 May 1960(Day of year=143), wheat: 
       stage 3.0 emergence
                      biomass =           0.46 (g/m^2)   lai          =   0.020 (m^2/m^2)
                      stover N conc =     5.85 (%)    extractable sw =   10.87 (mm)
+22 May 1960(Day of year=143), sysbal: 
+      **** N balance - unaccounted gain (kg/ha) =  0.469037712
+      **** C balance - unaccounted gain (kg/ha) =  5.83882809
+      ****        equivalent DM as FOM  (kg/ha) =  14.5970697
 23 May 1960(Day of year=144), wheat: 
       stage 4.0 end_of_juvenile
                      biomass =           0.62 (g/m^2)   lai          =   0.023 (m^2/m^2)
@@ -879,6 +906,8 @@ Component    "tracker" = c:\development\apsim\tracker\lib\tracker.dll
         - Reading Fertiliser Type Parameters
         26.60 of N as nitrate (no3_n)
                                               added at depth    1.00 (layer   1)
+25 September 1960(Day of year=269), sysbal: 
+      **** N balance - unaccounted gain (kg/ha) =  26.6039677
 26 September 1960(Day of year=270), sorghum: 
       stage 2.0 germination
      		biomass =   0.00 		 lai =   0.00
@@ -887,6 +916,10 @@ Component    "tracker" = c:\development\apsim\tracker\lib\tracker.dll
       stage 3.0 emergence
      		biomass =   0.00 		 lai =   0.00
      		stover N conc =   0.00 		 extractable sw =  26.31
+4 October 1960(Day of year=278), sysbal: 
+      **** N balance - unaccounted gain (kg/ha) =  0.164714277
+      **** C balance - unaccounted gain (kg/ha) =  5.99135208
+      ****        equivalent DM as FOM  (kg/ha) =  14.9783802
 24 October 1960(Day of year=298), sorghum: 
       stage 4.0 end_of_juvenile
      		biomass =   3.84 		 lai =   0.04
@@ -969,6 +1002,10 @@ Component    "tracker" = c:\development\apsim\tracker\lib\tracker.dll
      Residue removed using graze
                                              Fraction Incorporated =     0.75
                                              Incorporated Depth    =     0.00
+18 February 1961(Day of year=49), sysbal: 
+      **** N balance - unaccounted loss (kg/ha) =  -35.8400879
+      **** C balance - unaccounted loss (kg/ha) =  -2689.46558
+      ****        equivalent DM as FOM  (kg/ha) =  -6723.66406
 15 May 1961(Day of year=135), manager: 
      Manager sending message :- wheat sow  plants = 100 (/m2), sowing_depth = 40 (mm), cultivar = hartog
 15 May 1961(Day of year=135), wheat: 
@@ -1021,12 +1058,18 @@ Component    "tracker" = c:\development\apsim\tracker\lib\tracker.dll
         - Reading Fertiliser Type Parameters
         95.89 of N as nitrate (no3_n)
                                               added at depth    1.00 (layer   1)
+15 May 1961(Day of year=135), sysbal: 
+      **** N balance - unaccounted gain (kg/ha) =  95.8945923
 16 May 1961(Day of year=136), wheat: 
       stage 2.0 germination
 22 May 1961(Day of year=142), wheat: 
       stage 3.0 emergence
                      biomass =           0.46 (g/m^2)   lai          =   0.020 (m^2/m^2)
                      stover N conc =     5.85 (%)    extractable sw =    3.72 (mm)
+22 May 1961(Day of year=142), sysbal: 
+      **** N balance - unaccounted gain (kg/ha) =  0.469100952
+      **** C balance - unaccounted gain (kg/ha) =  5.83885384
+      ****        equivalent DM as FOM  (kg/ha) =  14.5971346
 23 May 1961(Day of year=143), wheat: 
       stage 4.0 end_of_juvenile
                      biomass =           0.57 (g/m^2)   lai          =   0.022 (m^2/m^2)
@@ -1154,12 +1197,18 @@ Component    "tracker" = c:\development\apsim\tracker\lib\tracker.dll
         - Reading Fertiliser Type Parameters
         21.72 of N as nitrate (no3_n)
                                               added at depth    1.00 (layer   1)
+15 May 1962(Day of year=135), sysbal: 
+      **** N balance - unaccounted gain (kg/ha) =  21.7192326
 16 May 1962(Day of year=136), wheat: 
       stage 2.0 germination
 23 May 1962(Day of year=143), wheat: 
       stage 3.0 emergence
                      biomass =           0.46 (g/m^2)   lai          =   0.020 (m^2/m^2)
                      stover N conc =     5.85 (%)    extractable sw =   10.31 (mm)
+23 May 1962(Day of year=143), sysbal: 
+      **** N balance - unaccounted gain (kg/ha) =  0.469530672
+      **** C balance - unaccounted gain (kg/ha) =  5.83769608
+      ****        equivalent DM as FOM  (kg/ha) =  14.5942402
 24 May 1962(Day of year=144), wheat: 
       stage 4.0 end_of_juvenile
                      biomass =           0.52 (g/m^2)   lai          =   0.021 (m^2/m^2)
@@ -1265,6 +1314,8 @@ Component    "tracker" = c:\development\apsim\tracker\lib\tracker.dll
         - Reading Fertiliser Type Parameters
         25.57 of N as nitrate (no3_n)
                                               added at depth    1.00 (layer   1)
+24 September 1962(Day of year=267), sysbal: 
+      **** N balance - unaccounted gain (kg/ha) =  25.5673733
 25 September 1962(Day of year=268), sorghum: 
       stage 2.0 germination
      		biomass =   0.00 		 lai =   0.00
@@ -1273,6 +1324,10 @@ Component    "tracker" = c:\development\apsim\tracker\lib\tracker.dll
       stage 3.0 emergence
      		biomass =   0.00 		 lai =   0.00
      		stover N conc =   0.00 		 extractable sw =  55.27
+6 October 1962(Day of year=279), sysbal: 
+      **** N balance - unaccounted gain (kg/ha) =  0.164776385
+      **** C balance - unaccounted gain (kg/ha) =  6.00195789
+      ****        equivalent DM as FOM  (kg/ha) =  15.0048943
 30 October 1962(Day of year=303), sorghum: 
       stage 4.0 end_of_juvenile
      		biomass =   3.80 		 lai =   0.04
@@ -1355,6 +1410,10 @@ Component    "tracker" = c:\development\apsim\tracker\lib\tracker.dll
      Residue removed using graze
                                              Fraction Incorporated =     0.75
                                              Incorporated Depth    =     0.00
+21 February 1963(Day of year=52), sysbal: 
+      **** N balance - unaccounted loss (kg/ha) =  -25.6361485
+      **** C balance - unaccounted loss (kg/ha) =  -1699.62073
+      ****        equivalent DM as FOM  (kg/ha) =  -4249.05176
 4 June 1963(Day of year=155), manager: 
      Manager sending message :- wheat sow  plants = 100 (/m2), sowing_depth = 40 (mm), cultivar = hartog
 4 June 1963(Day of year=155), wheat: 
@@ -1407,12 +1466,18 @@ Component    "tracker" = c:\development\apsim\tracker\lib\tracker.dll
         - Reading Fertiliser Type Parameters
         93.27 of N as nitrate (no3_n)
                                               added at depth    1.00 (layer   1)
+4 June 1963(Day of year=155), sysbal: 
+      **** N balance - unaccounted gain (kg/ha) =  93.2672806
 5 June 1963(Day of year=156), wheat: 
       stage 2.0 germination
 12 June 1963(Day of year=163), wheat: 
       stage 3.0 emergence
                      biomass =           0.46 (g/m^2)   lai          =   0.020 (m^2/m^2)
                      stover N conc =     5.85 (%)    extractable sw =    3.35 (mm)
+12 June 1963(Day of year=163), sysbal: 
+      **** N balance - unaccounted gain (kg/ha) =  0.469310105
+      **** C balance - unaccounted gain (kg/ha) =  5.83082199
+      ****        equivalent DM as FOM  (kg/ha) =  14.5770550
 13 June 1963(Day of year=164), wheat: 
       stage 4.0 end_of_juvenile
                      biomass =           0.51 (g/m^2)   lai          =   0.021 (m^2/m^2)
@@ -1540,12 +1605,18 @@ Component    "tracker" = c:\development\apsim\tracker\lib\tracker.dll
         - Reading Fertiliser Type Parameters
         26.35 of N as nitrate (no3_n)
                                               added at depth    1.00 (layer   1)
+14 May 1964(Day of year=135), sysbal: 
+      **** N balance - unaccounted gain (kg/ha) =  26.3486328
 15 May 1964(Day of year=136), wheat: 
       stage 2.0 germination
 20 May 1964(Day of year=141), wheat: 
       stage 3.0 emergence
                      biomass =           0.46 (g/m^2)   lai          =   0.020 (m^2/m^2)
                      stover N conc =     5.85 (%)    extractable sw =    0.00 (mm)
+20 May 1964(Day of year=141), sysbal: 
+      **** N balance - unaccounted gain (kg/ha) =  0.468261719
+      **** C balance - unaccounted gain (kg/ha) =  5.84323883
+      ****        equivalent DM as FOM  (kg/ha) =  14.6080971
 21 May 1964(Day of year=142), wheat: 
       stage 4.0 end_of_juvenile
                      biomass =           0.46 (g/m^2)   lai          =   0.018 (m^2/m^2)
@@ -1651,6 +1722,8 @@ Component    "tracker" = c:\development\apsim\tracker\lib\tracker.dll
         - Reading Fertiliser Type Parameters
         22.45 of N as nitrate (no3_n)
                                               added at depth    1.00 (layer   1)
+26 September 1964(Day of year=270), sysbal: 
+      **** N balance - unaccounted gain (kg/ha) =  22.4501686
 27 September 1964(Day of year=271), sorghum: 
       stage 2.0 germination
      		biomass =   0.00 		 lai =   0.00
@@ -1659,6 +1732,10 @@ Component    "tracker" = c:\development\apsim\tracker\lib\tracker.dll
       stage 3.0 emergence
      		biomass =   0.00 		 lai =   0.00
      		stover N conc =   0.00 		 extractable sw =  50.63
+12 October 1964(Day of year=286), sysbal: 
+      **** N balance - unaccounted gain (kg/ha) =  0.164848775
+      **** C balance - unaccounted gain (kg/ha) =  5.99752045
+      ****        equivalent DM as FOM  (kg/ha) =  14.9938011
 7 November 1964(Day of year=312), sorghum: 
       stage 4.0 end_of_juvenile
      		biomass =   4.00 		 lai =   0.04
@@ -1729,6 +1806,10 @@ Component    "tracker" = c:\development\apsim\tracker\lib\tracker.dll
      Residue removed using graze
                                              Fraction Incorporated =     0.75
                                              Incorporated Depth    =     0.00
+24 February 1965(Day of year=55), sysbal: 
+      **** N balance - unaccounted loss (kg/ha) =  -22.9027348
+      **** C balance - unaccounted loss (kg/ha) =  -1649.45410
+      ****        equivalent DM as FOM  (kg/ha) =  -4123.63525
 30 May 1965(Day of year=150), manager: 
      Manager sending message :- wheat sow  plants = 100 (/m2), sowing_depth = 40 (mm), cultivar = hartog
 30 May 1965(Day of year=150), wheat: 
@@ -1781,12 +1862,18 @@ Component    "tracker" = c:\development\apsim\tracker\lib\tracker.dll
         - Reading Fertiliser Type Parameters
         95.60 of N as nitrate (no3_n)
                                               added at depth    1.00 (layer   1)
+30 May 1965(Day of year=150), sysbal: 
+      **** N balance - unaccounted gain (kg/ha) =  95.6050644
 31 May 1965(Day of year=151), wheat: 
       stage 2.0 germination
 6 June 1965(Day of year=157), wheat: 
       stage 3.0 emergence
                      biomass =           0.46 (g/m^2)   lai          =   0.020 (m^2/m^2)
                      stover N conc =     5.85 (%)    extractable sw =    9.24 (mm)
+6 June 1965(Day of year=157), sysbal: 
+      **** N balance - unaccounted gain (kg/ha) =  0.469620973
+      **** C balance - unaccounted gain (kg/ha) =  5.83428955
+      ****        equivalent DM as FOM  (kg/ha) =  14.5857239
 7 June 1965(Day of year=158), wheat: 
       stage 4.0 end_of_juvenile
                      biomass =           0.55 (g/m^2)   lai          =   0.021 (m^2/m^2)
@@ -1914,12 +2001,18 @@ Component    "tracker" = c:\development\apsim\tracker\lib\tracker.dll
         - Reading Fertiliser Type Parameters
         16.44 of N as nitrate (no3_n)
                                               added at depth    1.00 (layer   1)
+15 May 1966(Day of year=135), sysbal: 
+      **** N balance - unaccounted gain (kg/ha) =  16.4431744
 16 May 1966(Day of year=136), wheat: 
       stage 2.0 germination
 22 May 1966(Day of year=142), wheat: 
       stage 3.0 emergence
                      biomass =           0.46 (g/m^2)   lai          =   0.020 (m^2/m^2)
                      stover N conc =     5.85 (%)    extractable sw =    5.90 (mm)
+22 May 1966(Day of year=142), sysbal: 
+      **** N balance - unaccounted gain (kg/ha) =  0.468966365
+      **** C balance - unaccounted gain (kg/ha) =  5.84134388
+      ****        equivalent DM as FOM  (kg/ha) =  14.6033592
 23 May 1966(Day of year=143), wheat: 
       stage 4.0 end_of_juvenile
                      biomass =           0.62 (g/m^2)   lai          =   0.023 (m^2/m^2)
@@ -2020,6 +2113,8 @@ Component    "tracker" = c:\development\apsim\tracker\lib\tracker.dll
         - Reading Fertiliser Type Parameters
         26.29 of N as nitrate (no3_n)
                                               added at depth    1.00 (layer   1)
+21 September 1966(Day of year=264), sysbal: 
+      **** N balance - unaccounted gain (kg/ha) =  26.2895908
 22 September 1966(Day of year=265), sorghum: 
       stage 2.0 germination
      		biomass =   0.00 		 lai =   0.00
@@ -2028,6 +2123,10 @@ Component    "tracker" = c:\development\apsim\tracker\lib\tracker.dll
       stage 3.0 emergence
      		biomass =   0.00 		 lai =   0.00
      		stover N conc =   0.00 		 extractable sw =  22.51
+5 October 1966(Day of year=278), sysbal: 
+      **** N balance - unaccounted gain (kg/ha) =  0.164918512
+      **** C balance - unaccounted gain (kg/ha) =  6.00022554
+      ****        equivalent DM as FOM  (kg/ha) =  15.0005636
 25 October 1966(Day of year=298), sorghum: 
       stage 4.0 end_of_juvenile
      		biomass =   3.29 		 lai =   0.04
@@ -2102,6 +2201,10 @@ Component    "tracker" = c:\development\apsim\tracker\lib\tracker.dll
      Residue removed using graze
                                              Fraction Incorporated =     0.75
                                              Incorporated Depth    =     0.00
+19 February 1967(Day of year=50), sysbal: 
+      **** N balance - unaccounted loss (kg/ha) =  -23.6928177
+      **** C balance - unaccounted loss (kg/ha) =  -1540.32385
+      ****        equivalent DM as FOM  (kg/ha) =  -3850.80957
 15 May 1967(Day of year=135), manager: 
      Manager sending message :- wheat sow  plants = 100 (/m2), sowing_depth = 40 (mm), cultivar = hartog
 15 May 1967(Day of year=135), wheat: 
@@ -2154,12 +2257,18 @@ Component    "tracker" = c:\development\apsim\tracker\lib\tracker.dll
         - Reading Fertiliser Type Parameters
         85.60 of N as nitrate (no3_n)
                                               added at depth    1.00 (layer   1)
+15 May 1967(Day of year=135), sysbal: 
+      **** N balance - unaccounted gain (kg/ha) =  85.6028137
 16 May 1967(Day of year=136), wheat: 
       stage 2.0 germination
 23 May 1967(Day of year=143), wheat: 
       stage 3.0 emergence
                      biomass =           0.46 (g/m^2)   lai          =   0.020 (m^2/m^2)
                      stover N conc =     5.85 (%)    extractable sw =    6.89 (mm)
+23 May 1967(Day of year=143), sysbal: 
+      **** N balance - unaccounted gain (kg/ha) =  0.469227463
+      **** C balance - unaccounted gain (kg/ha) =  5.83854294
+      ****        equivalent DM as FOM  (kg/ha) =  14.5963573
 24 May 1967(Day of year=144), wheat: 
       stage 4.0 end_of_juvenile
                      biomass =           0.61 (g/m^2)   lai          =   0.022 (m^2/m^2)
@@ -2287,12 +2396,18 @@ Component    "tracker" = c:\development\apsim\tracker\lib\tracker.dll
         - Reading Fertiliser Type Parameters
         33.95 of N as nitrate (no3_n)
                                               added at depth    1.00 (layer   1)
+14 May 1968(Day of year=135), sysbal: 
+      **** N balance - unaccounted gain (kg/ha) =  33.9516792
 15 May 1968(Day of year=136), wheat: 
       stage 2.0 germination
 23 May 1968(Day of year=144), wheat: 
       stage 3.0 emergence
                      biomass =           0.46 (g/m^2)   lai          =   0.020 (m^2/m^2)
                      stover N conc =     5.85 (%)    extractable sw =    8.23 (mm)
+23 May 1968(Day of year=144), sysbal: 
+      **** N balance - unaccounted gain (kg/ha) =  0.469428062
+      **** C balance - unaccounted gain (kg/ha) =  5.83206320
+      ****        equivalent DM as FOM  (kg/ha) =  14.5801582
 24 May 1968(Day of year=145), wheat: 
       stage 4.0 end_of_juvenile
                      biomass =           0.55 (g/m^2)   lai          =   0.021 (m^2/m^2)
@@ -2393,6 +2508,8 @@ Component    "tracker" = c:\development\apsim\tracker\lib\tracker.dll
         - Reading Fertiliser Type Parameters
         27.36 of N as nitrate (no3_n)
                                               added at depth    1.00 (layer   1)
+23 September 1968(Day of year=267), sysbal: 
+      **** N balance - unaccounted gain (kg/ha) =  27.3584156
 24 September 1968(Day of year=268), sorghum: 
       stage 2.0 germination
      		biomass =   0.00 		 lai =   0.00
@@ -2401,6 +2518,10 @@ Component    "tracker" = c:\development\apsim\tracker\lib\tracker.dll
       stage 3.0 emergence
      		biomass =   0.00 		 lai =   0.00
      		stover N conc =   0.00 		 extractable sw =  24.84
+8 October 1968(Day of year=282), sysbal: 
+      **** N balance - unaccounted gain (kg/ha) =  0.165120348
+      **** C balance - unaccounted gain (kg/ha) =  5.99746704
+      ****        equivalent DM as FOM  (kg/ha) =  14.9936676
 25 October 1968(Day of year=299), sorghum: 
       stage 4.0 end_of_juvenile
      		biomass =   3.67 		 lai =   0.04
@@ -2483,6 +2604,10 @@ Component    "tracker" = c:\development\apsim\tracker\lib\tracker.dll
      Residue removed using graze
                                              Fraction Incorporated =     0.75
                                              Incorporated Depth    =     0.00
+20 February 1969(Day of year=51), sysbal: 
+      **** N balance - unaccounted loss (kg/ha) =  -29.5235920
+      **** C balance - unaccounted loss (kg/ha) =  -1572.77612
+      ****        equivalent DM as FOM  (kg/ha) =  -3931.94019
 30 July 1969(Day of year=211), manager: 
      Manager sending message :- wheat sow  plants = 100 (/m2), sowing_depth = 40 (mm), cultivar = hartog
 30 July 1969(Day of year=211), wheat: 
@@ -2535,12 +2660,18 @@ Component    "tracker" = c:\development\apsim\tracker\lib\tracker.dll
         - Reading Fertiliser Type Parameters
         90.93 of N as nitrate (no3_n)
                                               added at depth    1.00 (layer   1)
+30 July 1969(Day of year=211), sysbal: 
+      **** N balance - unaccounted gain (kg/ha) =  90.9274902
 4 August 1969(Day of year=216), wheat: 
       stage 2.0 germination
 10 August 1969(Day of year=222), wheat: 
       stage 3.0 emergence
                      biomass =           0.46 (g/m^2)   lai          =   0.020 (m^2/m^2)
                      stover N conc =     5.85 (%)    extractable sw =    3.34 (mm)
+10 August 1969(Day of year=222), sysbal: 
+      **** N balance - unaccounted gain (kg/ha) =  0.469238281
+      **** C balance - unaccounted gain (kg/ha) =  5.83798742
+      ****        equivalent DM as FOM  (kg/ha) =  14.5949688
 11 August 1969(Day of year=223), wheat: 
       stage 4.0 end_of_juvenile
                      biomass =           0.60 (g/m^2)   lai          =   0.022 (m^2/m^2)
@@ -2668,12 +2799,18 @@ Component    "tracker" = c:\development\apsim\tracker\lib\tracker.dll
         - Reading Fertiliser Type Parameters
         28.66 of N as nitrate (no3_n)
                                               added at depth    1.00 (layer   1)
+15 May 1970(Day of year=135), sysbal: 
+      **** N balance - unaccounted gain (kg/ha) =  28.6636009
 16 May 1970(Day of year=136), wheat: 
       stage 2.0 germination
 23 May 1970(Day of year=143), wheat: 
       stage 3.0 emergence
                      biomass =           0.46 (g/m^2)   lai          =   0.020 (m^2/m^2)
                      stover N conc =     5.85 (%)    extractable sw =    3.35 (mm)
+23 May 1970(Day of year=143), sysbal: 
+      **** N balance - unaccounted gain (kg/ha) =  0.468867809
+      **** C balance - unaccounted gain (kg/ha) =  5.83644629
+      ****        equivalent DM as FOM  (kg/ha) =  14.5911160
 24 May 1970(Day of year=144), wheat: 
       stage 4.0 end_of_juvenile
                      biomass =           0.60 (g/m^2)   lai          =   0.022 (m^2/m^2)
@@ -2774,6 +2911,8 @@ Component    "tracker" = c:\development\apsim\tracker\lib\tracker.dll
         - Reading Fertiliser Type Parameters
         19.54 of N as nitrate (no3_n)
                                               added at depth    1.00 (layer   1)
+24 September 1970(Day of year=267), sysbal: 
+      **** N balance - unaccounted gain (kg/ha) =  19.5377293
 25 September 1970(Day of year=268), sorghum: 
       stage 2.0 germination
      		biomass =   0.00 		 lai =   0.00
@@ -2782,6 +2921,10 @@ Component    "tracker" = c:\development\apsim\tracker\lib\tracker.dll
       stage 3.0 emergence
      		biomass =   0.00 		 lai =   0.00
      		stover N conc =   0.00 		 extractable sw =  17.11
+7 October 1970(Day of year=280), sysbal: 
+      **** N balance - unaccounted gain (kg/ha) =  0.165245637
+      **** C balance - unaccounted gain (kg/ha) =  5.99708748
+      ****        equivalent DM as FOM  (kg/ha) =  14.9927187
 30 October 1970(Day of year=303), sorghum: 
       stage 4.0 end_of_juvenile
      		biomass =   3.79 		 lai =   0.04
@@ -2864,6 +3007,10 @@ Component    "tracker" = c:\development\apsim\tracker\lib\tracker.dll
      Residue removed using graze
                                              Fraction Incorporated =     0.75
                                              Incorporated Depth    =     0.00
+21 February 1971(Day of year=52), sysbal: 
+      **** N balance - unaccounted loss (kg/ha) =  -29.3325214
+      **** C balance - unaccounted loss (kg/ha) =  -1657.24414
+      ****        equivalent DM as FOM  (kg/ha) =  -4143.11035
 17 May 1971(Day of year=137), manager: 
      Manager sending message :- wheat sow  plants = 100 (/m2), sowing_depth = 40 (mm), cultivar = hartog
 17 May 1971(Day of year=137), wheat: 
@@ -2916,12 +3063,18 @@ Component    "tracker" = c:\development\apsim\tracker\lib\tracker.dll
         - Reading Fertiliser Type Parameters
         87.05 of N as nitrate (no3_n)
                                               added at depth    1.00 (layer   1)
+17 May 1971(Day of year=137), sysbal: 
+      **** N balance - unaccounted gain (kg/ha) =  87.0506897
 18 May 1971(Day of year=138), wheat: 
       stage 2.0 germination
 25 May 1971(Day of year=145), wheat: 
       stage 3.0 emergence
                      biomass =           0.46 (g/m^2)   lai          =   0.020 (m^2/m^2)
                      stover N conc =     5.85 (%)    extractable sw =   18.71 (mm)
+25 May 1971(Day of year=145), sysbal: 
+      **** N balance - unaccounted gain (kg/ha) =  0.468619913
+      **** C balance - unaccounted gain (kg/ha) =  5.83369255
+      ****        equivalent DM as FOM  (kg/ha) =  14.5842314
 26 May 1971(Day of year=146), wheat: 
       stage 4.0 end_of_juvenile
                      biomass =           0.58 (g/m^2)   lai          =   0.022 (m^2/m^2)
@@ -3049,12 +3202,18 @@ Component    "tracker" = c:\development\apsim\tracker\lib\tracker.dll
         - Reading Fertiliser Type Parameters
         19.14 of N as nitrate (no3_n)
                                               added at depth    1.00 (layer   1)
+14 May 1972(Day of year=135), sysbal: 
+      **** N balance - unaccounted gain (kg/ha) =  19.1416016
 15 May 1972(Day of year=136), wheat: 
       stage 2.0 germination
 21 May 1972(Day of year=142), wheat: 
       stage 3.0 emergence
                      biomass =           0.46 (g/m^2)   lai          =   0.020 (m^2/m^2)
                      stover N conc =     5.85 (%)    extractable sw =    2.70 (mm)
+21 May 1972(Day of year=142), sysbal: 
+      **** N balance - unaccounted gain (kg/ha) =  0.468994468
+      **** C balance - unaccounted gain (kg/ha) =  5.83962440
+      ****        equivalent DM as FOM  (kg/ha) =  14.5990610
 22 May 1972(Day of year=143), wheat: 
       stage 4.0 end_of_juvenile
                      biomass =           0.55 (g/m^2)   lai          =   0.021 (m^2/m^2)
@@ -3160,6 +3319,8 @@ Component    "tracker" = c:\development\apsim\tracker\lib\tracker.dll
         - Reading Fertiliser Type Parameters
         26.62 of N as nitrate (no3_n)
                                               added at depth    1.00 (layer   1)
+9 October 1972(Day of year=283), sysbal: 
+      **** N balance - unaccounted gain (kg/ha) =  26.6198559
 10 October 1972(Day of year=284), sorghum: 
       stage 2.0 germination
      		biomass =   0.00 		 lai =   0.00
@@ -3168,6 +3329,10 @@ Component    "tracker" = c:\development\apsim\tracker\lib\tracker.dll
       stage 3.0 emergence
      		biomass =   0.00 		 lai =   0.00
      		stover N conc =   0.00 		 extractable sw =  13.98
+22 October 1972(Day of year=296), sysbal: 
+      **** N balance - unaccounted gain (kg/ha) =  0.165400729
+      **** C balance - unaccounted gain (kg/ha) =  6.00398493
+      ****        equivalent DM as FOM  (kg/ha) =  15.0099621
 12 November 1972(Day of year=317), sorghum: 
       stage 4.0 end_of_juvenile
      		biomass =   4.13 		 lai =   0.05
@@ -3250,6 +3415,10 @@ Component    "tracker" = c:\development\apsim\tracker\lib\tracker.dll
      Residue removed using graze
                                              Fraction Incorporated =     0.75
                                              Incorporated Depth    =     0.00
+21 February 1973(Day of year=52), sysbal: 
+      **** N balance - unaccounted loss (kg/ha) =  -20.1878910
+      **** C balance - unaccounted loss (kg/ha) =  -1440.59143
+      ****        equivalent DM as FOM  (kg/ha) =  -3601.47852
 5 June 1973(Day of year=156), manager: 
      Manager sending message :- wheat sow  plants = 100 (/m2), sowing_depth = 40 (mm), cultivar = hartog
 5 June 1973(Day of year=156), wheat: 
@@ -3302,12 +3471,18 @@ Component    "tracker" = c:\development\apsim\tracker\lib\tracker.dll
         - Reading Fertiliser Type Parameters
         87.68 of N as nitrate (no3_n)
                                               added at depth    1.00 (layer   1)
+5 June 1973(Day of year=156), sysbal: 
+      **** N balance - unaccounted gain (kg/ha) =  87.6787109
 6 June 1973(Day of year=157), wheat: 
       stage 2.0 germination
 14 June 1973(Day of year=165), wheat: 
       stage 3.0 emergence
                      biomass =           0.46 (g/m^2)   lai          =   0.020 (m^2/m^2)
                      stover N conc =     5.85 (%)    extractable sw =    9.21 (mm)
+14 June 1973(Day of year=165), sysbal: 
+      **** N balance - unaccounted gain (kg/ha) =  0.469432771
+      **** C balance - unaccounted gain (kg/ha) =  5.83046055
+      ****        equivalent DM as FOM  (kg/ha) =  14.5761509
 15 June 1973(Day of year=166), wheat: 
       stage 4.0 end_of_juvenile
                      biomass =           0.60 (g/m^2)   lai          =   0.022 (m^2/m^2)
@@ -3435,12 +3610,18 @@ Component    "tracker" = c:\development\apsim\tracker\lib\tracker.dll
         - Reading Fertiliser Type Parameters
         30.60 of N as nitrate (no3_n)
                                               added at depth    1.00 (layer   1)
+15 May 1974(Day of year=135), sysbal: 
+      **** N balance - unaccounted gain (kg/ha) =  30.6008778
 16 May 1974(Day of year=136), wheat: 
       stage 2.0 germination
 22 May 1974(Day of year=142), wheat: 
       stage 3.0 emergence
                      biomass =           0.46 (g/m^2)   lai          =   0.020 (m^2/m^2)
                      stover N conc =     5.85 (%)    extractable sw =    9.31 (mm)
+22 May 1974(Day of year=142), sysbal: 
+      **** N balance - unaccounted gain (kg/ha) =  0.469063818
+      **** C balance - unaccounted gain (kg/ha) =  5.83769226
+      ****        equivalent DM as FOM  (kg/ha) =  14.5942307
 23 May 1974(Day of year=143), wheat: 
       stage 4.0 end_of_juvenile
                      biomass =           0.61 (g/m^2)   lai          =   0.022 (m^2/m^2)
@@ -3541,6 +3722,8 @@ Component    "tracker" = c:\development\apsim\tracker\lib\tracker.dll
         - Reading Fertiliser Type Parameters
         22.52 of N as nitrate (no3_n)
                                               added at depth    1.00 (layer   1)
+31 October 1974(Day of year=304), sysbal: 
+      **** N balance - unaccounted gain (kg/ha) =  22.5194168
 1 November 1974(Day of year=305), sorghum: 
       stage 2.0 germination
      		biomass =   0.00 		 lai =   0.00
@@ -3549,6 +3732,10 @@ Component    "tracker" = c:\development\apsim\tracker\lib\tracker.dll
       stage 3.0 emergence
      		biomass =   0.00 		 lai =   0.00
      		stover N conc =   0.00 		 extractable sw =  13.54
+10 November 1974(Day of year=314), sysbal: 
+      **** N balance - unaccounted gain (kg/ha) =  0.165059000
+      **** C balance - unaccounted gain (kg/ha) =  6.00130939
+      ****        equivalent DM as FOM  (kg/ha) =  15.0032730
 25 November 1974(Day of year=329), sorghum: 
       stage 4.0 end_of_juvenile
      		biomass =   3.56 		 lai =   0.04
@@ -3631,6 +3818,10 @@ Component    "tracker" = c:\development\apsim\tracker\lib\tracker.dll
      Residue removed using graze
                                              Fraction Incorporated =     0.75
                                              Incorporated Depth    =     0.00
+12 March 1975(Day of year=71), sysbal: 
+      **** N balance - unaccounted loss (kg/ha) =  -30.1507187
+      **** C balance - unaccounted loss (kg/ha) =  -1666.82788
+      ****        equivalent DM as FOM  (kg/ha) =  -4167.06982
 23 May 1975(Day of year=143), manager: 
      Manager sending message :- wheat sow  plants = 100 (/m2), sowing_depth = 40 (mm), cultivar = hartog
 23 May 1975(Day of year=143), wheat: 
@@ -3683,12 +3874,18 @@ Component    "tracker" = c:\development\apsim\tracker\lib\tracker.dll
         - Reading Fertiliser Type Parameters
         96.38 of N as nitrate (no3_n)
                                               added at depth    1.00 (layer   1)
+23 May 1975(Day of year=143), sysbal: 
+      **** N balance - unaccounted gain (kg/ha) =  96.3851318
 24 May 1975(Day of year=144), wheat: 
       stage 2.0 germination
 30 May 1975(Day of year=150), wheat: 
       stage 3.0 emergence
                      biomass =           0.46 (g/m^2)   lai          =   0.020 (m^2/m^2)
                      stover N conc =     5.85 (%)    extractable sw =    6.52 (mm)
+30 May 1975(Day of year=150), sysbal: 
+      **** N balance - unaccounted gain (kg/ha) =  0.468727887
+      **** C balance - unaccounted gain (kg/ha) =  5.84306431
+      ****        equivalent DM as FOM  (kg/ha) =  14.6076603
 31 May 1975(Day of year=151), wheat: 
       stage 4.0 end_of_juvenile
                      biomass =           0.60 (g/m^2)   lai          =   0.022 (m^2/m^2)
@@ -3816,12 +4013,18 @@ Component    "tracker" = c:\development\apsim\tracker\lib\tracker.dll
         - Reading Fertiliser Type Parameters
         19.40 of N as nitrate (no3_n)
                                               added at depth    1.00 (layer   1)
+14 May 1976(Day of year=135), sysbal: 
+      **** N balance - unaccounted gain (kg/ha) =  19.3975010
 15 May 1976(Day of year=136), wheat: 
       stage 2.0 germination
 21 May 1976(Day of year=142), wheat: 
       stage 3.0 emergence
                      biomass =           0.46 (g/m^2)   lai          =   0.020 (m^2/m^2)
                      stover N conc =     5.85 (%)    extractable sw =    9.02 (mm)
+21 May 1976(Day of year=142), sysbal: 
+      **** N balance - unaccounted gain (kg/ha) =  0.469059587
+      **** C balance - unaccounted gain (kg/ha) =  5.84087372
+      ****        equivalent DM as FOM  (kg/ha) =  14.6021843
 22 May 1976(Day of year=143), wheat: 
       stage 4.0 end_of_juvenile
                      biomass =           0.58 (g/m^2)   lai          =   0.022 (m^2/m^2)
@@ -3931,12 +4134,18 @@ Component    "tracker" = c:\development\apsim\tracker\lib\tracker.dll
         - Reading Fertiliser Type Parameters
         77.55 of N as nitrate (no3_n)
                                               added at depth    1.00 (layer   1)
+17 May 1977(Day of year=137), sysbal: 
+      **** N balance - unaccounted gain (kg/ha) =  77.5544510
 18 May 1977(Day of year=138), wheat: 
       stage 2.0 germination
 26 May 1977(Day of year=146), wheat: 
       stage 3.0 emergence
                      biomass =           0.46 (g/m^2)   lai          =   0.020 (m^2/m^2)
                      stover N conc =     5.85 (%)    extractable sw =   20.98 (mm)
+26 May 1977(Day of year=146), sysbal: 
+      **** N balance - unaccounted gain (kg/ha) =  0.469380975
+      **** C balance - unaccounted gain (kg/ha) =  5.84188223
+      ****        equivalent DM as FOM  (kg/ha) =  14.6047058
 27 May 1977(Day of year=147), wheat: 
       stage 4.0 end_of_juvenile
                      biomass =           0.56 (g/m^2)   lai          =   0.022 (m^2/m^2)
@@ -4064,12 +4273,18 @@ Component    "tracker" = c:\development\apsim\tracker\lib\tracker.dll
         - Reading Fertiliser Type Parameters
         11.30 of N as nitrate (no3_n)
                                               added at depth    1.00 (layer   1)
+15 May 1978(Day of year=135), sysbal: 
+      **** N balance - unaccounted gain (kg/ha) =  11.3035879
 16 May 1978(Day of year=136), wheat: 
       stage 2.0 germination
 22 May 1978(Day of year=142), wheat: 
       stage 3.0 emergence
                      biomass =           0.46 (g/m^2)   lai          =   0.020 (m^2/m^2)
                      stover N conc =     5.85 (%)    extractable sw =    7.74 (mm)
+22 May 1978(Day of year=142), sysbal: 
+      **** N balance - unaccounted gain (kg/ha) =  0.469200611
+      **** C balance - unaccounted gain (kg/ha) =  5.83652306
+      ****        equivalent DM as FOM  (kg/ha) =  14.5913076
 23 May 1978(Day of year=143), wheat: 
       stage 4.0 end_of_juvenile
                      biomass =           0.61 (g/m^2)   lai          =   0.022 (m^2/m^2)
@@ -4175,6 +4390,8 @@ Component    "tracker" = c:\development\apsim\tracker\lib\tracker.dll
         - Reading Fertiliser Type Parameters
         19.16 of N as nitrate (no3_n)
                                               added at depth    1.00 (layer   1)
+21 September 1978(Day of year=264), sysbal: 
+      **** N balance - unaccounted gain (kg/ha) =  19.1616993
 22 September 1978(Day of year=265), sorghum: 
       stage 2.0 germination
      		biomass =   0.00 		 lai =   0.00
@@ -4183,6 +4400,10 @@ Component    "tracker" = c:\development\apsim\tracker\lib\tracker.dll
       stage 3.0 emergence
      		biomass =   0.00 		 lai =   0.00
      		stover N conc =   0.00 		 extractable sw =  12.99
+30 September 1978(Day of year=273), sysbal: 
+      **** N balance - unaccounted gain (kg/ha) =  0.165006995
+      **** C balance - unaccounted gain (kg/ha) =  6.00128460
+      ****        equivalent DM as FOM  (kg/ha) =  15.0032110
 22 October 1978(Day of year=295), sorghum: 
       stage 4.0 end_of_juvenile
      		biomass =   3.71 		 lai =   0.04
@@ -4265,6 +4486,10 @@ Component    "tracker" = c:\development\apsim\tracker\lib\tracker.dll
      Residue removed using graze
                                              Fraction Incorporated =     0.75
                                              Incorporated Depth    =     0.00
+15 February 1979(Day of year=46), sysbal: 
+      **** N balance - unaccounted loss (kg/ha) =  -25.4099293
+      **** C balance - unaccounted loss (kg/ha) =  -1199.77148
+      ****        equivalent DM as FOM  (kg/ha) =  -2999.42871
 23 May 1979(Day of year=143), manager: 
      Manager sending message :- wheat sow  plants = 100 (/m2), sowing_depth = 40 (mm), cultivar = hartog
 23 May 1979(Day of year=143), wheat: 
@@ -4317,12 +4542,18 @@ Component    "tracker" = c:\development\apsim\tracker\lib\tracker.dll
         - Reading Fertiliser Type Parameters
         80.78 of N as nitrate (no3_n)
                                               added at depth    1.00 (layer   1)
+23 May 1979(Day of year=143), sysbal: 
+      **** N balance - unaccounted gain (kg/ha) =  80.7784729
 24 May 1979(Day of year=144), wheat: 
       stage 2.0 germination
 1 June 1979(Day of year=152), wheat: 
       stage 3.0 emergence
                      biomass =           0.46 (g/m^2)   lai          =   0.020 (m^2/m^2)
                      stover N conc =     5.85 (%)    extractable sw =    5.12 (mm)
+1 June 1979(Day of year=152), sysbal: 
+      **** N balance - unaccounted gain (kg/ha) =  0.469020218
+      **** C balance - unaccounted gain (kg/ha) =  5.83751202
+      ****        equivalent DM as FOM  (kg/ha) =  14.5937796
 2 June 1979(Day of year=153), wheat: 
       stage 4.0 end_of_juvenile
                      biomass =           0.56 (g/m^2)   lai          =   0.022 (m^2/m^2)
@@ -4450,12 +4681,18 @@ Component    "tracker" = c:\development\apsim\tracker\lib\tracker.dll
         - Reading Fertiliser Type Parameters
         16.14 of N as nitrate (no3_n)
                                               added at depth    1.00 (layer   1)
+14 May 1980(Day of year=135), sysbal: 
+      **** N balance - unaccounted gain (kg/ha) =  16.1373405
 15 May 1980(Day of year=136), wheat: 
       stage 2.0 germination
 21 May 1980(Day of year=142), wheat: 
       stage 3.0 emergence
                      biomass =           0.46 (g/m^2)   lai          =   0.020 (m^2/m^2)
                      stover N conc =     5.85 (%)    extractable sw =    4.80 (mm)
+21 May 1980(Day of year=142), sysbal: 
+      **** N balance - unaccounted gain (kg/ha) =  0.468934298
+      **** C balance - unaccounted gain (kg/ha) =  5.83791161
+      ****        equivalent DM as FOM  (kg/ha) =  14.5947790
 22 May 1980(Day of year=143), wheat: 
       stage 4.0 end_of_juvenile
                      biomass =           0.60 (g/m^2)   lai          =   0.022 (m^2/m^2)
@@ -4561,6 +4798,8 @@ Component    "tracker" = c:\development\apsim\tracker\lib\tracker.dll
         - Reading Fertiliser Type Parameters
         21.19 of N as nitrate (no3_n)
                                               added at depth    1.00 (layer   1)
+2 December 1980(Day of year=337), sysbal: 
+      **** N balance - unaccounted gain (kg/ha) =  21.1870155
 3 December 1980(Day of year=338), sorghum: 
       stage 2.0 germination
      		biomass =   0.00 		 lai =   0.00
@@ -4569,6 +4808,10 @@ Component    "tracker" = c:\development\apsim\tracker\lib\tracker.dll
       stage 3.0 emergence
      		biomass =   0.00 		 lai =   0.00
      		stover N conc =   0.00 		 extractable sw =  10.34
+11 December 1980(Day of year=346), sysbal: 
+      **** N balance - unaccounted gain (kg/ha) =  0.165278062
+      **** C balance - unaccounted gain (kg/ha) =  6.00761414
+      ****        equivalent DM as FOM  (kg/ha) =  15.0190353
 25 December 1980(Day of year=360), sorghum: 
       stage 4.0 end_of_juvenile
      		biomass =   3.63 		 lai =   0.04
@@ -4651,6 +4894,10 @@ Component    "tracker" = c:\development\apsim\tracker\lib\tracker.dll
      Residue removed using graze
                                              Fraction Incorporated =     0.75
                                              Incorporated Depth    =     0.00
+11 April 1981(Day of year=101), sysbal: 
+      **** N balance - unaccounted loss (kg/ha) =  -33.5386581
+      **** C balance - unaccounted loss (kg/ha) =  -1751.15967
+      ****        equivalent DM as FOM  (kg/ha) =  -4377.89893
 31 May 1981(Day of year=151), manager: 
      Manager sending message :- wheat sow  plants = 100 (/m2), sowing_depth = 40 (mm), cultivar = hartog
 31 May 1981(Day of year=151), wheat: 
@@ -4703,12 +4950,18 @@ Component    "tracker" = c:\development\apsim\tracker\lib\tracker.dll
         - Reading Fertiliser Type Parameters
         98.29 of N as nitrate (no3_n)
                                               added at depth    1.00 (layer   1)
+31 May 1981(Day of year=151), sysbal: 
+      **** N balance - unaccounted gain (kg/ha) =  98.2939148
 1 June 1981(Day of year=152), wheat: 
       stage 2.0 germination
 8 June 1981(Day of year=159), wheat: 
       stage 3.0 emergence
                      biomass =           0.46 (g/m^2)   lai          =   0.020 (m^2/m^2)
                      stover N conc =     5.85 (%)    extractable sw =    9.95 (mm)
+8 June 1981(Day of year=159), sysbal: 
+      **** N balance - unaccounted gain (kg/ha) =  0.468953550
+      **** C balance - unaccounted gain (kg/ha) =  5.84384918
+      ****        equivalent DM as FOM  (kg/ha) =  14.6096230
 9 June 1981(Day of year=160), wheat: 
       stage 4.0 end_of_juvenile
                      biomass =           0.56 (g/m^2)   lai          =   0.022 (m^2/m^2)
@@ -4836,12 +5089,18 @@ Component    "tracker" = c:\development\apsim\tracker\lib\tracker.dll
         - Reading Fertiliser Type Parameters
         31.36 of N as nitrate (no3_n)
                                               added at depth    1.00 (layer   1)
+15 May 1982(Day of year=135), sysbal: 
+      **** N balance - unaccounted gain (kg/ha) =  31.3581543
 16 May 1982(Day of year=136), wheat: 
       stage 2.0 germination
 23 May 1982(Day of year=143), wheat: 
       stage 3.0 emergence
                      biomass =           0.46 (g/m^2)   lai          =   0.020 (m^2/m^2)
                      stover N conc =     5.85 (%)    extractable sw =    3.17 (mm)
+23 May 1982(Day of year=143), sysbal: 
+      **** N balance - unaccounted gain (kg/ha) =  0.468750000
+      **** C balance - unaccounted gain (kg/ha) =  5.83953762
+      ****        equivalent DM as FOM  (kg/ha) =  14.5988436
 24 May 1982(Day of year=144), wheat: 
       stage 4.0 end_of_juvenile
                      biomass =           0.57 (g/m^2)   lai          =   0.022 (m^2/m^2)
@@ -4947,6 +5206,8 @@ Component    "tracker" = c:\development\apsim\tracker\lib\tracker.dll
         - Reading Fertiliser Type Parameters
         22.77 of N as nitrate (no3_n)
                                               added at depth    1.00 (layer   1)
+4 October 1982(Day of year=277), sysbal: 
+      **** N balance - unaccounted gain (kg/ha) =  22.7678680
 5 October 1982(Day of year=278), sorghum: 
       stage 2.0 germination
      		biomass =   0.00 		 lai =   0.00
@@ -4955,6 +5216,10 @@ Component    "tracker" = c:\development\apsim\tracker\lib\tracker.dll
       stage 3.0 emergence
      		biomass =   0.00 		 lai =   0.00
      		stover N conc =   0.00 		 extractable sw =  17.76
+11 October 1982(Day of year=284), sysbal: 
+      **** N balance - unaccounted gain (kg/ha) =  0.165232927
+      **** C balance - unaccounted gain (kg/ha) =  6.00013733
+      ****        equivalent DM as FOM  (kg/ha) =  15.0003433
 1 November 1982(Day of year=305), sorghum: 
       stage 4.0 end_of_juvenile
      		biomass =   3.71 		 lai =   0.04
@@ -5037,6 +5302,10 @@ Component    "tracker" = c:\development\apsim\tracker\lib\tracker.dll
      Residue removed using graze
                                              Fraction Incorporated =     0.75
                                              Incorporated Depth    =     0.00
+7 February 1983(Day of year=38), sysbal: 
+      **** N balance - unaccounted loss (kg/ha) =  -24.9566765
+      **** C balance - unaccounted loss (kg/ha) =  -1573.35205
+      ****        equivalent DM as FOM  (kg/ha) =  -3933.38013
 30 July 1983(Day of year=211), manager: 
      Manager sending message :- wheat sow  plants = 100 (/m2), sowing_depth = 40 (mm), cultivar = hartog
 30 July 1983(Day of year=211), wheat: 
@@ -5089,12 +5358,18 @@ Component    "tracker" = c:\development\apsim\tracker\lib\tracker.dll
         - Reading Fertiliser Type Parameters
         56.06 of N as nitrate (no3_n)
                                               added at depth    1.00 (layer   1)
+30 July 1983(Day of year=211), sysbal: 
+      **** N balance - unaccounted gain (kg/ha) =  56.0643234
 31 July 1983(Day of year=212), wheat: 
       stage 2.0 germination
 6 August 1983(Day of year=218), wheat: 
       stage 3.0 emergence
                      biomass =           0.46 (g/m^2)   lai          =   0.020 (m^2/m^2)
                      stover N conc =     5.85 (%)    extractable sw =    2.06 (mm)
+6 August 1983(Day of year=218), sysbal: 
+      **** N balance - unaccounted gain (kg/ha) =  0.468933523
+      **** C balance - unaccounted gain (kg/ha) =  5.84389973
+      ****        equivalent DM as FOM  (kg/ha) =  14.6097488
 7 August 1983(Day of year=219), wheat: 
       stage 4.0 end_of_juvenile
                      biomass =           0.62 (g/m^2)   lai          =   0.023 (m^2/m^2)
@@ -5223,6 +5498,10 @@ Component    "tracker" = c:\development\apsim\tracker\lib\tracker.dll
       stage 3.0 emergence
                      biomass =           0.46 (g/m^2)   lai          =   0.020 (m^2/m^2)
                      stover N conc =     5.85 (%)    extractable sw =    5.29 (mm)
+21 May 1984(Day of year=142), sysbal: 
+      **** N balance - unaccounted gain (kg/ha) =  0.468976915
+      **** C balance - unaccounted gain (kg/ha) =  5.83878326
+      ****        equivalent DM as FOM  (kg/ha) =  14.5969582
 22 May 1984(Day of year=143), wheat: 
       stage 4.0 end_of_juvenile
                      biomass =           0.57 (g/m^2)   lai          =   0.022 (m^2/m^2)
@@ -5328,6 +5607,8 @@ Component    "tracker" = c:\development\apsim\tracker\lib\tracker.dll
         - Reading Fertiliser Type Parameters
         21.78 of N as nitrate (no3_n)
                                               added at depth    1.00 (layer   1)
+3 October 1984(Day of year=277), sysbal: 
+      **** N balance - unaccounted gain (kg/ha) =  21.7795105
 4 October 1984(Day of year=278), sorghum: 
       stage 2.0 germination
      		biomass =   0.00 		 lai =   0.00
@@ -5336,6 +5617,10 @@ Component    "tracker" = c:\development\apsim\tracker\lib\tracker.dll
       stage 3.0 emergence
      		biomass =   0.00 		 lai =   0.00
      		stover N conc =   0.00 		 extractable sw =  12.29
+11 October 1984(Day of year=285), sysbal: 
+      **** N balance - unaccounted gain (kg/ha) =  0.164905041
+      **** C balance - unaccounted gain (kg/ha) =  6.00389957
+      ****        equivalent DM as FOM  (kg/ha) =  15.0097485
 29 October 1984(Day of year=303), sorghum: 
       stage 4.0 end_of_juvenile
      		biomass =   3.55 		 lai =   0.04
@@ -5418,6 +5703,10 @@ Component    "tracker" = c:\development\apsim\tracker\lib\tracker.dll
      Residue removed using graze
                                              Fraction Incorporated =     0.75
                                              Incorporated Depth    =     0.00
+21 February 1985(Day of year=52), sysbal: 
+      **** N balance - unaccounted loss (kg/ha) =  -17.8431816
+      **** C balance - unaccounted loss (kg/ha) =  -1162.46716
+      ****        equivalent DM as FOM  (kg/ha) =  -2906.16797
 16 July 1985(Day of year=197), manager: 
      Manager sending message :- wheat sow  plants = 100 (/m2), sowing_depth = 40 (mm), cultivar = hartog
 16 July 1985(Day of year=197), wheat: 
@@ -5470,12 +5759,18 @@ Component    "tracker" = c:\development\apsim\tracker\lib\tracker.dll
         - Reading Fertiliser Type Parameters
         68.56 of N as nitrate (no3_n)
                                               added at depth    1.00 (layer   1)
+16 July 1985(Day of year=197), sysbal: 
+      **** N balance - unaccounted gain (kg/ha) =  68.5638428
 17 July 1985(Day of year=198), wheat: 
       stage 2.0 germination
 25 July 1985(Day of year=206), wheat: 
       stage 3.0 emergence
                      biomass =           0.46 (g/m^2)   lai          =   0.020 (m^2/m^2)
                      stover N conc =     5.85 (%)    extractable sw =    3.85 (mm)
+25 July 1985(Day of year=206), sysbal: 
+      **** N balance - unaccounted gain (kg/ha) =  0.469248980
+      **** C balance - unaccounted gain (kg/ha) =  5.83615398
+      ****        equivalent DM as FOM  (kg/ha) =  14.5903845
 26 July 1985(Day of year=207), wheat: 
       stage 4.0 end_of_juvenile
                      biomass =           0.58 (g/m^2)   lai          =   0.022 (m^2/m^2)
@@ -5603,12 +5898,18 @@ Component    "tracker" = c:\development\apsim\tracker\lib\tracker.dll
         - Reading Fertiliser Type Parameters
          8.84 of N as nitrate (no3_n)
                                               added at depth    1.00 (layer   1)
+15 May 1986(Day of year=135), sysbal: 
+      **** N balance - unaccounted gain (kg/ha) =  8.83660412
 16 May 1986(Day of year=136), wheat: 
       stage 2.0 germination
 22 May 1986(Day of year=142), wheat: 
       stage 3.0 emergence
                      biomass =           0.46 (g/m^2)   lai          =   0.020 (m^2/m^2)
                      stover N conc =     5.85 (%)    extractable sw =   15.00 (mm)
+22 May 1986(Day of year=142), sysbal: 
+      **** N balance - unaccounted gain (kg/ha) =  0.468899012
+      **** C balance - unaccounted gain (kg/ha) =  5.83879280
+      ****        equivalent DM as FOM  (kg/ha) =  14.5969820
 23 May 1986(Day of year=143), wheat: 
       stage 4.0 end_of_juvenile
                      biomass =           0.57 (g/m^2)   lai          =   0.022 (m^2/m^2)
@@ -5713,12 +6014,18 @@ Component    "tracker" = c:\development\apsim\tracker\lib\tracker.dll
         - Reading Fertiliser Type Parameters
         76.99 of N as nitrate (no3_n)
                                               added at depth    1.00 (layer   1)
+15 May 1987(Day of year=135), sysbal: 
+      **** N balance - unaccounted gain (kg/ha) =  76.9855194
 16 May 1987(Day of year=136), wheat: 
       stage 2.0 germination
 23 May 1987(Day of year=143), wheat: 
       stage 3.0 emergence
                      biomass =           0.46 (g/m^2)   lai          =   0.020 (m^2/m^2)
                      stover N conc =     5.85 (%)    extractable sw =    2.70 (mm)
+23 May 1987(Day of year=143), sysbal: 
+      **** N balance - unaccounted gain (kg/ha) =  0.469542265
+      **** C balance - unaccounted gain (kg/ha) =  5.84097862
+      ****        equivalent DM as FOM  (kg/ha) =  14.6024466
 24 May 1987(Day of year=144), wheat: 
       stage 4.0 end_of_juvenile
                      biomass =           0.55 (g/m^2)   lai          =   0.021 (m^2/m^2)
@@ -5846,12 +6153,18 @@ Component    "tracker" = c:\development\apsim\tracker\lib\tracker.dll
         - Reading Fertiliser Type Parameters
         19.09 of N as nitrate (no3_n)
                                               added at depth    1.00 (layer   1)
+14 May 1988(Day of year=135), sysbal: 
+      **** N balance - unaccounted gain (kg/ha) =  19.0850315
 15 May 1988(Day of year=136), wheat: 
       stage 2.0 germination
 21 May 1988(Day of year=142), wheat: 
       stage 3.0 emergence
                      biomass =           0.46 (g/m^2)   lai          =   0.020 (m^2/m^2)
                      stover N conc =     5.85 (%)    extractable sw =   13.49 (mm)
+21 May 1988(Day of year=142), sysbal: 
+      **** N balance - unaccounted gain (kg/ha) =  0.468968213
+      **** C balance - unaccounted gain (kg/ha) =  5.84269714
+      ****        equivalent DM as FOM  (kg/ha) =  14.6067429
 22 May 1988(Day of year=143), wheat: 
       stage 4.0 end_of_juvenile
                      biomass =           0.56 (g/m^2)   lai          =   0.022 (m^2/m^2)
@@ -5961,12 +6274,18 @@ Component    "tracker" = c:\development\apsim\tracker\lib\tracker.dll
         - Reading Fertiliser Type Parameters
         72.99 of N as nitrate (no3_n)
                                               added at depth    1.00 (layer   1)
+25 May 1989(Day of year=145), sysbal: 
+      **** N balance - unaccounted gain (kg/ha) =  72.9916763
 26 May 1989(Day of year=146), wheat: 
       stage 2.0 germination
 1 June 1989(Day of year=152), wheat: 
       stage 3.0 emergence
                      biomass =           0.46 (g/m^2)   lai          =   0.020 (m^2/m^2)
                      stover N conc =     5.85 (%)    extractable sw =   12.46 (mm)
+1 June 1989(Day of year=152), sysbal: 
+      **** N balance - unaccounted gain (kg/ha) =  0.468841553
+      **** C balance - unaccounted gain (kg/ha) =  5.84091663
+      ****        equivalent DM as FOM  (kg/ha) =  14.6022911
 2 June 1989(Day of year=153), wheat: 
       stage 4.0 end_of_juvenile
                      biomass =           0.58 (g/m^2)   lai          =   0.022 (m^2/m^2)
@@ -6094,12 +6413,18 @@ Component    "tracker" = c:\development\apsim\tracker\lib\tracker.dll
         - Reading Fertiliser Type Parameters
         18.63 of N as nitrate (no3_n)
                                               added at depth    1.00 (layer   1)
+15 May 1990(Day of year=135), sysbal: 
+      **** N balance - unaccounted gain (kg/ha) =  18.6322803
 16 May 1990(Day of year=136), wheat: 
       stage 2.0 germination
 22 May 1990(Day of year=142), wheat: 
       stage 3.0 emergence
                      biomass =           0.46 (g/m^2)   lai          =   0.020 (m^2/m^2)
                      stover N conc =     5.85 (%)    extractable sw =    8.21 (mm)
+22 May 1990(Day of year=142), sysbal: 
+      **** N balance - unaccounted gain (kg/ha) =  0.468640625
+      **** C balance - unaccounted gain (kg/ha) =  5.83945751
+      ****        equivalent DM as FOM  (kg/ha) =  14.5986433
 23 May 1990(Day of year=143), wheat: 
       stage 4.0 end_of_juvenile
                      biomass =           0.56 (g/m^2)   lai          =   0.022 (m^2/m^2)
@@ -6200,6 +6525,8 @@ Component    "tracker" = c:\development\apsim\tracker\lib\tracker.dll
         - Reading Fertiliser Type Parameters
         23.56 of N as nitrate (no3_n)
                                               added at depth    1.00 (layer   1)
+4 October 1990(Day of year=277), sysbal: 
+      **** N balance - unaccounted gain (kg/ha) =  23.5597687
 5 October 1990(Day of year=278), sorghum: 
       stage 2.0 germination
      		biomass =   0.00 		 lai =   0.00
@@ -6208,6 +6535,10 @@ Component    "tracker" = c:\development\apsim\tracker\lib\tracker.dll
       stage 3.0 emergence
      		biomass =   0.00 		 lai =   0.00
      		stover N conc =   0.00 		 extractable sw =  24.69
+13 October 1990(Day of year=286), sysbal: 
+      **** N balance - unaccounted gain (kg/ha) =  0.164915115
+      **** C balance - unaccounted gain (kg/ha) =  5.99887466
+      ****        equivalent DM as FOM  (kg/ha) =  14.9971867
 1 November 1990(Day of year=305), sorghum: 
       stage 4.0 end_of_juvenile
      		biomass =   2.90 		 lai =   0.04
@@ -6290,6 +6621,10 @@ Component    "tracker" = c:\development\apsim\tracker\lib\tracker.dll
      Residue removed using graze
                                              Fraction Incorporated =     0.75
                                              Incorporated Depth    =     0.00
+24 February 1991(Day of year=55), sysbal: 
+      **** N balance - unaccounted loss (kg/ha) =  -20.2582855
+      **** C balance - unaccounted loss (kg/ha) =  -1271.45825
+      ****        equivalent DM as FOM  (kg/ha) =  -3178.64551
 19 June 1991(Day of year=170), manager: 
      Manager sending message :- wheat sow  plants = 100 (/m2), sowing_depth = 40 (mm), cultivar = hartog
 19 June 1991(Day of year=170), wheat: 
@@ -6342,12 +6677,18 @@ Component    "tracker" = c:\development\apsim\tracker\lib\tracker.dll
         - Reading Fertiliser Type Parameters
         91.83 of N as nitrate (no3_n)
                                               added at depth    1.00 (layer   1)
+19 June 1991(Day of year=170), sysbal: 
+      **** N balance - unaccounted gain (kg/ha) =  91.8306046
 20 June 1991(Day of year=171), wheat: 
       stage 2.0 germination
 26 June 1991(Day of year=177), wheat: 
       stage 3.0 emergence
                      biomass =           0.46 (g/m^2)   lai          =   0.020 (m^2/m^2)
                      stover N conc =     5.85 (%)    extractable sw =    3.65 (mm)
+26 June 1991(Day of year=177), sysbal: 
+      **** N balance - unaccounted gain (kg/ha) =  0.468750000
+      **** C balance - unaccounted gain (kg/ha) =  5.83975506
+      ****        equivalent DM as FOM  (kg/ha) =  14.5993872
 27 June 1991(Day of year=178), wheat: 
       stage 4.0 end_of_juvenile
                      biomass =           0.58 (g/m^2)   lai          =   0.022 (m^2/m^2)
@@ -6475,12 +6816,18 @@ Component    "tracker" = c:\development\apsim\tracker\lib\tracker.dll
         - Reading Fertiliser Type Parameters
         30.35 of N as nitrate (no3_n)
                                               added at depth    1.00 (layer   1)
+14 May 1992(Day of year=135), sysbal: 
+      **** N balance - unaccounted gain (kg/ha) =  30.3495674
 15 May 1992(Day of year=136), wheat: 
       stage 2.0 germination
 22 May 1992(Day of year=143), wheat: 
       stage 3.0 emergence
                      biomass =           0.46 (g/m^2)   lai          =   0.020 (m^2/m^2)
                      stover N conc =     5.85 (%)    extractable sw =    8.68 (mm)
+22 May 1992(Day of year=143), sysbal: 
+      **** N balance - unaccounted gain (kg/ha) =  0.469049275
+      **** C balance - unaccounted gain (kg/ha) =  5.84436798
+      ****        equivalent DM as FOM  (kg/ha) =  14.6109200
 23 May 1992(Day of year=144), wheat: 
       stage 4.0 end_of_juvenile
                      biomass =           0.60 (g/m^2)   lai          =   0.022 (m^2/m^2)
@@ -6581,6 +6928,8 @@ Component    "tracker" = c:\development\apsim\tracker\lib\tracker.dll
         - Reading Fertiliser Type Parameters
         27.82 of N as nitrate (no3_n)
                                               added at depth    1.00 (layer   1)
+21 September 1992(Day of year=265), sysbal: 
+      **** N balance - unaccounted gain (kg/ha) =  27.8238964
 22 September 1992(Day of year=266), sorghum: 
       stage 2.0 germination
      		biomass =   0.00 		 lai =   0.00
@@ -6589,6 +6938,10 @@ Component    "tracker" = c:\development\apsim\tracker\lib\tracker.dll
       stage 3.0 emergence
      		biomass =   0.00 		 lai =   0.00
      		stover N conc =   0.00 		 extractable sw =  39.99
+11 October 1992(Day of year=285), sysbal: 
+      **** N balance - unaccounted gain (kg/ha) =  0.164610133
+      **** C balance - unaccounted gain (kg/ha) =  6.00067806
+      ****        equivalent DM as FOM  (kg/ha) =  15.0016947
 28 October 1992(Day of year=302), sorghum: 
       stage 4.0 end_of_juvenile
      		biomass =   3.41 		 lai =   0.04
@@ -6659,6 +7012,10 @@ Component    "tracker" = c:\development\apsim\tracker\lib\tracker.dll
      Residue removed using graze
                                              Fraction Incorporated =     0.75
                                              Incorporated Depth    =     0.00
+19 February 1993(Day of year=50), sysbal: 
+      **** N balance - unaccounted loss (kg/ha) =  -22.7865753
+      **** C balance - unaccounted loss (kg/ha) =  -1385.19507
+      ****        equivalent DM as FOM  (kg/ha) =  -3462.98755
 30 May 1993(Day of year=150), manager: 
      Manager sending message :- wheat sow  plants = 100 (/m2), sowing_depth = 40 (mm), cultivar = hartog
 30 May 1993(Day of year=150), wheat: 
@@ -6711,12 +7068,18 @@ Component    "tracker" = c:\development\apsim\tracker\lib\tracker.dll
         - Reading Fertiliser Type Parameters
         85.59 of N as nitrate (no3_n)
                                               added at depth    1.00 (layer   1)
+30 May 1993(Day of year=150), sysbal: 
+      **** N balance - unaccounted gain (kg/ha) =  85.5871353
 31 May 1993(Day of year=151), wheat: 
       stage 2.0 germination
 8 June 1993(Day of year=159), wheat: 
       stage 3.0 emergence
                      biomass =           0.46 (g/m^2)   lai          =   0.020 (m^2/m^2)
                      stover N conc =     5.85 (%)    extractable sw =    2.49 (mm)
+8 June 1993(Day of year=159), sysbal: 
+      **** N balance - unaccounted gain (kg/ha) =  0.469102472
+      **** C balance - unaccounted gain (kg/ha) =  5.84620905
+      ****        equivalent DM as FOM  (kg/ha) =  14.6155224
 9 June 1993(Day of year=160), wheat: 
       stage 4.0 end_of_juvenile
                      biomass =           0.53 (g/m^2)   lai          =   0.021 (m^2/m^2)
@@ -6844,12 +7207,18 @@ Component    "tracker" = c:\development\apsim\tracker\lib\tracker.dll
         - Reading Fertiliser Type Parameters
         12.02 of N as nitrate (no3_n)
                                               added at depth    1.00 (layer   1)
+15 May 1994(Day of year=135), sysbal: 
+      **** N balance - unaccounted gain (kg/ha) =  12.0156250
 16 May 1994(Day of year=136), wheat: 
       stage 2.0 germination
 21 May 1994(Day of year=141), wheat: 
       stage 3.0 emergence
                      biomass =           0.46 (g/m^2)   lai          =   0.020 (m^2/m^2)
                      stover N conc =     5.85 (%)    extractable sw =    6.16 (mm)
+21 May 1994(Day of year=141), sysbal: 
+      **** N balance - unaccounted gain (kg/ha) =  0.469726563
+      **** C balance - unaccounted gain (kg/ha) =  5.84118652
+      ****        equivalent DM as FOM  (kg/ha) =  14.6029663
 22 May 1994(Day of year=142), wheat: 
       stage 4.0 end_of_juvenile
                      biomass =           0.61 (g/m^2)   lai          =   0.022 (m^2/m^2)
@@ -6960,6 +7329,8 @@ Component    "tracker" = c:\development\apsim\tracker\lib\tracker.dll
         - Reading Fertiliser Type Parameters
         22.76 of N as nitrate (no3_n)
                                               added at depth    1.00 (layer   1)
+2 October 1994(Day of year=275), sysbal: 
+      **** N balance - unaccounted gain (kg/ha) =  22.7565689
 3 October 1994(Day of year=276), sorghum: 
       stage 2.0 germination
      		biomass =   0.00 		 lai =   0.00
@@ -6968,6 +7339,10 @@ Component    "tracker" = c:\development\apsim\tracker\lib\tracker.dll
       stage 3.0 emergence
      		biomass =   0.00 		 lai =   0.00
      		stover N conc =   0.00 		 extractable sw =  19.18
+11 October 1994(Day of year=284), sysbal: 
+      **** N balance - unaccounted gain (kg/ha) =  0.165140063
+      **** C balance - unaccounted gain (kg/ha) =  5.99547958
+      ****        equivalent DM as FOM  (kg/ha) =  14.9886990
 1 November 1994(Day of year=305), sorghum: 
       stage 4.0 end_of_juvenile
      		biomass =   4.03 		 lai =   0.04
@@ -7050,6 +7425,10 @@ Component    "tracker" = c:\development\apsim\tracker\lib\tracker.dll
      Residue removed using graze
                                              Fraction Incorporated =     0.75
                                              Incorporated Depth    =     0.00
+20 February 1995(Day of year=51), sysbal: 
+      **** N balance - unaccounted loss (kg/ha) =  -37.4102325
+      **** C balance - unaccounted loss (kg/ha) =  -2745.26245
+      ****        equivalent DM as FOM  (kg/ha) =  -6863.15625
 25 May 1995(Day of year=145), manager: 
      Manager sending message :- wheat sow  plants = 100 (/m2), sowing_depth = 40 (mm), cultivar = hartog
 25 May 1995(Day of year=145), wheat: 
@@ -7102,12 +7481,18 @@ Component    "tracker" = c:\development\apsim\tracker\lib\tracker.dll
         - Reading Fertiliser Type Parameters
         96.45 of N as nitrate (no3_n)
                                               added at depth    1.00 (layer   1)
+25 May 1995(Day of year=145), sysbal: 
+      **** N balance - unaccounted gain (kg/ha) =  96.4538345
 26 May 1995(Day of year=146), wheat: 
       stage 2.0 germination
 2 June 1995(Day of year=153), wheat: 
       stage 3.0 emergence
                      biomass =           0.46 (g/m^2)   lai          =   0.020 (m^2/m^2)
                      stover N conc =     5.85 (%)    extractable sw =    6.04 (mm)
+2 June 1995(Day of year=153), sysbal: 
+      **** N balance - unaccounted gain (kg/ha) =  0.469645470
+      **** C balance - unaccounted gain (kg/ha) =  5.84130287
+      ****        equivalent DM as FOM  (kg/ha) =  14.6032572
 3 June 1995(Day of year=154), wheat: 
       stage 4.0 end_of_juvenile
                      biomass =           0.61 (g/m^2)   lai          =   0.022 (m^2/m^2)
@@ -7235,12 +7620,18 @@ Component    "tracker" = c:\development\apsim\tracker\lib\tracker.dll
         - Reading Fertiliser Type Parameters
         21.60 of N as nitrate (no3_n)
                                               added at depth    1.00 (layer   1)
+14 May 1996(Day of year=135), sysbal: 
+      **** N balance - unaccounted gain (kg/ha) =  21.6004639
 15 May 1996(Day of year=136), wheat: 
       stage 2.0 germination
 21 May 1996(Day of year=142), wheat: 
       stage 3.0 emergence
                      biomass =           0.46 (g/m^2)   lai          =   0.020 (m^2/m^2)
                      stover N conc =     5.85 (%)    extractable sw =    8.44 (mm)
+21 May 1996(Day of year=142), sysbal: 
+      **** N balance - unaccounted gain (kg/ha) =  0.469037473
+      **** C balance - unaccounted gain (kg/ha) =  5.83431339
+      ****        equivalent DM as FOM  (kg/ha) =  14.5857830
 22 May 1996(Day of year=143), wheat: 
       stage 4.0 end_of_juvenile
                      biomass =           0.60 (g/m^2)   lai          =   0.022 (m^2/m^2)
@@ -7346,6 +7737,8 @@ Component    "tracker" = c:\development\apsim\tracker\lib\tracker.dll
         - Reading Fertiliser Type Parameters
         24.80 of N as nitrate (no3_n)
                                               added at depth    1.00 (layer   1)
+20 September 1996(Day of year=264), sysbal: 
+      **** N balance - unaccounted gain (kg/ha) =  24.7967720
 21 September 1996(Day of year=265), sorghum: 
       stage 2.0 germination
      		biomass =   0.00 		 lai =   0.00
@@ -7354,6 +7747,10 @@ Component    "tracker" = c:\development\apsim\tracker\lib\tracker.dll
       stage 3.0 emergence
      		biomass =   0.00 		 lai =   0.00
      		stover N conc =   0.00 		 extractable sw =  22.33
+2 October 1996(Day of year=276), sysbal: 
+      **** N balance - unaccounted gain (kg/ha) =  0.164878532
+      **** C balance - unaccounted gain (kg/ha) =  5.99774361
+      ****        equivalent DM as FOM  (kg/ha) =  14.9943590
 21 October 1996(Day of year=295), sorghum: 
       stage 4.0 end_of_juvenile
      		biomass =   3.39 		 lai =   0.04
@@ -7436,6 +7833,10 @@ Component    "tracker" = c:\development\apsim\tracker\lib\tracker.dll
      Residue removed using graze
                                              Fraction Incorporated =     0.75
                                              Incorporated Depth    =     0.00
+14 February 1997(Day of year=45), sysbal: 
+      **** N balance - unaccounted loss (kg/ha) =  -25.2173023
+      **** C balance - unaccounted loss (kg/ha) =  -1486.30908
+      ****        equivalent DM as FOM  (kg/ha) =  -3715.77271
 20 May 1997(Day of year=140), manager: 
      Manager sending message :- wheat sow  plants = 100 (/m2), sowing_depth = 40 (mm), cultivar = hartog
 20 May 1997(Day of year=140), wheat: 
@@ -7488,12 +7889,18 @@ Component    "tracker" = c:\development\apsim\tracker\lib\tracker.dll
         - Reading Fertiliser Type Parameters
         87.51 of N as nitrate (no3_n)
                                               added at depth    1.00 (layer   1)
+20 May 1997(Day of year=140), sysbal: 
+      **** N balance - unaccounted gain (kg/ha) =  87.5105209
 21 May 1997(Day of year=141), wheat: 
       stage 2.0 germination
 27 May 1997(Day of year=147), wheat: 
       stage 3.0 emergence
                      biomass =           0.46 (g/m^2)   lai          =   0.020 (m^2/m^2)
                      stover N conc =     5.85 (%)    extractable sw =    4.26 (mm)
+27 May 1997(Day of year=147), sysbal: 
+      **** N balance - unaccounted gain (kg/ha) =  0.468933284
+      **** C balance - unaccounted gain (kg/ha) =  5.83531952
+      ****        equivalent DM as FOM  (kg/ha) =  14.5882988
 28 May 1997(Day of year=148), wheat: 
       stage 4.0 end_of_juvenile
                      biomass =           0.60 (g/m^2)   lai          =   0.022 (m^2/m^2)
@@ -7621,12 +8028,18 @@ Component    "tracker" = c:\development\apsim\tracker\lib\tracker.dll
         - Reading Fertiliser Type Parameters
         15.21 of N as nitrate (no3_n)
                                               added at depth    1.00 (layer   1)
+15 May 1998(Day of year=135), sysbal: 
+      **** N balance - unaccounted gain (kg/ha) =  15.2116280
 16 May 1998(Day of year=136), wheat: 
       stage 2.0 germination
 22 May 1998(Day of year=142), wheat: 
       stage 3.0 emergence
                      biomass =           0.46 (g/m^2)   lai          =   0.020 (m^2/m^2)
                      stover N conc =     5.85 (%)    extractable sw =   14.44 (mm)
+22 May 1998(Day of year=142), sysbal: 
+      **** N balance - unaccounted gain (kg/ha) =  0.469152480
+      **** C balance - unaccounted gain (kg/ha) =  5.83653069
+      ****        equivalent DM as FOM  (kg/ha) =  14.5913267
 23 May 1998(Day of year=143), wheat: 
       stage 4.0 end_of_juvenile
                      biomass =           0.61 (g/m^2)   lai          =   0.022 (m^2/m^2)
@@ -7732,6 +8145,8 @@ Component    "tracker" = c:\development\apsim\tracker\lib\tracker.dll
         - Reading Fertiliser Type Parameters
         26.19 of N as nitrate (no3_n)
                                               added at depth    1.00 (layer   1)
+23 September 1998(Day of year=266), sysbal: 
+      **** N balance - unaccounted gain (kg/ha) =  26.1883240
 24 September 1998(Day of year=267), sorghum: 
       stage 2.0 germination
      		biomass =   0.00 		 lai =   0.00
@@ -7740,6 +8155,10 @@ Component    "tracker" = c:\development\apsim\tracker\lib\tracker.dll
       stage 3.0 emergence
      		biomass =   0.00 		 lai =   0.00
      		stover N conc =   0.00 		 extractable sw =  11.23
+30 September 1998(Day of year=273), sysbal: 
+      **** N balance - unaccounted gain (kg/ha) =  0.164646566
+      **** C balance - unaccounted gain (kg/ha) =  6.00205040
+      ****        equivalent DM as FOM  (kg/ha) =  15.0051260
 24 October 1998(Day of year=297), sorghum: 
       stage 4.0 end_of_juvenile
      		biomass =   3.80 		 lai =   0.04
@@ -7822,6 +8241,10 @@ Component    "tracker" = c:\development\apsim\tracker\lib\tracker.dll
      Residue removed using graze
                                              Fraction Incorporated =     0.75
                                              Incorporated Depth    =     0.00
+14 February 1999(Day of year=45), sysbal: 
+      **** N balance - unaccounted loss (kg/ha) =  -29.9580917
+      **** C balance - unaccounted loss (kg/ha) =  -1667.03979
+      ****        equivalent DM as FOM  (kg/ha) =  -4167.59961
 31 May 1999(Day of year=151), manager: 
      Manager sending message :- wheat sow  plants = 100 (/m2), sowing_depth = 40 (mm), cultivar = hartog
 31 May 1999(Day of year=151), wheat: 
@@ -7874,12 +8297,18 @@ Component    "tracker" = c:\development\apsim\tracker\lib\tracker.dll
         - Reading Fertiliser Type Parameters
         88.44 of N as nitrate (no3_n)
                                               added at depth    1.00 (layer   1)
+31 May 1999(Day of year=151), sysbal: 
+      **** N balance - unaccounted gain (kg/ha) =  88.4437408
 1 June 1999(Day of year=152), wheat: 
       stage 2.0 germination
 8 June 1999(Day of year=159), wheat: 
       stage 3.0 emergence
                      biomass =           0.46 (g/m^2)   lai          =   0.020 (m^2/m^2)
                      stover N conc =     5.85 (%)    extractable sw =    4.83 (mm)
+8 June 1999(Day of year=159), sysbal: 
+      **** N balance - unaccounted gain (kg/ha) =  0.468956709
+      **** C balance - unaccounted gain (kg/ha) =  5.84277248
+      ****        equivalent DM as FOM  (kg/ha) =  14.6069307
 9 June 1999(Day of year=160), wheat: 
       stage 4.0 end_of_juvenile
                      biomass =           0.61 (g/m^2)   lai          =   0.022 (m^2/m^2)
@@ -8007,12 +8436,18 @@ Component    "tracker" = c:\development\apsim\tracker\lib\tracker.dll
         - Reading Fertiliser Type Parameters
         33.00 of N as nitrate (no3_n)
                                               added at depth    1.00 (layer   1)
+14 May 2000(Day of year=135), sysbal: 
+      **** N balance - unaccounted gain (kg/ha) =  33.0023766
 15 May 2000(Day of year=136), wheat: 
       stage 2.0 germination
 21 May 2000(Day of year=142), wheat: 
       stage 3.0 emergence
                      biomass =           0.46 (g/m^2)   lai          =   0.020 (m^2/m^2)
                      stover N conc =     5.85 (%)    extractable sw =    6.09 (mm)
+21 May 2000(Day of year=142), sysbal: 
+      **** N balance - unaccounted gain (kg/ha) =  0.468820035
+      **** C balance - unaccounted gain (kg/ha) =  5.83726692
+      ****        equivalent DM as FOM  (kg/ha) =  14.5931673
 22 May 2000(Day of year=143), wheat: 
       stage 4.0 end_of_juvenile
                      biomass =           0.57 (g/m^2)   lai          =   0.022 (m^2/m^2)
@@ -8118,6 +8553,8 @@ Component    "tracker" = c:\development\apsim\tracker\lib\tracker.dll
         - Reading Fertiliser Type Parameters
         17.55 of N as nitrate (no3_n)
                                               added at depth    1.00 (layer   1)
+23 January 2001(Day of year=23), sysbal: 
+      **** N balance - unaccounted gain (kg/ha) =  17.5499363
 24 January 2001(Day of year=24), sorghum: 
       stage 2.0 germination
      		biomass =   0.00 		 lai =   0.00
@@ -8126,6 +8563,10 @@ Component    "tracker" = c:\development\apsim\tracker\lib\tracker.dll
       stage 3.0 emergence
      		biomass =   0.00 		 lai =   0.00
      		stover N conc =   0.00 		 extractable sw =  82.98
+28 January 2001(Day of year=28), sysbal: 
+      **** N balance - unaccounted gain (kg/ha) =  0.165285230
+      **** C balance - unaccounted gain (kg/ha) =  5.99278831
+      ****        equivalent DM as FOM  (kg/ha) =  14.9819708
 7 February 2001(Day of year=38), sorghum: 
       stage 4.0 end_of_juvenile
      		biomass =   2.92 		 lai =   0.04
@@ -8259,12 +8700,20 @@ Component    "tracker" = c:\development\apsim\tracker\lib\tracker.dll
         - Reading Fertiliser Type Parameters
         99.64 of N as nitrate (no3_n)
                                               added at depth    1.00 (layer   1)
+10 June 2001(Day of year=161), sysbal: 
+      **** N balance - unaccounted gain (kg/ha) =  73.5796127
+      **** C balance - unaccounted loss (kg/ha) =  -1276.48560
+      ****        equivalent DM as FOM  (kg/ha) =  -3191.21387
 11 June 2001(Day of year=162), wheat: 
       stage 2.0 germination
 18 June 2001(Day of year=169), wheat: 
       stage 3.0 emergence
                      biomass =           0.46 (g/m^2)   lai          =   0.020 (m^2/m^2)
                      stover N conc =     5.85 (%)    extractable sw =    1.98 (mm)
+18 June 2001(Day of year=169), sysbal: 
+      **** N balance - unaccounted gain (kg/ha) =  0.469446748
+      **** C balance - unaccounted gain (kg/ha) =  5.83645582
+      ****        equivalent DM as FOM  (kg/ha) =  14.5911398
 19 June 2001(Day of year=170), wheat: 
       stage 4.0 end_of_juvenile
                      biomass =           0.61 (g/m^2)   lai          =   0.022 (m^2/m^2)
@@ -8392,12 +8841,18 @@ Component    "tracker" = c:\development\apsim\tracker\lib\tracker.dll
         - Reading Fertiliser Type Parameters
         23.10 of N as nitrate (no3_n)
                                               added at depth    1.00 (layer   1)
+15 May 2002(Day of year=135), sysbal: 
+      **** N balance - unaccounted gain (kg/ha) =  23.1006546
 16 May 2002(Day of year=136), wheat: 
       stage 2.0 germination
 22 May 2002(Day of year=142), wheat: 
       stage 3.0 emergence
                      biomass =           0.46 (g/m^2)   lai          =   0.020 (m^2/m^2)
                      stover N conc =     5.85 (%)    extractable sw =    8.65 (mm)
+22 May 2002(Day of year=142), sysbal: 
+      **** N balance - unaccounted gain (kg/ha) =  0.469118178
+      **** C balance - unaccounted gain (kg/ha) =  5.84475136
+      ****        equivalent DM as FOM  (kg/ha) =  14.6118784
 23 May 2002(Day of year=143), wheat: 
       stage 4.0 end_of_juvenile
                      biomass =           0.62 (g/m^2)   lai          =   0.023 (m^2/m^2)
