@@ -9,15 +9,50 @@
  The Agricultural Production Systems Simulator
              Copyright(c) APSRU               
 
-     Version                = 5.2
-     Title                  = Lawes0102
-     Component DLL          = c:\development\apsim\summaryfile\lib\summaryfile.dll
-     Component DLL          = c:\development\apsim\clock\lib\clock.dll
-     Component DLL          = c:\development\apsim\input\lib\input.dll
-     Component DLL          = c:\development\apsim\protocolmanager\lib\protocolmanager.dll
-     Component DLL          = c:\development\apsim\protocolmanager\lib\protocolmanager.dll
-     Component DLL          = c:\development\apsim\protocolmanager\lib\protocolmanager.dll
-     Component DLL          = c:\development\apsim\protocolmanager\lib\protocolmanager.dll
+Version                = 5.3
+Title                  = Lawes0102
+Component      "clock" = c:\development\apsim\clock\lib\clock.dll
+Component        "met" = c:\development\apsim\input\lib\input.dll
+Paddock:
+Component "outputfile" = c:\development\apsim\report\lib\report.dll
+Component      "accum" = c:\development\apsim\accum\lib\accum.dll
+Component "fertiliser" = c:\development\apsim\fertiliz\lib\fertiliz.dll
+Component "Irrigation" = c:\development\apsim\irrigate\lib\irrigate.dll
+Component    "Manager" = c:\development\apsim\manager\lib\manager.dll
+Component "Soil Water" = c:\development\apsim\soilwat2\lib\soilwat2.dll
+Component "surface organic matter" = c:\development\apsim\surfaceom\lib\surfaceom.dll
+Component "Soil Nitrogen" = c:\development\apsim\soiln2\lib\soiln2.dll
+Component "SweetSorghum" = c:\development\apsim\plant\lib\plant.dll
+Paddock:
+Component "outputfile" = c:\development\apsim\report\lib\report.dll
+Component      "accum" = c:\development\apsim\accum\lib\accum.dll
+Component "fertiliser" = c:\development\apsim\fertiliz\lib\fertiliz.dll
+Component "Irrigation" = c:\development\apsim\irrigate\lib\irrigate.dll
+Component    "Manager" = c:\development\apsim\manager\lib\manager.dll
+Component "Soil Water" = c:\development\apsim\soilwat2\lib\soilwat2.dll
+Component "surface organic matter" = c:\development\apsim\surfaceom\lib\surfaceom.dll
+Component "Soil Nitrogen" = c:\development\apsim\soiln2\lib\soiln2.dll
+Component "SweetSorghum" = c:\development\apsim\plant\lib\plant.dll
+Paddock:
+Component "outputfile" = c:\development\apsim\report\lib\report.dll
+Component      "accum" = c:\development\apsim\accum\lib\accum.dll
+Component "fertiliser" = c:\development\apsim\fertiliz\lib\fertiliz.dll
+Component "Irrigation" = c:\development\apsim\irrigate\lib\irrigate.dll
+Component    "Manager" = c:\development\apsim\manager\lib\manager.dll
+Component "Soil Water" = c:\development\apsim\soilwat2\lib\soilwat2.dll
+Component "surface organic matter" = c:\development\apsim\surfaceom\lib\surfaceom.dll
+Component "Soil Nitrogen" = c:\development\apsim\soiln2\lib\soiln2.dll
+Component "SweetSorghum" = c:\development\apsim\plant\lib\plant.dll
+Paddock:
+Component "outputfile" = c:\development\apsim\report\lib\report.dll
+Component      "accum" = c:\development\apsim\accum\lib\accum.dll
+Component "fertiliser" = c:\development\apsim\fertiliz\lib\fertiliz.dll
+Component "Irrigation" = c:\development\apsim\irrigate\lib\irrigate.dll
+Component    "Manager" = c:\development\apsim\manager\lib\manager.dll
+Component "Soil Water" = c:\development\apsim\soilwat2\lib\soilwat2.dll
+Component "surface organic matter" = c:\development\apsim\surfaceom\lib\surfaceom.dll
+Component "Soil Nitrogen" = c:\development\apsim\soiln2\lib\soiln2.dll
+Component "SweetSorghum" = c:\development\apsim\plant\lib\plant.dll
 
 ------- clock Initialisation --------------------------------------------------
      Sequencer phases:
@@ -43,7 +78,7 @@
         SweetSorghum.stem_wt
         SweetSorghum.head_wt
         SweetSorghum.biomass_wt
-     
+
      Output file = Lawes0102 Planting1.out
      Format = normal
 
@@ -167,7 +202,7 @@
            Using Ritchie evaporation model
             Cuml evap (U):            6.00 (mm^0.5)
             CONA:                     3.50 ()
-           Eo from priestly-taylor
+            Eo from priestly-taylor
 
 ------- surface organic matter Initialisation ---------------------------------
      
@@ -252,7 +287,7 @@
         SweetSorghum.stem_wt
         SweetSorghum.head_wt
         SweetSorghum.biomass_wt
-     
+
      Output file = Lawes0102 Planting2.out
      Format = normal
 
@@ -376,7 +411,7 @@
            Using Ritchie evaporation model
             Cuml evap (U):            6.00 (mm^0.5)
             CONA:                     3.50 ()
-           Eo from priestly-taylor
+            Eo from priestly-taylor
 
 ------- surface organic matter Initialisation ---------------------------------
      
@@ -461,7 +496,7 @@
         SweetSorghum.stem_wt
         SweetSorghum.head_wt
         SweetSorghum.biomass_wt
-     
+
      Output file = Lawes0102 Planting3.out
      Format = normal
 
@@ -585,7 +620,7 @@
            Using Ritchie evaporation model
             Cuml evap (U):            6.00 (mm^0.5)
             CONA:                     3.50 ()
-           Eo from priestly-taylor
+            Eo from priestly-taylor
 
 ------- surface organic matter Initialisation ---------------------------------
      
@@ -670,7 +705,7 @@
         SweetSorghum.stem_wt
         SweetSorghum.head_wt
         SweetSorghum.biomass_wt
-     
+
      Output file = Lawes0102 Planting4.out
      Format = normal
 
@@ -794,7 +829,7 @@
            Using Ritchie evaporation model
             Cuml evap (U):            6.00 (mm^0.5)
             CONA:                     3.50 ()
-           Eo from priestly-taylor
+            Eo from priestly-taylor
 
 ------- surface organic matter Initialisation ---------------------------------
      
@@ -920,10 +955,10 @@
         y_tt_start_to_end_grain    =     200     200 (dd)
         tt_end_grain_to_maturity   =          5 (dd)
         tt_maturity_to_ripe        =          5 (dd)
-        x_pp_hi_incr               =       1.00      24.00
-        y_hi_incr                  =     0.0130     0.0130
-        x_hi_max_pot_stress        =       0.00       1.00
-        y_hi_max_pot               =       0.50       0.50
+        grains_per_gram_stem           =       10.0 (/g)
+        potential_grain_filling_rate   =     0.0020 (g/grain/day)
+        potential_grain_growth_rate    =     0.0000 (g/grain/day)
+        max_grain_size                 =     0.5000 (g)
          ------------------------------------------------
      
      
@@ -944,14 +979,12 @@
          -----------------------------------------------
          Extractable SW:   243mm in  1800mm total depth ( 14%).
          Crop factor for bounding water use is set to   1.1 times eo.
-23 November 2001(Day of year=327), Manager: 
      Manager sending message :- fertiliser apply  amount = 300 (kg/ha), depth = 50 (mm), type = no3_n
 23 November 2001(Day of year=327), fertiliser: 
      
         - Reading Fertiliser Type Parameters
        300.00 of N as nitrate (no3_n)
                                               added at depth   50.00 (layer   1)
-23 November 2001(Day of year=327), SweetSorghum: 
      
                       Crop Sowing Data
          ------------------------------------------------
@@ -1023,10 +1056,10 @@
         y_tt_start_to_end_grain    =     200     200 (dd)
         tt_end_grain_to_maturity   =          5 (dd)
         tt_maturity_to_ripe        =          5 (dd)
-        x_pp_hi_incr               =       1.00      24.00
-        y_hi_incr                  =     0.0130     0.0130
-        x_hi_max_pot_stress        =       0.00       1.00
-        y_hi_max_pot               =       0.50       0.50
+        grains_per_gram_stem           =       10.0 (/g)
+        potential_grain_filling_rate   =     0.0020 (g/grain/day)
+        potential_grain_growth_rate    =     0.0000 (g/grain/day)
+        max_grain_size                 =     0.5000 (g)
          ------------------------------------------------
      
      
@@ -1047,14 +1080,12 @@
          -----------------------------------------------
          Extractable SW:   243mm in  1800mm total depth ( 14%).
          Crop factor for bounding water use is set to   1.1 times eo.
-21 December 2001(Day of year=355), Manager: 
      Manager sending message :- fertiliser apply  amount = 300 (kg/ha), depth = 50 (mm), type = no3_n
 21 December 2001(Day of year=355), fertiliser: 
      
         - Reading Fertiliser Type Parameters
        300.00 of N as nitrate (no3_n)
                                               added at depth   50.00 (layer   1)
-21 December 2001(Day of year=355), SweetSorghum: 
      
                       Crop Sowing Data
          ------------------------------------------------
@@ -1130,10 +1161,10 @@
         y_tt_start_to_end_grain    =     200     200 (dd)
         tt_end_grain_to_maturity   =          5 (dd)
         tt_maturity_to_ripe        =          5 (dd)
-        x_pp_hi_incr               =       1.00      24.00
-        y_hi_incr                  =     0.0130     0.0130
-        x_hi_max_pot_stress        =       0.00       1.00
-        y_hi_max_pot               =       0.50       0.50
+        grains_per_gram_stem           =       10.0 (/g)
+        potential_grain_filling_rate   =     0.0020 (g/grain/day)
+        potential_grain_growth_rate    =     0.0000 (g/grain/day)
+        max_grain_size                 =     0.5000 (g)
          ------------------------------------------------
      
      
@@ -1154,14 +1185,12 @@
          -----------------------------------------------
          Extractable SW:   243mm in  1800mm total depth ( 14%).
          Crop factor for bounding water use is set to   1.1 times eo.
-22 January 2002(Day of year=22), Manager: 
      Manager sending message :- fertiliser apply  amount = 300 (kg/ha), depth = 50 (mm), type = no3_n
 22 January 2002(Day of year=22), fertiliser: 
      
         - Reading Fertiliser Type Parameters
        300.00 of N as nitrate (no3_n)
                                               added at depth   50.00 (layer   1)
-22 January 2002(Day of year=22), SweetSorghum: 
      
                       Crop Sowing Data
          ------------------------------------------------
@@ -1241,10 +1270,10 @@
         y_tt_start_to_end_grain    =     200     200 (dd)
         tt_end_grain_to_maturity   =          5 (dd)
         tt_maturity_to_ripe        =          5 (dd)
-        x_pp_hi_incr               =       1.00      24.00
-        y_hi_incr                  =     0.0130     0.0130
-        x_hi_max_pot_stress        =       0.00       1.00
-        y_hi_max_pot               =       0.50       0.50
+        grains_per_gram_stem           =       10.0 (/g)
+        potential_grain_filling_rate   =     0.0020 (g/grain/day)
+        potential_grain_growth_rate    =     0.0000 (g/grain/day)
+        max_grain_size                 =     0.5000 (g)
          ------------------------------------------------
      
      
@@ -1265,14 +1294,12 @@
          -----------------------------------------------
          Extractable SW:   243mm in  1800mm total depth ( 14%).
          Crop factor for bounding water use is set to   1.1 times eo.
-21 February 2002(Day of year=52), Manager: 
      Manager sending message :- fertiliser apply  amount = 300 (kg/ha), depth = 50 (mm), type = no3_n
 21 February 2002(Day of year=52), fertiliser: 
      
         - Reading Fertiliser Type Parameters
        300.00 of N as nitrate (no3_n)
                                               added at depth   50.00 (layer   1)
-21 February 2002(Day of year=52), SweetSorghum: 
      
                       Crop Sowing Data
          ------------------------------------------------
@@ -1318,12 +1345,11 @@
                      stover N conc =     1.06 (%)    extractable sw =  113.91 (mm)
 15 March 2002(Day of year=74), Manager: 
      Manager sending message :- sweetsorghum harvest
-15 March 2002(Day of year=74), SweetSorghum: 
      
       flowering day          =   48                           stover (kg/ha)         =    20079.5
       maturity day           =   73                           grain yield (kg/ha)    =     2507.5
       grain % water content  =   12.5                         grain yield wet (kg/ha)=     2865.8
-      grain wt (g)           =    0.022                       grains/m^2             =  11297.999
+      grain wt (g)           =    0.022                       grains/m^2             =  11298.000
       grains/plant           = 1129.8                         maximum lai            =      5.643
       total above ground biomass (kg/ha)    =    22587.0
       live above ground biomass (kg/ha)     =    22587.0
@@ -1355,9 +1381,7 @@
                           N  (kg/ha) =                 64.70                    0.00
      
       stage 11.0 end_crop
-15 March 2002(Day of year=74), Manager: 
      Manager sending message :- sweetsorghum end_crop
-15 March 2002(Day of year=74), SweetSorghum: 
      Crop ended. Yield (dw) =     0.0  (kg/ha)
          Organic matter from crop:-      Tops to surface residue      Roots to soil FOM
                           DM (kg/ha) =                  0.04                 4378.76
@@ -1385,7 +1409,6 @@
                      stover N conc =     1.21 (%)    extractable sw =  139.26 (mm)
 7 April 2002(Day of year=97), Manager: 
      Manager sending message :- sweetsorghum harvest
-7 April 2002(Day of year=97), SweetSorghum: 
      
       flowering day          =   71                           stover (kg/ha)         =    19354.4
       maturity day           =   96                           grain yield (kg/ha)    =     2042.0
@@ -1422,9 +1445,7 @@
                           N  (kg/ha) =                 54.09                    0.00
      
       stage 11.0 end_crop
-7 April 2002(Day of year=97), Manager: 
      Manager sending message :- sweetsorghum end_crop
-7 April 2002(Day of year=97), SweetSorghum: 
      Crop ended. Yield (dw) =     0.0  (kg/ha)
          Organic matter from crop:-      Tops to surface residue      Roots to soil FOM
                           DM (kg/ha) =                  0.03                 3718.65
@@ -1446,6 +1467,7 @@
       stage 9.0 maturity
                      biomass =        1884.86 (g/m^2)   lai          =   3.834 (m^2/m^2)
                      stover N conc =     1.12 (%)    extractable sw =  149.95 (mm)
+6 May 2002(Day of year=126), SweetSorghum: 
       stage 6.0 flowering
                      biomass =        1152.67 (g/m^2)   lai          =   3.804 (m^2/m^2)
                      stover N conc =     1.44 (%)    extractable sw =  143.04 (mm)
@@ -1455,7 +1477,6 @@
                      stover N conc =     1.20 (%)    extractable sw =  149.38 (mm)
 7 May 2002(Day of year=127), Manager: 
      Manager sending message :- sweetsorghum harvest
-7 May 2002(Day of year=127), SweetSorghum: 
      
       flowering day          =   98                           stover (kg/ha)         =    17029.0
       maturity day           =  126                           grain yield (kg/ha)    =     1819.6
@@ -1492,9 +1513,7 @@
                           N  (kg/ha) =                 49.38                    0.00
      
       stage 11.0 end_crop
-7 May 2002(Day of year=127), Manager: 
      Manager sending message :- sweetsorghum end_crop
-7 May 2002(Day of year=127), SweetSorghum: 
      Crop ended. Yield (dw) =     0.0  (kg/ha)
          Organic matter from crop:-      Tops to surface residue      Roots to soil FOM
                           DM (kg/ha) =                  0.03                 3018.23
@@ -1518,12 +1537,11 @@
                      stover N conc =     1.26 (%)    extractable sw =  135.10 (mm)
 9 June 2002(Day of year=160), Manager: 
      Manager sending message :- sweetsorghum harvest
-9 June 2002(Day of year=160), SweetSorghum: 
      
       flowering day          =  126                           stover (kg/ha)         =    14009.3
       maturity day           =  159                           grain yield (kg/ha)    =     1492.0
       grain % water content  =   12.5                         grain yield wet (kg/ha)=     1705.1
-      grain wt (g)           =    0.017                       grains/m^2             =   8530.112
+      grain wt (g)           =    0.017                       grains/m^2             =   8530.113
       grains/plant           =  853.0                         maximum lai            =      3.823
       total above ground biomass (kg/ha)    =    15501.3
       live above ground biomass (kg/ha)     =    15501.3
@@ -1555,9 +1573,7 @@
                           N  (kg/ha) =                 43.76                    0.00
      
       stage 11.0 end_crop
-9 June 2002(Day of year=160), Manager: 
      Manager sending message :- sweetsorghum end_crop
-9 June 2002(Day of year=160), SweetSorghum: 
      Crop ended. Yield (dw) =     0.0  (kg/ha)
          Organic matter from crop:-      Tops to surface residue      Roots to soil FOM
                           DM (kg/ha) =                  0.03                 2342.81
