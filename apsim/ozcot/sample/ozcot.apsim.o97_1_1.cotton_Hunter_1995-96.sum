@@ -20,6 +20,7 @@ Component   "soilwat2" = c:\development\apsim\soilwat2\lib\soilwat2.dll
 Component  "SurfaceOM" = c:\development\apsim\SurfaceOM\lib\SurfaceOM.dll
 Component     "soiln2" = c:\development\apsim\soiln2\lib\soiln2.dll
 Component      "ozcot" = c:\development\apsim\ozcot\lib\ozcot.dll
+Component     "sysbal" = c:\development\apsim\sysbal\lib\sysbal.dll
 
 ------- clock Initialisation --------------------------------------------------
      Sequencer phases:
@@ -304,6 +305,9 @@ Component      "ozcot" = c:\development\apsim\ozcot\lib\ozcot.dll
          ------------------------------------------------
 18 October 1995(Day of year=291), ozcot: 
       *** Crop emerged with  4.0 plants per m sq,100.% of target population of   4.0
+18 October 1995(Day of year=291), sysbal: 
+      **** C balance - unaccounted gain (kg/ha) =  11.9968233
+      ****        equivalent DM as FOM  (kg/ha) =  29.9920578
 30 April 1996(Day of year=121), ozcot: 
          Defoliant spray    1
 10 May 1996(Day of year=131), ozcot: 
