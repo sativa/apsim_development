@@ -15,8 +15,10 @@ class PatchInputComponent : public InputComponent
 
       virtual void doInit1(const FString& sdml);
       virtual void respondToEvent(unsigned int& fromID, unsigned int& eventID, protocol::Variant& variant);
+      virtual void respondToGet(unsigned int& fromID, protocol::QueryValueData& queryData);
 
    private:
+      protocol::NewMetType newmet;
       unsigned preNewmetID;
       bool patchAllYears;
       typedef std::map<long, unsigned> PatchDates;
@@ -31,8 +33,10 @@ class PatchInputComponent : public InputComponent
       PatchData patchData;
       bool haveReadPatchData;
       boost::gregorian::date patchDate;
-
-
+      unsigned unpatchedMaxTID;
+      unsigned unpatchedMinTID;
+      unsigned unpatchedRadnID;
+      unsigned unpatchedRainID;
 
       boost::gregorian::date advanceToTodaysPatchData(unsigned int fromID);
 

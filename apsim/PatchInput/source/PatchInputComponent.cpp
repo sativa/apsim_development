@@ -63,6 +63,11 @@ void PatchInputComponent::doInit1(const FString& sdml)
    i = find(data.constantsBegin(), data.constantsEnd(), "patch_variables_long_term");
    if (i != data.constantsEnd())
       patchVariablesLongTerm = i->values;
+
+   unpatchedMaxTID = addRegistration(RegistrationType::respondToGet, "unpatched_maxt", protocol::DDML(newmet.maxt).c_str());
+   unpatchedMinTID = addRegistration(RegistrationType::respondToGet, "unpatched_mint", protocol::DDML(newmet.mint).c_str());
+   unpatchedRadnID = addRegistration(RegistrationType::respondToGet, "unpatched_radn", protocol::DDML(newmet.radn).c_str());
+   unpatchedRainID = addRegistration(RegistrationType::respondToGet, "unpatched_rain", protocol::DDML(newmet.rain).c_str());
    }
 // ------------------------------------------------------------------
 // Read all patch dates.
@@ -181,9 +186,26 @@ date PatchInputComponent::advanceToTodaysPatchData(unsigned int fromID)
          }
       catch (const exception& err) // probably caused by a leap year exception.
          {
-         return date(pos_infin);
          }
       }
+   return date(pos_infin);
+   }
+
+// ------------------------------------------------------------------
+// return a variable to caller.
+// ------------------------------------------------------------------
+void PatchInputComponent::respondToGet(unsigned int& fromID, protocol::QueryValueData& queryData)
+   {
+   if (queryData.ID == unpatchedMaxTID)
+      sendVariable(queryData, newmet.maxt);
+   else if (queryData.ID == unpatchedMinTID)
+      sendVariable(queryData, newmet.mint);
+   else if (queryData.ID == unpatchedRadnID)
+      sendVariable(queryData, newmet.radn);
+   else if (queryData.ID == unpatchedRainID)
+      sendVariable(queryData, newmet.rain);
+   else
+      InputComponent::respondToGet(fromID, queryData);
    }
 // ------------------------------------------------------------------
 // Event handler.
@@ -192,7 +214,6 @@ void PatchInputComponent::respondToEvent(unsigned int& fromID, unsigned int& eve
    {
    if (eventID == preNewmetID)
       {
-      protocol::NewMetType newmet;
       variant.unpack(newmet);
       todaysDate = newmet.today;
 
@@ -212,6 +233,7 @@ void PatchInputComponent::respondToEvent(unsigned int& fromID, unsigned int& eve
                 stristr(var->getName().c_str(), "patch_variables_long_term") == NULL)
                {
                string foreignName = var->getName();
+
                if (foreignName.find("patch_") == string::npos)
                   {
                   string msg = "Invalid patch variable name: " + foreignName
