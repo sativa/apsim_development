@@ -1087,7 +1087,7 @@
 
          call get_real_vars (module+1, name, unit
      :                              , temp, numvals
-     :                              , 0.0, 1e6)
+     :                              , -1e-4, 1e6)
 
          if (numvals.ne.0) then
             if (module+1.le.max_modules) then
