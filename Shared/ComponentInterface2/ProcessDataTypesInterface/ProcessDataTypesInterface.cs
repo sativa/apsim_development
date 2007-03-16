@@ -19,9 +19,9 @@ namespace ProcessDataTypesInterface
             try
                 {
                 // Comment the next 3 lines when not debugging.
-                string StdInPath = "c:\\users\\hol353\\development\\apsim\\infra\\datatypes.interface";
-                System.IO.TextReader StdInTextReader = new System.IO.StreamReader(StdInPath);
-                Console.SetIn(StdInTextReader);
+                //string StdInPath = "c:\\users\\hol353\\development\\apsim\\infra\\datatypes.interface";
+                //System.IO.TextReader StdInTextReader = new System.IO.StreamReader(StdInPath);
+                //Console.SetIn(StdInTextReader);
 
                 // read from stdin all contents, loop through all child nodes and create
                 // a new <type> under 'NewInterfaceFile'
