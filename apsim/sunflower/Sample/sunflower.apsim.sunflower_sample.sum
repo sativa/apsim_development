@@ -16,7 +16,9 @@ Component     "report" = c:\development\apsim\report\lib\report.dll
 Component        "Met" = c:\development\apsim\input\lib\input.dll
 Component    "manager" = c:\development\apsim\manager\lib\manager.dll
 Component   "soilwat2" = c:\development\apsim\soilwat2\lib\soilwat2.dll
+Component  "SurfaceOM" = c:\development\apsim\SurfaceOM\lib\SurfaceOM.dll
 Component     "soiln2" = c:\development\apsim\soiln2\lib\soiln2.dll
+Component     "sysbal" = c:\development\apsim\sysbal\lib\sysbal.dll
 Component  "sunflower" = c:\development\apsim\CropMod\lib\CropMod.dll
 
 ------- clock Initialisation --------------------------------------------------
@@ -149,6 +151,25 @@ Component  "sunflower" = c:\development\apsim\CropMod\lib\CropMod.dll
             CONA:                     2.50 ()
             Eo from priestly-taylor
 
+------- SurfaceOM Initialisation ----------------------------------------------
+     
+         - Reading constants
+     
+         - Reading parameters
+     
+     
+     
+                         Initial Surface Organic Matter Data
+         ----------------------------------------------------------------------
+            Name   Type        Dry matter   C        N        P    Cover  Standing_fr
+                                (kg/ha)  (kg/ha)  (kg/ha)  (kg/ha) (0-1)     (0-1)
+         ----------------------------------------------------------------------
+          wheat     wheat            0.0     0.0     0.0     0.0   0.000     0.0
+         ----------------------------------------------------------------------
+     
+                      Effective Cover from Surface Materials =   0.0
+     
+
 ------- soiln2 Initialisation -------------------------------------------------
      
         - Reading Parameters
@@ -277,6 +298,10 @@ Component  "sunflower" = c:\development\apsim\CropMod\lib\CropMod.dll
       stage    3.0 emergence
                           biomass =           1.000000       lai =    0.2000000E-02
                           stover N conc =    5.000000       extractable sw =    66.58138
+19 December 1988(Day of year=354), sysbal: 
+      **** N balance - unaccounted gain (kg/ha) =  0.600049257
+      **** C balance - unaccounted gain (kg/ha) =  5.98869038
+      ****        equivalent DM as FOM  (kg/ha) =  14.9717255
 30 December 1988(Day of year=365), sunflower: 
       stage    4.0 end_of_juvenile
                           biomass =           8.277491       lai =    0.6129768E-01
