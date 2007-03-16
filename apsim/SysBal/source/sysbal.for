@@ -903,6 +903,11 @@
       call sysbal_reg_variable ('sunflower',dlt_dm_oil_conv_retrans,gm2)
       call sysbal_reg_variable ('sunflower', dlt_dm_green, gm2)
 
+      call sysbal_reg_variable ('sugar', dm_green, gm2)
+      call sysbal_reg_variable ('sugar', dm_senesced, gm2)
+      call sysbal_reg_variable ('sugar', dm_dead, gm2)
+      call sysbal_reg_variable ('sugar', dlt_dm_green, gm2)
+
   ! define system states
   !---------------
 
@@ -2046,7 +2051,12 @@
       integer    NumVal_P              ! number of values read from file
       integer    SOMNo     ! system number of the surface organic matter added
       integer    residue               ! system surfom counter
+      integer    max_part              ! number of plant parts
+      parameter (max_part = 10)
+      integer    root_num
+      integer    counter
 
+      character*20 part_name(max_part)
 
 !- Implementation Section ----------------------------------
 
@@ -2055,12 +2065,26 @@
      :                      , '()', fraction_to_Residue, numvals
      :                      , 0.0, 100000.0)
 
+      call collect_char_array (DATA_dm_type, max_part
+     :                      , '()', part_name, numvals)
+
+      do  counter = 1, numvals
+         if (part_name(counter)(1:4) .eq. 'root') then
+            root_num = counter
+            exit
+         else
+            root_num = 0
+         endif
+      end do
 
          ! Find the amount of surfom to be removed today
       dlt_crop_dm(:) = 0.0
       call collect_real_array (DATA_dlt_crop_dm, MaxArraySize, '()'
      :                      , dlt_crop_dm, numval_dm, 0.0, 100000.0)
       fraction_removed(:numvals) = 1.0 - fraction_to_Residue(:numvals)
+         ! assume roots are not removed from system but end up in soil.
+      if(root_num .gt. 0) fraction_removed(root_num) = 0.0
+
       dm_removed = sum(dlt_crop_dm(:numvals)
      :           * fraction_removed(:numvals))
 
