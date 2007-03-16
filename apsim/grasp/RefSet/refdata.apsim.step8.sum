@@ -21,6 +21,7 @@ Component  "SurfaceOM" = c:\development\apsim\SurfaceOM\lib\SurfaceOM.dll
 Component     "soiln2" = c:\development\apsim\soiln2\lib\soiln2.dll
 Component    "surface" = c:\development\apsim\surface\lib\surface.dll
 Component      "grasp" = c:\development\apsim\grasp\lib\grasp.dll
+Component     "sysbal" = c:\development\apsim\sysbal\lib\sysbal.dll
 
 ------- clock Initialisation --------------------------------------------------
      Sequencer phases:
@@ -310,6 +311,34 @@ Component      "grasp" = c:\development\apsim\grasp\lib\grasp.dll
        Root depth :   750.0 mm
        Using vpd approximated from maxt, mint.
        NB. Pan evap approximated by apswim.eo
+11 August 1976(Day of year=224), sysbal: 
+      **** SW balance - unaccounted loss (mm) =  -0.200027257
+26 August 1976(Day of year=239), sysbal: 
+      **** SW balance - unaccounted gain (mm) =  13.2000113
+27 August 1976(Day of year=240), sysbal: 
+      **** SW balance - unaccounted loss (mm) =  -5.29999876
+1 September 1976(Day of year=245), sysbal: 
+      **** SW balance - unaccounted gain (mm) =  2.20003366
+2 September 1976(Day of year=246), sysbal: 
+      **** SW balance - unaccounted loss (mm) =  -0.699979663
+3 September 1976(Day of year=247), sysbal: 
+      **** SW balance - unaccounted loss (mm) =  -0.200010255
+17 September 1976(Day of year=261), sysbal: 
+      **** SW balance - unaccounted gain (mm) =  24.9999828
+18 September 1976(Day of year=262), sysbal: 
+      **** SW balance - unaccounted loss (mm) =  -20.1099892
+19 September 1976(Day of year=263), sysbal: 
+      **** SW balance - unaccounted loss (mm) =  -2.10004973
+22 September 1976(Day of year=266), sysbal: 
+      **** SW balance - unaccounted loss (mm) =  -1.58755875
+23 September 1976(Day of year=267), sysbal: 
+      **** SW balance - unaccounted loss (mm) =  -2.61251354
+27 September 1976(Day of year=271), sysbal: 
+      **** SW balance - unaccounted loss (mm) =  -3.60001349
+28 September 1976(Day of year=272), sysbal: 
+      **** SW balance - unaccounted loss (mm) =  -1.10012352
+6 October 1976(Day of year=280), sysbal: 
+      **** SW balance - unaccounted gain (mm) =  10.2799492
 13 October 1976(Day of year=287), apswim: 
      Maximum iterations reached - swim will reduce timestep
           APSwim Numerical Diagnostics
@@ -371,6 +400,68 @@ Component      "grasp" = c:\development\apsim\grasp\lib\grasp.dll
           1200.0  soil5         0.3830671  -2625.773      0.000     -6.938     -6.937
           1500.0  soil6         0.4038138  -2545.928      0.000     -6.906     -6.906
           ------------------------------------------------------------------------------
+13 October 1976(Day of year=287), sysbal: 
+      **** SW balance - unaccounted gain (mm) =  19.7800217
+14 October 1976(Day of year=288), sysbal: 
+      **** SW balance - unaccounted loss (mm) =  -32.5000267
+19 October 1976(Day of year=293), sysbal: 
+      **** SW balance - unaccounted loss (mm) =  -0.300008833
+22 October 1976(Day of year=296), sysbal: 
+      **** SW balance - unaccounted gain (mm) =  3.79995394
+23 October 1976(Day of year=297), sysbal: 
+      **** SW balance - unaccounted gain (mm) =  0.599999666
+26 October 1976(Day of year=300), sysbal: 
+      **** SW balance - unaccounted gain (mm) =  51.5999947
+27 October 1976(Day of year=301), sysbal: 
+      **** SW balance - unaccounted loss (mm) =  -23.2000065
+28 October 1976(Day of year=302), sysbal: 
+      **** SW balance - unaccounted loss (mm) =  -6.69999409
+31 October 1976(Day of year=305), sysbal: 
+      **** SW balance - unaccounted gain (mm) =  62.0228958
+1 November 1976(Day of year=306), sysbal: 
+      **** SW balance - unaccounted loss (mm) =  -61.9529533
+9 November 1976(Day of year=314), sysbal: 
+      **** SW balance - unaccounted gain (mm) =  26.9989281
+10 November 1976(Day of year=315), sysbal: 
+      **** SW balance - unaccounted loss (mm) =  -7.47524738
+11 November 1976(Day of year=316), sysbal: 
+      **** SW balance - unaccounted loss (mm) =  -5.72359943
+13 November 1976(Day of year=318), sysbal: 
+      **** SW balance - unaccounted gain (mm) =  2.50003958
+14 November 1976(Day of year=319), sysbal: 
+      **** SW balance - unaccounted gain (mm) =  1.42747402
+15 November 1976(Day of year=320), sysbal: 
+      **** SW balance - unaccounted gain (mm) =  18.6724854
+16 November 1976(Day of year=321), sysbal: 
+      **** SW balance - unaccounted loss (mm) =  -2.89994574
+20 November 1976(Day of year=325), sysbal: 
+      **** SW balance - unaccounted gain (mm) =  5.80001163
+21 November 1976(Day of year=326), sysbal: 
+      **** SW balance - unaccounted gain (mm) =  11.9000025
+22 November 1976(Day of year=327), sysbal: 
+      **** SW balance - unaccounted loss (mm) =  -14.6999836
+26 November 1976(Day of year=331), sysbal: 
+      **** SW balance - unaccounted loss (mm) =  -1.49999952
+27 November 1976(Day of year=332), sysbal: 
+      **** SW balance - unaccounted gain (mm) =  0.500013351
+29 November 1976(Day of year=334), sysbal: 
+      **** SW balance - unaccounted loss (mm) =  -10.3000059
+30 November 1976(Day of year=335), sysbal: 
+      **** SW balance - unaccounted gain (mm) =  12.2999649
+1 December 1976(Day of year=336), sysbal: 
+      **** SW balance - unaccounted loss (mm) =  -13.7000465
+4 December 1976(Day of year=339), sysbal: 
+      **** SW balance - unaccounted gain (mm) =  1.40000796
+5 December 1976(Day of year=340), sysbal: 
+      **** SW balance - unaccounted loss (mm) =  -4.90000820
+12 December 1976(Day of year=347), sysbal: 
+      **** SW balance - unaccounted gain (mm) =  1.39996362
+13 December 1976(Day of year=348), sysbal: 
+      **** SW balance - unaccounted loss (mm) =  -1.20001936
+23 December 1976(Day of year=358), sysbal: 
+      **** SW balance - unaccounted gain (mm) =  2.70001054
+24 December 1976(Day of year=359), sysbal: 
+      **** SW balance - unaccounted gain (mm) =  14.2899857
 26 December 1976(Day of year=361), apswim: 
      Maximum iterations reached - swim will reduce timestep
           APSwim Numerical Diagnostics
@@ -387,6 +478,8 @@ Component      "grasp" = c:\development\apsim\grasp\lib\grasp.dll
           1200.0  soil5         0.3762826  -3339.191      0.000     -7.182     -7.182
           1500.0  soil6         0.3986430  -3203.190      0.000     -7.140     -7.139
           ------------------------------------------------------------------------------
+26 December 1976(Day of year=361), sysbal: 
+      **** SW balance - unaccounted loss (mm) =  -3.90000439
 30 December 1976(Day of year=365), apswim: 
      Maximum iterations reached - swim will reduce timestep
           APSwim Numerical Diagnostics
@@ -403,6 +496,10 @@ Component      "grasp" = c:\development\apsim\grasp\lib\grasp.dll
           1200.0  soil5         0.3748921  -3509.687      0.000     -7.233     -7.233
           1500.0  soil6         0.3980145  -3294.522      0.000     -7.168     -7.168
           ------------------------------------------------------------------------------
+30 December 1976(Day of year=365), sysbal: 
+      **** SW balance - unaccounted gain (mm) =  9.98999214
+31 December 1976(Day of year=366), sysbal: 
+      **** SW balance - unaccounted loss (mm) =  -5.20003700
 4 January 1977(Day of year=4), apswim: 
      Maximum iterations reached - swim will reduce timestep
           APSwim Numerical Diagnostics
@@ -419,6 +516,10 @@ Component      "grasp" = c:\development\apsim\grasp\lib\grasp.dll
           1200.0  soil5         0.3734149  -3701.137      0.000     -7.287     -7.287
           1500.0  soil6         0.3970209  -3444.595      0.000     -7.214     -7.213
           ------------------------------------------------------------------------------
+4 January 1977(Day of year=4), sysbal: 
+      **** SW balance - unaccounted gain (mm) =  10.1200085
+5 January 1977(Day of year=5), sysbal: 
+      **** SW balance - unaccounted loss (mm) =  -12.4000912
 6 January 1977(Day of year=6), apswim: 
      Maximum iterations reached - swim will reduce timestep
           APSwim Numerical Diagnostics
@@ -435,6 +536,18 @@ Component      "grasp" = c:\development\apsim\grasp\lib\grasp.dll
           1200.0  soil5         0.3736018  -3676.310      0.000     -7.295     -7.282
           1500.0  soil6         0.3965937  -3511.324      0.000     -7.235     -7.226
           ------------------------------------------------------------------------------
+11 January 1977(Day of year=11), sysbal: 
+      **** SW balance - unaccounted gain (mm) =  2.40000391
+16 January 1977(Day of year=16), sysbal: 
+      **** SW balance - unaccounted gain (mm) =  61.5398865
+17 January 1977(Day of year=17), sysbal: 
+      **** SW balance - unaccounted loss (mm) =  -47.6398773
+24 January 1977(Day of year=24), sysbal: 
+      **** SW balance - unaccounted gain (mm) =  0.799999833
+28 January 1977(Day of year=28), sysbal: 
+      **** SW balance - unaccounted gain (mm) =  9.29997349
+29 January 1977(Day of year=29), sysbal: 
+      **** SW balance - unaccounted loss (mm) =  -11.0000134
 30 January 1977(Day of year=30), apswim: 
      Maximum iterations reached - swim will reduce timestep
           APSwim Numerical Diagnostics
@@ -512,6 +625,24 @@ Component      "grasp" = c:\development\apsim\grasp\lib\grasp.dll
           1200.0  soil5         0.3640908  -5201.058      0.000     -7.659     -7.632
           1500.0  soil6         0.3899125  -4753.115      0.000     -7.541     -7.536
           ------------------------------------------------------------------------------
+3 February 1977(Day of year=34), sysbal: 
+      **** SW balance - unaccounted loss (mm) =  -0.399960220
+20 February 1977(Day of year=51), sysbal: 
+      **** SW balance - unaccounted gain (mm) =  3.14752150
+21 February 1977(Day of year=52), sysbal: 
+      **** SW balance - unaccounted gain (mm) =  1.43246508
+22 February 1977(Day of year=53), sysbal: 
+      **** SW balance - unaccounted loss (mm) =  -2.50002360
+23 February 1977(Day of year=54), sysbal: 
+      **** SW balance - unaccounted loss (mm) =  -4.99999142
+27 February 1977(Day of year=58), sysbal: 
+      **** SW balance - unaccounted gain (mm) =  0.800020814
+28 February 1977(Day of year=59), sysbal: 
+      **** SW balance - unaccounted loss (mm) =  -2.00000262
+1 March 1977(Day of year=60), sysbal: 
+      **** SW balance - unaccounted gain (mm) =  0.499970317
+3 March 1977(Day of year=62), sysbal: 
+      **** SW balance - unaccounted loss (mm) =  -1.20001316
 4 March 1977(Day of year=63), apswim: 
      Maximum iterations reached - swim will reduce timestep
           APSwim Numerical Diagnostics
@@ -528,6 +659,26 @@ Component      "grasp" = c:\development\apsim\grasp\lib\grasp.dll
           1200.0  soil5         0.3568451  -6816.933      0.000     -7.904     -7.904
           1500.0  soil6         0.3831214  -6501.377      0.000     -7.856     -7.853
           ------------------------------------------------------------------------------
+4 March 1977(Day of year=63), sysbal: 
+      **** SW balance - unaccounted gain (mm) =  0.800061107
+5 March 1977(Day of year=64), sysbal: 
+      **** SW balance - unaccounted gain (mm) =  0.899942517
+8 March 1977(Day of year=67), sysbal: 
+      **** SW balance - unaccounted gain (mm) =  0.749975324
+9 March 1977(Day of year=68), sysbal: 
+      **** SW balance - unaccounted loss (mm) =  -2.32739902
+10 March 1977(Day of year=69), sysbal: 
+      **** SW balance - unaccounted gain (mm) =  29.1605930
+11 March 1977(Day of year=70), sysbal: 
+      **** SW balance - unaccounted loss (mm) =  -17.4631462
+12 March 1977(Day of year=71), sysbal: 
+      **** SW balance - unaccounted loss (mm) =  -13.0000610
+16 March 1977(Day of year=75), sysbal: 
+      **** SW balance - unaccounted gain (mm) =  0.800143123
+27 March 1977(Day of year=86), sysbal: 
+      **** SW balance - unaccounted gain (mm) =  4.37505865
+28 March 1977(Day of year=87), sysbal: 
+      **** SW balance - unaccounted loss (mm) =  -6.57495213
 29 March 1977(Day of year=88), apswim: 
      Maximum iterations reached - swim will reduce timestep
           APSwim Numerical Diagnostics
@@ -544,6 +695,10 @@ Component      "grasp" = c:\development\apsim\grasp\lib\grasp.dll
           1200.0  soil5         0.3569260  -6796.157      0.000     -7.900     -7.900
           1500.0  soil6         0.3823351  -6743.916      0.000     -7.893     -7.892
           ------------------------------------------------------------------------------
+31 March 1977(Day of year=90), sysbal: 
+      **** SW balance - unaccounted gain (mm) =  4.99997759
+1 April 1977(Day of year=91), sysbal: 
+      **** SW balance - unaccounted loss (mm) =  -5.19996595
 3 April 1977(Day of year=93), apswim: 
      Maximum iterations reached - swim will reduce timestep
           APSwim Numerical Diagnostics
@@ -560,6 +715,16 @@ Component      "grasp" = c:\development\apsim\grasp\lib\grasp.dll
           1200.0  soil5         0.3569073  -6800.949      0.000     -7.901     -7.901
           1500.0  soil6         0.3822835  -6760.169      0.000     -7.895     -7.895
           ------------------------------------------------------------------------------
+4 April 1977(Day of year=94), sysbal: 
+      **** SW balance - unaccounted gain (mm) =  2.00002718
+5 April 1977(Day of year=95), sysbal: 
+      **** SW balance - unaccounted loss (mm) =  -3.69993520
+6 April 1977(Day of year=96), sysbal: 
+      **** SW balance - unaccounted loss (mm) =  -1.39999795
+7 April 1977(Day of year=97), sysbal: 
+      **** SW balance - unaccounted loss (mm) =  -0.999981523
+8 April 1977(Day of year=98), sysbal: 
+      **** SW balance - unaccounted loss (mm) =  -1.10000372
 11 April 1977(Day of year=101), apswim: 
      Maximum iterations reached - swim will reduce timestep
           APSwim Numerical Diagnostics
@@ -576,6 +741,16 @@ Component      "grasp" = c:\development\apsim\grasp\lib\grasp.dll
           1200.0  soil5         0.3568819  -6807.487      0.000     -7.902     -7.902
           1500.0  soil6         0.3822234  -6779.135      0.000     -7.898     -7.898
           ------------------------------------------------------------------------------
+13 April 1977(Day of year=103), sysbal: 
+      **** SW balance - unaccounted gain (mm) =  5.00003433
+15 April 1977(Day of year=105), sysbal: 
+      **** SW balance - unaccounted loss (mm) =  -5.20005512
+16 April 1977(Day of year=106), sysbal: 
+      **** SW balance - unaccounted gain (mm) =  2.79999304
+17 April 1977(Day of year=107), sysbal: 
+      **** SW balance - unaccounted loss (mm) =  -4.99995947
+18 April 1977(Day of year=108), sysbal: 
+      **** SW balance - unaccounted loss (mm) =  -5.00004339
 19 April 1977(Day of year=109), apswim: 
      Maximum iterations reached - swim will reduce timestep
           APSwim Numerical Diagnostics
@@ -623,6 +798,10 @@ Component      "grasp" = c:\development\apsim\grasp\lib\grasp.dll
           1200.0  soil5         0.3568626  -6812.427      0.000     -7.903     -7.903
           1500.0  soil6         0.3821723  -6795.308      0.000     -7.900     -7.900
           ------------------------------------------------------------------------------
+22 April 1977(Day of year=112), sysbal: 
+      **** SW balance - unaccounted gain (mm) =  23.8605881
+23 April 1977(Day of year=113), sysbal: 
+      **** SW balance - unaccounted loss (mm) =  -18.7605400
 29 April 1977(Day of year=119), apswim: 
      Maximum iterations reached - swim will reduce timestep
           APSwim Numerical Diagnostics
@@ -639,6 +818,72 @@ Component      "grasp" = c:\development\apsim\grasp\lib\grasp.dll
           1200.0  soil5         0.3568603  -6813.016      0.000     -7.903     -7.903
           1500.0  soil6         0.3821514  -6801.936      0.000     -7.901     -7.901
           ------------------------------------------------------------------------------
+10 May 1977(Day of year=130), sysbal: 
+      **** SW balance - unaccounted gain (mm) =  39.7450409
+11 May 1977(Day of year=131), sysbal: 
+      **** SW balance - unaccounted loss (mm) =  -29.5351048
+12 May 1977(Day of year=132), sysbal: 
+      **** SW balance - unaccounted loss (mm) =  -2.59998250
+14 May 1977(Day of year=134), sysbal: 
+      **** SW balance - unaccounted gain (mm) =  7.48504639
+15 May 1977(Day of year=135), sysbal: 
+      **** SW balance - unaccounted gain (mm) =  44.3149757
+16 May 1977(Day of year=136), sysbal: 
+      **** SW balance - unaccounted loss (mm) =  -49.1000710
+17 May 1977(Day of year=137), sysbal: 
+      **** SW balance - unaccounted loss (mm) =  -1.89995980
+18 May 1977(Day of year=138), sysbal: 
+      **** SW balance - unaccounted gain (mm) =  1.79995608
+19 May 1977(Day of year=139), sysbal: 
+      **** SW balance - unaccounted loss (mm) =  -3.99993515
+28 May 1977(Day of year=148), sysbal: 
+      **** SW balance - unaccounted gain (mm) =  11.2200241
+30 May 1977(Day of year=150), sysbal: 
+      **** SW balance - unaccounted loss (mm) =  -9.99998283
+5 June 1977(Day of year=156), sysbal: 
+      **** SW balance - unaccounted gain (mm) =  0.599902689
+6 June 1977(Day of year=157), sysbal: 
+      **** SW balance - unaccounted loss (mm) =  -1.49996948
+7 June 1977(Day of year=158), sysbal: 
+      **** SW balance - unaccounted loss (mm) =  -1.10014093
+8 June 1977(Day of year=159), sysbal: 
+      **** SW balance - unaccounted loss (mm) =  -0.999981999
+18 June 1977(Day of year=169), sysbal: 
+      **** SW balance - unaccounted gain (mm) =  1.50002933
+20 June 1977(Day of year=171), sysbal: 
+      **** SW balance - unaccounted loss (mm) =  -1.99996436
+23 June 1977(Day of year=174), sysbal: 
+      **** SW balance - unaccounted gain (mm) =  1.80003119
+24 June 1977(Day of year=175), sysbal: 
+      **** SW balance - unaccounted gain (mm) =  1.79997563
+25 June 1977(Day of year=176), sysbal: 
+      **** SW balance - unaccounted loss (mm) =  -6.99998903
+7 July 1977(Day of year=188), sysbal: 
+      **** SW balance - unaccounted loss (mm) =  -0.400023103
+12 August 1977(Day of year=224), sysbal: 
+      **** SW balance - unaccounted gain (mm) =  2.49999070
+13 August 1977(Day of year=225), sysbal: 
+      **** SW balance - unaccounted loss (mm) =  -3.39999342
+7 September 1977(Day of year=250), sysbal: 
+      **** SW balance - unaccounted gain (mm) =  3.89998674
+8 September 1977(Day of year=251), sysbal: 
+      **** SW balance - unaccounted loss (mm) =  -4.60000181
+19 September 1977(Day of year=262), sysbal: 
+      **** SW balance - unaccounted gain (mm) =  1.30000877
+20 September 1977(Day of year=263), sysbal: 
+      **** SW balance - unaccounted loss (mm) =  -1.99996960
+5 October 1977(Day of year=278), sysbal: 
+      **** SW balance - unaccounted gain (mm) =  2.00001144
+6 October 1977(Day of year=279), sysbal: 
+      **** SW balance - unaccounted loss (mm) =  -2.00003552
+19 October 1977(Day of year=292), sysbal: 
+      **** SW balance - unaccounted gain (mm) =  1.29997027
+20 October 1977(Day of year=293), sysbal: 
+      **** SW balance - unaccounted loss (mm) =  -3.00005031
+23 October 1977(Day of year=296), sysbal: 
+      **** SW balance - unaccounted gain (mm) =  6.40000677
+24 October 1977(Day of year=297), sysbal: 
+      **** SW balance - unaccounted loss (mm) =  -7.99998665
 29 October 1977(Day of year=302), apswim: 
      Maximum iterations reached - swim will reduce timestep
           APSwim Numerical Diagnostics
@@ -655,6 +900,40 @@ Component      "grasp" = c:\development\apsim\grasp\lib\grasp.dll
           1200.0  soil5         0.3601011  -6032.423      0.000     -7.780     -7.781
           1500.0  soil6         0.3844859  -6102.093      0.000     -7.792     -7.793
           ------------------------------------------------------------------------------
+3 November 1977(Day of year=307), sysbal: 
+      **** SW balance - unaccounted gain (mm) =  24.3000107
+4 November 1977(Day of year=308), sysbal: 
+      **** SW balance - unaccounted loss (mm) =  -23.6999664
+5 November 1977(Day of year=309), sysbal: 
+      **** SW balance - unaccounted loss (mm) =  -1.00007355
+6 November 1977(Day of year=310), sysbal: 
+      **** SW balance - unaccounted gain (mm) =  1.80001426
+7 November 1977(Day of year=311), sysbal: 
+      **** SW balance - unaccounted gain (mm) =  22.3999233
+8 November 1977(Day of year=312), sysbal: 
+      **** SW balance - unaccounted loss (mm) =  -24.5999832
+13 November 1977(Day of year=317), sysbal: 
+      **** SW balance - unaccounted gain (mm) =  5.48426580
+14 November 1977(Day of year=318), sysbal: 
+      **** SW balance - unaccounted gain (mm) =  0.116094589
+15 November 1977(Day of year=319), sysbal: 
+      **** SW balance - unaccounted loss (mm) =  -6.40037632
+17 November 1977(Day of year=321), sysbal: 
+      **** SW balance - unaccounted gain (mm) =  6.80002117
+18 November 1977(Day of year=322), sysbal: 
+      **** SW balance - unaccounted loss (mm) =  -6.82852364
+19 November 1977(Day of year=323), sysbal: 
+      **** SW balance - unaccounted gain (mm) =  0.228525162
+20 November 1977(Day of year=324), sysbal: 
+      **** SW balance - unaccounted gain (mm) =  28.9098301
+21 November 1977(Day of year=325), sysbal: 
+      **** SW balance - unaccounted loss (mm) =  -17.8198528
+22 November 1977(Day of year=326), sysbal: 
+      **** SW balance - unaccounted loss (mm) =  -6.00002956
+2 December 1977(Day of year=336), sysbal: 
+      **** SW balance - unaccounted gain (mm) =  12.7000570
+3 December 1977(Day of year=337), sysbal: 
+      **** SW balance - unaccounted loss (mm) =  -7.99999523
 5 December 1977(Day of year=339), apswim: 
      Maximum iterations reached - swim will reduce timestep
           APSwim Numerical Diagnostics
@@ -671,6 +950,10 @@ Component      "grasp" = c:\development\apsim\grasp\lib\grasp.dll
           1200.0  soil5         0.3609637  -5841.275      0.000     -7.748     -7.749
           1500.0  soil6         0.3852224  -5897.423      0.000     -7.757     -7.758
           ------------------------------------------------------------------------------
+18 December 1977(Day of year=352), sysbal: 
+      **** SW balance - unaccounted gain (mm) =  2.40005541
+19 December 1977(Day of year=353), sysbal: 
+      **** SW balance - unaccounted loss (mm) =  -3.00003958
 21 December 1977(Day of year=355), apswim: 
      Maximum iterations reached - swim will reduce timestep
           APSwim Numerical Diagnostics
