@@ -1711,6 +1711,7 @@ void Plant::plant_update(float  g_dlt_plants                                    
        n_senesced_retrans += (*part)->dltNSenescedRetrans();
 
     leafPart->giveNGreen(-1.0*n_senesced_retrans);
+    rootPart->updateOthers();    // send off detached roots before root structure is updated by plant death
 
     for (vector<plantPart *>::iterator part = myParts.begin();
          part != myParts.end();
@@ -3593,7 +3594,8 @@ void Plant::plant_end_crop ()
                              dlt_dm_p,
                              fraction_to_residue);
 
-          plant_send_crop_chopped_event ( c.crop_type
+          if (sum(dlt_dm_crop) > 0.0)
+              plant_send_crop_chopped_event ( c.crop_type
                                          , part_name
                                          , dlt_dm_crop
                                          , dlt_dm_n
@@ -3917,7 +3919,6 @@ void Plant::plant_update_other_variables (void)
                                      fraction_to_residue);
        }
 
-    rootPart->updateOthers();
     }
 
 
