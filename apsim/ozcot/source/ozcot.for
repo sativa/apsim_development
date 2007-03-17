@@ -6942,7 +6942,6 @@ C        IF(DEF.LT.2.5) THEN                          ! waterlogging
       real       dlt_dm_N(max_part)              ! change in N content of dry matter (kg/ha)
       real       root_length(max_layers)
 
-
 *- Implementation Section ----------------------------------
 
       call push_routine (my_name)
@@ -6998,11 +6997,11 @@ C        IF(DEF.LT.2.5) THEN                          ! waterlogging
       endif
 
          call ozcot_root_distrib (root_length
-     :                          , dlt_dm_crop(root))
+     :                          , dlt_dm_crop(root) * kg2gm/ha2sm)
 
          call crop_root_incorp (
-     .          dlt_dm_crop(root)
-     :         ,dlt_dm_N(root)
+     .          dlt_dm_crop(root) * kg2gm/ha2sm
+     :         ,dlt_dm_N(root) * kg2gm/ha2sm
      :         ,g%dlayr
      :         ,root_length
      :         ,g%rtdep
@@ -7279,12 +7278,12 @@ C        IF(DEF.LT.2.5) THEN                          ! waterlogging
      :                      * divide (cum_depth, g%rtdep, 0.0))
 1000  continue
 
-!      root_distrb_sum = sum_real_array (root_distrb, deepest_layer)
-!      do 2000 layer = 1, deepest_layer
-!         root_array(layer) = root_sum * divide (root_distrb(layer)
-!     :                                        , root_distrb_sum, 0.0)
-!
-!2000  continue
+      root_distrb_sum = sum_real_array (root_distrb, deepest_layer)
+      do 2000 layer = 1, deepest_layer
+         root_array(layer) = root_sum * divide (root_distrb(layer)
+     :                                        , root_distrb_sum, 0.0)
+
+2000  continue
 
       call pop_routine (my_name)
       return
