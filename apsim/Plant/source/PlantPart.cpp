@@ -1265,6 +1265,19 @@ void plantPart::onEndCrop(vector<string> &dm_type,
    dlt_dm_n.push_back    ((NDead  + NGreen  + NSenesced)  * gm2kg/sm2ha);
    dlt_dm_p.push_back    ((PDead  + PGreen  + PSen)       * gm2kg/sm2ha);
    fraction_to_residue.push_back(1.0);
+
+   DMDead     = 0.0;
+   DMSenesced = 0.0;
+   DMGreen    = 0.0;
+
+   NDead     = 0.0;
+   NSenesced = 0.0;
+   NGreen    = 0.0;
+
+   PDead  = 0.0;
+   PSen   = 0.0;
+   PGreen  = 0.0;
+
    }
 
 
