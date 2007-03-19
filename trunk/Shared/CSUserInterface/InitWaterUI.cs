@@ -390,7 +390,7 @@ namespace CSUserInterface
 				 	 + " and then filling in the details.";
 
 			SoilData = new Soil(Controller.Data.Parent);
-			//InitialWater = SoilData.InitialSW;
+            InitialWater = new InitWater(Controller.Data);
 			WaterChartControl.LinkedSoil = SoilData;
 			WaterChartControl.ShowSoilWaterLine = true;
             RelativeToCombo.Items.Add("ll15");

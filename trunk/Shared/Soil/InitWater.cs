@@ -12,24 +12,20 @@ namespace Soils
         private APSIMData Data;
 		private Soil ParentSoil;
 
-		// -----------
-		// Constructor
-		// -----------
-		public InitWater(Soil soil)
+		public InitWater(APSIMData data)
 			{
-			ParentSoil = soil;
-            Data = soil.Data.Child("InitWater");
+            // -----------
+            // Constructor
+            // -----------
+            ParentSoil = new Soil(data.Parent);
+            Data = data;
 			}
 
-
-		// ---------------------------------------
-		// Return the method being used currently.
-		// ---------------------------------------
 		public enum MethodType {Percent, DepthWetSoil, Layered};
 		public MethodType Method
 			{
 			get {
-                if (Data.ChildNames("layer").Length > 0)
+                if (Data.ChildNames("profile").Length > 0)
                     return MethodType.Layered;
                 else if (Data.Child("DepthWetSoilMethod") != null)
                     return MethodType.DepthWetSoil;
@@ -38,10 +34,6 @@ namespace Soils
 				}
 			}
 
-
-		// ---------------------------------------
-		// Properties to return settings.
-		// ---------------------------------------
 		public int Percent
 			{
 			get {return Convert.ToInt32(Convert.ToDouble(Data.get_ChildValue("PercentMethod\\Percent")) * 100);}
@@ -72,10 +64,6 @@ namespace Soils
             get { return Utility.getLayered(Data, "profile", "thickness", ""); }
             set { Utility.setLayered(Data, "profile", "thickness", "", value); }
             }
-
-		// ------------------------------------
-		// Return the soil water for this class
-		// ------------------------------------
 		public double[] SW
 			{
 			get {
@@ -147,21 +135,30 @@ namespace Soils
 				return sw;
 				}
 			}
-
-		// ----------------------------------
-		// Get water as mm
-		// ----------------------------------
 		public double[] SWMM
 			{
 			get {return MathUtility.Multiply(SW, Thickness);}
 			set {MathUtility.Divide(SW, Thickness);}
 			}
+        public double[] SWMapedToSoil
+            {
+            get
+                {
+                if (Method == MethodType.Layered)
+                    {
+                    double[] DefaultValues = ParentSoil.LL15;
+                    return Utility.MapSampleToSoilUsingSpatial(SW, Thickness, DefaultValues, ParentSoil.Thickness);
+                    }
+                else
+                    return SW;
+                }
+            }
 
-		// ----------------------------------
-		// Set water via the percent method.
-		// ----------------------------------
 		public void SetUsingPercent(int Percent, bool FilledFromTop)
 			{
+            // ----------------------------------
+            // Set water via the percent method.
+            // ----------------------------------
             Data.DeleteByType("DepthWetSoilMethod");
             Data.DeleteByType("layer");
 			double Prop = Percent / 100.0;
@@ -171,24 +168,20 @@ namespace Soils
 				Distributed = "Evenly distributed";
 			Data.set_ChildValue("PercentMethod\\Distributed", Distributed);
 			}
-
-
-		// ----------------------------------
-		// Set water via the depth wet soil method.
-		// ----------------------------------
-        public void SetUsingDepthWetSoil(int Depth)
+		public void SetUsingDepthWetSoil(int Depth)
 			{
+            // ----------------------------------
+            // Set water via the depth wet soil method.
+            // ----------------------------------
             Data.DeleteByType("PercentMethod");
             Data.DeleteByType("layer");
             Data.set_ChildValue("DepthWetSoilMethod\\Depth", Depth.ToString());
 			}
-
-
-		// ----------------------------------
-		// Set water via the layered method.
-		// ----------------------------------
 		public void SetUsingLayered(double[] sw)
 			{
+            // ----------------------------------
+            // Set water via the layered method.
+            // ----------------------------------
             if (sw.Length > 0)
                 {
                 Data.DeleteByType("DepthWetSoilMethod");
@@ -198,24 +191,5 @@ namespace Soils
 			}
 
 
-        internal void ValidateAgainstLayerStructure()
-            {
-            if (Method == MethodType.Layered)
-                {
-                double[] sw = SW;
-                int NumLayersCurrent = sw.Length;
-                int NumLayers = ParentSoil.Thickness.Length;
-
-                Array.Resize(ref sw, NumLayers);
-                if (NumLayersCurrent > 0 && NumLayersCurrent < NumLayers)
-                    {
-                    // we don't have enough layers - add extra ones.
-                    for (int i = NumLayersCurrent; i < NumLayers; i++)
-                        sw[i] = sw[NumLayersCurrent - 1];
-                    }
-
-                SetUsingLayered(sw);
-                }
-            }
         }
 	}

@@ -327,6 +327,184 @@ namespace Soils
 				}
 			return ReturnValues;
 			}
+        
+        #region Soil mapping methods
+        public static double[] MapSoilToSampleUsingSpatial(double[] FromValues, double[] FromThickness, double[] ToThickness)
+            {
+            // ----------------------------------------------------------------
+            // Interpolate some BD values that match this sample's thicknesses.
+            // ----------------------------------------------------------------
+            double[] FromMass = MathUtility.Multiply(FromValues, FromThickness);
+            double[] ToMass = SpatialRedistribute(FromMass, FromThickness, ToThickness);
+            return MathUtility.Divide(ToMass, ToThickness);
+            }
+        public static double[] MapSampleToSoilUsingMass(double[] FromValues, double[] FromThickness,
+                                                         double[] DefaultValues, double[] ToThickness, double[] ToBD)
+            {
+            // ------------------------------------------------------------------------
+            // Map the specified values to the linked soil by first converting to
+            // a mass value i.e. by first multiplying Values by BD. 
+            // The result will be a set of values that correspond to the linked soil layers.
+            // ------------------------------------------------------------------------
+            if (DefaultValues.Length > 0)
+                {
+                CreateVariableForMapping(ref FromValues, ref FromThickness, DefaultValues, ToThickness);
+                return MassRedistribute(FromValues, FromThickness, ToThickness, ToBD);
+                }
+            else
+                return new double[0];
+            }
+        public static double[] MapSampleToSoilUsingSpatial(double[] FromValues, double[] FromThickness,
+                                                            double[] DefaultValues, double[] ToThickness)
+            {
+            // ------------------------------------------------------------------------
+            // Map the specified values to the linked soil using a simple spatial
+            // interpolation. The result will be a set of values that correspond 
+            // to the linked soil layers.
+            // ------------------------------------------------------------------------
+            if (DefaultValues.Length > 0)
+                {
+                CreateVariableForMapping(ref FromValues, ref FromThickness,
+                                        DefaultValues, ToThickness);
+                FromValues = MathUtility.Multiply(FromValues, FromThickness);
+                FromValues = SpatialRedistribute(FromValues, FromThickness, ToThickness);
+                return MathUtility.Divide(FromValues, ToThickness);
+                }
+            else
+                return new double[0];
+            }
+        private static double[] SpatialRedistribute(double[] FromMass, double[] FromThickness,
+                                                    double[] ToThickness)
+            {
+            //-------------------------------------------------------------------------
+            //Spatial mass redistribution algorithm.
+            //-------------------------------------------------------------------------
+            if (FromMass.Length != FromThickness.Length)
+                {
+                throw new Exception("Cannot redistribute soil sample layer structure to soil layer structure. " +
+                                    "The number of values in the sample doesn't match the number of layers in the sample.");
+                }
+
+            // Remapping is achieved by first constructing a map of
+            // cumulative mass vs depth
+            // The new values of mass per layer can be linearly
+            // interpolated back from this shape taking into account
+            // the rescaling of the profile.
+
+            double[] CumDepth = new double[FromMass.Length + 1];
+            double[] CumMass = new double[FromMass.Length + 1];
+            CumDepth[0] = 0.0;
+            CumMass[0] = 0.0;
+            for (int Layer = 0; Layer < FromThickness.Length; Layer++)
+                {
+                CumDepth[Layer + 1] = CumDepth[Layer] + FromThickness[Layer];
+                CumMass[Layer + 1] = CumMass[Layer] + FromMass[Layer];
+                }
+
+            //look up new mass from interpolation pairs
+            double[] ToMass = new double[ToThickness.Length];
+            for (int Layer = 1; Layer <= ToThickness.Length; Layer++)
+                {
+                double LayerBottom = MathUtility.Sum(ToThickness, 0, Layer, 0.0);
+                double LayerTop = LayerBottom - ToThickness[Layer - 1];
+                bool DidInterpolate = false;
+                double CumMassTop = MathUtility.LinearInterpReal(LayerTop, CumDepth,
+                    CumMass, ref DidInterpolate);
+                double CumMassBottom = MathUtility.LinearInterpReal(LayerBottom, CumDepth,
+                    CumMass, ref DidInterpolate);
+                ToMass[Layer - 1] = CumMassBottom - CumMassTop;
+                }
+            return ToMass;
+            }
+        private static double[] MassRedistribute(double[] FromValues, double[] FromThickness,
+                                                 double[] ToThickness, double[] ToBd)
+            {
+            //-------------------------------------------------------------------------
+            //Mass Redistribution algorithm
+            //-------------------------------------------------------------------------
+            // Firstly we need to convert the values passed in, into a mass using
+            // bulk density.
+
+            double[] FromBd = MapSoilToSampleUsingSpatial(ToBd, ToThickness, FromThickness);
+            double[] FromMass = new double[FromValues.Length];
+            for (int Layer = 0; Layer < FromValues.Length; Layer++)
+                FromMass[Layer] = FromValues[Layer] * FromBd[Layer] * FromThickness[Layer] / 100;
+
+            // spatially interpolate mass.
+            double[] ToMass = SpatialRedistribute(FromMass, FromThickness, ToThickness);
+
+            //now convert mass back to original values.
+            double[] ToValues = new double[ToMass.Length];
+            for (int Layer = 0; Layer < ToMass.Length; Layer++)
+                ToValues[Layer] = ToMass[Layer] * 100.0 / ToBd[Layer] / ToThickness[Layer];
+
+            return ToValues;
+            }
+        private static void CreateVariableForMapping(ref double[] SampleValues, ref double[] SampleThickness,
+                                                     double[] SoilValues, double[] SoilThickness)
+            {
+            //-------------------------------------------------------------------------
+            // Remaps the thicknesses and values to more closely match the specified 
+            // soil thickness and values. This algorithm removes all missing values
+            // and their associated depths.
+            // e.g. IF             SoilThickness  Values   SampleThickness	SampleValues
+            //                           0-100		2         0-100				10
+            //                         100-250	    3		100-600				11
+            //                         250-500		4		
+            //                         500-750		5
+            //                         750-900		6
+            //						   900-1200		7
+            //                        1200-1500		8
+            //                        1500-1800		9
+            //
+            // will produce:		SampleThickness			Values
+            //						     0-100				  10
+            //						   100-600				  11
+            //						   600-750				   5
+            //						   750-900				   6
+            //						   900-1200				   7
+            //						  1200-1500				   8
+            //						  1500-1800				   9
+            //
+            //-------------------------------------------------------------------------
+            double[] ReturnThickness = new double[SampleThickness.Length + SoilThickness.Length + 1];
+            double[] ReturnValues = new double[SampleThickness.Length + SoilThickness.Length + 1];
+
+            // Copy values and thicknesses to return arrays until a missing value is found.
+            double CumSampleDepth = 0.0;
+            int SampleLayer = 0;
+            for (SampleLayer = 0; ((SampleLayer != SampleThickness.Length) && (double)SampleValues[SampleLayer] != MathUtility.MissingValue); SampleLayer++)
+                {
+                ReturnThickness[SampleLayer] = SampleThickness[SampleLayer];
+                ReturnValues[SampleLayer] = SampleValues[SampleLayer];
+                CumSampleDepth += (double)SampleThickness[SampleLayer];
+                }
+
+            //Work out if we need to create a dummy layer so that the sample depths line up 
+            //with the soil depths
+            double CumSoilDepth = 0.0;
+            for (int SoilLayer = 0; SoilLayer < SoilThickness.Length; SoilLayer++)
+                {
+                CumSoilDepth += SoilThickness[SoilLayer];
+                if (CumSoilDepth > CumSampleDepth)
+                    {
+                    ReturnThickness[SampleLayer] = CumSoilDepth - CumSampleDepth;
+                    ReturnValues[SampleLayer] = SoilValues[SoilLayer];
+                    SampleLayer++;
+                    CumSampleDepth = CumSoilDepth;
+                    }
+                }
+
+            // Copy Values from our return arrays back to the parameters passed in.
+            SampleThickness = new double[SampleLayer];
+            SampleValues = new double[SampleLayer];
+            for (int i = 0; i != SampleLayer; i++)
+                {
+                SampleThickness[i] = ReturnThickness[i];
+                SampleValues[i] = ReturnValues[i];
+                }
+            }
+        #endregion
 
 
 

@@ -48,7 +48,7 @@ namespace CSUserInterface
 		/// </summary>
 		private void InitializeComponent()
 		{
-        //this.serviceController1 = new System.ServiceProcess.ServiceController();
+        System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(WaterChartControl));
         this.WaterChart = new Steema.TeeChart.TChart();
         this.SatLine = new Steema.TeeChart.Styles.Line();
         this.DulLine = new Steema.TeeChart.Styles.Line();

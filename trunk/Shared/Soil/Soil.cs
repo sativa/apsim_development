@@ -1117,14 +1117,22 @@ namespace Soils
             // -------------------------------------------
             // go find a sample with SW values 
             // -------------------------------------------
-            foreach (APSIMData SampleData in Data.get_Children("soilsample"))
+            foreach (APSIMData SampleData in Data.get_Children(null))
                 {
-                SoilSample Sample = new SoilSample(SampleData);
-                if (MathUtility.ValuesInArray(Sample.SW))
+                if (SampleData.Type.ToLower() == "soilsample")
                     {
-                    double[] sw = Sample.SWMapedToSoil;
-                    if (sw.Length > 0)
-                        return sw;
+                    SoilSample Sample = new SoilSample(SampleData);
+                    if (MathUtility.ValuesInArray(Sample.SW))
+                        {
+                        double[] sw = Sample.SWMapedToSoil;
+                        if (sw.Length > 0)
+                            return sw;
+                        }
+                    }
+                else if (SampleData.Type.ToLower() == "initwater")
+                    {
+                    InitWater Water = new InitWater(SampleData);
+                    return Water.SWMapedToSoil;
                     }
                 }
             return new double[0];
@@ -1134,14 +1142,22 @@ namespace Soils
             // -------------------------------------------
             // go find a sample with NO3 values 
             // -------------------------------------------
-            foreach (APSIMData SampleData in Data.get_Children("soilsample"))
+            foreach (APSIMData SampleData in Data.get_Children(null))
                 {
-                SoilSample Sample = new SoilSample(SampleData);
-                if (MathUtility.ValuesInArray(Sample.NO3))
+                if (SampleData.Type.ToLower() == "soilsample")
                     {
-                    double[] no3 = Sample.NO3MapedToSoil;
-                    if (no3.Length > 0)
-                        return no3;
+                    SoilSample Sample = new SoilSample(SampleData);
+                    if (MathUtility.ValuesInArray(Sample.NO3))
+                        {
+                        double[] no3 = Sample.NO3MapedToSoil;
+                        if (no3.Length > 0)
+                            return no3;
+                        }
+                    }
+                else
+                    {
+                    InitNitrogen Nitrogen = new InitNitrogen(SampleData);
+                    return Nitrogen.NO3MapedToSoil;
                     }
                 }
             return new double[0];
@@ -1151,14 +1167,22 @@ namespace Soils
             // -------------------------------------------
             // go find a sample with NH4 values 
             // -------------------------------------------
-            foreach (APSIMData SampleData in Data.get_Children("soilsample"))
+            foreach (APSIMData SampleData in Data.get_Children(null))
                 {
-                SoilSample Sample = new SoilSample(SampleData);
-                if (MathUtility.ValuesInArray(Sample.NH4))
+                if (SampleData.Type.ToLower() == "soilsample")
                     {
-                    double[] nh4 = Sample.NH4MapedToSoil;
-                    if (nh4.Length > 0)
-                        return nh4;
+                    SoilSample Sample = new SoilSample(SampleData);
+                    if (MathUtility.ValuesInArray(Sample.NH4))
+                        {
+                        double[] nh4 = Sample.NH4MapedToSoil;
+                        if (nh4.Length > 0)
+                            return nh4;
+                        }
+                    }
+                else
+                    {
+                    InitNitrogen Nitrogen = new InitNitrogen(SampleData);
+                    return Nitrogen.NH4MapedToSoil;
                     }
                 }
             // for YP: use default values of 0.2 down the profile.
@@ -1265,31 +1289,21 @@ namespace Soils
 		public void UpgradeToVersion3()
 			{
 			}
-        public APSIMData UpgradeToVersion7()
+        public void UpgradeToVersion7()
             {
-            APSIMData Result = new APSIMData("soil", Data.Name);
             foreach (APSIMData Child in Data.get_Children(null))
                 {
                 if (Child.Type.ToLower() == "water" || 
                     Child.Type.ToLower() == "nitrogen" ||
                     Child.Type.ToLower() == "other" ||
                     Child.Type.ToLower() == "soilcrop")
-                    UpgradeToNodeVersion7(Child, Result);
-                else if (Child.Type.ToLower() == "initwater" ||
-                         Child.Type.ToLower() == "initnitrogen")
-                    {
-                    APSIMData SampleNode = Result.Add(new APSIMData("soilsample", Child.Type));
-                    double[] Thickness = Utility.getLayered(Data, "water", "thickness", "");
-                    foreach (APSIMData SampleChild in Child.get_Children(null))
-                        SampleNode.Add(SampleChild);
-                    Utility.setLayered(SampleNode, "profile", "thickness", "", Thickness);
-                    }
-                else
-                    Result.Add(Child);
+                    UpgradeToNodeVersion7(Child, Data);
                 }
             APSIMData DataParent = Data.Parent;
-            DataParent.DeleteNode(Data);
-            return DataParent.Add(Result);
+            DataParent.DeleteByType("water");
+            DataParent.DeleteByType("nitrogen");
+            DataParent.DeleteByType("other");
+            DataParent.DeleteByType("soilcrop");
             }
         private void UpgradeToNodeVersion7(APSIMData Data, APSIMData Result)
             {
@@ -1328,10 +1342,28 @@ namespace Soils
                             }
                         }
                     }
-                else
+                else if (Child.Type.ToLower() != "profile")
                     Result.Add(Child);  
                 }
             }
+        public void UpgradeToVersion8()
+            {
+            foreach (APSIMData Child in Data.get_Children(null))
+                {
+                if (Child.Type.ToLower() == "initwater" ||
+                    Child.Type.ToLower() == "initnitrogen")
+                    {
+                    if (Child.ChildByType("layer") != null)
+                        {
+                        UpgradeToNodeVersion7(Child, Child);
+                        Utility.setLayered(Child, "profile", "thickness", "", Thickness);
+                        Child.DeleteByType("layer");
+                        }
+                    }
+                }
+            }
+
+
         #endregion
 
         #region Error checking
@@ -1715,21 +1747,7 @@ namespace Soils
             if (Profile != null)
                 {
                 APSIMData[] Layers = Profile.get_Children("layer");
-
                 Profile.Add(Layers[Thickness.Length - 1]);
-
-                // we need InitWater and InitNitrogen to make themselves valid as we've
-                // changed the number of layers.
-                if (Data.Child("initwater") != null)
-                    {
-                    InitWater Water = new InitWater(this);
-                    Water.ValidateAgainstLayerStructure();
-                    }
-                if (Data.Child("initnitrogen") != null)
-                    {
-                    InitNitrogen Nitrogen = new InitNitrogen(this);
-                    Nitrogen.ValidateAgainstLayerStructure();
-                    }
                 }
             }
         public void DeleteLayerFromBottom()
@@ -1743,19 +1761,6 @@ namespace Soils
                 APSIMData[] Layers = Profile.get_Children("layer");
 
                 Profile.DeleteNode(Layers[Thickness.Length - 1]);
-
-                // we need InitWater and InitNitrogen to make themselves valid as we've
-                // changed the number of layers.
-                if (Data.Child("initwater") != null)
-                    {
-                    InitWater Water = new InitWater(this);
-                    Water.ValidateAgainstLayerStructure();
-                    }
-                if (Data.Child("initnitrogen") != null)
-                    {
-                    InitNitrogen Nitrogen = new InitNitrogen(this);
-                    Nitrogen.ValidateAgainstLayerStructure();
-                    }
                 }
             }
         #endregion

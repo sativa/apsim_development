@@ -148,11 +148,11 @@ Public Class ApsimUIController
                 Case "rule"
                     Return New RuleUI
 
-                    'Case "initwater"
-                    '    Return New InitWaterUI
+                Case "initwater"
+                    Return New InitWaterUI
 
-                    'Case "initnitrogen"
-                    '    Return New InitNitrogenUI
+                Case "initnitrogen"
+                    Return New InitNitrogenUI
 
                 Case "memo"
                     Return New APSIMUI.MemoUI

@@ -12,15 +12,20 @@ namespace Soils
 		private Soil ParentSoil;
         private APSIMData Data;
 
-		public InitNitrogen(Soil soil)
+		public InitNitrogen(APSIMData data)
 			{
             // -----------
             // Constructor
             // -----------
-            ParentSoil = soil;
-            Data = soil.Data.Child("InitNitrogen");
+            ParentSoil = new Soil(data.Parent);
+            Data = data;
 			}
-		public double[] NO3
+        public double[] Thickness
+            {
+            get { return Utility.getLayered(Data, "profile", "thickness", ""); }
+            set { Utility.setLayered(Data, "profile", "thickness", "", value); }
+            }
+        public double[] NO3
 			{
             // ------------------------------------
             // Return the nitrate for this class
@@ -28,7 +33,6 @@ namespace Soils
             get { return Utility.getLayered(Data, "profile", "no3", ""); }
             set { Utility.setLayered(Data, "profile", "no3", "", value); }
 			}
-
 		public double[] NH4
 			{
             // ------------------------------------
@@ -37,6 +41,26 @@ namespace Soils
             get { return Utility.getLayered(Data, "profile", "nh4", ""); }
             set { Utility.setLayered(Data, "profile", "nh4", "", value); }
 			}
+        public double[] NO3MapedToSoil
+            {
+            get
+                {
+                double[] DefaultValues = new double[ParentSoil.Thickness.Length];
+                for (int i = 0; i != DefaultValues.Length; i++)
+                    DefaultValues[i] = 1.0;  // a small number
+                return Utility.MapSampleToSoilUsingMass(NO3, Thickness, DefaultValues, ParentSoil.Thickness, ParentSoil.BD);
+                }
+            }
+        public double[] NH4MapedToSoil
+            {
+            get
+                {
+                double[] DefaultValues = new double[ParentSoil.Thickness.Length];
+                for (int i = 0; i != DefaultValues.Length; i++)
+                    DefaultValues[i] = 0.2;  // a small number
+                return Utility.MapSampleToSoilUsingMass(NH4, Thickness, DefaultValues, ParentSoil.Thickness, ParentSoil.BD);
+                }
+            }
 
 		public double[] NO3KgHa
 			{
@@ -46,7 +70,6 @@ namespace Soils
             get { return ToKgHa(NO3); }
             set { Utility.setLayered(Data, "profile", "no3", "", ToPpm(value)); }
 			}
-
 		public double[] NH4KgHa
 			{
             // ------------------------------------
@@ -55,7 +78,6 @@ namespace Soils
             get { return ToKgHa(NH4); }
             set { Utility.setLayered(Data, "profile", "nh4", "", ToPpm(value)); }
 			}
-
 		public double TotalNO3KgHa
 			{
             // ------------------------------------
@@ -81,7 +103,6 @@ namespace Soils
 				NO3KgHa = no3;
 				}
 			}
-
 		public double TotalNH4KgHa
 			{
             // ------------------------------------
@@ -108,16 +129,14 @@ namespace Soils
 				}
 			}
 
-
 		private double[] ToKgHa(double[] ppm)
 			{
             // ----------------------------------------------
             // Convert from ppm to kg/ha
             //		ppm = kg/ha * 100 / (BD * Thickness(mm))
             // ----------------------------------------------
-            double[] BD = ParentSoil.BD;
-			double[] Thickness = ParentSoil.Thickness;
-			double[] KgHa = new double[ppm.Length];
+            double[] BD = Utility.MapSoilToSampleUsingSpatial(ParentSoil.BD, ParentSoil.Thickness, Thickness);
+			double[] KgHa = new double[Thickness.Length];
 
 			//for (int i = 0; i != ppm.Length; i++)
             for (int i = 0; i != Thickness.Length; i++)
@@ -125,48 +144,19 @@ namespace Soils
 
 			return KgHa; 
 			}
-
-
 		private double[] ToPpm(double[] KgHa)
 			{
             // ----------------------------------------------
             // Convert from ppm to kg/ha
             //		ppm = kg/ha * 100 / (BD * Thickness(mm))
             // ----------------------------------------------
-            double[] BD = ParentSoil.BD;
-			double[] Thickness = ParentSoil.Thickness;
-			double[] Ppm = new double[KgHa.Length];
+            double[] BD = Utility.MapSoilToSampleUsingSpatial(ParentSoil.BD, ParentSoil.Thickness, Thickness);
+            double[] Ppm = new double[Thickness.Length];
 
-			for (int i = 0; i != KgHa.Length; i++)
+            for (int i = 0; i != Thickness.Length; i++)
 				Ppm[i] = KgHa[i] * 100 / (BD[i] * Thickness[i]);
 
 			return Ppm; 
 			}
-
-
-        internal void ValidateAgainstLayerStructure()
-            {
-            double[] no3 = NO3;
-            double[] nh4 = NH4;
-            int NumLayersCurrent = no3.Length;
-            int NumLayers = ParentSoil.Thickness.Length;
-            
-            Array.Resize(ref no3, NumLayers);
-            Array.Resize(ref nh4, NumLayers);
-            if (NumLayersCurrent > 0 && NumLayersCurrent < NumLayers)
-                {
-                // we don't have enough layers - add extra ones.
-                for (int i = NumLayersCurrent; i < NumLayers; i++)
-                    {
-                    no3[i] = no3[NumLayersCurrent - 1];
-                    nh4[i] = nh4[NumLayersCurrent - 1];
-                    }
-                }
-
-            NO3 = no3;
-            NH4 = nh4;
-            }
-
-
         }
 	}
