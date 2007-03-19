@@ -428,7 +428,7 @@ Component    "Tracker" = c:\development\apsim\Tracker\lib\Tracker.dll
                      stover N conc =     0.33 (%)    extractable sw =   76.64 (mm)
 26 November 1958(Day of year=330), manager: 
      Manager creating a new local real variable : hi =    0.358017780433349
-     Manager creating a new local real variable : nhi =    0.774700282086553
+     Manager creating a new local real variable : nhi =    0.774699527089439
      Manager sending message :- wheat harvest
      
       flowering day          =  279                           stover (kg/ha)         =     9747.5
@@ -977,9 +977,9 @@ Component    "Tracker" = c:\development\apsim\Tracker\lib\Tracker.dll
       dead above ground biomass (kg/ha)     =        0.0
       number of leaves       =   33.3
       DM Root:Shoot ratio    =    0.099                       Harvest Index          =      0.349
-      Stover C:N ratio       =   91.774                       Root C:N ratio         =     16.691
+      Stover C:N ratio       =   91.775                       Root C:N ratio         =     16.691
       grain N percent        =       2.80                     total N content (kg/ha)=     171.74
-      grain N uptake (kg/ha) =     133.00                     senesced N content (kg/ha)=    7.00
+      grain N uptake (kg/ha) =     132.99                     senesced N content (kg/ha)=    7.00
       green N content (kg/ha)=      31.74                     dead N content (kg/ha) =       0.00
      
       Average Stress Indices:                          Water Photo  Water Expan  N Photo      N grain conc
@@ -997,7 +997,7 @@ Component    "Tracker" = c:\development\apsim\Tracker\lib\Tracker.dll
      
          Organic matter removed from system:-      From Tops               From Roots
                           DM (kg/ha) =               4755.10                    0.00
-                          N  (kg/ha) =                133.00                    0.00
+                          N  (kg/ha) =                132.99                    0.00
      
       stage 4.0 end_of_juvenile
                      biomass =           0.04 (g/m^2)   lai          =   0.040 (m^2/m^2)
@@ -1123,11 +1123,11 @@ Component    "Tracker" = c:\development\apsim\Tracker\lib\Tracker.dll
                      stover N conc =     0.38 (%)    extractable sw =   30.73 (mm)
 13 November 1963(Day of year=317), Wheat: 
       stage 9.0 maturity
-                     biomass =        1143.65 (g/m^2)   lai          =   0.620 (m^2/m^2)
+                     biomass =        1143.64 (g/m^2)   lai          =   0.620 (m^2/m^2)
                      stover N conc =     0.37 (%)    extractable sw =   27.76 (mm)
 14 November 1963(Day of year=318), Wheat: 
       stage 10.0 harvest_ripe
-                     biomass =        1143.65 (g/m^2)   lai          =   0.001 (m^2/m^2)
+                     biomass =        1143.64 (g/m^2)   lai          =   0.001 (m^2/m^2)
                      stover N conc =     0.37 (%)    extractable sw =   27.26 (mm)
 14 November 1963(Day of year=318), manager: 
      Manager sending message :- wheat harvest
@@ -1137,15 +1137,15 @@ Component    "Tracker" = c:\development\apsim\Tracker\lib\Tracker.dll
       grain % water content  =   12.5                         grain yield wet (kg/ha)=     5240.2
       grain wt (g)           =    0.041                       grains/m^2             =  11183.371
       grains/plant           =   55.9                         maximum lai            =      3.122
-      total above ground biomass (kg/ha)    =    11436.5
-      live above ground biomass (kg/ha)     =    11436.5
+      total above ground biomass (kg/ha)    =    11436.4
+      live above ground biomass (kg/ha)     =    11436.4
       green above ground biomass (kg/ha)    =    10033.5
       senesced above ground biomass (kg/ha) =     1403.0
       dead above ground biomass (kg/ha)     =        0.0
       number of leaves       =   32.9
       DM Root:Shoot ratio    =    0.119                       Harvest Index          =      0.401
-      Stover C:N ratio       =  101.143                       Root C:N ratio         =     17.142
-      grain N percent        =       2.45                     total N content (kg/ha)=     139.23
+      Stover C:N ratio       =  101.144                       Root C:N ratio         =     17.142
+      grain N percent        =       2.45                     total N content (kg/ha)=     139.22
       grain N uptake (kg/ha) =     112.13                     senesced N content (kg/ha)=    7.01
       green N content (kg/ha)=      20.08                     dead N content (kg/ha) =       0.00
      
@@ -1154,12 +1154,12 @@ Component    "Tracker" = c:\development\apsim\Tracker\lib\Tracker.dll
          end_of_juvenile      to floral_initiation       0.000        0.000        0.000        0.000
          floral_initiation    to flowering               0.003        0.006        0.000        0.000
          flowering            to start_grain_fill        0.173        0.223        0.000        0.000
-         start_grain_fill     to end_grain_fill          0.227        0.290        0.073        0.271
+         start_grain_fill     to end_grain_fill          0.227        0.290        0.073        0.272
      
      
      Crop harvested.
          Organic matter from crop:-      Tops to surface residue      Roots to soil FOM
-                          DM (kg/ha) =               6850.89                    0.00
+                          DM (kg/ha) =               6850.87                    0.00
                           N  (kg/ha) =                 27.07                    0.00
      
          Organic matter removed from system:-      From Tops               From Roots
@@ -1478,7 +1478,7 @@ Component    "Tracker" = c:\development\apsim\Tracker\lib\Tracker.dll
       dead above ground biomass (kg/ha)     =        0.0
       number of leaves       =   37.1
       DM Root:Shoot ratio    =    0.123                       Harvest Index          =      0.402
-      Stover C:N ratio       =   93.525                       Root C:N ratio         =     16.811
+      Stover C:N ratio       =   93.526                       Root C:N ratio         =     16.811
       grain N percent        =       2.72                     total N content (kg/ha)=     177.39
       grain N uptake (kg/ha) =     143.72                     senesced N content (kg/ha)=    8.69
       green N content (kg/ha)=      24.98                     dead N content (kg/ha) =       0.00
@@ -1845,7 +1845,7 @@ Component    "Tracker" = c:\development\apsim\Tracker\lib\Tracker.dll
       dead above ground biomass (kg/ha)     =        0.0
       number of leaves       =   28.2
       DM Root:Shoot ratio    =    0.093                       Harvest Index          =      0.342
-      Stover C:N ratio       =   72.377                       Root C:N ratio         =     16.556
+      Stover C:N ratio       =   72.378                       Root C:N ratio         =     16.556
       grain N percent        =       2.88                     total N content (kg/ha)=     144.00
       grain N uptake (kg/ha) =     105.22                     senesced N content (kg/ha)=    5.38
       green N content (kg/ha)=      33.40                     dead N content (kg/ha) =       0.00
@@ -2045,7 +2045,7 @@ Component    "Tracker" = c:\development\apsim\Tracker\lib\Tracker.dll
       dead above ground biomass (kg/ha)     =        0.0
       number of leaves       =   36.3
       DM Root:Shoot ratio    =    0.096                       Harvest Index          =      0.342
-      Stover C:N ratio       =   98.241                       Root C:N ratio         =     16.447
+      Stover C:N ratio       =   98.242                       Root C:N ratio         =     16.447
       grain N percent        =       2.67                     total N content (kg/ha)=     159.45
       grain N uptake (kg/ha) =     123.24                     senesced N content (kg/ha)=    7.70
       green N content (kg/ha)=      28.51                     dead N content (kg/ha) =       0.00
@@ -2212,7 +2212,7 @@ Component    "Tracker" = c:\development\apsim\Tracker\lib\Tracker.dll
       dead above ground biomass (kg/ha)     =        0.0
       number of leaves       =   34.6
       DM Root:Shoot ratio    =    0.098                       Harvest Index          =      0.343
-      Stover C:N ratio       =   68.134                       Root C:N ratio         =     16.592
+      Stover C:N ratio       =   68.135                       Root C:N ratio         =     16.592
       grain N percent        =       2.88                     total N content (kg/ha)=     173.34
       grain N uptake (kg/ha) =     124.68                     senesced N content (kg/ha)=    7.34
       green N content (kg/ha)=      41.32                     dead N content (kg/ha) =       0.00
@@ -2546,7 +2546,7 @@ Component    "Tracker" = c:\development\apsim\Tracker\lib\Tracker.dll
       dead above ground biomass (kg/ha)     =        0.0
       number of leaves       =   31.8
       DM Root:Shoot ratio    =    0.095                       Harvest Index          =      0.335
-      Stover C:N ratio       =   50.941                       Root C:N ratio         =     16.602
+      Stover C:N ratio       =   50.942                       Root C:N ratio         =     16.602
       grain N percent        =       2.88                     total N content (kg/ha)=     174.00
       grain N uptake (kg/ha) =     112.86                     senesced N content (kg/ha)=    6.81
       green N content (kg/ha)=      54.33                     dead N content (kg/ha) =       0.00
@@ -2880,7 +2880,7 @@ Component    "Tracker" = c:\development\apsim\Tracker\lib\Tracker.dll
       dead above ground biomass (kg/ha)     =        0.0
       number of leaves       =   37.0
       DM Root:Shoot ratio    =    0.112                       Harvest Index          =      0.366
-      Stover C:N ratio       =   73.319                       Root C:N ratio         =     16.928
+      Stover C:N ratio       =   73.320                       Root C:N ratio         =     16.928
       grain N percent        =       2.88                     total N content (kg/ha)=     201.06
       grain N uptake (kg/ha) =     151.37                     senesced N content (kg/ha)=    9.07
       green N content (kg/ha)=      40.62                     dead N content (kg/ha) =       0.00
@@ -3113,7 +3113,7 @@ Component    "Tracker" = c:\development\apsim\Tracker\lib\Tracker.dll
       dead above ground biomass (kg/ha)     =        0.0
       number of leaves       =   36.9
       DM Root:Shoot ratio    =    0.159                       Harvest Index          =      0.347
-      Stover C:N ratio       =   52.116                       Root C:N ratio         =     16.716
+      Stover C:N ratio       =   52.117                       Root C:N ratio         =     16.716
       grain N percent        =       2.90                     total N content (kg/ha)=     141.10
       grain N uptake (kg/ha) =      94.19                     senesced N content (kg/ha)=    9.21
       green N content (kg/ha)=      37.70                     dead N content (kg/ha) =       0.00
@@ -3647,10 +3647,10 @@ Component    "Tracker" = c:\development\apsim\Tracker\lib\Tracker.dll
       dead above ground biomass (kg/ha)     =        0.0
       number of leaves       =   36.6
       DM Root:Shoot ratio    =    0.147                       Harvest Index          =      0.343
-      Stover C:N ratio       =   56.792                       Root C:N ratio         =     16.341
+      Stover C:N ratio       =   56.794                       Root C:N ratio         =     16.341
       grain N percent        =       2.89                     total N content (kg/ha)=     117.02
       grain N uptake (kg/ha) =      79.77                     senesced N content (kg/ha)=    8.09
-      green N content (kg/ha)=      29.16                     dead N content (kg/ha) =       0.00
+      green N content (kg/ha)=      29.15                     dead N content (kg/ha) =       0.00
      
       Average Stress Indices:                          Water Photo  Water Expan  N Photo      N grain conc
          emergence            to end_of_juvenile         0.000        0.000        0.000        0.000
@@ -3814,8 +3814,8 @@ Component    "Tracker" = c:\development\apsim\Tracker\lib\Tracker.dll
       dead above ground biomass (kg/ha)     =        0.0
       number of leaves       =   37.1
       DM Root:Shoot ratio    =    0.110                       Harvest Index          =      0.357
-      Stover C:N ratio       =   97.253                       Root C:N ratio         =     16.688
-      grain N percent        =       2.54                     total N content (kg/ha)=     168.45
+      Stover C:N ratio       =   97.254                       Root C:N ratio         =     16.688
+      grain N percent        =       2.54                     total N content (kg/ha)=     168.44
       grain N uptake (kg/ha) =     130.38                     senesced N content (kg/ha)=    9.18
       green N content (kg/ha)=      28.88                     dead N content (kg/ha) =       0.00
      
@@ -3981,7 +3981,7 @@ Component    "Tracker" = c:\development\apsim\Tracker\lib\Tracker.dll
       dead above ground biomass (kg/ha)     =        0.0
       number of leaves       =   35.3
       DM Root:Shoot ratio    =    0.095                       Harvest Index          =      0.320
-      Stover C:N ratio       =   55.325                       Root C:N ratio         =     16.514
+      Stover C:N ratio       =   55.324                       Root C:N ratio         =     16.514
       grain N percent        =       2.88                     total N content (kg/ha)=     177.61
       grain N uptake (kg/ha) =     115.80                     senesced N content (kg/ha)=    7.62
       green N content (kg/ha)=      54.20                     dead N content (kg/ha) =       0.00
@@ -4649,8 +4649,8 @@ Component    "Tracker" = c:\development\apsim\Tracker\lib\Tracker.dll
       dead above ground biomass (kg/ha)     =        0.0
       number of leaves       =   37.5
       DM Root:Shoot ratio    =    0.114                       Harvest Index          =      0.365
-      Stover C:N ratio       =   97.270                       Root C:N ratio         =     17.000
-      grain N percent        =       2.62                     total N content (kg/ha)=     172.82
+      Stover C:N ratio       =   97.271                       Root C:N ratio         =     17.000
+      grain N percent        =       2.62                     total N content (kg/ha)=     172.81
       grain N uptake (kg/ha) =     135.82                     senesced N content (kg/ha)=    9.06
       green N content (kg/ha)=      27.93                     dead N content (kg/ha) =       0.00
      
@@ -4795,28 +4795,28 @@ Component    "Tracker" = c:\development\apsim\Tracker\lib\Tracker.dll
                      stover N conc =     0.33 (%)    extractable sw =   44.07 (mm)
 7 December 1989(Day of year=341), Wheat: 
       stage 9.0 maturity
-                     biomass =        1447.62 (g/m^2)   lai          =   0.787 (m^2/m^2)
+                     biomass =        1447.63 (g/m^2)   lai          =   0.787 (m^2/m^2)
                      stover N conc =     0.33 (%)    extractable sw =   38.86 (mm)
 8 December 1989(Day of year=342), Wheat: 
       stage 10.0 harvest_ripe
-                     biomass =        1447.62 (g/m^2)   lai          =   0.001 (m^2/m^2)
+                     biomass =        1447.63 (g/m^2)   lai          =   0.001 (m^2/m^2)
                      stover N conc =     0.33 (%)    extractable sw =   37.74 (mm)
 8 December 1989(Day of year=342), manager: 
      Manager sending message :- wheat harvest
      
       flowering day          =  298                           stover (kg/ha)         =     9104.5
       maturity day           =  341                           grain yield (kg/ha)    =     5371.8
-      grain % water content  =   12.5                         grain yield wet (kg/ha)=     6139.1
+      grain % water content  =   12.5                         grain yield wet (kg/ha)=     6139.2
       grain wt (g)           =    0.034                       grains/m^2             =  15696.447
       grains/plant           =   78.5                         maximum lai            =      5.102
-      total above ground biomass (kg/ha)    =    14476.2
-      live above ground biomass (kg/ha)     =    14476.2
+      total above ground biomass (kg/ha)    =    14476.3
+      live above ground biomass (kg/ha)     =    14476.3
       green above ground biomass (kg/ha)    =    12062.7
       senesced above ground biomass (kg/ha) =     2413.6
       dead above ground biomass (kg/ha)     =        0.0
       number of leaves       =   39.2
       DM Root:Shoot ratio    =    0.145                       Harvest Index          =      0.371
-      Stover C:N ratio       =  107.455                       Root C:N ratio         =     18.702
+      Stover C:N ratio       =  107.454                       Root C:N ratio         =     18.702
       grain N percent        =       2.55                     total N content (kg/ha)=     171.09
       grain N uptake (kg/ha) =     137.20                     senesced N content (kg/ha)=   12.07
       green N content (kg/ha)=      21.82                     dead N content (kg/ha) =       0.00
@@ -4835,7 +4835,7 @@ Component    "Tracker" = c:\development\apsim\Tracker\lib\Tracker.dll
                           N  (kg/ha) =                 33.87                    0.00
      
          Organic matter removed from system:-      From Tops               From Roots
-                          DM (kg/ha) =               5371.75                    0.00
+                          DM (kg/ha) =               5371.78                    0.00
                           N  (kg/ha) =                137.20                    0.00
      
       stage 4.0 end_of_juvenile
@@ -5183,7 +5183,7 @@ Component    "Tracker" = c:\development\apsim\Tracker\lib\Tracker.dll
       dead above ground biomass (kg/ha)     =        0.0
       number of leaves       =   37.6
       DM Root:Shoot ratio    =    0.107                       Harvest Index          =      0.369
-      Stover C:N ratio       =  101.990                       Root C:N ratio         =     16.901
+      Stover C:N ratio       =  101.991                       Root C:N ratio         =     16.901
       grain N percent        =       2.55                     total N content (kg/ha)=     187.50
       grain N uptake (kg/ha) =     148.41                     senesced N content (kg/ha)=    9.20
       green N content (kg/ha)=      29.89                     dead N content (kg/ha) =       0.00
@@ -5350,7 +5350,7 @@ Component    "Tracker" = c:\development\apsim\Tracker\lib\Tracker.dll
       dead above ground biomass (kg/ha)     =        0.0
       number of leaves       =   35.3
       DM Root:Shoot ratio    =    0.132                       Harvest Index          =      0.393
-      Stover C:N ratio       =   88.304                       Root C:N ratio         =     16.863
+      Stover C:N ratio       =   88.303                       Root C:N ratio         =     16.863
       grain N percent        =       2.85                     total N content (kg/ha)=     137.15
       grain N uptake (kg/ha) =     110.15                     senesced N content (kg/ha)=    7.31
       green N content (kg/ha)=      19.69                     dead N content (kg/ha) =       0.00
@@ -5550,7 +5550,7 @@ Component    "Tracker" = c:\development\apsim\Tracker\lib\Tracker.dll
       dead above ground biomass (kg/ha)     =        0.0
       number of leaves       =   31.5
       DM Root:Shoot ratio    =    0.108                       Harvest Index          =      0.379
-      Stover C:N ratio       =   85.788                       Root C:N ratio         =     16.703
+      Stover C:N ratio       =   85.790                       Root C:N ratio         =     16.703
       grain N percent        =       2.85                     total N content (kg/ha)=     148.33
       grain N uptake (kg/ha) =     116.99                     senesced N content (kg/ha)=    6.36
       green N content (kg/ha)=      24.98                     dead N content (kg/ha) =       0.00
@@ -5717,10 +5717,10 @@ Component    "Tracker" = c:\development\apsim\Tracker\lib\Tracker.dll
       dead above ground biomass (kg/ha)     =        0.0
       number of leaves       =   38.2
       DM Root:Shoot ratio    =    0.120                       Harvest Index          =      0.383
-      Stover C:N ratio       =  106.384                       Root C:N ratio         =     16.908
+      Stover C:N ratio       =  106.385                       Root C:N ratio         =     16.908
       grain N percent        =       2.42                     total N content (kg/ha)=     171.27
       grain N uptake (kg/ha) =     136.96                     senesced N content (kg/ha)=    9.88
-      green N content (kg/ha)=      24.44                     dead N content (kg/ha) =       0.00
+      green N content (kg/ha)=      24.43                     dead N content (kg/ha) =       0.00
      
       Average Stress Indices:                          Water Photo  Water Expan  N Photo      N grain conc
          emergence            to end_of_juvenile         0.000        0.000        0.000        0.000
@@ -5732,7 +5732,7 @@ Component    "Tracker" = c:\development\apsim\Tracker\lib\Tracker.dll
      
      Crop harvested.
          Organic matter from crop:-      Tops to surface residue      Roots to soil FOM
-                          DM (kg/ha) =               9127.03                    0.00
+                          DM (kg/ha) =               9127.02                    0.00
                           N  (kg/ha) =                 34.29                    0.00
      
          Organic matter removed from system:-      From Tops               From Roots
@@ -5884,7 +5884,7 @@ Component    "Tracker" = c:\development\apsim\Tracker\lib\Tracker.dll
       dead above ground biomass (kg/ha)     =        0.0
       number of leaves       =   36.2
       DM Root:Shoot ratio    =    0.117                       Harvest Index          =      0.377
-      Stover C:N ratio       =   86.139                       Root C:N ratio         =     16.824
+      Stover C:N ratio       =   86.138                       Root C:N ratio         =     16.824
       grain N percent        =       2.85                     total N content (kg/ha)=     153.92
       grain N uptake (kg/ha) =     121.27                     senesced N content (kg/ha)=    8.14
       green N content (kg/ha)=      24.50                     dead N content (kg/ha) =       0.00
@@ -6251,7 +6251,7 @@ Component    "Tracker" = c:\development\apsim\Tracker\lib\Tracker.dll
       dead above ground biomass (kg/ha)     =        0.0
       number of leaves       =   37.0
       DM Root:Shoot ratio    =    0.117                       Harvest Index          =      0.368
-      Stover C:N ratio       =   93.459                       Root C:N ratio         =     16.990
+      Stover C:N ratio       =   93.460                       Root C:N ratio         =     16.990
       grain N percent        =       2.82                     total N content (kg/ha)=     183.32
       grain N uptake (kg/ha) =     145.42                     senesced N content (kg/ha)=    9.20
       green N content (kg/ha)=      28.70                     dead N content (kg/ha) =       0.00
