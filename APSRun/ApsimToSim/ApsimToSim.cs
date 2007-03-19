@@ -50,10 +50,15 @@ namespace ApsimToSim
 			{
             Directory.SetCurrentDirectory(Path.GetDirectoryName(ApsimFileName));
 
+
 			// convert the specified simulations in the specified apsim file name
 			// into a separate .sim file for each.
 			APSIMData Data = new APSIMData();
 			Data.LoadFromFile(ApsimFileName);
+
+            // Run the converter in case a conversion is needed.
+            if (ApsimFile.APSIMChangeTool.Upgrade(Data))
+                Data.SaveToFile(ApsimFileName);
 
             // we'll need the types.xml file for later.
             Types = new APSIMData();
