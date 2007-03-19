@@ -2953,10 +2953,6 @@ c        end if
      :                              , P_residue
      :                              )
 
-         dm_residue(root) = 0.0
-         N_residue (root) = 0.0
-         P_residue (root) = 0.0
-
          call Send_Crop_Chopped_Event_N_P
      :                (c%crop_type
      :               , part_name
@@ -3001,9 +2997,6 @@ c        end if
      :                           )
 
       if (sum(dm_residue(leaf:)) .gt. 0.0) then
-         dm_residue(root) = 0.0
-         N_residue (root) = 0.0
-         P_residue (root) = 0.0
 
             call Send_Crop_Chopped_Event_N_P
      :                (c%crop_type
@@ -3182,6 +3175,8 @@ c        end if
       real       dlt_dm_N(max_part)    ! N content of changeed dry matter (kg/ha)
       real       dlt_dm_P(max_part)    ! P content of changeed dry matter (kg/ha)
       real       incorp_fr(max_part)   ! fraction of each pool to incorporate(0-1)
+
+
 *- Implementation Section ----------------------------------
 
       call push_routine (my_name)
@@ -3380,13 +3375,10 @@ c        end if
      :                  + g%N_dead(grain))
      :                  * gm2kg/sm2ha
 
-
          fraction_to_residue(:)    = 1.0
          fraction_to_residue(root)    = 0.0
-         fraction_to_residue(grain)    = 0.0
          chop_fr(:) = 0.0
          chop_fr(grain) = 1.0
-         chop_fr(root) = 0.0
 
          call PlantP_residue_chopped (chop_fr  ! green
      :                           , chop_fr  ! senesced
@@ -3575,10 +3567,6 @@ c    :             - g%N_dead(root) - g%N_dead(grain))
      :                           )
 
          if (sum(dlt_dm_crop(leaf:)) .gt. 0.0) then
-
-            dlt_dm_crop(root) = 0.0
-            dlt_dm_N (root) = 0.0
-            dlt_dm_P (root) = 0.0
 
             call Send_Crop_Chopped_Event_N_P
      :                (c%crop_type
