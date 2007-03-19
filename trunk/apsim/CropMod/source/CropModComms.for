@@ -3351,77 +3351,16 @@ c        end if
      :                 //'      From Tops               From Roots')
 
       write (string,'(a48, f7.2, f24.2)')
-     :     'DM (kg/ha) =               '
-     :    , dm_removed_tops, dm_removed_root
-         call write_string ( string)
+     :              'DM (kg/ha) =               '
+     :             , dm_removed_tops, dm_removed_root
+      call write_string ( string)
 
       write (string,'(a48, f7.2, f24.2)')
-     :   'N  (kg/ha) =               '
-     :  , n_removed_tops, n_removed_root
-         call write_string ( string)
+     :              'N  (kg/ha) =               '
+     :              , n_removed_tops, n_removed_root
+      call write_string ( string)
       call write_string (' ')
 
-         dlt_dm_crop(:) = 0.0
-         dlt_dm_N (:) = 0.0
-         dlt_dm_P (:) = 0.0
-
-         dlt_dm_crop(grain) = (g%dm_green(grain)
-     :                  + g%dm_senesced(grain)
-     :                  + g%dm_dead(grain))
-     :                  * gm2kg/sm2ha
-
-         dlt_dm_N   (grain) = (g%N_green(grain)
-     :                  + g%N_senesced(grain)
-     :                  + g%N_dead(grain))
-     :                  * gm2kg/sm2ha
-
-         fraction_to_residue(:)    = 1.0
-         fraction_to_residue(root)    = 0.0
-         chop_fr(:) = 0.0
-         chop_fr(grain) = 1.0
-
-         call PlantP_residue_chopped (chop_fr  ! green
-     :                           , chop_fr  ! senesced
-     :                           , chop_fr  ! dead
-     :                           , fraction_to_residue
-     :                           , P_residue
-     :                           , dlt_dm_P
-     :                           )
-
-         if (sum(dlt_dm_crop(leaf:)) .gt. 0.0) then
-
-            call Send_Crop_Chopped_Event_N_P
-     :                (c%crop_type
-     :               , part_name
-     :               , dlt_dm_crop
-     :               , dlt_dm_N
-     :               , dlt_dm_P
-     :               , fraction_to_Residue
-     :               , max_part)
-
-         else
-            ! no surface residue
-         endif
-
-      g_dm_green(grain) = 0.0
-      g_N_green(grain) = 0.0
-
-      g_dm_dead(grain) = 0.0
-      g_N_dead(grain) = 0.0
-
-
-       ! all grain is removed and none of this is added to residue pool
-       ! NIH - note that crop mod really should send a crop chopped event
-       ! here to tell soilpH that grain has been removed.
-!       chop_fr(:) = 0.0
-!       chop_fr(grain) = 1.0
-!       fraction_to_residue(:) = 0.0
-
-!       call PlantP_add_residue(chop_fr  ! green
-!     :                        ,chop_fr  ! senesced
-!     :                        ,chop_fr  ! dead
-!     :                        ,fraction_to_residue
-!     :                        )
 
       call pop_routine (my_name)
       return
@@ -3591,19 +3530,19 @@ c    :             - g%N_dead(root) - g%N_dead(grain))
      :                 //'Tops to surface residue     '
      :                 //'Roots to soil FOM')
 
-         write (string,'(a48, f7.2, f24.2)')
+         write (string,'(a45, f10.2, f24.2)')
      :                  'DM (kg/ha) =               '
      :                  , dm_residue * gm2kg /sm2ha
      :                  , dm_root * gm2kg /sm2ha
          call write_string ( string)
 
-         write (string,'(a48, f7.2, f24.2)')
+         write (string,'(a45, f10.2 f24.2)')
      :                  'N  (kg/ha) =               '
      :                  , N_residue * gm2kg /sm2ha
      :                  , N_root * gm2kg /sm2ha
          call write_string ( string)
 
-         write (string,'(a48, f7.2, f24.2)')
+         write (string,'(a45, f10.2 f24.2)')
      :                  'P  (kg/ha) =               '
      :                  , P_residue * gm2kg /sm2ha
      :                  , P_root * gm2kg /sm2ha
