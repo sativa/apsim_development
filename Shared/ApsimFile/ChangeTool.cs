@@ -11,7 +11,7 @@ namespace ApsimFile
 	// ------------------------------------------
 	public class APSIMChangeTool
 		{
-		private static int CurrentVersion = 7;	   
+		private static int CurrentVersion = 8;	   
 		private delegate void UpgraderDelegate(APSIMData Data);
 
 		// ------------------------------------------
@@ -51,6 +51,10 @@ namespace ApsimFile
                 // Upgrade from version 6 to 7.
                 if (DataVersion < 7)
                     Upgrade(Data, new UpgraderDelegate(UpdateToVersion7));
+
+                // Upgrade from version 7 to 8.
+                if (DataVersion < 8)
+                    Upgrade(Data, new UpgraderDelegate(UpdateToVersion8));
 
                 // All finished upgrading - write version number out.
                 Data.SetAttribute("version", CurrentVersion.ToString());
@@ -309,16 +313,26 @@ namespace ApsimFile
             if (Data.Type.ToLower() == "soil")
                 {
                 Soil MySoil = new Soil(Data);
-                APSIMData NewSoilData = MySoil.UpgradeToVersion7();
-                foreach (APSIMData Child in NewSoilData.get_Children("soilsample"))
+                MySoil.UpgradeToVersion7();
+                foreach (APSIMData Child in MySoil.Data.get_Children("soilsample"))
                     {
-                    Soil NewSoil = new Soil(NewSoilData);
                     SoilSample MySample = new SoilSample(Child);
                     MySample.UpgradeToVersion7();
                     }
                 }
+            }
+
+        // -----------------------------
+        // Upgrade the data to version 8.
+        // -----------------------------
+        private static void UpdateToVersion8(APSIMData Data)
+            {
+            if (Data.Type.ToLower() == "soil")
+                {
+                Soil MySoil = new Soil(Data);
+                MySoil.UpgradeToVersion8();
+                }
             }	
-            	
 
 
 		}

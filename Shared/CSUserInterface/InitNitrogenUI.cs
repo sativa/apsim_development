@@ -828,7 +828,7 @@ namespace CSUserInterface
 					 + " or a total NO3 / NH4 number (kg/ha only) on the last row of the grid.";
 
 			SoilData = new Soil(Controller.Data.Parent);
-			//InitialNitrogen = SoilData.InitialNitrogen;
+            InitialNitrogen = new InitNitrogen(Controller.Data);
 			FarPoint.Win.Spread.InputMap InputMap = Grid.GetInputMap(FarPoint.Win.Spread.InputMapMode.WhenAncestorOfFocused); 
 			InputMap.Put(new FarPoint.Win.Spread.Keystroke(Keys.Delete, Keys.None), 
 							FarPoint.Win.Spread.SpreadActions.ClipboardCut); 

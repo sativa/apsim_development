@@ -26,75 +26,20 @@ namespace Soils
 			ParentSoil = new Soil(Data.Parent);
 			}
 
-		#region Water format methods
-		public enum StoredWaterFormatType {VolumetricPercent, GravimetricPercent, GravimetricWetDry};
-		public StoredWaterFormatType StoredWaterFormat
-			{
-			get {
-				if (Data.get_ChildValue("WaterFormat") == "GravimetricPercent")
-					return StoredWaterFormatType.GravimetricPercent;
-				else if (Data.get_ChildValue("WaterFormat") == "GravimetricWetDry") 
-					return StoredWaterFormatType.GravimetricWetDry;
-				else
-                    return StoredWaterFormatType.VolumetricPercent;
-				}
-			}
-		private void SetStoredWaterFormat(StoredWaterFormatType WaterFormat)
-			{
-			if (WaterFormat == StoredWaterFormatType.GravimetricWetDry)
-				{
-				double[] MissingValues = new double[Thickness.Length];
-				for (int i = 0; i != MissingValues.Length; i++)
-					MissingValues[i] = MathUtility.MissingValue;
-				Utility.setLayered(Data, "water", "sw", "", MissingValues);
-				Data.set_ChildValue("WaterFormat", "GravimetricWetDry");
-				}
-			else
-				{
-				double[] MissingValues = new double[Thickness.Length];
-				for (int i = 0; i != MissingValues.Length; i++)
-					MissingValues[i] = MathUtility.MissingValue;
-				Utility.setLayered(Data, "water", "wet", "", MissingValues);
-                Utility.setLayered(Data, "water", "dry", "", MissingValues);
-
-				if (WaterFormat == StoredWaterFormatType.GravimetricPercent)
-					Data.set_ChildValue("WaterFormat", "GravimetricPercent");
-				else if (WaterFormat == StoredWaterFormatType.VolumetricPercent)
-					Data.set_ChildValue("WaterFormat", "VolumetricPercent");
-				}
-			}
-
-		private double[] GetLayeredAsVol(string PropertyType)
-			{
-			if (StoredWaterFormat == StoredWaterFormatType.VolumetricPercent)
-				return Utility.getLayered(Data, "profile", PropertyType, "");
-			else
-				{
-				double[] BD = MapSoilToSampleUsingSpatial(ParentSoil.BD, ParentSoil.Thickness, Thickness);
-				return MathUtility.Multiply(GetLayeredAsGrav(PropertyType), BD);
-				}
-			}
-		private double[] GetLayeredAsGrav(string PropertyType)
-			{
-			if (StoredWaterFormat == StoredWaterFormatType.VolumetricPercent)
-				{
-				double[] BD = MapSoilToSampleUsingSpatial(ParentSoil.BD, ParentSoil.Thickness, Thickness);
-				return MathUtility.Divide(Utility.getLayered(Data, "profile", PropertyType, ""),
-											BD);
-				}
-			else if (StoredWaterFormat == StoredWaterFormatType.GravimetricPercent)
-				return Utility.getLayered(Data, "profile", PropertyType, "");
-			else
-				{
-				double[] Gravimetric = new double[Thickness.Length];
-				for (int layer = 0; layer != Thickness.Length; layer++)
-					Gravimetric[layer] = (Wet[layer] - Dry[layer]) / Dry[layer];
-				return Gravimetric;
-				}
-			}
-		#endregion
-
-		#region Data get/set properties
+		public string WaterFormat
+            {
+            get
+                {
+                string Format = Data.get_ChildValue("WaterFormat");
+                if (Format == "")
+                    Format = "VolumetricPercent";
+                return Format;
+                }
+            set
+                {
+                Data.set_ChildValue("WaterFormat", value);
+                }
+            }
 		public DateTime SampleDate
 			{
 			get {
@@ -113,20 +58,54 @@ namespace Soils
             get { return Utility.getLayered(Data, "profile", "thickness", ""); }
             set { Utility.setLayered(Data, "profile", "thickness", "", value); }
             }
-		public double[] SW
+
+        #region Water methods
+        public double[] SW
 			{
-			get {return GetLayeredAsVol("sw");}
+			get {
+                if (WaterFormat == "VolumetricPercent")
+                    return Utility.getLayered(Data, "profile", "sw", "");
+                else
+                    {
+                    double[] BD = Utility.MapSoilToSampleUsingSpatial(ParentSoil.BD, ParentSoil.Thickness, Thickness);
+                    return MathUtility.Multiply(SWGrav, BD);
+                    }
+                }
 			set {
                 Utility.setLayered(Data, "profile", "sw", "", value);
-				SetStoredWaterFormat(StoredWaterFormatType.VolumetricPercent);
+                Utility.DeleteLayered(Data, "profile", "wet", "");
+                Utility.DeleteLayered(Data, "profile", "dry", "");
+                WaterFormat = "VolumetricPercent";
 				}                           				
 			}
 		public double[] SWGrav
 			{
-			get {return GetLayeredAsGrav("sw");}
+			get {
+                if (WaterFormat == "VolumetricPercent")
+                    {
+                    double[] BD = Utility.MapSoilToSampleUsingSpatial(ParentSoil.BD, ParentSoil.Thickness, Thickness);
+                    return MathUtility.Divide(SW, BD);
+                    }
+                else if (WaterFormat == "GravimetricPercent")
+                    return Utility.getLayered(Data, "profile", "sw", "");
+                else
+                    {
+                    double[] Gravimetric = new double[Thickness.Length];
+                    for (int layer = 0; layer != Thickness.Length; layer++)
+                        {
+                        if (Wet[layer] == MathUtility.MissingValue || Dry[layer] == MathUtility.MissingValue)
+                            Gravimetric[layer] = MathUtility.MissingValue;
+                        else
+                            Gravimetric[layer] = (Wet[layer] - Dry[layer]) / Dry[layer];
+                        }
+                    return Gravimetric;
+                    }
+                }
 			set {
                 Utility.setLayered(Data, "profile", "sw", "", value);
-				SetStoredWaterFormat(StoredWaterFormatType.GravimetricPercent);
+                Utility.DeleteLayered(Data, "profile", "wet", "");
+                Utility.DeleteLayered(Data, "profile", "dry", "");
+                WaterFormat = "GravimetricPercent";
 				}                           				
 			}
 		public double[] Wet
@@ -134,7 +113,7 @@ namespace Soils
 			get {return Utility.getLayered(Data, "profile", "wet", "");}
 			set {
                 Utility.setLayered(Data, "profile", "wet", "", value);
-				SetStoredWaterFormat(StoredWaterFormatType.GravimetricWetDry);
+				WaterFormat = "GravimetricWetDry";
 				}                           				
 			}
 		public double[] Dry
@@ -142,9 +121,11 @@ namespace Soils
 			get {return Utility.getLayered(Data, "profile", "dry", "");}
 			set {
                 Utility.setLayered(Data, "profile", "dry", "", value);
-				SetStoredWaterFormat(StoredWaterFormatType.GravimetricWetDry);
+                WaterFormat = "GravimetricWetDry";
 				}                           				
 			}
+        #endregion
+
 		public double[] NO3
 			{
 			get {return Utility.getLayered(Data, "profile", "no3", "");}
@@ -180,7 +161,7 @@ namespace Soils
             get
                 {
                 double[] DefaultValues = ParentSoil.LL15;
-                return MapSampleToSoilUsingSpatial(SW, Thickness, DefaultValues, ParentSoil.Thickness);
+                return Utility.MapSampleToSoilUsingSpatial(SW, Thickness, DefaultValues, ParentSoil.Thickness);
                 }
             }
         public double[] NO3MapedToSoil
@@ -190,7 +171,7 @@ namespace Soils
                 double[] DefaultValues = new double[ParentSoil.Thickness.Length];
                 for (int i = 0; i != DefaultValues.Length; i++)
                     DefaultValues[i] = 1.0;  // a small number
-                return MapSampleToSoilUsingMass(NO3, Thickness, DefaultValues, ParentSoil.Thickness, ParentSoil.BD);
+                return Utility.MapSampleToSoilUsingMass(NO3, Thickness, DefaultValues, ParentSoil.Thickness, ParentSoil.BD);
                 }
             }
         public double[] NH4MapedToSoil
@@ -200,7 +181,7 @@ namespace Soils
                 double[] DefaultValues = new double[ParentSoil.Thickness.Length];
                 for (int i = 0; i != DefaultValues.Length; i++)
                     DefaultValues[i] = 0.2;  // a small number
-                return MapSampleToSoilUsingMass(NH4, Thickness, DefaultValues, ParentSoil.Thickness, ParentSoil.BD);
+                return Utility.MapSampleToSoilUsingMass(NH4, Thickness, DefaultValues, ParentSoil.Thickness, ParentSoil.BD);
                 }
             }
         public double[] OCMapedToSoil
@@ -216,7 +197,7 @@ namespace Soils
                     }
                 else
                     DefaultValues = ParentSoil.OC;
-                return MapSampleToSoilUsingMass(OC, Thickness, DefaultValues, ParentSoil.Thickness, ParentSoil.BD);
+                return Utility.MapSampleToSoilUsingMass(OC, Thickness, DefaultValues, ParentSoil.Thickness, ParentSoil.BD);
                 }
             }
         public double[] PHMapedToSoil
@@ -224,7 +205,7 @@ namespace Soils
             get
                 {
                 double[] DefaultValues = ParentSoil.PH;
-                return MapSampleToSoilUsingSpatial(PH, Thickness, DefaultValues, ParentSoil.Thickness);
+                return Utility.MapSampleToSoilUsingSpatial(PH, Thickness, DefaultValues, ParentSoil.Thickness);
                 }
             }
         public double[] ECMapedToSoil
@@ -241,211 +222,18 @@ namespace Soils
                 else
                     DefaultValues = ParentSoil.EC;
 
-                return MapSampleToSoilUsingSpatial(EC, Thickness, DefaultValues, ParentSoil.Thickness);
+                return Utility.MapSampleToSoilUsingSpatial(EC, Thickness, DefaultValues, ParentSoil.Thickness);
                 }
             }
-        #endregion
-                    
-		#region Soil mapping methods
-
-		// ----------------------------------------------------------------
-		// Interpolate some BD values that match this sample's thicknesses.
-		// ----------------------------------------------------------------
-		private static double[] MapSoilToSampleUsingSpatial(double[] FromValues, double[] FromThickness, double[] ToThickness)
-			{
-			// need to work out a bd for this sample from the characterisation bd passed in.
-			double[] FromMass = MathUtility.Multiply(FromValues, FromThickness);
-			double[] ToMass = SpatialRedistribute(FromMass, FromThickness, ToThickness);
-			return MathUtility.Divide(ToMass, ToThickness);
-			}
-
-
-		// ------------------------------------------------------------------------
-		// Map the specified values to the linked soil by first converting to
-		// a mass value i.e. by first multiplying Values by BD. 
-		// The result will be a set of values that correspond to the linked soil layers.
-		// ------------------------------------------------------------------------
-		private static double[] MapSampleToSoilUsingMass(double[] FromValues, double[] FromThickness,
-														 double[] DefaultValues, double[] ToThickness, double[] ToBD)
-			{
-			if (DefaultValues.Length > 0)
-				{
-				CreateVariableForMapping(ref FromValues, ref FromThickness, DefaultValues, ToThickness);
-				return MassRedistribute(FromValues, FromThickness, ToThickness, ToBD);	
-				}
-			else
-				return new double[0];
-			}
-
-
-		// ------------------------------------------------------------------------
-		// Map the specified values to the linked soil using a simple spatial
-		// interpolation. The result will be a set of values that correspond 
-		// to the linked soil layers.
-		// ------------------------------------------------------------------------
-		private static double[] MapSampleToSoilUsingSpatial(double[] FromValues, double[] FromThickness,
-															double[] DefaultValues, double[] ToThickness)
-			{
-			if (DefaultValues.Length > 0)
-				{
-				CreateVariableForMapping(ref FromValues, ref FromThickness,
-										DefaultValues, ToThickness);
-				FromValues = MathUtility.Multiply(FromValues, FromThickness);
-				FromValues = SpatialRedistribute(FromValues, FromThickness, ToThickness);	
-				return MathUtility.Divide(FromValues, ToThickness);
-				}
-			else
-				return new double[0];
-			}
-
-		
-		//-------------------------------------------------------------------------
-		//Spatial mass redistribution algorithm.
-		//-------------------------------------------------------------------------
-		private static double[] SpatialRedistribute(double[] FromMass, double[] FromThickness, 
-											        double[] ToThickness)
-			{
-			if(FromMass.Length != FromThickness.Length)
-				{
-				throw new Exception("Cannot redistribute soil sample layer structure to soil layer structure. "+
-			                        "The number of values in the sample doesn't match the number of layers in the sample.");
-				}
-
-			// Remapping is achieved by first constructing a map of
-			// cumulative mass vs depth
-			// The new values of mass per layer can be linearly
-			// interpolated back from this shape taking into account
-			// the rescaling of the profile.
-
-			double[] CumDepth = new double[FromMass.Length+1];
-			double[] CumMass = new double[FromMass.Length+1];
-			CumDepth[0] = 0.0;
-			CumMass[0] = 0.0;
-			for(int Layer = 0; Layer < FromThickness.Length; Layer++)
-				{
-				CumDepth[Layer+1] = CumDepth[Layer] + FromThickness[Layer];
-				CumMass[Layer+1] = CumMass[Layer] + FromMass[Layer];
-				}
-					
-			//look up new mass from interpolation pairs
-			double[] ToMass = new double[ToThickness.Length];
-			for(int Layer = 1; Layer <= ToThickness.Length; Layer++)
-				{
-				double LayerBottom = MathUtility.Sum(ToThickness, 0, Layer, 0.0);
-				double LayerTop = LayerBottom - ToThickness[Layer-1];
-				bool DidInterpolate = false;
-				double CumMassTop = MathUtility.LinearInterpReal(LayerTop, CumDepth, 
-					CumMass, ref DidInterpolate);
-				double CumMassBottom = MathUtility.LinearInterpReal(LayerBottom, CumDepth, 
-					CumMass, ref DidInterpolate);
-				ToMass[Layer-1] = CumMassBottom - CumMassTop;
-				}
-			return ToMass;
-			}	
-
-
-		//-------------------------------------------------------------------------
-		//Mass Redistribution algorithm
-		//-------------------------------------------------------------------------
-		private static double[] MassRedistribute(double[] FromValues, double[] FromThickness,
-										         double[] ToThickness, double[] ToBd)
-			{
-			// Firstly we need to convert the values passed in, into a mass using
-			// bulk density.
-
-			double[] FromBd = MapSoilToSampleUsingSpatial(ToBd, ToThickness, FromThickness);
-			double[] FromMass = new double[FromValues.Length];
-			for(int Layer = 0; Layer < FromValues.Length; Layer++)
-				FromMass[Layer] = FromValues[Layer] * FromBd[Layer] * FromThickness[Layer] / 100;
-			
-			// spatially interpolate mass.
-			double[] ToMass = SpatialRedistribute(FromMass, FromThickness, ToThickness);
-			
-			//now convert mass back to original values.
-			double[] ToValues = new double[ToMass.Length];
-			for(int Layer = 0; Layer < ToMass.Length; Layer++)
-				ToValues[Layer] = ToMass[Layer] * 100.0 / ToBd[Layer] / ToThickness[Layer];
-
- 			return ToValues;
-			}
-
-
-		//-------------------------------------------------------------------------
-		// Remaps the thicknesses and values to more closely match the specified 
-		// soil thickness and values. This algorithm removes all missing values
-		// and their associated depths.
-		// e.g. IF             SoilThickness  Values   SampleThickness	SampleValues
-		//                           0-100		2         0-100				10
-		//                         100-250	    3		100-600				11
-		//                         250-500		4		
-		//                         500-750		5
-		//                         750-900		6
-		//						   900-1200		7
-		//                        1200-1500		8
-		//                        1500-1800		9
-		//
-		// will produce:		SampleThickness			Values
-		//						     0-100				  10
-		//						   100-600				  11
-		//						   600-750				   5
-		//						   750-900				   6
-		//						   900-1200				   7
-		//						  1200-1500				   8
-		//						  1500-1800				   9
-		//
-		//-------------------------------------------------------------------------
-		private static void CreateVariableForMapping(ref double[] SampleValues, ref double[] SampleThickness, 
-													 double[] SoilValues, double[] SoilThickness)	
-			{
-			double[] ReturnThickness = new double[SampleThickness.Length + SoilThickness.Length + 1];
-			double[] ReturnValues = new double[SampleThickness.Length + SoilThickness.Length + 1];
-
-			// Copy values and thicknesses to return arrays until a missing value is found.
-			double CumSampleDepth = 0.0;
-			int SampleLayer = 0;
-			for (SampleLayer = 0; ((SampleLayer != SampleThickness.Length) && (double)SampleValues[SampleLayer] != MathUtility.MissingValue); SampleLayer++)
-				{
-				ReturnThickness[SampleLayer] = SampleThickness[SampleLayer];
-				ReturnValues[SampleLayer] = SampleValues[SampleLayer];
-				CumSampleDepth += (double)SampleThickness[SampleLayer];
-				}
-
-			//Work out if we need to create a dummy layer so that the sample depths line up 
-			//with the soil depths
-			double CumSoilDepth = 0.0;
-			for (int SoilLayer = 0; SoilLayer < SoilThickness.Length; SoilLayer++)
-				{
-				CumSoilDepth += SoilThickness[SoilLayer];
-				if(CumSoilDepth > CumSampleDepth)
-					{
-					ReturnThickness[SampleLayer] = CumSoilDepth - CumSampleDepth;
-					ReturnValues[SampleLayer] = SoilValues[SoilLayer];
-					SampleLayer++;
-					CumSampleDepth = CumSoilDepth;
-					}
-				}
-			
-			// Copy Values from our return arrays back to the parameters passed in.
-			SampleThickness = new double[SampleLayer];
-			SampleValues = new double[SampleLayer];
-			for (int i = 0; i != SampleLayer; i++)
-				{
-                SampleThickness[i] = ReturnThickness[i];
-				SampleValues[i] = ReturnValues[i];
-				}
-			}
-		#endregion
-
-
-		public double[] PAW(string CropName)
+         public double[] PAW(string CropName)
 			{
 			// return plant available water by layer (mm) given
 			// depth, lower limit and dul all in (mm).
 			if (ParentSoil.CropExists(CropName))
 				{
 				double[] sw = SW;
-				double[] ll = MapSoilToSampleUsingSpatial(ParentSoil.LL(CropName), ParentSoil.Thickness, Thickness);
-				double[] sat = MapSoilToSampleUsingSpatial(ParentSoil.SAT, ParentSoil.Thickness, Thickness);
+                double[] ll = Utility.MapSoilToSampleUsingSpatial(ParentSoil.LL(CropName), ParentSoil.Thickness, Thickness);
+                double[] sat = Utility.MapSoilToSampleUsingSpatial(ParentSoil.SAT, ParentSoil.Thickness, Thickness);
 				double[] thickness = Thickness;
 				double[] paw = new double[thickness.Length];
 				for(int i = 0; i != thickness.Length; i++)
@@ -457,21 +245,21 @@ namespace Soils
 				return paw;
 				}
 			throw new Exception("Soil is not parameterised for crop: " + CropName);
-			}
-
-		public void UpgradeToVersion3()
+            }
+        #region Upgrade version
+        public void UpgradeToVersion3()
 			{
 			string SWUnit = Data.get_ChildValue("swunit");
 			if (SWUnit != "")
 				{
-				if (SWUnit.ToLower() == "volumetric")
-					SetStoredWaterFormat(StoredWaterFormatType.VolumetricPercent);
-				else
-					SetStoredWaterFormat(StoredWaterFormatType.GravimetricPercent);
+                if (SWUnit.ToLower() == "volumetric")
+                    WaterFormat = "VolumetricPercent";
+                else
+                    WaterFormat = "GravimetricPercent";
 				Data.Delete("swunit");
 				}
 			else
-				SetStoredWaterFormat(StoredWaterFormatType.GravimetricPercent);
+                WaterFormat = "GravimetricPercent";
 
             double[] oc = Utility.getLayered(Data, "profile", "oc", "");
 			if (oc.Length > 0)
@@ -494,10 +282,6 @@ namespace Soils
 				}
 		
 			}
-
-        // -------------------------------------
-        // Convert old soil file to new format 7
-        // -------------------------------------
         public void UpgradeToVersion7()
             {
             APSIMData Result = new APSIMData("soilsample", Data.Name);
@@ -515,7 +299,6 @@ namespace Soils
             DataParent.DeleteNode(Data);
             DataParent.Add(Result);
             }
-
         private void UpgradeToNodeVersion7(APSIMData Data, APSIMData Result)
             {
             // ---------------------------------------------------------
@@ -552,25 +335,7 @@ namespace Soils
                     Result.Add(Child);
                 }
             }
-
-
-        //private static void MergeSoilSample2WithSoil(SoilSample SoilSample2, Soil Soil,
-        //                                             string CropName, bool UseEC, int RootDepth)
-        //    {
-        //    Soil.OC = SoilSample2.OCMapedToSoil;
-        //    Soil.PH = SoilSample2.PHMapedToSoil;
-        //    //Soil.CL = SoilSample2.CLMapedToSoil;
-        //    if (UseEC)
-        //        {
-        //        Soil.EC = SoilSample2.ECMapedToSoil;
-        //        Soil.ApplyECXFFunction(CropName);
-        //        }
-        //    if (RootDepth > 0)
-        //        {
-        //        RootDepth *= 10;   // cm to mm
-        //        Soil.ApplyMaxRootDepth(CropName, RootDepth);
-        //        }
-        //    }
+        #endregion
 
 		}
 	}

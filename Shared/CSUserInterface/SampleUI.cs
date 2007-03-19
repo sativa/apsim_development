@@ -16,14 +16,14 @@ namespace CSUserInterface
 		private System.Windows.Forms.Panel UnitsPanel;
 		private System.Windows.Forms.Splitter splitter1;
 		private WaterChartControl waterChartControl1;
-		private System.ComponentModel.Container components = null;
-		private System.Windows.Forms.Label label1;
-		private System.Windows.Forms.Label label2;
-		private System.Windows.Forms.ComboBox WaterUnits;
+        private System.ComponentModel.Container components = null;
 		private System.Windows.Forms.DateTimePicker SampleDate;
 		private FarPoint.Win.Spread.FpSpread FpSpread;
 		private FarPoint.Win.Spread.SheetView Grid;
-		private SoilSample MySample;
+        private SoilSample MySample;
+        private GroupBox groupBox2;
+        public Steema.TeeChart.TChart NitrogenChart;
+        private Splitter splitter2;
 		private bool UserChange = true;
 
 		public SampleUI()
@@ -50,152 +50,614 @@ namespace CSUserInterface
 		/// </summary>
 		private void InitializeComponent()
 		{
-			this.FpSpread = new FarPoint.Win.Spread.FpSpread();
-			this.Grid = new FarPoint.Win.Spread.SheetView();
-			this.UnitsPanel = new System.Windows.Forms.Panel();
-			this.label2 = new System.Windows.Forms.Label();
-			this.WaterUnits = new System.Windows.Forms.ComboBox();
-			this.SampleDate = new System.Windows.Forms.DateTimePicker();
-			this.label1 = new System.Windows.Forms.Label();
-			this.splitter1 = new System.Windows.Forms.Splitter();
-            this.waterChartControl1 = new CSUserInterface.WaterChartControl();
-			((System.ComponentModel.ISupportInitialize)(this.FpSpread)).BeginInit();
-			((System.ComponentModel.ISupportInitialize)(this.Grid)).BeginInit();
-			this.UnitsPanel.SuspendLayout();
-			this.SuspendLayout();
-			// 
-			// FpSpread
-			// 
-			this.FpSpread.AllowDragDrop = true;
-			this.FpSpread.Dock = System.Windows.Forms.DockStyle.Top;
-			this.FpSpread.EditModeReplace = true;
-			this.FpSpread.HorizontalScrollBarPolicy = FarPoint.Win.Spread.ScrollBarPolicy.AsNeeded;
-			this.FpSpread.Location = new System.Drawing.Point(0, 72);
-			this.FpSpread.Name = "FpSpread";
-			this.FpSpread.Sheets.AddRange(new FarPoint.Win.Spread.SheetView[] {
-																				  this.Grid});
-			this.FpSpread.Size = new System.Drawing.Size(696, 288);
-			this.FpSpread.TabIndex = 2;
-			this.FpSpread.VerticalScrollBarPolicy = FarPoint.Win.Spread.ScrollBarPolicy.AsNeeded;
-			// 
-			// Grid
-			// 
-			this.Grid.Reset();
-			// Formulas and custom names must be loaded with R1C1 reference style
-			this.Grid.ReferenceStyle = FarPoint.Win.Spread.Model.ReferenceStyle.R1C1;
-			this.Grid.ColumnCount = 9;
-			this.Grid.ColumnHeader.RowCount = 2;
-			this.Grid.ColumnHeader.AutoText = FarPoint.Win.Spread.HeaderAutoText.Blank;
-			this.Grid.ColumnHeader.Cells.Get(0, 0).Text = "Depth";
-			this.Grid.ColumnHeader.Cells.Get(0, 1).Text = "Wet";
-			this.Grid.ColumnHeader.Cells.Get(0, 2).Text = "Dry";
-			this.Grid.ColumnHeader.Cells.Get(0, 3).Text = "NO3";
-			this.Grid.ColumnHeader.Cells.Get(0, 4).Text = "NH4";
-			this.Grid.ColumnHeader.Cells.Get(0, 5).Text = "OC";
-			this.Grid.ColumnHeader.Cells.Get(0, 6).Text = "EC";
-			this.Grid.ColumnHeader.Cells.Get(0, 7).Text = "pH";
-			this.Grid.ColumnHeader.Cells.Get(0, 8).Text = "ESP";
-			this.Grid.ColumnHeader.Cells.Get(1, 0).Text = "(cm)";
-			this.Grid.ColumnHeader.Cells.Get(1, 1).Text = "(grav%)";
-			this.Grid.ColumnHeader.Cells.Get(1, 2).Text = "(grav%)";
-			this.Grid.ColumnHeader.Cells.Get(1, 3).Text = "(ppm)";
-			this.Grid.ColumnHeader.Cells.Get(1, 4).Text = "(ppm)";
-			this.Grid.ColumnHeader.Cells.Get(1, 5).Text = "(%C)";
-			this.Grid.ColumnHeader.Cells.Get(1, 6).Text = "(dS/m)";
-			this.Grid.ColumnHeader.Cells.Get(1, 7).Text = "(CaCl2)";
-			this.Grid.ColumnHeader.Cells.Get(1, 8).Text = "(%)";
-			this.Grid.RowHeader.Columns.Default.Resizable = false;
-			this.Grid.RowHeader.Visible = false;
-			this.Grid.SheetName = "Water / Nitrogen";
-			this.Grid.CellChanged += new FarPoint.Win.Spread.SheetViewEventHandler(this.Grid_CellChanged);
-			this.Grid.ReferenceStyle = FarPoint.Win.Spread.Model.ReferenceStyle.A1;
-			// 
-			// UnitsPanel
-			// 
-			this.UnitsPanel.Controls.Add(this.label2);
-			this.UnitsPanel.Controls.Add(this.WaterUnits);
-			this.UnitsPanel.Controls.Add(this.SampleDate);
-			this.UnitsPanel.Controls.Add(this.label1);
-			this.UnitsPanel.Dock = System.Windows.Forms.DockStyle.Top;
-			this.UnitsPanel.Location = new System.Drawing.Point(0, 40);
-			this.UnitsPanel.Name = "UnitsPanel";
-			this.UnitsPanel.Size = new System.Drawing.Size(696, 32);
-			this.UnitsPanel.TabIndex = 3;
-			// 
-			// label2
-			// 
-			this.label2.AutoSize = true;
-			this.label2.Location = new System.Drawing.Point(313, 8);
-			this.label2.Name = "label2";
-			this.label2.Size = new System.Drawing.Size(65, 16);
-			this.label2.TabIndex = 3;
-			this.label2.Text = "Water units:";
-			// 
-			// WaterUnits
-			// 
-			this.WaterUnits.Items.AddRange(new object[] {
-															"Volumetric %",
-															"Gravimetric %",
-															"Wet and Dry %"});
-			this.WaterUnits.Location = new System.Drawing.Point(392, 5);
-			this.WaterUnits.Name = "WaterUnits";
-			this.WaterUnits.Size = new System.Drawing.Size(121, 21);
-			this.WaterUnits.TabIndex = 2;
-			this.WaterUnits.Text = "Volumetric %";
-			this.WaterUnits.SelectedIndexChanged += new System.EventHandler(this.WaterUnits_SelectedIndexChanged);
-			// 
-			// SampleDate
-			// 
-			this.SampleDate.Location = new System.Drawing.Point(96, 6);
-			this.SampleDate.Name = "SampleDate";
-			this.SampleDate.Size = new System.Drawing.Size(192, 20);
-			this.SampleDate.TabIndex = 1;
-			this.SampleDate.ValueChanged += new System.EventHandler(this.SampleDate_ValueChanged);
-			// 
-			// label1
-			// 
-			this.label1.AutoSize = true;
-			this.label1.Location = new System.Drawing.Point(8, 8);
-			this.label1.Name = "label1";
-			this.label1.Size = new System.Drawing.Size(71, 16);
-			this.label1.TabIndex = 0;
-			this.label1.Text = "Sample date:";
-			// 
-			// splitter1
-			// 
-			this.splitter1.Dock = System.Windows.Forms.DockStyle.Top;
-			this.splitter1.Location = new System.Drawing.Point(0, 360);
-			this.splitter1.Name = "splitter1";
-			this.splitter1.Size = new System.Drawing.Size(696, 3);
-			this.splitter1.TabIndex = 4;
-			this.splitter1.TabStop = false;
-			// 
-			// waterChartControl1
-			// 
-			this.waterChartControl1.Dock = System.Windows.Forms.DockStyle.Fill;
-			this.waterChartControl1.LinkedSoil = null;
-			this.waterChartControl1.Location = new System.Drawing.Point(0, 363);
-			this.waterChartControl1.Name = "waterChartControl1";
-			this.waterChartControl1.ShowSoilWaterLine = false;
-			this.waterChartControl1.Size = new System.Drawing.Size(696, 414);
-			this.waterChartControl1.TabIndex = 5;
-			// 
-			// SampleUI
-			// 
-			this.Controls.Add(this.waterChartControl1);
-			this.Controls.Add(this.splitter1);
-			this.Controls.Add(this.FpSpread);
-			this.Controls.Add(this.UnitsPanel);
-			this.Name = "SampleUI";
-			this.Size = new System.Drawing.Size(696, 777);
-			this.Controls.SetChildIndex(this.UnitsPanel, 0);
-			this.Controls.SetChildIndex(this.FpSpread, 0);
-			this.Controls.SetChildIndex(this.splitter1, 0);
-			this.Controls.SetChildIndex(this.waterChartControl1, 0);
-			((System.ComponentModel.ISupportInitialize)(this.FpSpread)).EndInit();
-			((System.ComponentModel.ISupportInitialize)(this.Grid)).EndInit();
-			this.UnitsPanel.ResumeLayout(false);
-			this.ResumeLayout(false);
+        FarPoint.Win.Spread.TipAppearance tipAppearance2 = new FarPoint.Win.Spread.TipAppearance();
+        this.FpSpread = new FarPoint.Win.Spread.FpSpread();
+        this.Grid = new FarPoint.Win.Spread.SheetView();
+        this.UnitsPanel = new System.Windows.Forms.Panel();
+        this.SampleDate = new System.Windows.Forms.DateTimePicker();
+        this.splitter1 = new System.Windows.Forms.Splitter();
+        this.waterChartControl1 = new CSUserInterface.WaterChartControl();
+        this.groupBox2 = new System.Windows.Forms.GroupBox();
+        this.NitrogenChart = new Steema.TeeChart.TChart();
+        this.splitter2 = new System.Windows.Forms.Splitter();
+        ((System.ComponentModel.ISupportInitialize)(this.FpSpread)).BeginInit();
+        ((System.ComponentModel.ISupportInitialize)(this.Grid)).BeginInit();
+        this.UnitsPanel.SuspendLayout();
+        this.SuspendLayout();
+        // 
+        // FpSpread
+        // 
+        this.FpSpread.AccessibleDescription = "FpSpread, Water / Nitrogen, Row 0, Column 0, ";
+        this.FpSpread.AllowDragDrop = true;
+        this.FpSpread.Dock = System.Windows.Forms.DockStyle.Top;
+        this.FpSpread.EditModeReplace = true;
+        this.FpSpread.HorizontalScrollBarPolicy = FarPoint.Win.Spread.ScrollBarPolicy.AsNeeded;
+        this.FpSpread.Location = new System.Drawing.Point(0, 108);
+        this.FpSpread.Name = "FpSpread";
+        this.FpSpread.Sheets.AddRange(new FarPoint.Win.Spread.SheetView[] {
+            this.Grid});
+        this.FpSpread.Size = new System.Drawing.Size(696, 238);
+        this.FpSpread.TabIndex = 2;
+        tipAppearance2.BackColor = System.Drawing.SystemColors.Info;
+        tipAppearance2.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+        tipAppearance2.ForeColor = System.Drawing.SystemColors.InfoText;
+        this.FpSpread.TextTipAppearance = tipAppearance2;
+        this.FpSpread.VerticalScrollBarPolicy = FarPoint.Win.Spread.ScrollBarPolicy.AsNeeded;
+        // 
+        // Grid
+        // 
+        this.Grid.Reset();
+        // Formulas and custom names must be loaded with R1C1 reference style
+        this.Grid.ReferenceStyle = FarPoint.Win.Spread.Model.ReferenceStyle.R1C1;
+        this.Grid.ColumnCount = 13;
+        this.Grid.ColumnHeader.RowCount = 2;
+        this.Grid.RowCount = 100;
+        this.Grid.AutoUpdateNotes = true;
+        this.Grid.ColumnHeader.AutoText = FarPoint.Win.Spread.HeaderAutoText.Blank;
+        this.Grid.ColumnHeader.Cells.Get(0, 0).Value = "Depth";
+        this.Grid.ColumnHeader.Cells.Get(0, 1).Value = "Wet";
+        this.Grid.ColumnHeader.Cells.Get(0, 2).Value = "Dry";
+        this.Grid.ColumnHeader.Cells.Get(0, 3).Value = "SW";
+        this.Grid.ColumnHeader.Cells.Get(0, 4).Value = "SW";
+        this.Grid.ColumnHeader.Cells.Get(0, 5).Value = "NO3";
+        this.Grid.ColumnHeader.Cells.Get(0, 6).Value = "NH4";
+        this.Grid.ColumnHeader.Cells.Get(0, 7).Value = "NO3";
+        this.Grid.ColumnHeader.Cells.Get(0, 8).Value = "NH4";
+        this.Grid.ColumnHeader.Cells.Get(0, 9).Value = "OC";
+        this.Grid.ColumnHeader.Cells.Get(0, 10).Value = "EC";
+        this.Grid.ColumnHeader.Cells.Get(0, 11).Value = "pH";
+        this.Grid.ColumnHeader.Cells.Get(0, 12).Value = "ESP";
+        this.Grid.ColumnHeader.Cells.Get(1, 0).Value = "(cm)";
+        this.Grid.ColumnHeader.Cells.Get(1, 1).Value = "(grav%)";
+        this.Grid.ColumnHeader.Cells.Get(1, 2).Value = "(grav%)";
+        this.Grid.ColumnHeader.Cells.Get(1, 3).Value = "(grav%)";
+        this.Grid.ColumnHeader.Cells.Get(1, 4).Value = "(%vol)";
+        this.Grid.ColumnHeader.Cells.Get(1, 5).Value = "(ppm)";
+        this.Grid.ColumnHeader.Cells.Get(1, 6).Value = "(ppm)";
+        this.Grid.ColumnHeader.Cells.Get(1, 7).Value = "(kg/ha)";
+        this.Grid.ColumnHeader.Cells.Get(1, 8).Value = "(kg/ha)";
+        this.Grid.ColumnHeader.Cells.Get(1, 9).Value = "(%C)";
+        this.Grid.ColumnHeader.Cells.Get(1, 10).Value = "(dS/m)";
+        this.Grid.ColumnHeader.Cells.Get(1, 11).Value = "(CaCl2)";
+        this.Grid.ColumnHeader.Cells.Get(1, 12).Value = "(%)";
+        this.Grid.Columns.Get(1).BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(192)))), ((int)(((byte)(255)))), ((int)(((byte)(255)))));
+        this.Grid.Columns.Get(1).Label = "(grav%)";
+        this.Grid.Columns.Get(2).BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(192)))), ((int)(((byte)(255)))), ((int)(((byte)(255)))));
+        this.Grid.Columns.Get(2).Label = "(grav%)";
+        this.Grid.Columns.Get(3).BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(192)))), ((int)(((byte)(255)))), ((int)(((byte)(255)))));
+        this.Grid.Columns.Get(3).Label = "(grav%)";
+        this.Grid.Columns.Get(4).BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(192)))), ((int)(((byte)(255)))), ((int)(((byte)(255)))));
+        this.Grid.Columns.Get(4).Label = "(%vol)";
+        this.Grid.Columns.Get(5).BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(224)))), ((int)(((byte)(192)))));
+        this.Grid.Columns.Get(5).Label = "(ppm)";
+        this.Grid.Columns.Get(6).BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(224)))), ((int)(((byte)(192)))));
+        this.Grid.Columns.Get(6).Label = "(ppm)";
+        this.Grid.Columns.Get(7).BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(224)))), ((int)(((byte)(192)))));
+        this.Grid.Columns.Get(7).Label = "(kg/ha)";
+        this.Grid.Columns.Get(8).BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(224)))), ((int)(((byte)(192)))));
+        this.Grid.Columns.Get(8).Label = "(kg/ha)";
+        this.Grid.RowHeader.Columns.Default.Resizable = false;
+        this.Grid.RowHeader.Visible = false;
+        this.Grid.SheetName = "Water / Nitrogen";
+        this.Grid.CellChanged += new FarPoint.Win.Spread.SheetViewEventHandler(this.Grid_CellChanged);
+        this.Grid.ReferenceStyle = FarPoint.Win.Spread.Model.ReferenceStyle.A1;
+        // 
+        // UnitsPanel
+        // 
+        this.UnitsPanel.Controls.Add(this.SampleDate);
+        this.UnitsPanel.Controls.Add(this.groupBox2);
+        this.UnitsPanel.Dock = System.Windows.Forms.DockStyle.Top;
+        this.UnitsPanel.Location = new System.Drawing.Point(0, 40);
+        this.UnitsPanel.Name = "UnitsPanel";
+        this.UnitsPanel.Size = new System.Drawing.Size(696, 68);
+        this.UnitsPanel.TabIndex = 3;
+        // 
+        // SampleDate
+        // 
+        this.SampleDate.Format = System.Windows.Forms.DateTimePickerFormat.Short;
+        this.SampleDate.Location = new System.Drawing.Point(7, 23);
+        this.SampleDate.Name = "SampleDate";
+        this.SampleDate.Size = new System.Drawing.Size(96, 20);
+        this.SampleDate.TabIndex = 1;
+        this.SampleDate.ValueChanged += new System.EventHandler(this.SampleDate_ValueChanged);
+        // 
+        // splitter1
+        // 
+        this.splitter1.Dock = System.Windows.Forms.DockStyle.Top;
+        this.splitter1.Location = new System.Drawing.Point(0, 346);
+        this.splitter1.Name = "splitter1";
+        this.splitter1.Size = new System.Drawing.Size(696, 3);
+        this.splitter1.TabIndex = 4;
+        this.splitter1.TabStop = false;
+        // 
+        // waterChartControl1
+        // 
+        this.waterChartControl1.Dock = System.Windows.Forms.DockStyle.Left;
+        this.waterChartControl1.LinkedSoil = null;
+        this.waterChartControl1.Location = new System.Drawing.Point(0, 349);
+        this.waterChartControl1.Name = "waterChartControl1";
+        this.waterChartControl1.ShowSoilWaterLine = false;
+        this.waterChartControl1.Size = new System.Drawing.Size(348, 428);
+        this.waterChartControl1.TabIndex = 5;
+        // 
+        // groupBox2
+        // 
+        this.groupBox2.BackColor = System.Drawing.SystemColors.ControlLight;
+        this.groupBox2.Location = new System.Drawing.Point(3, 3);
+        this.groupBox2.Name = "groupBox2";
+        this.groupBox2.Size = new System.Drawing.Size(106, 60);
+        this.groupBox2.TabIndex = 9;
+        this.groupBox2.TabStop = false;
+        this.groupBox2.Text = "Sample date";
+        // 
+        // NitrogenChart
+        // 
+        // 
+        // 
+        // 
+        this.NitrogenChart.Aspect.ElevationFloat = 345;
+        this.NitrogenChart.Aspect.RotationFloat = 345;
+        this.NitrogenChart.Aspect.View3D = false;
+        // 
+        // 
+        // 
+        // 
+        // 
+        // 
+        this.NitrogenChart.Axes.Bottom.Automatic = true;
+        // 
+        // 
+        // 
+        this.NitrogenChart.Axes.Bottom.Grid.Style = System.Drawing.Drawing2D.DashStyle.Dash;
+        this.NitrogenChart.Axes.Bottom.Grid.Visible = false;
+        this.NitrogenChart.Axes.Bottom.Grid.ZPosition = 0;
+        // 
+        // 
+        // 
+        // 
+        // 
+        // 
+        // 
+        // 
+        // 
+        this.NitrogenChart.Axes.Bottom.Labels.Font.Shadow.Visible = false;
+        // 
+        // 
+        // 
+        this.NitrogenChart.Axes.Bottom.Labels.Shadow.Visible = false;
+        // 
+        // 
+        // 
+        // 
+        // 
+        // 
+        // 
+        // 
+        // 
+        this.NitrogenChart.Axes.Bottom.Title.Font.Shadow.Visible = false;
+        // 
+        // 
+        // 
+        this.NitrogenChart.Axes.Bottom.Title.Shadow.Visible = false;
+        // 
+        // 
+        // 
+        this.NitrogenChart.Axes.Depth.Automatic = true;
+        // 
+        // 
+        // 
+        this.NitrogenChart.Axes.Depth.Grid.Style = System.Drawing.Drawing2D.DashStyle.Dash;
+        this.NitrogenChart.Axes.Depth.Grid.ZPosition = 0;
+        // 
+        // 
+        // 
+        // 
+        // 
+        // 
+        // 
+        // 
+        // 
+        this.NitrogenChart.Axes.Depth.Labels.Font.Shadow.Visible = false;
+        // 
+        // 
+        // 
+        this.NitrogenChart.Axes.Depth.Labels.Shadow.Visible = false;
+        // 
+        // 
+        // 
+        // 
+        // 
+        // 
+        // 
+        // 
+        // 
+        this.NitrogenChart.Axes.Depth.Title.Font.Shadow.Visible = false;
+        // 
+        // 
+        // 
+        this.NitrogenChart.Axes.Depth.Title.Shadow.Visible = false;
+        // 
+        // 
+        // 
+        this.NitrogenChart.Axes.DepthTop.Automatic = true;
+        // 
+        // 
+        // 
+        this.NitrogenChart.Axes.DepthTop.Grid.Style = System.Drawing.Drawing2D.DashStyle.Dash;
+        this.NitrogenChart.Axes.DepthTop.Grid.ZPosition = 0;
+        // 
+        // 
+        // 
+        // 
+        // 
+        // 
+        // 
+        // 
+        // 
+        this.NitrogenChart.Axes.DepthTop.Labels.Font.Shadow.Visible = false;
+        // 
+        // 
+        // 
+        this.NitrogenChart.Axes.DepthTop.Labels.Shadow.Visible = false;
+        // 
+        // 
+        // 
+        // 
+        // 
+        // 
+        // 
+        // 
+        // 
+        this.NitrogenChart.Axes.DepthTop.Title.Font.Shadow.Visible = false;
+        // 
+        // 
+        // 
+        this.NitrogenChart.Axes.DepthTop.Title.Shadow.Visible = false;
+        // 
+        // 
+        // 
+        this.NitrogenChart.Axes.Left.AutomaticMinimum = false;
+        // 
+        // 
+        // 
+        this.NitrogenChart.Axes.Left.AxisPen.Width = 1;
+        // 
+        // 
+        // 
+        this.NitrogenChart.Axes.Left.Grid.Style = System.Drawing.Drawing2D.DashStyle.Dash;
+        this.NitrogenChart.Axes.Left.Grid.Visible = false;
+        this.NitrogenChart.Axes.Left.Grid.ZPosition = 0;
+        this.NitrogenChart.Axes.Left.Increment = 20;
+        this.NitrogenChart.Axes.Left.Inverted = true;
+        // 
+        // 
+        // 
+        // 
+        // 
+        // 
+        // 
+        // 
+        // 
+        this.NitrogenChart.Axes.Left.Labels.Font.Shadow.Visible = false;
+        // 
+        // 
+        // 
+        this.NitrogenChart.Axes.Left.Labels.Shadow.Visible = false;
+        this.NitrogenChart.Axes.Left.MaximumOffset = 2;
+        this.NitrogenChart.Axes.Left.Minimum = 0;
+        // 
+        // 
+        // 
+        this.NitrogenChart.Axes.Left.MinorTicks.Visible = false;
+        // 
+        // 
+        // 
+        this.NitrogenChart.Axes.Left.Ticks.Length = 0;
+        // 
+        // 
+        // 
+        this.NitrogenChart.Axes.Left.TicksInner.Length = 5;
+        // 
+        // 
+        // 
+        this.NitrogenChart.Axes.Left.Title.Caption = "Depth (cm)";
+        // 
+        // 
+        // 
+        // 
+        // 
+        // 
+        this.NitrogenChart.Axes.Left.Title.Font.Shadow.Visible = false;
+        this.NitrogenChart.Axes.Left.Title.Lines = new string[] {
+        "Depth (cm)"};
+        // 
+        // 
+        // 
+        this.NitrogenChart.Axes.Left.Title.Shadow.Visible = false;
+        // 
+        // 
+        // 
+        this.NitrogenChart.Axes.Right.Automatic = true;
+        // 
+        // 
+        // 
+        this.NitrogenChart.Axes.Right.Grid.Style = System.Drawing.Drawing2D.DashStyle.Dash;
+        this.NitrogenChart.Axes.Right.Grid.ZPosition = 0;
+        // 
+        // 
+        // 
+        // 
+        // 
+        // 
+        // 
+        // 
+        // 
+        this.NitrogenChart.Axes.Right.Labels.Font.Shadow.Visible = false;
+        // 
+        // 
+        // 
+        this.NitrogenChart.Axes.Right.Labels.Shadow.Visible = false;
+        // 
+        // 
+        // 
+        // 
+        // 
+        // 
+        // 
+        // 
+        // 
+        this.NitrogenChart.Axes.Right.Title.Font.Shadow.Visible = false;
+        // 
+        // 
+        // 
+        this.NitrogenChart.Axes.Right.Title.Shadow.Visible = false;
+        // 
+        // 
+        // 
+        this.NitrogenChart.Axes.Top.Automatic = true;
+        // 
+        // 
+        // 
+        this.NitrogenChart.Axes.Top.AxisPen.Width = 1;
+        // 
+        // 
+        // 
+        this.NitrogenChart.Axes.Top.Grid.Style = System.Drawing.Drawing2D.DashStyle.Dash;
+        this.NitrogenChart.Axes.Top.Grid.Visible = false;
+        this.NitrogenChart.Axes.Top.Grid.ZPosition = 0;
+        this.NitrogenChart.Axes.Top.Increment = 2;
+        // 
+        // 
+        // 
+        // 
+        // 
+        // 
+        // 
+        // 
+        // 
+        this.NitrogenChart.Axes.Top.Labels.Font.Shadow.Visible = false;
+        // 
+        // 
+        // 
+        this.NitrogenChart.Axes.Top.Labels.Shadow.Visible = false;
+        this.NitrogenChart.Axes.Top.MaximumOffset = 2;
+        // 
+        // 
+        // 
+        this.NitrogenChart.Axes.Top.MinorTicks.Visible = false;
+        // 
+        // 
+        // 
+        this.NitrogenChart.Axes.Top.Ticks.Length = 0;
+        this.NitrogenChart.Axes.Top.Ticks.Visible = false;
+        // 
+        // 
+        // 
+        this.NitrogenChart.Axes.Top.TicksInner.Length = 5;
+        // 
+        // 
+        // 
+        this.NitrogenChart.Axes.Top.Title.Caption = "Nitrogen (kg/ha)";
+        // 
+        // 
+        // 
+        // 
+        // 
+        // 
+        this.NitrogenChart.Axes.Top.Title.Font.Shadow.Visible = false;
+        this.NitrogenChart.Axes.Top.Title.Lines = new string[] {
+        "Nitrogen (kg/ha)"};
+        // 
+        // 
+        // 
+        this.NitrogenChart.Axes.Top.Title.Shadow.Visible = false;
+        this.NitrogenChart.Cursor = System.Windows.Forms.Cursors.Default;
+        this.NitrogenChart.Dock = System.Windows.Forms.DockStyle.Fill;
+        // 
+        // 
+        // 
+        // 
+        // 
+        // 
+        // 
+        // 
+        // 
+        this.NitrogenChart.Footer.Font.Shadow.Visible = false;
+        // 
+        // 
+        // 
+        this.NitrogenChart.Footer.Shadow.Visible = false;
+        // 
+        // 
+        // 
+        // 
+        // 
+        // 
+        // 
+        // 
+        // 
+        this.NitrogenChart.Header.Font.Shadow.Visible = false;
+        this.NitrogenChart.Header.Lines = new string[] {
+        ""};
+        // 
+        // 
+        // 
+        this.NitrogenChart.Header.Shadow.Visible = false;
+        // 
+        // 
+        // 
+        this.NitrogenChart.Legend.CheckBoxes = true;
+        // 
+        // 
+        // 
+        // 
+        // 
+        // 
+        this.NitrogenChart.Legend.Font.Shadow.Visible = false;
+        this.NitrogenChart.Legend.LegendStyle = Steema.TeeChart.LegendStyles.Series;
+        // 
+        // 
+        // 
+        this.NitrogenChart.Legend.Pen.Visible = false;
+        // 
+        // 
+        // 
+        this.NitrogenChart.Legend.Shadow.Visible = false;
+        // 
+        // 
+        // 
+        // 
+        // 
+        // 
+        this.NitrogenChart.Legend.Title.Font.Bold = true;
+        // 
+        // 
+        // 
+        this.NitrogenChart.Legend.Title.Font.Shadow.Visible = false;
+        // 
+        // 
+        // 
+        this.NitrogenChart.Legend.Title.Pen.Visible = false;
+        // 
+        // 
+        // 
+        this.NitrogenChart.Legend.Title.Shadow.Visible = false;
+        this.NitrogenChart.Location = new System.Drawing.Point(348, 349);
+        this.NitrogenChart.Name = "NitrogenChart";
+        // 
+        // 
+        // 
+        // 
+        // 
+        // 
+        this.NitrogenChart.Panel.Bevel.Outer = Steema.TeeChart.Drawing.BevelStyles.None;
+        // 
+        // 
+        // 
+        this.NitrogenChart.Panel.Brush.Color = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(255)))), ((int)(((byte)(255)))));
+        // 
+        // 
+        // 
+        this.NitrogenChart.Panel.ImageBevel.Width = 1;
+        // 
+        // 
+        // 
+        this.NitrogenChart.Panel.Shadow.Visible = false;
+        this.NitrogenChart.Size = new System.Drawing.Size(348, 428);
+        // 
+        // 
+        // 
+        // 
+        // 
+        // 
+        // 
+        // 
+        // 
+        this.NitrogenChart.SubFooter.Font.Shadow.Visible = false;
+        // 
+        // 
+        // 
+        this.NitrogenChart.SubFooter.Shadow.Visible = false;
+        // 
+        // 
+        // 
+        // 
+        // 
+        // 
+        // 
+        // 
+        // 
+        this.NitrogenChart.SubHeader.Font.Shadow.Visible = false;
+        // 
+        // 
+        // 
+        this.NitrogenChart.SubHeader.Shadow.Visible = false;
+        this.NitrogenChart.TabIndex = 39;
+        // 
+        // 
+        // 
+        // 
+        // 
+        // 
+        this.NitrogenChart.Walls.Back.AutoHide = false;
+        // 
+        // 
+        // 
+        this.NitrogenChart.Walls.Back.Shadow.Visible = false;
+        // 
+        // 
+        // 
+        this.NitrogenChart.Walls.Bottom.AutoHide = false;
+        // 
+        // 
+        // 
+        this.NitrogenChart.Walls.Bottom.Shadow.Visible = false;
+        // 
+        // 
+        // 
+        this.NitrogenChart.Walls.Left.AutoHide = false;
+        // 
+        // 
+        // 
+        this.NitrogenChart.Walls.Left.Shadow.Visible = false;
+        // 
+        // 
+        // 
+        this.NitrogenChart.Walls.Right.AutoHide = false;
+        // 
+        // 
+        // 
+        this.NitrogenChart.Walls.Right.Shadow.Visible = false;
+        this.NitrogenChart.Walls.Visible = false;
+        // 
+        // splitter2
+        // 
+        this.splitter2.Location = new System.Drawing.Point(348, 349);
+        this.splitter2.Name = "splitter2";
+        this.splitter2.Size = new System.Drawing.Size(3, 428);
+        this.splitter2.TabIndex = 40;
+        this.splitter2.TabStop = false;
+        // 
+        // SampleUI
+        // 
+        this.Controls.Add(this.splitter2);
+        this.Controls.Add(this.NitrogenChart);
+        this.Controls.Add(this.waterChartControl1);
+        this.Controls.Add(this.splitter1);
+        this.Controls.Add(this.FpSpread);
+        this.Controls.Add(this.UnitsPanel);
+        this.Name = "SampleUI";
+        this.Size = new System.Drawing.Size(696, 777);
+        this.Controls.SetChildIndex(this.UnitsPanel, 0);
+        this.Controls.SetChildIndex(this.FpSpread, 0);
+        this.Controls.SetChildIndex(this.splitter1, 0);
+        this.Controls.SetChildIndex(this.waterChartControl1, 0);
+        this.Controls.SetChildIndex(this.NitrogenChart, 0);
+        this.Controls.SetChildIndex(this.splitter2, 0);
+        ((System.ComponentModel.ISupportInitialize)(this.FpSpread)).EndInit();
+        ((System.ComponentModel.ISupportInitialize)(this.Grid)).EndInit();
+        this.UnitsPanel.ResumeLayout(false);
+        this.ResumeLayout(false);
 
 		}
 		#endregion
@@ -230,17 +692,15 @@ namespace CSUserInterface
 			GridUtils.SetColumnAsStrings(Grid, 0, Soils.Utility.ToDepthStrings(MySample.Thickness));
 
 			SampleDate.Value = MySample.SampleDate;
-			if (MySample.StoredWaterFormat == SoilSample.StoredWaterFormatType.VolumetricPercent)
+			if (MySample.WaterFormat == "VolumetricPercent")
 				{
-				WaterUnits.SelectedIndex = 0;
 				GridUtils.SetColumnAsDoubles(Grid, 1, MySample.SW);
 				Grid.Columns[2].Visible = false;
 				Grid.ColumnHeader.Cells[0, 1].Text = "Water";
 				Grid.ColumnHeader.Cells[1, 1].Text = "(%vol)";
 				}
-			else if (MySample.StoredWaterFormat == SoilSample.StoredWaterFormatType.GravimetricPercent)
+			else if (MySample.WaterFormat == "GravimetricPercent")
 				{
-				WaterUnits.SelectedIndex = 1;
 				GridUtils.SetColumnAsDoubles(Grid, 1, MySample.SWGrav);
 				Grid.Columns[2].Visible = false;
 				Grid.ColumnHeader.Cells[0, 1].Text = "Water";
@@ -248,7 +708,6 @@ namespace CSUserInterface
 				}
 			else
 				{
-				WaterUnits.SelectedIndex = 2;
 				GridUtils.SetColumnAsDoubles(Grid, 1, MySample.Wet);
 				Grid.Columns[2].Visible = true;
 				Grid.ColumnHeader.Cells[0, 1].Text = "Wet";
@@ -267,7 +726,7 @@ namespace CSUserInterface
 
 		private void SaveGrid()
 			{
-			int NumLayers = GridUtils.FindFirstBlankCell(Grid, 0);
+/*			int NumLayers = GridUtils.FindFirstBlankCell(Grid, 0);
 			MySample.Thickness = Soils.Utility.ToThickness(GridUtils.GetColumnAsStrings(Grid, 0, NumLayers));
 			if (WaterUnits.SelectedIndex == 0)
                 MySample.SW = GridUtils.GetColumnAsDoubles(Grid, 1, NumLayers);
@@ -285,7 +744,7 @@ namespace CSUserInterface
             MySample.EC = GridUtils.GetColumnAsDoubles(Grid, 6, NumLayers);
             MySample.PH = GridUtils.GetColumnAsDoubles(Grid, 7, NumLayers);
             MySample.ESP = GridUtils.GetColumnAsDoubles(Grid, 8, NumLayers);
-			}
+*/			}
 
 		private void SampleDate_ValueChanged(object sender, System.EventArgs e)
 			{
