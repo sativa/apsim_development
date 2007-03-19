@@ -156,7 +156,6 @@
       <SubType>UserControl</SubType>
     </Compile>
     <Compile Include="TclUI.vb">
-      <SubType>UserControl</SubType>
     </Compile>
     <Compile Include="EmptyUI.vb">
       <SubType>UserControl</SubType>
@@ -382,6 +381,7 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="app.config" />
+  </ItemGroup>
   <ItemGroup>
     <COMReference Include="AxTCLCONTROLPRJ2Lib">
       <Guid>{E796A720-F130-11D2-8003-0040055861F2}</Guid>
