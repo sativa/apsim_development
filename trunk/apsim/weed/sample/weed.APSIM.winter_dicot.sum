@@ -19,6 +19,7 @@ Component   "soilwat2" = c:\development\apsim\soilwat2\lib\soilwat2.dll
 Component  "SurfaceOM" = c:\development\apsim\SurfaceOM\lib\SurfaceOM.dll
 Component     "soiln2" = c:\development\apsim\soiln2\lib\soiln2.dll
 Component       "weed" = c:\development\apsim\Plant\lib\Plant.dll
+Component     "sysbal" = c:\development\apsim\sysbal\lib\sysbal.dll
 
 ------- clock Initialisation --------------------------------------------------
      Sequencer phases:
@@ -270,6 +271,10 @@ Component       "weed" = c:\development\apsim\Plant\lib\Plant.dll
       stage 3.0 emergence
                      biomass =           0.90 (g/m^2)   lai          =   0.004 (m^2/m^2)
                      stover N conc =     6.00 (%)    extractable sw =   29.00 (mm)
+4 May 1988(Day of year=125), sysbal: 
+      **** N balance - unaccounted gain (kg/ha) =  0.701171875
+      **** C balance - unaccounted gain (kg/ha) =  7.19035816
+      ****        equivalent DM as FOM  (kg/ha) =  17.9758949
 20 June 1988(Day of year=172), weed: 
       stage 4.0 end_of_juvenile
                      biomass =         179.61 (g/m^2)   lai          =   2.755 (m^2/m^2)
@@ -288,7 +293,7 @@ Component       "weed" = c:\development\apsim\Plant\lib\Plant.dll
                      stover N conc =     1.49 (%)    extractable sw =  226.46 (mm)
 15 September 1988(Day of year=259), weed: 
      Crop failure because of total leaf senescence.
-     Plant death. standing above-ground dm = 10984.84 (kg/ha)
+     Plant death. standing above-ground dm = 10984.80 (kg/ha)
 16 September 1988(Day of year=260), manager: 
      Manager sending message :- weed kill_crop
 16 September 1988(Day of year=260), weed: 
@@ -296,7 +301,7 @@ Component       "weed" = c:\development\apsim\Plant\lib\Plant.dll
      Manager sending message :- weed end_crop
      Crop ended. Yield (dw) =  1651.1  (kg/ha)
          Organic matter from crop:-      Tops to surface residue      Roots to soil FOM
-                          DM (kg/ha) =               11007.34                 2967.91
+                          DM (kg/ha) =               11007.30                 2967.90
                           N  (kg/ha) =                109.06                   10.93
      
 30 May 1989(Day of year=150), clock: 
