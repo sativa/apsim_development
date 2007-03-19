@@ -562,8 +562,8 @@ Component   "rainfall" = c:\development\apsim\patchinput\lib\patchinput.dll
                      biomass =         809.34 (g/m^2)   lai          =   0.000 (m^2/m^2)
                      stover N conc =     0.31 (%)    extractable sw =   18.75 (mm)
 11 December 2005(Day of year=345), manager: 
-     Manager creating a new local real variable : wet_yield =     3.40048774659368
-     Manager creating a new local real variable : cropprotein =     10.8677273000000
+     Manager creating a new local real variable : wet_yield =     3.40048441704821
+     Manager creating a new local real variable : cropprotein =     10.8677311000000
      Manager creating a new local real variable : price =     0.00000000000000
      Manager sending message :- wheat harvest
 11 December 2005(Day of year=345), Wheat: 
@@ -571,7 +571,7 @@ Component   "rainfall" = c:\development\apsim\patchinput\lib\patchinput.dll
       flowering day          =  303                           stover (kg/ha)         =     5101.0
       maturity day           =  343                           grain yield (kg/ha)    =     2992.4
       grain % water content  =   12.5                         grain yield wet (kg/ha)=     3419.9
-      grain wt (g)           =    0.036                       grains/m^2             =   8373.328
+      grain wt (g)           =    0.036                       grains/m^2             =   8373.322
       grains/plant           =   83.7                         maximum lai            =      3.753
       total above ground biomass (kg/ha)    =     8093.4
       live above ground biomass (kg/ha)     =     8093.4
@@ -590,7 +590,7 @@ Component   "rainfall" = c:\development\apsim\patchinput\lib\patchinput.dll
          end_of_juvenile      to floral_initiation       0.030        0.041        0.034        0.070
          floral_initiation    to flowering               0.276        0.339        0.100        0.146
          flowering            to start_grain_fill        0.480        0.580        0.000        0.000
-         start_grain_fill     to end_grain_fill          0.149        0.197        0.373        0.561
+         start_grain_fill     to end_grain_fill          0.149        0.197        0.373        0.562
      
      
      Crop harvested.
