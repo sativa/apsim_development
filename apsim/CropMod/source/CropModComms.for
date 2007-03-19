@@ -3065,6 +3065,7 @@ c        end if
      :                     , P_root
      :                      )
 
+
       call pop_routine (my_name)
       return
       end subroutine
@@ -3170,11 +3171,12 @@ c        end if
       real       n_removed_tops
       real       n_removed_root
 
-      real       P_residue             ! Phosphorus added to residue (g/m^2)
       real       dlt_dm_crop(max_part) ! change in dry matter of crop (kg/ha)
       real       dlt_dm_N(max_part)    ! N content of changeed dry matter (kg/ha)
       real       dlt_dm_P(max_part)    ! P content of changeed dry matter (kg/ha)
       real       incorp_fr(max_part)   ! fraction of each pool to incorporate(0-1)
+      real       P_residue             ! P added to residue (kg/ha)
+
 
 
 *- Implementation Section ----------------------------------
@@ -3361,6 +3363,55 @@ c        end if
       call write_string ( string)
       call write_string (' ')
 
+         dlt_dm_crop(:) = 0.0
+         dlt_dm_N (:) = 0.0
+
+         dlt_dm_crop(grain) = (g%dm_green(grain)
+     :                  + g%dm_senesced(grain)
+     :                  + g%dm_dead(grain))
+     :                  * gm2kg/sm2ha
+
+         dlt_dm_N   (grain) = (g%N_green(grain)
+     :                  + g%N_senesced(grain)
+     :                  + g%N_dead(grain))
+     :                  * gm2kg/sm2ha
+
+
+         fraction_to_residue(:)    = 1.0
+         chop_fr(:) = 0.0
+         chop_fr(grain) = 1.0
+!         chop_fr(root) = 0.0
+
+         call PlantP_residue_chopped (chop_fr  ! green
+     :                           , chop_fr  ! senesced
+     :                           , chop_fr  ! dead
+     :                           , fraction_to_residue
+     :                           , P_residue
+     :                           , dlt_dm_P
+     :                           )
+
+         fraction_to_residue(:)    = 0.0
+
+         if (sum(dlt_dm_crop(leaf:)) .gt. 0.0) then
+
+            call Send_Crop_Chopped_Event_N_P
+     :                (c%crop_type
+     :               , part_name
+     :               , dlt_dm_crop
+     :               , dlt_dm_N
+     :               , dlt_dm_P
+     :               , fraction_to_Residue
+     :               , max_part)
+
+         else
+            ! no surface residue
+         endif
+
+      g%dm_green(grain) = 0.0
+      g%N_green(grain) = 0.0
+
+      g%dm_dead(grain) = 0.0
+      g%N_dead(grain) = 0.0
 
       call pop_routine (my_name)
       return
