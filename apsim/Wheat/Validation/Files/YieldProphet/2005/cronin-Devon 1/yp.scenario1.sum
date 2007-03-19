@@ -562,36 +562,36 @@ Component   "rainfall" = c:\development\apsim\patchinput\lib\patchinput.dll
                      stover N conc =     0.46 (%)    extractable sw =   64.40 (mm)
 18 November 2005(Day of year=322), Wheat: 
       stage 8.0 end_grain_fill
-                     biomass =         926.86 (g/m^2)   lai          =   0.393 (m^2/m^2)
-                     stover N conc =     0.30 (%)    extractable sw =   73.04 (mm)
+                     biomass =         926.87 (g/m^2)   lai          =   0.393 (m^2/m^2)
+                     stover N conc =     0.30 (%)    extractable sw =   73.03 (mm)
 20 November 2005(Day of year=324), Wheat: 
       stage 9.0 maturity
-                     biomass =         927.06 (g/m^2)   lai          =   0.301 (m^2/m^2)
+                     biomass =         927.07 (g/m^2)   lai          =   0.301 (m^2/m^2)
                      stover N conc =     0.30 (%)    extractable sw =   69.72 (mm)
 21 November 2005(Day of year=325), Wheat: 
       stage 10.0 harvest_ripe
-                     biomass =         927.06 (g/m^2)   lai          =   0.000 (m^2/m^2)
+                     biomass =         927.07 (g/m^2)   lai          =   0.000 (m^2/m^2)
                      stover N conc =     0.29 (%)    extractable sw =   69.33 (mm)
 22 November 2005(Day of year=326), manager: 
-     Manager creating a new local real variable : wet_yield =     2.42747193424700
-     Manager creating a new local real variable : cropprotein =     7.42963314000000
+     Manager creating a new local real variable : wet_yield =     2.42759178652041
+     Manager creating a new local real variable : cropprotein =     7.42947912000000
      Manager creating a new local real variable : price =     0.00000000000000
      Manager sending message :- wheat harvest
 22 November 2005(Day of year=326), Wheat: 
      
       flowering day          =  288                           stover (kg/ha)         =     7134.4
-      maturity day           =  324                           grain yield (kg/ha)    =     2136.2
-      grain % water content  =   12.5                         grain yield wet (kg/ha)=     2441.3
-      grain wt (g)           =    0.021                       grains/m^2             =  10407.287
+      maturity day           =  324                           grain yield (kg/ha)    =     2136.3
+      grain % water content  =   12.5                         grain yield wet (kg/ha)=     2441.5
+      grain wt (g)           =    0.021                       grains/m^2             =  10407.284
       grains/plant           =  104.1                         maximum lai            =      2.796
-      total above ground biomass (kg/ha)    =     9270.6
-      live above ground biomass (kg/ha)     =     9270.6
-      green above ground biomass (kg/ha)    =     8031.9
+      total above ground biomass (kg/ha)    =     9270.7
+      live above ground biomass (kg/ha)     =     9270.7
+      green above ground biomass (kg/ha)    =     8032.1
       senesced above ground biomass (kg/ha) =     1238.6
       dead above ground biomass (kg/ha)     =        0.0
       number of leaves       =   44.9
       DM Root:Shoot ratio    =    0.151                       Harvest Index          =      0.230
-      Stover C:N ratio       =  121.005                       Root C:N ratio         =     47.618
+      Stover C:N ratio       =  121.004                       Root C:N ratio         =     47.618
       grain N percent        =       1.30                     total N content (kg/ha)=      51.38
       grain N uptake (kg/ha) =      27.80                     senesced N content (kg/ha)=    6.19
       green N content (kg/ha)=      17.39                     dead N content (kg/ha) =       0.00
@@ -606,11 +606,11 @@ Component   "rainfall" = c:\development\apsim\patchinput\lib\patchinput.dll
      
      Crop harvested.
          Organic matter from crop:-      Tops to surface residue      Roots to soil FOM
-                          DM (kg/ha) =               7134.19                    0.00
+                          DM (kg/ha) =               7134.21                    0.00
                           N  (kg/ha) =                 23.57                    0.00
      
          Organic matter removed from system:-      From Tops               From Roots
-                          DM (kg/ha) =               2136.17                    0.00
+                          DM (kg/ha) =               2136.28                    0.00
                           N  (kg/ha) =                 27.80                    0.00
      
       stage 4.0 end_of_juvenile
@@ -621,7 +621,7 @@ Component   "rainfall" = c:\development\apsim\patchinput\lib\patchinput.dll
      Manager sending message :- wheat end_crop
      Crop ended. Yield (dw) =     0.0  (kg/ha)
          Organic matter from crop:-      Tops to surface residue      Roots to soil FOM
-                          DM (kg/ha) =                  0.20                 1403.23
+                          DM (kg/ha) =                  0.20                 1403.22
                           N  (kg/ha) =                  0.01                   11.79
      
      Manager sending message :- surfaceom tillage  type = burn
