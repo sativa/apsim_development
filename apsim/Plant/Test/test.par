@@ -101,6 +101,13 @@ xf   = 1.00 1.00 1.00 1.00 1.00 1.00 1.00  ! Weighting factor for root advance
 kl   = 0.08 0.08 0.08 0.08 0.05 0.03 0.01  ! Water Extraction Parameter (0-1)
 
 
+[test5.wheat.parameters]
+! for a heavy Gatton Soil
+ll   = .20  .28  .320 .300 .270 .240 .310  ! lower limit mm water/mm soil
+xf   = 1.00 1.00 1.00 1.00 1.00 1.00 1.00  ! Weighting factor for root advance
+kl   = 0.08 0.08 0.08 0.08 0.05 0.03 0.01  ! Water Extraction Parameter (0-1)
+
+
 [wheat.manager.start_of_day]
 if day = 270 and year  = 1988 then
   wheat sow cultivar = hartog, plants = 120, sowing_depth = 30 (mm)
