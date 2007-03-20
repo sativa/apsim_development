@@ -1,4 +1,4 @@
-<simulations name="untitled" version="7">
+<simulations name="untitled" version="8">
   <simulation name="PacSeeds">
     <clock name="clock">
       <start_date name="start_date" description="Select the start date of the simulation" type="date">1/09/2004</start_date>
@@ -66,6 +66,7 @@
         <cnr description="C:N ration of initial residue">80.0</cnr>
         <standing_fraction description="Fraction of residue standing">0.0</standing_fraction>
       </surfaceom>
+      <soil name="Soil" shortcut="LawesSoil" />
       <SweetSorghum />
       <outputfile name="outputfile">
         <filename name="filename">PacSeeds Planting1.out</filename>
@@ -88,199 +89,6 @@
         <property name="crit_fr_asw" type="text" description="Fraction of ASW below which irrigation is applied (0-1.0)">0.5</property>
         <property name="irrigation_efficiency" description="Efficiency of the irrigation. (0-1.0)">1.0</property>
       </irrigation>
-      <soil name="Soil">
-        <Site>UQ, Lawes</Site>
-        <Region>Lockyer</Region>
-        <SoilType>Black Vertosol</SoilType>
-        <NearestTown>Gatton, Q 4343</NearestTown>
-        <NaturalVegetation>Blue Gum, Moreton Bay Ash, Tea Tree</NaturalVegetation>
-        <profile>
-          <layer>
-            <thickness>150</thickness>
-            <bd>1.32</bd>
-            <ll15>0.26</ll15>
-            <airdry>0.13</airdry>
-            <dul>0.41</dul>
-            <sat>0.47</sat>
-            <sw>9999.99</sw>
-            <swcon>0.3</swcon>
-            <fbiom>0.03</fbiom>
-            <finert>0.4</finert>
-            <no3>6.5</no3>
-            <nh4>0.6</nh4>
-            <oc>1.24</oc>
-            <ph>7</ph>
-            <ll name="SweetSorghum">0.26</ll>
-            <kl name="SweetSorghum">0.1</kl>
-            <xf name="SweetSorghum">1</xf>
-          </layer>
-          <layer>
-            <thickness>150</thickness>
-            <bd>1.3</bd>
-            <ll15>0.26</ll15>
-            <airdry>0.234</airdry>
-            <dul>0.43</dul>
-            <sat>0.48</sat>
-            <sw>9999.99</sw>
-            <swcon>0.3</swcon>
-            <fbiom>0.02</fbiom>
-            <finert>0.6</finert>
-            <no3>2.1</no3>
-            <nh4>0.1</nh4>
-            <oc>1.24</oc>
-            <ph>7</ph>
-            <ll name="SweetSorghum">0.26</ll>
-            <kl name="SweetSorghum">0.1</kl>
-            <xf name="SweetSorghum">1</xf>
-          </layer>
-          <layer>
-            <thickness>300</thickness>
-            <bd>1.23</bd>
-            <ll15>0.26</ll15>
-            <airdry>0.26</airdry>
-            <dul>0.46</dul>
-            <sat>0.51</sat>
-            <sw>9999.99</sw>
-            <swcon>0.3</swcon>
-            <fbiom>0.01</fbiom>
-            <finert>0.8</finert>
-            <no3>2.1</no3>
-            <nh4>0.1</nh4>
-            <oc>1.25</oc>
-            <ph>7</ph>
-            <ll name="SweetSorghum">0.26</ll>
-            <kl name="SweetSorghum">0.08</kl>
-            <xf name="SweetSorghum">1</xf>
-          </layer>
-          <layer>
-            <thickness>300</thickness>
-            <bd>1.27</bd>
-            <ll15>0.26</ll15>
-            <airdry>0.26</airdry>
-            <dul>0.44</dul>
-            <sat>0.49</sat>
-            <sw>9999.99</sw>
-            <swcon>0.3</swcon>
-            <fbiom>0.01</fbiom>
-            <finert>0.9</finert>
-            <no3>1.7</no3>
-            <nh4>0.1</nh4>
-            <oc>1.1</oc>
-            <ph>7</ph>
-            <ll name="SweetSorghum">0.26</ll>
-            <kl name="SweetSorghum">0.06</kl>
-            <xf name="SweetSorghum">1</xf>
-          </layer>
-          <layer>
-            <thickness>300</thickness>
-            <bd>1.37</bd>
-            <ll15>0.25</ll15>
-            <airdry>0.25</airdry>
-            <dul>0.4</dul>
-            <sat>0.45</sat>
-            <sw>9999.99</sw>
-            <swcon>0.3</swcon>
-            <fbiom>0.01</fbiom>
-            <finert>0.95</finert>
-            <no3>1.7</no3>
-            <nh4>0.1</nh4>
-            <oc>0.71</oc>
-            <ph>7</ph>
-            <ll name="SweetSorghum">0.25</ll>
-            <kl name="SweetSorghum">0.04</kl>
-            <xf name="SweetSorghum">1</xf>
-          </layer>
-          <layer>
-            <thickness>300</thickness>
-            <bd>1.35</bd>
-            <ll15>0.28</ll15>
-            <airdry>0.28</airdry>
-            <dul>0.41</dul>
-            <sat>0.46</sat>
-            <sw>9999.99</sw>
-            <swcon>0.3</swcon>
-            <fbiom>0.01</fbiom>
-            <finert>0.95</finert>
-            <no3>1.7</no3>
-            <nh4>0.1</nh4>
-            <oc>0.34</oc>
-            <ph>7</ph>
-            <ll name="SweetSorghum">0.29</ll>
-            <kl name="SweetSorghum">0.02</kl>
-            <xf name="SweetSorghum">1</xf>
-          </layer>
-          <layer>
-            <thickness>300</thickness>
-            <bd>1.35</bd>
-            <ll15>0.31</ll15>
-            <airdry>0.31</airdry>
-            <dul>0.38</dul>
-            <sat>0.46</sat>
-            <sw>9999.99</sw>
-            <swcon>0.3</swcon>
-            <fbiom>0.01</fbiom>
-            <finert>0.95</finert>
-            <no3>1.7</no3>
-            <nh4>0.1</nh4>
-            <oc>0.26</oc>
-            <ph>7</ph>
-            <ll name="SweetSorghum">0.38</ll>
-            <kl name="SweetSorghum">0.01</kl>
-            <xf name="SweetSorghum">1</xf>
-          </layer>
-        </profile>
-        <Cona>3.5</Cona>
-        <DiffusConst>40</DiffusConst>
-        <DiffusSlope>16</DiffusSlope>
-        <U>6</U>
-        <Salb>0.13</Salb>
-        <Cn2Bare>73</Cn2Bare>
-        <CnRed>20</CnRed>
-        <CnCov>0.8</CnCov>
-        <CnCanopyFact>1</CnCanopyFact>
-        <RootCn>40</RootCn>
-        <RootWt>200</RootWt>
-        <SoilCn>12.5</SoilCn>
-        <EnrACoeff>7.4</EnrACoeff>
-        <EnrBCoeff>0.2</EnrBCoeff>
-        <Comment>oc and ph not measured</Comment>
-        <InitWater>
-          <PercentMethod>
-            <Percent>0.83</Percent>
-            <Distributed>Filled from top</Distributed>
-          </PercentMethod>
-        </InitWater>
-        <InitNitrogen>
-          <layer name="1">
-            <no3>6.49399399399399</no3>
-            <nh4>0.608228980322003</nh4>
-          </layer>
-          <layer name="2">
-            <no3>2.0980595980596</no3>
-            <nh4>0.101371496720334</nh4>
-          </layer>
-          <layer name="3">
-            <no3>2.0980595980596</no3>
-            <nh4>0.101371496720334</nh4>
-          </layer>
-          <layer name="4">
-            <no3>1.6984291984292</no3>
-            <nh4>0.101371496720334</nh4>
-          </layer>
-          <layer name="5">
-            <no3>1.6984291984292</no3>
-            <nh4>0.101371496720334</nh4>
-          </layer>
-          <layer name="6">
-            <no3>1.6984291984292</no3>
-            <nh4>0.101371496720334</nh4>
-          </layer>
-          <layer name="7">
-            <no3>1.6984291984292</no3>
-            <nh4>0.101371496720334</nh4>
-          </layer>
-        </InitNitrogen>
-      </soil>
     </area>
     <area name="Planting2">
       <registrations name="global" />
@@ -338,6 +146,7 @@
         <cnr description="C:N ration of initial residue">80.0</cnr>
         <standing_fraction description="Fraction of residue standing">0.0</standing_fraction>
       </surfaceom>
+      <soil name="Soil" shortcut="LawesSoil" />
       <SweetSorghum />
       <outputfile name="outputfile">
         <filename name="filename">PacSeeds Planting2.out</filename>
@@ -360,199 +169,6 @@
         <property name="crit_fr_asw" type="text" description="Fraction of ASW below which irrigation is applied (0-1.0)">0.5</property>
         <property name="irrigation_efficiency" description="Efficiency of the irrigation. (0-1.0)">1.0</property>
       </irrigation>
-      <soil name="Soil">
-        <Site>UQ, Lawes</Site>
-        <Region>Lockyer</Region>
-        <SoilType>Black Vertosol</SoilType>
-        <NearestTown>Gatton, Q 4343</NearestTown>
-        <NaturalVegetation>Blue Gum, Moreton Bay Ash, Tea Tree</NaturalVegetation>
-        <profile>
-          <layer>
-            <thickness>150</thickness>
-            <bd>1.32</bd>
-            <ll15>0.26</ll15>
-            <airdry>0.13</airdry>
-            <dul>0.41</dul>
-            <sat>0.47</sat>
-            <sw>9999.99</sw>
-            <swcon>0.3</swcon>
-            <fbiom>0.03</fbiom>
-            <finert>0.4</finert>
-            <no3>6.5</no3>
-            <nh4>0.6</nh4>
-            <oc>1.24</oc>
-            <ph>7</ph>
-            <ll name="SweetSorghum">0.26</ll>
-            <kl name="SweetSorghum">0.1</kl>
-            <xf name="SweetSorghum">1</xf>
-          </layer>
-          <layer>
-            <thickness>150</thickness>
-            <bd>1.3</bd>
-            <ll15>0.26</ll15>
-            <airdry>0.234</airdry>
-            <dul>0.43</dul>
-            <sat>0.48</sat>
-            <sw>9999.99</sw>
-            <swcon>0.3</swcon>
-            <fbiom>0.02</fbiom>
-            <finert>0.6</finert>
-            <no3>2.1</no3>
-            <nh4>0.1</nh4>
-            <oc>1.24</oc>
-            <ph>7</ph>
-            <ll name="SweetSorghum">0.26</ll>
-            <kl name="SweetSorghum">0.1</kl>
-            <xf name="SweetSorghum">1</xf>
-          </layer>
-          <layer>
-            <thickness>300</thickness>
-            <bd>1.23</bd>
-            <ll15>0.26</ll15>
-            <airdry>0.26</airdry>
-            <dul>0.46</dul>
-            <sat>0.51</sat>
-            <sw>9999.99</sw>
-            <swcon>0.3</swcon>
-            <fbiom>0.01</fbiom>
-            <finert>0.8</finert>
-            <no3>2.1</no3>
-            <nh4>0.1</nh4>
-            <oc>1.25</oc>
-            <ph>7</ph>
-            <ll name="SweetSorghum">0.26</ll>
-            <kl name="SweetSorghum">0.08</kl>
-            <xf name="SweetSorghum">1</xf>
-          </layer>
-          <layer>
-            <thickness>300</thickness>
-            <bd>1.27</bd>
-            <ll15>0.26</ll15>
-            <airdry>0.26</airdry>
-            <dul>0.44</dul>
-            <sat>0.49</sat>
-            <sw>9999.99</sw>
-            <swcon>0.3</swcon>
-            <fbiom>0.01</fbiom>
-            <finert>0.9</finert>
-            <no3>1.7</no3>
-            <nh4>0.1</nh4>
-            <oc>1.1</oc>
-            <ph>7</ph>
-            <ll name="SweetSorghum">0.26</ll>
-            <kl name="SweetSorghum">0.06</kl>
-            <xf name="SweetSorghum">1</xf>
-          </layer>
-          <layer>
-            <thickness>300</thickness>
-            <bd>1.37</bd>
-            <ll15>0.25</ll15>
-            <airdry>0.25</airdry>
-            <dul>0.4</dul>
-            <sat>0.45</sat>
-            <sw>9999.99</sw>
-            <swcon>0.3</swcon>
-            <fbiom>0.01</fbiom>
-            <finert>0.95</finert>
-            <no3>1.7</no3>
-            <nh4>0.1</nh4>
-            <oc>0.71</oc>
-            <ph>7</ph>
-            <ll name="SweetSorghum">0.25</ll>
-            <kl name="SweetSorghum">0.04</kl>
-            <xf name="SweetSorghum">1</xf>
-          </layer>
-          <layer>
-            <thickness>300</thickness>
-            <bd>1.35</bd>
-            <ll15>0.28</ll15>
-            <airdry>0.28</airdry>
-            <dul>0.41</dul>
-            <sat>0.46</sat>
-            <sw>9999.99</sw>
-            <swcon>0.3</swcon>
-            <fbiom>0.01</fbiom>
-            <finert>0.95</finert>
-            <no3>1.7</no3>
-            <nh4>0.1</nh4>
-            <oc>0.34</oc>
-            <ph>7</ph>
-            <ll name="SweetSorghum">0.29</ll>
-            <kl name="SweetSorghum">0.02</kl>
-            <xf name="SweetSorghum">1</xf>
-          </layer>
-          <layer>
-            <thickness>300</thickness>
-            <bd>1.35</bd>
-            <ll15>0.31</ll15>
-            <airdry>0.31</airdry>
-            <dul>0.38</dul>
-            <sat>0.46</sat>
-            <sw>9999.99</sw>
-            <swcon>0.3</swcon>
-            <fbiom>0.01</fbiom>
-            <finert>0.95</finert>
-            <no3>1.7</no3>
-            <nh4>0.1</nh4>
-            <oc>0.26</oc>
-            <ph>7</ph>
-            <ll name="SweetSorghum">0.38</ll>
-            <kl name="SweetSorghum">0.01</kl>
-            <xf name="SweetSorghum">1</xf>
-          </layer>
-        </profile>
-        <Cona>3.5</Cona>
-        <DiffusConst>40</DiffusConst>
-        <DiffusSlope>16</DiffusSlope>
-        <U>6</U>
-        <Salb>0.13</Salb>
-        <Cn2Bare>73</Cn2Bare>
-        <CnRed>20</CnRed>
-        <CnCov>0.8</CnCov>
-        <CnCanopyFact>1</CnCanopyFact>
-        <RootCn>40</RootCn>
-        <RootWt>200</RootWt>
-        <SoilCn>12.5</SoilCn>
-        <EnrACoeff>7.4</EnrACoeff>
-        <EnrBCoeff>0.2</EnrBCoeff>
-        <Comment>oc and ph not measured</Comment>
-        <InitWater>
-          <PercentMethod>
-            <Percent>0.83</Percent>
-            <Distributed>Filled from top</Distributed>
-          </PercentMethod>
-        </InitWater>
-        <InitNitrogen>
-          <layer name="1">
-            <no3>6.49399399399399</no3>
-            <nh4>0.608228980322003</nh4>
-          </layer>
-          <layer name="2">
-            <no3>2.0980595980596</no3>
-            <nh4>0.101371496720334</nh4>
-          </layer>
-          <layer name="3">
-            <no3>2.0980595980596</no3>
-            <nh4>0.101371496720334</nh4>
-          </layer>
-          <layer name="4">
-            <no3>1.6984291984292</no3>
-            <nh4>0.101371496720334</nh4>
-          </layer>
-          <layer name="5">
-            <no3>1.6984291984292</no3>
-            <nh4>0.101371496720334</nh4>
-          </layer>
-          <layer name="6">
-            <no3>1.6984291984292</no3>
-            <nh4>0.101371496720334</nh4>
-          </layer>
-          <layer name="7">
-            <no3>1.6984291984292</no3>
-            <nh4>0.101371496720334</nh4>
-          </layer>
-        </InitNitrogen>
-      </soil>
     </area>
   </simulation>
   <folder name="shared">
@@ -562,138 +178,184 @@
       <SoilType>Black Vertosol</SoilType>
       <NearestTown>Gatton, Q 4343</NearestTown>
       <NaturalVegetation>Blue Gum, Moreton Bay Ash, Tea Tree</NaturalVegetation>
+      <Comment>oc and ph not measured</Comment>
+      <InitWater>
+        <PercentMethod>
+          <Percent>0.83</Percent>
+          <Distributed>Filled from top</Distributed>
+        </PercentMethod>
+      </InitWater>
+      <InitNitrogen>
+        <profile>
+          <layer>
+            <no3>6.494</no3>
+            <nh4>0.608</nh4>
+            <thickness>150</thickness>
+          </layer>
+          <layer>
+            <no3>2.098</no3>
+            <nh4>0.101</nh4>
+            <thickness>150</thickness>
+          </layer>
+          <layer>
+            <no3>2.098</no3>
+            <nh4>0.101</nh4>
+            <thickness>300</thickness>
+          </layer>
+          <layer>
+            <no3>1.698</no3>
+            <nh4>0.101</nh4>
+            <thickness>300</thickness>
+          </layer>
+          <layer>
+            <no3>1.698</no3>
+            <nh4>0.101</nh4>
+            <thickness>300</thickness>
+          </layer>
+          <layer>
+            <no3>1.698</no3>
+            <nh4>0.101</nh4>
+            <thickness>300</thickness>
+          </layer>
+          <layer>
+            <no3>1.698</no3>
+            <nh4>0.101</nh4>
+            <thickness>300</thickness>
+          </layer>
+        </profile>
+      </InitNitrogen>
       <profile>
         <layer>
           <thickness>150</thickness>
-          <bd>1.32</bd>
-          <ll15>0.26</ll15>
-          <airdry>0.13</airdry>
-          <dul>0.41</dul>
-          <sat>0.47</sat>
-          <sw>9999.99</sw>
-          <swcon>0.3</swcon>
-          <fbiom>0.03</fbiom>
-          <finert>0.4</finert>
-          <no3>6.5</no3>
-          <nh4>0.6</nh4>
-          <oc>1.24</oc>
+          <bd>1.320</bd>
+          <ll15>0.260</ll15>
+          <airdry>0.130</airdry>
+          <dul>0.410</dul>
+          <sat>0.470</sat>
+          <sw>9999.990</sw>
+          <swcon>0.300</swcon>
+          <fbiom>0.030</fbiom>
+          <finert>0.400</finert>
+          <no3>6.500</no3>
+          <nh4>0.600</nh4>
+          <oc>1.240</oc>
           <ph>7</ph>
-          <ll name="SweetSorghum">0.26</ll>
-          <kl name="SweetSorghum">0.1</kl>
+          <ll name="SweetSorghum">0.260</ll>
+          <kl name="SweetSorghum">0.100</kl>
           <xf name="SweetSorghum">1</xf>
         </layer>
         <layer>
           <thickness>150</thickness>
-          <bd>1.3</bd>
-          <ll15>0.26</ll15>
+          <bd>1.300</bd>
+          <ll15>0.260</ll15>
           <airdry>0.234</airdry>
-          <dul>0.43</dul>
-          <sat>0.48</sat>
-          <sw>9999.99</sw>
-          <swcon>0.3</swcon>
-          <fbiom>0.02</fbiom>
-          <finert>0.6</finert>
-          <no3>2.1</no3>
-          <nh4>0.1</nh4>
-          <oc>1.24</oc>
+          <dul>0.430</dul>
+          <sat>0.480</sat>
+          <sw>9999.990</sw>
+          <swcon>0.300</swcon>
+          <fbiom>0.020</fbiom>
+          <finert>0.600</finert>
+          <no3>2.100</no3>
+          <nh4>0.100</nh4>
+          <oc>1.240</oc>
           <ph>7</ph>
-          <ll name="SweetSorghum">0.26</ll>
-          <kl name="SweetSorghum">0.1</kl>
+          <ll name="SweetSorghum">0.260</ll>
+          <kl name="SweetSorghum">0.100</kl>
           <xf name="SweetSorghum">1</xf>
         </layer>
         <layer>
           <thickness>300</thickness>
-          <bd>1.23</bd>
-          <ll15>0.26</ll15>
-          <airdry>0.26</airdry>
-          <dul>0.46</dul>
-          <sat>0.51</sat>
-          <sw>9999.99</sw>
-          <swcon>0.3</swcon>
-          <fbiom>0.01</fbiom>
-          <finert>0.8</finert>
-          <no3>2.1</no3>
-          <nh4>0.1</nh4>
-          <oc>1.25</oc>
+          <bd>1.230</bd>
+          <ll15>0.260</ll15>
+          <airdry>0.260</airdry>
+          <dul>0.460</dul>
+          <sat>0.510</sat>
+          <sw>9999.990</sw>
+          <swcon>0.300</swcon>
+          <fbiom>0.010</fbiom>
+          <finert>0.800</finert>
+          <no3>2.100</no3>
+          <nh4>0.100</nh4>
+          <oc>1.250</oc>
           <ph>7</ph>
-          <ll name="SweetSorghum">0.26</ll>
-          <kl name="SweetSorghum">0.08</kl>
+          <ll name="SweetSorghum">0.260</ll>
+          <kl name="SweetSorghum">0.080</kl>
           <xf name="SweetSorghum">1</xf>
         </layer>
         <layer>
           <thickness>300</thickness>
-          <bd>1.27</bd>
-          <ll15>0.26</ll15>
-          <airdry>0.26</airdry>
-          <dul>0.44</dul>
-          <sat>0.49</sat>
-          <sw>9999.99</sw>
-          <swcon>0.3</swcon>
-          <fbiom>0.01</fbiom>
-          <finert>0.9</finert>
-          <no3>1.7</no3>
-          <nh4>0.1</nh4>
-          <oc>1.1</oc>
+          <bd>1.270</bd>
+          <ll15>0.260</ll15>
+          <airdry>0.260</airdry>
+          <dul>0.440</dul>
+          <sat>0.490</sat>
+          <sw>9999.990</sw>
+          <swcon>0.300</swcon>
+          <fbiom>0.010</fbiom>
+          <finert>0.900</finert>
+          <no3>1.700</no3>
+          <nh4>0.100</nh4>
+          <oc>1.100</oc>
           <ph>7</ph>
-          <ll name="SweetSorghum">0.26</ll>
-          <kl name="SweetSorghum">0.06</kl>
+          <ll name="SweetSorghum">0.260</ll>
+          <kl name="SweetSorghum">0.060</kl>
           <xf name="SweetSorghum">1</xf>
         </layer>
         <layer>
           <thickness>300</thickness>
-          <bd>1.37</bd>
-          <ll15>0.25</ll15>
-          <airdry>0.25</airdry>
-          <dul>0.4</dul>
-          <sat>0.45</sat>
-          <sw>9999.99</sw>
-          <swcon>0.3</swcon>
-          <fbiom>0.01</fbiom>
-          <finert>0.95</finert>
-          <no3>1.7</no3>
-          <nh4>0.1</nh4>
-          <oc>0.71</oc>
+          <bd>1.370</bd>
+          <ll15>0.250</ll15>
+          <airdry>0.250</airdry>
+          <dul>0.400</dul>
+          <sat>0.450</sat>
+          <sw>9999.990</sw>
+          <swcon>0.300</swcon>
+          <fbiom>0.010</fbiom>
+          <finert>0.950</finert>
+          <no3>1.700</no3>
+          <nh4>0.100</nh4>
+          <oc>0.710</oc>
           <ph>7</ph>
-          <ll name="SweetSorghum">0.25</ll>
-          <kl name="SweetSorghum">0.04</kl>
+          <ll name="SweetSorghum">0.250</ll>
+          <kl name="SweetSorghum">0.040</kl>
           <xf name="SweetSorghum">1</xf>
         </layer>
         <layer>
           <thickness>300</thickness>
-          <bd>1.35</bd>
-          <ll15>0.28</ll15>
-          <airdry>0.28</airdry>
-          <dul>0.41</dul>
-          <sat>0.46</sat>
-          <sw>9999.99</sw>
-          <swcon>0.3</swcon>
-          <fbiom>0.01</fbiom>
-          <finert>0.95</finert>
-          <no3>1.7</no3>
-          <nh4>0.1</nh4>
-          <oc>0.34</oc>
+          <bd>1.350</bd>
+          <ll15>0.280</ll15>
+          <airdry>0.280</airdry>
+          <dul>0.410</dul>
+          <sat>0.460</sat>
+          <sw>9999.990</sw>
+          <swcon>0.300</swcon>
+          <fbiom>0.010</fbiom>
+          <finert>0.950</finert>
+          <no3>1.700</no3>
+          <nh4>0.100</nh4>
+          <oc>0.340</oc>
           <ph>7</ph>
-          <ll name="SweetSorghum">0.29</ll>
-          <kl name="SweetSorghum">0.02</kl>
+          <ll name="SweetSorghum">0.290</ll>
+          <kl name="SweetSorghum">0.020</kl>
           <xf name="SweetSorghum">1</xf>
         </layer>
         <layer>
           <thickness>300</thickness>
-          <bd>1.35</bd>
-          <ll15>0.31</ll15>
-          <airdry>0.31</airdry>
-          <dul>0.38</dul>
-          <sat>0.46</sat>
-          <sw>9999.99</sw>
-          <swcon>0.3</swcon>
-          <fbiom>0.01</fbiom>
-          <finert>0.95</finert>
-          <no3>1.7</no3>
-          <nh4>0.1</nh4>
-          <oc>0.26</oc>
+          <bd>1.350</bd>
+          <ll15>0.310</ll15>
+          <airdry>0.310</airdry>
+          <dul>0.380</dul>
+          <sat>0.460</sat>
+          <sw>9999.990</sw>
+          <swcon>0.300</swcon>
+          <fbiom>0.010</fbiom>
+          <finert>0.950</finert>
+          <no3>1.700</no3>
+          <nh4>0.100</nh4>
+          <oc>0.260</oc>
           <ph>7</ph>
-          <ll name="SweetSorghum">0.38</ll>
-          <kl name="SweetSorghum">0.01</kl>
+          <ll name="SweetSorghum">0.380</ll>
+          <kl name="SweetSorghum">0.010</kl>
           <xf name="SweetSorghum">1</xf>
         </layer>
       </profile>
@@ -711,43 +373,6 @@
       <SoilCn>12.5</SoilCn>
       <EnrACoeff>7.4</EnrACoeff>
       <EnrBCoeff>0.2</EnrBCoeff>
-      <Comment>oc and ph not measured</Comment>
-      <InitWater>
-        <PercentMethod>
-          <Percent>0.83</Percent>
-          <Distributed>Filled from top</Distributed>
-        </PercentMethod>
-      </InitWater>
-      <InitNitrogen>
-        <layer name="1">
-          <no3>6.49399399399399</no3>
-          <nh4>0.608228980322003</nh4>
-        </layer>
-        <layer name="2">
-          <no3>2.0980595980596</no3>
-          <nh4>0.101371496720334</nh4>
-        </layer>
-        <layer name="3">
-          <no3>2.0980595980596</no3>
-          <nh4>0.101371496720334</nh4>
-        </layer>
-        <layer name="4">
-          <no3>1.6984291984292</no3>
-          <nh4>0.101371496720334</nh4>
-        </layer>
-        <layer name="5">
-          <no3>1.6984291984292</no3>
-          <nh4>0.101371496720334</nh4>
-        </layer>
-        <layer name="6">
-          <no3>1.6984291984292</no3>
-          <nh4>0.101371496720334</nh4>
-        </layer>
-        <layer name="7">
-          <no3>1.6984291984292</no3>
-          <nh4>0.101371496720334</nh4>
-        </layer>
-      </InitNitrogen>
     </soil>
   </folder>
   <simulation name="Lawes0102">
@@ -817,6 +442,7 @@
         <cnr description="C:N ration of initial residue">80.0</cnr>
         <standing_fraction description="Fraction of residue standing">0.0</standing_fraction>
       </surfaceom>
+      <soil name="Soil" shortcut="LawesSoil" />
       <SweetSorghum />
       <outputfile name="outputfile">
         <filename name="filename">Lawes0102 Planting1.out</filename>
@@ -839,199 +465,6 @@
         <property name="crit_fr_asw" type="text" description="Fraction of ASW below which irrigation is applied (0-1.0)">0.5</property>
         <property name="irrigation_efficiency" description="Efficiency of the irrigation. (0-1.0)">1.0</property>
       </irrigation>
-      <soil name="Soil">
-        <Site>UQ, Lawes</Site>
-        <Region>Lockyer</Region>
-        <SoilType>Black Vertosol</SoilType>
-        <NearestTown>Gatton, Q 4343</NearestTown>
-        <NaturalVegetation>Blue Gum, Moreton Bay Ash, Tea Tree</NaturalVegetation>
-        <profile>
-          <layer>
-            <thickness>150</thickness>
-            <bd>1.32</bd>
-            <ll15>0.26</ll15>
-            <airdry>0.13</airdry>
-            <dul>0.41</dul>
-            <sat>0.47</sat>
-            <sw>9999.99</sw>
-            <swcon>0.3</swcon>
-            <fbiom>0.03</fbiom>
-            <finert>0.4</finert>
-            <no3>6.5</no3>
-            <nh4>0.6</nh4>
-            <oc>1.24</oc>
-            <ph>7</ph>
-            <ll name="SweetSorghum">0.26</ll>
-            <kl name="SweetSorghum">0.1</kl>
-            <xf name="SweetSorghum">1</xf>
-          </layer>
-          <layer>
-            <thickness>150</thickness>
-            <bd>1.3</bd>
-            <ll15>0.26</ll15>
-            <airdry>0.234</airdry>
-            <dul>0.43</dul>
-            <sat>0.48</sat>
-            <sw>9999.99</sw>
-            <swcon>0.3</swcon>
-            <fbiom>0.02</fbiom>
-            <finert>0.6</finert>
-            <no3>2.1</no3>
-            <nh4>0.1</nh4>
-            <oc>1.24</oc>
-            <ph>7</ph>
-            <ll name="SweetSorghum">0.26</ll>
-            <kl name="SweetSorghum">0.1</kl>
-            <xf name="SweetSorghum">1</xf>
-          </layer>
-          <layer>
-            <thickness>300</thickness>
-            <bd>1.23</bd>
-            <ll15>0.26</ll15>
-            <airdry>0.26</airdry>
-            <dul>0.46</dul>
-            <sat>0.51</sat>
-            <sw>9999.99</sw>
-            <swcon>0.3</swcon>
-            <fbiom>0.01</fbiom>
-            <finert>0.8</finert>
-            <no3>2.1</no3>
-            <nh4>0.1</nh4>
-            <oc>1.25</oc>
-            <ph>7</ph>
-            <ll name="SweetSorghum">0.26</ll>
-            <kl name="SweetSorghum">0.08</kl>
-            <xf name="SweetSorghum">1</xf>
-          </layer>
-          <layer>
-            <thickness>300</thickness>
-            <bd>1.27</bd>
-            <ll15>0.26</ll15>
-            <airdry>0.26</airdry>
-            <dul>0.44</dul>
-            <sat>0.49</sat>
-            <sw>9999.99</sw>
-            <swcon>0.3</swcon>
-            <fbiom>0.01</fbiom>
-            <finert>0.9</finert>
-            <no3>1.7</no3>
-            <nh4>0.1</nh4>
-            <oc>1.1</oc>
-            <ph>7</ph>
-            <ll name="SweetSorghum">0.26</ll>
-            <kl name="SweetSorghum">0.06</kl>
-            <xf name="SweetSorghum">1</xf>
-          </layer>
-          <layer>
-            <thickness>300</thickness>
-            <bd>1.37</bd>
-            <ll15>0.25</ll15>
-            <airdry>0.25</airdry>
-            <dul>0.4</dul>
-            <sat>0.45</sat>
-            <sw>9999.99</sw>
-            <swcon>0.3</swcon>
-            <fbiom>0.01</fbiom>
-            <finert>0.95</finert>
-            <no3>1.7</no3>
-            <nh4>0.1</nh4>
-            <oc>0.71</oc>
-            <ph>7</ph>
-            <ll name="SweetSorghum">0.25</ll>
-            <kl name="SweetSorghum">0.04</kl>
-            <xf name="SweetSorghum">1</xf>
-          </layer>
-          <layer>
-            <thickness>300</thickness>
-            <bd>1.35</bd>
-            <ll15>0.28</ll15>
-            <airdry>0.28</airdry>
-            <dul>0.41</dul>
-            <sat>0.46</sat>
-            <sw>9999.99</sw>
-            <swcon>0.3</swcon>
-            <fbiom>0.01</fbiom>
-            <finert>0.95</finert>
-            <no3>1.7</no3>
-            <nh4>0.1</nh4>
-            <oc>0.34</oc>
-            <ph>7</ph>
-            <ll name="SweetSorghum">0.29</ll>
-            <kl name="SweetSorghum">0.02</kl>
-            <xf name="SweetSorghum">1</xf>
-          </layer>
-          <layer>
-            <thickness>300</thickness>
-            <bd>1.35</bd>
-            <ll15>0.31</ll15>
-            <airdry>0.31</airdry>
-            <dul>0.38</dul>
-            <sat>0.46</sat>
-            <sw>9999.99</sw>
-            <swcon>0.3</swcon>
-            <fbiom>0.01</fbiom>
-            <finert>0.95</finert>
-            <no3>1.7</no3>
-            <nh4>0.1</nh4>
-            <oc>0.26</oc>
-            <ph>7</ph>
-            <ll name="SweetSorghum">0.38</ll>
-            <kl name="SweetSorghum">0.01</kl>
-            <xf name="SweetSorghum">1</xf>
-          </layer>
-        </profile>
-        <Cona>3.5</Cona>
-        <DiffusConst>40</DiffusConst>
-        <DiffusSlope>16</DiffusSlope>
-        <U>6</U>
-        <Salb>0.13</Salb>
-        <Cn2Bare>73</Cn2Bare>
-        <CnRed>20</CnRed>
-        <CnCov>0.8</CnCov>
-        <CnCanopyFact>1</CnCanopyFact>
-        <RootCn>40</RootCn>
-        <RootWt>200</RootWt>
-        <SoilCn>12.5</SoilCn>
-        <EnrACoeff>7.4</EnrACoeff>
-        <EnrBCoeff>0.2</EnrBCoeff>
-        <Comment>oc and ph not measured</Comment>
-        <InitWater>
-          <PercentMethod>
-            <Percent>0.83</Percent>
-            <Distributed>Filled from top</Distributed>
-          </PercentMethod>
-        </InitWater>
-        <InitNitrogen>
-          <layer name="1">
-            <no3>6.49399399399399</no3>
-            <nh4>0.608228980322003</nh4>
-          </layer>
-          <layer name="2">
-            <no3>2.0980595980596</no3>
-            <nh4>0.101371496720334</nh4>
-          </layer>
-          <layer name="3">
-            <no3>2.0980595980596</no3>
-            <nh4>0.101371496720334</nh4>
-          </layer>
-          <layer name="4">
-            <no3>1.6984291984292</no3>
-            <nh4>0.101371496720334</nh4>
-          </layer>
-          <layer name="5">
-            <no3>1.6984291984292</no3>
-            <nh4>0.101371496720334</nh4>
-          </layer>
-          <layer name="6">
-            <no3>1.6984291984292</no3>
-            <nh4>0.101371496720334</nh4>
-          </layer>
-          <layer name="7">
-            <no3>1.6984291984292</no3>
-            <nh4>0.101371496720334</nh4>
-          </layer>
-        </InitNitrogen>
-      </soil>
     </area>
     <area name="Planting2">
       <registrations name="global" />
@@ -1089,6 +522,7 @@
         <cnr description="C:N ration of initial residue">80.0</cnr>
         <standing_fraction description="Fraction of residue standing">0.0</standing_fraction>
       </surfaceom>
+      <soil name="Soil" shortcut="LawesSoil" />
       <SweetSorghum />
       <outputfile name="outputfile">
         <filename name="filename">Lawes0102 Planting2.out</filename>
@@ -1111,199 +545,6 @@
         <property name="crit_fr_asw" type="text" description="Fraction of ASW below which irrigation is applied (0-1.0)">0.5</property>
         <property name="irrigation_efficiency" description="Efficiency of the irrigation. (0-1.0)">1.0</property>
       </irrigation>
-      <soil name="Soil">
-        <Site>UQ, Lawes</Site>
-        <Region>Lockyer</Region>
-        <SoilType>Black Vertosol</SoilType>
-        <NearestTown>Gatton, Q 4343</NearestTown>
-        <NaturalVegetation>Blue Gum, Moreton Bay Ash, Tea Tree</NaturalVegetation>
-        <profile>
-          <layer>
-            <thickness>150</thickness>
-            <bd>1.32</bd>
-            <ll15>0.26</ll15>
-            <airdry>0.13</airdry>
-            <dul>0.41</dul>
-            <sat>0.47</sat>
-            <sw>9999.99</sw>
-            <swcon>0.3</swcon>
-            <fbiom>0.03</fbiom>
-            <finert>0.4</finert>
-            <no3>6.5</no3>
-            <nh4>0.6</nh4>
-            <oc>1.24</oc>
-            <ph>7</ph>
-            <ll name="SweetSorghum">0.26</ll>
-            <kl name="SweetSorghum">0.1</kl>
-            <xf name="SweetSorghum">1</xf>
-          </layer>
-          <layer>
-            <thickness>150</thickness>
-            <bd>1.3</bd>
-            <ll15>0.26</ll15>
-            <airdry>0.234</airdry>
-            <dul>0.43</dul>
-            <sat>0.48</sat>
-            <sw>9999.99</sw>
-            <swcon>0.3</swcon>
-            <fbiom>0.02</fbiom>
-            <finert>0.6</finert>
-            <no3>2.1</no3>
-            <nh4>0.1</nh4>
-            <oc>1.24</oc>
-            <ph>7</ph>
-            <ll name="SweetSorghum">0.26</ll>
-            <kl name="SweetSorghum">0.1</kl>
-            <xf name="SweetSorghum">1</xf>
-          </layer>
-          <layer>
-            <thickness>300</thickness>
-            <bd>1.23</bd>
-            <ll15>0.26</ll15>
-            <airdry>0.26</airdry>
-            <dul>0.46</dul>
-            <sat>0.51</sat>
-            <sw>9999.99</sw>
-            <swcon>0.3</swcon>
-            <fbiom>0.01</fbiom>
-            <finert>0.8</finert>
-            <no3>2.1</no3>
-            <nh4>0.1</nh4>
-            <oc>1.25</oc>
-            <ph>7</ph>
-            <ll name="SweetSorghum">0.26</ll>
-            <kl name="SweetSorghum">0.08</kl>
-            <xf name="SweetSorghum">1</xf>
-          </layer>
-          <layer>
-            <thickness>300</thickness>
-            <bd>1.27</bd>
-            <ll15>0.26</ll15>
-            <airdry>0.26</airdry>
-            <dul>0.44</dul>
-            <sat>0.49</sat>
-            <sw>9999.99</sw>
-            <swcon>0.3</swcon>
-            <fbiom>0.01</fbiom>
-            <finert>0.9</finert>
-            <no3>1.7</no3>
-            <nh4>0.1</nh4>
-            <oc>1.1</oc>
-            <ph>7</ph>
-            <ll name="SweetSorghum">0.26</ll>
-            <kl name="SweetSorghum">0.06</kl>
-            <xf name="SweetSorghum">1</xf>
-          </layer>
-          <layer>
-            <thickness>300</thickness>
-            <bd>1.37</bd>
-            <ll15>0.25</ll15>
-            <airdry>0.25</airdry>
-            <dul>0.4</dul>
-            <sat>0.45</sat>
-            <sw>9999.99</sw>
-            <swcon>0.3</swcon>
-            <fbiom>0.01</fbiom>
-            <finert>0.95</finert>
-            <no3>1.7</no3>
-            <nh4>0.1</nh4>
-            <oc>0.71</oc>
-            <ph>7</ph>
-            <ll name="SweetSorghum">0.25</ll>
-            <kl name="SweetSorghum">0.04</kl>
-            <xf name="SweetSorghum">1</xf>
-          </layer>
-          <layer>
-            <thickness>300</thickness>
-            <bd>1.35</bd>
-            <ll15>0.28</ll15>
-            <airdry>0.28</airdry>
-            <dul>0.41</dul>
-            <sat>0.46</sat>
-            <sw>9999.99</sw>
-            <swcon>0.3</swcon>
-            <fbiom>0.01</fbiom>
-            <finert>0.95</finert>
-            <no3>1.7</no3>
-            <nh4>0.1</nh4>
-            <oc>0.34</oc>
-            <ph>7</ph>
-            <ll name="SweetSorghum">0.29</ll>
-            <kl name="SweetSorghum">0.02</kl>
-            <xf name="SweetSorghum">1</xf>
-          </layer>
-          <layer>
-            <thickness>300</thickness>
-            <bd>1.35</bd>
-            <ll15>0.31</ll15>
-            <airdry>0.31</airdry>
-            <dul>0.38</dul>
-            <sat>0.46</sat>
-            <sw>9999.99</sw>
-            <swcon>0.3</swcon>
-            <fbiom>0.01</fbiom>
-            <finert>0.95</finert>
-            <no3>1.7</no3>
-            <nh4>0.1</nh4>
-            <oc>0.26</oc>
-            <ph>7</ph>
-            <ll name="SweetSorghum">0.38</ll>
-            <kl name="SweetSorghum">0.01</kl>
-            <xf name="SweetSorghum">1</xf>
-          </layer>
-        </profile>
-        <Cona>3.5</Cona>
-        <DiffusConst>40</DiffusConst>
-        <DiffusSlope>16</DiffusSlope>
-        <U>6</U>
-        <Salb>0.13</Salb>
-        <Cn2Bare>73</Cn2Bare>
-        <CnRed>20</CnRed>
-        <CnCov>0.8</CnCov>
-        <CnCanopyFact>1</CnCanopyFact>
-        <RootCn>40</RootCn>
-        <RootWt>200</RootWt>
-        <SoilCn>12.5</SoilCn>
-        <EnrACoeff>7.4</EnrACoeff>
-        <EnrBCoeff>0.2</EnrBCoeff>
-        <Comment>oc and ph not measured</Comment>
-        <InitWater>
-          <PercentMethod>
-            <Percent>0.83</Percent>
-            <Distributed>Filled from top</Distributed>
-          </PercentMethod>
-        </InitWater>
-        <InitNitrogen>
-          <layer name="1">
-            <no3>6.49399399399399</no3>
-            <nh4>0.608228980322003</nh4>
-          </layer>
-          <layer name="2">
-            <no3>2.0980595980596</no3>
-            <nh4>0.101371496720334</nh4>
-          </layer>
-          <layer name="3">
-            <no3>2.0980595980596</no3>
-            <nh4>0.101371496720334</nh4>
-          </layer>
-          <layer name="4">
-            <no3>1.6984291984292</no3>
-            <nh4>0.101371496720334</nh4>
-          </layer>
-          <layer name="5">
-            <no3>1.6984291984292</no3>
-            <nh4>0.101371496720334</nh4>
-          </layer>
-          <layer name="6">
-            <no3>1.6984291984292</no3>
-            <nh4>0.101371496720334</nh4>
-          </layer>
-          <layer name="7">
-            <no3>1.6984291984292</no3>
-            <nh4>0.101371496720334</nh4>
-          </layer>
-        </InitNitrogen>
-      </soil>
     </area>
     <area name="Planting3">
       <registrations name="global" />
@@ -1361,6 +602,7 @@
         <cnr description="C:N ration of initial residue">80.0</cnr>
         <standing_fraction description="Fraction of residue standing">0.0</standing_fraction>
       </surfaceom>
+      <soil name="Soil" shortcut="LawesSoil" />
       <SweetSorghum />
       <outputfile name="outputfile">
         <filename name="filename">Lawes0102 Planting3.out</filename>
@@ -1383,199 +625,6 @@
         <property name="crit_fr_asw" type="text" description="Fraction of ASW below which irrigation is applied (0-1.0)">0.5</property>
         <property name="irrigation_efficiency" description="Efficiency of the irrigation. (0-1.0)">1.0</property>
       </irrigation>
-      <soil name="Soil">
-        <Site>UQ, Lawes</Site>
-        <Region>Lockyer</Region>
-        <SoilType>Black Vertosol</SoilType>
-        <NearestTown>Gatton, Q 4343</NearestTown>
-        <NaturalVegetation>Blue Gum, Moreton Bay Ash, Tea Tree</NaturalVegetation>
-        <profile>
-          <layer>
-            <thickness>150</thickness>
-            <bd>1.32</bd>
-            <ll15>0.26</ll15>
-            <airdry>0.13</airdry>
-            <dul>0.41</dul>
-            <sat>0.47</sat>
-            <sw>9999.99</sw>
-            <swcon>0.3</swcon>
-            <fbiom>0.03</fbiom>
-            <finert>0.4</finert>
-            <no3>6.5</no3>
-            <nh4>0.6</nh4>
-            <oc>1.24</oc>
-            <ph>7</ph>
-            <ll name="SweetSorghum">0.26</ll>
-            <kl name="SweetSorghum">0.1</kl>
-            <xf name="SweetSorghum">1</xf>
-          </layer>
-          <layer>
-            <thickness>150</thickness>
-            <bd>1.3</bd>
-            <ll15>0.26</ll15>
-            <airdry>0.234</airdry>
-            <dul>0.43</dul>
-            <sat>0.48</sat>
-            <sw>9999.99</sw>
-            <swcon>0.3</swcon>
-            <fbiom>0.02</fbiom>
-            <finert>0.6</finert>
-            <no3>2.1</no3>
-            <nh4>0.1</nh4>
-            <oc>1.24</oc>
-            <ph>7</ph>
-            <ll name="SweetSorghum">0.26</ll>
-            <kl name="SweetSorghum">0.1</kl>
-            <xf name="SweetSorghum">1</xf>
-          </layer>
-          <layer>
-            <thickness>300</thickness>
-            <bd>1.23</bd>
-            <ll15>0.26</ll15>
-            <airdry>0.26</airdry>
-            <dul>0.46</dul>
-            <sat>0.51</sat>
-            <sw>9999.99</sw>
-            <swcon>0.3</swcon>
-            <fbiom>0.01</fbiom>
-            <finert>0.8</finert>
-            <no3>2.1</no3>
-            <nh4>0.1</nh4>
-            <oc>1.25</oc>
-            <ph>7</ph>
-            <ll name="SweetSorghum">0.26</ll>
-            <kl name="SweetSorghum">0.08</kl>
-            <xf name="SweetSorghum">1</xf>
-          </layer>
-          <layer>
-            <thickness>300</thickness>
-            <bd>1.27</bd>
-            <ll15>0.26</ll15>
-            <airdry>0.26</airdry>
-            <dul>0.44</dul>
-            <sat>0.49</sat>
-            <sw>9999.99</sw>
-            <swcon>0.3</swcon>
-            <fbiom>0.01</fbiom>
-            <finert>0.9</finert>
-            <no3>1.7</no3>
-            <nh4>0.1</nh4>
-            <oc>1.1</oc>
-            <ph>7</ph>
-            <ll name="SweetSorghum">0.26</ll>
-            <kl name="SweetSorghum">0.06</kl>
-            <xf name="SweetSorghum">1</xf>
-          </layer>
-          <layer>
-            <thickness>300</thickness>
-            <bd>1.37</bd>
-            <ll15>0.25</ll15>
-            <airdry>0.25</airdry>
-            <dul>0.4</dul>
-            <sat>0.45</sat>
-            <sw>9999.99</sw>
-            <swcon>0.3</swcon>
-            <fbiom>0.01</fbiom>
-            <finert>0.95</finert>
-            <no3>1.7</no3>
-            <nh4>0.1</nh4>
-            <oc>0.71</oc>
-            <ph>7</ph>
-            <ll name="SweetSorghum">0.25</ll>
-            <kl name="SweetSorghum">0.04</kl>
-            <xf name="SweetSorghum">1</xf>
-          </layer>
-          <layer>
-            <thickness>300</thickness>
-            <bd>1.35</bd>
-            <ll15>0.28</ll15>
-            <airdry>0.28</airdry>
-            <dul>0.41</dul>
-            <sat>0.46</sat>
-            <sw>9999.99</sw>
-            <swcon>0.3</swcon>
-            <fbiom>0.01</fbiom>
-            <finert>0.95</finert>
-            <no3>1.7</no3>
-            <nh4>0.1</nh4>
-            <oc>0.34</oc>
-            <ph>7</ph>
-            <ll name="SweetSorghum">0.29</ll>
-            <kl name="SweetSorghum">0.02</kl>
-            <xf name="SweetSorghum">1</xf>
-          </layer>
-          <layer>
-            <thickness>300</thickness>
-            <bd>1.35</bd>
-            <ll15>0.31</ll15>
-            <airdry>0.31</airdry>
-            <dul>0.38</dul>
-            <sat>0.46</sat>
-            <sw>9999.99</sw>
-            <swcon>0.3</swcon>
-            <fbiom>0.01</fbiom>
-            <finert>0.95</finert>
-            <no3>1.7</no3>
-            <nh4>0.1</nh4>
-            <oc>0.26</oc>
-            <ph>7</ph>
-            <ll name="SweetSorghum">0.38</ll>
-            <kl name="SweetSorghum">0.01</kl>
-            <xf name="SweetSorghum">1</xf>
-          </layer>
-        </profile>
-        <Cona>3.5</Cona>
-        <DiffusConst>40</DiffusConst>
-        <DiffusSlope>16</DiffusSlope>
-        <U>6</U>
-        <Salb>0.13</Salb>
-        <Cn2Bare>73</Cn2Bare>
-        <CnRed>20</CnRed>
-        <CnCov>0.8</CnCov>
-        <CnCanopyFact>1</CnCanopyFact>
-        <RootCn>40</RootCn>
-        <RootWt>200</RootWt>
-        <SoilCn>12.5</SoilCn>
-        <EnrACoeff>7.4</EnrACoeff>
-        <EnrBCoeff>0.2</EnrBCoeff>
-        <Comment>oc and ph not measured</Comment>
-        <InitWater>
-          <PercentMethod>
-            <Percent>0.83</Percent>
-            <Distributed>Filled from top</Distributed>
-          </PercentMethod>
-        </InitWater>
-        <InitNitrogen>
-          <layer name="1">
-            <no3>6.49399399399399</no3>
-            <nh4>0.608228980322003</nh4>
-          </layer>
-          <layer name="2">
-            <no3>2.0980595980596</no3>
-            <nh4>0.101371496720334</nh4>
-          </layer>
-          <layer name="3">
-            <no3>2.0980595980596</no3>
-            <nh4>0.101371496720334</nh4>
-          </layer>
-          <layer name="4">
-            <no3>1.6984291984292</no3>
-            <nh4>0.101371496720334</nh4>
-          </layer>
-          <layer name="5">
-            <no3>1.6984291984292</no3>
-            <nh4>0.101371496720334</nh4>
-          </layer>
-          <layer name="6">
-            <no3>1.6984291984292</no3>
-            <nh4>0.101371496720334</nh4>
-          </layer>
-          <layer name="7">
-            <no3>1.6984291984292</no3>
-            <nh4>0.101371496720334</nh4>
-          </layer>
-        </InitNitrogen>
-      </soil>
     </area>
     <area name="Planting4">
       <registrations name="global" />
@@ -1633,6 +682,7 @@
         <cnr description="C:N ration of initial residue">80.0</cnr>
         <standing_fraction description="Fraction of residue standing">0.0</standing_fraction>
       </surfaceom>
+      <soil name="Soil" shortcut="LawesSoil" />
       <SweetSorghum />
       <outputfile name="outputfile">
         <filename name="filename">Lawes0102 Planting4.out</filename>
@@ -1655,199 +705,6 @@
         <property name="crit_fr_asw" type="text" description="Fraction of ASW below which irrigation is applied (0-1.0)">0.5</property>
         <property name="irrigation_efficiency" description="Efficiency of the irrigation. (0-1.0)">1.0</property>
       </irrigation>
-      <soil name="Soil">
-        <Site>UQ, Lawes</Site>
-        <Region>Lockyer</Region>
-        <SoilType>Black Vertosol</SoilType>
-        <NearestTown>Gatton, Q 4343</NearestTown>
-        <NaturalVegetation>Blue Gum, Moreton Bay Ash, Tea Tree</NaturalVegetation>
-        <profile>
-          <layer>
-            <thickness>150</thickness>
-            <bd>1.32</bd>
-            <ll15>0.26</ll15>
-            <airdry>0.13</airdry>
-            <dul>0.41</dul>
-            <sat>0.47</sat>
-            <sw>9999.99</sw>
-            <swcon>0.3</swcon>
-            <fbiom>0.03</fbiom>
-            <finert>0.4</finert>
-            <no3>6.5</no3>
-            <nh4>0.6</nh4>
-            <oc>1.24</oc>
-            <ph>7</ph>
-            <ll name="SweetSorghum">0.26</ll>
-            <kl name="SweetSorghum">0.1</kl>
-            <xf name="SweetSorghum">1</xf>
-          </layer>
-          <layer>
-            <thickness>150</thickness>
-            <bd>1.3</bd>
-            <ll15>0.26</ll15>
-            <airdry>0.234</airdry>
-            <dul>0.43</dul>
-            <sat>0.48</sat>
-            <sw>9999.99</sw>
-            <swcon>0.3</swcon>
-            <fbiom>0.02</fbiom>
-            <finert>0.6</finert>
-            <no3>2.1</no3>
-            <nh4>0.1</nh4>
-            <oc>1.24</oc>
-            <ph>7</ph>
-            <ll name="SweetSorghum">0.26</ll>
-            <kl name="SweetSorghum">0.1</kl>
-            <xf name="SweetSorghum">1</xf>
-          </layer>
-          <layer>
-            <thickness>300</thickness>
-            <bd>1.23</bd>
-            <ll15>0.26</ll15>
-            <airdry>0.26</airdry>
-            <dul>0.46</dul>
-            <sat>0.51</sat>
-            <sw>9999.99</sw>
-            <swcon>0.3</swcon>
-            <fbiom>0.01</fbiom>
-            <finert>0.8</finert>
-            <no3>2.1</no3>
-            <nh4>0.1</nh4>
-            <oc>1.25</oc>
-            <ph>7</ph>
-            <ll name="SweetSorghum">0.26</ll>
-            <kl name="SweetSorghum">0.08</kl>
-            <xf name="SweetSorghum">1</xf>
-          </layer>
-          <layer>
-            <thickness>300</thickness>
-            <bd>1.27</bd>
-            <ll15>0.26</ll15>
-            <airdry>0.26</airdry>
-            <dul>0.44</dul>
-            <sat>0.49</sat>
-            <sw>9999.99</sw>
-            <swcon>0.3</swcon>
-            <fbiom>0.01</fbiom>
-            <finert>0.9</finert>
-            <no3>1.7</no3>
-            <nh4>0.1</nh4>
-            <oc>1.1</oc>
-            <ph>7</ph>
-            <ll name="SweetSorghum">0.26</ll>
-            <kl name="SweetSorghum">0.06</kl>
-            <xf name="SweetSorghum">1</xf>
-          </layer>
-          <layer>
-            <thickness>300</thickness>
-            <bd>1.37</bd>
-            <ll15>0.25</ll15>
-            <airdry>0.25</airdry>
-            <dul>0.4</dul>
-            <sat>0.45</sat>
-            <sw>9999.99</sw>
-            <swcon>0.3</swcon>
-            <fbiom>0.01</fbiom>
-            <finert>0.95</finert>
-            <no3>1.7</no3>
-            <nh4>0.1</nh4>
-            <oc>0.71</oc>
-            <ph>7</ph>
-            <ll name="SweetSorghum">0.25</ll>
-            <kl name="SweetSorghum">0.04</kl>
-            <xf name="SweetSorghum">1</xf>
-          </layer>
-          <layer>
-            <thickness>300</thickness>
-            <bd>1.35</bd>
-            <ll15>0.28</ll15>
-            <airdry>0.28</airdry>
-            <dul>0.41</dul>
-            <sat>0.46</sat>
-            <sw>9999.99</sw>
-            <swcon>0.3</swcon>
-            <fbiom>0.01</fbiom>
-            <finert>0.95</finert>
-            <no3>1.7</no3>
-            <nh4>0.1</nh4>
-            <oc>0.34</oc>
-            <ph>7</ph>
-            <ll name="SweetSorghum">0.29</ll>
-            <kl name="SweetSorghum">0.02</kl>
-            <xf name="SweetSorghum">1</xf>
-          </layer>
-          <layer>
-            <thickness>300</thickness>
-            <bd>1.35</bd>
-            <ll15>0.31</ll15>
-            <airdry>0.31</airdry>
-            <dul>0.38</dul>
-            <sat>0.46</sat>
-            <sw>9999.99</sw>
-            <swcon>0.3</swcon>
-            <fbiom>0.01</fbiom>
-            <finert>0.95</finert>
-            <no3>1.7</no3>
-            <nh4>0.1</nh4>
-            <oc>0.26</oc>
-            <ph>7</ph>
-            <ll name="SweetSorghum">0.38</ll>
-            <kl name="SweetSorghum">0.01</kl>
-            <xf name="SweetSorghum">1</xf>
-          </layer>
-        </profile>
-        <Cona>3.5</Cona>
-        <DiffusConst>40</DiffusConst>
-        <DiffusSlope>16</DiffusSlope>
-        <U>6</U>
-        <Salb>0.13</Salb>
-        <Cn2Bare>73</Cn2Bare>
-        <CnRed>20</CnRed>
-        <CnCov>0.8</CnCov>
-        <CnCanopyFact>1</CnCanopyFact>
-        <RootCn>40</RootCn>
-        <RootWt>200</RootWt>
-        <SoilCn>12.5</SoilCn>
-        <EnrACoeff>7.4</EnrACoeff>
-        <EnrBCoeff>0.2</EnrBCoeff>
-        <Comment>oc and ph not measured</Comment>
-        <InitWater>
-          <PercentMethod>
-            <Percent>0.83</Percent>
-            <Distributed>Filled from top</Distributed>
-          </PercentMethod>
-        </InitWater>
-        <InitNitrogen>
-          <layer name="1">
-            <no3>6.49399399399399</no3>
-            <nh4>0.608228980322003</nh4>
-          </layer>
-          <layer name="2">
-            <no3>2.0980595980596</no3>
-            <nh4>0.101371496720334</nh4>
-          </layer>
-          <layer name="3">
-            <no3>2.0980595980596</no3>
-            <nh4>0.101371496720334</nh4>
-          </layer>
-          <layer name="4">
-            <no3>1.6984291984292</no3>
-            <nh4>0.101371496720334</nh4>
-          </layer>
-          <layer name="5">
-            <no3>1.6984291984292</no3>
-            <nh4>0.101371496720334</nh4>
-          </layer>
-          <layer name="6">
-            <no3>1.6984291984292</no3>
-            <nh4>0.101371496720334</nh4>
-          </layer>
-          <layer name="7">
-            <no3>1.6984291984292</no3>
-            <nh4>0.101371496720334</nh4>
-          </layer>
-        </InitNitrogen>
-      </soil>
     </area>
   </simulation>
 </simulations>

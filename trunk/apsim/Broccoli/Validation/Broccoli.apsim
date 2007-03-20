@@ -1,4 +1,4 @@
-<simulations name="untitled" version="7">
+<simulations name="untitled" version="8">
   <simulation name="GreenBelt1997">
     <clock name="clock">
       <start_date name="start_date" description="Select the start date of the simulation" type="date">1/03/1997</start_date>
@@ -99,237 +99,7 @@
         <property name="crit_fr_asw" type="text" description="Fraction of ASW below which irrigation is applied (0-1.0)">0.5</property>
         <property name="irrigation_efficiency" description="Efficiency of the irrigation. (0-1.0)">1.0</property>
       </irrigation>
-      <soil name="Soil">
-        <region>Lockyer</region>
-        <site>UQ, Lawes</site>
-        <SoilType>Prarie</SoilType>
-        <nearesttown>Gatton, Q 4343</nearesttown>
-        <comment>oc and ph estimated</comment>
-        <naturalvegetation>Blue Gum, Moreton Bay Ash, Tea Tree</naturalvegetation>
-        <profile>
-          <layer>
-            <thickness>150</thickness>
-            <bd>1.38</bd>
-            <ll15>0.2</ll15>
-            <airdry>0.1</airdry>
-            <dul>0.38</dul>
-            <sat>0.45</sat>
-            <swcon>0.3</swcon>
-            <fbiom>0.03</fbiom>
-            <finert>0.4</finert>
-            <oc>1.2</oc>
-            <ph>7</ph>
-            <ll name="wheat">0.2</ll>
-            <kl name="wheat">0.1</kl>
-            <xf name="wheat">1</xf>
-            <ll name="Chickpea">0.2</ll>
-            <kl name="Chickpea">0.1</kl>
-            <xf name="Chickpea">1</xf>
-            <ll name="Broccoli">0.20</ll>
-            <xf name="Broccoli">1.00</xf>
-            <kl name="Broccoli">0.06</kl>
-          </layer>
-          <layer>
-            <thickness>150</thickness>
-            <bd>1.38</bd>
-            <ll15>0.21</ll15>
-            <airdry>0.189</airdry>
-            <dul>0.38</dul>
-            <sat>0.45</sat>
-            <swcon>0.3</swcon>
-            <fbiom>0.02</fbiom>
-            <finert>0.6</finert>
-            <oc>1.2</oc>
-            <ph>7</ph>
-            <ll name="wheat">0.21</ll>
-            <kl name="wheat">0.1</kl>
-            <xf name="wheat">1</xf>
-            <ll name="Chickpea">0.21</ll>
-            <kl name="Chickpea">0.1</kl>
-            <xf name="Chickpea">1</xf>
-            <ll name="Broccoli">0.21</ll>
-            <xf name="Broccoli">1.00</xf>
-            <kl name="Broccoli">0.06</kl>
-          </layer>
-          <layer>
-            <thickness>300</thickness>
-            <bd>1.28</bd>
-            <ll15>0.2</ll15>
-            <airdry>0.2</airdry>
-            <dul>0.44</dul>
-            <sat>0.49</sat>
-            <swcon>0.3</swcon>
-            <fbiom>0.01</fbiom>
-            <finert>0.8</finert>
-            <oc>1.2</oc>
-            <ph>7</ph>
-            <ll name="wheat">0.2</ll>
-            <kl name="wheat">0.08</kl>
-            <xf name="wheat">1</xf>
-            <ll name="Chickpea">0.2</ll>
-            <kl name="Chickpea">0.08</kl>
-            <xf name="Chickpea">1</xf>
-            <ll name="Broccoli">0.20</ll>
-            <xf name="Broccoli">1.00</xf>
-            <kl name="Broccoli">0.06</kl>
-          </layer>
-          <layer>
-            <thickness>300</thickness>
-            <bd>1.38</bd>
-            <ll15>0.19</ll15>
-            <airdry>0.19</airdry>
-            <dul>0.4</dul>
-            <sat>0.45</sat>
-            <swcon>0.3</swcon>
-            <fbiom>0.01</fbiom>
-            <finert>0.9</finert>
-            <oc>1.1</oc>
-            <ph>7</ph>
-            <ll name="wheat">0.19</ll>
-            <kl name="wheat">0.06</kl>
-            <xf name="wheat">1</xf>
-            <ll name="Chickpea">0.22</ll>
-            <kl name="Chickpea">0.06</kl>
-            <xf name="Chickpea">1</xf>
-            <ll name="Broccoli">0.19</ll>
-            <xf name="Broccoli">1.00</xf>
-            <kl name="Broccoli">0.06</kl>
-          </layer>
-          <layer>
-            <thickness>300</thickness>
-            <bd>1.4</bd>
-            <ll15>0.15</ll15>
-            <airdry>0.15</airdry>
-            <dul>0.39</dul>
-            <sat>0.44</sat>
-            <swcon>0.3</swcon>
-            <fbiom>0.01</fbiom>
-            <finert>0.95</finert>
-            <oc>0.7</oc>
-            <ph>7</ph>
-            <ll name="wheat">0.15</ll>
-            <kl name="wheat">0.04</kl>
-            <xf name="wheat">1</xf>
-            <ll name="Chickpea">0.22</ll>
-            <kl name="Chickpea">0.04</kl>
-            <xf name="Chickpea">1</xf>
-            <ll name="Broccoli">0.15</ll>
-            <xf name="Broccoli">0.00</xf>
-            <kl name="Broccoli">0.00</kl>
-          </layer>
-          <layer>
-            <thickness>300</thickness>
-            <bd>1.46</bd>
-            <ll15>0.32</ll15>
-            <airdry>0.32</airdry>
-            <dul>0.37</dul>
-            <sat>0.42</sat>
-            <swcon>0.3</swcon>
-            <fbiom>0.01</fbiom>
-            <finert>0.95</finert>
-            <oc>0.3</oc>
-            <ph>7</ph>
-            <ll name="wheat">0.32</ll>
-            <kl name="wheat">0.02</kl>
-            <xf name="wheat">1</xf>
-            <ll name="Chickpea">0.34</ll>
-            <kl name="Chickpea">0.02</kl>
-            <xf name="Chickpea">1</xf>
-            <ll name="Broccoli">0.32</ll>
-            <xf name="Broccoli">0.00</xf>
-            <kl name="Broccoli">0.00</kl>
-          </layer>
-          <layer>
-            <thickness>300</thickness>
-            <bd>1.47</bd>
-            <ll15>0.335</ll15>
-            <airdry>0.329</airdry>
-            <dul>0.34</dul>
-            <sat>0.42</sat>
-            <swcon>0.3</swcon>
-            <fbiom>0.01</fbiom>
-            <finert>0.95</finert>
-            <oc>0.3</oc>
-            <ph>7</ph>
-            <ll name="wheat">0.34</ll>
-            <kl name="wheat">0.01</kl>
-            <xf name="wheat">1</xf>
-            <ll name="Chickpea">0.33</ll>
-            <kl name="Chickpea">0.01</kl>
-            <xf name="Chickpea">1</xf>
-            <ll name="Broccoli">0.34</ll>
-            <xf name="Broccoli">0.00</xf>
-            <kl name="Broccoli">0.00</kl>
-          </layer>
-        </profile>
-        <U>6</U>
-        <Cona>3.5</Cona>
-        <Salb>0.13</Salb>
-        <DiffusConst>40</DiffusConst>
-        <DiffusSlope>16</DiffusSlope>
-        <CN2Bare>73</CN2Bare>
-        <CNRed>20</CNRed>
-        <CNCov>0.8</CNCov>
-        <RootCN>40</RootCN>
-        <RootWT>200</RootWT>
-        <SoilCN>12.5</SoilCN>
-        <EnrACoeff>7.4</EnrACoeff>
-        <EnrBCoeff>0.2</EnrBCoeff>
-        <WaterFormat>VolumetricPercent</WaterFormat>
-        <InitWater>
-          <layer name="1">
-            <sw>0.19</sw>
-          </layer>
-          <layer name="2">
-            <sw>0.21</sw>
-          </layer>
-          <layer name="3">
-            <sw>0.20</sw>
-          </layer>
-          <layer name="4">
-            <sw>0.19</sw>
-          </layer>
-          <layer name="5">
-            <sw>0.15</sw>
-          </layer>
-          <layer name="6">
-            <sw>0.32</sw>
-          </layer>
-          <layer name="7">
-            <sw>0.34</sw>
-          </layer>
-        </InitWater>
-        <InitNitrogen>
-          <layer name="1">
-            <no3>6.5</no3>
-            <nh4>0.6</nh4>
-          </layer>
-          <layer name="2">
-            <no3>2.1</no3>
-            <nh4>0.1</nh4>
-          </layer>
-          <layer name="3">
-            <no3>2.1</no3>
-            <nh4>0.1</nh4>
-          </layer>
-          <layer name="4">
-            <no3>1.7</no3>
-            <nh4>0.1</nh4>
-          </layer>
-          <layer name="5">
-            <no3>1.7</no3>
-            <nh4>0.1</nh4>
-          </layer>
-          <layer name="6">
-            <no3>1.7</no3>
-            <nh4>0.1</nh4>
-          </layer>
-          <layer name="7">
-            <no3>1.7</no3>
-            <nh4>0.1</nh4>
-          </layer>
-        </InitNitrogen>
-      </soil>
+      <Soil shortcut="LawesSoil" />
     </area>
     <area name="Planting2">
       <registrations name="global" />
@@ -420,237 +190,7 @@
         <property name="crit_fr_asw" type="text" description="Fraction of ASW below which irrigation is applied (0-1.0)">0.5</property>
         <property name="irrigation_efficiency" description="Efficiency of the irrigation. (0-1.0)">1.0</property>
       </irrigation>
-      <soil name="Soil">
-        <region>Lockyer</region>
-        <site>UQ, Lawes</site>
-        <SoilType>Prarie</SoilType>
-        <nearesttown>Gatton, Q 4343</nearesttown>
-        <comment>oc and ph estimated</comment>
-        <naturalvegetation>Blue Gum, Moreton Bay Ash, Tea Tree</naturalvegetation>
-        <profile>
-          <layer>
-            <thickness>150</thickness>
-            <bd>1.38</bd>
-            <ll15>0.2</ll15>
-            <airdry>0.1</airdry>
-            <dul>0.38</dul>
-            <sat>0.45</sat>
-            <swcon>0.3</swcon>
-            <fbiom>0.03</fbiom>
-            <finert>0.4</finert>
-            <oc>1.2</oc>
-            <ph>7</ph>
-            <ll name="wheat">0.2</ll>
-            <kl name="wheat">0.1</kl>
-            <xf name="wheat">1</xf>
-            <ll name="Chickpea">0.2</ll>
-            <kl name="Chickpea">0.1</kl>
-            <xf name="Chickpea">1</xf>
-            <ll name="Broccoli">0.20</ll>
-            <xf name="Broccoli">1.00</xf>
-            <kl name="Broccoli">0.06</kl>
-          </layer>
-          <layer>
-            <thickness>150</thickness>
-            <bd>1.38</bd>
-            <ll15>0.21</ll15>
-            <airdry>0.189</airdry>
-            <dul>0.38</dul>
-            <sat>0.45</sat>
-            <swcon>0.3</swcon>
-            <fbiom>0.02</fbiom>
-            <finert>0.6</finert>
-            <oc>1.2</oc>
-            <ph>7</ph>
-            <ll name="wheat">0.21</ll>
-            <kl name="wheat">0.1</kl>
-            <xf name="wheat">1</xf>
-            <ll name="Chickpea">0.21</ll>
-            <kl name="Chickpea">0.1</kl>
-            <xf name="Chickpea">1</xf>
-            <ll name="Broccoli">0.21</ll>
-            <xf name="Broccoli">1.00</xf>
-            <kl name="Broccoli">0.06</kl>
-          </layer>
-          <layer>
-            <thickness>300</thickness>
-            <bd>1.28</bd>
-            <ll15>0.2</ll15>
-            <airdry>0.2</airdry>
-            <dul>0.44</dul>
-            <sat>0.49</sat>
-            <swcon>0.3</swcon>
-            <fbiom>0.01</fbiom>
-            <finert>0.8</finert>
-            <oc>1.2</oc>
-            <ph>7</ph>
-            <ll name="wheat">0.2</ll>
-            <kl name="wheat">0.08</kl>
-            <xf name="wheat">1</xf>
-            <ll name="Chickpea">0.2</ll>
-            <kl name="Chickpea">0.08</kl>
-            <xf name="Chickpea">1</xf>
-            <ll name="Broccoli">0.20</ll>
-            <xf name="Broccoli">1.00</xf>
-            <kl name="Broccoli">0.06</kl>
-          </layer>
-          <layer>
-            <thickness>300</thickness>
-            <bd>1.38</bd>
-            <ll15>0.19</ll15>
-            <airdry>0.19</airdry>
-            <dul>0.4</dul>
-            <sat>0.45</sat>
-            <swcon>0.3</swcon>
-            <fbiom>0.01</fbiom>
-            <finert>0.9</finert>
-            <oc>1.1</oc>
-            <ph>7</ph>
-            <ll name="wheat">0.19</ll>
-            <kl name="wheat">0.06</kl>
-            <xf name="wheat">1</xf>
-            <ll name="Chickpea">0.22</ll>
-            <kl name="Chickpea">0.06</kl>
-            <xf name="Chickpea">1</xf>
-            <ll name="Broccoli">0.19</ll>
-            <xf name="Broccoli">1.00</xf>
-            <kl name="Broccoli">0.06</kl>
-          </layer>
-          <layer>
-            <thickness>300</thickness>
-            <bd>1.4</bd>
-            <ll15>0.15</ll15>
-            <airdry>0.15</airdry>
-            <dul>0.39</dul>
-            <sat>0.44</sat>
-            <swcon>0.3</swcon>
-            <fbiom>0.01</fbiom>
-            <finert>0.95</finert>
-            <oc>0.7</oc>
-            <ph>7</ph>
-            <ll name="wheat">0.15</ll>
-            <kl name="wheat">0.04</kl>
-            <xf name="wheat">1</xf>
-            <ll name="Chickpea">0.22</ll>
-            <kl name="Chickpea">0.04</kl>
-            <xf name="Chickpea">1</xf>
-            <ll name="Broccoli">0.15</ll>
-            <xf name="Broccoli">0.00</xf>
-            <kl name="Broccoli">0.00</kl>
-          </layer>
-          <layer>
-            <thickness>300</thickness>
-            <bd>1.46</bd>
-            <ll15>0.32</ll15>
-            <airdry>0.32</airdry>
-            <dul>0.37</dul>
-            <sat>0.42</sat>
-            <swcon>0.3</swcon>
-            <fbiom>0.01</fbiom>
-            <finert>0.95</finert>
-            <oc>0.3</oc>
-            <ph>7</ph>
-            <ll name="wheat">0.32</ll>
-            <kl name="wheat">0.02</kl>
-            <xf name="wheat">1</xf>
-            <ll name="Chickpea">0.34</ll>
-            <kl name="Chickpea">0.02</kl>
-            <xf name="Chickpea">1</xf>
-            <ll name="Broccoli">0.32</ll>
-            <xf name="Broccoli">0.00</xf>
-            <kl name="Broccoli">0.00</kl>
-          </layer>
-          <layer>
-            <thickness>300</thickness>
-            <bd>1.47</bd>
-            <ll15>0.335</ll15>
-            <airdry>0.329</airdry>
-            <dul>0.34</dul>
-            <sat>0.42</sat>
-            <swcon>0.3</swcon>
-            <fbiom>0.01</fbiom>
-            <finert>0.95</finert>
-            <oc>0.3</oc>
-            <ph>7</ph>
-            <ll name="wheat">0.34</ll>
-            <kl name="wheat">0.01</kl>
-            <xf name="wheat">1</xf>
-            <ll name="Chickpea">0.33</ll>
-            <kl name="Chickpea">0.01</kl>
-            <xf name="Chickpea">1</xf>
-            <ll name="Broccoli">0.34</ll>
-            <xf name="Broccoli">0.00</xf>
-            <kl name="Broccoli">0.00</kl>
-          </layer>
-        </profile>
-        <U>6</U>
-        <Cona>3.5</Cona>
-        <Salb>0.13</Salb>
-        <DiffusConst>40</DiffusConst>
-        <DiffusSlope>16</DiffusSlope>
-        <CN2Bare>73</CN2Bare>
-        <CNRed>20</CNRed>
-        <CNCov>0.8</CNCov>
-        <RootCN>40</RootCN>
-        <RootWT>200</RootWT>
-        <SoilCN>12.5</SoilCN>
-        <EnrACoeff>7.4</EnrACoeff>
-        <EnrBCoeff>0.2</EnrBCoeff>
-        <WaterFormat>VolumetricPercent</WaterFormat>
-        <InitWater>
-          <layer name="1">
-            <sw>0.19</sw>
-          </layer>
-          <layer name="2">
-            <sw>0.21</sw>
-          </layer>
-          <layer name="3">
-            <sw>0.20</sw>
-          </layer>
-          <layer name="4">
-            <sw>0.19</sw>
-          </layer>
-          <layer name="5">
-            <sw>0.15</sw>
-          </layer>
-          <layer name="6">
-            <sw>0.32</sw>
-          </layer>
-          <layer name="7">
-            <sw>0.34</sw>
-          </layer>
-        </InitWater>
-        <InitNitrogen>
-          <layer name="1">
-            <no3>6.5</no3>
-            <nh4>0.6</nh4>
-          </layer>
-          <layer name="2">
-            <no3>2.1</no3>
-            <nh4>0.1</nh4>
-          </layer>
-          <layer name="3">
-            <no3>2.1</no3>
-            <nh4>0.1</nh4>
-          </layer>
-          <layer name="4">
-            <no3>1.7</no3>
-            <nh4>0.1</nh4>
-          </layer>
-          <layer name="5">
-            <no3>1.7</no3>
-            <nh4>0.1</nh4>
-          </layer>
-          <layer name="6">
-            <no3>1.7</no3>
-            <nh4>0.1</nh4>
-          </layer>
-          <layer name="7">
-            <no3>1.7</no3>
-            <nh4>0.1</nh4>
-          </layer>
-        </InitNitrogen>
-      </soil>
+      <Soil shortcut="LawesSoil" />
     </area>
     <area name="Planting3">
       <registrations name="global" />
@@ -741,237 +281,7 @@
         <property name="crit_fr_asw" type="text" description="Fraction of ASW below which irrigation is applied (0-1.0)">0.5</property>
         <property name="irrigation_efficiency" description="Efficiency of the irrigation. (0-1.0)">1.0</property>
       </irrigation>
-      <soil name="Soil">
-        <region>Lockyer</region>
-        <site>UQ, Lawes</site>
-        <SoilType>Prarie</SoilType>
-        <nearesttown>Gatton, Q 4343</nearesttown>
-        <comment>oc and ph estimated</comment>
-        <naturalvegetation>Blue Gum, Moreton Bay Ash, Tea Tree</naturalvegetation>
-        <profile>
-          <layer>
-            <thickness>150</thickness>
-            <bd>1.38</bd>
-            <ll15>0.2</ll15>
-            <airdry>0.1</airdry>
-            <dul>0.38</dul>
-            <sat>0.45</sat>
-            <swcon>0.3</swcon>
-            <fbiom>0.03</fbiom>
-            <finert>0.4</finert>
-            <oc>1.2</oc>
-            <ph>7</ph>
-            <ll name="wheat">0.2</ll>
-            <kl name="wheat">0.1</kl>
-            <xf name="wheat">1</xf>
-            <ll name="Chickpea">0.2</ll>
-            <kl name="Chickpea">0.1</kl>
-            <xf name="Chickpea">1</xf>
-            <ll name="Broccoli">0.20</ll>
-            <xf name="Broccoli">1.00</xf>
-            <kl name="Broccoli">0.06</kl>
-          </layer>
-          <layer>
-            <thickness>150</thickness>
-            <bd>1.38</bd>
-            <ll15>0.21</ll15>
-            <airdry>0.189</airdry>
-            <dul>0.38</dul>
-            <sat>0.45</sat>
-            <swcon>0.3</swcon>
-            <fbiom>0.02</fbiom>
-            <finert>0.6</finert>
-            <oc>1.2</oc>
-            <ph>7</ph>
-            <ll name="wheat">0.21</ll>
-            <kl name="wheat">0.1</kl>
-            <xf name="wheat">1</xf>
-            <ll name="Chickpea">0.21</ll>
-            <kl name="Chickpea">0.1</kl>
-            <xf name="Chickpea">1</xf>
-            <ll name="Broccoli">0.21</ll>
-            <xf name="Broccoli">1.00</xf>
-            <kl name="Broccoli">0.06</kl>
-          </layer>
-          <layer>
-            <thickness>300</thickness>
-            <bd>1.28</bd>
-            <ll15>0.2</ll15>
-            <airdry>0.2</airdry>
-            <dul>0.44</dul>
-            <sat>0.49</sat>
-            <swcon>0.3</swcon>
-            <fbiom>0.01</fbiom>
-            <finert>0.8</finert>
-            <oc>1.2</oc>
-            <ph>7</ph>
-            <ll name="wheat">0.2</ll>
-            <kl name="wheat">0.08</kl>
-            <xf name="wheat">1</xf>
-            <ll name="Chickpea">0.2</ll>
-            <kl name="Chickpea">0.08</kl>
-            <xf name="Chickpea">1</xf>
-            <ll name="Broccoli">0.20</ll>
-            <xf name="Broccoli">1.00</xf>
-            <kl name="Broccoli">0.06</kl>
-          </layer>
-          <layer>
-            <thickness>300</thickness>
-            <bd>1.38</bd>
-            <ll15>0.19</ll15>
-            <airdry>0.19</airdry>
-            <dul>0.4</dul>
-            <sat>0.45</sat>
-            <swcon>0.3</swcon>
-            <fbiom>0.01</fbiom>
-            <finert>0.9</finert>
-            <oc>1.1</oc>
-            <ph>7</ph>
-            <ll name="wheat">0.19</ll>
-            <kl name="wheat">0.06</kl>
-            <xf name="wheat">1</xf>
-            <ll name="Chickpea">0.22</ll>
-            <kl name="Chickpea">0.06</kl>
-            <xf name="Chickpea">1</xf>
-            <ll name="Broccoli">0.19</ll>
-            <xf name="Broccoli">1.00</xf>
-            <kl name="Broccoli">0.06</kl>
-          </layer>
-          <layer>
-            <thickness>300</thickness>
-            <bd>1.4</bd>
-            <ll15>0.15</ll15>
-            <airdry>0.15</airdry>
-            <dul>0.39</dul>
-            <sat>0.44</sat>
-            <swcon>0.3</swcon>
-            <fbiom>0.01</fbiom>
-            <finert>0.95</finert>
-            <oc>0.7</oc>
-            <ph>7</ph>
-            <ll name="wheat">0.15</ll>
-            <kl name="wheat">0.04</kl>
-            <xf name="wheat">1</xf>
-            <ll name="Chickpea">0.22</ll>
-            <kl name="Chickpea">0.04</kl>
-            <xf name="Chickpea">1</xf>
-            <ll name="Broccoli">0.15</ll>
-            <xf name="Broccoli">0.00</xf>
-            <kl name="Broccoli">0.00</kl>
-          </layer>
-          <layer>
-            <thickness>300</thickness>
-            <bd>1.46</bd>
-            <ll15>0.32</ll15>
-            <airdry>0.32</airdry>
-            <dul>0.37</dul>
-            <sat>0.42</sat>
-            <swcon>0.3</swcon>
-            <fbiom>0.01</fbiom>
-            <finert>0.95</finert>
-            <oc>0.3</oc>
-            <ph>7</ph>
-            <ll name="wheat">0.32</ll>
-            <kl name="wheat">0.02</kl>
-            <xf name="wheat">1</xf>
-            <ll name="Chickpea">0.34</ll>
-            <kl name="Chickpea">0.02</kl>
-            <xf name="Chickpea">1</xf>
-            <ll name="Broccoli">0.32</ll>
-            <xf name="Broccoli">0.00</xf>
-            <kl name="Broccoli">0.00</kl>
-          </layer>
-          <layer>
-            <thickness>300</thickness>
-            <bd>1.47</bd>
-            <ll15>0.335</ll15>
-            <airdry>0.329</airdry>
-            <dul>0.34</dul>
-            <sat>0.42</sat>
-            <swcon>0.3</swcon>
-            <fbiom>0.01</fbiom>
-            <finert>0.95</finert>
-            <oc>0.3</oc>
-            <ph>7</ph>
-            <ll name="wheat">0.34</ll>
-            <kl name="wheat">0.01</kl>
-            <xf name="wheat">1</xf>
-            <ll name="Chickpea">0.33</ll>
-            <kl name="Chickpea">0.01</kl>
-            <xf name="Chickpea">1</xf>
-            <ll name="Broccoli">0.34</ll>
-            <xf name="Broccoli">0.00</xf>
-            <kl name="Broccoli">0.00</kl>
-          </layer>
-        </profile>
-        <U>6</U>
-        <Cona>3.5</Cona>
-        <Salb>0.13</Salb>
-        <DiffusConst>40</DiffusConst>
-        <DiffusSlope>16</DiffusSlope>
-        <CN2Bare>73</CN2Bare>
-        <CNRed>20</CNRed>
-        <CNCov>0.8</CNCov>
-        <RootCN>40</RootCN>
-        <RootWT>200</RootWT>
-        <SoilCN>12.5</SoilCN>
-        <EnrACoeff>7.4</EnrACoeff>
-        <EnrBCoeff>0.2</EnrBCoeff>
-        <WaterFormat>VolumetricPercent</WaterFormat>
-        <InitWater>
-          <layer name="1">
-            <sw>0.19</sw>
-          </layer>
-          <layer name="2">
-            <sw>0.21</sw>
-          </layer>
-          <layer name="3">
-            <sw>0.20</sw>
-          </layer>
-          <layer name="4">
-            <sw>0.19</sw>
-          </layer>
-          <layer name="5">
-            <sw>0.15</sw>
-          </layer>
-          <layer name="6">
-            <sw>0.32</sw>
-          </layer>
-          <layer name="7">
-            <sw>0.34</sw>
-          </layer>
-        </InitWater>
-        <InitNitrogen>
-          <layer name="1">
-            <no3>6.5</no3>
-            <nh4>0.6</nh4>
-          </layer>
-          <layer name="2">
-            <no3>2.1</no3>
-            <nh4>0.1</nh4>
-          </layer>
-          <layer name="3">
-            <no3>2.1</no3>
-            <nh4>0.1</nh4>
-          </layer>
-          <layer name="4">
-            <no3>1.7</no3>
-            <nh4>0.1</nh4>
-          </layer>
-          <layer name="5">
-            <no3>1.7</no3>
-            <nh4>0.1</nh4>
-          </layer>
-          <layer name="6">
-            <no3>1.7</no3>
-            <nh4>0.1</nh4>
-          </layer>
-          <layer name="7">
-            <no3>1.7</no3>
-            <nh4>0.1</nh4>
-          </layer>
-        </InitNitrogen>
-      </soil>
+      <Soil shortcut="LawesSoil" />
     </area>
     <area name="Planting4">
       <registrations name="global" />
@@ -1062,237 +372,7 @@
         <property name="crit_fr_asw" type="text" description="Fraction of ASW below which irrigation is applied (0-1.0)">0.5</property>
         <property name="irrigation_efficiency" description="Efficiency of the irrigation. (0-1.0)">1.0</property>
       </irrigation>
-      <soil name="Soil">
-        <region>Lockyer</region>
-        <site>UQ, Lawes</site>
-        <SoilType>Prarie</SoilType>
-        <nearesttown>Gatton, Q 4343</nearesttown>
-        <comment>oc and ph estimated</comment>
-        <naturalvegetation>Blue Gum, Moreton Bay Ash, Tea Tree</naturalvegetation>
-        <profile>
-          <layer>
-            <thickness>150</thickness>
-            <bd>1.38</bd>
-            <ll15>0.2</ll15>
-            <airdry>0.1</airdry>
-            <dul>0.38</dul>
-            <sat>0.45</sat>
-            <swcon>0.3</swcon>
-            <fbiom>0.03</fbiom>
-            <finert>0.4</finert>
-            <oc>1.2</oc>
-            <ph>7</ph>
-            <ll name="wheat">0.2</ll>
-            <kl name="wheat">0.1</kl>
-            <xf name="wheat">1</xf>
-            <ll name="Chickpea">0.2</ll>
-            <kl name="Chickpea">0.1</kl>
-            <xf name="Chickpea">1</xf>
-            <ll name="Broccoli">0.20</ll>
-            <xf name="Broccoli">1.00</xf>
-            <kl name="Broccoli">0.06</kl>
-          </layer>
-          <layer>
-            <thickness>150</thickness>
-            <bd>1.38</bd>
-            <ll15>0.21</ll15>
-            <airdry>0.189</airdry>
-            <dul>0.38</dul>
-            <sat>0.45</sat>
-            <swcon>0.3</swcon>
-            <fbiom>0.02</fbiom>
-            <finert>0.6</finert>
-            <oc>1.2</oc>
-            <ph>7</ph>
-            <ll name="wheat">0.21</ll>
-            <kl name="wheat">0.1</kl>
-            <xf name="wheat">1</xf>
-            <ll name="Chickpea">0.21</ll>
-            <kl name="Chickpea">0.1</kl>
-            <xf name="Chickpea">1</xf>
-            <ll name="Broccoli">0.21</ll>
-            <xf name="Broccoli">1.00</xf>
-            <kl name="Broccoli">0.06</kl>
-          </layer>
-          <layer>
-            <thickness>300</thickness>
-            <bd>1.28</bd>
-            <ll15>0.2</ll15>
-            <airdry>0.2</airdry>
-            <dul>0.44</dul>
-            <sat>0.49</sat>
-            <swcon>0.3</swcon>
-            <fbiom>0.01</fbiom>
-            <finert>0.8</finert>
-            <oc>1.2</oc>
-            <ph>7</ph>
-            <ll name="wheat">0.2</ll>
-            <kl name="wheat">0.08</kl>
-            <xf name="wheat">1</xf>
-            <ll name="Chickpea">0.2</ll>
-            <kl name="Chickpea">0.08</kl>
-            <xf name="Chickpea">1</xf>
-            <ll name="Broccoli">0.20</ll>
-            <xf name="Broccoli">1.00</xf>
-            <kl name="Broccoli">0.06</kl>
-          </layer>
-          <layer>
-            <thickness>300</thickness>
-            <bd>1.38</bd>
-            <ll15>0.19</ll15>
-            <airdry>0.19</airdry>
-            <dul>0.4</dul>
-            <sat>0.45</sat>
-            <swcon>0.3</swcon>
-            <fbiom>0.01</fbiom>
-            <finert>0.9</finert>
-            <oc>1.1</oc>
-            <ph>7</ph>
-            <ll name="wheat">0.19</ll>
-            <kl name="wheat">0.06</kl>
-            <xf name="wheat">1</xf>
-            <ll name="Chickpea">0.22</ll>
-            <kl name="Chickpea">0.06</kl>
-            <xf name="Chickpea">1</xf>
-            <ll name="Broccoli">0.19</ll>
-            <xf name="Broccoli">1.00</xf>
-            <kl name="Broccoli">0.06</kl>
-          </layer>
-          <layer>
-            <thickness>300</thickness>
-            <bd>1.4</bd>
-            <ll15>0.15</ll15>
-            <airdry>0.15</airdry>
-            <dul>0.39</dul>
-            <sat>0.44</sat>
-            <swcon>0.3</swcon>
-            <fbiom>0.01</fbiom>
-            <finert>0.95</finert>
-            <oc>0.7</oc>
-            <ph>7</ph>
-            <ll name="wheat">0.15</ll>
-            <kl name="wheat">0.04</kl>
-            <xf name="wheat">1</xf>
-            <ll name="Chickpea">0.22</ll>
-            <kl name="Chickpea">0.04</kl>
-            <xf name="Chickpea">1</xf>
-            <ll name="Broccoli">0.15</ll>
-            <xf name="Broccoli">0.00</xf>
-            <kl name="Broccoli">0.00</kl>
-          </layer>
-          <layer>
-            <thickness>300</thickness>
-            <bd>1.46</bd>
-            <ll15>0.32</ll15>
-            <airdry>0.32</airdry>
-            <dul>0.37</dul>
-            <sat>0.42</sat>
-            <swcon>0.3</swcon>
-            <fbiom>0.01</fbiom>
-            <finert>0.95</finert>
-            <oc>0.3</oc>
-            <ph>7</ph>
-            <ll name="wheat">0.32</ll>
-            <kl name="wheat">0.02</kl>
-            <xf name="wheat">1</xf>
-            <ll name="Chickpea">0.34</ll>
-            <kl name="Chickpea">0.02</kl>
-            <xf name="Chickpea">1</xf>
-            <ll name="Broccoli">0.32</ll>
-            <xf name="Broccoli">0.00</xf>
-            <kl name="Broccoli">0.00</kl>
-          </layer>
-          <layer>
-            <thickness>300</thickness>
-            <bd>1.47</bd>
-            <ll15>0.335</ll15>
-            <airdry>0.329</airdry>
-            <dul>0.34</dul>
-            <sat>0.42</sat>
-            <swcon>0.3</swcon>
-            <fbiom>0.01</fbiom>
-            <finert>0.95</finert>
-            <oc>0.3</oc>
-            <ph>7</ph>
-            <ll name="wheat">0.34</ll>
-            <kl name="wheat">0.01</kl>
-            <xf name="wheat">1</xf>
-            <ll name="Chickpea">0.33</ll>
-            <kl name="Chickpea">0.01</kl>
-            <xf name="Chickpea">1</xf>
-            <ll name="Broccoli">0.34</ll>
-            <xf name="Broccoli">0.00</xf>
-            <kl name="Broccoli">0.00</kl>
-          </layer>
-        </profile>
-        <U>6</U>
-        <Cona>3.5</Cona>
-        <Salb>0.13</Salb>
-        <DiffusConst>40</DiffusConst>
-        <DiffusSlope>16</DiffusSlope>
-        <CN2Bare>73</CN2Bare>
-        <CNRed>20</CNRed>
-        <CNCov>0.8</CNCov>
-        <RootCN>40</RootCN>
-        <RootWT>200</RootWT>
-        <SoilCN>12.5</SoilCN>
-        <EnrACoeff>7.4</EnrACoeff>
-        <EnrBCoeff>0.2</EnrBCoeff>
-        <WaterFormat>VolumetricPercent</WaterFormat>
-        <InitWater>
-          <layer name="1">
-            <sw>0.19</sw>
-          </layer>
-          <layer name="2">
-            <sw>0.21</sw>
-          </layer>
-          <layer name="3">
-            <sw>0.20</sw>
-          </layer>
-          <layer name="4">
-            <sw>0.19</sw>
-          </layer>
-          <layer name="5">
-            <sw>0.15</sw>
-          </layer>
-          <layer name="6">
-            <sw>0.32</sw>
-          </layer>
-          <layer name="7">
-            <sw>0.34</sw>
-          </layer>
-        </InitWater>
-        <InitNitrogen>
-          <layer name="1">
-            <no3>6.5</no3>
-            <nh4>0.6</nh4>
-          </layer>
-          <layer name="2">
-            <no3>2.1</no3>
-            <nh4>0.1</nh4>
-          </layer>
-          <layer name="3">
-            <no3>2.1</no3>
-            <nh4>0.1</nh4>
-          </layer>
-          <layer name="4">
-            <no3>1.7</no3>
-            <nh4>0.1</nh4>
-          </layer>
-          <layer name="5">
-            <no3>1.7</no3>
-            <nh4>0.1</nh4>
-          </layer>
-          <layer name="6">
-            <no3>1.7</no3>
-            <nh4>0.1</nh4>
-          </layer>
-          <layer name="7">
-            <no3>1.7</no3>
-            <nh4>0.1</nh4>
-          </layer>
-        </InitNitrogen>
-      </soil>
+      <Soil shortcut="LawesSoil" />
     </area>
     <area name="Planting5">
       <registrations name="global" />
@@ -1383,237 +463,7 @@
         <property name="crit_fr_asw" type="text" description="Fraction of ASW below which irrigation is applied (0-1.0)">0.5</property>
         <property name="irrigation_efficiency" description="Efficiency of the irrigation. (0-1.0)">1.0</property>
       </irrigation>
-      <soil name="Soil">
-        <region>Lockyer</region>
-        <site>UQ, Lawes</site>
-        <SoilType>Prarie</SoilType>
-        <nearesttown>Gatton, Q 4343</nearesttown>
-        <comment>oc and ph estimated</comment>
-        <naturalvegetation>Blue Gum, Moreton Bay Ash, Tea Tree</naturalvegetation>
-        <profile>
-          <layer>
-            <thickness>150</thickness>
-            <bd>1.38</bd>
-            <ll15>0.2</ll15>
-            <airdry>0.1</airdry>
-            <dul>0.38</dul>
-            <sat>0.45</sat>
-            <swcon>0.3</swcon>
-            <fbiom>0.03</fbiom>
-            <finert>0.4</finert>
-            <oc>1.2</oc>
-            <ph>7</ph>
-            <ll name="wheat">0.2</ll>
-            <kl name="wheat">0.1</kl>
-            <xf name="wheat">1</xf>
-            <ll name="Chickpea">0.2</ll>
-            <kl name="Chickpea">0.1</kl>
-            <xf name="Chickpea">1</xf>
-            <ll name="Broccoli">0.20</ll>
-            <xf name="Broccoli">1.00</xf>
-            <kl name="Broccoli">0.06</kl>
-          </layer>
-          <layer>
-            <thickness>150</thickness>
-            <bd>1.38</bd>
-            <ll15>0.21</ll15>
-            <airdry>0.189</airdry>
-            <dul>0.38</dul>
-            <sat>0.45</sat>
-            <swcon>0.3</swcon>
-            <fbiom>0.02</fbiom>
-            <finert>0.6</finert>
-            <oc>1.2</oc>
-            <ph>7</ph>
-            <ll name="wheat">0.21</ll>
-            <kl name="wheat">0.1</kl>
-            <xf name="wheat">1</xf>
-            <ll name="Chickpea">0.21</ll>
-            <kl name="Chickpea">0.1</kl>
-            <xf name="Chickpea">1</xf>
-            <ll name="Broccoli">0.21</ll>
-            <xf name="Broccoli">1.00</xf>
-            <kl name="Broccoli">0.06</kl>
-          </layer>
-          <layer>
-            <thickness>300</thickness>
-            <bd>1.28</bd>
-            <ll15>0.2</ll15>
-            <airdry>0.2</airdry>
-            <dul>0.44</dul>
-            <sat>0.49</sat>
-            <swcon>0.3</swcon>
-            <fbiom>0.01</fbiom>
-            <finert>0.8</finert>
-            <oc>1.2</oc>
-            <ph>7</ph>
-            <ll name="wheat">0.2</ll>
-            <kl name="wheat">0.08</kl>
-            <xf name="wheat">1</xf>
-            <ll name="Chickpea">0.2</ll>
-            <kl name="Chickpea">0.08</kl>
-            <xf name="Chickpea">1</xf>
-            <ll name="Broccoli">0.20</ll>
-            <xf name="Broccoli">1.00</xf>
-            <kl name="Broccoli">0.06</kl>
-          </layer>
-          <layer>
-            <thickness>300</thickness>
-            <bd>1.38</bd>
-            <ll15>0.19</ll15>
-            <airdry>0.19</airdry>
-            <dul>0.4</dul>
-            <sat>0.45</sat>
-            <swcon>0.3</swcon>
-            <fbiom>0.01</fbiom>
-            <finert>0.9</finert>
-            <oc>1.1</oc>
-            <ph>7</ph>
-            <ll name="wheat">0.19</ll>
-            <kl name="wheat">0.06</kl>
-            <xf name="wheat">1</xf>
-            <ll name="Chickpea">0.22</ll>
-            <kl name="Chickpea">0.06</kl>
-            <xf name="Chickpea">1</xf>
-            <ll name="Broccoli">0.19</ll>
-            <xf name="Broccoli">1.00</xf>
-            <kl name="Broccoli">0.06</kl>
-          </layer>
-          <layer>
-            <thickness>300</thickness>
-            <bd>1.4</bd>
-            <ll15>0.15</ll15>
-            <airdry>0.15</airdry>
-            <dul>0.39</dul>
-            <sat>0.44</sat>
-            <swcon>0.3</swcon>
-            <fbiom>0.01</fbiom>
-            <finert>0.95</finert>
-            <oc>0.7</oc>
-            <ph>7</ph>
-            <ll name="wheat">0.15</ll>
-            <kl name="wheat">0.04</kl>
-            <xf name="wheat">1</xf>
-            <ll name="Chickpea">0.22</ll>
-            <kl name="Chickpea">0.04</kl>
-            <xf name="Chickpea">1</xf>
-            <ll name="Broccoli">0.15</ll>
-            <xf name="Broccoli">0.00</xf>
-            <kl name="Broccoli">0.00</kl>
-          </layer>
-          <layer>
-            <thickness>300</thickness>
-            <bd>1.46</bd>
-            <ll15>0.32</ll15>
-            <airdry>0.32</airdry>
-            <dul>0.37</dul>
-            <sat>0.42</sat>
-            <swcon>0.3</swcon>
-            <fbiom>0.01</fbiom>
-            <finert>0.95</finert>
-            <oc>0.3</oc>
-            <ph>7</ph>
-            <ll name="wheat">0.32</ll>
-            <kl name="wheat">0.02</kl>
-            <xf name="wheat">1</xf>
-            <ll name="Chickpea">0.34</ll>
-            <kl name="Chickpea">0.02</kl>
-            <xf name="Chickpea">1</xf>
-            <ll name="Broccoli">0.32</ll>
-            <xf name="Broccoli">0.00</xf>
-            <kl name="Broccoli">0.00</kl>
-          </layer>
-          <layer>
-            <thickness>300</thickness>
-            <bd>1.47</bd>
-            <ll15>0.335</ll15>
-            <airdry>0.329</airdry>
-            <dul>0.34</dul>
-            <sat>0.42</sat>
-            <swcon>0.3</swcon>
-            <fbiom>0.01</fbiom>
-            <finert>0.95</finert>
-            <oc>0.3</oc>
-            <ph>7</ph>
-            <ll name="wheat">0.34</ll>
-            <kl name="wheat">0.01</kl>
-            <xf name="wheat">1</xf>
-            <ll name="Chickpea">0.33</ll>
-            <kl name="Chickpea">0.01</kl>
-            <xf name="Chickpea">1</xf>
-            <ll name="Broccoli">0.34</ll>
-            <xf name="Broccoli">0.00</xf>
-            <kl name="Broccoli">0.00</kl>
-          </layer>
-        </profile>
-        <U>6</U>
-        <Cona>3.5</Cona>
-        <Salb>0.13</Salb>
-        <DiffusConst>40</DiffusConst>
-        <DiffusSlope>16</DiffusSlope>
-        <CN2Bare>73</CN2Bare>
-        <CNRed>20</CNRed>
-        <CNCov>0.8</CNCov>
-        <RootCN>40</RootCN>
-        <RootWT>200</RootWT>
-        <SoilCN>12.5</SoilCN>
-        <EnrACoeff>7.4</EnrACoeff>
-        <EnrBCoeff>0.2</EnrBCoeff>
-        <WaterFormat>VolumetricPercent</WaterFormat>
-        <InitWater>
-          <layer name="1">
-            <sw>0.19</sw>
-          </layer>
-          <layer name="2">
-            <sw>0.21</sw>
-          </layer>
-          <layer name="3">
-            <sw>0.20</sw>
-          </layer>
-          <layer name="4">
-            <sw>0.19</sw>
-          </layer>
-          <layer name="5">
-            <sw>0.15</sw>
-          </layer>
-          <layer name="6">
-            <sw>0.32</sw>
-          </layer>
-          <layer name="7">
-            <sw>0.34</sw>
-          </layer>
-        </InitWater>
-        <InitNitrogen>
-          <layer name="1">
-            <no3>6.5</no3>
-            <nh4>0.6</nh4>
-          </layer>
-          <layer name="2">
-            <no3>2.1</no3>
-            <nh4>0.1</nh4>
-          </layer>
-          <layer name="3">
-            <no3>2.1</no3>
-            <nh4>0.1</nh4>
-          </layer>
-          <layer name="4">
-            <no3>1.7</no3>
-            <nh4>0.1</nh4>
-          </layer>
-          <layer name="5">
-            <no3>1.7</no3>
-            <nh4>0.1</nh4>
-          </layer>
-          <layer name="6">
-            <no3>1.7</no3>
-            <nh4>0.1</nh4>
-          </layer>
-          <layer name="7">
-            <no3>1.7</no3>
-            <nh4>0.1</nh4>
-          </layer>
-        </InitNitrogen>
-      </soil>
+      <Soil shortcut="LawesSoil" />
     </area>
     <area name="Planting6">
       <registrations name="global" />
@@ -1704,237 +554,7 @@
         <property name="crit_fr_asw" type="text" description="Fraction of ASW below which irrigation is applied (0-1.0)">0.5</property>
         <property name="irrigation_efficiency" description="Efficiency of the irrigation. (0-1.0)">1.0</property>
       </irrigation>
-      <soil name="Soil">
-        <region>Lockyer</region>
-        <site>UQ, Lawes</site>
-        <SoilType>Prarie</SoilType>
-        <nearesttown>Gatton, Q 4343</nearesttown>
-        <comment>oc and ph estimated</comment>
-        <naturalvegetation>Blue Gum, Moreton Bay Ash, Tea Tree</naturalvegetation>
-        <profile>
-          <layer>
-            <thickness>150</thickness>
-            <bd>1.38</bd>
-            <ll15>0.2</ll15>
-            <airdry>0.1</airdry>
-            <dul>0.38</dul>
-            <sat>0.45</sat>
-            <swcon>0.3</swcon>
-            <fbiom>0.03</fbiom>
-            <finert>0.4</finert>
-            <oc>1.2</oc>
-            <ph>7</ph>
-            <ll name="wheat">0.2</ll>
-            <kl name="wheat">0.1</kl>
-            <xf name="wheat">1</xf>
-            <ll name="Chickpea">0.2</ll>
-            <kl name="Chickpea">0.1</kl>
-            <xf name="Chickpea">1</xf>
-            <ll name="Broccoli">0.20</ll>
-            <xf name="Broccoli">1.00</xf>
-            <kl name="Broccoli">0.06</kl>
-          </layer>
-          <layer>
-            <thickness>150</thickness>
-            <bd>1.38</bd>
-            <ll15>0.21</ll15>
-            <airdry>0.189</airdry>
-            <dul>0.38</dul>
-            <sat>0.45</sat>
-            <swcon>0.3</swcon>
-            <fbiom>0.02</fbiom>
-            <finert>0.6</finert>
-            <oc>1.2</oc>
-            <ph>7</ph>
-            <ll name="wheat">0.21</ll>
-            <kl name="wheat">0.1</kl>
-            <xf name="wheat">1</xf>
-            <ll name="Chickpea">0.21</ll>
-            <kl name="Chickpea">0.1</kl>
-            <xf name="Chickpea">1</xf>
-            <ll name="Broccoli">0.21</ll>
-            <xf name="Broccoli">1.00</xf>
-            <kl name="Broccoli">0.06</kl>
-          </layer>
-          <layer>
-            <thickness>300</thickness>
-            <bd>1.28</bd>
-            <ll15>0.2</ll15>
-            <airdry>0.2</airdry>
-            <dul>0.44</dul>
-            <sat>0.49</sat>
-            <swcon>0.3</swcon>
-            <fbiom>0.01</fbiom>
-            <finert>0.8</finert>
-            <oc>1.2</oc>
-            <ph>7</ph>
-            <ll name="wheat">0.2</ll>
-            <kl name="wheat">0.08</kl>
-            <xf name="wheat">1</xf>
-            <ll name="Chickpea">0.2</ll>
-            <kl name="Chickpea">0.08</kl>
-            <xf name="Chickpea">1</xf>
-            <ll name="Broccoli">0.20</ll>
-            <xf name="Broccoli">1.00</xf>
-            <kl name="Broccoli">0.06</kl>
-          </layer>
-          <layer>
-            <thickness>300</thickness>
-            <bd>1.38</bd>
-            <ll15>0.19</ll15>
-            <airdry>0.19</airdry>
-            <dul>0.4</dul>
-            <sat>0.45</sat>
-            <swcon>0.3</swcon>
-            <fbiom>0.01</fbiom>
-            <finert>0.9</finert>
-            <oc>1.1</oc>
-            <ph>7</ph>
-            <ll name="wheat">0.19</ll>
-            <kl name="wheat">0.06</kl>
-            <xf name="wheat">1</xf>
-            <ll name="Chickpea">0.22</ll>
-            <kl name="Chickpea">0.06</kl>
-            <xf name="Chickpea">1</xf>
-            <ll name="Broccoli">0.19</ll>
-            <xf name="Broccoli">1.00</xf>
-            <kl name="Broccoli">0.06</kl>
-          </layer>
-          <layer>
-            <thickness>300</thickness>
-            <bd>1.4</bd>
-            <ll15>0.15</ll15>
-            <airdry>0.15</airdry>
-            <dul>0.39</dul>
-            <sat>0.44</sat>
-            <swcon>0.3</swcon>
-            <fbiom>0.01</fbiom>
-            <finert>0.95</finert>
-            <oc>0.7</oc>
-            <ph>7</ph>
-            <ll name="wheat">0.15</ll>
-            <kl name="wheat">0.04</kl>
-            <xf name="wheat">1</xf>
-            <ll name="Chickpea">0.22</ll>
-            <kl name="Chickpea">0.04</kl>
-            <xf name="Chickpea">1</xf>
-            <ll name="Broccoli">0.15</ll>
-            <xf name="Broccoli">0.00</xf>
-            <kl name="Broccoli">0.00</kl>
-          </layer>
-          <layer>
-            <thickness>300</thickness>
-            <bd>1.46</bd>
-            <ll15>0.32</ll15>
-            <airdry>0.32</airdry>
-            <dul>0.37</dul>
-            <sat>0.42</sat>
-            <swcon>0.3</swcon>
-            <fbiom>0.01</fbiom>
-            <finert>0.95</finert>
-            <oc>0.3</oc>
-            <ph>7</ph>
-            <ll name="wheat">0.32</ll>
-            <kl name="wheat">0.02</kl>
-            <xf name="wheat">1</xf>
-            <ll name="Chickpea">0.34</ll>
-            <kl name="Chickpea">0.02</kl>
-            <xf name="Chickpea">1</xf>
-            <ll name="Broccoli">0.32</ll>
-            <xf name="Broccoli">0.00</xf>
-            <kl name="Broccoli">0.00</kl>
-          </layer>
-          <layer>
-            <thickness>300</thickness>
-            <bd>1.47</bd>
-            <ll15>0.335</ll15>
-            <airdry>0.329</airdry>
-            <dul>0.34</dul>
-            <sat>0.42</sat>
-            <swcon>0.3</swcon>
-            <fbiom>0.01</fbiom>
-            <finert>0.95</finert>
-            <oc>0.3</oc>
-            <ph>7</ph>
-            <ll name="wheat">0.34</ll>
-            <kl name="wheat">0.01</kl>
-            <xf name="wheat">1</xf>
-            <ll name="Chickpea">0.33</ll>
-            <kl name="Chickpea">0.01</kl>
-            <xf name="Chickpea">1</xf>
-            <ll name="Broccoli">0.34</ll>
-            <xf name="Broccoli">0.00</xf>
-            <kl name="Broccoli">0.00</kl>
-          </layer>
-        </profile>
-        <U>6</U>
-        <Cona>3.5</Cona>
-        <Salb>0.13</Salb>
-        <DiffusConst>40</DiffusConst>
-        <DiffusSlope>16</DiffusSlope>
-        <CN2Bare>73</CN2Bare>
-        <CNRed>20</CNRed>
-        <CNCov>0.8</CNCov>
-        <RootCN>40</RootCN>
-        <RootWT>200</RootWT>
-        <SoilCN>12.5</SoilCN>
-        <EnrACoeff>7.4</EnrACoeff>
-        <EnrBCoeff>0.2</EnrBCoeff>
-        <WaterFormat>VolumetricPercent</WaterFormat>
-        <InitWater>
-          <layer name="1">
-            <sw>0.19</sw>
-          </layer>
-          <layer name="2">
-            <sw>0.21</sw>
-          </layer>
-          <layer name="3">
-            <sw>0.20</sw>
-          </layer>
-          <layer name="4">
-            <sw>0.19</sw>
-          </layer>
-          <layer name="5">
-            <sw>0.15</sw>
-          </layer>
-          <layer name="6">
-            <sw>0.32</sw>
-          </layer>
-          <layer name="7">
-            <sw>0.34</sw>
-          </layer>
-        </InitWater>
-        <InitNitrogen>
-          <layer name="1">
-            <no3>6.5</no3>
-            <nh4>0.6</nh4>
-          </layer>
-          <layer name="2">
-            <no3>2.1</no3>
-            <nh4>0.1</nh4>
-          </layer>
-          <layer name="3">
-            <no3>2.1</no3>
-            <nh4>0.1</nh4>
-          </layer>
-          <layer name="4">
-            <no3>1.7</no3>
-            <nh4>0.1</nh4>
-          </layer>
-          <layer name="5">
-            <no3>1.7</no3>
-            <nh4>0.1</nh4>
-          </layer>
-          <layer name="6">
-            <no3>1.7</no3>
-            <nh4>0.1</nh4>
-          </layer>
-          <layer name="7">
-            <no3>1.7</no3>
-            <nh4>0.1</nh4>
-          </layer>
-        </InitNitrogen>
-      </soil>
+      <Soil shortcut="LawesSoil" />
     </area>
     <area name="Planting7">
       <registrations name="global" />
@@ -2025,237 +645,7 @@
         <property name="crit_fr_asw" type="text" description="Fraction of ASW below which irrigation is applied (0-1.0)">0.5</property>
         <property name="irrigation_efficiency" description="Efficiency of the irrigation. (0-1.0)">1.0</property>
       </irrigation>
-      <soil name="Soil">
-        <region>Lockyer</region>
-        <site>UQ, Lawes</site>
-        <SoilType>Prarie</SoilType>
-        <nearesttown>Gatton, Q 4343</nearesttown>
-        <comment>oc and ph estimated</comment>
-        <naturalvegetation>Blue Gum, Moreton Bay Ash, Tea Tree</naturalvegetation>
-        <profile>
-          <layer>
-            <thickness>150</thickness>
-            <bd>1.38</bd>
-            <ll15>0.2</ll15>
-            <airdry>0.1</airdry>
-            <dul>0.38</dul>
-            <sat>0.45</sat>
-            <swcon>0.3</swcon>
-            <fbiom>0.03</fbiom>
-            <finert>0.4</finert>
-            <oc>1.2</oc>
-            <ph>7</ph>
-            <ll name="wheat">0.2</ll>
-            <kl name="wheat">0.1</kl>
-            <xf name="wheat">1</xf>
-            <ll name="Chickpea">0.2</ll>
-            <kl name="Chickpea">0.1</kl>
-            <xf name="Chickpea">1</xf>
-            <ll name="Broccoli">0.20</ll>
-            <xf name="Broccoli">1.00</xf>
-            <kl name="Broccoli">0.06</kl>
-          </layer>
-          <layer>
-            <thickness>150</thickness>
-            <bd>1.38</bd>
-            <ll15>0.21</ll15>
-            <airdry>0.189</airdry>
-            <dul>0.38</dul>
-            <sat>0.45</sat>
-            <swcon>0.3</swcon>
-            <fbiom>0.02</fbiom>
-            <finert>0.6</finert>
-            <oc>1.2</oc>
-            <ph>7</ph>
-            <ll name="wheat">0.21</ll>
-            <kl name="wheat">0.1</kl>
-            <xf name="wheat">1</xf>
-            <ll name="Chickpea">0.21</ll>
-            <kl name="Chickpea">0.1</kl>
-            <xf name="Chickpea">1</xf>
-            <ll name="Broccoli">0.21</ll>
-            <xf name="Broccoli">1.00</xf>
-            <kl name="Broccoli">0.06</kl>
-          </layer>
-          <layer>
-            <thickness>300</thickness>
-            <bd>1.28</bd>
-            <ll15>0.2</ll15>
-            <airdry>0.2</airdry>
-            <dul>0.44</dul>
-            <sat>0.49</sat>
-            <swcon>0.3</swcon>
-            <fbiom>0.01</fbiom>
-            <finert>0.8</finert>
-            <oc>1.2</oc>
-            <ph>7</ph>
-            <ll name="wheat">0.2</ll>
-            <kl name="wheat">0.08</kl>
-            <xf name="wheat">1</xf>
-            <ll name="Chickpea">0.2</ll>
-            <kl name="Chickpea">0.08</kl>
-            <xf name="Chickpea">1</xf>
-            <ll name="Broccoli">0.20</ll>
-            <xf name="Broccoli">1.00</xf>
-            <kl name="Broccoli">0.06</kl>
-          </layer>
-          <layer>
-            <thickness>300</thickness>
-            <bd>1.38</bd>
-            <ll15>0.19</ll15>
-            <airdry>0.19</airdry>
-            <dul>0.4</dul>
-            <sat>0.45</sat>
-            <swcon>0.3</swcon>
-            <fbiom>0.01</fbiom>
-            <finert>0.9</finert>
-            <oc>1.1</oc>
-            <ph>7</ph>
-            <ll name="wheat">0.19</ll>
-            <kl name="wheat">0.06</kl>
-            <xf name="wheat">1</xf>
-            <ll name="Chickpea">0.22</ll>
-            <kl name="Chickpea">0.06</kl>
-            <xf name="Chickpea">1</xf>
-            <ll name="Broccoli">0.19</ll>
-            <xf name="Broccoli">1.00</xf>
-            <kl name="Broccoli">0.06</kl>
-          </layer>
-          <layer>
-            <thickness>300</thickness>
-            <bd>1.4</bd>
-            <ll15>0.15</ll15>
-            <airdry>0.15</airdry>
-            <dul>0.39</dul>
-            <sat>0.44</sat>
-            <swcon>0.3</swcon>
-            <fbiom>0.01</fbiom>
-            <finert>0.95</finert>
-            <oc>0.7</oc>
-            <ph>7</ph>
-            <ll name="wheat">0.15</ll>
-            <kl name="wheat">0.04</kl>
-            <xf name="wheat">1</xf>
-            <ll name="Chickpea">0.22</ll>
-            <kl name="Chickpea">0.04</kl>
-            <xf name="Chickpea">1</xf>
-            <ll name="Broccoli">0.15</ll>
-            <xf name="Broccoli">0.00</xf>
-            <kl name="Broccoli">0.00</kl>
-          </layer>
-          <layer>
-            <thickness>300</thickness>
-            <bd>1.46</bd>
-            <ll15>0.32</ll15>
-            <airdry>0.32</airdry>
-            <dul>0.37</dul>
-            <sat>0.42</sat>
-            <swcon>0.3</swcon>
-            <fbiom>0.01</fbiom>
-            <finert>0.95</finert>
-            <oc>0.3</oc>
-            <ph>7</ph>
-            <ll name="wheat">0.32</ll>
-            <kl name="wheat">0.02</kl>
-            <xf name="wheat">1</xf>
-            <ll name="Chickpea">0.34</ll>
-            <kl name="Chickpea">0.02</kl>
-            <xf name="Chickpea">1</xf>
-            <ll name="Broccoli">0.32</ll>
-            <xf name="Broccoli">0.00</xf>
-            <kl name="Broccoli">0.00</kl>
-          </layer>
-          <layer>
-            <thickness>300</thickness>
-            <bd>1.47</bd>
-            <ll15>0.335</ll15>
-            <airdry>0.329</airdry>
-            <dul>0.34</dul>
-            <sat>0.42</sat>
-            <swcon>0.3</swcon>
-            <fbiom>0.01</fbiom>
-            <finert>0.95</finert>
-            <oc>0.3</oc>
-            <ph>7</ph>
-            <ll name="wheat">0.34</ll>
-            <kl name="wheat">0.01</kl>
-            <xf name="wheat">1</xf>
-            <ll name="Chickpea">0.33</ll>
-            <kl name="Chickpea">0.01</kl>
-            <xf name="Chickpea">1</xf>
-            <ll name="Broccoli">0.34</ll>
-            <xf name="Broccoli">0.00</xf>
-            <kl name="Broccoli">0.00</kl>
-          </layer>
-        </profile>
-        <U>6</U>
-        <Cona>3.5</Cona>
-        <Salb>0.13</Salb>
-        <DiffusConst>40</DiffusConst>
-        <DiffusSlope>16</DiffusSlope>
-        <CN2Bare>73</CN2Bare>
-        <CNRed>20</CNRed>
-        <CNCov>0.8</CNCov>
-        <RootCN>40</RootCN>
-        <RootWT>200</RootWT>
-        <SoilCN>12.5</SoilCN>
-        <EnrACoeff>7.4</EnrACoeff>
-        <EnrBCoeff>0.2</EnrBCoeff>
-        <WaterFormat>VolumetricPercent</WaterFormat>
-        <InitWater>
-          <layer name="1">
-            <sw>0.19</sw>
-          </layer>
-          <layer name="2">
-            <sw>0.21</sw>
-          </layer>
-          <layer name="3">
-            <sw>0.20</sw>
-          </layer>
-          <layer name="4">
-            <sw>0.19</sw>
-          </layer>
-          <layer name="5">
-            <sw>0.15</sw>
-          </layer>
-          <layer name="6">
-            <sw>0.32</sw>
-          </layer>
-          <layer name="7">
-            <sw>0.34</sw>
-          </layer>
-        </InitWater>
-        <InitNitrogen>
-          <layer name="1">
-            <no3>6.5</no3>
-            <nh4>0.6</nh4>
-          </layer>
-          <layer name="2">
-            <no3>2.1</no3>
-            <nh4>0.1</nh4>
-          </layer>
-          <layer name="3">
-            <no3>2.1</no3>
-            <nh4>0.1</nh4>
-          </layer>
-          <layer name="4">
-            <no3>1.7</no3>
-            <nh4>0.1</nh4>
-          </layer>
-          <layer name="5">
-            <no3>1.7</no3>
-            <nh4>0.1</nh4>
-          </layer>
-          <layer name="6">
-            <no3>1.7</no3>
-            <nh4>0.1</nh4>
-          </layer>
-          <layer name="7">
-            <no3>1.7</no3>
-            <nh4>0.1</nh4>
-          </layer>
-        </InitNitrogen>
-      </soil>
+      <Soil shortcut="LawesSoil" />
     </area>
     <area name="Planting8">
       <registrations name="global" />
@@ -2346,237 +736,7 @@
         <property name="crit_fr_asw" type="text" description="Fraction of ASW below which irrigation is applied (0-1.0)">0.5</property>
         <property name="irrigation_efficiency" description="Efficiency of the irrigation. (0-1.0)">1.0</property>
       </irrigation>
-      <soil name="Soil">
-        <region>Lockyer</region>
-        <site>UQ, Lawes</site>
-        <SoilType>Prarie</SoilType>
-        <nearesttown>Gatton, Q 4343</nearesttown>
-        <comment>oc and ph estimated</comment>
-        <naturalvegetation>Blue Gum, Moreton Bay Ash, Tea Tree</naturalvegetation>
-        <profile>
-          <layer>
-            <thickness>150</thickness>
-            <bd>1.38</bd>
-            <ll15>0.2</ll15>
-            <airdry>0.1</airdry>
-            <dul>0.38</dul>
-            <sat>0.45</sat>
-            <swcon>0.3</swcon>
-            <fbiom>0.03</fbiom>
-            <finert>0.4</finert>
-            <oc>1.2</oc>
-            <ph>7</ph>
-            <ll name="wheat">0.2</ll>
-            <kl name="wheat">0.1</kl>
-            <xf name="wheat">1</xf>
-            <ll name="Chickpea">0.2</ll>
-            <kl name="Chickpea">0.1</kl>
-            <xf name="Chickpea">1</xf>
-            <ll name="Broccoli">0.20</ll>
-            <xf name="Broccoli">1.00</xf>
-            <kl name="Broccoli">0.06</kl>
-          </layer>
-          <layer>
-            <thickness>150</thickness>
-            <bd>1.38</bd>
-            <ll15>0.21</ll15>
-            <airdry>0.189</airdry>
-            <dul>0.38</dul>
-            <sat>0.45</sat>
-            <swcon>0.3</swcon>
-            <fbiom>0.02</fbiom>
-            <finert>0.6</finert>
-            <oc>1.2</oc>
-            <ph>7</ph>
-            <ll name="wheat">0.21</ll>
-            <kl name="wheat">0.1</kl>
-            <xf name="wheat">1</xf>
-            <ll name="Chickpea">0.21</ll>
-            <kl name="Chickpea">0.1</kl>
-            <xf name="Chickpea">1</xf>
-            <ll name="Broccoli">0.21</ll>
-            <xf name="Broccoli">1.00</xf>
-            <kl name="Broccoli">0.06</kl>
-          </layer>
-          <layer>
-            <thickness>300</thickness>
-            <bd>1.28</bd>
-            <ll15>0.2</ll15>
-            <airdry>0.2</airdry>
-            <dul>0.44</dul>
-            <sat>0.49</sat>
-            <swcon>0.3</swcon>
-            <fbiom>0.01</fbiom>
-            <finert>0.8</finert>
-            <oc>1.2</oc>
-            <ph>7</ph>
-            <ll name="wheat">0.2</ll>
-            <kl name="wheat">0.08</kl>
-            <xf name="wheat">1</xf>
-            <ll name="Chickpea">0.2</ll>
-            <kl name="Chickpea">0.08</kl>
-            <xf name="Chickpea">1</xf>
-            <ll name="Broccoli">0.20</ll>
-            <xf name="Broccoli">1.00</xf>
-            <kl name="Broccoli">0.06</kl>
-          </layer>
-          <layer>
-            <thickness>300</thickness>
-            <bd>1.38</bd>
-            <ll15>0.19</ll15>
-            <airdry>0.19</airdry>
-            <dul>0.4</dul>
-            <sat>0.45</sat>
-            <swcon>0.3</swcon>
-            <fbiom>0.01</fbiom>
-            <finert>0.9</finert>
-            <oc>1.1</oc>
-            <ph>7</ph>
-            <ll name="wheat">0.19</ll>
-            <kl name="wheat">0.06</kl>
-            <xf name="wheat">1</xf>
-            <ll name="Chickpea">0.22</ll>
-            <kl name="Chickpea">0.06</kl>
-            <xf name="Chickpea">1</xf>
-            <ll name="Broccoli">0.19</ll>
-            <xf name="Broccoli">1.00</xf>
-            <kl name="Broccoli">0.06</kl>
-          </layer>
-          <layer>
-            <thickness>300</thickness>
-            <bd>1.4</bd>
-            <ll15>0.15</ll15>
-            <airdry>0.15</airdry>
-            <dul>0.39</dul>
-            <sat>0.44</sat>
-            <swcon>0.3</swcon>
-            <fbiom>0.01</fbiom>
-            <finert>0.95</finert>
-            <oc>0.7</oc>
-            <ph>7</ph>
-            <ll name="wheat">0.15</ll>
-            <kl name="wheat">0.04</kl>
-            <xf name="wheat">1</xf>
-            <ll name="Chickpea">0.22</ll>
-            <kl name="Chickpea">0.04</kl>
-            <xf name="Chickpea">1</xf>
-            <ll name="Broccoli">0.15</ll>
-            <xf name="Broccoli">0.00</xf>
-            <kl name="Broccoli">0.00</kl>
-          </layer>
-          <layer>
-            <thickness>300</thickness>
-            <bd>1.46</bd>
-            <ll15>0.32</ll15>
-            <airdry>0.32</airdry>
-            <dul>0.37</dul>
-            <sat>0.42</sat>
-            <swcon>0.3</swcon>
-            <fbiom>0.01</fbiom>
-            <finert>0.95</finert>
-            <oc>0.3</oc>
-            <ph>7</ph>
-            <ll name="wheat">0.32</ll>
-            <kl name="wheat">0.02</kl>
-            <xf name="wheat">1</xf>
-            <ll name="Chickpea">0.34</ll>
-            <kl name="Chickpea">0.02</kl>
-            <xf name="Chickpea">1</xf>
-            <ll name="Broccoli">0.32</ll>
-            <xf name="Broccoli">0.00</xf>
-            <kl name="Broccoli">0.00</kl>
-          </layer>
-          <layer>
-            <thickness>300</thickness>
-            <bd>1.47</bd>
-            <ll15>0.335</ll15>
-            <airdry>0.329</airdry>
-            <dul>0.34</dul>
-            <sat>0.42</sat>
-            <swcon>0.3</swcon>
-            <fbiom>0.01</fbiom>
-            <finert>0.95</finert>
-            <oc>0.3</oc>
-            <ph>7</ph>
-            <ll name="wheat">0.34</ll>
-            <kl name="wheat">0.01</kl>
-            <xf name="wheat">1</xf>
-            <ll name="Chickpea">0.33</ll>
-            <kl name="Chickpea">0.01</kl>
-            <xf name="Chickpea">1</xf>
-            <ll name="Broccoli">0.34</ll>
-            <xf name="Broccoli">0.00</xf>
-            <kl name="Broccoli">0.00</kl>
-          </layer>
-        </profile>
-        <U>6</U>
-        <Cona>3.5</Cona>
-        <Salb>0.13</Salb>
-        <DiffusConst>40</DiffusConst>
-        <DiffusSlope>16</DiffusSlope>
-        <CN2Bare>73</CN2Bare>
-        <CNRed>20</CNRed>
-        <CNCov>0.8</CNCov>
-        <RootCN>40</RootCN>
-        <RootWT>200</RootWT>
-        <SoilCN>12.5</SoilCN>
-        <EnrACoeff>7.4</EnrACoeff>
-        <EnrBCoeff>0.2</EnrBCoeff>
-        <WaterFormat>VolumetricPercent</WaterFormat>
-        <InitWater>
-          <layer name="1">
-            <sw>0.19</sw>
-          </layer>
-          <layer name="2">
-            <sw>0.21</sw>
-          </layer>
-          <layer name="3">
-            <sw>0.20</sw>
-          </layer>
-          <layer name="4">
-            <sw>0.19</sw>
-          </layer>
-          <layer name="5">
-            <sw>0.15</sw>
-          </layer>
-          <layer name="6">
-            <sw>0.32</sw>
-          </layer>
-          <layer name="7">
-            <sw>0.34</sw>
-          </layer>
-        </InitWater>
-        <InitNitrogen>
-          <layer name="1">
-            <no3>6.5</no3>
-            <nh4>0.6</nh4>
-          </layer>
-          <layer name="2">
-            <no3>2.1</no3>
-            <nh4>0.1</nh4>
-          </layer>
-          <layer name="3">
-            <no3>2.1</no3>
-            <nh4>0.1</nh4>
-          </layer>
-          <layer name="4">
-            <no3>1.7</no3>
-            <nh4>0.1</nh4>
-          </layer>
-          <layer name="5">
-            <no3>1.7</no3>
-            <nh4>0.1</nh4>
-          </layer>
-          <layer name="6">
-            <no3>1.7</no3>
-            <nh4>0.1</nh4>
-          </layer>
-          <layer name="7">
-            <no3>1.7</no3>
-            <nh4>0.1</nh4>
-          </layer>
-        </InitNitrogen>
-      </soil>
+      <Soil shortcut="LawesSoil" />
     </area>
     <log name="log">
       <debugoutput name="debugoutput">off</debugoutput>
@@ -2683,237 +843,7 @@
         <property name="crit_fr_asw" type="text" description="Fraction of ASW below which irrigation is applied (0-1.0)">0.5</property>
         <property name="irrigation_efficiency" description="Efficiency of the irrigation. (0-1.0)">1.0</property>
       </irrigation>
-      <soil name="Soil">
-        <region>Lockyer</region>
-        <site>UQ, Lawes</site>
-        <SoilType>Prarie</SoilType>
-        <nearesttown>Gatton, Q 4343</nearesttown>
-        <comment>oc and ph estimated</comment>
-        <naturalvegetation>Blue Gum, Moreton Bay Ash, Tea Tree</naturalvegetation>
-        <profile>
-          <layer>
-            <thickness>150</thickness>
-            <bd>1.38</bd>
-            <ll15>0.2</ll15>
-            <airdry>0.1</airdry>
-            <dul>0.38</dul>
-            <sat>0.45</sat>
-            <swcon>0.3</swcon>
-            <fbiom>0.03</fbiom>
-            <finert>0.4</finert>
-            <oc>1.2</oc>
-            <ph>7</ph>
-            <ll name="wheat">0.2</ll>
-            <kl name="wheat">0.1</kl>
-            <xf name="wheat">1</xf>
-            <ll name="Chickpea">0.2</ll>
-            <kl name="Chickpea">0.1</kl>
-            <xf name="Chickpea">1</xf>
-            <ll name="Broccoli">0.20</ll>
-            <xf name="Broccoli">1.00</xf>
-            <kl name="Broccoli">0.06</kl>
-          </layer>
-          <layer>
-            <thickness>150</thickness>
-            <bd>1.38</bd>
-            <ll15>0.21</ll15>
-            <airdry>0.189</airdry>
-            <dul>0.38</dul>
-            <sat>0.45</sat>
-            <swcon>0.3</swcon>
-            <fbiom>0.02</fbiom>
-            <finert>0.6</finert>
-            <oc>1.2</oc>
-            <ph>7</ph>
-            <ll name="wheat">0.21</ll>
-            <kl name="wheat">0.1</kl>
-            <xf name="wheat">1</xf>
-            <ll name="Chickpea">0.21</ll>
-            <kl name="Chickpea">0.1</kl>
-            <xf name="Chickpea">1</xf>
-            <ll name="Broccoli">0.21</ll>
-            <xf name="Broccoli">1.00</xf>
-            <kl name="Broccoli">0.06</kl>
-          </layer>
-          <layer>
-            <thickness>300</thickness>
-            <bd>1.28</bd>
-            <ll15>0.2</ll15>
-            <airdry>0.2</airdry>
-            <dul>0.44</dul>
-            <sat>0.49</sat>
-            <swcon>0.3</swcon>
-            <fbiom>0.01</fbiom>
-            <finert>0.8</finert>
-            <oc>1.2</oc>
-            <ph>7</ph>
-            <ll name="wheat">0.2</ll>
-            <kl name="wheat">0.08</kl>
-            <xf name="wheat">1</xf>
-            <ll name="Chickpea">0.2</ll>
-            <kl name="Chickpea">0.08</kl>
-            <xf name="Chickpea">1</xf>
-            <ll name="Broccoli">0.20</ll>
-            <xf name="Broccoli">1.00</xf>
-            <kl name="Broccoli">0.06</kl>
-          </layer>
-          <layer>
-            <thickness>300</thickness>
-            <bd>1.38</bd>
-            <ll15>0.19</ll15>
-            <airdry>0.19</airdry>
-            <dul>0.4</dul>
-            <sat>0.45</sat>
-            <swcon>0.3</swcon>
-            <fbiom>0.01</fbiom>
-            <finert>0.9</finert>
-            <oc>1.1</oc>
-            <ph>7</ph>
-            <ll name="wheat">0.19</ll>
-            <kl name="wheat">0.06</kl>
-            <xf name="wheat">1</xf>
-            <ll name="Chickpea">0.22</ll>
-            <kl name="Chickpea">0.06</kl>
-            <xf name="Chickpea">1</xf>
-            <ll name="Broccoli">0.19</ll>
-            <xf name="Broccoli">1.00</xf>
-            <kl name="Broccoli">0.06</kl>
-          </layer>
-          <layer>
-            <thickness>300</thickness>
-            <bd>1.4</bd>
-            <ll15>0.15</ll15>
-            <airdry>0.15</airdry>
-            <dul>0.39</dul>
-            <sat>0.44</sat>
-            <swcon>0.3</swcon>
-            <fbiom>0.01</fbiom>
-            <finert>0.95</finert>
-            <oc>0.7</oc>
-            <ph>7</ph>
-            <ll name="wheat">0.15</ll>
-            <kl name="wheat">0.04</kl>
-            <xf name="wheat">1</xf>
-            <ll name="Chickpea">0.22</ll>
-            <kl name="Chickpea">0.04</kl>
-            <xf name="Chickpea">1</xf>
-            <ll name="Broccoli">0.15</ll>
-            <xf name="Broccoli">0.00</xf>
-            <kl name="Broccoli">0.00</kl>
-          </layer>
-          <layer>
-            <thickness>300</thickness>
-            <bd>1.46</bd>
-            <ll15>0.32</ll15>
-            <airdry>0.32</airdry>
-            <dul>0.37</dul>
-            <sat>0.42</sat>
-            <swcon>0.3</swcon>
-            <fbiom>0.01</fbiom>
-            <finert>0.95</finert>
-            <oc>0.3</oc>
-            <ph>7</ph>
-            <ll name="wheat">0.32</ll>
-            <kl name="wheat">0.02</kl>
-            <xf name="wheat">1</xf>
-            <ll name="Chickpea">0.34</ll>
-            <kl name="Chickpea">0.02</kl>
-            <xf name="Chickpea">1</xf>
-            <ll name="Broccoli">0.32</ll>
-            <xf name="Broccoli">0.00</xf>
-            <kl name="Broccoli">0.00</kl>
-          </layer>
-          <layer>
-            <thickness>300</thickness>
-            <bd>1.47</bd>
-            <ll15>0.335</ll15>
-            <airdry>0.329</airdry>
-            <dul>0.34</dul>
-            <sat>0.42</sat>
-            <swcon>0.3</swcon>
-            <fbiom>0.01</fbiom>
-            <finert>0.95</finert>
-            <oc>0.3</oc>
-            <ph>7</ph>
-            <ll name="wheat">0.34</ll>
-            <kl name="wheat">0.01</kl>
-            <xf name="wheat">1</xf>
-            <ll name="Chickpea">0.33</ll>
-            <kl name="Chickpea">0.01</kl>
-            <xf name="Chickpea">1</xf>
-            <ll name="Broccoli">0.34</ll>
-            <xf name="Broccoli">0.00</xf>
-            <kl name="Broccoli">0.00</kl>
-          </layer>
-        </profile>
-        <U>6</U>
-        <Cona>3.5</Cona>
-        <Salb>0.13</Salb>
-        <DiffusConst>40</DiffusConst>
-        <DiffusSlope>16</DiffusSlope>
-        <CN2Bare>73</CN2Bare>
-        <CNRed>20</CNRed>
-        <CNCov>0.8</CNCov>
-        <RootCN>40</RootCN>
-        <RootWT>200</RootWT>
-        <SoilCN>12.5</SoilCN>
-        <EnrACoeff>7.4</EnrACoeff>
-        <EnrBCoeff>0.2</EnrBCoeff>
-        <WaterFormat>VolumetricPercent</WaterFormat>
-        <InitWater>
-          <layer name="1">
-            <sw>0.19</sw>
-          </layer>
-          <layer name="2">
-            <sw>0.21</sw>
-          </layer>
-          <layer name="3">
-            <sw>0.20</sw>
-          </layer>
-          <layer name="4">
-            <sw>0.19</sw>
-          </layer>
-          <layer name="5">
-            <sw>0.15</sw>
-          </layer>
-          <layer name="6">
-            <sw>0.32</sw>
-          </layer>
-          <layer name="7">
-            <sw>0.34</sw>
-          </layer>
-        </InitWater>
-        <InitNitrogen>
-          <layer name="1">
-            <no3>6.5</no3>
-            <nh4>0.6</nh4>
-          </layer>
-          <layer name="2">
-            <no3>2.1</no3>
-            <nh4>0.1</nh4>
-          </layer>
-          <layer name="3">
-            <no3>2.1</no3>
-            <nh4>0.1</nh4>
-          </layer>
-          <layer name="4">
-            <no3>1.7</no3>
-            <nh4>0.1</nh4>
-          </layer>
-          <layer name="5">
-            <no3>1.7</no3>
-            <nh4>0.1</nh4>
-          </layer>
-          <layer name="6">
-            <no3>1.7</no3>
-            <nh4>0.1</nh4>
-          </layer>
-          <layer name="7">
-            <no3>1.7</no3>
-            <nh4>0.1</nh4>
-          </layer>
-        </InitNitrogen>
-      </soil>
+      <Soil shortcut="LawesSoil" />
     </area>
     <area name="Planting2">
       <registrations name="global" />
@@ -3004,237 +934,7 @@
         <property name="crit_fr_asw" type="text" description="Fraction of ASW below which irrigation is applied (0-1.0)">0.5</property>
         <property name="irrigation_efficiency" description="Efficiency of the irrigation. (0-1.0)">1.0</property>
       </irrigation>
-      <soil name="Soil">
-        <region>Lockyer</region>
-        <site>UQ, Lawes</site>
-        <SoilType>Prarie</SoilType>
-        <nearesttown>Gatton, Q 4343</nearesttown>
-        <comment>oc and ph estimated</comment>
-        <naturalvegetation>Blue Gum, Moreton Bay Ash, Tea Tree</naturalvegetation>
-        <profile>
-          <layer>
-            <thickness>150</thickness>
-            <bd>1.38</bd>
-            <ll15>0.2</ll15>
-            <airdry>0.1</airdry>
-            <dul>0.38</dul>
-            <sat>0.45</sat>
-            <swcon>0.3</swcon>
-            <fbiom>0.03</fbiom>
-            <finert>0.4</finert>
-            <oc>1.2</oc>
-            <ph>7</ph>
-            <ll name="wheat">0.2</ll>
-            <kl name="wheat">0.1</kl>
-            <xf name="wheat">1</xf>
-            <ll name="Chickpea">0.2</ll>
-            <kl name="Chickpea">0.1</kl>
-            <xf name="Chickpea">1</xf>
-            <ll name="Broccoli">0.20</ll>
-            <xf name="Broccoli">1.00</xf>
-            <kl name="Broccoli">0.06</kl>
-          </layer>
-          <layer>
-            <thickness>150</thickness>
-            <bd>1.38</bd>
-            <ll15>0.21</ll15>
-            <airdry>0.189</airdry>
-            <dul>0.38</dul>
-            <sat>0.45</sat>
-            <swcon>0.3</swcon>
-            <fbiom>0.02</fbiom>
-            <finert>0.6</finert>
-            <oc>1.2</oc>
-            <ph>7</ph>
-            <ll name="wheat">0.21</ll>
-            <kl name="wheat">0.1</kl>
-            <xf name="wheat">1</xf>
-            <ll name="Chickpea">0.21</ll>
-            <kl name="Chickpea">0.1</kl>
-            <xf name="Chickpea">1</xf>
-            <ll name="Broccoli">0.21</ll>
-            <xf name="Broccoli">1.00</xf>
-            <kl name="Broccoli">0.06</kl>
-          </layer>
-          <layer>
-            <thickness>300</thickness>
-            <bd>1.28</bd>
-            <ll15>0.2</ll15>
-            <airdry>0.2</airdry>
-            <dul>0.44</dul>
-            <sat>0.49</sat>
-            <swcon>0.3</swcon>
-            <fbiom>0.01</fbiom>
-            <finert>0.8</finert>
-            <oc>1.2</oc>
-            <ph>7</ph>
-            <ll name="wheat">0.2</ll>
-            <kl name="wheat">0.08</kl>
-            <xf name="wheat">1</xf>
-            <ll name="Chickpea">0.2</ll>
-            <kl name="Chickpea">0.08</kl>
-            <xf name="Chickpea">1</xf>
-            <ll name="Broccoli">0.20</ll>
-            <xf name="Broccoli">1.00</xf>
-            <kl name="Broccoli">0.06</kl>
-          </layer>
-          <layer>
-            <thickness>300</thickness>
-            <bd>1.38</bd>
-            <ll15>0.19</ll15>
-            <airdry>0.19</airdry>
-            <dul>0.4</dul>
-            <sat>0.45</sat>
-            <swcon>0.3</swcon>
-            <fbiom>0.01</fbiom>
-            <finert>0.9</finert>
-            <oc>1.1</oc>
-            <ph>7</ph>
-            <ll name="wheat">0.19</ll>
-            <kl name="wheat">0.06</kl>
-            <xf name="wheat">1</xf>
-            <ll name="Chickpea">0.22</ll>
-            <kl name="Chickpea">0.06</kl>
-            <xf name="Chickpea">1</xf>
-            <ll name="Broccoli">0.19</ll>
-            <xf name="Broccoli">1.00</xf>
-            <kl name="Broccoli">0.06</kl>
-          </layer>
-          <layer>
-            <thickness>300</thickness>
-            <bd>1.4</bd>
-            <ll15>0.15</ll15>
-            <airdry>0.15</airdry>
-            <dul>0.39</dul>
-            <sat>0.44</sat>
-            <swcon>0.3</swcon>
-            <fbiom>0.01</fbiom>
-            <finert>0.95</finert>
-            <oc>0.7</oc>
-            <ph>7</ph>
-            <ll name="wheat">0.15</ll>
-            <kl name="wheat">0.04</kl>
-            <xf name="wheat">1</xf>
-            <ll name="Chickpea">0.22</ll>
-            <kl name="Chickpea">0.04</kl>
-            <xf name="Chickpea">1</xf>
-            <ll name="Broccoli">0.15</ll>
-            <xf name="Broccoli">0.00</xf>
-            <kl name="Broccoli">0.00</kl>
-          </layer>
-          <layer>
-            <thickness>300</thickness>
-            <bd>1.46</bd>
-            <ll15>0.32</ll15>
-            <airdry>0.32</airdry>
-            <dul>0.37</dul>
-            <sat>0.42</sat>
-            <swcon>0.3</swcon>
-            <fbiom>0.01</fbiom>
-            <finert>0.95</finert>
-            <oc>0.3</oc>
-            <ph>7</ph>
-            <ll name="wheat">0.32</ll>
-            <kl name="wheat">0.02</kl>
-            <xf name="wheat">1</xf>
-            <ll name="Chickpea">0.34</ll>
-            <kl name="Chickpea">0.02</kl>
-            <xf name="Chickpea">1</xf>
-            <ll name="Broccoli">0.32</ll>
-            <xf name="Broccoli">0.00</xf>
-            <kl name="Broccoli">0.00</kl>
-          </layer>
-          <layer>
-            <thickness>300</thickness>
-            <bd>1.47</bd>
-            <ll15>0.335</ll15>
-            <airdry>0.329</airdry>
-            <dul>0.34</dul>
-            <sat>0.42</sat>
-            <swcon>0.3</swcon>
-            <fbiom>0.01</fbiom>
-            <finert>0.95</finert>
-            <oc>0.3</oc>
-            <ph>7</ph>
-            <ll name="wheat">0.34</ll>
-            <kl name="wheat">0.01</kl>
-            <xf name="wheat">1</xf>
-            <ll name="Chickpea">0.33</ll>
-            <kl name="Chickpea">0.01</kl>
-            <xf name="Chickpea">1</xf>
-            <ll name="Broccoli">0.34</ll>
-            <xf name="Broccoli">0.00</xf>
-            <kl name="Broccoli">0.00</kl>
-          </layer>
-        </profile>
-        <U>6</U>
-        <Cona>3.5</Cona>
-        <Salb>0.13</Salb>
-        <DiffusConst>40</DiffusConst>
-        <DiffusSlope>16</DiffusSlope>
-        <CN2Bare>73</CN2Bare>
-        <CNRed>20</CNRed>
-        <CNCov>0.8</CNCov>
-        <RootCN>40</RootCN>
-        <RootWT>200</RootWT>
-        <SoilCN>12.5</SoilCN>
-        <EnrACoeff>7.4</EnrACoeff>
-        <EnrBCoeff>0.2</EnrBCoeff>
-        <WaterFormat>VolumetricPercent</WaterFormat>
-        <InitWater>
-          <layer name="1">
-            <sw>0.19</sw>
-          </layer>
-          <layer name="2">
-            <sw>0.21</sw>
-          </layer>
-          <layer name="3">
-            <sw>0.20</sw>
-          </layer>
-          <layer name="4">
-            <sw>0.19</sw>
-          </layer>
-          <layer name="5">
-            <sw>0.15</sw>
-          </layer>
-          <layer name="6">
-            <sw>0.32</sw>
-          </layer>
-          <layer name="7">
-            <sw>0.34</sw>
-          </layer>
-        </InitWater>
-        <InitNitrogen>
-          <layer name="1">
-            <no3>6.5</no3>
-            <nh4>0.6</nh4>
-          </layer>
-          <layer name="2">
-            <no3>2.1</no3>
-            <nh4>0.1</nh4>
-          </layer>
-          <layer name="3">
-            <no3>2.1</no3>
-            <nh4>0.1</nh4>
-          </layer>
-          <layer name="4">
-            <no3>1.7</no3>
-            <nh4>0.1</nh4>
-          </layer>
-          <layer name="5">
-            <no3>1.7</no3>
-            <nh4>0.1</nh4>
-          </layer>
-          <layer name="6">
-            <no3>1.7</no3>
-            <nh4>0.1</nh4>
-          </layer>
-          <layer name="7">
-            <no3>1.7</no3>
-            <nh4>0.1</nh4>
-          </layer>
-        </InitNitrogen>
-      </soil>
+      <Soil shortcut="LawesSoil" />
     </area>
     <area name="Planting3">
       <registrations name="global" />
@@ -3325,237 +1025,7 @@
         <property name="crit_fr_asw" type="text" description="Fraction of ASW below which irrigation is applied (0-1.0)">0.5</property>
         <property name="irrigation_efficiency" description="Efficiency of the irrigation. (0-1.0)">1.0</property>
       </irrigation>
-      <soil name="Soil">
-        <region>Lockyer</region>
-        <site>UQ, Lawes</site>
-        <SoilType>Prarie</SoilType>
-        <nearesttown>Gatton, Q 4343</nearesttown>
-        <comment>oc and ph estimated</comment>
-        <naturalvegetation>Blue Gum, Moreton Bay Ash, Tea Tree</naturalvegetation>
-        <profile>
-          <layer>
-            <thickness>150</thickness>
-            <bd>1.38</bd>
-            <ll15>0.2</ll15>
-            <airdry>0.1</airdry>
-            <dul>0.38</dul>
-            <sat>0.45</sat>
-            <swcon>0.3</swcon>
-            <fbiom>0.03</fbiom>
-            <finert>0.4</finert>
-            <oc>1.2</oc>
-            <ph>7</ph>
-            <ll name="wheat">0.2</ll>
-            <kl name="wheat">0.1</kl>
-            <xf name="wheat">1</xf>
-            <ll name="Chickpea">0.2</ll>
-            <kl name="Chickpea">0.1</kl>
-            <xf name="Chickpea">1</xf>
-            <ll name="Broccoli">0.20</ll>
-            <xf name="Broccoli">1.00</xf>
-            <kl name="Broccoli">0.06</kl>
-          </layer>
-          <layer>
-            <thickness>150</thickness>
-            <bd>1.38</bd>
-            <ll15>0.21</ll15>
-            <airdry>0.189</airdry>
-            <dul>0.38</dul>
-            <sat>0.45</sat>
-            <swcon>0.3</swcon>
-            <fbiom>0.02</fbiom>
-            <finert>0.6</finert>
-            <oc>1.2</oc>
-            <ph>7</ph>
-            <ll name="wheat">0.21</ll>
-            <kl name="wheat">0.1</kl>
-            <xf name="wheat">1</xf>
-            <ll name="Chickpea">0.21</ll>
-            <kl name="Chickpea">0.1</kl>
-            <xf name="Chickpea">1</xf>
-            <ll name="Broccoli">0.21</ll>
-            <xf name="Broccoli">1.00</xf>
-            <kl name="Broccoli">0.06</kl>
-          </layer>
-          <layer>
-            <thickness>300</thickness>
-            <bd>1.28</bd>
-            <ll15>0.2</ll15>
-            <airdry>0.2</airdry>
-            <dul>0.44</dul>
-            <sat>0.49</sat>
-            <swcon>0.3</swcon>
-            <fbiom>0.01</fbiom>
-            <finert>0.8</finert>
-            <oc>1.2</oc>
-            <ph>7</ph>
-            <ll name="wheat">0.2</ll>
-            <kl name="wheat">0.08</kl>
-            <xf name="wheat">1</xf>
-            <ll name="Chickpea">0.2</ll>
-            <kl name="Chickpea">0.08</kl>
-            <xf name="Chickpea">1</xf>
-            <ll name="Broccoli">0.20</ll>
-            <xf name="Broccoli">1.00</xf>
-            <kl name="Broccoli">0.06</kl>
-          </layer>
-          <layer>
-            <thickness>300</thickness>
-            <bd>1.38</bd>
-            <ll15>0.19</ll15>
-            <airdry>0.19</airdry>
-            <dul>0.4</dul>
-            <sat>0.45</sat>
-            <swcon>0.3</swcon>
-            <fbiom>0.01</fbiom>
-            <finert>0.9</finert>
-            <oc>1.1</oc>
-            <ph>7</ph>
-            <ll name="wheat">0.19</ll>
-            <kl name="wheat">0.06</kl>
-            <xf name="wheat">1</xf>
-            <ll name="Chickpea">0.22</ll>
-            <kl name="Chickpea">0.06</kl>
-            <xf name="Chickpea">1</xf>
-            <ll name="Broccoli">0.19</ll>
-            <xf name="Broccoli">1.00</xf>
-            <kl name="Broccoli">0.06</kl>
-          </layer>
-          <layer>
-            <thickness>300</thickness>
-            <bd>1.4</bd>
-            <ll15>0.15</ll15>
-            <airdry>0.15</airdry>
-            <dul>0.39</dul>
-            <sat>0.44</sat>
-            <swcon>0.3</swcon>
-            <fbiom>0.01</fbiom>
-            <finert>0.95</finert>
-            <oc>0.7</oc>
-            <ph>7</ph>
-            <ll name="wheat">0.15</ll>
-            <kl name="wheat">0.04</kl>
-            <xf name="wheat">1</xf>
-            <ll name="Chickpea">0.22</ll>
-            <kl name="Chickpea">0.04</kl>
-            <xf name="Chickpea">1</xf>
-            <ll name="Broccoli">0.15</ll>
-            <xf name="Broccoli">0.00</xf>
-            <kl name="Broccoli">0.00</kl>
-          </layer>
-          <layer>
-            <thickness>300</thickness>
-            <bd>1.46</bd>
-            <ll15>0.32</ll15>
-            <airdry>0.32</airdry>
-            <dul>0.37</dul>
-            <sat>0.42</sat>
-            <swcon>0.3</swcon>
-            <fbiom>0.01</fbiom>
-            <finert>0.95</finert>
-            <oc>0.3</oc>
-            <ph>7</ph>
-            <ll name="wheat">0.32</ll>
-            <kl name="wheat">0.02</kl>
-            <xf name="wheat">1</xf>
-            <ll name="Chickpea">0.34</ll>
-            <kl name="Chickpea">0.02</kl>
-            <xf name="Chickpea">1</xf>
-            <ll name="Broccoli">0.32</ll>
-            <xf name="Broccoli">0.00</xf>
-            <kl name="Broccoli">0.00</kl>
-          </layer>
-          <layer>
-            <thickness>300</thickness>
-            <bd>1.47</bd>
-            <ll15>0.335</ll15>
-            <airdry>0.329</airdry>
-            <dul>0.34</dul>
-            <sat>0.42</sat>
-            <swcon>0.3</swcon>
-            <fbiom>0.01</fbiom>
-            <finert>0.95</finert>
-            <oc>0.3</oc>
-            <ph>7</ph>
-            <ll name="wheat">0.34</ll>
-            <kl name="wheat">0.01</kl>
-            <xf name="wheat">1</xf>
-            <ll name="Chickpea">0.33</ll>
-            <kl name="Chickpea">0.01</kl>
-            <xf name="Chickpea">1</xf>
-            <ll name="Broccoli">0.34</ll>
-            <xf name="Broccoli">0.00</xf>
-            <kl name="Broccoli">0.00</kl>
-          </layer>
-        </profile>
-        <U>6</U>
-        <Cona>3.5</Cona>
-        <Salb>0.13</Salb>
-        <DiffusConst>40</DiffusConst>
-        <DiffusSlope>16</DiffusSlope>
-        <CN2Bare>73</CN2Bare>
-        <CNRed>20</CNRed>
-        <CNCov>0.8</CNCov>
-        <RootCN>40</RootCN>
-        <RootWT>200</RootWT>
-        <SoilCN>12.5</SoilCN>
-        <EnrACoeff>7.4</EnrACoeff>
-        <EnrBCoeff>0.2</EnrBCoeff>
-        <WaterFormat>VolumetricPercent</WaterFormat>
-        <InitWater>
-          <layer name="1">
-            <sw>0.19</sw>
-          </layer>
-          <layer name="2">
-            <sw>0.21</sw>
-          </layer>
-          <layer name="3">
-            <sw>0.20</sw>
-          </layer>
-          <layer name="4">
-            <sw>0.19</sw>
-          </layer>
-          <layer name="5">
-            <sw>0.15</sw>
-          </layer>
-          <layer name="6">
-            <sw>0.32</sw>
-          </layer>
-          <layer name="7">
-            <sw>0.34</sw>
-          </layer>
-        </InitWater>
-        <InitNitrogen>
-          <layer name="1">
-            <no3>6.5</no3>
-            <nh4>0.6</nh4>
-          </layer>
-          <layer name="2">
-            <no3>2.1</no3>
-            <nh4>0.1</nh4>
-          </layer>
-          <layer name="3">
-            <no3>2.1</no3>
-            <nh4>0.1</nh4>
-          </layer>
-          <layer name="4">
-            <no3>1.7</no3>
-            <nh4>0.1</nh4>
-          </layer>
-          <layer name="5">
-            <no3>1.7</no3>
-            <nh4>0.1</nh4>
-          </layer>
-          <layer name="6">
-            <no3>1.7</no3>
-            <nh4>0.1</nh4>
-          </layer>
-          <layer name="7">
-            <no3>1.7</no3>
-            <nh4>0.1</nh4>
-          </layer>
-        </InitNitrogen>
-      </soil>
+      <Soil shortcut="LawesSoil" />
     </area>
     <area name="Planting4">
       <registrations name="global" />
@@ -3646,237 +1116,7 @@
         <property name="crit_fr_asw" type="text" description="Fraction of ASW below which irrigation is applied (0-1.0)">0.5</property>
         <property name="irrigation_efficiency" description="Efficiency of the irrigation. (0-1.0)">1.0</property>
       </irrigation>
-      <soil name="Soil">
-        <region>Lockyer</region>
-        <site>UQ, Lawes</site>
-        <SoilType>Prarie</SoilType>
-        <nearesttown>Gatton, Q 4343</nearesttown>
-        <comment>oc and ph estimated</comment>
-        <naturalvegetation>Blue Gum, Moreton Bay Ash, Tea Tree</naturalvegetation>
-        <profile>
-          <layer>
-            <thickness>150</thickness>
-            <bd>1.38</bd>
-            <ll15>0.2</ll15>
-            <airdry>0.1</airdry>
-            <dul>0.38</dul>
-            <sat>0.45</sat>
-            <swcon>0.3</swcon>
-            <fbiom>0.03</fbiom>
-            <finert>0.4</finert>
-            <oc>1.2</oc>
-            <ph>7</ph>
-            <ll name="wheat">0.2</ll>
-            <kl name="wheat">0.1</kl>
-            <xf name="wheat">1</xf>
-            <ll name="Chickpea">0.2</ll>
-            <kl name="Chickpea">0.1</kl>
-            <xf name="Chickpea">1</xf>
-            <ll name="Broccoli">0.20</ll>
-            <xf name="Broccoli">1.00</xf>
-            <kl name="Broccoli">0.06</kl>
-          </layer>
-          <layer>
-            <thickness>150</thickness>
-            <bd>1.38</bd>
-            <ll15>0.21</ll15>
-            <airdry>0.189</airdry>
-            <dul>0.38</dul>
-            <sat>0.45</sat>
-            <swcon>0.3</swcon>
-            <fbiom>0.02</fbiom>
-            <finert>0.6</finert>
-            <oc>1.2</oc>
-            <ph>7</ph>
-            <ll name="wheat">0.21</ll>
-            <kl name="wheat">0.1</kl>
-            <xf name="wheat">1</xf>
-            <ll name="Chickpea">0.21</ll>
-            <kl name="Chickpea">0.1</kl>
-            <xf name="Chickpea">1</xf>
-            <ll name="Broccoli">0.21</ll>
-            <xf name="Broccoli">1.00</xf>
-            <kl name="Broccoli">0.06</kl>
-          </layer>
-          <layer>
-            <thickness>300</thickness>
-            <bd>1.28</bd>
-            <ll15>0.2</ll15>
-            <airdry>0.2</airdry>
-            <dul>0.44</dul>
-            <sat>0.49</sat>
-            <swcon>0.3</swcon>
-            <fbiom>0.01</fbiom>
-            <finert>0.8</finert>
-            <oc>1.2</oc>
-            <ph>7</ph>
-            <ll name="wheat">0.2</ll>
-            <kl name="wheat">0.08</kl>
-            <xf name="wheat">1</xf>
-            <ll name="Chickpea">0.2</ll>
-            <kl name="Chickpea">0.08</kl>
-            <xf name="Chickpea">1</xf>
-            <ll name="Broccoli">0.20</ll>
-            <xf name="Broccoli">1.00</xf>
-            <kl name="Broccoli">0.06</kl>
-          </layer>
-          <layer>
-            <thickness>300</thickness>
-            <bd>1.38</bd>
-            <ll15>0.19</ll15>
-            <airdry>0.19</airdry>
-            <dul>0.4</dul>
-            <sat>0.45</sat>
-            <swcon>0.3</swcon>
-            <fbiom>0.01</fbiom>
-            <finert>0.9</finert>
-            <oc>1.1</oc>
-            <ph>7</ph>
-            <ll name="wheat">0.19</ll>
-            <kl name="wheat">0.06</kl>
-            <xf name="wheat">1</xf>
-            <ll name="Chickpea">0.22</ll>
-            <kl name="Chickpea">0.06</kl>
-            <xf name="Chickpea">1</xf>
-            <ll name="Broccoli">0.19</ll>
-            <xf name="Broccoli">1.00</xf>
-            <kl name="Broccoli">0.06</kl>
-          </layer>
-          <layer>
-            <thickness>300</thickness>
-            <bd>1.4</bd>
-            <ll15>0.15</ll15>
-            <airdry>0.15</airdry>
-            <dul>0.39</dul>
-            <sat>0.44</sat>
-            <swcon>0.3</swcon>
-            <fbiom>0.01</fbiom>
-            <finert>0.95</finert>
-            <oc>0.7</oc>
-            <ph>7</ph>
-            <ll name="wheat">0.15</ll>
-            <kl name="wheat">0.04</kl>
-            <xf name="wheat">1</xf>
-            <ll name="Chickpea">0.22</ll>
-            <kl name="Chickpea">0.04</kl>
-            <xf name="Chickpea">1</xf>
-            <ll name="Broccoli">0.15</ll>
-            <xf name="Broccoli">0.00</xf>
-            <kl name="Broccoli">0.00</kl>
-          </layer>
-          <layer>
-            <thickness>300</thickness>
-            <bd>1.46</bd>
-            <ll15>0.32</ll15>
-            <airdry>0.32</airdry>
-            <dul>0.37</dul>
-            <sat>0.42</sat>
-            <swcon>0.3</swcon>
-            <fbiom>0.01</fbiom>
-            <finert>0.95</finert>
-            <oc>0.3</oc>
-            <ph>7</ph>
-            <ll name="wheat">0.32</ll>
-            <kl name="wheat">0.02</kl>
-            <xf name="wheat">1</xf>
-            <ll name="Chickpea">0.34</ll>
-            <kl name="Chickpea">0.02</kl>
-            <xf name="Chickpea">1</xf>
-            <ll name="Broccoli">0.32</ll>
-            <xf name="Broccoli">0.00</xf>
-            <kl name="Broccoli">0.00</kl>
-          </layer>
-          <layer>
-            <thickness>300</thickness>
-            <bd>1.47</bd>
-            <ll15>0.335</ll15>
-            <airdry>0.329</airdry>
-            <dul>0.34</dul>
-            <sat>0.42</sat>
-            <swcon>0.3</swcon>
-            <fbiom>0.01</fbiom>
-            <finert>0.95</finert>
-            <oc>0.3</oc>
-            <ph>7</ph>
-            <ll name="wheat">0.34</ll>
-            <kl name="wheat">0.01</kl>
-            <xf name="wheat">1</xf>
-            <ll name="Chickpea">0.33</ll>
-            <kl name="Chickpea">0.01</kl>
-            <xf name="Chickpea">1</xf>
-            <ll name="Broccoli">0.34</ll>
-            <xf name="Broccoli">0.00</xf>
-            <kl name="Broccoli">0.00</kl>
-          </layer>
-        </profile>
-        <U>6</U>
-        <Cona>3.5</Cona>
-        <Salb>0.13</Salb>
-        <DiffusConst>40</DiffusConst>
-        <DiffusSlope>16</DiffusSlope>
-        <CN2Bare>73</CN2Bare>
-        <CNRed>20</CNRed>
-        <CNCov>0.8</CNCov>
-        <RootCN>40</RootCN>
-        <RootWT>200</RootWT>
-        <SoilCN>12.5</SoilCN>
-        <EnrACoeff>7.4</EnrACoeff>
-        <EnrBCoeff>0.2</EnrBCoeff>
-        <WaterFormat>VolumetricPercent</WaterFormat>
-        <InitWater>
-          <layer name="1">
-            <sw>0.19</sw>
-          </layer>
-          <layer name="2">
-            <sw>0.21</sw>
-          </layer>
-          <layer name="3">
-            <sw>0.20</sw>
-          </layer>
-          <layer name="4">
-            <sw>0.19</sw>
-          </layer>
-          <layer name="5">
-            <sw>0.15</sw>
-          </layer>
-          <layer name="6">
-            <sw>0.32</sw>
-          </layer>
-          <layer name="7">
-            <sw>0.34</sw>
-          </layer>
-        </InitWater>
-        <InitNitrogen>
-          <layer name="1">
-            <no3>6.5</no3>
-            <nh4>0.6</nh4>
-          </layer>
-          <layer name="2">
-            <no3>2.1</no3>
-            <nh4>0.1</nh4>
-          </layer>
-          <layer name="3">
-            <no3>2.1</no3>
-            <nh4>0.1</nh4>
-          </layer>
-          <layer name="4">
-            <no3>1.7</no3>
-            <nh4>0.1</nh4>
-          </layer>
-          <layer name="5">
-            <no3>1.7</no3>
-            <nh4>0.1</nh4>
-          </layer>
-          <layer name="6">
-            <no3>1.7</no3>
-            <nh4>0.1</nh4>
-          </layer>
-          <layer name="7">
-            <no3>1.7</no3>
-            <nh4>0.1</nh4>
-          </layer>
-        </InitNitrogen>
-      </soil>
+      <Soil shortcut="LawesSoil" />
     </area>
     <area name="Planting5">
       <registrations name="global" />
@@ -3967,237 +1207,7 @@
         <property name="crit_fr_asw" type="text" description="Fraction of ASW below which irrigation is applied (0-1.0)">0.5</property>
         <property name="irrigation_efficiency" description="Efficiency of the irrigation. (0-1.0)">1.0</property>
       </irrigation>
-      <soil name="Soil">
-        <region>Lockyer</region>
-        <site>UQ, Lawes</site>
-        <SoilType>Prarie</SoilType>
-        <nearesttown>Gatton, Q 4343</nearesttown>
-        <comment>oc and ph estimated</comment>
-        <naturalvegetation>Blue Gum, Moreton Bay Ash, Tea Tree</naturalvegetation>
-        <profile>
-          <layer>
-            <thickness>150</thickness>
-            <bd>1.38</bd>
-            <ll15>0.2</ll15>
-            <airdry>0.1</airdry>
-            <dul>0.38</dul>
-            <sat>0.45</sat>
-            <swcon>0.3</swcon>
-            <fbiom>0.03</fbiom>
-            <finert>0.4</finert>
-            <oc>1.2</oc>
-            <ph>7</ph>
-            <ll name="wheat">0.2</ll>
-            <kl name="wheat">0.1</kl>
-            <xf name="wheat">1</xf>
-            <ll name="Chickpea">0.2</ll>
-            <kl name="Chickpea">0.1</kl>
-            <xf name="Chickpea">1</xf>
-            <ll name="Broccoli">0.20</ll>
-            <xf name="Broccoli">1.00</xf>
-            <kl name="Broccoli">0.06</kl>
-          </layer>
-          <layer>
-            <thickness>150</thickness>
-            <bd>1.38</bd>
-            <ll15>0.21</ll15>
-            <airdry>0.189</airdry>
-            <dul>0.38</dul>
-            <sat>0.45</sat>
-            <swcon>0.3</swcon>
-            <fbiom>0.02</fbiom>
-            <finert>0.6</finert>
-            <oc>1.2</oc>
-            <ph>7</ph>
-            <ll name="wheat">0.21</ll>
-            <kl name="wheat">0.1</kl>
-            <xf name="wheat">1</xf>
-            <ll name="Chickpea">0.21</ll>
-            <kl name="Chickpea">0.1</kl>
-            <xf name="Chickpea">1</xf>
-            <ll name="Broccoli">0.21</ll>
-            <xf name="Broccoli">1.00</xf>
-            <kl name="Broccoli">0.06</kl>
-          </layer>
-          <layer>
-            <thickness>300</thickness>
-            <bd>1.28</bd>
-            <ll15>0.2</ll15>
-            <airdry>0.2</airdry>
-            <dul>0.44</dul>
-            <sat>0.49</sat>
-            <swcon>0.3</swcon>
-            <fbiom>0.01</fbiom>
-            <finert>0.8</finert>
-            <oc>1.2</oc>
-            <ph>7</ph>
-            <ll name="wheat">0.2</ll>
-            <kl name="wheat">0.08</kl>
-            <xf name="wheat">1</xf>
-            <ll name="Chickpea">0.2</ll>
-            <kl name="Chickpea">0.08</kl>
-            <xf name="Chickpea">1</xf>
-            <ll name="Broccoli">0.20</ll>
-            <xf name="Broccoli">1.00</xf>
-            <kl name="Broccoli">0.06</kl>
-          </layer>
-          <layer>
-            <thickness>300</thickness>
-            <bd>1.38</bd>
-            <ll15>0.19</ll15>
-            <airdry>0.19</airdry>
-            <dul>0.4</dul>
-            <sat>0.45</sat>
-            <swcon>0.3</swcon>
-            <fbiom>0.01</fbiom>
-            <finert>0.9</finert>
-            <oc>1.1</oc>
-            <ph>7</ph>
-            <ll name="wheat">0.19</ll>
-            <kl name="wheat">0.06</kl>
-            <xf name="wheat">1</xf>
-            <ll name="Chickpea">0.22</ll>
-            <kl name="Chickpea">0.06</kl>
-            <xf name="Chickpea">1</xf>
-            <ll name="Broccoli">0.19</ll>
-            <xf name="Broccoli">1.00</xf>
-            <kl name="Broccoli">0.06</kl>
-          </layer>
-          <layer>
-            <thickness>300</thickness>
-            <bd>1.4</bd>
-            <ll15>0.15</ll15>
-            <airdry>0.15</airdry>
-            <dul>0.39</dul>
-            <sat>0.44</sat>
-            <swcon>0.3</swcon>
-            <fbiom>0.01</fbiom>
-            <finert>0.95</finert>
-            <oc>0.7</oc>
-            <ph>7</ph>
-            <ll name="wheat">0.15</ll>
-            <kl name="wheat">0.04</kl>
-            <xf name="wheat">1</xf>
-            <ll name="Chickpea">0.22</ll>
-            <kl name="Chickpea">0.04</kl>
-            <xf name="Chickpea">1</xf>
-            <ll name="Broccoli">0.15</ll>
-            <xf name="Broccoli">0.00</xf>
-            <kl name="Broccoli">0.00</kl>
-          </layer>
-          <layer>
-            <thickness>300</thickness>
-            <bd>1.46</bd>
-            <ll15>0.32</ll15>
-            <airdry>0.32</airdry>
-            <dul>0.37</dul>
-            <sat>0.42</sat>
-            <swcon>0.3</swcon>
-            <fbiom>0.01</fbiom>
-            <finert>0.95</finert>
-            <oc>0.3</oc>
-            <ph>7</ph>
-            <ll name="wheat">0.32</ll>
-            <kl name="wheat">0.02</kl>
-            <xf name="wheat">1</xf>
-            <ll name="Chickpea">0.34</ll>
-            <kl name="Chickpea">0.02</kl>
-            <xf name="Chickpea">1</xf>
-            <ll name="Broccoli">0.32</ll>
-            <xf name="Broccoli">0.00</xf>
-            <kl name="Broccoli">0.00</kl>
-          </layer>
-          <layer>
-            <thickness>300</thickness>
-            <bd>1.47</bd>
-            <ll15>0.335</ll15>
-            <airdry>0.329</airdry>
-            <dul>0.34</dul>
-            <sat>0.42</sat>
-            <swcon>0.3</swcon>
-            <fbiom>0.01</fbiom>
-            <finert>0.95</finert>
-            <oc>0.3</oc>
-            <ph>7</ph>
-            <ll name="wheat">0.34</ll>
-            <kl name="wheat">0.01</kl>
-            <xf name="wheat">1</xf>
-            <ll name="Chickpea">0.33</ll>
-            <kl name="Chickpea">0.01</kl>
-            <xf name="Chickpea">1</xf>
-            <ll name="Broccoli">0.34</ll>
-            <xf name="Broccoli">0.00</xf>
-            <kl name="Broccoli">0.00</kl>
-          </layer>
-        </profile>
-        <U>6</U>
-        <Cona>3.5</Cona>
-        <Salb>0.13</Salb>
-        <DiffusConst>40</DiffusConst>
-        <DiffusSlope>16</DiffusSlope>
-        <CN2Bare>73</CN2Bare>
-        <CNRed>20</CNRed>
-        <CNCov>0.8</CNCov>
-        <RootCN>40</RootCN>
-        <RootWT>200</RootWT>
-        <SoilCN>12.5</SoilCN>
-        <EnrACoeff>7.4</EnrACoeff>
-        <EnrBCoeff>0.2</EnrBCoeff>
-        <WaterFormat>VolumetricPercent</WaterFormat>
-        <InitWater>
-          <layer name="1">
-            <sw>0.19</sw>
-          </layer>
-          <layer name="2">
-            <sw>0.21</sw>
-          </layer>
-          <layer name="3">
-            <sw>0.20</sw>
-          </layer>
-          <layer name="4">
-            <sw>0.19</sw>
-          </layer>
-          <layer name="5">
-            <sw>0.15</sw>
-          </layer>
-          <layer name="6">
-            <sw>0.32</sw>
-          </layer>
-          <layer name="7">
-            <sw>0.34</sw>
-          </layer>
-        </InitWater>
-        <InitNitrogen>
-          <layer name="1">
-            <no3>6.5</no3>
-            <nh4>0.6</nh4>
-          </layer>
-          <layer name="2">
-            <no3>2.1</no3>
-            <nh4>0.1</nh4>
-          </layer>
-          <layer name="3">
-            <no3>2.1</no3>
-            <nh4>0.1</nh4>
-          </layer>
-          <layer name="4">
-            <no3>1.7</no3>
-            <nh4>0.1</nh4>
-          </layer>
-          <layer name="5">
-            <no3>1.7</no3>
-            <nh4>0.1</nh4>
-          </layer>
-          <layer name="6">
-            <no3>1.7</no3>
-            <nh4>0.1</nh4>
-          </layer>
-          <layer name="7">
-            <no3>1.7</no3>
-            <nh4>0.1</nh4>
-          </layer>
-        </InitNitrogen>
-      </soil>
+      <Soil shortcut="LawesSoil" />
     </area>
     <area name="Planting6">
       <registrations name="global" />
@@ -4288,237 +1298,7 @@
         <property name="crit_fr_asw" type="text" description="Fraction of ASW below which irrigation is applied (0-1.0)">0.5</property>
         <property name="irrigation_efficiency" description="Efficiency of the irrigation. (0-1.0)">1.0</property>
       </irrigation>
-      <soil name="Soil">
-        <region>Lockyer</region>
-        <site>UQ, Lawes</site>
-        <SoilType>Prarie</SoilType>
-        <nearesttown>Gatton, Q 4343</nearesttown>
-        <comment>oc and ph estimated</comment>
-        <naturalvegetation>Blue Gum, Moreton Bay Ash, Tea Tree</naturalvegetation>
-        <profile>
-          <layer>
-            <thickness>150</thickness>
-            <bd>1.38</bd>
-            <ll15>0.2</ll15>
-            <airdry>0.1</airdry>
-            <dul>0.38</dul>
-            <sat>0.45</sat>
-            <swcon>0.3</swcon>
-            <fbiom>0.03</fbiom>
-            <finert>0.4</finert>
-            <oc>1.2</oc>
-            <ph>7</ph>
-            <ll name="wheat">0.2</ll>
-            <kl name="wheat">0.1</kl>
-            <xf name="wheat">1</xf>
-            <ll name="Chickpea">0.2</ll>
-            <kl name="Chickpea">0.1</kl>
-            <xf name="Chickpea">1</xf>
-            <ll name="Broccoli">0.20</ll>
-            <xf name="Broccoli">1.00</xf>
-            <kl name="Broccoli">0.06</kl>
-          </layer>
-          <layer>
-            <thickness>150</thickness>
-            <bd>1.38</bd>
-            <ll15>0.21</ll15>
-            <airdry>0.189</airdry>
-            <dul>0.38</dul>
-            <sat>0.45</sat>
-            <swcon>0.3</swcon>
-            <fbiom>0.02</fbiom>
-            <finert>0.6</finert>
-            <oc>1.2</oc>
-            <ph>7</ph>
-            <ll name="wheat">0.21</ll>
-            <kl name="wheat">0.1</kl>
-            <xf name="wheat">1</xf>
-            <ll name="Chickpea">0.21</ll>
-            <kl name="Chickpea">0.1</kl>
-            <xf name="Chickpea">1</xf>
-            <ll name="Broccoli">0.21</ll>
-            <xf name="Broccoli">1.00</xf>
-            <kl name="Broccoli">0.06</kl>
-          </layer>
-          <layer>
-            <thickness>300</thickness>
-            <bd>1.28</bd>
-            <ll15>0.2</ll15>
-            <airdry>0.2</airdry>
-            <dul>0.44</dul>
-            <sat>0.49</sat>
-            <swcon>0.3</swcon>
-            <fbiom>0.01</fbiom>
-            <finert>0.8</finert>
-            <oc>1.2</oc>
-            <ph>7</ph>
-            <ll name="wheat">0.2</ll>
-            <kl name="wheat">0.08</kl>
-            <xf name="wheat">1</xf>
-            <ll name="Chickpea">0.2</ll>
-            <kl name="Chickpea">0.08</kl>
-            <xf name="Chickpea">1</xf>
-            <ll name="Broccoli">0.20</ll>
-            <xf name="Broccoli">1.00</xf>
-            <kl name="Broccoli">0.06</kl>
-          </layer>
-          <layer>
-            <thickness>300</thickness>
-            <bd>1.38</bd>
-            <ll15>0.19</ll15>
-            <airdry>0.19</airdry>
-            <dul>0.4</dul>
-            <sat>0.45</sat>
-            <swcon>0.3</swcon>
-            <fbiom>0.01</fbiom>
-            <finert>0.9</finert>
-            <oc>1.1</oc>
-            <ph>7</ph>
-            <ll name="wheat">0.19</ll>
-            <kl name="wheat">0.06</kl>
-            <xf name="wheat">1</xf>
-            <ll name="Chickpea">0.22</ll>
-            <kl name="Chickpea">0.06</kl>
-            <xf name="Chickpea">1</xf>
-            <ll name="Broccoli">0.19</ll>
-            <xf name="Broccoli">1.00</xf>
-            <kl name="Broccoli">0.06</kl>
-          </layer>
-          <layer>
-            <thickness>300</thickness>
-            <bd>1.4</bd>
-            <ll15>0.15</ll15>
-            <airdry>0.15</airdry>
-            <dul>0.39</dul>
-            <sat>0.44</sat>
-            <swcon>0.3</swcon>
-            <fbiom>0.01</fbiom>
-            <finert>0.95</finert>
-            <oc>0.7</oc>
-            <ph>7</ph>
-            <ll name="wheat">0.15</ll>
-            <kl name="wheat">0.04</kl>
-            <xf name="wheat">1</xf>
-            <ll name="Chickpea">0.22</ll>
-            <kl name="Chickpea">0.04</kl>
-            <xf name="Chickpea">1</xf>
-            <ll name="Broccoli">0.15</ll>
-            <xf name="Broccoli">0.00</xf>
-            <kl name="Broccoli">0.00</kl>
-          </layer>
-          <layer>
-            <thickness>300</thickness>
-            <bd>1.46</bd>
-            <ll15>0.32</ll15>
-            <airdry>0.32</airdry>
-            <dul>0.37</dul>
-            <sat>0.42</sat>
-            <swcon>0.3</swcon>
-            <fbiom>0.01</fbiom>
-            <finert>0.95</finert>
-            <oc>0.3</oc>
-            <ph>7</ph>
-            <ll name="wheat">0.32</ll>
-            <kl name="wheat">0.02</kl>
-            <xf name="wheat">1</xf>
-            <ll name="Chickpea">0.34</ll>
-            <kl name="Chickpea">0.02</kl>
-            <xf name="Chickpea">1</xf>
-            <ll name="Broccoli">0.32</ll>
-            <xf name="Broccoli">0.00</xf>
-            <kl name="Broccoli">0.00</kl>
-          </layer>
-          <layer>
-            <thickness>300</thickness>
-            <bd>1.47</bd>
-            <ll15>0.335</ll15>
-            <airdry>0.329</airdry>
-            <dul>0.34</dul>
-            <sat>0.42</sat>
-            <swcon>0.3</swcon>
-            <fbiom>0.01</fbiom>
-            <finert>0.95</finert>
-            <oc>0.3</oc>
-            <ph>7</ph>
-            <ll name="wheat">0.34</ll>
-            <kl name="wheat">0.01</kl>
-            <xf name="wheat">1</xf>
-            <ll name="Chickpea">0.33</ll>
-            <kl name="Chickpea">0.01</kl>
-            <xf name="Chickpea">1</xf>
-            <ll name="Broccoli">0.34</ll>
-            <xf name="Broccoli">0.00</xf>
-            <kl name="Broccoli">0.00</kl>
-          </layer>
-        </profile>
-        <U>6</U>
-        <Cona>3.5</Cona>
-        <Salb>0.13</Salb>
-        <DiffusConst>40</DiffusConst>
-        <DiffusSlope>16</DiffusSlope>
-        <CN2Bare>73</CN2Bare>
-        <CNRed>20</CNRed>
-        <CNCov>0.8</CNCov>
-        <RootCN>40</RootCN>
-        <RootWT>200</RootWT>
-        <SoilCN>12.5</SoilCN>
-        <EnrACoeff>7.4</EnrACoeff>
-        <EnrBCoeff>0.2</EnrBCoeff>
-        <WaterFormat>VolumetricPercent</WaterFormat>
-        <InitWater>
-          <layer name="1">
-            <sw>0.19</sw>
-          </layer>
-          <layer name="2">
-            <sw>0.21</sw>
-          </layer>
-          <layer name="3">
-            <sw>0.20</sw>
-          </layer>
-          <layer name="4">
-            <sw>0.19</sw>
-          </layer>
-          <layer name="5">
-            <sw>0.15</sw>
-          </layer>
-          <layer name="6">
-            <sw>0.32</sw>
-          </layer>
-          <layer name="7">
-            <sw>0.34</sw>
-          </layer>
-        </InitWater>
-        <InitNitrogen>
-          <layer name="1">
-            <no3>6.5</no3>
-            <nh4>0.6</nh4>
-          </layer>
-          <layer name="2">
-            <no3>2.1</no3>
-            <nh4>0.1</nh4>
-          </layer>
-          <layer name="3">
-            <no3>2.1</no3>
-            <nh4>0.1</nh4>
-          </layer>
-          <layer name="4">
-            <no3>1.7</no3>
-            <nh4>0.1</nh4>
-          </layer>
-          <layer name="5">
-            <no3>1.7</no3>
-            <nh4>0.1</nh4>
-          </layer>
-          <layer name="6">
-            <no3>1.7</no3>
-            <nh4>0.1</nh4>
-          </layer>
-          <layer name="7">
-            <no3>1.7</no3>
-            <nh4>0.1</nh4>
-          </layer>
-        </InitNitrogen>
-      </soil>
+      <Soil shortcut="LawesSoil" />
     </area>
     <area name="Planting7">
       <registrations name="global" />
@@ -4609,237 +1389,7 @@
         <property name="crit_fr_asw" type="text" description="Fraction of ASW below which irrigation is applied (0-1.0)">0.5</property>
         <property name="irrigation_efficiency" description="Efficiency of the irrigation. (0-1.0)">1.0</property>
       </irrigation>
-      <soil name="Soil">
-        <region>Lockyer</region>
-        <site>UQ, Lawes</site>
-        <SoilType>Prarie</SoilType>
-        <nearesttown>Gatton, Q 4343</nearesttown>
-        <comment>oc and ph estimated</comment>
-        <naturalvegetation>Blue Gum, Moreton Bay Ash, Tea Tree</naturalvegetation>
-        <profile>
-          <layer>
-            <thickness>150</thickness>
-            <bd>1.38</bd>
-            <ll15>0.2</ll15>
-            <airdry>0.1</airdry>
-            <dul>0.38</dul>
-            <sat>0.45</sat>
-            <swcon>0.3</swcon>
-            <fbiom>0.03</fbiom>
-            <finert>0.4</finert>
-            <oc>1.2</oc>
-            <ph>7</ph>
-            <ll name="wheat">0.2</ll>
-            <kl name="wheat">0.1</kl>
-            <xf name="wheat">1</xf>
-            <ll name="Chickpea">0.2</ll>
-            <kl name="Chickpea">0.1</kl>
-            <xf name="Chickpea">1</xf>
-            <ll name="Broccoli">0.20</ll>
-            <xf name="Broccoli">1.00</xf>
-            <kl name="Broccoli">0.06</kl>
-          </layer>
-          <layer>
-            <thickness>150</thickness>
-            <bd>1.38</bd>
-            <ll15>0.21</ll15>
-            <airdry>0.189</airdry>
-            <dul>0.38</dul>
-            <sat>0.45</sat>
-            <swcon>0.3</swcon>
-            <fbiom>0.02</fbiom>
-            <finert>0.6</finert>
-            <oc>1.2</oc>
-            <ph>7</ph>
-            <ll name="wheat">0.21</ll>
-            <kl name="wheat">0.1</kl>
-            <xf name="wheat">1</xf>
-            <ll name="Chickpea">0.21</ll>
-            <kl name="Chickpea">0.1</kl>
-            <xf name="Chickpea">1</xf>
-            <ll name="Broccoli">0.21</ll>
-            <xf name="Broccoli">1.00</xf>
-            <kl name="Broccoli">0.06</kl>
-          </layer>
-          <layer>
-            <thickness>300</thickness>
-            <bd>1.28</bd>
-            <ll15>0.2</ll15>
-            <airdry>0.2</airdry>
-            <dul>0.44</dul>
-            <sat>0.49</sat>
-            <swcon>0.3</swcon>
-            <fbiom>0.01</fbiom>
-            <finert>0.8</finert>
-            <oc>1.2</oc>
-            <ph>7</ph>
-            <ll name="wheat">0.2</ll>
-            <kl name="wheat">0.08</kl>
-            <xf name="wheat">1</xf>
-            <ll name="Chickpea">0.2</ll>
-            <kl name="Chickpea">0.08</kl>
-            <xf name="Chickpea">1</xf>
-            <ll name="Broccoli">0.20</ll>
-            <xf name="Broccoli">1.00</xf>
-            <kl name="Broccoli">0.06</kl>
-          </layer>
-          <layer>
-            <thickness>300</thickness>
-            <bd>1.38</bd>
-            <ll15>0.19</ll15>
-            <airdry>0.19</airdry>
-            <dul>0.4</dul>
-            <sat>0.45</sat>
-            <swcon>0.3</swcon>
-            <fbiom>0.01</fbiom>
-            <finert>0.9</finert>
-            <oc>1.1</oc>
-            <ph>7</ph>
-            <ll name="wheat">0.19</ll>
-            <kl name="wheat">0.06</kl>
-            <xf name="wheat">1</xf>
-            <ll name="Chickpea">0.22</ll>
-            <kl name="Chickpea">0.06</kl>
-            <xf name="Chickpea">1</xf>
-            <ll name="Broccoli">0.19</ll>
-            <xf name="Broccoli">1.00</xf>
-            <kl name="Broccoli">0.06</kl>
-          </layer>
-          <layer>
-            <thickness>300</thickness>
-            <bd>1.4</bd>
-            <ll15>0.15</ll15>
-            <airdry>0.15</airdry>
-            <dul>0.39</dul>
-            <sat>0.44</sat>
-            <swcon>0.3</swcon>
-            <fbiom>0.01</fbiom>
-            <finert>0.95</finert>
-            <oc>0.7</oc>
-            <ph>7</ph>
-            <ll name="wheat">0.15</ll>
-            <kl name="wheat">0.04</kl>
-            <xf name="wheat">1</xf>
-            <ll name="Chickpea">0.22</ll>
-            <kl name="Chickpea">0.04</kl>
-            <xf name="Chickpea">1</xf>
-            <ll name="Broccoli">0.15</ll>
-            <xf name="Broccoli">0.00</xf>
-            <kl name="Broccoli">0.00</kl>
-          </layer>
-          <layer>
-            <thickness>300</thickness>
-            <bd>1.46</bd>
-            <ll15>0.32</ll15>
-            <airdry>0.32</airdry>
-            <dul>0.37</dul>
-            <sat>0.42</sat>
-            <swcon>0.3</swcon>
-            <fbiom>0.01</fbiom>
-            <finert>0.95</finert>
-            <oc>0.3</oc>
-            <ph>7</ph>
-            <ll name="wheat">0.32</ll>
-            <kl name="wheat">0.02</kl>
-            <xf name="wheat">1</xf>
-            <ll name="Chickpea">0.34</ll>
-            <kl name="Chickpea">0.02</kl>
-            <xf name="Chickpea">1</xf>
-            <ll name="Broccoli">0.32</ll>
-            <xf name="Broccoli">0.00</xf>
-            <kl name="Broccoli">0.00</kl>
-          </layer>
-          <layer>
-            <thickness>300</thickness>
-            <bd>1.47</bd>
-            <ll15>0.335</ll15>
-            <airdry>0.329</airdry>
-            <dul>0.34</dul>
-            <sat>0.42</sat>
-            <swcon>0.3</swcon>
-            <fbiom>0.01</fbiom>
-            <finert>0.95</finert>
-            <oc>0.3</oc>
-            <ph>7</ph>
-            <ll name="wheat">0.34</ll>
-            <kl name="wheat">0.01</kl>
-            <xf name="wheat">1</xf>
-            <ll name="Chickpea">0.33</ll>
-            <kl name="Chickpea">0.01</kl>
-            <xf name="Chickpea">1</xf>
-            <ll name="Broccoli">0.34</ll>
-            <xf name="Broccoli">0.00</xf>
-            <kl name="Broccoli">0.00</kl>
-          </layer>
-        </profile>
-        <U>6</U>
-        <Cona>3.5</Cona>
-        <Salb>0.13</Salb>
-        <DiffusConst>40</DiffusConst>
-        <DiffusSlope>16</DiffusSlope>
-        <CN2Bare>73</CN2Bare>
-        <CNRed>20</CNRed>
-        <CNCov>0.8</CNCov>
-        <RootCN>40</RootCN>
-        <RootWT>200</RootWT>
-        <SoilCN>12.5</SoilCN>
-        <EnrACoeff>7.4</EnrACoeff>
-        <EnrBCoeff>0.2</EnrBCoeff>
-        <WaterFormat>VolumetricPercent</WaterFormat>
-        <InitWater>
-          <layer name="1">
-            <sw>0.19</sw>
-          </layer>
-          <layer name="2">
-            <sw>0.21</sw>
-          </layer>
-          <layer name="3">
-            <sw>0.20</sw>
-          </layer>
-          <layer name="4">
-            <sw>0.19</sw>
-          </layer>
-          <layer name="5">
-            <sw>0.15</sw>
-          </layer>
-          <layer name="6">
-            <sw>0.32</sw>
-          </layer>
-          <layer name="7">
-            <sw>0.34</sw>
-          </layer>
-        </InitWater>
-        <InitNitrogen>
-          <layer name="1">
-            <no3>6.5</no3>
-            <nh4>0.6</nh4>
-          </layer>
-          <layer name="2">
-            <no3>2.1</no3>
-            <nh4>0.1</nh4>
-          </layer>
-          <layer name="3">
-            <no3>2.1</no3>
-            <nh4>0.1</nh4>
-          </layer>
-          <layer name="4">
-            <no3>1.7</no3>
-            <nh4>0.1</nh4>
-          </layer>
-          <layer name="5">
-            <no3>1.7</no3>
-            <nh4>0.1</nh4>
-          </layer>
-          <layer name="6">
-            <no3>1.7</no3>
-            <nh4>0.1</nh4>
-          </layer>
-          <layer name="7">
-            <no3>1.7</no3>
-            <nh4>0.1</nh4>
-          </layer>
-        </InitNitrogen>
-      </soil>
+      <Soil shortcut="LawesSoil" />
     </area>
     <area name="Planting8">
       <registrations name="global" />
@@ -4930,237 +1480,7 @@
         <property name="crit_fr_asw" type="text" description="Fraction of ASW below which irrigation is applied (0-1.0)">0.5</property>
         <property name="irrigation_efficiency" description="Efficiency of the irrigation. (0-1.0)">1.0</property>
       </irrigation>
-      <soil name="Soil">
-        <region>Lockyer</region>
-        <site>UQ, Lawes</site>
-        <SoilType>Prarie</SoilType>
-        <nearesttown>Gatton, Q 4343</nearesttown>
-        <comment>oc and ph estimated</comment>
-        <naturalvegetation>Blue Gum, Moreton Bay Ash, Tea Tree</naturalvegetation>
-        <profile>
-          <layer>
-            <thickness>150</thickness>
-            <bd>1.38</bd>
-            <ll15>0.2</ll15>
-            <airdry>0.1</airdry>
-            <dul>0.38</dul>
-            <sat>0.45</sat>
-            <swcon>0.3</swcon>
-            <fbiom>0.03</fbiom>
-            <finert>0.4</finert>
-            <oc>1.2</oc>
-            <ph>7</ph>
-            <ll name="wheat">0.2</ll>
-            <kl name="wheat">0.1</kl>
-            <xf name="wheat">1</xf>
-            <ll name="Chickpea">0.2</ll>
-            <kl name="Chickpea">0.1</kl>
-            <xf name="Chickpea">1</xf>
-            <ll name="Broccoli">0.20</ll>
-            <xf name="Broccoli">1.00</xf>
-            <kl name="Broccoli">0.06</kl>
-          </layer>
-          <layer>
-            <thickness>150</thickness>
-            <bd>1.38</bd>
-            <ll15>0.21</ll15>
-            <airdry>0.189</airdry>
-            <dul>0.38</dul>
-            <sat>0.45</sat>
-            <swcon>0.3</swcon>
-            <fbiom>0.02</fbiom>
-            <finert>0.6</finert>
-            <oc>1.2</oc>
-            <ph>7</ph>
-            <ll name="wheat">0.21</ll>
-            <kl name="wheat">0.1</kl>
-            <xf name="wheat">1</xf>
-            <ll name="Chickpea">0.21</ll>
-            <kl name="Chickpea">0.1</kl>
-            <xf name="Chickpea">1</xf>
-            <ll name="Broccoli">0.21</ll>
-            <xf name="Broccoli">1.00</xf>
-            <kl name="Broccoli">0.06</kl>
-          </layer>
-          <layer>
-            <thickness>300</thickness>
-            <bd>1.28</bd>
-            <ll15>0.2</ll15>
-            <airdry>0.2</airdry>
-            <dul>0.44</dul>
-            <sat>0.49</sat>
-            <swcon>0.3</swcon>
-            <fbiom>0.01</fbiom>
-            <finert>0.8</finert>
-            <oc>1.2</oc>
-            <ph>7</ph>
-            <ll name="wheat">0.2</ll>
-            <kl name="wheat">0.08</kl>
-            <xf name="wheat">1</xf>
-            <ll name="Chickpea">0.2</ll>
-            <kl name="Chickpea">0.08</kl>
-            <xf name="Chickpea">1</xf>
-            <ll name="Broccoli">0.20</ll>
-            <xf name="Broccoli">1.00</xf>
-            <kl name="Broccoli">0.06</kl>
-          </layer>
-          <layer>
-            <thickness>300</thickness>
-            <bd>1.38</bd>
-            <ll15>0.19</ll15>
-            <airdry>0.19</airdry>
-            <dul>0.4</dul>
-            <sat>0.45</sat>
-            <swcon>0.3</swcon>
-            <fbiom>0.01</fbiom>
-            <finert>0.9</finert>
-            <oc>1.1</oc>
-            <ph>7</ph>
-            <ll name="wheat">0.19</ll>
-            <kl name="wheat">0.06</kl>
-            <xf name="wheat">1</xf>
-            <ll name="Chickpea">0.22</ll>
-            <kl name="Chickpea">0.06</kl>
-            <xf name="Chickpea">1</xf>
-            <ll name="Broccoli">0.19</ll>
-            <xf name="Broccoli">1.00</xf>
-            <kl name="Broccoli">0.06</kl>
-          </layer>
-          <layer>
-            <thickness>300</thickness>
-            <bd>1.4</bd>
-            <ll15>0.15</ll15>
-            <airdry>0.15</airdry>
-            <dul>0.39</dul>
-            <sat>0.44</sat>
-            <swcon>0.3</swcon>
-            <fbiom>0.01</fbiom>
-            <finert>0.95</finert>
-            <oc>0.7</oc>
-            <ph>7</ph>
-            <ll name="wheat">0.15</ll>
-            <kl name="wheat">0.04</kl>
-            <xf name="wheat">1</xf>
-            <ll name="Chickpea">0.22</ll>
-            <kl name="Chickpea">0.04</kl>
-            <xf name="Chickpea">1</xf>
-            <ll name="Broccoli">0.15</ll>
-            <xf name="Broccoli">0.00</xf>
-            <kl name="Broccoli">0.00</kl>
-          </layer>
-          <layer>
-            <thickness>300</thickness>
-            <bd>1.46</bd>
-            <ll15>0.32</ll15>
-            <airdry>0.32</airdry>
-            <dul>0.37</dul>
-            <sat>0.42</sat>
-            <swcon>0.3</swcon>
-            <fbiom>0.01</fbiom>
-            <finert>0.95</finert>
-            <oc>0.3</oc>
-            <ph>7</ph>
-            <ll name="wheat">0.32</ll>
-            <kl name="wheat">0.02</kl>
-            <xf name="wheat">1</xf>
-            <ll name="Chickpea">0.34</ll>
-            <kl name="Chickpea">0.02</kl>
-            <xf name="Chickpea">1</xf>
-            <ll name="Broccoli">0.32</ll>
-            <xf name="Broccoli">0.00</xf>
-            <kl name="Broccoli">0.00</kl>
-          </layer>
-          <layer>
-            <thickness>300</thickness>
-            <bd>1.47</bd>
-            <ll15>0.335</ll15>
-            <airdry>0.329</airdry>
-            <dul>0.34</dul>
-            <sat>0.42</sat>
-            <swcon>0.3</swcon>
-            <fbiom>0.01</fbiom>
-            <finert>0.95</finert>
-            <oc>0.3</oc>
-            <ph>7</ph>
-            <ll name="wheat">0.34</ll>
-            <kl name="wheat">0.01</kl>
-            <xf name="wheat">1</xf>
-            <ll name="Chickpea">0.33</ll>
-            <kl name="Chickpea">0.01</kl>
-            <xf name="Chickpea">1</xf>
-            <ll name="Broccoli">0.34</ll>
-            <xf name="Broccoli">0.00</xf>
-            <kl name="Broccoli">0.00</kl>
-          </layer>
-        </profile>
-        <U>6</U>
-        <Cona>3.5</Cona>
-        <Salb>0.13</Salb>
-        <DiffusConst>40</DiffusConst>
-        <DiffusSlope>16</DiffusSlope>
-        <CN2Bare>73</CN2Bare>
-        <CNRed>20</CNRed>
-        <CNCov>0.8</CNCov>
-        <RootCN>40</RootCN>
-        <RootWT>200</RootWT>
-        <SoilCN>12.5</SoilCN>
-        <EnrACoeff>7.4</EnrACoeff>
-        <EnrBCoeff>0.2</EnrBCoeff>
-        <WaterFormat>VolumetricPercent</WaterFormat>
-        <InitWater>
-          <layer name="1">
-            <sw>0.19</sw>
-          </layer>
-          <layer name="2">
-            <sw>0.21</sw>
-          </layer>
-          <layer name="3">
-            <sw>0.20</sw>
-          </layer>
-          <layer name="4">
-            <sw>0.19</sw>
-          </layer>
-          <layer name="5">
-            <sw>0.15</sw>
-          </layer>
-          <layer name="6">
-            <sw>0.32</sw>
-          </layer>
-          <layer name="7">
-            <sw>0.34</sw>
-          </layer>
-        </InitWater>
-        <InitNitrogen>
-          <layer name="1">
-            <no3>6.5</no3>
-            <nh4>0.6</nh4>
-          </layer>
-          <layer name="2">
-            <no3>2.1</no3>
-            <nh4>0.1</nh4>
-          </layer>
-          <layer name="3">
-            <no3>2.1</no3>
-            <nh4>0.1</nh4>
-          </layer>
-          <layer name="4">
-            <no3>1.7</no3>
-            <nh4>0.1</nh4>
-          </layer>
-          <layer name="5">
-            <no3>1.7</no3>
-            <nh4>0.1</nh4>
-          </layer>
-          <layer name="6">
-            <no3>1.7</no3>
-            <nh4>0.1</nh4>
-          </layer>
-          <layer name="7">
-            <no3>1.7</no3>
-            <nh4>0.1</nh4>
-          </layer>
-        </InitNitrogen>
-      </soil>
+      <Soil shortcut="LawesSoil" />
     </area>
   </simulation>
   <simulation name="Mulgowie2005">
@@ -5297,164 +1617,7 @@
           <event name="broccoli.harvesting" description="" />
         </events>
       </outputfile>
-      <soil name="DPIGatton">
-        <region>Lockyer</region>
-        <site>UQ, Lawes</site>
-        <SoilType>Prarie</SoilType>
-        <nearesttown>Gatton, Q 4343</nearesttown>
-        <comment>oc and ph estimated</comment>
-        <naturalvegetation>Blue Gum, Moreton Bay Ash, Tea Tree</naturalvegetation>
-        <profile>
-          <layer>
-            <thickness>150</thickness>
-            <bd>1.260</bd>
-            <ll15>0.14</ll15>
-            <airdry>0.10</airdry>
-            <dul>0.37</dul>
-            <sat>0.45</sat>
-            <swcon>0.50</swcon>
-            <fbiom>0.03</fbiom>
-            <finert>0.4</finert>
-            <oc>1.25</oc>
-            <ph>7</ph>
-            <ll name="SweetCorn">0.14</ll>
-            <kl name="SweetCorn">0.20</kl>
-            <xf name="SweetCorn">1.00</xf>
-            <ll name="Broccoli">0.14</ll>
-            <kl name="Broccoli">0.05</kl>
-            <xf name="Broccoli">1</xf>
-          </layer>
-          <layer>
-            <thickness>150</thickness>
-            <bd>1.450</bd>
-            <ll15>0.21</ll15>
-            <airdry>0.20</airdry>
-            <dul>0.41</dul>
-            <sat>0.45</sat>
-            <swcon>0.50</swcon>
-            <fbiom>0.02</fbiom>
-            <finert>0.6</finert>
-            <oc>1.06</oc>
-            <ph>7</ph>
-            <ll name="SweetCorn">0.21</ll>
-            <kl name="SweetCorn">0.08</kl>
-            <xf name="SweetCorn">0.30</xf>
-            <ll name="Broccoli">0.21</ll>
-            <kl name="Broccoli">0.05</kl>
-            <xf name="Broccoli">0.3</xf>
-          </layer>
-          <layer>
-            <thickness>300</thickness>
-            <bd>1.270</bd>
-            <ll15>0.21</ll15>
-            <airdry>0.20</airdry>
-            <dul>0.40</dul>
-            <sat>0.45</sat>
-            <swcon>0.50</swcon>
-            <fbiom>0.01</fbiom>
-            <finert>0.8</finert>
-            <oc>0.81</oc>
-            <ph>7</ph>
-            <ll name="SweetCorn">0.30</ll>
-            <kl name="SweetCorn">0.08</kl>
-            <xf name="SweetCorn">1.00</xf>
-            <ll name="Broccoli">0.21</ll>
-            <kl name="Broccoli">0.05</kl>
-            <xf name="Broccoli">1</xf>
-          </layer>
-          <layer>
-            <thickness>300</thickness>
-            <bd>1.330</bd>
-            <ll15>0.21</ll15>
-            <airdry>0.20</airdry>
-            <dul>0.43</dul>
-            <sat>0.47</sat>
-            <swcon>0.50</swcon>
-            <fbiom>0.01</fbiom>
-            <finert>0.9</finert>
-            <oc>0.70</oc>
-            <ph>7</ph>
-            <ll name="SweetCorn">0.31</ll>
-            <kl name="SweetCorn">0.04</kl>
-            <xf name="SweetCorn">1.00</xf>
-            <ll name="Broccoli">0.21</ll>
-            <kl name="Broccoli">0.05</kl>
-            <xf name="Broccoli">0</xf>
-          </layer>
-          <layer>
-            <thickness>300</thickness>
-            <bd>1.410</bd>
-            <ll15>0.21</ll15>
-            <airdry>0.20</airdry>
-            <dul>0.39</dul>
-            <sat>0.44</sat>
-            <swcon>0.50</swcon>
-            <fbiom>0.01</fbiom>
-            <finert>0.95</finert>
-            <oc>0.70</oc>
-            <ph>7</ph>
-            <ll name="SweetCorn">0.27</ll>
-            <kl name="SweetCorn">0.04</kl>
-            <xf name="SweetCorn">1.00</xf>
-            <ll name="Broccoli">0.21</ll>
-            <kl name="Broccoli">0.04</kl>
-            <xf name="Broccoli">0</xf>
-          </layer>
-        </profile>
-        <U>6</U>
-        <Cona>3.5</Cona>
-        <Salb>0.13</Salb>
-        <DiffusConst>40</DiffusConst>
-        <DiffusSlope>16</DiffusSlope>
-        <CN2Bare>90</CN2Bare>
-        <CNRed>20</CNRed>
-        <CNCov>0.8</CNCov>
-        <RootCN>40</RootCN>
-        <RootWT>200</RootWT>
-        <SoilCN>12.5</SoilCN>
-        <EnrACoeff>7.4</EnrACoeff>
-        <EnrBCoeff>0.2</EnrBCoeff>
-        <WaterFormat>VolumetricPercent</WaterFormat>
-        <InitWater>
-          <layer name="1">
-            <sw>0.18</sw>
-          </layer>
-          <layer name="2">
-            <sw>0.25</sw>
-          </layer>
-          <layer name="3">
-            <sw>0.23</sw>
-          </layer>
-          <layer name="4">
-            <sw>0.28</sw>
-          </layer>
-          <layer name="5">
-            <sw>0.34</sw>
-          </layer>
-        </InitWater>
-        <InitNitrogen>
-          <layer name="1">
-            <no3>18.500</no3>
-            <nh4>0.6</nh4>
-          </layer>
-          <layer name="2">
-            <no3>9.200</no3>
-            <nh4>0.1</nh4>
-          </layer>
-          <layer name="3">
-            <no3>11.800</no3>
-            <nh4>0.1</nh4>
-          </layer>
-          <layer name="4">
-            <no3>11.200</no3>
-            <nh4>0.1</nh4>
-          </layer>
-          <layer name="5">
-            <no3>10.300</no3>
-            <nh4>0.1</nh4>
-          </layer>
-        </InitNitrogen>
-      </soil>
+      <Soil name="DPIGatton" shortcut="DPIGatton" />
     </area>
     <log name="log">
       <debugoutput name="debugoutput">off</debugoutput>
@@ -5462,6 +1625,715 @@
     </log>
   </simulation>
   <folder name="shared">
+    <Soil name="#037 - UQ, Lawes,Black Vertosol">
+      <region>Lockyer</region>
+      <site>UQ, Lawes</site>
+      <SoilType>Black Vertosol</SoilType>
+      <nearesttown>Gatton, Q 4343</nearesttown>
+      <comment>oc and ph estimated</comment>
+      <naturalvegetation>Blue Gum, Moreton Bay Ash, Tea Tree</naturalvegetation>
+      <InitWater>
+        <profile>
+          <layer>
+            <sw>0.410</sw>
+            <thickness>150</thickness>
+          </layer>
+          <layer>
+            <sw>0.430</sw>
+            <thickness>150</thickness>
+          </layer>
+          <layer>
+            <sw>0.460</sw>
+            <thickness>300</thickness>
+          </layer>
+          <layer>
+            <sw>0.440</sw>
+            <thickness>300</thickness>
+          </layer>
+          <layer>
+            <sw>0.400</sw>
+            <thickness>300</thickness>
+          </layer>
+          <layer>
+            <sw>0.410</sw>
+            <thickness>300</thickness>
+          </layer>
+          <layer>
+            <sw>0.380</sw>
+            <thickness>300</thickness>
+          </layer>
+        </profile>
+      </InitWater>
+      <InitNitrogen>
+        <profile>
+          <layer>
+            <no3>6.500</no3>
+            <nh4>0.600</nh4>
+            <thickness>150</thickness>
+          </layer>
+          <layer>
+            <no3>2.100</no3>
+            <nh4>0.100</nh4>
+            <thickness>150</thickness>
+          </layer>
+          <layer>
+            <no3>2.100</no3>
+            <nh4>0.100</nh4>
+            <thickness>300</thickness>
+          </layer>
+          <layer>
+            <no3>1.700</no3>
+            <nh4>0.100</nh4>
+            <thickness>300</thickness>
+          </layer>
+          <layer>
+            <no3>1.700</no3>
+            <nh4>0.100</nh4>
+            <thickness>300</thickness>
+          </layer>
+          <layer>
+            <no3>1.700</no3>
+            <nh4>0.100</nh4>
+            <thickness>300</thickness>
+          </layer>
+          <layer>
+            <no3>1.700</no3>
+            <nh4>0.100</nh4>
+            <thickness>300</thickness>
+          </layer>
+        </profile>
+      </InitNitrogen>
+      <profile>
+        <layer>
+          <thickness>150</thickness>
+          <bd>1.320</bd>
+          <ll15>0.260</ll15>
+          <airdry>0.130</airdry>
+          <dul>0.410</dul>
+          <sat>0.470</sat>
+          <swcon>0.300</swcon>
+          <fbiom>0.030</fbiom>
+          <finert>0.400</finert>
+          <oc>1.240</oc>
+          <ph>7</ph>
+          <ll name="wheat">0.260</ll>
+          <kl name="wheat">0.100</kl>
+          <xf name="wheat">1</xf>
+          <ll name="canola">0.260</ll>
+          <kl name="canola">0.100</kl>
+          <xf name="canola">1</xf>
+          <ll name="Chickpea">0.260</ll>
+          <kl name="Chickpea">0.100</kl>
+          <xf name="Chickpea">1</xf>
+          <ll name="Sorghum">0.260</ll>
+          <kl name="Sorghum">0.100</kl>
+          <xf name="Sorghum">1</xf>
+          <ll name="Fababean">0.260</ll>
+          <kl name="Fababean">0.100</kl>
+          <xf name="Fababean">1</xf>
+        </layer>
+        <layer>
+          <thickness>150</thickness>
+          <bd>1.300</bd>
+          <ll15>0.260</ll15>
+          <airdry>0.234</airdry>
+          <dul>0.430</dul>
+          <sat>0.480</sat>
+          <swcon>0.300</swcon>
+          <fbiom>0.020</fbiom>
+          <finert>0.600</finert>
+          <oc>1.240</oc>
+          <ph>7</ph>
+          <ll name="wheat">0.260</ll>
+          <kl name="wheat">0.100</kl>
+          <xf name="wheat">1</xf>
+          <ll name="canola">0.300</ll>
+          <kl name="canola">0.100</kl>
+          <xf name="canola">1</xf>
+          <ll name="Chickpea">0.260</ll>
+          <kl name="Chickpea">0.100</kl>
+          <xf name="Chickpea">1</xf>
+          <ll name="Sorghum">0.260</ll>
+          <kl name="Sorghum">0.100</kl>
+          <xf name="Sorghum">1</xf>
+          <ll name="Fababean">0.300</ll>
+          <kl name="Fababean">0.100</kl>
+          <xf name="Fababean">1</xf>
+        </layer>
+        <layer>
+          <thickness>300</thickness>
+          <bd>1.230</bd>
+          <ll15>0.260</ll15>
+          <airdry>0.260</airdry>
+          <dul>0.460</dul>
+          <sat>0.510</sat>
+          <swcon>0.300</swcon>
+          <fbiom>0.010</fbiom>
+          <finert>0.800</finert>
+          <oc>1.250</oc>
+          <ph>7</ph>
+          <ll name="wheat">0.260</ll>
+          <kl name="wheat">0.080</kl>
+          <xf name="wheat">1</xf>
+          <ll name="canola">0.390</ll>
+          <kl name="canola">0.080</kl>
+          <xf name="canola">1</xf>
+          <ll name="Chickpea">0.260</ll>
+          <kl name="Chickpea">0.080</kl>
+          <xf name="Chickpea">1</xf>
+          <ll name="Sorghum">0.350</ll>
+          <kl name="Sorghum">0.100</kl>
+          <xf name="Sorghum">1</xf>
+          <ll name="Fababean">0.420</ll>
+          <kl name="Fababean">0.080</kl>
+          <xf name="Fababean">1</xf>
+        </layer>
+        <layer>
+          <thickness>300</thickness>
+          <bd>1.270</bd>
+          <ll15>0.260</ll15>
+          <airdry>0.260</airdry>
+          <dul>0.440</dul>
+          <sat>0.490</sat>
+          <swcon>0.300</swcon>
+          <fbiom>0.010</fbiom>
+          <finert>0.900</finert>
+          <oc>1.100</oc>
+          <ph>7</ph>
+          <ll name="wheat">0.260</ll>
+          <kl name="wheat">0.060</kl>
+          <xf name="wheat">1</xf>
+          <ll name="canola">0.360</ll>
+          <kl name="canola">0.060</kl>
+          <xf name="canola">1</xf>
+          <ll name="Chickpea">0.290</ll>
+          <kl name="Chickpea">0.060</kl>
+          <xf name="Chickpea">1</xf>
+          <ll name="Sorghum">0.320</ll>
+          <kl name="Sorghum">0.080</kl>
+          <xf name="Sorghum">1</xf>
+          <ll name="Fababean">0.400</ll>
+          <kl name="Fababean">0.060</kl>
+          <xf name="Fababean">1</xf>
+        </layer>
+        <layer>
+          <thickness>300</thickness>
+          <bd>1.370</bd>
+          <ll15>0.250</ll15>
+          <airdry>0.250</airdry>
+          <dul>0.400</dul>
+          <sat>0.450</sat>
+          <swcon>0.300</swcon>
+          <fbiom>0.010</fbiom>
+          <finert>0.950</finert>
+          <oc>0.710</oc>
+          <ph>7</ph>
+          <ll name="wheat">0.250</ll>
+          <kl name="wheat">0.040</kl>
+          <xf name="wheat">1</xf>
+          <ll name="canola">0.310</ll>
+          <kl name="canola">0.040</kl>
+          <xf name="canola">1</xf>
+          <ll name="Chickpea">0.320</ll>
+          <kl name="Chickpea">0.040</kl>
+          <xf name="Chickpea">1</xf>
+          <ll name="Sorghum">0.290</ll>
+          <kl name="Sorghum">0.060</kl>
+          <xf name="Sorghum">1</xf>
+          <ll name="Fababean">0.350</ll>
+          <kl name="Fababean">0.040</kl>
+          <xf name="Fababean">1</xf>
+        </layer>
+        <layer>
+          <thickness>300</thickness>
+          <bd>1.350</bd>
+          <ll15>0.280</ll15>
+          <airdry>0.280</airdry>
+          <dul>0.410</dul>
+          <sat>0.460</sat>
+          <swcon>0.300</swcon>
+          <fbiom>0.010</fbiom>
+          <finert>0.950</finert>
+          <oc>0.340</oc>
+          <ph>7</ph>
+          <ll name="wheat">0.290</ll>
+          <kl name="wheat">0.020</kl>
+          <xf name="wheat">1</xf>
+          <ll name="canola">0.280</ll>
+          <kl name="canola">0.020</kl>
+          <xf name="canola">1</xf>
+          <ll name="Chickpea">0.310</ll>
+          <kl name="Chickpea">0.020</kl>
+          <xf name="Chickpea">1</xf>
+          <ll name="Sorghum">0.310</ll>
+          <kl name="Sorghum">0.040</kl>
+          <xf name="Sorghum">1</xf>
+          <ll name="Fababean">0.350</ll>
+          <kl name="Fababean">0.020</kl>
+          <xf name="Fababean">1</xf>
+        </layer>
+        <layer>
+          <thickness>300</thickness>
+          <bd>1.350</bd>
+          <ll15>0.310</ll15>
+          <airdry>0.310</airdry>
+          <dul>0.380</dul>
+          <sat>0.460</sat>
+          <swcon>0.300</swcon>
+          <fbiom>0.010</fbiom>
+          <finert>0.950</finert>
+          <oc>0.260</oc>
+          <ph>7</ph>
+          <ll name="wheat">0.360</ll>
+          <kl name="wheat">0.010</kl>
+          <xf name="wheat">1</xf>
+          <ll name="canola">0.320</ll>
+          <kl name="canola">0.010</kl>
+          <xf name="canola">1</xf>
+          <ll name="Chickpea">0.370</ll>
+          <kl name="Chickpea">0.010</kl>
+          <xf name="Chickpea">1</xf>
+          <ll name="Sorghum">0.310</ll>
+          <kl name="Sorghum">0.020</kl>
+          <xf name="Sorghum">1</xf>
+          <ll name="Fababean">0.380</ll>
+          <kl name="Fababean">0.010</kl>
+          <xf name="Fababean">1</xf>
+        </layer>
+      </profile>
+      <U>6</U>
+      <Cona>3.5</Cona>
+      <Salb>0.13</Salb>
+      <DiffusConst>40</DiffusConst>
+      <DiffusSlope>16</DiffusSlope>
+      <CN2Bare>73</CN2Bare>
+      <CNRed>20</CNRed>
+      <CNCov>0.8</CNCov>
+      <RootCN>40</RootCN>
+      <RootWT>200</RootWT>
+      <SoilCN>12.5</SoilCN>
+      <EnrACoeff>7.4</EnrACoeff>
+      <EnrBCoeff>0.2</EnrBCoeff>
+    </Soil>
+    <Soil name="LawesSoil">
+      <region>Lockyer</region>
+      <site>UQ, Lawes</site>
+      <SoilType>Prarie</SoilType>
+      <nearesttown>Gatton, Q 4343</nearesttown>
+      <comment>oc and ph estimated</comment>
+      <naturalvegetation>Blue Gum, Moreton Bay Ash, Tea Tree</naturalvegetation>
+      <InitWater>
+        <profile>
+          <layer>
+            <sw>0.190</sw>
+            <thickness>150</thickness>
+          </layer>
+          <layer>
+            <sw>0.210</sw>
+            <thickness>150</thickness>
+          </layer>
+          <layer>
+            <sw>0.200</sw>
+            <thickness>300</thickness>
+          </layer>
+          <layer>
+            <sw>0.190</sw>
+            <thickness>300</thickness>
+          </layer>
+          <layer>
+            <sw>0.150</sw>
+            <thickness>300</thickness>
+          </layer>
+          <layer>
+            <sw>0.320</sw>
+            <thickness>300</thickness>
+          </layer>
+          <layer>
+            <sw>0.340</sw>
+            <thickness>300</thickness>
+          </layer>
+        </profile>
+      </InitWater>
+      <InitNitrogen>
+        <profile>
+          <layer>
+            <no3>6.500</no3>
+            <nh4>0.600</nh4>
+            <thickness>150</thickness>
+          </layer>
+          <layer>
+            <no3>2.100</no3>
+            <nh4>0.100</nh4>
+            <thickness>150</thickness>
+          </layer>
+          <layer>
+            <no3>2.100</no3>
+            <nh4>0.100</nh4>
+            <thickness>300</thickness>
+          </layer>
+          <layer>
+            <no3>1.700</no3>
+            <nh4>0.100</nh4>
+            <thickness>300</thickness>
+          </layer>
+          <layer>
+            <no3>1.700</no3>
+            <nh4>0.100</nh4>
+            <thickness>300</thickness>
+          </layer>
+          <layer>
+            <no3>1.700</no3>
+            <nh4>0.100</nh4>
+            <thickness>300</thickness>
+          </layer>
+          <layer>
+            <no3>1.700</no3>
+            <nh4>0.100</nh4>
+            <thickness>300</thickness>
+          </layer>
+        </profile>
+      </InitNitrogen>
+      <profile>
+        <layer>
+          <thickness>150</thickness>
+          <bd>1.380</bd>
+          <ll15>0.200</ll15>
+          <airdry>0.100</airdry>
+          <dul>0.380</dul>
+          <sat>0.450</sat>
+          <swcon>0.300</swcon>
+          <fbiom>0.030</fbiom>
+          <finert>0.400</finert>
+          <oc>1.200</oc>
+          <ph>7</ph>
+          <ll name="wheat">0.200</ll>
+          <kl name="wheat">0.100</kl>
+          <xf name="wheat">1</xf>
+          <ll name="Chickpea">0.200</ll>
+          <kl name="Chickpea">0.100</kl>
+          <xf name="Chickpea">1</xf>
+          <ll name="Broccoli">0.200</ll>
+          <xf name="Broccoli">1.000</xf>
+          <kl name="Broccoli">0.060</kl>
+        </layer>
+        <layer>
+          <thickness>150</thickness>
+          <bd>1.380</bd>
+          <ll15>0.210</ll15>
+          <airdry>0.189</airdry>
+          <dul>0.380</dul>
+          <sat>0.450</sat>
+          <swcon>0.300</swcon>
+          <fbiom>0.020</fbiom>
+          <finert>0.600</finert>
+          <oc>1.200</oc>
+          <ph>7</ph>
+          <ll name="wheat">0.210</ll>
+          <kl name="wheat">0.100</kl>
+          <xf name="wheat">1</xf>
+          <ll name="Chickpea">0.210</ll>
+          <kl name="Chickpea">0.100</kl>
+          <xf name="Chickpea">1</xf>
+          <ll name="Broccoli">0.210</ll>
+          <xf name="Broccoli">1.000</xf>
+          <kl name="Broccoli">0.060</kl>
+        </layer>
+        <layer>
+          <thickness>300</thickness>
+          <bd>1.280</bd>
+          <ll15>0.200</ll15>
+          <airdry>0.200</airdry>
+          <dul>0.440</dul>
+          <sat>0.490</sat>
+          <swcon>0.300</swcon>
+          <fbiom>0.010</fbiom>
+          <finert>0.800</finert>
+          <oc>1.200</oc>
+          <ph>7</ph>
+          <ll name="wheat">0.200</ll>
+          <kl name="wheat">0.080</kl>
+          <xf name="wheat">1</xf>
+          <ll name="Chickpea">0.200</ll>
+          <kl name="Chickpea">0.080</kl>
+          <xf name="Chickpea">1</xf>
+          <ll name="Broccoli">0.200</ll>
+          <xf name="Broccoli">1.000</xf>
+          <kl name="Broccoli">0.060</kl>
+        </layer>
+        <layer>
+          <thickness>300</thickness>
+          <bd>1.380</bd>
+          <ll15>0.190</ll15>
+          <airdry>0.190</airdry>
+          <dul>0.400</dul>
+          <sat>0.450</sat>
+          <swcon>0.300</swcon>
+          <fbiom>0.010</fbiom>
+          <finert>0.900</finert>
+          <oc>1.100</oc>
+          <ph>7</ph>
+          <ll name="wheat">0.190</ll>
+          <kl name="wheat">0.060</kl>
+          <xf name="wheat">1</xf>
+          <ll name="Chickpea">0.220</ll>
+          <kl name="Chickpea">0.060</kl>
+          <xf name="Chickpea">1</xf>
+          <ll name="Broccoli">0.190</ll>
+          <xf name="Broccoli">1.000</xf>
+          <kl name="Broccoli">0.060</kl>
+        </layer>
+        <layer>
+          <thickness>300</thickness>
+          <bd>1.400</bd>
+          <ll15>0.150</ll15>
+          <airdry>0.150</airdry>
+          <dul>0.390</dul>
+          <sat>0.440</sat>
+          <swcon>0.300</swcon>
+          <fbiom>0.010</fbiom>
+          <finert>0.950</finert>
+          <oc>0.700</oc>
+          <ph>7</ph>
+          <ll name="wheat">0.150</ll>
+          <kl name="wheat">0.040</kl>
+          <xf name="wheat">1</xf>
+          <ll name="Chickpea">0.220</ll>
+          <kl name="Chickpea">0.040</kl>
+          <xf name="Chickpea">1</xf>
+          <ll name="Broccoli">0.150</ll>
+          <xf name="Broccoli">0.000</xf>
+          <kl name="Broccoli">0.000</kl>
+        </layer>
+        <layer>
+          <thickness>300</thickness>
+          <bd>1.460</bd>
+          <ll15>0.320</ll15>
+          <airdry>0.320</airdry>
+          <dul>0.370</dul>
+          <sat>0.420</sat>
+          <swcon>0.300</swcon>
+          <fbiom>0.010</fbiom>
+          <finert>0.950</finert>
+          <oc>0.300</oc>
+          <ph>7</ph>
+          <ll name="wheat">0.320</ll>
+          <kl name="wheat">0.020</kl>
+          <xf name="wheat">1</xf>
+          <ll name="Chickpea">0.340</ll>
+          <kl name="Chickpea">0.020</kl>
+          <xf name="Chickpea">1</xf>
+          <ll name="Broccoli">0.320</ll>
+          <xf name="Broccoli">0.000</xf>
+          <kl name="Broccoli">0.000</kl>
+        </layer>
+        <layer>
+          <thickness>300</thickness>
+          <bd>1.470</bd>
+          <ll15>0.335</ll15>
+          <airdry>0.329</airdry>
+          <dul>0.340</dul>
+          <sat>0.420</sat>
+          <swcon>0.300</swcon>
+          <fbiom>0.010</fbiom>
+          <finert>0.950</finert>
+          <oc>0.300</oc>
+          <ph>7</ph>
+          <ll name="wheat">0.340</ll>
+          <kl name="wheat">0.010</kl>
+          <xf name="wheat">1</xf>
+          <ll name="Chickpea">0.330</ll>
+          <kl name="Chickpea">0.010</kl>
+          <xf name="Chickpea">1</xf>
+          <ll name="Broccoli">0.340</ll>
+          <xf name="Broccoli">0.000</xf>
+          <kl name="Broccoli">0.000</kl>
+        </layer>
+      </profile>
+      <U>6</U>
+      <Cona>3.5</Cona>
+      <Salb>0.13</Salb>
+      <DiffusConst>40</DiffusConst>
+      <DiffusSlope>16</DiffusSlope>
+      <CN2Bare>73</CN2Bare>
+      <CNRed>20</CNRed>
+      <CNCov>0.8</CNCov>
+      <RootCN>40</RootCN>
+      <RootWT>200</RootWT>
+      <SoilCN>12.5</SoilCN>
+      <EnrACoeff>7.4</EnrACoeff>
+      <EnrBCoeff>0.2</EnrBCoeff>
+    </Soil>
+    <Soil name="DPIGatton">
+      <region>Lockyer</region>
+      <site>UQ, Lawes</site>
+      <SoilType>Prarie</SoilType>
+      <nearesttown>Gatton, Q 4343</nearesttown>
+      <comment>oc and ph estimated</comment>
+      <naturalvegetation>Blue Gum, Moreton Bay Ash, Tea Tree</naturalvegetation>
+      <InitWater>
+        <profile>
+          <layer>
+            <sw>0.180</sw>
+            <thickness>150</thickness>
+          </layer>
+          <layer>
+            <sw>0.250</sw>
+            <thickness>150</thickness>
+          </layer>
+          <layer>
+            <sw>0.230</sw>
+            <thickness>300</thickness>
+          </layer>
+          <layer>
+            <sw>0.280</sw>
+            <thickness>300</thickness>
+          </layer>
+          <layer>
+            <sw>0.340</sw>
+            <thickness>300</thickness>
+          </layer>
+        </profile>
+      </InitWater>
+      <InitNitrogen>
+        <profile>
+          <layer>
+            <no3>18.500</no3>
+            <nh4>0.600</nh4>
+            <thickness>150</thickness>
+          </layer>
+          <layer>
+            <no3>9.200</no3>
+            <nh4>0.100</nh4>
+            <thickness>150</thickness>
+          </layer>
+          <layer>
+            <no3>11.800</no3>
+            <nh4>0.100</nh4>
+            <thickness>300</thickness>
+          </layer>
+          <layer>
+            <no3>11.200</no3>
+            <nh4>0.100</nh4>
+            <thickness>300</thickness>
+          </layer>
+          <layer>
+            <no3>10.300</no3>
+            <nh4>0.100</nh4>
+            <thickness>300</thickness>
+          </layer>
+        </profile>
+      </InitNitrogen>
+      <profile>
+        <layer>
+          <thickness>150</thickness>
+          <bd>1.260</bd>
+          <ll15>0.140</ll15>
+          <airdry>0.100</airdry>
+          <dul>0.370</dul>
+          <sat>0.450</sat>
+          <swcon>0.500</swcon>
+          <fbiom>0.030</fbiom>
+          <finert>0.400</finert>
+          <oc>1.250</oc>
+          <ph>7</ph>
+          <ll name="SweetCorn">0.140</ll>
+          <kl name="SweetCorn">0.200</kl>
+          <xf name="SweetCorn">1.000</xf>
+          <ll name="Broccoli">0.140</ll>
+          <kl name="Broccoli">0.050</kl>
+          <xf name="Broccoli">1</xf>
+        </layer>
+        <layer>
+          <thickness>150</thickness>
+          <bd>1.450</bd>
+          <ll15>0.210</ll15>
+          <airdry>0.200</airdry>
+          <dul>0.410</dul>
+          <sat>0.450</sat>
+          <swcon>0.500</swcon>
+          <fbiom>0.020</fbiom>
+          <finert>0.600</finert>
+          <oc>1.060</oc>
+          <ph>7</ph>
+          <ll name="SweetCorn">0.210</ll>
+          <kl name="SweetCorn">0.080</kl>
+          <xf name="SweetCorn">0.300</xf>
+          <ll name="Broccoli">0.210</ll>
+          <kl name="Broccoli">0.050</kl>
+          <xf name="Broccoli">0.300</xf>
+        </layer>
+        <layer>
+          <thickness>300</thickness>
+          <bd>1.270</bd>
+          <ll15>0.210</ll15>
+          <airdry>0.200</airdry>
+          <dul>0.400</dul>
+          <sat>0.450</sat>
+          <swcon>0.500</swcon>
+          <fbiom>0.010</fbiom>
+          <finert>0.800</finert>
+          <oc>0.810</oc>
+          <ph>7</ph>
+          <ll name="SweetCorn">0.300</ll>
+          <kl name="SweetCorn">0.080</kl>
+          <xf name="SweetCorn">1.000</xf>
+          <ll name="Broccoli">0.210</ll>
+          <kl name="Broccoli">0.050</kl>
+          <xf name="Broccoli">1</xf>
+        </layer>
+        <layer>
+          <thickness>300</thickness>
+          <bd>1.330</bd>
+          <ll15>0.210</ll15>
+          <airdry>0.200</airdry>
+          <dul>0.430</dul>
+          <sat>0.470</sat>
+          <swcon>0.500</swcon>
+          <fbiom>0.010</fbiom>
+          <finert>0.900</finert>
+          <oc>0.700</oc>
+          <ph>7</ph>
+          <ll name="SweetCorn">0.310</ll>
+          <kl name="SweetCorn">0.040</kl>
+          <xf name="SweetCorn">1.000</xf>
+          <ll name="Broccoli">0.210</ll>
+          <kl name="Broccoli">0.050</kl>
+          <xf name="Broccoli">0</xf>
+        </layer>
+        <layer>
+          <thickness>300</thickness>
+          <bd>1.410</bd>
+          <ll15>0.210</ll15>
+          <airdry>0.200</airdry>
+          <dul>0.390</dul>
+          <sat>0.440</sat>
+          <swcon>0.500</swcon>
+          <fbiom>0.010</fbiom>
+          <finert>0.950</finert>
+          <oc>0.700</oc>
+          <ph>7</ph>
+          <ll name="SweetCorn">0.270</ll>
+          <kl name="SweetCorn">0.040</kl>
+          <xf name="SweetCorn">1.000</xf>
+          <ll name="Broccoli">0.210</ll>
+          <kl name="Broccoli">0.040</kl>
+          <xf name="Broccoli">0</xf>
+        </layer>
+      </profile>
+      <U>6</U>
+      <Cona>3.5</Cona>
+      <Salb>0.13</Salb>
+      <DiffusConst>40</DiffusConst>
+      <DiffusSlope>16</DiffusSlope>
+      <CN2Bare>90</CN2Bare>
+      <CNRed>20</CNRed>
+      <CNCov>0.8</CNCov>
+      <RootCN>40</RootCN>
+      <RootWT>200</RootWT>
+      <SoilCN>12.5</SoilCN>
+      <EnrACoeff>7.4</EnrACoeff>
+      <EnrBCoeff>0.2</EnrBCoeff>
+    </Soil>
     <variables name="My Variables">
       <variable name="dd/mm/yyyy as Date" description="Date (dd/mm/yyyy)" array="?" />
       <variable name="broccoli.das" description="Days after Sowing" array="?" />
@@ -5519,668 +2391,6 @@
     <events name="FinalVariables Events">
       <event name="broccoli.harvesting" description="" />
     </events>
-    <soil name="#037 - UQ, Lawes,Black Vertosol">
-      <region>Lockyer</region>
-      <site>UQ, Lawes</site>
-      <SoilType>Black Vertosol</SoilType>
-      <nearesttown>Gatton, Q 4343</nearesttown>
-      <comment>oc and ph estimated</comment>
-      <naturalvegetation>Blue Gum, Moreton Bay Ash, Tea Tree</naturalvegetation>
-      <profile>
-        <layer>
-          <thickness>150</thickness>
-          <bd>1.32</bd>
-          <ll15>0.26</ll15>
-          <airdry>0.13</airdry>
-          <dul>0.41</dul>
-          <sat>0.47</sat>
-          <swcon>0.3</swcon>
-          <fbiom>0.03</fbiom>
-          <finert>0.4</finert>
-          <oc>1.24</oc>
-          <ph>7</ph>
-          <ll name="wheat">0.26</ll>
-          <kl name="wheat">0.1</kl>
-          <xf name="wheat">1</xf>
-          <ll name="canola">0.26</ll>
-          <kl name="canola">0.1</kl>
-          <xf name="canola">1</xf>
-          <ll name="Chickpea">0.26</ll>
-          <kl name="Chickpea">0.1</kl>
-          <xf name="Chickpea">1</xf>
-          <ll name="Sorghum">0.26</ll>
-          <kl name="Sorghum">0.1</kl>
-          <xf name="Sorghum">1</xf>
-          <ll name="Fababean">0.26</ll>
-          <kl name="Fababean">0.1</kl>
-          <xf name="Fababean">1</xf>
-        </layer>
-        <layer>
-          <thickness>150</thickness>
-          <bd>1.3</bd>
-          <ll15>0.26</ll15>
-          <airdry>0.234</airdry>
-          <dul>0.43</dul>
-          <sat>0.48</sat>
-          <swcon>0.3</swcon>
-          <fbiom>0.02</fbiom>
-          <finert>0.6</finert>
-          <oc>1.24</oc>
-          <ph>7</ph>
-          <ll name="wheat">0.26</ll>
-          <kl name="wheat">0.1</kl>
-          <xf name="wheat">1</xf>
-          <ll name="canola">0.3</ll>
-          <kl name="canola">0.1</kl>
-          <xf name="canola">1</xf>
-          <ll name="Chickpea">0.26</ll>
-          <kl name="Chickpea">0.1</kl>
-          <xf name="Chickpea">1</xf>
-          <ll name="Sorghum">0.26</ll>
-          <kl name="Sorghum">0.1</kl>
-          <xf name="Sorghum">1</xf>
-          <ll name="Fababean">0.3</ll>
-          <kl name="Fababean">0.1</kl>
-          <xf name="Fababean">1</xf>
-        </layer>
-        <layer>
-          <thickness>300</thickness>
-          <bd>1.23</bd>
-          <ll15>0.26</ll15>
-          <airdry>0.26</airdry>
-          <dul>0.46</dul>
-          <sat>0.51</sat>
-          <swcon>0.3</swcon>
-          <fbiom>0.01</fbiom>
-          <finert>0.8</finert>
-          <oc>1.25</oc>
-          <ph>7</ph>
-          <ll name="wheat">0.26</ll>
-          <kl name="wheat">0.08</kl>
-          <xf name="wheat">1</xf>
-          <ll name="canola">0.39</ll>
-          <kl name="canola">0.08</kl>
-          <xf name="canola">1</xf>
-          <ll name="Chickpea">0.26</ll>
-          <kl name="Chickpea">0.08</kl>
-          <xf name="Chickpea">1</xf>
-          <ll name="Sorghum">0.35</ll>
-          <kl name="Sorghum">0.1</kl>
-          <xf name="Sorghum">1</xf>
-          <ll name="Fababean">0.42</ll>
-          <kl name="Fababean">0.08</kl>
-          <xf name="Fababean">1</xf>
-        </layer>
-        <layer>
-          <thickness>300</thickness>
-          <bd>1.27</bd>
-          <ll15>0.26</ll15>
-          <airdry>0.26</airdry>
-          <dul>0.44</dul>
-          <sat>0.49</sat>
-          <swcon>0.3</swcon>
-          <fbiom>0.01</fbiom>
-          <finert>0.9</finert>
-          <oc>1.1</oc>
-          <ph>7</ph>
-          <ll name="wheat">0.26</ll>
-          <kl name="wheat">0.06</kl>
-          <xf name="wheat">1</xf>
-          <ll name="canola">0.36</ll>
-          <kl name="canola">0.06</kl>
-          <xf name="canola">1</xf>
-          <ll name="Chickpea">0.29</ll>
-          <kl name="Chickpea">0.06</kl>
-          <xf name="Chickpea">1</xf>
-          <ll name="Sorghum">0.32</ll>
-          <kl name="Sorghum">0.08</kl>
-          <xf name="Sorghum">1</xf>
-          <ll name="Fababean">0.4</ll>
-          <kl name="Fababean">0.06</kl>
-          <xf name="Fababean">1</xf>
-        </layer>
-        <layer>
-          <thickness>300</thickness>
-          <bd>1.37</bd>
-          <ll15>0.25</ll15>
-          <airdry>0.25</airdry>
-          <dul>0.4</dul>
-          <sat>0.45</sat>
-          <swcon>0.3</swcon>
-          <fbiom>0.01</fbiom>
-          <finert>0.95</finert>
-          <oc>0.71</oc>
-          <ph>7</ph>
-          <ll name="wheat">0.25</ll>
-          <kl name="wheat">0.04</kl>
-          <xf name="wheat">1</xf>
-          <ll name="canola">0.31</ll>
-          <kl name="canola">0.04</kl>
-          <xf name="canola">1</xf>
-          <ll name="Chickpea">0.32</ll>
-          <kl name="Chickpea">0.04</kl>
-          <xf name="Chickpea">1</xf>
-          <ll name="Sorghum">0.29</ll>
-          <kl name="Sorghum">0.06</kl>
-          <xf name="Sorghum">1</xf>
-          <ll name="Fababean">0.35</ll>
-          <kl name="Fababean">0.04</kl>
-          <xf name="Fababean">1</xf>
-        </layer>
-        <layer>
-          <thickness>300</thickness>
-          <bd>1.35</bd>
-          <ll15>0.28</ll15>
-          <airdry>0.28</airdry>
-          <dul>0.41</dul>
-          <sat>0.46</sat>
-          <swcon>0.3</swcon>
-          <fbiom>0.01</fbiom>
-          <finert>0.95</finert>
-          <oc>0.34</oc>
-          <ph>7</ph>
-          <ll name="wheat">0.29</ll>
-          <kl name="wheat">0.02</kl>
-          <xf name="wheat">1</xf>
-          <ll name="canola">0.28</ll>
-          <kl name="canola">0.02</kl>
-          <xf name="canola">1</xf>
-          <ll name="Chickpea">0.31</ll>
-          <kl name="Chickpea">0.02</kl>
-          <xf name="Chickpea">1</xf>
-          <ll name="Sorghum">0.31</ll>
-          <kl name="Sorghum">0.04</kl>
-          <xf name="Sorghum">1</xf>
-          <ll name="Fababean">0.35</ll>
-          <kl name="Fababean">0.02</kl>
-          <xf name="Fababean">1</xf>
-        </layer>
-        <layer>
-          <thickness>300</thickness>
-          <bd>1.35</bd>
-          <ll15>0.31</ll15>
-          <airdry>0.31</airdry>
-          <dul>0.38</dul>
-          <sat>0.46</sat>
-          <swcon>0.3</swcon>
-          <fbiom>0.01</fbiom>
-          <finert>0.95</finert>
-          <oc>0.26</oc>
-          <ph>7</ph>
-          <ll name="wheat">0.36</ll>
-          <kl name="wheat">0.01</kl>
-          <xf name="wheat">1</xf>
-          <ll name="canola">0.32</ll>
-          <kl name="canola">0.01</kl>
-          <xf name="canola">1</xf>
-          <ll name="Chickpea">0.37</ll>
-          <kl name="Chickpea">0.01</kl>
-          <xf name="Chickpea">1</xf>
-          <ll name="Sorghum">0.31</ll>
-          <kl name="Sorghum">0.02</kl>
-          <xf name="Sorghum">1</xf>
-          <ll name="Fababean">0.38</ll>
-          <kl name="Fababean">0.01</kl>
-          <xf name="Fababean">1</xf>
-        </layer>
-      </profile>
-      <U>6</U>
-      <Cona>3.5</Cona>
-      <Salb>0.13</Salb>
-      <DiffusConst>40</DiffusConst>
-      <DiffusSlope>16</DiffusSlope>
-      <CN2Bare>73</CN2Bare>
-      <CNRed>20</CNRed>
-      <CNCov>0.8</CNCov>
-      <RootCN>40</RootCN>
-      <RootWT>200</RootWT>
-      <SoilCN>12.5</SoilCN>
-      <EnrACoeff>7.4</EnrACoeff>
-      <EnrBCoeff>0.2</EnrBCoeff>
-      <WaterFormat>VolumetricPercent</WaterFormat>
-      <InitWater>
-        <layer name="1">
-          <sw>0.41</sw>
-        </layer>
-        <layer name="2">
-          <sw>0.43</sw>
-        </layer>
-        <layer name="3">
-          <sw>0.46</sw>
-        </layer>
-        <layer name="4">
-          <sw>0.44</sw>
-        </layer>
-        <layer name="5">
-          <sw>0.4</sw>
-        </layer>
-        <layer name="6">
-          <sw>0.41</sw>
-        </layer>
-        <layer name="7">
-          <sw>0.38</sw>
-        </layer>
-      </InitWater>
-      <InitNitrogen>
-        <layer name="1">
-          <no3>6.5</no3>
-          <nh4>0.6</nh4>
-        </layer>
-        <layer name="2">
-          <no3>2.1</no3>
-          <nh4>0.1</nh4>
-        </layer>
-        <layer name="3">
-          <no3>2.1</no3>
-          <nh4>0.1</nh4>
-        </layer>
-        <layer name="4">
-          <no3>1.7</no3>
-          <nh4>0.1</nh4>
-        </layer>
-        <layer name="5">
-          <no3>1.7</no3>
-          <nh4>0.1</nh4>
-        </layer>
-        <layer name="6">
-          <no3>1.7</no3>
-          <nh4>0.1</nh4>
-        </layer>
-        <layer name="7">
-          <no3>1.7</no3>
-          <nh4>0.1</nh4>
-        </layer>
-      </InitNitrogen>
-    </soil>
-    <soil name="LawesSoil">
-      <region>Lockyer</region>
-      <site>UQ, Lawes</site>
-      <SoilType>Prarie</SoilType>
-      <nearesttown>Gatton, Q 4343</nearesttown>
-      <comment>oc and ph estimated</comment>
-      <naturalvegetation>Blue Gum, Moreton Bay Ash, Tea Tree</naturalvegetation>
-      <profile>
-        <layer>
-          <thickness>150</thickness>
-          <bd>1.38</bd>
-          <ll15>0.2</ll15>
-          <airdry>0.1</airdry>
-          <dul>0.38</dul>
-          <sat>0.45</sat>
-          <swcon>0.3</swcon>
-          <fbiom>0.03</fbiom>
-          <finert>0.4</finert>
-          <oc>1.2</oc>
-          <ph>7</ph>
-          <ll name="wheat">0.2</ll>
-          <kl name="wheat">0.1</kl>
-          <xf name="wheat">1</xf>
-          <ll name="Chickpea">0.2</ll>
-          <kl name="Chickpea">0.1</kl>
-          <xf name="Chickpea">1</xf>
-          <ll name="Broccoli">0.20</ll>
-          <xf name="Broccoli">1.00</xf>
-          <kl name="Broccoli">0.06</kl>
-        </layer>
-        <layer>
-          <thickness>150</thickness>
-          <bd>1.38</bd>
-          <ll15>0.21</ll15>
-          <airdry>0.189</airdry>
-          <dul>0.38</dul>
-          <sat>0.45</sat>
-          <swcon>0.3</swcon>
-          <fbiom>0.02</fbiom>
-          <finert>0.6</finert>
-          <oc>1.2</oc>
-          <ph>7</ph>
-          <ll name="wheat">0.21</ll>
-          <kl name="wheat">0.1</kl>
-          <xf name="wheat">1</xf>
-          <ll name="Chickpea">0.21</ll>
-          <kl name="Chickpea">0.1</kl>
-          <xf name="Chickpea">1</xf>
-          <ll name="Broccoli">0.21</ll>
-          <xf name="Broccoli">1.00</xf>
-          <kl name="Broccoli">0.06</kl>
-        </layer>
-        <layer>
-          <thickness>300</thickness>
-          <bd>1.28</bd>
-          <ll15>0.2</ll15>
-          <airdry>0.2</airdry>
-          <dul>0.44</dul>
-          <sat>0.49</sat>
-          <swcon>0.3</swcon>
-          <fbiom>0.01</fbiom>
-          <finert>0.8</finert>
-          <oc>1.2</oc>
-          <ph>7</ph>
-          <ll name="wheat">0.2</ll>
-          <kl name="wheat">0.08</kl>
-          <xf name="wheat">1</xf>
-          <ll name="Chickpea">0.2</ll>
-          <kl name="Chickpea">0.08</kl>
-          <xf name="Chickpea">1</xf>
-          <ll name="Broccoli">0.20</ll>
-          <xf name="Broccoli">1.00</xf>
-          <kl name="Broccoli">0.06</kl>
-        </layer>
-        <layer>
-          <thickness>300</thickness>
-          <bd>1.38</bd>
-          <ll15>0.19</ll15>
-          <airdry>0.19</airdry>
-          <dul>0.4</dul>
-          <sat>0.45</sat>
-          <swcon>0.3</swcon>
-          <fbiom>0.01</fbiom>
-          <finert>0.9</finert>
-          <oc>1.1</oc>
-          <ph>7</ph>
-          <ll name="wheat">0.19</ll>
-          <kl name="wheat">0.06</kl>
-          <xf name="wheat">1</xf>
-          <ll name="Chickpea">0.22</ll>
-          <kl name="Chickpea">0.06</kl>
-          <xf name="Chickpea">1</xf>
-          <ll name="Broccoli">0.19</ll>
-          <xf name="Broccoli">1.00</xf>
-          <kl name="Broccoli">0.06</kl>
-        </layer>
-        <layer>
-          <thickness>300</thickness>
-          <bd>1.4</bd>
-          <ll15>0.15</ll15>
-          <airdry>0.15</airdry>
-          <dul>0.39</dul>
-          <sat>0.44</sat>
-          <swcon>0.3</swcon>
-          <fbiom>0.01</fbiom>
-          <finert>0.95</finert>
-          <oc>0.7</oc>
-          <ph>7</ph>
-          <ll name="wheat">0.15</ll>
-          <kl name="wheat">0.04</kl>
-          <xf name="wheat">1</xf>
-          <ll name="Chickpea">0.22</ll>
-          <kl name="Chickpea">0.04</kl>
-          <xf name="Chickpea">1</xf>
-          <ll name="Broccoli">0.15</ll>
-          <xf name="Broccoli">0.00</xf>
-          <kl name="Broccoli">0.00</kl>
-        </layer>
-        <layer>
-          <thickness>300</thickness>
-          <bd>1.46</bd>
-          <ll15>0.32</ll15>
-          <airdry>0.32</airdry>
-          <dul>0.37</dul>
-          <sat>0.42</sat>
-          <swcon>0.3</swcon>
-          <fbiom>0.01</fbiom>
-          <finert>0.95</finert>
-          <oc>0.3</oc>
-          <ph>7</ph>
-          <ll name="wheat">0.32</ll>
-          <kl name="wheat">0.02</kl>
-          <xf name="wheat">1</xf>
-          <ll name="Chickpea">0.34</ll>
-          <kl name="Chickpea">0.02</kl>
-          <xf name="Chickpea">1</xf>
-          <ll name="Broccoli">0.32</ll>
-          <xf name="Broccoli">0.00</xf>
-          <kl name="Broccoli">0.00</kl>
-        </layer>
-        <layer>
-          <thickness>300</thickness>
-          <bd>1.47</bd>
-          <ll15>0.335</ll15>
-          <airdry>0.329</airdry>
-          <dul>0.34</dul>
-          <sat>0.42</sat>
-          <swcon>0.3</swcon>
-          <fbiom>0.01</fbiom>
-          <finert>0.95</finert>
-          <oc>0.3</oc>
-          <ph>7</ph>
-          <ll name="wheat">0.34</ll>
-          <kl name="wheat">0.01</kl>
-          <xf name="wheat">1</xf>
-          <ll name="Chickpea">0.33</ll>
-          <kl name="Chickpea">0.01</kl>
-          <xf name="Chickpea">1</xf>
-          <ll name="Broccoli">0.34</ll>
-          <xf name="Broccoli">0.00</xf>
-          <kl name="Broccoli">0.00</kl>
-        </layer>
-      </profile>
-      <U>6</U>
-      <Cona>3.5</Cona>
-      <Salb>0.13</Salb>
-      <DiffusConst>40</DiffusConst>
-      <DiffusSlope>16</DiffusSlope>
-      <CN2Bare>73</CN2Bare>
-      <CNRed>20</CNRed>
-      <CNCov>0.8</CNCov>
-      <RootCN>40</RootCN>
-      <RootWT>200</RootWT>
-      <SoilCN>12.5</SoilCN>
-      <EnrACoeff>7.4</EnrACoeff>
-      <EnrBCoeff>0.2</EnrBCoeff>
-      <WaterFormat>VolumetricPercent</WaterFormat>
-      <InitWater>
-        <layer name="1">
-          <sw>0.19</sw>
-        </layer>
-        <layer name="2">
-          <sw>0.21</sw>
-        </layer>
-        <layer name="3">
-          <sw>0.20</sw>
-        </layer>
-        <layer name="4">
-          <sw>0.19</sw>
-        </layer>
-        <layer name="5">
-          <sw>0.15</sw>
-        </layer>
-        <layer name="6">
-          <sw>0.32</sw>
-        </layer>
-        <layer name="7">
-          <sw>0.34</sw>
-        </layer>
-      </InitWater>
-      <InitNitrogen>
-        <layer name="1">
-          <no3>6.5</no3>
-          <nh4>0.6</nh4>
-        </layer>
-        <layer name="2">
-          <no3>2.1</no3>
-          <nh4>0.1</nh4>
-        </layer>
-        <layer name="3">
-          <no3>2.1</no3>
-          <nh4>0.1</nh4>
-        </layer>
-        <layer name="4">
-          <no3>1.7</no3>
-          <nh4>0.1</nh4>
-        </layer>
-        <layer name="5">
-          <no3>1.7</no3>
-          <nh4>0.1</nh4>
-        </layer>
-        <layer name="6">
-          <no3>1.7</no3>
-          <nh4>0.1</nh4>
-        </layer>
-        <layer name="7">
-          <no3>1.7</no3>
-          <nh4>0.1</nh4>
-        </layer>
-      </InitNitrogen>
-    </soil>
-    <soil name="DPIGatton">
-      <region>Lockyer</region>
-      <site>UQ, Lawes</site>
-      <SoilType>Prarie</SoilType>
-      <nearesttown>Gatton, Q 4343</nearesttown>
-      <comment>oc and ph estimated</comment>
-      <naturalvegetation>Blue Gum, Moreton Bay Ash, Tea Tree</naturalvegetation>
-      <profile>
-        <layer>
-          <thickness>150</thickness>
-          <bd>1.260</bd>
-          <ll15>0.14</ll15>
-          <airdry>0.10</airdry>
-          <dul>0.37</dul>
-          <sat>0.45</sat>
-          <swcon>0.50</swcon>
-          <fbiom>0.03</fbiom>
-          <finert>0.4</finert>
-          <oc>1.25</oc>
-          <ph>7</ph>
-          <ll name="SweetCorn">0.14</ll>
-          <kl name="SweetCorn">0.20</kl>
-          <xf name="SweetCorn">1.00</xf>
-          <ll name="Broccoli">0.14</ll>
-          <kl name="Broccoli">0.05</kl>
-          <xf name="Broccoli">1</xf>
-        </layer>
-        <layer>
-          <thickness>150</thickness>
-          <bd>1.450</bd>
-          <ll15>0.21</ll15>
-          <airdry>0.20</airdry>
-          <dul>0.41</dul>
-          <sat>0.45</sat>
-          <swcon>0.50</swcon>
-          <fbiom>0.02</fbiom>
-          <finert>0.6</finert>
-          <oc>1.06</oc>
-          <ph>7</ph>
-          <ll name="SweetCorn">0.21</ll>
-          <kl name="SweetCorn">0.08</kl>
-          <xf name="SweetCorn">0.30</xf>
-          <ll name="Broccoli">0.21</ll>
-          <kl name="Broccoli">0.05</kl>
-          <xf name="Broccoli">0.3</xf>
-        </layer>
-        <layer>
-          <thickness>300</thickness>
-          <bd>1.270</bd>
-          <ll15>0.21</ll15>
-          <airdry>0.20</airdry>
-          <dul>0.40</dul>
-          <sat>0.45</sat>
-          <swcon>0.50</swcon>
-          <fbiom>0.01</fbiom>
-          <finert>0.8</finert>
-          <oc>0.81</oc>
-          <ph>7</ph>
-          <ll name="SweetCorn">0.30</ll>
-          <kl name="SweetCorn">0.08</kl>
-          <xf name="SweetCorn">1.00</xf>
-          <ll name="Broccoli">0.21</ll>
-          <kl name="Broccoli">0.05</kl>
-          <xf name="Broccoli">1</xf>
-        </layer>
-        <layer>
-          <thickness>300</thickness>
-          <bd>1.330</bd>
-          <ll15>0.21</ll15>
-          <airdry>0.20</airdry>
-          <dul>0.43</dul>
-          <sat>0.47</sat>
-          <swcon>0.50</swcon>
-          <fbiom>0.01</fbiom>
-          <finert>0.9</finert>
-          <oc>0.70</oc>
-          <ph>7</ph>
-          <ll name="SweetCorn">0.31</ll>
-          <kl name="SweetCorn">0.04</kl>
-          <xf name="SweetCorn">1.00</xf>
-          <ll name="Broccoli">0.21</ll>
-          <kl name="Broccoli">0.05</kl>
-          <xf name="Broccoli">0</xf>
-        </layer>
-        <layer>
-          <thickness>300</thickness>
-          <bd>1.410</bd>
-          <ll15>0.21</ll15>
-          <airdry>0.20</airdry>
-          <dul>0.39</dul>
-          <sat>0.44</sat>
-          <swcon>0.50</swcon>
-          <fbiom>0.01</fbiom>
-          <finert>0.95</finert>
-          <oc>0.70</oc>
-          <ph>7</ph>
-          <ll name="SweetCorn">0.27</ll>
-          <kl name="SweetCorn">0.04</kl>
-          <xf name="SweetCorn">1.00</xf>
-          <ll name="Broccoli">0.21</ll>
-          <kl name="Broccoli">0.04</kl>
-          <xf name="Broccoli">0</xf>
-        </layer>
-      </profile>
-      <U>6</U>
-      <Cona>3.5</Cona>
-      <Salb>0.13</Salb>
-      <DiffusConst>40</DiffusConst>
-      <DiffusSlope>16</DiffusSlope>
-      <CN2Bare>90</CN2Bare>
-      <CNRed>20</CNRed>
-      <CNCov>0.8</CNCov>
-      <RootCN>40</RootCN>
-      <RootWT>200</RootWT>
-      <SoilCN>12.5</SoilCN>
-      <EnrACoeff>7.4</EnrACoeff>
-      <EnrBCoeff>0.2</EnrBCoeff>
-      <WaterFormat>VolumetricPercent</WaterFormat>
-      <InitWater>
-        <layer name="1">
-          <sw>0.18</sw>
-        </layer>
-        <layer name="2">
-          <sw>0.25</sw>
-        </layer>
-        <layer name="3">
-          <sw>0.23</sw>
-        </layer>
-        <layer name="4">
-          <sw>0.28</sw>
-        </layer>
-        <layer name="5">
-          <sw>0.34</sw>
-        </layer>
-      </InitWater>
-      <InitNitrogen>
-        <layer name="1">
-          <no3>18.500</no3>
-          <nh4>0.6</nh4>
-        </layer>
-        <layer name="2">
-          <no3>9.200</no3>
-          <nh4>0.1</nh4>
-        </layer>
-        <layer name="3">
-          <no3>11.800</no3>
-          <nh4>0.1</nh4>
-        </layer>
-        <layer name="4">
-          <no3>11.200</no3>
-          <nh4>0.1</nh4>
-        </layer>
-        <layer name="5">
-          <no3>10.300</no3>
-          <nh4>0.1</nh4>
-        </layer>
-      </InitNitrogen>
-    </soil>
   </folder>
   <folder name="Lawes2006">
     <simulation name="Lawes06 Planting1Wet">
@@ -6277,170 +2487,13 @@
           <variables name="FinalVariables" shortcut="FinalVariables" />
           <events name="FinalVariables Events" shortcut="FinalVariables Events" />
         </outputfile>
+        <Soil shortcut="DPIGatton" />
         <irrigation name="Irrigation">
           <automatic_irrigation type="text" description="switch">on</automatic_irrigation>
           <asw_depth type="text" description="Depth to which ASW is calculated. (mm)">600.0</asw_depth>
           <crit_fr_asw type="text" description="Fraction of ASW below which irrigation is applied (0-1.0)">0.5</crit_fr_asw>
           <irrigation_efficiency description="Efficiency of the irrigation. (0-1.0)">1.0</irrigation_efficiency>
         </irrigation>
-        <soil name="Soil">
-          <region>Lockyer</region>
-          <site>UQ, Lawes</site>
-          <SoilType>Prarie</SoilType>
-          <nearesttown>Gatton, Q 4343</nearesttown>
-          <comment>oc and ph estimated</comment>
-          <naturalvegetation>Blue Gum, Moreton Bay Ash, Tea Tree</naturalvegetation>
-          <profile>
-            <layer>
-              <thickness>150</thickness>
-              <bd>1.260</bd>
-              <ll15>0.14</ll15>
-              <airdry>0.10</airdry>
-              <dul>0.37</dul>
-              <sat>0.45</sat>
-              <swcon>0.50</swcon>
-              <fbiom>0.03</fbiom>
-              <finert>0.4</finert>
-              <oc>1.25</oc>
-              <ph>7</ph>
-              <ll name="SweetCorn">0.14</ll>
-              <kl name="SweetCorn">0.20</kl>
-              <xf name="SweetCorn">1.00</xf>
-              <ll name="Broccoli">0.14</ll>
-              <kl name="Broccoli">0.05</kl>
-              <xf name="Broccoli">1</xf>
-            </layer>
-            <layer>
-              <thickness>150</thickness>
-              <bd>1.450</bd>
-              <ll15>0.21</ll15>
-              <airdry>0.20</airdry>
-              <dul>0.41</dul>
-              <sat>0.45</sat>
-              <swcon>0.50</swcon>
-              <fbiom>0.02</fbiom>
-              <finert>0.6</finert>
-              <oc>1.06</oc>
-              <ph>7</ph>
-              <ll name="SweetCorn">0.21</ll>
-              <kl name="SweetCorn">0.08</kl>
-              <xf name="SweetCorn">0.30</xf>
-              <ll name="Broccoli">0.21</ll>
-              <kl name="Broccoli">0.05</kl>
-              <xf name="Broccoli">0.3</xf>
-            </layer>
-            <layer>
-              <thickness>300</thickness>
-              <bd>1.270</bd>
-              <ll15>0.21</ll15>
-              <airdry>0.20</airdry>
-              <dul>0.40</dul>
-              <sat>0.45</sat>
-              <swcon>0.50</swcon>
-              <fbiom>0.01</fbiom>
-              <finert>0.8</finert>
-              <oc>0.81</oc>
-              <ph>7</ph>
-              <ll name="SweetCorn">0.30</ll>
-              <kl name="SweetCorn">0.08</kl>
-              <xf name="SweetCorn">1.00</xf>
-              <ll name="Broccoli">0.21</ll>
-              <kl name="Broccoli">0.05</kl>
-              <xf name="Broccoli">1</xf>
-            </layer>
-            <layer>
-              <thickness>300</thickness>
-              <bd>1.330</bd>
-              <ll15>0.21</ll15>
-              <airdry>0.20</airdry>
-              <dul>0.43</dul>
-              <sat>0.47</sat>
-              <swcon>0.50</swcon>
-              <fbiom>0.01</fbiom>
-              <finert>0.9</finert>
-              <oc>0.70</oc>
-              <ph>7</ph>
-              <ll name="SweetCorn">0.31</ll>
-              <kl name="SweetCorn">0.04</kl>
-              <xf name="SweetCorn">1.00</xf>
-              <ll name="Broccoli">0.21</ll>
-              <kl name="Broccoli">0.05</kl>
-              <xf name="Broccoli">0</xf>
-            </layer>
-            <layer>
-              <thickness>300</thickness>
-              <bd>1.410</bd>
-              <ll15>0.21</ll15>
-              <airdry>0.20</airdry>
-              <dul>0.39</dul>
-              <sat>0.44</sat>
-              <swcon>0.50</swcon>
-              <fbiom>0.01</fbiom>
-              <finert>0.95</finert>
-              <oc>0.70</oc>
-              <ph>7</ph>
-              <ll name="SweetCorn">0.27</ll>
-              <kl name="SweetCorn">0.04</kl>
-              <xf name="SweetCorn">1.00</xf>
-              <ll name="Broccoli">0.21</ll>
-              <kl name="Broccoli">0.04</kl>
-              <xf name="Broccoli">0</xf>
-            </layer>
-          </profile>
-          <U>6</U>
-          <Cona>3.5</Cona>
-          <Salb>0.13</Salb>
-          <DiffusConst>40</DiffusConst>
-          <DiffusSlope>16</DiffusSlope>
-          <CN2Bare>90</CN2Bare>
-          <CNRed>20</CNRed>
-          <CNCov>0.8</CNCov>
-          <RootCN>40</RootCN>
-          <RootWT>200</RootWT>
-          <SoilCN>12.5</SoilCN>
-          <EnrACoeff>7.4</EnrACoeff>
-          <EnrBCoeff>0.2</EnrBCoeff>
-          <WaterFormat>VolumetricPercent</WaterFormat>
-          <InitWater>
-            <layer name="1">
-              <sw>0.18</sw>
-            </layer>
-            <layer name="2">
-              <sw>0.25</sw>
-            </layer>
-            <layer name="3">
-              <sw>0.23</sw>
-            </layer>
-            <layer name="4">
-              <sw>0.28</sw>
-            </layer>
-            <layer name="5">
-              <sw>0.34</sw>
-            </layer>
-          </InitWater>
-          <InitNitrogen>
-            <layer name="1">
-              <no3>18.500</no3>
-              <nh4>0.6</nh4>
-            </layer>
-            <layer name="2">
-              <no3>9.200</no3>
-              <nh4>0.1</nh4>
-            </layer>
-            <layer name="3">
-              <no3>11.800</no3>
-              <nh4>0.1</nh4>
-            </layer>
-            <layer name="4">
-              <no3>11.200</no3>
-              <nh4>0.1</nh4>
-            </layer>
-            <layer name="5">
-              <no3>10.300</no3>
-              <nh4>0.1</nh4>
-            </layer>
-          </InitNitrogen>
-        </soil>
       </area>
     </simulation>
     <simulation name="Lawes06 Planting2Wet">
@@ -6537,6 +2590,7 @@
           <variables name="FinalVariables" shortcut="FinalVariables" />
           <events name="FinalVariables Events" shortcut="FinalVariables Events" />
         </outputfile>
+        <Soil shortcut="DPIGatton" />
         <irrigation name="Irrigation">
           <automatic_irrigation type="text" description="switch">off</automatic_irrigation>
           <asw_depth type="text" description="Depth to which ASW is calculated. (mm)">600.0</asw_depth>
@@ -6585,164 +2639,6 @@
             <action>irrigation apply amount = 20</action>
           </operation>
         </operations>
-        <soil name="Soil">
-          <region>Lockyer</region>
-          <site>UQ, Lawes</site>
-          <SoilType>Prarie</SoilType>
-          <nearesttown>Gatton, Q 4343</nearesttown>
-          <comment>oc and ph estimated</comment>
-          <naturalvegetation>Blue Gum, Moreton Bay Ash, Tea Tree</naturalvegetation>
-          <profile>
-            <layer>
-              <thickness>150</thickness>
-              <bd>1.260</bd>
-              <ll15>0.14</ll15>
-              <airdry>0.10</airdry>
-              <dul>0.37</dul>
-              <sat>0.45</sat>
-              <swcon>0.50</swcon>
-              <fbiom>0.03</fbiom>
-              <finert>0.4</finert>
-              <oc>1.25</oc>
-              <ph>7</ph>
-              <ll name="SweetCorn">0.14</ll>
-              <kl name="SweetCorn">0.20</kl>
-              <xf name="SweetCorn">1.00</xf>
-              <ll name="Broccoli">0.14</ll>
-              <kl name="Broccoli">0.05</kl>
-              <xf name="Broccoli">1</xf>
-            </layer>
-            <layer>
-              <thickness>150</thickness>
-              <bd>1.450</bd>
-              <ll15>0.21</ll15>
-              <airdry>0.20</airdry>
-              <dul>0.41</dul>
-              <sat>0.45</sat>
-              <swcon>0.50</swcon>
-              <fbiom>0.02</fbiom>
-              <finert>0.6</finert>
-              <oc>1.06</oc>
-              <ph>7</ph>
-              <ll name="SweetCorn">0.21</ll>
-              <kl name="SweetCorn">0.08</kl>
-              <xf name="SweetCorn">0.30</xf>
-              <ll name="Broccoli">0.21</ll>
-              <kl name="Broccoli">0.05</kl>
-              <xf name="Broccoli">0.3</xf>
-            </layer>
-            <layer>
-              <thickness>300</thickness>
-              <bd>1.270</bd>
-              <ll15>0.21</ll15>
-              <airdry>0.20</airdry>
-              <dul>0.40</dul>
-              <sat>0.45</sat>
-              <swcon>0.50</swcon>
-              <fbiom>0.01</fbiom>
-              <finert>0.8</finert>
-              <oc>0.81</oc>
-              <ph>7</ph>
-              <ll name="SweetCorn">0.30</ll>
-              <kl name="SweetCorn">0.08</kl>
-              <xf name="SweetCorn">1.00</xf>
-              <ll name="Broccoli">0.21</ll>
-              <kl name="Broccoli">0.05</kl>
-              <xf name="Broccoli">1</xf>
-            </layer>
-            <layer>
-              <thickness>300</thickness>
-              <bd>1.330</bd>
-              <ll15>0.21</ll15>
-              <airdry>0.20</airdry>
-              <dul>0.43</dul>
-              <sat>0.47</sat>
-              <swcon>0.50</swcon>
-              <fbiom>0.01</fbiom>
-              <finert>0.9</finert>
-              <oc>0.70</oc>
-              <ph>7</ph>
-              <ll name="SweetCorn">0.31</ll>
-              <kl name="SweetCorn">0.04</kl>
-              <xf name="SweetCorn">1.00</xf>
-              <ll name="Broccoli">0.21</ll>
-              <kl name="Broccoli">0.05</kl>
-              <xf name="Broccoli">0</xf>
-            </layer>
-            <layer>
-              <thickness>300</thickness>
-              <bd>1.410</bd>
-              <ll15>0.21</ll15>
-              <airdry>0.20</airdry>
-              <dul>0.39</dul>
-              <sat>0.44</sat>
-              <swcon>0.50</swcon>
-              <fbiom>0.01</fbiom>
-              <finert>0.95</finert>
-              <oc>0.70</oc>
-              <ph>7</ph>
-              <ll name="SweetCorn">0.27</ll>
-              <kl name="SweetCorn">0.04</kl>
-              <xf name="SweetCorn">1.00</xf>
-              <ll name="Broccoli">0.21</ll>
-              <kl name="Broccoli">0.04</kl>
-              <xf name="Broccoli">0</xf>
-            </layer>
-          </profile>
-          <U>6</U>
-          <Cona>3.5</Cona>
-          <Salb>0.13</Salb>
-          <DiffusConst>40</DiffusConst>
-          <DiffusSlope>16</DiffusSlope>
-          <CN2Bare>90</CN2Bare>
-          <CNRed>20</CNRed>
-          <CNCov>0.8</CNCov>
-          <RootCN>40</RootCN>
-          <RootWT>200</RootWT>
-          <SoilCN>12.5</SoilCN>
-          <EnrACoeff>7.4</EnrACoeff>
-          <EnrBCoeff>0.2</EnrBCoeff>
-          <WaterFormat>VolumetricPercent</WaterFormat>
-          <InitWater>
-            <layer name="1">
-              <sw>0.18</sw>
-            </layer>
-            <layer name="2">
-              <sw>0.25</sw>
-            </layer>
-            <layer name="3">
-              <sw>0.23</sw>
-            </layer>
-            <layer name="4">
-              <sw>0.28</sw>
-            </layer>
-            <layer name="5">
-              <sw>0.34</sw>
-            </layer>
-          </InitWater>
-          <InitNitrogen>
-            <layer name="1">
-              <no3>18.500</no3>
-              <nh4>0.6</nh4>
-            </layer>
-            <layer name="2">
-              <no3>9.200</no3>
-              <nh4>0.1</nh4>
-            </layer>
-            <layer name="3">
-              <no3>11.800</no3>
-              <nh4>0.1</nh4>
-            </layer>
-            <layer name="4">
-              <no3>11.200</no3>
-              <nh4>0.1</nh4>
-            </layer>
-            <layer name="5">
-              <no3>10.300</no3>
-              <nh4>0.1</nh4>
-            </layer>
-          </InitNitrogen>
-        </soil>
       </area>
     </simulation>
   </folder>
