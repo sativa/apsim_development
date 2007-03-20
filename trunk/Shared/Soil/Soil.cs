@@ -1154,7 +1154,7 @@ namespace Soils
                             return no3;
                         }
                     }
-                else
+                else if (SampleData.Type.ToLower() == "initnitrogen")
                     {
                     InitNitrogen Nitrogen = new InitNitrogen(SampleData);
                     return Nitrogen.NO3MapedToSoil;
@@ -1179,7 +1179,7 @@ namespace Soils
                             return nh4;
                         }
                     }
-                else
+                else if (SampleData.Type.ToLower() == "initnitrogen")
                     {
                     InitNitrogen Nitrogen = new InitNitrogen(SampleData);
                     return Nitrogen.NH4MapedToSoil;
