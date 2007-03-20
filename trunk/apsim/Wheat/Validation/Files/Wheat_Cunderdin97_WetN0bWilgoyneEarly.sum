@@ -443,7 +443,7 @@ Component      "wheat" = c:\development\apsim\plant\lib\plant.dll
                      biomass =         125.04 (g/m^2)   lai          =   1.672 (m^2/m^2)
                      stover N conc =     3.29 (%)    extractable sw =   28.86 (mm)
 27 August 1997(Day of year=239), Manager: 
-     Manager creating a new local real variable : n_topsoil =     2.12121100096000
+     Manager creating a new local real variable : n_topsoil =     2.12214599554000
      Manager sending message :- fertiliser apply  amount = 30 (kg/ha), depth = 50 (mm), type = urea_n
 27 August 1997(Day of year=239), fertiliser: 
      
@@ -472,15 +472,15 @@ Component      "wheat" = c:\development\apsim\plant\lib\plant.dll
      Manager sending message :- irrigation apply  amount = 17.5 (mm)
 1 November 1997(Day of year=305), wheat: 
       stage 8.0 end_grain_fill
-                     biomass =         912.83 (g/m^2)   lai          =   0.535 (m^2/m^2)
+                     biomass =         912.82 (g/m^2)   lai          =   0.535 (m^2/m^2)
                      stover N conc =     0.36 (%)    extractable sw =   39.40 (mm)
 2 November 1997(Day of year=306), wheat: 
       stage 9.0 maturity
-                     biomass =         912.83 (g/m^2)   lai          =   0.507 (m^2/m^2)
+                     biomass =         912.82 (g/m^2)   lai          =   0.507 (m^2/m^2)
                      stover N conc =     0.36 (%)    extractable sw =   37.31 (mm)
 3 November 1997(Day of year=307), wheat: 
       stage 10.0 harvest_ripe
-                     biomass =         912.83 (g/m^2)   lai          =   0.001 (m^2/m^2)
+                     biomass =         912.82 (g/m^2)   lai          =   0.001 (m^2/m^2)
                      stover N conc =     0.35 (%)    extractable sw =   35.41 (mm)
 3 November 1997(Day of year=307), Manager: 
      Manager sending message :- wheat harvest
@@ -490,8 +490,8 @@ Component      "wheat" = c:\development\apsim\plant\lib\plant.dll
       grain % water content  =   12.5                         grain yield wet (kg/ha)=     3891.4
       grain wt (g)           =    0.045                       grains/m^2             =   7566.706
       grains/plant           =   50.4                         maximum lai            =      2.342
-      total above ground biomass (kg/ha)    =     9128.3
-      live above ground biomass (kg/ha)     =     9128.3
+      total above ground biomass (kg/ha)    =     9128.2
+      live above ground biomass (kg/ha)     =     9128.2
       green above ground biomass (kg/ha)    =     8107.4
       senesced above ground biomass (kg/ha) =     1020.8
       dead above ground biomass (kg/ha)     =        0.0
@@ -512,7 +512,7 @@ Component      "wheat" = c:\development\apsim\plant\lib\plant.dll
      
      Crop harvested.
          Organic matter from crop:-      Tops to surface residue      Roots to soil FOM
-                          DM (kg/ha) =               5722.94                    0.00
+                          DM (kg/ha) =               5722.93                    0.00
                           N  (kg/ha) =                 21.72                    0.00
      
          Organic matter removed from system:-      From Tops               From Roots

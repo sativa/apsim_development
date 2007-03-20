@@ -431,7 +431,7 @@ Component      "wheat" = c:\development\apsim\plant\lib\plant.dll
                      biomass =         244.03 (g/m^2)   lai          =   3.496 (m^2/m^2)
                      stover N conc =     2.16 (%)    extractable sw =   45.02 (mm)
 25 September 1997(Day of year=268), Manager: 
-     Manager creating a new local real variable : n_topsoil =     1.79969302495000
+     Manager creating a new local real variable : n_topsoil =     1.80114800797000
      Manager sending message :- fertiliser apply  amount = 30 (kg/ha), depth = 50 (mm), type = urea_n
 25 September 1997(Day of year=268), fertiliser: 
      
@@ -461,10 +461,10 @@ Component      "wheat" = c:\development\apsim\plant\lib\plant.dll
 2 December 1997(Day of year=336), Manager: 
      Manager sending message :- wheat harvest
      
-      flowering day          =  298                           stover (kg/ha)         =     3584.2
+      flowering day          =  298                           stover (kg/ha)         =     3584.1
       maturity day           =  335                           grain yield (kg/ha)    =     1591.5
       grain % water content  =   12.5                         grain yield wet (kg/ha)=     1818.9
-      grain wt (g)           =    0.036                       grains/m^2             =   4449.669
+      grain wt (g)           =    0.036                       grains/m^2             =   4449.666
       grains/plant           =   41.2                         maximum lai            =      3.669
       total above ground biomass (kg/ha)    =     5175.7
       live above ground biomass (kg/ha)     =     5175.7
@@ -472,8 +472,8 @@ Component      "wheat" = c:\development\apsim\plant\lib\plant.dll
       senesced above ground biomass (kg/ha) =     1617.6
       dead above ground biomass (kg/ha)     =        0.0
       number of leaves       =   45.2
-      DM Root:Shoot ratio    =    0.221                       Harvest Index          =      0.307
-      Stover C:N ratio       =   88.026                       Root C:N ratio         =     20.104
+      DM Root:Shoot ratio    =    0.221                       Harvest Index          =      0.308
+      Stover C:N ratio       =   88.016                       Root C:N ratio         =     20.104
       grain N percent        =       2.89                     total N content (kg/ha)=      62.34
       grain N uptake (kg/ha) =      46.05                     senesced N content (kg/ha)=    8.09
       green N content (kg/ha)=       8.20                     dead N content (kg/ha) =       0.00
@@ -488,8 +488,8 @@ Component      "wheat" = c:\development\apsim\plant\lib\plant.dll
      
      Crop harvested.
          Organic matter from crop:-      Tops to surface residue      Roots to soil FOM
-                          DM (kg/ha) =               3583.94                    0.00
-                          N  (kg/ha) =                 16.27                    0.00
+                          DM (kg/ha) =               3583.93                    0.00
+                          N  (kg/ha) =                 16.28                    0.00
      
          Organic matter removed from system:-      From Tops               From Roots
                           DM (kg/ha) =               1591.52                    0.00
@@ -501,8 +501,8 @@ Component      "wheat" = c:\development\apsim\plant\lib\plant.dll
      Manager sending message :- wheat end_crop
      Crop ended. Yield (dw) =     0.0  (kg/ha)
          Organic matter from crop:-      Tops to surface residue      Roots to soil FOM
-                          DM (kg/ha) =                  0.22                 1144.69
-                          N  (kg/ha) =                  0.01                   22.77
+                          DM (kg/ha) =                  0.22                 1144.68
+                          N  (kg/ha) =                  0.01                   22.78
      
 30 December 1997(Day of year=364), clock: 
      Simulation is terminating due to end criteria being met.

@@ -435,7 +435,7 @@ Component      "wheat" = c:\development\apsim\plant\lib\plant.dll
 2 October 1992(Day of year=276), wheat: 
       stage 7.0 start_grain_fill
                      biomass =        1270.92 (g/m^2)   lai          =   4.147 (m^2/m^2)
-                     stover N conc =     0.94 (%)    extractable sw =  237.26 (mm)
+                     stover N conc =     0.94 (%)    extractable sw =  237.27 (mm)
 7 October 1992(Day of year=281), Irrigator: 
      Manager sending message :- irrigation apply  amount = 20 (mm)
 8 October 1992(Day of year=282), Irrigator: 
@@ -446,26 +446,26 @@ Component      "wheat" = c:\development\apsim\plant\lib\plant.dll
      Manager sending message :- irrigation apply  amount = 20 (mm)
 30 October 1992(Day of year=304), wheat: 
       stage 8.0 end_grain_fill
-                     biomass =        1725.38 (g/m^2)   lai          =   0.812 (m^2/m^2)
+                     biomass =        1725.37 (g/m^2)   lai          =   0.812 (m^2/m^2)
                      stover N conc =     0.32 (%)    extractable sw =  177.48 (mm)
 1 November 1992(Day of year=306), wheat: 
       stage 9.0 maturity
-                     biomass =        1725.83 (g/m^2)   lai          =   0.659 (m^2/m^2)
+                     biomass =        1725.82 (g/m^2)   lai          =   0.659 (m^2/m^2)
                      stover N conc =     0.32 (%)    extractable sw =  171.11 (mm)
 2 November 1992(Day of year=307), wheat: 
       stage 10.0 harvest_ripe
-                     biomass =        1725.83 (g/m^2)   lai          =   0.001 (m^2/m^2)
+                     biomass =        1725.82 (g/m^2)   lai          =   0.001 (m^2/m^2)
                      stover N conc =     0.31 (%)    extractable sw =  170.36 (mm)
 2 November 1992(Day of year=307), Manager: 
      Manager sending message :- wheat harvest
      
       flowering day          =  270                           stover (kg/ha)         =    11657.2
       maturity day           =  306                           grain yield (kg/ha)    =     5601.0
-      grain % water content  =   12.5                         grain yield wet (kg/ha)=     6401.2
-      grain wt (g)           =    0.035                       grains/m^2             =  16113.313
+      grain % water content  =   12.5                         grain yield wet (kg/ha)=     6401.1
+      grain wt (g)           =    0.035                       grains/m^2             =  16113.297
       grains/plant           =  132.5                         maximum lai            =      5.521
-      total above ground biomass (kg/ha)    =    17258.3
-      live above ground biomass (kg/ha)     =    17258.3
+      total above ground biomass (kg/ha)    =    17258.2
+      live above ground biomass (kg/ha)     =    17258.2
       green above ground biomass (kg/ha)    =    14673.4
       senesced above ground biomass (kg/ha) =     2584.9
       dead above ground biomass (kg/ha)     =        0.0
@@ -486,11 +486,11 @@ Component      "wheat" = c:\development\apsim\plant\lib\plant.dll
      
      Crop harvested.
          Organic matter from crop:-      Tops to surface residue      Roots to soil FOM
-                          DM (kg/ha) =               11657.00                    0.00
+                          DM (kg/ha) =               11656.99                    0.00
                           N  (kg/ha) =                 41.24                    0.00
      
          Organic matter removed from system:-      From Tops               From Roots
-                          DM (kg/ha) =               5601.03                    0.00
+                          DM (kg/ha) =               5601.00                    0.00
                           N  (kg/ha) =                102.97                    0.00
      
       stage 4.0 end_of_juvenile
@@ -499,7 +499,7 @@ Component      "wheat" = c:\development\apsim\plant\lib\plant.dll
      Manager sending message :- wheat end_crop
      Crop ended. Yield (dw) =     0.0  (kg/ha)
          Organic matter from crop:-      Tops to surface residue      Roots to soil FOM
-                          DM (kg/ha) =                  0.25                 2368.72
+                          DM (kg/ha) =                  0.25                 2368.71
                           N  (kg/ha) =                  0.02                   31.40
      
 17 November 1992(Day of year=322), clock: 
