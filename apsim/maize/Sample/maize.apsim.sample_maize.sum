@@ -16,8 +16,10 @@ Component     "report" = c:\development\apsim\report\lib\report.dll
 Component        "Met" = c:\development\apsim\Input\lib\Input.dll
 Component    "manager" = c:\development\apsim\manager\lib\manager.dll
 Component   "soilwat2" = c:\development\apsim\soilwat2\lib\soilwat2.dll
+Component  "SurfaceOM" = c:\development\apsim\SurfaceOM\lib\SurfaceOM.dll
 Component     "soiln2" = c:\development\apsim\soiln2\lib\soiln2.dll
 Component      "maize" = c:\development\apsim\maize\lib\maize.dll
+Component     "sysbal" = c:\development\apsim\sysbal\lib\sysbal.dll
 
 ------- clock Initialisation --------------------------------------------------
      Sequencer phases:
@@ -135,6 +137,25 @@ Component      "maize" = c:\development\apsim\maize\lib\maize.dll
             Cuml evap (U):            4.00 (mm^0.5)
             CONA:                     2.50 ()
             Eo from priestly-taylor
+
+------- SurfaceOM Initialisation ----------------------------------------------
+     
+         - Reading constants
+     
+         - Reading parameters
+     
+     
+     
+                         Initial Surface Organic Matter Data
+         ----------------------------------------------------------------------
+            Name   Type        Dry matter   C        N        P    Cover  Standing_fr
+                                (kg/ha)  (kg/ha)  (kg/ha)  (kg/ha) (0-1)     (0-1)
+         ----------------------------------------------------------------------
+          wheat     wheat            0.0     0.0     0.0     0.0   0.000     0.0
+         ----------------------------------------------------------------------
+     
+                      Effective Cover from Surface Materials =   0.0
+     
 
 ------- soiln2 Initialisation -------------------------------------------------
      
@@ -265,6 +286,10 @@ Component      "maize" = c:\development\apsim\maize\lib\maize.dll
       stage    3.0 emergence
                           biomass =          0.2000000       lai =    0.3800000E-02
                           stover N conc =    4.399999       extractable sw =    31.35045
+4 November 1989(Day of year=308), sysbal: 
+      **** N balance - unaccounted gain (kg/ha) =  0.110351563
+      **** C balance - unaccounted gain (kg/ha) =  1.20011330
+      ****        equivalent DM as FOM  (kg/ha) =  3.00028324
 19 November 1989(Day of year=323), maize: 
       stage    4.0 end_of_juvenile
                           biomass =           2.964685       lai =    0.4460862E-01
