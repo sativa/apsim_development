@@ -1,4 +1,4 @@
-<folder name="New Simulations" image="Images/layout_center24.png" version="7">
+<folder name="New Simulations" image="Images/layout_center24.png" version="8">
   <simulation name="Blank Simulation">
     <metfile name="met">
       <filename name="filename">%apsuite\apsim\met\sample\goond.met</filename>
@@ -561,50 +561,63 @@
           </percentmethod>
         </InitWater>
         <InitNitrogen>
-          <layer name="1">
-            <no3>6.50251233431099</no3>
-            <nh4>0.599196200219218</nh4>
-          </layer>
-          <layer name="2">
-            <no3>2.10081167723893</no3>
-            <nh4>0.0998660333698697</nh4>
-          </layer>
-          <layer name="3">
-            <no3>2.10081167723893</no3>
-            <nh4>0.0998660333698697</nh4>
-          </layer>
-          <layer name="4">
-            <no3>1.70065707205056</no3>
-            <nh4>0.0998660333698697</nh4>
-          </layer>
-          <layer name="5">
-            <no3>1.70065707205057</no3>
-            <nh4>0.0998660333698697</nh4>
-          </layer>
-          <layer name="6">
-            <no3>1.70065707205056</no3>
-            <nh4>0.0998660333698697</nh4>
-          </layer>
-          <layer name="7">
-            <no3>1.70065707205056</no3>
-            <nh4>0.0998660333698697</nh4>
-          </layer>
-          <layer name="8">
-            <no3>1.70065707205056</no3>
-            <nh4>0.0998660333698697</nh4>
-          </layer>
-          <layer name="9">
-            <no3>1.70065707205056</no3>
-            <nh4>0.0998660333698697</nh4>
-          </layer>
-          <layer name="10">
-            <no3>1.70065707205056</no3>
-            <nh4>0.0998660333698697</nh4>
-          </layer>
-          <layer name="11">
-            <no3>1.70065707205056</no3>
-            <nh4>0.0998660333698697</nh4>
-          </layer>
+          <profile>
+            <layer>
+              <no3>6.503</no3>
+              <nh4>0.599</nh4>
+              <thickness>150</thickness>
+            </layer>
+            <layer>
+              <no3>2.101</no3>
+              <nh4>0.100</nh4>
+              <thickness>150</thickness>
+            </layer>
+            <layer>
+              <no3>2.101</no3>
+              <nh4>0.100</nh4>
+              <thickness>300</thickness>
+            </layer>
+            <layer>
+              <no3>1.701</no3>
+              <nh4>0.100</nh4>
+              <thickness>300</thickness>
+            </layer>
+            <layer>
+              <no3>1.701</no3>
+              <nh4>0.100</nh4>
+              <thickness>300</thickness>
+            </layer>
+            <layer>
+              <no3>1.701</no3>
+              <nh4>0.100</nh4>
+              <thickness>300</thickness>
+            </layer>
+            <layer>
+              <no3>1.701</no3>
+              <nh4>0.100</nh4>
+              <thickness>300</thickness>
+            </layer>
+            <layer>
+              <no3>1.701</no3>
+              <nh4>0.100</nh4>
+              <thickness>300</thickness>
+            </layer>
+            <layer>
+              <no3>1.701</no3>
+              <nh4>0.100</nh4>
+              <thickness>300</thickness>
+            </layer>
+            <layer>
+              <no3>1.701</no3>
+              <nh4>0.100</nh4>
+              <thickness>300</thickness>
+            </layer>
+            <layer>
+              <no3>1.701</no3>
+              <nh4>0.100</nh4>
+              <thickness>300</thickness>
+            </layer>
+          </profile>
         </InitNitrogen>
       </soil>
     </area>
@@ -1161,50 +1174,63 @@
           </percentmethod>
         </InitWater>
         <InitNitrogen>
-          <layer name="1">
-            <no3>6.50251233431099</no3>
-            <nh4>0.599196200219218</nh4>
-          </layer>
-          <layer name="2">
-            <no3>2.10081167723893</no3>
-            <nh4>0.0998660333698697</nh4>
-          </layer>
-          <layer name="3">
-            <no3>2.10081167723893</no3>
-            <nh4>0.0998660333698697</nh4>
-          </layer>
-          <layer name="4">
-            <no3>1.70065707205056</no3>
-            <nh4>0.0998660333698697</nh4>
-          </layer>
-          <layer name="5">
-            <no3>1.70065707205057</no3>
-            <nh4>0.0998660333698697</nh4>
-          </layer>
-          <layer name="6">
-            <no3>1.70065707205056</no3>
-            <nh4>0.0998660333698697</nh4>
-          </layer>
-          <layer name="7">
-            <no3>1.70065707205056</no3>
-            <nh4>0.0998660333698697</nh4>
-          </layer>
-          <layer name="8">
-            <no3>1.70065707205056</no3>
-            <nh4>0.0998660333698697</nh4>
-          </layer>
-          <layer name="9">
-            <no3>1.70065707205056</no3>
-            <nh4>0.0998660333698697</nh4>
-          </layer>
-          <layer name="10">
-            <no3>1.70065707205056</no3>
-            <nh4>0.0998660333698697</nh4>
-          </layer>
-          <layer name="11">
-            <no3>1.70065707205056</no3>
-            <nh4>0.0998660333698697</nh4>
-          </layer>
+          <profile>
+            <layer>
+              <no3>6.503</no3>
+              <nh4>0.599</nh4>
+              <thickness>150</thickness>
+            </layer>
+            <layer>
+              <no3>2.101</no3>
+              <nh4>0.100</nh4>
+              <thickness>150</thickness>
+            </layer>
+            <layer>
+              <no3>2.101</no3>
+              <nh4>0.100</nh4>
+              <thickness>300</thickness>
+            </layer>
+            <layer>
+              <no3>1.701</no3>
+              <nh4>0.100</nh4>
+              <thickness>300</thickness>
+            </layer>
+            <layer>
+              <no3>1.701</no3>
+              <nh4>0.100</nh4>
+              <thickness>300</thickness>
+            </layer>
+            <layer>
+              <no3>1.701</no3>
+              <nh4>0.100</nh4>
+              <thickness>300</thickness>
+            </layer>
+            <layer>
+              <no3>1.701</no3>
+              <nh4>0.100</nh4>
+              <thickness>300</thickness>
+            </layer>
+            <layer>
+              <no3>1.701</no3>
+              <nh4>0.100</nh4>
+              <thickness>300</thickness>
+            </layer>
+            <layer>
+              <no3>1.701</no3>
+              <nh4>0.100</nh4>
+              <thickness>300</thickness>
+            </layer>
+            <layer>
+              <no3>1.701</no3>
+              <nh4>0.100</nh4>
+              <thickness>300</thickness>
+            </layer>
+            <layer>
+              <no3>1.701</no3>
+              <nh4>0.100</nh4>
+              <thickness>300</thickness>
+            </layer>
+          </profile>
         </InitNitrogen>
       </soil>
     </area>
@@ -1752,50 +1778,63 @@
           </percentmethod>
         </InitWater>
         <InitNitrogen>
-          <layer name="1">
-            <no3>6.5</no3>
-            <nh4>0.6</nh4>
-          </layer>
-          <layer name="2">
-            <no3>2.1</no3>
-            <nh4>0.1</nh4>
-          </layer>
-          <layer name="3">
-            <no3>2.1</no3>
-            <nh4>0.1</nh4>
-          </layer>
-          <layer name="4">
-            <no3>1.7</no3>
-            <nh4>0.1</nh4>
-          </layer>
-          <layer name="5">
-            <no3>1.7</no3>
-            <nh4>0.1</nh4>
-          </layer>
-          <layer name="6">
-            <no3>1.7</no3>
-            <nh4>0.1</nh4>
-          </layer>
-          <layer name="7">
-            <no3>1.7</no3>
-            <nh4>0.1</nh4>
-          </layer>
-          <layer name="8">
-            <no3>1.7</no3>
-            <nh4>0.1</nh4>
-          </layer>
-          <layer name="9">
-            <no3>1.7</no3>
-            <nh4>0.1</nh4>
-          </layer>
-          <layer name="10">
-            <no3>1.7</no3>
-            <nh4>0.1</nh4>
-          </layer>
-          <layer name="11">
-            <no3>1.7</no3>
-            <nh4>0.1</nh4>
-          </layer>
+          <profile>
+            <layer>
+              <no3>6.500</no3>
+              <nh4>0.600</nh4>
+              <thickness>150</thickness>
+            </layer>
+            <layer>
+              <no3>2.100</no3>
+              <nh4>0.100</nh4>
+              <thickness>150</thickness>
+            </layer>
+            <layer>
+              <no3>2.100</no3>
+              <nh4>0.100</nh4>
+              <thickness>300</thickness>
+            </layer>
+            <layer>
+              <no3>1.700</no3>
+              <nh4>0.100</nh4>
+              <thickness>300</thickness>
+            </layer>
+            <layer>
+              <no3>1.700</no3>
+              <nh4>0.100</nh4>
+              <thickness>300</thickness>
+            </layer>
+            <layer>
+              <no3>1.700</no3>
+              <nh4>0.100</nh4>
+              <thickness>300</thickness>
+            </layer>
+            <layer>
+              <no3>1.700</no3>
+              <nh4>0.100</nh4>
+              <thickness>300</thickness>
+            </layer>
+            <layer>
+              <no3>1.700</no3>
+              <nh4>0.100</nh4>
+              <thickness>300</thickness>
+            </layer>
+            <layer>
+              <no3>1.700</no3>
+              <nh4>0.100</nh4>
+              <thickness>300</thickness>
+            </layer>
+            <layer>
+              <no3>1.700</no3>
+              <nh4>0.100</nh4>
+              <thickness>300</thickness>
+            </layer>
+            <layer>
+              <no3>1.700</no3>
+              <nh4>0.100</nh4>
+              <thickness>300</thickness>
+            </layer>
+          </profile>
         </InitNitrogen>
       </soil>
     </area>
@@ -2138,50 +2177,63 @@
           </percentmethod>
         </InitWater>
         <InitNitrogen>
-          <layer name="1">
-            <no3>1</no3>
-            <nh4>0.1</nh4>
-          </layer>
-          <layer name="2">
-            <no3>1</no3>
-            <nh4>0.1</nh4>
-          </layer>
-          <layer name="3">
-            <no3>1</no3>
-            <nh4>0.1</nh4>
-          </layer>
-          <layer name="4">
-            <no3>1</no3>
-            <nh4>0.1</nh4>
-          </layer>
-          <layer name="5">
-            <no3>1</no3>
-            <nh4>0.1</nh4>
-          </layer>
-          <layer name="6">
-            <no3>1</no3>
-            <nh4>0.1</nh4>
-          </layer>
-          <layer name="7">
-            <no3>1</no3>
-            <nh4>0.1</nh4>
-          </layer>
-          <layer name="8">
-            <no3>1</no3>
-            <nh4>0.1</nh4>
-          </layer>
-          <layer name="9">
-            <no3>1</no3>
-            <nh4>0.1</nh4>
-          </layer>
-          <layer name="10">
-            <no3>1</no3>
-            <nh4>0.1</nh4>
-          </layer>
-          <layer name="11">
-            <no3>1</no3>
-            <nh4>0.1</nh4>
-          </layer>
+          <profile>
+            <layer>
+              <no3>1</no3>
+              <nh4>0.100</nh4>
+              <thickness>150</thickness>
+            </layer>
+            <layer>
+              <no3>1</no3>
+              <nh4>0.100</nh4>
+              <thickness>150</thickness>
+            </layer>
+            <layer>
+              <no3>1</no3>
+              <nh4>0.100</nh4>
+              <thickness>300</thickness>
+            </layer>
+            <layer>
+              <no3>1</no3>
+              <nh4>0.100</nh4>
+              <thickness>300</thickness>
+            </layer>
+            <layer>
+              <no3>1</no3>
+              <nh4>0.100</nh4>
+              <thickness>300</thickness>
+            </layer>
+            <layer>
+              <no3>1</no3>
+              <nh4>0.100</nh4>
+              <thickness>300</thickness>
+            </layer>
+            <layer>
+              <no3>1</no3>
+              <nh4>0.100</nh4>
+              <thickness>300</thickness>
+            </layer>
+            <layer>
+              <no3>1</no3>
+              <nh4>0.100</nh4>
+              <thickness>300</thickness>
+            </layer>
+            <layer>
+              <no3>1</no3>
+              <nh4>0.100</nh4>
+              <thickness>300</thickness>
+            </layer>
+            <layer>
+              <no3>1</no3>
+              <nh4>0.100</nh4>
+              <thickness>300</thickness>
+            </layer>
+            <layer>
+              <no3>1</no3>
+              <nh4>0.100</nh4>
+              <thickness>300</thickness>
+            </layer>
+          </profile>
         </InitNitrogen>
       </soil>
     </area>
@@ -2786,50 +2838,63 @@
           </percentmethod>
         </InitWater>
         <InitNitrogen>
-          <layer name="1">
-            <no3>6.5</no3>
-            <nh4>0.6</nh4>
-          </layer>
-          <layer name="2">
-            <no3>2.1</no3>
-            <nh4>0.1</nh4>
-          </layer>
-          <layer name="3">
-            <no3>2.1</no3>
-            <nh4>0.1</nh4>
-          </layer>
-          <layer name="4">
-            <no3>1.7</no3>
-            <nh4>0.1</nh4>
-          </layer>
-          <layer name="5">
-            <no3>1.7</no3>
-            <nh4>0.1</nh4>
-          </layer>
-          <layer name="6">
-            <no3>1.7</no3>
-            <nh4>0.1</nh4>
-          </layer>
-          <layer name="7">
-            <no3>1.7</no3>
-            <nh4>0.1</nh4>
-          </layer>
-          <layer name="8">
-            <no3>1.7</no3>
-            <nh4>0.1</nh4>
-          </layer>
-          <layer name="9">
-            <no3>1.7</no3>
-            <nh4>0.1</nh4>
-          </layer>
-          <layer name="10">
-            <no3>1.7</no3>
-            <nh4>0.1</nh4>
-          </layer>
-          <layer name="11">
-            <no3>1.7</no3>
-            <nh4>0.1</nh4>
-          </layer>
+          <profile>
+            <layer>
+              <no3>6.500</no3>
+              <nh4>0.600</nh4>
+              <thickness>150</thickness>
+            </layer>
+            <layer>
+              <no3>2.100</no3>
+              <nh4>0.100</nh4>
+              <thickness>150</thickness>
+            </layer>
+            <layer>
+              <no3>2.100</no3>
+              <nh4>0.100</nh4>
+              <thickness>300</thickness>
+            </layer>
+            <layer>
+              <no3>1.700</no3>
+              <nh4>0.100</nh4>
+              <thickness>300</thickness>
+            </layer>
+            <layer>
+              <no3>1.700</no3>
+              <nh4>0.100</nh4>
+              <thickness>300</thickness>
+            </layer>
+            <layer>
+              <no3>1.700</no3>
+              <nh4>0.100</nh4>
+              <thickness>300</thickness>
+            </layer>
+            <layer>
+              <no3>1.700</no3>
+              <nh4>0.100</nh4>
+              <thickness>300</thickness>
+            </layer>
+            <layer>
+              <no3>1.700</no3>
+              <nh4>0.100</nh4>
+              <thickness>300</thickness>
+            </layer>
+            <layer>
+              <no3>1.700</no3>
+              <nh4>0.100</nh4>
+              <thickness>300</thickness>
+            </layer>
+            <layer>
+              <no3>1.700</no3>
+              <nh4>0.100</nh4>
+              <thickness>300</thickness>
+            </layer>
+            <layer>
+              <no3>1.700</no3>
+              <nh4>0.100</nh4>
+              <thickness>300</thickness>
+            </layer>
+          </profile>
         </InitNitrogen>
       </soil>
     </area>
@@ -3366,34 +3431,43 @@
           </percentmethod>
         </InitWater>
         <InitNitrogen>
-          <layer name="1">
-            <no3>6.5</no3>
-            <nh4>0.6</nh4>
-          </layer>
-          <layer name="2">
-            <no3>2.1</no3>
-            <nh4>0.1</nh4>
-          </layer>
-          <layer name="3">
-            <no3>2.1</no3>
-            <nh4>0.1</nh4>
-          </layer>
-          <layer name="4">
-            <no3>1.7</no3>
-            <nh4>0.1</nh4>
-          </layer>
-          <layer name="5">
-            <no3>1.7</no3>
-            <nh4>0.1</nh4>
-          </layer>
-          <layer name="6">
-            <no3>1.7</no3>
-            <nh4>0.1</nh4>
-          </layer>
-          <layer name="7">
-            <no3>1.7</no3>
-            <nh4>0.1</nh4>
-          </layer>
+          <profile>
+            <layer>
+              <no3>6.500</no3>
+              <nh4>0.600</nh4>
+              <thickness>150</thickness>
+            </layer>
+            <layer>
+              <no3>2.100</no3>
+              <nh4>0.100</nh4>
+              <thickness>150</thickness>
+            </layer>
+            <layer>
+              <no3>2.100</no3>
+              <nh4>0.100</nh4>
+              <thickness>300</thickness>
+            </layer>
+            <layer>
+              <no3>1.700</no3>
+              <nh4>0.100</nh4>
+              <thickness>300</thickness>
+            </layer>
+            <layer>
+              <no3>1.700</no3>
+              <nh4>0.100</nh4>
+              <thickness>300</thickness>
+            </layer>
+            <layer>
+              <no3>1.700</no3>
+              <nh4>0.100</nh4>
+              <thickness>300</thickness>
+            </layer>
+            <layer>
+              <no3>1.700</no3>
+              <nh4>0.100</nh4>
+              <thickness>300</thickness>
+            </layer>
+          </profile>
         </InitNitrogen>
       </soil>
     </area>
@@ -5293,34 +5367,43 @@ set simName "Rotation Sample 2"
           </percentmethod>
         </InitWater>
         <InitNitrogen>
-          <layer name="1">
-            <no3>6.5</no3>
-            <nh4>0.6</nh4>
-          </layer>
-          <layer name="2">
-            <no3>2.1</no3>
-            <nh4>0.1</nh4>
-          </layer>
-          <layer name="3">
-            <no3>2.1</no3>
-            <nh4>0.1</nh4>
-          </layer>
-          <layer name="4">
-            <no3>1.7</no3>
-            <nh4>0.1</nh4>
-          </layer>
-          <layer name="5">
-            <no3>1.7</no3>
-            <nh4>0.1</nh4>
-          </layer>
-          <layer name="6">
-            <no3>1.7</no3>
-            <nh4>0.1</nh4>
-          </layer>
-          <layer name="7">
-            <no3>1.7</no3>
-            <nh4>0.1</nh4>
-          </layer>
+          <profile>
+            <layer>
+              <no3>6.500</no3>
+              <nh4>0.600</nh4>
+              <thickness>150</thickness>
+            </layer>
+            <layer>
+              <no3>2.100</no3>
+              <nh4>0.100</nh4>
+              <thickness>150</thickness>
+            </layer>
+            <layer>
+              <no3>2.100</no3>
+              <nh4>0.100</nh4>
+              <thickness>300</thickness>
+            </layer>
+            <layer>
+              <no3>1.700</no3>
+              <nh4>0.100</nh4>
+              <thickness>300</thickness>
+            </layer>
+            <layer>
+              <no3>1.700</no3>
+              <nh4>0.100</nh4>
+              <thickness>300</thickness>
+            </layer>
+            <layer>
+              <no3>1.700</no3>
+              <nh4>0.100</nh4>
+              <thickness>300</thickness>
+            </layer>
+            <layer>
+              <no3>1.700</no3>
+              <nh4>0.100</nh4>
+              <thickness>300</thickness>
+            </layer>
+          </profile>
         </InitNitrogen>
       </soil>
     </area>
@@ -6414,85 +6497,111 @@ set simName "Rotation Sample 2"
       <EnrBCoeff>0.2</EnrBCoeff>
       <WaterFormat>VolumetricPercent</WaterFormat>
       <InitWater>
-        <layer name="1">
-          <sw>0.54</sw>
-        </layer>
-        <layer name="2">
-          <sw>0.53</sw>
-        </layer>
-        <layer name="3">
-          <sw>0.54</sw>
-        </layer>
-        <layer name="4">
-          <sw>0.54</sw>
-        </layer>
-        <layer name="5">
-          <sw>0.52</sw>
-        </layer>
-        <layer name="6">
-          <sw>0.5</sw>
-        </layer>
-        <layer name="7">
-          <sw>0.5</sw>
-        </layer>
-        <layer name="8">
-          <sw>0.48</sw>
-        </layer>
-        <layer name="9">
-          <sw>0.47</sw>
-        </layer>
-        <layer name="10">
-          <sw>0.46</sw>
-        </layer>
-        <layer name="11">
-          <sw>0.44</sw>
-        </layer>
+        <profile>
+          <layer>
+            <sw>0.540</sw>
+            <thickness>150</thickness>
+          </layer>
+          <layer>
+            <sw>0.530</sw>
+            <thickness>150</thickness>
+          </layer>
+          <layer>
+            <sw>0.540</sw>
+            <thickness>300</thickness>
+          </layer>
+          <layer>
+            <sw>0.540</sw>
+            <thickness>300</thickness>
+          </layer>
+          <layer>
+            <sw>0.520</sw>
+            <thickness>300</thickness>
+          </layer>
+          <layer>
+            <sw>0.500</sw>
+            <thickness>300</thickness>
+          </layer>
+          <layer>
+            <sw>0.500</sw>
+            <thickness>300</thickness>
+          </layer>
+          <layer>
+            <sw>0.480</sw>
+            <thickness>300</thickness>
+          </layer>
+          <layer>
+            <sw>0.470</sw>
+            <thickness>300</thickness>
+          </layer>
+          <layer>
+            <sw>0.460</sw>
+            <thickness>300</thickness>
+          </layer>
+          <layer>
+            <sw>0.440</sw>
+            <thickness>300</thickness>
+          </layer>
+        </profile>
       </InitWater>
       <InitNitrogen>
-        <layer name="1">
-          <no3>6.5</no3>
-          <nh4>0.6</nh4>
-        </layer>
-        <layer name="2">
-          <no3>2.1</no3>
-          <nh4>0.1</nh4>
-        </layer>
-        <layer name="3">
-          <no3>2.1</no3>
-          <nh4>0.1</nh4>
-        </layer>
-        <layer name="4">
-          <no3>1.7</no3>
-          <nh4>0.1</nh4>
-        </layer>
-        <layer name="5">
-          <no3>1.7</no3>
-          <nh4>0.1</nh4>
-        </layer>
-        <layer name="6">
-          <no3>1.7</no3>
-          <nh4>0.1</nh4>
-        </layer>
-        <layer name="7">
-          <no3>1.7</no3>
-          <nh4>0.1</nh4>
-        </layer>
-        <layer name="8">
-          <no3>1.7</no3>
-          <nh4>0.1</nh4>
-        </layer>
-        <layer name="9">
-          <no3>1.7</no3>
-          <nh4>0.1</nh4>
-        </layer>
-        <layer name="10">
-          <no3>1.7</no3>
-          <nh4>0.1</nh4>
-        </layer>
-        <layer name="11">
-          <no3>1.7</no3>
-          <nh4>0.1</nh4>
-        </layer>
+        <profile>
+          <layer>
+            <no3>6.500</no3>
+            <nh4>0.600</nh4>
+            <thickness>150</thickness>
+          </layer>
+          <layer>
+            <no3>2.100</no3>
+            <nh4>0.100</nh4>
+            <thickness>150</thickness>
+          </layer>
+          <layer>
+            <no3>2.100</no3>
+            <nh4>0.100</nh4>
+            <thickness>300</thickness>
+          </layer>
+          <layer>
+            <no3>1.700</no3>
+            <nh4>0.100</nh4>
+            <thickness>300</thickness>
+          </layer>
+          <layer>
+            <no3>1.700</no3>
+            <nh4>0.100</nh4>
+            <thickness>300</thickness>
+          </layer>
+          <layer>
+            <no3>1.700</no3>
+            <nh4>0.100</nh4>
+            <thickness>300</thickness>
+          </layer>
+          <layer>
+            <no3>1.700</no3>
+            <nh4>0.100</nh4>
+            <thickness>300</thickness>
+          </layer>
+          <layer>
+            <no3>1.700</no3>
+            <nh4>0.100</nh4>
+            <thickness>300</thickness>
+          </layer>
+          <layer>
+            <no3>1.700</no3>
+            <nh4>0.100</nh4>
+            <thickness>300</thickness>
+          </layer>
+          <layer>
+            <no3>1.700</no3>
+            <nh4>0.100</nh4>
+            <thickness>300</thickness>
+          </layer>
+          <layer>
+            <no3>1.700</no3>
+            <nh4>0.100</nh4>
+            <thickness>300</thickness>
+          </layer>
+        </profile>
       </InitNitrogen>
     </soil>
   </simulation>
@@ -7129,46 +7238,58 @@ set simName "Rotation Sample 2"
         <EnrACoeff>7.4</EnrACoeff>
         <EnrBCoeff>0.2</EnrBCoeff>
         <InitNitrogen>
-          <layer name="1">
-            <no3>0.237</no3>
-            <nh4>0.194</nh4>
-          </layer>
-          <layer name="2">
-            <no3>0.712</no3>
-            <nh4>0.484</nh4>
-          </layer>
-          <layer name="3">
-            <no3>0.712</no3>
-            <nh4>0.290</nh4>
-          </layer>
-          <layer name="4">
-            <no3>0.554</no3>
-            <nh4>0.290</nh4>
-          </layer>
-          <layer name="5">
-            <no3>0.395</no3>
-            <nh4>0.290</nh4>
-          </layer>
-          <layer name="6">
-            <no3>0.395</no3>
-            <nh4>0.290</nh4>
-          </layer>
-          <layer name="7">
-            <no3>0.237</no3>
-            <nh4>0.290</nh4>
-          </layer>
-          <layer name="8">
-            <no3>0.237</no3>
-            <nh4>0.290</nh4>
-          </layer>
-          <layer name="9">
-            <no3>0.158</no3>
-            <nh4>0.290</nh4>
-          </layer>
-          <layer name="10">
-            <no3>0.079</no3>
-            <nh4>0.290</nh4>
-          </layer>
+          <profile>
+            <layer>
+              <no3>0.237</no3>
+              <nh4>0.194</nh4>
+              <thickness>100</thickness>
+            </layer>
+            <layer>
+              <no3>0.712</no3>
+              <nh4>0.484</nh4>
+              <thickness>100</thickness>
+            </layer>
+            <layer>
+              <no3>0.712</no3>
+              <nh4>0.290</nh4>
+              <thickness>100</thickness>
+            </layer>
+            <layer>
+              <no3>0.554</no3>
+              <nh4>0.290</nh4>
+              <thickness>200</thickness>
+            </layer>
+            <layer>
+              <no3>0.395</no3>
+              <nh4>0.290</nh4>
+              <thickness>200</thickness>
+            </layer>
+            <layer>
+              <no3>0.395</no3>
+              <nh4>0.290</nh4>
+              <thickness>200</thickness>
+            </layer>
+            <layer>
+              <no3>0.237</no3>
+              <nh4>0.290</nh4>
+              <thickness>200</thickness>
+            </layer>
+            <layer>
+              <no3>0.237</no3>
+              <nh4>0.290</nh4>
+              <thickness>200</thickness>
+            </layer>
+            <layer>
+              <no3>0.158</no3>
+              <nh4>0.290</nh4>
+              <thickness>200</thickness>
+            </layer>
+            <layer>
+              <no3>0.079</no3>
+              <nh4>0.290</nh4>
+              <thickness>200</thickness>
+            </layer>
+          </profile>
         </InitNitrogen>
         <InitWater>
           <PercentMethod>
@@ -8070,46 +8191,58 @@ set simName "Rotation Sample 2"
         <EnrACoeff>7.4</EnrACoeff>
         <EnrBCoeff>0.2</EnrBCoeff>
         <InitNitrogen>
-          <layer name="1">
-            <no3>0.237</no3>
-            <nh4>0.194</nh4>
-          </layer>
-          <layer name="2">
-            <no3>0.712</no3>
-            <nh4>0.484</nh4>
-          </layer>
-          <layer name="3">
-            <no3>0.712</no3>
-            <nh4>0.290</nh4>
-          </layer>
-          <layer name="4">
-            <no3>0.554</no3>
-            <nh4>0.290</nh4>
-          </layer>
-          <layer name="5">
-            <no3>0.395</no3>
-            <nh4>0.290</nh4>
-          </layer>
-          <layer name="6">
-            <no3>0.395</no3>
-            <nh4>0.290</nh4>
-          </layer>
-          <layer name="7">
-            <no3>0.237</no3>
-            <nh4>0.290</nh4>
-          </layer>
-          <layer name="8">
-            <no3>0.237</no3>
-            <nh4>0.290</nh4>
-          </layer>
-          <layer name="9">
-            <no3>0.158</no3>
-            <nh4>0.290</nh4>
-          </layer>
-          <layer name="10">
-            <no3>0.079</no3>
-            <nh4>0.290</nh4>
-          </layer>
+          <profile>
+            <layer>
+              <no3>0.237</no3>
+              <nh4>0.194</nh4>
+              <thickness>100</thickness>
+            </layer>
+            <layer>
+              <no3>0.712</no3>
+              <nh4>0.484</nh4>
+              <thickness>100</thickness>
+            </layer>
+            <layer>
+              <no3>0.712</no3>
+              <nh4>0.290</nh4>
+              <thickness>100</thickness>
+            </layer>
+            <layer>
+              <no3>0.554</no3>
+              <nh4>0.290</nh4>
+              <thickness>200</thickness>
+            </layer>
+            <layer>
+              <no3>0.395</no3>
+              <nh4>0.290</nh4>
+              <thickness>200</thickness>
+            </layer>
+            <layer>
+              <no3>0.395</no3>
+              <nh4>0.290</nh4>
+              <thickness>200</thickness>
+            </layer>
+            <layer>
+              <no3>0.237</no3>
+              <nh4>0.290</nh4>
+              <thickness>200</thickness>
+            </layer>
+            <layer>
+              <no3>0.237</no3>
+              <nh4>0.290</nh4>
+              <thickness>200</thickness>
+            </layer>
+            <layer>
+              <no3>0.158</no3>
+              <nh4>0.290</nh4>
+              <thickness>200</thickness>
+            </layer>
+            <layer>
+              <no3>0.079</no3>
+              <nh4>0.290</nh4>
+              <thickness>200</thickness>
+            </layer>
+          </profile>
         </InitNitrogen>
         <InitWater>
           <PercentMethod>
@@ -8827,30 +8960,38 @@ set simName "Rotation Sample 2"
         <EnrACoeff>7.4</EnrACoeff>
         <EnrBCoeff>0.2</EnrBCoeff>
         <InitNitrogen>
-          <layer name="1">
-            <no3>2</no3>
-            <nh4>1</nh4>
-          </layer>
-          <layer name="2">
-            <no3>1</no3>
-            <nh4>1</nh4>
-          </layer>
-          <layer name="3">
-            <no3>1</no3>
-            <nh4>1</nh4>
-          </layer>
-          <layer name="4">
-            <no3>1</no3>
-            <nh4>0.5</nh4>
-          </layer>
-          <layer name="5">
-            <no3>1</no3>
-            <nh4>0.5</nh4>
-          </layer>
-          <layer name="6">
-            <no3>1</no3>
-            <nh4>0.5</nh4>
-          </layer>
+          <profile>
+            <layer>
+              <no3>2</no3>
+              <nh4>1</nh4>
+              <thickness>150</thickness>
+            </layer>
+            <layer>
+              <no3>1</no3>
+              <nh4>1</nh4>
+              <thickness>150</thickness>
+            </layer>
+            <layer>
+              <no3>1</no3>
+              <nh4>1</nh4>
+              <thickness>300</thickness>
+            </layer>
+            <layer>
+              <no3>1</no3>
+              <nh4>0.500</nh4>
+              <thickness>300</thickness>
+            </layer>
+            <layer>
+              <no3>1</no3>
+              <nh4>0.500</nh4>
+              <thickness>300</thickness>
+            </layer>
+            <layer>
+              <no3>1</no3>
+              <nh4>0.500</nh4>
+              <thickness>300</thickness>
+            </layer>
+          </profile>
         </InitNitrogen>
         <Phosphorus>
           <layer name="1">
@@ -10199,46 +10340,58 @@ set simName "Rotation Sample 2"
         <EnrACoeff>7.4</EnrACoeff>
         <EnrBCoeff>0.2</EnrBCoeff>
         <InitNitrogen>
-          <layer name="1">
-            <no3>0.237</no3>
-            <nh4>0.194</nh4>
-          </layer>
-          <layer name="2">
-            <no3>0.712</no3>
-            <nh4>0.484</nh4>
-          </layer>
-          <layer name="3">
-            <no3>0.712</no3>
-            <nh4>0.290</nh4>
-          </layer>
-          <layer name="4">
-            <no3>0.554</no3>
-            <nh4>0.290</nh4>
-          </layer>
-          <layer name="5">
-            <no3>0.395</no3>
-            <nh4>0.290</nh4>
-          </layer>
-          <layer name="6">
-            <no3>0.395</no3>
-            <nh4>0.290</nh4>
-          </layer>
-          <layer name="7">
-            <no3>0.237</no3>
-            <nh4>0.290</nh4>
-          </layer>
-          <layer name="8">
-            <no3>0.237</no3>
-            <nh4>0.290</nh4>
-          </layer>
-          <layer name="9">
-            <no3>0.158</no3>
-            <nh4>0.290</nh4>
-          </layer>
-          <layer name="10">
-            <no3>0.079</no3>
-            <nh4>0.290</nh4>
-          </layer>
+          <profile>
+            <layer>
+              <no3>0.237</no3>
+              <nh4>0.194</nh4>
+              <thickness>100</thickness>
+            </layer>
+            <layer>
+              <no3>0.712</no3>
+              <nh4>0.484</nh4>
+              <thickness>100</thickness>
+            </layer>
+            <layer>
+              <no3>0.712</no3>
+              <nh4>0.290</nh4>
+              <thickness>100</thickness>
+            </layer>
+            <layer>
+              <no3>0.554</no3>
+              <nh4>0.290</nh4>
+              <thickness>200</thickness>
+            </layer>
+            <layer>
+              <no3>0.395</no3>
+              <nh4>0.290</nh4>
+              <thickness>200</thickness>
+            </layer>
+            <layer>
+              <no3>0.395</no3>
+              <nh4>0.290</nh4>
+              <thickness>200</thickness>
+            </layer>
+            <layer>
+              <no3>0.237</no3>
+              <nh4>0.290</nh4>
+              <thickness>200</thickness>
+            </layer>
+            <layer>
+              <no3>0.237</no3>
+              <nh4>0.290</nh4>
+              <thickness>200</thickness>
+            </layer>
+            <layer>
+              <no3>0.158</no3>
+              <nh4>0.290</nh4>
+              <thickness>200</thickness>
+            </layer>
+            <layer>
+              <no3>0.079</no3>
+              <nh4>0.290</nh4>
+              <thickness>200</thickness>
+            </layer>
+          </profile>
         </InitNitrogen>
         <InitWater>
           <PercentMethod>
