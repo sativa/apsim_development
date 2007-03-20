@@ -1299,11 +1299,11 @@ namespace Soils
                     Child.Type.ToLower() == "soilcrop")
                     UpgradeToNodeVersion7(Child, Data);
                 }
-            APSIMData DataParent = Data.Parent;
-            DataParent.DeleteByType("water");
-            DataParent.DeleteByType("nitrogen");
-            DataParent.DeleteByType("other");
-            DataParent.DeleteByType("soilcrop");
+            Data.DeleteByType("water");
+            Data.DeleteByType("nitrogen");
+            Data.DeleteByType("other");
+            Data.DeleteByType("soilcrop");
+            Data.DeleteByType("waterformat");
             }
         private void UpgradeToNodeVersion7(APSIMData Data, APSIMData Result)
             {

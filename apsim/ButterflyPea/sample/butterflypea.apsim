@@ -1,4 +1,4 @@
-<simulations name="untitled" version="7">
+<simulations name="untitled" version="8">
   <simulation name="Sample Butterfly pea Simulation">
     <clock name="clock">
       <start_date name="start_date" description="Select the start date of the simulation" type="date" lbound="1/01/1940" ubound="31/12/1989">1/01/1989</start_date>
@@ -76,102 +76,155 @@
         </events>
       </outputfile>
       <butterflypea />
-      <soil name="#063 - Roma Res Stn, Roma,Brown Vertosol">
+      <Soil name="#063 - Roma Res Stn, Roma,Brown Vertosol">
         <region>Maranoa</region>
         <site>Roma Res Stn, Roma</site>
         <nearesttown>Roma, Q 4455</nearesttown>
         <DataSource>Data provided by B Robinson, S Cawley, G Thomas, extracted from ESD; estimated OC (WB*1.3); estimated pH; unknown EC, Cl</DataSource>
         <naturalvegetation>Mitchell grass, scattered Poplar Box</naturalvegetation>
+        <InitWater>
+          <profile>
+            <layer>
+              <sw>0.380</sw>
+              <thickness>100</thickness>
+            </layer>
+            <layer>
+              <sw>0.260</sw>
+              <thickness>100</thickness>
+            </layer>
+            <layer>
+              <sw>0.250</sw>
+              <thickness>200</thickness>
+            </layer>
+            <layer>
+              <sw>0.262</sw>
+              <thickness>200</thickness>
+            </layer>
+            <layer>
+              <sw>0.280</sw>
+              <thickness>100</thickness>
+            </layer>
+          </profile>
+        </InitWater>
+        <InitNitrogen>
+          <profile>
+            <layer>
+              <no3>6.500</no3>
+              <nh4>0.600</nh4>
+              <thickness>100</thickness>
+            </layer>
+            <layer>
+              <no3>2.100</no3>
+              <nh4>0.100</nh4>
+              <thickness>100</thickness>
+            </layer>
+            <layer>
+              <no3>2.100</no3>
+              <nh4>0.100</nh4>
+              <thickness>200</thickness>
+            </layer>
+            <layer>
+              <no3>1.700</no3>
+              <nh4>0.100</nh4>
+              <thickness>200</thickness>
+            </layer>
+            <layer>
+              <no3>1.700</no3>
+              <nh4>0.100</nh4>
+              <thickness>100</thickness>
+            </layer>
+          </profile>
+        </InitNitrogen>
         <profile>
           <layer>
             <thickness>100</thickness>
-            <bd>1.29</bd>
-            <ll15>0.2</ll15>
-            <airdry>0.1</airdry>
-            <dul>0.4</dul>
-            <sat>0.48</sat>
-            <swcon>0.3</swcon>
+            <bd>1.290</bd>
+            <ll15>0.200</ll15>
+            <airdry>0.100</airdry>
+            <dul>0.400</dul>
+            <sat>0.480</sat>
+            <swcon>0.300</swcon>
             <fbiom>0.035</fbiom>
-            <finert>0.4</finert>
-            <oc>1.19</oc>
-            <ph>8.2</ph>
+            <finert>0.400</finert>
+            <oc>1.190</oc>
+            <ph>8.200</ph>
             <ec>0</ec>
             <cl>0</cl>
-            <ll name="Butterflypea">0.2</ll>
+            <ll name="Butterflypea">0.200</ll>
             <xf name="Butterflypea">1</xf>
-            <kl name="Butterflypea">0.08</kl>
+            <kl name="Butterflypea">0.080</kl>
           </layer>
           <layer>
             <thickness>100</thickness>
-            <bd>1.32</bd>
-            <ll15>0.22</ll15>
+            <bd>1.320</bd>
+            <ll15>0.220</ll15>
             <airdry>0.198</airdry>
-            <dul>0.41</dul>
-            <sat>0.47</sat>
-            <swcon>0.3</swcon>
-            <fbiom>0.02</fbiom>
-            <finert>0.6</finert>
-            <oc>1.01</oc>
-            <ph>8.5</ph>
+            <dul>0.410</dul>
+            <sat>0.470</sat>
+            <swcon>0.300</swcon>
+            <fbiom>0.020</fbiom>
+            <finert>0.600</finert>
+            <oc>1.010</oc>
+            <ph>8.500</ph>
             <ec>0</ec>
             <cl>0</cl>
-            <ll name="Butterflypea">0.22</ll>
+            <ll name="Butterflypea">0.220</ll>
             <xf name="Butterflypea">1</xf>
-            <kl name="Butterflypea">0.08</kl>
+            <kl name="Butterflypea">0.080</kl>
           </layer>
           <layer>
             <thickness>200</thickness>
-            <bd>1.32</bd>
-            <ll15>0.24</ll15>
-            <airdry>0.24</airdry>
-            <dul>0.42</dul>
-            <sat>0.47</sat>
-            <swcon>0.3</swcon>
+            <bd>1.320</bd>
+            <ll15>0.240</ll15>
+            <airdry>0.240</airdry>
+            <dul>0.420</dul>
+            <sat>0.470</sat>
+            <swcon>0.300</swcon>
             <fbiom>0.015</fbiom>
-            <finert>0.8</finert>
-            <oc>0.45</oc>
-            <ph>8.6</ph>
+            <finert>0.800</finert>
+            <oc>0.450</oc>
+            <ph>8.600</ph>
             <ec>0</ec>
             <cl>0</cl>
-            <ll name="Butterflypea">0.24</ll>
+            <ll name="Butterflypea">0.240</ll>
             <xf name="Butterflypea">1</xf>
-            <kl name="Butterflypea">0.08</kl>
+            <kl name="Butterflypea">0.080</kl>
           </layer>
           <layer>
             <thickness>200</thickness>
-            <bd>1.33</bd>
-            <ll15>0.26</ll15>
-            <airdry>0.26</airdry>
-            <dul>0.42</dul>
-            <sat>0.47</sat>
-            <swcon>0.3</swcon>
+            <bd>1.330</bd>
+            <ll15>0.260</ll15>
+            <airdry>0.260</airdry>
+            <dul>0.420</dul>
+            <sat>0.470</sat>
+            <swcon>0.300</swcon>
             <fbiom>0.015</fbiom>
-            <finert>0.9</finert>
-            <oc>0.3</oc>
-            <ph>8.6</ph>
+            <finert>0.900</finert>
+            <oc>0.300</oc>
+            <ph>8.600</ph>
             <ec>0</ec>
             <cl>0</cl>
-            <ll name="Butterflypea">0.26</ll>
+            <ll name="Butterflypea">0.260</ll>
             <xf name="Butterflypea">1</xf>
-            <kl name="Butterflypea">0.08</kl>
+            <kl name="Butterflypea">0.080</kl>
           </layer>
           <layer>
             <thickness>100</thickness>
-            <bd>1.39</bd>
-            <ll15>0.28</ll15>
-            <airdry>0.28</airdry>
-            <dul>0.4</dul>
-            <sat>0.45</sat>
-            <swcon>0.3</swcon>
-            <fbiom>0.01</fbiom>
-            <finert>0.95</finert>
-            <oc>0.2</oc>
-            <ph>7.4</ph>
+            <bd>1.390</bd>
+            <ll15>0.280</ll15>
+            <airdry>0.280</airdry>
+            <dul>0.400</dul>
+            <sat>0.450</sat>
+            <swcon>0.300</swcon>
+            <fbiom>0.010</fbiom>
+            <finert>0.950</finert>
+            <oc>0.200</oc>
+            <ph>7.400</ph>
             <ec>0</ec>
             <cl>0</cl>
-            <ll name="Butterflypea">0.28</ll>
+            <ll name="Butterflypea">0.280</ll>
             <xf name="Butterflypea">1</xf>
-            <kl name="Butterflypea">0.05</kl>
+            <kl name="Butterflypea">0.050</kl>
           </layer>
         </profile>
         <U>6</U>
@@ -187,47 +240,7 @@
         <SoilCN>12.5</SoilCN>
         <EnrACoeff>7.4</EnrACoeff>
         <EnrBCoeff>0.2</EnrBCoeff>
-        <WaterFormat>VolumetricPercent</WaterFormat>
-        <InitWater>
-          <layer name="1">
-            <sw>0.38</sw>
-          </layer>
-          <layer name="2">
-            <sw>0.26</sw>
-          </layer>
-          <layer name="3">
-            <sw>0.25</sw>
-          </layer>
-          <layer name="4">
-            <sw>0.262</sw>
-          </layer>
-          <layer name="5">
-            <sw>0.28</sw>
-          </layer>
-        </InitWater>
-        <InitNitrogen>
-          <layer name="1">
-            <no3>6.5</no3>
-            <nh4>0.6</nh4>
-          </layer>
-          <layer name="2">
-            <no3>2.1</no3>
-            <nh4>0.1</nh4>
-          </layer>
-          <layer name="3">
-            <no3>2.1</no3>
-            <nh4>0.1</nh4>
-          </layer>
-          <layer name="4">
-            <no3>1.7</no3>
-            <nh4>0.1</nh4>
-          </layer>
-          <layer name="5">
-            <no3>1.7</no3>
-            <nh4>0.1</nh4>
-          </layer>
-        </InitNitrogen>
-      </soil>
+      </Soil>
     </area>
   </simulation>
   <shared name="shared" />

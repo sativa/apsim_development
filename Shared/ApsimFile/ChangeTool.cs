@@ -74,7 +74,7 @@ namespace ApsimFile
 			foreach (string ChildName in ChildNames)
 				{
                 APSIMData Child = Data.Child(ChildName);
-                if (Child != null)
+                if (Child != null && !Child.AttributeExists("shortcut"))
                     {
                     if (Child.Type.ToLower() == "area"
                        || Child.Type.ToLower() == "paddock"
@@ -298,7 +298,10 @@ namespace ApsimFile
                     {
                     string text = script.Value;
                     script.Value = "";
-                    script.set_ChildValue("event", script.Name);
+                    string eventName = script.Name;
+                    eventName = eventName.Replace("startofday", "start_of_day");
+                    eventName = eventName.Replace("endofday", "end_of_day");
+                    script.set_ChildValue("event", eventName);
                     script.set_ChildValue("text", text);
                     script.DeleteAttribute("name");
                     }
