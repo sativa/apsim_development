@@ -134,7 +134,7 @@ Component     "barley" = c:\development\apsim\plant\lib\plant.dll
      Manager rules:
      
      SECTION:- init
-       sd = 0
+      sd = 0
      
      SECTION:- start_of_day
      
@@ -412,10 +412,10 @@ Component     "barley" = c:\development\apsim\plant\lib\plant.dll
 7 October 1990(Day of year=280), Manager: 
      Manager sending message :- barley harvest
      
-      flowering day          =  224                           stover (kg/ha)         =    13689.0
-      maturity day           =  279                           grain yield (kg/ha)    =     3529.2
+      flowering day          =  224                           stover (kg/ha)         =    13689.1
+      maturity day           =  279                           grain yield (kg/ha)    =     3529.1
       grain % water content  =   12.5                         grain yield wet (kg/ha)=     4033.3
-      grain wt (g)           =    0.040                       grains/m^2             =   8856.632
+      grain wt (g)           =    0.040                       grains/m^2             =   8856.623
       grains/plant           =   88.6                         maximum lai            =      6.181
       total above ground biomass (kg/ha)    =    17218.2
       live above ground biomass (kg/ha)     =    17218.2
@@ -439,11 +439,11 @@ Component     "barley" = c:\development\apsim\plant\lib\plant.dll
      
      Crop harvested.
          Organic matter from crop:-      Tops to surface residue      Roots to soil FOM
-                          DM (kg/ha) =               13688.85                    0.00
+                          DM (kg/ha) =               13688.88                    0.00
                           N  (kg/ha) =                 45.94                    0.00
      
          Organic matter removed from system:-      From Tops               From Roots
-                          DM (kg/ha) =               3529.17                    0.00
+                          DM (kg/ha) =               3529.13                    0.00
                           N  (kg/ha) =                 70.80                    0.00
      
       stage 4.0 end_of_juvenile
@@ -452,7 +452,7 @@ Component     "barley" = c:\development\apsim\plant\lib\plant.dll
      Manager sending message :- barley end_crop
      Crop ended. Yield (dw) =     0.0  (kg/ha)
          Organic matter from crop:-      Tops to surface residue      Roots to soil FOM
-                          DM (kg/ha) =                  0.19                 1466.11
+                          DM (kg/ha) =                  0.19                 1466.10
                           N  (kg/ha) =                  0.01                   23.73
      
 23 October 1990(Day of year=296), clock: 
