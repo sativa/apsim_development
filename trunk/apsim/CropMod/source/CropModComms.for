@@ -3582,19 +3582,19 @@ c    :             - g%N_dead(root) - g%N_dead(grain))
      :                 //'Roots to soil FOM')
 
          write (string,'(a45, f10.2, f24.2)')
-     :                  'DM (kg/ha) =               '
+     :                  'DM (kg/ha) =            '
      :                  , dm_residue * gm2kg /sm2ha
      :                  , dm_root * gm2kg /sm2ha
          call write_string ( string)
 
          write (string,'(a45, f10.2 f24.2)')
-     :                  'N  (kg/ha) =               '
+     :                  'N  (kg/ha) =            '
      :                  , N_residue * gm2kg /sm2ha
      :                  , N_root * gm2kg /sm2ha
          call write_string ( string)
 
          write (string,'(a45, f10.2 f24.2)')
-     :                  'P  (kg/ha) =               '
+     :                  'P  (kg/ha) =            '
      :                  , P_residue * gm2kg /sm2ha
      :                  , P_root * gm2kg /sm2ha
          call write_string ( string)
