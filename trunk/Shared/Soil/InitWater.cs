@@ -61,7 +61,12 @@ namespace Soils
 
         public double[] Thickness
             {
-            get { return Utility.getLayered(Data, "profile", "thickness", ""); }
+            get {
+                if (Method == MethodType.Layered)
+                    return Utility.getLayered(Data, "profile", "thickness", "");
+                else
+                    return ParentSoil.Thickness;
+                }
             set { Utility.setLayered(Data, "profile", "thickness", "", value); }
             }
 		public double[] SW
@@ -160,7 +165,7 @@ namespace Soils
             // Set water via the percent method.
             // ----------------------------------
             Data.DeleteByType("DepthWetSoilMethod");
-            Data.DeleteByType("layer");
+            Data.DeleteByType("profile");
 			double Prop = Percent / 100.0;
 			Data.set_ChildValue("PercentMethod\\Percent", Prop.ToString("f2"));
 			string Distributed = "Filled from top";
@@ -174,7 +179,7 @@ namespace Soils
             // Set water via the depth wet soil method.
             // ----------------------------------
             Data.DeleteByType("PercentMethod");
-            Data.DeleteByType("layer");
+            Data.DeleteByType("profile");
             Data.set_ChildValue("DepthWetSoilMethod\\Depth", Depth.ToString());
 			}
 		public void SetUsingLayered(double[] sw)

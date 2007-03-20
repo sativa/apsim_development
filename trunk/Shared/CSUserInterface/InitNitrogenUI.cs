@@ -14,9 +14,7 @@ namespace CSUserInterface
 	public class InitNitrogenUI : BaseView
 		{
 		private System.ComponentModel.IContainer components = null;
-		private System.Windows.Forms.Panel panel1;
-		private FarPoint.Win.Spread.FpSpread Grid;
-		private FarPoint.Win.Spread.SheetView NitrogenGrid;
+        private System.Windows.Forms.Panel panel1;
 		private bool UserChange = true;
         private InitNitrogen InitialNitrogen = null;
         public Steema.TeeChart.TChart NitrogenChart;
@@ -24,6 +22,16 @@ namespace CSUserInterface
         private Steema.TeeChart.Styles.Line Nh4PpmLine;
         private Steema.TeeChart.Styles.Line Nh4KgHaLine;
         private Steema.TeeChart.Styles.Line No3PpmLine;
+        private Panel LeftHandPanel;
+        private FarPoint.Win.Spread.FpSpread Grid;
+        private FarPoint.Win.Spread.SheetView NitrogenGrid;
+        private Panel panel3;
+        private Label label4;
+        private TextBox TotalNH4;
+        private Label label3;
+        private TextBox TotalNO3;
+        private Label label2;
+        private Label label1;
 		private Soil SoilData;
 
 		#region Constructor / Destructor
@@ -62,17 +70,27 @@ namespace CSUserInterface
         this.Nh4KgHaLine = new Steema.TeeChart.Styles.Line();
         this.No3PpmLine = new Steema.TeeChart.Styles.Line();
         this.Nh4PpmLine = new Steema.TeeChart.Styles.Line();
+        this.LeftHandPanel = new System.Windows.Forms.Panel();
         this.Grid = new FarPoint.Win.Spread.FpSpread();
         this.NitrogenGrid = new FarPoint.Win.Spread.SheetView();
+        this.panel3 = new System.Windows.Forms.Panel();
+        this.label1 = new System.Windows.Forms.Label();
+        this.label2 = new System.Windows.Forms.Label();
+        this.TotalNO3 = new System.Windows.Forms.TextBox();
+        this.label3 = new System.Windows.Forms.Label();
+        this.label4 = new System.Windows.Forms.Label();
+        this.TotalNH4 = new System.Windows.Forms.TextBox();
         this.panel1.SuspendLayout();
+        this.LeftHandPanel.SuspendLayout();
         ((System.ComponentModel.ISupportInitialize)(this.Grid)).BeginInit();
         ((System.ComponentModel.ISupportInitialize)(this.NitrogenGrid)).BeginInit();
+        this.panel3.SuspendLayout();
         this.SuspendLayout();
         // 
         // panel1
         // 
         this.panel1.Controls.Add(this.NitrogenChart);
-        this.panel1.Controls.Add(this.Grid);
+        this.panel1.Controls.Add(this.LeftHandPanel);
         this.panel1.Dock = System.Windows.Forms.DockStyle.Fill;
         this.panel1.Location = new System.Drawing.Point(0, 40);
         this.panel1.Name = "panel1";
@@ -431,7 +449,7 @@ namespace CSUserInterface
         // 
         // 
         this.NitrogenChart.Legend.Title.Shadow.Visible = false;
-        this.NitrogenChart.Location = new System.Drawing.Point(319, 0);
+        this.NitrogenChart.Location = new System.Drawing.Point(322, 0);
         this.NitrogenChart.Name = "NitrogenChart";
         // 
         // 
@@ -456,7 +474,7 @@ namespace CSUserInterface
         this.NitrogenChart.Series.Add(this.Nh4KgHaLine);
         this.NitrogenChart.Series.Add(this.No3PpmLine);
         this.NitrogenChart.Series.Add(this.Nh4PpmLine);
-        this.NitrogenChart.Size = new System.Drawing.Size(589, 725);
+        this.NitrogenChart.Size = new System.Drawing.Size(586, 725);
         // 
         // 
         // 
@@ -742,19 +760,29 @@ namespace CSUserInterface
         // 
         this.Nh4PpmLine.YValues.DataMember = "Y";
         // 
+        // LeftHandPanel
+        // 
+        this.LeftHandPanel.Controls.Add(this.Grid);
+        this.LeftHandPanel.Controls.Add(this.panel3);
+        this.LeftHandPanel.Dock = System.Windows.Forms.DockStyle.Left;
+        this.LeftHandPanel.Location = new System.Drawing.Point(0, 0);
+        this.LeftHandPanel.Name = "LeftHandPanel";
+        this.LeftHandPanel.Size = new System.Drawing.Size(322, 725);
+        this.LeftHandPanel.TabIndex = 39;
+        // 
         // Grid
         // 
-        this.Grid.AccessibleDescription = "";
+        this.Grid.AccessibleDescription = "Grid, Sheet1, Row 0, Column 0, ";
         this.Grid.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-        this.Grid.Dock = System.Windows.Forms.DockStyle.Left;
+        this.Grid.Dock = System.Windows.Forms.DockStyle.Fill;
         this.Grid.EditModeReplace = true;
         this.Grid.HorizontalScrollBarPolicy = FarPoint.Win.Spread.ScrollBarPolicy.AsNeeded;
-        this.Grid.Location = new System.Drawing.Point(0, 0);
+        this.Grid.Location = new System.Drawing.Point(0, 68);
         this.Grid.Name = "Grid";
         this.Grid.Sheets.AddRange(new FarPoint.Win.Spread.SheetView[] {
             this.NitrogenGrid});
-        this.Grid.Size = new System.Drawing.Size(319, 725);
-        this.Grid.TabIndex = 36;
+        this.Grid.Size = new System.Drawing.Size(322, 657);
+        this.Grid.TabIndex = 37;
         tipAppearance1.BackColor = System.Drawing.SystemColors.Info;
         tipAppearance1.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
         tipAppearance1.ForeColor = System.Drawing.SystemColors.InfoText;
@@ -782,7 +810,7 @@ namespace CSUserInterface
         this.NitrogenGrid.Columns.Get(0).BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(224)))), ((int)(((byte)(224)))), ((int)(((byte)(224)))));
         this.NitrogenGrid.Columns.Get(0).HorizontalAlignment = FarPoint.Win.Spread.CellHorizontalAlignment.Right;
         this.NitrogenGrid.Columns.Get(0).Label = "(cm)";
-        this.NitrogenGrid.Columns.Get(0).Locked = true;
+        this.NitrogenGrid.Columns.Get(0).Locked = false;
         numberCellType1.DecimalPlaces = 3;
         this.NitrogenGrid.Columns.Get(1).CellType = numberCellType1;
         this.NitrogenGrid.Columns.Get(1).HorizontalAlignment = FarPoint.Win.Spread.CellHorizontalAlignment.Right;
@@ -805,6 +833,72 @@ namespace CSUserInterface
         this.NitrogenGrid.CellChanged += new FarPoint.Win.Spread.SheetViewEventHandler(this.NitrogenGrid_CellChanged);
         this.NitrogenGrid.ReferenceStyle = FarPoint.Win.Spread.Model.ReferenceStyle.A1;
         // 
+        // panel3
+        // 
+        this.panel3.Controls.Add(this.label4);
+        this.panel3.Controls.Add(this.TotalNH4);
+        this.panel3.Controls.Add(this.label3);
+        this.panel3.Controls.Add(this.TotalNO3);
+        this.panel3.Controls.Add(this.label2);
+        this.panel3.Controls.Add(this.label1);
+        this.panel3.Dock = System.Windows.Forms.DockStyle.Top;
+        this.panel3.Location = new System.Drawing.Point(0, 0);
+        this.panel3.Name = "panel3";
+        this.panel3.Size = new System.Drawing.Size(322, 68);
+        this.panel3.TabIndex = 38;
+        // 
+        // label1
+        // 
+        this.label1.AutoSize = true;
+        this.label1.Location = new System.Drawing.Point(17, 18);
+        this.label1.Name = "label1";
+        this.label1.Size = new System.Drawing.Size(59, 13);
+        this.label1.TabIndex = 0;
+        this.label1.Text = "Total NO3:";
+        // 
+        // label2
+        // 
+        this.label2.AutoSize = true;
+        this.label2.Location = new System.Drawing.Point(157, 18);
+        this.label2.Name = "label2";
+        this.label2.Size = new System.Drawing.Size(59, 13);
+        this.label2.TabIndex = 1;
+        this.label2.Text = "Total NH4:";
+        // 
+        // TotalNO3
+        // 
+        this.TotalNO3.Location = new System.Drawing.Point(20, 34);
+        this.TotalNO3.Name = "TotalNO3";
+        this.TotalNO3.Size = new System.Drawing.Size(56, 20);
+        this.TotalNO3.TabIndex = 2;
+        this.TotalNO3.TextChanged += new System.EventHandler(this.TotalNO3_TextChanged);
+        // 
+        // label3
+        // 
+        this.label3.AutoSize = true;
+        this.label3.Location = new System.Drawing.Point(82, 37);
+        this.label3.Name = "label3";
+        this.label3.Size = new System.Drawing.Size(36, 13);
+        this.label3.TabIndex = 3;
+        this.label3.Text = "kg/ha";
+        // 
+        // label4
+        // 
+        this.label4.AutoSize = true;
+        this.label4.Location = new System.Drawing.Point(222, 37);
+        this.label4.Name = "label4";
+        this.label4.Size = new System.Drawing.Size(36, 13);
+        this.label4.TabIndex = 5;
+        this.label4.Text = "kg/ha";
+        // 
+        // TotalNH4
+        // 
+        this.TotalNH4.Location = new System.Drawing.Point(160, 34);
+        this.TotalNH4.Name = "TotalNH4";
+        this.TotalNH4.Size = new System.Drawing.Size(56, 20);
+        this.TotalNH4.TabIndex = 4;
+        this.TotalNH4.TextChanged += new System.EventHandler(this.TotalNH4_TextChanged);
+        // 
         // InitNitrogenUI
         // 
         this.Controls.Add(this.panel1);
@@ -812,8 +906,11 @@ namespace CSUserInterface
         this.Size = new System.Drawing.Size(908, 765);
         this.Controls.SetChildIndex(this.panel1, 0);
         this.panel1.ResumeLayout(false);
+        this.LeftHandPanel.ResumeLayout(false);
         ((System.ComponentModel.ISupportInitialize)(this.Grid)).EndInit();
         ((System.ComponentModel.ISupportInitialize)(this.NitrogenGrid)).EndInit();
+        this.panel3.ResumeLayout(false);
+        this.panel3.PerformLayout();
         this.ResumeLayout(false);
 
 		}
@@ -833,30 +930,26 @@ namespace CSUserInterface
 			InputMap.Put(new FarPoint.Win.Spread.Keystroke(Keys.Delete, Keys.None), 
 							FarPoint.Win.Spread.SpreadActions.ClipboardCut); 
 			InputMap.Put(new FarPoint.Win.Spread.Keystroke(Keys.Enter, Keys.None), 
-							FarPoint.Win.Spread.SpreadActions.MoveToNextRow); 
+							FarPoint.Win.Spread.SpreadActions.MoveToNextRow);
 
-			PopulateGrid();
-			UpdateGraph();
+            PopulateEditBoxes(); // this will then cause TextChanged events on the edit boxes.
 			}
+
+        private void PopulateEditBoxes()
+            {
+            TotalNO3.Text = InitialNitrogen.TotalNO3KgHa.ToString("f3");
+            TotalNH4.Text = InitialNitrogen.TotalNH4KgHa.ToString("f3");
+            }
 
 		private void PopulateGrid()
 			{
 			UserChange = false;
-			GridUtils.SetColumnAsStrings(NitrogenGrid, 0, Soils.Utility.ToDepthStrings(SoilData.Thickness));
+            GridUtils.SetColumnAsStrings(NitrogenGrid, 0, Soils.Utility.ToDepthStrings(InitialNitrogen.Thickness));
 			GridUtils.SetColumnAsDoubles(NitrogenGrid, 1, InitialNitrogen.NO3KgHa);
 			GridUtils.SetColumnAsDoubles(NitrogenGrid, 2, InitialNitrogen.NH4KgHa);
 			GridUtils.SetColumnAsDoubles(NitrogenGrid, 3, InitialNitrogen.NO3);
 			GridUtils.SetColumnAsDoubles(NitrogenGrid, 4, InitialNitrogen.NH4);
-			NitrogenGrid.RowCount = SoilData.Thickness.Length+1;
-
-			int SummaryRow = NitrogenGrid.RowCount-1;
-			NitrogenGrid.Cells[SummaryRow, 0].Value = "Totals:";
-			NitrogenGrid.Cells[SummaryRow, 1].Value = InitialNitrogen.TotalNO3KgHa;
-			NitrogenGrid.Cells[SummaryRow, 2].Value = InitialNitrogen.TotalNH4KgHa;
-			NitrogenGrid.Cells[SummaryRow, 0, SummaryRow, 2].BackColor = Color.Yellow;
-			NitrogenGrid.Cells[SummaryRow, 3, SummaryRow, 4].Locked = true;
-
-			UserChange = true;
+    		UserChange = true;
 			}
 
 		private void NitrogenGrid_CellChanged(object sender, FarPoint.Win.Spread.SheetViewEventArgs e)
@@ -864,55 +957,41 @@ namespace CSUserInterface
 			if (UserChange)
 				{
 				UserChange = false;
-				int SummaryRow = NitrogenGrid.RowCount-1;
-
-				if (e.Row == SummaryRow)
-					if (e.Column == 1)
-						{
-						// User changed total no3
-						InitialNitrogen.TotalNO3KgHa = Convert.ToDouble(NitrogenGrid.Cells[e.Row, e.Column].Value);
-						GridUtils.SetColumnAsDoubles(NitrogenGrid, 1, InitialNitrogen.NO3KgHa);
-						GridUtils.SetColumnAsDoubles(NitrogenGrid, 3, InitialNitrogen.NO3);
-						}
-					else
-						{
-						// User changed total nh4
-						InitialNitrogen.TotalNH4KgHa = Convert.ToDouble(NitrogenGrid.Cells[e.Row, e.Column].Value);
-						GridUtils.SetColumnAsDoubles(NitrogenGrid, 2, InitialNitrogen.NH4KgHa);
-						GridUtils.SetColumnAsDoubles(NitrogenGrid, 4, InitialNitrogen.NH4);
-						}
-				else if (e.Column == 1)
+                int NumLayers = GridUtils.FindFirstBlankCell(NitrogenGrid, 0);
+                if (e.Column == 0)
+                    {
+                    // user changed depths
+                    InitialNitrogen.Thickness = Soils.Utility.ToThickness(GridUtils.GetColumnAsStrings(NitrogenGrid, 0, NumLayers));
+                    }
+                else if (e.Column == 1)
 					{
 					// user changed layered no3 (kg/ha)
-					double[] no3 = GridUtils.GetColumnAsDoubles(NitrogenGrid, 1, SoilData.Thickness.Length);
+                    double[] no3 = GridUtils.GetColumnAsDoubles(NitrogenGrid, 1, NumLayers);
 					InitialNitrogen.NO3KgHa = no3;
-					NitrogenGrid.Cells[SummaryRow, 1].Value = InitialNitrogen.TotalNO3KgHa;
 					GridUtils.SetColumnAsDoubles(NitrogenGrid, 3, InitialNitrogen.NO3);
 					}
 				else if (e.Column == 2)
 					{
 					// user changed layered nh4 (kg/ha)
-					double[] nh4 = GridUtils.GetColumnAsDoubles(NitrogenGrid, 2, SoilData.Thickness.Length);
+                    double[] nh4 = GridUtils.GetColumnAsDoubles(NitrogenGrid, 2, NumLayers);
 					InitialNitrogen.NH4KgHa = nh4;
-					NitrogenGrid.Cells[SummaryRow, 2].Value = InitialNitrogen.TotalNH4KgHa;
 					GridUtils.SetColumnAsDoubles(NitrogenGrid, 4, InitialNitrogen.NH4);
 					}
 				else if (e.Column == 3)
 					{
 					// user changed layered no3 (ppm)
-					double[] no3 = GridUtils.GetColumnAsDoubles(NitrogenGrid, 3, SoilData.Thickness.Length);
+                    double[] no3 = GridUtils.GetColumnAsDoubles(NitrogenGrid, 3, NumLayers);
 					InitialNitrogen.NO3 = no3;
 					GridUtils.SetColumnAsDoubles(NitrogenGrid, 1, InitialNitrogen.NO3KgHa);
-					NitrogenGrid.Cells[SummaryRow, 1].Value = InitialNitrogen.TotalNO3KgHa;
 					}
 				else if (e.Column == 4)
 					{
 					// user changed layered nh4 (ppm)
-					double[] nh4 = GridUtils.GetColumnAsDoubles(NitrogenGrid, 4, SoilData.Thickness.Length);
+                    double[] nh4 = GridUtils.GetColumnAsDoubles(NitrogenGrid, 4, NumLayers);
 					InitialNitrogen.NH4 = nh4;
 					GridUtils.SetColumnAsDoubles(NitrogenGrid, 2, InitialNitrogen.NH4KgHa);
-					NitrogenGrid.Cells[SummaryRow, 2].Value = InitialNitrogen.TotalNH4KgHa;
 					}
+                PopulateEditBoxes();
 				UpdateGraph();
 				UserChange = true;
 				}
@@ -920,7 +999,7 @@ namespace CSUserInterface
 		
 		private void UpdateGraph()
 			{
-            double[] CumThicknessMidPoints = MathUtility.Divide_Value(Soils.Utility.ToMidPoints(SoilData.Thickness), 10);
+            double[] CumThicknessMidPoints = MathUtility.Divide_Value(Soils.Utility.ToMidPoints(InitialNitrogen.Thickness), 10);
            
             No3KgHaLine.Add(InitialNitrogen.NO3KgHa, CumThicknessMidPoints);
             Nh4KgHaLine.Add(InitialNitrogen.NH4KgHa, CumThicknessMidPoints);
@@ -950,6 +1029,20 @@ namespace CSUserInterface
                 Nh4PpmLine.Active = true;
                 }
 
+            }
+
+        private void TotalNO3_TextChanged(object sender, EventArgs e)
+            {
+            InitialNitrogen.TotalNO3KgHa = Convert.ToDouble(TotalNO3.Text);
+            PopulateGrid();
+            UpdateGraph();
+            }
+
+        private void TotalNH4_TextChanged(object sender, EventArgs e)
+            {
+            InitialNitrogen.TotalNH4KgHa = Convert.ToDouble(TotalNH4.Text);
+            PopulateGrid();
+            UpdateGraph();
             }
 
 
