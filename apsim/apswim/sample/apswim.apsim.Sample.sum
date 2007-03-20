@@ -553,7 +553,7 @@ Component     "sysbal" = c:\development\apsim\sysbal\lib\sysbal.dll
                      stover N conc =     3.95 (%)    extractable sw =  259.04 (mm)
 25 December 1988(Day of year=360), maize: 
       stage    6.0 flag_leaf
-                          biomass =           614.6946       lai =     4.213145
+                          biomass =           614.6946       lai =     4.213144
                           stover N conc =    2.303756       extractable sw =    242.4679
 27 December 1988(Day of year=362), cowpea: 
       stage 5.0 floral_initiation
@@ -565,7 +565,7 @@ Component     "sysbal" = c:\development\apsim\sysbal\lib\sysbal.dll
                      stover N conc =     3.54 (%)    extractable sw =  227.54 (mm)
 31 December 1988(Day of year=366), maize: 
       stage    7.0 flowering
-                          biomass =           798.2438       lai =     4.078259
+                          biomass =           798.2437       lai =     4.078259
                           stover N conc =    2.028038       extractable sw =    206.4563
 4 January 1989(Day of year=4), cowpea: 
       stage 7.0 start_grain_fill
@@ -573,7 +573,7 @@ Component     "sysbal" = c:\development\apsim\sysbal\lib\sysbal.dll
                      stover N conc =     3.11 (%)    extractable sw =  190.07 (mm)
 10 January 1989(Day of year=10), maize: 
       stage    8.0 start_grain_fill
-                          biomass =           1075.627       lai =     3.746774
+                          biomass =           1075.627       lai =     3.746773
                           stover N conc =    1.572918       extractable sw =    163.9528
 22 January 1989(Day of year=22), cowpea: 
       stage 8.0 end_grain_fill
@@ -648,25 +648,25 @@ Component     "sysbal" = c:\development\apsim\sysbal\lib\sysbal.dll
                           N  (kg/ha) =                  0.00                   11.38
      
 24 January 1989(Day of year=24), sysbal: 
-      **** N balance - unaccounted gain (kg/ha) =  11.3843079
+      **** N balance - unaccounted gain (kg/ha) =  11.3838215
       **** C balance - unaccounted gain (kg/ha) =  303.337341
       ****        equivalent DM as FOM  (kg/ha) =  758.343323
 25 January 1989(Day of year=25), sysbal: 
-      **** N balance - unaccounted loss (kg/ha) =  -11.3848753
-      **** C balance - unaccounted loss (kg/ha) =  -303.328949
-      ****        equivalent DM as FOM  (kg/ha) =  -758.322388
+      **** N balance - unaccounted loss (kg/ha) =  -11.3846312
+      **** C balance - unaccounted loss (kg/ha) =  -303.336823
+      ****        equivalent DM as FOM  (kg/ha) =  -758.342041
 2 March 1989(Day of year=61), maize: 
       stage    9.0 end_grain_fill
-                          biomass =           1813.919       lai =     1.425129
-                          stover N conc =   0.9979391       extractable sw =    145.9004
+                          biomass =           1813.919       lai =     1.425128
+                          stover N conc =   0.9979393       extractable sw =    145.9003
 3 March 1989(Day of year=62), maize: 
       stage   10.0 maturity
-                          biomass =           1818.556       lai =     1.383556
-                          stover N conc =   0.9969415       extractable sw =    144.8782
+                          biomass =           1818.556       lai =     1.383555
+                          stover N conc =   0.9969419       extractable sw =    144.8782
 4 March 1989(Day of year=63), maize: 
       stage   11.0 harvest_ripe
-                          biomass =           1818.556       lai =    0.3801346E-02
-                          stover N conc =    1.011459       extractable sw =    144.4050
+                          biomass =           1818.556       lai =    0.3800869E-02
+                          stover N conc =    1.011459       extractable sw =    144.4049
 4 March 1989(Day of year=63), manager: 
      Manager sending message :- maize harvest
      
@@ -705,9 +705,9 @@ Component     "sysbal" = c:\development\apsim\sysbal\lib\sysbal.dll
      Manager sending message :- maize end_crop
          Crop ended. Yield (dw) =     0.0
          Organic matter from crop:-      Tops to surface residue     Roots to soil FOM
-                          DM (kg/ha) =               9104.77                 2427.41
-                          N  (kg/ha) =                 51.45                   22.52
-                          P  (kg/ha) =                  0.00                    0.00
+                       DM (kg/ha) =                  9104.77                 2427.41
+                       N  (kg/ha) =                    51.45                   22.52
+                       P  (kg/ha) =                     0.00                    0.00
      
 31 March 1989(Day of year=90), clock: 
      Simulation is terminating due to end criteria being met.
