@@ -11,14 +11,14 @@
 
 Version                = 5.3
 Title                  = Test report variables 1
-Component      "clock" = c:\data\apsim\development\apsim\clock\lib\clock.dll
-Component     "report" = c:\data\apsim\development\apsim\report\lib\report.dll
-Component        "met" = c:\data\apsim\development\apsim\input\lib\input.dll
-Component    "manager" = c:\data\apsim\development\apsim\manager\lib\manager.dll
-Component   "soilwat2" = c:\data\apsim\development\apsim\soilwat2\lib\soilwat2.dll
-Component  "SurfaceOM" = c:\data\apsim\development\apsim\SurfaceOM\lib\SurfaceOM.dll
-Component     "soiln2" = c:\data\apsim\development\apsim\soiln2\lib\soiln2.dll
-Component      "wheat" = c:\data\apsim\development\apsim\Plant\lib\Plant.dll
+Component      "clock" = c:\development\apsim\clock\lib\clock.dll
+Component     "report" = c:\development\apsim\report\lib\report.dll
+Component        "met" = c:\development\apsim\input\lib\input.dll
+Component    "manager" = c:\development\apsim\manager\lib\manager.dll
+Component   "soilwat2" = c:\development\apsim\soilwat2\lib\soilwat2.dll
+Component  "SurfaceOM" = c:\development\apsim\SurfaceOM\lib\SurfaceOM.dll
+Component     "soiln2" = c:\development\apsim\soiln2\lib\soiln2.dll
+Component      "wheat" = c:\development\apsim\Plant\lib\Plant.dll
 
 ------- clock Initialisation --------------------------------------------------
      Sequencer phases:
@@ -54,7 +54,7 @@ Component      "wheat" = c:\data\apsim\development\apsim\Plant\lib\Plant.dll
 
 ------- met Initialisation ----------------------------------------------------
      Sparse data is not allowed
-     INPUT File name: c:\data\apsim\development\apsim\met\sample\dalby.met
+     INPUT File name: c:\development\apsim\met\sample\dalby.met
 
 ------- manager Initialisation ------------------------------------------------
      Manager rules:
@@ -299,7 +299,7 @@ Component      "wheat" = c:\data\apsim\development\apsim\Plant\lib\Plant.dll
 30 December 1988(Day of year=365), wheat: 
      Crop ended. Yield (dw) =  3069.5  (kg/ha)
          Organic matter from crop:-      Tops to surface residue      Roots to soil FOM
-                          DM (kg/ha) =               7855.38                 1353.90
+                          DM (kg/ha) =               7855.35                 1353.90
                           N  (kg/ha) =                 86.09                   21.66
      
 26 October 1989(Day of year=299), clock: 
