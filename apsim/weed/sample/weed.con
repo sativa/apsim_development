@@ -42,4 +42,4 @@ module = soiln2         %apsuite/apsim/soiln2/sample/soiln2.par[black_earth]    
 module = canopy         weed.par[sorghum_weed]
 module = sorghum        weed.par [sample_sorghum] %apsuite/apsim/sorghum/sorghum.ini [standard]
 module = Plant(weed)           weed.par[sample_weed] %apsuite/apsim/weed/weed.ini[standard]
-module = sysbal
+!module = sysbal
