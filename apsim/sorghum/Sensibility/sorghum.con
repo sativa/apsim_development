@@ -11,7 +11,7 @@ module = SurfaceOM   %apsuite/apsim/SurfaceOM/sample/SurfaceOM.par [legume_resid
 module = soiln2     %apsuite/apsim/Common Files/waco.par[waco]      %apsuite/apsim/soiln2/soiln2.ini[standard]
 module = sorghum   %apsuite/apsim/Common Files/waco.par[waco] %apsuite/apsim/sorghum/sorghum.ini[standard]
 module = Tracker    sorghum.par[sensibility]
-module = sysbal
+!module = sysbal
 
 [APSIM.Dalby 1500mm]
 title=Dalby 1500mm wet soil
@@ -25,7 +25,7 @@ module = SurfaceOM   %apsuite/apsim/SurfaceOM/sample/SurfaceOM.par [legume_resid
 module = soiln2     %apsuite/apsim/Common Files/waco.par[waco]      %apsuite/apsim/soiln2/soiln2.ini[standard]
 module = sorghum   %apsuite/apsim/Common Files/waco.par[waco] %apsuite/apsim/sorghum/sorghum.ini[standard]
 module = Tracker    sorghum.par[sensibility]
-module = sysbal
+!module = sysbal
 
 [APSIM.Roma 600mm]
 title=Roma 600mm wet soil
@@ -39,7 +39,7 @@ module = SurfaceOM   %apsuite/apsim/SurfaceOM/sample/SurfaceOM.par [legume_resid
 module = soiln2     %apsuite/apsim/Common Files/waco.par[waco]      %apsuite/apsim/soiln2/soiln2.ini[standard]
 module = sorghum   %apsuite/apsim/Common Files/waco.par[waco] %apsuite/apsim/sorghum/sorghum.ini[standard]
 module = Tracker    sorghum.par[sensibility]
-module = sysbal
+!module = sysbal
 
 [APSIM.Roma 1500mm]
 title=Roma 1500mm wet soil
@@ -53,4 +53,4 @@ module = SurfaceOM   %apsuite/apsim/SurfaceOM/sample/SurfaceOM.par [legume_resid
 module = soiln2     %apsuite/apsim/Common Files/waco.par[waco]      %apsuite/apsim/soiln2/soiln2.ini[standard]
 module = sorghum   %apsuite/apsim/Common Files/waco.par[waco] %apsuite/apsim/sorghum/sorghum.ini[standard]
 module = Tracker    sorghum.par[sensibility]
-module = sysbal
+!module = sysbal
