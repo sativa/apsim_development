@@ -28,7 +28,7 @@ void TestAmpersandInTitle()
    SimCreator simCreator(true);
    simCreator.ConToSim("test.con");
 
-   ifstream sim("test.sim");
+   ifstream sim("test.apsim.wheat_sample.sim");
    ostringstream contentsBuffer;
    contentsBuffer << sim.rdbuf();
    string contents = contentsBuffer.str();
