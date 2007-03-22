@@ -13,7 +13,7 @@ void pop_routine (const char *) {};
 inline bool floatsAreEqual(float A, float B, float C) {return(fabs(A-B)<C);}
 
 // default constructor
-PlantFruit::PlantFruit()
+PlantFruit::PlantFruit(): CompositePart()
 {}
 
 // 	initialise data members.

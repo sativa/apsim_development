@@ -17,6 +17,7 @@ class FruitCohort : public CompositePart
    friend ostream &operator<<(ostream &, const FruitCohort &);
 public:                                             // member functions
    FruitCohort(plantInterface *p, const string &name);
+   FruitCohort();
 
    const FruitCohort &operator=(const FruitCohort &other);      // Assigment operator
 
