@@ -6,6 +6,10 @@
 using namespace std;
 
 // default constructor
+FruitCohort::FruitCohort() : CompositePart()
+{
+}
+
 //  initialise data members.
 FruitCohort::FruitCohort(plantInterface *p, const string &name) : CompositePart(p, name)
 {

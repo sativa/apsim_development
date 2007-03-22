@@ -8,7 +8,7 @@
 using namespace std;
 
 // default constructor
-CompositePart::CompositePart()
+CompositePart::CompositePart() : plantPart()
 {
 }
 
