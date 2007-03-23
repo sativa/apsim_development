@@ -182,18 +182,7 @@ class plantPart : public plantThing
 public:
 
    plantPart() {};
-   plantPart(plantInterface *p, const string &name)
-     {
-     zeroAllGlobals();
-     plant = p;
-     c.name = name;
-     c.trans_frac = 0.0;
-     c.trans_frac = 1;
-     c.n_retrans_fraction = 1.0;
-     c.p_stress_determinant = false;
-     c.p_yield_part = false;
-     c.p_retrans_part = false;
-     };
+   plantPart(plantInterface *p, const string &name);
    virtual ~plantPart() {};
 
    virtual void zeroAllGlobals(void);
