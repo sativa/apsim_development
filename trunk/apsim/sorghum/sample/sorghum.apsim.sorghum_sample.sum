@@ -16,6 +16,7 @@ Component     "report" = c:\development\apsim\report\lib\report.dll
 Component        "Met" = c:\development\apsim\input\lib\input.dll
 Component    "manager" = c:\development\apsim\manager\lib\manager.dll
 Component   "soilwat2" = c:\development\apsim\soilwat2\lib\soilwat2.dll
+Component  "SurfaceOM" = c:\development\apsim\SurfaceOM\lib\SurfaceOM.dll
 Component     "soiln2" = c:\development\apsim\soiln2\lib\soiln2.dll
 Component    "sorghum" = c:\development\apsim\sorghum\lib\sorghum.dll
 
@@ -149,6 +150,25 @@ Component    "sorghum" = c:\development\apsim\sorghum\lib\sorghum.dll
             Cuml evap (U):            4.00 (mm^0.5)
             CONA:                     2.50 ()
             Eo from priestly-taylor
+
+------- SurfaceOM Initialisation ----------------------------------------------
+     
+         - Reading constants
+     
+         - Reading parameters
+     
+     
+     
+                         Initial Surface Organic Matter Data
+         ----------------------------------------------------------------------
+            Name   Type        Dry matter   C        N        P    Cover  Standing_fr
+                                (kg/ha)  (kg/ha)  (kg/ha)  (kg/ha) (0-1)     (0-1)
+         ----------------------------------------------------------------------
+          wheat     wheat            0.0     0.0     0.0     0.0   0.000     0.0
+         ----------------------------------------------------------------------
+     
+                      Effective Cover from Surface Materials =   0.0
+     
 
 ------- soiln2 Initialisation -------------------------------------------------
      
