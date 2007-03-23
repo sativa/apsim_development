@@ -2,6 +2,31 @@
 #include "PlantPart.h"
 using namespace std;
 
+plantPart::plantPart(plantInterface *p, const string &name)
+//=======================================================================================
+     {
+     zeroAllGlobals();
+     plant = p;
+     c.name = name;
+     c.dm_init = 0;
+     c.n_init_conc = 0;
+     c.p_init_conc = 0;
+     c.n_sen_conc = 0;
+     c.trans_frac = 1;
+     c.trans_frac_option = false;
+     c.n_retrans_fraction = 1.0;
+     c.dead_detach_frac = 0;
+     c.sen_detach_frac = 0;
+     c.p_stress_determinant = false;
+     c.p_yield_part = false;
+     c.p_retrans_part = false;
+     c.stress_determinant = false;
+     c.yield_part = false;
+     c.retrans_part = false;
+     c.n_deficit_uptake_fraction = 0;
+     DMGreen = 0;
+     };
+
 
 void plantPart::doRegistrations(protocol::Component *system)
 //=======================================================================================
