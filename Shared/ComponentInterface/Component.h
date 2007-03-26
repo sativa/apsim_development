@@ -150,54 +150,8 @@ class EXPORT Component
       Component(void);
       virtual ~Component(void);
 
-      // ------------------------------------------------------------------------
-      // New component interface stuff.
-      private:
-         struct RegItem
-            {
-            ~RegItem() {delete Data;}
-            std::string DDML;
-            IData* Data;
-            };
-         typedef std::multimap<std::string, RegItem*> NameToRegMap;
-         typedef std::multimap<unsigned, RegItem*> IDToRegMap;
-         NameToRegMap RegNames;
-         IDToRegMap RegIDs;
-         unsigned nameToRegistrationID(const std::string& name,
-                                       RegistrationType::Type regType);
-         void RegisterWithPM(const std::string& Name, const string& Units,
-                             const std::string& Description,
-                             RegistrationType::Type regType,
-                             IData* Data);
-
-      public:
-         void ExportReadOnlyVariable(const std::string& Name, const std::string& Units,
-                                     const std::string& Description,
-                                     VariableRef Variable);
-
-         #define Getter(address) FunctionReturningValue::Function(boost::bind(address, this, _1))
-         #define Setter(address, T) FunctionTakingValue<T>(boost::bind(address, this, _1, _2))
-         #define EventHandler(address, T) FunctionTakingValue<T>(boost::bind(address, this, _1, _2))
-
-         void ExportReadOnlyVariable(const std::string& Name, const std::string& Units,
-                                     const std::string& Description,
-                                     const FunctionReturningValue::Function& GetterFunction);
-
-         void ExportReadWriteVariable(const std::string& Name, const std::string& Units,
-                                      const std::string& Description,
-                                      VariableRef Variable);
-
-         void ExportReadWriteVariable(const std::string& Name, const std::string& Units,
-                                      const std::string& Description,
-                                      const FunctionReturningValue::Function& GetterFunction,
-                                      const INamedData& SetterFunction);
-         void SubscribeToEvent(const std::string& Name, const INamedData& EventHandlerFunction);
-
-      // ------------------------------------------------------------------------
-
-
-
-      const char  *getName(void) {return name;};
+      const char  *getName(void) {return name.c_str();};
+      const char  *getDllName(void) {return dllName.c_str();};
       unsigned int getId(void) {return componentID;};
 
       // Add a registration.
@@ -311,11 +265,9 @@ class EXPORT Component
                  const unsigned int* callbackarg,
                  void* messagecallback);
    protected:
-      char         *dllName;
       unsigned int componentID;
       unsigned int parentID;
       ApsimComponentData* componentData;
-      char* name;
       bool beforeInit2;
       bool beforeCommence;
       bool haveWrittenToStdOutToday;
@@ -367,16 +319,17 @@ class EXPORT Component
       void setVariableError(unsigned int regID);
 
    private:
+      std::string name;
+      std::string dllName;
+      std::string type;
+      std::string version;
+      std::string author;
+      int active;
+      std::string state;
+      
       Registrations* registrations;
       vector<ReturnInfoData*> returnInfos;
-      unsigned int nameID;
-      unsigned int typeID;
-      unsigned int versionID;
-      unsigned int authorID;
-      unsigned int activeID;
-      unsigned int stateID;
       unsigned int errorID;
-      unsigned int summaryID;
       unsigned int tickID;
       bool setVariableSuccess;
       vector<unsigned> completeIDs;
