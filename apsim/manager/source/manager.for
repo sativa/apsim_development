@@ -243,7 +243,7 @@ C     Last change:  P    25 Oct 2000    9:26 am
       contains
 
 ! ====================================================================
-       subroutine Set_variable_in_other_module (modnameID
+       recursive subroutine Set_variable_in_other_module (modnameID
      :                                         ,var_name
      :                                         ,variable_value)
 ! ====================================================================
@@ -307,7 +307,7 @@ C     Last change:  P    25 Oct 2000    9:26 am
 
 
 ! ====================================================================
-       subroutine Manager_Init ()
+       recursive subroutine Manager_Init ()
 ! ====================================================================
       Use Infrastructure
       implicit none
@@ -365,7 +365,7 @@ C     Last change:  P    25 Oct 2000    9:26 am
 
 
 ! ====================================================================
-       subroutine Manager_zero_variables ()
+       recursive subroutine Manager_zero_variables ()
 ! ====================================================================
       Use Infrastructure
       implicit none
@@ -445,7 +445,7 @@ C     Last change:  P    25 Oct 2000    9:26 am
       end subroutine
 
 ! ====================================================================
-       subroutine Manager_read_rules ()
+       recursive subroutine Manager_read_rules ()
 ! ====================================================================
       Use Infrastructure
       implicit none
@@ -573,7 +573,7 @@ C     Last change:  P    25 Oct 2000    9:26 am
       end subroutine
 
 ! ====================================================================
-      subroutine manager_send_my_variable (variable_name)
+      recursive subroutine manager_send_my_variable (variable_name)
 ! ====================================================================
       Use Infrastructure
       implicit none
@@ -632,7 +632,7 @@ C     Last change:  P    25 Oct 2000    9:26 am
       end subroutine
 
 * ====================================================================
-       subroutine manager_set_my_variable (Variable_name)
+       recursive subroutine manager_set_my_variable (Variable_name)
 * ====================================================================
       Use Infrastructure
       implicit none
@@ -674,7 +674,7 @@ C     Last change:  P    25 Oct 2000    9:26 am
       end subroutine
 
 ! ====================================================================
-       subroutine Parse_read_line(Line, EOF_flag)
+       recursive subroutine Parse_read_line(Line, EOF_flag)
 ! ====================================================================
       Use Infrastructure
       implicit none
@@ -743,7 +743,7 @@ C     Last change:  P    25 Oct 2000    9:26 am
 
 
 ! ====================================================================
-       subroutine Manager_new_local_variable(Variable_name,
+       recursive subroutine Manager_new_local_variable(Variable_name,
      .                                      Variable_value, RHSisString)
 ! ====================================================================
       Use Infrastructure
@@ -818,7 +818,7 @@ C     Last change:  P    25 Oct 2000    9:26 am
       end subroutine
 
 ! ====================================================================
-       subroutine manager_get_params (Function_call, Params)
+       recursive subroutine manager_get_params (Function_call, Params)
 ! ====================================================================
       Use Infrastructure
       implicit none
@@ -942,6 +942,7 @@ C     Last change:  P    25 Oct 2000    9:26 am
       logical more_crops_to_check
       integer numMonths
       logical IsReal
+      integer day, month, year
 
 !- Implementation Section ----------------------------------
       Is_apsim_variable = (index(variable_name, '.') .gt. 0)
@@ -970,6 +971,21 @@ C     Last change:  P    25 Oct 2000    9:26 am
      .                                Variable_value)
          endif
          valueIsReal = .false.
+
+      else if (variable_name(1:6) .eq. 'month(') then
+         call Manager_get_params (variable_name, Params)
+         call parse_get_variable(params(1), variable_value, valueIsReal)
+         call string_to_double_var(variable_value, d_var_val, numvals)
+         if (numvals .ne. 1) then
+            call fatal_error(ERR_user,
+     .           'Bad 1st argument type for function '
+     .           // 'month(date)')
+         else
+            call jday_to_date (day, month, year, d_var_val)
+            call integer_var_to_string (month, variable_value)
+         end if
+         valueIsReal = .true.
+
 
       else if (variable_name(1:12) .eq. 'date_within(') then
          ! get parameters from string.
@@ -1113,7 +1129,7 @@ C     Last change:  P    25 Oct 2000    9:26 am
 
 
 ! ====================================================================
-       subroutine Parse_set_variable
+       recursive subroutine Parse_set_variable
      .           (Variable_Name, Variable_Value, RHSisString)
 ! ====================================================================
       Use Infrastructure
@@ -1255,7 +1271,7 @@ C     Last change:  P    25 Oct 2000    9:26 am
 
 
 ! ====================================================================
-       subroutine Parse_action (Action_string)
+       recursive subroutine Parse_action (Action_string)
 ! ====================================================================
       Use Infrastructure
       !Use ConstantsModule
@@ -1293,7 +1309,7 @@ C     Last change:  P    25 Oct 2000    9:26 am
       character Variable_name*(Max_manager_var_name_size)
                                        ! variable name in set actions.
       integer Numvals                  ! Number of values returned
-      character msg*1000                ! Error message
+      character msg*1000                ! Error message 
       logical Data_was_stored          ! Was data stored in postbox?
       integer modNameID                ! ID for module.
       logical ok
@@ -1391,14 +1407,14 @@ C     Last change:  P    25 Oct 2000    9:26 am
          else
             ! data was not stored
          endif
-
+        
          call Delete_postbox ()
       endif
       return
       end subroutine
 
 * ====================================================================
-       logical function Store_message_data (Data_string)
+       recursive logical function Store_message_data (Data_string)
 * ====================================================================
       use ConstantsModule
       use ErrorModule
@@ -1508,7 +1524,7 @@ C     Last change:  P    25 Oct 2000    9:26 am
 ! Replace all local variables names in the specified string with the
 ! variable values.
 ! ====================================================================
-      subroutine Replace_local_variables(st)
+      recursive subroutine Replace_local_variables(st)
       Use Infrastructure
       implicit none
 
@@ -1571,7 +1587,7 @@ C     Last change:  P    25 Oct 2000    9:26 am
 
 
 ! ====================================================================
-       subroutine Parse_error (Error_message, Routine_message)
+       recursive subroutine Parse_error (Error_message, Routine_message)
 ! ====================================================================
       Use Infrastructure
       implicit none
@@ -1623,7 +1639,7 @@ C     Last change:  P    25 Oct 2000    9:26 am
 
 
 ! =====================================================================
-       subroutine Parse (Token_array, Token_array2)
+       recursive subroutine Parse (Token_array, Token_array2)
 ! =====================================================================
       Use Infrastructure
       implicit none
@@ -1687,8 +1703,8 @@ C     Last change:  P    25 Oct 2000    9:26 am
 
 
 ! =====================================================================
-       subroutine Process_if_statement (Nested_ifs, Token_array,
-     .                                                   Token_array2)
+       recursive subroutine Process_if_statement 
+     .    (Nested_ifs, Token_array, Token_array2)
 ! =====================================================================
       Use Infrastructure
       implicit none
@@ -1779,8 +1795,8 @@ C     Last change:  P    25 Oct 2000    9:26 am
 
 
 ! =====================================================================
-       subroutine Process_else_statement (Nested_ifs, Token_array,
-     .                                                   Token_array2)
+       recursive subroutine Process_else_statement 
+     .  (Nested_ifs, Token_array, Token_array2)
 ! =====================================================================
       Use Infrastructure
       implicit none
@@ -1828,7 +1844,8 @@ C     Last change:  P    25 Oct 2000    9:26 am
 
 
 ! =====================================================================
-       subroutine Assignment_Statement (Token_array, Token_array2)
+       recursive subroutine Assignment_Statement 
+     .     (Token_array, Token_array2)
 ! =====================================================================
       Use Infrastructure
       implicit none
@@ -1870,8 +1887,8 @@ C     Last change:  P    25 Oct 2000    9:26 am
 
 
 ! =====================================================================
-       subroutine Process_Assignment (Variable_name, Token_array,
-     .                                                    Token_array2)
+       recursive subroutine Process_Assignment 
+     .  (Variable_name, Token_array, Token_array2)
 ! =====================================================================
       Use Infrastructure
       implicit none
@@ -1960,7 +1977,7 @@ C     Last change:  P    25 Oct 2000    9:26 am
 
 
 ! =====================================================================
-       subroutine Process_Action (Token_array, Token_array2)
+       recursive subroutine Process_Action (Token_array, Token_array2)
 ! =====================================================================
       Use Infrastructure
       implicit none
@@ -1975,10 +1992,19 @@ C     Last change:  P    25 Oct 2000    9:26 am
 !+  Changes
 !      TM - 21/11/94
 !      TM - 29/09/95 - changed action to be handled as one token
+      integer SavedEndOfFile
+      integer SavedNextToken
+      integer SavedToken
 
 !- Implementation Section ----------------------------------
 
+       SavedEndOfFile = g%end_of_file
+       SavedNextToken = g%next_token
+       SavedToken = g%Token
        call   Parse_action (g%buffer)
+       g%end_of_file = SavedEndOfFile
+       g%next_token = SavedNextToken
+       g%Token = SavedToken
 
        call   Get_next_token (Token_array, Token_array2)
 
@@ -1988,7 +2014,8 @@ C     Last change:  P    25 Oct 2000    9:26 am
 
 
 ! =====================================================================
-       integer function If_statement(Token_array, Token_array2)
+       recursive integer function If_statement
+     .     (Token_array, Token_array2)
 ! =====================================================================
       Use Infrastructure
       implicit none
@@ -2049,7 +2076,8 @@ C     Last change:  P    25 Oct 2000    9:26 am
 
 
 ! =====================================================================
-       subroutine Process_next_expression (Token_array, Token_array2)
+       recursive subroutine Process_next_expression
+     .    (Token_array, Token_array2)
 ! =====================================================================
       Use Infrastructure
       implicit none
@@ -2097,7 +2125,7 @@ C     Last change:  P    25 Oct 2000    9:26 am
 
 
 ! =====================================================================
-       subroutine Process_And_Or_expression ()
+       recursive subroutine Process_And_Or_expression ()
 ! =====================================================================
       Use Infrastructure
       implicit none
@@ -2138,7 +2166,7 @@ C     Last change:  P    25 Oct 2000    9:26 am
 
 
 ! =====================================================================
-       subroutine Process_expression ()
+       recursive subroutine Process_expression ()
 ! =====================================================================
       Use Infrastructure
       implicit none
@@ -2270,7 +2298,8 @@ C     Last change:  P    25 Oct 2000    9:26 am
 
 
 ! =====================================================================
-       subroutine Str_to_double_var(String, Double_value, io_result)
+       recursive subroutine Str_to_double_var
+     .     (String, Double_value, io_result)
 ! =====================================================================
       Use Infrastructure
       implicit none
@@ -2305,7 +2334,8 @@ C     Last change:  P    25 Oct 2000    9:26 am
 
 
 ! =====================================================================
-       subroutine Str_to_real_var(String, Real_value, io_result)
+       recursive subroutine Str_to_real_var
+     .     (String, Real_value, io_result)
 ! =====================================================================
       Use Infrastructure
       implicit none
@@ -2340,7 +2370,7 @@ C     Last change:  P    25 Oct 2000    9:26 am
 
 
 ! =====================================================================
-       subroutine Process_sub_expression ()
+       recursive subroutine Process_sub_expression ()
 ! =====================================================================
       Use Infrastructure
       implicit none
@@ -2485,7 +2515,7 @@ C     Last change:  P    25 Oct 2000    9:26 am
 
 
 ! =====================================================================
-       subroutine Process_Simple_Expression ()
+       recursive subroutine Process_Simple_Expression ()
 ! =====================================================================
       Use Infrastructure
       implicit none
@@ -2563,7 +2593,7 @@ C     Last change:  P    25 Oct 2000    9:26 am
 
 
 ! =====================================================================
-       subroutine Process_Term ()
+       recursive subroutine Process_Term ()
 ! =====================================================================
       Use Infrastructure
       implicit none
@@ -2648,7 +2678,7 @@ C     Last change:  P    25 Oct 2000    9:26 am
        end subroutine
 
 ! =====================================================================
-       subroutine Process_Power ()
+       recursive subroutine Process_Power ()
 ! =====================================================================
       Use Infrastructure
       implicit none
@@ -2708,7 +2738,7 @@ C     Last change:  P    25 Oct 2000    9:26 am
 
 
 ! =====================================================================
-       subroutine Process_Factor ()
+       recursive subroutine Process_Factor ()
 ! =====================================================================
       Use Infrastructure
       implicit none
@@ -2765,7 +2795,7 @@ C     Last change:  P    25 Oct 2000    9:26 am
 
 
 ! =====================================================================
-       subroutine push_stack (Variable_Value)
+       recursive subroutine push_stack (Variable_Value)
 ! =====================================================================
       Use Infrastructure
       implicit none
@@ -2800,7 +2830,7 @@ C     Last change:  P    25 Oct 2000    9:26 am
 
 
 ! =====================================================================
-       character*(buffer_size) function pop_stack ()
+       recursive character*(buffer_size) function pop_stack ()
 ! =====================================================================
       Use Infrastructure
       implicit none
@@ -2833,7 +2863,7 @@ C     Last change:  P    25 Oct 2000    9:26 am
 
 
 ! =====================================================================
-       subroutine Get_sub_token ()
+       recursive subroutine Get_sub_token ()
 ! =====================================================================
       Use Infrastructure
       implicit none
@@ -2865,7 +2895,7 @@ C     Last change:  P    25 Oct 2000    9:26 am
 
 
 ! =====================================================================
-       subroutine Get_next_token (Token_array, Token_array2)
+       recursive subroutine Get_next_token (Token_array, Token_array2)
 ! =====================================================================
       Use Infrastructure
       implicit none
@@ -2901,7 +2931,8 @@ C     Last change:  P    25 Oct 2000    9:26 am
 
 
 ! =====================================================================
-       subroutine Get_expression_array (Token_array, Token_array2)
+       recursive subroutine Get_expression_array 
+     .    (Token_array, Token_array2)
 ! =====================================================================
       Use Infrastructure
       implicit none
@@ -2982,7 +3013,7 @@ C     Last change:  P    25 Oct 2000    9:26 am
 
 
 ! =====================================================================
-       subroutine Check_previous_word ()
+       recursive subroutine Check_previous_word ()
 ! =====================================================================
       Use Infrastructure
       implicit none
@@ -3024,7 +3055,8 @@ C     Last change:  P    25 Oct 2000    9:26 am
 
 
 ! =====================================================================
-       character*(buffer_size) function Real_or_not (Variable_Value)
+       recursive character*(buffer_size) function Real_or_not 
+     .     (Variable_Value)
 ! =====================================================================
       Use Infrastructure
       implicit none
@@ -3059,7 +3091,8 @@ C     Last change:  P    25 Oct 2000    9:26 am
 
 
 ! =====================================================================
-       subroutine Tokenize (Token_array, Token_array2, maxtokens)
+       recursive subroutine Tokenize 
+     .    (Token_array, Token_array2, maxtokens)
 ! =====================================================================
       Use Infrastructure
       implicit none
@@ -3148,6 +3181,7 @@ C     Last change:  P    25 Oct 2000    9:26 am
           if   (g%token .eq. C_NUMBER .and. ind .ge. 2 .and.
      :           Token_array2(ind) .eq. C_MINUS .and.
      :           Token_array2(ind-1) .ne. C_NUMBER .and.
+     :           Token_array2(ind-1) .ne. C_RIGHT_PAREN .and.
      :           Token_array2(ind-1) .ne. C_WORD) then
 
                  call assign_string (g%buffer, '-'//g%buffer)
@@ -3193,7 +3227,7 @@ C     Last change:  P    25 Oct 2000    9:26 am
 
 
 ! =====================================================================
-       subroutine Get_Token_from_file ()
+       recursive subroutine Get_Token_from_file ()
 ! =====================================================================
       Use Infrastructure
       implicit none
@@ -3233,7 +3267,7 @@ C     Last change:  P    25 Oct 2000    9:26 am
 
 
 ! =====================================================================
-       subroutine Get_Char ()
+       recursive subroutine Get_Char ()
 ! =====================================================================
       Use Infrastructure
       implicit none
@@ -3267,7 +3301,7 @@ C     Last change:  P    25 Oct 2000    9:26 am
 
 
 ! =====================================================================
-       subroutine Get_Word ()
+       recursive subroutine Get_Word ()
 ! =====================================================================
       Use Infrastructure
       implicit none
@@ -3348,7 +3382,7 @@ C     Last change:  P    25 Oct 2000    9:26 am
 
 
 ! =====================================================================
-       subroutine Get_Literal ()
+       recursive subroutine Get_Literal ()
 ! =====================================================================
       Use Infrastructure
       implicit none
@@ -3387,7 +3421,7 @@ C     Last change:  P    25 Oct 2000    9:26 am
 
 
 ! =====================================================================
-       subroutine Get_Number ()
+       recursive subroutine Get_Number ()
 ! =====================================================================
       Use Infrastructure
       implicit none
@@ -3425,7 +3459,7 @@ C     Last change:  P    25 Oct 2000    9:26 am
 
 
 ! =====================================================================
-       subroutine Get_Special ()
+       recursive subroutine Get_Special ()
 ! =====================================================================
       Use Infrastructure
       implicit none
@@ -3541,7 +3575,7 @@ C     Last change:  P    25 Oct 2000    9:26 am
 
 
 ! =====================================================================
-       subroutine Get_Action ()
+       recursive subroutine Get_Action ()
 ! =====================================================================
       Use Infrastructure
       implicit none
@@ -3574,7 +3608,7 @@ C     Last change:  P    25 Oct 2000    9:26 am
 
 
 ! =====================================================================
-       logical function Reserved()
+       recursive logical function Reserved()
 ! =====================================================================
       Use Infrastructure
       implicit none
@@ -3624,7 +3658,7 @@ C     Last change:  P    25 Oct 2000    9:26 am
       end module ManagerModule
 
 !     ===========================================================
-      subroutine alloc_dealloc_instance(doAllocate)
+      recursive subroutine alloc_dealloc_instance(doAllocate)
 !     ===========================================================
       use ManagerModule
       implicit none
@@ -3650,7 +3684,7 @@ C     Last change:  P    25 Oct 2000    9:26 am
 
 
 ! ====================================================================
-       subroutine Main (Action, Data_string)
+       recursive subroutine Main (Action, Data_string)
 ! ====================================================================
       use ManagerModule
       Use Infrastructure
