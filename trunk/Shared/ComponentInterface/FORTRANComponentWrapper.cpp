@@ -80,7 +80,7 @@ void FortranWrapper::setupFortranDll(void)
    const char *dlError = NULL;
 
 #ifdef __WIN32__
-   libraryHandle = LoadLibrary(this->dllName);
+   libraryHandle = LoadLibrary(this->getDllName());
 #else
    libraryHandle = dlopen(this->dllName, RTLD_NOW | RTLD_LOCAL);
    dlError = dlerror();

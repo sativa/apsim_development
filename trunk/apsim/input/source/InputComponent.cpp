@@ -98,22 +98,22 @@ void InputComponent::doInit1(const FString& sdml)
       getDataMethodID = addRegistration(RegistrationType::respondToEvent, "getData", getDataDDML);
       haveReadTodaysDataID = addRegistration(RegistrationType::event, "HaveReadTodaysData", nullTypeDDML);
 
-      iAmMet = (Str_i_Cmp(name, "met") == 0);
+      iAmMet = (Str_i_Cmp(getName(), "met") == 0);
       if (iAmMet)
          daylengthID = addRegistration(RegistrationType::respondToGet, "day_length", dayLengthType);
       else
          daylengthID = 0;
 
-      string dateName = name;
+      string dateName = getName();
       dateName += "_start_date";
       startDateID = addRegistration(RegistrationType::respondToGet, dateName.c_str(), startDateType);
-      dateName = name;
+      dateName = getName();
       dateName += "_end_date";
       endDateID = addRegistration(RegistrationType::respondToGet, dateName.c_str(), endDateType);
 
-      dateName = string(name) + "_start_date_string";
+      dateName = string(getName()) + "_start_date_string";
       startDateStringID = addRegistration(RegistrationType::respondToGet, dateName.c_str(), stringDDML);
-      dateName = string(name) + "_end_date_string";
+      dateName = string(getName()) + "_end_date_string";
       endDateStringID = addRegistration(RegistrationType::respondToGet, dateName.c_str(), stringDDML);
 
       openInputFile();
@@ -132,7 +132,7 @@ void InputComponent::openInputFile(void)
    {
    fileName = componentData->getProperty("parameters", "filename");
    if (fileName == "")
-      throw "Cannot find a filename parameter for module: " + string(name);
+      throw "Cannot find a filename parameter for module: " + string(getName());
 
    data.open(fileName);
    }

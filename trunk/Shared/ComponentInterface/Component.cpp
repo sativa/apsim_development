@@ -46,9 +46,7 @@ Component* component;
 Component::Component(void)
    : completeIDs(MAX_NESTED_COMPLETES),registrations(new Registrations(this))
    {
-   dllName = NULL;
    componentData = NULL;
-   name = NULL;
    beforeInit2 = true;  
    beforeCommence = true;
    tick.startday = 0;
@@ -76,14 +74,7 @@ Component::~Component(void)
    if (componentData != NULL)
       deleteApsimComponentData(componentData);
 
-   // delete all registrations.
-   for (NameToRegMap::iterator Reg = RegNames.begin();
-                         Reg != RegNames.end();
-                         Reg++)
-      delete Reg->second;
-   delete [] name;
    clearReturnInfos();
-   if (dllName) delete [] dllName;
    delete registrations;
    }
 
@@ -119,15 +110,11 @@ void Component::setup(const char *dllname,
                       const unsigned int* callbackarg,
                       CallbackType messagecallback)
    {
-   if (dllName) delete [] dllName;
-   dllName = new char [strlen(dllname)+1];
-   strcpy(dllName, dllname);
-
+   dllName = dllname;
    parentID = parentid;
    componentID = componentid;
    callbackArg = callbackarg;
    messageCallback = (void STDCALL (*)(const unsigned int*, protocol::Message*))messagecallback;
-   name = NULL;
    }
 
 // ------------------------------------------------------------------
@@ -290,32 +277,22 @@ catch (const std::string& e)
 // ------------------------------------------------------------------
 void Component::doInit1(const FString& sdml)
    {
-   static const char* STRING_TYPE = "<type kind=\"string\"/>";
-   static const char* INTEGER_TYPE = "<type kind=\"integer4\"/>";
-   nameID = addRegistration(RegistrationType::respondToGet,
-                            "name",
-                            STRING_TYPE);
-   typeID = addRegistration(RegistrationType::respondToGet,
-                            "type",
-                            STRING_TYPE);
-   versionID = addRegistration(RegistrationType::respondToGet,
-                               "version",
-                               STRING_TYPE);
-   authorID = addRegistration(RegistrationType::respondToGet,
-                              "author",
-                              STRING_TYPE);
-   activeID = addRegistration(RegistrationType::respondToGet,
-                              "active",
-                              INTEGER_TYPE);
-   stateID = addRegistration(RegistrationType::respondToGet,
-                             "state",
-                             STRING_TYPE);
+   type = "?";
+   version = "1";
+   author = "APSRU";
+   active = 1;
+   state = "";
+   
+   addGettableVar("name", name, "", "");
+   addGettableVar("type", type, "", "");
+   addGettableVar("version", version, "", "");
+   addGettableVar("author", author, "", "");
+   addGettableVar("active", active, "", "");
+   addGettableVar("state", state, "", "");
+
    errorID = addRegistration(RegistrationType::event,
                              "error",
                              ERROR_TYPE);
-   summaryID = addRegistration(RegistrationType::event,
-                               "summaryFileWrite",
-                               SUMMARY_FILE_WRITE_TYPE);
    tickID = addRegistration(RegistrationType::respondToEvent,
                             "tick",
                             DDML(TimeType()).c_str());
@@ -348,10 +325,7 @@ void Component::storeName(const FString& fqn, const FString& sdml)
       componentName = fqn.substr(posLastPeriod+1);
 
    // now create memory block for this name and fill it.
-   name = new char[componentName.length() + 1];
-
-   strncpy(name, componentName.f_str(), componentName.length());
-   name[componentName.length()] = 0;
+   name = asString(componentName);
 
    componentData = newApsimComponentData(sdml.f_str(), sdml.length());
    }
@@ -447,21 +421,6 @@ void Component::respondToGet(unsigned int& /*fromID*/, QueryValueData& queryData
       baseInfo *v = getVarMap[queryData.ID];
       if (v)
          v->sendVariable(this, queryData);
-      else
-         {
-         RegItem* Reg = (RegItem*) queryData.ID;
-         if (Reg)
-            {
-            string type = Reg->DDML;
-            Message* msg = constructMessage(ReplyValue, componentID, parentID, false,
-                                            memorySize(queryData.ID) + memorySize(type) + Reg->Data->Size());
-            MessageData messageData(msg);
-            messageData << queryData.ID;
-            messageData << type;
-            Reg->Data->Pack(messageData);
-            sendMessage(msg);
-            }
-         }
       }
    }
 
@@ -478,13 +437,6 @@ void Component::respondToEvent(unsigned int& fromID, unsigned int& eventID, Vari
      pf = ipf->second;
      (pf)(fromID, eventID, variant);
      }
-  pair<IDToRegMap::iterator, IDToRegMap::iterator> Range = RegIDs.equal_range(eventID);
-  for (IDToRegMap::iterator i = Range.first; i != Range.second; i++)
-      {
-      RegItem* Reg = i->second;
-      protocol::MessageData msg = variant.getMessageData();
-      Reg->Data->Unpack(msg);
-      }
   }
 // ------------------------------------------------------------------
 //  Short description:
@@ -546,7 +498,7 @@ void Component::error(const FString& msg, bool isFatal)
 
    strncat(cMessage, msg.f_str(), min((int)msg.length(), 999));
    strcat(cMessage, "\nComponent name: ");
-   strcat(cMessage, name);
+   strcat(cMessage, name.c_str());
    strcat(cMessage, "\n!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!\n\n");
 
    writeString(cMessage);
@@ -668,20 +620,7 @@ bool Component::getVariable(unsigned int registrationID,
 void Component::onQueryValueMessage(unsigned int fromID,
                                     QueryValueData& queryData)
    {
-   if (queryData.ID == nameID)
-      sendVariable(queryData, FString(name));
-   else if (queryData.ID == typeID)
-      sendVariable(queryData, FString("APSRU"));
-   else if (queryData.ID == versionID)
-      sendVariable(queryData, FString("1.0"));
-   else if (queryData.ID == authorID)
-      sendVariable(queryData, FString("APSRU"));
-   else if (queryData.ID == activeID)
-      sendVariable(queryData, 1);
-   else if (queryData.ID == stateID)
-      sendVariable(queryData, FString(""));
-   else
-      respondToGet(fromID, queryData);
+   respondToGet(fromID, queryData);
    }
 
 // ------------------------------------------------------------------
@@ -734,16 +673,6 @@ bool Component::componentIDToName(unsigned int compID, FString& name)
 void Component::onQuerySetValueMessage(unsigned fromID, QuerySetValueData& querySetData)
    {
    bool ok = respondToSet(fromID, querySetData);
-   if (!ok)
-	   {
-      IDToRegMap::iterator i = RegIDs.find(querySetData.ID);
-      if (i != RegIDs.end())
-         {
-         RegItem* Reg = i->second;
-         protocol::MessageData msg = querySetData.variant.getMessageData();
-         Reg->Data->Unpack(msg);
-         }
-      }
    sendMessage(newReplySetValueSuccessMessage
                   (componentID,
                    fromID,
@@ -789,7 +718,7 @@ void Component::writeString(const FString& lines)
          {
          cout << endl;
          cout << "------- " << name << " Initialisation ";
-         cout.width(79-24-strlen(name));
+         cout.width(79-24-name.length());
          cout.fill('-');
          cout << '-' << endl;
          cout.fill(' ');
@@ -1046,12 +975,13 @@ std::string Component::getDescription()
    std::string returnString;
    try
       {
-      returnString = "<describecomp name=\"" + asString(name) + "\">\n";
+      returnString = "<describecomp name=\"" + name + "\">\n";
 
       returnString += string("<executable>") + dllName + "</executable>\n";
       returnString += string("<class>") + Path(dllName).Get_name_without_ext() + "</class>\n";
       returnString += "<version>1.0</version>\n";
       returnString += "<author>APSRU</author>\n";
+
       for (UInt2InfoMap::iterator var = getVarMap.begin();
                                   var != getVarMap.end();
                                   var++)
@@ -1132,129 +1062,7 @@ std::string Component::getDescription()
 	  throw runtime_error(err.what());
       }
    }
-
-
-
-void Component::ExportReadOnlyVariable(const std::string& Name, const std::string& Units,
-                                       const std::string& Description,
-                                       VariableRef Data)
-   // ------------------------------------------------------------------------
-   // Register a variable with the system.
-   {
-   if (nameToRegistrationID(Name, RegistrationType::respondToGet) == 0)
-      RegisterWithPM(Name, Units, Description, RegistrationType::respondToGet, Data.Clone());
-   }
-
-void Component::ExportReadWriteVariable(const std::string& Name, const std::string& Units,
-                                        const std::string& Description,
-                                        VariableRef Data)
-   // ------------------------------------------------------------------------
-   // Register a variable with the system.
-   {
-   if (nameToRegistrationID(Name, RegistrationType::respondToGet) == 0)
-      RegisterWithPM(Name, Units, Description, RegistrationType::respondToGetSet, Data.Clone());
-   }
-
-void Component::ExportReadOnlyVariable(const std::string& Name, const std::string& Units,
-                                       const std::string& Description,
-                                       const FunctionReturningValue::Function& Func)
-   // ------------------------------------------------------------------------
-   // Register a variable with the system using a getter function.
-   {
-   if (nameToRegistrationID(Name, RegistrationType::respondToGet) == 0)
-      {
-      FunctionReturningValue* F = new FunctionReturningValue(Func);
-      F->SetName(Name);
-      RegisterWithPM(Name, Units, Description, RegistrationType::respondToGet, F);
-      }
-   }
-
-void Component::ExportReadWriteVariable(const std::string& Name, const std::string& Units,
-                             const std::string& Description,
-                             const FunctionReturningValue::Function& GetterFunction,
-                             const INamedData& SetterFunction)
-   // ------------------------------------------------------------------------
-   // Register a variable with the system using a getter & setter function.
-   {
-   ExportReadOnlyVariable(Name, Units, Description, GetterFunction);
-   if (nameToRegistrationID(Name, RegistrationType::respondToSet) == 0)
-      {
-      SetterFunction.SetName(Name);
-      RegisterWithPM(Name, Units, Description, RegistrationType::respondToSet, SetterFunction.Clone());
-      }
-   }
-
-void Component::SubscribeToEvent(const std::string& Name, const INamedData& EventHandlerFunction)
-   // ------------------------------------------------------------------------
-   // Subscribe to an event.
-   {
-   EventHandlerFunction.SetName(Name);
-   RegisterWithPM(Name, "", "", RegistrationType::respondToEvent, EventHandlerFunction.Clone());
-   }
-
-
-void AddAttributeToXML(string& XML, const string& Attribute)
-   // -------------------------------------------------------------
-   // Add an attribute (e.g. unit="g/m2") to the end of an
-   // xml string (e.g. "<type name="biomass"/>)
-   {
-   unsigned PosEnd = XML.rfind("/>");
-   if (PosEnd == string::npos)
-      throw runtime_error("Invalid XML string: " + XML);
-
-   XML.insert(PosEnd, " " + Attribute);
-   }
-
-void Component::RegisterWithPM(const string& Name, const string& Units,
-                               const std::string& Description,
-                               RegistrationType::Type regType,
-                               IData* Data)
-   // ------------------------------------------------------------------
-   // Register something with our PM given the specified information.
-   // ------------------------------------------------------------------
-   {
-   // Create and setup a new registration object.
-   RegItem* NewRegistration = new RegItem;
-   NewRegistration->DDML = Data->DDML();
-   NewRegistration->Data = Data;
-   if (Units != "")
-      AddAttributeToXML(NewRegistration->DDML, "unit=\"" + Units + "\"");
-   if (Description != "")
-      AddAttributeToXML(NewRegistration->DDML, "description=\"" + Description + "\"");
-
-   // Add new object to our map.
-   string FullRegName = Name + itoa(regType);
-   unsigned NewID = (unsigned) NewRegistration;
-   RegNames.insert(make_pair(FullRegName, NewRegistration));
-   RegIDs.insert(make_pair(NewID, NewRegistration));
-
-   // send register message to PM.
-   sendMessage(newRegisterMessage(componentID,
-                                  parentID,
-                                  regType,
-                                  NewID,
-                                  0,
-                                  Name.c_str(),
-                                  NewRegistration->DDML.c_str()));
-   }
-
-unsigned Component::nameToRegistrationID(const std::string& name,
-                                         RegistrationType::Type regType)
-   // ------------------------------------------------------
-   // Return a registration id for the specified
-   // name.
-   // ------------------------------------------------------
-   {
-   ostringstream regTypeString;
-   regTypeString << regType << ends;
-   string FullRegName = name + regTypeString.str();
-   NameToRegMap::iterator reg = RegNames.find(FullRegName);
-   if (reg == RegNames.end())
-      return 0;
-   else
-      return (unsigned) reg->second;
-   }
-
+  
 void Component::removeGettableVar(const char *systemName)
 // remove a variable from our list of variables
    {

@@ -64,7 +64,7 @@ class FortranWrapper : public protocol::Component
          }
 
       void get_name(char* n, unsigned nLength)
-         {FString(n, nLength, FORString) = name;}
+         {FString(n, nLength, FORString) = getName();}
       unsigned get_componentID(void) {return componentID;}
       unsigned get_parentID(void)    {return parentID;}
       unsigned get_componentData(void) {return (unsigned)componentData;}
@@ -209,7 +209,7 @@ class FortranWrapper : public protocol::Component
       void new_postbox(void)
          {
          outgoingApsimVariant.reset();
-         post_var("sender", protocol::DTstring, false, FString(name));
+         post_var("sender", protocol::DTstring, false, FString(getName()));
          post_var("sender_id", protocol::DTint4, false, componentID);
          }
       template <class T>

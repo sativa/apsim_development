@@ -258,7 +258,7 @@ void Coordinator::addComponent(const string& compName,
           componentID);
    components.insert(Components::value_type(childID, componentAlias));
 
-   string fqn = name;
+   string fqn = getName();
    fqn += ".";
    fqn += compName;
 
@@ -353,7 +353,7 @@ void Coordinator::onRegisterMessage(unsigned int fromID, RegisterData& registerD
           && posPeriod != string::npos)
          {
          string componentName = regName.substr(0, posPeriod);
-         if (Str_i_Eq(componentName.c_str(), name))
+         if (Str_i_Eq(componentName.c_str(), getName()))
             destID = componentID;
          else if (Str_i_Eq(componentName.c_str(), parentName))
             destID = parentID;
@@ -583,14 +583,14 @@ void Coordinator::onQueryInfoMessage(unsigned int fromID,
          if (components.find(childID) != components.end())
             childName = components[childID]->getName();
          if (childID == componentID)
-            childName = name;
+            childName = getName();
          }
       else
          childID = componentNameToID(childName);
 
       if (childID == INT_MAX || childName == "") return; // XX Yuck!!
 
-      string fqn = name;
+      string fqn = getName();
       fqn += ".";
       fqn += childName;
       sendMessage(newReturnInfoMessage(componentID,
@@ -666,7 +666,6 @@ void Coordinator::sendQuerySetValueMessage(unsigned ourComponentID,
             return;
             }
          }
-
       if (subs.size() == 0)
          {
          string regName = registrations.getName(ourComponentID, ourRegID, RegistrationType::set);
@@ -674,10 +673,24 @@ void Coordinator::sendQuerySetValueMessage(unsigned ourComponentID,
          }
 
       else if (subs.size() == 1)
-         sendMessage(newQuerySetValueMessage(foreignComponentID,
-                                             subs[0].componentId,
-                                             subs[0].id,
-                                             variant));
+         {
+         if (subs[0].componentId == parentID)
+            {
+            sendMessage(newQuerySetValueMessage(componentID,
+                                                subs[0].componentId,
+                                                subs[0].id,
+                                                variant));
+            sendMessage(newReplySetValueSuccessMessage(componentID,
+                                                       foreignComponentID,
+                                                       subs[0].id,
+                                                       getSetVariableSuccess()));
+            }
+         else
+            sendMessage(newQuerySetValueMessage(foreignComponentID,
+                                                subs[0].componentId,
+                                                subs[0].id,
+                                                variant));
+         }
       else if (subs.size() > 1)
          {
          string regName = registrations.getName(ourComponentID, ourRegID, RegistrationType::set);
@@ -931,7 +944,7 @@ void Coordinator::respondToGet(unsigned int& fromID, QueryValueData& queryValueD
 // ------------------------------------------------------------------
 bool Coordinator::respondToSet(unsigned int& fromID, QuerySetValueData& setValueData)
    {
-   sendQuerySetValueMessage(parentID, fromID,
+   sendQuerySetValueMessage(fromID, fromID,
                             setValueData.ID, setValueData.ID,
                             setValueData.variant);
    return getSetVariableSuccess();
