@@ -103,7 +103,7 @@ void TProbability_panel::Refresh_chart_objects (void)
          title += " and ";
       title += fieldName;
       }
-   title += " probablity";
+   title += " probability";
    Analysis_charts[0]->ChartTitle = title.c_str();
    Analysis_charts[0]->LeftAxis->SetMinMax(0, 100);
 
