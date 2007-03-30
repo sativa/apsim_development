@@ -27,7 +27,6 @@ static unsigned nextFreeMessage = 0;
 // ------------------------------------------------------------------
 void initMessages(void)
    {
-   nextFreeMessage = 0;
    if (messages[0] == NULL)
       {
       for (unsigned messageI = 0; messageI < MAX_NUM_MESSAGES; messageI++)
