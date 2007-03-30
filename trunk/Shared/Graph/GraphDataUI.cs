@@ -7,6 +7,7 @@ using System.Text;
 using System.Windows.Forms;
 using VBGeneral;
 using VBUserInterface;
+using System.Collections.Specialized;
 
 
 namespace Graph
@@ -42,14 +43,28 @@ namespace Graph
             GenericUI.PropertiesChangedEvent += new GenericUI.NotifyEventHandler(OnPropertiesChanged);
 
             // Need to go and find the root node for all graph data.
-            APSIMData GraphData = Controller.Data.Parent;
+            string ThisPath = "";
+            APSIMData GraphData = Controller.Data;
             while (GraphData.Type != "Data" && GraphData.Parent != null)
+                {
+                if (ThisPath != "")
+                    ThisPath = GraphData.Name + "\\" + ThisPath;
+                else
+                    ThisPath = GraphData.Name;
                 GraphData = GraphData.Parent;
+                }
+            ThisPath = "Data\\" + ThisPath;
 
             // Give all graph data to a newly created graphcontroller.
-            this.GraphController = (GraphController)Controller;
-            if (this.GraphController == null)
+            if (Controller is GraphController)
+                this.GraphController = (GraphController)Controller;
+            else
+                {
                 this.GraphController = new GraphController(Controller.SmallImageList, GraphData);
+                StringCollection Selections = new StringCollection();
+                Selections.Add(ThisPath);
+                GraphController.SelectedPaths = Selections;
+                }
 
             // Create a data window if necessary.
             if (DataWindow == 0)

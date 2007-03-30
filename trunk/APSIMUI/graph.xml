@@ -1,4 +1,4 @@
-<folder name="Graph data components" image="Images/chart24.png" version="5">
+<folder name="Graph data components" image="Images/chart24.png" version="8">
   <Graph name="XY graph">
     <Data>
       <ApsimFileReader>
@@ -9,31 +9,32 @@
     </Data>
     <Series />
   </Graph>
-   <Graph name="Probability graph">
-     <Data>
-       <ApsimFileReader>
-         <FileName type="filenames"></FileName>
-         <ParseTitle type="yesno">no</ParseTitle>
-         <Probability>
-           <Exceedence type="yesno">yes</Exceedence>
-           <FieldName type="fieldnames">yield</FieldName>
-           <GroupByFieldName type="fieldnames" />
-         </Probability>
-       </ApsimFileReader>
-     </Data>
-     <Series>
-       <XY>
-         <DataSource>ApsimFileReader\Probability</DataSource>
-         <X>yield</X>
-         <Y>Probability</Y>
-         <SeriesType>Line</SeriesType>
-         <PointType>None</PointType>
-         <X2 />
-         <Y2 />
-         <Colour>-65536</Colour>
-       </XY>
-     </Series>
-   </Graph>
+  <Graph name="Probability graph">
+    <Data>
+      <ApsimFileReader>
+        <FileName type="filenames">
+        </FileName>
+        <ParseTitle type="yesno">no</ParseTitle>
+        <Probability>
+          <Exceedence type="yesno">yes</Exceedence>
+          <FieldName type="fieldnames">yield</FieldName>
+          <GroupByFieldName type="fieldnames" />
+        </Probability>
+      </ApsimFileReader>
+    </Data>
+    <Series>
+      <XY>
+        <DataSource>ApsimFileReader\Probability</DataSource>
+        <X>yield</X>
+        <Y>Probability</Y>
+        <SeriesType>Line</SeriesType>
+        <PointType>None</PointType>
+        <X2 />
+        <Y2 />
+        <Colour>-65536</Colour>
+      </XY>
+    </Series>
+  </Graph>
   <folder name="Graph data components">
     <ApsimFileReader>
       <FileName type="filenames">
@@ -107,7 +108,8 @@
       </FileName>
       <Month type="month">
       </Month>
-      <Phase type="multilist" listvalues="Negative,Positive,Falling,Rising,Zero,AllOtherYears"></Phase>
+      <Phase type="multilist" listvalues="Negative,Positive,Falling,Rising,Zero,AllOtherYears">
+      </Phase>
     </SOI>
     <REMS>
       <FileName type="filename">
