@@ -2,7 +2,7 @@
    <title>Simple System Simulation</title>
    <component name="log" executable="%apsuite\apsim\log\lib\log.dll">
       <initdata>
-         <debug_output>on</debug_output>
+         <debug_output>off</debug_output>
          <logfile>log.txt</logfile>
       </initdata>
    </component>
@@ -18,10 +18,14 @@
          <outputfile>wheat.out</outputfile>
          <variable>clock.dd/mm/yyyy as Date</variable>
          <variable>SubSystem.rain as rain</variable>
+         <variable>settabledummy</variable>
       </initdata>
    </component>
    <component name="manager" executable="%apsuite\apsim\manager\lib\manager.dll">
       <initdata>
+         <rule name="init" condition="init">
+            settabledummy = 1
+         </rule>
          <rule name="sample.end_of_day" condition="end_of_day">
             <![CDATA[
             if (day = 200) then
@@ -42,6 +46,18 @@
 	         <filename>%apsuite\apsim\met\sample\dalby.met</filename>
 	      </initdata>
 	   </component>
+
+      <component name="manager2" executable="%apsuite\apsim\manager\lib\manager.dll">
+         <initdata>
+            <rule name="sample2.end_of_day" condition="end_of_day">
+               <![CDATA[
+               if (day = 190) then
+                  settabledummy = 2
+               endif
+               ]]>
+            </rule>
+         </initdata>
+      </component>
 
       <component name="report2" executable="%apsuite\apsim\report\lib\report.dll">
          <initdata>
@@ -79,10 +95,15 @@
          <respondToGet name="rain" type="float" unit="mm"/>
          <respondToSet name="dlt_sw_dep" type="float"/>
          <respondToEvent name="tick" type="time"/>
+         <respondToEvent name="prepare" type="string"/>
+         <respondToEvent name="process" type="string"/>
+         <respondToEvent name="post" type="string"/>
          <respondToEvent name="do_output" type="do_output"/>
          <get name="day" type="int" unit="day"/>
          <get name="title" type="string"/>
          <respondToSet name="rain" type="float" unit="mm"/>
+         <set name="settabledummy" type="single"/>
+         <get name="settabledummy" type="single"/>
       </registrations>
       <types>
          <type name="summaryFileWrite">

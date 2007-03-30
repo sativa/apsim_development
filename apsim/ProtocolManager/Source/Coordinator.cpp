@@ -944,9 +944,14 @@ void Coordinator::respondToGet(unsigned int& fromID, QueryValueData& queryValueD
 // ------------------------------------------------------------------
 bool Coordinator::respondToSet(unsigned int& fromID, QuerySetValueData& setValueData)
    {
-   sendQuerySetValueMessage(fromID, fromID,
-                            setValueData.ID, setValueData.ID,
-                            setValueData.variant);
+   if (components.find(fromID) == components.end())
+      sendQuerySetValueMessage(parentID, fromID,
+                               setValueData.ID, setValueData.ID,
+                               setValueData.variant);
+   else
+      sendQuerySetValueMessage(fromID, fromID,
+                               setValueData.ID, setValueData.ID,
+                               setValueData.variant);
    return getSetVariableSuccess();
    }
 // ------------------------------------------------------------------
