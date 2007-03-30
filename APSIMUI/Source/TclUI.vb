@@ -1,10 +1,10 @@
 Imports System.Xml
 Imports VBGeneral.ApsimSettings
 Imports VBGeneral
-'Imports CSGeneral
+Imports VBUserInterface
 
 Public Class TclUI
-    Inherits VBGeneral.BaseView
+    Inherits BaseView
 
     Overrides Sub RefreshView(ByVal tController As BaseController)
         MyBase.RefreshView(tController)
