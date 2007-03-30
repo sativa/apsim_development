@@ -37,7 +37,7 @@ namespace Graph
             // loop through all series in data and draw a chart series for each.
             foreach (APSIMData Series in Controller.Data.Child("series").get_Children("xy"))
                 {
-                string DataSource = Series.get_ChildValue("DataSource");
+                string DataSource = GraphData.FullPath + "\\" + Series.get_ChildValue("DataSource");
                 string XFieldName = Series.get_ChildValue("X");
                 string YFieldName = Series.get_ChildValue("Y");
                 string SeriesType = Series.get_ChildValue("SeriesType").ToLower();
@@ -56,7 +56,8 @@ namespace Graph
                             {
                             Steema.TeeChart.Styles.Bar Bar = new Steema.TeeChart.Styles.Bar();
                             int NumSeries = Controller.Data.Child("series").get_Children("xy").Length;
-                            Bar.BarWidthPercent = 100 / NumSeries;
+                            Bar.MultiBar = Steema.TeeChart.Styles.MultiBars.None;
+                            Bar.BarWidthPercent = 45; //50 / NumSeries) - 5;
                             NewSeries = Bar;
                             NewSeries.Marks.Visible = false;
                             }
@@ -161,7 +162,7 @@ namespace Graph
                 }
             }
 
-        private void Chart_Click(object sender, EventArgs e)
+        public void ChartEdit()
             {
             Chart.ShowEditor();
             }

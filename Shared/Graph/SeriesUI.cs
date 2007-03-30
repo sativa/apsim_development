@@ -17,6 +17,7 @@ namespace Graph
         {
         private GraphController GraphController;
         private bool Updating = false;
+        private APSIMData GraphData;
 
         public SeriesUI()
             {
@@ -30,16 +31,23 @@ namespace Graph
             // -----------------------------------------------------------
             base.RefreshView(Controller);
 
-            APSIMData GraphData = Controller.Data.Parent.Child("Data");
+            GraphData = Controller.Data.Parent.Child("Data");
             if (GraphData == null)
                 GraphData = Controller.Data.Parent.Parent.Child("Data");
             this.GraphController = new GraphController(Controller.SmallImageList, GraphData);
 
             Updating = true;
 
+            // Get a list of dataset names - convert them to relative paths.
+            string[] DataSetNames = GraphController.GetAllDataSets();
+            for (int i = 0; i != DataSetNames.Length; i++)
+                {
+                DataSetNames[i] = DataSetNames[i].Replace(GraphData.FullPath + "\\", "");
+                }
+
             // give the dataset names to the combobox in the first column.
             ComboBoxCellType DataSourceCombo = (ComboBoxCellType) Grid.Columns[0].Editor;
-            DataSourceCombo.Items = GraphController.GetAllDataSets();
+            DataSourceCombo.Items = DataSetNames;
 
             int Row = 0;
             foreach (APSIMData xy in Controller.Data.get_Children("xy"))
@@ -96,7 +104,7 @@ namespace Graph
 
         private void PopulateXYColumns(int Row)
             {
-            string DataSourceName = Grid.Cells[Row, 0].Text;
+            string DataSourceName = GraphData.FullPath + "\\" + Grid.Cells[Row, 0].Text;
             string[] FieldNames = GraphController.GetFieldNamesForDataSet(DataSourceName);
             ComboBoxCellType XCombo = (ComboBoxCellType)Grid.Columns[1].Editor;
             ComboBoxCellType YCombo = (ComboBoxCellType)Grid.Columns[2].Editor;

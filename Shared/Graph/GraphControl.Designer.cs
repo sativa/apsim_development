@@ -522,7 +522,6 @@ namespace Graph
             // 
             this.Chart.Walls.Right.Shadow.Visible = false;
             this.Chart.Walls.Visible = false;
-            this.Chart.Click += new System.EventHandler(this.Chart_Click);
             // 
             // GraphControl
             // 

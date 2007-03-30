@@ -33,8 +33,9 @@ namespace Graph
             this.GraphControl = new Graph.GraphControl();
             this.Splitter = new System.Windows.Forms.Splitter();
             this.ToolStrip = new System.Windows.Forms.ToolStrip();
-            this.RefreshButton = new System.Windows.Forms.ToolStripButton();
             this.ColourDialog = new System.Windows.Forms.ColorDialog();
+            this.RefreshButton = new System.Windows.Forms.ToolStripButton();
+            this.PropertiesButton = new System.Windows.Forms.ToolStripButton();
             this.ToolStripContainer.ContentPanel.SuspendLayout();
             this.ToolStripContainer.TopToolStripPanel.SuspendLayout();
             this.ToolStripContainer.SuspendLayout();
@@ -94,10 +95,11 @@ namespace Graph
             // 
             this.ToolStrip.Dock = System.Windows.Forms.DockStyle.None;
             this.ToolStrip.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.RefreshButton});
+            this.RefreshButton,
+            this.PropertiesButton});
             this.ToolStrip.Location = new System.Drawing.Point(3, 0);
             this.ToolStrip.Name = "ToolStrip";
-            this.ToolStrip.Size = new System.Drawing.Size(115, 25);
+            this.ToolStrip.Size = new System.Drawing.Size(178, 25);
             this.ToolStrip.TabIndex = 0;
             // 
             // RefreshButton
@@ -105,9 +107,18 @@ namespace Graph
             this.RefreshButton.Image = global::Graph.Properties.Resources.refresh;
             this.RefreshButton.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.RefreshButton.Name = "RefreshButton";
-            this.RefreshButton.Size = new System.Drawing.Size(72, 22);
+            this.RefreshButton.Size = new System.Drawing.Size(66, 22);
             this.RefreshButton.Text = "Refresh";
             this.RefreshButton.Click += new System.EventHandler(this.RefreshButton_Click);
+            // 
+            // PropertiesButton
+            // 
+            this.PropertiesButton.Image = global::Graph.Properties.Resources.preferences;
+            this.PropertiesButton.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.PropertiesButton.Name = "PropertiesButton";
+            this.PropertiesButton.Size = new System.Drawing.Size(69, 22);
+            this.PropertiesButton.Text = "Settings";
+            this.PropertiesButton.Click += new System.EventHandler(this.PropertiesButton_Click);
             // 
             // GraphUI
             // 
@@ -136,6 +147,7 @@ namespace Graph
         private System.Windows.Forms.Panel ChartPanel;
         private System.Windows.Forms.ColorDialog ColourDialog;
         private GraphControl GraphControl;
+        private System.Windows.Forms.ToolStripButton PropertiesButton;
 
         }
     }

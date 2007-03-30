@@ -34,6 +34,11 @@ namespace Graph
             GraphControl.Refresh(Controller);
             }
 
+        private void PropertiesButton_Click(object sender, EventArgs e)
+            {
+            GraphControl.ChartEdit();
+            }
+
 
 /*
         private void CreateDefaultSheetsAndCharts()
