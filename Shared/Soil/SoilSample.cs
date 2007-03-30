@@ -156,6 +156,11 @@ namespace Soils
             get { return Utility.getLayered(Data, "profile", "esp", ""); }
             set { Utility.setLayered(Data, "profile", "esp", "", value); }
 			}
+		public double[] CL
+			{
+            get { return Utility.getLayered(Data, "profile", "cl", ""); }
+            set { Utility.setLayered(Data, "profile", "cl", "", value); }
+			}			
         public double[] SWMapedToSoil
             {
             get

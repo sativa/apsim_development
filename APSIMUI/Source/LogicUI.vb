@@ -131,7 +131,7 @@ Public Class LogicUI
 
 #End Region
 
-    Overrides Sub RefreshView(ByVal Cntroller As BaseController)
+    Overrides Sub RefreshView(ByVal Controller As BaseController)
         MyBase.RefreshView(Controller)
 
         TabControl.TabPages.Clear()
