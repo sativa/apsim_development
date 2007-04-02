@@ -17,6 +17,7 @@ Component     "report" = c:\development\apsim\report\lib\report.dll
 Component    "manager" = c:\development\apsim\manager\lib\manager.dll
 Paddock:
 Component        "Met" = c:\development\apsim\input\lib\input.dll
+Component   "manager2" = c:\development\apsim\manager\lib\manager.dll
 Component    "report2" = c:\development\apsim\report\lib\report.dll
 Component   "soilwat2" = c:\development\apsim\soilwat2\lib\soilwat2.dll
 
@@ -34,12 +35,16 @@ Component   "soilwat2" = c:\development\apsim\soilwat2\lib\soilwat2.dll
      Output variables:
         clock.dd/mm/yyyy as Date
         SubSystem.rain as rain
+        settabledummy
 
      Output file = wheat.out
      Format = normal
 
 ------- manager Initialisation ------------------------------------------------
      Manager rules:
+     
+     SECTION:- init
+     settabledummy = 1
      
      SECTION:- end_of_day
      if (day = 200) then
@@ -50,10 +55,21 @@ Component   "soilwat2" = c:\development\apsim\soilwat2\lib\soilwat2.dll
      subsystem do_output
      END of rules
      
+     Manager creating a new local real variable : settabledummy =     1.00000000000000
 
 ------- Met Initialisation ----------------------------------------------------
      Sparse data is not allowed
      INPUT File name: c:\development\apsim\met\sample\dalby.met
+
+------- manager2 Initialisation -----------------------------------------------
+     Manager rules:
+     
+     SECTION:- end_of_day
+        if (day = 190) then
+           settabledummy = 2
+        endif
+     END of rules
+     
 
 ------- report2 Initialisation ------------------------------------------------
      Output variables:
