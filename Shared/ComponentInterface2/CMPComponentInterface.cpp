@@ -7,7 +7,7 @@
 #include <general/stl_functions.h>
 #include <general/string_functions.h>
 #include <general/dll.h>
-#include "datatypes.h"
+#include "DataTypes.h"
 #include "CMPData.h"
 #include "CMPScienceAPI.h"
 
