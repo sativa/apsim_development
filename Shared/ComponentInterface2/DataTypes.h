@@ -18,7 +18,7 @@
       { }
    inline unsigned memorySize(const Null& data)
       {return 0;}
-   std::string DDML(const Null& data)
+   inline std::string DDML(const Null& data)
       {return "<type/>";}
 
 
@@ -42,7 +42,7 @@
               + ::memorySize(data.ackID)
               ;
       }
-   std::string DDML(const CompleteType& data)
+   inline std::string DDML(const CompleteType& data)
       {return "<type name=\"Complete\">"
                "<field name=\"ackID\" kind=\"integer4\" />"
                "</type>";}
@@ -71,7 +71,7 @@
               + ::memorySize(data.isFatal)
               ;
       }
-   std::string DDML(const ErrorType& data)
+   inline std::string DDML(const ErrorType& data)
       {return "<type name=\"Error\">"
                "<field name=\"msg\" kind=\"string\" />"
                "<field name=\"isFatal\" kind=\"boolean\" />"
@@ -105,7 +105,7 @@
               + ::memorySize(data.ddml)
               ;
       }
-   std::string DDML(const EventType& data)
+   inline std::string DDML(const EventType& data)
       {return "<type name=\"Event\">"
                "<field name=\"ID\" kind=\"integer4\" />"
                "<field name=\"publishedBy\" kind=\"integer4\" />"
@@ -132,7 +132,7 @@
               + ::memorySize(data.ID)
               ;
       }
-   std::string DDML(const GetValueType& data)
+   inline std::string DDML(const GetValueType& data)
       {return "<type name=\"GetValue\">"
                "<field name=\"ID\" kind=\"integer4\" />"
                "</type>";}
@@ -165,7 +165,7 @@
               + ::memorySize(data.inStartup)
               ;
       }
-   std::string DDML(const Init1Type& data)
+   inline std::string DDML(const Init1Type& data)
       {return "<type name=\"Init1\">"
                "<field name=\"sdml\" kind=\"string\" />"
                "<field name=\"fqn\" kind=\"string\" />"
@@ -196,7 +196,7 @@
               + ::memorySize(data.success)
               ;
       }
-   std::string DDML(const NotifySetValueSuccessType& data)
+   inline std::string DDML(const NotifySetValueSuccessType& data)
       {return "<type name=\"NotifySetValueSuccess\">"
                "<field name=\"ID\" kind=\"integer4\" />"
                "<field name=\"success\" kind=\"boolean\" />"
@@ -226,7 +226,7 @@
               + ::memorySize(data.ddml)
               ;
       }
-   std::string DDML(const PublishEventType& data)
+   inline std::string DDML(const PublishEventType& data)
       {return "<type name=\"PublishEvent\">"
                "<field name=\"ID\" kind=\"integer4\" />"
                "<field name=\"ddml\" kind=\"string\" />"
@@ -256,7 +256,7 @@
               + ::memorySize(data.kind)
               ;
       }
-   std::string DDML(const QueryInfoType& data)
+   inline std::string DDML(const QueryInfoType& data)
       {return "<type name=\"QueryInfo\">"
                "<field name=\"name\" kind=\"string\" />"
                "<field name=\"kind\" kind=\"integer4\" />"
@@ -298,7 +298,7 @@
               + ::memorySize(data.ddml)
               ;
       }
-   std::string DDML(const RegisterType& data)
+   inline std::string DDML(const RegisterType& data)
       {return "<type name=\"Register\">"
                "<field name=\"kind\" kind=\"integer4\" />"
                "<field name=\"ID\" kind=\"integer4\" />"
@@ -331,7 +331,7 @@
               + ::memorySize(data.ddml)
               ;
       }
-   std::string DDML(const ReplyValueType& data)
+   inline std::string DDML(const ReplyValueType& data)
       {return "<type name=\"ReplyValue\">"
                "<field name=\"queryID\" kind=\"integer4\" />"
                "<field name=\"ddml\" kind=\"string\" />"
@@ -361,7 +361,7 @@
               + ::memorySize(data.ddml)
               ;
       }
-   std::string DDML(const RequestSetValueType& data)
+   inline std::string DDML(const RequestSetValueType& data)
       {return "<type name=\"RequestSetValue\">"
                "<field name=\"ID\" kind=\"integer4\" />"
                "<field name=\"ddml\" kind=\"string\" />"
@@ -407,7 +407,7 @@
               + ::memorySize(data.kind)
               ;
       }
-   std::string DDML(const ReturnInfoType& data)
+   inline std::string DDML(const ReturnInfoType& data)
       {return "<type name=\"ReturnInfo\">"
                "<field name=\"queryID\" kind=\"integer4\" />"
                "<field name=\"compID\" kind=\"integer4\" />"
@@ -445,7 +445,7 @@
               + ::memorySize(data.ddml)
               ;
       }
-   std::string DDML(const ReturnValueType& data)
+   inline std::string DDML(const ReturnValueType& data)
       {return "<type name=\"ReturnValue\">"
                "<field name=\"compID\" kind=\"integer4\" />"
                "<field name=\"ID\" kind=\"integer4\" />"
@@ -476,7 +476,7 @@
               + ::memorySize(data.requestedByID)
               ;
       }
-   std::string DDML(const QueryValueType& data)
+   inline std::string DDML(const QueryValueType& data)
       {return "<type name=\"QueryValue\">"
                "<field name=\"ID\" kind=\"integer4\" />"
                "<field name=\"requestedByID\" kind=\"integer4\" />"
@@ -506,7 +506,7 @@
               + ::memorySize(data.ddml)
               ;
       }
-   std::string DDML(const QuerySetValueType& data)
+   inline std::string DDML(const QuerySetValueType& data)
       {return "<type name=\"QuerySetValue\">"
                "<field name=\"ID\" kind=\"integer4\" />"
                "<field name=\"ddml\" kind=\"string\" />"
@@ -536,7 +536,7 @@
               + ::memorySize(data.value)
               ;
       }
-   std::string DDML(const LayeredType& data)
+   inline std::string DDML(const LayeredType& data)
       {return "<type name=\"Layered\" description=\"Layered soil data\">"
                "<field name=\"layer\" kind=\"double\" array=\"T\" />"
                "<field name=\"value\" kind=\"double\" array=\"T\" />"
@@ -582,7 +582,7 @@
               + ::memorySize(data.endsecpart)
               ;
       }
-   std::string DDML(const TimeType& data)
+   inline std::string DDML(const TimeType& data)
       {return "<type name=\"Time\" description=\"Change in the simulation system time and the duration of the new time step\">"
                "<field name=\"startday\" kind=\"integer4\" description=\"Day number of the start of the timestep\" />"
                "<field name=\"startsec\" kind=\"integer4\" description=\"Seconds past midnight of the start of the timestep (0-86399)\" />"
@@ -632,7 +632,7 @@
               + ::memorySize(data.vp)
               ;
       }
-   std::string DDML(const NewMetType& data)
+   inline std::string DDML(const NewMetType& data)
       {return "<type name=\"NewMet\">"
                "<field name=\"today\" kind=\"double\" />"
                "<field name=\"radn\" kind=\"single\" lower_bound=\"0.0\" upper_bound=\"50.0\" units=\"MJ/m2/d\" />"
@@ -686,7 +686,7 @@
               + ::memorySize(data.SWDepth)
               ;
       }
-   std::string DDML(const SoilWaterProfileLayerType& data)
+   inline std::string DDML(const SoilWaterProfileLayerType& data)
       {return "<type name=\"SoilWaterProfileLayer\" array=\"T\">"
                "<element>"
                "<field name=\"thickness\" kind=\"single\" units=\"mm\" />"
@@ -723,7 +723,7 @@
               + ::memorySize(data.amount)
               ;
       }
-   std::string DDML(const SoilWaterLayerType& data)
+   inline std::string DDML(const SoilWaterLayerType& data)
       {return "<type name=\"SoilWaterLayer\" array=\"T\">"
                "<element>"
                "<field name=\"thickness\" kind=\"single\" units=\"mm\" />"
@@ -755,7 +755,7 @@
               + ::memorySize(data.amount)
               ;
       }
-   std::string DDML(const LateralFlowLayerType& data)
+   inline std::string DDML(const LateralFlowLayerType& data)
       {return "<field name=\"LateralFlowLayer\" array=\"T\">"
                "<element>"
                "<field name=\"thickness\" kind=\"single\" />"
@@ -795,7 +795,7 @@
               + ::memorySize(data.LateralFlowLayer)
               ;
       }
-   std::string DDML(const SoilWaterBalanceType& data)
+   inline std::string DDML(const SoilWaterBalanceType& data)
       {return "<type name=\"SoilWaterBalance\">"
                "<field name=\"infiltration\" kind=\"single\" />"
                "<field name=\"drainage\" kind=\"single\" />"
@@ -884,7 +884,7 @@
               + ::memorySize(data.solute_names_value)
               ;
       }
-   std::string DDML(const NewSoluteType& data)
+   inline std::string DDML(const NewSoluteType& data)
       {return "<type name=\"NewSolute\">"
                "<field name=\"sender_name\" kind=\"string\" />"
                "<field name=\"sender_numbytes\" kind=\"integer4\" />"
@@ -927,7 +927,7 @@
               + ::memorySize(data.amount)
               ;
       }
-   std::string DDML(const layerType& data)
+   inline std::string DDML(const layerType& data)
       {return "<field name=\"layer\" array=\"T\">"
                "<element>"
                "<field name=\"thickness\" kind=\"single\" />"
@@ -959,7 +959,7 @@
               + ::memorySize(data.layer)
               ;
       }
-   std::string DDML(const SoluteProfileType& data)
+   inline std::string DDML(const SoluteProfileType& data)
       {return "<type name=\"SoluteProfile\" array=\"T\">"
                "<element>"
                "<field name=\"name\" kind=\"string\" />"
@@ -1048,7 +1048,7 @@
               + ::memorySize(data.amount_value)
               ;
       }
-   std::string DDML(const IrrigatedType& data)
+   inline std::string DDML(const IrrigatedType& data)
       {return "<type name=\"Irrigated\" description=\"Sent when an irrigation occurs\">"
                "<field name=\"sender_name\" kind=\"string\" />"
                "<field name=\"sender_numbytes\" kind=\"integer4\" />"
@@ -1091,7 +1091,7 @@
               + ::memorySize(data.layer)
               ;
       }
-   std::string DDML(const CropWaterSupplyType& data)
+   inline std::string DDML(const CropWaterSupplyType& data)
       {return "<type name=\"CropWaterSupply\" array=\"T\">"
                "<element>"
                "<field name=\"name\" kind=\"string\" />"
@@ -1132,7 +1132,7 @@
               + ::memorySize(data.PotentialUptake)
               ;
       }
-   std::string DDML(const RootLayerType& data)
+   inline std::string DDML(const RootLayerType& data)
       {return "<field name=\"RootLayer\" array=\"T\">"
                "<element>"
                "<field name=\"thickness\" kind=\"single\" units=\"mm\" />"
@@ -1173,7 +1173,7 @@
               + ::memorySize(data.amount)
               ;
       }
-   std::string DDML(const CropWaterDemandType& data)
+   inline std::string DDML(const CropWaterDemandType& data)
       {return "<type name=\"CropWaterDemand\" description=\"Message sent to add crop water demand terms to water balance calculations.\" array=\"T\">"
                "<element>"
                "<field name=\"Name\" kind=\"string\" description=\"Cohort name + instance name\" />"
@@ -1221,7 +1221,7 @@
               + ::memorySize(data.amount)
               ;
       }
-   std::string DDML(const CropNitrogenDemandType& data)
+   inline std::string DDML(const CropNitrogenDemandType& data)
       {return "<type name=\"CropNitrogenDemand\" array=\"T\" description=\"Message sent to add crop N demand terms to N balance calculations.\">"
                "<element>"
                "<field name=\"Name\" kind=\"string\" description=\"Cohort name + instance name\" />"
@@ -1262,7 +1262,7 @@
               + ::memorySize(data.layer)
               ;
       }
-   std::string DDML(const CropNitrogenSupplyType& data)
+   inline std::string DDML(const CropNitrogenSupplyType& data)
       {return "<type name=\"CropNitrogenSupply\" array=\"T\">"
                "<element>"
                "<field name=\"name\" kind=\"string\" description=\"Crop type + instance name\" />"
@@ -1308,7 +1308,7 @@
               + ::memorySize(data.layer)
               ;
       }
-   std::string DDML(const InterceptionType& data)
+   inline std::string DDML(const InterceptionType& data)
       {return "<field name=\"Interception\" array=\"T\">"
                "<element>"
                "<field name=\"name\" kind=\"string\" />"
@@ -1346,7 +1346,7 @@
               + ::memorySize(data.transmission)
               ;
       }
-   std::string DDML(const LightProfileType& data)
+   inline std::string DDML(const LightProfileType& data)
       {return "<type name=\"LightProfile\">"
                "<field name=\"Interception\" array=\"T\">"
                "<element>"
@@ -1391,7 +1391,7 @@
               + ::memorySize(data.PotentialEp)
               ;
       }
-   std::string DDML(const CanopyType& data)
+   inline std::string DDML(const CanopyType& data)
       {return "<field name=\"Canopy\" array=\"T\">"
                "<element>"
                "<field name=\"name\" kind=\"string\" />"
@@ -1428,7 +1428,7 @@
               + ::memorySize(data.interception)
               ;
       }
-   std::string DDML(const CanopyWaterBalanceType& data)
+   inline std::string DDML(const CanopyWaterBalanceType& data)
       {return "<type name=\"CanopyWaterBalance\">"
                "<field name=\"Canopy\" array=\"T\">"
                "<element>"
@@ -1477,7 +1477,7 @@
               + ::memorySize(data.AshAlk)
               ;
       }
-   std::string DDML(const OrganicMatterFractionType& data)
+   inline std::string DDML(const OrganicMatterFractionType& data)
       {return "<field name=\"OrganicMatterFraction\" array=\"T\">"
                "<element>"
                "<field name=\"amount\" kind=\"single\" units=\"kg/ha\" />"
@@ -1520,7 +1520,7 @@
               + ::memorySize(data.Cover)
               ;
       }
-   std::string DDML(const ResidueType& data)
+   inline std::string DDML(const ResidueType& data)
       {return "<type name=\"Residue\" array=\"T\">"
                "<element>"
                "<field name=\"name\" kind=\"string\" />"
@@ -1562,7 +1562,7 @@
               + ::memorySize(data.amount)
               ;
       }
-   std::string DDML(const soluteType& data)
+   inline std::string DDML(const soluteType& data)
       {return "<field name=\"solute\" array=\"T\">"
                "<element>"
                "<field name=\"name\" kind=\"string\" />"
@@ -1594,7 +1594,7 @@
               + ::memorySize(data.solute)
               ;
       }
-   std::string DDML(const SurfaceWaterType& data)
+   inline std::string DDML(const SurfaceWaterType& data)
       {return "<type name=\"SurfaceWater\">"
                "<field name=\"amount\" kind=\"single\" />"
                "<field name=\"solute\" array=\"T\">"
@@ -1637,7 +1637,7 @@
               + ::memorySize(data.WaterInput)
               ;
       }
-   std::string DDML(const SurfaceWaterBalanceType& data)
+   inline std::string DDML(const SurfaceWaterBalanceType& data)
       {return "<type name=\"SurfaceWaterBalance\">"
                "<field name=\"runoff\" kind=\"single\" />"
                "<field name=\"evaporation\" kind=\"single\" />"
@@ -1673,7 +1673,7 @@
               + ::memorySize(data.layer)
               ;
       }
-   std::string DDML(const FertiliserConstituentsType& data)
+   inline std::string DDML(const FertiliserConstituentsType& data)
       {return "<type name=\"FertiliserConstituents\" array=\"T\">"
                "<element>"
                "<field name=\"name\" kind=\"string\" />"
@@ -1719,7 +1719,7 @@
               + ::memorySize(data.AshAlk)
               ;
       }
-   std::string DDML(const FPoolType& data)
+   inline std::string DDML(const FPoolType& data)
       {return "<field name=\"FPool\" array=\"T\">"
                "<element>"
                "<field name=\"C\" kind=\"single\" units=\"kg/ha\" />"
@@ -1765,7 +1765,7 @@
               + ::memorySize(data.FPool)
               ;
       }
-   std::string DDML(const FPoolProfileLayerType& data)
+   inline std::string DDML(const FPoolProfileLayerType& data)
       {return "<type name=\"FPoolProfileLayer\" array=\"T\">"
                "<element>"
                "<field name=\"thickness\" kind=\"single\" units=\"mm\" />"
@@ -1819,7 +1819,7 @@
               + ::memorySize(data.AshAlk)
               ;
       }
-   std::string DDML(const StandingFractionType& data)
+   inline std::string DDML(const StandingFractionType& data)
       {return "<field name=\"StandingFraction\" array=\"T\">"
                "<element>"
                "<field name=\"amount\" kind=\"single\" units=\"kg/ha\" />"
@@ -1866,7 +1866,7 @@
               + ::memorySize(data.AshAlk)
               ;
       }
-   std::string DDML(const LyingFractionType& data)
+   inline std::string DDML(const LyingFractionType& data)
       {return "<field name=\"LyingFraction\" array=\"T\">"
                "<element>"
                "<field name=\"amount\" kind=\"single\" units=\"kg/ha\" />"
@@ -1925,7 +1925,7 @@
               + ::memorySize(data.LyingFraction)
               ;
       }
-   std::string DDML(const SurfaceOrganicMatterType& data)
+   inline std::string DDML(const SurfaceOrganicMatterType& data)
       {return "<type name=\"SurfaceOrganicMatter\" array=\"T\">"
                "<element>"
                "<field name=\"Name\" kind=\"string\" />"
@@ -1999,7 +1999,7 @@
               + ::memorySize(data.AshAlk)
               ;
       }
-   std::string DDML(const SurfaceOrganicMatterDecompType& data)
+   inline std::string DDML(const SurfaceOrganicMatterDecompType& data)
       {return "<type name=\"SurfaceOrganicMatterDecomp\" array=\"T\">"
                "<element>"
                "<field name=\"Name\" kind=\"string\" />"
@@ -2148,7 +2148,7 @@
               + ::memorySize(data.dlt_no3_net_value)
               ;
       }
-   std::string DDML(const NBalanceType& data)
+   inline std::string DDML(const NBalanceType& data)
       {return "<type name=\"NBalance\" description=\"Notification of the completion of the soil N calculations\">"
                "<field name=\"sender_name\" kind=\"string\" />"
                "<field name=\"sender_numbytes\" kind=\"integer4\" />"
@@ -2278,7 +2278,7 @@
               + ::memorySize(data.dlt_om_value)
               ;
       }
-   std::string DDML(const CBalanceType& data)
+   inline std::string DDML(const CBalanceType& data)
       {return "<type name=\"CBalance\" description=\"Notification of the completion of the soil C calculations\">"
                "<field name=\"sender_name\" kind=\"string\" />"
                "<field name=\"sender_numbytes\" kind=\"integer4\" />"
@@ -2398,7 +2398,7 @@
               + ::memorySize(data.dlt_fom_p_value)
               ;
       }
-   std::string DDML(const IncorpFomType& data)
+   inline std::string DDML(const IncorpFomType& data)
       {return "<type name=\"IncorpFom\">"
                "<field name=\"dlt_fom_type_name\" kind=\"string\" />"
                "<field name=\"dlt_fom_type_numbytes\" kind=\"integer4\" />"
@@ -2446,7 +2446,7 @@
               + ::memorySize(data.layer)
               ;
       }
-   std::string DDML(const SoilOrganicMatterType& data)
+   inline std::string DDML(const SoilOrganicMatterType& data)
       {return "<type name=\"SoilOrganicMatter\">"
                "<field name=\"OrganicMatterType\" kind=\"string\" />"
                "<field name=\"layer\" array=\"T\">"
@@ -2536,7 +2536,7 @@
               + ::memorySize(data.dlt_fomc_pool)
               ;
       }
-   std::string DDML(const SoilNitrogenFlowsLayerType& data)
+   inline std::string DDML(const SoilNitrogenFlowsLayerType& data)
       {return "<type name=\"SoilNitrogenFlowsLayer\" array=\"T\">"
                "<element>"
                "<field name=\"nh4_transform_net\" kind=\"single\" units=\"kg/ha\" />"
@@ -2600,7 +2600,7 @@
               + ::memorySize(data.LateralFlow)
               ;
       }
-   std::string DDML(const NitrogenBalanceType& data)
+   inline std::string DDML(const NitrogenBalanceType& data)
       {return "<type name=\"NitrogenBalance\" array=\"T\">"
                "<element>"
                "<field name=\"Fertilizer\" kind=\"single\" units=\"kg/ha\" />"
@@ -2649,7 +2649,7 @@
               + ::memorySize(data.fraction_to_residue)
               ;
       }
-   std::string DDML(const CropChoppedType& data)
+   inline std::string DDML(const CropChoppedType& data)
       {return "<type name=\"CropChopped\">"
                "<field name=\"crop_type\" kind=\"string\" />"
                "<field name=\"dm_type\" kind=\"string\" array=\"T\" />"
@@ -2854,7 +2854,7 @@
               + ::memorySize(data.bd_value)
               ;
       }
-   std::string DDML(const NewProfileType& data)
+   inline std::string DDML(const NewProfileType& data)
       {return "<type name=\"NewProfile\">"
                "<field name=\"sender_name\" kind=\"string\" />"
                "<field name=\"sender_numbytes\" kind=\"integer4\" />"
@@ -2927,7 +2927,7 @@
               + ::memorySize(data.frgr)
               ;
       }
-   std::string DDML(const NewPotentialGrowthType& data)
+   inline std::string DDML(const NewPotentialGrowthType& data)
       {return "<type name=\"NewPotentialGrowth\">"
                "<field name=\"sender\" kind=\"string\" />"
                "<field name=\"frgr\" kind=\"single\" units=\"\" />"
@@ -2977,7 +2977,7 @@
               + ::memorySize(data.cover_tot)
               ;
       }
-   std::string DDML(const NewCanopyType& data)
+   inline std::string DDML(const NewCanopyType& data)
       {return "<type name=\"NewCanopy\">"
                "<field name=\"sender\" kind=\"string\" />"
                "<field name=\"height\" kind=\"single\" />"
@@ -3012,7 +3012,7 @@
               + ::memorySize(data.crop_type)
               ;
       }
-   std::string DDML(const NewCropType& data)
+   inline std::string DDML(const NewCropType& data)
       {return "<type name=\"NewCrop\">"
                "<field name=\"sender\" kind=\"string\" />"
                "<field name=\"crop_type\" kind=\"string\" />"
@@ -3042,7 +3042,7 @@
               + ::memorySize(data.value)
               ;
       }
-   std::string DDML(const SoilLayersType& data)
+   inline std::string DDML(const SoilLayersType& data)
       {return "<type name=\"SoilLayers\">"
                "<field name=\"layers\" kind=\"double\" unit=\"mm\" array=\"T\" />"
                "<field name=\"value\" kind=\"double\" unit=\"mm\" array=\"T\" />"
@@ -3072,7 +3072,7 @@
               + ::memorySize(data.rlv)
               ;
       }
-   std::string DDML(const rlv_layerType& data)
+   inline std::string DDML(const rlv_layerType& data)
       {return "<field name=\"rlv_layer\">"
                "<field name=\"layers\" kind=\"double\" units=\"mm\" array=\"T\" />"
                "<field name=\"rlv\" kind=\"double\" units=\"mmmm^3\" array=\"T\" />"
@@ -3110,7 +3110,7 @@
               + ::memorySize(data.demand)
               ;
       }
-   std::string DDML(const demandsType& data)
+   inline std::string DDML(const demandsType& data)
       {return "<field name=\"demands\" array=\"T\">"
                "<element>"
                "<field name=\"crop_ident\" kind=\"string\" description=\"Cohort name + instance name\" />"
@@ -3143,7 +3143,7 @@
               + ::memorySize(data.demands)
               ;
       }
-   std::string DDML(const PastureWaterDemandType& data)
+   inline std::string DDML(const PastureWaterDemandType& data)
       {return "<type name=\"PastureWaterDemand\" description=\"Message sent to add crop water demand terms to water balance calculations.\">"
                "<field name=\"demands\" array=\"T\">"
                "<element>"
@@ -3186,7 +3186,7 @@
               + ::memorySize(data.supply)
               ;
       }
-   std::string DDML(const suppliesType& data)
+   inline std::string DDML(const suppliesType& data)
       {return "<field name=\"supplies\" array=\"T\">"
                "<element>"
                "<field name=\"crop_ident\" kind=\"string\" description=\"Cohort name + instance name\" />"
@@ -3215,7 +3215,7 @@
               + ::memorySize(data.supplies)
               ;
       }
-   std::string DDML(const PastureWaterSupplyType& data)
+   inline std::string DDML(const PastureWaterSupplyType& data)
       {return "<type name=\"PastureWaterSupply\">"
                "<field name=\"supplies\" array=\"T\">"
                "<element>"
@@ -3254,7 +3254,7 @@
               + ::memorySize(data.uptake)
               ;
       }
-   std::string DDML(const water_uptakeType& data)
+   inline std::string DDML(const water_uptakeType& data)
       {return "<field name=\"water_uptake\" array=\"T\">"
                "<element>"
                "<field name=\"crop_ident\" kind=\"string\" description=\"Cohort name + instance name\" />"
@@ -3283,7 +3283,7 @@
               + ::memorySize(data.water_uptake)
               ;
       }
-   std::string DDML(const PastureWaterUptakeType& data)
+   inline std::string DDML(const PastureWaterUptakeType& data)
       {return "<type name=\"PastureWaterUptake\">"
                "<field name=\"water_uptake\" array=\"T\">"
                "<element>"
@@ -3334,7 +3334,7 @@
               + ::memorySize(data.root_radius)
               ;
       }
-   std::string DDML(const water_infoType& data)
+   inline std::string DDML(const water_infoType& data)
       {return "<field name=\"water_info\" array=\"T\">"
                "<element>"
                "<field name=\"crop_ident\" kind=\"string\" description=\"sub-population name\" />"
@@ -3366,7 +3366,7 @@
               + ::memorySize(data.water_info)
               ;
       }
-   std::string DDML(const WaterInfoType& data)
+   inline std::string DDML(const WaterInfoType& data)
       {return "<type name=\"WaterInfo\">"
                "<field name=\"water_info\" array=\"T\">"
                "<element>"
@@ -3416,7 +3416,7 @@
               + ::memorySize(data.ash_alk)
               ;
       }
-   std::string DDML(const fomType& data)
+   inline std::string DDML(const fomType& data)
       {return "<field name=\"fom\" array=\"T\">"
                "<element>"
                "<field name=\"weight\" unit=\"kg/ha\" kind=\"double\" />"
@@ -3451,7 +3451,7 @@
               + ::memorySize(data.fom)
               ;
       }
-   std::string DDML(const FomAddedType& data)
+   inline std::string DDML(const FomAddedType& data)
       {return "<type name=\"FomAdded\">"
                "<field name=\"layers\" unit=\"mm\" kind=\"double\" array=\"T\" />"
                "<field name=\"fom\" array=\"T\">"
@@ -3493,7 +3493,7 @@
               + ::memorySize(data.uptake)
               ;
       }
-   std::string DDML(const PastureNutrientUptakeType& data)
+   inline std::string DDML(const PastureNutrientUptakeType& data)
       {return "<type name=\"PastureNutrientUptake\">"
                "<field name=\"nutrient\" kind=\"string\" />"
                "<field name=\"layers\" unit=\"mm\" kind=\"double\" array=\"T\" />"
@@ -3520,7 +3520,7 @@
               + ::memorySize(data.rate)
               ;
       }
-   std::string DDML(const PastureSowType& data)
+   inline std::string DDML(const PastureSowType& data)
       {return "<type name=\"PastureSow\">"
                "<field name=\"rate\" unit=\"kg/ha\" kind=\"double\" />"
                "</type>";}
@@ -3549,7 +3549,7 @@
               + ::memorySize(data.propn_seeds)
               ;
       }
-   std::string DDML(const PastureKillType& data)
+   inline std::string DDML(const PastureKillType& data)
       {return "<type name=\"PastureKill\">"
                "<field name=\"propn_herbage\" unit=\"-\" kind=\"double\" />"
                "<field name=\"propn_seeds\" unit=\"-\" kind=\"double\" />"
@@ -3583,7 +3583,7 @@
               + ::memorySize(data.propn_mixed)
               ;
       }
-   std::string DDML(const PastureCultivateType& data)
+   inline std::string DDML(const PastureCultivateType& data)
       {return "<type name=\"PastureCultivate\">"
                "<field name=\"depth\" unit=\"mm\" kind=\"double\" />"
                "<field name=\"propn_incorp\" unit=\"-\" kind=\"double\" />"
@@ -3622,7 +3622,7 @@
               + ::memorySize(data.dm_content)
               ;
       }
-   std::string DDML(const PastureCutType& data)
+   inline std::string DDML(const PastureCutType& data)
       {return "<type name=\"PastureCut\">"
                "<field name=\"cut_height\" unit=\"mm\" kind=\"double\" />"
                "<field name=\"gathered\" unit=\"-\" kind=\"double\" />"
@@ -3674,7 +3674,7 @@
               + ::memorySize(data.ash_alk)
               ;
       }
-   std::string DDML(const PastureOnCutType& data)
+   inline std::string DDML(const PastureOnCutType& data)
       {return "<type name=\"PastureOnCut\">"
                "<field name=\"fresh_wt\" unit=\"kg\" kind=\"double\" />"
                "<field name=\"dm_content\" unit=\"kg/kg\" kind=\"double\" />"
@@ -3729,7 +3729,7 @@
               + ::memorySize(data.wind)
               ;
       }
-   std::string DDML(const PastureWeatherType& data)
+   inline std::string DDML(const PastureWeatherType& data)
       {return "<type name=\"PastureWeather\">"
                "<field name=\"maxt\" unit=\"oC\" kind=\"double\" />"
                "<field name=\"mint\" unit=\"oC\" kind=\"double\" />"
@@ -3776,7 +3776,7 @@
               + ::memorySize(data.ash_alk)
               ;
       }
-   std::string DDML(const FaecesType& data)
+   inline std::string DDML(const FaecesType& data)
       {return "<type name=\"Faeces\" array=\"T\">"
                "<element>"
                "<field name=\"weight\" unit=\"kg/d\" kind=\"double\" />"
@@ -3815,7 +3815,7 @@
               + ::memorySize(data.s)
               ;
       }
-   std::string DDML(const FaecesInorgType& data)
+   inline std::string DDML(const FaecesInorgType& data)
       {return "<type name=\"FaecesInorg\" array=\"T\">"
                "<element>"
                "<field name=\"n\" unit=\"kg/d\" kind=\"double\" />"
@@ -3860,7 +3860,7 @@
               + ::memorySize(data.ash_alk)
               ;
       }
-   std::string DDML(const IntakeType& data)
+   inline std::string DDML(const IntakeType& data)
       {return "<type name=\"Intake\" array=\"T\">"
                "<element>"
                "<field name=\"weight\" unit=\"kg/d\" kind=\"double\" />"
@@ -3907,7 +3907,7 @@
               + ::memorySize(data.ash_alk)
               ;
       }
-   std::string DDML(const PastIntakeType& data)
+   inline std::string DDML(const PastIntakeType& data)
       {return "<type name=\"PastIntake\" array=\"T\">"
                "<element>"
                "<field name=\"weight\" unit=\"kg/d\" kind=\"double\" />"
@@ -3954,7 +3954,7 @@
               + ::memorySize(data.ash_alk)
               ;
       }
-   std::string DDML(const SuppIntakeType& data)
+   inline std::string DDML(const SuppIntakeType& data)
       {return "<type name=\"SuppIntake\" array=\"T\">"
                "<element>"
                "<field name=\"weight\" unit=\"kg/d\" kind=\"double\" />"
@@ -4001,7 +4001,7 @@
               + ::memorySize(data.ash_alk)
               ;
       }
-   std::string DDML(const faeces_omType& data)
+   inline std::string DDML(const faeces_omType& data)
       {return "<type name=\"faeces_om\">"
                "<field name=\"weight\" unit=\"kg/ha\" kind=\"double\" />"
                "<field name=\"n\" unit=\"kg/ha\" kind=\"double\" />"
@@ -4038,7 +4038,7 @@
               + ::memorySize(data.s)
               ;
       }
-   std::string DDML(const faeces_inorgType& data)
+   inline std::string DDML(const faeces_inorgType& data)
       {return "<type name=\"faeces_inorg\">"
                "<field name=\"n\" unit=\"kg/ha\" kind=\"double\" />"
                "<field name=\"p\" unit=\"kg/ha\" kind=\"double\" />"
@@ -4081,7 +4081,7 @@
               + ::memorySize(data.ash_alk)
               ;
       }
-   std::string DDML(const urineType& data)
+   inline std::string DDML(const urineType& data)
       {return "<type name=\"urine\">"
                "<field name=\"volume\" unit=\"m3/ha\" kind=\"double\" />"
                "<field name=\"urea\" unit=\"kg/ha\" kind=\"double\" />"
@@ -4118,7 +4118,7 @@
               + ::memorySize(data.urine)
               ;
       }
-   std::string DDML(const AddExcretaType& data)
+   inline std::string DDML(const AddExcretaType& data)
       {return "<type name=\"AddExcreta\">"
                "<type name=\"faeces_om\">"
                "<field name=\"weight\" unit=\"kg/ha\" kind=\"double\" />"
@@ -4165,7 +4165,7 @@
               + ::memorySize(data.seed)
               ;
       }
-   std::string DDML(const RemoveHerbageType& data)
+   inline std::string DDML(const RemoveHerbageType& data)
       {return "<type name=\"RemoveHerbage\">"
                "<field name=\"herbage\" unit=\"kg/ha\" kind=\"double\" array=\"T\" />"
                "<field name=\"seed\" unit=\"kg/ha\" kind=\"double\" array=\"T\" />"
@@ -4195,7 +4195,7 @@
               + ::memorySize(data.eaten)
               ;
       }
-   std::string DDML(const SuppEatenType& data)
+   inline std::string DDML(const SuppEatenType& data)
       {return "<type name=\"SuppEaten\" array=\"T\">"
                "<element>"
                "<field name=\"paddock\" unit=\"\" kind=\"string\" />"
@@ -4251,7 +4251,7 @@
               + ::memorySize(data.height_ratio)
               ;
       }
-   std::string DDML(const herbageType& data)
+   inline std::string DDML(const herbageType& data)
       {return "<field name=\"herbage\" array=\"T\">"
                "<element>"
                "<field name=\"dm\" unit=\"kg/ha\" kind=\"double\" />"
@@ -4313,7 +4313,7 @@
               + ::memorySize(data.height_ratio)
               ;
       }
-   std::string DDML(const seedType& data)
+   inline std::string DDML(const seedType& data)
       {return "<field name=\"seed\" array=\"T\">"
                "<element>"
                "<field name=\"dm\" unit=\"kg/ha\" kind=\"double\" />"
@@ -4367,7 +4367,7 @@
               + ::memorySize(data.seed_class)
               ;
       }
-   std::string DDML(const Plant2StockType& data)
+   inline std::string DDML(const Plant2StockType& data)
       {return "<type name=\"Plant2Stock\">"
                "<field name=\"herbage\" array=\"T\">"
                "<element>"
@@ -4467,7 +4467,7 @@
               + ::memorySize(data.young_fleece_wt)
               ;
       }
-   std::string DDML(const BuyStockType& data)
+   inline std::string DDML(const BuyStockType& data)
       {return "<type name=\"BuyStock\">"
                "<field name=\"genotype\" unit=\"\" kind=\"string\" />"
                "<field name=\"number\" unit=\"\" kind=\"integer4\" />"
@@ -4508,7 +4508,7 @@
               + ::memorySize(data.number)
               ;
       }
-   std::string DDML(const SellStockType& data)
+   inline std::string DDML(const SellStockType& data)
       {return "<type name=\"SellStock\">"
                "<field name=\"group\" unit=\"\" kind=\"integer4\" />"
                "<field name=\"number\" unit=\"\" kind=\"integer4\" />"
@@ -4538,7 +4538,7 @@
               + ::memorySize(data.number)
               ;
       }
-   std::string DDML(const CastrateStockType& data)
+   inline std::string DDML(const CastrateStockType& data)
       {return "<type name=\"CastrateStock\">"
                "<field name=\"group\" unit=\"\" kind=\"integer4\" />"
                "<field name=\"number\" unit=\"\" kind=\"integer4\" />"
@@ -4568,7 +4568,7 @@
               + ::memorySize(data.number)
               ;
       }
-   std::string DDML(const DryOffStockType& data)
+   inline std::string DDML(const DryOffStockType& data)
       {return "<type name=\"DryOffStock\">"
                "<field name=\"group\" unit=\"\" kind=\"integer4\" />"
                "<field name=\"number\" unit=\"\" kind=\"integer4\" />"
@@ -4602,7 +4602,7 @@
               + ::memorySize(data.mate_days)
               ;
       }
-   std::string DDML(const JoinStockType& data)
+   inline std::string DDML(const JoinStockType& data)
       {return "<type name=\"JoinStock\">"
                "<field name=\"group\" unit=\"\" kind=\"integer4\" />"
                "<field name=\"mate_to\" unit=\"\" kind=\"string\" />"
@@ -4633,7 +4633,7 @@
               + ::memorySize(data.paddock)
               ;
       }
-   std::string DDML(const MoveStockType& data)
+   inline std::string DDML(const MoveStockType& data)
       {return "<type name=\"MoveStock\">"
                "<field name=\"group\" unit=\"\" kind=\"integer4\" />"
                "<field name=\"paddock\" unit=\"\" kind=\"string\" />"
@@ -4663,7 +4663,7 @@
               + ::memorySize(data.sub_group)
               ;
       }
-   std::string DDML(const ShearStockType& data)
+   inline std::string DDML(const ShearStockType& data)
       {return "<type name=\"ShearStock\">"
                "<field name=\"group\" unit=\"\" kind=\"integer4\" />"
                "<field name=\"sub_group\" unit=\"\" kind=\"string\" />"
@@ -4697,7 +4697,7 @@
               + ::memorySize(data.value)
               ;
       }
-   std::string DDML(const SplitStockType& data)
+   inline std::string DDML(const SplitStockType& data)
       {return "<type name=\"SplitStock\">"
                "<field name=\"group\" unit=\"\" kind=\"integer4\" />"
                "<field name=\"type\" unit=\"\" kind=\"string\" />"
@@ -4728,7 +4728,7 @@
               + ::memorySize(data.value)
               ;
       }
-   std::string DDML(const TagStockType& data)
+   inline std::string DDML(const TagStockType& data)
       {return "<type name=\"TagStock\">"
                "<field name=\"group\" unit=\"\" kind=\"integer4\" />"
                "<field name=\"value\" unit=\"\" kind=\"integer4\" />"
@@ -4762,7 +4762,7 @@
               + ::memorySize(data.number)
               ;
       }
-   std::string DDML(const WeanStockType& data)
+   inline std::string DDML(const WeanStockType& data)
       {return "<type name=\"WeanStock\">"
                "<field name=\"group\" unit=\"\" kind=\"integer4\" />"
                "<field name=\"sex\" unit=\"\" kind=\"string\" />"
@@ -4797,7 +4797,7 @@
               + ::memorySize(data.dlt)
               ;
       }
-   std::string DDML(const dmType& data)
+   inline std::string DDML(const dmType& data)
       {return "<field name=\"dm\" array=\"T\">"
                "<element>"
                "<field name=\"pool\" kind=\"string\" />"
@@ -4826,7 +4826,7 @@
               + ::memorySize(data.dm)
               ;
       }
-   std::string DDML(const RemoveCropDmType& data)
+   inline std::string DDML(const RemoveCropDmType& data)
       {return "<type name=\"RemoveCropDm\">"
                "<field name=\"dm\" array=\"T\">"
                "<element>"
@@ -4861,7 +4861,7 @@
               + ::memorySize(data.dlt_residue_dm)
               ;
       }
-   std::string DDML(const RemoveResidueDmType& data)
+   inline std::string DDML(const RemoveResidueDmType& data)
       {return "<type name=\"RemoveResidueDm\">"
                "<field name=\"dm_type\" kind=\"string\" array=\"T\" />"
                "<field name=\"dlt_residue_dm\" kind=\"single\" array=\"T\" />"
@@ -4891,7 +4891,7 @@
               + ::memorySize(data.amount)
               ;
       }
-   std::string DDML(const SupplementBuyType& data)
+   inline std::string DDML(const SupplementBuyType& data)
       {return "<type name=\"SupplementBuy\">"
                "<field name=\"supplement\" kind=\"string\" unit=\"-\" />"
                "<field name=\"amount\" kind=\"double\" unit=\"kg\" />"
@@ -4925,7 +4925,7 @@
               + ::memorySize(data.paddock)
               ;
       }
-   std::string DDML(const SupplementFeedType& data)
+   inline std::string DDML(const SupplementFeedType& data)
       {return "<type name=\"SupplementFeed\">"
                "<field name=\"supplement\" kind=\"string\" unit=\"-\" />"
                "<field name=\"amount\" kind=\"double\" unit=\"kg\" />"
@@ -4960,7 +4960,7 @@
               + ::memorySize(data.dest_store)
               ;
       }
-   std::string DDML(const SupplementMixType& data)
+   inline std::string DDML(const SupplementMixType& data)
       {return "<type name=\"SupplementMix\">"
                "<field name=\"src_store\" kind=\"string\" unit=\"-\" />"
                "<field name=\"amount\" kind=\"double\" unit=\"kg\" />"
