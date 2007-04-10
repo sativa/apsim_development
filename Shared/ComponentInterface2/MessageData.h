@@ -92,7 +92,7 @@ inline void pack(MessageData& messageData, bool value)
    *((char*)messageData.ptr()) = value;
    messageData.movePtrBy(memorySize(value));
    }
-std::string DDML(bool value)
+inline std::string DDML(bool value)
    {return "<type kind=\"boolean\"/>";}
 
 // ------ int ------
@@ -108,7 +108,7 @@ inline void pack(MessageData& messageData, int value)
    *((int*)messageData.ptr()) = value;
    messageData.movePtrBy(memorySize(value));
    }
-std::string DDML(int value)
+inline std::string DDML(int value)
    {return "<type kind=\"integer4\"/>";}
 
 // ------ float ------
@@ -124,7 +124,7 @@ inline void pack(MessageData& messageData, float value)
    *((float*)messageData.ptr()) = value;
    messageData.movePtrBy(memorySize(value));
    }
-std::string DDML(float value)
+inline std::string DDML(float value)
    {return "<type kind=\"single\"/>";}
 
 // ------ double ------
@@ -140,7 +140,7 @@ inline void pack(MessageData& messageData, double value)
    *((double*)messageData.ptr()) = value;
    messageData.movePtrBy(memorySize(value));
    }
-std::string DDML(double value)
+inline std::string DDML(double value)
    {return "<type kind=\"double\"/>";}
 
 // ------ char ------
@@ -156,7 +156,7 @@ inline void pack(MessageData& messageData, char value)
    *((char*)messageData.ptr()) = value;
    messageData.movePtrBy(memorySize(value));
    }
-std::string DDML(char value)
+inline std::string DDML(char value)
    {return "<type kind=\"char\"/>";}
 
 // ------ wchar ------
@@ -173,7 +173,7 @@ inline void pack(MessageData& messageData, WCHAR value)
    *((WCHAR*)messageData.ptr()) = value;
    messageData.movePtrBy(memorySize(value));
    }
-std::string DDML(WCHAR value)
+inline std::string DDML(WCHAR value)
    {return "<type kind=\"wchar\"/>";}
 
 // ------ std::string ------
@@ -191,7 +191,7 @@ inline void pack(MessageData& messageData, const std::string& value)
    pack(messageData, (int) value.length());
    messageData.copyFrom(value.c_str(), value.length());
    }
-std::string DDML(const std::string& value)
+inline std::string DDML(const std::string& value)
    {return "<type kind=\"string\"/>";}
 
 // ------ std::vector ------
