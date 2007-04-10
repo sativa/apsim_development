@@ -23,81 +23,81 @@
 
 
    //------ Complete ------
-   struct Complete
+   struct CompleteType
       {
       int ackID;
       };
 
-   inline void pack(MessageData& messageData, const Complete& data)
+   inline void pack(MessageData& messageData, const CompleteType& data)
       {
       pack(messageData, data.ackID);
       }
-   inline void unpack(MessageData& messageData, Complete& data)
+   inline void unpack(MessageData& messageData, CompleteType& data)
       {
       unpack(messageData, data.ackID);
       }
-   inline unsigned memorySize(const Complete& data)
+   inline unsigned memorySize(const CompleteType& data)
       {
       return 0
               + ::memorySize(data.ackID)
               ;
       }
-   std::string DDML(const Complete& data)
+   std::string DDML(const CompleteType& data)
       {return "<type name=\"Complete\">"
                "<field name=\"ackID\" kind=\"integer4\" />"
                "</type>";}
 
    //------ Error ------
-   struct Error
+   struct ErrorType
       {
       std::string msg;
       bool isFatal;
       };
 
-   inline void pack(MessageData& messageData, const Error& data)
+   inline void pack(MessageData& messageData, const ErrorType& data)
       {
       pack(messageData, data.msg);
       pack(messageData, data.isFatal);
       }
-   inline void unpack(MessageData& messageData, Error& data)
+   inline void unpack(MessageData& messageData, ErrorType& data)
       {
       unpack(messageData, data.msg);
       unpack(messageData, data.isFatal);
       }
-   inline unsigned memorySize(const Error& data)
+   inline unsigned memorySize(const ErrorType& data)
       {
       return 0
               + ::memorySize(data.msg)
               + ::memorySize(data.isFatal)
               ;
       }
-   std::string DDML(const Error& data)
+   std::string DDML(const ErrorType& data)
       {return "<type name=\"Error\">"
                "<field name=\"msg\" kind=\"string\" />"
                "<field name=\"isFatal\" kind=\"boolean\" />"
                "</type>";}
 
    //------ Event ------
-   struct Event
+   struct EventType
       {
       int ID;
       int publishedBy;
       std::string ddml;
       };
 
-   inline void pack(MessageData& messageData, const Event& data)
+   inline void pack(MessageData& messageData, const EventType& data)
       {
       pack(messageData, data.ID);
       pack(messageData, data.publishedBy);
       pack(messageData, data.ddml);
       }
-   inline void unpack(MessageData& messageData, Event& data)
+   inline void unpack(MessageData& messageData, EventType& data)
       {
       unpack(messageData, data.ID);
       unpack(messageData, data.publishedBy);
       unpack(messageData, data.ddml);
       }
-   inline unsigned memorySize(const Event& data)
+   inline unsigned memorySize(const EventType& data)
       {
       return 0
               + ::memorySize(data.ID)
@@ -105,7 +105,7 @@
               + ::memorySize(data.ddml)
               ;
       }
-   std::string DDML(const Event& data)
+   std::string DDML(const EventType& data)
       {return "<type name=\"Event\">"
                "<field name=\"ID\" kind=\"integer4\" />"
                "<field name=\"publishedBy\" kind=\"integer4\" />"
@@ -113,51 +113,51 @@
                "</type>";}
 
    //------ GetValue ------
-   struct GetValue
+   struct GetValueType
       {
       int ID;
       };
 
-   inline void pack(MessageData& messageData, const GetValue& data)
+   inline void pack(MessageData& messageData, const GetValueType& data)
       {
       pack(messageData, data.ID);
       }
-   inline void unpack(MessageData& messageData, GetValue& data)
+   inline void unpack(MessageData& messageData, GetValueType& data)
       {
       unpack(messageData, data.ID);
       }
-   inline unsigned memorySize(const GetValue& data)
+   inline unsigned memorySize(const GetValueType& data)
       {
       return 0
               + ::memorySize(data.ID)
               ;
       }
-   std::string DDML(const GetValue& data)
+   std::string DDML(const GetValueType& data)
       {return "<type name=\"GetValue\">"
                "<field name=\"ID\" kind=\"integer4\" />"
                "</type>";}
 
    //------ Init1 ------
-   struct Init1
+   struct Init1Type
       {
       std::string sdml;
       std::string fqn;
       bool inStartup;
       };
 
-   inline void pack(MessageData& messageData, const Init1& data)
+   inline void pack(MessageData& messageData, const Init1Type& data)
       {
       pack(messageData, data.sdml);
       pack(messageData, data.fqn);
       pack(messageData, data.inStartup);
       }
-   inline void unpack(MessageData& messageData, Init1& data)
+   inline void unpack(MessageData& messageData, Init1Type& data)
       {
       unpack(messageData, data.sdml);
       unpack(messageData, data.fqn);
       unpack(messageData, data.inStartup);
       }
-   inline unsigned memorySize(const Init1& data)
+   inline unsigned memorySize(const Init1Type& data)
       {
       return 0
               + ::memorySize(data.sdml)
@@ -165,7 +165,7 @@
               + ::memorySize(data.inStartup)
               ;
       }
-   std::string DDML(const Init1& data)
+   std::string DDML(const Init1Type& data)
       {return "<type name=\"Init1\">"
                "<field name=\"sdml\" kind=\"string\" />"
                "<field name=\"fqn\" kind=\"string\" />"
@@ -173,97 +173,97 @@
                "</type>";}
 
    //------ NotifySetValueSuccess ------
-   struct NotifySetValueSuccess
+   struct NotifySetValueSuccessType
       {
       int ID;
       bool success;
       };
 
-   inline void pack(MessageData& messageData, const NotifySetValueSuccess& data)
+   inline void pack(MessageData& messageData, const NotifySetValueSuccessType& data)
       {
       pack(messageData, data.ID);
       pack(messageData, data.success);
       }
-   inline void unpack(MessageData& messageData, NotifySetValueSuccess& data)
+   inline void unpack(MessageData& messageData, NotifySetValueSuccessType& data)
       {
       unpack(messageData, data.ID);
       unpack(messageData, data.success);
       }
-   inline unsigned memorySize(const NotifySetValueSuccess& data)
+   inline unsigned memorySize(const NotifySetValueSuccessType& data)
       {
       return 0
               + ::memorySize(data.ID)
               + ::memorySize(data.success)
               ;
       }
-   std::string DDML(const NotifySetValueSuccess& data)
+   std::string DDML(const NotifySetValueSuccessType& data)
       {return "<type name=\"NotifySetValueSuccess\">"
                "<field name=\"ID\" kind=\"integer4\" />"
                "<field name=\"success\" kind=\"boolean\" />"
                "</type>";}
 
    //------ PublishEvent ------
-   struct PublishEvent
+   struct PublishEventType
       {
       int ID;
       std::string ddml;
       };
 
-   inline void pack(MessageData& messageData, const PublishEvent& data)
+   inline void pack(MessageData& messageData, const PublishEventType& data)
       {
       pack(messageData, data.ID);
       pack(messageData, data.ddml);
       }
-   inline void unpack(MessageData& messageData, PublishEvent& data)
+   inline void unpack(MessageData& messageData, PublishEventType& data)
       {
       unpack(messageData, data.ID);
       unpack(messageData, data.ddml);
       }
-   inline unsigned memorySize(const PublishEvent& data)
+   inline unsigned memorySize(const PublishEventType& data)
       {
       return 0
               + ::memorySize(data.ID)
               + ::memorySize(data.ddml)
               ;
       }
-   std::string DDML(const PublishEvent& data)
+   std::string DDML(const PublishEventType& data)
       {return "<type name=\"PublishEvent\">"
                "<field name=\"ID\" kind=\"integer4\" />"
                "<field name=\"ddml\" kind=\"string\" />"
                "</type>";}
 
    //------ QueryInfo ------
-   struct QueryInfo
+   struct QueryInfoType
       {
       std::string name;
       int kind;
       };
 
-   inline void pack(MessageData& messageData, const QueryInfo& data)
+   inline void pack(MessageData& messageData, const QueryInfoType& data)
       {
       pack(messageData, data.name);
       pack(messageData, data.kind);
       }
-   inline void unpack(MessageData& messageData, QueryInfo& data)
+   inline void unpack(MessageData& messageData, QueryInfoType& data)
       {
       unpack(messageData, data.name);
       unpack(messageData, data.kind);
       }
-   inline unsigned memorySize(const QueryInfo& data)
+   inline unsigned memorySize(const QueryInfoType& data)
       {
       return 0
               + ::memorySize(data.name)
               + ::memorySize(data.kind)
               ;
       }
-   std::string DDML(const QueryInfo& data)
+   std::string DDML(const QueryInfoType& data)
       {return "<type name=\"QueryInfo\">"
                "<field name=\"name\" kind=\"string\" />"
                "<field name=\"kind\" kind=\"integer4\" />"
                "</type>";}
 
    //------ Register ------
-   struct Register
+   struct RegisterType
       {
       int kind;
       int ID;
@@ -272,7 +272,7 @@
       std::string ddml;
       };
 
-   inline void pack(MessageData& messageData, const Register& data)
+   inline void pack(MessageData& messageData, const RegisterType& data)
       {
       pack(messageData, data.kind);
       pack(messageData, data.ID);
@@ -280,7 +280,7 @@
       pack(messageData, data.name);
       pack(messageData, data.ddml);
       }
-   inline void unpack(MessageData& messageData, Register& data)
+   inline void unpack(MessageData& messageData, RegisterType& data)
       {
       unpack(messageData, data.kind);
       unpack(messageData, data.ID);
@@ -288,7 +288,7 @@
       unpack(messageData, data.name);
       unpack(messageData, data.ddml);
       }
-   inline unsigned memorySize(const Register& data)
+   inline unsigned memorySize(const RegisterType& data)
       {
       return 0
               + ::memorySize(data.kind)
@@ -298,7 +298,7 @@
               + ::memorySize(data.ddml)
               ;
       }
-   std::string DDML(const Register& data)
+   std::string DDML(const RegisterType& data)
       {return "<type name=\"Register\">"
                "<field name=\"kind\" kind=\"integer4\" />"
                "<field name=\"ID\" kind=\"integer4\" />"
@@ -308,67 +308,67 @@
                "</type>";}
 
    //------ ReplyValue ------
-   struct ReplyValue
+   struct ReplyValueType
       {
       int queryID;
       std::string ddml;
       };
 
-   inline void pack(MessageData& messageData, const ReplyValue& data)
+   inline void pack(MessageData& messageData, const ReplyValueType& data)
       {
       pack(messageData, data.queryID);
       pack(messageData, data.ddml);
       }
-   inline void unpack(MessageData& messageData, ReplyValue& data)
+   inline void unpack(MessageData& messageData, ReplyValueType& data)
       {
       unpack(messageData, data.queryID);
       unpack(messageData, data.ddml);
       }
-   inline unsigned memorySize(const ReplyValue& data)
+   inline unsigned memorySize(const ReplyValueType& data)
       {
       return 0
               + ::memorySize(data.queryID)
               + ::memorySize(data.ddml)
               ;
       }
-   std::string DDML(const ReplyValue& data)
+   std::string DDML(const ReplyValueType& data)
       {return "<type name=\"ReplyValue\">"
                "<field name=\"queryID\" kind=\"integer4\" />"
                "<field name=\"ddml\" kind=\"string\" />"
                "</type>";}
 
    //------ RequestSetValue ------
-   struct RequestSetValue
+   struct RequestSetValueType
       {
       int ID;
       std::string ddml;
       };
 
-   inline void pack(MessageData& messageData, const RequestSetValue& data)
+   inline void pack(MessageData& messageData, const RequestSetValueType& data)
       {
       pack(messageData, data.ID);
       pack(messageData, data.ddml);
       }
-   inline void unpack(MessageData& messageData, RequestSetValue& data)
+   inline void unpack(MessageData& messageData, RequestSetValueType& data)
       {
       unpack(messageData, data.ID);
       unpack(messageData, data.ddml);
       }
-   inline unsigned memorySize(const RequestSetValue& data)
+   inline unsigned memorySize(const RequestSetValueType& data)
       {
       return 0
               + ::memorySize(data.ID)
               + ::memorySize(data.ddml)
               ;
       }
-   std::string DDML(const RequestSetValue& data)
+   std::string DDML(const RequestSetValueType& data)
       {return "<type name=\"RequestSetValue\">"
                "<field name=\"ID\" kind=\"integer4\" />"
                "<field name=\"ddml\" kind=\"string\" />"
                "</type>";}
 
    //------ ReturnInfo ------
-   struct ReturnInfo
+   struct ReturnInfoType
       {
       int queryID;
       int compID;
@@ -378,7 +378,7 @@
       int kind;
       };
 
-   inline void pack(MessageData& messageData, const ReturnInfo& data)
+   inline void pack(MessageData& messageData, const ReturnInfoType& data)
       {
       pack(messageData, data.queryID);
       pack(messageData, data.compID);
@@ -387,7 +387,7 @@
       pack(messageData, data.type);
       pack(messageData, data.kind);
       }
-   inline void unpack(MessageData& messageData, ReturnInfo& data)
+   inline void unpack(MessageData& messageData, ReturnInfoType& data)
       {
       unpack(messageData, data.queryID);
       unpack(messageData, data.compID);
@@ -396,7 +396,7 @@
       unpack(messageData, data.type);
       unpack(messageData, data.kind);
       }
-   inline unsigned memorySize(const ReturnInfo& data)
+   inline unsigned memorySize(const ReturnInfoType& data)
       {
       return 0
               + ::memorySize(data.queryID)
@@ -407,7 +407,7 @@
               + ::memorySize(data.kind)
               ;
       }
-   std::string DDML(const ReturnInfo& data)
+   std::string DDML(const ReturnInfoType& data)
       {return "<type name=\"ReturnInfo\">"
                "<field name=\"queryID\" kind=\"integer4\" />"
                "<field name=\"compID\" kind=\"integer4\" />"
@@ -418,26 +418,26 @@
                "</type>";}
 
    //------ ReturnValue ------
-   struct ReturnValue
+   struct ReturnValueType
       {
       int compID;
       int ID;
       std::string ddml;
       };
 
-   inline void pack(MessageData& messageData, const ReturnValue& data)
+   inline void pack(MessageData& messageData, const ReturnValueType& data)
       {
       pack(messageData, data.compID);
       pack(messageData, data.ID);
       pack(messageData, data.ddml);
       }
-   inline void unpack(MessageData& messageData, ReturnValue& data)
+   inline void unpack(MessageData& messageData, ReturnValueType& data)
       {
       unpack(messageData, data.compID);
       unpack(messageData, data.ID);
       unpack(messageData, data.ddml);
       }
-   inline unsigned memorySize(const ReturnValue& data)
+   inline unsigned memorySize(const ReturnValueType& data)
       {
       return 0
               + ::memorySize(data.compID)
@@ -445,7 +445,7 @@
               + ::memorySize(data.ddml)
               ;
       }
-   std::string DDML(const ReturnValue& data)
+   std::string DDML(const ReturnValueType& data)
       {return "<type name=\"ReturnValue\">"
                "<field name=\"compID\" kind=\"integer4\" />"
                "<field name=\"ID\" kind=\"integer4\" />"
@@ -453,127 +453,97 @@
                "</type>";}
 
    //------ QueryValue ------
-   struct QueryValue
+   struct QueryValueType
       {
       int ID;
       int requestedByID;
       };
 
-   inline void pack(MessageData& messageData, const QueryValue& data)
+   inline void pack(MessageData& messageData, const QueryValueType& data)
       {
       pack(messageData, data.ID);
       pack(messageData, data.requestedByID);
       }
-   inline void unpack(MessageData& messageData, QueryValue& data)
+   inline void unpack(MessageData& messageData, QueryValueType& data)
       {
       unpack(messageData, data.ID);
       unpack(messageData, data.requestedByID);
       }
-   inline unsigned memorySize(const QueryValue& data)
+   inline unsigned memorySize(const QueryValueType& data)
       {
       return 0
               + ::memorySize(data.ID)
               + ::memorySize(data.requestedByID)
               ;
       }
-   std::string DDML(const QueryValue& data)
+   std::string DDML(const QueryValueType& data)
       {return "<type name=\"QueryValue\">"
                "<field name=\"ID\" kind=\"integer4\" />"
                "<field name=\"requestedByID\" kind=\"integer4\" />"
                "</type>";}
 
    //------ QuerySetValue ------
-   struct QuerySetValue
+   struct QuerySetValueType
       {
       int ID;
       std::string ddml;
       };
 
-   inline void pack(MessageData& messageData, const QuerySetValue& data)
+   inline void pack(MessageData& messageData, const QuerySetValueType& data)
       {
       pack(messageData, data.ID);
       pack(messageData, data.ddml);
       }
-   inline void unpack(MessageData& messageData, QuerySetValue& data)
+   inline void unpack(MessageData& messageData, QuerySetValueType& data)
       {
       unpack(messageData, data.ID);
       unpack(messageData, data.ddml);
       }
-   inline unsigned memorySize(const QuerySetValue& data)
+   inline unsigned memorySize(const QuerySetValueType& data)
       {
       return 0
               + ::memorySize(data.ID)
               + ::memorySize(data.ddml)
               ;
       }
-   std::string DDML(const QuerySetValue& data)
+   std::string DDML(const QuerySetValueType& data)
       {return "<type name=\"QuerySetValue\">"
                "<field name=\"ID\" kind=\"integer4\" />"
                "<field name=\"ddml\" kind=\"string\" />"
                "</type>";}
 
-   //------ Summary ------
-   struct Summary
-      {
-      std::string name;
-      std::string msg;
-      };
-
-   inline void pack(MessageData& messageData, const Summary& data)
-      {
-      pack(messageData, data.name);
-      pack(messageData, data.msg);
-      }
-   inline void unpack(MessageData& messageData, Summary& data)
-      {
-      unpack(messageData, data.name);
-      unpack(messageData, data.msg);
-      }
-   inline unsigned memorySize(const Summary& data)
-      {
-      return 0
-              + ::memorySize(data.name)
-              + ::memorySize(data.msg)
-              ;
-      }
-   std::string DDML(const Summary& data)
-      {return "<type name=\"Summary\">"
-               "<field name=\"name\" kind=\"string\" />"
-               "<field name=\"msg\" kind=\"string\" />"
-               "</type>";}
-
    //------ Layered ------
-   struct Layered
+   struct LayeredType
       {
       std::vector<double> layer;
       std::vector<double> value;
       };
 
-   inline void pack(MessageData& messageData, const Layered& data)
+   inline void pack(MessageData& messageData, const LayeredType& data)
       {
       pack(messageData, data.layer);
       pack(messageData, data.value);
       }
-   inline void unpack(MessageData& messageData, Layered& data)
+   inline void unpack(MessageData& messageData, LayeredType& data)
       {
       unpack(messageData, data.layer);
       unpack(messageData, data.value);
       }
-   inline unsigned memorySize(const Layered& data)
+   inline unsigned memorySize(const LayeredType& data)
       {
       return 0
               + ::memorySize(data.layer)
               + ::memorySize(data.value)
               ;
       }
-   std::string DDML(const Layered& data)
+   std::string DDML(const LayeredType& data)
       {return "<type name=\"Layered\" description=\"Layered soil data\">"
                "<field name=\"layer\" kind=\"double\" array=\"T\" />"
                "<field name=\"value\" kind=\"double\" array=\"T\" />"
                "</type>";}
 
    //------ Time ------
-   struct Time
+   struct TimeType
       {
       int startday;
       int startsec;
@@ -583,7 +553,7 @@
       double endsecpart;
       };
 
-   inline void pack(MessageData& messageData, const Time& data)
+   inline void pack(MessageData& messageData, const TimeType& data)
       {
       pack(messageData, data.startday);
       pack(messageData, data.startsec);
@@ -592,7 +562,7 @@
       pack(messageData, data.endsec);
       pack(messageData, data.endsecpart);
       }
-   inline void unpack(MessageData& messageData, Time& data)
+   inline void unpack(MessageData& messageData, TimeType& data)
       {
       unpack(messageData, data.startday);
       unpack(messageData, data.startsec);
@@ -601,7 +571,7 @@
       unpack(messageData, data.endsec);
       unpack(messageData, data.endsecpart);
       }
-   inline unsigned memorySize(const Time& data)
+   inline unsigned memorySize(const TimeType& data)
       {
       return 0
               + ::memorySize(data.startday)
@@ -612,7 +582,7 @@
               + ::memorySize(data.endsecpart)
               ;
       }
-   std::string DDML(const Time& data)
+   std::string DDML(const TimeType& data)
       {return "<type name=\"Time\" description=\"Change in the simulation system time and the duration of the new time step\">"
                "<field name=\"startday\" kind=\"integer4\" description=\"Day number of the start of the timestep\" />"
                "<field name=\"startsec\" kind=\"integer4\" description=\"Seconds past midnight of the start of the timestep (0-86399)\" />"
@@ -623,7 +593,7 @@
                "</type>";}
 
    //------ NewMet ------
-   struct NewMet
+   struct NewMetType
       {
       double today;
       float radn;
@@ -633,7 +603,7 @@
       float vp;
       };
 
-   inline void pack(MessageData& messageData, const NewMet& data)
+   inline void pack(MessageData& messageData, const NewMetType& data)
       {
       pack(messageData, data.today);
       pack(messageData, data.radn);
@@ -642,7 +612,7 @@
       pack(messageData, data.rain);
       pack(messageData, data.vp);
       }
-   inline void unpack(MessageData& messageData, NewMet& data)
+   inline void unpack(MessageData& messageData, NewMetType& data)
       {
       unpack(messageData, data.today);
       unpack(messageData, data.radn);
@@ -651,7 +621,7 @@
       unpack(messageData, data.rain);
       unpack(messageData, data.vp);
       }
-   inline unsigned memorySize(const NewMet& data)
+   inline unsigned memorySize(const NewMetType& data)
       {
       return 0
               + ::memorySize(data.today)
@@ -662,7 +632,7 @@
               + ::memorySize(data.vp)
               ;
       }
-   std::string DDML(const NewMet& data)
+   std::string DDML(const NewMetType& data)
       {return "<type name=\"NewMet\">"
                "<field name=\"today\" kind=\"double\" />"
                "<field name=\"radn\" kind=\"single\" lower_bound=\"0.0\" upper_bound=\"50.0\" units=\"MJ/m2/d\" />"
@@ -673,7 +643,7 @@
                "</type>";}
 
    //------ SoilWaterProfileLayer ------
-   struct SoilWaterProfileLayer
+   struct SoilWaterProfileLayerType
       {
       float thickness;
       float BulkDensity;
@@ -684,7 +654,7 @@
       float SWDepth;
       };
 
-   inline void pack(MessageData& messageData, const SoilWaterProfileLayer& data)
+   inline void pack(MessageData& messageData, const SoilWaterProfileLayerType& data)
       {
       pack(messageData, data.thickness);
       pack(messageData, data.BulkDensity);
@@ -694,7 +664,7 @@
       pack(messageData, data.AirDryDepth);
       pack(messageData, data.SWDepth);
       }
-   inline void unpack(MessageData& messageData, SoilWaterProfileLayer& data)
+   inline void unpack(MessageData& messageData, SoilWaterProfileLayerType& data)
       {
       unpack(messageData, data.thickness);
       unpack(messageData, data.BulkDensity);
@@ -704,7 +674,7 @@
       unpack(messageData, data.AirDryDepth);
       unpack(messageData, data.SWDepth);
       }
-   inline unsigned memorySize(const SoilWaterProfileLayer& data)
+   inline unsigned memorySize(const SoilWaterProfileLayerType& data)
       {
       return 0
               + ::memorySize(data.thickness)
@@ -716,7 +686,7 @@
               + ::memorySize(data.SWDepth)
               ;
       }
-   std::string DDML(const SoilWaterProfileLayer& data)
+   std::string DDML(const SoilWaterProfileLayerType& data)
       {return "<type name=\"SoilWaterProfileLayer\" array=\"T\">"
                "<element>"
                "<field name=\"thickness\" kind=\"single\" units=\"mm\" />"
@@ -730,30 +700,30 @@
                "</type>";}
 
    //------ SoilWaterLayer ------
-   struct SoilWaterLayer
+   struct SoilWaterLayerType
       {
       float thickness;
       float amount;
       };
 
-   inline void pack(MessageData& messageData, const SoilWaterLayer& data)
+   inline void pack(MessageData& messageData, const SoilWaterLayerType& data)
       {
       pack(messageData, data.thickness);
       pack(messageData, data.amount);
       }
-   inline void unpack(MessageData& messageData, SoilWaterLayer& data)
+   inline void unpack(MessageData& messageData, SoilWaterLayerType& data)
       {
       unpack(messageData, data.thickness);
       unpack(messageData, data.amount);
       }
-   inline unsigned memorySize(const SoilWaterLayer& data)
+   inline unsigned memorySize(const SoilWaterLayerType& data)
       {
       return 0
               + ::memorySize(data.thickness)
               + ::memorySize(data.amount)
               ;
       }
-   std::string DDML(const SoilWaterLayer& data)
+   std::string DDML(const SoilWaterLayerType& data)
       {return "<type name=\"SoilWaterLayer\" array=\"T\">"
                "<element>"
                "<field name=\"thickness\" kind=\"single\" units=\"mm\" />"
@@ -762,30 +732,30 @@
                "</type>";}
 
    //------ LateralFlowLayer ------
-   struct LateralFlowLayer
+   struct LateralFlowLayerType
       {
       float thickness;
       float amount;
       };
 
-   inline void pack(MessageData& messageData, const LateralFlowLayer& data)
+   inline void pack(MessageData& messageData, const LateralFlowLayerType& data)
       {
       pack(messageData, data.thickness);
       pack(messageData, data.amount);
       }
-   inline void unpack(MessageData& messageData, LateralFlowLayer& data)
+   inline void unpack(MessageData& messageData, LateralFlowLayerType& data)
       {
       unpack(messageData, data.thickness);
       unpack(messageData, data.amount);
       }
-   inline unsigned memorySize(const LateralFlowLayer& data)
+   inline unsigned memorySize(const LateralFlowLayerType& data)
       {
       return 0
               + ::memorySize(data.thickness)
               + ::memorySize(data.amount)
               ;
       }
-   std::string DDML(const LateralFlowLayer& data)
+   std::string DDML(const LateralFlowLayerType& data)
       {return "<field name=\"LateralFlowLayer\" array=\"T\">"
                "<element>"
                "<field name=\"thickness\" kind=\"single\" />"
@@ -794,29 +764,29 @@
                "</field>";}
 
    //------ SoilWaterBalance ------
-   struct SoilWaterBalance
+   struct SoilWaterBalanceType
       {
       float infiltration;
       float drainage;
       float evaporation;
-      std::vector<LateralFlowLayer> LateralFlowLayer;
+      std::vector<LateralFlowLayerType> LateralFlowLayer;
       };
 
-   inline void pack(MessageData& messageData, const SoilWaterBalance& data)
+   inline void pack(MessageData& messageData, const SoilWaterBalanceType& data)
       {
       pack(messageData, data.infiltration);
       pack(messageData, data.drainage);
       pack(messageData, data.evaporation);
       pack(messageData, data.LateralFlowLayer);
       }
-   inline void unpack(MessageData& messageData, SoilWaterBalance& data)
+   inline void unpack(MessageData& messageData, SoilWaterBalanceType& data)
       {
       unpack(messageData, data.infiltration);
       unpack(messageData, data.drainage);
       unpack(messageData, data.evaporation);
       unpack(messageData, data.LateralFlowLayer);
       }
-   inline unsigned memorySize(const SoilWaterBalance& data)
+   inline unsigned memorySize(const SoilWaterBalanceType& data)
       {
       return 0
               + ::memorySize(data.infiltration)
@@ -825,7 +795,7 @@
               + ::memorySize(data.LateralFlowLayer)
               ;
       }
-   std::string DDML(const SoilWaterBalance& data)
+   std::string DDML(const SoilWaterBalanceType& data)
       {return "<type name=\"SoilWaterBalance\">"
                "<field name=\"infiltration\" kind=\"single\" />"
                "<field name=\"drainage\" kind=\"single\" />"
@@ -839,7 +809,7 @@
                "</type>";}
 
    //------ NewSolute ------
-   struct NewSolute
+   struct NewSoluteType
       {
       std::string sender_name;
       int sender_numbytes;
@@ -858,7 +828,7 @@
       std::vector<std::string> solute_names_value;
       };
 
-   inline void pack(MessageData& messageData, const NewSolute& data)
+   inline void pack(MessageData& messageData, const NewSoluteType& data)
       {
       pack(messageData, data.sender_name);
       pack(messageData, data.sender_numbytes);
@@ -876,7 +846,7 @@
       pack(messageData, data.solute_names_isarray);
       pack(messageData, data.solute_names_value);
       }
-   inline void unpack(MessageData& messageData, NewSolute& data)
+   inline void unpack(MessageData& messageData, NewSoluteType& data)
       {
       unpack(messageData, data.sender_name);
       unpack(messageData, data.sender_numbytes);
@@ -894,7 +864,7 @@
       unpack(messageData, data.solute_names_isarray);
       unpack(messageData, data.solute_names_value);
       }
-   inline unsigned memorySize(const NewSolute& data)
+   inline unsigned memorySize(const NewSoluteType& data)
       {
       return 0
               + ::memorySize(data.sender_name)
@@ -914,7 +884,7 @@
               + ::memorySize(data.solute_names_value)
               ;
       }
-   std::string DDML(const NewSolute& data)
+   std::string DDML(const NewSoluteType& data)
       {return "<type name=\"NewSolute\">"
                "<field name=\"sender_name\" kind=\"string\" />"
                "<field name=\"sender_numbytes\" kind=\"integer4\" />"
@@ -934,30 +904,30 @@
                "</type>";}
 
    //------ layer ------
-   struct layer
+   struct layerType
       {
       float thickness;
       float amount;
       };
 
-   inline void pack(MessageData& messageData, const layer& data)
+   inline void pack(MessageData& messageData, const layerType& data)
       {
       pack(messageData, data.thickness);
       pack(messageData, data.amount);
       }
-   inline void unpack(MessageData& messageData, layer& data)
+   inline void unpack(MessageData& messageData, layerType& data)
       {
       unpack(messageData, data.thickness);
       unpack(messageData, data.amount);
       }
-   inline unsigned memorySize(const layer& data)
+   inline unsigned memorySize(const layerType& data)
       {
       return 0
               + ::memorySize(data.thickness)
               + ::memorySize(data.amount)
               ;
       }
-   std::string DDML(const layer& data)
+   std::string DDML(const layerType& data)
       {return "<field name=\"layer\" array=\"T\">"
                "<element>"
                "<field name=\"thickness\" kind=\"single\" />"
@@ -966,33 +936,33 @@
                "</field>";}
 
    //------ SoluteProfile ------
-   struct SoluteProfile
+   struct SoluteProfileType
       {
-      std::string Name;
-      std::vector<layer> layer;
+      std::string name;
+      std::vector<layerType> layer;
       };
 
-   inline void pack(MessageData& messageData, const SoluteProfile& data)
+   inline void pack(MessageData& messageData, const SoluteProfileType& data)
       {
-      pack(messageData, data.Name);
+      pack(messageData, data.name);
       pack(messageData, data.layer);
       }
-   inline void unpack(MessageData& messageData, SoluteProfile& data)
+   inline void unpack(MessageData& messageData, SoluteProfileType& data)
       {
-      unpack(messageData, data.Name);
+      unpack(messageData, data.name);
       unpack(messageData, data.layer);
       }
-   inline unsigned memorySize(const SoluteProfile& data)
+   inline unsigned memorySize(const SoluteProfileType& data)
       {
       return 0
-              + ::memorySize(data.Name)
+              + ::memorySize(data.name)
               + ::memorySize(data.layer)
               ;
       }
-   std::string DDML(const SoluteProfile& data)
+   std::string DDML(const SoluteProfileType& data)
       {return "<type name=\"SoluteProfile\" array=\"T\">"
                "<element>"
-               "<field name=\"Name\" kind=\"string\" />"
+               "<field name=\"name\" kind=\"string\" />"
                "<field name=\"layer\" array=\"T\">"
                "<element>"
                "<field name=\"thickness\" kind=\"single\" />"
@@ -1002,103 +972,126 @@
                "</element>"
                "</type>";}
 
-   //------ solute ------
-   struct solute
-      {
-      std::string name;
-      float amount;
-      };
-
-   inline void pack(MessageData& messageData, const solute& data)
-      {
-      pack(messageData, data.name);
-      pack(messageData, data.amount);
-      }
-   inline void unpack(MessageData& messageData, solute& data)
-      {
-      unpack(messageData, data.name);
-      unpack(messageData, data.amount);
-      }
-   inline unsigned memorySize(const solute& data)
-      {
-      return 0
-              + ::memorySize(data.name)
-              + ::memorySize(data.amount)
-              ;
-      }
-   std::string DDML(const solute& data)
-      {return "<field name=\"solute\" array=\"T\">"
-               "<element>"
-               "<field name=\"name\" kind=\"string\" />"
-               "<field name=\"amount\" kind=\"single\" />"
-               "</element>"
-               "</field>";}
-
    //------ Irrigated ------
-   struct Irrigated
+   struct IrrigatedType
       {
-      double amount;
-      double depth;
-      std::vector<solute> solute;
+      std::string sender_name;
+      int sender_numbytes;
+      int sender_code;
+      bool sender_isarray;
+      std::string sender_value;
+      std::string sender_id_name;
+      int sender_id_numbytes;
+      int sender_id_code;
+      bool sender_id_isarray;
+      int sender_id_value;
+      std::string amount_name;
+      int amount_numbytes;
+      int amount_code;
+      bool amount_isarray;
+      float amount_value;
       };
 
-   inline void pack(MessageData& messageData, const Irrigated& data)
+   inline void pack(MessageData& messageData, const IrrigatedType& data)
       {
-      pack(messageData, data.amount);
-      pack(messageData, data.depth);
-      pack(messageData, data.solute);
+      pack(messageData, data.sender_name);
+      pack(messageData, data.sender_numbytes);
+      pack(messageData, data.sender_code);
+      pack(messageData, data.sender_isarray);
+      pack(messageData, data.sender_value);
+      pack(messageData, data.sender_id_name);
+      pack(messageData, data.sender_id_numbytes);
+      pack(messageData, data.sender_id_code);
+      pack(messageData, data.sender_id_isarray);
+      pack(messageData, data.sender_id_value);
+      pack(messageData, data.amount_name);
+      pack(messageData, data.amount_numbytes);
+      pack(messageData, data.amount_code);
+      pack(messageData, data.amount_isarray);
+      pack(messageData, data.amount_value);
       }
-   inline void unpack(MessageData& messageData, Irrigated& data)
+   inline void unpack(MessageData& messageData, IrrigatedType& data)
       {
-      unpack(messageData, data.amount);
-      unpack(messageData, data.depth);
-      unpack(messageData, data.solute);
+      unpack(messageData, data.sender_name);
+      unpack(messageData, data.sender_numbytes);
+      unpack(messageData, data.sender_code);
+      unpack(messageData, data.sender_isarray);
+      unpack(messageData, data.sender_value);
+      unpack(messageData, data.sender_id_name);
+      unpack(messageData, data.sender_id_numbytes);
+      unpack(messageData, data.sender_id_code);
+      unpack(messageData, data.sender_id_isarray);
+      unpack(messageData, data.sender_id_value);
+      unpack(messageData, data.amount_name);
+      unpack(messageData, data.amount_numbytes);
+      unpack(messageData, data.amount_code);
+      unpack(messageData, data.amount_isarray);
+      unpack(messageData, data.amount_value);
       }
-   inline unsigned memorySize(const Irrigated& data)
+   inline unsigned memorySize(const IrrigatedType& data)
       {
       return 0
-              + ::memorySize(data.amount)
-              + ::memorySize(data.depth)
-              + ::memorySize(data.solute)
+              + ::memorySize(data.sender_name)
+              + ::memorySize(data.sender_numbytes)
+              + ::memorySize(data.sender_code)
+              + ::memorySize(data.sender_isarray)
+              + ::memorySize(data.sender_value)
+              + ::memorySize(data.sender_id_name)
+              + ::memorySize(data.sender_id_numbytes)
+              + ::memorySize(data.sender_id_code)
+              + ::memorySize(data.sender_id_isarray)
+              + ::memorySize(data.sender_id_value)
+              + ::memorySize(data.amount_name)
+              + ::memorySize(data.amount_numbytes)
+              + ::memorySize(data.amount_code)
+              + ::memorySize(data.amount_isarray)
+              + ::memorySize(data.amount_value)
               ;
       }
-   std::string DDML(const Irrigated& data)
+   std::string DDML(const IrrigatedType& data)
       {return "<type name=\"Irrigated\" description=\"Sent when an irrigation occurs\">"
-               "<field name=\"amount\" kind=\"double\" unit=\"mm\" description=\"Amount of irrigation applied\" />"
-               "<field name=\"depth\" kind=\"double\" unit=\"mm\" description=\"Depth of irrigation applied\" />"
-               "<field name=\"solute\" array=\"T\">"
-               "<element>"
-               "<field name=\"name\" kind=\"string\" />"
-               "<field name=\"amount\" kind=\"single\" />"
-               "</element>"
-               "</field>"
+               "<field name=\"sender_name\" kind=\"string\" />"
+               "<field name=\"sender_numbytes\" kind=\"integer4\" />"
+               "<field name=\"sender_code\" kind=\"integer4\" />"
+               "<field name=\"sender_isarray\" kind=\"boolean\" />"
+               "<field name=\"sender_value\" kind=\"string\" />"
+               "<field name=\"sender_id_name\" kind=\"string\" />"
+               "<field name=\"sender_id_numbytes\" kind=\"integer4\" />"
+               "<field name=\"sender_id_code\" kind=\"integer4\" />"
+               "<field name=\"sender_id_isarray\" kind=\"boolean\" />"
+               "<field name=\"sender_id_value\" kind=\"integer4\" />"
+               "<field name=\"amount_name\" kind=\"string\" />"
+               "<field name=\"amount_numbytes\" kind=\"integer4\" />"
+               "<field name=\"amount_code\" kind=\"integer4\" />"
+               "<field name=\"amount_isarray\" kind=\"boolean\" />"
+               "<field name=\"amount_value\" kind=\"single\" />"
                "</type>";}
 
    //------ CropWaterSupply ------
-   struct CropWaterSupply
+   struct CropWaterSupplyType
       {
       std::string name;
-      std::vector<layer> layer;
+      std::vector<layerType> layer;
       };
 
-   inline void pack(MessageData& messageData, const CropWaterSupply& data)
+   inline void pack(MessageData& messageData, const CropWaterSupplyType& data)
       {
       pack(messageData, data.name);
       pack(messageData, data.layer);
       }
-   inline void unpack(MessageData& messageData, CropWaterSupply& data)
+   inline void unpack(MessageData& messageData, CropWaterSupplyType& data)
       {
       unpack(messageData, data.name);
       unpack(messageData, data.layer);
       }
-   inline unsigned memorySize(const CropWaterSupply& data)
+   inline unsigned memorySize(const CropWaterSupplyType& data)
       {
       return 0
               + ::memorySize(data.name)
               + ::memorySize(data.layer)
               ;
       }
-   std::string DDML(const CropWaterSupply& data)
+   std::string DDML(const CropWaterSupplyType& data)
       {return "<type name=\"CropWaterSupply\" array=\"T\">"
                "<element>"
                "<field name=\"name\" kind=\"string\" />"
@@ -1112,26 +1105,26 @@
                "</type>";}
 
    //------ RootLayer ------
-   struct RootLayer
+   struct RootLayerType
       {
       float thickness;
       float RootLengthDensity;
       float PotentialUptake;
       };
 
-   inline void pack(MessageData& messageData, const RootLayer& data)
+   inline void pack(MessageData& messageData, const RootLayerType& data)
       {
       pack(messageData, data.thickness);
       pack(messageData, data.RootLengthDensity);
       pack(messageData, data.PotentialUptake);
       }
-   inline void unpack(MessageData& messageData, RootLayer& data)
+   inline void unpack(MessageData& messageData, RootLayerType& data)
       {
       unpack(messageData, data.thickness);
       unpack(messageData, data.RootLengthDensity);
       unpack(messageData, data.PotentialUptake);
       }
-   inline unsigned memorySize(const RootLayer& data)
+   inline unsigned memorySize(const RootLayerType& data)
       {
       return 0
               + ::memorySize(data.thickness)
@@ -1139,7 +1132,7 @@
               + ::memorySize(data.PotentialUptake)
               ;
       }
-   std::string DDML(const RootLayer& data)
+   std::string DDML(const RootLayerType& data)
       {return "<field name=\"RootLayer\" array=\"T\">"
                "<element>"
                "<field name=\"thickness\" kind=\"single\" units=\"mm\" />"
@@ -1149,29 +1142,29 @@
                "</field>";}
 
    //------ CropWaterDemand ------
-   struct CropWaterDemand
+   struct CropWaterDemandType
       {
       std::string Name;
       std::string CropType;
-      std::vector<RootLayer> RootLayer;
+      std::vector<RootLayerType> RootLayer;
       float amount;
       };
 
-   inline void pack(MessageData& messageData, const CropWaterDemand& data)
+   inline void pack(MessageData& messageData, const CropWaterDemandType& data)
       {
       pack(messageData, data.Name);
       pack(messageData, data.CropType);
       pack(messageData, data.RootLayer);
       pack(messageData, data.amount);
       }
-   inline void unpack(MessageData& messageData, CropWaterDemand& data)
+   inline void unpack(MessageData& messageData, CropWaterDemandType& data)
       {
       unpack(messageData, data.Name);
       unpack(messageData, data.CropType);
       unpack(messageData, data.RootLayer);
       unpack(messageData, data.amount);
       }
-   inline unsigned memorySize(const CropWaterDemand& data)
+   inline unsigned memorySize(const CropWaterDemandType& data)
       {
       return 0
               + ::memorySize(data.Name)
@@ -1180,7 +1173,7 @@
               + ::memorySize(data.amount)
               ;
       }
-   std::string DDML(const CropWaterDemand& data)
+   std::string DDML(const CropWaterDemandType& data)
       {return "<type name=\"CropWaterDemand\" description=\"Message sent to add crop water demand terms to water balance calculations.\" array=\"T\">"
                "<element>"
                "<field name=\"Name\" kind=\"string\" description=\"Cohort name + instance name\" />"
@@ -1197,29 +1190,29 @@
                "</type>";}
 
    //------ CropNitrogenDemand ------
-   struct CropNitrogenDemand
+   struct CropNitrogenDemandType
       {
       std::string Name;
       std::string CropType;
-      std::vector<RootLayer> RootLayer;
+      std::vector<RootLayerType> RootLayer;
       float amount;
       };
 
-   inline void pack(MessageData& messageData, const CropNitrogenDemand& data)
+   inline void pack(MessageData& messageData, const CropNitrogenDemandType& data)
       {
       pack(messageData, data.Name);
       pack(messageData, data.CropType);
       pack(messageData, data.RootLayer);
       pack(messageData, data.amount);
       }
-   inline void unpack(MessageData& messageData, CropNitrogenDemand& data)
+   inline void unpack(MessageData& messageData, CropNitrogenDemandType& data)
       {
       unpack(messageData, data.Name);
       unpack(messageData, data.CropType);
       unpack(messageData, data.RootLayer);
       unpack(messageData, data.amount);
       }
-   inline unsigned memorySize(const CropNitrogenDemand& data)
+   inline unsigned memorySize(const CropNitrogenDemandType& data)
       {
       return 0
               + ::memorySize(data.Name)
@@ -1228,7 +1221,7 @@
               + ::memorySize(data.amount)
               ;
       }
-   std::string DDML(const CropNitrogenDemand& data)
+   std::string DDML(const CropNitrogenDemandType& data)
       {return "<type name=\"CropNitrogenDemand\" array=\"T\" description=\"Message sent to add crop N demand terms to N balance calculations.\">"
                "<element>"
                "<field name=\"Name\" kind=\"string\" description=\"Cohort name + instance name\" />"
@@ -1246,30 +1239,30 @@
                "</type>";}
 
    //------ CropNitrogenSupply ------
-   struct CropNitrogenSupply
+   struct CropNitrogenSupplyType
       {
       std::string name;
-      std::vector<layer> layer;
+      std::vector<layerType> layer;
       };
 
-   inline void pack(MessageData& messageData, const CropNitrogenSupply& data)
+   inline void pack(MessageData& messageData, const CropNitrogenSupplyType& data)
       {
       pack(messageData, data.name);
       pack(messageData, data.layer);
       }
-   inline void unpack(MessageData& messageData, CropNitrogenSupply& data)
+   inline void unpack(MessageData& messageData, CropNitrogenSupplyType& data)
       {
       unpack(messageData, data.name);
       unpack(messageData, data.layer);
       }
-   inline unsigned memorySize(const CropNitrogenSupply& data)
+   inline unsigned memorySize(const CropNitrogenSupplyType& data)
       {
       return 0
               + ::memorySize(data.name)
               + ::memorySize(data.layer)
               ;
       }
-   std::string DDML(const CropNitrogenSupply& data)
+   std::string DDML(const CropNitrogenSupplyType& data)
       {return "<type name=\"CropNitrogenSupply\" array=\"T\">"
                "<element>"
                "<field name=\"name\" kind=\"string\" description=\"Crop type + instance name\" />"
@@ -1288,26 +1281,26 @@
                "</type>";}
 
    //------ Interception ------
-   struct Interception
+   struct InterceptionType
       {
       std::string name;
       std::string CropType;
-      std::vector<layer> layer;
+      std::vector<layerType> layer;
       };
 
-   inline void pack(MessageData& messageData, const Interception& data)
+   inline void pack(MessageData& messageData, const InterceptionType& data)
       {
       pack(messageData, data.name);
       pack(messageData, data.CropType);
       pack(messageData, data.layer);
       }
-   inline void unpack(MessageData& messageData, Interception& data)
+   inline void unpack(MessageData& messageData, InterceptionType& data)
       {
       unpack(messageData, data.name);
       unpack(messageData, data.CropType);
       unpack(messageData, data.layer);
       }
-   inline unsigned memorySize(const Interception& data)
+   inline unsigned memorySize(const InterceptionType& data)
       {
       return 0
               + ::memorySize(data.name)
@@ -1315,7 +1308,7 @@
               + ::memorySize(data.layer)
               ;
       }
-   std::string DDML(const Interception& data)
+   std::string DDML(const InterceptionType& data)
       {return "<field name=\"Interception\" array=\"T\">"
                "<element>"
                "<field name=\"name\" kind=\"string\" />"
@@ -1330,30 +1323,30 @@
                "</field>";}
 
    //------ LightProfile ------
-   struct LightProfile
+   struct LightProfileType
       {
-      std::vector<Interception> Interception;
+      std::vector<InterceptionType> Interception;
       float transmission;
       };
 
-   inline void pack(MessageData& messageData, const LightProfile& data)
+   inline void pack(MessageData& messageData, const LightProfileType& data)
       {
       pack(messageData, data.Interception);
       pack(messageData, data.transmission);
       }
-   inline void unpack(MessageData& messageData, LightProfile& data)
+   inline void unpack(MessageData& messageData, LightProfileType& data)
       {
       unpack(messageData, data.Interception);
       unpack(messageData, data.transmission);
       }
-   inline unsigned memorySize(const LightProfile& data)
+   inline unsigned memorySize(const LightProfileType& data)
       {
       return 0
               + ::memorySize(data.Interception)
               + ::memorySize(data.transmission)
               ;
       }
-   std::string DDML(const LightProfile& data)
+   std::string DDML(const LightProfileType& data)
       {return "<type name=\"LightProfile\">"
                "<field name=\"Interception\" array=\"T\">"
                "<element>"
@@ -1371,26 +1364,26 @@
                "</type>";}
 
    //------ Canopy ------
-   struct Canopy
+   struct CanopyType
       {
       std::string name;
       std::string CropType;
       float PotentialEp;
       };
 
-   inline void pack(MessageData& messageData, const Canopy& data)
+   inline void pack(MessageData& messageData, const CanopyType& data)
       {
       pack(messageData, data.name);
       pack(messageData, data.CropType);
       pack(messageData, data.PotentialEp);
       }
-   inline void unpack(MessageData& messageData, Canopy& data)
+   inline void unpack(MessageData& messageData, CanopyType& data)
       {
       unpack(messageData, data.name);
       unpack(messageData, data.CropType);
       unpack(messageData, data.PotentialEp);
       }
-   inline unsigned memorySize(const Canopy& data)
+   inline unsigned memorySize(const CanopyType& data)
       {
       return 0
               + ::memorySize(data.name)
@@ -1398,7 +1391,7 @@
               + ::memorySize(data.PotentialEp)
               ;
       }
-   std::string DDML(const Canopy& data)
+   std::string DDML(const CanopyType& data)
       {return "<field name=\"Canopy\" array=\"T\">"
                "<element>"
                "<field name=\"name\" kind=\"string\" />"
@@ -1408,26 +1401,26 @@
                "</field>";}
 
    //------ CanopyWaterBalance ------
-   struct CanopyWaterBalance
+   struct CanopyWaterBalanceType
       {
-      std::vector<Canopy> Canopy;
+      std::vector<CanopyType> Canopy;
       float eo;
       float interception;
       };
 
-   inline void pack(MessageData& messageData, const CanopyWaterBalance& data)
+   inline void pack(MessageData& messageData, const CanopyWaterBalanceType& data)
       {
       pack(messageData, data.Canopy);
       pack(messageData, data.eo);
       pack(messageData, data.interception);
       }
-   inline void unpack(MessageData& messageData, CanopyWaterBalance& data)
+   inline void unpack(MessageData& messageData, CanopyWaterBalanceType& data)
       {
       unpack(messageData, data.Canopy);
       unpack(messageData, data.eo);
       unpack(messageData, data.interception);
       }
-   inline unsigned memorySize(const CanopyWaterBalance& data)
+   inline unsigned memorySize(const CanopyWaterBalanceType& data)
       {
       return 0
               + ::memorySize(data.Canopy)
@@ -1435,7 +1428,7 @@
               + ::memorySize(data.interception)
               ;
       }
-   std::string DDML(const CanopyWaterBalance& data)
+   std::string DDML(const CanopyWaterBalanceType& data)
       {return "<type name=\"CanopyWaterBalance\">"
                "<field name=\"Canopy\" array=\"T\">"
                "<element>"
@@ -1449,7 +1442,7 @@
                "</type>";}
 
    //------ OrganicMatterFraction ------
-   struct OrganicMatterFraction
+   struct OrganicMatterFractionType
       {
       float amount;
       float C;
@@ -1458,7 +1451,7 @@
       float AshAlk;
       };
 
-   inline void pack(MessageData& messageData, const OrganicMatterFraction& data)
+   inline void pack(MessageData& messageData, const OrganicMatterFractionType& data)
       {
       pack(messageData, data.amount);
       pack(messageData, data.C);
@@ -1466,7 +1459,7 @@
       pack(messageData, data.P);
       pack(messageData, data.AshAlk);
       }
-   inline void unpack(MessageData& messageData, OrganicMatterFraction& data)
+   inline void unpack(MessageData& messageData, OrganicMatterFractionType& data)
       {
       unpack(messageData, data.amount);
       unpack(messageData, data.C);
@@ -1474,7 +1467,7 @@
       unpack(messageData, data.P);
       unpack(messageData, data.AshAlk);
       }
-   inline unsigned memorySize(const OrganicMatterFraction& data)
+   inline unsigned memorySize(const OrganicMatterFractionType& data)
       {
       return 0
               + ::memorySize(data.amount)
@@ -1484,7 +1477,7 @@
               + ::memorySize(data.AshAlk)
               ;
       }
-   std::string DDML(const OrganicMatterFraction& data)
+   std::string DDML(const OrganicMatterFractionType& data)
       {return "<field name=\"OrganicMatterFraction\" array=\"T\">"
                "<element>"
                "<field name=\"amount\" kind=\"single\" units=\"kg/ha\" />"
@@ -1496,29 +1489,29 @@
                "</field>";}
 
    //------ Residue ------
-   struct Residue
+   struct ResidueType
       {
       std::string name;
       std::string OrganicMatterType;
-      std::vector<OrganicMatterFraction> OrganicMatterFraction;
+      std::vector<OrganicMatterFractionType> OrganicMatterFraction;
       float Cover;
       };
 
-   inline void pack(MessageData& messageData, const Residue& data)
+   inline void pack(MessageData& messageData, const ResidueType& data)
       {
       pack(messageData, data.name);
       pack(messageData, data.OrganicMatterType);
       pack(messageData, data.OrganicMatterFraction);
       pack(messageData, data.Cover);
       }
-   inline void unpack(MessageData& messageData, Residue& data)
+   inline void unpack(MessageData& messageData, ResidueType& data)
       {
       unpack(messageData, data.name);
       unpack(messageData, data.OrganicMatterType);
       unpack(messageData, data.OrganicMatterFraction);
       unpack(messageData, data.Cover);
       }
-   inline unsigned memorySize(const Residue& data)
+   inline unsigned memorySize(const ResidueType& data)
       {
       return 0
               + ::memorySize(data.name)
@@ -1527,7 +1520,7 @@
               + ::memorySize(data.Cover)
               ;
       }
-   std::string DDML(const Residue& data)
+   std::string DDML(const ResidueType& data)
       {return "<type name=\"Residue\" array=\"T\">"
                "<element>"
                "<field name=\"name\" kind=\"string\" />"
@@ -1545,31 +1538,63 @@
                "</element>"
                "</type>";}
 
-   //------ SurfaceWater ------
-   struct SurfaceWater
+   //------ solute ------
+   struct soluteType
       {
+      std::string name;
       float amount;
-      std::vector<solute> solute;
       };
 
-   inline void pack(MessageData& messageData, const SurfaceWater& data)
+   inline void pack(MessageData& messageData, const soluteType& data)
+      {
+      pack(messageData, data.name);
+      pack(messageData, data.amount);
+      }
+   inline void unpack(MessageData& messageData, soluteType& data)
+      {
+      unpack(messageData, data.name);
+      unpack(messageData, data.amount);
+      }
+   inline unsigned memorySize(const soluteType& data)
+      {
+      return 0
+              + ::memorySize(data.name)
+              + ::memorySize(data.amount)
+              ;
+      }
+   std::string DDML(const soluteType& data)
+      {return "<field name=\"solute\" array=\"T\">"
+               "<element>"
+               "<field name=\"name\" kind=\"string\" />"
+               "<field name=\"amount\" kind=\"single\" units=\"kg/ha\" />"
+               "</element>"
+               "</field>";}
+
+   //------ SurfaceWater ------
+   struct SurfaceWaterType
+      {
+      float amount;
+      std::vector<soluteType> solute;
+      };
+
+   inline void pack(MessageData& messageData, const SurfaceWaterType& data)
       {
       pack(messageData, data.amount);
       pack(messageData, data.solute);
       }
-   inline void unpack(MessageData& messageData, SurfaceWater& data)
+   inline void unpack(MessageData& messageData, SurfaceWaterType& data)
       {
       unpack(messageData, data.amount);
       unpack(messageData, data.solute);
       }
-   inline unsigned memorySize(const SurfaceWater& data)
+   inline unsigned memorySize(const SurfaceWaterType& data)
       {
       return 0
               + ::memorySize(data.amount)
               + ::memorySize(data.solute)
               ;
       }
-   std::string DDML(const SurfaceWater& data)
+   std::string DDML(const SurfaceWaterType& data)
       {return "<type name=\"SurfaceWater\">"
                "<field name=\"amount\" kind=\"single\" />"
                "<field name=\"solute\" array=\"T\">"
@@ -1581,7 +1606,7 @@
                "</type>";}
 
    //------ SurfaceWaterBalance ------
-   struct SurfaceWaterBalance
+   struct SurfaceWaterBalanceType
       {
       float runoff;
       float evaporation;
@@ -1589,21 +1614,21 @@
       float WaterInput;
       };
 
-   inline void pack(MessageData& messageData, const SurfaceWaterBalance& data)
+   inline void pack(MessageData& messageData, const SurfaceWaterBalanceType& data)
       {
       pack(messageData, data.runoff);
       pack(messageData, data.evaporation);
       pack(messageData, data.runon);
       pack(messageData, data.WaterInput);
       }
-   inline void unpack(MessageData& messageData, SurfaceWaterBalance& data)
+   inline void unpack(MessageData& messageData, SurfaceWaterBalanceType& data)
       {
       unpack(messageData, data.runoff);
       unpack(messageData, data.evaporation);
       unpack(messageData, data.runon);
       unpack(messageData, data.WaterInput);
       }
-   inline unsigned memorySize(const SurfaceWaterBalance& data)
+   inline unsigned memorySize(const SurfaceWaterBalanceType& data)
       {
       return 0
               + ::memorySize(data.runoff)
@@ -1612,7 +1637,7 @@
               + ::memorySize(data.WaterInput)
               ;
       }
-   std::string DDML(const SurfaceWaterBalance& data)
+   std::string DDML(const SurfaceWaterBalanceType& data)
       {return "<type name=\"SurfaceWaterBalance\">"
                "<field name=\"runoff\" kind=\"single\" />"
                "<field name=\"evaporation\" kind=\"single\" />"
@@ -1621,26 +1646,26 @@
                "</type>";}
 
    //------ FertiliserConstituents ------
-   struct FertiliserConstituents
+   struct FertiliserConstituentsType
       {
       std::string name;
       float SurfaceAmount;
-      std::vector<layer> layer;
+      std::vector<layerType> layer;
       };
 
-   inline void pack(MessageData& messageData, const FertiliserConstituents& data)
+   inline void pack(MessageData& messageData, const FertiliserConstituentsType& data)
       {
       pack(messageData, data.name);
       pack(messageData, data.SurfaceAmount);
       pack(messageData, data.layer);
       }
-   inline void unpack(MessageData& messageData, FertiliserConstituents& data)
+   inline void unpack(MessageData& messageData, FertiliserConstituentsType& data)
       {
       unpack(messageData, data.name);
       unpack(messageData, data.SurfaceAmount);
       unpack(messageData, data.layer);
       }
-   inline unsigned memorySize(const FertiliserConstituents& data)
+   inline unsigned memorySize(const FertiliserConstituentsType& data)
       {
       return 0
               + ::memorySize(data.name)
@@ -1648,7 +1673,7 @@
               + ::memorySize(data.layer)
               ;
       }
-   std::string DDML(const FertiliserConstituents& data)
+   std::string DDML(const FertiliserConstituentsType& data)
       {return "<type name=\"FertiliserConstituents\" array=\"T\">"
                "<element>"
                "<field name=\"name\" kind=\"string\" />"
@@ -1663,7 +1688,7 @@
                "</type>";}
 
    //------ FPool ------
-   struct FPool
+   struct FPoolType
       {
       float C;
       float N;
@@ -1671,21 +1696,21 @@
       float AshAlk;
       };
 
-   inline void pack(MessageData& messageData, const FPool& data)
+   inline void pack(MessageData& messageData, const FPoolType& data)
       {
       pack(messageData, data.C);
       pack(messageData, data.N);
       pack(messageData, data.P);
       pack(messageData, data.AshAlk);
       }
-   inline void unpack(MessageData& messageData, FPool& data)
+   inline void unpack(MessageData& messageData, FPoolType& data)
       {
       unpack(messageData, data.C);
       unpack(messageData, data.N);
       unpack(messageData, data.P);
       unpack(messageData, data.AshAlk);
       }
-   inline unsigned memorySize(const FPool& data)
+   inline unsigned memorySize(const FPoolType& data)
       {
       return 0
               + ::memorySize(data.C)
@@ -1694,7 +1719,7 @@
               + ::memorySize(data.AshAlk)
               ;
       }
-   std::string DDML(const FPool& data)
+   std::string DDML(const FPoolType& data)
       {return "<field name=\"FPool\" array=\"T\">"
                "<element>"
                "<field name=\"C\" kind=\"single\" units=\"kg/ha\" />"
@@ -1705,16 +1730,16 @@
                "</field>";}
 
    //------ FPoolProfileLayer ------
-   struct FPoolProfileLayer
+   struct FPoolProfileLayerType
       {
       float thickness;
       float no3;
       float nh4;
       float po4;
-      std::vector<FPool> FPool;
+      std::vector<FPoolType> FPool;
       };
 
-   inline void pack(MessageData& messageData, const FPoolProfileLayer& data)
+   inline void pack(MessageData& messageData, const FPoolProfileLayerType& data)
       {
       pack(messageData, data.thickness);
       pack(messageData, data.no3);
@@ -1722,7 +1747,7 @@
       pack(messageData, data.po4);
       pack(messageData, data.FPool);
       }
-   inline void unpack(MessageData& messageData, FPoolProfileLayer& data)
+   inline void unpack(MessageData& messageData, FPoolProfileLayerType& data)
       {
       unpack(messageData, data.thickness);
       unpack(messageData, data.no3);
@@ -1730,7 +1755,7 @@
       unpack(messageData, data.po4);
       unpack(messageData, data.FPool);
       }
-   inline unsigned memorySize(const FPoolProfileLayer& data)
+   inline unsigned memorySize(const FPoolProfileLayerType& data)
       {
       return 0
               + ::memorySize(data.thickness)
@@ -1740,7 +1765,7 @@
               + ::memorySize(data.FPool)
               ;
       }
-   std::string DDML(const FPoolProfileLayer& data)
+   std::string DDML(const FPoolProfileLayerType& data)
       {return "<type name=\"FPoolProfileLayer\" array=\"T\">"
                "<element>"
                "<field name=\"thickness\" kind=\"single\" units=\"mm\" />"
@@ -1759,7 +1784,7 @@
                "</type>";}
 
    //------ StandingFraction ------
-   struct StandingFraction
+   struct StandingFractionType
       {
       float amount;
       float C;
@@ -1768,7 +1793,7 @@
       float AshAlk;
       };
 
-   inline void pack(MessageData& messageData, const StandingFraction& data)
+   inline void pack(MessageData& messageData, const StandingFractionType& data)
       {
       pack(messageData, data.amount);
       pack(messageData, data.C);
@@ -1776,7 +1801,7 @@
       pack(messageData, data.P);
       pack(messageData, data.AshAlk);
       }
-   inline void unpack(MessageData& messageData, StandingFraction& data)
+   inline void unpack(MessageData& messageData, StandingFractionType& data)
       {
       unpack(messageData, data.amount);
       unpack(messageData, data.C);
@@ -1784,7 +1809,7 @@
       unpack(messageData, data.P);
       unpack(messageData, data.AshAlk);
       }
-   inline unsigned memorySize(const StandingFraction& data)
+   inline unsigned memorySize(const StandingFractionType& data)
       {
       return 0
               + ::memorySize(data.amount)
@@ -1794,7 +1819,7 @@
               + ::memorySize(data.AshAlk)
               ;
       }
-   std::string DDML(const StandingFraction& data)
+   std::string DDML(const StandingFractionType& data)
       {return "<field name=\"StandingFraction\" array=\"T\">"
                "<element>"
                "<field name=\"amount\" kind=\"single\" units=\"kg/ha\" />"
@@ -1806,7 +1831,7 @@
                "</field>";}
 
    //------ LyingFraction ------
-   struct LyingFraction
+   struct LyingFractionType
       {
       float amount;
       float C;
@@ -1815,7 +1840,7 @@
       float AshAlk;
       };
 
-   inline void pack(MessageData& messageData, const LyingFraction& data)
+   inline void pack(MessageData& messageData, const LyingFractionType& data)
       {
       pack(messageData, data.amount);
       pack(messageData, data.C);
@@ -1823,7 +1848,7 @@
       pack(messageData, data.P);
       pack(messageData, data.AshAlk);
       }
-   inline void unpack(MessageData& messageData, LyingFraction& data)
+   inline void unpack(MessageData& messageData, LyingFractionType& data)
       {
       unpack(messageData, data.amount);
       unpack(messageData, data.C);
@@ -1831,7 +1856,7 @@
       unpack(messageData, data.P);
       unpack(messageData, data.AshAlk);
       }
-   inline unsigned memorySize(const LyingFraction& data)
+   inline unsigned memorySize(const LyingFractionType& data)
       {
       return 0
               + ::memorySize(data.amount)
@@ -1841,7 +1866,7 @@
               + ::memorySize(data.AshAlk)
               ;
       }
-   std::string DDML(const LyingFraction& data)
+   std::string DDML(const LyingFractionType& data)
       {return "<field name=\"LyingFraction\" array=\"T\">"
                "<element>"
                "<field name=\"amount\" kind=\"single\" units=\"kg/ha\" />"
@@ -1853,7 +1878,7 @@
                "</field>";}
 
    //------ SurfaceOrganicMatter ------
-   struct SurfaceOrganicMatter
+   struct SurfaceOrganicMatterType
       {
       std::string Name;
       std::string OrganicMatterType;
@@ -1861,11 +1886,11 @@
       float no3;
       float nh4;
       float po4;
-      std::vector<StandingFraction> StandingFraction;
-      std::vector<LyingFraction> LyingFraction;
+      std::vector<StandingFractionType> StandingFraction;
+      std::vector<LyingFractionType> LyingFraction;
       };
 
-   inline void pack(MessageData& messageData, const SurfaceOrganicMatter& data)
+   inline void pack(MessageData& messageData, const SurfaceOrganicMatterType& data)
       {
       pack(messageData, data.Name);
       pack(messageData, data.OrganicMatterType);
@@ -1876,7 +1901,7 @@
       pack(messageData, data.StandingFraction);
       pack(messageData, data.LyingFraction);
       }
-   inline void unpack(MessageData& messageData, SurfaceOrganicMatter& data)
+   inline void unpack(MessageData& messageData, SurfaceOrganicMatterType& data)
       {
       unpack(messageData, data.Name);
       unpack(messageData, data.OrganicMatterType);
@@ -1887,7 +1912,7 @@
       unpack(messageData, data.StandingFraction);
       unpack(messageData, data.LyingFraction);
       }
-   inline unsigned memorySize(const SurfaceOrganicMatter& data)
+   inline unsigned memorySize(const SurfaceOrganicMatterType& data)
       {
       return 0
               + ::memorySize(data.Name)
@@ -1900,7 +1925,7 @@
               + ::memorySize(data.LyingFraction)
               ;
       }
-   std::string DDML(const SurfaceOrganicMatter& data)
+   std::string DDML(const SurfaceOrganicMatterType& data)
       {return "<type name=\"SurfaceOrganicMatter\" array=\"T\">"
                "<element>"
                "<field name=\"Name\" kind=\"string\" />"
@@ -1931,7 +1956,7 @@
                "</type>";}
 
    //------ SurfaceOrganicMatterDecomp ------
-   struct SurfaceOrganicMatterDecomp
+   struct SurfaceOrganicMatterDecompType
       {
       std::string Name;
       std::string OrganicMatterType;
@@ -1942,7 +1967,7 @@
       float AshAlk;
       };
 
-   inline void pack(MessageData& messageData, const SurfaceOrganicMatterDecomp& data)
+   inline void pack(MessageData& messageData, const SurfaceOrganicMatterDecompType& data)
       {
       pack(messageData, data.Name);
       pack(messageData, data.OrganicMatterType);
@@ -1952,7 +1977,7 @@
       pack(messageData, data.P);
       pack(messageData, data.AshAlk);
       }
-   inline void unpack(MessageData& messageData, SurfaceOrganicMatterDecomp& data)
+   inline void unpack(MessageData& messageData, SurfaceOrganicMatterDecompType& data)
       {
       unpack(messageData, data.Name);
       unpack(messageData, data.OrganicMatterType);
@@ -1962,7 +1987,7 @@
       unpack(messageData, data.P);
       unpack(messageData, data.AshAlk);
       }
-   inline unsigned memorySize(const SurfaceOrganicMatterDecomp& data)
+   inline unsigned memorySize(const SurfaceOrganicMatterDecompType& data)
       {
       return 0
               + ::memorySize(data.Name)
@@ -1974,7 +1999,7 @@
               + ::memorySize(data.AshAlk)
               ;
       }
-   std::string DDML(const SurfaceOrganicMatterDecomp& data)
+   std::string DDML(const SurfaceOrganicMatterDecompType& data)
       {return "<type name=\"SurfaceOrganicMatterDecomp\" array=\"T\">"
                "<element>"
                "<field name=\"Name\" kind=\"string\" />"
@@ -1988,7 +2013,7 @@
                "</type>";}
 
    //------ NBalance ------
-   struct NBalance
+   struct NBalanceType
       {
       std::string sender_name;
       int sender_numbytes;
@@ -2022,7 +2047,7 @@
       std::vector<float> dlt_no3_net_value;
       };
 
-   inline void pack(MessageData& messageData, const NBalance& data)
+   inline void pack(MessageData& messageData, const NBalanceType& data)
       {
       pack(messageData, data.sender_name);
       pack(messageData, data.sender_numbytes);
@@ -2055,7 +2080,7 @@
       pack(messageData, data.dlt_no3_net_isarray);
       pack(messageData, data.dlt_no3_net_value);
       }
-   inline void unpack(MessageData& messageData, NBalance& data)
+   inline void unpack(MessageData& messageData, NBalanceType& data)
       {
       unpack(messageData, data.sender_name);
       unpack(messageData, data.sender_numbytes);
@@ -2088,7 +2113,7 @@
       unpack(messageData, data.dlt_no3_net_isarray);
       unpack(messageData, data.dlt_no3_net_value);
       }
-   inline unsigned memorySize(const NBalance& data)
+   inline unsigned memorySize(const NBalanceType& data)
       {
       return 0
               + ::memorySize(data.sender_name)
@@ -2123,7 +2148,7 @@
               + ::memorySize(data.dlt_no3_net_value)
               ;
       }
-   std::string DDML(const NBalance& data)
+   std::string DDML(const NBalanceType& data)
       {return "<type name=\"NBalance\" description=\"Notification of the completion of the soil N calculations\">"
                "<field name=\"sender_name\" kind=\"string\" />"
                "<field name=\"sender_numbytes\" kind=\"integer4\" />"
@@ -2158,7 +2183,7 @@
                "</type>";}
 
    //------ CBalance ------
-   struct CBalance
+   struct CBalanceType
       {
       std::string sender_name;
       int sender_numbytes;
@@ -2182,7 +2207,7 @@
       std::vector<float> dlt_om_value;
       };
 
-   inline void pack(MessageData& messageData, const CBalance& data)
+   inline void pack(MessageData& messageData, const CBalanceType& data)
       {
       pack(messageData, data.sender_name);
       pack(messageData, data.sender_numbytes);
@@ -2205,7 +2230,7 @@
       pack(messageData, data.dlt_om_isarray);
       pack(messageData, data.dlt_om_value);
       }
-   inline void unpack(MessageData& messageData, CBalance& data)
+   inline void unpack(MessageData& messageData, CBalanceType& data)
       {
       unpack(messageData, data.sender_name);
       unpack(messageData, data.sender_numbytes);
@@ -2228,7 +2253,7 @@
       unpack(messageData, data.dlt_om_isarray);
       unpack(messageData, data.dlt_om_value);
       }
-   inline unsigned memorySize(const CBalance& data)
+   inline unsigned memorySize(const CBalanceType& data)
       {
       return 0
               + ::memorySize(data.sender_name)
@@ -2253,7 +2278,7 @@
               + ::memorySize(data.dlt_om_value)
               ;
       }
-   std::string DDML(const CBalance& data)
+   std::string DDML(const CBalanceType& data)
       {return "<type name=\"CBalance\" description=\"Notification of the completion of the soil C calculations\">"
                "<field name=\"sender_name\" kind=\"string\" />"
                "<field name=\"sender_numbytes\" kind=\"integer4\" />"
@@ -2278,7 +2303,7 @@
                "</type>";}
 
    //------ IncorpFom ------
-   struct IncorpFom
+   struct IncorpFomType
       {
       std::string dlt_fom_type_name;
       int dlt_fom_type_numbytes;
@@ -2302,7 +2327,7 @@
       std::vector<float> dlt_fom_p_value;
       };
 
-   inline void pack(MessageData& messageData, const IncorpFom& data)
+   inline void pack(MessageData& messageData, const IncorpFomType& data)
       {
       pack(messageData, data.dlt_fom_type_name);
       pack(messageData, data.dlt_fom_type_numbytes);
@@ -2325,7 +2350,7 @@
       pack(messageData, data.dlt_fom_p_isarray);
       pack(messageData, data.dlt_fom_p_value);
       }
-   inline void unpack(MessageData& messageData, IncorpFom& data)
+   inline void unpack(MessageData& messageData, IncorpFomType& data)
       {
       unpack(messageData, data.dlt_fom_type_name);
       unpack(messageData, data.dlt_fom_type_numbytes);
@@ -2348,7 +2373,7 @@
       unpack(messageData, data.dlt_fom_p_isarray);
       unpack(messageData, data.dlt_fom_p_value);
       }
-   inline unsigned memorySize(const IncorpFom& data)
+   inline unsigned memorySize(const IncorpFomType& data)
       {
       return 0
               + ::memorySize(data.dlt_fom_type_name)
@@ -2373,7 +2398,7 @@
               + ::memorySize(data.dlt_fom_p_value)
               ;
       }
-   std::string DDML(const IncorpFom& data)
+   std::string DDML(const IncorpFomType& data)
       {return "<type name=\"IncorpFom\">"
                "<field name=\"dlt_fom_type_name\" kind=\"string\" />"
                "<field name=\"dlt_fom_type_numbytes\" kind=\"integer4\" />"
@@ -2398,30 +2423,30 @@
                "</type>";}
 
    //------ SoilOrganicMatter ------
-   struct SoilOrganicMatter
+   struct SoilOrganicMatterType
       {
       std::string OrganicMatterType;
-      std::vector<layer> layer;
+      std::vector<layerType> layer;
       };
 
-   inline void pack(MessageData& messageData, const SoilOrganicMatter& data)
+   inline void pack(MessageData& messageData, const SoilOrganicMatterType& data)
       {
       pack(messageData, data.OrganicMatterType);
       pack(messageData, data.layer);
       }
-   inline void unpack(MessageData& messageData, SoilOrganicMatter& data)
+   inline void unpack(MessageData& messageData, SoilOrganicMatterType& data)
       {
       unpack(messageData, data.OrganicMatterType);
       unpack(messageData, data.layer);
       }
-   inline unsigned memorySize(const SoilOrganicMatter& data)
+   inline unsigned memorySize(const SoilOrganicMatterType& data)
       {
       return 0
               + ::memorySize(data.OrganicMatterType)
               + ::memorySize(data.layer)
               ;
       }
-   std::string DDML(const SoilOrganicMatter& data)
+   std::string DDML(const SoilOrganicMatterType& data)
       {return "<type name=\"SoilOrganicMatter\">"
                "<field name=\"OrganicMatterType\" kind=\"string\" />"
                "<field name=\"layer\" array=\"T\">"
@@ -2440,7 +2465,7 @@
                "</type>";}
 
    //------ SoilNitrogenFlowsLayer ------
-   struct SoilNitrogenFlowsLayer
+   struct SoilNitrogenFlowsLayerType
       {
       float nh4_transform_net;
       float no3_transform_net;
@@ -2458,7 +2483,7 @@
       std::vector<float> dlt_fomc_pool;
       };
 
-   inline void pack(MessageData& messageData, const SoilNitrogenFlowsLayer& data)
+   inline void pack(MessageData& messageData, const SoilNitrogenFlowsLayerType& data)
       {
       pack(messageData, data.nh4_transform_net);
       pack(messageData, data.no3_transform_net);
@@ -2475,7 +2500,7 @@
       pack(messageData, data.dlt_biomc_atm);
       pack(messageData, data.dlt_fomc_pool);
       }
-   inline void unpack(MessageData& messageData, SoilNitrogenFlowsLayer& data)
+   inline void unpack(MessageData& messageData, SoilNitrogenFlowsLayerType& data)
       {
       unpack(messageData, data.nh4_transform_net);
       unpack(messageData, data.no3_transform_net);
@@ -2492,7 +2517,7 @@
       unpack(messageData, data.dlt_biomc_atm);
       unpack(messageData, data.dlt_fomc_pool);
       }
-   inline unsigned memorySize(const SoilNitrogenFlowsLayer& data)
+   inline unsigned memorySize(const SoilNitrogenFlowsLayerType& data)
       {
       return 0
               + ::memorySize(data.nh4_transform_net)
@@ -2511,7 +2536,7 @@
               + ::memorySize(data.dlt_fomc_pool)
               ;
       }
-   std::string DDML(const SoilNitrogenFlowsLayer& data)
+   std::string DDML(const SoilNitrogenFlowsLayerType& data)
       {return "<type name=\"SoilNitrogenFlowsLayer\" array=\"T\">"
                "<element>"
                "<field name=\"nh4_transform_net\" kind=\"single\" units=\"kg/ha\" />"
@@ -2532,7 +2557,7 @@
                "</type>";}
 
    //------ NitrogenBalance ------
-   struct NitrogenBalance
+   struct NitrogenBalanceType
       {
       float Fertilizer;
       float ResiduesMineralised;
@@ -2543,7 +2568,7 @@
       float LateralFlow;
       };
 
-   inline void pack(MessageData& messageData, const NitrogenBalance& data)
+   inline void pack(MessageData& messageData, const NitrogenBalanceType& data)
       {
       pack(messageData, data.Fertilizer);
       pack(messageData, data.ResiduesMineralised);
@@ -2553,7 +2578,7 @@
       pack(messageData, data.Erosion);
       pack(messageData, data.LateralFlow);
       }
-   inline void unpack(MessageData& messageData, NitrogenBalance& data)
+   inline void unpack(MessageData& messageData, NitrogenBalanceType& data)
       {
       unpack(messageData, data.Fertilizer);
       unpack(messageData, data.ResiduesMineralised);
@@ -2563,7 +2588,7 @@
       unpack(messageData, data.Erosion);
       unpack(messageData, data.LateralFlow);
       }
-   inline unsigned memorySize(const NitrogenBalance& data)
+   inline unsigned memorySize(const NitrogenBalanceType& data)
       {
       return 0
               + ::memorySize(data.Fertilizer)
@@ -2575,7 +2600,7 @@
               + ::memorySize(data.LateralFlow)
               ;
       }
-   std::string DDML(const NitrogenBalance& data)
+   std::string DDML(const NitrogenBalanceType& data)
       {return "<type name=\"NitrogenBalance\" array=\"T\">"
                "<element>"
                "<field name=\"Fertilizer\" kind=\"single\" units=\"kg/ha\" />"
@@ -2589,7 +2614,7 @@
                "</type>";}
 
    //------ CropChopped ------
-   struct CropChopped
+   struct CropChoppedType
       {
       std::string crop_type;
       std::vector<std::string> dm_type;
@@ -2598,7 +2623,7 @@
       std::vector<float> fraction_to_residue;
       };
 
-   inline void pack(MessageData& messageData, const CropChopped& data)
+   inline void pack(MessageData& messageData, const CropChoppedType& data)
       {
       pack(messageData, data.crop_type);
       pack(messageData, data.dm_type);
@@ -2606,7 +2631,7 @@
       pack(messageData, data.dlt_dm_n);
       pack(messageData, data.fraction_to_residue);
       }
-   inline void unpack(MessageData& messageData, CropChopped& data)
+   inline void unpack(MessageData& messageData, CropChoppedType& data)
       {
       unpack(messageData, data.crop_type);
       unpack(messageData, data.dm_type);
@@ -2614,7 +2639,7 @@
       unpack(messageData, data.dlt_dm_n);
       unpack(messageData, data.fraction_to_residue);
       }
-   inline unsigned memorySize(const CropChopped& data)
+   inline unsigned memorySize(const CropChoppedType& data)
       {
       return 0
               + ::memorySize(data.crop_type)
@@ -2624,7 +2649,7 @@
               + ::memorySize(data.fraction_to_residue)
               ;
       }
-   std::string DDML(const CropChopped& data)
+   std::string DDML(const CropChoppedType& data)
       {return "<type name=\"CropChopped\">"
                "<field name=\"crop_type\" kind=\"string\" />"
                "<field name=\"dm_type\" kind=\"string\" array=\"T\" />"
@@ -2634,7 +2659,7 @@
                "</type>";}
 
    //------ NewProfile ------
-   struct NewProfile
+   struct NewProfileType
       {
       std::string sender_name;
       int sender_numbytes;
@@ -2683,7 +2708,7 @@
       std::vector<float> bd_value;
       };
 
-   inline void pack(MessageData& messageData, const NewProfile& data)
+   inline void pack(MessageData& messageData, const NewProfileType& data)
       {
       pack(messageData, data.sender_name);
       pack(messageData, data.sender_numbytes);
@@ -2731,7 +2756,7 @@
       pack(messageData, data.bd_isarray);
       pack(messageData, data.bd_value);
       }
-   inline void unpack(MessageData& messageData, NewProfile& data)
+   inline void unpack(MessageData& messageData, NewProfileType& data)
       {
       unpack(messageData, data.sender_name);
       unpack(messageData, data.sender_numbytes);
@@ -2779,7 +2804,7 @@
       unpack(messageData, data.bd_isarray);
       unpack(messageData, data.bd_value);
       }
-   inline unsigned memorySize(const NewProfile& data)
+   inline unsigned memorySize(const NewProfileType& data)
       {
       return 0
               + ::memorySize(data.sender_name)
@@ -2829,7 +2854,7 @@
               + ::memorySize(data.bd_value)
               ;
       }
-   std::string DDML(const NewProfile& data)
+   std::string DDML(const NewProfileType& data)
       {return "<type name=\"NewProfile\">"
                "<field name=\"sender_name\" kind=\"string\" />"
                "<field name=\"sender_numbytes\" kind=\"integer4\" />"
@@ -2879,37 +2904,37 @@
                "</type>";}
 
    //------ NewPotentialGrowth ------
-   struct NewPotentialGrowth
+   struct NewPotentialGrowthType
       {
       std::string sender;
       float frgr;
       };
 
-   inline void pack(MessageData& messageData, const NewPotentialGrowth& data)
+   inline void pack(MessageData& messageData, const NewPotentialGrowthType& data)
       {
       pack(messageData, data.sender);
       pack(messageData, data.frgr);
       }
-   inline void unpack(MessageData& messageData, NewPotentialGrowth& data)
+   inline void unpack(MessageData& messageData, NewPotentialGrowthType& data)
       {
       unpack(messageData, data.sender);
       unpack(messageData, data.frgr);
       }
-   inline unsigned memorySize(const NewPotentialGrowth& data)
+   inline unsigned memorySize(const NewPotentialGrowthType& data)
       {
       return 0
               + ::memorySize(data.sender)
               + ::memorySize(data.frgr)
               ;
       }
-   std::string DDML(const NewPotentialGrowth& data)
+   std::string DDML(const NewPotentialGrowthType& data)
       {return "<type name=\"NewPotentialGrowth\">"
                "<field name=\"sender\" kind=\"string\" />"
                "<field name=\"frgr\" kind=\"single\" units=\"\" />"
                "</type>";}
 
    //------ NewCanopy ------
-   struct NewCanopy
+   struct NewCanopyType
       {
       std::string sender;
       float height;
@@ -2920,7 +2945,7 @@
       float cover_tot;
       };
 
-   inline void pack(MessageData& messageData, const NewCanopy& data)
+   inline void pack(MessageData& messageData, const NewCanopyType& data)
       {
       pack(messageData, data.sender);
       pack(messageData, data.height);
@@ -2930,7 +2955,7 @@
       pack(messageData, data.cover);
       pack(messageData, data.cover_tot);
       }
-   inline void unpack(MessageData& messageData, NewCanopy& data)
+   inline void unpack(MessageData& messageData, NewCanopyType& data)
       {
       unpack(messageData, data.sender);
       unpack(messageData, data.height);
@@ -2940,7 +2965,7 @@
       unpack(messageData, data.cover);
       unpack(messageData, data.cover_tot);
       }
-   inline unsigned memorySize(const NewCanopy& data)
+   inline unsigned memorySize(const NewCanopyType& data)
       {
       return 0
               + ::memorySize(data.sender)
@@ -2952,7 +2977,7 @@
               + ::memorySize(data.cover_tot)
               ;
       }
-   std::string DDML(const NewCanopy& data)
+   std::string DDML(const NewCanopyType& data)
       {return "<type name=\"NewCanopy\">"
                "<field name=\"sender\" kind=\"string\" />"
                "<field name=\"height\" kind=\"single\" />"
@@ -2964,119 +2989,119 @@
                "</type>";}
 
    //------ NewCrop ------
-   struct NewCrop
+   struct NewCropType
       {
       std::string sender;
       std::string crop_type;
       };
 
-   inline void pack(MessageData& messageData, const NewCrop& data)
+   inline void pack(MessageData& messageData, const NewCropType& data)
       {
       pack(messageData, data.sender);
       pack(messageData, data.crop_type);
       }
-   inline void unpack(MessageData& messageData, NewCrop& data)
+   inline void unpack(MessageData& messageData, NewCropType& data)
       {
       unpack(messageData, data.sender);
       unpack(messageData, data.crop_type);
       }
-   inline unsigned memorySize(const NewCrop& data)
+   inline unsigned memorySize(const NewCropType& data)
       {
       return 0
               + ::memorySize(data.sender)
               + ::memorySize(data.crop_type)
               ;
       }
-   std::string DDML(const NewCrop& data)
+   std::string DDML(const NewCropType& data)
       {return "<type name=\"NewCrop\">"
                "<field name=\"sender\" kind=\"string\" />"
                "<field name=\"crop_type\" kind=\"string\" />"
                "</type>";}
 
    //------ SoilLayers ------
-   struct SoilLayers
+   struct SoilLayersType
       {
       std::vector<double> layers;
       std::vector<double> value;
       };
 
-   inline void pack(MessageData& messageData, const SoilLayers& data)
+   inline void pack(MessageData& messageData, const SoilLayersType& data)
       {
       pack(messageData, data.layers);
       pack(messageData, data.value);
       }
-   inline void unpack(MessageData& messageData, SoilLayers& data)
+   inline void unpack(MessageData& messageData, SoilLayersType& data)
       {
       unpack(messageData, data.layers);
       unpack(messageData, data.value);
       }
-   inline unsigned memorySize(const SoilLayers& data)
+   inline unsigned memorySize(const SoilLayersType& data)
       {
       return 0
               + ::memorySize(data.layers)
               + ::memorySize(data.value)
               ;
       }
-   std::string DDML(const SoilLayers& data)
+   std::string DDML(const SoilLayersType& data)
       {return "<type name=\"SoilLayers\">"
                "<field name=\"layers\" kind=\"double\" unit=\"mm\" array=\"T\" />"
                "<field name=\"value\" kind=\"double\" unit=\"mm\" array=\"T\" />"
                "</type>";}
 
    //------ rlv_layer ------
-   struct rlv_layer
+   struct rlv_layerType
       {
       std::vector<double> layers;
       std::vector<double> rlv;
       };
 
-   inline void pack(MessageData& messageData, const rlv_layer& data)
+   inline void pack(MessageData& messageData, const rlv_layerType& data)
       {
       pack(messageData, data.layers);
       pack(messageData, data.rlv);
       }
-   inline void unpack(MessageData& messageData, rlv_layer& data)
+   inline void unpack(MessageData& messageData, rlv_layerType& data)
       {
       unpack(messageData, data.layers);
       unpack(messageData, data.rlv);
       }
-   inline unsigned memorySize(const rlv_layer& data)
+   inline unsigned memorySize(const rlv_layerType& data)
       {
       return 0
               + ::memorySize(data.layers)
               + ::memorySize(data.rlv)
               ;
       }
-   std::string DDML(const rlv_layer& data)
+   std::string DDML(const rlv_layerType& data)
       {return "<field name=\"rlv_layer\">"
                "<field name=\"layers\" kind=\"double\" units=\"mm\" array=\"T\" />"
                "<field name=\"rlv\" kind=\"double\" units=\"mmmm^3\" array=\"T\" />"
                "</field>";}
 
    //------ demands ------
-   struct demands
+   struct demandsType
       {
       std::string crop_ident;
       std::string crop_type;
-      rlv_layer rlv_layer;
+      rlv_layerType rlv_layer;
       double demand;
       };
 
-   inline void pack(MessageData& messageData, const demands& data)
+   inline void pack(MessageData& messageData, const demandsType& data)
       {
       pack(messageData, data.crop_ident);
       pack(messageData, data.crop_type);
       pack(messageData, data.rlv_layer);
       pack(messageData, data.demand);
       }
-   inline void unpack(MessageData& messageData, demands& data)
+   inline void unpack(MessageData& messageData, demandsType& data)
       {
       unpack(messageData, data.crop_ident);
       unpack(messageData, data.crop_type);
       unpack(messageData, data.rlv_layer);
       unpack(messageData, data.demand);
       }
-   inline unsigned memorySize(const demands& data)
+   inline unsigned memorySize(const demandsType& data)
       {
       return 0
               + ::memorySize(data.crop_ident)
@@ -3085,7 +3110,7 @@
               + ::memorySize(data.demand)
               ;
       }
-   std::string DDML(const demands& data)
+   std::string DDML(const demandsType& data)
       {return "<field name=\"demands\" array=\"T\">"
                "<element>"
                "<field name=\"crop_ident\" kind=\"string\" description=\"Cohort name + instance name\" />"
@@ -3099,26 +3124,26 @@
                "</field>";}
 
    //------ PastureWaterDemand ------
-   struct PastureWaterDemand
+   struct PastureWaterDemandType
       {
-      std::vector<demands> demands;
+      std::vector<demandsType> demands;
       };
 
-   inline void pack(MessageData& messageData, const PastureWaterDemand& data)
+   inline void pack(MessageData& messageData, const PastureWaterDemandType& data)
       {
       pack(messageData, data.demands);
       }
-   inline void unpack(MessageData& messageData, PastureWaterDemand& data)
+   inline void unpack(MessageData& messageData, PastureWaterDemandType& data)
       {
       unpack(messageData, data.demands);
       }
-   inline unsigned memorySize(const PastureWaterDemand& data)
+   inline unsigned memorySize(const PastureWaterDemandType& data)
       {
       return 0
               + ::memorySize(data.demands)
               ;
       }
-   std::string DDML(const PastureWaterDemand& data)
+   std::string DDML(const PastureWaterDemandType& data)
       {return "<type name=\"PastureWaterDemand\" description=\"Message sent to add crop water demand terms to water balance calculations.\">"
                "<field name=\"demands\" array=\"T\">"
                "<element>"
@@ -3134,26 +3159,26 @@
                "</type>";}
 
    //------ supplies ------
-   struct supplies
+   struct suppliesType
       {
       std::string crop_ident;
       std::vector<double> layers;
       std::vector<double> supply;
       };
 
-   inline void pack(MessageData& messageData, const supplies& data)
+   inline void pack(MessageData& messageData, const suppliesType& data)
       {
       pack(messageData, data.crop_ident);
       pack(messageData, data.layers);
       pack(messageData, data.supply);
       }
-   inline void unpack(MessageData& messageData, supplies& data)
+   inline void unpack(MessageData& messageData, suppliesType& data)
       {
       unpack(messageData, data.crop_ident);
       unpack(messageData, data.layers);
       unpack(messageData, data.supply);
       }
-   inline unsigned memorySize(const supplies& data)
+   inline unsigned memorySize(const suppliesType& data)
       {
       return 0
               + ::memorySize(data.crop_ident)
@@ -3161,7 +3186,7 @@
               + ::memorySize(data.supply)
               ;
       }
-   std::string DDML(const supplies& data)
+   std::string DDML(const suppliesType& data)
       {return "<field name=\"supplies\" array=\"T\">"
                "<element>"
                "<field name=\"crop_ident\" kind=\"string\" description=\"Cohort name + instance name\" />"
@@ -3171,26 +3196,26 @@
                "</field>";}
 
    //------ PastureWaterSupply ------
-   struct PastureWaterSupply
+   struct PastureWaterSupplyType
       {
-      std::vector<supplies> supplies;
+      std::vector<suppliesType> supplies;
       };
 
-   inline void pack(MessageData& messageData, const PastureWaterSupply& data)
+   inline void pack(MessageData& messageData, const PastureWaterSupplyType& data)
       {
       pack(messageData, data.supplies);
       }
-   inline void unpack(MessageData& messageData, PastureWaterSupply& data)
+   inline void unpack(MessageData& messageData, PastureWaterSupplyType& data)
       {
       unpack(messageData, data.supplies);
       }
-   inline unsigned memorySize(const PastureWaterSupply& data)
+   inline unsigned memorySize(const PastureWaterSupplyType& data)
       {
       return 0
               + ::memorySize(data.supplies)
               ;
       }
-   std::string DDML(const PastureWaterSupply& data)
+   std::string DDML(const PastureWaterSupplyType& data)
       {return "<type name=\"PastureWaterSupply\">"
                "<field name=\"supplies\" array=\"T\">"
                "<element>"
@@ -3202,26 +3227,26 @@
                "</type>";}
 
    //------ water_uptake ------
-   struct water_uptake
+   struct water_uptakeType
       {
       std::string crop_ident;
       std::vector<double> layers;
       std::vector<double> uptake;
       };
 
-   inline void pack(MessageData& messageData, const water_uptake& data)
+   inline void pack(MessageData& messageData, const water_uptakeType& data)
       {
       pack(messageData, data.crop_ident);
       pack(messageData, data.layers);
       pack(messageData, data.uptake);
       }
-   inline void unpack(MessageData& messageData, water_uptake& data)
+   inline void unpack(MessageData& messageData, water_uptakeType& data)
       {
       unpack(messageData, data.crop_ident);
       unpack(messageData, data.layers);
       unpack(messageData, data.uptake);
       }
-   inline unsigned memorySize(const water_uptake& data)
+   inline unsigned memorySize(const water_uptakeType& data)
       {
       return 0
               + ::memorySize(data.crop_ident)
@@ -3229,7 +3254,7 @@
               + ::memorySize(data.uptake)
               ;
       }
-   std::string DDML(const water_uptake& data)
+   std::string DDML(const water_uptakeType& data)
       {return "<field name=\"water_uptake\" array=\"T\">"
                "<element>"
                "<field name=\"crop_ident\" kind=\"string\" description=\"Cohort name + instance name\" />"
@@ -3239,26 +3264,26 @@
                "</field>";}
 
    //------ PastureWaterUptake ------
-   struct PastureWaterUptake
+   struct PastureWaterUptakeType
       {
-      std::vector<water_uptake> water_uptake;
+      std::vector<water_uptakeType> water_uptake;
       };
 
-   inline void pack(MessageData& messageData, const PastureWaterUptake& data)
+   inline void pack(MessageData& messageData, const PastureWaterUptakeType& data)
       {
       pack(messageData, data.water_uptake);
       }
-   inline void unpack(MessageData& messageData, PastureWaterUptake& data)
+   inline void unpack(MessageData& messageData, PastureWaterUptakeType& data)
       {
       unpack(messageData, data.water_uptake);
       }
-   inline unsigned memorySize(const PastureWaterUptake& data)
+   inline unsigned memorySize(const PastureWaterUptakeType& data)
       {
       return 0
               + ::memorySize(data.water_uptake)
               ;
       }
-   std::string DDML(const PastureWaterUptake& data)
+   std::string DDML(const PastureWaterUptakeType& data)
       {return "<type name=\"PastureWaterUptake\">"
                "<field name=\"water_uptake\" array=\"T\">"
                "<element>"
@@ -3270,7 +3295,7 @@
                "</type>";}
 
    //------ water_info ------
-   struct water_info
+   struct water_infoType
       {
       std::string crop_ident;
       std::vector<double> params;
@@ -3280,7 +3305,7 @@
       std::vector<double> root_radius;
       };
 
-   inline void pack(MessageData& messageData, const water_info& data)
+   inline void pack(MessageData& messageData, const water_infoType& data)
       {
       pack(messageData, data.crop_ident);
       pack(messageData, data.params);
@@ -3289,7 +3314,7 @@
       pack(messageData, data.rlv);
       pack(messageData, data.root_radius);
       }
-   inline void unpack(MessageData& messageData, water_info& data)
+   inline void unpack(MessageData& messageData, water_infoType& data)
       {
       unpack(messageData, data.crop_ident);
       unpack(messageData, data.params);
@@ -3298,7 +3323,7 @@
       unpack(messageData, data.rlv);
       unpack(messageData, data.root_radius);
       }
-   inline unsigned memorySize(const water_info& data)
+   inline unsigned memorySize(const water_infoType& data)
       {
       return 0
               + ::memorySize(data.crop_ident)
@@ -3309,7 +3334,7 @@
               + ::memorySize(data.root_radius)
               ;
       }
-   std::string DDML(const water_info& data)
+   std::string DDML(const water_infoType& data)
       {return "<field name=\"water_info\" array=\"T\">"
                "<element>"
                "<field name=\"crop_ident\" kind=\"string\" description=\"sub-population name\" />"
@@ -3322,26 +3347,26 @@
                "</field>";}
 
    //------ WaterInfo ------
-   struct WaterInfo
+   struct WaterInfoType
       {
-      std::vector<water_info> water_info;
+      std::vector<water_infoType> water_info;
       };
 
-   inline void pack(MessageData& messageData, const WaterInfo& data)
+   inline void pack(MessageData& messageData, const WaterInfoType& data)
       {
       pack(messageData, data.water_info);
       }
-   inline void unpack(MessageData& messageData, WaterInfo& data)
+   inline void unpack(MessageData& messageData, WaterInfoType& data)
       {
       unpack(messageData, data.water_info);
       }
-   inline unsigned memorySize(const WaterInfo& data)
+   inline unsigned memorySize(const WaterInfoType& data)
       {
       return 0
               + ::memorySize(data.water_info)
               ;
       }
-   std::string DDML(const WaterInfo& data)
+   std::string DDML(const WaterInfoType& data)
       {return "<type name=\"WaterInfo\">"
                "<field name=\"water_info\" array=\"T\">"
                "<element>"
@@ -3356,7 +3381,7 @@
                "</type>";}
 
    //------ fom ------
-   struct fom
+   struct fomType
       {
       double weight;
       double n;
@@ -3365,7 +3390,7 @@
       double ash_alk;
       };
 
-   inline void pack(MessageData& messageData, const fom& data)
+   inline void pack(MessageData& messageData, const fomType& data)
       {
       pack(messageData, data.weight);
       pack(messageData, data.n);
@@ -3373,7 +3398,7 @@
       pack(messageData, data.s);
       pack(messageData, data.ash_alk);
       }
-   inline void unpack(MessageData& messageData, fom& data)
+   inline void unpack(MessageData& messageData, fomType& data)
       {
       unpack(messageData, data.weight);
       unpack(messageData, data.n);
@@ -3381,7 +3406,7 @@
       unpack(messageData, data.s);
       unpack(messageData, data.ash_alk);
       }
-   inline unsigned memorySize(const fom& data)
+   inline unsigned memorySize(const fomType& data)
       {
       return 0
               + ::memorySize(data.weight)
@@ -3391,7 +3416,7 @@
               + ::memorySize(data.ash_alk)
               ;
       }
-   std::string DDML(const fom& data)
+   std::string DDML(const fomType& data)
       {return "<field name=\"fom\" array=\"T\">"
                "<element>"
                "<field name=\"weight\" unit=\"kg/ha\" kind=\"double\" />"
@@ -3403,30 +3428,30 @@
                "</field>";}
 
    //------ FomAdded ------
-   struct FomAdded
+   struct FomAddedType
       {
       std::vector<double> layers;
-      std::vector<fom> fom;
+      std::vector<fomType> fom;
       };
 
-   inline void pack(MessageData& messageData, const FomAdded& data)
+   inline void pack(MessageData& messageData, const FomAddedType& data)
       {
       pack(messageData, data.layers);
       pack(messageData, data.fom);
       }
-   inline void unpack(MessageData& messageData, FomAdded& data)
+   inline void unpack(MessageData& messageData, FomAddedType& data)
       {
       unpack(messageData, data.layers);
       unpack(messageData, data.fom);
       }
-   inline unsigned memorySize(const FomAdded& data)
+   inline unsigned memorySize(const FomAddedType& data)
       {
       return 0
               + ::memorySize(data.layers)
               + ::memorySize(data.fom)
               ;
       }
-   std::string DDML(const FomAdded& data)
+   std::string DDML(const FomAddedType& data)
       {return "<type name=\"FomAdded\">"
                "<field name=\"layers\" unit=\"mm\" kind=\"double\" array=\"T\" />"
                "<field name=\"fom\" array=\"T\">"
@@ -3441,26 +3466,26 @@
                "</type>";}
 
    //------ PastureNutrientUptake ------
-   struct PastureNutrientUptake
+   struct PastureNutrientUptakeType
       {
       std::string nutrient;
       std::vector<double> layers;
       std::vector<double> uptake;
       };
 
-   inline void pack(MessageData& messageData, const PastureNutrientUptake& data)
+   inline void pack(MessageData& messageData, const PastureNutrientUptakeType& data)
       {
       pack(messageData, data.nutrient);
       pack(messageData, data.layers);
       pack(messageData, data.uptake);
       }
-   inline void unpack(MessageData& messageData, PastureNutrientUptake& data)
+   inline void unpack(MessageData& messageData, PastureNutrientUptakeType& data)
       {
       unpack(messageData, data.nutrient);
       unpack(messageData, data.layers);
       unpack(messageData, data.uptake);
       }
-   inline unsigned memorySize(const PastureNutrientUptake& data)
+   inline unsigned memorySize(const PastureNutrientUptakeType& data)
       {
       return 0
               + ::memorySize(data.nutrient)
@@ -3468,7 +3493,7 @@
               + ::memorySize(data.uptake)
               ;
       }
-   std::string DDML(const PastureNutrientUptake& data)
+   std::string DDML(const PastureNutrientUptakeType& data)
       {return "<type name=\"PastureNutrientUptake\">"
                "<field name=\"nutrient\" kind=\"string\" />"
                "<field name=\"layers\" unit=\"mm\" kind=\"double\" array=\"T\" />"
@@ -3476,81 +3501,81 @@
                "</type>";}
 
    //------ PastureSow ------
-   struct PastureSow
+   struct PastureSowType
       {
       double rate;
       };
 
-   inline void pack(MessageData& messageData, const PastureSow& data)
+   inline void pack(MessageData& messageData, const PastureSowType& data)
       {
       pack(messageData, data.rate);
       }
-   inline void unpack(MessageData& messageData, PastureSow& data)
+   inline void unpack(MessageData& messageData, PastureSowType& data)
       {
       unpack(messageData, data.rate);
       }
-   inline unsigned memorySize(const PastureSow& data)
+   inline unsigned memorySize(const PastureSowType& data)
       {
       return 0
               + ::memorySize(data.rate)
               ;
       }
-   std::string DDML(const PastureSow& data)
+   std::string DDML(const PastureSowType& data)
       {return "<type name=\"PastureSow\">"
                "<field name=\"rate\" unit=\"kg/ha\" kind=\"double\" />"
                "</type>";}
 
    //------ PastureKill ------
-   struct PastureKill
+   struct PastureKillType
       {
       double propn_herbage;
       double propn_seeds;
       };
 
-   inline void pack(MessageData& messageData, const PastureKill& data)
+   inline void pack(MessageData& messageData, const PastureKillType& data)
       {
       pack(messageData, data.propn_herbage);
       pack(messageData, data.propn_seeds);
       }
-   inline void unpack(MessageData& messageData, PastureKill& data)
+   inline void unpack(MessageData& messageData, PastureKillType& data)
       {
       unpack(messageData, data.propn_herbage);
       unpack(messageData, data.propn_seeds);
       }
-   inline unsigned memorySize(const PastureKill& data)
+   inline unsigned memorySize(const PastureKillType& data)
       {
       return 0
               + ::memorySize(data.propn_herbage)
               + ::memorySize(data.propn_seeds)
               ;
       }
-   std::string DDML(const PastureKill& data)
+   std::string DDML(const PastureKillType& data)
       {return "<type name=\"PastureKill\">"
                "<field name=\"propn_herbage\" unit=\"-\" kind=\"double\" />"
                "<field name=\"propn_seeds\" unit=\"-\" kind=\"double\" />"
                "</type>";}
 
    //------ PastureCultivate ------
-   struct PastureCultivate
+   struct PastureCultivateType
       {
       double depth;
       double propn_incorp;
       double propn_mixed;
       };
 
-   inline void pack(MessageData& messageData, const PastureCultivate& data)
+   inline void pack(MessageData& messageData, const PastureCultivateType& data)
       {
       pack(messageData, data.depth);
       pack(messageData, data.propn_incorp);
       pack(messageData, data.propn_mixed);
       }
-   inline void unpack(MessageData& messageData, PastureCultivate& data)
+   inline void unpack(MessageData& messageData, PastureCultivateType& data)
       {
       unpack(messageData, data.depth);
       unpack(messageData, data.propn_incorp);
       unpack(messageData, data.propn_mixed);
       }
-   inline unsigned memorySize(const PastureCultivate& data)
+   inline unsigned memorySize(const PastureCultivateType& data)
       {
       return 0
               + ::memorySize(data.depth)
@@ -3558,7 +3583,7 @@
               + ::memorySize(data.propn_mixed)
               ;
       }
-   std::string DDML(const PastureCultivate& data)
+   std::string DDML(const PastureCultivateType& data)
       {return "<type name=\"PastureCultivate\">"
                "<field name=\"depth\" unit=\"mm\" kind=\"double\" />"
                "<field name=\"propn_incorp\" unit=\"-\" kind=\"double\" />"
@@ -3566,7 +3591,7 @@
                "</type>";}
 
    //------ PastureCut ------
-   struct PastureCut
+   struct PastureCutType
       {
       double cut_height;
       double gathered;
@@ -3574,21 +3599,21 @@
       double dm_content;
       };
 
-   inline void pack(MessageData& messageData, const PastureCut& data)
+   inline void pack(MessageData& messageData, const PastureCutType& data)
       {
       pack(messageData, data.cut_height);
       pack(messageData, data.gathered);
       pack(messageData, data.dmd_loss);
       pack(messageData, data.dm_content);
       }
-   inline void unpack(MessageData& messageData, PastureCut& data)
+   inline void unpack(MessageData& messageData, PastureCutType& data)
       {
       unpack(messageData, data.cut_height);
       unpack(messageData, data.gathered);
       unpack(messageData, data.dmd_loss);
       unpack(messageData, data.dm_content);
       }
-   inline unsigned memorySize(const PastureCut& data)
+   inline unsigned memorySize(const PastureCutType& data)
       {
       return 0
               + ::memorySize(data.cut_height)
@@ -3597,7 +3622,7 @@
               + ::memorySize(data.dm_content)
               ;
       }
-   std::string DDML(const PastureCut& data)
+   std::string DDML(const PastureCutType& data)
       {return "<type name=\"PastureCut\">"
                "<field name=\"cut_height\" unit=\"mm\" kind=\"double\" />"
                "<field name=\"gathered\" unit=\"-\" kind=\"double\" />"
@@ -3606,7 +3631,7 @@
                "</type>";}
 
    //------ PastureOnCut ------
-   struct PastureOnCut
+   struct PastureOnCutType
       {
       double fresh_wt;
       double dm_content;
@@ -3617,7 +3642,7 @@
       double ash_alk;
       };
 
-   inline void pack(MessageData& messageData, const PastureOnCut& data)
+   inline void pack(MessageData& messageData, const PastureOnCutType& data)
       {
       pack(messageData, data.fresh_wt);
       pack(messageData, data.dm_content);
@@ -3627,7 +3652,7 @@
       pack(messageData, data.s_conc);
       pack(messageData, data.ash_alk);
       }
-   inline void unpack(MessageData& messageData, PastureOnCut& data)
+   inline void unpack(MessageData& messageData, PastureOnCutType& data)
       {
       unpack(messageData, data.fresh_wt);
       unpack(messageData, data.dm_content);
@@ -3637,7 +3662,7 @@
       unpack(messageData, data.s_conc);
       unpack(messageData, data.ash_alk);
       }
-   inline unsigned memorySize(const PastureOnCut& data)
+   inline unsigned memorySize(const PastureOnCutType& data)
       {
       return 0
               + ::memorySize(data.fresh_wt)
@@ -3649,7 +3674,7 @@
               + ::memorySize(data.ash_alk)
               ;
       }
-   std::string DDML(const PastureOnCut& data)
+   std::string DDML(const PastureOnCutType& data)
       {return "<type name=\"PastureOnCut\">"
                "<field name=\"fresh_wt\" unit=\"kg\" kind=\"double\" />"
                "<field name=\"dm_content\" unit=\"kg/kg\" kind=\"double\" />"
@@ -3661,7 +3686,7 @@
                "</type>";}
 
    //------ PastureWeather ------
-   struct PastureWeather
+   struct PastureWeatherType
       {
       double maxt;
       double mint;
@@ -3672,7 +3697,7 @@
       double wind;
       };
 
-   inline void pack(MessageData& messageData, const PastureWeather& data)
+   inline void pack(MessageData& messageData, const PastureWeatherType& data)
       {
       pack(messageData, data.maxt);
       pack(messageData, data.mint);
@@ -3682,7 +3707,7 @@
       pack(messageData, data.vpd);
       pack(messageData, data.wind);
       }
-   inline void unpack(MessageData& messageData, PastureWeather& data)
+   inline void unpack(MessageData& messageData, PastureWeatherType& data)
       {
       unpack(messageData, data.maxt);
       unpack(messageData, data.mint);
@@ -3692,7 +3717,7 @@
       unpack(messageData, data.vpd);
       unpack(messageData, data.wind);
       }
-   inline unsigned memorySize(const PastureWeather& data)
+   inline unsigned memorySize(const PastureWeatherType& data)
       {
       return 0
               + ::memorySize(data.maxt)
@@ -3704,7 +3729,7 @@
               + ::memorySize(data.wind)
               ;
       }
-   std::string DDML(const PastureWeather& data)
+   std::string DDML(const PastureWeatherType& data)
       {return "<type name=\"PastureWeather\">"
                "<field name=\"maxt\" unit=\"oC\" kind=\"double\" />"
                "<field name=\"mint\" unit=\"oC\" kind=\"double\" />"
@@ -3716,7 +3741,7 @@
                "</type>";}
 
    //------ Faeces ------
-   struct Faeces
+   struct FaecesType
       {
       double weight;
       double n;
@@ -3725,7 +3750,7 @@
       double ash_alk;
       };
 
-   inline void pack(MessageData& messageData, const Faeces& data)
+   inline void pack(MessageData& messageData, const FaecesType& data)
       {
       pack(messageData, data.weight);
       pack(messageData, data.n);
@@ -3733,7 +3758,7 @@
       pack(messageData, data.s);
       pack(messageData, data.ash_alk);
       }
-   inline void unpack(MessageData& messageData, Faeces& data)
+   inline void unpack(MessageData& messageData, FaecesType& data)
       {
       unpack(messageData, data.weight);
       unpack(messageData, data.n);
@@ -3741,7 +3766,7 @@
       unpack(messageData, data.s);
       unpack(messageData, data.ash_alk);
       }
-   inline unsigned memorySize(const Faeces& data)
+   inline unsigned memorySize(const FaecesType& data)
       {
       return 0
               + ::memorySize(data.weight)
@@ -3751,7 +3776,7 @@
               + ::memorySize(data.ash_alk)
               ;
       }
-   std::string DDML(const Faeces& data)
+   std::string DDML(const FaecesType& data)
       {return "<type name=\"Faeces\" array=\"T\">"
                "<element>"
                "<field name=\"weight\" unit=\"kg/d\" kind=\"double\" />"
@@ -3763,26 +3788,26 @@
                "</type>";}
 
    //------ FaecesInorg ------
-   struct FaecesInorg
+   struct FaecesInorgType
       {
       double n;
       double p;
       double s;
       };
 
-   inline void pack(MessageData& messageData, const FaecesInorg& data)
+   inline void pack(MessageData& messageData, const FaecesInorgType& data)
       {
       pack(messageData, data.n);
       pack(messageData, data.p);
       pack(messageData, data.s);
       }
-   inline void unpack(MessageData& messageData, FaecesInorg& data)
+   inline void unpack(MessageData& messageData, FaecesInorgType& data)
       {
       unpack(messageData, data.n);
       unpack(messageData, data.p);
       unpack(messageData, data.s);
       }
-   inline unsigned memorySize(const FaecesInorg& data)
+   inline unsigned memorySize(const FaecesInorgType& data)
       {
       return 0
               + ::memorySize(data.n)
@@ -3790,7 +3815,7 @@
               + ::memorySize(data.s)
               ;
       }
-   std::string DDML(const FaecesInorg& data)
+   std::string DDML(const FaecesInorgType& data)
       {return "<type name=\"FaecesInorg\" array=\"T\">"
                "<element>"
                "<field name=\"n\" unit=\"kg/d\" kind=\"double\" />"
@@ -3800,7 +3825,7 @@
                "</type>";}
 
    //------ Intake ------
-   struct Intake
+   struct IntakeType
       {
       double weight;
       double n;
@@ -3809,7 +3834,7 @@
       double ash_alk;
       };
 
-   inline void pack(MessageData& messageData, const Intake& data)
+   inline void pack(MessageData& messageData, const IntakeType& data)
       {
       pack(messageData, data.weight);
       pack(messageData, data.n);
@@ -3817,7 +3842,7 @@
       pack(messageData, data.s);
       pack(messageData, data.ash_alk);
       }
-   inline void unpack(MessageData& messageData, Intake& data)
+   inline void unpack(MessageData& messageData, IntakeType& data)
       {
       unpack(messageData, data.weight);
       unpack(messageData, data.n);
@@ -3825,7 +3850,7 @@
       unpack(messageData, data.s);
       unpack(messageData, data.ash_alk);
       }
-   inline unsigned memorySize(const Intake& data)
+   inline unsigned memorySize(const IntakeType& data)
       {
       return 0
               + ::memorySize(data.weight)
@@ -3835,7 +3860,7 @@
               + ::memorySize(data.ash_alk)
               ;
       }
-   std::string DDML(const Intake& data)
+   std::string DDML(const IntakeType& data)
       {return "<type name=\"Intake\" array=\"T\">"
                "<element>"
                "<field name=\"weight\" unit=\"kg/d\" kind=\"double\" />"
@@ -3847,7 +3872,7 @@
                "</type>";}
 
    //------ PastIntake ------
-   struct PastIntake
+   struct PastIntakeType
       {
       double weight;
       double n;
@@ -3856,7 +3881,7 @@
       double ash_alk;
       };
 
-   inline void pack(MessageData& messageData, const PastIntake& data)
+   inline void pack(MessageData& messageData, const PastIntakeType& data)
       {
       pack(messageData, data.weight);
       pack(messageData, data.n);
@@ -3864,7 +3889,7 @@
       pack(messageData, data.s);
       pack(messageData, data.ash_alk);
       }
-   inline void unpack(MessageData& messageData, PastIntake& data)
+   inline void unpack(MessageData& messageData, PastIntakeType& data)
       {
       unpack(messageData, data.weight);
       unpack(messageData, data.n);
@@ -3872,7 +3897,7 @@
       unpack(messageData, data.s);
       unpack(messageData, data.ash_alk);
       }
-   inline unsigned memorySize(const PastIntake& data)
+   inline unsigned memorySize(const PastIntakeType& data)
       {
       return 0
               + ::memorySize(data.weight)
@@ -3882,7 +3907,7 @@
               + ::memorySize(data.ash_alk)
               ;
       }
-   std::string DDML(const PastIntake& data)
+   std::string DDML(const PastIntakeType& data)
       {return "<type name=\"PastIntake\" array=\"T\">"
                "<element>"
                "<field name=\"weight\" unit=\"kg/d\" kind=\"double\" />"
@@ -3894,7 +3919,7 @@
                "</type>";}
 
    //------ SuppIntake ------
-   struct SuppIntake
+   struct SuppIntakeType
       {
       double weight;
       double n;
@@ -3903,7 +3928,7 @@
       double ash_alk;
       };
 
-   inline void pack(MessageData& messageData, const SuppIntake& data)
+   inline void pack(MessageData& messageData, const SuppIntakeType& data)
       {
       pack(messageData, data.weight);
       pack(messageData, data.n);
@@ -3911,7 +3936,7 @@
       pack(messageData, data.s);
       pack(messageData, data.ash_alk);
       }
-   inline void unpack(MessageData& messageData, SuppIntake& data)
+   inline void unpack(MessageData& messageData, SuppIntakeType& data)
       {
       unpack(messageData, data.weight);
       unpack(messageData, data.n);
@@ -3919,7 +3944,7 @@
       unpack(messageData, data.s);
       unpack(messageData, data.ash_alk);
       }
-   inline unsigned memorySize(const SuppIntake& data)
+   inline unsigned memorySize(const SuppIntakeType& data)
       {
       return 0
               + ::memorySize(data.weight)
@@ -3929,7 +3954,7 @@
               + ::memorySize(data.ash_alk)
               ;
       }
-   std::string DDML(const SuppIntake& data)
+   std::string DDML(const SuppIntakeType& data)
       {return "<type name=\"SuppIntake\" array=\"T\">"
                "<element>"
                "<field name=\"weight\" unit=\"kg/d\" kind=\"double\" />"
@@ -3941,7 +3966,7 @@
                "</type>";}
 
    //------ faeces_om ------
-   struct faeces_om
+   struct faeces_omType
       {
       double weight;
       double n;
@@ -3950,7 +3975,7 @@
       double ash_alk;
       };
 
-   inline void pack(MessageData& messageData, const faeces_om& data)
+   inline void pack(MessageData& messageData, const faeces_omType& data)
       {
       pack(messageData, data.weight);
       pack(messageData, data.n);
@@ -3958,7 +3983,7 @@
       pack(messageData, data.s);
       pack(messageData, data.ash_alk);
       }
-   inline void unpack(MessageData& messageData, faeces_om& data)
+   inline void unpack(MessageData& messageData, faeces_omType& data)
       {
       unpack(messageData, data.weight);
       unpack(messageData, data.n);
@@ -3966,7 +3991,7 @@
       unpack(messageData, data.s);
       unpack(messageData, data.ash_alk);
       }
-   inline unsigned memorySize(const faeces_om& data)
+   inline unsigned memorySize(const faeces_omType& data)
       {
       return 0
               + ::memorySize(data.weight)
@@ -3976,7 +4001,7 @@
               + ::memorySize(data.ash_alk)
               ;
       }
-   std::string DDML(const faeces_om& data)
+   std::string DDML(const faeces_omType& data)
       {return "<type name=\"faeces_om\">"
                "<field name=\"weight\" unit=\"kg/ha\" kind=\"double\" />"
                "<field name=\"n\" unit=\"kg/ha\" kind=\"double\" />"
@@ -3986,26 +4011,26 @@
                "</type>";}
 
    //------ faeces_inorg ------
-   struct faeces_inorg
+   struct faeces_inorgType
       {
       double n;
       double p;
       double s;
       };
 
-   inline void pack(MessageData& messageData, const faeces_inorg& data)
+   inline void pack(MessageData& messageData, const faeces_inorgType& data)
       {
       pack(messageData, data.n);
       pack(messageData, data.p);
       pack(messageData, data.s);
       }
-   inline void unpack(MessageData& messageData, faeces_inorg& data)
+   inline void unpack(MessageData& messageData, faeces_inorgType& data)
       {
       unpack(messageData, data.n);
       unpack(messageData, data.p);
       unpack(messageData, data.s);
       }
-   inline unsigned memorySize(const faeces_inorg& data)
+   inline unsigned memorySize(const faeces_inorgType& data)
       {
       return 0
               + ::memorySize(data.n)
@@ -4013,7 +4038,7 @@
               + ::memorySize(data.s)
               ;
       }
-   std::string DDML(const faeces_inorg& data)
+   std::string DDML(const faeces_inorgType& data)
       {return "<type name=\"faeces_inorg\">"
                "<field name=\"n\" unit=\"kg/ha\" kind=\"double\" />"
                "<field name=\"p\" unit=\"kg/ha\" kind=\"double\" />"
@@ -4021,7 +4046,7 @@
                "</type>";}
 
    //------ urine ------
-   struct urine
+   struct urineType
       {
       double volume;
       double urea;
@@ -4030,7 +4055,7 @@
       double ash_alk;
       };
 
-   inline void pack(MessageData& messageData, const urine& data)
+   inline void pack(MessageData& messageData, const urineType& data)
       {
       pack(messageData, data.volume);
       pack(messageData, data.urea);
@@ -4038,7 +4063,7 @@
       pack(messageData, data.so4);
       pack(messageData, data.ash_alk);
       }
-   inline void unpack(MessageData& messageData, urine& data)
+   inline void unpack(MessageData& messageData, urineType& data)
       {
       unpack(messageData, data.volume);
       unpack(messageData, data.urea);
@@ -4046,7 +4071,7 @@
       unpack(messageData, data.so4);
       unpack(messageData, data.ash_alk);
       }
-   inline unsigned memorySize(const urine& data)
+   inline unsigned memorySize(const urineType& data)
       {
       return 0
               + ::memorySize(data.volume)
@@ -4056,7 +4081,7 @@
               + ::memorySize(data.ash_alk)
               ;
       }
-   std::string DDML(const urine& data)
+   std::string DDML(const urineType& data)
       {return "<type name=\"urine\">"
                "<field name=\"volume\" unit=\"m3/ha\" kind=\"double\" />"
                "<field name=\"urea\" unit=\"kg/ha\" kind=\"double\" />"
@@ -4066,26 +4091,26 @@
                "</type>";}
 
    //------ AddExcreta ------
-   struct AddExcreta
+   struct AddExcretaType
       {
-      faeces_om faeces_om;
-      faeces_inorg faeces_inorg;
-      urine urine;
+      faeces_omType faeces_om;
+      faeces_inorgType faeces_inorg;
+      urineType urine;
       };
 
-   inline void pack(MessageData& messageData, const AddExcreta& data)
+   inline void pack(MessageData& messageData, const AddExcretaType& data)
       {
       pack(messageData, data.faeces_om);
       pack(messageData, data.faeces_inorg);
       pack(messageData, data.urine);
       }
-   inline void unpack(MessageData& messageData, AddExcreta& data)
+   inline void unpack(MessageData& messageData, AddExcretaType& data)
       {
       unpack(messageData, data.faeces_om);
       unpack(messageData, data.faeces_inorg);
       unpack(messageData, data.urine);
       }
-   inline unsigned memorySize(const AddExcreta& data)
+   inline unsigned memorySize(const AddExcretaType& data)
       {
       return 0
               + ::memorySize(data.faeces_om)
@@ -4093,7 +4118,7 @@
               + ::memorySize(data.urine)
               ;
       }
-   std::string DDML(const AddExcreta& data)
+   std::string DDML(const AddExcretaType& data)
       {return "<type name=\"AddExcreta\">"
                "<type name=\"faeces_om\">"
                "<field name=\"weight\" unit=\"kg/ha\" kind=\"double\" />"
@@ -4117,60 +4142,60 @@
                "</type>";}
 
    //------ RemoveHerbage ------
-   struct RemoveHerbage
+   struct RemoveHerbageType
       {
       std::vector<double> herbage;
       std::vector<double> seed;
       };
 
-   inline void pack(MessageData& messageData, const RemoveHerbage& data)
+   inline void pack(MessageData& messageData, const RemoveHerbageType& data)
       {
       pack(messageData, data.herbage);
       pack(messageData, data.seed);
       }
-   inline void unpack(MessageData& messageData, RemoveHerbage& data)
+   inline void unpack(MessageData& messageData, RemoveHerbageType& data)
       {
       unpack(messageData, data.herbage);
       unpack(messageData, data.seed);
       }
-   inline unsigned memorySize(const RemoveHerbage& data)
+   inline unsigned memorySize(const RemoveHerbageType& data)
       {
       return 0
               + ::memorySize(data.herbage)
               + ::memorySize(data.seed)
               ;
       }
-   std::string DDML(const RemoveHerbage& data)
+   std::string DDML(const RemoveHerbageType& data)
       {return "<type name=\"RemoveHerbage\">"
                "<field name=\"herbage\" unit=\"kg/ha\" kind=\"double\" array=\"T\" />"
                "<field name=\"seed\" unit=\"kg/ha\" kind=\"double\" array=\"T\" />"
                "</type>";}
 
    //------ SuppEaten ------
-   struct SuppEaten
+   struct SuppEatenType
       {
       std::string paddock;
       double eaten;
       };
 
-   inline void pack(MessageData& messageData, const SuppEaten& data)
+   inline void pack(MessageData& messageData, const SuppEatenType& data)
       {
       pack(messageData, data.paddock);
       pack(messageData, data.eaten);
       }
-   inline void unpack(MessageData& messageData, SuppEaten& data)
+   inline void unpack(MessageData& messageData, SuppEatenType& data)
       {
       unpack(messageData, data.paddock);
       unpack(messageData, data.eaten);
       }
-   inline unsigned memorySize(const SuppEaten& data)
+   inline unsigned memorySize(const SuppEatenType& data)
       {
       return 0
               + ::memorySize(data.paddock)
               + ::memorySize(data.eaten)
               ;
       }
-   std::string DDML(const SuppEaten& data)
+   std::string DDML(const SuppEatenType& data)
       {return "<type name=\"SuppEaten\" array=\"T\">"
                "<element>"
                "<field name=\"paddock\" unit=\"\" kind=\"string\" />"
@@ -4179,7 +4204,7 @@
                "</type>";}
 
    //------ herbage ------
-   struct herbage
+   struct herbageType
       {
       double dm;
       double dmd;
@@ -4191,7 +4216,7 @@
       double height_ratio;
       };
 
-   inline void pack(MessageData& messageData, const herbage& data)
+   inline void pack(MessageData& messageData, const herbageType& data)
       {
       pack(messageData, data.dm);
       pack(messageData, data.dmd);
@@ -4202,7 +4227,7 @@
       pack(messageData, data.ash_alk);
       pack(messageData, data.height_ratio);
       }
-   inline void unpack(MessageData& messageData, herbage& data)
+   inline void unpack(MessageData& messageData, herbageType& data)
       {
       unpack(messageData, data.dm);
       unpack(messageData, data.dmd);
@@ -4213,7 +4238,7 @@
       unpack(messageData, data.ash_alk);
       unpack(messageData, data.height_ratio);
       }
-   inline unsigned memorySize(const herbage& data)
+   inline unsigned memorySize(const herbageType& data)
       {
       return 0
               + ::memorySize(data.dm)
@@ -4226,7 +4251,7 @@
               + ::memorySize(data.height_ratio)
               ;
       }
-   std::string DDML(const herbage& data)
+   std::string DDML(const herbageType& data)
       {return "<field name=\"herbage\" array=\"T\">"
                "<element>"
                "<field name=\"dm\" unit=\"kg/ha\" kind=\"double\" />"
@@ -4241,7 +4266,7 @@
                "</field>";}
 
    //------ seed ------
-   struct seed
+   struct seedType
       {
       double dm;
       double dmd;
@@ -4253,7 +4278,7 @@
       double height_ratio;
       };
 
-   inline void pack(MessageData& messageData, const seed& data)
+   inline void pack(MessageData& messageData, const seedType& data)
       {
       pack(messageData, data.dm);
       pack(messageData, data.dmd);
@@ -4264,7 +4289,7 @@
       pack(messageData, data.ash_alk);
       pack(messageData, data.height_ratio);
       }
-   inline void unpack(MessageData& messageData, seed& data)
+   inline void unpack(MessageData& messageData, seedType& data)
       {
       unpack(messageData, data.dm);
       unpack(messageData, data.dmd);
@@ -4275,7 +4300,7 @@
       unpack(messageData, data.ash_alk);
       unpack(messageData, data.height_ratio);
       }
-   inline unsigned memorySize(const seed& data)
+   inline unsigned memorySize(const seedType& data)
       {
       return 0
               + ::memorySize(data.dm)
@@ -4288,7 +4313,7 @@
               + ::memorySize(data.height_ratio)
               ;
       }
-   std::string DDML(const seed& data)
+   std::string DDML(const seedType& data)
       {return "<field name=\"seed\" array=\"T\">"
                "<element>"
                "<field name=\"dm\" unit=\"kg/ha\" kind=\"double\" />"
@@ -4303,17 +4328,17 @@
                "</field>";}
 
    //------ Plant2Stock ------
-   struct Plant2Stock
+   struct Plant2StockType
       {
-      std::vector<herbage> herbage;
+      std::vector<herbageType> herbage;
       double propn_green;
       double legume;
       double select_factor;
-      std::vector<seed> seed;
+      std::vector<seedType> seed;
       std::vector<int> seed_class;
       };
 
-   inline void pack(MessageData& messageData, const Plant2Stock& data)
+   inline void pack(MessageData& messageData, const Plant2StockType& data)
       {
       pack(messageData, data.herbage);
       pack(messageData, data.propn_green);
@@ -4322,7 +4347,7 @@
       pack(messageData, data.seed);
       pack(messageData, data.seed_class);
       }
-   inline void unpack(MessageData& messageData, Plant2Stock& data)
+   inline void unpack(MessageData& messageData, Plant2StockType& data)
       {
       unpack(messageData, data.herbage);
       unpack(messageData, data.propn_green);
@@ -4331,7 +4356,7 @@
       unpack(messageData, data.seed);
       unpack(messageData, data.seed_class);
       }
-   inline unsigned memorySize(const Plant2Stock& data)
+   inline unsigned memorySize(const Plant2StockType& data)
       {
       return 0
               + ::memorySize(data.herbage)
@@ -4342,7 +4367,7 @@
               + ::memorySize(data.seed_class)
               ;
       }
-   std::string DDML(const Plant2Stock& data)
+   std::string DDML(const Plant2StockType& data)
       {return "<type name=\"Plant2Stock\">"
                "<field name=\"herbage\" array=\"T\">"
                "<element>"
@@ -4375,7 +4400,7 @@
                "</type>";}
 
    //------ BuyStock ------
-   struct BuyStock
+   struct BuyStockType
       {
       std::string genotype;
       int number;
@@ -4392,7 +4417,7 @@
       double young_fleece_wt;
       };
 
-   inline void pack(MessageData& messageData, const BuyStock& data)
+   inline void pack(MessageData& messageData, const BuyStockType& data)
       {
       pack(messageData, data.genotype);
       pack(messageData, data.number);
@@ -4408,7 +4433,7 @@
       pack(messageData, data.young_wt);
       pack(messageData, data.young_fleece_wt);
       }
-   inline void unpack(MessageData& messageData, BuyStock& data)
+   inline void unpack(MessageData& messageData, BuyStockType& data)
       {
       unpack(messageData, data.genotype);
       unpack(messageData, data.number);
@@ -4424,7 +4449,7 @@
       unpack(messageData, data.young_wt);
       unpack(messageData, data.young_fleece_wt);
       }
-   inline unsigned memorySize(const BuyStock& data)
+   inline unsigned memorySize(const BuyStockType& data)
       {
       return 0
               + ::memorySize(data.genotype)
@@ -4442,7 +4467,7 @@
               + ::memorySize(data.young_fleece_wt)
               ;
       }
-   std::string DDML(const BuyStock& data)
+   std::string DDML(const BuyStockType& data)
       {return "<type name=\"BuyStock\">"
                "<field name=\"genotype\" unit=\"\" kind=\"string\" />"
                "<field name=\"number\" unit=\"\" kind=\"integer4\" />"
@@ -4460,116 +4485,116 @@
                "</type>";}
 
    //------ SellStock ------
-   struct SellStock
+   struct SellStockType
       {
       int group;
       int number;
       };
 
-   inline void pack(MessageData& messageData, const SellStock& data)
+   inline void pack(MessageData& messageData, const SellStockType& data)
       {
       pack(messageData, data.group);
       pack(messageData, data.number);
       }
-   inline void unpack(MessageData& messageData, SellStock& data)
+   inline void unpack(MessageData& messageData, SellStockType& data)
       {
       unpack(messageData, data.group);
       unpack(messageData, data.number);
       }
-   inline unsigned memorySize(const SellStock& data)
+   inline unsigned memorySize(const SellStockType& data)
       {
       return 0
               + ::memorySize(data.group)
               + ::memorySize(data.number)
               ;
       }
-   std::string DDML(const SellStock& data)
+   std::string DDML(const SellStockType& data)
       {return "<type name=\"SellStock\">"
                "<field name=\"group\" unit=\"\" kind=\"integer4\" />"
                "<field name=\"number\" unit=\"\" kind=\"integer4\" />"
                "</type>";}
 
    //------ CastrateStock ------
-   struct CastrateStock
+   struct CastrateStockType
       {
       int group;
       int number;
       };
 
-   inline void pack(MessageData& messageData, const CastrateStock& data)
+   inline void pack(MessageData& messageData, const CastrateStockType& data)
       {
       pack(messageData, data.group);
       pack(messageData, data.number);
       }
-   inline void unpack(MessageData& messageData, CastrateStock& data)
+   inline void unpack(MessageData& messageData, CastrateStockType& data)
       {
       unpack(messageData, data.group);
       unpack(messageData, data.number);
       }
-   inline unsigned memorySize(const CastrateStock& data)
+   inline unsigned memorySize(const CastrateStockType& data)
       {
       return 0
               + ::memorySize(data.group)
               + ::memorySize(data.number)
               ;
       }
-   std::string DDML(const CastrateStock& data)
+   std::string DDML(const CastrateStockType& data)
       {return "<type name=\"CastrateStock\">"
                "<field name=\"group\" unit=\"\" kind=\"integer4\" />"
                "<field name=\"number\" unit=\"\" kind=\"integer4\" />"
                "</type>";}
 
    //------ DryOffStock ------
-   struct DryOffStock
+   struct DryOffStockType
       {
       int group;
       int number;
       };
 
-   inline void pack(MessageData& messageData, const DryOffStock& data)
+   inline void pack(MessageData& messageData, const DryOffStockType& data)
       {
       pack(messageData, data.group);
       pack(messageData, data.number);
       }
-   inline void unpack(MessageData& messageData, DryOffStock& data)
+   inline void unpack(MessageData& messageData, DryOffStockType& data)
       {
       unpack(messageData, data.group);
       unpack(messageData, data.number);
       }
-   inline unsigned memorySize(const DryOffStock& data)
+   inline unsigned memorySize(const DryOffStockType& data)
       {
       return 0
               + ::memorySize(data.group)
               + ::memorySize(data.number)
               ;
       }
-   std::string DDML(const DryOffStock& data)
+   std::string DDML(const DryOffStockType& data)
       {return "<type name=\"DryOffStock\">"
                "<field name=\"group\" unit=\"\" kind=\"integer4\" />"
                "<field name=\"number\" unit=\"\" kind=\"integer4\" />"
                "</type>";}
 
    //------ JoinStock ------
-   struct JoinStock
+   struct JoinStockType
       {
       int group;
       std::string mate_to;
       int mate_days;
       };
 
-   inline void pack(MessageData& messageData, const JoinStock& data)
+   inline void pack(MessageData& messageData, const JoinStockType& data)
       {
       pack(messageData, data.group);
       pack(messageData, data.mate_to);
       pack(messageData, data.mate_days);
       }
-   inline void unpack(MessageData& messageData, JoinStock& data)
+   inline void unpack(MessageData& messageData, JoinStockType& data)
       {
       unpack(messageData, data.group);
       unpack(messageData, data.mate_to);
       unpack(messageData, data.mate_days);
       }
-   inline unsigned memorySize(const JoinStock& data)
+   inline unsigned memorySize(const JoinStockType& data)
       {
       return 0
               + ::memorySize(data.group)
@@ -4577,7 +4602,7 @@
               + ::memorySize(data.mate_days)
               ;
       }
-   std::string DDML(const JoinStock& data)
+   std::string DDML(const JoinStockType& data)
       {return "<type name=\"JoinStock\">"
                "<field name=\"group\" unit=\"\" kind=\"integer4\" />"
                "<field name=\"mate_to\" unit=\"\" kind=\"string\" />"
@@ -4585,86 +4610,86 @@
                "</type>";}
 
    //------ MoveStock ------
-   struct MoveStock
+   struct MoveStockType
       {
       int group;
       std::string paddock;
       };
 
-   inline void pack(MessageData& messageData, const MoveStock& data)
+   inline void pack(MessageData& messageData, const MoveStockType& data)
       {
       pack(messageData, data.group);
       pack(messageData, data.paddock);
       }
-   inline void unpack(MessageData& messageData, MoveStock& data)
+   inline void unpack(MessageData& messageData, MoveStockType& data)
       {
       unpack(messageData, data.group);
       unpack(messageData, data.paddock);
       }
-   inline unsigned memorySize(const MoveStock& data)
+   inline unsigned memorySize(const MoveStockType& data)
       {
       return 0
               + ::memorySize(data.group)
               + ::memorySize(data.paddock)
               ;
       }
-   std::string DDML(const MoveStock& data)
+   std::string DDML(const MoveStockType& data)
       {return "<type name=\"MoveStock\">"
                "<field name=\"group\" unit=\"\" kind=\"integer4\" />"
                "<field name=\"paddock\" unit=\"\" kind=\"string\" />"
                "</type>";}
 
    //------ ShearStock ------
-   struct ShearStock
+   struct ShearStockType
       {
       int group;
       std::string sub_group;
       };
 
-   inline void pack(MessageData& messageData, const ShearStock& data)
+   inline void pack(MessageData& messageData, const ShearStockType& data)
       {
       pack(messageData, data.group);
       pack(messageData, data.sub_group);
       }
-   inline void unpack(MessageData& messageData, ShearStock& data)
+   inline void unpack(MessageData& messageData, ShearStockType& data)
       {
       unpack(messageData, data.group);
       unpack(messageData, data.sub_group);
       }
-   inline unsigned memorySize(const ShearStock& data)
+   inline unsigned memorySize(const ShearStockType& data)
       {
       return 0
               + ::memorySize(data.group)
               + ::memorySize(data.sub_group)
               ;
       }
-   std::string DDML(const ShearStock& data)
+   std::string DDML(const ShearStockType& data)
       {return "<type name=\"ShearStock\">"
                "<field name=\"group\" unit=\"\" kind=\"integer4\" />"
                "<field name=\"sub_group\" unit=\"\" kind=\"string\" />"
                "</type>";}
 
    //------ SplitStock ------
-   struct SplitStock
+   struct SplitStockType
       {
       int group;
       std::string type;
       double value;
       };
 
-   inline void pack(MessageData& messageData, const SplitStock& data)
+   inline void pack(MessageData& messageData, const SplitStockType& data)
       {
       pack(messageData, data.group);
       pack(messageData, data.type);
       pack(messageData, data.value);
       }
-   inline void unpack(MessageData& messageData, SplitStock& data)
+   inline void unpack(MessageData& messageData, SplitStockType& data)
       {
       unpack(messageData, data.group);
       unpack(messageData, data.type);
       unpack(messageData, data.value);
       }
-   inline unsigned memorySize(const SplitStock& data)
+   inline unsigned memorySize(const SplitStockType& data)
       {
       return 0
               + ::memorySize(data.group)
@@ -4672,7 +4697,7 @@
               + ::memorySize(data.value)
               ;
       }
-   std::string DDML(const SplitStock& data)
+   std::string DDML(const SplitStockType& data)
       {return "<type name=\"SplitStock\">"
                "<field name=\"group\" unit=\"\" kind=\"integer4\" />"
                "<field name=\"type\" unit=\"\" kind=\"string\" />"
@@ -4680,56 +4705,56 @@
                "</type>";}
 
    //------ TagStock ------
-   struct TagStock
+   struct TagStockType
       {
       int group;
       int value;
       };
 
-   inline void pack(MessageData& messageData, const TagStock& data)
+   inline void pack(MessageData& messageData, const TagStockType& data)
       {
       pack(messageData, data.group);
       pack(messageData, data.value);
       }
-   inline void unpack(MessageData& messageData, TagStock& data)
+   inline void unpack(MessageData& messageData, TagStockType& data)
       {
       unpack(messageData, data.group);
       unpack(messageData, data.value);
       }
-   inline unsigned memorySize(const TagStock& data)
+   inline unsigned memorySize(const TagStockType& data)
       {
       return 0
               + ::memorySize(data.group)
               + ::memorySize(data.value)
               ;
       }
-   std::string DDML(const TagStock& data)
+   std::string DDML(const TagStockType& data)
       {return "<type name=\"TagStock\">"
                "<field name=\"group\" unit=\"\" kind=\"integer4\" />"
                "<field name=\"value\" unit=\"\" kind=\"integer4\" />"
                "</type>";}
 
    //------ WeanStock ------
-   struct WeanStock
+   struct WeanStockType
       {
       int group;
       std::string sex;
       int number;
       };
 
-   inline void pack(MessageData& messageData, const WeanStock& data)
+   inline void pack(MessageData& messageData, const WeanStockType& data)
       {
       pack(messageData, data.group);
       pack(messageData, data.sex);
       pack(messageData, data.number);
       }
-   inline void unpack(MessageData& messageData, WeanStock& data)
+   inline void unpack(MessageData& messageData, WeanStockType& data)
       {
       unpack(messageData, data.group);
       unpack(messageData, data.sex);
       unpack(messageData, data.number);
       }
-   inline unsigned memorySize(const WeanStock& data)
+   inline unsigned memorySize(const WeanStockType& data)
       {
       return 0
               + ::memorySize(data.group)
@@ -4737,7 +4762,7 @@
               + ::memorySize(data.number)
               ;
       }
-   std::string DDML(const WeanStock& data)
+   std::string DDML(const WeanStockType& data)
       {return "<type name=\"WeanStock\">"
                "<field name=\"group\" unit=\"\" kind=\"integer4\" />"
                "<field name=\"sex\" unit=\"\" kind=\"string\" />"
@@ -4745,26 +4770,26 @@
                "</type>";}
 
    //------ dm ------
-   struct dm
+   struct dmType
       {
       std::string pool;
       std::vector<std::string> part;
       std::vector<double> dlt;
       };
 
-   inline void pack(MessageData& messageData, const dm& data)
+   inline void pack(MessageData& messageData, const dmType& data)
       {
       pack(messageData, data.pool);
       pack(messageData, data.part);
       pack(messageData, data.dlt);
       }
-   inline void unpack(MessageData& messageData, dm& data)
+   inline void unpack(MessageData& messageData, dmType& data)
       {
       unpack(messageData, data.pool);
       unpack(messageData, data.part);
       unpack(messageData, data.dlt);
       }
-   inline unsigned memorySize(const dm& data)
+   inline unsigned memorySize(const dmType& data)
       {
       return 0
               + ::memorySize(data.pool)
@@ -4772,7 +4797,7 @@
               + ::memorySize(data.dlt)
               ;
       }
-   std::string DDML(const dm& data)
+   std::string DDML(const dmType& data)
       {return "<field name=\"dm\" array=\"T\">"
                "<element>"
                "<field name=\"pool\" kind=\"string\" />"
@@ -4782,26 +4807,26 @@
                "</field>";}
 
    //------ RemoveCropDm ------
-   struct RemoveCropDm
+   struct RemoveCropDmType
       {
-      std::vector<dm> dm;
+      std::vector<dmType> dm;
       };
 
-   inline void pack(MessageData& messageData, const RemoveCropDm& data)
+   inline void pack(MessageData& messageData, const RemoveCropDmType& data)
       {
       pack(messageData, data.dm);
       }
-   inline void unpack(MessageData& messageData, RemoveCropDm& data)
+   inline void unpack(MessageData& messageData, RemoveCropDmType& data)
       {
       unpack(messageData, data.dm);
       }
-   inline unsigned memorySize(const RemoveCropDm& data)
+   inline unsigned memorySize(const RemoveCropDmType& data)
       {
       return 0
               + ::memorySize(data.dm)
               ;
       }
-   std::string DDML(const RemoveCropDm& data)
+   std::string DDML(const RemoveCropDmType& data)
       {return "<type name=\"RemoveCropDm\">"
                "<field name=\"dm\" array=\"T\">"
                "<element>"
@@ -4813,86 +4838,86 @@
                "</type>";}
 
    //------ RemoveResidueDm ------
-   struct RemoveResidueDm
+   struct RemoveResidueDmType
       {
       std::vector<std::string> dm_type;
       std::vector<float> dlt_residue_dm;
       };
 
-   inline void pack(MessageData& messageData, const RemoveResidueDm& data)
+   inline void pack(MessageData& messageData, const RemoveResidueDmType& data)
       {
       pack(messageData, data.dm_type);
       pack(messageData, data.dlt_residue_dm);
       }
-   inline void unpack(MessageData& messageData, RemoveResidueDm& data)
+   inline void unpack(MessageData& messageData, RemoveResidueDmType& data)
       {
       unpack(messageData, data.dm_type);
       unpack(messageData, data.dlt_residue_dm);
       }
-   inline unsigned memorySize(const RemoveResidueDm& data)
+   inline unsigned memorySize(const RemoveResidueDmType& data)
       {
       return 0
               + ::memorySize(data.dm_type)
               + ::memorySize(data.dlt_residue_dm)
               ;
       }
-   std::string DDML(const RemoveResidueDm& data)
+   std::string DDML(const RemoveResidueDmType& data)
       {return "<type name=\"RemoveResidueDm\">"
                "<field name=\"dm_type\" kind=\"string\" array=\"T\" />"
                "<field name=\"dlt_residue_dm\" kind=\"single\" array=\"T\" />"
                "</type>";}
 
    //------ SupplementBuy ------
-   struct SupplementBuy
+   struct SupplementBuyType
       {
       std::string supplement;
       double amount;
       };
 
-   inline void pack(MessageData& messageData, const SupplementBuy& data)
+   inline void pack(MessageData& messageData, const SupplementBuyType& data)
       {
       pack(messageData, data.supplement);
       pack(messageData, data.amount);
       }
-   inline void unpack(MessageData& messageData, SupplementBuy& data)
+   inline void unpack(MessageData& messageData, SupplementBuyType& data)
       {
       unpack(messageData, data.supplement);
       unpack(messageData, data.amount);
       }
-   inline unsigned memorySize(const SupplementBuy& data)
+   inline unsigned memorySize(const SupplementBuyType& data)
       {
       return 0
               + ::memorySize(data.supplement)
               + ::memorySize(data.amount)
               ;
       }
-   std::string DDML(const SupplementBuy& data)
+   std::string DDML(const SupplementBuyType& data)
       {return "<type name=\"SupplementBuy\">"
                "<field name=\"supplement\" kind=\"string\" unit=\"-\" />"
                "<field name=\"amount\" kind=\"double\" unit=\"kg\" />"
                "</type>";}
 
    //------ SupplementFeed ------
-   struct SupplementFeed
+   struct SupplementFeedType
       {
       std::string supplement;
       double amount;
       std::string paddock;
       };
 
-   inline void pack(MessageData& messageData, const SupplementFeed& data)
+   inline void pack(MessageData& messageData, const SupplementFeedType& data)
       {
       pack(messageData, data.supplement);
       pack(messageData, data.amount);
       pack(messageData, data.paddock);
       }
-   inline void unpack(MessageData& messageData, SupplementFeed& data)
+   inline void unpack(MessageData& messageData, SupplementFeedType& data)
       {
       unpack(messageData, data.supplement);
       unpack(messageData, data.amount);
       unpack(messageData, data.paddock);
       }
-   inline unsigned memorySize(const SupplementFeed& data)
+   inline unsigned memorySize(const SupplementFeedType& data)
       {
       return 0
               + ::memorySize(data.supplement)
@@ -4900,7 +4925,7 @@
               + ::memorySize(data.paddock)
               ;
       }
-   std::string DDML(const SupplementFeed& data)
+   std::string DDML(const SupplementFeedType& data)
       {return "<type name=\"SupplementFeed\">"
                "<field name=\"supplement\" kind=\"string\" unit=\"-\" />"
                "<field name=\"amount\" kind=\"double\" unit=\"kg\" />"
@@ -4908,26 +4933,26 @@
                "</type>";}
 
    //------ SupplementMix ------
-   struct SupplementMix
+   struct SupplementMixType
       {
       std::string src_store;
       double amount;
       std::string dest_store;
       };
 
-   inline void pack(MessageData& messageData, const SupplementMix& data)
+   inline void pack(MessageData& messageData, const SupplementMixType& data)
       {
       pack(messageData, data.src_store);
       pack(messageData, data.amount);
       pack(messageData, data.dest_store);
       }
-   inline void unpack(MessageData& messageData, SupplementMix& data)
+   inline void unpack(MessageData& messageData, SupplementMixType& data)
       {
       unpack(messageData, data.src_store);
       unpack(messageData, data.amount);
       unpack(messageData, data.dest_store);
       }
-   inline unsigned memorySize(const SupplementMix& data)
+   inline unsigned memorySize(const SupplementMixType& data)
       {
       return 0
               + ::memorySize(data.src_store)
@@ -4935,7 +4960,7 @@
               + ::memorySize(data.dest_store)
               ;
       }
-   std::string DDML(const SupplementMix& data)
+   std::string DDML(const SupplementMixType& data)
       {return "<type name=\"SupplementMix\">"
                "<field name=\"src_store\" kind=\"string\" unit=\"-\" />"
                "<field name=\"amount\" kind=\"double\" unit=\"kg\" />"

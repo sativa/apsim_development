@@ -3,13 +3,13 @@
 #include <iostream>
 
 #include "CMPComponentInterface.h"
-#include <ComponentInterface2/datatypes.h>
-#include <ComponentInterface2/CMPData.h>
-#include <ComponentInterface2/CMPScienceAPI.h>
 #include <general/xml.h>
 #include <general/stl_functions.h>
 #include <general/string_functions.h>
 #include <general/dll.h>
+#include "datatypes.h"
+#include "CMPData.h"
+#include "CMPScienceAPI.h"
 
 
 string componentType = "APSRU";
@@ -84,7 +84,7 @@ void CMPComponentInterface::messageToLogic(const Message& message)
       // if acknowledgement is required, then give it.
       if (ack)
          {
-         Complete complete;
+         CompleteType complete;
          complete.ackID = msgID;
          sendMessage(newMessage(Message::Complete, componentID, parentID, false, complete));
          }
@@ -114,7 +114,7 @@ bool CMPComponentInterface::get(const std::string& name, const std::string& unit
    if (!alreadyRegistered)
       id = RegisterWithPM(nameWithoutArraySpec, units, "", getReg, data);
 
-	GetValue getValue;
+	GetValueType getValue;
 	getValue.ID = id;
    sendMessage(newMessage(Message::GetValue, componentID, parentID, false,
                           getValue));
@@ -125,7 +125,7 @@ bool CMPComponentInterface::get(const std::string& name, const std::string& unit
 
 	else if (messages.size() == 1)
       {
-		ReturnValue returnValue;
+		ReturnValueType returnValue;
       MessageData returnMessageData(*messages[0]);
 		unpack(returnMessageData, returnValue);
       data->unpack(returnMessageData, returnValue.ddml, arraySpecifier);
@@ -160,7 +160,7 @@ void CMPComponentInterface::set(const std::string& name,
    if (id == 0)
       id = RegisterWithPM(name, units, "", setReg, data);
 
-	RequestSetValue requestSetValue;
+	RequestSetValueType requestSetValue;
 	requestSetValue.ID = id;
 	requestSetValue.ddml = data->ddml;
 
@@ -244,7 +244,7 @@ void CMPComponentInterface::publish(const std::string& name, IPackableData* data
    if (!alreadyRegistered)
       id = RegisterWithPM(name, "", "", eventReg, data);
 
-	PublishEvent publishEvent;
+	PublishEventType publishEvent;
 	publishEvent.ID = id;
 	publishEvent.ddml = data->ddml;
 
@@ -278,7 +278,7 @@ void CMPComponentInterface::query(const std::string& pattern, std::vector<QueryM
    if (arraySpecifier != NULL)
       nameWithoutArraySpec = arraySpecifier->variableName();
 
-   QueryInfo queryInfo;
+   QueryInfoType queryInfo;
    queryInfo.name = nameWithoutArraySpec;
 
    // work out if we dealing with a list of components or a list of variables.
@@ -292,7 +292,7 @@ void CMPComponentInterface::query(const std::string& pattern, std::vector<QueryM
    matches.erase(matches.begin(), matches.end());
 	for (unsigned i = 0; i != messages.size(); i++)
       {
-		ReturnInfo returnInfo;
+		ReturnInfoType returnInfo;
       MessageData returnInfoData(*messages[i]);
 		unpack(returnInfoData, returnInfo);
       QueryMatch queryMatch;
@@ -373,7 +373,7 @@ int CMPComponentInterface::RegisterWithPM(const string& name, const string& unit
    regNames.insert(make_pair(fullRegName, data));
 
    // send register message to PM.
-   Register registerData;
+   RegisterType registerData;
    registerData.kind = regKind;
    registerData.ID = ID;
    registerData.destID = 0;
@@ -402,7 +402,7 @@ void CMPComponentInterface::error(const string& errorMessage, bool isFatal)
 	msg += "Component name: " + name + "\n";
 	msg += "!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!\n\n";
 
-	Error errorData;
+	ErrorType errorData;
 	errorData.msg = msg;
 	errorData.isFatal = isFatal;
 /*	publish("error", errorData);
@@ -419,7 +419,7 @@ void CMPComponentInterface::onInit1(const Message& message)
    // -----------------------------------------------------------------------
    {
    MessageData messageData(message);
-   Init1 init1;
+   Init1Type init1;
    unpack(messageData, init1);
    // get instance name from fqn.
    unsigned posPeriod = init1.fqn.rfind('.');
@@ -457,11 +457,11 @@ void CMPComponentInterface::onQueryValue(const Message& message)
    // -----------------------------------------------------------------------
    {
    MessageData messageData(message);
-	QueryValue queryValue;
+	QueryValueType queryValue;
    unpack(messageData, queryValue);
    IPackableData& data = *(IPackableData*) queryValue.ID;
 
-	ReplyValue replyValue;
+	ReplyValueType replyValue;
 	replyValue.queryID = message.messageID;
 	replyValue.ddml = data.ddml;
 
@@ -479,7 +479,7 @@ void CMPComponentInterface::onQuerySetValue(const Message& message)
    // -----------------------------------------------------------------------
    {
    MessageData messageData(message);
-	QuerySetValue querySetValue;
+	QuerySetValueType querySetValue;
    unpack(messageData, querySetValue);
    IPackableData& data = *(IPackableData*) querySetValue.ID;
 
@@ -487,7 +487,7 @@ void CMPComponentInterface::onQuerySetValue(const Message& message)
    data.unpack(messageData, querySetValue.ddml, NULL);
 
    // now send back a NotifySetValueSuccess message.
-   NotifySetValueSuccess notifySetValueSuccess;
+   NotifySetValueSuccessType notifySetValueSuccess;
    notifySetValueSuccess.ID = querySetValue.ID;
    notifySetValueSuccess.success = true;
    sendMessage(newMessage(Message::NotifySetValueSuccess, componentID, parentID, false,
@@ -499,7 +499,7 @@ void CMPComponentInterface::onEvent(const Message& message)
    // -----------------------------------------------------------------------
    {
    MessageData messageData(message);
-	Event event;
+	EventType event;
    unpack(messageData, event);
    IPackableData& data = *(IPackableData*) event.ID;
 
