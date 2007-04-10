@@ -66,4 +66,4 @@ DataTypes.h: $(APSROOT)\apsim\infra\datatypes.interface datatypes.macro $(APSROO
    call DataTypes.bat
 
 clean:
-	$(RM) ComponentInterface2.lib $(OBJECTS) DataTypes.h
+	$(RM) ComponentInterface2.lib $(OBJECTS) DataTypes.h DataTypes.cpp
