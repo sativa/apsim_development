@@ -128,7 +128,7 @@ namespace ProcessDataTypesInterface
             else if (LowerTypeName == "string")
                 CTypeName = "std::string";
             else
-                CTypeName = TypeName;
+                CTypeName = TypeName + "Type";
             if (getAttribute(DataType,"array") == "T")
                 CTypeName = "std::vector<" + CTypeName + ">";
             return CTypeName;

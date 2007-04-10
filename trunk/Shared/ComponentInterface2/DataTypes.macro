@@ -26,32 +26,32 @@
 
 [foreach types.type]
    //------ [type.name] ------
-   struct [type.name]
+   struct [type.name]Type
       {
       [foreach type.field]
       [field.cpptype] [field.name];
       [endfor]
       };
 
-   inline void pack(MessageData& messageData, const [type.name]& data)
+   inline void pack(MessageData& messageData, const [type.name]Type& data)
       {
       [foreach type.field]
       pack(messageData, data.[field.name]);
       [endfor]
       }
-   inline void unpack(MessageData& messageData, [type.name]& data)
+   inline void unpack(MessageData& messageData, [type.name]Type& data)
       {
       [foreach type.field]
       unpack(messageData, data.[field.name]);
       [endfor]
       }
-   inline unsigned memorySize(const [type.name]& data)
+   inline unsigned memorySize(const [type.name]Type& data)
       {
       return 0
        [foreach type.field]              + ::memorySize(data.[field.name])
        [endfor]              ;
       }
-   std::string DDML(const [type.name]& data)
+   std::string DDML(const [type.name]Type& data)
       {return [type.cddml];}
 
 [endfor]
