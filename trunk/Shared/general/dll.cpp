@@ -1,5 +1,6 @@
 //---------------------------------------------------------------------------
 #pragma hdrstop
+#include <stdexcept>
 
 #include "dll.h"
 #ifdef __WIN32__
@@ -74,7 +75,7 @@ void* dllProcAddress(void* dllHandle, const char* name)
    #ifdef __WIN32__
       return GetProcAddress(dllHandle, name);
    #else
-      return dlsym(handle, name);
+      return dlsym(dllHandle, name);
    #endif
    }
 
