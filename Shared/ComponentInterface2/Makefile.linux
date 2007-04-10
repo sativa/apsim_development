@@ -14,6 +14,7 @@ LIB=	$(APSROOT)/lib/libComponentInterface2.so
 OBJ = message.o                  \
           TypeConverter.o            \
           ArraySpecifier.o           \
+          DataTypes.o                \
           CMPScienceAPI.o            \
           CMPComponentInterface.o    \
           CMPData.o                  \

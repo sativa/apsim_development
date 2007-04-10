@@ -14,15 +14,10 @@
       int i;
       };
 
-   inline void pack(MessageData& messageData, const Null& data)
-      { }
-   inline void unpack(MessageData& messageData, Null& data)
-      { }
-   inline unsigned memorySize(const Null& data)
-      {return 0;}
-   inline std::string DDML(const Null& data)
-      {return "<type/>";}
-
+   void pack(MessageData& messageData, const Null& data);
+   void unpack(MessageData& messageData, Null& data);
+   unsigned memorySize(const Null& data);
+   std::string DDML(const Null& data);
 
 [foreach types.type]
    //------ [type.name] ------
@@ -33,29 +28,55 @@
       [endfor]
       };
 
-   inline void pack(MessageData& messageData, const [type.name]Type& data)
+   void pack(MessageData& messageData, const [type.name]Type& data);
+   void unpack(MessageData& messageData, [type.name]Type& data);
+   unsigned memorySize(const [type.name]Type& data);
+   std::string DDML(const [type.name]Type& data);
+
+[endfor]
+#endif
+[endfile]
+##################################################
+[file DataTypes.cpp]
+#include <general/stl_functions.h>
+#include <general/TreeNodeIterator.h>
+#include <general/xml.h>
+#include "DataTypes.h"
+#include "MessageData.h"
+#include "Interfaces.h"
+
+   //------ Null ------
+   void pack(MessageData& messageData, const Null& data) { }
+   void unpack(MessageData& messageData, Null& data) { }
+   unsigned memorySize(const Null& data) {return 0;}
+   std::string DDML(const Null& data) {return "<type/>";}
+
+
+[foreach types.type]
+   //------ [type.name] ------
+
+   void pack(MessageData& messageData, const [type.name]Type& data)
       {
       [foreach type.field]
       pack(messageData, data.[field.name]);
       [endfor]
       }
-   inline void unpack(MessageData& messageData, [type.name]Type& data)
+   void unpack(MessageData& messageData, [type.name]Type& data)
       {
       [foreach type.field]
       unpack(messageData, data.[field.name]);
       [endfor]
       }
-   inline unsigned memorySize(const [type.name]Type& data)
+   unsigned memorySize(const [type.name]Type& data)
       {
       return 0
        [foreach type.field]              + ::memorySize(data.[field.name])
        [endfor]              ;
       }
-   inline std::string DDML(const [type.name]Type& data)
+   std::string DDML(const [type.name]Type& data)
       {return [type.cddml];}
 
 [endfor]
-#endif
 [endfile]
 
 ##################################################
