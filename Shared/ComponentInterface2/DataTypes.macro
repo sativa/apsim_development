@@ -20,7 +20,7 @@
       { }
    inline unsigned memorySize(const Null& data)
       {return 0;}
-   std::string DDML(const Null& data)
+   inline std::string DDML(const Null& data)
       {return "<type/>";}
 
 
@@ -51,7 +51,7 @@
        [foreach type.field]              + ::memorySize(data.[field.name])
        [endfor]              ;
       }
-   std::string DDML(const [type.name]Type& data)
+   inline std::string DDML(const [type.name]Type& data)
       {return [type.cddml];}
 
 [endfor]
