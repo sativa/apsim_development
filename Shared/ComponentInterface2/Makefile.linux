@@ -55,7 +55,7 @@ $(LIB):	$(OBJ)
 FORCE:
 
 clean:
-	rm -f *.o *.mod DataTypes.cpp DataTypes.h
+	rm -f *.o *.mod ###DataTypes.cpp DataTypes.h
 
 clobber:	clean
 	rm -f $(LIB)

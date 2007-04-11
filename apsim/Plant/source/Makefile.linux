@@ -39,6 +39,8 @@ OBJ=PlantComponent.o \
    Reproductive/GrainPartGN.o \
    CompositePart.o \
    Root/RootPart.o \
+   Root/RootGrowthOption1.o \
+   Root/RootGrowthOption2.o \
    Reproductive/FruitCohort.o \
    Reproductive/PlantFruit.o \
    Utility/Output.o \
@@ -46,6 +48,8 @@ OBJ=PlantComponent.o \
    Leaf/genericLeafPart.o \
    Leaf/cohortingLeafPart.o \
    Arbitrators/arbitrator.o \
+   Arbitrators/NullArbitrator.o \
+   Arbitrators/GenericArbitrator.o \
    PlantSpatial.o \
    Phenology/PlantPhenology.o \
    Phenology/Phase.o \

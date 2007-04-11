@@ -152,22 +152,14 @@ class CMPBuiltIn : public IPackableData
 // -------------------------------------------------------------------
 // bounding function templates + a bounded version of CMPBuiltIn
 // -------------------------------------------------------------------
+void performBoundCheck(const std::string& name, int value, int lower, int upper);
+void performBoundCheck(const std::string& name, float value, float lower, float upper);
+void performBoundCheck(const std::string& name, double value, double lower, double upper);
 template <class T>
-void performBoundCheck(const std::string& name, const std::vector<T>& values, T lower, T upper)
+void performBoundCheck(const std::string& name, const std::vector<T> &values, T lower, T upper)
    {
    for (unsigned i = 0; i != values.size(); i++)
       performBoundCheck(name, values[i], lower, upper);
-   }
-
-template <class T>
-void performBoundCheck(const std::string& name, T value, T lower, T upper)
-   {
-   if (value < lower || value > upper)
-      printf("Value of variable is out of bounds.\n"
-             "Variable: %s\n"
-             "Value: %16.7f\n"
-             "Bounds: %16.7f to %16.7f", /* WRONG WRONG WRONG THIS IS REALLY REALLY WRONG */
-             name.c_str(), value, lower, upper);
    }
 
 template <class T, class B>

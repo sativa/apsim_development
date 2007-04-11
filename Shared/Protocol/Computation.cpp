@@ -5,6 +5,7 @@
    #include <dlfcn.h>
 #endif
 #include <general/platform.h>
+#include <general/dll.h>
 #include "Computation.h"
 #include "Transport.h"
 #include <list>
@@ -119,58 +120,6 @@ void Computation::deleteInstance(void) const
 
 // ------------------------------------------------------------------
 //  Short description:
-//    Returns the name of the wrapper filename
-
-//  Notes:
-
-//  Changes:
-//    dph 22/2/2000
-
-// ------------------------------------------------------------------
-#ifdef __WIN32__
-void *Computation::loadDLL(const string& filename) throw (runtime_error)
-   {
-   char oldwd[MAX_PATH];
-   getcwd(oldwd, MAX_PATH);
-   chdir(fileDirName(filename).c_str());
-   void *result = LoadLibrary(filename.c_str());
-   chdir(oldwd);
-   if (result == NULL )
-      {
-      // Get windows error message.
-      LPVOID lpMsgBuf;
-      FormatMessage(FORMAT_MESSAGE_ALLOCATE_BUFFER | FORMAT_MESSAGE_FROM_SYSTEM,
-                    NULL,
-                    GetLastError(),
-                    MAKELANGID(LANG_NEUTRAL, SUBLANG_DEFAULT), // Default language
-                    (LPTSTR) &lpMsgBuf,
-                    0,
-                    NULL
-                    );
-
-      
-      string errorMessage = ("Cannot load DLL: " + filename + ".\n  " + (LPTSTR) lpMsgBuf);
-      LocalFree( lpMsgBuf );
-      throw runtime_error(errorMessage);
-      }
-   return result;
-   }
-#else
-void *Computation::loadDLL(const string& filename) throw (runtime_error)
-   {
-   void *result = dlopen(filename.c_str(), RTLD_NOW|RTLD_LOCAL);
-   char *dllerr = dlerror();
-   if (dllerr != NULL)
-      {
-	string errorMessage = string("Cannot load DLL: ") + filename + ".\n" + dllerr;
-	throw runtime_error(errorMessage);
-      }
-   return result;
-   }
-#endif
-
-// ------------------------------------------------------------------
-//  Short description:
 //    Load the DLL and find pointers to all the entry points.
 //    An exception is thrown if the dll cannot be loaded.
 
@@ -181,7 +130,7 @@ void *Computation::loadDLL(const string& filename) throw (runtime_error)
 
 // ------------------------------------------------------------------
 bool Computation::loadComponent(const std::string& filename,
-                                std::string componentInterfaceExecutable) throw (runtime_error)
+                                std::string componentInterfaceExecutable) throw (std::runtime_error)
    {
    executableFileName = filename;
 
@@ -207,7 +156,7 @@ bool Computation::loadComponent(const std::string& filename,
        wrapperDll = (void (*)(char *))dlsym(handle, "wrapperDLL");
 #endif
        if (wrapperDll == NULL)
-          throw runtime_error("Cannot find entry point 'wrapperDll' in dll: " + filename);
+          throw std::runtime_error("Cannot find entry point 'wrapperDll' in dll: " + filename);
 
        // Go get the wrapperDll filename.
        char wrapperFileName[1024];
@@ -255,7 +204,7 @@ bool Computation::loadComponent(const std::string& filename,
           handle = dlopen(componentInterface.c_str(), RTLD_NOW|RTLD_LOCAL);
           dlError = dlerror();
           if ( dlError )
-            throw runtime_error(dlError);
+            throw std::runtime_error(std::string(dlError));
 #endif
           }
        else
