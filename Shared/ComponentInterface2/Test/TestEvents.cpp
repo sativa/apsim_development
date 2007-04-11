@@ -47,7 +47,7 @@ void ExportEvent()
    EventClass eventClass;
 
    // make sure registration happened.
-   Register registerData;
+   RegisterType registerData;
    unpack(messagesSent[0], registerData);
    BOOST_ASSERT(registerData.destID == 0);
    BOOST_ASSERT(registerData.name == "MyEvent");
@@ -59,7 +59,7 @@ void ExportEvent()
    values.push_back(1);
    values.push_back(2);
    values.push_back(3);
-   Event event;
+   EventType event;
    event.ID = registerData.ID;
    event.ddml = "<type kind=\"int\" array=\"T\"/>";
    Message& eventMsg = constructMessage(Message::Event, parentID, componentID, false,
@@ -90,7 +90,7 @@ void PublishAnEvent()
    scienceAPI->publish("MyEvent", values);
 
    // make sure registration happened.
-   Register registerData;
+   RegisterType registerData;
    unpack(messagesSent[0], registerData);
    BOOST_ASSERT(registerData.destID == 0);
    BOOST_ASSERT(registerData.name == "MyEvent");
@@ -98,7 +98,7 @@ void PublishAnEvent()
    BOOST_ASSERT(registerData.ddml == "<type kind=\"integer4\" array=\"T\"/>");
 
    // make sure publishevent happened.
-   PublishEvent publishEvent;
+   PublishEventType publishEvent;
    unpack(messagesSent[1], publishEvent);
    BOOST_ASSERT(publishEvent.ID == registerData.ID);
    BOOST_ASSERT(publishEvent.ddml == "<type kind=\"integer4\" array=\"T\"/>");

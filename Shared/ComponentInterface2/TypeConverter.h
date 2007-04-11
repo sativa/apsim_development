@@ -344,7 +344,7 @@ class TypeConverter
       TypeConverter(const std::vector<float>& source, std::vector<int>& dest, ArraySpecifier* arraySpecifier)
          {
          dest.erase(dest.begin(), dest.end());
-         std::copy(source.begin(), source.end(), back_inserter(dest));
+         for (unsigned int i = 0; i < source.size(); i++) { dest.push_back((int) source[i]); }
          if (arraySpecifier) arraySpecifier->processArray(dest);
          }
       TypeConverter(const std::vector<float>& source, std::vector<float>& dest, ArraySpecifier* arraySpecifier)
@@ -411,7 +411,7 @@ class TypeConverter
       TypeConverter(const std::vector<double>& source, std::vector<int>& dest, ArraySpecifier* arraySpecifier)
          {
          dest.erase(dest.begin(), dest.end());
-         std::copy(source.begin(), source.end(), back_inserter(dest));
+         for (unsigned int i = 0; i < source.size(); i++) { dest.push_back(source[i]); }
          if (arraySpecifier) arraySpecifier->processArray(dest);
          }
       TypeConverter(const std::vector<double>& source, std::vector<float>& dest, ArraySpecifier* arraySpecifier)

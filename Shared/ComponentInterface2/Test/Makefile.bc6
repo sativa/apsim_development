@@ -14,10 +14,19 @@ BCB = $(MAKEDIR)\..
 VERSION = BCB.06.00
 # ---------------------------------------------------------------------------
 PROJECT = $(APSROOT)\Bin\TestComponentInterface2.exe
-OBJFILES = testComponentInterface.obj ..\message.obj ..\TypeConverter.obj \
-      ..\CMPComponentInterface.obj ..\CMPScienceAPI.obj ..\CMPData.obj \
-      ..\ArraySpecifier.obj TestVariables.obj TestParameters.obj TestEvents.obj \
-      TestMisc.obj
+OBJFILES = testComponentInterface.obj \
+   ..\message.obj \
+   ..\TypeConverter.obj \
+   ..\ArraySpecifier.obj \
+          ..\DataTypes.obj                \
+          ..\CMPScienceAPI.obj            \
+          ..\CMPComponentInterface.obj    \
+          ..\CMPData.obj                  \
+   ..\CMPComponentInterface.obj \
+   ..\CMPScienceAPI.obj \
+   ..\CMPData.obj \
+   TestVariables.obj TestParameters.obj TestEvents.obj TestMisc.obj
+   
 RESFILES = 
 MAINSOURCE = TestComponentInterface2.bpf
 RESDEPEN = $(RESFILES)

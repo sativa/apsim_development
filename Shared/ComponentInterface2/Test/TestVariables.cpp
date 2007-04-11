@@ -49,12 +49,12 @@ void STDCALL PMCallback(const unsigned* arg, Message& message)
    // if component wants the value of a variable then give it one.
    if (message.messageType == Message::GetValue)
       {
-      GetValue getValue;
+      GetValueType getValue;
       MessageData messageData(message);
       unpack(messageData, getValue);
 
       // send a returnValue back to component.
-      ReturnValue returnValue;
+      ReturnValueType returnValue;
       returnValue.compID = 10;
       returnValue.ID = getValue.ID;
       returnValue.ddml = "<type kind=\"single\" array=\"T\" unit=\"mm\"/>";
@@ -75,17 +75,17 @@ void STDCALL PMCallback(const unsigned* arg, Message& message)
       }
    else if (message.messageType == Message::Register)
       {
-      Register registerData;
+      RegisterType registerData;
       MessageData messageData(message);
       unpack(messageData, registerData);
       lastRegisteredName = registerData.name;
       }
    else if (message.messageType == Message::QueryInfo)
       {
-      QueryInfo queryInfo;
+      QueryInfoType queryInfo;
       MessageData messageData(message);
       unpack(messageData, queryInfo);
-      ReturnInfo returnInfo;
+      ReturnInfoType returnInfo;
       returnInfo.name = "comp1.sw";
       returnInfo.type = "<type kind=\"single\" array=\"T\" unit=\"mm\"/>";
       sendMessage(newMessage(Message::ReturnInfo, parentID, componentID, false, returnInfo));
@@ -131,7 +131,7 @@ void ExposeVariableAndReturnValue()
    scienceAPI->expose("rain", "mm", "Rainfall", false, component2Rain);
 
    // make sure registration happened.
-   Register registerData;
+   RegisterType registerData;
    unpack(messagesSent[0], registerData);
    BOOST_ASSERT(registerData.destID == 0);
    BOOST_ASSERT(registerData.name == "rain");
@@ -139,14 +139,14 @@ void ExposeVariableAndReturnValue()
    BOOST_ASSERT(registerData.ddml == "<type kind=\"single\" unit=\"mm\" description=\"Rainfall\"/>");
 
    // ask our component the value of rain.
-   QueryValue queryValue;
+   QueryValueType queryValue;
    queryValue.ID = registerData.ID;
    queryValue.requestedByID = 1234;
    Message& queryValueMsg = newMessage(Message::QueryValue, parentID, componentID, false, queryValue);
    sendMessage(queryValueMsg);
 
    // check that the component gave us the correct ReplyValue message.
-   ReplyValue replyValue;
+   ReplyValueType replyValue;
    unpack(messagesSent[1], replyValue);
    BOOST_ASSERT(replyValue.queryID == queryValueMsg.messageID);
    BOOST_ASSERT(replyValue.ddml == "<type kind=\"single\" unit=\"mm\" description=\"Rainfall\"/>");
@@ -200,7 +200,7 @@ void ExposeVariableUsingFunction()
    SWClass sw;
 
    // make sure registration happened.
-   Register registerData;
+   RegisterType registerData;
    unpack(messagesSent[0], registerData);
    BOOST_ASSERT(registerData.destID == 0);
    BOOST_ASSERT(registerData.name == "sw");
@@ -208,14 +208,14 @@ void ExposeVariableUsingFunction()
    BOOST_ASSERT(registerData.ddml == "<type kind=\"single\" array=\"T\" unit=\"mm/mm\" description=\"Soil water\"/>");
 
    // ask our component the value of sw.
-   QueryValue queryValue;
+   QueryValueType queryValue;
    queryValue.ID = registerData.ID;
    queryValue.requestedByID = 1234;
    Message& queryValueMsg = newMessage(Message::QueryValue, parentID, componentID, false, queryValue);
    sendMessage(queryValueMsg);
 
    // check that the component gave us the correct ReplyValue message.
-   ReplyValue replyValue;
+   ReplyValueType replyValue;
    unpack(messagesSent[1], replyValue);
    BOOST_ASSERT(replyValue.queryID == queryValueMsg.messageID);
    BOOST_ASSERT(replyValue.ddml == "<type kind=\"single\" array=\"T\" unit=\"mm/mm\" description=\"Soil water\"/>");
@@ -273,7 +273,7 @@ void GetVariableWithArraySpec()
    scienceAPI->get("sw(2)", "mm", false, swString);
 
    // make sure the message sent was a getvalue without the arrayspec.
-   Register registerData;
+   RegisterType registerData;
    unpack(messagesSent[0], registerData);
    BOOST_ASSERT(registerData.name == "sw");
 
@@ -307,7 +307,7 @@ void ExposeSettableVariable()
    scienceAPI->expose("rain", "mm", "Rainfall", true, rain);
 
    // make sure registration happened.
-   Register registerData;
+   RegisterType registerData;
    unpack(messagesSent[0], registerData);
    BOOST_ASSERT(registerData.destID == 0);
    BOOST_ASSERT(registerData.name == "rain");
@@ -316,7 +316,7 @@ void ExposeSettableVariable()
 
    // change the value of rain.
    double newRain = 1234;
-   QuerySetValue querySetValue;
+   QuerySetValueType querySetValue;
    querySetValue.ID = registerData.ID;
    querySetValue.ddml = "<type kind=\"double\" unit=\"mm\"/>";
    Message& querySetValueMsg = constructMessage(Message::QuerySetValue, parentID, componentID, false,
@@ -327,7 +327,7 @@ void ExposeSettableVariable()
    sendMessage(querySetValueMsg);
 
    // check that the component gave us a notifySetValueSuccess
-   NotifySetValueSuccess notifySuccess;
+   NotifySetValueSuccessType notifySuccess;
    unpack(messagesSent[1], notifySuccess);
    BOOST_ASSERT(notifySuccess.ID == registerData.ID);
    BOOST_ASSERT(notifySuccess.success);
@@ -361,7 +361,7 @@ void ExposeSettableVariableUsingFunction()
    StClass test;
 
    // make sure registration happened.
-   Register registerData;
+   RegisterType registerData;
    unpack(messagesSent[0], registerData);
    BOOST_ASSERT(registerData.destID == 0);
    BOOST_ASSERT(registerData.name == "st");
@@ -370,7 +370,7 @@ void ExposeSettableVariableUsingFunction()
 
    // send a queryValue message to component.
    string newValue = "new value";
-   QuerySetValue querySetValue;
+   QuerySetValueType querySetValue;
    querySetValue.ID = registerData.ID;
    querySetValue.ddml = registerData.ddml;
    Message& querySetValueMsg = constructMessage(Message::QuerySetValue, parentID, componentID, false,
@@ -381,7 +381,7 @@ void ExposeSettableVariableUsingFunction()
    sendMessage(querySetValueMsg);
 
    // check that the component gave us a notifySetValueSuccess
-   NotifySetValueSuccess notifySuccess;
+   NotifySetValueSuccessType notifySuccess;
    unpack(messagesSent[1], notifySuccess);
    BOOST_ASSERT(notifySuccess.ID == registerData.ID);
    BOOST_ASSERT(notifySuccess.success);
@@ -401,7 +401,7 @@ void SetVariable()
    scienceAPI->set("i", "mm", i);
 
    // make sure registration happened.
-   Register registerData;
+   RegisterType registerData;
    unpack(messagesSent[0], registerData);
    BOOST_ASSERT(registerData.destID == 0);
    BOOST_ASSERT(registerData.name == "i");
@@ -409,7 +409,7 @@ void SetVariable()
    BOOST_ASSERT(registerData.ddml == "<type kind=\"integer4\" unit=\"mm\"/>");
 
    // make sure the second message was a requestSetValue message
-   RequestSetValue requestSetValue;
+   RequestSetValueType requestSetValue;
    unpack(messagesSent[1], requestSetValue);
    BOOST_ASSERT(requestSetValue.ID == registerData.ID);
    BOOST_ASSERT(requestSetValue.ddml == registerData.ddml);
@@ -431,7 +431,7 @@ void Query()
    scienceAPI->query("*", matches);
 
    // make sure a queryInfo message happened.
-   QueryInfo queryInfo;
+   QueryInfoType queryInfo;
    unpack(messagesSent[0], queryInfo);
    BOOST_ASSERT(queryInfo.name == "*");
    BOOST_ASSERT(queryInfo.kind == 7 /* component */);
