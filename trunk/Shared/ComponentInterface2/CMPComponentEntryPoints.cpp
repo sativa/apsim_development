@@ -9,7 +9,7 @@ extern "C" void EXPORT STDCALL wrapperDLL(char* wrapperDll)
    #ifdef __WIN32__
    strcpy(wrapperDll, "ComponentInterface2.dll");
    #else
-   strcpy(wrapperDll, "ComponentInterface2.so");
+   strcpy(wrapperDll, "");
    #endif
    }
 
