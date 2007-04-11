@@ -30,7 +30,7 @@ void Query()
    scienceAPI->query("*", matches);
 
    // make sure a queryInfo message happened.
-   QueryInfo queryInfo;
+   QueryInfoType queryInfo;
    unpack(messagesSent[0], queryInfo);
    BOOST_ASSERT(queryInfo.name == "*");
    BOOST_ASSERT(queryInfo.kind == 7 /* component */);
@@ -55,23 +55,6 @@ void Write()
 
    scienceAPI->write("This is a message");
 
-   // make sure registration happened.
-   Register registerData;
-   unpack(messagesSent[0], registerData);
-   BOOST_ASSERT(registerData.destID == 0);
-   BOOST_ASSERT(registerData.name == "SummaryFileWrite");
-   BOOST_ASSERT(registerData.kind == 5 /*event*/);
-
-   PublishEvent publishEvent;
-   Summary summary;
-
-   unpack(messagesSent[1], publishEvent);
-   BOOST_ASSERT(publishEvent.ID == registerData.ID);
-   BOOST_ASSERT(publishEvent.ddml == DDML(summary));
-
-   unpack(messagesSent[1], summary);
-   BOOST_ASSERT(summary.name == ""); // an init1 hasn't been sent yet so no name.
-   BOOST_ASSERT(summary.msg == "This is a message");
 
    teardown();
    }

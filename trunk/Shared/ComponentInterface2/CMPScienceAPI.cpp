@@ -340,3 +340,5 @@ void CMPScienceAPI::subscribe(const std::string& name, boost::function1<void, st
    {componentInterface.subscribe(name, new CMPMethod1<boost::function1<void, std::vector<std::string>&>, std::vector<std::string> > (handler, false));}
 void CMPScienceAPI::publish(const std::string& name, std::vector<std::string>& data)
    {componentInterface.publish(name, new CMPBuiltIn<std::vector<std::string> >(data));}
+
+

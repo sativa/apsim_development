@@ -37,7 +37,7 @@ static const char* simScript = "<component name=\"ABC\" executable=\"abc.dll\">"
 //---------------------------------------------------------------------------
 void sendInit1()
    {
-   Init1 init1;
+   Init1Type init1;
    init1.sdml = simScript;
    init1.fqn = "parent.abc";
    init1.inStartup = true;
