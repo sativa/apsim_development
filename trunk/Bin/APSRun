@@ -8,10 +8,13 @@ set APSROOT [file dirname $BINDIR]
 set env(LD_LIBRARY_PATH) $APSROOT/lib
 
 proc run {arg} {
-   if {[file extension $arg] == ".run"} {
+   if {[string tolower [file extension $arg]] == ".run"} {
 	doRunFile $arg
-    } elseif {[file extension $arg] == ".con"} {
+    } elseif {[string tolower [file extension $arg]] == ".con"} {
 	doConFile $arg
+    } elseif {[string tolower [file extension $arg]] == ".sim"} {
+	cd [file dirname $arg]
+	doSimFile $arg
     } else {
 	puts stderr "Don't know what to do with $arg"
     }
@@ -31,31 +34,32 @@ proc doRunFile {arg} {
 
 proc doConFile {arg} {
     global BINDIR
-    if {[file isdir [file dirname $arg]]} {
+    catch {
 	cd [file dirname $arg]
 	puts "Running conToSim $arg in wd=[pwd]"
-	runCmd  "$BINDIR/ConToSim.x $arg"
+	runCmd  "$BINDIR/ConToSim.x \"$arg\""
 	set t0 [clock seconds]
 	foreach simfile [glob -nocomplain *.sim] {
 	    if {[file mtime $simfile] >= $t0} {
-		puts "Running $simfile in wd=[pwd]"
-		runCmd  "$BINDIR/apsim.x $simfile"
+		doSimFile $simfile
 	    }
 	}
-    } else {
-	puts stderr "No such directory [file dirname $arg]"
-    }
+    } msg
+    if {$msg != ""} {puts stderr $msg}
+}
+
+proc doSimFile {arg} {
+    global BINDIR
+    puts "Running $arg in wd=[pwd]"
+    set sumfile "[file root $arg].sum"
+    runCmd  "$BINDIR/apsim.x \"$arg\" >& \"$sumfile\""
 }
 
 proc runCmd {cmd} {
     catch {
-	set fp [open "| $cmd" r]
-	while {[gets $fp line] >= 0} {
-	    puts $line
-	}
-	close $fp
+	eval exec $cmd
     } msg
-    if {$msg != ""} {puts stderr "Error running '$cmd' in wd=[pwd] - $msg"}
+    if {$msg != ""} {puts stderr "\nError running '$cmd' in wd=[pwd].\n$msg\n"}
 }
 
 foreach arg $argv {

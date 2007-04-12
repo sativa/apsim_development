@@ -10,7 +10,7 @@ module = soilwat2   %apsuite/apsim/soilwat2/sample/soilwat2.par[black_earth]  %a
 module = SurfaceOM   %apsuite/apsim/SurfaceOM/sample/SurfaceOM.par [legume_residue] %apsuite/apsim/SurfaceOM/SurfaceOM.ini [standard]
 module = soiln2     %apsuite/apsim/soiln2/sample/soiln2.par[black_earth]      %apsuite/apsim/soiln2/soiln2.ini[standard]
 module = plant(fababean)     fababean.par[sample] %apsuite/apsim/fababean/fababean.ini[standard]
-module = parasite(orobanche) %apsuite/apsim/parasite/orobanche.ini[standard]
+module = parasite(orobanche) %apsuite/apsim/parasite/Orobanche.ini[standard]
 
 
 [APSIM.fababean_orobanche]
@@ -24,7 +24,7 @@ module = soilwat2   %apsuite/apsim/soilwat2/sample/soilwat2.par[black_earth]  %a
 module = SurfaceOM   %apsuite/apsim/SurfaceOM/sample/SurfaceOM.par [legume_residue] %apsuite/apsim/SurfaceOM/SurfaceOM.ini [standard]
 module = soiln2     %apsuite/apsim/soiln2/sample/soiln2.par[black_earth]      %apsuite/apsim/soiln2/soiln2.ini[standard]
 module = plant(fababean)     fababean.par[sample] %apsuite/apsim/fababean/fababean.ini[standard]
-module = parasite(orobanche) %apsuite/apsim/parasite/orobanche.ini[standard]
+module = parasite(orobanche) %apsuite/apsim/parasite/Orobanche.ini[standard]
 
 [APSIM.fababean_orobanche_weed]
 title = orobanchen Sample Simulation
@@ -37,4 +37,4 @@ module = soilwat2   %apsuite/apsim/soilwat2/sample/soilwat2.par[black_earth]  %a
 module = SurfaceOM   %apsuite/apsim/SurfaceOM/sample/SurfaceOM.par [legume_residue] %apsuite/apsim/SurfaceOM/SurfaceOM.ini [standard]
 module = soiln2     %apsuite/apsim/soiln2/sample/soiln2.par[black_earth]      %apsuite/apsim/soiln2/soiln2.ini[standard]
 module = plant(fababean)     fababean.par[sample] %apsuite/apsim/fababean/fababean.ini[standard]
-module = parasite(orobanche) %apsuite/apsim/parasite/orobanche.ini[standard]
+module = parasite(orobanche) %apsuite/apsim/parasite/Orobanche.ini[standard]
