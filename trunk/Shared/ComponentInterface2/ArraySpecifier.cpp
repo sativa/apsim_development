@@ -29,8 +29,8 @@ ArraySpecifier* ArraySpecifier::create(const std::string& arraySpec)
    arraySpecifier->parseFunctionName(arraySpec.substr(0, posOpenBracket));
    string bracketedValue = arraySpec.substr(posOpenBracket+1, posCloseBracket-posOpenBracket-1);
    stripLeadingTrailing(bracketedValue, " ");
-   arraySpecifier->startIndex = 0;
-   arraySpecifier->endIndex = 0;
+   arraySpecifier->startIndex = -1;
+   arraySpecifier->endIndex = -1;
    arraySpecifier->varName = arraySpec.substr(0, posOpenBracket);
    if (bracketedValue == "")
       {
@@ -73,8 +73,8 @@ ArraySpecifier* ArraySpecifier::create(const std::string& arraySpec)
          }
       else
          {
-         arraySpecifier->startIndex = 0;
-         arraySpecifier->endIndex = 0;
+         arraySpecifier->startIndex = -1;
+         arraySpecifier->endIndex = -1;
          arraySpecifier->varName = bracketedValue;
          // case 1 : variable name.
          }
@@ -102,10 +102,10 @@ void ArraySpecifier::adornVariableName(std::string& variableName)
       variableName += "()";
    else
       {
-      if (startIndex  != 0)
+      if (startIndex  != -1)
          {
          variableName += "(" + itoa(startIndex);
-         if (endIndex != 0 && startIndex != endIndex)
+         if (endIndex != -1 && startIndex != endIndex)
             variableName += "-" + itoa(endIndex);
          variableName += ")";
          }

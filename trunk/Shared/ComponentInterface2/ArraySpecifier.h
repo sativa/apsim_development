@@ -74,8 +74,8 @@ class ArraySpecifier
       unsigned length(void) {return 0;};
 
    private:
-      unsigned startIndex;
-      unsigned endIndex;
+      int startIndex;
+      int endIndex;
       std::string functionName;
       std::string varName;
       bool oldStyleSum;
