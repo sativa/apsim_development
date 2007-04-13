@@ -115,8 +115,8 @@ C:\WINDOWS\Microsoft.NET\Framework\v2.0.50727\Csc.exe /noconfig /nowarn:1701,170
 Compile complete -- 0 errors, 0 warnings
 ProcessDataTypesInterface -> C:\development\Bin\ProcessDataTypesInterface.exe
 ------ Build started: Project: VBGeneral, Configuration: Release Any CPU ------
-C:\Program Files\Microsoft Visual Studio 8\SDK\v2.0\bin\LC.exe /target:VBGeneral.dll /complist:"My Project\licenses.licx" /outdir:obj\Release\ /i:"C:\Program Files\FarPoint Technologies\Spread.WinForms.v25 for Visual Studio 2005\v2.5.2001\Bin\FarPoint.Win.dll" /i:"C:\Program Files\FarPoint Technologies\Spread.WinForms.v25 for Visual Studio 2005\v2.5.2001\Bin\FarPoint.Win.Spread.dll" /i:C:\WINDOWS\Microsoft.NET\Framework\v2.0.50727\System.Data.dll /i:C:\WINDOWS\Microsoft.NET\Framework\v2.0.50727\System.dll /i:C:\WINDOWS\Microsoft.NET\Framework\v2.0.50727\System.Drawing.dll /i:C:\WINDOWS\Microsoft.NET\Framework\v2.0.50727\System.Windows.Forms.dll /i:C:\WINDOWS\Microsoft.NET\Framework\v2.0.50727\System.Xml.dll /i:"C:\Program Files\FarPoint Technologies\Spread.WinForms.v25 for Visual Studio 2005\v2.5.2001\Bin\FarPoint.Excel.dll" /i:"C:\Program Files\FarPoint Technologies\Spread.WinForms.v25 for Visual Studio 2005\v2.5.2001\Bin\FarPoint.CalcEngine.dll" /i:C:\WINDOWS\Microsoft.NET\Framework\v2.0.50727\System.Drawing.Design.dll /i:"C:\Program Files\FarPoint Technologies\Spread.WinForms.v25 for Visual Studio 2005\v2.5.2001\Bin\FarPoint.PluginCalendar.WinForms.dll" /i:C:\WINDOWS\Microsoft.NET\Framework\v2.0.50727\System.Design.dll 
-C:\WINDOWS\Microsoft.NET\Framework\v2.0.50727\Vbc.exe /noconfig /imports:Microsoft.VisualBasic,System,System.Collections,System.Collections.Generic,System.Data,System.Diagnostics /nowarn:42016,41999,42017,42018,42019,42032,42036,42020,42021,42022 /rootnamespace:VBGeneral /doc:obj\Release\VBGeneral.xml /define:"CONFIG=\"Release\",TRACE=-1,_MyType=\"Windows\",PLATFORM=\"AnyCPU\"" /reference:"C:\Program Files\FarPoint Technologies\Spread.WinForms.v25 for Visual Studio 2005\v2.5.2001\Bin\FarPoint.Win.dll","C:\Program Files\FarPoint Technologies\Spread.WinForms.v25 for Visual Studio 2005\v2.5.2001\Bin\FarPoint.Win.Spread.dll",C:\WINDOWS\Microsoft.NET\Framework\v2.0.50727\System.Data.dll,C:\WINDOWS\Microsoft.NET\Framework\v2.0.50727\System.dll,C:\WINDOWS\Microsoft.NET\Framework\v2.0.50727\System.Drawing.dll,C:\WINDOWS\Microsoft.NET\Framework\v2.0.50727\System.Windows.Forms.dll,C:\WINDOWS\Microsoft.NET\Framework\v2.0.50727\System.Xml.dll /debug:pdbonly /optimize+ /out:obj\Release\VBGeneral.dll /resource:obj\Release\VBGeneral.BaseView.resources /resource:obj\Release\VBGeneral.DataTree.resources /resource:obj\Release\VBGeneral.ExplorerUI.resources /resource:obj\Release\VBGeneral.GenericUI.resources /resource:obj\Release\VBGeneral.InputDialog.resources /resource:obj\Release\VBGeneral.Resources.resources /resource:obj\Release\VBGeneral.dll.licenses /target:library APSIMData.vb APSIMSettings.vb APSIMUIDateTimeCellType.vb BaseController.vb BaseView.vb CheckedListBoxCellType.vb DataTree.vb ExplorerUI.vb GenericUI.vb Grid.vb InputDialog.vb MacroFile.vb MacroV2File.vb "My Project\AssemblyInfo.vb" "My Project\Application.Designer.vb" "My Project\Resources.Designer.vb" "My Project\Settings.Designer.vb" Utility.vb
+C:\Program Files\Microsoft Visual Studio 8\SDK\v2.0\bin\LC.exe /target:VBGeneral.dll /complist:"My Project\licenses.licx" /outdir:obj\Release\ /i:C:\WINDOWS\Microsoft.NET\Framework\v2.0.50727\System.Data.dll /i:C:\WINDOWS\Microsoft.NET\Framework\v2.0.50727\System.dll /i:C:\WINDOWS\Microsoft.NET\Framework\v2.0.50727\System.Drawing.dll /i:C:\WINDOWS\Microsoft.NET\Framework\v2.0.50727\System.Windows.Forms.dll /i:C:\WINDOWS\Microsoft.NET\Framework\v2.0.50727\System.Xml.dll 
+C:\WINDOWS\Microsoft.NET\Framework\v2.0.50727\Vbc.exe /noconfig /imports:Microsoft.VisualBasic,System,System.Collections,System.Collections.Generic,System.Data,System.Diagnostics /nowarn:42016,41999,42017,42018,42019,42032,42036,42020,42021,42022 /rootnamespace:VBGeneral /doc:obj\Release\VBGeneral.xml /define:"CONFIG=\"Release\",TRACE=-1,_MyType=\"Windows\",PLATFORM=\"AnyCPU\"" /reference:C:\WINDOWS\Microsoft.NET\Framework\v2.0.50727\System.Data.dll,C:\WINDOWS\Microsoft.NET\Framework\v2.0.50727\System.dll,C:\WINDOWS\Microsoft.NET\Framework\v2.0.50727\System.Drawing.dll,C:\WINDOWS\Microsoft.NET\Framework\v2.0.50727\System.Windows.Forms.dll,C:\WINDOWS\Microsoft.NET\Framework\v2.0.50727\System.Xml.dll /debug:pdbonly /optimize+ /out:obj\Release\VBGeneral.dll /resource:obj\Release\VBGeneral.Resources.resources /resource:obj\Release\VBGeneral.dll.licenses /target:library APSIMData.vb APSIMSettings.vb MacroFile.vb MacroV2File.vb "My Project\AssemblyInfo.vb" "My Project\Application.Designer.vb" "My Project\Resources.Designer.vb" "My Project\Settings.Designer.vb" Utility.vb
 VBGeneral -> C:\development\Shared\VBGeneral\bin\Release\VBGeneral.dll
 ========== Build: 2 succeeded or up-to-date, 0 failed, 0 skipped ==========
 ------Compiling RunMacro 
@@ -126,12 +126,12 @@ Copyright (C) Microsoft Corp 1984-2005. All rights reserved.
 ------ Build started: Project: VBGeneral, Configuration: Release Any CPU ------
 VBGeneral -> C:\development\Shared\VBGeneral\bin\Release\VBGeneral.dll
 ------ Build started: Project: CSGeneral, Configuration: Release Any CPU ------
-C:\WINDOWS\Microsoft.NET\Framework\v2.0.50727\Csc.exe /noconfig /unsafe- /checked- /nowarn:1701,1702 /nostdlib- /errorreport:prompt /warn:4 /baseaddress:285212672 /define:TRACE /reference:C:\WINDOWS\assembly\GAC_MSIL\FarPoint.Win\2.5.2001.2005__327c3516b1b18457\FarPoint.Win.dll /reference:C:\WINDOWS\assembly\GAC_MSIL\FarPoint.Win.Spread\2.5.2001.2005__327c3516b1b18457\FarPoint.Win.Spread.dll /reference:C:\WINDOWS\Microsoft.NET\Framework\v2.0.50727\System.Data.dll /reference:C:\WINDOWS\Microsoft.NET\Framework\v2.0.50727\System.dll /reference:C:\WINDOWS\Microsoft.NET\Framework\v2.0.50727\System.Drawing.dll /reference:C:\WINDOWS\Microsoft.NET\Framework\v2.0.50727\System.Windows.Forms.dll /reference:C:\WINDOWS\Microsoft.NET\Framework\v2.0.50727\System.Xml.dll /reference:C:\development\Shared\VBGeneral\bin\Release\VBGeneral.dll /debug- /filealign:4096 /optimize+ /out:obj\Release\CSGeneral.dll /resource:obj\Release\CSGeneral.HyperTextLabel.resources /resource:obj\Release\CSGeneral.MemoUI.resources /target:library /warnaserror- APSIMInputFile.cs ComponentDescription.cs DataTableUtility.cs HyperTextLabel.cs HyperTextLink.cs ListviewAPI.cs Macro.cs MathUtility.cs MemoUI.cs Properties\AssemblyInfo.cs StringManip.cs Utility.cs
+C:\WINDOWS\Microsoft.NET\Framework\v2.0.50727\Csc.exe /noconfig /unsafe- /checked- /nowarn:1701,1702 /nostdlib- /errorreport:prompt /warn:4 /baseaddress:285212672 /define:TRACE /reference:C:\WINDOWS\assembly\GAC_MSIL\FarPoint.Win\2.5.2001.2005__327c3516b1b18457\FarPoint.Win.dll /reference:C:\WINDOWS\assembly\GAC_MSIL\FarPoint.Win.Spread\2.5.2001.2005__327c3516b1b18457\FarPoint.Win.Spread.dll /reference:C:\WINDOWS\Microsoft.NET\Framework\v2.0.50727\System.Data.dll /reference:C:\WINDOWS\Microsoft.NET\Framework\v2.0.50727\System.dll /reference:C:\WINDOWS\Microsoft.NET\Framework\v2.0.50727\System.Drawing.dll /reference:C:\WINDOWS\Microsoft.NET\Framework\v2.0.50727\System.Windows.Forms.dll /reference:C:\WINDOWS\Microsoft.NET\Framework\v2.0.50727\System.Xml.dll /reference:C:\development\Shared\VBGeneral\bin\Release\VBGeneral.dll /debug- /filealign:4096 /optimize+ /out:obj\Release\CSGeneral.dll /target:library /warnaserror- APSIMInputFile.cs ComponentDescription.cs DataTableUtility.cs Macro.cs MathUtility.cs Properties\AssemblyInfo.cs StringManip.cs Utility.cs
 
 Compile complete -- 0 errors, 0 warnings
-CSGeneral -> C:\development\Shared\C#General\bin\Release\CSGeneral.dll
+CSGeneral -> C:\development\Shared\CSGeneral\bin\Release\CSGeneral.dll
 ------ Build started: Project: RunMacro, Configuration: Release Any CPU ------
-C:\WINDOWS\Microsoft.NET\Framework\v2.0.50727\Csc.exe /noconfig /nowarn:1701,1702 /errorreport:prompt /warn:4 /define:TRACE /reference:"C:\development\Shared\C#General\bin\Release\CSGeneral.dll" /reference:C:\WINDOWS\Microsoft.NET\Framework\v2.0.50727\System.Data.dll /reference:C:\WINDOWS\Microsoft.NET\Framework\v2.0.50727\System.dll /reference:C:\WINDOWS\Microsoft.NET\Framework\v2.0.50727\System.Xml.dll /reference:C:\development\Shared\VBGeneral\bin\Release\VBGeneral.dll /debug:pdbonly /optimize+ /out:obj\Release\RunMacro.exe /target:exe RunMacro.cs Properties\AssemblyInfo.cs
+C:\WINDOWS\Microsoft.NET\Framework\v2.0.50727\Csc.exe /noconfig /nowarn:1701,1702 /errorreport:prompt /warn:4 /define:TRACE /reference:C:\development\Shared\CSGeneral\bin\Release\CSGeneral.dll /reference:C:\WINDOWS\Microsoft.NET\Framework\v2.0.50727\System.Data.dll /reference:C:\WINDOWS\Microsoft.NET\Framework\v2.0.50727\System.dll /reference:C:\WINDOWS\Microsoft.NET\Framework\v2.0.50727\System.Xml.dll /reference:C:\development\Shared\VBGeneral\bin\Release\VBGeneral.dll /debug:pdbonly /optimize+ /out:obj\Release\RunMacro.exe /target:exe RunMacro.cs Properties\AssemblyInfo.cs
 
 Compile complete -- 0 errors, 0 warnings
 RunMacro -> C:\development\Bin\RunMacro.exe
@@ -150,9 +150,7 @@ Wrote:C:\development\Shared\ComponentInterface\datatypes.h C:\development\Shared
 Borland C++ 5.6.4 for Win32 Copyright (c) 1993, 2002 Borland
 ComponentInterface.cpp:
 Component.cpp:
-Warning W8037 Component.cpp 169: Non-const function MessageData::reset() called for const object in function Component::messageToLogic(const Message *)
-Warning W8037 Component.cpp 1183: Non-const function INamedData::SetName(const string &) called for const object in function Component::ExportReadWriteVariable(const string &,const string &,const string &,const boost::function1<Variable,const string &,allocator<boost::function_base> > &,const INamedData &)
-Warning W8037 Component.cpp 1192: Non-const function INamedData::SetName(const string &) called for const object in function Component::SubscribeToEvent(const string &,const INamedData &)
+Warning W8037 Component.cpp 160: Non-const function MessageData::reset() called for const object in function Component::messageToLogic(const Message *)
 message.cpp:
 Type.cpp:
 TypeConverter.cpp:
@@ -185,6 +183,7 @@ Loaded pre-compiled headers.
 message.cpp:
 TypeConverter.cpp:
 ArraySpecifier.cpp:
+DataTypes.cpp:
 CMPScienceAPI.cpp:
 CMPComponentInterface.cpp:
 CMPData.cpp:
@@ -200,7 +199,6 @@ Borland C++ 5.6.4 for Win32 Copyright (c) 1993, 2002 Borland
 ProtocolManager.cpp:
 Loaded pre-compiled headers.
 Coordinator.cpp:
-Warning W8004 Coordinator.cpp 850: 's' is assigned a value that is never used in function Coordinator::reorderSubscriptions(vector<Registration,allocator<Registration> > &)
 ComponentAlias.cpp:
 Loaded cached pre-compiled headers.
 DebugHook.cpp:
@@ -553,9 +551,9 @@ Lahey/Fujitsu Fortran 95 Compiler Release 5.60h  S/N: F9365075S
 Copyright (C) 1994-2002 Lahey Computer Systems.  All rights reserved.
 Copyright (C) 1998-2002 FUJITSU LIMITED. All rights reserved.
 Compiling program unit ClockModule at line 1:
-Compiling program unit alloc_dealloc_instance at line 859:
-Compiling program unit Main at line 885:
-Compiling program unit respondToEvent at line 943:
+Compiling program unit alloc_dealloc_instance at line 851:
+Compiling program unit Main at line 877:
+Compiling program unit respondToEvent at line 935:
 Encountered 0 errors, 0 warnings in file clock.for.
 Compiling file clock.for.
 Lahey/Fujitsu Fortran 95 Compiler Release 5.60h  S/N: F9365075S 
@@ -692,9 +690,9 @@ Lahey/Fujitsu Fortran 95 Compiler Release 5.60h  S/N: F9365075S
 Copyright (C) 1994-2002 Lahey Computer Systems.  All rights reserved.
 Copyright (C) 1998-2002 FUJITSU LIMITED. All rights reserved.
 Compiling program unit GraspModule at line 1:
-Compiling program unit alloc_dealloc_instance at line 5065:
-Compiling program unit Main at line 5094:
-Compiling program unit respondToEvent at line 5199:
+Compiling program unit alloc_dealloc_instance at line 5308:
+Compiling program unit Main at line 5337:
+Compiling program unit respondToEvent at line 5442:
 Encountered 0 errors, 0 warnings in file grasp.for.
 Compiling file grasp.for.
 Lahey/Fujitsu Fortran 95 Compiler Release 5.60h  S/N: F9365075S 
@@ -713,9 +711,9 @@ Lahey/Fujitsu Fortran 95 Compiler Release 5.60h  S/N: F9365075S
 Copyright (C) 1994-2002 Lahey Computer Systems.  All rights reserved.
 Copyright (C) 1998-2002 FUJITSU LIMITED. All rights reserved.
 Compiling program unit GrowthModule at line 1:
-Compiling program unit alloc_dealloc_instance at line 6374:
-Compiling program unit Main at line 6403:
-Compiling program unit respondToEvent at line 6479:
+Compiling program unit alloc_dealloc_instance at line 6472:
+Compiling program unit Main at line 6501:
+Compiling program unit respondToEvent at line 6577:
 Encountered 0 errors, 0 warnings in file growth.for.
 Compiling file growth.for.
 Lahey/Fujitsu Fortran 95 Compiler Release 5.60h  S/N: F9365075S 
@@ -792,9 +790,9 @@ Lahey/Fujitsu Fortran 95 Compiler Release 5.60h  S/N: F9365075S
 Copyright (C) 1994-2002 Lahey Computer Systems.  All rights reserved.
 Copyright (C) 1998-2002 FUJITSU LIMITED. All rights reserved.
 Compiling program unit ManagerModule at line 1:
-Compiling program unit alloc_dealloc_instance at line 3624:
-Compiling program unit Main at line 3649:
-Compiling program unit respondToEvent at line 3709:
+Compiling program unit alloc_dealloc_instance at line 3659:
+Compiling program unit Main at line 3684:
+Compiling program unit respondToEvent at line 3744:
 Encountered 0 errors, 0 warnings in file manager.for.
 Compiling file manager.for.
 Lahey/Fujitsu Fortran 95 Compiler Release 5.60h  S/N: F9365075S 
@@ -855,10 +853,10 @@ Lahey/Fujitsu Fortran 95 Compiler Release 5.60h  S/N: F9365075S
 Copyright (C) 1994-2002 Lahey Computer Systems.  All rights reserved.
 Copyright (C) 1998-2002 FUJITSU LIMITED. All rights reserved.
 Compiling program unit MilletModule at line 1:
-Compiling program unit alloc_dealloc_instance at line 5141:
-Compiling program unit Main at line 5171:
-Compiling program unit respondToEvent at line 5356:
-Compiling program unit doSysbalRegistrations at line 5376:
+Compiling program unit alloc_dealloc_instance at line 5193:
+Compiling program unit Main at line 5223:
+Compiling program unit respondToEvent at line 5408:
+Compiling program unit doSysbalRegistrations at line 5428:
 Encountered 0 errors, 0 warnings in file mil_main.for.
 Compiling file mil_main.for.
 Lahey/Fujitsu Fortran 95 Compiler Release 5.60h  S/N: F9365075S 
@@ -877,9 +875,9 @@ Lahey/Fujitsu Fortran 95 Compiler Release 5.60h  S/N: F9365075S
 Copyright (C) 1994-2002 Lahey Computer Systems.  All rights reserved.
 Copyright (C) 1998-2002 FUJITSU LIMITED. All rights reserved.
 Compiling program unit OperatnsModule at line 1:
-Compiling program unit alloc_dealloc_instance at line 698:
-Compiling program unit Main at line 723:
-Compiling program unit respondToEvent at line 786:
+Compiling program unit alloc_dealloc_instance at line 697:
+Compiling program unit Main at line 722:
+Compiling program unit respondToEvent at line 785:
 Encountered 0 errors, 0 warnings in file operatns.for.
 Compiling file operatns.for.
 Lahey/Fujitsu Fortran 95 Compiler Release 5.60h  S/N: F9365075S 
@@ -913,10 +911,10 @@ Lahey/Fujitsu Fortran 95 Compiler Release 5.60h  S/N: F9365075S
 Copyright (C) 1994-2002 Lahey Computer Systems.  All rights reserved.
 Copyright (C) 1998-2002 FUJITSU LIMITED. All rights reserved.
 Compiling program unit OzcotModule at line 1:
-Compiling program unit alloc_dealloc_instance at line 7126:
-Compiling program unit Main at line 7156:
-Compiling program unit doInit1 at line 7300:
-Compiling program unit respondToEvent at line 7478:
+Compiling program unit alloc_dealloc_instance at line 7400:
+Compiling program unit Main at line 7430:
+Compiling program unit doInit1 at line 7574:
+Compiling program unit respondToEvent at line 7752:
 Encountered 0 errors, 0 warnings in file ozcot.for.
 Compiling file ozcot.for.
 Lahey/Fujitsu Fortran 95 Compiler Release 5.60h  S/N: F9365075S 
@@ -972,14 +970,13 @@ Borland C++ 5.6.4 for Win32 Copyright (c) 1993, 2002 Borland
 PatchInput.cpp:
 PatchInputComponent.cpp:
 Warning W8058 C:\development\Shared\general\date_functions.h 213: Cannot create pre-compiled header: code in header
-Warning W8070 PatchInputComponent.cpp 187: Function should return a value in function PatchInputComponent::advanceToTodaysPatchData(unsigned int)
 Turbo Incremental Link 5.64 Copyright (c) 1997-2002 Borland
 ------Compiling C:\development\apsim\Plant\source
 MAKE Version 5.2  Copyright (c) 1987, 2000 Borland
 Borland C++ 5.6.4 for Win32 Copyright (c) 1993, 2002 Borland
 PlantComponent.cpp:
 Plant.cpp:
-Warning W8004 Plant.cpp 2204: 'fractIncidentRadn' is assigned a value that is never used in function Plant::plant_light_supply_partition(int)
+Warning W8004 Plant.cpp 2000: 'fractIncidentRadn' is assigned a value that is never used in function Plant::plant_light_supply_partition(int)
 PlantPart.cpp:
 PlantBiomass.cpp:
 PlantCanopy.cpp:
@@ -987,42 +984,68 @@ Loaded cached pre-compiled headers.
 PlantFail.cpp:
 PlantLibrary.cpp:
 PlantNitrogen.cpp:
-PlantRoot.cpp:
+Borland C++ 5.6.4 for Win32 Copyright (c) 1993, 2002 Borland
+Root\PlantRoot.cpp:
+Borland C++ 5.6.4 for Win32 Copyright (c) 1993, 2002 Borland
 PlantTemp.cpp:
-PlantUtility.cpp:
+Borland C++ 5.6.4 for Win32 Copyright (c) 1993, 2002 Borland
+Utility\PlantUtility.cpp:
+Borland C++ 5.6.4 for Win32 Copyright (c) 1993, 2002 Borland
 PlantWater.cpp:
-Data.cpp:
-Science.cpp:
+Borland C++ 5.6.4 for Win32 Copyright (c) 1993, 2002 Borland
+Utility\Data.cpp:
+Borland C++ 5.6.4 for Win32 Copyright (c) 1993, 2002 Borland
+Utility\Science.cpp:
 Loaded pre-compiled headers.
-Date.cpp:
+Utility\Date.cpp:
 Loaded pre-compiled headers.
+Borland C++ 5.6.4 for Win32 Copyright (c) 1993, 2002 Borland
 PlantComms.cpp:
-Loaded cached pre-compiled headers.
+Loaded pre-compiled headers.
+Borland C++ 5.6.4 for Win32 Copyright (c) 1993, 2002 Borland
 PlantP.cpp:
 Environment.cpp:
-Observers.cpp:
-LeafPart.cpp:
+Borland C++ 5.6.4 for Win32 Copyright (c) 1993, 2002 Borland
+Utility\Observers.cpp:
+Borland C++ 5.6.4 for Win32 Copyright (c) 1993, 2002 Borland
+Leaf\LeafPart.cpp:
+Borland C++ 5.6.4 for Win32 Copyright (c) 1993, 2002 Borland
 StemPart.cpp:
-PodPart.cpp:
-MealPart.cpp:
-OilPart.cpp:
-GrainPart.cpp:
-GrainPartHI.cpp:
-GrainPartGN.cpp:
+Borland C++ 5.6.4 for Win32 Copyright (c) 1993, 2002 Borland
+Reproductive\PodPart.cpp:
+Reproductive\MealPart.cpp:
+Reproductive\OilPart.cpp:
+Reproductive\GrainPart.cpp:
+Reproductive\GrainPartHI.cpp:
+Reproductive\GrainPartGN.cpp:
+Borland C++ 5.6.4 for Win32 Copyright (c) 1993, 2002 Borland
 CompositePart.cpp:
-RootPart.cpp:
-FruitCohort.cpp:
-PlantFruit.cpp:
-Warning W8030 PlantFruit.cpp 108: Temporary used for parameter '__x' in call to 'vector<plantPart *,allocator<plantPart *> >::push_back(plantPart * const &)' in function PlantFruit::addNewCohort(protocol::Component *)
-Output.cpp:
-OutputVariable.cpp:
-genericLeafPart.cpp:
-cohortingLeafPart.cpp:
-arbitrator.cpp:
+Borland C++ 5.6.4 for Win32 Copyright (c) 1993, 2002 Borland
+Root\RootPart.cpp:
+Root\RootGrowthOption1.cpp:
+Root\RootGrowthOption2.cpp:
+Borland C++ 5.6.4 for Win32 Copyright (c) 1993, 2002 Borland
+Reproductive\FruitCohort.cpp:
+Borland C++ 5.6.4 for Win32 Copyright (c) 1993, 2002 Borland
+Reproductive\PlantFruit.cpp:
+Warning W8030 Reproductive\PlantFruit.cpp 108: Temporary used for parameter '__x' in call to 'vector<plantPart *,allocator<plantPart *> >::push_back(plantPart * const &)' in function PlantFruit::addNewCohort(protocol::Component *)
+Borland C++ 5.6.4 for Win32 Copyright (c) 1993, 2002 Borland
+Utility\Output.cpp:
+Borland C++ 5.6.4 for Win32 Copyright (c) 1993, 2002 Borland
+Utility\OutputVariable.cpp:
+Borland C++ 5.6.4 for Win32 Copyright (c) 1993, 2002 Borland
+Leaf\genericLeafPart.cpp:
+Borland C++ 5.6.4 for Win32 Copyright (c) 1993, 2002 Borland
+Leaf\cohortingLeafPart.cpp:
+Borland C++ 5.6.4 for Win32 Copyright (c) 1993, 2002 Borland
+Arbitrators\arbitrator.cpp:
+Borland C++ 5.6.4 for Win32 Copyright (c) 1993, 2002 Borland
+Arbitrators\NullArbitrator.cpp:
+Arbitrators\GenericArbitrator.cpp:
+Borland C++ 5.6.4 for Win32 Copyright (c) 1993, 2002 Borland
 PlantSpatial.cpp:
 Borland C++ 5.6.4 for Win32 Copyright (c) 1993, 2002 Borland
 Phenology\PlantPhenology.cpp:
-Borland C++ 5.6.4 for Win32 Copyright (c) 1993, 2002 Borland
 Phenology\Phase.cpp:
 Phenology\CompositePhase.cpp:
 Loaded cached pre-compiled headers.
@@ -1193,10 +1216,10 @@ Lahey/Fujitsu Fortran 95 Compiler Release 5.60h  S/N: F9365075S
 Copyright (C) 1994-2002 Lahey Computer Systems.  All rights reserved.
 Copyright (C) 1998-2002 FUJITSU LIMITED. All rights reserved.
 Compiling program unit Soilwat2Module at line 1:
-Compiling program unit alloc_dealloc_instance at line 6826:
-Compiling program unit Main at line 6860:
-Compiling program unit respondToEvent at line 6998:
-Compiling program unit doInit1 at line 7019:
+Compiling program unit alloc_dealloc_instance at line 6953:
+Compiling program unit Main at line 6987:
+Compiling program unit respondToEvent at line 7125:
+Compiling program unit doInit1 at line 7146:
 Encountered 0 errors, 0 warnings in file soilwat2.for.
 Compiling file soilwat2.for.
 Lahey/Fujitsu Fortran 95 Compiler Release 5.60h  S/N: F9365075S 
@@ -1296,13 +1319,8 @@ Lahey/Fujitsu Fortran 95 Compiler Release 5.60h  S/N: F9365075S
 Copyright (C) 1994-2002 Lahey Computer Systems.  All rights reserved.
 Copyright (C) 1998-2002 FUJITSU LIMITED. All rights reserved.
 386|LINK: 9.2 -- Copyright (C) 1986-98 Phar Lap Software, Inc.
-------Compiling C:\development\apsim\SummaryFile\Source
+------Compiling C:\development\apsim\sugar\source
 MAKE Version 5.2  Copyright (c) 1987, 2000 Borland
-Borland C++ 5.6.4 for Win32 Copyright (c) 1993, 2002 Borland
-SummaryFile.cpp:
-Loaded pre-compiled headers.
-SummaryFileComponent.cpp:
-Turbo Incremental Link 5.64 Copyright (c) 1997-2002 Borland
 ------Compiling C:\development\apsim\Supplement\source
 MAKE Version 5.2  Copyright (c) 1987, 2000 Borland
 Borland C++ 5.6.4 for Win32 Copyright (c) 1993, 2002 Borland
@@ -1353,7 +1371,7 @@ Lahey/Fujitsu Fortran 95 Compiler Release 5.60h  S/N: F9365075S
 Copyright (C) 1994-2002 Lahey Computer Systems.  All rights reserved.
 Copyright (C) 1998-2002 FUJITSU LIMITED. All rights reserved.
 386|LINK: 9.2 -- Copyright (C) 1986-98 Phar Lap Software, Inc.
-------Compiling C:\development\apsim\SysBal\source
+------Compiling C:\development\apsim\sysbal\source
 MAKE Version 5.2  Copyright (c) 1987, 2000 Borland
 Lahey/Fujitsu Fortran 95 Compiler Release 5.60h  S/N: F9365075S 
 Copyright (C) 1994-2002 Lahey Computer Systems.  All rights reserved.
@@ -1365,9 +1383,9 @@ Lahey/Fujitsu Fortran 95 Compiler Release 5.60h  S/N: F9365075S
 Copyright (C) 1994-2002 Lahey Computer Systems.  All rights reserved.
 Copyright (C) 1998-2002 FUJITSU LIMITED. All rights reserved.
 Compiling program unit SysBalModule at line 1:
-Compiling program unit alloc_dealloc_instance at line 1931:
-Compiling program unit Main at line 1956:
-Compiling program unit respondToEvent at line 2026:
+Compiling program unit alloc_dealloc_instance at line 2265:
+Compiling program unit Main at line 2290:
+Compiling program unit respondToEvent at line 2371:
 Encountered 0 errors, 0 warnings in file sysbal.for.
 Compiling file sysbal.for.
 Lahey/Fujitsu Fortran 95 Compiler Release 5.60h  S/N: F9365075S 
@@ -1485,15 +1503,23 @@ Lahey/Fujitsu Fortran 95 Compiler Release 5.60h  S/N: F9365075S
 Copyright (C) 1994-2002 Lahey Computer Systems.  All rights reserved.
 Copyright (C) 1998-2002 FUJITSU LIMITED. All rights reserved.
 386|LINK: 9.2 -- Copyright (C) 1986-98 Phar Lap Software, Inc.
+------Compiling C:\development\apsim\YPCalc\source
+MAKE Version 5.2  Copyright (c) 1987, 2000 Borland
+Borland C++ 5.6.4 for Win32 Copyright (c) 1993, 2002 Borland
+YPCalc.cpp:
+YPComponent.cpp:
+Loaded cached pre-compiled headers.
+WARNING: your code should #include oleauto.h instead of variant.h
+Turbo Incremental Link 5.64 Copyright (c) 1997-2002 Borland
 
 Microsoft (R) Visual Studio Version 8.0.50727.42.
 Copyright (C) Microsoft Corp 1984-2005. All rights reserved.
 ------ Build started: Project: VBGeneral, Configuration: Release Any CPU ------
 VBGeneral -> C:\development\Shared\VBGeneral\bin\Release\VBGeneral.dll
 ------ Build started: Project: CSGeneral, Configuration: Release Any CPU ------
-CSGeneral -> C:\development\Shared\C#General\bin\Release\CSGeneral.dll
+CSGeneral -> C:\development\Shared\CSGeneral\bin\Release\CSGeneral.dll
 ------ Build started: Project: GetComponentDescription, Configuration: Release Any CPU ------
-C:\WINDOWS\Microsoft.NET\Framework\v2.0.50727\Csc.exe /noconfig /unsafe- /checked- /nowarn:1701,1702 /nostdlib- /errorreport:prompt /warn:4 /baseaddress:285212672 /define:TRACE /reference:"C:\development\Shared\C#General\bin\Release\CSGeneral.dll" /reference:C:\WINDOWS\Microsoft.NET\Framework\v2.0.50727\System.Data.dll /reference:C:\WINDOWS\Microsoft.NET\Framework\v2.0.50727\System.dll /reference:C:\WINDOWS\Microsoft.NET\Framework\v2.0.50727\System.Xml.dll /debug- /filealign:4096 /optimize+ /out:obj\Release\GetComponentDescription.exe /target:exe /warnaserror- /win32icon:App.ico AssemblyInfo.cs GetComponentDescription.cs
+C:\WINDOWS\Microsoft.NET\Framework\v2.0.50727\Csc.exe /noconfig /unsafe- /checked- /nowarn:1701,1702 /nostdlib- /errorreport:prompt /warn:4 /baseaddress:285212672 /define:TRACE /reference:C:\development\Shared\CSGeneral\bin\Release\CSGeneral.dll /reference:C:\WINDOWS\Microsoft.NET\Framework\v2.0.50727\System.Data.dll /reference:C:\WINDOWS\Microsoft.NET\Framework\v2.0.50727\System.dll /reference:C:\WINDOWS\Microsoft.NET\Framework\v2.0.50727\System.Xml.dll /debug- /filealign:4096 /optimize+ /out:obj\Release\GetComponentDescription.exe /target:exe /warnaserror- /win32icon:App.ico AssemblyInfo.cs GetComponentDescription.cs
 
 Compile complete -- 0 errors, 0 warnings
 GetComponentDescription -> C:\development\Bin\GetComponentDescription.exe
