@@ -321,10 +321,10 @@ module = report     wheat.par[sensibility] wheat.par[walpeup200]
 module = input(met)        %apsuite/apsim/Common Files/walpeup.met[weather]
 module = manager    wheat.par[sensibility] wheat.par[hartog] wheat.par[mid_may]  wheat.par[N010] wheat.par[splitN000]
 module = fertiliz   %apsuite/apsim/fertiliz/fertiliz.ini[standard]
-module = soilwat2   %apsuite/apsim/Common Files/Walpeup.par[Walpeup] %apsuite/apsim/Common Files/Walpeup.par[200mm] %apsuite/apsim/soilwat2/soilwat2.ini[standard]
+module = soilwat2   %apsuite/apsim/Common Files/walpeup.par[Walpeup] %apsuite/apsim/Common Files/walpeup.par[200mm] %apsuite/apsim/soilwat2/soilwat2.ini[standard]
 module = SurfaceOM   %apsuite/apsim/SurfaceOM/sample/SurfaceOM.par [legume_residue] %apsuite/apsim/SurfaceOM/SurfaceOM.ini [standard]
-module = soiln2     %apsuite/apsim/Common Files/Walpeup.par[Walpeup]      %apsuite/apsim/soiln2/soiln2.ini[standard]
-module = Plant(Wheat)   %apsuite/apsim/Common Files/Walpeup.par[Walpeup] %apsuite/apsim/Wheat/wheat.ini[standard]
+module = soiln2     %apsuite/apsim/Common Files/walpeup.par[Walpeup]      %apsuite/apsim/soiln2/soiln2.ini[standard]
+module = Plant(Wheat)   %apsuite/apsim/Common Files/walpeup.par[Walpeup] %apsuite/apsim/Wheat/wheat.ini[standard]
 module = Tracker    wheat.par[sensibility]
 
 ! ================================================================

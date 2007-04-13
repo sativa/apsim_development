@@ -5,7 +5,7 @@ Simulation_file=%apsuite/apsim/accum/sample/accum.con
 Simulation_file=%apsuite/apsim/apswim/sample/apswim.con
 
 [apswim_test]
-Simulation_file=%apsuite/apsim/apswim/test/test.con
+Simulation_file=%apsuite/apsim/apswim/Test/Test.con
 
 [bambatsi]
 Simulation_file=%apsuite/apsim/Bambatsi/Sample/bambatsi.con
@@ -170,7 +170,7 @@ Simulation_file=%apsuite/apsim/mungbean/Sample/mungbean.con
 Simulation_file=%apsuite/apsim/mungbean/PSample/mungbean.con
 
 [mungbean sensibility]
-Simulation_file=%apsuite/apsim/mungbean/Sensibility/mungbean.con
+Simulation_file=%apsuite/apsim/mungbean/Sensibility/Mungbean.con
 
 [navybean]
 Simulation_file=%apsuite/apsim/navybean/Sample/navybean.con
@@ -188,7 +188,7 @@ Simulation_file=%apsuite/apsim/operatns/sample/operatns.con
 Simulation_file=%apsuite/apsim/ozcot/sample/ozcot.con
 
 [Parasite]
-Simulation_file=%apsuite/apsim/parasite/Sample/sample.con
+Simulation_file=%apsuite/apsim/parasite/Sample/Sample.con
 
 [Pasture]
 Simulation_file=%apsuite/apsim/pasture/sample/pasture.sim
@@ -305,28 +305,28 @@ Simulation_file=%apsuite/apsim/Supplement/sample/supplement stock only.sim
 Simulation_file=%apsuite/apsim/surface/sample/sample.con
 
 [surfaceOM]
-Simulation_file=%apsuite/apsim/SurfaceOM/sample/surfaceom.con
+Simulation_file=%apsuite/apsim/SurfaceOM/sample/SurfaceOM.con
 
 [surfaceomtest]
-Simulation_file=%apsuite/apsim/SurfaceOM/test/test.con
+Simulation_file=%apsuite/apsim/SurfaceOM/test/Test.con
 
 [sweetcorn]
-Simulation_file=%apsuite/apsim/sweetcorn/Sample/sweetcorn.con
+Simulation_file=%apsuite/apsim/SweetCorn/Sample/SweetCorn.con
 
 [sweetcorn_validation]
-Simulation_file=%apsuite/apsim/sweetcorn/Validation/sweetcorn.apsim
+Simulation_file=%apsuite/apsim/SweetCorn/Validation/sweetcorn.apsim
 
 [sweetsorghum]
-Simulation_file=%apsuite/apsim/SweetSorghum/Sample/sweetsorghum.con
+Simulation_file=%apsuite/apsim/SweetSorghum/Sample/SweetSorghum.con
 
 [sweetsorghum_validation]
-Simulation_file=%apsuite/apsim/SweetSorghum/Validation/sweetsorghum.con
+Simulation_file=%apsuite/apsim/SweetSorghum/Validation/SweetSorghum.con
 
 [sweetsorghum_validation2]
 Simulation_file=%apsuite/apsim/SweetSorghum/Validation/sweetsorghum.apsim
 
 [sysbal]
-Simulation_file=%apsuite/apsim/SysBal/sample/sysbal.con
+Simulation_file=%apsuite/apsim/sysbal/sample/sysbal.con
 
 [tamet2]
 Simulation_file=%apsuite/apsim/tamet2/sample/sample.con
@@ -345,39 +345,6 @@ Simulation_file=%apsuite/apsim/tree/test/step1/tree.con
 
 [tree step2]
 Simulation_file=%apsuite/apsim/tree/test/step2/tree.con
-
-;[UserRuns_CarinaMoellerA]
-;Simulation_file=%apsuite/apsim/UserRuns/CarinaMoellerA/ghab2.con
-;
-;[UserRuns_CarinaMoellerB]
-;Simulation_file=%apsuite/apsim/UserRuns/CarinaMoellerB/ghab2.con
-;
-;[UserRuns_KirstenVerburgA]
-;Simulation_file=%apsuite/apsim/UserRuns/KirstenVerburgA/csu-p149.con
-;
-;[UserRuns_KirstenVerburgB]
-;Simulation_file=%apsuite/apsim/UserRuns/KirstenVerburgB/ruther142.con
-;
-;[UserRuns_KirstenVerburgB1]
-;Simulation_file=%apsuite/apsim/UserRuns/KirstenVerburgB1/p14-113.con
-;
-;[UserRuns_KirstenVerburg_lucerneA]
-;Simulation_file=%apsuite/apsim/UserRuns/KirstenVerburg_lucerne/p12-97.con
-;
-;[UserRuns_KirstenVerburg_lucerneB]
-;Simulation_file=%apsuite/apsim/UserRuns/KirstenVerburg_lucerne/p12-99.con
-;
-;[UserRuns_leaf_record_bug]
-;Simulation_file=%apsuite/apsim/UserRuns/leaf_record_bug/lucerne.con
-;
-;[UserRuns_radishbug]
-;Simulation_file=%apsuite/apsim/UserRuns/radishbug/legume_bug.con
-;
-;[UserRuns_howardcox]
-;Simulation_file=%apsuite/apsim/UserRuns/howardcox/jambincerealonly1995.con
-;
-;[UserRuns_graeme_sutton]
-;Simulation_file=%apsuite/apsim/UserRuns/graeme~1/RUN1.CON
 
 [venlink]
 Simulation_file=%apsuite/apsim/venlink/sample/vensim.con

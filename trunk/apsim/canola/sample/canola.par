@@ -6,8 +6,8 @@ outputfile  =canola.out
 variable = clock.day
 variable = clock.year
 variable = canola.lai
-variable = canola.biomass
-variable = canola.green_biomass
+variable = canola.biomass format 1
+variable = canola.green_biomass format 1
 variable = canola.pai
 variable = canola.oil_wt
 [sample.clock.parameters]

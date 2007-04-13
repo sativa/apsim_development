@@ -6,8 +6,8 @@ outputfile  =cowpea.out
 variable = clock.day
 variable = clock.year
 variable = cowpea.lai
-variable = cowpea.biomass
-variable = cowpea.green_biomass
+variable = cowpea.biomass format 1
+variable = cowpea.green_biomass format 1
 [sample.clock.parameters]
 ! Start and end date of run (day number of year and year)
 start_date=15/11/1988

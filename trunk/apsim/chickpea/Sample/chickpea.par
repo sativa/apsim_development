@@ -6,8 +6,8 @@ outputfile  =chickpea.out
 variable = clock.day
 variable = clock.year
 variable = chickpea.lai
-variable = chickpea.biomass
-variable = chickpea.green_biomass
+variable = chickpea.biomass format 1
+variable = chickpea.green_biomass format 1
 
 [sample.clock.parameters]
 ! Start and end date of run (day number of year and year)
