@@ -13,7 +13,6 @@ proc run {arg} {
     } elseif {[string tolower [file extension $arg]] == ".con"} {
 	doConFile $arg
     } elseif {[string tolower [file extension $arg]] == ".sim"} {
-	cd [file dirname $arg]
 	doSimFile $arg
     } else {
 	puts stderr "Don't know what to do with $arg"
@@ -35,13 +34,13 @@ proc doRunFile {arg} {
 proc doConFile {arg} {
     global BINDIR
     catch {
+	puts "Simifying $arg"
 	cd [file dirname $arg]
-	puts "Running conToSim $arg in wd=[pwd]"
+	set t0 [expr [clock seconds] - 1]
 	runCmd  "$BINDIR/ConToSim.x \"$arg\""
-	set t0 [clock seconds]
 	foreach simfile [glob -nocomplain *.sim] {
 	    if {[file mtime $simfile] >= $t0} {
-		doSimFile $simfile
+		    doSimFile $simfile
 	    }
 	}
     } msg
@@ -50,9 +49,13 @@ proc doConFile {arg} {
 
 proc doSimFile {arg} {
     global BINDIR
-    puts "Running $arg in wd=[pwd]"
-    set sumfile "[file root $arg].sum"
-    runCmd  "$BINDIR/apsim.x \"$arg\" >& \"$sumfile\""
+    catch {
+        puts "Running $arg"
+        cd [file dirname $arg]
+        set sumfile "[file root $arg].sum"
+        runCmd  "$BINDIR/apsim.x \"$arg\" >& \"$sumfile\""
+    } msg
+    if {$msg != ""} {puts stderr $msg}
 }
 
 proc runCmd {cmd} {

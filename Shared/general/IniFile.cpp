@@ -61,7 +61,7 @@ void IniFile::parse(void)
    {
    sectionNames.erase(sectionNames.begin(), sectionNames.end());
    sectionIndexes.erase(sectionIndexes.begin(), sectionIndexes.end());
-   if (!fileExists(fileName)) {throw std::runtime_error("Missing ini file " + fileName);}
+   if (!fileExists(fileName)) {throw std::runtime_error("Cannot open " + fileName);}
 
    ifstream in(fileName.c_str());
    ostringstream s;
