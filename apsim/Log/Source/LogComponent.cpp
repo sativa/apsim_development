@@ -1,5 +1,4 @@
-#include <general\pch.h>
-#include <vcl.h>
+#include <general/pch.h>
 #pragma hdrstop
 
 #include <list>
@@ -14,13 +13,13 @@
 #include <general/date_class.h>
 
 #include <ApsimShared/FStringExt.h>
+#include <ApsimShared/ApsimComponentData.h>
 #include <ComponentInterface/Component.h>
-#include <Protocol/transport.h>
+#include <Protocol/Transport.h>
+
+#include <ComponentInterface/datatypes.h>
 
 #include "LogComponent.h"
-#include <ApsimShared\ApsimComponentData.h>
-#include <ComponentInterface\datatypes.h>
-#include <sstream>
 
 using namespace std;
 using namespace protocol;
@@ -35,16 +34,16 @@ using namespace protocol;
 //    DPH 7/6/2001
 
 // ------------------------------------------------------------------
-extern "C" _export void __stdcall wrapperDLL(char* wrapperDll)
+extern "C" EXPORT void STDCALL wrapperDLL(char* wrapperDll)
    {
    strcpy(wrapperDll, "");
    }
-extern "C" void __stdcall getDescriptionInternal(char* initScript,
+extern "C" void STDCALL getDescriptionInternal(char* initScript,
                                                  char* description);
 // ------------------------------------------------------------------
 // Return component description info.
 // ------------------------------------------------------------------
-extern "C" _export void __stdcall getDescription(char* initScript, char* description)
+extern "C" EXPORT void STDCALL getDescription(char* initScript, char* description)
    {
    getDescriptionInternal(initScript, description);
    }
@@ -108,7 +107,11 @@ void LogComponent::doInit1(const FString& sdml)
    if (!out)
       {
       string msg = "Cannot open log file: " + filename;
+#ifdef __WIN32__
       ::MessageBox(NULL, msg.c_str(), "Error", MB_ICONSTOP | MB_OK);
+#else
+      throw std::runtime_error(msg);
+#endif
       }
    string debugOutputString = componentData->getProperty("parameters", "debug_output");
    bool doOutput = (debugOutputString == "" || Str_i_Eq(debugOutputString, "on"));
@@ -182,7 +185,7 @@ void LogComponent::callback(const std::string& toName,
             }
          else
             {
-            out << "\/>" << endl;
+            out << "/>" << endl;
             for (int i = previousNesting-1; i >= nesting; i--)
                {
                out.width(i*3);
