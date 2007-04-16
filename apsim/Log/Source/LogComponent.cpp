@@ -1,6 +1,12 @@
 #include <general/pch.h>
 #pragma hdrstop
 
+#ifdef __WIN32__
+#include <windows.h>
+#include <vcl.h>
+#endif
+
+
 #include <list>
 #include <fstream>
 #include <sstream>
@@ -18,7 +24,6 @@
 #include <Protocol/Transport.h>
 
 #include <ComponentInterface/datatypes.h>
-
 #include "LogComponent.h"
 
 using namespace std;
