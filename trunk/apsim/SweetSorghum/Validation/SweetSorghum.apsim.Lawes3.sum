@@ -13,14 +13,14 @@ Version                = 5.3
 Title                  = Lawes Planting Three
 Component      "clock" = c:\development\apsim\clock\lib\clock.dll
 Component     "report" = c:\development\apsim\report\lib\report.dll
-Component        "Met" = c:\development\apsim\Input\lib\Input.dll
+Component        "Met" = c:\development\apsim\input\lib\input.dll
 Component   "fertiliz" = c:\development\apsim\fertiliz\lib\fertiliz.dll
 Component   "irrigate" = c:\development\apsim\irrigate\lib\irrigate.dll
 Component    "manager" = c:\development\apsim\manager\lib\manager.dll
 Component   "soilwat2" = c:\development\apsim\soilwat2\lib\soilwat2.dll
-Component  "surfaceom" = c:\development\apsim\surfaceom\lib\surfaceom.dll
+Component  "SurfaceOM" = c:\development\apsim\SurfaceOM\lib\SurfaceOM.dll
 Component     "soiln2" = c:\development\apsim\soiln2\lib\soiln2.dll
-Component "sweetsorghum" = c:\development\apsim\plant\lib\plant.dll
+Component "sweetsorghum" = c:\development\apsim\Plant\lib\Plant.dll
 
 ------- clock Initialisation --------------------------------------------------
      Sequencer phases:
@@ -188,7 +188,7 @@ Component "sweetsorghum" = c:\development\apsim\plant\lib\plant.dll
             CONA:                     2.50 ()
             Eo from priestly-taylor
 
-------- surfaceom Initialisation ----------------------------------------------
+------- SurfaceOM Initialisation ----------------------------------------------
      
          - Reading constants
      

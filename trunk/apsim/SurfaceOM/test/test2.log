@@ -4,14 +4,13 @@
          <message3 to="MasterPM" msgtype="ReturnComponentID" ack="false"/>
       </message2>
       <message2 to="clock" msgtype="Init1" ack="true">
-         <message3 to="MasterPM" msgtype="Register" ack="false" kind="respondToGet" name="name" type="type kind='string'"/>
-         <message3 to="MasterPM" msgtype="Register" ack="false" kind="respondToGet" name="type" type="type kind='string'"/>
-         <message3 to="MasterPM" msgtype="Register" ack="false" kind="respondToGet" name="version" type="type kind='string'"/>
-         <message3 to="MasterPM" msgtype="Register" ack="false" kind="respondToGet" name="author" type="type kind='string'"/>
-         <message3 to="MasterPM" msgtype="Register" ack="false" kind="respondToGet" name="active" type="type kind='integer4'"/>
-         <message3 to="MasterPM" msgtype="Register" ack="false" kind="respondToGet" name="state" type="type kind='string'"/>
+         <message3 to="MasterPM" msgtype="Register" ack="false" kind="respondToGet" name="name" type="type kind='string' array='F' unit='()'"/>
+         <message3 to="MasterPM" msgtype="Register" ack="false" kind="respondToGet" name="type" type="type kind='string' array='F' unit='()'"/>
+         <message3 to="MasterPM" msgtype="Register" ack="false" kind="respondToGet" name="version" type="type kind='string' array='F' unit='()'"/>
+         <message3 to="MasterPM" msgtype="Register" ack="false" kind="respondToGet" name="author" type="type kind='string' array='F' unit='()'"/>
+         <message3 to="MasterPM" msgtype="Register" ack="false" kind="respondToGet" name="active" type="type kind='integer4' array='F' unit='()'"/>
+         <message3 to="MasterPM" msgtype="Register" ack="false" kind="respondToGet" name="state" type="type kind='string' array='F' unit='()'"/>
          <message3 to="MasterPM" msgtype="Register" ack="false" kind="event" name="error" type="type name='error'   field name='fatal' kind='boolean'   field name='message' kind='string'   type"/>
-         <message3 to="MasterPM" msgtype="Register" ack="false" kind="event" name="summaryFileWrite" type="type name='SummaryFileWrite'   field name='componentName' kind='string'   field name='lines' kind='string'   type"/>
          <message3 to="MasterPM" msgtype="Register" ack="false" kind="respondToEvent" name="tick" type="type name = 'Time'   field name='startday' kind='integer4'   field name='startsec' kind='integer4'   field name='startsecpart' kind='double'   field name='endday' kind='integer4'   field name='endsec' kind='integer4'   field name='endsecpart' kind='double'   type"/>
          <message3 to="MasterPM" msgtype="Register" ack="false" kind="event" name="tick" type="type name='Time'   field name='startday' kind='integer4'   field name='startsec' kind='integer4'   field name='startsecpart' kind='double'   field name='endday' kind='integer4'   field name='endsec' kind='integer4'   field name='endsecpart' kind='double'   type"/>
          <message3 to="MasterPM" msgtype="Register" ack="false" kind="event" name="prepare" type="type"/>
@@ -53,14 +52,13 @@
          <message3 to="MasterPM" msgtype="ReturnComponentID" ack="false"/>
       </message2>
       <message2 to="Met" msgtype="Init1" ack="true">
-         <message3 to="MasterPM" msgtype="Register" ack="false" kind="respondToGet" name="name" type="type kind='string'"/>
-         <message3 to="MasterPM" msgtype="Register" ack="false" kind="respondToGet" name="type" type="type kind='string'"/>
-         <message3 to="MasterPM" msgtype="Register" ack="false" kind="respondToGet" name="version" type="type kind='string'"/>
-         <message3 to="MasterPM" msgtype="Register" ack="false" kind="respondToGet" name="author" type="type kind='string'"/>
-         <message3 to="MasterPM" msgtype="Register" ack="false" kind="respondToGet" name="active" type="type kind='integer4'"/>
-         <message3 to="MasterPM" msgtype="Register" ack="false" kind="respondToGet" name="state" type="type kind='string'"/>
+         <message3 to="MasterPM" msgtype="Register" ack="false" kind="respondToGet" name="name" type="type kind='string' array='F' unit='()'"/>
+         <message3 to="MasterPM" msgtype="Register" ack="false" kind="respondToGet" name="type" type="type kind='string' array='F' unit='()'"/>
+         <message3 to="MasterPM" msgtype="Register" ack="false" kind="respondToGet" name="version" type="type kind='string' array='F' unit='()'"/>
+         <message3 to="MasterPM" msgtype="Register" ack="false" kind="respondToGet" name="author" type="type kind='string' array='F' unit='()'"/>
+         <message3 to="MasterPM" msgtype="Register" ack="false" kind="respondToGet" name="active" type="type kind='integer4' array='F' unit='()'"/>
+         <message3 to="MasterPM" msgtype="Register" ack="false" kind="respondToGet" name="state" type="type kind='string' array='F' unit='()'"/>
          <message3 to="MasterPM" msgtype="Register" ack="false" kind="event" name="error" type="type name='error'   field name='fatal' kind='boolean'   field name='message' kind='string'   type"/>
-         <message3 to="MasterPM" msgtype="Register" ack="false" kind="event" name="summaryFileWrite" type="type name='SummaryFileWrite'   field name='componentName' kind='string'   field name='lines' kind='string'   type"/>
          <message3 to="MasterPM" msgtype="Register" ack="false" kind="respondToEvent" name="tick" type="type name = 'Time'   field name='startday' kind='integer4'   field name='startsec' kind='integer4'   field name='startsecpart' kind='double'   field name='endday' kind='integer4'   field name='endsec' kind='integer4'   field name='endsecpart' kind='double'   type"/>
          <message3 to="MasterPM" msgtype="Register" ack="false" kind="event" name="preNewmet" type="type name = 'NewMet'   field name='today' kind='double'   field name='radn' kind='single'   field name='maxt' kind='single'   field name='mint' kind='single'   field name='rain' kind='single'   field name='vp' kind='single'   type"/>
          <message3 to="MasterPM" msgtype="Register" ack="false" kind="event" name="newmet" type="type name = 'NewMet'   field name='today' kind='double'   field name='radn' kind='single'   field name='maxt' kind='single'   field name='mint' kind='single'   field name='rain' kind='single'   field name='vp' kind='single'   type"/>
@@ -87,14 +85,13 @@
          <message3 to="MasterPM" msgtype="ReturnComponentID" ack="false"/>
       </message2>
       <message2 to="manager" msgtype="Init1" ack="true">
-         <message3 to="MasterPM" msgtype="Register" ack="false" kind="respondToGet" name="name" type="type kind='string'"/>
-         <message3 to="MasterPM" msgtype="Register" ack="false" kind="respondToGet" name="type" type="type kind='string'"/>
-         <message3 to="MasterPM" msgtype="Register" ack="false" kind="respondToGet" name="version" type="type kind='string'"/>
-         <message3 to="MasterPM" msgtype="Register" ack="false" kind="respondToGet" name="author" type="type kind='string'"/>
-         <message3 to="MasterPM" msgtype="Register" ack="false" kind="respondToGet" name="active" type="type kind='integer4'"/>
-         <message3 to="MasterPM" msgtype="Register" ack="false" kind="respondToGet" name="state" type="type kind='string'"/>
+         <message3 to="MasterPM" msgtype="Register" ack="false" kind="respondToGet" name="name" type="type kind='string' array='F' unit='()'"/>
+         <message3 to="MasterPM" msgtype="Register" ack="false" kind="respondToGet" name="type" type="type kind='string' array='F' unit='()'"/>
+         <message3 to="MasterPM" msgtype="Register" ack="false" kind="respondToGet" name="version" type="type kind='string' array='F' unit='()'"/>
+         <message3 to="MasterPM" msgtype="Register" ack="false" kind="respondToGet" name="author" type="type kind='string' array='F' unit='()'"/>
+         <message3 to="MasterPM" msgtype="Register" ack="false" kind="respondToGet" name="active" type="type kind='integer4' array='F' unit='()'"/>
+         <message3 to="MasterPM" msgtype="Register" ack="false" kind="respondToGet" name="state" type="type kind='string' array='F' unit='()'"/>
          <message3 to="MasterPM" msgtype="Register" ack="false" kind="event" name="error" type="type name='error'   field name='fatal' kind='boolean'   field name='message' kind='string'   type"/>
-         <message3 to="MasterPM" msgtype="Register" ack="false" kind="event" name="summaryFileWrite" type="type name='SummaryFileWrite'   field name='componentName' kind='string'   field name='lines' kind='string'   type"/>
          <message3 to="MasterPM" msgtype="Register" ack="false" kind="respondToEvent" name="tick" type="type name = 'Time'   field name='startday' kind='integer4'   field name='startsec' kind='integer4'   field name='startsecpart' kind='double'   field name='endday' kind='integer4'   field name='endsec' kind='integer4'   field name='endsecpart' kind='double'   type"/>
          <message3 to="MasterPM" msgtype="Register" ack="false" kind="respondToEvent" name="sysinit" type="type"/>
          <message3 to="MasterPM" msgtype="Register" ack="false" kind="respondToEvent" name="prepare" type="type"/>
@@ -106,14 +103,13 @@
          <message3 to="MasterPM" msgtype="ReturnComponentID" ack="false"/>
       </message2>
       <message2 to="soilwat2" msgtype="Init1" ack="true">
-         <message3 to="MasterPM" msgtype="Register" ack="false" kind="respondToGet" name="name" type="type kind='string'"/>
-         <message3 to="MasterPM" msgtype="Register" ack="false" kind="respondToGet" name="type" type="type kind='string'"/>
-         <message3 to="MasterPM" msgtype="Register" ack="false" kind="respondToGet" name="version" type="type kind='string'"/>
-         <message3 to="MasterPM" msgtype="Register" ack="false" kind="respondToGet" name="author" type="type kind='string'"/>
-         <message3 to="MasterPM" msgtype="Register" ack="false" kind="respondToGet" name="active" type="type kind='integer4'"/>
-         <message3 to="MasterPM" msgtype="Register" ack="false" kind="respondToGet" name="state" type="type kind='string'"/>
+         <message3 to="MasterPM" msgtype="Register" ack="false" kind="respondToGet" name="name" type="type kind='string' array='F' unit='()'"/>
+         <message3 to="MasterPM" msgtype="Register" ack="false" kind="respondToGet" name="type" type="type kind='string' array='F' unit='()'"/>
+         <message3 to="MasterPM" msgtype="Register" ack="false" kind="respondToGet" name="version" type="type kind='string' array='F' unit='()'"/>
+         <message3 to="MasterPM" msgtype="Register" ack="false" kind="respondToGet" name="author" type="type kind='string' array='F' unit='()'"/>
+         <message3 to="MasterPM" msgtype="Register" ack="false" kind="respondToGet" name="active" type="type kind='integer4' array='F' unit='()'"/>
+         <message3 to="MasterPM" msgtype="Register" ack="false" kind="respondToGet" name="state" type="type kind='string' array='F' unit='()'"/>
          <message3 to="MasterPM" msgtype="Register" ack="false" kind="event" name="error" type="type name='error'   field name='fatal' kind='boolean'   field name='message' kind='string'   type"/>
-         <message3 to="MasterPM" msgtype="Register" ack="false" kind="event" name="summaryFileWrite" type="type name='SummaryFileWrite'   field name='componentName' kind='string'   field name='lines' kind='string'   type"/>
          <message3 to="MasterPM" msgtype="Register" ack="false" kind="respondToEvent" name="tick" type="type name = 'Time'   field name='startday' kind='integer4'   field name='startsec' kind='integer4'   field name='startsecpart' kind='double'   field name='endday' kind='integer4'   field name='endsec' kind='integer4'   field name='endsecpart' kind='double'   type"/>
          <message3 to="MasterPM" msgtype="Register" ack="false" kind="event" name="new_profile" type="type name='NewProfile'   field name='sender_name' kind='string'   field name='sender_numbytes' kind='integer4'   field name='sender_code' kind='integer4'   field name='sender_isarray' kind='boolean'   field name='sender_value' kind='string'   field name='sender_id_name' kind='string'   field name='sender_id_numbytes' kind='integer4'   field name='sender_id_code' kind='integer4'   field name='sender_id_isarray' kind='boolean'   field name='sender_id_value' kind='integer4'   field name='dlayer_name' kind='string'   field name='dlayer_numbytes' kind='integer4'   field name='dlayer_code' kind='integer4'   field name='dlayer_isarray' kind='boolean'   field name='dlayer_value' kind='single' array='T'   field name='air_dry_dep_name' kind='string'   field name='air_dry_dep_numbytes' kind='integer4'   field name='air_dry_dep_code' kind='integer4'   field name='air_dry_dep_isarray' kind='boolean'   field name='air_dry_dep_value' kind='single' array='T'   field name='ll15_dep_name' kind='string'   field name='ll15_dep_numbytes' kind='integer4'   field name='ll15_dep_code' kind='integer4'   field name='ll15_dep_isarray' kind='boolean'   field name='ll15_dep_value' kind='single' array='T'   field name='dul_dep_name' kind='string'   field name='dul_dep_numbytes' kind='integer4'   field name='dul_dep_code' kind='integer4'   field name='dul_dep_isarray' kind='boolean'   field name='dul_dep_value' kind='single' array='T'   field name='sat_dep_name' kind='string'   field name='sat_dep_numbytes' kind='integer4'   field name='sat_dep_code' kind='integer4'   field name='sat_dep_isarray' kind='boolean'   field name='sat_dep_value' kind='single' array='T'   field name='sw_dep_name' kind='string'   field name='sw_dep_numbytes' kind='integer4'   field name='sw_dep_code' kind='integer4'   field name='sw_dep_isarray' kind='boolean'   field name='sw_dep_value' kind='single' array='T'   field name='bd_name' kind='string'   field name='bd_numbytes' kind='integer4'   field name='bd_code' kind='integer4'   field name='bd_isarray' kind='boolean'   field name='bd_value' kind='single' array='T'   type"/>
          <message3 to="MasterPM" msgtype="Register" ack="false" kind="respondToEvent" name="tillage" type="type"/>
@@ -182,14 +178,13 @@
          <message3 to="MasterPM" msgtype="ReturnComponentID" ack="false"/>
       </message2>
       <message2 to="SurfaceOM" msgtype="Init1" ack="true">
-         <message3 to="MasterPM" msgtype="Register" ack="false" kind="respondToGet" name="name" type="type kind='string'"/>
-         <message3 to="MasterPM" msgtype="Register" ack="false" kind="respondToGet" name="type" type="type kind='string'"/>
-         <message3 to="MasterPM" msgtype="Register" ack="false" kind="respondToGet" name="version" type="type kind='string'"/>
-         <message3 to="MasterPM" msgtype="Register" ack="false" kind="respondToGet" name="author" type="type kind='string'"/>
-         <message3 to="MasterPM" msgtype="Register" ack="false" kind="respondToGet" name="active" type="type kind='integer4'"/>
-         <message3 to="MasterPM" msgtype="Register" ack="false" kind="respondToGet" name="state" type="type kind='string'"/>
+         <message3 to="MasterPM" msgtype="Register" ack="false" kind="respondToGet" name="name" type="type kind='string' array='F' unit='()'"/>
+         <message3 to="MasterPM" msgtype="Register" ack="false" kind="respondToGet" name="type" type="type kind='string' array='F' unit='()'"/>
+         <message3 to="MasterPM" msgtype="Register" ack="false" kind="respondToGet" name="version" type="type kind='string' array='F' unit='()'"/>
+         <message3 to="MasterPM" msgtype="Register" ack="false" kind="respondToGet" name="author" type="type kind='string' array='F' unit='()'"/>
+         <message3 to="MasterPM" msgtype="Register" ack="false" kind="respondToGet" name="active" type="type kind='integer4' array='F' unit='()'"/>
+         <message3 to="MasterPM" msgtype="Register" ack="false" kind="respondToGet" name="state" type="type kind='string' array='F' unit='()'"/>
          <message3 to="MasterPM" msgtype="Register" ack="false" kind="event" name="error" type="type name='error'   field name='fatal' kind='boolean'   field name='message' kind='string'   type"/>
-         <message3 to="MasterPM" msgtype="Register" ack="false" kind="event" name="summaryFileWrite" type="type name='SummaryFileWrite'   field name='componentName' kind='string'   field name='lines' kind='string'   type"/>
          <message3 to="MasterPM" msgtype="Register" ack="false" kind="respondToEvent" name="tick" type="type name = 'Time'   field name='startday' kind='integer4'   field name='startsec' kind='integer4'   field name='startsecpart' kind='double'   field name='endday' kind='integer4'   field name='endsec' kind='integer4'   field name='endsecpart' kind='double'   type"/>
          <message3 to="MasterPM" msgtype="Register" ack="false" kind="event" name="potentialresiduedecompositioncalculated" type="type name='SurfaceOrganicMatterDecomp' array='T'   element   field name='Name' kind='string'   field name='OrganicMatterType' kind='string'   field name='amount' kind='single'   field name='C' kind='single'   field name='N' kind='single'   field name='P' kind='single'   field name='AshAlk' kind='single'   element   type"/>
          <message3 to="MasterPM" msgtype="Register" ack="false" kind="event" name="surfaceorganicmatterstate" type="type name='SurfaceOrganicMatter' array='T'   element   field name='Name' kind='string'   field name='OrganicMatterType' kind='string'   field name='PotDecompRate' kind='single'   field name='no3' kind='single'   field name='nh4' kind='single'   field name='po4' kind='single'   type name='StandingFraction' array='T'   element   field name='amount' kind='single'   field name='C' kind='single'   field name='N' kind='single'   field name='P' kind='single'   field name='AshAlk' kind='single'   element   type   type name='LyingFraction' array='T'   element   field name='amount' kind='single'   field name='C' kind='single'   field name='N' kind='single'   field name='P' kind='single'   field name='AshAlk' kind='single'   element   type   element   type"/>
@@ -218,14 +213,13 @@
          <message3 to="MasterPM" msgtype="ReturnComponentID" ack="false"/>
       </message2>
       <message2 to="soiln2" msgtype="Init1" ack="true">
-         <message3 to="MasterPM" msgtype="Register" ack="false" kind="respondToGet" name="name" type="type kind='string'"/>
-         <message3 to="MasterPM" msgtype="Register" ack="false" kind="respondToGet" name="type" type="type kind='string'"/>
-         <message3 to="MasterPM" msgtype="Register" ack="false" kind="respondToGet" name="version" type="type kind='string'"/>
-         <message3 to="MasterPM" msgtype="Register" ack="false" kind="respondToGet" name="author" type="type kind='string'"/>
-         <message3 to="MasterPM" msgtype="Register" ack="false" kind="respondToGet" name="active" type="type kind='integer4'"/>
-         <message3 to="MasterPM" msgtype="Register" ack="false" kind="respondToGet" name="state" type="type kind='string'"/>
+         <message3 to="MasterPM" msgtype="Register" ack="false" kind="respondToGet" name="name" type="type kind='string' array='F' unit='()'"/>
+         <message3 to="MasterPM" msgtype="Register" ack="false" kind="respondToGet" name="type" type="type kind='string' array='F' unit='()'"/>
+         <message3 to="MasterPM" msgtype="Register" ack="false" kind="respondToGet" name="version" type="type kind='string' array='F' unit='()'"/>
+         <message3 to="MasterPM" msgtype="Register" ack="false" kind="respondToGet" name="author" type="type kind='string' array='F' unit='()'"/>
+         <message3 to="MasterPM" msgtype="Register" ack="false" kind="respondToGet" name="active" type="type kind='integer4' array='F' unit='()'"/>
+         <message3 to="MasterPM" msgtype="Register" ack="false" kind="respondToGet" name="state" type="type kind='string' array='F' unit='()'"/>
          <message3 to="MasterPM" msgtype="Register" ack="false" kind="event" name="error" type="type name='error'   field name='fatal' kind='boolean'   field name='message' kind='string'   type"/>
-         <message3 to="MasterPM" msgtype="Register" ack="false" kind="event" name="summaryFileWrite" type="type name='SummaryFileWrite'   field name='componentName' kind='string'   field name='lines' kind='string'   type"/>
          <message3 to="MasterPM" msgtype="Register" ack="false" kind="respondToEvent" name="tick" type="type name = 'Time'   field name='startday' kind='integer4'   field name='startsec' kind='integer4'   field name='startsecpart' kind='double'   field name='endday' kind='integer4'   field name='endsec' kind='integer4'   field name='endsecpart' kind='double'   type"/>
          <message3 to="MasterPM" msgtype="Register" ack="false" kind="event" name="new_solute" type="type name='NewSolute'   field name='sender_name' kind='string'   field name='sender_numbytes' kind='integer4'   field name='sender_code' kind='integer4'   field name='sender_isarray' kind='boolean'   field name='sender_value' kind='string'   field name='sender_id_name' kind='string'   field name='sender_id_numbytes' kind='integer4'   field name='sender_id_code' kind='integer4'   field name='sender_id_isarray' kind='boolean'   field name='sender_id_value' kind='integer4'   field name='solute_names_name' kind='string'   field name='solute_names_numbytes' kind='integer4'   field name='solute_names_code' kind='integer4'   field name='solute_names_isarray' kind='boolean'   field name='solute_names_value' kind='string' array='T'   type"/>
          <message3 to="MasterPM" msgtype="Register" ack="false" kind="event" name="n_balance" type="type name='NBalance'   field name='sender_name' kind='string'   field name='sender_numbytes' kind='integer4'   field name='sender_code' kind='integer4'   field name='sender_isarray' kind='boolean'   field name='sender_value' kind='string'   field name='sender_id_name' kind='string'   field name='sender_id_numbytes' kind='integer4'   field name='sender_id_code' kind='integer4'   field name='sender_id_isarray' kind='boolean'   field name='sender_id_value' kind='integer4'   field name='nh4_transform_net_name' kind='string'   field name='nh4_transform_net_numbytes' kind='integer4'   field name='nh4_transform_net_code' kind='integer4'   field name='nh4_transform_net_isarray' kind='boolean'   field name='nh4_transform_net_value' kind='single' array='T'   field name='no3_transform_net_name' kind='string'   field name='no3_transform_net_numbytes' kind='integer4'   field name='no3_transform_net_code' kind='integer4'   field name='no3_transform_net_isarray' kind='boolean'   field name='no3_transform_net_value' kind='single' array='T'   field name='dlt_nh4_net_name' kind='string'   field name='dlt_nh4_net_numbytes' kind='integer4'   field name='dlt_nh4_net_code' kind='integer4'   field name='dlt_nh4_net_isarray' kind='boolean'   field name='dlt_nh4_net_value' kind='single' array='T'   field name='dlt_no3_net_name' kind='string'   field name='dlt_no3_net_numbytes' kind='integer4'   field name='dlt_no3_net_code' kind='integer4'   field name='dlt_no3_net_isarray' kind='boolean'   field name='dlt_no3_net_value' kind='single' array='T'   type"/>
@@ -328,13 +322,13 @@
       <message2 to="MasterPM" msgtype="QueryInfo" ack="false" name="0" kind="8">
          <message3 to="MasterPM" msgtype="ReturnInfo" ack="false"/>
       </message2>
-      <message2 to="log" msgtype="Init2" ack="true">
+      <message2 to="Log" msgtype="Init2" ack="true">
          <message3 to="MasterPM" msgtype="Complete" ack="false"/>
       </message2>
       <message2 to="clock" msgtype="Init2" ack="true">
          <message3 to="MasterPM" msgtype="PublishEvent" ack="false" regName="tick" type="type name='Time'   field name='startday' kind='integer4'   field name='startsec' kind='integer4'   field name='startsecpart' kind='double'   field name='endday' kind='integer4'   field name='endsec' kind='integer4'   field name='endsecpart' kind='double'   type">
             <message4 to="MasterPM" msgtype="Event" ack="false"/>
-            <message4 to="log" msgtype="Event" ack="false"/>
+            <message4 to="Log" msgtype="Event" ack="false"/>
             <message4 to="clock" msgtype="Event" ack="false"/>
             <message4 to="Met" msgtype="Event" ack="false">
                <message5 to="MasterPM" msgtype="PublishEvent" ack="false" regName="HaveReadTodaysData" type="type"/>
@@ -391,7 +385,7 @@
       <message2 to="soiln2" msgtype="Init2" ack="true">
          <message3 to="MasterPM" msgtype="Register" ack="false" kind="get" name="ave_soil_temp" type="type kind='single'"/>
          <message3 to="MasterPM" msgtype="GetValue" ack="true" regName="ave_soil_temp">
-            <message4 to="log" msgtype="ApsimGetQuery" ack="false" name="ave_soil_temp"/>
+            <message4 to="Log" msgtype="ApsimGetQuery" ack="false" name="ave_soil_temp"/>
             <message4 to="clock" msgtype="ApsimGetQuery" ack="false" name="ave_soil_temp"/>
             <message4 to="report" msgtype="ApsimGetQuery" ack="false" name="ave_soil_temp"/>
             <message4 to="Met" msgtype="ApsimGetQuery" ack="false" name="ave_soil_temp"/>
@@ -403,7 +397,7 @@
          </message3>
          <message3 to="MasterPM" msgtype="Register" ack="false" kind="get" name="ph" type="type kind='single'"/>
          <message3 to="MasterPM" msgtype="GetValue" ack="true" regName="ph">
-            <message4 to="log" msgtype="ApsimGetQuery" ack="false" name="ph"/>
+            <message4 to="Log" msgtype="ApsimGetQuery" ack="false" name="ph"/>
             <message4 to="clock" msgtype="ApsimGetQuery" ack="false" name="ph"/>
             <message4 to="report" msgtype="ApsimGetQuery" ack="false" name="ph"/>
             <message4 to="Met" msgtype="ApsimGetQuery" ack="false" name="ph"/>
@@ -474,7 +468,7 @@
             <message4 to="manager" msgtype="Event" ack="false">
                <message5 to="MasterPM" msgtype="Register" ack="false" kind="get" name="day" type="type kind='string'"/>
                <message5 to="MasterPM" msgtype="GetValue" ack="true" regName="day">
-                  <message6 to="log" msgtype="ApsimGetQuery" ack="false" name="day"/>
+                  <message6 to="Log" msgtype="ApsimGetQuery" ack="false" name="day"/>
                   <message6 to="clock" msgtype="ApsimGetQuery" ack="false" name="day">
                      <message7 to="MasterPM" msgtype="Register" ack="false" kind="respondToGet" name="day" type="type kind='integer4' unit='(day)'"/>
                   </message6>
@@ -518,7 +512,7 @@
             </message4>
             <message4 to="soilwat2" msgtype="Event" ack="false">
                <message5 to="MasterPM" msgtype="GetValue" ack="true" regName="cover_green">
-                  <message6 to="log" msgtype="ApsimGetQuery" ack="false" name="cover_green"/>
+                  <message6 to="Log" msgtype="ApsimGetQuery" ack="false" name="cover_green"/>
                   <message6 to="clock" msgtype="ApsimGetQuery" ack="false" name="cover_green"/>
                   <message6 to="report" msgtype="ApsimGetQuery" ack="false" name="cover_green"/>
                   <message6 to="Met" msgtype="ApsimGetQuery" ack="false" name="cover_green"/>
@@ -529,7 +523,7 @@
                   <message6 to="soilwat2" msgtype="Complete" ack="false"/>
                </message5>
                <message5 to="MasterPM" msgtype="GetValue" ack="true" regName="runon">
-                  <message6 to="log" msgtype="ApsimGetQuery" ack="false" name="runon"/>
+                  <message6 to="Log" msgtype="ApsimGetQuery" ack="false" name="runon"/>
                   <message6 to="clock" msgtype="ApsimGetQuery" ack="false" name="runon"/>
                   <message6 to="report" msgtype="ApsimGetQuery" ack="false" name="runon"/>
                   <message6 to="Met" msgtype="ApsimGetQuery" ack="false" name="runon"/>
@@ -540,7 +534,7 @@
                   <message6 to="soilwat2" msgtype="Complete" ack="false"/>
                </message5>
                <message5 to="MasterPM" msgtype="GetValue" ack="true" regName="interception">
-                  <message6 to="log" msgtype="ApsimGetQuery" ack="false" name="interception"/>
+                  <message6 to="Log" msgtype="ApsimGetQuery" ack="false" name="interception"/>
                   <message6 to="clock" msgtype="ApsimGetQuery" ack="false" name="interception"/>
                   <message6 to="report" msgtype="ApsimGetQuery" ack="false" name="interception"/>
                   <message6 to="Met" msgtype="ApsimGetQuery" ack="false" name="interception"/>
@@ -556,7 +550,7 @@
             <message4 to="manager" msgtype="Event" ack="false"/>
             <message4 to="soilwat2" msgtype="Event" ack="false">
                <message5 to="MasterPM" msgtype="GetValue" ack="true" regName="surfaceom_cover">
-                  <message6 to="log" msgtype="ApsimGetQuery" ack="false" name="surfaceom_cover"/>
+                  <message6 to="Log" msgtype="ApsimGetQuery" ack="false" name="surfaceom_cover"/>
                   <message6 to="clock" msgtype="ApsimGetQuery" ack="false" name="surfaceom_cover"/>
                   <message6 to="report" msgtype="ApsimGetQuery" ack="false" name="surfaceom_cover"/>
                   <message6 to="Met" msgtype="ApsimGetQuery" ack="false" name="surfaceom_cover"/>
@@ -611,7 +605,7 @@
                </message5>
                <message5 to="MasterPM" msgtype="Register" ack="false" kind="get" name="inflow_lat" type="type kind='single' array='T'"/>
                <message5 to="MasterPM" msgtype="GetValue" ack="true" regName="inflow_lat">
-                  <message6 to="log" msgtype="ApsimGetQuery" ack="false" name="inflow_lat"/>
+                  <message6 to="Log" msgtype="ApsimGetQuery" ack="false" name="inflow_lat"/>
                   <message6 to="clock" msgtype="ApsimGetQuery" ack="false" name="inflow_lat"/>
                   <message6 to="report" msgtype="ApsimGetQuery" ack="false" name="inflow_lat"/>
                   <message6 to="Met" msgtype="ApsimGetQuery" ack="false" name="inflow_lat"/>
@@ -659,7 +653,7 @@
                </message5>
                <message5 to="MasterPM" msgtype="Register" ack="false" kind="get" name="labile_p" type="type kind='single' array='T'"/>
                <message5 to="MasterPM" msgtype="GetValue" ack="true" regName="labile_p">
-                  <message6 to="log" msgtype="ApsimGetQuery" ack="false" name="labile_p"/>
+                  <message6 to="Log" msgtype="ApsimGetQuery" ack="false" name="labile_p"/>
                   <message6 to="clock" msgtype="ApsimGetQuery" ack="false" name="labile_p"/>
                   <message6 to="report" msgtype="ApsimGetQuery" ack="false" name="labile_p"/>
                   <message6 to="Met" msgtype="ApsimGetQuery" ack="false" name="labile_p"/>
@@ -942,7 +936,7 @@
          </message3>
          <message3 to="MasterPM" msgtype="PublishEvent" ack="false" regName="tick" type="type name='Time'   field name='startday' kind='integer4'   field name='startsec' kind='integer4'   field name='startsecpart' kind='double'   field name='endday' kind='integer4'   field name='endsec' kind='integer4'   field name='endsecpart' kind='double'   type">
             <message4 to="MasterPM" msgtype="Event" ack="false"/>
-            <message4 to="log" msgtype="Event" ack="false"/>
+            <message4 to="Log" msgtype="Event" ack="false"/>
             <message4 to="clock" msgtype="Event" ack="false"/>
             <message4 to="Met" msgtype="Event" ack="false">
                <message5 to="MasterPM" msgtype="PublishEvent" ack="false" regName="HaveReadTodaysData" type="type"/>
@@ -1199,7 +1193,7 @@
          </message3>
          <message3 to="MasterPM" msgtype="PublishEvent" ack="false" regName="tick" type="type name='Time'   field name='startday' kind='integer4'   field name='startsec' kind='integer4'   field name='startsecpart' kind='double'   field name='endday' kind='integer4'   field name='endsec' kind='integer4'   field name='endsecpart' kind='double'   type">
             <message4 to="MasterPM" msgtype="Event" ack="false"/>
-            <message4 to="log" msgtype="Event" ack="false"/>
+            <message4 to="Log" msgtype="Event" ack="false"/>
             <message4 to="clock" msgtype="Event" ack="false"/>
             <message4 to="Met" msgtype="Event" ack="false">
                <message5 to="MasterPM" msgtype="PublishEvent" ack="false" regName="HaveReadTodaysData" type="type"/>
@@ -1456,7 +1450,7 @@
          </message3>
          <message3 to="MasterPM" msgtype="PublishEvent" ack="false" regName="tick" type="type name='Time'   field name='startday' kind='integer4'   field name='startsec' kind='integer4'   field name='startsecpart' kind='double'   field name='endday' kind='integer4'   field name='endsec' kind='integer4'   field name='endsecpart' kind='double'   type">
             <message4 to="MasterPM" msgtype="Event" ack="false"/>
-            <message4 to="log" msgtype="Event" ack="false"/>
+            <message4 to="Log" msgtype="Event" ack="false"/>
             <message4 to="clock" msgtype="Event" ack="false"/>
             <message4 to="Met" msgtype="Event" ack="false">
                <message5 to="MasterPM" msgtype="PublishEvent" ack="false" regName="HaveReadTodaysData" type="type"/>
@@ -1713,7 +1707,7 @@
          </message3>
          <message3 to="MasterPM" msgtype="PublishEvent" ack="false" regName="tick" type="type name='Time'   field name='startday' kind='integer4'   field name='startsec' kind='integer4'   field name='startsecpart' kind='double'   field name='endday' kind='integer4'   field name='endsec' kind='integer4'   field name='endsecpart' kind='double'   type">
             <message4 to="MasterPM" msgtype="Event" ack="false"/>
-            <message4 to="log" msgtype="Event" ack="false"/>
+            <message4 to="Log" msgtype="Event" ack="false"/>
             <message4 to="clock" msgtype="Event" ack="false"/>
             <message4 to="Met" msgtype="Event" ack="false">
                <message5 to="MasterPM" msgtype="PublishEvent" ack="false" regName="HaveReadTodaysData" type="type"/>
@@ -1970,7 +1964,7 @@
          </message3>
          <message3 to="MasterPM" msgtype="PublishEvent" ack="false" regName="tick" type="type name='Time'   field name='startday' kind='integer4'   field name='startsec' kind='integer4'   field name='startsecpart' kind='double'   field name='endday' kind='integer4'   field name='endsec' kind='integer4'   field name='endsecpart' kind='double'   type">
             <message4 to="MasterPM" msgtype="Event" ack="false"/>
-            <message4 to="log" msgtype="Event" ack="false"/>
+            <message4 to="Log" msgtype="Event" ack="false"/>
             <message4 to="clock" msgtype="Event" ack="false"/>
             <message4 to="Met" msgtype="Event" ack="false">
                <message5 to="MasterPM" msgtype="PublishEvent" ack="false" regName="HaveReadTodaysData" type="type"/>
@@ -2227,7 +2221,7 @@
          </message3>
          <message3 to="MasterPM" msgtype="PublishEvent" ack="false" regName="tick" type="type name='Time'   field name='startday' kind='integer4'   field name='startsec' kind='integer4'   field name='startsecpart' kind='double'   field name='endday' kind='integer4'   field name='endsec' kind='integer4'   field name='endsecpart' kind='double'   type">
             <message4 to="MasterPM" msgtype="Event" ack="false"/>
-            <message4 to="log" msgtype="Event" ack="false"/>
+            <message4 to="Log" msgtype="Event" ack="false"/>
             <message4 to="clock" msgtype="Event" ack="false"/>
             <message4 to="Met" msgtype="Event" ack="false">
                <message5 to="MasterPM" msgtype="PublishEvent" ack="false" regName="HaveReadTodaysData" type="type"/>
@@ -2485,7 +2479,7 @@
          </message3>
          <message3 to="MasterPM" msgtype="PublishEvent" ack="false" regName="tick" type="type name='Time'   field name='startday' kind='integer4'   field name='startsec' kind='integer4'   field name='startsecpart' kind='double'   field name='endday' kind='integer4'   field name='endsec' kind='integer4'   field name='endsecpart' kind='double'   type">
             <message4 to="MasterPM" msgtype="Event" ack="false"/>
-            <message4 to="log" msgtype="Event" ack="false"/>
+            <message4 to="Log" msgtype="Event" ack="false"/>
             <message4 to="clock" msgtype="Event" ack="false"/>
             <message4 to="Met" msgtype="Event" ack="false">
                <message5 to="MasterPM" msgtype="PublishEvent" ack="false" regName="HaveReadTodaysData" type="type"/>
@@ -2743,7 +2737,7 @@
          </message3>
          <message3 to="MasterPM" msgtype="PublishEvent" ack="false" regName="tick" type="type name='Time'   field name='startday' kind='integer4'   field name='startsec' kind='integer4'   field name='startsecpart' kind='double'   field name='endday' kind='integer4'   field name='endsec' kind='integer4'   field name='endsecpart' kind='double'   type">
             <message4 to="MasterPM" msgtype="Event" ack="false"/>
-            <message4 to="log" msgtype="Event" ack="false"/>
+            <message4 to="Log" msgtype="Event" ack="false"/>
             <message4 to="clock" msgtype="Event" ack="false"/>
             <message4 to="Met" msgtype="Event" ack="false">
                <message5 to="MasterPM" msgtype="PublishEvent" ack="false" regName="HaveReadTodaysData" type="type"/>
@@ -3000,7 +2994,7 @@
          </message3>
          <message3 to="MasterPM" msgtype="PublishEvent" ack="false" regName="tick" type="type name='Time'   field name='startday' kind='integer4'   field name='startsec' kind='integer4'   field name='startsecpart' kind='double'   field name='endday' kind='integer4'   field name='endsec' kind='integer4'   field name='endsecpart' kind='double'   type">
             <message4 to="MasterPM" msgtype="Event" ack="false"/>
-            <message4 to="log" msgtype="Event" ack="false"/>
+            <message4 to="Log" msgtype="Event" ack="false"/>
             <message4 to="clock" msgtype="Event" ack="false"/>
             <message4 to="Met" msgtype="Event" ack="false">
                <message5 to="MasterPM" msgtype="PublishEvent" ack="false" regName="HaveReadTodaysData" type="type"/>
@@ -3266,7 +3260,7 @@
          </message3>
          <message3 to="MasterPM" msgtype="PublishEvent" ack="false" regName="tick" type="type name='Time'   field name='startday' kind='integer4'   field name='startsec' kind='integer4'   field name='startsecpart' kind='double'   field name='endday' kind='integer4'   field name='endsec' kind='integer4'   field name='endsecpart' kind='double'   type">
             <message4 to="MasterPM" msgtype="Event" ack="false"/>
-            <message4 to="log" msgtype="Event" ack="false"/>
+            <message4 to="Log" msgtype="Event" ack="false"/>
             <message4 to="clock" msgtype="Event" ack="false"/>
             <message4 to="Met" msgtype="Event" ack="false">
                <message5 to="MasterPM" msgtype="PublishEvent" ack="false" regName="HaveReadTodaysData" type="type"/>
@@ -3523,7 +3517,7 @@
          </message3>
          <message3 to="MasterPM" msgtype="PublishEvent" ack="false" regName="tick" type="type name='Time'   field name='startday' kind='integer4'   field name='startsec' kind='integer4'   field name='startsecpart' kind='double'   field name='endday' kind='integer4'   field name='endsec' kind='integer4'   field name='endsecpart' kind='double'   type">
             <message4 to="MasterPM" msgtype="Event" ack="false"/>
-            <message4 to="log" msgtype="Event" ack="false"/>
+            <message4 to="Log" msgtype="Event" ack="false"/>
             <message4 to="clock" msgtype="Event" ack="false"/>
             <message4 to="Met" msgtype="Event" ack="false">
                <message5 to="MasterPM" msgtype="PublishEvent" ack="false" regName="HaveReadTodaysData" type="type"/>
@@ -3780,7 +3774,7 @@
          </message3>
          <message3 to="MasterPM" msgtype="PublishEvent" ack="false" regName="tick" type="type name='Time'   field name='startday' kind='integer4'   field name='startsec' kind='integer4'   field name='startsecpart' kind='double'   field name='endday' kind='integer4'   field name='endsec' kind='integer4'   field name='endsecpart' kind='double'   type">
             <message4 to="MasterPM" msgtype="Event" ack="false"/>
-            <message4 to="log" msgtype="Event" ack="false"/>
+            <message4 to="Log" msgtype="Event" ack="false"/>
             <message4 to="clock" msgtype="Event" ack="false"/>
             <message4 to="Met" msgtype="Event" ack="false">
                <message5 to="MasterPM" msgtype="PublishEvent" ack="false" regName="HaveReadTodaysData" type="type"/>
@@ -4037,7 +4031,7 @@
          </message3>
          <message3 to="MasterPM" msgtype="PublishEvent" ack="false" regName="tick" type="type name='Time'   field name='startday' kind='integer4'   field name='startsec' kind='integer4'   field name='startsecpart' kind='double'   field name='endday' kind='integer4'   field name='endsec' kind='integer4'   field name='endsecpart' kind='double'   type">
             <message4 to="MasterPM" msgtype="Event" ack="false"/>
-            <message4 to="log" msgtype="Event" ack="false"/>
+            <message4 to="Log" msgtype="Event" ack="false"/>
             <message4 to="clock" msgtype="Event" ack="false"/>
             <message4 to="Met" msgtype="Event" ack="false">
                <message5 to="MasterPM" msgtype="PublishEvent" ack="false" regName="HaveReadTodaysData" type="type"/>
@@ -4295,7 +4289,7 @@
          </message3>
          <message3 to="MasterPM" msgtype="PublishEvent" ack="false" regName="tick" type="type name='Time'   field name='startday' kind='integer4'   field name='startsec' kind='integer4'   field name='startsecpart' kind='double'   field name='endday' kind='integer4'   field name='endsec' kind='integer4'   field name='endsecpart' kind='double'   type">
             <message4 to="MasterPM" msgtype="Event" ack="false"/>
-            <message4 to="log" msgtype="Event" ack="false"/>
+            <message4 to="Log" msgtype="Event" ack="false"/>
             <message4 to="clock" msgtype="Event" ack="false"/>
             <message4 to="Met" msgtype="Event" ack="false">
                <message5 to="MasterPM" msgtype="PublishEvent" ack="false" regName="HaveReadTodaysData" type="type"/>
@@ -4556,7 +4550,7 @@
          </message3>
          <message3 to="MasterPM" msgtype="PublishEvent" ack="false" regName="tick" type="type name='Time'   field name='startday' kind='integer4'   field name='startsec' kind='integer4'   field name='startsecpart' kind='double'   field name='endday' kind='integer4'   field name='endsec' kind='integer4'   field name='endsecpart' kind='double'   type">
             <message4 to="MasterPM" msgtype="Event" ack="false"/>
-            <message4 to="log" msgtype="Event" ack="false"/>
+            <message4 to="Log" msgtype="Event" ack="false"/>
             <message4 to="clock" msgtype="Event" ack="false"/>
             <message4 to="Met" msgtype="Event" ack="false">
                <message5 to="MasterPM" msgtype="PublishEvent" ack="false" regName="HaveReadTodaysData" type="type"/>
@@ -4813,7 +4807,7 @@
          </message3>
          <message3 to="MasterPM" msgtype="PublishEvent" ack="false" regName="tick" type="type name='Time'   field name='startday' kind='integer4'   field name='startsec' kind='integer4'   field name='startsecpart' kind='double'   field name='endday' kind='integer4'   field name='endsec' kind='integer4'   field name='endsecpart' kind='double'   type">
             <message4 to="MasterPM" msgtype="Event" ack="false"/>
-            <message4 to="log" msgtype="Event" ack="false"/>
+            <message4 to="Log" msgtype="Event" ack="false"/>
             <message4 to="clock" msgtype="Event" ack="false"/>
             <message4 to="Met" msgtype="Event" ack="false">
                <message5 to="MasterPM" msgtype="PublishEvent" ack="false" regName="HaveReadTodaysData" type="type"/>
@@ -5070,7 +5064,7 @@
          </message3>
          <message3 to="MasterPM" msgtype="PublishEvent" ack="false" regName="tick" type="type name='Time'   field name='startday' kind='integer4'   field name='startsec' kind='integer4'   field name='startsecpart' kind='double'   field name='endday' kind='integer4'   field name='endsec' kind='integer4'   field name='endsecpart' kind='double'   type">
             <message4 to="MasterPM" msgtype="Event" ack="false"/>
-            <message4 to="log" msgtype="Event" ack="false"/>
+            <message4 to="Log" msgtype="Event" ack="false"/>
             <message4 to="clock" msgtype="Event" ack="false"/>
             <message4 to="Met" msgtype="Event" ack="false">
                <message5 to="MasterPM" msgtype="PublishEvent" ack="false" regName="HaveReadTodaysData" type="type"/>
@@ -5327,7 +5321,7 @@
          </message3>
          <message3 to="MasterPM" msgtype="PublishEvent" ack="false" regName="tick" type="type name='Time'   field name='startday' kind='integer4'   field name='startsec' kind='integer4'   field name='startsecpart' kind='double'   field name='endday' kind='integer4'   field name='endsec' kind='integer4'   field name='endsecpart' kind='double'   type">
             <message4 to="MasterPM" msgtype="Event" ack="false"/>
-            <message4 to="log" msgtype="Event" ack="false"/>
+            <message4 to="Log" msgtype="Event" ack="false"/>
             <message4 to="clock" msgtype="Event" ack="false"/>
             <message4 to="Met" msgtype="Event" ack="false">
                <message5 to="MasterPM" msgtype="PublishEvent" ack="false" regName="HaveReadTodaysData" type="type"/>
@@ -5584,7 +5578,7 @@
          </message3>
          <message3 to="MasterPM" msgtype="PublishEvent" ack="false" regName="tick" type="type name='Time'   field name='startday' kind='integer4'   field name='startsec' kind='integer4'   field name='startsecpart' kind='double'   field name='endday' kind='integer4'   field name='endsec' kind='integer4'   field name='endsecpart' kind='double'   type">
             <message4 to="MasterPM" msgtype="Event" ack="false"/>
-            <message4 to="log" msgtype="Event" ack="false"/>
+            <message4 to="Log" msgtype="Event" ack="false"/>
             <message4 to="clock" msgtype="Event" ack="false"/>
             <message4 to="Met" msgtype="Event" ack="false">
                <message5 to="MasterPM" msgtype="PublishEvent" ack="false" regName="HaveReadTodaysData" type="type"/>
@@ -5847,7 +5841,7 @@
          </message3>
          <message3 to="MasterPM" msgtype="PublishEvent" ack="false" regName="tick" type="type name='Time'   field name='startday' kind='integer4'   field name='startsec' kind='integer4'   field name='startsecpart' kind='double'   field name='endday' kind='integer4'   field name='endsec' kind='integer4'   field name='endsecpart' kind='double'   type">
             <message4 to="MasterPM" msgtype="Event" ack="false"/>
-            <message4 to="log" msgtype="Event" ack="false"/>
+            <message4 to="Log" msgtype="Event" ack="false"/>
             <message4 to="clock" msgtype="Event" ack="false"/>
             <message4 to="Met" msgtype="Event" ack="false">
                <message5 to="MasterPM" msgtype="PublishEvent" ack="false" regName="HaveReadTodaysData" type="type"/>
@@ -6105,7 +6099,7 @@
          </message3>
          <message3 to="MasterPM" msgtype="PublishEvent" ack="false" regName="tick" type="type name='Time'   field name='startday' kind='integer4'   field name='startsec' kind='integer4'   field name='startsecpart' kind='double'   field name='endday' kind='integer4'   field name='endsec' kind='integer4'   field name='endsecpart' kind='double'   type">
             <message4 to="MasterPM" msgtype="Event" ack="false"/>
-            <message4 to="log" msgtype="Event" ack="false"/>
+            <message4 to="Log" msgtype="Event" ack="false"/>
             <message4 to="clock" msgtype="Event" ack="false"/>
             <message4 to="Met" msgtype="Event" ack="false">
                <message5 to="MasterPM" msgtype="PublishEvent" ack="false" regName="HaveReadTodaysData" type="type"/>
@@ -6363,7 +6357,7 @@
          </message3>
          <message3 to="MasterPM" msgtype="PublishEvent" ack="false" regName="tick" type="type name='Time'   field name='startday' kind='integer4'   field name='startsec' kind='integer4'   field name='startsecpart' kind='double'   field name='endday' kind='integer4'   field name='endsec' kind='integer4'   field name='endsecpart' kind='double'   type">
             <message4 to="MasterPM" msgtype="Event" ack="false"/>
-            <message4 to="log" msgtype="Event" ack="false"/>
+            <message4 to="Log" msgtype="Event" ack="false"/>
             <message4 to="clock" msgtype="Event" ack="false"/>
             <message4 to="Met" msgtype="Event" ack="false">
                <message5 to="MasterPM" msgtype="PublishEvent" ack="false" regName="HaveReadTodaysData" type="type"/>
@@ -6620,7 +6614,7 @@
          </message3>
          <message3 to="MasterPM" msgtype="PublishEvent" ack="false" regName="tick" type="type name='Time'   field name='startday' kind='integer4'   field name='startsec' kind='integer4'   field name='startsecpart' kind='double'   field name='endday' kind='integer4'   field name='endsec' kind='integer4'   field name='endsecpart' kind='double'   type">
             <message4 to="MasterPM" msgtype="Event" ack="false"/>
-            <message4 to="log" msgtype="Event" ack="false"/>
+            <message4 to="Log" msgtype="Event" ack="false"/>
             <message4 to="clock" msgtype="Event" ack="false"/>
             <message4 to="Met" msgtype="Event" ack="false">
                <message5 to="MasterPM" msgtype="PublishEvent" ack="false" regName="HaveReadTodaysData" type="type"/>
@@ -6877,7 +6871,7 @@
          </message3>
          <message3 to="MasterPM" msgtype="PublishEvent" ack="false" regName="tick" type="type name='Time'   field name='startday' kind='integer4'   field name='startsec' kind='integer4'   field name='startsecpart' kind='double'   field name='endday' kind='integer4'   field name='endsec' kind='integer4'   field name='endsecpart' kind='double'   type">
             <message4 to="MasterPM" msgtype="Event" ack="false"/>
-            <message4 to="log" msgtype="Event" ack="false"/>
+            <message4 to="Log" msgtype="Event" ack="false"/>
             <message4 to="clock" msgtype="Event" ack="false"/>
             <message4 to="Met" msgtype="Event" ack="false">
                <message5 to="MasterPM" msgtype="PublishEvent" ack="false" regName="HaveReadTodaysData" type="type"/>
@@ -7139,7 +7133,7 @@
          </message3>
          <message3 to="MasterPM" msgtype="PublishEvent" ack="false" regName="tick" type="type name='Time'   field name='startday' kind='integer4'   field name='startsec' kind='integer4'   field name='startsecpart' kind='double'   field name='endday' kind='integer4'   field name='endsec' kind='integer4'   field name='endsecpart' kind='double'   type">
             <message4 to="MasterPM" msgtype="Event" ack="false"/>
-            <message4 to="log" msgtype="Event" ack="false"/>
+            <message4 to="Log" msgtype="Event" ack="false"/>
             <message4 to="clock" msgtype="Event" ack="false"/>
             <message4 to="Met" msgtype="Event" ack="false">
                <message5 to="MasterPM" msgtype="PublishEvent" ack="false" regName="HaveReadTodaysData" type="type"/>
@@ -7396,7 +7390,7 @@
          </message3>
          <message3 to="MasterPM" msgtype="PublishEvent" ack="false" regName="tick" type="type name='Time'   field name='startday' kind='integer4'   field name='startsec' kind='integer4'   field name='startsecpart' kind='double'   field name='endday' kind='integer4'   field name='endsec' kind='integer4'   field name='endsecpart' kind='double'   type">
             <message4 to="MasterPM" msgtype="Event" ack="false"/>
-            <message4 to="log" msgtype="Event" ack="false"/>
+            <message4 to="Log" msgtype="Event" ack="false"/>
             <message4 to="clock" msgtype="Event" ack="false"/>
             <message4 to="Met" msgtype="Event" ack="false">
                <message5 to="MasterPM" msgtype="PublishEvent" ack="false" regName="HaveReadTodaysData" type="type"/>
@@ -7653,7 +7647,7 @@
          </message3>
          <message3 to="MasterPM" msgtype="PublishEvent" ack="false" regName="tick" type="type name='Time'   field name='startday' kind='integer4'   field name='startsec' kind='integer4'   field name='startsecpart' kind='double'   field name='endday' kind='integer4'   field name='endsec' kind='integer4'   field name='endsecpart' kind='double'   type">
             <message4 to="MasterPM" msgtype="Event" ack="false"/>
-            <message4 to="log" msgtype="Event" ack="false"/>
+            <message4 to="Log" msgtype="Event" ack="false"/>
             <message4 to="clock" msgtype="Event" ack="false"/>
             <message4 to="Met" msgtype="Event" ack="false">
                <message5 to="MasterPM" msgtype="PublishEvent" ack="false" regName="HaveReadTodaysData" type="type"/>
@@ -7911,7 +7905,7 @@
          </message3>
          <message3 to="MasterPM" msgtype="PublishEvent" ack="false" regName="tick" type="type name='Time'   field name='startday' kind='integer4'   field name='startsec' kind='integer4'   field name='startsecpart' kind='double'   field name='endday' kind='integer4'   field name='endsec' kind='integer4'   field name='endsecpart' kind='double'   type">
             <message4 to="MasterPM" msgtype="Event" ack="false"/>
-            <message4 to="log" msgtype="Event" ack="false"/>
+            <message4 to="Log" msgtype="Event" ack="false"/>
             <message4 to="clock" msgtype="Event" ack="false"/>
             <message4 to="Met" msgtype="Event" ack="false">
                <message5 to="MasterPM" msgtype="PublishEvent" ack="false" regName="HaveReadTodaysData" type="type"/>
@@ -8169,7 +8163,7 @@
          </message3>
          <message3 to="MasterPM" msgtype="PublishEvent" ack="false" regName="tick" type="type name='Time'   field name='startday' kind='integer4'   field name='startsec' kind='integer4'   field name='startsecpart' kind='double'   field name='endday' kind='integer4'   field name='endsec' kind='integer4'   field name='endsecpart' kind='double'   type">
             <message4 to="MasterPM" msgtype="Event" ack="false"/>
-            <message4 to="log" msgtype="Event" ack="false"/>
+            <message4 to="Log" msgtype="Event" ack="false"/>
             <message4 to="clock" msgtype="Event" ack="false"/>
             <message4 to="Met" msgtype="Event" ack="false">
                <message5 to="MasterPM" msgtype="PublishEvent" ack="false" regName="HaveReadTodaysData" type="type"/>
@@ -8425,7 +8419,7 @@
             <message4 to="report" msgtype="Event" ack="false"/>
          </message3>
          <message3 to="MasterPM" msgtype="TerminateSimulation" ack="false">
-            <message4 to="log" msgtype="NotifyTermination" ack="true">
+            <message4 to="Log" msgtype="NotifyTermination" ack="true">
                <message5 to="MasterPM" msgtype="Complete" ack="false"/>
             </message4>
             <message4 to="clock" msgtype="NotifyTermination" ack="true">

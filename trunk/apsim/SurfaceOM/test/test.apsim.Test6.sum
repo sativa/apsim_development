@@ -11,18 +11,18 @@
 
 Version                = 5.3
 Title                  = Surface Organic Matter Module Test 6
-Component        "log" = c:\development\apsim\log\lib\log.dll
+Component        "Log" = c:\development\apsim\Log\lib\Log.dll
 Component      "clock" = c:\development\apsim\clock\lib\clock.dll
 Component     "report" = c:\development\apsim\report\lib\report.dll
-Component        "Met" = c:\development\apsim\Input\lib\Input.dll
+Component        "Met" = c:\development\apsim\input\lib\input.dll
 Component   "fertiliz" = c:\development\apsim\fertiliz\lib\fertiliz.dll
 Component   "irrigate" = c:\development\apsim\irrigate\lib\irrigate.dll
 Component    "manager" = c:\development\apsim\manager\lib\manager.dll
 Component   "soilwat2" = c:\development\apsim\soilwat2\lib\soilwat2.dll
 Component  "SurfaceOM" = c:\development\apsim\SurfaceOM\lib\SurfaceOM.dll
 Component     "soiln2" = c:\development\apsim\soiln2\lib\soiln2.dll
-Component     "canola" = c:\development\apsim\plant\lib\plant.dll
-Component      "wheat" = c:\development\apsim\plant\lib\plant.dll
+Component     "canola" = c:\development\apsim\Plant\lib\Plant.dll
+Component      "wheat" = c:\development\apsim\Plant\lib\Plant.dll
 Component    "sorghum" = c:\development\apsim\sorghum\lib\sorghum.dll
 
 ------- clock Initialisation --------------------------------------------------
