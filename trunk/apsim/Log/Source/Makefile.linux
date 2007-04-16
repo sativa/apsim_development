@@ -10,8 +10,7 @@ XML2_LIBDIR ?=-L/usr/lib
 
 LIB=	../lib/Log.so
 
-SRC=	LogComponent.cpp	\
-	Log.cpp
+SRC=	LogComponent.cpp
 
 OBJ=    $(SRC:.cpp=.o) $(APSROOT)/Shared/ComponentInterface/EntryPoints.o
 
