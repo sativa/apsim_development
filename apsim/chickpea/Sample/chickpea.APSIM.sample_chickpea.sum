@@ -34,8 +34,8 @@ Component   "chickpea" = c:\development\apsim\Plant\lib\Plant.dll
         clock.day
         clock.year
         chickpea.lai
-        chickpea.biomass
-        chickpea.green_biomass
+        chickpea.biomass format 1
+        chickpea.green_biomass format 1
 
      Output file = chickpea.out
      Format = normal

@@ -34,8 +34,8 @@ Component     "cowpea" = c:\development\apsim\Plant\lib\Plant.dll
         clock.day
         clock.year
         cowpea.lai
-        cowpea.biomass
-        cowpea.green_biomass
+        cowpea.biomass format 1
+        cowpea.green_biomass format 1
 
      Output file = cowpea.out
      Format = normal
