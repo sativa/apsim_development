@@ -22,7 +22,7 @@ foreach v {name desc amount units} {
 ## Decode the XML string for this applet
 set doc [dom parse $XMLDoc]
 set docroot [$doc documentElement]
-set gdocroot [[dom parse $GlobalXMLDoc] documentElement]
+;#set gdocroot [[dom parse $GlobalXMLDoc] documentElement]
 
 
 label $w.title -text "Initial Capital Assets"
@@ -55,9 +55,11 @@ foreach {name description units} { \
 
 grid columnconf $w 4 -weight 1
 grid rowconf    $w $row -weight 1
-grid $w -row 0 -column 0 -sticky nwse
-grid rowconf    . 0 -weight 1
+
+grid forget .
+grid $w -row 0 -column 0 -sticky nwe
 grid columnconf . 0 -weight 1
+grid rowconf    . 0 -weight 1
 
 
 proc setXML {name1 name2 op} {

@@ -95,8 +95,9 @@ proc setXML {name1 name2 op} {
 }
 trace add variable XMLDoc read setXML
 
-grid $w -row 0 -column 0 -sticky nwse
-grid rowconf    . 0 -weight 1
+grid forget .
+grid $w -row 0 -column 0 -sticky nwe
 grid columnconf . 0 -weight 1
+grid rowconf    . 0 -weight 1
 
 ##setXML a b read

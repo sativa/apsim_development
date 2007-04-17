@@ -15,12 +15,22 @@ proc getValue {id thing} {
    }
 }
 
+proc getAttr {id thing tag} {
+   foreach node [$id childNodes] {
+      if {[string equal -nocase [$node nodeName] $thing] &&
+          [$node hasAttribute $tag]} {
+         return [$node getAttribute $tag]
+      }
+   }
+}
+
 foreach v {name variables what description units row image fuelrate  workrate  hoursperday} {
   catch {unset $v}
 }
+foreach name [image names] {image delete $name}
+
 
 ## Decode the XML string for this applet. First, remove any trace that may be set
-trace remove variable XMLDoc read setXML
 set doc [dom parse $XMLDoc]
 set docroot [$doc documentElement]
 
@@ -37,15 +47,16 @@ if {$catroot == {}} {tk_messageBox -title "Error" -message "Missing $category in
 # Deal with the pretty piccie
 set variables image
 set image [getValue $catroot image]
-if {[string length $image] > 0} {
-  label $w.img  -image [image create photo -data $image -format gif] 
-} else {
-  button $w.img -text "Set Image" -command "changeImage $w.img"
+regsub -all "%apsuite" $image $apsuite imageFile
+if {![catch {set img [image create photo -file $imageFile]}]} {
+   label $w.img  -image $img
+} else  {
+   button $w.img -text "Set Image" -command "changeImage $w"
 }  
 
 if {[winfo exists .changeImageMenu]} {destroy .changeImageMenu}
 menu .changeImageMenu -tearoff 0
-.changeImageMenu add command -label "Change Image" -command "changeImage $w.img"
+.changeImageMenu add command -label "Change Image" -command "changeImage $w"
 bind $w.img <3> "tk_popup .changeImageMenu %X %Y"
 
 proc changeImage {w} {
@@ -56,13 +67,14 @@ proc changeImage {w} {
    }
    set newFile [tk_getOpenFile -filetypes $types -multiple 0 -title "Choose file"]
    if {$newFile != ""} {
-      set f [open $newFile r]; set data [read -nonewline $f]; close $f
-
-      global image 
-      package require Img
-      set image [[image create photo -file $newFile] data -format gif]
-      [$w cget -image] blank
-      [$w cget -image] config -data $image -format gif
+      catch {destroy $w.img}
+      if {![catch {set img [image create photo -file $newFile]}]} {
+         label $w.img  -image $img
+         global image
+         set image $newFile
+      } else  {
+         button $w.img -text "Set Image" -command "changeImage $w"
+      }  
    }
 }
 
@@ -158,9 +170,10 @@ if {$category == "tractor"} {
 
 grid rowconf $w 100 -weight 1
 
-grid $w -row 0 -column 0 -sticky nwse
-grid rowconf    . 0 -weight 1
+grid forget .
+grid $w -row 0 -column 0 -sticky nwe
 grid columnconf . 0 -weight 1
+grid rowconf    . 0 -weight 1
 
 proc setXML {name1 name2 op} {
    global XMLDoc doc docroot catroot category variables

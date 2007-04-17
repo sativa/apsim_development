@@ -44,9 +44,10 @@ proc chooseOutputFilename {} {
    }
 }
 
-grid $w -row 0 -column 0 -sticky nw
-grid rowconf    . 0 -weight 1
+grid forget .
+grid $w -row 0 -column 0 -sticky nwe
 grid columnconf . 0 -weight 1
+grid rowconf    . 0 -weight 1
 
 trace add variable XMLDoc read setXML
 proc setXML {name1 name2 op} {
