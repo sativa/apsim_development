@@ -957,7 +957,7 @@ Public Class MainUI
                 ' Kludge fix for now - I THINK IT WORKS
                 Dim BatchFileName As String = Path.GetTempPath + "\run.bat"
                 Dim SWriter As New StreamWriter(BatchFileName)
-                Dim Cmd As String = Path.GetDirectoryName(Application.ExecutablePath) + "\apsim.exe " + SimFileName + " > " + Path.GetFileNameWithoutExtension(SimFileName) + ".sum"
+                Dim Cmd As String = """" + Path.GetDirectoryName(Application.ExecutablePath) + "\apsim.exe"" """ + SimFileName + """ > """ + Path.GetFileNameWithoutExtension(SimFileName) + ".sum"""
                 SWriter.WriteLine(Cmd)
                 SWriter.Close()
                 Dim ApsimInfo As New ProcessStartInfo

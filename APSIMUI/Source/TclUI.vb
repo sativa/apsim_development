@@ -3,13 +3,15 @@ Imports VBGeneral.ApsimSettings
 Imports VBGeneral
 Imports VBUserInterface
 
+
 Public Class TclUI
     Inherits BaseView
 
     Overrides Sub RefreshView(ByVal tController As BaseController)
         MyBase.RefreshView(tController)
         'AxTclControl1.TraceVar("GlobalXMLDoc", TRACE_READS + GLOBAL_ONLY)
-        'AxTclControl1.SetVar("GlobalXMLDoc", Me.Controller.AllData.XML(), 1)
+        AxTclControl1.SetVar("GlobalXMLDoc", Me.Controller.AllData.XML(), 1)
+        AxTclControl1.SetVar("myName", ApsimUIController.CalcFileName(Controller.Data), 1)
         AxTclControl1.SetVar("XMLDoc", Me.Controller.Data.XML(), 1)
         AxTclControl1.SetVar("apsuite", ApsimDirectory(), 1)
 
