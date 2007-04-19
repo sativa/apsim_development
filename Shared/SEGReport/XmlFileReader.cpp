@@ -96,7 +96,8 @@ void XmlFileReader::readXmlNode(const XMLNode& node, const string& name,
                              child != node.end();
                              child++)
          {
-         string childName = child->getName();
+         string childName = makeNameUnique(node, *child);
+
          if (name  != "")
             childName = name + "." + childName;
          readXmlNode(*child, childName, fieldNames, fieldValues);
@@ -104,4 +105,29 @@ void XmlFileReader::readXmlNode(const XMLNode& node, const string& name,
       }
    }
 
+//---------------------------------------------------------------------------
+// Return a unique name for the specified node unique amongst the children of
+// the specified parent node
+//---------------------------------------------------------------------------
+string XmlFileReader::makeNameUnique(const XMLNode& parentNode, const XMLNode& node)
+   {
+   string name = node.getName();
+   int numMatches = 0;
+   int nodeIndex = 0;
+   for (XMLNode::iterator child = parentNode.begin();
+                          child != parentNode.end();
+                          child++)
+      {
+      if (name == child->getName())
+         numMatches++;
+      if (node == *child)
+         nodeIndex = numMatches;
+      }
+   if (nodeIndex == 0)
+      throw runtime_error("Internal failure in XmlFileReader::makeNameUnique");
+   if (nodeIndex == 1)
+      return name;
+   else
+      return name + itoa(nodeIndex);
+   }
 
