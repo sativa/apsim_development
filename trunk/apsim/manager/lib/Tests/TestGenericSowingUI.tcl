@@ -6,7 +6,7 @@ bind . <Escape> {+exec wish $argv0 &; exit}         ;# quick restart
 
 close $fp
 set XMLDoc {<tclui name="Generic Sowing Rule">
-      <uiscript>source $apsuite/apsim/Economics/lib/GenericSowingUI.tcl</uiscript>
+      <uiscript>source $apsuite/apsim/manager/lib/GenericSowingUI.tcl</uiscript>
       <crop>wheat</crop>
       <ruletemplate name="Sowing rule - start_of_day" condition="start_of_day"><![CDATA[
 if (paddock_is_fallow() = 1 and FallowIn <> 'yes' and (NextCrop = 0 or NextCrop = '[crop]')) then
@@ -32,5 +32,9 @@ endif
       <additionalParameter>zzzzzzzzzz</additionalParameter>
       </tclui>}
 
-source  "C:/development/apsim/economics/lib/GenericSowingUI.tcl"
+source  "$apsuite/apsim/manager/lib/GenericSowingUI.tcl"
+
+button .test -text "Test" -command "setXML junk junk junk" 
+grid .test 
+
 

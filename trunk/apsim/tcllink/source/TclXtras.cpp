@@ -15,6 +15,7 @@ extern "C" void TkWinXInit(HINSTANCE);
 #endif
 
 extern int apsimGetProc(ClientData , Tcl_Interp *, int , Tcl_Obj * CONST []);
+extern int apsimGetOptionalProc(ClientData , Tcl_Interp *, int , Tcl_Obj * CONST []);
 extern int apsimSetProc(ClientData , Tcl_Interp *, int , Tcl_Obj * CONST []);
 extern int apsimRegisterGetSetProc(ClientData , Tcl_Interp *, int , Tcl_Obj * CONST []);
 extern int apsimSendMessageProc(ClientData , Tcl_Interp *, int , Tcl_Obj * CONST []);
@@ -79,6 +80,7 @@ Tcl_Interp *NewInterp (Tcl_Interp *topLevel, ClientData cd, const char *interpNa
    }
 
    Tcl_CreateObjCommand(interp, "apsimGet", apsimGetProc, cd, NULL);
+   Tcl_CreateObjCommand(interp, "apsimGetOptional", apsimGetOptionalProc, cd, NULL);
    Tcl_CreateObjCommand(interp, "apsimSet", apsimSetProc, cd, NULL);
    Tcl_CreateObjCommand(interp, "apsimRegisterGetSet", apsimRegisterGetSetProc, cd, NULL);
    Tcl_CreateObjCommand(interp, "apsimSendMessage", apsimSendMessageProc, cd, NULL);

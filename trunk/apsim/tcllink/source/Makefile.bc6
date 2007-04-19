@@ -108,6 +108,7 @@ clean:
 	if not exist ..\lib\Img1.3\nul xcopy \\thor\seg\tools\tcl\ASTcl\lib\Img1.3 ..\lib\Img1.3 /E /Y /I /Q
 	if not exist ..\lib\tdom0.8.1\nul xcopy \\thor\seg\tools\tcl\ASTcl\lib\tdom0.8.1 ..\lib\tdom0.8.1 /E /Y /I /Q
 	if not exist ..\lib\tkcon\nul xcopy \\thor\seg\tools\tcl\tkcon ..\lib\tkcon /E /Y /I /Q
+ 	if not exist ..\lib\BWidget-1.8.0\nul xcopy \\thor\seg\tools\tcl\BWidget-1.8.0 ..\lib\BWidget-1.8.0 /E /Y /I /Q
    # Do the ActiveX control
  	@if not exist ..\lib\TclControl$(VER).dll copy \\thor\seg\Tools\tcl\TclControl\install\TclControl$(VER).dll ..\lib\TclControl$(VER).dll
  	..\lib\tclsh$(VER).exe  \\thor\seg\Tools\tcl\TclControl\install\install.tcl

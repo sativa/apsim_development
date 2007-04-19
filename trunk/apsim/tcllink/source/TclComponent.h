@@ -21,7 +21,7 @@ class TclComponent : public protocol::Component,
       virtual bool respondToSet(unsigned int& fromID, protocol::QuerySetValueData& setValueData);
       virtual void onApsimGetQuery(protocol::ApsimGetQueryData& apsimGetQueryData);
       
-      int apsimGet( Tcl_Interp *interp, const string &varname);
+      int apsimGet( Tcl_Interp *interp, const string &varname, bool optional);
       bool apsimSet(Tcl_Interp *interp, const string &varname, Tcl_Obj *obj);
 
       void addRegistration(const string &name) ;

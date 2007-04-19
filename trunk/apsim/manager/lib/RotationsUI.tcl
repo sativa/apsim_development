@@ -676,8 +676,8 @@ proc setupUI {w} {
 }
 
 ##############################
-catch {unset .w}
 catch {destroy .w}
+catch {unset .w}
 set w [frame .w]
 
 if {[catch {openGraph $w}]} {tk_messageBox -title "openGraph" -message "$errorInfo" -type ok}
@@ -692,12 +692,12 @@ grid columnconf . 0 -weight 1
 grid rowconf    . 0 -weight 1
 grid columnconf . 1 -weight 0
 grid rowconf    . 1 -weight 0
+
 update
 
 if {[info exists .w(canvas_height)]} {.w.p sash place 0 2 [set .w(canvas_height)]}
 bind .w.p <Leave> "+ set .w\(canvas_height\) \[lindex \[.w.p sash coord 0\] 1\]"
 
-trace add variable XMLDoc read setXML
 proc setXML {name1 name2 op} {
    if {[catch {set newXML [saveGraph .w]}]} {
       global errorInfo
@@ -707,5 +707,4 @@ proc setXML {name1 name2 op} {
       set XMLDoc $newXML
    }
 }   
-
-bind . <Escape> {+console show}         ;# quick restart
+trace add variable XMLDoc read setXML

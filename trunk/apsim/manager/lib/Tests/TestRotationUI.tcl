@@ -6,7 +6,7 @@ bind . <Escape> {+exec wish $argv0 &; exit}         ;# quick restart
 
 close $fp
 set XMLDoc {<tclui name="Generic Sowing Rule">
-<uiscript>source $apsuite/apsim/Economics/lib/RotationsUI.tcl</uiscript>
+<uiscript>source $apsuite/apsim/manager/lib/RotationsUI.tcl</uiscript>
 <canvas_height>600</canvas_height>
 <rules_height>40</rules_height>
           <node>
@@ -436,5 +436,5 @@ stateGraph arc lappend "arc1" rules {[apsimGet esw] > 50}
 ]]></rule>
 </tclui>}
 
-source  "C:/development/apsim/Economics/lib/RotationsUI.tcl"
+source  "$apsuite/apsim/manager/lib/RotationsUI.tcl"
 

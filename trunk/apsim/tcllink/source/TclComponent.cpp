@@ -277,22 +277,33 @@ bool TclComponent::respondToSet(unsigned int& /*fromID*/, protocol::QuerySetValu
 // (Called from TCL interpreter). Find component() and ask protoman for a variable
 int apsimGetProc(ClientData cd, Tcl_Interp *interp, int objc, Tcl_Obj * CONST objv[])
    {
-   if (objc == 2)
+   if (objc >= 2)
       {
       TclComponent *component = (TclComponent *) cd;
       string apsimName(Tcl_GetStringFromObj(objv[1], NULL));
-      return (component->apsimGet(interp, apsimName));
+      return (component->apsimGet(interp, apsimName, false));
       }
    Tcl_SetResult(interp,"Wrong num args: apsimGet <variableName>", NULL);
    return TCL_ERROR;
    }
+int apsimGetOptionalProc(ClientData cd, Tcl_Interp *interp, int objc, Tcl_Obj * CONST objv[])
+   {
+   if (objc >= 2)
+      {
+      TclComponent *component = (TclComponent *) cd;
+      string apsimName(Tcl_GetStringFromObj(objv[1], NULL));
+      return (component->apsimGet(interp, apsimName, true));
+      }
+   Tcl_SetResult(interp,"Wrong num args: apsimGetOptional <variableName>", NULL);
+   return TCL_ERROR;
+   }
 
 // Get an apsim variable into interp->result. avoid shimmering between strings:floats etc..
-int TclComponent::apsimGet(Tcl_Interp *interp, const string &varname)
+int TclComponent::apsimGet(Tcl_Interp *interp, const string &varname, bool optional)
    {
    string ModuleName, VariableName;
 
-   unsigned posPeriod = varname.find('.');
+   unsigned posPeriod = varname.rfind('.');
    if (posPeriod != string::npos)
       {
       ModuleName = varname.substr(0, posPeriod);
@@ -311,128 +322,108 @@ int TclComponent::apsimGet(Tcl_Interp *interp, const string &varname)
                              "",
                              ModuleName.c_str());
 
-   protocol::Variant *variant;
-   if (protocol::Component::getVariable(variableID, variant, true))
+   protocol::Variants* variants = NULL;
+   getVariables(variableID, variants);
+   
+   if (variants->size() > 0) 
       {
-      switch (variant->getType().getCode()) {
-      	case DTstring:                        /* strings*/
-      	   {
-            variant->setTypeConverter( NULL ); /* undo the typeconverter created above */
-            if (variant->getType().isArray())
-      	       {
-                std::vector<string> scratch;
-                variant->unpack(scratch);
-                Tcl_Obj *result = Tcl_GetObjResult(interp);
-                Tcl_SetListObj(result, 0, NULL);
-                for (std::vector<string>::iterator p = scratch.begin(); p != scratch.end(); p++)
-                   {
-                   Tcl_ListObjAppendElement(interp, result, Tcl_NewStringObj((char *)(*p).c_str(), -1));
-                   }
-                return TCL_OK;
-                }
-             else
-                {
-                string scratch;
-                variant->unpack(scratch);
-                Tcl_Obj *result = Tcl_GetObjResult(interp);
-                Tcl_SetStringObj(result, scratch.c_str(), -1);
-                return TCL_OK;
-                }
-             /* notreached */
-            }
-
-      	case DTboolean:                       /* 4 byte integer */
-      	case DTint4:                          /* 4 byte integer */
-      	   {
-            variant->setTypeConverter( NULL ); /* undo the typeconverter created above */
-            if (variant->getType().isArray())
-      	       {
-                std::vector<int> scratch;
-                variant->unpack(scratch);
-                Tcl_Obj *result = Tcl_GetObjResult(interp);
-                Tcl_SetListObj(result, 0, NULL);
-                for (std::vector<int>::iterator p = scratch.begin(); p != scratch.end(); p++)
-                   {
-                   Tcl_ListObjAppendElement(interp, result, Tcl_NewIntObj((int)*p));
-                   }
-                return TCL_OK;
-                }
-             else
-                {
-                int scratch = 0;
-                variant->unpack(scratch);
-                Tcl_Obj *result = Tcl_GetObjResult(interp);
-                Tcl_SetIntObj(result, scratch);
-                return TCL_OK;
-                }
-             /* notreached */
-            }
-         case DTsingle:                       /* floats */
-      	   {
-            variant->setTypeConverter( NULL ); /* undo the typeconverter created above */
-            if (variant->getType().isArray())
-      	       {
-                std::vector<float> scratch;
-                variant->unpack(scratch);
-                Tcl_Obj *result = Tcl_GetObjResult(interp);
-                Tcl_SetListObj(result, 0, NULL);
-                for (std::vector<float>::iterator p = scratch.begin(); p != scratch.end(); p++)
-                   {
-                   Tcl_ListObjAppendElement(interp, result, Tcl_NewDoubleObj((double)*p));
-                   }
-                return TCL_OK;
-                }
-             else
-                {
-                float scratch = 0.0;
-                variant->unpack(scratch);
-                Tcl_Obj *result = Tcl_GetObjResult(interp);
-                Tcl_SetDoubleObj(result, (double) scratch);
-                return TCL_OK;
-                }
-             /* notreached */
-             }
-         case DTdouble:                       /* floats */
-      	   {
-            variant->setTypeConverter( NULL ); /* undo the typeconverter created above */
-            if (variant->getType().isArray())
-      	       {
-                std::vector<double> scratch;
-                variant->unpack(scratch);
-                Tcl_Obj *result = Tcl_GetObjResult(interp);
-                Tcl_SetListObj(result, 0, NULL);
-                for (std::vector<double>::iterator p = scratch.begin(); p != scratch.end(); p++)
-                   {
-                   Tcl_ListObjAppendElement(interp, result, Tcl_NewDoubleObj(*p));
-                   }
-                return TCL_OK;
-                }
-             else
-                {
-                double scratch = 0.0;
-                variant->unpack(scratch);
-                Tcl_Obj *result = Tcl_GetObjResult(interp);
-                Tcl_SetDoubleObj(result, scratch);
-                return TCL_OK;
-                }
-             /* notreached */
-             }
-
-        default:
-             {
-             Tcl_Obj *result = Tcl_GetObjResult(interp);
-             char buf[80];
-             sprintf(buf, "Undefined GET type %d (from %s)",
-                     variant->getType().getCode(), varname.c_str());
-             Tcl_SetStringObj(result, buf, -1);
-             return TCL_ERROR;
-             }
-      	}
-      }
       Tcl_Obj *result = Tcl_GetObjResult(interp);
-      Tcl_SetStringObj(result, "Unknown variable ", -1);
-      Tcl_AppendToObj(result, varname.c_str(), -1);
-      return TCL_ERROR;
+      Tcl_SetListObj(result, 0, NULL);
+      for (unsigned v = 0; v != variants->size(); v++)
+         {
+         protocol::Variant *variant = variants->getVariant(v);
+      
+         switch (variant->getType().getCode()) {
+         	case DTstring:                        /* strings*/
+         	   {
+               variant->setTypeConverter( NULL ); /* undo the typeconverter created above */
+               if (variant->getType().isArray())
+         	       {
+                   std::vector<string> scratch; variant->unpack(scratch);
+                   for (std::vector<string>::iterator p = scratch.begin(); p != scratch.end(); p++)
+                      Tcl_ListObjAppendElement(interp, result, Tcl_NewStringObj((char *)(*p).c_str(), -1));
+                   }
+               else
+                   {
+                   string scratch; variant->unpack(scratch);
+                   Tcl_ListObjAppendElement(interp, result, Tcl_NewStringObj(scratch.c_str(), -1));
+                   }
+               break;
+               }
+      
+         	case DTboolean:                       /* 4 byte integer */
+         	case DTint4:                          /* 4 byte integer */
+         	   {
+               variant->setTypeConverter( NULL ); /* undo the typeconverter created above */
+               if (variant->getType().isArray())
+         	       {
+                   std::vector<int> scratch; variant->unpack(scratch);
+                   for (std::vector<int>::iterator p = scratch.begin(); p != scratch.end(); p++)
+                      Tcl_ListObjAppendElement(interp, result, Tcl_NewIntObj((int)*p));
+                   }
+                else
+                   {
+                   int scratch = 0;
+                   variant->unpack(scratch);
+                   Tcl_ListObjAppendElement(interp, result, Tcl_NewIntObj(scratch));
+                   }
+               break;
+               }
+            case DTsingle:                       /* floats */
+         	   {
+               variant->setTypeConverter( NULL ); /* undo the typeconverter created above */
+               if (variant->getType().isArray())
+         	       {
+                   std::vector<float> scratch; variant->unpack(scratch);
+                   for (std::vector<float>::iterator p = scratch.begin(); p != scratch.end(); p++)
+                      Tcl_ListObjAppendElement(interp, result, Tcl_NewDoubleObj((double)*p));
+                   }
+                else
+                   {
+                   float scratch = 0.0;
+                   variant->unpack(scratch);
+                   Tcl_ListObjAppendElement(interp, result, Tcl_NewDoubleObj(scratch));
+                   }
+               break;
+               }
+            case DTdouble:                       /* floats */
+         	   {
+               variant->setTypeConverter( NULL ); /* undo the typeconverter created above */
+               if (variant->getType().isArray())
+         	       {
+                   std::vector<double> scratch; variant->unpack(scratch);
+                   for (std::vector<double>::iterator p = scratch.begin(); p != scratch.end(); p++)
+                      Tcl_ListObjAppendElement(interp, result, Tcl_NewDoubleObj(*p));
+                   }
+               else
+                   {
+                   double scratch = 0.0; variant->unpack(scratch);
+                   Tcl_ListObjAppendElement(interp, result, Tcl_NewDoubleObj(scratch));
+                   }
+               break;
+               }
+           default:
+                {
+                char buf[80];
+                sprintf(buf, "Undefined GET type %d (from %s)",
+                        variant->getType().getCode(), varname.c_str());
+                Tcl_SetStringObj(result, buf, -1);
+                return TCL_ERROR;
+                }
+         	}
+         }
+      }
+   else
+      {
+      if (!optional)
+         {
+         Tcl_Obj *result = Tcl_GetObjResult(interp);
+         Tcl_SetStringObj(result, "Unknown variable ", -1);
+         Tcl_AppendToObj(result, varname.c_str(), -1);
+         return TCL_ERROR;
+         }
+      }
+   return TCL_OK;
    }
 
 // (Called from TCL interpreter.) Find component() and set apsim value
