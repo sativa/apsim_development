@@ -1,7 +1,15 @@
 #! ManagerX
 trace remove variable XMLDoc read setXML
 
-if {[info exists config]} {unset config}
+package require Tk
+
+catch {unset config}
+catch {destroy .w}
+set w [frame .w]
+
+package require BWidget
+package require tdom
+package require Img
 
 # Data support procedures
 
@@ -216,6 +224,9 @@ proc CropParametersUI {w} {
    grid $w.cp -row 4 -column 1 -sticky w -pady 3
    set filename [getImage $config(crop)]
    if {[file exists $filename]} {cropImage config -file $filename}
+
+   addVariable module 
+   set config(module) $module
 }
 
 ################PLANT################
@@ -439,7 +450,7 @@ proc ozcotUI {w} {
    return $w.t 
 }
 
-################OZCOT################
+################ORYZA################
 proc oryzaUI {w} {
    global config
    LabelFrame $w.t -text "Sowing Parameters (oryza)" -side top   -bd 1
@@ -631,11 +642,9 @@ proc editRulesUI {w} {
    return $w.r 
 }
 
-proc MainUI  {} {
+proc MainUI  {w} {
    global config
    image create photo cropImage
-   if {[winfo exists .w]} {destroy .w}
-   set w [frame .w]
    grid [CropUI $w] -row 1 -column 1 -sticky w  -pady 3
    grid [DateWindowUI  $w] -row 2 -column 1 -sticky w  -pady 3
    dateChanged $w
@@ -652,9 +661,6 @@ proc MainUI  {} {
 }
 
 ###################Code starts here#########
-package require BWidget
-package require tdom
-package require Img
 
 ## Decode the XML string for this applet
 set config(doc)      [dom parse $XMLDoc]
@@ -674,6 +680,7 @@ foreach node [$config(docroot) childNodes] {
       lappend config(rules) $node
    }
 }
+addVariable uiscript
 
 proc processRule {node} {
    global config
@@ -685,7 +692,7 @@ proc processRule {node} {
 }
 
 proc setXML {name1 name2 op} {
-   global XMLDoc config 
+   global XMLDoc config myName 
    catch {
       set newDoc [dom createDocument [$config(docroot) nodeName]]
       set root [$newDoc documentElement]
@@ -693,7 +700,7 @@ proc setXML {name1 name2 op} {
       foreach rule $config(rules) {
          set new [$newDoc createElement rule]
          $new appendChild [$newDoc createTextNode [processRule $rule]]
-         $new setAttribute name      [$rule getAttribute name]
+         $new setAttribute name      "$myName - [$rule getAttribute name]"
          $new setAttribute condition [$rule getAttribute condition]
          $new setAttribute invisible yes
          $root appendChild $new
@@ -719,10 +726,10 @@ proc setXML {name1 name2 op} {
       close $fp
    }   
 }
-trace add variable XMLDoc read setXML
 
 grid forget .
-grid [MainUI] -row 0 -column 0 -sticky nwe
+grid [MainUI $w] -row 0 -column 0 -sticky nwe
 grid columnconf . 0 -weight 1
 grid rowconf    . 0 -weight 1
 
+trace add variable XMLDoc read setXML
