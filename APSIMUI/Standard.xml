@@ -1,4 +1,4 @@
-<folder name="Standard Toolbox" image="Images/toolbox.png" version="7">
+<folder name="Standard Toolbox" image="Images/toolbox.png" version="8">
   <folder name="Structural">
     <memo>
     </memo>
@@ -413,7 +413,7 @@ IB0001 CABERNET FRANC   IB0001    07   590   020  4000  1000   0.8   4.5  42.0  
     <max_pond>100</max_pond>
   </soilwatkludge>
   <folder name="Management">
-    <manager name="Manager"/>
+    <manager name="Manager" />
     <manager name="Manager with examples">
       <rule name="Sow using a variable rule">
         <condition name="start_of_day"><![CDATA[
@@ -985,6 +985,80 @@ IB0001 CABERNET FRANC   IB0001    07   590   020  4000  1000   0.8   4.5  42.0  
           <MoistureContent type="text" description="Moisture content of grain (%) : ">12</MoistureContent>
         </category>
       </rule>
+      <rule name="Simple gross margin (put before harvesting rule)">
+        <condition name="post"><![CDATA[
+           ! Reset the bank to zero the day after harvest.
+           if (ResetBank = 1) then
+              Bank = 0
+              ResetBank = 0
+           endif
+           
+           ! Subtract fertiliser cost from the bank
+           if (fertilizer > 0)then
+              Bank = Bank - ([NCost] * fertilizer + [NApplicationCost])
+           endif
+           
+           ! Add harvest return to the bank
+           if stage_name = 'harvest_ripe' or plant_status = 'dead' then
+              FullPrice = [Price] + (grain_protein - [MinimumProtein]) * 2 * [ProteinIncrement]
+              Bank = Bank + FullPrice * WetYield
+              ResetBank = 1
+           endif
+           ]]>
+          </condition>
+        <category name="Cost properties">
+          <NCost type="text" description="Cost of N fertiliser ($/ha) : ">1.2</NCost>
+          <NApplicationCost type="text" description="Cost of N application ($/ha) : ">15</NApplicationCost>
+        </category>
+        <category name="Price properties">
+          <Price type="text" description="Price ($/t) : ">140</Price>
+          <MinimumProtein type="text" description="Minimum protein for classification ($/t) : ">10.5</MinimumProtein>
+          <ProteinIncrement type="text" description="Protein increment payment ($/t) : ">2</ProteinIncrement>
+        </category>
+      </rule>       
+      <rule name="Publish an event when an APSIM variable meets a 2 part condition">
+        <condition name="post"><![CDATA[
+          if ([VariableName1] = [VariableValue1] and 
+              [VariableName2] >= [LowerBound] and 
+              [VariableName2] <= [UpperBound]) then
+             act_mods [EventName]
+          endif]]>
+          </condition>
+        <category name="Condition1 properties">
+          <VariableName1 type="text" description="Name of 1st APSIM variable to check (e.g. stage_name) : ">stage_name</VariableName1>
+          <VariableValue1 type="text" description="Value that 1st variable must have (e.g. flowering) : ">'flowering'</VariableValue1>
+        </category>
+        <category name="Condition2 properties">
+          <VariableName2 type="text" description="Name of 2nd APSIM variable to bound check (e.g. maxt, mint, avtemp) : ">mint</VariableName2>
+          <LowerBound type="text" description="Lower bound of variable : ">-100</LowerBound>
+          <UpperBound type="text" description="Upper bound of variable : ">0</UpperBound>
+        </category>
+        <category name="Event properties">
+          <EventName type="text" description="Name of event to publish when above 2 conditions are met : ">SevereFrostAtFlowering</EventName>
+        </category>
+      </rule>      
+      <rule name="Create a yes/no variable when within x TT of start of a crop stage">
+        <condition name="post"><![CDATA[
+            if (stage_name = '[StageName]') then
+               TTFromStart[StageName] = TTFromStart[StageName] + dlt_tt
+               [OutputVariableName] = 'yes'
+               if (TTFromStart[StageName] > [TT]) then
+                  [OutputVariableName] = 'no'
+               endif
+            else
+               TTFromStart[StageName] = 0
+               [OutputVariableName] = 'no'
+            endif ]]>
+          </condition>
+        <category name="Properties">
+          <StageName type="text" description="Crop stage name (e.g. start_grain_fill) : ">start_grain_fill</StageName>
+          <TT type="text" description="Thermal time threshold : ">150</TT>
+        </category>
+        <category name="Output variable properties">
+          <OutputVariableName type="text" description="Name of output variable to hold yes/no flag : ">InHeatShockWindow</OutputVariableName>
+        </category>
+      </rule>      
+
     </manager>
     <folder name="Africa-India">
       <manager name="Phosphorus and Manure">
@@ -2584,7 +2658,7 @@ if {$steps == 0} {tkwait variable steps}
     <soi name="soi">
       <filename>%apsuite\soi\phases.soi</filename>
     </soi>
-    <YPCalc/>
+    <YPCalc />
     <tracker />
   </folder>
   <folder name="Water">
