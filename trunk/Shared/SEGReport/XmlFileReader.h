@@ -21,6 +21,7 @@ class XmlFileReader : public DataProcessor
       void readXmlNode(const XMLNode& node, const std::string& name,
                        std::vector<std::string>& fieldNames,
                        std::vector<std::string>& fieldValues);
+      std::string makeNameUnique(const XMLNode& parentNode, const XMLNode& node);
 
    public:
       XmlFileReader(const std::string& type, TComponent* owner)

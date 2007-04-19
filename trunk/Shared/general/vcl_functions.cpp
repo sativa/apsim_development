@@ -559,8 +559,15 @@ AnsiString resolveComponentPropertyMacro(TComponent* owner, AnsiString st, int r
             {
             // try and get a field value.
             if (recNo > 0)
-               dataset->RecNo = recNo;
-            value = dataset->FieldValues[propertyName.c_str()];
+               {
+               if (recNo <= dataset->RecordCount)
+                  {
+                  dataset->RecNo = recNo;
+                  value = dataset->FieldValues[propertyName.c_str()];
+                  }
+               }
+            else
+               value = dataset->FieldValues[propertyName.c_str()];
             }
          catch (Exception& error)
             {
