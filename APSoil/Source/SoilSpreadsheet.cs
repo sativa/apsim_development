@@ -87,7 +87,13 @@ namespace APSoil
 			DataTableUtility.AddValue(Data, "Comments", MySoil.Comment, Row, NumLayers);
 			DataTableUtility.AddValue(Data, "NaturalVegetation", MySoil.NaturalVegetation, Row, NumLayers);
 
-			DataTableUtility.AddValue(Data, "U", MySoil.U, Row, NumLayers);
+            DataTableUtility.AddValue(Data, "SummerU", MySoil.SummerU, Row, NumLayers);
+            DataTableUtility.AddValue(Data, "SummerCona", MySoil.SummerCona, Row, NumLayers);
+            DataTableUtility.AddValue(Data, "WinterU", MySoil.WinterU, Row, NumLayers);
+            DataTableUtility.AddValue(Data, "WinterCona", MySoil.WinterCona, Row, NumLayers);
+            DataTableUtility.AddValue(Data, "SummerDate", MySoil.SummerDate, Row, NumLayers);
+            DataTableUtility.AddValue(Data, "WinterDate", MySoil.WinterDate, Row, NumLayers);
+            DataTableUtility.AddValue(Data, "U", MySoil.U, Row, NumLayers);
 			DataTableUtility.AddValue(Data, "Cona", MySoil.Cona, Row, NumLayers);
 			DataTableUtility.AddValue(Data, "Salb", MySoil.Salb, Row, NumLayers);
 			DataTableUtility.AddValue(Data, "DiffusConst", MySoil.DiffusConst, Row, NumLayers);
@@ -101,49 +107,67 @@ namespace APSoil
 			DataTableUtility.AddValue(Data, "EnrACoeff", MySoil.EnrACoeff, Row, NumLayers);
 			DataTableUtility.AddValue(Data, "EnrBCoeff", MySoil.EnrBCoeff, Row, NumLayers);
 
-			DataTableUtility.AddColumn(Data, "Thickness", MySoil.Thickness, Row, NumLayers);
-			DataTableUtility.AddColumn(Data, "BD", MySoil.BD, Row, NumLayers);
-            DataTableUtility.AddColumn(Data, "Rocks", MySoil.Rocks, Row, NumLayers);
-            DataTableUtility.AddColumn(Data, "LL15", MySoil.LL15, Row, NumLayers);
-			DataTableUtility.AddColumn(Data, "Airdry", MySoil.Airdry, Row, NumLayers);
-			DataTableUtility.AddColumn(Data, "DUL", MySoil.DUL, Row, NumLayers);
-			DataTableUtility.AddColumn(Data, "SAT", MySoil.SAT, Row, NumLayers);
-            //dph DataTableUtility.AddColumn(Data, "SW", MySoil.InitialWater.SW, Row, NumLayers);
-            //dph DataTableUtility.AddColumn(Data, "NO3", MySoil.InitialNitrogen.NO3, Row, NumLayers);
-            //dph DataTableUtility.AddColumn(Data, "NH4", MySoil.InitialNitrogen.NH4, Row, NumLayers);
-
-			foreach (string Crop in MySoil.Crops)
-				{
-				if (!MySoil.CropIsPredicted(Crop))
-					{
-					DataTableUtility.AddColumn(Data, "ll(" + Crop + ")", MySoil.LL(Crop), Row, NumLayers);
-					DataTableUtility.AddColumn(Data, "kl(" + Crop + ")", MySoil.KL(Crop), Row, NumLayers);
-					DataTableUtility.AddColumn(Data, "xf(" + Crop + ")", MySoil.XF(Crop), Row, NumLayers);
-					}
-				}
-
-            DataTableUtility.AddColumn(Data, "Texture", MySoil.Texture, Row, NumLayers);
             DataTableUtility.AddColumn(Data, "SWCON", MySoil.SWCON, Row, NumLayers);
-			DataTableUtility.AddColumn(Data, "MWCON", MySoil.MWCON, Row, NumLayers);
-			DataTableUtility.AddColumn(Data, "FBIOM", MySoil.FBIOM, Row, NumLayers);
-			DataTableUtility.AddColumn(Data, "FINERT", MySoil.FINERT, Row, NumLayers);
-			DataTableUtility.AddColumn(Data, "OC", MySoil.OC, Row, NumLayers);
-			DataTableUtility.AddColumn(Data, "EC", MySoil.EC, Row, NumLayers);
-			DataTableUtility.AddColumn(Data, "PH", MySoil.PH, Row, NumLayers);
-			DataTableUtility.AddColumn(Data, "CL", MySoil.CL, Row, NumLayers);
-			DataTableUtility.AddColumn(Data, "Boron", MySoil.Boron, Row, NumLayers);
-			DataTableUtility.AddColumn(Data, "CEC", MySoil.CEC, Row, NumLayers);
-			DataTableUtility.AddColumn(Data, "Ca", MySoil.Ca, Row, NumLayers);
-			DataTableUtility.AddColumn(Data, "Mg", MySoil.Mg, Row, NumLayers);
-			DataTableUtility.AddColumn(Data, "Na", MySoil.Na, Row, NumLayers);
-			DataTableUtility.AddColumn(Data, "K", MySoil.K, Row, NumLayers);
-			DataTableUtility.AddColumn(Data, "ESP", MySoil.ESP, Row, NumLayers);
-			DataTableUtility.AddColumn(Data, "ParticleSizeSand", MySoil.ParticleSizeSand, Row, NumLayers);
-			DataTableUtility.AddColumn(Data, "ParticleSizeSilt", MySoil.ParticleSizeSilt, Row, NumLayers);
-			DataTableUtility.AddColumn(Data, "ParticleSizeClay", MySoil.ParticleSizeClay, Row, NumLayers);
+            DataTableUtility.AddColumn(Data, "MWCON", MySoil.MWCON, Row, NumLayers);
+            DataTableUtility.AddColumn(Data, "FBIOM", MySoil.FBIOM, Row, NumLayers);
+            DataTableUtility.AddColumn(Data, "FINERT", MySoil.FINERT, Row, NumLayers);
+            DataTableUtility.AddColumn(Data, "KS", MySoil.KS, Row, NumLayers);
+            DataTableUtility.AddColumn(Data, "OC", MySoil.OC, Row, NumLayers);
+            DataTableUtility.AddColumn(Data, "EC", MySoil.EC, Row, NumLayers);
+            DataTableUtility.AddColumn(Data, "PH", MySoil.PH, Row, NumLayers);
+            DataTableUtility.AddColumn(Data, "CL", MySoil.CL, Row, NumLayers);
+            DataTableUtility.AddColumn(Data, "Boron", MySoil.Boron, Row, NumLayers);
+            DataTableUtility.AddColumn(Data, "CEC", MySoil.CEC, Row, NumLayers);
+            DataTableUtility.AddColumn(Data, "Ca", MySoil.Ca, Row, NumLayers);
+            DataTableUtility.AddColumn(Data, "Mg", MySoil.Mg, Row, NumLayers);
+            DataTableUtility.AddColumn(Data, "Na", MySoil.Na, Row, NumLayers);
+            DataTableUtility.AddColumn(Data, "K", MySoil.K, Row, NumLayers);
+            DataTableUtility.AddColumn(Data, "ESP", MySoil.ESP, Row, NumLayers);
+            DataTableUtility.AddColumn(Data, "ParticleSizeSand", MySoil.ParticleSizeSand, Row, NumLayers);
+            DataTableUtility.AddColumn(Data, "ParticleSizeSilt", MySoil.ParticleSizeSilt, Row, NumLayers);
+            DataTableUtility.AddColumn(Data, "ParticleSizeClay", MySoil.ParticleSizeClay, Row, NumLayers);
 
+            DataTableUtility.AddColumn(Data, "Thickness", MySoil.Thickness, Row, NumLayers);
+            DataTableUtility.AddColumn(Data, "BD", MySoil.BD, Row, NumLayers);
+            DataTableUtility.AddColumn(Data, "Rocks", MySoil.Rocks, Row, NumLayers);
+            DataTableUtility.AddColumn(Data, "Texture", MySoil.Texture, Row, NumLayers);
+            DataTableUtility.AddColumn(Data, "LL15", MySoil.LL15, Row, NumLayers);
+            DataTableUtility.AddColumn(Data, "Airdry", MySoil.Airdry, Row, NumLayers);
+            DataTableUtility.AddColumn(Data, "DUL", MySoil.DUL, Row, NumLayers);
+            DataTableUtility.AddColumn(Data, "SAT", MySoil.SAT, Row, NumLayers);
+
+            string[] CropOrder = {"wheat", "canola", "chickpea", "fababean", "cotton", "sorghum", 
+                                  "mungbean", "sunflower", "barley", "lucerne", "maize", "perennial grass", 
+                                  "cowpea", "navybean", "peanut", "pigeonpea", "soybean", "stylo", 
+                                  "sugar", "lablab", "millet", "triticale", "lupin", "fieldpea", 
+                                  "oatenhay", "weed", "lentil", "medic", "oats"};
+            foreach (string CropName in CropOrder)
+                AddCropColumn(Data, CropName, MySoil, Row, NumLayers);
+
+            // Add other crops not in our list above.
+            foreach (string CropName in MySoil.CropsMeasured)
+                {
+                if (Array.IndexOf(CropOrder, CropName.ToLower()) == -1)
+                    AddCropColumn(Data, CropName, MySoil, Row, NumLayers);
+                }
 			Row += NumLayers;
 			}
+
+        private static void AddCropColumn(DataTable Data, string CropName, Soil MySoil, int Row, int NumLayers)
+            {
+            if (MySoil.CropExists(CropName))
+                {
+                DataTableUtility.AddColumn(Data, "ll(" + CropName + ")", MySoil.LL(CropName), Row, NumLayers);
+                DataTableUtility.AddColumn(Data, "kl(" + CropName + ")", MySoil.KL(CropName), Row, NumLayers);
+                DataTableUtility.AddColumn(Data, "xf(" + CropName + ")", MySoil.XF(CropName), Row, NumLayers);
+                }
+            else
+                {
+                DataTableUtility.AddValue(Data, "ll(" + CropName + ")", MathUtility.MissingValue, Row, NumLayers);
+                DataTableUtility.AddValue(Data, "kl(" + CropName + ")", MathUtility.MissingValue, Row, NumLayers);
+                DataTableUtility.AddValue(Data, "xf(" + CropName + ")", MathUtility.MissingValue, Row, NumLayers);
+                }
+            }
 
 
 		static private string CreateSoilXmlFromSpreadsheet(DataTable Table, ref int Row)
@@ -165,7 +189,14 @@ namespace APSoil
 			NewSoil.Comment = GetStringValue(Table, "Comments", Row);
 			NewSoil.NaturalVegetation = GetStringValue(Table, "NaturalVegetation", Row);
 
-			NewSoil.SetUCona(GetDoubleValue(Table, "U", Row), GetDoubleValue(Table, "Cona", Row));
+            double SummerU = GetDoubleValue(Table, "SummerU", Row);
+            if (SummerU != MathUtility.MissingValue)
+                NewSoil.SetSummerWinterUCona(GetDoubleValue(Table, "SummerU", Row), GetDoubleValue(Table, "WinterU", Row),
+                                             GetDoubleValue(Table, "SummerCona", Row), GetDoubleValue(Table, "WinterCona", Row),
+                                             GetStringValue(Table, "SummerDate", Row), GetStringValue(Table, "WinterDate", Row));
+            else
+			    NewSoil.SetUCona(GetDoubleValue(Table, "U", Row), GetDoubleValue(Table, "Cona", Row));
+
 			NewSoil.Salb = GetDoubleValue(Table, "Salb", Row);
 			NewSoil.DiffusConst = GetDoubleValue(Table, "DiffusConst", Row);
 			NewSoil.DiffusSlope = GetDoubleValue(Table, "DiffusSlope", Row);
@@ -194,14 +225,13 @@ namespace APSoil
 			NewSoil.Airdry = GetDoubleValues(Table, "Airdry", NumLayers, Row, 3);
 			NewSoil.DUL = GetDoubleValues(Table, "DUL", NumLayers, Row, 3);
 			NewSoil.SAT = GetDoubleValues(Table, "SAT", NumLayers, Row, 3);
-            //dph NewSoil.InitialWater.SetUsingLayered(GetDoubleValues(Table, "SW", NumLayers, Row, 2));
-
             NewSoil.Texture = GetStringValues(Table, "Texture", NumLayers, Row);
             NewSoil.SWCON = GetDoubleValues(Table, "SWCON", NumLayers, Row, 2);
 			NewSoil.MWCON = GetDoubleValues(Table, "MWCON", NumLayers, Row, 2);
 			NewSoil.FBIOM = GetDoubleValues(Table, "FBIOM", NumLayers, Row, 2);
 			NewSoil.FINERT = GetDoubleValues(Table, "FINERT", NumLayers, Row, 1);
-			NewSoil.OC = GetDoubleValues(Table, "OC", NumLayers, Row, 2);
+            NewSoil.KS = GetDoubleValues(Table, "KS", NumLayers, Row, 2);
+            NewSoil.OC = GetDoubleValues(Table, "OC", NumLayers, Row, 2);
 			NewSoil.EC = GetDoubleValues(Table, "EC", NumLayers, Row, 1);
 			NewSoil.PH = GetDoubleValues(Table, "PH", NumLayers, Row, 1);
 			NewSoil.CL = GetDoubleValues(Table, "CL", NumLayers, Row, 1);

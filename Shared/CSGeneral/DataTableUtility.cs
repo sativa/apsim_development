@@ -26,8 +26,13 @@ namespace CSGeneral
 		static public void AddValue(DataTable Table, string ColumnName, double Value, int StartRow, int Count)
 			{
 			string[] Values = new string[Count];
-			for (int i = 0; i != Count; i++)
-				Values[i] = Value.ToString();
+            for (int i = 0; i != Count; i++)
+                {
+                if (Value == MathUtility.MissingValue)
+                    Values[i] = "";
+                else
+                    Values[i] = Value.ToString();
+                }
 			AddColumn(Table, ColumnName, Values, StartRow, Count);
 			}
 

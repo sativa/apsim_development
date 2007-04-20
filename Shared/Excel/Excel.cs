@@ -42,8 +42,8 @@ namespace ExcelUtility
 
                 Excel.Range r = Sheet.UsedRange;
                 object[,] values = (object[,])r.Value2;
-                int NumRows = values.GetUpperBound(0);
-                int NumColumns = values.GetUpperBound(1);
+                int NumColumns = GetNumColumns(values);
+                int NumRows = GetNumRows(values);
 
                 // ok now we want to read in all rows of data and fill up our data table.
                 Table = new DataTable();
@@ -77,8 +77,30 @@ namespace ExcelUtility
 			return Table;
 			}
 
+        private static int GetNumRows(object[,] values)
+            {
+            for (int Row = 1; Row <= values.GetUpperBound(0); Row++)
+                {
+                if (values[Row, 1] == null ||
+                    values[Row, 1].ToString().Replace(" ", "") == "")
+                    return Row - 1;
+                }
+            return values.GetUpperBound(0);
+            }
 
-		static public void SendDataToSheet(string FileName, string SheetName, DataTable Table)
+        private static int GetNumColumns(object[,] values)
+            {
+            for (int Col = 1; Col <= values.GetUpperBound(1); Col++)
+                {
+                if (values[1, Col] == null ||
+                    values[1, Col].ToString().Replace(" ", "") == "")
+                    return Col - 1;
+                }
+            return values.GetUpperBound(1);
+            }
+
+
+        static public void SendDataToSheet(string FileName, string SheetName, DataTable Table)
 			{
 			if (File.Exists(FileName))
 				throw new Exception("File '" + FileName + "' already exists.");
