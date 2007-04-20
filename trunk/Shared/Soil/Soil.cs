@@ -188,6 +188,11 @@ namespace Soils
             get { return Utility.getLayered(Data, "profile", "finert", ""); }
             set { Utility.setLayered(Data, "profile", "finert", "", value); }
 			}
+        public double[] KS
+            {
+            get { return Utility.getLayered(Data, "profile", "ks", ""); }
+            set { Utility.setLayered(Data, "profile", "ks", "", value); }
+            }
 		public double[] OC
 			{
             get { return Utility.getLayered(Data, "profile", "oc", ""); }
@@ -305,6 +310,7 @@ namespace Soils
             get { return Utility.getLayered(Data, "profile", "Sorption", ""); }
             set { Utility.setLayered(Data, "profile", "Sorption", "", value); }
             }
+
         #endregion
 
         #region Crop 
@@ -1014,7 +1020,7 @@ namespace Soils
                 "</component>\r\n" +
                 "[endif]\r\n";
 
-            string errors = CheckForErrors();
+            string errors = CheckThatSimulationWillRun();
             if (errors != "")
                 throw new Exception(errors);
 
@@ -1368,52 +1374,59 @@ namespace Soils
 
         #region Error checking
         public string CheckForErrors()
+            {
+            string ErrorMessages = "";
+            ErrorMessages += CheckForMissing(this.Thickness, "THICKNESS");
+            ErrorMessages += CheckForMissing(this.Airdry, "AIRDRY");
+            ErrorMessages += CheckForMissing(this.DUL, "DUL");
+            ErrorMessages += CheckForMissing(this.SAT, "SAT");
+            ErrorMessages += CheckForMissing(this.SWCON, "SWCON");
+            ErrorMessages += CheckForMissing(this.BD, "BD");
+            ErrorMessages += CheckForMissing(this.OC, "OC");
+            ErrorMessages += CheckForMissing(this.PH, "PH");
+            ErrorMessages += CheckForMissing(this.FBIOM, "FBIOM");
+            ErrorMessages += CheckForMissing(this.FINERT, "FINERT");
+            ErrorMessages += CheckForMissing(this.Salb, "SALB");
+            ErrorMessages += CheckForMissing(this.CN2Bare, "CN2BARE");
+            ErrorMessages += CheckForMissing(this.CNRed, "CNRED");
+            ErrorMessages += CheckForMissing(this.CNCov, "CNCOV");
+            ErrorMessages += CheckForMissing(this.DiffusConst, "DIFFUSCONST");
+            ErrorMessages += CheckForMissing(this.DiffusSlope, "DIFFUSSLOPE");
+            ErrorMessages += CheckForMissing(this.RootCN, "ROOTCN");
+            ErrorMessages += CheckForMissing(this.RootWT, "ROOTWT");
+            ErrorMessages += CheckForMissing(this.SoilCN, "SOILCN");
+            ErrorMessages += CheckForMissing(this.EnrACoeff, "ENRACOEFF");
+            ErrorMessages += CheckForMissing(this.EnrBCoeff, "ENRBCOEFF");
+
+            foreach (string Crop in this.Crops)
+                {
+                ErrorMessages += CheckForMissing(this.LL(Crop), "LL-" + Crop);
+                if (Crop.ToLower() != "ozcot")
+                    {
+                    ErrorMessages += CheckForMissing(this.KL(Crop), "KL-" + Crop);
+                    ErrorMessages += CheckForMissing(this.XF(Crop), "XF-" + Crop);
+                    }
+                }
+
+            // Do some more rigorous checks.
+            if (ErrorMessages == "")
+                ErrorMessages += CheckProfile();
+
+            return ErrorMessages;
+            }
+        public string CheckThatSimulationWillRun()
 			{
             //-------------------------------------------------------------------------
             // This checks the soil for errors and returns an error message if a
             // problem was found. A blank string returned indicates no problems.
             //-------------------------------------------------------------------------
-            string ErrorMessages = "";
-			ErrorMessages += CheckForMissing(this.Thickness, "THICKNESS");
-			ErrorMessages += CheckForMissing(this.Airdry, "AIRDRY");
-			ErrorMessages += CheckForMissing(this.DUL, "DUL");
-			ErrorMessages += CheckForMissing(this.SAT, "SAT");
-			ErrorMessages += CheckForMissing(this.SWCON, "SWCON");
-			ErrorMessages += CheckForMissing(this.InitialSW, "SW");
-			ErrorMessages += CheckForMissing(this.BD, "BD");
-			ErrorMessages += CheckForMissing(this.OC, "OC");
-			ErrorMessages += CheckForMissing(this.PH, "PH");
-			ErrorMessages += CheckForMissing(this.FBIOM, "FBIOM");
-			ErrorMessages += CheckForMissing(this.FINERT, "FINERT");
-			ErrorMessages += CheckForMissing(this.InitialNO3, "NO3");
-			ErrorMessages += CheckForMissing(this.InitialNH4, "NH4");
-			ErrorMessages += CheckForMissing(this.Salb, "SALB");
-			ErrorMessages += CheckForMissing(this.CN2Bare, "CN2BARE");
-			ErrorMessages += CheckForMissing(this.CNRed, "CNRED");
-			ErrorMessages += CheckForMissing(this.CNCov, "CNCOV");
-			ErrorMessages += CheckForMissing(this.DiffusConst, "DIFFUSCONST");
-			ErrorMessages += CheckForMissing(this.DiffusSlope, "DIFFUSSLOPE");
-			ErrorMessages += CheckForMissing(this.RootCN, "ROOTCN");
-			ErrorMessages += CheckForMissing(this.RootWT, "ROOTWT");
-			ErrorMessages += CheckForMissing(this.SoilCN, "SOILCN");
-			ErrorMessages += CheckForMissing(this.EnrACoeff, "ENRACOEFF");
-			ErrorMessages += CheckForMissing(this.EnrBCoeff, "ENRBCOEFF");
+            string ErrorMessages = CheckForErrors();
 
-			foreach (string Crop in this.Crops)
-				{
-				ErrorMessages += CheckForMissing(this.LL(Crop), "LL-" + Crop);
-				if (Crop.ToLower() != "ozcot")
-					{
-					ErrorMessages += CheckForMissing(this.KL(Crop), "KL-" + Crop);
-					ErrorMessages += CheckForMissing(this.XF(Crop), "XF-" + Crop);
-					}
-				}
-
-			// Do some more rigorous checks.
-			if (ErrorMessages == "")
-				ErrorMessages += CheckProfile();
-
-			return ErrorMessages;
+            ErrorMessages += CheckForMissing(this.InitialSW, "SW");
+            ErrorMessages += CheckForMissing(this.InitialNO3, "NO3");
+            ErrorMessages += CheckForMissing(this.InitialNH4, "NH4");
+            ErrorMessages += CheckSW();
+            return ErrorMessages;
 			}
 		private string CheckForMissing(double[] Values, string PropertyName)
 			{
@@ -1528,16 +1541,6 @@ namespace Soils
 								  + "\r\n";
 					}
 
-				if (sw[layer] > sat[layer])
-					errorMessages += "Soil water of " + sw[layer].ToString("f3")
-						          +  " in layer " + RealLayerNumber.ToString() + " is above saturation of " + sat[layer].ToString("f3")
-								  + "\r\n";
-
-				if (sw[layer] < airdry[layer])
-					errorMessages += "Soil water of " + sw[layer].ToString("f3")
-						          +  " in layer " + RealLayerNumber.ToString() + " is below air-dry value of " + airdry[layer].ToString("f3")
-								  + "\r\n";
-
 				if (bd[layer] > 2.65)
 					errorMessages += "BD value of " + bd[layer].ToString("f3")
 						          +  " in layer " + RealLayerNumber.ToString() + " is greater than the theoretical maximum of 2.65"
@@ -1557,6 +1560,37 @@ namespace Soils
 				}
 			return errorMessages;
             }
+        private string CheckSW()
+            {
+            // ------------------------------------------------------------------
+            // Checks validity of initial soil water 
+            // ------------------------------------------------------------------
+            string errorMessages = "";
+
+            double[] thickness = this.Thickness;
+            double[] airdry = this.Airdry;
+            double[] sat = this.SAT;
+            double[] sw = this.InitialSW;
+            if (sw.Length > 0)
+                {
+                for (int layer = 0; layer != thickness.Length; layer++)
+                    {
+                    int RealLayerNumber = layer + 1;
+
+                    if (sw[layer] > sat[layer])
+                        errorMessages += "Soil water of " + sw[layer].ToString("f3")
+                                      + " in layer " + RealLayerNumber.ToString() + " is above saturation of " + sat[layer].ToString("f3")
+                                      + "\r\n";
+
+                    if (sw[layer] < airdry[layer])
+                        errorMessages += "Soil water of " + sw[layer].ToString("f3")
+                                      + " in layer " + RealLayerNumber.ToString() + " is below air-dry value of " + airdry[layer].ToString("f3")
+                                      + "\r\n";
+                    }
+                }
+            return errorMessages;
+            }
+
         #endregion
 
         #region Manipulation / fudges

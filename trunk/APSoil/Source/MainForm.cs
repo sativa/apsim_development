@@ -823,7 +823,7 @@ namespace APSoil
                     foreach (string SelectedPath in Apsoil.SelectedPaths)
                         {
                         Soil SoilToExport = new Soil(Apsoil.AllData.Find(SelectedPath));
-                        string Errors = SoilToExport.CheckForErrors();
+                        string Errors = SoilToExport.CheckThatSimulationWillRun();
                         if (Errors != "")
                             {
                             ErrorMessageForm ErrorForm = new ErrorMessageForm();
