@@ -16,12 +16,14 @@ using namespace std;
 //---------------------------------------------------------------------------
 ArraySpecifier* ArraySpecifier::create(const std::string& arraySpec)
    {
-   unsigned posOpenBracket = arraySpec.find('(');
+   unsigned posOpenBracket = arraySpec.rfind('(');
    if (posOpenBracket == string::npos)
       return NULL;
 
    unsigned posCloseBracket = arraySpec.rfind(')');
-   if (posOpenBracket == string::npos || posCloseBracket == string::npos)
+   if (posOpenBracket == string::npos ||
+       posCloseBracket == string::npos ||
+       posOpenBracket > posCloseBracket)
       throw runtime_error("Badly formed array specifier: " + arraySpec);
 
    ArraySpecifier* arraySpecifier = new ArraySpecifier();
