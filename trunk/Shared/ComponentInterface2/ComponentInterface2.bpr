@@ -6,7 +6,8 @@
     <PROJECT value="../../bin\ComponentInterface2.dll"/>
     <OBJFILES value="ComponentInterface.obj message.obj TypeConverter.obj ArraySpecifier.obj 
       CMPScienceAPI.obj CMPComponentInterface.obj CMPData.obj 
-      CMPComponentEntryPoints.obj EntryPoints.obj CreateComponent.obj"/>
+      CMPComponentEntryPoints.obj EntryPoints.obj CreateComponent.obj 
+      DataTypes.obj"/>
     <RESFILES value=""/>
     <DEFFILE value=""/>
     <RESDEPEN value="$(RESFILES)"/>
@@ -29,7 +30,7 @@
     <USERDEFINES value="_DEBUG"/>
     <SYSDEFINES value="NO_STRICT;_NO_VCL;_RTLDLL;USEPACKAGES"/>
     <MAINSOURCE value="ComponentInterface2.bpf"/>
-    <INCLUDEPATH value="$(BCB)\include;$(BCB)\include\vcl;$(BCB)\components\boost;$(SHARED)"/>
+    <INCLUDEPATH value="$(BCB)\include;$(BCB)\include\vcl;$(BCB)\components\boost;..\..\Shared"/>
     <LIBPATH value="$(BCB)\lib\obj;$(BCB)\lib"/>
     <WARNINGS value="-w-par"/>
     <OTHERFILES value=""/>
@@ -63,6 +64,7 @@
       <FILE FILENAME="CMPComponentEntryPoints.cpp" FORMNAME="" UNITNAME="CMPComponentEntryPoints" CONTAINERID="CCompiler" DESIGNCLASS="" LOCALCOMMAND=""/>
       <FILE FILENAME="EntryPoints.cpp" FORMNAME="" UNITNAME="EntryPoints" CONTAINERID="CCompiler" DESIGNCLASS="" LOCALCOMMAND=""/>
       <FILE FILENAME="CreateComponent.cpp" FORMNAME="" UNITNAME="CreateComponent" CONTAINERID="CCompiler" DESIGNCLASS="" LOCALCOMMAND=""/>
+      <FILE FILENAME="DataTypes.cpp" FORMNAME="" UNITNAME="DataTypes" CONTAINERID="CCompiler" DESIGNCLASS="" LOCALCOMMAND=""/>
   </FILELIST>
   <BUILDTOOLS>
   </BUILDTOOLS>
@@ -95,16 +97,14 @@ ProductName=
 ProductVersion=1.0.0.0
 Comments=
 
-[Excluded Packages]
-C:\Program Files\Borland\CBuilder6\Components\TeeChart\source\Sources\Compiled\BuilderC6\System\TeeImage7C6.bpl=TeeChart Pro Graphic Exporting formats
-
 [HistoryLists\hlIncludePath]
-Count=5
-Item0=$(BCB)\include;$(BCB)\include\vcl;$(BCB)\components\boost;$(SHARED)
-Item1=C:\Program Files\Borland\CBuilder6\Bin;$(BCB)\include;$(BCB)\include\vcl;$(SHARED);$(BCB)\components\boost
-Item2=$(BCB)\include;$(BCB)\include\vcl;$(SHARED);$(BCB)\components\boost
-Item3=$(BCB)\include;$(BCB)\include\vcl;$(SHARED)
-Item4=$(BCB)\include;$(BCB)\include\vcl
+Count=6
+Item0=$(BCB)\include;$(BCB)\include\vcl;$(BCB)\components\boost;..\..\Shared
+Item1=$(BCB)\include;$(BCB)\include\vcl;$(BCB)\components\boost;$(SHARED)
+Item2=C:\Program Files\Borland\CBuilder6\Bin;$(BCB)\include;$(BCB)\include\vcl;$(SHARED);$(BCB)\components\boost
+Item3=$(BCB)\include;$(BCB)\include\vcl;$(SHARED);$(BCB)\components\boost
+Item4=$(BCB)\include;$(BCB)\include\vcl;$(SHARED)
+Item5=$(BCB)\include;$(BCB)\include\vcl
 
 [HistoryLists\hlLibraryPath]
 Count=2
@@ -132,11 +132,11 @@ Item0=.
 DebugSourceDirs=$(BCB)\source\vcl
 
 [Parameters]
-RunParams=
+RunParams=&quot;C:\development\apsim\canopy\Sample\Canopy Sample Simulation.sim&quot;
 Launcher=
 UseLauncher=0
 DebugCWD=
-HostApplication=C:\Program Files\FarmWise\farmwise.exe
+HostApplication=C:\development\Bin\apsim.exe
 RemoteHost=
 RemotePath=
 RemoteLauncher=
