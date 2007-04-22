@@ -593,6 +593,7 @@ void Coordinator::onQueryInfoMessage(unsigned int fromID,
       string fqn = getName();
       fqn += ".";
       fqn += childName;
+
       sendMessage(newReturnInfoMessage(componentID,
                                        fromID,
                                        messageID,
@@ -605,14 +606,20 @@ void Coordinator::onQueryInfoMessage(unsigned int fromID,
 
    for (unsigned i = 0; i != matches.size(); i++)
       {
-      char buffer[100];
-      FString st(buffer, sizeof(buffer), CString);
-      componentIDToName(matches[i].componentId, st);
-      string fqn = asString(st);
-      fqn += ".";
-      fqn += matches[i].name;
+      std::string componentName;
+      if (matches[i].componentId == componentID)
+         componentName = getName();
+      else if (components.find(matches[i].componentId) != components.end())
+         componentName = components[matches[i].componentId]->getName();
 
-      sendMessage(newReturnInfoMessage(componentID,
+      if (componentName == "")
+         {
+
+         }
+      else 
+         {
+         string fqn = componentName + "." + matches[i].name;
+         sendMessage(newReturnInfoMessage(componentID,
                                        fromID,
                                        messageID,
                                        matches[i].componentId,
@@ -620,6 +627,7 @@ void Coordinator::onQueryInfoMessage(unsigned int fromID,
                                        fqn.c_str(),
                                        matches[i].ddml.c_str(),
                                        queryInfo.kind));
+         }
       }
    }
 
