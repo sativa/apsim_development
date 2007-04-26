@@ -9,12 +9,20 @@
  The Agricultural Production Systems Simulator
              Copyright(c) APSRU               
 
-     Version                = 5.3
-     Title                  = Sample Economics Simulation
-     Component DLL          = c:\development\apsim\summaryfile\lib\summaryfile.dll
-     Component DLL          = c:\development\apsim\clock\lib\clock.dll
-     Component DLL          = c:\development\apsim\input\lib\input.dll
-     Component DLL          = c:\development\apsim\protocolmanager\lib\protocolmanager.dll
+Version                = 5.3
+Title                  = Sample Economics Simulation
+Component      "clock" = c:\development\apsim\clock\lib\clock.dll
+Component        "met" = c:\development\apsim\input\lib\input.dll
+Paddock:
+Component "outputfile" = c:\development\apsim\report\lib\report.dll
+Component      "accum" = c:\development\apsim\accum\lib\accum.dll
+Component "fertiliser" = c:\development\apsim\fertiliz\lib\fertiliz.dll
+Component    "Manager" = c:\development\apsim\manager\lib\manager.dll
+Component "Jimbour,Waco (#016) Water" = c:\development\apsim\soilwat2\lib\soilwat2.dll
+Component "surface organic matter" = c:\development\apsim\surfaceom\lib\surfaceom.dll
+Component "Jimbour,Waco (#016) Nitrogen" = c:\development\apsim\soiln2\lib\soiln2.dll
+Component      "wheat" = c:\development\apsim\plant\lib\plant.dll
+Component  "Economics" = c:\development\apsim\tcllink\lib\tcllink.dll
 
 ------- clock Initialisation --------------------------------------------------
      Sequencer phases:
@@ -39,7 +47,7 @@
         wheat.grain_protein
         wheat.grain_size
         esw
-     
+
      Output file = Sample Economics Simulation.out
      Format = normal
 
@@ -178,7 +186,7 @@
            Using Ritchie evaporation model
             Cuml evap (U):            6.00 (mm^0.5)
             CONA:                     3.50 ()
-           Eo from priestly-taylor
+            Eo from priestly-taylor
 
 ------- surface organic matter Initialisation ---------------------------------
      
@@ -275,7 +283,6 @@
      Tractors=t1
      Implements=p1 p2
 ------- Start of simulation  --------------------------------------------------
-31 December 1940(Day of year=366), Manager: 
      Manager creating a new local real variable : fallowin =     0.00000000000000
      Manager creating a new local real variable : nextcrop =     0.00000000000000
 10 July 1941(Day of year=191), Manager: 
@@ -284,11 +291,8 @@
      Manager sending message :- economics operate  tractor = t1, implement = p1, area = 200
 28 May 1942(Day of year=148), Economics: 
      Machinery job 't1 + p1' is queued
-28 May 1942(Day of year=148), Manager: 
      Manager sending message :- economics expenditure  category = seedcost, name = wheat, rate = 120 (kg/ha), area = 200 (ha)
-28 May 1942(Day of year=148), Economics: 
      Costed wheat seedcost (rate=120, price=0.73) over 200 ha = 17520.0
-28 May 1942(Day of year=148), Manager: 
      Manager sending message :- wheat sow  plants = 100, sowing_depth = 30, cultivar = hartog, row_spacing = 250, crop_class = plant
 28 May 1942(Day of year=148), wheat: 
      Crop Sow
@@ -330,18 +334,14 @@
          -----------------------------------------------
          Extractable SW:   320mm in  3000mm total depth ( 11%).
          Crop factor for bounding water use is set to   1.5 times eo.
-28 May 1942(Day of year=148), Manager: 
      Manager sending message :- economics expenditure  category = fertilisercost, name = urea, rate = 150, area = 200 (ha)
-28 May 1942(Day of year=148), Economics: 
      Costed urea fertilisercost (rate=150, price=0.5) over 200 ha = 15000.0
-28 May 1942(Day of year=148), Manager: 
      Manager sending message :- fertiliser apply  amount = 150 (kg/ha), depth = 50 (mm), type = urea
 28 May 1942(Day of year=148), fertiliser: 
      
         - Reading Fertiliser Type Parameters
        150.00 of Urea ferilizer (urea)
                                               added at depth   50.00 (layer   1)
-28 May 1942(Day of year=148), wheat: 
      
                       Crop Sowing Data
          ------------------------------------------------
@@ -351,7 +351,6 @@
             148   30.0  100.0  250.0   0.0   0.0 hartog
          ------------------------------------------------
      
-28 May 1942(Day of year=148), Economics: 
      hours='8', rate='10',cost='12.05',oil='10'
 29 May 1942(Day of year=149), wheat: 
       stage 2.0 germination
@@ -396,15 +395,11 @@
      Manager sending message :- economics expenditure  category = contract, name = broadacre_harvesting, rate = 1, area = 200 (ha)
 10 October 1942(Day of year=283), Economics: 
      Costed broadacre_harvesting contract (rate=1, price=250) over 200 ha = 50000
-10 October 1942(Day of year=283), Manager: 
      Manager creating a new local real variable : cropyieldtonnes =     3.52736963000000
-     Manager creating a new local real variable : protein =     13.9365997000000
-     Manager sending message :- economics income  category = cropprice, name = wheat, yield = 3.52736963000000, protein = 13.9365997000000, area = 200 (ha)
-10 October 1942(Day of year=283), Economics: 
+     Manager creating a new local real variable : protein =     13.9365025000000
+     Manager sending message :- economics income  category = cropprice, name = wheat, yield = 3.52736963000000, protein = 13.9365025000000, area = 200 (ha)
      Priced wheat cropprice (price='180.0', yield='3.52736963000000') over '200' ha = '126985.30668'
-10 October 1942(Day of year=283), Manager: 
      Manager sending message :- wheat harvest
-10 October 1942(Day of year=283), wheat: 
      
       flowering day          =  243                           stover (kg/ha)         =     5988.3
       maturity day           =  282                           grain yield (kg/ha)    =     3527.4
@@ -433,7 +428,7 @@
      
      Crop harvested.
          Organic matter from crop:-      Tops to surface residue      Roots to soil FOM
-                          DM (kg/ha) =               5988.14                    0.00
+                          DM (kg/ha) =               5988.13                    0.00
                           N  (kg/ha) =                 22.36                    0.00
      
          Organic matter removed from system:-      From Tops               From Roots
@@ -443,9 +438,7 @@
       stage 4.0 end_of_juvenile
                      biomass =           0.02 (g/m^2)   lai          =   0.020 (m^2/m^2)
                      stover N conc =     6.30 (%)    extractable sw =  103.04 (mm)
-10 October 1942(Day of year=283), Manager: 
      Manager sending message :- wheat end_crop
-10 October 1942(Day of year=283), wheat: 
      Crop ended. Yield (dw) =     0.0  (kg/ha)
          Organic matter from crop:-      Tops to surface residue      Roots to soil FOM
                           DM (kg/ha) =                  0.19                 1097.01
