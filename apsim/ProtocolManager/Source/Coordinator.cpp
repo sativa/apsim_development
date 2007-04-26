@@ -606,28 +606,27 @@ void Coordinator::onQueryInfoMessage(unsigned int fromID,
 
    for (unsigned i = 0; i != matches.size(); i++)
       {
+      std::string matchName;
       std::string componentName;
+
       if (matches[i].componentId == componentID)
          componentName = getName();
       else if (components.find(matches[i].componentId) != components.end())
          componentName = components[matches[i].componentId]->getName();
 
       if (componentName == "")
-         {
-
-         }
+         matchName = matches[i].name;
       else 
-         {
-         string fqn = componentName + "." + matches[i].name;
-         sendMessage(newReturnInfoMessage(componentID,
+         matchName = componentName + "." + matches[i].name;
+
+      sendMessage(newReturnInfoMessage(componentID,
                                        fromID,
                                        messageID,
                                        matches[i].componentId,
                                        matches[i].id,
-                                       fqn.c_str(),
+                                       matchName.c_str(),
                                        matches[i].ddml.c_str(),
                                        queryInfo.kind));
-         }
       }
    }
 
