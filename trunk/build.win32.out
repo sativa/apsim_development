@@ -754,7 +754,7 @@ Borland C++ 5.6.4 for Win32 Copyright (c) 1993, 2002 Borland
 Log.cpp:
 Loaded pre-compiled headers.
 LogComponent.cpp:
-Warning W8037 LogComponent.cpp 374: Non-const function Variant::getType() called for const object in function LogComponent::writeVariant(const Variant &)
+Warning W8037 LogComponent.cpp 382: Non-const function Variant::getType() called for const object in function LogComponent::writeVariant(const Variant &)
 Turbo Incremental Link 5.64 Copyright (c) 1997-2002 Borland
 ------Compiling C:\development\apsim\maize\source
 MAKE Version 5.2  Copyright (c) 1987, 2000 Borland
@@ -1431,6 +1431,7 @@ MAKE Version 5.2  Copyright (c) 1987, 2000 Borland
 23 File(s) copied
 4 File(s) copied
 2 File(s) copied
+80 File(s) copied
 Installing activeX control
 dir=C:/development/apsim/tcllink/lib
 Dll=C:/development/apsim/tcllink/lib/tclcontrol84.dll
@@ -1443,8 +1444,8 @@ Borland C++ 5.6.4 for Win32 Copyright (c) 1993, 2002 Borland
 TclLink.cpp:
 TclComponent.cpp:
 TclXtras.cpp:
-Warning W8008 TclXtras.cpp 112: Condition is always false in function StopTcl(Tcl_Interp *)
-Warning W8066 TclXtras.cpp 115: Unreachable code in function StopTcl(Tcl_Interp *)
+Warning W8008 TclXtras.cpp 114: Condition is always false in function StopTcl(Tcl_Interp *)
+Warning W8066 TclXtras.cpp 117: Unreachable code in function StopTcl(Tcl_Interp *)
 Turbo Incremental Link 5.64 Copyright (c) 1997-2002 Borland
 ------Compiling C:\development\apsim\Tracker\Source
 MAKE Version 5.2  Copyright (c) 1987, 2000 Borland

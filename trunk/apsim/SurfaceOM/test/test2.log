@@ -697,17 +697,11 @@
                <message5 to="MasterPM" msgtype="PublishEvent" ack="false" regName="report.do_output" type="type">
                   <message6 to="report" msgtype="Event" ack="false">
                      <message7 to="MasterPM" msgtype="QueryInfo" ack="false" name="clock.day" kind="2">
-                        <message8 to="MasterPM" msgtype="QueryInfo" ack="false" name="2" kind="8">
-                           <message9 to="MasterPM" msgtype="ReturnInfo" ack="false"/>
-                        </message8>
                         <message8 to="report" msgtype="ReturnInfo" ack="false"/>
                      </message7>
                      <message7 to="MasterPM" msgtype="QueryInfo" ack="false" name="clock.year" kind="2">
                         <message8 to="clock" msgtype="ApsimGetQuery" ack="false" name="year">
                            <message9 to="MasterPM" msgtype="Register" ack="false" kind="respondToGet" name="year" type="type kind='integer4' unit='(year)'"/>
-                        </message8>
-                        <message8 to="MasterPM" msgtype="QueryInfo" ack="false" name="2" kind="8">
-                           <message9 to="MasterPM" msgtype="ReturnInfo" ack="false"/>
                         </message8>
                         <message8 to="report" msgtype="ReturnInfo" ack="false"/>
                      </message7>
@@ -715,26 +709,17 @@
                         <message8 to="SurfaceOM" msgtype="ApsimGetQuery" ack="false" name="surfaceom_wt">
                            <message9 to="MasterPM" msgtype="Register" ack="false" kind="respondToGet" name="surfaceom_wt" type="type kind='single' unit='(kgha)'"/>
                         </message8>
-                        <message8 to="MasterPM" msgtype="QueryInfo" ack="false" name="7" kind="8">
-                           <message9 to="MasterPM" msgtype="ReturnInfo" ack="false"/>
-                        </message8>
                         <message8 to="report" msgtype="ReturnInfo" ack="false"/>
                      </message7>
                      <message7 to="MasterPM" msgtype="QueryInfo" ack="false" name="SurfaceOM.surfaceom_wt_residue1" kind="2">
                         <message8 to="SurfaceOM" msgtype="ApsimGetQuery" ack="false" name="surfaceom_wt_residue1">
                            <message9 to="MasterPM" msgtype="Register" ack="false" kind="respondToGet" name="surfaceom_wt_residue1" type="type kind='single' unit='(kgha)'"/>
                         </message8>
-                        <message8 to="MasterPM" msgtype="QueryInfo" ack="false" name="7" kind="8">
-                           <message9 to="MasterPM" msgtype="ReturnInfo" ack="false"/>
-                        </message8>
                         <message8 to="report" msgtype="ReturnInfo" ack="false"/>
                      </message7>
                      <message7 to="MasterPM" msgtype="QueryInfo" ack="false" name="SurfaceOM.surfaceom_wt_residue2" kind="2">
                         <message8 to="SurfaceOM" msgtype="ApsimGetQuery" ack="false" name="surfaceom_wt_residue2">
                            <message9 to="MasterPM" msgtype="Register" ack="false" kind="respondToGet" name="surfaceom_wt_residue2" type="type kind='single' unit='(kgha)'"/>
-                        </message8>
-                        <message8 to="MasterPM" msgtype="QueryInfo" ack="false" name="7" kind="8">
-                           <message9 to="MasterPM" msgtype="ReturnInfo" ack="false"/>
                         </message8>
                         <message8 to="report" msgtype="ReturnInfo" ack="false"/>
                      </message7>
@@ -745,17 +730,11 @@
                         <message8 to="SurfaceOM" msgtype="ApsimGetQuery" ack="false" name="surfaceom_n_residue1">
                            <message9 to="MasterPM" msgtype="Register" ack="false" kind="respondToGet" name="surfaceom_n_residue1" type="type kind='single' unit='(kgha)'"/>
                         </message8>
-                        <message8 to="MasterPM" msgtype="QueryInfo" ack="false" name="7" kind="8">
-                           <message9 to="MasterPM" msgtype="ReturnInfo" ack="false"/>
-                        </message8>
                         <message8 to="report" msgtype="ReturnInfo" ack="false"/>
                      </message7>
                      <message7 to="MasterPM" msgtype="QueryInfo" ack="false" name="SurfaceOM.surfaceom_n_residue2" kind="2">
                         <message8 to="SurfaceOM" msgtype="ApsimGetQuery" ack="false" name="surfaceom_n_residue2">
                            <message9 to="MasterPM" msgtype="Register" ack="false" kind="respondToGet" name="surfaceom_n_residue2" type="type kind='single' unit='(kgha)'"/>
-                        </message8>
-                        <message8 to="MasterPM" msgtype="QueryInfo" ack="false" name="7" kind="8">
-                           <message9 to="MasterPM" msgtype="ReturnInfo" ack="false"/>
                         </message8>
                         <message8 to="report" msgtype="ReturnInfo" ack="false"/>
                      </message7>
@@ -763,15 +742,9 @@
                         <message8 to="SurfaceOM" msgtype="ApsimGetQuery" ack="false" name="surfaceom_n_residue3"/>
                      </message7>
                      <message7 to="MasterPM" msgtype="QueryInfo" ack="false" name="soiln2.fom_c" kind="2">
-                        <message8 to="MasterPM" msgtype="QueryInfo" ack="false" name="8" kind="8">
-                           <message9 to="MasterPM" msgtype="ReturnInfo" ack="false"/>
-                        </message8>
                         <message8 to="report" msgtype="ReturnInfo" ack="false"/>
                      </message7>
                      <message7 to="MasterPM" msgtype="QueryInfo" ack="false" name="soiln2.fom_c" kind="2">
-                        <message8 to="MasterPM" msgtype="QueryInfo" ack="false" name="8" kind="8">
-                           <message9 to="MasterPM" msgtype="ReturnInfo" ack="false"/>
-                        </message8>
                         <message8 to="report" msgtype="ReturnInfo" ack="false"/>
                      </message7>
                      <message7 to="MasterPM" msgtype="Register" ack="false" kind="get" name="clock.day" type="type kind='string' array='T'"/>
