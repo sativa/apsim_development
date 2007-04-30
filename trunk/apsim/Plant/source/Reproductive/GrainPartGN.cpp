@@ -3,19 +3,15 @@
 // 6 Aug 97 J. Hargreaves  Implementation
 
 #include "GrainPartGN.h"
+#include <ComponentInterface/ScienceAPI.h>
 
 using namespace std;
 
-static const char* floatType =        "<type kind=\"single\"/>";
-
 inline bool floatsAreEqual(float A, float B, float C) {return(fabs(A-B)<C);}
 
-// default constructor
-fruitGrainPartGN::fruitGrainPartGN()
-{}
-
 //  initialise data members.
-fruitGrainPartGN::fruitGrainPartGN(plantInterface *p, const string &name) : fruitGrainPart(p, name)
+fruitGrainPartGN::fruitGrainPartGN(ScienceAPI& scienceAPI, plantInterface *p, const string &name)
+   : fruitGrainPart(scienceAPI, p, name)
 {
 }
 
@@ -33,16 +29,6 @@ ostream &operator<<(ostream &output, const fruitGrainPartGN /*&pool*/)
    output << endl;
    return output;
 }
-
-// copy constructor
-//  copy data members of object
-//===========================================================================
-fruitGrainPartGN::fruitGrainPartGN(const fruitGrainPartGN &/* fruitGrainPartGN*/)
-//===========================================================================
-{
-  throw std::invalid_argument("Copy constructor NI for fruitGrainPartGN");
-}
-
 
 // Assigment operator
 //  assign data members of object
@@ -112,28 +98,13 @@ float fruitGrainPartGN::grainNumber (float stem_dm_green
 
 void fruitGrainPartGN::readCultivarParameters (protocol::Component *system, const string &cultivar)
    //===========================================================================
-{
+   {
    fruitGrainPart::readCultivarParameters (system, cultivar);
-      system->readParameter (cultivar.c_str()
-                             , "grains_per_gram_stem"//, "(/g)"
-                             , pGrains_per_gram_stem
-                             , 0.0, 10000.0);
-
-      system->readParameter (cultivar.c_str()
-                             , "potential_grain_filling_rate"//, "(g/grain/day)"
-                             , pPotential_grain_filling_rate
-                             , 0.0, 1.0);
-
-      system->readParameter (cultivar.c_str()
-                             , "potential_grain_growth_rate"//, "(g/grain/day)"
-                             , pPotential_grain_growth_rate
-                             , 0.0, 1.0);
-
-      system->readParameter (cultivar.c_str()
-                             , "max_grain_size"//, "(g)"
-                             , pMaxGrainSize
-                             , 0.0, 1.0);
-}
+   scienceAPI.read("grains_per_gram_stem", pGrains_per_gram_stem, 0.0f, 10000.0f);
+   scienceAPI.read("potential_grain_filling_rate", pPotential_grain_filling_rate, 0.0f, 1.0f);
+   scienceAPI.read("potential_grain_growth_rate", pPotential_grain_growth_rate, 0.0f, 1.0f);
+   scienceAPI.read("max_grain_size", pMaxGrainSize, 0.0f, 1.0f);
+   }
 
 void fruitGrainPartGN::writeCultivarInfo (protocol::Component *system)
    //===========================================================================
@@ -176,54 +147,17 @@ void fruitGrainPartGN::onKillStem(void)
 
 void fruitGrainPartGN::readSpeciesParameters(protocol::Component *system, vector<string> &sections)
    //===========================================================================
-{
-     fruitGrainPart::readSpeciesParameters(system, sections);
+   {
+   fruitGrainPart::readSpeciesParameters(system, sections);
 
-      system->readParameter (sections
-                             , "x_temp_grainfill"
-                             //, "(oc)"
-                             , cX_temp_grainfill
-                             , cNum_temp_grainfill
-                             , 0.0
-                             , 40.0);
-
-      system->readParameter (sections
-                             ,"y_rel_grainfill"
-                             //, "(-)"
-                             , cY_rel_grainfill
-                             , cNum_temp_grainfill
-                             , 0.0
-                             , 1.0);
-      system->readParameter (sections
-                             , "potential_grain_n_filling_rate"//, "()"
-                             , cPotential_grain_n_filling_rate
-                             , 0.0, 1.0);
-      system->readParameter (sections
-                             , "minimum_grain_n_filling_rate"//, "()"
-                             , cMinimum_grain_n_filling_rate
-                             , 0.0, 1.0);
-
-      system->readParameter (sections
-                             , "crit_grainfill_rate"//, "(mg/grain/d)"
-                             , cCrit_grainfill_rate
-                             , 0.0, 1.0);
-
-      system->readParameter (sections
-                             , "x_temp_grain_n_fill"//,  "(oC)"
-                             , cX_temp_grain_n_fill
-                             , cNum_temp_grain_n_fill
-                             , 0.0
-                             , 40.0);
-
-      system->readParameter (sections
-                             , "y_rel_grain_n_fill"
-                             //, "(-)"
-                             , cY_rel_grain_n_fill
-                             , cNum_temp_grain_n_fill
-                             , 0.0
-                             , 1.0);
-
-}
+   scienceAPI.read("x_temp_grainfill", cX_temp_grainfill, cNum_temp_grainfill, 0.0f, 40.0f);
+   scienceAPI.read("y_rel_grainfill", cY_rel_grainfill, cNum_temp_grainfill, 0.0f, 1.0f);
+   scienceAPI.read("potential_grain_n_filling_rate", cPotential_grain_n_filling_rate, 0.0f, 1.0f);
+   scienceAPI.read("minimum_grain_n_filling_rate", cMinimum_grain_n_filling_rate, 0.0f, 1.0f);
+   scienceAPI.read("crit_grainfill_rate", cCrit_grainfill_rate, 0.0f, 1.0f);
+   scienceAPI.read("x_temp_grain_n_fill", cX_temp_grain_n_fill, cNum_temp_grain_n_fill, 0.0f, 40.0f);
+   scienceAPI.read("y_rel_grain_n_fill", cY_rel_grain_n_fill, cNum_temp_grain_n_fill, 0.0f, 1.0f);
+   }
 
 void fruitGrainPartGN::update(void)
    //===========================================================================
@@ -340,5 +274,6 @@ void fruitGrainPartGN::doNDemandGrain (float nfact_grain_conc      //   (INPUT)
       }
 
 }
+
 
 

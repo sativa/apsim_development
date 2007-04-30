@@ -7,6 +7,7 @@
 #include <ComponentInterface/datatypes.h>
 #include <ComponentInterface/ApsimVariant.h>
 #include <ComponentInterface/MessageDataExt.h>
+#include <ComponentInterface/ScienceAPI.h>
 
 #include "PlantComponent.h"
 #include "PlantLibrary.h"
@@ -25,7 +26,7 @@ void PhotoPhase::readCultivarParameters(protocol::Component *s, const string & c
    string key1 = "x_pp_"+name();
    string key2 = "y_tt_"+name();
 
-   photo_tt.read(s, cultivar,
+   photo_tt.read(scienceAPI,
                   key1.c_str(), "h", 0.0, 100.0,
                   key2.c_str(), "dd", 0.0, 1e6);
    }
@@ -34,12 +35,9 @@ void PhotoPhase::readSpeciesParameters (protocol::Component *s, vector<string> &
 //=======================================================================================
    {
    pPhase::readSpeciesParameters (s, sections);
-      s->readParameter (sections
-                      , "twilight"//, "(o)"
-                      , twilight
-                      , -90.0, 90.0);
-      string key = name()+"_pp_inductive_cutoff";
-      cutoff = s->readParameter (sections, key);
+   scienceAPI.read("twilight", twilight, -90.0f, 90.0f);
+   string key = name()+"_pp_inductive_cutoff";
+   scienceAPI.read(key, cutoff);
    }
 
 

@@ -1,9 +1,11 @@
 #include "CompositePart.h"
 #include "GrainPart.h"
 #include "PodPart.h"
+#include <ComponentInterface/ScienceAPI.h>
 using namespace std;
 
-fruitPodPart::fruitPodPart(plantInterface *p, fruitGrainPart *g, const string &name) : plantPart(p, name)
+fruitPodPart::fruitPodPart(ScienceAPI& scienceAPI, plantInterface *p, fruitGrainPart *g, const string &name)
+   : plantPart(scienceAPI, p, name)
    {
    myGrain = g;
    fill_real_array (cX_co2_te_modifier, 0.0, max_table);
@@ -166,65 +168,29 @@ void fruitPodPart::readSpeciesParameters(protocol::Component *system, vector<str
 
    int   numvals;                                // number of values returned
 
-   system->readParameter (sections,
-                          "transp_eff_cf"//, "(kpa)"
-                          , c.transpEffCf, numvals
-                          , 0.0, 1.0);
-
-   system->readParameter (sections
-                          , "x_co2_te_modifier"//, "()"
-                          , cX_co2_te_modifier, cNum_co2_te_modifier
-                          , 0.0, 1000.0);
-
-   system->readParameter (sections
-                          , "y_co2_te_modifier"//, "()"
-                          , cY_co2_te_modifier, cNum_co2_te_modifier
-                          , 0.0, 10.0);
-
-   system->readParameter (sections
-                          ,"extinct_coef_pod"//, "()"
-                          , cExtinctionCoeffPod
-                          , 0.0, 1.0);
-
-   system->readParameter (sections
-                          ,"spec_pod_area"//, "()"
-                          , cSpec_pod_area
-                          , 0.0, 100000.0);
-
-   system->readParameter (sections
-                          ,"rue_pod"//, "()"
-                          , cRue_pod
-                          , 0.0, 3.0);
+   scienceAPI.read("transp_eff_cf", c.transpEffCf, numvals, 0.0f, 1.0f);
+   scienceAPI.read("x_co2_te_modifier", cX_co2_te_modifier, cNum_co2_te_modifier, 0.0f, 1000.0f);
+   scienceAPI.read("y_co2_te_modifier", cY_co2_te_modifier, cNum_co2_te_modifier, 0.0, 10.0f);
+   scienceAPI.read("extinct_coef_pod", cExtinctionCoeffPod, 0.0f, 1.0f);
+   scienceAPI.read("spec_pod_area", cSpec_pod_area, 0.0f, 100000.0f);
+   scienceAPI.read("rue_pod", cRue_pod, 0.0f, 3.0f);
 
    //    plant_transp_eff
 
-   system->readParameter (sections
-                          ,"svp_fract"//, "()"
-                          , cSvp_fract
-                          , 0.0, 1.0);
-   string partition_option = system->readParameter (sections, "partition_option");
+   scienceAPI.read("svp_fract", cSvp_fract, 0.0f, 1.0f);
+   string partition_option;
+   scienceAPI.read("partition_option", partition_option);
 
    if (partition_option == "1")
       {
       cPartition_option=1;
-      system->readParameter (sections
-                             ,"frac_pod"//, "()"
-                             , cFrac_pod, numvals
-                             , 0.0, 2.0);
+      scienceAPI.read("frac_pod", cFrac_pod, numvals, 0.0, 2.0);
       }
    else if (partition_option == "2" || partition_option == "allometric")
       {
       cPartition_option=2;
-      system->readParameter (sections
-                             ,"x_stage_no_partition"//, "()"
-                             , cX_stage_no_partition
-                             , cNum_stage_no_partition
-                             , 0.0, 20.0);
-
-      system->readParameter (sections
-                             ,"y_frac_pod"//, "()"
-                             , cY_frac_pod, numvals
-                             , 0.0, 2.0);
+      scienceAPI.read("x_stage_no_partition", cX_stage_no_partition, cNum_stage_no_partition, 0.0f, 20.0f);
+      scienceAPI.read("y_frac_pod", cY_frac_pod, numvals, 0.0f, 2.0f);
       }
    else
       throw std::invalid_argument("invalid template option in fruitPodPart::readSpeciesParameters");

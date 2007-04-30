@@ -38,7 +38,8 @@ class TTTPhenology : public CropPhenology {
    virtual void updateTTTargets(const environment_t &e);
 
  public:
-   TTTPhenology(plantInterface *p) : CropPhenology(p) {};
+   TTTPhenology(ScienceAPI& scienceAPI, plantInterface *p)
+      : CropPhenology(scienceAPI, p) {};
    void prepare(const environment_t &e);
    void process(const environment_t &e, const pheno_stress_t &ps, float fasw_seed, float pesw_seed);
    void doRegistrations (protocol::Component *);

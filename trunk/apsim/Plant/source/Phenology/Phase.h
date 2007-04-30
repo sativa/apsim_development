@@ -22,10 +22,12 @@ class pPhase
            target,         // Target time we want to spend here
            days;           // Number of days spent in this phase.
      bool empty;
-
+     ScienceAPI& scienceAPI;
    public:
-     pPhase(const std::string& n) {myName = n; tt = target = days = 0.0; empty = true;};
-     pPhase(const char *n) {myName = n; tt = target = days = 0.0; empty = true;};
+     pPhase(ScienceAPI& api, const std::string& n)
+        : scienceAPI(api) {myName = n; tt = target = days = 0.0; empty = true;};
+     pPhase(ScienceAPI& api, const char *n)
+        : scienceAPI(api) {myName = n; tt = target = days = 0.0; empty = true;};
      virtual ~pPhase() {};
 
      void  add(float dlt_days)               {days += dlt_days;};

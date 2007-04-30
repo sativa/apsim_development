@@ -31,6 +31,7 @@ using namespace std;
 #include <ComponentInterface/datatypes.h>
 #include <ComponentInterface/Messages.h>
 #include <ComponentInterface/MessageDataExt.h>
+#include <ComponentInterface/ScienceAPI.h>
 #include <ApsimShared/ApsimComponentData.h>
 #include <ApsimShared/FStringExt.h>
 #include <general/string_functions.h>
@@ -77,10 +78,10 @@ void Plant::read_p_constants (PlantComponent *systemInterface)
     const char*  section_name = "constants" ;
 
 //+  Local Variables
-    systemInterface->readParameter (section_name, "pfact_photo_slope",    /*"()",   */ c.pfact_photo_slope    , 0.0, 100.0);
-    systemInterface->readParameter (section_name, "pfact_expansion_slope",/*"()",   */ c.pfact_expansion_slope, 0.0, 100.0);
-    systemInterface->readParameter (section_name, "pfact_pheno_slope",    /*"()",   */ c.pfact_pheno_slope    , 0.0, 100.0);
-    systemInterface->readParameter (section_name, "pfact_grain_slope",    /*"()",   */ c.pfact_grain_slope    , 0.0, 100.0);
+    scienceAPI.read("pfact_photo_slope", c.pfact_photo_slope, 0.0f, 100.0f);
+    scienceAPI.read("pfact_expansion_slope", c.pfact_expansion_slope, 0.0f, 100.0f);
+    scienceAPI.read("pfact_pheno_slope", c.pfact_pheno_slope, 0.0f, 100.0f);
+    scienceAPI.read("pfact_grain_slope", c.pfact_grain_slope, 0.0f, 100.0f);
 }
 
 void Plant::prepare_p(void)

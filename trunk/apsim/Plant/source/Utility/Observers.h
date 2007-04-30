@@ -12,7 +12,7 @@ class eventObserver : public plantThing {
      std::string varName1, varName2, desc1, desc2;
 
    public:
-     eventObserver(const string& eventOfInterest, Plant *);
+     eventObserver(ScienceAPI& scienceAPI, const string& eventOfInterest, Plant *);
      virtual void doRegistrations(protocol::Component *);
      virtual void onPlantEvent(const string &);
 

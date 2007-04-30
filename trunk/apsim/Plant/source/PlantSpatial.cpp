@@ -1,5 +1,6 @@
 
 #include "PlantSpatial.h"
+#include <ComponentInterface/ScienceAPI.h>
 ////using namespace std;
 
 PlantSpatial::PlantSpatial(void)
@@ -58,19 +59,12 @@ void PlantSpatial::zeroDeltas(void)
 }
 
 
-void PlantSpatial::readSpeciesParameters(protocol::Component *system, vector<string> &sections)
+void PlantSpatial::read(ScienceAPI& scienceAPI)
    //===========================================================================
-{
-    system->readParameter (sections
-                   ,"row_spacing_default"//, "(mm)"
-                   , row_spacing_default
-                   , 0.0, 2000.);
-
-    system->readParameter (sections
-                   ,"skiprow_default"//, "()"
-                   , skip_row_default
-                   , 0.0, 2.0);
-}
+   {
+   scienceAPI.read("row_spacing_default", row_spacing_default, 0.0f, 2000.0f);
+   scienceAPI.read("skiprow_default", skip_row_default, 0.0f, 2.0f);
+   }
 
 void PlantSpatial::startCrop (protocol::Component *system, protocol::Variant &v/*(INPUT) message arguments*/)
    //===========================================================================

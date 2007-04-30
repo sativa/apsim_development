@@ -8,6 +8,7 @@
 #include <sstream>
 #include <iomanip>
 #include <ComponentInterface/Component.h>
+#include <ComponentInterface/ScienceAPI.h>
 #include "PlantComponent.h"
 #include "PlantInterface.h"
 #include "PlantLibrary.h"
@@ -17,16 +18,7 @@ externalFunction::externalFunction() {};
 externalFunction::~externalFunction() {};
 
 
-void externalFunction::read(protocol::Component *P, const string &section,
-                     const char *xname, const char * xunits, float x0, float x1,
-                     const char *yname, const char * yunits, float y0, float y1)
-      {
-      vector<string> t;
-      t.push_back(section);
-      search(P, t, xname, xunits, x0, x1, yname, yunits, y0, y1);
-      }
-
-void externalFunction::search(protocol::Component */* P*/, vector<string> &/* sections*/,
+void externalFunction::read(ScienceAPI& /*scienceAPI*/,
                        const char *xname, const char * xunits, float /* x0*/, float /* x1*/,
                        const char *yname, const char * yunits, float /* y0*/, float /* y1*/)
       {
@@ -34,15 +26,15 @@ void externalFunction::search(protocol::Component */* P*/, vector<string> &/* se
       xUnits = string(xunits); yUnits = string(yunits);
       }
 
-void lookupFunction::search(protocol::Component *P, vector<string> &sections,
+void lookupFunction::read(ScienceAPI& scienceAPI,
                             const char *xname, const char *xunits, float x0, float x1,
                             const char *yname, const char *yunits, float y0, float y1)
    {
-   externalFunction::search(P, sections, xname, xunits, x0, x1, yname, yunits, y0, y1);
+   externalFunction::read(scienceAPI, xname, xunits, x0, x1, yname, yunits, y0, y1);
    x.clear();   y.clear();
 
-   P->readParameter(sections,xname, x, x0, x1);
-   P->readParameter(sections,yname, y, y0, y1);
+   scienceAPI.read(xname, x, x0, x1);
+   scienceAPI.read(yname, y, y0, y1);
 
    if (x.size() != y.size())
    	throw std::runtime_error(string("Mismatched vector size in ") + xname + " and " + yname);
@@ -51,15 +43,15 @@ void lookupFunction::search(protocol::Component *P, vector<string> &sections,
    	throw std::runtime_error(string("Zero length vectors in") + xname + " and " + yname);
    }
 // Linear Interpolation function setup
-void interpolationFunction::search(protocol::Component *P, vector<string> &sections,
+void interpolationFunction::read(ScienceAPI& scienceAPI,
                                    const char *xname, const char *xunits, float x0, float x1,
                                    const char *yname, const char *yunits, float y0, float y1)
    {
-   externalFunction::search(P, sections, xname, xunits, x0, x1, yname, yunits, y0, y1);
+   externalFunction::read(scienceAPI, xname, xunits, x0, x1, yname, yunits, y0, y1);
    x.clear();   y.clear();
 
-   P->readParameter(sections,xname, x, x0, x1, true);
-   P->readParameter(sections,yname, y, y0, y1, true);
+   scienceAPI.readOptional(xname, x, x0, x1);
+   scienceAPI.readOptional(yname, y, y0, y1);
    }
 
 std::string externalFunction::description(void) const

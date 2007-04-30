@@ -9,6 +9,7 @@
 using namespace std;
 
 class plantInterface;
+class ScienceAPI;
 
 #define min(A,B) ((A)<(B)?(A):(B))
 #define max(A,B) ((A)>(B)?(A):(B))
@@ -83,16 +84,11 @@ class externalFunction {
    externalFunction();
    virtual ~externalFunction();
 
-   void read(protocol::Component *P, const string &section,
-                     const char *xname, const char * xunits, float x0, float x1,
-                     const char *yname, const char * yunits, float y0, float y1);
-
-   virtual void search(protocol::Component *P, vector<string> &sections,
-                       const char *xname, const char * xunits, float x0, float x1,
-                       const char *yname, const char * yunits, float y0, float y1);
+   void read(ScienceAPI& scienceAPI,
+                const char *xname, const char * xunits, float x0, float x1,
+                const char *yname, const char * yunits, float y0, float y1);
 
    virtual std::string description(void) const;
-
    virtual float value(float v) const = 0;
    float operator [] (float arg) const {return value(arg);};
    virtual bool isInitialised(void) {return false;};
@@ -107,7 +103,7 @@ class interpolationFunction : public externalFunction
    vector<float> y;
  public:
    float integral(float v1, float v2);
-   void search(protocol::Component *P, vector<string> &sections,
+   void read(ScienceAPI& scienceAPI,
              const char *xName, const char * xunits, float x0, float x1,
              const char *yName, const char * yunits, float y0, float y1);
    float value(float v) const;
@@ -134,7 +130,7 @@ class lookupFunction : public externalFunction
    vector<float> x;
    vector<float> y;
  public:
-   void search(protocol::Component *P, vector<string> &sections,
+   void read(ScienceAPI& scienceAPI,
              const char *xName, const char * xunits, float x0, float x1,
              const char *yName, const char * yunits, float y0, float y1);
    float value(float v) const;

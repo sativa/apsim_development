@@ -7,6 +7,7 @@
 #include <ComponentInterface/datatypes.h>
 #include <ComponentInterface/ApsimVariant.h>
 #include <ComponentInterface/MessageDataExt.h>
+#include <ComponentInterface/ScienceAPI.h>
 
 #include "PlantComponent.h"
 #include "PlantLibrary.h"
@@ -35,15 +36,8 @@ void EmergentPhase::readSpeciesParameters (protocol::Component *s, vector<string
 //=======================================================================================
    {
    pPhase::readSpeciesParameters (s, sections);
-      s->readParameter (sections
-                      , "shoot_lag"
-                      , shoot_lag
-                      , 0, 1000.0);
-
-      s->readParameter (sections
-                      , "shoot_rate"
-                      , shoot_rate
-                      , 0, 1000.0);
+   scienceAPI.read("shoot_lag", shoot_lag, 0.0f, 1000.0f);
+   scienceAPI.read("shoot_rate", shoot_rate, 0.0f, 1000.0f);
    }
 
 

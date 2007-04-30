@@ -15,13 +15,13 @@
 using namespace std;
 
 // Return one of the leaf objects we know about.
-plantLeafPart* constructLeafPart (plantInterface *p, const string &type, const string &name)
+plantLeafPart* constructLeafPart (ScienceAPI& scienceAPI, plantInterface *p, const string &type, const string &name)
   {
   plantLeafPart *object;
   if (type == "generic_leaf")
-    object = new genericLeafPart(p, name);
+    object = new genericLeafPart(scienceAPI, p, name);
   else if (type == "cohorting")
-    object = new cohortingLeafPart(p, name);
+    object = new cohortingLeafPart(scienceAPI, p, name);
   else
     throw std::invalid_argument("Unknown leaf_object '" + type + "'");
 

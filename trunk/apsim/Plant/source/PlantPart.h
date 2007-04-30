@@ -1,5 +1,5 @@
-#ifndef PlantPartsH
-#define PlantPartsH
+#ifndef PlantPartH
+#define PlantPartH
 
 #include <stdio.h>
 #include <math.h>
@@ -181,8 +181,7 @@ class plantPart : public plantThing
 
 public:
 
-   plantPart() {};
-   plantPart(plantInterface *p, const string &name);
+   plantPart(ScienceAPI& scienceAPI, plantInterface *p, const string &name);
    virtual ~plantPart() {};
 
    virtual void zeroAllGlobals(void);
@@ -194,7 +193,6 @@ public:
    virtual void readConstants (protocol::Component *, const string &);
    virtual void readSpeciesParameters (protocol::Component *, vector<string> &);
    virtual void readCultivarParameters (protocol::Component *, const string &);
-
    virtual void onPlantEvent(const string &);
    virtual void onRemoveBiomass(float) {};
 

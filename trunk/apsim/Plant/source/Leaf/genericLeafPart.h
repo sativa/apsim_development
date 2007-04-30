@@ -13,7 +13,8 @@ class genericLeafPart : public plantLeafPart {
    void initialiseAreas(void);
 
   public:
-   genericLeafPart(plantInterface *p, const string &name) : plantLeafPart(p, name) {};
+   genericLeafPart(ScienceAPI& scienceAPI, plantInterface *p, const string &name)
+      : plantLeafPart(scienceAPI, p, name) {};
    ~genericLeafPart() {};
    void onHarvest(float height, float remove_fr,
                   vector<string> &dm_type,

@@ -3,6 +3,7 @@
 #include <stdexcept>
 #include <ComponentInterface/Component.h>
 #include <ComponentInterface/ApsimVariant.h>
+#include <ComponentInterface/ScienceAPI.h>
 
 #include "PlantComponent.h"
 #include "PlantLibrary.h"
@@ -23,15 +24,8 @@ void genericArbitrator::readSpeciesParameters(protocol::Component *system, vecto
 //=======================================================================================
    {
    int numvals;
-   system->readParameter (sections
-                         ,"frac_leaf"//,  "()"
-                         , frac_leaf, numvals
-                         , 0.0, 1.0);
-
-   system->readParameter (sections
-                         ,"ratio_root_shoot"//, "()"
-                         , ratio_root_shoot, numvals
-                         , 0.0, 1000.0);
+   scienceAPI.read("frac_leaf", frac_leaf, numvals, 0.0f, 1.0f);
+   scienceAPI.read("ratio_root_shoot", ratio_root_shoot, numvals, 0.0f, 1000.0f);
    }
 
 void genericArbitrator::partitionDM(float dlt_dm,

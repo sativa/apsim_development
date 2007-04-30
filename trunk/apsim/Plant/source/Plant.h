@@ -57,6 +57,7 @@ const int  fixation = 4 ;
 class Plant : public plantInterface, public IPlant {
 private:
    PlantComponent *parent;                   // for interface calls to system
+   ScienceAPI& scienceAPI;
    friend class plantPartHack;
    stageSubject   stageObservers;            // A collection of state variable observers, reset at each new stage
    stageSubject   otherObservers;            // Another collection of state variable observers
@@ -163,7 +164,7 @@ private:
    void doIDs(void) ;
 
 public:
-   Plant(PlantComponent *P);
+   Plant(PlantComponent *P, ScienceAPI& api);
    ~Plant();
 
    void doInit1(protocol::Component *);

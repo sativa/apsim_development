@@ -7,6 +7,7 @@
 #include <ComponentInterface/Component.h>
 #include <ComponentInterface/datatypes.h>
 #include <ComponentInterface/ApsimVariant.h>
+#include <ComponentInterface/ScienceAPI.h>
 
 #include "PlantComponent.h"
 #include "PlantLibrary.h"
@@ -27,27 +28,28 @@
 #include "Utility/OutputVariable.h"
 #include "iostream.h"
 
-PlantPhenology * constructPhenology(plantInterface *plant, const string &name)
+PlantPhenology * constructPhenology(ScienceAPI& scienceAPI, plantInterface *plant, const string &name)
     {
     class PlantPhenology *phenology = NULL;
     if (name == "")
        throw std::invalid_argument("The parameter 'phenology_model'\nisn't in your ini file.\n\nGet one.\n");
     else if (name == "legume")
-       phenology = new TTTPhenology(plant);
+       phenology = new TTTPhenology(scienceAPI, plant);
     else if (name == "tttrate")
-       phenology = new TTTRatePhenology(plant);
+       phenology = new TTTRatePhenology(scienceAPI, plant);
     else if (name == "generic")
-       phenology = new GenericPhenology(plant);
+       phenology = new GenericPhenology(scienceAPI, plant);
     else if (name == "wheat")
-       phenology = new WheatPhenology(plant);
+       phenology = new WheatPhenology(scienceAPI, plant);
     else if (name == "broccoli")
-       phenology = new BroccoliPhenology(plant);
+       phenology = new BroccoliPhenology(scienceAPI, plant);
     else
        throw std::invalid_argument("Unknown phenology model '" + name + "'");
     return phenology;
     }
 
-PlantPhenology::PlantPhenology(plantInterface *p)
+PlantPhenology::PlantPhenology(ScienceAPI& api, plantInterface *p)
+   : plantThing(api)
    {
    plant = p;          // "Plant" interface
    }
@@ -55,14 +57,17 @@ PlantPhenology::PlantPhenology(plantInterface *p)
 void PlantPhenology::readConstants (protocol::Component *s, const string &section)
 {
 
-   phases.push_back(new pPhase("out"));
+   phases.push_back(new pPhase(scienceAPI, "out"));
    currentStage = 0.0;
    initialOnBiomassRemove = true;
 
    // Read the sequential list of stage names
-   string scratch = s->readParameter(section, "stage_names");
-   string ptypes = s->readParameter(section, "phase_type");
-   string pnames = s->readParameter(section, "phase_names");
+   string scratch;
+   scienceAPI.read("stage_names", scratch);
+   string ptypes;
+   scienceAPI.read("phase_type", ptypes);
+   string pnames;
+   scienceAPI.read("phase_names", pnames);
 
    vector<string> stage_names;
    vector<string> phase_types;
@@ -76,38 +81,38 @@ void PlantPhenology::readConstants (protocol::Component *s, const string &sectio
       {
       if(phase_types[i]=="generic")
          {
-         phases.push_back(new pPhase(phase_names[i]));
+         phases.push_back(new pPhase(scienceAPI, phase_names[i]));
          }
       else if(phase_types[i]=="vernal")
          {
-         VernalPhase* vernal = new VernalPhase(phase_names[i]);
+         VernalPhase* vernal = new VernalPhase(scienceAPI, phase_names[i]);
          phases.push_back(vernal);
          }
       else if(phase_types[i]=="photo")
          {
-         PhotoPhase* photo = new PhotoPhase(phase_names[i]);
+         PhotoPhase* photo = new PhotoPhase(scienceAPI, phase_names[i]);
          phases.push_back(photo);
          }
       else if(phase_types[i]=="emergent")
          {
-         EmergentPhase* emerg = new EmergentPhase(phase_names[i]);
+         EmergentPhase* emerg = new EmergentPhase(scienceAPI, phase_names[i]);
          phases.push_back(emerg);
          }
       else if(phase_types[i]=="leafapp")
          {
-         LeafAppPhase* leafapp = new LeafAppPhase(phase_names[i]);
+         LeafAppPhase* leafapp = new LeafAppPhase(scienceAPI, phase_names[i]);
          phases.push_back(leafapp);
          }
       else
          {
-         pPhase* newPhase = new FixedPhase(phase_names[i]);
+         pPhase* newPhase = new FixedPhase(scienceAPI, phase_names[i]);
          phases.push_back(newPhase);
          }
       }
 
    //XX composites need to be defined as "start stage, end stage" pairs.
    // find composite phases that we care about
-   scratch = s->readParameter(section, "composite_phases");
+   scienceAPI.read("composite_phases", scratch);
    vector<string> composite_names;
    Split_string(scratch, " ", composite_names);
    for (vector<string>::iterator name = composite_names.begin();
@@ -115,7 +120,7 @@ void PlantPhenology::readConstants (protocol::Component *s, const string &sectio
         name++)
       {
       compositePhase composite;
-      scratch = s->readParameter(section, *name);
+      scienceAPI.read(*name, scratch);
       vector<string> composite_names;
       Split_string(scratch, " ", composite_names);
       for (vector<string>::iterator phase = composite_names.begin();
@@ -182,10 +187,7 @@ void PlantPhenology::doRegistrations (protocol::Component *s)
 
 void PlantPhenology::readSpeciesParameters (protocol::Component *s, vector<string> &sections)
    {
-   s->readParameter (sections
-                      , "twilight"//, "(o)"
-                      , twilight
-                      , -90.0, 90.0);
+   scienceAPI.read("twilight", twilight, -90.0f, 90.0f);
    }
 
 void PlantPhenology::zeroDeltas(void)

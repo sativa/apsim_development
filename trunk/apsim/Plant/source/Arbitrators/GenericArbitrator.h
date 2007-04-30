@@ -8,7 +8,8 @@ class genericArbitrator : public Arbitrator
    float ratio_root_shoot[max_table];                // root:shoot ratio of new dm ()
 
   public:
-   genericArbitrator(plantInterface *p) : Arbitrator(p) {};
+   genericArbitrator(ScienceAPI& scienceAPI, plantInterface *p)
+      : Arbitrator(scienceAPI, p) {};
    ~genericArbitrator(void) {};
 
    virtual void readSpeciesParameters (protocol::Component *, vector<string> &);

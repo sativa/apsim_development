@@ -27,7 +27,8 @@ class WheatPhenology : public CropPhenology {
    void get_zadok_stage(protocol::Component *system, protocol::QueryValueData &qd);
 
  public:
-   WheatPhenology(plantInterface *p) : CropPhenology(p) {};
+   WheatPhenology(ScienceAPI& scienceAPI, plantInterface *p)
+      : CropPhenology(scienceAPI, p) {};
 
    void readConstants (protocol::Component *, const string &);              // read structure etc from constants
    void doRegistrations (protocol::Component *);

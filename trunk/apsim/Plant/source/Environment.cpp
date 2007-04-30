@@ -1,5 +1,5 @@
 #include "Environment.h"
-
+#include <ComponentInterface/ScienceAPI.h>
 static const char* floatType =        "<type kind=\"single\"/>";
 
 environment_t::environment_t(void)
@@ -55,18 +55,11 @@ void environment_t::getOtherVariables(protocol::Component *system)
        }
    }
 
-void environment_t::readSpeciesParameters(protocol::Component *system, vector<string> &sections)
+void environment_t::read(ScienceAPI& scienceAPI)
 //===========================================================================
    {
-   system->readParameter (sections
-                   ,"svp_fract"//, "()"
-                   , svp_fract
-                   , 0.0, 1.0);
-
-   system->readParameter (sections
-                     , "co2_default"//, "()"
-                     , co2_default
-                     , 0.0, 1000.0);
+   scienceAPI.read("svp_fract", svp_fract, 0.0f, 1.0f);
+   scienceAPI.read("co2_default", co2_default, 0.0f, 1000.0f);
    }
 
 void environment_t::zeroAllGlobals(void)

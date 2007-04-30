@@ -11,11 +11,9 @@ class fruitGrainPartHI : public fruitGrainPart
 {
    friend ostream &operator<<(ostream &, const fruitGrainPartHI &);
 public:                                             // member functions
-   fruitGrainPartHI(plantInterface *p, const string &name);
-   fruitGrainPartHI();
+   fruitGrainPartHI(ScienceAPI& scienceAPI, plantInterface *p, const string &name);
    ~fruitGrainPartHI();
 
-   fruitGrainPartHI(const fruitGrainPartHI &fruitGrainPartHI);           // copy constructor
    const fruitGrainPartHI &operator=(const fruitGrainPartHI &other);        // Assigment operator
 
    void readCultivarParameters (protocol::Component *, const string &);

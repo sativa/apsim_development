@@ -28,7 +28,7 @@ void TTTRatePhenology::readSpeciesParameters (protocol::Component *s, vector<str
    {
    TTTPhenology::readSpeciesParameters (s, sections);
 
-   y_tt_post_anthesis.search(s, sections,
+   y_tt_post_anthesis.read(scienceAPI,
                "x_temp_post_anthesis", "oC", 0.0, 100.0,
                "y_tt_post_anthesis", "oC days", 0.0, 100.0);
 

@@ -8,7 +8,8 @@ class FixedPhase : public pPhase
 
    public:
       void readCultivarParameters(protocol::Component *s, const string & cultivar);
-      FixedPhase(const string& stage_name) : pPhase (stage_name){};
+      FixedPhase(ScienceAPI& scienceAPI, const string& stage_name)
+         : pPhase (scienceAPI, stage_name){};
       virtual string description() const;
    };
 

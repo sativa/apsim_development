@@ -7,6 +7,7 @@
 
 #include <ComponentInterface/Component.h>
 #include <ComponentInterface/ApsimVariant.h>
+#include <ComponentInterface/ScienceAPI.h>
 #include <ApsimShared/ApsimComponentData.h>
 #include <ComponentInterface/Type.h>
 #include <ComponentInterface/Messages.h>
@@ -89,11 +90,12 @@ void PlantComponent::doInit1(const FString& sdml)
    {
    protocol::Component::doInit1(sdml);
 
-   string crop_type = readParameter ("constants", "crop_type");
+   string crop_type;
+   scienceAPI().read("crop_type", crop_type);
    if (crop_type == "sorghum")
      throw std::invalid_argument("Sorghum is not in generic plant framework yet..");
    else
-     plant = new Plant(this);
+     plant = new Plant(this, scienceAPI());
 
 //   if (plant) delete plant; plant= NULL;
    if (plant) plant->doInit1(this);

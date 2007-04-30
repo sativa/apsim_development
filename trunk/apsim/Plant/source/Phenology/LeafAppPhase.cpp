@@ -7,6 +7,7 @@
 #include <ComponentInterface/datatypes.h>
 #include <ComponentInterface/ApsimVariant.h>
 #include <ComponentInterface/MessageDataExt.h>
+#include <ComponentInterface/ScienceAPI.h>
 
 #include "PlantComponent.h"
 #include "PlantLibrary.h"
@@ -46,28 +47,12 @@ void LeafAppPhase::readSpeciesParameters (protocol::Component *s, vector<string>
    {
    pPhase::readSpeciesParameters (s, sections);
 
-   s->readParameter (sections
-                    , "leaf_init_rate"
-                    , leaf_init_rate
-                    , 0.0, 100.0);
-   s->readParameter (sections
-                    , "leaf_no_min"
-                    , leaf_no_min
-                    , 0.0, 100.0);
-   s->readParameter (sections
-                    , "leaf_no_max"
-                    , leaf_no_max
-                    , 0.0, 100.0);
-   s->readParameter (sections
-                    , "leaf_no_seed"
-                    , leaf_no_seed
-                    , 0.0, 10.0);
-   s->readParameter (sections
-                    , "leaf_no_at_emerg"
-                    , leaf_no_at_emerg
-                    , 0.0, 10.0);
-
-   node_app.search(s, sections,
+   scienceAPI.read("leaf_init_rate", leaf_init_rate, 0.0f, 100.0f);
+   scienceAPI.read("leaf_no_min", leaf_no_min, 0.0f, 100.0f);
+   scienceAPI.read("leaf_no_max", leaf_no_max, 0.0f, 100.0f);
+   scienceAPI.read("leaf_no_seed", leaf_no_seed, 0.0f, 10.0f);
+   scienceAPI.read("leaf_no_at_emerg", leaf_no_at_emerg, 0.0f, 10.0f);
+   node_app.read(scienceAPI,
                   "x_node_no_app", "", 0.0, 100.0,
                   "y_node_app_rate", "dd", 0.0, 1e3);
 

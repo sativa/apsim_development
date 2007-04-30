@@ -43,7 +43,7 @@ void VernalPhase::readCultivarParameters(protocol::Component *s, const string & 
    string key1 = "cumvd_"+name();
    string key2 = "tt_"+name();
 
-   vernal_tt.read(s, cultivar,
+   vernal_tt.read(scienceAPI,
                   key1.c_str(), "vd", 0.0, 100.0,
                   key2.c_str(), "dd", 0.0, 1e6);
    }
@@ -53,7 +53,7 @@ void VernalPhase::readSpeciesParameters (protocol::Component *s, vector<string> 
    {
    pPhase::readSpeciesParameters (s, sections);
 
-   vernal_days.search(s, sections,
+   vernal_days.read(scienceAPI,
                       "x_vernal_temp", "(oc)", -10., 60.0,
                       "y_vernal_days", "(days)", 0.0, 1.0);
    }

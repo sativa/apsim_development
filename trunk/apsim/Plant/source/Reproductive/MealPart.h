@@ -4,7 +4,8 @@
 
 class fruitMealPart : public plantPart {
   public:
-   fruitMealPart(plantInterface *p, const string &name) : plantPart(p, name) {};
+   fruitMealPart(ScienceAPI& scienceAPI, plantInterface *p, const string &name)
+      : plantPart(scienceAPI, p, name) {};
    ~fruitMealPart() {};
    void onHarvest(float height, float remove_fr,
                   vector<string> &dm_type,
