@@ -61,9 +61,9 @@ bool StringConverter(protocol::Component* component, const string& name,
      if (value < lower || value > upper)
         {
         string msg = "Bound check warning while reading parameter.\n"
-                     "Variable  : " + name + "\n"
+                     "Variable  : " + name + "(" + itoa(i+1) + ")\n"
                      "Condition : " + ftoa(lower, 2) + " <= " +
-                     from + " <= " + ftoa(upper, 2);
+                     strings[i] + " <= " + ftoa(upper, 2);
         component->error(msg.c_str(), false);
         }
      }
