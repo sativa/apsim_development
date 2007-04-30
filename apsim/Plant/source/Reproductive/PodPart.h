@@ -5,7 +5,7 @@
 class fruitGrainPart;
 class fruitPodPart : public plantPart {
   public:
-   fruitPodPart(plantInterface *p, fruitGrainPart *g, const string &name) ;
+   fruitPodPart(ScienceAPI& scienceAPI, plantInterface *p, fruitGrainPart *g, const string &name) ;
    ~fruitPodPart() {};
    void doRegistrations(protocol::Component *);
    void update(void);

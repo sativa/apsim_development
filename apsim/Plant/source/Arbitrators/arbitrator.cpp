@@ -3,6 +3,7 @@
 #include <stdexcept>
 #include <ComponentInterface/Component.h>
 #include <ComponentInterface/ApsimVariant.h>
+#include <ComponentInterface/ScienceAPI.h>
 
 #include "PlantComponent.h"
 #include "PlantLibrary.h"
@@ -13,18 +14,18 @@
 #include "NullArbitrator.h"
 #include "GenericArbitrator.h"
 
-Arbitrator* constructArbitrator(plantInterface *p, const string &type)
+Arbitrator* constructArbitrator(ScienceAPI& scienceAPI, plantInterface *p, const string &type)
 //=======================================================================================
    {
    Arbitrator *object;
    if (type == "")
-     object = new nullArbitrator(p);
+     object = new nullArbitrator(scienceAPI, p);
    else if (type == "1")
-     object = new genericArbitrator(p);
+     object = new genericArbitrator(scienceAPI, p);
    else if (type == "2")
-     object = new cerealArbitrator(p);
+     object = new cerealArbitrator(scienceAPI, p);
    else if (type == "allometric")
-     object = new allometricArbitrator(p);
+     object = new allometricArbitrator(scienceAPI, p);
    else
      throw std::invalid_argument("Unknown arbitrator object '" + type + "'");
 
@@ -44,20 +45,9 @@ void cerealArbitrator::readSpeciesParameters(protocol::Component *system, vector
 //=======================================================================================
    {
    int numvals;
-   system->readParameter (sections
-                         ,"x_stage_no_partition"//, "()"
-                         , x_stage_no_partition
-                         , num_stage_no_partition
-                         , 0.0, 20.0);
-
-   system->readParameter (sections
-                         ,"y_frac_leaf"//,  "()"
-                         , y_frac_leaf, numvals
-                         , 0.0, 1.0);
-   system->readParameter (sections
-                         ,"y_ratio_root_shoot"//, "()"
-                         , y_ratio_root_shoot, numvals
-                         , 0.0, 1000.0);
+   scienceAPI.read("x_stage_no_partition", x_stage_no_partition, num_stage_no_partition, 0.0f, 20.0f);
+   scienceAPI.read("y_frac_leaf", y_frac_leaf, numvals, 0.0f, 1.0f);
+   scienceAPI.read("y_ratio_root_shoot", y_ratio_root_shoot, numvals, 0.0f, 1000.0f);
    }
 
 void cerealArbitrator::partitionDM(float dlt_dm,
@@ -174,19 +164,16 @@ void allometricArbitrator::undoRegistrations(protocol::Component *system)
 void allometricArbitrator::readSpeciesParameters(protocol::Component *system, vector<string> &sections)
 //=======================================================================================
    {
-   ratio_stem_leaf.search(system, sections,
+   ratio_stem_leaf.read(scienceAPI,
                 "x_frac_leaf_stage", "(oCd)", 0.0, 5000.0,
                 "y_stem_leaf_ratio", "()", 0.0, 1.0);
 
-   ratio_root_shoot.search(system, sections,
+   ratio_root_shoot.read(scienceAPI,
                            "x_stage_no_partition", "()", 0.0, 20.0,
                            "y_ratio_root_shoot", "()", 0.0, 1000.0);
 
-   system->readParameter (sections,
-                          "sla_min",//, "(mm^2/g)",
-                          SLAmin,
-                          0.0, 100000.0);
-   SLAmaxFn.search(system, sections,
+   scienceAPI.read("sla_min", SLAmin, 0.0f, 100000.0f);
+   SLAmaxFn.read(scienceAPI,
                    "x_lai", "(mm2/mm2)", 0.0, 50.0,
                    "y_sla_max", "()", 0.0, 100000.0);
    }

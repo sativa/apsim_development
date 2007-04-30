@@ -18,7 +18,7 @@ class environment_t {
    const environment_t &operator=(const environment_t &other);		// Assigment operator
 
    void doNewMet(protocol::NewMetType &newmet) ;
-   void readSpeciesParameters (protocol::Component *, vector<string> &);
+   void read(ScienceAPI& scienceAPI);
    void zeroAllGlobals(void);
    void doIDs(protocol::Component *system);
    void getOtherVariables(protocol::Component *system);

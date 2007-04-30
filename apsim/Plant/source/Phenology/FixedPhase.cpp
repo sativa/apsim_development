@@ -7,6 +7,7 @@
 #include <ComponentInterface/datatypes.h>
 #include <ComponentInterface/ApsimVariant.h>
 #include <ComponentInterface/MessageDataExt.h>
+#include <ComponentInterface/ScienceAPI.h>
 
 #include "PlantComponent.h"
 #include "PlantLibrary.h"
@@ -19,7 +20,7 @@ void FixedPhase::readCultivarParameters(protocol::Component *s, const string & c
    {
    pPhase::readCultivarParameters(s, cultivar);
    string key = "tt_"+name();
-   s->readParameter (cultivar, key, target, 0, 1e6);
+   scienceAPI.read(key, target, 0.0f, 1000000.0f);
    }
 
 string FixedPhase::description() const

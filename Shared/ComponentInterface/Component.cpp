@@ -13,6 +13,7 @@
 #include <ApsimShared/FStringExt.h>
 #include <general/path.h>
 #include <general/date_class.h>
+#include "ScienceAPI.h"
 
 #include "ProtocolVector.h"
 #include "Component.h"
@@ -47,13 +48,14 @@ Component::Component(void)
    : completeIDs(MAX_NESTED_COMPLETES),registrations(new Registrations(this))
    {
    componentData = NULL;
-   beforeInit2 = true;  
+   beforeInit2 = true;
    beforeCommence = true;
    tick.startday = 0;
    initMessages();
    component = this;
    haveWrittenToStdOutToday = false;
    sendTickToComponent = false;
+   api = new ScienceAPI(this);
    }
 
 // ------------------------------------------------------------------
@@ -76,6 +78,7 @@ Component::~Component(void)
 
    clearReturnInfos();
    delete registrations;
+   delete api;
    }
 
 // -----------------------------------------------------------------

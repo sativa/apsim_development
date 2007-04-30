@@ -3,6 +3,7 @@
 #include <ComponentInterface/datatypes.h>
 #include <ComponentInterface/ApsimVariant.h>
 #include <ComponentInterface/MessageDataExt.h>
+#include <ComponentInterface/ScienceAPI.h>
 #include "PlantComponent.h"
 #include "PlantLibrary.h"
 #include "PlantInterface.h"
@@ -116,59 +117,42 @@ void TTTPhenology::readCultivarParameters(protocol::Component *s, const string &
    {
    CropPhenology::readCultivarParameters(s, cultivar);
 
-   s->readParameter (cultivar
-                     , "est_days_emerg_to_init"//, "()"
-                     , est_days_emerg_to_init
-                     , 0, 100);
+   scienceAPI.read("est_days_emerg_to_init", est_days_emerg_to_init, 0, 100);
 
-   tt_emerg_to_endjuv.read(s, cultivar
+   tt_emerg_to_endjuv.read(scienceAPI
                             , "cum_vernal_days", "vd", 0.0, 100.0
                             , "tt_emerg_to_endjuv", "dd", 0.0, tt_emerg_to_endjuv_ub);
 
-   tt_endjuv_to_init.read(s, cultivar
+   tt_endjuv_to_init.read(scienceAPI
                           , "x_pp_endjuv_to_init", "h", 0.0, 24.0
                           , "y_tt_endjuv_to_init", "dd", 0.0, 1e6);
 
-   tt_init_to_flower.read(s, cultivar
+   tt_init_to_flower.read(scienceAPI
                           , "x_pp_init_to_flower", "h", 0.0, 24.0
                           , "y_tt_init_to_flower", "dd", 0.0, 1e6);
 
-   tt_flower_to_start_grain.read(s, cultivar
+   tt_flower_to_start_grain.read(scienceAPI
                           , "x_pp_flower_to_start_grain", "h", 0.0, 24.0
                           , "y_tt_flower_to_start_grain", "dd", 0.0, 1e6);
 
-   tt_start_to_end_grain.read(s, cultivar
+   tt_start_to_end_grain.read(scienceAPI
                           , "x_pp_start_to_end_grain", "h", 0.0, 24.0
                           , "y_tt_start_to_end_grain", "dd", 0.0, 1e6);
 
-   s->readParameter (cultivar
-                    , "tt_end_grain_to_maturity"//, "()"
-                    , tt_end_grain_to_maturity
-                    , 0.0, 1e6);
-
-   s->readParameter (cultivar
-                    , "tt_maturity_to_ripe"//, "()"
-                    , tt_maturity_to_ripe
-                    , 0.0, tt_maturity_to_ripe_ub);
+   scienceAPI.read("tt_end_grain_to_maturity", tt_end_grain_to_maturity, 0.0f, 1000000.0f);
+   scienceAPI.read("tt_maturity_to_ripe", tt_maturity_to_ripe, 0.0f, tt_maturity_to_ripe_ub);
    }
 
 void TTTPhenology::readSpeciesParameters (protocol::Component *s, vector<string> &sections)
    {
    CropPhenology::readSpeciesParameters (s, sections);
 
-   vernal_days.search(s, sections,
+   vernal_days.read(scienceAPI,
                        "x_vernal_temp", "(oc)", -10., 60.0,
                        "y_vernal_days", "(days)", 0.0, 1.0);
 
-   s->readParameter (sections
-                   ,"tt_emerg_to_endjuv_ub"//, "()"
-                   , tt_emerg_to_endjuv_ub
-                   , 0.0, 1.e6);
-
-   s->readParameter (sections
-                   ,"tt_maturity_to_ripe_ub"//, "()"
-                   , tt_maturity_to_ripe_ub
-                   , 0.0, 1.e6);
+   scienceAPI.read("tt_emerg_to_endjuv_ub", tt_emerg_to_endjuv_ub, 0.0f, 1000000.0f);
+   scienceAPI.read("tt_maturity_to_ripe_ub", tt_maturity_to_ripe_ub, 0.0f, 1000000.0f);
 
 }
 
@@ -330,7 +314,7 @@ void TTTPhenology::onRemoveBiomass(float removeBiomPheno)
    if (initialOnBiomassRemove == true)
    {
       initialOnBiomassRemove = false;
-      y_removeFractPheno.search(plant->getComponent(), iniSectionList,
+      y_removeFractPheno.read(scienceAPI,
                "x_removeBiomPheno", "()", 0.0, 1.0,
                "y_removeFractPheno", "()", 0.0, 1.0);
    }

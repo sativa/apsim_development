@@ -8,7 +8,8 @@ class Arbitrator : public plantThing
   protected:
    plantInterface *plant;                 // The plant we are attached to
   public:
-   Arbitrator(plantInterface *p) {plant = p;};
+   Arbitrator(ScienceAPI& scienceAPI, plantInterface *p)
+      : plantThing(scienceAPI) {plant = p;};
    virtual ~Arbitrator(void) {};
 
    virtual void readSpeciesParameters (protocol::Component *, vector<string> &) {};
@@ -36,7 +37,8 @@ class cerealArbitrator : public Arbitrator
    int   num_stage_no_partition;
 
   public:
-   cerealArbitrator(plantInterface *p) : Arbitrator(p) {};
+   cerealArbitrator(ScienceAPI& scienceAPI, plantInterface *p)
+      : Arbitrator(scienceAPI, p) {};
    ~cerealArbitrator(void) {};
 
    virtual void readSpeciesParameters (protocol::Component *, vector<string> &);
@@ -56,7 +58,8 @@ class allometricArbitrator : public Arbitrator
    float SLAcalc;                                       // SLA today (mm^2/g)
 
   public:
-   allometricArbitrator(plantInterface *p) : Arbitrator(p) {};
+   allometricArbitrator(ScienceAPI& scienceAPI, plantInterface *p)
+      : Arbitrator(scienceAPI, p) {};
    ~allometricArbitrator(void) {};
 
    virtual void doRegistrations(protocol::Component *);
@@ -68,7 +71,7 @@ class allometricArbitrator : public Arbitrator
    };
 
 
-Arbitrator* constructArbitrator(plantInterface *, const string &type);
+Arbitrator* constructArbitrator(ScienceAPI& scienceAPI, plantInterface *, const string &type);
 
 #endif
 

@@ -71,13 +71,16 @@ class plantInterface {
 
 // Something that plugs into a plant
 class plantThing {
+   protected:
+      ScienceAPI& scienceAPI;
    public:
-     plantThing() {};
+     plantThing(ScienceAPI& api) : scienceAPI(api) {};
      virtual ~plantThing() {};
      virtual void doRegistrations(protocol::Component *) = 0;
      virtual void readConstants (protocol::Component *, const string &) = 0;
      virtual void readSpeciesParameters (protocol::Component *, vector<string> &) = 0;
      virtual void readCultivarParameters (protocol::Component *, const string &) = 0;
+     virtual void read(ScienceAPI& scienceAPI) { }
      virtual void onPlantEvent(const string &) = 0;
      virtual void update(void) = 0;
 

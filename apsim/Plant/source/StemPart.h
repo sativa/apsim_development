@@ -5,7 +5,8 @@
 class plantStemPart : public plantPart
    {
    public:
-      plantStemPart(plantInterface *p, const string &name) : plantPart(p, name) {};
+      plantStemPart(ScienceAPI& scienceAPI, plantInterface *p, const string &name)
+         : plantPart(scienceAPI, p, name) {};
       ~plantStemPart() {};
       void onHarvest(float height, float remove_fr,
                      vector<string> &dm_type,

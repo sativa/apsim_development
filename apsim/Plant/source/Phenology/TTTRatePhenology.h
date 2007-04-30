@@ -9,7 +9,8 @@ class TTTRatePhenology : public TTTPhenology {
    void get_zadok_stage(protocol::Component *system, protocol::QueryValueData &qd);
 
  public:
-   TTTRatePhenology(plantInterface *p) : TTTPhenology(p) {};
+   TTTRatePhenology(ScienceAPI& scienceAPI, plantInterface *p)
+      : TTTPhenology(scienceAPI, p) {};
    void readSpeciesParameters (protocol::Component *, std::vector<string> &); // read species parameters
    //void process(const environment_t &e, const pheno_stress_t &ps);
    //void setupTTTargets(void);

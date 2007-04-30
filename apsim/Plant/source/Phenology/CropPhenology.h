@@ -6,7 +6,8 @@
 class CropPhenology : public PlantPhenology
    {
    protected:
-       CropPhenology(plantInterface *p) : PlantPhenology(p) {};
+       CropPhenology(ScienceAPI& scienceAPI, plantInterface *p)
+       : PlantPhenology(scienceAPI, p) {};
        virtual void zeroDeltas(void);
        virtual void zeroAllGlobals(void);
        virtual void readConstants (protocol::Component *s, const string &section);

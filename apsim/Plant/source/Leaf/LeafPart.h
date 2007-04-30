@@ -4,7 +4,8 @@
 // Abstract class for leaf objects
 class plantLeafPart : public plantPart {
   public:
-   plantLeafPart(plantInterface *p, const string &name) : plantPart(p, name) {};
+   plantLeafPart(ScienceAPI& scienceAPI, plantInterface *p, const string &name)
+      : plantPart(scienceAPI, p, name) {};
    virtual ~plantLeafPart() {};
 
    virtual void onHarvest(float height, float remove_fr,
@@ -44,6 +45,6 @@ class plantLeafPart : public plantPart {
 
 };
 
-plantLeafPart* constructLeafPart(plantInterface *p, const string &type, const string &name);
+plantLeafPart* constructLeafPart(ScienceAPI& scienceAPI, plantInterface *p, const string &type, const string &name);
 #endif
 

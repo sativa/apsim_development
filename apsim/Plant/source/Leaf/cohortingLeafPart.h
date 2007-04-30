@@ -3,7 +3,8 @@
 
 class cohortingLeafPart : public plantLeafPart {
   public:
-   cohortingLeafPart(plantInterface *p, const string &name) : plantLeafPart(p, name) {};
+   cohortingLeafPart(ScienceAPI& scienceAPI, plantInterface *p, const string &name)
+      : plantLeafPart(scienceAPI, p, name) {};
    ~cohortingLeafPart() {};
    void onHarvest(float height, float remove_fr,
                   vector<string> &dm_type,

@@ -19,7 +19,7 @@ class PlantSpatial {
 
    void zeroAllGlobals(void);
    void zeroDeltas(void);
-   void readSpeciesParameters (protocol::Component *, vector<string> &);
+   void read(ScienceAPI& scienceAPI);
    void startCrop (protocol::Component *system, protocol::Variant &v);
    void setPlants(float plants);
    void setCanopyWidth(float canopy_width);

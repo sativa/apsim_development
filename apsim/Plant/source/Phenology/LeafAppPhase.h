@@ -21,7 +21,8 @@ class LeafAppPhase : public pPhase
       public:
       void readCultivarParameters(protocol::Component *s, const string & cultivar);
       void readSpeciesParameters (protocol::Component *, std::vector<string> &);
-      LeafAppPhase(const string& stage_name) : pPhase (stage_name){};
+      LeafAppPhase(ScienceAPI& scienceAPI, const string& stage_name)
+         : pPhase (scienceAPI, stage_name){};
       void updateTTTargets(PlantPhenology &parent, const environment_t &e);
       virtual string description() const;
       virtual void reset();

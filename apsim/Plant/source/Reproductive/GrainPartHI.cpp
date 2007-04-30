@@ -3,19 +3,15 @@
 // 6 Aug 97 J. Hargreaves  Implementation
 
 #include "GrainPartHI.h"
+#include <ComponentInterface/ScienceAPI.h>
 
 using namespace std;
 
-static const char* floatType =        "<type kind=\"single\"/>";
-
 inline bool floatsAreEqual(float A, float B, float C) {return(fabs(A-B)<C);}
 
-// default constructor
-fruitGrainPartHI::fruitGrainPartHI()
-{}
-
 //  initialise data members.
-fruitGrainPartHI::fruitGrainPartHI(plantInterface *p, const string &name) : fruitGrainPart(p, name)
+fruitGrainPartHI::fruitGrainPartHI(ScienceAPI& scienceAPI, plantInterface *p, const string &name)
+   : fruitGrainPart(scienceAPI, p, name)
 {
 }
 
@@ -34,16 +30,6 @@ ostream &operator<<(ostream &output, const fruitGrainPartHI /*&pool*/)
    return output;
 }
 
-// copy constructor
-//  copy data members of object
-//===========================================================================
-fruitGrainPartHI::fruitGrainPartHI(const fruitGrainPartHI &/* fruitGrainPartHI*/)
-//===========================================================================
-{
-  throw std::invalid_argument("Copy constructor NI for fruitGrainPartHI");
-}
-
-
 // Assigment operator
 //  assign data members of object
 
@@ -55,35 +41,15 @@ const fruitGrainPartHI &fruitGrainPartHI::operator=(const fruitGrainPartHI &/*ot
 
 void fruitGrainPartHI::readCultivarParameters (protocol::Component *system, const string &cultivar)
    //===========================================================================
-{
+   {
    fruitGrainPart::readCultivarParameters (system, cultivar);
 
-//   system->writeString (" - reading grain cultivar parameters");
-
    //  plant_dm_grain_hi
-   system->readParameter (cultivar.c_str()
-                          , "x_pp_hi_incr"/*,  "(h)"*/
-                          , pX_pp_hi_incr
-                          , pNum_pp_hi_incr
-                          , 0.0, 24.0);
-
-   system->readParameter (cultivar.c_str()
-                          , "y_hi_incr"/*,  "()"*/
-                          , pY_hi_incr
-                          , pNum_pp_hi_incr
-                          , 0.0, 1.0);
-
-   system->readParameter (cultivar.c_str()
-                          , "x_hi_max_pot_stress"/*,  "(0-1)"*/
-                          , pX_hi_max_pot_stress, pNum_hi_max_pot
-                          , 0.0, 1.0);
-
-   system->readParameter (cultivar.c_str()
-                          , "y_hi_max_pot"//, "(0-1)"
-                          , pY_hi_max_pot, pNum_hi_max_pot
-                          , 0.0, 1.0);
-
-}
+   scienceAPI.read("x_pp_hi_incr", pX_pp_hi_incr, pNum_pp_hi_incr, 0.0f, 24.0f);
+   scienceAPI.read("y_hi_incr", pY_hi_incr, pNum_pp_hi_incr, 0.0f, 1.0f);
+   scienceAPI.read("x_hi_max_pot_stress", pX_hi_max_pot_stress, pNum_hi_max_pot, 0.0f, 1.0f);
+   scienceAPI.read("y_hi_max_pot", pY_hi_max_pot, pNum_hi_max_pot, 0.0f, 1.0f);
+   }
 
 void fruitGrainPartHI::writeCultivarInfo (protocol::Component *system)
    //===========================================================================
@@ -225,4 +191,5 @@ void fruitGrainPartHI::doDMDemandGrain(void)
       oilPart->doDMDemandGrain(dlt_dm_grain_demand);
       mealPart->doDMDemandGrain(dlt_dm_grain_demand - oilPart->dmGreenDemand());
 }
+
 

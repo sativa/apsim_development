@@ -2,6 +2,7 @@
 #include <ComponentInterface/datatypes.h>
 #include <ComponentInterface/ApsimVariant.h>
 #include <ComponentInterface/MessageDataExt.h>
+#include <ComponentInterface/ScienceAPI.h>
 #include "PlantComponent.h"
 #include "PlantLibrary.h"
 #include "PlantInterface.h"
@@ -90,29 +91,18 @@ void BroccoliPhenology::readCultivarParameters(protocol::Component *s, const str
    {
    CropPhenology::readCultivarParameters(s, cultivar);
 
-   s->readParameter (cultivar
-                     , "est_days_emerg_to_init"//, "()"
-                     , est_days_emerg_to_init
-                     , 0, 100);
-
-   tt_emerg_to_endjuv.read(s, cultivar
+   scienceAPI.read("est_days_emerg_to_init", est_days_emerg_to_init, 0, 100);
+   tt_emerg_to_endjuv.read(scienceAPI
                             , "cum_vernal_days", "vd", 0.0, 100.0
                             , "tt_emerg_to_endjuv", "dd", 0.0, tt_emerg_to_endjuv_ub);
 
-   tt_endjuv_to_init.read(s, cultivar
+   tt_endjuv_to_init.read(scienceAPI
                           , "x_pp_endjuv_to_init", "h", 0.0, 24.0
                           , "y_tt_endjuv_to_init", "dd", 0.0, 1e6);
 
 
-   s->readParameter (cultivar
-                    , "tt_init_to_buttoning"//, "()"
-                    , tt_init_to_buttoning
-                    , 0.0, 1e6);
-
-   s->readParameter (cultivar
-                    , "tt_buttoning_to_maturity"//, "()"
-                    , tt_buttoning_to_maturity
-                    , 0.0, 1e6);
+   scienceAPI.read("tt_init_to_buttoning", tt_init_to_buttoning, 0.0f, 1000000.0f);
+   scienceAPI.read("tt_buttoning_to_maturity", tt_buttoning_to_maturity, 0.0f, 1000000.0f);
    }
 
 void BroccoliPhenology::readSpeciesParameters (protocol::Component *s, vector<string> &sections)
@@ -120,14 +110,11 @@ void BroccoliPhenology::readSpeciesParameters (protocol::Component *s, vector<st
    {
    CropPhenology::readSpeciesParameters (s, sections);
 
-   vernal_days.search(s, sections,
+   vernal_days.read(scienceAPI,
                        "x_vernal_temp", "(oc)", -10., 60.0,
                        "y_vernal_days", "(days)", 0.0, 1.0);
 
-   s->readParameter (sections
-                   ,"tt_emerg_to_endjuv_ub"//, "()"
-                   , tt_emerg_to_endjuv_ub
-                   , 0.0, 1.e6);
+   scienceAPI.read("tt_emerg_to_endjuv_ub", tt_emerg_to_endjuv_ub, 0.0f, 1000000.0f);
    }
 
 void BroccoliPhenology::writeCultivarInfo (PlantComponent *systemInterface)
@@ -279,7 +266,7 @@ void BroccoliPhenology::onRemoveBiomass(float removeBiomPheno)
    if (initialOnBiomassRemove == true)
       {
       initialOnBiomassRemove = false;
-      y_removeFractPheno.search(plant->getComponent(), iniSectionList,
+      y_removeFractPheno.read(scienceAPI,
                "x_removeBiomPheno", "()", 0.0, 1.0,
                "y_removeFractPheno", "()", 0.0, 1.0);
       }

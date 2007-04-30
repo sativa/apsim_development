@@ -3,6 +3,7 @@
 #include <ComponentInterface/datatypes.h>
 #include <ComponentInterface/ApsimVariant.h>
 #include <ComponentInterface/MessageDataExt.h>
+#include <ComponentInterface/ScienceAPI.h>
 #include "PlantComponent.h"
 #include "PlantLibrary.h"
 #include "PlantInterface.h"
@@ -91,25 +92,25 @@ void CropPhenology::readSpeciesParameters(protocol::Component *s, vector<string>
    iniSectionList = sections;
    initialOnBiomassRemove = true;
 
-   stage_reduction_harvest.search(s, sections,
+   stage_reduction_harvest.read(scienceAPI,
                                 "stage_code_list" , "()", 1.0, 100.0,
                                 "stage_stem_reduction_harvest" , "()", 1.0, 100.0);
 
-   stage_reduction_kill_stem.search(s, sections,
+   stage_reduction_kill_stem.read(scienceAPI,
                                   "stage_code_list" , "()", 1.0, 100.0,
                                   "stage_stem_reduction_kill_stem" , "()", 1.0, 100.0);
 
-   y_tt.search(s, sections,
+   y_tt.read(scienceAPI,
                "x_temp", "oC", 0.0, 100.0,
                "y_tt", "oC days", 0.0, 100.0);
 
-   s->readParameter (sections, "shoot_lag", shoot_lag, 0.0, 100.0);
+   scienceAPI.read("shoot_lag", shoot_lag, 0.0f, 100.0f);
 
-   s->readParameter (sections, "shoot_rate", shoot_rate, 0.0, 100.0);
+   scienceAPI.read("shoot_rate", shoot_rate, 0.0f, 100.0f);
 
-   s->readParameter (sections, "pesw_germ", pesw_germ, 0.0, 1.0);
+   scienceAPI.read("pesw_germ", pesw_germ, 0.0f, 1.0f);
 
-   rel_emerg_rate.search(s, sections,
+   rel_emerg_rate.read(scienceAPI,
                          "fasw_emerg", "()", 0.0, 1.0,
                          "rel_emerg_rate",  "()", 0.0, 1.0);
    }

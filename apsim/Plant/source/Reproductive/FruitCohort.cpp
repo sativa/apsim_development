@@ -2,16 +2,13 @@
 // 6 Aug 97 J. Hargreaves  Implementation
 
 #include "FruitCohort.h"
+#include <ComponentInterface/ScienceAPI.h>
 
 using namespace std;
 
-// default constructor
-FruitCohort::FruitCohort() : CompositePart()
-{
-}
-
 //  initialise data members.
-FruitCohort::FruitCohort(plantInterface *p, const string &name) : CompositePart(p, name)
+FruitCohort::FruitCohort(ScienceAPI& scienceAPI, plantInterface *p, const string &name)
+   : CompositePart(scienceAPI, p, name)
 {
 }
 
@@ -30,16 +27,16 @@ void FruitCohort::doInit1(protocol::Component *system)
 {
    zeroAllGlobals(); zeroDeltas();
 
-   string grainType = system->readParameter ("constants", "grain_part_type");
+   string grainType;
+   scienceAPI.read("grain_part_type", grainType);
    if (grainType == "harvest_index")
-      grainPart = new fruitGrainPartHI(plant, "grain");
+      grainPart = new fruitGrainPartHI(scienceAPI, plant, "grain");
    else if (grainType == "grain_no")
-      grainPart = new fruitGrainPartGN(plant, "grain");
+      grainPart = new fruitGrainPartGN(scienceAPI, plant, "grain");
    else
      throw std::runtime_error("Unknown grain_part_type '" + grainType + "'");
 
-   podPart = new fruitPodPart(plant, grainPart, "pod");
-////   fruitPhenology = constructPhenology(plant, system->readParameter ("constants", "phenology_model"));
+   podPart = new fruitPodPart(scienceAPI, plant, grainPart, "pod");
 
    myParts.push_back(podPart);
    myVegParts.push_back(podPart);

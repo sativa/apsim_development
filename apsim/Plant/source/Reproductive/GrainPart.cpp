@@ -3,6 +3,7 @@
 // 6 Aug 97 J. Hargreaves  Implementation
 
 #include "GrainPart.h"
+#include <ComponentInterface/ScienceAPI.h>
 
 using namespace std;
 
@@ -10,12 +11,9 @@ static const char* floatType =        "<type kind=\"single\"/>";
 
 inline bool floatsAreEqual(float A, float B, float C) {return(fabs(A-B)<C);}
 
-// default constructor
-fruitGrainPart::fruitGrainPart()
-{}
-
 //  initialise data members.
-fruitGrainPart::fruitGrainPart(plantInterface *p, const string &name) : CompositePart(p, name)
+fruitGrainPart::fruitGrainPart(ScienceAPI& scienceAPI, plantInterface *p, const string &name)
+   : CompositePart(scienceAPI, p, name)
 {
    //    zeroAllGlobals();
    gDm_stress_max.setup(&gDlt_dm_stress_max);
@@ -193,20 +191,14 @@ void fruitGrainPart::readCultivarParameters (protocol::Component *system, const 
 
    system->writeString (" - reading grain cultivar parameters");
 
-   if (system->readParameter (cultivar.c_str()
-                              , "min_temp_grnfill"//, "()"
-                              , pMinTempGrnFill
-                              , 0.0, 20.0, true) == false)
+   if (!scienceAPI.readOptional("min_temp_grnfill", pMinTempGrnFill, 0.0f, 20.0f))
       {
       pMinTempGrnFill = -100.0;
       pDaysDelayGrnFill = 0;
       }
    else
       {
-      system->readParameter (cultivar.c_str()
-                             , "days_delay_grnfill"//, "()"
-                             , pDaysDelayGrnFill
-                             , 0, 10);
+      scienceAPI.read("days_delay_grnfill", pDaysDelayGrnFill, 0, 10);
       }
 
    for (vector<plantPart *>::iterator part = myParts.begin(); part != myParts.end(); part++)
@@ -282,10 +274,10 @@ void fruitGrainPart::onKillStem(void)
 void fruitGrainPart::doInit1(protocol::Component */* system*/)
    // ====================================================================
 {
-   mealPart = new fruitMealPart(plant, "meal");
+   mealPart = new fruitMealPart(scienceAPI, plant, "meal");
    myParts.push_back(mealPart);
 
-   oilPart = new fruitOilPart(plant, "oil");
+   oilPart = new fruitOilPart(scienceAPI, plant, "oil");
    myParts.push_back(oilPart);
 
 }
@@ -302,55 +294,16 @@ void fruitGrainPart::readConstants(protocol::Component *system, const string &se
 
 void fruitGrainPart::readSpeciesParameters(protocol::Component *system, vector<string> &sections)
    //===========================================================================
-{
-
-
-   //    plant_phenology_init
-
-      system->readParameter (sections
-                             ,"sw_fac_max"//, "()"
-                             , cSw_fac_max
-                             , 0.0, 100.0);
-
-      system->readParameter (sections
-                             ,"temp_fac_min"//, "()"
-                             , cTemp_fac_min
-                             , 0.0, 100.0);
-
-      system->readParameter (sections
-                             ,"sfac_slope"//, "()"
-                             , cSfac_slope
-                             , -10.0, 0.0);
-
-      system->readParameter (sections
-                             ,"tfac_slope"//, "()"
-                             , cTfac_slope
-                             , 0.0, 100.0);
-   //    plant_event
-   system->readParameter (sections
-                          ,"grn_water_cont"//, "(g/g)"
-                          , cGrn_water_cont
-                          , 0.0, 1.0);
-
-   system->readParameter (sections
-                          , "x_stage_code"//, "()"
-                          , cX_stage_code, cNum_n_conc_stage
-                          , 0.0, 100.0);
-
-   system->readParameter (sections
-                          , "n_conc_crit_grain"//, "()"
-                          , cN_conc_crit_grain
-                          , 0.0, 100.0);
-
-   system->readParameter (sections
-                          , "n_conc_max_grain"//, "()"
-                          , cN_conc_max_grain
-                          , 0.0, 100.0);
-
-   system->readParameter (sections
-                          , "n_conc_min_grain"//, "()"
-                          , cN_conc_min_grain
-                          , 0.0, 100.0);
+   {
+   scienceAPI.read("sw_fac_max", cSw_fac_max, 0.0f, 100.0f);
+   scienceAPI.read("temp_fac_min", cTemp_fac_min, 0.0f, 100.0f);
+   scienceAPI.read("sfac_slope", cSfac_slope, -10.0f, 0.0f);
+   scienceAPI.read("tfac_slope", cTfac_slope, 0.0f, 100.0f);
+   scienceAPI.read("grn_water_cont", cGrn_water_cont, 0.0f, 1.0f);
+   scienceAPI.read("x_stage_code", cX_stage_code, cNum_n_conc_stage, 0.0f, 100.0f);
+   scienceAPI.read("n_conc_crit_grain", cN_conc_crit_grain, 0.0f, 100.0f);
+   scienceAPI.read("n_conc_max_grain", cN_conc_max_grain, 0.0f, 100.0f);
+   scienceAPI.read("n_conc_min_grain", cN_conc_min_grain, 0.0f, 100.0f);
 
    gHasreadconstants = true;
 

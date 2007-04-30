@@ -5,7 +5,8 @@
 
 class fruitOilPart : public plantPart {
   public:
-   fruitOilPart(plantInterface *p, const string &name) : plantPart(p, name) {};
+   fruitOilPart(ScienceAPI& scienceAPI, plantInterface *p, const string &name)
+   : plantPart(scienceAPI, p, name) {};
    ~fruitOilPart() {};
    void doRegistrations(protocol::Component *);
    void onHarvest(float height, float remove_fr,

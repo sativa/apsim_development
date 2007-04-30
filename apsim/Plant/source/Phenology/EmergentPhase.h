@@ -16,7 +16,8 @@ class EmergentPhase : public pPhase
       void readCultivarParameters(protocol::Component *s, const string & cultivar);
       void readSpeciesParameters (protocol::Component *, std::vector<string> &);
       void onSow(protocol::ApsimVariant incomingApsimVariant);
-      EmergentPhase(const string& stage_name) : pPhase (stage_name){};
+      EmergentPhase(ScienceAPI& scienceAPI, const string& stage_name)
+         : pPhase (scienceAPI, stage_name){};
       //void updateTTTargets(const environment_t &e);
       void setupTTTarget(void);
       virtual string description() const;

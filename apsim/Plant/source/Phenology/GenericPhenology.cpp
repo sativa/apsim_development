@@ -201,7 +201,7 @@ void GenericPhenology::onRemoveBiomass(float removeBiomPheno)
    if (initialOnBiomassRemove == true)
       {
       initialOnBiomassRemove = false;
-      y_removeFractPheno.search(plant->getComponent(), iniSectionList,
+      y_removeFractPheno.read(scienceAPI,
                "x_removeBiomPheno", "()", 0.0, 1.0,
                "y_removeFractPheno", "()", 0.0, 1.0);
       }

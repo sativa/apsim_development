@@ -12,6 +12,7 @@
 #include <ComponentInterface/ApsimVariant.h>
 #include <ComponentInterface/Component.h>
 #include <ComponentInterface/datatypes.h>
+#include <ComponentInterface/ScienceAPI.h>
 #include <ApsimShared/ApsimComponentData.h>
 #include <ApsimShared/FStringExt.h>
 #include <general/string_functions.h>
@@ -55,8 +56,8 @@ static const char* IncorpFOMType =    "<type name = \"IncorpFOM\">" \
 
 static const char* floatArrayType =   "<type kind=\"single\" array=\"T\"/>";
 
-plantRootPart::plantRootPart(plantInterface *p, const string &name)
-   : plantPart(p, name)
+plantRootPart::plantRootPart(ScienceAPI& scienceAPI, plantInterface *p, const string &name)
+   : plantPart(scienceAPI, p, name)
 //=======================================================================================
 // Constructor
    {
@@ -68,14 +69,14 @@ plantRootPart::plantRootPart(plantInterface *p, const string &name)
    zeroAllGlobals();
    }
 
-plantRootPart* constructRootPart(plantInterface *p, const string &type, const string &name)
+plantRootPart* constructRootPart(ScienceAPI& scienceAPI, plantInterface *p, const string &type, const string &name)
 //=======================================================================================
 // Setup correct root model for user-defined type
    {
    if (type == "Jones+RitchieGrowthPattern")
-     return new rootGrowthOption2(p, name);
+     return new rootGrowthOption2(scienceAPI, p, name);
    // default:
-   return new rootGrowthOption1(p, name);
+   return new rootGrowthOption1(scienceAPI, p, name);
    }
 
 
@@ -212,138 +213,63 @@ void plantRootPart::doRegistrations(protocol::Component *system)
 void plantRootPart::readConstants (protocol::Component *system, const string &section)
 //=======================================================================================
 // Read Constants
-{
-    plantPart::readConstants(system, section);
+   {
+   plantPart::readConstants(system, section);
 
-    system->readParameter (section,"sw_ub", sw_ub, 0.0, 1.0);
-    system->readParameter (section, "sw_lb", sw_lb, 0.0, 1.0);
-    system->readParameter (section, "sw_dep_ub", sw_dep_ub, 0.0, 10000.0);
-    system->readParameter (section, "sw_dep_lb", sw_dep_lb, 0.0, 10000.0);
+   scienceAPI.read("sw_ub", sw_ub, 0.0f, 1.0f);
+   scienceAPI.read("sw_lb", sw_lb, 0.0f, 1.0f);
+   scienceAPI.read("sw_dep_ub", sw_dep_ub, 0.0f, 10000.0f);
+   scienceAPI.read("sw_dep_lb", sw_dep_lb, 0.0f, 10000.0f);
 }
 
 void plantRootPart::readSpeciesParameters(protocol::Component *system, vector<string> &sections)
 //=======================================================================================
 // Read species-specific parameters
-    {
-    plantPart::readSpeciesParameters(system, sections);
+   {
+   plantPart::readSpeciesParameters(system, sections);
 
-    system->readParameter (sections,"kl_ub",kl_ub, 0.0, 1.0);
+   scienceAPI.read("kl_ub",kl_ub, 0.0f, 1.0f);
+   scienceAPI.read("specific_root_length", specificRootLength,0.0f, 1000000.0f);
+   scienceAPI.read("n_conc_crit_root", n_conc_crit, 0.0f, 100.0f);
+   scienceAPI.read("n_conc_max_root", n_conc_max, 0.0f, 100.0f);
 
-    system->readParameter (sections,
-                           "specific_root_length",//, "(mm/g)"
-                            specificRootLength,
-                            0.0, 1.0e6);
-    system->readParameter (sections
-                          , "n_conc_crit_root"//, "()"
-                          , n_conc_crit
-                          , 0.0, 100.0);
+   scienceAPI.read("n_conc_min_root", n_conc_min, 0.0f, 100.0f);
+   scienceAPI.read("initial_root_depth", initialRootDepth, 0.0f, 1000.0f);
+   scienceAPI.read("specific_root_length", specificRootLength, 0.0f, 1000000.0f);
+   scienceAPI.read("root_die_back_fr", rootDieBackFraction, 0.0f, 0.99f);
 
-    system->readParameter (sections
-                          , "n_conc_max_root"//, "()"
-                          , n_conc_max
-                          , 0.0, 100.0);
-
-    system->readParameter (sections
-                          , "n_conc_min_root"//, "()"
-                          , n_conc_min
-                          , 0.0, 100.0);
-
-    system->readParameter (sections
-                   ,"initial_root_depth"//, "(mm)"
-                   , initialRootDepth
-                   , 0.0, 1000.0);
-
-    system->readParameter (sections
-                   ,"specific_root_length"//, "(mm/g)"
-                   , specificRootLength
-                   , 0.0, 1.0e6);
-
-    system->readParameter (sections
-                   ,"root_die_back_fr"//, "(0-1)"
-                   , rootDieBackFraction
-                   , 0.0, 0.99);
-
-    rel_root_rate.search(system, sections,
+   rel_root_rate.read(scienceAPI,
                          "x_plant_rld", "()", 0.0, 0.1,
                          "y_rel_root_rate", "()", 0.001, 1.0);
 
-    sw_fac_root.search(system, sections,
+   sw_fac_root.read(scienceAPI,
                          "x_sw_ratio", "()", 0.0, 100.,
                          "y_sw_fac_root", "()", 0.0, 100.0);
 
-    rel_root_advance.search(system, sections,
+   rel_root_advance.read(scienceAPI,
                          "x_temp_root_advance", "(oc)", -10.0, 60.,
                          "y_rel_root_advance", "()", 0.0, 1.0);
 
-    root_depth_rate.search(system, sections,
+   root_depth_rate.read(scienceAPI,
                          "stage_code_list", "()", 0.0, 100.0,
                          "root_depth_rate", "(mm/day)", 0.0, 1000.0);
 
-    ws_root_fac.search(system, sections,
+   ws_root_fac.read(scienceAPI,
                          "x_ws_root", "()", 0.0, 1.0,
                          "y_ws_root_fac", "()", 0.0, 1.0);
 
-    system->readParameter (sections
-                     , "x_sw_avail_ratio"//, "()"
-                     , x_sw_avail_ratio, num_sw_avail_ratio
-                     , 0.0, 100.0);
-
-    system->readParameter (sections
-                     , "y_swdef_pheno"//, "()"
-                     , y_swdef_pheno, num_sw_avail_ratio
-                     , 0.0, 100.0);
-
-    system->readParameter (sections
-                     , "x_sw_avail_ratio_flower"//, "()"
-                     , x_sw_avail_ratio_flower, num_sw_avail_ratio_flower
-                     , 0.0, 1.0);
-
-    system->readParameter (sections
-                     , "y_swdef_pheno_flower"//, "()"
-                     , y_swdef_pheno_flower, num_sw_avail_ratio_flower
-                     , 0.0, 5.0);
-
-    system->readParameter (sections
-                     , "x_sw_avail_ratio_grainfill"//, "()"
-                     , x_sw_avail_ratio_grainfill, num_sw_avail_ratio_grainfill
-                     , 0.0, 1.0);
-
-    system->readParameter (sections
-                     , "y_swdef_pheno_grainfill"//, "()"
-                     , y_swdef_pheno_grainfill, num_sw_avail_ratio_grainfill
-                     , 0.0, 5.0);
-
-    system->readParameter (sections
-                     , "x_sw_demand_ratio"//, "()"
-                     , x_sw_demand_ratio, num_sw_demand_ratio
-                     , 0.0, 100.0);
-
-    system->readParameter (sections
-                     , "y_swdef_leaf"//, "()"
-                     , y_swdef_leaf, num_sw_demand_ratio
-                     , 0.0, 100.0);
-
-    system->readParameter (sections
-                     , "x_sw_avail_fix"//,  "()"
-                     , x_sw_avail_fix, num_sw_avail_fix
-                     , 0.0, 100.0);
-
-    system->readParameter (sections
-                     , "y_swdef_fix"//, "()"
-                     , y_swdef_fix, num_sw_avail_fix
-                     , 0.0, 100.0);
-
-    system->readParameter (sections
-                     , "oxdef_photo_rtfr"//, "()"
-                     , oxdef_photo_rtfr, num_oxdef_photo
-                     , 0.0, 1.0);
-
-    system->readParameter (sections
-                     , "oxdef_photo"//, "()"
-                     , oxdef_photo, num_oxdef_photo
-                     , 0.0, 1.0);
-
-
+   scienceAPI.read("x_sw_avail_ratio", x_sw_avail_ratio, num_sw_avail_ratio, 0.0f, 100.0f);
+   scienceAPI.read("y_swdef_pheno", y_swdef_pheno, num_sw_avail_ratio, 0.0f, 100.0f);
+   scienceAPI.read("x_sw_avail_ratio_flower", x_sw_avail_ratio_flower, num_sw_avail_ratio_flower, 0.0f, 1.0f);
+   scienceAPI.read("y_swdef_pheno_flower", y_swdef_pheno_flower, num_sw_avail_ratio_flower, 0.0f, 5.0f);
+   scienceAPI.read("x_sw_avail_ratio_grainfill", x_sw_avail_ratio_grainfill, num_sw_avail_ratio_grainfill, 0.0f, 1.0f);
+   scienceAPI.read("y_swdef_pheno_grainfill", y_swdef_pheno_grainfill, num_sw_avail_ratio_grainfill, 0.0f, 5.0f);
+   scienceAPI.read("x_sw_demand_ratio", x_sw_demand_ratio, num_sw_demand_ratio, 0.0f, 100.0f);
+   scienceAPI.read("y_swdef_leaf", y_swdef_leaf, num_sw_demand_ratio, 0.0f, 100.0f);
+   scienceAPI.read("x_sw_avail_fix", x_sw_avail_fix, num_sw_avail_fix, 0.0f, 100.0f);
+   scienceAPI.read("y_swdef_fix", y_swdef_fix, num_sw_avail_fix, 0.0f, 100.0f);
+   scienceAPI.read("oxdef_photo_rtfr", oxdef_photo_rtfr, num_oxdef_photo, 0.0f, 1.0f);
+   scienceAPI.read("oxdef_photo", oxdef_photo, num_oxdef_photo, 0.0f, 1.0f);
    }
 
 
@@ -359,7 +285,7 @@ void plantRootPart::readRootParameters(protocol::Component *system, const char *
 
     system->writeString (" - reading root profile parameters");
 
-    if (system->readParameter (section_name, "ll", ll, 0.0, sw_ub, true))
+    if (scienceAPI.readOptional("ll", ll, 0.0, sw_ub))
        {
        for (unsigned int layer = 0; layer != ll.size(); layer++)
           ll_dep[layer] = ll[layer]*dlayer[layer];
@@ -380,18 +306,18 @@ void plantRootPart::readRootParameters(protocol::Component *system, const char *
        system->writeString ("   Using externally supplied Lower Limit (ll15)");
        }
 
-   system->readParameter (section_name, "xf", xf, 0.0, 1.0);
+   scienceAPI.read("xf", xf, 0.0f, 1.0f);
    if (xf.size() != (unsigned) num_layers)
        throw std::runtime_error ("Size of XF array doesn't match soil profile.");
 
-    int num_kls = 0;
-    system->readParameter (section_name, "kl", kl, num_kls, 0.0, kl_ub);
-    if (num_kls != num_layers)
-       throw std::runtime_error  ("Size of KL array doesn't match soil profile.");
+   int num_kls = 0;
+   scienceAPI.read("kl", kl, num_kls, 0.0f, kl_ub);
+   if (num_kls != num_layers)
+      throw std::runtime_error  ("Size of KL array doesn't match soil profile.");
 
 
-    uptake_source = system->readParameter (section_name, "uptake_source");
-    if (uptake_source == "")uptake_source = "calc";
+   scienceAPI.readOptional("uptake_source", uptake_source);
+   if (uptake_source == "")uptake_source = "calc";
 
 
     // report

@@ -12,6 +12,7 @@
 #include <ComponentInterface/ApsimVariant.h>
 #include <ComponentInterface/Component.h>
 #include <ComponentInterface/datatypes.h>
+#include <ComponentInterface/ScienceAPI.h>
 #include <ApsimShared/ApsimComponentData.h>
 #include <ApsimShared/FStringExt.h>
 #include <general/string_functions.h>
@@ -102,8 +103,7 @@ void rootGrowthOption2::readSpeciesParameters(protocol::Component *system, vecto
 // Read Species-specific Parameters
    {
    plantRootPart::readSpeciesParameters(system, sections);
-   system->readParameter (sections, "root_distribution_pattern",
-                          rootDistributionPattern, 0.0, 100.0);
+   scienceAPI.read("root_distribution_pattern", rootDistributionPattern, 0.0f, 100.0f);
 
 
    }

@@ -30,6 +30,7 @@
 #include <ComponentInterface/FunctionTakingValue.h>
 #include <ComponentInterface/Interfaces.h>
 
+class ScienceAPI;
 namespace protocol {
 
 // forward declarations of our friends.
@@ -38,6 +39,7 @@ class RegistrationItem;
 class Registrations;
 class Variants;
 class QueryValueData;
+
 
 extern "C" void EXPORT STDCALL messageToLogic (unsigned* instanceNumber,
                                                   Message* message,
@@ -153,6 +155,7 @@ class EXPORT Component
       const char  *getName(void) {return name.c_str();};
       const char  *getDllName(void) {return dllName.c_str();};
       unsigned int getId(void) {return componentID;};
+      ScienceAPI& scienceAPI() {return *api;}
 
       // Add a registration.
       unsigned addRegistration(RegistrationType kind,
@@ -268,6 +271,7 @@ class EXPORT Component
       unsigned int componentID;
       unsigned int parentID;
       ApsimComponentData* componentData;
+      ::ScienceAPI* api;
       bool beforeInit2;
       bool beforeCommence;
       bool haveWrittenToStdOutToday;

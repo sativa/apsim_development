@@ -7,13 +7,9 @@
 
 using namespace std;
 
-// default constructor
-CompositePart::CompositePart() : plantPart()
-{
-}
-
 //  initialise data members.
-CompositePart::CompositePart(plantInterface *p, const string &name) : plantPart(p, name)
+CompositePart::CompositePart(ScienceAPI& scienceAPI, plantInterface *p, const string &name)
+   : plantPart(scienceAPI, p, name)
 {
 }
 
@@ -27,14 +23,6 @@ ostream &operator<<(ostream &output, const CompositePart /*&pool*/)
    //   output << "CompositePart:" << endl;
    output << endl;
    return output;
-}
-
-// copy constructor
-//  copy data members of object
-CompositePart::CompositePart(const CompositePart &/* CompositePart*/)
-//===========================================================================
-{
-    throw std::invalid_argument("Copy constructor NI for CompositePart");
 }
 
 

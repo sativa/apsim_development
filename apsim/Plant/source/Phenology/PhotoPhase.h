@@ -15,7 +15,8 @@ class PhotoPhase : public pPhase
       public:
       void readCultivarParameters(protocol::Component *s, const string & cultivar);
       void readSpeciesParameters (protocol::Component *, std::vector<string> &);
-      PhotoPhase(const string& stage_name) : pPhase (stage_name){};
+      PhotoPhase(ScienceAPI& scienceAPI, const string& stage_name)
+         : pPhase (scienceAPI, stage_name){};
       void updateTTTargets(PlantPhenology &parent, const environment_t &e);
       virtual string description() const;
    };

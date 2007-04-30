@@ -11,7 +11,7 @@ OBJECTS = ComponentInterface.obj Component.obj \
       message.obj Type.obj TypeConverter.obj variant.obj Variants.obj \
       MessageData.obj ApsimVariant.obj ArraySpecifier.obj Registrations.obj \
       RegistrationItem.obj ProtocolVector.obj RegistrationType.obj \
-      EntryPoints.obj Variable.obj VariableRef.obj
+      EntryPoints.obj Variable.obj VariableRef.obj ScienceAPI.obj
 
 WRAPPEROBJECTS = $(OBJECTS) datatypes.obj FORTRANComponentWrapper.obj FORTRANdatatypes.obj
 

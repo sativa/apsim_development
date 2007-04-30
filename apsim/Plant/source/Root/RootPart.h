@@ -42,7 +42,7 @@ class plantRootPart : public plantPart
       vector<float> dltRootLengthSenesced;
       vector<float> xf;                                 // root exploration factor (0-1)
 
-      plantRootPart(plantInterface *p, const string &name);
+      plantRootPart(ScienceAPI& scienceAPI, plantInterface *p, const string &name);
       ~plantRootPart(){};
 
       void zeroAllGlobals(void);
@@ -188,5 +188,5 @@ class plantRootPart : public plantPart
       lookupFunction root_depth_rate;
    };
 
-plantRootPart* constructRootPart(plantInterface *p, const string &type, const string &name);
+plantRootPart* constructRootPart(ScienceAPI& scienceAPI, plantInterface *p, const string &type, const string &name);
 #endif /* RootPartH */

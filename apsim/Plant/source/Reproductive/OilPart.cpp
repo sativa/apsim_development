@@ -14,6 +14,7 @@
 #include <ComponentInterface/datatypes.h>
 #include <ComponentInterface/Messages.h>
 #include <ComponentInterface/MessageDataExt.h>
+#include <ComponentInterface/ScienceAPI.h>
 #include <ApsimShared/ApsimComponentData.h>
 #include <ApsimShared/FStringExt.h>
 #include <general/string_functions.h>
@@ -198,16 +199,8 @@ void fruitOilPart::readSpeciesParameters(protocol::Component *system, vector<str
    {
    plantPart::readSpeciesParameters(system, sections);
 
-   system->readParameter (sections
-                          ,"carbo_oil_conv_ratio"//, "()"
-                          , cCarbo_oil_conv_ratio
-                          , 0.0, 20.0);
-
-   system->readParameter (sections
-                          ,"grain_oil_conc"//, "()"
-                          , cGrain_oil_conc
-                          , 0.0, 1.0);
-
+   scienceAPI.read("carbo_oil_conv_ratio", cCarbo_oil_conv_ratio, 0.0f, 20.0f);
+   scienceAPI.read("grain_oil_conc", cGrain_oil_conc, 0.0f, 1.0f);
    }
 
 

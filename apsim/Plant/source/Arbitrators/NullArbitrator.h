@@ -7,7 +7,8 @@
 class nullArbitrator : public Arbitrator
    {
   public:
-   nullArbitrator(plantInterface *p) : Arbitrator(p) {};
+   nullArbitrator(ScienceAPI& scienceAPI, plantInterface *p)
+      : Arbitrator(scienceAPI, p) {};
    ~nullArbitrator(void) {};
    virtual void partitionDM(float,plantPart *,plantLeafPart *,plantPart *,plantPart *)
       {

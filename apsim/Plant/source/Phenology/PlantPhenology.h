@@ -67,7 +67,7 @@ class PlantPhenology : public plantThing {
    pPhase* find(const string& phase_name);
 
  public:
-   PlantPhenology(plantInterface *p);
+   PlantPhenology(ScienceAPI& scienceAPI, plantInterface *p);
    virtual void writeCultivarInfo (PlantComponent *)=0;
    virtual void readConstants (protocol::Component *, const string &);                // read structure etc from constants
    virtual void doRegistrations (protocol::Component *);
@@ -108,7 +108,7 @@ class PlantPhenology : public plantThing {
    virtual void zeroDeltas(void);
 };
 
-PlantPhenology * constructPhenology(plantInterface *plant, const string &name);
+PlantPhenology * constructPhenology(ScienceAPI& scienceAPI, plantInterface *plant, const string &name);
 
 #endif
 

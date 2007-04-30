@@ -11,8 +11,7 @@ class fruitGrainPartGN : public fruitGrainPart
 {
    friend ostream &operator<<(ostream &, const fruitGrainPartGN &);
 public:                                             // member functions
-   fruitGrainPartGN(plantInterface *p, const string &name);
-   fruitGrainPartGN();
+   fruitGrainPartGN(ScienceAPI& scienceAPI, plantInterface *p, const string &name);
    ~fruitGrainPartGN();
 
    fruitGrainPartGN(const fruitGrainPartGN &fruitGrainPartGN);           // copy constructor

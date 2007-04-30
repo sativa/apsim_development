@@ -13,6 +13,7 @@
 #include <ComponentInterface/Component.h>
 #include <ComponentInterface/datatypes.h>
 #include <ComponentInterface/MessageDataExt.h>
+#include <ComponentInterface/ScienceAPI.h>
 #include <ApsimShared/ApsimComponentData.h>
 #include <ApsimShared/FStringExt.h>
 #include <general/string_functions.h>
@@ -37,118 +38,56 @@ void genericLeafPart::readConstants (protocol::Component *system, const string &
 
 // Read species specific parameters
 void genericLeafPart::readSpeciesParameters (protocol::Component *system, vector<string> &search_order)
-{
-    plantPart::readSpeciesParameters(system, search_order);
-    system->readParameter (search_order
-                           ,"leaf_no_at_emerg"//, "()"
-                           , cLeafNumberAtEmerg
-                           , 0.0, 100.0);
-
-    system->readParameter (search_order
-                   ,"initial_tpla"//, "(mm^2)"
-                   , cInitialTPLA
-                   , 0.0, 100000.0);
-
-    system->readParameter (search_order
-                   ,"min_tpla"//, "(mm^2)"
-                   , cMinTPLA
-                   , 0.0, 100000.0);
-
-    system->readParameter (search_order
-                   ,"sla_min"//, "(mm^2/g)"
-                   , cSLAMin
-                   , 0.0, 100000.0);
-
-    system->readParameter (search_order
-                     ,"sen_start_stage"//, "()"
-                     , cSenStartStage
-                     , 0.0, 100.0);
-
-    system->readParameter (search_order
-                    ,"fr_lf_sen_rate"//, "(/degday)"
-                    , cFrLeafSenRate
-                    , 0.0, 1.0);
-
-    system->readParameter (search_order
-                    ,"node_sen_rate"//, "(degday)"
-                    , cNodeSenRate
-                    , 0.0, 1000.0);
-
-    system->readParameter (search_order
-                   , "n_fact_lf_sen_rate"//, "(/degday)"
-                   , cNFactLeafSenRate
-                   , 0.0, 5.0);
-
-    system->readParameter (search_order
-                   , "node_no_correction"//, "()"
-                   , cNodeNoCorrection
-                   , 0.0, 10.0);
-
-    cSLAMax.search(system, search_order
+   {
+   plantPart::readSpeciesParameters(system, search_order);
+   scienceAPI.read("leaf_no_at_emerg", cLeafNumberAtEmerg, 0.0f, 100.0f);
+   scienceAPI.read("initial_tpla", cInitialTPLA, 0.0f, 100000.0f);
+   scienceAPI.read("min_tpla", cMinTPLA, 0.0f, 100000.0f);
+   scienceAPI.read("sla_min", cSLAMin, 0.0f, 100000.0f);
+   scienceAPI.read("sen_start_stage", cSenStartStage, 0.0f, 100.0f);
+   scienceAPI.read("fr_lf_sen_rate", cFrLeafSenRate, 0.0f, 1.0f);
+   scienceAPI.read("node_sen_rate", cNodeSenRate, 0.0f, 1000.0f);
+   scienceAPI.read("n_fact_lf_sen_rate", cNFactLeafSenRate, 0.0f, 5.0f);
+   scienceAPI.read("node_no_correction", cNodeNoCorrection, 0.0f, 10.0f);
+   cSLAMax.read(scienceAPI
                    , "x_lai",  "(mm2/mm2)", 0.0, 15.0
                    , "y_sla_max", "(mm2/g)", 0.0, 2.e5);
 
-    cLeafNoFrac.search(system, search_order
+   cLeafNoFrac.read(scienceAPI
                      ,"x_lai_ratio", "()", 0.0, 1.0
                      ,"y_leaf_no_frac", "()", 0.0, 1.0);
 
-    system->readParameter (search_order
-                   , "lai_sen_light"//, "(m^2/m^2)"
-                   , cLAISenLight
-                   , 3.0, 20.0);
+   scienceAPI.read("lai_sen_light", cLAISenLight, 3.0f, 20.0f);
+   scienceAPI.read("sen_light_slope", cSenLightSlope, 0.0f, 100.0f);
+   scienceAPI.read("sen_rate_water", cSenRateWater, 0.0f, 100.0f);
 
-    system->readParameter (search_order
-                   , "sen_light_slope"//, "()"
-                   , cSenLightSlope
-                   , 0.0, 100.0);
-
-    system->readParameter (search_order
-                   , "sen_rate_water"//, "()"
-                   , cSenRateWater
-                   , 0.0, 100.0);
-
-    cSenescenceFac.search (system, search_order
+   cSenescenceFac.read(scienceAPI
                      , "x_temp_senescence", "(oc)", -20.0, 20.0
                      , "y_senescence_fac", "()", 0.0, 1.0);
 
-    cLeafSize.search(system, search_order
+   cLeafSize.read(scienceAPI
                         , "x_node_no",  "()", 0.0, 100.0
                         , "y_leaf_size", "(mm2)", 0.0, 60000.0);
 
-    cNodeAppRate.search(system, search_order
+   cNodeAppRate.read(scienceAPI
                         , "x_node_no_app",  "()", 0.0, 200.0
                         , "y_node_app_rate", "()", 0.0, 400.0);
 
-    cLeavesPerNode.search(system, search_order
+   cLeavesPerNode.read(scienceAPI
                         , "x_node_no_leaf",  "()", 0.0, 200.0
                         , "y_leaves_per_node", "()", 0.0, 50.0);
 
-    system->readParameter (search_order
-                     ,"x_row_spacing"//,  "(mm)"
-                     , cXRowSpacing, cNumRowSpacing
-                     , 0.0, 2000.);
+   scienceAPI.read("x_row_spacing", cXRowSpacing, cNumRowSpacing, 0.0f, 2000.0f);
+   scienceAPI.read("y_extinct_coef", cYExtinctCoef, cNumRowSpacing, 0.0f, 1.0f);
+   scienceAPI.read("y_extinct_coef_dead", cYExtinctCoefDead, cNumRowSpacing, 0.0f, 1.0f);
 
-    system->readParameter (search_order
-                     ,"y_extinct_coef"//, "()"
-                     , cYExtinctCoef, cNumRowSpacing
-                     , 0.0, 1.0);
-
-    system->readParameter (search_order
-                     ,"y_extinct_coef_dead"//, "()"
-                     , cYExtinctCoefDead, cNumRowSpacing
-                     , 0.0, 1.0);
-
-    cRue.search(system, search_order,
+   cRue.read(scienceAPI,
                  "x_stage_rue", "()", 0.0, 1000.0,
                  "y_rue", "(g dm/mj)", 0.0, 1000.0);
 
    int   numvals;                                // number of values returned
-   system->readParameter (search_order,
-                          "transp_eff_cf"//, "(kpa)"
-                          , c.transpEffCf, numvals
-                          , 0.0, 1.0);
-
-}
+   scienceAPI.read("transp_eff_cf", c.transpEffCf, numvals, 0.0f, 1.0f);
+   }
 
 // Connect our bits to the system
 void genericLeafPart::doRegistrations(protocol::Component *system)

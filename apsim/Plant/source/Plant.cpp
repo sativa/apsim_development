@@ -14,6 +14,7 @@
 #include <ComponentInterface/MessageDataExt.h>
 #include <ComponentInterface/Component.h>
 #include <ComponentInterface/Type.h>
+#include <ComponentInterface/ScienceAPI.h>
 
 #include "PlantComponent.h"
 #include "PlantInterface.h"
@@ -38,16 +39,10 @@ using namespace std;
 
 Plant *currentInstance = NULL;
 
-static const char* nullType =         "<type/>";
-static const char* integerType =      "<type kind=\"integer4\"/>";
-static const char* integerArrayType = "<type kind=\"integer4\" array=\"T\"/>";
 static const char* floatType =        "<type kind=\"single\"/>";
 static const char* floatArrayType =   "<type kind=\"single\" array=\"T\"/>";
 static const char* doubleType =       "<type kind=\"double\"/>";
-static const char* doubleArrayType =  "<type kind=\"double\" array=\"T\"/>";
 static const char* stringType =       "<type kind=\"string\"/>";
-static const char* stringArrayType =  "<type kind=\"string\" array=\"T\"/>";
-static const char* logicalType =      "<type kind=\"boolean\"/>";
 static const char* sowDDML =          "<type name = \"sow\">" \
                                       "   <field name=\"crop_class_name\" kind=\"string\"/>" \
                                       "   <field name=\"crop_class_numbytes\" kind=\"integer4\"/>" \
@@ -128,8 +123,9 @@ static const char* cropChoppedDDML =  "<type name = \"CropChopped\">" \
                                       "</type>";
 
 
-Plant::Plant(PlantComponent *P)
+Plant::Plant(PlantComponent *P, ScienceAPI& api)
 //=======================================================================================
+   : scienceAPI(api)
     {
     parent = P;
 
@@ -164,45 +160,51 @@ void Plant::doInit1(protocol::Component *s)
     {
     plant_zero_variables (); // Zero global states
 
-    phenology = constructPhenology(this, s->readParameter ("constants", "phenology_model"));
+    string phenologyModel;
+    scienceAPI.readOptional("phenology_model", phenologyModel);
+    phenology = constructPhenology(scienceAPI, this, phenologyModel);
     myThings.push_back(phenology);
 
-    rootPart = constructRootPart(this, s->readParameter ("constants", "root_part"), "root");
+    string rootModel;
+    scienceAPI.readOptional("root_part", rootModel);
+    rootPart = constructRootPart(scienceAPI, this, rootModel, "root");
     myThings.push_back(rootPart);
     myParts.push_back(rootPart);
 
-    leafPart = constructLeafPart(this, s->readParameter ("constants", "leaf_part"), "leaf");
+    string leafModel;
+    scienceAPI.readOptional("leaf_part", leafModel);
+    leafPart = constructLeafPart(scienceAPI, this, leafModel, "leaf");
     myThings.push_back(leafPart);
     myParts.push_back(leafPart);
     myStoverParts.push_back(leafPart);
 
-    stemPart = new plantStemPart(this, "stem");
+    stemPart = new plantStemPart(scienceAPI, this, "stem");
     myThings.push_back(stemPart);
     myParts.push_back(stemPart);
     myStoverParts.push_back(stemPart);
 
-    fruitPart = new PlantFruit(this, "fruit");
+    fruitPart = new PlantFruit(scienceAPI, this, "fruit");
     myThings.push_back(fruitPart);
     myParts.push_back(fruitPart);
     myStoverParts.push_back(fruitPart);
     fruitPart->doInit1(s);
 
-    arbitrator = constructArbitrator(this, "");       // Make a null arbitrator until we call readSpecies...
+    arbitrator = constructArbitrator(scienceAPI, this, "");       // Make a null arbitrator until we call readSpecies...
     myThings.push_back(arbitrator);
 
-    sowingEventObserver = new eventObserver("sowing", this);
+    sowingEventObserver = new eventObserver(scienceAPI, "sowing", this);
     myThings.push_back(sowingEventObserver);
 
-    emergenceEventObserver = new eventObserver("emergence", this);
+    emergenceEventObserver = new eventObserver(scienceAPI, "emergence", this);
     myThings.push_back(emergenceEventObserver);
 
-    FIEventObserver = new eventObserver("floral_initiation", this);
+    FIEventObserver = new eventObserver(scienceAPI, "floral_initiation", this);
     myThings.push_back(FIEventObserver);
 
-    floweringEventObserver = new eventObserver("flowering", this);
+    floweringEventObserver = new eventObserver(scienceAPI, "flowering", this);
     myThings.push_back(floweringEventObserver);
 
-    maturityEventObserver = new eventObserver("maturity", this);
+    maturityEventObserver = new eventObserver(scienceAPI, "maturity", this);
     myThings.push_back(maturityEventObserver);
 
     plant_zero_all_globals();
@@ -3297,6 +3299,8 @@ void Plant::plant_init (void)
 
 //- Implementation Section ----------------------------------
 
+    scienceAPI.setClass2(c.default_crop_class);
+
     // initialize crop variables
     plant_get_site_characteristics();
 
@@ -3304,9 +3308,7 @@ void Plant::plant_init (void)
     g.module_name = parent->getName();
 
     vector<float> ll;                                                                               //FIXME - belongs in RootPsrt
-    if (parent->readParameter ("parameters"                                                         //FIXME - belongs in RootPsrt
-                              , "ll"//, "()"                                                        //FIXME - belongs in RootPsrt
-                              , ll, 0.0, rootPart->sw_ub, true))                                    //FIXME - belongs in RootPsrt
+    if (scienceAPI.readOptional("ll", ll, 0.0, rootPart->sw_ub))                                    //FIXME - belongs in RootPsrt
        {                                                                                            //FIXME - belongs in RootPsrt
        for (unsigned int layer = 0; layer != ll.size(); layer++)                                    //FIXME - belongs in RootPsrt
           rootPart->ll_dep[layer] = ll[layer]*rootPart->dlayer[layer];                              //FIXME - belongs in RootPsrt
@@ -3366,11 +3368,13 @@ void Plant::plant_start_crop (protocol::Variant &v/*(INPUT) message arguments*/)
                {
                // crop class was not specified
                g.crop_class = c.default_crop_class;
+               scienceAPI.setClass2(c.default_crop_class);
                }
            else
                {
                g.crop_class = dummy.f_str();
                g.crop_class = g.crop_class.substr(0,dummy.length());
+               scienceAPI.setClass2(asString(dummy));
                }
            plant_read_species_const ();
 
@@ -3383,6 +3387,7 @@ void Plant::plant_start_crop (protocol::Variant &v/*(INPUT) message arguments*/)
                {
                g.cultivar = dummy.substr(0,dummy.length()).f_str();
                g.cultivar = g.cultivar.substr(0,dummy.length());
+               scienceAPI.setClass1(g.cultivar);
                }
            plant_read_cultivar_params ();
 
@@ -3513,20 +3518,11 @@ void Plant::plant_read_root_params ()
     const char*  section_name = "parameters" ;
     char  msg[200];
 
-    //       cproc_sw_demand_bound
-    if (parent->readParameter (section_name
-                , "eo_crop_factor"//, "()"
-                , p.eo_crop_factor
-                , 0.0, 100., true) == false)
-        {
+    if (!scienceAPI.readOptional("eo_crop_factor", p.eo_crop_factor, 0.0f, 100.0f))
         p.eo_crop_factor = c.eo_crop_factor_default;
-        }
 
-    c.default_crop_class = parent->readParameter (section_name, "default_crop_class");
-    c.remove_biomass_report = parent->readParameter (section_name, "remove_biomass_report");
-
+    scienceAPI.readOptional("remove_biomass_report", c.remove_biomass_report);
     rootPart->readRootParameters(parent, section_name);
-
 
     sprintf (msg, "%s%5.1f%s"
         ,"    Crop factor for bounding water use is set to "
@@ -3921,66 +3917,20 @@ void Plant::plant_update_other_variables (void)
 
     }
 
-
-
-
-//+  Purpose
-//       Crop initialisation - reads constants from constants file
 void Plant::plant_read_constants ( void )
+//=======================================================================================
+// Crop initialisation - reads constants from constants file
     {
-
-//+  Constant Values
     const char*  section_name = "constants" ;
 
-
-//- Implementation Section ----------------------------------
-
-    // call write_string (new_line            //"    - reading constants");
-
-    c.crop_type = parent->readParameter (section_name, "crop_type");
-
-    c.default_crop_class = parent->readParameter (section_name, "default_crop_class");
-
-    //string scratch = parent->readParameter (section_name, "part_names");
-    //Split_string(scratch, " ", c.part_names);
-
-
-
-//    plant_get_other_variables
-
-// checking the bounds of the bounds..
-    parent->readParameter (section_name
-    , "latitude_ub"//, "(ol)"
-    , c.latitude_ub
-    , -90.0, 90.0);
-
-    parent->readParameter (section_name
-    , "latitude_lb"//, "(ol)"
-    , c.latitude_lb
-    , -90.0, 90.0);
-
-// 8th block
-
-
-    parent->readParameter (section_name
-    , "no3_ub"//, "(kg/ha)"
-    , c.no3_ub
-    , 0.0, 100000.0);
-
-    parent->readParameter (section_name
-    , "no3_lb"//, "(kg/ha)"
-    , c.no3_lb
-    , 0.0, 100000.0);
-
-    parent->readParameter (section_name
-    , "nh4_ub"//, "(kg/ha)"
-    , c.nh4_ub
-    , 0.0, 100000.0);
-
-    parent->readParameter (section_name
-    , "nh4_lb"//, "(kg/ha)"
-    , c.nh4_lb
-    , 0.0, 100000.0);
+    scienceAPI.readOptional("crop_type", c.crop_type);
+    scienceAPI.readOptional("default_crop_class", c.default_crop_class);
+    scienceAPI.read("latitude_ub", c.latitude_ub, -90.0f, 90.0f);
+    scienceAPI.read("latitude_lb", c.latitude_lb, -90.0f, 90.0f);
+    scienceAPI.read("no3_ub", c.no3_ub, 0.0f, 100000.0f);
+    scienceAPI.read("no3_lb", c.no3_lb, 0.0f, 100000.0f);
+    scienceAPI.read("nh4_ub", c.nh4_ub, 0.0f, 100000.0f);
+    scienceAPI.read("nh4_lb", c.nh4_lb, 0.0f, 100000.0f);
 
     for (vector<plantThing *>::iterator t = myThings.begin();
          t != myThings.end();
@@ -4062,233 +4012,104 @@ void Plant::plant_read_species_const ()
 //- Implementation Section ----------------------------------
 
     string scratch = parent->readParameter (c.crop_type.c_str(), g.crop_class.c_str());
+
     Split_string(scratch, " ", search_order);
 
     parent->writeString (string(" - reading constants for " +
                                 g.crop_class + "(" + c.crop_type +")").c_str());
 
-    scratch = parent->readParameter (search_order, "class_action");
+    scienceAPI.read("class_action", scratch);
     Split_string(scratch, " ", c.class_action);
     registerClassActions();
 
-    scratch = parent->readParameter (search_order, "class_change");
+    scienceAPI.read("class_change", scratch);
     Split_string(scratch, " ", c.class_change);
 
     // Kill off last arbitrator, and get a new one
     arbitrator->undoRegistrations(parent);
     myThings.erase(remove(myThings.begin(), myThings.end(), arbitrator),myThings.end());
     delete arbitrator;
-    arbitrator = constructArbitrator(this, parent->readParameter (search_order, "partition_option"));
+
+    string partitionOption;
+    scienceAPI.read("partition_option", partitionOption);
+    arbitrator = constructArbitrator(scienceAPI, this, partitionOption);
     arbitrator->doRegistrations(parent);
     myThings.push_back(arbitrator);
 
     for (vector<plantThing *>::iterator t = myThings.begin();
         t != myThings.end();
-        t++)
+        t++)                      
       (*t)->readSpeciesParameters(parent, search_order);
 
-    Environment.readSpeciesParameters(parent, search_order);
-    plantSpatial.readSpeciesParameters(parent, search_order);
+    Environment.read(scienceAPI);
+    plantSpatial.read(scienceAPI);
 
-    parent->readParameter (search_order,
-                      "n_fix_rate"//, "()"
-                     , c.n_fix_rate, numvals
-                     , 0.0, 1.0);
+    scienceAPI.read("n_fix_rate", c.n_fix_rate, numvals, 0.0f, 1.0f);
+    scienceAPI.read("leaf_no_crit", c.leaf_no_crit, 0.0f, 100.0f);
+    scienceAPI.read("tt_emerg_limit", c.tt_emerg_limit, 0.0f, 1000.0f);
+    scienceAPI.read("days_germ_limit", c.days_germ_limit, 0.0f, 365.0f);
+    scienceAPI.read("swdf_pheno_limit", c.swdf_pheno_limit, 0.0f, 1000.0f);
+    scienceAPI.read("swdf_photo_limit", c.swdf_photo_limit, 0.0f, 1000.0f);
+    scienceAPI.read("swdf_photo_rate", c.swdf_photo_rate, 0.0f, 1.0f);
+    scienceAPI.read("eo_crop_factor_default", c.eo_crop_factor_default, 0.0f, 100.0f);
 
-// crop failure
-
-    parent->readParameter (search_order
-                   ,"leaf_no_crit"//, "()"
-                   , c.leaf_no_crit
-                   , 0.0, 100.0);
-
-    parent->readParameter (search_order
-                   ,"tt_emerg_limit"//, "(oc)"
-                   , c.tt_emerg_limit
-                   , 0.0, 1000.0);
-
-    parent->readParameter (search_order
-                   ,"days_germ_limit"//, "(days)"
-                   , c.days_germ_limit
-                   , 0.0, 365.0);
-
-    parent->readParameter (search_order
-                   ,"swdf_pheno_limit"//, "()"
-                   , c.swdf_pheno_limit
-                   , 0.0, 1000.0);
-
-    parent->readParameter (search_order
-                   ,"swdf_photo_limit"//, "()"
-                   , c.swdf_photo_limit
-                   , 0.0, 1000.0);
-
-    parent->readParameter (search_order
-                   ,"swdf_photo_rate"//, "()"
-                   , c.swdf_photo_rate
-                   , 0.0, 1.0);
-
-//    cproc_sw_demand_bound
-
-    parent->readParameter (search_order
-                   ,"eo_crop_factor_default"//, "()"
-                   , c.eo_crop_factor_default
-                   , 0.0, 100.);
-
-//    plant_n_uptake
-
-    parent->readParameter (search_order
-                      ,"n_uptake_option"//, "()"
-                      , c.n_uptake_option
-                      , 1, 3);
+    // plant_n_uptake
+    scienceAPI.read("n_uptake_option", c.n_uptake_option, 1, 3);
 
     if (c.n_uptake_option==1)
-        {
-        parent->readParameter (search_order
-                       ,"no3_diffn_const"//, "(days)"
-                       , c.no3_diffn_const
-                       , 0.0, 100.0);
-        }
-    else if (c.n_uptake_option==2)
-        {
-        parent->readParameter (search_order
-                       ,"no3_uptake_max"//, "(g/mm)"
-                       , c.no3_uptake_max
-                       , 0.0, 1.0);
+        scienceAPI.read("no3_diffn_const", c.no3_diffn_const, 0.0f, 100.0f);
 
-        parent->readParameter (search_order
-                       ,"no3_conc_half_max"//, "(ppm)"
-                       , c.no3_conc_half_max
-                       , 0.0, 100.0);
-
-        parent->readParameter (search_order
-                       , "total_n_uptake_max"//, "(g/m2)"
-                       , c.total_n_uptake_max
-                       , 0.0, 100.0);
+     else if (c.n_uptake_option==2)
+        {
+        scienceAPI.read("no3_uptake_max", c.no3_uptake_max, 0.0f, 1.0f);
+        scienceAPI.read("no3_conc_half_max", c.no3_conc_half_max, 0.0f, 100.0f);
+        scienceAPI.read("total_n_uptake_max", c.total_n_uptake_max, 0.0f, 100.0f);
         }
      else if (c.n_uptake_option==3)
-         {
-         parent->readParameter (search_order
-                       , "kno3"//, "(/day)"
-                       , c.kno3
-                       , 0.0, 1.0);
-
-         parent->readParameter (search_order
-                       , "no3ppm_min"//, "(ppm)"
-                       , c.no3ppm_min
-                       , 0.0, 10.0);
-
-         parent->readParameter (search_order
-                       , "knh4"//, "(/day)"
-                       , c.knh4
-                       , 0.0, 1.0);
-
-         parent->readParameter (search_order
-                       , "nh4ppm_min"//, "(ppm)"
-                       , c.nh4ppm_min
-                       , 0.0, 10.0);
-
-         parent->readParameter (search_order
-                        , "total_n_uptake_max"//, "(g/m2)"
-                        , c.total_n_uptake_max
-                        , 0.0, 100.0);
-         }
+        {
+        scienceAPI.read("kno3", c.kno3, 0.0f, 1.0f);
+        scienceAPI.read("no3ppm_min", c.no3ppm_min, 0.0f, 10.0f);
+        scienceAPI.read("knh4", c.knh4, 0.0f, 1.0f);
+        scienceAPI.read("nh4ppm_min", c.nh4ppm_min, 0.0f, 10.0f);
+        scienceAPI.read("total_n_uptake_max", c.total_n_uptake_max, 0.0f, 100.0f);
+        }
      else
-         {
-            // Unknown N uptake option
-         }
-    c.n_supply_preference = parent->readParameter (search_order, "n_supply_preference");
+        {
+        // Unknown N uptake option
+        }
+
+    scienceAPI.read("n_supply_preference", c.n_supply_preference);
 
     //    plant_phenology_init                           //FIXME - should be in leafPart
-    parent->readParameter (search_order,                 //FIXME - should be in leafPart
-                       "leaf_no_pot_option"//, "()"      //FIXME - should be in leafPart
-                      , c.leaf_no_pot_option             //FIXME - should be in leafPart
-                      , 1, 2);                           //FIXME - should be in leafPart
-
-
-
-     parent->readParameter (search_order
-                        , "n_retrans_option"//, "()"
-                        , c.n_retrans_option
-                        , 1, 2);
+    scienceAPI.read("leaf_no_pot_option", c.leaf_no_pot_option, 1, 2);
+    scienceAPI.read("n_retrans_option", c.n_retrans_option, 1, 2);
 
     //    plant_dm_senescence
-    parent->readParameter (search_order
-                      , "dm_senescence_option"//, "()"
-                      , c.dm_senescence_option
-                      , 1, 3);
+    scienceAPI.read("dm_senescence_option", c.dm_senescence_option, 1, 3);
 
     //    plant_n_senescence
-    parent->readParameter (search_order
-                     , "n_senescence_option"//, "()"
-                     , c.n_senescence_option
-                     , 1, 2);
+    scienceAPI.read("n_senescence_option", c.n_senescence_option, 1, 2);
 
     //    plant_nfact
-    parent->readParameter (search_order
-                      , "n_stress_option"//, "()"
-                      , c.n_stress_option
-                      , 1, 2);
+    scienceAPI.read("n_stress_option", c.n_stress_option, 1, 2);
 
-    parent->readParameter (search_order
-                  , "N_stress_start_stage"//, "()"
-                  , c.n_stress_start_stage
-                  , 0.0, 100.0);
-
-    parent->readParameter (search_order
-                   , "n_fact_photo"//, "()"
-                   , c.n_fact_photo
-                   , 0.0, 100.0);
-
-    parent->readParameter (search_order
-                   , "n_fact_pheno"//, "()"
-                   , c.n_fact_pheno
-                   , 0.0, 100.0);
-
-    parent->readParameter (search_order
-                   , "n_fact_expansion"//, "()"
-                   , c.n_fact_expansion
-                   , 0.0, 100.0);
+    scienceAPI.read("N_stress_start_stage", c.n_stress_start_stage, 0.0f, 100.0f);
+    scienceAPI.read("n_fact_photo", c.n_fact_photo, 0.0f, 100.0f);
+    scienceAPI.read("n_fact_pheno", c.n_fact_pheno, 0.0f, 100.0f);
+    scienceAPI.read("n_fact_expansion", c.n_fact_expansion, 0.0f, 100.0f);
 
     //    plant_rue_reduction
-    parent->readParameter (search_order
-                     , "x_ave_temp"//,  "(oc)"
-                     , c.x_ave_temp, c.num_ave_temp
-                     , 0.0, 100.0);
+    scienceAPI.read("x_ave_temp", c.x_ave_temp, c.num_ave_temp, 0.0f, 100.0f);
+    scienceAPI.read("y_stress_photo", c.y_stress_photo, c.num_factors, 0.0f, 1.0f);
+    scienceAPI.read("x_weighted_temp", c.x_weighted_temp, c.num_weighted_temp, 0.0f, 100.0f);
+    scienceAPI.read("y_plant_death", c.y_plant_death, c.num_weighted_temp, 0.0f, 100.0f);
+    scienceAPI.read("x_co2_te_modifier", c.x_co2_te_modifier, c.num_co2_te_modifier, 0.0f, 1000.0f);
+    scienceAPI.read("y_co2_te_modifier", c.y_co2_te_modifier, c.num_co2_te_modifier, 0.0f, 10.0f);
+    scienceAPI.read("x_co2_nconc_modifier", c.x_co2_nconc_modifier, c.num_co2_nconc_modifier, 0.0f, 1000.0f);
+    scienceAPI.read("y_co2_nconc_modifier", c.y_co2_nconc_modifier, c.num_co2_nconc_modifier, 0.0f, 10.0f);
 
-    parent->readParameter (search_order
-                     , "y_stress_photo"//,  "()"
-                     , c.y_stress_photo, c.num_factors
-                     , 0.0, 1.0);
-
-    parent->readParameter (search_order
-                     , "x_weighted_temp"//, "(oc)"
-                     , c.x_weighted_temp, c.num_weighted_temp
-                     , 0.0, 100.0);
-
-    parent->readParameter (search_order
-                     , "y_plant_death"//, "(oc)"
-                     , c.y_plant_death, c.num_weighted_temp
-                     , 0.0, 100.0);
-
-    parent->readParameter (search_order
-                     , "x_co2_te_modifier"//, "()"
-                     , c.x_co2_te_modifier, c.num_co2_te_modifier
-                     , 0.0, 1000.0);
-    parent->readParameter (search_order
-                     , "y_co2_te_modifier"//, "()"
-                     , c.y_co2_te_modifier, c.num_co2_te_modifier
-                     , 0.0, 10.0);
-
-    parent->readParameter (search_order
-                     , "x_co2_nconc_modifier"//, "()"
-                     , c.x_co2_nconc_modifier, c.num_co2_nconc_modifier
-                     , 0.0, 1000.0);
-    parent->readParameter (search_order
-                     , "y_co2_nconc_modifier"//, "()"
-                     , c.y_co2_nconc_modifier, c.num_co2_nconc_modifier
-                     , 0.0, 10.0);
-
-    string pathway = parent->readParameter (search_order, "photosynthetic_pathway");
+    string pathway;
+    scienceAPI.read("photosynthetic_pathway", pathway);
     if (Str_i_Eq(pathway.c_str(), "C3")) {
       c.photosynthetic_pathway = photosynthetic_pathway_C3;
     } else if(Str_i_Eq(pathway.c_str(), "C4")) {
@@ -4458,6 +4279,7 @@ bool  Plant::plant_auto_class_change (const char *action)
     else
         {
         g.crop_class = c.class_change[i-c.class_action.begin()];
+        scienceAPI.setClass2(c.class_change[i-c.class_action.begin()]);
         plant_read_species_const();
         return true;
         }
@@ -4540,6 +4362,7 @@ bool Plant::set_plant_crop_class(protocol::QuerySetValueData&v)
     FString crop_class;
     v.variant.unpack(crop_class);
     g.crop_class = crop_class.f_str();
+    scienceAPI.setClass2(asString(crop_class));
     plant_read_species_const ();
     return true;
     }
@@ -5639,5 +5462,6 @@ void Plant::warningError (const char *msg) {parent->warningError(msg);};
 
 const std::string & Plant::getCropType(void) {return c.crop_type;};
 protocol::Component *Plant::getComponent(void) {return parent;};
+
 
 

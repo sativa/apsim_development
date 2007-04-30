@@ -12,12 +12,9 @@ void pop_routine (const char *) {};
 
 inline bool floatsAreEqual(float A, float B, float C) {return(fabs(A-B)<C);}
 
-// default constructor
-PlantFruit::PlantFruit(): CompositePart()
-{}
-
 // 	initialise data members.
-PlantFruit::PlantFruit(plantInterface *p, const string &name) : CompositePart(p, name)
+PlantFruit::PlantFruit(ScienceAPI& scienceAPI, plantInterface *p, const string &name)
+   : CompositePart(scienceAPI, p, name)
 {
    cohortNum = 0;
 }
@@ -46,15 +43,6 @@ ostream &operator<<(ostream &output, const PlantFruit /*&pool*/)
    output << endl;
    return output;
 }
-
-// copy constructor
-//	copy data members of object
-PlantFruit::PlantFruit(const PlantFruit &/* PlantFruit*/)
-//===========================================================================
-{
-	throw std::invalid_argument("Copy constructor NI for plantFruit");
-}
-
 
 // Assigment operator
 //	assign data members of object
@@ -105,7 +93,7 @@ void PlantFruit::addNewCohort (protocol::Component *system)
    cohortNum ++;
    ostringstream cohortName;
    cohortName << "cohort" << cohortNum;
-   myParts.push_back(new FruitCohort(plant, cohortName.str()));
+   myParts.push_back(new FruitCohort(scienceAPI, plant, cohortName.str()));
 
    plantPart *myPart = myParts.back();
    myPart->doInit1(system);

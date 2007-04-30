@@ -1,9 +1,11 @@
 
 #include "PlantPart.h"
+#include <ComponentInterface/ScienceAPI.h>
 using namespace std;
 
-plantPart::plantPart(plantInterface *p, const string &name)
+plantPart::plantPart(ScienceAPI& api, plantInterface *p, const string &name)
 //=======================================================================================
+     : plantThing(api)
      {
      zeroAllGlobals();
      plant = p;
@@ -456,11 +458,11 @@ void plantPart::checkBounds(void)
    if (PSen < ctz) throw std::runtime_error(c.name + " p_sen pool is negative!" + ftoa(PSen,".6"));
    }
 
-void plantPart::readConstants(protocol::Component *system, const string &section)
+void plantPart::readConstants(protocol::Component *, const string &)
 //=======================================================================================
     {
     vector<string> parts;
-    Split_string(system->readParameter (section, "stress_determinants"), " ", parts);
+    scienceAPI.readOptional("stress_determinants", parts);
     if (find(parts.begin(), parts.end(), c.name) != parts.end())
        {
        c.p_stress_determinant = true;
@@ -472,7 +474,7 @@ void plantPart::readConstants(protocol::Component *system, const string &section
        c.stress_determinant = false;
        }
 
-    Split_string(system->readParameter (section, "yield_parts"), " ", parts);
+    scienceAPI.readOptional("yield_parts", parts);
     if (find(parts.begin(),parts.end(), c.name) != parts.end())
        {
        c.p_yield_part = true;
@@ -484,7 +486,7 @@ void plantPart::readConstants(protocol::Component *system, const string &section
        c.yield_part = false;
        }
 
-    Split_string(system->readParameter (section, "retrans_parts"), " ", parts);
+    scienceAPI.readOptional("retrans_parts", parts);
     if (find(parts.begin(),parts.end(), c.name) != parts.end())
        {
        c.p_retrans_part = true;
@@ -498,16 +500,11 @@ void plantPart::readConstants(protocol::Component *system, const string &section
 
     if (plant->phosphorusAware())
        {
-       system->readParameter (section, "x_p_stage_code", c.x_p_stage_code, c.num_x_p_stage_code, 0.0, 12.0);
-
-       system->readParameter (section, ("y_p_conc_max_" + c.name).c_str(),
-                              c.y_p_conc_max, c.num_x_p_stage_code, 0.0, 1.0);
-       system->readParameter (section, ("y_p_conc_sen_" + c.name).c_str(),
-                              c.y_p_conc_sen, c.num_x_p_stage_code, 0.0, 1.0);
-       system->readParameter (section, ("y_p_conc_min_" + c.name).c_str(),
-                              c.y_p_conc_min, c.num_x_p_stage_code, 0.0, 1.0);
-       system->readParameter (section, c.name + "_p_conc_init",
-                              c.p_init_conc, 0.0, 1.0);
+       scienceAPI.read("x_p_stage_code", c.x_p_stage_code, c.num_x_p_stage_code, 0.0, 12.0);
+       scienceAPI.read("y_p_conc_max_" + c.name, c.y_p_conc_max, c.num_x_p_stage_code, 0.0, 1.0);
+       scienceAPI.read("y_p_conc_sen_" + c.name, c.y_p_conc_sen, c.num_x_p_stage_code, 0.0, 1.0);
+       scienceAPI.read("y_p_conc_min_" + c.name, c.y_p_conc_min, c.num_x_p_stage_code, 0.0, 1.0);
+       scienceAPI.read(c.name + "_p_conc_init", c.p_init_conc, 0.0f, 1.0f);
        }
      else
        {
@@ -516,88 +513,58 @@ void plantPart::readConstants(protocol::Component *system, const string &section
        }
     }
 
-void plantPart::readSpeciesParameters(protocol::Component *system, vector<string> &sections)
+void plantPart::readSpeciesParameters (protocol::Component *, vector<string> &)
 //=======================================================================================
     {
-    system->readParameter (sections
-                            , c.name + "_trans_frac"
-                            , c.trans_frac
-                            , 0.0, 1.0);
-    if(system->readParameter (sections
-                            , c.name + "_trans_frac_option"
-                            , c.trans_frac_option
-                            , 1, 2,true)==false)
+    scienceAPI.read(c.name + "_trans_frac", c.trans_frac, 0.0f, 1.0f);
+    if (!scienceAPI.readOptional(c.name + "_trans_frac_option", c.trans_frac_option, 1, 2))
       c.trans_frac_option=1;
 
-    system->readParameter (sections
-                            , c.name + "_sen_detach_frac"
-                            , c.sen_detach_frac
-                            , 0.0, 1.0);
+    scienceAPI.read(c.name + "_sen_detach_frac", c.sen_detach_frac, 0.0f, 1.0f);
+    scienceAPI.read(c.name + "_dead_detach_frac", c.dead_detach_frac, 0.0f, 1.0f);
+    scienceAPI.read(c.name + "_dm_init", c.dm_init, 0.0f, 1.0f);
+    scienceAPI.read(c.name + "_n_init_conc", c.n_init_conc, 0.0f, 1.0f);
 
-    system->readParameter (sections
-                            , c.name + "_dead_detach_frac"
-                            , c.dead_detach_frac
-                            , 0.0, 1.0);
-
-    system->readParameter (sections
-                            , c.name + "_dm_init"
-                            , c.dm_init
-                            , 0.0, 1.0);
-
-    system->readParameter (sections
-                            , c.name + "_n_init_conc"
-                            , c.n_init_conc
-                            , 0.0, 1.0);
-
-    c.n_conc_crit.search(system, sections
+    c.n_conc_crit.read(scienceAPI
                         , "x_stage_code" , "()", 1.0, 100.0
                         , ("y_n_conc_crit_" + c.name).c_str(), "()", 0.0, 100.0);
 
-    c.n_conc_min.search(system, sections
+    c.n_conc_min.read(scienceAPI
                         , "x_stage_code" , "()", 1.0, 100.0
                         , ("y_n_conc_min_" + c.name).c_str(), "()", 0.0, 100.0);
 
-    c.n_conc_max.search(system, sections
+    c.n_conc_max.read(scienceAPI
                         , "x_stage_code" , "()", 1.0, 100.0
                         , ("y_n_conc_max_" + c.name).c_str(), "()", 0.0, 100.0);
 
-    c.dm_sen_frac.search(system, sections
+    c.dm_sen_frac.read(scienceAPI
                         , ("x_dm_sen_frac_" + c.name).c_str(), "()", 0.0, 100.0
                         , ("y_dm_sen_frac_" + c.name).c_str(), "()", 0.0, 1.0);
 
-    system->readParameter (sections
-                        , (c.name + "_n_sen_conc").c_str() //, "()"
-                        , c.n_sen_conc
-                        , 0.0, 1.0);
+    scienceAPI.read(c.name + "_n_sen_conc", c.n_sen_conc, 0.0f, 1.0f);
 
-    c.fr_remain.search(system, sections
+    c.fr_remain.read(scienceAPI
                      , "fr_height_cut",  "(0-1)", 0.0, 1.0
                      , ("fr_"+c.name+"_remain").c_str(), "(0-1)", 0.0, 1.0);
 
-    if (system->readParameter (sections
-                             , (c.name + "_n_retrans_fraction").c_str()
-                             , c.n_retrans_fraction
-                             , 0.0, 1.0, true) == false)
+    if (!scienceAPI.readOptional(c.name + "_n_retrans_fraction", c.n_retrans_fraction, 0.0f, 1.0f))
         c.n_retrans_fraction = 1.0;
 
-    if (system->readParameter (sections
-                            , "n_deficit_uptake_fraction"
-                            , c.n_deficit_uptake_fraction
-                            , 0.0, 1.0, true) == false)
+    if (!scienceAPI.readOptional("n_deficit_uptake_fraction", c.n_deficit_uptake_fraction, 0.0f, 1.0f))
         c.n_deficit_uptake_fraction = 0.0;
-
     }
 
 void plantPart::readCultivarParameters (protocol::Component *system, const string &cultivar)
 //=======================================================================================
    {
-   c.height.read(system, cultivar
+   c.height.read(scienceAPI
                 , ("x_" + c.name + "_wt").c_str() , "(g/plant)", 0.0, 1000.0
                 , "y_height", "(mm)", 0.0, 5000.0);
-   c.width.read(system, cultivar
+   c.width.read(scienceAPI
                 , ("x_" + c.name + "_wt").c_str() , "(g/plant)", 0.0, 1000.0
                 , "y_width", "(mm)", 0.0, 5000.0);
    }
+
 void plantPart::onSowing()
 //=======================================================================================
    {

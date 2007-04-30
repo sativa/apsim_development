@@ -25,7 +25,8 @@ SRC=	Component.cpp			\
 	RegistrationItem.cpp            \
 	Variable.cpp                    \
 	VariableRef.cpp                 \
-	datatypes.cpp
+	datatypes.cpp \
+	ScienceAPI.cpp
 
 OBJ=	$(SRC:.cpp=.o) 	
 
