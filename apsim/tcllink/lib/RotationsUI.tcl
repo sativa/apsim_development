@@ -173,7 +173,6 @@ proc addNewNode {w x y} {
    $cfg(g) node set $n fill brown
    $cfg(g) node set $n name $n
    $cfg(g) node set $n desc  "New state"
-   $cfg(g) node set $n alias "newnode"
 
    $cfg(c) create oval $x1 $y1 $x2 $y2 -fill brown -tags node:$n
    set mx($n) [expr ($x1 + $x2) / 2.0]; set my($n) [expr ($y1 + $y2) / 2.0]
@@ -196,7 +195,6 @@ proc dupNode {w tag} {
    $cfg(g) node set $n fill [$cfg(g) node get $srcNode fill]
    $cfg(g) node set $n name [$cfg(g) node get $srcNode name]
    $cfg(g) node set $n desc [$cfg(g) node get $srcNode desc]
-   $cfg(g) node set $n alias [$cfg(g) node get $srcNode alias]
 
    $cfg(c) create oval $x1 $y1 $x2 $y2 -fill [$cfg(g) node get $srcNode fill] -tags node:$n
    set mx($n) [expr ($x1 + $x2) / 2.0]; set my($n) [expr ($y1 + $y2) / 2.0]
@@ -350,8 +348,6 @@ proc setup_node {w name} {
    set f [frame $w.p.node]
    label $f.l1 -text "Name" 
    entry $f.e1 -textvariable $w\(name\) -width 12 -validate key -vcmd {string is wordchar %P}
-   label $f.l2 -text "Alias" 
-   entry $f.e2 -textvariable $w\(alias\) -width 12 -validate key -vcmd {string is wordchar %P}
    label $f.l3 -text "Description" 
    entry $f.e3 -textvariable $w\(desc\) -width 40 
    label $f.l4 -text "Colour" 
@@ -359,12 +355,10 @@ proc setup_node {w name} {
 
    grid $f.l1 -row 1 -column 1 -sticky w
    grid $f.e1 -row 1 -column 2 -sticky w
-   grid $f.l2 -row 2 -column 1 -sticky w
-   grid $f.e2 -row 2 -column 2 -sticky w
-   grid $f.l3 -row 3 -column 1 -sticky w
-   grid $f.e3 -row 3 -column 2 -sticky ew
-   grid $f.l4 -row 4 -column 1 -sticky w
-   grid $f.e4 -row 4 -column 2 -sticky w
+   grid $f.l3 -row 2 -column 1 -sticky w
+   grid $f.e3 -row 2 -column 2 -sticky ew
+   grid $f.l4 -row 3 -column 1 -sticky w
+   grid $f.e4 -row 3 -column 2 -sticky w
    grid columnconf $f 3 -weight 1
    grid rowconf    $f 6 -weight 1
 
@@ -375,7 +369,6 @@ proc show_node {w} {
    upvar #0 $w cfg
    set node [lindex [split $cfg(selected) :] 1]
    set cfg(name) [$cfg(g) node get $node name]
-   set cfg(alias) [$cfg(g) node get $node alias]
    set cfg(desc) [$cfg(g) node get $node desc]
    set cfg(fill) [$cfg(g) node get $node fill]
 
@@ -410,7 +403,6 @@ proc set_node {w} {
    }
 
    $cfg(g) node set $node name [set cfg(name) $candidate]
-   $cfg(g) node set $node alias $cfg(alias)
    $cfg(g) node set $node desc $cfg(desc)
    $cfg(g) node set $node fill $cfg(fill)
    foreach id [$cfg(c) find withtag node:$node] {
@@ -523,7 +515,6 @@ proc saveGraph {w} {
       }
       append x "</node>\n"
       append rule "stateGraph node insert \"[$cfg(g) node get $node name]\"\n"
-      append rule "set alias([$cfg(g) node get $node name]) \"[$cfg(g) node get $node alias]\"\n"
       append rule "set colour([$cfg(g) node get $node name]) \"[$cfg(g) node get $node fill]\"\n"
    }
    foreach arc [$cfg(g) arcs] {
@@ -584,7 +575,7 @@ proc openGraph {w} {
    foreach node [$cfg(docroot) selectNodes //node] {
       $cfg(g) node insert [set nodeName [getValue $node name]]
       $cfg(g) node set $nodeName name $nodeName
-      foreach {what default} {x1 100 x2 200 y1 100 y2 200 fill purple desc "No description" alias zzz} {
+      foreach {what default} {x1 100 x2 200 y1 100 y2 200 fill purple desc "No description" } {
          if {[set value [getValue $node $what]] == ""} {
             $cfg(g) node set $nodeName $what $default
          } else {

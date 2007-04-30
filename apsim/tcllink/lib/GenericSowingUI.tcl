@@ -721,9 +721,9 @@ proc setXML {name1 name2 op} {
       tk_messageBox -title "Error" -message $msg -type ok
    } else {
       set XMLDoc [$newDoc asXML]
-      set fp [open c:/tmp/z.xml w]
-      puts $fp [$newDoc asXML]
-      close $fp
+#      set fp [open c:/tmp/z.xml w]
+#      puts $fp [$newDoc asXML]
+#      close $fp
    }   
 }
 
