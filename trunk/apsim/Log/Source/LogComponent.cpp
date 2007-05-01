@@ -1,12 +1,6 @@
 #include <general/pch.h>
 #pragma hdrstop
 
-#ifdef __WIN32__
-#include <windows.h>
-#include <vcl.h>
-#endif
-
-
 #include <list>
 #include <fstream>
 #include <sstream>
@@ -65,7 +59,7 @@ LogComponent::LogComponent(void)
 // ------------------------------------------------------------------
 LogComponent::~LogComponent(void)
    {
-   out << "\/>" << endl;
+   out << "/>" << endl;
    for (int i = previousNesting-1; i > 0; i--)
       {
       out.width(i*3);
@@ -112,11 +106,7 @@ void LogComponent::doInit1(const FString& sdml)
    if (!out)
       {
       string msg = "Cannot open log file: " + filename;
-#ifdef __WIN32__
-      ::MessageBox(NULL, msg.c_str(), "Error", MB_ICONSTOP | MB_OK);
-#else
       throw std::runtime_error(msg);
-#endif
       }
    string debugOutputString = componentData->getProperty("parameters", "debug_output");
    bool doOutput = (debugOutputString == "" || Str_i_Eq(debugOutputString, "on"));
