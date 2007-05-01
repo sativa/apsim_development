@@ -47,7 +47,7 @@ class Variant
          }
 
       bool isValid(void) {return messageData.isValid();}
-      Type& getType(void) {return type;}
+      const Type& getType(void) const {return type;}
       unsigned getFromId(void) {return fromId;}
       void setFromId(unsigned id) {fromId = id;}
 
