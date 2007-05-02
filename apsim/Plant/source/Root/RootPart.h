@@ -112,6 +112,7 @@ class plantRootPart : public plantPart
 
       float oxdef_stress ();
       void onNewProfile(protocol::Variant &v);
+      virtual void write();
 
    private:
 

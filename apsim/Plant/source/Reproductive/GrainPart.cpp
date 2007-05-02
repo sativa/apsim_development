@@ -189,8 +189,6 @@ void fruitGrainPart::readCultivarParameters (protocol::Component *system, const 
 {
    string s;
 
-   system->writeString (" - reading grain cultivar parameters");
-
    if (!scienceAPI.readOptional("min_temp_grnfill", pMinTempGrnFill, 0.0f, 20.0f))
       {
       pMinTempGrnFill = -100.0;
