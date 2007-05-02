@@ -3019,8 +3019,29 @@
    </tracker>
    <venlink>
       <UItype>generic</UItype>
-      <ShowInMainTree>No</ShowInMainTree>
+      <ShowInMainTree>Yes</ShowInMainTree>
+      <Image>%apsuite\apsimui\images\banner2.jpg</Image>
+      <LargeIcon>Images\link32.png</LargeIcon>
+      <SmallIcon>Images\link16.png</SmallIcon>
       <Documentation name="Science documentation">../apsim/venlink/docs/Guide to linking APSIM with the VENSIM.htm</Documentation>
+      <drops>
+         <drop name="area"/>
+         <drop name="simulation"/>
+         <drop name="folder"/>
+     </drops>
+      <ApsimToSim>
+         <type>component</type>
+         <dll>%apsuite\apsim\venlink\lib\venlink.dll</dll>
+         <sim>
+         <model_filename>[variable.model_filename]</model_filename>
+         [foreach venlink.variable]
+         <variable>[variable.innerxml]</variable>
+         [endfor]
+         [foreach venlink.ini]
+         <include>[ini.filename]</include>
+         [endfor]
+         </sim>
+      </ApsimToSim>
    </venlink>
    <dam>
       <UItype>generic</UItype>
@@ -3716,6 +3737,7 @@
     	<drop name="rice"/>
       <drop name="seedling"/>
     	<drop name="surfaceom"/>
+    	<drop name="venlink"/>
       </drops>
    </ini>
    <patchinput>

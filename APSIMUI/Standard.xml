@@ -2639,11 +2639,11 @@ if {$steps == 0} {tkwait variable steps}
         <text />
       </script>
       <script>
-        <event>startofday</event>
+        <event>start_of_day</event>
         <text />
       </script>
       <script>
-        <event>endofday</event>
+        <event>end_of_day</event>
         <text />
       </script>
     </logic>
@@ -2746,6 +2746,14 @@ if {$steps == 0} {tkwait variable steps}
     <intercrop name="intercrop" description="Enter crop names to intercrop" type="text">
     </intercrop>
   </canopy>
+  <venlink>
+    <model_filename type="filename" description="Name of VENSIM model filename"/>
+    <variable type="multiedit" description="Name of VENSIM variable(s) that are gettable/settable by APSIM"/>
+    <ini name="Constants">
+      <filename>%apsuite\apsim\venlink\sample\Vensim.ini</filename>
+    </ini>  
+  </venlink> 
+    
   <folder name="Animals">
     <StockHerbageConverter>
       <debug type="list" listvalues="on,off">off</debug>

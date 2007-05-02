@@ -194,13 +194,16 @@ void VensimComponent::registerModelVariables(void)
    componentData->getVariables(names);
    for (unsigned variable = 0; variable != names.size(); variable++)
       {
-      string nameWithUnderscore = names[variable];
-      Replace_all(nameWithUnderscore, " ", "_");
-      unsigned id = addRegistration(RegistrationType::respondToGetSet,
-                                    nameWithUnderscore.c_str(),
-                                    floatDDML);
-      variables.insert(VariableMap::value_type(id, names[variable]));
-      writeString(string("   " + names[variable]).c_str());
+      if (names[variable] != "")
+         {
+         string nameWithUnderscore = names[variable];
+         Replace_all(nameWithUnderscore, " ", "_");
+         unsigned id = addRegistration(RegistrationType::respondToGetSet,
+                                       nameWithUnderscore.c_str(),
+                                       floatDDML);
+         variables.insert(VariableMap::value_type(id, names[variable]));
+         writeString(string("   " + names[variable]).c_str());
+         }
       }
    }
 // ------------------------------------------------------------------
