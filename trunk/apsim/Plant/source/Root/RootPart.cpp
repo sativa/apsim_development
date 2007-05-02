@@ -280,10 +280,6 @@ void plantRootPart::readRootParameters(protocol::Component *system, const char *
     vector<float> ll ;   // lower limit of plant-extractable
                          // soil water for soil layer l
                          // (mm water/mm soil)
-    float dep_tot, esw_tot;                      // total depth of soil & ll
-    char  msg[200];
-
-    system->writeString (" - reading root profile parameters");
 
     if (scienceAPI.readOptional("ll", ll, 0.0, sw_ub))
        {
@@ -318,37 +314,39 @@ void plantRootPart::readRootParameters(protocol::Component *system, const char *
 
    scienceAPI.readOptional("uptake_source", uptake_source);
    if (uptake_source == "")uptake_source = "calc";
+   }
 
+void plantRootPart::write()
+   {
+   cout << "                        Root Profile" << endl;
+   cout << "         -----------------------------------------------" << endl;
+   cout << "          Layer       Kl           Lower    Exploration" << endl;
+   cout << "          Depth     Factor         Limit      Factor" << endl;
+   cout << "          (mm)         ()        (mm/mm)       (0-1)" << endl;
+   cout << "         -----------------------------------------------" << endl;
 
-    // report
-    system->writeString ("                   Root Profile");
-    system->writeString ("    -----------------------------------------------");
-    system->writeString ("     Layer       Kl           Lower    Exploration");
-    system->writeString ("     Depth     Factor         Limit      Factor  ");
-    system->writeString ("     (mm)         ()        (mm/mm)       (0-1)");
-    system->writeString ("    -----------------------------------------------");
+    float dep_tot, esw_tot;                      // total depth of soil & ll
+    char  msg[200];
 
     dep_tot = esw_tot = 0.0;
     for (int layer = 0; layer < num_layers; layer++)
        {
-       sprintf (msg, "%9.1f%10.3f%15.3f%12.3f"
+       sprintf (msg, "     %9.1f%10.3f%15.3f%12.3f"
           , dlayer[layer]
           , kl[layer]
           , divide(ll_dep[layer],dlayer[layer],0.0)
           , xf[layer]);
-       system->writeString (msg);
+       cout << msg << endl;
        dep_tot += dlayer[layer];
        esw_tot += dul_dep[layer] - ll_dep[layer];
        }
-    system->writeString ("    -----------------------------------------------");
+    cout << "         -----------------------------------------------" << endl;
     sprintf (msg
-          , "    Extractable SW: %5.0fmm in %5.0fmm total depth (%3.0f%%)."
+          , "         Extractable SW: %5.0fmm in %5.0fmm total depth (%3.0f%%)."
           , esw_tot
           , dep_tot
           , fract2pcnt * divide(esw_tot, dep_tot, 0.0));
-    system->writeString (msg);
-
-
+    cout << msg << endl;
    }
 
 void plantRootPart::onSowing(void)

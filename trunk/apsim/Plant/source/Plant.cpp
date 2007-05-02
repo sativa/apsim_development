@@ -218,7 +218,18 @@ void Plant::doInit2(protocol::Component *)
 // Init2. The rest of the system is here now..
    {
    PlantP_set_phosphorus_aware(parent); // See whether a P module is plugged in
-   plant_read_constants (); // Read constants
+
+   // Read the default crop class and cultivar and setup the
+   // scienceAPI.
+   scienceAPI.read("default_crop_class", c.default_crop_class);
+   string defaultCultivar;
+   scienceAPI.read("default_cultivar", defaultCultivar);
+   scienceAPI.setClass1(defaultCultivar);
+   scienceAPI.setClass2(c.default_crop_class);
+
+   plant_read_constants ();
+
+   read();
    plant_zero_variables (); // Zero global states
    plant_init ();           // Site specific init
    plant_get_other_variables (); // sw etc..
@@ -2718,7 +2729,7 @@ void Plant::plant_dormancy (protocol::Variant &v/*(INPUT) incoming message varia
     else if (dormancy_flag == "off")
         {
         g.crop_class = g.pre_dormancy_crop_class;
-        plant_read_species_const();
+        read();
         }
     else
         {
@@ -3331,8 +3342,6 @@ void Plant::plant_init (void)
        parent->writeString ("   Using externally supplied Lower Limit (ll15)");                     //FIXME - belongs in RootPsrt
        }                                                                                            //FIXME - belongs in RootPsrt
 
-//    rootPart->readRootParameters(parent, "parameters");
-
     doPInit(parent);
     }
 
@@ -3352,7 +3361,6 @@ void Plant::plant_start_crop (protocol::Variant &v/*(INPUT) message arguments*/)
     {
          if (g.plant_status_out_today == false)
          {
-
            protocol::ApsimVariant incomingApsimVariant(parent);
            incomingApsimVariant.aliasTo(v.getMessageData());
            parent->writeString ( "Crop Sow");
@@ -3376,7 +3384,6 @@ void Plant::plant_start_crop (protocol::Variant &v/*(INPUT) message arguments*/)
                g.crop_class = g.crop_class.substr(0,dummy.length());
                scienceAPI.setClass2(asString(dummy));
                }
-           plant_read_species_const ();
 
            // get cultivar parameters
            if (incomingApsimVariant.get("cultivar", protocol::DTstring, false, dummy) == false)
@@ -3389,10 +3396,8 @@ void Plant::plant_start_crop (protocol::Variant &v/*(INPUT) message arguments*/)
                g.cultivar = g.cultivar.substr(0,dummy.length());
                scienceAPI.setClass1(g.cultivar);
                }
-           plant_read_cultivar_params ();
 
-           // get root profile parameters
-           plant_read_root_params ();
+           read();
 
            // get other sowing criteria
            if (incomingApsimVariant.get("plants", protocol::DTsingle, false, g.plants) == false)
@@ -3401,6 +3406,21 @@ void Plant::plant_start_crop (protocol::Variant &v/*(INPUT) message arguments*/)
                }
            bound_check_real_var(this,g.plants, 0.0, 1000.0, "plants");
 
+           parent->writeString ("    ------------------------------------------------");
+           sprintf (msg, "   %s%s",  "cultivar                   = ", g.cultivar.c_str());
+           parent->writeString (msg);
+           phenology->writeCultivarInfo(parent);
+           fruitPart->writeCultivarInfo(parent);
+           parent->writeString ("    ------------------------------------------------\n\n");
+
+           rootPart->write();
+                      
+           sprintf (msg, "%s%5.1f%s"
+              ,"    Crop factor for bounding water use is set to "
+              , p.eo_crop_factor
+                , " times eo.");
+           parent->writeString (msg);
+           
            plantSpatial.startCrop (parent, v);
 
            // Bang.
@@ -3447,6 +3467,12 @@ void Plant::plant_start_crop (protocol::Variant &v/*(INPUT) message arguments*/)
 
     }
 
+void Plant::read()
+   {
+   plant_read_species_const ();
+   plant_read_cultivar_params ();
+   plant_read_root_params ();
+   }
 
 /////////////////////////////////////////////////////////////////
 //+  Purpose
@@ -3460,9 +3486,6 @@ void Plant::plant_read_cultivar_params ()
 
 //- Implementation Section ----------------------------------
 
-
-    parent->writeString (" - reading cultivar parameters");
-
     //  plant thing initialisations
     for (vector<plantThing *>::iterator t = myThings.begin();
          t != myThings.end();
@@ -3470,45 +3493,6 @@ void Plant::plant_read_cultivar_params ()
        {
        (*t)->readCultivarParameters(parent, g.cultivar);
        }
-
-    // report
-    parent->writeString ("    ------------------------------------------------");
-
-    sprintf (msg, "   %s%s",  "cultivar                   = ", g.cultivar.c_str());
-    parent->writeString (msg);
-
-    phenology->writeCultivarInfo(parent);
-    fruitPart->writeCultivarInfo(parent);
-
-
-#if 0
-XXX
-    s = string("   x_stem_wt                  = ");
-    for (int i = 0; i < p.num_stem_wt; i++)
-      {
-      s = s + ftoa(p.x_stem_wt[i], "10.2") + " ";
-      }
-    parent->writeString (s.c_str());
-
-    s = string("   y_height                   = ");
-    for (int i = 0; i < p.num_stem_wt; i++)
-      {
-      s = s + ftoa(p.y_height[i], "10.2") + " ";
-      }
-    parent->writeString (s.c_str());
-    if (p.num_canopy_widths >0)
-        {
-        s = string("   y_width                   = ");
-        for (int i = 0; i < p.num_canopy_widths; i++)
-           {
-           s = s + ftoa(p.y_width[i], "10.2") + " ";
-           }
-        parent->writeString (s.c_str());
-        }
-#endif
-
-    parent->writeString ("    ------------------------------------------------\n\n");
-
     }
 
 void Plant::plant_read_root_params ()
@@ -3523,13 +3507,6 @@ void Plant::plant_read_root_params ()
 
     scienceAPI.readOptional("remove_biomass_report", c.remove_biomass_report);
     rootPart->readRootParameters(parent, section_name);
-
-    sprintf (msg, "%s%5.1f%s"
-        ,"    Crop factor for bounding water use is set to "
-        , p.eo_crop_factor
-          , " times eo.");
-    parent->writeString (msg);
-
     }
 
 
@@ -3924,7 +3901,6 @@ void Plant::plant_read_constants ( void )
     const char*  section_name = "constants" ;
 
     scienceAPI.readOptional("crop_type", c.crop_type);
-    scienceAPI.readOptional("default_crop_class", c.default_crop_class);
     scienceAPI.read("latitude_ub", c.latitude_ub, -90.0f, 90.0f);
     scienceAPI.read("latitude_lb", c.latitude_lb, -90.0f, 90.0f);
     scienceAPI.read("no3_ub", c.no3_ub, 0.0f, 100000.0f);
@@ -4014,9 +3990,6 @@ void Plant::plant_read_species_const ()
     string scratch = parent->readParameter (c.crop_type.c_str(), g.crop_class.c_str());
 
     Split_string(scratch, " ", search_order);
-
-    parent->writeString (string(" - reading constants for " +
-                                g.crop_class + "(" + c.crop_type +")").c_str());
 
     scienceAPI.read("class_action", scratch);
     Split_string(scratch, " ", c.class_action);
@@ -4280,7 +4253,7 @@ bool  Plant::plant_auto_class_change (const char *action)
         {
         g.crop_class = c.class_change[i-c.class_action.begin()];
         scienceAPI.setClass2(c.class_change[i-c.class_action.begin()]);
-        plant_read_species_const();
+        read();
         return true;
         }
     }
@@ -4363,7 +4336,7 @@ bool Plant::set_plant_crop_class(protocol::QuerySetValueData&v)
     v.variant.unpack(crop_class);
     g.crop_class = crop_class.f_str();
     scienceAPI.setClass2(asString(crop_class));
-    plant_read_species_const ();
+    read();
     return true;
     }
 

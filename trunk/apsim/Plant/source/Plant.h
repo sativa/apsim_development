@@ -162,6 +162,7 @@ private:
    float nCapacity(void) ;
    void doRegistrations(protocol::Component *) ;
    void doIDs(void) ;
+   void read();
 
 public:
    Plant(PlantComponent *P, ScienceAPI& api);

@@ -195,6 +195,7 @@ public:
    virtual void readCultivarParameters (protocol::Component *, const string &);
    virtual void onPlantEvent(const string &);
    virtual void onRemoveBiomass(float) {};
+   virtual void write() {};
 
    virtual void prepare(void);
    virtual void update(void);
