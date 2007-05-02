@@ -87,6 +87,30 @@ namespace APSoil
 			DataTableUtility.AddValue(Data, "Comments", MySoil.Comment, Row, NumLayers);
 			DataTableUtility.AddValue(Data, "NaturalVegetation", MySoil.NaturalVegetation, Row, NumLayers);
 
+            DataTableUtility.AddColumn(Data, "Thickness", MySoil.Thickness, Row, NumLayers);
+            DataTableUtility.AddColumn(Data, "BD", MySoil.BD, Row, NumLayers);
+            DataTableUtility.AddColumn(Data, "Rocks", MySoil.Rocks, Row, NumLayers);
+            DataTableUtility.AddColumn(Data, "Texture", MySoil.Texture, Row, NumLayers);
+            DataTableUtility.AddColumn(Data, "SAT", MySoil.SAT, Row, NumLayers);
+            DataTableUtility.AddColumn(Data, "DUL", MySoil.DUL, Row, NumLayers);
+            DataTableUtility.AddColumn(Data, "LL15", MySoil.LL15, Row, NumLayers);
+            DataTableUtility.AddColumn(Data, "Airdry", MySoil.Airdry, Row, NumLayers);
+
+            string[] CropOrder = {"wheat", "barley", "oats", "canola", "chickpea", "lentil", 
+                                  "lupin", "fieldpea", "cotton", "sorghum", "mungbean", "sunflower", 
+                                  "fababean", "lucerne", "maize", "perennial grass", "cowpea", "navybean", 
+                                  "peanut", "pigeonpea", "soybean", "stylo", "sugar", "lablab", 
+                                  "millet", "tritcale", "weed", "medic"};
+            foreach (string CropName in CropOrder)
+                AddCropColumn(Data, CropName, MySoil, Row, NumLayers);
+
+            // Add other crops not in our list above.
+            foreach (string CropName in MySoil.CropsMeasured)
+                {
+                if (Array.IndexOf(CropOrder, CropName.ToLower()) == -1)
+                    AddCropColumn(Data, CropName, MySoil, Row, NumLayers);
+                }
+
             DataTableUtility.AddValue(Data, "SummerU", MySoil.SummerU, Row, NumLayers);
             DataTableUtility.AddValue(Data, "SummerCona", MySoil.SummerCona, Row, NumLayers);
             DataTableUtility.AddValue(Data, "WinterU", MySoil.WinterU, Row, NumLayers);
@@ -94,18 +118,18 @@ namespace APSoil
             DataTableUtility.AddValue(Data, "SummerDate", MySoil.SummerDate, Row, NumLayers);
             DataTableUtility.AddValue(Data, "WinterDate", MySoil.WinterDate, Row, NumLayers);
             DataTableUtility.AddValue(Data, "U", MySoil.U, Row, NumLayers);
-			DataTableUtility.AddValue(Data, "Cona", MySoil.Cona, Row, NumLayers);
-			DataTableUtility.AddValue(Data, "Salb", MySoil.Salb, Row, NumLayers);
-			DataTableUtility.AddValue(Data, "DiffusConst", MySoil.DiffusConst, Row, NumLayers);
-			DataTableUtility.AddValue(Data, "DiffusSlope", MySoil.DiffusSlope, Row, NumLayers);
-			DataTableUtility.AddValue(Data, "CN2Bare", MySoil.CN2Bare, Row, NumLayers);
-			DataTableUtility.AddValue(Data, "CNRed", MySoil.CNRed, Row, NumLayers);
-			DataTableUtility.AddValue(Data, "CNCov", MySoil.CNCov, Row, NumLayers);
-			DataTableUtility.AddValue(Data, "RootCN", MySoil.RootCN, Row, NumLayers);
-			DataTableUtility.AddValue(Data, "RootWT", MySoil.RootWT, Row, NumLayers);
-			DataTableUtility.AddValue(Data, "SoilCN", MySoil.SoilCN, Row, NumLayers);
-			DataTableUtility.AddValue(Data, "EnrACoeff", MySoil.EnrACoeff, Row, NumLayers);
-			DataTableUtility.AddValue(Data, "EnrBCoeff", MySoil.EnrBCoeff, Row, NumLayers);
+            DataTableUtility.AddValue(Data, "Cona", MySoil.Cona, Row, NumLayers);
+            DataTableUtility.AddValue(Data, "Salb", MySoil.Salb, Row, NumLayers);
+            DataTableUtility.AddValue(Data, "DiffusConst", MySoil.DiffusConst, Row, NumLayers);
+            DataTableUtility.AddValue(Data, "DiffusSlope", MySoil.DiffusSlope, Row, NumLayers);
+            DataTableUtility.AddValue(Data, "CN2Bare", MySoil.CN2Bare, Row, NumLayers);
+            DataTableUtility.AddValue(Data, "CNRed", MySoil.CNRed, Row, NumLayers);
+            DataTableUtility.AddValue(Data, "CNCov", MySoil.CNCov, Row, NumLayers);
+            DataTableUtility.AddValue(Data, "RootCN", MySoil.RootCN, Row, NumLayers);
+            DataTableUtility.AddValue(Data, "RootWT", MySoil.RootWT, Row, NumLayers);
+            DataTableUtility.AddValue(Data, "SoilCN", MySoil.SoilCN, Row, NumLayers);
+            DataTableUtility.AddValue(Data, "EnrACoeff", MySoil.EnrACoeff, Row, NumLayers);
+            DataTableUtility.AddValue(Data, "EnrBCoeff", MySoil.EnrBCoeff, Row, NumLayers);
 
             DataTableUtility.AddColumn(Data, "SWCON", MySoil.SWCON, Row, NumLayers);
             DataTableUtility.AddColumn(Data, "MWCON", MySoil.MWCON, Row, NumLayers);
@@ -127,29 +151,6 @@ namespace APSoil
             DataTableUtility.AddColumn(Data, "ParticleSizeSilt", MySoil.ParticleSizeSilt, Row, NumLayers);
             DataTableUtility.AddColumn(Data, "ParticleSizeClay", MySoil.ParticleSizeClay, Row, NumLayers);
 
-            DataTableUtility.AddColumn(Data, "Thickness", MySoil.Thickness, Row, NumLayers);
-            DataTableUtility.AddColumn(Data, "BD", MySoil.BD, Row, NumLayers);
-            DataTableUtility.AddColumn(Data, "Rocks", MySoil.Rocks, Row, NumLayers);
-            DataTableUtility.AddColumn(Data, "Texture", MySoil.Texture, Row, NumLayers);
-            DataTableUtility.AddColumn(Data, "LL15", MySoil.LL15, Row, NumLayers);
-            DataTableUtility.AddColumn(Data, "Airdry", MySoil.Airdry, Row, NumLayers);
-            DataTableUtility.AddColumn(Data, "DUL", MySoil.DUL, Row, NumLayers);
-            DataTableUtility.AddColumn(Data, "SAT", MySoil.SAT, Row, NumLayers);
-
-            string[] CropOrder = {"wheat", "canola", "chickpea", "fababean", "cotton", "sorghum", 
-                                  "mungbean", "sunflower", "barley", "lucerne", "maize", "perennial grass", 
-                                  "cowpea", "navybean", "peanut", "pigeonpea", "soybean", "stylo", 
-                                  "sugar", "lablab", "millet", "triticale", "lupin", "fieldpea", 
-                                  "oatenhay", "weed", "lentil", "medic", "oats"};
-            foreach (string CropName in CropOrder)
-                AddCropColumn(Data, CropName, MySoil, Row, NumLayers);
-
-            // Add other crops not in our list above.
-            foreach (string CropName in MySoil.CropsMeasured)
-                {
-                if (Array.IndexOf(CropOrder, CropName.ToLower()) == -1)
-                    AddCropColumn(Data, CropName, MySoil, Row, NumLayers);
-                }
 			Row += NumLayers;
 			}
 

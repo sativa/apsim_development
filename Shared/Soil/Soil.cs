@@ -1332,7 +1332,7 @@ namespace Soils
                     APSIMData Layer = Profile.get_Children("layer")[LayerNumber - 1];
                     foreach (APSIMData Value in Child.get_Children(null))
                         {
-                        if (Convert.ToDouble(Value.Value) != MathUtility.MissingValue)
+                        if (Value.Value != MathUtility.MissingValue.ToString())
                             {
                             APSIMData LayerData = Layer.Add(Value);
 
