@@ -296,9 +296,6 @@ Component  "Economics" = c:\development\apsim\tcllink\lib\tcllink.dll
      Manager sending message :- wheat sow  plants = 100, sowing_depth = 30, cultivar = hartog, row_spacing = 250, crop_class = plant
 28 May 1942(Day of year=148), wheat: 
      Crop Sow
-      - reading constants for plant(wheat)
-      - reading cultivar parameters
-      - reading grain cultivar parameters
          ------------------------------------------------
         cultivar                   = hartog
         pesw germination           =       0.00 (0-1)
@@ -313,7 +310,6 @@ Component  "Economics" = c:\development\apsim\tcllink\lib\tcllink.dll
          ------------------------------------------------
      
      
-      - reading root profile parameters
                         Root Profile
          -----------------------------------------------
           Layer       Kl           Lower    Exploration

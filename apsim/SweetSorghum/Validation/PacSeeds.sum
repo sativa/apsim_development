@@ -255,6 +255,36 @@ Component "SweetSorghum" = c:\development\apsim\plant\lib\plant.dll
 
 ------- SweetSorghum Initialisation -------------------------------------------
      phenology model: TTT
+     !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+                      APSIM Warning Error
+                      -------------------
+     Bound check warning while reading parameter.
+     Variable  : y_leaf_size(5)
+     Condition : 0.00 <= 65000 <= 60000.00
+     Component name: SweetSorghum
+     !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+     
+     
+     !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+                      APSIM Warning Error
+                      -------------------
+     Bound check warning while reading parameter.
+     Variable  : y_leaf_size(6)
+     Condition : 0.00 <= 80000 <= 60000.00
+     Component name: SweetSorghum
+     !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+     
+     
+     !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+                      APSIM Warning Error
+                      -------------------
+     Bound check warning while reading parameter.
+     Variable  : x_temp_grainfill(3)
+     Condition : 0.00 <= 56.32 <= 40.00
+     Component name: SweetSorghum
+     !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+     
+     
 
 ------- outputfile Initialisation ---------------------------------------------
      Output frequency:
@@ -464,12 +494,6 @@ Component "SweetSorghum" = c:\development\apsim\plant\lib\plant.dll
 
 ------- SweetSorghum Initialisation -------------------------------------------
      phenology model: TTT
-------- Start of simulation  --------------------------------------------------
-15 September 2004(Day of year=259), Manager: 
-     Manager sending message :- sweetsorghum sow  plants = 10, sowing_depth = 50, cultivar = sugargraze, row_spacing = 600
-15 September 2004(Day of year=259), SweetSorghum: 
-     Crop Sow
-      - reading constants for plant(sweetsorghum)
      !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
                       APSIM Warning Error
                       -------------------
@@ -500,8 +524,41 @@ Component "SweetSorghum" = c:\development\apsim\plant\lib\plant.dll
      !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
      
      
-      - reading cultivar parameters
-      - reading grain cultivar parameters
+------- Start of simulation  --------------------------------------------------
+15 September 2004(Day of year=259), Manager: 
+     Manager sending message :- sweetsorghum sow  plants = 10, sowing_depth = 50, cultivar = sugargraze, row_spacing = 600
+15 September 2004(Day of year=259), SweetSorghum: 
+     Crop Sow
+     !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+                      APSIM Warning Error
+                      -------------------
+     Bound check warning while reading parameter.
+     Variable  : y_leaf_size(5)
+     Condition : 0.00 <= 65000 <= 60000.00
+     Component name: SweetSorghum
+     !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+     
+     
+     !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+                      APSIM Warning Error
+                      -------------------
+     Bound check warning while reading parameter.
+     Variable  : y_leaf_size(6)
+     Condition : 0.00 <= 80000 <= 60000.00
+     Component name: SweetSorghum
+     !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+     
+     
+     !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+                      APSIM Warning Error
+                      -------------------
+     Bound check warning while reading parameter.
+     Variable  : x_temp_grainfill(3)
+     Condition : 0.00 <= 56.32 <= 40.00
+     Component name: SweetSorghum
+     !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+     
+     
          ------------------------------------------------
         cultivar                   = sugargraze
         est_days_emerg_to_init     = 45 (days)
@@ -524,7 +581,6 @@ Component "SweetSorghum" = c:\development\apsim\plant\lib\plant.dll
          ------------------------------------------------
      
      
-      - reading root profile parameters
                         Root Profile
          -----------------------------------------------
           Layer       Kl           Lower    Exploration
@@ -638,7 +694,6 @@ Component "SweetSorghum" = c:\development\apsim\plant\lib\plant.dll
      Manager sending message :- sweetsorghum sow  plants = 10, sowing_depth = 50, cultivar = sugargraze, row_spacing = 600
 12 January 2005(Day of year=12), SweetSorghum: 
      Crop Sow
-      - reading constants for plant(sweetsorghum)
      !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
                       APSIM Warning Error
                       -------------------
@@ -669,8 +724,6 @@ Component "SweetSorghum" = c:\development\apsim\plant\lib\plant.dll
      !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
      
      
-      - reading cultivar parameters
-      - reading grain cultivar parameters
          ------------------------------------------------
         cultivar                   = sugargraze
         est_days_emerg_to_init     = 45 (days)
@@ -693,7 +746,6 @@ Component "SweetSorghum" = c:\development\apsim\plant\lib\plant.dll
          ------------------------------------------------
      
      
-      - reading root profile parameters
                         Root Profile
          -----------------------------------------------
           Layer       Kl           Lower    Exploration

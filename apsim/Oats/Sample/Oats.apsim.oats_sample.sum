@@ -212,9 +212,6 @@ Component       "oats" = c:\development\apsim\Plant\lib\Plant.dll
      Manager sending message :- oats sow  cultivar = potoroo, plants = 120, sowing_depth = 30 (mm)
 17 June 1988(Day of year=169), oats: 
      Crop Sow
-      - reading constants for plant(oats)
-      - reading cultivar parameters
-      - reading grain cultivar parameters
          ------------------------------------------------
         cultivar                   = potoroo
         pesw germination           =       0.00 (0-1)
@@ -229,7 +226,6 @@ Component       "oats" = c:\development\apsim\Plant\lib\Plant.dll
          ------------------------------------------------
      
      
-      - reading root profile parameters
                         Root Profile
          -----------------------------------------------
           Layer       Kl           Lower    Exploration

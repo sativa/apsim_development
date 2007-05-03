@@ -277,9 +277,6 @@ Component     "lablab" = c:\development\apsim\Plant\lib\Plant.dll
      Manager sending message :- lablab sow  cultivar = endurance, crop_class = small_leaf, plants = 10 (/m2), sowing_depth = 40 (mm)
 26 November 1997(Day of year=330), lablab: 
      Crop Sow
-      - reading constants for small_leaf(lablab)
-      - reading cultivar parameters
-      - reading grain cultivar parameters
          ------------------------------------------------
         cultivar                   = endurance
         est_days_emerg_to_init     = 20 (days)
@@ -302,7 +299,6 @@ Component     "lablab" = c:\development\apsim\Plant\lib\Plant.dll
          ------------------------------------------------
      
      
-      - reading root profile parameters
                         Root Profile
          -----------------------------------------------
           Layer       Kl           Lower    Exploration

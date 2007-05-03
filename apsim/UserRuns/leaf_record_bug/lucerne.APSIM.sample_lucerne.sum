@@ -208,9 +208,6 @@ Component    "lucerne" = c:\development\apsim\plant\lib\plant.dll
      Manager sending message :- lucerne sow  cultivar = trifecta, plants = 200 (/m2), sowing_depth = 40 (mm)
 29 May 1988(Day of year=150), lucerne: 
      Crop Sow
-      - reading constants for plant(lucerne)
-      - reading cultivar parameters
-      - reading grain cultivar parameters
          ------------------------------------------------
         cultivar                   = trifecta
         est_days_emerg_to_init     = 30 (days)
@@ -233,7 +230,6 @@ Component    "lucerne" = c:\development\apsim\plant\lib\plant.dll
          ------------------------------------------------
      
      
-      - reading root profile parameters
                         Root Profile
          -----------------------------------------------
           Layer       Kl           Lower    Exploration
@@ -303,7 +299,6 @@ Component    "lucerne" = c:\development\apsim\plant\lib\plant.dll
          end_of_juvenile      to floral_initiation       0.000        0.000        0.000        0.002
          floral_initiation    to flowering               0.000        0.000        0.000        0.000
      
-      - reading constants for regrowth(lucerne)
      
      Crop harvested.
          Organic matter from crop:-      Tops to surface residue      Roots to soil FOM

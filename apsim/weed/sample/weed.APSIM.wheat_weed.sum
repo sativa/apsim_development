@@ -246,9 +246,6 @@ Component     "sysbal" = c:\development\apsim\sysbal\lib\sysbal.dll
      Manager sending message :- wheat sow  cultivar = hartog, plants = 121.61, sowing_depth = 30 (mm), tiller_no_fertile = 0
 17 June 1988(Day of year=169), wheat: 
      Crop Sow
-      - reading constants for plant(wheat)
-      - reading cultivar parameters
-      - reading grain cultivar parameters
          ------------------------------------------------
         cultivar                   = hartog
         pesw germination           =       0.00 (0-1)
@@ -263,7 +260,6 @@ Component     "sysbal" = c:\development\apsim\sysbal\lib\sysbal.dll
          ------------------------------------------------
      
      
-      - reading root profile parameters
                         Root Profile
          -----------------------------------------------
           Layer       Kl           Lower    Exploration
@@ -292,9 +288,6 @@ Component     "sysbal" = c:\development\apsim\sysbal\lib\sysbal.dll
      Manager sending message :- weed sow  cultivar = late, plants = 15 (/m2), crop_class = winter_grass, sowing_depth = 40 (mm)
 17 June 1988(Day of year=169), weed: 
      Crop Sow
-      - reading constants for winter_grass(weed)
-      - reading cultivar parameters
-      - reading grain cultivar parameters
          ------------------------------------------------
         cultivar                   = late
         est_days_emerg_to_init     = 83 (days)
@@ -317,7 +310,6 @@ Component     "sysbal" = c:\development\apsim\sysbal\lib\sysbal.dll
          ------------------------------------------------
      
      
-      - reading root profile parameters
                         Root Profile
          -----------------------------------------------
           Layer       Kl           Lower    Exploration

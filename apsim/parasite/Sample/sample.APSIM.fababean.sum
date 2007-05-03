@@ -224,9 +224,6 @@ Component  "orobanche" = c:\development\apsim\parasite\lib\parasite.dll
 ------- Start of simulation  --------------------------------------------------
      Manager sending message :- fababean sow  cultivar = ilb1814, plants = 25 (/m2), sowing_depth = 40 (mm)
      Crop Sow
-      - reading constants for plant(fababean)
-      - reading cultivar parameters
-      - reading grain cultivar parameters
          ------------------------------------------------
         cultivar                   = ilb1814
         est_days_emerg_to_init     = 70 (days)
@@ -249,7 +246,6 @@ Component  "orobanche" = c:\development\apsim\parasite\lib\parasite.dll
          ------------------------------------------------
      
      
-      - reading root profile parameters
                         Root Profile
          -----------------------------------------------
           Layer       Kl           Lower    Exploration

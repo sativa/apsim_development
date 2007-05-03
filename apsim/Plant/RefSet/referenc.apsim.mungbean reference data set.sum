@@ -299,9 +299,6 @@ Component   "tracker1" = c:\development\apsim\Tracker\lib\Tracker.dll
 ------- Start of simulation  --------------------------------------------------
      Manager sending message :- mungbean sow  crop_class = plant, cultivar = emerald, plants = 40, sowing_depth = 50
      Crop Sow
-      - reading constants for plant(mungbean)
-      - reading cultivar parameters
-      - reading grain cultivar parameters
          ------------------------------------------------
         cultivar                   = emerald
         est_days_emerg_to_init     = 20 (days)
@@ -324,7 +321,6 @@ Component   "tracker1" = c:\development\apsim\Tracker\lib\Tracker.dll
          ------------------------------------------------
      
      
-      - reading root profile parameters
                         Root Profile
          -----------------------------------------------
           Layer       Kl           Lower    Exploration
@@ -444,9 +440,6 @@ Component   "tracker1" = c:\development\apsim\Tracker\lib\Tracker.dll
      Manager sending message :- mungbean sow  cultivar = emerald, plants = 20, sowing_depth = 50
 10 January 1992(Day of year=10), mungbean: 
      Crop Sow
-      - reading constants for plant(mungbean)
-      - reading cultivar parameters
-      - reading grain cultivar parameters
          ------------------------------------------------
         cultivar                   = emerald
         est_days_emerg_to_init     = 20 (days)
@@ -469,7 +462,6 @@ Component   "tracker1" = c:\development\apsim\Tracker\lib\Tracker.dll
          ------------------------------------------------
      
      
-      - reading root profile parameters
                         Root Profile
          -----------------------------------------------
           Layer       Kl           Lower    Exploration
@@ -591,9 +583,6 @@ Component   "tracker1" = c:\development\apsim\Tracker\lib\Tracker.dll
      Manager sending message :- mungbean sow  cultivar = emerald, plants = 40, sowing_depth = 50
 10 January 1993(Day of year=10), mungbean: 
      Crop Sow
-      - reading constants for plant(mungbean)
-      - reading cultivar parameters
-      - reading grain cultivar parameters
          ------------------------------------------------
         cultivar                   = emerald
         est_days_emerg_to_init     = 20 (days)
@@ -616,7 +605,6 @@ Component   "tracker1" = c:\development\apsim\Tracker\lib\Tracker.dll
          ------------------------------------------------
      
      
-      - reading root profile parameters
                         Root Profile
          -----------------------------------------------
           Layer       Kl           Lower    Exploration
@@ -732,9 +720,6 @@ Component   "tracker1" = c:\development\apsim\Tracker\lib\Tracker.dll
      Manager sending message :- mungbean sow  cultivar = emerald, plants = 20, sowing_depth = 50
 30 January 1994(Day of year=30), mungbean: 
      Crop Sow
-      - reading constants for plant(mungbean)
-      - reading cultivar parameters
-      - reading grain cultivar parameters
          ------------------------------------------------
         cultivar                   = emerald
         est_days_emerg_to_init     = 20 (days)
@@ -757,7 +742,6 @@ Component   "tracker1" = c:\development\apsim\Tracker\lib\Tracker.dll
          ------------------------------------------------
      
      
-      - reading root profile parameters
                         Root Profile
          -----------------------------------------------
           Layer       Kl           Lower    Exploration

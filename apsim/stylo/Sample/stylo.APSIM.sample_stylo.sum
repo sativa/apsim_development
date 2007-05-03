@@ -208,9 +208,6 @@ Component      "stylo" = c:\development\apsim\Plant\lib\Plant.dll
      Manager sending message :- stylo sow  cultivar = verano, plants = 250 (/m2), sowing_depth = 40 (mm)
 15 November 1988(Day of year=320), stylo: 
      Crop Sow
-      - reading constants for plant(stylo)
-      - reading cultivar parameters
-      - reading grain cultivar parameters
          ------------------------------------------------
         cultivar                   = verano
         est_days_emerg_to_init     = 30 (days)
@@ -233,7 +230,6 @@ Component      "stylo" = c:\development\apsim\Plant\lib\Plant.dll
          ------------------------------------------------
      
      
-      - reading root profile parameters
                         Root Profile
          -----------------------------------------------
           Layer       Kl           Lower    Exploration

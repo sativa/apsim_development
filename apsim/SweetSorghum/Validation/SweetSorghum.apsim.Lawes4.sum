@@ -258,10 +258,6 @@ Component "sweetsorghum" = c:\development\apsim\Plant\lib\Plant.dll
 
 ------- sweetsorghum Initialisation -------------------------------------------
      phenology model: TTT
-------- Start of simulation  --------------------------------------------------
-     Manager sending message :- sweetsorghum sow  cultivar = sugargraze, plants = 10, sowing_depth = 30 (mm)
-     Crop Sow
-      - reading constants for plant(sweetsorghum)
      !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
                       APSIM Warning Error
                       -------------------
@@ -292,8 +288,39 @@ Component "sweetsorghum" = c:\development\apsim\Plant\lib\Plant.dll
      !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
      
      
-      - reading cultivar parameters
-      - reading grain cultivar parameters
+------- Start of simulation  --------------------------------------------------
+     Manager sending message :- sweetsorghum sow  cultivar = sugargraze, plants = 10, sowing_depth = 30 (mm)
+     Crop Sow
+     !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+                      APSIM Warning Error
+                      -------------------
+     Bound check warning while reading parameter.
+     Variable  : y_leaf_size(5)
+     Condition : 0.00 <= 65000 <= 60000.00
+     Component name: sweetsorghum
+     !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+     
+     
+     !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+                      APSIM Warning Error
+                      -------------------
+     Bound check warning while reading parameter.
+     Variable  : y_leaf_size(6)
+     Condition : 0.00 <= 80000 <= 60000.00
+     Component name: sweetsorghum
+     !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+     
+     
+     !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+                      APSIM Warning Error
+                      -------------------
+     Bound check warning while reading parameter.
+     Variable  : x_temp_grainfill(3)
+     Condition : 0.00 <= 56.32 <= 40.00
+     Component name: sweetsorghum
+     !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+     
+     
          ------------------------------------------------
         cultivar                   = sugargraze
         est_days_emerg_to_init     = 45 (days)
@@ -316,7 +343,6 @@ Component "sweetsorghum" = c:\development\apsim\Plant\lib\Plant.dll
          ------------------------------------------------
      
      
-      - reading root profile parameters
                         Root Profile
          -----------------------------------------------
           Layer       Kl           Lower    Exploration

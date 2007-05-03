@@ -330,9 +330,6 @@ Component     "barley" = c:\development\apsim\plant\lib\plant.dll
      Manager sending message :- barley sow  plants = 100, sowing_depth = 50, cultivar = grimmett, row_spacing = 250
 15 July 1991(Day of year=196), barley: 
      Crop Sow
-      - reading constants for plant(barley)
-      - reading cultivar parameters
-      - reading grain cultivar parameters
          ------------------------------------------------
         cultivar                   = grimmett
         pesw germination           =       0.00 (0-1)
@@ -347,7 +344,6 @@ Component     "barley" = c:\development\apsim\plant\lib\plant.dll
          ------------------------------------------------
      
      
-      - reading root profile parameters
                         Root Profile
          -----------------------------------------------
           Layer       Kl           Lower    Exploration

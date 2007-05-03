@@ -207,9 +207,6 @@ Component     "mucuna" = c:\development\apsim\Plant\lib\Plant.dll
      Manager sending message :- mucuna sow  cultivar = mucuna_gen, plants = 25 (/m2), sowing_depth = 40 (mm)
 25 November 1988(Day of year=330), mucuna: 
      Crop Sow
-      - reading constants for plant(mucuna)
-      - reading cultivar parameters
-      - reading grain cultivar parameters
          ------------------------------------------------
         cultivar                   = mucuna_gen
         est_days_emerg_to_init     = 20 (days)
@@ -232,7 +229,6 @@ Component     "mucuna" = c:\development\apsim\Plant\lib\Plant.dll
          ------------------------------------------------
      
      
-      - reading root profile parameters
                         Root Profile
          -----------------------------------------------
           Layer       Kl           Lower    Exploration
