@@ -227,9 +227,6 @@ Component     "canola" = c:\development\apsim\Plant\lib\Plant.dll
                                               added at depth   50.00 (layer   1)
      Manager sending message :- canola sow  cultivar = hyola42, plants = 40 (/m2), sowing_depth = 20 (mm), row_spacing = 300 (mm)
      Crop Sow
-      - reading constants for plant(canola)
-      - reading cultivar parameters
-      - reading grain cultivar parameters
          ------------------------------------------------
         cultivar                   = hyola42
         est_days_emerg_to_init     = 83 (days)
@@ -252,7 +249,6 @@ Component     "canola" = c:\development\apsim\Plant\lib\Plant.dll
          ------------------------------------------------
      
      
-      - reading root profile parameters
                         Root Profile
          -----------------------------------------------
           Layer       Kl           Lower    Exploration

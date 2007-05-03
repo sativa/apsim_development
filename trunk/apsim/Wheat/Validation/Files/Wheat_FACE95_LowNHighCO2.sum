@@ -398,9 +398,6 @@ Component      "wheat" = c:\development\apsim\plant\lib\plant.dll
      Manager sending message :- wheat sow  plants = 186, sowing_depth = 40, cultivar = yecora, row_spacing = 250
 21 December 1995(Day of year=355), wheat: 
      Crop Sow
-      - reading constants for plant(wheat)
-      - reading cultivar parameters
-      - reading grain cultivar parameters
          ------------------------------------------------
         cultivar                   = yecora
         pesw germination           =       0.00 (0-1)
@@ -415,7 +412,6 @@ Component      "wheat" = c:\development\apsim\plant\lib\plant.dll
          ------------------------------------------------
      
      
-      - reading root profile parameters
                         Root Profile
          -----------------------------------------------
           Layer       Kl           Lower    Exploration

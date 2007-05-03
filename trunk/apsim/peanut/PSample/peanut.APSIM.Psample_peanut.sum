@@ -274,9 +274,6 @@ Component     "peanut" = c:\development\apsim\Plant\lib\Plant.dll
      Manager sending message :- peanut sow  cultivar = early_bunch, plants = 10 (/m2), sowing_depth = 40 (mm)
 25 November 1988(Day of year=330), peanut: 
      Crop Sow
-      - reading constants for plant(peanut)
-      - reading cultivar parameters
-      - reading grain cultivar parameters
          ------------------------------------------------
         cultivar                   = early_bunch
         est_days_emerg_to_init     = 2 (days)
@@ -299,7 +296,6 @@ Component     "peanut" = c:\development\apsim\Plant\lib\Plant.dll
          ------------------------------------------------
      
      
-      - reading root profile parameters
                         Root Profile
          -----------------------------------------------
           Layer       Kl           Lower    Exploration

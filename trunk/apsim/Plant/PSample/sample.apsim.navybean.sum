@@ -436,9 +436,6 @@ Component   "navybean" = c:\development\apsim\Plant\lib\Plant.dll
      Manager sending message :- navybean sow  crop_class = plant, cultivar = rainbird, plants = 40, sowing_depth = 50
 1 December 1992(Day of year=336), navybean: 
      Crop Sow
-      - reading constants for plant(navybean)
-      - reading cultivar parameters
-      - reading grain cultivar parameters
          ------------------------------------------------
         cultivar                   = rainbird
         est_days_emerg_to_init     = 20 (days)
@@ -461,7 +458,6 @@ Component   "navybean" = c:\development\apsim\Plant\lib\Plant.dll
          ------------------------------------------------
      
      
-      - reading root profile parameters
                         Root Profile
          -----------------------------------------------
           Layer       Kl           Lower    Exploration

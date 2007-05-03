@@ -208,9 +208,6 @@ Component     "sysbal" = c:\development\apsim\sysbal\lib\sysbal.dll
 ------- Start of simulation  --------------------------------------------------
      Manager sending message :- lucerne sow  cultivar = trifecta, plants = 200 (/m2), sowing_depth = 40 (mm)
      Crop Sow
-      - reading constants for plant(lucerne)
-      - reading cultivar parameters
-      - reading grain cultivar parameters
          ------------------------------------------------
         cultivar                   = trifecta
         est_days_emerg_to_init     = 30 (days)
@@ -233,7 +230,6 @@ Component     "sysbal" = c:\development\apsim\sysbal\lib\sysbal.dll
          ------------------------------------------------
      
      
-      - reading root profile parameters
                         Root Profile
          -----------------------------------------------
           Layer       Kl           Lower    Exploration
@@ -307,7 +303,6 @@ Component     "sysbal" = c:\development\apsim\sysbal\lib\sysbal.dll
          end_of_juvenile      to floral_initiation       0.000        0.000        0.000        0.004
          floral_initiation    to flowering               0.000        0.000        0.000        0.000
      
-      - reading constants for regrowth(lucerne)
      
      Crop harvested.
          Organic matter from crop:-      Tops to surface residue      Roots to soil FOM

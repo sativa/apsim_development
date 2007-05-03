@@ -212,9 +212,6 @@ Component   "chickpea" = c:\development\apsim\Plant\lib\Plant.dll
 ------- Start of simulation  --------------------------------------------------
      Manager sending message :- chickpea sow  cultivar = amethyst, plants = 25 (/m2), sowing_depth = 40 (mm)
      Crop Sow
-      - reading constants for plant(chickpea)
-      - reading cultivar parameters
-      - reading grain cultivar parameters
          ------------------------------------------------
         cultivar                   = amethyst
         est_days_emerg_to_init     = 83 (days)
@@ -237,7 +234,6 @@ Component   "chickpea" = c:\development\apsim\Plant\lib\Plant.dll
          ------------------------------------------------
      
      
-      - reading root profile parameters
                         Root Profile
          -----------------------------------------------
           Layer       Kl           Lower    Exploration

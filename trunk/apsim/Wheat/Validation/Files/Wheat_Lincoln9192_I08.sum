@@ -371,9 +371,6 @@ Component      "wheat" = c:\development\apsim\plant\lib\plant.dll
 ------- Start of simulation  --------------------------------------------------
      Manager sending message :- wheat sow  plants = 300, sowing_depth = 40, cultivar = rongotea, row_spacing = 250
      Crop Sow
-      - reading constants for plant(wheat)
-      - reading cultivar parameters
-      - reading grain cultivar parameters
          ------------------------------------------------
         cultivar                   = rongotea
         pesw germination           =       0.00 (0-1)
@@ -388,7 +385,6 @@ Component      "wheat" = c:\development\apsim\plant\lib\plant.dll
          ------------------------------------------------
      
      
-      - reading root profile parameters
                         Root Profile
          -----------------------------------------------
           Layer       Kl           Lower    Exploration

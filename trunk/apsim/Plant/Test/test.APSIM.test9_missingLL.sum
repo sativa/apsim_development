@@ -199,12 +199,11 @@ Component   "chickpea" = c:\development\apsim\Plant\lib\Plant.dll
 ------- chickpea Initialisation -----------------------------------------------
      phenology model: TTT
         Using externally supplied Lower Limit (ll15)
+        Using externally supplied Lower Limit (ll15)
 ------- Start of simulation  --------------------------------------------------
      Manager sending message :- chickpea sow  cultivar = amethyst, plants = 25 (/m2), sowing_depth = 40 (mm)
      Crop Sow
-      - reading constants for plant(chickpea)
-      - reading cultivar parameters
-      - reading grain cultivar parameters
+        Using externally supplied Lower Limit (ll15)
          ------------------------------------------------
         cultivar                   = amethyst
         est_days_emerg_to_init     = 83 (days)
@@ -227,8 +226,6 @@ Component   "chickpea" = c:\development\apsim\Plant\lib\Plant.dll
          ------------------------------------------------
      
      
-      - reading root profile parameters
-        Using externally supplied Lower Limit (ll15)
                         Root Profile
          -----------------------------------------------
           Layer       Kl           Lower    Exploration

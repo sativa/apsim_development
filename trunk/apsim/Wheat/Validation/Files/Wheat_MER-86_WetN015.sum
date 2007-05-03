@@ -376,9 +376,6 @@ Component      "wheat" = c:\development\apsim\plant\lib\plant.dll
      Manager sending message :- wheat sow  plants = 149, sowing_depth = 30, cultivar = gutha, row_spacing = 250
 29 May 1986(Day of year=149), wheat: 
      Crop Sow
-      - reading constants for plant(wheat)
-      - reading cultivar parameters
-      - reading grain cultivar parameters
          ------------------------------------------------
         cultivar                   = gutha
         pesw germination           =       0.00 (0-1)
@@ -393,7 +390,6 @@ Component      "wheat" = c:\development\apsim\plant\lib\plant.dll
          ------------------------------------------------
      
      
-      - reading root profile parameters
                         Root Profile
          -----------------------------------------------
           Layer       Kl           Lower    Exploration

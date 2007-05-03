@@ -475,9 +475,6 @@ Component   "rainfall" = c:\development\apsim\patchinput\lib\patchinput.dll
      Manager sending message :- wheat sow  cultivar = yitpi, plants = 100.000000000000 (plants/m2), sowing_depth = 30
 21 June 2005(Day of year=172), Wheat: 
      Crop Sow
-      - reading constants for plant(wheat)
-      - reading cultivar parameters
-      - reading grain cultivar parameters
          ------------------------------------------------
         cultivar                   = yitpi
         pesw germination           =       0.00 (0-1)
@@ -492,7 +489,6 @@ Component   "rainfall" = c:\development\apsim\patchinput\lib\patchinput.dll
          ------------------------------------------------
      
      
-      - reading root profile parameters
                         Root Profile
          -----------------------------------------------
           Layer       Kl           Lower    Exploration

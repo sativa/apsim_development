@@ -274,9 +274,6 @@ Component    "pigeonp" = c:\development\apsim\Plant\lib\Plant.dll
      Manager sending message :- pigeonp sow  cultivar = short_duration, plants = 10 (/m2), sowing_depth = 40 (mm)
 16 October 1988(Day of year=290), pigeonp: 
      Crop Sow
-      - reading constants for plant(pigeonpea)
-      - reading cultivar parameters
-      - reading grain cultivar parameters
          ------------------------------------------------
         cultivar                   = short_duration
         est_days_emerg_to_init     = 20 (days)
@@ -299,7 +296,6 @@ Component    "pigeonp" = c:\development\apsim\Plant\lib\Plant.dll
          ------------------------------------------------
      
      
-      - reading root profile parameters
                         Root Profile
          -----------------------------------------------
           Layer       Kl           Lower    Exploration

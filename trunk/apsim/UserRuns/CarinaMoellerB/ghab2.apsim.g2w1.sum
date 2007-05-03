@@ -300,9 +300,6 @@ Component   "chickpea" = c:\development\apsim\Plant\lib\Plant.dll
      Manager sending message :- chickpea sow  cultivar = ghab2, plants = 50 (/m2), sowing_depth = 65 (mm)
 22 December 1999(Day of year=356), chickpea: 
      Crop Sow
-      - reading constants for plant(chickpea)
-      - reading cultivar parameters
-      - reading grain cultivar parameters
          ------------------------------------------------
         cultivar                   = ghab2
         est_days_emerg_to_init     = 90 (days)
@@ -325,7 +322,6 @@ Component   "chickpea" = c:\development\apsim\Plant\lib\Plant.dll
          ------------------------------------------------
      
      
-      - reading root profile parameters
                         Root Profile
          -----------------------------------------------
           Layer       Kl           Lower    Exploration

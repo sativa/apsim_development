@@ -306,9 +306,6 @@ Component      "maize" = c:\development\apsim\maize\lib\maize.dll
      Manager sending message :- cowpea sow  cultivar = banjo, plants = 25 (/m2), sowing_depth = 40 (mm)
 10 January 1988(Day of year=10), cowpea: 
      Crop Sow
-      - reading constants for plant(cowpea)
-      - reading cultivar parameters
-      - reading grain cultivar parameters
          ------------------------------------------------
         cultivar                   = banjo
         est_days_emerg_to_init     = 20 (days)
@@ -331,7 +328,6 @@ Component      "maize" = c:\development\apsim\maize\lib\maize.dll
          ------------------------------------------------
      
      
-      - reading root profile parameters
                         Root Profile
          -----------------------------------------------
           Layer       Kl           Lower    Exploration

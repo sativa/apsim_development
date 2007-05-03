@@ -289,9 +289,6 @@ Component    "sorghum" = c:\development\apsim\sorghum\lib\sorghum.dll
      Manager sending message :- weed sow  cultivar = late, plants = 15 (/m2), crop_class = summer_grass, sowing_depth = 40 (mm)
 31 October 1988(Day of year=305), weed: 
      Crop Sow
-      - reading constants for summer_grass(weed)
-      - reading cultivar parameters
-      - reading grain cultivar parameters
          ------------------------------------------------
         cultivar                   = late
         est_days_emerg_to_init     = 83 (days)
@@ -314,7 +311,6 @@ Component    "sorghum" = c:\development\apsim\sorghum\lib\sorghum.dll
          ------------------------------------------------
      
      
-      - reading root profile parameters
                         Root Profile
          -----------------------------------------------
           Layer       Kl           Lower    Exploration

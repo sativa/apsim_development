@@ -218,9 +218,6 @@ Component    "tracker" = c:\development\apsim\tracker\lib\tracker.dll
      Manager sending message :- lucerne sow  cultivar = trifecta, plants = 200 (/m2), sowing_depth = 40 (mm)
 19 May 1988(Day of year=140), lucerne: 
      Crop Sow
-      - reading constants for plant(lucerne)
-      - reading cultivar parameters
-      - reading grain cultivar parameters
          ------------------------------------------------
         cultivar                   = trifecta
         est_days_emerg_to_init     = 30 (days)
@@ -243,7 +240,6 @@ Component    "tracker" = c:\development\apsim\tracker\lib\tracker.dll
          ------------------------------------------------
      
      
-      - reading root profile parameters
                         Root Profile
          -----------------------------------------------
           Layer       Kl           Lower    Exploration
@@ -308,7 +304,6 @@ Component    "tracker" = c:\development\apsim\tracker\lib\tracker.dll
          emergence            to end_of_juvenile         0.000        0.000        0.001        0.084
          end_of_juvenile      to floral_initiation       0.000        0.000        0.000        0.000
      
-      - reading constants for regrowth(lucerne)
      
      Crop harvested.
          Organic matter from crop:-      Tops to surface residue      Roots to soil FOM

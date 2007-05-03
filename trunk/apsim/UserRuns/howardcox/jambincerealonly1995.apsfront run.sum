@@ -758,9 +758,6 @@ Component    "sorghum" = c:\development\apsim\sorghum\lib\sorghum.dll
      Manager sending message :- wheat sow  plants = 80 (/m2), sowing_depth = 30 (mm), cultivar = hartog
 30 June 1940(Day of year=182), wheat: 
      Crop Sow
-      - reading constants for plant(wheat)
-      - reading cultivar parameters
-      - reading grain cultivar parameters
          ------------------------------------------------
         cultivar                   = hartog
         pesw germination           =       0.00 (0-1)
@@ -775,7 +772,6 @@ Component    "sorghum" = c:\development\apsim\sorghum\lib\sorghum.dll
          ------------------------------------------------
      
      
-      - reading root profile parameters
                         Root Profile
          -----------------------------------------------
           Layer       Kl           Lower    Exploration

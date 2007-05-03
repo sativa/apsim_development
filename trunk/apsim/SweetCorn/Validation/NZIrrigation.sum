@@ -282,6 +282,36 @@ Component  "SweetCorn" = c:\development\apsim\plant\lib\plant.dll
 
 ------- SweetCorn Initialisation ----------------------------------------------
      phenology model: Generic
+     !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+                      APSIM Warning Error
+                      -------------------
+     Bound check warning while reading parameter.
+     Variable  : y_leaf_size(6)
+     Condition : 0.00 <= 77439.30856 <= 60000.00
+     Component name: SweetCorn
+     !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+     
+     
+     !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+                      APSIM Warning Error
+                      -------------------
+     Bound check warning while reading parameter.
+     Variable  : y_leaf_size(7)
+     Condition : 0.00 <= 78596.49147 <= 60000.00
+     Component name: SweetCorn
+     !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+     
+     
+     !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+                      APSIM Warning Error
+                      -------------------
+     Bound check warning while reading parameter.
+     Variable  : x_temp_grainfill(3)
+     Condition : 0.00 <= 56.32 <= 40.00
+     Component name: SweetCorn
+     !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+     
+     
 
 ------- outputfile Initialisation ---------------------------------------------
      Output frequency:
@@ -518,10 +548,6 @@ Component  "SweetCorn" = c:\development\apsim\plant\lib\plant.dll
 
 ------- SweetCorn Initialisation ----------------------------------------------
      phenology model: Generic
-------- Start of simulation  --------------------------------------------------
-     Manager sending message :- sweetcorn sow  plants = 5.7, sowing_depth = 50, cultivar = challenger, row_spacing = 700
-     Crop Sow
-      - reading constants for plant(sweetcorn)
      !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
                       APSIM Warning Error
                       -------------------
@@ -552,8 +578,39 @@ Component  "SweetCorn" = c:\development\apsim\plant\lib\plant.dll
      !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
      
      
-      - reading cultivar parameters
-      - reading grain cultivar parameters
+------- Start of simulation  --------------------------------------------------
+     Manager sending message :- sweetcorn sow  plants = 5.7, sowing_depth = 50, cultivar = challenger, row_spacing = 700
+     Crop Sow
+     !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+                      APSIM Warning Error
+                      -------------------
+     Bound check warning while reading parameter.
+     Variable  : y_leaf_size(6)
+     Condition : 0.00 <= 77439.30856 <= 60000.00
+     Component name: SweetCorn
+     !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+     
+     
+     !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+                      APSIM Warning Error
+                      -------------------
+     Bound check warning while reading parameter.
+     Variable  : y_leaf_size(7)
+     Condition : 0.00 <= 78596.49147 <= 60000.00
+     Component name: SweetCorn
+     !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+     
+     
+     !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+                      APSIM Warning Error
+                      -------------------
+     Bound check warning while reading parameter.
+     Variable  : x_temp_grainfill(3)
+     Condition : 0.00 <= 56.32 <= 40.00
+     Component name: SweetCorn
+     !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+     
+     
          ------------------------------------------------
         cultivar                   = challenger
      out
@@ -594,7 +651,6 @@ Component  "SweetCorn" = c:\development\apsim\plant\lib\plant.dll
          ------------------------------------------------
      
      
-      - reading root profile parameters
                         Root Profile
          -----------------------------------------------
           Layer       Kl           Lower    Exploration
@@ -627,7 +683,6 @@ Component  "SweetCorn" = c:\development\apsim\plant\lib\plant.dll
      
      Manager sending message :- sweetcorn sow  plants = 5.7, sowing_depth = 50, cultivar = challenger, row_spacing = 700
      Crop Sow
-      - reading constants for plant(sweetcorn)
      !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
                       APSIM Warning Error
                       -------------------
@@ -658,8 +713,6 @@ Component  "SweetCorn" = c:\development\apsim\plant\lib\plant.dll
      !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
      
      
-      - reading cultivar parameters
-      - reading grain cultivar parameters
          ------------------------------------------------
         cultivar                   = challenger
      out
@@ -700,7 +753,6 @@ Component  "SweetCorn" = c:\development\apsim\plant\lib\plant.dll
          ------------------------------------------------
      
      
-      - reading root profile parameters
                         Root Profile
          -----------------------------------------------
           Layer       Kl           Lower    Exploration

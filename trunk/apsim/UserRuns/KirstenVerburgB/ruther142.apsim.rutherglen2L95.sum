@@ -807,9 +807,6 @@ Component   "tracker2" = c:\development\apsim\tracker\lib\tracker.dll
       Sending sow message to lucerne
 27 September 1993(Day of year=270), lucerne: 
      Crop Sow
-      - reading constants for plant(lucerne)
-      - reading cultivar parameters
-      - reading grain cultivar parameters
          ------------------------------------------------
         cultivar                   = trifecta
         est_days_emerg_to_init     = 30 (days)
@@ -832,7 +829,6 @@ Component   "tracker2" = c:\development\apsim\tracker\lib\tracker.dll
          ------------------------------------------------
      
      
-      - reading root profile parameters
                         Root Profile
          -----------------------------------------------
           Layer       Kl           Lower    Exploration
@@ -922,7 +918,6 @@ Component   "tracker2" = c:\development\apsim\tracker\lib\tracker.dll
          end_of_juvenile      to floral_initiation       0.019        0.037        0.004        0.012
          floral_initiation    to flowering               0.068        0.096        0.000        0.000
      
-      - reading constants for regrowth(lucerne)
      
      Crop harvested.
          Organic matter from crop:-      Tops to surface residue      Roots to soil FOM
@@ -997,8 +992,6 @@ Component   "tracker2" = c:\development\apsim\tracker\lib\tracker.dll
                                              Incorporated Depth    =     0.00
 31 March 1994(Day of year=90), manager: 
      Manager sending message :- lucerne reduce
-31 March 1994(Day of year=90), lucerne: 
-      - reading constants for reduced(lucerne)
 23 April 1994(Day of year=113), lucerne: 
       stage 5.0 floral_initiation
                      biomass =          57.78 (g/m^2)   lai          =   0.123 (m^2/m^2)
@@ -1013,8 +1006,6 @@ Component   "tracker2" = c:\development\apsim\tracker\lib\tracker.dll
                      stover N conc =     5.67 (%)    extractable sw =   82.91 (mm)
 1 August 1994(Day of year=213), manager: 
      Manager sending message :- lucerne spring
-1 August 1994(Day of year=213), lucerne: 
-      - reading constants for regrowth(lucerne)
 18 October 1994(Day of year=291), operatns: 
       Sending harvest message to lucerne
 18 October 1994(Day of year=291), lucerne: 
@@ -1226,14 +1217,10 @@ Component   "tracker2" = c:\development\apsim\tracker\lib\tracker.dll
      
 31 March 1995(Day of year=90), manager: 
      Manager sending message :- lucerne reduce
-      - reading constants for reduced(lucerne)
 10 May 1995(Day of year=130), operatns: 
       Sending sow message to wheat
 10 May 1995(Day of year=130), wheat: 
      Crop Sow
-      - reading constants for plant(wheat)
-      - reading cultivar parameters
-      - reading grain cultivar parameters
          ------------------------------------------------
         cultivar                   = katunga
         pesw germination           =       0.00 (0-1)
@@ -1248,7 +1235,6 @@ Component   "tracker2" = c:\development\apsim\tracker\lib\tracker.dll
          ------------------------------------------------
      
      
-      - reading root profile parameters
                         Root Profile
          -----------------------------------------------
           Layer       Kl           Lower    Exploration
@@ -1306,8 +1292,6 @@ Component   "tracker2" = c:\development\apsim\tracker\lib\tracker.dll
                      stover N conc =     5.84 (%)    extractable sw =   23.13 (mm)
 1 August 1995(Day of year=213), manager: 
      Manager sending message :- lucerne spring
-1 August 1995(Day of year=213), lucerne: 
-      - reading constants for regrowth(lucerne)
 20 September 1995(Day of year=263), wheat: 
       stage 5.0 floral_initiation
                      biomass =         164.85 (g/m^2)   lai          =   1.757 (m^2/m^2)
@@ -1383,8 +1367,6 @@ Component   "tracker2" = c:\development\apsim\tracker\lib\tracker.dll
      
 30 March 1996(Day of year=90), manager: 
      Manager sending message :- lucerne reduce
-30 March 1996(Day of year=90), lucerne: 
-      - reading constants for reduced(lucerne)
 29 April 1996(Day of year=120), operatns: 
       Sending tillage message to surfaceom
 29 April 1996(Day of year=120), SurfaceOM: 
@@ -1397,9 +1379,6 @@ Component   "tracker2" = c:\development\apsim\tracker\lib\tracker.dll
       Sending sow message to canola
 16 May 1996(Day of year=137), canola: 
      Crop Sow
-      - reading constants for plant(canola)
-      - reading cultivar parameters
-      - reading grain cultivar parameters
          ------------------------------------------------
         cultivar                   = oscar
         est_days_emerg_to_init     = 83 (days)
@@ -1422,7 +1401,6 @@ Component   "tracker2" = c:\development\apsim\tracker\lib\tracker.dll
          ------------------------------------------------
      
      
-      - reading root profile parameters
                         Root Profile
          -----------------------------------------------
           Layer       Kl           Lower    Exploration
@@ -1480,8 +1458,6 @@ Component   "tracker2" = c:\development\apsim\tracker\lib\tracker.dll
                      stover N conc =     5.77 (%)    extractable sw =   71.61 (mm)
 31 July 1996(Day of year=213), manager: 
      Manager sending message :- lucerne spring
-31 July 1996(Day of year=213), lucerne: 
-      - reading constants for regrowth(lucerne)
 12 August 1996(Day of year=225), canola: 
       stage 5.0 floral_initiation
                      biomass =          96.42 (g/m^2)   lai          =   1.091 (m^2/m^2)
@@ -1564,8 +1540,6 @@ Component   "tracker2" = c:\development\apsim\tracker\lib\tracker.dll
      
 31 March 1997(Day of year=90), manager: 
      Manager sending message :- lucerne reduce
-31 March 1997(Day of year=90), lucerne: 
-      - reading constants for reduced(lucerne)
 30 April 1997(Day of year=120), operatns: 
       Sending tillage message to surfaceom
 30 April 1997(Day of year=120), SurfaceOM: 
@@ -1578,9 +1552,6 @@ Component   "tracker2" = c:\development\apsim\tracker\lib\tracker.dll
       Sending sow message to wheat
 13 May 1997(Day of year=133), wheat: 
      Crop Sow
-      - reading constants for plant(wheat)
-      - reading cultivar parameters
-      - reading grain cultivar parameters
          ------------------------------------------------
         cultivar                   = swift
         pesw germination           =       0.00 (0-1)
@@ -1595,7 +1566,6 @@ Component   "tracker2" = c:\development\apsim\tracker\lib\tracker.dll
          ------------------------------------------------
      
      
-      - reading root profile parameters
                         Root Profile
          -----------------------------------------------
           Layer       Kl           Lower    Exploration
@@ -1653,8 +1623,6 @@ Component   "tracker2" = c:\development\apsim\tracker\lib\tracker.dll
                      stover N conc =     5.84 (%)    extractable sw =   26.09 (mm)
 1 August 1997(Day of year=213), manager: 
      Manager sending message :- lucerne spring
-1 August 1997(Day of year=213), lucerne: 
-      - reading constants for regrowth(lucerne)
 30 August 1997(Day of year=242), wheat: 
       stage 5.0 floral_initiation
                      biomass =         179.66 (g/m^2)   lai          =   2.493 (m^2/m^2)
@@ -1730,8 +1698,6 @@ Component   "tracker2" = c:\development\apsim\tracker\lib\tracker.dll
      
 31 March 1998(Day of year=90), manager: 
      Manager sending message :- lucerne reduce
-31 March 1998(Day of year=90), lucerne: 
-      - reading constants for reduced(lucerne)
 20 April 1998(Day of year=110), operatns: 
       Sending tillage message to surfaceom
 20 April 1998(Day of year=110), SurfaceOM: 
@@ -1744,9 +1710,6 @@ Component   "tracker2" = c:\development\apsim\tracker\lib\tracker.dll
       Sending sow message to lucerne
 1 May 1998(Day of year=121), lucerne: 
      Crop Sow
-      - reading constants for plant(lucerne)
-      - reading cultivar parameters
-      - reading grain cultivar parameters
          ------------------------------------------------
         cultivar                   = trifecta
         est_days_emerg_to_init     = 30 (days)
@@ -1769,7 +1732,6 @@ Component   "tracker2" = c:\development\apsim\tracker\lib\tracker.dll
          ------------------------------------------------
      
      
-      - reading root profile parameters
                         Root Profile
          -----------------------------------------------
           Layer       Kl           Lower    Exploration
@@ -1849,7 +1811,6 @@ Component   "tracker2" = c:\development\apsim\tracker\lib\tracker.dll
       Average Stress Indices:                          Water Photo  Water Expan  N Photo      N grain conc
          emergence            to end_of_juvenile         0.000        0.000        0.000        0.039
      
-      - reading constants for regrowth(lucerne)
      
      Crop harvested.
          Organic matter from crop:-      Tops to surface residue      Roots to soil FOM
@@ -1971,8 +1932,6 @@ Component   "tracker2" = c:\development\apsim\tracker\lib\tracker.dll
                      stover N conc =     4.34 (%)    extractable sw =   82.73 (mm)
 31 March 1999(Day of year=90), manager: 
      Manager sending message :- lucerne reduce
-31 March 1999(Day of year=90), lucerne: 
-      - reading constants for reduced(lucerne)
 13 April 1999(Day of year=103), lucerne: 
       stage 6.0 flowering
                      biomass =         182.37 (g/m^2)   lai          =   1.448 (m^2/m^2)
@@ -2034,7 +1993,6 @@ Component   "tracker2" = c:\development\apsim\tracker\lib\tracker.dll
 1 August 1999(Day of year=213), manager: 
      Manager sending message :- lucerne spring
 1 August 1999(Day of year=213), lucerne: 
-      - reading constants for regrowth(lucerne)
       stage 7.0 start_grain_fill
                      biomass =          19.50 (g/m^2)   lai          =   0.013 (m^2/m^2)
                      stover N conc =    85.12 (%)    extractable sw =  191.97 (mm)

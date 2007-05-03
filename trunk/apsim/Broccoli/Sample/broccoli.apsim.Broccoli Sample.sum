@@ -203,9 +203,6 @@ Component   "Broccoli" = c:\development\apsim\plant\lib\plant.dll
      Manager sending message :- broccoli sow  cultivar = greenbelt, plants = 6, sowing_depth = 50 (mm)
 5 April 1998(Day of year=95), Broccoli: 
      Crop Sow
-      - reading constants for plant(Broccoli)
-      - reading cultivar parameters
-      - reading grain cultivar parameters
          ------------------------------------------------
         cultivar                   = greenbelt
      out
@@ -236,7 +233,6 @@ Component   "Broccoli" = c:\development\apsim\plant\lib\plant.dll
          ------------------------------------------------
      
      
-      - reading root profile parameters
                         Root Profile
          -----------------------------------------------
           Layer       Kl           Lower    Exploration

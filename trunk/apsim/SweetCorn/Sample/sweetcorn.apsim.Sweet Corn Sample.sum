@@ -215,12 +215,6 @@ Component  "SweetCorn" = c:\development\apsim\Plant\lib\Plant.dll
 
 ------- SweetCorn Initialisation ----------------------------------------------
      phenology model: Generic
-------- Start of simulation  --------------------------------------------------
-9 December 1998(Day of year=343), manager: 
-     Manager sending message :- sweetcorn sow  cultivar = h5, plants = 6.6, sowing_depth = 50 (mm)
-9 December 1998(Day of year=343), SweetCorn: 
-     Crop Sow
-      - reading constants for plant(sweetcorn)
      !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
                       APSIM Warning Error
                       -------------------
@@ -251,8 +245,41 @@ Component  "SweetCorn" = c:\development\apsim\Plant\lib\Plant.dll
      !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
      
      
-      - reading cultivar parameters
-      - reading grain cultivar parameters
+------- Start of simulation  --------------------------------------------------
+9 December 1998(Day of year=343), manager: 
+     Manager sending message :- sweetcorn sow  cultivar = h5, plants = 6.6, sowing_depth = 50 (mm)
+9 December 1998(Day of year=343), SweetCorn: 
+     Crop Sow
+     !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+                      APSIM Warning Error
+                      -------------------
+     Bound check warning while reading parameter.
+     Variable  : y_leaf_size(6)
+     Condition : 0.00 <= 77439.30856 <= 60000.00
+     Component name: SweetCorn
+     !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+     
+     
+     !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+                      APSIM Warning Error
+                      -------------------
+     Bound check warning while reading parameter.
+     Variable  : y_leaf_size(7)
+     Condition : 0.00 <= 78596.49147 <= 60000.00
+     Component name: SweetCorn
+     !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+     
+     
+     !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+                      APSIM Warning Error
+                      -------------------
+     Bound check warning while reading parameter.
+     Variable  : x_temp_grainfill(3)
+     Condition : 0.00 <= 56.32 <= 40.00
+     Component name: SweetCorn
+     !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+     
+     
          ------------------------------------------------
         cultivar                   = h5
      out
@@ -293,7 +320,6 @@ Component  "SweetCorn" = c:\development\apsim\Plant\lib\Plant.dll
          ------------------------------------------------
      
      
-      - reading root profile parameters
                         Root Profile
          -----------------------------------------------
           Layer       Kl           Lower    Exploration
