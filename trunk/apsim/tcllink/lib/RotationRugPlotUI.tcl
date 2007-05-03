@@ -1,6 +1,8 @@
 # Displays a rug plot of crop rotations
 
 trace remove variable XMLDoc read setXML
+package req Tk
+package req BWidget
 package req tdom
 
 # Get the value of one of our parameters
@@ -79,8 +81,20 @@ proc readIn {w} {
 
    foreach paddock $data(paddocks) {
       lappend data($paddock,timeline) [list $data(latest) end]
+      $data(tree) insert end root $paddock -text "$paddock"
    }
+   foreach {idx colour} [array get data colours,*] {
+      set state [lindex [split $idx ","] 1]
+      image create photo img.$state -width 15 -height 15 
+      img.$state put $colour -to 0 0 15 15
+   }
+   image create photo img.zero -width 15 -height 15 
+   img.zero put red -to 0 0 15 15
+   image create photo img.nonzero -width 15 -height 15 
+   img.nonzero put lightgreen -to 0 0 15 15
 
+   set data(currTime) $data(earliest)
+   set data(currPaddock) [lindex $data(paddocks) 0]
    set message "Finished Reading."; update
    return 1
 }
@@ -101,31 +115,47 @@ proc setupUI {w} {
    grid columnconf $w.f 1 -weight 1
 
    # The rugplot canvas
-   set data(canvas) [canvas $w.p.c]
+   frame $w.p.c
+   set data(canvas) [canvas $w.p.c.c]
+   set data(canvasScrollbar) [scrollbar $w.p.c.sb -orient v -command "scrollRug $w"]
+   grid $w.p.c.c  -row 0 -column 0 -sticky nsew
+   grid $w.p.c.sb -row 0 -column 1 -sticky nsw
+   grid rowconf $w.p.c 0 -weight 1
+   grid columnconf $w.p.c 0 -weight 1
+   grid $w.p.c  -row 0 -column 0 -sticky nsew
 
    # Scrollable text window
    frame $w.p.t
-   set data(text) [text $w.p.t.t -takefocus 0 -font "normal 14" -yscrollcommand "$w.p.t.sb set"]
+   message $w.p.t.m  -textvariable $w\(message\) -aspect 1000 -anchor w
+   set data(tree) [Tree $w.p.t.t -relief flat -borderwidth 0 \
+                     -width 35 -height 15 -highlightthickness 0 \
+                     -yscrollcommand "$w.p.t.sb set"]
    scrollbar $w.p.t.sb -orient v -command "$w.p.t.t yview"
-   grid $w.p.t.t  -row 0 -column 0 -sticky nsew
-   grid $w.p.t.sb -row 0 -column 1 -sticky nsw
-
-   message $w.m  -textvariable $w\(message\) -aspect 1000 -anchor w
+   grid $w.p.t.m  -row 0 -column 0 -sticky ew
+   grid $w.p.t.t  -row 1 -column 0 -sticky nsew
+   grid $w.p.t.sb -row 1 -column 1 -sticky nsw
+   grid rowconf $w.p.t 1 -weight 1
+   grid columnconf $w.p.t 0 -weight 1
+   grid $w.p.t  -row 0 -column 0 -sticky nsew
 
    $w.p add $w.p.c -sticky nsew
-   $w.p add $w.p.t -sticky new
+   $w.p add $w.p.t -sticky nsew
 
    grid $w.f -in $w -row 0 -column 0 -sticky ew
    grid $w.p -in $w -row 1 -column 0 -sticky nsew
-   grid $w.m -in $w -row 2 -column 0 -sticky ew
 
-   bind $w.p.c <Motion> "catch \"canvasMotion $w %x %y\""
-   bind $w.p.c <Button-1>      "+focus %W; catch \"canvasButton $w %x %y\""
-   bind $w.p.c <Key-Up>     "+catch \"canvasUp $w\""
-   bind $w.p.c <Key-Down>   "+catch \"canvasDown $w\""
-   bind $w.p.c <Key-Left>   "+catch \"canvasLeft $w\""
-   bind $w.p.c <Key-Right>  "+catch \"canvasRight $w\""
-   bind $w.p.c <Configure>  "+catch \"draw $w\""
+   grid rowconf $w 1 -weight 1
+   grid columnconf $w 0 -weight 1
+
+#   bind $w.p.c.c <Motion>     "canvasMotion $w %x %y"
+   bind $w.p.c.c <Button-1>   "+focus %W; canvasButton $w %x %y"
+   bind $w.p.c.c <Key-Up>     "canvasUp $w"
+   bind $w.p.c.c <Key-Down>   "canvasDown $w"
+   bind $w.p.c.c <Key-Left>   "canvasLeft $w"
+   bind $w.p.c.c <Key-Right>  "canvasRight $w"
+   bind $w.p.c.c <Configure>  "draw $w"
+
+   bind $w.p.t.t <<TreeSelect>> "treeSelect $w $w.p.t.t"
    
    focus $w.p.c
    return 1
@@ -228,6 +258,40 @@ proc canvasRight {w} {
    showText $w
 }
 
+proc scrollRug {w args} {
+   upvar #0 $w data
+   if {[lindex $args 0] == "moveto"} {
+     set fract [lindex $args 1]
+     set t0 [date2num $data(earliest)]
+     set t1 [date2num $data(latest)]
+     set t [expr $t0 + $fract * ($t1-$t0)]
+     set data(currTime) [num2date $t]     
+   } elseif {[lindex $args 0] == "scroll"} {
+     set num [lindex $args 1]
+     if {[lindex $args 2] == "pages"} {
+        set num [expr $num * 30]
+     }
+     foreach {day year} [split $data(currTime) ","] {break}
+     set day [expr $day + $num]
+     if {$day <= 0} {set day 366; set year [expr $year-1]}
+     if {$day > 366} {set day 1; set year [expr $year+1]}
+     set data(currTime) "$day,$year"
+   }
+   showText $w
+}
+
+proc treeSelect {w t} {
+   upvar #0 $w data
+   set selected [lindex [$t selection get] 0]
+   if {$selected != ""} {
+      while {$selected != "" && [lsearch $data(paddocks) $selected] < 0} {
+         set selected [$data(tree) parent $selected]
+      }
+      if {$selected != ""} {
+         set data(currPaddock) $selected
+      }
+   }  
+}
 # Display the current ruleset in the text window
 proc showText {w} {
    upvar #0 $w data
@@ -235,14 +299,50 @@ proc showText {w} {
    set year [lindex $stime 1]; set day [max [expr [lindex $stime 0]-1] 0]
   
    set dstr [clock format [clock scan "1/1/$year + $day days"] -format "%d-%b-%Y"]
-   $data(text) delete 0.0 end
-   $data(text) insert end "$dstr ($data(currTime))\n"
+   set data(message) "$dstr ($data(currTime))"
+   
+   foreach paddock $data(paddocks) {
+      $data(tree) delete [$data(tree) nodes $paddock]
+   }
+
    if {[info exists data(text,$data(currTime))]} {
-      $data(text) insert end $data(text,$data(currTime))
+      set numEvals 1
+      foreach line [split $data(text,$data(currTime)) "\n"] {
+         set list [split $line ","]
+         if {[llength $list] == 2} { ;# "p1,State is Fallow1. (esw=120)"
+           set paddock [string trim [lindex $list 0]]
+           set msg [string trim [lindex $list 1]]
+           set state [string trimright [lindex $msg 2] "."]
+           $data(tree) insert [expr $numEvals-1] $paddock #auto -text "<$numEvals>$msg" -image img.$state
+         } elseif {[llength $list] == 4} {
+           set paddock [string trim [lindex $list 0]]
+           set target [lindex [split [lindex $list 1] "="] 1]
+           if {![$data(tree) exists $paddock.$target]} {
+              $data(tree) insert end $paddock $paddock.$target -text "$target" -image img.$target
+           }   
+
+           set rule   [lindex [split [lindex $list 2] "="] 1]
+           set value  [lindex [split [lindex $list 3] "="] 1]
+           if {$value != 0} {
+              $data(tree) insert end $paddock.$target #auto -text "<$numEvals>$rule = $value" -image img.nonzero
+           } else {
+              $data(tree) insert end $paddock.$target #auto -text "<$numEvals>$rule = $value" -image img.zero
+           }
+         } elseif {[string match changeState* $line]} {
+           incr numEvals
+         }
+      }
    } 
+   $data(tree) opentree $data(currPaddock)
    
    set paddock [lsearch $data(paddocks) $data(currPaddock)]
    $data(canvas) coords currPos [wtocx $w 0] [wtocy $w $data(currTime)] [wtocx $w [llength $data(paddocks)]] [wtocy $w $data(currTime)] 
+
+   set t [date2num $data(currTime)]
+   set t0 [date2num $data(earliest)]
+   set t1 [date2num $data(latest)]
+   set fract [expr ($t-$t0)/($t1-$t0)]
+   $data(canvasScrollbar) set $fract $fract
 }
 
 # Draw the paddock history
@@ -298,7 +398,7 @@ proc draw {w} {
       $data(canvas) create text [expr 20 + [wtocx $w $x]] $y -text "[lindex $data(paddocks) $x]" -anchor sw
    }
    #Current position
-   $data(canvas) create line [wtocx $w 0] [wtocy $w $data(earliest)] [wtocx $w 1] [wtocy $w $data(earliest)] -fill white -tag currPos
+   $data(canvas) create line [wtocx $w 0] [wtocy $w $data(earliest)] [wtocx $w 1] [wtocy $w $data(earliest)] -fill blue -width 3 -tag currPos
    set data(message) "Finished Drawing. ($data(width)x$data(height))"
 }
 
