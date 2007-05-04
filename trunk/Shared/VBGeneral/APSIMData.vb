@@ -55,6 +55,9 @@ Public Class APSIMData
         data.LoadXml(XMLString)
         InternalNode = data.DocumentElement
     End Sub
+    Public Overloads Function Equals(ByVal rhs As APSIMData) As Boolean
+        Return InternalNode.Equals(rhs.InternalNode)
+    End Function
 
     Public Property PathDelimiter() As String
         ' ---------------------------------------------------
