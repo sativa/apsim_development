@@ -379,7 +379,7 @@ bool ApsimRuns::ApsExec(const char* Command_line,
       Application->ProcessMessages();
 
       // See if we need to kill apsim.
-      if (stopApsim)
+      if (stopApsim)          
          TerminateProcess(ProcessInfo.hProcess, -1);
 
       // Read stdout.

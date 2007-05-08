@@ -220,12 +220,15 @@ void TRunForm::runSimulations()
       ShowMessage(err.what());
       }
 
+
    FinishedLabel->Visible = true;
    NextButton->Visible = false;
    CancelButton->Caption = "Ok";
    CancelButton->Default = true;
    Memo1->ScrollBars = Stdctrls::ssBoth;
    Memo1->Lines->Add(" ");
+   if (!ErrorLabel->Visible)
+      ProgressBar->Position = ProgressBar->Max;
 
 
    if (!pauseOnComplete || !Visible)
@@ -346,12 +349,13 @@ void __fastcall TRunForm::OnStdoutEvent(const string& text)
    while (st.hasMoreTokens())
       {
       string line =  st.nextToken();
-      if (line.find("Date:") != string::npos)
+      unsigned posDayOfYear = line.find("(Day of year=");
+      if (posDayOfYear != string::npos)
          {
-         string DateString = line.substr(5);
-         replaceAll(DateString, " ", "");
-         // 'Date' lines. Update 'indicator' dials
+         string DateString = line.substr(0, posDayOfYear);
          CurrentDateLabel->Caption = DateString.c_str();
+
+         replaceAll(DateString, " ", "/");
          currentDate.Read(DateString.c_str());
          if (ProgressBar->Visible)
             {
