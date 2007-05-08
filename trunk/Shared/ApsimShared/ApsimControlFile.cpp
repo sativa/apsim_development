@@ -640,7 +640,10 @@ int ApsimControlFile::getVersionNumber(const std::string& fileName)
       {
       string version = getKeyValue(line, "version");
       if (version != "")
-         return (int) atof(version.c_str())*10;
+         {
+         float versionNumber = atof(version.c_str());
+         return (int) (versionNumber*10);
+         }
       }
    return 21; // assumes if no version number then it is version 2.1
    }
