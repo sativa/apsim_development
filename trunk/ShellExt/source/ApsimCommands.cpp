@@ -103,15 +103,19 @@ extern "C" _export void __stdcall runFiles(const char* csvFiles)
 //---------------------------------------------------------------------------
 // Convert all files to SIM format.
 //---------------------------------------------------------------------------
-extern "C" _export void __stdcall createSimFiles(const char* csvFiles)
+extern "C" _export void __stdcall createSimFiles(const char* files)
    {
    vector<string> fileNames;
-   Split_string(csvFiles, ",", fileNames);
+   Split_string(files, ",", fileNames);
 
    for (unsigned int file = 0; file != fileNames.size(); file++)
       {
-      string command = "\"" + getApsimDirectory() + "\\bin\\apsrun\" /CreateSIM \"" + fileNames[file] + "\"";
-
+      string command;
+      if (fileNames[file].find(".con") != string::npos)
+         command = "\"" + getApsimDirectory() + "\\bin\\contosim.exe \" \"" + fileNames[file] + "\"";
+      else if (fileNames[file].find(".apsim") != string::npos)
+         command = "\"" + getApsimDirectory() + "\\bin\\apsimtosim.exe \" \"" + fileNames[file] + "\"";
+      
       // run command
       WinExec(command.c_str(), SW_SHOW);
       }
