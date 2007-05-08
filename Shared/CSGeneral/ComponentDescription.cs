@@ -76,25 +76,21 @@ namespace CSGeneral
             MethodInfo mi = moduleBuilder.GetMethod("getDescription");
 
 			// Call the DLL
-            for (int i = 0; i != 30; i++)
-                {
-                StringBuilder description = new StringBuilder(500000);
-                object[] parameters;
-                parameters = new object[] { initScript, description };
+            StringBuilder description = new StringBuilder(500000);
+            object[] parameters;
+            parameters = new object[] { initScript, description };
 
-                mi.Invoke(null, parameters);
+            mi.Invoke(null, parameters);
 
-			    // Transform the xml returned from the dll with our xsl.
-			    StringReader ContentsReader = new StringReader(description.ToString());
-			    XPathDocument XmlData = new XPathDocument(ContentsReader);
-			    StringWriter SWriter = new StringWriter();
-			    XmlTextWriter Writer = new XmlTextWriter(SWriter);
-			    xslt.Transform(XmlData, Writer);
-			    Writer.Close();
-                }
+		    // Transform the xml returned from the dll with our xsl.
+		    StringReader ContentsReader = new StringReader(description.ToString());
+		    XPathDocument XmlData = new XPathDocument(ContentsReader);
+		    StringWriter SWriter = new StringWriter();
+		    XmlTextWriter Writer = new XmlTextWriter(SWriter);
+		    xslt.Transform(XmlData, Writer);
+		    Writer.Close();
 
-            return "";
-//			return SWriter.ToString();
+			return SWriter.ToString();
 			}
 
 
