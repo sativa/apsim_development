@@ -311,6 +311,11 @@ void CContextMenuHandler::createMenus(string& subMenuName,
                                "Run Apsim",
                                "run",
                                &runFiles));
+            menuDescriptions.push_back(
+               MenuDescription("&Convert to SIM",
+                               "Convert the specified control file to a SIM file",
+                               "sim",
+                               &createSimFiles));
             }
 
          }
