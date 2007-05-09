@@ -496,10 +496,10 @@ Public MustInherit Class BaseController
             ParentData.BeginUpdate()
             Dim NewData As New APSIMData("<dummy>" + XML + "</dummy>")
             For Each Child As APSIMData In NewData.Children
-                If (IsNothing(Child.Child("initwater"))) Then
+                If (Child.Type.ToLower() = "soil" AndAlso IsNothing(Child.Child("initwater"))) Then
                     Child.Add(New APSIMData("<InitWater><percentmethod><percent>1</percent><distributed>filled from top</distributed></percentmethod></InitWater>"))
                 End If
-                If (IsNothing(Child.Child("initnitrogen"))) Then
+                If (Child.Type.ToLower() = "soil" AndAlso IsNothing(Child.Child("initnitrogen"))) Then
                     Child.Add(New APSIMData("<InitNitrogen/>"))
                 End If
 
