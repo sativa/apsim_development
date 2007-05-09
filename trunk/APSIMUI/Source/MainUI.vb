@@ -128,6 +128,8 @@ Public Class MainUI
         Dim resources As System.ComponentModel.ComponentResourceManager = New System.ComponentModel.ComponentResourceManager(GetType(MainUI))
         Me.ToolBoxPanel = New System.Windows.Forms.Panel
         Me.ToolBoxToolBarPanel = New System.Windows.Forms.Panel
+        Me.Label6 = New System.Windows.Forms.Label
+        Me.Label5 = New System.Windows.Forms.Label
         Me.ToolboxButtonClose = New System.Windows.Forms.Button
         Me.ToolBoxPanelToolBar = New System.Windows.Forms.ToolBar
         Me.SimulationContainer = New System.Windows.Forms.ToolStripContainer
@@ -141,6 +143,11 @@ Public Class MainUI
         Me.RunPanelSplitter = New System.Windows.Forms.Splitter
         Me.RunPanel = New System.Windows.Forms.Panel
         Me.RunPanelListBox = New System.Windows.Forms.ListBox
+        Me.RunProgressPanel = New System.Windows.Forms.Panel
+        Me.OverallProgressBar = New System.Windows.Forms.ProgressBar
+        Me.Label4 = New System.Windows.Forms.Label
+        Me.Label3 = New System.Windows.Forms.Label
+        Me.CurrentProgressBar = New System.Windows.Forms.ProgressBar
         Me.RunToolBarPanel = New System.Windows.Forms.Panel
         Me.Label2 = New System.Windows.Forms.Label
         Me.RunPanelButtonClose = New System.Windows.Forms.Button
@@ -161,13 +168,6 @@ Public Class MainUI
         Me.GraphButton = New System.Windows.Forms.ToolStripButton
         Me.ApsimOutlookButton = New System.Windows.Forms.ToolStripButton
         Me.ExcelButton = New System.Windows.Forms.ToolStripButton
-        Me.RunProgressPanel = New System.Windows.Forms.Panel
-        Me.CurrentProgressBar = New System.Windows.Forms.ProgressBar
-        Me.Label3 = New System.Windows.Forms.Label
-        Me.Label4 = New System.Windows.Forms.Label
-        Me.OverallProgressBar = New System.Windows.Forms.ProgressBar
-        Me.Label5 = New System.Windows.Forms.Label
-        Me.Label6 = New System.Windows.Forms.Label
         Me.ToolBoxPanel.SuspendLayout()
         Me.ToolBoxToolBarPanel.SuspendLayout()
         Me.SimulationContainer.BottomToolStripPanel.SuspendLayout()
@@ -176,9 +176,9 @@ Public Class MainUI
         Me.SimulationContainer.SuspendLayout()
         Me.ToolBoxesToolStrip.SuspendLayout()
         Me.RunPanel.SuspendLayout()
+        Me.RunProgressPanel.SuspendLayout()
         Me.RunToolBarPanel.SuspendLayout()
         Me.SimulationToolStrip.SuspendLayout()
-        Me.RunProgressPanel.SuspendLayout()
         Me.SuspendLayout()
         '
         'ToolBoxPanel
@@ -203,6 +203,28 @@ Public Class MainUI
         Me.ToolBoxToolBarPanel.Name = "ToolBoxToolBarPanel"
         Me.ToolBoxToolBarPanel.Size = New System.Drawing.Size(718, 24)
         Me.ToolBoxToolBarPanel.TabIndex = 19
+        '
+        'Label6
+        '
+        Me.Label6.AutoSize = True
+        Me.Label6.Font = New System.Drawing.Font("Microsoft Sans Serif", 9.75!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.Label6.ForeColor = System.Drawing.SystemColors.HotTrack
+        Me.Label6.Location = New System.Drawing.Point(3, 3)
+        Me.Label6.Name = "Label6"
+        Me.Label6.Size = New System.Drawing.Size(58, 16)
+        Me.Label6.TabIndex = 22
+        Me.Label6.Text = "Toolbox"
+        '
+        'Label5
+        '
+        Me.Label5.AutoSize = True
+        Me.Label5.Font = New System.Drawing.Font("Microsoft Sans Serif", 9.75!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.Label5.ForeColor = System.Drawing.SystemColors.HotTrack
+        Me.Label5.Location = New System.Drawing.Point(3, 7)
+        Me.Label5.Name = "Label5"
+        Me.Label5.Size = New System.Drawing.Size(58, 16)
+        Me.Label5.TabIndex = 22
+        Me.Label5.Text = "Toolbox"
         '
         'ToolboxButtonClose
         '
@@ -332,7 +354,7 @@ Public Class MainUI
         Me.Label1.ForeColor = System.Drawing.SystemColors.ActiveCaption
         Me.Label1.Location = New System.Drawing.Point(0, 26)
         Me.Label1.Name = "Label1"
-        Me.Label1.Size = New System.Drawing.Size(587, 23)
+        Me.Label1.Size = New System.Drawing.Size(570, 23)
         Me.Label1.TabIndex = 26
         Me.Label1.Text = "  APSIM Quick Start Menu"
         Me.Label1.TextAlign = System.Drawing.ContentAlignment.MiddleLeft
@@ -369,6 +391,54 @@ Public Class MainUI
         Me.RunPanelListBox.Name = "RunPanelListBox"
         Me.RunPanelListBox.Size = New System.Drawing.Size(718, 78)
         Me.RunPanelListBox.TabIndex = 21
+        '
+        'RunProgressPanel
+        '
+        Me.RunProgressPanel.BackColor = System.Drawing.Color.AntiqueWhite
+        Me.RunProgressPanel.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle
+        Me.RunProgressPanel.Controls.Add(Me.OverallProgressBar)
+        Me.RunProgressPanel.Controls.Add(Me.Label4)
+        Me.RunProgressPanel.Controls.Add(Me.Label3)
+        Me.RunProgressPanel.Controls.Add(Me.CurrentProgressBar)
+        Me.RunProgressPanel.Dock = System.Windows.Forms.DockStyle.Top
+        Me.RunProgressPanel.Location = New System.Drawing.Point(0, 24)
+        Me.RunProgressPanel.Name = "RunProgressPanel"
+        Me.RunProgressPanel.Size = New System.Drawing.Size(718, 31)
+        Me.RunProgressPanel.TabIndex = 22
+        '
+        'OverallProgressBar
+        '
+        Me.OverallProgressBar.Location = New System.Drawing.Point(462, 2)
+        Me.OverallProgressBar.Name = "OverallProgressBar"
+        Me.OverallProgressBar.Size = New System.Drawing.Size(183, 23)
+        Me.OverallProgressBar.TabIndex = 3
+        '
+        'Label4
+        '
+        Me.Label4.AutoSize = True
+        Me.Label4.Location = New System.Drawing.Point(370, 6)
+        Me.Label4.Name = "Label4"
+        Me.Label4.Size = New System.Drawing.Size(86, 13)
+        Me.Label4.TabIndex = 2
+        Me.Label4.Text = "Overall progress:"
+        Me.Label4.TextAlign = System.Drawing.ContentAlignment.MiddleRight
+        '
+        'Label3
+        '
+        Me.Label3.AutoSize = True
+        Me.Label3.Location = New System.Drawing.Point(18, 8)
+        Me.Label3.Name = "Label3"
+        Me.Label3.Size = New System.Drawing.Size(136, 13)
+        Me.Label3.TabIndex = 1
+        Me.Label3.Text = "Current simulation progress:"
+        Me.Label3.TextAlign = System.Drawing.ContentAlignment.MiddleRight
+        '
+        'CurrentProgressBar
+        '
+        Me.CurrentProgressBar.Location = New System.Drawing.Point(171, 3)
+        Me.CurrentProgressBar.Name = "CurrentProgressBar"
+        Me.CurrentProgressBar.Size = New System.Drawing.Size(183, 23)
+        Me.CurrentProgressBar.TabIndex = 0
         '
         'RunToolBarPanel
         '
@@ -564,76 +634,6 @@ Public Class MainUI
         Me.ExcelButton.Text = "E&xcel"
         Me.ExcelButton.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageAboveText
         '
-        'RunProgressPanel
-        '
-        Me.RunProgressPanel.BackColor = System.Drawing.Color.AntiqueWhite
-        Me.RunProgressPanel.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle
-        Me.RunProgressPanel.Controls.Add(Me.OverallProgressBar)
-        Me.RunProgressPanel.Controls.Add(Me.Label4)
-        Me.RunProgressPanel.Controls.Add(Me.Label3)
-        Me.RunProgressPanel.Controls.Add(Me.CurrentProgressBar)
-        Me.RunProgressPanel.Dock = System.Windows.Forms.DockStyle.Top
-        Me.RunProgressPanel.Location = New System.Drawing.Point(0, 24)
-        Me.RunProgressPanel.Name = "RunProgressPanel"
-        Me.RunProgressPanel.Size = New System.Drawing.Size(718, 31)
-        Me.RunProgressPanel.TabIndex = 22
-        '
-        'CurrentProgressBar
-        '
-        Me.CurrentProgressBar.Location = New System.Drawing.Point(171, 3)
-        Me.CurrentProgressBar.Name = "CurrentProgressBar"
-        Me.CurrentProgressBar.Size = New System.Drawing.Size(183, 23)
-        Me.CurrentProgressBar.TabIndex = 0
-        '
-        'Label3
-        '
-        Me.Label3.AutoSize = True
-        Me.Label3.Location = New System.Drawing.Point(18, 8)
-        Me.Label3.Name = "Label3"
-        Me.Label3.Size = New System.Drawing.Size(136, 13)
-        Me.Label3.TabIndex = 1
-        Me.Label3.Text = "Current simulation progress:"
-        Me.Label3.TextAlign = System.Drawing.ContentAlignment.MiddleRight
-        '
-        'Label4
-        '
-        Me.Label4.AutoSize = True
-        Me.Label4.Location = New System.Drawing.Point(370, 6)
-        Me.Label4.Name = "Label4"
-        Me.Label4.Size = New System.Drawing.Size(86, 13)
-        Me.Label4.TabIndex = 2
-        Me.Label4.Text = "Overall progress:"
-        Me.Label4.TextAlign = System.Drawing.ContentAlignment.MiddleRight
-        '
-        'OverallProgressBar
-        '
-        Me.OverallProgressBar.Location = New System.Drawing.Point(462, 2)
-        Me.OverallProgressBar.Name = "OverallProgressBar"
-        Me.OverallProgressBar.Size = New System.Drawing.Size(183, 23)
-        Me.OverallProgressBar.TabIndex = 3
-        '
-        'Label5
-        '
-        Me.Label5.AutoSize = True
-        Me.Label5.Font = New System.Drawing.Font("Microsoft Sans Serif", 9.75!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.Label5.ForeColor = System.Drawing.SystemColors.HotTrack
-        Me.Label5.Location = New System.Drawing.Point(3, 7)
-        Me.Label5.Name = "Label5"
-        Me.Label5.Size = New System.Drawing.Size(58, 16)
-        Me.Label5.TabIndex = 22
-        Me.Label5.Text = "Toolbox"
-        '
-        'Label6
-        '
-        Me.Label6.AutoSize = True
-        Me.Label6.Font = New System.Drawing.Font("Microsoft Sans Serif", 9.75!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.Label6.ForeColor = System.Drawing.SystemColors.HotTrack
-        Me.Label6.Location = New System.Drawing.Point(3, 3)
-        Me.Label6.Name = "Label6"
-        Me.Label6.Size = New System.Drawing.Size(58, 16)
-        Me.Label6.TabIndex = 22
-        Me.Label6.Text = "Toolbox"
-        '
         'MainUI
         '
         Me.AutoScaleBaseSize = New System.Drawing.Size(5, 13)
@@ -657,12 +657,12 @@ Public Class MainUI
         Me.ToolBoxesToolStrip.ResumeLayout(False)
         Me.ToolBoxesToolStrip.PerformLayout()
         Me.RunPanel.ResumeLayout(False)
+        Me.RunProgressPanel.ResumeLayout(False)
+        Me.RunProgressPanel.PerformLayout()
         Me.RunToolBarPanel.ResumeLayout(False)
         Me.RunToolBarPanel.PerformLayout()
         Me.SimulationToolStrip.ResumeLayout(False)
         Me.SimulationToolStrip.PerformLayout()
-        Me.RunProgressPanel.ResumeLayout(False)
-        Me.RunProgressPanel.PerformLayout()
         Me.ResumeLayout(False)
 
     End Sub
