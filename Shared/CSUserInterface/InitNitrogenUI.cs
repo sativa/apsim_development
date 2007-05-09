@@ -59,6 +59,7 @@ namespace CSUserInterface
 		/// </summary>
 		private void InitializeComponent()
 		{
+        System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(InitNitrogenUI));
         FarPoint.Win.Spread.TipAppearance tipAppearance1 = new FarPoint.Win.Spread.TipAppearance();
         FarPoint.Win.Spread.CellType.NumberCellType numberCellType1 = new FarPoint.Win.Spread.CellType.NumberCellType();
         FarPoint.Win.Spread.CellType.NumberCellType numberCellType2 = new FarPoint.Win.Spread.CellType.NumberCellType();
@@ -74,12 +75,12 @@ namespace CSUserInterface
         this.Grid = new FarPoint.Win.Spread.FpSpread();
         this.NitrogenGrid = new FarPoint.Win.Spread.SheetView();
         this.panel3 = new System.Windows.Forms.Panel();
-        this.label1 = new System.Windows.Forms.Label();
-        this.label2 = new System.Windows.Forms.Label();
-        this.TotalNO3 = new System.Windows.Forms.TextBox();
-        this.label3 = new System.Windows.Forms.Label();
         this.label4 = new System.Windows.Forms.Label();
         this.TotalNH4 = new System.Windows.Forms.TextBox();
+        this.label3 = new System.Windows.Forms.Label();
+        this.TotalNO3 = new System.Windows.Forms.TextBox();
+        this.label2 = new System.Windows.Forms.Label();
+        this.label1 = new System.Windows.Forms.Label();
         this.panel1.SuspendLayout();
         this.LeftHandPanel.SuspendLayout();
         ((System.ComponentModel.ISupportInitialize)(this.Grid)).BeginInit();
@@ -810,7 +811,7 @@ namespace CSUserInterface
         this.NitrogenGrid.Columns.Get(0).BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(224)))), ((int)(((byte)(224)))), ((int)(((byte)(224)))));
         this.NitrogenGrid.Columns.Get(0).HorizontalAlignment = FarPoint.Win.Spread.CellHorizontalAlignment.Right;
         this.NitrogenGrid.Columns.Get(0).Label = "(cm)";
-        this.NitrogenGrid.Columns.Get(0).Locked = false;
+        this.NitrogenGrid.Columns.Get(0).Locked = true;
         numberCellType1.DecimalPlaces = 3;
         this.NitrogenGrid.Columns.Get(1).CellType = numberCellType1;
         this.NitrogenGrid.Columns.Get(1).HorizontalAlignment = FarPoint.Win.Spread.CellHorizontalAlignment.Right;
@@ -847,41 +848,6 @@ namespace CSUserInterface
         this.panel3.Size = new System.Drawing.Size(322, 68);
         this.panel3.TabIndex = 38;
         // 
-        // label1
-        // 
-        this.label1.AutoSize = true;
-        this.label1.Location = new System.Drawing.Point(17, 18);
-        this.label1.Name = "label1";
-        this.label1.Size = new System.Drawing.Size(59, 13);
-        this.label1.TabIndex = 0;
-        this.label1.Text = "Total NO3:";
-        // 
-        // label2
-        // 
-        this.label2.AutoSize = true;
-        this.label2.Location = new System.Drawing.Point(157, 18);
-        this.label2.Name = "label2";
-        this.label2.Size = new System.Drawing.Size(59, 13);
-        this.label2.TabIndex = 1;
-        this.label2.Text = "Total NH4:";
-        // 
-        // TotalNO3
-        // 
-        this.TotalNO3.Location = new System.Drawing.Point(20, 34);
-        this.TotalNO3.Name = "TotalNO3";
-        this.TotalNO3.Size = new System.Drawing.Size(56, 20);
-        this.TotalNO3.TabIndex = 2;
-        this.TotalNO3.TextChanged += new System.EventHandler(this.TotalNO3_TextChanged);
-        // 
-        // label3
-        // 
-        this.label3.AutoSize = true;
-        this.label3.Location = new System.Drawing.Point(82, 37);
-        this.label3.Name = "label3";
-        this.label3.Size = new System.Drawing.Size(36, 13);
-        this.label3.TabIndex = 3;
-        this.label3.Text = "kg/ha";
-        // 
         // label4
         // 
         this.label4.AutoSize = true;
@@ -898,6 +864,41 @@ namespace CSUserInterface
         this.TotalNH4.Size = new System.Drawing.Size(56, 20);
         this.TotalNH4.TabIndex = 4;
         this.TotalNH4.TextChanged += new System.EventHandler(this.TotalNH4_TextChanged);
+        // 
+        // label3
+        // 
+        this.label3.AutoSize = true;
+        this.label3.Location = new System.Drawing.Point(82, 37);
+        this.label3.Name = "label3";
+        this.label3.Size = new System.Drawing.Size(36, 13);
+        this.label3.TabIndex = 3;
+        this.label3.Text = "kg/ha";
+        // 
+        // TotalNO3
+        // 
+        this.TotalNO3.Location = new System.Drawing.Point(20, 34);
+        this.TotalNO3.Name = "TotalNO3";
+        this.TotalNO3.Size = new System.Drawing.Size(56, 20);
+        this.TotalNO3.TabIndex = 2;
+        this.TotalNO3.TextChanged += new System.EventHandler(this.TotalNO3_TextChanged);
+        // 
+        // label2
+        // 
+        this.label2.AutoSize = true;
+        this.label2.Location = new System.Drawing.Point(157, 18);
+        this.label2.Name = "label2";
+        this.label2.Size = new System.Drawing.Size(59, 13);
+        this.label2.TabIndex = 1;
+        this.label2.Text = "Total NH4:";
+        // 
+        // label1
+        // 
+        this.label1.AutoSize = true;
+        this.label1.Location = new System.Drawing.Point(17, 18);
+        this.label1.Name = "label1";
+        this.label1.Size = new System.Drawing.Size(59, 13);
+        this.label1.TabIndex = 0;
+        this.label1.Text = "Total NO3:";
         // 
         // InitNitrogenUI
         // 
@@ -931,8 +932,8 @@ namespace CSUserInterface
 							FarPoint.Win.Spread.SpreadActions.ClipboardCut); 
 			InputMap.Put(new FarPoint.Win.Spread.Keystroke(Keys.Enter, Keys.None), 
 							FarPoint.Win.Spread.SpreadActions.MoveToNextRow);
-
             PopulateEditBoxes(); // this will then cause TextChanged events on the edit boxes.
+            PopulateGrid();
 			}
 
         private void PopulateEditBoxes()
@@ -944,6 +945,7 @@ namespace CSUserInterface
 		private void PopulateGrid()
 			{
 			UserChange = false;
+            NitrogenGrid.ClearRange(0, 0, NitrogenGrid.RowCount, NitrogenGrid.ColumnCount, true);
             GridUtils.SetColumnAsStrings(NitrogenGrid, 0, Soils.Utility.ToDepthStrings(InitialNitrogen.Thickness));
 			GridUtils.SetColumnAsDoubles(NitrogenGrid, 1, InitialNitrogen.NO3KgHa);
 			GridUtils.SetColumnAsDoubles(NitrogenGrid, 2, InitialNitrogen.NH4KgHa);

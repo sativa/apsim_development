@@ -19,7 +19,24 @@ namespace Soils
             // -----------
             ParentSoil = new Soil(data.Parent);
             Data = data;
-			}
+
+            // Ensure this component has valid thickness, no3 and nh4 values - always.
+            Thickness = ParentSoil.Thickness;
+            double[] no3 = NO3;
+            for (int i = 0; i != no3.Length; i++)
+                {
+                if (no3[i] == MathUtility.MissingValue)
+                    no3[i] = 0.1;
+                }
+            NO3 = no3;
+            double[] nh4 = NH4;
+            for (int i = 0; i != nh4.Length; i++)
+                {
+                if (nh4[i] == MathUtility.MissingValue)
+                    nh4[i] = 0.1;
+                }
+            NH4 = nh4;
+            }
         public double[] Thickness
             {
             get { return Utility.getLayered(Data, "profile", "thickness", ""); }
