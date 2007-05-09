@@ -506,6 +506,12 @@ void Component::error(const FString& msg, bool isFatal)
 
    writeString(cMessage);
 
+   if (isFatal)
+      {
+      cerr << asString(msg) << endl;
+      cerr << "Component name: " << name;
+      }
+      
    // create and send a message.
    Message* errorMessage = newPublishEventMessage(componentID,
                                                   parentID,

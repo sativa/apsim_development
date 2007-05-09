@@ -27,6 +27,12 @@ Public Class MainUI
     Private SimulationExplorer As ExplorerUI
     Private ToolboxExplorer As ExplorerUI
     Private CurrentRunningSimulationIndex As Integer
+    Private ApsimProcess As ProcessCaller
+    Private SimFileName As String
+    Private CurrentSummaryFile As StreamWriter = Nothing
+    Private CurrentStartDate As Date
+    Private CurrentEndDate As Date
+    Private CurrentErrors As New StringCollection
     Private Delegate Sub UpdateItemInRunBoxCallBack(ByVal St As String)
 
     Friend WithEvents SimulationContainer As System.Windows.Forms.ToolStripContainer
@@ -60,6 +66,13 @@ Public Class MainUI
     Friend WithEvents ToolStripSeparator1 As System.Windows.Forms.ToolStripSeparator
     Friend WithEvents RunButton As System.Windows.Forms.ToolStripDropDownButton
     Friend WithEvents RunAllSimulationsMenuItem As System.Windows.Forms.ToolStripMenuItem
+    Friend WithEvents RunProgressPanel As System.Windows.Forms.Panel
+    Friend WithEvents OverallProgressBar As System.Windows.Forms.ProgressBar
+    Friend WithEvents Label4 As System.Windows.Forms.Label
+    Friend WithEvents Label3 As System.Windows.Forms.Label
+    Friend WithEvents CurrentProgressBar As System.Windows.Forms.ProgressBar
+    Friend WithEvents Label5 As System.Windows.Forms.Label
+    Friend WithEvents Label6 As System.Windows.Forms.Label
     Friend WithEvents RunCurrentSimulationMenuItem As System.Windows.Forms.ToolStripMenuItem
 
 
@@ -141,13 +154,20 @@ Public Class MainUI
         Me.HelpContentsButton = New System.Windows.Forms.ToolStripButton
         Me.ToolStripSeparator5 = New System.Windows.Forms.ToolStripSeparator
         Me.RunButton = New System.Windows.Forms.ToolStripDropDownButton
-        Me.RunAllSimulationsMenuItem = New System.Windows.Forms.ToolStripMenuItem
         Me.RunCurrentSimulationMenuItem = New System.Windows.Forms.ToolStripMenuItem
+        Me.RunAllSimulationsMenuItem = New System.Windows.Forms.ToolStripMenuItem
         Me.StopButton = New System.Windows.Forms.ToolStripButton
         Me.ToolStripSeparator1 = New System.Windows.Forms.ToolStripSeparator
         Me.GraphButton = New System.Windows.Forms.ToolStripButton
         Me.ApsimOutlookButton = New System.Windows.Forms.ToolStripButton
         Me.ExcelButton = New System.Windows.Forms.ToolStripButton
+        Me.RunProgressPanel = New System.Windows.Forms.Panel
+        Me.CurrentProgressBar = New System.Windows.Forms.ProgressBar
+        Me.Label3 = New System.Windows.Forms.Label
+        Me.Label4 = New System.Windows.Forms.Label
+        Me.OverallProgressBar = New System.Windows.Forms.ProgressBar
+        Me.Label5 = New System.Windows.Forms.Label
+        Me.Label6 = New System.Windows.Forms.Label
         Me.ToolBoxPanel.SuspendLayout()
         Me.ToolBoxToolBarPanel.SuspendLayout()
         Me.SimulationContainer.BottomToolStripPanel.SuspendLayout()
@@ -158,27 +178,30 @@ Public Class MainUI
         Me.RunPanel.SuspendLayout()
         Me.RunToolBarPanel.SuspendLayout()
         Me.SimulationToolStrip.SuspendLayout()
+        Me.RunProgressPanel.SuspendLayout()
         Me.SuspendLayout()
         '
         'ToolBoxPanel
         '
         Me.ToolBoxPanel.Controls.Add(Me.ToolBoxToolBarPanel)
         Me.ToolBoxPanel.Dock = System.Windows.Forms.DockStyle.Bottom
-        Me.ToolBoxPanel.Location = New System.Drawing.Point(0, 410)
+        Me.ToolBoxPanel.Location = New System.Drawing.Point(0, 434)
         Me.ToolBoxPanel.Name = "ToolBoxPanel"
-        Me.ToolBoxPanel.Size = New System.Drawing.Size(716, 104)
+        Me.ToolBoxPanel.Size = New System.Drawing.Size(718, 104)
         Me.ToolBoxPanel.TabIndex = 12
         Me.ToolBoxPanel.Visible = False
         '
         'ToolBoxToolBarPanel
         '
-        Me.ToolBoxToolBarPanel.BackColor = System.Drawing.Color.LightSteelBlue
+        Me.ToolBoxToolBarPanel.BackColor = System.Drawing.Color.SkyBlue
+        Me.ToolBoxToolBarPanel.Controls.Add(Me.Label6)
+        Me.ToolBoxToolBarPanel.Controls.Add(Me.Label5)
         Me.ToolBoxToolBarPanel.Controls.Add(Me.ToolboxButtonClose)
         Me.ToolBoxToolBarPanel.Controls.Add(Me.ToolBoxPanelToolBar)
         Me.ToolBoxToolBarPanel.Dock = System.Windows.Forms.DockStyle.Top
         Me.ToolBoxToolBarPanel.Location = New System.Drawing.Point(0, 0)
         Me.ToolBoxToolBarPanel.Name = "ToolBoxToolBarPanel"
-        Me.ToolBoxToolBarPanel.Size = New System.Drawing.Size(716, 32)
+        Me.ToolBoxToolBarPanel.Size = New System.Drawing.Size(718, 24)
         Me.ToolBoxToolBarPanel.TabIndex = 19
         '
         'ToolboxButtonClose
@@ -187,7 +210,7 @@ Public Class MainUI
         Me.ToolboxButtonClose.BackColor = System.Drawing.Color.Transparent
         Me.ToolboxButtonClose.BackgroundImage = CType(resources.GetObject("ToolboxButtonClose.BackgroundImage"), System.Drawing.Image)
         Me.ToolboxButtonClose.FlatStyle = System.Windows.Forms.FlatStyle.Flat
-        Me.ToolboxButtonClose.Location = New System.Drawing.Point(687, 3)
+        Me.ToolboxButtonClose.Location = New System.Drawing.Point(689, -1)
         Me.ToolboxButtonClose.Name = "ToolboxButtonClose"
         Me.ToolboxButtonClose.Size = New System.Drawing.Size(24, 24)
         Me.ToolboxButtonClose.TabIndex = 20
@@ -203,7 +226,7 @@ Public Class MainUI
         Me.ToolBoxPanelToolBar.Location = New System.Drawing.Point(0, 0)
         Me.ToolBoxPanelToolBar.Name = "ToolBoxPanelToolBar"
         Me.ToolBoxPanelToolBar.ShowToolTips = True
-        Me.ToolBoxPanelToolBar.Size = New System.Drawing.Size(716, 26)
+        Me.ToolBoxPanelToolBar.Size = New System.Drawing.Size(718, 26)
         Me.ToolBoxPanelToolBar.TabIndex = 17
         Me.ToolBoxPanelToolBar.TextAlign = System.Windows.Forms.ToolBarTextAlign.Right
         '
@@ -244,7 +267,7 @@ Public Class MainUI
         Me.ToolBoxesToolStrip.Items.AddRange(New System.Windows.Forms.ToolStripItem() {Me.ManageToolboxesButton, Me.ToolStripSeparator2})
         Me.ToolBoxesToolStrip.Location = New System.Drawing.Point(3, 0)
         Me.ToolBoxesToolStrip.Name = "ToolBoxesToolStrip"
-        Me.ToolBoxesToolStrip.Size = New System.Drawing.Size(99, 31)
+        Me.ToolBoxesToolStrip.Size = New System.Drawing.Size(96, 31)
         Me.ToolBoxesToolStrip.TabIndex = 2
         '
         'ManageToolboxesButton
@@ -253,7 +276,7 @@ Public Class MainUI
         Me.ManageToolboxesButton.ImageScaling = System.Windows.Forms.ToolStripItemImageScaling.None
         Me.ManageToolboxesButton.ImageTransparentColor = System.Drawing.Color.Magenta
         Me.ManageToolboxesButton.Name = "ManageToolboxesButton"
-        Me.ManageToolboxesButton.Size = New System.Drawing.Size(81, 28)
+        Me.ManageToolboxesButton.Size = New System.Drawing.Size(78, 28)
         Me.ManageToolboxesButton.Text = "&Manage"
         '
         'ToolStripSeparator2
@@ -309,7 +332,7 @@ Public Class MainUI
         Me.Label1.ForeColor = System.Drawing.SystemColors.ActiveCaption
         Me.Label1.Location = New System.Drawing.Point(0, 26)
         Me.Label1.Name = "Label1"
-        Me.Label1.Size = New System.Drawing.Size(621, 23)
+        Me.Label1.Size = New System.Drawing.Size(587, 23)
         Me.Label1.TabIndex = 26
         Me.Label1.Text = "  APSIM Quick Start Menu"
         Me.Label1.TextAlign = System.Drawing.ContentAlignment.MiddleLeft
@@ -319,7 +342,7 @@ Public Class MainUI
         Me.RunPanelSplitter.Dock = System.Windows.Forms.DockStyle.Bottom
         Me.RunPanelSplitter.Location = New System.Drawing.Point(0, 292)
         Me.RunPanelSplitter.Name = "RunPanelSplitter"
-        Me.RunPanelSplitter.Size = New System.Drawing.Size(716, 3)
+        Me.RunPanelSplitter.Size = New System.Drawing.Size(718, 3)
         Me.RunPanelSplitter.TabIndex = 34
         Me.RunPanelSplitter.TabStop = False
         Me.RunPanelSplitter.Visible = False
@@ -327,44 +350,46 @@ Public Class MainUI
         'RunPanel
         '
         Me.RunPanel.Controls.Add(Me.RunPanelListBox)
+        Me.RunPanel.Controls.Add(Me.RunProgressPanel)
         Me.RunPanel.Controls.Add(Me.RunToolBarPanel)
         Me.RunPanel.Dock = System.Windows.Forms.DockStyle.Bottom
         Me.RunPanel.Location = New System.Drawing.Point(0, 295)
         Me.RunPanel.Name = "RunPanel"
-        Me.RunPanel.Size = New System.Drawing.Size(716, 112)
+        Me.RunPanel.Size = New System.Drawing.Size(718, 136)
         Me.RunPanel.TabIndex = 33
         Me.RunPanel.Visible = False
         '
         'RunPanelListBox
         '
+        Me.RunPanelListBox.BackColor = System.Drawing.SystemColors.Window
         Me.RunPanelListBox.BorderStyle = System.Windows.Forms.BorderStyle.None
         Me.RunPanelListBox.Dock = System.Windows.Forms.DockStyle.Fill
         Me.RunPanelListBox.FormattingEnabled = True
-        Me.RunPanelListBox.Location = New System.Drawing.Point(0, 32)
+        Me.RunPanelListBox.Location = New System.Drawing.Point(0, 55)
         Me.RunPanelListBox.Name = "RunPanelListBox"
-        Me.RunPanelListBox.Size = New System.Drawing.Size(716, 78)
+        Me.RunPanelListBox.Size = New System.Drawing.Size(718, 78)
         Me.RunPanelListBox.TabIndex = 21
         '
         'RunToolBarPanel
         '
-        Me.RunToolBarPanel.BackColor = System.Drawing.Color.LightSteelBlue
+        Me.RunToolBarPanel.BackColor = System.Drawing.Color.SkyBlue
         Me.RunToolBarPanel.Controls.Add(Me.Label2)
         Me.RunToolBarPanel.Controls.Add(Me.RunPanelButtonClose)
         Me.RunToolBarPanel.Controls.Add(Me.RunPanelToolBar)
         Me.RunToolBarPanel.Dock = System.Windows.Forms.DockStyle.Top
         Me.RunToolBarPanel.Location = New System.Drawing.Point(0, 0)
         Me.RunToolBarPanel.Name = "RunToolBarPanel"
-        Me.RunToolBarPanel.Size = New System.Drawing.Size(716, 32)
+        Me.RunToolBarPanel.Size = New System.Drawing.Size(718, 24)
         Me.RunToolBarPanel.TabIndex = 20
         '
         'Label2
         '
         Me.Label2.AutoSize = True
-        Me.Label2.Font = New System.Drawing.Font("Microsoft Sans Serif", 9.75!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.Label2.ForeColor = System.Drawing.SystemColors.ActiveCaption
-        Me.Label2.Location = New System.Drawing.Point(9, 9)
+        Me.Label2.Font = New System.Drawing.Font("Microsoft Sans Serif", 9.75!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.Label2.ForeColor = System.Drawing.SystemColors.HotTrack
+        Me.Label2.Location = New System.Drawing.Point(3, 4)
         Me.Label2.Name = "Label2"
-        Me.Label2.Size = New System.Drawing.Size(89, 16)
+        Me.Label2.Size = New System.Drawing.Size(79, 16)
         Me.Label2.TabIndex = 21
         Me.Label2.Text = "Run window"
         '
@@ -374,7 +399,7 @@ Public Class MainUI
         Me.RunPanelButtonClose.BackColor = System.Drawing.Color.Transparent
         Me.RunPanelButtonClose.BackgroundImage = CType(resources.GetObject("RunPanelButtonClose.BackgroundImage"), System.Drawing.Image)
         Me.RunPanelButtonClose.FlatStyle = System.Windows.Forms.FlatStyle.Flat
-        Me.RunPanelButtonClose.Location = New System.Drawing.Point(687, 3)
+        Me.RunPanelButtonClose.Location = New System.Drawing.Point(689, 0)
         Me.RunPanelButtonClose.Name = "RunPanelButtonClose"
         Me.RunPanelButtonClose.Size = New System.Drawing.Size(24, 24)
         Me.RunPanelButtonClose.TabIndex = 20
@@ -390,16 +415,16 @@ Public Class MainUI
         Me.RunPanelToolBar.Location = New System.Drawing.Point(0, 0)
         Me.RunPanelToolBar.Name = "RunPanelToolBar"
         Me.RunPanelToolBar.ShowToolTips = True
-        Me.RunPanelToolBar.Size = New System.Drawing.Size(716, 26)
+        Me.RunPanelToolBar.Size = New System.Drawing.Size(718, 26)
         Me.RunPanelToolBar.TabIndex = 17
         Me.RunPanelToolBar.TextAlign = System.Windows.Forms.ToolBarTextAlign.Right
         '
         'ToolboxSplitter
         '
         Me.ToolboxSplitter.Dock = System.Windows.Forms.DockStyle.Bottom
-        Me.ToolboxSplitter.Location = New System.Drawing.Point(0, 407)
+        Me.ToolboxSplitter.Location = New System.Drawing.Point(0, 431)
         Me.ToolboxSplitter.Name = "ToolboxSplitter"
-        Me.ToolboxSplitter.Size = New System.Drawing.Size(716, 3)
+        Me.ToolboxSplitter.Size = New System.Drawing.Size(718, 3)
         Me.ToolboxSplitter.TabIndex = 25
         Me.ToolboxSplitter.TabStop = False
         Me.ToolboxSplitter.Visible = False
@@ -410,7 +435,7 @@ Public Class MainUI
         Me.SimulationToolStrip.Items.AddRange(New System.Windows.Forms.ToolStripItem() {Me.NewButton, Me.OpenButton, Me.SaveButton, Me.SaveAsButton, Me.HelpContentsButton, Me.ToolStripSeparator5, Me.RunButton, Me.StopButton, Me.ToolStripSeparator1, Me.GraphButton, Me.ApsimOutlookButton, Me.ExcelButton})
         Me.SimulationToolStrip.Location = New System.Drawing.Point(3, 0)
         Me.SimulationToolStrip.Name = "SimulationToolStrip"
-        Me.SimulationToolStrip.Size = New System.Drawing.Size(602, 47)
+        Me.SimulationToolStrip.Size = New System.Drawing.Size(565, 47)
         Me.SimulationToolStrip.TabIndex = 1
         '
         'NewButton
@@ -419,7 +444,7 @@ Public Class MainUI
         Me.NewButton.ImageScaling = System.Windows.Forms.ToolStripItemImageScaling.None
         Me.NewButton.ImageTransparentColor = System.Drawing.Color.Magenta
         Me.NewButton.Name = "NewButton"
-        Me.NewButton.Size = New System.Drawing.Size(49, 44)
+        Me.NewButton.Size = New System.Drawing.Size(44, 44)
         Me.NewButton.Text = "&New..."
         Me.NewButton.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageAboveText
         '
@@ -429,7 +454,7 @@ Public Class MainUI
         Me.OpenButton.ImageScaling = System.Windows.Forms.ToolStripItemImageScaling.None
         Me.OpenButton.ImageTransparentColor = System.Drawing.Color.Magenta
         Me.OpenButton.Name = "OpenButton"
-        Me.OpenButton.Size = New System.Drawing.Size(66, 44)
+        Me.OpenButton.Size = New System.Drawing.Size(61, 44)
         Me.OpenButton.Text = "&Open..."
         Me.OpenButton.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageAboveText
         '
@@ -439,7 +464,7 @@ Public Class MainUI
         Me.SaveButton.ImageScaling = System.Windows.Forms.ToolStripItemImageScaling.None
         Me.SaveButton.ImageTransparentColor = System.Drawing.Color.Magenta
         Me.SaveButton.Name = "SaveButton"
-        Me.SaveButton.Size = New System.Drawing.Size(40, 44)
+        Me.SaveButton.Size = New System.Drawing.Size(35, 44)
         Me.SaveButton.Text = "&Save"
         Me.SaveButton.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageAboveText
         '
@@ -449,7 +474,7 @@ Public Class MainUI
         Me.SaveAsButton.ImageScaling = System.Windows.Forms.ToolStripItemImageScaling.None
         Me.SaveAsButton.ImageTransparentColor = System.Drawing.Color.Magenta
         Me.SaveAsButton.Name = "SaveAsButton"
-        Me.SaveAsButton.Size = New System.Drawing.Size(69, 44)
+        Me.SaveAsButton.Size = New System.Drawing.Size(58, 44)
         Me.SaveAsButton.Text = "Save &as..."
         Me.SaveAsButton.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageAboveText
         '
@@ -459,7 +484,7 @@ Public Class MainUI
         Me.HelpContentsButton.ImageScaling = System.Windows.Forms.ToolStripItemImageScaling.None
         Me.HelpContentsButton.ImageTransparentColor = System.Drawing.Color.Magenta
         Me.HelpContentsButton.Name = "HelpContentsButton"
-        Me.HelpContentsButton.Size = New System.Drawing.Size(37, 44)
+        Me.HelpContentsButton.Size = New System.Drawing.Size(36, 44)
         Me.HelpContentsButton.Text = "&Help"
         Me.HelpContentsButton.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageAboveText
         '
@@ -480,17 +505,17 @@ Public Class MainUI
         Me.RunButton.Text = "&Run"
         Me.RunButton.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageAboveText
         '
-        'RunAllSimulationsMenuItem
-        '
-        Me.RunAllSimulationsMenuItem.Name = "RunAllSimulationsMenuItem"
-        Me.RunAllSimulationsMenuItem.Size = New System.Drawing.Size(234, 22)
-        Me.RunAllSimulationsMenuItem.Text = "Run all simulations"
-        '
         'RunCurrentSimulationMenuItem
         '
         Me.RunCurrentSimulationMenuItem.Name = "RunCurrentSimulationMenuItem"
-        Me.RunCurrentSimulationMenuItem.Size = New System.Drawing.Size(234, 22)
+        Me.RunCurrentSimulationMenuItem.Size = New System.Drawing.Size(208, 22)
         Me.RunCurrentSimulationMenuItem.Text = "Run current simulation(s)"
+        '
+        'RunAllSimulationsMenuItem
+        '
+        Me.RunAllSimulationsMenuItem.Name = "RunAllSimulationsMenuItem"
+        Me.RunAllSimulationsMenuItem.Size = New System.Drawing.Size(208, 22)
+        Me.RunAllSimulationsMenuItem.Text = "Run all simulations"
         '
         'StopButton
         '
@@ -515,7 +540,7 @@ Public Class MainUI
         Me.GraphButton.ImageScaling = System.Windows.Forms.ToolStripItemImageScaling.None
         Me.GraphButton.ImageTransparentColor = System.Drawing.Color.Magenta
         Me.GraphButton.Name = "GraphButton"
-        Me.GraphButton.Size = New System.Drawing.Size(46, 44)
+        Me.GraphButton.Size = New System.Drawing.Size(43, 44)
         Me.GraphButton.Text = "&Graph"
         Me.GraphButton.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageAboveText
         '
@@ -525,7 +550,7 @@ Public Class MainUI
         Me.ApsimOutlookButton.ImageScaling = System.Windows.Forms.ToolStripItemImageScaling.None
         Me.ApsimOutlookButton.ImageTransparentColor = System.Drawing.SystemColors.ControlLight
         Me.ApsimOutlookButton.Name = "ApsimOutlookButton"
-        Me.ApsimOutlookButton.Size = New System.Drawing.Size(94, 44)
+        Me.ApsimOutlookButton.Size = New System.Drawing.Size(91, 44)
         Me.ApsimOutlookButton.Text = "Apsim Outlook"
         Me.ApsimOutlookButton.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageAboveText
         '
@@ -535,9 +560,79 @@ Public Class MainUI
         Me.ExcelButton.ImageScaling = System.Windows.Forms.ToolStripItemImageScaling.None
         Me.ExcelButton.ImageTransparentColor = System.Drawing.Color.Magenta
         Me.ExcelButton.Name = "ExcelButton"
-        Me.ExcelButton.Size = New System.Drawing.Size(41, 44)
+        Me.ExcelButton.Size = New System.Drawing.Size(37, 44)
         Me.ExcelButton.Text = "E&xcel"
         Me.ExcelButton.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageAboveText
+        '
+        'RunProgressPanel
+        '
+        Me.RunProgressPanel.BackColor = System.Drawing.Color.AntiqueWhite
+        Me.RunProgressPanel.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle
+        Me.RunProgressPanel.Controls.Add(Me.OverallProgressBar)
+        Me.RunProgressPanel.Controls.Add(Me.Label4)
+        Me.RunProgressPanel.Controls.Add(Me.Label3)
+        Me.RunProgressPanel.Controls.Add(Me.CurrentProgressBar)
+        Me.RunProgressPanel.Dock = System.Windows.Forms.DockStyle.Top
+        Me.RunProgressPanel.Location = New System.Drawing.Point(0, 24)
+        Me.RunProgressPanel.Name = "RunProgressPanel"
+        Me.RunProgressPanel.Size = New System.Drawing.Size(718, 31)
+        Me.RunProgressPanel.TabIndex = 22
+        '
+        'CurrentProgressBar
+        '
+        Me.CurrentProgressBar.Location = New System.Drawing.Point(171, 3)
+        Me.CurrentProgressBar.Name = "CurrentProgressBar"
+        Me.CurrentProgressBar.Size = New System.Drawing.Size(183, 23)
+        Me.CurrentProgressBar.TabIndex = 0
+        '
+        'Label3
+        '
+        Me.Label3.AutoSize = True
+        Me.Label3.Location = New System.Drawing.Point(18, 8)
+        Me.Label3.Name = "Label3"
+        Me.Label3.Size = New System.Drawing.Size(136, 13)
+        Me.Label3.TabIndex = 1
+        Me.Label3.Text = "Current simulation progress:"
+        Me.Label3.TextAlign = System.Drawing.ContentAlignment.MiddleRight
+        '
+        'Label4
+        '
+        Me.Label4.AutoSize = True
+        Me.Label4.Location = New System.Drawing.Point(370, 6)
+        Me.Label4.Name = "Label4"
+        Me.Label4.Size = New System.Drawing.Size(86, 13)
+        Me.Label4.TabIndex = 2
+        Me.Label4.Text = "Overall progress:"
+        Me.Label4.TextAlign = System.Drawing.ContentAlignment.MiddleRight
+        '
+        'OverallProgressBar
+        '
+        Me.OverallProgressBar.Location = New System.Drawing.Point(462, 2)
+        Me.OverallProgressBar.Name = "OverallProgressBar"
+        Me.OverallProgressBar.Size = New System.Drawing.Size(183, 23)
+        Me.OverallProgressBar.TabIndex = 3
+        '
+        'Label5
+        '
+        Me.Label5.AutoSize = True
+        Me.Label5.Font = New System.Drawing.Font("Microsoft Sans Serif", 9.75!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.Label5.ForeColor = System.Drawing.SystemColors.HotTrack
+        Me.Label5.Location = New System.Drawing.Point(3, 7)
+        Me.Label5.Name = "Label5"
+        Me.Label5.Size = New System.Drawing.Size(58, 16)
+        Me.Label5.TabIndex = 22
+        Me.Label5.Text = "Toolbox"
+        '
+        'Label6
+        '
+        Me.Label6.AutoSize = True
+        Me.Label6.Font = New System.Drawing.Font("Microsoft Sans Serif", 9.75!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.Label6.ForeColor = System.Drawing.SystemColors.HotTrack
+        Me.Label6.Location = New System.Drawing.Point(3, 3)
+        Me.Label6.Name = "Label6"
+        Me.Label6.Size = New System.Drawing.Size(58, 16)
+        Me.Label6.TabIndex = 22
+        Me.Label6.Text = "Toolbox"
         '
         'MainUI
         '
@@ -566,6 +661,8 @@ Public Class MainUI
         Me.RunToolBarPanel.PerformLayout()
         Me.SimulationToolStrip.ResumeLayout(False)
         Me.SimulationToolStrip.PerformLayout()
+        Me.RunProgressPanel.ResumeLayout(False)
+        Me.RunProgressPanel.PerformLayout()
         Me.ResumeLayout(False)
 
     End Sub
@@ -856,6 +953,11 @@ Public Class MainUI
                 End If
             Next
 
+            ' reset the progress bars to zero.
+            CurrentProgressBar.Value = 0
+            OverallProgressBar.Value = 0
+
+            CurrentErrors.Clear()
             RunPanelListBox.Items.Clear()
             RunPanel.Visible = True
             RunPanelSplitter.Visible = True
@@ -923,6 +1025,9 @@ Public Class MainUI
         CurrentRunningSimulationIndex += 1
 
         If CurrentRunningSimulationIndex < RunPanelListBox.Items.Count Then
+            CurrentErrors.Add("")
+            CurrentProgressBar.Value = CurrentProgressBar.Minimum
+
             Dim SimulationPathToRun As String = RunPanelListBox.Items.Item(CurrentRunningSimulationIndex)
             Dim Simulation As APSIMData = ApsimUI.AllData.Find(SimulationPathToRun)
 
@@ -930,7 +1035,7 @@ Public Class MainUI
                                                      New Object() {"Running..."})
             Application.DoEvents()
 
-            Dim SimFileName As String = Path.GetDirectoryName(ApsimUI.FileName) + "\" + Simulation.Name + ".sim"
+            SimFileName = Path.GetDirectoryName(ApsimUI.FileName) + "\" + Simulation.Name + ".sim"
             If File.Exists(SimFileName) Then
                 File.Delete(SimFileName)
             End If
@@ -954,19 +1059,17 @@ Public Class MainUI
                 MessageBox.Show(Output, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error)
                 RunNextSimulation()
             Else
-                ' Kludge fix for now - I THINK IT WORKS
-                Dim BatchFileName As String = Path.GetTempPath + "\run.bat"
-                Dim SWriter As New StreamWriter(BatchFileName)
-                Dim Cmd As String = """" + Path.GetDirectoryName(Application.ExecutablePath) + "\apsim.exe"" """ + SimFileName + """ > """ + Path.GetFileNameWithoutExtension(SimFileName) + ".sum"""
-                SWriter.WriteLine(Cmd)
-                SWriter.Close()
-                Dim ApsimInfo As New ProcessStartInfo
-                ApsimInfo.FileName = BatchFileName
-                ApsimInfo.WorkingDirectory = Path.GetDirectoryName(ApsimUI.FileName)
-                ApsimInfo.WindowStyle = ProcessWindowStyle.Hidden
-                Dim ApsimProcess As Process = Process.Start(ApsimInfo)
-                ApsimProcess.EnableRaisingEvents = True
-                AddHandler ApsimProcess.Exited, AddressOf OnApsimExited
+                CurrentSummaryFile = New StreamWriter(SimFileName.Replace(".sim", ".sum"))
+
+                ApsimProcess = New ProcessCaller(Me)
+                ApsimProcess.FileName = Path.GetDirectoryName(Application.ExecutablePath) + "\apsim.exe"
+                ApsimProcess.Arguments = """" + SimFileName + """"
+                ApsimProcess.WorkingDirectory = Path.GetDirectoryName(ApsimUI.FileName)
+                AddHandler ApsimProcess.Completed, AddressOf OnApsimExited
+                AddHandler ApsimProcess.Cancelled, AddressOf OnApsimExited
+                AddHandler ApsimProcess.StdOutReceived, AddressOf OnStdOut
+                AddHandler ApsimProcess.StdErrReceived, AddressOf OnStdError
+                ApsimProcess.Start()
             End If
 
         Else
@@ -976,8 +1079,53 @@ Public Class MainUI
             If File.Exists(WavFileName) Then
                 My.Computer.Audio.Play(WavFileName)
             End If
+            OverallProgressBar.Value = OverallProgressBar.Maximum
         End If
     End Sub
+
+    Private Sub OnStdOut(ByVal sender As Object, ByVal e As DataReceivedEventArgs)
+        ' Write the summary file.
+        Dim Line As String = e.Text
+        CurrentSummaryFile.WriteLine(Line)
+        If (Line.IndexOf("Simulation start date") <> -1) Then
+            Dim PosEquals As Integer = Line.IndexOf("=")
+            If (PosEquals <> -1) Then
+                Dim DateString As String = Line.Substring(PosEquals + 1).Replace(" ", "")
+                Date.TryParseExact(DateString, "d/MM/yyyy", Nothing, Globalization.DateTimeStyles.AllowWhiteSpaces, CurrentStartDate)
+            End If
+
+        ElseIf (Line.IndexOf("Simulation end date") <> -1) Then
+            Dim PosEquals As Integer = Line.IndexOf("=")
+            If (PosEquals <> -1) Then
+                Dim DateString As String = Line.Substring(PosEquals + 1)
+                Date.TryParseExact(DateString, "d/MM/yyyy", Nothing, Globalization.DateTimeStyles.AllowWhiteSpaces, CurrentEndDate)
+            End If
+        ElseIf (Line.IndexOf("(Day of year=") <> -1) Then
+            Dim PosBracket As Integer = Line.IndexOf("(")
+            If (PosBracket <> -1) Then
+                Dim DateString As String = Line.Substring(0, PosBracket)
+                Dim CurrentDate As Date
+                If (Date.TryParseExact(DateString, "d MMMM yyyy", Nothing, Globalization.DateTimeStyles.AllowWhiteSpaces, CurrentDate) _
+                    And CurrentStartDate < CurrentEndDate) Then
+                    Dim DaysIntoSimulation As TimeSpan = (CurrentDate - CurrentStartDate)
+                    Dim TotalDaysOfSimulation As TimeSpan = (CurrentEndDate - CurrentStartDate)
+                    Dim SliderPosition As Integer = DaysIntoSimulation.Days / TotalDaysOfSimulation.Days * 100
+                    CurrentProgressBar.Value = SliderPosition
+
+                    OverallProgressBar.Value = (SliderPosition / RunPanelListBox.Items.Count) + _
+                                               (CurrentRunningSimulationIndex / RunPanelListBox.Items.Count) * 100
+                End If
+
+            End If
+        End If
+
+    End Sub
+
+    Private Sub OnStdError(ByVal sender As Object, ByVal e As DataReceivedEventArgs)
+        CurrentErrors(CurrentRunningSimulationIndex) = CurrentErrors(CurrentRunningSimulationIndex) + e.Text + vbCrLf
+    End Sub
+
+
     Private Sub UpdateItemInRunBox(ByVal Suffix As String)
         ' --------------------------------------------
         ' A simple method to update the run list box.
@@ -1005,13 +1153,26 @@ Public Class MainUI
         StopButton.Enabled = False
     End Sub
 
-    Private Sub OnApsimExited(ByVal Sender As Object, ByVal e As EventArgs)
+    Private Sub OnApsimExited(ByVal Sender As Object, ByVal e As System.EventArgs)
         ' --------------------------------------------------
-        ' APSIM has finished running - update the run window
+        ' APSIM has finished running - close the summary file
+        ' and update the run window
         ' and go run the next simulation
         ' --------------------------------------------------
+        CurrentProgressBar.Value = CurrentProgressBar.Maximum
+
+        If Not IsNothing(CurrentSummaryFile) Then
+            CurrentSummaryFile.Close()
+            CurrentSummaryFile = Nothing
+        End If
+
         If CurrentRunningSimulationIndex < RunPanelListBox.Items.Count Then
-            Me.Invoke(New UpdateItemInRunBoxCallBack(AddressOf UpdateItemInRunBox), New Object() {"DONE"})
+            CurrentErrors.Add("")
+            If (CurrentErrors(CurrentRunningSimulationIndex) = "") Then
+                Me.Invoke(New UpdateItemInRunBoxCallBack(AddressOf UpdateItemInRunBox), New Object() {"Done"})
+            Else
+                Me.Invoke(New UpdateItemInRunBoxCallBack(AddressOf UpdateItemInRunBox), New Object() {"Done with errors (double click to see error message)"})
+            End If
             RunNextSimulation()
         Else
             ' The process has been killed by the user.
@@ -1046,6 +1207,11 @@ Public Class MainUI
         StopButton.Enabled = False
     End Sub
 
+    Private Sub RunPanelListBox_DoubleClick(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles RunPanelListBox.DoubleClick
+        If (RunPanelListBox.SelectedIndex < CurrentErrors.Count AndAlso CurrentErrors(RunPanelListBox.SelectedIndex) <> "") Then
+            MessageBox.Show(CurrentErrors(RunPanelListBox.SelectedIndex), "APSIM error", MessageBoxButtons.OK, MessageBoxIcon.Error)
+        End If
+    End Sub
 #End Region
 #Region "Toolbox button bar"
 
@@ -1175,6 +1341,7 @@ Public Class MainUI
             Toolbox.FileSave()
         End If
     End Sub
+
 
 
 End Class
