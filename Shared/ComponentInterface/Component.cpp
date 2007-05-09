@@ -998,9 +998,9 @@ std::string Component::getDescription()
          returnString += var->second->getXML() + "\n";
          }
 
-      if (getVarMap.size() == 0)
+      if (getVarMap.size() <= 6)
          {
-         for (unsigned i = 0; i != registrations->size(); i++)
+         for (unsigned i = getVarMap.size(); i != registrations->size(); i++)
             {
             RegistrationItem* reg = registrations->get(i);
             if (reg->getKind() == RegistrationType::respondToGet)
