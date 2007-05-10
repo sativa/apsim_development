@@ -1,0 +1,499 @@
+<folder name="Simulations" version="5">
+  <simulation name="Centro">
+    <metfile name="met">
+      <filename name="filename">C:\Program Files\Apsim52\apsim\met\sample\dalby.met</filename>
+    </metfile>
+    <clock name="clock">
+      <start_date name="start_date" description="Select the start date of the simulation" type="date" lbound="1/01/1988" ubound="30/04/1990">1/01/1988</start_date>
+      <end_date name="end_date" description="Select the end date of the simulation" type="date" lbound="1/01/1988" ubound="30/04/1990">30/04/1990</end_date>
+    </clock>
+    <summaryfile name="summaryfile">
+      <filename name="filename">Continuous Wheat Simulation.sum</filename>
+    </summaryfile>
+    <area name="paddock">
+      <registrations name="global" />
+      <manager name="Manager">
+        <rule name="Sowing rule">
+          <condition name="start_of_day"><![CDATA[
+      if (paddock_is_fallow() = 1 and FallowIn <> 'yes' and (NextCrop = 0 or NextCrop = '[crop]')) then
+         if (date_within('[date1], [date2]') = 1) then
+            if (rain[[rainnumdays]] >= [raincrit] AND esw >= [esw_amount]) OR
+                ('[must_sow]' = 'yes' AND today = date('[date2]'))) THEN
+               ChooseNextCrop = 'yes'   ! for rotations
+               [crop] sow plants =[density], sowing_depth = [depth], cultivar = [cultivar], row_spacing = [row_spacing], crop_class = [class]
+            endif
+            if today = date('[date2]') then
+               ChooseNextCrop = 'yes'
+            endif
+         endif
+      endif
+            ]]></condition>
+          <category name="Sowing criteria">
+            <date1 type="ddmmmdate" description="Enter sowing window START date (dd-mmm) : ">23-Sep</date1>
+            <date2 type="ddmmmdate" description="Enter sowing window END date (dd-mmm) : ">23-Sep</date2>
+            <must_sow type="yesno" description="Must sow? : ">yes</must_sow>
+            <raincrit type="text" description="Amount of rainfall : ">30</raincrit>
+            <rainnumdays type="text" description="Number of days of rainfall : ">3</rainnumdays>
+            <esw_amount type="text" description="Enter minimum allowable available soil water (mm) : ">200</esw_amount>
+          </category>
+          <category name="Sowing parameters">
+            <crop type="crop" description="Enter name of crop to sow : ">centro</crop>
+            <density type="text" description="Enter sowing density  (plants/m2) : ">20</density>
+            <depth type="text" description="Enter sowing depth  (mm) : ">30</depth>
+            <cultivar type="cultivars" croppropertyname="crop" description="Enter cultivar : ">cavalcade</cultivar>
+            <class type="classes" croppropertyname="crop" description="Enter crop growth class : ">plant</class>
+            <row_spacing type="text" description="Enter row spacing (mm) : ">250</row_spacing>
+          </category>
+        </rule>
+        <rule name="Harvesting rule">
+          <condition name="end_of_day">
+
+           if [crop].stage_name = 'harvest_ripe' or [crop].plant_status = 'dead' then
+              [crop]  harvest
+              [crop]  end_crop
+           endif
+
+            </condition>
+          <category name="Harvesting criteria">
+            <crop type="crop" description="Enter name of crop to harvest when ripe : ">centro</crop>
+          </category>
+        </rule>
+        <rule name="Sowing fertiliser">
+          <condition name="[modulename].[eventname]">
+        [fertmodule] apply amount = [fert_amount_sow] (kg/ha), depth = 50 (mm), type = [fert_type_sow]
+            </condition>
+          <category name="When should fertiliser be applied">
+            <modulename type="modulename" description="On which module should the event come from : ">centro</modulename>
+            <eventname type="text" description="On which event should fertiliser be applied : ">sowing</eventname>
+          </category>
+          <category name="Fertiliser application details">
+            <fertmodule type="modulename" description="Module used to apply the fertiliser : ">fertiliser</fertmodule>
+            <fert_amount_sow type="text" description="Amount of starter fertiliser at sowing (kg/ha) : ">0</fert_amount_sow>
+            <fert_type_sow type="list" listvalues="NO3_N, NH4_N, NH4NO3, urea_N, urea_no3, urea" description="Sowing fertiliser type : ">urea_N</fert_type_sow>
+          </category>
+        </rule>
+      </manager>
+      <fertiliser name="fertiliser" />
+      <surfaceom name="surface organic matter">
+        <PoolName description="Organic Matter pool name">wheat</PoolName>
+        <type type="list" description="Organic Matter type" listvalues="inert,manure,fym,bambatsi,barley,broccoli,camaldulensis,canola,chickpea,cowpea,danthonia,globulus,grandis,fababean,fieldpea,grass,lablab,lucerne,lupin,maize,millet,mucuna,mungbean,horsegram,navybean,cotton,orobanche,peanut,pigeonpea,rice,soybean,sorghum,stylo,sugar,sunflower,sweetcorn,sweetsorghum,weed,wheat">wheat</type>
+        <mass description="Initial surface residue (kg/ha)">1000.</mass>
+        <cnr description="C:N ratio of initial residue">80.0</cnr>
+        <standing_fraction description="Fraction of residue standing">0.0</standing_fraction>
+      </surfaceom>
+      <centro />
+      <outputfile name="outputfile">
+        <variables name="Variables">
+          <variable name="dd/mm/yyyy as Date" description="Date (dd/mm/yyyy)" array="?" />
+          <variable name="year" description="Year" array="No" units="kg/ha" />
+          <variable name="day" array="No" description="Day" />
+          <variable name="das" array="No" description="Days after Sowing" />
+          <variable name="biomass" array="No" description="Biomass" />
+          <variable name="green_biomass" array="No" description="Green Biomass weight" />
+          <variable name="stover_wt" array="No" description="Stover Biomass weight" />
+          <variable name="yield" array="No" description="Yield" />
+          <variable name="lai" array="No" description="Leaf area index" />
+          <variable name="cep" array="No" description="Cumulative plant water uptake" />
+          <variable name="esw_layr()" array="Yes" description="Extractable soil water" />
+          <variable name="root_depth" array="No" description="depth of roots" />
+        </variables>
+        <events name="Reporting Frequency">
+          <event name="harvesting" array="No" description="" />
+        </events>
+      </outputfile>
+      <soil name="Grey Vertosol-Kupunn (Kupunn No009)">
+        <InitWater>
+          <layer name="1">
+            <sw>0.21</sw>
+          </layer>
+          <layer name="2">
+            <sw>0.21</sw>
+          </layer>
+          <layer name="3">
+            <sw>0.22</sw>
+          </layer>
+          <layer name="4">
+            <sw>0.25</sw>
+          </layer>
+          <layer name="5">
+            <sw>0.27</sw>
+          </layer>
+          <layer name="6">
+            <sw>0.31</sw>
+          </layer>
+          <layer name="7">
+            <sw>0.36</sw>
+          </layer>
+        </InitWater>
+        <InitNitrogen>
+          <layer name="1">
+            <no3>6</no3>
+            <nh4>1</nh4>
+          </layer>
+          <layer name="2">
+            <no3>5</no3>
+            <nh4>1</nh4>
+          </layer>
+          <layer name="3">
+            <no3>3</no3>
+            <nh4>0.9</nh4>
+          </layer>
+          <layer name="4">
+            <no3>2</no3>
+            <nh4>0.7</nh4>
+          </layer>
+          <layer name="5">
+            <no3>1</no3>
+            <nh4>0.2</nh4>
+          </layer>
+          <layer name="6">
+            <no3>1</no3>
+            <nh4>0.1</nh4>
+          </layer>
+          <layer name="7">
+            <no3>1</no3>
+            <nh4>0.01</nh4>
+          </layer>
+        </InitNitrogen>
+        <state>Queensland</state>
+        <region>Darling Downs</region>
+        <nearesttown>Dalby, Q 4405</nearesttown>
+        <site>Kupunn</site>
+        <SoilType>Grey Vertosol</SoilType>
+        <DataSource>CSIRO Sustainable Ecosystems, Toowoomba</DataSource>
+        <comment>Soil naming structure: \State\Region\Classification-Local Name (Site/district and locator number); oc and ph estimated</comment>
+        <naturalvegetation>Brigalow, belah, wilga</naturalvegetation>
+        <Water>
+          <Cona>3.5</Cona>
+          <U>6</U>
+          <Salb>0.12</Salb>
+          <DiffusConst>40</DiffusConst>
+          <DiffusSlope>16</DiffusSlope>
+          <CN2Bare>73</CN2Bare>
+          <CNRed>20</CNRed>
+          <CNCov>0.8</CNCov>
+          <layer name="1">
+            <thickness>150</thickness>
+            <bd>1.4</bd>
+            <ll15>0.21</ll15>
+            <airdry>0.11</airdry>
+            <dul>0.39</dul>
+            <sat>0.44</sat>
+            <swcon>0.3</swcon>
+          </layer>
+          <layer name="2">
+            <thickness>150</thickness>
+            <bd>1.39</bd>
+            <ll15>0.21</ll15>
+            <airdry>0.17</airdry>
+            <dul>0.39</dul>
+            <sat>0.44</sat>
+            <swcon>0.3</swcon>
+          </layer>
+          <layer name="3">
+            <thickness>300</thickness>
+            <bd>1.37</bd>
+            <ll15>0.21</ll15>
+            <airdry>0.21</airdry>
+            <dul>0.4</dul>
+            <sat>0.45</sat>
+            <swcon>0.3</swcon>
+          </layer>
+          <layer name="4">
+            <thickness>300</thickness>
+            <bd>1.36</bd>
+            <ll15>0.21</ll15>
+            <airdry>0.21</airdry>
+            <dul>0.41</dul>
+            <sat>0.46</sat>
+            <swcon>0.3</swcon>
+          </layer>
+          <layer name="5">
+            <thickness>300</thickness>
+            <bd>1.38</bd>
+            <ll15>0.21</ll15>
+            <airdry>0.21</airdry>
+            <dul>0.4</dul>
+            <sat>0.45</sat>
+            <swcon>0.3</swcon>
+          </layer>
+          <layer name="6">
+            <thickness>300</thickness>
+            <bd>1.39</bd>
+            <ll15>0.21</ll15>
+            <airdry>0.21</airdry>
+            <dul>0.39</dul>
+            <sat>0.44</sat>
+            <swcon>0.3</swcon>
+          </layer>
+          <layer name="7">
+            <thickness>300</thickness>
+            <bd>1.42</bd>
+            <ll15>0.21</ll15>
+            <airdry>0.21</airdry>
+            <dul>0.38</dul>
+            <sat>0.43</sat>
+            <swcon>0.3</swcon>
+          </layer>
+        </Water>
+        <Nitrogen>
+          <RootCN>40</RootCN>
+          <RootWT>1000</RootWT>
+          <SoilCN>12</SoilCN>
+          <EnrACoeff>7.4</EnrACoeff>
+          <EnrBCoeff>0.2</EnrBCoeff>
+          <layer name="1">
+            <fbiom>0.04</fbiom>
+            <finert>0.4</finert>
+            <oc>1.24</oc>
+            <ph>7</ph>
+          </layer>
+          <layer name="2">
+            <fbiom>0.02</fbiom>
+            <finert>0.6</finert>
+            <oc>1.24</oc>
+            <ph>7</ph>
+          </layer>
+          <layer name="3">
+            <fbiom>0.02</fbiom>
+            <finert>0.8</finert>
+            <oc>1.25</oc>
+            <ph>7</ph>
+          </layer>
+          <layer name="4">
+            <fbiom>0.02</fbiom>
+            <finert>1</finert>
+            <oc>1.1</oc>
+            <ph>7</ph>
+          </layer>
+          <layer name="5">
+            <fbiom>0.01</fbiom>
+            <finert>1</finert>
+            <oc>0.71</oc>
+            <ph>7</ph>
+          </layer>
+          <layer name="6">
+            <fbiom>0.01</fbiom>
+            <finert>1</finert>
+            <oc>0.34</oc>
+            <ph>7</ph>
+          </layer>
+          <layer name="7">
+            <fbiom>0.01</fbiom>
+            <finert>1</finert>
+            <oc>0.26</oc>
+            <ph>7</ph>
+          </layer>
+        </Nitrogen>
+        <other>
+          <layer name="1">
+            <texture>999999</texture>
+          </layer>
+          <layer name="2">
+            <texture>999999</texture>
+          </layer>
+          <layer name="3">
+            <texture>999999</texture>
+          </layer>
+          <layer name="4">
+            <texture>999999</texture>
+          </layer>
+          <layer name="5">
+            <texture>999999</texture>
+          </layer>
+          <layer name="6">
+            <texture>999999</texture>
+          </layer>
+          <layer name="7">
+            <texture>999999</texture>
+          </layer>
+        </other>
+        <SoilCrop name="wheat">
+          <layer name="1">
+            <ll>0.21</ll>
+            <kl>0.06</kl>
+            <xf>1</xf>
+          </layer>
+          <layer name="2">
+            <ll>0.21</ll>
+            <kl>0.06</kl>
+            <xf>1</xf>
+          </layer>
+          <layer name="3">
+            <ll>0.25</ll>
+            <kl>0.06</kl>
+            <xf>1</xf>
+          </layer>
+          <layer name="4">
+            <ll>0.28</ll>
+            <kl>0.04</kl>
+            <xf>1</xf>
+          </layer>
+          <layer name="5">
+            <ll>0.31</ll>
+            <kl>0.04</kl>
+            <xf>1</xf>
+          </layer>
+          <layer name="6">
+            <ll>0.37</ll>
+            <kl>0.02</kl>
+            <xf>1</xf>
+          </layer>
+          <layer name="7">
+            <ll>0.38</ll>
+            <kl>0.02</kl>
+            <xf>1</xf>
+          </layer>
+        </SoilCrop>
+        <SoilCrop name="chickpea">
+          <layer name="1">
+            <ll>0.21</ll>
+            <kl>0.06</kl>
+            <xf>1</xf>
+          </layer>
+          <layer name="2">
+            <ll>0.21</ll>
+            <kl>0.06</kl>
+            <xf>1</xf>
+          </layer>
+          <layer name="3">
+            <ll>0.22</ll>
+            <kl>0.06</kl>
+            <xf>1</xf>
+          </layer>
+          <layer name="4">
+            <ll>0.27</ll>
+            <kl>0.06</kl>
+            <xf>1</xf>
+          </layer>
+          <layer name="5">
+            <ll>0.29</ll>
+            <kl>0.06</kl>
+            <xf>1</xf>
+          </layer>
+          <layer name="6">
+            <ll>0.34</ll>
+            <kl>0.06</kl>
+            <xf>1</xf>
+          </layer>
+          <layer name="7">
+            <ll>0.38</ll>
+            <kl>0.06</kl>
+            <xf>1</xf>
+          </layer>
+        </SoilCrop>
+        <SoilCrop name="Cotton">
+          <layer name="1">
+            <ll>0.21</ll>
+            <kl>0.1</kl>
+            <xf>1</xf>
+          </layer>
+          <layer name="2">
+            <ll>0.21</ll>
+            <kl>0.1</kl>
+            <xf>1</xf>
+          </layer>
+          <layer name="3">
+            <ll>0.22</ll>
+            <kl>0.1</kl>
+            <xf>1</xf>
+          </layer>
+          <layer name="4">
+            <ll>0.25</ll>
+            <kl>0.1</kl>
+            <xf>1</xf>
+          </layer>
+          <layer name="5">
+            <ll>0.27</ll>
+            <kl>0.09</kl>
+            <xf>1</xf>
+          </layer>
+          <layer name="6">
+            <ll>0.31</ll>
+            <kl>0.07</kl>
+            <xf>1</xf>
+          </layer>
+          <layer name="7">
+            <ll>0.36</ll>
+            <kl>0.05</kl>
+            <xf>1</xf>
+          </layer>
+        </SoilCrop>
+        <SoilCrop name="Sorghum">
+          <layer name="1">
+            <ll>0.21</ll>
+            <kl>0.07</kl>
+            <xf>1</xf>
+          </layer>
+          <layer name="2">
+            <ll>0.21</ll>
+            <kl>0.07</kl>
+            <xf>1</xf>
+          </layer>
+          <layer name="3">
+            <ll>0.26</ll>
+            <kl>0.07</kl>
+            <xf>1</xf>
+          </layer>
+          <layer name="4">
+            <ll>0.26</ll>
+            <kl>0.05</kl>
+            <xf>1</xf>
+          </layer>
+          <layer name="5">
+            <ll>0.28</ll>
+            <kl>0.05</kl>
+            <xf>1</xf>
+          </layer>
+          <layer name="6">
+            <ll>0.34</ll>
+            <kl>0.04</kl>
+            <xf>1</xf>
+          </layer>
+          <layer name="7">
+            <ll>0.36</ll>
+            <kl>0.03</kl>
+            <xf>1</xf>
+          </layer>
+        </SoilCrop>
+        <SoilCrop name="centro">
+          <layer name="1">
+            <ll>0.19</ll>
+            <kl>0.06</kl>
+            <xf>1</xf>
+          </layer>
+          <layer name="2">
+            <ll>0.21</ll>
+            <kl>0.06</kl>
+            <xf>1</xf>
+          </layer>
+          <layer name="3">
+            <ll>0.25</ll>
+            <kl>0.06</kl>
+            <xf>1</xf>
+          </layer>
+          <layer name="4">
+            <ll>0.28</ll>
+            <kl>0.04</kl>
+            <xf>1</xf>
+          </layer>
+          <layer name="5">
+            <ll>0.31</ll>
+            <kl>0.04</kl>
+            <xf>1</xf>
+          </layer>
+          <layer name="6">
+            <ll>0.37</ll>
+            <kl>0.02</kl>
+            <xf>1</xf>
+          </layer>
+          <layer name="7">
+            <ll>0.38</ll>
+            <kl>0.02</kl>
+            <xf>1</xf>
+          </layer>
+        </SoilCrop>
+      </soil>
+    </area>
+  </simulation>
+</folder>
