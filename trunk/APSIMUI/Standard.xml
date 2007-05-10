@@ -1001,7 +1001,7 @@ IB0001 CABERNET FRANC   IB0001    07   590   020  4000  1000   0.8   4.5  42.0  
            ! Add harvest return to the bank
            if stage_name = 'harvest_ripe' or plant_status = 'dead' then
               FullPrice = [Price] + (grain_protein - [MinimumProtein]) * 2 * [ProteinIncrement]
-              Bank = Bank + FullPrice * WetYield
+              Bank = Bank + FullPrice * (WetYield / 1000)
               ResetBank = 1
            endif
            ]]>
