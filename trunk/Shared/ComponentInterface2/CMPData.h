@@ -89,6 +89,17 @@ class CMPBuiltIn : public IPackableData
                      TypeConverter(value, variable, arraySpecifier);
                      }
                   }
+               else if (sourceKind == "boolean")
+                  {
+                  std::vector<bool> value;
+                  if (typeid(variable) == typeid(std::vector<bool>) && arraySpecifier == NULL)
+                     ::unpack(messageData, variable);
+                  else
+                     {
+                     ::unpack(messageData, value);
+                     TypeConverter(value, variable, arraySpecifier);
+                     }
+                  }
                else
                   throw runtime_error("Bad kind found in ddml: " + sourceDDML);
                }
@@ -137,6 +148,17 @@ class CMPBuiltIn : public IPackableData
                   else
                      {
                      std::string value;
+                     ::unpack(messageData, value);
+                     TypeConverter(value, variable);
+                     }
+                  }
+               else if (sourceKind == "boolean")
+                  {
+                  if (typeid(variable) == typeid(bool))
+                     ::unpack(messageData, variable);
+                  else
+                     {
+                     bool value;
                      ::unpack(messageData, value);
                      TypeConverter(value, variable);
                      }

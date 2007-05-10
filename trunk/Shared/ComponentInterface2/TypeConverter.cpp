@@ -141,3 +141,31 @@ TypeConverter::TypeConverter(const std::vector<std::string>& source, std::vector
       dest.push_back(atof(values[i].c_str()));
    }
 
+// --------------------------------------------------
+// conversions from vector<bool> to string data type.
+// --------------------------------------------------
+TypeConverter::TypeConverter(const vector<bool>& source, std::string& dest, ArraySpecifier* arraySpecifier)
+   {
+   std::vector<bool> values = source;
+   if (arraySpecifier) arraySpecifier->processArray(values);
+   dest = "";
+   for (unsigned i = 0; i != values.size(); i++)
+      {
+      if (dest != "")
+         dest += " ";
+      dest += itoa(values[i]);
+      }
+   }
+
+TypeConverter::TypeConverter(const std::vector<bool>& source, std::vector<std::string>& dest, ArraySpecifier* arraySpecifier)
+   {
+   std::vector<bool> values = source;
+   dest.erase(dest.begin(), dest.end());
+   if (arraySpecifier) arraySpecifier->processArray(values);
+   for (unsigned i = 0; i != values.size(); i++)
+      {
+      dest.push_back(itoa(values[i]));
+      }
+   }
+
+
