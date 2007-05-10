@@ -3482,7 +3482,7 @@
       <filename name="filename">Moonggoo.sum</filename>
     </summaryfile>
     <metfile name="met">
-      <filename name="filename">C:\Program Files\Apsim52\apsim\met\sample\goond.met</filename>
+      <filename name="filename">%apsuite\apsim\met\sample\goond.met</filename>
     </metfile>
     <area name="Paddock">
       <registrations name="global" />
@@ -5410,7 +5410,7 @@ set simName "Rotation Sample 2"
   </simulation>
   <simulation name="Wether_Lucerne_Supplement">
     <metfile name="met">
-      <filename name="filename">C:\data\Apsim\development\apsim\met\sample\Workshop.met</filename>
+      <filename name="filename">%apsuite\apsim\met\sample\Workshop.met</filename>
     </metfile>
     <clock name="clock">
       <start_date name="start_date" description="Select the start date of the simulation" type="date" lbound="1/01/1995" ubound="31/12/1996">1/01/1995</start_date>
@@ -6614,7 +6614,7 @@ set simName "Rotation Sample 2"
       <filename name="filename">Continuous Maize Simulation.sum</filename>
     </summaryfile>
     <metfile name="met">
-      <filename name="filename">C:\Program Files\Apsim51\apsim\met\sample\hre.met</filename>
+      <filename name="filename">%apsuite\apsim\met\sample\hre.met</filename>
     </metfile>
     <area name="paddock">
       <registrations name="global" />
@@ -7309,7 +7309,7 @@ set simName "Rotation Sample 2"
       <filename name="filename">Continuous Maize and Weeds Simulation.sum</filename>
     </summaryfile>
     <metfile name="met">
-      <filename name="filename">C:\Program Files\Apsim51\apsim\met\sample\hre.met</filename>
+      <filename name="filename">%apsuite\apsim\met\sample\hre.met</filename>
     </metfile>
     <area name="paddock">
       <registrations name="global" />
@@ -8263,7 +8263,7 @@ set simName "Rotation Sample 2"
       <filename name="filename">Continuous Maize Bimodal Simulation.sum</filename>
     </summaryfile>
     <metfile name="met">
-      <filename name="filename">C:\Program Files\Apsim51\apsim\met\sample\hre.met</filename>
+      <filename name="filename">%apsuite\apsim\met\sample\hre.met</filename>
     </metfile>
     <area name="paddock">
       <registrations name="global" />
@@ -9046,7 +9046,7 @@ set simName "Rotation Sample 2"
       <filename name="filename">Rotation Maize_Legume and Weeds Simulation.sum</filename>
     </summaryfile>
     <metfile name="met">
-      <filename name="filename">C:\Program Files\Apsim51\apsim\met\sample\hre.met</filename>
+      <filename name="filename">%apsuite\apsim\met\sample\hre.met</filename>
     </metfile>
     <area name="paddock">
       <registrations name="global" />
