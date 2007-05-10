@@ -83,10 +83,13 @@ namespace Graph
             GenericUI.RefreshView(GraphController);
 
             // refresh our data window
-            GraphController.RefreshDataWindow(DataWindow, GraphController.Data.FullPath);
+            if (GraphController.Data != null)
+                {
+                GraphController.RefreshDataWindow(DataWindow, GraphController.Data.FullPath);
 
-            // refresh our help text.
-            HelpText = GraphController.GetErrorMessage(GraphController.Data.FullPath);
+                // refresh our help text.
+                HelpText = GraphController.GetErrorMessage(GraphController.Data.FullPath);
+                }
 
             DataPanel_Resize(null, null);
             }
