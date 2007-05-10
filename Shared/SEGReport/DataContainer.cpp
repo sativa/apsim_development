@@ -298,6 +298,8 @@ extern "C" void _export __stdcall GetFieldNames(DataContainer* container,
          vector<string> fieldNames;
          getDBFieldNames(data, fieldNames);
          strcpy(returnString, buildString(fieldNames, "\t").c_str());
+         if (returnString != "" && returnString[strlen(returnString)-1] == '\t')
+            returnString[strlen(returnString)-1] = '\0';
          }
       }
    }
