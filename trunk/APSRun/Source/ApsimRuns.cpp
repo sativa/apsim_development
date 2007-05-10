@@ -65,7 +65,8 @@ void ApsimRuns::addSimulationsFromFile(const std::string& fileName)
       }
    else if (fileExtensionEquals(fileName, "sim"))
       addSimulation(fileName, fileRoot(fileName));
-   else if (fileExtensionEquals(fileName, "apsim"))
+   else if (fileExtensionEquals(fileName, "apsim") ||
+            fileExtensionEquals(fileName, "xml"))
       {
       XMLDocument doc(fileName);
       addSimulationsFromApsimFile(fileName, doc.documentElement());
