@@ -1,4 +1,4 @@
-<folder name="Developers" version="5">
+<folder name="Developers" version="8">
   <ini>
     <filename>
     </filename>
@@ -611,11 +611,10 @@ proc setXML {name1 name2 op} {
    }
 }   
 ]]></uiscript>
-<rule name="Init rule" invisible="yes" condition="init">
-<![CDATA[package require struct
+    <rule name="Init rule" invisible="yes" condition="init"><![CDATA[package require struct
 ::struct::graph stateGraph
 ]]></rule>
-</tclui>
+  </tclui>
   <tclui name="Rotation Rug Plot">
     <uiscript>
 # Displays a rug plot of crop rotations
@@ -954,5 +953,5 @@ proc setXML {name1 name2 op} {
 }
 trace add variable XMLDoc read setXML
 </uiscript>
-</tclui>
+  </tclui>
 </folder>
