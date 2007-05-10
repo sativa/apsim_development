@@ -115,26 +115,9 @@ namespace ApsimToSim
 					string ModuleDLL = ApsimToSim.get_ChildValue("dll");
 					string ModuleType = ApsimToSim.get_ChildValue("type");
                     string ComponentInterfaceType = ApsimToSim.get_ChildValue("componentinterface");
-                    APSIMData ini = Component.Child("ini");
-                    // This ini bit is wrong. Its broken when:
-                    // a) user has an ini object not called "ini"
-                    // b) user has more than one ini object.
-                    string ModuleINI = "";
-                    if (ini != null)
-                        {
-                        ModuleINI = ini.get_ChildValue("filename");
-                        }
-                    else
-                        {
-                        ModuleINI = ApsimToSim.get_ChildValue("ini");
-                        }
 					if (ModuleType != "")
 						{
 						ModuleDLL = ModuleDLL.Replace(APSIMSettings.ApsimDirectory(), "%apsuite");
-                        if (ini == null)
-                            {
-                            ModuleINI = ModuleINI.Replace(APSIMSettings.ApsimDirectory(), "%apsuite");
-                            }
 						string ComponentHeader = "<" + ModuleType;
 						if (ModuleDLL != "")
 							{
@@ -153,10 +136,20 @@ namespace ApsimToSim
 						Out.WriteLine(StringManip.IndentText(ComponentHeader, Level * 2));
 						}
 
-					if (ModuleINI != "")
-						Out.WriteLine(StringManip.IndentText("<include>"+ModuleINI+"</include>", (Level+2)*2));
+                    foreach (APSIMData ini in Component.get_Children("ini"))
+                        {
+                        string ModuleINI = ini.get_ChildValue("filename");
+                        if (ModuleINI != "")
+                            Out.WriteLine(StringManip.IndentText("<include>" + ModuleINI + "</include>", (Level + 2) * 2));
+                        }
 
-					// write module contents bit.
+                    string TypesINI = ApsimToSim.get_ChildValue("ini");
+                    if (TypesINI != "" && Component.get_Children("ini").Length == 0)
+                        {
+                        TypesINI = TypesINI.Replace(APSIMSettings.ApsimDirectory(), "%apsuite");
+                        Out.WriteLine(StringManip.IndentText("<include>" + TypesINI + "</include>", (Level + 2) * 2));
+                        }
+                    // write module contents bit.
 					APSIMData CallDllNode = ApsimToSim.Child("calldll");
 					APSIMData SimNode = ApsimToSim.Child("sim");
 					if (SimNode == null)
