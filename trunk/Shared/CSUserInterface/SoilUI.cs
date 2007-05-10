@@ -1260,15 +1260,17 @@ namespace CSUserInterface
 
 			int NumLayers = GridUtils.FindFirstBlankCell(Phosphorus, 0);
 			int FirstStaticRow = NumLayers + 1;
-			Phosphorus.Cells[FirstStaticRow,0].Value = "Residue CP:";
-			GridUtils.SetCellAsDouble(Phosphorus, 1, FirstStaticRow, MySoil.ResidueCP);
 
-			Phosphorus.Cells[FirstStaticRow+1,0].Value = "Root CP:";
-			GridUtils.SetCellAsDouble(Phosphorus, 1, FirstStaticRow+1, MySoil.RootCP);
+			Phosphorus.Cells[FirstStaticRow,0].Value = "Root CP:";
+			GridUtils.SetCellAsDouble(Phosphorus, 1, FirstStaticRow, MySoil.RootCP);
 
-			Phosphorus.Cells[FirstStaticRow+2,0].Value = "RateDissolRock:";
-			GridUtils.SetCellAsDouble(Phosphorus, 1, FirstStaticRow+2, MySoil.RateDissolRock);
-			UserChange = true;
+			Phosphorus.Cells[FirstStaticRow+1,0].Value = "RateDissolRock:";
+			GridUtils.SetCellAsDouble(Phosphorus, 1, FirstStaticRow+1, MySoil.RateDissolRock);
+
+            Phosphorus.Cells[FirstStaticRow+2, 0].Value = "RateLossAvail:";
+            GridUtils.SetCellAsDouble(Phosphorus, 1, FirstStaticRow+2, MySoil.RateLossAvail);
+            
+            UserChange = true;
 			}
 
 
@@ -1284,10 +1286,10 @@ namespace CSUserInterface
 			MySoil.Sorption  = GridUtils.GetColumnAsDoubles(Phosphorus, 4, NumLayers);
 
 			int FirstStaticRow = NumLayers + 1;
-			MySoil.ResidueCP = GridUtils.GetCellAsDouble(Phosphorus, 1, FirstStaticRow);
-			MySoil.RootCP = GridUtils.GetCellAsDouble(Phosphorus, 1, FirstStaticRow+1);
-			MySoil.RateDissolRock = GridUtils.GetCellAsDouble(Phosphorus, 1, FirstStaticRow+2);
-			}
+			MySoil.RootCP = GridUtils.GetCellAsDouble(Phosphorus, 1, FirstStaticRow);
+			MySoil.RateDissolRock = GridUtils.GetCellAsDouble(Phosphorus, 1, FirstStaticRow+1);
+            MySoil.RateLossAvail = GridUtils.GetCellAsDouble(Phosphorus, 1, FirstStaticRow+2);
+            }
 
 
 		// ------------------------

@@ -739,12 +739,12 @@ namespace Soils
 			get {return Utility.GetDoubleValue(Data, "", "EnrBCoeff");}
 			set {Utility.SetValue(Data, "", "EnrBCoeff", value);}
 			}
-		public double ResidueCP
-			{
-			get {return Utility.GetDoubleValue(Data, "", "ResidueCP");}
-			set {Utility.SetValue(Data, "", "ResidueCP", value);}
-			}
-		public double RootCP
+        public double RateLossAvail
+            {
+            get { return Utility.GetDoubleValue(Data, "", "RateLossAvail"); }
+            set { Utility.SetValue(Data, "", "RateLossAvail", value); }
+            }
+        public double RootCP
 			{
 			get {return Utility.GetDoubleValue(Data, "", "RootCP");}
 			set {Utility.SetValue(Data, "", "RootCP", value);}
@@ -866,11 +866,11 @@ namespace Soils
                 "   nh4ppm  =$NH4$   ! Ammonium Concentration\r\n" +
                 "[endfor]\r\n" +//END OF NITROGEN FOR LOOP
                 "\r\n" +
-                "[if [soil.ResidueCP] > 0]\r\n" +
+                "[if [soil.rootcp] > 0]\r\n" +
                 "[$SECTIONNAME$.soilp.parameters]\r\n" +
-                "   residue_cp         =  [soil.residuecp]   () !c:p ratio of residues at initialisation\r\n" +
                 "   root_cp            =  [soil.rootcp]      () !c:p ratio of roots at initialisation\r\n" +
                 "   rate_dissol_rock_P =  [soil.RateDissolRock] (/yr)   !rate at which rock P source becomes available\r\n" +
+                "   rate_loss_avail_P  =  [soil.RateLossAvailP] (/yr)   ! (< 1) Fraction lost per yr specified at 25 oC" +
                 "\r\n" +
                 "[foreach Soil.profile]\r\n" +
                 "   labile_P  = [foreach profile.layer]    [layer.labilep.3][endfor]   (mg/kg)\r\n" +
@@ -1001,15 +1001,17 @@ namespace Soils
                 "      <oc>$OC$</oc>\r\n" +
                 "      <ph>$PH$</ph>\r\n" +
                 "      <fbiom>[foreach profile.layer as l] [l.fbiom][endfor]</fbiom>\r\n" +
-                "      <finert>[foreach profile.layer as l] [l.finert][endfor]</finert>\r\n" +
-                "      <rocks>[foreach profile.layer as l] [l.rocks][endfor]</rocks>\r\n" +
+                "      <finert>[foreach profile.layer as l] [l.finert][endfor]</finert>\r\n";
+            if (Rocks.Length > 0 && Rocks[0] != MathUtility.MissingValue)
+                Template += "      <rocks>[foreach profile.layer as l][l.rocks] [endfor]</rocks>\r\n";
+            Template +=
                 "      <ureappm>0  0    0    0    0    0    0</ureappm>\r\n" +
                 "      <no3ppm>$NO3$</no3ppm>\r\n" +
                 "      <nh4ppm>$NH4$</nh4ppm>\r\n" +
                 "[endfor]\r\n" +
                 "   </initdata>\r\n" +
                 "</component>\r\n" +
-                "[if [soil.ResidueCP] > 0]\r\n" +
+                "[if [soil.RootCP] > 0]\r\n" +
                 "<component name=\"[soil.name] Phosphorus\" executable=\"%apsuite\\apsim\\soilp\\lib\\soilp.dll\">\r\n" +
                 "   <initdata>\r\n" +
                 "      <include>%apsuite\\apsim\\soilp\\soilp.ini</include>\r\n" +
@@ -1019,9 +1021,9 @@ namespace Soils
                 "      <rock_P>[foreach profile.layer as l] [l.rockP][endfor]</rock_P>\r\n" +
                 "      <sorption>[foreach profile.layer as l] [l.sorption][endfor]</sorption>\r\n" +
                 "[endfor]\r\n" +
-                "      <Residue_CP>[soil.ResidueCP]</Residue_CP>\r\n" +
                 "      <Root_CP>[soil.RootCP]</Root_CP>\r\n" +
                 "      <rate_dissol_rock_P>[soil.RateDissolRock]</rate_dissol_rock_P>\r\n" +
+                "      <rate_loss_avail_P>[soil.RateLossAvail]</rate_loss_avail_P>\r\n" +
                 "   </initdata>\r\n" +
                 "</component>\r\n" +
                 "[endif]\r\n";

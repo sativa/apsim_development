@@ -1153,6 +1153,8 @@
             <type>[surfaceom.type]</type>
             <mass>[surfaceom.mass]</mass>
             <cnr>[surfaceom.cnr]</cnr>
+            [if [surfaceom.cpr]]<cpr>[surfaceom.cpr]</cpr>
+            [endif]
             <standing_fraction>[surfaceom.standing_fraction]</standing_fraction>
          </sim>
       </ApsimToSim>
