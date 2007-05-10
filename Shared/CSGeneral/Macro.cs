@@ -363,6 +363,8 @@ namespace CSGeneral
 					APSIMData NewChild = Child.Find(ChildName);
                     if (NewChild != null)
                         Child = NewChild;
+                    else if (ChildName != "")
+                        throw new Exception("Invalid child name: " + ChildName);
 					}
 				}
 
@@ -528,6 +530,8 @@ namespace CSGeneral
 		{
 			StringCollection s = StringManip.SplitStringHonouringQuotes(IfMacro, " ");
 
+            if (s.Count == 0)
+                return false;
 			if (s.Count == 1)
 				return (s[0].IndexOf('[') == -1 || s[0].IndexOf(']') == -1);
 
