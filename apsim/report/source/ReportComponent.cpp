@@ -32,7 +32,7 @@ Field::Field (ScienceAPI& scienceAPI,
    this->format = format;
    this->csv = csv;
 
-   if (units[0] != '(')
+   if (this->units[0] != '(')
       this->units = "(" + this->units + ")";
 
 //   if (fqn.find('.') == string::npos)
@@ -325,8 +325,9 @@ void ReportComponent::createVariable(const string& name)
          string thisAlias = alias;
          if (alias == "" && matches.size() > 1)
             thisAlias = matches[i].name;
-
-         fields.push_back(Field(scienceAPI, matches[i].name, matches[i].ddml, thisAlias,
+         string mname = matches[i].name;
+         string mddml = matches[i].ddml;
+         fields.push_back(Field(scienceAPI, mname, mddml, thisAlias,
                                 nastring, format, csv));
          }
       }
