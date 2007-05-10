@@ -338,10 +338,12 @@ Public Class ApsimUIController
                                     ByRef ComponentNames As StringCollection, ByRef ComponentTypes As StringCollection)
         ComponentNames.Clear()
         ComponentTypes.Clear()
-        For Each Sibling As APSIMData In Component.Parent.Children
-            ComponentNames.Add(Sibling.Name)
-            ComponentTypes.Add(Sibling.Type.ToLower())
-        Next
+        If (Not IsNothing(Component.Parent)) Then
+            For Each Sibling As APSIMData In Component.Parent.Children
+                ComponentNames.Add(Sibling.Name)
+                ComponentTypes.Add(Sibling.Type.ToLower())
+            Next
+        End If
     End Sub
 
 
