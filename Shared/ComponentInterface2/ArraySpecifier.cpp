@@ -17,7 +17,9 @@ using namespace std;
 ArraySpecifier* ArraySpecifier::create(const std::string& arraySpec)
    {
    unsigned posOpenBracket = arraySpec.rfind('(');
-   if (posOpenBracket == string::npos)
+   if (arraySpec == "" ||
+       arraySpec[arraySpec.length()-1]  != ')' ||
+       posOpenBracket == string::npos)
       return NULL;
 
    unsigned posCloseBracket = arraySpec.rfind(')');
