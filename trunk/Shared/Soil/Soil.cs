@@ -842,6 +842,9 @@ namespace Soils
             if (MWCON.Length > 0 && MWCON[0] != MathUtility.MissingValue)
                 Template +=
                 "   mwcon   =[foreach profile.layer as Layer]    [Layer.mwcon.3][endfor]   \r\n\r\n";
+            if (KS.Length > 0 && KS[0] != MathUtility.MissingValue)
+                Template +=
+                "   ks   =[foreach profile.layer as Layer]    [Layer.ks.3][endfor]   \r\n\r\n";
             
             Template +=
                 "[endfor]\r\n" +//END OF WATER FOR LOOP
@@ -975,6 +978,9 @@ namespace Soils
             if (MWCON.Length > 0 && MWCON[0] != MathUtility.MissingValue)
                 Template +=
                 "      <mwcon>[foreach profile.layer as l][l.mwcon] [endfor]</mwcon>\r\n";
+            if (KS.Length > 0 && KS[0] != MathUtility.MissingValue)
+                Template +=
+                "      <ks>[foreach profile.layer as l][l.ks] [endfor]</ks>\r\n";
 
             Template +=
                 "      <sw>$SW$</sw>\r\n" +
