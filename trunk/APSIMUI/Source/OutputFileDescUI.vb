@@ -64,25 +64,25 @@ Public Class OutputFileDescUI
         Dim TipAppearance1 As FarPoint.Win.Spread.TipAppearance = New FarPoint.Win.Spread.TipAppearance
         Me.OpenFileDialog = New System.Windows.Forms.OpenFileDialog
         Me.RightHandPanel = New System.Windows.Forms.Panel
+        Me.BottomPanel = New System.Windows.Forms.Panel
+        Me.DictionaryLabel = New System.Windows.Forms.Label
+        Me.VariableListView = New System.Windows.Forms.ListView
+        Me.ColumnHeader1 = New System.Windows.Forms.ColumnHeader
+        Me.ColumnHeader4 = New System.Windows.Forms.ColumnHeader
+        Me.ColumnHeader3 = New System.Windows.Forms.ColumnHeader
+        Me.Label1 = New System.Windows.Forms.Label
+        Me.ComponentFilter = New System.Windows.Forms.ComboBox
         Me.Splitter2 = New System.Windows.Forms.Splitter
         Me.Spread = New FarPoint.Win.Spread.FpSpread
         Me.GridContextMenu = New System.Windows.Forms.ContextMenuStrip(Me.components)
         Me.MoveUpMenuItem = New System.Windows.Forms.ToolStripMenuItem
         Me.MoveDownMenuItem = New System.Windows.Forms.ToolStripMenuItem
-        Me.BottomPanel = New System.Windows.Forms.Panel
-        Me.Label1 = New System.Windows.Forms.Label
-        Me.ComponentFilter = New System.Windows.Forms.ComboBox
-        Me.VariableListView = New System.Windows.Forms.ListView
-        Me.ColumnHeader1 = New System.Windows.Forms.ColumnHeader
-        Me.ColumnHeader4 = New System.Windows.Forms.ColumnHeader
-        Me.ColumnHeader3 = New System.Windows.Forms.ColumnHeader
-        Me.DictionaryLabel = New System.Windows.Forms.Label
         Me.Grid = New FarPoint.Win.Spread.SheetView
         Me.EventsListView = New APSIMUI.EventsListView
         Me.RightHandPanel.SuspendLayout()
+        Me.BottomPanel.SuspendLayout()
         CType(Me.Spread, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.GridContextMenu.SuspendLayout()
-        Me.BottomPanel.SuspendLayout()
         CType(Me.Grid, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.SuspendLayout()
         '
@@ -103,6 +103,74 @@ Public Class OutputFileDescUI
         Me.RightHandPanel.Name = "RightHandPanel"
         Me.RightHandPanel.Size = New System.Drawing.Size(753, 733)
         Me.RightHandPanel.TabIndex = 11
+        '
+        'BottomPanel
+        '
+        Me.BottomPanel.Controls.Add(Me.DictionaryLabel)
+        Me.BottomPanel.Controls.Add(Me.VariableListView)
+        Me.BottomPanel.Controls.Add(Me.Label1)
+        Me.BottomPanel.Controls.Add(Me.ComponentFilter)
+        Me.BottomPanel.Dock = System.Windows.Forms.DockStyle.Fill
+        Me.BottomPanel.Location = New System.Drawing.Point(0, 351)
+        Me.BottomPanel.Name = "BottomPanel"
+        Me.BottomPanel.Size = New System.Drawing.Size(753, 382)
+        Me.BottomPanel.TabIndex = 18
+        '
+        'DictionaryLabel
+        '
+        Me.DictionaryLabel.AutoSize = True
+        Me.DictionaryLabel.Location = New System.Drawing.Point(10, 10)
+        Me.DictionaryLabel.Name = "DictionaryLabel"
+        Me.DictionaryLabel.Size = New System.Drawing.Size(341, 13)
+        Me.DictionaryLabel.TabIndex = 21
+        Me.DictionaryLabel.Text = "Variable dictionary - drag variables from the list below to the grid above."
+        '
+        'VariableListView
+        '
+        Me.VariableListView.Anchor = CType((((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Bottom) _
+                    Or System.Windows.Forms.AnchorStyles.Left) _
+                    Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
+        Me.VariableListView.Columns.AddRange(New System.Windows.Forms.ColumnHeader() {Me.ColumnHeader1, Me.ColumnHeader4, Me.ColumnHeader3})
+        Me.VariableListView.FullRowSelect = True
+        Me.VariableListView.Location = New System.Drawing.Point(11, 59)
+        Me.VariableListView.Name = "VariableListView"
+        Me.VariableListView.Size = New System.Drawing.Size(730, 309)
+        Me.VariableListView.Sorting = System.Windows.Forms.SortOrder.Ascending
+        Me.VariableListView.TabIndex = 20
+        Me.VariableListView.UseCompatibleStateImageBehavior = False
+        Me.VariableListView.View = System.Windows.Forms.View.Details
+        '
+        'ColumnHeader1
+        '
+        Me.ColumnHeader1.Text = "Variable name"
+        Me.ColumnHeader1.Width = 201
+        '
+        'ColumnHeader4
+        '
+        Me.ColumnHeader4.Text = "Array?"
+        Me.ColumnHeader4.Width = 45
+        '
+        'ColumnHeader3
+        '
+        Me.ColumnHeader3.Text = "Description"
+        Me.ColumnHeader3.Width = 437
+        '
+        'Label1
+        '
+        Me.Label1.AutoSize = True
+        Me.Label1.Location = New System.Drawing.Point(10, 35)
+        Me.Label1.Name = "Label1"
+        Me.Label1.Size = New System.Drawing.Size(86, 13)
+        Me.Label1.TabIndex = 19
+        Me.Label1.Text = "Component filter:"
+        '
+        'ComponentFilter
+        '
+        Me.ComponentFilter.FormattingEnabled = True
+        Me.ComponentFilter.Location = New System.Drawing.Point(102, 32)
+        Me.ComponentFilter.Name = "ComponentFilter"
+        Me.ComponentFilter.Size = New System.Drawing.Size(237, 21)
+        Me.ComponentFilter.TabIndex = 18
         '
         'Splitter2
         '
@@ -136,89 +204,21 @@ Public Class OutputFileDescUI
         '
         Me.GridContextMenu.Items.AddRange(New System.Windows.Forms.ToolStripItem() {Me.MoveUpMenuItem, Me.MoveDownMenuItem})
         Me.GridContextMenu.Name = "ContextMenu"
-        Me.GridContextMenu.Size = New System.Drawing.Size(278, 48)
+        Me.GridContextMenu.Size = New System.Drawing.Size(252, 48)
         '
         'MoveUpMenuItem
         '
         Me.MoveUpMenuItem.Name = "MoveUpMenuItem"
         Me.MoveUpMenuItem.ShortcutKeys = CType((System.Windows.Forms.Keys.Control Or System.Windows.Forms.Keys.Up), System.Windows.Forms.Keys)
-        Me.MoveUpMenuItem.Size = New System.Drawing.Size(277, 22)
+        Me.MoveUpMenuItem.Size = New System.Drawing.Size(251, 22)
         Me.MoveUpMenuItem.Text = "Move variables &up"
         '
         'MoveDownMenuItem
         '
         Me.MoveDownMenuItem.Name = "MoveDownMenuItem"
         Me.MoveDownMenuItem.ShortcutKeys = CType((System.Windows.Forms.Keys.Control Or System.Windows.Forms.Keys.Down), System.Windows.Forms.Keys)
-        Me.MoveDownMenuItem.Size = New System.Drawing.Size(277, 22)
+        Me.MoveDownMenuItem.Size = New System.Drawing.Size(251, 22)
         Me.MoveDownMenuItem.Text = "Move variables &down"
-        '
-        'BottomPanel
-        '
-        Me.BottomPanel.Controls.Add(Me.DictionaryLabel)
-        Me.BottomPanel.Controls.Add(Me.VariableListView)
-        Me.BottomPanel.Controls.Add(Me.Label1)
-        Me.BottomPanel.Controls.Add(Me.ComponentFilter)
-        Me.BottomPanel.Dock = System.Windows.Forms.DockStyle.Fill
-        Me.BottomPanel.Location = New System.Drawing.Point(0, 351)
-        Me.BottomPanel.Name = "BottomPanel"
-        Me.BottomPanel.Size = New System.Drawing.Size(753, 382)
-        Me.BottomPanel.TabIndex = 18
-        '
-        'Label1
-        '
-        Me.Label1.AutoSize = True
-        Me.Label1.Location = New System.Drawing.Point(10, 35)
-        Me.Label1.Name = "Label1"
-        Me.Label1.Size = New System.Drawing.Size(86, 13)
-        Me.Label1.TabIndex = 19
-        Me.Label1.Text = "Component filter:"
-        '
-        'ComponentFilter
-        '
-        Me.ComponentFilter.FormattingEnabled = True
-        Me.ComponentFilter.Location = New System.Drawing.Point(102, 32)
-        Me.ComponentFilter.Name = "ComponentFilter"
-        Me.ComponentFilter.Size = New System.Drawing.Size(237, 21)
-        Me.ComponentFilter.TabIndex = 18
-        '
-        'VariableListView
-        '
-        Me.VariableListView.Anchor = CType((((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Bottom) _
-                    Or System.Windows.Forms.AnchorStyles.Left) _
-                    Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
-        Me.VariableListView.Columns.AddRange(New System.Windows.Forms.ColumnHeader() {Me.ColumnHeader1, Me.ColumnHeader4, Me.ColumnHeader3})
-        Me.VariableListView.FullRowSelect = True
-        Me.VariableListView.Location = New System.Drawing.Point(11, 59)
-        Me.VariableListView.Name = "VariableListView"
-        Me.VariableListView.Size = New System.Drawing.Size(730, 309)
-        Me.VariableListView.Sorting = System.Windows.Forms.SortOrder.Ascending
-        Me.VariableListView.TabIndex = 20
-        Me.VariableListView.UseCompatibleStateImageBehavior = False
-        Me.VariableListView.View = System.Windows.Forms.View.Details
-        '
-        'ColumnHeader1
-        '
-        Me.ColumnHeader1.Text = "Variable name"
-        Me.ColumnHeader1.Width = 201
-        '
-        'ColumnHeader4
-        '
-        Me.ColumnHeader4.Text = "Array?"
-        Me.ColumnHeader4.Width = 45
-        '
-        'ColumnHeader3
-        '
-        Me.ColumnHeader3.Text = "Description"
-        Me.ColumnHeader3.Width = 437
-        '
-        'DictionaryLabel
-        '
-        Me.DictionaryLabel.AutoSize = True
-        Me.DictionaryLabel.Location = New System.Drawing.Point(10, 10)
-        Me.DictionaryLabel.Name = "DictionaryLabel"
-        Me.DictionaryLabel.Size = New System.Drawing.Size(341, 13)
-        Me.DictionaryLabel.TabIndex = 21
-        Me.DictionaryLabel.Text = "Variable dictionary - drag variables from the list below to the grid above."
         '
         'Grid
         '
@@ -226,13 +226,14 @@ Public Class OutputFileDescUI
         'Formulas and custom names must be loaded with R1C1 reference style
         Me.Grid.ReferenceStyle = FarPoint.Win.Spread.Model.ReferenceStyle.R1C1
         Me.Grid.ColumnCount = 3
+        Me.Grid.AutoCalculation = False
         Me.Grid.AutoUpdateNotes = True
         Me.Grid.ColumnHeader.Cells.Get(0, 0).Value = "Variable name"
         Me.Grid.ColumnHeader.Cells.Get(0, 1).Value = "Array?"
         Me.Grid.ColumnHeader.Cells.Get(0, 2).Value = "Description"
         Me.Grid.Columns.Get(0).BackColor = System.Drawing.Color.WhiteSmoke
         Me.Grid.Columns.Get(0).Label = "Variable name"
-        Me.Grid.Columns.Get(0).Width = 145.0!
+        Me.Grid.Columns.Get(0).Width = 219.0!
         Me.Grid.Columns.Get(1).Label = "Array?"
         Me.Grid.Columns.Get(1).Locked = True
         Me.Grid.Columns.Get(1).Width = 52.0!
@@ -263,10 +264,10 @@ Public Class OutputFileDescUI
         Me.Size = New System.Drawing.Size(753, 773)
         Me.Controls.SetChildIndex(Me.RightHandPanel, 0)
         Me.RightHandPanel.ResumeLayout(False)
-        CType(Me.Spread, System.ComponentModel.ISupportInitialize).EndInit()
-        Me.GridContextMenu.ResumeLayout(False)
         Me.BottomPanel.ResumeLayout(False)
         Me.BottomPanel.PerformLayout()
+        CType(Me.Spread, System.ComponentModel.ISupportInitialize).EndInit()
+        Me.GridContextMenu.ResumeLayout(False)
         CType(Me.Grid, System.ComponentModel.ISupportInitialize).EndInit()
         Me.ResumeLayout(False)
 
@@ -288,12 +289,18 @@ Public Class OutputFileDescUI
                        "       sw(2-4)                -  Ranges of elements of arrays can be reported." + vbCrLf + _
                        "       wheat.yield as whtyld  -  Variable names can also be renamed in the output file - aliased"
             DictionaryLabel.Text = "Variable dictionary - drag variables from the list below to the grid above."
+            Grid.Columns(0).Width = 219
+            Grid.Columns(0).Label = "Variable name"
         ElseIf Controller.Data.Type.ToLower = "tracker" Then
             HelpText = "Drag an example tracker variable from the list at the bottom to the grid at the top to use as a starting point for creating your own."
             DictionaryLabel.Text = "Example tracker variables - drag an example tracker variable to the grid above."
+            Grid.Columns(0).Width = Spread.Size.Width - 50
+            Grid.Columns(0).Label = "Tracker variable"
         Else
             HelpText = "Drag one or more frequencies from the list at the bottom to the grid at the top."
             DictionaryLabel.Text = "Frequency list - drag one or more frequencies from the list below to the grid above."
+            Grid.Columns(0).Width = 219
+            Grid.Columns(0).Label = "Output frequency"
         End If
 
         ' We want to find the component that is a child of our paddock.
@@ -316,10 +323,12 @@ Public Class OutputFileDescUI
         If Controller.Data.Type.ToLower <> "variables" Then
             VariableListView.Columns(1).Width = 0
             Grid.Columns(1).Visible = False
+            Grid.Columns(2).Visible = False
 
         Else
             VariableListView.Columns(1).Width = 45
             Grid.Columns(1).Visible = True
+            Grid.Columns(2).Visible = True
         End If
 
         Dim InputMap As FarPoint.Win.Spread.InputMap = Spread.GetInputMap(FarPoint.Win.Spread.InputMapMode.WhenAncestorOfFocused)
@@ -355,7 +364,6 @@ Public Class OutputFileDescUI
             Grid.Cells(Row, 2).Value = Variable.Attribute("description")
             Row += 1
         Next
-        Grid.Columns(0).Width = Grid.Columns(0).GetPreferredWidth()
     End Sub
     Private Sub PopulateVariableListView()
         ' ----------------------------------------------
