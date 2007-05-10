@@ -3012,6 +3012,7 @@
          <variable name="value of yield on harvesting as HarvestedYield" description="The harvested yield value"/>
          <variable name="sum of ep on end_of_day from sowing to harvesting as InCropPlantWaterUptake" description="Sum of plant water uptake from sowing to harvesting"/>
          <variable name="maximum of lai on end_of_day from sowing to harvesting as MaxLai" description="Maximum LAI from sowing to harvesting"/>
+         <variable name="sum of rain on start_of_day from reported to now as rainfall" description="Total rainfall since last report"/>
       </variables>
       <ApsimToSim>
          <type>component</type>
