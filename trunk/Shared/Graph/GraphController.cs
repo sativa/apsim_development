@@ -150,7 +150,7 @@ namespace Graph
             {
             if (WeCreatedDataContainer && DataContainer != 0)
                 {
-                DeleteDataContainer(DataContainer);
+                //DeleteDataContainer(DataContainer);
                 DataContainer = 0;
                 }
             }
