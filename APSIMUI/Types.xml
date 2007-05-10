@@ -1411,7 +1411,7 @@
          <ini>%apsuite\apsim\centro\centro.ini</ini>
          <calldll>
             <dll>%apsuite\bin\soil.dll</dll>
-            <class>CSGeneral.Soil</class>
+            <class>Soils.Soil</class>
             <method>ExportCropToSim</method>
             <ConstructorArgument>soil</ConstructorArgument>
             <argument>centro</argument>
