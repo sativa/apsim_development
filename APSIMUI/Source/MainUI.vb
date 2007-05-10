@@ -1122,7 +1122,9 @@ Public Class MainUI
     End Sub
 
     Private Sub OnStdError(ByVal sender As Object, ByVal e As DataReceivedEventArgs)
-        CurrentErrors(CurrentRunningSimulationIndex) = CurrentErrors(CurrentRunningSimulationIndex) + e.Text + vbCrLf
+        Dim Line As String = e.Text
+        CurrentSummaryFile.WriteLine(Line)
+        CurrentErrors(CurrentRunningSimulationIndex) = CurrentErrors(CurrentRunningSimulationIndex) + Line + vbCrLf
     End Sub
 
 

@@ -357,6 +357,8 @@ class EXPORT Component
 
       void clearReturnInfos(void);
       void waitForComplete(void);
+      void writeStringToStream(const FString& lines, std::ostream& out);
+      
 
       friend class TypeConverter;
       friend void EXPORT STDCALL messageToLogic (unsigned* instanceNumber,
