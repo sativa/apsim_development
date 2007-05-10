@@ -17,6 +17,7 @@
     <butterflypea />
     <bambatsi />
     <canola />
+    <centro />
     <chickpea />
     <cowpea />
     <egrandis />
@@ -992,12 +993,12 @@ IB0001 CABERNET FRANC   IB0001    07   590   020  4000  1000   0.8   4.5  42.0  
               Bank = 0
               ResetBank = 0
            endif
-           
+
            ! Subtract fertiliser cost from the bank
            if (fertilizer > 0)then
               Bank = Bank - ([NCost] * fertilizer + [NApplicationCost])
            endif
-           
+
            ! Add harvest return to the bank
            if stage_name = 'harvest_ripe' or plant_status = 'dead' then
               FullPrice = [Price] + (grain_protein - [MinimumProtein]) * 2 * [ProteinIncrement]
@@ -1015,11 +1016,11 @@ IB0001 CABERNET FRANC   IB0001    07   590   020  4000  1000   0.8   4.5  42.0  
           <MinimumProtein type="text" description="Minimum protein for classification ($/t) : ">10.5</MinimumProtein>
           <ProteinIncrement type="text" description="Protein increment payment ($/t) : ">2</ProteinIncrement>
         </category>
-      </rule>       
+      </rule>
       <rule name="Publish an event when an APSIM variable meets a 2 part condition">
         <condition name="post"><![CDATA[
-          if ([VariableName1] = [VariableValue1] and 
-              [VariableName2] >= [LowerBound] and 
+          if ([VariableName1] = [VariableValue1] and
+              [VariableName2] >= [LowerBound] and
               [VariableName2] <= [UpperBound]) then
              act_mods [EventName]
           endif]]>
@@ -1036,7 +1037,7 @@ IB0001 CABERNET FRANC   IB0001    07   590   020  4000  1000   0.8   4.5  42.0  
         <category name="Event properties">
           <EventName type="text" description="Name of event to publish when above 2 conditions are met : ">SevereFrostAtFlowering</EventName>
         </category>
-      </rule>      
+      </rule>
       <rule name="Create a yes/no variable when within x TT of start of a crop stage">
         <condition name="post"><![CDATA[
             if (stage_name = '[StageName]') then
@@ -1057,7 +1058,7 @@ IB0001 CABERNET FRANC   IB0001    07   590   020  4000  1000   0.8   4.5  42.0  
         <category name="Output variable properties">
           <OutputVariableName type="text" description="Name of output variable to hold yes/no flag : ">InHeatShockWindow</OutputVariableName>
         </category>
-      </rule>      
+      </rule>
 
     </manager>
     <folder name="Africa-India">
@@ -2752,9 +2753,9 @@ if {$steps == 0} {tkwait variable steps}
     <variable type="multiedit" description="Name of VENSIM variable(s) that are gettable/settable by APSIM"/>
     <ini name="Constants">
       <filename>%apsuite\apsim\venlink\sample\Vensim.ini</filename>
-    </ini>  
-  </venlink> 
-    
+    </ini>
+  </venlink>
+
   <folder name="Animals">
     <StockHerbageConverter>
       <debug type="list" listvalues="on,off">off</debug>
