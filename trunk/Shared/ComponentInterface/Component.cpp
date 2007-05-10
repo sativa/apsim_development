@@ -504,13 +504,7 @@ void Component::error(const FString& msg, bool isFatal)
    strcat(cMessage, name.c_str());
    strcat(cMessage, "\n!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!\n\n");
 
-   writeString(cMessage);
-
-   if (isFatal)
-      {
-      cerr << asString(msg) << endl;
-      cerr << "Component name: " << name;
-      }
+   writeStringToStream(cMessage, cerr);
       
    // create and send a message.
    Message* errorMessage = newPublishEventMessage(componentID,
@@ -721,16 +715,20 @@ namespace protocol {
 
 void Component::writeString(const FString& lines)
    {
+   writeStringToStream(lines, cout);   
+   }
+void Component::writeStringToStream(const FString& lines, ostream& out)
+   {
    if (!haveWrittenToStdOutToday)
       {
       if (beforeCommence)
          {
-         cout << endl;
-         cout << "------- " << name << " Initialisation ";
-         cout.width(79-24-name.length());
-         cout.fill('-');
-         cout << '-' << endl;
-         cout.fill(' ');
+         out << endl;
+         out << "------- " << name << " Initialisation ";
+         out.width(79-24-name.length());
+         out.fill('-');
+         out << '-' << endl;
+         out.fill(' ');
          }
       else
          {
@@ -738,8 +736,8 @@ void Component::writeString(const FString& lines)
          Today.Set(tick.startday);
          Today.Set_write_format("D MMMMMM YYYY");
          Today.Write(cout);
-         cout << "(Day of year=" << Today.Get_day_of_year() << ")";
-         cout << ", " << name << ": " << endl;
+         out << "(Day of year=" << Today.Get_day_of_year() << ")";
+         out << ", " << name << ": " << endl;
          }
       haveWrittenToStdOutToday = true;
       }
@@ -752,7 +750,7 @@ void Component::writeString(const FString& lines)
       posCR = lines.find("\n", posStart);
       if (posCR == FString::npos)
          posCR = lines.length();
-      std::cout << "     " << asString(lines.substr(posStart, posCR-posStart)) << endl;
+      out << "     " << asString(lines.substr(posStart, posCR-posStart)) << endl;
       posStart = posCR + 1;
       }
    while (posCR < lines.length());
