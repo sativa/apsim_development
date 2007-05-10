@@ -34,7 +34,7 @@ class TypeConverter
       TypeConverter(bool source, double& dest)
          {dest = source;}
       TypeConverter(bool source, std::string& dest)
-         {dest = itoa(source);}
+         {if (source) dest = "1"; else dest = "0"; }
       TypeConverter(bool source, std::vector<bool>& dest)
          {
          dest.erase(dest.begin(), dest.end());
@@ -58,7 +58,7 @@ class TypeConverter
       TypeConverter(bool source, std::vector<std::string>& dest)
          {
          dest.erase(dest.begin(), dest.end());
-         dest.push_back(itoa(source));
+         if (source) { dest.push_back("1");}  else {dest.push_back("0"); }
          }
 
       // ------------------------------------------------
@@ -478,6 +478,73 @@ class TypeConverter
          std::copy(source.begin(), source.end(), back_inserter(dest));
          if (arraySpecifier) arraySpecifier->processArray(dest);
          }
+
+      // ------------------------------------------------
+      // conversions from vector<bool> to other data type.
+      // ------------------------------------------------
+      TypeConverter(const std::vector<bool>& source, bool& dest, ArraySpecifier* arraySpecifier)
+         {
+         std::vector<bool> values = source;
+         if (arraySpecifier) arraySpecifier->processArray(values);
+         if (values.size() != 1)
+            throw std::runtime_error("Data type conversion error. Cannot convert from integer array to boolean");
+         else
+            dest = values[0];
+         }
+      TypeConverter(const std::vector<bool>& source, int& dest, ArraySpecifier* arraySpecifier)
+         {
+         std::vector<bool> values = source;
+         if (arraySpecifier) arraySpecifier->processArray(values);
+         if (values.size() != 1)
+            throw std::runtime_error("Data type conversion error. Cannot convert from integer array to integer");
+         else
+            dest = values[0];
+         }
+      TypeConverter(const std::vector<bool>& source, float& dest, ArraySpecifier* arraySpecifier)
+         {
+         std::vector<bool> values = source;
+         if (arraySpecifier) arraySpecifier->processArray(values);
+         if (values.size() != 1)
+            throw std::runtime_error("Data type conversion error. Cannot convert from integer array to single");
+         else
+            dest = values[0];
+         }
+      TypeConverter(const std::vector<bool>& source, double& dest, ArraySpecifier* arraySpecifier)
+         {
+         std::vector<bool> values = source;
+         if (arraySpecifier) arraySpecifier->processArray(values);
+         if (values.size() != 1)
+            throw std::runtime_error("Data type conversion error. Cannot convert from integer array to double");
+         else
+            dest = values[0];
+         }
+      TypeConverter(const std::vector<bool>& source, std::string& dest, ArraySpecifier* arraySpecifier);
+      TypeConverter(const std::vector<bool>& source, std::vector<bool>& dest, ArraySpecifier* arraySpecifier)
+         {
+         dest.erase(dest.begin(), dest.end());
+         std::copy(source.begin(), source.end(), back_inserter(dest));
+         if (arraySpecifier) arraySpecifier->processArray(dest);
+         }
+      TypeConverter(const std::vector<bool>& source, std::vector<int>& dest, ArraySpecifier* arraySpecifier)
+         {
+         dest.erase(dest.begin(), dest.end());
+         std::copy(source.begin(), source.end(), back_inserter(dest));
+         if (arraySpecifier) arraySpecifier->processArray(dest);
+         }
+      TypeConverter(const std::vector<bool>& source, std::vector<float>& dest, ArraySpecifier* arraySpecifier)
+         {
+         dest.erase(dest.begin(), dest.end());
+         std::copy(source.begin(), source.end(), back_inserter(dest));
+         if (arraySpecifier) arraySpecifier->processArray(dest);
+         }
+      TypeConverter(const std::vector<bool>& source, std::vector<double>& dest, ArraySpecifier* arraySpecifier)
+         {
+         dest.erase(dest.begin(), dest.end());
+         std::copy(source.begin(), source.end(), back_inserter(dest));
+         if (arraySpecifier) arraySpecifier->processArray(dest);
+         }
+      TypeConverter(const std::vector<bool>& source, std::vector<std::string>& dest, ArraySpecifier* arraySpecifier);
+
 
    };
 
