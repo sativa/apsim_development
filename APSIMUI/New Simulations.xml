@@ -2254,7 +2254,7 @@
       <sugar />
       <outputfile name="outputfile">
         <variables name="Variables">
-          <variable name="dd/mm/yyyy" description="Date (dd/mm/yyyy)" array="?" />
+          <variable name="dd/mm/yyyy as Date" description="Date (dd/mm/yyyy)" array="?" />
           <variable name="sugar.biomass" description="Sugar total above-ground biomass (green + trash) (g/m2)" array="?" />
           <variable name="sugar.cane_wt" description="Sugar cane dry weight (g/m2)" array="?" />
           <variable name="sugar.sucrose_wt" description="Sugar sucrose weight (g/m2)" array="?" />
@@ -3523,12 +3523,12 @@ proc appletInit {w} {
    set data(doc) [dom parse $XMLDoc]
    set data(docroot) [$data(doc) documentElement]
    set data(filename) [getValue $data(docroot) filename]
-}   
+}
 
 # Read in the logfile
 proc readIn {w} {
    upvar #0 $w data
-   
+
    if {![file exists $data(filename)]} { set data(message) "$data(filename) does not exist."; return 0}
 
    set data(message) "Reading."; update
@@ -3580,7 +3580,7 @@ proc setupUI {w} {
    upvar #0 $w data
 
    panedwindow $w.p
-   
+
    # Filename selector
    frame $w.f
    label $w.f.l -text "Filename"
@@ -3620,7 +3620,7 @@ proc setupUI {w} {
    bind $w.p.c &lt;Key-Right&gt;  "+catch \"canvasRight $w\""
 
    bind $w.p.c &lt;Configure&gt;  "+catch \"draw $w\""
-   
+
    grid columnconf $w 1 -weight 1
    grid rowconf    $w 2 -weight 1
    focus $w.p.c
@@ -3729,16 +3729,16 @@ proc showText {w} {
    upvar #0 $w data
    set stime [split $data(currTime) ","]
    set year [lindex $stime 1]; set day [max [expr [lindex $stime 0]-1] 0]
-  
+
    set dstr [clock format [clock scan "1/1/$year + $day days"] -format "%d-%b-%Y"]
    $data(text) delete 0.0 end
    $data(text) insert end "$dstr ($data(currTime))\n"
    if {[info exists data(text,$data(currTime))]} {
       $data(text) insert end $data(text,$data(currTime))
-   } 
-   
+   }
+
    set paddock [lsearch $data(paddocks) $data(currPaddock)]
-   $data(canvas) coords currPos [wtocx $w 0] [wtocy $w $data(currTime)] [wtocx $w [llength $data(paddocks)]] [wtocy $w $data(currTime)] 
+   $data(canvas) coords currPos [wtocx $w 0] [wtocy $w $data(currTime)] [wtocx $w [llength $data(paddocks)]] [wtocy $w $data(currTime)]
 }
 
 # Draw the paddock history
@@ -3746,11 +3746,11 @@ proc draw {w} {
    upvar #0 $w data
 
    $data(canvas) delete all
-   
+
    set data(height) [winfo height $data(canvas)]
    set data(width)  [winfo width $data(canvas)]
    set data(xMargin) 60
-   
+
    set t0 [date2num $data(earliest)]
    set t1 [date2num $data(latest)]
    set data(scaleFactY) [expr ($data(height)-20)/($t1 - $t0)]
@@ -3766,7 +3766,7 @@ proc draw {w} {
          if {[info exists data(colours,$what)]} {set colour $data(colours,$what)} else {set colour white}
          $data(canvas) create rect [wtocx $w $column] [wtocy $w $t0] [wtocx $w [expr $column+1]] [wtocy $w $t1] -fill $colour -outline {}
       }
-      incr column 
+      incr column
    }
    # text
    set column 0
@@ -3777,7 +3777,7 @@ proc draw {w} {
          set what [lindex [lindex $data($paddock,timeline) [expr $i-1]] 1]
          $data(canvas) create text [expr 5 + [wtocx $w $column]] [wtocy $w $t0] -text $what -anchor nw
       }
-      incr column 
+      incr column
    }
    # column boundaries
    for {set col 0} {$col &lt; [llength $data(paddocks)]} {incr col} {
@@ -3865,7 +3865,7 @@ proc getTag {c x y} {
          }
       }
    }
-   return {}  
+   return {}
 }
 
 # Select an object near (x,y)
@@ -3900,7 +3900,7 @@ proc select {w x y} {
    }
 }
 
-# Move an already selected object 
+# Move an already selected object
 proc move {w x y} {
    upvar #0 $w cfg
    if {$cfg(selected) != {}} {
@@ -3923,12 +3923,12 @@ proc move {w x y} {
          $cfg(g) arc set $name x $newx
          $cfg(g) arc set $name y $newy
          fixupArrow $w $cfg(selected) "node:[$cfg(g) arc source $name]" "node:[$cfg(g) arc target $name]"
-      }  
+      }
    }
    $cfg(c) configure -scrollregion [$cfg(c) bbox all]
 }
 
- 
+
 #Return a point on the edge of the node on a line to (x,y)
 # NB. canvas origin at upper left corner
 # Used to find arrow positions between nodes
@@ -3948,14 +3948,14 @@ proc findEdge {w x y node} {
    # Cheat - assume its always a circle and just take mid point of box
    set r [expr abs(([lindex $nc 2] - [lindex $nc 0])/2.0)]
    set dx [expr $x-$xn]
-   set dy [expr ($maxy-$y)-$yn]                
+   set dy [expr ($maxy-$y)-$yn]
    if {$dx < 0} {
      set xe [expr $xn - $r * cos($a)]
-     set ye [expr $yn - $r * sin($a)] 
-   } else { 
+     set ye [expr $yn - $r * sin($a)]
+   } else {
      set xe [expr $xn + $r * cos($a)]
-     set ye [expr $yn + $r * sin($a)] 
-   }  
+     set ye [expr $yn + $r * sin($a)]
+   }
    return [list $xe [expr $maxy - $ye]]
 }
 
@@ -3963,12 +3963,12 @@ proc findEdge {w x y node} {
 proc fixupArrow {w arc srcNode destNode} {
    upvar #0 $w cfg
    set arc [lindex [split $arc ":"] 1]
-   set xm [$cfg(g) arc get $arc x] 
+   set xm [$cfg(g) arc get $arc x]
    set ym [$cfg(g) arc get $arc y]
 
    set p0 [findEdge $w $xm $ym $srcNode]
    set p1 [findEdge $w $xm $ym $destNode]
-   
+
    $cfg(c) coords arc:$arc [concat $p0 $xm $ym $p1]
 }
 
@@ -3979,9 +3979,9 @@ proc action {w x y cx cy} {
    if {$cfg(selected) == {}} {
       postNewNodeMenu $w $x $y $cx $cy
    } elseif {$cfg(selected) != {} && "$tag" == $cfg(selected)} {
-      postChangeMenu $w $tag $x $y $cx $cy 
+      postChangeMenu $w $tag $x $y $cx $cy
    } elseif {$cfg(selected) != {} && "$tag" != {} && "$tag" != $cfg(selected)} {
-      postAddArcMenu $w $cfg(selected) $tag $x $y $cx $cy 
+      postAddArcMenu $w $cfg(selected) $tag $x $y $cx $cy
    }
 }
 
@@ -3990,7 +3990,7 @@ proc postNewNodeMenu {w x y cx cy} {
    if {[winfo exists $cfg(c).newNodeMenu]} {destroy $cfg(c).newNodeMenu}
    menu $cfg(c).newNodeMenu -tearoff 0
    $cfg(c).newNodeMenu add command -label "Add New State" -command "addNewNode $w $cx $cy"
-   tk_popup $cfg(c).newNodeMenu $x $y 
+   tk_popup $cfg(c).newNodeMenu $x $y
 }
 
 proc addNewNode {w x y} {
@@ -4016,7 +4016,7 @@ proc addNewNode {w x y} {
 
 proc dupNode {w tag} {
    upvar #0 $w cfg
-   set srcNode [lindex [split $tag :] 1] 
+   set srcNode [lindex [split $tag :] 1]
 
    set n 0; while {[$cfg(g) node exists n$n]} {incr n}; set n "n$n"
    $cfg(g) node insert $n
@@ -4041,8 +4041,8 @@ proc dupNode {w tag} {
         foreach thing [$cfg(g) arc get $arc $what] {
            $cfg(g) arc lappend $newArc $what $thing
         }
-      }     
-   }  
+      }
+   }
 
    foreach arc [$cfg(g) arcs -out $srcNode] {
       set src  "node:$n"
@@ -4052,13 +4052,13 @@ proc dupNode {w tag} {
         foreach thing [$cfg(g) arc get $arc $what] {
            $cfg(g) arc lappend $newArc $what $thing
         }
-      }     
-   }  
+      }
+   }
 }
 
 proc deleteNode {w tag} {
    upvar #0 $w cfg
-   set node [lindex [split $tag :] 1] 
+   set node [lindex [split $tag :] 1]
    foreach arcTag [$cfg(g) arcs -adj $node] {
       $cfg(c) delete arc:$arcTag
    }
@@ -4073,14 +4073,14 @@ proc postAddArcMenu {w srcTag destTag x y cx cy} {
    catch {destroy $cfg(c).addArcMenu}
    menu $cfg(c).addArcMenu -tearoff 0
    set srcName [lindex [split $srcTag :] 1]; set destName [lindex [split $destTag :] 1]
-   
-   if {![catch {set src [$cfg(g) node get $srcName name]; 
+
+   if {![catch {set src [$cfg(g) node get $srcName name];
                 set dest [$cfg(g) node get $destName name]}]} {
       $cfg(c).addArcMenu add command \
           -label "Add arc from $src to $dest" \
           -command "addNewArc $w $srcTag $destTag"
-      tk_popup $cfg(c).addArcMenu $x $y 
-   }  
+      tk_popup $cfg(c).addArcMenu $x $y
+   }
 }
 
 proc addNewArc {w srcTag destTag} {
@@ -4095,7 +4095,7 @@ proc addNewArc {w srcTag destTag} {
    set y2 [expr ([lindex $c2 1] + [lindex $c2 3])/2]
    set mx [expr ($x1 + $x2) / 2.0]; set my [expr ($y1 + $y2) / 2.0]
    $cfg(c) create line $x1 $y1 $mx $my $x2 $y2 -smooth bezier -tags arc:$arc -arrow last -arrowshape {15 25 10}
-   
+
    $cfg(g) arc insert [lindex [split $srcTag :] 1] [lindex [split $destTag :] 1] $arc
    $cfg(g) arc lappend $arc rules   {}
    $cfg(g) arc lappend $arc actions {}
@@ -4121,7 +4121,7 @@ proc dupArc {w tag} {
 
    foreach rule [$cfg(g) arc get $arc rules] {
      $cfg(g) arc lappend $newArc rules  $rule
-   }  
+   }
    foreach action [$cfg(g) arc get $arc actions] {
      $cfg(g) arc lappend $newArc actions $action
    }
@@ -4142,7 +4142,7 @@ proc postChangeMenu {w tag x y cx cy} {
    tk_popup $cfg(c).postChangeMenu  $x $y
 }
 
-# Create the UI for the current object and fill it out 
+# Create the UI for the current object and fill it out
 proc showSelection {w type name} {
    upvar #0 $w cfg
 
@@ -4155,7 +4155,7 @@ proc showSelection {w type name} {
       $w add $w.$type
       set cfg(s) "$w.$type"
    }
-   show_$type $w 
+   show_$type $w
 }
 
 proc setup_help {w junk} {
@@ -4179,14 +4179,14 @@ proc show_help {w} {}
 proc setup_node {w name} {
    upvar #0 $w cfg
    set f [frame $w.node]
-   label $f.l1 -text "Name" 
+   label $f.l1 -text "Name"
    entry $f.e1 -textvariable $w\(name\) -width 12 -validate key -vcmd {string is wordchar %P}
-   label $f.l2 -text "Alias" 
+   label $f.l2 -text "Alias"
    entry $f.e2 -textvariable $w\(alias\) -width 12 -validate key -vcmd {string is wordchar %P}
-   label $f.l3 -text "Description" 
-   entry $f.e3 -textvariable $w\(desc\) -width 40 
-   label $f.l4 -text "Colour" 
-   entry $f.e4 -textvariable $w\(fill\) -width 12 
+   label $f.l3 -text "Description"
+   entry $f.e3 -textvariable $w\(desc\) -width 40
+   label $f.l4 -text "Colour"
+   entry $f.e4 -textvariable $w\(fill\) -width 12
 
    grid $f.l1 -row 1 -column 1 -sticky w
    grid $f.e1 -row 1 -column 2 -sticky w
@@ -4218,13 +4218,13 @@ proc set_node {w} {
    upvar #0 $w cfg
    set node $cfg(edit)
    if {$node == {}} {return}
-   
+
    # Make the node name unique: append a "_1", "_2" etc.. if needed.
    set candidate $cfg(name); set found 1
    while {$found} {
       set found 0
       foreach otherNode [$cfg(g) nodes] {
-         if {"$node" != "$otherNode" && 
+         if {"$node" != "$otherNode" &&
              [string equal [$cfg(g) node get $otherNode name] $candidate]} {
             set found 1
          }
@@ -4247,7 +4247,7 @@ proc set_node {w} {
    foreach id [$cfg(c) find withtag node:$node] {
      if {[$cfg(c) type $id] == "text"}  {$cfg(c) itemconf $id -text $cfg(name)}
      if {[$cfg(c) type $id] == "oval"}  {$cfg(c) itemconf $id -fill $cfg(fill)}
-   }  
+   }
    set cfg(edit) {}
 }
 
@@ -4257,7 +4257,7 @@ proc setup_arc {w name} {
    set p [panedwindow $f.p -orient vertical]
 
    frame $p.r
-   label $p.r.l1 -text "Rules" 
+   label $p.r.l1 -text "Rules"
    set cfg(rulesW) [text $p.r.rules -height 4 -wrap none  -yscrollcommand "$p.r.rsbar set"]
    scrollbar $p.r.rsbar -orient vertical -command "$p.r.rules yview"
    grid $p.r.l1 -row 1 -column 1 -sticky w
@@ -4267,16 +4267,16 @@ proc setup_arc {w name} {
    grid columnconfig $p.r 1 -weight 1
 
    frame $p.a
-   label $p.a.l2 -text "Actions" 
+   label $p.a.l2 -text "Actions"
    set cfg(actionsW) [text $p.a.actions -height 3 -wrap none  -yscrollcommand "$p.a.asbar set"]
    scrollbar $p.a.asbar -orient vertical -command "$p.a.actions yview"
    grid $p.a.l2 -row 1 -column 1 -sticky w
    grid $p.a.actions -row 2 -column 1 -sticky nsew
-   grid $p.a.asbar   -row 2 -column 2 -sticky w 
+   grid $p.a.asbar   -row 2 -column 2 -sticky w
    grid rowconfig $p.a 2 -weight 1
    grid columnconfig $p.a 1 -weight 1
 
-   $p add $p.r $p.a 
+   $p add $p.r $p.a
 
    grid $f.p -row 1 -column 1 -sticky nsew
    grid rowconfig $f 1 -weight 1
@@ -4342,7 +4342,7 @@ proc saveGraph {w} {
    set rule "<rule name=\"Init rule\" invisible=\"yes\" condition=\"init\">\n"
    append rule "<!\[CDATA\[package require struct\n"
    append rule "::struct::graph stateGraph\n"
-   
+
    foreach node [$cfg(g) nodes] {
       append x "<node>\n"
       foreach key [$cfg(g) node keys $node] {
@@ -4369,11 +4369,11 @@ proc saveGraph {w} {
             foreach thing [$cfg(g) arc get $arc $key] {
                if {$thing != {}} {
                   append rule "stateGraph arc lappend \"$arc\" $key \{$thing\}\n"
-                  set thing [string map {\< "&lt;"  \> "&gt;" 
-                                         \& "&amp;" \" "&quot;" 
+                  set thing [string map {\< "&lt;"  \> "&gt;"
+                                         \& "&amp;" \" "&quot;"
                                          \[ "&#91;" \] "&#93;"} $thing]
                   append x " <$key>$thing</$key>\n"
-               }   
+               }
             }
          }
       }
@@ -4398,13 +4398,13 @@ proc openGraph {w} {
 
    set cfg(g) [::struct::graph g]
 
-   global XMLDoc 
+   global XMLDoc
    set cfg(doc) [dom parse $XMLDoc]
    set cfg(docroot) [$cfg(doc) documentElement]
 
    set cfg(canvas_height) [getValue $cfg(docroot) canvas_height]; if {$cfg(canvas_height) == {}} {set cfg(canvas_height) 400}
    set cfg(rules_height) [getValue $cfg(docroot) rules_height]; if {$cfg(rules_height) == {}} {set cfg(rules_height) 40}
-   
+
    foreach node [$cfg(docroot) selectNodes //node] {
       $cfg(g) node insert [set nodeName [getValue $node name]]
       $cfg(g) node set $nodeName name $nodeName
@@ -4422,7 +4422,7 @@ proc openGraph {w} {
       set sourceNode [getValue $arc source]
       set targetNode [getValue $arc target]
       if {[$cfg(g) node exists $sourceNode] && [$cfg(g) node exists $targetNode]} {
-         $cfg(g) arc insert $sourceNode $targetNode $arcName 
+         $cfg(g) arc insert $sourceNode $targetNode $arcName
          foreach {what default} {x 300 y 300} {
             if {[set value [getValue $arc $what]] == ""} {
                 $cfg(g) arc set $arcName $what $default
@@ -4432,20 +4432,20 @@ proc openGraph {w} {
          }
          foreach {what} {rules actions} {
             foreach value [getValues $arc $what] {
-               set value [string map {"&lt;"  \<  "&gt;" \> 
+               set value [string map {"&lt;"  \<  "&gt;" \>
                                       "&amp;" \&  "&quot;"  \"
                                       "&#91;" \[  "&#93;" \] } $value]
-         
+
                $cfg(g) arc lappend $arcName $what $value
             }
          }
       } else {
          tk_messageBox -title "Whoops!!" -message "source ($sourceNode) and/or target ($targetNode) is missing??" -type ok
          set errorsFound 1
-      }   
+      }
    }
    set cfg(setupOk) [expr ! $errorsFound]
-}    
+}
 
 # Create a graph on a canvas
 proc createGraph {w} {
@@ -4524,7 +4524,7 @@ proc setXML {name1 name2 op} {
       global XMLDoc
       set XMLDoc $newXML
    }
-}   
+}
 
 ##bind . <Escape> {+console show}         ;# quick restart
 ]]></uiscript>
@@ -4963,7 +4963,7 @@ proc dateWithin {t0 t1} {
    set t [apsimGet day]
    if {$t0 > $t1} {
       return [expr $t >= $t0 || $t <= $t1]
-   } else {   
+   } else {
       return [expr $t >= $t0 && $t <= $t1]
    }
    # notreached
@@ -4975,8 +4975,8 @@ proc dateIs {t} {
 
 # Return the current state of the system
 proc currentState {} {
-   global state 
-   return $state   
+   global state
+   return $state
 }
 
 # Return the sum of the last n days rainfall
@@ -4987,7 +4987,7 @@ proc sumLastRain {n} {
 
 # Maintain a list of rainfall amounts.
 proc accumRain {} {
-   global rainList 
+   global rainList
    set rainList [concat [lrange $rainList 1 end] [apsimGet rain]]
 }
 
@@ -5005,9 +5005,9 @@ proc setupLogging {} {
    apsimWriteToSummaryFile "initialised logging:paddocks=p1"
 }
 proc closeLogging {} {
-   global logFile 
+   global logFile
    puts $logFile "Finished"
-   close $logFile 
+   close $logFile
 }
 proc log {msg} {
    global logFile
@@ -5015,7 +5015,7 @@ proc log {msg} {
    apsimWriteToSummaryFile $msg
 }
 
-############### The decision routine. 
+############### The decision routine.
 # Return the score for planting "what"
 proc checkRules {} {
   log "State is [currentState]. (esw=[format %.0f [apsimGet esw]])"
@@ -5028,7 +5028,7 @@ proc checkRules {} {
         set value [uplevel #0 expr $rule]
         log "target=$target,rule=$rule, value=$value"
         lappend expr $value
-     }  
+     }
      set score [expr [join $expr "*"]]
      if {$score > $bestScore} {
         set bestScore $score
@@ -5046,7 +5046,7 @@ proc changeState {newState} {
       if {[stateGraph arc target $arc] == "$newState" } {
          lappend arcs $arc
       }
-   }   
+   }
    if {[llength $arcs] == 0} {error "No paths from [currentState] to $newState!"}
    if {[llength $arcs] > 1} {
       # More than 1 path - evaluate best option
@@ -5062,7 +5062,7 @@ proc changeState {newState} {
             set bestScore $score
             set bestArc $arc
          }
-      }  
+      }
       if {$bestScore > 0.0} {
          apsimWriteToSummaryFile "Taking arc $bestArc from [currentState] to $newState"
          set arc $bestArc
@@ -5085,7 +5085,7 @@ proc doProcess {} {
 }
 
 # A flag for initialisation procedures.
-# NB. some funny business here. Delay opening report file until the 1st day of 
+# NB. some funny business here. Delay opening report file until the 1st day of
 # simulation as it's hard to know how many paddocks are present at init2 time.
 set setupDone 0
 proc checkSetup {} {
@@ -5100,7 +5100,7 @@ proc checkSetup {} {
   }
 }
 
-############### Stuff starts here. 
+############### Stuff starts here.
 # The 10 day rainfall accumulator - should be the 10 days of rain prior to start of simulation
 set rainList {0.2 1.0 0 0 0 0 15 12 0 0 0 0}
 
