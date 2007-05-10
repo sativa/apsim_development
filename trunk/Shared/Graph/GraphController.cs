@@ -349,7 +349,7 @@ namespace Graph
             // ------------------------------------------------------
             DataTable Data = new DataTable();
 
-            byte[] ByteStream = new byte[50000];
+            byte[] ByteStream = new byte[5000000];
             GetXYData(DataContainer, FullPathToRelativePath(FullPath), x, y, ByteStream);
 
             MemoryStream Mem = new MemoryStream(ByteStream);
@@ -463,7 +463,7 @@ namespace Graph
             string OurPath = Data.FullPath;
             if (Prop.Attribute("type") == "fieldname")
                 {
-                GetFieldNames(DataContainer, ParentPath, contents);
+                GetFieldNames(DataContainer, FullPathToRelativePath(ParentPath), contents);
                 string st = contents.ToString();
                 string[] Names = st.Split('\t');
                 FarPoint.Win.Spread.CellType.ComboBoxCellType Combo = (FarPoint.Win.Spread.CellType.ComboBoxCellType)Editor;
@@ -471,7 +471,7 @@ namespace Graph
                 }
             else if (Prop.Attribute("type") == "fieldnames")
                 {
-                GetFieldNames(DataContainer, ParentPath, contents);
+                GetFieldNames(DataContainer, FullPathToRelativePath(ParentPath), contents);
                 string st = contents.ToString();
                 string[] Names = st.Split('\t');
                 CheckedListBoxCellType ListBox = (CheckedListBoxCellType)Editor;
@@ -479,7 +479,7 @@ namespace Graph
                 }
             else if (Prop.Attribute("type") == "experiment")
                 {
-                FindProperties(DataContainer, OurPath, "experiment", contents);
+                FindProperties(DataContainer, FullPathToRelativePath(OurPath), "experiment", contents);
                 string st = contents.ToString();
                 string[] Names = st.Split('\t');
                 FarPoint.Win.Spread.CellType.ComboBoxCellType Combo = (FarPoint.Win.Spread.CellType.ComboBoxCellType) Editor;
@@ -487,7 +487,7 @@ namespace Graph
                 }
             else if (Prop.Attribute("type") == "treatment")
                 {
-                FindProperties(DataContainer, OurPath, "treatment", contents);
+                FindProperties(DataContainer, FullPathToRelativePath(OurPath), "treatment", contents);
                 string st = contents.ToString();
                 string[] Names = st.Split('\t');
                 FarPoint.Win.Spread.CellType.ComboBoxCellType Combo = (FarPoint.Win.Spread.CellType.ComboBoxCellType)Editor;
