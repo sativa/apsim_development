@@ -316,7 +316,10 @@ void ReportComponent::createVariable(const string& name)
       format = itoa(precision);
 
    if (matches.size() == 0)
-      fields.push_back(Field(scienceAPI, variable, "?", alias,
+      fields.push_back(Field(scienceAPI, 
+                             variable, 
+                             "", 
+                             alias,
                              nastring, format, csv));
    else
       {
@@ -325,9 +328,12 @@ void ReportComponent::createVariable(const string& name)
          string thisAlias = alias;
          if (alias == "" && matches.size() > 1)
             thisAlias = matches[i].name;
-         string mname = matches[i].name;
-         string mddml = matches[i].ddml;
-         fields.push_back(Field(scienceAPI, mname, mddml, thisAlias,
+         string matchName = matches[i].name;
+         string matchDdml = matches[i].ddml;
+         fields.push_back(Field(scienceAPI,
+                                matchName,
+                                matchDdml,
+                                thisAlias,
                                 nastring, format, csv));
          }
       }
