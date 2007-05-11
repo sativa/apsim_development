@@ -1,0 +1,50 @@
+
+[sample.report.parameters]
+outputfile    = Epopulnea.out
+
+variable = clock.dd/mmm/yyyy as Date
+variable = Epopulnea.das
+variable = Epopulnea.stage
+variable = Epopulnea.lai
+variable = Epopulnea.slai
+variable = Epopulnea.biomass
+variable = Epopulnea.ep
+variable = Epopulnea.swdef_photo
+variable = Epopulnea.swdef_expan
+variable = Epopulnea.nfact_photo
+variable = Epopulnea.nfact_expan
+variable = Epopulnea.leaf_no()
+variable = Epopulnea.dlt_leaf_no
+variable = Epopulnea.node_no
+variable = Epopulnea.node_no_sen
+variable = Epopulnea.node_no_fx
+variable = Epopulnea.dlt_tt
+
+
+[sample.clock.parameters]
+start_date=1/02/1998     ! dd/mm/yyyy
+end_date=30/09/1998    ! dd/mm/yyyy
+
+
+[sample.manager.start_of_day]
+if today = date('1/2/98') then
+   Epopulnea sow cultivar = populnea, plants = 6.25, sowing_depth = 50 (mm)
+   irrigate apply amount = 50
+endif
+
+[sample.manager.end_of_day]
+if Epopulnea.stage_name = 'maturity' or Epopulnea.plant_status = 'dead' then
+   Epopulnea harvest
+   Epopulnea end_crop
+endif
+
+   report do_output
+
+
+[sample.Epopulnea.parameters]
+ll =  0.230   0.240   0.240   0.250   0.260   0.270   0.280 ()!cm3 water/cm3 soil
+kl =  0.06    0.06    0.05    0.03    0.0     0.0     0.0  ()
+XF =  1.0     1.0     1.0     1.0     0.0     0.0     0.0   ()
+
+[sample.summaryfile.parameters]
+summaryfile=Epopulnea.sum
