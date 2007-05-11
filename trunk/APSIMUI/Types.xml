@@ -95,10 +95,12 @@
             <get name="dd/mm/yyyy" type="string"/>
             <get name="dd/mmm/yyyy" type="string"/>
             <get name="day_length" type="single"/>
-            <get name="start_week" type="integer4"/>
-            <get name="start_month" type="integer4"/>
-            <get name="end_week" type="integer4"/>
-            <get name="end_month" type="integer4"/>
+            <get name="start_week" type="boolean"/>
+            <get name="start_month" type="boolean"/>
+            <get name="start_year" type="boolean"/>
+            <get name="end_week" type="boolean"/>
+            <get name="end_month" type="boolean"/>
+            <get name="end_year" type="boolean"/>
             <get name="time" type="time"/>
             <get name="rain" type="single"/>
             <set name="rain" type="single" internalname="settablerain"/>
@@ -1938,13 +1940,13 @@
          </calldll>
       </ApsimToSim>
    </navybean>
-   <ozcot>
+   <cotton>
       <UItype>empty</UItype>
       <IsCrop>Yes</IsCrop>
       <ShowInMainTree>Yes</ShowInMainTree>
       <Image>%apsuite\ApsimUI\Graphics\cotton.jpg</Image>
       <Description>Most APSIM crop or plant modules do not require extra user input.  Crop specific parameters are either provided for your chosen soil, or are captured as part of the standard model validation process.</Description>
-      <Documentation name="Ozcot science documentation">../apsim/ozcot/docs/ozcot_science.htm</Documentation>
+      <Documentation name="Cotton science documentation">../apsim/ozcot/docs/ozcot_science.htm</Documentation>
       <LargeIcon>Images\leaf32.bmp</LargeIcon>
       <SmallIcon>Images\leaf16.bmp</SmallIcon>
       <drops>
@@ -1987,7 +1989,10 @@
          <variable name="totnup" description ="Total N uptake (kg/ha)"/>
          <variable name="evap_plant" description ="Crop transpiration (mm)"/>
       </variables>
-      <events link="ozcot"/>
+      <events>
+         <event name = "sowing"/>
+         <event name = "harvesting"/>
+      </events>
       <ApsimToSim>
          <type>component</type>
          <dll>%apsuite\apsim\ozcot\lib\ozcot.dll</dll>
@@ -2000,7 +2005,7 @@
             <argument>cotton</argument>
          </calldll>
       </ApsimToSim>
-   </ozcot>
+   </cotton>
    <rice>
       <UItype>generic</UItype>
       <IsCrop>Yes</IsCrop>
@@ -3945,7 +3950,7 @@
     	<drop name="SweetSorghum" />
     	<drop name="weed" />
     	<drop name="wheat" />
-    	<drop name="ozcot" />
+    	<drop name="cotton" />
     	<drop name="rice"/>
       <drop name="seedling"/>
     	<drop name="surfaceom"/>
