@@ -46,7 +46,6 @@ Public Class MainUI
     Friend WithEvents OpenButton As System.Windows.Forms.ToolStripSplitButton
     Friend WithEvents SaveButton As System.Windows.Forms.ToolStripButton
     Friend WithEvents SaveAsButton As System.Windows.Forms.ToolStripButton
-    Friend WithEvents HelpContentsButton As System.Windows.Forms.ToolStripButton
     Friend WithEvents ToolBoxesToolStrip As System.Windows.Forms.ToolStrip
     Friend WithEvents ManageToolboxesButton As System.Windows.Forms.ToolStripButton
     Friend WithEvents ToolStripSeparator2 As System.Windows.Forms.ToolStripSeparator
@@ -73,6 +72,9 @@ Public Class MainUI
     Friend WithEvents CurrentProgressBar As System.Windows.Forms.ProgressBar
     Friend WithEvents Label5 As System.Windows.Forms.Label
     Friend WithEvents Label6 As System.Windows.Forms.Label
+    Friend WithEvents HelpContentsButton As System.Windows.Forms.ToolStripSplitButton
+    Friend WithEvents DocumentationToolStripMenuItem As System.Windows.Forms.ToolStripMenuItem
+    Friend WithEvents AboutToolStripMenuItem As System.Windows.Forms.ToolStripMenuItem
     Friend WithEvents RunCurrentSimulationMenuItem As System.Windows.Forms.ToolStripMenuItem
 
 
@@ -158,7 +160,6 @@ Public Class MainUI
         Me.OpenButton = New System.Windows.Forms.ToolStripSplitButton
         Me.SaveButton = New System.Windows.Forms.ToolStripButton
         Me.SaveAsButton = New System.Windows.Forms.ToolStripButton
-        Me.HelpContentsButton = New System.Windows.Forms.ToolStripButton
         Me.ToolStripSeparator5 = New System.Windows.Forms.ToolStripSeparator
         Me.RunButton = New System.Windows.Forms.ToolStripDropDownButton
         Me.RunCurrentSimulationMenuItem = New System.Windows.Forms.ToolStripMenuItem
@@ -168,6 +169,9 @@ Public Class MainUI
         Me.GraphButton = New System.Windows.Forms.ToolStripButton
         Me.ApsimOutlookButton = New System.Windows.Forms.ToolStripButton
         Me.ExcelButton = New System.Windows.Forms.ToolStripButton
+        Me.HelpContentsButton = New System.Windows.Forms.ToolStripSplitButton
+        Me.DocumentationToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem
+        Me.AboutToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem
         Me.ToolBoxPanel.SuspendLayout()
         Me.ToolBoxToolBarPanel.SuspendLayout()
         Me.SimulationContainer.BottomToolStripPanel.SuspendLayout()
@@ -354,7 +358,7 @@ Public Class MainUI
         Me.Label1.ForeColor = System.Drawing.SystemColors.ActiveCaption
         Me.Label1.Location = New System.Drawing.Point(0, 26)
         Me.Label1.Name = "Label1"
-        Me.Label1.Size = New System.Drawing.Size(554, 23)
+        Me.Label1.Size = New System.Drawing.Size(522, 23)
         Me.Label1.TabIndex = 26
         Me.Label1.Text = "  APSIM Quick Start Menu"
         Me.Label1.TextAlign = System.Drawing.ContentAlignment.MiddleLeft
@@ -505,7 +509,7 @@ Public Class MainUI
         Me.SimulationToolStrip.Items.AddRange(New System.Windows.Forms.ToolStripItem() {Me.NewButton, Me.OpenButton, Me.SaveButton, Me.SaveAsButton, Me.HelpContentsButton, Me.ToolStripSeparator5, Me.RunButton, Me.StopButton, Me.ToolStripSeparator1, Me.GraphButton, Me.ApsimOutlookButton, Me.ExcelButton})
         Me.SimulationToolStrip.Location = New System.Drawing.Point(3, 0)
         Me.SimulationToolStrip.Name = "SimulationToolStrip"
-        Me.SimulationToolStrip.Size = New System.Drawing.Size(546, 47)
+        Me.SimulationToolStrip.Size = New System.Drawing.Size(589, 47)
         Me.SimulationToolStrip.TabIndex = 1
         '
         'NewButton
@@ -547,16 +551,6 @@ Public Class MainUI
         Me.SaveAsButton.Size = New System.Drawing.Size(61, 44)
         Me.SaveAsButton.Text = "Save &as..."
         Me.SaveAsButton.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageAboveText
-        '
-        'HelpContentsButton
-        '
-        Me.HelpContentsButton.Image = Global.APSIMUI.My.Resources.Resources.help2
-        Me.HelpContentsButton.ImageScaling = System.Windows.Forms.ToolStripItemImageScaling.None
-        Me.HelpContentsButton.ImageTransparentColor = System.Drawing.Color.Magenta
-        Me.HelpContentsButton.Name = "HelpContentsButton"
-        Me.HelpContentsButton.Size = New System.Drawing.Size(32, 44)
-        Me.HelpContentsButton.Text = "&Help"
-        Me.HelpContentsButton.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageAboveText
         '
         'ToolStripSeparator5
         '
@@ -633,6 +627,29 @@ Public Class MainUI
         Me.ExcelButton.Size = New System.Drawing.Size(36, 44)
         Me.ExcelButton.Text = "E&xcel"
         Me.ExcelButton.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageAboveText
+        '
+        'HelpContentsButton
+        '
+        Me.HelpContentsButton.DropDownItems.AddRange(New System.Windows.Forms.ToolStripItem() {Me.DocumentationToolStripMenuItem, Me.AboutToolStripMenuItem})
+        Me.HelpContentsButton.Image = Global.APSIMUI.My.Resources.Resources.help2
+        Me.HelpContentsButton.ImageScaling = System.Windows.Forms.ToolStripItemImageScaling.None
+        Me.HelpContentsButton.ImageTransparentColor = System.Drawing.Color.Magenta
+        Me.HelpContentsButton.Name = "HelpContentsButton"
+        Me.HelpContentsButton.Size = New System.Drawing.Size(44, 44)
+        Me.HelpContentsButton.Text = "&Help"
+        Me.HelpContentsButton.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageAboveText
+        '
+        'DocumentationToolStripMenuItem
+        '
+        Me.DocumentationToolStripMenuItem.Name = "DocumentationToolStripMenuItem"
+        Me.DocumentationToolStripMenuItem.Size = New System.Drawing.Size(157, 22)
+        Me.DocumentationToolStripMenuItem.Text = "Documentation"
+        '
+        'AboutToolStripMenuItem
+        '
+        Me.AboutToolStripMenuItem.Name = "AboutToolStripMenuItem"
+        Me.AboutToolStripMenuItem.Size = New System.Drawing.Size(157, 22)
+        Me.AboutToolStripMenuItem.Text = "About..."
         '
         'MainUI
         '
@@ -863,11 +880,6 @@ Public Class MainUI
 
     Private Sub OnPasteClick(ByVal sender As Object, ByVal e As EventArgs)
         ApsimUI.Paste()
-    End Sub
-
-    Private Sub OnHelpClick(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles HelpContentsButton.Click
-        Dim HelpURL As String = APSIMSettings.INIRead(APSIMSettings.ApsimIniFile(), "apsimui", "docfile")
-        ApsimUI.ShowHelp(HelpURL)
     End Sub
 
     Private Sub OnRunSelectedClick(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles RunCurrentSimulationMenuItem.Click
@@ -1346,4 +1358,18 @@ Public Class MainUI
 
 
 
+    Private Sub SimulationContainer_ContentPanel_Load(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles SimulationContainer.ContentPanel.Load
+
+    End Sub
+
+    Private Sub AboutToolStripMenuItem_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles AboutToolStripMenuItem.Click
+        'MsgBox("Version" & APSIMSettings.ApsimVersion, MsgBoxStyle.Information, "About APSIM")
+        Dim about As New AboutBox
+        about.Show()
+    End Sub
+
+    Private Sub DocumentationToolStripMenuItem_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles DocumentationToolStripMenuItem.Click
+        Dim HelpURL As String = APSIMSettings.INIRead(APSIMSettings.ApsimIniFile(), "apsimui", "docfile")
+        ApsimUI.ShowHelp(HelpURL)
+    End Sub
 End Class
