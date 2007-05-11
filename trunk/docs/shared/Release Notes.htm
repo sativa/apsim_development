@@ -10,6 +10,48 @@
 </style>
 </head>
 <body>
+<p class="Title1">APSIM<sup><b>5.3</b></sup> release notes</p>
+<p class="Normal">&nbsp;</p>
+<p class="Normal">18<sup>th</sup> May 2007</p>
+<p class="Normal">&nbsp;</p>
+<p class="Title2">APSIM user interface</p>
+<ul><li><p class="Normal">New Tracker component that can sum and average variables</li>
+  <li>
+    <p class="Normal">New Canopy component that enables intercropping in the user interface</p>
+  </li>
+  <li class="Normal">New VENSIM linkage component to allow users to run a VENSIM model from the user interface </li>
+  <li>
+    <p class="Normal">Summer and winter cona and U values can be specified in the soil</p>
+  </li>
+  <li>
+    <p class="Normal">Layers can be added and deleted from a soil </p>
+</li>
+  <li><p class="Normal">Solute component now functions properly</p>
+</li><li>
+  <p class="Normal">Added Bambatsi, Oats and Centro to the crops</p>
+</li><li><p class="Normal">Added a progress bar to the user interface when APSIM is running</p>
+</li>
+<li class="Normal">Fixed phosphorus in the user interface and added C:P ration to SurfaceOM as an optional parameters.</li>
+<li class="Normal">Added KS (saturated conductivity) to the soil as an optional parameters</li>
+<li class="Normal">Added a new prototype of a graphics capability built directly into the user interface - see the Graph toolbox</li>
+</ul>
+<p><span class="Title2">Plant</span></p>
+<ul>
+  <li class="Normal">Plant has KL and XF as variables that can be outputted</li>
+  <li class="Normal">Fixed some Common modelling protocol issues to do with units and the GetDescription entry point</li>
+</ul>
+<p><span class="Title2">Manager</span></p>
+<p class="Normal">Some manager arithmetic has been fixed </p>
+<p class="Normal">&nbsp;</p>
+<p><span class="Title2">APSIM</span></p>
+<p class="Normal">The summary file module has been removed. It is no longer needed. The user interface and APSRun will still create a summary file but there is no need to specifiy SummaryFile from the control file. APSIM now writes all summary information to standard error. APSRun and the user interface both trap this output and create a summary file automatically. </p>
+<p class="Normal">&nbsp;</p>
+<p><span class="Title2">LINUX</span></p>
+<p class="Normal">The Linux build is now operational. The APSIM model can run under LINUX as a command line program. The user interfaces do not run under LINUX. </p>
+<p>&nbsp; </p>
+<p class="Normal">&nbsp;</p>
+
+<p class="Title1">&nbsp;</p>
 <p class="Title1">APSIM<sup><b>5.2</b></sup> release notes</p>
 <p class="Normal">&nbsp;</p>
 <p class="Normal">23<sup>rd</sup> October 2006</p>
