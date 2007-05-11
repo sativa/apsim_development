@@ -149,6 +149,12 @@
     <None Include="Resources\disk_blue.png" />
     <None Include="Resources\folder_document.png" />
     <None Include="Resources\document_new.png" />
+    <Compile Include="AboutBox.Designer.vb">
+      <DependentUpon>AboutBox.vb</DependentUpon>
+    </Compile>
+    <Compile Include="AboutBox.vb">
+      <SubType>Form</SubType>
+    </Compile>
     <Compile Include="ApsimUIController.vb">
       <SubType>Code</SubType>
     </Compile>
@@ -238,6 +244,10 @@
     <Compile Include="VineLogicUI.vb">
       <SubType>UserControl</SubType>
     </Compile>
+    <EmbeddedResource Include="AboutBox.resx">
+      <SubType>Designer</SubType>
+      <DependentUpon>AboutBox.vb</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="AreaUI.resx">
       <DependentUpon>AreaUI.vb</DependentUpon>
       <SubType>Designer</SubType>
