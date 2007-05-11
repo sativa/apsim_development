@@ -52,13 +52,16 @@
       real no3(max_layer)
       real no3_min(max_layer)
 
-      real plants, dlt_plants
+      real plants, dlt_plants, dlt_plants_thin, dlt_plants_stress
+      real init_plants
       real I, Pi,C,Wi
 
 
       real age
       real Annual_tt
       real Ft
+      real Ftcanopy
+      real Fwcanopy
       real Fta
       real Ff
       real Fw
@@ -68,6 +71,7 @@
       real Ffasw
       real Fdl
       real Frgr
+      real Cum_Stress
       real Flai
       real dlt_dm_pot_rue
       real dlt_dm
@@ -168,6 +172,9 @@
       real fta_av_temp(max_table)
       real fta_above_gnd(max_table), fta_below_gnd(max_table)
       real min_temp(max_table), Ff(max_table)
+      real av_temp_ftcanopy(max_table), Ftcanopy(max_table)
+      real x_sw_demand_ratio (max_table)
+      real y_Fwcanopy(max_table)
       real foliage_n_conc(max_table), fn(max_table)
      :    , foliage_n_conc_sen(max_table)
       real foliage_detach_Frac
@@ -176,6 +183,7 @@
       real leaf_residence_time(max_Table)
       real Fage(max_table)
       real leaf_sen_light_rate,leaf_sen_light_lai
+      real max_leaf_sen_rate_stress
       real min_lai
       real adm_partn_fr(max_part)
       real bdm_partn_fr(max_part)
@@ -199,13 +207,18 @@
       real adm_sen_detach_frac(max_table)
      :           ,bdm_sen_detach_frac(max_table)
       real self_thinning_coef, self_thinning_power, self_thin_size
+      real crit_cum_stress, mortality_rate, mortality_age,
+     :     mortality_size
 
 
+      integer partition_option
       integer num_fasw
       integer num_day_length
       integer num_av_temp
       integer num_fta_av_temp
       integer num_min_temp
+      integer num_Ftcanopy
+      integer num_Fwcanopy
 
 
       integer num_above_gnd_parts
@@ -515,21 +528,28 @@
       g%no3_min(:) = 0.0
 
       g%plants = 0.0
+      g%init_plants = 0.0
       g%I = 0.0
       g%Pi = 0.0
       g%C = 0.0
       g%Wi = 0.0
 
       g%dlt_plants = 0.0
+      g%dlt_plants_thin = 0.0
+      g%dlt_plants_stress = 0.0
+
       g%age = 0.0
       g%Annual_tt = 0.0
       g%Ft = 0.0
+      g%Ftcanopy = 0.0
+      g%Fwcanopy = 0.0
       g%Ff = 0.0
       g%Fw = 0.0
       g%Fvpd = 0.0
       g%Fn = 0.0
       g%Fage = 0.0
       g%Frgr = 0.0
+      g%Cum_Stress = 0.0
       g%Flai = 0.0
       g%dlt_dm_pot_rue = 0.0
       g%dlt_dm = 0.0
@@ -899,6 +919,12 @@
      :              ,'(mm)'            ! variable units
      :              ,g%sw_demand)      ! variable
 
+      elseif (variable_name .eq. 'sw_supply') then
+
+         call respond2get_real_var (
+     :               variable_name     ! variable name
+     :              ,'(mm)'            ! variable units
+     :              ,sum(g%sw_supply))      ! variable
 
       elseif (variable_name .eq. 'cover') then
 cnh         cover = 1.0 - exp (-g%extinction_coef*g%lai)
@@ -1084,6 +1110,20 @@ cnh         cover = 1.0 - exp (-g%extinction_coef*g%lai)
      :              ,'(0-1)'              ! variable units
      :              ,g%Ft) ! variable
 
+      elseif (variable_name .eq. 'ftcanopy') then
+
+         call respond2get_real_var (
+     :               variable_name       ! variable name
+     :              ,'(0-1)'              ! variable units
+     :              ,g%Ftcanopy) ! variable
+
+      elseif (variable_name .eq. 'fwcanopy') then
+
+         call respond2get_real_var (
+     :               variable_name       ! variable name
+     :              ,'(0-1)'              ! variable units
+     :              ,g%Fwcanopy) ! variable
+
       elseif (variable_name .eq. 'ffasw') then
 
          call respond2get_real_var (
@@ -1104,6 +1144,13 @@ cnh         cover = 1.0 - exp (-g%extinction_coef*g%lai)
      :               variable_name       ! variable name
      :              ,'(0-1)'              ! variable units
      :              ,g%Fw) ! variable
+
+      elseif (variable_name .eq. 'cum_stress') then
+
+         call respond2get_real_var (
+     :               variable_name       ! variable name
+     :              ,'(d)'              ! variable units
+     :              ,g%Cum_Stress) ! variable
 
       elseif (variable_name .eq. 'fvpd') then
 
@@ -1806,7 +1853,14 @@ cnh         cover = 1.0 - exp (-g%extinction_coef*g%lai)
      :          ,c%below_gnd_parts    ! Array
      :          ,c%num_below_gnd_parts)! Number of values returned
 
-
+      call read_integer_var (
+     :          'constants'
+     :          ,'partition_option'   ! Keyword
+     :          ,'()'                 ! Units
+     :          ,c%partition_option ! Array
+     :          ,numvals              ! Number of values returned
+     :          ,1                  ! Lower Limit for bound check
+     :          ,2)                ! Upper Limit for bound check
       return
       end subroutine
 
@@ -2078,6 +2132,15 @@ cnh         cover = 1.0 - exp (-g%extinction_coef*g%lai)
 
       call read_real_var (
      :          section_name
+     :          ,'max_leaf_sen_rate_stress'! Keyword
+     :          ,'()'                 ! Units
+     :          ,c%max_leaf_sen_rate_stress! Array
+     :          ,numvals              ! Number of values returned
+     :          ,0.0                  ! Lower Limit for bound check
+     :          ,1.0)                ! Upper Limit for bound check
+
+      call read_real_var (
+     :          section_name
      :          ,'min_lai' ! Keyword
      :          ,'()'                 ! Units
      :          ,c%min_lai ! Array
@@ -2232,6 +2295,46 @@ cnh         cover = 1.0 - exp (-g%extinction_coef*g%lai)
      :          ,'(0-1)'              ! Units
      :          ,c%ff                 ! Array
      :          ,c%num_min_temp        ! Number of values returned
+     :          ,0.0                  ! Lower Limit for bound check
+     :          ,1.0)                 ! Upper Limit for bound check
+
+      call read_real_array (
+     :          section_name
+     :          ,'av_temp_ftcanopy'            ! Keyword
+     :          ,max_table            ! array size
+     :          ,'(oC)'               ! Units
+     :          ,c%av_temp_Ftcanopy            ! Array
+     :          ,c%num_Ftcanopy        ! Number of values returned
+     :          ,-20.0                ! Lower Limit for bound check
+     :          ,50.)                 ! Upper Limit for bound check
+
+      call read_real_array (
+     :          section_name
+     :          ,'ftcanopy'                 ! Keyword
+     :          ,max_table            ! array size
+     :          ,'(0-1)'              ! Units
+     :          ,c%Ftcanopy                 ! Array
+     :          ,c%num_Ftcanopy        ! Number of values returned
+     :          ,0.0                  ! Lower Limit for bound check
+     :          ,1.0)                 ! Upper Limit for bound check
+
+      call read_real_array (
+     :          section_name
+     :          ,'x_sw_demand_ratio'            ! Keyword
+     :          ,max_table            ! array size
+     :          ,'(oC)'               ! Units
+     :          ,c%x_sw_demand_ratio            ! Array
+     :          ,c%num_Fwcanopy        ! Number of values returned
+     :          ,0.0                ! Lower Limit for bound check
+     :          ,10.)                 ! Upper Limit for bound check
+
+      call read_real_array (
+     :          section_name
+     :          ,'y_fwcanopy'                 ! Keyword
+     :          ,max_table            ! array size
+     :          ,'(0-1)'              ! Units
+     :          ,c%y_Fwcanopy                 ! Array
+     :          ,c%num_Fwcanopy        ! Number of values returned
      :          ,0.0                  ! Lower Limit for bound check
      :          ,1.0)                 ! Upper Limit for bound check
 
@@ -2483,6 +2586,41 @@ c     :          ,1.0)                 ! Upper Limit for bound check
      :          ,0.0                  ! Lower Limit for bound check
      :          ,1.0)                 ! Upper Limit for bound check
 
+      call read_real_var (
+     :          section_name
+     :          ,'crit_cum_stress' ! Keyword
+     :          ,'(0-1)'              ! Units
+     :          ,c%crit_cum_stress     ! Value
+     :          ,numvals              ! Number of values returned
+     :          ,0.0                  ! Lower Limit for bound check
+     :          ,1000.)                 ! Upper Limit for bound check
+
+      call read_real_var (
+     :          section_name
+     :          ,'mortality_rate' ! Keyword
+     :          ,'(0-1)'              ! Units
+     :          ,c%mortality_rate     ! Value
+     :          ,numvals              ! Number of values returned
+     :          ,0.0                  ! Lower Limit for bound check
+     :          ,1.0)                 ! Upper Limit for bound check
+
+      call read_real_var (
+     :          section_name
+     :          ,'mortality_age' ! Keyword
+     :          ,'(d)'              ! Units
+     :          ,c%mortality_age     ! Value
+     :          ,numvals              ! Number of values returned
+     :          ,0.0                  ! Lower Limit for bound check
+     :          ,365.0)                 ! Upper Limit for bound check
+
+      call read_real_var (
+     :          section_name
+     :          ,'mortality_size' ! Keyword
+     :          ,'(kg)'              ! Units
+     :          ,c%mortality_size     ! Value
+     :          ,numvals              ! Number of values returned
+     :          ,0.0                  ! Lower Limit for bound check
+     :          ,10.0)                 ! Upper Limit for bound check
 
       call pop_routine  (myname)
       return
@@ -2581,6 +2719,16 @@ c     :          ,1.0)                 ! Upper Limit for bound check
      :              , c%Ft
      :              , c%num_av_temp
      :              , g%Ft
+     :                )
+
+            call Growth_Ft
+     :               (
+     :                g%maxt
+     :              , g%mint
+     :              , c%av_temp_ftcanopy
+     :              , c%Ftcanopy
+     :              , c%num_ftcanopy
+     :              , g%Ftcanopy
      :                )
 
             call Growth_Ff
@@ -2759,16 +2907,34 @@ c   Needs to wait until we put reads into create phase
           g%Fw = bound (g%Fw, 0.0, 1.0)
           g%dlt_dm = g%dlt_dm_pot_rue * g%Fw
 
-          call Growth_dm_partition()
+            call Growth_Fwcanopy
+     :               (
+     :                g%sw_supply
+     :              , g%sw_demand
+     :              , c%x_sw_demand_ratio
+     :              , c%y_Fwcanopy
+     :              , c%num_Fwcanopy
+     :              , g%Fwcanopy
+     :               )
+
+          if (c%partition_option.eq.1) then
+             call Growth_dm_partition()
+          else
+             call Growth_dm_partition2()
+          endif
+
           call Growth_n_partition()
 
           call Growth_process_foliage()
           call Growth_process_root()
           call Growth_process_biomass
 
-          call Growth_self_thinning(g%dlt_plants
-     :                             ,g%dlt_adm_dead
-     :                             ,g%dlt_bdm_dead)
+          call Growth_mortality (g%dlt_plants_thin
+     :                          ,g%dlt_plants_stress
+     :                          ,g%dlt_plants
+     :                          ,g%dlt_adm_dead
+     :                          ,g%dlt_bdm_dead)
+
           call Growth_update()
           call Growth_update_other_variables()
       endif ! alive
@@ -3505,6 +3671,59 @@ c     :                 , c_num_av_temp)
       end subroutine
 
 *     ===========================================================
+      subroutine Growth_Fwcanopy
+     :               (
+     :                g_sw_supply
+     :              , g_sw_demand
+     :              , c_x_sw_demand_ratio
+     :              , c_y_Fwcanopy
+     :              , c_num_Fwcanopy
+     :              , Fwcanopy
+     :               )
+*     ===========================================================
+
+      implicit none
+
+*+  Sub-Program Arguments
+      REAL       g_sw_supply(*)
+      REAL       G_sw_demand
+      REAL       c_x_sw_demand_ratio(*)
+      REAL       c_y_Fwcanopy (*)
+      INTEGER    c_num_Fwcanopy
+      real       Fwcanopy                   ! (OUTPUT)
+
+*+  Purpose
+*       Calculate today's temperature factor for photosynthesis
+
+*+  Changes
+*       220299 nih
+
+*+  Constant Values
+      character  my_name*(*)           ! name of procedure
+      parameter (my_name = 'Growth_Fwcanopy')
+
+*+  Local Variables
+      real SDR ! supply demand ratio
+*- Implementation Section ----------------------------------
+
+      call push_routine (my_name)
+
+      SDR = divide(sum(g_sw_supply(1:max_layer))
+     :                 ,g_sw_demand
+     :                 ,0.0)
+     :
+      Fwcanopy = linear_interp_real(SDR
+     :             ,c_x_sw_demand_ratio
+     :             ,c_y_Fwcanopy
+     :             ,c_num_Fwcanopy)
+
+      Fwcanopy = bound (Fwcanopy, 0.0, 1.0)
+
+      call pop_routine (my_name)
+      return
+      end subroutine
+
+*     ===========================================================
       subroutine Growth_Fdl
      :               (
      :                G_day
@@ -3899,6 +4118,11 @@ c      call Growth_foliage_fraction(foliage_fraction)
          call warning_error (ERR_Internal
      :                      ,'Balance error in partitioning')
       endif
+      ! First pass at partitioning is OK...
+      ! However, low temperatures can slow down canopy expansion so revise the partitioning between foliage and
+      ! above-ground structure
+      foliage_fraction = foliage_fraction * g%Ftcanopy
+      structure_fraction = 1. - foliage_fraction - root_fraction
 
 
       g%dlt_foliage_mass = g%dlt_dm
@@ -3925,6 +4149,156 @@ c      call Growth_foliage_fraction(foliage_fraction)
       else
          call warning_error (ERR_Internal
      :                      ,'Mass balance error for structural pools')
+      endif
+
+      call pop_routine (my_name)
+      return
+      end subroutine
+
+*     ===========================================================
+      subroutine Growth_dm_partition2 ()
+*     ===========================================================
+
+      implicit none
+
+*+  Purpose
+*       Partition daily dry matter production to plant parts
+*       This approach is more appropriate to plants from drier areas
+*       investing in below-ground growth with greater priority.
+
+*+  Changes
+*      220299 nih
+
+*+  Local Variables
+      integer part
+      real    foliage_fraction
+      real    root_fraction
+      real    subtotal
+      real    structural_dm
+      real    stress
+      real    individual_adm
+      real    below_gnd_fraction
+      real    above_gnd_fraction
+      real    below_gnd_activity
+      real    above_gnd_activity
+      real    Ft_agnd
+      real    Ft_bgnd
+      real    agnd_structure_fraction
+      real    bgnd_structure_fraction
+      real    below_gnd_adj
+      real    rate
+
+*+  Constant Values
+      character  my_name*(*)           ! name of procedure
+      parameter (my_name = 'Growth_dm_partition2')
+
+*- Implementation Section ----------------------------------
+      call push_routine (my_name)
+
+      call Growth_Ft
+     :      (
+     :       g%mint
+     :     , g%maxt
+     :     , c%Fta_av_temp
+     :     , c%fta_above_gnd
+     :     , c%num_Fta_av_temp
+     :     , Ft_agnd
+     :       )
+      above_gnd_activity = Ft_agnd
+
+      call Growth_Ft
+     :      (
+     :       g%soilt(1)
+     :     , g%soilt(1)
+     :     , c%Fta_av_temp
+     :     , c%fta_below_gnd
+     :     , c%num_Fta_av_temp
+     :     , Ft_bgnd
+     :       )
+      below_gnd_activity = Ft_bgnd
+
+      stress = min (g%Fwcanopy, g%Ffasw, g%Fn, g%Fdl, g%Ftcanopy)
+      below_gnd_fraction = linear_interp_Real
+     :                   (stress
+     :                   ,c%partition_stress
+     :                   ,c%below_gnd_fraction
+     :                   ,c%num_partition_stress)
+
+
+      below_gnd_adj = divide (below_gnd_activity
+     :                           , above_gnd_activity
+     :                           , 0.0)
+
+      below_gnd_fraction = below_gnd_fraction
+     :                   * below_gnd_adj
+
+      above_gnd_fraction = 1. - below_gnd_fraction
+
+      individual_adm = divide((sum_Real_array(g%adm_Green
+     :                               ,c%num_above_gnd_parts)
+     :                         + g%foliage_mass)
+     :                       ,g%plants
+     :                       ,0.0)
+
+      agnd_structure_fraction = linear_interp_Real
+     :                   (individual_adm
+     :                   ,c%individual_adm
+     :                   ,c%agnd_structure_fraction
+     :                   ,c%num_individual_adm)
+     :           * above_gnd_fraction
+
+
+      foliage_fraction = above_gnd_fraction
+     :                  - agnd_structure_fraction
+
+      bgnd_structure_fraction = below_gnd_fraction
+     :            * sum(c%bdm_partn_fr)
+
+
+
+      root_fraction = below_gnd_fraction - bgnd_structure_fraction
+
+      if (root_fraction.gt.0) then
+         ! all is OK
+      else
+         call warning_error (ERR_Internal
+     :                      ,'Balance error in partitioning')
+         print*,root_fraction,foliage_fraction,agnd_structure_fraction
+     :         ,bgnd_structure_fraction
+      endif
+
+
+      g%dlt_foliage_mass = g%dlt_dm
+     :                   * foliage_fraction
+      g%dlt_root_mass    = g%dlt_dm
+     :                   * root_fraction
+
+      do 100 part = 1, c%num_below_gnd_parts
+         g%dlt_bdm_green(part) = bgnd_structure_fraction
+     :                         * g%dlt_dm
+     :                         * divide(c%bdm_partn_fr(part)
+     :                                 ,sum(c%bdm_partn_fr)
+     :                                 ,0.0)
+  100 continue
+      do 200 part = 1, c%num_above_gnd_parts
+         g%dlt_adm_green(part) = agnd_structure_fraction
+     :                         * g%dlt_dm
+     :                         * divide(c%adm_partn_fr(part)
+     :                                 ,sum(c%adm_partn_fr)
+     :                                 ,0.0)
+  200 continue
+
+      subtotal = sum_real_array(g%dlt_adm_green, c%num_above_gnd_parts)
+     :         + sum_real_array(g%dlt_bdm_green, c%num_below_gnd_parts)
+     :         + g%dlt_root_mass
+     :         + g%dlt_foliage_mass
+
+      if (reals_are_equal(subtotal,g%dlt_dm)) then
+         ! all is OK
+      else
+         call warning_error (ERR_Internal
+     :                      ,'Mass balance error for biomass pools')
+         print*,subtotal,g%dlt_dm
       endif
 
       call pop_routine (my_name)
@@ -4115,6 +4489,7 @@ c      call Growth_foliage_fraction(foliage_fraction)
       call Growth_update_canopy()
 
       ! Initialisation for Growth population model
+      g%init_plants = g%plants
       g%I = g%plants
       g%Pi = 2. * c%self_thinning_power * g%I
      :     / (1 + 2 * c%self_thinning_power)
@@ -4152,6 +4527,7 @@ c      call Growth_foliage_fraction(foliage_fraction)
       real dlt_lai_sen_light
       real dlt_lai_sen_age
       real dlt_lai_sen_frost
+      real dlt_lai_sen_stress
       real dlt_lai_sen_max
       real foliage_n_conc
       real foliage_n_conc_sen
@@ -4199,10 +4575,15 @@ c      dlt_lai_sen = max (dlt_lai_sen_light,dlt_lai_sen_age)
       ! senescence = light death + age senescence of unshaded leaves
       !              and unfrosted leaves.
 
+      dlt_lai_sen_stress = g%LAI*(1.0-g%Fw)*c%max_leaf_sen_rate_stress
+
       dlt_lai_sen = dlt_lai_sen_light
      +            + dlt_lai_sen_frost
+     :            + dlt_lai_sen_stress
      :            + dlt_lai_sen_age
-     :               * (1. - divide(dlt_lai_sen_light+dlt_lai_sen_frost
+     :               * (1. - divide(dlt_lai_sen_light
+     :                             +dlt_lai_sen_frost
+     :                             +dlt_lai_sen_stress
      :                             ,g%LAI
      :                             ,0.0)
      :                 )
@@ -4329,13 +4710,20 @@ cnh     :              - LRT/365.25
 *      080399 nih
 
 *+  Local Variables
-
+      real ekl(max_layer) ! effective kl
+      integer num_layers
+      integer layer
 *+  Constant Values
       character  my_name*(*)           ! name of procedure
       parameter (my_name = 'Growth_sw_supply')
 
 *- Implementation Section ----------------------------------
       call push_routine (my_name)
+
+      num_layers = count_of_real_vals (g%dlayer, max_layer)
+      do 100 layer = 1,num_layers
+         ekl(layer) = p%kl(layer)*Growth_afps_fac(layer)
+  100 continue
 
 
        call cproc_sw_supply1 (
@@ -4346,7 +4734,7 @@ cnh     :              - LRT/365.25
      :                      ,g%sw_dep
      :                      ,max_layer
      :                      ,g%root_depth
-     :                      ,p%kl
+     :                      ,ekl
      :                      ,g%sw_avail
      :                      ,g%sw_avail_pot
      :                      ,g%sw_supply
@@ -5485,15 +5873,18 @@ c         NO3_diffn = divide (NO3_diffn, c%NO3_diffn_const, 0.0)
       end subroutine
 
 *     ===========================================================
-      subroutine Growth_self_thinning( dlt_plants
-     :                                 ,dlt_adm_dead
-     :                                 ,dlt_bdm_dead)
+      subroutine Growth_mortality( dlt_plants_thin
+     :                           , dlt_plants_stress
+     :                           , dlt_plants
+     :                           , dlt_adm_dead
+     :                           , dlt_bdm_dead)
 *     ===========================================================
 
       implicit none
 
 *+  Sub-Program Arguments
-      real dlt_plants
+      real dlt_plants_thin, dlt_plants_stress, dlt_plants
+
       real dlt_adm_dead(*)
       real dlt_bdm_dead(*)
 
@@ -5509,10 +5900,11 @@ c         NO3_diffn = divide (NO3_diffn, c%NO3_diffn_const, 0.0)
       real  Popn
       real  W
       real  biomass_dying_fraction
+      real  PlantSize
 
 *+  Constant Values
       character  my_name*(*)           ! name of procedure
-      parameter (my_name = 'Growth_foliage_detachment')
+      parameter (my_name = 'Growth_Mortality')
 
 *- Implementation Section ----------------------------------
       call push_routine (my_name)
@@ -5533,7 +5925,29 @@ c         NO3_diffn = divide (NO3_diffn, c%NO3_diffn_const, 0.0)
          Popn = g%I*(1-g%C*W**2)
       endif
 
-      dlt_plants = min(0.0,Popn - g%plants)
+      dlt_plants_thin = min(0.0,Popn - g%plants)
+
+      g%Cum_Stress = g%Cum_stress + (1.0 - g%Fw)
+      PlantSize = (sum(g%adm_green) + g%foliage_mass)/g%plants
+
+      if (g%age .gt. c%mortality_age/365.25) then
+         ! plants too old to die from stress
+         dlt_plants_stress = 0.0
+
+      elseif (PlantSize .gt. c%mortality_size) then
+         ! plants too big to die from stress
+         dlt_plants_stress = 0.0
+
+      elseif (g%Cum_stress .gt. c%crit_cum_stress) then
+         dlt_plants_stress = -g%init_plants * c%mortality_rate
+     :                     * (1.0-g%FW)
+         dlt_plants_stress = max(dlt_plants_stress,-g%plants)
+
+      else
+         dlt_plants_stress = 0.0
+      endif
+
+      dlt_plants = min(dlt_plants_stress, dlt_plants_thin)
 
       biomass_dying_fraction = -divide(dlt_plants
      :                               ,g%plants
