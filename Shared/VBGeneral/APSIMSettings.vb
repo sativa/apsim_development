@@ -42,6 +42,22 @@ Public Class APSIMSettings
 
 
     ' ---------------------------
+    ' Return APSIM version number
+    ' ---------------------------
+    Public Shared Function ApsimBuildDate() As String
+        Dim BuildDate As String = INIRead(ApsimIniFile(), "version", "builddate")
+        Return BuildDate
+    End Function
+
+    ' ---------------------------
+    ' Return APSIM Build Number
+    ' ---------------------------
+    Public Shared Function ApsimBuildNumber() As String
+        Dim BuildNumber As String = INIRead(ApsimIniFile(), "version", "buildnumber")
+        Return BuildNumber
+    End Function
+
+    ' ---------------------------
     ' Return APSIM directory root
     ' ---------------------------
     Public Shared Function ApsimIniFile() As String
