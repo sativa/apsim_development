@@ -16,17 +16,17 @@ using namespace std;
 //---------------------------------------------------------------------------
 ArraySpecifier* ArraySpecifier::create(const std::string& arraySpec)
    {
+   if (arraySpec == "")
+      return NULL;
+
    unsigned posOpenBracket = arraySpec.rfind('(');
-   if (arraySpec == "" ||
-       arraySpec[arraySpec.length()-1]  != ')' ||
-       posOpenBracket == string::npos)
+   if (posOpenBracket == string::npos)
       return NULL;
 
    unsigned posCloseBracket = arraySpec.rfind(')');
-   if (posOpenBracket == string::npos ||
-       posCloseBracket == string::npos ||
+   if (posCloseBracket == string::npos ||
        posOpenBracket > posCloseBracket)
-      throw runtime_error("Badly formed array specifier: " + arraySpec);
+      throw runtime_error("Badly formed array specifier: \"" + arraySpec + "\"");
 
    ArraySpecifier* arraySpecifier = new ArraySpecifier();
    arraySpecifier->oldStyleSum = false;

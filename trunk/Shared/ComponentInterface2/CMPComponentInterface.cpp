@@ -297,12 +297,17 @@ void CMPComponentInterface::query(const std::string& pattern, std::vector<QueryM
 		unpack(returnInfoData, returnInfo);
       QueryMatch queryMatch;
       queryMatch.name = returnInfo.name;
-      if (arraySpecifier != NULL)
-         arraySpecifier->adornVariableName(queryMatch.name);
       queryMatch.ddml = returnInfo.type;
+
+      if (getAttributeFromXML(queryMatch.ddml, "array") == "T" &&
+          arraySpecifier != NULL)
+         arraySpecifier->adornVariableName(queryMatch.name);
+
       matches.push_back(queryMatch);
       }
-   delete arraySpecifier;
+
+   if (arraySpecifier != NULL)
+      delete arraySpecifier;
    }
 
 void CMPComponentInterface::write(const std::string& msg)
