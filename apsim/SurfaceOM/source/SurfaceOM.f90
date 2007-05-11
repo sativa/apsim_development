@@ -730,8 +730,8 @@ end function
 
    if (c%cnrf_optcn.eq.0) then
       cnrf = 1.0
-   else
-      cnrf = exp ( - c%cnrf_coeff * divide((cnr - c%cnrf_optcn),c%cnrf_optcn,0.0))
+   else 
+      cnrf = exp ( - c%cnrf_coeff * ((cnr - c%cnrf_optcn)/c%cnrf_optcn))
    endif
 
    cnrf = bound (cnrf, 0.0, 1.0)
