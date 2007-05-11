@@ -1,16 +1,16 @@
-version = 5.2
+version = 5.3
 
 [apsim.Emelliodora Sample]
 title= Emelliodora Sample Simulation
 module = clock           Emelliodora.par [sample] %apsuite\apsim\clock\clock.ini[standard]
 module = report          Emelliodora.par [sample]
 module = Input(Met)      %apsuite\apsim\met\sample\Gatton.met [weather]
+module = micromet   %apsuite/apsim/micromet/sample/micromet.par [sample] %apsuite/apsim/micromet/micromet.ini[standard]
 module = fertiliz        %apsuite\apsim\fertiliz\fertiliz.ini[standard]
 module = irrigate
 module = manager         Emelliodora.par [sample]
 module = soilwat2        %apsuite\apsim\soilwat2\sample\soilwat2.par [black_earth]    %apsuite\apsim\soilwat2\soilwat2.ini [standard]
 module = soiln2          %apsuite\apsim\soiln2\sample\soiln2.par [black_earth]    %apsuite\apsim\soiln2\soiln2.ini     [standard]
-module = plant(Emelliodora)  Emelliodora.par [sample] %apsuite\apsim\Emelliodora\Emelliodora.ini [standard]
-module = SummaryFile     Emelliodora.par [sample]
+module = growth(Emelliodora)  Emelliodora.par [sample] %apsuite\apsim\Emelliodora\Emelliodora.ini [standard]
 
  
