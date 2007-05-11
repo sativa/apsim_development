@@ -6874,7 +6874,7 @@ c
   100 continue
   200 continue
       if (sat_layer.eq.0) then
-         soilwat_water_table = 10000.
+         soilwat_water_table = sum(p%dlayer(1:num_layers))
 
       elseif (sat_layer.eq.1) then
 
