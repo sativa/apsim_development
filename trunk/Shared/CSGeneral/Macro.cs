@@ -363,7 +363,7 @@ namespace CSGeneral
 					APSIMData NewChild = Child.Find(ChildName);
                     if (NewChild != null)
                         Child = NewChild;
-                    else if (ChildName != "")
+                    else if (ChildName != "" && ChildName.ToLower() != Child.Type.ToLower())
                         throw new Exception("Invalid child name: " + ChildName);
 					}
 				}
