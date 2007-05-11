@@ -11,7 +11,7 @@ namespace ApsimFile
 	// ------------------------------------------
 	public class APSIMChangeTool
 		{
-		private static int CurrentVersion = 8;	   
+		private static int CurrentVersion = 9;	   
 		private delegate void UpgraderDelegate(APSIMData Data);
 
 		// ------------------------------------------
@@ -21,7 +21,7 @@ namespace ApsimFile
 		// ------------------------------------------
         public static bool Upgrade(APSIMData Data)
             {
-            if (Data != null && Data.AttributeExists("version"))
+            if (Data != null)
                 {
                 // Get version number of data.
                 int DataVersion = 1;
@@ -55,6 +55,10 @@ namespace ApsimFile
                 // Upgrade from version 7 to 8.
                 if (DataVersion < 8)
                     Upgrade(Data, new UpgraderDelegate(UpdateToVersion8));
+
+                // Upgrade from version 8 to 9.
+                if (DataVersion < 9)
+                    Upgrade(Data, new UpgraderDelegate(UpdateToVersion9));
 
                 // All finished upgrading - write version number out.
                 Data.SetAttribute("version", CurrentVersion.ToString());
@@ -334,6 +338,37 @@ namespace ApsimFile
                 {
                 Soil MySoil = new Soil(Data);
                 MySoil.UpgradeToVersion8();
+                }
+            }
+
+        // -----------------------------
+        // Upgrade the data to version 9.
+        // -----------------------------
+        private static void UpdateToVersion9(APSIMData Data)
+            {
+            if (Data.Type.ToLower() == "stockherbageconverter")
+                {
+                string[] TypesToDelete = {"proportion_legume", "dmdValue", "p_conc_green_leaf_default",
+                                          "p_conc_green_stem_default", "p_conc_senesced_leaf_default",
+                                          "p_conc_senesced_stem_default", "p_conc_dead_leaf_default",
+                                          "p_conc_dead_stem_default", "ash_alk_green_leaf_default",
+                                          "ash_alk_green_stem_default", "ash_alk_senesced_leaf_default",
+                                          "ash_alk_senesced_stem_default", "ash_alk_dead_leaf_default",
+                                          "ash_alk_dead_stem_default", "ns_ratio_green_leaf_default",
+                                          "ns_ratio_green_stem_default", "ns_ratio_senesced_leaf_default",
+                                          "ns_ratio_senesced_stem_default", "ns_ratio_dead_leaf_default",
+                                          "ns_ratio_dead_stem_default", "np_ratio_green_leaf_default",
+                                          "np_ratio_green_stem_default", "np_ratio_senesced_leaf_default",
+                                          "np_ratio_senesced_stem_default", "np_ratio_dead_leaf_default",
+                                          "np_ratio_dead_stem_default", "dmd_green_leaf",
+                                          "dmd_green_stem", "dmd_senesced_leaf",
+                                          "dmd_senesced_stem", "dmd_dead_leaf",
+                                          "dmd_dead_stem", "KQ5Leaf",
+                                          "KQ5Stem", "KQ4",
+                                          "cp_n_ratio"};
+
+                foreach (string Type in TypesToDelete)
+                    Data.Delete(Type);
                 }
             }	
 
