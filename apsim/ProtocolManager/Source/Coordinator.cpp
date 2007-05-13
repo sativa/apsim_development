@@ -410,6 +410,13 @@ void Coordinator::onPublishEventMessage(unsigned int fromID, PublishEventData& p
       if (componentOrders.size() > 0)
          reorderSubscriptions(subscriptions);
 
+      if (Str_i_Eq(registrations.getName(fromID, publishEventData.ID, RegistrationType::event),
+                   "error"))
+         {
+         protocol::ErrorData errorData;
+         publishEventData.variant.unpack(errorData);
+         onError(asString(errorData.errorMessage), errorData.isFatal);
+         }
       for (::Registrations::Subscriptions::iterator s = subscriptions.begin();
                                                     s != subscriptions.end() && !doTerminate;
                                                     s++)
@@ -894,9 +901,18 @@ void Coordinator::readAllRegistrations(void)
       if (internalName == "")
          internalName = reg->getName();
 
+      string ddml;
       string dataTypeName = reg->getDataTypeName();
-      ApsimDataTypeData dataType = componentData->getDataType(reg->getDataTypeName());
-      string ddml = dataType.getTypeString();
+      if (Str_i_Eq(dataTypeName, "integer4") ||
+          Str_i_Eq(dataTypeName, "single") ||
+          Str_i_Eq(dataTypeName, "double") ||
+          Str_i_Eq(dataTypeName, "string"))
+         ddml = "<type kind=\"" + dataTypeName + "\"/>";
+      else
+         {
+         ApsimDataTypeData dataType = componentData->getDataType(reg->getDataTypeName());
+         ddml = dataType.getTypeString();
+         }
       string units = reg->getUnits();
       if (units != "")
          addAttributeToXML(ddml, "unit=\"" + units + "\"");
@@ -1004,3 +1020,22 @@ void Coordinator::onApsimGetQuery(ApsimGetQueryData& apsimGetQueryData)
          }
       }
    }
+
+void Coordinator::onError(const string& msg, bool isFatal)
+   {
+   // ------------------------------------------------------------------
+   // A child has published an error - write it to stderr.
+   // ------------------------------------------------------------------
+   string message = "!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!\n";
+   if (isFatal)
+      message += "                 APSIM  Fatal  Error               \n";
+   else
+      message += "                 APSIM Warning Error               \n";
+   message += "                 -------------------              \n";
+
+   message += msg;
+   message += string("\nComponent name: ") + getName();
+   message += "\n!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!\n\n";
+   writeStringToStream(message, cerr);
+   }
+
