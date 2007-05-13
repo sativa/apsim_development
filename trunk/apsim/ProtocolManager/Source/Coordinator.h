@@ -96,6 +96,7 @@ class Coordinator : public protocol::Component
       void readAllRegistrations(void);
 
       virtual void onApsimGetQuery(protocol::ApsimGetQueryData& apsimGetQueryData);
+      void onError(const std::string& msg, bool isFatal);
 
 
    };

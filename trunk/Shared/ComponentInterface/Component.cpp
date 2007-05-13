@@ -490,28 +490,14 @@ bool Component::readParameter
 // ------------------------------------------------------------------
 void Component::error(const FString& msg, bool isFatal)
    {
-   char cMessage[2048];
-
-   strcpy(cMessage, "!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!\n");
-   if (isFatal)
-      strcat(cMessage, "                 APSIM  Fatal  Error               \n");
-   else
-      strcat(cMessage, "                 APSIM Warning Error               \n");
-   strcat(cMessage, "                 -------------------              \n");
-
-   strncat(cMessage, msg.f_str(), min((int)msg.length(), 999));
-   strcat(cMessage, "\nComponent name: ");
-   strcat(cMessage, name.c_str());
-   strcat(cMessage, "\n!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!\n\n");
-
-   writeStringToStream(cMessage, cerr);
+   string message = asString(msg) + "\nComponent name: " + name;
       
    // create and send a message.
    Message* errorMessage = newPublishEventMessage(componentID,
                                                   parentID,
                                                   errorID,
                                                   Type(ERROR_TYPE),
-                                                  ErrorData(isFatal, cMessage));
+                                                  ErrorData(isFatal, message.c_str()));
    errorMessage->toAcknowledge = true;
    sendMessage(errorMessage);
    if (isFatal)
@@ -715,9 +701,9 @@ namespace protocol {
 
 void Component::writeString(const FString& lines)
    {
-   writeStringToStream(lines, cout);   
+   writeStringToStream(asString(lines), cout);   
    }
-void Component::writeStringToStream(const FString& lines, ostream& out)
+void Component::writeStringToStream(const std::string& lines, ostream& out)
    {
    if (!haveWrittenToStdOutToday)
       {
@@ -750,7 +736,7 @@ void Component::writeStringToStream(const FString& lines, ostream& out)
       posCR = lines.find("\n", posStart);
       if (posCR == FString::npos)
          posCR = lines.length();
-      out << "     " << asString(lines.substr(posStart, posCR-posStart)) << endl;
+      out << "     " << lines.substr(posStart, posCR-posStart) << endl;
       posStart = posCR + 1;
       }
    while (posCR < lines.length());
@@ -835,7 +821,7 @@ void Component::onCompleteMessage(CompleteData& completeData)
       strcpy(buffer, "Invalid complete message.  Was waiting for a complete\n");
       strcat(buffer, "message with ID=");
       strcat(buffer, itoa(completeIDs[completeIDs.size()-1]).c_str());
-      error(buffer, true);
+//      error(buffer, true);
       completeFound = false;
       }
    }

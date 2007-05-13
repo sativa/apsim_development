@@ -321,6 +321,7 @@ class EXPORT Component
       unsigned getRegistrationID(const RegistrationType& type, const FString& eventName);
       bool getSetVariableSuccess(void) {return setVariableSuccess;}
       void setVariableError(unsigned int regID);
+      void writeStringToStream(const std::string& lines, std::ostream& out);
 
    private:
       std::string name;
@@ -357,7 +358,6 @@ class EXPORT Component
 
       void clearReturnInfos(void);
       void waitForComplete(void);
-      void writeStringToStream(const FString& lines, std::ostream& out);
       
 
       friend class TypeConverter;
