@@ -432,8 +432,9 @@ Public Class ApsimUIController
             Dim NewDocForm As New NewDocumentForm
             If NewDocForm.ShowDialog() = System.Windows.Forms.DialogResult.OK Then
                 Dim newsim As New APSIMData("folder", "Simulations")
-                newsim.Add(NewDocForm.Selection)
-                Dim Data As APSIMData = NewDocForm.Selection
+                Dim Data As APSIMData = newsim.Add(NewDocForm.Selection)
+                newsim.SetAttribute("version", Data.Attribute("version"))
+                Data.DeleteAttribute("version")
                 NewDocForm.Close()
                 Return newsim
             End If

@@ -131,6 +131,7 @@ Public Class NewDocumentForm
     ' -----------------------------------
     Public ReadOnly Property Selection() As APSIMData
         Get
+            ApsimUI.Data.SetAttribute("version", ApsimUI.AllData.Attribute("version"))
             Return ApsimUI.Data
         End Get
     End Property
