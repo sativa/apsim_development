@@ -1036,6 +1036,9 @@ void Coordinator::onError(const string& msg, bool isFatal)
    message += msg;
    message += string("\nComponent name: ") + getName();
    message += "\n!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!\n\n";
-   writeStringToStream(message, cerr);
+   if (isFatal)
+      writeStringToStream(message, cerr);
+   else
+      writeStringToStream(message, cout);   
    }
 
