@@ -1,4 +1,5 @@
 <folder name="Simulations">
+  <memo name="Readme">e1xydGYxXGFuc2lcYW5zaWNwZzEyNTJcZGVmZjBcZGVmbGFuZzMwODF7XGZvbnR0Ymx7XGYwXGZuaWxcZmNoYXJzZXQwIE1pY3Jvc29mdCBTYW5zIFNlcmlmO319DQpcdmlld2tpbmQ0XHVjMVxwYXJkXGYwXGZzMTcgVGhlIGZpcnN0IHNpbXVsYXRpb24gc2hvd3MgbWFuYWdlbWVudCBvZiBhIHNpbmdsZSBwYWRkb2NrIFxwYXINClxwYXINClRoZSBzZWNvbmQgYSBtdWx0aS1wYWRkb2NrIHN5c3RlbS5ccGFyDQp9DQo=</memo>
   <simulation name="Sample Rotation 1">
     <clock name="clock">
       <start_date name="start_date" description="Select the start date of the simulation" type="date" lbound="1/01/1940" ubound="31/12/1989">1/01/1940</start_date>
@@ -27,52 +28,52 @@ doProcess
 </tclui>
         <tclui name="Rotation Management">
           <uiscript><![CDATA[source $apsuite/apsim/tcllink/lib/RotationsUI.tcl]]></uiscript>
-<canvas_height>402</canvas_height>
+<canvas_height>496</canvas_height>
 <rules_height>40</rules_height>
 <node>
- <x1>568.0</x1>
+ <x1>238.0</x1>
+ <name>SummerFallow2</name>
+ <y1>325.0</y1>
+ <x2>338.0</x2>
+ <desc>New state</desc>
+ <fill>gray</fill>
+ <y2>425.0</y2>
+</node>
+<node>
+ <x1>560.0</x1>
  <name>Chickpea</name>
- <y1>44.0</y1>
- <x2>668.0</x2>
+ <y1>21.0</y1>
+ <x2>660.0</x2>
  <desc>Chickpea</desc>
  <fill>lightgreen</fill>
- <y2>144.0</y2>
+ <y2>121.0</y2>
 </node>
 <node>
- <x1>169.0</x1>
- <name>SummerFallow2</name>
- <y1>395.0</y1>
- <x2>269.0</x2>
- <desc>New state</desc>
- <fill>gray</fill>
- <y2>495.0</y2>
-</node>
-<node>
- <x1>371.0</x1>
+ <x1>445.0</x1>
  <name>Wheat</name>
- <y1>454.0</y1>
- <x2>471.0</x2>
+ <y1>326.0</y1>
+ <x2>545.0</x2>
  <desc>Wheat Crop</desc>
  <fill>darkgreen</fill>
- <y2>554.0</y2>
+ <y2>426.0</y2>
 </node>
 <node>
- <x1>121.0</x1>
+ <x1>180.0</x1>
  <name>WinterFallow</name>
- <y1>228.0</y1>
- <x2>221.0</x2>
+ <y1>192.0</y1>
+ <x2>280.0</x2>
  <desc>New state</desc>
  <fill>gray</fill>
- <y2>328.0</y2>
+ <y2>292.0</y2>
 </node>
 <node>
- <x1>173.0</x1>
- <name>Cotton</name>
- <y1>53.0</y1>
- <x2>273.0</x2>
- <desc>A Cotton Crop</desc>
- <fill>purple</fill>
- <y2>153.0</y2>
+ <x1>508.0</x1>
+ <name>SummerFallow1</name>
+ <y1>195.0</y1>
+ <x2>608.0</x2>
+ <desc>New state</desc>
+ <fill>maroon</fill>
+ <y2>295.0</y2>
 </node>
 <node>
  <x1>368.0</x1>
@@ -84,146 +85,146 @@ doProcess
  <y2>104.0</y2>
 </node>
 <node>
- <x1>497.0</x1>
- <name>SummerFallow1</name>
- <y1>285.0</y1>
- <x2>597.0</x2>
- <desc>New state</desc>
- <fill>maroon</fill>
- <y2>385.0</y2>
+ <x1>204.0</x1>
+ <name>Cotton</name>
+ <y1>32.0</y1>
+ <x2>304.0</x2>
+ <desc>A Cotton Crop</desc>
+ <fill>purple</fill>
+ <y2>132.0</y2>
 </node>
-<arc><name>arc6</name>
- <source>WinterFallow</source>
- <target>Cotton</target>
- <x>170.5</x>
- <actions>sow_ozcot</actions>
- <y>178.5</y>
- <rules>[canPlant_ozcot]</rules>
- <rules /><actions />
-</arc>
 <arc><name>arc2</name>
  <source>SummerFallow1</source>
  <target>WinterFallow</target>
- <x>346.5</x>
- <y>488.0</y>
+ <x>388.5</x>
+ <y>362.0</y>
  <rules>[apsimGet day]  == 192</rules>
  <rules /><actions />
 </arc>
-<arc><name>arc7</name>
- <source>F1</source>
- <target>SummerFallow1</target>
- <x>591.5</x>
- <y>123.0</y>
- <rules>[apsimGet day]  == 192</rules>
+<arc><name>arc6</name>
+ <source>WinterFallow</source>
+ <target>Cotton</target>
+ <x>197.5</x>
+ <actions>sow_cotton</actions>
+ <y>155.5</y>
+ <rules>[canPlant_cotton]</rules>
  <rules /><actions />
 </arc>
 <arc><name>arc3</name>
  <source>Wheat</source>
  <target>SummerFallow2</target>
- <x>328.0</x>
+ <x>394.0</x>
  <actions>apsimSendMessage wheat harvest</actions>
  <actions>apsimSendMessage wheat end_crop</actions>
- <y>515.5</y>
+ <y>416.5</y>
  <rules>{[apsimGet wheat.stage_name] == "harvest_ripe" || [apsimGet wheat.plant_status] == "dead"}</rules>
  <rules /><actions />
 </arc>
-<arc><name>arc8</name>
- <source>Chickpea</source>
+<arc><name>arc7</name>
+ <source>F1</source>
  <target>SummerFallow1</target>
- <x>647.0</x>
- <actions>apsimSendMessage chickpea harvest</actions>
- <actions>apsimSendMessage chickpea end_crop</actions>
- <y>210.5</y>
- <rules>{[apsimGet chickpea.stage_name] == "harvest_ripe" || [apsimGet chickpea.plant_status] == "dead"}</rules>
+ <x>542.5</x>
+ <y>78.0</y>
+ <rules>[apsimGet day]  == 192</rules>
  <rules /><actions />
 </arc>
 <arc><name>arc0</name>
  <source>F1</source>
  <target>Chickpea</target>
- <x>521.0</x>
+ <x>500.0</x>
  <actions>sow_chickpea</actions>
- <y>39.0</y>
+ <y>29.0</y>
  <rules>[canPlant_chickpea]</rules>
  <rules /><actions />
 </arc>
-<arc><name>arc9</name>
- <source>SummerFallow2</source>
- <target>WinterFallow</target>
- <x>164.0</x>
- <y>385.5</y>
- <rules>[apsimGet day]  == 74</rules>
- <rules /><actions />
-</arc>
-<arc><name>arc5</name>
- <source>Cotton</source>
- <target>F1</target>
- <x>309.5</x>
- <actions>apsimSendMessage ozcot harvest</actions>
- <y>44.5</y>
- <rules>[apsimGet ozcot_status] &gt; 0</rules>
+<arc><name>arc8</name>
+ <source>Chickpea</source>
+ <target>SummerFallow1</target>
+ <x>633.0</x>
+ <actions>apsimSendMessage chickpea harvest</actions>
+ <actions>apsimSendMessage chickpea end_crop</actions>
+ <y>162.5</y>
+ <rules>{[apsimGet chickpea.stage_name] == "harvest_ripe" || [apsimGet chickpea.plant_status] == "dead"}</rules>
  <rules /><actions />
 </arc>
 <arc><name>arc1</name>
  <source>SummerFallow1</source>
  <target>Wheat</target>
- <x>537.5</x>
+ <x>550.5</x>
  <actions>sow_wheat</actions>
- <y>452.5</y>
+ <y>321.5</y>
  <rules>[canPlant_wheat]</rules>
+ <rules /><actions />
+</arc>
+<arc><name>arc5</name>
+ <source>Cotton</source>
+ <target>F1</target>
+ <x>326.5</x>
+ <actions>apsimSendMessage cotton harvest</actions>
+ <y>37.5</y>
+ <rules>[apsimGet ozcot_status] &gt; 0</rules>
+ <rules /><actions />
+</arc>
+<arc><name>arc9</name>
+ <source>SummerFallow2</source>
+ <target>WinterFallow</target>
+ <x>244.0</x>
+ <y>319.5</y>
+ <rules>[apsimGet day]  == 74</rules>
  <rules /><actions />
 </arc>
 <rule name="Init rule" invisible="yes" condition="init">
 <![CDATA[package require struct
 ::struct::graph stateGraph
-stateGraph node insert "Chickpea"
-set colour(Chickpea) "lightgreen"
 stateGraph node insert "SummerFallow2"
 set colour(SummerFallow2) "gray"
+stateGraph node insert "Chickpea"
+set colour(Chickpea) "lightgreen"
 stateGraph node insert "Wheat"
 set colour(Wheat) "darkgreen"
 stateGraph node insert "WinterFallow"
 set colour(WinterFallow) "gray"
-stateGraph node insert "Cotton"
-set colour(Cotton) "purple"
-stateGraph node insert "F1"
-set colour(F1) "gray"
 stateGraph node insert "SummerFallow1"
 set colour(SummerFallow1) "maroon"
-stateGraph arc insert "WinterFallow" "Cotton" "arc6"
-stateGraph arc lappend "arc6" actions {sow_ozcot}
-stateGraph arc lappend "arc6" rules {[canPlant_ozcot]}
-stateGraph arc lappend "arc6" actions {}
+stateGraph node insert "F1"
+set colour(F1) "gray"
+stateGraph node insert "Cotton"
+set colour(Cotton) "purple"
 stateGraph arc insert "SummerFallow1" "WinterFallow" "arc2"
 stateGraph arc lappend "arc2" rules {[apsimGet day]  == 192}
 stateGraph arc lappend "arc2" actions {}
-stateGraph arc insert "F1" "SummerFallow1" "arc7"
-stateGraph arc lappend "arc7" rules {[apsimGet day]  == 192}
-stateGraph arc lappend "arc7" actions {}
+stateGraph arc insert "WinterFallow" "Cotton" "arc6"
+stateGraph arc lappend "arc6" actions {sow_cotton}
+stateGraph arc lappend "arc6" rules {[canPlant_cotton]}
+stateGraph arc lappend "arc6" actions {}
 stateGraph arc insert "Wheat" "SummerFallow2" "arc3"
 stateGraph arc lappend "arc3" actions {apsimSendMessage wheat harvest}
 stateGraph arc lappend "arc3" actions {apsimSendMessage wheat end_crop}
 stateGraph arc lappend "arc3" rules {{[apsimGet wheat.stage_name] == "harvest_ripe" || [apsimGet wheat.plant_status] == "dead"}}
 stateGraph arc lappend "arc3" actions {}
+stateGraph arc insert "F1" "SummerFallow1" "arc7"
+stateGraph arc lappend "arc7" rules {[apsimGet day]  == 192}
+stateGraph arc lappend "arc7" actions {}
+stateGraph arc insert "F1" "Chickpea" "arc0"
+stateGraph arc lappend "arc0" actions {sow_chickpea}
+stateGraph arc lappend "arc0" rules {[canPlant_chickpea]}
+stateGraph arc lappend "arc0" actions {}
 stateGraph arc insert "Chickpea" "SummerFallow1" "arc8"
 stateGraph arc lappend "arc8" actions {apsimSendMessage chickpea harvest}
 stateGraph arc lappend "arc8" actions {apsimSendMessage chickpea end_crop}
 stateGraph arc lappend "arc8" rules {{[apsimGet chickpea.stage_name] == "harvest_ripe" || [apsimGet chickpea.plant_status] == "dead"}}
 stateGraph arc lappend "arc8" actions {}
-stateGraph arc insert "F1" "Chickpea" "arc0"
-stateGraph arc lappend "arc0" actions {sow_chickpea}
-stateGraph arc lappend "arc0" rules {[canPlant_chickpea]}
-stateGraph arc lappend "arc0" actions {}
-stateGraph arc insert "SummerFallow2" "WinterFallow" "arc9"
-stateGraph arc lappend "arc9" rules {[apsimGet day]  == 74}
-stateGraph arc lappend "arc9" actions {}
-stateGraph arc insert "Cotton" "F1" "arc5"
-stateGraph arc lappend "arc5" actions {apsimSendMessage ozcot harvest}
-stateGraph arc lappend "arc5" rules {[apsimGet ozcot_status] > 0}
-stateGraph arc lappend "arc5" actions {}
 stateGraph arc insert "SummerFallow1" "Wheat" "arc1"
 stateGraph arc lappend "arc1" actions {sow_wheat}
 stateGraph arc lappend "arc1" rules {[canPlant_wheat]}
 stateGraph arc lappend "arc1" actions {}
+stateGraph arc insert "Cotton" "F1" "arc5"
+stateGraph arc lappend "arc5" actions {apsimSendMessage cotton harvest}
+stateGraph arc lappend "arc5" rules {[apsimGet ozcot_status] > 0}
+stateGraph arc lappend "arc5" actions {}
+stateGraph arc insert "SummerFallow2" "WinterFallow" "arc9"
+stateGraph arc lappend "arc9" rules {[apsimGet day]  == 74}
+stateGraph arc lappend "arc9" actions {}
 ]]></rule>
 </tclui>
         <tclui name="Wheat Sowing Rule">
@@ -260,21 +261,21 @@ proc canPlant_wheat {} {
 proc sow_wheat {} {
   if {"plant" == "plant"} {
      apsimSendMessage wheat sow {plants 100} {sowing_depth 30} \
-             {cultivar hartog} {row_spacing 25} \
+             {cultivar hartog} {row_spacing 250} \
              {skipplant 0} {skiprow 0} {crop_class plant} 
   } elseif {"plant" == "cropmod"} {
      apsimSendMessage wheat sow {plants [density]} {sowing_depth [depth]} \
-             {cultivar hartog} {row_spacing 25} {skiprow 0} 
+             {cultivar hartog} {row_spacing 250} {skiprow 0} 
   } elseif {"plant" == "growth"} {
      apsimSendMessage wheat ???
   } elseif {"plant" == "ozcot"} {
      apsimSendMessage wheat sow {plants_pm [plants_pm]} {sowing_depth 30} \
-             {row_spacing 25} {skiprow 0} {cultivar hartog}
+             {row_spacing 250} {skiprow 0} {cultivar hartog}
   } elseif {"plant" == "oryza"} {
      apsimSendMessage wheat sow {cultivar hartog} 
   } elseif {"plant" == "sorghum"} {
      apsimSendMessage wheat sow {plants 100} {sowing_depth 30} \
-             {cultivar hartog} {row_spacing 25} {skiprow 0} \
+             {cultivar hartog} {row_spacing 250} {skiprow 0} \
              {tiller_no_fertile [tiller_no_fertile]}
   } elseif {"plant" == "sugar"} {
      apsimSendMessage wheat sow {plants 100} {cultivar hartog} {sowing_depth 30}
@@ -360,7 +361,7 @@ proc sow_[crop] {} {
     <must_sow>no</must_sow>
     <plants>100</plants>
     <sowing_depth>30</sowing_depth>
-    <row_spacing>25</row_spacing>
+    <row_spacing>250</row_spacing>
     <skipplant>0</skipplant>
     <skiprow>0</skiprow>
     <cultivar>hartog</cultivar>
@@ -371,7 +372,7 @@ proc sow_[crop] {} {
           <rule name="Sample Rotation 1 Cotton Sowing Rule.out - Sowing rule - initialisation" condition="init" invisible="yes">
 # Support procedures
 # Can we plant a crop today?
-proc canPlant_ozcot {} {
+proc canPlant_cotton {} {
   if {"variable" == "variable"} {
      set year [apsimGet year]; set day [apsimGet day]
      set d1 [clock format [clock scan "15-oct-$year"] -format %j]
@@ -398,27 +399,27 @@ proc canPlant_ozcot {} {
 }
 
 # Plant a crop now
-proc sow_ozcot {} {
+proc sow_cotton {} {
   if {"ozcot" == "plant"} {
-     apsimSendMessage ozcot sow {plants 100} {sowing_depth 30} \
+     apsimSendMessage cotton sow {plants 100} {sowing_depth 30} \
              {cultivar Siok} {row_spacing 1000} \
              {skipplant 0} {skiprow 0} {crop_class plant} 
   } elseif {"ozcot" == "cropmod"} {
-     apsimSendMessage ozcot sow {plants [density]} {sowing_depth [depth]} \
+     apsimSendMessage cotton sow {plants [density]} {sowing_depth [depth]} \
              {cultivar Siok} {row_spacing 1000} {skiprow 0} 
   } elseif {"ozcot" == "growth"} {
-     apsimSendMessage ozcot ???
+     apsimSendMessage cotton ???
   } elseif {"ozcot" == "ozcot"} {
-     apsimSendMessage ozcot sow {plants_pm 10} {sowing_depth 30} \
+     apsimSendMessage cotton sow {plants_pm 10} {sowing_depth 30} \
              {row_spacing 1000} {skiprow 0} {cultivar Siok}
   } elseif {"ozcot" == "oryza"} {
-     apsimSendMessage ozcot sow {cultivar Siok} 
+     apsimSendMessage cotton sow {cultivar Siok} 
   } elseif {"ozcot" == "sorghum"} {
-     apsimSendMessage ozcot sow {plants 100} {sowing_depth 30} \
+     apsimSendMessage cotton sow {plants 100} {sowing_depth 30} \
              {cultivar Siok} {row_spacing 1000} {skiprow 0} \
              {tiller_no_fertile [tiller_no_fertile]}
   } elseif {"ozcot" == "sugar"} {
-     apsimSendMessage ozcot sow {plants 100} {cultivar Siok} {sowing_depth 30}
+     apsimSendMessage cotton sow {plants 100} {cultivar Siok} {sowing_depth 30}
   } else {
     error "Unknown crop module \"ozcot\"."
   }
@@ -493,7 +494,7 @@ proc sow_[crop] {} {
 
 </ruletemplate>
     <uiscript>source $apsuite/apsim/tcllink/lib/GenericSowingUI.tcl</uiscript>
-    <crop>ozcot</crop>
+    <crop>cotton</crop>
     <criteria>variable</criteria>
     <date1>15-oct</date1>
     <date2>15-dec</date2>
@@ -545,21 +546,21 @@ proc canPlant_chickpea {} {
 proc sow_chickpea {} {
   if {"plant" == "plant"} {
      apsimSendMessage chickpea sow {plants 25} {sowing_depth 30} \
-             {cultivar amethyst} {row_spacing 25} \
+             {cultivar amethyst} {row_spacing 500} \
              {skipplant 0} {skiprow 0} {crop_class plant} 
   } elseif {"plant" == "cropmod"} {
      apsimSendMessage chickpea sow {plants [density]} {sowing_depth [depth]} \
-             {cultivar amethyst} {row_spacing 25} {skiprow 0} 
+             {cultivar amethyst} {row_spacing 500} {skiprow 0} 
   } elseif {"plant" == "growth"} {
      apsimSendMessage chickpea ???
   } elseif {"plant" == "ozcot"} {
      apsimSendMessage chickpea sow {plants_pm } {sowing_depth 30} \
-             {row_spacing 25} {skiprow 0} {cultivar amethyst}
+             {row_spacing 500} {skiprow 0} {cultivar amethyst}
   } elseif {"plant" == "oryza"} {
      apsimSendMessage chickpea sow {cultivar amethyst} 
   } elseif {"plant" == "sorghum"} {
      apsimSendMessage chickpea sow {plants 25} {sowing_depth 30} \
-             {cultivar amethyst} {row_spacing 25} {skiprow 0} \
+             {cultivar amethyst} {row_spacing 500} {skiprow 0} \
              {tiller_no_fertile [tiller_no_fertile]}
   } elseif {"plant" == "sugar"} {
      apsimSendMessage chickpea sow {plants 25} {cultivar amethyst} {sowing_depth 30}
@@ -645,7 +646,7 @@ proc sow_[crop] {} {
     <must_sow>no</must_sow>
     <plants>25</plants>
     <sowing_depth>30</sowing_depth>
-    <row_spacing>25</row_spacing>
+    <row_spacing>500</row_spacing>
     <skipplant>0</skipplant>
     <skiprow>0</skiprow>
     <cultivar>amethyst</cultivar>
@@ -657,13 +658,7 @@ proc sow_[crop] {} {
       <wheat />
       <ozcot name="ozcot" />
       <chickpea />
-      <surfaceom name="surface organic matter">
-        <PoolName description="Organic Matter pool name">wheat_stubble</PoolName>
-        <type description="Organic Matter type">wheat</type>
-        <mass description="Initial surface residue (kg/ha)">1000.</mass>
-        <cnr description="C:N ration of initial residue">80.0</cnr>
-        <standing_fraction description="Fraction of residue standing">0.0</standing_fraction>
-      </surfaceom>
+      <cotton />
       <outputfile name="outputfile">
         <variables name="Variables">
           <variable name="dd/mm/yyyy as Date" description="Date (dd/mm/yyyy)" array="?" />
@@ -966,4 +961,2001 @@ proc sow_[crop] {} {
       </soil>
     </area>
   </simulation>
+  <simulation name="Sample Rotation 2">
+    <clock name="clock">
+      <start_date name="start_date" description="Select the start date of the simulation" type="date" lbound="1/01/1940" ubound="31/12/1989">1/01/1940</start_date>
+      <end_date name="end_date" description="Select the end date of the simulation" type="date" lbound="1/01/1940" ubound="31/12/1989">31/12/1950</end_date>
+    </clock>
+    <summaryfile name="summaryfile" />
+    <metfile name="met">
+      <filename name="filename">C:\development\apsim\met\sample\goond.met</filename>
+    </metfile>
+    <farmmanager name="Farm Manager">
+      <rule name="Farm logic">
+        <condition name="init"><![CDATA[# Manager initialisation - set up a farm manager interpreter
+############### INITIAL CONDITIONS
+set paddocks [list Paddock1 Paddock2 Paddock3]
+
+########### Support procedures
+# return true if today's date is within 2 points.
+proc dateWithin {t0 t1} {
+   set t [apsimGet day]
+   if {$t0 > $t1} {
+      return [expr $t >= $t0 || $t <= $t1]
+   } else {
+      return [expr $t >= $t0 && $t <= $t1]
+   }
+   # notreached
+}
+
+proc dateIs {t0} {
+   set t [apsimGet day]
+   return [expr $t0 == $t]
+}
+
+# Return the fraction of the whole farm planted under a crop
+proc areaPlanted {what} {
+   global paddocks
+   set sum 0.0; set total 0.0
+   foreach paddock $paddocks {
+      set paddockState [interp eval $paddock currentState]
+      set area [interp eval $paddock set area]
+      if {$paddockState == $what} {
+        set sum [expr $sum + $area]
+      }
+      set total [expr $total + $area]
+   }
+   return [expr $sum/$total ]
+}
+
+# "logfile" is used to generate the rugplots of farm activities
+set logFile {}
+proc setupLogging {logFileName} {
+   global logFile paddocks
+   set logFile [open $logFileName w]
+   puts $logFile "Starting [apsimGet day],[apsimGet year]"
+   puts $logFile "paddocks = $paddocks"
+   foreach {state colour} [interp eval [lindex $paddocks 0] array get colour] {
+      puts $logFile "colour $state $colour"
+   }
+   flush $logFile
+   apsimWriteToSummaryFile "initialised logging:paddocks=$paddocks"
+}
+proc closeLogging {} {
+   global logFile date
+   puts $logFile "Finished $date"
+   close $logFile
+}
+proc log {msg} {
+   global logFile
+   puts $logFile $msg
+   flush $logFile
+}
+proc logPaddock {paddock msg} {
+   global logFile
+   puts $logFile "   $paddock,$msg"
+   flush $logFile
+}
+proc logState {paddock state} {
+   global logFile
+   puts $logFile "changeState $paddock $state"
+   flush $logFile
+}
+
+# Set up alias procedures within paddocks.
+proc setup {} {
+   global paddocks
+   foreach paddock $paddocks {
+      $paddock alias log logPaddock $paddock
+      $paddock alias logState logState $paddock
+      $paddock alias reportEvent reportEvent $paddock
+      $paddock alias apsimSendGlobalMessage apsimSendMessage
+      $paddock alias apsimGlobalGet apsimGet
+      $paddock alias areaPlanted areaPlanted
+   }
+}
+
+# Do daily process at top level
+proc doProcess {} {
+   global date paddocks 
+
+   set date "[apsimGet day],[apsimGet year]"
+   log "$date"
+
+   set more 1
+   while {$more} {
+      set more 0
+      # 1. Find out what's possible
+      set bestPaddock {}; set bestScore -1.0; set bestState {}
+      foreach paddock $paddocks {
+         foreach {target score} [interp eval $paddock checkRules] {break}
+         if {$score > $bestScore} {
+            set bestPaddock $paddock; set bestScore $score; set bestTarget $target
+         }
+      }
+      if {$bestScore > 0.0} {
+         log ">>> Changing state in $bestPaddock to $bestTarget<<<"
+         interp eval $bestPaddock changeState $bestTarget
+         set more 1
+      }
+   }
+}
+
+]]></condition>
+        <condition name="start_simulation"># NB. some funny business here. Delay opening report file until the 1st day of
+# simulation as it's hard to know how many paddocks are present at init2 time.
+
+setupLogging "Rotation Sample 2.log"
+
+setup
+
+foreach paddock $paddocks {
+      interp eval $paddock setup
+}
+
+</condition>
+        <condition name="prepare" />
+        <condition name="process">
+doProcess
+</condition>
+        <condition name="post" />
+        <condition name="exit">closeLogging</condition>
+      </rule>
+      <tclui name="Rug plot">
+        <uiscript>source $apsuite/apsim/tcllink/lib/RotationRugPlotUI.tcl</uiscript>
+    <filename>C:/development/apsim/tcllink/sample/Rotation Sample 2.log</filename>
+</tclui>
+      <tclui name="Paddock Map">
+        <uiscript>source $apsuite/apsim/tcllink/lib/PaddockMapUI.tcl</uiscript>
+    <filename>C:/development/apsim/tcllink/sample/Rotation Sample 2.log</filename>
+    <kmlfilename>C:/development/apsim/tcllink/sample/Rotation Sample 2.kml</kmlfilename>
+</tclui>
+    </farmmanager>
+    <area name="Paddock1">
+      <registrations name="global" />
+      <paddockmanager name="Paddock1">
+        <rule name="Rotation Initialisation">
+          <condition name="init"><![CDATA[############### INITIAL CONDITIONS
+set state "F1"
+set area  250.0
+
+############### Support procedures
+# Return the current state of the system
+proc currentState {} {
+   global state
+   return $state
+}
+
+############### The decision routine.
+# Return the score for planting "what"
+proc checkRules {} {
+  log "State is [currentState]. (esw=[format %.0f [apsimGet esw]])"
+
+  set bestScore -1.0; set bestTarget {}
+  foreach arc [stateGraph arcs -out [currentState]] {
+     set expr {}
+     set target [stateGraph arc target $arc]
+     foreach rule [stateGraph arc get $arc rules] {
+        set value [uplevel #0 expr $rule]
+        log "target=$target,rule=$rule, value=$value"
+        lappend expr $value
+     }
+     set score [expr [join $expr "*"]]
+     if {$score > $bestScore} {
+        set bestScore $score
+        set bestTarget $target
+     }
+  }
+  return [list $bestTarget $bestScore]
+}
+
+# Change state to another
+proc changeState {newState} {
+   global state
+   set arcs {}
+   foreach arc [stateGraph arcs -out [currentState]] {
+      if {[stateGraph arc target $arc] == "$newState" } {
+         lappend arcs $arc
+      }
+  }  
+   
+   if {[llength $arcs] == 0} {error "No paths from [currentState] to $newState!"}
+   if {[llength $arcs] > 1} {
+      # More than 1 path - evaluate best option
+      set bestScore -1.0; set bestArc {}
+      foreach arc $arcs {
+         set expr {}
+         foreach rule [stateGraph arc get $arc rules] {
+            set value [uplevel #0 expr $rule]
+            lappend expr $value
+         }
+         set score [expr [join $expr "*"]]
+         if {$score > $bestScore} {
+            set bestScore $score
+            set bestArc $arc
+         }
+      }  
+      if {$bestScore > 0.0} {
+         set arc $bestArc
+      } else {
+         error "No viable paths from [currentState] to $newState! (candidates are $arcs)"
+      }
+   } else {
+      # Only 1 path - take it.
+      set arc $arcs
+   }
+   foreach action [stateGraph arc get $arc actions] { uplevel #0 $action }
+   set state $newState
+   logState $newState
+}
+
+proc setup {} { 
+    #Nothing yet..
+}
+
+# Apsimish utilities
+proc pawc {} {
+  set sw [apsimGet sw_dep]
+  set ll [apsimGet ll15_dep]
+  set pawc 0.0
+  for {set i 0} {$i < [llength $sw]} {incr i} {
+      set pawc [expr $pawc + ([lindex $sw $i] - [lindex $ll $i])]
+  }
+  return $pawc
+}
+
+proc fesw {layer} {
+  set dul [lindex [apsimGet dul_dep] [expr $layer-1]]
+  set sw  [lindex [apsimGet sw_dep] [expr $layer-1]]
+  set ll  [lindex [apsimGet ll15_dep] [expr $layer-1]]
+  set fesw [expr ($sw - $ll)/($dul - $ll)]
+  return $fesw
+}
+]]></condition>
+          <condition name="process">
+          </condition>
+          <condition name="exit">
+exit
+</condition>
+        </rule>
+        <tclui name="Rotation Management" shortcut="Rotation Management" />
+        <tclui name="Wheat Sowing Rule" shortcut="Wheat Sowing Rule" />
+        <tclui name="Cotton Sowing Rule" shortcut="Cotton Sowing Rule" />
+        <tclui name="Chickpea Sowing Rule" shortcut="Chickpea Sowing Rule" />
+      </paddockmanager>
+      <wheat />
+      <ozcot name="ozcot" />
+      <chickpea />
+      <cotton />
+      <fertiliser name="fertiliser" />
+      <soil name="#009 - Kupunn">
+        <Site>Kupunn</Site>
+        <Region>South East Queensland</Region>
+        <LocalName>Brigalow</LocalName>
+        <SoilType>Grey Vertosol</SoilType>
+        <NearestTown>Dalby, Q 4405</NearestTown>
+        <NaturalVegetation>Brigalow, belah, wilga</NaturalVegetation>
+        <profile>
+          <layer>
+            <thickness>150</thickness>
+            <bd>1.4</bd>
+            <ll15>0.21</ll15>
+            <airdry>0.105</airdry>
+            <dul>0.39</dul>
+            <sat>0.44</sat>
+            <sw>9999.99</sw>
+            <swcon>0.3</swcon>
+            <fbiom>0.03</fbiom>
+            <finert>0.4</finert>
+            <no3>6.5</no3>
+            <nh4>0.6</nh4>
+            <oc>1.24</oc>
+            <ph>7</ph>
+            <ll name="Chickpea">0.21</ll>
+            <kl name="Chickpea">0.1</kl>
+            <xf name="Chickpea">1</xf>
+            <ll name="Cotton">0.21</ll>
+            <kl name="Cotton">0.1</kl>
+            <xf name="Cotton">1</xf>
+            <ll name="Sorghum">0.21</ll>
+            <kl name="Sorghum">0.1</kl>
+            <xf name="Sorghum">1</xf>
+            <ll name="Wheat">0.21</ll>
+            <kl name="Wheat">0.1</kl>
+            <xf name="Wheat">1</xf>
+            <ll name="ozcot">0.21</ll>
+            <kl name="ozcot">0.06</kl>
+            <xf name="ozcot">1</xf>
+          </layer>
+          <layer>
+            <thickness>150</thickness>
+            <bd>1.39</bd>
+            <ll15>0.21</ll15>
+            <airdry>0.189</airdry>
+            <dul>0.39</dul>
+            <sat>0.44</sat>
+            <sw>9999.99</sw>
+            <swcon>0.3</swcon>
+            <fbiom>0.02</fbiom>
+            <finert>0.6</finert>
+            <no3>2.1</no3>
+            <nh4>0.1</nh4>
+            <oc>1.24</oc>
+            <ph>7</ph>
+            <ll name="Chickpea">0.21</ll>
+            <kl name="Chickpea">0.1</kl>
+            <xf name="Chickpea">1</xf>
+            <ll name="Cotton">0.21</ll>
+            <kl name="Cotton">0.1</kl>
+            <xf name="Cotton">1</xf>
+            <ll name="Sorghum">0.21</ll>
+            <kl name="Sorghum">0.1</kl>
+            <xf name="Sorghum">1</xf>
+            <ll name="Wheat">0.21</ll>
+            <kl name="Wheat">0.1</kl>
+            <xf name="Wheat">1</xf>
+            <ll name="ozcot">0.21</ll>
+            <kl name="ozcot">0.06</kl>
+            <xf name="ozcot">1</xf>
+          </layer>
+          <layer>
+            <thickness>300</thickness>
+            <bd>1.37</bd>
+            <ll15>0.22</ll15>
+            <airdry>0.22</airdry>
+            <dul>0.4</dul>
+            <sat>0.45</sat>
+            <sw>9999.99</sw>
+            <swcon>0.3</swcon>
+            <fbiom>0.01</fbiom>
+            <finert>0.8</finert>
+            <no3>2.1</no3>
+            <nh4>0.1</nh4>
+            <oc>1.25</oc>
+            <ph>7</ph>
+            <ll name="Chickpea">0.22</ll>
+            <kl name="Chickpea">0.08</kl>
+            <xf name="Chickpea">1</xf>
+            <ll name="Cotton">0.22</ll>
+            <kl name="Cotton">0.1</kl>
+            <xf name="Cotton">1</xf>
+            <ll name="Sorghum">0.26</ll>
+            <kl name="Sorghum">0.1</kl>
+            <xf name="Sorghum">1</xf>
+            <ll name="Wheat">0.25</ll>
+            <kl name="Wheat">0.08</kl>
+            <xf name="Wheat">1</xf>
+            <ll name="ozcot">0.22</ll>
+            <kl name="ozcot">0.06</kl>
+            <xf name="ozcot">1</xf>
+          </layer>
+          <layer>
+            <thickness>300</thickness>
+            <bd>1.36</bd>
+            <ll15>0.25</ll15>
+            <airdry>0.25</airdry>
+            <dul>0.41</dul>
+            <sat>0.46</sat>
+            <sw>9999.99</sw>
+            <swcon>0.3</swcon>
+            <fbiom>0.01</fbiom>
+            <finert>0.9</finert>
+            <no3>1.7</no3>
+            <nh4>0.1</nh4>
+            <oc>1.1</oc>
+            <ph>7</ph>
+            <ll name="Chickpea">0.27</ll>
+            <kl name="Chickpea">0.06</kl>
+            <xf name="Chickpea">1</xf>
+            <ll name="Cotton">0.25</ll>
+            <kl name="Cotton">0.1</kl>
+            <xf name="Cotton">1</xf>
+            <ll name="Sorghum">0.26</ll>
+            <kl name="Sorghum">0.08</kl>
+            <xf name="Sorghum">1</xf>
+            <ll name="Wheat">0.28</ll>
+            <kl name="Wheat">0.06</kl>
+            <xf name="Wheat">1</xf>
+            <ll name="ozcot">0.25</ll>
+            <kl name="ozcot">0.06</kl>
+            <xf name="ozcot">1</xf>
+          </layer>
+          <layer>
+            <thickness>300</thickness>
+            <bd>1.38</bd>
+            <ll15>0.27</ll15>
+            <airdry>0.27</airdry>
+            <dul>0.4</dul>
+            <sat>0.45</sat>
+            <sw>9999.99</sw>
+            <swcon>0.3</swcon>
+            <fbiom>0.01</fbiom>
+            <finert>0.95</finert>
+            <no3>1.7</no3>
+            <nh4>0.1</nh4>
+            <oc>0.71</oc>
+            <ph>7</ph>
+            <ll name="Chickpea">0.29</ll>
+            <kl name="Chickpea">0.04</kl>
+            <xf name="Chickpea">1</xf>
+            <ll name="Cotton">0.27</ll>
+            <kl name="Cotton">0.09</kl>
+            <xf name="Cotton">1</xf>
+            <ll name="Sorghum">0.28</ll>
+            <kl name="Sorghum">0.06</kl>
+            <xf name="Sorghum">1</xf>
+            <ll name="Wheat">0.31</ll>
+            <kl name="Wheat">0.04</kl>
+            <xf name="Wheat">1</xf>
+            <ll name="ozcot">0.27</ll>
+            <kl name="ozcot">0.06</kl>
+            <xf name="ozcot">1</xf>
+          </layer>
+          <layer>
+            <thickness>300</thickness>
+            <bd>1.39</bd>
+            <ll15>0.31</ll15>
+            <airdry>0.31</airdry>
+            <dul>0.39</dul>
+            <sat>0.44</sat>
+            <sw>9999.99</sw>
+            <swcon>0.3</swcon>
+            <fbiom>0.01</fbiom>
+            <finert>0.95</finert>
+            <no3>1.7</no3>
+            <nh4>0.1</nh4>
+            <oc>0.34</oc>
+            <ph>7</ph>
+            <ll name="Chickpea">0.34</ll>
+            <kl name="Chickpea">0.02</kl>
+            <xf name="Chickpea">1</xf>
+            <ll name="Cotton">0.31</ll>
+            <kl name="Cotton">0.07</kl>
+            <xf name="Cotton">1</xf>
+            <ll name="Sorghum">0.34</ll>
+            <kl name="Sorghum">0.04</kl>
+            <xf name="Sorghum">1</xf>
+            <ll name="Wheat">0.37</ll>
+            <kl name="Wheat">0.02</kl>
+            <xf name="Wheat">1</xf>
+            <ll name="ozcot">0.31</ll>
+            <kl name="ozcot">0.06</kl>
+            <xf name="ozcot">1</xf>
+          </layer>
+          <layer>
+            <thickness>300</thickness>
+            <bd>1.42</bd>
+            <ll15>0.36</ll15>
+            <airdry>0.36</airdry>
+            <dul>0.38</dul>
+            <sat>0.43</sat>
+            <sw>9999.99</sw>
+            <swcon>0.3</swcon>
+            <fbiom>0.01</fbiom>
+            <finert>0.95</finert>
+            <no3>1.7</no3>
+            <nh4>0.1</nh4>
+            <oc>0.26</oc>
+            <ph>7</ph>
+            <ll name="Chickpea">0.38</ll>
+            <kl name="Chickpea">0.01</kl>
+            <xf name="Chickpea">1</xf>
+            <ll name="Cotton">0.36</ll>
+            <kl name="Cotton">0.05</kl>
+            <xf name="Cotton">1</xf>
+            <ll name="Sorghum">0.36</ll>
+            <kl name="Sorghum">0.02</kl>
+            <xf name="Sorghum">1</xf>
+            <ll name="Wheat">0.38</ll>
+            <kl name="Wheat">0.01</kl>
+            <xf name="Wheat">1</xf>
+            <ll name="ozcot">0.36</ll>
+            <kl name="ozcot">0.06</kl>
+            <xf name="ozcot">1</xf>
+          </layer>
+        </profile>
+        <Cona>3.5</Cona>
+        <DiffusConst>40</DiffusConst>
+        <DiffusSlope>16</DiffusSlope>
+        <U>6</U>
+        <Salb>0.13</Salb>
+        <Cn2Bare>73</Cn2Bare>
+        <CnRed>20</CnRed>
+        <CnCov>0.8</CnCov>
+        <CnCanopyFact>1</CnCanopyFact>
+        <RootCn>40</RootCn>
+        <RootWt>200</RootWt>
+        <SoilCn>12.5</SoilCn>
+        <EnrACoeff>7.4</EnrACoeff>
+        <EnrBCoeff>0.2</EnrBCoeff>
+        <Comment>oc and ph not measured</Comment>
+        <InitWater>
+          <percentmethod>
+            <percent>1</percent>
+            <distributed>filled from top</distributed>
+          </percentmethod>
+        </InitWater>
+        <InitNitrogen>
+          <profile>
+            <layer>
+              <no3>6.500</no3>
+              <nh4>0.600</nh4>
+              <thickness>150</thickness>
+            </layer>
+            <layer>
+              <no3>2.100</no3>
+              <nh4>0.100</nh4>
+              <thickness>150</thickness>
+            </layer>
+            <layer>
+              <no3>2.100</no3>
+              <nh4>0.100</nh4>
+              <thickness>300</thickness>
+            </layer>
+            <layer>
+              <no3>1.700</no3>
+              <nh4>0.100</nh4>
+              <thickness>300</thickness>
+            </layer>
+            <layer>
+              <no3>1.700</no3>
+              <nh4>0.100</nh4>
+              <thickness>300</thickness>
+            </layer>
+            <layer>
+              <no3>1.700</no3>
+              <nh4>0.100</nh4>
+              <thickness>300</thickness>
+            </layer>
+            <layer>
+              <no3>1.700</no3>
+              <nh4>0.100</nh4>
+              <thickness>300</thickness>
+            </layer>
+          </profile>
+        </InitNitrogen>
+      </soil>
+    </area>
+    <area name="Paddock2">
+      <registrations name="global" />
+      <paddockmanager name="Paddock2">
+        <rule name="Rotation Initialisation">
+          <condition name="init"><![CDATA[############### INITIAL CONDITIONS
+set state "WinterFallow"
+set area  250.0
+
+############### Support procedures
+# Return the current state of the system
+proc currentState {} {
+   global state
+   return $state
+}
+
+############### The decision routine.
+# Return the score for planting "what"
+proc checkRules {} {
+  log "State is [currentState]. (esw=[format %.0f [apsimGet esw]])"
+
+  set bestScore -1.0; set bestTarget {}
+  foreach arc [stateGraph arcs -out [currentState]] {
+     set expr {}
+     set target [stateGraph arc target $arc]
+     foreach rule [stateGraph arc get $arc rules] {
+        set value [uplevel #0 expr $rule]
+        log "target=$target,rule=$rule, value=$value"
+        lappend expr $value
+     }
+     set score [expr [join $expr "*"]]
+     if {$score > $bestScore} {
+        set bestScore $score
+        set bestTarget $target
+     }
+  }
+  return [list $bestTarget $bestScore]
+}
+
+# Change state to another
+proc changeState {newState} {
+   global state
+   set arcs {}
+   foreach arc [stateGraph arcs -out [currentState]] {
+      if {[stateGraph arc target $arc] == "$newState" } {
+         lappend arcs $arc
+      }
+  }  
+   
+   if {[llength $arcs] == 0} {error "No paths from [currentState] to $newState!"}
+   if {[llength $arcs] > 1} {
+      # More than 1 path - evaluate best option
+      set bestScore -1.0; set bestArc {}
+      foreach arc $arcs {
+         set expr {}
+         foreach rule [stateGraph arc get $arc rules] {
+            set value [uplevel #0 expr $rule]
+            lappend expr $value
+         }
+         set score [expr [join $expr "*"]]
+         if {$score > $bestScore} {
+            set bestScore $score
+            set bestArc $arc
+         }
+      }  
+      if {$bestScore > 0.0} {
+         set arc $bestArc
+      } else {
+         error "No viable paths from [currentState] to $newState! (candidates are $arcs)"
+      }
+   } else {
+      # Only 1 path - take it.
+      set arc $arcs
+   }
+   foreach action [stateGraph arc get $arc actions] { uplevel #0 $action }
+   set state $newState
+   logState $newState
+}
+
+proc setup {} { 
+    #Nothing yet..
+}
+
+# Apsimish utilities
+proc pawc {} {
+  set sw [apsimGet sw_dep]
+  set ll [apsimGet ll15_dep]
+  set pawc 0.0
+  for {set i 0} {$i < [llength $sw]} {incr i} {
+      set pawc [expr $pawc + ([lindex $sw $i] - [lindex $ll $i])]
+  }
+  return $pawc
+}
+
+proc fesw {layer} {
+  set dul [lindex [apsimGet dul_dep] [expr $layer-1]]
+  set sw  [lindex [apsimGet sw_dep] [expr $layer-1]]
+  set ll  [lindex [apsimGet ll15_dep] [expr $layer-1]]
+  set fesw [expr ($sw - $ll)/($dul - $ll)]
+  return $fesw
+}
+]]></condition>
+          <condition name="process">
+          </condition>
+          <condition name="exit">
+exit
+</condition>
+        </rule>
+        <tclui name="Rotation Management" shortcut="Rotation Management" />
+        <tclui name="Wheat Sowing Rule" shortcut="Wheat Sowing Rule" />
+        <tclui name="Cotton Sowing Rule" shortcut="Cotton Sowing Rule" />
+        <tclui name="Chickpea Sowing Rule" shortcut="Chickpea Sowing Rule" />
+      </paddockmanager>
+      <wheat />
+      <ozcot name="ozcot" />
+      <chickpea />
+      <cotton />
+      <fertiliser name="fertiliser" />
+      <soil name="#009 - Kupunn">
+        <Site>Kupunn</Site>
+        <Region>South East Queensland</Region>
+        <LocalName>Brigalow</LocalName>
+        <SoilType>Grey Vertosol</SoilType>
+        <NearestTown>Dalby, Q 4405</NearestTown>
+        <NaturalVegetation>Brigalow, belah, wilga</NaturalVegetation>
+        <profile>
+          <layer>
+            <thickness>150</thickness>
+            <bd>1.4</bd>
+            <ll15>0.21</ll15>
+            <airdry>0.105</airdry>
+            <dul>0.39</dul>
+            <sat>0.44</sat>
+            <sw>9999.99</sw>
+            <swcon>0.3</swcon>
+            <fbiom>0.03</fbiom>
+            <finert>0.4</finert>
+            <no3>6.5</no3>
+            <nh4>0.6</nh4>
+            <oc>1.24</oc>
+            <ph>7</ph>
+            <ll name="Chickpea">0.21</ll>
+            <kl name="Chickpea">0.1</kl>
+            <xf name="Chickpea">1</xf>
+            <ll name="Cotton">0.21</ll>
+            <kl name="Cotton">0.1</kl>
+            <xf name="Cotton">1</xf>
+            <ll name="Sorghum">0.21</ll>
+            <kl name="Sorghum">0.1</kl>
+            <xf name="Sorghum">1</xf>
+            <ll name="Wheat">0.21</ll>
+            <kl name="Wheat">0.1</kl>
+            <xf name="Wheat">1</xf>
+            <ll name="ozcot">0.21</ll>
+            <kl name="ozcot">0.06</kl>
+            <xf name="ozcot">1</xf>
+          </layer>
+          <layer>
+            <thickness>150</thickness>
+            <bd>1.39</bd>
+            <ll15>0.21</ll15>
+            <airdry>0.189</airdry>
+            <dul>0.39</dul>
+            <sat>0.44</sat>
+            <sw>9999.99</sw>
+            <swcon>0.3</swcon>
+            <fbiom>0.02</fbiom>
+            <finert>0.6</finert>
+            <no3>2.1</no3>
+            <nh4>0.1</nh4>
+            <oc>1.24</oc>
+            <ph>7</ph>
+            <ll name="Chickpea">0.21</ll>
+            <kl name="Chickpea">0.1</kl>
+            <xf name="Chickpea">1</xf>
+            <ll name="Cotton">0.21</ll>
+            <kl name="Cotton">0.1</kl>
+            <xf name="Cotton">1</xf>
+            <ll name="Sorghum">0.21</ll>
+            <kl name="Sorghum">0.1</kl>
+            <xf name="Sorghum">1</xf>
+            <ll name="Wheat">0.21</ll>
+            <kl name="Wheat">0.1</kl>
+            <xf name="Wheat">1</xf>
+            <ll name="ozcot">0.21</ll>
+            <kl name="ozcot">0.06</kl>
+            <xf name="ozcot">1</xf>
+          </layer>
+          <layer>
+            <thickness>300</thickness>
+            <bd>1.37</bd>
+            <ll15>0.22</ll15>
+            <airdry>0.22</airdry>
+            <dul>0.4</dul>
+            <sat>0.45</sat>
+            <sw>9999.99</sw>
+            <swcon>0.3</swcon>
+            <fbiom>0.01</fbiom>
+            <finert>0.8</finert>
+            <no3>2.1</no3>
+            <nh4>0.1</nh4>
+            <oc>1.25</oc>
+            <ph>7</ph>
+            <ll name="Chickpea">0.22</ll>
+            <kl name="Chickpea">0.08</kl>
+            <xf name="Chickpea">1</xf>
+            <ll name="Cotton">0.22</ll>
+            <kl name="Cotton">0.1</kl>
+            <xf name="Cotton">1</xf>
+            <ll name="Sorghum">0.26</ll>
+            <kl name="Sorghum">0.1</kl>
+            <xf name="Sorghum">1</xf>
+            <ll name="Wheat">0.25</ll>
+            <kl name="Wheat">0.08</kl>
+            <xf name="Wheat">1</xf>
+            <ll name="ozcot">0.22</ll>
+            <kl name="ozcot">0.06</kl>
+            <xf name="ozcot">1</xf>
+          </layer>
+          <layer>
+            <thickness>300</thickness>
+            <bd>1.36</bd>
+            <ll15>0.25</ll15>
+            <airdry>0.25</airdry>
+            <dul>0.41</dul>
+            <sat>0.46</sat>
+            <sw>9999.99</sw>
+            <swcon>0.3</swcon>
+            <fbiom>0.01</fbiom>
+            <finert>0.9</finert>
+            <no3>1.7</no3>
+            <nh4>0.1</nh4>
+            <oc>1.1</oc>
+            <ph>7</ph>
+            <ll name="Chickpea">0.27</ll>
+            <kl name="Chickpea">0.06</kl>
+            <xf name="Chickpea">1</xf>
+            <ll name="Cotton">0.25</ll>
+            <kl name="Cotton">0.1</kl>
+            <xf name="Cotton">1</xf>
+            <ll name="Sorghum">0.26</ll>
+            <kl name="Sorghum">0.08</kl>
+            <xf name="Sorghum">1</xf>
+            <ll name="Wheat">0.28</ll>
+            <kl name="Wheat">0.06</kl>
+            <xf name="Wheat">1</xf>
+            <ll name="ozcot">0.25</ll>
+            <kl name="ozcot">0.06</kl>
+            <xf name="ozcot">1</xf>
+          </layer>
+          <layer>
+            <thickness>300</thickness>
+            <bd>1.38</bd>
+            <ll15>0.27</ll15>
+            <airdry>0.27</airdry>
+            <dul>0.4</dul>
+            <sat>0.45</sat>
+            <sw>9999.99</sw>
+            <swcon>0.3</swcon>
+            <fbiom>0.01</fbiom>
+            <finert>0.95</finert>
+            <no3>1.7</no3>
+            <nh4>0.1</nh4>
+            <oc>0.71</oc>
+            <ph>7</ph>
+            <ll name="Chickpea">0.29</ll>
+            <kl name="Chickpea">0.04</kl>
+            <xf name="Chickpea">1</xf>
+            <ll name="Cotton">0.27</ll>
+            <kl name="Cotton">0.09</kl>
+            <xf name="Cotton">1</xf>
+            <ll name="Sorghum">0.28</ll>
+            <kl name="Sorghum">0.06</kl>
+            <xf name="Sorghum">1</xf>
+            <ll name="Wheat">0.31</ll>
+            <kl name="Wheat">0.04</kl>
+            <xf name="Wheat">1</xf>
+            <ll name="ozcot">0.27</ll>
+            <kl name="ozcot">0.06</kl>
+            <xf name="ozcot">1</xf>
+          </layer>
+          <layer>
+            <thickness>300</thickness>
+            <bd>1.39</bd>
+            <ll15>0.31</ll15>
+            <airdry>0.31</airdry>
+            <dul>0.39</dul>
+            <sat>0.44</sat>
+            <sw>9999.99</sw>
+            <swcon>0.3</swcon>
+            <fbiom>0.01</fbiom>
+            <finert>0.95</finert>
+            <no3>1.7</no3>
+            <nh4>0.1</nh4>
+            <oc>0.34</oc>
+            <ph>7</ph>
+            <ll name="Chickpea">0.34</ll>
+            <kl name="Chickpea">0.02</kl>
+            <xf name="Chickpea">1</xf>
+            <ll name="Cotton">0.31</ll>
+            <kl name="Cotton">0.07</kl>
+            <xf name="Cotton">1</xf>
+            <ll name="Sorghum">0.34</ll>
+            <kl name="Sorghum">0.04</kl>
+            <xf name="Sorghum">1</xf>
+            <ll name="Wheat">0.37</ll>
+            <kl name="Wheat">0.02</kl>
+            <xf name="Wheat">1</xf>
+            <ll name="ozcot">0.31</ll>
+            <kl name="ozcot">0.06</kl>
+            <xf name="ozcot">1</xf>
+          </layer>
+          <layer>
+            <thickness>300</thickness>
+            <bd>1.42</bd>
+            <ll15>0.36</ll15>
+            <airdry>0.36</airdry>
+            <dul>0.38</dul>
+            <sat>0.43</sat>
+            <sw>9999.99</sw>
+            <swcon>0.3</swcon>
+            <fbiom>0.01</fbiom>
+            <finert>0.95</finert>
+            <no3>1.7</no3>
+            <nh4>0.1</nh4>
+            <oc>0.26</oc>
+            <ph>7</ph>
+            <ll name="Chickpea">0.38</ll>
+            <kl name="Chickpea">0.01</kl>
+            <xf name="Chickpea">1</xf>
+            <ll name="Cotton">0.36</ll>
+            <kl name="Cotton">0.05</kl>
+            <xf name="Cotton">1</xf>
+            <ll name="Sorghum">0.36</ll>
+            <kl name="Sorghum">0.02</kl>
+            <xf name="Sorghum">1</xf>
+            <ll name="Wheat">0.38</ll>
+            <kl name="Wheat">0.01</kl>
+            <xf name="Wheat">1</xf>
+            <ll name="ozcot">0.36</ll>
+            <kl name="ozcot">0.06</kl>
+            <xf name="ozcot">1</xf>
+          </layer>
+        </profile>
+        <Cona>3.5</Cona>
+        <DiffusConst>40</DiffusConst>
+        <DiffusSlope>16</DiffusSlope>
+        <U>6</U>
+        <Salb>0.13</Salb>
+        <Cn2Bare>73</Cn2Bare>
+        <CnRed>20</CnRed>
+        <CnCov>0.8</CnCov>
+        <CnCanopyFact>1</CnCanopyFact>
+        <RootCn>40</RootCn>
+        <RootWt>200</RootWt>
+        <SoilCn>12.5</SoilCn>
+        <EnrACoeff>7.4</EnrACoeff>
+        <EnrBCoeff>0.2</EnrBCoeff>
+        <Comment>oc and ph not measured</Comment>
+        <InitWater>
+          <percentmethod>
+            <percent>1</percent>
+            <distributed>filled from top</distributed>
+          </percentmethod>
+        </InitWater>
+        <InitNitrogen>
+          <profile>
+            <layer>
+              <no3>6.500</no3>
+              <nh4>0.600</nh4>
+              <thickness>150</thickness>
+            </layer>
+            <layer>
+              <no3>2.100</no3>
+              <nh4>0.100</nh4>
+              <thickness>150</thickness>
+            </layer>
+            <layer>
+              <no3>2.100</no3>
+              <nh4>0.100</nh4>
+              <thickness>300</thickness>
+            </layer>
+            <layer>
+              <no3>1.700</no3>
+              <nh4>0.100</nh4>
+              <thickness>300</thickness>
+            </layer>
+            <layer>
+              <no3>1.700</no3>
+              <nh4>0.100</nh4>
+              <thickness>300</thickness>
+            </layer>
+            <layer>
+              <no3>1.700</no3>
+              <nh4>0.100</nh4>
+              <thickness>300</thickness>
+            </layer>
+            <layer>
+              <no3>1.700</no3>
+              <nh4>0.100</nh4>
+              <thickness>300</thickness>
+            </layer>
+          </profile>
+        </InitNitrogen>
+      </soil>
+    </area>
+    <area name="Paddock3">
+      <registrations name="global" />
+      <paddockmanager name="Paddock3">
+        <rule name="Rotation Initialisation">
+          <condition name="init"><![CDATA[############### INITIAL CONDITIONS
+set state "WinterFallow"
+set area  250.0
+
+############### Support procedures
+# Return the current state of the system
+proc currentState {} {
+   global state
+   return $state
+}
+
+############### The decision routine.
+# Return the score for planting "what"
+proc checkRules {} {
+  log "State is [currentState]. (esw=[format %.0f [apsimGet esw]])"
+
+  set bestScore -1.0; set bestTarget {}
+  foreach arc [stateGraph arcs -out [currentState]] {
+     set expr {}
+     set target [stateGraph arc target $arc]
+     foreach rule [stateGraph arc get $arc rules] {
+        set value [uplevel #0 expr $rule]
+        log "target=$target,rule=$rule, value=$value"
+        lappend expr $value
+     }
+     set score [expr [join $expr "*"]]
+     if {$score > $bestScore} {
+        set bestScore $score
+        set bestTarget $target
+     }
+  }
+  return [list $bestTarget $bestScore]
+}
+
+# Change state to another
+proc changeState {newState} {
+   global state
+   set arcs {}
+   foreach arc [stateGraph arcs -out [currentState]] {
+      if {[stateGraph arc target $arc] == "$newState" } {
+         lappend arcs $arc
+      }
+  }  
+   
+   if {[llength $arcs] == 0} {error "No paths from [currentState] to $newState!"}
+   if {[llength $arcs] > 1} {
+      # More than 1 path - evaluate best option
+      set bestScore -1.0; set bestArc {}
+      foreach arc $arcs {
+         set expr {}
+         foreach rule [stateGraph arc get $arc rules] {
+            set value [uplevel #0 expr $rule]
+            lappend expr $value
+         }
+         set score [expr [join $expr "*"]]
+         if {$score > $bestScore} {
+            set bestScore $score
+            set bestArc $arc
+         }
+      }  
+      if {$bestScore > 0.0} {
+         set arc $bestArc
+      } else {
+         error "No viable paths from [currentState] to $newState! (candidates are $arcs)"
+      }
+   } else {
+      # Only 1 path - take it.
+      set arc $arcs
+   }
+   foreach action [stateGraph arc get $arc actions] { uplevel #0 $action }
+   set state $newState
+   logState $newState
+}
+
+proc setup {} { 
+    #Nothing yet..
+}
+
+# Apsimish utilities
+proc pawc {} {
+  set sw [apsimGet sw_dep]
+  set ll [apsimGet ll15_dep]
+  set pawc 0.0
+  for {set i 0} {$i < [llength $sw]} {incr i} {
+      set pawc [expr $pawc + ([lindex $sw $i] - [lindex $ll $i])]
+  }
+  return $pawc
+}
+
+proc fesw {layer} {
+  set dul [lindex [apsimGet dul_dep] [expr $layer-1]]
+  set sw  [lindex [apsimGet sw_dep] [expr $layer-1]]
+  set ll  [lindex [apsimGet ll15_dep] [expr $layer-1]]
+  set fesw [expr ($sw - $ll)/($dul - $ll)]
+  return $fesw
+}
+]]></condition>
+          <condition name="process" />
+          <condition name="exit">
+exit
+</condition>
+        </rule>
+        <tclui name="Rotation Management" shortcut="Rotation Management" />
+        <tclui name="Wheat Sowing Rule" shortcut="Wheat Sowing Rule" />
+        <tclui name="Cotton Sowing Rule" shortcut="Cotton Sowing Rule" />
+        <tclui name="Chickpea Sowing Rule" shortcut="Chickpea Sowing Rule" />
+      </paddockmanager>
+      <wheat />
+      <ozcot name="ozcot" />
+      <chickpea />
+      <cotton />
+      <fertiliser name="fertiliser" />
+      <soil name="#009 - Kupunn (162mm)">
+        <Site>Kupunn</Site>
+        <Region>South East Queensland</Region>
+        <LocalName>Brigalow</LocalName>
+        <SoilType>Grey Vertosol</SoilType>
+        <NearestTown>Dalby, Q 4405</NearestTown>
+        <NaturalVegetation>Brigalow, belah, wilga</NaturalVegetation>
+        <profile>
+          <layer>
+            <thickness>150</thickness>
+            <bd>1.4</bd>
+            <ll15>0.21</ll15>
+            <airdry>0.105</airdry>
+            <dul>0.39</dul>
+            <sat>0.44</sat>
+            <sw>9999.99</sw>
+            <swcon>0.3</swcon>
+            <fbiom>0.03</fbiom>
+            <finert>0.4</finert>
+            <no3>6.5</no3>
+            <nh4>0.6</nh4>
+            <oc>1.24</oc>
+            <ph>7</ph>
+            <ll name="Chickpea">0.25</ll>
+            <kl name="Chickpea">0.1</kl>
+            <xf name="Chickpea">1</xf>
+            <ll name="Cotton">0.25</ll>
+            <kl name="Cotton">0.1</kl>
+            <xf name="Cotton">1</xf>
+            <ll name="Sorghum">0.25</ll>
+            <kl name="Sorghum">0.1</kl>
+            <xf name="Sorghum">1</xf>
+            <ll name="Wheat">0.21</ll>
+            <kl name="Wheat">0.1</kl>
+            <xf name="Wheat">1</xf>
+            <ll name="ozcot">0.21</ll>
+            <kl name="ozcot">0.06</kl>
+            <xf name="ozcot">1</xf>
+          </layer>
+          <layer>
+            <thickness>150</thickness>
+            <bd>1.39</bd>
+            <ll15>0.21</ll15>
+            <airdry>0.189</airdry>
+            <dul>0.39</dul>
+            <sat>0.44</sat>
+            <sw>9999.99</sw>
+            <swcon>0.3</swcon>
+            <fbiom>0.02</fbiom>
+            <finert>0.6</finert>
+            <no3>2.1</no3>
+            <nh4>0.1</nh4>
+            <oc>1.24</oc>
+            <ph>7</ph>
+            <ll name="Chickpea">0.25</ll>
+            <kl name="Chickpea">0.1</kl>
+            <xf name="Chickpea">1</xf>
+            <ll name="Cotton">0.25</ll>
+            <kl name="Cotton">0.1</kl>
+            <xf name="Cotton">1</xf>
+            <ll name="Sorghum">0.25</ll>
+            <kl name="Sorghum">0.1</kl>
+            <xf name="Sorghum">1</xf>
+            <ll name="Wheat">0.21</ll>
+            <kl name="Wheat">0.1</kl>
+            <xf name="Wheat">1</xf>
+            <ll name="ozcot">0.21</ll>
+            <kl name="ozcot">0.06</kl>
+            <xf name="ozcot">1</xf>
+          </layer>
+          <layer>
+            <thickness>300</thickness>
+            <bd>1.37</bd>
+            <ll15>0.22</ll15>
+            <airdry>0.22</airdry>
+            <dul>0.4</dul>
+            <sat>0.45</sat>
+            <sw>9999.99</sw>
+            <swcon>0.3</swcon>
+            <fbiom>0.01</fbiom>
+            <finert>0.8</finert>
+            <no3>2.1</no3>
+            <nh4>0.1</nh4>
+            <oc>1.25</oc>
+            <ph>7</ph>
+            <ll name="Chickpea">0.29</ll>
+            <kl name="Chickpea">0.08</kl>
+            <xf name="Chickpea">1</xf>
+            <ll name="Cotton">0.29</ll>
+            <kl name="Cotton">0.1</kl>
+            <xf name="Cotton">1</xf>
+            <ll name="Sorghum">0.29</ll>
+            <kl name="Sorghum">0.1</kl>
+            <xf name="Sorghum">1</xf>
+            <ll name="Wheat">0.25</ll>
+            <kl name="Wheat">0.08</kl>
+            <xf name="Wheat">1</xf>
+            <ll name="ozcot">0.22</ll>
+            <kl name="ozcot">0.06</kl>
+            <xf name="ozcot">1</xf>
+          </layer>
+          <layer>
+            <thickness>300</thickness>
+            <bd>1.36</bd>
+            <ll15>0.25</ll15>
+            <airdry>0.25</airdry>
+            <dul>0.41</dul>
+            <sat>0.46</sat>
+            <sw>9999.99</sw>
+            <swcon>0.3</swcon>
+            <fbiom>0.01</fbiom>
+            <finert>0.9</finert>
+            <no3>1.7</no3>
+            <nh4>0.1</nh4>
+            <oc>1.1</oc>
+            <ph>7</ph>
+            <ll name="Chickpea">0.29</ll>
+            <kl name="Chickpea">0.06</kl>
+            <xf name="Chickpea">1</xf>
+            <ll name="Cotton">0.29</ll>
+            <kl name="Cotton">0.1</kl>
+            <xf name="Cotton">1</xf>
+            <ll name="Sorghum">0.29</ll>
+            <kl name="Sorghum">0.08</kl>
+            <xf name="Sorghum">1</xf>
+            <ll name="Wheat">0.28</ll>
+            <kl name="Wheat">0.06</kl>
+            <xf name="Wheat">1</xf>
+            <ll name="ozcot">0.25</ll>
+            <kl name="ozcot">0.06</kl>
+            <xf name="ozcot">1</xf>
+          </layer>
+          <layer>
+            <thickness>300</thickness>
+            <bd>1.38</bd>
+            <ll15>0.27</ll15>
+            <airdry>0.27</airdry>
+            <dul>0.4</dul>
+            <sat>0.45</sat>
+            <sw>9999.99</sw>
+            <swcon>0.3</swcon>
+            <fbiom>0.01</fbiom>
+            <finert>0.95</finert>
+            <no3>1.7</no3>
+            <nh4>0.1</nh4>
+            <oc>0.71</oc>
+            <ph>7</ph>
+            <ll name="Chickpea">0.3</ll>
+            <kl name="Chickpea">0.04</kl>
+            <xf name="Chickpea">1</xf>
+            <ll name="Cotton">0.3</ll>
+            <kl name="Cotton">0.09</kl>
+            <xf name="Cotton">1</xf>
+            <ll name="Sorghum">0.3</ll>
+            <kl name="Sorghum">0.06</kl>
+            <xf name="Sorghum">1</xf>
+            <ll name="Wheat">0.31</ll>
+            <kl name="Wheat">0.04</kl>
+            <xf name="Wheat">1</xf>
+            <ll name="ozcot">0.27</ll>
+            <kl name="ozcot">0.06</kl>
+            <xf name="ozcot">1</xf>
+          </layer>
+          <layer>
+            <thickness>300</thickness>
+            <bd>1.39</bd>
+            <ll15>0.31</ll15>
+            <airdry>0.31</airdry>
+            <dul>0.39</dul>
+            <sat>0.44</sat>
+            <sw>9999.99</sw>
+            <swcon>0.3</swcon>
+            <fbiom>0.01</fbiom>
+            <finert>0.95</finert>
+            <no3>1.7</no3>
+            <nh4>0.1</nh4>
+            <oc>0.34</oc>
+            <ph>7</ph>
+            <ll name="Chickpea">0.34</ll>
+            <kl name="Chickpea">0.02</kl>
+            <xf name="Chickpea">1</xf>
+            <ll name="Cotton">0.34</ll>
+            <kl name="Cotton">0.07</kl>
+            <xf name="Cotton">1</xf>
+            <ll name="Sorghum">0.34</ll>
+            <kl name="Sorghum">0.04</kl>
+            <xf name="Sorghum">1</xf>
+            <ll name="Wheat">0.37</ll>
+            <kl name="Wheat">0.02</kl>
+            <xf name="Wheat">1</xf>
+            <ll name="ozcot">0.31</ll>
+            <kl name="ozcot">0.06</kl>
+            <xf name="ozcot">1</xf>
+          </layer>
+          <layer>
+            <thickness>300</thickness>
+            <bd>1.42</bd>
+            <ll15>0.36</ll15>
+            <airdry>0.36</airdry>
+            <dul>0.38</dul>
+            <sat>0.43</sat>
+            <sw>9999.99</sw>
+            <swcon>0.3</swcon>
+            <fbiom>0.01</fbiom>
+            <finert>0.95</finert>
+            <no3>1.7</no3>
+            <nh4>0.1</nh4>
+            <oc>0.26</oc>
+            <ph>7</ph>
+            <ll name="Chickpea">0.36</ll>
+            <kl name="Chickpea">0.01</kl>
+            <xf name="Chickpea">1</xf>
+            <ll name="Cotton">0.36</ll>
+            <kl name="Cotton">0.05</kl>
+            <xf name="Cotton">1</xf>
+            <ll name="Sorghum">0.36</ll>
+            <kl name="Sorghum">0.02</kl>
+            <xf name="Sorghum">1</xf>
+            <ll name="Wheat">0.38</ll>
+            <kl name="Wheat">0.01</kl>
+            <xf name="Wheat">1</xf>
+            <ll name="ozcot">0.36</ll>
+            <kl name="ozcot">0.06</kl>
+            <xf name="ozcot">1</xf>
+          </layer>
+        </profile>
+        <Cona>3.5</Cona>
+        <DiffusConst>40</DiffusConst>
+        <DiffusSlope>16</DiffusSlope>
+        <U>6</U>
+        <Salb>0.13</Salb>
+        <Cn2Bare>73</Cn2Bare>
+        <CnRed>20</CnRed>
+        <CnCov>0.8</CnCov>
+        <CnCanopyFact>1</CnCanopyFact>
+        <RootCn>40</RootCn>
+        <RootWt>200</RootWt>
+        <SoilCn>12.5</SoilCn>
+        <EnrACoeff>7.4</EnrACoeff>
+        <EnrBCoeff>0.2</EnrBCoeff>
+        <Comment>oc and ph not measured</Comment>
+        <InitWater>
+          <percentmethod>
+            <percent>1</percent>
+            <distributed>filled from top</distributed>
+          </percentmethod>
+        </InitWater>
+        <InitNitrogen>
+          <profile>
+            <layer>
+              <no3>6.500</no3>
+              <nh4>0.600</nh4>
+              <thickness>150</thickness>
+            </layer>
+            <layer>
+              <no3>2.100</no3>
+              <nh4>0.100</nh4>
+              <thickness>150</thickness>
+            </layer>
+            <layer>
+              <no3>2.100</no3>
+              <nh4>0.100</nh4>
+              <thickness>300</thickness>
+            </layer>
+            <layer>
+              <no3>1.700</no3>
+              <nh4>0.100</nh4>
+              <thickness>300</thickness>
+            </layer>
+            <layer>
+              <no3>1.700</no3>
+              <nh4>0.100</nh4>
+              <thickness>300</thickness>
+            </layer>
+            <layer>
+              <no3>1.700</no3>
+              <nh4>0.100</nh4>
+              <thickness>300</thickness>
+            </layer>
+            <layer>
+              <no3>1.700</no3>
+              <nh4>0.100</nh4>
+              <thickness>300</thickness>
+            </layer>
+          </profile>
+        </InitNitrogen>
+      </soil>
+    </area>
+  </simulation>
+  <folder name="shared">
+    <tclui name="Rotation Management">
+      <uiscript><![CDATA[source $apsuite/apsim/tcllink/lib/RotationsUI.tcl]]></uiscript>
+<canvas_height>496</canvas_height>
+<rules_height>40</rules_height>
+<node>
+ <x1>560.0</x1>
+ <name>Chickpea</name>
+ <y1>21.0</y1>
+ <x2>660.0</x2>
+ <desc>Chickpea</desc>
+ <fill>lightgreen</fill>
+ <y2>121.0</y2>
+</node>
+<node>
+ <x1>238.0</x1>
+ <name>SummerFallow2</name>
+ <y1>325.0</y1>
+ <x2>338.0</x2>
+ <desc>New state</desc>
+ <fill>gray</fill>
+ <y2>425.0</y2>
+</node>
+<node>
+ <x1>445.0</x1>
+ <name>Wheat</name>
+ <y1>326.0</y1>
+ <x2>545.0</x2>
+ <desc>Wheat Crop</desc>
+ <fill>darkgreen</fill>
+ <y2>426.0</y2>
+</node>
+<node>
+ <x1>180.0</x1>
+ <name>WinterFallow</name>
+ <y1>192.0</y1>
+ <x2>280.0</x2>
+ <desc>New state</desc>
+ <fill>gray</fill>
+ <y2>292.0</y2>
+</node>
+<node>
+ <x1>204.0</x1>
+ <name>Cotton</name>
+ <y1>32.0</y1>
+ <x2>304.0</x2>
+ <desc>A Cotton Crop</desc>
+ <fill>purple</fill>
+ <y2>132.0</y2>
+</node>
+<node>
+ <x1>368.0</x1>
+ <name>F1</name>
+ <y1>4.0</y1>
+ <x2>468.0</x2>
+ <desc>New state</desc>
+ <fill>gray</fill>
+ <y2>104.0</y2>
+</node>
+<node>
+ <x1>508.0</x1>
+ <name>SummerFallow1</name>
+ <y1>195.0</y1>
+ <x2>608.0</x2>
+ <desc>New state</desc>
+ <fill>maroon</fill>
+ <y2>295.0</y2>
+</node>
+<arc><name>arc6</name>
+ <source>WinterFallow</source>
+ <target>Cotton</target>
+ <x>197.5</x>
+ <actions>sow_cotton</actions>
+ <y>155.5</y>
+ <rules>[canPlant_cotton]</rules>
+ <rules>[areaPlanted Cotton] &lt; 0.66</rules>
+ <rules /><actions />
+</arc>
+<arc><name>arc2</name>
+ <source>SummerFallow1</source>
+ <target>WinterFallow</target>
+ <x>388.5</x>
+ <y>362.0</y>
+ <rules>[apsimGet day]  == 192</rules>
+ <rules /><actions />
+</arc>
+<arc><name>arc7</name>
+ <source>F1</source>
+ <target>SummerFallow1</target>
+ <x>542.5</x>
+ <y>78.0</y>
+ <rules>[apsimGet day]  == 192</rules>
+ <rules /><actions />
+</arc>
+<arc><name>arc3</name>
+ <source>Wheat</source>
+ <target>SummerFallow2</target>
+ <x>394.0</x>
+ <actions>apsimSendMessage wheat harvest</actions>
+ <actions>apsimSendMessage wheat end_crop</actions>
+ <y>416.5</y>
+ <rules>{[apsimGet wheat.stage_name] == "harvest_ripe" || [apsimGet wheat.plant_status] == "dead"}</rules>
+ <rules /><actions />
+</arc>
+<arc><name>arc8</name>
+ <source>Chickpea</source>
+ <target>SummerFallow1</target>
+ <x>633.0</x>
+ <actions>apsimSendMessage chickpea harvest</actions>
+ <actions>apsimSendMessage chickpea end_crop</actions>
+ <y>162.5</y>
+ <rules>{[apsimGet chickpea.stage_name] == "harvest_ripe" || [apsimGet chickpea.plant_status] == "dead"}</rules>
+ <rules /><actions />
+</arc>
+<arc><name>arc0</name>
+ <source>F1</source>
+ <target>Chickpea</target>
+ <x>500.0</x>
+ <actions>sow_chickpea</actions>
+ <y>29.0</y>
+ <rules>[canPlant_chickpea]</rules>
+ <rules /><actions />
+</arc>
+<arc><name>arc9</name>
+ <source>SummerFallow2</source>
+ <target>WinterFallow</target>
+ <x>244.0</x>
+ <y>319.5</y>
+ <rules>[apsimGet day]  == 74</rules>
+ <rules /><actions />
+</arc>
+<arc><name>arc5</name>
+ <source>Cotton</source>
+ <target>F1</target>
+ <x>326.5</x>
+ <actions>apsimSendMessage cotton harvest</actions>
+ <y>37.5</y>
+ <rules>[apsimGet ozcot_status] &gt; 0</rules>
+ <rules /><actions />
+</arc>
+<arc><name>arc1</name>
+ <source>SummerFallow1</source>
+ <target>Wheat</target>
+ <x>550.5</x>
+ <actions>sow_wheat</actions>
+ <y>321.5</y>
+ <rules>[canPlant_wheat]</rules>
+ <rules /><actions />
+</arc>
+<rule name="Init rule" invisible="yes" condition="init">
+<![CDATA[package require struct
+::struct::graph stateGraph
+stateGraph node insert "Chickpea"
+set colour(Chickpea) "lightgreen"
+stateGraph node insert "SummerFallow2"
+set colour(SummerFallow2) "gray"
+stateGraph node insert "Wheat"
+set colour(Wheat) "darkgreen"
+stateGraph node insert "WinterFallow"
+set colour(WinterFallow) "gray"
+stateGraph node insert "Cotton"
+set colour(Cotton) "purple"
+stateGraph node insert "F1"
+set colour(F1) "gray"
+stateGraph node insert "SummerFallow1"
+set colour(SummerFallow1) "maroon"
+stateGraph arc insert "WinterFallow" "Cotton" "arc6"
+stateGraph arc lappend "arc6" actions {sow_cotton}
+stateGraph arc lappend "arc6" rules {[canPlant_cotton]}
+stateGraph arc lappend "arc6" rules {[areaPlanted Cotton] < 0.66}
+stateGraph arc lappend "arc6" actions {}
+stateGraph arc insert "SummerFallow1" "WinterFallow" "arc2"
+stateGraph arc lappend "arc2" rules {[apsimGet day]  == 192}
+stateGraph arc lappend "arc2" actions {}
+stateGraph arc insert "F1" "SummerFallow1" "arc7"
+stateGraph arc lappend "arc7" rules {[apsimGet day]  == 192}
+stateGraph arc lappend "arc7" actions {}
+stateGraph arc insert "Wheat" "SummerFallow2" "arc3"
+stateGraph arc lappend "arc3" actions {apsimSendMessage wheat harvest}
+stateGraph arc lappend "arc3" actions {apsimSendMessage wheat end_crop}
+stateGraph arc lappend "arc3" rules {{[apsimGet wheat.stage_name] == "harvest_ripe" || [apsimGet wheat.plant_status] == "dead"}}
+stateGraph arc lappend "arc3" actions {}
+stateGraph arc insert "Chickpea" "SummerFallow1" "arc8"
+stateGraph arc lappend "arc8" actions {apsimSendMessage chickpea harvest}
+stateGraph arc lappend "arc8" actions {apsimSendMessage chickpea end_crop}
+stateGraph arc lappend "arc8" rules {{[apsimGet chickpea.stage_name] == "harvest_ripe" || [apsimGet chickpea.plant_status] == "dead"}}
+stateGraph arc lappend "arc8" actions {}
+stateGraph arc insert "F1" "Chickpea" "arc0"
+stateGraph arc lappend "arc0" actions {sow_chickpea}
+stateGraph arc lappend "arc0" rules {[canPlant_chickpea]}
+stateGraph arc lappend "arc0" actions {}
+stateGraph arc insert "SummerFallow2" "WinterFallow" "arc9"
+stateGraph arc lappend "arc9" rules {[apsimGet day]  == 74}
+stateGraph arc lappend "arc9" actions {}
+stateGraph arc insert "Cotton" "F1" "arc5"
+stateGraph arc lappend "arc5" actions {apsimSendMessage cotton harvest}
+stateGraph arc lappend "arc5" rules {[apsimGet ozcot_status] > 0}
+stateGraph arc lappend "arc5" actions {}
+stateGraph arc insert "SummerFallow1" "Wheat" "arc1"
+stateGraph arc lappend "arc1" actions {sow_wheat}
+stateGraph arc lappend "arc1" rules {[canPlant_wheat]}
+stateGraph arc lappend "arc1" actions {}
+]]></rule>
+</tclui>
+    <tclui name="Wheat Sowing Rule">
+      <rule name=" Wheat Sowing Rule.out - Sowing rule - initialisation" condition="init" invisible="yes">
+# Support procedures
+# Can we plant a crop today?
+proc canPlant_wheat {} {
+  if {"variable" == "variable"} {
+     set year [apsimGet year]; set day [apsimGet day]
+     set d1 [clock format [clock scan "15-may-$year"] -format %j]
+     set d2 [clock format [clock scan "10-jul-$year"] -format %j]
+
+     if {"no" == "yes" &amp;&amp; $day == $d2} {return 1}
+
+     if {$d1 &gt; $d2} {
+        set dateOK [expr $day &gt;= $d1 || $day &lt;= $d2]
+     } else {   
+        set dateOK [expr $day &gt;= $d1 &amp;&amp; $day &lt;= $d2]
+     }
+     set rainOK [expr [apsimGet rain\[3\]] &gt;= 25]
+     set eswOK [expr [apsimGet esw] &gt;= 50]
+     return [expr $dateOK &amp;&amp; $rainOK &amp;&amp; $eswOK]
+  } elseif {"variable" == "fixed"} {
+     set year [apsimGet year]; set day [apsimGet day]
+     set d1 [clock format [clock scan "15-may-$year"] -format %j]
+     return [expr $day == $d1]
+  } else {
+     error "Unknown sowing criteria \"variable\"."
+  }
+  return "notreached"
+}
+
+# Plant a crop now
+proc sow_wheat {} {
+  if {"plant" == "plant"} {
+     apsimSendMessage wheat sow {plants 100} {sowing_depth 30} \
+             {cultivar hartog} {row_spacing 25} \
+             {skipplant 0} {skiprow 0} {crop_class plant} 
+  } elseif {"plant" == "cropmod"} {
+     apsimSendMessage wheat sow {plants [density]} {sowing_depth [depth]} \
+             {cultivar hartog} {row_spacing 25} {skiprow 0} 
+  } elseif {"plant" == "growth"} {
+     apsimSendMessage wheat ???
+  } elseif {"plant" == "ozcot"} {
+     apsimSendMessage wheat sow {plants_pm [plants_pm]} {sowing_depth 30} \
+             {row_spacing 25} {skiprow 0} {cultivar hartog}
+  } elseif {"plant" == "oryza"} {
+     apsimSendMessage wheat sow {cultivar hartog} 
+  } elseif {"plant" == "sorghum"} {
+     apsimSendMessage wheat sow {plants 100} {sowing_depth 30} \
+             {cultivar hartog} {row_spacing 25} {skiprow 0} \
+             {tiller_no_fertile [tiller_no_fertile]}
+  } elseif {"plant" == "sugar"} {
+     apsimSendMessage wheat sow {plants 100} {cultivar hartog} {sowing_depth 30}
+  } else {
+    error "Unknown crop module \"plant\"."
+  }
+}
+
+
+
+
+
+</rule>
+    <ruletemplate name="Sowing rule - initialisation" condition="init">
+# Support procedures
+# Can we plant a crop today?
+proc canPlant_[crop] {} {
+  if {"[criteria]" == "variable"} {
+     set year [apsimGet year]; set day [apsimGet day]
+     set d1 [clock format [clock scan "[date1]-$year"] -format %j]
+     set d2 [clock format [clock scan "[date2]-$year"] -format %j]
+
+     if {"[must_sow]" == "yes" &amp;&amp; $day == $d2} {return 1}
+
+     if {$d1 &gt; $d2} {
+        set dateOK [expr $day &gt;= $d1 || $day &lt;= $d2]
+     } else {   
+        set dateOK [expr $day &gt;= $d1 &amp;&amp; $day &lt;= $d2]
+     }
+     set rainOK [expr [apsimGet rain\[[rainnumdays]\]] &gt;= [raincrit]]
+     set eswOK [expr [apsimGet esw] &gt;= [esw_amount]]
+     return [expr $dateOK &amp;&amp; $rainOK &amp;&amp; $eswOK]
+  } elseif {"[criteria]" == "fixed"} {
+     set year [apsimGet year]; set day [apsimGet day]
+     set d1 [clock format [clock scan "[date1]-$year"] -format %j]
+     return [expr $day == $d1]
+  } else {
+     error "Unknown sowing criteria \"[criteria]\"."
+  }
+  return "notreached"
+}
+
+# Plant a crop now
+proc sow_[crop] {} {
+  if {"[module]" == "plant"} {
+     apsimSendMessage [crop] sow {plants [plants]} {sowing_depth [sowing_depth]} \
+             {cultivar [cultivar]} {row_spacing [row_spacing]} \
+             {skipplant [skipplant]} {skiprow [skiprow]} {crop_class [class]} 
+  } elseif {"[module]" == "cropmod"} {
+     apsimSendMessage [crop] sow {plants [density]} {sowing_depth [depth]} \
+             {cultivar [cultivar]} {row_spacing [row_spacing]} {skiprow [skiprow]} 
+  } elseif {"[module]" == "growth"} {
+     apsimSendMessage [crop] ???
+  } elseif {"[module]" == "ozcot"} {
+     apsimSendMessage [crop] sow {plants_pm [plants_pm]} {sowing_depth [sowing_depth]} \
+             {row_spacing [row_spacing]} {skiprow [skiprow]} {cultivar [cultivar]}
+  } elseif {"[module]" == "oryza"} {
+     apsimSendMessage [crop] sow {cultivar [cultivar]} 
+  } elseif {"[module]" == "sorghum"} {
+     apsimSendMessage [crop] sow {plants [plants]} {sowing_depth [sowing_depth]} \
+             {cultivar [cultivar]} {row_spacing [row_spacing]} {skiprow [skiprow]} \
+             {tiller_no_fertile [tiller_no_fertile]}
+  } elseif {"[module]" == "sugar"} {
+     apsimSendMessage [crop] sow {plants [plants]} {cultivar [cultivar]} {sowing_depth [sowing_depth]}
+  } else {
+    error "Unknown crop module \"[module]\"."
+  }
+}
+
+
+
+
+
+</ruletemplate>
+    <uiscript>source $apsuite/apsim/tcllink/lib/GenericSowingUI.tcl</uiscript>
+    <crop>wheat</crop>
+    <criteria>variable</criteria>
+    <date1>15-may</date1>
+    <date2>10-jul</date2>
+    <raincrit>25</raincrit>
+    <rainnumdays>3</rainnumdays>
+    <esw_amount>50</esw_amount>
+    <must_sow>no</must_sow>
+    <plants>100</plants>
+    <sowing_depth>30</sowing_depth>
+    <row_spacing>25</row_spacing>
+    <skipplant>0</skipplant>
+    <skiprow>0</skiprow>
+    <cultivar>hartog</cultivar>
+    <class>plant</class>
+    <module>plant</module>
+</tclui>
+    <tclui name="Cotton Sowing Rule">
+      <rule name=" Cotton Sowing Rule.out - Sowing rule - initialisation" condition="init" invisible="yes">
+# Support procedures
+# Can we plant a crop today?
+proc canPlant_cotton {} {
+  if {"variable" == "variable"} {
+     set year [apsimGet year]; set day [apsimGet day]
+     set d1 [clock format [clock scan "15-oct-$year"] -format %j]
+     set d2 [clock format [clock scan "15-dec-$year"] -format %j]
+
+     if {"yes" == "yes" &amp;&amp; $day == $d2} {return 1}
+
+     if {$d1 &gt; $d2} {
+        set dateOK [expr $day &gt;= $d1 || $day &lt;= $d2]
+     } else {   
+        set dateOK [expr $day &gt;= $d1 &amp;&amp; $day &lt;= $d2]
+     }
+     set rainOK [expr [apsimGet rain\[3\]] &gt;= 10]
+     set eswOK [expr [apsimGet esw] &gt;= 100]
+     return [expr $dateOK &amp;&amp; $rainOK &amp;&amp; $eswOK]
+  } elseif {"variable" == "fixed"} {
+     set year [apsimGet year]; set day [apsimGet day]
+     set d1 [clock format [clock scan "15-oct-$year"] -format %j]
+     return [expr $day == $d1]
+  } else {
+     error "Unknown sowing criteria \"variable\"."
+  }
+  return "notreached"
+}
+
+# Plant a crop now
+proc sow_cotton {} {
+  if {"ozcot" == "plant"} {
+     apsimSendMessage cotton sow {plants 100} {sowing_depth 30} \
+             {cultivar Siok} {row_spacing 1000} \
+             {skipplant 0} {skiprow 0} {crop_class plant} 
+  } elseif {"ozcot" == "cropmod"} {
+     apsimSendMessage cotton sow {plants [density]} {sowing_depth [depth]} \
+             {cultivar Siok} {row_spacing 1000} {skiprow 0} 
+  } elseif {"ozcot" == "growth"} {
+     apsimSendMessage cotton ???
+  } elseif {"ozcot" == "ozcot"} {
+     apsimSendMessage cotton sow {plants_pm 10} {sowing_depth 30} \
+             {row_spacing 1000} {skiprow 0} {cultivar Siok}
+  } elseif {"ozcot" == "oryza"} {
+     apsimSendMessage cotton sow {cultivar Siok} 
+  } elseif {"ozcot" == "sorghum"} {
+     apsimSendMessage cotton sow {plants 100} {sowing_depth 30} \
+             {cultivar Siok} {row_spacing 1000} {skiprow 0} \
+             {tiller_no_fertile [tiller_no_fertile]}
+  } elseif {"ozcot" == "sugar"} {
+     apsimSendMessage cotton sow {plants 100} {cultivar Siok} {sowing_depth 30}
+  } else {
+    error "Unknown crop module \"ozcot\"."
+  }
+}
+
+
+
+
+
+
+</rule>
+    <ruletemplate name="Sowing rule - initialisation" condition="init">
+# Support procedures
+# Can we plant a crop today?
+proc canPlant_[crop] {} {
+  if {"[criteria]" == "variable"} {
+     set year [apsimGet year]; set day [apsimGet day]
+     set d1 [clock format [clock scan "[date1]-$year"] -format %j]
+     set d2 [clock format [clock scan "[date2]-$year"] -format %j]
+
+     if {"[must_sow]" == "yes" &amp;&amp; $day == $d2} {return 1}
+
+     if {$d1 &gt; $d2} {
+        set dateOK [expr $day &gt;= $d1 || $day &lt;= $d2]
+     } else {   
+        set dateOK [expr $day &gt;= $d1 &amp;&amp; $day &lt;= $d2]
+     }
+     set rainOK [expr [apsimGet rain\[[rainnumdays]\]] &gt;= [raincrit]]
+     set eswOK [expr [apsimGet esw] &gt;= [esw_amount]]
+     return [expr $dateOK &amp;&amp; $rainOK &amp;&amp; $eswOK]
+  } elseif {"[criteria]" == "fixed"} {
+     set year [apsimGet year]; set day [apsimGet day]
+     set d1 [clock format [clock scan "[date1]-$year"] -format %j]
+     return [expr $day == $d1]
+  } else {
+     error "Unknown sowing criteria \"[criteria]\"."
+  }
+  return "notreached"
+}
+
+# Plant a crop now
+proc sow_[crop] {} {
+  if {"[module]" == "plant"} {
+     apsimSendMessage [crop] sow {plants [plants]} {sowing_depth [sowing_depth]} \
+             {cultivar [cultivar]} {row_spacing [row_spacing]} \
+             {skipplant [skipplant]} {skiprow [skiprow]} {crop_class [class]} 
+  } elseif {"[module]" == "cropmod"} {
+     apsimSendMessage [crop] sow {plants [density]} {sowing_depth [depth]} \
+             {cultivar [cultivar]} {row_spacing [row_spacing]} {skiprow [skiprow]} 
+  } elseif {"[module]" == "growth"} {
+     apsimSendMessage [crop] ???
+  } elseif {"[module]" == "ozcot"} {
+     apsimSendMessage [crop] sow {plants_pm [plants_pm]} {sowing_depth [sowing_depth]} \
+             {row_spacing [row_spacing]} {skiprow [skiprow]} {cultivar [cultivar]}
+  } elseif {"[module]" == "oryza"} {
+     apsimSendMessage [crop] sow {cultivar [cultivar]} 
+  } elseif {"[module]" == "sorghum"} {
+     apsimSendMessage [crop] sow {plants [plants]} {sowing_depth [sowing_depth]} \
+             {cultivar [cultivar]} {row_spacing [row_spacing]} {skiprow [skiprow]} \
+             {tiller_no_fertile [tiller_no_fertile]}
+  } elseif {"[module]" == "sugar"} {
+     apsimSendMessage [crop] sow {plants [plants]} {cultivar [cultivar]} {sowing_depth [sowing_depth]}
+  } else {
+    error "Unknown crop module \"[module]\"."
+  }
+}
+
+
+
+
+
+
+</ruletemplate>
+    <uiscript>source $apsuite/apsim/tcllink/lib/GenericSowingUI.tcl</uiscript>
+    <crop>cotton</crop>
+    <criteria>variable</criteria>
+    <date1>15-oct</date1>
+    <date2>15-dec</date2>
+    <raincrit>10</raincrit>
+    <rainnumdays>3</rainnumdays>
+    <esw_amount>100</esw_amount>
+    <must_sow>yes</must_sow>
+    <plants_pm>10</plants_pm>
+    <sowing_depth>30</sowing_depth>
+    <row_spacing>1000</row_spacing>
+    <skiprow>0</skiprow>
+    <cultivar>Siok</cultivar>
+    <module>ozcot</module>
+    <plants>100</plants>
+    <skipplant>0</skipplant>
+    <class>plant</class>
+</tclui>
+    <tclui name="Chickpea Sowing Rule">
+      <rule name=" Chickpea Sowing Rule.out - Sowing rule - initialisation" condition="init" invisible="yes">
+# Support procedures
+# Can we plant a crop today?
+proc canPlant_chickpea {} {
+  if {"variable" == "variable"} {
+     set year [apsimGet year]; set day [apsimGet day]
+     set d1 [clock format [clock scan "15-may-$year"] -format %j]
+     set d2 [clock format [clock scan "10-jul-$year"] -format %j]
+
+     if {"no" == "yes" &amp;&amp; $day == $d2} {return 1}
+
+     if {$d1 &gt; $d2} {
+        set dateOK [expr $day &gt;= $d1 || $day &lt;= $d2]
+     } else {   
+        set dateOK [expr $day &gt;= $d1 &amp;&amp; $day &lt;= $d2]
+     }
+     set rainOK [expr [apsimGet rain\[3\]] &gt;= 15]
+     set eswOK [expr [apsimGet esw] &gt;= 100]
+     return [expr $dateOK &amp;&amp; $rainOK &amp;&amp; $eswOK]
+  } elseif {"variable" == "fixed"} {
+     set year [apsimGet year]; set day [apsimGet day]
+     set d1 [clock format [clock scan "15-may-$year"] -format %j]
+     return [expr $day == $d1]
+  } else {
+     error "Unknown sowing criteria \"variable\"."
+  }
+  return "notreached"
+}
+
+# Plant a crop now
+proc sow_chickpea {} {
+  if {"plant" == "plant"} {
+     apsimSendMessage chickpea sow {plants 25} {sowing_depth 30} \
+             {cultivar amethyst} {row_spacing 25} \
+             {skipplant 0} {skiprow 0} {crop_class plant} 
+  } elseif {"plant" == "cropmod"} {
+     apsimSendMessage chickpea sow {plants [density]} {sowing_depth [depth]} \
+             {cultivar amethyst} {row_spacing 25} {skiprow 0} 
+  } elseif {"plant" == "growth"} {
+     apsimSendMessage chickpea ???
+  } elseif {"plant" == "ozcot"} {
+     apsimSendMessage chickpea sow {plants_pm } {sowing_depth 30} \
+             {row_spacing 25} {skiprow 0} {cultivar amethyst}
+  } elseif {"plant" == "oryza"} {
+     apsimSendMessage chickpea sow {cultivar amethyst} 
+  } elseif {"plant" == "sorghum"} {
+     apsimSendMessage chickpea sow {plants 25} {sowing_depth 30} \
+             {cultivar amethyst} {row_spacing 25} {skiprow 0} \
+             {tiller_no_fertile [tiller_no_fertile]}
+  } elseif {"plant" == "sugar"} {
+     apsimSendMessage chickpea sow {plants 25} {cultivar amethyst} {sowing_depth 30}
+  } else {
+    error "Unknown crop module \"plant\"."
+  }
+}
+
+
+
+
+
+</rule>
+    <ruletemplate name="Sowing rule - initialisation" condition="init">
+# Support procedures
+# Can we plant a crop today?
+proc canPlant_[crop] {} {
+  if {"[criteria]" == "variable"} {
+     set year [apsimGet year]; set day [apsimGet day]
+     set d1 [clock format [clock scan "[date1]-$year"] -format %j]
+     set d2 [clock format [clock scan "[date2]-$year"] -format %j]
+
+     if {"[must_sow]" == "yes" &amp;&amp; $day == $d2} {return 1}
+
+     if {$d1 &gt; $d2} {
+        set dateOK [expr $day &gt;= $d1 || $day &lt;= $d2]
+     } else {   
+        set dateOK [expr $day &gt;= $d1 &amp;&amp; $day &lt;= $d2]
+     }
+     set rainOK [expr [apsimGet rain\[[rainnumdays]\]] &gt;= [raincrit]]
+     set eswOK [expr [apsimGet esw] &gt;= [esw_amount]]
+     return [expr $dateOK &amp;&amp; $rainOK &amp;&amp; $eswOK]
+  } elseif {"[criteria]" == "fixed"} {
+     set year [apsimGet year]; set day [apsimGet day]
+     set d1 [clock format [clock scan "[date1]-$year"] -format %j]
+     return [expr $day == $d1]
+  } else {
+     error "Unknown sowing criteria \"[criteria]\"."
+  }
+  return "notreached"
+}
+
+# Plant a crop now
+proc sow_[crop] {} {
+  if {"[module]" == "plant"} {
+     apsimSendMessage [crop] sow {plants [plants]} {sowing_depth [sowing_depth]} \
+             {cultivar [cultivar]} {row_spacing [row_spacing]} \
+             {skipplant [skipplant]} {skiprow [skiprow]} {crop_class [class]} 
+  } elseif {"[module]" == "cropmod"} {
+     apsimSendMessage [crop] sow {plants [density]} {sowing_depth [depth]} \
+             {cultivar [cultivar]} {row_spacing [row_spacing]} {skiprow [skiprow]} 
+  } elseif {"[module]" == "growth"} {
+     apsimSendMessage [crop] ???
+  } elseif {"[module]" == "ozcot"} {
+     apsimSendMessage [crop] sow {plants_pm [plants_pm]} {sowing_depth [sowing_depth]} \
+             {row_spacing [row_spacing]} {skiprow [skiprow]} {cultivar [cultivar]}
+  } elseif {"[module]" == "oryza"} {
+     apsimSendMessage [crop] sow {cultivar [cultivar]} 
+  } elseif {"[module]" == "sorghum"} {
+     apsimSendMessage [crop] sow {plants [plants]} {sowing_depth [sowing_depth]} \
+             {cultivar [cultivar]} {row_spacing [row_spacing]} {skiprow [skiprow]} \
+             {tiller_no_fertile [tiller_no_fertile]}
+  } elseif {"[module]" == "sugar"} {
+     apsimSendMessage [crop] sow {plants [plants]} {cultivar [cultivar]} {sowing_depth [sowing_depth]}
+  } else {
+    error "Unknown crop module \"[module]\"."
+  }
+}
+
+
+
+
+
+</ruletemplate>
+    <uiscript>source $apsuite/apsim/tcllink/lib/GenericSowingUI.tcl</uiscript>
+    <crop>chickpea</crop>
+    <criteria>variable</criteria>
+    <date1>15-may</date1>
+    <date2>10-jul</date2>
+    <raincrit>15</raincrit>
+    <rainnumdays>3</rainnumdays>
+    <esw_amount>100</esw_amount>
+    <must_sow>no</must_sow>
+    <plants>25</plants>
+    <sowing_depth>30</sowing_depth>
+    <row_spacing>25</row_spacing>
+    <skipplant>0</skipplant>
+    <skiprow>0</skiprow>
+    <cultivar>amethyst</cultivar>
+    <class>plant</class>
+    <module>plant</module>
+    <plants_pm></plants_pm>
+</tclui>
+  </folder>
 </folder>

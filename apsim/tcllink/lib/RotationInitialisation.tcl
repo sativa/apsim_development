@@ -1,5 +1,5 @@
-#! C:\development\apsim\manager\lib\RotationInitialisationUI.tcl
-# Support procedures for rotations
+#! C:\development\apsim\manager\lib\RotationInitialisation.tcl
+# Support procedures for (single paddock) rotations
 
 # Return the current state of the system
 proc currentState {} {

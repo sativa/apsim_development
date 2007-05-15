@@ -54,7 +54,7 @@ proc uiInit {w} {
                       -values $config(states) \
                       -helptext "Which state to start in" 
 
-   checkbutton $w.sl -text "Simple Logging" -onvalue 1 -offvalue 0 -variable config(simpleLogging)
+   checkbutton $w.sl -text "Log to summary file" -onvalue 1 -offvalue 0 -variable config(simpleLogging)
    DynamicHelp::add $w.sl -text "Log evaluation of management rules to summary file"
    
    grid $w.t0 -row 0 -column 0 -padx 3            -sticky w

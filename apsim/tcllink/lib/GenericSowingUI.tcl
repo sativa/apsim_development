@@ -49,7 +49,7 @@ proc cropModule {crop} {
     maize        \
     sunflower] $crop] >= 0} {return "cropmod"}
 
-   if { $crop == "ozcot" || $crop == "cotton"} {return "ozcot"}
+   if { $crop == "cotton"} {return "ozcot"}
    if { $crop == "rice" } {return "oryza"}
    if { $crop == "sorghum" } {return "sorghum"}
    if { $crop == "sugar" } {return "sugar"}
@@ -399,7 +399,7 @@ proc cropmodUI {w} {
 ################OZCOT################
 proc ozcotUI {w} {
    global config
-   LabelFrame $w.t -text "Sowing Parameters (ozcot)" -side top   -bd 1
+   LabelFrame $w.t -text "Sowing Parameters (cotton)" -side top   -bd 1
    set f [$w.t getframe]
    set row 1
 

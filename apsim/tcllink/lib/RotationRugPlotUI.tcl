@@ -39,14 +39,14 @@ proc appletInit {w} {
 # Read in the logfile
 proc readIn {w} {
    upvar #0 $w data
+   set data(finishedOK) 0
    
-   if {![file exists $data(filename)]} { set data(message) "$data(filename) does not exist."; return 0}
+   if {![file exists $data(filename)]} { set data(message) "$data(filename) does not exist."; return }
 
    set data(message) "Reading."; update
 
    set fp [open $data(filename) r]
-   set data(finishedOK) 0
-   set data(crops) {fallow}
+   set data(crops) {fallow}; set data(paddocks) {}
    set date "X"
    while {[gets $fp line] > 0} {
       if {[scan $line "%d,%d" day year]} {
@@ -58,7 +58,7 @@ proc readIn {w} {
       } elseif {[string match "paddocks*" $line]} {
          set data(paddocks) [join [lindex [split $line =] 1]]
          foreach paddock $data(paddocks) {
-            set data($paddock,timeline) [list [list $data(earliest) fallow]]
+            set data($paddock,timeline) {}
          }
       } elseif {[string match "Finished*" $line]} {
          set data(finishedOK) 1
@@ -71,14 +71,21 @@ proc readIn {w} {
          lappend data($paddock,timeline) [list $date $state]
          if {[lsearch $data(crops) $state] < 0} {lappend data(crops) $state}
          append data(text,$date) "$line\n"
+      } elseif {[string match "*State\ is*" $line]} {
+         set paddock [string trim [lindex [split $line ","] 0]]
+         if {$data($paddock,timeline) == {}} {
+            set state [string trimright [lindex [lindex [split $line ","] 1] 2] "."]
+            set data($paddock,timeline) [list [list $date $state]]
+         }
+         append data(text,$date) "$line\n"
       } else {
          append data(text,$date) "$line\n"
       }
    }
    close $fp
-   if {![info exists data(earliest)]} {set data(message) "No 'Starting' tag found - is this really a logfile??"; return 0}
-   if {$data(finishedOK) == 0} {set data(message) "No 'Finished' tag found - did the run crash??";return 0}
-
+   if {![info exists data(earliest)]} {set data(message) "No 'Starting' tag found - is this really a logfile??"; return }
+   if {$data(finishedOK) == 0} {set data(message) "No 'Finished' tag found - did the run crash??";return }
+   
    foreach paddock $data(paddocks) {
       lappend data($paddock,timeline) [list $data(latest) end]
       $data(tree) insert end root $paddock -text "$paddock"
@@ -95,8 +102,6 @@ proc readIn {w} {
 
    set data(currTime) $data(earliest)
    set data(currPaddock) [lindex $data(paddocks) 0]
-   set message "Finished Reading."; update
-   return 1
 }
 
 proc setupUI {w} {
@@ -126,7 +131,7 @@ proc setupUI {w} {
 
    # Scrollable text window
    frame $w.p.t
-   message $w.p.t.m  -textvariable $w\(message\) -aspect 1000 -anchor w
+   label $w.p.t.m  -textvariable $w\(message\) -anchor w
    set data(tree) [Tree $w.p.t.t -relief flat -borderwidth 0 \
                      -width 35 -height 15 -highlightthickness 0 \
                      -yscrollcommand "$w.p.t.sb set"]
@@ -210,6 +215,9 @@ proc num2date {n} {
 # Canvas bindings - mouse and keys
 proc canvasMotion {w x y} {
    upvar #0 $w data
+
+   if {!$data(finishedOK)} {return}
+
    set time [split [num2date [ctowy $w $y]] ","]
    set dstr ""
    catch {
@@ -221,45 +229,63 @@ proc canvasMotion {w x y} {
 }
 proc canvasButton {w x y} {
    upvar #0 $w data
+
+   if {!$data(finishedOK)} {return}
+
    set data(currTime) [num2date [ctowy $w $y]]
    set data(currPaddock) [lindex $data(paddocks) [ctowx $w $x]]
-   showText $w
+   showText $w  1
 }
 proc canvasUp {w} {
    upvar #0 $w data
+
+   if {!$data(finishedOK)} {return}
+
    foreach {day year} [split $data(currTime) ","] {break}
    set day [expr $day-1]
    if {$day <= 0} {set day 366; set year [expr $year-1]}
    set data(currTime) "$day,$year"
-   showText $w
+   showText $w  1
 }
 proc canvasDown {w} {
    upvar #0 $w data
+
+   if {!$data(finishedOK)} {return}
+
    foreach {day year} [split $data(currTime) ","] {break}
    set day [expr $day+1]
    if {$day > 366} {set day 1; set year [expr $year+1]}
    set data(currTime) "$day,$year"
-   showText $w
+   showText $w   1
 }
 proc canvasLeft {w} {
    upvar #0 $w data
+
+   if {!$data(finishedOK)} {return}
+
    set paddock [lsearch $data(paddocks) $data(currPaddock)]
    set paddock [expr $paddock-1]
    if {$paddock < 0} {set paddock [expr [llength $data(paddocks)]-1]}
    set data(currPaddock) [lindex $data(paddocks) $paddock]
-   showText $w
+   showText $w  1
 }
 proc canvasRight {w} {
    upvar #0 $w data
+
+   if {!$data(finishedOK)} {return}
+
    set paddock [lsearch $data(paddocks) $data(currPaddock)]
    set paddock [expr $paddock+1]
    if {$paddock > [expr [llength $data(paddocks)]-1]} {set paddock 0}
    set data(currPaddock) [lindex $data(paddocks) $paddock]
-   showText $w
+   showText $w  1
 }
 
 proc scrollRug {w args} {
    upvar #0 $w data
+
+   if {!$data(finishedOK)} {return}
+
    if {[lindex $args 0] == "moveto"} {
      set fract [lindex $args 1]
      set t0 [date2num $data(earliest)]
@@ -277,11 +303,14 @@ proc scrollRug {w args} {
      if {$day > 366} {set day 1; set year [expr $year+1]}
      set data(currTime) "$day,$year"
    }
-   showText $w
+   showText $w 0
 }
 
 proc treeSelect {w t} {
    upvar #0 $w data
+
+   if {!$data(finishedOK)} {return}
+
    set selected [lindex [$t selection get] 0]
    if {$selected != ""} {
       while {$selected != "" && [lsearch $data(paddocks) $selected] < 0} {
@@ -293,8 +322,11 @@ proc treeSelect {w t} {
    }  
 }
 # Display the current ruleset in the text window
-proc showText {w} {
+proc showText {w doScroll} {
    upvar #0 $w data
+
+   if {!$data(finishedOK)} {return}
+
    set stime [split $data(currTime) ","]
    set year [lindex $stime 1]; set day [max [expr [lindex $stime 0]-1] 0]
   
@@ -309,20 +341,21 @@ proc showText {w} {
       set numEvals 1
       foreach line [split $data(text,$data(currTime)) "\n"] {
          set list [split $line ","]
-         if {[llength $list] == 2} { ;# "p1,State is Fallow1. (esw=120)"
+         if {[llength $list] == 2} { 
+           #### "p1,State is Fallow1. (esw=120)"  ###
            set paddock [string trim [lindex $list 0]]
            set msg [string trim [lindex $list 1]]
            set state [string trimright [lindex $msg 2] "."]
            $data(tree) insert [expr $numEvals-1] $paddock #auto -text "<$numEvals>$msg" -image img.$state
          } elseif {[llength $list] == 4} {
+           ## "Paddock1,target=Chickpea,rule=[canPlant_chickpea], value=0"
            set paddock [string trim [lindex $list 0]]
            set target [lindex [split [lindex $list 1] "="] 1]
            if {![$data(tree) exists $paddock.$target]} {
               $data(tree) insert end $paddock $paddock.$target -text "$target" -image img.$target
            }   
-
-           set rule   [lindex [split [lindex $list 2] "="] 1]
-           set value  [lindex [split [lindex $list 3] "="] 1]
+           set rule   [join [lrange [split [lindex $list 2] "="] 1 end]]
+           set value  [join [lrange [split [lindex $list 3] "="] 1 end]]
            if {$value != 0} {
               $data(tree) insert end $paddock.$target #auto -text "<$numEvals>$rule = $value" -image img.nonzero
            } else {
@@ -338,16 +371,20 @@ proc showText {w} {
    set paddock [lsearch $data(paddocks) $data(currPaddock)]
    $data(canvas) coords currPos [wtocx $w 0] [wtocy $w $data(currTime)] [wtocx $w [llength $data(paddocks)]] [wtocy $w $data(currTime)] 
 
-   set t [date2num $data(currTime)]
-   set t0 [date2num $data(earliest)]
-   set t1 [date2num $data(latest)]
-   set fract [expr ($t-$t0)/($t1-$t0)]
-   $data(canvasScrollbar) set $fract $fract
+   if {$doScroll} {
+     set t [date2num $data(currTime)]
+     set t0 [date2num $data(earliest)]
+     set t1 [date2num $data(latest)]
+     set fract [expr ($t-$t0)/($t1-$t0)]
+     $data(canvasScrollbar) set $fract $fract
+   }  
 }
 
 # Draw the paddock history
 proc draw {w} {
    upvar #0 $w data
+
+   if {!$data(finishedOK)} {return}
 
    $data(canvas) delete all
    
@@ -411,7 +448,8 @@ catch {destroy .w}
 frame      .w
 appletInit .w
 setupUI    .w
-if {[readIn .w]} {draw .w}
+readIn .w
+draw .w
 
 grid forget .
 grid .w -row 0 -column 0 -sticky nsew
