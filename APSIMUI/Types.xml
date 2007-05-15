@@ -1053,47 +1053,6 @@
          <drop name="SupplementScienceConverter"/>
      </drops>
    </rule>
-   <vinelogic>
-      <UItype>vinelogic</UItype>
-      <ShowInMainTree>Yes</ShowInMainTree>
-      <Image>%apsuite\apsimui\images\banner2.jpg</Image>
-      <LargeIcon>Images\grape32.jpg</LargeIcon>
-      <SmallIcon>Images\grape16.jpg</SmallIcon>
-      <drops>
-         <drop name="toolbox"/>
-         <drop name="area"/>
-         <drop name="simulation"/>
-         <drop name="folder"/>
-     </drops>
-     <variables>
-         <variable name="istage" description="Growth Stage Number"/>
-         <variable name="lai" description="Leaf Area Index"/>
-         <variable name="nlayr" description="Number of Soil Layers"/>
-         <variable name="sw" array="T" description="Volumetric Soil Water"/>
-         <variable name="sw_dep" array="T" description="Total Soil Water (mm)"/>
-         <variable name="ll15_dep" array="T" description="15 bar Lower Limit (mm)"/>
-         <variable name="dul_dep" array="T" description="Drained Upper Limit (mm)"/>
-         <variable name="sat_dep" array="T" description="Saturation (mm)"/>
-         <variable name="runoff" description="Runoff (mm)"/>
-         <variable name="drain" description="Drainage (mm)"/>
-         <variable name="flowd" array="T" description="downward flow (mm)"/>
-         <variable name="irrigation" description="Irrigation (mm)"/>
-         <variable name="es" description="Soil Water Evaporation (mm)"/>
-         <variable name="ep" description="Plant Water Use (mm)"/>
-         <variable name="sw_demand" description="Plant Soil Water Demand (mm)"/>
-         <variable name="swdef_photo" description="Water Stress (photosynthesis)"/>
-         <variable name="swdef_expan" description="Water Stress (cell expansion)"/>
-         <variable name="fruit_wt" description="Fruit Weight (kg/ha)"/>
-         <variable name="fruit_fresh_wt" description="Fruit Fresh Weight (kg/ha)"/>
-      </variables>
-      <ApsimToSim>
-         <type>component</type>
-         <dll>%apsuite\apsim\vinelogic\lib\vinelogic.dll</dll>
-         <sim>
-            <filename>[vl.name][vl.instance].inp</filename>
-         </sim>
-      </ApsimToSim>
-   </vinelogic>
    <surfaceom>
       <UItype>generic</UItype>
       <ShowInMainTree>Yes</ShowInMainTree>
