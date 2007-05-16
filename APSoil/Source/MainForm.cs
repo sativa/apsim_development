@@ -658,6 +658,7 @@ namespace APSoil
         private void OnNewFileClick(object sender, EventArgs e)
 			{
 			APSIMData NewData = new APSIMData("folder", "soils");
+            NewData.SetAttribute("version", ApsimFile.APSIMChangeTool.CurrentVersion.ToString());
 			Apsoil.FileNew(NewData);
 			}
 

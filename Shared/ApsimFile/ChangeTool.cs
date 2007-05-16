@@ -11,7 +11,7 @@ namespace ApsimFile
 	// ------------------------------------------
 	public class APSIMChangeTool
 		{
-		private static int CurrentVersion = 9;	   
+		public static int CurrentVersion = 9;	   
 		private delegate void UpgraderDelegate(APSIMData Data);
 
 		// ------------------------------------------
