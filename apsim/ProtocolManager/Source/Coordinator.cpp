@@ -404,19 +404,35 @@ void Coordinator::onPublishEventMessage(unsigned int fromID, PublishEventData& p
    {
    try
       {
+      if (Str_i_Eq(registrations.getName(fromID, publishEventData.ID, RegistrationType::event),
+                   "error"))
+         {
+         protocol::ErrorData errorData;
+         publishEventData.variant.unpack(errorData);
+         onError(components[fromID]->getName(),
+                 asString(errorData.errorMessage),
+                 errorData.isFatal);
+         }
+      propogateEvent(fromID, publishEventData);
+      }
+   catch (const runtime_error& err)
+      {
+      error(err.what(), true);
+      }
+   }
+// ------------------------------------------------------------------
+// Handle incoming publish event messages.
+// ------------------------------------------------------------------
+void Coordinator::propogateEvent(unsigned int fromID, PublishEventData& publishEventData)
+   {
+   try
+      {
       ::Registrations::Subscriptions subscriptions;
       registrations.getSubscriptions(fromID, publishEventData.ID, RegistrationType::event, subscriptions);
 
       if (componentOrders.size() > 0)
          reorderSubscriptions(subscriptions);
 
-      if (Str_i_Eq(registrations.getName(fromID, publishEventData.ID, RegistrationType::event),
-                   "error"))
-         {
-         protocol::ErrorData errorData;
-         publishEventData.variant.unpack(errorData);
-         onError(asString(errorData.errorMessage), errorData.isFatal);
-         }
       for (::Registrations::Subscriptions::iterator s = subscriptions.begin();
                                                     s != subscriptions.end() && !doTerminate;
                                                     s++)
@@ -438,6 +454,7 @@ void Coordinator::onPublishEventMessage(unsigned int fromID, PublishEventData& p
       error(err.what(), true);
       }
    }
+
 // ------------------------------------------------------------------
 //  Short description:
 //    handle incoming terminate simulation messages.
@@ -937,7 +954,7 @@ void Coordinator::respondToEvent(unsigned int& fromID, unsigned int& eventID, pr
    unsigned foreignComponentID = fromID;
    if (components.find(fromID) == components.end())
       foreignComponentID = parentID;
-   onPublishEventMessage(foreignComponentID, publishEventData);
+   propogateEvent(foreignComponentID, publishEventData);
    }
 // ------------------------------------------------------------------
 // return one of our variables to caller
@@ -1021,24 +1038,25 @@ void Coordinator::onApsimGetQuery(ApsimGetQueryData& apsimGetQueryData)
       }
    }
 
-void Coordinator::onError(const string& msg, bool isFatal)
+void Coordinator::onError(const std::string& fromComponentName,
+                          const string& msg,
+                          bool isFatal)
    {
    // ------------------------------------------------------------------
    // A child has published an error - write it to stderr.
    // ------------------------------------------------------------------
    string message = "!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!\n";
    if (isFatal)
-      message += "                 APSIM  Fatal  Error               \n";
+      message += "                 APSIM  Fatal  Error\n";
    else
-      message += "                 APSIM Warning Error               \n";
-   message += "                 -------------------              \n";
+      message += "                 APSIM Warning Error\n";
+   message += "                 -------------------\n";
 
    message += msg;
-   message += string("\nComponent name: ") + getName();
    message += "\n!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!\n\n";
    if (isFatal)
-      writeStringToStream(message, cerr);
+      writeStringToStream(message, cerr, "");
    else
-      writeStringToStream(message, cout);   
+      writeStringToStream(message, cout, "");
    }
 
