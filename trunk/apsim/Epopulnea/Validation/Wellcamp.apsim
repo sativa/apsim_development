@@ -1,4 +1,4 @@
-<folder name="Simulations" version="7">
+<folder name="Simulations" version="9">
   <simulation name="Bare">
     <clock name="clock">
       <start_date name="start_date" description="Select the start date of the simulation" type="date" lbound="1/01/2006" ubound="14/11/2006">21/02/2006</start_date>
@@ -323,54 +323,68 @@
           <RelativeTo>Epopulnea</RelativeTo>
         </InitWater>
         <InitNitrogen>
-          <layer name="1">
-            <no3>6.50251233431099</no3>
-            <nh4>0.599196200219218</nh4>
-          </layer>
-          <layer name="2">
-            <no3>5</no3>
-            <nh4>0.0998660333698697</nh4>
-          </layer>
-          <layer name="3">
-            <no3>5</no3>
-            <nh4>0.0998660333698697</nh4>
-          </layer>
-          <layer name="4">
-            <no3>5</no3>
-            <nh4>0.0998660333698697</nh4>
-          </layer>
-          <layer name="5">
-            <no3>5</no3>
-            <nh4>0.0998660333698697</nh4>
-          </layer>
-          <layer name="6">
-            <no3>5</no3>
-            <nh4>0.0998660333698697</nh4>
-          </layer>
-          <layer name="7">
-            <no3>5</no3>
-            <nh4>0.0998660333698697</nh4>
-          </layer>
-          <layer name="8">
-            <no3>5</no3>
-            <nh4>0.0998660333698697</nh4>
-          </layer>
-          <layer name="9">
-            <no3>5</no3>
-            <nh4>0.0998660333698697</nh4>
-          </layer>
-          <layer name="10">
-            <no3>5</no3>
-            <nh4>0.0998660333698697</nh4>
-          </layer>
-          <layer name="11">
-            <no3>5</no3>
-            <nh4>0.0998660333698697</nh4>
-          </layer>
-          <layer name="12">
-            <no3>5</no3>
-            <nh4>0.0998660333698697</nh4>
-          </layer>
+          <profile>
+            <layer>
+              <no3>6.503</no3>
+              <nh4>0.599</nh4>
+              <thickness>150</thickness>
+            </layer>
+            <layer>
+              <no3>5</no3>
+              <nh4>0.100</nh4>
+              <thickness>150</thickness>
+            </layer>
+            <layer>
+              <no3>5</no3>
+              <nh4>0.100</nh4>
+              <thickness>300</thickness>
+            </layer>
+            <layer>
+              <no3>5</no3>
+              <nh4>0.100</nh4>
+              <thickness>300</thickness>
+            </layer>
+            <layer>
+              <no3>5</no3>
+              <nh4>0.100</nh4>
+              <thickness>300</thickness>
+            </layer>
+            <layer>
+              <no3>5</no3>
+              <nh4>0.100</nh4>
+              <thickness>300</thickness>
+            </layer>
+            <layer>
+              <no3>5</no3>
+              <nh4>0.100</nh4>
+              <thickness>300</thickness>
+            </layer>
+            <layer>
+              <no3>5</no3>
+              <nh4>0.100</nh4>
+              <thickness>300</thickness>
+            </layer>
+            <layer>
+              <no3>5</no3>
+              <nh4>0.100</nh4>
+              <thickness>400</thickness>
+            </layer>
+            <layer>
+              <no3>5</no3>
+              <nh4>0.100</nh4>
+              <thickness>500</thickness>
+            </layer>
+            <layer>
+              <no3>5</no3>
+              <nh4>0.100</nh4>
+              <thickness>500</thickness>
+            </layer>
+            <layer>
+              <no3>5</no3>
+              <nh4>0.100</nh4>
+              <thickness>500</thickness>
+            </layer>
+          </profile>
         </InitNitrogen>
       </soil>
     </area>
@@ -696,54 +710,68 @@
           <RelativeTo>Epopulnea</RelativeTo>
         </InitWater>
         <InitNitrogen>
-          <layer name="1">
-            <no3>6.50251233431099</no3>
-            <nh4>0.599196200219218</nh4>
-          </layer>
-          <layer name="2">
-            <no3>5</no3>
-            <nh4>0.0998660333698697</nh4>
-          </layer>
-          <layer name="3">
-            <no3>5</no3>
-            <nh4>0.0998660333698697</nh4>
-          </layer>
-          <layer name="4">
-            <no3>5</no3>
-            <nh4>0.0998660333698697</nh4>
-          </layer>
-          <layer name="5">
-            <no3>5</no3>
-            <nh4>0.0998660333698697</nh4>
-          </layer>
-          <layer name="6">
-            <no3>5</no3>
-            <nh4>0.0998660333698697</nh4>
-          </layer>
-          <layer name="7">
-            <no3>5</no3>
-            <nh4>0.0998660333698697</nh4>
-          </layer>
-          <layer name="8">
-            <no3>5</no3>
-            <nh4>0.0998660333698697</nh4>
-          </layer>
-          <layer name="9">
-            <no3>5</no3>
-            <nh4>0.0998660333698697</nh4>
-          </layer>
-          <layer name="10">
-            <no3>5</no3>
-            <nh4>0.0998660333698697</nh4>
-          </layer>
-          <layer name="11">
-            <no3>5</no3>
-            <nh4>0.0998660333698697</nh4>
-          </layer>
-          <layer name="12">
-            <no3>5</no3>
-            <nh4>0.0998660333698697</nh4>
-          </layer>
+          <profile>
+            <layer>
+              <no3>6.503</no3>
+              <nh4>0.599</nh4>
+              <thickness>150</thickness>
+            </layer>
+            <layer>
+              <no3>5</no3>
+              <nh4>0.100</nh4>
+              <thickness>150</thickness>
+            </layer>
+            <layer>
+              <no3>5</no3>
+              <nh4>0.100</nh4>
+              <thickness>300</thickness>
+            </layer>
+            <layer>
+              <no3>5</no3>
+              <nh4>0.100</nh4>
+              <thickness>300</thickness>
+            </layer>
+            <layer>
+              <no3>5</no3>
+              <nh4>0.100</nh4>
+              <thickness>300</thickness>
+            </layer>
+            <layer>
+              <no3>5</no3>
+              <nh4>0.100</nh4>
+              <thickness>300</thickness>
+            </layer>
+            <layer>
+              <no3>5</no3>
+              <nh4>0.100</nh4>
+              <thickness>300</thickness>
+            </layer>
+            <layer>
+              <no3>5</no3>
+              <nh4>0.100</nh4>
+              <thickness>300</thickness>
+            </layer>
+            <layer>
+              <no3>5</no3>
+              <nh4>0.100</nh4>
+              <thickness>400</thickness>
+            </layer>
+            <layer>
+              <no3>5</no3>
+              <nh4>0.100</nh4>
+              <thickness>500</thickness>
+            </layer>
+            <layer>
+              <no3>5</no3>
+              <nh4>0.100</nh4>
+              <thickness>500</thickness>
+            </layer>
+            <layer>
+              <no3>5</no3>
+              <nh4>0.100</nh4>
+              <thickness>500</thickness>
+            </layer>
+          </profile>
         </InitNitrogen>
       </soil>
     </area>
@@ -1074,54 +1102,68 @@
           <RelativeTo>Epopulnea</RelativeTo>
         </InitWater>
         <InitNitrogen>
-          <layer name="1">
-            <no3>6.50251233431099</no3>
-            <nh4>0.599196200219218</nh4>
-          </layer>
-          <layer name="2">
-            <no3>5</no3>
-            <nh4>0.0998660333698697</nh4>
-          </layer>
-          <layer name="3">
-            <no3>5</no3>
-            <nh4>0.0998660333698697</nh4>
-          </layer>
-          <layer name="4">
-            <no3>5</no3>
-            <nh4>0.0998660333698697</nh4>
-          </layer>
-          <layer name="5">
-            <no3>5</no3>
-            <nh4>0.0998660333698697</nh4>
-          </layer>
-          <layer name="6">
-            <no3>5</no3>
-            <nh4>0.0998660333698697</nh4>
-          </layer>
-          <layer name="7">
-            <no3>5</no3>
-            <nh4>0.0998660333698697</nh4>
-          </layer>
-          <layer name="8">
-            <no3>5</no3>
-            <nh4>0.0998660333698697</nh4>
-          </layer>
-          <layer name="9">
-            <no3>5</no3>
-            <nh4>0.0998660333698697</nh4>
-          </layer>
-          <layer name="10">
-            <no3>5</no3>
-            <nh4>0.0998660333698697</nh4>
-          </layer>
-          <layer name="11">
-            <no3>5</no3>
-            <nh4>0.0998660333698697</nh4>
-          </layer>
-          <layer name="12">
-            <no3>5</no3>
-            <nh4>0.0998660333698697</nh4>
-          </layer>
+          <profile>
+            <layer>
+              <no3>6.503</no3>
+              <nh4>0.599</nh4>
+              <thickness>150</thickness>
+            </layer>
+            <layer>
+              <no3>5</no3>
+              <nh4>0.100</nh4>
+              <thickness>150</thickness>
+            </layer>
+            <layer>
+              <no3>5</no3>
+              <nh4>0.100</nh4>
+              <thickness>300</thickness>
+            </layer>
+            <layer>
+              <no3>5</no3>
+              <nh4>0.100</nh4>
+              <thickness>300</thickness>
+            </layer>
+            <layer>
+              <no3>5</no3>
+              <nh4>0.100</nh4>
+              <thickness>300</thickness>
+            </layer>
+            <layer>
+              <no3>5</no3>
+              <nh4>0.100</nh4>
+              <thickness>300</thickness>
+            </layer>
+            <layer>
+              <no3>5</no3>
+              <nh4>0.100</nh4>
+              <thickness>300</thickness>
+            </layer>
+            <layer>
+              <no3>5</no3>
+              <nh4>0.100</nh4>
+              <thickness>300</thickness>
+            </layer>
+            <layer>
+              <no3>5</no3>
+              <nh4>0.100</nh4>
+              <thickness>400</thickness>
+            </layer>
+            <layer>
+              <no3>5</no3>
+              <nh4>0.100</nh4>
+              <thickness>500</thickness>
+            </layer>
+            <layer>
+              <no3>5</no3>
+              <nh4>0.100</nh4>
+              <thickness>500</thickness>
+            </layer>
+            <layer>
+              <no3>5</no3>
+              <nh4>0.100</nh4>
+              <thickness>500</thickness>
+            </layer>
+          </profile>
         </InitNitrogen>
       </soil>
     </area>
@@ -1444,54 +1486,68 @@
           <RelativeTo>Epopulnea</RelativeTo>
         </InitWater>
         <InitNitrogen>
-          <layer name="1">
-            <no3>6.50251233431099</no3>
-            <nh4>0.599196200219218</nh4>
-          </layer>
-          <layer name="2">
-            <no3>5</no3>
-            <nh4>0.0998660333698697</nh4>
-          </layer>
-          <layer name="3">
-            <no3>5</no3>
-            <nh4>0.0998660333698697</nh4>
-          </layer>
-          <layer name="4">
-            <no3>5</no3>
-            <nh4>0.0998660333698697</nh4>
-          </layer>
-          <layer name="5">
-            <no3>5</no3>
-            <nh4>0.0998660333698697</nh4>
-          </layer>
-          <layer name="6">
-            <no3>5</no3>
-            <nh4>0.0998660333698697</nh4>
-          </layer>
-          <layer name="7">
-            <no3>5</no3>
-            <nh4>0.0998660333698697</nh4>
-          </layer>
-          <layer name="8">
-            <no3>5</no3>
-            <nh4>0.0998660333698697</nh4>
-          </layer>
-          <layer name="9">
-            <no3>5</no3>
-            <nh4>0.0998660333698697</nh4>
-          </layer>
-          <layer name="10">
-            <no3>5</no3>
-            <nh4>0.0998660333698697</nh4>
-          </layer>
-          <layer name="11">
-            <no3>5</no3>
-            <nh4>0.0998660333698697</nh4>
-          </layer>
-          <layer name="12">
-            <no3>5</no3>
-            <nh4>0.0998660333698697</nh4>
-          </layer>
+          <profile>
+            <layer>
+              <no3>6.503</no3>
+              <nh4>0.599</nh4>
+              <thickness>150</thickness>
+            </layer>
+            <layer>
+              <no3>5</no3>
+              <nh4>0.100</nh4>
+              <thickness>150</thickness>
+            </layer>
+            <layer>
+              <no3>5</no3>
+              <nh4>0.100</nh4>
+              <thickness>300</thickness>
+            </layer>
+            <layer>
+              <no3>5</no3>
+              <nh4>0.100</nh4>
+              <thickness>300</thickness>
+            </layer>
+            <layer>
+              <no3>5</no3>
+              <nh4>0.100</nh4>
+              <thickness>300</thickness>
+            </layer>
+            <layer>
+              <no3>5</no3>
+              <nh4>0.100</nh4>
+              <thickness>300</thickness>
+            </layer>
+            <layer>
+              <no3>5</no3>
+              <nh4>0.100</nh4>
+              <thickness>300</thickness>
+            </layer>
+            <layer>
+              <no3>5</no3>
+              <nh4>0.100</nh4>
+              <thickness>300</thickness>
+            </layer>
+            <layer>
+              <no3>5</no3>
+              <nh4>0.100</nh4>
+              <thickness>400</thickness>
+            </layer>
+            <layer>
+              <no3>5</no3>
+              <nh4>0.100</nh4>
+              <thickness>500</thickness>
+            </layer>
+            <layer>
+              <no3>5</no3>
+              <nh4>0.100</nh4>
+              <thickness>500</thickness>
+            </layer>
+            <layer>
+              <no3>5</no3>
+              <nh4>0.100</nh4>
+              <thickness>500</thickness>
+            </layer>
+          </profile>
         </InitNitrogen>
       </soil>
     </area>
@@ -1814,54 +1870,68 @@
           <RelativeTo>Epopulnea</RelativeTo>
         </InitWater>
         <InitNitrogen>
-          <layer name="1">
-            <no3>6.50251233431099</no3>
-            <nh4>0.599196200219218</nh4>
-          </layer>
-          <layer name="2">
-            <no3>5</no3>
-            <nh4>0.0998660333698697</nh4>
-          </layer>
-          <layer name="3">
-            <no3>5</no3>
-            <nh4>0.0998660333698697</nh4>
-          </layer>
-          <layer name="4">
-            <no3>5</no3>
-            <nh4>0.0998660333698697</nh4>
-          </layer>
-          <layer name="5">
-            <no3>5</no3>
-            <nh4>0.0998660333698697</nh4>
-          </layer>
-          <layer name="6">
-            <no3>5</no3>
-            <nh4>0.0998660333698697</nh4>
-          </layer>
-          <layer name="7">
-            <no3>5</no3>
-            <nh4>0.0998660333698697</nh4>
-          </layer>
-          <layer name="8">
-            <no3>5</no3>
-            <nh4>0.0998660333698697</nh4>
-          </layer>
-          <layer name="9">
-            <no3>5</no3>
-            <nh4>0.0998660333698697</nh4>
-          </layer>
-          <layer name="10">
-            <no3>5</no3>
-            <nh4>0.0998660333698697</nh4>
-          </layer>
-          <layer name="11">
-            <no3>5</no3>
-            <nh4>0.0998660333698697</nh4>
-          </layer>
-          <layer name="12">
-            <no3>5</no3>
-            <nh4>0.0998660333698697</nh4>
-          </layer>
+          <profile>
+            <layer>
+              <no3>6.503</no3>
+              <nh4>0.599</nh4>
+              <thickness>150</thickness>
+            </layer>
+            <layer>
+              <no3>5</no3>
+              <nh4>0.100</nh4>
+              <thickness>150</thickness>
+            </layer>
+            <layer>
+              <no3>5</no3>
+              <nh4>0.100</nh4>
+              <thickness>300</thickness>
+            </layer>
+            <layer>
+              <no3>5</no3>
+              <nh4>0.100</nh4>
+              <thickness>300</thickness>
+            </layer>
+            <layer>
+              <no3>5</no3>
+              <nh4>0.100</nh4>
+              <thickness>300</thickness>
+            </layer>
+            <layer>
+              <no3>5</no3>
+              <nh4>0.100</nh4>
+              <thickness>300</thickness>
+            </layer>
+            <layer>
+              <no3>5</no3>
+              <nh4>0.100</nh4>
+              <thickness>300</thickness>
+            </layer>
+            <layer>
+              <no3>5</no3>
+              <nh4>0.100</nh4>
+              <thickness>300</thickness>
+            </layer>
+            <layer>
+              <no3>5</no3>
+              <nh4>0.100</nh4>
+              <thickness>400</thickness>
+            </layer>
+            <layer>
+              <no3>5</no3>
+              <nh4>0.100</nh4>
+              <thickness>500</thickness>
+            </layer>
+            <layer>
+              <no3>5</no3>
+              <nh4>0.100</nh4>
+              <thickness>500</thickness>
+            </layer>
+            <layer>
+              <no3>5</no3>
+              <nh4>0.100</nh4>
+              <thickness>500</thickness>
+            </layer>
+          </profile>
         </InitNitrogen>
       </soil>
     </area>
@@ -2188,54 +2258,68 @@
           <RelativeTo>Epopulnea</RelativeTo>
         </InitWater>
         <InitNitrogen>
-          <layer name="1">
-            <no3>6.50251233431099</no3>
-            <nh4>0.599196200219218</nh4>
-          </layer>
-          <layer name="2">
-            <no3>5</no3>
-            <nh4>0.0998660333698697</nh4>
-          </layer>
-          <layer name="3">
-            <no3>5</no3>
-            <nh4>0.0998660333698697</nh4>
-          </layer>
-          <layer name="4">
-            <no3>5</no3>
-            <nh4>0.0998660333698697</nh4>
-          </layer>
-          <layer name="5">
-            <no3>5</no3>
-            <nh4>0.0998660333698697</nh4>
-          </layer>
-          <layer name="6">
-            <no3>5</no3>
-            <nh4>0.0998660333698697</nh4>
-          </layer>
-          <layer name="7">
-            <no3>5</no3>
-            <nh4>0.0998660333698697</nh4>
-          </layer>
-          <layer name="8">
-            <no3>5</no3>
-            <nh4>0.0998660333698697</nh4>
-          </layer>
-          <layer name="9">
-            <no3>5</no3>
-            <nh4>0.0998660333698697</nh4>
-          </layer>
-          <layer name="10">
-            <no3>5</no3>
-            <nh4>0.0998660333698697</nh4>
-          </layer>
-          <layer name="11">
-            <no3>5</no3>
-            <nh4>0.0998660333698697</nh4>
-          </layer>
-          <layer name="12">
-            <no3>5</no3>
-            <nh4>0.0998660333698697</nh4>
-          </layer>
+          <profile>
+            <layer>
+              <no3>6.503</no3>
+              <nh4>0.599</nh4>
+              <thickness>150</thickness>
+            </layer>
+            <layer>
+              <no3>5</no3>
+              <nh4>0.100</nh4>
+              <thickness>150</thickness>
+            </layer>
+            <layer>
+              <no3>5</no3>
+              <nh4>0.100</nh4>
+              <thickness>300</thickness>
+            </layer>
+            <layer>
+              <no3>5</no3>
+              <nh4>0.100</nh4>
+              <thickness>300</thickness>
+            </layer>
+            <layer>
+              <no3>5</no3>
+              <nh4>0.100</nh4>
+              <thickness>300</thickness>
+            </layer>
+            <layer>
+              <no3>5</no3>
+              <nh4>0.100</nh4>
+              <thickness>300</thickness>
+            </layer>
+            <layer>
+              <no3>5</no3>
+              <nh4>0.100</nh4>
+              <thickness>300</thickness>
+            </layer>
+            <layer>
+              <no3>5</no3>
+              <nh4>0.100</nh4>
+              <thickness>300</thickness>
+            </layer>
+            <layer>
+              <no3>5</no3>
+              <nh4>0.100</nh4>
+              <thickness>400</thickness>
+            </layer>
+            <layer>
+              <no3>5</no3>
+              <nh4>0.100</nh4>
+              <thickness>500</thickness>
+            </layer>
+            <layer>
+              <no3>5</no3>
+              <nh4>0.100</nh4>
+              <thickness>500</thickness>
+            </layer>
+            <layer>
+              <no3>5</no3>
+              <nh4>0.100</nh4>
+              <thickness>500</thickness>
+            </layer>
+          </profile>
         </InitNitrogen>
       </soil>
     </area>
@@ -2562,54 +2646,68 @@
           <RelativeTo>Epopulnea</RelativeTo>
         </InitWater>
         <InitNitrogen>
-          <layer name="1">
-            <no3>6.50251233431099</no3>
-            <nh4>0.599196200219218</nh4>
-          </layer>
-          <layer name="2">
-            <no3>5</no3>
-            <nh4>0.0998660333698697</nh4>
-          </layer>
-          <layer name="3">
-            <no3>5</no3>
-            <nh4>0.0998660333698697</nh4>
-          </layer>
-          <layer name="4">
-            <no3>5</no3>
-            <nh4>0.0998660333698697</nh4>
-          </layer>
-          <layer name="5">
-            <no3>5</no3>
-            <nh4>0.0998660333698697</nh4>
-          </layer>
-          <layer name="6">
-            <no3>5</no3>
-            <nh4>0.0998660333698697</nh4>
-          </layer>
-          <layer name="7">
-            <no3>5</no3>
-            <nh4>0.0998660333698697</nh4>
-          </layer>
-          <layer name="8">
-            <no3>5</no3>
-            <nh4>0.0998660333698697</nh4>
-          </layer>
-          <layer name="9">
-            <no3>5</no3>
-            <nh4>0.0998660333698697</nh4>
-          </layer>
-          <layer name="10">
-            <no3>5</no3>
-            <nh4>0.0998660333698697</nh4>
-          </layer>
-          <layer name="11">
-            <no3>5</no3>
-            <nh4>0.0998660333698697</nh4>
-          </layer>
-          <layer name="12">
-            <no3>5</no3>
-            <nh4>0.0998660333698697</nh4>
-          </layer>
+          <profile>
+            <layer>
+              <no3>6.503</no3>
+              <nh4>0.599</nh4>
+              <thickness>150</thickness>
+            </layer>
+            <layer>
+              <no3>5</no3>
+              <nh4>0.100</nh4>
+              <thickness>150</thickness>
+            </layer>
+            <layer>
+              <no3>5</no3>
+              <nh4>0.100</nh4>
+              <thickness>300</thickness>
+            </layer>
+            <layer>
+              <no3>5</no3>
+              <nh4>0.100</nh4>
+              <thickness>300</thickness>
+            </layer>
+            <layer>
+              <no3>5</no3>
+              <nh4>0.100</nh4>
+              <thickness>300</thickness>
+            </layer>
+            <layer>
+              <no3>5</no3>
+              <nh4>0.100</nh4>
+              <thickness>300</thickness>
+            </layer>
+            <layer>
+              <no3>5</no3>
+              <nh4>0.100</nh4>
+              <thickness>300</thickness>
+            </layer>
+            <layer>
+              <no3>5</no3>
+              <nh4>0.100</nh4>
+              <thickness>300</thickness>
+            </layer>
+            <layer>
+              <no3>5</no3>
+              <nh4>0.100</nh4>
+              <thickness>400</thickness>
+            </layer>
+            <layer>
+              <no3>5</no3>
+              <nh4>0.100</nh4>
+              <thickness>500</thickness>
+            </layer>
+            <layer>
+              <no3>5</no3>
+              <nh4>0.100</nh4>
+              <thickness>500</thickness>
+            </layer>
+            <layer>
+              <no3>5</no3>
+              <nh4>0.100</nh4>
+              <thickness>500</thickness>
+            </layer>
+          </profile>
         </InitNitrogen>
       </soil>
     </area>
@@ -3040,54 +3138,68 @@
           <RelativeTo>Epopulnea</RelativeTo>
         </InitWater>
         <InitNitrogen>
-          <layer name="1">
-            <no3>6.50251233431099</no3>
-            <nh4>0.599196200219218</nh4>
-          </layer>
-          <layer name="2">
-            <no3>5</no3>
-            <nh4>0.0998660333698697</nh4>
-          </layer>
-          <layer name="3">
-            <no3>5</no3>
-            <nh4>0.0998660333698697</nh4>
-          </layer>
-          <layer name="4">
-            <no3>5</no3>
-            <nh4>0.0998660333698697</nh4>
-          </layer>
-          <layer name="5">
-            <no3>5</no3>
-            <nh4>0.0998660333698697</nh4>
-          </layer>
-          <layer name="6">
-            <no3>5</no3>
-            <nh4>0.0998660333698697</nh4>
-          </layer>
-          <layer name="7">
-            <no3>5</no3>
-            <nh4>0.0998660333698697</nh4>
-          </layer>
-          <layer name="8">
-            <no3>5</no3>
-            <nh4>0.0998660333698697</nh4>
-          </layer>
-          <layer name="9">
-            <no3>5</no3>
-            <nh4>0.0998660333698697</nh4>
-          </layer>
-          <layer name="10">
-            <no3>5</no3>
-            <nh4>0.0998660333698697</nh4>
-          </layer>
-          <layer name="11">
-            <no3>5</no3>
-            <nh4>0.0998660333698697</nh4>
-          </layer>
-          <layer name="12">
-            <no3>5</no3>
-            <nh4>0.0998660333698697</nh4>
-          </layer>
+          <profile>
+            <layer>
+              <no3>6.503</no3>
+              <nh4>0.599</nh4>
+              <thickness>150</thickness>
+            </layer>
+            <layer>
+              <no3>5</no3>
+              <nh4>0.100</nh4>
+              <thickness>150</thickness>
+            </layer>
+            <layer>
+              <no3>5</no3>
+              <nh4>0.100</nh4>
+              <thickness>300</thickness>
+            </layer>
+            <layer>
+              <no3>5</no3>
+              <nh4>0.100</nh4>
+              <thickness>300</thickness>
+            </layer>
+            <layer>
+              <no3>5</no3>
+              <nh4>0.100</nh4>
+              <thickness>300</thickness>
+            </layer>
+            <layer>
+              <no3>5</no3>
+              <nh4>0.100</nh4>
+              <thickness>300</thickness>
+            </layer>
+            <layer>
+              <no3>5</no3>
+              <nh4>0.100</nh4>
+              <thickness>300</thickness>
+            </layer>
+            <layer>
+              <no3>5</no3>
+              <nh4>0.100</nh4>
+              <thickness>300</thickness>
+            </layer>
+            <layer>
+              <no3>5</no3>
+              <nh4>0.100</nh4>
+              <thickness>400</thickness>
+            </layer>
+            <layer>
+              <no3>5</no3>
+              <nh4>0.100</nh4>
+              <thickness>500</thickness>
+            </layer>
+            <layer>
+              <no3>5</no3>
+              <nh4>0.100</nh4>
+              <thickness>500</thickness>
+            </layer>
+            <layer>
+              <no3>5</no3>
+              <nh4>0.100</nh4>
+              <thickness>500</thickness>
+            </layer>
+          </profile>
         </InitNitrogen>
       </soil>
     </area>
@@ -3471,109 +3583,141 @@ endif
         <RelativeTo>Epopulnea</RelativeTo>
       </InitWater>
       <InitNitrogen>
-        <layer name="1">
-          <no3>6.50251233431099</no3>
-          <nh4>0.599196200219218</nh4>
-        </layer>
-        <layer name="2">
-          <no3>5</no3>
-          <nh4>0.0998660333698697</nh4>
-        </layer>
-        <layer name="3">
-          <no3>5</no3>
-          <nh4>0.0998660333698697</nh4>
-        </layer>
-        <layer name="4">
-          <no3>5</no3>
-          <nh4>0.0998660333698697</nh4>
-        </layer>
-        <layer name="5">
-          <no3>5</no3>
-          <nh4>0.0998660333698697</nh4>
-        </layer>
-        <layer name="6">
-          <no3>5</no3>
-          <nh4>0.0998660333698697</nh4>
-        </layer>
-        <layer name="7">
-          <no3>5</no3>
-          <nh4>0.0998660333698697</nh4>
-        </layer>
-        <layer name="8">
-          <no3>5</no3>
-          <nh4>0.0998660333698697</nh4>
-        </layer>
-        <layer name="9">
-          <no3>5</no3>
-          <nh4>0.0998660333698697</nh4>
-        </layer>
-        <layer name="10">
-          <no3>5</no3>
-          <nh4>0.0998660333698697</nh4>
-        </layer>
-        <layer name="11">
-          <no3>5</no3>
-          <nh4>0.0998660333698697</nh4>
-        </layer>
-        <layer name="12">
-          <no3>5</no3>
-          <nh4>0.0998660333698697</nh4>
-        </layer>
+        <profile>
+          <layer>
+            <no3>6.503</no3>
+            <nh4>0.599</nh4>
+            <thickness>150</thickness>
+          </layer>
+          <layer>
+            <no3>5</no3>
+            <nh4>0.100</nh4>
+            <thickness>150</thickness>
+          </layer>
+          <layer>
+            <no3>5</no3>
+            <nh4>0.100</nh4>
+            <thickness>300</thickness>
+          </layer>
+          <layer>
+            <no3>5</no3>
+            <nh4>0.100</nh4>
+            <thickness>300</thickness>
+          </layer>
+          <layer>
+            <no3>5</no3>
+            <nh4>0.100</nh4>
+            <thickness>300</thickness>
+          </layer>
+          <layer>
+            <no3>5</no3>
+            <nh4>0.100</nh4>
+            <thickness>300</thickness>
+          </layer>
+          <layer>
+            <no3>5</no3>
+            <nh4>0.100</nh4>
+            <thickness>300</thickness>
+          </layer>
+          <layer>
+            <no3>5</no3>
+            <nh4>0.100</nh4>
+            <thickness>300</thickness>
+          </layer>
+          <layer>
+            <no3>5</no3>
+            <nh4>0.100</nh4>
+            <thickness>400</thickness>
+          </layer>
+          <layer>
+            <no3>5</no3>
+            <nh4>0.100</nh4>
+            <thickness>500</thickness>
+          </layer>
+          <layer>
+            <no3>5</no3>
+            <nh4>0.100</nh4>
+            <thickness>500</thickness>
+          </layer>
+          <layer>
+            <no3>5</no3>
+            <nh4>0.100</nh4>
+            <thickness>500</thickness>
+          </layer>
+        </profile>
       </InitNitrogen>
     </soil>
     <soil name="Black Vertosol-Waco (Wellcamp No030)">
       <InitWater>
-        <layer name="1">
-          <sw>0.3</sw>
-        </layer>
-        <layer name="2">
-          <sw>0.34</sw>
-        </layer>
-        <layer name="3">
-          <sw>0.38</sw>
-        </layer>
-        <layer name="4">
-          <sw>0.36</sw>
-        </layer>
-        <layer name="5">
-          <sw>0.4</sw>
-        </layer>
-        <layer name="6">
-          <sw>0.36</sw>
-        </layer>
-        <layer name="7">
-          <sw>0.46</sw>
-        </layer>
+        <profile>
+          <layer>
+            <sw>0.300</sw>
+            <thickness>150</thickness>
+          </layer>
+          <layer>
+            <sw>0.340</sw>
+            <thickness>150</thickness>
+          </layer>
+          <layer>
+            <sw>0.380</sw>
+            <thickness>300</thickness>
+          </layer>
+          <layer>
+            <sw>0.360</sw>
+            <thickness>300</thickness>
+          </layer>
+          <layer>
+            <sw>0.400</sw>
+            <thickness>300</thickness>
+          </layer>
+          <layer>
+            <sw>0.360</sw>
+            <thickness>300</thickness>
+          </layer>
+          <layer>
+            <sw>0.460</sw>
+            <thickness>300</thickness>
+          </layer>
+        </profile>
       </InitWater>
       <InitNitrogen>
-        <layer name="1">
-          <no3>6</no3>
-          <nh4>1</nh4>
-        </layer>
-        <layer name="2">
-          <no3>5</no3>
-          <nh4>1</nh4>
-        </layer>
-        <layer name="3">
-          <no3>3</no3>
-          <nh4>0.9</nh4>
-        </layer>
-        <layer name="4">
-          <no3>2</no3>
-          <nh4>0.7</nh4>
-        </layer>
-        <layer name="5">
-          <no3>1</no3>
-          <nh4>0.2</nh4>
-        </layer>
-        <layer name="6">
-          <no3>1</no3>
-          <nh4>0.1</nh4>
-        </layer>
-        <layer name="7">
-          <no3>1</no3>
-          <nh4>0.01</nh4>
-        </layer>
+        <profile>
+          <layer>
+            <no3>6</no3>
+            <nh4>1</nh4>
+            <thickness>150</thickness>
+          </layer>
+          <layer>
+            <no3>5</no3>
+            <nh4>1</nh4>
+            <thickness>150</thickness>
+          </layer>
+          <layer>
+            <no3>3</no3>
+            <nh4>0.900</nh4>
+            <thickness>300</thickness>
+          </layer>
+          <layer>
+            <no3>2</no3>
+            <nh4>0.700</nh4>
+            <thickness>300</thickness>
+          </layer>
+          <layer>
+            <no3>1</no3>
+            <nh4>0.200</nh4>
+            <thickness>300</thickness>
+          </layer>
+          <layer>
+            <no3>1</no3>
+            <nh4>0.100</nh4>
+            <thickness>300</thickness>
+          </layer>
+          <layer>
+            <no3>1</no3>
+            <nh4>0.010</nh4>
+            <thickness>300</thickness>
+          </layer>
+        </profile>
       </InitNitrogen>
       <state>Queensland</state>
       <region>Darling Downs</region>

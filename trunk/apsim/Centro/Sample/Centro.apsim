@@ -1,4 +1,4 @@
-<folder name="Simulations" version="5">
+<folder name="Simulations" version="9">
   <simulation name="Centro">
     <metfile name="met">
       <filename name="filename">C:\Program Files\Apsim52\apsim\met\sample\dalby.met</filename>
@@ -103,57 +103,75 @@
       </outputfile>
       <soil name="Grey Vertosol-Kupunn (Kupunn No009)">
         <InitWater>
-          <layer name="1">
-            <sw>0.21</sw>
-          </layer>
-          <layer name="2">
-            <sw>0.21</sw>
-          </layer>
-          <layer name="3">
-            <sw>0.22</sw>
-          </layer>
-          <layer name="4">
-            <sw>0.25</sw>
-          </layer>
-          <layer name="5">
-            <sw>0.27</sw>
-          </layer>
-          <layer name="6">
-            <sw>0.31</sw>
-          </layer>
-          <layer name="7">
-            <sw>0.36</sw>
-          </layer>
+          <profile>
+            <layer>
+              <sw>0.210</sw>
+              <thickness>150</thickness>
+            </layer>
+            <layer>
+              <sw>0.210</sw>
+              <thickness>150</thickness>
+            </layer>
+            <layer>
+              <sw>0.220</sw>
+              <thickness>300</thickness>
+            </layer>
+            <layer>
+              <sw>0.250</sw>
+              <thickness>300</thickness>
+            </layer>
+            <layer>
+              <sw>0.270</sw>
+              <thickness>300</thickness>
+            </layer>
+            <layer>
+              <sw>0.310</sw>
+              <thickness>300</thickness>
+            </layer>
+            <layer>
+              <sw>0.360</sw>
+              <thickness>300</thickness>
+            </layer>
+          </profile>
         </InitWater>
         <InitNitrogen>
-          <layer name="1">
-            <no3>6</no3>
-            <nh4>1</nh4>
-          </layer>
-          <layer name="2">
-            <no3>5</no3>
-            <nh4>1</nh4>
-          </layer>
-          <layer name="3">
-            <no3>3</no3>
-            <nh4>0.9</nh4>
-          </layer>
-          <layer name="4">
-            <no3>2</no3>
-            <nh4>0.7</nh4>
-          </layer>
-          <layer name="5">
-            <no3>1</no3>
-            <nh4>0.2</nh4>
-          </layer>
-          <layer name="6">
-            <no3>1</no3>
-            <nh4>0.1</nh4>
-          </layer>
-          <layer name="7">
-            <no3>1</no3>
-            <nh4>0.01</nh4>
-          </layer>
+          <profile>
+            <layer>
+              <no3>6</no3>
+              <nh4>1</nh4>
+              <thickness>150</thickness>
+            </layer>
+            <layer>
+              <no3>5</no3>
+              <nh4>1</nh4>
+              <thickness>150</thickness>
+            </layer>
+            <layer>
+              <no3>3</no3>
+              <nh4>0.900</nh4>
+              <thickness>300</thickness>
+            </layer>
+            <layer>
+              <no3>2</no3>
+              <nh4>0.700</nh4>
+              <thickness>300</thickness>
+            </layer>
+            <layer>
+              <no3>1</no3>
+              <nh4>0.200</nh4>
+              <thickness>300</thickness>
+            </layer>
+            <layer>
+              <no3>1</no3>
+              <nh4>0.100</nh4>
+              <thickness>300</thickness>
+            </layer>
+            <layer>
+              <no3>1</no3>
+              <nh4>0.010</nh4>
+              <thickness>300</thickness>
+            </layer>
+          </profile>
         </InitNitrogen>
         <state>Queensland</state>
         <region>Darling Downs</region>
@@ -163,336 +181,217 @@
         <DataSource>CSIRO Sustainable Ecosystems, Toowoomba</DataSource>
         <comment>Soil naming structure: \State\Region\Classification-Local Name (Site/district and locator number); oc and ph estimated</comment>
         <naturalvegetation>Brigalow, belah, wilga</naturalvegetation>
-        <Water>
-          <Cona>3.5</Cona>
-          <U>6</U>
-          <Salb>0.12</Salb>
-          <DiffusConst>40</DiffusConst>
-          <DiffusSlope>16</DiffusSlope>
-          <CN2Bare>73</CN2Bare>
-          <CNRed>20</CNRed>
-          <CNCov>0.8</CNCov>
-          <layer name="1">
+        <profile>
+          <layer>
             <thickness>150</thickness>
-            <bd>1.4</bd>
-            <ll15>0.21</ll15>
-            <airdry>0.11</airdry>
-            <dul>0.39</dul>
-            <sat>0.44</sat>
-            <swcon>0.3</swcon>
+            <bd>1.400</bd>
+            <ll15>0.210</ll15>
+            <airdry>0.110</airdry>
+            <dul>0.390</dul>
+            <sat>0.440</sat>
+            <swcon>0.300</swcon>
+            <fbiom>0.040</fbiom>
+            <finert>0.400</finert>
+            <oc>1.240</oc>
+            <ph>7</ph>
+            <ll name="wheat">0.210</ll>
+            <kl name="wheat">0.060</kl>
+            <xf name="wheat">1</xf>
+            <ll name="chickpea">0.210</ll>
+            <kl name="chickpea">0.060</kl>
+            <xf name="chickpea">1</xf>
+            <ll name="Cotton">0.210</ll>
+            <kl name="Cotton">0.100</kl>
+            <xf name="Cotton">1</xf>
+            <ll name="Sorghum">0.210</ll>
+            <kl name="Sorghum">0.070</kl>
+            <xf name="Sorghum">1</xf>
+            <ll name="centro">0.190</ll>
+            <kl name="centro">0.060</kl>
+            <xf name="centro">1</xf>
           </layer>
-          <layer name="2">
+          <layer>
             <thickness>150</thickness>
-            <bd>1.39</bd>
-            <ll15>0.21</ll15>
-            <airdry>0.17</airdry>
-            <dul>0.39</dul>
-            <sat>0.44</sat>
-            <swcon>0.3</swcon>
-          </layer>
-          <layer name="3">
-            <thickness>300</thickness>
-            <bd>1.37</bd>
-            <ll15>0.21</ll15>
-            <airdry>0.21</airdry>
-            <dul>0.4</dul>
-            <sat>0.45</sat>
-            <swcon>0.3</swcon>
-          </layer>
-          <layer name="4">
-            <thickness>300</thickness>
-            <bd>1.36</bd>
-            <ll15>0.21</ll15>
-            <airdry>0.21</airdry>
-            <dul>0.41</dul>
-            <sat>0.46</sat>
-            <swcon>0.3</swcon>
-          </layer>
-          <layer name="5">
-            <thickness>300</thickness>
-            <bd>1.38</bd>
-            <ll15>0.21</ll15>
-            <airdry>0.21</airdry>
-            <dul>0.4</dul>
-            <sat>0.45</sat>
-            <swcon>0.3</swcon>
-          </layer>
-          <layer name="6">
-            <thickness>300</thickness>
-            <bd>1.39</bd>
-            <ll15>0.21</ll15>
-            <airdry>0.21</airdry>
-            <dul>0.39</dul>
-            <sat>0.44</sat>
-            <swcon>0.3</swcon>
-          </layer>
-          <layer name="7">
-            <thickness>300</thickness>
-            <bd>1.42</bd>
-            <ll15>0.21</ll15>
-            <airdry>0.21</airdry>
-            <dul>0.38</dul>
-            <sat>0.43</sat>
-            <swcon>0.3</swcon>
-          </layer>
-        </Water>
-        <Nitrogen>
-          <RootCN>40</RootCN>
-          <RootWT>1000</RootWT>
-          <SoilCN>12</SoilCN>
-          <EnrACoeff>7.4</EnrACoeff>
-          <EnrBCoeff>0.2</EnrBCoeff>
-          <layer name="1">
-            <fbiom>0.04</fbiom>
-            <finert>0.4</finert>
-            <oc>1.24</oc>
+            <bd>1.390</bd>
+            <ll15>0.210</ll15>
+            <airdry>0.170</airdry>
+            <dul>0.390</dul>
+            <sat>0.440</sat>
+            <swcon>0.300</swcon>
+            <fbiom>0.020</fbiom>
+            <finert>0.600</finert>
+            <oc>1.240</oc>
             <ph>7</ph>
+            <ll name="wheat">0.210</ll>
+            <kl name="wheat">0.060</kl>
+            <xf name="wheat">1</xf>
+            <ll name="chickpea">0.210</ll>
+            <kl name="chickpea">0.060</kl>
+            <xf name="chickpea">1</xf>
+            <ll name="Cotton">0.210</ll>
+            <kl name="Cotton">0.100</kl>
+            <xf name="Cotton">1</xf>
+            <ll name="Sorghum">0.210</ll>
+            <kl name="Sorghum">0.070</kl>
+            <xf name="Sorghum">1</xf>
+            <ll name="centro">0.210</ll>
+            <kl name="centro">0.060</kl>
+            <xf name="centro">1</xf>
           </layer>
-          <layer name="2">
-            <fbiom>0.02</fbiom>
-            <finert>0.6</finert>
-            <oc>1.24</oc>
+          <layer>
+            <thickness>300</thickness>
+            <bd>1.370</bd>
+            <ll15>0.210</ll15>
+            <airdry>0.210</airdry>
+            <dul>0.400</dul>
+            <sat>0.450</sat>
+            <swcon>0.300</swcon>
+            <fbiom>0.020</fbiom>
+            <finert>0.800</finert>
+            <oc>1.250</oc>
             <ph>7</ph>
+            <ll name="wheat">0.250</ll>
+            <kl name="wheat">0.060</kl>
+            <xf name="wheat">1</xf>
+            <ll name="chickpea">0.220</ll>
+            <kl name="chickpea">0.060</kl>
+            <xf name="chickpea">1</xf>
+            <ll name="Cotton">0.220</ll>
+            <kl name="Cotton">0.100</kl>
+            <xf name="Cotton">1</xf>
+            <ll name="Sorghum">0.260</ll>
+            <kl name="Sorghum">0.070</kl>
+            <xf name="Sorghum">1</xf>
+            <ll name="centro">0.250</ll>
+            <kl name="centro">0.060</kl>
+            <xf name="centro">1</xf>
           </layer>
-          <layer name="3">
-            <fbiom>0.02</fbiom>
-            <finert>0.8</finert>
-            <oc>1.25</oc>
-            <ph>7</ph>
-          </layer>
-          <layer name="4">
-            <fbiom>0.02</fbiom>
+          <layer>
+            <thickness>300</thickness>
+            <bd>1.360</bd>
+            <ll15>0.210</ll15>
+            <airdry>0.210</airdry>
+            <dul>0.410</dul>
+            <sat>0.460</sat>
+            <swcon>0.300</swcon>
+            <fbiom>0.020</fbiom>
             <finert>1</finert>
-            <oc>1.1</oc>
+            <oc>1.100</oc>
             <ph>7</ph>
+            <ll name="wheat">0.280</ll>
+            <kl name="wheat">0.040</kl>
+            <xf name="wheat">1</xf>
+            <ll name="chickpea">0.270</ll>
+            <kl name="chickpea">0.060</kl>
+            <xf name="chickpea">1</xf>
+            <ll name="Cotton">0.250</ll>
+            <kl name="Cotton">0.100</kl>
+            <xf name="Cotton">1</xf>
+            <ll name="Sorghum">0.260</ll>
+            <kl name="Sorghum">0.050</kl>
+            <xf name="Sorghum">1</xf>
+            <ll name="centro">0.280</ll>
+            <kl name="centro">0.040</kl>
+            <xf name="centro">1</xf>
           </layer>
-          <layer name="5">
-            <fbiom>0.01</fbiom>
+          <layer>
+            <thickness>300</thickness>
+            <bd>1.380</bd>
+            <ll15>0.210</ll15>
+            <airdry>0.210</airdry>
+            <dul>0.400</dul>
+            <sat>0.450</sat>
+            <swcon>0.300</swcon>
+            <fbiom>0.010</fbiom>
             <finert>1</finert>
-            <oc>0.71</oc>
+            <oc>0.710</oc>
             <ph>7</ph>
+            <ll name="wheat">0.310</ll>
+            <kl name="wheat">0.040</kl>
+            <xf name="wheat">1</xf>
+            <ll name="chickpea">0.290</ll>
+            <kl name="chickpea">0.060</kl>
+            <xf name="chickpea">1</xf>
+            <ll name="Cotton">0.270</ll>
+            <kl name="Cotton">0.090</kl>
+            <xf name="Cotton">1</xf>
+            <ll name="Sorghum">0.280</ll>
+            <kl name="Sorghum">0.050</kl>
+            <xf name="Sorghum">1</xf>
+            <ll name="centro">0.310</ll>
+            <kl name="centro">0.040</kl>
+            <xf name="centro">1</xf>
           </layer>
-          <layer name="6">
-            <fbiom>0.01</fbiom>
+          <layer>
+            <thickness>300</thickness>
+            <bd>1.390</bd>
+            <ll15>0.210</ll15>
+            <airdry>0.210</airdry>
+            <dul>0.390</dul>
+            <sat>0.440</sat>
+            <swcon>0.300</swcon>
+            <fbiom>0.010</fbiom>
             <finert>1</finert>
-            <oc>0.34</oc>
+            <oc>0.340</oc>
             <ph>7</ph>
+            <ll name="wheat">0.370</ll>
+            <kl name="wheat">0.020</kl>
+            <xf name="wheat">1</xf>
+            <ll name="chickpea">0.340</ll>
+            <kl name="chickpea">0.060</kl>
+            <xf name="chickpea">1</xf>
+            <ll name="Cotton">0.310</ll>
+            <kl name="Cotton">0.070</kl>
+            <xf name="Cotton">1</xf>
+            <ll name="Sorghum">0.340</ll>
+            <kl name="Sorghum">0.040</kl>
+            <xf name="Sorghum">1</xf>
+            <ll name="centro">0.370</ll>
+            <kl name="centro">0.020</kl>
+            <xf name="centro">1</xf>
           </layer>
-          <layer name="7">
-            <fbiom>0.01</fbiom>
+          <layer>
+            <thickness>300</thickness>
+            <bd>1.420</bd>
+            <ll15>0.210</ll15>
+            <airdry>0.210</airdry>
+            <dul>0.380</dul>
+            <sat>0.430</sat>
+            <swcon>0.300</swcon>
+            <fbiom>0.010</fbiom>
             <finert>1</finert>
-            <oc>0.26</oc>
+            <oc>0.260</oc>
             <ph>7</ph>
+            <ll name="wheat">0.380</ll>
+            <kl name="wheat">0.020</kl>
+            <xf name="wheat">1</xf>
+            <ll name="chickpea">0.380</ll>
+            <kl name="chickpea">0.060</kl>
+            <xf name="chickpea">1</xf>
+            <ll name="Cotton">0.360</ll>
+            <kl name="Cotton">0.050</kl>
+            <xf name="Cotton">1</xf>
+            <ll name="Sorghum">0.360</ll>
+            <kl name="Sorghum">0.030</kl>
+            <xf name="Sorghum">1</xf>
+            <ll name="centro">0.380</ll>
+            <kl name="centro">0.020</kl>
+            <xf name="centro">1</xf>
           </layer>
-        </Nitrogen>
-        <other>
-          <layer name="1">
-            <texture>999999</texture>
-          </layer>
-          <layer name="2">
-            <texture>999999</texture>
-          </layer>
-          <layer name="3">
-            <texture>999999</texture>
-          </layer>
-          <layer name="4">
-            <texture>999999</texture>
-          </layer>
-          <layer name="5">
-            <texture>999999</texture>
-          </layer>
-          <layer name="6">
-            <texture>999999</texture>
-          </layer>
-          <layer name="7">
-            <texture>999999</texture>
-          </layer>
-        </other>
-        <SoilCrop name="wheat">
-          <layer name="1">
-            <ll>0.21</ll>
-            <kl>0.06</kl>
-            <xf>1</xf>
-          </layer>
-          <layer name="2">
-            <ll>0.21</ll>
-            <kl>0.06</kl>
-            <xf>1</xf>
-          </layer>
-          <layer name="3">
-            <ll>0.25</ll>
-            <kl>0.06</kl>
-            <xf>1</xf>
-          </layer>
-          <layer name="4">
-            <ll>0.28</ll>
-            <kl>0.04</kl>
-            <xf>1</xf>
-          </layer>
-          <layer name="5">
-            <ll>0.31</ll>
-            <kl>0.04</kl>
-            <xf>1</xf>
-          </layer>
-          <layer name="6">
-            <ll>0.37</ll>
-            <kl>0.02</kl>
-            <xf>1</xf>
-          </layer>
-          <layer name="7">
-            <ll>0.38</ll>
-            <kl>0.02</kl>
-            <xf>1</xf>
-          </layer>
-        </SoilCrop>
-        <SoilCrop name="chickpea">
-          <layer name="1">
-            <ll>0.21</ll>
-            <kl>0.06</kl>
-            <xf>1</xf>
-          </layer>
-          <layer name="2">
-            <ll>0.21</ll>
-            <kl>0.06</kl>
-            <xf>1</xf>
-          </layer>
-          <layer name="3">
-            <ll>0.22</ll>
-            <kl>0.06</kl>
-            <xf>1</xf>
-          </layer>
-          <layer name="4">
-            <ll>0.27</ll>
-            <kl>0.06</kl>
-            <xf>1</xf>
-          </layer>
-          <layer name="5">
-            <ll>0.29</ll>
-            <kl>0.06</kl>
-            <xf>1</xf>
-          </layer>
-          <layer name="6">
-            <ll>0.34</ll>
-            <kl>0.06</kl>
-            <xf>1</xf>
-          </layer>
-          <layer name="7">
-            <ll>0.38</ll>
-            <kl>0.06</kl>
-            <xf>1</xf>
-          </layer>
-        </SoilCrop>
-        <SoilCrop name="Cotton">
-          <layer name="1">
-            <ll>0.21</ll>
-            <kl>0.1</kl>
-            <xf>1</xf>
-          </layer>
-          <layer name="2">
-            <ll>0.21</ll>
-            <kl>0.1</kl>
-            <xf>1</xf>
-          </layer>
-          <layer name="3">
-            <ll>0.22</ll>
-            <kl>0.1</kl>
-            <xf>1</xf>
-          </layer>
-          <layer name="4">
-            <ll>0.25</ll>
-            <kl>0.1</kl>
-            <xf>1</xf>
-          </layer>
-          <layer name="5">
-            <ll>0.27</ll>
-            <kl>0.09</kl>
-            <xf>1</xf>
-          </layer>
-          <layer name="6">
-            <ll>0.31</ll>
-            <kl>0.07</kl>
-            <xf>1</xf>
-          </layer>
-          <layer name="7">
-            <ll>0.36</ll>
-            <kl>0.05</kl>
-            <xf>1</xf>
-          </layer>
-        </SoilCrop>
-        <SoilCrop name="Sorghum">
-          <layer name="1">
-            <ll>0.21</ll>
-            <kl>0.07</kl>
-            <xf>1</xf>
-          </layer>
-          <layer name="2">
-            <ll>0.21</ll>
-            <kl>0.07</kl>
-            <xf>1</xf>
-          </layer>
-          <layer name="3">
-            <ll>0.26</ll>
-            <kl>0.07</kl>
-            <xf>1</xf>
-          </layer>
-          <layer name="4">
-            <ll>0.26</ll>
-            <kl>0.05</kl>
-            <xf>1</xf>
-          </layer>
-          <layer name="5">
-            <ll>0.28</ll>
-            <kl>0.05</kl>
-            <xf>1</xf>
-          </layer>
-          <layer name="6">
-            <ll>0.34</ll>
-            <kl>0.04</kl>
-            <xf>1</xf>
-          </layer>
-          <layer name="7">
-            <ll>0.36</ll>
-            <kl>0.03</kl>
-            <xf>1</xf>
-          </layer>
-        </SoilCrop>
-        <SoilCrop name="centro">
-          <layer name="1">
-            <ll>0.19</ll>
-            <kl>0.06</kl>
-            <xf>1</xf>
-          </layer>
-          <layer name="2">
-            <ll>0.21</ll>
-            <kl>0.06</kl>
-            <xf>1</xf>
-          </layer>
-          <layer name="3">
-            <ll>0.25</ll>
-            <kl>0.06</kl>
-            <xf>1</xf>
-          </layer>
-          <layer name="4">
-            <ll>0.28</ll>
-            <kl>0.04</kl>
-            <xf>1</xf>
-          </layer>
-          <layer name="5">
-            <ll>0.31</ll>
-            <kl>0.04</kl>
-            <xf>1</xf>
-          </layer>
-          <layer name="6">
-            <ll>0.37</ll>
-            <kl>0.02</kl>
-            <xf>1</xf>
-          </layer>
-          <layer name="7">
-            <ll>0.38</ll>
-            <kl>0.02</kl>
-            <xf>1</xf>
-          </layer>
-        </SoilCrop>
+        </profile>
+        <Cona>3.5</Cona>
+        <U>6</U>
+        <Salb>0.12</Salb>
+        <DiffusConst>40</DiffusConst>
+        <DiffusSlope>16</DiffusSlope>
+        <CN2Bare>73</CN2Bare>
+        <CNRed>20</CNRed>
+        <CNCov>0.8</CNCov>
+        <RootCN>40</RootCN>
+        <RootWT>1000</RootWT>
+        <SoilCN>12</SoilCN>
+        <EnrACoeff>7.4</EnrACoeff>
+        <EnrBCoeff>0.2</EnrBCoeff>
       </soil>
     </area>
   </simulation>

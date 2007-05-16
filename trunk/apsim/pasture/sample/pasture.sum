@@ -211,17 +211,24 @@ Component    "Pasture" = C:\Program Files\FarmWise\PASTURE.dll
      ll (mm/mm) = 0.23 0.24 0.24 0.25 0.26 0.27 0.28
      kl (0-1) = 0.12 0.12 0.12 0.11 0.06 0.05 0.03
      
-     send sand (kg/kg) = 0 0 0 0 0 0 0
-     
-
-------- MasterPM Initialisation -----------------------------------------------
      !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
                       APSIM  Fatal  Error
                       -------------------
-     Invalid complete message.  Was waiting for a complete
-     message with ID=456
-     Component name: MasterPM
+     (MasterPM.Pasture) Type of value passed for driving variable bd is incompatible
+
+     Error in doSetDriver()
+
+     Property: 37
      !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
      
+     
+     !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+                      APSIM  Fatal  Error
+                      -------------------
+     (MasterPM.Pasture) MasterPM.Pasture: driving property bd is required but not present
+     !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+     
+     
+     send sand (kg/kg) = 0 0 0 0 0 0 0
      
 ------- Start of simulation  --------------------------------------------------
