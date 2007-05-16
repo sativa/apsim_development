@@ -409,7 +409,11 @@ void Coordinator::onPublishEventMessage(unsigned int fromID, PublishEventData& p
          {
          protocol::ErrorData errorData;
          publishEventData.variant.unpack(errorData);
-         onError(components[fromID]->getName(),
+         string fromComponentName;
+         if (components.find(fromID) != components.end())
+            fromComponentName = components[fromID]->getName();
+
+         onError(fromComponentName,
                  asString(errorData.errorMessage),
                  errorData.isFatal);
          }
