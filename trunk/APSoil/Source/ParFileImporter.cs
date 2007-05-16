@@ -201,10 +201,10 @@ namespace APSoil
 			NewSoil.BandedP = GetDoubleValues(FileName, SectionName, "banded_P");
 			NewSoil.RockP = GetDoubleValues(FileName, SectionName, "rock_P");
 			NewSoil.Sorption = GetDoubleValues(FileName, SectionName, "sorption");
-			NewSoil.ResidueCP = GetDoubleValue(FileName, SectionName, "residue_cp");
 			NewSoil.RootCP = GetDoubleValue(FileName, SectionName, "root_cp");
 			NewSoil.RateDissolRock = GetDoubleValue(FileName, SectionName, "rate_dissol_rock_p");
-			}
+            NewSoil.RateLossAvail = GetDoubleValue(FileName, SectionName, "rate_loss_avail_p");
+            }
 
 
 		// ----------------------------------------------------------
