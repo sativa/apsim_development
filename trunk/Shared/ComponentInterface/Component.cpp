@@ -701,20 +701,24 @@ namespace protocol {
 
 void Component::writeString(const FString& lines)
    {
-   writeStringToStream(asString(lines), cout);   
+   writeStringToStream(asString(lines), cout, name);   
    }
-void Component::writeStringToStream(const std::string& lines, ostream& out)
+void Component::writeStringToStream(const std::string& lines, ostream& out,
+                                    const std::string& componentName)
    {
    if (!haveWrittenToStdOutToday)
       {
       if (beforeCommence)
          {
-         out << endl;
-         out << "------- " << name << " Initialisation ";
-         out.width(79-24-name.length());
-         out.fill('-');
-         out << '-' << endl;
-         out.fill(' ');
+         if (componentName != "")
+            {
+            out << endl;
+            out << "------- " << componentName << " Initialisation ";
+            out.width(79-24-componentName.length());
+            out.fill('-');
+            out << '-' << endl;
+            out.fill(' ');
+            }
          }
       else
          {
@@ -723,23 +727,35 @@ void Component::writeStringToStream(const std::string& lines, ostream& out)
          Today.Set_write_format("D MMMMMM YYYY");
          Today.Write(cout);
          out << "(Day of year=" << Today.Get_day_of_year() << ")";
-         out << ", " << name << ": " << endl;
+         if (componentName != "")
+            out << ", " << componentName;
+         out << ": " << endl;
          }
       haveWrittenToStdOutToday = true;
       }
 
    // write out the lines.
    unsigned posStart = 0;
+   unsigned posEndText;
    unsigned posCR;
    do
       {
       posCR = lines.find("\n", posStart);
-      if (posCR == FString::npos)
-         posCR = lines.length();
-      out << "     " << lines.substr(posStart, posCR-posStart) << endl;
+      posEndText = posCR;
+      if (posEndText == string::npos)
+         posEndText = lines.length();
+      if (posEndText > 0)
+         {
+         posEndText = lines.find_last_not_of(" ", posEndText-1);
+         if (posEndText == string::npos)
+            posEndText = posStart;  // must be all spaces.
+         else
+            posEndText++;
+         }
+      out << "     " << lines.substr(posStart, posEndText-posStart) << endl;
       posStart = posCR + 1;
       }
-   while (posCR < lines.length());
+   while (posCR != string::npos);
    }
 
 // ------------------------------------------------------------------
