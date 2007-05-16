@@ -280,47 +280,58 @@ void TMainForm::readCommandLine(void)
 //---------------------------------------------------------------------------
 void __fastcall TMainForm::CreateDefaultDatabase(TStrings* files)
    {
-   // create a new temporary mdb file in the apswork directory to contain
-   // our files.
-   string sourceMDB = getAppHomeDirectory() + "\\new.mdb";
-   string destinationMDB = Path::getTempFolder().Get_path() + "\\temp.mdb";
-   CopyFile(sourceMDB.c_str(), destinationMDB.c_str(), false);
-   SetFileAttributes(destinationMDB.c_str(), FILE_ATTRIBUTE_NORMAL);
-
-   // create a simulation database object and get it to import our
-   // APSIM output files.
-   TSimulation_database* newDatabase = new TSimulation_database(this);
-   newDatabase->LoginPrompt = false;
-   newDatabase->File_name = destinationMDB.c_str();
-   newDatabase->Import_APSIM_files (files, NULL);
-   delete newDatabase;
-
-   // need to clear the OpenDialog, otherwise in becomes inactive for the user.
-   OpenDialog->FileName = destinationMDB.c_str();
-
-   // go give the default database name to the add-in via the .ini file.
-   ApsimSettings settings;
-   string originalContents;
-   settings.readSection("Outlook Addins", originalContents);
-   string contents = originalContents;
-   To_lower(contents);
-
-   unsigned int posAddIn = findDBAddInLine(contents);
-
-   if (posAddIn != string::npos)
+   try
       {
-      // add the destination MDB to the .ini file so that the DBaddin
-      // can pick it up.
-      contents.insert(posAddIn+11, " " + destinationMDB);
-      settings.writeSection("Outlook addins", contents);
-      CreateMDIChild("Chart" + IntToStr(MDIChildCount + 1));
+      // create a new temporary mdb file in the apswork directory to contain
+      // our files.
+      string sourceMDB = getAppHomeDirectory() + "\\new.mdb";
+      string destinationMDB = Path::getTempFolder().Get_path() + "\\temp.mdb";
+      CopyFile(sourceMDB.c_str(), destinationMDB.c_str(), false);
+      SetFileAttributes(destinationMDB.c_str(), FILE_ATTRIBUTE_NORMAL);
 
-      // now remove our modification to the .ini file.
-      settings.refresh();
-      settings.writeSection("Outlook addins", originalContents);
+      // create a simulation database object and get it to import our
+      // APSIM output files.
+      TSimulation_database* newDatabase = new TSimulation_database(this);
+      newDatabase->LoginPrompt = false;
+      newDatabase->File_name = destinationMDB.c_str();
+      newDatabase->Import_APSIM_files (files, NULL);
+      delete newDatabase;
+
+      // need to clear the OpenDialog, otherwise in becomes inactive for the user.
+      OpenDialog->FileName = destinationMDB.c_str();
+
+      // go give the default database name to the add-in via the .ini file.
+      ApsimSettings settings;
+      string originalContents;
+      settings.readSection("Outlook Addins", originalContents);
+      string contents = originalContents;
+      To_lower(contents);
+
+      unsigned int posAddIn = findDBAddInLine(contents);
+
+      if (posAddIn != string::npos)
+         {
+         // add the destination MDB to the .ini file so that the DBaddin
+         // can pick it up.
+         contents.insert(posAddIn+11, " " + destinationMDB);
+         settings.writeSection("Outlook addins", contents);
+         CreateMDIChild("Chart" + IntToStr(MDIChildCount + 1));
+
+         // now remove our modification to the .ini file.
+         settings.refresh();
+         settings.writeSection("Outlook addins", originalContents);
+         }
+      else
+         ShowMessage("Cannot find line in ini file.  Line: DBAddin.dll");
       }
-   else
-      ShowMessage("Cannot find line in ini file.  Line: DBAddin.dll");
+   catch (Exception& err)
+      {
+      ShowMessage(err.Message);
+      }
+   catch (const std::exception& err)
+      {
+      ShowMessage(err.what());
+      }
    }
 
 //---------------------------------------------------------------------------
