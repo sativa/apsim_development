@@ -42,7 +42,8 @@ __fastcall TSimulation_database::TSimulation_database(TComponent* Owner)
    Path Dictionary_path (Application->ExeName.c_str());
    Dictionary_path.Set_name ("dictionary.ini");
    Dictionary_exists = (Dictionary_path.Exists());
-   Dictionary.setFileName (Dictionary_path.Get_path());
+   if (Dictionary_exists)
+      Dictionary.setFileName (Dictionary_path.Get_path());
    }
 //---------------------------------------------------------------------------
 __fastcall TSimulation_database::~TSimulation_database()

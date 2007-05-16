@@ -26,7 +26,7 @@ object MainForm: TMainForm
   object CoolBar1: TCoolBar
     Left = 0
     Top = 0
-    Width = 732
+    Width = 724
     Height = 74
     AutoSize = True
     BandBorderStyle = bsNone
@@ -36,20 +36,20 @@ object MainForm: TMainForm
         FixedBackground = False
         ImageIndex = -1
         MinHeight = 36
-        Width = 730
+        Width = 722
       end
       item
         Control = ToolBar2
         FixedBackground = False
         ImageIndex = -1
         MinHeight = 36
-        Width = 730
+        Width = 722
       end>
     Color = clBtnFace
     EdgeInner = esNone
     ParentColor = False
     DesignSize = (
-      730
+      722
       72)
     object LogoImage: TImage
       Left = 696
