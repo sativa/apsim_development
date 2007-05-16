@@ -402,26 +402,29 @@ void Coordinator::onDeregisterMessage(unsigned int fromID, DeregisterData& dereg
 // ------------------------------------------------------------------
 void Coordinator::onPublishEventMessage(unsigned int fromID, PublishEventData& publishEventData)
    {
-   try
+   if (!doTerminate)
       {
-      if (Str_i_Eq(registrations.getName(fromID, publishEventData.ID, RegistrationType::event),
-                   "error"))
+      try
          {
-         protocol::ErrorData errorData;
-         publishEventData.variant.unpack(errorData);
-         string fromComponentName;
-         if (components.find(fromID) != components.end())
-            fromComponentName = components[fromID]->getName();
+         if (Str_i_Eq(registrations.getName(fromID, publishEventData.ID, RegistrationType::event),
+                      "error"))
+            {
+            protocol::ErrorData errorData;
+            publishEventData.variant.unpack(errorData);
+            string fromComponentName;
+            if (components.find(fromID) != components.end())
+               fromComponentName = components[fromID]->getName();
 
-         onError(fromComponentName,
-                 asString(errorData.errorMessage),
-                 errorData.isFatal);
+            onError(fromComponentName,
+                    asString(errorData.errorMessage),
+                    errorData.isFatal);
+            }
+         propogateEvent(fromID, publishEventData);
          }
-      propogateEvent(fromID, publishEventData);
-      }
-   catch (const runtime_error& err)
-      {
-      error(err.what(), true);
+      catch (const runtime_error& err)
+         {
+         error(err.what(), true);
+         }
       }
    }
 // ------------------------------------------------------------------
