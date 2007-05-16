@@ -1,7 +1,7 @@
 <folder name="Simulations" version="9">
   <simulation name="Centro">
     <metfile name="met">
-      <filename name="filename">C:\Program Files\Apsim52\apsim\met\sample\dalby.met</filename>
+      <filename name="filename">%apsuite\apsim\met\sample\dalby.met</filename>
     </metfile>
     <clock name="clock">
       <start_date name="start_date" description="Select the start date of the simulation" type="date" lbound="1/01/1988" ubound="30/04/1990">1/01/1988</start_date>

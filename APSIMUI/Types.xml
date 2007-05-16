@@ -3095,7 +3095,7 @@
          <type>component</type>
          <dll>%apsuite\apsim\venlink\lib\venlink.dll</dll>
          <sim>
-         <model_filename>[variable.model_filename]</model_filename>
+         <model_filename>[venlink.model_filename]</model_filename>
          [foreach venlink.variable]
          <variable>[variable.innerxml]</variable>
          [endfor]
