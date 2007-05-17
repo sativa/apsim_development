@@ -30,10 +30,11 @@ proc setValue {w thing what} {
 
 proc appletInit {w} {
    upvar #0 $w data
-   global XMLDoc
+   global XMLDoc apsuite
    set data(doc) [dom parse $XMLDoc]
    set data(docroot) [$data(doc) documentElement]
    set data(filename) [getValue $data(docroot) filename]
+   regsub -all "%apsuite" $data(filename) $apsuite data(filename)
 }   
 
 # Read in the logfile
