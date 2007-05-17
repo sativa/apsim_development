@@ -34,6 +34,8 @@
 <li class="Normal">Fixed phosphorus in the user interface and added C:P ration to SurfaceOM as an optional parameters.</li>
 <li class="Normal">Added KS (saturated conductivity) to the soil as an optional parameters</li>
 <li class="Normal">Added a new prototype of a graphics capability built directly into the user interface - see the Graph toolbox</li>
+<li class="Normal">Added a new method of managing crop rotations. A directed graph composed of  &quot;States&quot; represents crop &amp; fallow periods, and both &quot;Rules&quot; representing the feasibility of transitions between states, and &quot;Actions&quot; are taken when a transition between States is made. A single paddock example is in the New Simulations toolbox, a multiple paddock example with rug plots and paddock maps is in the tcllink sample directory.</li>
+
 </ul>
 <p><span class="Title2">Plant</span></p>
 <ul>
@@ -41,11 +43,16 @@
   <li class="Normal">Fixed some Common modelling protocol issues to do with units and the GetDescription entry point</li>
 </ul>
 <p><span class="Title2">Manager</span></p>
-<p class="Normal">Some manager arithmetic has been fixed </p>
+<ul>
+  <li class="Normal">Some manager arithmetic has been fixed </li>
+  <li class="Normal">Cotton is seen as a crop and works properly in rotations</li>
+</ul>
+  
 <p class="Normal">&nbsp;</p>
 <p><span class="Title2">APSIM</span></p>
-<p class="Normal">The summary file module has been removed. It is no longer needed. The user interface and APSRun will still create a summary file but there is no need to specifiy SummaryFile from the control file. APSIM now writes all summary information to standard error. APSRun and the user interface both trap this output and create a summary file automatically. </p>
-<p class="Normal">&nbsp;</p>
+<ul>
+  <li class="Normal">The summary file module has been removed. It is no longer needed. The user interface and APSRun will still create a summary file but there is no need to specifiy SummaryFile from the control file. APSIM now writes all summary information to standard output and errors are written to standard error. APSRun and the user interface both trap this output and create a summary file automatically. </li>
+</ul>
 <p><span class="Title2">LINUX</span></p>
 <p class="Normal">The Linux build is now operational. The APSIM model can run under LINUX as a command line program. The user interfaces do not run under LINUX. </p>
 <p>&nbsp; </p>
@@ -176,7 +183,7 @@ Simulation template. </p>
 </ul>
 <p class="Title2">APSIM / unix</p>
   <p class="Normal">APSIM and the command line tools (conTosim, APSRun) now compile and 
-  run under linux (x86), thanks to the work of pioneer etcetc.. Documentstion will appear later. 
+  run under linux (x86), thanks to the work of Pioneer.. Documentation will appear later. 
   </p>
 
 
