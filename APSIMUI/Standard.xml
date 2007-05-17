@@ -18,6 +18,7 @@
     <canola />
     <centro />
     <chickpea />
+    <cotton />
     <cowpea />
     <egrandis />
     <fababean />
@@ -148,6 +149,14 @@
     <oats />
     <peanut />
     <pigeonp />
+    <rice name="rice">
+      <estab>transplant</estab>
+      <sbdur>50</sbdur>
+      <nplh>10</nplh>
+      <nh>2</nh>
+      <nplsb>100</nplsb>
+      <nplds>180</nplds>
+    </rice>
     <seedling />
     <slurp name="slurp">
       <type name="type">wheat</type>
@@ -174,15 +183,6 @@
     <SweetSorghum />
     <weed />
     <wheat />
-    <cotton />
-    <rice name="rice">
-      <estab>transplant</estab>
-      <sbdur>50</sbdur>
-      <nplh>10</nplh>
-      <nh>2</nh>
-      <nplsb>100</nplsb>
-      <nplds>180</nplds>
-    </rice>
   </folder>
   <clock name="Clock">
     <start_date name="start_date" description="Select the start date of the simulation" type="date">1/01/1988</start_date>
