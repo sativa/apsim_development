@@ -8,13 +8,14 @@
     <summaryfile name="summaryfile">
     </summaryfile>
     <metfile name="met">
-      <filename name="filename">C:\development\apsim\met\sample\goond.met</filename>
+      <filename name="filename">%apsuite\apsim\met\sample\goond.met</filename>
     </metfile>
     <area name="Paddock">
       <registrations name="global" />
       <tclmanager name="Manager">
         <tclui name="Rotation Initialisation">
-          <rule name="Sample Rotation 1 Rotation Initialisation.out - Rotation Initialisation UI1" condition="init" invisible="yes">source C:/development/apsim/tcllink/lib/RotationInitialisation.tcl
+          <rule name="Sample Rotation 1 Rotation Initialisation.out - Rotation Initialisation UI1" condition="init" invisible="yes">
+source $apsuite/apsim/tcllink/lib/RotationInitialisation.tcl
 set state "WinterFallow"
 </rule>
           <rule name="Sample Rotation 1 Rotation Initialisation.out - Rotation Initialisation UI2" condition="process" invisible="yes">checkSetup
@@ -964,7 +965,7 @@ proc sow_[crop] {} {
     </clock>
     <summaryfile name="summaryfile" />
     <metfile name="met">
-      <filename name="filename">C:\development\apsim\met\sample\goond.met</filename>
+      <filename name="filename">%apsuite\apsim\met\sample\goond.met</filename>
     </metfile>
     <farmmanager name="Farm Manager">
       <rule name="Farm logic">
@@ -1099,11 +1100,11 @@ doProcess
       </rule>
       <tclui name="Rug plot">
         <uiscript>source $apsuite/apsim/tcllink/lib/RotationRugPlotUI.tcl</uiscript>
-        <filename>C:/development/apsim/tcllink/sample/Rotation Sample 2.log</filename>
+        <filename>%apsuite/apsim/tcllink/sample/Rotation Sample 2.log</filename>
       </tclui>
       <tclui name="Paddock Map">
         <uiscript>source $apsuite/apsim/tcllink/lib/PaddockMapUI.tcl</uiscript>
-        <filename>C:/development/apsim/tcllink/sample/Rotation Sample 2.log</filename>
+        <filename>%apsuite/apsim/tcllink/sample/Rotation Sample 2.log</filename>
         <kmlfilename>C:/development/apsim/tcllink/sample/Rotation Sample 2.kml</kmlfilename>
       </tclui>
     </farmmanager>

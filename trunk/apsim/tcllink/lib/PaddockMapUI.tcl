@@ -30,12 +30,14 @@ proc setValue {w thing what} {
 
 proc appletInit {w} {
    upvar #0 $w data
-   global XMLDoc
+   global XMLDoc  apsuite
    set data(doc) [dom parse $XMLDoc]
    set data(docroot) [$data(doc) documentElement]
    set data(filename) [getValue $data(docroot) filename]           ;# logfile
+   regsub -all "%apsuite" $data(filename) $apsuite data(filename)
    set data(bgFilename) [getValue $data(docroot) bgFilename]       ;# georeferenced bitmap (unused)
    set data(kmlFilename) [getValue $data(docroot) kmlFilename]     ;# paddock layout
+   regsub -all "%apsuite" $data(kmlFilename) $apsuite data(kmlFilename)
 }   
 
 # Read in the logfile
