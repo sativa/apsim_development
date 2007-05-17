@@ -1939,6 +1939,10 @@
          call respond2get_integer_var (variable_name
      :        , '()', g%iend)
 
+      else if (variable_name .eq. 'plant_status') then
+         call respond2get_char_var (variable_name
+     :        , '()', g%plant_status)
+
       else if (variable_name .eq. 'bolls_sc') then
          if (g%openz.gt.0.0) then
             bollsc = g%openwt/g%openz
