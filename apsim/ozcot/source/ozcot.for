@@ -1169,13 +1169,8 @@
 
       if (Event_action .eq. 'sow') then
 
-         g%crop_in = .true.
-
-         ! Report the event to the rest of the system
-
-         call Write_string (Event_action)
-
-         call ozcot_sow (event_data)
+         call fatal_error(err_internal,
+     :                    'Anachronistic call to ozcot_manager!')
 
       else if (Event_action .eq. 'harvest') then
 
@@ -6527,6 +6522,7 @@ C        IF(DEF.LT.2.5) THEN                          ! waterlogging
       g%plant_status = status_alive
 
 
+      call publish_null(id%sowing)
 
           ! report
 
