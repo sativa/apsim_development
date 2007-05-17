@@ -589,6 +589,8 @@ void Coordinator::onQueryInfoMessage(unsigned int fromID,
       childName.erase(0, posPeriod+1);
       if (componentName != "*")
          componentId = componentNameToID(componentName);
+      if (componentId == INT_MAX)
+          throw std::runtime_error("Component \"" + componentName + "\" is unknown.");
       }
    std::vector< ::Registration> matches;
 
