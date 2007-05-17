@@ -247,7 +247,9 @@
          <type>component</type>
          <dll>%apsuite\apsim\report\lib\report.dll</dll>
          <sim>
-            <outputfrequency>[foreach outputfile.events][foreach events.event][if "[event.name]" = "Daily"]post[else][event.name][endif] [endfor][endfor]</outputfrequency>
+            [foreach outputfile.events][foreach events.event]
+            <outputfrequency>[if "[event.name]" = "Daily"]post[else][event.name][endif]</outputfrequency>
+            [endfor][endfor]
             [foreach outputfile.variables]
             [foreach variables.variable]
             <variable>[variable.name]</variable>
