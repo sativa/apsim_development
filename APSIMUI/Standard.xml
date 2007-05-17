@@ -184,6 +184,39 @@
     <weed />
     <wheat />
   </folder>
+  <folder name="Soil Related">
+  <surfaceom name="Surface Organic Matter">
+    <PoolName description="Organic Matter pool name">wheat_stubble</PoolName>
+    <type type="list" description="Organic Matter type" listvalues="inert,manure,fym,bambatsi,barley,broccoli,camaldulensis,canola,chickpea,cowpea,danthonia,globulus,grandis,fababean,fieldpea,grass,lablab,lucerne,lupin,maize,millet,mucuna,mungbean,horsegram,navybean,cotton,orobanche,peanut,pigeonpea,rice,soybean,sorghum,stylo,sugar,sunflower,sweetcorn,sweetsorghum,weed,wheat">wheat</type>
+    <mass description="Initial surface residue (kg/ha)">1000.</mass>
+    <cnr description="C:N ratio of initial residue">80.0</cnr>
+    <cpr description="C:P ratio of initial residue (optional)">
+    </cpr>
+    <standing_fraction description="Fraction of residue standing">0.0</standing_fraction>
+  </surfaceom>
+  <fertiliser name="Fertiliser" />
+  <phos name="Phosphorus" />
+  <soiltemp name="Soil Temperature">
+    <bound_layer_cond description="boundary layer conductance">20.0</bound_layer_cond>
+    <clay description="proportion of clay">0.1  0.1  0.1  0.1  0.1  0.2  0.3</clay>
+    <soil_temp description="Initial soil temperature">15 15 15 15 15 15 15</soil_temp>
+  </soiltemp>
+  <cl name="Cl">
+    <d0>108</d0>
+    <layers>491 62 1490 1000 1000 1000 1000 1000 1000 1000 1000 1000 1000</layers>
+  </cl>
+  <erosion name="Erosion">
+    <model description="Model Name">freebairn</model>
+    <slope description="Slope of plot in percent (%)">6.5</slope>
+    <slope_length description="Length of plot (m)">60.0</slope_length>
+    <k_factor description="Soil erodibility factor (t/ha/EI 30 )">0.4</k_factor>
+    <p_factor description="Supporting practise factor (unitless)">1.0</p_factor>
+    <bed_depth description="Depth to bedrock (mm)">1900</bed_depth>
+    <profile_reduction type="list" listvalues="off,on" description="Profile Reduction">off</profile_reduction>
+    <profile_layer_merge description="Fraction of original size in which the lowest layer is merged into the layer above (0-1)">0.05</profile_layer_merge>
+    <minimum_depth description="If the profile erodes to this depth, the simulation is stopped (mm)">100.0</minimum_depth>
+  </erosion>
+  </folder>
   <clock name="Clock">
     <start_date name="start_date" description="Select the start date of the simulation" type="date">1/01/1988</start_date>
     <end_date name="end_date" description="Select the end date of the simulation" type="date">31/12/1988</end_date>
@@ -201,6 +234,7 @@
   <summaryfile name="Summaryfile">
     <filename name="filename">sample.sum</filename>
   </summaryfile>
+  <folder name="Meteorological">
   <metfile name="met">
     <filename name="filename">%apsuite\apsim\met\sample\dalby.met</filename>
   </metfile>
@@ -219,6 +253,14 @@
     <station_number>
     </station_number>
   </siloinput>
+  <micromet name="Micromet">
+    <soilalbedo name="soilalbedo">0.23</soilalbedo>
+    <a_interception name="a_interception">0.0</a_interception>
+    <b_interception name="b_interception">0.0</b_interception>
+    <c_interception name="c_interception">0.0</c_interception>
+    <d_interception name="d_interception">0.0</d_interception>
+  </micromet>
+  </folder>
   <soilwatkludge name="soilwatkludge">
     <mwcon>1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0</mwcon>
     <max_pond>100</max_pond>
@@ -256,6 +298,38 @@
           <cultivar type="cultivars" croppropertyname="crop" description="Enter cultivar : ">hartog</cultivar>
           <class type="classes" croppropertyname="crop" description="Enter crop growth class : ">plant</class>
           <row_spacing type="text" description="Enter row spacing (mm) : ">250</row_spacing>
+        </category>
+      </rule>
+      <rule name="Cotton sowing rule">
+        <condition name="start_of_day"><![CDATA[
+      if (paddock_is_fallow() = 1 and FallowIn <> 'yes' and (NextCrop = 0 or NextCrop = '[crop]')) then
+         if (date_within('[date1], [date2]') = 1) then
+            if (rain[[rainnumdays]] >= [raincrit] AND esw >= [esw_amount]) OR
+                ('[must_sow]' = 'yes' AND today = date('[date2]'))) THEN
+               ChooseNextCrop = 'yes'   ! for rotations
+               [crop] sow plants_pm =[density], sowing_depth = [depth], cultivar = [cultivar], row_spacing = [row_spacing], skiprow = [skiprow]
+            endif
+            if today = date('[date2]') then
+               ChooseNextCrop = 'yes'
+            endif
+         endif
+      endif
+            ]]></condition>
+        <category name="Sowing criteria">
+          <date1 type="ddmmmdate" description="Enter sowing window START date (dd-mmm) : ">15-oct</date1>
+          <date2 type="ddmmmdate" description="Enter sowing window END date (dd-mmm) : ">10-jan</date2>
+          <must_sow type="yesno" description="Must sow? : ">no</must_sow>
+          <raincrit type="text" description="Amount of rainfall : ">30</raincrit>
+          <rainnumdays type="text" description="Number of days of rainfall : ">3</rainnumdays>
+          <esw_amount type="text" description="Enter minimum allowable available soil water (mm) : ">200</esw_amount>
+        </category>
+        <category name="Sowing parameters">
+          <crop type="crop" description="Enter name of crop to sow : ">cotton</crop>
+          <density type="text" description="Enter sowing density  (plants/m2 in row) : ">10</density>
+          <depth type="text" description="Enter sowing depth  (mm) : ">30</depth>
+          <cultivar type="cultivars" croppropertyname="crop" description="Enter cultivar : ">siok</cultivar>
+          <row_spacing type="text" description="Enter row spacing (mm) : ">1000</row_spacing>
+          <skiprow type="list" listvalues="0, 1, 2" description="Skip row : ">0</skiprow>
         </category>
       </rule>
       <rule name="Sorghum sowing rule">
@@ -815,8 +889,7 @@
               Bank = Bank + FullPrice * (WetYield / 1000)
               ResetBank = 1
            endif
-           ]]>
-          </condition>
+           ]]></condition>
         <category name="Cost properties">
           <NCost type="text" description="Cost of N fertiliser ($/ha) : ">1.2</NCost>
           <NApplicationCost type="text" description="Cost of N application ($/ha) : ">15</NApplicationCost>
@@ -833,8 +906,7 @@
               [VariableName2] >= [LowerBound] and
               [VariableName2] <= [UpperBound]) then
              act_mods [EventName]
-          endif]]>
-          </condition>
+          endif]]></condition>
         <category name="Condition1 properties">
           <VariableName1 type="text" description="Name of 1st APSIM variable to check (e.g. stage_name) : ">stage_name</VariableName1>
           <VariableValue1 type="text" description="Value that 1st variable must have (e.g. flowering) : ">'flowering'</VariableValue1>
@@ -859,8 +931,7 @@
             else
                TTFromStart[StageName] = 0
                [OutputVariableName] = 'no'
-            endif ]]>
-          </condition>
+            endif ]]></condition>
         <category name="Properties">
           <StageName type="text" description="Crop stage name (e.g. start_grain_fill) : ">start_grain_fill</StageName>
           <TT type="text" description="Thermal time threshold : ">150</TT>
@@ -869,7 +940,6 @@
           <OutputVariableName type="text" description="Name of output variable to hold yes/no flag : ">InHeatShockWindow</OutputVariableName>
         </category>
       </rule>
-
     </manager>
     <folder name="Africa-India">
       <manager name="Phosphorus and Manure">
@@ -2472,7 +2542,7 @@ if {$steps == 0} {tkwait variable steps}
     <YPCalc />
     <tracker />
   </folder>
-  <folder name="Water">
+  <folder name="Water Management">
     <irrigation name="Irrigation">
       <automatic_irrigation type="list" listvalues="on,off" description="Automatic irrigation">on</automatic_irrigation>
       <asw_depth type="text" description="Depth to which ASW is calculated. (mm)">600.0</asw_depth>
@@ -2517,55 +2587,17 @@ if {$steps == 0} {tkwait variable steps}
       <rainfall_salt_conc description="Rainfall chloride concentration (ppm)">20.0</rainfall_salt_conc>
     </dam>
   </folder>
-  <surfaceom name="Surface Organic Matter">
-    <PoolName description="Organic Matter pool name">wheat_stubble</PoolName>
-    <type type="list" description="Organic Matter type" listvalues="inert,manure,fym,bambatsi,barley,broccoli,camaldulensis,canola,chickpea,cowpea,danthonia,globulus,grandis,fababean,fieldpea,grass,lablab,lucerne,lupin,maize,millet,mucuna,mungbean,horsegram,navybean,cotton,orobanche,peanut,pigeonpea,rice,soybean,sorghum,stylo,sugar,sunflower,sweetcorn,sweetsorghum,weed,wheat">wheat</type>
-    <mass description="Initial surface residue (kg/ha)">1000.</mass>
-    <cnr description="C:N ratio of initial residue">80.0</cnr>
-    <cpr description="C:P ratio of initial residue (optional)"></cpr>
-    <standing_fraction description="Fraction of residue standing">0.0</standing_fraction>
-  </surfaceom>
-  <fertiliser name="Fertiliser" />
-  <phos name="Phosphorus" />
-  <soiltemp name="Soil Temperature">
-    <bound_layer_cond description="boundary layer conductance">20.0</bound_layer_cond>
-    <clay description="proportion of clay">0.1  0.1  0.1  0.1  0.1  0.2  0.3</clay>
-    <soil_temp description="Initial soil temperature">15 15 15 15 15 15 15</soil_temp>
-  </soiltemp>
-  <cl name="Cl">
-    <d0>108</d0>
-    <layers>491 62 1490 1000 1000 1000 1000 1000 1000 1000 1000 1000 1000</layers>
-  </cl>
-  <erosion name="Erosion">
-    <model description="Model Name">freebairn</model>
-    <slope description="Slope of plot in percent (%)">6.5</slope>
-    <slope_length description="Length of plot (m)">60.0</slope_length>
-    <k_factor description="Soil erodibility factor (t/ha/EI 30 )">0.4</k_factor>
-    <p_factor description="Supporting practise factor (unitless)">1.0</p_factor>
-    <bed_depth description="Depth to bedrock (mm)">1900</bed_depth>
-    <profile_reduction type="list" listvalues="off,on" description="Profile Reduction">off</profile_reduction>
-    <profile_layer_merge description="Fraction of original size in which the lowest layer is merged into the layer above (0-1)">0.05</profile_layer_merge>
-    <minimum_depth description="If the profile erodes to this depth, the simulation is stopped (mm)">100.0</minimum_depth>
-  </erosion>
-  <micromet name="Micromet">
-    <soilalbedo name="soilalbedo">0.23</soilalbedo>
-    <a_interception name="a_interception">0.0</a_interception>
-    <b_interception name="b_interception">0.0</b_interception>
-    <c_interception name="c_interception">0.0</c_interception>
-    <d_interception name="d_interception">0.0</d_interception>
-  </micromet>
   <canopy name="Canopy">
     <intercrop name="intercrop" description="Enter crop names to intercrop" type="text">
     </intercrop>
   </canopy>
   <venlink>
-    <model_filename type="filename" description="Name of VENSIM model filename"/>
-    <variable type="multiedit" description="Name of VENSIM variable(s) that are gettable/settable by APSIM"/>
+    <model_filename type="filename" description="Name of VENSIM model filename" />
+    <variable type="multiedit" description="Name of VENSIM variable(s) that are gettable/settable by APSIM" />
     <ini name="Constants">
       <filename>%apsuite\apsim\venlink\sample\Vensim.ini</filename>
     </ini>
   </venlink>
-
   <folder name="Animals">
     <StockHerbageConverter>
       <debug type="list" listvalues="on,off">off</debug>
