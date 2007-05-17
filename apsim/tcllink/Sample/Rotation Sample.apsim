@@ -1,4 +1,4 @@
-<folder name="Simulations" version="9">
+<folder name="Simulations" version="8">
   <memo name="Readme">e1xydGYxXGFuc2lcYW5zaWNwZzEyNTJcZGVmZjBcZGVmbGFuZzMwODF7XGZvbnR0Ymx7XGYwXGZuaWxcZmNoYXJzZXQwIE1pY3Jvc29mdCBTYW5zIFNlcmlmO319DQpcdmlld2tpbmQ0XHVjMVxwYXJkXGYwXGZzMTcgVGhlIGZpcnN0IHNpbXVsYXRpb24gc2hvd3MgbWFuYWdlbWVudCBvZiBhIHNpbmdsZSBwYWRkb2NrIFxwYXINClxwYXINClRoZSBzZWNvbmQgYSBtdWx0aS1wYWRkb2NrIHN5c3RlbS5ccGFyDQp9DQo=</memo>
   <simulation name="Sample Rotation 1">
     <clock name="clock">
@@ -17,164 +17,181 @@
           <rule name="Sample Rotation 1 Rotation Initialisation.out - Rotation Initialisation UI1" condition="init" invisible="yes">source C:/development/apsim/tcllink/lib/RotationInitialisation.tcl
 set state "WinterFallow"
 </rule>
-    <rule name="Sample Rotation 1 Rotation Initialisation.out - Rotation Initialisation UI2" condition="process" invisible="yes">checkSetup
+          <rule name="Sample Rotation 1 Rotation Initialisation.out - Rotation Initialisation UI2" condition="process" invisible="yes">checkSetup
 doProcess
 </rule>
-    <rule name="Sample Rotation 1 Rotation Initialisation.out - Rotation Initialisation UI3" condition="exit" invisible="yes">exit
+          <rule name="Sample Rotation 1 Rotation Initialisation.out - Rotation Initialisation UI3" condition="exit" invisible="yes">exit
 </rule>
-    <uiscript>source $apsuite/apsim/tcllink/lib/RotationInitialisationUI.tcl</uiscript>
-    <initialState>WinterFallow</initialState>
-    <simpleLogging>0</simpleLogging>
-</tclui>
+          <uiscript>source $apsuite/apsim/tcllink/lib/RotationInitialisationUI.tcl</uiscript>
+          <initialState>WinterFallow</initialState>
+          <simpleLogging>0</simpleLogging>
+        </tclui>
         <tclui name="Rotation Management">
           <uiscript><![CDATA[source $apsuite/apsim/tcllink/lib/RotationsUI.tcl]]></uiscript>
-<canvas_height>496</canvas_height>
-<rules_height>40</rules_height>
-<node>
- <x1>238.0</x1>
- <name>SummerFallow2</name>
- <y1>325.0</y1>
- <x2>338.0</x2>
- <desc>New state</desc>
- <fill>gray</fill>
- <y2>425.0</y2>
-</node>
-<node>
- <x1>560.0</x1>
- <name>Chickpea</name>
- <y1>21.0</y1>
- <x2>660.0</x2>
- <desc>Chickpea</desc>
- <fill>lightgreen</fill>
- <y2>121.0</y2>
-</node>
-<node>
- <x1>445.0</x1>
- <name>Wheat</name>
- <y1>326.0</y1>
- <x2>545.0</x2>
- <desc>Wheat Crop</desc>
- <fill>darkgreen</fill>
- <y2>426.0</y2>
-</node>
-<node>
- <x1>180.0</x1>
- <name>WinterFallow</name>
- <y1>192.0</y1>
- <x2>280.0</x2>
- <desc>New state</desc>
- <fill>gray</fill>
- <y2>292.0</y2>
-</node>
-<node>
- <x1>508.0</x1>
- <name>SummerFallow1</name>
- <y1>195.0</y1>
- <x2>608.0</x2>
- <desc>New state</desc>
- <fill>maroon</fill>
- <y2>295.0</y2>
-</node>
-<node>
- <x1>368.0</x1>
- <name>F1</name>
- <y1>4.0</y1>
- <x2>468.0</x2>
- <desc>New state</desc>
- <fill>gray</fill>
- <y2>104.0</y2>
-</node>
-<node>
- <x1>204.0</x1>
- <name>Cotton</name>
- <y1>32.0</y1>
- <x2>304.0</x2>
- <desc>A Cotton Crop</desc>
- <fill>purple</fill>
- <y2>132.0</y2>
-</node>
-<arc><name>arc2</name>
- <source>SummerFallow1</source>
- <target>WinterFallow</target>
- <x>388.5</x>
- <y>362.0</y>
- <rules>[apsimGet day]  == 192</rules>
- <rules /><actions />
-</arc>
-<arc><name>arc6</name>
- <source>WinterFallow</source>
- <target>Cotton</target>
- <x>197.5</x>
- <actions>sow_cotton</actions>
- <y>155.5</y>
- <rules>[canPlant_cotton]</rules>
- <rules /><actions />
-</arc>
-<arc><name>arc3</name>
- <source>Wheat</source>
- <target>SummerFallow2</target>
- <x>394.0</x>
- <actions>apsimSendMessage wheat harvest</actions>
- <actions>apsimSendMessage wheat end_crop</actions>
- <y>416.5</y>
- <rules>{[apsimGet wheat.stage_name] == "harvest_ripe" || [apsimGet wheat.plant_status] == "dead"}</rules>
- <rules /><actions />
-</arc>
-<arc><name>arc7</name>
- <source>F1</source>
- <target>SummerFallow1</target>
- <x>542.5</x>
- <y>78.0</y>
- <rules>[apsimGet day]  == 192</rules>
- <rules /><actions />
-</arc>
-<arc><name>arc0</name>
- <source>F1</source>
- <target>Chickpea</target>
- <x>500.0</x>
- <actions>sow_chickpea</actions>
- <y>29.0</y>
- <rules>[canPlant_chickpea]</rules>
- <rules /><actions />
-</arc>
-<arc><name>arc8</name>
- <source>Chickpea</source>
- <target>SummerFallow1</target>
- <x>633.0</x>
- <actions>apsimSendMessage chickpea harvest</actions>
- <actions>apsimSendMessage chickpea end_crop</actions>
- <y>162.5</y>
- <rules>{[apsimGet chickpea.stage_name] == "harvest_ripe" || [apsimGet chickpea.plant_status] == "dead"}</rules>
- <rules /><actions />
-</arc>
-<arc><name>arc1</name>
- <source>SummerFallow1</source>
- <target>Wheat</target>
- <x>550.5</x>
- <actions>sow_wheat</actions>
- <y>321.5</y>
- <rules>[canPlant_wheat]</rules>
- <rules /><actions />
-</arc>
-<arc><name>arc5</name>
- <source>Cotton</source>
- <target>F1</target>
- <x>326.5</x>
- <actions>apsimSendMessage cotton harvest</actions>
- <y>37.5</y>
- <rules>[apsimGet ozcot_status] &gt; 0</rules>
- <rules /><actions />
-</arc>
-<arc><name>arc9</name>
- <source>SummerFallow2</source>
- <target>WinterFallow</target>
- <x>244.0</x>
- <y>319.5</y>
- <rules>[apsimGet day]  == 74</rules>
- <rules /><actions />
-</arc>
-<rule name="Init rule" invisible="yes" condition="init">
-<![CDATA[package require struct
+          <canvas_height>496</canvas_height>
+          <rules_height>40</rules_height>
+          <node>
+            <x1>238.0</x1>
+            <name>SummerFallow2</name>
+            <y1>325.0</y1>
+            <x2>338.0</x2>
+            <desc>New state</desc>
+            <fill>gray</fill>
+            <y2>425.0</y2>
+          </node>
+          <node>
+            <x1>560.0</x1>
+            <name>Chickpea</name>
+            <y1>21.0</y1>
+            <x2>660.0</x2>
+            <desc>Chickpea</desc>
+            <fill>lightgreen</fill>
+            <y2>121.0</y2>
+          </node>
+          <node>
+            <x1>445.0</x1>
+            <name>Wheat</name>
+            <y1>326.0</y1>
+            <x2>545.0</x2>
+            <desc>Wheat Crop</desc>
+            <fill>darkgreen</fill>
+            <y2>426.0</y2>
+          </node>
+          <node>
+            <x1>180.0</x1>
+            <name>WinterFallow</name>
+            <y1>192.0</y1>
+            <x2>280.0</x2>
+            <desc>New state</desc>
+            <fill>gray</fill>
+            <y2>292.0</y2>
+          </node>
+          <node>
+            <x1>508.0</x1>
+            <name>SummerFallow1</name>
+            <y1>195.0</y1>
+            <x2>608.0</x2>
+            <desc>New state</desc>
+            <fill>maroon</fill>
+            <y2>295.0</y2>
+          </node>
+          <node>
+            <x1>368.0</x1>
+            <name>F1</name>
+            <y1>4.0</y1>
+            <x2>468.0</x2>
+            <desc>New state</desc>
+            <fill>gray</fill>
+            <y2>104.0</y2>
+          </node>
+          <node>
+            <x1>204.0</x1>
+            <name>Cotton</name>
+            <y1>32.0</y1>
+            <x2>304.0</x2>
+            <desc>A Cotton Crop</desc>
+            <fill>purple</fill>
+            <y2>132.0</y2>
+          </node>
+          <arc>
+            <name>arc2</name>
+            <source>SummerFallow1</source>
+            <target>WinterFallow</target>
+            <x>388.5</x>
+            <y>362.0</y>
+            <rules>[apsimGet day]  == 192</rules>
+            <rules />
+            <actions />
+          </arc>
+          <arc>
+            <name>arc6</name>
+            <source>WinterFallow</source>
+            <target>Cotton</target>
+            <x>197.5</x>
+            <actions>sow_cotton</actions>
+            <y>155.5</y>
+            <rules>[canPlant_cotton]</rules>
+            <rules />
+            <actions />
+          </arc>
+          <arc>
+            <name>arc3</name>
+            <source>Wheat</source>
+            <target>SummerFallow2</target>
+            <x>394.0</x>
+            <actions>apsimSendMessage wheat harvest</actions>
+            <actions>apsimSendMessage wheat end_crop</actions>
+            <y>416.5</y>
+            <rules>{[apsimGet wheat.stage_name] == "harvest_ripe" || [apsimGet wheat.plant_status] == "dead"}</rules>
+            <rules />
+            <actions />
+          </arc>
+          <arc>
+            <name>arc7</name>
+            <source>F1</source>
+            <target>SummerFallow1</target>
+            <x>542.5</x>
+            <y>78.0</y>
+            <rules>[apsimGet day]  == 192</rules>
+            <rules />
+            <actions />
+          </arc>
+          <arc>
+            <name>arc0</name>
+            <source>F1</source>
+            <target>Chickpea</target>
+            <x>500.0</x>
+            <actions>sow_chickpea</actions>
+            <y>29.0</y>
+            <rules>[canPlant_chickpea]</rules>
+            <rules />
+            <actions />
+          </arc>
+          <arc>
+            <name>arc8</name>
+            <source>Chickpea</source>
+            <target>SummerFallow1</target>
+            <x>633.0</x>
+            <actions>apsimSendMessage chickpea harvest</actions>
+            <actions>apsimSendMessage chickpea end_crop</actions>
+            <y>162.5</y>
+            <rules>{[apsimGet chickpea.stage_name] == "harvest_ripe" || [apsimGet chickpea.plant_status] == "dead"}</rules>
+            <rules />
+            <actions />
+          </arc>
+          <arc>
+            <name>arc1</name>
+            <source>SummerFallow1</source>
+            <target>Wheat</target>
+            <x>550.5</x>
+            <actions>sow_wheat</actions>
+            <y>321.5</y>
+            <rules>[canPlant_wheat]</rules>
+            <rules />
+            <actions />
+          </arc>
+          <arc>
+            <name>arc5</name>
+            <source>Cotton</source>
+            <target>F1</target>
+            <x>326.5</x>
+            <actions>apsimSendMessage cotton harvest</actions>
+            <y>37.5</y>
+            <rules>[apsimGet ozcot_status] &gt; 0</rules>
+            <rules />
+            <actions />
+          </arc>
+          <arc>
+            <name>arc9</name>
+            <source>SummerFallow2</source>
+            <target>WinterFallow</target>
+            <x>244.0</x>
+            <y>319.5</y>
+            <rules>[apsimGet day]  == 74</rules>
+            <rules />
+            <actions />
+          </arc>
+          <rule name="Init rule" invisible="yes" condition="init"><![CDATA[package require struct
 ::struct::graph stateGraph
 stateGraph node insert "SummerFallow2"
 set colour(SummerFallow2) "gray"
@@ -226,7 +243,7 @@ stateGraph arc insert "SummerFallow2" "WinterFallow" "arc9"
 stateGraph arc lappend "arc9" rules {[apsimGet day]  == 74}
 stateGraph arc lappend "arc9" actions {}
 ]]></rule>
-</tclui>
+        </tclui>
         <tclui name="Wheat Sowing Rule">
           <rule name="Sample Rotation 1 Wheat Sowing Rule.out - Sowing rule - initialisation" condition="init" invisible="yes">
 # Support procedures
@@ -289,7 +306,7 @@ proc sow_wheat {} {
 
 
 </rule>
-    <ruletemplate name="Sowing rule - initialisation" condition="init">
+          <ruletemplate name="Sowing rule - initialisation" condition="init">
 # Support procedures
 # Can we plant a crop today?
 proc canPlant_[crop] {} {
@@ -350,24 +367,24 @@ proc sow_[crop] {} {
 
 
 </ruletemplate>
-    <uiscript>source $apsuite/apsim/tcllink/lib/GenericSowingUI.tcl</uiscript>
-    <crop>wheat</crop>
-    <criteria>variable</criteria>
-    <date1>15-may</date1>
-    <date2>10-jul</date2>
-    <raincrit>25</raincrit>
-    <rainnumdays>3</rainnumdays>
-    <esw_amount>50</esw_amount>
-    <must_sow>no</must_sow>
-    <plants>100</plants>
-    <sowing_depth>30</sowing_depth>
-    <row_spacing>250</row_spacing>
-    <skipplant>0</skipplant>
-    <skiprow>0</skiprow>
-    <cultivar>hartog</cultivar>
-    <class>plant</class>
-    <module>plant</module>
-</tclui>
+          <uiscript>source $apsuite/apsim/tcllink/lib/GenericSowingUI.tcl</uiscript>
+          <crop>wheat</crop>
+          <criteria>variable</criteria>
+          <date1>15-may</date1>
+          <date2>10-jul</date2>
+          <raincrit>25</raincrit>
+          <rainnumdays>3</rainnumdays>
+          <esw_amount>50</esw_amount>
+          <must_sow>no</must_sow>
+          <plants>100</plants>
+          <sowing_depth>30</sowing_depth>
+          <row_spacing>250</row_spacing>
+          <skipplant>0</skipplant>
+          <skiprow>0</skiprow>
+          <cultivar>hartog</cultivar>
+          <class>plant</class>
+          <module>plant</module>
+        </tclui>
         <tclui name="Cotton Sowing Rule">
           <rule name="Sample Rotation 1 Cotton Sowing Rule.out - Sowing rule - initialisation" condition="init" invisible="yes">
 # Support procedures
@@ -431,7 +448,7 @@ proc sow_cotton {} {
 
 
 </rule>
-    <ruletemplate name="Sowing rule - initialisation" condition="init">
+          <ruletemplate name="Sowing rule - initialisation" condition="init">
 # Support procedures
 # Can we plant a crop today?
 proc canPlant_[crop] {} {
@@ -493,25 +510,25 @@ proc sow_[crop] {} {
 
 
 </ruletemplate>
-    <uiscript>source $apsuite/apsim/tcllink/lib/GenericSowingUI.tcl</uiscript>
-    <crop>cotton</crop>
-    <criteria>variable</criteria>
-    <date1>15-oct</date1>
-    <date2>15-dec</date2>
-    <raincrit>10</raincrit>
-    <rainnumdays>3</rainnumdays>
-    <esw_amount>100</esw_amount>
-    <must_sow>yes</must_sow>
-    <plants_pm>10</plants_pm>
-    <sowing_depth>30</sowing_depth>
-    <row_spacing>1000</row_spacing>
-    <skiprow>0</skiprow>
-    <cultivar>Siok</cultivar>
-    <module>ozcot</module>
-    <plants>100</plants>
-    <skipplant>0</skipplant>
-    <class>plant</class>
-</tclui>
+          <uiscript>source $apsuite/apsim/tcllink/lib/GenericSowingUI.tcl</uiscript>
+          <crop>cotton</crop>
+          <criteria>variable</criteria>
+          <date1>15-oct</date1>
+          <date2>15-dec</date2>
+          <raincrit>10</raincrit>
+          <rainnumdays>3</rainnumdays>
+          <esw_amount>100</esw_amount>
+          <must_sow>yes</must_sow>
+          <plants_pm>10</plants_pm>
+          <sowing_depth>30</sowing_depth>
+          <row_spacing>1000</row_spacing>
+          <skiprow>0</skiprow>
+          <cultivar>Siok</cultivar>
+          <module>ozcot</module>
+          <plants>100</plants>
+          <skipplant>0</skipplant>
+          <class>plant</class>
+        </tclui>
         <tclui name="Chickpea Sowing Rule">
           <rule name="Sample Rotation 1 Chickpea Sowing Rule.out - Sowing rule - initialisation" condition="init" invisible="yes">
 # Support procedures
@@ -574,7 +591,7 @@ proc sow_chickpea {} {
 
 
 </rule>
-    <ruletemplate name="Sowing rule - initialisation" condition="init">
+          <ruletemplate name="Sowing rule - initialisation" condition="init">
 # Support procedures
 # Can we plant a crop today?
 proc canPlant_[crop] {} {
@@ -635,34 +652,34 @@ proc sow_[crop] {} {
 
 
 </ruletemplate>
-    <uiscript>source $apsuite/apsim/tcllink/lib/GenericSowingUI.tcl</uiscript>
-    <crop>chickpea</crop>
-    <criteria>variable</criteria>
-    <date1>15-may</date1>
-    <date2>10-jul</date2>
-    <raincrit>15</raincrit>
-    <rainnumdays>3</rainnumdays>
-    <esw_amount>50</esw_amount>
-    <must_sow>no</must_sow>
-    <plants>25</plants>
-    <sowing_depth>30</sowing_depth>
-    <row_spacing>500</row_spacing>
-    <skipplant>0</skipplant>
-    <skiprow>0</skiprow>
-    <cultivar>amethyst</cultivar>
-    <class>plant</class>
-    <module>plant</module>
-    <plants_pm></plants_pm>
-</tclui>
+          <uiscript>source $apsuite/apsim/tcllink/lib/GenericSowingUI.tcl</uiscript>
+          <crop>chickpea</crop>
+          <criteria>variable</criteria>
+          <date1>15-may</date1>
+          <date2>10-jul</date2>
+          <raincrit>15</raincrit>
+          <rainnumdays>3</rainnumdays>
+          <esw_amount>50</esw_amount>
+          <must_sow>no</must_sow>
+          <plants>25</plants>
+          <sowing_depth>30</sowing_depth>
+          <row_spacing>500</row_spacing>
+          <skipplant>0</skipplant>
+          <skiprow>0</skiprow>
+          <cultivar>amethyst</cultivar>
+          <class>plant</class>
+          <module>plant</module>
+          <plants_pm>
+          </plants_pm>
+        </tclui>
       </tclmanager>
       <wheat />
-      <ozcot name="ozcot" />
       <chickpea />
       <cotton />
       <outputfile name="outputfile">
         <variables name="Variables">
           <variable name="dd/mm/yyyy as Date" description="Date (dd/mm/yyyy)" array="?" />
-          <variable name="ozcot.yield as cotton" description="" array="" />
+          <variable name="cotton.yield as cotton" description="" array="" />
           <variable name="wheat.yield as wyield" description="" array="No" />
           <variable name="chickpea.yield as cyield" description="" array="No" />
           <variable name="biomass" />
@@ -707,9 +724,6 @@ proc sow_[crop] {} {
             <ll name="Wheat">0.21</ll>
             <kl name="Wheat">0.1</kl>
             <xf name="Wheat">1</xf>
-            <ll name="ozcot">0.21</ll>
-            <kl name="ozcot">0.06</kl>
-            <xf name="ozcot">1</xf>
           </layer>
           <layer>
             <thickness>150</thickness>
@@ -738,9 +752,6 @@ proc sow_[crop] {} {
             <ll name="Wheat">0.21</ll>
             <kl name="Wheat">0.1</kl>
             <xf name="Wheat">1</xf>
-            <ll name="ozcot">0.21</ll>
-            <kl name="ozcot">0.06</kl>
-            <xf name="ozcot">1</xf>
           </layer>
           <layer>
             <thickness>300</thickness>
@@ -769,9 +780,6 @@ proc sow_[crop] {} {
             <ll name="Wheat">0.25</ll>
             <kl name="Wheat">0.08</kl>
             <xf name="Wheat">1</xf>
-            <ll name="ozcot">0.22</ll>
-            <kl name="ozcot">0.06</kl>
-            <xf name="ozcot">1</xf>
           </layer>
           <layer>
             <thickness>300</thickness>
@@ -800,9 +808,6 @@ proc sow_[crop] {} {
             <ll name="Wheat">0.28</ll>
             <kl name="Wheat">0.06</kl>
             <xf name="Wheat">1</xf>
-            <ll name="ozcot">0.25</ll>
-            <kl name="ozcot">0.06</kl>
-            <xf name="ozcot">1</xf>
           </layer>
           <layer>
             <thickness>300</thickness>
@@ -831,9 +836,6 @@ proc sow_[crop] {} {
             <ll name="Wheat">0.31</ll>
             <kl name="Wheat">0.04</kl>
             <xf name="Wheat">1</xf>
-            <ll name="ozcot">0.27</ll>
-            <kl name="ozcot">0.06</kl>
-            <xf name="ozcot">1</xf>
           </layer>
           <layer>
             <thickness>300</thickness>
@@ -862,9 +864,6 @@ proc sow_[crop] {} {
             <ll name="Wheat">0.37</ll>
             <kl name="Wheat">0.02</kl>
             <xf name="Wheat">1</xf>
-            <ll name="ozcot">0.31</ll>
-            <kl name="ozcot">0.06</kl>
-            <xf name="ozcot">1</xf>
           </layer>
           <layer>
             <thickness>300</thickness>
@@ -893,9 +892,6 @@ proc sow_[crop] {} {
             <ll name="Wheat">0.38</ll>
             <kl name="Wheat">0.01</kl>
             <xf name="Wheat">1</xf>
-            <ll name="ozcot">0.36</ll>
-            <kl name="ozcot">0.06</kl>
-            <xf name="ozcot">1</xf>
           </layer>
         </profile>
         <Cona>3.5</Cona>
@@ -1103,13 +1099,13 @@ doProcess
       </rule>
       <tclui name="Rug plot">
         <uiscript>source $apsuite/apsim/tcllink/lib/RotationRugPlotUI.tcl</uiscript>
-    <filename>C:/development/apsim/tcllink/sample/Rotation Sample 2.log</filename>
-</tclui>
+        <filename>C:/development/apsim/tcllink/sample/Rotation Sample 2.log</filename>
+      </tclui>
       <tclui name="Paddock Map">
         <uiscript>source $apsuite/apsim/tcllink/lib/PaddockMapUI.tcl</uiscript>
-    <filename>C:/development/apsim/tcllink/sample/Rotation Sample 2.log</filename>
-    <kmlfilename>C:/development/apsim/tcllink/sample/Rotation Sample 2.kml</kmlfilename>
-</tclui>
+        <filename>C:/development/apsim/tcllink/sample/Rotation Sample 2.log</filename>
+        <kmlfilename>C:/development/apsim/tcllink/sample/Rotation Sample 2.kml</kmlfilename>
+      </tclui>
     </farmmanager>
     <area name="Paddock1">
       <registrations name="global" />
@@ -1224,7 +1220,6 @@ exit
         <tclui name="Chickpea Sowing Rule" shortcut="Chickpea Sowing Rule" />
       </paddockmanager>
       <wheat />
-      <ozcot name="ozcot" />
       <chickpea />
       <cotton />
       <fertiliser name="fertiliser" />
@@ -1263,9 +1258,6 @@ exit
             <ll name="Wheat">0.21</ll>
             <kl name="Wheat">0.1</kl>
             <xf name="Wheat">1</xf>
-            <ll name="ozcot">0.21</ll>
-            <kl name="ozcot">0.06</kl>
-            <xf name="ozcot">1</xf>
           </layer>
           <layer>
             <thickness>150</thickness>
@@ -1294,9 +1286,6 @@ exit
             <ll name="Wheat">0.21</ll>
             <kl name="Wheat">0.1</kl>
             <xf name="Wheat">1</xf>
-            <ll name="ozcot">0.21</ll>
-            <kl name="ozcot">0.06</kl>
-            <xf name="ozcot">1</xf>
           </layer>
           <layer>
             <thickness>300</thickness>
@@ -1325,9 +1314,6 @@ exit
             <ll name="Wheat">0.25</ll>
             <kl name="Wheat">0.08</kl>
             <xf name="Wheat">1</xf>
-            <ll name="ozcot">0.22</ll>
-            <kl name="ozcot">0.06</kl>
-            <xf name="ozcot">1</xf>
           </layer>
           <layer>
             <thickness>300</thickness>
@@ -1356,9 +1342,6 @@ exit
             <ll name="Wheat">0.28</ll>
             <kl name="Wheat">0.06</kl>
             <xf name="Wheat">1</xf>
-            <ll name="ozcot">0.25</ll>
-            <kl name="ozcot">0.06</kl>
-            <xf name="ozcot">1</xf>
           </layer>
           <layer>
             <thickness>300</thickness>
@@ -1387,9 +1370,6 @@ exit
             <ll name="Wheat">0.31</ll>
             <kl name="Wheat">0.04</kl>
             <xf name="Wheat">1</xf>
-            <ll name="ozcot">0.27</ll>
-            <kl name="ozcot">0.06</kl>
-            <xf name="ozcot">1</xf>
           </layer>
           <layer>
             <thickness>300</thickness>
@@ -1418,9 +1398,6 @@ exit
             <ll name="Wheat">0.37</ll>
             <kl name="Wheat">0.02</kl>
             <xf name="Wheat">1</xf>
-            <ll name="ozcot">0.31</ll>
-            <kl name="ozcot">0.06</kl>
-            <xf name="ozcot">1</xf>
           </layer>
           <layer>
             <thickness>300</thickness>
@@ -1449,9 +1426,6 @@ exit
             <ll name="Wheat">0.38</ll>
             <kl name="Wheat">0.01</kl>
             <xf name="Wheat">1</xf>
-            <ll name="ozcot">0.36</ll>
-            <kl name="ozcot">0.06</kl>
-            <xf name="ozcot">1</xf>
           </layer>
         </profile>
         <Cona>3.5</Cona>
@@ -1629,7 +1603,6 @@ exit
         <tclui name="Chickpea Sowing Rule" shortcut="Chickpea Sowing Rule" />
       </paddockmanager>
       <wheat />
-      <ozcot name="ozcot" />
       <chickpea />
       <cotton />
       <fertiliser name="fertiliser" />
@@ -1668,9 +1641,6 @@ exit
             <ll name="Wheat">0.21</ll>
             <kl name="Wheat">0.1</kl>
             <xf name="Wheat">1</xf>
-            <ll name="ozcot">0.21</ll>
-            <kl name="ozcot">0.06</kl>
-            <xf name="ozcot">1</xf>
           </layer>
           <layer>
             <thickness>150</thickness>
@@ -1699,9 +1669,6 @@ exit
             <ll name="Wheat">0.21</ll>
             <kl name="Wheat">0.1</kl>
             <xf name="Wheat">1</xf>
-            <ll name="ozcot">0.21</ll>
-            <kl name="ozcot">0.06</kl>
-            <xf name="ozcot">1</xf>
           </layer>
           <layer>
             <thickness>300</thickness>
@@ -1730,9 +1697,6 @@ exit
             <ll name="Wheat">0.25</ll>
             <kl name="Wheat">0.08</kl>
             <xf name="Wheat">1</xf>
-            <ll name="ozcot">0.22</ll>
-            <kl name="ozcot">0.06</kl>
-            <xf name="ozcot">1</xf>
           </layer>
           <layer>
             <thickness>300</thickness>
@@ -1761,9 +1725,6 @@ exit
             <ll name="Wheat">0.28</ll>
             <kl name="Wheat">0.06</kl>
             <xf name="Wheat">1</xf>
-            <ll name="ozcot">0.25</ll>
-            <kl name="ozcot">0.06</kl>
-            <xf name="ozcot">1</xf>
           </layer>
           <layer>
             <thickness>300</thickness>
@@ -1792,9 +1753,6 @@ exit
             <ll name="Wheat">0.31</ll>
             <kl name="Wheat">0.04</kl>
             <xf name="Wheat">1</xf>
-            <ll name="ozcot">0.27</ll>
-            <kl name="ozcot">0.06</kl>
-            <xf name="ozcot">1</xf>
           </layer>
           <layer>
             <thickness>300</thickness>
@@ -1823,9 +1781,6 @@ exit
             <ll name="Wheat">0.37</ll>
             <kl name="Wheat">0.02</kl>
             <xf name="Wheat">1</xf>
-            <ll name="ozcot">0.31</ll>
-            <kl name="ozcot">0.06</kl>
-            <xf name="ozcot">1</xf>
           </layer>
           <layer>
             <thickness>300</thickness>
@@ -1854,9 +1809,6 @@ exit
             <ll name="Wheat">0.38</ll>
             <kl name="Wheat">0.01</kl>
             <xf name="Wheat">1</xf>
-            <ll name="ozcot">0.36</ll>
-            <kl name="ozcot">0.06</kl>
-            <xf name="ozcot">1</xf>
           </layer>
         </profile>
         <Cona>3.5</Cona>
@@ -2033,7 +1985,6 @@ exit
         <tclui name="Chickpea Sowing Rule" shortcut="Chickpea Sowing Rule" />
       </paddockmanager>
       <wheat />
-      <ozcot name="ozcot" />
       <chickpea />
       <cotton />
       <fertiliser name="fertiliser" />
@@ -2072,9 +2023,6 @@ exit
             <ll name="Wheat">0.21</ll>
             <kl name="Wheat">0.1</kl>
             <xf name="Wheat">1</xf>
-            <ll name="ozcot">0.21</ll>
-            <kl name="ozcot">0.06</kl>
-            <xf name="ozcot">1</xf>
           </layer>
           <layer>
             <thickness>150</thickness>
@@ -2103,9 +2051,6 @@ exit
             <ll name="Wheat">0.21</ll>
             <kl name="Wheat">0.1</kl>
             <xf name="Wheat">1</xf>
-            <ll name="ozcot">0.21</ll>
-            <kl name="ozcot">0.06</kl>
-            <xf name="ozcot">1</xf>
           </layer>
           <layer>
             <thickness>300</thickness>
@@ -2134,9 +2079,6 @@ exit
             <ll name="Wheat">0.25</ll>
             <kl name="Wheat">0.08</kl>
             <xf name="Wheat">1</xf>
-            <ll name="ozcot">0.22</ll>
-            <kl name="ozcot">0.06</kl>
-            <xf name="ozcot">1</xf>
           </layer>
           <layer>
             <thickness>300</thickness>
@@ -2165,9 +2107,6 @@ exit
             <ll name="Wheat">0.28</ll>
             <kl name="Wheat">0.06</kl>
             <xf name="Wheat">1</xf>
-            <ll name="ozcot">0.25</ll>
-            <kl name="ozcot">0.06</kl>
-            <xf name="ozcot">1</xf>
           </layer>
           <layer>
             <thickness>300</thickness>
@@ -2196,9 +2135,6 @@ exit
             <ll name="Wheat">0.31</ll>
             <kl name="Wheat">0.04</kl>
             <xf name="Wheat">1</xf>
-            <ll name="ozcot">0.27</ll>
-            <kl name="ozcot">0.06</kl>
-            <xf name="ozcot">1</xf>
           </layer>
           <layer>
             <thickness>300</thickness>
@@ -2227,9 +2163,6 @@ exit
             <ll name="Wheat">0.37</ll>
             <kl name="Wheat">0.02</kl>
             <xf name="Wheat">1</xf>
-            <ll name="ozcot">0.31</ll>
-            <kl name="ozcot">0.06</kl>
-            <xf name="ozcot">1</xf>
           </layer>
           <layer>
             <thickness>300</thickness>
@@ -2258,9 +2191,6 @@ exit
             <ll name="Wheat">0.38</ll>
             <kl name="Wheat">0.01</kl>
             <xf name="Wheat">1</xf>
-            <ll name="ozcot">0.36</ll>
-            <kl name="ozcot">0.06</kl>
-            <xf name="ozcot">1</xf>
           </layer>
         </profile>
         <Cona>3.5</Cona>
@@ -2329,154 +2259,171 @@ exit
   <folder name="shared">
     <tclui name="Rotation Management">
       <uiscript><![CDATA[source $apsuite/apsim/tcllink/lib/RotationsUI.tcl]]></uiscript>
-<canvas_height>496</canvas_height>
-<rules_height>40</rules_height>
-<node>
- <x1>560.0</x1>
- <name>Chickpea</name>
- <y1>21.0</y1>
- <x2>660.0</x2>
- <desc>Chickpea</desc>
- <fill>lightgreen</fill>
- <y2>121.0</y2>
-</node>
-<node>
- <x1>238.0</x1>
- <name>SummerFallow2</name>
- <y1>325.0</y1>
- <x2>338.0</x2>
- <desc>New state</desc>
- <fill>gray</fill>
- <y2>425.0</y2>
-</node>
-<node>
- <x1>445.0</x1>
- <name>Wheat</name>
- <y1>326.0</y1>
- <x2>545.0</x2>
- <desc>Wheat Crop</desc>
- <fill>darkgreen</fill>
- <y2>426.0</y2>
-</node>
-<node>
- <x1>180.0</x1>
- <name>WinterFallow</name>
- <y1>192.0</y1>
- <x2>280.0</x2>
- <desc>New state</desc>
- <fill>gray</fill>
- <y2>292.0</y2>
-</node>
-<node>
- <x1>204.0</x1>
- <name>Cotton</name>
- <y1>32.0</y1>
- <x2>304.0</x2>
- <desc>A Cotton Crop</desc>
- <fill>purple</fill>
- <y2>132.0</y2>
-</node>
-<node>
- <x1>368.0</x1>
- <name>F1</name>
- <y1>4.0</y1>
- <x2>468.0</x2>
- <desc>New state</desc>
- <fill>gray</fill>
- <y2>104.0</y2>
-</node>
-<node>
- <x1>508.0</x1>
- <name>SummerFallow1</name>
- <y1>195.0</y1>
- <x2>608.0</x2>
- <desc>New state</desc>
- <fill>maroon</fill>
- <y2>295.0</y2>
-</node>
-<arc><name>arc6</name>
- <source>WinterFallow</source>
- <target>Cotton</target>
- <x>197.5</x>
- <actions>sow_cotton</actions>
- <y>155.5</y>
- <rules>[canPlant_cotton]</rules>
- <rules>[areaPlanted Cotton] &lt; 0.66</rules>
- <rules /><actions />
-</arc>
-<arc><name>arc2</name>
- <source>SummerFallow1</source>
- <target>WinterFallow</target>
- <x>388.5</x>
- <y>362.0</y>
- <rules>[apsimGet day]  == 192</rules>
- <rules /><actions />
-</arc>
-<arc><name>arc7</name>
- <source>F1</source>
- <target>SummerFallow1</target>
- <x>542.5</x>
- <y>78.0</y>
- <rules>[apsimGet day]  == 192</rules>
- <rules /><actions />
-</arc>
-<arc><name>arc3</name>
- <source>Wheat</source>
- <target>SummerFallow2</target>
- <x>394.0</x>
- <actions>apsimSendMessage wheat harvest</actions>
- <actions>apsimSendMessage wheat end_crop</actions>
- <y>416.5</y>
- <rules>{[apsimGet wheat.stage_name] == "harvest_ripe" || [apsimGet wheat.plant_status] == "dead"}</rules>
- <rules /><actions />
-</arc>
-<arc><name>arc8</name>
- <source>Chickpea</source>
- <target>SummerFallow1</target>
- <x>633.0</x>
- <actions>apsimSendMessage chickpea harvest</actions>
- <actions>apsimSendMessage chickpea end_crop</actions>
- <y>162.5</y>
- <rules>{[apsimGet chickpea.stage_name] == "harvest_ripe" || [apsimGet chickpea.plant_status] == "dead"}</rules>
- <rules /><actions />
-</arc>
-<arc><name>arc0</name>
- <source>F1</source>
- <target>Chickpea</target>
- <x>500.0</x>
- <actions>sow_chickpea</actions>
- <y>29.0</y>
- <rules>[canPlant_chickpea]</rules>
- <rules /><actions />
-</arc>
-<arc><name>arc9</name>
- <source>SummerFallow2</source>
- <target>WinterFallow</target>
- <x>244.0</x>
- <y>319.5</y>
- <rules>[apsimGet day]  == 74</rules>
- <rules /><actions />
-</arc>
-<arc><name>arc5</name>
- <source>Cotton</source>
- <target>F1</target>
- <x>326.5</x>
- <actions>apsimSendMessage cotton harvest</actions>
- <y>37.5</y>
- <rules>[apsimGet ozcot_status] &gt; 0</rules>
- <rules /><actions />
-</arc>
-<arc><name>arc1</name>
- <source>SummerFallow1</source>
- <target>Wheat</target>
- <x>550.5</x>
- <actions>sow_wheat</actions>
- <y>321.5</y>
- <rules>[canPlant_wheat]</rules>
- <rules /><actions />
-</arc>
-<rule name="Init rule" invisible="yes" condition="init">
-<![CDATA[package require struct
+      <canvas_height>496</canvas_height>
+      <rules_height>40</rules_height>
+      <node>
+        <x1>560.0</x1>
+        <name>Chickpea</name>
+        <y1>21.0</y1>
+        <x2>660.0</x2>
+        <desc>Chickpea</desc>
+        <fill>lightgreen</fill>
+        <y2>121.0</y2>
+      </node>
+      <node>
+        <x1>238.0</x1>
+        <name>SummerFallow2</name>
+        <y1>325.0</y1>
+        <x2>338.0</x2>
+        <desc>New state</desc>
+        <fill>gray</fill>
+        <y2>425.0</y2>
+      </node>
+      <node>
+        <x1>445.0</x1>
+        <name>Wheat</name>
+        <y1>326.0</y1>
+        <x2>545.0</x2>
+        <desc>Wheat Crop</desc>
+        <fill>darkgreen</fill>
+        <y2>426.0</y2>
+      </node>
+      <node>
+        <x1>180.0</x1>
+        <name>WinterFallow</name>
+        <y1>192.0</y1>
+        <x2>280.0</x2>
+        <desc>New state</desc>
+        <fill>gray</fill>
+        <y2>292.0</y2>
+      </node>
+      <node>
+        <x1>204.0</x1>
+        <name>Cotton</name>
+        <y1>32.0</y1>
+        <x2>304.0</x2>
+        <desc>A Cotton Crop</desc>
+        <fill>purple</fill>
+        <y2>132.0</y2>
+      </node>
+      <node>
+        <x1>368.0</x1>
+        <name>F1</name>
+        <y1>4.0</y1>
+        <x2>468.0</x2>
+        <desc>New state</desc>
+        <fill>gray</fill>
+        <y2>104.0</y2>
+      </node>
+      <node>
+        <x1>508.0</x1>
+        <name>SummerFallow1</name>
+        <y1>195.0</y1>
+        <x2>608.0</x2>
+        <desc>New state</desc>
+        <fill>maroon</fill>
+        <y2>295.0</y2>
+      </node>
+      <arc>
+        <name>arc6</name>
+        <source>WinterFallow</source>
+        <target>Cotton</target>
+        <x>197.5</x>
+        <actions>sow_cotton</actions>
+        <y>155.5</y>
+        <rules>[canPlant_cotton]</rules>
+        <rules>[areaPlanted Cotton] &lt; 0.66</rules>
+        <rules />
+        <actions />
+      </arc>
+      <arc>
+        <name>arc2</name>
+        <source>SummerFallow1</source>
+        <target>WinterFallow</target>
+        <x>388.5</x>
+        <y>362.0</y>
+        <rules>[apsimGet day]  == 192</rules>
+        <rules />
+        <actions />
+      </arc>
+      <arc>
+        <name>arc7</name>
+        <source>F1</source>
+        <target>SummerFallow1</target>
+        <x>542.5</x>
+        <y>78.0</y>
+        <rules>[apsimGet day]  == 192</rules>
+        <rules />
+        <actions />
+      </arc>
+      <arc>
+        <name>arc3</name>
+        <source>Wheat</source>
+        <target>SummerFallow2</target>
+        <x>394.0</x>
+        <actions>apsimSendMessage wheat harvest</actions>
+        <actions>apsimSendMessage wheat end_crop</actions>
+        <y>416.5</y>
+        <rules>{[apsimGet wheat.stage_name] == "harvest_ripe" || [apsimGet wheat.plant_status] == "dead"}</rules>
+        <rules />
+        <actions />
+      </arc>
+      <arc>
+        <name>arc8</name>
+        <source>Chickpea</source>
+        <target>SummerFallow1</target>
+        <x>633.0</x>
+        <actions>apsimSendMessage chickpea harvest</actions>
+        <actions>apsimSendMessage chickpea end_crop</actions>
+        <y>162.5</y>
+        <rules>{[apsimGet chickpea.stage_name] == "harvest_ripe" || [apsimGet chickpea.plant_status] == "dead"}</rules>
+        <rules />
+        <actions />
+      </arc>
+      <arc>
+        <name>arc0</name>
+        <source>F1</source>
+        <target>Chickpea</target>
+        <x>500.0</x>
+        <actions>sow_chickpea</actions>
+        <y>29.0</y>
+        <rules>[canPlant_chickpea]</rules>
+        <rules />
+        <actions />
+      </arc>
+      <arc>
+        <name>arc9</name>
+        <source>SummerFallow2</source>
+        <target>WinterFallow</target>
+        <x>244.0</x>
+        <y>319.5</y>
+        <rules>[apsimGet day]  == 74</rules>
+        <rules />
+        <actions />
+      </arc>
+      <arc>
+        <name>arc5</name>
+        <source>Cotton</source>
+        <target>F1</target>
+        <x>326.5</x>
+        <actions>apsimSendMessage cotton harvest</actions>
+        <y>37.5</y>
+        <rules>[apsimGet ozcot_status] &gt; 0</rules>
+        <rules />
+        <actions />
+      </arc>
+      <arc>
+        <name>arc1</name>
+        <source>SummerFallow1</source>
+        <target>Wheat</target>
+        <x>550.5</x>
+        <actions>sow_wheat</actions>
+        <y>321.5</y>
+        <rules>[canPlant_wheat]</rules>
+        <rules />
+        <actions />
+      </arc>
+      <rule name="Init rule" invisible="yes" condition="init"><![CDATA[package require struct
 ::struct::graph stateGraph
 stateGraph node insert "Chickpea"
 set colour(Chickpea) "lightgreen"
@@ -2529,7 +2476,7 @@ stateGraph arc lappend "arc1" actions {sow_wheat}
 stateGraph arc lappend "arc1" rules {[canPlant_wheat]}
 stateGraph arc lappend "arc1" actions {}
 ]]></rule>
-</tclui>
+    </tclui>
     <tclui name="Wheat Sowing Rule">
       <rule name=" Wheat Sowing Rule.out - Sowing rule - initialisation" condition="init" invisible="yes">
 # Support procedures
@@ -2592,7 +2539,7 @@ proc sow_wheat {} {
 
 
 </rule>
-    <ruletemplate name="Sowing rule - initialisation" condition="init">
+      <ruletemplate name="Sowing rule - initialisation" condition="init">
 # Support procedures
 # Can we plant a crop today?
 proc canPlant_[crop] {} {
@@ -2653,24 +2600,24 @@ proc sow_[crop] {} {
 
 
 </ruletemplate>
-    <uiscript>source $apsuite/apsim/tcllink/lib/GenericSowingUI.tcl</uiscript>
-    <crop>wheat</crop>
-    <criteria>variable</criteria>
-    <date1>15-may</date1>
-    <date2>10-jul</date2>
-    <raincrit>25</raincrit>
-    <rainnumdays>3</rainnumdays>
-    <esw_amount>50</esw_amount>
-    <must_sow>no</must_sow>
-    <plants>100</plants>
-    <sowing_depth>30</sowing_depth>
-    <row_spacing>25</row_spacing>
-    <skipplant>0</skipplant>
-    <skiprow>0</skiprow>
-    <cultivar>hartog</cultivar>
-    <class>plant</class>
-    <module>plant</module>
-</tclui>
+      <uiscript>source $apsuite/apsim/tcllink/lib/GenericSowingUI.tcl</uiscript>
+      <crop>wheat</crop>
+      <criteria>variable</criteria>
+      <date1>15-may</date1>
+      <date2>10-jul</date2>
+      <raincrit>25</raincrit>
+      <rainnumdays>3</rainnumdays>
+      <esw_amount>50</esw_amount>
+      <must_sow>no</must_sow>
+      <plants>100</plants>
+      <sowing_depth>30</sowing_depth>
+      <row_spacing>25</row_spacing>
+      <skipplant>0</skipplant>
+      <skiprow>0</skiprow>
+      <cultivar>hartog</cultivar>
+      <class>plant</class>
+      <module>plant</module>
+    </tclui>
     <tclui name="Cotton Sowing Rule">
       <rule name=" Cotton Sowing Rule.out - Sowing rule - initialisation" condition="init" invisible="yes">
 # Support procedures
@@ -2734,7 +2681,7 @@ proc sow_cotton {} {
 
 
 </rule>
-    <ruletemplate name="Sowing rule - initialisation" condition="init">
+      <ruletemplate name="Sowing rule - initialisation" condition="init">
 # Support procedures
 # Can we plant a crop today?
 proc canPlant_[crop] {} {
@@ -2796,25 +2743,25 @@ proc sow_[crop] {} {
 
 
 </ruletemplate>
-    <uiscript>source $apsuite/apsim/tcllink/lib/GenericSowingUI.tcl</uiscript>
-    <crop>cotton</crop>
-    <criteria>variable</criteria>
-    <date1>15-oct</date1>
-    <date2>15-dec</date2>
-    <raincrit>10</raincrit>
-    <rainnumdays>3</rainnumdays>
-    <esw_amount>100</esw_amount>
-    <must_sow>yes</must_sow>
-    <plants_pm>10</plants_pm>
-    <sowing_depth>30</sowing_depth>
-    <row_spacing>1000</row_spacing>
-    <skiprow>0</skiprow>
-    <cultivar>Siok</cultivar>
-    <module>ozcot</module>
-    <plants>100</plants>
-    <skipplant>0</skipplant>
-    <class>plant</class>
-</tclui>
+      <uiscript>source $apsuite/apsim/tcllink/lib/GenericSowingUI.tcl</uiscript>
+      <crop>cotton</crop>
+      <criteria>variable</criteria>
+      <date1>15-oct</date1>
+      <date2>15-dec</date2>
+      <raincrit>10</raincrit>
+      <rainnumdays>3</rainnumdays>
+      <esw_amount>100</esw_amount>
+      <must_sow>yes</must_sow>
+      <plants_pm>10</plants_pm>
+      <sowing_depth>30</sowing_depth>
+      <row_spacing>1000</row_spacing>
+      <skiprow>0</skiprow>
+      <cultivar>Siok</cultivar>
+      <module>ozcot</module>
+      <plants>100</plants>
+      <skipplant>0</skipplant>
+      <class>plant</class>
+    </tclui>
     <tclui name="Chickpea Sowing Rule">
       <rule name=" Chickpea Sowing Rule.out - Sowing rule - initialisation" condition="init" invisible="yes">
 # Support procedures
@@ -2877,7 +2824,7 @@ proc sow_chickpea {} {
 
 
 </rule>
-    <ruletemplate name="Sowing rule - initialisation" condition="init">
+      <ruletemplate name="Sowing rule - initialisation" condition="init">
 # Support procedures
 # Can we plant a crop today?
 proc canPlant_[crop] {} {
@@ -2938,24 +2885,25 @@ proc sow_[crop] {} {
 
 
 </ruletemplate>
-    <uiscript>source $apsuite/apsim/tcllink/lib/GenericSowingUI.tcl</uiscript>
-    <crop>chickpea</crop>
-    <criteria>variable</criteria>
-    <date1>15-may</date1>
-    <date2>10-jul</date2>
-    <raincrit>15</raincrit>
-    <rainnumdays>3</rainnumdays>
-    <esw_amount>100</esw_amount>
-    <must_sow>no</must_sow>
-    <plants>25</plants>
-    <sowing_depth>30</sowing_depth>
-    <row_spacing>25</row_spacing>
-    <skipplant>0</skipplant>
-    <skiprow>0</skiprow>
-    <cultivar>amethyst</cultivar>
-    <class>plant</class>
-    <module>plant</module>
-    <plants_pm></plants_pm>
-</tclui>
+      <uiscript>source $apsuite/apsim/tcllink/lib/GenericSowingUI.tcl</uiscript>
+      <crop>chickpea</crop>
+      <criteria>variable</criteria>
+      <date1>15-may</date1>
+      <date2>10-jul</date2>
+      <raincrit>15</raincrit>
+      <rainnumdays>3</rainnumdays>
+      <esw_amount>100</esw_amount>
+      <must_sow>no</must_sow>
+      <plants>25</plants>
+      <sowing_depth>30</sowing_depth>
+      <row_spacing>25</row_spacing>
+      <skipplant>0</skipplant>
+      <skiprow>0</skiprow>
+      <cultivar>amethyst</cultivar>
+      <class>plant</class>
+      <module>plant</module>
+      <plants_pm>
+      </plants_pm>
+    </tclui>
   </folder>
 </folder>
