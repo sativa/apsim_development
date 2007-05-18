@@ -126,7 +126,7 @@ Copyright (C) Microsoft Corp 1984-2005. All rights reserved.
 ------ Build started: Project: VBGeneral, Configuration: Release Any CPU ------
 VBGeneral -> C:\development\Shared\VBGeneral\bin\Release\VBGeneral.dll
 ------ Build started: Project: CSGeneral, Configuration: Release Any CPU ------
-C:\WINDOWS\Microsoft.NET\Framework\v2.0.50727\Csc.exe /noconfig /unsafe- /checked- /nowarn:1701,1702 /nostdlib- /errorreport:prompt /warn:4 /baseaddress:285212672 /define:TRACE /reference:C:\WINDOWS\assembly\GAC_MSIL\FarPoint.Win\2.5.2001.2005__327c3516b1b18457\FarPoint.Win.dll /reference:C:\WINDOWS\assembly\GAC_MSIL\FarPoint.Win.Spread\2.5.2001.2005__327c3516b1b18457\FarPoint.Win.Spread.dll /reference:C:\WINDOWS\Microsoft.NET\Framework\v2.0.50727\System.Data.dll /reference:C:\WINDOWS\Microsoft.NET\Framework\v2.0.50727\System.dll /reference:C:\WINDOWS\Microsoft.NET\Framework\v2.0.50727\System.Drawing.dll /reference:C:\WINDOWS\Microsoft.NET\Framework\v2.0.50727\System.Windows.Forms.dll /reference:C:\WINDOWS\Microsoft.NET\Framework\v2.0.50727\System.Xml.dll /reference:C:\development\Shared\VBGeneral\bin\Release\VBGeneral.dll /debug- /filealign:4096 /optimize+ /out:obj\Release\CSGeneral.dll /target:library /warnaserror- APSIMInputFile.cs ComponentDescription.cs DataTableUtility.cs Macro.cs MathUtility.cs Properties\AssemblyInfo.cs StringManip.cs Utility.cs
+C:\WINDOWS\Microsoft.NET\Framework\v2.0.50727\Csc.exe /noconfig /unsafe- /checked- /nowarn:1701,1702 /nostdlib- /errorreport:prompt /warn:4 /baseaddress:285212672 /define:TRACE /reference:C:\WINDOWS\assembly\GAC_MSIL\FarPoint.Win\2.5.2001.2005__327c3516b1b18457\FarPoint.Win.dll /reference:C:\WINDOWS\assembly\GAC_MSIL\FarPoint.Win.Spread\2.5.2001.2005__327c3516b1b18457\FarPoint.Win.Spread.dll /reference:C:\WINDOWS\Microsoft.NET\Framework\v2.0.50727\System.Data.dll /reference:C:\WINDOWS\Microsoft.NET\Framework\v2.0.50727\System.dll /reference:C:\WINDOWS\Microsoft.NET\Framework\v2.0.50727\System.Drawing.dll /reference:C:\WINDOWS\Microsoft.NET\Framework\v2.0.50727\System.Windows.Forms.dll /reference:C:\WINDOWS\Microsoft.NET\Framework\v2.0.50727\System.Xml.dll /reference:C:\development\Shared\VBGeneral\bin\Release\VBGeneral.dll /debug- /filealign:4096 /optimize+ /out:obj\Release\CSGeneral.dll /target:library /warnaserror- APSIMInputFile.cs AsyncOperation.cs ComponentDescription.cs DataTableUtility.cs Macro.cs MathUtility.cs ProcessCaller.cs Properties\AssemblyInfo.cs StringManip.cs Utility.cs
 
 Compile complete -- 0 errors, 0 warnings
 CSGeneral -> C:\development\Shared\CSGeneral\bin\Release\CSGeneral.dll
@@ -150,7 +150,7 @@ Wrote:C:\development\Shared\ComponentInterface\datatypes.h C:\development\Shared
 Borland C++ 5.6.4 for Win32 Copyright (c) 1993, 2002 Borland
 ComponentInterface.cpp:
 Component.cpp:
-Warning W8037 Component.cpp 160: Non-const function MessageData::reset() called for const object in function Component::messageToLogic(const Message *)
+Warning W8037 Component.cpp 163: Non-const function MessageData::reset() called for const object in function Component::messageToLogic(const Message *)
 message.cpp:
 Type.cpp:
 TypeConverter.cpp:
@@ -166,6 +166,7 @@ RegistrationType.cpp:
 EntryPoints.cpp:
 Variable.cpp:
 VariableRef.cpp:
+ScienceAPI.cpp:
 datatypes.cpp:
 FORTRANComponentWrapper.cpp:
 FORTRANdatatypes.cpp:
@@ -711,9 +712,9 @@ Lahey/Fujitsu Fortran 95 Compiler Release 5.60h  S/N: F9365075S
 Copyright (C) 1994-2002 Lahey Computer Systems.  All rights reserved.
 Copyright (C) 1998-2002 FUJITSU LIMITED. All rights reserved.
 Compiling program unit GrowthModule at line 1:
-Compiling program unit alloc_dealloc_instance at line 6472:
-Compiling program unit Main at line 6501:
-Compiling program unit respondToEvent at line 6577:
+Compiling program unit alloc_dealloc_instance at line 6886:
+Compiling program unit Main at line 6915:
+Compiling program unit respondToEvent at line 6991:
 Encountered 0 errors, 0 warnings in file growth.for.
 Compiling file growth.for.
 Lahey/Fujitsu Fortran 95 Compiler Release 5.60h  S/N: F9365075S 
@@ -754,7 +755,6 @@ Borland C++ 5.6.4 for Win32 Copyright (c) 1993, 2002 Borland
 Log.cpp:
 Loaded pre-compiled headers.
 LogComponent.cpp:
-Warning W8037 LogComponent.cpp 382: Non-const function Variant::getType() called for const object in function LogComponent::writeVariant(const Variant &)
 Turbo Incremental Link 5.64 Copyright (c) 1997-2002 Borland
 ------Compiling C:\development\apsim\maize\source
 MAKE Version 5.2  Copyright (c) 1987, 2000 Borland
@@ -976,7 +976,7 @@ MAKE Version 5.2  Copyright (c) 1987, 2000 Borland
 Borland C++ 5.6.4 for Win32 Copyright (c) 1993, 2002 Borland
 PlantComponent.cpp:
 Plant.cpp:
-Warning W8004 Plant.cpp 2000: 'fractIncidentRadn' is assigned a value that is never used in function Plant::plant_light_supply_partition(int)
+Warning W8004 Plant.cpp 2013: 'fractIncidentRadn' is assigned a value that is never used in function Plant::plant_light_supply_partition(int)
 PlantPart.cpp:
 PlantBiomass.cpp:
 PlantCanopy.cpp:
@@ -1004,6 +1004,7 @@ PlantComms.cpp:
 Loaded pre-compiled headers.
 Borland C++ 5.6.4 for Win32 Copyright (c) 1993, 2002 Borland
 PlantP.cpp:
+Warning W8004 PlantP.cpp 85: 'section_name' is assigned a value that is never used in function Plant::read_p_constants(PlantComponent *)
 Environment.cpp:
 Borland C++ 5.6.4 for Win32 Copyright (c) 1993, 2002 Borland
 Utility\Observers.cpp:
@@ -1028,7 +1029,7 @@ Borland C++ 5.6.4 for Win32 Copyright (c) 1993, 2002 Borland
 Reproductive\FruitCohort.cpp:
 Borland C++ 5.6.4 for Win32 Copyright (c) 1993, 2002 Borland
 Reproductive\PlantFruit.cpp:
-Warning W8030 Reproductive\PlantFruit.cpp 108: Temporary used for parameter '__x' in call to 'vector<plantPart *,allocator<plantPart *> >::push_back(plantPart * const &)' in function PlantFruit::addNewCohort(protocol::Component *)
+Warning W8030 Reproductive\PlantFruit.cpp 96: Temporary used for parameter '__x' in call to 'vector<plantPart *,allocator<plantPart *> >::push_back(plantPart * const &)' in function PlantFruit::addNewCohort(protocol::Component *)
 Borland C++ 5.6.4 for Win32 Copyright (c) 1993, 2002 Borland
 Utility\Output.cpp:
 Borland C++ 5.6.4 for Win32 Copyright (c) 1993, 2002 Borland
@@ -1362,9 +1363,9 @@ Lahey/Fujitsu Fortran 95 Compiler Release 5.60h  S/N: F9365075S
 Copyright (C) 1994-2002 Lahey Computer Systems.  All rights reserved.
 Copyright (C) 1998-2002 FUJITSU LIMITED. All rights reserved.
 Compiling program unit SurfaceOMModule at line 1:
-Compiling program unit alloc_dealloc_instance at line 2589:
-Compiling program unit Main at line 2620:
-Compiling program unit respondToEvent at line 2688:
+Compiling program unit alloc_dealloc_instance at line 2718:
+Compiling program unit Main at line 2749:
+Compiling program unit respondToEvent at line 2820:
 Encountered 0 errors, 0 warnings in file surfaceom.f90.
 Compiling file surfaceom.f90.
 Lahey/Fujitsu Fortran 95 Compiler Release 5.60h  S/N: F9365075S 
