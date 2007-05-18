@@ -53,7 +53,7 @@ Component   "Paddock1" = c:\development\apsim\tcllink\lib\tcllink.dll
 
 ------- met Initialisation ----------------------------------------------------
      Sparse data is not allowed
-     INPUT File name: C:\development\apsim\met\sample\goond.met
+     INPUT File name: c:\development\apsim\met\sample\goond.met
 
 ------- Farm Manager Initialisation -------------------------------------------
      Copyright (C) 1991-1994 The Regents of the University of California.
@@ -483,56 +483,56 @@ Component   "Paddock1" = c:\development\apsim\tcllink\lib\tcllink.dll
      --->Section: init
      package require struct
      ::struct::graph stateGraph
-     stateGraph node insert "SummerFallow2"
-     set colour(SummerFallow2) "gray"
      stateGraph node insert "Chickpea"
      set colour(Chickpea) "lightgreen"
+     stateGraph node insert "SummerFallow2"
+     set colour(SummerFallow2) "gray"
      stateGraph node insert "Wheat"
      set colour(Wheat) "darkgreen"
      stateGraph node insert "WinterFallow"
      set colour(WinterFallow) "gray"
-     stateGraph node insert "SummerFallow1"
-     set colour(SummerFallow1) "maroon"
-     stateGraph node insert "F1"
-     set colour(F1) "gray"
      stateGraph node insert "Cotton"
      set colour(Cotton) "purple"
-     stateGraph arc insert "SummerFallow1" "WinterFallow" "arc2"
-     stateGraph arc lappend "arc2" rules {[apsimGet day]  == 192}
-     stateGraph arc lappend "arc2" actions {}
+     stateGraph node insert "F1"
+     set colour(F1) "gray"
+     stateGraph node insert "SummerFallow1"
+     set colour(SummerFallow1) "maroon"
      stateGraph arc insert "WinterFallow" "Cotton" "arc6"
      stateGraph arc lappend "arc6" actions {sow_cotton}
      stateGraph arc lappend "arc6" rules {[canPlant_cotton]}
      stateGraph arc lappend "arc6" rules {[areaPlanted Cotton] < 0.66}
      stateGraph arc lappend "arc6" actions {}
+     stateGraph arc insert "SummerFallow1" "WinterFallow" "arc2"
+     stateGraph arc lappend "arc2" rules {[apsimGet day]  == 192}
+     stateGraph arc lappend "arc2" actions {}
+     stateGraph arc insert "F1" "SummerFallow1" "arc7"
+     stateGraph arc lappend "arc7" rules {[apsimGet day]  == 192}
+     stateGraph arc lappend "arc7" actions {}
      stateGraph arc insert "Wheat" "SummerFallow2" "arc3"
      stateGraph arc lappend "arc3" actions {apsimSendMessage wheat harvest}
      stateGraph arc lappend "arc3" actions {apsimSendMessage wheat end_crop}
      stateGraph arc lappend "arc3" rules {{[apsimGet wheat.stage_name] == "harvest_ripe" || [apsimGet wheat.plant_status] == "dead"}}
      stateGraph arc lappend "arc3" actions {}
-     stateGraph arc insert "F1" "SummerFallow1" "arc7"
-     stateGraph arc lappend "arc7" rules {[apsimGet day]  == 192}
-     stateGraph arc lappend "arc7" actions {}
-     stateGraph arc insert "F1" "Chickpea" "arc0"
-     stateGraph arc lappend "arc0" actions {sow_chickpea}
-     stateGraph arc lappend "arc0" rules {[canPlant_chickpea]}
-     stateGraph arc lappend "arc0" actions {}
      stateGraph arc insert "Chickpea" "SummerFallow1" "arc8"
      stateGraph arc lappend "arc8" actions {apsimSendMessage chickpea harvest}
      stateGraph arc lappend "arc8" actions {apsimSendMessage chickpea end_crop}
      stateGraph arc lappend "arc8" rules {{[apsimGet chickpea.stage_name] == "harvest_ripe" || [apsimGet chickpea.plant_status] == "dead"}}
      stateGraph arc lappend "arc8" actions {}
-     stateGraph arc insert "SummerFallow1" "Wheat" "arc1"
-     stateGraph arc lappend "arc1" actions {sow_wheat}
-     stateGraph arc lappend "arc1" rules {[canPlant_wheat]}
-     stateGraph arc lappend "arc1" actions {}
+     stateGraph arc insert "F1" "Chickpea" "arc0"
+     stateGraph arc lappend "arc0" actions {sow_chickpea}
+     stateGraph arc lappend "arc0" rules {[canPlant_chickpea]}
+     stateGraph arc lappend "arc0" actions {}
+     stateGraph arc insert "SummerFallow2" "WinterFallow" "arc9"
+     stateGraph arc lappend "arc9" rules {[apsimGet day]  == 74}
+     stateGraph arc lappend "arc9" actions {}
      stateGraph arc insert "Cotton" "F1" "arc5"
      stateGraph arc lappend "arc5" actions {apsimSendMessage cotton harvest}
      stateGraph arc lappend "arc5" rules {[apsimGet ozcot_status] > 0}
      stateGraph arc lappend "arc5" actions {}
-     stateGraph arc insert "SummerFallow2" "WinterFallow" "arc9"
-     stateGraph arc lappend "arc9" rules {[apsimGet day]  == 74}
-     stateGraph arc lappend "arc9" actions {}
+     stateGraph arc insert "SummerFallow1" "Wheat" "arc1"
+     stateGraph arc lappend "arc1" actions {sow_wheat}
+     stateGraph arc lappend "arc1" rules {[canPlant_wheat]}
+     stateGraph arc lappend "arc1" actions {}
      
      --->Section: init
      
@@ -1004,56 +1004,56 @@ Component   "Paddock1" = c:\development\apsim\tcllink\lib\tcllink.dll
      --->Section: init
      package require struct
      ::struct::graph stateGraph
-     stateGraph node insert "SummerFallow2"
-     set colour(SummerFallow2) "gray"
      stateGraph node insert "Chickpea"
      set colour(Chickpea) "lightgreen"
+     stateGraph node insert "SummerFallow2"
+     set colour(SummerFallow2) "gray"
      stateGraph node insert "Wheat"
      set colour(Wheat) "darkgreen"
      stateGraph node insert "WinterFallow"
      set colour(WinterFallow) "gray"
-     stateGraph node insert "SummerFallow1"
-     set colour(SummerFallow1) "maroon"
-     stateGraph node insert "F1"
-     set colour(F1) "gray"
      stateGraph node insert "Cotton"
      set colour(Cotton) "purple"
-     stateGraph arc insert "SummerFallow1" "WinterFallow" "arc2"
-     stateGraph arc lappend "arc2" rules {[apsimGet day]  == 192}
-     stateGraph arc lappend "arc2" actions {}
+     stateGraph node insert "F1"
+     set colour(F1) "gray"
+     stateGraph node insert "SummerFallow1"
+     set colour(SummerFallow1) "maroon"
      stateGraph arc insert "WinterFallow" "Cotton" "arc6"
      stateGraph arc lappend "arc6" actions {sow_cotton}
      stateGraph arc lappend "arc6" rules {[canPlant_cotton]}
      stateGraph arc lappend "arc6" rules {[areaPlanted Cotton] < 0.66}
      stateGraph arc lappend "arc6" actions {}
+     stateGraph arc insert "SummerFallow1" "WinterFallow" "arc2"
+     stateGraph arc lappend "arc2" rules {[apsimGet day]  == 192}
+     stateGraph arc lappend "arc2" actions {}
+     stateGraph arc insert "F1" "SummerFallow1" "arc7"
+     stateGraph arc lappend "arc7" rules {[apsimGet day]  == 192}
+     stateGraph arc lappend "arc7" actions {}
      stateGraph arc insert "Wheat" "SummerFallow2" "arc3"
      stateGraph arc lappend "arc3" actions {apsimSendMessage wheat harvest}
      stateGraph arc lappend "arc3" actions {apsimSendMessage wheat end_crop}
      stateGraph arc lappend "arc3" rules {{[apsimGet wheat.stage_name] == "harvest_ripe" || [apsimGet wheat.plant_status] == "dead"}}
      stateGraph arc lappend "arc3" actions {}
-     stateGraph arc insert "F1" "SummerFallow1" "arc7"
-     stateGraph arc lappend "arc7" rules {[apsimGet day]  == 192}
-     stateGraph arc lappend "arc7" actions {}
-     stateGraph arc insert "F1" "Chickpea" "arc0"
-     stateGraph arc lappend "arc0" actions {sow_chickpea}
-     stateGraph arc lappend "arc0" rules {[canPlant_chickpea]}
-     stateGraph arc lappend "arc0" actions {}
      stateGraph arc insert "Chickpea" "SummerFallow1" "arc8"
      stateGraph arc lappend "arc8" actions {apsimSendMessage chickpea harvest}
      stateGraph arc lappend "arc8" actions {apsimSendMessage chickpea end_crop}
      stateGraph arc lappend "arc8" rules {{[apsimGet chickpea.stage_name] == "harvest_ripe" || [apsimGet chickpea.plant_status] == "dead"}}
      stateGraph arc lappend "arc8" actions {}
-     stateGraph arc insert "SummerFallow1" "Wheat" "arc1"
-     stateGraph arc lappend "arc1" actions {sow_wheat}
-     stateGraph arc lappend "arc1" rules {[canPlant_wheat]}
-     stateGraph arc lappend "arc1" actions {}
+     stateGraph arc insert "F1" "Chickpea" "arc0"
+     stateGraph arc lappend "arc0" actions {sow_chickpea}
+     stateGraph arc lappend "arc0" rules {[canPlant_chickpea]}
+     stateGraph arc lappend "arc0" actions {}
+     stateGraph arc insert "SummerFallow2" "WinterFallow" "arc9"
+     stateGraph arc lappend "arc9" rules {[apsimGet day]  == 74}
+     stateGraph arc lappend "arc9" actions {}
      stateGraph arc insert "Cotton" "F1" "arc5"
      stateGraph arc lappend "arc5" actions {apsimSendMessage cotton harvest}
      stateGraph arc lappend "arc5" rules {[apsimGet ozcot_status] > 0}
      stateGraph arc lappend "arc5" actions {}
-     stateGraph arc insert "SummerFallow2" "WinterFallow" "arc9"
-     stateGraph arc lappend "arc9" rules {[apsimGet day]  == 74}
-     stateGraph arc lappend "arc9" actions {}
+     stateGraph arc insert "SummerFallow1" "Wheat" "arc1"
+     stateGraph arc lappend "arc1" actions {sow_wheat}
+     stateGraph arc lappend "arc1" rules {[canPlant_wheat]}
+     stateGraph arc lappend "arc1" actions {}
      
      --->Section: init
      
@@ -1525,56 +1525,56 @@ Component   "Paddock1" = c:\development\apsim\tcllink\lib\tcllink.dll
      --->Section: init
      package require struct
      ::struct::graph stateGraph
-     stateGraph node insert "SummerFallow2"
-     set colour(SummerFallow2) "gray"
      stateGraph node insert "Chickpea"
      set colour(Chickpea) "lightgreen"
+     stateGraph node insert "SummerFallow2"
+     set colour(SummerFallow2) "gray"
      stateGraph node insert "Wheat"
      set colour(Wheat) "darkgreen"
      stateGraph node insert "WinterFallow"
      set colour(WinterFallow) "gray"
-     stateGraph node insert "SummerFallow1"
-     set colour(SummerFallow1) "maroon"
-     stateGraph node insert "F1"
-     set colour(F1) "gray"
      stateGraph node insert "Cotton"
      set colour(Cotton) "purple"
-     stateGraph arc insert "SummerFallow1" "WinterFallow" "arc2"
-     stateGraph arc lappend "arc2" rules {[apsimGet day]  == 192}
-     stateGraph arc lappend "arc2" actions {}
+     stateGraph node insert "F1"
+     set colour(F1) "gray"
+     stateGraph node insert "SummerFallow1"
+     set colour(SummerFallow1) "maroon"
      stateGraph arc insert "WinterFallow" "Cotton" "arc6"
      stateGraph arc lappend "arc6" actions {sow_cotton}
      stateGraph arc lappend "arc6" rules {[canPlant_cotton]}
      stateGraph arc lappend "arc6" rules {[areaPlanted Cotton] < 0.66}
      stateGraph arc lappend "arc6" actions {}
+     stateGraph arc insert "SummerFallow1" "WinterFallow" "arc2"
+     stateGraph arc lappend "arc2" rules {[apsimGet day]  == 192}
+     stateGraph arc lappend "arc2" actions {}
+     stateGraph arc insert "F1" "SummerFallow1" "arc7"
+     stateGraph arc lappend "arc7" rules {[apsimGet day]  == 192}
+     stateGraph arc lappend "arc7" actions {}
      stateGraph arc insert "Wheat" "SummerFallow2" "arc3"
      stateGraph arc lappend "arc3" actions {apsimSendMessage wheat harvest}
      stateGraph arc lappend "arc3" actions {apsimSendMessage wheat end_crop}
      stateGraph arc lappend "arc3" rules {{[apsimGet wheat.stage_name] == "harvest_ripe" || [apsimGet wheat.plant_status] == "dead"}}
      stateGraph arc lappend "arc3" actions {}
-     stateGraph arc insert "F1" "SummerFallow1" "arc7"
-     stateGraph arc lappend "arc7" rules {[apsimGet day]  == 192}
-     stateGraph arc lappend "arc7" actions {}
-     stateGraph arc insert "F1" "Chickpea" "arc0"
-     stateGraph arc lappend "arc0" actions {sow_chickpea}
-     stateGraph arc lappend "arc0" rules {[canPlant_chickpea]}
-     stateGraph arc lappend "arc0" actions {}
      stateGraph arc insert "Chickpea" "SummerFallow1" "arc8"
      stateGraph arc lappend "arc8" actions {apsimSendMessage chickpea harvest}
      stateGraph arc lappend "arc8" actions {apsimSendMessage chickpea end_crop}
      stateGraph arc lappend "arc8" rules {{[apsimGet chickpea.stage_name] == "harvest_ripe" || [apsimGet chickpea.plant_status] == "dead"}}
      stateGraph arc lappend "arc8" actions {}
-     stateGraph arc insert "SummerFallow1" "Wheat" "arc1"
-     stateGraph arc lappend "arc1" actions {sow_wheat}
-     stateGraph arc lappend "arc1" rules {[canPlant_wheat]}
-     stateGraph arc lappend "arc1" actions {}
+     stateGraph arc insert "F1" "Chickpea" "arc0"
+     stateGraph arc lappend "arc0" actions {sow_chickpea}
+     stateGraph arc lappend "arc0" rules {[canPlant_chickpea]}
+     stateGraph arc lappend "arc0" actions {}
+     stateGraph arc insert "SummerFallow2" "WinterFallow" "arc9"
+     stateGraph arc lappend "arc9" rules {[apsimGet day]  == 74}
+     stateGraph arc lappend "arc9" actions {}
      stateGraph arc insert "Cotton" "F1" "arc5"
      stateGraph arc lappend "arc5" actions {apsimSendMessage cotton harvest}
      stateGraph arc lappend "arc5" rules {[apsimGet ozcot_status] > 0}
      stateGraph arc lappend "arc5" actions {}
-     stateGraph arc insert "SummerFallow2" "WinterFallow" "arc9"
-     stateGraph arc lappend "arc9" rules {[apsimGet day]  == 74}
-     stateGraph arc lappend "arc9" actions {}
+     stateGraph arc insert "SummerFallow1" "Wheat" "arc1"
+     stateGraph arc lappend "arc1" actions {sow_wheat}
+     stateGraph arc lappend "arc1" rules {[canPlant_wheat]}
+     stateGraph arc lappend "arc1" actions {}
      
      --->Section: init
      

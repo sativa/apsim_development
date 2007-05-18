@@ -1,12 +1,12 @@
 Starting 1,1940
 paddocks = Paddock1 Paddock2 Paddock3
-colour Chickpea lightgreen
 colour SummerFallow2 gray
+colour Chickpea lightgreen
 colour Wheat darkgreen
 colour WinterFallow gray
-colour Cotton purple
-colour F1 gray
 colour SummerFallow1 maroon
+colour F1 gray
+colour Cotton purple
 1,1940
    Paddock1,State is F1. (esw=218)
    Paddock1,target=SummerFallow1,rule=[apsimGet day]  == 192, value=0
