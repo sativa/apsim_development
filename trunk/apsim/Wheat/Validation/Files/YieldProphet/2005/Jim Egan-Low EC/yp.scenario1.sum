@@ -486,8 +486,8 @@ Component   "rainfall" = c:\development\apsim\patchinput\lib\patchinput.dll
          ------------------------------------------------
         cultivar                   = pugsley
         pesw germination           =       0.00 (0-1)
-        vernalisation sensitivity  =       1.60 ()
-        photoperiod sensitivity    =       1.80 ()
+        vernalisation sensitivity  =       1.50 ()
+        photoperiod sensitivity    =       3.00 ()
         phyllochron                =         95 ()
         tt start gf to maturity    =        580 (dd)
         grains_per_gram_stem           =       25.0 (/g)
@@ -539,84 +539,84 @@ Component   "rainfall" = c:\development\apsim\patchinput\lib\patchinput.dll
       stage 4.0 end_of_juvenile
                      biomass =           0.55 (g/m^2)   lai          =   0.021 (m^2/m^2)
                      stover N conc =     5.84 (%)    extractable sw =   32.23 (mm)
-22 August 2005(Day of year=234), Wheat: 
+30 August 2005(Day of year=242), Wheat: 
       stage 5.0 floral_initiation
-                     biomass =         125.93 (g/m^2)   lai          =   1.832 (m^2/m^2)
-                     stover N conc =     3.29 (%)    extractable sw =   53.94 (mm)
-30 September 2005(Day of year=273), Wheat: 
-      stage 6.0 flowering
-                     biomass =         487.23 (g/m^2)   lai          =   1.180 (m^2/m^2)
-                     stover N conc =     1.30 (%)    extractable sw =   36.83 (mm)
+                     biomass =         209.28 (g/m^2)   lai          =   2.720 (m^2/m^2)
+                     stover N conc =     2.86 (%)    extractable sw =   35.05 (mm)
 7 October 2005(Day of year=280), Wheat: 
+      stage 6.0 flowering
+                     biomass =         563.85 (g/m^2)   lai          =   1.119 (m^2/m^2)
+                     stover N conc =     1.25 (%)    extractable sw =   23.94 (mm)
+15 October 2005(Day of year=288), Wheat: 
       stage 7.0 start_grain_fill
-                     biomass =         529.40 (g/m^2)   lai          =   0.917 (m^2/m^2)
-                     stover N conc =     1.07 (%)    extractable sw =   23.48 (mm)
-7 November 2005(Day of year=311), Wheat: 
+                     biomass =         603.54 (g/m^2)   lai          =   0.742 (m^2/m^2)
+                     stover N conc =     1.03 (%)    extractable sw =   13.42 (mm)
+13 November 2005(Day of year=317), Wheat: 
       stage 8.0 end_grain_fill
-                     biomass =         620.33 (g/m^2)   lai          =   0.360 (m^2/m^2)
-                     stover N conc =     0.31 (%)    extractable sw =   26.31 (mm)
-8 November 2005(Day of year=312), Wheat: 
+                     biomass =         678.90 (g/m^2)   lai          =   0.447 (m^2/m^2)
+                     stover N conc =     0.32 (%)    extractable sw =   19.17 (mm)
+15 November 2005(Day of year=319), Wheat: 
       stage 9.0 maturity
-                     biomass =         620.33 (g/m^2)   lai          =   0.339 (m^2/m^2)
-                     stover N conc =     0.31 (%)    extractable sw =   24.80 (mm)
-9 November 2005(Day of year=313), Wheat: 
+                     biomass =         679.41 (g/m^2)   lai          =   0.353 (m^2/m^2)
+                     stover N conc =     0.31 (%)    extractable sw =   16.70 (mm)
+16 November 2005(Day of year=320), Wheat: 
       stage 10.0 harvest_ripe
-                     biomass =         620.33 (g/m^2)   lai          =   0.000 (m^2/m^2)
-                     stover N conc =     0.30 (%)    extractable sw =   22.37 (mm)
-10 November 2005(Day of year=314), manager: 
-     Manager creating a new local real variable : wet_yield =     2.62774909447585
-     Manager creating a new local real variable : cropprotein =     12.5417461000000
+                     biomass =         679.41 (g/m^2)   lai          =   0.000 (m^2/m^2)
+                     stover N conc =     0.30 (%)    extractable sw =   15.95 (mm)
+17 November 2005(Day of year=321), manager: 
+     Manager creating a new local real variable : wet_yield =     2.48614475276219
+     Manager creating a new local real variable : cropprotein =     12.8539114000000
      Manager creating a new local real variable : price =     0.00000000000000
      Manager sending message :- wheat harvest
-10 November 2005(Day of year=314), Wheat: 
+17 November 2005(Day of year=321), Wheat: 
      
-      flowering day          =  273                           stover (kg/ha)         =     3890.8
-      maturity day           =  312                           grain yield (kg/ha)    =     2312.4
-      grain % water content  =   12.5                         grain yield wet (kg/ha)=     2642.8
-      grain wt (g)           =    0.032                       grains/m^2             =   7205.693
-      grains/plant           =   72.1                         maximum lai            =      2.221
-      total above ground biomass (kg/ha)    =     6203.3
-      live above ground biomass (kg/ha)     =     6203.3
-      green above ground biomass (kg/ha)    =     5216.6
-      senesced above ground biomass (kg/ha) =      986.7
+      flowering day          =  280                           stover (kg/ha)         =     4606.3
+      maturity day           =  319                           grain yield (kg/ha)    =     2187.8
+      grain % water content  =   12.5                         grain yield wet (kg/ha)=     2500.4
+      grain wt (g)           =    0.028                       grains/m^2             =   7930.288
+      grains/plant           =   79.3                         maximum lai            =      3.082
+      total above ground biomass (kg/ha)    =     6794.1
+      live above ground biomass (kg/ha)     =     6794.1
+      green above ground biomass (kg/ha)    =     5278.8
+      senesced above ground biomass (kg/ha) =     1515.3
       dead above ground biomass (kg/ha)     =        0.0
-      number of leaves       =   33.4
-      DM Root:Shoot ratio    =    0.154                       Harvest Index          =      0.373
-      Stover C:N ratio       =  112.945                       Root C:N ratio         =     17.432
-      grain N percent        =       2.20                     total N content (kg/ha)=      64.57
-      grain N uptake (kg/ha) =      50.79                     senesced N content (kg/ha)=    4.93
-      green N content (kg/ha)=       8.85                     dead N content (kg/ha) =       0.00
+      number of leaves       =   42.0
+      DM Root:Shoot ratio    =    0.180                       Harvest Index          =      0.322
+      Stover C:N ratio       =  108.410                       Root C:N ratio         =     22.896
+      grain N percent        =       2.25                     total N content (kg/ha)=      66.25
+      grain N uptake (kg/ha) =      49.25                     senesced N content (kg/ha)=    7.58
+      green N content (kg/ha)=       9.42                     dead N content (kg/ha) =       0.00
      
       Average Stress Indices:                          Water Photo  Water Expan  N Photo      N grain conc
          emergence            to end_of_juvenile         0.000        0.000        0.000        0.000
-         end_of_juvenile      to floral_initiation       0.000        0.000        0.000        0.000
-         floral_initiation    to flowering               0.197        0.252        0.000        0.001
-         flowering            to start_grain_fill        0.410        0.517        0.000        0.000
-         start_grain_fill     to end_grain_fill          0.202        0.248        0.356        0.521
+         end_of_juvenile      to floral_initiation       0.024        0.034        0.000        0.026
+         floral_initiation    to flowering               0.301        0.370        0.003        0.091
+         flowering            to start_grain_fill        0.498        0.586        0.000        0.000
+         start_grain_fill     to end_grain_fill          0.170        0.210        0.429        0.599
      
      
      Crop harvested.
          Organic matter from crop:-      Tops to surface residue      Roots to soil FOM
-                          DM (kg/ha) =               3890.64                    0.00
-                          N  (kg/ha) =                 13.77                    0.00
+                          DM (kg/ha) =               4606.12                    0.00
+                          N  (kg/ha) =                 16.98                    0.00
      
          Organic matter removed from system:-      From Tops               From Roots
-                          DM (kg/ha) =               2312.42                    0.00
-                          N  (kg/ha) =                 50.79                    0.00
+                          DM (kg/ha) =               2187.81                    0.00
+                          N  (kg/ha) =                 49.25                    0.00
      
       stage 4.0 end_of_juvenile
                      biomass =           0.02 (g/m^2)   lai          =   0.020 (m^2/m^2)
-                     stover N conc =     6.30 (%)    extractable sw =   22.37 (mm)
+                     stover N conc =     6.30 (%)    extractable sw =   15.95 (mm)
      Manager sending message :- wheat kill_crop
      Plant kill. 100.00% crop killed because of external action.
      Manager sending message :- wheat end_crop
      Crop ended. Yield (dw) =     0.0  (kg/ha)
          Organic matter from crop:-      Tops to surface residue      Roots to soil FOM
-                          DM (kg/ha) =                  0.19                  957.11
-                          N  (kg/ha) =                  0.01                   21.96
+                          DM (kg/ha) =                  0.20                 1226.26
+                          N  (kg/ha) =                  0.01                   21.42
      
      Manager sending message :- surfaceom tillage  type = burn
-10 November 2005(Day of year=314), SurfaceOM: 
+17 November 2005(Day of year=321), SurfaceOM: 
      
          - Reading residue tillage info
      Residue removed using burn
