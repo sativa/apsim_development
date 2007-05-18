@@ -17,16 +17,20 @@ using namespace std;
 ArraySpecifier* ArraySpecifier::create(const std::string& arraySpec)
    {
    if (arraySpec == "")
-      return NULL;
+      return NULL;                                    // Nothing there
 
    unsigned posOpenBracket = arraySpec.rfind('(');
    if (posOpenBracket == string::npos)
-      return NULL;
+      return NULL;                                    // No brackets
 
    unsigned posCloseBracket = arraySpec.rfind(')');
    if (posCloseBracket == string::npos ||
        posOpenBracket > posCloseBracket)
       throw runtime_error("Badly formed array specifier: \"" + arraySpec + "\"");
+
+   if (posCloseBracket != arraySpec.length()-1) 
+      return NULL;                                    // Not the last thing on the line - the brackets must 
+                                                      // be within the module name. eg "Waco (no63) - water.sw_dep"
 
    ArraySpecifier* arraySpecifier = new ArraySpecifier();
    arraySpecifier->oldStyleSum = false;
