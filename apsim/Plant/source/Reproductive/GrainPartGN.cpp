@@ -39,10 +39,10 @@ const fruitGrainPartGN &fruitGrainPartGN::operator=(const fruitGrainPartGN &/*ot
    throw std::invalid_argument("Assignment operator NI for fruitGrainPartGN");
 }
 
-void fruitGrainPartGN::doRegistrations(protocol::Component *system)
+void fruitGrainPartGN::onInit1(protocol::Component *system)
    //===========================================================================
 {
-   fruitGrainPart::doRegistrations(system);
+   fruitGrainPart::onInit1(system);
 
 //   //   setupEvent(system, "tick",        RegistrationType::respondToEvent, &fruitGrainPartGN::doTick);
 //   //   setupEvent(system, "newmet",      RegistrationType::respondToEvent, &fruitGrainPartGN::doNewMet);

@@ -483,9 +483,9 @@ void WheatPhenology::onRemoveBiomass(float removeBiomPheno)
       plant->writeString (msg.str().c_str());
 }
 
-void WheatPhenology::doRegistrations (protocol::Component *s)
+void WheatPhenology::onInit1(protocol::Component *s)
    {
-   CropPhenology::doRegistrations(s);
+   CropPhenology::onInit1(s);
 
    s->addGettableVar("cum_vernal_days", cumvd, "vd", "Cumulative vernalisation");
    s->addGettableVar("vern_eff", vern_eff,     "", "Vernalisation effect");

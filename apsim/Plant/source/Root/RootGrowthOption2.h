@@ -2,7 +2,7 @@
 #define RootGrowthOption2H
 #include "RootPart.h"
 
-class rootGrowthOption2 : public plantRootPart
+class rootGrowthOption2 : public RootPart
 //=======================================================================================
 //
    {
@@ -10,8 +10,8 @@ class rootGrowthOption2 : public plantRootPart
    float rootDistributionPattern;
  public:
    rootGrowthOption2(ScienceAPI& scienceAPI, plantInterface *p, const string &name)
-      : plantRootPart(scienceAPI, p, name) {};
-   void readSpeciesParameters(protocol::Component *system, vector<string> &sections);
+      : RootPart(scienceAPI, p, name) {};
+   void read();
    void root_length_growth (void);
    };
 

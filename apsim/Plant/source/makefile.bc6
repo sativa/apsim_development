@@ -19,10 +19,8 @@ OBJFILES=PlantComponent.obj \
    PlantFail.obj \
    PlantLibrary.obj \
    PlantNitrogen.obj \
-   Root\PlantRoot.obj \
    PlantTemp.obj \
    Utility\PlantUtility.obj \
-   PlantWater.obj \
    Utility\Data.obj \
    Utility\Science.obj \
    Utility\Date.obj \
@@ -118,10 +116,8 @@ PlantComms.obj: PlantComms.cpp PlantLibrary.h
 PlantFail.obj: PlantFail.cpp PlantLibrary.h
 PlantLibrary.obj: PlantLibrary.cpp PlantLibrary.h
 PlantNitrogen.obj: PlantNitrogen.cpp PlantLibrary.h
-Root\PlantRoot.obj: Root\PlantRoot.cpp PlantLibrary.h
 PlantTemp.obj: PlantTemp.cpp PlantLibrary.h
 Utility\PlantUtility.obj: Utility\PlantUtility.cpp Utility\PlantUtility.h PlantLibrary.h
-PlantWater.obj: PlantWater.cpp PlantLibrary.h
 PlantP.obj: PlantP.cpp
 PlantPart.obj: PlantPart.cpp PlantPart.h
 CompositePart.obj: CompositePart.cpp CompositePart.h PlantPart.h

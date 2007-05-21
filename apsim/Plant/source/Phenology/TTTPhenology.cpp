@@ -377,9 +377,9 @@ void TTTPhenology::prepare (const environment_t &e)
    updateTTTargets(e);
    }
 
-void TTTPhenology::doRegistrations (protocol::Component *s)
+void TTTPhenology::onInit1(protocol::Component *s)
    {
-   CropPhenology::doRegistrations(s);
+   CropPhenology::onInit1(s);
    s->addGettableVar("dlt_cumvd", dlt_cumvd,   "", "Todays vd");
    }
 

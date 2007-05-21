@@ -42,7 +42,7 @@ class TTTPhenology : public CropPhenology {
       : CropPhenology(scienceAPI, p) {};
    void prepare(const environment_t &e);
    void process(const environment_t &e, const pheno_stress_t &ps, float fasw_seed, float pesw_seed);
-   void doRegistrations (protocol::Component *);
+   void onInit1(protocol::Component *);
    void readConstants (protocol::Component *, const string &);              // read structure etc from constants
    void readSpeciesParameters (protocol::Component *, std::vector<string> &); // read species parameters
    void readCultivarParameters (protocol::Component *, const string &);  // read cv parameters from sowing line

@@ -14,10 +14,10 @@ fruitPodPart::fruitPodPart(ScienceAPI& scienceAPI, plantInterface *p, fruitGrain
    cNum_co2_te_modifier = 0;
    }
 
-void fruitPodPart::doRegistrations(protocol::Component *system)
+void fruitPodPart::onInit1(protocol::Component *system)
 //=======================================================================================
 {
-   plantPart::doRegistrations(system);
+   plantPart::onInit1(system);
 
    system->addGettableVar("pai", gPai, "m^2/m^2", "Pod area index");
    system->addGettableVar("dlt_pai", gDlt_pai, "m^2/m^2", "Delta Pod area index");

@@ -11,46 +11,6 @@
 
 #define dim(A,B) (min(0,(A)-(B)))
 
-//===========================================================================
-float root_proportion (int    layer,              // (INPUT) layer to look at
-                       float *dlayr,              // (INPUT) array of layer depths
-                       float  root_depth)         // (INPUT) depth of roots
-//===========================================================================
-
- /* Purpose
- *       returns the proportion of layer that has roots in it (0-1).
- *
- *  Definition
- *     Each element of "dlayr" holds the height of  the
- *     corresponding soil layer.  The height of the top layer is
- *     held in "dlayr"(1), and the rest follow in sequence down
- *     into the soil profile.  Given a root depth of "root_depth",
- *     this function will return the proportion of "dlayr"("layer")
- *     which has roots in it  (a value in the range 0..1).
- *
- *  Mission Statement
- *      proportion of layer %1 explored by roots
- *
- * Changes
- *     21/5/2003 ad converted to BC++
- *     010994 jngh specified and programmed
- *     230698 jngh corrected to allow for layers below root zone
- *
- */
-   {
-   // Local Variables
-   float depth_to_layer_bottom;   // depth to bottom of layer (mm)
-   float depth_to_layer_top;      // depth to top of layer (mm)
-   float depth_to_root;           // depth to root in layer (mm)
-   float depth_of_root_in_layer;  // depth of root within layer (mm)
-   // Implementation Section ----------------------------------
-   depth_to_layer_bottom = sum_real_array (dlayr, layer+1);
-   depth_to_layer_top = depth_to_layer_bottom - dlayr[layer];
-   depth_to_root  = min(depth_to_layer_bottom, root_depth);
-   depth_of_root_in_layer = max(0.0, depth_to_root-depth_to_layer_top);
-
-   return (divide (depth_of_root_in_layer, dlayr[layer], 0.0));
-   }
 
 //==========================================================================
 void  cproc_root_depth_init1(float initial_root_depth,         // (INPUT)  initial depth of roots (mm)
@@ -208,45 +168,6 @@ void crop_root_sw_avail_factor(int  num_sw_ratio,                 // (INPUT)
    *sw_avail_factor = linear_interp_real (fasw, x_sw_ratio, y_sw_fac_root, num_sw_ratio);
    }
 
-//========================================================================
-void crop_root_dist(float *G_dlayer,          //(INPUT)  thickness of soil layer I (mm)
-                    float *G_root_length,     //(INPUT)                                
-                    float G_root_depth,       //(INPUT)  depth of roots (mm)           
-                    float *root_array,        //(OUTPUT) array to contain distributed material             
-                    float root_sum)           //(INPUT) Material to be distributed                   
-//=========================================================================
-/*  Purpose
-*       Distribute root material over profile based upon root
-*       length distribution.
-*
-*  Mission Statement
-*   Distribute %5 over the profile according to root distribution
-*
-*  Changes
-*     <insert here>
-*/
-   {
-   //  Local Variables
-   int layer;                    // layer number ()
-   int deepest_layer;            // deepest layer in which the
-                                    // roots are growing
-   float root_length_sum;        // sum of root distribution array
-   // Implementation Section ----------------------------------
-
-   // distribute roots over profile to root_depth
-
-   fill_real_array (root_array, 0.0, max_layer);
-
-   deepest_layer = find_layer_no (G_root_depth, G_dlayer, max_layer);
-
-   root_length_sum = sum_real_array (G_root_length, deepest_layer+1);
-
-   for (layer = 0; layer <= deepest_layer; layer++)
-      {
-      root_array[layer] = root_sum * divide (G_root_length[layer],
-                                             root_length_sum, 0.0);
-      }
-   }
 
 //============================================================================
 void crop_root_depth_increase2(float current_stage,             //(INPUT)  current phenological stage

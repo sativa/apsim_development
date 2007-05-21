@@ -108,11 +108,11 @@ void cohortingLeafPart::readSpeciesParameters (protocol::Component *system, vect
    }
 
 
-void cohortingLeafPart::doRegistrations(protocol::Component *system)
+void cohortingLeafPart::onInit1(protocol::Component *system)
 //=======================================================================================
 // Connect our bits to the system
    {
-   plantPart::doRegistrations(system);
+   plantPart::onInit1(system);
    setupGetFunction(system, "node_no", protocol::DTsingle, false,
                     &cohortingLeafPart::get_node_no, "/plant", "Number of main stem nodes");
 

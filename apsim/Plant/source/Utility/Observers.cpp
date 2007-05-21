@@ -22,7 +22,7 @@ eventObserver::eventObserver(ScienceAPI& scienceAPI, const string& eventOfIntere
    }
 
 // Register our variables.
-void eventObserver::doRegistrations(protocol::Component *s)
+void eventObserver::onInit1(protocol::Component *s)
    {
    varName1 = myEvent + "_das";
    desc1 = "Days from sowing to " + myEvent;

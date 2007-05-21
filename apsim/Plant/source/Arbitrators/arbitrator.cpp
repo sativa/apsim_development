@@ -150,10 +150,10 @@ void allometricArbitrator::zeroAllGlobals(void)
    SLAmin  = 0.0;
    }
 
-void allometricArbitrator::doRegistrations(protocol::Component *system)
+void allometricArbitrator::onInit1(protocol::Component *system)
 //=======================================================================================
    {
-   Arbitrator::doRegistrations(system);
+   Arbitrator::onInit1(system);
    system->addGettableVar("SLAcalc", SLAcalc, "mm^2/g", "SLA of new leaf dm");
    }
 void allometricArbitrator::undoRegistrations(protocol::Component *system)

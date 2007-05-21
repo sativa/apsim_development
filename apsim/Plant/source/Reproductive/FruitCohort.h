@@ -22,7 +22,7 @@ public:                                             // member functions
 
    void doInit1(protocol::Component *system);
    void checkBounds(void);
-   void doRegistrations(protocol::Component *);
+   void onInit1(protocol::Component *);
    float availableRetranslocateN(void);
 
    void get_head_wt(protocol::Component *, protocol::QueryValueData &);

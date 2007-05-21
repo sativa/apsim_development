@@ -1,5 +1,5 @@
-#ifndef PLANT_H_
-#define PLANT_H_
+#ifndef PlantH
+#define PlantH
 
 class ApsimVariant;
 class PlantComponent;
@@ -8,7 +8,7 @@ class CompositePart;
 class plantPart;
 class plantStemPart;
 class plantLeafPart;
-class plantRootPart;
+class RootPart;
 class PlantFruit;
 class plantThing;
 class eventObserver;
@@ -69,7 +69,7 @@ private:
    vector <plantPart *> myStoverParts;
    plantStemPart  *stemPart;
    plantLeafPart  *leafPart;
-   plantRootPart  *rootPart;
+   RootPart  *rootPart;
    ReproStruct    *reproStruct;
    PlantPhenology *phenology;
    PlantFruit     *fruitPart;
@@ -154,22 +154,18 @@ private:
    float grainPTot(void) const;
    float grainPConc(void) const;
    float grainPConcTot(void) const;
-   float sumNMax(void) ;
-   float sumSoilNDemand(void) ;
    float SWDemandTE(void) ;
    float SWDemand(void) ;
    float nDemand(void) ;
    float nCapacity(void) ;
-   void doRegistrations(protocol::Component *) ;
-   void doIDs(void) ;
    void read();
 
 public:
    Plant(PlantComponent *P, ScienceAPI& api);
    ~Plant();
 
-   void doInit1(protocol::Component *);
-   void doInit2(protocol::Component *);
+   void onInit1();
+   void onInit2();
    bool respondToSet(unsigned int &id, protocol::QuerySetValueData& qd) ;
 
    void onPrepare(unsigned &, unsigned &, protocol::Variant &) ;
@@ -257,10 +253,9 @@ public:
    void plant_pod_area (int option         /* (INPUT) option number*/);
    void plant_leaf_no_actual (int option   /* (INPUT) option number*/);
    void plant_nit_init (int option         /* (INPUT) option number*/);
-   void plant_nit_supply (int option       /* (INPUT) option number*/);
    void plant_nit_retrans (int option      /* (INPUT) option number*/);
    void plant_nit_demand (int option       /* (INPUT) option number*/);
-   void plant_nit_uptake (int option       /* (INPUT) option number*/);
+   void plant_nit_uptake ();
    void plant_nit_partition ();
    void plant_nit_stress (int option       /* (INPUT) option number*/);
    void plant_soil_nit_demand ();
@@ -278,14 +273,10 @@ public:
    void plant_check_bounds(float  g_cover_dead
                            ,float  g_cover_green
                            ,float  g_cover_sen
-                           ,float *g_dlayer
                            ,float  g_plants
-                           ,float  g_root_depth
                           ) ;
 
-   void plant_totals(float *g_dlayer
-                     ,float *g_dlt_sw_dep
-                     ,float *g_lai_max
+   void plant_totals(float *g_lai_max
                      ,float  *g_n_conc_act_stover_tot
                      ,float  *g_n_conc_crit_stover_tot
                      ,float  *g_n_demand_tot
@@ -293,7 +284,6 @@ public:
                      ,float  *g_n_uptake_tot
                      ,float  *g_n_fix_uptake
                      ,float  *g_n_fixed_tops
-                     ,float  *g_root_depth
                      ,float  *g_transpiration_tot
                     )  ;
    void plant_event();
@@ -301,7 +291,6 @@ public:
    void plant_dm_init (void);
 
    void plant_root_depth (int option /* (INPUT) option number*/);
-   void plant_water_supply (int option /* (INPUT) option number*/);
    void plant_water_demand (int option /* (INPUT) option number*/);
    void plant_water_distribute (int option /*(INPUT) option number*/);
    void plant_water_uptake (int option /*(INPUT) option number*/);
@@ -322,14 +311,7 @@ public:
 
    void plant_n_conc_limits (float  g_co2_modifier_n_conc) ;
 
-   void legnew_n_partition
-      (float  *g_dlayer
-       ,float  *g_dlt_no3gsm
-       ,float  *g_dlt_nh4gsm
-       ,float  g_n_fix_pot
-       ,float  g_root_depth
-       ,float  *n_fix_uptake
-       ,vector<plantPart *> &);        // (INPUT) vector of plant parts
+   void legnew_n_partition(float g_n_fix_pot, float *n_fix_uptake, std::vector<plantPart *> &);
 
    void legnew_dm_partition1 (float c_frac_leaf
                               , float c_ratio_root_shoot
@@ -368,7 +350,6 @@ public:
    void plant_zero_all_globals (void);
    void plant_zero_variables (void);
    void plant_zero_daily_variables ();
-   void plant_init (void);
    void plant_start_crop (protocol::Variant &v/*(INPUT) message arguments*/);
    void plant_read_cultivar_params ();
    void plant_read_root_params ();
@@ -522,7 +503,6 @@ public:
    void get_no3_tot(protocol::Component *, protocol::QueryValueData &);
    void get_n_demand(protocol::Component *, protocol::QueryValueData &);
    void get_n_demanded(protocol::Component *, protocol::QueryValueData &);
-   void get_n_supply_soil(protocol::Component *, protocol::QueryValueData &);
    void get_nfact_pheno(protocol::Component *, protocol::QueryValueData &);
    void get_dlt_n_fixed_pot(protocol::Component *, protocol::QueryValueData &);
    void get_dlt_n_fixed(protocol::Component *, protocol::QueryValueData &);
@@ -541,9 +521,6 @@ public:
    void get_sw_demand_te(protocol::Component *, protocol::QueryValueData &);
    void get_root_length(protocol::Component *, protocol::QueryValueData &);
    void get_root_length_dead(protocol::Component *, protocol::QueryValueData &);
-   void get_no3gsm_uptake_pot(protocol::Component *, protocol::QueryValueData &);
-   void get_nh4gsm_uptake_pot(protocol::Component *, protocol::QueryValueData &);
-   void get_no3_swfac(protocol::Component *, protocol::QueryValueData &);
 
    void get_parasite_c_gain(protocol::Component *, protocol::QueryValueData &);
    void get_leaf_area_tot(protocol::Component *, protocol::QueryValueData &);
@@ -628,20 +605,12 @@ private:
       unsigned int eo;
       unsigned int fr_intc_radn;
 
-      unsigned int no3;
-      unsigned int nh4;
-
       unsigned int latitude;
       unsigned int parasite_c_demand;
       unsigned int parasite_sw_demand;
       unsigned int maxt_soil_surface;
       unsigned int add_residue_p;
       unsigned int layered_p_uptake;
-
-      // sets
-      unsigned int dlt_no3;
-      unsigned int dlt_nh4;
-
 
       // events.
       unsigned int crop_chopped;
@@ -709,14 +678,7 @@ private:
 
 //      float lai_canopy_green;                           // green lai of canopy
 
-      float no3gsm_diffn_pot[max_layer];                // potential NO3 (supply) from soil (g/m^2), by diffusion
-      float no3gsm_mflow_avail[max_layer];              // potential NO3 (supply) from soil (g/m^2) by mass flow
-
-      float nh4gsm_diffn_pot[max_layer];                // potential NH4 (supply) from soil (g/m^2), by diffusion
-      float nh4gsm_mflow_avail[max_layer];              // potential NH4 (supply) from soil (g/m^2) by mass flow
-      float nh4gsm_uptake_pot[max_layer];
       float n_fix_pot;                                  // N fixation potential (g/m^2)
-      float no3gsm_uptake_pot[max_layer];
       float n_fix_uptake;                               // N fixation actual (g/m^2)
       float n_fixed_tops;                               // cum. fixed N in tops
 
@@ -764,7 +726,6 @@ private:
    //       plant Constants
    //     ================================================================
    struct {
-      int   n_uptake_option;
       int   leaf_no_pot_option;
       int   n_retrans_option;
       int   n_stress_option;
@@ -772,13 +733,6 @@ private:
       int   dm_senescence_option;
 
       float n_stress_start_stage;
-
-      float no3_uptake_max;
-      float no3_conc_half_max;
-      float kno3;
-      float no3ppm_min;
-      float knh4;
-      float nh4ppm_min;
 
       string crop_type;                                  // crop type
       string default_crop_class;                         // crop class
@@ -816,12 +770,6 @@ private:
                                                         // and this can be converted to
                                                         // kpa*g carbo per m^2 / mm water
                                                         // because 1g water = 1 cm^3 water
-      float no3_diffn_const;                            // time constant for uptake by
-                                                        // diffusion (days). H van Keulen &
-                                                        // NG Seligman. Purdoe 1987. This is the
-                                                        // time it would take to take up by
-                                                        // diffusion the current amount of N if
-                                                        // it wasn't depleted between time steps
       float n_fix_rate[max_table];                      // potential rate of N fixation (g N fixed
                                                         // per g above ground biomass
       float x_ave_temp[max_table];                      // critical temperatures for
@@ -841,17 +789,12 @@ private:
       int   num_weighted_temp;                          // size of table
 
 
-      float no3_ub;                                     // upper limit of soil NO3 (kg/ha)
-      float no3_lb;                                     // lower limit of soil NO3 (kg/ha)
-      float nh4_ub;                                     // upper limit of soil NH4 (kg/ha)
-      float nh4_lb;                                     // lower limit of soil NH4 (kg/ha)
       float latitude_ub;                                // upper limit of latitude for model (oL)
       float latitude_lb;                                // lower limit of latitude for model(oL)
       vector<string> class_action;
       vector<string> class_change;
 
       float eo_crop_factor_default;                     // Default Crop factor for sw demand applied to Eo
-      float total_n_uptake_max;
 
       float      x_co2_te_modifier[max_table], y_co2_te_modifier[max_table];
       int        num_co2_te_modifier;

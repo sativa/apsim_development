@@ -31,7 +31,7 @@ class WheatPhenology : public CropPhenology {
       : CropPhenology(scienceAPI, p) {};
 
    void readConstants (protocol::Component *, const string &);              // read structure etc from constants
-   void doRegistrations (protocol::Component *);
+   void onInit1(protocol::Component *);
    void readCultivarParameters (protocol::Component *, const string &);  // read cv parameters from sowing line
    void writeCultivarInfo (PlantComponent *);
 

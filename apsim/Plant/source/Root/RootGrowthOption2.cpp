@@ -98,12 +98,10 @@ void rootGrowthOption2::root_length_growth (void)
    }
 
 
-void rootGrowthOption2::readSpeciesParameters(protocol::Component *system, vector<string> &sections)
+void rootGrowthOption2::read()
 //=======================================================================================
 // Read Species-specific Parameters
    {
-   plantRootPart::readSpeciesParameters(system, sections);
+   RootPart::read();
    scienceAPI.read("root_distribution_pattern", rootDistributionPattern, 0.0f, 100.0f);
-
-
    }

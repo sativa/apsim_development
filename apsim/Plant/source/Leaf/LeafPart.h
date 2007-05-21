@@ -18,7 +18,7 @@ class plantLeafPart : public plantPart {
    virtual void zeroAllGlobals(void) =0;
    virtual void zeroDeltas(void) =0;
    virtual void checkBounds(void) =0;
-   virtual void doRegistrations(protocol::Component *) =0;
+   virtual void onInit1(protocol::Component *) =0;
    virtual void readConstants (protocol::Component *, const string &) =0;
    virtual void readSpeciesParameters(protocol::Component *system, vector<string> &search_order) =0;
    virtual void onEmergence(void) =0;

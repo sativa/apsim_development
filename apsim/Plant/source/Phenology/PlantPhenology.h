@@ -70,7 +70,7 @@ class PlantPhenology : public plantThing {
    PlantPhenology(ScienceAPI& scienceAPI, plantInterface *p);
    virtual void writeCultivarInfo (PlantComponent *)=0;
    virtual void readConstants (protocol::Component *, const string &);                // read structure etc from constants
-   virtual void doRegistrations (protocol::Component *);
+   virtual void onInit1(protocol::Component *);
    virtual void readSpeciesParameters (protocol::Component *, std::vector<string> &);   // read species parameters
    virtual void readCultivarParameters (protocol::Component *, const string &) {}; // read cv parameters from sowing line
 
