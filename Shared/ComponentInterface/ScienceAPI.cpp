@@ -3,6 +3,8 @@
 
 #include "ScienceAPI.h"
 #include "Component.h"
+#include "DataTypes.h"
+#include "RegistrationType.h"
 
 #include <general/string_functions.h>
 
@@ -286,3 +288,46 @@ bool ScienceAPI::readOptional(const std::string& name, std::vector<std::string>&
       return false;
    }
 
+
+string addUnitsToDDML(const string& ddml, const string& units)
+   {
+   string returnString = ddml;
+   unsigned pos = returnString.find("/>");
+   if (pos != string::npos)
+      returnString = returnString.substr(0, pos) + " unit=\"" + units + "\"/>";
+   return returnString;
+   }
+   
+// -------------------------------------------------------------
+// GET methods.
+// -------------------------------------------------------------
+bool ScienceAPI::get(const std::string& name, const std::string& units, std::vector<float>& data, float lower, float upper)
+   {
+   if (!getOptional(name, units, data, lower, upper))
+      {   
+      string st = "The module " + string(component->getName()) + " has asked for the value of the variable " + name;
+      st += ".\nIt received no responses.";
+      throw runtime_error(st);
+      }
+     return true;
+   }
+bool ScienceAPI::getOptional(const std::string& name, const std::string& units, std::vector<float>& data, float lower, float upper)
+   {
+   string ddml = protocol::DDML(vector<float>());
+   addUnitsToDDML(ddml, units);
+   unsigned id = component->addRegistration(RegistrationType::get, name.c_str(), ddml.c_str(), "", "");
+   return component->getVariable(id, data, lower, upper, true);      
+   }
+
+// -------------------------------------------------------------
+// SET methods.
+// -------------------------------------------------------------
+void ScienceAPI::set(const std::string& name, const std::string& units, std::vector<float>& data)
+   {
+   string ddml = protocol::DDML(vector<float>());
+   addUnitsToDDML(ddml, units);
+   unsigned id = component->addRegistration(RegistrationType::set, name.c_str(), ddml.c_str(), "", "");
+   bool ok =  component->setVariable(id, data);      
+   if (!ok)
+      throw runtime_error("Cannot set the value of variable: " + name);
+   }
