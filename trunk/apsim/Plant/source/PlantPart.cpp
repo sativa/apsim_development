@@ -30,7 +30,7 @@ plantPart::plantPart(ScienceAPI& api, plantInterface *p, const string &name)
      };
 
 
-void plantPart::doRegistrations(protocol::Component *system)
+void plantPart::onInit1(protocol::Component *system)
 //=======================================================================================
    {
    string varName1, varName2, varName3, varName4, varName5, varName6;

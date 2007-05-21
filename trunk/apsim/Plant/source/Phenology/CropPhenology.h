@@ -11,7 +11,7 @@ class CropPhenology : public PlantPhenology
        virtual void zeroDeltas(void);
        virtual void zeroAllGlobals(void);
        virtual void readConstants (protocol::Component *s, const string &section);
-       virtual void doRegistrations (protocol::Component *s);
+       virtual void onInit1(protocol::Component *s);
        virtual void onSow(unsigned &, unsigned &, protocol::Variant &v);
        virtual void onEndCrop(unsigned &, unsigned &, protocol::Variant &v);
        virtual void setupTTTargets()=0;

@@ -180,3 +180,73 @@ float linint_3hrly_temp (float tmax,          //(INPUT) maximum temperature (oC)
       }
    return (tot / float(num3hr));
    }
+
+
+//===========================================================================
+void cproc_sw_demand1(float dlt_dm_pot_rue,      //(INPUT)  potential dry matter production with opt
+                      float transp_eff,          //(INPUT)  transpiration efficiency (g dm/m^2/mm wa
+                      float *sw_demand)          //(OUTPUT) crop water demand (mm)
+//===========================================================================
+/*  Purpose
+*       Return crop water demand from soil by the crop (mm) calculated by
+*       dividing biomass production limited by radiation by transpiration efficiency.
+*
+*  Mission Statement
+*   Calculate the crop demand for soil water (based upon transpiration efficiency)
+*
+*  Changes
+*       21/5/2003 ad converted to BC++
+*       010994 jngh specified and programmed
+*       970216 slw generalised
+*
+*/
+   {
+   // get potential transpiration from potential
+   // carbohydrate production and transpiration efficiency
+   *sw_demand = divide (dlt_dm_pot_rue, transp_eff, 0.0);
+   }
+
+//==========================================================================
+void cproc_transp_eff_co2_1(float vpd,        // (INPUT)
+                          float transp_eff_cf,    // (INPUT)  transpiration efficiency coefficien
+                          float co2_modifier,     // (INPUT)  te modifier of co2 level (0-1)
+                          float *transp_eff)       // (OUTPUT) transpiration coefficient
+//=========================================================================
+/*  Purpose
+*       Calculate today's transpiration efficiency from min,max temperatures and co2 level
+*       and converting mm water to g dry matter (g dm/m^2/mm water)
+*
+*  Mission Statement
+*       Calculate today's transpiration efficiency from VPD and CO2 level
+*
+*  Assumptions
+*       the temperatures are > -237.3 oC for the svp function.
+*       if co2_level=0.0 then co2_level=350ppm
+*
+*  Notes
+*       Average saturation vapour pressure for ambient temperature
+*       during transpiration is calculated as part-way between that
+*       for minimum temperature and that for the maximum temperature.
+*       Tanner & Sinclair (1983) used .75 and .67 of the distance as
+*       representative of the positive net radiation (rn).  Daily SVP
+*       should be integrated from about 0900 hours to evening when Radn
+*       becomes negative.
+*
+*  Changes
+*       21/5/2003 ad converted to BC++
+*       20000721 ew developed from crop_transp_eff1 and added co2 effect on transp_eff
+*
+*  Sub-Program Arguments
+*/
+   {
+   //  Local Variables
+
+   // Implementation Section ----------------------------------
+   //get vapour pressure deficit when net radiation is positive.
+
+   vpd = l_bound (vpd, 0.01);
+
+   *transp_eff = divide (transp_eff_cf, vpd, 0.0) / g2mm;
+
+   *transp_eff = *transp_eff * co2_modifier;
+   }   

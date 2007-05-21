@@ -7,7 +7,7 @@ class fruitPodPart : public plantPart {
   public:
    fruitPodPart(ScienceAPI& scienceAPI, plantInterface *p, fruitGrainPart *g, const string &name) ;
    ~fruitPodPart() {};
-   void doRegistrations(protocol::Component *);
+   void onInit1(protocol::Component *);
    void update(void);
    void onHarvest(float height, float remove_fr,
                   vector<string> &dm_type,

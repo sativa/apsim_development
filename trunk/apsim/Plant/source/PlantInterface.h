@@ -16,8 +16,8 @@ class environment_t;
 class IPlant {
  public:
    virtual ~IPlant() {};
-   virtual void doInit1(protocol::Component *) = 0;
-   virtual void doInit2(protocol::Component *) = 0;
+   virtual void onInit1() = 0;
+   virtual void onInit2() = 0;
    virtual bool respondToSet(unsigned int& /*fromID*/, protocol::QuerySetValueData& /*setValueData*/) = 0;
 };
 
@@ -76,11 +76,11 @@ class plantThing {
    public:
      plantThing(ScienceAPI& api) : scienceAPI(api) {};
      virtual ~plantThing() {};
-     virtual void doRegistrations(protocol::Component *) = 0;
-     virtual void readConstants (protocol::Component *, const string &) = 0;
-     virtual void readSpeciesParameters (protocol::Component *, vector<string> &) = 0;
-     virtual void readCultivarParameters (protocol::Component *, const string &) = 0;
-     virtual void read(ScienceAPI& scienceAPI) { }
+     virtual void onInit1(protocol::Component *) = 0;
+     virtual void readConstants (protocol::Component *, const string &) {};
+     virtual void readSpeciesParameters (protocol::Component *, vector<string> &) {};
+     virtual void readCultivarParameters (protocol::Component *, const string &) {};
+     virtual void read() { }
      virtual void onPlantEvent(const string &) = 0;
      virtual void update(void) = 0;
 

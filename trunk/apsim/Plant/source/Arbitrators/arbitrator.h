@@ -17,7 +17,7 @@ class Arbitrator : public plantThing
 
    // Unused "thingy" things..
    virtual void undoRegistrations(protocol::Component *) {};
-   virtual void doRegistrations(protocol::Component *) {};
+   virtual void onInit1(protocol::Component *) {};
    virtual void onPlantEvent(const string &) {};
    virtual void readConstants (protocol::Component *, const string &) {};
    virtual void readCultivarParameters (protocol::Component *, const string &) {};
@@ -62,7 +62,7 @@ class allometricArbitrator : public Arbitrator
       : Arbitrator(scienceAPI, p) {};
    ~allometricArbitrator(void) {};
 
-   virtual void doRegistrations(protocol::Component *);
+   virtual void onInit1(protocol::Component *);
    virtual void undoRegistrations(protocol::Component *);
    virtual void readSpeciesParameters (protocol::Component *, vector<string> &);
    virtual void partitionDM(float,plantPart *,plantLeafPart *,plantPart *,plantPart *);

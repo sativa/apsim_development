@@ -26,7 +26,7 @@ class genericLeafPart : public plantLeafPart {
    void zeroAllGlobals(void);
    void zeroDeltas(void);
    void checkBounds(void);
-   void doRegistrations(protocol::Component *);
+   void onInit1(protocol::Component *);
    void readConstants (protocol::Component *, const string &);
    void readSpeciesParameters(protocol::Component *system, vector<string> &search_order);
    void onEmergence(void);

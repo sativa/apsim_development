@@ -23,10 +23,10 @@
 #include "OilPart.h"
 using namespace std;
 
-void fruitOilPart::doRegistrations(protocol::Component *system)
+void fruitOilPart::onInit1(protocol::Component *system)
 //===========================================================================
    {
-   plantPart::doRegistrations(system);
+   plantPart::onInit1(system);
    system->addGettableVar("dlt_dm_oil_conv",gDlt_dm_oil_conv,"g/m^2", "change in oil via ??");
    system->addGettableVar("dlt_dm_oil_conv_retrans", dmOil_conv_retranslocate, "g/m^2", "change in oil via retranslocation");
    system->addGettableVar("grain_oil_conc", cGrain_oil_conc, "%", "??");

@@ -81,10 +81,10 @@ const FruitCohort &FruitCohort::operator=(const FruitCohort &/*other*/)
    throw std::invalid_argument("Assignment operator NI for FruitCohort");
 }
 
-void FruitCohort::doRegistrations(protocol::Component *system)
+void FruitCohort::onInit1(protocol::Component *system)
    //===========================================================================
 {
-   CompositePart::doRegistrations(system);
+   CompositePart::onInit1(system);
 
    system->addGettableVar("dlt_dm_fruit", gDlt_dm, "g/m^2", "Change in dry matter");
    setupGetFunction(system, "head_wt", protocol::DTsingle, false,&FruitCohort::get_head_wt, "g/m^2", "Weight of heads");
@@ -92,7 +92,7 @@ void FruitCohort::doRegistrations(protocol::Component *system)
    setupGetFunction(system, "head_p", protocol::DTsingle, false, &FruitCohort::get_head_p, "g/m^2","P in head");
 
    for (vector<plantPart *>::iterator part = myParts.begin(); part != myParts.end(); part++)
-      (*part)->doRegistrations(system);
+      (*part)->onInit1(system);
 }
 
 

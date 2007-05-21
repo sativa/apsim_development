@@ -1,5 +1,5 @@
-#ifndef ENVIRONMENT_H
-#define ENVIRONMENT_H
+#ifndef EnvironmentH
+#define EnvironmentH
 #include <vector>
 
 #include <ComponentInterface/MessageDataExt.h>
@@ -20,7 +20,7 @@ class environment_t {
    void doNewMet(protocol::NewMetType &newmet) ;
    void read(ScienceAPI& scienceAPI);
    void zeroAllGlobals(void);
-   void doIDs(protocol::Component *system);
+   void onInit1(protocol::Component *system);
    void getOtherVariables(protocol::Component *system);
 
    float radn;                                       // solar radiation (Mj/m^2/day)
@@ -42,6 +42,9 @@ class environment_t {
 
    float daylength(float) const;
    float daylength(int, float) const;
+   private:
+      float svp(float temp) const;
+      float vpd(float svp_fract, float maxt, float mint) const;
 };
 
 #endif

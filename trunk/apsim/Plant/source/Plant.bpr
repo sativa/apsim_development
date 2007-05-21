@@ -6,8 +6,8 @@
     <PROJECT value="..\lib\Plant.dll"/>
     <OBJFILES value="PlantComponent.obj ..\..\..\Shared\ComponentInterface\EntryPoints.obj 
       Plant.obj PlantFail.obj PlantCanopy.obj PlantLibrary.obj PlantNitrogen.obj 
-      PlantTemp.obj PlantWater.obj PlantBiomass.obj PlantP.obj Environment.obj 
-      StemPart.obj CompositePart.obj PlantPart.obj PlantSpatial.obj 
+      PlantTemp.obj PlantBiomass.obj PlantP.obj Environment.obj StemPart.obj 
+      CompositePart.obj PlantPart.obj PlantSpatial.obj 
       Phenology\WheatPhenology.obj Phenology\BroccoliPhenology.obj 
       Phenology\CompositePhase.obj Phenology\CropPhenology.obj 
       Phenology\EmergentPhase.obj Phenology\FixedPhase.obj 
@@ -21,10 +21,9 @@
       Reproductive\GrainPart.obj Reproductive\GrainPartGN.obj 
       Reproductive\GrainPartHI.obj Reproductive\MealPart.obj 
       Reproductive\OilPart.obj Reproductive\PlantFruit.obj Root\RootPart.obj 
-      Root\PlantRoot.obj Root\RootGrowthOption1.obj Root\RootGrowthOption2.obj 
-      Utility\Science.obj Utility\Data.obj Utility\Date.obj 
-      Utility\Observers.obj Utility\Output.obj Utility\OutputVariable.obj 
-      Utility\PlantUtility.obj"/>
+      Root\RootGrowthOption1.obj Root\RootGrowthOption2.obj Utility\Science.obj 
+      Utility\Data.obj Utility\Date.obj Utility\Observers.obj Utility\Output.obj 
+      Utility\OutputVariable.obj Utility\PlantUtility.obj"/>
     <RESFILES value=""/>
     <IDLFILES value=""/>
     <DEFFILE value=""/>
@@ -78,7 +77,6 @@
       <FILE FILENAME="PlantLibrary.cpp" FORMNAME="" UNITNAME="PlantLibrary.cpp" CONTAINERID="CCompiler" DESIGNCLASS="" LOCALCOMMAND=""/>
       <FILE FILENAME="PlantNitrogen.cpp" FORMNAME="" UNITNAME="PlantNitrogen.cpp" CONTAINERID="CCompiler" DESIGNCLASS="" LOCALCOMMAND=""/>
       <FILE FILENAME="PlantTemp.cpp" FORMNAME="" UNITNAME="PlantTemp.cpp" CONTAINERID="CCompiler" DESIGNCLASS="" LOCALCOMMAND=""/>
-      <FILE FILENAME="PlantWater.cpp" FORMNAME="" UNITNAME="PlantWater.cpp" CONTAINERID="CCompiler" DESIGNCLASS="" LOCALCOMMAND=""/>
       <FILE FILENAME="PlantBiomass.cpp" FORMNAME="" UNITNAME="PlantBiomass.cpp" CONTAINERID="CCompiler" DESIGNCLASS="" LOCALCOMMAND=""/>
       <FILE FILENAME="PlantP.cpp" FORMNAME="" UNITNAME="PlantP" CONTAINERID="CCompiler" DESIGNCLASS="" LOCALCOMMAND=""/>
       <FILE FILENAME="Environment.cpp" FORMNAME="" UNITNAME="Environment" CONTAINERID="CCompiler" DESIGNCLASS="" LOCALCOMMAND=""/>
@@ -115,7 +113,6 @@
       <FILE FILENAME="Reproductive\OilPart.cpp" FORMNAME="" UNITNAME="OilPart" CONTAINERID="CCompiler" DESIGNCLASS="" LOCALCOMMAND=""/>
       <FILE FILENAME="Reproductive\PlantFruit.cpp" FORMNAME="" UNITNAME="PlantFruit" CONTAINERID="CCompiler" DESIGNCLASS="" LOCALCOMMAND=""/>
       <FILE FILENAME="Root\RootPart.cpp" FORMNAME="" UNITNAME="RootPart" CONTAINERID="CCompiler" DESIGNCLASS="" LOCALCOMMAND=""/>
-      <FILE FILENAME="Root\PlantRoot.cpp" FORMNAME="" UNITNAME="PlantRoot" CONTAINERID="CCompiler" DESIGNCLASS="" LOCALCOMMAND=""/>
       <FILE FILENAME="Root\RootGrowthOption1.cpp" FORMNAME="" UNITNAME="RootGrowthOption1" CONTAINERID="CCompiler" DESIGNCLASS="" LOCALCOMMAND=""/>
       <FILE FILENAME="Root\RootGrowthOption2.cpp" FORMNAME="" UNITNAME="RootGrowthOption2" CONTAINERID="CCompiler" DESIGNCLASS="" LOCALCOMMAND=""/>
       <FILE FILENAME="Utility\Science.cpp" FORMNAME="" UNITNAME="Science" CONTAINERID="CCompiler" DESIGNCLASS="" LOCALCOMMAND=""/>
@@ -227,11 +224,11 @@ Item1=..\lib
 DebugSourceDirs=$(BCB)\source\vcl;c:\data\Apsim\development\Shared\ComponentInterface\;c:\data\Apsim\development\apsim\SummaryFile\Source\
 
 [Parameters]
-RunParams=&quot;C:\Users\hol353\Development\apsim\lucerne\Sample\lucerne.APSIM.sample_lucerne.sim&quot;
+RunParams=C:\Users\hol353\Development\apsim\Wheat\Sample\wheat.apsim.standard_co2.sim
 Launcher=
 UseLauncher=0
 DebugCWD=
-HostApplication=C:\Users\hol353\Development\Bin\apsim.exe
+HostApplication=c:\users\hol353\development\bin\apsim.exe
 RemoteHost=
 RemotePath=
 RemoteLauncher=

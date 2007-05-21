@@ -17,7 +17,7 @@ public:                                             // member functions
    fruitGrainPartGN(const fruitGrainPartGN &fruitGrainPartGN);           // copy constructor
    const fruitGrainPartGN &operator=(const fruitGrainPartGN &other);        // Assigment operator
 
-   void doRegistrations(protocol::Component *);
+   void onInit1(protocol::Component *);
    void readSpeciesParameters (protocol::Component *, vector<string> &);
    void readCultivarParameters (protocol::Component *, const string &);
    void writeCultivarInfo (protocol::Component *);

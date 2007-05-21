@@ -13,7 +13,7 @@ class eventObserver : public plantThing {
 
    public:
      eventObserver(ScienceAPI& scienceAPI, const string& eventOfInterest, Plant *);
-     virtual void doRegistrations(protocol::Component *);
+     virtual void onInit1(protocol::Component *);
      virtual void onPlantEvent(const string &);
 
      virtual void readConstants (protocol::Component *, const string &) {};

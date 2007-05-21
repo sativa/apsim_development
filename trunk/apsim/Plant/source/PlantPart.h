@@ -189,7 +189,7 @@ public:
    virtual void zeroDltNSenescedTrans(void);
    virtual void checkBounds(void);
 
-   virtual void doRegistrations(protocol::Component *);
+   virtual void onInit1(protocol::Component *);
    virtual void readConstants (protocol::Component *, const string &);
    virtual void readSpeciesParameters (protocol::Component *, vector<string> &);
    virtual void readCultivarParameters (protocol::Component *, const string &);

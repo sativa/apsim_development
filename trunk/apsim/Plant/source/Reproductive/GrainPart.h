@@ -18,7 +18,7 @@ public:                                             // member functions
 
    void doInit1(protocol::Component *system);
 
-   void doRegistrations(protocol::Component *);
+   void onInit1(protocol::Component *);
    void doTick(protocol::TimeType &tick) ;
    void doNewMet(protocol::NewMetType &newmet) ;
    void readConstants (protocol::Component *, const string &);

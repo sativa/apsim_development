@@ -15,7 +15,7 @@ class TTTRatePhenology : public TTTPhenology {
    //void process(const environment_t &e, const pheno_stress_t &ps);
    //void setupTTTargets(void);
    void updateTTTargets(const environment_t &e);
-   void doRegistrations (protocol::Component *);
+   void onInit1(protocol::Component *);
       float TT(const environment_t &e);
 
  protected:

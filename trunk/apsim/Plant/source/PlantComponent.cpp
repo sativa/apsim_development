@@ -98,7 +98,7 @@ void PlantComponent::doInit1(const FString& sdml)
      plant = new Plant(this, scienceAPI());
 
 //   if (plant) delete plant; plant= NULL;
-   if (plant) plant->doInit1(this);
+   if (plant) plant->onInit1();
    }
 
 void PlantComponent::doInit2(void)
@@ -106,7 +106,7 @@ void PlantComponent::doInit2(void)
 // Stage 2 initialisation.
    {
    protocol::Component::doInit2();
-   if (plant) plant->doInit2(this);
+   if (plant) plant->onInit2();
    }
 
 bool PlantComponent::respondToSet(unsigned int& /*fromID*/, protocol::QuerySetValueData& setValueData)

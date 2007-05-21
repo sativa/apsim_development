@@ -156,9 +156,9 @@ void TTTRatePhenology::get_zadok_stage(protocol::Component *system, protocol::Qu
     system->sendVariable(qd, zadok_stage);
 }
 
-void TTTRatePhenology::doRegistrations (protocol::Component *s)
+void TTTRatePhenology::onInit1(protocol::Component *s)
    {
-   TTTPhenology::doRegistrations(s);
+   TTTPhenology::onInit1(s);
 
    setupGetFunction(s, "zadok_stage", protocol::DTsingle, false,
                     &TTTRatePhenology::get_zadok_stage,

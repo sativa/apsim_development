@@ -90,9 +90,9 @@ void genericLeafPart::readSpeciesParameters (protocol::Component *system, vector
    }
 
 // Connect our bits to the system
-void genericLeafPart::doRegistrations(protocol::Component *system)
+void genericLeafPart::onInit1(protocol::Component *system)
 {
-   plantPart::doRegistrations(system);
+   plantPart::onInit1(system);
    setupGetFunction(system, "leaf_no", protocol::DTsingle, false,
                     &genericLeafPart::get_leaf_no, "leaves/plant", "Number of leaves per plant");
 

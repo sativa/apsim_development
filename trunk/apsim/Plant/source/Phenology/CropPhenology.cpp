@@ -32,10 +32,10 @@ void CropPhenology::readConstants (protocol::Component *s, const string &section
    zeroAllGlobals();
    }
 
-void CropPhenology::doRegistrations (protocol::Component *s)
+void CropPhenology::onInit1(protocol::Component *s)
 //=======================================================================================
    {
-   PlantPhenology::doRegistrations(s);
+   PlantPhenology::onInit1(s);
 
    setupEvent(s, "sow", RegistrationType::respondToEvent, &CropPhenology::onSow, "<type/>");
    setupEvent(s, "end_crop", RegistrationType::respondToEvent, &CropPhenology::onEndCrop, "<type/>");

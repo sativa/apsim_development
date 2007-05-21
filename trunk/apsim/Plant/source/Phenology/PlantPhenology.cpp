@@ -165,7 +165,7 @@ pPhase* PlantPhenology::find(const string& PhaseName)
       return NULL;
    }
 
-void PlantPhenology::doRegistrations (protocol::Component *s)
+void PlantPhenology::onInit1(protocol::Component *s)
 {
 
    s->addGettableVar("stage", currentStage, "", "Plant stage");

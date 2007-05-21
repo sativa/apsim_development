@@ -8,7 +8,7 @@ class fruitOilPart : public plantPart {
    fruitOilPart(ScienceAPI& scienceAPI, plantInterface *p, const string &name)
    : plantPart(scienceAPI, p, name) {};
    ~fruitOilPart() {};
-   void doRegistrations(protocol::Component *);
+   void onInit1(protocol::Component *);
    void onHarvest(float height, float remove_fr,
                   vector<string> &dm_type,
                   vector<float> &dlt_crop_dm,

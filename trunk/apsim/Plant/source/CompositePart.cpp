@@ -34,12 +34,12 @@ const CompositePart &CompositePart::operator=(const CompositePart &/*other*/)
    throw std::invalid_argument("Assignment operator NI for CompositePart");
 }
 
-void CompositePart::doRegistrations(protocol::Component *system)
+void CompositePart::onInit1(protocol::Component *system)
    //===========================================================================
 {
    vector <plantPart *>::iterator part;
    for (part =  myParts.begin(); part != myParts.end(); part++)
-      (*part)->doRegistrations(system);
+      (*part)->onInit1(system);
 
    string varName1, varName2, varName3, varName4, varName5, varName6;
    string varName7, varName8, varName9, VarName;

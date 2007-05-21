@@ -29,10 +29,10 @@ fruitGrainPart::~fruitGrainPart()
 }
 
 
-void fruitGrainPart::doRegistrations(protocol::Component *system)
+void fruitGrainPart::onInit1(protocol::Component *system)
    //===========================================================================
 {
-   CompositePart::doRegistrations(system);
+   CompositePart::onInit1(system);
 
    //   setupEvent(system, "tick",        RegistrationType::respondToEvent, &fruitGrainPart::doTick);
    //   setupEvent(system, "newmet",      RegistrationType::respondToEvent, &fruitGrainPart::doNewMet);
@@ -71,7 +71,7 @@ void fruitGrainPart::doRegistrations(protocol::Component *system)
 
 
    for (vector<plantPart *>::iterator part = myParts.begin(); part != myParts.end(); part++)
-      (*part)->doRegistrations(system);
+      (*part)->onInit1(system);
 }
 
 float fruitGrainPart::nDemand2(void)
