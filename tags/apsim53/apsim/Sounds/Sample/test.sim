@@ -1,0 +1,51 @@
+<?xml version="1.0"?>
+<Simulation executable="d:\development\apsim\protocolmanager\lib\protocolmanager.dll">
+  <title>Test of clock module</title>
+  <component name="Log" executable="d:\development\apsim\Log\lib\Log.dll"><initdata></initdata></component>
+  <component name="SummaryFile" executable="d:\development\apsim\SummaryFile\lib\SummaryFile.dll"><initdata><parameters name="test"><property name="summaryfile">test.sum</property></parameters></initdata></component>
+  <component name="clock" executable="d:\development\apsim\clock\lib\clock.dll">
+  <initdata><constants name="standard"><property name="timestep_events">prepare process post</property></constants><parameters name="test"><property name="start_date">1/1/1988</property><property name="end_date">8/4/1988</property></parameters></initdata>
+</component>
+   <component name="report" executable="d:\development\apsim\report\lib\report.dll">
+      <initdata>
+         <parameters name="general">
+            <property name="outputfile">test.out</property>
+         </parameters>
+         <variables>
+            <variable>clock.year</variable>
+            <variable>clock.day</variable>
+            <variable>manager.dummy</variable>
+
+
+         </variables>
+      </initdata>
+   </component>
+   <component name="met" executable="d:\development\apsim\input\lib\input.dll"><initdata><parameters name="file"><property name="filename">d:\development\apsim\met\sample\dalby.met</property></parameters></initdata></component>
+   <component name="micromet" executable="d:\development\apsim\micromet\lib\micromet.dll"> <initdata><constants name="standard"><property name="air_pressure">1010.</property><property name="soil_emissivity">0.96</property><property name="sun_angle">15.0</property><property name="soil_heat_flux_fraction">0.40</property><property name="night_interception_fraction">0.5</property><property name="windspeed_default">3.0</property><property name="refheight">2.0</property><property name="svp_frac">0.65</property><property name="cloud_factor">0.1</property><property name="crop">crop base_class</property><property name="tree">tree base_class</property><property name="grandis">tree base_class</property><property name="globulus">tree base_class</property><property name="camaldulensis">tree base_class</property><property name="grass">grass base_class</property><property name="wheat">crop base_class</property><property name="sugar">crop base_class</property><property name="bambatsi">c4grass base_class</property><property name="lucerne">crop base_class</property><property name="banksia">tree base_class</property><property name="understorey">crop base_class</property><property name="ryegrass">grass base_class</property><property name="vine">crop base_class</property><property name="sorghum">crop base_class</property></constants><base_class name="standard"><property name="albedo">0.15</property><property name="gsmax">0.010</property><property name="r50">200</property><property name="emissivity">0.96</property></base_class><crop name="standard"><property name="albedo">0.26</property><property name="gsmax">0.011</property></crop><grass name="standard"><property name="albedo">0.23</property><property name="gsmax">0.010</property></grass><c4grass name="standard"><property name="albedo">0.23</property><property name="gsmax">0.015</property><property name="r50">150</property></c4grass><tree name="standard"><property name="albedo">0.15</property><property name="gsmax">0.005</property></tree><parameters name="sample"><property name="soil_albedo">0.13</property><property name="layer_ga">0.01666</property><property name="a_interception">0.0</property><property name="b_interception">0.0</property><property name="c_interception">0.0</property><property name="d_interception">0.0</property></parameters></initdata> </component>
+   <component name="manager" executable="d:\development\apsim\manager\lib\manager.dll">
+      <initdata>
+         <rules>
+            <rule name="sample.init" condition="init">dummy = 0[cr]</rule>
+            <rule name="sample.end_of_day" condition="end_of_day"> !lai = 3.0 [cr] report do_output[cr]if day = 10 then [cr] micromet lai_table[cr]endif[cr]</rule>
+            <rule name="sample.myevent" condition="myevent">dummy = 200[cr]</rule>
+         </rules>
+      </initdata>
+   </component>
+
+<component name="soilwat2" executable="d:\development\apsim\soilwat2\lib\soilwat2.dll">
+  <initdata>
+  <constants name="standard"><property name="min_crit_temp">5.0 (oC)</property><property name="max_crit_temp">35.0 (oC)</property><property name="max_albedo">0.23 ()</property><property name="A_to_evap_fact">0.44</property><property name="canopy_eos_coef">1.7</property><property name="sw_top_crit">0.9 ()</property><property name="sumes1_max">100.0 (mm)</property><property name="sumes2_max">25.0 (mm)</property><property name="solute_flow_eff">1.0 ()</property><property name="solute_flux_eff">1.0 ()</property><property name="gravity_gradient">0.00002 ()</property><property name="specific_bd">2.65 (g/cc)</property><property name="hydrol_effective_depth">450 (mm)</property><property name="mobile_solutes">no3 urea cl br org_n org_c_pool1 org_c_pool2 org_c_pool3</property><property name="immobile_solutes">nh4</property><property name="canopy_fact">1.0  1.0  0.0  0.0  ()</property><property name="canopy_fact_height">0  600  1800 30000 (mm)</property><property name="canopy_fact_default">0.5 ()</property><property name="act_evap_method">ritchie</property></constants>
+  <tillage name="standard"><property name="chisel">0.0           0.</property><property name="disc">0.0           0.</property><property name="planter">0.0           0.</property><property name="burn">0.0           0.</property></tillage>
+  <parameters name="black_earth"><property name="insoil">2.0 ()</property><property name="diffus_const">88. ()</property><property name="diffus_slope">35.4  ()</property><property name="cn2_bare">80 ()</property><property name="cn_red">20</property><property name="cn_cov">.8</property><property name="salb">0.13  ()</property><property name="cona">2.5  ()</property><property name="u">4 (mm)</property><property name="dlayer">150  150  300  300  300  300  300</property><property name="sat">.500 .509 .510 .505 .490 .480 .480</property><property name="dul">.450 .459  .45 .44  .42  .41  .41</property><property name="sw">.280 .364  .43 .43  .40  .41  .41</property><property name="ll15">.230 .240 .240 .250 .260 .270 .280</property><property name="air_dry">.10 .20 .20 .20 .20 .20 .20</property><property name="swcon">0.2  0.2  0.2  0.2  0.2  0.2  0.2</property><property name="bd">1.30 1.30 1.29 1.31 1.35 1.36 7.36</property></parameters>
+  </initdata>
+</component>
+
+  <component name="sounds" executable="d:\development\apsim\sounds\source\bin\sounds.dll">
+     <componentinterface>d:\development\bin\dotnetcomponentinterface.dll</componentinterface>
+      <initdata>
+            <crop_type>wheat</crop_type>
+
+      </initdata>
+
+  </component>
+</Simulation>

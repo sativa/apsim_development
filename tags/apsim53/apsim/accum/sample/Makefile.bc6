@@ -1,0 +1,6 @@
+# (Borlandish) Makefile for apsim accum module
+
+targets: accum.sim
+
+accum.sim: accum.con accum.par accum.man
+	$(APSROOT)/bin/apsrun /quiet $@

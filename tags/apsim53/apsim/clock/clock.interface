@@ -1,0 +1,46 @@
+<?xml version="1.0"?>
+<?xml-stylesheet type="text/xsl" href="../../docs/shared/apsim.xsl"?>
+
+<component name="clock">
+   <registrations>
+      <read name="simulation_start_date" type="simulation_start_date" readable="T"/>
+      <read name="simulation_end_date" type="simulation_end_date" readable="T"/>
+      <read name="timestep" type="timestep" readable="T"/>
+      <respondToGetReg name="timestep" type="timestep" readable="T"/>
+      <respondToGetReg name="day" type="day"/>
+      <respondToGetReg name="year" type="year"/>
+      <respondToGetReg name="day_of_month" type="day_of_month"/>
+      <respondToGetReg name="month" type="month"/>
+      <respondToGetReg name="start_week" type="start_week"/>
+      <respondToGetReg name="end_week" type="end_week"/>
+      <respondToGetReg name="start_month" type="start_month"/>
+      <respondToGetReg name="end_month" type="end_month"/>
+      <respondToGetReg name="end_year" type="end_year"/>
+      <respondToGetReg name="time" type="time"/>
+      <respondToGetReg name="simulation_start_day" type="simulation_start_day"/>
+      <respondToGetReg name="simulation_start_year" type="simulation_start_year"/>
+      <respondToGetReg name="simulation_end_day" type="simulation_end_day"/>
+      <respondToGetReg name="simulation_end_year" type="simulation_end_year"/>
+      <respondToGetReg name="today" type="today"/>
+      <respondToGetReg name="today.day" type="today.day"/>
+      <respondToGetReg name="today.month" type="today.month"/>
+      <respondToGetReg name="today.year" type="today.year"/>
+      <respondToGetReg name="today.day_of_year" type="today.day_of_year"/>
+      <respondToGetReg name="today.month_str" type="today.month_str"/>
+      <respondToGetReg name="today.dd/mm" type="today.dd/mm"/>
+      <respondToGetReg name="today.dd/mm/yyyy" type="today.dd/mm/yyyy"/>
+      <respondToGetReg name="today.dd_mmm_yyyy" type="today.dd_mmm_yyyy"/>
+      <respondToGetReg name="today.dd/mmm/yyyy" type="today.dd/mmm/yyyy"/>
+      <respondToGetReg name="today.dd.mmm" type="today.dd.mmm"/>
+      <respondToEventReg name="sysinit" type="sysinit"/>
+      <respondToEventReg name="start" type="start"/>
+      <respondToEventReg name="pause" type="pause"/>
+      <respondToEventReg name="cont" type="cont"/>
+      <respondToEventReg name="end_run" type="end_run"/>
+      <eventReg name="tick" type="time"/>
+      <eventReg name="prepare" type="null"/>
+      <eventReg name="process" type="null"/>
+      <eventReg name="post" type="null"/>
+      <eventReg name="report" type="null"/>
+   </registrations>
+</component>

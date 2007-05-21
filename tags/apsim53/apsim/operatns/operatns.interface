@@ -1,0 +1,13 @@
+<?xml version="1.0"?>
+<?xml-stylesheet type="text/xsl" href="../../docs/shared/apsim.xsl"?>
+
+<component name="operatns">
+   <registrations>
+      <respondToEventReg name="sysinit" type="sysinit"/>
+      <getVariableReg name="year" type="year"/>
+      <getVariableReg name="day" type="day"/>
+      <respondToEventReg name="prepare" type="prepare"/>
+      <respondToEventReg name="process" type="process"/>
+      <respondToEventReg name="post" type="post"/>
+   </registrations>
+</component>

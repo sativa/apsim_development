@@ -1,0 +1,48 @@
+version = 5.3
+[APSIM.Dalby 600mm]
+title=Dalby 600mm wet soil
+module = clock      Mungbean.par[sensibility] %apsuite/apsim/clock/clock.ini[standard]
+module = report     Mungbean.par[sensibility] Mungbean.par[Dalby600]
+module = input(met)        %apsuite/apsim/Common Files/Dalby.met[weather]
+module = manager    Mungbean.par[sensibility]
+module = soilwat2   %apsuite/apsim/Common Files/waco.par[waco] %apsuite/apsim/Common Files/waco.par[600mm] %apsuite/apsim/soilwat2/soilwat2.ini[standard]
+module = SurfaceOM   %apsuite/apsim/SurfaceOM/sample/SurfaceOM.par [legume_residue] %apsuite/apsim/SurfaceOM/SurfaceOM.ini [standard]
+module = soiln2     %apsuite/apsim/Common Files/waco.par[waco]      %apsuite/apsim/soiln2/soiln2.ini[standard]
+module = Plant(mungbean)   %apsuite/apsim/Common Files/waco.par[waco] %apsuite/apsim/mungbean/mungbean.ini[standard]
+module = Tracker    Mungbean.par[sensibility]
+
+[APSIM.Dalby 1200mm]
+title=Dalby 1200mm wet soil
+module = clock      Mungbean.par[sensibility] %apsuite/apsim/clock/clock.ini[standard]
+module = report     Mungbean.par[sensibility] Mungbean.par[Dalby1200]
+module = input(met)        %apsuite/apsim/Common Files/Dalby.met[weather]
+module = manager    Mungbean.par[sensibility]
+module = soilwat2   %apsuite/apsim/Common Files/waco.par[waco] %apsuite/apsim/Common Files/waco.par[1200mm] %apsuite/apsim/soilwat2/soilwat2.ini[standard]
+module = SurfaceOM   %apsuite/apsim/SurfaceOM/sample/SurfaceOM.par [legume_residue] %apsuite/apsim/SurfaceOM/SurfaceOM.ini [standard]
+module = soiln2     %apsuite/apsim/Common Files/waco.par[waco]      %apsuite/apsim/soiln2/soiln2.ini[standard]
+module = Plant(mungbean)   %apsuite/apsim/Common Files/waco.par[waco] %apsuite/apsim/mungbean/mungbean.ini[standard]
+module = Tracker    Mungbean.par[sensibility]
+
+[APSIM.Roma 400mm]
+title=Roma 400mm wet soil
+module = clock      Mungbean.par[sensibility] %apsuite/apsim/clock/clock.ini[standard]
+module = report     Mungbean.par[sensibility] Mungbean.par[Roma400]
+module = input(met)        %apsuite/apsim/Common Files/roma.met[weather]
+module = manager    Mungbean.par[sensibility]
+module = soilwat2   %apsuite/apsim/Common Files/BrownVertosol.par[brownvertosol] %apsuite/apsim/Common Files/BrownVertosol.par[400mm] %apsuite/apsim/soilwat2/soilwat2.ini[standard]
+module = SurfaceOM   %apsuite/apsim/SurfaceOM/sample/SurfaceOM.par [legume_residue] %apsuite/apsim/SurfaceOM/SurfaceOM.ini [standard]
+module = soiln2     %apsuite/apsim/Common Files/BrownVertosol.par[brownvertosol]      %apsuite/apsim/soiln2/soiln2.ini[standard]
+module = Plant(mungbean)   %apsuite/apsim/Common Files/BrownVertosol.par[brownvertosol] %apsuite/apsim/mungbean/mungbean.ini[standard]
+module = Tracker    Mungbean.par[sensibility]
+
+[APSIM.Roma 800mm]
+title=Roma 800mm wet soil
+module = clock      Mungbean.par[sensibility] %apsuite/apsim/clock/clock.ini[standard]
+module = report     Mungbean.par[sensibility] Mungbean.par[Roma800]
+module = input(met)        %apsuite/apsim/Common Files/roma.met[weather]
+module = manager    Mungbean.par[sensibility]
+module = soilwat2   %apsuite/apsim/Common Files/BrownVertosol.par[brownvertosol] %apsuite/apsim/Common Files/BrownVertosol.par[800mm] %apsuite/apsim/soilwat2/soilwat2.ini[standard]
+module = SurfaceOM   %apsuite/apsim/SurfaceOM/sample/SurfaceOM.par [legume_residue] %apsuite/apsim/SurfaceOM/SurfaceOM.ini [standard]
+module = soiln2     %apsuite/apsim/Common Files/BrownVertosol.par[brownvertosol]      %apsuite/apsim/soiln2/soiln2.ini[standard]
+module = Plant(mungbean)   %apsuite/apsim/Common Files/BrownVertosol.par[brownvertosol] %apsuite/apsim/mungbean/mungbean.ini[standard]
+module = Tracker    Mungbean.par[sensibility]

@@ -1,0 +1,76 @@
+#=======================================================================
+#-----------------------------------------------------------------------
+#     Makefile for APSIM millet module
+#-----------------------------------------------------------------------
+#=======================================================================
+
+DESTDIR ?= /usr/local/apsim
+
+LIB=	../lib/sugar.so
+
+SRC=	Registrations.f90	\
+	sugar.for
+
+STATICOBJ=	../../../Shared/ComponentInterface/SimpleWrapper.o \
+            ../../../Shared/ComponentInterface/EntryPoints.o   \
+            ../../../Shared/ComponentInterface/FORTRANComponentWrapper.o   \
+            ../../../Shared/ComponentInterface/FORTRANdatatypes.o   \
+            ../../../Shared/ComponentInterface/datatypes.o
+
+OBJ=	Registrations.o		\
+	sgr_main.o		\
+	$(STATICOBJ)
+
+#-----------------------------------------------------------------------
+# Compiler options
+
+FC=		lf95
+CPPFLAGS=	-I$(APSROOT)/apsim/infra/source	\
+		-I$(APSROOT)/apsim/croptemp/source \
+		-I$(APSROOT)/apsim/CropMod/source \
+		-M. -M$(APSROOT)/apsim/infra/source \
+		-M$(APSROOT)/apsim/CropMod/source \
+		$(CPPDEBUGFLAGS)
+FFLAGS=		--tp -nco --o0 --pca -nsav -trace -nchk -nin \
+		--ml cdecl --staticlink
+
+#-----------------------------------------------------------------------
+# Required libraries
+
+LDFLAGS=	-L$(APSROOT)/lib		\
+		-L$(APSROOT)/apsim/infra/lib	 \
+		-L$(APSROOT)/apsim/croptemp/lib	 \
+		-L/usr/lib $(LDDEBUGFLAGS)
+
+LIBS=		 -lcroptemp -lapsinfra -lComponentInterface -lc
+
+#-----------------------------------------------------------------------
+# The rules
+
+all: $(LIB)
+
+$(LIB):	$(OBJ)
+	g++ $(OBJ) -o $(LIB) -shared $(LDFLAGS) $(LIBS)
+
+FORCE:
+
+clean:
+	rm -f *.o *.mod
+
+clobber:	clean
+	rm -f $(LIB)
+
+install: all
+	if [ ! -d $(DESTDIR)/apsim/sugar/lib ]; then mkdir -p $(DESTDIR)/apsim/sugar/lib; fi 
+	cp $(LIB) $(DESTDIR)/apsim/sugar/lib
+	cp ../sugar.ini $(DESTDIR)/apsim/sugar
+
+%.o:	%.for
+	$(FC) $(CPPFLAGS) $(FFLAGS) -c -o $@ $<
+
+%.o:	%.f90
+	$(FC) $(CPPFLAGS) $(FFLAGS) -c -o $@ $<
+
+Registrations.o: Registrations.f90
+Registrations.f90: ../sugar.interface 
+	$(APSROOT)/Bin/CreateComponentInterfaceSource ../sugar.interface

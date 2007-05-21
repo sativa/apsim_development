@@ -1,0 +1,102 @@
+<HTML>
+<HEAD>
+   <TITLE> Boesten and Stroosnijder evaporation models</TITLE>
+   <META NAME="GENERATOR" CONTENT="Mozilla/3.0Gold (X11; I; Linux 2.0.21 i486) [Netscape]">
+</HEAD>
+<BODY>
+(This draws from the paper "Simple model for daily evaporation from
+    fallow tilled soil under spring conditions in a temperate
+    climate", J.J.T.I Boesten and L. Stroosnijder, <i>Netherlands
+      Journal of Agricultural Science</i> 34 (1986) 75-90.)
+<H3>The B&amp;S model</H3>
+
+<P>B&amp;S developed a &quot;simple parametric model&quot; to estimate
+daily evaporation from fallow tilled soil under spring conditions in a
+temperate climate, in which E<SUB>pot</SUB> varies from 1 to 6 mm/day.
+Their &quot;equation 4&quot; that describes soil evaporation is:</P>
+
+<UL>
+<P>Sum(E<SUB>act</SUB>) = Sum(E<SUB>pot</SUB>) for Sum(E<SUB>pot</SUB>)
+&lt; B<SUP>2</SUP></P>
+
+<P>Sum(E<SUB>act</SUB>) = Sum(E<SUB>pot</SUB>) for Sum(E<SUB>pot</SUB>)
+= Sum(E<SUB>1</SUB>) = B<SUP>2 </SUP></P>
+
+<P>Sum(E<SUB>act</SUB>) = B.Sum(E<SUB>pot</SUB>)<SUP>1/2</SUP> for Sum(E<SUB>pot</SUB>)
+&gt; B<SUP>2 </SUP></P>
+</UL>
+
+<P>in which B (mm<SUP>1/2</SUP>) is the evaporation characteristic soil
+parameter to be determined experimentally. In this equation, Sum(E<SUB>act</SUB>)
+is not dependant on time. </P>
+
+<P>The two options A and B refer to how the model responds to conditions
+where daily rainfall excess (rainfall - E<SUB>pot</SUB>) is not sufficient
+to to moisten the dried soil profile to field capacity, ie how the
+      "resets" are implemented. </P>
+
+<H4>Option A</H4>
+
+<P>Option A assumes that at any time the deficit in soil water throughout
+the soil profile determines actual evaporation. The procedure is: </P>
+
+<P>On days of no excess rainfall, (rainfall &lt; E<SUB>pot</SUB>), Sum(E<SUB>act</SUB>)
+and also E<SUB>act</SUB> is calculated from the updated value of Sum(E<SUB>pot</SUB>)
+by </P>
+
+<UL>
+<P>(Sum(E<SUB>pot</SUB>))<SUB>n</SUB> = (Sum(E<SUB>pot</SUB>))<SUB>n-1</SUB>+
+(E<SUB>pot</SUB> - rainfall)<SUB>n</SUB></P>
+</UL>
+
+<P>in which index <i>n</i> is the day number. (Sum(E<SUB>act</SUB>))<SUB>n</SUB>
+is calculated from (Sum(E<SUB>pot</SUB>))<SUB>n</SUB> by equation 4, and
+(E<SUB>act</SUB>)<SUB>n</SUB> is calculated by </P>
+
+<UL>
+<P>(E<SUB>act</SUB>)<SUB>n</SUB> = (rainfall)<SUB>n</SUB> + (Sum(E<SUB>act</SUB>))<SUB>n</SUB>
+- (Sum(E<SUB>act</SUB>))<SUB>n-1</SUB> </P>
+</UL>
+
+<P>On days of excess in rainfall (rainfall &gt; E<SUB>pot</SUB>), </P>
+
+<UL>
+<P>(E<SUB>act</SUB>)<SUB>n</SUB> = (E<SUB>pot</SUB>)<SUB>n</SUB> </P>
+</UL>
+
+<P>and the excess of infiltration is subtracted from Sum(E<SUB>act</SUB>):
+</P>
+
+<UL>
+<P>(Sum(E<SUB>act</SUB>))<SUB>n</SUB> = (Sum(E<SUB>act</SUB>))<SUB>n-1</SUB>
+- (rainfall - E<SUB>pot</SUB>)<SUB>n</SUB> </P>
+</UL>
+
+<P>Thereafter, Sum(E<SUB>pot</SUB>))<SUB>n</SUB> is calculated from Sum(E<SUB>act</SUB>))<SUB>n</SUB>
+with equation 4. If daily rainfall excess greater than Sum(E<SUB>act</SUB>))<SUB>n-1</SUB>,
+then both Sum(E<SUB>act</SUB>))<SUB>n</SUB> and Sum(E<SUB>pot</SUB>))<SUB>n</SUB>
+are set to zero. </P>
+
+<H4>Option B</H4>
+
+<P>
+Option B differs in that Sum(E<sub>act</sub>) is always set to zero if
+      there is an excess in rainfall. Calculation of E<sub>act</sub>
+      in the subsequent drying cycle is described above by equation
+      4, up until all water from this rainfall has been
+      evaporated. Then, Sum(E<sub>act</sub>) jumps to the value which
+      it had just before the rainfall. 
+</P>
+<p> Option B implies that excess in rainfall remains in the upper soil
+      layers at FC and is not redistributed in the drier deeper
+      layers. 
+</p>
+
+<H4>Andy Smith's Option B</H4>
+    <p>
+      Andy left a modified option B with no documentation. I've left this
+      model in, but have doubts as to its usefulness, certainly it's
+      doing some wierd things. 
+    </p>
+  </body>
+</html>

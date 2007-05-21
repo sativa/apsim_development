@@ -1,0 +1,412 @@
+[csu-p14.report1.parameters]  
+format =  csv   
+
+!General parameters
+
+!Summary parameters
+
+
+
+!Water balance parameters
+
+
+
+
+!N balance parameters
+
+
+
+!Residue parameters
+
+!Crop N for N balance
+
+
+
+ 
+
+!Mineralisation analysis
+
+!soil solution parameters
+
+!net drainage (uptake below as negative)
+
+variable = clock.year
+variable = clock.month
+variable = clock.day
+variable = clock.day_of_month as day_month
+variable = manager.period
+variable = apswim.sw
+variable = soiln2.no3(1-15)
+variable = soiln2.nh4(1-15)
+variable = manager.no3_025
+variable = manager.no3_2590
+variable = manager.nh4_025
+variable = manager.nh4_2590
+variable = manager.sw_dep_025
+variable = manager.sw_dep_2590
+variable = manager.sw_dep_90180
+variable = manager.no3_030
+variable = manager.no3_3080
+variable = manager.nh4_030
+variable = manager.nh4_3080
+variable = manager.sw_dep_030
+variable = manager.sw_dep_3080
+variable = tracker1.sum@met_rain as rain
+variable = tracker1.sum@manager_T as T
+variable = tracker1.sum@manager_ET as ET
+variable = apswim.sw_dep as swdep
+variable = tracker1.sum@apswim_es as es
+variable = tracker1.sum@apswim_runoff as runoff
+variable = tracker1.sum@apswim_drain as drain
+variable = tracker1.sum@apswim_eo as eo
+variable = apswim.h
+variable = tracker1.sum@manager_drain_25 as drain_25
+variable = tracker1.sum@manager_drain_90 as drain_90
+variable = tracker1.sum@manager_drain180 as drain_180
+variable = manager.cum_rain
+variable = manager.cum_ET
+variable = manager.cum_E
+variable = manager.cum_T
+variable = manager.cum_drain_25 as cdrain_25
+variable = manager.cum_drain_90 as cdrain_90
+variable = manager.cum_drain180 as cdrain180
+variable = manager.cum_drain
+variable = soiln2.no3()
+variable = soiln2.nh4()
+variable = soiln2.nit_tot()
+variable = tracker1.sum@apswim_leach_no3 as leach_no3
+variable = manager.cum_leach_25 as cleach_25
+variable = manager.cum_leach_90 as cleach_90
+variable = soiln2.urea()
+variable = soiln2.biom_n()
+variable = soiln2.fom_n()
+variable = soiln2.hum_n()
+variable = tracker1.sum@soiln2_dnit[]
+variable = tracker1.sum@soiln2_dlt_n_min[]
+variable = surfaceom.surfaceom_n
+variable = surfaceom.surfaceom_wt
+variable = surfaceom.surfaceom_cover
+variable = tracker1.sum@lucerne_dlt_n_fixed as L_dlt_n_fixed
+variable = tracker1.sum@lupin_dlt_n_fixed as P_dlt_n_fixed
+variable = wheat.biomass_n as W_biomass_n
+variable = wheat.groot_n as W_root_n
+variable = lucerne.biomass_n as L_biomass_n
+variable = lucerne.root_n as L_root_n
+variable = canola.biomass_n as C_biomass_n
+variable = canola.root_n as C_root_n
+variable = lupin.biomass_n as P_biomass_n
+variable = lupin.root_n as P_root_n
+variable = manager.cum_nmin010
+variable = manager.cum_nmin1020
+variable = manager.cum_nmin2030
+variable = manager.no3_010
+variable = manager.nh4_010
+variable = manager.fom_n_010
+variable = manager.biom_n_010
+variable = manager.hum_n_010
+variable = apswim.conc_water_no3(4) as no3_sol_20
+variable = apswim.conc_water_no3(5) as no3_sol_30
+variable = apswim.conc_water_no3(7) as no3_sol_50
+variable = apswim.conc_water_no3(9) as no3_sol_90
+variable = manager.cumnetdrain120
+[daily.report2.parameters]
+!General parameters
+
+
+
+
+
+
+variable = clock.year
+variable = clock.month
+variable = clock.day
+variable = clock.day_of_month as day_month
+variable = manager.period
+variable = tracker2.sum@met_rain as rain
+variable = tracker2.sum@wheat_ep as W_ep
+variable = tracker2.sum@lucerne_ep as L_ep
+variable = tracker2.sum@canola_ep as C_ep
+variable = tracker2.sum@lupin_ep as P_ep
+variable = tracker2.sum@manager_T as T
+variable = tracker2.sum@manager_ET as ET
+variable = tracker2.sum@weed1_ep as weed1_ep
+variable = tracker2.sum@weed2_ep as weed2_ep
+variable = tracker2.sum@apswim_es as es
+variable = tracker2.sum@apswim_runoff as runoff
+variable = tracker2.sum@apswim_drain as drain
+variable = tracker2.sum@apswim_eo as eo
+variable = apswim.h
+variable = tracker2.sum@apswim_eos as eos
+variable = manager.netdrain120
+variable = wheat.zadok_stage as W_zadok
+variable = canola.stage as C_stage
+variable = lucerne.stage as L_stage
+variable = weed1.lai as wd1_lai
+variable = weed2.lai as wd2_lai
+variable = lucerne.green_biomass_wt as L_gbiomass
+variable = lupin.stage as P_Stage
+variable = apswim.sw
+variable = wheat.swdef_photo
+variable = wheat.nfact_photo
+[crop.report3.parameters]  
+!General parameters
+
+!Wheat paramaters
+
+
+
+
+
+
+!Lucerne parameters
+
+
+
+
+!Canola parameters
+
+
+
+
+
+
+!lupin parameters
+
+
+
+
+
+
+
+variable = clock.year
+variable = clock.month
+variable = clock.day
+variable = clock.day_of_month as day_month
+variable = tracker3.avg@wheat_swdef_photo as W_swdef
+variable = tracker3.avg@wheat_nfact_photo as W_nfact
+variable = wheat.root_depth as W_root_depth
+variable = wheat.lai as W_lai
+variable = wheat.sla as W_sla
+variable = wheat.biomass_wt as W_biomass
+variable = wheat.root_wt as W_root_wt
+variable = wheat.leaf_wt as W_leaf_wt
+variable = wheat.dleaf_wt as W_dleaf_wt
+variable = wheat.stem_wt as W_stem_wt
+variable = wheat.stover_wt as stover_wt
+variable = wheat.grain_wt as W_grain_wt
+variable = wheat.biomass_n as W_biomass_n
+variable = wheat.groot_n as W_root_n
+variable = wheat.gleaf_n as W_leaf_n
+variable = wheat.dleaf_n as W_dleaf_n
+variable = wheat.stem_n as W_stem_n
+variable = wheat.stover_n as W_stover_n
+variable = wheat.grain_n as W_grain_n
+variable = wheat.flowering_date as W_flowering
+variable = wheat.maturity_date as W_maturity
+variable = wheat.zadok_stage as W_zadok
+variable = wheat.green_biomass_wt as W_gbiomass
+variable = wheat.green_biomass_n as W_gbiomass_n
+variable = tracker3.avg@lucerne_swdef_photo as L_swdef
+variable = tracker3.avg@lucerne_nfact_photo as L_nfact
+variable = lucerne.root_depth as L_root_depth
+variable = lucerne.lai as L_lai
+variable = lucerne.height as L_height
+variable = lucerne.biomass_wt as L_biomass
+variable = lucerne.green_biomass_wt as L_gbiomass
+variable = lucerne.biomass_n as L_biomass_n
+variable = lucerne.green_biomass_n as L_gbiomass_n
+variable = lucerne.root_wt as L_root_wt
+variable = lucerne.root_n as L_root_n
+variable = tracker3.sum@lucerne_dlt_n_fixed as L_dlt_n_fixed
+variable = tracker3.avg@canola_swdef_photo as C_swdef
+variable = tracker3.avg@canola_nfact_photo as C_nfact
+variable = canola.root_depth as C_root_depth
+variable = canola.lai as C_lai
+variable = canola.pai as C_pai
+variable = canola.biomass_wt as C_biomass
+variable = canola.root_wt as C_root_wt
+variable = canola.leaf_wt as C_leaf_wt
+variable = canola.stem_wt as C_stem_wt
+variable = canola.pod_wt as C_pod_wt
+variable = canola.grain_wt as C_grain_wt
+variable = canola.biomass_n as C_biomass_n
+variable = canola.root_n as C_root_n
+variable = canola.leaf_n as C_leaf_n
+variable = canola.stem_n as C_stem_n
+variable = canola.pod_n as C_pod_n
+variable = canola.grain_n as C_grain_n
+variable = canola.flowering_date as C_flowering
+variable = canola.maturity_date as C_maturity
+variable = canola.stage as C_stage
+variable = canola.green_biomass_wt as C_gbiomass
+variable = canola.green_biomass_n as C_gbiomass_n
+variable = tracker3.avg@lupin_swdef_photo as P_swdef
+variable = tracker3.avg@lupin_nfact_photo as P_nfact
+variable = lupin.root_depth as P_root_depth
+variable = lupin.lai as P_lai
+variable = lupin.pai as P_pai
+variable = lupin.biomass_wt as P_biomass
+variable = lupin.root_wt as P_root_wt
+variable = lupin.leaf_wt as P_leaf_wt
+variable = lupin.stem_wt as P_stem_wt
+variable = lupin.pod_wt as P_pod_wt
+variable = lupin.grain_wt as P_grain_wt
+variable = lupin.biomass_n as P_biomass_n
+variable = lupin.root_n as P_root_n
+variable = lupin.leaf_n as P_leaf_n
+variable = lupin.stem_n as P_stem_n
+variable = lupin.pod_n as P_pod_n
+variable = lupin.grain_n as P_grain_n
+variable = lupin.flowering_date as P_flowering
+variable = lupin.maturity_date as P_maturity
+variable = lupin.stage as P_stage
+variable = lupin.green_biomass_wt as P_gbiomass
+variable = lupin.green_biomass_n as P_gbiomass_n
+variable = tracker3.sum@lupin_dlt_n_fixed as P_dlt_n_fixed
+[root.report4.parameters]
+!General parameters
+
+!Wheat paramaters
+
+!Canola paramaters
+
+!Lucerne paramaters
+
+!lupin paramaters
+
+!Additional wheat
+
+
+variable = clock.year
+variable = clock.month
+variable = clock.day
+variable = clock.day_of_month as day_month
+variable = wheat.rlv(1-15) as W_rlv
+variable = wheat.root_depth as W_root_depth
+variable = wheat.root_wt as W_root_wt
+variable = wheat.groot_n as W_root_n
+variable = canola.rlv(1-15) as C_rlv
+variable = canola.root_depth as C_root_depth
+variable = canola.root_wt as C_root_wt
+variable = canola.root_n as C_root_n
+variable = lucerne.rlv as L_rlv
+variable = lucerne.root_depth as L_root_depth
+variable = lucerne.root_wt as L_root_wt
+variable = lucerne.root_n as L_root_n
+variable = lupin.rlv(1-16) as P_rlv
+variable = lupin.root_depth as P_root_depth
+variable = lupin.root_wt as P_root_wt
+variable = lupin.root_n as P_root_n
+variable = wheat.stage as W_stage
+variable = wheat.das as W_das
+variable = wheat.biomass_wt as W_biomass
+variable = wheat.green_biomass_wt as W_gbiomass
+variable = canola.stage as C_stage
+variable = canola.biomass_Wt as C_biomass
+variable = canola.green_biomass_wt as C_gbiomass
+variable = lupin.stage as P_stage
+variable = lupin.biomass_wt as P_biomass
+variable = lupin.green_biomass_wt as P_gbiomass
+[weed.report5.parameters]
+!General parameters
+
+
+
+
+
+
+
+
+
+variable = clock.year
+variable = clock.month
+variable = clock.day
+variable = clock.day_of_month as day_month
+variable = surfaceom.surfaceom_cover
+variable = surfaceom.surfaceom_wt
+variable = weed1.cover_green as wd1_cover
+variable = weed1.cover_tot as wd1_cover_tot
+variable = weed1.lai as wd1_lai
+variable = weed1.stage as wd1_stage
+variable = weed1.biomass_wt as wd1_biomass
+variable = weed1.green_biomass_wt as wd1_gbiomass
+variable = tracker5.avg@weed1_nfact_photo as wd1_nfact
+variable = tracker5.avg@weed1_swdef_photo as wd1_swdef
+variable = weed1.rlv(1-10) as wd1_rlv
+variable = tracker5.sum@weed1_sw_uptake[1-10] as wd1_ep
+variable = weed1.height as wd1_height
+variable = weed1.root_depth as wd1_root_depth
+variable = weed1.root_wt as wd1_root_wt
+variable = weed1.root_n as wd1_root_n
+variable = weed2.cover_green as wd2_cover
+variable = weed2.cover_tot as wd2_cover_tot
+variable = weed2.lai as wd2_lai
+variable = weed2.stage as wd2_stage
+variable = weed2.biomass_wt as wd2_biomass
+variable = weed2.green_biomass_wt as wd2_gbiomass
+variable = tracker5.avg@weed2_nfact_photo as wd2_nfact
+variable = tracker5.avg@weed2_swdef_photo as wd2_swdef
+variable = weed2.rlv(1-10) as wd2_rlv
+variable = tracker5.sum@weed2_sw_uptake[1-10] as wd2_ep
+variable = weed2.height as wd2_height
+variable = weed2.root_depth as wd2_root_depth
+variable = weed2.root_wt as wd2_root_wt
+variable = weed2.root_n as wd2_root_n
+variable = apswim.sw
+[neutron.report6.parameters]
+!General parameters
+
+!Profile parameters
+
+!Water storage parameters
+
+variable = clock.year
+variable = clock.month
+variable = clock.day
+variable = clock.day_of_month as day_month
+variable = apswim.sw
+variable = apswim.psi(1-12)
+variable = manager.sw_dep_025
+variable = manager.sw_dep_2590
+variable = manager.sw_dep_90180
+variable = apswim.sw_dep
+[profile.report7.parameters]
+!General parameters
+
+!profile parameters
+
+variable = clock.year
+variable = clock.month
+variable = clock.day
+variable = clock.day_of_month as day_month
+variable = apswim.sw
+variable = soiln2.no3ppm(1-17)
+variable = soiln2.nh4ppm(1-17)
+[bromide.report8.parameters]
+!General parameters
+
+
+
+
+
+!Wheat uptake parameters
+
+
+
+
+variable = clock.year
+variable = clock.month
+variable = clock.day
+variable = clock.day_of_month as day_month
+variable = solute.brA(1-20)
+variable = tracker8.sum@apswim_leach_brA as leach_brA
+variable = solute.brB(1-20)
+variable = tracker8.sum@apswim_leach_brB as leach_brB
+variable = solute.brC(1-20)
+variable = tracker8.sum@apswim_leach_brC as leach_brC
+variable = solute.brD(1-20)
+variable = tracker8.sum@apswim_leach_brD as leach_brD
+variable = tracker8.sum@apswim_uptake_brA_wheat[] as uptake_brA
+variable = tracker8.sum@apswim_uptake_brB_wheat[] as uptake_brB
+variable = tracker8.sum@apswim_uptake_brC_wheat[] as uptake_brC
+variable = tracker8.sum@apswim_uptake_brD_wheat[] as uptake_brD

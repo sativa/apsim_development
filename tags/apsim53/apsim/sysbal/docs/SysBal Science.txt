@@ -1,0 +1,179 @@
+!==========================================================
+                    NITROGEN BALANCE
+!==========================================================
+
+  ! define system states
+  !---------------
+
+      state_crop = n_green()    * gm2kg/sm2ha
+     :           + n_senesced() * gm2kg/sm2ha
+     :           + n_dead()     * gm2kg/sm2ha
+
+      state_soil    = nit_tot()
+      state_surface = surfaceom_n
+
+  ! define system losses
+  !--------------
+      loss_soil = dlt_no3_dnit()
+     :          + leach_NO3
+     :          + leach_NH4
+
+      loss_crop    = 0.0
+      loss_surface = 0.0
+
+  ! define system gains
+  !-------------
+      gain_soil    = 0.0
+      gain_crop    = dlt_n_fixed * gm2kg/sm2ha
+      gain_surface = 0.0
+
+
+!==========================================================
+                    PHOSPOROUS BALANCE
+!==========================================================
+
+  ! define system states
+  !---------------
+
+      state_crop = p_green()    * gm2kg/sm2ha
+     :           + p_senesced() * gm2kg/sm2ha
+     :           + p_dead()     * gm2kg/sm2ha
+
+      state_soil = fom_p()
+     :           + hum_p()
+     :           + biom_p()
+     :           + rock_p()
+     :           + unavail_p()
+     :           + labile_p()
+     :           + banded_p()
+
+      state_surface = surfaceom_p
+
+  ! define system losses
+  !--------------
+      loss_soil    = 0.0
+      loss_crop    = 0.0
+      loss_surface = 0.0
+
+  ! define system gains
+  !-------------
+      gain_soil    = 0.0
+      gain_crop    = 0.0
+      gain_surface = 0.0
+
+
+!==========================================================
+                    CARBON BALANCE
+!==========================================================
+
+  ! define system states
+  !---------------
+
+      state_crop = dm_green()    * gm2kg/sm2ha * 0.4
+     :           + dm_senesced() * gm2kg/sm2ha * 0.4
+     :           + dm_dead()     * gm2kg/sm2ha * 0.4
+
+      state_soil    = carbon_tot()
+      state_surface = surfaceom_c
+
+  ! define system losses
+  !--------------
+
+      loss_soil    = dlt_fom_c_atm()
+                   + dlt_hum_c_atm()
+                   + dlt_biom_c_atm()
+
+      loss_crop    = dlt_dm_oil_conv_retrans * gm2kg/sm2ha * 0.4
+
+      loss_surface = dlt_res_c_atm
+
+  ! define system gains
+  !-------------
+
+      gain_soil = 0.0
+      gain_crop = dlt_dm_green() * gm2kg/sm2ha * 0.4
+      gain_surface = 0.0
+
+!==========================================================
+                    DRYMATTER BALANCE
+!==========================================================
+
+  ! define system states
+  !---------------
+
+      state_crop = dm_green()    * gm2kg/sm2ha
+     :           + dm_senesced() * gm2kg/sm2ha
+     :           + dm_dead()     * gm2kg/sm2ha
+
+      state_soil    = carbon_tot() / 0.4
+      state_surface = surfaceom_wt
+
+  ! define system losses
+  !--------------
+      loss_soil = dlt_fom_c_atm() / 0.4
+     :          + dlt_hum_c_atm() / 0.4
+     :          + dlt_biom_c_atm() / 0.4
+
+      loss_crop    = dlt_dm_oil_conv_retrans * gm2kg/sm2ha
+
+      loss_surface = dlt_res_c_atm / 0.4
+
+  ! define system gains
+  !-------------
+      gain_soil = 0.0
+      gain_crop = dlt_dm_green() * gm2kg/sm2ha
+      gain_surface = 0.0
+
+!==========================================================
+                    SOIL WATER BALANCE
+!==========================================================
+
+  ! define system states
+  !---------------
+
+      state_crop    = 0.0
+      state_soil    = sw_dep()
+      state_surface = pond
+
+  ! define system losses
+  !--------------
+      loss_soil    = es
+     :             + drain
+      loss_crop    = ep
+      loss_surface = runoff
+
+  ! define system gains
+  !-------------
+      gain_soil    = 0.0
+      gain_crop    = 0.0
+      gain_surface = rain
+
+!==========================================================
+                    SYSTEM CALCULATIONS
+!==========================================================
+
+      loss_system =  loss_soil + loss_crop + loss_surface
+      gain_system =  gain_soil + gain_crop + gain_surface
+
+      state_system = state_surface + state_soil + state_crop
+      dlt_system = state_system - state_system_yest
+
+      error_system =  dlt_system + loss_system - gain_system
+
+      if (state_system_yest >= 0.00001) then
+         cum_error_system = cum_error_system + error_system
+
+      else
+         error_system = 0.0
+      endif
+
+      dlt_soil    =  state_soil    - state_soil_yest
+      dlt_surface =  state_surface - state_surface_yest
+      dlt_crop    =  state_crop    - state_crop_yest
+
+      state_system_yest  = state_system
+      state_soil_yest    = state_soil
+      state_surface_yest = state_surface
+      state_crop_yest    = state_crop
+
+

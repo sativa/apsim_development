@@ -1,0 +1,57 @@
+!==========================================================
+                    NITROGEN BALANCE
+!==========================================================
+    nit_tot()
+    surfaceom_n
+    dlt_no3_dnit()
+    leach_NO3
+    leach_NH4
+    n_green()
+    n_senesced()
+    n_dead()
+    dlt_n_fixed
+
+!==========================================================
+                    PHOSPOROUS BALANCE
+!==========================================================
+    fom_p()
+    hum_p()
+    biom_p()
+    rock_p()
+    unavail_p()
+    labile_p()
+    banded_p()
+    surfaceom_p
+    p_green()
+    p_senesced()
+    p_dead()
+
+!==========================================================
+                    CARBON & DRYMATTER BALANCE
+!==========================================================
+    carbon_tot()
+    surfaceom_c
+    dlt_fom_c_atm()
+    dlt_hum_c_atm()
+    dlt_biom_c_atm()
+    dlt_res_c_atm
+
+    dm_green()
+    dm_senesced()
+    dm_dead()
+    dlt_dm_oil_conv_retrans
+    dlt_dm_green()
+
+    surfaceom_wt
+
+!==========================================================
+                    SOIL WATER BALANCE
+!==========================================================
+    sw_dep()
+    pond
+    es
+    drain
+    ep
+    runoff
+    rain
+

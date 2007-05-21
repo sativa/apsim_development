@@ -1,0 +1,42 @@
+BODY  {
+	background-color : #FFFFFF;
+	font-family : Verdana, Arial, Helvetica, sans-serif;
+	font-size : 9pt;
+	color : #000000;
+    padding-left: 70px;
+    background-position: top left;
+    background-attachment: scroll;
+    background-repeat: repeat-y;
+    background-image: url('apsru_tile.jpg');
+	}
+P  {
+	font-family : Verdana, Arial, Helvetica, sans-serif;
+	font-size : 9pt;
+	color : #000000;}
+TD  {
+	font-family : Verdana, Arial, Helvetica, sans-serif;
+	font-size : 9pt;
+	color : #000000;}
+
+
+UL  {
+	font-family : Verdana, Arial, Helvetica, sans-serif;
+	font-size : 9pt;
+	color : #000000;}
+ADDRESS  {
+	font-family : Arial, Helvetica, sans-serif;
+	font-style : italic;
+	font-size : 10pt;
+	color : #000000;}
+A:Link  {
+	text-decoration : none;
+	color : #0000AA;}
+A:Visited  {
+	text-decoration : none;
+	color : #0000AA;}
+A:Active  {
+	text-decoration : none;
+	color : #000099;}
+A:Hover  {
+	text-decoration : none;
+	color : red;}

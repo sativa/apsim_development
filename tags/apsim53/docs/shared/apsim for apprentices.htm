@@ -1,0 +1,1134 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html>
+<head>
+  <meta http-equiv="Content-Type"
+ content="text/html; charset=windows-1252">
+  <title>APSIM for Apprentices</title>
+  <link href="./docstyle.css" rel="stylesheet" type="text/css">
+</head>
+<body>
+<div>
+<p class="Title1">APSIM for Apprentices</p>
+<p class="Title2"><br>
+Introduction</p>
+<p class="Normal">Whilst the APSIM environment is quite a complex
+simulation
+environment, part of that complexity arises from the complex nature of
+the <b>simulations</b> themselves.&nbsp; The APSIM environment is an
+effective tool
+for <u>analysing farming systems</u> but in order to take advantage of
+the
+power of the environment it is important that you plan your simulations
+before
+attempting to execute them with the tool.&nbsp;
+You could consider this planning as analogous to the well-known
+sequence
+of strategic planning -&lt; tactical planning -&lt; operational
+implementation.&nbsp; The first step,
+strategic planning, does not require use of the software at all.</p>
+<p class="Title2"><br>
+Strategic
+planning</p>
+<p class="Normal">The aim of a strategic plan
+for an
+APSIM simulation is to first define the goals of your simulations, and
+then the
+combinations of artifacts and treatments that will provide the range of
+information that your goals require.&nbsp;
+Examples of goals include analysing the effects of applying different
+rates of one or more fertilisers, or of the effect of certain crop
+rotations
+over a long period of time.</p>
+<p class="Normal">·&nbsp;&nbsp;&nbsp;&nbsp; Decide
+on the crops and environmental artifacts that you are interested
+in.&nbsp; Environmental artifacts include soil water,
+soil nitrogen, residue and fertiliser.&nbsp;
+These define the simulation 'space'.</p>
+<p class="Normal">·&nbsp;&nbsp;&nbsp;&nbsp; Once
+the simulation space is defined, you define what factors you wish to
+use in
+your simulations in order to investigate their effects.&nbsp; Factors
+can include the application of
+fertilizer, irrigation and crop rotations.&nbsp;
+</p>
+<p class="Normal">·&nbsp;&nbsp;&nbsp;&nbsp; For
+each of the factors you will probably be able to identify a range of
+different
+treatments.&nbsp; For instance if nitrogen
+fertilisation is a factor then you may define a range of application
+rates (a
+single factor experiment).&nbsp; However, you
+may wish to analyse treatments that combine two factors, for example
+combinations of irrigation and fertiliser rates (multi-factor
+experiment). </p>
+<p class="Normal">·&nbsp;&nbsp;&nbsp;&nbsp; From
+the number of different treatment combinations that you define you can
+determine the number of simulations that you will need to obtain a full
+coverage of the combinations that are of interest.</p>
+<p class="Normal">·&nbsp;&nbsp;&nbsp;&nbsp; Finally,
+define the start and finish dates for each of your simulations, and the
+location for the experiment.</p>
+<p class="Title2"><br>
+Tactical
+Planning</p>
+<p class="Normal">Once you have your simulation strategy clear in your
+mind,
+and preferably mapped out on a piece of paper, half the battle of
+expressing it
+in terms that APSIM can evaluate is won.&nbsp;
+For most 'newbies' the most confusing aspect of an APSIM simulation is
+figuring out where to put all the information that it needs.&nbsp; So,
+before we turn to APSIM itself, we'll
+try to demystify all its appendages (or files, if you prefer).&nbsp;
+We'll use the diagram below in our
+demystification ritual and to make many of the APSIM conventions
+explicit.</p>
+<p class="Title2"><br>
+Control
+File</p>
+<p class="Normal">Every APSIM simulation execution must have one of
+these
+files.&nbsp; The control file is divided into
+a number of sections, one for each simulation within the APSIM
+execution that
+you want to run.&nbsp; For example if you
+have planned a single factor experiment with nitrogen fertiliser and
+four
+different application rates (treatments) you would create four
+different
+sections in the control file.</p>
+<p class="Normal">&nbsp;</p>
+<p class="Normal">Each section in the control file has a name, and
+these names
+are the names that you use to refer to your simulations.&nbsp; For
+simplicity you may choose to name your
+simulations N1, N2, N3 and N4.&nbsp; As the
+number of simulation runs that you define grows, you will realise that
+choosing
+a more meaningful name will help you in differentiating between
+simulations.&nbsp; In time, you will probably
+reuse sections of control (and other) files - meaningful names will
+prove their
+worth then.</p>
+<p class="Normal">&nbsp;</p>
+<p class="Normal">Beneath each simulation (section) name in your
+control file,
+you list the modules that you need the APSIM engine to use for the
+simulation.&nbsp; As we continue with this
+demystification ritual the connections between modules and the APSIM
+engine
+will become clearer.&nbsp; The modules <b>clock,
+</b><b>report</b> and <b>met</b> are nearly always included since
+without them no data will go
+into, or come out of, an APSIM execution.&nbsp;
+The rest of the modules in the list will be environment modules, for
+example modules for soil water balance, soil nitrogen balance,
+irrigation,
+fertilisation and residues, and for the crops that you are modelling in
+your
+simulations.</p>
+<p class="Normal">&nbsp;</p>
+<p class="Normal">Along with the module names that you include for each
+simulation, you need to add the names of one or more parameter files
+where the
+APSIM engine can find information that is required by the module.&nbsp;
+Associated with each of these files is a
+section name within that file.&nbsp; You can
+think of these section names as a kind of 'book mark' that indicates
+where the
+necessary information starts for the module.&nbsp;
+By using this book mark approach we can minimise the number of files
+that the APSIM engine requires for executing the simulations.&nbsp; For
+the majority of modules, these parameter
+files have the file extension <b>.par</b>
+and the <b>met</b> module may have a file
+extension <b>.met</b> (reflecting&nbsp; APSIM's dependence on climate
+(meteorological) data as an essential input to a simulation).</p>
+<p class="Normal">&nbsp;</p>
+<p class="Normal">The section names in a control file are comprised of
+the key
+term <i>APSIM."simulation_name"</i>
+where the component "simulation_name" is replaced by the name you
+provide for the simulation.</p>
+<p class="Normal">&nbsp;</p>
+<p class="Normal">Finally, a version number is used to keep track of
+which
+apsim version you are using. </p>
+<p class="Title2"><br>
+Parameter
+Files</p>
+<p class="Normal">The parameter files provide the information that each
+of the
+selected modules requires.&nbsp; We'll
+examine each of the three types of parameter files - climate, parameter
+and
+management - and define what simulation information, conventionally,
+goes into
+each of them.</p>
+<p class="Title2"><br>
+Climate
+Files</p>
+<p class="Normal">When APSIM executes your simulations it uses the
+climate
+(weather) information contained in the files that you associated with
+the <b>met</b> module entries in the control file,
+and it looks for the sections identified by the book marks against
+those file
+entries, ie the <u>book marks in the control file are the section
+names in
+these parameter files</u>.&nbsp; Climate
+information is defined using both keywords for single value items such
+as site
+and latitude, and tabulated information for records, for example
+radiation,
+temp and rainfall on a specific day of a specific year.&nbsp; </p>
+<p class="Normal">&nbsp;</p>
+<p class="Normal">The section headings for climate information have the
+key
+term <i>met.weather</i> appended to the
+section name.</p>
+<p class="Title2"><br>
+Parameter
+Files</p>
+<p class="Normal">Although there are three types of files that can be
+classified as generic parameter files, these include a specific file
+type
+commonly known as a parameter file.&nbsp; The
+parameter file provides you with a way to provide an APSIM execution
+with all
+the information that you have to hand before your simulations start
+executing.&nbsp; As with the climate files, the various
+sections in any parameter file are linked to of all its occurrences in
+the
+control file (against one or more APSIM modules).</p>
+<p class="Normal">&nbsp;</p>
+<p class="Normal">Typical information in the parameter file includes
+file
+names for simulation details and summaries, and predetermined (or
+static)
+information about soil characteristics; sowing of crops and application
+of
+fertilisers and irrigation, all on fixed dates.&nbsp; The static
+information for scheduling sowing, irrigation etc is
+used by the <b>operatns</b> module, a fixed
+schedule manager may be either included in an <i>operations</i>
+section of either a parameter file or a management file
+(see later).</p>
+<p class="Normal">&nbsp;</p>
+<p class="Normal">The section headings for general parameter
+information have
+the key term <i>"module_name".parameters</i>
+appended to the section name, where "module name" is replace by the
+name of the APSIM module that the information is used by. </p>
+<p class="Title2"><br>
+Manager
+Rules</p>
+<p class="Normal">While most modules store their parameters as
+name/value
+pairs (eg “latitude = -27.2”), the manager module’s “parameters” are a
+set of
+procedures to apply when certain events occur. The manager rules (or
+parameters) are used to express dynamic, or conditional, logic in which
+the
+course of a simulation may be changed by the existence of certain
+states during
+its execution.&nbsp; For example, you may
+only wish to sow a crop if there is sufficient moisture in the soil;
+you may
+wish to apply an irrigation treatment under certain soil moisture
+conditions;
+and if you are sowing a crop conditionally then you may wish to apply a
+fertilizer treatment a specified number of days after sowing.&nbsp; The
+syntax of the manager files provides you
+with a way to specify these conditions using a simple <i>if
+"condition" then "action"</i> logic.&nbsp; </p>
+<p class="Normal">&nbsp;</p>
+<p class="Normal">Each of the section headings of the manager rules is
+appended with an event name. These include <i>init</i>,
+<i>start_of_day¸ end_of_day </i>and <i>sowing</i>, amongst
+others.&nbsp; The
+<i>init </i>rules relate to conditions and
+actions that are used only once at the beginning of a simulation, <i>start_of_day
+</i>and<i> end_of_day</i> relate
+to conditions and actions that are used before or after the daily
+time-step,
+respectively. <i>Sowing</i> sections relate to whenever any crop is
+sown, and a
+<i>harvesting</i> section applies to crops being harvested</p>
+<p class="Normal">&nbsp;</p>
+<p align="center"><b>&nbsp;</b></p>
+<p align="center"><img
+ src="./apsim%20for%20apprentices_files/image002.gif" height="686"
+ width="597"></p>
+<p class="Title2">Example</p>
+<p class="Normal">We will use a very simple example to illustrate how
+the
+strategy and APSIM modules can fit together to create a simple
+simulation.&nbsp; In no way does it reflect an actual
+simulation.</p>
+<p class="Normal">&nbsp;</p>
+<p class="Normal">The outcome of our strategic planning for this
+example is as
+follows:</p>
+<p class="Normal">·&nbsp;&nbsp;&nbsp;&nbsp; the
+artifacts that we are interested in are soil water balance and a wheat
+crop</p>
+<p class="Normal">·&nbsp;&nbsp;&nbsp;&nbsp; the
+factor that we are interested in is irrigation, ie this is a single
+factor
+experiment</p>
+<p class="Normal">·&nbsp;&nbsp;&nbsp;&nbsp; the
+three treatments that are of interest are no irrigation, irrigation at
+a
+specific time after sowing – 30 days, and irrigation based on the soil
+water
+content at a specific time after sowing </p>
+<p class="Normal">·&nbsp;&nbsp;&nbsp;&nbsp; we
+will require three different simulations in the APSIM execution to get
+results
+for each of these treatments</p>
+<p class="Normal">·&nbsp;&nbsp;&nbsp;&nbsp; each
+simulation will run for 2 years, from Jan 1<sup>st</sup>, 1990 to Dec 31<sup>st</sup>,
+1991 in the Gatton location.</p>
+<p class="Title2"><br>
+Tactical
+planning</p>
+<p class="Normal">For our simulation we can choose from the several
+plant
+modules and several water balance modules that are available for use in
+the
+APSIM environment</p>
+<p class="Normal">·&nbsp;&nbsp;&nbsp;&nbsp; use
+<b>wheat</b> and <b>soilwat2</b></p>
+<p class="Normal">Since the factor that is of interest is irrigation,
+we
+choose an irrigation module</p>
+<p class="Normal">·&nbsp;&nbsp;&nbsp;&nbsp; use
+<b>irrigate</b></p>
+<p class="Normal">We need a method to get information into APSIM and we
+want
+to see some results at the end of the simulations</p>
+<p class="Normal">·&nbsp;&nbsp;&nbsp;&nbsp; require
+<b>met</b> and <b>report</b></p>
+<p class="Normal">One of the treatments will apply irrigation at a
+known time
+after sowing, a static rule</p>
+<p class="Normal">·&nbsp;&nbsp;&nbsp;&nbsp; use
+<b>operatns</b></p>
+<p class="Normal">One of the treatments will apply irrigation under
+certain
+soil conditions at a specific time, thus we will need to check the soil
+water
+content on that day to determine whether to irrigate or not</p>
+<p class="Normal">·&nbsp;&nbsp;&nbsp;&nbsp; require
+<b>manager</b></p>
+<p class="Normal">&nbsp;</p>
+<p class="Normal">To provide the climate information we require a <b>.met</b>
+file for the Gatton area that
+includes weather data for the range 1-1-1990 to 31-1-1991, information
+about
+the latitude and the start and stop dates for the simulations.</p>
+<p class="Normal">&nbsp;</p>
+<p class="Normal">Additional information that we will need to create
+the files
+is:</p>
+<p class="Normal">·&nbsp;&nbsp;&nbsp;&nbsp; information
+about the wheat crop that will be sown, for these simulations we will
+sow the
+hartog cultivar</p>
+<p class="Normal">·&nbsp;&nbsp;&nbsp;&nbsp; a
+sowing date - we'll use day 121 in each year</p>
+<p class="Normal">·&nbsp;&nbsp;&nbsp;&nbsp; this
+defines our irrigation date as 151</p>
+<p class="Normal">·&nbsp;&nbsp;&nbsp;&nbsp; a
+method to determine soil moisture content, we'll use a fractional
+content of
+&lt;0.20 PAW in the second layer as the condition to irrigate.</p>
+<p class="Normal">&nbsp;</p>
+<p class="Normal">At this point it appears that we've covered
+everything that
+we need.&nbsp; Well ... we do need some <u>soil</u>
+to grow our crops in.&nbsp; Remember, the
+soil is the core of APSIM modelling, crops may come and go but the soil
+remains, being both depleted and replenished with the passing of time.</p>
+<p class="Normal">&nbsp;</p>
+<p class="Normal">Soil information is provided for an APSIM simulation
+by
+means of both keywords for single value items such as site and
+latitude, and
+tabulated information for groups of information.&nbsp; Different types
+of soil characteristic information is required by
+the various APSIM modules that model the soil properties.&nbsp; Soils
+information is included in the <b>.par</b> files.&nbsp; For this
+example we initially only include information that is
+required by <b>soilwat2</b>.&nbsp; However, further investigation of
+our chosen
+crop, wheat, reveals that it also requires a residue module and a
+nitrogen
+module to work within APSIM.&nbsp; Thus we
+add the modules <b>residue2</b> and <b>soiln2</b> to the collection
+of modules
+that we will use for our small simulation example.</p>
+<p class="Title2"><br>
+Operational
+Planning</p>
+<p class="Normal">To make our simulations operational we need first to
+create
+(or acquire) the files for the simulations (the operational planning
+phase) and
+then bring everything together in the APSIM environment and execute the
+simulations (operational implementation). </p>
+<p class="Title2">APSIM
+File Structure</p>
+<p class="Normal">The APSIM file structure is similar to the Microsoft
+Windows
+INI file format.&nbsp; Each file may contain
+a series of data sections.&nbsp; A start of a
+data section is signified by a section name enclosed in square
+brackets(“[ ]”) and the section is terminated by either the beginning
+of
+another data section or the end of the file.&nbsp;
+These sections contain data that is specified using a “keyword=“
+format.&nbsp; The sections and the data within the sections
+can be in any order.&nbsp; There are
+basically two types of files used for specifying information for a
+particular
+simulation run - Control files and Parameter files.</p>
+<p class="Title2">Control
+File</p>
+<p class="Normal">The control file contains information for
+configuration
+of&nbsp; the simulation run at the module
+level.&nbsp; It informs APSIM about what
+modules to use for this particular run, the order in which they are to
+be
+called and the source of the input data for each module.&nbsp; There
+can be many separate simulation
+configurations within one control file.&nbsp;
+Each configuration is kept in a separate section within the file.&nbsp;
+Each APSIM configuration section must have a
+name prefixed with “APSIM.” (note:- the prefix includes the
+period).&nbsp; </p>
+<p class="Title2">Example
+- control file</p>
+<p class="Normal">An APSIM model executable file may be configured to
+contain
+many modules within it but the user must choose which subset of these
+to
+activate for a particular simulation.&nbsp;
+For our example we configure the control file to activate the following
+modules: <b>clock, </b><b>report</b>,
+<b>met</b>,
+<b>soilwat2</b>, <b>soiln2</b>, <b>residue2</b>, <b>wheat</b>, <b>irrigate</b>,
+<b>operatns</b> and <b>manager</b>.&nbsp; Each of these modules may
+have their own parameter files with input data or the input
+data for a number of modules may be included in a single file.&nbsp; </p>
+<p class="Normal">&nbsp;</p>
+<p class="Normal">We'll start defining our simulations with the all
+important
+control file.&nbsp; We'll name our three
+simulations <u>no_water</u>, <u>fixed_water</u> and <u>maybe_water</u>.&nbsp;
+Where useful for additional clarity, footnotes
+will be referenced as comments within the files.</p>
+<p class="Normal">&nbsp;</p>
+<p class="Code">!------------------Apprentice.con--------------------</p>
+<p class="Code">version = 3.4</p>
+<p class="Code">[APSIM.no_water.control]</p>
+<p class="Code">module =
+clock&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+testvv.par [all] %apsuite\apsim\clock\clock.ini[standard]</p>
+<p class="Code">module = report&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+testvv.par [no_water] testvv.par[all]</p>
+<p class="Code">module = summaryfile&nbsp;
+testvv.par [no_water]</p>
+<p class="Code">module = input(met)&nbsp;&nbsp;
+GAT9495i.met[weather]</p>
+<p class="Code">module = soilwat2&nbsp;&nbsp;&nbsp;&nbsp;
+testvv.par [all] %apsuite\apsim\soilwat2\soilwat2.ini[standard]</p>
+<p class="Code">module = soiln2&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+testvv.par [all] %apsuite\apsim\soiln2\soiln2.ini&nbsp;&nbsp;&nbsp;
+[standard]</p>
+<p class="Code">module = residue2&nbsp;&nbsp;&nbsp;&nbsp;
+testvv.par [all] %apsuite\apsim\residue2\residue2.ini[standard]</p>
+<p class="Code">module = plant(wheat) testvv.par [all]
+%apsuite\apsim\wheat\wheat.ini&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+[standard]</p>
+<p class="Code">module = operatns&nbsp;&nbsp;&nbsp;&nbsp;
+testvv.par [all]</p>
+<p class="Code">module = manager&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+testvv.man [all]</p>
+<p class="Code">module = Screen&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+testvv.par [all]</p>
+<p class="Code">&nbsp;</p>
+<p class="Code">[APSIM.fixed_water.control]</p>
+<p class="Code">module =
+clock&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+testvv.par [all] %apsuite\apsim\clock\clock.ini[standard]</p>
+<p class="Code">module = report&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+testvv.par [fixed_water] testvv.par[all]</p>
+<p class="Code">module = summaryfile&nbsp;
+testvv.par [fixed_water]</p>
+<p class="Code">module = input(met)&nbsp;&nbsp;
+GAT9495i.met[weather]</p>
+<p class="Code">module = soilwat2&nbsp;&nbsp;&nbsp;&nbsp;
+testvv.par [all] %apsuite\apsim\soilwat2\soilwat2.ini[standard]</p>
+<p class="Code">module = soiln2&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+testvv.par [all] %apsuite\apsim\soiln2\soiln2.ini&nbsp;&nbsp;&nbsp;
+[standard]</p>
+<p class="Code">module = residue2&nbsp;&nbsp;&nbsp;&nbsp;
+testvv.par [all] %apsuite\apsim\residue2\residue2.ini[standard]</p>
+<p class="Code">module = plant(wheat) testvv.par [all]
+%apsuite\apsim\wheat\wheat.ini&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+[standard]</p>
+<p class="Code">module = operatns&nbsp;&nbsp;&nbsp;&nbsp;
+testvv.par [all] testvv.par[fixed_water]</p>
+<p class="Code">module = irrigate&nbsp;&nbsp;&nbsp;&nbsp;
+</p>
+<p class="Code">module = manager&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+testvv.man [all]</p>
+<p class="Code">module = Screen&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+testvv.par [all]</p>
+<p class="Code">&nbsp;</p>
+<p class="Code">[APSIM.maybe_water.control]</p>
+<p class="Code">module =
+clock&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+testvv.par [all] %apsuite\apsim\clock\clock.ini[standard]</p>
+<p class="Code">module = report&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+testvv.par [maybe_water] testvv.par[all]</p>
+<p class="Code">module = summaryfile&nbsp;
+testvv.par [maybe_water]</p>
+<p class="Code">module = input(met)&nbsp;&nbsp;
+GAT9495i.met[weather]</p>
+<p class="Code">module = soilwat2&nbsp;&nbsp;&nbsp;&nbsp;
+testvv.par [all] %apsuite\apsim\soilwat2\soilwat2.ini[standard]</p>
+<p class="Code">module = soiln2&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+testvv.par [all] %apsuite\apsim\soiln2\soiln2.ini&nbsp;&nbsp;&nbsp;
+[standard]</p>
+<p class="Code">module = residue2&nbsp;&nbsp;&nbsp;&nbsp;
+testvv.par [all] %apsuite\apsim\residue2\residue2.ini[standard]</p>
+<p class="Code">module = plant(wheat) testvv.par [all]
+%apsuite\apsim\wheat\wheat.ini&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+[standard]</p>
+<p class="Code">module = operatns&nbsp;&nbsp;&nbsp;&nbsp;
+testvv.par [all]</p>
+<p class="Code">module = irrigate&nbsp;&nbsp;&nbsp;&nbsp;
+</p>
+<p class="Code">module = manager&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+testvv.man [all]&nbsp;
+testvv.man[maybe_water]</p>
+<p class="Code">module = Screen&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+testvv.par [all]</p>
+<p class="Code">!------------End--Apprentice.con--------------------</p>
+<p class="Normal">&nbsp;</p>
+<p class="Normal">General notes</p>
+<p class="Normal">1.&nbsp;&nbsp;
+For common sections used by all the simulations we choose a
+section name [all]. </p>
+<p class="Normal">2.&nbsp;&nbsp;
+The syntax “module =
+plant(wheat)” says that we want to use the generic plant module as a
+wheat crop, a process is called instantiation. In this example, the met
+module
+is an instance of the input module.</p>
+<p class="Normal">3.&nbsp;&nbsp;
+There are two files for <b>clock</b>, <b>soilwat2</b>,<b> soiln2</b>,<b>
+residue2</b>, and <b>wheat</b>: the first
+with user-defined parameters, the second is a .ini file that contains
+specific
+constant values for each module. The “%apsuite”
+directory is a generic reference to the apsim installation directory
+that is
+currently running the simulation.</p>
+<p class="Normal">4.&nbsp;&nbsp;
+GAT9091.met is a weather file containing actual weather data
+from the experiment. </p>
+<p class="Normal">5.&nbsp;&nbsp;
+All the simulations include common fixed-schedule operations
+so the <b>operatns</b> module is included
+in all the simulations.&nbsp; Some people
+prefer to put all the management information, including the
+fixed-schedule
+operations into a single <b>manager </b>file.</p>
+<p class="Normal">6.&nbsp;&nbsp;
+The simulations implement an irrigation factor so we include
+the <b>irrigate</b> module, and a manager
+section that will apply that irrigation.</p>
+<p class="Normal">7.&nbsp;&nbsp;
+The final simulation includes a conditional treatment so we
+include the <b>manager</b> module to
+process this.</p>
+<p class="Normal">&nbsp;</p>
+<p class="Normal">We need to create (or acquire) a number of sections
+in a
+parameter file testvv.par to
+provide input data for the modules:</p>
+<p class="Normal">·&nbsp;&nbsp;&nbsp;&nbsp; we
+need to signal the start and end dates of the simulations. See the
+section
+heading [all.clock.parameters] to testvv.par.</p>
+<p class="Normal">·&nbsp;&nbsp;&nbsp;&nbsp; for
+s<b>oilwat2, soiln2 </b>and<b> residue2</b> we will take some existing
+soil properties for other soils in the Gatton area; we use the same
+section for
+all simulations since the gross soil characteristics are not likely
+differ
+between the simulations</p>
+<p class="Normal">·&nbsp;&nbsp;&nbsp;&nbsp; for
+<b>wheat,</b> we will have to create a
+section with appropriate information for the wheat module; again, we
+are using
+the same section for all simulations since the characteristics for
+wheat will
+not change for the different simulations</p>
+<p class="Normal">·&nbsp;&nbsp;&nbsp;&nbsp; for
+<b>irrigate,</b> we do not need to create a
+specific section, the module simply needs to be made available to the
+simulations - its actions will be determined in the case of fixed
+irrigation by
+the fixed schedule <b>operatns </b>module
+and for the conditional irrigation by the <b>manager</b>
+module</p>
+<p class="Normal">·&nbsp;&nbsp;&nbsp;&nbsp; for
+<b>report,</b> we need to create sections
+that identify what information we are interested in at the end of the
+simulations and where we want the outputs </p>
+<p class="Normal">·&nbsp;&nbsp;&nbsp;&nbsp; for
+<b>summaryfile,</b> we need to create a
+section that describes where the summary data should go </p>
+<p class="Normal">·&nbsp;&nbsp;&nbsp;&nbsp; for
+<b>operatns,</b>&nbsp; we will create a section for the wheat sowing
+that applies to all
+three simulations and a separate section for the fixed irrigation
+treatment in
+the second simulation that defines when and how much we want to irrigate</p>
+<p class="Normal">·&nbsp;&nbsp;&nbsp;&nbsp; for
+<b>manager,</b>&nbsp; we create a separate file (testvv.man)
+containing the conditional logic for the irrigation treatment for the
+last
+simulation, and a section that is common to all the simulations for
+harvesting
+the crop and activating the reporting function</p>
+<p class="Normal">&nbsp;</p>
+<p class="Title2">Parameter Files</p>
+<p class="Normal">Parameter files contain sections of input
+data as described earlier.&nbsp; The format
+for the section names is:-</p>
+<p class="Normal">&nbsp;</p>
+<p class="Normal"><i>&nbsp;[bookmark.module_name.section_name</i><i>]</i></p>
+<p class="Normal">&nbsp;</p>
+<p class="Normal"><i>Bookmark </i>&nbsp;is the user defined data group
+as listed in the control
+file.&nbsp; For example, we have chosen to
+use the bookmarks <u>no_water</u>, <u>fixed_water</u> and <u>maybe_water
+</u>to
+create logical grouping of input data specific to our three treatments.
+The
+“all” bookmark is also used.</p>
+<p class="Normal">&nbsp;</p>
+<p class="Normal"><i>Module_name</i> is the
+name of the APSIM module that will use (information sink) for the input
+data in
+that section.&nbsp; Therefore, data in any
+single section can only belong to a single APSIM module.</p>
+<p class="Normal">&nbsp;</p>
+<p class="Normal"><i>Section_name</i> is
+the name of the section as specified by the module.&nbsp; Some modules
+may locate their data in multiple sections so that
+subsets of their input data can be assigned by the user to different
+user
+defined sections.&nbsp; Most modules locate
+their data in two sections identified as parameters and constants. </p>
+<p class="Normal">Example - parameter files</p>
+<p class="Normal">&nbsp;</p>
+<p class="Code">!--------------GAT9091.met-------------------</p>
+<p class="Code">[weather.met.weather]</p>
+<p class="Code">amp&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; =&nbsp;&nbsp;
+15.0&nbsp;&nbsp;
+(oC)&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; ! temperature
+amplitude (oC) - difference between</p>
+<p class="Code">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+! highest and lowest mean monthly air
+temperatures</p>
+<p class="Code">tav&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; =&nbsp;&nbsp;
+20.0&nbsp;&nbsp;
+(oC)&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; ! mean annual air
+temperature (oC)</p>
+<p class="Code">latitude =&nbsp;
+-27.0&nbsp;&nbsp; (decimal degrees north)</p>
+<p class="Code">site year&nbsp;&nbsp;
+day&nbsp; radn&nbsp;&nbsp; maxt&nbsp;&nbsp;
+mint&nbsp;&nbsp; rain&nbsp;&nbsp;&nbsp; evap</p>
+<p class="Code">&nbsp; ()&nbsp;&nbsp; ()&nbsp;&nbsp;&nbsp;
+() (MJ/m2) (oC)&nbsp;&nbsp; (oC)&nbsp;&nbsp; (mm)&nbsp;&nbsp;&nbsp;
+(mm)</p>
+<p class="Code">GATT 1990&nbsp;&nbsp;&nbsp;&nbsp; 1
+20.74&nbsp;&nbsp; 33.0&nbsp;&nbsp; 17.4&nbsp;&nbsp;&nbsp;
+0.2&nbsp;&nbsp;&nbsp; 7.41</p>
+<p class="Code">GATT 1990&nbsp;&nbsp;&nbsp;&nbsp; 2
+23.43&nbsp;&nbsp; 33.8&nbsp;&nbsp; 23.0&nbsp;&nbsp;&nbsp;
+0.0&nbsp;&nbsp;&nbsp; 7.41</p>
+<p class="Code">GATT 1990&nbsp;&nbsp;&nbsp;&nbsp; 3
+23.79&nbsp;&nbsp; 32.5&nbsp;&nbsp; 21.0&nbsp;&nbsp;&nbsp;
+0.0&nbsp;&nbsp;&nbsp; 7.41&nbsp;&nbsp; </p>
+<p class="Code">&nbsp;"&nbsp;&nbsp;&nbsp;&nbsp;
+"&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; "&nbsp;&nbsp;
+"&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; "&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+"&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+"&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; "</p>
+<p class="Code">GATT 1991&nbsp;&nbsp; 361
+26.64&nbsp;&nbsp; 34.2&nbsp;&nbsp; 21.2&nbsp;&nbsp;&nbsp;
+0.0&nbsp;&nbsp;&nbsp; 7.51</p>
+<p class="Code">GATT 1991&nbsp;&nbsp; 362
+26.56&nbsp;&nbsp; 31.4&nbsp;&nbsp; 16.4&nbsp;&nbsp;&nbsp;
+0.0&nbsp;&nbsp;&nbsp; 7.51</p>
+<p class="Code">GATT 1991&nbsp;&nbsp; 363
+26.97&nbsp;&nbsp; 31.6&nbsp;&nbsp; 15.8&nbsp;&nbsp;&nbsp;
+0.0&nbsp;&nbsp;&nbsp; 7.51</p>
+<p class="Code">GATT 1991&nbsp;&nbsp; 364
+26.79&nbsp;&nbsp; 31.2&nbsp;&nbsp; 15.6&nbsp;&nbsp;&nbsp;
+0.0&nbsp;&nbsp;&nbsp; 7.51</p>
+<p class="Code">GATT 1991&nbsp;&nbsp; 365
+27.18&nbsp;&nbsp; 32.3&nbsp;&nbsp; 15.5&nbsp;&nbsp;&nbsp;
+0.0&nbsp;&nbsp;&nbsp; 7.51</p>
+<p class="Code">!--------end---GAT9091.met-------------------</p>
+<p class="Code">&nbsp;</p>
+<p class="Code">&nbsp;</p>
+<p class="Code">!--------------testvv.par---------------------</p>
+<p class="Code">!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!&nbsp; climate&nbsp;
+!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!</p>
+<p class="Code">[all.clock.parameters]</p>
+<p class="Code">Start_date = 1/1/1990</p>
+<p class="Code">End_date&nbsp;&nbsp; =
+31/12/1991</p>
+<p class="Code">&nbsp;</p>
+<p class="Code">!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!&nbsp;
+soil_water&nbsp;
+!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!</p>
+<p class="Code">[all.soilwat2.parameters]</p>
+<p class="Code">cona&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+=&nbsp;&nbsp; 3.5&nbsp;&nbsp;&nbsp; ()&nbsp;&nbsp;&nbsp;&nbsp; ! stage
+2 evap
+coef.</p>
+<p class="Code">diffus_const&nbsp;&nbsp;&nbsp;
+=&nbsp; 40.0&nbsp;&nbsp;&nbsp; ()&nbsp;&nbsp;&nbsp;&nbsp; ! coeffs for
+dbar</p>
+<p class="Code">diffus_slope&nbsp;&nbsp;&nbsp;
+=&nbsp; 16.0&nbsp;&nbsp;&nbsp; ()&nbsp;&nbsp;&nbsp;&nbsp;
+!&nbsp;&nbsp;&nbsp;&nbsp; "</p>
+<p class="Code">u&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+=&nbsp;&nbsp; 6.0&nbsp; (mm)&nbsp;&nbsp;&nbsp;&nbsp; ! stage 1 soil
+evaporation coefficient (mm)</p>
+<p class="Code">salb&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+&nbsp;&nbsp;&nbsp;=&nbsp;&nbsp;
+0.13&nbsp;&nbsp; ()&nbsp;&nbsp;&nbsp;&nbsp; ! bare soil albedo</p>
+<p class="Code">&nbsp;</p>
+<p class="Code">cn2_bare&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+=&nbsp; 72.0&nbsp;&nbsp;&nbsp; ()&nbsp;&nbsp;&nbsp;&nbsp; ! runoff
+curve
+number for BARE soil at AMC2</p>
+<p class="Code">cn_red&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+=
+20&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; ()&nbsp;&nbsp;&nbsp;&nbsp; !
+reduction in CN2_bare for "cn_cov" increase in
+cover</p>
+<p class="Code">cn_cov&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+=
+0.8&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; ()&nbsp;&nbsp;&nbsp;&nbsp; ! frac.
+cover for "cn_red" reduction in cover</p>
+<p class="Code">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+! &amp; max. cover for reduction</p>
+<p class="Code">&nbsp;</p>
+<p class="Code">! layer&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+1&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+2&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+3&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+4&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+5&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 6</p>
+<p class="Code">dlayer&nbsp; =&nbsp; 100.000 200.000 300.000 300.000
+300.000
+300.000&nbsp; (mm)&nbsp;&nbsp;&nbsp; ! layer depth</p>
+<p class="Code">air_dry =&nbsp;&nbsp;&nbsp;
+0.084&nbsp;&nbsp; 0.251&nbsp;&nbsp; 0.246&nbsp;&nbsp;
+0.232&nbsp;&nbsp; 0.219&nbsp;&nbsp; 0.226&nbsp;
+(mm/mm) ! air dry</p>
+<p class="Code">ll15&nbsp;&nbsp;&nbsp; =&nbsp;&nbsp;&nbsp;
+0.198&nbsp;&nbsp;
+0.251&nbsp;&nbsp; 0.246&nbsp;&nbsp; 0.232&nbsp;&nbsp;
+0.219&nbsp;&nbsp; 0.226&nbsp; (mm/mm) ! drained upper limit</p>
+<p class="Code">dul&nbsp;&nbsp;&nbsp;&nbsp; =&nbsp;&nbsp;&nbsp;
+0.400&nbsp;&nbsp;
+0.428&nbsp;&nbsp; 0.430&nbsp;&nbsp; 0.430&nbsp;&nbsp;
+0.386&nbsp;&nbsp; 0.342&nbsp; (mm/mm) ! lower limit</p>
+<p class="Code">sat&nbsp;&nbsp;&nbsp;&nbsp; =&nbsp;&nbsp;&nbsp;
+0.550&nbsp;&nbsp;
+0.500&nbsp; &nbsp;0.500&nbsp;&nbsp; 0.480&nbsp;&nbsp; 0.460&nbsp;&nbsp;
+0.460&nbsp; (mm/mm) ! saturated soil
+water</p>
+<p class="Code">sw&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; =&nbsp;&nbsp;&nbsp;
+0.400&nbsp;&nbsp;
+0.428&nbsp;&nbsp; 0.430&nbsp;&nbsp; 0.430&nbsp;&nbsp;
+0.386&nbsp;&nbsp; 0.342&nbsp; (mm/mm) ! initial sw</p>
+<p class="Code">swcon&nbsp;&nbsp; =&nbsp;&nbsp;&nbsp; 0.100&nbsp;&nbsp;
+0.100&nbsp;&nbsp; 0.100&nbsp;&nbsp; 0.100&nbsp;&nbsp;
+0.100&nbsp;&nbsp; 0.100&nbsp; ()&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+! soil conductivity</p>
+<p class="Code">bd&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; =&nbsp;&nbsp;&nbsp;
+1.000&nbsp;&nbsp;
+1.270&nbsp;&nbsp; 1.320&nbsp;&nbsp; 1.350&nbsp;&nbsp;
+1.430&nbsp;&nbsp; 1.430&nbsp; (g/cc)&nbsp;
+! bulk density gm dry</p>
+<p class="Code">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+! soil/cc moist soil</p>
+<p class="Code">insoil =
+1&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+! flag
+for initial soil </p>
+<p class="Code">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;!
+water</p>
+<p class="Code">&nbsp;</p>
+<p class="Code">!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!&nbsp;
+Soil_nitrogen&nbsp;
+!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!</p>
+<p class="Code">[all.soiln2.parameters]</p>
+<p class="Code">root_cn&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+=&nbsp;&nbsp; 50.0&nbsp;&nbsp;
+()&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+!</p>
+<p class="Code">root_wt&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+=
+1000.0&nbsp;&nbsp; (kg/ha)&nbsp;&nbsp;&nbsp; !</p>
+<p class="Code">soil_cn&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+=&nbsp;&nbsp; 12.5&nbsp;&nbsp;
+()&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+! soil humic pool C:N ratio</p>
+<p class="Code">&nbsp;</p>
+<p class="Code">enr_a_coeff&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+=&nbsp;&nbsp;&nbsp; 7.4&nbsp;&nbsp; ()</p>
+<p class="Code">enr_b_coeff&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+=&nbsp;&nbsp;&nbsp; 0.2&nbsp;&nbsp; ()</p>
+<p class="Code">profile_reduction =&nbsp;&nbsp;&nbsp;&nbsp;
+off&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+! (on|off)
+whether to remap N+C if</p>
+<p class="Code">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+! soil loss occurs.</p>
+<p class="Code">&nbsp;</p>
+<p class="Code">&nbsp;&nbsp; !
+layer&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+1&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+2&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+3&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+4&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+5&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 6</p>
+<p class="Code">oc&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+=&nbsp;&nbsp;&nbsp;&nbsp; 1.030&nbsp;&nbsp;
+0.860&nbsp;&nbsp; 0.770&nbsp;&nbsp; 0.650&nbsp;&nbsp;
+0.540&nbsp;&nbsp; 0.480 (%)&nbsp;&nbsp; ! organic carbon %</p>
+<p class="Code">ph&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+=&nbsp;&nbsp;&nbsp;&nbsp; 8.200&nbsp;&nbsp;
+8.500&nbsp;&nbsp; 8.600&nbsp;&nbsp; 8.600&nbsp;&nbsp;
+7.400&nbsp;&nbsp; 5.300 ()&nbsp;&nbsp;&nbsp; ! ph</p>
+<p class="Code">fbiom&nbsp;&nbsp; =&nbsp;&nbsp;&nbsp;&nbsp;
+0.050&nbsp;&nbsp;
+0.020&nbsp;&nbsp; 0.015&nbsp;&nbsp; 0.010&nbsp;&nbsp;
+0.010&nbsp;&nbsp; 0.010 ()&nbsp;&nbsp;&nbsp; ! microbe fraction of </p>
+<p class="Code">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+!
+humic pool</p>
+<p class="Code">finert&nbsp; =&nbsp;&nbsp;&nbsp;&nbsp;
+0.390&nbsp;&nbsp;
+0.470&nbsp;&nbsp; 0.520&nbsp;&nbsp; 0.620&nbsp;&nbsp;
+0.740&nbsp;&nbsp; 0.830 ()&nbsp;&nbsp;&nbsp; ! inert fraction of humic </p>
+<p class="Code">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;!
+pool</p>
+<p class="Code">ureappm =&nbsp;&nbsp;&nbsp;&nbsp;
+0.000&nbsp;&nbsp; 0.000&nbsp;&nbsp; 0.000&nbsp;&nbsp;
+0.000&nbsp;&nbsp; 0.000&nbsp;&nbsp; 0.000 (ppm) ! ppm urea</p>
+<p class="Code">no3ppm&nbsp; =&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+0.62&nbsp;&nbsp;&nbsp;
+0.09&nbsp;&nbsp;&nbsp; 0.09&nbsp;&nbsp; 0.065&nbsp;&nbsp;
+0.055&nbsp;&nbsp;&nbsp; 0.08 (ppm) ! ppm nitrate</p>
+<p class="Code">nh4ppm&nbsp; =&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+0.65&nbsp;&nbsp;&nbsp;&nbsp;
+0.5&nbsp;&nbsp;&nbsp;&nbsp; 0.5&nbsp;&nbsp;&nbsp;&nbsp; 0.4
+&nbsp;&nbsp;&nbsp;&nbsp;0.4&nbsp;&nbsp;&nbsp; 0.25 (ppm) ! ppm
+ammonia</p>
+<p class="Code">&nbsp;</p>
+<p class="Code">!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!&nbsp; residue&nbsp;
+!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!</p>
+<p class="Code">[all.residue2.parameters]</p>
+<p class="Code">pot_decomp_rate&nbsp;&nbsp;
+=&nbsp;&nbsp;&nbsp; 0.05&nbsp; ()</p>
+<p class="Code">residue_wt&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+=&nbsp; 500.0&nbsp;&nbsp; ()&nbsp;
+! surface residues as biomass (kg/ha)</p>
+<p class="Code">residue_cnr&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+=&nbsp;&nbsp; 76.0&nbsp;&nbsp; ()&nbsp;
+! cn ratio of surface residues</p>
+<p class="Code">residue_type&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+=&nbsp; sorghum</p>
+<p class="Code">&nbsp;</p>
+<p class="Code">!!!!!!!!!!!!!!!!!!!!!!!!!!!!&nbsp; wheat
+parameters&nbsp;
+!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!</p>
+<p class="Code">[all.wheat.parameters]</p>
+<p class="Code">ll =&nbsp; 0.216&nbsp;&nbsp; 0.222&nbsp;&nbsp;
+0.222&nbsp;&nbsp; 0.273&nbsp;&nbsp; 0.287&nbsp;&nbsp;
+0.309&nbsp; () ! cm3 water/cm3 soil</p>
+<p class="Code">kl =&nbsp; 0.07&nbsp;&nbsp;&nbsp;
+0.07&nbsp;&nbsp;&nbsp;
+0.07&nbsp;&nbsp;&nbsp; 0.07&nbsp;&nbsp;&nbsp; 0.05&nbsp;&nbsp;&nbsp;
+0.05&nbsp;&nbsp; () ! Rate of water
+extraction</p>
+<p class="Code">XF =&nbsp; 1.0&nbsp;&nbsp;&nbsp;&nbsp;
+1.0&nbsp;&nbsp;&nbsp;&nbsp;
+1.0&nbsp;&nbsp;&nbsp;&nbsp; 1.0&nbsp;&nbsp;&nbsp;&nbsp;
+1.0&nbsp;&nbsp;&nbsp;&nbsp;
+1.0&nbsp;&nbsp;&nbsp; () ! extraction front</p>
+<p class="Code">!!!!!!!!!!!!!!!!!! Fixed schedule operations
+!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!</p>
+<p class="Code">&nbsp;</p>
+<p class="Code">[all.operatns.parameters]</p>
+<p class="Code">1990&nbsp; 121 wheat sow
+cultivar = hartog, plants = 120, sowing_depth = 30 (mm)</p>
+<p class="Code">1991&nbsp; 121 wheat sow
+cultivar = hartog, plants = 120, sowing_depth = 30 (mm)</p>
+<p class="Code">&nbsp;</p>
+<p class="Code">[fixed_water.operatns.parameters]</p>
+<p class="Code">1990&nbsp; 151 irrigate
+apply amount = 50 (mm)</p>
+<p class="Code">1991&nbsp; 151 irrigate
+apply amount = 50 (mm)</p>
+<p class="Code">&nbsp;</p>
+<p class="Code">!!!!!!!!!!!!!!!!!!!!!!!!!! Reporting
+!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!</p>
+<p class="Code">&nbsp;</p>
+<p class="Code">[all.report.parameters]</p>
+<p class="Code">variable = clock.year</p>
+<p class="Code">variable = clock.day</p>
+<p class="Code">variable = wheat.yield as grn_yield</p>
+<p class="Code">!&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+^-module name</p>
+<p class="Code">!&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+&nbsp;&nbsp;^- variable name</p>
+<p class="Code">!&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+^ alias</p>
+<p class="Code">&nbsp;</p>
+<p class="Code">&nbsp;</p>
+<p class="Code">[no_water.report.parameters]</p>
+<p class="Code">outputfile = nowater.out</p>
+<p class="Code">[no_water.summaryfile.parameters]</p>
+<p class="Code">summaryfile = nowater.sum</p>
+<p class="Code">&nbsp;</p>
+<p class="Code">[fixed_water.report.parameters]</p>
+<p class="Code">outputfile = fixedwater.out</p>
+<p class="Code">[fixed_water.summaryfile.parameters]</p>
+<p class="Code">summaryfile = fixedwater.sum</p>
+<p class="Code">&nbsp;</p>
+<p class="Code">[maybe_water.report.parameters]</p>
+<p class="Code">outputfile = maybewater.out</p>
+<p class="Code">[maybe_water.summaryfile.parameters]</p>
+<p class="Code">summaryfile = maybewater.sum</p>
+<p class="Code">!----------------end---testvv.par--------------------</p>
+<p class="Normal">&nbsp;</p>
+<p class="Title2">Manager
+Parameter Files</p>
+<p class="Normal">The manager module manages by issuing messages to
+modules in
+the system, many of which are conditional upon states or events within
+the
+modules during simulation.</p>
+<p class="Normal">For example:-</p>
+<p class="Normal">&nbsp;</p>
+<p class="Code">if (day =
+100) then</p>
+<p class="Code">&nbsp;&nbsp; fertiliz apply
+<u>amount = 10 (kg/ha), type = urea (), depth = 50(mm)</u></p>
+<p class="Code">endif</p>
+<p class="Normal">&nbsp;</p>
+<p class="Normal">Here the fertiliz module will be sent a message
+containing a directive to apply (the action) fertiliser when the
+condition is
+satisfied.&nbsp; It receives a data values
+(the underlined text) which further describe the action.</p>
+<p class="Title2"><br>
+Manager's
+parameter file settings</p>
+<p class="Normal">As illustrated above, the manager module's input
+consists of
+a set of rules and calculations to be used during a simulation.&nbsp;
+The manager module differs from other APSIM
+modules in that it does not require a parameters data
+section.&nbsp; Instead, it has data sections
+that are applied in response to events, such as start_of_day and
+end_of_day.&nbsp; </p>
+<p class="Title2"><br>
+Example
+- Manager parameter files</p>
+<p class="Normal">In our example we will implement two conditional
+actions.&nbsp; The first of these applies to
+all of the simulations and causes the crop to be harvested when it is
+mature
+and the reporting of the yield; this occurs at the end of the daily
+timestep.&nbsp; The second action checks the
+PAW (plant available water) of the second layer of the soil, and if it
+falls
+below the level that we have defined it generates an irrigation action.</p>
+<p class="Normal">&nbsp;</p>
+<p class="Code">!----------------------testvv.man--------------------</p>
+<p class="Code">&nbsp;</p>
+<p class="Code">!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!&nbsp; manager&nbsp;
+!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!</p>
+<p class="Code">[all.manager.end_of_day]</p>
+<p class="Code">if (wheat.stage_name = 'harvest_ripe' or </p>
+<p class="Code">&nbsp;&nbsp;&nbsp;
+wheat.plant_status = 'dead') then </p>
+<p class="Code">&nbsp;&nbsp;&nbsp; report
+do_output&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+!report the final yield</p>
+<p class="Code">&nbsp;&nbsp; &nbsp;wheat
+harvest&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+!harvest our crop</p>
+<p class="Code">&nbsp;&nbsp;&nbsp; wheat end_crop</p>
+<p class="Code">endif</p>
+<p class="Code">&nbsp;</p>
+<p class="Code">[maybe_water.manager.start_of_day]</p>
+<p class="Code">PAW = (sw(2) - ll15(2))/(dul(2)-ll15(2))</p>
+<p class="Code">&nbsp;</p>
+<p class="Code">if (day = 151 AND PAW &lt; 0.50)
+then&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+</p>
+<p class="Code">&nbsp;&nbsp;&nbsp; irrigate apply
+amount = 50 (mm)</p>
+<p class="Code">endif</p>
+<p class="Code">&nbsp; </p>
+<p class="Code">!----------------end---testvv.man--------------------</p>
+<p class="Normal">&nbsp;</p>
+<p class="Normal">Note that, with the exception of the met file which
+has been
+elided for the sake of space, these files are all that is needed for
+the APSIM
+simulation.</p>
+<p class="Title2"><br>
+Results</p>
+<p class="Normal">The results of this APSIM simulation are sent to two
+files.&nbsp; New APSIM users may at first
+find one of these filenames a little confusing.&nbsp; The file in which
+we are most interested is the output file that contains
+our results.&nbsp; In the reporting section
+of the parameter file we nominated the variables <b>day</b> and <b>year</b>
+(from the <b>clock</b> module) and <b>yield</b> (from the <b>wheat </b>module)
+as being the variables that we were most interested in.&nbsp; The three
+output files for <u>nowater</u>, <u>fixwater</u>
+and <u>maywater</u> treatments are as follows:</p>
+<p class="Code">&nbsp;</p>
+<p class="Code">Summary_file=nowater.sum</p>
+<p class="Code">Title =</p>
+<p class="Code">&nbsp;&nbsp;&nbsp; day&nbsp;&nbsp;
+year&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+grn_yld</p>
+<p class="Code">&nbsp;&nbsp;&nbsp;&nbsp; ()&nbsp;&nbsp;&nbsp;&nbsp;
+()&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+(kg/ha)</p>
+<p class="Code">&nbsp;&nbsp;&nbsp; 253&nbsp;&nbsp;
+1990&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+1008.547</p>
+<p class="Code">&nbsp;&nbsp;&nbsp; 262&nbsp;&nbsp;
+1991&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+1039.952</p>
+<p class="Code">&nbsp;</p>
+<p class="Code">Summary_file=fixwater.sum</p>
+<p class="Code">Title =</p>
+<p class="Code">&nbsp;&nbsp;&nbsp; day&nbsp;&nbsp;
+year&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+grn_yld</p>
+<p class="Code">&nbsp;&nbsp;&nbsp;&nbsp; ()&nbsp;&nbsp;&nbsp;&nbsp;
+()&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+(kg/ha)</p>
+<p class="Code">&nbsp;&nbsp;&nbsp; 253&nbsp;&nbsp;
+1990&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+787.281</p>
+<p class="Code">&nbsp;&nbsp; &nbsp;262&nbsp;&nbsp;
+1991&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 988.817</p>
+<p class="Code">&nbsp;</p>
+<p class="Code">Summary_file=maywater.sum</p>
+<p class="Code">Title =</p>
+<p class="Code">&nbsp;&nbsp;&nbsp; day&nbsp;&nbsp;
+year&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+grn_yld</p>
+<p class="Code">&nbsp;&nbsp;&nbsp;&nbsp; ()&nbsp;&nbsp;&nbsp;&nbsp;
+()&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+(kg/ha)</p>
+<p class="Code">&nbsp;&nbsp;&nbsp; 253&nbsp;&nbsp;
+1990&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+1008.547</p>
+<p class="Code">&nbsp;&nbsp;&nbsp; 262&nbsp;&nbsp;
+1991&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+1039.952</p>
+<p class="Normal">&nbsp;</p>
+<p class="Normal">You should note that the first line of each file is
+somewhat
+misleading in that it does not refer to the file that is listed but
+rather to
+its companion summary file!&nbsp; </p>
+<p class="Normal">&nbsp;</p>
+<p class="Normal">An APSIM summary file captures a range of information
+about
+the <u>state</u> of the simulation during an APSIM run. Therefore, its
+contents
+are most useful if a simulation run does not give the expected results,
+fails
+to complete the run, or as a guide to where the problem may have
+occurred.&nbsp; Summary files can be quite large (the ones
+for these simulations were between 350 and 370 lines each) and are
+omitted from
+this document to conserve space. </p>
+<p class="Normal">&nbsp;</p>
+<p class="Title2">The
+Front End to APSIM</p>
+<p class="Normal">There are two levels of user interface to APSIM that
+allow
+you to configure and run simulations.&nbsp;
+Which one you choose depends primarily on your level of computing
+skills.&nbsp; </p>
+<p class="Normal">&nbsp;</p>
+<p class="Normal">APSFront targets those users who have had little
+simulation
+Experience.&nbsp; It provides access to a
+useable subset of APSIM functionality and will build control and
+parameters
+files for you from your menu selections.&nbsp;
+It also has options for displaying the output graphically or in a
+tabular
+form.&nbsp; APSFront is a also a useful tool
+for building a set of input files for you which you can then take away
+and
+modify manually.</p>
+<p class="Normal">&nbsp;</p>
+<p class="Normal">For those at home with text files and editors,
+control files
+can be run either directly from windows explorer (right click on a
+control
+file), or through your editor’s “Run Command” feature. The SEG keeps a
+set of
+ultraedit (<a href="http://www.ultraedit.com/">www.ultraedit.com</a>)
+macros at
+the helpdesk (<a href="http://www.apsim.info/">http://www.apsim.info/</a>)
+for
+this task. The same (right click) mechanism can be used to drop output
+files
+into Excel. </p>
+<p class="Normal">&nbsp;</p>
+<p class="Normal">ApsimReport is a developing application allowing the
+user to
+setup reports containing graphics, text, images etc and save this
+report to a
+file. The reports are flexible in allowing the user to put any number
+of charts
+and/or text anywhere they please on a page. </p>
+<p class="Normal">&nbsp;</p>
+</div>
+</body>
+</html>

@@ -1,0 +1,991 @@
+<?xml version="1.0"?>
+<types>
+
+   <builtin name="Boolean" kind="boolean"/>
+   <builtin name="Int" kind="integer4" boundable="T"/>
+   <builtin name="Float" kind="single" boundable="T"/>
+   <builtin name="Double" kind="double" boundable="T"/>
+   <builtin name="String" kind="string"/>
+   <builtin name="BoolArray" kind="boolean" array="T"/>
+   <builtin name="IntArray" kind="integer4" array="T" boundable="T"/>
+   <builtin name="FloatArray" kind="single" array="T" boundable="T"/>
+   <builtin name="DoubleArray" kind="double" array="T" boundable="T"/>
+   <builtin name="StringArray" kind="string" array="T"/>
+
+   <!--   !!!!!! Message types !!!!!!-->
+   <type name="Complete">
+      <field name="ackID" kind="integer4"/>
+   </type>
+
+   <type name="Error">
+      <field name="msg" kind="string"/>
+      <field name="isFatal" kind="boolean"/>
+   </type>
+   <type name="Event">
+      <field name="ID" kind="integer4"/>
+      <field name="publishedBy" kind="integer4"/>
+      <field name="ddml" kind="string"/>
+   </type>
+   <type name="GetValue">
+      <field name="ID" kind="integer4"/>
+   </type>
+   <type name="Init1">
+      <field name="sdml" kind="string"/>
+      <field name="fqn" kind="string"/>
+      <field name="inStartup" kind="boolean"/>
+   </type>
+   <type name="NotifySetValueSuccess">
+      <field name="ID" kind="integer4"/>
+      <field name="success" kind="boolean"/>
+   </type>
+   <type name="PublishEvent">
+      <field name="ID" kind="integer4"/>
+      <field name="ddml" kind="string"/>
+   </type>
+   <type name="QueryInfo">
+      <field name="name" kind="string"/>
+      <field name="kind" kind="integer4"/>
+   </type>
+   <type name="Register">
+      <field name="kind" kind="integer4"/>
+      <field name="ID" kind="integer4"/>
+      <field name="destID" kind="integer4"/>
+      <field name="name" kind="string"/>
+      <field name="ddml" kind="string"/>
+   </type>
+   <type name="ReplyValue">
+      <field name="queryID" kind="integer4"/>
+      <field name="ddml" kind="string"/>
+   </type>
+   <type name="RequestSetValue">
+      <field name="ID" kind="integer4"/>
+      <field name="ddml" kind="string"/>
+   </type>
+   <type name="ReturnInfo">
+      <field name="queryID" kind="integer4"/>
+      <field name="compID" kind="integer4"/>
+      <field name="ID" kind="integer4"/>
+      <field name="name" kind="string"/>
+      <field name="type" kind="string"/>
+      <field name="kind" kind="integer4"/>
+   </type>
+   <type name="ReturnValue">
+      <field name="compID" kind="integer4"/>
+      <field name="ID" kind="integer4"/>
+      <field name="ddml" kind="string"/>
+   </type>
+
+   <type name="QueryValue">
+      <field name="ID" kind="integer4"/>
+      <field name="requestedByID" kind="integer4"/>
+   </type>
+
+   <type name="QuerySetValue">
+      <field name="ID" kind="integer4"/>
+      <field name="ddml" kind="string"/>
+   </type>
+
+   <!--   !!!!! Layered type !!!!!! -->
+   <type name="Layered" description="Layered soil data">
+      <field name="layer" kind="double" array="T"/>
+      <field name="value" kind="double" array="T"/>
+   </type>
+
+
+   <!--   !!!!! CLOCK types !!!!! -->
+   <type name="Time" description="Change in the simulation system time and the duration of the new time step">
+      <field name="startday" kind="integer4" description="Day number of the start of the timestep"/>
+      <field name="startsec" kind="integer4" description="Seconds past midnight of the start of the timestep (0-86399)"/>
+      <field name="startsecpart" kind="double" description="Fraction of a second of the start of the timestep (0-1)"/>
+      <field name="endday" kind="integer4" description="Day number of the end of the timestep"/>
+      <field name="endsec" kind="integer4" description="Seconds past midnight of the end of the timestep (0-86399)"/>
+      <field name="endsecpart" kind="double" description="Fraction of a second of the end of the timestep (0-1)"/>
+   </type>
+
+   <!--   !!!!! MET types !!!!!-->
+   <type name="NewMet">
+      <field name="today"  kind="double"/>
+      <field name="radn"  kind="single" lower_bound="0.0" upper_bound="50.0" units="MJ/m2/d"/>
+      <field name="maxt"  kind="single" lower_bound="-10.0" upper_bound="70.0"  units="oC"/>
+      <field name="mint"  kind="single" lower_bound="-20.0" upper_bound="50.0"  units="oC"/>
+      <field name="rain"  kind="single" lower_bound="0.0" upper_bound="1000.0"  units="mm/d"/>
+      <field name="vp"    kind="single" units="????"/>
+   </type>
+
+   <type name="SoilWaterProfileLayer" array="T">
+      <element>
+      <field name="thickness" kind="single" units="mm"/>
+      <field name="BulkDensity" kind="single" units="g/cc"/>
+      <field name="SatDepth" kind="single" units="mm"/>
+      <field name="DULDepth" kind="single" units="mm"/>
+      <field name="LL15Depth" kind="single" units="mm"/>
+      <field name="AirDryDepth" kind="single" units="mm"/>
+      <field name="SWDepth" kind="single" units="mm"/>
+      </element>
+   </type>
+
+   <type name="SoilWaterLayer" array="T">
+      <element>
+      <field name="thickness" kind="single" units="mm"/>
+      <field name="amount" kind="single" units="mm"/>
+      </element>
+   </type>
+
+   <type name="SoilWaterBalance">
+      <field name="infiltration" kind="single"/>
+      <field name="drainage" kind="single"/>
+      <field name="evaporation" kind="single"/>
+      <field name="LateralFlowLayer" array="T">
+         <element>
+         <field name="thickness" kind="single"/>
+         <field name="amount" kind="single"/>
+         </element>
+      </field>
+   </type>
+
+   <!--   !!!!! SOLUTE types !!!!! -->
+
+   <type name="NewSolute">
+      <field name="sender_name" kind="string"/>
+      <field name="sender_numbytes" kind="integer4"/>
+      <field name="sender_code" kind="integer4"/>
+      <field name="sender_isarray" kind="boolean"/>
+      <field name="sender_value" kind="string" />
+      <field name="sender_id_name" kind="string"/>
+      <field name="sender_id_numbytes" kind="integer4"/>
+      <field name="sender_id_code" kind="integer4"/>
+      <field name="sender_id_isarray" kind="boolean"/>
+      <field name="sender_id_value" kind="integer4" />
+      <field name="solute_names_name" kind="string"/>
+      <field name="solute_names_numbytes" kind="integer4"/>
+      <field name="solute_names_code" kind="integer4"/>
+      <field name="solute_names_isarray" kind="boolean"/>
+      <field name="solute_names_value" kind="string" array="T" />
+   </type>
+
+   <type name="SoluteProfile" array="T">
+      <element>
+      <field name="name" kind="string"/>
+      <field name="layer" array="T">
+         <element>
+         <field name="thickness" kind="single"/>
+         <field name="amount" kind="single"/>
+         </element>
+      </field>
+      </element>
+   </type>
+
+
+   <!--      !!!!! IRRIGATE types !!!!!  -->
+   <type name="Irrigated" description="Sent when an irrigation occurs">
+      <field name="sender_name" kind="string"/>
+      <field name="sender_numbytes" kind="integer4"/>
+      <field name="sender_code" kind="integer4"/>
+      <field name="sender_isarray" kind="boolean"/>
+      <field name="sender_value" kind="string" />
+      <field name="sender_id_name" kind="string"/>
+      <field name="sender_id_numbytes" kind="integer4"/>
+      <field name="sender_id_code" kind="integer4"/>
+      <field name="sender_id_isarray" kind="boolean"/>
+      <field name="sender_id_value" kind="integer4" />
+      <field name="amount_name" kind="string"/>
+      <field name="amount_numbytes" kind="integer4"/>
+      <field name="amount_code" kind="integer4"/>
+      <field name="amount_isarray" kind="boolean"/>
+      <field name="amount_value" kind="single"/>
+   </type>
+
+
+   <!--      !!!!! CROP types !!!!!-->
+
+   <type name="CropWaterSupply" array = "T">
+      <element>
+      <field name="name" kind="string"/>
+      <field name="layer" array = "T">
+         <element>
+         <field name="thickness" kind="single" unit="mm" />
+         <field name="amount"    kind="single" unit="mm" />
+         </element>
+      </field>
+      </element>
+   </type>
+
+   <type name="CropWaterDemand" description="Message sent to add crop water demand terms to water balance calculations." array="T">
+      <element>
+      <field name="Name" kind = "string" description="Cohort name + instance name"/>
+      <field name="CropType" kind = "string"/>
+      <field name="RootLayer" array = "T">
+          <element>
+             <field name="thickness" kind="single" units="mm"/>
+             <field name="RootLengthDensity" kind="single" units="mm/mm3"/>
+             <field name="PotentialUptake" kind="single" units="mm"/>
+          </element>
+      </field>
+      <field name="amount" kind="single" unit="mm"/>
+      </element>
+   </type>
+
+   <type name="CropNitrogenDemand" array="T" description="Message sent to add crop N demand terms to N balance calculations." >
+      <element>
+      <field name="Name" kind = "string" description="Cohort name + instance name"/>
+      <field name="CropType" kind = "string"/>
+      <field name="RootLayer" array = "T">
+          <element>
+             <field name="thickness" kind="single" units="mm"/>
+             <field name="RootLengthDensity" kind="single" units="mm/mm3"/>
+             <field name="PotentialUptakeNO3" kind="single" units="kg/ha"/>
+             <field name="PotentialUptakeNH4" kind="single" units="kg/ha"/>
+          </element>
+      </field>
+      <field name="amount" kind="single" unit="kg/ha"/>
+      </element>
+   </type>
+
+<!--
+!  dsg 030702  array sized for number of crops
+!
+-->
+   <type name="CropNitrogenSupply" array = "T">
+      <element>
+      <field name="name" kind="string" description="Crop type + instance name"/>
+      <field name="layer" array = "T">
+         <element>
+         <field name="thickness" kind="single" unit="mm" />
+         <field name="amount" >
+              <element>
+                   <field name="NH4"    kind="single" unit="kg/ha" />
+                   <field name="NO3"    kind="single" unit="kg/ha" />
+              </element>
+         </field>
+         </element>
+      </field>
+      </element>
+   </type>
+
+   <!--      !!!!! MICROMET types !!!!!-->
+
+   <type name="LightProfile">
+      <field name="Interception" array="T">
+         <element>
+         <field name="name" kind="string"/>
+         <field name="CropType" kind="string"/>
+         <field name="layer" array="T">
+            <element>
+            <field name="thickness" kind="single"/>
+            <field name="amount" kind="single"/>
+            </element>
+         </field>
+
+         </element>
+      </field>
+      <field name="transmission" kind = "single"/>
+   </type>
+
+   <type name="CanopyWaterBalance">
+      <field name="Canopy" array="T">
+         <element>
+         <field name="name" kind="string"/>
+         <field name="CropType" kind="string"/>
+         <field name="PotentialEp" kind="single"/>
+         </element>
+      </field>
+      <field name="eo" kind = "single"/>
+      <field name="interception" kind = "single"/>
+   </type>
+
+
+   <type name="Canopy" array="T">
+      <element>
+      <field name="name" kind="string"/>
+      <field name="CropType" kind="string"/>
+      <field name="Layer" array="T">
+         <element>
+         <field name="Thickness" kind="single"/>
+         <field name="LAI" kind="single"/>
+         <field name="CoverGreen" kind="single"/>
+         <field name="CoverTotal" kind="single"/>
+         </element>
+      </field>
+      <field name="frgr" kind="single"/>
+      </element>
+   </type>
+
+   <!--      !!!!! RESIDUE types !!!!!-->
+
+   <type name="Residue" array="T">
+      <element>
+      <field name="name" kind="string"/>
+      <field name="OrganicMatterType" kind="string"/>
+      <field name="OrganicMatterFraction" array="T">
+         <element>
+         <field name="amount"  kind="single" units="kg/ha"/>
+         <field name="C"       kind="single" units="kg/ha"/>
+         <field name="N"       kind="single" units="kg/ha"/>
+         <field name="P"       kind="single" units="kg/ha"/>
+         <field name="AshAlk"  kind="single" units="kg/ha"/>
+         </element>
+      </field>
+      <field name="Cover"  kind="single" units=""/>
+      </element>
+   </type>
+
+
+   <!--      !!!!! SURFACE types !!!!!-->
+
+   <type name="SurfaceWater">
+      <field name="amount" kind="single"/>
+      <field name="solute" array="T">
+         <element>
+         <field name="name" kind="string"/>
+         <field name="amount" kind="single" units="kg/ha"/>
+         </element>
+      </field>
+   </type>
+
+   <type name="SurfaceWaterBalance">
+      <field name="runoff" kind="single"/>
+      <field name="evaporation" kind="single"/>
+      <field name="runon" kind="single"/>
+      <field name="WaterInput" kind="single"/>
+   </type>
+
+   <!--       !!!! FERTILISER Types !!!!!!-->
+
+   <type name="FertiliserConstituents" array="T">
+      <element>
+      <field name="name" kind="string"/>
+      <field name="SurfaceAmount" kind="single"/>
+      <field name="layer" array="T">
+         <element>
+         <field name="thickness" kind="single" units = "mm"/>
+         <field name="amount"    kind="single" units="kg/ha"/>
+         </element>
+      </field>
+      </element>
+   </type>
+
+   <!--       !!!! ORGANIC MATTER Types !!!!!!
+! dsg040702  this individual structure is currently part of several other structures, and can be used when inheritance is implemented
+!            It's currently redundant
+!   <type name="OrganicMatterFraction" array="T" >
+!      <field name="amount"  kind="single" units="kg/ha"/>
+!      <field name="C"       kind="single" units="kg/ha"/>
+!      <field name="N"       kind="single" units="kg/ha"/>
+!      <field name="P"       kind="single" units="kg/ha"/>
+!      <field name="AshAlk"  kind="single" units="kg/ha"/>
+!   </type>
+!dsg 021203  This structure is an array of soil layers which contains the layer's thickness
+!            and the fpool additions to that layer.  Sent by SurfOM to SOILN2 and SOILP as part
+!            of the 'FreshOrganicMatterIncorporated' Event
+-->
+
+   <type name="FPoolProfileLayer" array="T">
+         <element>
+         <field name="thickness" kind="single" units = "mm"/>
+         <field name="no3" kind="single" units="kg/ha"/>
+         <field name="nh4" kind="single" units="kg/ha"/>
+         <field name="po4" kind="single" units="kg/ha"/>
+         <field name="FPool" array="T">
+            <element>
+            <field name="C"       kind="single" units="kg/ha"/>
+            <field name="N"       kind="single" units="kg/ha"/>
+            <field name="P"       kind="single" units="kg/ha"/>
+            <field name="AshAlk"  kind="single" units="kg/ha"/>
+            </element>
+         </field>
+         </element>
+   </type>
+<!--
+!dsg 030702 for each residue instance, the array allows SOILN2 to fill "ActualResidueDecomCalc"
+!   for all the system residues and it also allows a residue instance to send data for, say, "woody"
+!   "leafy" etc, components of itself.
+-->
+   <type name="SurfaceOrganicMatter" array="T">
+      <element>
+      <field name="Name" kind="string"/>
+      <field name="OrganicMatterType" kind="string"/>
+      <field name="PotDecompRate" kind="single" units="day^-1"/>
+      <field name="no3" kind="single" units="kg/ha"/>
+      <field name="nh4" kind="single" units="kg/ha"/>
+      <field name="po4" kind="single" units="kg/ha"/>
+      <field name="StandingFraction" array="T">
+         <element>
+         <field name="amount"  kind="single" units="kg/ha"/>
+         <field name="C"       kind="single" units="kg/ha"/>
+         <field name="N"       kind="single" units="kg/ha"/>
+         <field name="P"       kind="single" units="kg/ha"/>
+         <field name="AshAlk"  kind="single" units="kg/ha"/>
+         </element>
+      </field>
+      <field name="LyingFraction" array="T">
+         <element>
+         <field name="amount"  kind="single" units="kg/ha"/>
+         <field name="C"       kind="single" units="kg/ha"/>
+         <field name="N"       kind="single" units="kg/ha"/>
+         <field name="P"       kind="single" units="kg/ha"/>
+         <field name="AshAlk"  kind="single" units="kg/ha"/>
+         </element>
+      </field>
+      </element>
+   </type>
+
+<!--
+!080903 dsg and nih  This structure will carry SOM 'potential residue decomposition' data
+!       and also the returned 'actual residue decomposition' from soiln2
+-->
+   <type name="SurfaceOrganicMatterDecomp" array="T">
+      <element>
+      <field name="Name" kind="string"/>
+      <field name="OrganicMatterType" kind="string"/>
+      <field name="amount"  kind="single" units="kg/ha"/>
+      <field name="C"       kind="single" units="kg/ha"/>
+      <field name="N"       kind="single" units="kg/ha"/>
+      <field name="P"       kind="single" units="kg/ha"/>
+      <field name="AshAlk"  kind="single" units="kg/ha"/>
+      </element>
+   </type>
+
+
+   <!--!!!!! SOILN2  types  !!!!!!!!!!!!!!!!!!!!!!-->
+
+      <type name="NBalance" description="Notification of the completion of the soil N calculations">
+         <field name="sender_name" kind="string"/>
+         <field name="sender_numbytes" kind="integer4"/>
+         <field name="sender_code" kind="integer4"/>
+         <field name="sender_isarray" kind="boolean"/>
+         <field name="sender_value" kind="string" />
+         <field name="sender_id_name" kind="string"/>
+         <field name="sender_id_numbytes" kind="integer4"/>
+         <field name="sender_id_code" kind="integer4"/>
+         <field name="sender_id_isarray" kind="boolean"/>
+         <field name="sender_id_value" kind="integer4" />
+         <field name="nh4_transform_net_name" kind="string"/>
+         <field name="nh4_transform_net_numbytes" kind="integer4"/>
+         <field name="nh4_transform_net_code" kind="integer4"/>
+         <field name="nh4_transform_net_isarray" kind="boolean"/>
+         <field name="nh4_transform_net_value" kind="single" array="T" />
+         <field name="no3_transform_net_name" kind="string"/>
+         <field name="no3_transform_net_numbytes" kind="integer4"/>
+         <field name="no3_transform_net_code" kind="integer4"/>
+         <field name="no3_transform_net_isarray" kind="boolean"/>
+         <field name="no3_transform_net_value" kind="single" array="T" />
+         <field name="dlt_nh4_net_name" kind="string"/>
+         <field name="dlt_nh4_net_numbytes" kind="integer4"/>
+         <field name="dlt_nh4_net_code" kind="integer4"/>
+         <field name="dlt_nh4_net_isarray" kind="boolean"/>
+         <field name="dlt_nh4_net_value" kind="single" array="T" />
+         <field name="dlt_no3_net_name" kind="string"/>
+         <field name="dlt_no3_net_numbytes" kind="integer4"/>
+         <field name="dlt_no3_net_code" kind="integer4"/>
+         <field name="dlt_no3_net_isarray" kind="boolean"/>
+         <field name="dlt_no3_net_value" kind="single" array="T" />
+      </type>
+      <type name="CBalance" description="Notification of the completion of the soil C calculations">
+         <field name="sender_name" kind="string"/>
+         <field name="sender_numbytes" kind="integer4"/>
+         <field name="sender_code" kind="integer4"/>
+         <field name="sender_isarray" kind="boolean"/>
+         <field name="sender_value" kind="string" />
+         <field name="sender_id_name" kind="string"/>
+         <field name="sender_id_numbytes" kind="integer4"/>
+         <field name="sender_id_code" kind="integer4"/>
+         <field name="sender_id_isarray" kind="boolean"/>
+         <field name="sender_id_value" kind="integer4" />
+         <field name="dlt_oc_name" kind="string"/>
+         <field name="dlt_oc_numbytes" kind="integer4"/>
+         <field name="dlt_oc_code" kind="integer4"/>
+         <field name="dlt_oc_isarray" kind="boolean"/>
+         <field name="dlt_oc_value" kind="single" array="T" />
+         <field name="dlt_om_name" kind="string"/>
+         <field name="dlt_om_numbytes" kind="integer4"/>
+         <field name="dlt_om_code" kind="integer4"/>
+         <field name="dlt_om_isarray" kind="boolean"/>
+         <field name="dlt_om_value" kind="single" array="T" />
+      </type>
+      <type name="IncorpFom">
+         <field name="dlt_fom_type_name" kind="string"/>
+         <field name="dlt_fom_type_numbytes" kind="integer4"/>
+         <field name="dlt_fom_type_code" kind="integer4"/>
+         <field name="dlt_fom_type_isarray" kind="boolean"/>
+         <field name="dlt_fom_type_value" kind="string"/>
+
+         <field name="dlt_fom_wt_name" kind="string"/>
+         <field name="dlt_fom_wt_numbytes" kind="integer4"/>
+         <field name="dlt_fom_wt_code" kind="integer4"/>
+         <field name="dlt_fom_wt_isarray" kind="boolean"/>
+         <field name="dlt_fom_wt_value" kind="single" array="T" />
+
+         <field name="dlt_fom_n_name" kind="string"/>
+         <field name="dlt_fom_n_numbytes" kind="integer4"/>
+         <field name="dlt_fom_n_code" kind="integer4"/>
+         <field name="dlt_fom_n_isarray" kind="boolean"/>
+         <field name="dlt_fom_n_value" kind="single" array="T" />
+
+         <field name="dlt_fom_p_name" kind="string"/>
+         <field name="dlt_fom_p_numbytes" kind="integer4"/>
+         <field name="dlt_fom_p_code" kind="integer4"/>
+         <field name="dlt_fom_p_isarray" kind="boolean"/>
+         <field name="dlt_fom_p_value" kind="single" array="T" />
+      </type>
+
+   <type name="SoilOrganicMatter">
+      <field name="OrganicMatterType" kind="string"/>
+      <field name="layer" array = "T">
+          <element>
+          <field name="OrganicMatterFraction" array="T">
+             <element>
+             <field name="amount"  kind="single" units="kg/ha"/>
+             <field name="C"       kind="single" units="kg/ha"/>
+             <field name="N"       kind="single" units="kg/ha"/>
+             <field name="P"       kind="single" units="kg/ha"/>
+             <field name="AshAlk"  kind="single" units="kg/ha"/>
+             </element>
+          </field>
+          </element>
+      </field>
+   </type>
+
+
+<!--!dsg 040702  array sized for number of soil layers-->
+   <type name="SoilNitrogenFlowsLayer" array = "T">
+      <element>
+      <field name="nh4_transform_net" kind="single" units="kg/ha"/>
+      <field name="no3_transform_net" kind="single" units="kg/ha"/>
+      <field name="dlt_nh4_net"       kind="single" units="kg/ha"/>
+      <field name="dlt_no3_net"       kind="single" units="kg/ha"/>
+      <field name="dlt_oc"            kind="single" units="kg/ha"/>
+      <field name="dlt_om"            kind="single" units="kg/ha"/>
+      <field name="dlt_fomc_hum"      kind="single" array="T" units="kg/ha"/>
+      <field name="dlt_fomc_biom"     kind="single" array="T" units="kg/ha"/>
+      <field name="dlt_fomc_atm"      kind="single" array="T" units="kg/ha"/>
+      <field name="dlt_humc_biom"     kind="single" units="kg/ha"/>
+      <field name="dlt_humc_atm"      kind="single" units="kg/ha"/>
+      <field name="dlt_biomc_hum"     kind="single" units="kg/ha"/>
+      <field name="dlt_biomc_atm"     kind="single" units="kg/ha"/>
+      <field name="dlt_fomc_pool"     kind="single" array="T" units="kg/ha"/>
+      </element>
+   </type>
+
+
+<!--dsg 040702  inputs and losses of N for 'NitrogenBalanceCalculated' Event, array sized for soil layers-->
+   <type name="NitrogenBalance" array = "T">
+      <element>
+      <field name="Fertilizer"              kind="single" units="kg/ha"/>
+      <field name="ResiduesMineralised"     kind="single" units="kg/ha"/>
+      <field name="Leaching"                kind="single" units="kg/ha"/>
+      <field name="Denitrification"         kind="single" units="kg/ha"/>
+      <field name="Uptake"                  kind="single" units="kg/ha"/>
+      <field name="Erosion"                 kind="single" units="kg/ha"/>
+      <field name="LateralFlow"             kind="single" units="kg/ha"/>
+      </element>
+   </type>
+
+   <!--!!!!! WaterStorage  types  !!!!!!!!!!!!!!!!!!!!!!-->
+
+      <type name="CropChopped">
+         <field name="crop_type" kind="string"/>
+         <field name="dm_type" kind="string" array="T"/>
+         <field name="dlt_crop_dm" kind="single" array="T"/>
+         <field name="dlt_dm_n" kind="single" array="T"/>
+         <field name="fraction_to_residue" kind="single" array="T"/>
+      </type>
+      <type name="NewProfile">
+         <field name="sender_name" kind="string"/>
+         <field name="sender_numbytes" kind="integer4"/>
+         <field name="sender_code" kind="integer4"/>
+         <field name="sender_isarray" kind="boolean"/>
+         <field name="sender_value" kind="string" />
+
+         <field name="sender_id_name" kind="string"/>
+         <field name="sender_id_numbytes" kind="integer4"/>
+         <field name="sender_id_code" kind="integer4"/>
+         <field name="sender_id_isarray" kind="boolean"/>
+         <field name="sender_id_value" kind="integer4" />
+
+         <field name="dlayer_name" kind="string"/>
+         <field name="dlayer_numbytes" kind="integer4"/>
+         <field name="dlayer_code" kind="integer4"/>
+         <field name="dlayer_isarray" kind="boolean"/>
+         <field name="dlayer_value" kind="single" array="T" />
+
+         <field name="air_dry_dep_name" kind="string"/>
+         <field name="air_dry_dep_numbytes" kind="integer4"/>
+         <field name="air_dry_dep_code" kind="integer4"/>
+         <field name="air_dry_dep_isarray" kind="boolean"/>
+         <field name="air_dry_dep_value" kind="single" array="T" />
+
+         <field name="ll15_dep_name" kind="string"/>
+         <field name="ll15_dep_numbytes" kind="integer4"/>
+         <field name="ll15_dep_code" kind="integer4"/>
+         <field name="ll15_dep_isarray" kind="boolean"/>
+         <field name="ll15_dep_value" kind="single" array="T" />
+
+         <field name="dul_dep_name" kind="string"/>
+         <field name="dul_dep_numbytes" kind="integer4"/>
+         <field name="dul_dep_code" kind="integer4"/>
+         <field name="dul_dep_isarray" kind="boolean"/>
+         <field name="dul_dep_value" kind="single" array="T" />
+
+         <field name="sat_dep_name" kind="string"/>
+         <field name="sat_dep_numbytes" kind="integer4"/>
+         <field name="sat_dep_code" kind="integer4"/>
+         <field name="sat_dep_isarray" kind="boolean"/>
+         <field name="sat_dep_value" kind="single" array="T" />
+
+         <field name="sw_dep_name" kind="string"/>
+         <field name="sw_dep_numbytes" kind="integer4"/>
+         <field name="sw_dep_code" kind="integer4"/>
+         <field name="sw_dep_isarray" kind="boolean"/>
+         <field name="sw_dep_value" kind="single" array="T" />
+
+         <field name="bd_name" kind="string"/>
+         <field name="bd_numbytes" kind="integer4"/>
+         <field name="bd_code" kind="integer4"/>
+         <field name="bd_isarray" kind="boolean"/>
+         <field name="bd_value" kind="single" array="T" />
+      </type>
+
+   <type name="NewPotentialGrowth">
+      <field name="sender" kind="string"/>
+      <field name="frgr" kind="single" units=""/>
+   </type>
+   <type name="NewCanopy">
+      <field name="sender" kind="string"/>
+      <field name="height" kind="single"/>
+      <field name="depth" kind="single"/>
+      <field name="lai" kind="single"/>
+      <field name="lai_tot" kind="single"/>
+      <field name="cover" kind="single"/>
+      <field name="cover_tot" kind="single"/>
+   </type>
+      <type name="NewCrop">
+         <field name="sender" kind="string"/>
+         <field name="crop_type" kind="string"/>
+      </type>
+
+   <type name="SoilLayers">
+      <field name="layers" kind="double" unit="mm"  array = "T"/>
+      <field name="value" kind="double" unit="mm"  array = "T"/>
+   </type>
+
+   <type name="PastureWaterDemand" description="Message sent to add crop water demand terms to water balance calculations.">
+      <field name="demands" array="T">
+         <element>
+            <field name="crop_ident" kind = "string" description="Cohort name + instance name"/>
+            <field name="crop_type" kind = "string"/>
+            <field name="rlv_layer">
+                <field name="layers" kind="double" units="mm" array = "T"/>
+                <field name="rlv" kind="double" units="mmmm^3" array = "T"/>
+            </field>
+            <field name="demand" kind="double" unit="mm"/>
+         </element>
+      </field>
+   </type>
+
+   <type name="PastureWaterSupply">
+      <field name="supplies" array="T">
+         <element>
+            <field name="crop_ident" kind = "string" description="Cohort name + instance name"/>
+            <field name="layers" kind="double" unit="mm"  array = "T"/>
+            <field name="supply" kind="double" unit="mm"  array = "T"/>
+         </element>
+      </field>
+   </type>
+
+   <type name="PastureWaterUptake">
+      <field name="water_uptake" array="T">
+         <element>
+            <field name="crop_ident" kind = "string" description="Cohort name + instance name"/>
+            <field name="layers" kind="double" unit="mm"  array = "T"/>
+            <field name="uptake" kind="double" unit="mm"  array = "T"/>
+         </element>
+      </field>
+   </type>
+
+   <type name="WaterInfo">
+      <field name="water_info" array="T">
+         <element>
+            <field name="crop_ident" kind = "string" description="sub-population name"/>
+            <field name="params" kind="double" unit="mm"  array = "T"/>
+            <field name="demand" kind="double" unit="mm"/>
+            <field name="layers" kind="double" unit="mm"  array = "T"/>
+            <field name="rlv" kind="double" unit="mm/mm^3"  array = "T"/>
+            <field name="root_radius" kind="double" unit="mm"  array = "T"/>
+         </element>
+      </field>
+   </type>
+   <type name="FomAdded">
+      <field name="layers" unit="mm" kind="double" array="T" />
+      <field name="fom" array="T">
+         <element>
+            <field name="weight"  unit="kg/ha"  kind="double"/>
+            <field name="n"       unit="kg/ha"  kind="double"/>
+            <field name="p"       unit="kg/ha"  kind="double"/>
+            <field name="s"       unit="kg/ha"  kind="double"/>
+            <field name="ash_alk" unit="mol/ha" kind="double"/>
+         </element>
+      </field>
+   </type>
+
+   <type name="PastureNutrientUptake">
+      <field name="nutrient" kind="string"/>
+      <field name="layers" unit="mm" kind="double" array="T" />
+      <field name="uptake" unit="kg/ha" kind="double" array="T" />
+   </type>
+
+   <type name="PastureSow">
+      <field name="rate" unit="kg/ha" kind="double"/>
+   </type>
+
+   <type name="PastureKill">
+      <field name="propn_herbage" unit="-" kind="double"/>
+      <field name="propn_seeds" unit="-" kind="double"/>
+   </type>
+
+   <type name="PastureCultivate">
+      <field name="depth" unit="mm" kind="double"/>
+      <field name="propn_incorp" unit="-" kind="double"/>
+      <field name="propn_mixed" unit="-" kind="double"/>
+   </type>
+
+   <type name="PastureCut">
+      <field name="cut_height" unit="mm" kind="double"/>
+      <field name="gathered" unit="-" kind="double"/>
+      <field name="dmd_loss" unit="-" kind="double"/>
+      <field name="dm_content" unit="kg/kg" kind="double"/>
+   </type>
+
+   <type name="PastureOnCut">
+      <field name="fresh_wt" unit="kg" kind="double"/>
+      <field name="dm_content" unit="kg/kg" kind="double"/>
+      <field name="dm" unit="-" kind="double"/>
+      <field name="cp_conc" unit="kg/kg" kind="double"/>
+      <field name="p_conc" unit="kg/kg" kind="double"/>
+      <field name="s_conc" unit="kg/kg" kind="double"/>
+      <field name="ash_alk" unit="mol/kg" kind="double"/>
+   </type>
+
+   <type name="PastureWeather">
+      <field name="maxt" unit="oC" kind="double"/>
+      <field name="mint" unit="oC" kind="double"/>
+      <field name="rain" unit="mm/d" kind="double"/>
+      <field name="snow" unit="mm/d" kind="double"/>
+      <field name="radn" unit="MJ/m2/d" kind="double"/>
+      <field name="vpd" unit="kPa" kind="double"/>
+      <field name="wind" unit="m/s" kind="double"/>
+   </type>
+
+   <!--!!!!! STOCK  types  !!!!!!!!!!!!!!!!!!!!!!-->
+
+      <type name="Faeces" array="T">
+         <element>
+            <field name="weight"  unit="kg/d"  kind="double"/>
+            <field name="n"       unit="kg/d"  kind="double"/>
+            <field name="p"       unit="kg/d"  kind="double"/>
+            <field name="s"       unit="kg/d"  kind="double"/>
+            <field name="ash_alk" unit="mol/d" kind="double"/>
+         </element>
+      </type>
+
+      <type name = "FaecesInorg" array="T">
+         <element>
+            <field name="n"  unit="kg/d"  kind="double"/>
+            <field name="p"  unit="kg/d"  kind="double"/>
+            <field name="s"  unit="kg/d"  kind="double"/>
+         </element>
+      </type>
+
+      <type name = "Intake" array="T">
+         <element>
+            <field name="weight"  unit="kg/d"  kind="double"/>
+            <field name="n"       unit="kg/d"  kind="double"/>
+            <field name="p"       unit="kg/d"  kind="double"/>
+            <field name="s"       unit="kg/d"  kind="double"/>
+            <field name="ash_alk" unit="mol/d" kind="double"/>
+         </element>
+      </type>
+
+      <type name = "PastIntake" array="T">
+         <element>
+            <field name="weight"  unit="kg/d"  kind="double"/>
+            <field name="n"       unit="kg/d"  kind="double"/>
+            <field name="p"       unit="kg/d"  kind="double"/>
+            <field name="s"       unit="kg/d"  kind="double"/>
+            <field name="ash_alk" unit="mol/d" kind="double"/>
+         </element>
+      </type>
+
+      <type name = "SuppIntake" array="T">
+         <element>
+            <field name="weight"  unit="kg/d"  kind="double"/>
+            <field name="n"       unit="kg/d"  kind="double"/>
+            <field name="p"       unit="kg/d"  kind="double"/>
+            <field name="s"       unit="kg/d"  kind="double"/>
+            <field name="ash_alk" unit="mol/d" kind="double"/>
+         </element>
+      </type>
+
+      <type name = "AddExcreta">
+         <type name="faeces_om">
+               <field name="weight"  unit="kg/ha"  kind="double"/>
+               <field name="n"       unit="kg/ha"  kind="double"/>
+               <field name="p"       unit="kg/ha"  kind="double"/>
+               <field name="s"       unit="kg/ha"  kind="double"/>
+               <field name="ash_alk" unit="mol/ha" kind="double"/>
+         </type>
+         <type name = "faeces_inorg">
+               <field name="n"  unit="kg/ha"  kind="double"/>
+               <field name="p"  unit="kg/ha"  kind="double"/>
+               <field name="s"  unit="kg/ha"  kind="double"/>
+         </type>
+         <type name = "urine">
+               <field name="volume"  unit="m3/ha"  kind="double"/>
+               <field name="urea"    unit="kg/ha"  kind="double"/>
+               <field name="pox"     unit="kg/ha"  kind="double"/>
+               <field name="so4"     unit="kg/ha"  kind="double"/>
+               <field name="ash_alk" unit="mol/ha" kind="double"/>
+         </type>
+      </type>
+
+      <type name="RemoveHerbage">
+         <field name="herbage" unit="kg/ha" kind="double" array="T" />
+         <field name="seed" unit="kg/ha" kind="double" array="T" />
+      </type>
+
+      <type name="SuppEaten" array="T">
+         <element>
+            <field name="paddock"      unit=""       kind="string"/>
+            <field name="eaten"        unit="kg"     kind="double"/>
+         </element>
+      </type>
+
+      <type name="Plant2Stock">
+        <field name = "herbage" array="T">
+          <element>
+            <field name="dm"           unit="kg/ha"  kind="double"/>
+            <field name="dmd"          unit="-"      kind="double"/>
+            <field name="cp_conc"      unit="kg/kg"  kind="double"/>
+            <field name="p_conc"       unit="kg/kg"  kind="double"/>
+            <field name="s_conc"       unit="kg/kg"  kind="double"/>
+            <field name="prot_dg"      unit="kg/kg"  kind="double"/>
+            <field name="ash_alk"      unit="mol/kg" kind="double"/>
+            <field name="height_ratio" unit="-"      kind="double"/>
+          </element>
+        </field>
+        <field name="propn_green"   unit="-" kind="double"/>
+        <field name="legume"        unit="-" kind="double"/>
+        <field name="select_factor" unit="-" kind="double"/>
+        <field name = "seed" array="T">
+          <element>
+            <field name="dm"           unit="kg/ha"  kind="double"/>
+            <field name="dmd"          unit="-"      kind="double"/>
+            <field name="cp_conc"      unit="kg/kg"  kind="double"/>
+            <field name="p_conc"       unit="kg/kg"  kind="double"/>
+            <field name="s_conc"       unit="kg/kg"  kind="double"/>
+            <field name="prot_dg"      unit="kg/kg"  kind="double"/>
+            <field name="ash_alk"      unit="mol/kg" kind="double"/>
+            <field name="height_ratio" unit="-"      kind="double"/>
+          </element>
+        </field>
+        <field name = "seed_class"  unit="-" kind="integer4" array="T"/>
+      </type>
+
+      <type name="BuyStock">
+         <field name="genotype"         unit=""        kind="string"/>
+         <field name="number"           unit=""        kind="integer4"/>
+         <field name="sex"              unit=""        kind="string"/>
+         <field name="age"              unit="months"  kind="double"/>
+         <field name="weight"           unit="kg"      kind="double"/>
+         <field name="fleece_wt"        unit="kg"      kind="double"/>
+         <field name="cond_score"       unit=""        kind="double"/>
+         <field name="mated_to"         unit=""        kind="string"/>
+         <field name="pregnant"         unit=""        kind="integer4"/>
+         <field name="lactating"        unit=""        kind="integer4"/>
+         <field name="no_young"         unit=""        kind="integer4"/>
+         <field name="young_wt"         unit="kg"      kind="double"/>
+         <field name="young_fleece_wt"  unit="kg"      kind="double"/>
+      </type>
+
+      <type name="SellStock">
+         <field name="group"         unit=""        kind="integer4"/>
+         <field name="number"        unit=""        kind="integer4"/>
+      </type>
+
+      <type name="CastrateStock">
+         <field name="group"         unit=""        kind="integer4"/>
+         <field name="number"        unit=""        kind="integer4"/>
+      </type>
+
+      <type name="DryOffStock">
+         <field name="group"         unit=""        kind="integer4"/>
+         <field name="number"        unit=""        kind="integer4"/>
+      </type>
+
+      <type name="JoinStock">
+         <field name="group"         unit=""        kind="integer4"/>
+         <field name="mate_to"       unit=""        kind="string"/>
+         <field name="mate_days"     unit="d"       kind="integer4"/>
+      </type>
+
+      <type name="MoveStock">
+         <field name="group"         unit=""        kind="integer4"/>
+         <field name="paddock"       unit=""        kind="string"/>
+      </type>
+
+      <type name="ShearStock">
+         <field name="group"         unit=""        kind="integer4"/>
+         <field name="sub_group"     unit=""        kind="string"/>
+      </type>
+
+      <type name="SplitStock">
+         <field name="group"         unit=""        kind="integer4"/>
+         <field name="type"          unit=""        kind="string"/>
+         <field name="value"         unit=""        kind="double"/>
+      </type>
+
+      <type name="TagStock">
+         <field name="group"         unit=""        kind="integer4"/>
+         <field name="value"        unit=""        kind="integer4"/>
+      </type>
+
+      <type name="WeanStock">
+         <field name="group"         unit=""        kind="integer4"/>
+         <field name="sex"           unit=""        kind="string"/>
+         <field name="number"        unit=""        kind="integer4"/>
+      </type>
+
+      <type name="RemoveCropDm">
+        <field name = "dm" array="T">
+          <element>
+            <field name="pool" kind="string"/>
+            <field name="part" kind="string" array="T"/>
+            <field name="dlt" kind="double" array="T"/>
+          </element>
+        </field>
+      </type>
+
+      <type name="RemoveResidueDm">
+         <field name="dm_type" kind="string" array="T"/>
+         <field name="dlt_residue_dm" kind="single" array="T"/>
+      </type>
+
+   <!--!   !!!!! SUPPLEMENT  types  !!!!!!!!!!!!!!!!!!!!!!-->
+
+   <type name="SupplementBuy">
+      <field name="supplement" kind="string" unit="-"/>
+      <field name="amount" kind="double" unit="kg"/>
+   </type>
+
+   <type name="SupplementFeed">
+      <field name="supplement" kind="string" unit="-"/>
+      <field name="amount" kind="double" unit="kg"/>
+      <field name="paddock" kind="string" unit="-"/>
+   </type>
+
+   <type name="SupplementMix">
+      <field name="src_store" kind="string" unit="-"/>
+      <field name="amount" kind="double" unit="kg"/>
+      <field name="dest_store" kind="string" unit="-"/>
+   </type>
+
+</types>

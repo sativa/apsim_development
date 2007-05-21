@@ -1,0 +1,112 @@
+#=======================================================================
+#-----------------------------------------------------------------------
+#     Makefile for APSIM maize module
+#-----------------------------------------------------------------------
+#=======================================================================
+DESTDIR ?=/usr/local/apsim
+BOOST_INCLUDEDIR ?=-I/usr/include
+XML2_INCLUDEDIR ?=-I/usr/include/libxml2
+XML2_LIBDIR ?=-L/usr/lib
+
+LIB=    ../lib/Plant.so
+
+OBJ=PlantComponent.o \
+   Plant.o \
+   PlantPart.o \
+   PlantBiomass.o \
+   PlantCanopy.o \
+   PlantFail.o \
+   PlantLibrary.o \
+   PlantNitrogen.o \
+   Root/PlantRoot.o \
+   PlantTemp.o \
+   Utility/PlantUtility.o \
+   PlantWater.o \
+   Utility/Data.o \
+   Utility/Science.o \
+   Utility/Date.o \
+   PlantComms.o \
+   PlantP.o \
+   Environment.o \
+   Utility/Observers.o \
+   Leaf/LeafPart.o \
+   StemPart.o \
+   Reproductive/PodPart.o \
+   Reproductive/MealPart.o \
+   Reproductive/OilPart.o \
+   Reproductive/GrainPart.o \
+   Reproductive/GrainPartHI.o \
+   Reproductive/GrainPartGN.o \
+   CompositePart.o \
+   Root/RootPart.o \
+   Root/RootGrowthOption1.o \
+   Root/RootGrowthOption2.o \
+   Reproductive/FruitCohort.o \
+   Reproductive/PlantFruit.o \
+   Utility/Output.o \
+   Utility/OutputVariable.o \
+   Leaf/genericLeafPart.o \
+   Leaf/cohortingLeafPart.o \
+   Arbitrators/arbitrator.o \
+   Arbitrators/NullArbitrator.o \
+   Arbitrators/GenericArbitrator.o \
+   PlantSpatial.o \
+   Phenology/PlantPhenology.o \
+   Phenology/Phase.o \
+   Phenology/CompositePhase.o \
+   Phenology/TTTPhenology.o \
+   Phenology/CropPhenology.o \
+   Phenology/TTTRatePhenology.o \
+   Phenology/WheatPhenology.o \
+   Phenology/FixedPhase.o \
+   Phenology/VernalPhase.o \
+   Phenology/BroccoliPhenology.o \
+   Phenology/GenericPhenology.o \
+   Phenology/PhotoPhase.o \
+   Phenology/EmergentPhase.o \
+   Phenology/LeafAppPhase.o \
+   ../../../Shared/ComponentInterface/EntryPoints.o
+#-----------------------------------------------------------------------
+# Compiler options
+
+CC=     /usr/bin/gcc
+CPPFLAGS=$(BOOST_INCLUDEDIR) $(XML2_INCLUDEDIR) -I$(APSROOT)/Shared 	\
+        -I$(APSROOT)/Shared/ComponentInterface      \
+        -I$(APSROOT)/apsim/Plant/source             \
+        -Wno-deprecated -fpermissive -fPIC $(CPPDEBUGFLAGS)
+
+#-----------------------------------------------------------------------
+# Required libraries
+
+LDFLAGS= $(XML2_LIBDIR)	-L$(APSROOT)/lib $(LDDEBUGFLAGS)
+
+LIBS=       -lComponentInterface    \
+        -lprotocol      \
+        -lApsimShared       \
+        -lgeneral       \
+        -lboost_filesystem  \
+        -lxml2
+
+#-----------------------------------------------------------------------
+# The rules
+
+all: $(LIB)
+
+%.o:    %.cpp
+	$(CC) $(CPPFLAGS) $(CFLAGS) -c -o $@ $<
+
+$(LIB): $(OBJ)
+	$(CC) -shared -o $(LIB) $(OBJ) $(LDFLAGS) $(LIBS)
+
+FORCE:
+
+clean:
+	rm -f $(OBJ)
+
+clobber:    clean
+	rm -f $(LIB)
+
+install: all
+	if [ ! -d $(DESTDIR)/apsim/Plant/lib ]; then mkdir -p $(DESTDIR)/apsim/Plant/lib; fi
+	cp $(LIB) $(DESTDIR)/apsim/Plant/lib
+

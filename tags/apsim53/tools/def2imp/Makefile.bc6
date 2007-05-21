@@ -1,0 +1,49 @@
+# (Borlandish) Makefile for apsim executable
+!if !$d(BCB)
+BCB = $(MAKEDIR)\..
+!endif
+
+!include $(APSROOT)\APSBuild\platform.make
+!include $(APSROOT)\APSBuild\cpp.make
+
+OBJECTS=def2imp.obj
+
+LIBFILES = $(APSROOT)\Shared\general\general.lib
+
+USERDEFINES =
+SYSDEFINES = _RTLDLL;NO_STRICT;_NO_VCL
+INCLUDEPATH = $(SYSINCLUDES);$(APSROOT)\Shared
+LIBPATH = $(SYSLIBPATH)
+
+# ---------------------------------------------------------------------------
+# 'Wizard' generated:
+#CFLAG1 = -Od -H=$(APSROOT)\Bin\vcl60.csm -Hc -Vx -Ve -X- -r- -a8 -b- -k -y -v -vi- -tWC -tWM- -c
+
+CFLAG1 = $(SYSCFLAGS) -O2 -vi- -tWC
+WARNINGS = -w-par
+LFLAGS =  -ap -Tpe -x -Gn -v
+
+ALLOBJ = c0x32.obj vcl.bpi $(OBJECTS)
+ALLRES = $(RESFILES)
+ALLLIB = $(SYSLIBS) $(LIBFILES) import32.lib cw32mti.lib
+
+CC=$(BCB)\Bin\bcc32.exe
+LD=$(BCB)\Bin\ilink32
+# ---------------------------------------------------------------------------
+
+all: def2imp.exe
+
+def2imp.exe: $(OBJECTS)
+	$(LD) @&&!
+	$(LFLAGS) -L$(LIBPATH) +
+	$(ALLOBJ), def2imp.exe, , $(ALLLIB), $(DEFFILE), $(ALLRES)
+!
+
+.cpp.obj:
+	$(CC) $(CFLAG1) $(WARNINGS) -I$(INCLUDEPATH) -D$(USERDEFINES);$(SYSDEFINES) -n$(@D) {$< }
+
+####
+def2imp.obj: def2imp.cpp
+
+clean:
+	$(RM) $(OBJECTS) def2imp.exe 

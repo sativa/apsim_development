@@ -1,0 +1,69 @@
+#=======================================================================
+#-----------------------------------------------------------------------
+#     Makefile for APSIM maize module
+#-----------------------------------------------------------------------
+#=======================================================================
+
+DESTDIR ?= /usr/local/apsim
+
+LIB=	../lib/maize.so
+
+SRC= maize.f90
+
+STATICOBJ=	../../../Shared/ComponentInterface/SimpleWrapper.o \
+            ../../../Shared/ComponentInterface/EntryPoints.o   \
+            ../../../Shared/ComponentInterface/FORTRANComponentWrapper.o   \
+            ../../../Shared/ComponentInterface/FORTRANdatatypes.o   \
+            ../../../Shared/ComponentInterface/datatypes.o
+
+OBJ=	maize.o $(STATICOBJ)
+
+#-----------------------------------------------------------------------
+# Compiler options
+
+FC=		lf95
+CPPFLAGS=	-I$(APSROOT)/apsim/infra/source		\
+		-I$(APSROOT)/apsim/croptemp/source	\
+		-I$(APSROOT)/apsim/CropMod/source $(CPPDEBUGFLAGS)
+FFLAGS=		--tp -nco --o0 --pca -nsav -trace -nchk -nin \
+		--ml cdecl --staticlink
+
+#-----------------------------------------------------------------------
+# Required libraries
+
+LDFLAGS=	-L$(APSROOT)/lib		\
+		-L$(APSROOT)/apsim/infra/lib	\
+		-L$(APSROOT)/apsim/croptemp/lib	\
+		-L/usr/lib $(LDDEBUGFLAGS)
+
+LIBS=		-lComponentInterface 		\
+		-lapsinfra 			\
+		-lcroptemp
+
+
+#-----------------------------------------------------------------------
+# The rules
+
+all: $(LIB)
+
+$(LIB):	$(OBJ)
+	g++ $(OBJ) -o $(LIB) -shared $(LDFLAGS) $(LIBS)
+
+FORCE:
+
+clean:
+	rm -f *.o *.mod
+
+clobber:	clean
+	rm -f $(LIB)
+
+install: all
+	if [ ! -d $(DESTDIR)/apsim/maize/lib ]; then mkdir -p $(DESTDIR)/apsim/maize/lib; fi 
+	cp $(LIB) $(DESTDIR)/apsim/maize/lib
+	cp ../maize.ini $(DESTDIR)/apsim/maize
+
+%.o:	%.for
+	$(FC) $(CPPFLAGS) $(FFLAGS) -c -o $@ $<
+
+%.o:	%.f90
+	$(FC) $(CPPFLAGS) $(FFLAGS) -c -o $@ $<

@@ -1,0 +1,80 @@
+<HTML>
+<HEAD>
+   <TITLE> Rickert evaporation model</TITLE>
+   <META NAME="GENERATOR" CONTENT="Mozilla/3.0Gold (X11; I; Linux 2.0.21 i486) [Netscape]">
+</HEAD>
+<BODY>
+
+(The only reference to this method known so far is in "Soil Water
+    Balance Model : WATSUP", K.G. Rickert and G.M.McKeon,
+    <i>Proc. Aust. Soc. Anim. Prod</i>, 1982 vol 14.), but the GRASP
+    implementation is significantly different. This page describes the
+    GRASP implementation, which can be found in "GRASP: Grass
+    Production Model", McKeon et al, QDPI, 1993.)
+
+<h4> Ken Rickert's soil evaporation model. </h4>
+
+    <p> This model may only be of interest to those wishing to run
+      APSGRASP with a similar water balance to that used by McKeon. 
+    </p>
+    <p> Soil evaporation (ES) from layers 1 and 2 depends on the relative
+      ability of either layer to meet the evaporative demand. The top
+      layer can dry to airdry, whereas the second layer dries to ll15.
+    </p>
+    <p> Each layer has a supply ratio (SI) that determines the amount of
+      soil water the soil can provide for evaporation. 
+      <ul> 
+	 ES<sub>k</sub> = SI<sub>k</sub> * EOS
+      </ul>
+      where EOS is calculated elsewhere. 
+    </p><p>
+      The supply ratio for the top layer is given by
+      <ul> 
+	SI<sub>1</sub> = 0.285 * AWR<sub>1</sub> / (1.0 - 0.715 *
+	AWR<sub>1</sub> )
+      </ul>
+      where 
+      <ul>
+	AWR<sub>i</sub> is the available water ratio calculated with
+	air dry values (AWR = (SW - AD)/(FC - AD)), and<br>
+	  0.285 is a magic number determined
+	  experimentally (?).
+      </ul>
+      For the second layer, SI<sub>2</sub> is calculated by the
+      difference between the supply ratio for both layers 1 and 2, and
+      SI<sub>1</sub>. 
+    </p><p>
+      <ul> 
+	SI<sub>12</sub> = 0.117 * AWR<sub>12</sub> / (1.0 - 0.883 *
+	AWR<sub>12</sub> )
+      </ul> 
+      where 
+<pre> 
+        SW1 + SW2 - AD1 - AP2
+AWR12 = ---------------------
+        FC1 + FC2 - AD1 - WP2
+</pre>
+      so 
+      <ul> 
+	SI<sub>2</sub> = SI<sub>12</sub> - SI<sub>1</sub>
+      </ul> 
+    </p><p>
+    The total daily soil evaporation is limited by a parameter
+    <tt>max_evap</tt>, ie
+    <ul>
+      ES<sub>1</sub> + ES<sub>2</sub> &lt;= max_evap
+    </ul>
+    </p><p>
+       A warning message will
+      appear if total soil evaporation exceeds available soil water.
+    </p>
+    <hr> 
+      <p> Note that McKeon's implementation allows the second layer to
+	evaporate to the plant's wilting point, unlike the top layer
+	which can dry to airdry. Is this a property of the evaporation
+	process, or a reflection that he doesn't have airdry for the
+	lower layers in his model?
+</p>
+
+</body>
+</html>

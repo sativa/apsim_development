@@ -1,0 +1,1098 @@
+<html>
+
+<head>
+<meta http-equiv="Content-Type"
+content="text/html; charset=iso-8859-1">
+<meta name="GENERATOR" content="Microsoft FrontPage Express 2.0">
+<title></title>
+</head>
+
+<body>
+
+<p><img src="..\..\..\docs\shared\apsimdocumentationbanner.jpg" width="640"
+height="73"></p>
+</body>
+</html>
+<TITLE>The APSIM Erosion Model</TITLE>
+<FONT SIZE = 7><B><CENTER>The APSIM Erosion Model</CENTER></B></FONT>
+<H1>TABLE OF CONTENTS</H1>
+<H2><A HREF = "#Contact Information"> Contact Information </A></H2>
+<H2><A HREF = "#Module Description"> Module Description </A></H2>
+<H2>Module Logic</H2>
+<ul><li><A HREF = "#APSIM Erosion Module"> APSIM Erosion Module </A>
+
+<li><A HREF = "#Structure Charts"> Structure Charts </A>
+
+</ul>
+<hr>
+<A NAME = "Module Description">  </A>
+<H2>Module Documentation</H2>
+<br>
+<A HREF = "erosion_int.pdf"> erosion_int.pdf </A>
+<br>
+<A HREF = "erosion_science.pdf"> erosion_science.pdf </A>
+<br>
+<br>
+<hr>
+<html>
+<body>
+<p>
+<MAP NAME="FrontPageMap0">
+<AREA SHAPE="RECT" COORDS="513, 2, 635, 18" HREF="#Top">
+<AREA SHAPE="RECT" COORDS="103, 4, 204, 18" HREF="#Structure Charts">
+<AREA SHAPE="RECT" COORDS="14, 3, 76, 18" HREF="#Top">
+</MAP>
+<img src="..\..\..\docs\shared\apseudopagebreak.jpg" width="640" height="19" (5835 bytes)" border="0" usemap="#FrontPageMap0">
+</p>
+</body>
+</html> 
+<A NAME = "Structure Charts"> <H2>Module Structure Charts</H2> </A>
+<H2>APSIM Erosion Module</H2>
+<ul><li><A HREF = "#main"> main </A>
+
+<ul><li><A HREF = "#erosion_zero_variables"> erosion_zero_variables </A>
+
+<ul><li><A HREF = "#erosion_zero_daily_variables"> erosion_zero_daily_variables </A>
+
+</ul><li><A HREF = "#erosion_get_other_variables"> erosion_get_other_variables </A>
+
+<li><A HREF = "#erosion_init"> erosion_init </A>
+
+<ul><li><A HREF = "#erosion_read_param"> erosion_read_param </A>
+
+</ul><li><A HREF = "#erosion_write_summary"> erosion_write_summary </A>
+
+<li><A HREF = "#erosion_zero_daily_variables"> erosion_zero_daily_variables </A>
+
+<li><A HREF = "#erosion_process"> erosion_process </A>
+
+<ul><li><A HREF = "#erosion_freeb"> erosion_freeb </A>
+
+<li><A HREF = "#erosion_rose"> erosion_rose </A>
+
+<li><A HREF = "#erosion_move_profile"> erosion_move_profile </A>
+
+<ul><li><A HREF = "#erosion_move_dlayr"> erosion_move_dlayr </A>
+
+<ul><li><A HREF = "#erosion_bomb_run"> erosion_bomb_run </A>
+
+</ul><li><A HREF = "#erosion_bomb_run"> erosion_bomb_run </A>
+
+</ul></ul><li><A HREF = "#erosion_set_other_variables"> erosion_set_other_variables </A>
+
+<li><A HREF = "#erosion_send_my_variable"> erosion_send_my_variable </A>
+
+<li><A HREF = "#erosion_set_my_variable"> erosion_set_my_variable </A>
+
+<li><A HREF = "#erosion_end_run"> erosion_end_run </A>
+
+</ul></ul>
+<hr>
+<html>
+<body>
+<p>
+<MAP NAME="FrontPageMap0">
+<AREA SHAPE="RECT" COORDS="513, 2, 635, 18" HREF="#Top">
+<AREA SHAPE="RECT" COORDS="103, 4, 204, 18" HREF="#Structure Charts">
+<AREA SHAPE="RECT" COORDS="14, 3, 76, 18" HREF="#Top">
+</MAP>
+<img src="..\..\..\docs\shared\apseudopagebreak.jpg" width="640" height="19" (5835 bytes)" border="0" usemap="#FrontPageMap0">
+</p>
+</body>
+</html> 
+<CENTER><A NAME = "Module Pseudo Code"> <H2><BIG>Module Pseudo Code</BIG></H2> </A></CENTER>
+<hr>
+<H2><BIG><A NAME = "APSIM Erosion Module"> APSIM Erosion Module </A></BIG></H2>
+<A NAME = "main">  </A>
+<H2>Main</H2>
+<br>
+<H3><CENTER>This routine is the interface between the main system and the erosion module.  </CENTER></H3>
+<H4>Subprogram Logic</H4>
+<blockquote><br>
+
+if (action.=.action_init) then<br>
+
+<blockquote><A HREF = "#erosion_zero_variables"> Zero Variables </A><br>
+
+<A HREF = "#erosion_get_other_variables"> Get Other Variables </A><br>
+
+<A HREF = "#erosion_init"> Initialise SoilWat module </A><br>
+
+<A HREF = "#erosion_write_summary"> Tell summary file what parameters we're using </A><br>
+
+</blockquote>else if (action.=.action_process) then<br>
+
+<blockquote><A HREF = "#erosion_zero_daily_variables"> Zero Daily Variables </A><br>
+
+<A HREF = "#erosion_get_other_variables"> Get Other Variables </A><br>
+
+<A HREF = "#erosion_process"> Perform all APSIM Timestep calculations </A><br>
+
+<A HREF = "#erosion_set_other_variables"> Set Variables in other Modules </A><br>
+
+</blockquote>else if (action.=.action_get_variable) then<br>
+
+<blockquote><A HREF = "#erosion_send_my_variable"> Send Value of Requested Variable </A><br>
+
+</blockquote>else if (action.=.action_set_variable) then<br>
+
+<blockquote><A HREF = "#erosion_set_my_variable"> Set Variable as Requested </A><br>
+
+</blockquote>else if (action.=.action_end_run) then<br>
+
+<blockquote><A HREF = "#erosion_end_run"> Perform cleanup because the current simulation is about to end </A><br>
+
+</blockquote>else<br>
+
+<blockquote>message_unused<br>
+
+</blockquote>endif<br>
+
+<br>
+
+</blockquote></blockquote>
+<hr>
+<html>
+<body>
+<p>
+<MAP NAME="FrontPageMap0">
+<AREA SHAPE="RECT" COORDS="513, 2, 635, 18" HREF="#Top">
+<AREA SHAPE="RECT" COORDS="103, 4, 204, 18" HREF="#Structure Charts">
+<AREA SHAPE="RECT" COORDS="14, 3, 76, 18" HREF="#Top">
+</MAP>
+<img src="..\..\..\docs\shared\apseudopagebreak.jpg" width="640" height="19" (5835 bytes)" border="0" usemap="#FrontPageMap0">
+</p>
+</body>
+</html> 
+<A NAME = "erosion_zero_variables">  </A>
+<H2>Erosion Zero Variables</H2>
+<br>
+<H3><CENTER>Set all variables in this module to zero.  </CENTER></H3>
+<H4>Subprogram Logic</H4>
+<blockquote><br>
+
+<A HREF = "#erosion_zero_daily_variables"> Zero Daily Variables </A><br>
+
+entrain_eff_bed = 0 . 0<br>
+
+eros_rose_b2_bed = 0 . 0<br>
+
+entrain_eff_susp = 0 . 0<br>
+
+eros_rose_b2_susp = 0 . 0<br>
+
+minimum_depth = 0 . 0<br>
+
+model_type = 0<br>
+
+profile_reduction = 0<br>
+
+profile_layer_merge = 0 . 0<br>
+
+slope = 0 . 0<br>
+
+slope_length = 0 . 0<br>
+
+ls_factor = 0 . 0<br>
+
+k_factor_bed = 0 . 0<br>
+
+k_factor_susp = 0 . 0<br>
+
+p_factor = 0 . 0<br>
+
+layer_merge_mm = 0 . 0<br>
+
+bed_depth = 0 . 0<br>
+
+runoff = 0 . 0<br>
+
+soil_loss_bed = 0 . 0<br>
+
+soil_loss_susp = 0 . 0<br>
+
+day_of_year = 0<br>
+
+erosion_cover = 0 . 0<br>
+
+year = 0<br>
+
+cover_extra = 0 . 0<br>
+
+<br>
+
+</blockquote></blockquote>
+<hr>
+<html>
+<body>
+<p>
+<MAP NAME="FrontPageMap0">
+<AREA SHAPE="RECT" COORDS="513, 2, 635, 18" HREF="#Top">
+<AREA SHAPE="RECT" COORDS="103, 4, 204, 18" HREF="#Structure Charts">
+<AREA SHAPE="RECT" COORDS="14, 3, 76, 18" HREF="#Top">
+</MAP>
+<img src="..\..\..\docs\shared\apseudopagebreak.jpg" width="640" height="19" (5835 bytes)" border="0" usemap="#FrontPageMap0">
+</p>
+</body>
+</html> 
+<A NAME = "erosion_zero_daily_variables">  </A>
+<H2>Erosion Zero Daily Variables</H2>
+<br>
+<H3><CENTER>zero erosion daily variables & arrays  </CENTER></H3>
+<H4>Subprogram Logic</H4>
+<blockquote><br>
+
+Fill dlayer with 0 . 0<br>
+
+Fill <FONT FACE = "SYMBOL">D</FONT>dlayer with 0 . 0<br>
+
+Fill bd with 0 . 0<br>
+
+soil_loss_bed = 0 . 0<br>
+
+soil_loss_susp = 0 . 0<br>
+
+<br>
+
+</blockquote></blockquote>
+<hr>
+<html>
+<body>
+<p>
+<MAP NAME="FrontPageMap0">
+<AREA SHAPE="RECT" COORDS="513, 2, 635, 18" HREF="#Top">
+<AREA SHAPE="RECT" COORDS="103, 4, 204, 18" HREF="#Structure Charts">
+<AREA SHAPE="RECT" COORDS="14, 3, 76, 18" HREF="#Top">
+</MAP>
+<img src="..\..\..\docs\shared\apseudopagebreak.jpg" width="640" height="19" (5835 bytes)" border="0" usemap="#FrontPageMap0">
+</p>
+</body>
+</html> 
+<A NAME = "erosion_get_other_variables">  </A>
+<H2>Erosion Get Other Variables</H2>
+<br>
+<H3><CENTER>Get the values of variables from other modules  </CENTER></H3>
+<H4>Subprogram Logic</H4>
+<blockquote><br>
+
+Get year from the system (Lower Bound = min_year, Upper Bound = max_year)<br>
+
+Get day_of_year from the system (Lower Bound = 0, Upper Bound = 366)<br>
+
+Get runoff from the system (Lower Bound = 0 . 0, Upper Bound = 1000 . 0)<br>
+
+Get cover_surface_runoff from the system (Lower Bound = 0 . 0, Upper Bound = 1 . 0)<br>
+
+erosion_cover = bound (cover_surface_runoff + cover_extra, 0 . 0, 1 . 0)<br>
+
+Get dlayer from the system (Lower Bound = 0 . 0, Upper Bound = 2000 . 0)<br>
+
+Get bd from the system (Lower Bound = 0 . 0, Upper Bound = 10 . 0)<br>
+
+<br>
+
+</blockquote></blockquote>
+<hr>
+<html>
+<body>
+<p>
+<MAP NAME="FrontPageMap0">
+<AREA SHAPE="RECT" COORDS="513, 2, 635, 18" HREF="#Top">
+<AREA SHAPE="RECT" COORDS="103, 4, 204, 18" HREF="#Structure Charts">
+<AREA SHAPE="RECT" COORDS="14, 3, 76, 18" HREF="#Top">
+</MAP>
+<img src="..\..\..\docs\shared\apseudopagebreak.jpg" width="640" height="19" (5835 bytes)" border="0" usemap="#FrontPageMap0">
+</p>
+</body>
+</html> 
+<A NAME = "erosion_init">  </A>
+<H2>Erosion Init</H2>
+<br>
+<H3><CENTER>Initialise erosion module  </CENTER></H3>
+<H4>Subprogram Logic</H4>
+<blockquote><br>
+
+Write a string to a file<br>
+
+<A HREF = "#erosion_read_param"> Read in all parameters from parameter file. </A><br>
+
+if (bed_depth.&lt;.sum_real_array (dlayer, maximum number of layers)) then<br>
+
+<blockquote>Report a fatal error<br>
+
+</blockquote>else<br>
+
+endif<br>
+
+if (model_type.=/=.freeb_model.and.model_type.=/=.rose_model) then<br>
+
+<blockquote>Report a fatal error<br>
+
+</blockquote>else<br>
+
+endif<br>
+
+s = slope * pcnt2fract<br>
+
+a = 0 . 6 * (1.0-<I><BIG>e</BIG></I><SUP>- 35 . 835 * s</SUP>)<br>
+
+ls_factor = ((slope_length/22.1)**a) * (65.41*s*s+4.56*s+0.065)<br>
+
+if (profile_reduction.=.on) then<br>
+
+<blockquote>layer_merge_mm = dlayer (count_of_real_vals (dlayer, maximum number of layers)) * profile_layer_merge<br>
+
+</blockquote>else<br>
+
+<blockquote>layer_merge_mm = 0 . 0<br>
+
+</blockquote>endif<br>
+
+<br>
+
+</blockquote></blockquote>
+<hr>
+<html>
+<body>
+<p>
+<MAP NAME="FrontPageMap0">
+<AREA SHAPE="RECT" COORDS="513, 2, 635, 18" HREF="#Top">
+<AREA SHAPE="RECT" COORDS="103, 4, 204, 18" HREF="#Structure Charts">
+<AREA SHAPE="RECT" COORDS="14, 3, 76, 18" HREF="#Top">
+</MAP>
+<img src="..\..\..\docs\shared\apseudopagebreak.jpg" width="640" height="19" (5835 bytes)" border="0" usemap="#FrontPageMap0">
+</p>
+</body>
+</html> 
+<A NAME = "erosion_read_param">  </A>
+<H2>Erosion Read Param</H2>
+<br>
+<H3><CENTER>Read in all parameters from parameter file.  </CENTER></H3>
+<H4>Subprogram Logic</H4>
+<blockquote><br>
+
+Write a string to a file<br>
+
+Read string from file<br>
+
+if (string<I><SUB> 1 : 4</SUB></I>.=.'rose') then<br>
+
+<blockquote>model_type = rose_model<br>
+
+</blockquote>else if (string<I><SUB> 1 : 4</SUB></I>.=.'free') then<br>
+
+<blockquote>model_type = freeb_model<br>
+
+</blockquote>else<br>
+
+<blockquote>model_type = 0<br>
+
+</blockquote>endif<br>
+
+Read string from file<br>
+
+if (string<I><SUB> 1 : 2</SUB></I>.=.'on') then<br>
+
+<blockquote>profile_reduction = on<br>
+
+</blockquote>else<br>
+
+<blockquote>profile_reduction = off<br>
+
+</blockquote>endif<br>
+
+Read profile_layer_merge from file (Lower Bound = 0 . 0, Upper Bound = 1 . 0)<br>
+
+Read minimum_depth from file (Lower Bound = 0 . 0, Upper Bound = 1000 . 0)<br>
+
+Read slope from file (Lower Bound = 0 . 0, Upper Bound = 100 . 0)<br>
+
+Read slope_length from file (Lower Bound = 0 . 0, Upper Bound = 100 . 0)<br>
+
+Read bed_depth from file (Lower Bound = 0 . 0, Upper Bound = 5000 . 0)<br>
+
+Read cover_extra from file (Lower Bound = - 1 . 0, Upper Bound = 1 . 0) <I>(OPTIONAL)</I><br>
+
+if (model_type.=.freeb_model) then<br>
+
+<blockquote>Read k_factor_bed from file (Lower Bound = 0 . 0, Upper Bound = 1 . 0) <I>(OPTIONAL)</I><br>
+
+if (num_read.&lt;=.0) then<br>
+
+<blockquote>Read k_factor_bed from file (Lower Bound = 0 . 0, Upper Bound = 1 . 0)<br>
+
+Read k_factor_susp from file (Lower Bound = 0 . 0, Upper Bound = 1 . 0)<br>
+
+</blockquote>else<br>
+
+endif<br>
+
+Read p_factor from file (Lower Bound = 0 . 0, Upper Bound = 1 . 0)<br>
+
+</blockquote>else if (model_type.=.rose_model) then<br>
+
+<blockquote>Read entrain_eff_bed from file (Lower Bound = 0 . 0, Upper Bound = 2 . 0) <I>(OPTIONAL)</I><br>
+
+Read eros_rose_b2_bed from file (Lower Bound = 0 . 01, Upper Bound = 0 . 2) <I>(OPTIONAL)</I><br>
+
+if (num_read_eteff.=/=.1.or.num_read_b2.=/=.1) then<br>
+
+<blockquote>Read entrain_eff_bed from file (Lower Bound = 0 . 0, Upper Bound = 2 . 0)<br>
+
+Read eros_rose_b2_bed from file (Lower Bound = 0 . 01, Upper Bound = 0 . 2)<br>
+
+Read entrain_eff_susp from file (Lower Bound = 0 . 0, Upper Bound = 2 . 0)<br>
+
+Read eros_rose_b2_susp from file (Lower Bound = 0 . 01, Upper Bound = 0 . 2)<br>
+
+</blockquote>else<br>
+
+endif<br>
+
+</blockquote>else<br>
+
+endif<br>
+
+<br>
+
+</blockquote></blockquote>
+<hr>
+<html>
+<body>
+<p>
+<MAP NAME="FrontPageMap0">
+<AREA SHAPE="RECT" COORDS="513, 2, 635, 18" HREF="#Top">
+<AREA SHAPE="RECT" COORDS="103, 4, 204, 18" HREF="#Structure Charts">
+<AREA SHAPE="RECT" COORDS="14, 3, 76, 18" HREF="#Top">
+</MAP>
+<img src="..\..\..\docs\shared\apseudopagebreak.jpg" width="640" height="19" (5835 bytes)" border="0" usemap="#FrontPageMap0">
+</p>
+</body>
+</html> 
+<A NAME = "erosion_write_summary">  </A>
+<H2>Erosion Write Summary</H2>
+<br>
+<H3><CENTER>Tell summary file what parameters we're using  </CENTER></H3>
+<H4>Subprogram Logic</H4>
+<blockquote><br>
+
+Write a string to a file<br>
+
+string = '                 erosion parameters'<br>
+
+Write a string to a file<br>
+
+string = '     -----------------------------------------------'<br>
+
+Write a string to a file<br>
+
+if (profile_reduction.=.on) then<br>
+
+<blockquote>write (to string)  '      profile reduction:                     on'<br>
+
+Write a string to a file<br>
+
+write (to string)  '      fraction of original layer for merge: ' , profile_layer_merge<br>
+
+Write a string to a file<br>
+
+</blockquote>else<br>
+
+<blockquote>write (to string)  '      profile reduction:                     off'<br>
+
+Write a string to a file<br>
+
+</blockquote>endif<br>
+
+if (model_type.=.freeb_model) then<br>
+
+<blockquote>write (to string)  '      freebairn cover-sediment concentration model' , new_line<br>
+
+Write a string to a file<br>
+
+write (to string)  '      ls factor:                             ' , ls_factor , new_line<br>
+
+Write a string to a file<br>
+
+if (k_factor_susp.&lt;=.0.0) then<br>
+
+<blockquote>write (to string)  '      k factor:                              ' , k_factor_bed , new_line<br>
+
+Write a string to a file<br>
+
+</blockquote>else<br>
+
+<blockquote>write (to string)  '      k factor (bedload ) :) , k_factor_bed , new_line<br>
+
+Write a string to a file<br>
+
+write (to string)  '      k factor (suspended load ) :) , k_factor_susp , new_line<br>
+
+Write a string to a file<br>
+
+</blockquote>endif<br>
+
+write (to string)  '      p factor:                              ' , p_factor , new_line<br>
+
+Write a string to a file<br>
+
+</blockquote>else if (model_type.=.rose_model) then<br>
+
+<blockquote>write (to string)  '      rose sediment concentration model' , new_line<br>
+
+Write a string to a file<br>
+
+if (entrain_eff_susp.&lt;=.0.0) then<br>
+
+<blockquote>write (to string)  '       efficiency of entrainment:            ' , entrain_eff_bed , new_line<br>
+
+Write a string to a file<br>
+
+</blockquote>else<br>
+
+<blockquote>write (to string)  '       efficiency of bed load entrainment:   ' , entrain_eff_bed , new_line<br>
+
+Write a string to a file<br>
+
+write (to string)  '       efficiency of susp. load entrainment: ' , entrain_eff_susp , new_line<br>
+
+Write a string to a file<br>
+
+</blockquote>endif<br>
+
+write (to string)  '       slope (% ) :) , slope , new_line<br>
+
+Write a string to a file<br>
+
+</blockquote>else<br>
+
+<blockquote>write (to string)  '      ? unknown model type ?' , new_line<br>
+
+Write a string to a file<br>
+
+</blockquote>endif<br>
+
+string = '     -----------------------------------------------'<br>
+
+Write a string to a file<br>
+
+<br>
+
+</blockquote></blockquote>
+<hr>
+<html>
+<body>
+<p>
+<MAP NAME="FrontPageMap0">
+<AREA SHAPE="RECT" COORDS="513, 2, 635, 18" HREF="#Top">
+<AREA SHAPE="RECT" COORDS="103, 4, 204, 18" HREF="#Structure Charts">
+<AREA SHAPE="RECT" COORDS="14, 3, 76, 18" HREF="#Top">
+</MAP>
+<img src="..\..\..\docs\shared\apseudopagebreak.jpg" width="640" height="19" (5835 bytes)" border="0" usemap="#FrontPageMap0">
+</p>
+</body>
+</html> 
+<A NAME = "erosion_process">  </A>
+<H2>Erosion Process</H2>
+<br>
+<H3><CENTER>Perform actions for current day.  </CENTER></H3>
+<H4>Subprogram Logic</H4>
+<blockquote><br>
+
+soil_loss_bed = 0 . 0<br>
+
+soil_loss_susp = 0 . 0<br>
+
+if (model_type.=.freeb_model) then<br>
+
+<blockquote><A HREF = "#erosion_freeb"> Calculate bed and suspended loss using the Freebairn model </A><br>
+
+</blockquote>else if (model_type.=.rose_model) then<br>
+
+<blockquote><A HREF = "#erosion_rose"> Calculate bed and suspended loss using the Rose model </A><br>
+
+</blockquote>else<br>
+
+endif<br>
+
+if ((soil_loss_bed+soil_loss_susp.&gt;.0.0).and.profile_reduction.=.on) then<br>
+
+<blockquote><A HREF = "#erosion_move_profile"> Move the layers to account for erosion </A><br>
+
+</blockquote>else<br>
+
+endif<br>
+
+<br>
+
+</blockquote></blockquote>
+<hr>
+<html>
+<body>
+<p>
+<MAP NAME="FrontPageMap0">
+<AREA SHAPE="RECT" COORDS="513, 2, 635, 18" HREF="#Top">
+<AREA SHAPE="RECT" COORDS="103, 4, 204, 18" HREF="#Structure Charts">
+<AREA SHAPE="RECT" COORDS="14, 3, 76, 18" HREF="#Top">
+</MAP>
+<img src="..\..\..\docs\shared\apseudopagebreak.jpg" width="640" height="19" (5835 bytes)" border="0" usemap="#FrontPageMap0">
+</p>
+</body>
+</html> 
+<A NAME = "erosion_freeb">  </A>
+<H2>Erosion Freeb</H2>
+<br>
+<H3><CENTER>Freebairn cover-sediment concentration model from PERFECT. returns t/ha bed and suspended loss  </CENTER></H3>
+<H4>Subprogram Logic</H4>
+<blockquote><br>
+
+erosion_cover_pcnt = erosion_cover * fract2pcnt<br>
+
+if (erosion_cover.&lt;.0.5) then<br>
+
+<blockquote>sed_conc = 16 . 52 - 0 . 46 * erosion_cover_pcnt + 0 . 0031 * erosion_cover_pcnt * erosion_cover_pcnt<br>
+
+</blockquote>else<br>
+
+<blockquote>sed_conc = 2 . 54 - 0 . 0254 * erosion_cover_pcnt<br>
+
+</blockquote>endif<br>
+
+bed_loss = sed_conc * pcnt2fract * g2t / (g2mm*sm2ha) * ls_factor * k_factor_bed * p_factor * runoff<br>
+
+susp_loss = sed_conc * pcnt2fract * g2t / (g2mm*sm2ha) * ls_factor * k_factor_susp * p_factor * runoff<br>
+
+<br>
+
+</blockquote></blockquote>
+<hr>
+<html>
+<body>
+<p>
+<MAP NAME="FrontPageMap0">
+<AREA SHAPE="RECT" COORDS="513, 2, 635, 18" HREF="#Top">
+<AREA SHAPE="RECT" COORDS="103, 4, 204, 18" HREF="#Structure Charts">
+<AREA SHAPE="RECT" COORDS="14, 3, 76, 18" HREF="#Top">
+</MAP>
+<img src="..\..\..\docs\shared\apseudopagebreak.jpg" width="640" height="19" (5835 bytes)" border="0" usemap="#FrontPageMap0">
+</p>
+</body>
+</html> 
+<A NAME = "erosion_rose">  </A>
+<H2>Erosion Rose</H2>
+<br>
+<H3><CENTER>Simplified rose model from PERFECT returns t/ha bed and suspended loads  </CENTER></H3>
+<H4>Subprogram Logic</H4>
+<blockquote><br>
+
+lambda_bed = entrain_eff_bed * <I><BIG>e</BIG></I><SUP>- eros_rose_b2_bed * erosion_cover * fract2pcnt</SUP><br>
+
+bed_loss = 2700 . 0 * (slope*pcnt2fract) * (1.0-erosion_cover) * lambda_bed * runoff / 100 . 0<br>
+
+lambda_susp = entrain_eff_susp * <I><BIG>e</BIG></I><SUP>- eros_rose_b2_susp * erosion_cover * fract2pcnt</SUP><br>
+
+susp_loss = 2700 . 0 * (slope*pcnt2fract) * (1.0-erosion_cover) * lambda_susp * runoff / 100 . 0<br>
+
+<br>
+
+</blockquote></blockquote>
+<hr>
+<html>
+<body>
+<p>
+<MAP NAME="FrontPageMap0">
+<AREA SHAPE="RECT" COORDS="513, 2, 635, 18" HREF="#Top">
+<AREA SHAPE="RECT" COORDS="103, 4, 204, 18" HREF="#Structure Charts">
+<AREA SHAPE="RECT" COORDS="14, 3, 76, 18" HREF="#Top">
+</MAP>
+<img src="..\..\..\docs\shared\apseudopagebreak.jpg" width="640" height="19" (5835 bytes)" border="0" usemap="#FrontPageMap0">
+</p>
+</body>
+</html> 
+<A NAME = "erosion_move_profile">  </A>
+<H2>Erosion Move Profile</H2>
+<br>
+<H3><CENTER>move things in the profile  </CENTER></H3>
+<H4>Subprogram Logic</H4>
+<blockquote><br>
+
+<A HREF = "#erosion_move_dlayr"> Move the layers - erode from the bottom up </A><br>
+
+num_layers = count_of_real_vals (dlayer, maximum number of layers)<br>
+
+if (sum_real_array (dlayer, num_layers)+sum_real_array (<FONT FACE = "SYMBOL">D</FONT>dlayer, num_layers).&lt;.minimum_depth) then<br>
+
+<blockquote><A HREF = "#erosion_bomb_run"> End the simulation due to no soil </A><br>
+
+</blockquote>else<br>
+
+endif<br>
+
+bed_depth = bed_depth + dlt_bed_depth<br>
+
+<br>
+
+</blockquote></blockquote>
+<hr>
+<html>
+<body>
+<p>
+<MAP NAME="FrontPageMap0">
+<AREA SHAPE="RECT" COORDS="513, 2, 635, 18" HREF="#Top">
+<AREA SHAPE="RECT" COORDS="103, 4, 204, 18" HREF="#Structure Charts">
+<AREA SHAPE="RECT" COORDS="14, 3, 76, 18" HREF="#Top">
+</MAP>
+<img src="..\..\..\docs\shared\apseudopagebreak.jpg" width="640" height="19" (5835 bytes)" border="0" usemap="#FrontPageMap0">
+</p>
+</body>
+</html> 
+<A NAME = "erosion_move_dlayr">  </A>
+<H2>Erosion Move Dlayr</H2>
+<br>
+<H3><CENTER>move dlayr  </CENTER></H3>
+<H4>Subprogram Logic</H4>
+<blockquote><br>
+
+Fill dlt_dlayer with 0 . 0<br>
+
+dlt_bed_depth = 0 . 0<br>
+
+num_layers = count_of_real_vals (dlayer, maximum number of layers)<br>
+
+top = (soil_loss_bed+soil_loss_susp) * t2g / ha2scm<br>
+
+dlt_depth_mm = divide (top, bd (1), 0 . 0) * cm2mm<br>
+
+if (dlt_depth_mm.&gt;.dlayer (1)) then<br>
+
+<blockquote>write (to string)  'eroding more than top layer depth.' / / ' this may affect soiln loss.'<br>
+
+Print a warning error<br>
+
+</blockquote>else<br>
+
+endif<br>
+
+dlt_depth_mm = divide (top, bd (num_layers), 0 . 0) * cm2mm<br>
+
+if (dlt_depth_mm.&gt;.dlayer (num_layers)) then<br>
+
+<blockquote>write (to string)  'eroding more than bottom layer depth. (layer) , num_layers , ').' / / new_line / / 'pawc calculations may be incorrect if bd ' / / 'is different to layer above.'<br>
+
+Print a warning error<br>
+
+</blockquote>else<br>
+
+endif<br>
+
+tot_depth = sum_real_array (dlayer, num_layers) + dlt_depth_mm<br>
+
+if (tot_depth.&gt;.bed_depth) then<br>
+
+<blockquote>overrun = tot_depth - bed_depth<br>
+
+dlt_bed_depth = - overrun<br>
+
+For each i from num_layers to 1 stepping by -1<br>
+
+<blockquote>if (overrun.&gt;.0.0) then<br>
+
+<blockquote>if (overrun.&lt;=.dlayer (i)) then<br>
+
+<blockquote>dlt_dlayer<I><SUB> i</SUB></I> = - overrun<br>
+
+new_depth = dlt_dlayer<I><SUB> i</SUB></I> + dlayer (i)<br>
+
+if (new_depth.&lt;.layer_merge_mm) then<br>
+
+<blockquote>if (i.&lt;=.1) then<br>
+
+<blockquote><A HREF = "#erosion_bomb_run"> End the simulation due to no soil </A><br>
+
+</blockquote>else<br>
+
+<blockquote>dlt_dlayer<I><SUB> i - 1</SUB></I> = new_depth<br>
+
+dlt_dlayer<I><SUB> i</SUB></I> = - dlayer (i)<br>
+
+layer_merge_mm = dlayer (i - 1) * profile_layer_merge<br>
+
+</blockquote>endif<br>
+
+</blockquote>else<br>
+
+endif<br>
+
+overrun = 0 . 0<br>
+
+</blockquote>else<br>
+
+<blockquote>dlt_dlayer<I><SUB> i</SUB></I> = - dlayer (i)<br>
+
+overrun = overrun - dlayer (i)<br>
+
+</blockquote>endif<br>
+
+</blockquote>else<br>
+
+endif<br>
+
+</blockquote>next<br>
+
+</blockquote>endif<br>
+
+<br>
+
+</blockquote></blockquote>
+<hr>
+<html>
+<body>
+<p>
+<MAP NAME="FrontPageMap0">
+<AREA SHAPE="RECT" COORDS="513, 2, 635, 18" HREF="#Top">
+<AREA SHAPE="RECT" COORDS="103, 4, 204, 18" HREF="#Structure Charts">
+<AREA SHAPE="RECT" COORDS="14, 3, 76, 18" HREF="#Top">
+</MAP>
+<img src="..\..\..\docs\shared\apseudopagebreak.jpg" width="640" height="19" (5835 bytes)" border="0" usemap="#FrontPageMap0">
+</p>
+</body>
+</html> 
+<A NAME = "erosion_bomb_run">  </A>
+<H2>Erosion Bomb Run</H2>
+<br>
+<H3><CENTER>kill the run  </CENTER></H3>
+<H4>Subprogram Logic</H4>
+<blockquote><br>
+
+Report a fatal error<br>
+
+<br>
+
+</blockquote></blockquote>
+<hr>
+<html>
+<body>
+<p>
+<MAP NAME="FrontPageMap0">
+<AREA SHAPE="RECT" COORDS="513, 2, 635, 18" HREF="#Top">
+<AREA SHAPE="RECT" COORDS="103, 4, 204, 18" HREF="#Structure Charts">
+<AREA SHAPE="RECT" COORDS="14, 3, 76, 18" HREF="#Top">
+</MAP>
+<img src="..\..\..\docs\shared\apseudopagebreak.jpg" width="640" height="19" (5835 bytes)" border="0" usemap="#FrontPageMap0">
+</p>
+</body>
+</html> 
+<A NAME = "erosion_set_other_variables">  </A>
+<H2>Erosion Set Other Variables</H2>
+<br>
+<H3><CENTER>Update variables owned by other modules.  </CENTER></H3>
+<H4>Subprogram Logic</H4>
+<blockquote><br>
+
+if ((soil_loss_bed+soil_loss_susp).&gt;.0.0.and.profile_reduction.=.on) then<br>
+
+<blockquote>num_layers = count_of_real_vals (dlayer, maximum number of layers)<br>
+
+set_real_array<I><SUB> unknown_module, 'dlt_dlayer', ' (mm )), <FONT FACE = "SYMBOL">D</FONT>dlayer, num_layers</SUB></I><br>
+
+</blockquote>else<br>
+
+endif<br>
+
+<br>
+
+</blockquote></blockquote>
+<hr>
+<html>
+<body>
+<p>
+<MAP NAME="FrontPageMap0">
+<AREA SHAPE="RECT" COORDS="513, 2, 635, 18" HREF="#Top">
+<AREA SHAPE="RECT" COORDS="103, 4, 204, 18" HREF="#Structure Charts">
+<AREA SHAPE="RECT" COORDS="14, 3, 76, 18" HREF="#Top">
+</MAP>
+<img src="..\..\..\docs\shared\apseudopagebreak.jpg" width="640" height="19" (5835 bytes)" border="0" usemap="#FrontPageMap0">
+</p>
+</body>
+</html> 
+<A NAME = "erosion_send_my_variable">  </A>
+<H2>Erosion Send My Variable</H2>
+<br>
+<H3><CENTER>Return the value of one of our variables to caller  </CENTER></H3>
+<H4>Subprogram Logic</H4>
+<blockquote><br>
+
+soil_loss_tha = soil_loss_bed + soil_loss_susp<br>
+
+if (variable_name.=.'soil_loss') then<br>
+
+<blockquote>Supply soil_loss_tha to the requesting module<br>
+
+</blockquote>else if (variable_name.=.'soil_loss_bed') then<br>
+
+<blockquote>Supply soil_loss_bed to the requesting module<br>
+
+</blockquote>else if (variable_name.=.'soil_loss_susp') then<br>
+
+<blockquote>Supply soil_loss_susp to the requesting module<br>
+
+</blockquote>else if (variable_name.=.'soil_loss_mm') then<br>
+
+<blockquote>soil_loss_mm = divide (soil_loss_tha * t2g / ha2scm, bd (1), 0 . 0) * cm2mm<br>
+
+Supply soil_loss_mm to the requesting module<br>
+
+</blockquote>else if (variable_name.=.'sed_conc') then<br>
+
+<blockquote>sed_conc = divide (soil_loss_tha * t2g / ha2sm, runoff * mm2lpsm, 0 . 0)<br>
+
+Supply sed_conc to the requesting module<br>
+
+</blockquote>else if (variable_name.=.'sed_conc_bed') then<br>
+
+<blockquote>sed_conc = divide (soil_loss_bed * t2g / ha2sm, runoff * mm2lpsm, 0 . 0)<br>
+
+Supply sed_conc to the requesting module<br>
+
+</blockquote>else if (variable_name.=.'sed_conc_susp') then<br>
+
+<blockquote>sed_conc = divide (soil_loss_susp * t2g / ha2sm, runoff * mm2lpsm, 0 . 0)<br>
+
+Supply sed_conc to the requesting module<br>
+
+</blockquote>else if (variable_name.=.'bed_depth') then<br>
+
+<blockquote>Supply bed_depth to the requesting module<br>
+
+</blockquote>else if (variable_name.=.'erosion_cover') then<br>
+
+<blockquote>Supply erosion_cover to the requesting module<br>
+
+</blockquote>else if (variable_name.=.'cover_extra') then<br>
+
+<blockquote>Supply cover_extra to the requesting module<br>
+
+</blockquote>else<br>
+
+<blockquote>message_unused<br>
+
+</blockquote>endif<br>
+
+<br>
+
+</blockquote></blockquote>
+<hr>
+<html>
+<body>
+<p>
+<MAP NAME="FrontPageMap0">
+<AREA SHAPE="RECT" COORDS="513, 2, 635, 18" HREF="#Top">
+<AREA SHAPE="RECT" COORDS="103, 4, 204, 18" HREF="#Structure Charts">
+<AREA SHAPE="RECT" COORDS="14, 3, 76, 18" HREF="#Top">
+</MAP>
+<img src="..\..\..\docs\shared\apseudopagebreak.jpg" width="640" height="19" (5835 bytes)" border="0" usemap="#FrontPageMap0">
+</p>
+</body>
+</html> 
+<A NAME = "erosion_set_my_variable">  </A>
+<H2>Erosion Set My Variable</H2>
+<br>
+<H3><CENTER>Set the values of my variables from other modules  </CENTER></H3>
+<H4>Subprogram Logic</H4>
+<blockquote><br>
+
+if (variable_name.=.'cover_extra') then<br>
+
+<blockquote>Get cover_extra from the message (Lower Bound = - 1 . 0, Upper Bound = 1 . 0)<br>
+
+</blockquote>else<br>
+
+<blockquote>message_unused<br>
+
+</blockquote>endif<br>
+
+<br>
+
+</blockquote></blockquote>
+<hr>
+<html>
+<body>
+<p>
+<MAP NAME="FrontPageMap0">
+<AREA SHAPE="RECT" COORDS="513, 2, 635, 18" HREF="#Top">
+<AREA SHAPE="RECT" COORDS="103, 4, 204, 18" HREF="#Structure Charts">
+<AREA SHAPE="RECT" COORDS="14, 3, 76, 18" HREF="#Top">
+</MAP>
+<img src="..\..\..\docs\shared\apseudopagebreak.jpg" width="640" height="19" (5835 bytes)" border="0" usemap="#FrontPageMap0">
+</p>
+</body>
+</html> 
+<A NAME = "erosion_end_run">  </A>
+<H2>Erosion End Run</H2>
+<br>
+<H3><CENTER>Perform cleanup because the current simulation is about to end.  </CENTER></H3>
+<H4>Subprogram Logic</H4>
+<blockquote><br>
+
+<br>
+
+</blockquote></blockquote>
+<hr>
+<html>
+<body>
+<p>
+<MAP NAME="FrontPageMap0">
+<AREA SHAPE="RECT" COORDS="513, 2, 635, 18" HREF="#Top">
+<AREA SHAPE="RECT" COORDS="103, 4, 204, 18" HREF="#Structure Charts">
+<AREA SHAPE="RECT" COORDS="14, 3, 76, 18" HREF="#Top">
+</MAP>
+<img src="..\..\..\docs\shared\apseudopagebreak.jpg" width="640" height="19" (5835 bytes)" border="0" usemap="#FrontPageMap0">
+</p>
+</body>
+</html> 
+<A NAME = "Contact Information"> <H2>Contact Information</H2> </A>
+For Further Information Please Contact:
+<p>
+<A HREF = "mailto:silburm@dpi.qld.gov.au"> Mark Silburn - Module Developer </A><br>
+<hr>
+<html>
+<body>
+<p>
+<MAP NAME="FrontPageMap0">
+<AREA SHAPE="RECT" COORDS="513, 2, 635, 18" HREF="#Top">
+<AREA SHAPE="RECT" COORDS="103, 4, 204, 18" HREF="#Structure Charts">
+<AREA SHAPE="RECT" COORDS="14, 3, 76, 18" HREF="#Top">
+</MAP>
+<img src="..\..\..\docs\shared\apseudopagebreak.jpg" width="640" height="19" (5835 bytes)" border="0" usemap="#FrontPageMap0">
+</p>
+</body>
+</html> 
+<html>
+
+<head>
+<meta http-equiv="Content-Type"
+content="text/html; charset=iso-8859-1">
+<meta name="GENERATOR" content="Microsoft FrontPage Express 2.0">
+<title></title>
+</head>
+
+<body>
+
+<p><img src="..\..\..\docs\shared\apsimdocumentationbanner.jpg" width="640"
+height="73"></p>
+</body>
+</html>
+Date: 15/01/2001  APseudo Version:  1. 0 Rev.  1<br>
+<hr>
+<html>
+<body>
+<p>
+<MAP NAME="FrontPageMap0">
+<AREA SHAPE="RECT" COORDS="513, 2, 635, 18" HREF="#Top">
+<AREA SHAPE="RECT" COORDS="103, 4, 204, 18" HREF="#Structure Charts">
+<AREA SHAPE="RECT" COORDS="14, 3, 76, 18" HREF="#Top">
+</MAP>
+<img src="..\..\..\docs\shared\apseudopagebreak.jpg" width="640" height="19" (5835 bytes)" border="0" usemap="#FrontPageMap0">
+</p>
+</body>
+</html> 

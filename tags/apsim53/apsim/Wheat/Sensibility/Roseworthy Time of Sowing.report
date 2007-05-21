@@ -1,0 +1,1006 @@
+Version = 3.0
+NumPages = 1
+object data: TForm
+  Left = 4
+  Top = 4
+  Align = alClient
+  BorderIcons = []
+  BorderStyle = bsNone
+  ClientHeight = 865
+  ClientWidth = 1384
+  Color = clBtnFace
+  Font.Charset = DEFAULT_CHARSET
+  Font.Color = clWindowText
+  Font.Height = -11
+  Font.Name = 'MS Sans Serif'
+  Font.Style = []
+  OldCreateOrder = False
+  PixelsPerInch = 96
+  TextHeight = 13
+  object Early: TApsimFileReader
+    Active = True
+    DesignActivation = True
+    AttachedAutoRefresh = True
+    AttachMaxCount = 1
+    FieldDefs = <
+      item
+        Name = 'title'
+        DataType = ftString
+        Size = 200
+      end
+      item
+        Name = 'date'
+        DataType = ftDate
+      end
+      item
+        Name = 'day'
+        DataType = ftFloat
+      end
+      item
+        Name = 'year'
+        DataType = ftFloat
+      end
+      item
+        Name = 'in_crop_rain'
+        DataType = ftFloat
+      end
+      item
+        Name = 'eff_in_crop_rain'
+        DataType = ftFloat
+      end
+      item
+        Name = 'lai'
+        DataType = ftFloat
+      end
+      item
+        Name = 'biomass'
+        DataType = ftFloat
+      end
+      item
+        Name = 'yield'
+        DataType = ftFloat
+      end
+      item
+        Name = 'hi'
+        DataType = ftFloat
+      end
+      item
+        Name = 'nhi'
+        DataType = ftFloat
+      end
+      item
+        Name = 'sum_ep'
+        DataType = ftFloat
+      end
+      item
+        Name = 'n_conc_grain'
+        DataType = ftFloat
+      end
+      item
+        Name = 'grain_n'
+        DataType = ftFloat
+      end
+      item
+        Name = 'no3()'
+        DataType = ftFloat
+      end
+      item
+        Name = 'esw'
+        DataType = ftFloat
+      end
+      item
+        Name = 'flowering_date'
+        DataType = ftFloat
+      end>
+    IndexDefs = <>
+    SortFields = 'year'
+    SortOptions = []
+    AllDataOptions = [mtfSaveData, mtfSaveNonVisible, mtfSaveBlobs, mtfSaveFiltered, mtfSaveIgnoreRange, mtfSaveIgnoreMasterDetail, mtfSaveDeltas]
+    CommaTextOptions = [mtfSaveData]
+    CSVQuote = '"'
+    CSVFieldDelimiter = ','
+    CSVRecordDelimiter = ','
+    CSVTrueString = 'True'
+    CSVFalseString = 'False'
+    PersistentSaveOptions = [mtfSaveData, mtfSaveNonVisible, mtfSaveIgnoreRange, mtfSaveIgnoreMasterDetail]
+    PersistentBackup = False
+    ProgressFlags = [mtpcLoad, mtpcSave, mtpcCopy]
+    FilterOptions = []
+    Version = '2.53g'
+    LanguageID = 0
+    SortID = 0
+    SubLanguageID = 1
+    LocaleID = 1024
+    subscriptionComponentNames.Strings = (
+      'Dalby600Prob.onSourceDataChanged'
+      'Warra600HighNProb.onSourceDataChanged'
+      'RoseworthyLowNTopDressProb.onSourceDataChanged'
+      'EarlyHIProb.onSourceDataChanged'
+      'Probability1.onSourceDataChanged'
+      'MidHIProb.onSourceDataChanged'
+      'LateHIProb.onSourceDataChanged'
+      'EarlyProb.onSourceDataChanged')
+    sortFields = 'year'
+    filenames.Strings = (
+      'RoseworthyEarly.out')
+    Left = 170
+    Top = 157
+  end
+  object EarlyProb: TProbability
+    Active = True
+    DesignActivation = True
+    AttachedAutoRefresh = True
+    AttachMaxCount = 1
+    FieldDefs = <
+      item
+        Name = 'yield'
+        DataType = ftFloat
+      end
+      item
+        Name = 'Probability'
+        DataType = ftFloat
+      end>
+    IndexDefs = <>
+    SortFields = 'Probability'
+    SortOptions = []
+    AllDataOptions = [mtfSaveData, mtfSaveNonVisible, mtfSaveBlobs, mtfSaveFiltered, mtfSaveIgnoreRange, mtfSaveIgnoreMasterDetail, mtfSaveDeltas]
+    CommaTextOptions = [mtfSaveData]
+    CSVQuote = '"'
+    CSVFieldDelimiter = ','
+    CSVRecordDelimiter = ','
+    CSVTrueString = 'True'
+    CSVFalseString = 'False'
+    PersistentSaveOptions = [mtfSaveData, mtfSaveNonVisible, mtfSaveIgnoreRange, mtfSaveIgnoreMasterDetail]
+    PersistentBackup = False
+    ProgressFlags = [mtpcLoad, mtpcSave, mtpcCopy]
+    FilterOptions = []
+    Version = '2.53g'
+    LanguageID = 0
+    SortID = 0
+    SubLanguageID = 1
+    LocaleID = 1024
+    source = Early
+    subscriptionComponentNames.Strings = (
+      'Graph1.afterDataRefresh'
+      'EarlyHIProb.onSourceDataChanged'
+      'MidHIProb.onSourceDataChanged'
+      'LateHIProb.onSourceDataChanged')
+    sortFields = 'Probability'
+    fieldName = 'yield'
+    Left = 304
+    Top = 160
+  end
+  object Mid: TApsimFileReader
+    Active = True
+    DesignActivation = True
+    AttachedAutoRefresh = True
+    AttachMaxCount = 1
+    FieldDefs = <
+      item
+        Name = 'title'
+        DataType = ftString
+        Size = 200
+      end
+      item
+        Name = 'date'
+        DataType = ftDate
+      end
+      item
+        Name = 'day'
+        DataType = ftFloat
+      end
+      item
+        Name = 'year'
+        DataType = ftFloat
+      end
+      item
+        Name = 'in_crop_rain'
+        DataType = ftFloat
+      end
+      item
+        Name = 'eff_in_crop_rain'
+        DataType = ftFloat
+      end
+      item
+        Name = 'lai'
+        DataType = ftFloat
+      end
+      item
+        Name = 'biomass'
+        DataType = ftFloat
+      end
+      item
+        Name = 'yield'
+        DataType = ftFloat
+      end
+      item
+        Name = 'hi'
+        DataType = ftFloat
+      end
+      item
+        Name = 'nhi'
+        DataType = ftFloat
+      end
+      item
+        Name = 'sum_ep'
+        DataType = ftFloat
+      end
+      item
+        Name = 'n_conc_grain'
+        DataType = ftFloat
+      end
+      item
+        Name = 'grain_n'
+        DataType = ftFloat
+      end
+      item
+        Name = 'no3()'
+        DataType = ftFloat
+      end
+      item
+        Name = 'esw'
+        DataType = ftFloat
+      end
+      item
+        Name = 'flowering_date'
+        DataType = ftFloat
+      end>
+    IndexDefs = <>
+    SortFields = 'year'
+    SortOptions = []
+    AllDataOptions = [mtfSaveData, mtfSaveNonVisible, mtfSaveBlobs, mtfSaveFiltered, mtfSaveIgnoreRange, mtfSaveIgnoreMasterDetail, mtfSaveDeltas]
+    CommaTextOptions = [mtfSaveData]
+    CSVQuote = '"'
+    CSVFieldDelimiter = ','
+    CSVRecordDelimiter = ','
+    CSVTrueString = 'True'
+    CSVFalseString = 'False'
+    PersistentSaveOptions = [mtfSaveData, mtfSaveNonVisible, mtfSaveIgnoreRange, mtfSaveIgnoreMasterDetail]
+    PersistentBackup = False
+    ProgressFlags = [mtpcLoad, mtpcSave, mtpcCopy]
+    FilterOptions = []
+    Version = '2.53g'
+    LanguageID = 0
+    SortID = 0
+    SubLanguageID = 1
+    LocaleID = 1024
+    subscriptionComponentNames.Strings = (
+      'Warra1500HighNProb.onSourceDataChanged'
+      'RoseworthyTopDressProb.onSourceDataChanged'
+      'MidHIProb.onSourceDataChanged'
+      'LateHIProb.onSourceDataChanged'
+      'MidProb.onSourceDataChanged')
+    sortFields = 'year'
+    filenames.Strings = (
+      'RoseworthyMid.out')
+    Left = 171
+    Top = 223
+  end
+  object Late: TApsimFileReader
+    Active = True
+    DesignActivation = True
+    AttachedAutoRefresh = True
+    AttachMaxCount = 1
+    FieldDefs = <
+      item
+        Name = 'title'
+        DataType = ftString
+        Size = 200
+      end
+      item
+        Name = 'date'
+        DataType = ftDate
+      end
+      item
+        Name = 'day'
+        DataType = ftFloat
+      end
+      item
+        Name = 'year'
+        DataType = ftFloat
+      end
+      item
+        Name = 'in_crop_rain'
+        DataType = ftFloat
+      end
+      item
+        Name = 'eff_in_crop_rain'
+        DataType = ftFloat
+      end
+      item
+        Name = 'lai'
+        DataType = ftFloat
+      end
+      item
+        Name = 'biomass'
+        DataType = ftFloat
+      end
+      item
+        Name = 'yield'
+        DataType = ftFloat
+      end
+      item
+        Name = 'hi'
+        DataType = ftFloat
+      end
+      item
+        Name = 'nhi'
+        DataType = ftFloat
+      end
+      item
+        Name = 'sum_ep'
+        DataType = ftFloat
+      end
+      item
+        Name = 'n_conc_grain'
+        DataType = ftFloat
+      end
+      item
+        Name = 'grain_n'
+        DataType = ftFloat
+      end
+      item
+        Name = 'no3()'
+        DataType = ftFloat
+      end
+      item
+        Name = 'esw'
+        DataType = ftFloat
+      end
+      item
+        Name = 'flowering_date'
+        DataType = ftFloat
+      end>
+    IndexDefs = <>
+    SortFields = 'year'
+    SortOptions = []
+    AllDataOptions = [mtfSaveData, mtfSaveNonVisible, mtfSaveBlobs, mtfSaveFiltered, mtfSaveIgnoreRange, mtfSaveIgnoreMasterDetail, mtfSaveDeltas]
+    CommaTextOptions = [mtfSaveData]
+    CSVQuote = '"'
+    CSVFieldDelimiter = ','
+    CSVRecordDelimiter = ','
+    CSVTrueString = 'True'
+    CSVFalseString = 'False'
+    PersistentSaveOptions = [mtfSaveData, mtfSaveNonVisible, mtfSaveIgnoreRange, mtfSaveIgnoreMasterDetail]
+    PersistentBackup = False
+    ProgressFlags = [mtpcLoad, mtpcSave, mtpcCopy]
+    FilterOptions = []
+    Version = '2.53g'
+    LanguageID = 0
+    SortID = 0
+    SubLanguageID = 1
+    LocaleID = 1024
+    subscriptionComponentNames.Strings = (
+      'Warra600LowNProb.onSourceDataChanged'
+      'RoseworthyLowNProb.onSourceDataChanged'
+      'LateHIProb.onSourceDataChanged'
+      'LateProb.onSourceDataChanged')
+    sortFields = 'year'
+    filenames.Strings = (
+      'RoseworthyLate.out')
+    Left = 176
+    Top = 320
+  end
+  object MidProb: TProbability
+    Active = True
+    DesignActivation = True
+    AttachedAutoRefresh = True
+    AttachMaxCount = 1
+    FieldDefs = <
+      item
+        Name = 'yield'
+        DataType = ftFloat
+      end
+      item
+        Name = 'Probability'
+        DataType = ftFloat
+      end>
+    IndexDefs = <>
+    SortFields = 'Probability'
+    SortOptions = []
+    AllDataOptions = [mtfSaveData, mtfSaveNonVisible, mtfSaveBlobs, mtfSaveFiltered, mtfSaveIgnoreRange, mtfSaveIgnoreMasterDetail, mtfSaveDeltas]
+    CommaTextOptions = [mtfSaveData]
+    CSVQuote = '"'
+    CSVFieldDelimiter = ','
+    CSVRecordDelimiter = ','
+    CSVTrueString = 'True'
+    CSVFalseString = 'False'
+    PersistentSaveOptions = [mtfSaveData, mtfSaveNonVisible, mtfSaveIgnoreRange, mtfSaveIgnoreMasterDetail]
+    PersistentBackup = False
+    ProgressFlags = [mtpcLoad, mtpcSave, mtpcCopy]
+    FilterOptions = []
+    Version = '2.53g'
+    LanguageID = 0
+    SortID = 0
+    SubLanguageID = 1
+    LocaleID = 1024
+    source = Mid
+    subscriptionComponentNames.Strings = (
+      'Graph1.afterDataRefresh')
+    sortFields = 'Probability'
+    fieldName = 'yield'
+    Left = 304
+    Top = 232
+  end
+  object LateProb: TProbability
+    Active = True
+    DesignActivation = True
+    AttachedAutoRefresh = True
+    AttachMaxCount = 1
+    FieldDefs = <
+      item
+        Name = 'yield'
+        DataType = ftFloat
+      end
+      item
+        Name = 'Probability'
+        DataType = ftFloat
+      end>
+    IndexDefs = <>
+    SortFields = 'Probability'
+    SortOptions = []
+    AllDataOptions = [mtfSaveData, mtfSaveNonVisible, mtfSaveBlobs, mtfSaveFiltered, mtfSaveIgnoreRange, mtfSaveIgnoreMasterDetail, mtfSaveDeltas]
+    CommaTextOptions = [mtfSaveData]
+    CSVQuote = '"'
+    CSVFieldDelimiter = ','
+    CSVRecordDelimiter = ','
+    CSVTrueString = 'True'
+    CSVFalseString = 'False'
+    PersistentSaveOptions = [mtfSaveData, mtfSaveNonVisible, mtfSaveIgnoreRange, mtfSaveIgnoreMasterDetail]
+    PersistentBackup = False
+    ProgressFlags = [mtpcLoad, mtpcSave, mtpcCopy]
+    FilterOptions = []
+    Version = '2.53g'
+    LanguageID = 0
+    SortID = 0
+    SubLanguageID = 1
+    LocaleID = 1024
+    source = Late
+    subscriptionComponentNames.Strings = (
+      'Graph1.afterDataRefresh')
+    sortFields = 'Probability'
+    fieldName = 'yield'
+    Left = 312
+    Top = 328
+  end
+  object EarlyHIProb: TProbability
+    Active = True
+    DesignActivation = True
+    AttachedAutoRefresh = True
+    AttachMaxCount = 1
+    FieldDefs = <
+      item
+        Name = 'hi'
+        DataType = ftFloat
+      end
+      item
+        Name = 'Probability'
+        DataType = ftFloat
+      end>
+    IndexDefs = <>
+    SortFields = 'Probability'
+    SortOptions = []
+    AllDataOptions = [mtfSaveData, mtfSaveNonVisible, mtfSaveBlobs, mtfSaveFiltered, mtfSaveIgnoreRange, mtfSaveIgnoreMasterDetail, mtfSaveDeltas]
+    CommaTextOptions = [mtfSaveData]
+    CSVQuote = '"'
+    CSVFieldDelimiter = ','
+    CSVRecordDelimiter = ','
+    CSVTrueString = 'True'
+    CSVFalseString = 'False'
+    PersistentSaveOptions = [mtfSaveData, mtfSaveNonVisible, mtfSaveIgnoreRange, mtfSaveIgnoreMasterDetail]
+    PersistentBackup = False
+    ProgressFlags = [mtpcLoad, mtpcSave, mtpcCopy]
+    FilterOptions = []
+    Version = '2.53g'
+    LanguageID = 0
+    SortID = 0
+    SubLanguageID = 1
+    LocaleID = 1024
+    source = Early
+    subscriptionComponentNames.Strings = (
+      'Graph2.afterDataRefresh')
+    sortFields = 'Probability'
+    fieldName = 'hi'
+    Left = 392
+    Top = 168
+  end
+  object MidHIProb: TProbability
+    Active = True
+    DesignActivation = True
+    AttachedAutoRefresh = True
+    AttachMaxCount = 1
+    FieldDefs = <
+      item
+        Name = 'hi'
+        DataType = ftFloat
+      end
+      item
+        Name = 'Probability'
+        DataType = ftFloat
+      end>
+    IndexDefs = <>
+    SortFields = 'Probability'
+    SortOptions = []
+    AllDataOptions = [mtfSaveData, mtfSaveNonVisible, mtfSaveBlobs, mtfSaveFiltered, mtfSaveIgnoreRange, mtfSaveIgnoreMasterDetail, mtfSaveDeltas]
+    CommaTextOptions = [mtfSaveData]
+    CSVQuote = '"'
+    CSVFieldDelimiter = ','
+    CSVRecordDelimiter = ','
+    CSVTrueString = 'True'
+    CSVFalseString = 'False'
+    PersistentSaveOptions = [mtfSaveData, mtfSaveNonVisible, mtfSaveIgnoreRange, mtfSaveIgnoreMasterDetail]
+    PersistentBackup = False
+    ProgressFlags = [mtpcLoad, mtpcSave, mtpcCopy]
+    FilterOptions = []
+    Version = '2.53g'
+    LanguageID = 0
+    SortID = 0
+    SubLanguageID = 1
+    LocaleID = 1024
+    source = Mid
+    subscriptionComponentNames.Strings = (
+      'Graph2.afterDataRefresh')
+    sortFields = 'Probability'
+    fieldName = 'hi'
+    Left = 432
+    Top = 240
+  end
+  object LateHIProb: TProbability
+    Active = True
+    DesignActivation = True
+    AttachedAutoRefresh = True
+    AttachMaxCount = 1
+    FieldDefs = <
+      item
+        Name = 'hi'
+        DataType = ftFloat
+      end
+      item
+        Name = 'Probability'
+        DataType = ftFloat
+      end>
+    IndexDefs = <>
+    SortFields = 'Probability'
+    SortOptions = []
+    AllDataOptions = [mtfSaveData, mtfSaveNonVisible, mtfSaveBlobs, mtfSaveFiltered, mtfSaveIgnoreRange, mtfSaveIgnoreMasterDetail, mtfSaveDeltas]
+    CommaTextOptions = [mtfSaveData]
+    CSVQuote = '"'
+    CSVFieldDelimiter = ','
+    CSVRecordDelimiter = ','
+    CSVTrueString = 'True'
+    CSVFalseString = 'False'
+    PersistentSaveOptions = [mtfSaveData, mtfSaveNonVisible, mtfSaveIgnoreRange, mtfSaveIgnoreMasterDetail]
+    PersistentBackup = False
+    ProgressFlags = [mtpcLoad, mtpcSave, mtpcCopy]
+    FilterOptions = []
+    Version = '2.53g'
+    LanguageID = 0
+    SortID = 0
+    SubLanguageID = 1
+    LocaleID = 1024
+    source = Late
+    subscriptionComponentNames.Strings = (
+      'Graph2.afterDataRefresh')
+    sortFields = 'Probability'
+    fieldName = 'hi'
+    Left = 416
+    Top = 352
+  end
+end
+object Page1: TQuickRep
+  Left = 77
+  Top = 0
+  Width = 794
+  Height = 1123
+  Frame.Color = clBlack
+  Frame.DrawTop = False
+  Frame.DrawBottom = False
+  Frame.DrawLeft = False
+  Frame.DrawRight = False
+  Frame.Style = psClear
+  Font.Charset = DEFAULT_CHARSET
+  Font.Color = clWindowText
+  Font.Height = -13
+  Font.Name = 'Arial'
+  Font.Style = []
+  Functions.Strings = (
+    'PAGENUMBER'
+    'COLUMNNUMBER'
+    'REPORTTITLE')
+  Functions.DATA = (
+    '0'
+    '0'
+    #39#39)
+  Options = [FirstPageHeader, LastPageFooter]
+  Page.Columns = 1
+  Page.Orientation = poPortrait
+  Page.PaperSize = A4
+  Page.Ruler = False
+  Page.Values = (
+    0
+    2970
+    0
+    2100
+    0
+    0
+    0)
+  PrinterSettings.Copies = 1
+  PrinterSettings.Duplex = False
+  PrinterSettings.FirstPage = 0
+  PrinterSettings.LastPage = 0
+  PrinterSettings.OutputBin = Auto
+  PrintIfEmpty = True
+  SnapToGrid = True
+  Units = MM
+  Zoom = 100
+  object TitleBand1: TQRBand
+    Left = 0
+    Top = 0
+    Width = 794
+    Height = 1123
+    Frame.Color = clBlack
+    Frame.DrawTop = False
+    Frame.DrawBottom = False
+    Frame.DrawLeft = False
+    Frame.DrawRight = False
+    AlignToBottom = False
+    Color = clWhite
+    ForceNewColumn = False
+    ForceNewPage = False
+    Size.Values = (
+      2970
+      2100.79166666667)
+    BandType = rbTitle
+    object Graph1: TGraph
+      Left = 50
+      Top = 373
+      Width = 649
+      Height = 314
+      Frame.Color = clBlack
+      Frame.DrawTop = False
+      Frame.DrawBottom = False
+      Frame.DrawLeft = False
+      Frame.DrawRight = False
+      Frame.Style = psClear
+      Size.Values = (
+        831.547619047619
+        132.291666666667
+        986.517857142857
+        1716.0119047619)
+      title = ' '
+      subTitle = ' '
+      leftAxisTitle = 'Cumulative Probability (%)'
+      topAxisTitle = ' '
+      rightAxisTitle = ' '
+      bottomAxisTitle = 'Yield (kg/ha)'
+      footTitle = ' '
+      seriesTitle1 = 'Early'
+      seriesTitle2 = 'Middle'
+      seriesTitle3 = 'Late'
+      seriesTitle4 = 'High N No TopDress'
+      seriesTitle5 = ' '
+      object QRDBChart1: TQRDBChart
+        Left = -1
+        Top = -1
+        Width = 1
+        Height = 1
+        BackWall.Visible = False
+        BottomAxis.Automatic = False
+        BottomAxis.AutomaticMaximum = False
+        BottomAxis.AutomaticMinimum = False
+        BottomAxis.AxisValuesFormat = '###0.###'
+        BottomAxis.LabelsFont.Height = -19
+        BottomAxis.LabelsSeparation = 100
+        BottomAxis.Maximum = 6000
+        BottomAxis.MinorTicks.Visible = False
+        BottomAxis.TickLength = 7
+        BottomAxis.Title.Caption = 'Yield (kg/ha)'
+        BottomAxis.Title.Font.Height = -19
+        LeftAxis.Automatic = False
+        LeftAxis.AutomaticMaximum = False
+        LeftAxis.AutomaticMinimum = False
+        LeftAxis.AxisValuesFormat = '###0.###'
+        LeftAxis.LabelsFont.Height = -19
+        LeftAxis.LabelsSeparation = 100
+        LeftAxis.Maximum = 100
+        LeftAxis.MinorTicks.Visible = False
+        LeftAxis.TickLength = 7
+        LeftAxis.Title.Caption = 'Cumulative Probability (%)'
+        LeftAxis.Title.Font.Height = -19
+        Legend.Brush.Color = clWhite
+        Legend.Brush.Style = bsClear
+        Legend.CustomPosition = True
+        Legend.Font.Height = -16
+        Legend.Frame.Visible = False
+        Legend.Left = 90
+        Legend.LegendStyle = lsSeries
+        Legend.Top = 15
+        RightAxis.AxisValuesFormat = '###0.###'
+        RightAxis.Grid.Visible = False
+        RightAxis.LabelsSeparation = 100
+        RightAxis.MinorTicks.Visible = False
+        RightAxis.TickLength = 7
+        TopAxis.AxisValuesFormat = '###0.###'
+        TopAxis.Grid.Visible = False
+        TopAxis.LabelsSeparation = 100
+        TopAxis.MinorTicks.Visible = False
+        TopAxis.TickLength = 7
+        View3D = False
+        object Series2: TLineSeries
+          Marks.Callout.Brush.Color = clBlack
+          Marks.Visible = False
+          DataSource = data.EarlyProb
+          Title = 'Early'
+          LinePen.Width = 3
+          Pointer.InflateMargins = True
+          Pointer.Style = psRectangle
+          Pointer.Visible = False
+          XValues.Name = 'X'
+          XValues.Order = loAscending
+          XValues.ValueSource = 'yield'
+          YValues.Name = 'Y'
+          YValues.Order = loNone
+          YValues.ValueSource = 'Probability'
+        end
+        object Series3: TLineSeries
+          Marks.Callout.Brush.Color = clBlack
+          Marks.Visible = False
+          DataSource = data.MidProb
+          Title = 'Middle'
+          LinePen.Width = 3
+          Pointer.InflateMargins = True
+          Pointer.Style = psRectangle
+          Pointer.Visible = False
+          XValues.Name = 'X'
+          XValues.Order = loAscending
+          XValues.ValueSource = 'yield'
+          YValues.Name = 'Y'
+          YValues.Order = loNone
+          YValues.ValueSource = 'Probability'
+        end
+        object Series4: TLineSeries
+          Marks.Callout.Brush.Color = clBlack
+          Marks.Visible = False
+          DataSource = data.LateProb
+          Title = 'Late'
+          LinePen.Width = 3
+          Pointer.InflateMargins = True
+          Pointer.Style = psRectangle
+          Pointer.Visible = False
+          XValues.Name = 'X'
+          XValues.Order = loAscending
+          XValues.ValueSource = 'yield'
+          YValues.Name = 'Y'
+          YValues.Order = loNone
+          YValues.ValueSource = 'Probability'
+        end
+      end
+    end
+    object Text1: TText
+      Left = 36
+      Top = 139
+      Width = 753
+      Height = 240
+      Frame.Color = clBlack
+      Frame.DrawTop = False
+      Frame.DrawBottom = False
+      Frame.DrawLeft = False
+      Frame.DrawRight = False
+      Frame.Style = psClear
+      Size.Values = (
+        635
+        94.4940476190476
+        366.636904761905
+        1991.93452380952)
+      Alignment = taLeftJustify
+      AlignToBand = False
+      AutoSize = False
+      AutoStretch = False
+      Color = clWhite
+      Font.Charset = DEFAULT_CHARSET
+      Font.Color = clWindowText
+      Font.Height = -13
+      Font.Name = 'Arial'
+      Font.Style = []
+      Lines.Strings = (
+        
+          'Simulations to explore the effect of time of sowing on yield pro' +
+          'babilities.'
+        ''
+        
+          'A wheat crop sown on 200mm of wet soil with 120 kg/ha of N in th' +
+          'e soil at sowing.'
+        
+          'Soil PAWC of XXXmm  (Properties from Dr B. Bellotti).  The crop ' +
+          'is sown at the start of May, end of May,'
+        
+          'or the middle of June.  A base application of 40 kg/ha of N is a' +
+          'pplied at sowing.'
+        ''
+        'Predicted Wheat Yields should '
+        '1) '
+        '2) '
+        'Predicted Grain N% should'
+        '1) '
+        '2) ')
+      ParentFont = False
+      Transparent = False
+      WordWrap = True
+      text = 
+        'Simulations to explore the effect of time of sowing on yield pro' +
+        'babilities.'#13#10#13#10'A wheat crop sown on 200mm of wet soil with 120 k' +
+        'g/ha of N in the soil at sowing.'#13#10'Soil PAWC of XXXmm  (Propertie' +
+        's from Dr B. Bellotti).  The crop is sown at the start of May, e' +
+        'nd of May,'#13#10'or the middle of June.  A base application of 40 kg/' +
+        'ha of N is applied at sowing.'#13#10#13#10'Predicted Wheat Yields should '#13 +
+        #10'1) '#13#10'2) '#13#10'Predicted Grain N% should'#13#10'1) '#13#10'2) '#13#10
+      FontSize = 10
+    end
+    object Text2: TText
+      Left = 43
+      Top = 103
+      Width = 192
+      Height = 39
+      Frame.Color = clBlack
+      Frame.DrawTop = False
+      Frame.DrawBottom = False
+      Frame.DrawLeft = False
+      Frame.DrawRight = False
+      Frame.Style = psClear
+      Size.Values = (
+        103.1875
+        113.770833333333
+        272.520833333333
+        508)
+      Alignment = taLeftJustify
+      AlignToBand = False
+      AutoSize = True
+      AutoStretch = False
+      Color = clWhite
+      Font.Charset = DEFAULT_CHARSET
+      Font.Color = clWindowText
+      Font.Height = -24
+      Font.Name = 'Arial'
+      Font.Style = [fsBold, fsUnderline]
+      Lines.Strings = (
+        'Roseworthy, SA.')
+      ParentFont = False
+      Transparent = False
+      WordWrap = True
+      text = 'Roseworthy, SA.'#13#10
+      FontSize = 18
+    end
+    object Graph2: TGraph
+      Left = 53
+      Top = 699
+      Width = 649
+      Height = 296
+      Frame.Color = clBlack
+      Frame.DrawTop = False
+      Frame.DrawBottom = False
+      Frame.DrawLeft = False
+      Frame.DrawRight = False
+      Frame.Style = psClear
+      Size.Values = (
+        782.410714285714
+        139.85119047619
+        1848.30357142857
+        1716.0119047619)
+      title = ' '
+      subTitle = ' '
+      leftAxisTitle = 'Cumulative Probability (%)'
+      topAxisTitle = ' '
+      rightAxisTitle = ' '
+      bottomAxisTitle = 'Harvest Index'
+      footTitle = ' '
+      seriesTitle1 = ' '
+      seriesTitle2 = ' '
+      seriesTitle3 = ' '
+      seriesTitle4 = ' '
+      seriesTitle5 = ' '
+      object QRDBChart2: TQRDBChart
+        Left = -1
+        Top = -1
+        Width = 1
+        Height = 1
+        BackWall.Visible = False
+        BottomAxis.Automatic = False
+        BottomAxis.AutomaticMinimum = False
+        BottomAxis.AxisValuesFormat = '###0.###'
+        BottomAxis.LabelsFont.Height = -19
+        BottomAxis.LabelsSeparation = 100
+        BottomAxis.MinorTicks.Visible = False
+        BottomAxis.TickLength = 7
+        BottomAxis.Title.Caption = 'Harvest Index'
+        BottomAxis.Title.Font.Height = -19
+        LeftAxis.Automatic = False
+        LeftAxis.AutomaticMaximum = False
+        LeftAxis.AutomaticMinimum = False
+        LeftAxis.AxisValuesFormat = '###0.###'
+        LeftAxis.LabelsFont.Height = -19
+        LeftAxis.LabelsSeparation = 100
+        LeftAxis.Maximum = 100
+        LeftAxis.MinorTicks.Visible = False
+        LeftAxis.TickLength = 7
+        LeftAxis.Title.Caption = 'Cumulative Probability (%)'
+        LeftAxis.Title.Font.Height = -19
+        Legend.Brush.Color = clWhite
+        Legend.Brush.Style = bsClear
+        Legend.CustomPosition = True
+        Legend.Font.Height = -16
+        Legend.Frame.Visible = False
+        Legend.Left = 90
+        Legend.LegendStyle = lsSeries
+        Legend.Top = 44
+        Legend.Visible = False
+        RightAxis.AxisValuesFormat = '###0.###'
+        RightAxis.Grid.Visible = False
+        RightAxis.LabelsSeparation = 100
+        RightAxis.MinorTicks.Visible = False
+        RightAxis.TickLength = 7
+        TopAxis.AxisValuesFormat = '###0.###'
+        TopAxis.Grid.Visible = False
+        TopAxis.LabelsSeparation = 100
+        TopAxis.MinorTicks.Visible = False
+        TopAxis.TickLength = 7
+        View3D = False
+        PrintMargins = (
+          15
+          27
+          15
+          27)
+        object LineSeries1: TLineSeries
+          Marks.Callout.Brush.Color = clBlack
+          Marks.Visible = False
+          DataSource = data.EarlyHIProb
+          ClickableLine = False
+          LinePen.Color = clRed
+          LinePen.Width = 3
+          Pointer.InflateMargins = True
+          Pointer.Style = psRectangle
+          Pointer.Visible = False
+          XValues.Name = 'X'
+          XValues.Order = loAscending
+          XValues.ValueSource = 'hi'
+          YValues.Name = 'Y'
+          YValues.Order = loNone
+          YValues.ValueSource = 'Probability'
+        end
+        object LineSeries2: TLineSeries
+          Marks.Callout.Brush.Color = clBlack
+          Marks.Visible = False
+          DataSource = data.MidHIProb
+          ClickableLine = False
+          LinePen.Color = clGreen
+          LinePen.Width = 3
+          Pointer.InflateMargins = True
+          Pointer.Style = psRectangle
+          Pointer.Visible = False
+          XValues.Name = 'X'
+          XValues.Order = loAscending
+          XValues.ValueSource = 'hi'
+          YValues.Name = 'Y'
+          YValues.Order = loNone
+          YValues.ValueSource = 'Probability'
+        end
+        object LineSeries3: TLineSeries
+          Marks.Callout.Brush.Color = clBlack
+          Marks.Visible = False
+          DataSource = data.LateHIProb
+          ClickableLine = False
+          LinePen.Color = clYellow
+          LinePen.Width = 3
+          Pointer.InflateMargins = True
+          Pointer.Style = psRectangle
+          Pointer.Visible = False
+          XValues.Name = 'X'
+          XValues.Order = loAscending
+          XValues.ValueSource = 'hi'
+          YValues.Name = 'Y'
+          YValues.Order = loNone
+          YValues.ValueSource = 'Probability'
+        end
+      end
+    end
+  end
+end

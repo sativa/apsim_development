@@ -1,0 +1,37 @@
+Microsoft Visual Studio Solution File, Format Version 8.00
+Project("{F184B08F-C81C-45F6-A57F-5ABD9991F28F}") = "General", "..\General\General.vbproj", "{8ED54A72-30F3-4713-91BB-D5CAE9B0CAA4}"
+	ProjectSection(ProjectDependencies) = postProject
+	EndProjectSection
+EndProject
+Project("{F184B08F-C81C-45F6-A57F-5ABD9991F28F}") = "DataTreeControl", "..\DataTreeControl\DataTreeControl.vbproj", "{A2BB2BB1-25F8-4393-B695-BCFE5C3D1E5E}"
+	ProjectSection(ProjectDependencies) = postProject
+	EndProjectSection
+EndProject
+Project("{F184B08F-C81C-45F6-A57F-5ABD9991F28F}") = "APSIMUI", "APSIMUI.vbproj", "{17E65976-5C29-44BC-BFD3-8DAFF7C9D24A}"
+	ProjectSection(ProjectDependencies) = postProject
+	EndProjectSection
+EndProject
+Global
+	GlobalSection(SolutionConfiguration) = preSolution
+		Debug = Debug
+		Release = Release
+	EndGlobalSection
+	GlobalSection(ProjectConfiguration) = postSolution
+		{8ED54A72-30F3-4713-91BB-D5CAE9B0CAA4}.Debug.ActiveCfg = Debug|.NET
+		{8ED54A72-30F3-4713-91BB-D5CAE9B0CAA4}.Debug.Build.0 = Debug|.NET
+		{8ED54A72-30F3-4713-91BB-D5CAE9B0CAA4}.Release.ActiveCfg = Release|.NET
+		{8ED54A72-30F3-4713-91BB-D5CAE9B0CAA4}.Release.Build.0 = Release|.NET
+		{A2BB2BB1-25F8-4393-B695-BCFE5C3D1E5E}.Debug.ActiveCfg = Debug|.NET
+		{A2BB2BB1-25F8-4393-B695-BCFE5C3D1E5E}.Debug.Build.0 = Debug|.NET
+		{A2BB2BB1-25F8-4393-B695-BCFE5C3D1E5E}.Release.ActiveCfg = Release|.NET
+		{A2BB2BB1-25F8-4393-B695-BCFE5C3D1E5E}.Release.Build.0 = Release|.NET
+		{17E65976-5C29-44BC-BFD3-8DAFF7C9D24A}.Debug.ActiveCfg = Debug|.NET
+		{17E65976-5C29-44BC-BFD3-8DAFF7C9D24A}.Debug.Build.0 = Debug|.NET
+		{17E65976-5C29-44BC-BFD3-8DAFF7C9D24A}.Release.ActiveCfg = Release|.NET
+		{17E65976-5C29-44BC-BFD3-8DAFF7C9D24A}.Release.Build.0 = Release|.NET
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+	EndGlobalSection
+	GlobalSection(ExtensibilityAddIns) = postSolution
+	EndGlobalSection
+EndGlobal

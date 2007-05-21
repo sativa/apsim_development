@@ -1,0 +1,1205 @@
+<VisualStudioProject>
+    <CSHARP
+        ProjectType = "Web"
+        ProductVersion = "7.10.3077"
+        SchemaVersion = "2.0"
+        ProjectGuid = "{CBA1AE89-3575-40F7-97D0-9864BC302860}"
+    >
+        <Build>
+            <Settings
+                ApplicationIcon = ""
+                AssemblyKeyContainerName = ""
+                AssemblyName = "YP2006"
+                AssemblyOriginatorKeyFile = ""
+                DefaultClientScript = "JScript"
+                DefaultHTMLPageLayout = "Grid"
+                DefaultTargetSchema = "IE50"
+                DelaySign = "false"
+                OutputType = "Library"
+                PreBuildEvent = ""
+                PostBuildEvent = ""
+                RootNamespace = "YP2006"
+                RunPostBuildEvent = "OnBuildSuccess"
+                StartupObject = ""
+            >
+                <Config
+                    Name = "Debug"
+                    AllowUnsafeBlocks = "false"
+                    BaseAddress = "285212672"
+                    CheckForOverflowUnderflow = "false"
+                    ConfigurationOverrideFile = ""
+                    DefineConstants = "DEBUG;TRACE"
+                    DocumentationFile = ""
+                    DebugSymbols = "true"
+                    FileAlignment = "4096"
+                    IncrementalBuild = "false"
+                    NoStdLib = "false"
+                    NoWarn = ""
+                    Optimize = "false"
+                    OutputPath = "bin\"
+                    RegisterForComInterop = "false"
+                    RemoveIntegerChecks = "false"
+                    TreatWarningsAsErrors = "false"
+                    WarningLevel = "4"
+                />
+                <Config
+                    Name = "Release"
+                    AllowUnsafeBlocks = "false"
+                    BaseAddress = "285212672"
+                    CheckForOverflowUnderflow = "false"
+                    ConfigurationOverrideFile = ""
+                    DefineConstants = "TRACE"
+                    DocumentationFile = ""
+                    DebugSymbols = "false"
+                    FileAlignment = "4096"
+                    IncrementalBuild = "false"
+                    NoStdLib = "false"
+                    NoWarn = ""
+                    Optimize = "true"
+                    OutputPath = "bin\"
+                    RegisterForComInterop = "false"
+                    RemoveIntegerChecks = "false"
+                    TreatWarningsAsErrors = "false"
+                    WarningLevel = "4"
+                />
+            </Settings>
+            <References>
+                <Reference
+                    Name = "System"
+                    AssemblyName = "System"
+                    HintPath = "..\..\..\WINDOWS\Microsoft.NET\Framework\v1.1.4322\System.dll"
+                />
+                <Reference
+                    Name = "System.Drawing"
+                    AssemblyName = "System.Drawing"
+                    HintPath = "..\..\..\WINDOWS\Microsoft.NET\Framework\v1.1.4322\System.Drawing.dll"
+                />
+                <Reference
+                    Name = "System.Data"
+                    AssemblyName = "System.Data"
+                    HintPath = "..\..\..\WINDOWS\Microsoft.NET\Framework\v1.1.4322\System.Data.dll"
+                />
+                <Reference
+                    Name = "System.Web"
+                    AssemblyName = "System.Web"
+                    HintPath = "..\..\..\WINDOWS\Microsoft.NET\Framework\v1.1.4322\System.Web.dll"
+                />
+                <Reference
+                    Name = "System.XML"
+                    AssemblyName = "System.Xml"
+                    HintPath = "..\..\..\WINDOWS\Microsoft.NET\Framework\v1.1.4322\System.XML.dll"
+                />
+                <Reference
+                    Name = "janus.web.gridex"
+                    AssemblyName = "Janus.Web.GridEX"
+                    HintPath = "..\..\..\program files\janus systems\controls for microsoft .net\asp.net server controls\bin\v1.1.1009\janus.web.gridex.dll"
+                    AssemblyFolderKey = "hklm\janus.web.gridex"
+                />
+                <Reference
+                    Name = "System.Windows.Forms"
+                    AssemblyName = "System.Windows.Forms"
+                    HintPath = "..\..\..\WINDOWS\Microsoft.NET\Framework\v1.1.4322\System.Windows.Forms.dll"
+                />
+                <Reference
+                    Name = "System.Design"
+                    AssemblyName = "System.Design"
+                    HintPath = "..\..\..\WINDOWS\Microsoft.NET\Framework\v1.1.4322\System.Design.dll"
+                />
+                <Reference
+                    Name = "Janus.Web.Common"
+                    AssemblyName = "Janus.Web.Common"
+                    HintPath = "..\..\..\Program Files\Janus Systems\Controls for Microsoft .NET\ASP.NET Server Controls\Bin\v1.1.1009\Janus.Web.Common.dll"
+                    AssemblyFolderKey = "hklm\janus.web.gridex"
+                />
+                <Reference
+                    Name = "Xceed.Chart.Server"
+                    AssemblyName = "Xceed.Chart.Server"
+                    HintPath = "..\..\..\Program Files\Xceed Components\Bin\.NET\Xceed.Chart.Server.dll"
+                    AssemblyFolderKey = "hklm\xceed components"
+                    Private = "True"
+                />
+                <Reference
+                    Name = "Xceed.Chart.Core"
+                    AssemblyName = "Xceed.Chart.Core"
+                    HintPath = "..\..\..\Program Files\Xceed Components\Bin\.NET\Xceed.Chart.Core.dll"
+                    AssemblyFolderKey = "hklm\xceed components"
+                    Private = "True"
+                />
+                <Reference
+                    Name = "Xceed.Chart.GLCore"
+                    AssemblyName = "Xceed.Chart.GLCore"
+                    HintPath = "..\..\..\Program Files\Xceed Components\Bin\.NET\Xceed.Chart.GLCore.dll"
+                    AssemblyFolderKey = "hklm\xceed components"
+                    Private = "True"
+                />
+                <Reference
+                    Name = "Xceed.Chart.Standard"
+                    AssemblyName = "Xceed.Chart.Standard"
+                    HintPath = "..\..\..\Program Files\Xceed Components\Bin\.NET\Xceed.Chart.Standard.dll"
+                    AssemblyFolderKey = "hklm\xceed components"
+                    Private = "True"
+                />
+                <Reference
+                    Name = "Xceed.Chart.Utilities"
+                    AssemblyName = "Xceed.Chart.Utilities"
+                    HintPath = "..\..\..\Program Files\Xceed Components\Bin\.NET\Xceed.Chart.Utilities.dll"
+                    AssemblyFolderKey = "hklm\xceed components"
+                    Private = "True"
+                />
+                <Reference
+                    Name = "CSGeneral"
+                    Project = "{D2EDEF3F-995D-4E9D-9E7C-608D46259E9C}"
+                    Package = "{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}"
+                />
+                <Reference
+                    Name = "Soil"
+                    Project = "{6FAC5AE5-F7B4-4C02-B0D4-B992E0F96CAA}"
+                    Package = "{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}"
+                />
+                <Reference
+                    Name = "VBGeneral"
+                    Project = "{8ED54A72-30F3-4713-91BB-D5CAE9B0CAA4}"
+                    Package = "{F184B08F-C81C-45F6-A57F-5ABD9991F28F}"
+                />
+            </References>
+        </Build>
+        <Files>
+            <Include>
+                <File
+                    RelPath = "AssemblyInfo.cs"
+                    SubType = "Code"
+                    BuildAction = "Compile"
+                />
+                <File
+                    RelPath = "DataAccessClass.cs"
+                    SubType = "Code"
+                    BuildAction = "Compile"
+                />
+                <File
+                    RelPath = "EmailClass.cs"
+                    SubType = "Code"
+                    BuildAction = "Compile"
+                />
+                <File
+                    RelPath = "FunctionsClass.cs"
+                    SubType = "Code"
+                    BuildAction = "Compile"
+                />
+                <File
+                    RelPath = "Global.asax"
+                    SubType = "Component"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "Global.asax.cs"
+                    DependentUpon = "Global.asax"
+                    SubType = "Code"
+                    BuildAction = "Compile"
+                />
+                <File
+                    RelPath = "Global.asax.resx"
+                    DependentUpon = "Global.asax.cs"
+                    BuildAction = "EmbeddedResource"
+                />
+                <File
+                    RelPath = "GridFunctionsClass.cs"
+                    SubType = "Code"
+                    BuildAction = "Compile"
+                />
+                <File
+                    RelPath = "HelpClass.cs"
+                    SubType = "Code"
+                    BuildAction = "Compile"
+                />
+                <File
+                    RelPath = "ImportClass.cs"
+                    SubType = "Code"
+                    BuildAction = "Compile"
+                />
+                <File
+                    RelPath = "InputValidationClass.cs"
+                    SubType = "Code"
+                    BuildAction = "Compile"
+                />
+                <File
+                    RelPath = "licenses.licx"
+                    BuildAction = "EmbeddedResource"
+                />
+                <File
+                    RelPath = "RegistrationClass.cs"
+                    SubType = "Code"
+                    BuildAction = "Compile"
+                />
+                <File
+                    RelPath = "ReportClass.cs"
+                    SubType = "Code"
+                    BuildAction = "Compile"
+                />
+                <File
+                    RelPath = "Web.config"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "wfAdminBannerImagesView.aspx"
+                    SubType = "Form"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "wfAdminBannerImagesView.aspx.cs"
+                    DependentUpon = "wfAdminBannerImagesView.aspx"
+                    SubType = "ASPXCodeBehind"
+                    BuildAction = "Compile"
+                />
+                <File
+                    RelPath = "wfAdminBannerImagesView.aspx.resx"
+                    DependentUpon = "wfAdminBannerImagesView.aspx.cs"
+                    BuildAction = "EmbeddedResource"
+                />
+                <File
+                    RelPath = "wfAdminClimateForecast.aspx"
+                    SubType = "Form"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "wfAdminClimateForecast.aspx.cs"
+                    DependentUpon = "wfAdminClimateForecast.aspx"
+                    SubType = "ASPXCodeBehind"
+                    BuildAction = "Compile"
+                />
+                <File
+                    RelPath = "wfAdminClimateForecast.aspx.resx"
+                    DependentUpon = "wfAdminClimateForecast.aspx.cs"
+                    BuildAction = "EmbeddedResource"
+                />
+                <File
+                    RelPath = "wfAdminCrops.aspx"
+                    SubType = "Form"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "wfAdminCrops.aspx.cs"
+                    DependentUpon = "wfAdminCrops.aspx"
+                    SubType = "ASPXCodeBehind"
+                    BuildAction = "Compile"
+                />
+                <File
+                    RelPath = "wfAdminCrops.aspx.resx"
+                    DependentUpon = "wfAdminCrops.aspx.cs"
+                    BuildAction = "EmbeddedResource"
+                />
+                <File
+                    RelPath = "wfAdminDataManagement.aspx"
+                    SubType = "Form"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "wfAdminDataManagement.aspx.cs"
+                    DependentUpon = "wfAdminDataManagement.aspx"
+                    SubType = "ASPXCodeBehind"
+                    BuildAction = "Compile"
+                />
+                <File
+                    RelPath = "wfAdminDataManagement.aspx.resx"
+                    DependentUpon = "wfAdminDataManagement.aspx.cs"
+                    BuildAction = "EmbeddedResource"
+                />
+                <File
+                    RelPath = "wfAdminMenu.aspx"
+                    SubType = "Form"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "wfAdminMenu.aspx.cs"
+                    DependentUpon = "wfAdminMenu.aspx"
+                    SubType = "ASPXCodeBehind"
+                    BuildAction = "Compile"
+                />
+                <File
+                    RelPath = "wfAdminMenu.aspx.resx"
+                    DependentUpon = "wfAdminMenu.aspx.cs"
+                    BuildAction = "EmbeddedResource"
+                />
+                <File
+                    RelPath = "wfAdminMetStationsEdit.aspx"
+                    SubType = "Form"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "wfAdminMetStationsEdit.aspx.cs"
+                    DependentUpon = "wfAdminMetStationsEdit.aspx"
+                    SubType = "ASPXCodeBehind"
+                    BuildAction = "Compile"
+                />
+                <File
+                    RelPath = "wfAdminMetStationsEdit.aspx.resx"
+                    DependentUpon = "wfAdminMetStationsEdit.aspx.cs"
+                    BuildAction = "EmbeddedResource"
+                />
+                <File
+                    RelPath = "wfAdminMetStationsView.aspx"
+                    SubType = "Form"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "wfAdminMetStationsView.aspx.cs"
+                    DependentUpon = "wfAdminMetStationsView.aspx"
+                    SubType = "ASPXCodeBehind"
+                    BuildAction = "Compile"
+                />
+                <File
+                    RelPath = "wfAdminMetStationsView.aspx.resx"
+                    DependentUpon = "wfAdminMetStationsView.aspx.cs"
+                    BuildAction = "EmbeddedResource"
+                />
+                <File
+                    RelPath = "wfAdminPaddockAdd.aspx"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "wfAdminPaddockAdd.aspx.cs"
+                    DependentUpon = "wfAdminPaddockAdd.aspx"
+                    SubType = "ASPXCodeBehind"
+                    BuildAction = "Compile"
+                />
+                <File
+                    RelPath = "wfAdminPaddockAdd.aspx.resx"
+                    DependentUpon = "wfAdminPaddockAdd.aspx.cs"
+                    BuildAction = "EmbeddedResource"
+                />
+                <File
+                    RelPath = "wfAdminReportTemplateAdd.aspx"
+                    SubType = "Form"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "wfAdminReportTemplateAdd.aspx.cs"
+                    DependentUpon = "wfAdminReportTemplateAdd.aspx"
+                    SubType = "ASPXCodeBehind"
+                    BuildAction = "Compile"
+                />
+                <File
+                    RelPath = "wfAdminReportTemplateAdd.aspx.resx"
+                    DependentUpon = "wfAdminReportTemplateAdd.aspx.cs"
+                    BuildAction = "EmbeddedResource"
+                />
+                <File
+                    RelPath = "wfAdminReportTemplateEdit.aspx"
+                    SubType = "Form"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "wfAdminReportTemplateEdit.aspx.cs"
+                    DependentUpon = "wfAdminReportTemplateEdit.aspx"
+                    SubType = "ASPXCodeBehind"
+                    BuildAction = "Compile"
+                />
+                <File
+                    RelPath = "wfAdminReportTemplateEdit.aspx.resx"
+                    DependentUpon = "wfAdminReportTemplateEdit.aspx.cs"
+                    BuildAction = "EmbeddedResource"
+                />
+                <File
+                    RelPath = "wfAdminReportTemplateMap.aspx"
+                    SubType = "Form"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "wfAdminReportTemplateMap.aspx.cs"
+                    DependentUpon = "wfAdminReportTemplateMap.aspx"
+                    SubType = "ASPXCodeBehind"
+                    BuildAction = "Compile"
+                />
+                <File
+                    RelPath = "wfAdminReportTemplateMap.aspx.resx"
+                    DependentUpon = "wfAdminReportTemplateMap.aspx.cs"
+                    BuildAction = "EmbeddedResource"
+                />
+                <File
+                    RelPath = "wfAdminSoilsEdit.aspx"
+                    SubType = "Form"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "wfAdminSoilsEdit.aspx.cs"
+                    DependentUpon = "wfAdminSoilsEdit.aspx"
+                    SubType = "ASPXCodeBehind"
+                    BuildAction = "Compile"
+                />
+                <File
+                    RelPath = "wfAdminSoilsEdit.aspx.resx"
+                    DependentUpon = "wfAdminSoilsEdit.aspx.cs"
+                    BuildAction = "EmbeddedResource"
+                />
+                <File
+                    RelPath = "wfAdminSoilsView.aspx"
+                    SubType = "Form"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "wfAdminSoilsView.aspx.cs"
+                    DependentUpon = "wfAdminSoilsView.aspx"
+                    SubType = "ASPXCodeBehind"
+                    BuildAction = "Compile"
+                />
+                <File
+                    RelPath = "wfAdminSoilsView.aspx.resx"
+                    DependentUpon = "wfAdminSoilsView.aspx.cs"
+                    BuildAction = "EmbeddedResource"
+                />
+                <File
+                    RelPath = "wfAdminSQL.aspx"
+                    SubType = "Form"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "wfAdminSQL.aspx.cs"
+                    DependentUpon = "wfAdminSQL.aspx"
+                    SubType = "ASPXCodeBehind"
+                    BuildAction = "Compile"
+                />
+                <File
+                    RelPath = "wfAdminSQL.aspx.resx"
+                    DependentUpon = "wfAdminSQL.aspx.cs"
+                    BuildAction = "EmbeddedResource"
+                />
+                <File
+                    RelPath = "wfAdminUserAdd.aspx"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "wfAdminUserAdd.aspx.cs"
+                    DependentUpon = "wfAdminUserAdd.aspx"
+                    SubType = "ASPXCodeBehind"
+                    BuildAction = "Compile"
+                />
+                <File
+                    RelPath = "wfAdminUserAdd.aspx.resx"
+                    DependentUpon = "wfAdminUserAdd.aspx.cs"
+                    BuildAction = "EmbeddedResource"
+                />
+                <File
+                    RelPath = "wfAdminUserEdit.aspx"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "wfAdminUserEdit.aspx.cs"
+                    DependentUpon = "wfAdminUserEdit.aspx"
+                    SubType = "ASPXCodeBehind"
+                    BuildAction = "Compile"
+                />
+                <File
+                    RelPath = "wfAdminUserEdit.aspx.resx"
+                    DependentUpon = "wfAdminUserEdit.aspx.cs"
+                    BuildAction = "EmbeddedResource"
+                />
+                <File
+                    RelPath = "wfAdminUserEditPassword.aspx"
+                    SubType = "Form"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "wfAdminUserEditPassword.aspx.cs"
+                    DependentUpon = "wfAdminUserEditPassword.aspx"
+                    SubType = "ASPXCodeBehind"
+                    BuildAction = "Compile"
+                />
+                <File
+                    RelPath = "wfAdminUserEditPassword.aspx.resx"
+                    DependentUpon = "wfAdminUserEditPassword.aspx.cs"
+                    BuildAction = "EmbeddedResource"
+                />
+                <File
+                    RelPath = "wfDisplayReport.aspx"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "wfDisplayReport.aspx.cs"
+                    DependentUpon = "wfDisplayReport.aspx"
+                    SubType = "ASPXCodeBehind"
+                    BuildAction = "Compile"
+                />
+                <File
+                    RelPath = "wfDisplayReport.aspx.resx"
+                    DependentUpon = "wfDisplayReport.aspx.cs"
+                    BuildAction = "EmbeddedResource"
+                />
+                <File
+                    RelPath = "wfGenerateFallowReport.aspx"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "wfGenerateFallowReport.aspx.cs"
+                    DependentUpon = "wfGenerateFallowReport.aspx"
+                    SubType = "ASPXCodeBehind"
+                    BuildAction = "Compile"
+                />
+                <File
+                    RelPath = "wfGenerateFallowReport.aspx.resx"
+                    DependentUpon = "wfGenerateFallowReport.aspx.cs"
+                    BuildAction = "EmbeddedResource"
+                />
+                <File
+                    RelPath = "wfGenerateIrrigationComparisonReport.aspx"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "wfGenerateIrrigationComparisonReport.aspx.cs"
+                    DependentUpon = "wfGenerateIrrigationComparisonReport.aspx"
+                    SubType = "ASPXCodeBehind"
+                    BuildAction = "Compile"
+                />
+                <File
+                    RelPath = "wfGenerateIrrigationComparisonReport.aspx.resx"
+                    DependentUpon = "wfGenerateIrrigationComparisonReport.aspx.cs"
+                    BuildAction = "EmbeddedResource"
+                />
+                <File
+                    RelPath = "wfGenerateNitrogenComparisonReport.aspx"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "wfGenerateNitrogenComparisonReport.aspx.cs"
+                    DependentUpon = "wfGenerateNitrogenComparisonReport.aspx"
+                    SubType = "ASPXCodeBehind"
+                    BuildAction = "Compile"
+                />
+                <File
+                    RelPath = "wfGenerateNitrogenComparisonReport.aspx.resx"
+                    DependentUpon = "wfGenerateNitrogenComparisonReport.aspx.cs"
+                    BuildAction = "EmbeddedResource"
+                />
+                <File
+                    RelPath = "wfGenerateNitrogenProfitReport.aspx"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "wfGenerateNitrogenProfitReport.aspx.cs"
+                    DependentUpon = "wfGenerateNitrogenProfitReport.aspx"
+                    SubType = "ASPXCodeBehind"
+                    BuildAction = "Compile"
+                />
+                <File
+                    RelPath = "wfGenerateNitrogenProfitReport.aspx.resx"
+                    DependentUpon = "wfGenerateNitrogenProfitReport.aspx.cs"
+                    BuildAction = "EmbeddedResource"
+                />
+                <File
+                    RelPath = "wfGeneratePreSeasonReport.aspx"
+                    SubType = "Form"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "wfGeneratePreSeasonReport.aspx.cs"
+                    DependentUpon = "wfGeneratePreSeasonReport.aspx"
+                    SubType = "ASPXCodeBehind"
+                    BuildAction = "Compile"
+                />
+                <File
+                    RelPath = "wfGeneratePreSeasonReport.aspx.resx"
+                    DependentUpon = "wfGeneratePreSeasonReport.aspx.cs"
+                    BuildAction = "EmbeddedResource"
+                />
+                <File
+                    RelPath = "wfGeneratePreSowingNitrogenComparisonReport.aspx"
+                    SubType = "Form"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "wfGeneratePreSowingNitrogenComparisonReport.aspx.cs"
+                    DependentUpon = "wfGeneratePreSowingNitrogenComparisonReport.aspx"
+                    SubType = "ASPXCodeBehind"
+                    BuildAction = "Compile"
+                />
+                <File
+                    RelPath = "wfGeneratePreSowingNitrogenComparisonReport.aspx.resx"
+                    DependentUpon = "wfGeneratePreSowingNitrogenComparisonReport.aspx.cs"
+                    BuildAction = "EmbeddedResource"
+                />
+                <File
+                    RelPath = "wfGeneratePreSowingReport.aspx"
+                    SubType = "Form"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "wfGeneratePreSowingReport.aspx.cs"
+                    DependentUpon = "wfGeneratePreSowingReport.aspx"
+                    SubType = "ASPXCodeBehind"
+                    BuildAction = "Compile"
+                />
+                <File
+                    RelPath = "wfGeneratePreSowingReport.aspx.resx"
+                    DependentUpon = "wfGeneratePreSowingReport.aspx.cs"
+                    BuildAction = "EmbeddedResource"
+                />
+                <File
+                    RelPath = "wfGenerateReport.aspx"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "wfGenerateReport.aspx.cs"
+                    DependentUpon = "wfGenerateReport.aspx"
+                    SubType = "ASPXCodeBehind"
+                    BuildAction = "Compile"
+                />
+                <File
+                    RelPath = "wfGenerateReport.aspx.resx"
+                    DependentUpon = "wfGenerateReport.aspx.cs"
+                    BuildAction = "EmbeddedResource"
+                />
+                <File
+                    RelPath = "wfGenerateSowingXVarietyReport.aspx"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "wfGenerateSowingXVarietyReport.aspx.cs"
+                    DependentUpon = "wfGenerateSowingXVarietyReport.aspx"
+                    SubType = "ASPXCodeBehind"
+                    BuildAction = "Compile"
+                />
+                <File
+                    RelPath = "wfGenerateSowingXVarietyReport.aspx.resx"
+                    DependentUpon = "wfGenerateSowingXVarietyReport.aspx.cs"
+                    BuildAction = "EmbeddedResource"
+                />
+                <File
+                    RelPath = "wfHelp.aspx"
+                    SubType = "Form"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "wfHelp.aspx.cs"
+                    DependentUpon = "wfHelp.aspx"
+                    SubType = "ASPXCodeBehind"
+                    BuildAction = "Compile"
+                />
+                <File
+                    RelPath = "wfHelp.aspx.resx"
+                    DependentUpon = "wfHelp.aspx.cs"
+                    BuildAction = "EmbeddedResource"
+                />
+                <File
+                    RelPath = "wfLogin.aspx"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "wfLogin.aspx.cs"
+                    DependentUpon = "wfLogin.aspx"
+                    SubType = "ASPXCodeBehind"
+                    BuildAction = "Compile"
+                />
+                <File
+                    RelPath = "wfLogin.aspx.resx"
+                    DependentUpon = "wfLogin.aspx.cs"
+                    BuildAction = "EmbeddedResource"
+                />
+                <File
+                    RelPath = "wfMainMenu.aspx"
+                    SubType = "Form"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "wfMainMenu.aspx.cs"
+                    DependentUpon = "wfMainMenu.aspx"
+                    SubType = "ASPXCodeBehind"
+                    BuildAction = "Compile"
+                />
+                <File
+                    RelPath = "wfMainMenu.aspx.resx"
+                    DependentUpon = "wfMainMenu.aspx.cs"
+                    BuildAction = "EmbeddedResource"
+                />
+                <File
+                    RelPath = "wfManageGrowers.aspx"
+                    SubType = "Form"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "wfManageGrowers.aspx.cs"
+                    DependentUpon = "wfManageGrowers.aspx"
+                    SubType = "ASPXCodeBehind"
+                    BuildAction = "Compile"
+                />
+                <File
+                    RelPath = "wfManageGrowers.aspx.resx"
+                    DependentUpon = "wfManageGrowers.aspx.cs"
+                    BuildAction = "EmbeddedResource"
+                />
+                <File
+                    RelPath = "wfPaddocksApplications.aspx"
+                    SubType = "Form"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "wfPaddocksApplications.aspx.cs"
+                    DependentUpon = "wfPaddocksApplications.aspx"
+                    SubType = "ASPXCodeBehind"
+                    BuildAction = "Compile"
+                />
+                <File
+                    RelPath = "wfPaddocksApplications.aspx.resx"
+                    DependentUpon = "wfPaddocksApplications.aspx.cs"
+                    BuildAction = "EmbeddedResource"
+                />
+                <File
+                    RelPath = "wfPaddocksCrop.aspx"
+                    SubType = "Form"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "wfPaddocksCrop.aspx.cs"
+                    DependentUpon = "wfPaddocksCrop.aspx"
+                    SubType = "ASPXCodeBehind"
+                    BuildAction = "Compile"
+                />
+                <File
+                    RelPath = "wfPaddocksCrop.aspx.resx"
+                    DependentUpon = "wfPaddocksCrop.aspx.cs"
+                    BuildAction = "EmbeddedResource"
+                />
+                <File
+                    RelPath = "wfPaddocksInformation.aspx"
+                    SubType = "Form"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "wfPaddocksInformation.aspx.cs"
+                    DependentUpon = "wfPaddocksInformation.aspx"
+                    SubType = "ASPXCodeBehind"
+                    BuildAction = "Compile"
+                />
+                <File
+                    RelPath = "wfPaddocksInformation.aspx.resx"
+                    DependentUpon = "wfPaddocksInformation.aspx.cs"
+                    BuildAction = "EmbeddedResource"
+                />
+                <File
+                    RelPath = "wfPaddocksMenu.aspx"
+                    SubType = "Form"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "wfPaddocksMenu.aspx.cs"
+                    DependentUpon = "wfPaddocksMenu.aspx"
+                    SubType = "ASPXCodeBehind"
+                    BuildAction = "Compile"
+                />
+                <File
+                    RelPath = "wfPaddocksMenu.aspx.resx"
+                    DependentUpon = "wfPaddocksMenu.aspx.cs"
+                    BuildAction = "EmbeddedResource"
+                />
+                <File
+                    RelPath = "wfPaddocksRainfall.aspx"
+                    SubType = "Form"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "wfPaddocksRainfall.aspx.cs"
+                    DependentUpon = "wfPaddocksRainfall.aspx"
+                    SubType = "ASPXCodeBehind"
+                    BuildAction = "Compile"
+                />
+                <File
+                    RelPath = "wfPaddocksRainfall.aspx.resx"
+                    DependentUpon = "wfPaddocksRainfall.aspx.cs"
+                    BuildAction = "EmbeddedResource"
+                />
+                <File
+                    RelPath = "wfPaddocksSoil.aspx"
+                    SubType = "Form"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "wfPaddocksSoil.aspx.cs"
+                    DependentUpon = "wfPaddocksSoil.aspx"
+                    SubType = "ASPXCodeBehind"
+                    BuildAction = "Compile"
+                />
+                <File
+                    RelPath = "wfPaddocksSoil.aspx.resx"
+                    DependentUpon = "wfPaddocksSoil.aspx.cs"
+                    BuildAction = "EmbeddedResource"
+                />
+                <File
+                    RelPath = "wfPersonalDetails.aspx"
+                    SubType = "Form"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "wfPersonalDetails.aspx.cs"
+                    DependentUpon = "wfPersonalDetails.aspx"
+                    SubType = "ASPXCodeBehind"
+                    BuildAction = "Compile"
+                />
+                <File
+                    RelPath = "wfPersonalDetails.aspx.resx"
+                    DependentUpon = "wfPersonalDetails.aspx.cs"
+                    BuildAction = "EmbeddedResource"
+                />
+                <File
+                    RelPath = "wfPersonalPassword.aspx"
+                    SubType = "Form"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "wfPersonalPassword.aspx.cs"
+                    DependentUpon = "wfPersonalPassword.aspx"
+                    SubType = "ASPXCodeBehind"
+                    BuildAction = "Compile"
+                />
+                <File
+                    RelPath = "wfPersonalPassword.aspx.resx"
+                    DependentUpon = "wfPersonalPassword.aspx.cs"
+                    BuildAction = "EmbeddedResource"
+                />
+                <File
+                    RelPath = "wfRegistrationConsultant.aspx"
+                    SubType = "Form"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "wfRegistrationConsultant.aspx.cs"
+                    DependentUpon = "wfRegistrationConsultant.aspx"
+                    SubType = "ASPXCodeBehind"
+                    BuildAction = "Compile"
+                />
+                <File
+                    RelPath = "wfRegistrationConsultant.aspx.resx"
+                    DependentUpon = "wfRegistrationConsultant.aspx.cs"
+                    BuildAction = "EmbeddedResource"
+                />
+                <File
+                    RelPath = "wfRegistrationFinished.aspx"
+                    SubType = "Form"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "wfRegistrationFinished.aspx.cs"
+                    DependentUpon = "wfRegistrationFinished.aspx"
+                    SubType = "ASPXCodeBehind"
+                    BuildAction = "Compile"
+                />
+                <File
+                    RelPath = "wfRegistrationFinished.aspx.resx"
+                    DependentUpon = "wfRegistrationFinished.aspx.cs"
+                    BuildAction = "EmbeddedResource"
+                />
+                <File
+                    RelPath = "wfRegistrationGrower.aspx"
+                    SubType = "Form"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "wfRegistrationGrower.aspx.cs"
+                    DependentUpon = "wfRegistrationGrower.aspx"
+                    SubType = "ASPXCodeBehind"
+                    BuildAction = "Compile"
+                />
+                <File
+                    RelPath = "wfRegistrationGrower.aspx.resx"
+                    DependentUpon = "wfRegistrationGrower.aspx.cs"
+                    BuildAction = "EmbeddedResource"
+                />
+                <File
+                    RelPath = "wfRegistrationMenu.aspx"
+                    SubType = "Form"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "wfRegistrationMenu.aspx.cs"
+                    DependentUpon = "wfRegistrationMenu.aspx"
+                    SubType = "ASPXCodeBehind"
+                    BuildAction = "Compile"
+                />
+                <File
+                    RelPath = "wfRegistrationMenu.aspx.resx"
+                    DependentUpon = "wfRegistrationMenu.aspx.cs"
+                    BuildAction = "EmbeddedResource"
+                />
+                <File
+                    RelPath = "wfRegistrationPriceTable.aspx"
+                    SubType = "Form"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "wfRegistrationPriceTable.aspx.cs"
+                    DependentUpon = "wfRegistrationPriceTable.aspx"
+                    SubType = "ASPXCodeBehind"
+                    BuildAction = "Compile"
+                />
+                <File
+                    RelPath = "wfRegistrationPriceTable.aspx.resx"
+                    DependentUpon = "wfRegistrationPriceTable.aspx.cs"
+                    BuildAction = "EmbeddedResource"
+                />
+                <File
+                    RelPath = "wfRegistrationSoil.aspx"
+                    SubType = "Form"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "wfRegistrationSoil.aspx.cs"
+                    DependentUpon = "wfRegistrationSoil.aspx"
+                    SubType = "ASPXCodeBehind"
+                    BuildAction = "Compile"
+                />
+                <File
+                    RelPath = "wfRegistrationSoil.aspx.resx"
+                    DependentUpon = "wfRegistrationSoil.aspx.cs"
+                    BuildAction = "EmbeddedResource"
+                />
+                <File
+                    RelPath = "wfRegistrationSupportedConsultant.aspx"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "wfRegistrationSupportedConsultant.aspx.cs"
+                    DependentUpon = "wfRegistrationSupportedConsultant.aspx"
+                    SubType = "ASPXCodeBehind"
+                    BuildAction = "Compile"
+                />
+                <File
+                    RelPath = "wfRegistrationSupportedConsultant.aspx.resx"
+                    DependentUpon = "wfRegistrationSupportedConsultant.aspx.cs"
+                    BuildAction = "EmbeddedResource"
+                />
+                <File
+                    RelPath = "wfRegistrationSupportedConsultantGrowers.aspx"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "wfRegistrationSupportedConsultantGrowers.aspx.cs"
+                    DependentUpon = "wfRegistrationSupportedConsultantGrowers.aspx"
+                    SubType = "ASPXCodeBehind"
+                    BuildAction = "Compile"
+                />
+                <File
+                    RelPath = "wfRegistrationSupportedConsultantGrowers.aspx.resx"
+                    DependentUpon = "wfRegistrationSupportedConsultantGrowers.aspx.cs"
+                    BuildAction = "EmbeddedResource"
+                />
+                <File
+                    RelPath = "wfRegistrationTrial.aspx"
+                    SubType = "Form"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "wfRegistrationTrial.aspx.cs"
+                    DependentUpon = "wfRegistrationTrial.aspx"
+                    SubType = "ASPXCodeBehind"
+                    BuildAction = "Compile"
+                />
+                <File
+                    RelPath = "wfRegistrationTrial.aspx.resx"
+                    DependentUpon = "wfRegistrationTrial.aspx.cs"
+                    BuildAction = "EmbeddedResource"
+                />
+                <File
+                    RelPath = "wfRegistrationUnSupportedConsultant.aspx"
+                    SubType = "Form"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "wfRegistrationUnSupportedConsultant.aspx.cs"
+                    DependentUpon = "wfRegistrationUnSupportedConsultant.aspx"
+                    SubType = "ASPXCodeBehind"
+                    BuildAction = "Compile"
+                />
+                <File
+                    RelPath = "wfRegistrationUnSupportedConsultant.aspx.resx"
+                    DependentUpon = "wfRegistrationUnSupportedConsultant.aspx.cs"
+                    BuildAction = "EmbeddedResource"
+                />
+                <File
+                    RelPath = "wfRegistrationUnSupportedConsultantGrowers.aspx"
+                    SubType = "Form"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "wfRegistrationUnSupportedConsultantGrowers.aspx.cs"
+                    DependentUpon = "wfRegistrationUnSupportedConsultantGrowers.aspx"
+                    SubType = "ASPXCodeBehind"
+                    BuildAction = "Compile"
+                />
+                <File
+                    RelPath = "wfRegistrationUnSupportedConsultantGrowers.aspx.resx"
+                    DependentUpon = "wfRegistrationUnSupportedConsultantGrowers.aspx.cs"
+                    BuildAction = "EmbeddedResource"
+                />
+                <File
+                    RelPath = "wfReportsFavourites.aspx"
+                    SubType = "Form"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "wfReportsFavourites.aspx.cs"
+                    DependentUpon = "wfReportsFavourites.aspx"
+                    SubType = "ASPXCodeBehind"
+                    BuildAction = "Compile"
+                />
+                <File
+                    RelPath = "wfReportsFavourites.aspx.resx"
+                    DependentUpon = "wfReportsFavourites.aspx.cs"
+                    BuildAction = "EmbeddedResource"
+                />
+                <File
+                    RelPath = "wfReportsFavouritesConsultant.aspx"
+                    SubType = "Form"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "wfReportsFavouritesConsultant.aspx.cs"
+                    DependentUpon = "wfReportsFavouritesConsultant.aspx"
+                    SubType = "ASPXCodeBehind"
+                    BuildAction = "Compile"
+                />
+                <File
+                    RelPath = "wfReportsFavouritesConsultant.aspx.resx"
+                    DependentUpon = "wfReportsFavouritesConsultant.aspx.cs"
+                    BuildAction = "EmbeddedResource"
+                />
+                <File
+                    RelPath = "wfReportsGenerate.aspx"
+                    SubType = "Form"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "wfReportsGenerate.aspx.cs"
+                    DependentUpon = "wfReportsGenerate.aspx"
+                    SubType = "ASPXCodeBehind"
+                    BuildAction = "Compile"
+                />
+                <File
+                    RelPath = "wfReportsGenerate.aspx.resx"
+                    DependentUpon = "wfReportsGenerate.aspx.cs"
+                    BuildAction = "EmbeddedResource"
+                />
+                <File
+                    RelPath = "wfReportsGenerateConsultant.aspx"
+                    SubType = "Form"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "wfReportsGenerateConsultant.aspx.cs"
+                    DependentUpon = "wfReportsGenerateConsultant.aspx"
+                    SubType = "ASPXCodeBehind"
+                    BuildAction = "Compile"
+                />
+                <File
+                    RelPath = "wfReportsGenerateConsultant.aspx.resx"
+                    DependentUpon = "wfReportsGenerateConsultant.aspx.cs"
+                    BuildAction = "EmbeddedResource"
+                />
+                <File
+                    RelPath = "wfReportsMenu.aspx"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "wfReportsMenu.aspx.cs"
+                    DependentUpon = "wfReportsMenu.aspx"
+                    SubType = "ASPXCodeBehind"
+                    BuildAction = "Compile"
+                />
+                <File
+                    RelPath = "wfReportsMenu.aspx.resx"
+                    DependentUpon = "wfReportsMenu.aspx.cs"
+                    BuildAction = "EmbeddedResource"
+                />
+                <File
+                    RelPath = "wfReportsMenuConsultant.aspx"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "wfReportsMenuConsultant.aspx.cs"
+                    DependentUpon = "wfReportsMenuConsultant.aspx"
+                    SubType = "ASPXCodeBehind"
+                    BuildAction = "Compile"
+                />
+                <File
+                    RelPath = "wfReportsMenuConsultant.aspx.resx"
+                    DependentUpon = "wfReportsMenuConsultant.aspx.cs"
+                    BuildAction = "EmbeddedResource"
+                />
+                <File
+                    RelPath = "wfReportsSuccessful.aspx"
+                    SubType = "Form"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "wfReportsSuccessful.aspx.cs"
+                    DependentUpon = "wfReportsSuccessful.aspx"
+                    SubType = "ASPXCodeBehind"
+                    BuildAction = "Compile"
+                />
+                <File
+                    RelPath = "wfReportsSuccessful.aspx.resx"
+                    DependentUpon = "wfReportsSuccessful.aspx.cs"
+                    BuildAction = "EmbeddedResource"
+                />
+                <File
+                    RelPath = "wfReportsView.aspx"
+                    SubType = "Form"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "wfReportsView.aspx.cs"
+                    DependentUpon = "wfReportsView.aspx"
+                    SubType = "ASPXCodeBehind"
+                    BuildAction = "Compile"
+                />
+                <File
+                    RelPath = "wfReportsView.aspx.resx"
+                    DependentUpon = "wfReportsView.aspx.cs"
+                    BuildAction = "EmbeddedResource"
+                />
+                <File
+                    RelPath = "wfReportsViewConsultant.aspx"
+                    SubType = "Form"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "wfReportsViewConsultant.aspx.cs"
+                    DependentUpon = "wfReportsViewConsultant.aspx"
+                    SubType = "ASPXCodeBehind"
+                    BuildAction = "Compile"
+                />
+                <File
+                    RelPath = "wfReportsViewConsultant.aspx.resx"
+                    DependentUpon = "wfReportsViewConsultant.aspx.cs"
+                    BuildAction = "EmbeddedResource"
+                />
+                <File
+                    RelPath = "wfSessionTimeOut.aspx"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "wfSessionTimeOut.aspx.cs"
+                    DependentUpon = "wfSessionTimeOut.aspx"
+                    SubType = "ASPXCodeBehind"
+                    BuildAction = "Compile"
+                />
+                <File
+                    RelPath = "wfSessionTimeOut.aspx.resx"
+                    DependentUpon = "wfSessionTimeOut.aspx.cs"
+                    BuildAction = "EmbeddedResource"
+                />
+                <File
+                    RelPath = "wfSurvey.aspx"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "wfSurvey.aspx.cs"
+                    DependentUpon = "wfSurvey.aspx"
+                    SubType = "ASPXCodeBehind"
+                    BuildAction = "Compile"
+                />
+                <File
+                    RelPath = "wfSurvey.aspx.resx"
+                    DependentUpon = "wfSurvey.aspx.cs"
+                    BuildAction = "EmbeddedResource"
+                />
+            </Include>
+        </Files>
+    </CSHARP>
+</VisualStudioProject>
+

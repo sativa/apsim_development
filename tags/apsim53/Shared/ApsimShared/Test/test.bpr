@@ -1,0 +1,191 @@
+<?xml version='1.0' encoding='utf-8' ?>
+<!-- C++Builder XML Project -->
+<PROJECT>
+  <MACROS>
+    <VERSION value="BCB.06.00"/>
+    <PROJECT value="..\..\..\Bin\test.exe"/>
+    <OBJFILES value="test.obj testSimCreator.obj testApsimControlFile.obj 
+      testControlFileConverter.obj testApsimDataFile.obj ..\SimCreator.obj 
+      ..\ApsimControlFile.obj ..\ApsimSimulationFile.obj ..\ApsimSettings.obj 
+      ..\ApsimComponentData.obj ..\ApsimSystemData.obj ..\ApsimDirectories.obj 
+      ..\ApsimShared.obj ..\ApsimServiceData.obj ..\ApsimDataTypesFile.obj 
+      ..\ControlFileConverter.obj ..\ApsimDataFile.obj 
+      ..\TMoveParametersForm.obj ..\ApsimVersion.obj"/>
+    <RESFILES value="test.res"/>
+    <DEFFILE value=""/>
+    <RESDEPEN value="$(RESFILES) ..\TMoveParametersForm.dfm"/>
+    <LIBFILES value="&quot;C:\Program Files\Borland\CBuilder6\Components\Boost\libs\test\src\test.lib&quot; 
+      ..\..\general\general.lib 
+      &quot;C:\Program Files\Borland\CBuilder6\Components\Boost\libs\filesystem\filesystem.lib&quot; 
+      &quot;C:\Program Files\Borland\CBuilder6\Components\Boost\libs\date_time\date_time.lib&quot; 
+      &quot;C:\Program Files\Borland\CBuilder6\Components\LibXML2\win32\bin.bcb\libxml2.lib&quot;"/>
+    <LIBRARIES value="TMSC6.lib"/>
+    <SPARELIBS value="rtl.lib vcl.lib vclx.lib dbrtl.lib vcldb.lib adortl.lib TMSC6.lib"/>
+    <PACKAGES value="rtl.bpi vcl.bpi dbrtl.bpi bdertl.bpi vcldb.bpi vclx.bpi qrpt60.bpi 
+      nmfast.bpi bcbie.bpi inet.bpi adortl.bpi bcbsmp.bpi dsnap.bpi cds.bpi 
+      dbexpress.bpi dbxcds.bpi ibxpress.bpi vclie.bpi inetdbbde.bpi 
+      inetdbxpress.bpi dclocx.bpi"/>
+    <PATHCPP value=".;.."/>
+    <PATHPAS value=".;"/>
+    <PATHRC value=".;"/>
+    <PATHASM value=".;"/>
+    <DEBUGLIBPATH value="$(BCB)\lib\debug"/>
+    <RELEASELIBPATH value="$(BCB)\lib\release"/>
+    <LINKER value="ilink32"/>
+    <USERDEFINES value="_DEBUG;BOOST_REGEX_STATIC_LINK"/>
+    <SYSDEFINES value="NO_STRICT;_RTLDLL;USEPACKAGES"/>
+    <MAINSOURCE value="test.bpf"/>
+    <INCLUDEPATH value="..\;..;..\..\general;$(BCB)\include;$(BCB)\include\vcl;$(BCB)\components\boost;$(BCB)\components\tms;$(SHARED)"/>
+    <LIBPATH value="..\;..;..\..\general;$(BCB)\lib\obj;$(BCB)\lib;$(BCB)\components\tms;$(BCB)\components\Boost\libs\regex\build\bcb6"/>
+    <WARNINGS value="-w-par"/>
+    <OTHERFILES value=""/>
+  </MACROS>
+  <OPTIONS>
+    <CFLAG1 value="-vGc -vGt -vGd -Od -H=$(BCB)\lib\vcl60.csm -Hc -Vx -Ve -X- -r- -a8 -b- -k 
+      -y -v -vi- -tWC -tWM -c"/>
+    <PFLAGS value="-$YD -$W -$O- -$A8 -v -JPHNE -M"/>
+    <RFLAGS value=""/>
+    <AFLAGS value="/mx /w2 /zd"/>
+    <LFLAGS value="-l. -D&quot;&quot; -ap -Tpe -x -Gn -Gi -v"/>
+    <OTHERFILES value=""/>
+  </OPTIONS>
+  <LINKER>
+    <ALLOBJ value="c0x32.obj $(PACKAGES) Memmgr.Lib sysinit.obj $(OBJFILES)"/>
+    <ALLRES value="$(RESFILES)"/>
+    <ALLLIB value="cg32.lib $(LIBFILES) $(LIBRARIES) import32.lib cp32mti.lib"/>
+    <OTHERFILES value=""/>
+  </LINKER>
+  <FILELIST>
+      <FILE FILENAME="test.res" FORMNAME="" UNITNAME="test.res" CONTAINERID="ResTool" DESIGNCLASS="" LOCALCOMMAND=""/>
+      <FILE FILENAME="test.bpf" FORMNAME="" UNITNAME="test" CONTAINERID="BPF" DESIGNCLASS="" LOCALCOMMAND=""/>
+      <FILE FILENAME="test.cpp" FORMNAME="" UNITNAME="test" CONTAINERID="CCompiler" DESIGNCLASS="" LOCALCOMMAND=""/>
+      <FILE FILENAME="C:\Program Files\Borland\CBuilder6\Components\Boost\libs\test\src\test.lib" FORMNAME="" UNITNAME="test.lib" CONTAINERID="LibTool" DESIGNCLASS="" LOCALCOMMAND=""/>
+      <FILE FILENAME="testSimCreator.cpp" FORMNAME="" UNITNAME="testSimCreator" CONTAINERID="CCompiler" DESIGNCLASS="" LOCALCOMMAND=""/>
+      <FILE FILENAME="testApsimControlFile.cpp" FORMNAME="" UNITNAME="testApsimControlFile" CONTAINERID="CCompiler" DESIGNCLASS="" LOCALCOMMAND=""/>
+      <FILE FILENAME="testControlFileConverter.cpp" FORMNAME="" UNITNAME="testControlFileConverter" CONTAINERID="CCompiler" DESIGNCLASS="" LOCALCOMMAND=""/>
+      <FILE FILENAME="testApsimDataFile.cpp" FORMNAME="" UNITNAME="testApsimDataFile" CONTAINERID="CCompiler" DESIGNCLASS="" LOCALCOMMAND=""/>
+      <FILE FILENAME="..\SimCreator.cpp" FORMNAME="" UNITNAME="SimCreator" CONTAINERID="CCompiler" DESIGNCLASS="" LOCALCOMMAND=""/>
+      <FILE FILENAME="..\ApsimControlFile.cpp" FORMNAME="" UNITNAME="ApsimControlFile" CONTAINERID="CCompiler" DESIGNCLASS="" LOCALCOMMAND=""/>
+      <FILE FILENAME="..\ApsimSimulationFile.cpp" FORMNAME="" UNITNAME="ApsimSimulationFile" CONTAINERID="CCompiler" DESIGNCLASS="" LOCALCOMMAND=""/>
+      <FILE FILENAME="..\ApsimSettings.cpp" FORMNAME="" UNITNAME="ApsimSettings" CONTAINERID="CCompiler" DESIGNCLASS="" LOCALCOMMAND=""/>
+      <FILE FILENAME="..\ApsimComponentData.cpp" FORMNAME="" UNITNAME="ApsimComponentData" CONTAINERID="CCompiler" DESIGNCLASS="" LOCALCOMMAND=""/>
+      <FILE FILENAME="..\ApsimSystemData.cpp" FORMNAME="" UNITNAME="ApsimSystemData" CONTAINERID="CCompiler" DESIGNCLASS="" LOCALCOMMAND=""/>
+      <FILE FILENAME="..\ApsimDirectories.cpp" FORMNAME="" UNITNAME="ApsimDirectories" CONTAINERID="CCompiler" DESIGNCLASS="" LOCALCOMMAND=""/>
+      <FILE FILENAME="..\ApsimShared.cpp" FORMNAME="" UNITNAME="ApsimShared" CONTAINERID="CCompiler" DESIGNCLASS="" LOCALCOMMAND=""/>
+      <FILE FILENAME="..\ApsimServiceData.cpp" FORMNAME="" UNITNAME="ApsimServiceData" CONTAINERID="CCompiler" DESIGNCLASS="" LOCALCOMMAND=""/>
+      <FILE FILENAME="..\ApsimDataTypesFile.cpp" FORMNAME="" UNITNAME="ApsimDataTypesFile" CONTAINERID="CCompiler" DESIGNCLASS="" LOCALCOMMAND=""/>
+      <FILE FILENAME="..\ControlFileConverter.cpp" FORMNAME="" UNITNAME="ControlFileConverter" CONTAINERID="CCompiler" DESIGNCLASS="" LOCALCOMMAND=""/>
+      <FILE FILENAME="..\ApsimDataFile.cpp" FORMNAME="" UNITNAME="ApsimDataFile" CONTAINERID="CCompiler" DESIGNCLASS="" LOCALCOMMAND=""/>
+      <FILE FILENAME="..\TMoveParametersForm.cpp" FORMNAME="MoveParametersForm" UNITNAME="TMoveParametersForm" CONTAINERID="CCompiler" DESIGNCLASS="" LOCALCOMMAND=""/>
+      <FILE FILENAME="..\ApsimVersion.cpp" FORMNAME="" UNITNAME="ApsimVersion" CONTAINERID="CCompiler" DESIGNCLASS="" LOCALCOMMAND=""/>
+      <FILE FILENAME="..\..\general\general.lib" FORMNAME="" UNITNAME="general.lib" CONTAINERID="LibTool" DESIGNCLASS="" LOCALCOMMAND=""/>
+      <FILE FILENAME="C:\Program Files\Borland\CBuilder6\Components\Boost\libs\filesystem\filesystem.lib" FORMNAME="" UNITNAME="filesystem.lib" CONTAINERID="LibTool" DESIGNCLASS="" LOCALCOMMAND=""/>
+      <FILE FILENAME="C:\Program Files\Borland\CBuilder6\Components\Boost\libs\date_time\date_time.lib" FORMNAME="" UNITNAME="date_time.lib" CONTAINERID="LibTool" DESIGNCLASS="" LOCALCOMMAND=""/>
+      <FILE FILENAME="C:\Program Files\Borland\CBuilder6\Components\LibXML2\win32\bin.bcb\libxml2.lib" FORMNAME="" UNITNAME="libxml2.lib" CONTAINERID="LibTool" DESIGNCLASS="" LOCALCOMMAND=""/>
+  </FILELIST>
+  <BUILDTOOLS>
+  </BUILDTOOLS>
+
+  <IDEOPTIONS>
+[Version Info]
+IncludeVerInfo=0
+AutoIncBuild=0
+MajorVer=1
+MinorVer=0
+Release=0
+Build=0
+Debug=0
+PreRelease=0
+Special=0
+Private=0
+DLL=0
+Locale=3081
+CodePage=1252
+
+[Version Info Keys]
+CompanyName=
+FileDescription=
+FileVersion=1.0.0.0
+InternalName=
+LegalCopyright=
+LegalTrademarks=
+OriginalFilename=
+ProductName=
+ProductVersion=1.0.0.0
+Comments=
+
+[HistoryLists\hlIncludePath]
+Count=12
+Item0=..\;..;..\..\general;$(BCB)\include;$(BCB)\include\vcl;$(BCB)\components\boost;$(BCB)\components\tms;$(SHARED)
+Item1=..\..\general;..\;..;$(BCB)\include;$(BCB)\include\vcl;$(BCB)\components\boost;$(BCB)\components\tms;$(SHARED)
+Item2=..\;..;$(BCB)\include;$(BCB)\include\vcl;$(BCB)\components\boost;$(BCB)\components\tms;$(SHARED)
+Item3=..\;$(BCB)\include;$(BCB)\include\vcl;$(BCB)\components\boost;$(BCB)\components\tms;$(SHARED)
+Item4=..\;$(BCB)\include;$(BCB)\include\vcl;$(BCB)\components\boost;$(SHARED)
+Item5=$(BCB)\include;$(BCB)\include\vcl;$(BCB)\components\boost;$(SHARED)
+Item6=C:\MyData\development\Shared\ApsimShared\Test;..\..\APSoil\Source;$(BCB)\include;$(BCB)\include\vcl;$(BCB)\components\tms;$(BCB)\components\boost;$(SHARED)
+Item7=$(BCB)\include;$(BCB)\include\vcl;$(BCB)\components\tms;$(BCB)\components\boost;$(SHARED)
+Item8=..\..\APSoil\Source;$(BCB)\include;$(BCB)\include\vcl;$(BCB)\components\tms;$(SHARED)
+Item9=$(BCB)\include;$(BCB)\include\vcl;$(BCB)\components\tms;$(SHARED)
+Item10=$(BCB)\include;$(BCB)\include\vcl;$(SHARED)
+Item11=C:\MyData\development\Shared\Soil;$(BCB)\include;$(BCB)\include\vcl
+
+[HistoryLists\hlLibraryPath]
+Count=12
+Item0=..\;..;..\..\general;$(BCB)\lib\obj;$(BCB)\lib;$(BCB)\components\tms;$(BCB)\components\Boost\libs\regex\build\bcb6
+Item1=..\;..;..\..\general;$(BCB)\lib\obj;$(BCB)\lib;$(BCB)\components\tms
+Item2=..\..\general;..\;..;$(BCB)\lib\obj;$(BCB)\lib;$(BCB)\components\tms
+Item3=..\;..;$(BCB)\lib\obj;$(BCB)\lib;$(BCB)\components\tms
+Item4=..\;$(BCB)\lib\obj;$(BCB)\lib;$(BCB)\components\tms
+Item5=..\;$(BCB)\lib\obj;$(BCB)\lib
+Item6=$(BCB)\lib\obj;$(BCB)\lib
+Item7=C:\MyData\development\Shared\ApsimShared\Test;..\..\APSoil\Source;$(BCB)\Components\TeeChart\CBuilder6\Lib;$(BCB)\lib\obj;$(BCB)\lib;$(BCB)\components\tms
+Item8=$(BCB)\Components\TeeChart\CBuilder6\Lib;$(BCB)\lib\obj;$(BCB)\lib;$(BCB)\components\tms
+Item9=..\..\APSoil\Source;$(BCB)\Components\TeeChart\CBuilder6\Lib;$(BCB)\lib\obj;$(BCB)\lib;$(BCB)\components\tms
+Item10=$(BCB)\Components\TeeChart\CBuilder6\Lib;$(BCB)\lib\obj;$(BCB)\lib
+Item11=$(BCB)\Components\TeeChart\CBuilder6\Lib;C:\MyData\development\Shared\Soil;..\Components\TeeChart\CBuilder6\Lib;$(BCB)\lib\obj;$(BCB)\lib
+
+[HistoryLists\hlDebugSourcePath]
+Count=1
+Item0=$(BCB)\source\vcl
+
+[HistoryLists\hlConditionals]
+Count=2
+Item0=_DEBUG;BOOST_REGEX_STATIC_LINK
+Item1=_DEBUG
+
+[HistoryLists\hlFinalOutputDir]
+Count=3
+Item0=..\..\..\Bin
+Item1=..\..\Bin\
+Item2=..\..\Bin
+
+[HistoryLists\hIBPIOutputDir]
+Count=1
+Item0=.
+
+[Debugging]
+DebugSourceDirs=$(BCB)\source\vcl
+
+[Parameters]
+RunParams=
+Launcher=
+UseLauncher=0
+DebugCWD=
+HostApplication=
+RemoteHost=
+RemotePath=
+RemoteLauncher=
+RemoteCWD=
+RemoteDebug=0
+
+[Compiler]
+ShowInfoMsgs=0
+LinkDebugVcl=0
+LinkCGLIB=1
+
+[Language]
+ActiveLang=
+ProjectLang=
+RootDir=
+  </IDEOPTIONS>
+</PROJECT>

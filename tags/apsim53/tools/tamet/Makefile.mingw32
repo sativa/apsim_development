@@ -1,0 +1,69 @@
+# Use one of the following
+ARCH = 
+
+CC=$(ARCH)gcc
+CXX=$(ARCH)g++
+F77=$(ARCH)g77
+
+DBG=
+
+TCLLIB = c:/tcl/lib
+TCLINC = -Ic:/tcl/include 
+
+CFLAGS = $(DBG) -DDLL -mno-cygwin -Wall -O2 -DUSE_TCL_STUBS $(TCLINC) -I/cygnus/mingw-extra/include
+CXXFLAGS= $(CFLAGS)
+F77FLAGS= $(CFLAGS) -fdebug-kludge
+G77LIBS = -lg2c
+
+libname = tamet
+
+OBJS = tamet2a.o tamet2a_interface.o date.o
+
+all: $(libname).dll
+
+tamet2a.o: tamet2a.for tamet2a.inc
+	$(F77) $(F77FLAGS) -c -o $@ tamet2a.for
+
+tamet2a_interface.o : tamet2a_interface.cc
+	$(CXX) -c $(CFLAGS) -o $@ $<
+
+date.o : date.cc date.h
+	$(CXX) -c $(CFLAGS) -o $@ $<
+
+clean:
+	rm -f *.o core
+
+AS      =   $(TARGET)as
+DLLTOOL     =   $(TARGET)dlltool
+DLLTOOL_FLAGS   =   --as $(AS)
+DLLWRAP     =   $(TARGET)dllwrap
+DLLWRAP_FLAGS   =   --driver-name $(CC) --as $(AS) \
+	--dlltool-name $(DLLTOOL) -mno-cygwin --target=i386-mingw32
+
+NORMAL_LIBS = /tcl/lib/libtclstub82.a -lg2c
+COMMON_LD_FLAGS =  -L/cygnus/mingw-extra/lib 
+SHLIB_LD_FLAGS  =   $(COMMON_LD_FLAGS) --dll 
+SHLIB_LD_LIBS   =   $(NORMAL_LIBS) 
+
+$(libname).def: $(OBJS)
+	$(DLLTOOL) $(DLLTOOL_FLAGS) --export-all \
+	--output-def $@ $(OBJS)
+
+$(libname).a: $(libname).def
+	$(DLLTOOL) $(DLLTOOL_FLAGS) --dllname $(libname).dll \
+	--def $(libname).def --output-lib $@ 
+	
+$(libname).dll: $(libname).a
+	$(RM) $(libname).dll
+	$(DLLWRAP) $(DLLWRAP_FLAGS) -o $@ --def $(libname).def \
+	$(OBJS) \
+		 $(SHLIB_LD_FLAGS) $(SHLIB_LD_LIBS)
+
+.c.o:
+	$(CC) -c $(CFLAGS) -o $*.o $<
+
+.cc.o:
+	$(CXX) -c $(CFLAGS) -o $*.o $<
+
+.f.o:
+	$(F77) -c $(F77FLAGS) $(CFLAGS) -o $*.o $<

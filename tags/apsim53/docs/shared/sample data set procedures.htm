@@ -1,0 +1,345 @@
+<html>
+<head>
+<meta http-equiv=Content-Type content="text/html; charset=windows-1252">
+<title>Procedure - Creating a Model Sample Data Set</title>
+<link href="./docstyle.css" rel="stylesheet" type="text/css">
+</head>
+<body>
+<html>
+
+<p class="Title1">Procedure
+- Creating a Model Sample Data Set</p>
+
+<p class="Normal">&nbsp;</p>
+
+<p class="Title2">Scope</p>
+<p class="Normal">&nbsp;</p>
+
+<p class="Normal">Developing Sample
+simulation sets for APSIM modules.</p>
+<p class="Normal">&nbsp;</p>
+<p class="Title2">Audience</p>
+<p class="Normal">APSRU
+Software Engineering Group and APSIM module developers</p>
+<p class="Normal">&nbsp;</p>
+
+<p class="Title2">References</p>
+
+<p class="Normal">Science
+Configuration Management Procedure SciencCM.doc</p>
+
+<p class="Title2">Glossary</p>
+
+<p class="Normal">APSIM Help Desk      APSIM-Help@tag.csiro.au</p>
+
+<p class="Normal">SEG                                     Software Engineering Group</p>
+
+<p class="Normal">SDP file                                             Sample Dataset Parameter file</p>
+
+<p class="Normal">SDC file                                             Sample Dataset Control file</p>
+
+<p class="Title2">Policy</p>
+
+<p class="Normal"><i>A Sample data set is a simple example of a
+simulation that provides APSIM users with a starting point for manually
+developing their own parameter sets. The simulation set is not to be a
+comprehensive reference set but is to demonstrate how a user might set up their
+parameter data sets for the module.</i></p>
+
+<p class="Normal">All APSIM module developers are required to provide a
+Sample data set for each module in their area of responsibility. In doing so,
+the SEG will be able to supply a sample data set in an APSUITE release for the
+given module. This will reduce  user
+support time.</p>
+
+<p class="Title2">Procedure</p>
+
+<p class="Normal">1.&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; <b>Directory
+structure</b><br>
+Create a directory named Sample under the home directory of the module.<br>
+e.g. \apsuite\apsim\maize\sample<br>
+This directory will contain all the sample files created for the module.<br><br></p>
+
+<p class="Normal">2.&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; <b>Parameter
+and INI files for other modules used in the sample.</b><br>
+For the other modules used in the simulation (soilwat2 etc) select parameter
+and data files to use in the sample data set. The guideline is to use parameter
+files from the other relevant module sample directory and ini files from the
+other relevant module home directory under the apsuite\apsim directory. Thus -</p>
+
+<p class="Normal">·&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+Select a climate
+file to use from the \apsuite\apsim\met\sample directory. If the existing ones
+are unsuitable, then one must be supplied for inclusion in this directory. It
+should be appropriately named, distinguishing it from other similar climate
+files and describing its contents. The filename extension should be “.met”.</p>
+
+<p class="Normal">·&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+Select a soilwater
+parameter file, if appropriate, to use from the \apsuite\apsim\soilwat2\sample
+directory.</p>
+
+<p class="Normal">·&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+Select other
+parameter files to use such as the soilN2 parameter file from the
+\apsuite\apsim\soilN2\sample directory and so on.<br><br></p>
+
+<p class="Normal">3.&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; <b>Parameter
+file for this module.<br></b>Create a text file with the name
+nnnnn.PAR (where nnnnn is the module name). This file will be referred to below
+as the Sample Data set Parameter (SDP) file. The most efficient manner of
+creation will be by copying an already tested file for a module of similar
+structure and capability. Eg. Winter cereal, summer legume etc. <br>
+<br>
+<u>The recommended order of sections is as follows:<br>
+</u>[sample.report.parameters]  <br>
+[sample.clock.parameters]  <br>
+[sample.manager.start_of_day]  <br>
+[sample.manager.end_of_day]  <br>
+[sample.<i>module name</i>.parameters]  <br>
+<br>
+<u>Guidelines for setting up this file are</u></p>
+
+<p class="Normal">·&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+Show the users how
+to use the module.</p>
+
+<p class="Normal">·&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+Make the sample a
+starting point for user parameter sets</p>
+
+<p class="Normal">·&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+Keep it simple and
+well formatted</p>
+
+<p class="Normal">·&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+Don’t try to
+demonstrate everything. Alternatives should be documented in the parameter (and
+INI) files.</p>
+
+<p class="Normal">·&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+Time span should be
+the minimum required for simple demonstration purposes.</p>
+
+<p class="Normal">·&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+The name of summary
+and output files should be <i>module name</i>.sum
+and <i>module name</i>.out respectively.</p>
+
+<p class="Normal">·&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+The profile data
+for a crop module must match the profile layer structure used in the soil
+modules’ sample parameter sections.<br><br></p>
+
+<p class="Normal">4.&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; <b>Control
+file for this module.<br></b>Create a text file with the name
+nnnnn.CON (where nnnnn is the module name). This file will be referred to below
+as the Sample Dataset Control file (SDC). The most efficient manner of creation
+will be by copying an already test file for a module of similar structure and
+capability. This should contain only one APSIM configuration section.<br>
+<br>
+<u>Guidelines for setting up this file are</u></p>
+
+<p class="Normal">·&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+One control section
+only</p>
+
+<p class="Normal">·&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+Use INI files from
+the module home directories</p>
+
+<p class="Normal">·&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+For each module,
+use the parameter file in its sample directory</p>
+
+<p class="Normal">·&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+Use a met file from
+the met module sample directory</p>
+
+<p class="Normal">·&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+Never use relative
+paths. </p>
+
+<p class="Normal">·&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+Use the %apsuite
+macro substitution.<br><br></p>
+
+<p class="Normal">5.&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; When the simulation set is complete run the
+sample simulation and check for errors and that the output is sensible.<br><br></p>
+
+<p class="Normal">6.&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; When the sample simulation runs correctly forward
+the sample simulation set to the APSIM Configuration Manager or APSIM Help Desk
+for inclusion into the configuration management system. (Refer to Science
+Configuration Management Procedure)<br><br></p>
+
+<p class="Normal">7.&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; The APSIM Configuration Manager is to run the
+sample with the current development version of APSIM and provide the results to
+the module developer and module convenor for verification and validation.</p>
+
+<b><br
+clear=all>
+</span></b>
+
+<p class="Title1">APPENDIX A</p>
+
+<p class="Title2">The SDC file structure</p>
+
+<p class="Title2">The APSIM Section</p>
+
+<p class="Normal">A SDC file should contain only one section, which is an
+APSIM control section.</p>
+
+<p class="Normal">The APSIM section of the
+SDP file contains information about the location of the data used in the sample
+simulation run. It contains the following fields:</p>
+
+<p class="Normal">·&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+The module names
+followed by the data file names and paths, one per line.</p>
+
+<p class="Normal">&nbsp;</p>
+
+<p class="Normal">[APSIM.sample_fababean]</p>
+
+<p class="Normal">module=clock         fababean.par[sample]</p>
+
+<p class="Normal">module=report        fababean.par[sample]                                 </p>
+
+<p class="Normal">module=met         
+%apsuite\apsim\met\sample\dalby.met[weather]</p>
+
+<p class="Normal">module=manager    fababean.par[sample] </p>
+
+<p class="Normal">module=soilwat2   
+%apsuite\apsim\soilwat2\sample\soilwat2.par[black_earth]         
+%apsuite\apsim\soilwat2\soilwat2.ini[standard]</p>
+
+<p class="Normal">module=residue2  
+%apsuite\apsim\residue2\sample\residue2.par[legume_residue] 
+%apsuite\apsim\residue2\residue2.ini[standard]</p>
+
+<p class="Normal">module=soiln2      
+%apsuite\apsim\soiln2\sample\soiln2.par[black_earth]                 
+%apsuite\apsim\soiln2\soiln2.ini[standard]</p>
+
+<p class="Normal">module=fababean   fababean.par[sample]                                                                  
+%apsuite\apsim\fababean.ini[standard]</p>
+
+<b><br
+clear=all>
+</span></b>
+
+<p class="Title1">APPENDIX B</p>
+
+<p class="Title2">The SDP file structure</p>
+
+<p class="Normal"><b>[sample.report.parameters]</b></p>
+
+<p class="Normal">title = fababean Sample Simulation</p>
+
+<p class="Normal">screen_output = on</p>
+
+<p class="Normal">outputfile 
+= fababean.out /overwrite</p>
+
+<p class="Normal">summaryfile = fababean.sum /overwrite</p>
+
+<p class="Normal">&nbsp;</p>
+
+<p class="Normal">module_names=   
+clock clock</p>
+
+<p class="Normal">variable_names=  day   year     </p>
+
+<p class="Normal">variable_alias= 
+-     -      </p>
+
+<p class="Normal">&nbsp;</p>
+
+<p class="Normal">module_names=   
+fababean fababean fababean      </p>
+
+<p class="Normal">variable_names= 
+lai      biomass  green_biomass </p>
+
+<p class="Normal">variable_alias= 
+-        -        -             </p>
+
+<p class="Normal">units=          
+-         -       -             </p>
+
+<p class="Normal">&nbsp;</p>
+
+<p class="Normal"><b>[sample.clock.parameters]</b></p>
+
+<p class="Normal">! Start and end date of run (day number of year
+and year)</p>
+
+<p class="Normal">start_day = 
+130</p>
+
+<p class="Normal">start_year = 1988</p>
+
+<p class="Normal">end_day = 
+300</p>
+
+<p class="Normal">end_year = 1988</p>
+
+<p class="Normal">&nbsp;</p>
+
+<p class="Normal"><b>[sample.manager.start_of_day]</b></p>
+
+<p class="Normal">&nbsp;</p>
+
+<p class="Normal">if day = 130 and year  = 1988 then</p>
+
+<p class="Normal">  
+fababean sow cultivar = fiord, plants = 25 (/m2), sowing_depth = 40 (mm)</p>
+
+<p class="Normal">&nbsp;</p>
+
+<p class="Normal">elseif day = 290 and year = 1988 then</p>
+
+<p class="Normal">  
+fababean harvest</p>
+
+<p class="Normal">  
+fababean end_crop   </p>
+
+<p class="Normal">&nbsp;</p>
+
+<p class="Normal">endif</p>
+
+<p class="Normal">&nbsp;</p>
+
+<p class="Normal"><b>[sample.manager.end_of_day]</b></p>
+
+<p class="Normal">report do_output</p>
+
+<p class="Normal">&nbsp;</p>
+
+<p class="Normal">&nbsp;</p>
+
+<p class="Normal"><b>[sample.fababean.parameters]</b></p>
+
+<p class="Normal">&nbsp;</p>
+
+<p class="Normal">! NOTE. These profiles must have the same layer
+structure as the profiles used</p>
+
+<p class="Normal">!       in
+the soil modules’ sample parameters.</p>
+
+<p class="Normal">&nbsp;</p>
+
+<p class="Normal">   ll   = .230 .240 .240 .250 .260 .270 .280  ! lower limit mm water/mm soil</p>
+
+<p class="Normal">   xf   = 1.00 1.00 1.00 1.00 1.00 1.00 1.00  ! Weighting factor for root advance</p>
+
+<p class="Normal">   kl   = 0.08 0.08 0.08 0.08 0.05 0.03 0.01  ! Water Extraction Parameter (0-1)<br
+clear=all>
+
+
+</body>
+
+</html>

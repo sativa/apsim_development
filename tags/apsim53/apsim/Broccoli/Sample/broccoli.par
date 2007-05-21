@@ -1,0 +1,38 @@
+
+[sample.report.parameters]
+outputfile    = Broccoli.out
+
+variable = clock.dd/mmm/yyyy as Date
+variable = Broccoli.das
+variable = Broccoli.stage
+variable = Broccoli.lai
+variable = Broccoli.biomass
+variable = Broccoli.ep
+
+[sample.clock.parameters]
+start_date=1/04/1998     ! dd/mm/yyyy
+end_date=30/09/1998    ! dd/mm/yyyy
+
+
+[sample.manager.start_of_day]
+if today = date('5/4/98') then
+   Broccoli sow cultivar = greenbelt, plants = 6, sowing_depth = 50 (mm)
+   fertiliz apply amount = 200, type = urea_n, depth = 50
+endif
+
+[sample.manager.end_of_day]
+if Broccoli.stage_name = 'maturity' or Broccoli.plant_status = 'dead' then
+   Broccoli harvest
+   Broccoli end_crop
+endif
+
+   report do_output
+
+
+[sample.Broccoli.parameters]
+ll =  0.230   0.240   0.240   0.250   0.260   0.270   0.280 ()!cm3 water/cm3 soil
+kl =  0.06    0.06    0.05    0.03    0.0     0.0     0.0  ()
+XF =  1.0     1.0     1.0     1.0     0.0     0.0     0.0   ()
+
+[sample.summaryfile.parameters]
+summaryfile=Broccoli.sum

@@ -1,0 +1,82 @@
+!********************************************************************************
+! Generic reporting:
+[all.report.parameters]
+
+
+!Treatment reports
+[wheat.report.parameters]
+outputfile=wheat.out
+variable=clock.year
+variable=clock.day
+variable=wheat.das
+variable=wheat.stage
+variable=wheat.dc_stage as zadok
+variable=wheat.lai
+variable=wheat.biomass_wt
+variable=wheat.grain_wt as grain
+variable=wheat.biomass_n
+variable=wheat.grain_n
+variable=wheat.tiller_no_fertile  as tillers
+variable=wheat.root_depth
+variable=wheat.cep
+variable=wheat.swdef_pheno as ws_pheno
+variable=wheat.swdef_photo as ws_photo
+variable=wheat.swdef_expan as ws_expan
+variable=wheat.swdef_tiller as ws_tiller
+variable=wheat.nfact_pheno as Ns_pheno
+variable=wheat.nfact_photo as Ns_photo
+variable=wheat.nfact_expan as Ns_expan
+variable=wheat.nfact_tiller as Ns_tiller
+variable=soilwat2.esw
+variable=soilwat2.sw()
+variable=soilwat2.es
+variable=soilwat2.runoff
+variable=soilwat2.drain
+variable=soiln2.no3()
+variable=soiln2.nh4()
+
+[sunflower.report.parameters]
+outputfile    =sunflower.out
+variable=clock.year
+variable=clock.day
+variable=sunflower.das
+variable=sunflower.stage
+variable=sunflower.dc_stage as zadok
+variable=sunflower.lai
+variable=sunflower.biomass_wt
+variable=sunflower.grain_wt as grain
+variable=sunflower.biomass_n
+variable=sunflower.grain_n
+variable=sunflower.tiller_no_fertile  as tillers
+variable=sunflower.root_depth
+variable=sunflower.cep
+variable=sunflower.swdef_pheno as ws_pheno
+variable=sunflower.swdef_photo as ws_photo
+variable=sunflower.swdef_expan as ws_expan
+variable=sunflower.swdef_tiller as ws_tiller
+variable=sunflower.nfact_pheno as Ns_pheno
+variable=sunflower.nfact_photo as Ns_photo
+variable=sunflower.nfact_expan as Ns_expan
+variable=sunflower.nfact_tiller as Ns_tiller
+variable=soilwat2.esw
+variable=soilwat2.sw()
+variable=soilwat2.es
+variable=soilwat2.runoff
+variable=soilwat2.drain
+variable=soiln2.no3()
+variable=soiln2.nh4()
+
+
+
+[intercropping.report.parameters]
+outputfile  =  intercropping.out
+variable=clock.day
+variable=clock.year
+variable=sunflower.stage   as stage_sunflower
+variable=sunflower.lai     as lai_sunflower
+variable=sunflower.biomass as biom_sunflower
+variable=cowpea.stage   as stage_cowpea
+variable=cowpea.lai     as lai_cowpea
+variable=cowpea.biomass as biom_cowpea
+variable=soilwat2.sw_dep()
+

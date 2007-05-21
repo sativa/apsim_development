@@ -1,0 +1,41 @@
+!********************************************************************************
+[co2.clock.parameters]
+start_date=1/1/1940     ! dd/mm/yyyy
+end_date=31/12/1989     ! dd/mm/yyyy
+
+[std_co2.report.parameters]
+outputfile    =std.out
+
+[std_co2.summaryfile.parameters]
+summaryfile    =std.sum
+
+[rising_co2.report.parameters]
+outputfile    =co2.out
+
+[rising_co2.summaryfile.parameters]
+summaryfile    =co2.sum
+
+[co2.report.parameters]
+variable = clock.dd/mm/yyyy as Date
+variable = wheat.yield
+variable = manager.co2
+
+[co2.manager.start_of_day]
+if day = 169 then
+   wheat sow cultivar = hartog, plants = 120, sowing_depth = 30 (mm)
+endif
+
+if wheat.stage_name = 'harvest_ripe' or wheat.plant_status = 'dead' then
+   report do_output
+   wheat harvest
+   wheat end_crop
+endif
+
+! Constant CO2 level through run
+[co2.manager.init]
+co2 = 350
+
+!Rising CO2 levels to 700ppm by 1990
+[rising_co2.manager.start_of_day]
+dy = clock.year - 1940.0
+co2 = 350.0 + dy * (700.0 - 350.0)/50.0   
