@@ -356,6 +356,9 @@ void cohortingLeafPart::zeroAllGlobals(void)
 
    gNodeNo = 0.0;
    dltNodeNo = 0.0;
+   coverLeaf.green = 0.0;
+   coverLeaf.sen = 0.0;
+   coverLeaf.dead = 0.0;
 }
 
 void cohortingLeafPart::onEmergence(void)
