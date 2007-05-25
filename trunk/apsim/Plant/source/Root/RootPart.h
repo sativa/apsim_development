@@ -1,12 +1,10 @@
 #ifndef RootPartH
 #define RootPartH
-#include "../PlantPart.h"
+#include "RootBase.h"
 
-class RootPart : public plantPart
+class RootPart : public RootBase
    {
    public:
-      static RootPart* construct(ScienceAPI& scienceAPI, plantInterface *p,
-                                 const std::string &type, const std::string &name);
       ~RootPart(){};
 
       void zeroAllGlobals(void);
@@ -50,9 +48,7 @@ class RootPart : public plantPart
                                           , vector<float> &fract);
       void doNConccentrationLimits(float);
       void redistribute(const vector<float> &, const vector<float> &, float);
-      int find_layer_no(float) const;
-      int find_layer_no(float,const vector<float>&);
-      int find_layer_no(float, float *, int);
+
       float sw_avail_ratio(int layer) const;
 
       void plant_water_stress (
@@ -86,6 +82,10 @@ class RootPart : public plantPart
    protected:
       RootPart(ScienceAPI& scienceAPI, plantInterface *p, const string &name);
 
+      int find_layer_no(float) const;
+      int find_layer_no(float,const vector<float>&);
+      int find_layer_no(float, float *, int);
+
       int num_layers;
       vector<float> dltRootLength;
       float root_length[max_layer];                     // root length (mm/mm^2)
@@ -98,6 +98,7 @@ class RootPart : public plantPart
       interpolationFunction sw_fac_root;
 
    private:
+
       interpolationFunction rel_root_advance;
       interpolationFunction ws_root_fac;
       lookupFunction root_depth_rate;

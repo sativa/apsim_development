@@ -38,7 +38,9 @@ OBJFILES=PlantComponent.obj \
    Reproductive\GrainPartHI.obj \
    Reproductive\GrainPartGN.obj \
    CompositePart.obj \
+   Root\RootBase.obj \
    Root\RootPart.obj \
+   Root\NoRoot.obj \
    Root\RootGrowthOption1.obj \
    Root\RootGrowthOption2.obj \
    Reproductive\FruitCohort.obj \
@@ -133,7 +135,9 @@ Leaf\LeafPart.obj: Leaf\LeafPart.cpp PlantPart.h Leaf\LeafPart.h
 StemPart.obj: StemPart.cpp StemPart.h PlantPart.h
 Reproductive\PodPart.obj: Reproductive\PodPart.cpp Reproductive\PodPart.h PlantPart.h
 Reproductive\MealPart.obj: Reproductive\MealPart.cpp Reproductive\MealPart.h PlantPart.h
-Root\RootPart.obj: Root\RootPart.cpp Root\RootPart.h PlantPart.h
+Root\RootBase.obj: Root\RootBase.cpp Root\RootBase.h PlantPart.h
+Root\RootPart.obj: Root\RootPart.cpp Root\RootPart.h Root\RootBase.h
+Root\NoRoot.obj: Root\NoRoot.cpp Root\NoRoot.h Root\RootBase.h
 Root\RootGrowthOption1.obj: Root\RootPart.cpp Root\RootPart.h PlantPart.h Root\RootGrowthOption1.cpp Root\RootGrowthOption1.h
 Root\RootGrowthOption2.obj: Root\RootPart.cpp Root\RootPart.h PlantPart.h Root\RootGrowthOption2.cpp Root\RootGrowthOption2.h
 Reproductive\OilPart.obj: Reproductive\OilPart.cpp Reproductive\OilPart.h PlantPart.h

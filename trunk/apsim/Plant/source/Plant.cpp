@@ -167,7 +167,7 @@ void Plant::onInit1()
 
     string rootModel;
     scienceAPI.readOptional("root_part", rootModel);
-    rootPart = RootPart::construct(scienceAPI, this, rootModel, "root");
+    rootPart = RootBase::construct(scienceAPI, this, rootModel, "root");
     myThings.push_back(rootPart);
     myParts.push_back(rootPart);
 
@@ -3109,13 +3109,13 @@ void Plant::plant_start_crop (protocol::Variant &v/*(INPUT) message arguments*/)
            parent->writeString ("    ------------------------------------------------\n\n");
 
            rootPart->write();
-                      
+
            sprintf (msg, "%s%5.1f%s"
               ,"    Crop factor for bounding water use is set to "
               , p.eo_crop_factor
                 , " times eo.");
            parent->writeString (msg);
-           
+
            plantSpatial.startCrop (parent, v);
 
            // Bang.
@@ -3588,7 +3588,7 @@ void Plant::plant_read_species_const ()
 
     for (vector<plantThing *>::iterator t = myThings.begin();
         t != myThings.end();
-        t++)                      
+        t++)
       (*t)->readSpeciesParameters(parent, search_order);
 
     Environment.read(scienceAPI);
