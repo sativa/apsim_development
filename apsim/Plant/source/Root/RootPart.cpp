@@ -10,7 +10,6 @@
 #include <ComponentInterface/datatypes.h>
 #include <ComponentInterface/ScienceAPI.h>
 
-#include "PlantPart.h"
 #include "RootPart.h"
 #include "RootGrowthOption1.h"
 #include "RootGrowthOption2.h"
@@ -21,7 +20,7 @@ string IncorpFOMType = protocol::DDML(protocol::IncorpFomType());
 string floatArrayType = protocol::DDML(vector<float>());
 
 RootPart::RootPart(ScienceAPI& scienceAPI, plantInterface *p, const string &name)
-   : plantPart(scienceAPI, p, name)
+   : RootBase(scienceAPI, p, name)
 //=======================================================================================
 // Constructor
    {
@@ -29,17 +28,6 @@ RootPart::RootPart(ScienceAPI& scienceAPI, plantInterface *p, const string &name
 
    zeroSoil();
    zeroAllGlobals();
-   }
-
-RootPart* RootPart::construct(ScienceAPI& scienceAPI, plantInterface *p, const string &type, const string &name)
-//=======================================================================================
-// Setup correct root model for user-defined type
-   {
-   if (type == "Jones+RitchieGrowthPattern")
-      return new rootGrowthOption2(scienceAPI, p, name);
-   else
-      // default:
-      return new rootGrowthOption1(scienceAPI, p, name);
    }
 
 
@@ -1492,9 +1480,9 @@ void RootPart::plant_nit_uptake(float sumNMax, float sumSoilNDemand, float nDema
                        , sumNMax
                        , root_depth
                        , dlt_no3gsm);
-        }                                                        
-    else if ((n_uptake_option == 2) || (n_uptake_option == 3))                     
-        {                                                        
+        }
+    else if ((n_uptake_option == 2) || (n_uptake_option == 3))
+        {
         cproc_n_uptake3(dlayer
                         , no3gsm_uptake_pot
                         , nh4gsm_uptake_pot
@@ -1504,7 +1492,7 @@ void RootPart::plant_nit_uptake(float sumNMax, float sumSoilNDemand, float nDema
                         , sumNMax
                         , root_depth
                         , dlt_no3gsm
-                        , dlt_nh4gsm);                 
+                        , dlt_nh4gsm);
         }
     else
         {
@@ -1799,7 +1787,7 @@ void crop_check_sw(plantInterface *iface,
          {
          }
       }
-   
+
    }
 
 

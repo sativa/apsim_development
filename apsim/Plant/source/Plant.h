@@ -8,7 +8,7 @@ class CompositePart;
 class plantPart;
 class plantStemPart;
 class plantLeafPart;
-class RootPart;
+class RootBase;
 class PlantFruit;
 class plantThing;
 class eventObserver;
@@ -69,7 +69,7 @@ private:
    vector <plantPart *> myStoverParts;
    plantStemPart  *stemPart;
    plantLeafPart  *leafPart;
-   RootPart  *rootPart;
+   RootBase  *rootPart;
    ReproStruct    *reproStruct;
    PlantPhenology *phenology;
    PlantFruit     *fruitPart;
