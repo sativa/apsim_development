@@ -28,15 +28,29 @@ bool tHTTP::Get(const std::string& filename, const std::string& url)
 {
   if (myContext) {xmlNanoHTTPClose(myContext); myContext = NULL;}
   if (myContentType) {xmlFree(myContentType); myContentType = NULL;}
-
+  _ErrorMessage = "";
+  
   FILE *fp = fopen(filename.c_str(), "wb");
-  if (fp == NULL) { return(false); }
+  if (fp == NULL) 
+     {
+     _ErrorMessage = "Cannot open file: " + filename;
+     return false;
+     }
 
   myContext = xmlNanoHTTPOpen(url.c_str(), &myContentType);
-  if (myContext == NULL) return(false);
+  if (myContext == NULL) 
+     {
+     _ErrorMessage = "HTTP Open failure: " + url; 
+     return false;
+     }
 
   int buflen = 5*1024*1024, bytesRead;
   char *buffer = (char*)malloc(buflen);
+  if (buffer == NULL) 
+     {
+     _ErrorMessage = "malloc failure"; 
+     return false;
+     }
 
   while ((bytesRead = xmlNanoHTTPRead(myContext, buffer, buflen)) > 0)
      {
@@ -44,8 +58,10 @@ bool tHTTP::Get(const std::string& filename, const std::string& url)
      }
   fclose(fp);
   free(buffer);
-  
-  return(bytesRead == 0);
+
+  _ErrorMessage = responseText();
+    
+  return( xmlNanoHTTPReturnCode(myContext) == 200);
 }
 
 // get a URL, contents into file, return string. Caller should check return code for success.

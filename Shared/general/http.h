@@ -10,6 +10,7 @@ class tHTTP
    private:
       void *myContext;
       char *myContentType;
+      std::string _ErrorMessage;
 
    public:
       tHTTP(void);
@@ -21,6 +22,7 @@ class tHTTP
       int responseCode(void);
       std::string responseText(void);
       std::string contentType(void);
+      const std::string & ErrorMessage(void) { return(_ErrorMessage); };
    };
 
 #endif
