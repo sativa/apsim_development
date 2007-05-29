@@ -1,5 +1,4 @@
 #include <stdio.h>
-#include <io.h>
 #include <fcntl.h>
 #include <libxml/parser.h>
 #include <libxml/nanohttp.h>
