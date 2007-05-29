@@ -15,7 +15,7 @@
 #include <ComponentInterface/Component.h>
 #include <ComponentInterface/Type.h>
 #include <ComponentInterface/ScienceAPI.h>
-#include <ComponentInterface/DataTypes.h>
+#include <ComponentInterface/datatypes.h>
 
 #include "PlantComponent.h"
 #include "PlantInterface.h"
