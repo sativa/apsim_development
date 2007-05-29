@@ -3,7 +3,7 @@
 
 #include "ScienceAPI.h"
 #include "Component.h"
-#include "DataTypes.h"
+#include "datatypes.h"
 #include "RegistrationType.h"
 
 #include <general/string_functions.h>
