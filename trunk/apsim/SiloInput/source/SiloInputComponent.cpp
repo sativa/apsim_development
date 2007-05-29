@@ -2,6 +2,14 @@
 #include <stdexcept>
 #include <process.h>
 #include <string>
+#include <sys/stat.h>
+
+#ifdef __WIN32__
+ #include <dos.h>
+ #define sleep _sleep
+#else
+ #include <unistd.h>
+#endif
 
 #include <boost/date_time/gregorian/gregorian.hpp>
 
@@ -64,9 +72,24 @@ void SiloInputComponent::openInputFile(void)
       string("&ddStart=1&mmStart=1&yyyyStart=1800&ddFinish=31&mmFinish=12&yyyyFinish=2100");
 
    tHTTP http;
+   int numTries = 0; bool ok = false;
+   
+   while (!ok && numTries < 5) 
+      {
+      ok = http.Get(fileName, requestString);
+      if (!ok) sleep(2);
+      numTries++;
+      }
 
-   if (http.Get(fileName, requestString) == false)
-     throw std::runtime_error("HTTP error: " + http.responseText());
+   if (!ok) {throw std::runtime_error(http.ErrorMessage());}
+
+   struct stat statbuf;
+   if (stat(fileName.c_str(), &statbuf) < 0) 
+       throw std::runtime_error("Temporary met file " + fileName + "is missing");
+
+   if (statbuf.st_size == 0) 
+       throw std::runtime_error("No data for station " + itoa(stationNumber) + 
+                                 " appeared in " + fileName);
 
    data.open(fileName);
    }
