@@ -1,10 +1,10 @@
 #include <fstream>
 #include <stdexcept>
-#include <process.h>
 #include <string>
 #include <sys/stat.h>
 
 #ifdef __WIN32__
+ #include <process.h>
  #include <dos.h>
  #define sleep _sleep
 #else
