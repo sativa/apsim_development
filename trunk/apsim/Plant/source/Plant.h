@@ -9,6 +9,7 @@ class plantPart;
 class plantStemPart;
 class plantLeafPart;
 class RootBase;
+class StoragePart;
 class PlantFruit;
 class plantThing;
 class eventObserver;
@@ -66,7 +67,8 @@ private:
 
    vector <plantThing *> myThings;
    vector <plantPart *> myParts;
-   vector <plantPart *> myStoverParts;
+   vector <plantPart *> myTopsParts;
+
    plantStemPart  *stemPart;
    plantLeafPart  *leafPart;
    RootBase  *rootPart;

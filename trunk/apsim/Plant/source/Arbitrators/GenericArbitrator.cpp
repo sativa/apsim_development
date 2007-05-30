@@ -26,13 +26,24 @@ void genericArbitrator::readSpeciesParameters(protocol::Component *system, vecto
    int numvals;
    scienceAPI.read("frac_leaf", frac_leaf, numvals, 0.0f, 1.0f);
    scienceAPI.read("ratio_root_shoot", ratio_root_shoot, numvals, 0.0f, 1000.0f);
+   scienceAPI.read("partitionparts", PartitionParts);
+   scienceAPI.read("partitionrules", PartitionRules);
+
+   for (unsigned i = 0; i != PartitionRules.size(); i++)
+      {
+      vector <float> empty;
+      if (PartitionRules[i] == "frac")
+         {
+         vector <float> frac;
+         scienceAPI.read("frac_"+PartitionParts[i], frac, 0.0, 1.0);
+         Fracs.push_back(frac);
+         }
+      else
+         Fracs.push_back(empty);
+      }
    }
 
-void genericArbitrator::partitionDM(float dlt_dm,
-                                    plantPart *rootPart,
-                                    plantLeafPart *leafPart,
-                                    plantPart *stemPart,
-                                    plantPart *fruitPart)
+void genericArbitrator::partitionDM(float dlt_dm,vector <plantPart *>& Parts)
 //=======================================================================================
    //  Partitions new dm (assimilate) between plant components (g/m^2)
    // Root must be satisfied. The roots don't take any of the
@@ -40,63 +51,52 @@ void genericArbitrator::partitionDM(float dlt_dm,
    // that enough extra was produced to meet demand. Thus the root
    // growth is not removed from the carbo produced by the model.
    {
-   // first we zero all plant component deltas
-   rootPart->zeroDltDmGreen();
-   leafPart->zeroDltDmGreen();
-   stemPart->zeroDltDmGreen();
-   fruitPart->zeroDltDmGreen();
+   for (vector<plantPart *>::const_iterator part = Parts.begin(); part != Parts.end(); part++)
+      (*part)->zeroDltDmGreen();
 
+   float dm_remaining = dlt_dm;
+   float dlt_dm_green_tot = 0.0;
 
-    // root:shoot ratio of new dm
-   float  c_ratio_root_shoot = ratio_root_shoot[(int)plant->getStageNumber()-1];
-   rootPart->giveDmGreen(c_ratio_root_shoot * dlt_dm);
+   for (unsigned i = 0; i != PartitionParts.size(); i++)
+      {
 
-   // now distribute the assimilate to plant parts
-   if (fruitPart->dmGreenDemand () >= dlt_dm)
-        {
-        // reproductive demand exceeds supply - distribute assimilate to those parts only
-        fruitPart->giveDmGreen( dlt_dm );
-        }
-    else
-        {
-        // more assimilate than needed for reproductive parts
-        // distribute to all parts
+      plantPart *Part = FindPart(Parts, PartitionParts[i]);
+      Part->zeroDltDmGreen();
+      if (PartitionRules[i] == "magic")
+         {
+         // root:shoot ratio of new dm
+         float  c_ratio_root_shoot = ratio_root_shoot[(int)plant->getStageNumber()-1];
+         Part->giveDmGreen(c_ratio_root_shoot * dlt_dm);
+         }
+      else
+         {
+         float uptake;
+         if (PartitionRules[i] == "demand")
+            uptake = min(Part->dmGreenDemand(), dm_remaining);
+         else if (PartitionRules[i] == "frac")
+            {
+            // fraction of remaining dm allocated to this part
+            float frac = Fracs[i][(int)plant->getStageNumber()-1];
+            uptake = min(frac * dm_remaining,Part->dmGreenDemand());
+            }
+         else if (PartitionRules[i] == "remainder")
+            uptake = dm_remaining;
+         else
+            throw runtime_error("Unknown Partition Rule "+PartitionRules[i]);
 
-        // satisfy reproductive demands
-        float uptake = fruitPart->giveDmGreen( fruitPart->dmGreenDemand() );
-        float dm_remaining = dlt_dm - uptake;
+         Part->giveDmGreen(uptake);
+         dm_remaining = dm_remaining - uptake;
+         dlt_dm_green_tot = dlt_dm_green_tot + Part->dltDmGreen();
+         }
+      }
 
-        // distribute remainder to vegetative parts
-        // fraction of remaining dm allocated to leaf
-        float c_frac_leaf = frac_leaf[(int)plant->getStageNumber()-1];
-
-        // limit the delta leaf area to maximum
-        float dLeaf = u_bound(c_frac_leaf * dm_remaining,
-                              leafPart->dmGreenDemand());
-        uptake = leafPart->giveDmGreen(dLeaf);
-
-        // everything else to stem
-        dm_remaining -= uptake;
-        stemPart->giveDmGreen(dm_remaining);
-        }
-
-   // do mass balance check - roots are not included
-   float dlt_dm_green_tot = /*rootPart->dltDmGreen() +*/
-                              leafPart->dltDmGreen() +
-                              stemPart->dltDmGreen() +
-                              fruitPart->dltDmGreen();
 
    if (!reals_are_equal(dlt_dm_green_tot, dlt_dm, 1.0E-4))
        {
        string msg = "dlt_dm_green_tot mass balance is off: "
                     + ftoa(dlt_dm_green_tot, ".6")
                     + " vs "
-                    + ftoa(dlt_dm, ".6")
-                    + "\nrootPart="  + ftoa(rootPart->dltDmGreen(), ".6")
-                    + "\nleafPart="  + ftoa(leafPart->dltDmGreen(), ".6")
-                    + "\nstemPart="  + ftoa(stemPart->dltDmGreen(), ".6")
-                    + "\nfruitPart=" + ftoa(fruitPart->dltDmGreen(), ".6")
-                    ;
+                    + ftoa(dlt_dm, ".6");
        plant->warningError(msg.c_str());
       }
    }

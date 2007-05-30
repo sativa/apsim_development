@@ -6,14 +6,16 @@
 class Arbitrator : public plantThing
    {
   protected:
-   plantInterface *plant;                 // The plant we are attached to
+      plantInterface *plant;                 // The plant we are attached to
+
+      plantPart* FindPart(vector <plantPart *>& Parts, string name);
   public:
    Arbitrator(ScienceAPI& scienceAPI, plantInterface *p)
       : plantThing(scienceAPI) {plant = p;};
    virtual ~Arbitrator(void) {};
 
    virtual void readSpeciesParameters (protocol::Component *, vector<string> &) {};
-   virtual void partitionDM(float,plantPart *,plantLeafPart *,plantPart *,plantPart *) = 0;
+   virtual void partitionDM(float,vector <plantPart *>& Parts) = 0;
 
    // Unused "thingy" things..
    virtual void undoRegistrations(protocol::Component *) {};
@@ -42,7 +44,7 @@ class cerealArbitrator : public Arbitrator
    ~cerealArbitrator(void) {};
 
    virtual void readSpeciesParameters (protocol::Component *, vector<string> &);
-   virtual void partitionDM(float,plantPart *,plantLeafPart *,plantPart *,plantPart *);
+   virtual void partitionDM(float,vector <plantPart *>& Parts);
    virtual void zeroAllGlobals(void) ;
    virtual float dltDMWhole(float dlt_dm);
    };
@@ -65,7 +67,7 @@ class allometricArbitrator : public Arbitrator
    virtual void onInit1(protocol::Component *);
    virtual void undoRegistrations(protocol::Component *);
    virtual void readSpeciesParameters (protocol::Component *, vector<string> &);
-   virtual void partitionDM(float,plantPart *,plantLeafPart *,plantPart *,plantPart *);
+   virtual void partitionDM(float,vector <plantPart *>& Parts);
    virtual void zeroAllGlobals(void) ;
    virtual float dltDMWhole(float dlt_dm);
    };

@@ -32,6 +32,7 @@
 #include "Reproductive/MealPart.h"
 #include "Reproductive/OilPart.h"
 #include "Root/RootPart.h"
+#include "Storage/StoragePart.h"
 #include "Utility/Observers.h"
 #include "Arbitrators/arbitrator.h"
 #include "Utility/PlantUtility.h"
@@ -176,18 +177,25 @@ void Plant::onInit1()
     leafPart = constructLeafPart(scienceAPI, this, leafModel, "leaf");
     myThings.push_back(leafPart);
     myParts.push_back(leafPart);
-    myStoverParts.push_back(leafPart);
+    myTopsParts.push_back(leafPart);
 
     stemPart = new plantStemPart(scienceAPI, this, "stem");
     myThings.push_back(stemPart);
     myParts.push_back(stemPart);
-    myStoverParts.push_back(stemPart);
+    myTopsParts.push_back(stemPart);
 
     fruitPart = new PlantFruit(scienceAPI, this, "fruit");
     myThings.push_back(fruitPart);
     myParts.push_back(fruitPart);
-    myStoverParts.push_back(fruitPart);
+    myTopsParts.push_back(fruitPart);
     fruitPart->doInit1(parent);
+
+    StoragePart* storagePart = StoragePart::construct(scienceAPI, this, "tuber");
+    if (storagePart != NULL)
+       {
+       myThings.push_back(storagePart);
+       myParts.push_back(storagePart);
+       }
 
     arbitrator = constructArbitrator(scienceAPI, this, "");       // Make a null arbitrator until we call readSpecies...
     myThings.push_back(arbitrator);
@@ -832,17 +840,11 @@ void Plant::plant_bio_retrans (void)
    supply_pools_by_veg.push_back(stemPart);
    supply_pools_by_veg.push_back(leafPart);
 
-   vector<plantPart *> allParts;
-   allParts.push_back(rootPart);
-   allParts.push_back(leafPart);
-   allParts.push_back(stemPart);
-   allParts.push_back(fruitPart);
-
    float dm_demand_differential = fruitPart->dmGreenDemand ()   //FIXME - should be returned from a fruitPart method
                                 - fruitPart->dltDmGreen();
 
    float dlt_dm_retrans_to_fruit = 0.0;                    // dry matter retranslocated to fruit (g/m^2)
-   legnew_dm_retranslocate(allParts
+   legnew_dm_retranslocate(myParts
                            , supply_pools_by_veg
                            , dm_demand_differential
                            , g.plants
@@ -1773,7 +1775,7 @@ void Plant::plant_light_supply_partition (int option /*(INPUT) option number*/)
     if (option == 1)
     {
             // back calculate transmitted solar radiation to canopy
-          float fractIncidentRadn = 0.0;
+          float fractIncidentRadn;
           if (g.fr_intc_radn <= 0.0)
           {
             fractIncidentRadn = 1.0;
@@ -2055,22 +2057,6 @@ void Plant::legnew_n_retranslocate (float g_grain_n_demand)
 //+  Constant Values
     const float  tolerence = 0.001 ;
 
-    vector<plantPart *> allParts;
-    allParts.push_back(rootPart);
-    allParts.push_back(leafPart);
-    allParts.push_back(stemPart);
-    allParts.push_back(fruitPart);
-
-    vector<plantPart *> mbCheckParts1;
-    mbCheckParts1.push_back(rootPart);
-    mbCheckParts1.push_back(leafPart);
-    mbCheckParts1.push_back(stemPart);
-    mbCheckParts1.push_back(fruitPart);
-
-    vector<plantPart *> stoverParts1;
-    stoverParts1.push_back(leafPart);
-    stoverParts1.push_back(stemPart);
-    stoverParts1.push_back(fruitPart);
 
     vector<plantPart*>::iterator part;            // plant part
 
@@ -2080,15 +2066,15 @@ void Plant::legnew_n_retranslocate (float g_grain_n_demand)
           //! this should not presume roots and grain are 0.
           // grain N potential (supply)
     float n_avail_stover = 0.0;
-    for (part = stoverParts1.begin(); part != stoverParts1.end(); part++)
+    for (part = myTopsParts.begin(); part != myTopsParts.end(); part++)
         n_avail_stover += (*part)->availableRetranslocateN();
 
 
-    for (part = stoverParts1.begin(); part != stoverParts1.end(); part++)
+    for (part = myTopsParts.begin(); part != myTopsParts.end(); part++)
         (*part)->doNRetranslocate(n_avail_stover, g_grain_n_demand);
 
           // check that we got (some of) the maths right.
-    for (part = mbCheckParts1.begin(); part != mbCheckParts1.end(); part++)
+    for (part = myParts.begin(); part != myParts.end(); part++)
         {
         bound_check_real_var (this,fabs((*part)->dltNRetransOut())
                               , 0.0, (*part)->availableRetranslocateN() + tolerence
@@ -2196,7 +2182,7 @@ void Plant::plant_process ( void )
              t++)
             (*t)->doDmDemand (dlt_dm);
 
-        arbitrator->partitionDM(dlt_dm, rootPart, leafPart, stemPart, fruitPart);
+        arbitrator->partitionDM(dlt_dm, myParts);
 
         plant_bio_retrans ();
 
@@ -2373,7 +2359,7 @@ void Plant::plant_detach_crop_biomass (protocol::Variant &v/*(INPUT) incoming me
       vector<plantPart*>::iterator part;
 
       vector<float>  dmParts;
-      for (part = myStoverParts.begin(); part != myStoverParts.end(); part++)
+      for (part = myTopsParts.begin(); part != myTopsParts.end(); part++)
       {
          (*part)->get_name(dm.part);
          (*part)->get_dm_green(dmParts);
@@ -2390,7 +2376,7 @@ void Plant::plant_detach_crop_biomass (protocol::Variant &v/*(INPUT) incoming me
 
       dm.pool = "senesced";
 
-      for (part = myStoverParts.begin(); part != myStoverParts.end(); part++)
+      for (part = myTopsParts.begin(); part != myTopsParts.end(); part++)
       {
          (*part)->get_name(dm.part);
          (*part)->get_dm_senesced(dmParts);
@@ -2407,7 +2393,7 @@ void Plant::plant_detach_crop_biomass (protocol::Variant &v/*(INPUT) incoming me
 
       dm.pool = "dead";
 
-      for (part = myStoverParts.begin(); part != myStoverParts.end(); part++)
+      for (part = myTopsParts.begin(); part != myTopsParts.end(); part++)
       {
          (*part)->get_name(dm.part);
          (*part)->get_dm_dead(dmParts);
@@ -2744,24 +2730,10 @@ void Plant::plant_remove_biomass_update (protocol::RemoveCropDmType dmRemoved)
 //+  Local Variables
     vector<plantPart *>::iterator part;
 
-    vector<plantPart *> allParts;
-    allParts.push_back(rootPart);
-    allParts.push_back(leafPart);
-    allParts.push_back(stemPart);
-    allParts.push_back(fruitPart);
-
-//    for (part = allParts.begin(); part != allParts.end(); part++)
-//       (*part)->zeroDeltas();
-
-    vector<plantPart *> topsParts;
-    topsParts.push_back(leafPart);
-    topsParts.push_back(stemPart);
-    topsParts.push_back(fruitPart);
-
 //- Implementation Section ----------------------------------
 
     // Unpack the DmRemoved structure
-     for (vector<plantPart *>::iterator part = topsParts.begin(); part != topsParts.end(); part++)
+     for (vector<plantPart *>::iterator part = myTopsParts.begin(); part != myTopsParts.end(); part++)
         (*part)->doRemoveBiomass(dmRemoved, c.remove_biomass_report);
 
     // Update biomass and N pools.  Different types of plant pools are affected in different ways.
@@ -2774,7 +2746,7 @@ void Plant::plant_remove_biomass_update (protocol::RemoveCropDmType dmRemoved)
 
     float dmRemovedTops = 0.0;
     float nRemovedTops = 0.0;
-    for (part = topsParts.begin(); part != topsParts.end(); part++)
+    for (part = myTopsParts.begin(); part != myTopsParts.end(); part++)
         {
         biomassGreenTops += (*part)->dltDmGreenRemoved();
         dmRemovedTops += ((*part)->dltDmRemoved()) * gm2kg/sm2ha;
@@ -4679,19 +4651,32 @@ float Plant::plantDltDmPotTe(void) const
 
 float Plant::plantGreen(void) const
    {
-     return  rootPart->dmGreen() + fruitPart->dmGreen() + leafPart->dmGreen() + stemPart->dmGreen();
+   float total = 0.0;
+   for (vector<plantPart *>::const_iterator part = myParts.begin(); part != myParts.end(); part++)
+      total += (*part)->dmGreen();
+   return  total;
    }
 float Plant::plantSenesced(void) const
    {
-      return  rootPart->dmSenesced() + fruitPart->dmSenesced() + leafPart->dmSenesced() + stemPart->dmSenesced();
+   float total = 0.0;
+   for (vector<plantPart *>::const_iterator part = myParts.begin(); part != myParts.end(); part++)
+      total += (*part)->dmSenesced();
+   return  total;
    }
 float Plant::plantDead(void) const
    {
-      return  rootPart->dmDead() + fruitPart->dmDead() + leafPart->dmDead() + stemPart->dmDead();
+   float total = 0.0;
+   for (vector<plantPart *>::const_iterator part = myParts.begin(); part != myParts.end(); part++)
+      total += (*part)->dmDead();
+   return  total;
    }
 float Plant::plantDltDmGreen(void) const
    {
-      return  rootPart->dltDmGreen() + fruitPart->dltDmGreen() + leafPart->dltDmGreen() + stemPart->dltDmGreen();
+   float total = 0.0;
+   for (vector<plantPart *>::const_iterator part = myParts.begin(); part != myParts.end(); part++)
+      total += (*part)->dltDmGreen();
+   return  total;
+
    }
 float Plant::plantTot(void) const
    {
@@ -4700,19 +4685,31 @@ float Plant::plantTot(void) const
 
 float Plant::topsGreen(void) const
    {
-     return  fruitPart->dmGreen() + leafPart->dmGreen() + stemPart->dmGreen();
+   float total = 0.0;
+   for (vector<plantPart *>::const_iterator part = myTopsParts.begin(); part != myTopsParts.end(); part++)
+      total += (*part)->dmGreen();
+   return  total;
    }
 float Plant::topsSenesced(void) const
    {
-      return  fruitPart->dmSenesced() + leafPart->dmSenesced() + stemPart->dmSenesced();
+   float total = 0.0;
+   for (vector<plantPart *>::const_iterator part = myTopsParts.begin(); part != myTopsParts.end(); part++)
+      total += (*part)->dmSenesced();
+   return  total;
    }
 float Plant::topsDead(void) const
    {
-      return  fruitPart->dmDead() + leafPart->dmDead() + stemPart->dmDead();
+   float total = 0.0;
+   for (vector<plantPart *>::const_iterator part = myTopsParts.begin(); part != myTopsParts.end(); part++)
+      total += (*part)->dmDead();
+   return  total;
    }
 float Plant::topsDltDmGreen(void) const
    {
-      return  fruitPart->dltDmGreen() + leafPart->dltDmGreen() + stemPart->dltDmGreen();
+   float total = 0.0;
+   for (vector<plantPart *>::const_iterator part = myTopsParts.begin(); part != myTopsParts.end(); part++)
+      total += (*part)->dltDmGreen();
+   return  total;
    }
 float Plant::topsTot(void) const
    {
@@ -4721,15 +4718,25 @@ float Plant::topsTot(void) const
 
 float Plant::stoverGreen(void) const
    {
-      return  leafPart->dmGreen() + fruitPart->dmGreenVegTotal() + stemPart->dmGreen();
+   float total = 0.0;
+   for (vector<plantPart *>::const_iterator part = myTopsParts.begin(); part != myTopsParts.end(); part++)
+      total += (*part)->dmGreenVeg();
+   return  total;
+
     }
 float Plant::stoverSenesced(void) const
    {
-      return  leafPart->dmSenesced() + fruitPart->dmSenescedVegTotal() +  stemPart->dmSenesced();
+   float total = 0.0;
+   for (vector<plantPart *>::const_iterator part = myTopsParts.begin(); part != myTopsParts.end(); part++)
+      total += (*part)->dmSenescedVeg();
+   return  total;
     }
 float Plant::stoverDead(void) const
    {
-      return  leafPart->dmDead() + fruitPart->dmDeadVegTotal() +  stemPart->dmDead();
+   float total = 0.0;
+   for (vector<plantPart *>::const_iterator part = myTopsParts.begin(); part != myTopsParts.end(); part++)
+      total += (*part)->dmDeadVeg();
+   return  total;
     }
 
 float Plant::stoverTot(void) const
@@ -4795,15 +4802,24 @@ float Plant::plantDltNRetrans(void)
    }
 float Plant::topsNGreen(void) const
    {
-   return  fruitPart->nGreen() + leafPart->nGreen() + stemPart->nGreen();
+   float total = 0.0;
+   for (vector<plantPart *>::const_iterator part = myTopsParts.begin(); part != myTopsParts.end(); part++)
+      total += (*part)->nGreen();
+   return  total;
    }
 float Plant::topsNSenesced(void) const
    {
-   return  fruitPart->nSenesced() + leafPart->nSenesced() + stemPart->nSenesced();
+   float total = 0.0;
+   for (vector<plantPart *>::const_iterator part = myTopsParts.begin(); part != myTopsParts.end(); part++)
+      total += (*part)->nSenesced();
+   return  total;
    }
 float Plant::topsNDead(void) const
    {
-   return  fruitPart->nDead() + leafPart->nDead() + stemPart->nDead();
+   float total = 0.0;
+   for (vector<plantPart *>::const_iterator part = myTopsParts.begin(); part != myTopsParts.end(); part++)
+      total += (*part)->nDead();
+   return  total;
    }
 float Plant::topsNTot(void) const
    {
@@ -4829,15 +4845,15 @@ float Plant::stoverNTot(void) const
 
 float Plant::plantPGreen(void) const
    {
-   return  rootPart->pGreen() + leafPart->pGreen() + fruitPart->pGreenVegTotal() + stemPart->pGreen();
+   return  rootPart->pGreen() + leafPart->pGreen() + fruitPart->pGreenVegTotal() + stemPart->pGreen();  // NIH has to be wrong!
    }
 float Plant::plantPSenesced(void) const
    {
-   return  rootPart->pSenesced() + leafPart->pSenesced() + fruitPart->pSenescedVegTotal() + stemPart->pSenesced();
+   return  rootPart->pSenesced() + leafPart->pSenesced() + fruitPart->pSenescedVegTotal() + stemPart->pSenesced();// NIH has to be wrong!
    }
 float Plant::plantPDead(void) const
    {
-   return  rootPart->pDead() + leafPart->pDead() + fruitPart->pDeadVegTotal()+ stemPart->pDead();
+   return  rootPart->pDead() + leafPart->pDead() + fruitPart->pDeadVegTotal()+ stemPart->pDead();// NIH has to be wrong!
    }
 float Plant::plantPTot(void) const
    {
@@ -4846,15 +4862,24 @@ float Plant::plantPTot(void) const
 
 float Plant::topsPGreen(void) const
    {
-   return fruitPart->pGreen() + leafPart->pGreen() + stemPart->pGreen();
+   float total = 0.0;
+   for (vector<plantPart *>::const_iterator part = myTopsParts.begin(); part != myTopsParts.end(); part++)
+      total += (*part)->pGreen();
+   return  total;
    }
 float Plant::topsPSenesced(void) const
    {
-   return fruitPart->pSenesced() + leafPart->pSenesced() + stemPart->pSenesced();
+   float total = 0.0;
+   for (vector<plantPart *>::const_iterator part = myTopsParts.begin(); part != myTopsParts.end(); part++)
+      total += (*part)->pSenesced();
+   return  total;
    }
 float Plant::topsPDead(void) const
    {
-   return fruitPart->pDead() + leafPart->pDead() + stemPart->pDead();
+   float total = 0.0;
+   for (vector<plantPart *>::const_iterator part = myTopsParts.begin(); part != myTopsParts.end(); part++)
+      total += (*part)->pDead();
+   return  total;
    }
 
 float Plant::stoverPGreen(void) const

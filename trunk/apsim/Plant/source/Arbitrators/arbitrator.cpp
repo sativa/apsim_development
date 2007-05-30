@@ -14,6 +14,16 @@
 #include "NullArbitrator.h"
 #include "GenericArbitrator.h"
 
+plantPart* Arbitrator::FindPart(vector <plantPart *>& Parts, string name)
+   {
+   for (vector<plantPart *>::const_iterator part = Parts.begin(); part != Parts.end(); part++)
+      {
+      if (Str_i_Eq((*part)->name(), name))
+         return *part;
+      }
+   return NULL;
+   }
+
 Arbitrator* constructArbitrator(ScienceAPI& scienceAPI, plantInterface *p, const string &type)
 //=======================================================================================
    {
@@ -50,11 +60,7 @@ void cerealArbitrator::readSpeciesParameters(protocol::Component *system, vector
    scienceAPI.read("y_ratio_root_shoot", y_ratio_root_shoot, numvals, 0.0f, 1000.0f);
    }
 
-void cerealArbitrator::partitionDM(float dlt_dm,
-                                    plantPart *rootPart,
-                                    plantLeafPart *leafPart,
-                                    plantPart *stemPart,
-                                    plantPart *fruitPart)
+void cerealArbitrator::partitionDM(float dlt_dm,   vector <plantPart *>& Parts)
 //=======================================================================================
    // Parcel out dlt DM to all parts
    // Root must be satisfied. The roots don't take any of the
@@ -62,6 +68,11 @@ void cerealArbitrator::partitionDM(float dlt_dm,
    // that enough extra was produced to meet demand. Thus the root
    // growth is not removed from the carbo produced by the model.
    {
+
+   plantPart *rootPart = FindPart(Parts, "root");
+   plantPart *leafPart = FindPart(Parts, "leaf");
+   plantPart *stemPart = FindPart(Parts, "stem");
+   plantPart *fruitPart = FindPart(Parts, "fruit");
 
    // first we zero all plant component deltas
    rootPart->zeroDltDmGreen();
@@ -178,11 +189,7 @@ void allometricArbitrator::readSpeciesParameters(protocol::Component *system, ve
                    "y_sla_max", "()", 0.0, 100000.0);
    }
 
-void allometricArbitrator::partitionDM(float dlt_dm,
-                                    plantPart *rootPart,
-                                    plantLeafPart *leafPart,
-                                    plantPart *stemPart,
-                                    plantPart *fruitPart)
+void allometricArbitrator::partitionDM(float dlt_dm,vector <plantPart *>& Parts)
 //=======================================================================================
    // Parcel out dlt DM to all parts
    // Root must be satisfied. The roots don't take any of the
@@ -190,6 +197,12 @@ void allometricArbitrator::partitionDM(float dlt_dm,
    // that enough extra was produced to meet demand. Thus the root
    // growth is not removed from the carbo produced by the model.
    {
+
+   plantPart *rootPart = FindPart(Parts, "root");
+   plantLeafPart *leafPart = dynamic_cast<plantLeafPart*> (FindPart(Parts, "leaf"));
+   plantPart *stemPart= FindPart(Parts, "stem");
+   plantPart *fruitPart= FindPart(Parts, "fruit");
+
    // first we zero all plant component deltas
    rootPart->zeroDltDmGreen();
    leafPart->zeroDltDmGreen();
@@ -287,3 +300,4 @@ float allometricArbitrator::dltDMWhole(float dlt_dm)
    }
 
 
+   
