@@ -1370,6 +1370,11 @@ float plantPart::dmGreen(void) const
    {
    return (DMGreen);
    }
+float plantPart::dmGreenVeg(void) const
+//=======================================================================================
+   {
+   return (DMGreen);
+   }
 
 float plantPart::dltDmGreen(void) const
 //=======================================================================================
@@ -1508,8 +1513,18 @@ float plantPart::dmSenesced(void) const
    {
    return (DMSenesced);
    }
+float plantPart::dmSenescedVeg(void) const
+//=======================================================================================
+   {
+   return (DMSenesced);
+   }
 
 float plantPart::dmDead(void) const
+//=======================================================================================
+   {
+   return (DMDead);
+   }
+float plantPart::dmDeadVeg(void) const
 //=======================================================================================
    {
    return (DMDead);

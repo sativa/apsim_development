@@ -15,6 +15,7 @@
 #include "RootGrowthOption1.h"
 #include "RootGrowthOption2.h"
 #include "NoRoot.h"
+#include "MultiRoot.h"
 
 using namespace std;
 
@@ -27,6 +28,9 @@ RootBase* RootBase::construct(ScienceAPI& scienceAPI, plantInterface *p, const s
       return new rootGrowthOption2(scienceAPI, p, name);
    else if (type == "NoRoot")
       return new NoRoot(scienceAPI, p, name);
+   else if (type == "MultiRoot")
+      return new MultiRoot(scienceAPI, p, name);
+
    else
       // default:
       return new rootGrowthOption1(scienceAPI, p, name);

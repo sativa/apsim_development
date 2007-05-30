@@ -652,7 +652,7 @@ float CompositePart::dmGreenGrainTotal(void) const
    return dmTotal;
 }
 
-float CompositePart::dmGreenVegTotal(void) const
+float CompositePart::dmGreenVeg(void) const
    //===========================================================================
 {
    float dmTotal = 0.0;
@@ -661,7 +661,7 @@ float CompositePart::dmGreenVegTotal(void) const
    return dmTotal;
 }
 
-float CompositePart::dmSenescedVegTotal(void) const
+float CompositePart::dmSenescedVeg(void) const
    //===========================================================================
 {
    float dmTotal = 0.0;
@@ -688,12 +688,12 @@ float CompositePart::dmSenesced(void) const
    return result;
 }
 
-float CompositePart::dmDeadVegTotal(void) const
+float CompositePart::dmDeadVeg(void) const
    //===========================================================================
 {
    float dmTotal = 0.0;
    for (vector <plantPart * >::const_iterator part = myParts.begin(); part != myParts.end(); part++)
-      dmTotal += (*part)->dmDeadVegTotal();
+      dmTotal += (*part)->dmDeadVeg();
    return dmTotal;
 }
 

@@ -53,6 +53,7 @@ class plantPart : public plantThing
    float DMGreen;                     // live plant dry weight (biomass) (g/m^2)
    float DMSenesced;                  // senesced plant dry wt (g/m^2)
    float DMDead;                      // dry wt of dead plants (g/m^2)
+
    float relativeGrowthRate;
    float radiationInterceptedGreen;
    float radiationInterceptedTotal;
@@ -290,9 +291,12 @@ public:
    virtual float giveDmDeadRemoved(float) ;
 
    virtual float dmGreen(void) const;
+   virtual float dmGreenVeg(void) const;
    virtual float dmGreenNew(void) const;
    virtual float dmSenesced(void) const;
+   virtual float dmSenescedVeg(void) const;
    virtual float dmDead(void) const;
+   virtual float dmDeadVeg(void) const;
    virtual float dmRetransSupply(void) const;
    virtual float dmRetransDemand(void) ;
 
