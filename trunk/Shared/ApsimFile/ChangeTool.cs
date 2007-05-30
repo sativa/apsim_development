@@ -288,7 +288,7 @@ namespace ApsimFile
                     APSIMData EventsGroup = Data.Parent.Add(new APSIMData("events", outputfiledescription.Attribute("shortcut") + " Events"));
                     EventsGroup.SetAttribute("shortcut", outputfiledescription.Attribute("shortcut") + " Events");
                     }
-                outputfiledescription.Parent.Delete(outputfiledescription.Name);
+                outputfiledescription.Parent.DeleteByType("OutputFileDescription");
                 }
             }
         // -----------------------------
