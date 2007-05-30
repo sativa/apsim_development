@@ -1,4 +1,4 @@
-<folder name="Standard Toolbox" image="Images/toolbox.png" version="8">
+<folder name="Standard Toolbox" image="Images/toolbox.png" version="9">
   <folder name="Structural">
     <memo>
     </memo>
@@ -149,6 +149,7 @@
     <oats />
     <peanut />
     <pigeonp />
+    <potato />
     <rice name="rice">
       <estab>transplant</estab>
       <sbdur>50</sbdur>
@@ -185,37 +186,37 @@
     <wheat />
   </folder>
   <folder name="Soil Related">
-  <surfaceom name="Surface Organic Matter">
-    <PoolName description="Organic Matter pool name">wheat_stubble</PoolName>
-    <type type="list" description="Organic Matter type" listvalues="inert,manure,fym,bambatsi,barley,broccoli,camaldulensis,canola,chickpea,cowpea,danthonia,globulus,grandis,fababean,fieldpea,grass,lablab,lucerne,lupin,maize,millet,mucuna,mungbean,horsegram,navybean,cotton,orobanche,peanut,pigeonpea,rice,soybean,sorghum,stylo,sugar,sunflower,sweetcorn,sweetsorghum,weed,wheat">wheat</type>
-    <mass description="Initial surface residue (kg/ha)">1000.</mass>
-    <cnr description="C:N ratio of initial residue">80.0</cnr>
-    <cpr description="C:P ratio of initial residue (optional)">
-    </cpr>
-    <standing_fraction description="Fraction of residue standing">0.0</standing_fraction>
-  </surfaceom>
-  <fertiliser name="Fertiliser" />
-  <phos name="Phosphorus" />
-  <soiltemp name="Soil Temperature">
-    <bound_layer_cond description="boundary layer conductance">20.0</bound_layer_cond>
-    <clay description="proportion of clay">0.1  0.1  0.1  0.1  0.1  0.2  0.3</clay>
-    <soil_temp description="Initial soil temperature">15 15 15 15 15 15 15</soil_temp>
-  </soiltemp>
-  <cl name="Cl">
-    <d0>108</d0>
-    <layers>491 62 1490 1000 1000 1000 1000 1000 1000 1000 1000 1000 1000</layers>
-  </cl>
-  <erosion name="Erosion">
-    <model description="Model Name">freebairn</model>
-    <slope description="Slope of plot in percent (%)">6.5</slope>
-    <slope_length description="Length of plot (m)">60.0</slope_length>
-    <k_factor description="Soil erodibility factor (t/ha/EI 30 )">0.4</k_factor>
-    <p_factor description="Supporting practise factor (unitless)">1.0</p_factor>
-    <bed_depth description="Depth to bedrock (mm)">1900</bed_depth>
-    <profile_reduction type="list" listvalues="off,on" description="Profile Reduction">off</profile_reduction>
-    <profile_layer_merge description="Fraction of original size in which the lowest layer is merged into the layer above (0-1)">0.05</profile_layer_merge>
-    <minimum_depth description="If the profile erodes to this depth, the simulation is stopped (mm)">100.0</minimum_depth>
-  </erosion>
+    <surfaceom name="Surface Organic Matter">
+      <PoolName description="Organic Matter pool name">wheat_stubble</PoolName>
+      <type type="list" description="Organic Matter type" listvalues="inert,manure,fym,bambatsi,barley,broccoli,camaldulensis,canola,chickpea,cowpea,danthonia,globulus,grandis,fababean,fieldpea,grass,lablab,lucerne,lupin,maize,millet,mucuna,mungbean,horsegram,navybean,cotton,orobanche,peanut,pigeonpea,rice,soybean,sorghum,stylo,sugar,sunflower,sweetcorn,sweetsorghum,weed,wheat">wheat</type>
+      <mass description="Initial surface residue (kg/ha)">1000.</mass>
+      <cnr description="C:N ratio of initial residue">80.0</cnr>
+      <cpr description="C:P ratio of initial residue (optional)">
+      </cpr>
+      <standing_fraction description="Fraction of residue standing">0.0</standing_fraction>
+    </surfaceom>
+    <fertiliser name="Fertiliser" />
+    <phos name="Phosphorus" />
+    <soiltemp name="Soil Temperature">
+      <bound_layer_cond description="boundary layer conductance">20.0</bound_layer_cond>
+      <clay description="proportion of clay">0.1  0.1  0.1  0.1  0.1  0.2  0.3</clay>
+      <soil_temp description="Initial soil temperature">15 15 15 15 15 15 15</soil_temp>
+    </soiltemp>
+    <cl name="Cl">
+      <d0>108</d0>
+      <layers>491 62 1490 1000 1000 1000 1000 1000 1000 1000 1000 1000 1000</layers>
+    </cl>
+    <erosion name="Erosion">
+      <model description="Model Name">freebairn</model>
+      <slope description="Slope of plot in percent (%)">6.5</slope>
+      <slope_length description="Length of plot (m)">60.0</slope_length>
+      <k_factor description="Soil erodibility factor (t/ha/EI 30 )">0.4</k_factor>
+      <p_factor description="Supporting practise factor (unitless)">1.0</p_factor>
+      <bed_depth description="Depth to bedrock (mm)">1900</bed_depth>
+      <profile_reduction type="list" listvalues="off,on" description="Profile Reduction">off</profile_reduction>
+      <profile_layer_merge description="Fraction of original size in which the lowest layer is merged into the layer above (0-1)">0.05</profile_layer_merge>
+      <minimum_depth description="If the profile erodes to this depth, the simulation is stopped (mm)">100.0</minimum_depth>
+    </erosion>
   </folder>
   <clock name="Clock">
     <start_date name="start_date" description="Select the start date of the simulation" type="date">1/01/1988</start_date>
@@ -235,31 +236,31 @@
     <filename name="filename">sample.sum</filename>
   </summaryfile>
   <folder name="Meteorological">
-  <metfile name="met">
-    <filename name="filename">%apsuite\apsim\met\sample\dalby.met</filename>
-  </metfile>
-  <climatechange>
-    <maxtmodifier description="Change in maximum temperature in degrees celsius">0.0</maxtmodifier>
-    <mintmodifier description="Change in minimum temperature in degrees celsius">0.0</mintmodifier>
-    <rainmodifier description="Relative change in rainfall">1.0</rainmodifier>
-    <radiationmodifier description="Relative change in radiation">1.0</radiationmodifier>
-    <co2 description="Atmospheric C02 concentration (ppm)">350</co2>
-  </climatechange>
-  <patchinput>
-    <filename name="filename">
-    </filename>
-  </patchinput>
-  <siloinput>
-    <station_number>
-    </station_number>
-  </siloinput>
-  <micromet name="Micromet">
-    <soilalbedo name="soilalbedo">0.23</soilalbedo>
-    <a_interception name="a_interception">0.0</a_interception>
-    <b_interception name="b_interception">0.0</b_interception>
-    <c_interception name="c_interception">0.0</c_interception>
-    <d_interception name="d_interception">0.0</d_interception>
-  </micromet>
+    <metfile name="met">
+      <filename name="filename">%apsuite\apsim\met\sample\dalby.met</filename>
+    </metfile>
+    <climatechange>
+      <maxtmodifier description="Change in maximum temperature in degrees celsius">0.0</maxtmodifier>
+      <mintmodifier description="Change in minimum temperature in degrees celsius">0.0</mintmodifier>
+      <rainmodifier description="Relative change in rainfall">1.0</rainmodifier>
+      <radiationmodifier description="Relative change in radiation">1.0</radiationmodifier>
+      <co2 description="Atmospheric C02 concentration (ppm)">350</co2>
+    </climatechange>
+    <patchinput>
+      <filename name="filename">
+      </filename>
+    </patchinput>
+    <siloinput>
+      <station_number>
+      </station_number>
+    </siloinput>
+    <micromet name="Micromet">
+      <soilalbedo name="soilalbedo">0.23</soilalbedo>
+      <a_interception name="a_interception">0.0</a_interception>
+      <b_interception name="b_interception">0.0</b_interception>
+      <c_interception name="c_interception">0.0</c_interception>
+      <d_interception name="d_interception">0.0</d_interception>
+    </micromet>
   </folder>
   <soilwatkludge name="soilwatkludge">
     <mwcon>1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0</mwcon>
