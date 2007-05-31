@@ -86,6 +86,9 @@
           <variable name="dd/mm/yyyy as Date" description="Date (dd/mm/yyyy)" array="?" />
           <variable name="biomass" description="Biomass" array="?" units="kg/ha" />
           <variable name="lai" description="" array="" units="kg/ha" />
+          <variable name="leaf_wt" />
+          <variable name="stem_wt" />
+          <variable name="tuber_wt" />
         </variables>
         <events name="Reporting Frequency">
           <event name="Daily" description="End of day" array="No" />
