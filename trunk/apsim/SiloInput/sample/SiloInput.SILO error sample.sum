@@ -14,15 +14,10 @@ Title                  = SILO Sample Simulation
 Component      "clock" = c:\development\apsim\clock\lib\clock.dll
 Component     "report" = c:\development\apsim\report\lib\report.dll
 Component        "met" = c:\development\apsim\siloinput\lib\siloinput.dll
-error : No such file or directory
-error : Unknown IO error
-error : Unknown IO error
-error : Unknown IO error
-error : Unknown IO error
      !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
                       APSIM  Fatal  Error
                       -------------------
-     HTTP Open failure: http://192.168.0.60/cgi-bin/silo/getQdb.cgi?format=APSIM&station=97643&ddStart=1&mmStart=1&yyyyStart=1800&ddFinish=31&mmFinish=12&yyyyFinish=2100
+     No data for station 97643 appeared in c:\docume~1\nightl~1\locals~1\temp/temp920.met
      Component name: met
      !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
      
