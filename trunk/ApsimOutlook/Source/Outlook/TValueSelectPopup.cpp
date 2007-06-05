@@ -6,6 +6,7 @@
 #include "TValueSelectPopup.h"
 #include <ApsimShared\ApsimSettings.h>
 #include <ApsimShared\ApsimDirectories.h>
+#include <general\string_functions.h>
 //---------------------------------------------------------------------------
 #pragma package(smart_init)
 #pragma link "POPUPFORMUNIT"
@@ -95,8 +96,7 @@ void __fastcall TValueSelectPopup::FormShow(TObject *Sender)
    string fileName;
    ApsimSettings settings;
    settings.read("Outlook Bitmaps|" + factorName, fileName);
-   if (fileName != "")
-      fileName = getAppHomeDirectory() + "\\" + fileName;
+   replaceAll(fileName, "%apsuite", getApsimDirectory());
    if (fileName == "" || !FileExists(fileName.c_str()))
       Image->Picture->Assign(&TPicture());
    else

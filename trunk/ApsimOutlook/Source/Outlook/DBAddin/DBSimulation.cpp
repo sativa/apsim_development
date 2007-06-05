@@ -348,6 +348,27 @@ string DBSimulation::getFactorValue(const string& factorName) const
          return string(posFactor, posSemiColon - posFactor);
       }
    }
+
+// ------------------------------------------------------------------
+// Return the key name and value on the line.
+// ------------------------------------------------------------------
+void MyGetKeyNameAndValue(const string& line, string& key, string& value)
+   {
+   int posEquals = line.find('=');
+   if (posEquals != string::npos)
+      {
+      key = line.substr(0, posEquals);
+      stripLeadingTrailing(key, " ");
+      value = line.substr(posEquals+1);
+      stripLeadingTrailing(value, " ");
+      }
+   else
+      {
+      key = "";
+      value = "";
+      }
+   }
+
 // ------------------------------------------------------------------
 //  Short description:
 //    return all factor names and values to caller.
@@ -370,7 +391,7 @@ void DBSimulation::getFactors(vector<string>& names, vector<string>& values) con
    for (unsigned int i = 0; i < titleBits.size(); i++)
       {
       string name, value;
-      getKeyNameAndValue(titleBits[i], name, value);
+      MyGetKeyNameAndValue(titleBits[i], name, value);
       if (name == "")
          {
          name = "Simulation";

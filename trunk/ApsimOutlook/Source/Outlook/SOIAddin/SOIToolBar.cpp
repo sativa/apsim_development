@@ -55,10 +55,12 @@ SOIToolBar::SOIToolBar(const string& parameters)
 {
    string bitmapPath;
    settings.read(TOOLBAR_BITMAP_KEY, bitmapPath, true);
+   replaceAll(bitmapPath, "%apsuite", getApsimDirectory());
 
    // get stuff from ini file like image name
    glyph = new Graphics::TBitmap;
-   glyph->LoadFromFile(bitmapPath.c_str());
+   if (bitmapPath != "")
+      glyph->LoadFromFile(bitmapPath.c_str());
 
    FPhase_month = 1;
    string data_file;
@@ -215,35 +217,38 @@ unsigned SOIToolBar::getSowYear(const TAPSRecord& record) throw(runtime_error)
 // ------------------------------------------------------------------
 void SOIToolBar::Read_all_soi_data (void)
    {
-   FPhase_names.erase(FPhase_names.begin(), FPhase_names.end());
-   soi_phases.erase(soi_phases.begin(), soi_phases.end());
-
-   ifstream in (FSOI_data_file.c_str());
-   string Line;
-   int minPhaseNumber = 1000;
-   int maxPhaseNumber = 0;
-
-   soi soi_obj;
-   while (!in.eof())
+   if (FileExists(FSOI_data_file.c_str()))
       {
-      in >> soi_obj >> ws;
-      soi_phases.insert (soi_obj);
-      minPhaseNumber = min(soi_obj.Phase, minPhaseNumber);
-      maxPhaseNumber = max(soi_obj.Phase, maxPhaseNumber);
-      }
+      FPhase_names.erase(FPhase_names.begin(), FPhase_names.end());
+      soi_phases.erase(soi_phases.begin(), soi_phases.end());
 
-   if (stristr(FSOI_data_file.c_str(), "phases.soi") != NULL)
-      {
-      char* default_phases[5] = {"Negative", "Positive", "Falling", "Rising", "Zero"};
-      for (int i=0; i<ARRAYSIZE(default_phases); i++)
-         FPhase_names.push_back(default_phases[i]);
-      }
-   else
-      {
-      for (int i = minPhaseNumber; i <= maxPhaseNumber; i++)
+      ifstream in (FSOI_data_file.c_str());
+      string Line;
+      int minPhaseNumber = 1000;
+      int maxPhaseNumber = 0;
+
+      soi soi_obj;
+      while (!in.eof())
          {
-         AnsiString phaseName = "Phase " + IntToStr(i);
-         FPhase_names.push_back(phaseName.c_str());
+         in >> soi_obj >> ws;
+         soi_phases.insert (soi_obj);
+         minPhaseNumber = min(soi_obj.Phase, minPhaseNumber);
+         maxPhaseNumber = max(soi_obj.Phase, maxPhaseNumber);
+         }
+
+      if (stristr(FSOI_data_file.c_str(), "phases.soi") != NULL)
+         {
+         char* default_phases[5] = {"Negative", "Positive", "Falling", "Rising", "Zero"};
+         for (int i=0; i<ARRAYSIZE(default_phases); i++)
+            FPhase_names.push_back(default_phases[i]);
+         }
+      else
+         {
+         for (int i = minPhaseNumber; i <= maxPhaseNumber; i++)
+            {
+            AnsiString phaseName = "Phase " + IntToStr(i);
+            FPhase_names.push_back(phaseName.c_str());
+            }
          }
       }
    }
