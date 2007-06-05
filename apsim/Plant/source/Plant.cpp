@@ -184,7 +184,7 @@ void Plant::onInit1()
     myParts.push_back(stemPart);
     myTopsParts.push_back(stemPart);
 
-    fruitPart = new PlantFruit(scienceAPI, this, "fruit");
+    fruitPart = PlantFruit::construct(scienceAPI, this, "fruit");
     myThings.push_back(fruitPart);
     myParts.push_back(fruitPart);
     myTopsParts.push_back(fruitPart);
@@ -2084,7 +2084,7 @@ void Plant::plant_process ( void )
              t++)
             (*t)->doDmDemand (dlt_dm);
 
-        arbitrator->partitionDM(dlt_dm, myParts);
+        arbitrator->partitionDM(dlt_dm, myParts, fruitPart->name());
 
         plant_bio_retrans ();
 

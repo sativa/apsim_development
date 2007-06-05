@@ -10,7 +10,7 @@ class nullArbitrator : public Arbitrator
    nullArbitrator(ScienceAPI& scienceAPI, plantInterface *p)
       : Arbitrator(scienceAPI, p) {};
    ~nullArbitrator(void) {};
-   virtual void partitionDM(float,vector <plantPart *>& Parts)
+   virtual void partitionDM(float,vector <plantPart *>& Parts, string FruitName)
       {
       throw std::runtime_error("Aieee! Null arbitrator called!!");
       };

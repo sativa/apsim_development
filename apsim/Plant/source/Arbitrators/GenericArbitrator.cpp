@@ -43,7 +43,7 @@ void genericArbitrator::readSpeciesParameters(protocol::Component *system, vecto
       }
    }
 
-void genericArbitrator::partitionDM(float dlt_dm,vector <plantPart *>& Parts)
+void genericArbitrator::partitionDM(float dlt_dm,vector <plantPart *>& Parts, string FruitName)
 //=======================================================================================
    //  Partitions new dm (assimilate) between plant components (g/m^2)
    // Root must be satisfied. The roots don't take any of the
@@ -61,6 +61,9 @@ void genericArbitrator::partitionDM(float dlt_dm,vector <plantPart *>& Parts)
       {
 
       plantPart *Part = FindPart(Parts, PartitionParts[i]);
+      if (Part == NULL)
+         throw runtime_error("Unknown Part "+PartitionParts[i]);
+
       Part->zeroDltDmGreen();
       if (PartitionRules[i] == "magic")
          {
