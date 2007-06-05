@@ -68,7 +68,7 @@ void cerealArbitrator::partitionDM(float dlt_dm,   vector <plantPart *>& Parts, 
    // that enough extra was produced to meet demand. Thus the root
    // growth is not removed from the carbo produced by the model.
    {
-   cout << "here now";
+
    plantPart *rootPart = FindPart(Parts, "root");
    plantPart *leafPart = FindPart(Parts, "leaf");
    plantPart *stemPart = FindPart(Parts, "stem");
