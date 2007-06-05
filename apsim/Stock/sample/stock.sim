@@ -230,7 +230,11 @@
    </component>
    <component name="stock" executable="C:\Program Files\FarmWise\stock.dll">
     <initdata>
+      <![CDATA[    
         <initsection>
+          <init name="rand_seed" kind="integer4">
+            <val>1</val>
+          </init>
           <init name="genotypes" array="T">
             <element>
               <field name="name" kind="string">
@@ -259,6 +263,7 @@
           </init>
           <init name="sheep" array="T" />
        </initsection>
+       ]]>
      </initdata>
    </component>
     <component name="cattle" executable="%apsuite\apsim\stock\lib\StockScienceConverter.dll">
