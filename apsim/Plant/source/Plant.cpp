@@ -797,13 +797,14 @@ void Plant::doAutoClassChange(unsigned &/*fromId*/, unsigned &eventId, protocol:
 void Plant::onTick(unsigned &, unsigned &, protocol::Variant &v)
 //=======================================================================================
 // Event Handler for the Tick Event
-  {
-  struct protocol::TimeType tick;
-  v.unpack(tick);
-  double sd = (double)tick.startday;
-  jday_to_day_of_year(&sd, &Environment.day_of_year, &Environment.year);
-  fruitPart->doTick(tick);
-  }
+   {
+   struct protocol::TimeType tick;
+   v.unpack(tick);
+   double sd = (double)tick.startday;
+   jday_to_day_of_year(&sd, &Environment.day_of_year, &Environment.year);
+   for (vector<plantPart *>::iterator t = myParts.begin(); t != myParts.end(); t++)
+       (*t)->doTick(tick);
+    }
 
 void Plant::onNewMet(unsigned &, unsigned &, protocol::Variant &v)
 //=======================================================================================
@@ -815,19 +816,13 @@ void Plant::onNewMet(unsigned &, unsigned &, protocol::Variant &v)
      v.unpack(newmet);
 
      Environment.doNewMet(newmet) ;
-     fruitPart->doNewMet(newmet);
+     for (vector<plantPart *>::iterator t = myParts.begin(); t != myParts.end(); t++)
+        (*t)->doNewMet(newmet);
      }
   }
 
 
-void Plant::plant_bio_actual (int /*option  (INPUT) option number*/)
-//=======================================================================================
-//       Takes the minimum of biomass production limited by radiation and
-//       biomass production limited by water.
-    {
-        leafPart->doBioActual();
-        fruitPart->doBioActual();
-    }
+
 
 
 
@@ -1559,8 +1554,8 @@ void Plant::plant_update(float  g_dlt_plants                                    
     plantSpatial.setPlants(*g_plants);
     plantSpatial.setCanopyWidth(leafPart->width());
 
-    leafPart->doCover(plantSpatial);
-    fruitPart->doCover(plantSpatial);
+    for (vector<plantPart *>::iterator t = myParts.begin(); t != myParts.end(); t++)
+       (*t)->doCover(plantSpatial);
 
     // plant stress observers
     stageObservers.update();
@@ -1734,36 +1729,6 @@ void Plant::plant_event()
             }
     }
 
-//+  Purpose
-//       Plant water demand
-void Plant::plant_water_demand (int option /* (INPUT) option number*/)
-    {
-
-//- Implementation Section ----------------------------------
-    //!!!!!!!! check order dependency of deltas
-
-    if (option == 1)
-        {
-
-        float SWDemandMaxFactor = p.eo_crop_factor * g.eo ;
-        fruitPart->doSWDemand(SWDemandMaxFactor);
-        leafPart->doSWDemand(SWDemandMaxFactor);
-
-        }
-    else
-        {
-        throw std::invalid_argument ("invalid template option");
-        }
-
-    }
-
-
-//+  Purpose
-//       Plant transpiration and soil water extraction
-void Plant::plant_water_uptake (int option)
-    {
-    rootPart->plant_water_uptake(option, SWDemand());
-    }
 
 //===========================================================================
 void Plant::plant_light_supply_partition (int option /*(INPUT) option number*/)
@@ -1802,47 +1767,7 @@ void Plant::plant_light_supply_partition (int option /*(INPUT) option number*/)
     }
 
 
-//+  Purpose
-//       biomass light
 
-void Plant::plant_bio_rue (int option /*(INPUT) option number*/)
-    {
-
-    if (option == 1)
-        {
-        fruitPart->doDmPotRUE();
-        leafPart->doDmPotRUE();
-        }
-    else
-        {
-        throw std::invalid_argument ("invalid template option");
-        }
-
-    }
-
-void Plant::plant_co2_modifier_rue(void)
-{
-  plant_rue_co2_modifier(Environment.co2,
-                         Environment.maxt,
-                         Environment.mint,
-                         &g.co2_modifier_rue);
-}
-
-void Plant::plant_co2_modifier_te(void)
-{
-   g.co2_modifier_te = linear_interp_real (Environment.co2
-                                         , c.x_co2_te_modifier
-                                         , c.y_co2_te_modifier
-                                         , c.num_co2_te_modifier);
-}
-
-void Plant::plant_co2_modifier_n_conc(void)
-{
-   g.co2_modifier_n_conc = linear_interp_real (Environment.co2
-                                         , c.x_co2_nconc_modifier
-                                         , c.y_co2_nconc_modifier
-                                         , c.num_co2_nconc_modifier);
-}
 
 //==========================================================================
 void Plant::plant_rue_co2_modifier(float co2,                 //!CO2 level (ppm)
@@ -1888,28 +1813,6 @@ void Plant::plant_rue_co2_modifier(float co2,                 //!CO2 level (ppm)
     else
       throw std::invalid_argument ("Unknown photosynthetic pathway in cproc_rue_co2_modifier()");
    }
-
-//+  Purpose
-//       Calculate today's transpiration efficiency from min and max
-//       temperatures and converting mm water to g dry matter
-//       (g dm/m^2/mm water)
-void Plant::plant_transpiration_eff (int option /*(INPUT) option number*/)
-    {
-
-//- Implementation Section ----------------------------------
-
-    if (option == 1)
-        {
-        fruitPart->doTECO2();
-        leafPart->doTECO2();
-        }
-    else
-        {
-        throw std::invalid_argument ("invalid template option");
-        }
-
-    }
-
 
 
 void Plant::plant_dm_init (void)
@@ -2129,16 +2032,12 @@ void Plant::plant_process ( void )
 //- Implementation Section ----------------------------------
     //!!!!!!!! check order dependency of deltas
 
-    plant_co2_modifier_rue ();
-    plant_co2_modifier_te ();
-    plant_co2_modifier_n_conc ();
-
     rootPart->plant_root_depth ();
     rootPart->waterSupply();
 
     if (g.plant_status == alive)
         {
-        plant_water_uptake (1);
+        rootPart->plant_water_uptake(1, SWDemand());
         plant_water_stress ();
         g.oxdef_photo = rootPart->oxdef_stress ();
 
@@ -2168,12 +2067,15 @@ void Plant::plant_process ( void )
         leafPart->leaf_area_stressed (min(g.swdef_expansion, min(g.nfact_expansion, g.pfact_expansion)));
 
         plant_bio_water ();
-        plant_bio_rue (1);
+        // Calculate Potential Photosynthesis
+        for (vector<plantPart *>::const_iterator part = myParts.begin(); part != myParts.end(); part++)
+           (*part)->doDmPotRUE();
 
         plant_dm_init();
 
-        // Calculate DM supply (dlt_dm)
-        plant_bio_actual (1);
+        // Calculate Actual DM increase from photosynthesis
+        for (vector<plantPart *>::iterator t = myParts.begin(); t != myParts.end(); t++)
+           (*t)->doBioActual();
 
         // Now calculate DM demands
         float dlt_dm = plantDltDm();
@@ -2197,8 +2099,11 @@ void Plant::plant_process ( void )
         plant_sen_bio (c.dm_senescence_option);
         rootPart->sen_length();
 
-        fruitPart->doNInit();
-        fruitPart->doNDemandGrain(g.nfact_grain_conc, g.swdef_expansion);
+        for (vector<plantPart *>::iterator t = myParts.begin(); t != myParts.end(); t++)
+           {
+           (*t)->doNInit();
+           (*t)->doNDemandGrain(g.nfact_grain_conc, g.swdef_expansion);
+           }
 
         float biomass = topsGreen() + plantDltDm();
         g.n_fix_pot = rootPart->plant_nit_supply(biomass, phenology->stageNumber(), g.swdef_fixation);
@@ -2236,15 +2141,6 @@ void Plant::plant_process ( void )
         // crop is dead
         }
 
-    if (g.plant_status == dead)
-        {
-        // crop is dead
-        plant_dead ();
-        }
-    else
-        {
-        // crop is alive
-        }
 
     plant_detachment ();
 
@@ -2254,13 +2150,6 @@ void Plant::plant_process ( void )
     plant_nit_stress (c.n_stress_option);
 
     }
-
-void Plant::plant_dead (void)
-//=======================================================================================
-// Set up states for dead crop
-    {
-    }
-
 
 void Plant::plant_harvest (protocol::Variant &v/*(INPUT) message variant*/)
 //=======================================================================================
@@ -2647,8 +2536,8 @@ void Plant::plant_harvest_update (protocol::Variant &v/*(INPUT)message arguments
     plantSpatial.setPlants(g.plants);
     plantSpatial.setCanopyWidth(leafPart->width());
 
-    leafPart->doCover(plantSpatial);
-    fruitPart->doCover(plantSpatial);
+   for (vector<plantPart *>::iterator t = myParts.begin(); t != myParts.end(); t++)
+       (*t)->doCover(plantSpatial);
 
 // other plant states
     plant_n_conc_limits (g.co2_modifier_n_conc);
@@ -2701,8 +2590,8 @@ void Plant::plant_kill_stem_update (protocol::Variant &v/*(INPUT) message argume
     plantSpatial.setPlants(g.plants);
     plantSpatial.setCanopyWidth(leafPart->width());
 
-    leafPart->doCover(plantSpatial);
-    fruitPart->doCover(plantSpatial);
+   for (vector<plantPart *>::iterator t = myParts.begin(); t != myParts.end(); t++)
+       (*t)->doCover(plantSpatial);
 
     plant_n_conc_limits ( g.co2_modifier_n_conc )  ;                  // plant N concentr
 
@@ -2781,8 +2670,8 @@ void Plant::plant_remove_biomass_update (protocol::RemoveCropDmType dmRemoved)
     plantSpatial.setPlants(g.plants);
     plantSpatial.setCanopyWidth(leafPart->width());
 
-    leafPart->doCover(plantSpatial);
-    fruitPart->doCover(plantSpatial);
+    for (vector<plantPart *>::iterator t = myParts.begin(); t != myParts.end(); t++)
+       (*t)->doCover(plantSpatial);
 
     phenology->onRemoveBiomass(g.remove_biom_pheno);
 
@@ -3077,7 +2966,8 @@ void Plant::plant_start_crop (protocol::Variant &v/*(INPUT) message arguments*/)
            sprintf (msg, "   %s%s",  "cultivar                   = ", g.cultivar.c_str());
            parent->writeString (msg);
            phenology->writeCultivarInfo(parent);
-           fruitPart->writeCultivarInfo(parent);
+           for (vector<plantPart *>::iterator t = myParts.begin(); t != myParts.end(); t++)
+              (*t)->writeCultivarInfo(parent);
            parent->writeString ("    ------------------------------------------------\n\n");
 
            rootPart->write();
@@ -3197,7 +3087,10 @@ void Plant::plant_end_crop ()
         otherObservers.reset();
 
         // report
-        yield = fruitPart->dmGrainTotal() * gm2kg / sm2ha;
+        yield = 0.0;
+        for (vector<plantPart *>::iterator t = myParts.begin(); t != myParts.end(); t++)
+            yield=yield+(*t)->dmGrainTotal() * gm2kg / sm2ha;
+
         sprintf (msg, "Crop ended. Yield (dw) = %7.1f  (kg/ha)", yield);
         parent->writeString (msg);
 
@@ -3477,9 +3370,20 @@ void Plant::plant_prepare (void)
    //     the standard APSim timestep.  This model uses this opportunity
    //     to calculate potential growth variables for the coming day
    //     and phenological development.
-   plant_co2_modifier_rue ();
-   plant_co2_modifier_te ();
-   plant_co2_modifier_n_conc ();
+
+   plant_rue_co2_modifier(Environment.co2,
+                         Environment.maxt,
+                         Environment.mint,
+                         &g.co2_modifier_rue);
+
+   g.co2_modifier_te = linear_interp_real (Environment.co2
+                                         , c.x_co2_te_modifier
+                                         , c.y_co2_te_modifier
+                                         , c.num_co2_te_modifier);
+   g.co2_modifier_n_conc = linear_interp_real (Environment.co2
+                                         , c.x_co2_nconc_modifier
+                                         , c.y_co2_nconc_modifier
+                                         , c.num_co2_nconc_modifier);
 
    for (vector<plantPart *>::iterator t = myParts.begin(); t != myParts.end(); t++)
       (*t)->prepare();
@@ -3487,9 +3391,17 @@ void Plant::plant_prepare (void)
    plant_nit_stress (c.n_stress_option);
    plant_temp_stress ();
    plant_light_supply_partition (1);
-   plant_bio_rue (1);
-   plant_transpiration_eff (1);
-   plant_water_demand (1);
+
+   // Calculate Potential Photosynthesis
+   for (vector<plantPart *>::const_iterator part = myParts.begin(); part != myParts.end(); part++)
+       (*part)->doDmPotRUE();
+   // Calculate Transpiration Efficiency
+   for (vector<plantPart *>::const_iterator part = myParts.begin(); part != myParts.end(); part++)
+       (*part)->doTECO2();
+   // Calculate Plant Water Demand
+   float SWDemandMaxFactor = p.eo_crop_factor * g.eo ;
+   for (vector<plantPart *>::const_iterator part = myParts.begin(); part != myParts.end(); part++)
+       (*part)->doSWDemand(SWDemandMaxFactor);
    plant_nit_demand_est(1);
 
    // Note actually should send total plant
@@ -3644,22 +3556,26 @@ void Plant::plant_harvest_report ()
 
 
     // crop harvested. Report status
+    yield = 0.0;
+    yield_wet = 0.0;
+    grain_wt = 0.0;
+    plant_grain_no = 0.0;
+    n_grain = 0.0;
+    for (vector<plantPart *>::iterator t = myParts.begin(); t != myParts.end(); t++)
+       {
+       yield = yield+(*t)->dmGrainTotal() * gm2kg / sm2ha;
+       yield_wet = yield_wet+(*t)->dmGrainWetTotal() * gm2kg / sm2ha;
+       grain_wt = grain_wt + (*t)->grainWt();
+       plant_grain_no = plant_grain_no+divide ((*t)->grainNo(), g.plants, 0.0);
+       n_grain = n_grain + (*t)->nGrainTotal() * gm2kg/sm2ha;
+       }
 
-    yield = fruitPart->dmGrainTotal() * gm2kg / sm2ha;
-
-    // include the grain water content
-    yield_wet = fruitPart->dmGrainWetTotal() * gm2kg / sm2ha;
-
-    grain_wt = fruitPart->grainWt();
-
-    plant_grain_no = divide (fruitPart->grainNo(), g.plants, 0.0);
 
     float dmRoot = rootPart->dmTotal() * gm2kg / sm2ha;
     float nRoot = rootPart->nTotal() * gm2kg / sm2ha;
 
     n_grain_conc_percent = fruitPart->grainNConcPercent();
 
-    n_grain = fruitPart->nGrainTotal() * gm2kg/sm2ha;
     n_green = stoverNGreen() * gm2kg / sm2ha;
     n_senesced = stoverNSenesced() * gm2kg / sm2ha;
     n_dead = stoverNDead() * gm2kg / sm2ha;
@@ -4621,17 +4537,26 @@ float Plant::getSwdefPhoto(void) const {return g.swdef_photo;}
 
 float Plant::plantCoverGreen(void) const
    {
-      return  add_covers (leafPart->coverGreen(), fruitPart->coverGreen());
+   float cover = 0.0;
+   for (vector<plantPart *>::const_iterator part = myParts.begin(); part != myParts.end(); part++)
+      cover = add_covers (cover, (*part)->coverGreen());
+   return cover;
    }
 
 float Plant::plantCoverSenesced(void) const
    {
-      return  add_covers (leafPart->coverSen(), fruitPart->coverSen());
+   float cover = 0.0;
+   for (vector<plantPart *>::const_iterator part = myParts.begin(); part != myParts.end(); part++)
+      cover = add_covers (cover, (*part)->coverSen());
+   return cover;
    }
 
 float Plant::plantCoverDead(void) const
    {
-      return  add_covers (leafPart->coverDead(), fruitPart->coverDead());
+   float cover = 0.0;
+   for (vector<plantPart *>::const_iterator part = myParts.begin(); part != myParts.end(); part++)
+      cover = add_covers (cover, (*part)->coverDead());
+   return cover;
    }
 
 float Plant::plantDltDm(void) const
@@ -4902,15 +4827,24 @@ float Plant::stoverPTot(void) const
 
 float Plant::grainPGreen(void) const
    {
-   return  fruitPart->pGreenGrainTotal();
+   float total = 0.0;
+   for (vector<plantPart *>::const_iterator part = myTopsParts.begin(); part != myTopsParts.end(); part++)
+      total += (*part)->pGreenGrainTotal();
+   return  total;
    }
 float Plant::grainPSenesced(void) const
    {
-   return  fruitPart->pSenescedGrainTotal();
+   float total = 0.0;
+   for (vector<plantPart *>::const_iterator part = myTopsParts.begin(); part != myTopsParts.end(); part++)
+      total += (*part)->pSenescedGrainTotal();
+   return  total;
    }
 float Plant::grainPDead(void) const
    {
-   return  fruitPart->pDeadGrainTotal();
+   float total = 0.0;
+   for (vector<plantPart *>::const_iterator part = myTopsParts.begin(); part != myTopsParts.end(); part++)
+      total += (*part)->pDeadGrainTotal();
+   return  total;
    }
 float Plant::grainPTot(void) const
    {

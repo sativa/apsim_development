@@ -195,11 +195,7 @@ public:
    const std::string & getCropType(void) ;
    protocol::Component *getComponent(void) ;
 
-   void plant_co2_modifier_rue(void);
-   void plant_co2_modifier_te(void);
-   void plant_co2_modifier_n_conc(void);
 
-   void plant_bio_actual (int option /* (INPUT) option number*/);
    void plant_bio_retrans (void);
    void plant_water_stress (void);
    void plant_temp_stress (void);
@@ -293,12 +289,8 @@ public:
    void plant_dm_init (void);
 
    void plant_root_depth (int option /* (INPUT) option number*/);
-   void plant_water_demand (int option /* (INPUT) option number*/);
    void plant_water_distribute (int option /*(INPUT) option number*/);
-   void plant_water_uptake (int option /*(INPUT) option number*/);
    void plant_light_supply_partition (int option /*(INPUT) option number*/);
-   void plant_bio_rue (int option    /*(INPUT) option number*/);
-   void plant_transpiration_eff (int option /*(INPUT) option number*/);
    void plant_root_length_growth (int option /*(INPUT) option number*/);
    void plant_water_supply_partition(float sw_demand
                                      , float swDemandVeg
@@ -340,7 +332,7 @@ public:
 
    void plant_N_senescence (void);
    void plant_process ( void );
-   void plant_dead (void);
+
    void plant_harvest (protocol::Variant &v/*(INPUT) message variant*/);
    void plant_kill_stem (protocol::Variant &v/*(INPUT) incoming message variant*/);
    void plant_remove_crop_biomass (protocol::Variant &v/*(INPUT) incoming message variant*/);
