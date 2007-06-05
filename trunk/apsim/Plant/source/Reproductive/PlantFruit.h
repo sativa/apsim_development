@@ -10,10 +10,12 @@
 
 
 
+
 class PlantFruit : public CompositePart
 {
    friend ostream &operator<<(ostream &, const PlantFruit &);
 public:												// member functions
+   static plantPart* construct(ScienceAPI& scienceAPI, plantInterface *p, const string &name);
    PlantFruit(ScienceAPI& scienceAPI, plantInterface *p, const string &name);
    ~PlantFruit();
    void display(ostream &os) const;

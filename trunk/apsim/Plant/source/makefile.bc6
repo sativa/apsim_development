@@ -33,6 +33,7 @@ OBJFILES=PlantComponent.obj \
    StemPart.obj \
    Storage\StoragePart.obj \
    Reproductive\PodPart.obj \
+   Reproductive\FloretPart.obj \
    Reproductive\MealPart.obj \
    Reproductive\OilPart.obj \
    Reproductive\GrainPart.obj \
@@ -137,6 +138,7 @@ Leaf\LeafPart.obj: Leaf\LeafPart.cpp PlantPart.h Leaf\LeafPart.h
 StemPart.obj: StemPart.cpp StemPart.h PlantPart.h
 Storage\StoragePart.obj: Storage\StoragePart.cpp Storage\StoragePart.h PlantPart.h
 Reproductive\PodPart.obj: Reproductive\PodPart.cpp Reproductive\PodPart.h PlantPart.h
+Reproductive\FloretPart.obj: Reproductive\FloretPart.cpp Reproductive\FloretPart.h PlantPart.h
 Reproductive\MealPart.obj: Reproductive\MealPart.cpp Reproductive\MealPart.h PlantPart.h
 Root\RootBase.obj: Root\RootBase.cpp Root\RootBase.h PlantPart.h
 Root\RootPart.obj: Root\RootPart.cpp Root\RootPart.h Root\RootBase.h

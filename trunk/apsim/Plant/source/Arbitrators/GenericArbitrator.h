@@ -15,7 +15,7 @@ class genericArbitrator : public Arbitrator
    ~genericArbitrator(void) {};
 
    virtual void readSpeciesParameters (protocol::Component *, vector<string> &);
-   virtual void partitionDM(float,vector <plantPart *>& Parts);
+   virtual void partitionDM(float,vector <plantPart *>& Parts, string FruitName);
    virtual void zeroAllGlobals(void) ;
    virtual float dltDMWhole(float dlt_dm);
    };

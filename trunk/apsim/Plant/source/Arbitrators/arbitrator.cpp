@@ -60,7 +60,7 @@ void cerealArbitrator::readSpeciesParameters(protocol::Component *system, vector
    scienceAPI.read("y_ratio_root_shoot", y_ratio_root_shoot, numvals, 0.0f, 1000.0f);
    }
 
-void cerealArbitrator::partitionDM(float dlt_dm,   vector <plantPart *>& Parts)
+void cerealArbitrator::partitionDM(float dlt_dm,   vector <plantPart *>& Parts, string FruitName)
 //=======================================================================================
    // Parcel out dlt DM to all parts
    // Root must be satisfied. The roots don't take any of the
@@ -68,11 +68,11 @@ void cerealArbitrator::partitionDM(float dlt_dm,   vector <plantPart *>& Parts)
    // that enough extra was produced to meet demand. Thus the root
    // growth is not removed from the carbo produced by the model.
    {
-
+   cout << "here now";
    plantPart *rootPart = FindPart(Parts, "root");
    plantPart *leafPart = FindPart(Parts, "leaf");
    plantPart *stemPart = FindPart(Parts, "stem");
-   plantPart *fruitPart = FindPart(Parts, "fruit");
+   plantPart *fruitPart = FindPart(Parts, FruitName);
 
    // first we zero all plant component deltas
    rootPart->zeroDltDmGreen();
@@ -189,7 +189,7 @@ void allometricArbitrator::readSpeciesParameters(protocol::Component *system, ve
                    "y_sla_max", "()", 0.0, 100000.0);
    }
 
-void allometricArbitrator::partitionDM(float dlt_dm,vector <plantPart *>& Parts)
+void allometricArbitrator::partitionDM(float dlt_dm,vector <plantPart *>& Parts, string FruitName)
 //=======================================================================================
    // Parcel out dlt DM to all parts
    // Root must be satisfied. The roots don't take any of the
@@ -201,7 +201,7 @@ void allometricArbitrator::partitionDM(float dlt_dm,vector <plantPart *>& Parts)
    plantPart *rootPart = FindPart(Parts, "root");
    plantLeafPart *leafPart = dynamic_cast<plantLeafPart*> (FindPart(Parts, "leaf"));
    plantPart *stemPart= FindPart(Parts, "stem");
-   plantPart *fruitPart= FindPart(Parts, "fruit");
+   plantPart *fruitPart= FindPart(Parts, FruitName);
 
    // first we zero all plant component deltas
    rootPart->zeroDltDmGreen();

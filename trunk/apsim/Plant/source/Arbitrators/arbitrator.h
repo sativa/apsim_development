@@ -15,7 +15,7 @@ class Arbitrator : public plantThing
    virtual ~Arbitrator(void) {};
 
    virtual void readSpeciesParameters (protocol::Component *, vector<string> &) {};
-   virtual void partitionDM(float,vector <plantPart *>& Parts) = 0;
+   virtual void partitionDM(float,vector <plantPart *>& Parts, string FruitName) = 0;
 
    // Unused "thingy" things..
    virtual void undoRegistrations(protocol::Component *) {};
@@ -44,7 +44,7 @@ class cerealArbitrator : public Arbitrator
    ~cerealArbitrator(void) {};
 
    virtual void readSpeciesParameters (protocol::Component *, vector<string> &);
-   virtual void partitionDM(float,vector <plantPart *>& Parts);
+   virtual void partitionDM(float,vector <plantPart *>& Parts, string FruitName);
    virtual void zeroAllGlobals(void) ;
    virtual float dltDMWhole(float dlt_dm);
    };
@@ -67,7 +67,7 @@ class allometricArbitrator : public Arbitrator
    virtual void onInit1(protocol::Component *);
    virtual void undoRegistrations(protocol::Component *);
    virtual void readSpeciesParameters (protocol::Component *, vector<string> &);
-   virtual void partitionDM(float,vector <plantPart *>& Parts);
+   virtual void partitionDM(float,vector <plantPart *>& Parts, string FruitName);
    virtual void zeroAllGlobals(void) ;
    virtual float dltDMWhole(float dlt_dm);
    };

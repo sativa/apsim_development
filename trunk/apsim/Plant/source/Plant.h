@@ -9,12 +9,9 @@ class plantPart;
 class plantStemPart;
 class plantLeafPart;
 class RootBase;
-class StoragePart;
-class PlantFruit;
 class plantThing;
 class eventObserver;
 class Plant;
-class ReproStruct;
 class Arbitrator;
 
 #include "PlantInterface.h"
@@ -59,7 +56,6 @@ class Plant : public plantInterface, public IPlant {
 private:
    PlantComponent *parent;                   // for interface calls to system
    ScienceAPI& scienceAPI;
-   friend class plantPartHack;
    stageSubject   stageObservers;            // A collection of state variable observers, reset at each new stage
    stageSubject   otherObservers;            // Another collection of state variable observers
 
@@ -72,9 +68,8 @@ private:
    plantStemPart  *stemPart;
    plantLeafPart  *leafPart;
    RootBase  *rootPart;
-   ReproStruct    *reproStruct;
    PlantPhenology *phenology;
-   PlantFruit     *fruitPart;
+   plantPart     *fruitPart;
 
    eventObserver *sowingEventObserver;     // Bookkeeper for Sowing events
    eventObserver *emergenceEventObserver;  // Bookkeeper for Emergence events
