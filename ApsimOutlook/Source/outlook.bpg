@@ -11,7 +11,7 @@ BRCC = $(ROOT)\bin\brcc32.exe $**
 #------------------------------------------------------------------------------
 PROJECTS = APSData.bpl ApsimOutlook.exe DBAddIn.dll SOIAddin.dll \
   WhopEconAddin.dll RotationAddIn.dll FilterAddIn.dll NCAddIn.dll \
-  GrossMarginCalculator.dll ConvertEconomics.exe
+  GrossMarginCalculator.dll
 #------------------------------------------------------------------------------
 default: $(PROJECTS)
 #------------------------------------------------------------------------------
@@ -49,10 +49,6 @@ NCAddIn.dll: Outlook\NCAddin\NCAddIn.bpr
   $(ROOT)\bin\make -$(MAKEFLAGS) -f$*.mak
 
 GrossMarginCalculator.dll: ..\..\Shared\GrossMarginCalculator\GrossMarginCalculator.bpr
-  $(ROOT)\bin\bpr2mak $**
-  $(ROOT)\bin\make -$(MAKEFLAGS) -f$*.mak
-
-ConvertEconomics.exe: Outlook\ConvertEconomics\ConvertEconomics.bpr
   $(ROOT)\bin\bpr2mak $**
   $(ROOT)\bin\make -$(MAKEFLAGS) -f$*.mak
 

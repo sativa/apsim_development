@@ -15,9 +15,11 @@
 class TAboutBox : public TForm
 {
 __published:
-   TBitBtn *BitBtn1;
    TImage *Image1;
    TLabel *AboutLabel;
+   TPanel *Panel1;
+   TBitBtn *BitBtn1;
+   void __fastcall BitBtn1Click(TObject *Sender);
 private:
 public:
 	virtual __fastcall TAboutBox(TComponent *Owner);

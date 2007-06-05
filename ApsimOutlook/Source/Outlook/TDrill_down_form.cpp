@@ -88,12 +88,38 @@ void TDrill_down_form::refreshScenarioTree (void)
       {
       AnsiString nameString = i->c_str();
       TTreeNode* newScen = ScenarioTree->Items->Add(NULL, nameString);
+      vector<string>::iterator imageIterator = find(smallImageNames.begin(),
+                                                    smallImageNames.end(),
+                                                    "simulation");
+      if (imageIterator != smallImageNames.end())
+         {
+         int imageIndex = imageIterator - smallImageNames.begin();
+         newScen->ImageIndex = imageIndex;
+         newScen->SelectedIndex = imageIndex;
+         }
+      else
+         {
+         newScen->ImageIndex = -1;
+         newScen->SelectedIndex = -1;
+         }
       vector<string> factorNames;
       scenarios->getFactorNames(*i, factorNames);
       for (vector<string>::iterator j = factorNames.begin(); j!=factorNames.end(); j++)
          {
          string valueString = *j + " = " + scenarios->getFactorValue(*i, *j);
-         ScenarioTree->Items->AddChild(newScen, valueString.c_str());
+         TTreeNode* childNode = ScenarioTree->Items->AddChild(newScen, valueString.c_str());
+         vector<string>::iterator imageIterator = find(smallImageNames.begin(),
+                                                       smallImageNames.end(),
+                                                       *j);
+         if (imageIterator != smallImageNames.end())
+            {
+            int imageIndex = imageIterator - smallImageNames.begin();
+            childNode->ImageIndex = imageIndex;
+            childNode->SelectedIndex = imageIndex;
+            }
+         else
+            childNode->ImageIndex = -1;
+            childNode->SelectedIndex = -1;
          }
       }
 
@@ -148,6 +174,27 @@ void TDrill_down_form::Refresh (void)
 void __fastcall TDrill_down_form::FormShow(TObject *Sender)
    {
    scenarios->restore("Default");
+
+   // Pull in all small bitmaps ready to display on treeview.
+   ApsimSettings settings;
+   vector<string> smallBitmapKeys;
+   settings.getKeysUnder("Outlook TreeView Bitmaps|", smallBitmapKeys);
+
+   for (unsigned i = 0; i != smallBitmapKeys.size(); i++)
+      {
+      string fileName;
+      settings.read("Outlook TreeView Bitmaps|" + smallBitmapKeys[i], fileName);
+      replaceAll(fileName, "%apsuite", getApsimDirectory());
+      if (fileName != "" && FileExists(fileName.c_str()))
+         {
+         Graphics::TBitmap* bitmap = new Graphics::TBitmap();
+         smallImageNames.push_back(smallBitmapKeys[i]);
+         bitmap->LoadFromFile(fileName.c_str());
+         SmallImageList->Add(bitmap, NULL);
+         delete bitmap;
+         }
+      }
+
    Refresh();
 
    string addInCaption = scenarios->getUIButtonCaption();
@@ -164,12 +211,11 @@ void __fastcall TDrill_down_form::FormShow(TObject *Sender)
       }
 
    // display logo if necessary.
-   ApsimSettings settings;
    string fileName;
    settings.read("Outlook Skin|logo", fileName);
    if (fileName != "")
       {
-      fileName = getAppHomeDirectory() + "\\" + fileName;
+      replaceAll(fileName, "%apsuite", getApsimDirectory());
       LogoImage->Picture->LoadFromFile(fileName.c_str());
       }
    }

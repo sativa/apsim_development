@@ -22,7 +22,7 @@
 class TDrill_down_form : public TForm
 {
 __published:	// IDE-managed Components
-   TImageList *ImageList;
+   TImageList *SmallImageList;
    TPanel *Panel1;
    TBitBtn *Ok_button;
    TBitBtn *Cancel_button;
@@ -69,6 +69,7 @@ __published:	// IDE-managed Components
 //   void __fastcall Tab_controlMouseDown(TObject *Sender,
 //          TMouseButton Button, TShiftState Shift, int X, int Y);
 private:	// User declarations
+   vector<string> smallImageNames;
    bool weAreExpanding, fullExpColl, renamingNode;
    bool Is_variable_attribute (const char* name);
 

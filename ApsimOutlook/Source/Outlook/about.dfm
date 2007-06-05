@@ -1,10 +1,10 @@
 object AboutBox: TAboutBox
-  Left = 445
-  Top = 132
+  Left = 421
+  Top = 260
   AutoSize = True
   BorderStyle = bsDialog
   Caption = 'About'
-  ClientHeight = 200
+  ClientHeight = 238
   ClientWidth = 300
   Color = clBtnFace
   Font.Charset = DEFAULT_CHARSET
@@ -14,9 +14,6 @@ object AboutBox: TAboutBox
   Font.Style = []
   OldCreateOrder = True
   Position = poScreenCenter
-  DesignSize = (
-    300
-    200)
   PixelsPerInch = 96
   TextHeight = 13
   object Image1: TImage
@@ -983,13 +980,12 @@ object AboutBox: TAboutBox
       0000}
   end
   object AboutLabel: TLabel
-    Left = 104
+    Left = 96
     Top = 16
     Width = 185
     Height = 145
     Alignment = taCenter
     AutoSize = False
-    Caption = 'APSIM Outlook'
     Font.Charset = ANSI_CHARSET
     Font.Color = clBlack
     Font.Height = -13
@@ -998,13 +994,26 @@ object AboutBox: TAboutBox
     ParentFont = False
     Transparent = True
   end
-  object BitBtn1: TBitBtn
-    Left = 107
-    Top = 164
-    Width = 75
-    Height = 28
-    Anchors = [akBottom]
+  object Panel1: TPanel
+    Left = 0
+    Top = 200
+    Width = 300
+    Height = 38
+    Align = alBottom
     TabOrder = 0
-    Kind = bkClose
+    DesignSize = (
+      300
+      38)
+    object BitBtn1: TBitBtn
+      Left = 220
+      Top = 4
+      Width = 73
+      Height = 28
+      Anchors = [akRight, akBottom]
+      Caption = '&Close'
+      TabOrder = 0
+      OnClick = BitBtn1Click
+      NumGlyphs = 2
+    end
   end
 end

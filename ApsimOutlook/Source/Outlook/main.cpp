@@ -225,12 +225,10 @@ void __fastcall TMainForm::FormShow(TObject *Sender)
    // display logo if necessary.
    ApsimSettings settings;
    string fileName;
-   settings.read("Outlook Skin|logo", fileName);
+   settings.read("Outlook Skin|ToolbarLogo", fileName);
+   replaceAll(fileName, "%apsuite", getApsimDirectory());
    if (fileName != "")
-      {
-      fileName = getAppHomeDirectory() + "\\" + fileName;
       LogoImage->Picture->LoadFromFile(fileName.c_str());
-      }
    Licencing->Visible = WhopperIsRunning;
 
    readCommandLine();

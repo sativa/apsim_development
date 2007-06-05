@@ -2812,7 +2812,7 @@ object MainForm: TMainForm
       000000000000}
   end
   object MDIWallpaper1: TMDIWallpaper
-    Mode = wpStretch
+    Mode = wpCenter
     Transparent = False
     Shift = 0
     ShiftMode = smRows

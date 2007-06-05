@@ -27,6 +27,7 @@
 #include <GrossMarginCalculator\GMCalculator.h>
 #include "TStatsForm.h"
 #include <Math.hpp>
+#include <ApsimShared\ApsimDirectories.h>
 
 //---------------------------------------------------------------------
 #pragma link "TAnalysis_chart"
@@ -215,6 +216,7 @@ void __fastcall TMDIChild::SelectSimulations(TObject *Sender)
       Force_refresh();
       Display_settings();
       }
+   Invalidate();
    }
 //---------------------------------------------------------------------------
 bool TMDIChild::Create_chart(TAnalysis_panel* new_panel)
@@ -486,6 +488,7 @@ void TMDIChild::Set_toolbar (TToolBar* toolbar)
       buildToolbarEvents();
    }
    pointToolBarToThisInstance();
+   Toolbar->Invalidate();
    }
 //---------------------------------------------------------------------------
 TToolButton* TMDIChild::Get_button (const char* Button_name)
@@ -546,6 +549,8 @@ void TMDIChild::loadAllToolbarAddIns(void)
                                  a != addInFileNames.end();
                                  a++)
       {
+      replaceAll(*a, "%apsuite", getApsimDirectory());
+
       // look for add in parameters after a space.
       unsigned int posSpace = (*a).find(" ");
       string addInParameters;

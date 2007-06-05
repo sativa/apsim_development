@@ -18,10 +18,10 @@ object Drill_down_form: TDrill_down_form
   PixelsPerInch = 96
   TextHeight = 13
   object Panel1: TPanel
-    Left = 416
+    Left = 408
     Top = 0
     Width = 115
-    Height = 429
+    Height = 428
     Align = alRight
     BevelOuter = bvNone
     TabOrder = 0
@@ -88,7 +88,7 @@ object Drill_down_form: TDrill_down_form
     end
     object LogoImage: TImage
       Left = 0
-      Top = 335
+      Top = 334
       Width = 115
       Height = 94
       Align = alBottom
@@ -171,11 +171,12 @@ object Drill_down_form: TDrill_down_form
   object ScenarioTree: TTreeView
     Left = 0
     Top = 0
-    Width = 416
-    Height = 429
+    Width = 408
+    Height = 428
     Align = alClient
     DragMode = dmAutomatic
     HotTrack = True
+    Images = SmallImageList
     Indent = 19
     TabOrder = 1
     OnCollapsing = ScenarioTreeCollapsing
@@ -186,9 +187,8 @@ object Drill_down_form: TDrill_down_form
     OnExpanding = ScenarioTreeExpanding
     OnMouseDown = ScenarioTreeMouseDown
   end
-  object ImageList: TImageList
-    Height = 50
-    Width = 50
+  object SmallImageList: TImageList
+    BkColor = clWhite
     Left = 424
     Top = 304
   end

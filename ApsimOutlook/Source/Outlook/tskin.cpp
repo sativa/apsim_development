@@ -59,7 +59,7 @@ void TSkin::DisplaySplashScreen(void)
    {
    // read splash screen
    settings.read("Outlook skin|splashscreen", BitmapName);
-   BitmapName = getAppHomeDirectory() + "\\" + BitmapName;
+   replaceAll(BitmapName, "%apsuite", getApsimDirectory());
    if (BitmapName != "" && FileExists(BitmapName.c_str()))
       {
       string backdrop;
@@ -104,8 +104,9 @@ void TSkin::InitApplication(void)
       }
 
    // read icon
-   settings.read("Outlook skin|icon", St);
-   string fileName = getAppHomeDirectory() + "\\" + St;
+   string fileName;
+   settings.read("Outlook skin|icon", fileName);
+   replaceAll(fileName, "%apsuite", getApsimDirectory());
    if (St != "" && FileExists(fileName.c_str()))
       {
       Icon = new TIcon;
@@ -114,9 +115,9 @@ void TSkin::InitApplication(void)
       }
 
    // read help about
-   settings.read("Outlook skin|helpabout", St);
-   fileName = getAppHomeDirectory() + "\\" + St;
-   if (St != "" && FileExists(fileName.c_str()))
+   settings.read("Outlook skin|helpabout", fileName);
+   replaceAll(fileName, "%apsuite", getApsimDirectory());
+   if (fileName != "" && FileExists(fileName.c_str()))
       AboutBox->Image1->Picture->LoadFromFile(fileName.c_str());
 
    // read evaluation
