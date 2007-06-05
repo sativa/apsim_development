@@ -12,6 +12,7 @@
 #include <TeeEdit.hpp>
 #include <DBEditCh.hpp>
 #include <EditChar.hpp>
+#include <Series.hpp>
 #include <sstream>
 #include "ReportMacros.h"
 using namespace std;
@@ -149,6 +150,18 @@ void TGraph::refresh(void)
       {
       Chart->RefreshData();
       Chart->Refresh();
+
+      if (Chart->SeriesCount() == 1)
+         {
+         TPieSeries* pieSeries = dynamic_cast<TPieSeries*> (Chart->Series[0]);
+         if (pieSeries != NULL)
+            {
+            static TColor OurColors[5] = {0x004080, 0x0080FF, clLtGray, clGreen, clBlue};
+            SetDefaultColorPalette(OurColors, 5);
+            }
+         }
+
+
       replaceChartMacros();
       fixBottomAxisScaling();
       }
