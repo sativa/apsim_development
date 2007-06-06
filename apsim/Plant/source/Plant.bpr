@@ -23,7 +23,9 @@
       Reproductive\OilPart.obj Reproductive\PlantFruit.obj Root\RootPart.obj 
       Root\RootGrowthOption1.obj Root\RootGrowthOption2.obj Utility\Science.obj 
       Utility\Data.obj Utility\Date.obj Utility\Observers.obj Utility\Output.obj 
-      Utility\OutputVariable.obj Utility\PlantUtility.obj"/>
+      Utility\OutputVariable.obj Utility\PlantUtility.obj Root\MultiRoot.obj 
+      Root\NoRoot.obj Root\RootBase.obj Reproductive\FloretPart.obj 
+      Storage\StoragePart.obj"/>
     <RESFILES value=""/>
     <IDLFILES value=""/>
     <DEFFILE value=""/>
@@ -35,7 +37,7 @@
     <SPARELIBS value="rtl.lib vcl.lib"/>
     <PACKAGES value="rtl.bpi vcl.bpi vclx.bpi vcljpg.bpi ibsmp.bpi dbrtl.bpi vcldb.bpi 
       bdertl.bpi bcbsmp.bpi vcldbx.bpi dclocx.bpi qrpt.bpi"/>
-    <PATHCPP value=".;..\..\..\Shared\ComponentInterface;Phenology;Arbitrators;Leaf;Reproductive;Root;Utility"/>
+    <PATHCPP value=".;..\..\..\Shared\ComponentInterface;Phenology;Arbitrators;Leaf;Reproductive;Root;Utility;Storage"/>
     <PATHPAS value=".;"/>
     <PATHRC value=".;"/>
     <PATHASM value=".;"/>
@@ -45,8 +47,8 @@
     <USERDEFINES value="_DEBUG"/>
     <SYSDEFINES value="_RTLDLL;NO_STRICT;USEPACKAGES"/>
     <MAINSOURCE value="PlantComponent.cpp"/>
-    <INCLUDEPATH value="Utility;Root;Reproductive;Leaf;Arbitrators;Phenology;..\..\..\Shared\ComponentInterface;$(BCB)\include;$(BCB)\include\vcl;$(BCB)\Components\boost;..\..\..\Shared"/>
-    <LIBPATH value="Utility;Root;Reproductive;Leaf;Arbitrators;Phenology;..\..\..\Shared\ComponentInterface;$(BCB)\lib\debug;$(BCB)\lib\obj;$(BCB)\lib"/>
+    <INCLUDEPATH value="Storage;Utility;Root;Reproductive;Leaf;Arbitrators;Phenology;..\..\..\Shared\ComponentInterface;$(BCB)\include;$(BCB)\include\vcl;$(BCB)\Components\boost;..\..\..\Shared"/>
+    <LIBPATH value="Storage;Utility;Root;Reproductive;Leaf;Arbitrators;Phenology;..\..\..\Shared\ComponentInterface;$(BCB)\lib\debug;$(BCB)\lib\obj;$(BCB)\lib"/>
     <WARNINGS value="-wprc -wstv -wsig -w-par -wnod -w-8027 -w-8026 -wdef -wamb"/>
     <WARNOPTSTR value=""/>
     <OTHERFILES value=""/>
@@ -122,6 +124,11 @@
       <FILE FILENAME="Utility\Output.cpp" FORMNAME="" UNITNAME="Output" CONTAINERID="CCompiler" DESIGNCLASS="" LOCALCOMMAND=""/>
       <FILE FILENAME="Utility\OutputVariable.cpp" FORMNAME="" UNITNAME="OutputVariable" CONTAINERID="CCompiler" DESIGNCLASS="" LOCALCOMMAND=""/>
       <FILE FILENAME="Utility\PlantUtility.cpp" FORMNAME="" UNITNAME="PlantUtility" CONTAINERID="CCompiler" DESIGNCLASS="" LOCALCOMMAND=""/>
+      <FILE FILENAME="Root\MultiRoot.cpp" FORMNAME="" UNITNAME="MultiRoot.cpp" CONTAINERID="CCompiler" DESIGNCLASS="" LOCALCOMMAND=""/>
+      <FILE FILENAME="Root\NoRoot.cpp" FORMNAME="" UNITNAME="NoRoot.cpp" CONTAINERID="CCompiler" DESIGNCLASS="" LOCALCOMMAND=""/>
+      <FILE FILENAME="Root\RootBase.cpp" FORMNAME="" UNITNAME="RootBase.cpp" CONTAINERID="CCompiler" DESIGNCLASS="" LOCALCOMMAND=""/>
+      <FILE FILENAME="Reproductive\FloretPart.cpp" FORMNAME="" UNITNAME="FloretPart" CONTAINERID="CCompiler" DESIGNCLASS="" LOCALCOMMAND=""/>
+      <FILE FILENAME="Storage\StoragePart.cpp" FORMNAME="" UNITNAME="StoragePart" CONTAINERID="CCompiler" DESIGNCLASS="" LOCALCOMMAND=""/>
   </FILELIST>
   <BUILDTOOLS>
   </BUILDTOOLS>
@@ -224,7 +231,7 @@ Item1=..\lib
 DebugSourceDirs=$(BCB)\source\vcl;c:\data\Apsim\development\Shared\ComponentInterface\;c:\data\Apsim\development\apsim\SummaryFile\Source\
 
 [Parameters]
-RunParams=C:\Users\hol353\Development\apsim\Wheat\Sample\wheat.apsim.standard_co2.sim
+RunParams=&quot;C:\Users\hol353\Development\apsim\Wheat\Sample\wheat.apsim.wheat_sample.sim&quot;
 Launcher=
 UseLauncher=0
 DebugCWD=
