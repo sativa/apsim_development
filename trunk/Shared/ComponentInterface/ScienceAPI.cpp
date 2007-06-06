@@ -79,7 +79,12 @@ ScienceAPI::ScienceAPI(protocol::Component* c)
    {
    component = c;
    }
-
+ScienceAPI::~ScienceAPI()
+   {
+   for (unsigned i = 0; i != stuffToDelete.size(); i++)
+      delete stuffToDelete[i];
+   stuffToDelete.erase(stuffToDelete.begin(), stuffToDelete.end());
+   }
 bool ScienceAPI::read(const std::string& name, int& data, int lower, int upper)
    {
    string valueAsString;
@@ -316,7 +321,7 @@ bool ScienceAPI::getOptional(const std::string& name, const std::string& units, 
    string ddml = protocol::DDML(vector<float>());
    addUnitsToDDML(ddml, units);
    unsigned id = component->addRegistration(RegistrationType::get, name.c_str(), ddml.c_str(), "", "");
-   return component->getVariable(id, data, lower, upper, true);      
+   return component->getVariable(id, data, lower, upper, true);
    }
 
 // -------------------------------------------------------------
@@ -327,7 +332,63 @@ void ScienceAPI::set(const std::string& name, const std::string& units, std::vec
    string ddml = protocol::DDML(vector<float>());
    addUnitsToDDML(ddml, units);
    unsigned id = component->addRegistration(RegistrationType::set, name.c_str(), ddml.c_str(), "", "");
-   bool ok =  component->setVariable(id, data);      
+   bool ok =  component->setVariable(id, data);
    if (!ok)
       throw runtime_error("Cannot set the value of variable: " + name);
    }
+
+
+// -------------------------------------------------------------------
+// A wrapper class for CMP events, gets and sets that take a single
+// data item as an arguemnt.
+// -------------------------------------------------------------------
+template <class FT, class T>
+class CMPMethod1 : public DeletableThing
+   {
+   private:
+      FT setter;
+      T dummy;
+      std::string ddml;
+   public:
+      CMPMethod1(FT& fn)
+         {
+         setter = fn;
+         ddml = protocol::DDML(dummy);
+         }
+      void invoke(unsigned &, unsigned &, protocol::Variant& variant)
+         {
+         variant.unpack(dummy);
+         setter(dummy);
+         }
+      const char* DDML() {return ddml.c_str();}
+
+   };
+
+
+// -------------------------------------------------------------
+// Event handlers.
+// -------------------------------------------------------------
+void ScienceAPI::subscribe(const std::string& name, TimeFunctionType handler)
+   {
+   typedef CMPMethod1<TimeFunctionType, protocol::TimeType> WrapperType;
+   WrapperType* wrapper = new WrapperType (handler);
+   stuffToDelete.push_back(wrapper);
+
+   boost::function3<void, unsigned &, unsigned &, protocol::Variant &> fn;
+   fn = boost::bind(&WrapperType::invoke, wrapper, _1, _2, _3);
+   component->addEvent(name.c_str(), RegistrationType::respondToEvent,
+                       fn, wrapper->DDML());
+   }
+
+void ScienceAPI::subscribe(const std::string& name, NewMetFunctionType handler)
+   {
+   typedef CMPMethod1<NewMetFunctionType, protocol::NewMetType> WrapperType;
+   WrapperType* wrapper = new WrapperType (handler);
+   stuffToDelete.push_back(wrapper);
+
+   boost::function3<void, unsigned &, unsigned &, protocol::Variant &> fn;
+   fn = boost::bind(&WrapperType::invoke, wrapper, _1, _2, _3);
+   component->addEvent(name.c_str(), RegistrationType::respondToEvent,
+                       fn, wrapper->DDML());
+   }
+
