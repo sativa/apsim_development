@@ -37,6 +37,9 @@ Component   "Broccoli" = c:\development\apsim\plant\lib\plant.dll
         Broccoli.lai
         Broccoli.biomass
         Broccoli.ep
+        Broccoli.leaf_wt
+        Broccoli.stem_wt
+        Broccoli.floret_wt
 
      Output file = Broccoli.out
      Format = normal
@@ -226,10 +229,6 @@ Component   "Broccoli" = c:\development\apsim\plant\lib\plant.dll
      maturity
         tt_maturity =          5 (dd)
      
-        x_pp_hi_incr               =       1.00      24.00
-        y_hi_incr                  =     0.0100     0.0100
-        x_hi_max_pot_stress        =       0.00       1.00
-        y_hi_max_pot               =       0.30       0.30
          ------------------------------------------------
      
      
@@ -272,50 +271,50 @@ Component   "Broccoli" = c:\development\apsim\plant\lib\plant.dll
                      stover N conc =     6.50 (%)    extractable sw =   22.27 (mm)
 4 May 1998(Day of year=124), Broccoli: 
       stage 4.0 end_of_juvenile
-                     biomass =           2.84 (g/m^2)   lai          =   0.078 (m^2/m^2)
-                     stover N conc =     5.40 (%)    extractable sw =  174.23 (mm)
+                     biomass =           2.29 (g/m^2)   lai          =   0.052 (m^2/m^2)
+                     stover N conc =     5.43 (%)    extractable sw =  174.12 (mm)
 17 May 1998(Day of year=137), Broccoli: 
       stage 5.0 floral_initiation
-                     biomass =          32.29 (g/m^2)   lai          =   0.642 (m^2/m^2)
-                     stover N conc =     4.99 (%)    extractable sw =  192.52 (mm)
+                     biomass =          26.44 (g/m^2)   lai          =   0.554 (m^2/m^2)
+                     stover N conc =     4.94 (%)    extractable sw =  192.60 (mm)
 30 June 1998(Day of year=181), Broccoli: 
       stage 6.0 buttoning
-                     biomass =         642.74 (g/m^2)   lai          =   4.922 (m^2/m^2)
-                     stover N conc =     3.87 (%)    extractable sw =  100.05 (mm)
+                     biomass =         627.64 (g/m^2)   lai          =   4.906 (m^2/m^2)
+                     stover N conc =     3.58 (%)    extractable sw =  101.43 (mm)
 14 July 1998(Day of year=195), Broccoli: 
       stage 7.0 maturity
-                     biomass =         882.45 (g/m^2)   lai          =   5.433 (m^2/m^2)
-                     stover N conc =     2.89 (%)    extractable sw =   74.73 (mm)
+                     biomass =         867.43 (g/m^2)   lai          =   4.848 (m^2/m^2)
+                     stover N conc =     2.67 (%)    extractable sw =   76.97 (mm)
 14 July 1998(Day of year=195), manager: 
      Manager sending message :- broccoli harvest
      
-      flowering day          =    0                           stover (kg/ha)         =     8824.5
+      flowering day          =    0                           stover (kg/ha)         =     8674.3
       maturity day           =  195                           grain yield (kg/ha)    =        0.0
-      grain % water content  =    8.5                         grain yield wet (kg/ha)=        0.0
+      grain % water content  =    0.0                         grain yield wet (kg/ha)=        0.0
       grain wt (g)           =    0.000                       grains/m^2             =      0.000
-      grains/plant           =    0.0                         maximum lai            =      5.529
-      total above ground biomass (kg/ha)    =     8824.5
-      live above ground biomass (kg/ha)     =     8824.5
-      green above ground biomass (kg/ha)    =     7712.1
-      senesced above ground biomass (kg/ha) =     1112.4
+      grains/plant           =    0.0                         maximum lai            =      5.180
+      total above ground biomass (kg/ha)    =     8674.3
+      live above ground biomass (kg/ha)     =     8674.3
+      green above ground biomass (kg/ha)    =     7949.4
+      senesced above ground biomass (kg/ha) =      724.9
       dead above ground biomass (kg/ha)     =        0.0
-      number of leaves       =    1.4
-      DM Root:Shoot ratio    =    0.685                       Harvest Index          =      0.000
-      Stover C:N ratio       =   14.752                       Root C:N ratio         =     54.621
-      grain N percent        =       0.00                     total N content (kg/ha)=     239.28
-      grain N uptake (kg/ha) =       0.00                     senesced N content (kg/ha)=   16.69
-      green N content (kg/ha)=     222.60                     dead N content (kg/ha) =       0.00
+      number of leaves       =    1.7
+      DM Root:Shoot ratio    =    0.420                       Harvest Index          =      0.000
+      Stover C:N ratio       =   15.564                       Root C:N ratio         =     47.347
+      grain N percent        =       0.00                     total N content (kg/ha)=     222.94
+      grain N uptake (kg/ha) =       0.00                     senesced N content (kg/ha)=   10.87
+      green N content (kg/ha)=     212.07                     dead N content (kg/ha) =       0.00
      
       Average Stress Indices:                          Water Photo  Water Expan  N Photo      N grain conc
-         emergence            to end_of_juvenile         0.000        0.000        0.091        0.324
-         end_of_juvenile      to floral_initiation       0.000        0.000        0.070        0.500
-         floral_initiation    to buttoning               0.000        0.000        0.000        0.185
+         emergence            to end_of_juvenile         0.000        0.000        0.052        0.297
+         end_of_juvenile      to floral_initiation       0.000        0.000        0.046        0.493
+         floral_initiation    to buttoning               0.000        0.000        0.000        0.158
      
      
      Crop harvested.
          Organic matter from crop:-      Tops to surface residue      Roots to soil FOM
-                          DM (kg/ha) =               8822.73                    0.00
-                          N  (kg/ha) =                239.16                    0.00
+                          DM (kg/ha) =               8672.52                    0.00
+                          N  (kg/ha) =                255.57                    0.00
      
          Organic matter removed from system:-      From Tops               From Roots
                           DM (kg/ha) =                  0.00                    0.00
@@ -323,12 +322,12 @@ Component   "Broccoli" = c:\development\apsim\plant\lib\plant.dll
      
       stage 4.0 end_of_juvenile
                      biomass =           0.18 (g/m^2)   lai          =   0.000 (m^2/m^2)
-                     stover N conc =     6.50 (%)    extractable sw =   74.73 (mm)
+                     stover N conc =     6.50 (%)    extractable sw =   76.97 (mm)
      Manager sending message :- broccoli end_crop
      Crop ended. Yield (dw) =     0.0  (kg/ha)
          Organic matter from crop:-      Tops to surface residue      Roots to soil FOM
-                          DM (kg/ha) =                  1.80                 6047.20
-                          N  (kg/ha) =                  0.12                   44.28
+                          DM (kg/ha) =                  1.80                 3639.46
+                          N  (kg/ha) =                  0.12                   30.75
      
 30 September 1998(Day of year=273), clock: 
      Simulation is terminating due to end criteria being met.
