@@ -15,6 +15,7 @@ using namespace std;
 void CropPhenology::zeroDeltas(void)
 //=======================================================================================
    {
+   PlantPhenology::zeroDeltas();   	
    dlt_tt = dlt_tt_phenol  = 0.0;
    }
 

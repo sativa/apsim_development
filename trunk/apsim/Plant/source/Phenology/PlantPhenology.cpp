@@ -357,6 +357,8 @@ void PlantPhenology::zeroAllGlobals(void)
    previousStage = currentStage = 0.0;
    for (unsigned int i=0; i < phases.size(); i++) phases[i]->reset();
    day_of_year = 0;
+   zeroDeltas();
+
    }
 
 //+  Purpose
