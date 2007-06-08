@@ -228,9 +228,9 @@
          <include>%apsuite\apsim\stock\StockScienceConverter.ini</include>
       </initdata>
    </component>
-   <component name="stock" executable="C:\Program Files\FarmWise\stock.dll">
+   <component name="stock" executable="C:\Program Files\ausfarm\stock.dll">
     <initdata>
-      <![CDATA[    
+      <![CDATA[
         <initsection>
           <init name="rand_seed" kind="integer4">
             <val>1</val>
