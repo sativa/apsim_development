@@ -125,8 +125,6 @@ Public Class ApsimUIController
                 Case "area"
                     Return New areaui
 
-                Case "toolbox"
-                    Return New BaseView
                 Case "file"
                     Return New FileUI
 

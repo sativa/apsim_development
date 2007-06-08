@@ -5,7 +5,9 @@ Imports VBUserInterface
 
 Public Class FileUI
     Inherits BaseView
-    Dim FileDateTime As DateTime
+    Private FileDateTime As DateTime
+    Private Controller As BaseController
+    Private NodePath As String
     Friend WithEvents Label1 As System.Windows.Forms.Label
     Friend WithEvents SearchButton As System.Windows.Forms.Button
     Friend WithEvents SearchTextBox As System.Windows.Forms.TextBox
@@ -156,12 +158,15 @@ Public Class FileUI
 
 #End Region
 
+    Public Overrides Sub Setup(ByVal Controller As VBUserInterface.BaseController)
+        Me.Controller = Controller
+    End Sub
 
-    Overrides Sub RefreshView(ByVal Controller As BaseController)
+    Overrides Sub RefreshView(ByVal NodePath As String)
         ' ------------------------------
         ' Refresh this window.
         ' ------------------------------
-        MyBase.RefreshView(Controller)
+        Me.NodePath = NodePath
 
         ' Get a filename
         Dim FileName As String
@@ -224,14 +229,14 @@ Public Class FileUI
         If OpenFileDialog.ShowDialog() = DialogResult.OK Then
             HelpText = OpenFileDialog.FileName
             Controller.Data.ChildValue("filename") = OpenFileDialog.FileName
-            Me.RefreshView(Controller)
+            Me.RefreshView(NodePath)
         End If
     End Sub
 
 
     Private Sub OnActivate(ByVal sender As Object, ByVal e As EventArgs)
         If File.Exists(FullFileName) AndAlso FileDateTime <> File.GetLastWriteTime(FullFileName) Then
-            RefreshView(Controller)
+            RefreshView(NodePath)
         End If
     End Sub
 
