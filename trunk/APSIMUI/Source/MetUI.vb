@@ -5,7 +5,6 @@ Imports VBUserInterface
 
 Public Class MetUI
     Inherits BaseView
-    Private Controller As BaseController
 
 #Region " Windows Form Designer generated code "
 
@@ -94,14 +93,11 @@ Public Class MetUI
 
 #End Region
 
-    Public Overrides Sub Setup(ByVal Controller As VBUserInterface.BaseController)
-        Me.Controller = Controller
-        MetGraphControl1.Setup(Controller)
-    End Sub
-    Public Overrides Sub RefreshView(ByVal NodePath As String)
-        Dim FileName As String = Controller.Data.ChildValue("filename")
+    Public Overrides Sub RefreshView(ByVal Controller As BaseController)
+        MyBase.RefreshView(Controller)
 
-        MetGraphControl1.RefreshView(NodePath)
+        Dim FileName As String = Controller.Data.ChildValue("filename")
+        MetGraphControl1.RefreshView(Controller)
         HelpText = FileName
         OpenFileDialog.InitialDirectory = Path.GetDirectoryName(FileName)
         MetGraphControl1.SetFileName(FileName)
@@ -118,6 +114,10 @@ Public Class MetUI
             Me.HelpText = OpenFileDialog.FileName
 
         End If
+
+    End Sub
+
+    Private Sub MetGraphControl1_Load(ByVal sender As System.Object, ByVal e As System.EventArgs)
 
     End Sub
 

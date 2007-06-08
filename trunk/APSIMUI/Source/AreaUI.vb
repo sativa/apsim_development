@@ -8,8 +8,6 @@ Imports VBUserInterface
 
 Public Class areaui
     Inherits BaseView
-    Private Controller As BaseController
-    Private NodePath As String
 
 #Region " Windows Form Designer generated code "
 
@@ -101,13 +99,8 @@ Public Class areaui
     ' ----------------------------------
     ' Refresh the listview
     ' ----------------------------------
-    Public Overrides Sub Setup(ByVal Controller As VBUserInterface.BaseController)
-        Me.Controller = Controller
-    End Sub
-
-    Public Overrides Sub RefreshView(ByVal NodePath As String)
-        Me.NodePath = NodePath
-
+    Overrides Sub RefreshView(ByVal Controller As BaseController)
+        MyBase.RefreshView(Controller)
         Dim Settings As ApsimUIController = Controller
 
         ListView.Clear()
@@ -208,7 +201,7 @@ Public Class areaui
             Dim NewDataString As String = e.Data.GetData(DataFormats.Text)
             Dim NewNode As New APSIMData(NewDataString)
             Controller.Data.Add(NewNode)
-            RefreshView(Controller.Data.FullPath)
+            RefreshView(Controller)
         Else
             For Each item As ListViewItem In ListView.SelectedItems
                 CSUserInterface.ListViewAPI.SetItemPosition(ListView, ListView.SelectedItems.Item(0).Index, p.X, p.Y)
@@ -217,6 +210,7 @@ Public Class areaui
                 child.SetAttribute("y", p.Y.ToString)
             Next
         End If
+        Controller.RefreshView()
     End Sub
 
     Private Sub ListView_DragOver(ByVal sender As Object, ByVal e As System.Windows.Forms.DragEventArgs) Handles ListView.DragOver
@@ -244,8 +238,7 @@ Public Class areaui
             Controller.SelectedPaths = Selections
             Controller.DeleteSelected()
             Controller.SelectedPaths = InitialSelections
-            RefreshView(NodePath)
+            RefreshView(Controller)
         End If
     End Sub
-
 End Class

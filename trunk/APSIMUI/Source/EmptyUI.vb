@@ -5,7 +5,6 @@ Imports VBUserInterface
 
 Public Class EmptyUI
     Inherits BaseView
-    Private Controller As BaseController
 
 #Region " Windows Form Designer generated code "
 
@@ -126,12 +125,8 @@ Public Class EmptyUI
     End Sub
 
 #End Region
-
-    Public Overrides Sub Setup(ByVal Controller As VBUserInterface.BaseController)
-        Me.Controller = Controller
-    End Sub
-
-    Overrides Sub RefreshView(ByVal NodePath As String)
+    Overrides Sub RefreshView(ByVal Controller As BaseController)
+        MyBase.RefreshView(Controller)
         MainLabel.Text = Controller.Data.Type
         Me.HelpText = "This module does not have any editable properties."
         Dim inifile As New APSIMSettings
@@ -162,5 +157,4 @@ Public Class EmptyUI
             UIManager.ShowHelp("www.apsim.info")
         End Try
     End Sub
-
 End Class
