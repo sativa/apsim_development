@@ -117,15 +117,12 @@ Public Class NewDocumentForm
     Private Sub NewDocumentForm_Load(ByVal sender As Object, ByVal e As System.EventArgs) Handles MyBase.Load
         Dim inifile As New APSIMSettings
         Dim TemplateFile As String = APSIMSettings.INIRead(APSIMSettings.ApsimIniFile(), "apsimui", "new_docs")
-        Dim FileData As New APSIMData
-        If FileData.LoadFromFile(TemplateFile) Then
-            ApsimUI.ApsimData.Open(FileData.XML, True)
-        End If
+        ApsimUI.FileOpen(TemplateFile)
         DataTree.MaximumNumLevels = 1
         DataTree.HelpText = "Select a new simulation"
         DataTree.Dock = DockStyle.None
-        DataTree.Setup(ApsimUI)
-        DataTree.RefreshView("\")
+        DataTree.ExpandAll = False
+        DataTree.RefreshView(ApsimUI)
     End Sub
 
 
@@ -134,7 +131,7 @@ Public Class NewDocumentForm
     ' -----------------------------------
     Public ReadOnly Property Selection() As APSIMData
         Get
-            ApsimUI.Data.SetAttribute("version", ApsimUI.ApsimData.AllData.Attribute("version"))
+            ApsimUI.Data.SetAttribute("version", ApsimUI.AllData.Attribute("version"))
             Return ApsimUI.Data
         End Get
     End Property
@@ -143,7 +140,7 @@ Public Class NewDocumentForm
     ' -----------------------------------
     ' User has double clicked.
     ' -----------------------------------
-    Private Sub DataTree_DoubleClick(ByVal sender As Object, ByVal e As EventArgs) Handles DataTree.DoubleClickEvent
+    Private Sub DataTree_DoubleClick() Handles DataTree.DoubleClickEvent
         OKButton.PerformClick()
     End Sub
 End Class

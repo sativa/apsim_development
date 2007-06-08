@@ -8,10 +8,9 @@ Imports VBUserInterface
 
 Public Class RuleUI
     Inherits BaseView
-    Private Controller As BaseController
-    Private InRefresh As Boolean
+    Dim InRefresh As Boolean
     Friend WithEvents GenericUI As GenericUI
-    Private Cultivars As APSIMData
+    Dim Cultivars As APSIMData
 
 
 #Region " Windows Form Designer generated code "
@@ -96,19 +95,16 @@ Public Class RuleUI
 
 #End Region
 
-    Public Overrides Sub Setup(ByVal Controller As VBUserInterface.BaseController)
-        Me.Controller = Controller
-        GenericUI.Setup(Controller)
-    End Sub
     ' -----------------------------------
     ' Refresh the UI
     ' -----------------------------------
-    Overrides Sub RefreshView(ByVal NodePath As String)
+    Overrides Sub RefreshView(ByVal Controller As BaseController)
+        MyBase.RefreshView(Controller)
 
         InRefresh = True
 
         ' Fill the property grid.
-        GenericUI.RefreshView(NodePath)
+        GenericUI.RefreshView(Controller)
 
         ' Create a tab for each condition.
         While TabControl1.TabPages.Count > 1
