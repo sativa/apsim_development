@@ -1,0 +1,12 @@
+version = 5.3
+title=Full grass growth. Grazing.
+
+[APSIM.graz.control]
+module = clock    graz.man [graz] %apsuite/apsim/clock/clock.ini[standard]
+module = report   graz.man [graz]
+module = input(met)    narayen.met [climate]
+module = manager  graz.man [graz]
+module = soilwat2 %apsuite/apsim/soilwat2/sample/soilwat2.par [black_earth]   %apsuite/apsim/soilwat2/soilwat2.ini [standard]
+module = grasp    %apsuite/apsim/grasp/sample/grasp.par [sample]     %apsuite/apsim/grasp/grasp.ini [standard]
+module = SurfaceOM   %apsuite/apsim/SurfaceOM/sample/SurfaceOM.par [legume_residue] %apsuite/apsim/SurfaceOM/SurfaceOM.ini [standard]
+module = graz     graz.par [graz]

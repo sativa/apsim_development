@@ -1,0 +1,26 @@
+[graz.report.parameters]
+
+outputfile =model.out
+
+variable = clock.year
+variable = clock.day
+variable = soilwat2.sw_dep()
+variable = soilwat2.sw_dep
+variable = soilwat2.total_cover as cover
+variable = grasp.green_pool
+variable = grasp.dead_pool
+variable = surfaceom.surfaceom_wt as litter
+variable = graz.alw
+variable = graz.lwg
+
+[graz.clock.parameters]
+start_date=1/1/1986
+end_date=1/1/1996
+
+[graz.manager.start_of_day]
+
+dateser = day + (year - 1901) * 365 + (year - 1901) / 4
+
+[graz.manager.end_of_day]
+
+report do_output
