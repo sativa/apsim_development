@@ -19,7 +19,6 @@ public:                                             // member functions
    void doInit1(protocol::Component *system);
 
    void onInit1(protocol::Component *);
-   void doTick(protocol::TimeType &tick) ;
    void doNewMet(protocol::NewMetType &newmet) ;
    void readConstants (protocol::Component *, const string &);
    void readSpeciesParameters (protocol::Component *, vector<string> &);
@@ -121,8 +120,6 @@ protected:
    fruitOilPart  *oilPart;
    fruitMealPart  *mealPart;
 
-   unsigned int idLatitude;
-
    float gDlt_dm_grain_demand;
    float gN_grain_demand;
    float gP_grain_demand;
@@ -133,9 +130,6 @@ protected:
    bool  gHasreadconstants;
    float gMaxt;
    float gMint;
-   float gLatitude;
-   int gDay_of_year;
-   int gYear;
 
    float dmRetranslocate;
    float gDlt_dm;

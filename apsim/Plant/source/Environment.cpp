@@ -2,9 +2,18 @@
 #include <ComponentInterface/ScienceAPI.h>
 static const char* floatType =        "<type kind=\"single\"/>";
 
-environment_t::environment_t(void)
+environment_t::environment_t(ScienceAPI& sAPI)
 //===========================================================================
+   : scienceAPI(sAPI)
    {
+   hasreadconstants = false;
+   year = 0;
+   day_of_year = 0;
+   latitude = 0.0;
+
+   mint = 0.0;
+   maxt = 0.0;
+   radn = 0.0;
    }
 
 environment_t::~environment_t(void)
@@ -12,32 +21,13 @@ environment_t::~environment_t(void)
    {
    }
 
-environment_t::environment_t(const environment_t &/* environment_t*/)
-//===========================================================================
-// copy constructor
-//	copy data members of object
-   {
-	throw std::invalid_argument("Copy constructor NI for environment_t");
-   }
-
-
-const environment_t &environment_t::operator=(const environment_t &/*other*/)
-//===========================================================================
-// Assigment operator
-//	assign data members of object
-   {
-   throw std::invalid_argument("Assignment operator NI for environment_t");
-   }
-
 void environment_t::onInit1(protocol::Component *system)
    //===========================================================================
    {
-   co2ID = system->addRegistration(RegistrationType::get,
-                                    "co2", addUnitsToDDML(floatType, "ppm").c_str(),
-                                    "", "");
+   scienceAPI.subscribe ("tick", TimeFunction(&environment_t::OnTick));
    }
 
-void environment_t::doNewMet(protocol::NewMetType &newmet)
+void environment_t::OnNewMet(protocol::NewMetType &newmet)
 //===========================================================================
 // Field a NewMet event
   {
@@ -46,20 +36,31 @@ void environment_t::doNewMet(protocol::NewMetType &newmet)
   mint = newmet.mint;
   }
 
+void environment_t::OnTick(protocol::TimeType &Tick)
+//=======================================================================================
+// Event Handler for the Tick Event
+   {
+   double sd = (double)Tick.startday;
+   jday_to_day_of_year(&sd, &day_of_year, &year);
+    }
 void environment_t::getOtherVariables(protocol::Component *system)
 //===========================================================================
    {
-    if (!system->getVariable(co2ID, co2, 0.0, 1500.0, true))
+    if (!scienceAPI.getOptional("co2", "mg/kg",co2, 0.0, 1500.0))
        {
        co2 = co2_default;
        }
+    scienceAPI.get("latitude", "deg", latitude, -90., 90.);
    }
 
-void environment_t::read(ScienceAPI& scienceAPI)
+void environment_t::read()
 //===========================================================================
    {
    scienceAPI.read("svp_fract", svp_fract, 0.0f, 1.0f);
    scienceAPI.read("co2_default", co2_default, 0.0f, 1000.0f);
+
+   scienceAPI.subscribe ("newmet", NewMetFunction(&environment_t::OnNewMet));
+
    }
 
 void environment_t::zeroAllGlobals(void)
@@ -85,7 +86,7 @@ float environment_t::svp(float temp) const
             mb2kpa;
    return val;
    }
-   
+
 float environment_t::vpdEstimate (void) const
 //===========================================================================
    {

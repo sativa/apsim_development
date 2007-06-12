@@ -126,7 +126,7 @@ static const char* cropChoppedDDML =  "<type name = \"CropChopped\">" \
 
 Plant::Plant(PlantComponent *P, ScienceAPI& api)
 //=======================================================================================
-   : scienceAPI(api)
+   : scienceAPI(api),Environment(api)
     {
     parent = P;
 
@@ -222,9 +222,6 @@ void Plant::onInit1()
                                    "eo", addUnitsToDDML(floatType, "mm").c_str(),
                                    "", "");
 
-   id.latitude = parent->addRegistration(RegistrationType::get,
-                                   "latitude", addUnitsToDDML(floatType, "oC").c_str(),
-                                   "", "");
    id.parasite_c_demand = parent->addRegistration(RegistrationType::get,
                                    "parasite_dm_demand", addUnitsToDDML(floatType, "g/m2").c_str(),
                                    "", "");
@@ -246,7 +243,6 @@ void Plant::onInit1()
                                    "", "");
    setupEvent(parent, "prepare",     RegistrationType::respondToEvent, &Plant::onPrepare, nullTypeDDML);
    setupEvent(parent, "process",     RegistrationType::respondToEvent, &Plant::onProcess, nullTypeDDML);
-   setupEvent(parent, "tick",        RegistrationType::respondToEvent, &Plant::onTick, DDML(protocol::TimeType()).c_str());
    setupEvent(parent, "newmet",      RegistrationType::respondToEvent, &Plant::onNewMet, DDML(protocol::NewMetType()).c_str());
    setupEvent(parent, "new_profile", RegistrationType::respondToEvent, &Plant::onNewProfile, DDML(protocol::NewProfileType()).c_str());
    setupEvent(parent, "sow",         RegistrationType::respondToEvent, &Plant::onSow, sowDDML);
@@ -655,9 +651,6 @@ void Plant::onInit2()
 
    scienceAPI.setClass2(c.default_crop_class);
 
-   // initialize crop variables
-   plant_get_site_characteristics();
-
    g.plant_status = out;
    g.module_name = parent->getName();
    doPInit(parent);
@@ -794,31 +787,17 @@ void Plant::doAutoClassChange(unsigned &/*fromId*/, unsigned &eventId, protocol:
   plant_auto_class_change(ps.c_str());
   }
 
-void Plant::onTick(unsigned &, unsigned &, protocol::Variant &v)
-//=======================================================================================
-// Event Handler for the Tick Event
-   {
-   struct protocol::TimeType tick;
-   v.unpack(tick);
-   double sd = (double)tick.startday;
-   jday_to_day_of_year(&sd, &Environment.day_of_year, &Environment.year);
-   for (vector<plantPart *>::iterator t = myParts.begin(); t != myParts.end(); t++)
-       (*t)->doTick(tick);
-    }
+
 
 void Plant::onNewMet(unsigned &, unsigned &, protocol::Variant &v)
 //=======================================================================================
 //  Event handler for the NewMet Event
   {
-  if (g.hasreadconstants)
-     {
-     struct protocol::NewMetType newmet;
-     v.unpack(newmet);
+   struct protocol::NewMetType newmet;
+   v.unpack(newmet);
+   for (vector<plantPart *>::iterator t = myParts.begin(); t != myParts.end(); t++)
+     (*t)->doNewMet(newmet);
 
-     Environment.doNewMet(newmet) ;
-     for (vector<plantPart *>::iterator t = myParts.begin(); t != myParts.end(); t++)
-        (*t)->doNewMet(newmet);
-     }
   }
 
 
@@ -2700,7 +2679,6 @@ void Plant::plant_zero_all_globals (void)
           g.co2_modifier_te = 0.0;
       g.co2_modifier_n_conc = 0.0;
       g.co2_modifier_rue = 0.0;
-      g.hasreadconstants = false;
       g.plant_status_out_today = false;
       g.module_name = "";
       g.crop_class = "";
@@ -2719,12 +2697,7 @@ void Plant::plant_zero_all_globals (void)
       g.temp_stress_photo = 1.0;
       g.oxdef_photo = 1.0;
       g.fr_intc_radn = 0.0;
-      Environment.year = 0;
-      Environment.day_of_year = 0;
-      Environment.latitude = 0.0;
-      Environment.mint = 0.0;
-      Environment.maxt = 0.0;
-      Environment.radn = 0.0;
+
       fill_real_array (g.soil_temp, 0.0, 366+1);
       g.eo = 0.0;
       g.plants = 0.0;
@@ -2783,8 +2756,6 @@ void Plant::plant_zero_all_globals (void)
       c.num_factors = 0;
       c.num_weighted_temp = 0;
 
-      c.latitude_ub = 0.0;
-      c.latitude_lb = 0.0;
       c.class_action.clear();
       c.class_change.clear();
       c.eo_crop_factor_default = 0.0;
@@ -3347,8 +3318,6 @@ void Plant::plant_read_constants ( void )
     const char*  section_name = "constants" ;
 
     scienceAPI.readOptional("crop_type", c.crop_type);
-    scienceAPI.read("latitude_ub", c.latitude_ub, -90.0f, 90.0f);
-    scienceAPI.read("latitude_lb", c.latitude_lb, -90.0f, 90.0f);
 
     for (vector<plantThing *>::iterator t = myThings.begin();
          t != myThings.end();
@@ -3358,7 +3327,6 @@ void Plant::plant_read_constants ( void )
     if (g.phosphorus_aware)
        read_p_constants(parent);
 
-    g.hasreadconstants = true;
     }
 
 
@@ -3475,7 +3443,7 @@ void Plant::plant_read_species_const ()
         t++)
       (*t)->readSpeciesParameters(parent, search_order);
 
-    Environment.read(scienceAPI);
+    Environment.read();
     plantSpatial.read(scienceAPI);
 
     scienceAPI.read("n_fix_rate", c.n_fix_rate, numvals, 0.0f, 1.0f);
@@ -3759,15 +3727,6 @@ void Plant::onNewProfile(unsigned &, unsigned &, protocol::Variant &v /* (INPUT)
     {
     rootPart->onNewProfile(v);
     }
-
-void Plant::plant_get_site_characteristics ()
- //=======================================================================================
-// Get Site Specific Data from the communications system
-    {
-    parent->getVariable(id.latitude, Environment.latitude, c.latitude_lb, c.latitude_ub);
-    }
-
-
 
 /////////////////////////////Get&Set Interface code
 bool Plant::set_plant_crop_class(protocol::QuerySetValueData&v)

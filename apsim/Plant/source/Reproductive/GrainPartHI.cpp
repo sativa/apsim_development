@@ -140,7 +140,7 @@ void fruitGrainPartHI::doDMDemandGrain(void)
                                       ,pY_hi_max_pot
                                       ,pNum_hi_max_pot);
 
-      photoperiod = day_length (gDay_of_year, gLatitude, cTwilight);
+      photoperiod = plant->getEnvironment()->daylength (cTwilight);
 
       hi_incr = linear_interp_real(photoperiod
                                    ,pX_pp_hi_incr
