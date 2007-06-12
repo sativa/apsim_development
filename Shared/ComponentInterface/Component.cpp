@@ -437,6 +437,7 @@ void Component::respondToEvent(unsigned int& fromID, unsigned int& eventID, Vari
 
   for (ipf = ipf1; ipf != ipf2; ipf++)
      {
+     variant.getMessageData().reset();
      pf = ipf->second;
      (pf)(fromID, eventID, variant);
      }

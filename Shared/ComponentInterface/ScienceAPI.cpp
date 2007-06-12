@@ -302,19 +302,36 @@ string addUnitsToDDML(const string& ddml, const string& units)
       returnString = returnString.substr(0, pos) + " unit=\"" + units + "\"/>";
    return returnString;
    }
-   
+
 // -------------------------------------------------------------
 // GET methods.
 // -------------------------------------------------------------
-bool ScienceAPI::get(const std::string& name, const std::string& units, std::vector<float>& data, float lower, float upper)
+bool ScienceAPI::get(const std::string& name, const std::string& units, float& data, float lower, float upper)
    {
    if (!getOptional(name, units, data, lower, upper))
-      {   
+      {
       string st = "The module " + string(component->getName()) + " has asked for the value of the variable " + name;
       st += ".\nIt received no responses.";
       throw runtime_error(st);
       }
      return true;
+   }
+bool ScienceAPI::get(const std::string& name, const std::string& units, std::vector<float>& data, float lower, float upper)
+   {
+   if (!getOptional(name, units, data, lower, upper))
+      {
+      string st = "The module " + string(component->getName()) + " has asked for the value of the variable " + name;
+      st += ".\nIt received no responses.";
+      throw runtime_error(st);
+      }
+     return true;
+   }
+bool ScienceAPI::getOptional(const std::string& name, const std::string& units, float& data, float lower, float upper)
+   {
+   string ddml = protocol::DDML(1.0f);
+   addUnitsToDDML(ddml, units);
+   unsigned id = component->addRegistration(RegistrationType::get, name.c_str(), ddml.c_str(), "", "");
+   return component->getVariable(id, data, lower, upper, true);
    }
 bool ScienceAPI::getOptional(const std::string& name, const std::string& units, std::vector<float>& data, float lower, float upper)
    {

@@ -54,7 +54,9 @@ class EXPORT ScienceAPI
       void setClass2(const std::string& class2) {currentClass2 = class2;}
 
       // get methods
+      bool get(const std::string& name, const std::string& units, float& data, float lower, float upper);
       bool get(const std::string& name, const std::string& units, std::vector<float>& data, float lower, float upper);
+      bool getOptional(const std::string& name, const std::string& units, float& data, float lower, float upper);
       bool getOptional(const std::string& name, const std::string& units, std::vector<float>& data, float lower, float upper);
 
       // set methods
