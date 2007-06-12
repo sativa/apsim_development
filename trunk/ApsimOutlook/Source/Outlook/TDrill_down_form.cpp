@@ -88,9 +88,9 @@ void TDrill_down_form::refreshScenarioTree (void)
       {
       AnsiString nameString = i->c_str();
       TTreeNode* newScen = ScenarioTree->Items->Add(NULL, nameString);
-      vector<string>::iterator imageIterator = find(smallImageNames.begin(),
-                                                    smallImageNames.end(),
-                                                    "simulation");
+      vector<string>::iterator imageIterator = find_if(smallImageNames.begin(),
+                                                       smallImageNames.end(),
+                                                       CaseInsensitiveStringComparison("simulation"));
       if (imageIterator != smallImageNames.end())
          {
          int imageIndex = imageIterator - smallImageNames.begin();
@@ -108,9 +108,9 @@ void TDrill_down_form::refreshScenarioTree (void)
          {
          string valueString = *j + " = " + scenarios->getFactorValue(*i, *j);
          TTreeNode* childNode = ScenarioTree->Items->AddChild(newScen, valueString.c_str());
-         vector<string>::iterator imageIterator = find(smallImageNames.begin(),
-                                                       smallImageNames.end(),
-                                                       *j);
+         vector<string>::iterator imageIterator = find_if(smallImageNames.begin(),
+                                                          smallImageNames.end(),
+                                                          CaseInsensitiveStringComparison(*j));
          if (imageIterator != smallImageNames.end())
             {
             int imageIndex = imageIterator - smallImageNames.begin();
