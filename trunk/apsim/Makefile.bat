@@ -58,6 +58,10 @@ cd %APSROOT%\apsim\grasp\source
 echo ------Compiling %CD%
 %APSMAKE%
 
+cd %APSROOT%\apsim\graz\source
+echo ------Compiling %CD%
+%APSMAKE%
+
 cd %APSROOT%\apsim\growth\source
 echo ------Compiling %CD%
 %APSMAKE%
