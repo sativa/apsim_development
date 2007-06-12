@@ -11,14 +11,10 @@
 
 class environment_t {
   public:
-  environment_t(void);
+  environment_t(ScienceAPI& scienceAPI);
   ~environment_t(void);
 
-   environment_t(const environment_t &environment_t); 			// copy constructor
-   const environment_t &operator=(const environment_t &other);		// Assigment operator
-
-   void doNewMet(protocol::NewMetType &newmet) ;
-   void read(ScienceAPI& scienceAPI);
+   void read();
    void zeroAllGlobals(void);
    void onInit1(protocol::Component *system);
    void getOtherVariables(protocol::Component *system);
@@ -36,7 +32,6 @@ class environment_t {
                                                         // lies. (0-1)
       float     co2_default;
       float     co2;
-      unsigned int co2ID;
 
    float vpdEstimate (void) const;
 
@@ -45,6 +40,10 @@ class environment_t {
    private:
       float svp(float temp) const;
       float vpd(float svp_fract, float maxt, float mint) const;
+      ScienceAPI& scienceAPI;
+      bool hasreadconstants;
+      void OnNewMet(protocol::NewMetType &newmet) ;
+      void OnTick(protocol::TimeType &Tick);
 };
 
 #endif

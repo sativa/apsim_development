@@ -30,6 +30,7 @@ protected:
    int   pNum_hi_max_pot;
    float pX_hi_max_pot_stress[max_table];             // maximum harvest index (g grain/g biomass)
    float pY_hi_max_pot[max_table];                    // maximum harvest index (g grain/g biomass)
+
 };
 
 #endif

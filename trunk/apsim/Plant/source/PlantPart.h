@@ -468,7 +468,6 @@ public:
    virtual void doNewMet(protocol::NewMetType &newmet) ;
    virtual void doNInit (void);
    virtual void doTECO2(void);                                       // (OUTPUT) transpiration coefficient                         //FIXME
-   virtual void doTick(protocol::TimeType &tick) ;
    virtual void writeCultivarInfo (protocol::Component *);
 
    virtual bool isYieldPart(void) const {return c.yield_part;};

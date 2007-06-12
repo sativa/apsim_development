@@ -34,9 +34,6 @@ void fruitGrainPart::onInit1(protocol::Component *system)
 {
    CompositePart::onInit1(system);
 
-   //   setupEvent(system, "tick",        RegistrationType::respondToEvent, &fruitGrainPart::doTick);
-   //   setupEvent(system, "newmet",      RegistrationType::respondToEvent, &fruitGrainPart::doNewMet);
-
    system->addGettableVar("dlt_dm_grain_demand",gDlt_dm_grain_demand, "g/m^2", "??");
    system->addGettableVar("dlt_dm_fruit", gDlt_dm, "g/m^2", "Change in dry matter");
    setupGetFunction(system, "grain_wt", protocol::DTsingle, false, &fruitGrainPart::get_grain_wt, "g/m^2", "Weight of grain");
@@ -63,12 +60,6 @@ void fruitGrainPart::onInit1(protocol::Component *system)
    // Set My Variable
    //   id = system->addRegistration(RegistrationType::respondToSet, "grain_oil_conc", floatType);
    //   IDtoSetFn.insert(UInt2SetFnMap::value_type(id,&Plant::set_plant_grain_oil_conc));
-
-
-
-
-   idLatitude = system->addRegistration (RegistrationType::get, "latitude", floatType, "", "");
-
 
    for (vector<plantPart *>::iterator part = myParts.begin(); part != myParts.end(); part++)
       (*part)->onInit1(system);
@@ -166,13 +157,6 @@ void fruitGrainPart::get_p_conc_grain(protocol::Component *systemInterface, prot
 }
 
 
-void fruitGrainPart::doTick(protocol::TimeType &tick)
-   //===========================================================================
-{
-   double sd = (double)tick.startday;
-   jday_to_day_of_year(&sd, &gDay_of_year, &gYear);
-}
-
 // Field a NewMet event
 void fruitGrainPart::doNewMet(protocol::NewMetType &newmet)
    //===========================================================================
@@ -217,11 +201,11 @@ void fruitGrainPart::zeroAllGlobals(void)
    plantPart::zeroAllGlobals();
 
    gHasreadconstants = false;
-   gLatitude = 0.0;
+
    gMaxt = 0.0;
    gMint = 0.0;
 
-   gDelayGrnFill  = 0.0;
+   gDelayGrnFill  = false;
    gDaysDelayedGrnFill  = 0;
    cNum_temp_grainfill = 0;
    cSw_fac_max  = 0.0;
@@ -284,7 +268,6 @@ void fruitGrainPart::doInit1(protocol::Component */* system*/)
 void fruitGrainPart::readConstants(protocol::Component *system, const string &section)
    //===========================================================================
 {
-   system->getVariable(idLatitude, gLatitude, -90.0, 90.0);
    for (vector<plantPart *>::iterator part = myParts.begin(); part != myParts.end(); part++)
       (*part)->readConstants(system, section);
 

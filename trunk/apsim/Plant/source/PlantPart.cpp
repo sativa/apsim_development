@@ -1875,7 +1875,6 @@ void plantPart::doNDemandGrain(float /* nfact_grain_conc*/, float /* swdef_expan
 void plantPart::doNewMet(protocol::NewMetType &/* newmet*/) {}
 void plantPart::doNInit (void){}
 void plantPart::doTECO2(void){}                              // (OUTPUT) transpiration coefficient                         //FIXME
-void plantPart::doTick(protocol::TimeType &/* tick*/) {}
 void plantPart::writeCultivarInfo (protocol::Component *){}
 
 float plantPart::giveDmGreen(float delta)

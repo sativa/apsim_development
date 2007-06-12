@@ -374,7 +374,6 @@ public:
                                float uptake_ubound,              //(INPUT) uptake upper limit
                                float *uptake_array);             //(OUTPUT) crop uptake array
 
-   void plant_get_site_characteristics ();
    bool set_plant_crop_class(protocol::QuerySetValueData&v);
    bool set_plant_grain_oil_conc(protocol::QuerySetValueData&v);
 
@@ -594,7 +593,6 @@ private:
       unsigned int eo;
       unsigned int fr_intc_radn;
 
-      unsigned int latitude;
       unsigned int parasite_c_demand;
       unsigned int parasite_sw_demand;
       unsigned int maxt_soil_surface;
@@ -778,8 +776,6 @@ private:
       int   num_weighted_temp;                          // size of table
 
 
-      float latitude_ub;                                // upper limit of latitude for model (oL)
-      float latitude_lb;                                // lower limit of latitude for model(oL)
       vector<string> class_action;
       vector<string> class_change;
 

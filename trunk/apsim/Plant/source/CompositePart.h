@@ -18,7 +18,6 @@ public:                                             // member functions
    virtual void doInit1(protocol::Component *system);
 
    virtual void onInit1(protocol::Component *);
-   virtual void doTick(protocol::TimeType &tick) ;
    virtual void doNewMet(protocol::NewMetType &newmet) ;
    virtual void readConstants (protocol::Component *, const string &);
    virtual void readSpeciesParameters (protocol::Component *, vector<string> &);

@@ -1331,14 +1331,6 @@ void CompositePart::doGrainNumber (void)
       (*part)->doGrainNumber();
 }
 
-void CompositePart::doTick(protocol::TimeType &tick)
-   //===========================================================================
-{
-   vector <plantPart *>::iterator part;
-   for (part = myParts.begin(); part != myParts.end(); part++)
-      (*part)->doTick(tick);
-}
-
 // Field a NewMet event
 void CompositePart::doNewMet(protocol::NewMetType &newmet)
    //===========================================================================
