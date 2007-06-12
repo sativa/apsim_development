@@ -6,5 +6,14 @@
       <respondToEventReg name="sysinit" type="sysinit"/>
       <respondToEventReg name="prepare" type="prepare"/>
       <respondToEventReg name="process" type="process"/>
+      <respondToEventReg name="end_run" type="end_run"/>
+
+      <setVariableReg name="dlt_green_leaf" type="dlt_green_leaf"/>
+      <setVariableReg name="dlt_green_stem" type="dlt_green_stem"/>
+      <setVariableReg name="dlt_dead_leaf" type="dlt_dead_leaf"/>
+      <setVariableReg name="dlt_dead_stem" type="dlt_dead_stem"/>
+
+      <EventReg name="incorp_fom" type="IncorpFom"/>
+      <EventReg name="crop_chopped" type="CropChopped"/>
    </registrations>
 </component>

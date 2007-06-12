@@ -2,7 +2,6 @@
 !   integration of forage options for beef production.  Proceedings Australian 
 !   Society Animal Production.  15:  15-19
 !
-
       module GrazModule
       use Registrations
 
@@ -22,11 +21,11 @@
       real dead_leaf          ! daily dead leaf from grasp (kg/ha)
       real green_stem         ! daily green stem from grasp (kg/ha)
       real dead_stem          ! daily dead stem from grasp (kg/ha)
+      real grass_growth       ! daily grass growth (kg/ha)
       real acc_eaten          ! accumulated intake by animals
       real acc_growth         ! accumulated growth of sward from grasp
       real intake_restr       ! final intake restriction (0-1)
       character  crop_type*50 ! crop type from grasp
-
 
 !   Short description:
 !      outputs
@@ -47,6 +46,7 @@
 !   Short description:
 !      coefficients of animals.
 
+      logical allow_supplements ! Whether lwg is restricted by what is eaten
       real intake_util_intercept ! Parameter for feed quality
                                 ! restriction. Restriction of intake
                                 ! by animal.
@@ -61,9 +61,6 @@
       real std_alw            ! standard alw for beast (200 kg)
       real metabol_expon      ! ???
       real prop_can_eat       ! ???
-      real stocking_rate_init     ! initial stocking rate (still needs a
-                                ! sow message to start)
-      real alw_init           ! initial live weight
       integer acc_eaten_reset ! Day that pool is reset
 
       end type GrazParameters
@@ -71,7 +68,8 @@
 !     ================================================================
       type GrazConstants  
       sequence
-      logical   dummy_Constantr
+      integer   dummy_constant1
+      integer   dummy_constant2
 
       end type GrazConstants
 !     ================================================================
@@ -82,12 +80,13 @@
       type (GrazGlobals),pointer :: g
       type (GrazParameters),pointer :: p
       type (GrazConstants),pointer :: c
+      type (IDsType), pointer :: id
                  
       contains
 
 *     ===========================================================
       subroutine graz_process ()
-*     ===========================================================
+*     ============graz_process===============================================
       Use infrastructure
       implicit none
 
@@ -128,12 +127,15 @@
 * --------------------- Executable code section ----------------------
       call push_routine (my_name)
 
-      call graz_eat ()
-
-      call graz_update ()
-
+      if (g%stocking_rate .gt. 0.0) then
+          call graz_eat ()
+      else                              
+          ! no cows...
+      endif
+      
       call graz_event ()
-
+      call graz_update ()
+      
       call pop_routine (my_name)
       return
       end subroutine
@@ -198,7 +200,7 @@
       real trampled             ! trampled dead leaf + stem
       real trampled_stem        ! trampled dead stem
       real trampled_leaf        ! trampled dead leaf
-
+      real stock_equiv          ! stock equivalent
 
 *   Constant values
       character  my_name*(*)           ! name of procedure
@@ -219,7 +221,6 @@ cPdeV. This should be a parameter.
       tsdm = green_pool + dead_pool
 
       green_prop = divide (green_pool, tsdm, 0.0)
-
       green_prop_leaf = divide (g%green_leaf,
      :     green_pool, 0.0)
       dead_prop_leaf = divide (g%dead_leaf,
@@ -236,7 +237,7 @@ cPdeV. This should be a parameter.
       endif
 
 *     Calculate utilization and its effects on intake
-      if (g%acc_growth .gt. 1.0) then
+      if (g%acc_growth .gt. 0.01) then
          prop_consumed = divide(g%acc_eaten,
      :        g%acc_growth, 0.0)
          prop_consumed = min(1.0, prop_consumed)
@@ -261,34 +262,50 @@ cPdeV. This should be a parameter.
 
 *     Restrict intake such that the herd cannot eat more than is
 *     in sward, then adjust individual animal intake accordingly
-      tsdm_eaten = graz_stock_equiv () * anim_intake
+      stock_equiv = graz_stock_equiv ()
+      tsdm_eaten = stock_equiv * anim_intake
       tsdm_eaten = bound (tsdm_eaten, 0.0, tsdm)
 
-      green_eaten = green_diet * tsdm_eaten
-      dead_eaten = (1.0 - green_diet) * tsdm_eaten
-
-*     Lwg calculation:
-      anim_intake = divide(tsdm_eaten,
-     :     graz_stock_equiv (), 0.0)
-
-*     Should formally name and define 0.304 & 1.058.
-      g%dlt_lwg = anim_intake * 0.304 - 1.058
+      if (stock_equiv > 0) then
+         anim_intake = divide(tsdm_eaten, stock_equiv, 0.0)
+      else 
+         anim_intake = 0.0      
+      endif
+      
+*     Lwg calculation.
+!        if supplementing, there is no restriction effect on LWG
+      if (p%allow_supplements) then
+          g%dlt_lwg = graz_pot_lwg()
+      else
+          g%dlt_lwg = anim_intake * 0.304 - 1.058
+      endif
 
 *     Restrict the lwg, so that alw never goes below minimum
-      g%dlt_lwg = max (MIN_ALW - g%alw, g%dlt_lwg)
+! not in spaghetti !!!
+!      g%dlt_lwg = max (MIN_ALW - g%alw, g%dlt_lwg)
 
       curve_factor = divide (
      :     0.5 * p%leaf_diet - p%leaf_diet,
      :     0.5 * p%leaf_diet - 0.5, 0.0)
 
+      green_eaten = green_diet * tsdm_eaten
+      green_eaten = min(green_pool, green_eaten)
+      dead_eaten = (1.0 - green_diet) * tsdm_eaten
+      dead_eaten = min(dead_pool, dead_eaten)
+
       g%dlt_green_leaf = - green_eaten *
      :     graz_comp_curve(green_prop_leaf, curve_factor)
+      g%dlt_green_leaf = max(- g%green_leaf, g%dlt_green_leaf)
 
       g%dlt_dead_leaf = - dead_eaten *
      :     graz_comp_curve(dead_prop_leaf, curve_factor)
+      g%dlt_dead_leaf = max(- g%dead_leaf, - g%dlt_dead_leaf)
 
       g%dlt_green_stem = -( green_eaten + g%dlt_green_leaf )
+      g%dlt_green_stem = max(- g%green_stem, g%dlt_green_stem)
+
       g%dlt_dead_stem = -( dead_eaten + g%dlt_dead_leaf )
+      g%dlt_dead_stem = max(- g%dead_stem, g%dlt_dead_stem)
 
 *     Trampling
       trampled = tsdm_eaten * (
@@ -502,6 +519,8 @@ c     describing these functions available, there would be a better way.
      :     (-g%dlt_dead_leaf) +
      :     (-g%dlt_dead_stem)
 
+      g%acc_growth = g%acc_growth + g%grass_growth
+
       g%alw = g%alw + g%dlt_lwg
 
       call pop_routine (my_name)
@@ -552,8 +571,9 @@ c     describing these functions available, there would be a better way.
 
       if (g%day .eq. p%acc_eaten_reset) then
          g%acc_eaten = 0.0
+         g%acc_growth = g%green_leaf + g%green_stem
       else
-                                ! Nothing
+         ! Nothing
       endif
 
       call pop_routine (my_name)
@@ -606,8 +626,10 @@ c     describing these functions available, there would be a better way.
       call push_routine (my_name)
 
       g%acc_eaten = 0.0
+      g%acc_growth = 0.0
       g%alw = 0.0
       g%stocking_rate = 0.0
+
 
       call pop_routine (my_name)
       return
@@ -659,9 +681,6 @@ c     describing these functions available, there would be a better way.
 
            ! initialize crop variables
       call graz_read_parameters ()
-
-      g%alw = p%alw_init
-      g%stocking_rate = p%stocking_rate_init
 
       call pop_routine (my_name)
       return
@@ -737,9 +756,9 @@ c     describing these functions available, there would be a better way.
      :     , g%dead_stem, numvals
      :     , 0.0, 100000.0)
 
-      call get_real_var (unknown_module, 'acc_growth', '(kg/ha)'
-     :     , g%acc_growth, numvals
-     :     , 0.0, 1000000.0)
+      call get_real_var (unknown_module, 'growth', '(kg/ha)'
+     :     , g%grass_growth, numvals
+     :     , 0.0, 100000.0)
 
       call get_char_var (unknown_module, 'crop_type', '()'
      :     , g%crop_type, numvals)
@@ -781,9 +800,13 @@ c     describing these functions available, there would be a better way.
       character  my_name*(*)           ! name of procedure
       parameter (my_name = 'graz_set_other_variables')
 
-*   Initial data values
-*      none
-
+      character  crop_type*(2)              ! (INPUT) crop type
+      character  dm_type(2)*(20)             ! (INPUT) residue type
+      real  dlt_crop_dm(2)                  ! (INPUT) residue weight (kg/ha)
+      real  dlt_dm_n(2)                     ! (INPUT) residue N weight (kg/ha)
+      real  fraction_to_Residue(2)          ! (INPUT) residue fraction to residue (0-1)
+      integer max_part
+      
 * --------------------- Executable code section ----------------------
       call push_routine (my_name)
 
@@ -799,22 +822,41 @@ c     describing these functions available, there would be a better way.
       call set_real_var (unknown_module, 'dlt_dead_stem', '(kg/ha)'
      :     , g%dlt_dead_stem - g%dead_stem_tramp)
 
-Cpdev Needs to have better indication of N content in residue.
       if (g%dead_leaf_tramp + g%dead_stem_tramp .gt. 0.0 ) then
-c        write (*,*) 'graz is adding residue :'
-c        write (*,*) ' type = ', g%crop_type
-c        write (*,*) ' wt = ', g%dead_leaf_tramp + g%dead_stem_tramp
-c        write (*,*) ' n = ', 0.0
-
         call new_postbox()
-        call post_char_var('dlt_residue_type', '()',
-     :       g%crop_type)
-        call post_real_var('dlt_residue_wt', '(kg/ha)',
-     :       g%dead_leaf_tramp + g%dead_stem_tramp)
-        call post_real_var('dlt_residue_n', '(kg/ha)',
-     :       0.0)
 
-        call event_send('add_residue')
+        call post_char_var   (DATA_crop_type
+     :                        ,'()'
+     :                        , g%crop_type)
+        dm_type(1) = 'leaf'
+        dm_type(2) = 'stem'
+        call post_char_array (DATA_dm_type
+     :                        ,'()'
+     :                        , dm_type
+     :                        , 2)
+        dlt_crop_dm(1) = g%dead_leaf_tramp
+        dlt_crop_dm(2) = g%dead_stem_tramp
+        call post_real_array (DATA_dlt_crop_dm
+     :                        ,'(kg/ha)'
+     :                        , dlt_crop_dm
+     :                        , 2)
+
+        dlt_dm_n(1) = 0.1     !! TOTALLY WRONG. FIXME
+        dlt_dm_n(2) = 0.1
+        call post_real_array (DATA_dlt_dm_n
+     :                        ,'(kg/ha)'
+     :                        , dlt_dm_n
+     :                        , 2)
+        fraction_to_Residue(1) = 1.0
+        fraction_to_Residue(2) = 1.0
+        
+        call post_real_array (DATA_fraction_to_Residue
+     :                        ,'()'
+     :                        , fraction_to_Residue
+     :                        , 2)
+
+     
+        call event_send(EVENT_Crop_Chopped)
         call delete_postbox ()
 
       else
@@ -877,7 +919,6 @@ c        write (*,*) ' n = ', 0.0
          call collect_real_var ('stocking_rate', '()'
      :        , g%stocking_rate, numvals
      :        , 0.0, 100.0)
-
       elseif (variable_name .eq. 'alw') then
          call collect_real_var ('alw', '()'
      :        , g%alw, numvals
@@ -944,8 +985,13 @@ c        write (*,*) ' n = ', 0.0
 
       elseif (variable_name .eq. 'acc_eaten') then
          call respond2get_real_var ('acc_eaten'
-     :        , '(kg)'
+     :        , '(kg/ha)'
      :        , g%acc_eaten)
+
+      elseif (variable_name .eq. 'acc_growth') then
+         call respond2get_real_var ('acc_growth'
+     :        , '(kg/ha)'
+     :        , g%acc_growth)
 
       elseif (variable_name .eq. 'intake_restr') then
          call respond2get_real_var ('intake_restr'
@@ -1063,20 +1109,14 @@ c        write (*,*) ' n = ', 0.0
      :                    , p%prop_can_eat, numvals
      :                    , 0.0, 100.0)
 
-      call read_real_var (section_name
-     :                    , 'stocking_rate_init', '()'
-     :                    , p%stocking_rate_init, numvals
-     :                    , 0.0, 100.0)
-
-      call read_real_var (section_name
-     :                    , 'alw_init', '()'
-     :                    , p%alw_init, numvals
-     :                    , 0.0, 1000.0)
-
       call read_integer_var (section_name
      :                    , 'acc_eaten_reset', '()'
      :                    , p%acc_eaten_reset, numvals
      :                    , 0, 366)
+
+      call read_logical_var (section_name
+     :                    , 'allow_supplements', '()'
+     :                    , p%allow_supplements, numvals)
 
       call pop_routine (my_name)
       return
@@ -1159,10 +1199,12 @@ c        write (*,*) ' n = ', 0.0
          allocate(g)
          allocate(p)
          allocate(c)
+         allocate(id)
       else
          deallocate(g)
          deallocate(p)
          deallocate(c)
+         deallocate(id)
       end if
       return
       end subroutine
@@ -1170,8 +1212,8 @@ c        write (*,*) ' n = ', 0.0
 * ====================================================================
       Subroutine Main (action, data_string)
 * ====================================================================
-      use GrazModule
       Use infrastructure
+      use GrazModule
       implicit none                                                   
       ml_external Main
 
@@ -1194,7 +1236,10 @@ c        write (*,*) ' n = ', 0.0
 *- Implementation Section ----------------------------------
       call push_routine(myname)
 
-      if (Action.eq.ACTION_init) then
+      if (Action.eq.ACTION_Create) then
+         call doRegistrations(id)
+
+      else if (Action.eq.ACTION_init) then
          call graz_zero_variables ()
             ! Get constants
          call graz_init ()
@@ -1202,16 +1247,12 @@ c        write (*,*) ' n = ', 0.0
          call graz_get_other_variables ()
 
       else if (Action.eq.ACTION_Process) then
-         if (g%stocking_rate .gt. 0.0) then
-               ! request and receive variables from owner-modules
-            call graz_get_other_variables ()
-               ! do processes
-            call graz_process ()
-               ! send changes to owner-modules
-            call graz_set_other_variables ()
-         else
-            ! no cows...
-         endif
+            ! request and receive variables from owner-modules
+         call graz_get_other_variables ()
+            ! do processes
+         call graz_process ()
+            ! send changes to owner-modules
+         call graz_set_other_variables ()
 
       else if (Action.eq.ACTION_Get_variable) then
             ! respond to request for variable values - from modules
@@ -1251,146 +1292,3 @@ c        write (*,*) ' n = ', 0.0
       
       
       
-CPdeV
-C Original surfair grasp code:
-c$$$C###########################################################################
-c$$$C SUBROUTINE GRAZING
-c$$$C###########################################################################
-c$$$C
-c$$$C Inputs:
-c$$$C       state:          beasts_ha, green_leaf, green_stem, dead_leaf,
-c$$$C                       dead_stem, acc_growth2, acc_eaten, alw
-c$$$C       grass_P:        intake_util_intercept, intake_util_slope,
-c$$$C                       yld_eat_restr, summer_lwg, autumn_lwg, winter_lwg,
-c$$$C                       spring_lwg, leaf_diet
-c$$$C       animal_P:       metabol_expon, std_alw
-c$$$C       month
-c$$$C Outputs:
-c$$$C       state:          acc_eaten, alw, green_leaf, green_stem,
-c$$$C                       dead_leaf, dead_stem
-c$$$C       rate:           pot_lwg, anim_intake, daily_lwg, eaten, green_eaten,
-c$$$C                       dead_eaten, green_leaf_eaten, dead_leaf_eaten,
-c$$$C                       green_stem_eaten, dead_stem_eaten
-c$$$C       ratio:          prop_green, prop_green_leaf, prop_dead_leaf,
-c$$$C                       green_diet, prop_consumed, intake_restr, stock_equiv,
-c$$$C                       curve_factor
-c$$$C
-c$$$        subroutine grazing(state, animal_P, grass_P, rate, ratio, month)
-c$$$        include 'structures.h'
-c$$$        integer month, season(12), SUMMER, AUTUMN, WINTER, SPRING
-c$$$        parameter (SUMMER = 1, AUTUMN = 2, WINTER = 3, SPRING = 4)
-c$$$        real DAYS_PER_SEASON, MIN_ALW
-c$$$        parameter (DAYS_PER_SEASON = 91.25, MIN_ALW = 10.0)
-c$$$        real green_pool, dead_pool, tsdm, mod_prop_green, comp_curve
-c$$$        data season/1,1,2,2,2,3,3,3,4,4,4,1/
-c$$$
-c$$$
-c$$$        if (state_beasts_ha .gt. 0.0) then
-c$$$           green_pool = g%green_leaf + g%green_stem
-c$$$           dead_pool = g%dead_leaf + g%dead_stem
-c$$$           tsdm = g%green_pool + g%dead_pool
-c$$$
-c$$$           ratio_prop_green = divide (g%green_pool, tsdm, 0.0)
-c$$$           ratio_prop_green_leaf = divide (g%green_leaf,
-c$$$     :          g%green_pool, 0.0)
-c$$$           ratio_prop_dead_leaf = divide (g%dead_leaf / g%dead_pool
-c$$$
-c$$$
-c$$$           mod_prop_green = (ratio_prop_green - 0.10) / 0.90
-c$$$           mod_prop_green = max(0.0, mod_prop_green)
-c$$$
-c$$$           ratio_green_diet = comp_curve(mod_prop_green, 19.0)
-c$$$
-c$$$C     If green is less than 10%, no active selection for green by stock
-c$$$           if ((mod_prop_green .le. 0.0) .and.
-c$$$     &          (green_pool .ge. 0.0)) then
-c$$$              ratio_green_diet = ratio_prop_green
-c$$$           endif
-c$$$
-c$$$C           Calculate utilization and its effects on intake
-c$$$           ratio_prop_consumed = 0.0
-c$$$           if (state_acc_growth2 .gt. 1.0) then
-c$$$              ratio_prop_consumed =
-c$$$     &             state_acc_eaten / state_acc_growth2
-c$$$              ratio_prop_consumed = min(1.0, ratio_prop_consumed)
-c$$$           endif
-c$$$
-c$$$
-c$$$            ratio_intake_restr = grass_P_intake_util_intercept +
-c$$$     &              ratio_prop_consumed * grass_P_intake_util_slope
-c$$$            ratio_intake_restr = min(tsdm/grass_P_yld_eat_restr,
-c$$$     &              ratio_intake_restr, 1.0)
-c$$$            ratio_intake_restr = max(ratio_intake_restr, 0.0)
-c$$$
-c$$$
-c$$$            if (season(month) .eq. SUMMER) then
-c$$$                rate_pot_lwg = grass_P_summer_lwg
-c$$$            else if (season(month) .eq. AUTUMN) then
-c$$$                rate_pot_lwg = grass_P_autumn_lwg
-c$$$            else if (season(month) .eq. WINTER) then
-c$$$                rate_pot_lwg = grass_P_winter_lwg
-c$$$            else if (season(month) .eq. SPRING) then
-c$$$                rate_pot_lwg = grass_P_spring_lwg
-c$$$            endif
-c$$$
-c$$$
-c$$$C       This is the animal lwg model. We should do more shit with this
-c$$$C       to allow different models here.
-c$$$
-c$$$C N.B. remember to put in a range check on in pot_lwg parameter inputs
-c$$$            rate_anim_intake = ratio_intake_restr *
-c$$$     &          (rate_pot_lwg / DAYS_PER_SEASON + 1.058) / 0.304
-c$$$
-c$$$
-c$$$C           Restrict intake such that the herd cannot eat more than is
-c$$$C           in sward, then adjust individual animal intake accordingly
-c$$$            rate_eaten = ratio_stock_equiv * rate_anim_intake
-c$$$            rate_eaten = min(tsdm, rate_eaten)
-c$$$            rate_anim_intake = rate_eaten / ratio_stock_equiv
-c$$$
-c$$$            rate_daily_lwg = rate_anim_intake * 0.304 - 1.058
-c$$$C           Restrict the lwg, so that alw never goes below 1kg
-c$$$            rate_daily_lwg = max((MIN_ALW - state_alw), rate_daily_lwg)
-c$$$C Should formally name and define 0.304 & 1.058.
-c$$$
-c$$$
-c$$$            rate_green_eaten = ratio_green_diet * rate_eaten
-c$$$            rate_dead_eaten = (1.0 - ratio_green_diet) * rate_eaten
-c$$$
-c$$$
-c$$$        curve_factor =
-c$$$     &          (0.5 * p%leaf_diet - p%leaf_diet) /
-c$$$     &          (0.5 * p%leaf_diet - 0.5)
-c$$$
-c$$$            rate_green_leaf_eaten = rate_green_eaten *
-c$$$     &          comp_curve(ratio_prop_green_leaf, ratio_curve_factor)
-c$$$
-c$$$            rate_dead_leaf_eaten = rate_dead_eaten *
-c$$$     &          comp_curve(ratio_prop_dead_leaf, ratio_curve_factor)
-c$$$            rate_green_stem_eaten = rate_green_eaten -
-c$$$     &          rate_green_leaf_eaten
-c$$$            rate_dead_stem_eaten = rate_dead_eaten -
-c$$$     &          rate_dead_leaf_eaten
-c$$$
-c$$$        else
-c$$$            rate_eaten = 0.0
-c$$$            rate_green_eaten = 0.0
-c$$$            rate_dead_eaten = 0.0
-c$$$            rate_green_leaf_eaten = 0.0
-c$$$            rate_dead_leaf_eaten = 0.0
-c$$$            rate_green_stem_eaten = 0.0
-c$$$            rate_dead_stem_eaten = 0.0
-c$$$            rate_daily_lwg = 0.0
-c$$$        endif
-c$$$
-c$$$        state_acc_eaten = state_acc_eaten + rate_eaten
-c$$$        state_alw = state_alw + rate_daily_lwg
-c$$$        state_green_leaf = state_green_leaf - rate_green_leaf_eaten
-c$$$        state_green_stem = state_green_stem - rate_green_stem_eaten
-c$$$        state_dead_leaf = state_dead_leaf - rate_dead_leaf_eaten
-c$$$        state_dead_stem = state_dead_stem - rate_dead_stem_eaten
-c$$$
-c$$$
-c$$$        return
-c$$$        end
-c$$$

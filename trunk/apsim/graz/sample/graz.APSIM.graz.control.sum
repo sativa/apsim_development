@@ -25,35 +25,53 @@ Component       "graz" = c:\development\apsim\graz\lib\graz.dll
         prepare
         process
         post
-     Simulation start date =  1/01/1986
-     Simulation end date   =  1/01/1996
+     Simulation start date =  1/01/1988
+     Simulation end date   =  1/01/1990
      Time step =           = 1440 (mins)
 
 ------- report Initialisation -------------------------------------------------
      Output variables:
         clock.year
         clock.day
-        soilwat2.sw_dep()
-        soilwat2.sw_dep
-        soilwat2.total_cover as cover
         grasp.green_pool
         grasp.dead_pool
         surfaceom.surfaceom_wt as litter
         graz.alw
         graz.lwg
+        graz.acc_eaten
+        graz.acc_growth
 
      Output file = model.out
      Format = normal
 
 ------- met Initialisation ----------------------------------------------------
      Sparse data is not allowed
-     INPUT File name: narayen.met
+     INPUT File name: c:\development\apsim\met\sample\dalby.met
 
 ------- manager Initialisation ------------------------------------------------
      Manager rules:
      
      SECTION:- start_of_day
-     dateser = day + (year - 1901) * 365 + (year - 1901) / 4
+     if (clock.day = clock.simulation_start_day and
+         clock.year = clock.simulation_start_year) then
+        grasp establish init_section = mature_sward
+        graz set stocking_rate = 0.8
+        graz set alw =  400.0
+        annual_lwg = 0.0
+     endif
+     annual_lwg = annual_lwg + graz.lwg
+     if (today = date('1-jun') then
+        graz set alw = 400.0
+        avgdailyintake = (annual_lwg/365.25 + 1.058) / 0.304
+        targetutil = 30.0 / 100.0
+        annualintake = avgdailyintake * 365.5
+        stock_equiv_ratio = targetutil * grasp.tsdm / annualintake
+        weight_ratio = graz.alw / 200
+        factor = weight_ratio ** 0.75
+        beasts_ha = stock_equiv_ratio / factor
+        graz set stocking_rate = beasts_ha
+        annual_lwg = 0.0
+     endif
      
      SECTION:- end_of_day
      report do_output
@@ -180,6 +198,27 @@ Component       "graz" = c:\development\apsim\graz\lib\graz.dll
      
          - Reading parameters
 ------- Start of simulation  --------------------------------------------------
-     Manager creating a new local real variable : dateser =     31047.2500000000
-1 January 1996(Day of year=1), clock: 
+     Manager sending message :- grasp establish  init_section = mature_sward
+     Establishing Sward
+     Initial conditions:
+       Basal area :    1.50 %
+       Pools:
+                root     stem     leaf
+             +--------+--------+--------+
+      green  |    400.0    400.0    800.0
+      dead   |    400.0    400.0    800.0
+             +--------+--------+--------+
+       Root depth :   750.0 mm
+       Using vpd approximated from maxt, mint.
+       NB. Pan evap approximated by soilwat2.eo
+     Manager creating a new local real variable : annual_lwg =     0.00000000000000
+1 June 1988(Day of year=153), manager: 
+     Manager creating a new local real variable : avgdailyintake =     4.21259253988791
+     Manager creating a new local real variable : targetutil =    0.300000000000000
+     Manager creating a new local real variable : annualintake =     1539.70259530000
+     Manager creating a new local real variable : stock_equiv_ratio =     1.12965493556165
+     Manager creating a new local real variable : weight_ratio =     2.00000000000000
+     Manager creating a new local real variable : factor =     1.68179283050743
+     Manager creating a new local real variable : beasts_ha =    0.671696798617637
+1 January 1990(Day of year=1), clock: 
      Simulation is terminating due to end criteria being met.
