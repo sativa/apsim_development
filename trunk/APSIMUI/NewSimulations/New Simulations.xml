@@ -9107,21 +9107,20 @@
       <registrations name="global" />
       <tclmanager name="Manager">
         <tclui name="Rotation Initialisation">
-          <rule name="Sample Rotation 1 Rotation Initialisation.out - Rotation Initialisation UI1" condition="init" invisible="yes">
-source $apsuite/apsim/tcllink/lib/RotationInitialisation.tcl
+          <rule name="Sample Rotation 1 Rotation Initialisation.out - Rotation Initialisation UI1" condition="init" invisible="yes"><![CDATA[source \"$apsuite/apsim/tcllink/lib/RotationInitialisation.tcl\"
 set state "WinterFallow"
-</rule>
-          <rule name="Sample Rotation 1 Rotation Initialisation.out - Rotation Initialisation UI2" condition="process" invisible="yes">checkSetup
+]]></rule>
+          <rule name="Sample Rotation 1 Rotation Initialisation.out - Rotation Initialisation UI2" condition="process" invisible="yes"><![CDATA[checkSetup
 doProcess
-</rule>
-          <rule name="Sample Rotation 1 Rotation Initialisation.out - Rotation Initialisation UI3" condition="exit" invisible="yes">exit
-</rule>
-          <uiscript>source $apsuite/apsim/tcllink/lib/RotationInitialisationUI.tcl</uiscript>
+]]></rule>
+          <rule name="Sample Rotation 1 Rotation Initialisation.out - Rotation Initialisation UI3" condition="exit" invisible="yes"><![CDATA[exit
+]]></rule>
+          <uiscript><![CDATA[source \"$apsuite/apsim/tcllink/lib/RotationInitialisationUI.tcl\"]]></uiscript>
           <initialState>WinterFallow</initialState>
           <simpleLogging>0</simpleLogging>
         </tclui>
         <tclui name="Rotation Management">
-          <uiscript><![CDATA[source $apsuite/apsim/tcllink/lib/RotationsUI.tcl]]></uiscript>
+          <uiscript><![CDATA[source \"$apsuite/apsim/tcllink/lib/RotationsUI.tcl\"]]></uiscript>
           <canvas_height>496</canvas_height>
           <rules_height>40</rules_height>
           <node>
@@ -9461,7 +9460,7 @@ proc sow_[crop] {} {
 
 
 </ruletemplate>
-          <uiscript>source $apsuite/apsim/tcllink/lib/GenericSowingUI.tcl</uiscript>
+          <uiscript><![CDATA[source \"$apsuite/apsim/tcllink/lib/GenericSowingUI.tcl\"]]></uiscript>
           <crop>wheat</crop>
           <criteria>variable</criteria>
           <date1>15-may</date1>
@@ -9604,7 +9603,7 @@ proc sow_[crop] {} {
 
 
 </ruletemplate>
-          <uiscript>source $apsuite/apsim/tcllink/lib/GenericSowingUI.tcl</uiscript>
+          <uiscript><![CDATA[source \"$apsuite/apsim/tcllink/lib/GenericSowingUI.tcl\"]]></uiscript>
           <crop>cotton</crop>
           <criteria>variable</criteria>
           <date1>15-oct</date1>
@@ -9746,7 +9745,7 @@ proc sow_[crop] {} {
 
 
 </ruletemplate>
-          <uiscript>source $apsuite/apsim/tcllink/lib/GenericSowingUI.tcl</uiscript>
+          <uiscript><![CDATA[source \"$apsuite/apsim/tcllink/lib/GenericSowingUI.tcl\"]]></uiscript>
           <crop>chickpea</crop>
           <criteria>variable</criteria>
           <date1>15-may</date1>
