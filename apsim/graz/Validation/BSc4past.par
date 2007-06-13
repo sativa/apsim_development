@@ -1,0 +1,103 @@
+[BSc4past.clock.parameters]
+start_date=31/12/1899     ! dd/mm/yyyy
+!end_date=31/12/2003     ! dd/mm/yyyy
+end_date=31/12/1910     ! dd/mm/yyyy
+
+
+[daily.daily.parameters]
+outputfile =daily.out
+variable = clock.year
+variable = clock.day
+variable = soilwat2.sw_dep
+variable = soilwat2.eos
+variable = soilwat2.es
+variable = soilwat2.cover_surface_runoff as soilwat_cover
+variable = grasp.green_pool
+variable = grasp.dead_pool
+variable = grasp.growth_transp
+variable = grasp.growth_photo
+variable = grasp.growth_regrowth
+variable = grasp.growth
+variable = grasp.death
+variable = grasp.n_index
+variable = grasp.rad_index
+variable = grasp.sw_index
+variable = grasp.temp_index
+variable = grasp.growth_index
+variable = grasp.basal_area
+variable = grasp.cover_tot
+variable = surfaceom.surfaceom_wt
+variable = surfaceom.surfaceom_cover
+
+[annual.annual.parameters]
+outputfile =annual.out
+variable = clock.year 
+variable = tracker.rainfall
+variable = tracker.runoff
+variable = tracker.drainage
+variable = tracker.Esoil
+variable = tracker.Eplant
+variable = tracker.grassEaten
+variable = tracker.lwg
+
+[annual.tracker.parameters]
+variable = sum of met.rain on start_of_day from start_year to now as rainfall
+variable = sum of soilwat2.drain on end_of_day from start_year to now as drainage
+variable = sum of soilwat2.runoff on end_of_day from start_year to now as runoff
+variable = sum of soilwat2.es on end_of_day from start_year to now as Esoil
+variable = sum of grasp.ep on end_of_day from start_year to now as Eplant
+variable = sum of graz.intake_restr on end_of_day from start_year to now as grassEaten
+variable = sum of graz.lwg on end_of_day from start_year to now as lwg
+
+
+
+[BlackVertosol.soilwat2.parameters]
+u               = 6         (mm)
+cona            = 3.5        ()
+insoil          = 1.0       ()
+cn2_bare        = 73        ()
+cn_red          = 20        ()
+cn_cov          = 0.8       ()
+salb            = 0.12       ()
+diffus_const    = 40        ()
+diffus_slope    = 16        ()
+
+dlayer            = 150  150  300  300  300  300   300  200  1000
+air_dry           = 0.12 0.19 0.24 0.24 0.24 0.24 0.24 0.24  0.24
+ll15              = 0.24 0.24 0.24 0.24 0.24 0.24 0.24 0.24  0.24
+dul               = 0.48 0.46 0.46 0.35 0.33 0.33 0.32 0.31  0.30
+sat               = 0.58 0.51 0.51 0.47 0.43 0.4  0.39 0.38  0.37
+bd               = 1.04  1.22 1.21 1.32 1.42 1.5  1.5  1.5   1.5  ()
+ks               = 1.0   1.0  1.0  0.1  0.1  0.1  0.1  0.1   0.1 ()
+swcon =            0.3   0.3  0.3  0.3  0.3  0.3  0.3  0.3   0.3
+
+[BlackVertosol.soiln2.parameters]   !! Mostly guessed..
+root_cn =  20.   ! C:N ratio of initial root residues
+root_wt =  1000. ! root residues as biomass (kg/ha)
+soil_cn =  14.5  ! C:N ratio of soil
+
+!dlayer            = 150  150  300  300  300  300   300  200   300
+oc                = 1.24  1.24 1.25 1.1 0.71 0.34  0.2   0.2   0.2 (%)   ! Soil Organic Carbon
+ph             =     7    7    7    7   7    7      7    7     7()        ! pH of soil
+fbiom          =  0.04 0.02 0.02 0.02 0.01 0.01   0.01   0.01  0.01()   ! Organic C Biomass Fraction
+finert         =  0.4  0.6  0.8   1   1    1      1       1     1()      ! Inert Organic C Fraction
+no3ppm =          9.2  3.0  1.4  0.5  0.2  0.2    0.2    0.2   0.2(ppm)   ! Nitrate Concentration
+nh4ppm =         0.30 0.30 0.30  0.30 0.30 0.30  0.30  0.30   0.30(ppm)   ! Ammonium Concentration
+enr_a_coeff =  7.4 ()
+enr_b_coeff =  0.2
+profile_reduction =  off
+
+[BlackVertosol.surfaceOM.parameters]
+mass = 1000. (kg/ha)   ! Initial surface residue
+cnr = 80.0 ()   ! C:N ration of initial residue
+type = grass   ! Type if initial residue
+name = grass
+
+[BlackVertosol.grasp.parameters]
+ll   = 0.24 0.24 0.24 0.24 0.24 0.24 0.24 0.24 0.24   ! lower limit mm water/mm soil
+xf   = 1.00 1.00 1.00 1.0  1.0  1.0  1.0  1.0  1.0 ! Weighting factor for root advance
+kl   = 0.4  0.4  0.4  0.4  0.0  0.0  0.0  0.0  0.0 ! Water Extraction Parameter (0-1)
+max_n_avail      =  21   (kg/ha/year)
+max_n_avail_dist =  0.7 0.1 0.05 0.05 0.05 0.05 0  0  0()
+enr_a_coeff =  7.4 ()
+enr_b_coeff =  0.2
