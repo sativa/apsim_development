@@ -192,7 +192,6 @@
       real intake_restr_growth  ! restriction of intake by proportion of
                                 ! growth over season (0-1)
       real intake_restr_tsdm    ! restriction of intake by low level of tsdm
-      real intake_restr         ! final intake restriction (0-1)
       real anim_intake          ! intake of biomass (kg/beast)
       real tsdm_eaten           ! biomass eaten     (kg/ha)
       real green_eaten, dead_eaten ! pool eaten     (kg/ha)
@@ -253,11 +252,11 @@ cPdeV. This should be a parameter.
       intake_restr_tsdm = divide (tsdm,
      :     p%yld_eat_restr, 0.0)
 
-      intake_restr = min (intake_restr_tsdm, intake_restr_growth)
-      intake_restr = bound (intake_restr, 0.0, 1.0)
+      g%intake_restr = min (intake_restr_tsdm, intake_restr_growth)
+      g%intake_restr = bound (g%intake_restr, 0.0, 1.0)
 
 *     This is the animal lwg model.
-      anim_intake = intake_restr *
+      anim_intake = g%intake_restr *
      :      divide (graz_pot_lwg () + 1.058, 0.304, 0.0)
 
 *     Restrict intake such that the herd cannot eat more than is
@@ -736,7 +735,7 @@ c     describing these functions available, there would be a better way.
      :     , '()', g%day, numvals, 1, 366)
 
       call get_integer_var (unknown_module, 'year'
-     :     , '()', g%year, numvals, 1800, 2000)
+     :     , '()', g%year, numvals, 1800, 2100)
                          
                          
       call get_real_var (unknown_module, 
