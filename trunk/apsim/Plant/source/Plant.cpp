@@ -2016,6 +2016,25 @@ void Plant::plant_process ( void )
 
     if (g.plant_status == alive)
         {
+         // these next three executable lines are copied from the "prepare"
+         // method. They need to be calculated in the case where a crop is
+         // sown during a process method. In this situation, the co2 modifiers
+         // have a value of zero.
+         plant_rue_co2_modifier(Environment.co2,
+                               Environment.maxt,
+                               Environment.mint,
+                               &g.co2_modifier_rue);
+
+         g.co2_modifier_te = linear_interp_real (Environment.co2
+                                               , c.x_co2_te_modifier
+                                               , c.y_co2_te_modifier
+                                               , c.num_co2_te_modifier);
+         g.co2_modifier_n_conc = linear_interp_real (Environment.co2
+                                               , c.x_co2_nconc_modifier
+                                               , c.y_co2_nconc_modifier
+                                               , c.num_co2_nconc_modifier);
+
+
         rootPart->plant_water_uptake(1, SWDemand());
         plant_water_stress ();
         g.oxdef_photo = rootPart->oxdef_stress ();
