@@ -10,6 +10,54 @@
 </style>
 </head>
 <body>
+<p class="Title1">APSIM<sup><b>5.4</b></sup> release notes</p>
+<p class="Normal">&nbsp;</p>
+<p class="Normal">15<sup>th</sup> June 2007 - <strong><u>BETA 1</u></strong> </p>
+<p class="Normal">&nbsp;</p>
+<p class="Title2">APSIM user interface</p>
+<ul>
+  <li>
+  <p class="Normal">Fixed bug in .apsim file changetool where variables were being stripped when converting from an old .apsim file to a new one - reported by Howard Cox.   </li>
+  <li>
+    <p class="Normal">Removed duplicate parameter Receive_crop_runoff from 'Dam' in the standard toolbox - reported by Perry Poulton   </li>
+</ul>
+<p class="Title2">PLANT</p>
+<ul>
+  <li>
+  <p class="Normal">The RootPart class has be refactored so that it is self contained. As part of this work a NoRoot class can be instantiated that meets the crops water and nitrogen demands i.e. a potential crop can be easily simulated.</li>
+  <li>
+    <p class="Normal">A new StoragePart has been added to PLANT to facilitate work on a Potato module for APSIM.    </li>
+  <li><span class="Normal">A new FloretPart has been added to PLANT and broccoli modified to use it. </span></li>
+  <li><span class="Normal">The arbitrator part in PLANT has been made more generic with a lot of its functionality being externalised to the .ini file. </span></li>
+</ul>
+<p><span class="Title2">SILOInput</span></p>
+<ul>
+  <li>
+  <p class="Normal">The SILOInput component now has better error handling in timeout situations when communicating with SILO.</li>
+</ul>
+<p><span class="Title2">CSIRO Plant Industry PASTURE </span></p>
+<ul>
+  <li>
+    <p class="Normal">SILO was modified so that it outputs solar radiation units as MJ/m^2 rather than MJ/m2. When APSIM met files have these revised units, PASTURE runs in APSIM properly.      </li>
+</ul>
+<p><span class="Title2">APSIMOutlook</span></p>
+<ul>
+  <li>
+  <p class="Normal">APSIM Outlook has been reworked to facilitate rebadging work done by CSIRO Plant Industry at Narrabri. </li>
+</ul>
+<p><span class="Title2">APSIMReport</span></p>
+<ul>
+  <li>
+    <p class="Normal">Minor modification to the pie chart colouring so that set colours are applied to each slice. Done for Yield Prophet.    
+  </li>
+</ul>
+<p><span class="Title2">Graz</span></p>
+<ul>
+  <li>
+  <p class="Normal">The Rickert and McKeon grazing model has been resurrected.</li>
+</ul>
+<p class="Title1"></p>
+<p class="Title1"></p>
 <p class="Title1">APSIM<sup><b>5.3</b></sup> release notes</p>
 <p class="Normal">&nbsp;</p>
 <p class="Normal">18<sup>th</sup> May 2007</p>
