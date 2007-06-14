@@ -42,7 +42,8 @@ void Scenarios::loadAllAddIns(void)
       {
       replaceAll(*fileName, "%apsuite", getApsimDirectory());
       // look for add in parameters after a space.
-      unsigned int posSpace = fileName->find(' ');
+      unsigned int posDLL = fileName->find(".dll");
+      unsigned int posSpace = fileName->find(' ', posDLL);
       if (posSpace == string::npos)
          parameters.push_back("");
       else
