@@ -2619,6 +2619,7 @@ void Plant::plant_remove_biomass_update (protocol::RemoveCropDmType dmRemoved)
 
 //- Implementation Section ----------------------------------
 
+
     // Unpack the DmRemoved structure
      for (vector<plantPart *>::iterator part = myTopsParts.begin(); part != myTopsParts.end(); part++)
         (*part)->doRemoveBiomass(dmRemoved, c.remove_biomass_report);
@@ -2630,18 +2631,20 @@ void Plant::plant_remove_biomass_update (protocol::RemoveCropDmType dmRemoved)
     rootPart->removeBiomass2(chop_fr_green_leaf);
 
     float biomassGreenTops =  0.0;
-
+    float dmRemovedGreenTops = 0.0;
     float dmRemovedTops = 0.0;
     float nRemovedTops = 0.0;
+
     for (part = myTopsParts.begin(); part != myTopsParts.end(); part++)
         {
-        biomassGreenTops += (*part)->dltDmGreenRemoved();
+        biomassGreenTops +=  (*part)->dmGreen();
+        dmRemovedGreenTops += (*part)->dltDmGreenRemoved();
         dmRemovedTops += ((*part)->dltDmRemoved()) * gm2kg/sm2ha;
         nRemovedTops += ((*part)->dltNRemoved()) * gm2kg/sm2ha;
 
         (*part)->removeBiomass();
         }
-    g.remove_biom_pheno = divide (dmRemovedTops, biomassGreenTops, 0.0);
+    g.remove_biom_pheno = divide (dmRemovedGreenTops, biomassGreenTops, 0.0);
 
     if (c.remove_biomass_report == "on")
     {
