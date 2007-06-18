@@ -6,6 +6,7 @@ Imports VBUserInterface
 
 Public Class VineLogicUI
     Inherits BaseView
+    Private Controller As BaseController
 
 #Region " Windows Form Designer generated code "
 
@@ -123,9 +124,12 @@ Public Class VineLogicUI
 
 #End Region
 
-    Overrides Sub RefreshView(ByVal Controller As BaseController)
+    Public Overrides Sub OnLoad(ByVal Controller As BaseController)
+        Me.Controller = Controller
+    End Sub
+
+    Overrides Sub RefreshView(ByVal NodePath As String)
         Try
-            MyBase.RefreshView(Controller)
             HelpText = "Parameterisation of this vinelogic component is via the standard VineLogic Input file structure shown above."
             TextBox.Text = Controller.Data.Child("data").Value
             InstanceBox.Value = Val(Controller.Data.Child("instance").Value)
@@ -141,4 +145,5 @@ Public Class VineLogicUI
     Private Sub InstanceBox_Leave(ByVal sender As Object, ByVal e As System.EventArgs) Handles InstanceBox.Leave
         Controller.Data.Child("instance").Value = Trim(Str(InstanceBox.Value))
     End Sub
+
 End Class

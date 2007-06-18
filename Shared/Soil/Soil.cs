@@ -879,12 +879,13 @@ namespace Soils
                 "   sorption  =[foreach profile.layer]  [layer.sorption.3][endfor]   ()   !P sorbed at 0.2ppm\r\n" +
                 "[endfor]\r\n" +
                 "[endif]\r\n" +
+                "$CROP$\r\n" +
                 "[endfile]\r\n\r\n";
 
-
+            string CropStuff = "";
             foreach (string CropName in Crops)
                 {
-                Template += "[$SECTIONNAME$." + CropName + ".parameters]\r\n";
+                CropStuff += "[$SECTIONNAME$." + CropName + ".parameters]\r\n";
                 if (CropIsPredicted(CropName))
                     Template += "   !These crop numbers are predicted\r\n";
 
@@ -896,18 +897,19 @@ namespace Soils
 			    double[] xf = XF(CropName);
 			    for (int i = 0; i != ll.Length; i++)
 				    {
-				    LLLine += "    " + ll[i].ToString("f3");
+				    LLLine += "      " + ll[i].ToString("f3");
 				    KLLine += "      " + kl[i].ToString("f3");
 				    XFLine += "      " + xf[i].ToString("f3");
 				    }
-                Template += "   <ll>" + LLLine + "</ll>\r\n";
+                CropStuff += "   ll      =" + LLLine + "\r\n";
                 if (CropName.ToLower() == "ozcot")
-                    Template += "   Title = XXX\r\n" +
+                    CropStuff += "   Title = XXX\r\n" +
                                 "   asoil = 3.0\r\n";
 
-                Template += "   <kl>" + KLLine + "</kl>\r\n";
-                Template += "   <xf>" + XFLine + "</xf>\r\n";
+                CropStuff += "   kl      =" + KLLine + "\r\n";
+                CropStuff += "   xf      =" + XFLine + "\r\n";
                 }
+            Template = Template.Replace("$CROP$", CropStuff);
 
 			string SWLine = "";
 			string NO3Line = "";
@@ -921,10 +923,15 @@ namespace Soils
 			int NumLayers = Thickness.Length;
 			for (int i = 0; i != NumLayers; i++)
 				{
-				SWLine += "    " + sw[i].ToString("f3");
-				NO3Line += "      " + no3[i].ToString("f3");
-				NH4Line += "      " + nh4[i].ToString("f3");
-                PHLine += "      " + ph[i].ToString("f3");
+                if (i < sw.Length)
+				    SWLine += "    " + sw[i].ToString("f3");
+
+                if (i < no3.Length)
+                    NO3Line += "      " + no3[i].ToString("f3");
+                if (i < nh4.Length)
+                    NH4Line += "      " + nh4[i].ToString("f3");
+                if (i < ph.Length)
+                    PHLine += "      " + ph[i].ToString("f3");
 				}
 
 			Template = Template.Replace("$SW$", SWLine);

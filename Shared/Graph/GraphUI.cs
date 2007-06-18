@@ -17,21 +17,26 @@ namespace Graph
     {
     public partial class GraphUI : BaseView
         {
+        private BaseController Controller;
+
         public GraphUI()
             {
             InitializeComponent();
             }
 
-        public override void RefreshView(BaseController Controller)
+        public override void OnLoad(BaseController Controller)
             {
-            base.RefreshView(Controller);
-
-            GraphControl.Refresh(Controller);
+            this.Controller = Controller;
+            GraphControl.Setup(Controller);
+ 	        }
+        public override void RefreshView(string NodePath)
+            {
+            GraphControl.RefreshView();
             }
 
         private void RefreshButton_Click(object sender, EventArgs e)
             {
-            GraphControl.Refresh(Controller);
+            GraphControl.RefreshView();
             }
 
         private void PropertiesButton_Click(object sender, EventArgs e)

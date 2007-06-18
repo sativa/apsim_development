@@ -6,8 +6,10 @@ Imports System.IO
 
 Public Class GenericUI
     Inherits BaseView
-    Dim InRefresh As Boolean
-    Dim PropertyData As New ArrayList
+    Private InRefresh As Boolean
+    Private PropertyData As New ArrayList
+    Private Controller As BaseController
+
     Delegate Sub NotifyEventHandler()
     Public Event PropertiesChangedEvent As NotifyEventHandler
 
@@ -122,12 +124,14 @@ Public Class GenericUI
 
 #End Region
 
-    Overrides Sub RefreshView(ByVal Controller As BaseController)
+    Public Overrides Sub OnLoad(ByVal Controller As BaseController)
+        Me.Controller = Controller
+    End Sub
+
+    Overrides Sub RefreshView(ByVal NodePath As String)
         ' --------------------------------------------------------------------
         ' Refresh this user interface
         ' --------------------------------------------------------------------
-        MyBase.RefreshView(Controller)
-
         InRefresh = True
         Grid.Columns(2).Locked = True
 
@@ -198,10 +202,6 @@ Public Class GenericUI
                 End If
             End If
         Next
-        If Controller.MsgBoxString <> "" Then
-            MsgBox(Controller.MsgBoxString, MsgBoxStyle.Information)
-            Controller.MsgBoxString = ""
-        End If
     End Sub
 
     Private Function FindExistingProp(ByVal DataToFind As APSIMData)

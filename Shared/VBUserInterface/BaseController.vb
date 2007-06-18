@@ -2,7 +2,7 @@ Imports System.Windows.Forms
 Imports System.Collections.Specialized
 Imports System.io
 Imports VBGeneral
-
+Imports System.Reflection
 
 Public MustInherit Class BaseController
     Implements IDisposable
@@ -12,15 +12,15 @@ Public MustInherit Class BaseController
     Private MyData As APSIMData
     Private MyFileName As String
     Private MyDefaultExtension As String
-    Private MyDirtyData As Boolean
     Private MyDialogFilter As String
     Private MyFrequentListSection As String
     Private MySelectedData As New StringCollection
     Private Updating As Boolean
-    Private MyIsReadOnly As Boolean
     Protected disposed As Boolean = False
     Private MyMsgBoxString As String
-
+    Private TypesFile As New APSIMData
+    Private MyExplorer As ExplorerUI
+    Private MyMainForm As Form
 
     Delegate Sub NotifyEventHandler()
     Delegate Sub NodeChangedEventHandler(ByVal OldNodeName As String, ByVal Node As APSIMData)
@@ -28,7 +28,6 @@ Public MustInherit Class BaseController
     Delegate Sub NotifyRenameHandler(ByVal OldNodePath As String, ByVal NewNodePath As String)
     Delegate Sub RefreshRequiredHandler(ByVal Controller As BaseController)
 
-    Public Event NewDataEvent As NotifyEventHandler                 ' Fired whenever completely new data arrives (e.g. file open)
     Public Event BeforeSaveEvent As NotifyEventHandler              ' Fired immediately before data is saved.
     Public Event AfterSaveEvent As NotifyEventHandler               ' Fired immediately after data is saved.
     Public Event SelectionChangingEvent As NotifyEventHandler       ' Fired when the current selection is about to change.
@@ -36,17 +35,24 @@ Public MustInherit Class BaseController
     Public Event RefreshRequiredEvent As RefreshRequiredHandler     ' Fired whenever a refresh of the ui is required.
 
 #Region "Constructor / destructor"
-    Sub New(ByVal DefaultExtension As String, _
+    Sub New(ByVal MainForm As Form, _
+            ByVal DefaultExtension As String, _
             ByVal DialogFilter As String, _
             ByVal FrequentListSection As String)
         ' -----------------------
         ' constructor
         ' -----------------------
+        MyMainForm = MainForm
         MyDefaultExtension = DefaultExtension
         MyDialogFilter = DialogFilter
         MyFrequentListSection = FrequentListSection
         MyData = Nothing
-        MyDirtyData = False
+
+        Dim TypesFileName As String = APSIMSettings.INIRead(APSIMSettings.ApsimIniFile(), "apsimui", "typesfile")
+        TypesFile.LoadFromFile(TypesFileName)
+
+        SetupActions(FrequentListSection)
+        AddHandler ApsimData.DataDirtyChangedEvent, AddressOf OnDataDirtyChanged
     End Sub
     Protected Overridable Sub Dispose(ByVal disposing As Boolean)
         If Not Me.disposed Then
@@ -80,14 +86,6 @@ Public MustInherit Class BaseController
 #End Region
 
 #Region "Data methods"
-    Public Property MsgBoxString() As String
-        Get
-            Return MyMsgBoxString
-        End Get
-        Set(ByVal value As String)
-            MyMsgBoxString = value
-        End Set
-    End Property
     Public ReadOnly Property Data() As APSIMData
         ' -------------------------------------------------------
         ' Provides readonly access to the currently selected data.
@@ -100,52 +98,26 @@ Public MustInherit Class BaseController
             ElseIf MySelectedData.Count = 0 Then
                 Return Nothing
             Else
-                Return AllData.Find(MySelectedData(0))
+                Return ApsimData.Find(MySelectedData(0))
             End If
         End Get
     End Property
-    Public Property AllData() As APSIMData
-        ' --------------------------------------------------------
-        ' Provides readwrite access to the entire data, usually
-        ' the contents of a file. This will clear the current
-        ' selections.
-        ' --------------------------------------------------------
-        Get
-            Return MyData
-        End Get
-        Set(ByVal Value As APSIMData)
-            SelectedPaths = New StringCollection
-            MyData = Value
-            AddHandler MyData.DataChanged, AddressOf OnDataChanged
-            RaiseEvent NewDataEvent()
-        End Set
-    End Property
-    Private Sub OnDataChanged(ByVal DataChanged As APSIMData)
-        ' --------------------------------------------------------
-        ' Data has changed somewhere - flag dirty data.
-        ' --------------------------------------------------------
-        MyDirtyData = True
-    End Sub
-    Public Property DirtyData() As Boolean
-
-        ' --------------------------------------------------------
-        ' Returns true if the data needs saving i.e. it is dirty.
-        ' --------------------------------------------------------
-        Get
-            Return MyDirtyData
-        End Get
-        Set(ByVal value As Boolean)
-            MyDirtyData = value
-        End Set
-    End Property
-    Public ReadOnly Property AllowDataChanges() As Boolean
-        Get
-            Return Not MyIsReadOnly
-        End Get
-    End Property
+    Public ApsimData As New ApsimFile.ApsimFile
 #End Region
 
-#Region "File handling methods"
+    Public ReadOnly Property MainForm() As Form
+        Get
+            Return MyMainForm
+        End Get
+    End Property
+    Public Property Explorer() As ExplorerUI
+        Get
+            Return (MyExplorer)
+        End Get
+        Set(ByVal value As ExplorerUI)
+            MyExplorer = value
+        End Set
+    End Property
     Public ReadOnly Property FileName() As String
         ' --------------------------------------------------------
         ' Provides readonly access to the current filename
@@ -154,113 +126,57 @@ Public MustInherit Class BaseController
             Return MyFileName
         End Get
     End Property
-    Public Sub FileNew(ByVal DataToUse As APSIMData)
-        ' --------------------------------------------------------
-        ' Create a new 'alldata' using the specified template
-        ' Sets the filename to a default one.
-        ' --------------------------------------------------------
-        If FileSaveAfterPrompt() Then
-            MyFileName = "Untitled" + MyDefaultExtension
-            MyDirtyData = True
-            AllData = DataToUse
-            MyIsReadOnly = False
-        End If
-    End Sub
-    Public Sub FileNew(ByVal FileName As String)
-        ' --------------------------------------------------------
-        ' Create a new 'alldata' using the specified filename
-        ' as a template.
-        ' --------------------------------------------------------
-        Dim FileData As New APSIMData
-        If FileData.LoadFromFile(FileName) Then
-            FileNew(FileData)
-        End If
-    End Sub
-    Public Sub FileOpen()
-        ' --------------------------------------------------------
-        ' Show the user a file open dialog box and if Ok is
-        ' clicked - load the file.
-        ' --------------------------------------------------------
-        If FileSaveAfterPrompt() Then
-            Dim dialog As New OpenFileDialog
-            dialog.Filter = MyDialogFilter
-            If dialog.ShowDialog = DialogResult.OK Then
-                FileOpen(dialog.FileName)
-            End If
-        End If
-    End Sub
-    Public Function FileOpen(ByVal FileName As String) As Boolean
-        ' --------------------------------------------------------
-        ' Open the specified file.
-        ' --------------------------------------------------------
-        Dim FileData As New APSIMData
-        If FileData.LoadFromFile(FileName) Then
-            MyFileName = FileName
-            MyIsReadOnly = IsDataReadOnly()
-            If Not MyIsReadOnly Then
-                Directory.SetCurrentDirectory(Path.GetDirectoryName(FileName))
-            End If
-            AddFileToFrequentList(MyFileName)
-            MyDirtyData = False
-            AllData = FileData
-            Return True
-        Else
-            Return False
-        End If
-    End Function
-    Function FileSave() As Boolean
-        ' --------------------------------------------------------
-        ' Save the current data to the current filename
-        ' --------------------------------------------------------
-        RaiseEvent BeforeSaveEvent()
-
-        If Not IsNothing(MyFileName) Then
-            If MyFileName.IndexOf("Untitled.") <> -1 Then
-                Return FileSaveAs()
+    Public ReadOnly Property OpenDialogFilter() As String
+        Get
+            Return MyDialogFilter
+        End Get
+    End Property
+    Private Sub OnDataDirtyChanged(ByVal IsDirty As Boolean)
+        ' ----------------------------------------
+        ' Called to update the main form's caption
+        ' ----------------------------------------
+        If Not IsNothing(MainForm) Then
+            If ApsimData.IsReadOnly Then
+                MainForm.Text = MyFrequentListSection + " - " + FileName + " [readonly]"
+            ElseIf IsDirty Then
+                MainForm.Text = MyFrequentListSection + " - " + FileName + " * "
             Else
-                AllData.SaveToFile(MyFileName)
-                AddFileToFrequentList(MyFileName)
-                MyDirtyData = False
-                MyIsReadOnly = False
-                RaiseEvent AfterSaveEvent()
-                Return True
+                MainForm.Text = MyFrequentListSection + " - " + FileName
             End If
         End If
-    End Function
-    Function FileSaveAs() As Boolean
-        ' --------------------------------------------------------
-        ' Show the user a FileSave dialog and if Ok is pressed
-        ' save the current data to the selected file.
-        ' --------------------------------------------------------
-        Dim dialog As New SaveFileDialog
-        With dialog
-            .Filter = MyDialogFilter
-            .AddExtension = True
-            .OverwritePrompt = True
-        End With
-        If dialog.ShowDialog = DialogResult.OK Then
-            MyFileName = dialog.FileName
-            If FileSave() Then
-                MyIsReadOnly = False
-                Return True
-            End If
-        Else
-            ' User has cancelled - do nothing
+    End Sub
+    Public Function AllowAddXMLToData(ByVal XML As String, ByVal ParentPath As String) As Boolean
+        ' --------------------------------------------------------------
+        ' Do we allow the specified XML to be added to the specified
+        ' parent node?
+        ' --------------------------------------------------------------
+        If ApsimData.IsReadOnly Then
             Return False
+        Else
+            ' Do we allow the specified xml to be added to the selected node?
+            Dim ParentData As APSIMData = ApsimData.AllData.Find(ParentPath)
+            Dim NewData As New APSIMData("<dummy>" + XML + "</dummy>")
+            Dim ok As Boolean = True
+            For Each Child As APSIMData In NewData.Children
+                ok = ok And Me.AllowComponentAdd(Child.Type, ParentData.Type)
+            Next
+            Return ok And NewData.Children.Length > 0
         End If
     End Function
+
+#Region "File handling methods"
     Public Function FileSaveAfterPrompt() As Boolean
         ' --------------------------------------------------------
         ' Often called at program exit to optionally prompt the
         ' user to save the current data if something has changed.
         ' --------------------------------------------------------
-        If DirtyData Then
+        If ApsimData.IsDirty Then
             Dim DoSave As Integer = MessageBox.Show("The current file has changed. Do you want to save it before proceeding?", _
                                                     "Save?", MessageBoxButtons.YesNoCancel, MessageBoxIcon.Question)
             Select Case DoSave
                 Case DialogResult.Yes
                     ' Save the file
-                    FileSave()
+                    ApsimData.Save(MyFileName)
 
                 Case DialogResult.No
                     ' Do not save
@@ -272,11 +188,58 @@ Public MustInherit Class BaseController
         End If
         Return True
     End Function
-#End Region
+    Public Sub LoadPreviousFile()
+        For Each PreviousFileName As String In GetFrequentList()
+            If File.Exists(PreviousFileName) Then
+                FileOpen(PreviousFileName)
+                Exit For
+            End If
+        Next
+    End Sub
+    Public Sub FileOpen(ByVal FileName As String)
+        If File.Exists(FileName) Then
+            MyFileName = FileName
+            AddFileToFrequentList(MyFileName)
 
-#Region "Frequent file list methods"
+            ' Need to work out if the file should be readonly.
+            Dim ReadOnlyFile As Boolean = (File.GetAttributes(FileName) And FileAttributes.ReadOnly) = FileAttributes.ReadOnly
+            If Not ReadOnlyFile Then
+                Dim FileNameNoPath As String = Path.GetFileName(FileName).ToLower()
+                ReadOnlyFile = FileNameNoPath = "apsru-australia-soils.soils" _
+                               OrElse FileNameNoPath = "standard.xml" _
+                               OrElse FileNameNoPath = "new simulations.xml" _
+                               OrElse FileNameNoPath = "graph.xml"
+            End If
+            If Not ReadOnlyFile Then
+                Dim FileNameLower As String = Path.GetFileName(FileName).ToLower()
+                If FileNameLower.Contains("apsru-australia-soils-") Then
+                    Dim Password As String = InputDialog.InputBox("Enter password:", "This file is password protected", "", True)
+                    If Password = "soilinfo" Then
+                        ReadOnlyFile = False
+                    Else
+                        MessageBox.Show("Password incorrect. File will open as readonly", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error)
+                        ReadOnlyFile = True
+                    End If
+                End If
+            End If
+
+            Dim FileData As New APSIMData
+            If FileData.LoadFromFile(FileName) Then
+                SelectedPath = ""
+                ApsimData.Open(FileData.XML, ReadOnlyFile)
+                SelectedPath = ApsimData.Find("").Name
+            End If
+        End If
+    End Sub
+    Public Sub FileSave(ByVal FileName As String)
+        MyFileName = FileName
+        ApsimData.SaveAs(FileName)
+        AddFileToFrequentList(FileName)
+        OnDataDirtyChanged(False)
+    End Sub
+
     Private Const MAX_NUM_FREQUENT_SIMS As Integer = 10
-    Public Sub AddFileToFrequentList(ByVal filename As String)
+    Private Sub AddFileToFrequentList(ByVal filename As String)
         If MyFrequentListSection <> "" Then
 
             Dim FileNames() As String = GetFrequentList()
@@ -297,7 +260,7 @@ Public MustInherit Class BaseController
             APSIMSettings.INIWriteMultiple(APSIMSettings.ApsimIniFile(), MyFrequentListSection, "RecentFile", NewFileList)
         End If
     End Sub
-    Public Function GetFrequentList() As String()
+    Private Function GetFrequentList() As String()
         Dim FileNames As StringCollection = APSIMSettings.INIReadMultiple(APSIMSettings.ApsimIniFile(), MyFrequentListSection, "RecentFile")
         Dim GoodFileNames As New StringCollection
         For Each FileName As String In FileNames
@@ -333,258 +296,25 @@ Public MustInherit Class BaseController
             RaiseEvent SelectionChangingEvent()
             MySelectedData = Paths
             RaiseEvent SelectionChangedEvent(OldSelections, MySelectedData)
+            RefreshToolStrips()
         End Set
     End Property
-#End Region
-
-#Region "Clipboard methods"
-    ReadOnly Property AllowCut() As Boolean
+    Public Property SelectedPath() As String
         Get
-            ' --------------------------------------------------------
-            ' Allow a clipboard cut operation?
-            ' --------------------------------------------------------
-            Return AllowDeleteSelected()
-        End Get
-    End Property
-    ReadOnly Property AllowCopy() As Boolean
-        Get
-            ' --------------------------------------------------------
-            ' Allow a clipboard copy operation?
-            ' --------------------------------------------------------
-            Return MySelectedData.Count > 0
-        End Get
-    End Property
-    ReadOnly Property AllowPaste() As Boolean
-        Get
-            ' --------------------------------------------------------
-            ' Allow a clipboard paste operation?
-            ' --------------------------------------------------------
-            If MySelectedData.Count = 1 Then
-                Dim iData As IDataObject = Clipboard.GetDataObject()
-
-                ' Determines whether the data is in a format we can use.
-                If iData.GetDataPresent(DataFormats.Text) And MySelectedData.Count = 1 Then
-                    Dim xml As String = CType(iData.GetData(DataFormats.Text), String)
-                    Try
-                        Return AllowAddXMLToData(xml, MySelectedData(0))
-                    Catch ex As System.Exception
-                    End Try
-                End If
-            End If
-            Return False
-        End Get
-    End Property
-
-    Public Sub Cut()
-        ' --------------------------------------------------------
-        ' Perform a clipboard cut operation
-        ' --------------------------------------------------------
-
-        'Firstly check if any of the selections are the root node and if so
-        ' do nothing
-        Dim Selections As StringCollection = MySelectedData
-        SelectedPaths = New StringCollection()
-        Dim DeletingRoot As Boolean = False
-        For Each FullPath As String In Selections
-            Dim NodeToDelete As APSIMData = AllData.Find(FullPath)
-            ' Make sure we do not delete the root node
-            If Not IsNothing(NodeToDelete.Parent) Then
-                DeletingRoot = True
-                Exit For
-            End If
-        Next
-
-        If AllowCut() And Not DeletingRoot Then
-            Copy()
-            DeleteSelected()
-        End If
-    End Sub
-    Public Sub Copy()
-        ' --------------------------------------------------------
-        ' Perform a clipboard copy operation
-        ' --------------------------------------------------------
-        If AllowCopy Then
-            Dim Contents As String = ""
-            For Each FullPath As String In MySelectedData
-                Contents = Contents + AllData.Find(FullPath).XML + "\r\n"
-            Next
-            Clipboard.SetDataObject(Contents, True)
-        End If
-    End Sub
-    Public Sub Paste()
-        ' --------------------------------------------------------
-        ' Perform a clipboard paste operation
-        ' --------------------------------------------------------
-        If AllowPaste() Then
-            Dim iData As IDataObject = Clipboard.GetDataObject()
-            Dim xml As String = CType(iData.GetData(DataFormats.Text), String)
-            AddXMLToSelected(xml)
-        End If
-    End Sub
-#End Region
-
-#Region "High level data manipulation methods"
-    Public Function AllowRenameSelected() As Boolean
-        ' --------------------------------------------------------------
-        ' Do we allow the selected node to be renamed?
-        ' --------------------------------------------------------------
-        Return AllowDataChanges() AndAlso MySelectedData.Count = 1 AndAlso Data.Name.ToLower() <> "shared" = -1
-    End Function
-    Public ReadOnly Property AllowDeleteSelected() As Boolean
-        Get
-            ' --------------------------------------------------------------
-            ' Do we allow the selected node to be deleted?
-            ' --------------------------------------------------------------
-            Return AllowDataChanges() AndAlso MySelectedData.Count >= 1 AndAlso MySelectedData(0).IndexOf("\") <> -1
-        End Get
-    End Property
-    Public Function AllowAddXMLToData(ByVal XML As String, ByVal ParentPath As String) As Boolean
-        ' --------------------------------------------------------------
-        ' Do we allow the specified XML to be added to the specified
-        ' parent node?
-        ' --------------------------------------------------------------
-        If Not AllowDataChanges Then
-            Return False
-        Else
-            ' Do we allow the specified xml to be added to the selected node?
-            Dim ParentData As APSIMData = AllData.Find(ParentPath)
-            Dim NewData As New APSIMData("<dummy>" + XML + "</dummy>")
-            Dim ok As Boolean = True
-            For Each Child As APSIMData In NewData.Children
-                ok = ok And Me.AllowComponentAdd(Child.Type, ParentData.Type)
-            Next
-            Return ok And NewData.Children.Length > 0
-        End If
-    End Function
-    Public ReadOnly Property AllowMoveSelectedUp() As Boolean
-        Get
-            ' --------------------------------------------------------------
-            ' Do we allow user to move selected items up?
-            ' --------------------------------------------------------------
-            If AllowDataChanges AndAlso MySelectedData.Count > 0 Then
-                Dim FirstSelectedData As APSIMData = AllData.Find(MySelectedData(0))
-                If Not FirstSelectedData.Parent Is Nothing Then
-                    Dim ChildNames() As String = FirstSelectedData.Parent.ChildNames
-                    Return FirstSelectedData.Name <> ChildNames(0) And AllSelectedNodesAreSiblings
-                End If
-            End If
-            Return False
-        End Get
-    End Property
-    Public ReadOnly Property AllowMoveSelectedDown() As Boolean
-        Get
-            ' --------------------------------------------------------------
-            ' Do we allow user to move selected items down?
-            ' --------------------------------------------------------------
-            If AllowDataChanges And MySelectedData.Count > 0 Then
-                Dim LastSelectedData As APSIMData = AllData.Find(MySelectedData(MySelectedData.Count - 1))
-                If Not LastSelectedData.Parent Is Nothing Then
-                    Dim ChildNames() As String = LastSelectedData.Parent.ChildNames
-                    Return LastSelectedData.Name <> ChildNames(ChildNames.Length - 1) And AllSelectedNodesAreSiblings
-                End If
-            End If
-            Return False
-        End Get
-    End Property
-
-    Public Sub AddXMLToSelected(ByVal XML As String)
-        ' --------------------------------------------------------------
-        ' Add the specified XML, as children, to the selected node.
-        ' --------------------------------------------------------------
-        If MySelectedData.Count = 1 Then
-            Dim ParentData As APSIMData = Data
-            ParentData.BeginUpdate()
-            Dim NewData As New APSIMData("<dummy>" + XML + "</dummy>")
-            For Each Child As APSIMData In NewData.Children
-                If (Child.Type.ToLower() = "soil" AndAlso IsNothing(Child.Child("initwater"))) Then
-                    Child.Add(New APSIMData("<InitWater><percentmethod><percent>1</percent><distributed>filled from top</distributed></percentmethod></InitWater>"))
-                End If
-                If (Child.Type.ToLower() = "soil" AndAlso IsNothing(Child.Child("initnitrogen"))) Then
-                    Child.Add(New APSIMData("<InitNitrogen/>"))
-                End If
-
-                ParentData.Add(Child).EnsureNameIsUnique()
-            Next
-            ParentData.EndUpdate()
-            RefreshView()
-        End If
-    End Sub
-    Public Sub DeleteSelected()
-        ' ---------------------------------------------
-        ' Delete all selected nodes.
-        ' ---------------------------------------------
-        Dim Selections As StringCollection = MySelectedData
-        SelectedPaths = New StringCollection()
-        For Each FullPath As String In Selections
-            Dim NodeToDelete As APSIMData = AllData.Find(FullPath)
-            ' Make sure we do not delete the root node
-            If Not IsNothing(NodeToDelete.Parent) Then
-                NodeToDelete.Parent.Delete(NodeToDelete.Name)
-            End If
-        Next
-        RefreshView()
-    End Sub
-    Public Sub MoveSelectedUp()
-        ' --------------------------------------------------------------
-        ' Move all selected items up
-        ' --------------------------------------------------------------
-        If AllowMoveSelectedUp Then
-            Dim FirstSelectedData As APSIMData = AllData.Find(MySelectedData(0))
-            Dim ParentData As APSIMData = FirstSelectedData.Parent
-            ParentData.BeginUpdate()
-            For i As Integer = 0 To MySelectedData.Count - 1
-                Dim PosDelimiter As Integer = MySelectedData(i).LastIndexOf("\")
-                ParentData.MoveUp(MySelectedData(i).Substring(PosDelimiter + 1), "")
-            Next
-            ParentData.EndUpdate()
-            RefreshView()
-        End If
-    End Sub
-    Public Sub MoveSelectedDown()
-        ' --------------------------------------------------------------
-        ' Move all selected items down
-        ' --------------------------------------------------------------
-        If AllowMoveSelectedDown Then
-            Dim LastSelectedData As APSIMData = AllData.Find(MySelectedData(MySelectedData.Count - 1))
-            Dim ParentData As APSIMData = LastSelectedData.Parent
-            ParentData.BeginUpdate()
-            For i As Integer = MySelectedData.Count - 1 To 0 Step -1
-                Dim PosDelimiter As Integer = MySelectedData(i).LastIndexOf("\")
-                ParentData.MoveDown(MySelectedData(i).Substring(PosDelimiter + 1), "")
-            Next
-            ParentData.EndUpdate()
-            RefreshView()
-        End If
-    End Sub
-    Public Sub RefreshView()
-        RaiseEvent RefreshRequiredEvent(Me)
-    End Sub
-    Private ReadOnly Property AllSelectedNodesAreSiblings() As Boolean
-        Get
-            ' --------------------------------------------------------------
-            ' Return true if all selected nodes are siblings.
-            ' --------------------------------------------------------------
-            If MySelectedData.Count > 0 Then
-                Dim Path As String = ""
-                For Each FullPath As String In MySelectedData
-                    Dim PosDelimiter As Integer = FullPath.LastIndexOf("|")
-                    If PosDelimiter <> -1 Then
-                        If Path = "" Then
-                            Path = FullPath.Substring(0, PosDelimiter)
-                        ElseIf Path = FullPath.Substring(0, PosDelimiter) Then
-                            ' all ok so far - continue
-                        Else
-                            Return False
-                        End If
-                    End If
-                Next
-                Return True
+            If (MySelectedData.Count = 1) Then
+                Return MySelectedData(0)
             Else
-                Return False
+                Throw New Exception("Too many nodes selected - expected 1")
             End If
         End Get
+        Set(ByVal value As String)
+            Dim NewSelections As New StringCollection
+            If value <> "" Then
+                NewSelections.Add(value)
+            End If
+            SelectedPaths = NewSelections
+        End Set
     End Property
-
 #End Region
 
 #Region "Generic UI functions"
@@ -611,8 +341,8 @@ Public MustInherit Class BaseController
                 If dtValue > ubound Then
                     Prop.Value = Prop.Attribute("ubound")
                     DateEditor.DateDefault = Prop.Value
-                    Me.MsgBoxString = "The " + Prop.Type + " selected is after the dates in the Met file." & vbCrLf & _
-                                "Automatically adjusting simulation end date to match the Met file end date"
+                    MessageBox.Show("The " + Prop.Type + " selected is after the dates in the Met file." & vbCrLf & _
+                                "Automatically adjusting simulation end date to match the Met file end date")
                     DateEditor.MaximumDate = ubound
                 End If
             End If
@@ -621,8 +351,8 @@ Public MustInherit Class BaseController
                 If dtValue < lbound Then
                     Prop.Value = Prop.Attribute("lbound")
                     DateEditor.DateDefault = Prop.Value
-                    Me.MsgBoxString = "The " + Prop.Type + " selected is before the dates in the Met file." & vbCrLf & _
-                                "Automatically adjusting simulation start date to match the Met file start date"
+                    MessageBox.Show("The " + Prop.Type + " selected is before the dates in the Met file." & vbCrLf & _
+                                "Automatically adjusting simulation start date to match the Met file start date")
                     DateEditor.MinimumDate = lbound
                 End If
 
@@ -687,6 +417,325 @@ Public MustInherit Class BaseController
             Grid.Cells(e.Row, 1).Value = Text
         End If
     End Sub
+#End Region
+
+#Region "Action methods"
+    ' ------------------------------------------------------------------------
+    ' These action methods populate and implement all context menu's and 
+    ' ToolStrips in the application. All actions are defined in an actions.xml
+    ' file. Each type in types.xml has zero or more actions in it. When the
+    ' user clicks on a node in the tree, the context menu will contain those
+    ' actions referred to in the types.xml under the type the user clicked on.
+    ' ------------------------------------------------------------------------
+
+    Dim ActionFile As New APSIMData
+    Private SmallActionImages As New ImageList
+    Private LargeActionImages As New ImageList
+    Private Actions() As APSIMData
+    Private ToolStrips As New List(Of ToolStrip)
+
+    Private Sub SetupActions(ByVal SectionName As String)
+        ' --------------------------------------------------------------
+        ' Called at the very beginning to setup the action manager 
+        ' system. This method loads all bitmaps and actions in readiness
+        ' for later on.
+        ' --------------------------------------------------------------
+        If SectionName <> "" Then
+            Dim ActionFileName As String = APSIMSettings.INIRead(APSIMSettings.ApsimIniFile(), SectionName, "actionfile")
+            ActionFile.LoadFromFile(ActionFileName)
+            SmallActionImages.ImageSize = New Size(16, 16)
+            LargeActionImages.ImageSize = New Size(24, 24)
+
+            ' load all icons
+            Actions = ActionFile.Child("actions").Children
+            For Each Action As APSIMData In Actions
+                Dim IconFileName As String = Action.ChildValue("SmallIcon")
+                If IconFileName <> "" And File.Exists(IconFileName) Then
+                    Dim SmallBitmap As New Bitmap(IconFileName)
+                    SmallActionImages.Images.Add(SmallBitmap)
+                Else
+                    SmallActionImages.Images.Add(New Bitmap(16, 16))
+                End If
+
+                IconFileName = Action.ChildValue("LargeIcon")
+                If IconFileName <> "" And File.Exists(IconFileName) Then
+                    Dim LargeBitmap As New Bitmap(IconFileName)
+                    LargeActionImages.Images.Add(LargeBitmap)
+                Else
+                    LargeActionImages.Images.Add(New Bitmap(24, 24))
+                End If
+            Next
+        End If
+    End Sub
+    Public Sub RefreshToolStrips()
+        For Each ToolStrip As ToolStrip In ToolStrips
+            EnableActions(ToolStrip)
+        Next
+    End Sub
+    Public Sub ProvideToolStrip(ByVal Strip As ToolStrip, ByVal ToolStripName As String)
+        ' --------------------------------------------------------------
+        ' This method populates the specified context menu for the 
+        ' currently selected type. 
+        ' --------------------------------------------------------------
+        Strip.Items.Clear()
+        AddHandler Strip.ItemClicked, AddressOf ActionOnClick
+        Dim ToolStripDescriptor As APSIMData = ActionFile.Child(ToolStripName)
+        If Not IsNothing(ToolStripDescriptor) Then
+            Dim ImageAboveText As Boolean = False
+            ImageAboveText = (ToolStripDescriptor.Attribute("ImageAboveText") = "yes")
+            PopulateToolStrip(Strip, ToolStripDescriptor, ImageAboveText)
+        End If
+        ToolStrips.Add(Strip)
+    End Sub
+
+    Private Sub PopulateToolStrip(ByVal Strip As ToolStrip, ByVal ToolStripDescriptor As APSIMData, ByVal ImageAboveText As Boolean)
+        ' --------------------------------------------------------------
+        ' This method populates the specified context menu given the
+        ' specified descriptor data. 
+        ' --------------------------------------------------------------
+
+        For Each ToolDescriptor As APSIMData In ToolStripDescriptor.Children
+            If ToolDescriptor.Type = "ImageSize" Then
+                If ToolDescriptor.Value = "Small" Then
+                    Strip.ImageList = SmallActionImages
+                Else
+                    Strip.ImageList = LargeActionImages
+                End If
+
+            ElseIf ToolDescriptor.Type = "Item" Then
+                Dim Item As ToolStripItem = CreateToolStripItem(Strip, ToolDescriptor.Value)
+                If ImageAboveText Then
+                    Item.TextImageRelation = TextImageRelation.ImageAboveText
+                End If
+
+            ElseIf ToolDescriptor.Type = "DropDownItem" Then
+                Dim DropDownActionIndex As Integer = FindAction(ToolDescriptor.Attribute("action"))
+                Dim DropDownButton As ToolStripDropDownItem
+                Dim DropDownStrip As ToolStripDropDown
+                If Strip.GetType().ToString = "System.Windows.Forms.ToolStrip" Then
+                    DropDownButton = New ToolStripDropDownButton
+                    DropDownStrip = New ToolStripDropDownMenu
+                Else
+                    DropDownButton = New ToolStripMenuItem
+                    DropDownStrip = New ToolStripDropDownMenu
+                End If
+                DropDownButton.Text = Actions(DropDownActionIndex).ChildValue("text")
+                DropDownButton.ImageIndex = DropDownActionIndex
+                DropDownButton.ImageScaling = ToolStripItemImageScaling.None
+                DropDownButton.AutoToolTip = False
+                DropDownButton.Tag = DropDownActionIndex
+                DropDownButton.Enabled = IsActionAllowed(DropDownActionIndex)
+
+                If ImageAboveText Then
+                    DropDownButton.TextImageRelation = TextImageRelation.ImageAboveText
+                End If
+
+                DropDownStrip.ImageList = SmallActionImages
+                AddHandler DropDownStrip.ItemClicked, AddressOf ActionOnClick
+                PopulateToolStrip(DropDownStrip, ToolDescriptor, False)  ' recursion
+
+                DropDownButton.DropDown = DropDownStrip
+                Strip.Items.Add(DropDownButton)
+
+            ElseIf ToolDescriptor.Type = "Separator" Then
+                Strip.Items.Add(New ToolStripSeparator)
+
+            ElseIf ToolDescriptor.Type = "RecentFileList" Then
+                For Each FileName As String In GetFrequentList()
+                    Dim Item As ToolStripItem = Strip.Items.Add(FileName)
+                    Item.ImageIndex = -1
+                    Item.Tag = 1000
+                    Item.ToolTipText = "Open this file"
+                    If ImageAboveText Then
+                        Item.TextImageRelation = TextImageRelation.ImageAboveText
+                    End If
+                Next
+            End If
+        Next
+    End Sub
+    Private Function CreateToolStripItem(ByVal Strip As ToolStrip, ByVal ActionName As String) As ToolStripItem
+        Dim ActionIndex As Integer = FindAction(ActionName)
+        If ActionIndex <> -1 Then
+            Dim Item As ToolStripItem = Strip.Items.Add(Actions(ActionIndex).ChildValue("text"))
+            Item.ImageIndex = ActionIndex
+            Item.ToolTipText = Actions(ActionIndex).ChildValue("description")
+            Item.Tag = ActionIndex
+            Item.ImageScaling = ToolStripItemImageScaling.None
+            Dim ShortCut As String = Actions(ActionIndex).ChildValue("shortcut")
+            If TypeOf Item Is ToolStripMenuItem AndAlso ShortCut <> "" Then
+                CType(Item, ToolStripMenuItem).ShortcutKeys = Keys.Parse(GetType(Keys), ShortCut)
+            End If
+            Item.Enabled = IsActionAllowed(ActionIndex)
+            Return Item
+        Else
+            Return Nothing
+        End If
+    End Function
+    Private Sub EnableActions(ByVal Toolbox As ToolStrip)
+        For Each ToolItem As ToolStripItem In Toolbox.Items
+            If Not IsNothing(ToolItem.Tag) Then
+                ToolItem.Enabled = IsActionAllowed(ToolItem.Tag)
+            End If
+            If TypeOf ToolItem Is ToolStripDropDownItem Then
+                Dim DropDownItem As ToolStripDropDownItem = ToolItem
+                ToolItem.Enabled = IsActionAllowed(ToolItem.Tag)
+                EnableActions(DropDownItem.DropDown)
+            End If
+        Next
+    End Sub
+    Private Sub ProcessKeyPress(ByVal e As KeyEventArgs)
+
+        'If e.Control And e.KeyCode = Keys.X Then
+        '    MessageBox.Show("dd")
+        'End If
+        'For Each Action As APSIMData In Actions
+        '    Dim ShortCut As String = Action.ChildValue("shortcut")
+        '    Dim St As String = e.KeyCode.ToString()
+        '    If ShortCut <> "" Then
+        '        Dim Kys As Keys = [Enum].Parse(GetType(Keys), ShortCut)
+        '        If ((Kys And Keys.Control) = Keys.Control) Then 'And e.Control Then
+        '            If e.KeyValue = (Kys And (Not Keys.Control)) Then
+        '                MessageBox.Show(e.KeyCode.ToString())
+        '            End If
+        '        End If
+        '    End If
+        'Next
+
+
+        'If e.KeyCode = Keys.Delete Then
+        '    DeleteSelected()
+        'ElseIf e.Control And e.KeyCode = Keys.X Then
+        '    Controller.Cut()
+        'ElseIf e.Control And e.KeyCode = Keys.C Then
+        '    Controller.Copy()
+        'ElseIf e.Control And e.KeyCode = Keys.V Then
+        '    Controller.Paste()
+        'ElseIf e.Control And e.KeyCode = Keys.Up Then
+        '    Controller.MoveSelectedUp()
+        'ElseIf e.Control And e.KeyCode = Keys.Down Then
+        '    Controller.MoveSelectedDown()
+        'End If
+    End Sub
+    Private Function IsActionAllowed(ByVal ActionIndex As Integer) As Boolean
+        Dim Allowed As Boolean = True
+        If ActionIndex <> -1 And ActionIndex <> 1000 Then
+            For Each DisabledWhen As APSIMData In Actions(ActionIndex).Children("DisabledWhen")
+                Dim DisabledWhenFlag As String = DisabledWhen.Value
+                If DisabledWhenFlag = "ReadOnly" AndAlso ApsimData.IsReadOnly Then
+                    Allowed = False
+                End If
+                If DisabledWhenFlag = "RootNode" AndAlso MySelectedData.Count > 0 AndAlso MySelectedData(0).IndexOf("\") = -1 Then
+                    Allowed = False
+                End If
+                If DisabledWhenFlag = "MultipleNodesSelected" AndAlso MySelectedData.Count > 1 Then
+                    Allowed = False
+                End If
+                If DisabledWhenFlag = "NothingLoaded" AndAlso FileName = "" Then
+                    Allowed = False
+                End If
+                If Not IsNothing(DisabledWhen.Child("call")) Then
+                    Dim ClassToCall As String = DisabledWhen.ChildValue("call\class")
+                    Dim MethodToCall As String = DisabledWhen.ChildValue("call\method")
+                    Allowed = Not CallMethodOfClass(ClassToCall, MethodToCall)
+                End If
+            Next
+
+            If Allowed And MySelectedData.Count = 1 And Actions(ActionIndex).Children("AppliesTo").Length > 0 Then
+                Allowed = False
+                For Each AppliesTo As APSIMData In Actions(ActionIndex).Children("AppliesTo")
+                    If AppliesTo.Value.ToLower = Data.Type.ToLower Then
+                        Allowed = True
+                    End If
+                Next
+            End If
+        ElseIf ActionIndex <> 1000 Then
+            Allowed = False
+        End If
+        Return Allowed
+    End Function
+    Private Function FindAction(ByVal ActionName As String) As Integer
+        ' --------------------------------------------------------------
+        ' This method locates an action by name and returns its index.
+        ' It will return -1 if not found
+        ' --------------------------------------------------------------
+        Dim ActionIndex As Integer = 0
+        For Each Action As APSIMData In Actions
+            If Action.Type.ToLower = ActionName.ToLower Then
+                Return ActionIndex
+            End If
+            ActionIndex = ActionIndex + 1
+        Next
+        Return -1
+    End Function
+    Private Sub ActionOnClick(ByVal Sender As Object, ByVal E As ToolStripItemClickedEventArgs)
+        ' --------------------------------------------------------------
+        ' When the user clicks on an action, this method is called.
+        ' Go perform whatever action is necessary.
+        ' --------------------------------------------------------------
+        If Not IsNothing(E.ClickedItem.Tag) Then
+            If E.ClickedItem.Tag = 1000 AndAlso FileSaveAfterPrompt() Then
+                FileOpen(E.ClickedItem.Text)
+            Else
+                InvokeAction(Sender, E.ClickedItem.Tag)
+            End If
+        End If
+    End Sub
+    Private Sub InvokeAction(ByVal Sender As Object, ByVal ActionIndex As Integer)
+        Dim Action As APSIMData = Actions(ActionIndex)
+        Dim ClassToCall As String = Action.ChildValue("OnInvoke\call\class")
+        Dim MethodToCall As String = Action.ChildValue("OnInvoke\call\method")
+        If ClassToCall <> "" And MethodToCall <> "" Then
+            ' For some reason, if we don't explicitly close the menus they remain open,
+            ' and on top of other windows.
+            If TypeOf Sender Is ContextMenuStrip Then
+                CType(Sender, ContextMenuStrip).Close()
+            ElseIf TypeOf Sender Is ToolStripDropDownMenu Then
+                Dim Menu As ToolStripDropDownMenu = CType(Sender, ToolStripDropDownMenu)
+                If Not IsNothing(Menu.OwnerItem) AndAlso Not IsNothing(Menu.OwnerItem.Owner) _
+                       AndAlso TypeOf Menu.OwnerItem.Owner Is ContextMenuStrip Then
+                    CType(Menu.OwnerItem.Owner, ContextMenuStrip).Close()
+                End If
+                Menu.Close()
+            End If
+
+            ' Now go and do our action.
+            CallMethodOfClass(ClassToCall, MethodToCall)
+        End If
+    End Sub
+    Private Function CallMethodOfClass(ByVal ClassToCall As String, ByVal MethodToCall As String) As Object
+        ' --------------------------------------------------------------
+        ' Call a static/shared method of a class to perform the 
+        ' necessary action.
+        ' --------------------------------------------------------------
+        Try
+            Dim PosPeriod As Integer = ClassToCall.IndexOf(".")
+            If PosPeriod = -1 Then
+                Throw New Exception("No namespace specified in action: " + ClassToCall)
+            End If
+            Dim NameSpaceName As String = ClassToCall.Substring(0, PosPeriod)
+            Dim t As Type = Nothing
+            For Each Assemb As Assembly In AppDomain.CurrentDomain.GetAssemblies
+                If NameSpaceName = Assemb.GetName().Name Then
+                    t = Assemb.GetType(ClassToCall, True, True)
+                End If
+            Next
+            If IsNothing(t) Then
+                Throw New Exception("Cannot find type: " + ClassToCall)
+            End If
+
+            Dim Method As MethodInfo = t.GetMethod(MethodToCall)
+            If IsNothing(Method) Then
+                Throw New Exception("Cannot find method '" + MethodToCall + "' in class '" + ClassToCall + "'")
+            End If
+
+            Dim Params(0) As Object
+            Params(0) = Me
+            Return Method.Invoke(Nothing, Params)
+        Catch ex As Exception
+            MessageBox.Show(ex.GetBaseException().Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
+        End Try
+        Return Nothing
+    End Function
 #End Region
 
 End Class

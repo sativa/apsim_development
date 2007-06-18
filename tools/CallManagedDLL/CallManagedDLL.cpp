@@ -27,7 +27,7 @@ using namespace System::Windows::Forms;
 			}
 		catch (Exception^ err)
 			{
-				MessageBox::Show("Error: " + err->Message);
+				MessageBox::Show("Error: " + err->GetBaseException()->Message);
 			}
 		}
 extern "C" __declspec(dllexport) void __stdcall  CallDLL(const char* dllFileName, const char* className,

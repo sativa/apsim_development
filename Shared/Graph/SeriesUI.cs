@@ -16,6 +16,7 @@ namespace Graph
     public partial class SeriesUI : BaseView
         {
         private GraphController GraphController;
+        private BaseController Controller;
         private bool Updating = false;
         private APSIMData GraphData;
 
@@ -24,18 +25,23 @@ namespace Graph
             InitializeComponent();
             }
 
-        public override void RefreshView(BaseController Controller)
+        public override void OnLoad(BaseController Controller)
             {
-            // -----------------------------------------------------------
-            // Refresh the control.
-            // -----------------------------------------------------------
-            base.RefreshView(Controller);
-
+            this.Controller = Controller;
             GraphData = Controller.Data.Parent.Child("Data");
             if (GraphData == null)
                 GraphData = Controller.Data.Parent.Parent.Child("Data");
             this.GraphController = new GraphController(Controller.SmallImageList, GraphData);
-
+            }
+        public override void OnClose()
+            {
+            GraphController = null;
+            }
+        public override void RefreshView(string NodePath)
+            {
+            // -----------------------------------------------------------
+            // Refresh the control.
+            // -----------------------------------------------------------
             Updating = true;
 
             // Get a list of dataset names - convert them to relative paths.
@@ -138,5 +144,3 @@ namespace Graph
         
         }
     }
-
-//Sheet.Cells[Row, 5].BackColor = Color.FromName(SeriesData.get_ChildValue("Colour"));

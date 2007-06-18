@@ -24,11 +24,12 @@ namespace CSUserInterface
 		// -----------
 		// constructor
 		// -----------
-		public ApsoilController(string DefaultExtension,
+		public ApsoilController(Form MainForm,
+                                string DefaultExtension,
 								string DialogFilter, 
 								string FrequentListSection,
-								ImageList images)	
-			: base(DefaultExtension, DialogFilter, FrequentListSection)
+								ImageList images)
+            : base(MainForm, DefaultExtension, DialogFilter, FrequentListSection)
 			{
 			MyImageList = images;
 			}
@@ -107,7 +108,7 @@ namespace CSUserInterface
 		// -------------------------------------------------
 		public override bool AllowComponentAdd(string ChildComponentType, string ParentComponentType)
 			{
-            if (!AllowDataChanges)
+            if (ApsimData.IsReadOnly)
                 return false;
             if (ChildComponentType.ToLower() == "soil")
                 return (ParentComponentType.ToLower() == "soils" || ParentComponentType.ToLower() == "folder");
@@ -224,7 +225,7 @@ namespace CSUserInterface
 		public void InsertFolder()
 			{
 			if (AllowInsertFolder)
-				AddXMLToSelected("<folder name=\"NewFolder\"/>");
+				ApsimData.Add(SelectedPath, "<folder name=\"NewFolder\"/>");
 			}
 
 		public void InsertSoil()
@@ -232,31 +233,16 @@ namespace CSUserInterface
             if (AllowInsertSoil)
                 {
                 Soil NewSoil = new Soil(new APSIMData("soil", "NewSoil"));
-                AddXMLToSelected(NewSoil.Data.XML);
+                ApsimData.Add(SelectedPath, NewSoil.Data.XML);
                 }
 			}
 
 		public void InsertSample()
 			{
 			if (AllowInsertSample)
-				AddXMLToSelected("<sample name=\"NewSample\"/>");
+                ApsimData.Add(SelectedPath, "<sample name=\"NewSample\"/>");
 			}
 
-        public void CheckSoils(APSIMData Data, ref string ErrorMessage)
-            {
-            if (Data.Type.ToLower() == "soil")
-                {
-                Soil ThisSoil = new Soil(Data);
-                string Errors = ThisSoil.CheckForErrors();
-                if (Errors != "")
-                    ErrorMessage += "\r\n" + ThisSoil.Name + "\r\n" + StringManip.IndentText(Errors, 6);
-                }
-            else if (Data.Type.ToLower() == "folder")
-                {
-                foreach (APSIMData Child in Data.get_Children(null))
-                    CheckSoils(Child, ref ErrorMessage);
-                }
-            }
 
 
 		}

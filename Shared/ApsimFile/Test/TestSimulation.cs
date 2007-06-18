@@ -4,9 +4,10 @@ namespace Test
     using System.IO;
     using NUnit.Framework;
     using ApsimFile;
+    using System.Collections.Specialized;
 
     [TestFixture] 
-    public class TestSimulation
+    public class TestApsimFile
         {
         private ApsimFile Simulations;
 
@@ -28,15 +29,15 @@ namespace Test
                 "      <filename>c:\\dummy.met</filename>\r\n" +
                 "    </met>\r\n" +
                 "  </simulation>\r\n" +
-                "  <simulation name=\"My Sim{1}\" InheritedFrom=\"/My Sim\">\r\n" +
-                "    <clock InheritedFrom=\"/My Sim/clock\">\r\n" +
+                "  <simulation name=\"My Sim{1}\" InheritedFrom=\"Simulations\\My Sim\">\r\n" +
+                "    <clock InheritedFrom=\"Simulations\\My Sim\\clock\">\r\n" +
                 "      <start_date>1/02/1940</start_date>\r\n" +
                 "      <end_date>31/04/1940</end_date>\r\n" +
                 "    </clock>\r\n" +
                 "  </simulation>\r\n" +
                 "</folder>";
             Simulations = new ApsimFile();
-            Simulations.Open(ApsimFileContents);
+            Simulations.Open(ApsimFileContents, false);
             }
 
         [Test]
@@ -47,18 +48,18 @@ namespace Test
             // enumerate through all children including the ones in the derived
             // simulation.
             // -----------------------------------------------------------------------
-            string[] SimulationsNames = Simulations.ChildNames("/");
+            string[] SimulationsNames = Simulations.ChildNames("Simulations");
             Assert.AreEqual(SimulationsNames.Length, 2);
             Assert.AreEqual(SimulationsNames[0], "My Sim");
             Assert.AreEqual(SimulationsNames[1], "My Sim{1}");
 
-            string[] ComponentNames = Simulations.ChildNames("/My Sim");
+            string[] ComponentNames = Simulations.ChildNames("Simulations\\My Sim");
             Assert.AreEqual(ComponentNames.Length, 3);
             Assert.AreEqual(ComponentNames[0], "clock");
             Assert.AreEqual(ComponentNames[1], "My report");
             Assert.AreEqual(ComponentNames[2], "met");
 
-            ComponentNames = Simulations.ChildNames("/My Sim{1}");
+            ComponentNames = Simulations.ChildNames("Simulations\\My Sim{1}");
             Assert.AreEqual(ComponentNames.Length, 3);
             Assert.AreEqual(ComponentNames[0], "clock");
             Assert.AreEqual(ComponentNames[1], "My report");
@@ -76,25 +77,25 @@ namespace Test
             string Type;
             ApsimFile.NodeStatus Status;
             string InheritedFrom;
-            Simulations.MetaData("/", out Type, out Status, out InheritedFrom);
+            Simulations.MetaData("Simulations", out Type, out Status, out InheritedFrom);
             Assert.AreEqual(Type, "folder");
             Assert.AreEqual(Status, ApsimFile.NodeStatus.Normal);
             Assert.AreEqual(InheritedFrom, "");
 
-            Simulations.MetaData("/My Sim", out Type, out Status, out InheritedFrom);
+            Simulations.MetaData("Simulations\\My Sim", out Type, out Status, out InheritedFrom);
             Assert.AreEqual(Type, "simulation");
             Assert.AreEqual(Status, ApsimFile.NodeStatus.Normal);
             Assert.AreEqual(InheritedFrom, "");
 
-            Simulations.MetaData("/My Sim{1}", out Type, out Status, out InheritedFrom);
+            Simulations.MetaData("Simulations\\My Sim{1}", out Type, out Status, out InheritedFrom);
             Assert.AreEqual(Type, "simulation");
             Assert.AreEqual(Status, ApsimFile.NodeStatus.Inherited);
-            Assert.AreEqual(InheritedFrom, "/My Sim");
+            Assert.AreEqual(InheritedFrom, "Simulations\\My Sim");
 
-            Simulations.MetaData("/My Sim{1}/clock", out Type, out Status, out InheritedFrom);
+            Simulations.MetaData("Simulations\\My Sim{1}\\clock", out Type, out Status, out InheritedFrom);
             Assert.AreEqual(Type, "clock");
             Assert.AreEqual(Status, ApsimFile.NodeStatus.Inherited);
-            Assert.AreEqual(InheritedFrom, "/My Sim/clock");
+            Assert.AreEqual(InheritedFrom, "Simulations\\My Sim\\clock");
             }
 
         [Test]
@@ -104,11 +105,11 @@ namespace Test
             // Use case: Load a file with 2 simulations and ensure that we can
             // get the contents of both a normal node and a derived node.
             // -----------------------------------------------------------------
-            Assert.AreEqual(Simulations.Contents("/My Sim/clock/start_date"), "<start_date>1/01/1940</start_date>");
-            Assert.AreEqual(Simulations.Contents("/My Sim/clock/end_date"), "<end_date>31/01/1940</end_date>");
-            Assert.AreEqual(Simulations.Contents("/My Sim{1}/clock/start_date"), "<start_date>1/02/1940</start_date>");
-            Assert.AreEqual(Simulations.Contents("/My Sim{1}/clock/end_date"), "<end_date>31/04/1940</end_date>");
-            Assert.AreEqual(Simulations.Contents("/My Sim{1}/My report"),
+            Assert.AreEqual(Simulations.Contents("Simulations\\My Sim\\clock\\start_date"), "<start_date>1/01/1940</start_date>");
+            Assert.AreEqual(Simulations.Contents("Simulations\\My Sim\\clock\\end_date"), "<end_date>31/01/1940</end_date>");
+            Assert.AreEqual(Simulations.Contents("Simulations\\My Sim{1}\\clock\\start_date"), "<start_date>1/02/1940</start_date>");
+            Assert.AreEqual(Simulations.Contents("Simulations\\My Sim{1}\\clock\\end_date"), "<end_date>31/04/1940</end_date>");
+            Assert.AreEqual(Simulations.Contents("Simulations\\My Sim{1}\\My report"),
                 "<report name=\"My report\">\r\n" +
                 "  <variable>variable1</variable>\r\n" +
                 "  <variable>variable2</variable>\r\n" +
@@ -121,27 +122,27 @@ namespace Test
             // --------------------------------------------------------------------
             // Use case: Set the contents of a normal node and an inherited node.
             // --------------------------------------------------------------------
-            Simulations.SetContents("/My Sim{1}/clock",
+            Simulations.SetContents("Simulations\\My Sim{1}\\clock",
                 "<start_date>1/09/1999</start_date>" +
                 "<end_date>31/09/1999</end_date>");
-            Simulations.SetContents("/My Sim{1}/met",
+            Simulations.SetContents("Simulations\\My Sim{1}\\met",
                 "<filename>c:\\dummy2.met</filename>");
-            Assert.AreEqual(Simulations.Contents("/My Sim/clock"),
+            Assert.AreEqual(Simulations.Contents("Simulations\\My Sim\\clock"),
                 "<clock>\r\n" + 
                 "  <start_date>1/01/1940</start_date>\r\n" +
                 "  <end_date>31/01/1940</end_date>\r\n" +
                 "</clock>");
-            Assert.AreEqual(Simulations.Contents("/My Sim{1}/clock"),
-                "<clock InheritedFrom=\"/My Sim/clock\">\r\n" +
+            Assert.AreEqual(Simulations.Contents("Simulations\\My Sim{1}\\clock"),
+                "<clock InheritedFrom=\"Simulations\\My Sim\\clock\">\r\n" +
                 "  <start_date>1/09/1999</start_date>\r\n" +
                 "  <end_date>31/09/1999</end_date>\r\n" +
                 "</clock>");
-            Assert.AreEqual(Simulations.Contents("/My Sim/met"),
+            Assert.AreEqual(Simulations.Contents("Simulations\\My Sim\\met"),
                 "<met>\r\n" +
                 "  <filename>c:\\dummy.met</filename>\r\n" +
                 "</met>");
-            Assert.AreEqual(Simulations.Contents("/My Sim{1}/met"),
-                "<met InheritedFrom=\"/My Sim/met\">\r\n" +
+            Assert.AreEqual(Simulations.Contents("Simulations\\My Sim{1}\\met"),
+                "<met InheritedFrom=\"Simulations\\My Sim\\met\">\r\n" +
                 "  <filename>c:\\dummy2.met</filename>\r\n" +
                 "</met>");
             }
@@ -152,13 +153,28 @@ namespace Test
             // Use case: Revert an inherited node to it's base counterpart losing
             // the updated contents in the process.
             // --------------------------------------------------------------------
-            Simulations.RevertToBase("/My Sim{1}/clock");
-            Assert.AreEqual(Simulations.Contents("/My Sim{1}/clock"),
+            Simulations.RevertToBase("Simulations\\My Sim{1}\\clock");
+            Assert.AreEqual(Simulations.Contents("Simulations\\My Sim{1}\\clock"),
                 "<clock>\r\n" +
                 "  <start_date>1/01/1940</start_date>\r\n" +
                 "  <end_date>31/01/1940</end_date>\r\n" +
                 "</clock>");
             }
+
+        [Test]
+        public void TestDeleteNode()
+            {
+            // --------------------------------------------------------------------
+            // Use case: Delete a node from the simulations. Ensure that IsDirtyData
+            // returns true.
+            // --------------------------------------------------------------------
+            Simulations.Delete("Simulations\\My Sim{1}\\clock");
+            Assert.AreEqual(Simulations.Contents("Simulations\\My Sim{1}"),
+                "<simulation name=\"My Sim{1}\" InheritedFrom=\"Simulations\\My Sim\">\r\n" +
+                "</simulation>");
+            Assert.IsTrue(Simulations.IsDirty);
+            }
+
 
         private string SimulationXml =
             "<simulation name=\"My Sim\">" +
@@ -185,14 +201,14 @@ namespace Test
             // -------------------------------------------------------------
             ApsimFile SimulationSet = new ApsimFile();
             SimulationSet.New();
-            SimulationSet.AddNode("/", SimulationXml);
-            SimulationSet.AddNode("/", SimulationXml);
+            SimulationSet.Add("folder", SimulationXml);
+            SimulationSet.Add("folder", SimulationXml);
 
             StringWriter St = new StringWriter();
             SimulationSet.Save(St);
             Assert.AreEqual(St.ToString(),
                 "<?xml version=\"1.0\" encoding=\"utf-16\"?>\r\n" +
-                "<folder name=\"Simulations\">\r\n" +
+                "<folder version=\"9\">\r\n" +
                 "  <simulation name=\"My Sim\">\r\n" +
                 "    <clock>\r\n" +
                 "      <start_date>1/01/1940</start_date>\r\n" +
@@ -221,7 +237,7 @@ namespace Test
                 "  </simulation>\r\n" +
                 "</folder>");
 
-            string[] ComponentNames = SimulationSet.ChildNames("/");
+            string[] ComponentNames = SimulationSet.ChildNames("folder");
             Assert.AreEqual(ComponentNames.Length, 2);
             Assert.AreEqual(ComponentNames[0], "My Sim");
             Assert.AreEqual(ComponentNames[1], "My Sim{1}");
@@ -237,14 +253,14 @@ namespace Test
             // -------------------------------------------------------------
             ApsimFile SimulationSet = new ApsimFile();
             SimulationSet.New();
-            SimulationSet.AddNode("/", SimulationXml);
-            SimulationSet.AddInheritedNode("/", "simulation", "My Sim", "/My Sim");
+            SimulationSet.Add("folder", SimulationXml);
+            SimulationSet.AddInherited("folder", "simulation", "My Sim", "folder\\My Sim");
 
             StringWriter St = new StringWriter();
             SimulationSet.Save(St);
             Assert.AreEqual(St.ToString(), 
                 "<?xml version=\"1.0\" encoding=\"utf-16\"?>\r\n" +
-                "<folder name=\"Simulations\">\r\n" +
+                "<folder version=\"9\">\r\n" +
                 "  <simulation name=\"My Sim\">\r\n" +
                 "    <clock>\r\n" +
                 "      <start_date>1/01/1940</start_date>\r\n" +
@@ -258,8 +274,65 @@ namespace Test
                 "      <filename>c:\\dummy.met</filename>\r\n" +
                 "    </met>\r\n" +
                 "  </simulation>\r\n" +
-                "  <simulation name=\"My Sim{1}\" InheritedFrom=\"/My Sim\" />\r\n" +
+                "  <simulation name=\"My Sim{1}\" InheritedFrom=\"folder\\My Sim\" />\r\n" +
                 "</folder>");
+            }
+        [Test]
+        public void TestInvalidAdd()
+            {
+            Simulations.Add("Simulations\\My Sim{1}\\clock", "invalidxml");
+            }
+
+        [Test]
+        public void TestMoveDown()
+            {
+            StringCollection NodePaths = new StringCollection();
+            NodePaths.Add("Simulations\\My Sim");
+            Simulations.MoveDown(NodePaths);
+            string[] ComponentNames = Simulations.ChildNames("Simulations");
+            Assert.AreEqual(ComponentNames[0], "My Sim{1}");
+            Assert.AreEqual(ComponentNames[1], "My Sim");
+
+            // try moving two nodes down when not possible - shouldn't do anything
+            NodePaths.Clear();
+            NodePaths.Add("Simulations\\My Sim{1}");
+            NodePaths.Add("Simulations\\My Sim");
+            Simulations.MoveDown(NodePaths);
+            ComponentNames = Simulations.ChildNames("Simulations");
+            Assert.AreEqual(ComponentNames[0], "My Sim{1}");
+            Assert.AreEqual(ComponentNames[1], "My Sim");
+
+            Assert.IsTrue(Simulations.IsDirty);
+            }
+
+        [Test]
+        public void TestMoveUp()
+            {
+            StringCollection NodePaths = new StringCollection();
+            NodePaths.Add("Simulations\\My Sim{1}");
+            Simulations.MoveUp(NodePaths);
+            string[] ComponentNames = Simulations.ChildNames("Simulations");
+            Assert.AreEqual(ComponentNames[0], "My Sim{1}");
+            Assert.AreEqual(ComponentNames[1], "My Sim");
+
+            // try moving it up again - shouldn't do anything
+            NodePaths.Clear();
+            NodePaths.Add("Simulations\\My Sim{1}");
+            NodePaths.Add("Simulations\\My Sim");
+            Simulations.MoveUp(NodePaths);
+            ComponentNames = Simulations.ChildNames("Simulations");
+            Assert.AreEqual(ComponentNames[0], "My Sim{1}");
+            Assert.AreEqual(ComponentNames[1], "My Sim");
+            Assert.IsTrue(Simulations.IsDirty);
+            }
+
+        [Test]
+        public void TestSort()
+            {
+            Simulations.Sort("Simulations");
+            string[] SortedComponentNames = Simulations.ChildNames("Simulations");
+            Assert.AreEqual(SortedComponentNames[0], "My Sim{1}");
+            Assert.AreEqual(SortedComponentNames[1], "My Sim");
             }
 
         }
