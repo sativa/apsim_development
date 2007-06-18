@@ -1,0 +1,337 @@
+<?xml version="1.0"?>
+
+<Folder>
+   <Actions>
+      <FileNew>
+         <Text>New...</Text>
+         <Description>Open a new file</Description>
+         <LargeIcon>%apsuite\ApsimUI\Images\document_new.png</LargeIcon>
+         <OnInvoke>
+            <call>
+               <class>APSIMUI.ApsimUIActions</class>
+               <method>FileNew</method>
+            </call>
+         </OnInvoke>
+      </FileNew>   
+      <FileOpen>
+         <Text>Open...</Text>
+         <Description>Open an existing file</Description>
+         <LargeIcon>%apsuite\ApsimUI\Images\folder_document.png</LargeIcon>
+         <OnInvoke>
+            <call>
+               <class>VBUserInterface.BaseActions</class>
+               <method>FileOpen</method>
+            </call>
+         </OnInvoke>
+      </FileOpen>     
+      <FileSave>
+         <Text>Save</Text>
+         <Description>Save all simulations to disk</Description>
+         <LargeIcon>%apsuite\ApsimUI\Images\disk_blue.png</LargeIcon>
+         <OnInvoke>
+            <call>
+               <class>VBUserInterface.BaseActions</class>
+               <method>FileSave</method>
+            </call>
+         </OnInvoke>
+      </FileSave>     
+      <FileSaveAs>
+         <Text>Save as...</Text>
+         <Description>Save all simulations under a different file name</Description>
+         <LargeIcon>%apsuite\ApsimUI\Images\disk_blue_window.png</LargeIcon>
+         <OnInvoke>
+            <call>
+               <class>VBUserInterface.BaseActions</class>
+               <method>FileSaveAs</method>
+            </call>
+         </OnInvoke>
+      </FileSaveAs>     
+      <Help>
+         <text>Help</text>
+         <LargeIcon>%apsuite\ApsimUI\Images\help2.png</LargeIcon>
+      </Help>
+      <HelpDocumentation>
+         <text>Documentation</text>
+         <LargeIcon>%apsuite\ApsimUI\Images\help2_small.png</LargeIcon>
+         <Description>View documentation</Description>
+         <OnInvoke>
+            <call>
+               <class>APSIMUI.ApsimUIActions</class>
+               <method>HelpDocumentation</method>
+            </call>
+         </OnInvoke>         
+      </HelpDocumentation>
+      <HelpAbout>
+         <text>About...</text>
+         <LargeIcon>%apsuite\ApsimUI\Images\about.png</LargeIcon>
+         <Description>View version information</Description>
+         <OnInvoke>
+            <call>
+               <class>APSIMUI.ApsimUIActions</class>
+               <method>HelpAbout</method>
+            </call>
+         </OnInvoke>         
+      </HelpAbout>
+      <Run>
+         <text>Run</text>
+         <SmallIcon>%apsuite\ApsimUI\Images\media_play_small.png</SmallIcon>
+         <LargeIcon>%apsuite\ApsimUI\Images\media_play.png</LargeIcon>
+         <Description>Run the current simulation</Description>
+         <ShortCut>F5</ShortCut>
+         <DisabledWhen>
+            <call>
+               <class>APSIMUI.ApsimUIActions</class>
+               <method>SimulationsAreRunning</method>
+            </call>
+         </DisabledWhen>
+         <OnInvoke>
+            <call>
+               <class>APSIMUI.ApsimUIActions</class>
+               <method>Run</method>
+            </call>
+         </OnInvoke>         
+      </Run>      
+      <Stop>
+         <text>Stop</text>
+         <LargeIcon>%apsuite\ApsimUI\Images\media_stop.png</LargeIcon>
+         <Description>Stop all running simulations</Description>
+         <DisabledWhen>
+            <call>
+               <class>APSIMUI.ApsimUIActions</class>
+               <method>NoSimulationsAreRunning</method>
+            </call>
+         </DisabledWhen>
+         <OnInvoke>
+            <call>
+               <class>APSIMUI.ApsimUIActions</class>
+               <method>StopAll</method>
+            </call>
+         </OnInvoke>         
+      </Stop>        
+      <Graph>
+         <text>Graph</text>
+         <SmallIcon>%apsuite\ApsimUI\Images\chart16.png</SmallIcon>
+         <LargeIcon>%apsuite\ApsimUI\Images\chart.png</LargeIcon>
+         <Description>Graph output files using APSVis</Description>
+         <OnInvoke>
+            <call>
+               <class>APSIMUI.ApsimUIActions</class>
+               <method>Graph</method>
+            </call>
+         </OnInvoke>         
+      </Graph>
+      <ApsimOutlook>
+         <text>Apsim Outlook</text>
+         <SmallIcon>%apsuite\ApsimUI\Images\boxplot_small.bmp</SmallIcon>
+         <LargeIcon>%apsuite\ApsimUI\Images\boxplot.bmp</LargeIcon>
+         <Description>Graph output files using Apsim Outlook</Description>
+         <OnInvoke>
+            <call>
+               <class>APSIMUI.ApsimUIActions</class>
+               <method>ApsimOutlook</method>
+            </call>
+         </OnInvoke>         
+      </ApsimOutlook>
+      <Excel>
+         <text>Excel</text>
+         <SmallIcon>%apsuite\ApsimUI\Images\excel_small.bmp</SmallIcon>
+         <LargeIcon>%apsuite\ApsimUI\Images\excel.bmp</LargeIcon>
+         <Description>Send output files to Microsoft Excel</Description>
+         <OnInvoke>
+            <call>
+               <class>APSIMUI.ApsimUIActions</class>
+               <method>Excel</method>
+            </call>
+         </OnInvoke>         
+      </Excel>
+      
+      <AddFolder>
+         <text>Add folder</text>
+         <Description>Add a child folder to the selected folder</Description>
+         <SmallIcon>%apsuite\ApsimUI\Images\folder_add.png</SmallIcon>
+         <DisabledWhen>ReadOnly</DisabledWhen>
+         <DisabledWhen>MultipleNodesSelected</DisabledWhen>
+         <AppliesTo>Folder</AppliesTo>
+         <OnInvoke>
+            <call>
+               <class>VBUserInterface.BaseActions</class>
+               <method>AddFolder</method>
+            </call>
+         </OnInvoke>
+      </AddFolder>
+      <Delete>
+         <text>Delete</text>
+         <Location>AllNodes</Location>
+         <Description>Delete the selected node</Description>
+         <SmallIcon>%apsuite\ApsimUI\Images\delete2.png</SmallIcon>
+         <DisabledWhen>ReadOnly</DisabledWhen>
+         <DisabledWhen>RootNode</DisabledWhen>
+         <ShortCut>Delete</ShortCut>
+         <OnInvoke>
+            <call>
+               <class>VBUserInterface.BaseActions</class>
+               <method>Delete</method>
+            </call>
+         </OnInvoke>
+      </Delete>
+      <Rename>
+         <text>Rename</text>
+         <Location>AllNodes</Location>
+         <Description>Rename the selected node</Description>
+         <SmallIcon>%apsuite\ApsimUI\Images\pen_blue.png</SmallIcon>
+         <DisabledWhen>ReadOnly</DisabledWhen>
+         <DisabledWhen>RootNode</DisabledWhen>
+         <ShortCut>F2</ShortCut>
+         <OnInvoke>
+            <call>
+               <class>VBUserInterface.BaseActions</class>
+               <method>Rename</method>
+            </call>
+         </OnInvoke>
+      </Rename>
+      <Cut>
+         <text>Cut</text>
+         <Location>AllNodes</Location>
+         <Description>Cut the selected node to the clipboard</Description>
+         <SmallIcon>%apsuite\ApsimUI\Images\cut.png</SmallIcon>
+         <DisabledWhen>ReadOnly</DisabledWhen>
+         <DisabledWhen>RootNode</DisabledWhen>
+         <ShortCut>X, Control</ShortCut>
+         <OnInvoke>
+            <call>
+               <class>VBUserInterface.BaseActions</class>
+               <method>Cut</method>
+            </call>
+         </OnInvoke>
+      </Cut>   
+      <Copy>
+         <text>Copy</text>
+         <Location>AllNodes</Location>
+         <Description>Copy the selected node to the clipboard</Description>
+         <SmallIcon>%apsuite\ApsimUI\Images\copy.png</SmallIcon>
+         <ShortCut>C, Control</ShortCut>
+         <OnInvoke>
+            <call>
+               <class>VBUserInterface.BaseActions</class>
+               <method>Copy</method>
+            </call>
+         </OnInvoke>
+      </Copy>   
+      <Paste>
+         <text>Paste</text>
+         <Location>AllNodes</Location>
+         <Description>Paste the clipboard contents below the selected node</Description>
+         <SmallIcon>%apsuite\ApsimUI\Images\paste.png</SmallIcon>
+         <DisabledWhen>ReadOnly</DisabledWhen>
+         <DisabledWhen>MultipleNodesSelected</DisabledWhen>
+         <ShortCut>V, Control</ShortCut>
+         <OnInvoke>
+            <call>
+               <class>VBUserInterface.BaseActions</class>
+               <method>Paste</method>
+            </call>
+         </OnInvoke>
+      </Paste>
+      <MoveUp>
+         <text>Move up</text>
+         <Location>AllNodes</Location>
+         <Description>Move the selected nodes up</Description>
+         <SmallIcon>%apsuite\ApsimUI\Images\nav_up_green.png</SmallIcon>
+         <DisabledWhen>ReadOnly</DisabledWhen>
+         <ShortCut>Up, Control</ShortCut>
+         <OnInvoke>
+            <call>
+               <class>VBUserInterface.BaseActions</class>
+               <method>MoveUp</method>
+            </call>
+         </OnInvoke>
+      </MoveUp>   
+      <MoveDown>
+         <text>Move down</text>
+         <Location>AllNodes</Location>
+         <Description>Move the selected nodes down</Description>
+         <SmallIcon>%apsuite\ApsimUI\Images\nav_down_green.png</SmallIcon>
+         <DisabledWhen>ReadOnly</DisabledWhen>
+         <ShortCut>Down, Control</ShortCut>
+         <OnInvoke>
+            <call>
+               <class>VBUserInterface.BaseActions</class>
+               <method>MoveDown</method>
+            </call>
+         </OnInvoke>
+      </MoveDown>   
+      <ExpandAll>
+         <text>Expand all</text>
+         <Location>AllNodes</Location>
+         <Description>Expand all nodes</Description>
+         <SmallIcon>%apsuite\ApsimUI\Images\down_plus.png</SmallIcon>
+         <OnInvoke>
+            <call>
+               <class>VBUserInterface.BaseActions</class>
+               <method>ExpandAll</method>
+            </call>
+         </OnInvoke>
+      </ExpandAll>
+      <CollapseAll>
+         <text>Collapse all</text>
+         <Location>AllNodes</Location>
+         <Description>Collapse all nodes</Description>
+         <SmallIcon>%apsuite\ApsimUI\Images\up_minus.png</SmallIcon>
+         <OnInvoke>
+            <call>
+               <class>VBUserInterface.BaseActions</class>
+               <method>CollapseAll</method>
+            </call>
+         </OnInvoke>
+      </CollapseAll>
+   </Actions>
+
+   <MainToolBar ImageAboveText="yes">
+      <ImageSize>Large</ImageSize>
+      <Item>FileNew</Item>
+      <DropDownItem action="FileOpen">
+         <Item>FileOpen</Item>
+         <Separator/>
+         <RecentFileList/>
+      </DropDownItem>
+      <Item>FileSave</Item>
+      <Item>FileSaveAs</Item>
+      <Separator/>
+      <Item>Run</Item>
+      <Item>Stop</Item>
+      <Separator/>
+      <Item>Graph</Item>
+      <Item>ApsimOutlook</Item>
+      <Item>Excel</Item>
+      <Separator/>
+      <DropDownItem action="Help">
+         <Item>HelpDocumentation</Item>
+         <Item>HelpAbout</Item>
+      </DropDownItem>
+   </MainToolBar>
+   
+   <ContextMenu>
+      <ImageSize>Small</ImageSize>
+      <Item>AddFolder</Item>
+      <Item>Run</Item>
+      <Item>Graph</Item>
+      <Item>ApsimOutlook</Item>
+      <Item>Excel</Item>
+      <Separator/>
+      <Item>Delete</Item>
+      <Item>Rename</Item>
+      <Separator/>
+      <Item>Cut</Item>
+      <Item>Copy</Item>
+      <Item>Paste</Item>
+      <Separator/>
+      <Item>MoveUp</Item>
+      <Item>MoveDown</Item>
+      <Separator/>
+      <Item>CollapseAll</Item>
+      <Item>ExpandAll</Item>
+        
+   </ContextMenu>
+
+
+</Folder>   

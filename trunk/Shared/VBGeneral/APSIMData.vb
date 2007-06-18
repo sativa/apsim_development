@@ -23,14 +23,14 @@ Public Class APSIMData
         ' -----------------------------------------------------------------------
         InternalNode = Nothing
     End Sub
-    Private Sub New(ByRef DataNode As XmlNode, ByVal ChangedHandler As DataChangedEventHandler)
+    Public Sub New(ByVal DataNode As XmlNode, ByVal ChangedHandler As DataChangedEventHandler)
         ' -----------------------------------------------------------------------
         ' internal constructor 
         ' -----------------------------------------------------------------------
         InternalNode = DataNode
         AddHandler DataChanged, ChangedHandler
     End Sub
-    
+
     Public Sub New(ByVal XMLString As String)
         ' -----------------------------------------------------------------------
         ' constructor taking a single XML argument
@@ -193,6 +193,10 @@ Public Class APSIMData
         ' Return an array of children.
         ' ------------------------------------------------
         Get
+            If IsNothing(InternalNode) Then
+                Dim ReturnList(-1) As APSIMData
+                Return ReturnList
+            End If
             If Not IsNothing(ChildrenList) Then
                 If Node.ChildNodes.Count <> ChildrenList.Length Then
                     ChildrenLoaded = False
@@ -627,7 +631,7 @@ Public Class APSIMData
         Dim ChildData As APSIMData = Child(ChildName)
 
         Dim ReferenceNode As XmlNode = ChildData.InternalNode.PreviousSibling()
-        While (ChildType <> "" And ReferenceNode.Name.ToLower <> ChildType.ToLower)
+        While (ChildType <> "" AndAlso Not IsNothing(ReferenceNode) AndAlso ReferenceNode.Name.ToLower <> ChildType.ToLower)
             ReferenceNode = ReferenceNode.PreviousSibling()
         End While
         If Not IsNothing(ReferenceNode) Then
@@ -644,7 +648,7 @@ Public Class APSIMData
         Dim ChildData As APSIMData = Child(ChildName)
 
         Dim ReferenceNode As XmlNode = ChildData.InternalNode.NextSibling()
-        While (ChildType <> "" And ReferenceNode.Name.ToLower <> ChildType.ToLower)
+        While (ChildType <> "" AndAlso Not IsNothing(ReferenceNode) AndAlso ReferenceNode.Name.ToLower <> ChildType.ToLower)
             ReferenceNode = ReferenceNode.NextSibling()
         End While
 

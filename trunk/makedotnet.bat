@@ -2,34 +2,9 @@
 set APSROOT=%CD%
 
 rem --------- Compile apsimui
-cd %APSROOT%\apsimui\source
-echo ------Compiling apsimui > %APSROOT%\dotnet.out
-"C:\Program Files\Microsoft Visual Studio 8\Common7\IDE\devenv" apsimui.sln /build release >> %APSROOT%\dotnet.out
 cd %APSROOT%
-
-rem --------- Compile apsoil
-cd %APSROOT%\apsoil\source
-echo ------Compiling apsoil >> %APSROOT%\dotnet.out
-"C:\Program Files\Microsoft Visual Studio 8\Common7\IDE\devenv" apsoil.sln /build release >> %APSROOT%\dotnet.out
-cd %APSROOT%
-
-rem --------- Compile ApsimReportData
-cd %APSROOT%\apsimreport\ApsimReportData
-echo ------Compiling ApsimReportData >> %APSROOT%\dotnet.out
-"C:\Program Files\Microsoft Visual Studio 8\Common7\IDE\devenv" ApsimReportData.sln /build release >> %APSROOT%\dotnet.out
-cd %APSROOT%
-
-rem --------- Compile Tools\CallManagedDLL
-cd %APSROOT%\Tools\CallManagedDLL
-echo ------Compiling Tools\CallManagedDLL >> %APSROOT%\dotnet.out
-"C:\Program Files\Microsoft Visual Studio 8\Common7\IDE\devenv" CallManagedDLL.sln /build release >> %APSROOT%\dotnet.out
-cd %APSROOT%
-
-rem --------- Compile GetComponentDescription
-cd %APSROOT%\tools\GetComponentDescription
-echo ------Compiling  GetComponentDescription >> %APSROOT%\dotnet.out
-"C:\Program Files\Microsoft Visual Studio 8\Common7\IDE\devenv" GetComponentDescription.sln /build release >> %APSROOT%\build.win32.out
-cd %APSROOT%
+echo ------Compiling DotNet source > %APSROOT%\dotnet.out
+"C:\Program Files\Microsoft Visual Studio 8\Common7\IDE\devenv" AllDotNet.sln /build release >> %APSROOT%\dotnet.out
 
 rem --------- Compile DotNetComponentInterface
 cd %APSROOT%\Shared\DotNetComponentInterface
@@ -41,12 +16,6 @@ rem --------- Compile SLURP Module
 cd %APSROOT%\apsim\slurp\source
 echo ------Compiling Slurp >> %APSROOT%\dotnet.out
 "C:\Program Files\Microsoft Visual Studio 8\Common7\IDE\devenv" Slurp.sln /build release >> %APSROOT%\dotnet.out
-cd %APSROOT%
-
-rem --------- Compile ApsimToSim Module
-cd %APSROOT%\apsrun\ApsimToSim
-echo ------Compiling ApsimToSim >> %APSROOT%\dotnet.out
-"C:\Program Files\Microsoft Visual Studio 8\Common7\IDE\devenv" ApsimToSim.sln /build release >> %APSROOT%\dotnet.out
 cd %APSROOT%
 
 rem --------- Create the ComponentDescription.xml

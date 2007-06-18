@@ -9,6 +9,7 @@ Imports VBUserInterface
 
 Public Class OutputFileDescUI
     Inherits BaseView
+    Private Controller As BaseController
     Private UserChange As Boolean = True
     Private ComponentNames As New StringCollection
     Private ComponentTypes As New StringCollection
@@ -42,7 +43,6 @@ Public Class OutputFileDescUI
     'Do not modify it using the code editor.
     Friend WithEvents OpenFileDialog As System.Windows.Forms.OpenFileDialog
     Friend WithEvents RightHandPanel As System.Windows.Forms.Panel
-    Friend WithEvents EventsListView As APSIMUI.EventsListView
     Friend WithEvents FpSpread1 As FarPoint.Win.Spread.FpSpread
     Friend WithEvents Grid As FarPoint.Win.Spread.SheetView
     Friend WithEvents Spread As FarPoint.Win.Spread.FpSpread
@@ -78,7 +78,6 @@ Public Class OutputFileDescUI
         Me.MoveUpMenuItem = New System.Windows.Forms.ToolStripMenuItem
         Me.MoveDownMenuItem = New System.Windows.Forms.ToolStripMenuItem
         Me.Grid = New FarPoint.Win.Spread.SheetView
-        Me.EventsListView = New APSIMUI.EventsListView
         Me.RightHandPanel.SuspendLayout()
         Me.BottomPanel.SuspendLayout()
         CType(Me.Spread, System.ComponentModel.ISupportInitialize).BeginInit()
@@ -245,18 +244,6 @@ Public Class OutputFileDescUI
         Me.Grid.SheetName = "Sheet1"
         Me.Grid.ReferenceStyle = FarPoint.Win.Spread.Model.ReferenceStyle.A1
         '
-        'EventsListView
-        '
-        Me.EventsListView.AllowDrop = True
-        Me.EventsListView.AutoScroll = True
-        Me.EventsListView.BackColor = System.Drawing.SystemColors.Control
-        Me.EventsListView.Dock = System.Windows.Forms.DockStyle.Bottom
-        Me.EventsListView.HelpText = ""
-        Me.EventsListView.Location = New System.Drawing.Point(0, 615)
-        Me.EventsListView.Name = "EventsListView"
-        Me.EventsListView.Size = New System.Drawing.Size(753, 118)
-        Me.EventsListView.TabIndex = 12
-        '
         'OutputFileDescUI
         '
         Me.Controls.Add(Me.RightHandPanel)
@@ -275,11 +262,14 @@ Public Class OutputFileDescUI
 
 #End Region
 
-    Overrides Sub RefreshView(ByVal Controller As BaseController)
+    Public Overrides Sub OnLoad(ByVal Controller As VBUserInterface.BaseController)
+        Me.Controller = Controller
+    End Sub
+    Overrides Sub RefreshView(ByVal NodePath As String)
         ' ----------------------------------
         ' Refresh the variable grid
         ' ----------------------------------
-        MyBase.RefreshView(Controller)
+
         If Controller.Data.Type.ToLower = "variables" Then
             HelpText = "Drag variables from the list at the bottom to the grid at the top." + vbCrLf + _
                        "Advanced examples of variable naming." + vbCrLf + _
@@ -482,7 +472,7 @@ Public Class OutputFileDescUI
                     Grid.Cells(e.Row, 2).Text = Item.SubItems(3).Text
                 End If
             Next
-            Controller.DirtyData = True
+            SaveVariableGrid()
             UserChange = True
         End If
     End Sub
@@ -542,7 +532,7 @@ Public Class OutputFileDescUI
             Grid.RemoveRows(FromRow, 1)
             Grid.ClearSelection()
             Grid.AddSelection(Selection.Row - 1, Selection.Column, Selection.RowCount, Selection.ColumnCount)
-            Controller.DirtyData = True
+            SaveVariableGrid()
             UserChange = True
         End If
     End Sub
@@ -561,7 +551,7 @@ Public Class OutputFileDescUI
         Grid.RemoveRows(FromRow, 1)
         Grid.ClearSelection()
         Grid.AddSelection(Selection.Row + 1, Selection.Column, Selection.RowCount, Selection.ColumnCount)
-        Controller.DirtyData = True
+        SaveVariableGrid()
         UserChange = True
     End Sub
 

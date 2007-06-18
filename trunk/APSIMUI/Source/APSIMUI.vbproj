@@ -155,6 +155,7 @@
     <Compile Include="AboutBox.vb">
       <SubType>Form</SubType>
     </Compile>
+    <Compile Include="ApsimUIActions.vb" />
     <Compile Include="ApsimUIController.vb">
       <SubType>Code</SubType>
     </Compile>
@@ -167,9 +168,6 @@
     <Compile Include="EmptyUI.vb">
       <SubType>UserControl</SubType>
     </Compile>
-    <Compile Include="EventsListView.vb">
-      <SubType>UserControl</SubType>
-    </Compile>
     <Compile Include="FileUI.vb">
       <SubType>UserControl</SubType>
     </Compile>
@@ -179,17 +177,11 @@
     <Compile Include="HypropsControl.vb">
       <SubType>UserControl</SubType>
     </Compile>
-    <Compile Include="ListBoxDialog.vb">
-      <SubType>Form</SubType>
-    </Compile>
     <Compile Include="LogicUI.vb">
       <SubType>UserControl</SubType>
     </Compile>
     <Compile Include="MainUI.vb">
       <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="ManagerUI.vb">
-      <SubType>UserControl</SubType>
     </Compile>
     <Compile Include="MemoUI.vb">
       <SubType>UserControl</SubType>
@@ -219,15 +211,6 @@
     </Compile>
     <Compile Include="OutputFileDescUI.vb">
       <SubType>UserControl</SubType>
-    </Compile>
-    <Compile Include="OutputFileExport.vb">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="OutputVariablesDataTree.vb">
-      <SubType>UserControl</SubType>
-    </Compile>
-    <Compile Include="OutputVariablesForm.vb">
-      <SubType>Form</SubType>
     </Compile>
     <Compile Include="RuleUI.vb">
       <SubType>UserControl</SubType>
@@ -260,10 +243,6 @@
       <DependentUpon>EmptyUI.vb</DependentUpon>
       <SubType>Designer</SubType>
     </EmbeddedResource>
-    <EmbeddedResource Include="EventsListView.resx">
-      <DependentUpon>EventsListView.vb</DependentUpon>
-      <SubType>Designer</SubType>
-    </EmbeddedResource>
     <EmbeddedResource Include="FileUI.resx">
       <DependentUpon>FileUI.vb</DependentUpon>
       <SubType>Designer</SubType>
@@ -277,20 +256,12 @@
       <SubType>Designer</SubType>
     </EmbeddedResource>
     <EmbeddedResource Include="licenses.licx" />
-    <EmbeddedResource Include="ListBoxDialog.resx">
-      <DependentUpon>ListBoxDialog.vb</DependentUpon>
-      <SubType>Designer</SubType>
-    </EmbeddedResource>
     <EmbeddedResource Include="LogicUI.resx">
       <DependentUpon>LogicUI.vb</DependentUpon>
       <SubType>Designer</SubType>
     </EmbeddedResource>
     <EmbeddedResource Include="MainUI.resx">
       <DependentUpon>MainUI.vb</DependentUpon>
-      <SubType>Designer</SubType>
-    </EmbeddedResource>
-    <EmbeddedResource Include="ManagerUI.resx">
-      <DependentUpon>ManagerUI.vb</DependentUpon>
       <SubType>Designer</SubType>
     </EmbeddedResource>
     <EmbeddedResource Include="MemoUI.resx">
@@ -325,18 +296,6 @@
     </EmbeddedResource>
     <EmbeddedResource Include="OutputFileDescUI.resx">
       <DependentUpon>OutputFileDescUI.vb</DependentUpon>
-      <SubType>Designer</SubType>
-    </EmbeddedResource>
-    <EmbeddedResource Include="OutputFileExport.resx">
-      <DependentUpon>OutputFileExport.vb</DependentUpon>
-      <SubType>Designer</SubType>
-    </EmbeddedResource>
-    <EmbeddedResource Include="OutputVariablesDataTree.resx">
-      <DependentUpon>OutputVariablesDataTree.vb</DependentUpon>
-      <SubType>Designer</SubType>
-    </EmbeddedResource>
-    <EmbeddedResource Include="OutputVariablesForm.resx">
-      <DependentUpon>OutputVariablesForm.vb</DependentUpon>
       <SubType>Designer</SubType>
     </EmbeddedResource>
     <EmbeddedResource Include="RuleUI.resx">

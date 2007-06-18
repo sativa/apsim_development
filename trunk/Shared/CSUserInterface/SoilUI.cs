@@ -20,6 +20,7 @@ namespace CSUserInterface
 	public class SoilUI : BaseView
 		{
         private ApsoilController SoilController;
+        private string NodePath;
 		private System.ComponentModel.IContainer components = null;
 		private Soil MySoil;
 		private System.Windows.Forms.ImageList ButtonImageList;
@@ -770,32 +771,33 @@ namespace CSUserInterface
 		}
 		#endregion
 
+        public override void OnLoad(BaseController Controller)
+            {
+            if (Controller.GetType().ToString() != "CSGeneral.ApsoilController")
+                {
+                ApsoilController NewController = new ApsoilController(null, "", "", "", null);
+                NewController.ApsimData.Open(Controller.ApsimData.AllData.XML, false);
+                NewController.SelectedPaths = Controller.SelectedPaths;
+                SoilController = NewController;
+                }
+            else
+                SoilController = (ApsoilController)Controller;
+
+            FarPoint.Win.Spread.InputMap InputMap = Grid.GetInputMap(FarPoint.Win.Spread.InputMapMode.WhenAncestorOfFocused);
+            InputMap.Put(new FarPoint.Win.Spread.Keystroke(Keys.Delete, Keys.None),
+                        FarPoint.Win.Spread.SpreadActions.ClipboardCut);
+            InputMap.Put(new FarPoint.Win.Spread.Keystroke(Keys.Enter, Keys.None),
+                        FarPoint.Win.Spread.SpreadActions.MoveToNextRow);
+            Grid_ActiveSheetChanged(null, null);
+            }
 		// ------------------------
 		// Refresh ourselves
 		// ------------------------
-		override public void RefreshView(BaseController Controller)
+		override public void RefreshView(string NodePath)
 			{
-            base.RefreshView(Controller);
+            this.NodePath = NodePath;
 			try
 				{
-                if (Controller.GetType().ToString() != "CSGeneral.ApsoilController")
-                    {
-                    ApsoilController NewController = new ApsoilController("", "", "", null);
-                    NewController.AllData = Controller.AllData;
-                    NewController.SelectedPaths = Controller.SelectedPaths;
-                    this.SoilController = NewController;
-                    }
-                else
-                    SoilController = (ApsoilController) Controller;
-				if (MySoil == null)
-					{
-					FarPoint.Win.Spread.InputMap InputMap = Grid.GetInputMap(FarPoint.Win.Spread.InputMapMode.WhenAncestorOfFocused); 
-					InputMap.Put(new FarPoint.Win.Spread.Keystroke(Keys.Delete, Keys.None), 
-								FarPoint.Win.Spread.SpreadActions.ClipboardCut); 
-					InputMap.Put(new FarPoint.Win.Spread.Keystroke(Keys.Enter, Keys.None), 
-								FarPoint.Win.Spread.SpreadActions.MoveToNextRow); 
-					Grid_ActiveSheetChanged(null, null);
-					}
 				MySoil = new Soil(this.SoilController.Data);
 				ApsoilController Apsoil = this.SoilController as ApsoilController;
                 Apsoil.AddCropEvent -= new BaseController.NotifyEventHandler(Refresh);
@@ -822,7 +824,7 @@ namespace CSUserInterface
 				SetupCellNotes();
 				OperationMode mode = OperationMode.Normal;
 				
-				if (!Apsoil.AllowDataChanges)
+				if (Apsoil.ApsimData.IsReadOnly)
 					mode = OperationMode.ReadOnly;
 					
 				General.OperationMode = mode;
@@ -1351,7 +1353,7 @@ namespace CSUserInterface
 			{
             ApsoilController Apsoil = this.SoilController as ApsoilController;
             Apsoil.AddCrop();
-            RefreshView(SoilController);
+            RefreshView(NodePath);
 			}
 
 
@@ -1362,7 +1364,7 @@ namespace CSUserInterface
 			{
             ApsoilController Apsoil = this.SoilController as ApsoilController;
 			Apsoil.DeleteCrop();
-            RefreshView(SoilController);
+            RefreshView(NodePath);
 			}
 
 		// --------------------------------
@@ -1372,7 +1374,7 @@ namespace CSUserInterface
 			{
             ApsoilController Apsoil = this.SoilController as ApsoilController;
             Apsoil.ReorderCrops();
-            RefreshView(SoilController);
+            RefreshView(NodePath);
 			}
 
 		// --------------------------------
@@ -1499,7 +1501,7 @@ namespace CSUserInterface
 				for (int Row = Range.Row; Row < Range.Row + Range.RowCount; Row++)
 					for (int Col = Range.Column; Col < Range.Column + Range.ColumnCount; Col++)
 						MySoil.AddNote(Grid.ActiveSheet.SheetName, Col, Row, NoteText);
-				RefreshView(SoilController);
+				RefreshView(NodePath);
 				}
 			}
 
@@ -1772,13 +1774,13 @@ namespace CSUserInterface
         private void AddLayerButton_Click(object sender, EventArgs e)
             {
             MySoil.AddLayerToBottom();
-            RefreshView(SoilController);
+            RefreshView(NodePath);
             }
 
         private void DeleteLayerButton_Click(object sender, EventArgs e)
             {
             MySoil.DeleteLayerFromBottom();
-            RefreshView(SoilController);
+            RefreshView(NodePath);
             }
 
 	

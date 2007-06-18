@@ -4,6 +4,8 @@ Imports VBUserInterface
 Public Class HypropsControl
     Inherits BaseView
     Private Hypropsdata As New Hyprops
+    Private Controller As BaseController
+
 #Region " Windows Form Designer generated code "
 
     Public Sub New()
@@ -131,9 +133,10 @@ Public Class HypropsControl
 
 #End Region
 
-
-    Public Overrides Sub RefreshView(ByVal Controller As BaseController)
-        MyBase.RefreshView(Controller)
+    Public Overrides Sub OnLoad(ByVal Controller As VBUserInterface.BaseController)
+        Me.Controller = Controller
+    End Sub
+    Public Overrides Sub RefreshView(ByVal NodePath As String)
         Hypropsdata.Data = Controller.Data.Child("hyprops")
         PropertyGrid.SelectedObject = Hypropsdata
     End Sub

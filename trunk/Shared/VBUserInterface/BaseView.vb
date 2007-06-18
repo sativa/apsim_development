@@ -12,7 +12,7 @@ Public Class BaseView
     ' 'Save' method.
     ' ----------------------------------   
     Inherits System.Windows.Forms.UserControl
-    Protected Controller As BaseController
+
 
 #Region " Windows Form Designer generated code "
     Public Sub New()
@@ -65,13 +65,11 @@ Public Class BaseView
     End Sub
 #End Region
 
-    Public Overridable Sub RefreshView(ByVal Controller As BaseController)
-        ' ------------------------------------------------
-        ' Called to setup the view object. The controller
-        ' passed in is guarenteed to have data.
-        ' ------------------------------------------------
-        HelpText = ""
-        Me.Controller = Controller
+    Public Overridable Overloads Sub OnLoad(ByVal Controller As BaseController)
+    End Sub
+
+    Public Overridable Sub RefreshView(ByVal NodePath As String)
+
     End Sub
 
     Public Overridable Sub Save()

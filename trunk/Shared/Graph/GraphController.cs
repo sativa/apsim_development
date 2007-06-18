@@ -122,7 +122,7 @@ namespace Graph
 
         #region Constructor / destructor / setup
         public GraphController(ImageList images, APSIMData GraphDataRootNode)
-            : base("", "", "")
+            : base(null, "", "", "")
             {
             // --------------------------------------
             // constructor
@@ -130,12 +130,12 @@ namespace Graph
             MyImageList = images;
             WeCreatedDataContainer = true;
             DataContainer = CreateDataContainer();
-            AllData = GraphDataRootNode;
+            ApsimData.Open(GraphDataRootNode.XML, false);
             GraphDataRoot = GraphDataRootNode;
             SetXml(DataContainer, GraphDataRoot.XML);
             }
-        public GraphController(ImageList images, UInt32 datacontainer)
-            : base("", "", "")
+        public GraphController(ImageList images, UInt32 datacontainer, string SectionName)
+            : base(null, "", "", SectionName)
 			{
             // --------------------------------------
             // constructor
@@ -143,8 +143,6 @@ namespace Graph
             MyImageList = images;
             WeCreatedDataContainer = false;
             DataContainer = datacontainer;
-            AllData = new APSIMData(GetXml());
-            GraphDataRoot = AllData;
             }
         protected override void Dispose(bool Disposing)
             {
@@ -278,6 +276,12 @@ namespace Graph
             GetXml(DataContainer, contents);
             return contents.ToString();
             }
+        public void Setup()
+            {
+            ApsimData.Open(GetXml(), false);
+            GraphDataRoot = ApsimData.AllData;
+            }
+
         public string GetErrorMessage(string FullPath)
             {
             // -----------------------------------------------------

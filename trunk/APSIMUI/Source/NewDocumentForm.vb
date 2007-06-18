@@ -5,7 +5,7 @@ Imports System.Collections.Specialized
 Public Class NewDocumentForm
     Inherits System.Windows.Forms.Form
     Protected SelectedData As APSIMData
-    Protected ApsimUI As New ApsimUIController("", "", "")
+    Protected ApsimUI As New ApsimUIController(Nothing, "", "", "")
 #Region " Windows Form Designer generated code "
 
     Public Sub New()
@@ -32,12 +32,13 @@ Public Class NewDocumentForm
     Friend WithEvents CancelButton1 As System.Windows.Forms.Button
     Friend WithEvents DataTree As VBUserInterface.DataTree
     <System.Diagnostics.DebuggerStepThrough()> Private Sub InitializeComponent()
-        Dim resources As System.Resources.ResourceManager = New System.Resources.ResourceManager(GetType(NewDocumentForm))
+        Dim resources As System.ComponentModel.ComponentResourceManager = New System.ComponentModel.ComponentResourceManager(GetType(NewDocumentForm))
         Me.Label1 = New System.Windows.Forms.Label
         Me.PictureBox1 = New System.Windows.Forms.PictureBox
         Me.OKButton = New System.Windows.Forms.Button
         Me.CancelButton1 = New System.Windows.Forms.Button
         Me.DataTree = New VBUserInterface.DataTree
+        CType(Me.PictureBox1, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.SuspendLayout()
         '
         'Label1
@@ -63,6 +64,7 @@ Public Class NewDocumentForm
         Me.OKButton.DialogResult = System.Windows.Forms.DialogResult.OK
         Me.OKButton.Location = New System.Drawing.Point(432, 368)
         Me.OKButton.Name = "OKButton"
+        Me.OKButton.Size = New System.Drawing.Size(75, 23)
         Me.OKButton.TabIndex = 3
         Me.OKButton.Text = "OK"
         '
@@ -71,6 +73,7 @@ Public Class NewDocumentForm
         Me.CancelButton1.DialogResult = System.Windows.Forms.DialogResult.Cancel
         Me.CancelButton1.Location = New System.Drawing.Point(520, 368)
         Me.CancelButton1.Name = "CancelButton1"
+        Me.CancelButton1.Size = New System.Drawing.Size(75, 23)
         Me.CancelButton1.TabIndex = 4
         Me.CancelButton1.Text = "Cancel"
         '
@@ -82,9 +85,9 @@ Public Class NewDocumentForm
         Me.DataTree.AutoScroll = True
         Me.DataTree.BackColor = System.Drawing.SystemColors.Control
         Me.DataTree.HelpText = ""
-        Me.DataTree.Location = New System.Drawing.Point(136, 32)
+        Me.DataTree.Location = New System.Drawing.Point(131, 22)
         Me.DataTree.Name = "DataTree"
-        Me.DataTree.Size = New System.Drawing.Size(456, 716)
+        Me.DataTree.Size = New System.Drawing.Size(456, 340)
         Me.DataTree.Sorted = False
         Me.DataTree.TabIndex = 5
         '
@@ -104,6 +107,7 @@ Public Class NewDocumentForm
         Me.Name = "NewDocumentForm"
         Me.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen
         Me.Text = "APSIM"
+        CType(Me.PictureBox1, System.ComponentModel.ISupportInitialize).EndInit()
         Me.ResumeLayout(False)
 
     End Sub
@@ -121,8 +125,8 @@ Public Class NewDocumentForm
         DataTree.MaximumNumLevels = 1
         DataTree.HelpText = "Select a new simulation"
         DataTree.Dock = DockStyle.None
-        DataTree.ExpandAll = False
-        DataTree.RefreshView(ApsimUI)
+        DataTree.OnLoad(ApsimUI)
+        DataTree.RefreshView("\")
     End Sub
 
 
@@ -131,7 +135,7 @@ Public Class NewDocumentForm
     ' -----------------------------------
     Public ReadOnly Property Selection() As APSIMData
         Get
-            ApsimUI.Data.SetAttribute("version", ApsimUI.AllData.Attribute("version"))
+            ApsimUI.Data.SetAttribute("version", ApsimUI.ApsimData.AllData.Attribute("version"))
             Return ApsimUI.Data
         End Get
     End Property
@@ -140,7 +144,7 @@ Public Class NewDocumentForm
     ' -----------------------------------
     ' User has double clicked.
     ' -----------------------------------
-    Private Sub DataTree_DoubleClick() Handles DataTree.DoubleClickEvent
+    Private Sub DataTree_DoubleClick(ByVal sender As Object, ByVal e As EventArgs) Handles DataTree.DoubleClickEvent
         OKButton.PerformClick()
     End Sub
 End Class

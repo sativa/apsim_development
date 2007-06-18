@@ -12,18 +12,25 @@ namespace Graph
     {
     public partial class GraphControl : UserControl
         {
+        private GraphController GraphController;
+        private BaseController Controller;
+        private APSIMData GraphData;
+
         public GraphControl()
             {
             InitializeComponent();
             }
 
-        public void Refresh(BaseController Controller)
+        public void Setup(BaseController Controller)
             {
-            APSIMData GraphData = Controller.Data.Parent.Child("Data");
+            this.Controller = Controller;
+            GraphData = Controller.Data.Parent.Child("Data");
             if (GraphData == null)
                 GraphData = Controller.Data.Child("Data");
-            GraphController GraphController = new GraphController(Controller.SmallImageList, GraphData);
-
+            GraphController = new GraphController(Controller.SmallImageList, GraphData);
+            }
+        public void RefreshView()
+            {
             Chart.Series.Clear();
             Chart.Axes.Bottom.Title.Text = "";
             Chart.Axes.Left.Title.Text = "";

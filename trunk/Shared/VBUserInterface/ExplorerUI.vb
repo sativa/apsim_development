@@ -5,18 +5,16 @@ Imports VBGeneral
 
 Public Class ExplorerUI
     Inherits BaseView
-    Private MyParentForm As Form
-    Private MyApplicationName As String
     Private UIs As New ArrayList
     Private UITypes As New StringCollection
     Private CurrentUIIndex As Integer = -1
+    Private Controller As BaseController
 
 #Region " Windows Form Designer generated code "
 
-    Public Sub New(ByVal ParentForm As Form)
+    Public Sub New(ByVal controller As BaseController)
         MyBase.New()
         InitializeComponent()
-        MyParentForm = ParentForm
     End Sub
 
     Protected Overloads Overrides Sub Dispose(ByVal disposing As Boolean)
@@ -88,41 +86,20 @@ Public Class ExplorerUI
 
 #End Region
 
-    Public Overrides Sub RefreshView(ByVal Controller As BaseController)
+    Public Overrides Sub OnLoad(ByVal Controller As BaseController)
+        Me.Controller = Controller
+        DataTree.OnLoad(Controller)
+        AddHandler Controller.ApsimData.DataStructureChangedEvent, AddressOf RefreshView
+        AddHandler Controller.SelectionChangedEvent, AddressOf OnSelectionChanged
+        AddHandler Controller.BeforeSaveEvent, AddressOf OnBeforeSave
+    End Sub
+    Public Overrides Sub RefreshView(ByVal NodePath As String)
         ' -------------------------------------------------------
         ' Called by parent to refresh ourselves. 
         ' -------------------------------------------------------
-        MyBase.RefreshView(Controller)
-
-        If Not IsNothing(MyParentForm) And MyApplicationName = "" Then
-            MyApplicationName = MyParentForm.Text
-        End If
-        RemoveHandler Controller.AllData.DataChanged, AddressOf OnDataChanged
-        RemoveHandler Controller.SelectionChangingEvent, AddressOf OnSelectionChanging
-        RemoveHandler Controller.SelectionChangedEvent, AddressOf OnSelectionChanged
-        RemoveHandler Controller.BeforeSaveEvent, AddressOf OnBeforeSave
-        RemoveHandler Controller.AfterSaveEvent, AddressOf OnAfterSave
-        RemoveHandler Controller.RefreshRequiredEvent, AddressOf RefreshView
-
-        AddHandler Controller.AllData.DataChanged, AddressOf OnDataChanged
-        AddHandler Controller.SelectionChangingEvent, AddressOf OnSelectionChanging
-        AddHandler Controller.SelectionChangedEvent, AddressOf OnSelectionChanged
-        AddHandler Controller.BeforeSaveEvent, AddressOf OnBeforeSave
-        AddHandler Controller.AfterSaveEvent, AddressOf OnAfterSave
-        AddHandler Controller.RefreshRequiredEvent, AddressOf RefreshView
+        Visible = True
         MyHelpLabel.Visible = False
-        UpdateCaption()
-        DataTree.RefreshView(Controller)
     End Sub
-
-    WriteOnly Property ExpandAll() As Boolean
-        Set(ByVal Value As Boolean)
-            ' ------------------------------------------------------
-            ' Tell the DataTree to expand all nodes.
-            ' ------------------------------------------------------
-            DataTree.ExpandAll = Value
-        End Set
-    End Property
 
     WriteOnly Property SortAll() As Boolean
         Set(ByVal Value As Boolean)
@@ -132,6 +109,17 @@ Public Class ExplorerUI
             DataTree.SortAll = Value
         End Set
     End Property
+
+    Public Sub ExpandAllFolders()
+        DataTree.ExpandAllFolders()
+    End Sub
+
+    Public Sub ExpandAll()
+        DataTree.ExpandAll()
+    End Sub
+    Public Sub CollapseAll()
+        DataTree.CollapseAll()
+    End Sub
 
     Private Sub ShowUI()
         ' -------------------------------------------------
@@ -152,10 +140,11 @@ Public Class ExplorerUI
         End If
         If CurrentUIIndex <> -1 Then
             Dim View As BaseView = UIs(CurrentUIIndex)
+            View.OnLoad(Controller)
             View.Parent = UIPanel
             View.Dock = DockStyle.Fill
             View.Show()
-            View.RefreshView(Controller)
+            View.RefreshView(Controller.Data.FullPath)
         End If
     End Sub
 
@@ -165,6 +154,7 @@ Public Class ExplorerUI
         ' -------------------------------------------------
         If CurrentUIIndex <> -1 Then
             Dim View As BaseView = UIs(CurrentUIIndex)
+            SaveCurrentView()
             View.OnClose()
             UIPanel.Controls.Remove(View)
             CurrentUIIndex = -1
@@ -181,28 +171,6 @@ Public Class ExplorerUI
         End If
     End Sub
 
-    Private Sub UpdateCaption()
-        ' ----------------------------------------
-        ' Called to update the main form's caption
-        ' ----------------------------------------
-        If Not IsNothing(MyParentForm) Then
-            If Not Controller.AllowDataChanges Then
-                MyParentForm.Text = MyApplicationName + " - " + Controller.FileName + " [readonly]"
-            ElseIf Controller.DirtyData Then
-                MyParentForm.Text = MyApplicationName + " - " + Controller.FileName + "*"
-            Else
-                MyParentForm.Text = MyApplicationName + " - " + Controller.FileName
-            End If
-        End If
-    End Sub
-
-    Private Sub OnSelectionChanging()
-        ' -----------------------------------------------------
-        ' User is selecting a new node - save current UI
-        ' -----------------------------------------------------
-        SaveCurrentView()
-    End Sub
-
     Private Sub OnBeforeSave()
         ' -----------------------------------------------------
         ' User is about to do a save.
@@ -212,17 +180,12 @@ Public Class ExplorerUI
         End If
     End Sub
 
-    Private Sub OnAfterSave()
-        ' -----------------------------------------------------
-        ' User has saved the data
-        ' -----------------------------------------------------
-        UpdateCaption()
-    End Sub
 
     Private Sub OnSelectionChanged(ByVal OldSelections As StringCollection, ByVal NewSelections As StringCollection)
         ' -----------------------------------------------------
         ' User has selected a node - update user interface
         ' -----------------------------------------------------
+        Visible = True
         If Controller.SelectedPaths.Count = 1 Then
             ShowUI()
         Else
@@ -230,11 +193,5 @@ Public Class ExplorerUI
         End If
     End Sub
 
-    Public Sub OnDataChanged(ByVal ChangedData As APSIMData)
-        ' --------------------------
-        ' User has changed some data
-        ' --------------------------
-        UpdateCaption()
-    End Sub
 
 End Class

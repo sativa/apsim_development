@@ -41,6 +41,7 @@ namespace ApsimReportData
             this.MainPanel = new System.Windows.Forms.Panel();
             this.BottomToolStrip = new System.Windows.Forms.ToolStrip();
             this.ShowHideToolboxButton = new System.Windows.Forms.ToolStripButton();
+            this.PopupMenu = new System.Windows.Forms.ContextMenuStrip(this.components);
             this.BottomPanel.SuspendLayout();
             this.ToolboxLabel.SuspendLayout();
             this.RightPanel.SuspendLayout();
@@ -164,6 +165,11 @@ namespace ApsimReportData
             this.ShowHideToolboxButton.Text = "Show / Hide toolbox";
             this.ShowHideToolboxButton.Click += new System.EventHandler(this.ShowHideToolboxButton_Click);
             // 
+            // PopupMenu
+            // 
+            this.PopupMenu.Name = "PopupMenu";
+            this.PopupMenu.Size = new System.Drawing.Size(153, 26);
+            // 
             // MainForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -202,6 +208,7 @@ namespace ApsimReportData
         private System.Windows.Forms.Panel ToolboxPanel;
         private System.Windows.Forms.Panel ToolboxLabel;
         private System.Windows.Forms.Label label1;
+        private System.Windows.Forms.ContextMenuStrip PopupMenu;
         }
     }
 

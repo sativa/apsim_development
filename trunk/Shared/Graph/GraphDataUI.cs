@@ -16,6 +16,7 @@ namespace Graph
         {
         private UInt32 DataWindow = 0;
         private GraphController GraphController;
+        private string NodePath;
 
         public GraphDataUI()
             {
@@ -31,40 +32,48 @@ namespace Graph
             base.Dispose(disposing);
             }
 
-        public override void RefreshView(BaseController Controller)
+        public override void OnLoad(BaseController Controller)
             {
-            // ----------------------------------------------------------
-            // Refresh this graphdata.
-            // ----------------------------------------------------------
-            base.RefreshView(Controller);
-
-            // Capture event that occurs when user changes properties.
-            GenericUI.PropertiesChangedEvent -= new GenericUI.NotifyEventHandler(OnPropertiesChanged);
-            GenericUI.PropertiesChangedEvent += new GenericUI.NotifyEventHandler(OnPropertiesChanged);
-
-            // Need to go and find the root node for all graph data.
-            string ThisPath = "";
-            APSIMData GraphData = Controller.Data;
-            while (GraphData.Type != "Data" && GraphData.Parent != null)
-                {
-                if (ThisPath != "")
-                    ThisPath = GraphData.Name + "\\" + ThisPath;
-                else
-                    ThisPath = GraphData.Name;
-                GraphData = GraphData.Parent;
-                }
-            ThisPath = "Data\\" + ThisPath;
-
-            // Give all graph data to a newly created graphcontroller.
             if (Controller is GraphController)
                 this.GraphController = (GraphController)Controller;
             else
                 {
-                this.GraphController = new GraphController(Controller.SmallImageList, GraphData);
-                StringCollection Selections = new StringCollection();
-                Selections.Add(ThisPath);
-                GraphController.SelectedPaths = Selections;
+                // Need to go and find the root node for all graph data.
+                string ThisPath = "";
+                APSIMData GraphData = Controller.Data;
+                while (GraphData.Type != "Data" && GraphData.Parent != null)
+                    {
+                    if (ThisPath != "")
+                        ThisPath = GraphData.Name + "\\" + ThisPath;
+                    else
+                        ThisPath = GraphData.Name;
+                    GraphData = GraphData.Parent;
+                    }
+                ThisPath = "Data\\" + ThisPath;
+
+                // Give all graph data to a newly created graphcontroller.
+                if (Controller is GraphController)
+                    this.GraphController = (GraphController)Controller;
+                else
+                    {
+                    this.GraphController = new GraphController(Controller.SmallImageList, GraphData);
+                    StringCollection Selections = new StringCollection();
+                    Selections.Add(ThisPath);
+                    GraphController.SelectedPaths = Selections;
+                    }
                 }
+            GenericUI.OnLoad(Controller);
+            }
+        public override void RefreshView(string NodePath)
+            {
+            // ----------------------------------------------------------
+            // Refresh this graphdata.
+            // ----------------------------------------------------------
+            this.NodePath = NodePath;
+
+            // Capture event that occurs when user changes properties.
+            GenericUI.PropertiesChangedEvent -= new GenericUI.NotifyEventHandler(OnPropertiesChanged);
+            GenericUI.PropertiesChangedEvent += new GenericUI.NotifyEventHandler(OnPropertiesChanged);
 
             // Create a data window if necessary.
             if (DataWindow == 0)
@@ -80,7 +89,7 @@ namespace Graph
             // ----------------------------------------------------------
 
             // refresh our genericUI
-            GenericUI.RefreshView(GraphController);
+            GenericUI.RefreshView(NodePath);
 
             // refresh our data window
             if (GraphController.Data != null)

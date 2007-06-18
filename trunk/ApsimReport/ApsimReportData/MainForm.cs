@@ -31,7 +31,7 @@ namespace ApsimReportData
             else
                 {
                 UInt32 DataContainer = Convert.ToUInt32(CommandLine);
-                Graph = new GraphController(SmallImages, DataContainer);
+                Graph = new GraphController(SmallImages, DataContainer, "ApsimReport");
                 this.Show();
                 Application.Run(this);
                 }
@@ -45,7 +45,8 @@ namespace ApsimReportData
             DataExplorer.Dock = DockStyle.Fill;
             DataExplorer.Visible = true;
 
-            DataExplorer.RefreshView(Graph);
+            DataExplorer.OnLoad(Graph);
+            Graph.Setup();
 
             // Setup but don't show the Toolbox Explorer.
             ToolboxExplorer = new ExplorerUI(null);
@@ -55,8 +56,9 @@ namespace ApsimReportData
             APSIMData ToolBoxData = new APSIMData();
             ToolBoxData.LoadFromFile(APSIMSettings.ApsimDirectory() + "\\apsimui\\graph.xml");
             Toolbox = new GraphController(SmallImages, ToolBoxData);
-            Toolbox.FileNew(ToolBoxData);
-            ToolboxExplorer.RefreshView(Toolbox);
+            ToolboxExplorer.OnLoad(Toolbox);
+            Toolbox.ApsimData.Open(ToolBoxData.XML, true);
+            Graph.ProvideToolStrip(PopupMenu, "ContextMenu");
             }
 
         private void ShowHideToolboxButton_Click(object sender, EventArgs e)

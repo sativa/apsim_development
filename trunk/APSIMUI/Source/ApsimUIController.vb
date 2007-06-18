@@ -20,10 +20,11 @@ Public Class ApsimUIController
     ' ---------------------
     ' Constructor
     ' ---------------------
-    Sub New(ByVal DefaultExtension As String, _
+    Sub New(ByVal MainForm As Form, _
+            ByVal DefaultExtension As String, _
             ByVal DialogFilter As String, _
             ByVal FrequentListSection As String)
-        MyBase.New(DefaultExtension, DialogFilter, FrequentListSection)
+        MyBase.New(MainForm, DefaultExtension, DialogFilter, FrequentListSection)
 
         _LargeImageList.ImageSize = New Size(32, 32)
         _SmallImageList.ImageSize = New Size(16, 16)
@@ -125,8 +126,6 @@ Public Class ApsimUIController
                 Case "area"
                     Return New areaui
 
-                Case "toolbox"
-                    Return New BaseView
                 Case "file"
                     Return New FileUI
 

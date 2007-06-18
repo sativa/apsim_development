@@ -3,6 +3,7 @@ Imports VBUserInterface
 
 Public Class SwimSoilUI
     Inherits BaseView
+    Private Controller As BaseController
 
 #Region " Windows Form Designer generated code "
 
@@ -232,9 +233,12 @@ Public Class SwimSoilUI
 
 #End Region
 
-    Overrides Sub RefreshView(ByVal Controller As BaseController)
-        MyBase.RefreshView(Controller)
-        HypropsControl.RefreshView(Controller)
+    Public Overrides Sub OnLoad(ByVal Controller As VBUserInterface.BaseController)
+        Me.Controller = Controller
+        HypropsControl.OnLoad(Controller)
+    End Sub
+    Overrides Sub RefreshView(ByVal NodePath As String)
+        HypropsControl.RefreshView(NodePath)
     End Sub
 
 

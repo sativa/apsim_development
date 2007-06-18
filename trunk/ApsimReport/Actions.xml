@@ -1,0 +1,150 @@
+<?xml version="1.0"?>
+
+<Folder>
+   <Actions>
+      <Delete>
+         <text>Delete</text>
+         <Location>AllNodes</Location>
+         <Description>Delete the selected node</Description>
+         <SmallIcon>%apsuite\ApsimUI\Images\delete2.png</SmallIcon>
+         <DisabledWhen>ReadOnly</DisabledWhen>
+         <DisabledWhen>RootNode</DisabledWhen>
+         <ShortCut>Delete</ShortCut>
+         <OnInvoke>
+            <call>
+               <class>VBUserInterface.BaseActions</class>
+               <method>Delete</method>
+            </call>
+         </OnInvoke>
+      </Delete>
+      <Rename>
+         <text>Rename</text>
+         <Location>AllNodes</Location>
+         <Description>Rename the selected node</Description>
+         <SmallIcon>%apsuite\ApsimUI\Images\pen_blue.png</SmallIcon>
+         <DisabledWhen>ReadOnly</DisabledWhen>
+         <DisabledWhen>RootNode</DisabledWhen>
+         <ShortCut>F2</ShortCut>
+         <OnInvoke>
+            <call>
+               <class>VBUserInterface.BaseActions</class>
+               <method>Rename</method>
+            </call>
+         </OnInvoke>
+      </Rename>
+      <Cut>
+         <text>Cut</text>
+         <Location>AllNodes</Location>
+         <Description>Cut the selected node to the clipboard</Description>
+         <SmallIcon>%apsuite\ApsimUI\Images\cut.png</SmallIcon>
+         <DisabledWhen>ReadOnly</DisabledWhen>
+         <DisabledWhen>RootNode</DisabledWhen>
+         <ShortCut>X, Control</ShortCut>
+         <OnInvoke>
+            <call>
+               <class>VBUserInterface.BaseActions</class>
+               <method>Cut</method>
+            </call>
+         </OnInvoke>
+      </Cut>   
+      <Copy>
+         <text>Copy</text>
+         <Location>AllNodes</Location>
+         <Description>Copy the selected node to the clipboard</Description>
+         <SmallIcon>%apsuite\ApsimUI\Images\copy.png</SmallIcon>
+         <ShortCut>C, Control</ShortCut>
+         <OnInvoke>
+            <call>
+               <class>VBUserInterface.BaseActions</class>
+               <method>Copy</method>
+            </call>
+         </OnInvoke>
+      </Copy>   
+      <Paste>
+         <text>Paste</text>
+         <Location>AllNodes</Location>
+         <Description>Paste the clipboard contents below the selected node</Description>
+         <SmallIcon>%apsuite\ApsimUI\Images\paste.png</SmallIcon>
+         <DisabledWhen>ReadOnly</DisabledWhen>
+         <DisabledWhen>MultipleNodesSelected</DisabledWhen>
+         <ShortCut>V, Control</ShortCut>
+         <OnInvoke>
+            <call>
+               <class>VBUserInterface.BaseActions</class>
+               <method>Paste</method>
+            </call>
+         </OnInvoke>
+      </Paste>
+      <MoveUp>
+         <text>Move up</text>
+         <Location>AllNodes</Location>
+         <Description>Move the selected nodes up</Description>
+         <SmallIcon>%apsuite\ApsimUI\Images\nav_up_green.png</SmallIcon>
+         <DisabledWhen>ReadOnly</DisabledWhen>
+         <ShortCut>Up, Control</ShortCut>
+         <OnInvoke>
+            <call>
+               <class>VBUserInterface.BaseActions</class>
+               <method>MoveUp</method>
+            </call>
+         </OnInvoke>
+      </MoveUp>   
+      <MoveDown>
+         <text>Move down</text>
+         <Location>AllNodes</Location>
+         <Description>Move the selected nodes down</Description>
+         <SmallIcon>%apsuite\ApsimUI\Images\nav_down_green.png</SmallIcon>
+         <DisabledWhen>ReadOnly</DisabledWhen>
+         <ShortCut>Down, Control</ShortCut>
+         <OnInvoke>
+            <call>
+               <class>VBUserInterface.BaseActions</class>
+               <method>MoveDown</method>
+            </call>
+         </OnInvoke>
+      </MoveDown>   
+      <ExpandAll>
+         <text>Expand all</text>
+         <Location>AllNodes</Location>
+         <Description>Expand all nodes</Description>
+         <SmallIcon>%apsuite\ApsimUI\Images\down_plus.png</SmallIcon>
+         <OnInvoke>
+            <call>
+               <class>VBUserInterface.BaseActions</class>
+               <method>ExpandAll</method>
+            </call>
+         </OnInvoke>
+      </ExpandAll>
+      <CollapseAll>
+         <text>Collapse all</text>
+         <Location>AllNodes</Location>
+         <Description>Collapse all nodes</Description>
+         <SmallIcon>%apsuite\ApsimUI\Images\up_minus.png</SmallIcon>
+         <OnInvoke>
+            <call>
+               <class>VBUserInterface.BaseActions</class>
+               <method>CollapseAll</method>
+            </call>
+         </OnInvoke>
+      </CollapseAll>
+   </Actions>
+   
+   <ContextMenu>
+      <ImageSize>Small</ImageSize>
+      <Item>Delete</Item>
+      <Item>Rename</Item>
+      <Separator/>
+      <Item>Cut</Item>
+      <Item>Copy</Item>
+      <Item>Paste</Item>
+      <Separator/>
+      <Item>MoveUp</Item>
+      <Item>MoveDown</Item>
+      <Separator/>
+      <Item>CollapseAll</Item>
+      <Item>ExpandAll</Item>
+       
+   </ContextMenu>
+
+
+</Folder>   
