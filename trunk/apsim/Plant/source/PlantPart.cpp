@@ -778,10 +778,6 @@ void plantPart::removeBiomass(void)
 // deltas have been given from an external module; update states.
    {
 //    update();
-   DMGreen -= dltDmGreenRemoved();
-   DMSenesced -= dltDmSenescedRemoved();
-   DMDead -= dltDmDeadRemoved();
-
    NGreen -= dltNGreenRemoved();
    NSenesced -= dltNSenescedRemoved();
    NDead -= dltNDeadRemoved();
@@ -789,6 +785,10 @@ void plantPart::removeBiomass(void)
    PGreen -= dltPGreenRemoved();
    PSen -= dltPSenescedRemoved();
    PDead -= dltNDeadRemoved();
+
+   DMGreen -= dltDmGreenRemoved();
+   DMSenesced -= dltDmSenescedRemoved();
+   DMDead -= dltDmDeadRemoved();
    }
 
 void plantPart::doRemoveBiomass(protocol::RemoveCropDmType dmRemoved, string &c_remove_biomass_report)
@@ -1917,6 +1917,14 @@ float plantPart::giveDmGreenRemoved (float delta)
 // addXXX: something is removing some XXX. return the delta.
    {
    dlt.dm_green_removed = delta;
+   float error_margin = 1.0e-6 ;
+   if (delta > dmGreen() + error_margin)
+   {
+       ostringstream msg;
+       msg << "Attempting to remove more green " << name() << " biomass than available:-" << endl;
+       msg << "Removing " << -delta << " (g/m2) from " << dmGreen() << " (g/m2) available." << ends;
+       throw std::runtime_error (msg.str().c_str());
+   }
    return delta;
    }
 
@@ -1924,6 +1932,14 @@ float plantPart::giveDmSenescedRemoved (float delta)
 //=======================================================================================
    {
    dlt.dm_senesced_removed = delta;
+   float error_margin = 1.0e-6 ;
+   if (delta > dmSenesced() + error_margin)
+   {
+       ostringstream msg;
+       msg << "Attempting to remove more Senesced " << name() << " biomass than available:-" << endl;
+       msg << "Removing " << -delta << " (g/m2) from " << dmSenesced() << " (g/m2) available." << ends;
+       throw std::runtime_error (msg.str().c_str());
+   }
    return delta;
    }
 
@@ -1931,5 +1947,13 @@ float plantPart::giveDmDeadRemoved (float delta)
 //=======================================================================================
    {
    dlt.dm_dead_removed = delta;
+   float error_margin = 1.0e-6 ;
+   if (delta > dmDead() + error_margin)
+   {
+       ostringstream msg;
+       msg << "Attempting to remove more Dead " << name() << " biomass than available:-" << endl;
+       msg << "Removing " << -delta << " (g/m2) from " << dmDead() << " (g/m2) available." << ends;
+       throw std::runtime_error (msg.str().c_str());
+   }
    return delta;
    }
