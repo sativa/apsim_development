@@ -122,8 +122,8 @@ void cohortingLeafPart::onInit1(protocol::Component *system)
    setupGetFunction(system, "node_no_fx", protocol::DTsingle, false,
                     &cohortingLeafPart::get_node_no_fx, "/plant", "Number of main stem nodes senesced");
 
-   setupGetFunction(system, "leaf_no", protocol::DTsingle, true,
-                    &cohortingLeafPart::get_leaf_no, "mm^2/plant", "Number of leaves in each cohort");
+   setupGetFunction(system, "leaf_no", protocol::DTsingle, false,
+                    &cohortingLeafPart::get_leaf_no, "/plant", "Number of leaves on the plant");
 
    setupGetFunction(system, "leaf_area", protocol::DTsingle, true,
                     &cohortingLeafPart::get_leaf_area, "mm^2/plant", "Leaf area for each leaf cohort");
@@ -197,7 +197,7 @@ void cohortingLeafPart::get_lai_sum(protocol::Component *system, protocol::Query
 void cohortingLeafPart::get_leaf_no(protocol::Component *system, protocol::QueryValueData &qd)
 //=======================================================================================
 {
-   system->sendVariable(qd, gLeafNo);
+   system->sendVariable(qd, sum(gLeafNo));
 }
 
 void cohortingLeafPart::get_node_no(protocol::Component *system, protocol::QueryValueData &qd)
@@ -432,7 +432,7 @@ void cohortingLeafPart::onHarvest(float /* cutting_height */, float remove_fr,
 void cohortingLeafPart::checkBounds(void)
 //=======================================================================================
 // Sanity checks
-{
+   {
    plantPart::checkBounds();
    if (gTLAI_dead < 0.0) throw std::runtime_error(c.name + " gTLAI_dead is negative! (" + ftoa(gTLAI_dead,".6") + ")");
    if (gNodeNo < 0) throw std::runtime_error(c.name + " node number is negative! (" + ftoa(gNodeNo,".6") + ")");
@@ -446,7 +446,7 @@ void cohortingLeafPart::checkBounds(void)
       if (gLeafNo[cohort] < 0)
          throw std::runtime_error(c.name + " leaf number is negative! (" + ftoa(gLeafNo[cohort],".6") + ")");
       }
-}
+   }
 
 void cohortingLeafPart::actual(void)
 //=======================================================================================
@@ -484,6 +484,7 @@ void cohortingLeafPart::leaf_no_actual (void)
    //ratio of actual to potential leaf appearance
    float leaf_no_frac= cLeafNoFrac[lai_ratio];
 
+
    dltLeafNo = dltLeafNoPot * leaf_no_frac;
    }
 
@@ -502,7 +503,8 @@ void cohortingLeafPart::potential (int leaf_no_pot_option, /* (INPUT) option num
 // Plant is telling us to calculate potentials
    {
    dltTT = dlt_tt; //Yuck..  XXXXXXXXXXX
-   if (leaf_no_pot_option != 2) throw std::invalid_argument("cohorting not implemented for indeterminates");
+   // NIH Going to try using this approach for indeterminants.  Might cause memory problems for long crops.
+   //if (leaf_no_pot_option != 2) throw std::invalid_argument("cohorting not implemented for indeterminates");
 
    this->leaf_no_pot (stressFactor, dlt_tt);
    this->leaf_area_potential (dlt_tt);
@@ -515,7 +517,7 @@ void cohortingLeafPart::leaf_no_pot (float stressFactor, float dlt_tt)
     bool tillering = plant->inPhase("tiller_formation");
     if (tillering)
        {
-       float node_app_rate = cNodeAppRate[(int)gNodeNo+1];
+       float node_app_rate = cNodeAppRate[gNodeNo];
        dltNodeNo = divide (dlt_tt, node_app_rate, 0.0);
        }
     else
@@ -524,12 +526,16 @@ void cohortingLeafPart::leaf_no_pot (float stressFactor, float dlt_tt)
     dltLeafNoPot = 0.0;
     if (tillering)
         {
-        float leaves_per_node_now = cLeavesPerNode[(int)gNodeNo+1];
+        float leaves_per_node_now = cLeavesPerNode[gNodeNo];
         gLeavesPerNode = min(gLeavesPerNode, leaves_per_node_now);
-        float dlt_leaves_per_node = cLeavesPerNode[(int)(gNodeNo + dltNodeNo)+1] - leaves_per_node_now;
+        float dlt_leaves_per_node = cLeavesPerNode[gNodeNo + dltNodeNo] - leaves_per_node_now;
 
-        gLeavesPerNode +=  dlt_leaves_per_node * stressFactor;
-
+        if (dlt_leaves_per_node > 0.0)
+           gLeavesPerNode +=  dlt_leaves_per_node * stressFactor;
+        else
+           gLeavesPerNode +=  dlt_leaves_per_node;
+        gLeavesPerNode = max(1.0, gLeavesPerNode);
+                   
         dltLeafNoPot = dltNodeNo * gLeavesPerNode;
         }
     }
@@ -641,6 +647,7 @@ void cohortingLeafPart::update(void)
    }
    if (gLeafArea.size() > 0)
      gLeafNo[gLeafArea.size()-1] += dltLeafNo;  // Add leaves to currently expanding cohort.
+
    gNodeNo += dltNodeNo;
 
    for (unsigned int cohort = 0; cohort != gLeafArea.size(); cohort++)
