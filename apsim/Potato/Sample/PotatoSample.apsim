@@ -20,14 +20,30 @@
             if (rain[[rainnumdays]] >= [raincrit] AND esw >= [esw_amount]) OR
                 ('[must_sow]' = 'yes' AND today = date('[date2]'))) THEN
                ChooseNextCrop = 'yes'   ! for rotations
-               [crop] sow plants =[density], sowing_depth = [depth], cultivar = [cultivar], row_spacing = [row_spacing], crop_class = [class]
+               stf = st(1) / 10.
+               if (stf < 0) then
+                  stf = 0
+               endif
+               if (stf > 1) then
+                  stf = 1
+               endif               
+               swf = (sw(1) - ll(1))/(dul(1) - ll(1))
+               if (swf < 0) then
+                  swf = 0
+               endif
+               if (swf > 1) then
+                  swf = 1
+               endif
+               density = [seeds] !* [age]/2000. * stf * swf
+               [crop] sow plants = density, sowing_depth = [depth], cultivar = [cultivar], row_spacing = [row_spacing], crop_class = [class]
             endif
             if today = date('[date2]') then
                ChooseNextCrop = 'yes'
             endif
          endif
       endif
-            ]]></condition>
+            
+]]></condition>
           <category name="Sowing criteria">
             <date1 type="ddmmmdate" description="Enter sowing window START date (dd-mmm) : ">15-may</date1>
             <date2 type="ddmmmdate" description="Enter sowing window END date (dd-mmm) : ">10-jul</date2>
@@ -38,17 +54,18 @@
           </category>
           <category name="Sowing parameters">
             <crop type="crop" description="Enter name of crop to sow : ">potato</crop>
-            <density type="text" description="Enter sowing density  (plants/m2) : ">100</density>
+            <seeds type="text" description="Enter sowing density  (seeds/m2) : ">5</seeds>
             <depth type="text" description="Enter sowing depth  (mm) : ">30</depth>
-            <cultivar type="cultivars" croppropertyname="crop" description="Enter cultivar : ">MRPotatoHead</cultivar>
+            <cultivar type="cultivars" croppropertyname="crop" description="Enter cultivar : ">russet</cultivar>
             <class type="classes" croppropertyname="crop" description="Enter crop growth class : ">plant</class>
+            <age type="text" description="Enter physiological age (deg days): ">1000</age>
             <row_spacing type="text" description="Enter row spacing (mm) : ">250</row_spacing>
           </category>
         </rule>
         <rule name="Harvesting rule">
           <condition name="end_of_day">
 
-           if [crop].stage_name = 'harvest_ripe' or [crop].plant_status = 'dead' then
+           if [crop].stage_name = 'maturity' or [crop].plant_status = 'dead' then
               [crop]  harvest
               [crop]  end_crop
            endif
@@ -89,6 +106,11 @@
           <variable name="leaf_wt" />
           <variable name="stem_wt" />
           <variable name="tuber_wt" />
+          <variable name="st(1)" />
+          <variable name="plants" />
+          <variable name="node_no" />
+          <variable name="node_no_fx" />
+          <variable name="leaf_no" />
         </variables>
         <events name="Reporting Frequency">
           <event name="Daily" description="End of day" array="No" />
