@@ -13,6 +13,7 @@
 #include "arbitrator.h"
 #include "NullArbitrator.h"
 #include "GenericArbitrator.h"
+#include "GenericArbitratorXY.h"
 
 plantPart* Arbitrator::FindPart(vector <plantPart *>& Parts, string name)
    {
@@ -34,6 +35,8 @@ Arbitrator* constructArbitrator(ScienceAPI& scienceAPI, plantInterface *p, const
      object = new genericArbitrator(scienceAPI, p);
    else if (type == "2")
      object = new cerealArbitrator(scienceAPI, p);
+   else if (type == "genericxy")
+     object = new genericArbitratorXY(scienceAPI, p);
    else if (type == "allometric")
      object = new allometricArbitrator(scienceAPI, p);
    else

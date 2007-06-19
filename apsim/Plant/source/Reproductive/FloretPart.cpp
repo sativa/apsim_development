@@ -172,8 +172,9 @@ void FloretPart::readSpeciesParameters(protocol::Component *system, vector<strin
       cPartition_option=1;
       scienceAPI.read("frac_Floret", cFrac_Floret, numvals, 0.0, 2.0);
       }
-   else if (partition_option == "2" || partition_option == "allometric")
+   else if (partition_option == "2" || partition_option == "allometric" || partition_option == "genericxy")
       {
+      // NIH - why the hell do we do this??
       cPartition_option=2;
       scienceAPI.read("x_stage_no_partition", cX_stage_no_partition, cNum_stage_no_partition, 0.0f, 20.0f);
       scienceAPI.read("y_frac_Floret", cY_frac_Floret, numvals, 0.0f, 2.0f);

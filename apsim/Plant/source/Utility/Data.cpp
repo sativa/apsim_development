@@ -19,16 +19,16 @@ externalFunction::~externalFunction() {};
 
 
 void externalFunction::read(ScienceAPI& /*scienceAPI*/,
-                       const char *xname, const char * xunits, float /* x0*/, float /* x1*/,
-                       const char *yname, const char * yunits, float /* y0*/, float /* y1*/)
+                       const string& xname, const string& xunits, float /* x0*/, float /* x1*/,
+                       const string& yname, const string& yunits, float /* y0*/, float /* y1*/)
       {
       xName = string(xname); yName = string(yname);
       xUnits = string(xunits); yUnits = string(yunits);
       }
 
 void lookupFunction::read(ScienceAPI& scienceAPI,
-                            const char *xname, const char *xunits, float x0, float x1,
-                            const char *yname, const char *yunits, float y0, float y1)
+                            const string& xname, const string& xunits, float x0, float x1,
+                            const string& yname, const string& yunits, float y0, float y1)
    {
    externalFunction::read(scienceAPI, xname, xunits, x0, x1, yname, yunits, y0, y1);
    x.clear();   y.clear();
@@ -44,8 +44,8 @@ void lookupFunction::read(ScienceAPI& scienceAPI,
    }
 // Linear Interpolation function setup
 void interpolationFunction::read(ScienceAPI& scienceAPI,
-                                   const char *xname, const char *xunits, float x0, float x1,
-                                   const char *yname, const char *yunits, float y0, float y1)
+                                   const string& xname, const string& xunits, float x0, float x1,
+                                   const string& yname, const string& yunits, float y0, float y1)
    {
    externalFunction::read(scienceAPI, xname, xunits, x0, x1, yname, yunits, y0, y1);
    x.clear();   y.clear();
