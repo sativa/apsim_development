@@ -5,6 +5,7 @@
 #include <math.h>
 #include <string>
 #include <algorithm>
+#include "utility/ExternalFunction.h"
 
 using namespace std;
 
@@ -76,23 +77,6 @@ namespace protocol {
   class Component;
 };
 
-// An "external" function: an abstract class to encapsulate functions defined in .ini files..
-class externalFunction {
- protected:
-     std::string xName, yName, xUnits, yUnits;
- public:
-   externalFunction();
-   virtual ~externalFunction();
-
-   void read(ScienceAPI& scienceAPI,
-                const string& xname, const string& xunits, float x0, float x1,
-                const string& yname, const string& yunits, float y0, float y1);
-
-   virtual std::string description(void) const;
-   virtual float value(float v) const = 0;
-   float operator [] (float arg) const {return value(arg);};
-   virtual bool isInitialised(void) {return false;};
-};
 
 
 // Implement stick (linear interpolation) functions
