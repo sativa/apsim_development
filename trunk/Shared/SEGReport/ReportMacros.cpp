@@ -30,7 +30,8 @@ string ReportMacros::resolve(TComponent* owner, const string& macro)
          {
          string macroName = returnValue.substr(posMacro, posOpenBracket-posMacro);
          string argumentString = returnValue.substr(posOpenBracket+1, posCloseBracket-posOpenBracket-1);
-         argumentString = resolve(owner, argumentString);
+         if (macroName != "$")
+            argumentString = resolve(owner, argumentString);
          vector<string> arguments;
          splitIntoValues(argumentString, ",", arguments);
 
@@ -75,6 +76,8 @@ string ReportMacros::resolve(TComponent* owner, const string& macro)
                d = d + date_duration(atoi(arguments[1].c_str()));
                value = to_dmy(d);
                }
+            else if (macroName == "$")
+               value = argumentString;
             }
          catch (Exception& err)
             {
