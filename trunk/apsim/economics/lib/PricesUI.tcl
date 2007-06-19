@@ -41,6 +41,7 @@ foreach node [$docroot selectNodes //$config(category)] {
           set config(protein,$variable,$i) [lindex $config(protein,$variable) $i]
        }
    }
+   set config(grain_moisture,$variable) [getValue $node grain_moisture]
    lappend config(variables) $variable
 }
 $doc delete
@@ -53,11 +54,13 @@ set row 1
 label $w.t0 -text Description
 label $w.t1 -text Price
 label $w.t2 -text Units
-label $w.t3 -text "Last Updated"
-grid $w.t0 -row 0 -column 1 -padx 3
-grid $w.t1 -row 0 -column 2 -padx 3
-grid $w.t2 -row 0 -column 3 -padx 3
-grid $w.t3 -row 0 -column 4 -padx 3
+label $w.t3 -text "Grain moisture\ncontent (%)"
+label $w.t4 -text "Last Updated"
+grid $w.t0 -row 0 -column 1 -padx 3 -sticky n
+grid $w.t1 -row 0 -column 2 -padx 3 -sticky n
+grid $w.t2 -row 0 -column 3 -padx 3 -sticky n
+grid $w.t3 -row 0 -column 4 -padx 3 -sticky n
+grid $w.t4 -row 0 -column 5 -padx 3 -sticky n
 
 foreach variable $config(variables) {
    label $w.l$row -text   $config(desc,$variable)
@@ -77,12 +80,14 @@ foreach variable $config(variables) {
       entry $w.price$row -width 8 -textvariable config(price,$variable) -vcmd {string is int %P} 
       label $w.u$row -text $config(units,$variable)
    }   
+   entry $w.gmc$row -width 5 -textvariable config(grain_moisture,$variable) -vcmd {string is int %P} 
    label $w.up$row -text  $config(updated,$variable)
 
    grid $w.l$row     -row $row -column 1 -pady 3 -sticky nw -padx 5
    grid $w.price$row -row $row -column 2 -pady 3 -sticky new
    grid $w.u$row     -row $row -column 3 -pady 3 -padx 5 -sticky nw
-   grid $w.up$row    -row $row -column 4 -pady 3 -padx 5 -sticky nw
+   grid $w.gmc$row   -row $row -column 4 -pady 3 -padx 5 -sticky nw
+   grid $w.up$row    -row $row -column 5 -pady 3 -padx 5 -sticky nw
    incr row
 }
 
