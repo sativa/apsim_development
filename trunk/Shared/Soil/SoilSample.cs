@@ -165,8 +165,26 @@ namespace Soils
             {
             get
                 {
-                double[] DefaultValues = ParentSoil.LL15;
-                return Utility.MapSampleToSoilUsingSpatial(SW, Thickness, DefaultValues, ParentSoil.Thickness);
+                double[] DefaultValues;
+                if (ParentSoil.CropsMeasured.Length > 0)
+                    DefaultValues = ParentSoil.LL(ParentSoil.CropsMeasured[0]);
+                else
+                    DefaultValues = ParentSoil.LL15;
+                double[] SampleSW; 
+                double[] SampleThickness;
+                SampleSW = new double[SW.Length + 2];
+                SampleThickness = new double[Thickness.Length + 2];
+                SW.CopyTo(SampleSW, 0);
+                Thickness.CopyTo(SampleThickness, 0);
+                int SecondBottomLayer = SampleThickness.Length - 2;
+                int BottomLayer = SampleThickness.Length - 1;
+                double BottomMeasuredSW = SW[Thickness.Length - 1];
+                SampleThickness[SecondBottomLayer] = 200;
+                SampleSW[SecondBottomLayer] = 0.8 * BottomMeasuredSW;
+
+                SampleThickness[BottomLayer] = 200;
+                SampleSW[BottomLayer] = 0.4 * BottomMeasuredSW;
+                return Utility.MapSampleToSoilUsingSpatial(SampleSW, SampleThickness, DefaultValues, ParentSoil.Thickness);
                 }
             }
         public double[] NO3MapedToSoil
