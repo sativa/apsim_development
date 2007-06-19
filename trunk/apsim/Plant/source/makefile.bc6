@@ -55,6 +55,7 @@ OBJFILES=PlantComponent.obj \
    Arbitrators\Arbitrator.obj \
    Arbitrators\NullArbitrator.obj \
    Arbitrators\GenericArbitrator.obj \
+   Arbitrators\GenericArbitratorXY.obj \
    PlantSpatial.obj \
     \
    Phenology\PlantPhenology.obj \
@@ -171,3 +172,4 @@ Phenology\WheatPhenology.obj: Phenology\WheatPhenology.cpp Phenology\WheatPhenol
 
 Arbitrators\NullArbitrator.obj:  Arbitrators\NullArbitrator.cpp Arbitrators\NullArbitrator.h Arbitrators\Arbitrator.cpp Arbitrators\Arbitrator.h
 Arbitrators\GenericArbitrator.obj: Arbitrators\GenericArbitrator.cpp Arbitrators\GenericArbitrator.h Arbitrators\Arbitrator.cpp Arbitrators\Arbitrator.h
+Arbitrators\GenericArbitratorXY.obj: Arbitrators\GenericArbitratorXY.cpp Arbitrators\GenericArbitratorXY.h Arbitrators\Arbitrator.cpp Arbitrators\Arbitrator.h

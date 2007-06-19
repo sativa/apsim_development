@@ -85,8 +85,8 @@ class externalFunction {
    virtual ~externalFunction();
 
    void read(ScienceAPI& scienceAPI,
-                const char *xname, const char * xunits, float x0, float x1,
-                const char *yname, const char * yunits, float y0, float y1);
+                const string& xname, const string& xunits, float x0, float x1,
+                const string& yname, const string& yunits, float y0, float y1);
 
    virtual std::string description(void) const;
    virtual float value(float v) const = 0;
@@ -104,8 +104,8 @@ class interpolationFunction : public externalFunction
  public:
    float integral(float v1, float v2);
    void read(ScienceAPI& scienceAPI,
-             const char *xName, const char * xunits, float x0, float x1,
-             const char *yName, const char * yunits, float y0, float y1);
+             const string& xName, const string&  xunits, float x0, float x1,
+             const string& yName, const string& yunits, float y0, float y1);
    float value(float v) const;
    vector<float> xVal() const {
    	return(x);
@@ -131,8 +131,8 @@ class lookupFunction : public externalFunction
    vector<float> y;
  public:
    void read(ScienceAPI& scienceAPI,
-             const char *xName, const char * xunits, float x0, float x1,
-             const char *yName, const char * yunits, float y0, float y1);
+             const string& xName, const string& xunits, float x0, float x1,
+             const string& yName, const string& yunits, float y0, float y1);
    float value(float v) const;
    vector<float> xVal() const {
    	return(x);
