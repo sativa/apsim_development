@@ -46,7 +46,7 @@ proc machinery:maProc {name1 name2 op} {
       catch {
          global machinery:jobs
          foreach job ${machinery:jobs} {
-            foreach {tid iid area} [split $job ","] {break}
+            foreach {tid iid area paddock costtype} [split $job ","] {break}
             if {$tractor == [getName $tid] || $implement == [getName $iid]} {set avail 0}
          }
       } msg
@@ -68,7 +68,9 @@ proc machinery:operateHandler {args} {
   if {![info exists tractor] || ![info exists implement] || ![info exists area]} {
      error "Must specify a tractor, implement, and area to operate over."
   }
-  machinery:operate $tractor $implement $area
+  if { ![info exists paddock] } {set paddock {}}
+  if { ![info exists costtype] } {set costtype unknown}
+  machinery:operate $tractor $implement $area $paddock $costtype
 }
 
 # The trace variable we use to trigger events when the variable is read
@@ -207,14 +209,14 @@ proc getHoursPerDay {tid iid} {
 ##############
 # Operate a configuration over an area. Just add it to the job queue 
 # and let process look after it.
-proc machinery:operate {tractorName implementName area} {
+proc machinery:operate {tractorName implementName area paddock costtype} {
    set tid [getTractorId $tractorName]
    set iid [getImplementId $implementName]
    if {![string is double -strict $area]} {
       error "Area should be a number (not $area)"
    }
    global machinery:jobs
-   lappend machinery:jobs $tid,$iid,$area
+   lappend machinery:jobs $tid,$iid,$area,$paddock,$costtype
    apsimWriteToSummaryFile "Machinery job '[getName $tid] + [getName $iid]' is queued"
 }
 
@@ -225,10 +227,10 @@ proc machinery:process {} {
    # Go through each job. If an item is in use in any prior job, we can't do it today. 
    for {set ijob 0} {$ijob < [llength ${machinery:jobs}]} {incr ijob} {
       set job [lindex ${machinery:jobs} $ijob]
-      foreach {tid iid area} [split $job ","] {break}
+      foreach {tid iid area paddock costtype} [split $job ","] {break}
       set inuse 0
       for {set j 0} {$j < $ijob} {incr j} {
-         foreach {Ttid Tiid Tarea} [split [lindex ${machinery:jobs} $j] ","] {break}
+         foreach {Ttid Tiid Tarea Tpaddock Tcosttype} [split [lindex ${machinery:jobs} $j] ","] {break}
          if {$tid == $Ttid || $iid == $Tiid} {set inuse 1}
       }
       if {!$inuse} {
@@ -238,18 +240,20 @@ proc machinery:process {} {
 
         if {$maxHours * $rate <= $area} {
            set hours $maxHours
+           set areaToday [expr $maxHours * $rate]
         } else {   
            set hours [expr $area / $rate]
+           set areaToday [expr $hours * $rate]
         }   
-        apsimWriteToSummaryFile "hours='$hours', rate='$rate',cost='[getFuelCost $tid $iid]',oil='[getValue $tid oil]'"
+        #apsimWriteToSummaryFile "hours='$hours', rate='$rate',cost='[getFuelCost $tid $iid]',oil='[getValue $tid oil]',paddock='$paddock',costtype=$costtype"
         set cost [expr $hours * [getFuelCost $tid $iid] * (1.0 + [getValue $tid oil]/100.0)]
-        apsimSendMessage "" expenditure [list cost $cost] [list comment "fuel & oil costs of [getName $tid] + [getName $iid]"]
+        apsimSendMessage "" expenditure [list cost $cost] [list comment "fuel & oil costs of [getName $tid] + [getName $iid]"] [list paddock $paddock] [list area $areaToday] [list $costtype {}]
 
         set cost [expr $hours * [getValue $tid newPrice] * ([getValue $tid repairs]/100.0)/ [getValue $tid lifeOfEquipment]] 
-        apsimSendMessage "" expenditure [list cost $cost] [list comment "Repairs & maintenance of [getName $tid]"]
+        apsimSendMessage "" expenditure [list cost $cost] [list comment "Repairs & maintenance of [getName $tid]"] [list paddock $paddock] [list area $areaToday] [list $costtype {}]
 
         set cost [expr $hours * [getValue $iid newPrice] * ([getValue $iid repairs]/100.0)/ [getValue $iid lifeOfEquipment]] 
-        apsimSendMessage "" expenditure [list cost $cost] [list comment "Repairs & maintenance of [getName $iid]"]
+        apsimSendMessage "" expenditure [list cost $cost] [list comment "Repairs & maintenance of [getName $iid]"] [list paddock $paddock] [list area $areaToday] [list $costtype {}]
 
         set rate [expr $hours * [getRate $tid $iid]]
         set area [expr $area - $rate]
@@ -257,9 +261,9 @@ proc machinery:process {} {
         setValue $iid age [expr $hours + [getValue $iid age]]
 
         if {$area > 0} {
-           lappend tomorrowsJobs $tid,$iid,$area
+           lappend tomorrowsJobs $tid,$iid,$area,$paddock,$costtype
         } else {
-           apsimWriteToSummaryFile "Machinery job '[getName $tid] + [getName $iid]' has finished"
+           apsimWriteToSummaryFile "Machinery job '[getName $tid] + [getName $iid]' in $paddock has finished"
         }
       } else {
         lappend tomorrowsJobs $job
@@ -272,13 +276,13 @@ proc machinery:process {} {
 proc machinery:end_year {} {
    foreach id [concat [getTractorIds] [getImplementIds]] {   
       if {[getValue $id age] >= [getValue $id lifeOfEquipment]} {
-         set salvage [expr [getValue $id tradeInValue]/100.0 * [getValue $id newPrice]]
-         apsimSendMessage "" income [list amount $salvage] [list comment "Trade in value of [getName $id]"]
-         
-         setValue $id loanValue [getValue $id newPrice]
+         set newPrice [getValue $id newPrice]
+         set salvage [expr [getValue $id tradeInValue]/100.0 * $newPrice]
+         set loanValue [expr $newPrice - $salvage]
+         apsimWriteToSummaryFile "Establishing new loan of \$$loanValue for [getName $id] (new price \$$newPrice, salvage \$$salvage)"
+         setValue $id loanValue $loanValue
          setValue $id age 0
          setValue $id loanPeriod 1
-         apsimWriteToSummaryFile "Establishing new loan for  [getName $id]"
       } else {
          if {[getValue $id loanPeriod] <=  [getValue $id loanDuration]} {
             #A = P(i(1+i)^n)/((1+i)^n - 1)
@@ -287,7 +291,7 @@ proc machinery:end_year {} {
             set n [getValue $id loanDuration]
             
             set A [expr $P * ($i*pow(1+$i,$n))/(pow(1.0+$i,$n) - 1.0) ]
-            apsimSendMessage "" expenditure [list cost $A] [list comment "Loan repayments for [getName $id]"]
+            apsimSendMessage "" expenditure [list cost $A] [list interest_paid $A] [list comment "Loan repayments for [getName $id]"]
             
             setValue $id loanPeriod [expr 1 + [getValue $id loanPeriod]]
             if { [getValue $id loanPeriod] >  [getValue $id loanDuration] } {

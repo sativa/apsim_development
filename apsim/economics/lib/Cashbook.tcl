@@ -15,6 +15,7 @@ apsimRegisterGetSet balance
 apsimRegisterEvent  income      "cashbook:incomeHandler"
 apsimRegisterEvent  expenditure "cashbook:expenditureHandler"
 apsimRegisterEvent  process     "cashbook:processHandler"
+apsimRegisterEvent  exit        "cashbook:exitHandler; exit"
 
 # An event handler. 
 #  cashbook income {amount 64000.0}                                              {comment "description here"}
@@ -29,16 +30,25 @@ proc cashbook:incomeHandler {args} {
       lappend names $_name
    }
    if {![info exists comment]} { set comment "" }
+   if {![info exists paddock]} { set paddock "" }
+   if {![info exists protein]} { set protein "" }
    
    if {[info exists amount] && [string is double -strict $amount]} {
       set balance [expr $balance + $amount]
-   
-   } elseif {[info exists category] && [info exists name] && [info exists yield] && [info exists area]} {
+      cashbook:log income amount $amount comment $comment income $amount
+
+   } elseif {[info exists category] && [info exists name] && 
+             [info exists yield] && [info exists area]} {
       set amount "NA"
-      set price "NA"
+      set price  "NA"
       global docroot
       foreach node [$docroot selectNodes //$category] {
          if {[string equal -nocase [getValue $node name] $name]} {
+             set grain_moisture [getValue $node grain_moisture]
+             if {![string is double -strict $grain_moisture]} {
+                apsimWriteToSummaryFile "Warning!!!!\nNo grain moisture found for $name. Using 12%."
+                set grain_moisture 12.0
+             }
              if {$name != "wheat"} {
                 set price [getValue $node price]
              } else {
@@ -51,25 +61,33 @@ proc cashbook:incomeHandler {args} {
                    set price [lindex $prices $i]
                 }
              }  
-             set amount [expr  $price * $yield * $area]
+             set wetYield [expr ($yield * 100.0) / (100.0 - $grain_moisture)]
+             set amount [expr  $price * $wetYield * $area]
          }
       }
       set comment "$category ($name)"
-      apsimWriteToSummaryFile "Priced $name $category (price='$price', yield='$yield') over '$area' ha = '$amount'"
+      apsimWriteToSummaryFile "Priced $name $category (price='$price', yield='$wetYield' wet) over '$area' ha = '$amount'"
       set balance [expr $balance + $amount]
+      cashbook:log income amount $amount comment $comment \
+                          income $amount crop_income $amount \
+                          paddock $paddock area $area \
+                          yield $wetYield protein $protein crop $name
    } else {
       error "cashbook:income: Must specify a either an numeric amount, or <category, name, price and area>."
    }
-
-   cashbook:log income $amount $comment
 }
 
 proc cashbook:expenditureHandler {args} {
   global incomingApsimVariant
-  foreach {_name _value} [unpack_Variant $incomingApsimVariant] {
-     set $_name $_value
+  set _names {}
+
+  set comment ""
+  foreach {_name _value} [unpack_Variant $incomingApsimVariant] { 
+     set $_name $_value 
+     lappend _names $_name
   }
-  if {![info exists comment]} { set comment "" }
+
+  if {[lsearch ${_names} comment] < 0} {lappend _names comment}
 
   if {[info exists cost]} {
      # Simple 
@@ -87,6 +105,7 @@ proc cashbook:expenditureHandler {args} {
         }
      }
      if {![string is double -strict $cost]} {error "No price info for $category/$name"}
+     if {[lsearch ${_names} price] < 0} {lappend _names price}
 
      set comment "$category ($name)"
      apsimWriteToSummaryFile "Costed $name $category (rate=$rate, price=$price) over $area ha = $cost"
@@ -96,8 +115,11 @@ proc cashbook:expenditureHandler {args} {
   } else {
      error "cashbook:expenditure: Must specify a either a cost or a (category + name + rate + area)."
   }
-
-  cashbook:log expenditure $cost $comment
+  if {[info exists fallow_cost] && ![string is double -strict $fallow_cost]} {set fallow_cost $cost}
+  if {[info exists incrop_cost] && ![string is double -strict $incrop_cost]} {set incrop_cost $cost}
+  set cmd "cashbook:log expenditure cost $cost" 
+  foreach _name ${_names} { lappend cmd ${_name} [set ${_name}] }
+  eval $cmd
 }
 
 # Add up the annual farm overheads
@@ -109,7 +131,7 @@ proc cashbook:doFarmOverheads {} {
    }
       
    set balance [expr $balance - $sum]
-   cashbook:log expenditure $sum "Farm Overheads"
+   cashbook:log expenditure cost $sum comment "Farm Overheads"
 }
 
 # Work our repayments on initial investment
@@ -117,8 +139,8 @@ proc cashbook:doInitialCapital {} {
    global docroot balance
    set sum 0.0
 
-# Set the period of initial loan
-setValue [lindex [$docroot selectNodes //icapital] 0] loanPeriod 1
+   # Set the period of initial loan
+   setValue [lindex [$docroot selectNodes //icapital] 0] loanPeriod 1
 
    set node [lindex [$docroot selectNodes //icapital] 0]
    if {[getValue $node loanPeriod] <=  [getValue $node loanDuration]} {
@@ -130,7 +152,9 @@ setValue [lindex [$docroot selectNodes //icapital] 0] loanPeriod 1
       set A [expr $P * ($i*pow(1+$i,$n))/(pow(1.0+$i,$n) - 1.0) ]
 
       set balance [expr $balance - $A]
-      cashbook:log expenditure $A "Loan repayments for initial capital outlay"
+      cashbook:log expenditure cost $A \
+                               interest_paid $A \
+                               comment "Loan repayments for initial capital outlay"
       
       setValue $node loanPeriod [expr 1 + [getValue $node loanPeriod]]
       if { [getValue $node loanPeriod] >  [getValue $node loanDuration] } {
@@ -150,17 +174,235 @@ proc cashbook:processHandler {args} {
   }
 }
 
-proc cashbook:log {what amount comment} {
-  global balance cashbook:outputfilename
-  set fp [open ${cashbook:outputfilename} a]
-  if {$what == "income"} {
-     puts $fp "[apsimGet dd/mmm/yyyy],$amount,,$balance,$comment"
-  } elseif {$what == "expenditure"} {
-     puts $fp "[apsimGet dd/mmm/yyyy],,$amount,$balance,$comment"
-  } else {
-     error "Unknown cashbook operation '$what'"
-  }
-  close $fp
+proc cashbook:log {what args} {
+   global balance cashbook:outputfilename
+   set date [apsimGet dd/mmm/yyyy]
+   
+   set _names {}
+   foreach {_name _value} $args { 
+      set ${_name} ${_value} 
+      lappend _names $_name
+   }
+
+   if {${cashbook:outputfilename} != {}} {
+      set fp [open ${cashbook:outputfilename} a]
+      if {$what == "income"} {
+         puts $fp "$date,$amount,,$balance,$comment"
+      } elseif {$what == "expenditure"} {
+         puts $fp "$date,,$cost,$balance,$comment"
+      } else {
+         error "Unknown cashbook operation '$what'"
+      }
+      close $fp
+   }
+
+   if {$what == "income"} {
+      set cmd "cashbook:summary date $date $what $amount"
+   } elseif {$what == "expenditure"} {
+      set cmd "cashbook:summary date $date $what $cost "
+   } else {
+      error "Unknown cashbook operation '$what'"
+   }
+   foreach _name ${_names} { lappend cmd ${_name} [set ${_name}] }
+   eval $cmd
+}
+
+proc cashbook:summary {args} {
+   global balance cashbook:summaryfilename
+   
+   if { ${cashbook:summaryfilename} != {}} {
+      set fp [open ${cashbook:summaryfilename} a]
+      
+      foreach {_name _value} $args {set ${_name} ${_value} }
+
+      foreach v {date paddock area crop yield protein "fertiliser_type" \
+               "fertiliser_rate" "interim_rainfall" "interim_runoff" "interim_drainage" \
+               "interim_soil_loss" "NO3_state" "fallow_cost" "incrop_cost" "crop_income" \
+               "interest_paid" "expenditure" "income" "comment"} {
+         if {[info exists $v]} {
+            puts -nonewline $fp "[set $v],"
+         } else {
+            puts -nonewline $fp ","
+         }     
+      }
+      puts $fp ""
+      close $fp
+   }
+}
+# Annual summaries. Re-read the event file we have written into a single array and
+# write a cash flow summary
+proc cashbook:exitHandler {} {
+   global docroot cashbook:summaryfilename
+
+   if { ${cashbook:summaryfilename} == {}} { return }
+
+   #1. Read and store event data
+   set fp [open ${cashbook:summaryfilename} r]
+   gets $fp header
+   set columns [split $header ","]
+   
+   set minyear 3000; set maxyear 0; 
+   set years {}; set paddocks {}; catch {unset A}
+   
+   while {[gets $fp line] >= 0} {
+      foreach $columns [split $line ","] {break}
+      regsub -all "/" $date "-" date
+      set now [clock scan $date]
+      set endYear [clock scan "30-june-[clock format $now -format %Y]"]
+   
+      if {$now > $endYear} {
+         set year [expr [clock format $now -format %Y]+1]
+      } else {
+         set year [clock format $now -format %Y]
+      }
+   
+      if {$year < $minyear} {set minyear $year}
+      if {$year > $maxyear} {set maxyear $year}
+      if {[lsearch $years $year] < 0} {lappend years $year}
+      if {$paddock != {} && [lsearch $paddocks $paddock] < 0} {lappend paddocks $paddock}
+      foreach what {incrop_cost fallow_cost crop_income} {
+         if {[string is double -strict [set $what]]} {
+            if {![info exists A($year,$paddock,$what)]} {
+               set A($year,$paddock,$what) [set $what]
+            } else {
+               set A($year,$paddock,$what) [expr $A($year,$paddock,$what) + [set $what]]
+            }
+         }
+      }
+   
+      foreach what {income expenditure interest_paid interest_earned} {
+         if {$paddock == {} && 
+             [info exists $what] && 
+             [string is double -strict [set $what]]} {
+            if {![info exists A($year,farm_$what)]} {
+               set A($year,farm_$what) [set $what]
+            } else {
+               set A($year,farm_$what) [expr $A($year,farm_$what) + [set $what]]
+            }
+         }
+      }
+   }
+   close $fp
+   
+   #2. Write annual cash flow summary
+   set fp [open "[file root ${cashbook:summaryfilename}].Annual.csv" w]
+
+   foreach year $years {puts -nonewline $fp ",Year $year"}
+   puts $fp "\nCrop income"
+   foreach paddock $paddocks {
+      puts -nonewline $fp "Paddock $paddock"
+      foreach year $years {
+         if {[info exists A($year,$paddock,crop_income)]} {
+            puts -nonewline $fp ",[format "%.0f" $A($year,$paddock,crop_income)]"
+         } else {
+            puts -nonewline $fp ","
+         }
+      }
+      puts $fp ""
+   }
+   
+   puts -nonewline $fp "Other farm income"
+   foreach year $years {
+      if {[info exists A($year,farm_income)]} {
+         puts -nonewline $fp ",[format "%.0f" $A($year,farm_income)]"
+      } else {
+         puts -nonewline $fp ","
+      }
+   }
+   puts $fp ""
+   puts -nonewline $fp "Interest Earned"
+   foreach year $years {
+      if {[info exists A($year,farm_interest_earned)]} {
+         puts -nonewline $fp ",[format "%.0f" $A($year,farm_interest_earned)]"
+      } else {
+         puts -nonewline $fp ","
+      }
+   }
+   puts $fp ""
+   
+   puts -nonewline $fp "Total income"
+   foreach year $years {
+      set sum 0.0
+      foreach {name value} [array get A $year,*income] {
+         set sum [expr $sum + $value]
+      }   
+      foreach {name value} [array get A $year,farm_interest_earned] {
+         set sum [expr $sum + $value]
+      }   
+      puts -nonewline $fp ",[format %.0f $sum]"
+      set A($year,total_income) $sum
+   }
+   puts $fp "\n"
+   
+   puts $fp "Variable expenses"
+   foreach what {incrop_cost fallow_cost} {
+      foreach paddock $paddocks {
+         puts -nonewline $fp "Paddock $paddock $what"
+         foreach year $years {
+            if {[info exists A($year,$paddock,$what)]} {
+               puts -nonewline $fp ",[format "%.0f" $A($year,$paddock,$what)]"
+            } else {
+               puts -nonewline $fp ","
+            }
+         }
+         puts $fp ""
+      }
+   }
+   puts -nonewline $fp "Overhead expenses"
+   foreach year $years {
+      if {[info exists A($year,farm_expenditure)]} {
+         puts -nonewline $fp ",[format "%.0f" $A($year,farm_expenditure)]"
+      } else {
+         puts -nonewline $fp ","
+      }
+   }
+   puts $fp ""
+   
+   puts -nonewline $fp "Interest Paid"
+   foreach year $years {
+      if {[info exists A($year,farm_interest_paid)]} {
+         puts -nonewline $fp ",[format "%.0f" $A($year,farm_interest_paid)]"
+      } else {
+         puts -nonewline $fp ","
+      }
+   }
+   puts $fp ""
+   
+   puts -nonewline $fp "Total expenses"
+   foreach year $years {
+      set sum 0.0
+      foreach {name value} [array get A $year,farm_expenditure] {
+         set sum [expr $sum + $value]
+      }   
+      foreach {name value} [array get A $year,farm_interest_paid] {
+         set sum [expr $sum + $value]
+      }   
+      foreach {name value} [array get A $year,*cost] {
+         set sum [expr $sum + $value]
+      }   
+      puts -nonewline $fp ",[format %.0f $sum]"
+      set A($year,total_expenses) $sum
+   }
+   puts $fp "\n"
+
+   puts -nonewline $fp "Annual Surplus/Deficit"
+   foreach year $years {
+      set sum [expr $A($year,total_income) - $A($year,total_expenses)]
+      set A($year,surplus) $sum
+      puts -nonewline $fp ",[format %.0f $sum]"
+   }
+   puts $fp "\n"
+
+   puts -nonewline $fp "Cumulative Cash Flow"
+   set year [expr [lindex $years 0]-1]
+   set A($year,balance) [[$docroot selectNodes //balance] text]
+   foreach year $years {
+      set A($year,balance) [expr $A([expr $year-1],balance) + $A($year,surplus)]
+      puts -nonewline $fp ",[format %.0f $A($year,balance)]"
+   }
+   puts $fp "\n"
+
+   close $fp
 }
 
 
@@ -173,7 +415,18 @@ set docroot [$doc documentElement]
 
 set balance [[$docroot selectNodes //balance] text]
 set cashbook:outputfilename [[$docroot selectNodes //outputfilename] text]
+set cashbook:summaryfilename [[$docroot selectNodes //summaryfilename] text]
 
-set fp [open ${cashbook:outputfilename} w]
-puts $fp "date,income,expenditure,balance,comment"
-close $fp
+if {${cashbook:outputfilename} != {}} {
+   set fp [open ${cashbook:outputfilename} w]
+   puts $fp "date,income,expenditure,balance,comment"
+   close $fp
+}
+
+if {${cashbook:summaryfilename} != {}} {
+   set fp [open ${cashbook:summaryfilename} w]
+   puts $fp "date,paddock,area,crop,yield,protein,fertiliser_type,fertiliser_rate,\
+interim_rainfall,interim_runoff,interim_drainage,\
+interim_soil_loss,NO3_state,fallow_cost,incrop_cost,crop_income,interest_paid,expenditure,income,comment"
+   close $fp
+}
