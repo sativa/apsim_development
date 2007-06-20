@@ -23,8 +23,10 @@ namespace ApsimFile
         public enum NodeStatus { Normal, Inherited, Removed, Broken };
         public delegate void DataChangedDelegate(string NodePath);
         public delegate void DataDirtyDelegate(bool IsDirty);
+        public delegate void VoidDelegate();
         public event DataChangedDelegate DataStructureChangedEvent;
         public event DataChangedDelegate DataChangedEvent;
+        public event VoidDelegate NewDataEvent;
         public event DataDirtyDelegate DataDirtyChangedEvent;
         public bool IsDirty { get { return DataIsDirty; } }
         private void SetDataIsDirty(bool value)
@@ -41,13 +43,17 @@ namespace ApsimFile
             {
             SetDataIsDirty(true);
             if (!Updating && DataStructureChangedEvent != null)
-                DataStructureChangedEvent.Invoke("\\");
+                DataStructureChangedEvent.Invoke(NodePathChanged);
             }
         public bool IsReadOnly { get { return DataIsReadOnly; } }
 
         public ApsimFile()
             {
             doc = new XmlDocument();
+            }
+        public string RootNodeName
+            {
+            get { return NodeName(doc.DocumentElement); }
             }
 
         public APSIMData AllData
@@ -149,15 +155,16 @@ namespace ApsimFile
             {
             // Create a new .apsim file in memory.
             Open(XML, false);
-            SetDataStructureChanged("\\");
             }
         public void Open(string XML, bool ReadOnly) 
             {
             doc.LoadXml(XML);
             APSIMChangeTool.Upgrade(AllData);
             DataIsReadOnly = ReadOnly;
-            SetDataStructureChanged("\\");
+            SetDataStructureChanged(RootNodeName);
             SetDataIsDirty(false);
+            if (NewDataEvent != null)
+                NewDataEvent.Invoke();
             }
         public void Save(string FileName)
             {

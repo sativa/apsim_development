@@ -185,7 +185,13 @@ Public Class DataTree
     Public Sub ExpandAllFolders()
         TreeView.CollapseAll()
         ExpandAllFolders(TreeView.Nodes(0))
+        TreeView.Nodes(0).Expand()
     End Sub
+    Public Sub ExpandOneLevel()
+        TreeView.CollapseAll()
+        TreeView.Nodes(0).Expand()
+    End Sub
+
 
 #Region "Refresh methods"
     Public Overrides Sub RefreshView(ByVal NodePath As String)
@@ -194,13 +200,13 @@ Public Class DataTree
         ' ourselves.
         ' ----------------------------------------------
         Windows.Forms.Cursor.Current = Cursors.WaitCursor
+        TreeView.BeginUpdate()
+        DisablePainting = True
+
         If TreeView.Nodes.Count = 0 Then
             Dim RootNode As TreeNode = TreeView.Nodes.Add(Controller.ApsimData.AllData.Name)
             RefreshNode(RootNode, Controller.ApsimData.AllData)
         End If
-
-        TreeView.BeginUpdate()
-        DisablePainting = True
 
         RecursivelyRefreshNodeAndChildren(TreeView.Nodes(0), Controller.ApsimData.AllData, 0)
         TreeView.Sorted = IsSorted

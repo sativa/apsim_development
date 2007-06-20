@@ -4,7 +4,7 @@
    <Actions>
       <FileNew>
          <Text>New...</Text>
-         <Description>Open a new file</Description>
+         <Description>Create a new file</Description>
          <LargeIcon>%apsuite\ApsimUI\Images\document_new.png</LargeIcon>
          <OnInvoke>
             <call>
@@ -13,6 +13,10 @@
             </call>
          </OnInvoke>
       </FileNew>   
+      <Open>
+         <Text>Open...</Text>
+         <LargeIcon>%apsuite\ApsimUI\Images\folder_document.png</LargeIcon>
+      </Open>     
       <FileOpen>
          <Text>Open...</Text>
          <Description>Open an existing file</Description>
@@ -289,7 +293,7 @@
    <MainToolBar ImageAboveText="yes">
       <ImageSize>Large</ImageSize>
       <Item>FileNew</Item>
-      <DropDownItem action="FileOpen">
+      <DropDownItem action="Open">
          <Item>FileOpen</Item>
          <Separator/>
          <RecentFileList/>

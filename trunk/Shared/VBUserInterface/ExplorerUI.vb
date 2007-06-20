@@ -117,6 +117,9 @@ Public Class ExplorerUI
     Public Sub ExpandAll()
         DataTree.ExpandAll()
     End Sub
+    Public Sub ExpandOneLevel()
+        DataTree.ExpandOneLevel()
+    End Sub
     Public Sub CollapseAll()
         DataTree.CollapseAll()
     End Sub

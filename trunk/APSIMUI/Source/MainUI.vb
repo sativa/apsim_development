@@ -500,6 +500,8 @@ Public Class MainUI
         SimulationExplorer.Visible = False
         SimulationExplorer.BringToFront()
 
+        AddHandler ApsimUI.ApsimData.NewDataEvent, AddressOf OnNewData
+
         ' Give the explorer ui to the controller.
         ApsimUI.Explorer = SimulationExplorer
 
@@ -567,6 +569,17 @@ Public Class MainUI
         ' -----------------------------------------
         RunPanel.Visible = False
         RunPanelSplitter.Visible = False
+    End Sub
+    Private Sub OnNewData()
+        If ApsimUI.ApsimData.ChildNames(ApsimUI.ApsimData.RootNodeName).Length = 1 Then
+            Dim ChildName As String = ApsimUI.ApsimData.RootNodeName + "\" + ApsimUI.ApsimData.ChildNames(ApsimUI.ApsimData.RootNodeName)(0)
+            Dim ChildType As String = ApsimUI.ApsimData.Find(ChildName).Type
+            If ChildType.ToLower = "simulation" Then
+                SimulationExplorer.ExpandAll()
+                Return
+            End If
+        End If
+        SimulationExplorer.ExpandAllFolders()
     End Sub
 
 #Region "Toolbox button bar"
@@ -650,6 +663,7 @@ Public Class MainUI
             Dim filename As String = toolboxes.NameToFileName(Sender.ToString)
             Toolbox.FileOpen(filename)
             ToolboxExplorer.RefreshView("\")
+            Toolbox.Explorer.ExpandOneLevel()
         End If
     End Sub
     Private Sub HideToolBoxWindow(ByVal Sender As Object, ByVal e As EventArgs) Handles ToolboxButtonClose.Click
