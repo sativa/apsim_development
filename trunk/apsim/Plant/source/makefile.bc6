@@ -23,6 +23,8 @@ OBJFILES=PlantComponent.obj \
    Utility\PlantUtility.obj \
    Utility\Data.obj \
    Utility\ExternalFunction.obj \
+   Utility\InterpolationFunction.obj \
+   Utility\LookupFunction.obj \
    Utility\Science.obj \
    Utility\Date.obj \
    PlantComms.obj \
@@ -131,7 +133,9 @@ CompositePart.obj: CompositePart.cpp CompositePart.h PlantPart.h
 Reproductive\PlantFruit.obj: Reproductive\PlantFruit.cpp Reproductive\PlantFruit.h CompositePart.h
 Reproductive\FruitCohort.obj: Reproductive\FruitCohort.cpp Reproductive\FruitCohort.h PlantPart.h CompositePart.h
 Utility\Data.obj: Utility\Data.cpp PlantLibrary.h
-Utility\Data.obj: Utility\ExternalFunction.cpp Utility\ExternalFunction.h
+Utility\ExternalFunction.obj: Utility\ExternalFunction.cpp Utility\ExternalFunction.h
+Utility\InterpolationFunction.obj: Utility\InterpolationFunction.cpp Utility\InterpolationFunction.h
+Utility\LookupFunction.obj: Utility\LookupFunction.cpp Utility\LookupFunction.h
 Date.obj: Utility\Date.cpp PlantLibrary.h
 Science.obj: Utility\Science.cpp PlantLibrary.h
 Error.obj: Error.cpp PlantLibrary.h
