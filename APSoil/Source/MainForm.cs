@@ -162,7 +162,7 @@ namespace APSoil
 			SoilExplorer.Parent = ToolStripContainer.ContentPanel;
             SoilExplorer.OnLoad(Apsoil);
 			SoilExplorer.Visible = true;
-            Apsoil.ApsimData.DataStructureChangedEvent += new ApsimFile.ApsimFile.DataChangedDelegate(OnDataStructureChanged);
+            Apsoil.ApsimData.NewDataEvent += new ApsimFile.ApsimFile.VoidDelegate(OnNewData);
             Apsoil.Explorer = SoilExplorer;
 
 			// Load up the file from the command line if necessary.
@@ -176,10 +176,9 @@ namespace APSoil
 			}
 		#endregion
 
-        private void OnDataStructureChanged(string NodePath)
+        private void OnNewData()
             {
-            if (NodePath == "\\")
-                SoilExplorer.ExpandAllFolders();
+            SoilExplorer.ExpandAllFolders();
             }
 
 		private void MainForm_Closing(object sender, System.ComponentModel.CancelEventArgs e)

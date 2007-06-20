@@ -127,6 +127,7 @@ Public Class NewDocumentForm
         DataTree.Dock = DockStyle.None
         DataTree.OnLoad(ApsimUI)
         DataTree.RefreshView("\")
+        DataTree.ExpandAll()
     End Sub
 
 
