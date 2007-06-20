@@ -11,13 +11,13 @@
 
 Version                = 5.4
 Title                  = Solute Sample Simulation
-Component      "clock" = c:\development\apsim\clock\lib\clock.dll
-Component     "report" = c:\development\apsim\report\lib\report.dll
-Component        "Met" = c:\development\apsim\input\lib\input.dll
-Component   "fertiliz" = c:\development\apsim\fertiliz\lib\fertiliz.dll
-Component    "manager" = c:\development\apsim\manager\lib\manager.dll
-Component   "soilwat2" = c:\development\apsim\soilwat2\lib\soilwat2.dll
-Component     "solute" = c:\development\apsim\solute\lib\solute.dll
+Component      "clock" = /home/Reds/development/apsim/clock/lib/clock.so
+Component     "report" = /home/Reds/development/apsim/report/lib/report.so
+Component        "Met" = /home/Reds/development/apsim/input/lib/input.so
+Component   "fertiliz" = /home/Reds/development/apsim/fertiliz/lib/fertiliz.so
+Component    "manager" = /home/Reds/development/apsim/manager/lib/manager.so
+Component   "soilwat2" = /home/Reds/development/apsim/soilwat2/lib/soilwat2.so
+Component     "solute" = /home/Reds/development/apsim/solute/lib/solute.so
 
 ------- clock Initialisation --------------------------------------------------
      Sequencer phases:
@@ -43,7 +43,7 @@ Component     "solute" = c:\development\apsim\solute\lib\solute.dll
 
 ------- Met Initialisation ----------------------------------------------------
      Sparse data is not allowed
-     INPUT File name: c:\development\apsim\met\sample\dalby.met
+     INPUT File name: /home/Reds/development/apsim/met/sample/dalby.met
 
 ------- fertiliz Initialisation -----------------------------------------------
       Initialising
