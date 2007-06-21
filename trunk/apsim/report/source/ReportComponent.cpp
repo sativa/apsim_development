@@ -115,11 +115,14 @@ void Field::formatValues(void)
          {
          if (Is_numerical(format.c_str()))
             {
-            int precision = atoi(format.c_str());
-            char* endptr;
-            double value = strtod(values[i].c_str(), &endptr);
-            if (*endptr == '\0')
-               values[i] = ftoa(value, precision);
+            if (kind != "integer4")
+               {
+               int precision = atoi(format.c_str());
+               char* endptr;
+               double value = strtod(values[i].c_str(), &endptr);
+               if (*endptr == '\0')
+                  values[i] = ftoa(value, precision);
+               }
             }
          else
             {
