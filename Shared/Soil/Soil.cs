@@ -1112,22 +1112,18 @@ namespace Soils
         #region Initial water and nitrogen
         public double[] InitialSW
             {
-            get {
+            get
+                {
                 double[] sw = SampleSW();
                 if (sw.Length > 0)
                     {
-                    double[] LowerBound;
-                    if (CropsMeasured.Length > 0)
-                        LowerBound = LL(CropsMeasured[0]);
-                    else
-                        LowerBound = Airdry;
                     for (int i = 0; i != sw.Length; i++)
                         {
-                        sw[i] = Math.Max(sw[i], LowerBound[i]);
+                        sw[i] = Math.Max(sw[i], Airdry[i]);
                         sw[i] = Math.Min(sw[i], SAT[i]);
                         }
                     }
-                return sw; 
+                return sw;
                 }
             }
         public double[] InitialNO3
