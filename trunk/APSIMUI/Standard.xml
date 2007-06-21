@@ -2542,6 +2542,36 @@ if {$steps == 0} {tkwait variable steps}
     </soi>
     <YPCalc />
     <tracker />
+      <logic name="CanolaOilConc"><script><event>start_of_day</event>
+         <text><![CDATA[   
+         if (das = 1) then
+            cum_temp = 0
+            cum_swdef = 0
+            cum_days = 0
+         elseif (stage_name = 'start_grain_fill' or
+                       stage_name = 'end_grain_fill' or
+                       stage_name = 'maturity' or
+                       stage_name = 'harvest_ripe') then
+            cum_temp = cum_temp + (maxt + mint) / 2
+            cum_swdef = cum_swdef + swdef_photo
+            cum_days = cum_days + 1
+         endif
+      
+         ! calculate canola oil content
+         if (cum_days > 0) then
+            avg_temp = cum_temp / cum_days
+            avg_swdef = cum_swdef / cum_days
+            if (avg_temp <= 14) then
+               oil_conc =  47
+            else
+               oil_conc = (47 - ((avg_temp - 14)*1.21)) - (1.91*(1 - avg_swdef^2))
+            endif
+         else
+            oil_conc = 0
+         endif
+      ]]></text></script>
+      </logic>
+  
   </folder>
   <folder name="Water Management">
     <irrigation name="Irrigation">
