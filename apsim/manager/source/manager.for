@@ -41,7 +41,7 @@ C     Last change:  P    25 Oct 2000    9:26 am
       parameter (Max_manager_var_name_size=35)
 
       integer Max_variable_value_size   ! Maximum size of a local variable name
-      parameter (Max_variable_value_size=30)
+      parameter (Max_variable_value_size=100)
 
       integer Max_tokens               ! Maximum number of tokens
       parameter (Max_tokens=10000)
