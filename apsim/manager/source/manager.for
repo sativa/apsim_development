@@ -41,7 +41,7 @@ C     Last change:  P    25 Oct 2000    9:26 am
       parameter (Max_manager_var_name_size=35)
 
       integer Max_variable_value_size   ! Maximum size of a local variable name
-      parameter (Max_variable_value_size=100)
+      parameter (Max_variable_value_size=60)
 
       integer Max_tokens               ! Maximum number of tokens
       parameter (Max_tokens=10000)
@@ -490,7 +490,7 @@ C     Last change:  P    25 Oct 2000    9:26 am
 !- Implementation Section ----------------------------------
 
       call push_routine (Routine_name)
-
+      call write_string('start')
       ! get a list of all rule names that user has defined.
       call apsimcomponentdata_getrulenames(get_componentData(),
      .                                     Rule_names,
@@ -498,6 +498,7 @@ C     Last change:  P    25 Oct 2000    9:26 am
      .                                     g%num_rules)
       ! Go tokenize each rule.
       do rule = 1, g%num_rules
+         call write_string('1')
          call apsimcomponentdata_loadrule(get_componentData(),
      .                                    Rule_names(rule))
 
@@ -532,6 +533,7 @@ C     Last change:  P    25 Oct 2000    9:26 am
          call Tokenize (g%token_array, g%token_array2, max_tokens)
       end do
 
+      call write_string('end')
       call pop_routine(Routine_name)
       return
       end subroutine
