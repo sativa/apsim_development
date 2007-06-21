@@ -465,7 +465,6 @@ void WheatPhenology::onRemoveBiomass(float removeBiomPheno)
             currentStage -= 1.0;
             if (currentStage < 4.0)  //FIXME - hack to stop onEmergence being fired which initialises biomass parts
             {
-               ttRemaining = 0;
                currentStage = 4.0;
                break;
             }
@@ -474,7 +473,6 @@ void WheatPhenology::onRemoveBiomass(float removeBiomPheno)
          {
             phase->add(0.0, -ttRemaining);
             currentStage = (phase_fraction(0.0) + floor(currentStage));
-            //ttRemaining = 0.0; /* not used */
             break;
          }
       }
