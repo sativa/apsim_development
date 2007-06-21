@@ -109,7 +109,7 @@ void Field::getValues()
 // ------------------------------------------------------------------
 void Field::formatValues(void)
    {
-   if (format != "" && kind != "integer4")
+   if (format != "")
       {
       for (unsigned i = 0; i != values.size(); i++)
          {
