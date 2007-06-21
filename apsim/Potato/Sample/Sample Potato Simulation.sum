@@ -46,6 +46,11 @@ Component     "potato" = c:\development\apsim\plant\lib\plant.dll
         leaf_wt
         stem_wt
         tuber_wt
+        st(1)
+        plants
+        node_no
+        node_no_fx
+        leaf_no
 
      Output file = Sample Potato Simulation.out
      Format = normal
@@ -74,7 +79,22 @@ Component     "potato" = c:\development\apsim\plant\lib\plant.dll
      if (rain[7] >= 10 and esw >= 10) or
          ('yes' = 'yes' and today = date('10-jul'))) then
         choosenextcrop = 'yes'
-        potato sow plants =100, sowing_depth = 30, cultivar = mrpotatohead, row_spacing = 250, crop_class = plant
+        stf = st(1) / 10.
+        if (stf < 0) then
+           stf = 0
+        endif
+        if (stf > 1) then
+           stf = 1
+        endif
+        swf = (sw(1) - ll(1))/(dul(1) - ll(1))
+        if (swf < 0) then
+           swf = 0
+        endif
+        if (swf > 1) then
+           swf = 1
+        endif
+        density = 5
+        potato sow plants = density, sowing_depth = 30, cultivar = russet, row_spacing = 250, crop_class = plant
      endif
      if today = date('10-jul') then
         choosenextcrop = 'yes'
@@ -83,7 +103,7 @@ Component     "potato" = c:\development\apsim\plant\lib\plant.dll
            endif
      
      SECTION:- end_of_day
-                if potato.stage_name = 'harvest_ripe' or potato.plant_status = 'dead' then
+                if potato.stage_name = 'maturity' or potato.plant_status = 'dead' then
        potato  harvest
        potato  end_crop
                 endif
@@ -232,34 +252,40 @@ Component     "potato" = c:\development\apsim\plant\lib\plant.dll
           ---------------------------------------------------------
 
 ------- potato Initialisation -------------------------------------------------
-     phenology model: TTT
+     phenology model: Generic
 ------- Start of simulation  --------------------------------------------------
      Manager creating a new local real variable : fallowin =     0.00000000000000
      Manager creating a new local real variable : nextcrop =     0.00000000000000
 15 May 1999(Day of year=135), Manager: 
      Manager creating a new local string variable : choosenextcrop = yes
-     Manager sending message :- potato sow  plants = 100, sowing_depth = 30, cultivar = mrpotatohead, row_spacing = 250, crop_class = plant
+     Manager creating a new local real variable : stf =     2.18013592000000
+     Manager creating a new local real variable : swf =    0.897912036250556
+     Manager creating a new local real variable : density =     5.00000000000000
 15 May 1999(Day of year=135), potato: 
      Crop Sow
          ------------------------------------------------
-        cultivar                   = mrpotatohead
-        est_days_emerg_to_init     = 83 (days)
-        cum_vernal_days            =       0      25 (vd)
-        tt_emerg_to_endjuv         =     235       1 (dd)
-        x_pp_endjuv_to_init        =    10.8    16.3 (h)
-        y_tt_endjuv_to_init        =     395       1 (dd)
-        x_pp_init_to_flower        =       1      24 (h)
-        y_tt_init_to_flower        =     250     250 (dd)
-        x_pp_flower_to_start_grain =       1      24 (h)
-        y_tt_flower_to_start_grain =     200     200 (dd)
-        x_pp_start_to_end_grain    =       1      24 (h)
-        y_tt_start_to_end_grain    =     700     700 (dd)
-        tt_end_grain_to_maturity   =         50 (dd)
-        tt_maturity_to_ripe        =          1 (dd)
-        x_pp_hi_incr               =       1.00      24.00
-        y_hi_incr                  =     0.0100     0.0100
-        x_hi_max_pot_stress        =       0.00       1.00
-        y_hi_max_pot               =       0.30       0.30
+        cultivar                   = russet
+     out
+     
+     sowing
+     
+     germination
+     shoot_lag =         72 (dd)
+     shoot_rate =          6 (dd/mm)
+     
+     emergence
+        tt_emergence =        275 (dd)
+     end_of_juvenile
+        x_pp_end_of_juvenile       =      12      18 (h)
+        y_tt_end_of_juvenile       =       0       0 (dd)
+     
+     start_tuber_fill
+        tt_start_tuber_fill =       1530 (dd)
+     end_tuber_fill
+        tt_end_tuber_fill =        450 (dd)
+     maturity
+        tt_maturity =          5 (dd)
+     
          ------------------------------------------------
      
      
@@ -290,88 +316,70 @@ Component     "potato" = c:\development\apsim\plant\lib\plant.dll
          Sowing  Depth Plants Spacing Skip  Skip  Cultivar
          Day no   mm     m^2     mm   row   plant name
          ------------------------------------------------
-            135   30.0  100.0  250.0   0.0   0.0 mrpotatohead
+            135   30.0    5.0  250.0   0.0   0.0 russet
          ------------------------------------------------
      
 16 May 1999(Day of year=136), potato: 
       stage 2.0 germination
-26 May 1999(Day of year=146), potato: 
+4 June 1999(Day of year=155), potato: 
       stage 3.0 emergence
-                     biomass =           3.00 (g/m^2)   lai          =   0.010 (m^2/m^2)
-                     stover N conc =     6.50 (%)    extractable sw =   30.68 (mm)
-10 June 1999(Day of year=161), potato: 
+                     biomass =           0.15 (g/m^2)   lai          =   0.000 (m^2/m^2)
+                     stover N conc =     6.50 (%)    extractable sw =   61.99 (mm)
+28 June 1999(Day of year=179), potato: 
       stage 4.0 end_of_juvenile
-                     biomass =          10.99 (g/m^2)   lai          =   0.168 (m^2/m^2)
-                     stover N conc =     5.67 (%)    extractable sw =  204.07 (mm)
-7 July 1999(Day of year=188), potato: 
-      stage 5.0 floral_initiation
-                     biomass =          91.06 (g/m^2)   lai          =   1.144 (m^2/m^2)
-                     stover N conc =     5.11 (%)    extractable sw =  324.68 (mm)
-24 July 1999(Day of year=205), potato: 
-      stage 6.0 flowering
-                     biomass =         227.77 (g/m^2)   lai          =   3.774 (m^2/m^2)
-                     stover N conc =     4.57 (%)    extractable sw =  286.65 (mm)
-9 August 1999(Day of year=221), potato: 
-      stage 7.0 start_grain_fill
-                     biomass =         371.50 (g/m^2)   lai          =   3.647 (m^2/m^2)
-                     stover N conc =     3.23 (%)    extractable sw =  242.36 (mm)
-26 September 1999(Day of year=269), potato: 
-      stage 8.0 end_grain_fill
-                     biomass =         675.90 (g/m^2)   lai          =   1.842 (m^2/m^2)
-                     stover N conc =     0.69 (%)    extractable sw =  117.17 (mm)
-29 September 1999(Day of year=272), potato: 
-      stage 9.0 maturity
-                     biomass =         677.32 (g/m^2)   lai          =   1.601 (m^2/m^2)
-                     stover N conc =     0.68 (%)    extractable sw =  127.58 (mm)
-30 September 1999(Day of year=273), potato: 
-      stage 10.0 harvest_ripe
-                     biomass =         677.32 (g/m^2)   lai          =   0.005 (m^2/m^2)
-                     stover N conc =     0.55 (%)    extractable sw =  131.89 (mm)
-30 September 1999(Day of year=273), Manager: 
+                     biomass =           0.97 (g/m^2)   lai          =   0.017 (m^2/m^2)
+                     stover N conc =     5.79 (%)    extractable sw =   60.22 (mm)
+29 June 1999(Day of year=180), potato: 
+      stage 5.0 start_tuber_fill
+                     biomass =           1.04 (g/m^2)   lai          =   0.018 (m^2/m^2)
+                     stover N conc =     5.85 (%)    extractable sw =  133.32 (mm)
+29 October 1999(Day of year=302), potato: 
+      stage 6.0 end_tuber_fill
+                     biomass =         269.14 (g/m^2)   lai          =   0.481 (m^2/m^2)
+                     stover N conc =     4.30 (%)    extractable sw =  108.15 (mm)
+1 December 1999(Day of year=335), potato: 
+      stage 7.0 maturity
+                     biomass =         338.44 (g/m^2)   lai          =   0.165 (m^2/m^2)
+                     stover N conc =     3.09 (%)    extractable sw =   91.71 (mm)
+1 December 1999(Day of year=335), Manager: 
      Manager sending message :- potato harvest
      
-      flowering day          =  205                           stover (kg/ha)         =     4739.9
-      maturity day           =  272                           grain yield (kg/ha)    =     2033.3
-      grain % water content  =    8.5                         grain yield wet (kg/ha)=     2222.2
+      flowering day          =    0                           stover (kg/ha)         =     3384.4
+      maturity day           =  335                           grain yield (kg/ha)    =        0.0
+      grain % water content  =    0.0                         grain yield wet (kg/ha)=        0.0
       grain wt (g)           =    0.000                       grains/m^2             =      0.000
-      grains/plant           =    0.0                         maximum lai            =      3.774
-      total above ground biomass (kg/ha)    =     6773.2
-      live above ground biomass (kg/ha)     =     6773.2
-      green above ground biomass (kg/ha)    =     5300.0
-      senesced above ground biomass (kg/ha) =     1473.2
+      grains/plant           =    0.0                         maximum lai            =      2.083
+      total above ground biomass (kg/ha)    =     3384.4
+      live above ground biomass (kg/ha)     =     3384.4
+      green above ground biomass (kg/ha)    =     1796.5
+      senesced above ground biomass (kg/ha) =     1587.9
       dead above ground biomass (kg/ha)     =        0.0
-      number of leaves       =   17.7
-      DM Root:Shoot ratio    =    0.464                       Harvest Index          =      0.300
-      Stover C:N ratio       =   49.009                       Root C:N ratio         =     54.901
-      grain N percent        =       4.06                     total N content (kg/ha)=     121.30
-      grain N uptake (kg/ha) =      82.61                     senesced N content (kg/ha)=   20.68
-      green N content (kg/ha)=      18.00                     dead N content (kg/ha) =       0.00
+      number of leaves       =   53.0
+      DM Root:Shoot ratio    =    0.362                       Harvest Index          =      0.000
+      Stover C:N ratio       =   17.056                       Root C:N ratio         =     84.329
+      grain N percent        =       0.00                     total N content (kg/ha)=      79.37
+      grain N uptake (kg/ha) =       0.00                     senesced N content (kg/ha)=   23.82
+      green N content (kg/ha)=      55.55                     dead N content (kg/ha) =       0.00
      
       Average Stress Indices:                          Water Photo  Water Expan  N Photo      N grain conc
-         emergence            to end_of_juvenile         0.000        0.000        0.000        0.245
-         end_of_juvenile      to floral_initiation       0.000        0.000        0.000        0.271
-         floral_initiation    to flowering               0.000        0.000        0.000        0.117
-         flowering            to start_grain_fill        0.000        0.000        0.000        0.167
-         start_grain_fill     to end_grain_fill          0.000        0.000        0.453        0.706
+         end_of_juvenile      to start_tuber_fill        0.000        0.000        0.000        0.206
+         start_tuber_fill     to end_tuber_fill          0.002        0.004        0.037        0.256
      
      
      Crop harvested.
          Organic matter from crop:-      Tops to surface residue      Roots to soil FOM
-                          DM (kg/ha) =               4737.91                    0.00
-                          N  (kg/ha) =                 38.66                    0.00
+                          DM (kg/ha) =               3382.88                    0.00
+                          N  (kg/ha) =                 79.27                    0.00
      
          Organic matter removed from system:-      From Tops               From Roots
-                          DM (kg/ha) =               5457.80                    0.00
-                          N  (kg/ha) =                129.93                    0.00
+                          DM (kg/ha) =               8622.33                    0.00
+                          N  (kg/ha) =                119.93                    0.00
      
-      stage 4.0 end_of_juvenile
-                     biomass =           0.20 (g/m^2)   lai          =   0.010 (m^2/m^2)
-                     stover N conc =     1.33 (%)    extractable sw =  131.89 (mm)
      Manager sending message :- potato end_crop
      Crop ended. Yield (dw) =     0.0  (kg/ha)
          Organic matter from crop:-      Tops to surface residue      Roots to soil FOM
-                          DM (kg/ha) =                  1.95                 3143.66
-                          N  (kg/ha) =                  0.03                   22.90
+                          DM (kg/ha) =                  1.50                 1226.56
+                          N  (kg/ha) =                  0.10                    5.82
      
 31 December 1999(Day of year=365), clock: 
      Simulation is terminating due to end criteria being met.

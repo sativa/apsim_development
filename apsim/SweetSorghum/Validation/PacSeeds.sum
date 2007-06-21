@@ -134,7 +134,7 @@ Component "SweetSorghum" = c:\development\apsim\plant\lib\plant.dll
           600.-  900.  0.260  0.260  0.440  0.490  0.440  1.270  0.000  0.300
           900.- 1200.  0.250  0.250  0.400  0.450  0.400  1.370  0.000  0.300
          1200.- 1500.  0.280  0.280  0.410  0.460  0.329  1.350  0.000  0.300
-         1500.- 1800.  0.310  0.310  0.380  0.460  0.310  1.350  0.000  0.300
+         1500.- 1800.  0.310  0.310  0.380  0.460  0.380  1.350  0.000  0.300
         ---------------------------------------------------------------------
      
      
@@ -151,9 +151,9 @@ Component "SweetSorghum" = c:\development\apsim\plant\lib\plant.dll
           600.-  900.      78.00      54.00      54.00      15.00
           900.- 1200.      75.00      45.00      45.00      15.00
          1200.- 1500.      84.00      14.70      39.00      15.00
-         1500.- 1800.      93.00       0.00      21.00      24.00
+         1500.- 1800.      93.00      21.00      21.00      24.00
           ---------------------------------------------------------
-               Totals     486.00     221.70     267.00     100.50
+               Totals     486.00     242.70     267.00     100.50
           ---------------------------------------------------------
      
      
@@ -373,7 +373,7 @@ Component "SweetSorghum" = c:\development\apsim\plant\lib\plant.dll
           600.-  900.  0.260  0.260  0.440  0.490  0.440  1.270  0.000  0.300
           900.- 1200.  0.250  0.250  0.400  0.450  0.400  1.370  0.000  0.300
          1200.- 1500.  0.280  0.280  0.410  0.460  0.329  1.350  0.000  0.300
-         1500.- 1800.  0.310  0.310  0.380  0.460  0.310  1.350  0.000  0.300
+         1500.- 1800.  0.310  0.310  0.380  0.460  0.380  1.350  0.000  0.300
         ---------------------------------------------------------------------
      
      
@@ -390,9 +390,9 @@ Component "SweetSorghum" = c:\development\apsim\plant\lib\plant.dll
           600.-  900.      78.00      54.00      54.00      15.00
           900.- 1200.      75.00      45.00      45.00      15.00
          1200.- 1500.      84.00      14.70      39.00      15.00
-         1500.- 1800.      93.00       0.00      21.00      24.00
+         1500.- 1800.      93.00      21.00      21.00      24.00
           ---------------------------------------------------------
-               Totals     486.00     221.70     267.00     100.50
+               Totals     486.00     242.70     267.00     100.50
           ---------------------------------------------------------
      
      
@@ -626,46 +626,46 @@ Component "SweetSorghum" = c:\development\apsim\plant\lib\plant.dll
 6 November 2004(Day of year=311), SweetSorghum: 
       stage 5.0 floral_initiation
                      biomass =         295.03 (g/m^2)   lai          =   3.574 (m^2/m^2)
-                     stover N conc =     3.22 (%)    extractable sw =  219.52 (mm)
+                     stover N conc =     3.22 (%)    extractable sw =  220.79 (mm)
 13 December 2004(Day of year=348), SweetSorghum: 
       stage 6.0 flowering
-                     biomass =        1721.09 (g/m^2)   lai          =   4.652 (m^2/m^2)
-                     stover N conc =     1.41 (%)    extractable sw =  191.27 (mm)
+                     biomass =        1721.39 (g/m^2)   lai          =   4.652 (m^2/m^2)
+                     stover N conc =     1.41 (%)    extractable sw =  192.97 (mm)
 23 December 2004(Day of year=358), SweetSorghum: 
       stage 7.0 start_grain_fill
-                     biomass =        2151.61 (g/m^2)   lai          =   4.410 (m^2/m^2)
-                     stover N conc =     1.13 (%)    extractable sw =  120.79 (mm)
+                     biomass =        2151.91 (g/m^2)   lai          =   4.410 (m^2/m^2)
+                     stover N conc =     1.13 (%)    extractable sw =  122.66 (mm)
 6 January 2005(Day of year=6), SweetSorghum: 
       stage 8.0 end_grain_fill
-                     biomass =        2396.14 (g/m^2)   lai          =   4.221 (m^2/m^2)
-                     stover N conc =     0.88 (%)    extractable sw =  124.03 (mm)
+                     biomass =        2396.44 (g/m^2)   lai          =   4.221 (m^2/m^2)
+                     stover N conc =     0.88 (%)    extractable sw =  125.93 (mm)
 7 January 2005(Day of year=7), SweetSorghum: 
       stage 9.0 maturity
-                     biomass =        2396.14 (g/m^2)   lai          =   4.168 (m^2/m^2)
-                     stover N conc =     0.88 (%)    extractable sw =  154.73 (mm)
+                     biomass =        2396.44 (g/m^2)   lai          =   4.168 (m^2/m^2)
+                     stover N conc =     0.88 (%)    extractable sw =  156.60 (mm)
 8 January 2005(Day of year=8), SweetSorghum: 
       stage 10.0 harvest_ripe
-                     biomass =        2396.14 (g/m^2)   lai          =   0.000 (m^2/m^2)
-                     stover N conc =     0.91 (%)    extractable sw =  153.71 (mm)
+                     biomass =        2396.44 (g/m^2)   lai          =   0.000 (m^2/m^2)
+                     stover N conc =     0.92 (%)    extractable sw =  155.59 (mm)
 8 January 2005(Day of year=8), Manager: 
      Manager sending message :- sweetsorghum harvest
      
-      flowering day          =  348                           stover (kg/ha)         =    21308.0
-      maturity day           =    7                           grain yield (kg/ha)    =     2653.4
-      grain % water content  =   12.5                         grain yield wet (kg/ha)=     3032.5
-      grain wt (g)           =    0.022                       grains/m^2             =  11890.118
-      grains/plant           = 1189.0                         maximum lai            =      5.275
-      total above ground biomass (kg/ha)    =    23961.4
-      live above ground biomass (kg/ha)     =    23961.4
-      green above ground biomass (kg/ha)    =    19620.2
-      senesced above ground biomass (kg/ha) =     4341.2
+      flowering day          =  348                           stover (kg/ha)         =    21310.3
+      maturity day           =    7                           grain yield (kg/ha)    =     2654.1
+      grain % water content  =   12.5                         grain yield wet (kg/ha)=     3033.2
+      grain wt (g)           =    0.022                       grains/m^2             =  11892.980
+      grains/plant           = 1189.3                         maximum lai            =      5.275
+      total above ground biomass (kg/ha)    =    23964.4
+      live above ground biomass (kg/ha)     =    23964.4
+      green above ground biomass (kg/ha)    =    19623.1
+      senesced above ground biomass (kg/ha) =     4341.3
       dead above ground biomass (kg/ha)     =        0.0
       number of leaves       =   20.4
       DM Root:Shoot ratio    =    0.168                       Harvest Index          =      0.111
-      Stover C:N ratio       =   45.953                       Root C:N ratio         =     23.262
-      grain N percent        =       2.55                     total N content (kg/ha)=     253.20
-      grain N uptake (kg/ha) =      67.73                     senesced N content (kg/ha)=   30.39
-      green N content (kg/ha)=     155.09                     dead N content (kg/ha) =       0.00
+      Stover C:N ratio       =   45.893                       Root C:N ratio         =     23.258
+      grain N percent        =       2.55                     total N content (kg/ha)=     253.48
+      grain N uptake (kg/ha) =      67.74                     senesced N content (kg/ha)=   30.39
+      green N content (kg/ha)=     155.35                     dead N content (kg/ha) =       0.00
      
       Average Stress Indices:                          Water Photo  Water Expan  N Photo      N grain conc
          emergence            to end_of_juvenile         0.000        0.000        0.000        0.000
@@ -677,19 +677,19 @@ Component "SweetSorghum" = c:\development\apsim\plant\lib\plant.dll
      
      Crop harvested.
          Organic matter from crop:-      Tops to surface residue      Roots to soil FOM
-                          DM (kg/ha) =               21307.97                    0.00
-                          N  (kg/ha) =                185.48                    0.00
+                          DM (kg/ha) =               21310.28                    0.00
+                          N  (kg/ha) =                185.74                    0.00
      
          Organic matter removed from system:-      From Tops               From Roots
-                          DM (kg/ha) =               2653.41                    0.00
-                          N  (kg/ha) =                 67.73                    0.00
+                          DM (kg/ha) =               2654.05                    0.00
+                          N  (kg/ha) =                 67.74                    0.00
      
       stage 11.0 end_crop
      Manager sending message :- sweetsorghum end_crop
      Crop ended. Yield (dw) =     0.0  (kg/ha)
          Organic matter from crop:-      Tops to surface residue      Roots to soil FOM
-                          DM (kg/ha) =                  0.04                 4030.80
-                          N  (kg/ha) =                  0.00                   69.31
+                          DM (kg/ha) =                  0.04                 4031.52
+                          N  (kg/ha) =                  0.00                   69.34
      
 12 January 2005(Day of year=12), Manager: 
      Manager sending message :- sweetsorghum sow  plants = 10, sowing_depth = 50, cultivar = sugargraze, row_spacing = 600
