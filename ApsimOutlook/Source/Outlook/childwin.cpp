@@ -552,7 +552,8 @@ void TMDIChild::loadAllToolbarAddIns(void)
       replaceAll(*a, "%apsuite", getApsimDirectory());
 
       // look for add in parameters after a space.
-      unsigned int posSpace = (*a).find(" ");
+      unsigned int posDLL = (*a).find(".dll");
+      unsigned int posSpace = (*a).find(' ', posDLL);
       string addInParameters;
       if (posSpace != string::npos)
          {
