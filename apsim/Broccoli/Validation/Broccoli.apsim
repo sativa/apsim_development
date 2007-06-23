@@ -1,14 +1,14 @@
-<simulations name="untitled" version="8">
+<simulations name="untitled" version="9">
   <simulation name="GreenBelt1997">
     <clock name="clock">
-      <start_date name="start_date" description="Select the start date of the simulation" type="date">1/03/1997</start_date>
-      <end_date name="end_date" description="Select the end date of the simulation" type="date">10/11/1997</end_date>
+      <start_date name="start_date" description="Select the start date of the simulation" type="date" lbound="1/01/1997" ubound="31/12/1998">1/03/1997</start_date>
+      <end_date name="end_date" description="Select the end date of the simulation" type="date" lbound="1/01/1997" ubound="31/12/1998">10/11/1997</end_date>
     </clock>
     <summaryfile name="summaryfile">
       <filename name="filename">GreenBelt1997.sum</filename>
     </summaryfile>
     <metfile name="met">
-      <filename name="filename">D:\development\apsim\Broccoli\Validation\DPI9798.met</filename>
+      <filename name="filename">C:\development\apsim\Broccoli\Validation\DPI9798.met</filename>
     </metfile>
     <area name="Planting1">
       <registrations name="global" />
@@ -752,7 +752,7 @@
       <filename name="filename">GreenBelt1997.sum</filename>
     </summaryfile>
     <metfile name="met">
-      <filename name="filename">D:\development\apsim\Broccoli\Validation\DPI9798.met</filename>
+      <filename name="filename">C:\development\apsim\Broccoli\Validation\DPI9798.met</filename>
     </metfile>
     <area name="Planting1">
       <registrations name="global" />
@@ -2395,14 +2395,14 @@
   <folder name="Lawes2006">
     <simulation name="Lawes06 Planting1Wet">
       <clock name="clock">
-        <start_date name="start_date" description="Select the start date of the simulation" type="date">1/01/2006</start_date>
-        <end_date name="end_date" description="Select the end date of the simulation" type="date">1/10/2006</end_date>
+        <start_date name="start_date" description="Select the start date of the simulation" type="date" lbound="1/01/2006" ubound="3/10/2006">1/01/2006</start_date>
+        <end_date name="end_date" description="Select the end date of the simulation" type="date" lbound="1/01/2006" ubound="3/10/2006">1/10/2006</end_date>
       </clock>
       <summaryfile name="summaryfile">
         <filename name="filename">Lawes06.sum</filename>
       </summaryfile>
       <metfile name="met">
-        <filename name="filename">D:\development\apsim\Broccoli\Validation\DPI2006.met</filename>
+        <filename name="filename">C:\development\apsim\Broccoli\Validation\DPI2006.met</filename>
       </metfile>
       <area name="Block">
         <registrations name="global" />
@@ -2505,7 +2505,7 @@
         <filename name="filename">Lawes06.sum</filename>
       </summaryfile>
       <metfile name="met">
-        <filename name="filename">D:\development\apsim\Broccoli\Validation\DPI2006.met</filename>
+        <filename name="filename">C:\development\apsim\Broccoli\Validation\DPI2006.met</filename>
       </metfile>
       <area name="Block">
         <registrations name="global" />
