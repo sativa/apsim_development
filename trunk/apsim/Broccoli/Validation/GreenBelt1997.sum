@@ -1,0 +1,3248 @@
+     ###     ######     #####   #   #     #   
+    #   #    #     #   #        #   ##   ##   
+   #     #   #     #   #        #   ##   ##   
+   #######   ######     #####   #   # # # #   
+   #     #   #              #   #   #  #  #   
+   #     #   #         #####    #   #  #  #   
+                                              
+                                              
+ The Agricultural Production Systems Simulator
+             Copyright(c) APSRU               
+
+Version                = 5.4
+Title                  = GreenBelt1997
+Component        "log" = c:\development\apsim\log\lib\log.dll
+Component      "clock" = c:\development\apsim\clock\lib\clock.dll
+Component        "met" = c:\development\apsim\input\lib\input.dll
+Paddock:
+Component "outputfile" = c:\development\apsim\report\lib\report.dll
+Component      "final" = c:\development\apsim\report\lib\report.dll
+Component      "accum" = c:\development\apsim\accum\lib\accum.dll
+Component "fertiliser" = c:\development\apsim\fertiliz\lib\fertiliz.dll
+Component "Irrigation" = c:\development\apsim\irrigate\lib\irrigate.dll
+Component    "Manager" = c:\development\apsim\manager\lib\manager.dll
+Component "Soil Water" = c:\development\apsim\soilwat2\lib\soilwat2.dll
+Component "surface organic matter" = c:\development\apsim\surfaceom\lib\surfaceom.dll
+Component "Soil Nitrogen" = c:\development\apsim\soiln2\lib\soiln2.dll
+Component   "broccoli" = c:\development\apsim\plant\lib\plant.dll
+Paddock:
+Component      "final" = c:\development\apsim\report\lib\report.dll
+Component "outputfile" = c:\development\apsim\report\lib\report.dll
+Component      "accum" = c:\development\apsim\accum\lib\accum.dll
+Component "fertiliser" = c:\development\apsim\fertiliz\lib\fertiliz.dll
+Component "Irrigation" = c:\development\apsim\irrigate\lib\irrigate.dll
+Component    "Manager" = c:\development\apsim\manager\lib\manager.dll
+Component "Soil Water" = c:\development\apsim\soilwat2\lib\soilwat2.dll
+Component "surface organic matter" = c:\development\apsim\surfaceom\lib\surfaceom.dll
+Component "Soil Nitrogen" = c:\development\apsim\soiln2\lib\soiln2.dll
+Component   "broccoli" = c:\development\apsim\plant\lib\plant.dll
+Paddock:
+Component      "final" = c:\development\apsim\report\lib\report.dll
+Component "outputfile" = c:\development\apsim\report\lib\report.dll
+Component      "accum" = c:\development\apsim\accum\lib\accum.dll
+Component "fertiliser" = c:\development\apsim\fertiliz\lib\fertiliz.dll
+Component "Irrigation" = c:\development\apsim\irrigate\lib\irrigate.dll
+Component    "Manager" = c:\development\apsim\manager\lib\manager.dll
+Component "Soil Water" = c:\development\apsim\soilwat2\lib\soilwat2.dll
+Component "surface organic matter" = c:\development\apsim\surfaceom\lib\surfaceom.dll
+Component "Soil Nitrogen" = c:\development\apsim\soiln2\lib\soiln2.dll
+Component   "broccoli" = c:\development\apsim\plant\lib\plant.dll
+Paddock:
+Component      "final" = c:\development\apsim\report\lib\report.dll
+Component "outputfile" = c:\development\apsim\report\lib\report.dll
+Component      "accum" = c:\development\apsim\accum\lib\accum.dll
+Component "fertiliser" = c:\development\apsim\fertiliz\lib\fertiliz.dll
+Component "Irrigation" = c:\development\apsim\irrigate\lib\irrigate.dll
+Component    "Manager" = c:\development\apsim\manager\lib\manager.dll
+Component "Soil Water" = c:\development\apsim\soilwat2\lib\soilwat2.dll
+Component "surface organic matter" = c:\development\apsim\surfaceom\lib\surfaceom.dll
+Component "Soil Nitrogen" = c:\development\apsim\soiln2\lib\soiln2.dll
+Component   "broccoli" = c:\development\apsim\plant\lib\plant.dll
+Paddock:
+Component      "final" = c:\development\apsim\report\lib\report.dll
+Component "outputfile" = c:\development\apsim\report\lib\report.dll
+Component      "accum" = c:\development\apsim\accum\lib\accum.dll
+Component "fertiliser" = c:\development\apsim\fertiliz\lib\fertiliz.dll
+Component "Irrigation" = c:\development\apsim\irrigate\lib\irrigate.dll
+Component    "Manager" = c:\development\apsim\manager\lib\manager.dll
+Component "Soil Water" = c:\development\apsim\soilwat2\lib\soilwat2.dll
+Component "surface organic matter" = c:\development\apsim\surfaceom\lib\surfaceom.dll
+Component "Soil Nitrogen" = c:\development\apsim\soiln2\lib\soiln2.dll
+Component   "broccoli" = c:\development\apsim\plant\lib\plant.dll
+Paddock:
+Component      "final" = c:\development\apsim\report\lib\report.dll
+Component "outputfile" = c:\development\apsim\report\lib\report.dll
+Component      "accum" = c:\development\apsim\accum\lib\accum.dll
+Component "fertiliser" = c:\development\apsim\fertiliz\lib\fertiliz.dll
+Component "Irrigation" = c:\development\apsim\irrigate\lib\irrigate.dll
+Component    "Manager" = c:\development\apsim\manager\lib\manager.dll
+Component "Soil Water" = c:\development\apsim\soilwat2\lib\soilwat2.dll
+Component "surface organic matter" = c:\development\apsim\surfaceom\lib\surfaceom.dll
+Component "Soil Nitrogen" = c:\development\apsim\soiln2\lib\soiln2.dll
+Component   "broccoli" = c:\development\apsim\plant\lib\plant.dll
+Paddock:
+Component      "final" = c:\development\apsim\report\lib\report.dll
+Component "outputfile" = c:\development\apsim\report\lib\report.dll
+Component      "accum" = c:\development\apsim\accum\lib\accum.dll
+Component "fertiliser" = c:\development\apsim\fertiliz\lib\fertiliz.dll
+Component "Irrigation" = c:\development\apsim\irrigate\lib\irrigate.dll
+Component    "Manager" = c:\development\apsim\manager\lib\manager.dll
+Component "Soil Water" = c:\development\apsim\soilwat2\lib\soilwat2.dll
+Component "surface organic matter" = c:\development\apsim\surfaceom\lib\surfaceom.dll
+Component "Soil Nitrogen" = c:\development\apsim\soiln2\lib\soiln2.dll
+Component   "broccoli" = c:\development\apsim\plant\lib\plant.dll
+Paddock:
+Component      "final" = c:\development\apsim\report\lib\report.dll
+Component "outputfile" = c:\development\apsim\report\lib\report.dll
+Component      "accum" = c:\development\apsim\accum\lib\accum.dll
+Component "fertiliser" = c:\development\apsim\fertiliz\lib\fertiliz.dll
+Component "Irrigation" = c:\development\apsim\irrigate\lib\irrigate.dll
+Component    "Manager" = c:\development\apsim\manager\lib\manager.dll
+Component "Soil Water" = c:\development\apsim\soilwat2\lib\soilwat2.dll
+Component "surface organic matter" = c:\development\apsim\surfaceom\lib\surfaceom.dll
+Component "Soil Nitrogen" = c:\development\apsim\soiln2\lib\soiln2.dll
+Component   "broccoli" = c:\development\apsim\plant\lib\plant.dll
+
+------- clock Initialisation --------------------------------------------------
+     Sequencer phases:
+        prepare
+        process
+        post
+     Simulation start date =  1/03/1997
+     Simulation end date   = 10/11/1997
+     Time step =           = 1440 (mins)
+
+------- met Initialisation ----------------------------------------------------
+     Sparse data is not allowed
+     INPUT File name: C:\development\apsim\Broccoli\Validation\DPI9798.met
+
+------- outputfile Initialisation ---------------------------------------------
+     Output frequency:
+        post
+     Output variables:
+        dd/mm/yyyy as Date
+        broccoli.das
+        broccoli.biomass_wt
+        broccoli.node_no
+        broccoli.lai
+        ep
+        eo
+        broccoli.floral_initiation_das
+        broccoli.maturity_das
+        broccoli.stage
+        broccoli.cumvd
+        broccoli.tt_tot()
+        broccoli.swdef_photo
+        broccoli.nfact_photo
+        broccoli.temp_stress_photo
+        Irrigation.irrigation
+        broccoli.dlt_leaf_no
+        broccoli.dlt_node_no
+        broccoli.final_leaf_no
+        broccoli.emergence_das
+        broccoli.node_no_sen
+        broccoli.node_no_fx
+        sw_dep()
+        broccoli.leaf_wt
+        broccoli.stem_wt
+        sw
+
+     Output file = GreenBelt1997 Planting1.out
+     Format = normal
+
+------- final Initialisation --------------------------------------------------
+     Output frequency:
+        broccoli.harvesting
+     Output variables:
+        broccoli.sowing_date
+        dd/mm/yyyy
+        broccoli.floral_initiation_das
+        broccoli.maturity_das
+        broccoli.green_biomass_wt
+        broccoli.pod_wt
+        broccoli.leaf_area_max
+        broccoli.stage
+        broccoli.cumvd
+        broccoli.tt_tot()
+        broccoli.swdef_photo
+        broccoli.nfact_photo
+        broccoli.temp_stress_photo
+        Irrigation.irrigation
+        broccoli.dlt_leaf_no
+        broccoli.dlt_node_no
+        broccoli.final_leaf_no
+        broccoli.emergence_das
+        broccoli.node_no_sen
+        broccoli.node_no_fx
+        sw_dep()
+
+     Output file = GreenBelt1997 Planting1 final.out
+     Format = normal
+
+------- accum Initialisation --------------------------------------------------
+     Initialising
+
+------- fertiliser Initialisation ---------------------------------------------
+      Initialising
+     
+        - Reading Parameters
+     
+     
+     
+                    Fertiliser Schedule (kg/ha)
+          -----------------------------------------------
+           No fertiliser schedule is used
+          -----------------------------------------------
+
+------- Irrigation Initialisation ---------------------------------------------
+      Initialising
+     
+        - Reading Parameters
+     
+     
+     
+                      Irrigation parameters
+          -----------------------------------------------
+           Irrigation Schedule (Disabled)
+           Automatic Irrigation Application (Enabled)
+           critical fraction of available soil water =  0.50
+           depth for calculating available soil water =     600.00
+           Irrigation Allocation Budget (Disabled)
+          -----------------------------------------------
+
+------- Manager Initialisation ------------------------------------------------
+     Manager rules:
+     
+     SECTION:- broccoli.sowing
+         fertiliser apply amount = 300 (kg/ha), depth = 50 (mm), type = no3_n
+     
+     SECTION:- start_of_day
+       if (today = date('11-mar') then
+                     broccoli sow plants =6, sowing_depth = 50, cultivar = greenbelt, row_spacing = 600
+         endif
+     
+     SECTION:- start_of_day
+         if (broccoli.stage_name = 'maturity') then
+                     broccoli harvest
+                     broccoli end_crop
+         endif
+     
+     SECTION:- broccoli.sowing
+          if (50 > 0) then
+             'irrigation' apply amount = 50 (mm)
+          endif
+     END of rules
+     
+
+------- Soil Water Initialisation ---------------------------------------------
+     
+         - Reading constants
+     
+        - Reading Soil Property Parameters
+     
+        - Reading Soil Profile Parameters
+     Initial soilwater distributed using "sw" parameter.
+     
+     
+     
+                      Soil Profile Properties
+        ---------------------------------------------------------------------
+              Depth  Air_Dry  LL15   Dul    Sat     Sw     BD   Runoff  SWCON
+                mm     mm/mm  mm/mm  mm/mm  mm/mm  mm/mm  g/cc    wf
+        ---------------------------------------------------------------------
+            0.-  150.  0.100  0.200  0.380  0.450  0.190  1.380  0.762  0.300
+          150.-  300.  0.189  0.210  0.380  0.450  0.210  1.380  0.190  0.300
+          300.-  600.  0.200  0.200  0.440  0.490  0.200  1.280  0.048  0.300
+          600.-  900.  0.190  0.190  0.400  0.450  0.190  1.380  0.000  0.300
+          900.- 1200.  0.150  0.150  0.390  0.440  0.150  1.400  0.000  0.300
+         1200.- 1500.  0.320  0.320  0.370  0.420  0.320  1.460  0.000  0.300
+         1500.- 1800.  0.329  0.335  0.340  0.420  0.340  1.470  0.000  0.300
+        ---------------------------------------------------------------------
+     
+     
+     
+                  Soil Water Holding Capacity
+          ---------------------------------------------------------
+              Depth    Unavailable Available  Max Avail.  Drainable
+                          (LL15)   (SW-LL15)  (DUL-LL15)  (SAT-DUL)
+                            mm        mm          mm         mm
+          ---------------------------------------------------------
+            0.-  150.      30.00       0.00      27.00      10.50
+          150.-  300.      31.50       0.00      25.50      10.50
+          300.-  600.      60.00       0.00      72.00      15.00
+          600.-  900.      57.00       0.00      63.00      15.00
+          900.- 1200.      45.00       0.00      72.00      15.00
+         1200.- 1500.      96.00       0.00      15.00      15.00
+         1500.- 1800.     100.50       1.50       1.50      24.00
+          ---------------------------------------------------------
+               Totals     420.00       1.50     276.00     105.00
+          ---------------------------------------------------------
+     
+     
+     
+     
+     
+     
+                  Initial Soil Parameters
+          ---------------------------------------------------------
+                 Insoil        Salb     Dif_Con   Dif_Slope
+          ---------------------------------------------------------
+                   0.00        0.13       40.00       16.00
+          ---------------------------------------------------------
+     
+     
+     
+                  Runoff is predicted using scs curve number:
+                Cn2  Cn_Red  Cn_Cov   H_Eff_Depth
+                                           mm
+          ---------------------------------------------------------
+              73.00   20.00    0.80  450.00
+          ---------------------------------------------------------
+     
+     
+     
+           Using Ritchie evaporation model
+            Cuml evap (U):            6.00 (mm^0.5)
+            CONA:                     3.50 ()
+            Eo from priestly-taylor
+
+------- surface organic matter Initialisation ---------------------------------
+     
+         - Reading constants
+     
+         - Reading parameters
+     
+     
+     
+                         Initial Surface Organic Matter Data
+         ----------------------------------------------------------------------
+            Name   Type        Dry matter   C        N        P    Cover  Standing_fr
+                                (kg/ha)  (kg/ha)  (kg/ha)  (kg/ha) (0-1)     (0-1)
+         ----------------------------------------------------------------------
+          wheat     wheat         1000.0   400.0     5.0     0.0   0.393     0.0
+         ----------------------------------------------------------------------
+     
+                      Effective Cover from Surface Materials =   0.4
+     
+
+------- Soil Nitrogen Initialisation ------------------------------------------
+     
+        - Reading Parameters
+     
+        - Reading Constants
+     Using standard soil mineralisation for soil type Prarie
+     
+     
+     
+           TAV and AMP supplied externally
+     
+     
+     
+                      Soil Profile Properties
+          ------------------------------------------------
+           Layer    pH    OC     NO3     NH4    Urea
+                         (%) (kg/ha) (kg/ha) (kg/ha)
+          ------------------------------------------------
+             1     7.00  1.20   13.45    1.24    0.00
+             2     7.00  1.20    4.35    0.21    0.00
+             3     7.00  1.20    8.06    0.38    0.00
+             4     7.00  1.10    7.04    0.41    0.00
+             5     7.00  0.70    7.14    0.42    0.00
+             6     7.00  0.30    7.45    0.44    0.00
+             7     7.00  0.30    7.50    0.44    0.00
+          ------------------------------------------------
+           Totals               54.99    3.55    0.00
+          ------------------------------------------------
+     
+     
+     
+     
+     
+     
+                  Initial Soil Organic Matter Status
+          ---------------------------------------------------------
+           Layer      Hum-C   Hum-N  Biom-C  Biom-N   FOM-C   FOM-N
+                    (kg/ha) (kg/ha) (kg/ha) (kg/ha) (kg/ha) (kg/ha)
+          ---------------------------------------------------------
+             1      24405.9  1952.5   434.1    54.3    27.8     0.7
+             2      24645.2  1971.6   194.8    24.4    21.6     0.5
+             3      45988.8  3679.1    91.2    11.4    13.1     0.3
+             4      45494.9  3639.6    45.1     5.6     8.0     0.2
+             5      29385.4  2350.8    14.6     1.8     4.8     0.1
+             6      13133.5  1050.7     6.5     0.8     2.9     0.1
+             7      13223.5  1057.9     6.5     0.8     1.8     0.0
+          ---------------------------------------------------------
+           Totals  196277.1 15702.2   792.9    99.1    80.0     2.0
+          ---------------------------------------------------------
+
+------- broccoli Initialisation -----------------------------------------------
+     phenology model: Generic
+
+------- final Initialisation --------------------------------------------------
+     Output frequency:
+        broccoli.harvesting
+     Output variables:
+        broccoli.sowing_date
+        dd/mm/yyyy
+        broccoli.floral_initiation_das
+        broccoli.maturity_das
+        broccoli.green_biomass_wt
+        broccoli.pod_wt
+        broccoli.leaf_area_max
+        broccoli.stage
+        broccoli.cumvd
+        broccoli.tt_tot()
+        broccoli.swdef_photo
+        broccoli.nfact_photo
+        broccoli.temp_stress_photo
+        Irrigation.irrigation
+        broccoli.dlt_leaf_no
+        broccoli.dlt_node_no
+        broccoli.final_leaf_no
+        broccoli.emergence_das
+        broccoli.node_no_sen
+        broccoli.node_no_fx
+        sw_dep()
+
+     Output file = GreenBelt1997 Planting2 final.out
+     Format = normal
+
+------- outputfile Initialisation ---------------------------------------------
+     Output frequency:
+        post
+     Output variables:
+        dd/mm/yyyy as Date
+        broccoli.das
+        broccoli.biomass_wt
+        broccoli.node_no
+        broccoli.lai
+        ep
+        eo
+        broccoli.floral_initiation_das
+        broccoli.maturity_das
+        broccoli.stage
+        broccoli.cumvd
+        broccoli.tt_tot()
+        broccoli.swdef_photo
+        broccoli.nfact_photo
+        broccoli.temp_stress_photo
+        Irrigation.irrigation
+        broccoli.dlt_leaf_no
+        broccoli.dlt_node_no
+        broccoli.final_leaf_no
+        broccoli.emergence_das
+        broccoli.node_no_sen
+        broccoli.node_no_fx
+        sw_dep()
+        broccoli.leaf_wt
+        broccoli.stem_wt
+        sw
+
+     Output file = GreenBelt1997 Planting2.out
+     Format = normal
+
+------- accum Initialisation --------------------------------------------------
+     Initialising
+
+------- fertiliser Initialisation ---------------------------------------------
+      Initialising
+     
+        - Reading Parameters
+     
+     
+     
+                    Fertiliser Schedule (kg/ha)
+          -----------------------------------------------
+           No fertiliser schedule is used
+          -----------------------------------------------
+
+------- Irrigation Initialisation ---------------------------------------------
+      Initialising
+     
+        - Reading Parameters
+     
+     
+     
+                      Irrigation parameters
+          -----------------------------------------------
+           Irrigation Schedule (Disabled)
+           Automatic Irrigation Application (Enabled)
+           critical fraction of available soil water =  0.50
+           depth for calculating available soil water =     600.00
+           Irrigation Allocation Budget (Disabled)
+          -----------------------------------------------
+
+------- Manager Initialisation ------------------------------------------------
+     Manager rules:
+     
+     SECTION:- broccoli.sowing
+         fertiliser apply amount = 300 (kg/ha), depth = 50 (mm), type = no3_n
+     
+     SECTION:- start_of_day
+       if (today = date('20-mar') then
+                     broccoli sow plants =6, sowing_depth = 50, cultivar = greenbelt, row_spacing = 600
+         endif
+     
+     SECTION:- broccoli.sowing
+          if (50 > 0) then
+             'irrigation' apply amount = 50 (mm)
+          endif
+     
+     SECTION:- start_of_day
+         if (broccoli.stage_name = 'maturity') then
+                     broccoli harvest
+                     broccoli end_crop
+         endif
+     END of rules
+     
+
+------- Soil Water Initialisation ---------------------------------------------
+     
+         - Reading constants
+     
+        - Reading Soil Property Parameters
+     
+        - Reading Soil Profile Parameters
+     Initial soilwater distributed using "sw" parameter.
+     
+     
+     
+                      Soil Profile Properties
+        ---------------------------------------------------------------------
+              Depth  Air_Dry  LL15   Dul    Sat     Sw     BD   Runoff  SWCON
+                mm     mm/mm  mm/mm  mm/mm  mm/mm  mm/mm  g/cc    wf
+        ---------------------------------------------------------------------
+            0.-  150.  0.100  0.200  0.380  0.450  0.190  1.380  0.762  0.300
+          150.-  300.  0.189  0.210  0.380  0.450  0.210  1.380  0.190  0.300
+          300.-  600.  0.200  0.200  0.440  0.490  0.200  1.280  0.048  0.300
+          600.-  900.  0.190  0.190  0.400  0.450  0.190  1.380  0.000  0.300
+          900.- 1200.  0.150  0.150  0.390  0.440  0.150  1.400  0.000  0.300
+         1200.- 1500.  0.320  0.320  0.370  0.420  0.320  1.460  0.000  0.300
+         1500.- 1800.  0.329  0.335  0.340  0.420  0.340  1.470  0.000  0.300
+        ---------------------------------------------------------------------
+     
+     
+     
+                  Soil Water Holding Capacity
+          ---------------------------------------------------------
+              Depth    Unavailable Available  Max Avail.  Drainable
+                          (LL15)   (SW-LL15)  (DUL-LL15)  (SAT-DUL)
+                            mm        mm          mm         mm
+          ---------------------------------------------------------
+            0.-  150.      30.00       0.00      27.00      10.50
+          150.-  300.      31.50       0.00      25.50      10.50
+          300.-  600.      60.00       0.00      72.00      15.00
+          600.-  900.      57.00       0.00      63.00      15.00
+          900.- 1200.      45.00       0.00      72.00      15.00
+         1200.- 1500.      96.00       0.00      15.00      15.00
+         1500.- 1800.     100.50       1.50       1.50      24.00
+          ---------------------------------------------------------
+               Totals     420.00       1.50     276.00     105.00
+          ---------------------------------------------------------
+     
+     
+     
+     
+     
+     
+                  Initial Soil Parameters
+          ---------------------------------------------------------
+                 Insoil        Salb     Dif_Con   Dif_Slope
+          ---------------------------------------------------------
+                   0.00        0.13       40.00       16.00
+          ---------------------------------------------------------
+     
+     
+     
+                  Runoff is predicted using scs curve number:
+                Cn2  Cn_Red  Cn_Cov   H_Eff_Depth
+                                           mm
+          ---------------------------------------------------------
+              73.00   20.00    0.80  450.00
+          ---------------------------------------------------------
+     
+     
+     
+           Using Ritchie evaporation model
+            Cuml evap (U):            6.00 (mm^0.5)
+            CONA:                     3.50 ()
+            Eo from priestly-taylor
+
+------- surface organic matter Initialisation ---------------------------------
+     
+         - Reading constants
+     
+         - Reading parameters
+     
+     
+     
+                         Initial Surface Organic Matter Data
+         ----------------------------------------------------------------------
+            Name   Type        Dry matter   C        N        P    Cover  Standing_fr
+                                (kg/ha)  (kg/ha)  (kg/ha)  (kg/ha) (0-1)     (0-1)
+         ----------------------------------------------------------------------
+          wheat     wheat         1000.0   400.0     5.0     0.0   0.393     0.0
+         ----------------------------------------------------------------------
+     
+                      Effective Cover from Surface Materials =   0.6
+     
+
+------- Soil Nitrogen Initialisation ------------------------------------------
+     
+        - Reading Parameters
+     
+        - Reading Constants
+     Using standard soil mineralisation for soil type Prarie
+     
+     
+     
+           TAV and AMP supplied externally
+     
+     
+     
+                      Soil Profile Properties
+          ------------------------------------------------
+           Layer    pH    OC     NO3     NH4    Urea
+                         (%) (kg/ha) (kg/ha) (kg/ha)
+          ------------------------------------------------
+             1     7.00  1.20   13.45    1.24    0.00
+             2     7.00  1.20    4.35    0.21    0.00
+             3     7.00  1.20    8.06    0.38    0.00
+             4     7.00  1.10    7.04    0.41    0.00
+             5     7.00  0.70    7.14    0.42    0.00
+             6     7.00  0.30    7.45    0.44    0.00
+             7     7.00  0.30    7.50    0.44    0.00
+          ------------------------------------------------
+           Totals               54.99    3.55    0.00
+          ------------------------------------------------
+     
+     
+     
+     
+     
+     
+                  Initial Soil Organic Matter Status
+          ---------------------------------------------------------
+           Layer      Hum-C   Hum-N  Biom-C  Biom-N   FOM-C   FOM-N
+                    (kg/ha) (kg/ha) (kg/ha) (kg/ha) (kg/ha) (kg/ha)
+          ---------------------------------------------------------
+             1      24405.9  1952.5   434.1    54.3    27.8     0.7
+             2      24645.2  1971.6   194.8    24.4    21.6     0.5
+             3      45988.8  3679.1    91.2    11.4    13.1     0.3
+             4      45494.9  3639.6    45.1     5.6     8.0     0.2
+             5      29385.4  2350.8    14.6     1.8     4.8     0.1
+             6      13133.5  1050.7     6.5     0.8     2.9     0.1
+             7      13223.5  1057.9     6.5     0.8     1.8     0.0
+          ---------------------------------------------------------
+           Totals  196277.1 15702.2   792.9    99.1    80.0     2.0
+          ---------------------------------------------------------
+
+------- broccoli Initialisation -----------------------------------------------
+     phenology model: Generic
+
+------- final Initialisation --------------------------------------------------
+     Output frequency:
+        broccoli.harvesting
+     Output variables:
+        broccoli.sowing_date
+        dd/mm/yyyy
+        broccoli.floral_initiation_das
+        broccoli.maturity_das
+        broccoli.green_biomass_wt
+        broccoli.pod_wt
+        broccoli.leaf_area_max
+        broccoli.stage
+        broccoli.cumvd
+        broccoli.tt_tot()
+        broccoli.swdef_photo
+        broccoli.nfact_photo
+        broccoli.temp_stress_photo
+        Irrigation.irrigation
+        broccoli.dlt_leaf_no
+        broccoli.dlt_node_no
+        broccoli.final_leaf_no
+        broccoli.emergence_das
+        broccoli.node_no_sen
+        broccoli.node_no_fx
+        sw_dep()
+
+     Output file = GreenBelt1997 Planting3 final.out
+     Format = normal
+
+------- outputfile Initialisation ---------------------------------------------
+     Output frequency:
+        post
+     Output variables:
+        dd/mm/yyyy as Date
+        broccoli.das
+        broccoli.biomass_wt
+        broccoli.node_no
+        broccoli.lai
+        ep
+        eo
+        broccoli.floral_initiation_das
+        broccoli.maturity_das
+        broccoli.stage
+        broccoli.cumvd
+        broccoli.tt_tot()
+        broccoli.swdef_photo
+        broccoli.nfact_photo
+        broccoli.temp_stress_photo
+        Irrigation.irrigation
+        broccoli.dlt_leaf_no
+        broccoli.dlt_node_no
+        broccoli.final_leaf_no
+        broccoli.emergence_das
+        broccoli.node_no_sen
+        broccoli.node_no_fx
+        sw_dep()
+        broccoli.leaf_wt
+        broccoli.stem_wt
+        sw
+
+     Output file = GreenBelt1997 Planting3.out
+     Format = normal
+
+------- accum Initialisation --------------------------------------------------
+     Initialising
+
+------- fertiliser Initialisation ---------------------------------------------
+      Initialising
+     
+        - Reading Parameters
+     
+     
+     
+                    Fertiliser Schedule (kg/ha)
+          -----------------------------------------------
+           No fertiliser schedule is used
+          -----------------------------------------------
+
+------- Irrigation Initialisation ---------------------------------------------
+      Initialising
+     
+        - Reading Parameters
+     
+     
+     
+                      Irrigation parameters
+          -----------------------------------------------
+           Irrigation Schedule (Disabled)
+           Automatic Irrigation Application (Enabled)
+           critical fraction of available soil water =  0.50
+           depth for calculating available soil water =     600.00
+           Irrigation Allocation Budget (Disabled)
+          -----------------------------------------------
+
+------- Manager Initialisation ------------------------------------------------
+     Manager rules:
+     
+     SECTION:- broccoli.sowing
+         fertiliser apply amount = 300 (kg/ha), depth = 50 (mm), type = no3_n
+     
+     SECTION:- start_of_day
+       if (today = date('1-apr') then
+                     broccoli sow plants =6, sowing_depth = 50, cultivar = greenbelt, row_spacing = 600
+         endif
+     
+     SECTION:- broccoli.sowing
+          if (50 > 0) then
+             'irrigation' apply amount = 50 (mm)
+          endif
+     
+     SECTION:- start_of_day
+         if (broccoli.stage_name = 'maturity') then
+                     broccoli harvest
+                     broccoli end_crop
+         endif
+     END of rules
+     
+
+------- Soil Water Initialisation ---------------------------------------------
+     
+         - Reading constants
+     
+        - Reading Soil Property Parameters
+     
+        - Reading Soil Profile Parameters
+     Initial soilwater distributed using "sw" parameter.
+     
+     
+     
+                      Soil Profile Properties
+        ---------------------------------------------------------------------
+              Depth  Air_Dry  LL15   Dul    Sat     Sw     BD   Runoff  SWCON
+                mm     mm/mm  mm/mm  mm/mm  mm/mm  mm/mm  g/cc    wf
+        ---------------------------------------------------------------------
+            0.-  150.  0.100  0.200  0.380  0.450  0.190  1.380  0.762  0.300
+          150.-  300.  0.189  0.210  0.380  0.450  0.210  1.380  0.190  0.300
+          300.-  600.  0.200  0.200  0.440  0.490  0.200  1.280  0.048  0.300
+          600.-  900.  0.190  0.190  0.400  0.450  0.190  1.380  0.000  0.300
+          900.- 1200.  0.150  0.150  0.390  0.440  0.150  1.400  0.000  0.300
+         1200.- 1500.  0.320  0.320  0.370  0.420  0.320  1.460  0.000  0.300
+         1500.- 1800.  0.329  0.335  0.340  0.420  0.340  1.470  0.000  0.300
+        ---------------------------------------------------------------------
+     
+     
+     
+                  Soil Water Holding Capacity
+          ---------------------------------------------------------
+              Depth    Unavailable Available  Max Avail.  Drainable
+                          (LL15)   (SW-LL15)  (DUL-LL15)  (SAT-DUL)
+                            mm        mm          mm         mm
+          ---------------------------------------------------------
+            0.-  150.      30.00       0.00      27.00      10.50
+          150.-  300.      31.50       0.00      25.50      10.50
+          300.-  600.      60.00       0.00      72.00      15.00
+          600.-  900.      57.00       0.00      63.00      15.00
+          900.- 1200.      45.00       0.00      72.00      15.00
+         1200.- 1500.      96.00       0.00      15.00      15.00
+         1500.- 1800.     100.50       1.50       1.50      24.00
+          ---------------------------------------------------------
+               Totals     420.00       1.50     276.00     105.00
+          ---------------------------------------------------------
+     
+     
+     
+     
+     
+     
+                  Initial Soil Parameters
+          ---------------------------------------------------------
+                 Insoil        Salb     Dif_Con   Dif_Slope
+          ---------------------------------------------------------
+                   0.00        0.13       40.00       16.00
+          ---------------------------------------------------------
+     
+     
+     
+                  Runoff is predicted using scs curve number:
+                Cn2  Cn_Red  Cn_Cov   H_Eff_Depth
+                                           mm
+          ---------------------------------------------------------
+              73.00   20.00    0.80  450.00
+          ---------------------------------------------------------
+     
+     
+     
+           Using Ritchie evaporation model
+            Cuml evap (U):            6.00 (mm^0.5)
+            CONA:                     3.50 ()
+            Eo from priestly-taylor
+
+------- surface organic matter Initialisation ---------------------------------
+     
+         - Reading constants
+     
+         - Reading parameters
+     
+     
+     
+                         Initial Surface Organic Matter Data
+         ----------------------------------------------------------------------
+            Name   Type        Dry matter   C        N        P    Cover  Standing_fr
+                                (kg/ha)  (kg/ha)  (kg/ha)  (kg/ha) (0-1)     (0-1)
+         ----------------------------------------------------------------------
+          wheat     wheat         1000.0   400.0     5.0     0.0   0.393     0.0
+         ----------------------------------------------------------------------
+     
+                      Effective Cover from Surface Materials =   0.8
+     
+
+------- Soil Nitrogen Initialisation ------------------------------------------
+     
+        - Reading Parameters
+     
+        - Reading Constants
+     Using standard soil mineralisation for soil type Prarie
+     
+     
+     
+           TAV and AMP supplied externally
+     
+     
+     
+                      Soil Profile Properties
+          ------------------------------------------------
+           Layer    pH    OC     NO3     NH4    Urea
+                         (%) (kg/ha) (kg/ha) (kg/ha)
+          ------------------------------------------------
+             1     7.00  1.20   13.45    1.24    0.00
+             2     7.00  1.20    4.35    0.21    0.00
+             3     7.00  1.20    8.06    0.38    0.00
+             4     7.00  1.10    7.04    0.41    0.00
+             5     7.00  0.70    7.14    0.42    0.00
+             6     7.00  0.30    7.45    0.44    0.00
+             7     7.00  0.30    7.50    0.44    0.00
+          ------------------------------------------------
+           Totals               54.99    3.55    0.00
+          ------------------------------------------------
+     
+     
+     
+     
+     
+     
+                  Initial Soil Organic Matter Status
+          ---------------------------------------------------------
+           Layer      Hum-C   Hum-N  Biom-C  Biom-N   FOM-C   FOM-N
+                    (kg/ha) (kg/ha) (kg/ha) (kg/ha) (kg/ha) (kg/ha)
+          ---------------------------------------------------------
+             1      24405.9  1952.5   434.1    54.3    27.8     0.7
+             2      24645.2  1971.6   194.8    24.4    21.6     0.5
+             3      45988.8  3679.1    91.2    11.4    13.1     0.3
+             4      45494.9  3639.6    45.1     5.6     8.0     0.2
+             5      29385.4  2350.8    14.6     1.8     4.8     0.1
+             6      13133.5  1050.7     6.5     0.8     2.9     0.1
+             7      13223.5  1057.9     6.5     0.8     1.8     0.0
+          ---------------------------------------------------------
+           Totals  196277.1 15702.2   792.9    99.1    80.0     2.0
+          ---------------------------------------------------------
+
+------- broccoli Initialisation -----------------------------------------------
+     phenology model: Generic
+
+------- final Initialisation --------------------------------------------------
+     Output frequency:
+        broccoli.harvesting
+     Output variables:
+        broccoli.sowing_date
+        dd/mm/yyyy
+        broccoli.floral_initiation_das
+        broccoli.maturity_das
+        broccoli.green_biomass_wt
+        broccoli.pod_wt
+        broccoli.leaf_area_max
+        broccoli.stage
+        broccoli.cumvd
+        broccoli.tt_tot()
+        broccoli.swdef_photo
+        broccoli.nfact_photo
+        broccoli.temp_stress_photo
+        Irrigation.irrigation
+        broccoli.dlt_leaf_no
+        broccoli.dlt_node_no
+        broccoli.final_leaf_no
+        broccoli.emergence_das
+        broccoli.node_no_sen
+        broccoli.node_no_fx
+        sw_dep()
+
+     Output file = GreenBelt1997 Planting4 final.out
+     Format = normal
+
+------- outputfile Initialisation ---------------------------------------------
+     Output frequency:
+        post
+     Output variables:
+        dd/mm/yyyy as Date
+        broccoli.das
+        broccoli.biomass_wt
+        broccoli.node_no
+        broccoli.lai
+        ep
+        eo
+        broccoli.floral_initiation_das
+        broccoli.maturity_das
+        broccoli.stage
+        broccoli.cumvd
+        broccoli.tt_tot()
+        broccoli.swdef_photo
+        broccoli.nfact_photo
+        broccoli.temp_stress_photo
+        Irrigation.irrigation
+        broccoli.dlt_leaf_no
+        broccoli.dlt_node_no
+        broccoli.final_leaf_no
+        broccoli.emergence_das
+        broccoli.node_no_sen
+        broccoli.node_no_fx
+        sw_dep()
+        broccoli.leaf_wt
+        broccoli.stem_wt
+        sw
+
+     Output file = GreenBelt1997 Planting4.out
+     Format = normal
+
+------- accum Initialisation --------------------------------------------------
+     Initialising
+
+------- fertiliser Initialisation ---------------------------------------------
+      Initialising
+     
+        - Reading Parameters
+     
+     
+     
+                    Fertiliser Schedule (kg/ha)
+          -----------------------------------------------
+           No fertiliser schedule is used
+          -----------------------------------------------
+
+------- Irrigation Initialisation ---------------------------------------------
+      Initialising
+     
+        - Reading Parameters
+     
+     
+     
+                      Irrigation parameters
+          -----------------------------------------------
+           Irrigation Schedule (Disabled)
+           Automatic Irrigation Application (Enabled)
+           critical fraction of available soil water =  0.50
+           depth for calculating available soil water =     600.00
+           Irrigation Allocation Budget (Disabled)
+          -----------------------------------------------
+
+------- Manager Initialisation ------------------------------------------------
+     Manager rules:
+     
+     SECTION:- broccoli.sowing
+         fertiliser apply amount = 300 (kg/ha), depth = 50 (mm), type = no3_n
+     
+     SECTION:- start_of_day
+       if (today = date('10-apr') then
+                     broccoli sow plants =6, sowing_depth = 50, cultivar = greenbelt, row_spacing = 600
+         endif
+     
+     SECTION:- broccoli.sowing
+          if (50 > 0) then
+             'irrigation' apply amount = 50 (mm)
+          endif
+     
+     SECTION:- start_of_day
+         if (broccoli.stage_name = 'maturity') then
+                     broccoli harvest
+                     broccoli end_crop
+         endif
+     END of rules
+     
+
+------- Soil Water Initialisation ---------------------------------------------
+     
+         - Reading constants
+     
+        - Reading Soil Property Parameters
+     
+        - Reading Soil Profile Parameters
+     Initial soilwater distributed using "sw" parameter.
+     
+     
+     
+                      Soil Profile Properties
+        ---------------------------------------------------------------------
+              Depth  Air_Dry  LL15   Dul    Sat     Sw     BD   Runoff  SWCON
+                mm     mm/mm  mm/mm  mm/mm  mm/mm  mm/mm  g/cc    wf
+        ---------------------------------------------------------------------
+            0.-  150.  0.100  0.200  0.380  0.450  0.190  1.380  0.762  0.300
+          150.-  300.  0.189  0.210  0.380  0.450  0.210  1.380  0.190  0.300
+          300.-  600.  0.200  0.200  0.440  0.490  0.200  1.280  0.048  0.300
+          600.-  900.  0.190  0.190  0.400  0.450  0.190  1.380  0.000  0.300
+          900.- 1200.  0.150  0.150  0.390  0.440  0.150  1.400  0.000  0.300
+         1200.- 1500.  0.320  0.320  0.370  0.420  0.320  1.460  0.000  0.300
+         1500.- 1800.  0.329  0.335  0.340  0.420  0.340  1.470  0.000  0.300
+        ---------------------------------------------------------------------
+     
+     
+     
+                  Soil Water Holding Capacity
+          ---------------------------------------------------------
+              Depth    Unavailable Available  Max Avail.  Drainable
+                          (LL15)   (SW-LL15)  (DUL-LL15)  (SAT-DUL)
+                            mm        mm          mm         mm
+          ---------------------------------------------------------
+            0.-  150.      30.00       0.00      27.00      10.50
+          150.-  300.      31.50       0.00      25.50      10.50
+          300.-  600.      60.00       0.00      72.00      15.00
+          600.-  900.      57.00       0.00      63.00      15.00
+          900.- 1200.      45.00       0.00      72.00      15.00
+         1200.- 1500.      96.00       0.00      15.00      15.00
+         1500.- 1800.     100.50       1.50       1.50      24.00
+          ---------------------------------------------------------
+               Totals     420.00       1.50     276.00     105.00
+          ---------------------------------------------------------
+     
+     
+     
+     
+     
+     
+                  Initial Soil Parameters
+          ---------------------------------------------------------
+                 Insoil        Salb     Dif_Con   Dif_Slope
+          ---------------------------------------------------------
+                   0.00        0.13       40.00       16.00
+          ---------------------------------------------------------
+     
+     
+     
+                  Runoff is predicted using scs curve number:
+                Cn2  Cn_Red  Cn_Cov   H_Eff_Depth
+                                           mm
+          ---------------------------------------------------------
+              73.00   20.00    0.80  450.00
+          ---------------------------------------------------------
+     
+     
+     
+           Using Ritchie evaporation model
+            Cuml evap (U):            6.00 (mm^0.5)
+            CONA:                     3.50 ()
+            Eo from priestly-taylor
+
+------- surface organic matter Initialisation ---------------------------------
+     
+         - Reading constants
+     
+         - Reading parameters
+     
+     
+     
+                         Initial Surface Organic Matter Data
+         ----------------------------------------------------------------------
+            Name   Type        Dry matter   C        N        P    Cover  Standing_fr
+                                (kg/ha)  (kg/ha)  (kg/ha)  (kg/ha) (0-1)     (0-1)
+         ----------------------------------------------------------------------
+          wheat     wheat         1000.0   400.0     5.0     0.0   0.393     0.0
+         ----------------------------------------------------------------------
+     
+                      Effective Cover from Surface Materials =   0.9
+     
+
+------- Soil Nitrogen Initialisation ------------------------------------------
+     
+        - Reading Parameters
+     
+        - Reading Constants
+     Using standard soil mineralisation for soil type Prarie
+     
+     
+     
+           TAV and AMP supplied externally
+     
+     
+     
+                      Soil Profile Properties
+          ------------------------------------------------
+           Layer    pH    OC     NO3     NH4    Urea
+                         (%) (kg/ha) (kg/ha) (kg/ha)
+          ------------------------------------------------
+             1     7.00  1.20   13.45    1.24    0.00
+             2     7.00  1.20    4.35    0.21    0.00
+             3     7.00  1.20    8.06    0.38    0.00
+             4     7.00  1.10    7.04    0.41    0.00
+             5     7.00  0.70    7.14    0.42    0.00
+             6     7.00  0.30    7.45    0.44    0.00
+             7     7.00  0.30    7.50    0.44    0.00
+          ------------------------------------------------
+           Totals               54.99    3.55    0.00
+          ------------------------------------------------
+     
+     
+     
+     
+     
+     
+                  Initial Soil Organic Matter Status
+          ---------------------------------------------------------
+           Layer      Hum-C   Hum-N  Biom-C  Biom-N   FOM-C   FOM-N
+                    (kg/ha) (kg/ha) (kg/ha) (kg/ha) (kg/ha) (kg/ha)
+          ---------------------------------------------------------
+             1      24405.9  1952.5   434.1    54.3    27.8     0.7
+             2      24645.2  1971.6   194.8    24.4    21.6     0.5
+             3      45988.8  3679.1    91.2    11.4    13.1     0.3
+             4      45494.9  3639.6    45.1     5.6     8.0     0.2
+             5      29385.4  2350.8    14.6     1.8     4.8     0.1
+             6      13133.5  1050.7     6.5     0.8     2.9     0.1
+             7      13223.5  1057.9     6.5     0.8     1.8     0.0
+          ---------------------------------------------------------
+           Totals  196277.1 15702.2   792.9    99.1    80.0     2.0
+          ---------------------------------------------------------
+
+------- broccoli Initialisation -----------------------------------------------
+     phenology model: Generic
+
+------- final Initialisation --------------------------------------------------
+     Output frequency:
+        broccoli.harvesting
+     Output variables:
+        broccoli.sowing_date
+        dd/mm/yyyy
+        broccoli.floral_initiation_das
+        broccoli.maturity_das
+        broccoli.green_biomass_wt
+        broccoli.pod_wt
+        broccoli.leaf_area_max
+        broccoli.stage
+        broccoli.cumvd
+        broccoli.tt_tot()
+        broccoli.swdef_photo
+        broccoli.nfact_photo
+        broccoli.temp_stress_photo
+        Irrigation.irrigation
+        broccoli.dlt_leaf_no
+        broccoli.dlt_node_no
+        broccoli.final_leaf_no
+        broccoli.emergence_das
+        broccoli.node_no_sen
+        broccoli.node_no_fx
+        sw_dep()
+
+     Output file = GreenBelt1997 Planting5 final.out
+     Format = normal
+
+------- outputfile Initialisation ---------------------------------------------
+     Output frequency:
+        post
+     Output variables:
+        dd/mm/yyyy as Date
+        broccoli.das
+        broccoli.biomass_wt
+        broccoli.node_no
+        broccoli.lai
+        ep
+        eo
+        broccoli.floral_initiation_das
+        broccoli.maturity_das
+        broccoli.stage
+        broccoli.cumvd
+        broccoli.tt_tot()
+        broccoli.swdef_photo
+        broccoli.nfact_photo
+        broccoli.temp_stress_photo
+        Irrigation.irrigation
+        broccoli.dlt_leaf_no
+        broccoli.dlt_node_no
+        broccoli.final_leaf_no
+        broccoli.emergence_das
+        broccoli.node_no_sen
+        broccoli.node_no_fx
+        sw_dep()
+        broccoli.leaf_wt
+        broccoli.stem_wt
+        sw
+
+     Output file = GreenBelt1997 Planting5.out
+     Format = normal
+
+------- accum Initialisation --------------------------------------------------
+     Initialising
+
+------- fertiliser Initialisation ---------------------------------------------
+      Initialising
+     
+        - Reading Parameters
+     
+     
+     
+                    Fertiliser Schedule (kg/ha)
+          -----------------------------------------------
+           No fertiliser schedule is used
+          -----------------------------------------------
+
+------- Irrigation Initialisation ---------------------------------------------
+      Initialising
+     
+        - Reading Parameters
+     
+     
+     
+                      Irrigation parameters
+          -----------------------------------------------
+           Irrigation Schedule (Disabled)
+           Automatic Irrigation Application (Enabled)
+           critical fraction of available soil water =  0.50
+           depth for calculating available soil water =     600.00
+           Irrigation Allocation Budget (Disabled)
+          -----------------------------------------------
+
+------- Manager Initialisation ------------------------------------------------
+     Manager rules:
+     
+     SECTION:- broccoli.sowing
+         fertiliser apply amount = 300 (kg/ha), depth = 50 (mm), type = no3_n
+     
+     SECTION:- start_of_day
+       if (today = date('21-apr') then
+                     broccoli sow plants =6, sowing_depth = 50, cultivar = greenbelt, row_spacing = 600
+         endif
+     
+     SECTION:- broccoli.sowing
+          if (50 > 0) then
+             'irrigation' apply amount = 50 (mm)
+          endif
+     
+     SECTION:- start_of_day
+         if (broccoli.stage_name = 'maturity') then
+                     broccoli harvest
+                     broccoli end_crop
+         endif
+     END of rules
+     
+
+------- Soil Water Initialisation ---------------------------------------------
+     
+         - Reading constants
+     
+        - Reading Soil Property Parameters
+     
+        - Reading Soil Profile Parameters
+     Initial soilwater distributed using "sw" parameter.
+     
+     
+     
+                      Soil Profile Properties
+        ---------------------------------------------------------------------
+              Depth  Air_Dry  LL15   Dul    Sat     Sw     BD   Runoff  SWCON
+                mm     mm/mm  mm/mm  mm/mm  mm/mm  mm/mm  g/cc    wf
+        ---------------------------------------------------------------------
+            0.-  150.  0.100  0.200  0.380  0.450  0.190  1.380  0.762  0.300
+          150.-  300.  0.189  0.210  0.380  0.450  0.210  1.380  0.190  0.300
+          300.-  600.  0.200  0.200  0.440  0.490  0.200  1.280  0.048  0.300
+          600.-  900.  0.190  0.190  0.400  0.450  0.190  1.380  0.000  0.300
+          900.- 1200.  0.150  0.150  0.390  0.440  0.150  1.400  0.000  0.300
+         1200.- 1500.  0.320  0.320  0.370  0.420  0.320  1.460  0.000  0.300
+         1500.- 1800.  0.329  0.335  0.340  0.420  0.340  1.470  0.000  0.300
+        ---------------------------------------------------------------------
+     
+     
+     
+                  Soil Water Holding Capacity
+          ---------------------------------------------------------
+              Depth    Unavailable Available  Max Avail.  Drainable
+                          (LL15)   (SW-LL15)  (DUL-LL15)  (SAT-DUL)
+                            mm        mm          mm         mm
+          ---------------------------------------------------------
+            0.-  150.      30.00       0.00      27.00      10.50
+          150.-  300.      31.50       0.00      25.50      10.50
+          300.-  600.      60.00       0.00      72.00      15.00
+          600.-  900.      57.00       0.00      63.00      15.00
+          900.- 1200.      45.00       0.00      72.00      15.00
+         1200.- 1500.      96.00       0.00      15.00      15.00
+         1500.- 1800.     100.50       1.50       1.50      24.00
+          ---------------------------------------------------------
+               Totals     420.00       1.50     276.00     105.00
+          ---------------------------------------------------------
+     
+     
+     
+     
+     
+     
+                  Initial Soil Parameters
+          ---------------------------------------------------------
+                 Insoil        Salb     Dif_Con   Dif_Slope
+          ---------------------------------------------------------
+                   0.00        0.13       40.00       16.00
+          ---------------------------------------------------------
+     
+     
+     
+                  Runoff is predicted using scs curve number:
+                Cn2  Cn_Red  Cn_Cov   H_Eff_Depth
+                                           mm
+          ---------------------------------------------------------
+              73.00   20.00    0.80  450.00
+          ---------------------------------------------------------
+     
+     
+     
+           Using Ritchie evaporation model
+            Cuml evap (U):            6.00 (mm^0.5)
+            CONA:                     3.50 ()
+            Eo from priestly-taylor
+
+------- surface organic matter Initialisation ---------------------------------
+     
+         - Reading constants
+     
+         - Reading parameters
+     
+     
+     
+                         Initial Surface Organic Matter Data
+         ----------------------------------------------------------------------
+            Name   Type        Dry matter   C        N        P    Cover  Standing_fr
+                                (kg/ha)  (kg/ha)  (kg/ha)  (kg/ha) (0-1)     (0-1)
+         ----------------------------------------------------------------------
+          wheat     wheat         1000.0   400.0     5.0     0.0   0.393     0.0
+         ----------------------------------------------------------------------
+     
+                      Effective Cover from Surface Materials =   0.9
+     
+
+------- Soil Nitrogen Initialisation ------------------------------------------
+     
+        - Reading Parameters
+     
+        - Reading Constants
+     Using standard soil mineralisation for soil type Prarie
+     
+     
+     
+           TAV and AMP supplied externally
+     
+     
+     
+                      Soil Profile Properties
+          ------------------------------------------------
+           Layer    pH    OC     NO3     NH4    Urea
+                         (%) (kg/ha) (kg/ha) (kg/ha)
+          ------------------------------------------------
+             1     7.00  1.20   13.45    1.24    0.00
+             2     7.00  1.20    4.35    0.21    0.00
+             3     7.00  1.20    8.06    0.38    0.00
+             4     7.00  1.10    7.04    0.41    0.00
+             5     7.00  0.70    7.14    0.42    0.00
+             6     7.00  0.30    7.45    0.44    0.00
+             7     7.00  0.30    7.50    0.44    0.00
+          ------------------------------------------------
+           Totals               54.99    3.55    0.00
+          ------------------------------------------------
+     
+     
+     
+     
+     
+     
+                  Initial Soil Organic Matter Status
+          ---------------------------------------------------------
+           Layer      Hum-C   Hum-N  Biom-C  Biom-N   FOM-C   FOM-N
+                    (kg/ha) (kg/ha) (kg/ha) (kg/ha) (kg/ha) (kg/ha)
+          ---------------------------------------------------------
+             1      24405.9  1952.5   434.1    54.3    27.8     0.7
+             2      24645.2  1971.6   194.8    24.4    21.6     0.5
+             3      45988.8  3679.1    91.2    11.4    13.1     0.3
+             4      45494.9  3639.6    45.1     5.6     8.0     0.2
+             5      29385.4  2350.8    14.6     1.8     4.8     0.1
+             6      13133.5  1050.7     6.5     0.8     2.9     0.1
+             7      13223.5  1057.9     6.5     0.8     1.8     0.0
+          ---------------------------------------------------------
+           Totals  196277.1 15702.2   792.9    99.1    80.0     2.0
+          ---------------------------------------------------------
+
+------- broccoli Initialisation -----------------------------------------------
+     phenology model: Generic
+
+------- final Initialisation --------------------------------------------------
+     Output frequency:
+        broccoli.harvesting
+     Output variables:
+        broccoli.sowing_date
+        dd/mm/yyyy
+        broccoli.floral_initiation_das
+        broccoli.maturity_das
+        broccoli.green_biomass_wt
+        broccoli.pod_wt
+        broccoli.leaf_area_max
+        broccoli.stage
+        broccoli.cumvd
+        broccoli.tt_tot()
+        broccoli.swdef_photo
+        broccoli.nfact_photo
+        broccoli.temp_stress_photo
+        Irrigation.irrigation
+        broccoli.dlt_leaf_no
+        broccoli.dlt_node_no
+        broccoli.final_leaf_no
+        broccoli.emergence_das
+        broccoli.node_no_sen
+        broccoli.node_no_fx
+        sw_dep()
+
+     Output file = GreenBelt1997 Planting6 final.out
+     Format = normal
+
+------- outputfile Initialisation ---------------------------------------------
+     Output frequency:
+        post
+     Output variables:
+        dd/mm/yyyy as Date
+        broccoli.das
+        broccoli.biomass_wt
+        broccoli.node_no
+        broccoli.lai
+        ep
+        eo
+        broccoli.floral_initiation_das
+        broccoli.maturity_das
+        broccoli.stage
+        broccoli.cumvd
+        broccoli.tt_tot()
+        broccoli.swdef_photo
+        broccoli.nfact_photo
+        broccoli.temp_stress_photo
+        Irrigation.irrigation
+        broccoli.dlt_leaf_no
+        broccoli.dlt_node_no
+        broccoli.final_leaf_no
+        broccoli.emergence_das
+        broccoli.node_no_sen
+        broccoli.node_no_fx
+        sw_dep()
+        broccoli.leaf_wt
+        broccoli.stem_wt
+        sw
+
+     Output file = GreenBelt1997 Planting6.out
+     Format = normal
+
+------- accum Initialisation --------------------------------------------------
+     Initialising
+
+------- fertiliser Initialisation ---------------------------------------------
+      Initialising
+     
+        - Reading Parameters
+     
+     
+     
+                    Fertiliser Schedule (kg/ha)
+          -----------------------------------------------
+           No fertiliser schedule is used
+          -----------------------------------------------
+
+------- Irrigation Initialisation ---------------------------------------------
+      Initialising
+     
+        - Reading Parameters
+     
+     
+     
+                      Irrigation parameters
+          -----------------------------------------------
+           Irrigation Schedule (Disabled)
+           Automatic Irrigation Application (Enabled)
+           critical fraction of available soil water =  0.50
+           depth for calculating available soil water =     600.00
+           Irrigation Allocation Budget (Disabled)
+          -----------------------------------------------
+
+------- Manager Initialisation ------------------------------------------------
+     Manager rules:
+     
+     SECTION:- broccoli.sowing
+         fertiliser apply amount = 300 (kg/ha), depth = 50 (mm), type = no3_n
+     
+     SECTION:- start_of_day
+       if (today = date('1-may') then
+                     broccoli sow plants =6, sowing_depth = 50, cultivar = greenbelt, row_spacing = 600
+         endif
+     
+     SECTION:- broccoli.sowing
+          if (50 > 0) then
+             'irrigation' apply amount = 50 (mm)
+          endif
+     
+     SECTION:- start_of_day
+         if (broccoli.stage_name = 'maturity') then
+                     broccoli harvest
+                     broccoli end_crop
+         endif
+     END of rules
+     
+
+------- Soil Water Initialisation ---------------------------------------------
+     
+         - Reading constants
+     
+        - Reading Soil Property Parameters
+     
+        - Reading Soil Profile Parameters
+     Initial soilwater distributed using "sw" parameter.
+     
+     
+     
+                      Soil Profile Properties
+        ---------------------------------------------------------------------
+              Depth  Air_Dry  LL15   Dul    Sat     Sw     BD   Runoff  SWCON
+                mm     mm/mm  mm/mm  mm/mm  mm/mm  mm/mm  g/cc    wf
+        ---------------------------------------------------------------------
+            0.-  150.  0.100  0.200  0.380  0.450  0.190  1.380  0.762  0.300
+          150.-  300.  0.189  0.210  0.380  0.450  0.210  1.380  0.190  0.300
+          300.-  600.  0.200  0.200  0.440  0.490  0.200  1.280  0.048  0.300
+          600.-  900.  0.190  0.190  0.400  0.450  0.190  1.380  0.000  0.300
+          900.- 1200.  0.150  0.150  0.390  0.440  0.150  1.400  0.000  0.300
+         1200.- 1500.  0.320  0.320  0.370  0.420  0.320  1.460  0.000  0.300
+         1500.- 1800.  0.329  0.335  0.340  0.420  0.340  1.470  0.000  0.300
+        ---------------------------------------------------------------------
+     
+     
+     
+                  Soil Water Holding Capacity
+          ---------------------------------------------------------
+              Depth    Unavailable Available  Max Avail.  Drainable
+                          (LL15)   (SW-LL15)  (DUL-LL15)  (SAT-DUL)
+                            mm        mm          mm         mm
+          ---------------------------------------------------------
+            0.-  150.      30.00       0.00      27.00      10.50
+          150.-  300.      31.50       0.00      25.50      10.50
+          300.-  600.      60.00       0.00      72.00      15.00
+          600.-  900.      57.00       0.00      63.00      15.00
+          900.- 1200.      45.00       0.00      72.00      15.00
+         1200.- 1500.      96.00       0.00      15.00      15.00
+         1500.- 1800.     100.50       1.50       1.50      24.00
+          ---------------------------------------------------------
+               Totals     420.00       1.50     276.00     105.00
+          ---------------------------------------------------------
+     
+     
+     
+     
+     
+     
+                  Initial Soil Parameters
+          ---------------------------------------------------------
+                 Insoil        Salb     Dif_Con   Dif_Slope
+          ---------------------------------------------------------
+                   0.00        0.13       40.00       16.00
+          ---------------------------------------------------------
+     
+     
+     
+                  Runoff is predicted using scs curve number:
+                Cn2  Cn_Red  Cn_Cov   H_Eff_Depth
+                                           mm
+          ---------------------------------------------------------
+              73.00   20.00    0.80  450.00
+          ---------------------------------------------------------
+     
+     
+     
+           Using Ritchie evaporation model
+            Cuml evap (U):            6.00 (mm^0.5)
+            CONA:                     3.50 ()
+            Eo from priestly-taylor
+
+------- surface organic matter Initialisation ---------------------------------
+     
+         - Reading constants
+     
+         - Reading parameters
+     
+     
+     
+                         Initial Surface Organic Matter Data
+         ----------------------------------------------------------------------
+            Name   Type        Dry matter   C        N        P    Cover  Standing_fr
+                                (kg/ha)  (kg/ha)  (kg/ha)  (kg/ha) (0-1)     (0-1)
+         ----------------------------------------------------------------------
+          wheat     wheat         1000.0   400.0     5.0     0.0   0.393     0.0
+         ----------------------------------------------------------------------
+     
+                      Effective Cover from Surface Materials =   1.0
+     
+
+------- Soil Nitrogen Initialisation ------------------------------------------
+     
+        - Reading Parameters
+     
+        - Reading Constants
+     Using standard soil mineralisation for soil type Prarie
+     
+     
+     
+           TAV and AMP supplied externally
+     
+     
+     
+                      Soil Profile Properties
+          ------------------------------------------------
+           Layer    pH    OC     NO3     NH4    Urea
+                         (%) (kg/ha) (kg/ha) (kg/ha)
+          ------------------------------------------------
+             1     7.00  1.20   13.45    1.24    0.00
+             2     7.00  1.20    4.35    0.21    0.00
+             3     7.00  1.20    8.06    0.38    0.00
+             4     7.00  1.10    7.04    0.41    0.00
+             5     7.00  0.70    7.14    0.42    0.00
+             6     7.00  0.30    7.45    0.44    0.00
+             7     7.00  0.30    7.50    0.44    0.00
+          ------------------------------------------------
+           Totals               54.99    3.55    0.00
+          ------------------------------------------------
+     
+     
+     
+     
+     
+     
+                  Initial Soil Organic Matter Status
+          ---------------------------------------------------------
+           Layer      Hum-C   Hum-N  Biom-C  Biom-N   FOM-C   FOM-N
+                    (kg/ha) (kg/ha) (kg/ha) (kg/ha) (kg/ha) (kg/ha)
+          ---------------------------------------------------------
+             1      24405.9  1952.5   434.1    54.3    27.8     0.7
+             2      24645.2  1971.6   194.8    24.4    21.6     0.5
+             3      45988.8  3679.1    91.2    11.4    13.1     0.3
+             4      45494.9  3639.6    45.1     5.6     8.0     0.2
+             5      29385.4  2350.8    14.6     1.8     4.8     0.1
+             6      13133.5  1050.7     6.5     0.8     2.9     0.1
+             7      13223.5  1057.9     6.5     0.8     1.8     0.0
+          ---------------------------------------------------------
+           Totals  196277.1 15702.2   792.9    99.1    80.0     2.0
+          ---------------------------------------------------------
+
+------- broccoli Initialisation -----------------------------------------------
+     phenology model: Generic
+
+------- final Initialisation --------------------------------------------------
+     Output frequency:
+        broccoli.harvesting
+     Output variables:
+        broccoli.sowing_date
+        dd/mm/yyyy
+        broccoli.floral_initiation_das
+        broccoli.maturity_das
+        broccoli.green_biomass_wt
+        broccoli.pod_wt
+        broccoli.leaf_area_max
+        broccoli.stage
+        broccoli.cumvd
+        broccoli.tt_tot()
+        broccoli.swdef_photo
+        broccoli.nfact_photo
+        broccoli.temp_stress_photo
+        Irrigation.irrigation
+        broccoli.dlt_leaf_no
+        broccoli.dlt_node_no
+        broccoli.final_leaf_no
+        broccoli.emergence_das
+        broccoli.node_no_sen
+        broccoli.node_no_fx
+        sw_dep()
+
+     Output file = GreenBelt1997 Planting7 final.out
+     Format = normal
+
+------- outputfile Initialisation ---------------------------------------------
+     Output frequency:
+        post
+     Output variables:
+        dd/mm/yyyy as Date
+        broccoli.das
+        broccoli.biomass_wt
+        broccoli.node_no
+        broccoli.lai
+        ep
+        eo
+        broccoli.floral_initiation_das
+        broccoli.maturity_das
+        broccoli.stage
+        broccoli.cumvd
+        broccoli.tt_tot()
+        broccoli.swdef_photo
+        broccoli.nfact_photo
+        broccoli.temp_stress_photo
+        Irrigation.irrigation
+        broccoli.dlt_leaf_no
+        broccoli.dlt_node_no
+        broccoli.final_leaf_no
+        broccoli.emergence_das
+        broccoli.node_no_sen
+        broccoli.node_no_fx
+        sw_dep()
+        broccoli.leaf_wt
+        broccoli.stem_wt
+        sw
+
+     Output file = GreenBelt1997 Planting7.out
+     Format = normal
+
+------- accum Initialisation --------------------------------------------------
+     Initialising
+
+------- fertiliser Initialisation ---------------------------------------------
+      Initialising
+     
+        - Reading Parameters
+     
+     
+     
+                    Fertiliser Schedule (kg/ha)
+          -----------------------------------------------
+           No fertiliser schedule is used
+          -----------------------------------------------
+
+------- Irrigation Initialisation ---------------------------------------------
+      Initialising
+     
+        - Reading Parameters
+     
+     
+     
+                      Irrigation parameters
+          -----------------------------------------------
+           Irrigation Schedule (Disabled)
+           Automatic Irrigation Application (Enabled)
+           critical fraction of available soil water =  0.50
+           depth for calculating available soil water =     600.00
+           Irrigation Allocation Budget (Disabled)
+          -----------------------------------------------
+
+------- Manager Initialisation ------------------------------------------------
+     Manager rules:
+     
+     SECTION:- broccoli.sowing
+         fertiliser apply amount = 300 (kg/ha), depth = 50 (mm), type = no3_n
+     
+     SECTION:- start_of_day
+       if (today = date('12-may') then
+                     broccoli sow plants =6, sowing_depth = 50, cultivar = greenbelt, row_spacing = 600
+         endif
+     
+     SECTION:- broccoli.sowing
+          if (50 > 0) then
+             'irrigation' apply amount = 50 (mm)
+          endif
+     
+     SECTION:- start_of_day
+         if (broccoli.stage_name = 'maturity') then
+                     broccoli harvest
+                     broccoli end_crop
+         endif
+     END of rules
+     
+
+------- Soil Water Initialisation ---------------------------------------------
+     
+         - Reading constants
+     
+        - Reading Soil Property Parameters
+     
+        - Reading Soil Profile Parameters
+     Initial soilwater distributed using "sw" parameter.
+     
+     
+     
+                      Soil Profile Properties
+        ---------------------------------------------------------------------
+              Depth  Air_Dry  LL15   Dul    Sat     Sw     BD   Runoff  SWCON
+                mm     mm/mm  mm/mm  mm/mm  mm/mm  mm/mm  g/cc    wf
+        ---------------------------------------------------------------------
+            0.-  150.  0.100  0.200  0.380  0.450  0.190  1.380  0.762  0.300
+          150.-  300.  0.189  0.210  0.380  0.450  0.210  1.380  0.190  0.300
+          300.-  600.  0.200  0.200  0.440  0.490  0.200  1.280  0.048  0.300
+          600.-  900.  0.190  0.190  0.400  0.450  0.190  1.380  0.000  0.300
+          900.- 1200.  0.150  0.150  0.390  0.440  0.150  1.400  0.000  0.300
+         1200.- 1500.  0.320  0.320  0.370  0.420  0.320  1.460  0.000  0.300
+         1500.- 1800.  0.329  0.335  0.340  0.420  0.340  1.470  0.000  0.300
+        ---------------------------------------------------------------------
+     
+     
+     
+                  Soil Water Holding Capacity
+          ---------------------------------------------------------
+              Depth    Unavailable Available  Max Avail.  Drainable
+                          (LL15)   (SW-LL15)  (DUL-LL15)  (SAT-DUL)
+                            mm        mm          mm         mm
+          ---------------------------------------------------------
+            0.-  150.      30.00       0.00      27.00      10.50
+          150.-  300.      31.50       0.00      25.50      10.50
+          300.-  600.      60.00       0.00      72.00      15.00
+          600.-  900.      57.00       0.00      63.00      15.00
+          900.- 1200.      45.00       0.00      72.00      15.00
+         1200.- 1500.      96.00       0.00      15.00      15.00
+         1500.- 1800.     100.50       1.50       1.50      24.00
+          ---------------------------------------------------------
+               Totals     420.00       1.50     276.00     105.00
+          ---------------------------------------------------------
+     
+     
+     
+     
+     
+     
+                  Initial Soil Parameters
+          ---------------------------------------------------------
+                 Insoil        Salb     Dif_Con   Dif_Slope
+          ---------------------------------------------------------
+                   0.00        0.13       40.00       16.00
+          ---------------------------------------------------------
+     
+     
+     
+                  Runoff is predicted using scs curve number:
+                Cn2  Cn_Red  Cn_Cov   H_Eff_Depth
+                                           mm
+          ---------------------------------------------------------
+              73.00   20.00    0.80  450.00
+          ---------------------------------------------------------
+     
+     
+     
+           Using Ritchie evaporation model
+            Cuml evap (U):            6.00 (mm^0.5)
+            CONA:                     3.50 ()
+            Eo from priestly-taylor
+
+------- surface organic matter Initialisation ---------------------------------
+     
+         - Reading constants
+     
+         - Reading parameters
+     
+     
+     
+                         Initial Surface Organic Matter Data
+         ----------------------------------------------------------------------
+            Name   Type        Dry matter   C        N        P    Cover  Standing_fr
+                                (kg/ha)  (kg/ha)  (kg/ha)  (kg/ha) (0-1)     (0-1)
+         ----------------------------------------------------------------------
+          wheat     wheat         1000.0   400.0     5.0     0.0   0.393     0.0
+         ----------------------------------------------------------------------
+     
+                      Effective Cover from Surface Materials =   1.0
+     
+
+------- Soil Nitrogen Initialisation ------------------------------------------
+     
+        - Reading Parameters
+     
+        - Reading Constants
+     Using standard soil mineralisation for soil type Prarie
+     
+     
+     
+           TAV and AMP supplied externally
+     
+     
+     
+                      Soil Profile Properties
+          ------------------------------------------------
+           Layer    pH    OC     NO3     NH4    Urea
+                         (%) (kg/ha) (kg/ha) (kg/ha)
+          ------------------------------------------------
+             1     7.00  1.20   13.45    1.24    0.00
+             2     7.00  1.20    4.35    0.21    0.00
+             3     7.00  1.20    8.06    0.38    0.00
+             4     7.00  1.10    7.04    0.41    0.00
+             5     7.00  0.70    7.14    0.42    0.00
+             6     7.00  0.30    7.45    0.44    0.00
+             7     7.00  0.30    7.50    0.44    0.00
+          ------------------------------------------------
+           Totals               54.99    3.55    0.00
+          ------------------------------------------------
+     
+     
+     
+     
+     
+     
+                  Initial Soil Organic Matter Status
+          ---------------------------------------------------------
+           Layer      Hum-C   Hum-N  Biom-C  Biom-N   FOM-C   FOM-N
+                    (kg/ha) (kg/ha) (kg/ha) (kg/ha) (kg/ha) (kg/ha)
+          ---------------------------------------------------------
+             1      24405.9  1952.5   434.1    54.3    27.8     0.7
+             2      24645.2  1971.6   194.8    24.4    21.6     0.5
+             3      45988.8  3679.1    91.2    11.4    13.1     0.3
+             4      45494.9  3639.6    45.1     5.6     8.0     0.2
+             5      29385.4  2350.8    14.6     1.8     4.8     0.1
+             6      13133.5  1050.7     6.5     0.8     2.9     0.1
+             7      13223.5  1057.9     6.5     0.8     1.8     0.0
+          ---------------------------------------------------------
+           Totals  196277.1 15702.2   792.9    99.1    80.0     2.0
+          ---------------------------------------------------------
+
+------- broccoli Initialisation -----------------------------------------------
+     phenology model: Generic
+
+------- final Initialisation --------------------------------------------------
+     Output frequency:
+        broccoli.harvesting
+     Output variables:
+        broccoli.sowing_date
+        dd/mm/yyyy
+        broccoli.floral_initiation_das
+        broccoli.maturity_das
+        broccoli.green_biomass_wt
+        broccoli.pod_wt
+        broccoli.leaf_area_max
+        broccoli.stage
+        broccoli.cumvd
+        broccoli.tt_tot()
+        broccoli.swdef_photo
+        broccoli.nfact_photo
+        broccoli.temp_stress_photo
+        Irrigation.irrigation
+        broccoli.dlt_leaf_no
+        broccoli.dlt_node_no
+        broccoli.final_leaf_no
+        broccoli.emergence_das
+        broccoli.node_no_sen
+        broccoli.node_no_fx
+        sw_dep()
+
+     Output file = GreenBelt1997 Planting8 final.out
+     Format = normal
+
+------- outputfile Initialisation ---------------------------------------------
+     Output frequency:
+        post
+     Output variables:
+        dd/mm/yyyy as Date
+        broccoli.das
+        broccoli.biomass_wt
+        broccoli.node_no
+        broccoli.lai
+        ep
+        eo
+        broccoli.floral_initiation_das
+        broccoli.maturity_das
+        broccoli.stage
+        broccoli.cumvd
+        broccoli.tt_tot()
+        broccoli.swdef_photo
+        broccoli.nfact_photo
+        broccoli.temp_stress_photo
+        Irrigation.irrigation
+        broccoli.dlt_leaf_no
+        broccoli.dlt_node_no
+        broccoli.final_leaf_no
+        broccoli.emergence_das
+        broccoli.node_no_sen
+        broccoli.node_no_fx
+        sw_dep()
+        broccoli.leaf_wt
+        broccoli.stem_wt
+        sw
+
+     Output file = GreenBelt1997 Planting8.out
+     Format = normal
+
+------- accum Initialisation --------------------------------------------------
+     Initialising
+
+------- fertiliser Initialisation ---------------------------------------------
+      Initialising
+     
+        - Reading Parameters
+     
+     
+     
+                    Fertiliser Schedule (kg/ha)
+          -----------------------------------------------
+           No fertiliser schedule is used
+          -----------------------------------------------
+
+------- Irrigation Initialisation ---------------------------------------------
+      Initialising
+     
+        - Reading Parameters
+     
+     
+     
+                      Irrigation parameters
+          -----------------------------------------------
+           Irrigation Schedule (Disabled)
+           Automatic Irrigation Application (Enabled)
+           critical fraction of available soil water =  0.50
+           depth for calculating available soil water =     600.00
+           Irrigation Allocation Budget (Disabled)
+          -----------------------------------------------
+
+------- Manager Initialisation ------------------------------------------------
+     Manager rules:
+     
+     SECTION:- broccoli.sowing
+         fertiliser apply amount = 300 (kg/ha), depth = 50 (mm), type = no3_n
+     
+     SECTION:- start_of_day
+       if (today = date('22-may') then
+                     broccoli sow plants =6, sowing_depth = 50, cultivar = greenbelt, row_spacing = 600
+         endif
+     
+     SECTION:- broccoli.sowing
+          if (50 > 0) then
+             'irrigation' apply amount = 50 (mm)
+          endif
+     
+     SECTION:- start_of_day
+         if (broccoli.stage_name = 'maturity') then
+                     broccoli harvest
+                     broccoli end_crop
+         endif
+     END of rules
+     
+
+------- Soil Water Initialisation ---------------------------------------------
+     
+         - Reading constants
+     
+        - Reading Soil Property Parameters
+     
+        - Reading Soil Profile Parameters
+     Initial soilwater distributed using "sw" parameter.
+     
+     
+     
+                      Soil Profile Properties
+        ---------------------------------------------------------------------
+              Depth  Air_Dry  LL15   Dul    Sat     Sw     BD   Runoff  SWCON
+                mm     mm/mm  mm/mm  mm/mm  mm/mm  mm/mm  g/cc    wf
+        ---------------------------------------------------------------------
+            0.-  150.  0.100  0.200  0.380  0.450  0.190  1.380  0.762  0.300
+          150.-  300.  0.189  0.210  0.380  0.450  0.210  1.380  0.190  0.300
+          300.-  600.  0.200  0.200  0.440  0.490  0.200  1.280  0.048  0.300
+          600.-  900.  0.190  0.190  0.400  0.450  0.190  1.380  0.000  0.300
+          900.- 1200.  0.150  0.150  0.390  0.440  0.150  1.400  0.000  0.300
+         1200.- 1500.  0.320  0.320  0.370  0.420  0.320  1.460  0.000  0.300
+         1500.- 1800.  0.329  0.335  0.340  0.420  0.340  1.470  0.000  0.300
+        ---------------------------------------------------------------------
+     
+     
+     
+                  Soil Water Holding Capacity
+          ---------------------------------------------------------
+              Depth    Unavailable Available  Max Avail.  Drainable
+                          (LL15)   (SW-LL15)  (DUL-LL15)  (SAT-DUL)
+                            mm        mm          mm         mm
+          ---------------------------------------------------------
+            0.-  150.      30.00       0.00      27.00      10.50
+          150.-  300.      31.50       0.00      25.50      10.50
+          300.-  600.      60.00       0.00      72.00      15.00
+          600.-  900.      57.00       0.00      63.00      15.00
+          900.- 1200.      45.00       0.00      72.00      15.00
+         1200.- 1500.      96.00       0.00      15.00      15.00
+         1500.- 1800.     100.50       1.50       1.50      24.00
+          ---------------------------------------------------------
+               Totals     420.00       1.50     276.00     105.00
+          ---------------------------------------------------------
+     
+     
+     
+     
+     
+     
+                  Initial Soil Parameters
+          ---------------------------------------------------------
+                 Insoil        Salb     Dif_Con   Dif_Slope
+          ---------------------------------------------------------
+                   0.00        0.13       40.00       16.00
+          ---------------------------------------------------------
+     
+     
+     
+                  Runoff is predicted using scs curve number:
+                Cn2  Cn_Red  Cn_Cov   H_Eff_Depth
+                                           mm
+          ---------------------------------------------------------
+              73.00   20.00    0.80  450.00
+          ---------------------------------------------------------
+     
+     
+     
+           Using Ritchie evaporation model
+            Cuml evap (U):            6.00 (mm^0.5)
+            CONA:                     3.50 ()
+            Eo from priestly-taylor
+
+------- surface organic matter Initialisation ---------------------------------
+     
+         - Reading constants
+     
+         - Reading parameters
+     
+     
+     
+                         Initial Surface Organic Matter Data
+         ----------------------------------------------------------------------
+            Name   Type        Dry matter   C        N        P    Cover  Standing_fr
+                                (kg/ha)  (kg/ha)  (kg/ha)  (kg/ha) (0-1)     (0-1)
+         ----------------------------------------------------------------------
+          wheat     wheat         1000.0   400.0     5.0     0.0   0.393     0.0
+         ----------------------------------------------------------------------
+     
+                      Effective Cover from Surface Materials =   1.0
+     
+
+------- Soil Nitrogen Initialisation ------------------------------------------
+     
+        - Reading Parameters
+     
+        - Reading Constants
+     Using standard soil mineralisation for soil type Prarie
+     
+     
+     
+           TAV and AMP supplied externally
+     
+     
+     
+                      Soil Profile Properties
+          ------------------------------------------------
+           Layer    pH    OC     NO3     NH4    Urea
+                         (%) (kg/ha) (kg/ha) (kg/ha)
+          ------------------------------------------------
+             1     7.00  1.20   13.45    1.24    0.00
+             2     7.00  1.20    4.35    0.21    0.00
+             3     7.00  1.20    8.06    0.38    0.00
+             4     7.00  1.10    7.04    0.41    0.00
+             5     7.00  0.70    7.14    0.42    0.00
+             6     7.00  0.30    7.45    0.44    0.00
+             7     7.00  0.30    7.50    0.44    0.00
+          ------------------------------------------------
+           Totals               54.99    3.55    0.00
+          ------------------------------------------------
+     
+     
+     
+     
+     
+     
+                  Initial Soil Organic Matter Status
+          ---------------------------------------------------------
+           Layer      Hum-C   Hum-N  Biom-C  Biom-N   FOM-C   FOM-N
+                    (kg/ha) (kg/ha) (kg/ha) (kg/ha) (kg/ha) (kg/ha)
+          ---------------------------------------------------------
+             1      24405.9  1952.5   434.1    54.3    27.8     0.7
+             2      24645.2  1971.6   194.8    24.4    21.6     0.5
+             3      45988.8  3679.1    91.2    11.4    13.1     0.3
+             4      45494.9  3639.6    45.1     5.6     8.0     0.2
+             5      29385.4  2350.8    14.6     1.8     4.8     0.1
+             6      13133.5  1050.7     6.5     0.8     2.9     0.1
+             7      13223.5  1057.9     6.5     0.8     1.8     0.0
+          ---------------------------------------------------------
+           Totals  196277.1 15702.2   792.9    99.1    80.0     2.0
+          ---------------------------------------------------------
+
+------- broccoli Initialisation -----------------------------------------------
+     phenology model: Generic
+------- Start of simulation  --------------------------------------------------
+11 March 1997(Day of year=70), Manager: 
+     Manager sending message :- broccoli sow  plants = 6, sowing_depth = 50, cultivar = greenbelt, row_spacing = 600
+11 March 1997(Day of year=70), broccoli: 
+     Crop Sow
+         ------------------------------------------------
+        cultivar                   = greenbelt
+     out
+     
+     sowing
+     
+     germination
+     shoot_lag =          0 (dd)
+     shoot_rate =          2 (dd/mm)
+     
+     emergence
+        cumvd_emergence            =       0      25 (vd)
+        tt_emergence               =     350       1 (dd)
+     
+     end_of_juvenile
+        tt_end_of_juvenile =        180 (dd)
+     floral_initiation
+        Stage duration determined by leaf appearance rates
+     buttoning
+        tt_buttoning =        150 (dd)
+     maturity
+        tt_maturity =          5 (dd)
+     
+         ------------------------------------------------
+     
+     
+                        Root Profile
+         -----------------------------------------------
+          Layer       Kl           Lower    Exploration
+          Depth     Factor         Limit      Factor
+          (mm)         ()        (mm/mm)       (0-1)
+         -----------------------------------------------
+         150.0     0.060          0.200       1.000
+         150.0     0.060          0.210       1.000
+         300.0     0.060          0.200       1.000
+         300.0     0.060          0.190       1.000
+         300.0     0.000          0.150       0.000
+         300.0     0.000          0.320       0.000
+         300.0     0.000          0.340       0.000
+         -----------------------------------------------
+         Extractable SW:   274mm in  1800mm total depth ( 15%).
+         Crop factor for bounding water use is set to   1.5 times eo.
+     Manager sending message :- fertiliser apply  amount = 300 (kg/ha), depth = 50 (mm), type = no3_n
+11 March 1997(Day of year=70), fertiliser: 
+     
+        - Reading Fertiliser Type Parameters
+       300.00 of N as nitrate (no3_n)
+                                              added at depth   50.00 (layer   1)
+     Manager sending message :- irrigation apply  amount = 50 (mm)
+     
+                      Crop Sowing Data
+         ------------------------------------------------
+         Sowing  Depth Plants Spacing Skip  Skip  Cultivar
+         Day no   mm     m^2     mm   row   plant name
+         ------------------------------------------------
+             70   50.0    6.0  600.0   0.0   0.0 greenbelt
+         ------------------------------------------------
+     
+12 March 1997(Day of year=71), broccoli: 
+      stage 2.0 germination
+18 March 1997(Day of year=77), broccoli: 
+      stage 3.0 emergence
+                     biomass =           0.18 (g/m^2)   lai          =   0.000 (m^2/m^2)
+                     stover N conc =     6.50 (%)    extractable sw =   19.84 (mm)
+20 March 1997(Day of year=79), Manager: 
+     Manager sending message :- broccoli sow  plants = 6, sowing_depth = 50, cultivar = greenbelt, row_spacing = 600
+20 March 1997(Day of year=79), broccoli: 
+     Crop Sow
+         ------------------------------------------------
+        cultivar                   = greenbelt
+     out
+     
+     sowing
+     
+     germination
+     shoot_lag =          0 (dd)
+     shoot_rate =          2 (dd/mm)
+     
+     emergence
+        cumvd_emergence            =       0      25 (vd)
+        tt_emergence               =     350       1 (dd)
+     
+     end_of_juvenile
+        tt_end_of_juvenile =        180 (dd)
+     floral_initiation
+        Stage duration determined by leaf appearance rates
+     buttoning
+        tt_buttoning =        150 (dd)
+     maturity
+        tt_maturity =          5 (dd)
+     
+         ------------------------------------------------
+     
+     
+                        Root Profile
+         -----------------------------------------------
+          Layer       Kl           Lower    Exploration
+          Depth     Factor         Limit      Factor
+          (mm)         ()        (mm/mm)       (0-1)
+         -----------------------------------------------
+         150.0     0.060          0.200       1.000
+         150.0     0.060          0.210       1.000
+         300.0     0.060          0.200       1.000
+         300.0     0.060          0.190       1.000
+         300.0     0.000          0.150       0.000
+         300.0     0.000          0.320       0.000
+         300.0     0.000          0.340       0.000
+         -----------------------------------------------
+         Extractable SW:   274mm in  1800mm total depth ( 15%).
+         Crop factor for bounding water use is set to   1.5 times eo.
+     Manager sending message :- fertiliser apply  amount = 300 (kg/ha), depth = 50 (mm), type = no3_n
+20 March 1997(Day of year=79), fertiliser: 
+     
+        - Reading Fertiliser Type Parameters
+       300.00 of N as nitrate (no3_n)
+                                              added at depth   50.00 (layer   1)
+     Manager sending message :- irrigation apply  amount = 50 (mm)
+     
+                      Crop Sowing Data
+         ------------------------------------------------
+         Sowing  Depth Plants Spacing Skip  Skip  Cultivar
+         Day no   mm     m^2     mm   row   plant name
+         ------------------------------------------------
+             79   50.0    6.0  600.0   0.0   0.0 greenbelt
+         ------------------------------------------------
+     
+21 March 1997(Day of year=80), broccoli: 
+      stage 2.0 germination
+27 March 1997(Day of year=86), broccoli: 
+      stage 3.0 emergence
+                     biomass =           0.18 (g/m^2)   lai          =   0.000 (m^2/m^2)
+                     stover N conc =     6.50 (%)    extractable sw =   20.12 (mm)
+1 April 1997(Day of year=91), Manager: 
+     Manager sending message :- broccoli sow  plants = 6, sowing_depth = 50, cultivar = greenbelt, row_spacing = 600
+1 April 1997(Day of year=91), broccoli: 
+     Crop Sow
+         ------------------------------------------------
+        cultivar                   = greenbelt
+     out
+     
+     sowing
+     
+     germination
+     shoot_lag =          0 (dd)
+     shoot_rate =          2 (dd/mm)
+     
+     emergence
+        cumvd_emergence            =       0      25 (vd)
+        tt_emergence               =     350       1 (dd)
+     
+     end_of_juvenile
+        tt_end_of_juvenile =        180 (dd)
+     floral_initiation
+        Stage duration determined by leaf appearance rates
+     buttoning
+        tt_buttoning =        150 (dd)
+     maturity
+        tt_maturity =          5 (dd)
+     
+         ------------------------------------------------
+     
+     
+                        Root Profile
+         -----------------------------------------------
+          Layer       Kl           Lower    Exploration
+          Depth     Factor         Limit      Factor
+          (mm)         ()        (mm/mm)       (0-1)
+         -----------------------------------------------
+         150.0     0.060          0.200       1.000
+         150.0     0.060          0.210       1.000
+         300.0     0.060          0.200       1.000
+         300.0     0.060          0.190       1.000
+         300.0     0.000          0.150       0.000
+         300.0     0.000          0.320       0.000
+         300.0     0.000          0.340       0.000
+         -----------------------------------------------
+         Extractable SW:   274mm in  1800mm total depth ( 15%).
+         Crop factor for bounding water use is set to   1.5 times eo.
+     Manager sending message :- fertiliser apply  amount = 300 (kg/ha), depth = 50 (mm), type = no3_n
+1 April 1997(Day of year=91), fertiliser: 
+     
+        - Reading Fertiliser Type Parameters
+       300.00 of N as nitrate (no3_n)
+                                              added at depth   50.00 (layer   1)
+     Manager sending message :- irrigation apply  amount = 50 (mm)
+     
+                      Crop Sowing Data
+         ------------------------------------------------
+         Sowing  Depth Plants Spacing Skip  Skip  Cultivar
+         Day no   mm     m^2     mm   row   plant name
+         ------------------------------------------------
+             91   50.0    6.0  600.0   0.0   0.0 greenbelt
+         ------------------------------------------------
+     
+2 April 1997(Day of year=92), broccoli: 
+      stage 2.0 germination
+8 April 1997(Day of year=98), broccoli: 
+      stage 3.0 emergence
+                     biomass =           0.18 (g/m^2)   lai          =   0.000 (m^2/m^2)
+                     stover N conc =     6.50 (%)    extractable sw =   19.93 (mm)
+9 April 1997(Day of year=99), broccoli: 
+      stage 4.0 end_of_juvenile
+                     biomass =          10.20 (g/m^2)   lai          =   0.223 (m^2/m^2)
+                     stover N conc =     5.41 (%)    extractable sw =  131.95 (mm)
+10 April 1997(Day of year=100), Manager: 
+     Manager sending message :- broccoli sow  plants = 6, sowing_depth = 50, cultivar = greenbelt, row_spacing = 600
+10 April 1997(Day of year=100), broccoli: 
+     Crop Sow
+         ------------------------------------------------
+        cultivar                   = greenbelt
+     out
+     
+     sowing
+     
+     germination
+     shoot_lag =          0 (dd)
+     shoot_rate =          2 (dd/mm)
+     
+     emergence
+        cumvd_emergence            =       0      25 (vd)
+        tt_emergence               =     350       1 (dd)
+     
+     end_of_juvenile
+        tt_end_of_juvenile =        180 (dd)
+     floral_initiation
+        Stage duration determined by leaf appearance rates
+     buttoning
+        tt_buttoning =        150 (dd)
+     maturity
+        tt_maturity =          5 (dd)
+     
+         ------------------------------------------------
+     
+     
+                        Root Profile
+         -----------------------------------------------
+          Layer       Kl           Lower    Exploration
+          Depth     Factor         Limit      Factor
+          (mm)         ()        (mm/mm)       (0-1)
+         -----------------------------------------------
+         150.0     0.060          0.200       1.000
+         150.0     0.060          0.210       1.000
+         300.0     0.060          0.200       1.000
+         300.0     0.060          0.190       1.000
+         300.0     0.000          0.150       0.000
+         300.0     0.000          0.320       0.000
+         300.0     0.000          0.340       0.000
+         -----------------------------------------------
+         Extractable SW:   274mm in  1800mm total depth ( 15%).
+         Crop factor for bounding water use is set to   1.5 times eo.
+     Manager sending message :- fertiliser apply  amount = 300 (kg/ha), depth = 50 (mm), type = no3_n
+10 April 1997(Day of year=100), fertiliser: 
+     
+        - Reading Fertiliser Type Parameters
+       300.00 of N as nitrate (no3_n)
+                                              added at depth   50.00 (layer   1)
+     Manager sending message :- irrigation apply  amount = 50 (mm)
+     
+                      Crop Sowing Data
+         ------------------------------------------------
+         Sowing  Depth Plants Spacing Skip  Skip  Cultivar
+         Day no   mm     m^2     mm   row   plant name
+         ------------------------------------------------
+            100   50.0    6.0  600.0   0.0   0.0 greenbelt
+         ------------------------------------------------
+     
+11 April 1997(Day of year=101), broccoli: 
+      stage 2.0 germination
+17 April 1997(Day of year=107), broccoli: 
+      stage 3.0 emergence
+                     biomass =           0.18 (g/m^2)   lai          =   0.000 (m^2/m^2)
+                     stover N conc =     6.50 (%)    extractable sw =   19.90 (mm)
+18 April 1997(Day of year=108), broccoli: 
+      stage 4.0 end_of_juvenile
+                     biomass =          12.09 (g/m^2)   lai          =   0.263 (m^2/m^2)
+                     stover N conc =     5.43 (%)    extractable sw =  126.64 (mm)
+21 April 1997(Day of year=111), Manager: 
+     Manager sending message :- broccoli sow  plants = 6, sowing_depth = 50, cultivar = greenbelt, row_spacing = 600
+21 April 1997(Day of year=111), broccoli: 
+     Crop Sow
+         ------------------------------------------------
+        cultivar                   = greenbelt
+     out
+     
+     sowing
+     
+     germination
+     shoot_lag =          0 (dd)
+     shoot_rate =          2 (dd/mm)
+     
+     emergence
+        cumvd_emergence            =       0      25 (vd)
+        tt_emergence               =     350       1 (dd)
+     
+     end_of_juvenile
+        tt_end_of_juvenile =        180 (dd)
+     floral_initiation
+        Stage duration determined by leaf appearance rates
+     buttoning
+        tt_buttoning =        150 (dd)
+     maturity
+        tt_maturity =          5 (dd)
+     
+         ------------------------------------------------
+     
+     
+                        Root Profile
+         -----------------------------------------------
+          Layer       Kl           Lower    Exploration
+          Depth     Factor         Limit      Factor
+          (mm)         ()        (mm/mm)       (0-1)
+         -----------------------------------------------
+         150.0     0.060          0.200       1.000
+         150.0     0.060          0.210       1.000
+         300.0     0.060          0.200       1.000
+         300.0     0.060          0.190       1.000
+         300.0     0.000          0.150       0.000
+         300.0     0.000          0.320       0.000
+         300.0     0.000          0.340       0.000
+         -----------------------------------------------
+         Extractable SW:   274mm in  1800mm total depth ( 15%).
+         Crop factor for bounding water use is set to   1.5 times eo.
+     Manager sending message :- fertiliser apply  amount = 300 (kg/ha), depth = 50 (mm), type = no3_n
+21 April 1997(Day of year=111), fertiliser: 
+     
+        - Reading Fertiliser Type Parameters
+       300.00 of N as nitrate (no3_n)
+                                              added at depth   50.00 (layer   1)
+     Manager sending message :- irrigation apply  amount = 50 (mm)
+     
+                      Crop Sowing Data
+         ------------------------------------------------
+         Sowing  Depth Plants Spacing Skip  Skip  Cultivar
+         Day no   mm     m^2     mm   row   plant name
+         ------------------------------------------------
+            111   50.0    6.0  600.0   0.0   0.0 greenbelt
+         ------------------------------------------------
+     
+21 April 1997(Day of year=111), broccoli: 
+      stage 5.0 floral_initiation
+                     biomass =          84.65 (g/m^2)   lai          =   0.839 (m^2/m^2)
+                     stover N conc =     5.11 (%)    extractable sw =  123.39 (mm)
+22 April 1997(Day of year=112), broccoli: 
+      stage 2.0 germination
+29 April 1997(Day of year=119), broccoli: 
+      stage 3.0 emergence
+                     biomass =           0.18 (g/m^2)   lai          =   0.000 (m^2/m^2)
+                     stover N conc =     6.50 (%)    extractable sw =   19.30 (mm)
+1 May 1997(Day of year=121), Manager: 
+     Manager sending message :- broccoli sow  plants = 6, sowing_depth = 50, cultivar = greenbelt, row_spacing = 600
+1 May 1997(Day of year=121), broccoli: 
+     Crop Sow
+         ------------------------------------------------
+        cultivar                   = greenbelt
+     out
+     
+     sowing
+     
+     germination
+     shoot_lag =          0 (dd)
+     shoot_rate =          2 (dd/mm)
+     
+     emergence
+        cumvd_emergence            =       0      25 (vd)
+        tt_emergence               =     350       1 (dd)
+     
+     end_of_juvenile
+        tt_end_of_juvenile =        180 (dd)
+     floral_initiation
+        Stage duration determined by leaf appearance rates
+     buttoning
+        tt_buttoning =        150 (dd)
+     maturity
+        tt_maturity =          5 (dd)
+     
+         ------------------------------------------------
+     
+     
+                        Root Profile
+         -----------------------------------------------
+          Layer       Kl           Lower    Exploration
+          Depth     Factor         Limit      Factor
+          (mm)         ()        (mm/mm)       (0-1)
+         -----------------------------------------------
+         150.0     0.060          0.200       1.000
+         150.0     0.060          0.210       1.000
+         300.0     0.060          0.200       1.000
+         300.0     0.060          0.190       1.000
+         300.0     0.000          0.150       0.000
+         300.0     0.000          0.320       0.000
+         300.0     0.000          0.340       0.000
+         -----------------------------------------------
+         Extractable SW:   274mm in  1800mm total depth ( 15%).
+         Crop factor for bounding water use is set to   1.5 times eo.
+     Manager sending message :- fertiliser apply  amount = 300 (kg/ha), depth = 50 (mm), type = no3_n
+1 May 1997(Day of year=121), fertiliser: 
+     
+        - Reading Fertiliser Type Parameters
+       300.00 of N as nitrate (no3_n)
+                                              added at depth   50.00 (layer   1)
+     Manager sending message :- irrigation apply  amount = 50 (mm)
+     
+                      Crop Sowing Data
+         ------------------------------------------------
+         Sowing  Depth Plants Spacing Skip  Skip  Cultivar
+         Day no   mm     m^2     mm   row   plant name
+         ------------------------------------------------
+            121   50.0    6.0  600.0   0.0   0.0 greenbelt
+         ------------------------------------------------
+     
+1 May 1997(Day of year=121), broccoli: 
+      stage 5.0 floral_initiation
+                     biomass =          95.65 (g/m^2)   lai          =   0.961 (m^2/m^2)
+                     stover N conc =     5.12 (%)    extractable sw =  113.60 (mm)
+1 May 1997(Day of year=121), broccoli: 
+      stage 4.0 end_of_juvenile
+                     biomass =          14.57 (g/m^2)   lai          =   0.304 (m^2/m^2)
+                     stover N conc =     5.42 (%)    extractable sw =  129.83 (mm)
+2 May 1997(Day of year=122), broccoli: 
+      stage 2.0 germination
+8 May 1997(Day of year=128), broccoli: 
+      stage 3.0 emergence
+                     biomass =           0.18 (g/m^2)   lai          =   0.000 (m^2/m^2)
+                     stover N conc =     6.50 (%)    extractable sw =   27.18 (mm)
+10 May 1997(Day of year=130), broccoli: 
+      stage 4.0 end_of_juvenile
+                     biomass =           7.72 (g/m^2)   lai          =   0.180 (m^2/m^2)
+                     stover N conc =     5.35 (%)    extractable sw =  139.78 (mm)
+12 May 1997(Day of year=132), Manager: 
+     Manager sending message :- broccoli sow  plants = 6, sowing_depth = 50, cultivar = greenbelt, row_spacing = 600
+12 May 1997(Day of year=132), broccoli: 
+     Crop Sow
+         ------------------------------------------------
+        cultivar                   = greenbelt
+     out
+     
+     sowing
+     
+     germination
+     shoot_lag =          0 (dd)
+     shoot_rate =          2 (dd/mm)
+     
+     emergence
+        cumvd_emergence            =       0      25 (vd)
+        tt_emergence               =     350       1 (dd)
+     
+     end_of_juvenile
+        tt_end_of_juvenile =        180 (dd)
+     floral_initiation
+        Stage duration determined by leaf appearance rates
+     buttoning
+        tt_buttoning =        150 (dd)
+     maturity
+        tt_maturity =          5 (dd)
+     
+         ------------------------------------------------
+     
+     
+                        Root Profile
+         -----------------------------------------------
+          Layer       Kl           Lower    Exploration
+          Depth     Factor         Limit      Factor
+          (mm)         ()        (mm/mm)       (0-1)
+         -----------------------------------------------
+         150.0     0.060          0.200       1.000
+         150.0     0.060          0.210       1.000
+         300.0     0.060          0.200       1.000
+         300.0     0.060          0.190       1.000
+         300.0     0.000          0.150       0.000
+         300.0     0.000          0.320       0.000
+         300.0     0.000          0.340       0.000
+         -----------------------------------------------
+         Extractable SW:   274mm in  1800mm total depth ( 15%).
+         Crop factor for bounding water use is set to   1.5 times eo.
+     Manager sending message :- fertiliser apply  amount = 300 (kg/ha), depth = 50 (mm), type = no3_n
+12 May 1997(Day of year=132), fertiliser: 
+     
+        - Reading Fertiliser Type Parameters
+       300.00 of N as nitrate (no3_n)
+                                              added at depth   50.00 (layer   1)
+     Manager sending message :- irrigation apply  amount = 50 (mm)
+     
+                      Crop Sowing Data
+         ------------------------------------------------
+         Sowing  Depth Plants Spacing Skip  Skip  Cultivar
+         Day no   mm     m^2     mm   row   plant name
+         ------------------------------------------------
+            132   50.0    6.0  600.0   0.0   0.0 greenbelt
+         ------------------------------------------------
+     
+13 May 1997(Day of year=133), broccoli: 
+      stage 2.0 germination
+14 May 1997(Day of year=134), broccoli: 
+      stage 5.0 floral_initiation
+                     biomass =          93.77 (g/m^2)   lai          =   0.982 (m^2/m^2)
+                     stover N conc =     5.05 (%)    extractable sw =  128.67 (mm)
+20 May 1997(Day of year=140), broccoli: 
+      stage 3.0 emergence
+                     biomass =           0.18 (g/m^2)   lai          =   0.000 (m^2/m^2)
+                     stover N conc =     6.50 (%)    extractable sw =   23.18 (mm)
+22 May 1997(Day of year=142), Manager: 
+     Manager sending message :- broccoli sow  plants = 6, sowing_depth = 50, cultivar = greenbelt, row_spacing = 600
+22 May 1997(Day of year=142), broccoli: 
+     Crop Sow
+         ------------------------------------------------
+        cultivar                   = greenbelt
+     out
+     
+     sowing
+     
+     germination
+     shoot_lag =          0 (dd)
+     shoot_rate =          2 (dd/mm)
+     
+     emergence
+        cumvd_emergence            =       0      25 (vd)
+        tt_emergence               =     350       1 (dd)
+     
+     end_of_juvenile
+        tt_end_of_juvenile =        180 (dd)
+     floral_initiation
+        Stage duration determined by leaf appearance rates
+     buttoning
+        tt_buttoning =        150 (dd)
+     maturity
+        tt_maturity =          5 (dd)
+     
+         ------------------------------------------------
+     
+     
+                        Root Profile
+         -----------------------------------------------
+          Layer       Kl           Lower    Exploration
+          Depth     Factor         Limit      Factor
+          (mm)         ()        (mm/mm)       (0-1)
+         -----------------------------------------------
+         150.0     0.060          0.200       1.000
+         150.0     0.060          0.210       1.000
+         300.0     0.060          0.200       1.000
+         300.0     0.060          0.190       1.000
+         300.0     0.000          0.150       0.000
+         300.0     0.000          0.320       0.000
+         300.0     0.000          0.340       0.000
+         -----------------------------------------------
+         Extractable SW:   274mm in  1800mm total depth ( 15%).
+         Crop factor for bounding water use is set to   1.5 times eo.
+     Manager sending message :- fertiliser apply  amount = 300 (kg/ha), depth = 50 (mm), type = no3_n
+22 May 1997(Day of year=142), fertiliser: 
+     
+        - Reading Fertiliser Type Parameters
+       300.00 of N as nitrate (no3_n)
+                                              added at depth   50.00 (layer   1)
+     Manager sending message :- irrigation apply  amount = 50 (mm)
+     
+                      Crop Sowing Data
+         ------------------------------------------------
+         Sowing  Depth Plants Spacing Skip  Skip  Cultivar
+         Day no   mm     m^2     mm   row   plant name
+         ------------------------------------------------
+            142   50.0    6.0  600.0   0.0   0.0 greenbelt
+         ------------------------------------------------
+     
+22 May 1997(Day of year=142), broccoli: 
+      stage 4.0 end_of_juvenile
+                     biomass =           3.51 (g/m^2)   lai          =   0.081 (m^2/m^2)
+                     stover N conc =     5.44 (%)    extractable sw =  153.59 (mm)
+23 May 1997(Day of year=143), broccoli: 
+      stage 2.0 germination
+24 May 1997(Day of year=144), broccoli: 
+      stage 5.0 floral_initiation
+                     biomass =          55.03 (g/m^2)   lai          =   0.870 (m^2/m^2)
+                     stover N conc =     5.13 (%)    extractable sw =  140.63 (mm)
+28 May 1997(Day of year=148), broccoli: 
+      stage 6.0 buttoning
+                     biomass =         608.75 (g/m^2)   lai          =   4.057 (m^2/m^2)
+                     stover N conc =     3.85 (%)    extractable sw =  135.76 (mm)
+31 May 1997(Day of year=151), broccoli: 
+      stage 3.0 emergence
+                     biomass =           0.18 (g/m^2)   lai          =   0.000 (m^2/m^2)
+                     stover N conc =     6.50 (%)    extractable sw =   18.87 (mm)
+1 June 1997(Day of year=152), broccoli: 
+      stage 4.0 end_of_juvenile
+                     biomass =           4.37 (g/m^2)   lai          =   0.104 (m^2/m^2)
+                     stover N conc =     5.35 (%)    extractable sw =  151.86 (mm)
+6 June 1997(Day of year=157), broccoli: 
+      stage 5.0 floral_initiation
+                     biomass =          47.70 (g/m^2)   lai          =   0.667 (m^2/m^2)
+                     stover N conc =     5.03 (%)    extractable sw =  137.05 (mm)
+7 June 1997(Day of year=158), broccoli: 
+      stage 6.0 buttoning
+                     biomass =         604.15 (g/m^2)   lai          =   3.974 (m^2/m^2)
+                     stover N conc =     3.87 (%)    extractable sw =  128.92 (mm)
+9 June 1997(Day of year=160), broccoli: 
+      stage 7.0 maturity
+                     biomass =         830.58 (g/m^2)   lai          =   4.105 (m^2/m^2)
+                     stover N conc =     3.17 (%)    extractable sw =   93.46 (mm)
+10 June 1997(Day of year=161), Manager: 
+     Manager sending message :- broccoli harvest
+10 June 1997(Day of year=161), broccoli: 
+     
+      flowering day          =    0                           stover (kg/ha)         =     8305.8
+      maturity day           =  160                           grain yield (kg/ha)    =        0.0
+      grain % water content  =    0.0                         grain yield wet (kg/ha)=        0.0
+      grain wt (g)           =    0.000                       grains/m^2             =      0.000
+      grains/plant           =    0.0                         maximum lai            =      4.260
+      total above ground biomass (kg/ha)    =     8305.8
+      live above ground biomass (kg/ha)     =     8305.8
+      green above ground biomass (kg/ha)    =     7297.8
+      senesced above ground biomass (kg/ha) =     1008.0
+      dead above ground biomass (kg/ha)     =        0.0
+      number of leaves       =   23.6
+      DM Root:Shoot ratio    =    0.457                       Harvest Index          =      0.000
+      Stover C:N ratio       =   13.470                       Root C:N ratio         =     41.053
+      grain N percent        =       0.00                     total N content (kg/ha)=     246.65
+      grain N uptake (kg/ha) =       0.00                     senesced N content (kg/ha)=   15.12
+      green N content (kg/ha)=     231.53                     dead N content (kg/ha) =       0.00
+     
+      Average Stress Indices:                          Water Photo  Water Expan  N Photo      N grain conc
+         emergence            to end_of_juvenile         0.000        0.000        0.074        0.310
+         end_of_juvenile      to floral_initiation       0.000        0.000        0.018        0.374
+         floral_initiation    to buttoning               0.000        0.000        0.000        0.075
+     
+     
+     Crop harvested.
+         Organic matter from crop:-      Tops to surface residue      Roots to soil FOM
+                          DM (kg/ha) =               8304.00                    0.00
+                          N  (kg/ha) =                300.11                    0.00
+     
+         Organic matter removed from system:-      From Tops               From Roots
+                          DM (kg/ha) =                  0.00                    0.00
+                          N  (kg/ha) =                  0.00                    0.00
+     
+      stage 4.0 end_of_juvenile
+                     biomass =           0.18 (g/m^2)   lai          =   0.000 (m^2/m^2)
+                     stover N conc =     6.50 (%)    extractable sw =   93.46 (mm)
+     Manager sending message :- broccoli end_crop
+     Crop ended. Yield (dw) =     0.0  (kg/ha)
+         Organic matter from crop:-      Tops to surface residue      Roots to soil FOM
+                          DM (kg/ha) =                  1.80                 3792.06
+                          N  (kg/ha) =                  0.12                   36.95
+     
+13 June 1997(Day of year=164), broccoli: 
+      stage 4.0 end_of_juvenile
+                     biomass =           3.98 (g/m^2)   lai          =   0.096 (m^2/m^2)
+                     stover N conc =     5.56 (%)    extractable sw =  144.20 (mm)
+17 June 1997(Day of year=168), broccoli: 
+      stage 5.0 floral_initiation
+                     biomass =          59.17 (g/m^2)   lai          =   0.747 (m^2/m^2)
+                     stover N conc =     4.99 (%)    extractable sw =  140.75 (mm)
+21 June 1997(Day of year=172), broccoli: 
+      stage 7.0 maturity
+                     biomass =         851.95 (g/m^2)   lai          =   4.058 (m^2/m^2)
+                     stover N conc =     3.10 (%)    extractable sw =   88.90 (mm)
+22 June 1997(Day of year=173), Manager: 
+     Manager sending message :- broccoli harvest
+22 June 1997(Day of year=173), broccoli: 
+     
+      flowering day          =    0                           stover (kg/ha)         =     8519.5
+      maturity day           =  172                           grain yield (kg/ha)    =        0.0
+      grain % water content  =    0.0                         grain yield wet (kg/ha)=        0.0
+      grain wt (g)           =    0.000                       grains/m^2             =      0.000
+      grains/plant           =    0.0                         maximum lai            =      4.314
+      total above ground biomass (kg/ha)    =     8519.5
+      live above ground biomass (kg/ha)     =     8519.5
+      green above ground biomass (kg/ha)    =     7485.6
+      senesced above ground biomass (kg/ha) =     1033.9
+      dead above ground biomass (kg/ha)     =        0.0
+      number of leaves       =   23.4
+      DM Root:Shoot ratio    =    0.439                       Harvest Index          =      0.000
+      Stover C:N ratio       =   13.767                       Root C:N ratio         =     41.281
+      grain N percent        =       0.00                     total N content (kg/ha)=     247.53
+      grain N uptake (kg/ha) =       0.00                     senesced N content (kg/ha)=   15.51
+      green N content (kg/ha)=     232.03                     dead N content (kg/ha) =       0.00
+     
+      Average Stress Indices:                          Water Photo  Water Expan  N Photo      N grain conc
+         emergence            to end_of_juvenile         0.000        0.000        0.113        0.326
+         end_of_juvenile      to floral_initiation       0.000        0.000        0.016        0.362
+         floral_initiation    to buttoning               0.000        0.000        0.000        0.070
+     
+     
+     Crop harvested.
+         Organic matter from crop:-      Tops to surface residue      Roots to soil FOM
+                          DM (kg/ha) =               8517.67                    0.00
+                          N  (kg/ha) =                302.18                    0.00
+     
+         Organic matter removed from system:-      From Tops               From Roots
+                          DM (kg/ha) =                  0.00                    0.00
+                          N  (kg/ha) =                  0.00                    0.00
+     
+      stage 4.0 end_of_juvenile
+                     biomass =           0.18 (g/m^2)   lai          =   0.000 (m^2/m^2)
+                     stover N conc =     6.50 (%)    extractable sw =   88.90 (mm)
+     Manager sending message :- broccoli end_crop
+     Crop ended. Yield (dw) =     0.0  (kg/ha)
+         Organic matter from crop:-      Tops to surface residue      Roots to soil FOM
+                          DM (kg/ha) =                  1.80                 3743.05
+                          N  (kg/ha) =                  0.12                   36.27
+     
+23 June 1997(Day of year=174), broccoli: 
+      stage 6.0 buttoning
+                     biomass =         626.27 (g/m^2)   lai          =   3.871 (m^2/m^2)
+                     stover N conc =     3.85 (%)    extractable sw =  119.37 (mm)
+24 June 1997(Day of year=175), broccoli: 
+      stage 4.0 end_of_juvenile
+                     biomass =           4.11 (g/m^2)   lai          =   0.099 (m^2/m^2)
+                     stover N conc =     5.35 (%)    extractable sw =  141.29 (mm)
+1 July 1997(Day of year=182), broccoli: 
+      stage 5.0 floral_initiation
+                     biomass =          66.07 (g/m^2)   lai          =   0.710 (m^2/m^2)
+                     stover N conc =     5.03 (%)    extractable sw =  130.59 (mm)
+7 July 1997(Day of year=188), broccoli: 
+      stage 6.0 buttoning
+                     biomass =         647.82 (g/m^2)   lai          =   3.821 (m^2/m^2)
+                     stover N conc =     3.84 (%)    extractable sw =   96.23 (mm)
+9 July 1997(Day of year=190), broccoli: 
+      stage 7.0 maturity
+                     biomass =         902.44 (g/m^2)   lai          =   4.008 (m^2/m^2)
+                     stover N conc =     2.96 (%)    extractable sw =   71.69 (mm)
+10 July 1997(Day of year=191), Manager: 
+     Manager sending message :- broccoli harvest
+10 July 1997(Day of year=191), broccoli: 
+     
+      flowering day          =    0                           stover (kg/ha)         =     9024.4
+      maturity day           =  190                           grain yield (kg/ha)    =        0.0
+      grain % water content  =    0.0                         grain yield wet (kg/ha)=        0.0
+      grain wt (g)           =    0.000                       grains/m^2             =      0.000
+      grains/plant           =    0.0                         maximum lai            =      4.262
+      total above ground biomass (kg/ha)    =     9024.4
+      live above ground biomass (kg/ha)     =     9024.4
+      green above ground biomass (kg/ha)    =     7979.9
+      senesced above ground biomass (kg/ha) =     1044.5
+      dead above ground biomass (kg/ha)     =        0.0
+      number of leaves       =   23.4
+      DM Root:Shoot ratio    =    0.421                       Harvest Index          =      0.000
+      Stover C:N ratio       =   14.327                       Root C:N ratio         =     42.233
+      grain N percent        =       0.00                     total N content (kg/ha)=     251.95
+      grain N uptake (kg/ha) =       0.00                     senesced N content (kg/ha)=   15.67
+      green N content (kg/ha)=     236.29                     dead N content (kg/ha) =       0.00
+     
+      Average Stress Indices:                          Water Photo  Water Expan  N Photo      N grain conc
+         emergence            to end_of_juvenile         0.000        0.000        0.117        0.392
+         end_of_juvenile      to floral_initiation       0.000        0.000        0.017        0.358
+         floral_initiation    to buttoning               0.000        0.000        0.000        0.071
+     
+     
+     Crop harvested.
+         Organic matter from crop:-      Tops to surface residue      Roots to soil FOM
+                          DM (kg/ha) =               9022.62                    0.00
+                          N  (kg/ha) =                304.31                    0.00
+     
+         Organic matter removed from system:-      From Tops               From Roots
+                          DM (kg/ha) =                  0.00                    0.00
+                          N  (kg/ha) =                  0.00                    0.00
+     
+      stage 4.0 end_of_juvenile
+                     biomass =           0.18 (g/m^2)   lai          =   0.000 (m^2/m^2)
+                     stover N conc =     6.50 (%)    extractable sw =   71.69 (mm)
+     Manager sending message :- broccoli end_crop
+     Crop ended. Yield (dw) =     0.0  (kg/ha)
+         Organic matter from crop:-      Tops to surface residue      Roots to soil FOM
+                          DM (kg/ha) =                  1.80                 3800.93
+                          N  (kg/ha) =                  0.12                   36.00
+     
+12 July 1997(Day of year=193), broccoli: 
+      stage 5.0 floral_initiation
+                     biomass =          56.03 (g/m^2)   lai          =   0.748 (m^2/m^2)
+                     stover N conc =     5.16 (%)    extractable sw =  126.69 (mm)
+17 July 1997(Day of year=198), broccoli: 
+      stage 6.0 buttoning
+                     biomass =         532.72 (g/m^2)   lai          =   3.341 (m^2/m^2)
+                     stover N conc =     3.84 (%)    extractable sw =  123.03 (mm)
+21 July 1997(Day of year=202), broccoli: 
+      stage 7.0 maturity
+                     biomass =         889.51 (g/m^2)   lai          =   3.866 (m^2/m^2)
+                     stover N conc =     3.04 (%)    extractable sw =  125.22 (mm)
+22 July 1997(Day of year=203), Manager: 
+     Manager sending message :- broccoli harvest
+22 July 1997(Day of year=203), broccoli: 
+     
+      flowering day          =    0                           stover (kg/ha)         =     8895.1
+      maturity day           =  202                           grain yield (kg/ha)    =        0.0
+      grain % water content  =    0.0                         grain yield wet (kg/ha)=        0.0
+      grain wt (g)           =    0.000                       grains/m^2             =      0.000
+      grains/plant           =    0.0                         maximum lai            =      4.052
+      total above ground biomass (kg/ha)    =     8895.1
+      live above ground biomass (kg/ha)     =     8895.1
+      green above ground biomass (kg/ha)    =     7941.8
+      senesced above ground biomass (kg/ha) =      953.3
+      dead above ground biomass (kg/ha)     =        0.0
+      number of leaves       =   23.1
+      DM Root:Shoot ratio    =    0.424                       Harvest Index          =      0.000
+      Stover C:N ratio       =   13.913                       Root C:N ratio         =     41.825
+      grain N percent        =       0.00                     total N content (kg/ha)=     255.74
+      grain N uptake (kg/ha) =       0.00                     senesced N content (kg/ha)=   14.30
+      green N content (kg/ha)=     241.44                     dead N content (kg/ha) =       0.00
+     
+      Average Stress Indices:                          Water Photo  Water Expan  N Photo      N grain conc
+         emergence            to end_of_juvenile         0.000        0.000        0.111        0.397
+         end_of_juvenile      to floral_initiation       0.000        0.000        0.040        0.390
+         floral_initiation    to buttoning               0.000        0.000        0.000        0.091
+     
+     
+     Crop harvested.
+         Organic matter from crop:-      Tops to surface residue      Roots to soil FOM
+                          DM (kg/ha) =               8893.29                    0.00
+                          N  (kg/ha) =                307.24                    0.00
+     
+         Organic matter removed from system:-      From Tops               From Roots
+                          DM (kg/ha) =                  0.00                    0.00
+                          N  (kg/ha) =                  0.00                    0.00
+     
+      stage 4.0 end_of_juvenile
+                     biomass =           0.18 (g/m^2)   lai          =   0.000 (m^2/m^2)
+                     stover N conc =     6.50 (%)    extractable sw =  125.22 (mm)
+     Manager sending message :- broccoli end_crop
+     Crop ended. Yield (dw) =     0.0  (kg/ha)
+         Organic matter from crop:-      Tops to surface residue      Roots to soil FOM
+                          DM (kg/ha) =                  1.80                 3769.61
+                          N  (kg/ha) =                  0.12                   36.05
+     
+28 July 1997(Day of year=209), broccoli: 
+      stage 6.0 buttoning
+                     biomass =         565.71 (g/m^2)   lai          =   3.308 (m^2/m^2)
+                     stover N conc =     3.85 (%)    extractable sw =  114.82 (mm)
+1 August 1997(Day of year=213), broccoli: 
+      stage 7.0 maturity
+                     biomass =         828.30 (g/m^2)   lai          =   3.599 (m^2/m^2)
+                     stover N conc =     3.05 (%)    extractable sw =  129.77 (mm)
+2 August 1997(Day of year=214), Manager: 
+     Manager sending message :- broccoli harvest
+2 August 1997(Day of year=214), broccoli: 
+     
+      flowering day          =    0                           stover (kg/ha)         =     8283.0
+      maturity day           =  213                           grain yield (kg/ha)    =        0.0
+      grain % water content  =    0.0                         grain yield wet (kg/ha)=        0.0
+      grain wt (g)           =    0.000                       grains/m^2             =      0.000
+      grains/plant           =    0.0                         maximum lai            =      3.739
+      total above ground biomass (kg/ha)    =     8283.0
+      live above ground biomass (kg/ha)     =     8283.0
+      green above ground biomass (kg/ha)    =     7531.8
+      senesced above ground biomass (kg/ha) =      751.2
+      dead above ground biomass (kg/ha)     =        0.0
+      number of leaves       =   21.1
+      DM Root:Shoot ratio    =    0.408                       Harvest Index          =      0.000
+      Stover C:N ratio       =   13.737                       Root C:N ratio         =     40.891
+      grain N percent        =       0.00                     total N content (kg/ha)=     241.18
+      grain N uptake (kg/ha) =       0.00                     senesced N content (kg/ha)=   11.27
+      green N content (kg/ha)=     229.92                     dead N content (kg/ha) =       0.00
+     
+      Average Stress Indices:                          Water Photo  Water Expan  N Photo      N grain conc
+         emergence            to end_of_juvenile         0.000        0.000        0.065        0.355
+         end_of_juvenile      to floral_initiation       0.000        0.000        0.012        0.410
+         floral_initiation    to buttoning               0.000        0.000        0.000        0.102
+     
+     
+     Crop harvested.
+         Organic matter from crop:-      Tops to surface residue      Roots to soil FOM
+                          DM (kg/ha) =               8281.19                    0.00
+                          N  (kg/ha) =                308.24                    0.00
+     
+         Organic matter removed from system:-      From Tops               From Roots
+                          DM (kg/ha) =                  0.00                    0.00
+                          N  (kg/ha) =                  0.00                    0.00
+     
+      stage 4.0 end_of_juvenile
+                     biomass =           0.18 (g/m^2)   lai          =   0.000 (m^2/m^2)
+                     stover N conc =     6.50 (%)    extractable sw =  129.77 (mm)
+     Manager sending message :- broccoli end_crop
+     Crop ended. Yield (dw) =     0.0  (kg/ha)
+         Organic matter from crop:-      Tops to surface residue      Roots to soil FOM
+                          DM (kg/ha) =                  1.80                 3377.69
+                          N  (kg/ha) =                  0.12                   33.04
+     
+4 August 1997(Day of year=216), broccoli: 
+      stage 6.0 buttoning
+                     biomass =         478.24 (g/m^2)   lai          =   2.754 (m^2/m^2)
+                     stover N conc =     3.85 (%)    extractable sw =  115.82 (mm)
+11 August 1997(Day of year=223), broccoli: 
+      stage 7.0 maturity
+                     biomass =         858.15 (g/m^2)   lai          =   3.518 (m^2/m^2)
+                     stover N conc =     2.99 (%)    extractable sw =  122.05 (mm)
+12 August 1997(Day of year=224), Manager: 
+     Manager sending message :- broccoli harvest
+12 August 1997(Day of year=224), broccoli: 
+     
+      flowering day          =    0                           stover (kg/ha)         =     8581.5
+      maturity day           =  223                           grain yield (kg/ha)    =        0.0
+      grain % water content  =    0.0                         grain yield wet (kg/ha)=        0.0
+      grain wt (g)           =    0.000                       grains/m^2             =      0.000
+      grains/plant           =    0.0                         maximum lai            =      3.693
+      total above ground biomass (kg/ha)    =     8581.5
+      live above ground biomass (kg/ha)     =     8581.5
+      green above ground biomass (kg/ha)    =     7762.5
+      senesced above ground biomass (kg/ha) =      819.0
+      dead above ground biomass (kg/ha)     =        0.0
+      number of leaves       =   20.9
+      DM Root:Shoot ratio    =    0.411                       Harvest Index          =      0.000
+      Stover C:N ratio       =   14.027                       Root C:N ratio         =     41.320
+      grain N percent        =       0.00                     total N content (kg/ha)=     244.71
+      grain N uptake (kg/ha) =       0.00                     senesced N content (kg/ha)=   12.28
+      green N content (kg/ha)=     232.42                     dead N content (kg/ha) =       0.00
+     
+      Average Stress Indices:                          Water Photo  Water Expan  N Photo      N grain conc
+         emergence            to end_of_juvenile         0.000        0.000        0.071        0.355
+         end_of_juvenile      to floral_initiation       0.000        0.000        0.045        0.423
+         floral_initiation    to buttoning               0.000        0.000        0.000        0.099
+     
+     
+     Crop harvested.
+         Organic matter from crop:-      Tops to surface residue      Roots to soil FOM
+                          DM (kg/ha) =               8579.69                    0.00
+                          N  (kg/ha) =                308.56                    0.00
+     
+         Organic matter removed from system:-      From Tops               From Roots
+                          DM (kg/ha) =                  0.00                    0.00
+                          N  (kg/ha) =                  0.00                    0.00
+     
+      stage 4.0 end_of_juvenile
+                     biomass =           0.18 (g/m^2)   lai          =   0.000 (m^2/m^2)
+                     stover N conc =     6.50 (%)    extractable sw =  122.05 (mm)
+     Manager sending message :- broccoli end_crop
+     Crop ended. Yield (dw) =     0.0  (kg/ha)
+         Organic matter from crop:-      Tops to surface residue      Roots to soil FOM
+                          DM (kg/ha) =                  1.80                 3523.58
+                          N  (kg/ha) =                  0.12                   34.11
+     
+13 August 1997(Day of year=225), broccoli: 
+      stage 6.0 buttoning
+                     biomass =         479.87 (g/m^2)   lai          =   2.565 (m^2/m^2)
+                     stover N conc =     3.83 (%)    extractable sw =  108.34 (mm)
+18 August 1997(Day of year=230), broccoli: 
+      stage 7.0 maturity
+                     biomass =         780.69 (g/m^2)   lai          =   2.941 (m^2/m^2)
+                     stover N conc =     2.98 (%)    extractable sw =  119.84 (mm)
+19 August 1997(Day of year=231), Manager: 
+     Manager sending message :- broccoli harvest
+19 August 1997(Day of year=231), broccoli: 
+     
+      flowering day          =    0                           stover (kg/ha)         =     7806.9
+      maturity day           =  230                           grain yield (kg/ha)    =        0.0
+      grain % water content  =    0.0                         grain yield wet (kg/ha)=        0.0
+      grain wt (g)           =    0.000                       grains/m^2             =      0.000
+      grains/plant           =    0.0                         maximum lai            =      3.040
+      total above ground biomass (kg/ha)    =     7806.9
+      live above ground biomass (kg/ha)     =     7806.9
+      green above ground biomass (kg/ha)    =     7096.1
+      senesced above ground biomass (kg/ha) =      710.8
+      dead above ground biomass (kg/ha)     =        0.0
+      number of leaves       =   18.4
+      DM Root:Shoot ratio    =    0.401                       Harvest Index          =      0.000
+      Stover C:N ratio       =   14.053                       Root C:N ratio         =     40.319
+      grain N percent        =       0.00                     total N content (kg/ha)=     222.22
+      grain N uptake (kg/ha) =       0.00                     senesced N content (kg/ha)=   10.66
+      green N content (kg/ha)=     211.56                     dead N content (kg/ha) =       0.00
+     
+      Average Stress Indices:                          Water Photo  Water Expan  N Photo      N grain conc
+         emergence            to end_of_juvenile         0.000        0.000        0.083        0.348
+         end_of_juvenile      to floral_initiation       0.000        0.000        0.042        0.431
+         floral_initiation    to buttoning               0.000        0.000        0.000        0.095
+     
+     
+     Crop harvested.
+         Organic matter from crop:-      Tops to surface residue      Roots to soil FOM
+                          DM (kg/ha) =               7805.14                    0.00
+                          N  (kg/ha) =                303.08                    0.00
+     
+         Organic matter removed from system:-      From Tops               From Roots
+                          DM (kg/ha) =                  0.00                    0.00
+                          N  (kg/ha) =                  0.00                    0.00
+     
+      stage 4.0 end_of_juvenile
+                     biomass =           0.18 (g/m^2)   lai          =   0.000 (m^2/m^2)
+                     stover N conc =     6.50 (%)    extractable sw =  119.84 (mm)
+     Manager sending message :- broccoli end_crop
+     Crop ended. Yield (dw) =     0.0  (kg/ha)
+         Organic matter from crop:-      Tops to surface residue      Roots to soil FOM
+                          DM (kg/ha) =                  1.80                 3128.85
+                          N  (kg/ha) =                  0.12                   31.04
+     
+27 August 1997(Day of year=239), broccoli: 
+      stage 7.0 maturity
+                     biomass =         794.59 (g/m^2)   lai          =   2.679 (m^2/m^2)
+                     stover N conc =     2.92 (%)    extractable sw =  103.67 (mm)
+28 August 1997(Day of year=240), Manager: 
+     Manager sending message :- broccoli harvest
+28 August 1997(Day of year=240), broccoli: 
+     
+      flowering day          =    0                           stover (kg/ha)         =     7945.9
+      maturity day           =  239                           grain yield (kg/ha)    =        0.0
+      grain % water content  =    0.0                         grain yield wet (kg/ha)=        0.0
+      grain wt (g)           =    0.000                       grains/m^2             =      0.000
+      grains/plant           =    0.0                         maximum lai            =      2.911
+      total above ground biomass (kg/ha)    =     7945.9
+      live above ground biomass (kg/ha)     =     7945.9
+      green above ground biomass (kg/ha)    =     7184.2
+      senesced above ground biomass (kg/ha) =      761.7
+      dead above ground biomass (kg/ha)     =        0.0
+      number of leaves       =   17.8
+      DM Root:Shoot ratio    =    0.396                       Harvest Index          =      0.000
+      Stover C:N ratio       =   14.363                       Root C:N ratio         =     40.308
+      grain N percent        =       0.00                     total N content (kg/ha)=     221.29
+      grain N uptake (kg/ha) =       0.00                     senesced N content (kg/ha)=   11.43
+      green N content (kg/ha)=     209.87                     dead N content (kg/ha) =       0.00
+     
+      Average Stress Indices:                          Water Photo  Water Expan  N Photo      N grain conc
+         emergence            to end_of_juvenile         0.000        0.000        0.086        0.351
+         end_of_juvenile      to floral_initiation       0.000        0.000        0.047        0.410
+         floral_initiation    to buttoning               0.000        0.000        0.000        0.103
+     
+     
+     Crop harvested.
+         Organic matter from crop:-      Tops to surface residue      Roots to soil FOM
+                          DM (kg/ha) =               7944.12                    0.00
+                          N  (kg/ha) =                305.10                    0.00
+     
+         Organic matter removed from system:-      From Tops               From Roots
+                          DM (kg/ha) =                  0.00                    0.00
+                          N  (kg/ha) =                  0.00                    0.00
+     
+      stage 4.0 end_of_juvenile
+                     biomass =           0.18 (g/m^2)   lai          =   0.000 (m^2/m^2)
+                     stover N conc =     6.50 (%)    extractable sw =  103.67 (mm)
+     Manager sending message :- broccoli end_crop
+     Crop ended. Yield (dw) =     0.0  (kg/ha)
+         Organic matter from crop:-      Tops to surface residue      Roots to soil FOM
+                          DM (kg/ha) =                  1.80                 3143.57
+                          N  (kg/ha) =                  0.12                   31.20
+     
+10 November 1997(Day of year=314), clock: 
+     Simulation is terminating due to end criteria being met.
