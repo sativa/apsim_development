@@ -1737,7 +1737,7 @@ c      end if
 
       thsat = p%wc(ix,1) ! NOTE: this assumes that the wettest p%wc is
                         ! first in the pairs of log suction vs p%wc
-
+      if (thsat.eq.0.0) thsat = p%sat(ix)
       if(p%ivap.ne.0)then
 *        add vapour conductivity hkv
          phi=thsat/.93-tth
