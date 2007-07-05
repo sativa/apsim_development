@@ -79,6 +79,12 @@
       double precision effpar
       parameter (effpar = 0.184d0)
 
+      double precision psi_ll15
+      parameter (psi_ll15 = -15000.d0)
+*
+      double precision psi_dul
+      parameter (psi_dul = -100.d0)
+
       integer max_table
       parameter (max_table=20)
 
@@ -91,6 +97,7 @@
 
       integer LUNevap
       parameter (LUNevap = 11)
+
 
 
 ! =====================================================================
@@ -275,6 +282,7 @@
 ! =====================================================================
       Type APSwimParameters
          sequence
+         integer          specification_type  ! type of soil specs to be used
          character        rainfall_source*50       ! source of rainfall data
          character        rainfall_file*50
          character        evap_source*50
@@ -291,6 +299,9 @@
          double precision wcd(0:M,MP)
          double precision hkl(0:M,MP)
          double precision hkld(0:M,MP)
+
+         double precision ll15(0:M),DUL(0:M),SAT(0:M),Ks(0:M)
+         double precision a(0:M), b(0:M), c(0:M), psii(0:M), psie(0:M)
 
          integer          ivap
          integer          isbc
@@ -661,6 +672,16 @@
          ! ------------- Initial Soil Profile Info ---------------
 
 
+      call Read_integer_var_optional(
+     :              init_section,
+     :              'specification_type',
+     :              '(??)',
+     :              p%specification_type,
+     :              numvals,1,2)
+      if (numvals.eq.0) then
+         p%specification_type = 1
+      endif
+
          ! Read in vol. soil water from parameter file
 
 c      call read_double_array (
@@ -706,6 +727,8 @@ c     :              1.0d0)
      :              num_nodes,  ! get number of nodes from here
      :              0.0d0,
      :              1.0d4)      ! 1.0d4mm = 10m
+
+      p%n = num_nodes - 1
 
          ! Read in water content as either volumetric content or
          !                matric potential.
@@ -860,14 +883,15 @@ c     :              1.0d0)
          p%subsurface_drain = 'off'
       endif
 
+
+      if (p%specification_type .eq. 1) then
          ! Read in soil water characteristics for each node
          !            from parameter file
-      p%n = num_nodes - 1
-      do 100 node = 0, p%n
+         do 100 node = 0, p%n
 
-         if (p%soil_type(node) .ne. interp_key) then
+            if (p%soil_type(node) .ne. interp_key) then
 
-            call Read_double_array (
+               call Read_double_array (
      :              p%soil_type(node),
      :              'sl',
      :              MP,
@@ -877,7 +901,7 @@ c     :              1.0d0)
      :              p%slmin,
      :              p%slmax)
 
-            call Read_double_array (
+               call Read_double_array (
      :              p%soil_type(node),
      :              'wc',
      :              MP,
@@ -887,7 +911,7 @@ c     :              1.0d0)
      :              0.d0,
      :              1.d0)
 
-            call Read_double_array (
+               call Read_double_array (
      :              p%soil_type(node),
      :              'wcd',
      :              MP,
@@ -897,7 +921,7 @@ c     :              1.0d0)
      :              -100.d0,
      :              100.d0)
 
-            call Read_double_array (
+               call Read_double_array (
      :              p%soil_type(node),
      :              'hkl',
      :              MP,
@@ -907,7 +931,7 @@ c     :              1.0d0)
      :              -100.d0,
      :              100.d0)
 
-            call Read_double_array (
+               call Read_double_array (
      :              p%soil_type(node),
      :              'hkld',
      :              MP,
@@ -917,19 +941,59 @@ c     :              1.0d0)
      :              -200.d0,
      :              100.d0)
 
-               do 90 point=1,num_sl
-                  p%sl(node,point) = temp_sl(point)
-                  p%wc(node,point) = temp_wc(point)
-                  p%wcd(node,point) = temp_wcd(point)
-                  p%hkl(node,point) = temp_hkl(point)
-                  p%hkld(node,point) = temp_hkld(point)
-   90          continue
+                  do 90 point=1,num_sl
+                     p%sl(node,point) = temp_sl(point)
+                     p%wc(node,point) = temp_wc(point)
+                     p%wcd(node,point) = temp_wcd(point)
+                     p%hkl(node,point) = temp_hkl(point)
+                     p%hkld(node,point) = temp_hkld(point)
+   90             continue
 
-            else
-            endif
+               else
+               endif
 
-  100    continue
+  100       continue
+         elseif (p%specification_type .eq. 2) then
+            call Read_double_array (
+     :              init_section,
+     :              'll15',
+     :              M+1,
+     :              '(mm/mm)',
+     :              p%ll15(0),
+     :              numvals,  ! get number of nodes from here
+     :              0.0d0,
+     :              1.0d0)
+            call Read_double_array (
+     :              init_section,
+     :              'dul',
+     :              M+1,
+     :              '(mm/mm)',
+     :              p%dul(0),
+     :              numvals,  ! get number of nodes from here
+     :              0.0d0,
+     :              1.0d0)
+            call Read_double_array (
+     :              init_section,
+     :              'sat',
+     :              M+1,
+     :              '(mm/mm)',
+     :              p%sat(0),
+     :              numvals,  ! get number of nodes from here
+     :              0.0d0,
+     :              1.0d0)
+            call Read_double_array (
+     :              init_section,
+     :              'ks',
+     :              M+1,
+     :              '(cm/h)',
+     :              p%ks(0),
+     :              numvals,  ! get number of nodes from here
+     :              0.0d0,
+     :              1.0d2)
 
+         else
+             call fatal_error(Err_User, 'Unknown specification type')
+         endif
 
          ! ------------- Swim calculation parameters -------------
 
@@ -2095,12 +2159,12 @@ cnh added as per request by Dr Val Snow
 
       call apswim_reset_daily_totals ()
 
-      do 7 counter = 0,M
+      do 6 counter = 0,M
          g%dlayer(counter) = 0d0
          g%LL15(counter) = 0d0
          g%DUL(counter) = 0d0
          g%SAT(counter) = 0d0
-    7 continue
+    6 continue
       p%salb = 0.0
 
       g%run_has_started = .false.
@@ -2214,6 +2278,19 @@ c         wtint(counter) = 0.d0
       call fill_double_array (p%wcd,0d0,MP)
       call fill_double_array (p%hkl,0d0,MP)
       call fill_double_array (p%hkld,0d0,MP)
+
+      do 211 counter = 0,M
+         p%LL15(counter) = 0d0
+         p%DUL(counter) = 0d0
+         p%SAT(counter) = 0d0
+         p%Ks(counter) = 0d0
+         p%a(counter) = 0d0
+         p%b(counter) = 0d0
+         p%c(counter) = 0d0
+         p%psii(counter) = 0d0
+         p%psie(counter) = 0d0
+  211 continue
+
       p%ivap = 0
       g%hyscon = 0d0
 
@@ -2649,11 +2726,7 @@ cnh      call fill_real_array(ts(2,1),0.0,MTS)
       character myname*(*)               ! name of current procedure
       parameter (myname = 'apswim_init_calc')
 *
-      double precision psi_ll15
-      parameter (psi_ll15 = -15000.d0)
-*
-      double precision psi_dul
-      parameter (psi_dul = -100.d0)
+
 
 *+  Local Variables
       double precision fraction
@@ -2719,45 +2792,30 @@ c      double precision tth
             ! calculate the relative distance between the specified nodes
             fraction = (p%x(i) - p%x(j)) / (p%x(k)-p%x(j))
 
-            do 45 l=1,MP
-               slj(l) = p%sl(j,l)
-               slk(l) = p%sl(k,l)
-               if (Doubles_are_equal(p%sl(j,l),p%slmax)) nslj = l
-               if (Doubles_are_equal(p%sl(k,l),p%slmax)) nslk = l
-   45       continue
-            call union_double_arrays (slj,nslj,slk,nslk,sli,nsli,MP)
+            if (p%specification_type .eq. 1) then
+               do 45 l=1,MP
+                  slj(l) = p%sl(j,l)
+                  slk(l) = p%sl(k,l)
+                  if (Doubles_are_equal(p%sl(j,l),p%slmax)) nslj = l
+                  if (Doubles_are_equal(p%sl(k,l),p%slmax)) nslk = l
+   45          continue
+               call union_double_arrays (slj,nslj,slk,nslk,sli,nsli,MP)
 
-            do 15 l=1,nsli
-               p%sl(i,l) = sli(l)
-               suction = -1.0 * exp(dlog(10d0)*p%sl(i,l))
-               ! find characteristics for same suction in node k
-               call apswim_interp
-     :              (j,suction,thetaj,dthetaj,hklgj,dhklgj)
-               call apswim_interp
-     :              (k,suction,thetak,dthetak,hklgk,dhklgk)
+               do 15 l=1,nsli
+                  p%sl(i,l) = sli(l)
+                  suction = -1.0 * exp(dlog(10d0)*p%sl(i,l))
+                  ! find characteristics for same suction in node k
+                  call apswim_interp
+     :                 (j,suction,thetaj,dthetaj,hklgj,dhklgj)
+                  call apswim_interp
+     :                 (k,suction,thetak,dthetak,hklgk,dhklgk)
 
-               p%wc(i,l) = thetaj + fraction*(thetak-thetaj)
-               p%wcd(i,l) = dthetaj + fraction*(dthetak-dthetaj)
-               p%hkl(i,l) = hklgj + fraction*(hklgk-hklgj)
-               p%hkld(i,l) =dhklgj + fraction*(dhklgk-dhklgj)
-
-c               If (p%sl(j,l).e.p%slmax) then
-c                  p%sl(i,l) = p%sl(j,l)
-c                  suction = -1.0 * exp(dlog(10d0)*p%sl(j,l))
-c                  ! find characteristics for same suction in node k
-c                  call apswim_interp (k,suction,tth,thd,hklg,hklgd)
-c                  p%wc(i,l) = p%wc(j,l) + fraction*(tth-p%wc(j,l))
-c                  p%wcd(i,l) = p%wcd(j,l) + fraction*(thd-p%wcd(j,l))
-c                  p%hkl(i,l) = p%hkl(j,l) + fraction*(hklg-p%hkl(j,l))
-c                  p%hkld(i,l) = p%hkld(j,l) + fraction*(hklgd-p%hkld(j,l))
-ccnh                  p%hkl(i,l) = fraction*p%hkl(j,l)+(1.-fraction)*hklg
-ccnh                  p%hkld(i,l) =fraction*p%hkld(j,l)+(1.-fraction)*hklgd
-c
-c               Else
-c               Endif
-
-   15       continue
-c   47       continue
+                  p%wc(i,l) = thetaj + fraction*(thetak-thetaj)
+                  p%wcd(i,l) = dthetaj + fraction*(dthetak-dthetaj)
+                  p%hkl(i,l) = hklgj + fraction*(hklgk-hklgj)
+                  p%hkld(i,l) =dhklgj + fraction*(dhklgk-dhklgj)
+   15          continue
+            endif
 
                ! Interpolate Solute/Soil characteristics for each solute
 
@@ -2781,17 +2839,39 @@ c   47       continue
          endif
    20 continue
 
+* ------- IF USING SIMPLE SOIL SPECIFICATION CALCULATE PROPERTIES -----
+      if (p%specification_type .eq. 2) then
+         do 26 i =0,p%n
+
+            p%b(i) = -log(psi_dul/psi_ll15)
+     :                   /log(p%dul(i)/p%ll15(i))
+            p%psie(i) = psi_dul*(p%dul(i)/p%sat(i))
+     :                   **(p%b(i))
+            p%a(i) = (2.*p%b(i))/(2.*p%b(i)+1.)
+
+            p%psii(i) = p%psie(i)*p%a(i) **(-p%b(i))
+            p%psii(i) = min(p%psii(i), 0.0)
+            p%c(i) = (1.-p%a(i))/(p%psii(i)**2.)
+
+   26    continue
+      endif
+
 * -------CALCULATE g%LL15, g%DUL AND g%SAT FROM MOISTURE CHARACTERISTICS -----
 
       ! First, calculate g%LL15, g%DUL and g%SAT for each node
 
       do 25 i=0,p%n
-         call apswim_interp
+         if (p%specification_type .eq. 1) then
+            call apswim_interp
      :           (i,psi_ll15,g%LL15(i),thd,hklg,hklgd)
-         call apswim_interp
+            call apswim_interp
      :           (i,psi_dul,g%DUL(i),thd,hklg,hklgd)
-         g%SAT(i) = p%wc(i,1)
-
+            g%SAT(i) = p%wc(i,1)
+         else
+            g%LL15(i) = p%LL15(i)
+            g%DUL(i) = p%DUL(i)
+            g%SAT(i) = p%SAT(i)
+         endif
    25 continue
 
 * ---------- NOW SET THE ACTUAL WATER BALANCE STATE VARIABLES ---------
@@ -2867,6 +2947,8 @@ c   47       continue
 *+  Constant Values
       character myname*(*)               ! name of current procedure
       parameter (myname = 'apswim_interp')
+      double precision dpsi
+      parameter (dpsi = 0.0001d0)
 
 *+  Local Variables
       double precision a1
@@ -2882,65 +2964,193 @@ c   47       continue
       double precision tdx
       double precision tx
       double precision z
+      double precision temp
 
 *- Implementation Section ----------------------------------
       call push_routine (myname)
 
-      psix=tpsi
-      jhys=0
+      if (p%specification_type .eq. 1) then
+
+         psix=tpsi
+         jhys=0
 *     adjust psix for hysteresis if necessary
-      if(g%hys(node).lt.0.)jhys=ihys(g%hyscon
+         if(g%hys(node).lt.0.)jhys=ihys(g%hyscon
      :                              ,g%hys(node)
      :                              ,g%hysref(node)
      :                              ,g%hysdry(node)
      :                              ,psix
      :                              ,tdc)
-      tx=-100d0
-      if(psix.lt.0d0)tx=log10(-psix)
+         tx=-100d0
+         if(psix.lt.0d0)tx=log10(-psix)
 *     adjust tx for hysteresis if necessary
-      if(g%hys(node).gt.0.)jhys=ihys(g%hyscon,g%hys(node),g%hysref(node)
-     :,
+         if(g%hys(node).gt.0.)
+     :      jhys=ihys(g%hyscon,g%hys(node),g%hysref(node),
      :                   g%hysdry(node), tx,tdc)
 
-      tx=max(dble(p%slmin),tx)
-      tx=min(dble(p%slmax),tx)
+         tx=max(dble(p%slmin),tx)
+         tx=min(dble(p%slmax),tx)
 
-      do 10 k=2,MP
-         if (p%sl(node,k).ge.tx) then
-            ! the suction lies between this node and the previous node
-            i=k-1
-            j=k
-            goto 11
+         do 10 k=2,MP
+            if (p%sl(node,k).ge.tx) then
+               ! the suction lies between this node and the previous node
+               i=k-1
+               j=k
+               goto 11
 
-         endif
-   10 continue
-      print*,'*******whoops*******'
-   11 continue
+            endif
+   10    continue
+         print*,'*******whoops*******'
+   11    continue
 
-      tdx=p%sl(node,j)-p%sl(node,i)
-      z=(tx-p%sl(node,i))/tdx
+         tdx=p%sl(node,j)-p%sl(node,i)
+         z=(tx-p%sl(node,i))/tdx
 
-      dy=p%wc(node,j)-p%wc(node,i)
-      a1=tdx*p%wcd(node,i)
-      a3=-2d0*dy+tdx*(p%wcd(node,i)+p%wcd(node,j))
-      a2=dy-a1-a3
-      tth=((a3*z+a2)*z+a1)*z+p%wc(node,i)
-      thd=0d0
-      if(tx.gt.p%slmin)thd=((3d0*a3*z+2d0*a2)*z+a1)/tdx
+         dy=p%wc(node,j)-p%wc(node,i)
+         a1=tdx*p%wcd(node,i)
+         a3=-2d0*dy+tdx*(p%wcd(node,i)+p%wcd(node,j))
+         a2=dy-a1-a3
+         tth=((a3*z+a2)*z+a1)*z+p%wc(node,i)
+         thd=0d0
+         if(tx.gt.p%slmin)thd=((3d0*a3*z+2d0*a2)*z+a1)/tdx
 
-      dy=p%hkl(node,j)-p%hkl(node,i)
-      a1=tdx*p%hkld(node,i)
-      a3=-2d0*dy+tdx*(p%hkld(node,i)+p%hkld(node,j))
-      a2=dy-a1-a3
-      hklg=((a3*z+a2)*z+a1)*z+p%hkl(node,i)
-      hklgd=0d0
-      if(tx.gt.p%slmin)hklgd=((3d0*a3*z+2d0*a2)*z+a1)/tdx
+         dy=p%hkl(node,j)-p%hkl(node,i)
+         a1=tdx*p%hkld(node,i)
+         a3=-2d0*dy+tdx*(p%hkld(node,i)+p%hkld(node,j))
+         a2=dy-a1-a3
+         hklg=((a3*z+a2)*z+a1)*z+p%hkl(node,i)
+         hklgd=0d0
+         if(tx.gt.p%slmin)hklgd=((3d0*a3*z+2d0*a2)*z+a1)/tdx
+
+      else ! Using simple specification
+         ! ggg
+         tth   = apswim_Simpletheta(node,tpsi)
+         temp  = apswim_Simpletheta(node,tpsi+dpsi)
+         thd   = (temp-tth)/log10((tpsi+dpsi)/tpsi)
+         hklg  = log10(apswim_SimpleK(node,tpsi))
+         temp  = log10(apswim_SimpleK(node,tpsi+dpsi))
+         hklgd = (temp-hklg)/log10((tpsi+dpsi)/tpsi)
+         !print*,node,tth,thd,hklg,hklgd
+      endif
 
       call pop_routine (myname)
       return
       end subroutine
 
+* ====================================================================
+       double precision function Apswim_SimpleS (layer, psi)
+* ====================================================================
+      implicit none
 
+*+  Sub-Program Arguments
+      integer layer
+      double precision    psi
+
+*+  Purpose
+*      Calculate S for a given node for a specified suction.
+
+*+  Constant Values
+
+      character*(*) myname               ! name of current procedure
+      parameter (myname = 'SimpleS')
+
+*+  Local Variables
+
+*- Implementation Section ----------------------------------
+      call push_routine (myname)
+
+      if (psi.ge. 0.0) then
+         Apswim_SimpleS = 1d0
+      elseif (psi.ge.p%psii(layer)) then
+         Apswim_SimpleS = 1d0 - p%c(layer)*psi**2d0
+      else
+         Apswim_SimpleS =(psi/p%psie(layer))**(-1d0/p%b(layer))
+      endif
+
+      call pop_routine (myname)
+      return
+      end function
+
+* ====================================================================
+       double precision function Apswim_Simpletheta (layer, psi)
+* ====================================================================
+
+      implicit none
+
+*+  Sub-Program Arguments
+      integer layer
+      double precision    psi
+
+*+  Purpose
+*      Calculate Theta for a given node for a specified suction.
+
+*+  Constant Values
+
+      character*(*) myname               ! name of current procedure
+      parameter (myname = 'Apswim_Simpletheta')
+
+*+  Local Variables
+      double precision S
+
+*- Implementation Section ----------------------------------
+      call push_routine (myname)
+
+      S = Apswim_SimpleS(layer,psi)
+
+      Apswim_Simpletheta = S *g%sat(layer)
+
+      call pop_routine (myname)
+      return
+      end function
+
+* ====================================================================
+       double precision function apswim_SimpleK (layer, psi)
+* ====================================================================
+      implicit none
+
+
+*+  Sub-Program Arguments
+      integer layer
+      double precision    psi
+
+*+  Purpose
+*      Calculate Conductivity for a given node for a specified suction.
+
+
+*+  Constant Values
+
+      character*(*) myname               ! name of current procedure
+      parameter (myname = 'apswim_SimpleK')
+
+      double precision Kdul
+      parameter (Kdul = 0.1d0/24d0)
+
+*+  Local Variables
+      double precision S
+      double precision Sdul
+      double precision Ksa ! apparent Ks
+      double precision Power
+      double precision Kdula
+
+*- Implementation Section ----------------------------------
+      call push_routine (myname)
+
+      S = Apswim_SimpleS(layer,psi)
+!      Sdul = Apswim_SimpleS(layer,psi_dul)
+!      Kdula = min(Kdul,p%Ks(layer))
+!
+!      if (S.lt.Sdul) then
+!         Ksa = Kdula / (Sdul**(1. + 2. + 2. * p%b(layer)))
+!         apswim_SimpleK = Ksa * s**(1. + 2. + 2. * p%b(layer))
+!
+!      else
+!         Power = Log(Kdula/p%Ks(layer)) / Log(Sdul)
+!         apswim_SimpleK = p%Ks(layer) * S**Power
+!      End If
+      apswim_SimpleK = p%Ks(layer)*S**(p%b(layer)*2d0+3d0)
+
+      call pop_ routine (myname)
+      return
+      end function
 
 * ====================================================================
        double precision function apswim_suction (node, theta)
@@ -4758,6 +4968,7 @@ c       double precision table_beta(nsol)
       call push_routine (myname)
 
       do 500 node=0,p%n
+
          if (p%soil_type(node).ne.'-') then
 
             call Read_double_var(
