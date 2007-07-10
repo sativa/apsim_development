@@ -11,7 +11,7 @@
 #include "PlantPart.h"
 #include "Leaf/LeafPart.h"
 #include "arbitrator.h"
-#include "genericArbitratorXY.h"
+#include "GenericArbitratorXY.h"
 
 void genericArbitratorXY::zeroAllGlobals(void)
 //=======================================================================================
