@@ -2,7 +2,7 @@
 #define CEREALARBITRATOR_H
 
 #include "PlantInterface.h"
-#include "Arbitrator.h"
+#include "arbitrator.h"
 
 class cerealArbitrator : public Arbitrator
    {

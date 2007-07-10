@@ -5,9 +5,9 @@
 #include <math.h>
 #include <string>
 #include <algorithm>
-#include "utility/ExternalFunction.h"
-#include "utility/InterpolationFunction.h"
-#include "utility/LookupFunction.h"
+#include "Utility/ExternalFunction.h"
+#include "Utility/InterpolationFunction.h"
+#include "Utility/LookupFunction.h"
 using namespace std;
 
 class plantInterface;

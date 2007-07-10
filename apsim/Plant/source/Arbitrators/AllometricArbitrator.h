@@ -2,7 +2,7 @@
 #define ALLOMETRICARBITRATOR_H
 
 #include "PlantInterface.h"
-#include "Arbitrator.h"
+#include "arbitrator.h"
 
 class allometricArbitrator : public Arbitrator
    {
