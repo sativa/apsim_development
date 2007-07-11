@@ -1310,7 +1310,7 @@ C     Last change:  P    25 Oct 2000    9:26 am
       character Variable_name*(Max_manager_var_name_size)
                                        ! variable name in set actions.
       integer Numvals                  ! Number of values returned
-      character msg*1000                ! Error message 
+      character msg*1000                ! Error message
       logical Data_was_stored          ! Was data stored in postbox?
       integer modNameID                ! ID for module.
       logical ok
@@ -1408,7 +1408,7 @@ C     Last change:  P    25 Oct 2000    9:26 am
          else
             ! data was not stored
          endif
-        
+
          call Delete_postbox ()
       endif
       return
@@ -1532,11 +1532,17 @@ C     Last change:  P    25 Oct 2000    9:26 am
       character st*(*)
       character key*(100)
       character value*(2000)
+      character new_value_string*(2000)
+      character Value_string*(2000)
       character newString*(2000)
       character units*(100)
+      integer   valueIndx
+      integer   numvals
       integer localIndex
       integer posQuote
+
       newString = ' '
+      new_value_string = ' '
 
       if (index(st, '=') <> 0) then
 
@@ -1545,20 +1551,32 @@ C     Last change:  P    25 Oct 2000    9:26 am
          ! We need to parse this looking for values that match a local
          ! manager variable.  Make sure we honour double quotes ie don't
          ! substitute local variable values.
-         call get_next_variable(st, key, value)
+         call get_next_variable(st, key, Value_string)
          do while (key <> ' ')
-            call split_off_units (value, units)
-            value = No_leading_spaces(value)
-            if (value(1:1) <> '"' .and. value(1:1) <> '''') then
+            call split_off_units (Value_string, units)
+               ! may be multiple values
+            new_value_string = ' '
+            numvals = word_count (Value_string)
+            do valueIndx = 1, Numvals
+               call Get_next_word(Value_string, value)
+               value = No_leading_spaces(value)
+               if (value(1:1) <> '"' .and. value(1:1) <> '''') then
 
-               localIndex = find_string_in_array(value,
-     .                                        g%local_variable_names,
-     .                                        g%num_local_variables)
-               if (localIndex > 0) then
-                  value = g%local_variable_values(localIndex)
+                  localIndex = find_string_in_array(value,
+     :                                        g%local_variable_names,
+     :                                        g%num_local_variables)
+                  if (localIndex > 0) then
+                     value = g%local_variable_values(localIndex)
+                  else
+                     ! local variable name not found - leave as is
+                  endif
+               else
+                  ! value is literal enclosed in quotes
                endif
-            else
-            endif
+                  ! append value to a new value string.
+               call append_string(new_value_string, ' '
+     :                           // No_leading_spaces(value))
+            enddo
 
             ! append all the bits for the current key to a new string.
             if (newString <> ' ') then
@@ -1568,14 +1586,14 @@ C     Last change:  P    25 Oct 2000    9:26 am
             if (value <> ' ') then
                call append_string(newString, ' =')
                call append_string(newString, ' '
-     :                        // No_leading_spaces(value))
+     :                        // No_leading_spaces(new_value_string))
             else
             endif
             if (units <> '()') then
                call append_string(newString, ' ' // units)
             endif
 
-         call get_next_variable(st, key, value)
+         call get_next_variable(st, key, value_string)
          end do
          st = newString
       else
@@ -1704,7 +1722,7 @@ C     Last change:  P    25 Oct 2000    9:26 am
 
 
 ! =====================================================================
-       recursive subroutine Process_if_statement 
+       recursive subroutine Process_if_statement
      .    (Nested_ifs, Token_array, Token_array2)
 ! =====================================================================
       Use Infrastructure
@@ -1796,7 +1814,7 @@ C     Last change:  P    25 Oct 2000    9:26 am
 
 
 ! =====================================================================
-       recursive subroutine Process_else_statement 
+       recursive subroutine Process_else_statement
      .  (Nested_ifs, Token_array, Token_array2)
 ! =====================================================================
       Use Infrastructure
@@ -1845,7 +1863,7 @@ C     Last change:  P    25 Oct 2000    9:26 am
 
 
 ! =====================================================================
-       recursive subroutine Assignment_Statement 
+       recursive subroutine Assignment_Statement
      .     (Token_array, Token_array2)
 ! =====================================================================
       Use Infrastructure
@@ -1888,7 +1906,7 @@ C     Last change:  P    25 Oct 2000    9:26 am
 
 
 ! =====================================================================
-       recursive subroutine Process_Assignment 
+       recursive subroutine Process_Assignment
      .  (Variable_name, Token_array, Token_array2)
 ! =====================================================================
       Use Infrastructure
@@ -2932,7 +2950,7 @@ C     Last change:  P    25 Oct 2000    9:26 am
 
 
 ! =====================================================================
-       recursive subroutine Get_expression_array 
+       recursive subroutine Get_expression_array
      .    (Token_array, Token_array2)
 ! =====================================================================
       Use Infrastructure
@@ -3056,7 +3074,7 @@ C     Last change:  P    25 Oct 2000    9:26 am
 
 
 ! =====================================================================
-       recursive character*(buffer_size) function Real_or_not 
+       recursive character*(buffer_size) function Real_or_not
      .     (Variable_Value)
 ! =====================================================================
       Use Infrastructure
@@ -3092,7 +3110,7 @@ C     Last change:  P    25 Oct 2000    9:26 am
 
 
 ! =====================================================================
-       recursive subroutine Tokenize 
+       recursive subroutine Tokenize
      .    (Token_array, Token_array2, maxtokens)
 ! =====================================================================
       Use Infrastructure
