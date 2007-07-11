@@ -1885,7 +1885,7 @@
          call respond2get_real_var (variable_name
      :        , '(kg/ha)', g%yest_tsnh4)
 
-      else if (Variable_name .eq. 'd_nup') then
+      else if (Variable_name .eq. 'n_uptake') then
          d_nup = g%dn_plant * 10.
          call respond2get_real_var (variable_name
      :        , '(kg/ha)', d_nup)
@@ -7714,7 +7714,7 @@ C        IF(DEF.LT.2.5) THEN                          ! waterlogging
      :                                    floatTypeDDML, 'kg/ha')
       dummy = add_registration_with_units(respondToGetReg, 'ysnh4',
      :                                    floatTypeDDML, 'kg/ha')
-      dummy = add_registration_with_units(respondToGetReg, 'd_nup',
+      dummy = add_registration_with_units(respondToGetReg, 'n_uptake',
      :                                    floatTypeDDML, 'kg/ha')
       dummy = add_registration_with_units(respondToGetReg, 'rtdep',
      :                                    floatTypeDDML, 'cm')
@@ -7736,8 +7736,6 @@ C        IF(DEF.LT.2.5) THEN                          ! waterlogging
      :                           'ozcot_status', intTypeDDML, '')
       dummy = add_registration_with_units(respondToGetReg, 'bolls_sc',
      :                                    floatTypeDDML, 'g/boll')
-      dummy = add_registration_with_units(respondToGetReg, 'n_uptake',
-     :                                    floatTypeDDML, 'kg/ha')
       dummy = add_registration_with_units(respondToGetReg, 'squarz_max',
      :                                    floatTypeDDML, '1/m2')
       dummy = add_registration_with_units(respondToGetReg, 'lai_max',
