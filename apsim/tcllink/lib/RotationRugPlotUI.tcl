@@ -348,22 +348,27 @@ proc showText {w doScroll} {
            set msg [string trim [lindex $list 1]]
            set state [string trimright [lindex $msg 2] "."]
            $data(tree) insert [expr $numEvals-1] $paddock #auto -text "<$numEvals>$msg" -image img.$state
-         } elseif {[llength $list] == 4} {
-           ## "Paddock1,target=Chickpea,rule=[canPlant_chickpea], value=0"
-           set paddock [string trim [lindex $list 0]]
-           set target [lindex [split [lindex $list 1] "="] 1]
-           if {![$data(tree) exists $paddock.$target]} {
-              $data(tree) insert end $paddock $paddock.$target -text "$target" -image img.$target
-           }   
-           set rule   [join [lrange [split [lindex $list 2] "="] 1 end]]
-           set value  [join [lrange [split [lindex $list 3] "="] 1 end]]
-           if {$value != 0} {
-              $data(tree) insert end $paddock.$target #auto -text "<$numEvals>$rule = $value" -image img.nonzero
-           } else {
-              $data(tree) insert end $paddock.$target #auto -text "<$numEvals>$rule = $value" -image img.zero
-           }
          } elseif {[string match changeState* $line]} {
            incr numEvals
+         } else {
+           ## "Paddock1,target=Chickpea,rule=[canPlant_chickpea], value=0"
+           ##   p1,target=Chickpea,rule=[apsimGlobalGet available('tractor=tractor_1,implement=planter')], value=1
+           set paddock [string trim [lindex $list 0]]
+           if {[lsearch $data(paddocks) $paddock] >= 0} {
+              set target [lindex [split [lindex $list 1] "="] 1]
+              if {![$data(tree) exists $paddock.$target]} {
+                 $data(tree) insert end $paddock $paddock.$target -text "$target" -image img.$target
+              }   
+              set t1 [expr [string first "rule=" $line]+5]
+              set t2 [expr [string first "value=" $line]-1]
+              set rule   [string trimright [string range $line $t1 $t2] ", "]
+              set value  [join [lrange [split [string range $line $t2 end] "="] 1 end]]
+              if {$value != 0} {
+                 $data(tree) insert end $paddock.$target #auto -text "<$numEvals>$rule = $value" -image img.nonzero
+              } else {
+                 $data(tree) insert end $paddock.$target #auto -text "<$numEvals>$rule = $value" -image img.zero
+              }
+           } 
          }
       }
    } 
