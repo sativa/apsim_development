@@ -1,4 +1,4 @@
-<soils name="soils" version="2">
+<soils name="soils" version="5">
   <Folder name="Kenya">
     <soil name="Machanga">
       <Water>
@@ -24229,7 +24229,7 @@ Red structured B: 30-60 cm, Reddish brown (5YR 4/4 d; 3/3 m) san</comment>
       <DataSource>Soil surveyed on 3 November 2005 by J. Mzezewa ; N.S. Makhaga from the University of Venda</DataSource>
       <other>
         <layer name="1">
-          <ec>13</ec>
+          <ec>13.0</ec>
           <ParticleSizeSand>75</ParticleSizeSand>
           <ParticleSizeSilt>11</ParticleSizeSilt>
           <ParticleSizeClay>14</ParticleSizeClay>
@@ -24238,220 +24238,25 @@ Red structured B: 30-60 cm, Reddish brown (5YR 4/4 d; 3/3 m) san</comment>
           <ParticleSizeSand>75</ParticleSizeSand>
           <ParticleSizeSilt>11</ParticleSizeSilt>
           <ParticleSizeClay>14</ParticleSizeClay>
-          <ec>13</ec>
+          <ec>13.0</ec>
         </layer>
-        <layer name="3" />
-        <layer name="4" />
-        <layer name="5" />
-        <layer name="6" />
-        <layer name="7" />
+        <layer name="3">
+          <ec>13.0</ec>
+        </layer>
+        <layer name="4">
+          <ec>13.0</ec>
+        </layer>
+        <layer name="5">
+          <ec>13.0</ec>
+        </layer>
+        <layer name="6">
+          <ec>13.0</ec>
+        </layer>
+        <layer name="7">
+          <ec>13.0</ec>
+        </layer>
       </other>
     </soil>
-    <Soil name="AWStation_UniVenda">
-      <region>District of Vhembe, Limpopo Province, Republic of South Africa</region>
-      <site>Research station, University of Venda</site>
-      <SoilType>Hutton Form (South African)</SoilType>
-      <nearesttown>Thouoyandou, : S22o58.081’ ; E030o26.411’</nearesttown>
-      <naturalvegetation>Ficus capensis, Diospyros  mespiliformis</naturalvegetation>
-      <Water>
-        <U>1.5</U>
-        <Cona>6.6</Cona>
-        <Salb>0.2</Salb>
-        <DiffusConst>88</DiffusConst>
-        <DiffusSlope>35.4</DiffusSlope>
-        <CN2Bare>85</CN2Bare>
-        <CNRed>20</CNRed>
-        <CNCov>0.8</CNCov>
-        <layer name="1">
-          <thickness>150</thickness>
-          <bd>1.1</bd>
-          <ll15>0.12</ll15>
-          <airdry>0.03</airdry>
-          <dul>0.45</dul>
-          <sat>0.59</sat>
-          <swcon>0.7</swcon>
-        </layer>
-        <layer name="2">
-          <thickness>150</thickness>
-          <bd>1.2</bd>
-          <ll15>0.132</ll15>
-          <airdry>0.03</airdry>
-          <dul>0.4</dul>
-          <sat>0.55</sat>
-          <swcon>0.7</swcon>
-        </layer>
-        <layer name="3">
-          <thickness>200</thickness>
-          <bd>1.2</bd>
-          <ll15>0.146</ll15>
-          <airdry>0.03</airdry>
-          <dul>0.38</dul>
-          <sat>0.54</sat>
-          <swcon>0.7</swcon>
-        </layer>
-        <layer name="4">
-          <thickness>250</thickness>
-          <bd>1.2</bd>
-          <ll15>0.152</ll15>
-          <airdry>0.03</airdry>
-          <dul>0.38</dul>
-          <sat>0.54</sat>
-          <swcon>0.7</swcon>
-        </layer>
-      </Water>
-      <Nitrogen>
-        <RootCN>36</RootCN>
-        <RootWT>300</RootWT>
-        <SoilCN>21.2</SoilCN>
-        <EnrACoeff>7.4</EnrACoeff>
-        <EnrBCoeff>0.2</EnrBCoeff>
-        <layer name="1">
-          <fbiom>0.03</fbiom>
-          <finert>0.5</finert>
-          <oc>1.72</oc>
-          <ph>5.73</ph>
-        </layer>
-        <layer name="2">
-          <fbiom>0.02</fbiom>
-          <finert>0.65</finert>
-        </layer>
-        <layer name="3">
-          <fbiom>0.015</fbiom>
-          <finert>0.65</finert>
-        </layer>
-        <layer name="4">
-          <fbiom>0.005</fbiom>
-          <finert>0.9</finert>
-        </layer>
-      </Nitrogen>
-      <WaterFormat>VolumetricPercent</WaterFormat>
-      <InitWater>
-        <layer name="1">
-          <sw>0.12</sw>
-        </layer>
-        <layer name="2">
-          <sw>0.132</sw>
-        </layer>
-        <layer name="3">
-          <sw>0.146</sw>
-        </layer>
-        <layer name="4">
-          <sw>0.152</sw>
-        </layer>
-      </InitWater>
-      <other>
-        <layer name="1">
-          <ec>22</ec>
-          <ca>798</ca>
-          <Mg>265</Mg>
-          <Na>140</Na>
-          <K>67</K>
-          <ParticleSizeSand>50</ParticleSizeSand>
-          <ParticleSizeSilt>32.1</ParticleSizeSilt>
-          <ParticleSizeClay>17.9</ParticleSizeClay>
-        </layer>
-        <layer name="2" />
-        <layer name="3" />
-        <layer name="4" />
-      </other>
-      <InitNitrogen>
-        <layer name="1">
-          <no3>6.8</no3>
-          <nh4>16.08</nh4>
-        </layer>
-        <layer name="2" />
-        <layer name="3" />
-        <layer name="4" />
-      </InitNitrogen>
-      <SoilCrop name="maize">
-        <layer name="1">
-          <ll>0.24</ll>
-          <kl>0.12</kl>
-          <xf>1</xf>
-        </layer>
-        <layer name="2">
-          <ll>0.19</ll>
-          <kl>0.12</kl>
-          <xf>1</xf>
-        </layer>
-        <layer name="3">
-          <ll>0.18</ll>
-          <kl>0.1</kl>
-          <xf>1</xf>
-        </layer>
-        <layer name="4">
-          <ll>0.22</ll>
-          <kl>0.08</kl>
-          <xf>1</xf>
-        </layer>
-      </SoilCrop>
-      <SoilCrop name="soybean">
-        <layer name="1">
-          <ll>0.12</ll>
-          <kl>0.12</kl>
-          <xf>1</xf>
-        </layer>
-        <layer name="2">
-          <ll>0.132</ll>
-          <kl>0.12</kl>
-          <xf>1</xf>
-        </layer>
-        <layer name="3">
-          <ll>0.146</ll>
-          <kl>0.1</kl>
-          <xf>1</xf>
-        </layer>
-        <layer name="4">
-          <ll>0.152</ll>
-          <kl>0.08</kl>
-          <xf>0</xf>
-        </layer>
-      </SoilCrop>
-      <SoilCrop name="mucuna">
-        <layer name="1">
-          <ll>0.12</ll>
-          <kl>0.12</kl>
-          <xf>1</xf>
-        </layer>
-        <layer name="2">
-          <ll>0.132</ll>
-          <kl>0.12</kl>
-          <xf>1</xf>
-        </layer>
-        <layer name="3">
-          <ll>0.146</ll>
-          <kl>0.1</kl>
-          <xf>1</xf>
-        </layer>
-        <layer name="4">
-          <ll>0.152</ll>
-          <kl>0.08</kl>
-          <xf>1</xf>
-        </layer>
-      </SoilCrop>
-      <SoilCrop name="weed">
-        <layer name="1">
-          <ll>0.12</ll>
-          <kl>0.12</kl>
-          <xf>1</xf>
-        </layer>
-        <layer name="2">
-          <ll>0.132</ll>
-          <kl>0.12</kl>
-          <xf>1</xf>
-        </layer>
-        <layer name="3">
-          <ll>0.146</ll>
-          <kl>0.1</kl>
-          <xf>1</xf>
-        </layer>
-        <layer name="4">
-          <ll>0.152</ll>
-          <kl>0.08</kl>
-          <xf>1</xf>
-        </layer>
-      </SoilCrop>
-    </Soil>
     <Soil name="AWStation_UniVenda">
       <region>District of Vhembe, Limpopo Province, Republic of South Africa</region>
       <site>Research station, University of Venda</site>
