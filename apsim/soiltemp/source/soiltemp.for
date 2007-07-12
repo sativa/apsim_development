@@ -78,7 +78,6 @@
          real maxt
          real eos
          real es
-         real cover_tot
       end type SoilTempExternals
 ! ====================================================================
       type SoilTempParameters
@@ -387,8 +386,7 @@
       enddo
       a(1) = 0.0
       d(1) = d(1) + therm(0)* g%tn(0) * c%nu
-!      if (e%cover_tot .gt. 0.007) then
-!      e%eos = u_bound (e%eos, 3.0)
+
       if ((e%eos - e%es) .gt. 0.2) then
          d(1) = d(1) + (e%eos - e%es) * lambda / e%timestepsec
       endif
@@ -622,7 +620,6 @@
          e%maxt        = 0.0
          e%eos         = 0.0
          e%es          = 0.0
-         e%cover_tot   = 0.0
 
          p%clay(:)              = 0.0
 
@@ -866,16 +863,6 @@
       if (numvals .eq. 0) e%es = 0.0
 !      e%eos = bound (e%eos*0.5, e%es, e%eos)
 
-!cover_tot
-      call get_real_var_optional (
-     :      unknown_module ! module that responds (not used)
-     :     ,'cover_tot'          ! variable name
-     :     ,'(0-1)'        ! units                (not used)
-     :     ,e%cover_tot            ! variable
-     :     ,numvals         ! number of values returned
-     :     ,0.0            ! lower limit for bound checking
-     :     ,1.0)           ! upper limit for bound checking
-      if (numvals .eq. 0) e%cover_tot = 0.0
 
       call pop_routine (myname)
       return
