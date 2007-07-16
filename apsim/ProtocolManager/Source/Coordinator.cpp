@@ -104,75 +104,64 @@ Coordinator::~Coordinator(void)
 // ------------------------------------------------------------------
 void Coordinator::doInit1(const FString& sdml)
    {
-   try
+   if (componentID == parentID) {cout << "Version                = " + getApsimVersion() << endl;}
+
+   Component::doInit1(sdml);
+
+   string sdmlString = string(sdml.f_str(), sdml.length());
+   ApsimSimulationFile simulationData(sdmlString, true);
+
+
+   if (componentID == parentID)
       {
-      if (componentID == parentID) {cout << "Version                = " + getApsimVersion() << endl;}
-
-      Component::doInit1(sdml);
-
-      string sdmlString = string(sdml.f_str(), sdml.length());
-      ApsimSimulationFile simulationData(sdmlString, true);
-
-
-      if (componentID == parentID)
-         {
-         title = simulationData.getTitle();
-         cout << "Title                  = " + title << endl; 
-         titleID = addRegistration(RegistrationType::respondToGet, "title", "<type kind=\"string\"/>");
-         componentsID = addRegistration(RegistrationType::respondToGet, "components", "<type kind=\"string\" array=\"T\"/>");
-         }
-      else 
-         {
-         cout << "Paddock:" << endl; 
-         }
-      printReport = simulationData.doPrintReport();
-      readAllRegistrations();
-
-      // loop through all components specified in SDML and create
-      // and add a componentAlias object to our list of components.
-      std::vector<string> componentNames;
-      simulationData.getComponentNames(componentNames);
-      for (std::vector<string>::iterator componentI = componentNames.begin();
-                                         componentI != componentNames.end();
-                                         componentI++)
-         {
-         ApsimComponentData component = simulationData.getComponent(*componentI);
-
-         string dll = component.getExecutableFileName();
-#ifdef __WIN32__
-         // Convert unix style paths to native DOS format
-         Replace_all(dll, "/", "\\");
-#endif
-         cout << "Component " << setw(12) << ("\"" + component.getName() + "\"") << " = " + dll << endl;
-
-         addComponent(component.getName(),
-                      component.getExecutableFileName(),
-                      component.getComponentInterfaceFileName(),
-                      component.getXML());
-         }
-
-      // loop through all systems specified in SDML and create
-      // and add a componentAlias object to our list of components.
-      std::vector<string> systemNames;
-      simulationData.getSystemNames(systemNames);
-      for (std::vector<string>::iterator systemI = systemNames.begin();
-                                         systemI != systemNames.end();
-                                         systemI++)
-         {
-         ApsimSystemData system = simulationData.getSystem(*systemI);
-         addComponent(system.getName(),
-                      system.getExecutableFileName(),
-                      "",
-                      system.getXML());
-         }
-
+      title = simulationData.getTitle();
+      cout << "Title                  = " + title << endl; 
+      titleID = addRegistration(RegistrationType::respondToGet, "title", "<type kind=\"string\"/>");
+      componentsID = addRegistration(RegistrationType::respondToGet, "components", "<type kind=\"string\" array=\"T\"/>");
       }
-   catch (const runtime_error& error)
+   else 
       {
-      // Can't seem to throw runtime_error's across DLL boundaries.
-      // Seems to work with debug info turned on but not in 'release' mode.
-      // So throw a const char* instead.
-      throw error.what();
+      cout << "Paddock:" << endl; 
+      }
+   printReport = simulationData.doPrintReport();
+   readAllRegistrations();
+
+   // loop through all components specified in SDML and create
+   // and add a componentAlias object to our list of components.
+   std::vector<string> componentNames;
+   simulationData.getComponentNames(componentNames);
+   for (std::vector<string>::iterator componentI = componentNames.begin();
+                                      componentI != componentNames.end();
+                                      componentI++)
+      {
+      ApsimComponentData component = simulationData.getComponent(*componentI);
+
+      string dll = component.getExecutableFileName();
+#ifdef __WIN32__
+      // Convert unix style paths to native DOS format
+      Replace_all(dll, "/", "\\");
+#endif
+      cout << "Component " << setw(12) << ("\"" + component.getName() + "\"") << " = " + dll << endl;
+
+      addComponent(component.getName(),
+                   component.getExecutableFileName(),
+                   component.getComponentInterfaceFileName(),
+                   component.getXML());
+      }
+
+   // loop through all systems specified in SDML and create
+   // and add a componentAlias object to our list of components.
+   std::vector<string> systemNames;
+   simulationData.getSystemNames(systemNames);
+   for (std::vector<string>::iterator systemI = systemNames.begin();
+                                      systemI != systemNames.end();
+                                      systemI++)
+      {
+      ApsimSystemData system = simulationData.getSystem(*systemI);
+      addComponent(system.getName(),
+                   system.getExecutableFileName(),
+                   "",
+                   system.getXML());
       }
    }
 // ------------------------------------------------------------------
@@ -246,25 +235,23 @@ void Coordinator::addComponent(const string& compName,
    // get a unique id for the component we're about to create.
    unsigned int childID = getComponentID(compName);
 
-   // dph hack - shouldn't hardwire clock as sequencer.
-   if (Str_i_Eq(compName, "clock"))
-      sequencerID = childID;
-
-   ComponentAlias* componentAlias = new ComponentAlias
-         (compName,
-          compExecutable,
-          componentInterfaceExecutable,
-          childID,
-          componentID);
-   components.insert(Components::value_type(childID, componentAlias));
-
-   string fqn = getName();
-   fqn += ".";
-   fqn += compName;
-
-   // send component an init1 message.
+   ComponentAlias* componentAlias = NULL;   
    try
       {
+
+      componentAlias = new ComponentAlias(compName,
+                                          compExecutable,
+                                          componentInterfaceExecutable,
+                                          childID,
+                                          componentID);
+          
+      components.insert(Components::value_type(childID, componentAlias));
+
+      string fqn = getName();
+      fqn += ".";
+      fqn += compName;
+
+      // send component an init1 message.
       sendMessage(newInit1Message(componentID,
                                   childID,
                                   compSdml.c_str(),
@@ -273,10 +260,15 @@ void Coordinator::addComponent(const string& compName,
       }
    catch (const runtime_error& error)
       {
+      if (componentAlias) delete componentAlias;
       components.erase(childID);
-      delete componentAlias;
       throw;
       }
+
+   // dph hack - shouldn't hardwire clock as sequencer.
+   if (Str_i_Eq(compName, "clock"))
+      sequencerID = childID;
+
    }
 
 // ------------------------------------------------------------------
@@ -377,7 +369,7 @@ void Coordinator::onRegisterMessage(unsigned int fromID, RegisterData& registerD
 
 // ------------------------------------------------------------------
 //  Short description:
-//    handle incoming registration messages.
+//    handle incoming deregistration messages.
 
 //  Notes:
 
@@ -582,7 +574,7 @@ void Coordinator::onQueryInfoMessage(unsigned int fromID,
    unsigned componentId = 0;
 
    string childName = asString(queryInfo.name);
-   unsigned posPeriod = childName.find('.');
+   unsigned posPeriod = childName.rfind('.');
    if (posPeriod != string::npos)
       {
       string componentName = childName.substr(0, posPeriod);
@@ -593,7 +585,6 @@ void Coordinator::onQueryInfoMessage(unsigned int fromID,
           throw std::runtime_error("Component \"" + componentName + "\" is unknown.");
       }
    std::vector< ::Registration> matches;
-
    if (queryInfo.kind == respondToGetInfo)
       {
       registrations.findMatching(componentId, childName, RegistrationType::respondToGet, matches);
