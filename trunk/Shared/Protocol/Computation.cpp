@@ -4,14 +4,17 @@
 #else
    #include <dlfcn.h>
 #endif
-#include <general/platform.h>
-#include <general/dll.h>
-#include "Computation.h"
-#include "Transport.h"
+
+
 #include <list>
 #include <functional>
+#include <general/platform.h>
+#include <general/dll.h>
 #include <general/path.h>
 #include <ApsimShared/ApsimDirectories.h>
+#include "Computation.h"
+#include "Transport.h"
+
 using namespace std;
 using namespace protocol;
 
