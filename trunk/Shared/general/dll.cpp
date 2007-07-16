@@ -12,7 +12,7 @@
 #include <general/path.h>
 
 using namespace std;
-void *loadDLL(const string& filename)
+void *loadDLL(const string& filename) throw (std::runtime_error)
    {
    // ------------------------------------------------------------------
    // Loads a dll into memory and returns a handle to it.
@@ -50,7 +50,7 @@ void *loadDLL(const string& filename)
          errorMessage = string("Cannot load DLL: ") + filename + ".\n" + dllerr;
    #endif
    if (errorMessage != "")
-      throw runtime_error(errorMessage);
+      throw std::runtime_error(errorMessage);
 
    return result;
    }
