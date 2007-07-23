@@ -5,8 +5,8 @@
 
 #ifdef __WIN32__
  #include <process.h>
- #include <dos.h>
- #define sleep _sleep
+// #include <dos.h>
+// #define sleep _sleep
 #else
  #include <unistd.h>
 #endif
@@ -67,25 +67,19 @@ void SiloInputComponent::openInputFile(void)
    readParameter ("parameters", "station_number", stationNumber, 0, 100000);
 
    string requestString =
-      string("http://192.168.0.60/cgi-bin/silo/getQdb.cgi?format=APSIM&station=") +
+      string("http://192.168.0.60/cgi-bin/getData.tcl?format=apsim&station=") +
       itoa(stationNumber) +
       string("&ddStart=1&mmStart=1&yyyyStart=1800&ddFinish=31&mmFinish=12&yyyyFinish=2100");
 
    tHTTP http;
-   int numTries = 0; bool ok = false;
-   
-   while (!ok && numTries < 5) 
-      {
-      ok = http.Get(fileName, requestString);
-      if (!ok) sleep(2);
-      numTries++;
-      }
+
+   bool ok = http.Get(fileName, requestString);
 
    if (!ok) {throw std::runtime_error(http.ErrorMessage());}
 
    struct stat statbuf;
    if (stat(fileName.c_str(), &statbuf) < 0) 
-       throw std::runtime_error("Temporary met file " + fileName + "is missing");
+       throw std::runtime_error("Temporary met file " + fileName + " is missing");
 
    if (statbuf.st_size == 0) 
        throw std::runtime_error("No data for station " + itoa(stationNumber) + 
