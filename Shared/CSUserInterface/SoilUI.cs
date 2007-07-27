@@ -19,63 +19,31 @@ namespace CSUserInterface
 	// -------------------------------------------
 	public class SoilUI : BaseView
 		{
-        private ApsoilController SoilController;
+        private BaseController Controller;
         private string NodePath;
 		private System.ComponentModel.IContainer components = null;
-		private Soil MySoil;
-		private System.Windows.Forms.ImageList ButtonImageList;
-		private static int NUMBER_OF_STATIC_COLS = 7;
-		private System.Windows.Forms.FontDialog fontDialog1;
+        private Soil MySoil;
+        private static int NUMBER_OF_STATIC_COLS = 7;
 		private FarPoint.Win.Spread.FpSpread Grid;
 		private FarPoint.Win.Spread.SheetView General;
 		private FarPoint.Win.Spread.SheetView SoilProfile;
 		private FarPoint.Win.Spread.SheetView APSIM;
 		private FarPoint.Win.Spread.SheetView Phosphorus;
-		private FarPoint.Win.Spread.SheetView Water;
-		private System.Windows.Forms.ContextMenu WaterMenu;
-		private System.Windows.Forms.MenuItem AddCropMenuItem;
-		private System.Windows.Forms.MenuItem DeleteCropMenuItem;
-		private System.Windows.Forms.Splitter splitter1;
-		private WaterChartControl WaterChartControl;
-		private System.Windows.Forms.MenuItem ReorderCropsMenuItem;
-		private System.Windows.Forms.MenuItem menuItem1;
-		private System.Windows.Forms.MenuItem PrintMenuItem;
-		private TMGDevelopment.Windows.Forms.PrintForm PrintForm;
-		private System.Windows.Forms.PrintPreviewDialog PrintPreviewDialog;
-		private System.Windows.Forms.PrintDialog printDialog1;
-		private System.Drawing.Printing.PrintDocument printDocument1;
-		private System.Windows.Forms.MenuItem CheckSoilMenuItem;
-		private System.Windows.Forms.MenuItem menuItem2;
+        private FarPoint.Win.Spread.SheetView Water;
+        private TMGDevelopment.Windows.Forms.PrintForm PrintForm;
 		private System.Windows.Forms.OpenFileDialog OpenAttachmentDialog;
 		private bool UserChange = true;
 		private FarPoint.Win.Spread.SheetView PhotoAttachSheet;
-        private ToolStrip toolStrip1;
-        private ToolStripButton AddButton;
-        private ToolStripButton DeleteButton;
-        private ToolStripButton ReorderButton;
-        private ToolStripButton CheckSoilButton;
-        private ToolStripSeparator toolStripSeparator1;
-        private ToolStripButton PrintButton;
-        private ToolStripButton PHButton;
-        private ToolStripButton AddLayerButton;
-        private ToolStripButton DeleteLayerButton;
-        private ToolStripSeparator toolStripSeparator2;
+        private ToolStrip SoilToolStrip;
+        private WaterChartControl WaterChartControl;
 		private string AttachmentFileName;
+        
 		
-		// -------------
-		// constructor
-		// -------------
 		public SoilUI()
 			{
 			// This call is required by the Windows Form Designer.
 			InitializeComponent();
-            			
 			}
-
-
-		// -----------------------------------
-		// Clean up any resources being used.
-		// -----------------------------------
 		protected override void Dispose( bool disposing )
 			{
 			if( disposing )
@@ -99,50 +67,24 @@ namespace CSUserInterface
 		private void InitializeComponent()
 		{
         this.components = new System.ComponentModel.Container();
-        System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(SoilUI));
         FarPoint.Win.Spread.TipAppearance tipAppearance1 = new FarPoint.Win.Spread.TipAppearance();
         FarPoint.Win.Spread.CellType.TextCellType textCellType1 = new FarPoint.Win.Spread.CellType.TextCellType();
         FarPoint.Win.Spread.CellType.TextCellType textCellType2 = new FarPoint.Win.Spread.CellType.TextCellType();
-        FarPoint.Win.Spread.CellType.TextCellType textCellType3 = new FarPoint.Win.Spread.CellType.TextCellType();
         FarPoint.Win.BevelBorder bevelBorder1 = new FarPoint.Win.BevelBorder(FarPoint.Win.BevelBorderType.Raised);
         FarPoint.Win.BevelBorder bevelBorder2 = new FarPoint.Win.BevelBorder(FarPoint.Win.BevelBorderType.Raised);
         FarPoint.Win.Spread.CellType.ComboBoxCellType comboBoxCellType1 = new FarPoint.Win.Spread.CellType.ComboBoxCellType();
+        FarPoint.Win.Spread.CellType.TextCellType textCellType3 = new FarPoint.Win.Spread.CellType.TextCellType();
         FarPoint.Win.Spread.CellType.TextCellType textCellType4 = new FarPoint.Win.Spread.CellType.TextCellType();
         FarPoint.Win.Spread.CellType.TextCellType textCellType5 = new FarPoint.Win.Spread.CellType.TextCellType();
         FarPoint.Win.Spread.CellType.TextCellType textCellType6 = new FarPoint.Win.Spread.CellType.TextCellType();
-        FarPoint.Win.Spread.CellType.TextCellType textCellType7 = new FarPoint.Win.Spread.CellType.TextCellType();
         FarPoint.Win.Spread.CellType.ButtonCellType buttonCellType1 = new FarPoint.Win.Spread.CellType.ButtonCellType();
         FarPoint.Win.Spread.CellType.ButtonCellType buttonCellType2 = new FarPoint.Win.Spread.CellType.ButtonCellType();
         FarPoint.Win.Spread.CellType.ButtonCellType buttonCellType3 = new FarPoint.Win.Spread.CellType.ButtonCellType();
         FarPoint.Win.Spread.CellType.ImageCellType imageCellType1 = new FarPoint.Win.Spread.CellType.ImageCellType();
-        this.ButtonImageList = new System.Windows.Forms.ImageList(this.components);
-        this.fontDialog1 = new System.Windows.Forms.FontDialog();
         this.Grid = new FarPoint.Win.Spread.FpSpread();
-        this.WaterMenu = new System.Windows.Forms.ContextMenu();
-        this.AddCropMenuItem = new System.Windows.Forms.MenuItem();
-        this.DeleteCropMenuItem = new System.Windows.Forms.MenuItem();
-        this.ReorderCropsMenuItem = new System.Windows.Forms.MenuItem();
-        this.menuItem2 = new System.Windows.Forms.MenuItem();
-        this.CheckSoilMenuItem = new System.Windows.Forms.MenuItem();
-        this.menuItem1 = new System.Windows.Forms.MenuItem();
-        this.PrintMenuItem = new System.Windows.Forms.MenuItem();
-        this.splitter1 = new System.Windows.Forms.Splitter();
         this.PrintForm = new TMGDevelopment.Windows.Forms.PrintForm(this.components);
-        this.PrintPreviewDialog = new System.Windows.Forms.PrintPreviewDialog();
-        this.printDocument1 = new System.Drawing.Printing.PrintDocument();
-        this.printDialog1 = new System.Windows.Forms.PrintDialog();
         this.OpenAttachmentDialog = new System.Windows.Forms.OpenFileDialog();
-        this.toolStrip1 = new System.Windows.Forms.ToolStrip();
-        this.AddLayerButton = new System.Windows.Forms.ToolStripButton();
-        this.DeleteLayerButton = new System.Windows.Forms.ToolStripButton();
-        this.toolStripSeparator2 = new System.Windows.Forms.ToolStripSeparator();
-        this.AddButton = new System.Windows.Forms.ToolStripButton();
-        this.DeleteButton = new System.Windows.Forms.ToolStripButton();
-        this.ReorderButton = new System.Windows.Forms.ToolStripButton();
-        this.PHButton = new System.Windows.Forms.ToolStripButton();
-        this.toolStripSeparator1 = new System.Windows.Forms.ToolStripSeparator();
-        this.PrintButton = new System.Windows.Forms.ToolStripButton();
-        this.CheckSoilButton = new System.Windows.Forms.ToolStripButton();
+        this.SoilToolStrip = new System.Windows.Forms.ToolStrip();
         this.WaterChartControl = new CSUserInterface.WaterChartControl();
         this.General = new FarPoint.Win.Spread.SheetView();
         this.Water = new FarPoint.Win.Spread.SheetView();
@@ -151,7 +93,6 @@ namespace CSUserInterface
         this.Phosphorus = new FarPoint.Win.Spread.SheetView();
         this.PhotoAttachSheet = new FarPoint.Win.Spread.SheetView();
         ((System.ComponentModel.ISupportInitialize)(this.Grid)).BeginInit();
-        this.toolStrip1.SuspendLayout();
         ((System.ComponentModel.ISupportInitialize)(this.General)).BeginInit();
         ((System.ComponentModel.ISupportInitialize)(this.Water)).BeginInit();
         ((System.ComponentModel.ISupportInitialize)(this.SoilProfile)).BeginInit();
@@ -160,23 +101,14 @@ namespace CSUserInterface
         ((System.ComponentModel.ISupportInitialize)(this.PhotoAttachSheet)).BeginInit();
         this.SuspendLayout();
         // 
-        // ButtonImageList
-        // 
-        this.ButtonImageList.ImageStream = ((System.Windows.Forms.ImageListStreamer)(resources.GetObject("ButtonImageList.ImageStream")));
-        this.ButtonImageList.TransparentColor = System.Drawing.Color.Transparent;
-        this.ButtonImageList.Images.SetKeyName(0, "");
-        this.ButtonImageList.Images.SetKeyName(1, "");
-        this.ButtonImageList.Images.SetKeyName(2, "");
-        // 
         // Grid
         // 
-        this.Grid.AccessibleDescription = "Grid, Water, Row 0, Column 0, ";
+        this.Grid.AccessibleDescription = "Grid, Photo/Attach, Row 1, Column 0, ";
         this.Grid.AllowDragDrop = true;
-        this.Grid.ContextMenu = this.WaterMenu;
         this.Grid.Dock = System.Windows.Forms.DockStyle.Top;
         this.Grid.EditModeReplace = true;
         this.Grid.HorizontalScrollBarPolicy = FarPoint.Win.Spread.ScrollBarPolicy.AsNeeded;
-        this.Grid.Location = new System.Drawing.Point(0, 86);
+        this.Grid.Location = new System.Drawing.Point(0, 65);
         this.Grid.Name = "Grid";
         this.Grid.SelectionBlockOptions = ((FarPoint.Win.Spread.SelectionBlockOptions)(((FarPoint.Win.Spread.SelectionBlockOptions.Cells | FarPoint.Win.Spread.SelectionBlockOptions.Rows)
                     | FarPoint.Win.Spread.SelectionBlockOptions.Sheet)));
@@ -197,235 +129,43 @@ namespace CSUserInterface
         tipAppearance1.ForeColor = System.Drawing.SystemColors.InfoText;
         this.Grid.TextTipAppearance = tipAppearance1;
         this.Grid.TextTipPolicy = FarPoint.Win.Spread.TextTipPolicy.Floating;
-        this.Grid.ButtonClicked += new FarPoint.Win.Spread.EditorNotifyEventHandler(this.Grid_ButtonClicked);
-        this.Grid.ActiveSheetChanged += new System.EventHandler(this.Grid_ActiveSheetChanged_1);
-        this.Grid.TextTipFetch += new FarPoint.Win.Spread.TextTipFetchEventHandler(this.GetTextTip);
+        this.Grid.ButtonClicked += new FarPoint.Win.Spread.EditorNotifyEventHandler(this.OnAttachGridButtonClicked);
+        this.Grid.TextTipFetch += new FarPoint.Win.Spread.TextTipFetchEventHandler(this.OnGetTextTip);
         this.Grid.SetViewportLeftColumn(0, 1);
-        this.Grid.SetViewportLeftColumn(1, 0, 6);
+        this.Grid.SetViewportLeftColumn(1, 0, 7);
         this.Grid.SetActiveViewport(1, 0, -1);
         this.Grid.ActiveSheetIndex = 1;
-        // 
-        // WaterMenu
-        // 
-        this.WaterMenu.MenuItems.AddRange(new System.Windows.Forms.MenuItem[] {
-            this.AddCropMenuItem,
-            this.DeleteCropMenuItem,
-            this.ReorderCropsMenuItem,
-            this.menuItem2,
-            this.CheckSoilMenuItem,
-            this.menuItem1,
-            this.PrintMenuItem});
-        // 
-        // AddCropMenuItem
-        // 
-        this.AddCropMenuItem.Index = 0;
-        this.AddCropMenuItem.Text = "&Add crop";
-        this.AddCropMenuItem.Click += new System.EventHandler(this.AddCropMenuItem_Click);
-        // 
-        // DeleteCropMenuItem
-        // 
-        this.DeleteCropMenuItem.Index = 1;
-        this.DeleteCropMenuItem.Text = "&Delete crop";
-        this.DeleteCropMenuItem.Click += new System.EventHandler(this.DeleteCropMenuItem_Click);
-        // 
-        // ReorderCropsMenuItem
-        // 
-        this.ReorderCropsMenuItem.Index = 2;
-        this.ReorderCropsMenuItem.Text = "&Reorder crops";
-        this.ReorderCropsMenuItem.Click += new System.EventHandler(this.ReorderCropsMenuItem_Click);
-        // 
-        // menuItem2
-        // 
-        this.menuItem2.Index = 3;
-        this.menuItem2.Text = "-";
-        // 
-        // CheckSoilMenuItem
-        // 
-        this.CheckSoilMenuItem.Index = 4;
-        this.CheckSoilMenuItem.Text = "&Check soil for errors";
-        this.CheckSoilMenuItem.Click += new System.EventHandler(this.CheckSoilMenuItem_Click);
-        // 
-        // menuItem1
-        // 
-        this.menuItem1.Index = 5;
-        this.menuItem1.Text = "-";
-        // 
-        // PrintMenuItem
-        // 
-        this.PrintMenuItem.Index = 6;
-        this.PrintMenuItem.Text = "&Print";
-        this.PrintMenuItem.Click += new System.EventHandler(this.PrintClick);
-        // 
-        // splitter1
-        // 
-        this.splitter1.Dock = System.Windows.Forms.DockStyle.Top;
-        this.splitter1.Location = new System.Drawing.Point(0, 378);
-        this.splitter1.Name = "splitter1";
-        this.splitter1.Size = new System.Drawing.Size(906, 3);
-        this.splitter1.TabIndex = 13;
-        this.splitter1.TabStop = false;
         // 
         // PrintForm
         // 
         this.PrintForm.AutoFit = TMGDevelopment.Windows.Forms.PageElement.Body;
         this.PrintForm.BodyContainer = this;
         this.PrintForm.CenterStyle = TMGDevelopment.Windows.Forms.CenterStyle.None;
-        this.PrintForm.PreDraw += new TMGDevelopment.Windows.Forms.PreDrawEventHandler(this.printForm1_PreDraw);
-        // 
-        // PrintPreviewDialog
-        // 
-        this.PrintPreviewDialog.AutoScrollMargin = new System.Drawing.Size(0, 0);
-        this.PrintPreviewDialog.AutoScrollMinSize = new System.Drawing.Size(0, 0);
-        this.PrintPreviewDialog.ClientSize = new System.Drawing.Size(400, 300);
-        this.PrintPreviewDialog.Document = this.printDocument1;
-        this.PrintPreviewDialog.Enabled = true;
-        this.PrintPreviewDialog.Icon = ((System.Drawing.Icon)(resources.GetObject("PrintPreviewDialog.Icon")));
-        this.PrintPreviewDialog.Name = "PrintPreviewDialog";
-        this.PrintPreviewDialog.Visible = false;
-        // 
-        // printDocument1
-        // 
-        this.printDocument1.PrintPage += new System.Drawing.Printing.PrintPageEventHandler(this.printDocument1_PrintPage);
-        this.printDocument1.QueryPageSettings += new System.Drawing.Printing.QueryPageSettingsEventHandler(this.printDocument1_QueryPageSettings);
-        this.printDocument1.BeginPrint += new System.Drawing.Printing.PrintEventHandler(this.printDocument1_BeginPrint);
-        // 
-        // printDialog1
-        // 
-        this.printDialog1.Document = this.printDocument1;
+        this.PrintForm.PreDraw += new TMGDevelopment.Windows.Forms.PreDrawEventHandler(this.OnPreDraw);
         // 
         // OpenAttachmentDialog
         // 
         this.OpenAttachmentDialog.Filter = "All files|*.*";
         this.OpenAttachmentDialog.RestoreDirectory = true;
         // 
-        // toolStrip1
+        // SoilToolStrip
         // 
-        this.toolStrip1.ImageScalingSize = new System.Drawing.Size(24, 24);
-        this.toolStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.AddLayerButton,
-            this.DeleteLayerButton,
-            this.toolStripSeparator2,
-            this.AddButton,
-            this.DeleteButton,
-            this.ReorderButton,
-            this.PHButton,
-            this.toolStripSeparator1,
-            this.PrintButton,
-            this.CheckSoilButton});
-        this.toolStrip1.Location = new System.Drawing.Point(0, 40);
-        this.toolStrip1.Name = "toolStrip1";
-        this.toolStrip1.Size = new System.Drawing.Size(906, 46);
-        this.toolStrip1.TabIndex = 15;
-        this.toolStrip1.Text = "toolStrip1";
-        // 
-        // AddLayerButton
-        // 
-        this.AddLayerButton.Image = global::CSUserInterface.Properties.Resources.add2;
-        this.AddLayerButton.ImageScaling = System.Windows.Forms.ToolStripItemImageScaling.None;
-        this.AddLayerButton.ImageTransparentColor = System.Drawing.Color.Magenta;
-        this.AddLayerButton.Name = "AddLayerButton";
-        this.AddLayerButton.Size = new System.Drawing.Size(61, 43);
-        this.AddLayerButton.Text = "&Add layer";
-        this.AddLayerButton.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageAboveText;
-        this.AddLayerButton.Click += new System.EventHandler(this.AddLayerButton_Click);
-        // 
-        // DeleteLayerButton
-        // 
-        this.DeleteLayerButton.Image = global::CSUserInterface.Properties.Resources.delete2;
-        this.DeleteLayerButton.ImageScaling = System.Windows.Forms.ToolStripItemImageScaling.None;
-        this.DeleteLayerButton.ImageTransparentColor = System.Drawing.Color.Magenta;
-        this.DeleteLayerButton.Name = "DeleteLayerButton";
-        this.DeleteLayerButton.Size = new System.Drawing.Size(72, 43);
-        this.DeleteLayerButton.Text = "&Delete layer";
-        this.DeleteLayerButton.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageAboveText;
-        this.DeleteLayerButton.ToolTipText = "Delete layer";
-        this.DeleteLayerButton.Click += new System.EventHandler(this.DeleteLayerButton_Click);
-        // 
-        // toolStripSeparator2
-        // 
-        this.toolStripSeparator2.Name = "toolStripSeparator2";
-        this.toolStripSeparator2.Size = new System.Drawing.Size(6, 46);
-        // 
-        // AddButton
-        // 
-        this.AddButton.Image = global::CSUserInterface.Properties.Resources.add2;
-        this.AddButton.ImageScaling = System.Windows.Forms.ToolStripItemImageScaling.None;
-        this.AddButton.ImageTransparentColor = System.Drawing.Color.Magenta;
-        this.AddButton.Name = "AddButton";
-        this.AddButton.Size = new System.Drawing.Size(60, 43);
-        this.AddButton.Text = "Add crop";
-        this.AddButton.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageAboveText;
-        this.AddButton.Click += new System.EventHandler(this.AddCropMenuItem_Click);
-        // 
-        // DeleteButton
-        // 
-        this.DeleteButton.Image = global::CSUserInterface.Properties.Resources.delete2;
-        this.DeleteButton.ImageScaling = System.Windows.Forms.ToolStripItemImageScaling.None;
-        this.DeleteButton.ImageTransparentColor = System.Drawing.Color.Magenta;
-        this.DeleteButton.Name = "DeleteButton";
-        this.DeleteButton.Size = new System.Drawing.Size(71, 43);
-        this.DeleteButton.Text = "Delete crop";
-        this.DeleteButton.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageAboveText;
-        this.DeleteButton.Click += new System.EventHandler(this.DeleteCropMenuItem_Click);
-        // 
-        // ReorderButton
-        // 
-        this.ReorderButton.Image = global::CSUserInterface.Properties.Resources.up_down;
-        this.ReorderButton.ImageScaling = System.Windows.Forms.ToolStripItemImageScaling.None;
-        this.ReorderButton.ImageTransparentColor = System.Drawing.Color.Magenta;
-        this.ReorderButton.Name = "ReorderButton";
-        this.ReorderButton.Size = new System.Drawing.Size(84, 43);
-        this.ReorderButton.Text = "Reorder crops";
-        this.ReorderButton.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageAboveText;
-        this.ReorderButton.Click += new System.EventHandler(this.ReorderCropsMenuItem_Click);
-        // 
-        // PHButton
-        // 
-        this.PHButton.Enabled = false;
-        this.PHButton.Image = global::CSUserInterface.Properties.Resources.potion_yellow;
-        this.PHButton.ImageTransparentColor = System.Drawing.Color.Magenta;
-        this.PHButton.Name = "PHButton";
-        this.PHButton.Size = new System.Drawing.Size(100, 43);
-        this.PHButton.Text = "Change pH units";
-        this.PHButton.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageAboveText;
-        this.PHButton.Click += new System.EventHandler(this.PHButton_Click);
-        // 
-        // toolStripSeparator1
-        // 
-        this.toolStripSeparator1.Name = "toolStripSeparator1";
-        this.toolStripSeparator1.Size = new System.Drawing.Size(6, 46);
-        // 
-        // PrintButton
-        // 
-        this.PrintButton.Image = global::CSUserInterface.Properties.Resources.printer;
-        this.PrintButton.ImageScaling = System.Windows.Forms.ToolStripItemImageScaling.None;
-        this.PrintButton.ImageTransparentColor = System.Drawing.Color.Magenta;
-        this.PrintButton.Name = "PrintButton";
-        this.PrintButton.Size = new System.Drawing.Size(57, 43);
-        this.PrintButton.Text = "&Print soil";
-        this.PrintButton.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageAboveText;
-        this.PrintButton.Click += new System.EventHandler(this.PrintClick);
-        // 
-        // CheckSoilButton
-        // 
-        this.CheckSoilButton.Image = global::CSUserInterface.Properties.Resources.check2;
-        this.CheckSoilButton.ImageScaling = System.Windows.Forms.ToolStripItemImageScaling.None;
-        this.CheckSoilButton.ImageTransparentColor = System.Drawing.Color.Magenta;
-        this.CheckSoilButton.Name = "CheckSoilButton";
-        this.CheckSoilButton.Size = new System.Drawing.Size(65, 43);
-        this.CheckSoilButton.Text = "&Check soil";
-        this.CheckSoilButton.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageAboveText;
-        this.CheckSoilButton.Click += new System.EventHandler(this.CheckSoilMenuItem_Click);
+        this.SoilToolStrip.ImageScalingSize = new System.Drawing.Size(24, 24);
+        this.SoilToolStrip.Location = new System.Drawing.Point(0, 40);
+        this.SoilToolStrip.Name = "SoilToolStrip";
+        this.SoilToolStrip.Size = new System.Drawing.Size(906, 25);
+        this.SoilToolStrip.TabIndex = 15;
+        this.SoilToolStrip.Text = "toolStrip1";
         // 
         // WaterChartControl
         // 
         this.WaterChartControl.Dock = System.Windows.Forms.DockStyle.Fill;
         this.WaterChartControl.LinkedSoil = null;
-        this.WaterChartControl.Location = new System.Drawing.Point(0, 378);
+        this.WaterChartControl.Location = new System.Drawing.Point(0, 357);
         this.WaterChartControl.Name = "WaterChartControl";
         this.WaterChartControl.ShowSoilWaterLine = false;
-        this.WaterChartControl.Size = new System.Drawing.Size(906, 384);
-        this.WaterChartControl.TabIndex = 14;
+        this.WaterChartControl.Size = new System.Drawing.Size(906, 405);
+        this.WaterChartControl.TabIndex = 16;
         // 
         // General
         // 
@@ -433,9 +173,9 @@ namespace CSUserInterface
         // Formulas and custom names must be loaded with R1C1 reference style
         this.General.ReferenceStyle = FarPoint.Win.Spread.Model.ReferenceStyle.R1C1;
         this.General.ColumnCount = 2;
-        this.General.RowCount = 9;
+        this.General.RowCount = 11;
         this.General.ActiveColumnIndex = 1;
-        this.General.ActiveRowIndex = 7;
+        this.General.ActiveRowIndex = 3;
         this.General.AutoUpdateNotes = true;
         this.General.Cells.Get(0, 0).Value = "State: ";
         this.General.Cells.Get(1, 0).Value = "Region: ";
@@ -444,36 +184,34 @@ namespace CSUserInterface
         this.General.Cells.Get(4, 0).Value = "Name: ";
         this.General.Cells.Get(4, 1).Locked = true;
         this.General.Cells.Get(5, 0).Value = "Classification: ";
+        this.General.Cells.Get(6, 0).Value = "Latitude (WGS84): ";
+        this.General.Cells.Get(7, 0).Value = "Longitude (WGS84): ";
+        this.General.Cells.Get(8, 0).Value = "Natural Vegetation: ";
+        this.General.Cells.Get(9, 0).Value = "Data source: ";
         textCellType1.MaxLength = 500;
         textCellType1.Multiline = true;
         textCellType1.WordWrap = true;
-        this.General.Cells.Get(5, 1).CellType = textCellType1;
-        this.General.Cells.Get(6, 0).Value = "Natural Vegetation: ";
-        this.General.Cells.Get(7, 0).Value = "Data source: ";
+        this.General.Cells.Get(9, 1).CellType = textCellType1;
+        this.General.Cells.Get(10, 0).Value = "Comments: ";
         textCellType2.MaxLength = 500;
         textCellType2.Multiline = true;
         textCellType2.WordWrap = true;
-        this.General.Cells.Get(7, 1).CellType = textCellType2;
-        this.General.Cells.Get(8, 0).Value = "Comments: ";
-        textCellType3.MaxLength = 500;
-        textCellType3.Multiline = true;
-        textCellType3.WordWrap = true;
-        this.General.Cells.Get(8, 1).CellType = textCellType3;
+        this.General.Cells.Get(10, 1).CellType = textCellType2;
         this.General.ColumnHeader.Visible = false;
         this.General.Columns.Get(0).Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
         this.General.Columns.Get(0).HorizontalAlignment = FarPoint.Win.Spread.CellHorizontalAlignment.Right;
         this.General.Columns.Get(0).Locked = false;
-        this.General.Columns.Get(0).Width = 123F;
+        this.General.Columns.Get(0).Width = 139F;
+        this.General.Columns.Get(1).HorizontalAlignment = FarPoint.Win.Spread.CellHorizontalAlignment.Left;
         this.General.Columns.Get(1).Width = 550F;
         this.General.FrozenColumnCount = 1;
         this.General.RestrictColumns = true;
         this.General.RowHeader.Columns.Default.Resizable = false;
         this.General.RowHeader.Visible = false;
-        this.General.Rows.Get(5).Height = 40F;
-        this.General.Rows.Get(7).Height = 41F;
-        this.General.Rows.Get(8).Height = 105F;
+        this.General.Rows.Get(9).Height = 41F;
+        this.General.Rows.Get(10).Height = 105F;
         this.General.SheetName = "General";
-        this.General.CellChanged += new FarPoint.Win.Spread.SheetViewEventHandler(this.General_CellChanged);
+        this.General.CellChanged += new FarPoint.Win.Spread.SheetViewEventHandler(this.OnGeneralCellChanged);
         this.General.ReferenceStyle = FarPoint.Win.Spread.Model.ReferenceStyle.A1;
         // 
         // Water
@@ -506,7 +244,7 @@ namespace CSUserInterface
         this.Water.ColumnHeader.Cells.Get(2, 5).Value = "(mm/mm)";
         this.Water.ColumnHeader.Cells.Get(2, 6).Value = "(mm/mm)";
         this.Water.Columns.Get(0).Label = "(cm)";
-        this.Water.Columns.Get(0).Width = 52F;
+        this.Water.Columns.Get(0).Width = 53F;
         this.Water.Columns.Get(1).Label = " (g/cc)";
         this.Water.Columns.Get(1).Width = 45F;
         this.Water.Columns.Get(2).Label = "(%)";
@@ -519,12 +257,12 @@ namespace CSUserInterface
         this.Water.Columns.Get(5).Width = 56F;
         this.Water.Columns.Get(6).Label = "(mm/mm)";
         this.Water.Columns.Get(6).Width = 56F;
-        this.Water.FrozenColumnCount = 6;
+        this.Water.FrozenColumnCount = 7;
         this.Water.FrozenTrailingRowCount = 1;
         this.Water.RowHeader.Columns.Default.Resizable = false;
         this.Water.RowHeader.Visible = false;
         this.Water.SheetName = "Water";
-        this.Water.CellChanged += new FarPoint.Win.Spread.SheetViewEventHandler(this.Water_CellChanged);
+        this.Water.CellChanged += new FarPoint.Win.Spread.SheetViewEventHandler(this.OnWaterCellChanged);
         this.Water.ReferenceStyle = FarPoint.Win.Spread.Model.ReferenceStyle.A1;
         // 
         // SoilProfile
@@ -532,10 +270,9 @@ namespace CSUserInterface
         this.SoilProfile.Reset();
         // Formulas and custom names must be loaded with R1C1 reference style
         this.SoilProfile.ReferenceStyle = FarPoint.Win.Spread.Model.ReferenceStyle.R1C1;
-        this.SoilProfile.ColumnCount = 21;
+        this.SoilProfile.ColumnCount = 23;
         this.SoilProfile.ColumnHeader.RowCount = 2;
         this.SoilProfile.RowCount = 100;
-        this.SoilProfile.ActiveColumnIndex = 6;
         this.SoilProfile.AutoUpdateNotes = true;
         this.SoilProfile.ColumnHeader.AutoText = FarPoint.Win.Spread.HeaderAutoText.Blank;
         this.SoilProfile.ColumnHeader.Cells.Get(0, 0).Value = "Depth";
@@ -556,9 +293,11 @@ namespace CSUserInterface
         this.SoilProfile.ColumnHeader.Cells.Get(0, 15).Value = "Na";
         this.SoilProfile.ColumnHeader.Cells.Get(0, 16).Value = "K";
         this.SoilProfile.ColumnHeader.Cells.Get(0, 17).Value = "ESP";
-        this.SoilProfile.ColumnHeader.Cells.Get(0, 18).Value = "Particle size";
-        this.SoilProfile.ColumnHeader.Cells.Get(0, 19).Value = "Particle size";
+        this.SoilProfile.ColumnHeader.Cells.Get(0, 18).Value = "Mn";
+        this.SoilProfile.ColumnHeader.Cells.Get(0, 19).Value = "Al";
         this.SoilProfile.ColumnHeader.Cells.Get(0, 20).Value = "Particle size";
+        this.SoilProfile.ColumnHeader.Cells.Get(0, 21).Value = "Particle size";
+        this.SoilProfile.ColumnHeader.Cells.Get(0, 22).Value = "Particle size";
         this.SoilProfile.ColumnHeader.Cells.Get(1, 0).Value = "(cm)";
         this.SoilProfile.ColumnHeader.Cells.Get(1, 2).Value = "(0-1)";
         this.SoilProfile.ColumnHeader.Cells.Get(1, 3).Value = "(0-1)";
@@ -567,6 +306,7 @@ namespace CSUserInterface
         this.SoilProfile.ColumnHeader.Cells.Get(1, 6).Value = "(mm/day)";
         this.SoilProfile.ColumnHeader.Cells.Get(1, 7).Value = "(%)";
         this.SoilProfile.ColumnHeader.Cells.Get(1, 8).Value = "(mS/cm)";
+        this.SoilProfile.ColumnHeader.Cells.Get(1, 9).Locked = false;
         this.SoilProfile.ColumnHeader.Cells.Get(1, 9).Value = "(water)";
         this.SoilProfile.ColumnHeader.Cells.Get(1, 10).Value = "(mg/kg)";
         this.SoilProfile.ColumnHeader.Cells.Get(1, 11).Value = "(mg/kg)";
@@ -576,19 +316,23 @@ namespace CSUserInterface
         this.SoilProfile.ColumnHeader.Cells.Get(1, 15).Value = "(cmol+/kg)";
         this.SoilProfile.ColumnHeader.Cells.Get(1, 16).Value = "(cmol+/kg)";
         this.SoilProfile.ColumnHeader.Cells.Get(1, 17).Value = "(%)";
-        this.SoilProfile.ColumnHeader.Cells.Get(1, 18).Value = "sand (%)";
-        this.SoilProfile.ColumnHeader.Cells.Get(1, 19).Value = "silt (%)";
-        this.SoilProfile.ColumnHeader.Cells.Get(1, 20).Value = "clay (%)";
-        this.SoilProfile.Columns.Get(18).Label = "sand (%)";
-        this.SoilProfile.Columns.Get(18).Width = 79F;
-        this.SoilProfile.Columns.Get(19).Label = "silt (%)";
-        this.SoilProfile.Columns.Get(19).Width = 79F;
-        this.SoilProfile.Columns.Get(20).Label = "clay (%)";
+        this.SoilProfile.ColumnHeader.Cells.Get(1, 18).Value = "(mg/kg)";
+        this.SoilProfile.ColumnHeader.Cells.Get(1, 19).Value = "(meq/100g)";
+        this.SoilProfile.ColumnHeader.Cells.Get(1, 20).Value = "sand (%)";
+        this.SoilProfile.ColumnHeader.Cells.Get(1, 21).Value = "silt (%)";
+        this.SoilProfile.ColumnHeader.Cells.Get(1, 22).Value = "clay (%)";
+        this.SoilProfile.Columns.Get(19).Label = "(meq/100g)";
+        this.SoilProfile.Columns.Get(19).Width = 72F;
+        this.SoilProfile.Columns.Get(20).Label = "sand (%)";
         this.SoilProfile.Columns.Get(20).Width = 79F;
-        this.SoilProfile.RowHeader.Columns.Default.Resizable = true;
-        this.SoilProfile.SelectionPolicy = FarPoint.Win.Spread.Model.SelectionPolicy.MultiRange;
+        this.SoilProfile.Columns.Get(21).Label = "silt (%)";
+        this.SoilProfile.Columns.Get(21).Width = 79F;
+        this.SoilProfile.Columns.Get(22).Label = "clay (%)";
+        this.SoilProfile.Columns.Get(22).Width = 79F;
+        this.SoilProfile.Protect = false;
+        this.SoilProfile.RowHeader.Columns.Default.Resizable = false;
         this.SoilProfile.SheetName = "Soil profile";
-        this.SoilProfile.CellChanged += new FarPoint.Win.Spread.SheetViewEventHandler(this.SoilProfile_CellChanged);
+        this.SoilProfile.CellChanged += new FarPoint.Win.Spread.SheetViewEventHandler(this.OnProfileCellChanged);
         this.SoilProfile.ReferenceStyle = FarPoint.Win.Spread.Model.ReferenceStyle.A1;
         // 
         // APSIM
@@ -660,7 +404,7 @@ namespace CSUserInterface
         this.APSIM.Columns.Get(1).Width = 213F;
         this.APSIM.RowHeader.Columns.Default.Resizable = false;
         this.APSIM.SheetName = "APSIM";
-        this.APSIM.CellChanged += new FarPoint.Win.Spread.SheetViewEventHandler(this.APSIM_CellChanged);
+        this.APSIM.CellChanged += new FarPoint.Win.Spread.SheetViewEventHandler(this.OnAPSIMCellChanged);
         this.APSIM.ReferenceStyle = FarPoint.Win.Spread.Model.ReferenceStyle.A1;
         // 
         // Phosphorus
@@ -686,22 +430,22 @@ namespace CSUserInterface
         this.Phosphorus.Columns.Get(0).HorizontalAlignment = FarPoint.Win.Spread.CellHorizontalAlignment.Right;
         this.Phosphorus.Columns.Get(0).Label = "(cm)";
         this.Phosphorus.Columns.Get(0).Width = 70F;
-        this.Phosphorus.Columns.Get(1).CellType = textCellType4;
+        this.Phosphorus.Columns.Get(1).CellType = textCellType3;
         this.Phosphorus.Columns.Get(1).HorizontalAlignment = FarPoint.Win.Spread.CellHorizontalAlignment.Right;
         this.Phosphorus.Columns.Get(1).Label = "(mg/kg)";
         this.Phosphorus.Columns.Get(1).Width = 71F;
-        this.Phosphorus.Columns.Get(2).CellType = textCellType5;
+        this.Phosphorus.Columns.Get(2).CellType = textCellType4;
         this.Phosphorus.Columns.Get(2).HorizontalAlignment = FarPoint.Win.Spread.CellHorizontalAlignment.Right;
         this.Phosphorus.Columns.Get(2).Label = "(kg/ha)";
-        this.Phosphorus.Columns.Get(3).CellType = textCellType6;
+        this.Phosphorus.Columns.Get(3).CellType = textCellType5;
         this.Phosphorus.Columns.Get(3).HorizontalAlignment = FarPoint.Win.Spread.CellHorizontalAlignment.Right;
         this.Phosphorus.Columns.Get(3).Label = "(kg/ha)";
-        this.Phosphorus.Columns.Get(4).CellType = textCellType7;
+        this.Phosphorus.Columns.Get(4).CellType = textCellType6;
         this.Phosphorus.Columns.Get(4).HorizontalAlignment = FarPoint.Win.Spread.CellHorizontalAlignment.Right;
         this.Phosphorus.RowHeader.Columns.Default.Resizable = false;
         this.Phosphorus.Rows.Get(14).HorizontalAlignment = FarPoint.Win.Spread.CellHorizontalAlignment.Right;
         this.Phosphorus.SheetName = "Phosphorus";
-        this.Phosphorus.CellChanged += new FarPoint.Win.Spread.SheetViewEventHandler(this.Phosphorus_CellChanged);
+        this.Phosphorus.CellChanged += new FarPoint.Win.Spread.SheetViewEventHandler(this.OnPhosphorusCellChanged);
         this.Phosphorus.ReferenceStyle = FarPoint.Win.Spread.Model.ReferenceStyle.A1;
         // 
         // PhotoAttachSheet
@@ -746,19 +490,15 @@ namespace CSUserInterface
         // 
         // SoilUI
         // 
-        this.Controls.Add(this.splitter1);
         this.Controls.Add(this.WaterChartControl);
         this.Controls.Add(this.Grid);
-        this.Controls.Add(this.toolStrip1);
+        this.Controls.Add(this.SoilToolStrip);
         this.Name = "SoilUI";
         this.Size = new System.Drawing.Size(906, 762);
-        this.Controls.SetChildIndex(this.toolStrip1, 0);
+        this.Controls.SetChildIndex(this.SoilToolStrip, 0);
         this.Controls.SetChildIndex(this.Grid, 0);
         this.Controls.SetChildIndex(this.WaterChartControl, 0);
-        this.Controls.SetChildIndex(this.splitter1, 0);
         ((System.ComponentModel.ISupportInitialize)(this.Grid)).EndInit();
-        this.toolStrip1.ResumeLayout(false);
-        this.toolStrip1.PerformLayout();
         ((System.ComponentModel.ISupportInitialize)(this.General)).EndInit();
         ((System.ComponentModel.ISupportInitialize)(this.Water)).EndInit();
         ((System.ComponentModel.ISupportInitialize)(this.SoilProfile)).EndInit();
@@ -773,81 +513,48 @@ namespace CSUserInterface
 
         public override void OnLoad(BaseController Controller)
             {
-            if (Controller.GetType().ToString() != "CSGeneral.ApsoilController")
-                {
-                ApsoilController NewController = new ApsoilController(null, "", "", "", null);
-                NewController.ApsimData.Open(Controller.ApsimData.AllData.XML, false);
-                NewController.SelectedPaths = Controller.SelectedPaths;
-                SoilController = NewController;
-                }
-            else
-                SoilController = (ApsoilController)Controller;
-
+            this.Controller = Controller;
             FarPoint.Win.Spread.InputMap InputMap = Grid.GetInputMap(FarPoint.Win.Spread.InputMapMode.WhenAncestorOfFocused);
             InputMap.Put(new FarPoint.Win.Spread.Keystroke(Keys.Delete, Keys.None),
                         FarPoint.Win.Spread.SpreadActions.ClipboardCut);
             InputMap.Put(new FarPoint.Win.Spread.Keystroke(Keys.Enter, Keys.None),
                         FarPoint.Win.Spread.SpreadActions.MoveToNextRow);
-            Grid_ActiveSheetChanged(null, null);
+            Controller.ProvideToolStrip(SoilToolStrip, "SoilToolBar");
             }
-		// ------------------------
-		// Refresh ourselves
-		// ------------------------
-		override public void RefreshView(string NodePath)
+        public override void OnClose()
+            {
+            Controller.RemoveToolStrip(SoilToolStrip);
+            }
+		override public void OnRefresh(string NodePath)
 			{
             this.NodePath = NodePath;
-			try
-				{
-				MySoil = new Soil(this.SoilController.Data);
-				ApsoilController Apsoil = this.SoilController as ApsoilController;
-                Apsoil.AddCropEvent -= new BaseController.NotifyEventHandler(Refresh);
-				Apsoil.AddCropEvent += new BaseController.NotifyEventHandler(Refresh);
-				Apsoil.DeleteCropEvent -= new BaseController.NotifyEventHandler(Refresh);
-				Apsoil.DeleteCropEvent += new BaseController.NotifyEventHandler(Refresh);
-				Apsoil.ReorderCropEvent -= new BaseController.NotifyEventHandler(Refresh);
-				Apsoil.ReorderCropEvent += new BaseController.NotifyEventHandler(Refresh);
-				Apsoil.AddNoteEvent -= new BaseController.NotifyEventHandler(AddNote);
-				Apsoil.AddNoteEvent += new BaseController.NotifyEventHandler(AddNote);
-				Apsoil.DeleteNoteEvent -= new BaseController.NotifyEventHandler(DeleteNote);
-				Apsoil.DeleteNoteEvent += new BaseController.NotifyEventHandler(DeleteNote);
-				Apsoil.PrintEvent -= new BaseController.NotifyEventHandler(Print);
-				Apsoil.PrintEvent += new BaseController.NotifyEventHandler(Print);
+			MySoil = new Soil(Controller.Data);
 
-				HelpText = "The 5 sheets below contain all the soil properties required for APSIM.";
-				WaterChartControl.LinkedSoil = MySoil;
-				PopulateGeneralGrid();
-				PopulateAttachGrid();
-				PopulateWaterGrid();
-				PopulateProfileGrid();
-				PopulateAPSIMGrid();
-				PopulatePhosphorusGrid();
-				SetupCellNotes();
-				OperationMode mode = OperationMode.Normal;
+			HelpText = "The 5 sheets below contain all the soil properties required for APSIM.";
+			WaterChartControl.LinkedSoil = MySoil;
+			PopulateGeneralGrid();
+			PopulateAttachGrid();
+			PopulateWaterGrid();
+			PopulateProfileGrid();
+			PopulateAPSIMGrid();
+			PopulatePhosphorusGrid();
+			SetupCellNotes();
+			OperationMode mode = OperationMode.Normal;
+			
+			if (Controller.ApsimData.IsReadOnly)
+				mode = OperationMode.ReadOnly;
 				
-				if (Apsoil.ApsimData.IsReadOnly)
-					mode = OperationMode.ReadOnly;
-					
-				General.OperationMode = mode;
-				Water.OperationMode = mode;
-				SoilProfile.OperationMode = mode;
-				APSIM.OperationMode = mode;
-				Phosphorus.OperationMode = mode;
-                AddLayerButton.Enabled = (MySoil.Thickness.Length > 0);
-                DeleteLayerButton.Enabled = (MySoil.Thickness.Length > 0);
-                }
-			catch (Exception err)
-				{
-				MessageBox.Show(err.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
-				}
-			}
+			General.OperationMode = mode;
+			Water.OperationMode = mode;
+			SoilProfile.OperationMode = mode;
+			APSIM.OperationMode = mode;
+			Phosphorus.OperationMode = mode;
+            }
 
-
-		// ----------------------------
-		// Populate the general grid
-		// ----------------------------
-		private void PopulateGeneralGrid()
+        #region General Grid
+        private void PopulateGeneralGrid()
 			{
-			UserChange = false;
+            UserChange = false;
 			General.ClearRange(0, 1, General.RowCount, 1, true);
             General.Cells[0, 1].Value = MySoil.State;
             General.Cells[1, 1].Value = MySoil.Region;
@@ -855,52 +562,49 @@ namespace CSUserInterface
             General.Cells[3, 1].Value = MySoil.Site;
 			General.Cells[4, 1].Value = MySoil.Name;
             General.Cells[5, 1].Value = MySoil.Classification;
-			General.Cells[6, 1].Value = MySoil.NaturalVegetation;
-			General.Cells[7, 1].Value = MySoil.DataSource;
-			General.Cells[8, 1].Value = MySoil.Comment;
+            General.Cells[6, 1].Value = MySoil.Latitude;
+            General.Cells[7, 1].Value = MySoil.Longitude;
+			General.Cells[8, 1].Value = MySoil.NaturalVegetation;
+			General.Cells[9, 1].Value = MySoil.DataSource;
+			General.Cells[10, 1].Value = MySoil.Comment;
 			UserChange = true;
 			}
-
-		// ----------------------------
-		// Populate the attachment sheet
-		// ----------------------------
-		private void PopulateAttachGrid()
-			{
-			PhotoAttachSheet.Cells[0, 3].Text = MySoil.AttachmentFileName;
-			string AttachmentExt = Path.GetExtension(PhotoAttachSheet.Cells[0, 3].Text).ToLower();
-			FarPoint.Win.Spread.CellType.ImageCellType Image = (FarPoint.Win.Spread.CellType.ImageCellType)
-				                                               PhotoAttachSheet.Cells[1,0].CellType;
-
-			if (AttachmentExt == ".jpg" || AttachmentExt == ".gif" || AttachmentExt == ".bmp" ||
-				AttachmentExt == ".png")
-				{
-				PhotoAttachSheet.Cells[1, 0].Value = MySoil.Attachment;
-				}
-			else
-				PhotoAttachSheet.Cells[1, 0].Value = "";
-			}
-
-
-		// ---------------------
-		// Save the general grid
-		// ---------------------
 		private void SaveGeneralGrid()
 			{
             MySoil.State = GridUtils.GetCellAsString(General, 1, 0);
             MySoil.Region = GridUtils.GetCellAsString(General, 1, 1);
             MySoil.NearestTown = GridUtils.GetCellAsString(General, 1, 2);
             MySoil.Site = GridUtils.GetCellAsString(General, 1, 3);
-            MySoil.Classification = GridUtils.GetCellAsString(General, 1, 5); 
-			MySoil.NaturalVegetation = GridUtils.GetCellAsString(General, 1, 6);
-			MySoil.DataSource = GridUtils.GetCellAsString(General, 1, 7);
-			MySoil.Comment = GridUtils.GetCellAsString(General, 1, 8);
+            MySoil.Classification = GridUtils.GetCellAsString(General, 1, 5);
+            MySoil.Latitude = Convert.ToDouble(GridUtils.GetCellAsString(General, 1, 6));
+            MySoil.Longitude = Convert.ToDouble(GridUtils.GetCellAsString(General, 1, 7));
+            MySoil.NaturalVegetation = GridUtils.GetCellAsString(General, 1, 8);
+			MySoil.DataSource = GridUtils.GetCellAsString(General, 1, 9);
+			MySoil.Comment = GridUtils.GetCellAsString(General, 1, 10);
 			}
+        private void OnGeneralCellChanged(object sender, FarPoint.Win.Spread.SheetViewEventArgs e)
+            {
+            if (UserChange)
+                {
+                UserChange = false;
+                try
+                    {
+                    SaveGeneralGrid();
+                    if (e.Row == 3)
+                        PopulateWaterGrid();
+                    }
+                catch (Exception err)
+                    {
+                    MessageBox.Show(err.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    }
 
+                UserChange = true;
+                }
+            }
+        #endregion
 
-		// -----------------------------------------------
-		// Populate the water grid from the specified soil
-		// -----------------------------------------------
-		private void PopulateWaterGrid()
+        #region Water Grid
+        private void PopulateWaterGrid()
 			{
 			UserChange = false;
             Water.ClearRange(0, 0, Water.RowCount, Water.ColumnCount, false);
@@ -1002,21 +706,11 @@ namespace CSUserInterface
 			AddSummaryRow();
 			UserChange = true;
 			}
-
-
-		// --------------------------
-		// Save the water grid
-		// --------------------------
 		private void SaveWaterGrid()
 			{	
 			for (int col = 0; col != Water.ColumnCount; col++)
 				SaveWaterGridColumn(col);
 			}
-
-		
-		// --------------------------
-		// Save the water grid
-		// --------------------------
 		private void SaveWaterGridColumn(int ColumnIndex)
 			{
 			if (ColumnIndex == 0)
@@ -1052,12 +746,58 @@ namespace CSUserInterface
                         
 			WaterChartControl.RefreshView();
 			}
+        private void RefreshPAWCColumns()
+            {
+            for (int col = 0; col != Water.ColumnCount; col++)
+                if (Water.ColumnHeader.Cells[1, col].Text == "PAWC")
+                    RefreshPAWCColumn(col);
+            }
+        private void RefreshPAWCColumn(int ColumnIndex)
+            {
+            string CropName = Water.ColumnHeader.Cells[0, ColumnIndex - 1].Text.Replace("Predicted ", "");
+            double[] paw = MySoil.PAWC(CropName);
+            GridUtils.SetColumnAsDoubles(Water, ColumnIndex, paw);
+            Water.Columns[ColumnIndex].Locked = true;
+            AddSummaryRow();
+            }
+        private void AddSummaryRow()
+            {
+            int NumDepths = GridUtils.FindFirstBlankCell(Water, 0);
+            if (NumDepths > 0)
+                {
+                int SummaryRow = Water.RowCount - 1;
 
+                // set the blank row.
+                Water.Cells[SummaryRow, 0, SummaryRow, Water.ColumnCount - 1].Formula = "";
+                Water.Cells[SummaryRow, 0, SummaryRow, Water.ColumnCount - 1].Text = "";
+                Water.Rows[SummaryRow].BackColor = Color.White;
 
-		// --------------------------
-		// Populate the profile grid.
-		// --------------------------
-		private void PopulateProfileGrid()
+                // set the summary row.
+                Water.Cells[SummaryRow, 0].Text = "Totals";
+                for (int col = NUMBER_OF_STATIC_COLS + 1; col < Water.ColumnCount; col += 4)
+                    {
+                    int ColForFormula = col + 1;
+                    int EndRowForFormula = SummaryRow - 1;
+                    string SumFormula = "SUM(R1C" + ColForFormula.ToString() + ":R" + EndRowForFormula.ToString() + "C" + ColForFormula.ToString() + ")";
+                    Water.ReferenceStyle = FarPoint.Win.Spread.Model.ReferenceStyle.R1C1;
+                    Water.Cells[SummaryRow, col].Formula = SumFormula;
+                    }
+                Water.Rows[SummaryRow].BackColor = Color.Yellow;
+                }
+            }
+        private void OnWaterCellChanged(object sender, FarPoint.Win.Spread.SheetViewEventArgs e)
+            {
+            if (UserChange)
+                {
+                UserChange = false;
+                SaveWaterGridColumn(e.Column);
+                UserChange = true;
+                }
+            }
+        #endregion
+
+        #region Profile Grid
+        private void PopulateProfileGrid()
 			{
 			UserChange = false;
 			SoilProfile.ClearRange(0, 0, SoilProfile.RowCount, SoilProfile.ColumnCount, true);
@@ -1078,9 +818,11 @@ namespace CSUserInterface
 			GridUtils.SetColumnAsDoubles(SoilProfile, 15, MySoil.Na);
 			GridUtils.SetColumnAsDoubles(SoilProfile, 16, MySoil.K);
 			GridUtils.SetColumnAsDoubles(SoilProfile, 17, MySoil.ESP);
-			GridUtils.SetColumnAsDoubles(SoilProfile, 18, MySoil.ParticleSizeSand);
-			GridUtils.SetColumnAsDoubles(SoilProfile, 19, MySoil.ParticleSizeSilt);
-			GridUtils.SetColumnAsDoubles(SoilProfile, 20, MySoil.ParticleSizeClay);
+            GridUtils.SetColumnAsDoubles(SoilProfile, 18, MySoil.Mn);
+            GridUtils.SetColumnAsDoubles(SoilProfile, 19, MySoil.Al);
+            GridUtils.SetColumnAsDoubles(SoilProfile, 20, MySoil.ParticleSizeSand);
+			GridUtils.SetColumnAsDoubles(SoilProfile, 21, MySoil.ParticleSizeSilt);
+			GridUtils.SetColumnAsDoubles(SoilProfile, 22, MySoil.ParticleSizeClay);
             if (MySoil.PHStoredAsWater())
                 {
                 SoilProfile.ColumnHeader.Cells[1, 9].Text = "(water)";
@@ -1093,11 +835,6 @@ namespace CSUserInterface
                 UserChange = true;
                 }
 			}
-
-
-		// --------------------------
-		// Save the profile grid.
-		// --------------------------
 		private void SaveProfileGrid(int ColumnIndex)
 			{
 			int NumLayers = GridUtils.FindFirstBlankCell(SoilProfile, 0);
@@ -1124,16 +861,26 @@ namespace CSUserInterface
 				case 15: MySoil.Na     = GridUtils.GetColumnAsDoubles(SoilProfile, 15, NumLayers); break;
 				case 16: MySoil.K      = GridUtils.GetColumnAsDoubles(SoilProfile, 16, NumLayers); break;
 				case 17: MySoil.ESP    = GridUtils.GetColumnAsDoubles(SoilProfile, 17, NumLayers); break;
-				case 18: MySoil.ParticleSizeSand = GridUtils.GetColumnAsDoubles(SoilProfile, 18, NumLayers); break;
-				case 19: MySoil.ParticleSizeSilt = GridUtils.GetColumnAsDoubles(SoilProfile, 19, NumLayers); break;
-				case 20: MySoil.ParticleSizeClay = GridUtils.GetColumnAsDoubles(SoilProfile, 20, NumLayers); break;
+                case 18: MySoil.Mn = GridUtils.GetColumnAsDoubles(SoilProfile, 18, NumLayers); break;
+                case 19: MySoil.Al = GridUtils.GetColumnAsDoubles(SoilProfile, 19, NumLayers); break;
+                case 20: MySoil.ParticleSizeSand = GridUtils.GetColumnAsDoubles(SoilProfile, 20, NumLayers); break;
+				case 21: MySoil.ParticleSizeSilt = GridUtils.GetColumnAsDoubles(SoilProfile, 21, NumLayers); break;
+				case 22: MySoil.ParticleSizeClay = GridUtils.GetColumnAsDoubles(SoilProfile, 22, NumLayers); break;
 				}
-			}
+            }
+        private void OnProfileCellChanged(object sender, FarPoint.Win.Spread.SheetViewEventArgs e)
+            {
+            if (UserChange)
+                {
+                UserChange = false;
+                SaveProfileGrid(e.Column);
+                UserChange = true;
+                }
+            }
+        #endregion
 
-		// ----------------------------
-		// Populate the APSIM grid
-		// ----------------------------
-		private void PopulateAPSIMGrid()
+        #region APSIM Grid
+        private void PopulateAPSIMGrid()
 			{
 			UserChange = false;
 			APSIM.ClearRange(0, 1, APSIM.RowCount, 1, true);
@@ -1160,7 +907,6 @@ namespace CSUserInterface
 			UserChange = true;
 			
 			}
-
         private void SetupConaU()
             {
             FarPoint.Win.Spread.CellType.ComboBoxCellType SummerWinterCombo = (FarPoint.Win.Spread.CellType.ComboBoxCellType) APSIM.Cells[0, 1].CellType;
@@ -1219,10 +965,6 @@ namespace CSUserInterface
                 APSIM.Cells[8, 1].Text = "";
                 }
             }
-
-		// ---------------------
-		// Save the APSIM grid
-		// ---------------------
 		private void SaveAPSIMGrid()
 			{
             FarPoint.Win.Spread.CellType.ComboBoxCellType SummerWinterCombo = (FarPoint.Win.Spread.CellType.ComboBoxCellType)APSIM.Cells[0, 1].CellType;
@@ -1244,13 +986,22 @@ namespace CSUserInterface
 			MySoil.SoilCN = GridUtils.GetCellAsDouble(APSIM, 1, 20);
 			MySoil.EnrACoeff = GridUtils.GetCellAsDouble(APSIM, 1, 22);
 			MySoil.EnrBCoeff = GridUtils.GetCellAsDouble(APSIM, 1, 23);
-			}
+            }
+        private void OnAPSIMCellChanged(object sender, FarPoint.Win.Spread.SheetViewEventArgs e)
+            {
+            if (UserChange)
+                {
+                UserChange = false;
+                if (e.Row == 0)
+                    SetupConaU();
+                SaveAPSIMGrid();
+                UserChange = true;
+                }
+            }
+        #endregion
 
-
-		// --------------------------
-		// Populate the phosphorus grid.
-		// --------------------------
-		private void PopulatePhosphorusGrid()
+        #region Phosphorus Grid
+        private void PopulatePhosphorusGrid()
 			{
 			UserChange = false;
 			Phosphorus.ClearRange(0, 0, Phosphorus.RowCount, Phosphorus.ColumnCount, true);
@@ -1274,11 +1025,6 @@ namespace CSUserInterface
             
             UserChange = true;
 			}
-
-
-		// --------------------------
-		// Save the phosphorus grid.
-		// --------------------------
 		private void SavePhosphorusGrid()
 			{
 			int NumLayers = GridUtils.FindFirstBlankCell(Phosphorus, 0);
@@ -1292,171 +1038,64 @@ namespace CSUserInterface
 			MySoil.RateDissolRock = GridUtils.GetCellAsDouble(Phosphorus, 1, FirstStaticRow+1);
             MySoil.RateLossAvail = GridUtils.GetCellAsDouble(Phosphorus, 1, FirstStaticRow+2);
             }
-
-
-		// ------------------------
-		// Refresh all PAWC columns
-		// ------------------------
-		private void RefreshPAWCColumns()
-			{
-			for (int col = 0; col != Water.ColumnCount; col++)
-				if (Water.ColumnHeader.Cells[1,col].Text == "PAWC")
-					RefreshPAWCColumn(col);
-			}
-
-		// ------------------------------------------
-		// Refresh the summary row on the water grid.
-		// ------------------------------------------
-		private void RefreshPAWCColumn(int ColumnIndex)
-			{
-			string CropName = Water.ColumnHeader.Cells[0, ColumnIndex-1].Text.Replace("Predicted ", "");
-			double[] paw = MySoil.PAWC(CropName);
-			GridUtils.SetColumnAsDoubles(Water, ColumnIndex, paw);
-			Water.Columns[ColumnIndex].Locked = true;
-			AddSummaryRow();
-			}
-
-
-		// ------------------------------------------
-		// Add a summary row to the water table.
-		// ------------------------------------------
-		private void AddSummaryRow()
-			{
-			int NumDepths = GridUtils.FindFirstBlankCell(Water, 0);
-			if (NumDepths > 0)
-				{
-                int SummaryRow = Water.RowCount - 1;
-
-                // set the blank row.
-                Water.Cells[SummaryRow, 0, SummaryRow, Water.ColumnCount - 1].Formula = "";
-                Water.Cells[SummaryRow, 0, SummaryRow, Water.ColumnCount - 1].Text = "";
-				Water.Rows[SummaryRow].BackColor = Color.White;
-
-				// set the summary row.
-				Water.Cells[SummaryRow, 0].Text = "Totals";
-				for (int col = NUMBER_OF_STATIC_COLS + 1; col < Water.ColumnCount; col += 4)
-					{
-					int ColForFormula = col + 1;
-					int EndRowForFormula = SummaryRow - 1;
-					string SumFormula = "SUM(R1C" + ColForFormula.ToString() + ":R" + EndRowForFormula.ToString() + "C" + ColForFormula.ToString() + ")";
-					Water.ReferenceStyle = FarPoint.Win.Spread.Model.ReferenceStyle.R1C1;
-					Water.Cells[SummaryRow, col].Formula = SumFormula;
-					}
-				Water.Rows[SummaryRow].BackColor = Color.Yellow;
-				}
-			}
-
-		// --------------------------------
-		// User wants to add a new crop.
-		// --------------------------------
-		public void AddCropMenuItem_Click(object sender, System.EventArgs e)
-			{
-            ApsoilController Apsoil = this.SoilController as ApsoilController;
-            Apsoil.AddCrop();
-            RefreshView(NodePath);
-			}
-
-
-		// --------------------------------
-		// User wants to delete a new crop.
-		// --------------------------------
-		public void DeleteCropMenuItem_Click(object sender, System.EventArgs e)
-			{
-            ApsoilController Apsoil = this.SoilController as ApsoilController;
-			Apsoil.DeleteCrop();
-            RefreshView(NodePath);
-			}
-
-		// --------------------------------
-		// user wants to reorder crops.
-		// --------------------------------
-		public void ReorderCropsMenuItem_Click(object sender, System.EventArgs e)
-			{
-            ApsoilController Apsoil = this.SoilController as ApsoilController;
-            Apsoil.ReorderCrops();
-            RefreshView(NodePath);
-			}
-
-		// --------------------------------
-		// Active sheet has changed.
-		// --------------------------------
-		private void Grid_ActiveSheetChanged(object sender, System.EventArgs e)
-			{
-			if (Grid.ActiveSheet.SheetName == "Water") 
-				Grid.ContextMenu = WaterMenu;
-			else
-				Grid.ContextMenu = null;
-			}
-
-
-
-		// -----------------------------------
-		// User has changed a water grid cell
-		// -----------------------------------
-		private void Water_CellChanged(object sender, FarPoint.Win.Spread.SheetViewEventArgs e)
-			{
-			if (UserChange)
-				{
-				UserChange = false;
-				SaveWaterGridColumn(e.Column);
-				UserChange = true;
-				}
-			}
-
-		// -----------------------------------------
-		// User has changed a general grid cell.
-		// -----------------------------------------
-		private void General_CellChanged(object sender, FarPoint.Win.Spread.SheetViewEventArgs e)
-			{
-			if (UserChange)
-				{
-				UserChange = false;
-				try
-					{
-					SaveGeneralGrid();
-					if (e.Row == 3)
-						PopulateWaterGrid();
-					}
-				catch (Exception err)
-					{
-					MessageBox.Show(err.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
-					}
-
-				UserChange = true;
-				}
-			}
-
-		private void SoilProfile_CellChanged(object sender, FarPoint.Win.Spread.SheetViewEventArgs e)
-			{
-			if (UserChange)
-				{
-				UserChange = false;
-                SaveProfileGrid(e.Column);
+        private void OnPhosphorusCellChanged(object sender, FarPoint.Win.Spread.SheetViewEventArgs e)
+            {
+            if (UserChange)
+                {
+                UserChange = false;
+                SavePhosphorusGrid();
                 UserChange = true;
                 }
             }
+        #endregion
 
-		private void APSIM_CellChanged(object sender, FarPoint.Win.Spread.SheetViewEventArgs e)
-			{
-            if (UserChange)
-			    {
-                UserChange = false;
-                if (e.Row == 0)
-                    SetupConaU();
-                SaveAPSIMGrid();
-				UserChange = true;
-				}
-			}
+        #region Attachment Grid
+        private void PopulateAttachGrid()
+            {
+            PhotoAttachSheet.Cells[0, 3].Text = MySoil.AttachmentFileName;
+            string AttachmentExt = Path.GetExtension(PhotoAttachSheet.Cells[0, 3].Text).ToLower();
+            FarPoint.Win.Spread.CellType.ImageCellType Image = (FarPoint.Win.Spread.CellType.ImageCellType)
+                                                               PhotoAttachSheet.Cells[1, 0].CellType;
 
-		private void Phosphorus_CellChanged(object sender, FarPoint.Win.Spread.SheetViewEventArgs e)
-			{
-			if (UserChange)
-				{
-				UserChange = false;
-				SavePhosphorusGrid();
-				UserChange = true;
-				}
-			}
+            if (AttachmentExt == ".jpg" || AttachmentExt == ".gif" || AttachmentExt == ".bmp" ||
+                AttachmentExt == ".png")
+                {
+                PhotoAttachSheet.Cells[1, 0].Value = MySoil.Attachment;
+                }
+            else
+                PhotoAttachSheet.Cells[1, 0].Value = "";
+            }
+        private void OnAttachGridButtonClicked(object sender, FarPoint.Win.Spread.EditorNotifyEventArgs e)
+            {
+            if (File.Exists(AttachmentFileName))
+                File.Delete(AttachmentFileName);
+
+            if (e.Column == 0)
+                {
+                // User has clicked on load.
+                if (OpenAttachmentDialog.ShowDialog() == DialogResult.OK)
+                    {
+                    if (File.Exists(AttachmentFileName))
+                        File.Delete(AttachmentFileName);
+
+                    MySoil.AttachmentFileName = OpenAttachmentDialog.FileName;
+                    PopulateAttachGrid();
+                    }
+                }
+            else if (e.Column == 1)
+                {
+                // user has clicked on delete
+                MySoil.AttachmentFileName = "";
+                PopulateAttachGrid();
+                }
+            else if (e.Column == 2)
+                {
+                // user has clicked on show.
+                AttachmentFileName = MySoil.CreateAttachment();
+                System.Diagnostics.Process.Start(AttachmentFileName);
+                }
+            }
+        #endregion
 
 		
 		private void SetupCellNotes()
@@ -1501,7 +1140,6 @@ namespace CSUserInterface
 				for (int Row = Range.Row; Row < Range.Row + Range.RowCount; Row++)
 					for (int Col = Range.Column; Col < Range.Column + Range.ColumnCount; Col++)
 						MySoil.AddNote(Grid.ActiveSheet.SheetName, Col, Row, NoteText);
-				RefreshView(NodePath);
 				}
 			}
 
@@ -1516,90 +1154,75 @@ namespace CSUserInterface
 				Grid.ActiveSheet.Cells[Range.Row, Range.Column, Range.Row+Range.RowCount-1, Range.Column+Range.ColumnCount-1].Note = "";
 				Grid.ActiveSheet.Cells[Range.Row, Range.Column, Range.Row+Range.RowCount-1, Range.Column+Range.ColumnCount-1].BackColor = Color.White;
 				}
-			}
+            }
 
-		private void PrintClick(object sender, System.EventArgs e)
-			{
-			Print();
-			}
+        #region Printing Methods
+        private int CurrentStartCol;
+        private int SlotHeight;
+        private int NumSlots = 3;
+        private int NumFixedCols = 6;
+        private int NumFreeColsToPrint = 8;
+        private int MarginBetweenSlots = 0;
+        public void OnBeginPrint(object sender, System.Drawing.Printing.PrintEventArgs e)
+            {
+            CurrentStartCol = NumFixedCols;
+            SlotHeight = 0;
+            }
+        public void OnPrintPage(object sender, System.Drawing.Printing.PrintPageEventArgs e)
+            {
+            if (SlotHeight == 0)
+                SlotHeight = CalcSlotHeight(e);
 
-		private int CurrentStartCol;
-		private int SlotHeight;
-		private int NumSlots = 3;
-		private int NumFixedCols = 6;
-		private int NumFreeColsToPrint = 8;
-		private int MarginBetweenSlots = 0;
-		private bool Previewing;
-		private void Print()
-			{
-			Previewing = true;
-			PrintPreviewDialog.ShowDialog();
-			}
+            e.Graphics.Clip = new Region(e.MarginBounds);
+            e.HasMorePages = true;
+            for (int slot = 0; slot < NumSlots && e.HasMorePages; slot++)
+                {
+                Rectangle r = new Rectangle(e.MarginBounds.Left, e.MarginBounds.Top + slot * (SlotHeight + MarginBetweenSlots),
+                                            e.MarginBounds.Right - e.MarginBounds.Left,
+                                            SlotHeight);
+                if (CurrentStartCol >= Water.ColumnCount)
+                    {
+                    // print the graph.
+                    PrintForm.PrintControl(e.Graphics, r, WaterChartControl.WaterChart, 1.0F);
 
-		private void printDocument1_BeginPrint(object sender, System.Drawing.Printing.PrintEventArgs e)
-			{
-			e.Cancel = (!Previewing && printDialog1.ShowDialog() != DialogResult.OK);
+                    e.HasMorePages = false;
+                    }
+                else
+                    {
+                    PrintForm.PrintControl(e.Graphics, r, Grid, 1.0F);
+                    CurrentStartCol += NumFreeColsToPrint;
+                    }
+                }
+            e.Graphics.ResetClip();
+            }
 
-			CurrentStartCol = NumFixedCols;
-			SlotHeight = 0;
-			Previewing = false;
-			}
+        private int CalcSlotHeight(System.Drawing.Printing.PrintPageEventArgs e)
+            {
+            Water.PrintInfo.ColStart = 0;
+            Water.PrintInfo.ColEnd = 6;
+            Water.PrintInfo.RowStart = 0;
+            Water.PrintInfo.RowEnd = GridUtils.FindFirstBlankCell(Water, 0) - 1;
+            Water.PrintInfo.PrintType = PrintType.CellRange;
+            Rectangle r = new Rectangle(e.MarginBounds.Left, e.MarginBounds.Top,
+                                        e.MarginBounds.Width, 200);
+            do
+                {
+                r.Height = r.Height + 10;
+                }
+            while (Grid.GetOwnerPrintPageCount(e.Graphics, r, 1) > 1);
+            return r.Height;
+            }
 
-		private void printDocument1_PrintPage(object sender, System.Drawing.Printing.PrintPageEventArgs e)
-			{
-			if (SlotHeight == 0)
-				SlotHeight = CalcSlotHeight(e);
-
-			e.Graphics.Clip = new Region(e.MarginBounds);
-			e.HasMorePages = true;
-			for (int slot = 0; slot < NumSlots && e.HasMorePages; slot++)
-				{
-				Rectangle r = new Rectangle(e.MarginBounds.Left, e.MarginBounds.Top + slot * (SlotHeight + MarginBetweenSlots),
-											e.MarginBounds.Right-e.MarginBounds.Left,
-											SlotHeight);
-				if (CurrentStartCol >= Water.ColumnCount)
-					{
-					// print the graph.
-					PrintForm.PrintControl(e.Graphics, r, WaterChartControl.WaterChart, 1.0F);
-					
-					e.HasMorePages = false;
-					}
-				else
-					{
-					PrintForm.PrintControl(e.Graphics, r, Grid, 1.0F);
-					CurrentStartCol += NumFreeColsToPrint;
-					}
-				}
-			e.Graphics.ResetClip();
-			}
-
-		private int CalcSlotHeight(System.Drawing.Printing.PrintPageEventArgs e)
-			{
-			Water.PrintInfo.ColStart = 0;
-			Water.PrintInfo.ColEnd = 6;
-			Water.PrintInfo.RowStart = 0;
-			Water.PrintInfo.RowEnd = GridUtils.FindFirstBlankCell(Water, 0) - 1;
-			Water.PrintInfo.PrintType = PrintType.CellRange;
-			Rectangle r = new Rectangle(e.MarginBounds.Left, e.MarginBounds.Top,
-										e.MarginBounds.Width, 200);
-			do 
-				{
-				r.Height = r.Height + 10;
-				}
-			while (Grid.GetOwnerPrintPageCount(e.Graphics, r, 1) > 1);
-			return r.Height;			
-			}
-
-		private void printForm1_PreDraw(object sender, TMGDevelopment.Windows.Forms.PreDrawEventArgs e)
-			{
-			if (e.Control == Grid)
-				{
+        public void OnPreDraw(object sender, TMGDevelopment.Windows.Forms.PreDrawEventArgs e)
+            {
+            if (e.Control == Grid)
+                {
                 Water.PrintInfo.ColStart = CurrentStartCol;
                 Water.PrintInfo.ColEnd = CurrentStartCol + NumFreeColsToPrint - 1;
                 Water.PrintInfo.PrintType = PrintType.CellRange;
                 Grid.OwnerPrintDraw(e.Graphics, e.Bounds, 1, 1);
                 e.OwnerDrawn = true;
-				}
+                }
             else if (e.Control == WaterChartControl.WaterChart)
                 {
                 Bitmap b = new Bitmap(e.Bounds.Width, e.Bounds.Height);
@@ -1608,59 +1231,9 @@ namespace CSUserInterface
                 e.OwnerDrawn = true;
                 }
             }
+        #endregion
 
-		private void printDocument1_QueryPageSettings(object sender, System.Drawing.Printing.QueryPageSettingsEventArgs e)
-			{
-			e.PageSettings.Margins.Left = 50;
-			e.PageSettings.Margins.Top = 50;
-			e.PageSettings.Margins.Right = 50;
-			e.PageSettings.Margins.Bottom = 50;
-			}
-
-		private void CheckSoilMenuItem_Click(object sender, System.EventArgs e)
-			{
-			string msg = MySoil.CheckForErrors();
-			if (msg == "")
-				MessageBox.Show("No errors encountered", "For your information", 
-								MessageBoxButtons.OK, MessageBoxIcon.Information);
-			else
-				MessageBox.Show(msg, "Errors", MessageBoxButtons.OK, MessageBoxIcon.Error);
-			}
-
-		private void Grid_ButtonClicked(object sender, FarPoint.Win.Spread.EditorNotifyEventArgs e)
-			// -----------------------------------------------------
-			// User has clicked the attachment buttons.
-			{
-			if (File.Exists(AttachmentFileName))
-				File.Delete(AttachmentFileName);
-
-			if (e.Column == 0)
-				{
-				// User has clicked on load.
-				if (OpenAttachmentDialog.ShowDialog() == DialogResult.OK)
-					{
-					if (File.Exists(AttachmentFileName))
-						File.Delete(AttachmentFileName);
-
-					MySoil.AttachmentFileName = OpenAttachmentDialog.FileName;
-					PopulateAttachGrid();
-					}
-				}
-			else if (e.Column == 1)
-				{
-				// user has clicked on delete
-				MySoil.AttachmentFileName = "";
-				PopulateAttachGrid();
-				}
-			else if (e.Column == 2)
-				{
-				// user has clicked on show.
-				AttachmentFileName = MySoil.CreateAttachment();
-				System.Diagnostics.Process.Start(AttachmentFileName);
-				}
-			}
-
-        private void GetTextTip(object sender, FarPoint.Win.Spread.TextTipFetchEventArgs e)
+        private void OnGetTextTip(object sender, FarPoint.Win.Spread.TextTipFetchEventArgs e)
             {
             e.ShowTip = false;
             if (e.View.ActiveSheetIndex == 1)
@@ -1755,32 +1328,6 @@ namespace CSUserInterface
                     e.ShowTip = true;
                     }
                 }
-            }
-
-        private void Grid_ActiveSheetChanged_1(object sender, EventArgs e)
-            {
-            PHButton.Enabled = (Grid.ActiveSheetIndex == 2);
-            }
-
-        private void PHButton_Click(object sender, EventArgs e)
-            {
-            if (SoilProfile.ColumnHeader.Cells[1, 8].Text == "(water)")
-                SoilProfile.ColumnHeader.Cells[1, 8].Text = "(CaCl)";
-            else
-                SoilProfile.ColumnHeader.Cells[1, 8].Text = "(water)";
-            SaveProfileGrid(8);
-            }
-
-        private void AddLayerButton_Click(object sender, EventArgs e)
-            {
-            MySoil.AddLayerToBottom();
-            RefreshView(NodePath);
-            }
-
-        private void DeleteLayerButton_Click(object sender, EventArgs e)
-            {
-            MySoil.DeleteLayerFromBottom();
-            RefreshView(NodePath);
             }
 
 	

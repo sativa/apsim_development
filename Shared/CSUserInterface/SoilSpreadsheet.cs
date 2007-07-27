@@ -79,7 +79,9 @@ namespace CSUserInterface
             DataTableUtility.AddValue(Data, "NearestTown", MySoil.NearestTown, Row, NumLayers);
             DataTableUtility.AddValue(Data, "Site", MySoil.Site, Row, NumLayers);
             DataTableUtility.AddValue(Data, "Classification", MySoil.Classification, Row, NumLayers);
-			DataTableUtility.AddValue(Data, "DataSource", MySoil.DataSource, Row, NumLayers);
+            DataTableUtility.AddValue(Data, "Latitude(WGS84)", MySoil.Latitude, Row, NumLayers);
+            DataTableUtility.AddValue(Data, "Longitude(WGS84)", MySoil.Longitude, Row, NumLayers);
+            DataTableUtility.AddValue(Data, "DataSource", MySoil.DataSource, Row, NumLayers);
 			DataTableUtility.AddValue(Data, "Comments", MySoil.Comment, Row, NumLayers);
 			DataTableUtility.AddValue(Data, "NaturalVegetation", MySoil.NaturalVegetation, Row, NumLayers);
 
@@ -104,8 +106,8 @@ namespace CSUserInterface
             DataTableUtility.AddValue(Data, "SummerCona", MySoil.SummerCona, Row, NumLayers);
             DataTableUtility.AddValue(Data, "WinterU", MySoil.WinterU, Row, NumLayers);
             DataTableUtility.AddValue(Data, "WinterCona", MySoil.WinterCona, Row, NumLayers);
-            DataTableUtility.AddValue(Data, "SummerDate", MySoil.SummerDate, Row, NumLayers);
-            DataTableUtility.AddValue(Data, "WinterDate", MySoil.WinterDate, Row, NumLayers);
+            DataTableUtility.AddValue(Data, "SummerDate", "=\"" + MySoil.SummerDate + "\"", Row, NumLayers);
+            DataTableUtility.AddValue(Data, "WinterDate", "=\"" + MySoil.WinterDate + "\"", Row, NumLayers);
             DataTableUtility.AddValue(Data, "U", MySoil.U, Row, NumLayers);
             DataTableUtility.AddValue(Data, "Cona", MySoil.Cona, Row, NumLayers);
             DataTableUtility.AddValue(Data, "Salb", MySoil.Salb, Row, NumLayers);
@@ -136,6 +138,8 @@ namespace CSUserInterface
             DataTableUtility.AddColumn(Data, "Na", MySoil.Na, Row, NumLayers);
             DataTableUtility.AddColumn(Data, "K", MySoil.K, Row, NumLayers);
             DataTableUtility.AddColumn(Data, "ESP", MySoil.ESP, Row, NumLayers);
+            DataTableUtility.AddColumn(Data, "Mn", MySoil.Mn, Row, NumLayers);
+            DataTableUtility.AddColumn(Data, "Al", MySoil.Al, Row, NumLayers);
             DataTableUtility.AddColumn(Data, "ParticleSizeSand", MySoil.ParticleSizeSand, Row, NumLayers);
             DataTableUtility.AddColumn(Data, "ParticleSizeSilt", MySoil.ParticleSizeSilt, Row, NumLayers);
             DataTableUtility.AddColumn(Data, "ParticleSizeClay", MySoil.ParticleSizeClay, Row, NumLayers);
@@ -185,7 +189,9 @@ namespace CSUserInterface
             NewSoil.NearestTown = GetStringValue(Table, "NearestTown", Row);
             NewSoil.Site = GetStringValue(Table, "Site", Row);
 			NewSoil.Classification = GetStringValue(Table, "Classification", Row);
-			NewSoil.DataSource = GetStringValue(Table, "DataSource", Row);
+            NewSoil.Latitude = GetDoubleValue(Table, "Latitude", Row);
+            NewSoil.Longitude = GetDoubleValue(Table, "Longitude(WGS84)", Row);
+            NewSoil.DataSource = GetStringValue(Table, "DataSource(WGS84)", Row);
 			NewSoil.Comment = GetStringValue(Table, "Comments", Row);
 			NewSoil.NaturalVegetation = GetStringValue(Table, "NaturalVegetation", Row);
 
@@ -242,6 +248,8 @@ namespace CSUserInterface
             NewSoil.Na = GetDoubleValues(Table, "Na", NumLayers, Row, 1);
             NewSoil.K = GetDoubleValues(Table, "K", NumLayers, Row, 1);
             NewSoil.ESP = GetDoubleValues(Table, "ESP", NumLayers, Row, 1);
+            NewSoil.Mn = GetDoubleValues(Table, "Mn", NumLayers, Row, 1);
+            NewSoil.Al = GetDoubleValues(Table, "Al", NumLayers, Row, 1);
             NewSoil.ParticleSizeSand = GetDoubleValues(Table, "ParticleSizeSand", NumLayers, Row, 1);
             NewSoil.ParticleSizeSilt = GetDoubleValues(Table, "ParticleSizeSilt", NumLayers, Row, 1);
             NewSoil.ParticleSizeClay = GetDoubleValues(Table, "ParticleSizeClay", NumLayers, Row, 1);

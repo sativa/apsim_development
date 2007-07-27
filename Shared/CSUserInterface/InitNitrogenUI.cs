@@ -923,7 +923,7 @@ namespace CSUserInterface
             {
             this.Controller = Controller;
             }
-		override public void RefreshView(string NodePath)
+		override public void OnRefresh(string NodePath)
 			{
 			HelpText = "There are two ways of specifying initial soil nitrogen. You can either type a number for each layer (kg/ha or ppm) "
 					 + " or a total NO3 / NH4 number (kg/ha only) on the last row of the grid.";
