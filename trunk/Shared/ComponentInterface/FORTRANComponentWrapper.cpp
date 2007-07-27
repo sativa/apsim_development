@@ -172,7 +172,7 @@ void FortranWrapper::doInit1(const FString& sdml)
    if (my_do_init1)
       (*my_do_init1)();
    else
-      Main("create", "");
+      Main("create", asString(sdml).c_str());
 
    *instance = saved;
    currentInstance = savedThis;
