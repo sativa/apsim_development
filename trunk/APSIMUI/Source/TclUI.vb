@@ -11,11 +11,11 @@ Public Class TclUI
     Public Overrides Sub OnLoad(ByVal Controller As VBUserInterface.BaseController)
         Me.controller = Controller
     End Sub
-    Overrides Sub RefreshView(ByVal NodePath As String)
+    Overrides Sub OnRefresh(ByVal NodePath As String)
 
         'AxTclControl1.TraceVar("GlobalXMLDoc", TRACE_READS + GLOBAL_ONLY)
         AxTclControl1.SetVar("GlobalXMLDoc", Me.controller.ApsimData.AllData.XML(), 1)
-        AxTclControl1.SetVar("myName", ApsimUIController.CalcFileName(controller.Data), 1)
+        AxTclControl1.SetVar("myName", ApsimUIActions.CalcFileName(controller.Data), 1)
         AxTclControl1.SetVar("XMLDoc", Me.controller.Data.XML(), 1)
         AxTclControl1.SetVar("apsuite", ApsimDirectory(), 1)
 
@@ -94,7 +94,7 @@ Public Class TclUI
         End If
     End Sub
 
-    Public Overrides Sub Save()
+    Public Overrides Sub OnSave()
         If Not IsNothing(Me.Controller.Data) Then
             Dim newXML As String
             newXML = AxTclControl1.GetVar("XMLDoc", 1)

@@ -13,8 +13,8 @@ Imports VBUserInterface
 Public Class MainUI
     Inherits System.Windows.Forms.Form
 
-    Private ApsimUI As ApsimUIController
-    Private Toolbox As ApsimUIController
+    Private ApsimUI As BaseController
+    Private Toolbox As BaseController
     Private SimulationExplorer As ExplorerUI
     Private ToolboxExplorer As ExplorerUI
     Private CurrentRunningSimulationIndex As Integer
@@ -486,12 +486,7 @@ Public Class MainUI
             Me.WindowState = FormWindowState.Maximized
         End Try
 
-        ApsimUI = New ApsimUIController(Me, ".apsim", _
-                                         "APSIM files (*.apsim)|*.apsim|" + _
-                                            "Toolbox files (*.xml)|*.xml|" + _
-                                            "Soils files (*.soils)|*.soils|" + _
-                                            "All files (*.*)|*.*", _
-                                        "apsimui")
+        ApsimUI = New BaseController(Me, "ApsimUI")
         ' Show the Simulation Explorer.
         SimulationExplorer = New ExplorerUI(ApsimUI)
         SimulationExplorer.OnLoad(ApsimUI)
@@ -506,11 +501,7 @@ Public Class MainUI
         ApsimUI.Explorer = SimulationExplorer
 
         ' Setup but don't show the Toolbox Explorer.
-        Toolbox = New ApsimUIController(Me, ".xml", _
-                                         "Toolbox files (*.xml)|*.xml|" + _
-                                            "Soils files (*.soils)|*.soils|" + _
-                                            "All files (*.*)|*.*", _
-                                        "")
+        Toolbox = New BaseController(Nothing, "ApsimUI")
         ToolboxExplorer = New ExplorerUI(Toolbox)
         ToolboxExplorer.OnLoad(Toolbox)
         ToolboxExplorer.Parent = ToolBoxPanel
@@ -622,7 +613,7 @@ Public Class MainUI
 
             ' If a predefined image has been given then attempt to add it.  
             If Not System.IO.File.Exists(ImageFileName) Then
-                ImageFileName = APSIMSettings.ApsimDirectory() + "\ApsimUI\Images\toolbox.png"
+                ImageFileName = APSIMSettings.ApsimDirectory() + "\ApsimUI\Images\toolbox24.png"
             End If
 
             Dim NewItem As New ToolStripButton(FileName, New System.Drawing.Bitmap(ImageFileName))
@@ -662,7 +653,7 @@ Public Class MainUI
             Dim toolboxes As New Toolboxes
             Dim filename As String = toolboxes.NameToFileName(Sender.ToString)
             Toolbox.FileOpen(filename)
-            ToolboxExplorer.RefreshView("\")
+            ToolboxExplorer.OnRefresh("\")
             Toolbox.Explorer.ExpandOneLevel()
         End If
     End Sub

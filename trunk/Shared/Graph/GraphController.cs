@@ -122,7 +122,7 @@ namespace Graph
 
         #region Constructor / destructor / setup
         public GraphController(ImageList images, APSIMData GraphDataRootNode)
-            : base(null, "", "", "")
+            : base(null, "")
             {
             // --------------------------------------
             // constructor
@@ -135,7 +135,7 @@ namespace Graph
             SetXml(DataContainer, GraphDataRoot.XML);
             }
         public GraphController(ImageList images, UInt32 datacontainer, string SectionName)
-            : base(null, "", "", SectionName)
+            : base(null, SectionName)
 			{
             // --------------------------------------
             // constructor
@@ -153,117 +153,6 @@ namespace Graph
                 }
             }
 
-        #endregion
-
-        #region Override methods from base class
-        public override ImageList SmallImageList
-			{
-            // ----------------------------------------------
-            // Provide access to our imagelist of small icons
-            // ----------------------------------------------
-            get
-				{
-				return MyImageList;
-				}
-			}
-		public override int SmallImageIndex(string ComponentName)
-			{
-            // --------------------------------------------
-            // Return access to an imagelist of small icons
-            // --------------------------------------------
-            if (ComponentName.ToLower() == "data")
-                return 0;
-            else if (ComponentName.ToLower() == "apsimfilereader")
-                return 1;
-            else if (ComponentName.ToLower() == "xmlfilereader")
-                return 2;
-            else if (ComponentName.ToLower() == "rems")
-                return 3;
-            else if (ComponentName.ToLower() == "excelreader")
-                return 4;
-            else if (ComponentName.ToLower() == "probability")
-                return 5;
-            else if (ComponentName.ToLower() == "predobs")
-                return 6;
-            else if (ComponentName.ToLower() == "filter")
-                return 7;
-            else if (ComponentName.ToLower() == "cumulative")
-                return 8;
-            else if (ComponentName.ToLower() == "depth")
-                return 9;
-            else if (ComponentName.ToLower() == "diff")
-                return 10;
-            else if (ComponentName.ToLower() == "recordfilter")
-                return 7;
-            else 
-                return 0;
-            }
-        bool IsTopLevelComponent(string ComponentName)
-            {
-            // --------------------------------------------------------------
-            // Return true if specified component is a top level component
-            // --------------------------------------------------------------
-            foreach (string Component in TopLevelComponents)
-                {
-                if (ComponentName.ToLower() == Component.ToLower())
-                    return true;
-                }
-            return false;
-            }
-        bool IsNonTopLevelComponent(string ComponentName)
-            {
-            // --------------------------------------------------------------
-            // Return true if specified component is a non top level component
-            // --------------------------------------------------------------
-            foreach (string Component in NonTopLevelComponents)
-                {
-                if (ComponentName.ToLower() == Component.ToLower())
-                    return true;
-                }
-            return false;
-            }		
-		public override bool IsComponentVisible(APSIMData Component)
-			{
-            // -------------------------------------------------
-            // Return true if the specified component is visible
-            // to the user.
-            // -------------------------------------------------
-            return (IsTopLevelComponent(Component.Type) || 
-                    IsNonTopLevelComponent(Component.Type) ||
-                    Component.Type.ToLower() == "graph" ||
-                    Component.Type.ToLower() == "data" ||
-                    Component.Type.ToLower() == "folder");
-            }
-        public override bool AllowComponentAdd(string ChildComponentType, string ParentComponentType)
-			{
-            // -------------------------------------------------
-            // Return true if the specified component type can
-            // be added as a child to the specified parent type.
-            // -------------------------------------------------
-            if (ParentComponentType.ToLower() == "data" || ParentComponentType.ToLower() == "folder")
-                return IsTopLevelComponent(ChildComponentType);
-            else
-                return IsNonTopLevelComponent(ChildComponentType);
-			}
-		public override BaseView CreateUI(string UIType)
-			{
-            // -------------------------------------------------
-            // Open a new user interface based on the specified
-            // component type.
-            // -------------------------------------------------
-            if (IsTopLevelComponent(UIType) || IsNonTopLevelComponent(UIType))
-                return new GraphDataUI();
-            else
-                return null;
-			}
-        public override string ImageFileForType(string ComponentType)
-            {
-            return APSIMSettings.ApsimDirectory() + "\\ApsimUI\\Images\\GraphData.jpg";
-            }
-        protected override bool IsDataReadOnly()
-            {
-            return (base.IsDataReadOnly() || Path.GetFileName(FileName).ToLower() == "graph.xml");
-            }
         #endregion
 
         #region Data methods

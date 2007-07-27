@@ -9,7 +9,7 @@ Public Class OperationsUI
     Public Overrides Sub OnLoad(ByVal Controller As VBUserInterface.BaseController)
         Me.Controller = Controller
     End Sub
-    Overrides Sub RefreshView(ByVal NodePath As String)
+    Overrides Sub OnRefresh(ByVal NodePath As String)
         Dim StartGridRow As Integer = 0
         Dim EndGridRow As Integer = 0
         StartDayGrid.ClearRange(0, 0, StartDayGrid.RowCount, StartDayGrid.ColumnCount, False)
@@ -29,7 +29,7 @@ Public Class OperationsUI
         InputMap.Put(New FarPoint.Win.Spread.Keystroke(Keys.Enter, Keys.None), FarPoint.Win.Spread.SpreadActions.MoveToNextRow)
     End Sub
 
-    Public Overrides Sub Save()
+    Public Overrides Sub OnSave()
         Controller.Data.Clear()
         Dim Row As Integer = 0
         While Row < StartDayGrid.RowCount - 1 And StartDayGrid.Cells(Row, 0).Text <> ""

@@ -117,7 +117,7 @@ Public Class DataTree
         Set(ByVal Value As Boolean)
             IsSorted = Value
             If Not IsNothing(Controller) Then
-                RefreshView("\")
+                OnRefresh("\")
             End If
             TreeView.Sorted = IsSorted
         End Set
@@ -175,10 +175,10 @@ Public Class DataTree
     End Function
     Public Overrides Sub OnLoad(ByVal Controller As BaseController)
         HelpText = ""
-        TreeView.ImageList = Controller.SmallImageList
+        TreeView.ImageList = Controller.IconImageList("SmallIcon")
         Me.Controller = Controller
         Controller.ProvideToolStrip(PopupMenu, "ContextMenu")
-        AddHandler Controller.ApsimData.DataStructureChangedEvent, AddressOf RefreshView
+        AddHandler Controller.ApsimData.DataStructureChangedEvent, AddressOf OnRefresh
         AddHandler Controller.SelectionChangedEvent, AddressOf OnSelectionChanged
         AddHandler TreeView.BeforeSelect, AddressOf OnBeforeSelect
     End Sub
@@ -194,7 +194,7 @@ Public Class DataTree
 
 
 #Region "Refresh methods"
-    Public Overrides Sub RefreshView(ByVal NodePath As String)
+    Public Overrides Sub OnRefresh(ByVal NodePath As String)
         ' ----------------------------------------------
         ' Override the base refresh method and populate
         ' ourselves.
@@ -251,7 +251,7 @@ Public Class DataTree
         ' Set all the properties of the specified node.
         ' -----------------------------------------------
         Node.Text = Data.Name
-        Dim ImageIndex As Integer = Controller.SmallImageIndex(Data.Type)
+        Dim ImageIndex As Integer = Controller.IconImageIndexForType(Data.Type, "SmallIcon")
         Node.ImageIndex = ImageIndex
         Node.SelectedImageIndex = ImageIndex
         Node.Tag = Data.Type.ToLower = "folder"   ' keep track if this is a folder node.

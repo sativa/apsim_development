@@ -31,13 +31,13 @@ namespace Graph
             GraphData = Controller.Data.Parent.Child("Data");
             if (GraphData == null)
                 GraphData = Controller.Data.Parent.Parent.Child("Data");
-            this.GraphController = new GraphController(Controller.SmallImageList, GraphData);
+            this.GraphController = new GraphController(Controller.IconImageList("SmallIcon"), GraphData);
             }
         public override void OnClose()
             {
             GraphController = null;
             }
-        public override void RefreshView(string NodePath)
+        public override void OnRefresh(string NodePath)
             {
             // -----------------------------------------------------------
             // Refresh the control.

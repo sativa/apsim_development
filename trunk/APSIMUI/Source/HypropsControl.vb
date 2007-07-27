@@ -136,7 +136,7 @@ Public Class HypropsControl
     Public Overrides Sub OnLoad(ByVal Controller As VBUserInterface.BaseController)
         Me.Controller = Controller
     End Sub
-    Public Overrides Sub RefreshView(ByVal NodePath As String)
+    Public Overrides Sub OnRefresh(ByVal NodePath As String)
         Hypropsdata.Data = Controller.Data.Child("hyprops")
         PropertyGrid.SelectedObject = Hypropsdata
     End Sub

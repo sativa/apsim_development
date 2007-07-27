@@ -128,7 +128,7 @@ Public Class GenericUI
         Me.Controller = Controller
     End Sub
 
-    Overrides Sub RefreshView(ByVal NodePath As String)
+    Overrides Sub OnRefresh(ByVal NodePath As String)
         ' --------------------------------------------------------------------
         ' Refresh this user interface
         ' --------------------------------------------------------------------
@@ -274,7 +274,7 @@ Public Class GenericUI
             End If
         Next
     End Sub
-    Overrides Sub Save()
+    Overrides Sub OnSave()
         ' --------------------------------------------------------------
         ' User has clicked elsewhere make sure we drop the cell focus
         ' so that the CellChanged event is fired.

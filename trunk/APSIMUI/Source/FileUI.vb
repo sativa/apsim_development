@@ -162,7 +162,7 @@ Public Class FileUI
         Me.Controller = Controller
     End Sub
 
-    Overrides Sub RefreshView(ByVal NodePath As String)
+    Overrides Sub OnRefresh(ByVal NodePath As String)
         ' ------------------------------
         ' Refresh this window.
         ' ------------------------------
@@ -171,7 +171,7 @@ Public Class FileUI
         ' Get a filename
         Dim FileName As String
         If Controller.Data.Type = "outputfile" Or Controller.Data.Type = "summaryfile" Then
-            FileName = ApsimUIController.CalcFileName(Controller.Data)
+            FileName = ApsimUIActions.CalcFileName(Controller.Data)
             FileContentsBox.ReadOnly = True
         Else
             FileName = Controller.Data.ChildValue("filename")
@@ -229,18 +229,18 @@ Public Class FileUI
         If OpenFileDialog.ShowDialog() = DialogResult.OK Then
             HelpText = OpenFileDialog.FileName
             Controller.Data.ChildValue("filename") = OpenFileDialog.FileName
-            Me.RefreshView(NodePath)
+            Me.OnRefresh(NodePath)
         End If
     End Sub
 
 
     Private Sub OnActivate(ByVal sender As Object, ByVal e As EventArgs)
         If File.Exists(FullFileName) AndAlso FileDateTime <> File.GetLastWriteTime(FullFileName) Then
-            RefreshView(NodePath)
+            OnRefresh(NodePath)
         End If
     End Sub
 
-    Public Overrides Sub Save()
+    Public Overrides Sub OnSave()
         If Controller.Data.Type = "ini" Then
             Dim FileName As String = Controller.Data.ChildValue("filename")
             If FileName <> "" Then

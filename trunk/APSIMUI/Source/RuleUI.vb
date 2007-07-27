@@ -103,12 +103,12 @@ Public Class RuleUI
     ' -----------------------------------
     ' Refresh the UI
     ' -----------------------------------
-    Overrides Sub RefreshView(ByVal NodePath As String)
+    Overrides Sub OnRefresh(ByVal NodePath As String)
 
         InRefresh = True
 
         ' Fill the property grid.
-        GenericUI.RefreshView(NodePath)
+        GenericUI.OnRefresh(NodePath)
 
         ' Create a tab for each condition.
         While TabControl1.TabPages.Count > 1
@@ -128,11 +128,11 @@ Public Class RuleUI
     End Sub
 
 
-    Overrides Sub Save()
+    Overrides Sub OnSave()
         ' --------------------------------------
         ' Save the script box if it has changd.
         ' --------------------------------------
-        GenericUI.Save()
+        GenericUI.OnSave()
 
         Dim index As Integer = 1
         If Not IsNothing(Controller.Data) Then

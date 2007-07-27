@@ -5,7 +5,7 @@ Imports System.Collections.Specialized
 Public Class NewDocumentForm
     Inherits System.Windows.Forms.Form
     Protected SelectedData As APSIMData
-    Protected ApsimUI As New ApsimUIController(Nothing, "", "", "")
+    Protected Controller As New VBUserInterface.BaseController(Nothing, "apsimui")
 #Region " Windows Form Designer generated code "
 
     Public Sub New()
@@ -121,12 +121,12 @@ Public Class NewDocumentForm
     Private Sub NewDocumentForm_Load(ByVal sender As Object, ByVal e As System.EventArgs) Handles MyBase.Load
         Dim inifile As New APSIMSettings
         Dim TemplateFile As String = APSIMSettings.INIRead(APSIMSettings.ApsimIniFile(), "apsimui", "new_docs")
-        ApsimUI.FileOpen(TemplateFile)
+        Controller.FileOpen(TemplateFile)
         DataTree.MaximumNumLevels = 1
         DataTree.HelpText = "Select a new simulation"
         DataTree.Dock = DockStyle.None
-        DataTree.OnLoad(ApsimUI)
-        DataTree.RefreshView("\")
+        DataTree.OnLoad(Controller)
+        DataTree.OnRefresh("\")
         DataTree.ExpandAll()
     End Sub
 
@@ -136,8 +136,8 @@ Public Class NewDocumentForm
     ' -----------------------------------
     Public ReadOnly Property Selection() As APSIMData
         Get
-            ApsimUI.Data.SetAttribute("version", ApsimUI.ApsimData.AllData.Attribute("version"))
-            Return ApsimUI.Data
+            Controller.Data.SetAttribute("version", Controller.ApsimData.AllData.Attribute("version"))
+            Return Controller.Data
         End Get
     End Property
 
