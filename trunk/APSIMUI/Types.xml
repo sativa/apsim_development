@@ -2,15 +2,12 @@
 <?xml-stylesheet type="text/xsl" href="../docs/shared/ModuleDocumentation.xsl"?>
 
 <Types>
-   <startup>
-      <UItype>startup</UItype>
-   </startup>
    <area>
-      <UItype>area</UItype>
+      <UItype>APSIMUI.areaui</UItype>
       <ShowInMainTree>Yes</ShowInMainTree>
       <Image>%apsuite\apsimui\images\banner2.jpg</Image>
-      <LargeIcon>Images\layout_center32.png</LargeIcon>
-      <SmallIcon>Images\layout_center16.png</SmallIcon>
+      <LargeIcon>%apsuite\apsimui\Images\layout_center32.png</LargeIcon>
+      <SmallIcon>%apsuite\apsimui\Images\layout_center16.png</SmallIcon>
       <drops>
          <drop name="toolbox"/>
          <drop name="simulation"/>
@@ -30,11 +27,11 @@
       </ApsimToSim>
    </area>
    <registrations>
-      <UItype>generic</UItype>
+      <UItype>VBUserInterface.GenericUI</UItype>
       <ShowInMainTree>No</ShowInMainTree>
       <Image>%apsuite\apsimui\images\banner2.jpg</Image>
-      <LargeIcon>Images\layout_center32.png</LargeIcon>
-      <SmallIcon>Images\layout_center16.png</SmallIcon>
+      <LargeIcon>%apsuite\apsimui\Images\layout_center32.png</LargeIcon>
+      <SmallIcon>%apsuite\apsimui\Images\layout_center16.png</SmallIcon>
       <drops>
      </drops>
       <variables name="Simulation variables" module="">
@@ -149,11 +146,11 @@
       </ApsimToSim>
    </registrations>
    <simulation>
-      <UItype>area</UItype>
+      <UItype>APSIMUI.areaui</UItype>
       <ShowInMainTree>Yes</ShowInMainTree>
       <Image>%apsuite\apsimui\images\banner2.jpg</Image>
-      <LargeIcon>Images\document32.png</LargeIcon>
-      <SmallIcon>Images\document16.png</SmallIcon>
+      <LargeIcon>%apsuite\apsimui\Images\document32.png</LargeIcon>
+      <SmallIcon>%apsuite\apsimui\Images\document16.png</SmallIcon>
       <drops>
          <drop name="folder"/>
          <drop name="simulations"/>
@@ -168,12 +165,12 @@
       </ApsimToSim>
    </simulation>
    <clock>
-      <UItype>generic</UItype>
+      <UItype>VBUserInterface.GenericUI</UItype>
       <ShowInMainTree>Yes</ShowInMainTree>
       <Image>%apsuite\apsimui\images\banner2.jpg</Image>
       <Documentation name="Science documentation">../apsim/clock/docs/clock_science.htm</Documentation>
-      <LargeIcon>Images\clock32.png</LargeIcon>
-      <SmallIcon>Images\clock16.png</SmallIcon>
+      <LargeIcon>%apsuite\apsimui\Images\clock32.png</LargeIcon>
+      <SmallIcon>%apsuite\apsimui\Images\clock16.png</SmallIcon>
       <drops>
          <drop name="toolbox"/>
          <drop name="simulation"/>
@@ -201,11 +198,11 @@
       </ApsimToSim>
    </clock>
    <FarmwiseSequencerConverter>
-      <UItype>generic</UItype>
+      <UItype>VBUserInterface.GenericUI</UItype>
       <ShowInMainTree>Yes</ShowInMainTree>
       <Image>%apsuite\apsimui\images\banner2.jpg</Image>
-      <LargeIcon>Images\document_edit32.png</LargeIcon>
-      <SmallIcon>Images\document_edit16.png</SmallIcon>
+      <LargeIcon>%apsuite\apsimui\Images\document_edit32.png</LargeIcon>
+      <SmallIcon>%apsuite\apsimui\Images\document_edit16.png</SmallIcon>
       <drops>
          <drop name="toolbox"/>
          <drop name="simulation"/>
@@ -213,16 +210,16 @@
      </drops>
       <ApsimToSim>
          <type>component</type>
-         <dll>%apsuite\apsim\\FarmwiseSequencer\lib\FarmwiseSequencerConverter.dll</dll>
+         <dll>%apsuite\apsim\FarmwiseSequencer\lib\FarmwiseSequencerConverter.dll</dll>
          <ini>%apsuite\apsim\FarmwiseSequencer\FarmwiseSequencer.ini</ini>
       </ApsimToSim>
    </FarmwiseSequencerConverter>
    <summaryfile>
-      <UItype>file</UItype>
+      <UItype>APSIMUI.FileUI</UItype>
       <ShowInMainTree>Yes</ShowInMainTree>
       <Image>%apsuite\apsimui\images\banner2.jpg</Image>
-      <LargeIcon>Images\document_edit32.png</LargeIcon>
-      <SmallIcon>Images\document_edit16.png</SmallIcon>
+      <LargeIcon>%apsuite\apsimui\Images\document_edit32.png</LargeIcon>
+      <SmallIcon>%apsuite\apsimui\Images\document_edit16.png</SmallIcon>
       <drops>
          <drop name="toolbox"/>
  			<drop name="area"/>
@@ -231,12 +228,12 @@
      </drops>
    </summaryfile>
    <outputfile>
-      <UItype>file</UItype>
+      <UItype>APSIMUI.FileUI</UItype>
       <ShowInMainTree>Yes</ShowInMainTree>
       <Image>%apsuite\apsimui\images\banner2.jpg</Image>
       <Documentation name="Science documentation">../apsim/report/docs/report_science.htm</Documentation>
-      <LargeIcon>Images\table_selection_column32.png</LargeIcon>
-      <SmallIcon>Images\table_selection_column16.png</SmallIcon>
+      <LargeIcon>%apsuite\apsimui\Images\table_selection_column32.png</LargeIcon>
+      <SmallIcon>%apsuite\apsimui\Images\table_selection_column16.png</SmallIcon>
       <drops>
          <drop name="toolbox"/>
          <drop name="area"/>
@@ -260,12 +257,12 @@
 
    </outputfile>
    <metfile>
-      <UItype>met</UItype>
+      <UItype>APSIMUI.MetUI</UItype>
       <ShowInMainTree>Yes</ShowInMainTree>
       <Image>%apsuite\apsimui\images\banner2.jpg</Image>
       <Documentation name="Science documentation">../apsim/met/docs/met_science.htm</Documentation>
-      <LargeIcon>Images\thermometer32.png</LargeIcon>
-      <SmallIcon>Images\thermometer16.png</SmallIcon>
+      <LargeIcon>%apsuite\apsimui\Images\thermometer32.png</LargeIcon>
+      <SmallIcon>%apsuite\apsimui\Images\thermometer16.png</SmallIcon>
       <drops>
          <drop name="toolbox"/>
          <drop name="area"/>
@@ -284,12 +281,12 @@
       </ApsimToSim>
    </metfile>
    <logic>
-      <UItype>logic</UItype>
+      <UItype>APSIMUI.LogicUI</UItype>
       <ShowInMainTree>Yes</ShowInMainTree>
       <Image>%apsuite\apsimui\images\banner2.jpg</Image>
       <Documentation name="Science documentation">../apsim/manager/docs/manager_science.htm</Documentation>
-      <LargeIcon>Images\lightbulb_on32.png</LargeIcon>
-      <SmallIcon>Images\lightbulb_on16.png</SmallIcon>
+      <LargeIcon>%apsuite\apsimui\Images\lightbulb_on32.png</LargeIcon>
+      <SmallIcon>%apsuite\apsimui\Images\lightbulb_on16.png</SmallIcon>
       <drops>
          <drop name="toolbox"/>
          <drop name="area"/>
@@ -309,12 +306,12 @@
       </ApsimToSim>
    </logic>
    <operations>
-      <UItype>operations</UItype>
+      <UItype>APSIMUI.OperationsUI</UItype>
       <ShowInMainTree>Yes</ShowInMainTree>
       <Image>%apsuite\apsimui\images\banner2.jpg</Image>
       <Documentation name="Science documentation">../apsim/operatns/docs/operatns_science.htm</Documentation>
-      <LargeIcon>Images\gears32.png</LargeIcon>
-      <SmallIcon>Images\gears16.png</SmallIcon>
+      <LargeIcon>%apsuite\apsimui\Images\gears32.png</LargeIcon>
+      <SmallIcon>%apsuite\apsimui\Images\gears16.png</SmallIcon>
       <drops>
          <drop name="toolbox"/>
          <drop name="area"/>
@@ -347,12 +344,12 @@
       </ApsimToSim>
    </operations>
    <irrigation>
-      <UItype>generic</UItype>
+      <UItype>VBUserInterface.GenericUI</UItype>
       <ShowInMainTree>Yes</ShowInMainTree>
       <Image>%apsuite\apsimui\images\banner2.jpg</Image>
       <Documentation name="Science documentation">../apsim/irrigate/docs/irrigate_science.htm</Documentation>
-      <LargeIcon>Images\drink_blue32.png</LargeIcon>
-      <SmallIcon>Images\drink_blue16.png</SmallIcon>
+      <LargeIcon>%apsuite\apsimui\Images\drink_blue32.png</LargeIcon>
+      <SmallIcon>%apsuite\apsimui\Images\drink_blue16.png</SmallIcon>
       <drops>
          <drop name="toolbox"/>
          <drop name="area"/>
@@ -379,13 +376,13 @@
       </ApsimToSim>
    </irrigation>
    <fertiliser>
-      <UItype>empty</UItype>
+      <UItype>APSIMUI.EmptyUI</UItype>
       <ShowInMainTree>Yes</ShowInMainTree>
       <Image>%apsuite\apsimui\images\banner2.jpg</Image>
       <Description>The fertiliser module doesn't have any properties. It is required though if you wish to apply fertiliser."</Description>
       <Documentation name="Science documentation">../apsim/fertiliz/docs/fertiliz_science.htm</Documentation>
-      <LargeIcon>images\fertiliser32.png</LargeIcon>
-      <SmallIcon>images\fertiliser16.png</SmallIcon>
+      <LargeIcon>%apsuite\apsimui\Images\fertiliser32.png</LargeIcon>
+      <SmallIcon>%apsuite\apsimui\Images\fertiliser16.png</SmallIcon>
       <drops>
          <drop name="toolbox"/>
          <drop name="area"/>
@@ -402,13 +399,13 @@
 
    </fertiliser>
    <soil>
-      <UItype>soil</UItype>
+      <UItype>CSUserInterface.SoilUI</UItype>
       <ShowInMainTree>Yes</ShowInMainTree>
       <Image>%apsuite\apsimui\images\banner2.jpg</Image>
       <Documentation name="Water science documentation">../apsim/soilwat2/docs/soilwat2_science.htm</Documentation>
       <Documentation name="Nitrogen science documentation">../apsim/soiln2/docs/soiln2_science.htm</Documentation>
-      <LargeIcon>Images\shovel32.bmp</LargeIcon>
-      <SmallIcon>Images\shovel16.bmp</SmallIcon>
+      <LargeIcon>%apsuite\apsimui\Images\shovel32.bmp</LargeIcon>
+      <SmallIcon>%apsuite\apsimui\Images\shovel16.bmp</SmallIcon>
       <drops>
          <drop name="toolbox"/>
          <drop name="area"/>
@@ -454,30 +451,30 @@
       </ApsimToSim>
    </soil>
    <InitWater>
-      <UItype>initwater</UItype>
+      <UItype>CSUserInterface.InitWaterUI</UItype>
       <ShowInMainTree>Yes</ShowInMainTree>
-      <LargeIcon>Images\drink_blue32.png</LargeIcon>
-      <SmallIcon>Images\drink_blue16.png</SmallIcon>
+      <LargeIcon>%apsuite\apsimui\Images\drink_blue32.png</LargeIcon>
+      <SmallIcon>%apsuite\apsimui\Images\drink_blue16.png</SmallIcon>
       <drops>
          <drop name="soil"/>
       </drops>
    </InitWater>
    <InitNitrogen>
-      <UItype>initnitrogen</UItype>
+      <UItype>CSUserInterface.InitNitrogenUI</UItype>
       <ShowInMainTree>Yes</ShowInMainTree>
-      <LargeIcon>Images\fertiliser32.png</LargeIcon>
-      <SmallIcon>Images\fertiliser16.png</SmallIcon>
+      <LargeIcon>%apsuite\apsimui\Images\fertiliser32.png</LargeIcon>
+      <SmallIcon>%apsuite\apsimui\Images\fertiliser16.png</SmallIcon>
       <drops>
          <drop name="soil"/>
       </drops>
    </InitNitrogen>
    <phos>
-      <UItype>empty</UItype>
+      <UItype>APSIMUI.EmptyUI</UItype>
       <ShowInMainTree>Yes</ShowInMainTree>
       <Image>%apsuite\apsimui\images\banner2.jpg</Image>
       <Documentation name="Science documentation">../apsim/soilp/docs/soilp_science.htm</Documentation>
-      <LargeIcon>Images\phosphorus32.bmp</LargeIcon>
-      <SmallIcon>Images\phosphorus16.png</SmallIcon>
+      <LargeIcon>%apsuite\apsimui\Images\phosphorus32.bmp</LargeIcon>
+      <SmallIcon>%apsuite\apsimui\Images\phosphorus16.png</SmallIcon>
       <drops>
          <drop name="toolbox"/>
          <drop name="area"/>
@@ -495,13 +492,13 @@
       </variables>
    </phos>
    <swimsoil>
-      <UItype>generic</UItype>
+      <UItype>VBUserInterface.GenericUI</UItype>
       <ShowInMainTree>Yes</ShowInMainTree>
       <Image>%apsuite\apsimui\images\banner2.jpg</Image>
       <Documentation name="Science documentation">../apsim/apswim/docs/apswim_science.htm</Documentation>
       <Documentation name="Technical specification">../apsim/apswim/docs/SWIMv21UserManual.pdf</Documentation>
-      <LargeIcon>Images\shovel32.bmp</LargeIcon>
-      <SmallIcon>Images\shovel16.bmp</SmallIcon>
+      <LargeIcon>%apsuite\apsimui\Images\shovel32.bmp</LargeIcon>
+      <SmallIcon>%apsuite\apsimui\Images\shovel16.bmp</SmallIcon>
       <drops>
          <drop name="toolbox"/>
          <drop name="area"/>
@@ -510,12 +507,12 @@
      </drops>
    </swimsoil>
    <accum>
-      <UItype>generic</UItype>
+      <UItype>VBUserInterface.GenericUI</UItype>
       <ShowInMainTree>Yes</ShowInMainTree>
       <Image>%apsuite\apsimui\images\banner2.jpg</Image>
       <Documentation name="Science documentation">../apsim/accum/docs/accum_science.htm</Documentation>
-      <LargeIcon>Images\debug32.png</LargeIcon>
-      <SmallIcon>Images\debug16.png</SmallIcon>
+      <LargeIcon>%apsuite\apsimui\Images\debug32.png</LargeIcon>
+      <SmallIcon>%apsuite\apsimui\Images\debug16.png</SmallIcon>
       <drops>
          <drop name="toolbox"/>
          <drop name="area"/>
@@ -531,12 +528,12 @@
       </ApsimToSim>
    </accum>
    <log>
-      <UItype>generic</UItype>
+      <UItype>VBUserInterface.GenericUI</UItype>
       <ShowInMainTree>Yes</ShowInMainTree>
       <Image>%apsuite\apsimui\images\banner2.jpg</Image>
       <Documentation name="Science documentation">../apsim/log/docs/log.htm</Documentation>
-      <LargeIcon>Images\debug32.png</LargeIcon>
-      <SmallIcon>Images\debug16.png</SmallIcon>
+      <LargeIcon>%apsuite\apsimui\Images\debug32.png</LargeIcon>
+      <SmallIcon>%apsuite\apsimui\Images\debug16.png</SmallIcon>
       <drops>
          <drop name="toolbox"/>
          <drop name="area"/>
@@ -553,12 +550,12 @@
       </ApsimToSim>
    </log>
    <micromet>
-      <UItype>generic</UItype>
+      <UItype>VBUserInterface.GenericUI</UItype>
       <ShowInMainTree>Yes</ShowInMainTree>
       <Image>%apsuite\apsimui\images\banner2.jpg</Image>
       <Documentation name="Science documentation">../apsim/micromet/docs/micromet_science.pdf</Documentation>
-      <LargeIcon>Images\thermometer32.png</LargeIcon>
-      <SmallIcon>Images\thermometer16.png</SmallIcon>
+      <LargeIcon>%apsuite\apsimui\Images\thermometer32.png</LargeIcon>
+      <SmallIcon>%apsuite\apsimui\Images\thermometer16.png</SmallIcon>
       <drops>
          <drop name="toolbox"/>
          <drop name="area"/>
@@ -579,13 +576,13 @@
       </ApsimToSim>
    </micromet>
    <stock>
-      <UItype>generic</UItype>
+      <UItype>VBUserInterface.GenericUI</UItype>
       <ShowInMainTree>Yes</ShowInMainTree>
       <Image>%apsuite\apsimui\images\banner2.jpg</Image>
       <Documentation name="Component description">../apsim/stock/docs/Stock Component Description.htm</Documentation>
       <Documentation name="Component drivers">../apsim/stock/docs/Stock Component Drivers.htm</Documentation>
-      <LargeIcon>Images\stock32.bmp</LargeIcon>
-      <SmallIcon>Images\stock16.bmp</SmallIcon>
+      <LargeIcon>%apsuite\apsimui\Images\stock32.bmp</LargeIcon>
+      <SmallIcon>%apsuite\apsimui\Images\stock16.bmp</SmallIcon>
       <drops>
          <drop name="toolbox"/>
          <drop name="area"/>
@@ -763,10 +760,10 @@
       </ApsimToSim>
    </stock>
    <StockGenotype>
-      <UItype>generic</UItype>
+      <UItype>VBUserInterface.GenericUI</UItype>
       <ShowInMainTree>Yes</ShowInMainTree>
       <Image>%apsuite\apsimui\images\banner2.jpg</Image>
-      <SmallIcon>Images\stock16.bmp</SmallIcon>
+      <SmallIcon>%apsuite\apsimui\Images\stock16.bmp</SmallIcon>
       <drops>
          <drop name="stock"/>
          <drop name="cattle"/>
@@ -774,11 +771,11 @@
      </drops>
    </StockGenotype>
    <StockHerbageConverter>
-      <UItype>generic</UItype>
+      <UItype>VBUserInterface.GenericUI</UItype>
       <ShowInMainTree>Yes</ShowInMainTree>
       <Image>%apsuite\apsimui\images\banner2.jpg</Image>
-      <LargeIcon>Images\stock32.bmp</LargeIcon>
-      <SmallIcon>Images\stock16.bmp</SmallIcon>
+      <LargeIcon>%apsuite\apsimui\Images\stock32.bmp</LargeIcon>
+      <SmallIcon>%apsuite\apsimui\Images\stock16.bmp</SmallIcon>
       <drops>
          <drop name="toolbox"/>
          <drop name="area"/>
@@ -800,11 +797,11 @@
       </ApsimToSim>
    </StockHerbageConverter>
    <StockScienceConverter>
-      <UItype>generic</UItype>
+      <UItype>VBUserInterface.GenericUI</UItype>
       <ShowInMainTree>Yes</ShowInMainTree>
       <Image>%apsuite\apsimui\images\banner2.jpg</Image>
-      <LargeIcon>Images\stock32.bmp</LargeIcon>
-      <SmallIcon>Images\stock16.bmp</SmallIcon>
+      <LargeIcon>%apsuite\apsimui\Images\stock32.bmp</LargeIcon>
+      <SmallIcon>%apsuite\apsimui\Images\stock16.bmp</SmallIcon>
       <drops>
          <drop name="toolbox"/>
          <drop name="area"/>
@@ -822,11 +819,11 @@
       </ApsimToSim>
    </StockScienceConverter>
    <cattle>
-      <UItype>generic</UItype>
+      <UItype>VBUserInterface.GenericUI</UItype>
       <ShowInMainTree>Yes</ShowInMainTree>
       <Image>%apsuite\apsimui\images\banner2.jpg</Image>
-      <LargeIcon>Images\cow32.bmp</LargeIcon>
-      <SmallIcon>Images\cow16.bmp</SmallIcon>
+      <LargeIcon>%apsuite\apsimui\Images\cow32.bmp</LargeIcon>
+      <SmallIcon>%apsuite\apsimui\Images\cow16.bmp</SmallIcon>
       <drops>
          <drop name="stock"/>
          <drop name="toolbox"/>
@@ -836,11 +833,11 @@
      </drops>
    </cattle>
    <sheep>
-      <UItype>generic</UItype>
+      <UItype>VBUserInterface.GenericUI</UItype>
       <ShowInMainTree>Yes</ShowInMainTree>
       <Image>%apsuite\apsimui\images\banner2.jpg</Image>
-      <LargeIcon>Images\sheep32.bmp</LargeIcon>
-      <SmallIcon>Images\sheep16.bmp</SmallIcon>
+      <LargeIcon>%apsuite\apsimui\Images\sheep32.bmp</LargeIcon>
+      <SmallIcon>%apsuite\apsimui\Images\sheep16.bmp</SmallIcon>
       <drops>
          <drop name="stock"/>
          <drop name="toolbox"/>
@@ -850,34 +847,34 @@
      </drops>
    </sheep>
    <variables>
-      <UItype>outputfiledesc</UItype>
+      <UItype>APSIMUI.OutputFileDescUI</UItype>
       <ShowInMainTree>Yes</ShowInMainTree>
       <Image>%apsuite\apsimui\images\banner2.jpg</Image>
-      <LargeIcon>Images\elements132.png</LargeIcon>
-      <SmallIcon>Images\elements116.png</SmallIcon>
+      <LargeIcon>%apsuite\apsimui\Images\elements132.png</LargeIcon>
+      <SmallIcon>%apsuite\apsimui\Images\elements116.png</SmallIcon>
       <drops>
          <drop name="outputfile"/>
          <drop name="folder"/>
      </drops>
    </variables>
    <events>
-      <UItype>outputfiledesc</UItype>
+      <UItype>APSIMUI.OutputFileDescUI</UItype>
       <ShowInMainTree>Yes</ShowInMainTree>
       <Image>%apsuite\apsimui\images\banner2.jpg</Image>
-      <LargeIcon>Images\elements132.png</LargeIcon>
-      <SmallIcon>Images\elements116.png</SmallIcon>
+      <LargeIcon>%apsuite\apsimui\Images\elements132.png</LargeIcon>
+      <SmallIcon>%apsuite\apsimui\Images\elements116.png</SmallIcon>
       <drops>
          <drop name="outputfile"/>
          <drop name="folder"/>
      </drops>
    </events>
    <manager>
-      <UItype>area</UItype>
+      <UItype>APSIMUI.areaui</UItype>
       <ShowInMainTree>Yes</ShowInMainTree>
       <Image>%apsuite\apsimui\images\banner2.jpg</Image>
       <Documentation name="Science documentation">../apsim/manager/docs/manager_science.htm</Documentation>
-      <LargeIcon>Images\manager32.png</LargeIcon>
-      <SmallIcon>Images\manager16.png</SmallIcon>
+      <LargeIcon>%apsuite\apsimui\Images\manager32.png</LargeIcon>
+      <SmallIcon>%apsuite\apsimui\Images\manager16.png</SmallIcon>
       <drops>
          <drop name="toolbox"/>
          <drop name="area"/>
@@ -902,12 +899,12 @@
       </ApsimToSim>
    </manager>
    <tclmanager>
-      <UItype>area</UItype>
+      <UItype>APSIMUI.areaui</UItype>
       <ShowInMainTree>Yes</ShowInMainTree>
       <Image>%apsuite\apsimui\images\banner2.jpg</Image>
       <Documentation name="Science documentation">../apsim/tcllink/docs/tclink_science.htm</Documentation>
-      <LargeIcon>Images\manager32.png</LargeIcon>
-      <SmallIcon>Images\manager16.png</SmallIcon>
+      <LargeIcon>%apsuite\apsimui\Images\manager32.png</LargeIcon>
+      <SmallIcon>%apsuite\apsimui\Images\manager16.png</SmallIcon>
       <drops>
          <drop name="toolbox"/>
          <drop name="area"/>
@@ -936,12 +933,12 @@
      </ApsimToSim>
    </tclmanager>
    <farmmanager>
-      <UItype>area</UItype>
+      <UItype>APSIMUI.areaui</UItype>
       <ShowInMainTree>Yes</ShowInMainTree>
       <Image>%apsuite\apsimui\images\banner2.jpg</Image>
       <Documentation name="Science documentation">../apsim/tcllink/docs/farmmanager_science.htm</Documentation>
-      <LargeIcon>Images\manager32.png</LargeIcon>
-      <SmallIcon>Images\manager16.png</SmallIcon>
+      <LargeIcon>%apsuite\apsimui\Images\manager32.png</LargeIcon>
+      <SmallIcon>%apsuite\apsimui\Images\manager16.png</SmallIcon>
       <drops>
          <drop name="toolbox"/>
          <drop name="simulation"/>
@@ -969,12 +966,12 @@
       </ApsimToSim>
    </farmmanager>
    <paddockmanager>
-      <UItype>area</UItype>
+      <UItype>APSIMUI.areaui</UItype>
       <ShowInMainTree>Yes</ShowInMainTree>
       <Image>%apsuite\apsimui\images\banner2.jpg</Image>
       <Documentation name="Science documentation">../apsim/tcllink/docs/farmmanager_science.htm</Documentation>
-      <LargeIcon>Images\manager32.png</LargeIcon>
-      <SmallIcon>Images\manager16.png</SmallIcon>
+      <LargeIcon>%apsuite\apsimui\Images\manager32.png</LargeIcon>
+      <SmallIcon>%apsuite\apsimui\Images\manager16.png</SmallIcon>
       <drops>
          <drop name="toolbox"/>
          <drop name="area"/>
@@ -1002,12 +999,12 @@
       </ApsimToSim>
    </paddockmanager>
    <tclgroup>
-      <UItype>area</UItype>
+      <UItype>APSIMUI.areaui</UItype>
       <ShowInMainTree>Yes</ShowInMainTree>
       <Image>%apsuite\apsimui\images\banner2.jpg</Image>
       <Documentation name="Science documentation">../apsim/tcllink/docs/farmmanager_science.htm</Documentation>
-      <LargeIcon>Images\manager32.png</LargeIcon>
-      <SmallIcon>Images\manager16.png</SmallIcon>
+      <LargeIcon>%apsuite\apsimui\Images\manager32.png</LargeIcon>
+      <SmallIcon>%apsuite\apsimui\Images\manager16.png</SmallIcon>
       <drops>
          <drop name="toolbox"/>
          <drop name="area"/>
@@ -1027,7 +1024,7 @@
       </ApsimToSim>
    </tclgroup>
    <tclui>
-      <UItype>tclui</UItype>
+      <UItype>APSIMUI.TclUI</UItype>
       <ShowInMainTree>Yes</ShowInMainTree>
       <Image>%apsuite\apsimui\images\banner2.jpg</Image>
       <drops>
@@ -1039,11 +1036,11 @@
      </drops>
    </tclui>
    <rule>
-      <UItype>rule</UItype>
+      <UItype>APSIMUI.RuleUI</UItype>
       <ShowInMainTree>Yes</ShowInMainTree>
       <Image>%apsuite\apsimui\images\banner2.jpg</Image>
-      <LargeIcon>Images\question_and_answer32.png</LargeIcon>
-      <SmallIcon>Images\question_and_answer16.png</SmallIcon>
+      <LargeIcon>%apsuite\apsimui\Images\question_and_answer32.png</LargeIcon>
+      <SmallIcon>%apsuite\apsimui\Images\question_and_answer16.png</SmallIcon>
       <drops>
          <drop name="manager"/>
          <drop name="folder"/>
@@ -1056,12 +1053,12 @@
      </drops>
    </rule>
    <surfaceom>
-      <UItype>generic</UItype>
+      <UItype>VBUserInterface.GenericUI</UItype>
       <ShowInMainTree>Yes</ShowInMainTree>
-      <Image>%apsuite\apsimui\graphics\som.jpg</Image>
+      <Image>%apsuite\apsimui\Images\som.jpg</Image>
       <Documentation name="Science documentation">../apsim/surfaceom/docs/surfaceom_science.htm</Documentation>
-      <LargeIcon>Images\som32.png</LargeIcon>
-      <SmallIcon>Images\som16.png</SmallIcon>
+      <LargeIcon>%apsuite\apsimui\Images\som32.png</LargeIcon>
+      <SmallIcon>%apsuite\apsimui\Images\som16.png</SmallIcon>
       <drops>
          <drop name="toolbox"/>
          <drop name="area"/>
@@ -1123,11 +1120,11 @@
       </ApsimToSim>
    </surfaceom>
    <folder>
-      <UItype>area</UItype>
+      <UItype>APSIMUI.AreaUI</UItype>
       <ShowInMainTree>Yes</ShowInMainTree>
       <Image>%apsuite\apsimui\images\banner2.jpg</Image>
-      <LargeIcon>Images\folder_closed32.png</LargeIcon>
-      <SmallIcon>Images\folder_closed16.png</SmallIcon>
+      <LargeIcon>%apsuite\apsimui\Images\folder_closed32.png</LargeIcon>
+      <SmallIcon>%apsuite\apsimui\Images\folder_closed16.png</SmallIcon>
       <drops>
          <drop name="folder"/>
          <drop name="simulations"/>
@@ -1135,12 +1132,12 @@
      </drops>
    </folder>
    <erosion>
-      <UItype>generic</UItype>
+      <UItype>VBUserInterface.GenericUI</UItype>
       <ShowInMainTree>Yes</ShowInMainTree>
       <Image>%apsuite\apsimui\images\banner2.jpg</Image>
       <Documentation name="Science documentation">../apsim/erosion/docs/erosion_science.htm</Documentation>
-      <LargeIcon>Images\shovel32.bmp</LargeIcon>
-      <SmallIcon>Images\shovel16.bmp</SmallIcon>
+      <LargeIcon>%apsuite\apsimui\Images\shovel32.bmp</LargeIcon>
+      <SmallIcon>%apsuite\apsimui\Images\shovel16.bmp</SmallIcon>
       <drops>
          <drop name="toolbox"/>
          <drop name="area"/>
@@ -1171,11 +1168,11 @@
       </ApsimToSim>
    </erosion>
    <grasp>
-      <UItype>generic</UItype>
+      <UItype>VBUserInterface.GenericUI</UItype>
       <ShowInMainTree>Yes</ShowInMainTree>
       <Image>%apsuite\apsimui\images\banner2.jpg</Image>
-      <LargeIcon>Images\cubes32.png</LargeIcon>
-      <SmallIcon>Images\cubes16.png</SmallIcon>
+      <LargeIcon>%apsuite\apsimui\Images\cubes32.png</LargeIcon>
+      <SmallIcon>%apsuite\apsimui\Images\cubes16.png</SmallIcon>
       <drops>
          <drop name="simulation"/>
          <drop name="folder"/>
@@ -1227,14 +1224,14 @@
       </events>
    </grasp>
    <broccoli>
-      <UItype>empty</UItype>
+      <UItype>APSIMUI.EmptyUI</UItype>
       <IsCrop>Yes</IsCrop>
       <ShowInMainTree>Yes</ShowInMainTree>
-      <Image>%apsuite\ApsimUI\Graphics\broccoli.jpg</Image>
+      <Image>%apsuite\ApsimUI\Images\broccoli.jpg</Image>
       <Description>NOTE: Prototype only.  This module is not to be used in model applications.  Most APSIM crop or plant modules do not require extra user input.  Crop specific parameters are either provided for your chosen soil, or are captured as part of the standard model validation process.</Description>
       <Documentation name="Generic plant" >../apsim/plant/docs/plant_science.htm</Documentation>
-      <LargeIcon>Images\leaf32.bmp</LargeIcon>
-      <SmallIcon>Images\leaf16.bmp</SmallIcon>
+      <LargeIcon>%apsuite\apsimui\Images\leaf32.bmp</LargeIcon>
+      <SmallIcon>%apsuite\apsimui\Images\leaf16.bmp</SmallIcon>
       <drops>
          <drop name="toolbox"/>
          <drop name="area"/>
@@ -1257,14 +1254,14 @@
       </ApsimToSim>
    </broccoli>
    <butterflypea>
-      <UItype>empty</UItype>
+      <UItype>APSIMUI.EmptyUI</UItype>
       <IsCrop>Yes</IsCrop>
       <ShowInMainTree>Yes</ShowInMainTree>
-      <Image>%apsuite\ApsimUI\Graphics\butterflypea.jpg</Image>
+      <Image>%apsuite\ApsimUI\Images\butterflypea.jpg</Image>
       <Description>NOTE: Prototype only.  This module is not to be used in model applications.  Most APSIM crop or plant modules do not require extra user input.  Crop specific parameters are either provided for your chosen soil, or are captured as part of the standard model validation process.</Description>
       <Documentation name="Generic plant" >../apsim/plant/docs/plant_science.htm</Documentation>
-      <LargeIcon>Images\leaf32.bmp</LargeIcon>
-      <SmallIcon>Images\leaf16.bmp</SmallIcon>
+      <LargeIcon>%apsuite\apsimui\Images\leaf32.bmp</LargeIcon>
+      <SmallIcon>%apsuite\apsimui\Images\leaf16.bmp</SmallIcon>
       <drops>
          <drop name="toolbox"/>
          <drop name="area"/>
@@ -1289,15 +1286,15 @@
       </ApsimToSim>
    </butterflypea>
    <canola>
-      <UItype>empty</UItype>
+      <UItype>APSIMUI.EmptyUI</UItype>
       <IsCrop>Yes</IsCrop>
       <ShowInMainTree>Yes</ShowInMainTree>
-      <Image>%apsuite\ApsimUI\Graphics\Canola.jpg</Image>
+      <Image>%apsuite\ApsimUI\Images\Canola.jpg</Image>
       <Description>Most APSIM crop or plant modules do not require extra user input.  Crop specific parameters are either provided for your chosen soil, or are captured as part of the standard model validation process.</Description>
       <Documentation name="Canola science documentation">../apsim/canola/docs/canola_science.htm</Documentation>
       <Documentation name="Generic plant" >../apsim/plant/docs/plant_science.htm</Documentation>
-      <LargeIcon>Images\leaf32.bmp</LargeIcon>
-      <SmallIcon>Images\leaf16.bmp</SmallIcon>
+      <LargeIcon>%apsuite\apsimui\Images\leaf32.bmp</LargeIcon>
+      <SmallIcon>%apsuite\apsimui\Images\leaf16.bmp</SmallIcon>
       <drops>
          <drop name="toolbox"/>
          <drop name="area"/>
@@ -1350,14 +1347,14 @@
       </ApsimToSim>
    </canola>
 	<centro>
-      <UItype>empty</UItype>
+      <UItype>APSIMUI.EmptyUI</UItype>
       <IsCrop>Yes</IsCrop>
       <ShowInMainTree>Yes</ShowInMainTree>
-      <Image>%apsuite\ApsimUI\Graphics\centro.jpg</Image>
+      <Image>%apsuite\ApsimUI\Images\centro.jpg</Image>
       <Description>NOTE: Prototype only.  This module is not to be used in model applications.  Most APSIM crop or plant modules do not require extra user input.  Crop specific parameters are either provided for your chosen soil, or are captured as part of the standard model validation process.</Description>
       <Documentation name="Generic plant" >../apsim/plant/docs/plant_science.htm</Documentation>
-      <LargeIcon>Images\leaf32.bmp</LargeIcon>
-      <SmallIcon>Images\leaf16.bmp</SmallIcon>
+      <LargeIcon>%apsuite\apsimui\Images\leaf32.bmp</LargeIcon>
+      <SmallIcon>%apsuite\apsimui\Images\leaf16.bmp</SmallIcon>
       <drops>
          <drop name="toolbox"/>
          <drop name="area"/>
@@ -1383,16 +1380,16 @@
    </centro>
 
    <chickpea>
-      <UItype>empty</UItype>
+      <UItype>APSIMUI.EmptyUI</UItype>
       <IsCrop>Yes</IsCrop>
       <ShowInMainTree>Yes</ShowInMainTree>
-      <Image>%apsuite\ApsimUI\Graphics\Chickpea.jpg</Image>
+      <Image>%apsuite\ApsimUI\Images\Chickpea.jpg</Image>
       <Description>Most APSIM crop or plant modules do not require extra user input.  Crop specific parameters are either provided for your chosen soil, or are captured as part of the standard model validation process.</Description>
       <Documentation name="Chickpea science documentation">../apsim/chickpea/docs/chickpea_science.htm</Documentation>
       <Documentation name="Generic plant" >../apsim/plant/docs/plant_science.htm</Documentation>
       <Documentation name="Darling Downs sensibility tests">http://www.apsim.info/apsim/publish/apsim/chickpea/sensibility/darlingdowns.gif</Documentation>
-      <LargeIcon>Images\leaf32.bmp</LargeIcon>
-      <SmallIcon>Images\leaf16.bmp</SmallIcon>
+      <LargeIcon>%apsuite\apsimui\Images\leaf32.bmp</LargeIcon>
+      <SmallIcon>%apsuite\apsimui\Images\leaf16.bmp</SmallIcon>
       <drops>
          <drop name="toolbox"/>
          <drop name="area"/>
@@ -1422,15 +1419,15 @@
       </ApsimToSim>
    </chickpea>
    <cowpea>
-      <UItype>empty</UItype>
+      <UItype>APSIMUI.EmptyUI</UItype>
       <IsCrop>Yes</IsCrop>
       <ShowInMainTree>Yes</ShowInMainTree>
-      <Image>%apsuite\ApsimUI\Graphics\Cowpea.jpg</Image>
+      <Image>%apsuite\ApsimUI\Images\Cowpea.jpg</Image>
       <Description>Most APSIM crop or plant modules do not require extra user input.  Crop specific parameters are either provided for your chosen soil, or are captured as part of the standard model validation process.</Description>
       <Documentation name="Cowpea science documentation">../apsim/cowpea/docs/cowpea_science.htm</Documentation>
       <Documentation name="Generic plant" >../apsim/plant/docs/plant_science.htm</Documentation>
-      <LargeIcon>Images\leaf32.bmp</LargeIcon>
-      <SmallIcon>Images\leaf16.bmp</SmallIcon>
+      <LargeIcon>%apsuite\apsimui\Images\leaf32.bmp</LargeIcon>
+      <SmallIcon>%apsuite\apsimui\Images\leaf16.bmp</SmallIcon>
       <drops>
          <drop name="toolbox"/>
          <drop name="area"/>
@@ -1458,15 +1455,15 @@
       </ApsimToSim>
    </cowpea>
    <fababean>
-      <UItype>empty</UItype>
+      <UItype>APSIMUI.EmptyUI</UItype>
       <IsCrop>Yes</IsCrop>
       <ShowInMainTree>Yes</ShowInMainTree>
-      <Image>%apsuite\ApsimUI\Graphics\FabaBean.jpg</Image>
+      <Image>%apsuite\ApsimUI\Images\FabaBean.jpg</Image>
       <Description>Most APSIM crop or plant modules do not require extra user input.  Crop specific parameters are either provided for your chosen soil, or are captured as part of the standard model validation process.</Description>
       <Documentation name="Generic plant documentation" >../apsim/plant/docs/plant_science.htm</Documentation>
       <Documentation name="Darling Downs sensibility tests">http://www.apsim.info/apsim/publish/apsim/fababean/sensibility/fababean.gif</Documentation>
-      <LargeIcon>Images\leaf32.bmp</LargeIcon>
-      <SmallIcon>Images\leaf16.bmp</SmallIcon>
+      <LargeIcon>%apsuite\apsimui\Images\leaf32.bmp</LargeIcon>
+      <SmallIcon>%apsuite\apsimui\Images\leaf16.bmp</SmallIcon>
       <drops>
          <drop name="toolbox"/>
          <drop name="area"/>
@@ -1492,15 +1489,15 @@
       </ApsimToSim>
    </fababean>
    <fieldpea>
-      <UItype>empty</UItype>
+      <UItype>APSIMUI.EmptyUI</UItype>
       <IsCrop>Yes</IsCrop>
       <ShowInMainTree>Yes</ShowInMainTree>
-      <Image>%apsuite\ApsimUI\Graphics\fieldpea.jpg</Image>
+      <Image>%apsuite\ApsimUI\Images\fieldpea.jpg</Image>
       <Description>Most APSIM crop or plant modules do not require extra user input.  Crop specific parameters are either provided for your chosen soil, or are captured as part of the standard model validation process.</Description>
       <Documentation name="Fieldpea science documentation">../apsim/fieldpea/docs/Working science document for fieldpea module.htm</Documentation>
       <Documentation name="Generic plant" >../apsim/plant/docs/plant_science.htm</Documentation>
-      <LargeIcon>Images\leaf32.bmp</LargeIcon>
-      <SmallIcon>Images\leaf16.bmp</SmallIcon>
+      <LargeIcon>%apsuite\apsimui\Images\leaf32.bmp</LargeIcon>
+      <SmallIcon>%apsuite\apsimui\Images\leaf16.bmp</SmallIcon>
       <drops>
          <drop name="toolbox"/>
          <drop name="area"/>
@@ -1529,15 +1526,15 @@
       </ApsimToSim>
    </fieldpea>
    <lablab>
-      <UItype>empty</UItype>
+      <UItype>APSIMUI.EmptyUI</UItype>
       <IsCrop>Yes</IsCrop>
       <ShowInMainTree>Yes</ShowInMainTree>
-      <Image>%apsuite\ApsimUI\Graphics\lablab.jpg</Image>
+      <Image>%apsuite\ApsimUI\Images\lablab.jpg</Image>
       <Description>Most APSIM crop or plant modules do not require extra user input.  Crop specific parameters are either provided for your chosen soil, or are captured as part of the standard model validation process.</Description>
       <Documentation name="Lablab science documentation">../apsim/lablab/docs/Working science doc for lablab module.htm</Documentation>
       <Documentation name="Generic plant" >../apsim/plant/docs/plant_science.htm</Documentation>
-      <LargeIcon>Images\leaf32.bmp</LargeIcon>
-      <SmallIcon>Images\leaf16.bmp</SmallIcon>
+      <LargeIcon>%apsuite\apsimui\Images\leaf32.bmp</LargeIcon>
+      <SmallIcon>%apsuite\apsimui\Images\leaf16.bmp</SmallIcon>
       <drops>
          <drop name="toolbox"/>
          <drop name="area"/>
@@ -1565,15 +1562,15 @@
       </ApsimToSim>
    </lablab>
    <lucerne>
-      <UItype>empty</UItype>
+      <UItype>APSIMUI.EmptyUI</UItype>
       <IsCrop>Yes</IsCrop>
       <ShowInMainTree>Yes</ShowInMainTree>
-      <Image>%apsuite\ApsimUI\Graphics\lucerne.jpg</Image>
+      <Image>%apsuite\ApsimUI\Images\lucerne.jpg</Image>
       <Description>Most APSIM crop or plant modules do not require extra user input.  Crop specific parameters are either provided for your chosen soil, or are captured as part of the standard model validation process.</Description>
       <Documentation name="Lucerne science documentation">../apsim/lucerne/docs/lucerne_science.htm</Documentation>
       <Documentation name="Generic plant" >../apsim/plant/docs/plant_science.htm</Documentation>
-      <LargeIcon>Images\leaf32.bmp</LargeIcon>
-      <SmallIcon>Images\leaf16.bmp</SmallIcon>
+      <LargeIcon>%apsuite\apsimui\Images\leaf32.bmp</LargeIcon>
+      <SmallIcon>%apsuite\apsimui\Images\leaf16.bmp</SmallIcon>
       <drops>
          <drop name="toolbox"/>
          <drop name="area"/>
@@ -1609,15 +1606,15 @@
       </ApsimToSim>
    </lucerne>
    <lupin>
-      <UItype>empty</UItype>
+      <UItype>APSIMUI.EmptyUI</UItype>
       <IsCrop>Yes</IsCrop>
       <ShowInMainTree>Yes</ShowInMainTree>
-      <Image>%apsuite\ApsimUI\Graphics\lupin.jpg</Image>
+      <Image>%apsuite\ApsimUI\Images\lupin.jpg</Image>
       <Description>Most APSIM crop or plant modules do not require extra user input.  Crop specific parameters are either provided for your chosen soil, or are captured as part of the standard model validation process.</Description>
       <Documentation name="Lupin science documentation">../apsim/lupin/docs/lupin_science.htm</Documentation>
       <Documentation name="Generic plant" >../apsim/plant/docs/plant_science.htm</Documentation>
-      <LargeIcon>Images\leaf32.bmp</LargeIcon>
-      <SmallIcon>Images\leaf16.bmp</SmallIcon>
+      <LargeIcon>%apsuite\apsimui\Images\leaf32.bmp</LargeIcon>
+      <SmallIcon>%apsuite\apsimui\Images\leaf16.bmp</SmallIcon>
       <drops>
          <drop name="toolbox"/>
          <drop name="area"/>
@@ -1651,16 +1648,16 @@
       </ApsimToSim>
    </lupin>
    <maize>
-      <UItype>empty</UItype>
+      <UItype>APSIMUI.EmptyUI</UItype>
       <IsCrop>Yes</IsCrop>
       <ShowInMainTree>Yes</ShowInMainTree>
-      <Image>%apsuite\ApsimUI\Graphics\maize.jpg</Image>
+      <Image>%apsuite\ApsimUI\Images\maize.jpg</Image>
       <Description>Most APSIM crop or plant modules do not require extra user input.  Crop specific parameters are either provided for your chosen soil, or are captured as part of the standard model validation process.</Description>
       <Documentation name="Maize science documentation">../apsim/maize/docs/maize_science.htm</Documentation>
       <Documentation name="Dalby sensibility tests">http://www.apsim.info/apsim/publish/apsim/maize/sensibility/dalby.gif</Documentation>
       <Documentation name="Roma sensibility tests">http://www.apsim.info/apsim/publish/apsim/maize/sensibility/roma.gif</Documentation>
-      <LargeIcon>Images\leaf32.bmp</LargeIcon>
-      <SmallIcon>Images\leaf16.bmp</SmallIcon>
+      <LargeIcon>%apsuite\apsimui\Images\leaf32.bmp</LargeIcon>
+      <SmallIcon>%apsuite\apsimui\Images\leaf16.bmp</SmallIcon>
       <drops>
          <drop name="toolbox"/>
          <drop name="area"/>
@@ -1757,14 +1754,14 @@
       </ApsimToSim>
    </maize>
    <mucuna>
-      <UItype>empty</UItype>
+      <UItype>APSIMUI.EmptyUI</UItype>
       <IsCrop>Yes</IsCrop>
       <ShowInMainTree>Yes</ShowInMainTree>
-      <Image>%apsuite\ApsimUI\Graphics\mucuna.jpg</Image>
+      <Image>%apsuite\ApsimUI\Images\mucuna.jpg</Image>
       <Description>Most APSIM crop or plant modules do not require extra user input.  Crop specific parameters are either provided for your chosen soil, or are captured as part of the standard model validation process.</Description>
       <Documentation name="Generic plant documentation" >../apsim/plant/docs/plant_science.htm</Documentation>
-      <LargeIcon>Images\leaf32.bmp</LargeIcon>
-      <SmallIcon>Images\leaf16.bmp</SmallIcon>
+      <LargeIcon>%apsuite\apsimui\Images\leaf32.bmp</LargeIcon>
+      <SmallIcon>%apsuite\apsimui\Images\leaf16.bmp</SmallIcon>
       <drops>
          <drop name="toolbox"/>
          <drop name="area"/>
@@ -1789,16 +1786,16 @@
       </ApsimToSim>
    </mucuna>
    <mungbean>
-      <UItype>empty</UItype>
+      <UItype>APSIMUI.EmptyUI</UItype>
       <IsCrop>Yes</IsCrop>
       <ShowInMainTree>Yes</ShowInMainTree>
-      <Image>%apsuite\ApsimUI\Graphics\mungbean.jpg</Image>
+      <Image>%apsuite\ApsimUI\Images\mungbean.jpg</Image>
       <Description>Most APSIM crop or plant modules do not require extra user input.  Crop specific parameters are either provided for your chosen soil, or are captured as part of the standard model validation process.</Description>
       <Documentation name="Mungbean science documentation">../apsim/mungbean/docs/mungbean_science.htm</Documentation>
       <Documentation name="Generic plant" >../apsim/plant/docs/plant_science.htm</Documentation>
       <Documentation name="Darling downs sensibility tests">http://www.apsim.info/apsim/publish/apsim/mungbean/sensibility/darlingdowns.gif</Documentation>
-      <LargeIcon>Images\leaf32.bmp</LargeIcon>
-      <SmallIcon>Images\leaf16.bmp</SmallIcon>
+      <LargeIcon>%apsuite\apsimui\Images\leaf32.bmp</LargeIcon>
+      <SmallIcon>%apsuite\apsimui\Images\leaf16.bmp</SmallIcon>
       <drops>
          <drop name="toolbox"/>
          <drop name="area"/>
@@ -1831,15 +1828,15 @@
       </ApsimToSim>
    </mungbean>
    <horsegram>
-      <UItype>empty</UItype>
+      <UItype>APSIMUI.EmptyUI</UItype>
       <IsCrop>Yes</IsCrop>
       <ShowInMainTree>Yes</ShowInMainTree>
-      <Image>%apsuite\ApsimUI\Graphics\mungbean.jpg</Image>
+      <Image>%apsuite\ApsimUI\Images\mungbean.jpg</Image>
       <Description>Most APSIM crop or plant modules do not require extra user input.  Crop specific parameters are either provided for your chosen soil, or are captured as part of the standard model validation process.</Description>
       <Documentation name="horsegram science documentation">../apsim/horsegram/docs/horsegram_science.htm</Documentation>
       <Documentation name="Generic plant" >../apsim/plant/docs/plant_science.htm</Documentation>
-      <LargeIcon>Images\leaf32.bmp</LargeIcon>
-      <SmallIcon>Images\leaf16.bmp</SmallIcon>
+      <LargeIcon>%apsuite\apsimui\Images\leaf32.bmp</LargeIcon>
+      <SmallIcon>%apsuite\apsimui\Images\leaf16.bmp</SmallIcon>
       <drops>
          <drop name="toolbox"/>
          <drop name="area"/>
@@ -1865,14 +1862,14 @@
       </ApsimToSim>
    </horsegram>
    <navybean>
-      <UItype>empty</UItype>
+      <UItype>APSIMUI.EmptyUI</UItype>
       <IsCrop>Yes</IsCrop>
       <ShowInMainTree>Yes</ShowInMainTree>
-      <Image>%apsuite\ApsimUI\Graphics\navybean.jpg</Image>
+      <Image>%apsuite\ApsimUI\Images\navybean.jpg</Image>
       <Description>Most APSIM crop or plant modules do not require extra user input.  Crop specific parameters are either provided for your chosen soil, or are captured as part of the standard model validation process.</Description>
       <Documentation name="Generic plant documentation" >../apsim/plant/docs/plant_science.htm</Documentation>
-      <LargeIcon>Images\leaf32.bmp</LargeIcon>
-      <SmallIcon>Images\leaf16.bmp</SmallIcon>
+      <LargeIcon>%apsuite\apsimui\Images\leaf32.bmp</LargeIcon>
+      <SmallIcon>%apsuite\apsimui\Images\leaf16.bmp</SmallIcon>
       <drops>
          <drop name="toolbox"/>
          <drop name="area"/>
@@ -1902,14 +1899,14 @@
       </ApsimToSim>
    </navybean>
    <cotton>
-      <UItype>empty</UItype>
+      <UItype>APSIMUI.EmptyUI</UItype>
       <IsCrop>Yes</IsCrop>
       <ShowInMainTree>Yes</ShowInMainTree>
-      <Image>%apsuite\ApsimUI\Graphics\cotton.jpg</Image>
+      <Image>%apsuite\ApsimUI\Images\cotton.jpg</Image>
       <Description>Most APSIM crop or plant modules do not require extra user input.  Crop specific parameters are either provided for your chosen soil, or are captured as part of the standard model validation process.</Description>
       <Documentation name="Cotton science documentation">../apsim/ozcot/docs/ozcot_science.htm</Documentation>
-      <LargeIcon>Images\leaf32.bmp</LargeIcon>
-      <SmallIcon>Images\leaf16.bmp</SmallIcon>
+      <LargeIcon>%apsuite\apsimui\Images\leaf32.bmp</LargeIcon>
+      <SmallIcon>%apsuite\apsimui\Images\leaf16.bmp</SmallIcon>
       <drops>
          <drop name="toolbox"/>
          <drop name="area"/>
@@ -2010,14 +2007,14 @@
       </ApsimToSim>
    </cotton>
    <rice>
-      <UItype>generic</UItype>
+      <UItype>VBUserInterface.GenericUI</UItype>
       <IsCrop>Yes</IsCrop>
       <ShowInMainTree>Yes</ShowInMainTree>
-      <Image>%apsuite\ApsimUI\Graphics\rice.jpg</Image>
+      <Image>%apsuite\ApsimUI\Images\rice.jpg</Image>
       <Description>Most APSIM crop or plant modules do not require extra user input.  Crop specific parameters are either provided for your chosen soil, or are captured as part of the standard model validation process.</Description>
       <Documentation name="Rice science documentation">http://www.knowledgebank.irri.org/oryza2000/Welcome_to_Oryza_2000.htm</Documentation>
-      <LargeIcon>Images\leaf32.bmp</LargeIcon>
-      <SmallIcon>Images\leaf16.bmp</SmallIcon>
+      <LargeIcon>%apsuite\apsimui\Images\leaf32.bmp</LargeIcon>
+      <SmallIcon>%apsuite\apsimui\Images\leaf16.bmp</SmallIcon>
       <drops>
          <drop name="toolbox"/>
          <drop name="area"/>
@@ -2086,15 +2083,15 @@
       </ApsimToSim>
    </rice>
    <peanut>
-      <UItype>empty</UItype>
+      <UItype>APSIMUI.EmptyUI</UItype>
       <IsCrop>Yes</IsCrop>
       <ShowInMainTree>Yes</ShowInMainTree>
-      <Image>%apsuite\ApsimUI\Graphics\peanut.jpg</Image>
+      <Image>%apsuite\ApsimUI\Images\peanut.jpg</Image>
       <Description>Most APSIM crop or plant modules do not require extra user input.  Crop specific parameters are either provided for your chosen soil, or are captured as part of the standard model validation process.</Description>
       <Documentation name="Peanut science documentation">../apsim/peanut/docs/peanut_science.htm</Documentation>
       <Documentation name="Generic plant" >../apsim/plant/docs/plant_science.htm</Documentation>
-      <LargeIcon>Images\leaf32.bmp</LargeIcon>
-      <SmallIcon>Images\leaf16.bmp</SmallIcon>
+      <LargeIcon>%apsuite\apsimui\Images\leaf32.bmp</LargeIcon>
+      <SmallIcon>%apsuite\apsimui\Images\leaf16.bmp</SmallIcon>
       <drops>
          <drop name="toolbox"/>
          <drop name="area"/>
@@ -2129,15 +2126,15 @@
       </ApsimToSim>
    </peanut>
    <pigeonp>
-      <UItype>empty</UItype>
+      <UItype>APSIMUI.EmptyUI</UItype>
       <IsCrop>Yes</IsCrop>
       <ShowInMainTree>Yes</ShowInMainTree>
-      <Image>%apsuite\ApsimUI\Graphics\pigeonpea.jpg</Image>
+      <Image>%apsuite\ApsimUI\Images\pigeonpea.jpg</Image>
       <Description>Most APSIM crop or plant modules do not require extra user input.  Crop specific parameters are either provided for your chosen soil, or are captured as part of the standard model validation process.</Description>
       <Documentation name="Pigeonpea science documentation">../apsim/pigeonp/docs/pigeonpea_science.htm</Documentation>
       <Documentation name="Generic plant" >../apsim/plant/docs/plant_science.htm</Documentation>
-      <LargeIcon>Images\leaf32.bmp</LargeIcon>
-      <SmallIcon>Images\leaf16.bmp</SmallIcon>
+      <LargeIcon>%apsuite\apsimui\Images\leaf32.bmp</LargeIcon>
+      <SmallIcon>%apsuite\apsimui\Images\leaf16.bmp</SmallIcon>
       <drops>
          <drop name="toolbox"/>
          <drop name="area"/>
@@ -2165,15 +2162,15 @@
       </ApsimToSim>
    </pigeonp>
    <potato>
-      <UItype>empty</UItype>
+      <UItype>APSIMUI.EmptyUI</UItype>
       <IsCrop>Yes</IsCrop>
       <ShowInMainTree>Yes</ShowInMainTree>
-      <Image>%apsuite\ApsimUI\Graphics\potato.jpg</Image>
+      <Image>%apsuite\ApsimUI\Images\potato.jpg</Image>
       <Description>Most APSIM crop or plant modules do not require extra user input.  Crop specific parameters are either provided for your chosen soil, or are captured as part of the standard model validation process. NOTE THIS MODULE IS A PROTOTYPE ONLY.</Description>
       <Documentation name="potato science documentation">../apsim/potato/docs/potato_science.htm</Documentation>
       <Documentation name="Generic plant" >../apsim/plant/docs/plant_science.htm</Documentation>
-      <LargeIcon>Images\leaf32.bmp</LargeIcon>
-      <SmallIcon>Images\leaf16.bmp</SmallIcon>
+      <LargeIcon>%apsuite\apsimui\Images\leaf32.bmp</LargeIcon>
+      <SmallIcon>%apsuite\apsimui\Images\leaf16.bmp</SmallIcon>
       <drops>
          <drop name="toolbox"/>
          <drop name="area"/>
@@ -2199,14 +2196,14 @@
    </potato>
 
    <seedling>
-      <UItype>empty</UItype>
+      <UItype>APSIMUI.EmptyUI</UItype>
       <IsCrop>Yes</IsCrop>
       <ShowInMainTree>Yes</ShowInMainTree>
-      <Image>%apsuite\ApsimUI\Graphics\seedling.jpg</Image>
+      <Image>%apsuite\ApsimUI\Images\seedling.jpg</Image>
       <Description>Most APSIM crop or plant modules do not require extra user input.  Crop specific parameters are either provided for your chosen soil, or are captured as part of the standard model validation process.</Description>
       <Documentation name="Generic Growth science documentation" >../apsim/growth/docs/growth_science.htm</Documentation>
-      <LargeIcon>Images\leaf32.bmp</LargeIcon>
-      <SmallIcon>Images\leaf16.bmp</SmallIcon>
+      <LargeIcon>%apsuite\apsimui\Images\leaf32.bmp</LargeIcon>
+      <SmallIcon>%apsuite\apsimui\Images\leaf16.bmp</SmallIcon>
       <drops>
          <drop name="toolbox"/>
          <drop name="area"/>
@@ -2254,13 +2251,13 @@
    </seedling>
 
    <slurp>
-      <UItype>generic</UItype>
+      <UItype>VBUserInterface.GenericUI</UItype>
       <IsCrop>Yes</IsCrop>
       <ShowInMainTree>Yes</ShowInMainTree>
       <Image>%apsuite\apsimui\images\banner2.jpg</Image>
       <Documentation name="Slurp science documentation">../apsim/slurp/docs/slurp_science.htm</Documentation>
-      <LargeIcon>Images\cubes32.png</LargeIcon>
-      <SmallIcon>Images\cubes16.png</SmallIcon>
+      <LargeIcon>%apsuite\apsimui\Images\cubes32.png</LargeIcon>
+      <SmallIcon>%apsuite\apsimui\Images\cubes16.png</SmallIcon>
       <drops>
          <drop name="toolbox"/>
          <drop name="area"/>
@@ -2329,15 +2326,15 @@
       </ApsimToSim>
    </slurp>
    <sorghum>
-      <UItype>empty</UItype>
+      <UItype>APSIMUI.EmptyUI</UItype>
       <IsCrop>Yes</IsCrop>
       <ShowInMainTree>Yes</ShowInMainTree>
-      <Image>%apsuite\ApsimUI\Graphics\sorghum.jpg</Image>
+      <Image>%apsuite\ApsimUI\Images\sorghum.jpg</Image>
       <Description>Most APSIM crop or plant modules do not require extra user input.  Crop specific parameters are either provided for your chosen soil, or are captured as part of the standard model validation process.</Description>
       <Documentation name="Sorghum science documentation">../apsim/sorghum/docs/sorghum_science.htm</Documentation>
       <Documentation name="Darling downs sensibility tests">http://www.apsim.info/apsim/publish/apsim/sorghum/sensibility/sorghum.gif</Documentation>
-      <LargeIcon>Images\leaf32.bmp</LargeIcon>
-      <SmallIcon>Images\leaf16.bmp</SmallIcon>
+      <LargeIcon>%apsuite\apsimui\Images\leaf32.bmp</LargeIcon>
+      <SmallIcon>%apsuite\apsimui\Images\leaf16.bmp</SmallIcon>
       <drops>
          <drop name="toolbox"/>
          <drop name="area"/>
@@ -2375,15 +2372,15 @@
       </ApsimToSim>
    </sorghum>
    <soybean>
-      <UItype>empty</UItype>
+      <UItype>APSIMUI.EmptyUI</UItype>
       <IsCrop>Yes</IsCrop>
       <ShowInMainTree>Yes</ShowInMainTree>
-      <Image>%apsuite\ApsimUI\Graphics\soybean.jpg</Image>
+      <Image>%apsuite\ApsimUI\Images\soybean.jpg</Image>
       <Description>Most APSIM crop or plant modules do not require extra user input.  Crop specific parameters are either provided for your chosen soil, or are captured as part of the standard model validation process.</Description>
       <Documentation name="Soybean science documentation">../apsim/soybean/docs/soybean_science.htm</Documentation>
       <Documentation name="Generic plant document" >../apsim/plant/docs/plant_science.htm</Documentation>
-      <LargeIcon>Images\leaf32.bmp</LargeIcon>
-      <SmallIcon>Images\leaf16.bmp</SmallIcon>
+      <LargeIcon>%apsuite\apsimui\Images\leaf32.bmp</LargeIcon>
+      <SmallIcon>%apsuite\apsimui\Images\leaf16.bmp</SmallIcon>
       <drops>
          <drop name="toolbox"/>
          <drop name="area"/>
@@ -2417,14 +2414,14 @@
       </ApsimToSim>
    </soybean>
    <stylo>
-      <UItype>empty</UItype>
+      <UItype>APSIMUI.EmptyUI</UItype>
       <IsCrop>Yes</IsCrop>
       <ShowInMainTree>Yes</ShowInMainTree>
-      <Image>%apsuite\ApsimUI\Graphics\stylo.jpg</Image>
+      <Image>%apsuite\ApsimUI\Images\stylo.jpg</Image>
       <Description>Most APSIM crop or plant modules do not require extra user input.  Crop specific parameters are either provided for your chosen soil, or are captured as part of the standard model validation process.</Description>
       <Documentation name="Generic plant documentation" >../apsim/plant/docs/plant_science.htm</Documentation>
-      <LargeIcon>Images\leaf32.bmp</LargeIcon>
-      <SmallIcon>Images\leaf16.bmp</SmallIcon>
+      <LargeIcon>%apsuite\apsimui\Images\leaf32.bmp</LargeIcon>
+      <SmallIcon>%apsuite\apsimui\Images\leaf16.bmp</SmallIcon>
       <drops>
          <drop name="toolbox"/>
          <drop name="area"/>
@@ -2449,13 +2446,13 @@
       </ApsimToSim>
    </stylo>
    <sugar>
-      <UItype>empty</UItype>
+      <UItype>APSIMUI.EmptyUI</UItype>
       <IsCrop>Yes</IsCrop>
       <ShowInMainTree>Yes</ShowInMainTree>
       <Image>%apsuite\apsimui\images\sugar.jpg</Image>
       <Documentation name="Sugar science documentation">../apsim/sugar/docs/sugar_science.htm</Documentation>
-      <LargeIcon>Images\leaf32.bmp</LargeIcon>
-      <SmallIcon>Images\leaf16.bmp</SmallIcon>
+      <LargeIcon>%apsuite\apsimui\Images\leaf32.bmp</LargeIcon>
+      <SmallIcon>%apsuite\apsimui\Images\leaf16.bmp</SmallIcon>
       <drops>
          <drop name="toolbox"/>
          <drop name="area"/>
@@ -2560,13 +2557,13 @@
       </ApsimToSim>
    </sugar>
    <sunflower>
-      <UItype>empty</UItype>
+      <UItype>APSIMUI.EmptyUI</UItype>
       <IsCrop>Yes</IsCrop>
       <Description>Most APSIM crop or plant modules do not require extra user input.  Crop specific parameters are either provided for your chosen soil, or are captured as part of the standard model validation process.</Description>
       <ShowInMainTree>Yes</ShowInMainTree>
-      <Image>%apsuite\ApsimUI\Graphics\sunflower.jpg</Image>
-      <LargeIcon>Images\leaf32.bmp</LargeIcon>
-      <SmallIcon>Images\leaf16.bmp</SmallIcon>
+      <Image>%apsuite\ApsimUI\Images\sunflower.jpg</Image>
+      <LargeIcon>%apsuite\apsimui\Images\leaf32.bmp</LargeIcon>
+      <SmallIcon>%apsuite\apsimui\Images\leaf16.bmp</SmallIcon>
       <drops>
          <drop name="toolbox"/>
          <drop name="area"/>
@@ -2652,14 +2649,14 @@
       </ApsimToSim>
    </sunflower>
    <SweetCorn>
-      <UItype>empty</UItype>
+      <UItype>APSIMUI.EmptyUI</UItype>
       <IsCrop>Yes</IsCrop>
       <ShowInMainTree>Yes</ShowInMainTree>
-      <Image>%apsuite\ApsimUI\Graphics\SweetCorn.jpg</Image>
+      <Image>%apsuite\ApsimUI\Images\SweetCorn.jpg</Image>
       <Description>NOTE: Prototype only.  This module is not to be used in model applications.  Most APSIM crop or plant modules do not require extra user input.  Crop specific parameters are either provided for your chosen soil, or are captured as part of the standard model validation process.</Description>
       <Documentation name="Generic plant" >../apsim/plant/docs/plant_science.htm</Documentation>
-      <LargeIcon>Images\leaf32.bmp</LargeIcon>
-      <SmallIcon>Images\leaf16.bmp</SmallIcon>
+      <LargeIcon>%apsuite\apsimui\Images\leaf32.bmp</LargeIcon>
+      <SmallIcon>%apsuite\apsimui\Images\leaf16.bmp</SmallIcon>
       <drops>
          <drop name="toolbox"/>
          <drop name="area"/>
@@ -2684,14 +2681,14 @@
       </ApsimToSim>
    </SweetCorn>
    <SweetSorghum>
-      <UItype>empty</UItype>
+      <UItype>APSIMUI.EmptyUI</UItype>
       <IsCrop>Yes</IsCrop>
       <ShowInMainTree>Yes</ShowInMainTree>
-      <Image>%apsuite\ApsimUI\Graphics\sweetsorghum.jpg</Image>
+      <Image>%apsuite\ApsimUI\Images\sweetsorghum.jpg</Image>
       <Description>NOTE: Prototype only.  This module is not to be used in model applications.  Most APSIM crop or plant modules do not require extra user input.  Crop specific parameters are either provided for your chosen soil, or are captured as part of the standard model validation process.</Description>
       <Documentation name="Generic plant" >../apsim/plant/docs/plant_science.htm</Documentation>
-      <LargeIcon>Images\leaf32.bmp</LargeIcon>
-      <SmallIcon>Images\leaf16.bmp</SmallIcon>
+      <LargeIcon>%apsuite\apsimui\Images\leaf32.bmp</LargeIcon>
+      <SmallIcon>%apsuite\apsimui\Images\leaf16.bmp</SmallIcon>
       <drops>
          <drop name="toolbox"/>
          <drop name="area"/>
@@ -2716,15 +2713,15 @@
       </ApsimToSim>
    </SweetSorghum>
    <weed>
-      <UItype>empty</UItype>
+      <UItype>APSIMUI.EmptyUI</UItype>
       <IsCrop>Yes</IsCrop>
       <ShowInMainTree>Yes</ShowInMainTree>
-      <Image>%apsuite\ApsimUI\Graphics\weed.jpg</Image>
+      <Image>%apsuite\ApsimUI\Images\weed.jpg</Image>
       <Description>Most APSIM crop or plant modules do not require extra user input.  Crop specific parameters are either provided for your chosen soil, or are captured as part of the standard model validation process.</Description>
       <Documentation name="Weed science documentation">../apsim/weed/docs/weed_science.htm</Documentation>
       <Documentation name="Generic plant documentation" >../apsim/plant/docs/plant_science.htm</Documentation>
-      <LargeIcon>Images\leaf32.bmp</LargeIcon>
-      <SmallIcon>Images\leaf16.bmp</SmallIcon>
+      <LargeIcon>%apsuite\apsimui\Images\leaf32.bmp</LargeIcon>
+      <SmallIcon>%apsuite\apsimui\Images\leaf16.bmp</SmallIcon>
       <drops>
          <drop name="toolbox"/>
          <drop name="area"/>
@@ -2768,10 +2765,10 @@
       </ApsimToSim>
    </weed>
    <wheat>
-      <UItype>empty</UItype>
+      <UItype>APSIMUI.EmptyUI</UItype>
       <IsCrop>Yes</IsCrop>
       <ShowInMainTree>Yes</ShowInMainTree>
-      <Image>%apsuite\ApsimUI\Graphics\wheat.jpg</Image>
+      <Image>%apsuite\ApsimUI\Images\wheat.jpg</Image>
       <Description>Most APSIM crop or plant modules do not require extra user input.  Crop specific parameters are either provided for your chosen soil, or are captured as part of the standard model validation process.</Description>
       <Documentation name="Wheat science documentation">../apsim/wheat/docs/wheat_science.htm</Documentation>
       <Documentation name="Generic plant documentation" >../apsim/plant/docs/plant_science.htm</Documentation>
@@ -2781,8 +2778,8 @@
       <Documentation name="Darling downs sensibility tests">http://www.apsim.info/apsim/publish/apsim/wheat/sensibility/darlingdowns.gif</Documentation>
       <Documentation name="Mingenew sensibility tests">http://www.apsim.info/apsim/publish/apsim/wheat/sensibility/Mingenew.gif</Documentation>
       <Documentation name="Walpeup sensibility tests">http://www.apsim.info/apsim/publish/apsim/wheat/sensibility/Walpeup.gif</Documentation>
-      <LargeIcon>Images\leaf32.bmp</LargeIcon>
-      <SmallIcon>Images\leaf16.bmp</SmallIcon>
+      <LargeIcon>%apsuite\apsimui\Images\leaf32.bmp</LargeIcon>
+      <SmallIcon>%apsuite\apsimui\Images\leaf16.bmp</SmallIcon>
       <drops>
          <drop name="toolbox"/>
          <drop name="area"/>
@@ -2898,15 +2895,15 @@
    </wheat>
 
 	<oats>
-      <UItype>empty</UItype>
+      <UItype>APSIMUI.EmptyUI</UItype>
       <IsCrop>Yes</IsCrop>
       <ShowInMainTree>Yes</ShowInMainTree>
-      <Image>%apsuite\ApsimUI\Graphics\oats.jpg</Image>
+      <Image>%apsuite\ApsimUI\Images\oats.jpg</Image>
       <Description>NOTE: Prototype only.  This module is not to be used in model applications.  Most APSIM crop or plant modules do not require extra user input.  Crop specific parameters are either provided for your chosen soil, or are captured as part of the standard model validation process.</Description>
       <Documentation name="Wheat science documentation">../apsim/wheat/docs/wheat_science.htm</Documentation>
       <Documentation name="Generic plant documentation" >../apsim/plant/docs/plant_science.htm</Documentation>
-      <LargeIcon>Images\leaf32.bmp</LargeIcon>
-      <SmallIcon>Images\leaf16.bmp</SmallIcon>
+      <LargeIcon>%apsuite\apsimui\Images\leaf32.bmp</LargeIcon>
+      <SmallIcon>%apsuite\apsimui\Images\leaf16.bmp</SmallIcon>
       <drops>
          <drop name="toolbox"/>
          <drop name="area"/>
@@ -2934,14 +2931,14 @@
       </ApsimToSim>
    </oats>
    <bambatsi>
-      <UItype>empty</UItype>
+      <UItype>APSIMUI.EmptyUI</UItype>
       <IsCrop>Yes</IsCrop>
       <ShowInMainTree>Yes</ShowInMainTree>
-      <Image>%apsuite\ApsimUI\Graphics\bambatsi.jpg</Image>
+      <Image>%apsuite\ApsimUI\Images\bambatsi.jpg</Image>
       <Description>Most APSIM crop or plant modules do not require extra user input.  Crop specific parameters are either provided for your chosen soil, or are captured as part of the standard model validation process.</Description>
       <Documentation name="Generic Growth science documentation" >../apsim/growth/docs/growth_science.htm</Documentation>
-      <LargeIcon>Images\leaf32.bmp</LargeIcon>
-      <SmallIcon>Images\leaf16.bmp</SmallIcon>
+      <LargeIcon>%apsuite\apsimui\Images\leaf32.bmp</LargeIcon>
+      <SmallIcon>%apsuite\apsimui\Images\leaf16.bmp</SmallIcon>
       <drops>
          <drop name="toolbox"/>
          <drop name="area"/>
@@ -2992,15 +2989,15 @@
    </bambatsi>
 
    <barley>
-      <UItype>empty</UItype>
+      <UItype>APSIMUI.EmptyUI</UItype>
       <IsCrop>Yes</IsCrop>
       <ShowInMainTree>Yes</ShowInMainTree>
-      <Image>%apsuite\ApsimUI\Graphics\barley.jpg</Image>
+      <Image>%apsuite\ApsimUI\Images\barley.jpg</Image>
       <Description>NOTE: Prototype only.  This module is not to be used in model applications.  Most APSIM crop or plant modules do not require extra user input.  Crop specific parameters are either provided for your chosen soil, or are captured as part of the standard model validation process.</Description>
       <Documentation name="Barley science documentation">../apsim/barley/docs/barley_science.htm</Documentation>
       <Documentation name="Generic plant documentation" >../apsim/plant/docs/plant_science.htm</Documentation>
-      <LargeIcon>Images\leaf32.bmp</LargeIcon>
-      <SmallIcon>Images\leaf16.bmp</SmallIcon>
+      <LargeIcon>%apsuite\apsimui\Images\leaf32.bmp</LargeIcon>
+      <SmallIcon>%apsuite\apsimui\Images\leaf16.bmp</SmallIcon>
       <drops>
          <drop name="toolbox"/>
          <drop name="area"/>
@@ -3037,22 +3034,22 @@
    </barley>
 
    <growth>
-      <UItype>generic</UItype>
+      <UItype>VBUserInterface.GenericUI</UItype>
       <ShowInMainTree>No</ShowInMainTree>
       <Documentation name="Science documentation">../apsim/growth/docs/growth_science.htm</Documentation>
    </growth>
    <input>
-      <UItype>generic</UItype>
+      <UItype>VBUserInterface.GenericUI</UItype>
       <ShowInMainTree>No</ShowInMainTree>
       <Documentation name="Science documentation">../apsim/input/docs/input_science.htm</Documentation>
    </input>
    <map>
-      <UItype>generic</UItype>
+      <UItype>VBUserInterface.GenericUI</UItype>
       <ShowInMainTree>No</ShowInMainTree>
       <Documentation name="Science documentation">../apsim/map/docs/map_science.htm</Documentation>
    </map>
    <millet>
-      <UItype>generic</UItype>
+      <UItype>VBUserInterface.GenericUI</UItype>
       <ShowInMainTree>No</ShowInMainTree>
       <Documentation name="Science documentation">../apsim/millet/docs/millet_science.htm</Documentation>
       <class    name="plant"/>
@@ -3063,12 +3060,12 @@
       <cultivar name="mh179"/>
    </millet>
    <SiloInput>
-      <UItype>generic</UItype>
+      <UItype>VBUserInterface.GenericUI</UItype>
       <ShowInMainTree>Yes</ShowInMainTree>
       <Documentation name="Science documentation">../apsim/SiloInput/docs/SiloInput.htm</Documentation>
       <Image>%apsuite\apsimui\images\banner2.jpg</Image>
-      <LargeIcon>Images\thermometer32.png</LargeIcon>
-      <SmallIcon>Images\thermometer16.png</SmallIcon>
+      <LargeIcon>%apsuite\apsimui\Images\thermometer32.png</LargeIcon>
+      <SmallIcon>%apsuite\apsimui\Images\thermometer16.png</SmallIcon>
       <drops>
          <drop name="simulation"/>
          <drop name="folder"/>
@@ -3079,17 +3076,17 @@
       </ApsimToSim>
    </SiloInput>
    <soilph>
-      <UItype>generic</UItype>
+      <UItype>VBUserInterface.GenericUI</UItype>
       <ShowInMainTree>No</ShowInMainTree>
       <Documentation name="Science documentation">../apsim/soilph/docs/soil_ph.htm</Documentation>
    </soilph>
    <cl>
-      <UItype>generic</UItype>
+      <UItype>VBUserInterface.GenericUI</UItype>
       <ShowInMainTree>Yes</ShowInMainTree>
       <Image>%apsuite\apsimui\images\banner2.jpg</Image>
       <Documentation name="Science documentation">../apsim/solute/docs/solute_science.htm</Documentation>
-      <LargeIcon>Images\potion_green32.png</LargeIcon>
-      <SmallIcon>Images\potion_green16.png</SmallIcon>
+      <LargeIcon>%apsuite\apsimui\Images\potion_green32.png</LargeIcon>
+      <SmallIcon>%apsuite\apsimui\Images\potion_green16.png</SmallIcon>
       <drops>
          <drop name="toolbox"/>
          <drop name="area"/>
@@ -3114,26 +3111,26 @@
       </ApsimToSim>
    </cl>
    <surface>
-      <UItype>generic</UItype>
+      <UItype>VBUserInterface.GenericUI</UItype>
       <ShowInMainTree>No</ShowInMainTree>
       <Documentation name="Science documentation">../apsim/surface/docs/surface_science.htm</Documentation>
    </surface>
    <sysbal>
-      <UItype>generic</UItype>
+      <UItype>VBUserInterface.GenericUI</UItype>
       <ShowInMainTree>No</ShowInMainTree>
       <Documentation name="Science documentation">../apsim/sysbal/docs/sysbal science.txt</Documentation>
    </sysbal>
    <tcllink>
-      <UItype>generic</UItype>
+      <UItype>VBUserInterface.GenericUI</UItype>
       <ShowInMainTree>No</ShowInMainTree>
       <Documentation name="Science documentation">../apsim/tcllink/docs/tclink_science.htm</Documentation>
    </tcllink>
    <tracker>
-      <UItype>outputfiledesc</UItype>
+      <UItype>APSIMUI.OutputFileDescUI</UItype>
       <ShowInMainTree>Yes</ShowInMainTree>
       <Documentation name="Tracker documentation">../apsim/tracker/docs/tracker.htm</Documentation>
-      <LargeIcon>images\calculator32.png</LargeIcon>
-      <SmallIcon>images\calculator16.png</SmallIcon>
+      <LargeIcon>%apsuite\apsimui\Images\calculator32.png</LargeIcon>
+      <SmallIcon>%apsuite\apsimui\Images\calculator16.png</SmallIcon>
       <drops>
          <drop name="simulation"/>
          <drop name="area"/>
@@ -3158,11 +3155,11 @@
       </ApsimToSim>
    </tracker>
    <venlink>
-      <UItype>generic</UItype>
+      <UItype>VBUserInterface.GenericUI</UItype>
       <ShowInMainTree>Yes</ShowInMainTree>
       <Image>%apsuite\apsimui\images\banner2.jpg</Image>
-      <LargeIcon>Images\link32.png</LargeIcon>
-      <SmallIcon>Images\link16.png</SmallIcon>
+      <LargeIcon>%apsuite\apsimui\Images\link32.png</LargeIcon>
+      <SmallIcon>%apsuite\apsimui\Images\link16.png</SmallIcon>
       <Documentation name="Science documentation">../apsim/venlink/docs/Guide to linking APSIM with the VENSIM.htm</Documentation>
       <drops>
          <drop name="area"/>
@@ -3184,12 +3181,12 @@
       </ApsimToSim>
    </venlink>
    <dam>
-      <UItype>generic</UItype>
+      <UItype>VBUserInterface.GenericUI</UItype>
       <ShowInMainTree>Yes</ShowInMainTree>
       <Image>%apsuite\apsimui\images\banner2.jpg</Image>
       <Documentation name="Science documentation">../apsim/WaterSupply/docs/WaterSupply_science.htm</Documentation>
-      <LargeIcon>Images\drink_blue32.png</LargeIcon>
-      <SmallIcon>Images\drink_blue16.png</SmallIcon>
+      <LargeIcon>%apsuite\apsimui\Images\drink_blue32.png</LargeIcon>
+      <SmallIcon>%apsuite\apsimui\Images\drink_blue16.png</SmallIcon>
       <drops>
          <drop name="simulation"/>
          <drop name="area"/>
@@ -3234,12 +3231,12 @@
    </dam>
 
    <bore>
-      <UItype>generic</UItype>
+      <UItype>VBUserInterface.GenericUI</UItype>
       <ShowInMainTree>Yes</ShowInMainTree>
       <Image>%apsuite\apsimui\images\banner2.jpg</Image>
       <Documentation name="Science documentation">../apsim/WaterSupply/docs/WaterSupply_science.htm</Documentation>
-      <LargeIcon>Images\drink_blue32.png</LargeIcon>
-      <SmallIcon>Images\drink_blue16.png</SmallIcon>
+      <LargeIcon>%apsuite\apsimui\Images\drink_blue32.png</LargeIcon>
+      <SmallIcon>%apsuite\apsimui\Images\drink_blue16.png</SmallIcon>
       <drops>
          <drop name="simulation"/>
          <drop name="area"/>
@@ -3266,12 +3263,12 @@
       </ApsimToSim>
    </bore>
    <channel>
-      <UItype>generic</UItype>
+      <UItype>VBUserInterface.GenericUI</UItype>
       <ShowInMainTree>Yes</ShowInMainTree>
       <Image>%apsuite\apsimui\images\banner2.jpg</Image>
       <Documentation name="Science documentation">../apsim/WaterSupply/docs/WaterSupply_science.htm</Documentation>
-      <LargeIcon>Images\drink_blue32.png</LargeIcon>
-      <SmallIcon>Images\drink_blue16.png</SmallIcon>
+      <LargeIcon>%apsuite\apsimui\Images\drink_blue32.png</LargeIcon>
+      <SmallIcon>%apsuite\apsimui\Images\drink_blue16.png</SmallIcon>
       <drops>
          <drop name="simulation"/>
          <drop name="area"/>
@@ -3299,14 +3296,14 @@
    </channel>
 
    <egrandis>
-      <UItype>empty</UItype>
+      <UItype>APSIMUI.EmptyUI</UItype>
       <IsCrop>Yes</IsCrop>
       <ShowInMainTree>Yes</ShowInMainTree>
-      <Image>%apsuite\ApsimUI\Graphics\Egrandis.jpg</Image>
+      <Image>%apsuite\ApsimUI\Images\Egrandis.jpg</Image>
       <Description>Most APSIM crop or plant modules do not require extra user input.  Crop specific parameters are either provided for your chosen soil, or are captured as part of the standard model validation process.</Description>
       <Documentation name="Generic Growth science documentation" >../apsim/growth/docs/growth_science.htm</Documentation>
-      <LargeIcon>Images\leaf32.bmp</LargeIcon>
-      <SmallIcon>Images\leaf16.bmp</SmallIcon>
+      <LargeIcon>%apsuite\apsimui\Images\leaf32.bmp</LargeIcon>
+      <SmallIcon>%apsuite\apsimui\Images\leaf16.bmp</SmallIcon>
       <drops>
          <drop name="toolbox"/>
          <drop name="area"/>
@@ -3356,14 +3353,14 @@
       </ApsimToSim>
    </egrandis>
    <emelliodora>
-      <UItype>empty</UItype>
+      <UItype>APSIMUI.EmptyUI</UItype>
       <IsCrop>Yes</IsCrop>
       <ShowInMainTree>Yes</ShowInMainTree>
-      <Image>%apsuite\ApsimUI\Graphics\Emelliodora.jpg</Image>
+      <Image>%apsuite\ApsimUI\Images\Emelliodora.jpg</Image>
       <Description>Most APSIM crop or plant modules do not require extra user input.  Crop specific parameters are either provided for your chosen soil, or are captured as part of the standard model validation process.</Description>
       <Documentation name="Generic Growth science documentation" >../apsim/growth/docs/growth_science.htm</Documentation>
-      <LargeIcon>Images\leaf32.bmp</LargeIcon>
-      <SmallIcon>Images\leaf16.bmp</SmallIcon>
+      <LargeIcon>%apsuite\apsimui\Images\leaf32.bmp</LargeIcon>
+      <SmallIcon>%apsuite\apsimui\Images\leaf16.bmp</SmallIcon>
       <drops>
          <drop name="toolbox"/>
          <drop name="area"/>
@@ -3413,14 +3410,14 @@
       </ApsimToSim>
    </emelliodora>
    <epopulnea>
-      <UItype>empty</UItype>
+      <UItype>APSIMUI.EmptyUI</UItype>
       <IsCrop>Yes</IsCrop>
       <ShowInMainTree>Yes</ShowInMainTree>
-      <Image>%apsuite\ApsimUI\Graphics\epopulnea.jpg</Image>
+      <Image>%apsuite\ApsimUI\Images\epopulnea.jpg</Image>
       <Description>Most APSIM crop or plant modules do not require extra user input.  Crop specific parameters are either provided for your chosen soil, or are captured as part of the standard model validation process.</Description>
       <Documentation name="Generic Growth science documentation" >../apsim/growth/docs/growth_science.htm</Documentation>
-      <LargeIcon>Images\leaf32.bmp</LargeIcon>
-      <SmallIcon>Images\leaf16.bmp</SmallIcon>
+      <LargeIcon>%apsuite\apsimui\Images\leaf32.bmp</LargeIcon>
+      <SmallIcon>%apsuite\apsimui\Images\leaf16.bmp</SmallIcon>
       <drops>
          <drop name="toolbox"/>
          <drop name="area"/>
@@ -3470,13 +3467,13 @@
       </ApsimToSim>
    </epopulnea>
    <climatechange>
-      <UItype>generic</UItype>
+      <UItype>VBUserInterface.GenericUI</UItype>
       <ShowInMainTree>Yes</ShowInMainTree>
       <Image>%apsuite\apsimui\images\banner2.jpg</Image>
       <Description>This component allows the user to apply modifiers to daily climate variables in order to investigate the effects of climate change.</Description>
       <Documentation name="Met module documentation">../apsim/met/docs/met_science.htm#cchange</Documentation>
-      <LargeIcon>Images\thermometer32.png</LargeIcon>
-      <SmallIcon>Images\thermometer16.png</SmallIcon>
+      <LargeIcon>%apsuite\apsimui\Images\thermometer32.png</LargeIcon>
+      <SmallIcon>%apsuite\apsimui\Images\thermometer16.png</SmallIcon>
       <drops>
          <drop name="toolbox"/>
          <drop name="area"/>
@@ -3505,13 +3502,13 @@
    </climatechange>
 
    <soi>
-      <UItype>file</UItype>
+      <UItype>APSIMUI.FileUI</UItype>
       <ShowInMainTree>Yes</ShowInMainTree>
       <Image>%apsuite\apsimui\images\banner2.jpg</Image>
       <Description>This component allows the user to add SOI phases to a simulation. These phases can then be used in manager logic.</Description>
       <Documentation name="SOI module documentation">../apsim/soi/docs/soi_science.htm</Documentation>
-      <LargeIcon>Images\thermometer32.png</LargeIcon>
-      <SmallIcon>Images\thermometer16.png</SmallIcon>
+      <LargeIcon>%apsuite\apsimui\Images\thermometer32.png</LargeIcon>
+      <SmallIcon>%apsuite\apsimui\Images\thermometer16.png</SmallIcon>
       <drops>
          <drop name="toolbox"/>
          <drop name="simulation"/>
@@ -3526,11 +3523,11 @@
       </ApsimToSim>
    </soi>
    <FarmwisePasture>
-      <UItype>generic</UItype>
+      <UItype>VBUserInterface.GenericUI</UItype>
       <ShowInMainTree>Yes</ShowInMainTree>
       <Image>%apsuite\apsimui\images\banner2.jpg</Image>
-      <LargeIcon>Images\leaf32.bmp</LargeIcon>
-      <SmallIcon>Images\leaf16.bmp</SmallIcon>
+      <LargeIcon>%apsuite\apsimui\Images\leaf32.bmp</LargeIcon>
+      <SmallIcon>%apsuite\apsimui\Images\leaf16.bmp</SmallIcon>
       <drops>
          <drop name="toolbox"/>
          <drop name="area"/>
@@ -3708,55 +3705,55 @@
       </ApsimToSim>
    </FarmwisePasture>
    <FarmwisePastureGreen>
-      <UItype>generic</UItype>
+      <UItype>VBUserInterface.GenericUI</UItype>
       <ShowInMainTree>Yes</ShowInMainTree>
       <Image>%apsuite\apsimui\images\banner2.jpg</Image>
-      <SmallIcon>Images\cube_green.png</SmallIcon>
+      <SmallIcon>%apsuite\apsimui\Images\cube_green16.png</SmallIcon>
       <drops>
          <drop name="FarmwisePasture"/>
      </drops>
    </FarmwisePastureGreen>
    <FarmwisePastureDry>
-      <UItype>generic</UItype>
+      <UItype>VBUserInterface.GenericUI</UItype>
       <ShowInMainTree>Yes</ShowInMainTree>
       <Image>%apsuite\apsimui\images\banner2.jpg</Image>
-      <SmallIcon>Images\cube_yellow.png</SmallIcon>
+      <SmallIcon>%apsuite\apsimui\Images\cube_yellow16.png</SmallIcon>
       <drops>
          <drop name="FarmwisePasture"/>
      </drops>
    </FarmwisePastureDry>
    <FarmwisePastureSeeds>
-      <UItype>generic</UItype>
+      <UItype>VBUserInterface.GenericUI</UItype>
       <ShowInMainTree>Yes</ShowInMainTree>
       <Image>%apsuite\apsimui\images\banner2.jpg</Image>
-      <SmallIcon>Images\seeds16.gif</SmallIcon>
+      <SmallIcon>%apsuite\apsimui\Images\seeds16.gif</SmallIcon>
       <drops>
          <drop name="FarmwisePasture"/>
      </drops>
    </FarmwisePastureSeeds>
    <FarmwisePastureGreenHerbage>
-      <UItype>generic</UItype>
+      <UItype>VBUserInterface.GenericUI</UItype>
       <ShowInMainTree>Yes</ShowInMainTree>
       <Image>%apsuite\apsimui\images\banner2.jpg</Image>
-      <SmallIcon>Images\herbage_green.gif</SmallIcon>
+      <SmallIcon>%apsuite\apsimui\Images\herbage_green16.gif</SmallIcon>
       <drops>
          <drop name="FarmwisePastureGreen"/>
      </drops>
    </FarmwisePastureGreenHerbage>
    <FarmwisePastureDryHerbage>
-      <UItype>generic</UItype>
+      <UItype>VBUserInterface.GenericUI</UItype>
       <ShowInMainTree>Yes</ShowInMainTree>
       <Image>%apsuite\apsimui\images\banner2.jpg</Image>
-      <SmallIcon>Images\herbage_dry.gif</SmallIcon>
+      <SmallIcon>%apsuite\apsimui\Images\herbage_dry16.gif</SmallIcon>
       <drops>
          <drop name="FarmwisePastureDry"/>
      </drops>
    </FarmwisePastureDryHerbage>
    <PastureScienceConverter>
-      <UItype>generic</UItype>
+      <UItype>VBUserInterface.GenericUI</UItype>
       <ShowInMainTree>Yes</ShowInMainTree>
       <Image>%apsuite\apsimui\images\banner2.jpg</Image>
-      <SmallIcon>Images\herbage_green.gif</SmallIcon>
+      <SmallIcon>%apsuite\apsimui\Images\herbage_green16.gif</SmallIcon>
       <drops>
          <drop name="toolbox"/>
          <drop name="area"/>
@@ -3773,13 +3770,13 @@
       </ApsimToSim>
    </PastureScienceConverter>
    <supplement>
-      <UItype>generic</UItype>
+      <UItype>VBUserInterface.GenericUI</UItype>
       <ShowInMainTree>Yes</ShowInMainTree>
       <Image>%apsuite\apsimui\images\banner2.jpg</Image>
       <Documentation name="Component description">../apsim/supplement/docs/supplement Component Description.htm</Documentation>
       <Documentation name="Component drivers">../apsim/supplement/docs/supplement Component Drivers.htm</Documentation>
-      <LargeIcon>Images\supplement32.bmp</LargeIcon>
-      <SmallIcon>Images\supplement16.bmp</SmallIcon>
+      <LargeIcon>%apsuite\apsimui\Images\supplement32.bmp</LargeIcon>
+      <SmallIcon>%apsuite\apsimui\Images\supplement16.bmp</SmallIcon>
       <drops>
          <drop name="toolbox"/>
          <drop name="area"/>
@@ -3851,19 +3848,19 @@
       </ApsimToSim>
    </supplement>
    <supplementStore>
-      <UItype>generic</UItype>
+      <UItype>VBUserInterface.GenericUI</UItype>
       <ShowInMainTree>Yes</ShowInMainTree>
       <Image>%apsuite\apsimui\images\banner2.jpg</Image>
-      <SmallIcon>Images\supplement16.bmp</SmallIcon>
+      <SmallIcon>%apsuite\apsimui\Images\supplement16.bmp</SmallIcon>
       <drops>
          <drop name="supplement"/>
      </drops>
    </supplementStore>
    <SupplementScienceConverter>
-      <UItype>generic</UItype>
+      <UItype>VBUserInterface.GenericUI</UItype>
       <ShowInMainTree>Yes</ShowInMainTree>
       <Image>%apsuite\apsimui\images\banner2.jpg</Image>
-      <SmallIcon>Images\herbage_green.gif</SmallIcon>
+      <SmallIcon>%apsuite\apsimui\Images\herbage_green16.gif</SmallIcon>
       <drops>
          <drop name="toolbox"/>
          <drop name="area"/>
@@ -3880,10 +3877,10 @@
       </ApsimToSim>
    </SupplementScienceConverter>
    <memo>
-      <UItype>memo</UItype>
+      <UItype>APSIMUI.MemoUI</UItype>
       <ShowInMainTree>Yes</ShowInMainTree>
-      <LargeIcon>Images\note_pinned32.png</LargeIcon>
-      <SmallIcon>Images\note_pinned16.png</SmallIcon>
+      <LargeIcon>%apsuite\apsimui\Images\note_pinned32.png</LargeIcon>
+      <SmallIcon>%apsuite\apsimui\Images\note_pinned16.png</SmallIcon>
       <drops>
          <drop name="toolbox"/>
          <drop name="simulation"/>
@@ -3893,12 +3890,12 @@
      </drops>
    </memo>
    <soiltemp>
-      <UItype>generic</UItype>
+      <UItype>VBUserInterface.GenericUI</UItype>
       <ShowInMainTree>Yes</ShowInMainTree>
       <Image>%apsuite\apsimui\images\banner2.jpg</Image>
       <Documentation name="Science documentation">../apsim/soiltemp/docs/soiltemp_science.htm</Documentation>
-      <LargeIcon>Images\thermometer32.png</LargeIcon>
-      <SmallIcon>Images\thermometer16.png</SmallIcon>
+      <LargeIcon>%apsuite\apsimui\Images\thermometer32.png</LargeIcon>
+      <SmallIcon>%apsuite\apsimui\Images\thermometer16.png</SmallIcon>
       <drops>
          <drop name="toolbox"/>
          <drop name="area"/>
@@ -3924,12 +3921,12 @@
       </ApsimToSim>
    </soiltemp>
    <canopy>
-      <UItype>generic</UItype>
+      <UItype>VBUserInterface.GenericUI</UItype>
       <ShowInMainTree>Yes</ShowInMainTree>
       <Image>%apsuite\apsimui\images\banner2.jpg</Image>
       <Documentation name="Science documentation">../apsim/canopy/docs/canopy_science.htm</Documentation>
-      <LargeIcon>Images\leaf32.bmp</LargeIcon>
-      <SmallIcon>Images\leaf16.bmp</SmallIcon>
+      <LargeIcon>%apsuite\apsimui\Images\leaf32.bmp</LargeIcon>
+      <SmallIcon>%apsuite\apsimui\Images\leaf16.bmp</SmallIcon>
       <drops>
          <drop name="toolbox"/>
          <drop name="area"/>
@@ -3951,10 +3948,10 @@
    </canopy>
 
    <ini>
-      <UItype>file</UItype>
+      <UItype>APSIMUI.FileUI</UItype>
       <ShowInMainTree>Yes</ShowInMainTree>
-      <LargeIcon>Images\note_pinned32.png</LargeIcon>
-      <SmallIcon>Images\note_pinned16.png</SmallIcon>
+      <LargeIcon>%apsuite\apsimui\Images\note_pinned32.png</LargeIcon>
+      <SmallIcon>%apsuite\apsimui\Images\note_pinned16.png</SmallIcon>
       <drops>
         <drop name="barley" />
     	<drop name="bambatsi" />
@@ -3994,10 +3991,10 @@
       </drops>
    </ini>
    <patchinput>
-      <UItype>file</UItype>
+      <UItype>APSIMUI.FileUI</UItype>
       <ShowInMainTree>Yes</ShowInMainTree>
-      <LargeIcon>Images\thermometer32.png</LargeIcon>
-      <SmallIcon>Images\thermometer16.png</SmallIcon>
+      <LargeIcon>%apsuite\apsimui\Images\thermometer32.png</LargeIcon>
+      <SmallIcon>%apsuite\apsimui\Images\thermometer16.png</SmallIcon>
       <Image>%apsuite\apsimui\images\banner2.jpg</Image>
       <Documentation name="Science documentation">../apsim/PatchInput/docs/PatchInput_science.htm</Documentation>
       <drops>
@@ -4011,10 +4008,10 @@
       </ApsimToSim>
    </patchinput>
    <Report>
-      <UItype>empty</UItype>
+      <UItype>APSIMUI.EmptyUI</UItype>
       <ShowInMainTree>Yes</ShowInMainTree>
-      <LargeIcon>Images\scroll32.png</LargeIcon>
-      <SmallIcon>Images\scroll16.png</SmallIcon>
+      <LargeIcon>%apsuite\apsimui\Images\scroll32.png</LargeIcon>
+      <SmallIcon>%apsuite\apsimui\Images\scroll16.png</SmallIcon>
       <Image>%apsuite\apsimui\images\banner2.jpg</Image>
       <Documentation name="Science documentation">../ApsimReport/Docs/Report_science.htm</Documentation>
       <drops>
@@ -4025,10 +4022,10 @@
      </drops>
    </Report>
    <Graph>
-      <UItype>graph</UItype>
+      <UItype>Graph.GraphUI</UItype>
       <ShowInMainTree>Yes</ShowInMainTree>
-      <LargeIcon>Images\chart32.png</LargeIcon>
-      <SmallIcon>Images\chart16.png</SmallIcon>
+      <LargeIcon>%apsuite\apsimui\Images\chart32.png</LargeIcon>
+      <SmallIcon>%apsuite\apsimui\Images\chart16.png</SmallIcon>
       <Documentation name="Science documentation">../ApsimReport/Docs/Report_science.htm</Documentation>
       <drops>
          <drop name="report"/>
@@ -4039,10 +4036,10 @@
      </drops>
    </Graph>
    <Data>
-      <UItype>empty</UItype>
+      <UItype>APSIMUI.EmptyUI</UItype>
       <ShowInMainTree>Yes</ShowInMainTree>
-      <LargeIcon>Images\data32.png</LargeIcon>
-      <SmallIcon>Images\data16.png</SmallIcon>
+      <LargeIcon>%apsuite\apsimui\Images\data32.png</LargeIcon>
+      <SmallIcon>%apsuite\apsimui\Images\data16.png</SmallIcon>
       <Image>%apsuite\apsimui\images\banner2.jpg</Image>
       <Documentation name="Science documentation">../ApsimReport/Docs/Report_science.htm</Documentation>
       <drops>
@@ -4050,50 +4047,50 @@
      </drops>
    </Data>
    <Series>
-      <UItype>Series</UItype>
+      <UItype>Graph.SeriesUI</UItype>
       <ShowInMainTree>Yes</ShowInMainTree>
-      <LargeIcon>Images\Series16.png</LargeIcon>
-      <SmallIcon>Images\Series16.png</SmallIcon>
+      <LargeIcon>%apsuite\apsimui\Images\Series16.png</LargeIcon>
+      <SmallIcon>%apsuite\apsimui\Images\Series16.png</SmallIcon>
       <Image>%apsuite\apsimui\images\banner2.jpg</Image>
       <drops>
          <drop name="graph"/>
      </drops>
    </Series>
    <ApsimFileReader>
-      <UItype>GraphData</UItype>
+      <UItype>Graph.GraphDataUI</UItype>
       <ShowInMainTree>Yes</ShowInMainTree>
-      <LargeIcon>Images\apsimfilereader.png</LargeIcon>
-      <SmallIcon>Images\apsimfilereader.png</SmallIcon>
+      <LargeIcon>%apsuite\apsimui\Images\apsimfilereader16.png</LargeIcon>
+      <SmallIcon>%apsuite\apsimui\Images\apsimfilereader16.png</SmallIcon>
       <Image>%apsuite\apsimui\images\banner2.jpg</Image>
       <drops>
          <drop name="data"/>
      </drops>
    </ApsimFileReader>
    <XmlFileReader>
-      <UItype>GraphData</UItype>
+      <UItype>Graph.GraphDataUI</UItype>
       <ShowInMainTree>Yes</ShowInMainTree>
-      <LargeIcon>Images\xmlreader.png</LargeIcon>
-      <SmallIcon>Images\xmlreader.png</SmallIcon>
+      <LargeIcon>%apsuite\apsimui\Images\xmlfilereader16.png</LargeIcon>
+      <SmallIcon>%apsuite\apsimui\Images\xmlfilereader16.png</SmallIcon>
       <Image>%apsuite\apsimui\images\banner2.jpg</Image>
       <drops>
          <drop name="data"/>
      </drops>
    </XmlFileReader>
    <REMS>
-      <UItype>GraphData</UItype>
+      <UItype>Graph.GraphDataUI</UItype>
       <ShowInMainTree>Yes</ShowInMainTree>
-      <LargeIcon>Images\rems.png</LargeIcon>
-      <SmallIcon>Images\rems.png</SmallIcon>
+      <LargeIcon>%apsuite\apsimui\Images\rems16.png</LargeIcon>
+      <SmallIcon>%apsuite\apsimui\Images\rems16.png</SmallIcon>
       <Image>%apsuite\apsimui\images\banner2.jpg</Image>
       <drops>
          <drop name="data"/>
      </drops>
    </REMS>
    <ExcelReader>
-      <UItype>GraphData</UItype>
+      <UItype>Graph.GraphDataUI</UItype>
       <ShowInMainTree>Yes</ShowInMainTree>
-      <LargeIcon>Images\excelreader.png</LargeIcon>
-      <SmallIcon>Images\excelreader.png</SmallIcon>
+      <LargeIcon>%apsuite\apsimui\Images\excelreader16.png</LargeIcon>
+      <SmallIcon>%apsuite\apsimui\Images\excelreader16.png</SmallIcon>
       <Image>%apsuite\apsimui\images\banner2.jpg</Image>
       <drops>
          <drop name="data"/>
@@ -4101,10 +4098,10 @@
    </ExcelReader>
 
    <Probability>
-      <UItype>GraphData</UItype>
+      <UItype>Graph.GraphDataUI</UItype>
       <ShowInMainTree>Yes</ShowInMainTree>
-      <LargeIcon>Images\data32.png</LargeIcon>
-      <SmallIcon>Images\data16.png</SmallIcon>
+      <LargeIcon>%apsuite\apsimui\Images\data32.png</LargeIcon>
+      <SmallIcon>%apsuite\apsimui\Images\data16.png</SmallIcon>
       <Image>%apsuite\apsimui\images\banner2.jpg</Image>
       <drops>
          <drop name="ApsimFileReader"/>
@@ -4114,10 +4111,10 @@
      </drops>
    </Probability>
    <Filter>
-      <UItype>GraphData</UItype>
+      <UItype>Graph.GraphDataUI</UItype>
       <ShowInMainTree>Yes</ShowInMainTree>
-      <LargeIcon>Images\data32.png</LargeIcon>
-      <SmallIcon>Images\data16.png</SmallIcon>
+      <LargeIcon>%apsuite\apsimui\Images\data32.png</LargeIcon>
+      <SmallIcon>%apsuite\apsimui\Images\data16.png</SmallIcon>
       <Image>%apsuite\apsimui\images\banner2.jpg</Image>
       <drops>
          <drop name="apsimfilereader"/>
@@ -4127,10 +4124,10 @@
      </drops>
    </Filter>
    <Cumulative>
-      <UItype>GraphData</UItype>
+      <UItype>Graph.GraphDataUI</UItype>
       <ShowInMainTree>Yes</ShowInMainTree>
-      <LargeIcon>Images\cumulative.png</LargeIcon>
-      <SmallIcon>Images\cumulative.png</SmallIcon>
+      <LargeIcon>%apsuite\apsimui\Images\cumulative16.png</LargeIcon>
+      <SmallIcon>%apsuite\apsimui\Images\cumulative16.png</SmallIcon>
       <Image>%apsuite\apsimui\images\banner2.jpg</Image>
       <drops>
          <drop name="apsimfilereader"/>
@@ -4140,10 +4137,10 @@
      </drops>
    </Cumulative>
    <Depth>
-      <UItype>GraphData</UItype>
+      <UItype>Graph.GraphDataUI</UItype>
       <ShowInMainTree>Yes</ShowInMainTree>
-      <LargeIcon>Images\depth.png</LargeIcon>
-      <SmallIcon>Images\depth.png</SmallIcon>
+      <LargeIcon>%apsuite\apsimui\Images\depth16.png</LargeIcon>
+      <SmallIcon>%apsuite\apsimui\Images\depth16.png</SmallIcon>
       <Image>%apsuite\apsimui\images\banner2.jpg</Image>
       <drops>
          <drop name="apsimfilereader"/>
@@ -4153,10 +4150,10 @@
      </drops>
    </Depth>
    <Diff>
-      <UItype>GraphData</UItype>
+      <UItype>Graph.GraphDataUI</UItype>
       <ShowInMainTree>Yes</ShowInMainTree>
-      <LargeIcon>Images\diff.png</LargeIcon>
-      <SmallIcon>Images\diff.png</SmallIcon>
+      <LargeIcon>%apsuite\apsimui\Images\diff16.png</LargeIcon>
+      <SmallIcon>%apsuite\apsimui\Images\diff16.png</SmallIcon>
       <Image>%apsuite\apsimui\images\banner2.jpg</Image>
       <drops>
          <drop name="apsimfilereader"/>
@@ -4166,10 +4163,10 @@
      </drops>
    </Diff>
    <Frequency>
-      <UItype>GraphData</UItype>
+      <UItype>Graph.GraphDataUI</UItype>
       <ShowInMainTree>Yes</ShowInMainTree>
-      <LargeIcon>Images\data32.png</LargeIcon>
-      <SmallIcon>Images\data16.png</SmallIcon>
+      <LargeIcon>%apsuite\apsimui\Images\data32.png</LargeIcon>
+      <SmallIcon>%apsuite\apsimui\Images\data16.png</SmallIcon>
       <Image>%apsuite\apsimui\images\banner2.jpg</Image>
       <drops>
          <drop name="apsimfilereader"/>
@@ -4179,10 +4176,10 @@
      </drops>
    </Frequency>
    <KWTest>
-      <UItype>GraphData</UItype>
+      <UItype>Graph.GraphDataUI</UItype>
       <ShowInMainTree>Yes</ShowInMainTree>
-      <LargeIcon>Images\data32.png</LargeIcon>
-      <SmallIcon>Images\data16.png</SmallIcon>
+      <LargeIcon>%apsuite\apsimui\Images\data32.png</LargeIcon>
+      <SmallIcon>%apsuite\apsimui\Images\data16.png</SmallIcon>
       <Image>%apsuite\apsimui\images\banner2.jpg</Image>
       <drops>
          <drop name="apsimfilereader"/>
@@ -4192,10 +4189,10 @@
      </drops>
    </KWTest>
    <PredObs>
-      <UItype>GraphData</UItype>
+      <UItype>Graph.GraphDataUI</UItype>
       <ShowInMainTree>Yes</ShowInMainTree>
-      <LargeIcon>Images\PredObs.png</LargeIcon>
-      <SmallIcon>Images\PredObs.png</SmallIcon>
+      <LargeIcon>%apsuite\apsimui\Images\PredObs16.png</LargeIcon>
+      <SmallIcon>%apsuite\apsimui\Images\PredObs16.png</SmallIcon>
       <Image>%apsuite\apsimui\images\banner2.jpg</Image>
       <drops>
          <drop name="apsimfilereader"/>
@@ -4205,10 +4202,10 @@
      </drops>
    </PredObs>
    <Regression>
-      <UItype>GraphData</UItype>
+      <UItype>Graph.GraphDataUI</UItype>
       <ShowInMainTree>Yes</ShowInMainTree>
-      <LargeIcon>Images\data32.png</LargeIcon>
-      <SmallIcon>Images\data16.png</SmallIcon>
+      <LargeIcon>%apsuite\apsimui\Images\data32.png</LargeIcon>
+      <SmallIcon>%apsuite\apsimui\Images\data16.png</SmallIcon>
       <Image>%apsuite\apsimui\images\banner2.jpg</Image>
       <drops>
          <drop name="apsimfilereader"/>
@@ -4218,10 +4215,10 @@
      </drops>
    </Regression>
    <Stats>
-      <UItype>GraphData</UItype>
+      <UItype>Graph.GraphDataUI</UItype>
       <ShowInMainTree>Yes</ShowInMainTree>
-      <LargeIcon>Images\data32.png</LargeIcon>
-      <SmallIcon>Images\data16.png</SmallIcon>
+      <LargeIcon>%apsuite\apsimui\Images\data32.png</LargeIcon>
+      <SmallIcon>%apsuite\apsimui\Images\data16.png</SmallIcon>
       <Image>%apsuite\apsimui\images\banner2.jpg</Image>
       <drops>
          <drop name="apsimfilereader"/>
@@ -4231,10 +4228,10 @@
      </drops>
    </Stats>
    <SOI>
-      <UItype>GraphData</UItype>
+      <UItype>Graph.GraphDataUI</UItype>
       <ShowInMainTree>Yes</ShowInMainTree>
-      <LargeIcon>Images\data32.png</LargeIcon>
-      <SmallIcon>Images\data16.png</SmallIcon>
+      <LargeIcon>%apsuite\apsimui\Images\data32.png</LargeIcon>
+      <SmallIcon>%apsuite\apsimui\Images\data16.png</SmallIcon>
       <Image>%apsuite\apsimui\images\banner2.jpg</Image>
       <drops>
          <drop name="apsimfilereader"/>
@@ -4244,11 +4241,11 @@
      </drops>
    </SOI>
    <YPCalc>
-      <UItype>empty</UItype>
+      <UItype>APSIMUI.EmptyUI</UItype>
       <ShowInMainTree>Yes</ShowInMainTree>
       <Image>%apsuite\apsimui\images\banner2.jpg</Image>
-      <LargeIcon>Images\layout_center32.png</LargeIcon>
-      <SmallIcon>Images\layout_center16.png</SmallIcon>
+      <LargeIcon>%apsuite\apsimui\Images\layout_center32.png</LargeIcon>
+      <SmallIcon>%apsuite\apsimui\Images\layout_center16.png</SmallIcon>
       <drops>
          <drop name="area"/>
      </drops>

@@ -5,7 +5,7 @@
       <FileNew>
          <Text>New...</Text>
          <Description>Open a new file</Description>
-         <LargeIcon>%apsuite\ApsimUI\Images\document_new.png</LargeIcon>
+         <MediumIcon>%apsuite\ApsimUI\Images\document_new24.png</MediumIcon>
          <OnInvoke>
             <call>
                <class>CSUserInterface.SoilActions</class>
@@ -15,12 +15,12 @@
       </FileNew>   
       <Open>
          <Text>Open...</Text>
-         <LargeIcon>%apsuite\ApsimUI\Images\folder_document.png</LargeIcon>
+         <MediumIcon>%apsuite\ApsimUI\Images\folder_document24.png</MediumIcon>
       </Open>
       <FileOpen>
          <Text>Open...</Text>
          <Description>Open an existing file</Description>
-         <LargeIcon>%apsuite\ApsimUI\Images\folder_document.png</LargeIcon>
+         <MediumIcon>%apsuite\ApsimUI\Images\folder_document24.png</MediumIcon>
          <OnInvoke>
             <call>
                <class>VBUserInterface.BaseActions</class>
@@ -31,7 +31,7 @@
       <FileSave>
          <Text>Save</Text>
          <Description>Save all soils to disk</Description>
-         <LargeIcon>%apsuite\ApsimUI\Images\disk_blue.png</LargeIcon>
+         <MediumIcon>%apsuite\ApsimUI\Images\disk_blue24.png</MediumIcon>
          <DisabledWhen>ReadOnly</DisabledWhen>
          <DisabledWhen>NothingLoaded</DisabledWhen>
          <OnInvoke>
@@ -44,7 +44,7 @@
       <FileSaveAs>
          <Text>Save as...</Text>
          <Description>Save all soils under a different file name</Description>
-         <LargeIcon>%apsuite\ApsimUI\Images\disk_blue_window.png</LargeIcon>
+         <MediumIcon>%apsuite\ApsimUI\Images\disk_blue_window24.png</MediumIcon>
          <DisabledWhen>NothingLoaded</DisabledWhen>
          <OnInvoke>
             <call>
@@ -72,7 +72,7 @@
       <Delete>
          <text>Delete</text>
          <Description>Delete the selected node</Description>
-         <SmallIcon>%apsuite\ApsimUI\Images\delete2.png</SmallIcon>
+         <SmallIcon>%apsuite\ApsimUI\Images\delete216.png</SmallIcon>
          <DisabledWhen>ReadOnly</DisabledWhen>
          <DisabledWhen>RootNode</DisabledWhen>
          <DisabledWhen>NothingLoaded</DisabledWhen>
@@ -87,7 +87,7 @@
       <Rename>
          <text>Rename</text>
          <Description>Rename the selected node</Description>
-         <SmallIcon>%apsuite\ApsimUI\Images\pen_blue.png</SmallIcon>
+         <SmallIcon>%apsuite\ApsimUI\Images\pen_blue16.png</SmallIcon>
          <DisabledWhen>ReadOnly</DisabledWhen>
          <DisabledWhen>RootNode</DisabledWhen>
          <DisabledWhen>NothingLoaded</DisabledWhen>
@@ -102,7 +102,7 @@
       <Cut>
          <text>Cut</text>
          <Description>Cut the selected node to the clipboard</Description>
-         <SmallIcon>%apsuite\ApsimUI\Images\cut.png</SmallIcon>
+         <SmallIcon>%apsuite\ApsimUI\Images\cut16.png</SmallIcon>
          <DisabledWhen>ReadOnly</DisabledWhen>
          <DisabledWhen>RootNode</DisabledWhen>
          <DisabledWhen>NothingLoaded</DisabledWhen>
@@ -117,7 +117,7 @@
       <Copy>
          <text>Copy</text>
          <Description>Copy the selected node to the clipboard</Description>
-         <SmallIcon>%apsuite\ApsimUI\Images\copy.png</SmallIcon>
+         <SmallIcon>%apsuite\ApsimUI\Images\copy16.png</SmallIcon>
          <ShortCut>C, Control</ShortCut>
          <DisabledWhen>NothingLoaded</DisabledWhen>
          <OnInvoke>
@@ -130,7 +130,7 @@
       <Paste>
          <text>Paste</text>
          <Description>Paste the clipboard contents below the selected node</Description>
-         <SmallIcon>%apsuite\ApsimUI\Images\paste.png</SmallIcon>
+         <SmallIcon>%apsuite\ApsimUI\Images\paste16.png</SmallIcon>
          <DisabledWhen>ReadOnly</DisabledWhen>
          <DisabledWhen>MultipleNodesSelected</DisabledWhen>
          <DisabledWhen>NothingLoaded</DisabledWhen>
@@ -145,7 +145,7 @@
       <MoveUp>
          <text>Move up</text>
          <Description>Move the selected nodes up</Description>
-         <SmallIcon>%apsuite\ApsimUI\Images\nav_up_green.png</SmallIcon>
+         <SmallIcon>%apsuite\ApsimUI\Images\nav_up_green16.png</SmallIcon>
          <DisabledWhen>ReadOnly</DisabledWhen>
          <DisabledWhen>NothingLoaded</DisabledWhen>
          <ShortCut>Up, Control</ShortCut>
@@ -159,7 +159,7 @@
       <MoveDown>
          <text>Move down</text>
          <Description>Move the selected nodes down</Description>
-         <SmallIcon>%apsuite\ApsimUI\Images\nav_down_green.png</SmallIcon>
+         <SmallIcon>%apsuite\ApsimUI\Images\nav_down_green16.png</SmallIcon>
          <DisabledWhen>ReadOnly</DisabledWhen>
          <DisabledWhen>NothingLoaded</DisabledWhen>
          <ShortCut>Down, Control</ShortCut>
@@ -173,7 +173,7 @@
       <ExpandAll>
          <text>Expand all</text>
          <Description>Expand all nodes</Description>
-         <SmallIcon>%apsuite\ApsimUI\Images\down_plus.png</SmallIcon>
+         <SmallIcon>%apsuite\ApsimUI\Images\down_plus16.png</SmallIcon>
          <DisabledWhen>NothingLoaded</DisabledWhen>
          <OnInvoke>
             <call>
@@ -185,7 +185,7 @@
       <CollapseAll>
          <text>Collapse all</text>
          <Description>Collapse all nodes</Description>
-         <SmallIcon>%apsuite\ApsimUI\Images\up_minus.png</SmallIcon>
+         <SmallIcon>%apsuite\ApsimUI\Images\up_minus16.png</SmallIcon>
          <DisabledWhen>NothingLoaded</DisabledWhen>
          <OnInvoke>
             <call>
@@ -196,8 +196,8 @@
       </CollapseAll>
       <Add>
          <text>Add</text>
-         <LargeIcon>%apsuite\ApsimUI\Images\add.png</LargeIcon>
-         <SmallIcon>%apsuite\ApsimUI\Images\add_small.png</SmallIcon>
+         <MediumIcon>%apsuite\ApsimUI\Images\add24.png</MediumIcon>
+         <SmallIcon>%apsuite\ApsimUI\Images\add16.png</SmallIcon>
          <DisabledWhen>ReadOnly</DisabledWhen>
          <DisabledWhen>MultipleNodesSelected</DisabledWhen>
          <DisabledWhen>NothingLoaded</DisabledWhen>
@@ -218,8 +218,8 @@
       </AddSoil>
       <Import>
          <text>Import</text>
-         <LargeIcon>%apsuite\ApsimUI\Images\import1.png</LargeIcon>
-         <SmallIcon>%apsuite\ApsimUI\Images\import1_small.png</SmallIcon>
+         <MediumIcon>%apsuite\ApsimUI\Images\import124.png</MediumIcon>
+         <SmallIcon>%apsuite\ApsimUI\Images\import116.png</SmallIcon>
          <DisabledWhen>ReadOnly</DisabledWhen>
          <DisabledWhen>MultipleNodesSelected</DisabledWhen>
          <DisabledWhen>NothingLoaded</DisabledWhen>
@@ -282,8 +282,8 @@
       </ImportFromW2N2>
       <Export>
          <text>Export</text>
-         <LargeIcon>%apsuite\ApsimUI\Images\export1.png</LargeIcon>
-         <SmallIcon>%apsuite\ApsimUI\Images\export1_small.png</SmallIcon>
+         <MediumIcon>%apsuite\ApsimUI\Images\export124.png</MediumIcon>
+         <SmallIcon>%apsuite\ApsimUI\Images\export116.png</SmallIcon>
          <DisabledWhen>NothingLoaded</DisabledWhen>
       </Export>
       <ExportToSoilsFile>
@@ -328,8 +328,8 @@
       <Check>
          <text>Check soils</text>
          <Description>Check all soils</Description>
-         <SmallIcon>%apsuite\ApsimUI\Images\check2_small.png</SmallIcon>
-         <LargeIcon>%apsuite\ApsimUI\Images\check2.png</LargeIcon>
+         <SmallIcon>%apsuite\ApsimUI\Images\check216.png</SmallIcon>
+         <MediumIcon>%apsuite\ApsimUI\Images\check224.png</MediumIcon>
          <DisabledWhen>NothingLoaded</DisabledWhen>
          <OnInvoke>
             <call>
@@ -341,7 +341,7 @@
       <Sort>
          <text>Sort soils</text>
          <Description>Sort all soils</Description>
-         <LargeIcon>%apsuite\ApsimUI\Images\sort_ascending.png</LargeIcon>
+         <MediumIcon>%apsuite\ApsimUI\Images\sort_ascending24.png</MediumIcon>
          <DisabledWhen>ReadOnly</DisabledWhen>
          <DisabledWhen>NothingLoaded</DisabledWhen>
          <DisabledWhen>MultipleNodesSelected</DisabledWhen>
@@ -356,18 +356,85 @@
       <Version>
          <text>Version</text>
          <Description>Show APSoil version number</Description>
-         <LargeIcon>%apsuite\ApsimUI\Images\help2.png</LargeIcon>
+         <MediumIcon>%apsuite\ApsimUI\Images\help224.png</MediumIcon>
          <OnInvoke>
             <call>
                <class>CSUserInterface.SoilActions</class>
                <method>Version</method>
             </call>
          </OnInvoke>
-      </Version>           
+      </Version>
+      <ReleaseNotes>
+         <text>Release notes</text>
+         <Description>Show what has changed in this version of APSoil</Description>
+         <MediumIcon>%apsuite\ApsimUI\Images\window_information24.png</MediumIcon>
+         <OnInvoke>
+            <call>
+               <class>CSUserInterface.SoilActions</class>
+               <method>ReleaseNotes</method>
+            </call>
+         </OnInvoke>
+      </ReleaseNotes>
+      <PrintSoil>
+         <text>Print</text>
+         <Description>Print soil</Description>
+         <MediumIcon>%apsuite\ApsimUI\Images\printer24.png</MediumIcon>
+         <SmallIcon>%apsuite\ApsimUI\Images\printer16.png</SmallIcon>
+         <DisabledWhen>NothingLoaded</DisabledWhen>
+         <DisabledWhen>MultipleNodesSelected</DisabledWhen>
+         <AppliesTo>soilwater</AppliesTo>
+         <OnInvoke>
+            <call>
+               <class>CSUserInterface.SoilActions</class>
+               <method>PrintSoil</method>
+            </call>
+         </OnInvoke>
+      </PrintSoil>
+      <PHUnitChange>
+         <text>Change PH units</text>
+         <Description>Change the units of PH</Description>
+         <MediumIcon>%apsuite\ApsimUI\Images\potion_yellow24.png</MediumIcon>
+         <SmallIcon>%apsuite\ApsimUI\Images\potion_yellow16.png</SmallIcon>
+         <DisabledWhen>NothingLoaded</DisabledWhen>
+         <DisabledWhen>MultipleNodesSelected</DisabledWhen>
+         <AppliesTo>soil</AppliesTo>
+         <OnInvoke>
+            <call>
+               <class>CSUserInterface.SoilActions</class>
+               <method>ChangePHUnits</method>
+            </call>
+         </OnInvoke>
+      </PHUnitChange>
+      <SoilCropManagement>
+         <text>Manage Crops</text>
+         <Description>Add, delete and reorder crops</Description>
+         <MediumIcon>%apsuite\ApsimUI\Images\leaf24.png</MediumIcon>
+         <SmallIcon>%apsuite\ApsimUI\Images\leaf16.png</SmallIcon>
+         <DisabledWhen>NothingLoaded</DisabledWhen>
+         <DisabledWhen>MultipleNodesSelected</DisabledWhen>
+         <AppliesTo>soilwater</AppliesTo>
+         <OnInvoke>
+            <call>
+               <class>CSUserInterface.SoilActions</class>
+               <method>SoilCropManagement</method>
+            </call>
+         </OnInvoke>
+      </SoilCropManagement>
+      <CheckWebForNewSoilData>
+         <text>Get latest data</text>
+         <Description>Check www.apsim.info for the latest soil data</Description>
+         <MediumIcon>%apsuite\ApsimUI\Images\client_network24.png</MediumIcon>
+         <OnInvoke>
+            <call>
+               <class>CSUserInterface.SoilActions</class>
+               <method>CheckWebForDataUpdate</method>
+            </call>
+         </OnInvoke>
+      </CheckWebForNewSoilData>      
    </Actions>
 
    <MainToolBar ImageAboveText="yes">
-      <ImageSize>Large</ImageSize>
+      <ImageSize>MediumIcon</ImageSize>
       <Item>FileNew</Item>
       <DropDownItem action="Open">
          <Item>FileOpen</Item>
@@ -396,10 +463,12 @@
       <Item>Sort</Item>
       <Separator/>
       <Item>Version</Item>
+      <Item>ReleaseNotes</Item>
+      <Item>CheckWebForNewSoilData</Item>
    </MainToolBar>
    
    <ContextMenu>
-      <ImageSize>Small</ImageSize>
+      <ImageSize>SmallIcon</ImageSize>
       <DropDownItem action="Add">
          <Item>AddFolder</Item>
          <Item>AddSoil</Item>
@@ -416,6 +485,8 @@
          <Item>ExportToSpreadsheet</Item>
       </DropDownItem>
       <Item>Check</Item>
+      <Item>SoilCropManagement</Item>
+      <Item>PrintSoil</Item>
       <Separator/>
       <Item>Delete</Item>
       <Item>Rename</Item>
@@ -431,5 +502,9 @@
       <Item>ExpandAll</Item>
    </ContextMenu>
 
+   <SoilToolBar ImageAboveText="yes">
+      <ImageSize>MediumIcon</ImageSize>
+      <Item>PHUnitChange</Item>
+   </SoilToolBar>
 
 </Folder>   

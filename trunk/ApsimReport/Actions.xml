@@ -6,7 +6,7 @@
          <text>Delete</text>
          <Location>AllNodes</Location>
          <Description>Delete the selected node</Description>
-         <SmallIcon>%apsuite\ApsimUI\Images\delete2.png</SmallIcon>
+         <SmallIcon>%apsuite\ApsimUI\Images\delete216.png</SmallIcon>
          <DisabledWhen>ReadOnly</DisabledWhen>
          <DisabledWhen>RootNode</DisabledWhen>
          <ShortCut>Delete</ShortCut>
@@ -21,7 +21,7 @@
          <text>Rename</text>
          <Location>AllNodes</Location>
          <Description>Rename the selected node</Description>
-         <SmallIcon>%apsuite\ApsimUI\Images\pen_blue.png</SmallIcon>
+         <SmallIcon>%apsuite\ApsimUI\Images\pen_blue16.png</SmallIcon>
          <DisabledWhen>ReadOnly</DisabledWhen>
          <DisabledWhen>RootNode</DisabledWhen>
          <ShortCut>F2</ShortCut>
@@ -36,7 +36,7 @@
          <text>Cut</text>
          <Location>AllNodes</Location>
          <Description>Cut the selected node to the clipboard</Description>
-         <SmallIcon>%apsuite\ApsimUI\Images\cut.png</SmallIcon>
+         <SmallIcon>%apsuite\ApsimUI\Images\cut16.png</SmallIcon>
          <DisabledWhen>ReadOnly</DisabledWhen>
          <DisabledWhen>RootNode</DisabledWhen>
          <ShortCut>X, Control</ShortCut>
@@ -51,7 +51,7 @@
          <text>Copy</text>
          <Location>AllNodes</Location>
          <Description>Copy the selected node to the clipboard</Description>
-         <SmallIcon>%apsuite\ApsimUI\Images\copy.png</SmallIcon>
+         <SmallIcon>%apsuite\ApsimUI\Images\copy16.png</SmallIcon>
          <ShortCut>C, Control</ShortCut>
          <OnInvoke>
             <call>
@@ -64,7 +64,7 @@
          <text>Paste</text>
          <Location>AllNodes</Location>
          <Description>Paste the clipboard contents below the selected node</Description>
-         <SmallIcon>%apsuite\ApsimUI\Images\paste.png</SmallIcon>
+         <SmallIcon>%apsuite\ApsimUI\Images\paste16.png</SmallIcon>
          <DisabledWhen>ReadOnly</DisabledWhen>
          <DisabledWhen>MultipleNodesSelected</DisabledWhen>
          <ShortCut>V, Control</ShortCut>
@@ -79,7 +79,7 @@
          <text>Move up</text>
          <Location>AllNodes</Location>
          <Description>Move the selected nodes up</Description>
-         <SmallIcon>%apsuite\ApsimUI\Images\nav_up_green.png</SmallIcon>
+         <SmallIcon>%apsuite\ApsimUI\Images\nav_up_green16.png</SmallIcon>
          <DisabledWhen>ReadOnly</DisabledWhen>
          <ShortCut>Up, Control</ShortCut>
          <OnInvoke>
@@ -93,7 +93,7 @@
          <text>Move down</text>
          <Location>AllNodes</Location>
          <Description>Move the selected nodes down</Description>
-         <SmallIcon>%apsuite\ApsimUI\Images\nav_down_green.png</SmallIcon>
+         <SmallIcon>%apsuite\ApsimUI\Images\nav_down_green16.png</SmallIcon>
          <DisabledWhen>ReadOnly</DisabledWhen>
          <ShortCut>Down, Control</ShortCut>
          <OnInvoke>
@@ -107,7 +107,7 @@
          <text>Expand all</text>
          <Location>AllNodes</Location>
          <Description>Expand all nodes</Description>
-         <SmallIcon>%apsuite\ApsimUI\Images\down_plus.png</SmallIcon>
+         <SmallIcon>%apsuite\ApsimUI\Images\down_plus16.png</SmallIcon>
          <OnInvoke>
             <call>
                <class>VBUserInterface.BaseActions</class>
@@ -119,7 +119,7 @@
          <text>Collapse all</text>
          <Location>AllNodes</Location>
          <Description>Collapse all nodes</Description>
-         <SmallIcon>%apsuite\ApsimUI\Images\up_minus.png</SmallIcon>
+         <SmallIcon>%apsuite\ApsimUI\Images\up_minus16.png</SmallIcon>
          <OnInvoke>
             <call>
                <class>VBUserInterface.BaseActions</class>
