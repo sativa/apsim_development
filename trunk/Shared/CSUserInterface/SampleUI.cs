@@ -671,7 +671,7 @@ namespace CSUserInterface
             InputMap.Put(new FarPoint.Win.Spread.Keystroke(Keys.Enter, Keys.None),
                         FarPoint.Win.Spread.SpreadActions.MoveToNextRow);
             }
-		override public void RefreshView(string NodePath)
+		override public void OnRefresh(string NodePath)
 			{
 			try
 				{

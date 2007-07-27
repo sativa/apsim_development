@@ -130,8 +130,48 @@ namespace Soils
 			else
 				return "";
 			}
+
+
+        public double Latitude
+            {
+            get
+                {
+                string StringValue = Utility.GetStringValue(Data, "", "Latitude");
+                if (StringValue != "")
+                    return Convert.ToDouble(StringValue);
+                else
+                    return 0;
+                }
+            set
+                {
+                Utility.SetValue(Data, "", "Latitude", value.ToString());
+                }
+            }
+        public double Longitude
+            {
+            get
+                {
+                string StringValue = Utility.GetStringValue(Data, "", "Longitude");
+                if (StringValue != "")
+                    return Convert.ToDouble(StringValue);
+                else
+                    return 0;
+                }
+            set
+                {
+                Utility.SetValue(Data, "", "Longitude", value.ToString());
+                }
+            }
         #endregion
 
+        public double[] Values(string DataType)
+            {
+            // ---------------------------------------------------------
+            // Generic method to return the values of a profile variable
+            // as specified by the DataType passed in.
+            // ---------------------------------------------------------
+            return Utility.getLayered(Data, "profile", DataType, "");
+            }
         #region Profile
         public double[] Thickness
             {
@@ -260,7 +300,17 @@ namespace Soils
             get { return Utility.getLayered(Data, "profile", "Na", ""); }
             set { Utility.setLayered(Data, "profile", "Na", "", value); }
 			}
-		public double[] K
+        public double[] Mn
+            {
+            get { return Utility.getLayered(Data, "profile", "Mn", ""); }
+            set { Utility.setLayered(Data, "profile", "Mn", "", value); }
+            }
+        public double[] Al
+            {
+            get { return Utility.getLayered(Data, "profile", "Al", ""); }
+            set { Utility.setLayered(Data, "profile", "Al", "", value); }
+            }
+        public double[] K
 			{
             get { return Utility.getLayered(Data, "profile", "K", ""); }
             set { Utility.setLayered(Data, "profile", "K", "", value); }
@@ -434,7 +484,7 @@ namespace Soils
 			{
 			if (PredLLCoeff == null)
 				{
-				string CoeffFileName = APSIMSettings.INIRead(APSIMSettings.ApsimIniFile(), "Soil", "PredLLCoeffFile");
+				string CoeffFileName = APSIMSettings.INIRead(APSIMSettings.ApsimIniFile(), "APSoil", "PredLLCoeffFile");
 				if (File.Exists(CoeffFileName))
 					{
 					PredLLCoeff = new APSIMData();
@@ -447,7 +497,7 @@ namespace Soils
             {
             if (PredKLCoeff == null)
                 {
-                string CoeffFileName = APSIMSettings.INIRead(APSIMSettings.ApsimIniFile(), "Soil", "PredKLCoeffFile");
+                string CoeffFileName = APSIMSettings.INIRead(APSIMSettings.ApsimIniFile(), "APSoil", "PredKLCoeffFile");
                 if (File.Exists(CoeffFileName))
                     {
                     PredKLCoeff = new APSIMData();
@@ -545,19 +595,12 @@ namespace Soils
 						PredLL[i] = Math.Min(PredLL[i], this.DUL[i]);
 						}
 
-					// make the top 2 layers the same as the smallest measured crop LL[2]
+					// make the top 3 layers the same as the the top 3 layers of LL15
                     if (PredLL.Length >= 3)
                         {
-                        if (LowestLL3rdLayer != MathUtility.MissingValue)
-                            {
-                            PredLL[0] = LowestLL3rdLayer;
-                            PredLL[1] = LowestLL3rdLayer;
-                            }
-                        else
-                            {
-                            PredLL[0] = PredLL[2];
-                            PredLL[1] = PredLL[2];
-                            }
+                        PredLL[0] = LL15[0];
+                        PredLL[1] = LL15[1];
+                        PredLL[2] = LL15[2];
                         }
                     
                     return PredLL;

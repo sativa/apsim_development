@@ -244,11 +244,46 @@ namespace Soils
                     }
                 else
                     DefaultValues = ParentSoil.EC;
-
-                return Utility.MapSampleToSoilUsingSpatial(EC, Thickness, DefaultValues, ParentSoil.Thickness);
+                if (EC.Length != 0)
+                    {
+                    double[] SampleEC = EC;
+                    double[] SampleThickness = Thickness;
+                    MakeSampleDeepUsingLastMeasuredValue(ref SampleThickness, ref SampleEC);
+                    return Utility.MapSampleToSoilUsingSpatial(SampleEC, SampleThickness, DefaultValues, ParentSoil.Thickness);
+                    }
+                else
+                    return DefaultValues;
                 }
             }
-         public double[] PAW(string CropName)
+
+        private static void MakeSampleDeepUsingLastMeasuredValue(ref double[] Thickness, ref double[] Values)
+            {
+            // Find last measured value
+            int BottomMeasuredLayer;
+            for (BottomMeasuredLayer = Values.Length - 1; BottomMeasuredLayer >= 0;  BottomMeasuredLayer--)
+                {
+                if (Values[BottomMeasuredLayer] != MathUtility.MissingValue)
+                    break;
+                }
+            if (BottomMeasuredLayer < Values.Length)
+                {
+                // Fill up the array with last measured value. Remember there could be missing values!
+                for (int Layer = BottomMeasuredLayer + 1; Layer < Values.Length; Layer++)
+                    {
+                    Thickness[Layer] = Thickness[BottomMeasuredLayer];
+                    Values[Layer] = Values[BottomMeasuredLayer];
+                    }
+
+                // Now go and duplicate the bottom measured layer into a deep layer.
+                Array.Resize(ref Thickness, Thickness.Length + 1);
+                Array.Resize(ref Values, Values.Length + 1);
+                int DeepLayer = Thickness.Length - 1;
+                Thickness[DeepLayer] = Thickness[BottomMeasuredLayer];
+                Values[DeepLayer] = Values[BottomMeasuredLayer];
+                }
+            }
+
+        public double[] PAW(string CropName)
 			{
 			// return plant available water by layer (mm) given
 			// depth, lower limit and dul all in (mm).
@@ -343,12 +378,12 @@ namespace Soils
                     int NumLayersInProfile = Profile.get_Children("layer").Length;
                     for (int i = NumLayersInProfile; i < LayerNumber; i++)
                         Profile.Add(new APSIMData("layer", ""));
-                    APSIMData Layer = Profile.get_Children("layer")[LayerNumber - 1];
+                    APSIMData BottomMeasuredLayer = Profile.get_Children("layer")[LayerNumber - 1];
                     foreach (APSIMData Value in Child.get_Children(null))
                         {
                         if (Value.Value != "" && Convert.ToDouble(Value.Value) != MathUtility.MissingValue)
                             {
-                            APSIMData LayerData = Layer.Add(Value);
+                            APSIMData LayerData = BottomMeasuredLayer.Add(Value);
                             if (Data.Type.ToLower() == "soilcrop")
                                 LayerData.Name = Data.Name;
                             }

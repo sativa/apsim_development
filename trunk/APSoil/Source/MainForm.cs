@@ -21,7 +21,7 @@ namespace APSoil
 	// ----------------------------
 	public class MainForm : System.Windows.Forms.Form
 		{
-		private ApsoilController Apsoil;
+		private BaseController Apsoil;
         private ExplorerUI SoilExplorer;
         private System.ComponentModel.IContainer components;
         private ToolStripContainer ToolStripContainer;
@@ -150,11 +150,7 @@ namespace APSoil
             ToolStripContainer.Size = new Size(ToolStripContainer.ContentPanel.Width, 103);
 
 			// Form has been loaded - set everything up
-		
-			Apsoil = new ApsoilController(this, ".soils", "Soils files (*.soils)|*.soils|" + 
-											"All files (*.*)|*.*", 
-											"Apsoil",
-											SmallImages);
+			Apsoil = new BaseController(this, "Apsoil");
 
 			// Show the Simulation Explorer.
 			SoilExplorer = new ExplorerUI(Apsoil);

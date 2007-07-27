@@ -370,7 +370,7 @@ namespace CSUserInterface
 		// -----------------------
 		// Refresh the form
 		// -----------------------
-		override public void RefreshView(string NodePath)
+		override public void OnRefresh(string NodePath)
 			{
 			HelpText = "There are multiple ways of initialising soil water. Select a method by clicking one of the options below "
 				 	 + " and then filling in the details.";
