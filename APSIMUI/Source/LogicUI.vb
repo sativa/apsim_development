@@ -135,7 +135,7 @@ Public Class LogicUI
     Public Overrides Sub OnLoad(ByVal Controller As VBUserInterface.BaseController)
         Me.Controller = Controller
     End Sub
-    Overrides Sub RefreshView(ByVal NodePath As String)
+    Overrides Sub OnRefresh(ByVal NodePath As String)
         TabControl.TabPages.Clear()
         CurrentScriptNode = Nothing
 
@@ -155,7 +155,7 @@ Public Class LogicUI
 
     Private Sub TabControl_SelectedIndexChanged(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles TabControl.SelectedIndexChanged
         ' save old script.
-        Save()
+        OnSave()
 
         ' load new script
         If TabControl.SelectedIndex >= 0 Then
@@ -164,7 +164,7 @@ Public Class LogicUI
         End If
     End Sub
 
-    Public Overrides Sub Save()
+    Public Overrides Sub OnSave()
         If Not IsNothing(CurrentScriptNode) Then
             Dim text As String = Replace(ScriptBox.Text, vbCrLf, "[cr]")
             If text = Nothing Then

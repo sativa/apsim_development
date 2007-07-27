@@ -89,11 +89,11 @@ Public Class ExplorerUI
     Public Overrides Sub OnLoad(ByVal Controller As BaseController)
         Me.Controller = Controller
         DataTree.OnLoad(Controller)
-        AddHandler Controller.ApsimData.DataStructureChangedEvent, AddressOf RefreshView
+        AddHandler Controller.ApsimData.DataStructureChangedEvent, AddressOf OnRefresh
         AddHandler Controller.SelectionChangedEvent, AddressOf OnSelectionChanged
         AddHandler Controller.BeforeSaveEvent, AddressOf OnBeforeSave
     End Sub
-    Public Overrides Sub RefreshView(ByVal NodePath As String)
+    Public Overrides Sub OnRefresh(ByVal NodePath As String)
         ' -------------------------------------------------------
         ' Called by parent to refresh ourselves. 
         ' -------------------------------------------------------
@@ -147,7 +147,7 @@ Public Class ExplorerUI
             View.Parent = UIPanel
             View.Dock = DockStyle.Fill
             View.Show()
-            View.RefreshView(Controller.Data.FullPath)
+            View.OnRefresh(Controller.Data.FullPath)
         End If
     End Sub
 
@@ -170,10 +170,24 @@ Public Class ExplorerUI
         ' -----------------------------------------------------
         If CurrentUIIndex <> -1 Then
             Dim View As BaseView = UIs(CurrentUIIndex)
-            View.Save()
+            View.OnSave()
         End If
     End Sub
-
+    Public Sub RefreshCurrentView()
+        If CurrentUIIndex <> -1 Then
+            Dim View As BaseView = UIs(CurrentUIIndex)
+            View.OnRefresh(Controller.SelectedPath)
+        End If
+    End Sub
+    Public ReadOnly Property CurrentView() As BaseView
+        Get
+            If CurrentUIIndex <> -1 Then
+                Return UIs(CurrentUIIndex)
+            Else
+                Return Nothing
+            End If
+        End Get
+    End Property
     Private Sub OnBeforeSave()
         ' -----------------------------------------------------
         ' User is about to do a save.
@@ -195,6 +209,5 @@ Public Class ExplorerUI
             CloseUI()
         End If
     End Sub
-
 
 End Class

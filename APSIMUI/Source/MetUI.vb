@@ -98,10 +98,10 @@ Public Class MetUI
         Me.Controller = Controller
         MetGraphControl1.OnLoad(Controller)
     End Sub
-    Public Overrides Sub RefreshView(ByVal NodePath As String)
+    Public Overrides Sub OnRefresh(ByVal NodePath As String)
         Dim FileName As String = Controller.Data.ChildValue("filename")
 
-        MetGraphControl1.RefreshView(NodePath)
+        MetGraphControl1.OnRefresh(NodePath)
         HelpText = FileName
         OpenFileDialog.InitialDirectory = Path.GetDirectoryName(FileName)
         MetGraphControl1.SetFileName(FileName)

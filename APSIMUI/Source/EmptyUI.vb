@@ -131,19 +131,18 @@ Public Class EmptyUI
         Me.Controller = Controller
     End Sub
 
-    Overrides Sub RefreshView(ByVal NodePath As String)
+    Overrides Sub OnRefresh(ByVal NodePath As String)
         MainLabel.Text = Controller.Data.Type
         Me.HelpText = "This module does not have any editable properties."
         Dim inifile As New APSIMSettings
-        Dim UIManager As ApsimUIController = Controller
-
+        
         Try
-            Label1.Text = UIManager.DescriptionForType(Controller.Data.Type)
+            Label1.Text = Controller.DescriptionForType(Controller.Data.Type)
         Catch ex As System.Exception
             ' Don't update label.
         End Try
 
-        Dim imagefile As String = UIManager.ImageFileForType(Controller.Data.Type)
+        Dim imagefile As String = Controller.ImageFileForType(Controller.Data.Type)
         If System.IO.File.Exists(imagefile) Then
             PictureBox.Image = Image.FromFile(imagefile)
         Else
@@ -154,13 +153,8 @@ Public Class EmptyUI
     End Sub
 
     Private Sub DocumentationLink_LinkClicked(ByVal sender As System.Object, ByVal e As System.Windows.Forms.LinkLabelLinkClickedEventArgs) Handles DocumentationLink.LinkClicked
-        Dim UIManager As ApsimUIController = Controller
-        Try
-            Dim url As String = APSIMSettings.ApsimDirectory + "\apsimui\types.xml#" + Controller.Data.Type
-            Process.Start("IExplore.exe", url)
-        Catch ex As System.Exception
-            UIManager.ShowHelp("www.apsim.info")
-        End Try
+        Dim url As String = APSIMSettings.ApsimDirectory + "\apsimui\types.xml#" + Controller.Data.Type
+        Process.Start("IExplore.exe", url)
     End Sub
 
 End Class

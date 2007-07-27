@@ -13,7 +13,6 @@ Public Class BaseView
     ' ----------------------------------   
     Inherits System.Windows.Forms.UserControl
 
-
 #Region " Windows Form Designer generated code "
     Public Sub New()
         MyBase.New()
@@ -68,11 +67,10 @@ Public Class BaseView
     Public Overridable Overloads Sub OnLoad(ByVal Controller As BaseController)
     End Sub
 
-    Public Overridable Sub RefreshView(ByVal NodePath As String)
-
+    Public Overridable Sub OnRefresh(ByVal NodePath As String)
     End Sub
 
-    Public Overridable Sub Save()
+    Public Overridable Sub OnSave()
         ' ---------------------------------------------
         ' An overridable method that is called whenever
         ' data should be saved back to the APSIMData 
@@ -86,6 +84,7 @@ Public Class BaseView
         ' the object is being destroyed.
         ' ---------------------------------------------
     End Sub
+
     Public Property HelpText() As String
         ' ---------------------------------------------
         ' Provide access to the help label of this ui

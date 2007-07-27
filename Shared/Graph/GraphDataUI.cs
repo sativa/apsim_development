@@ -56,7 +56,7 @@ namespace Graph
                     this.GraphController = (GraphController)Controller;
                 else
                     {
-                    this.GraphController = new GraphController(Controller.SmallImageList, GraphData);
+                    this.GraphController = new GraphController(Controller.IconImageList("SmallIcon"), GraphData);
                     StringCollection Selections = new StringCollection();
                     Selections.Add(ThisPath);
                     GraphController.SelectedPaths = Selections;
@@ -64,7 +64,7 @@ namespace Graph
                 }
             GenericUI.OnLoad(Controller);
             }
-        public override void RefreshView(string NodePath)
+        public override void OnRefresh(string NodePath)
             {
             // ----------------------------------------------------------
             // Refresh this graphdata.
@@ -89,7 +89,7 @@ namespace Graph
             // ----------------------------------------------------------
 
             // refresh our genericUI
-            GenericUI.RefreshView(NodePath);
+            GenericUI.OnRefresh(NodePath);
 
             // refresh our data window
             if (GraphController.Data != null)
@@ -115,13 +115,12 @@ namespace Graph
             PopulateView();
             }
 
-        public override void Save()
+        public override void OnSave()
             {
             // ----------------------------------------------------------
             // We're about to close so remove our interest in the 
             // property changed event.
             // ----------------------------------------------------------
-            base.Save();
             OnPropertiesChanged();
             GenericUI.PropertiesChangedEvent -= new GenericUI.NotifyEventHandler(OnPropertiesChanged);
             if (DataWindow != 0)

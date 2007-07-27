@@ -4,7 +4,7 @@ Imports System.io
 Imports VBGeneral
 Imports System.Reflection
 
-Public MustInherit Class BaseController
+Public Class BaseController
     Implements IDisposable
 
     ' Simple base class for a user interface manager
@@ -19,8 +19,13 @@ Public MustInherit Class BaseController
     Protected disposed As Boolean = False
     Private MyMsgBoxString As String
     Private TypesFile As New APSIMData
+    Private ActionFile As New APSIMData
     Private MyExplorer As ExplorerUI
     Private MyMainForm As Form
+    Private LargeIcons As New ImageList
+    Private MediumIcons As New ImageList
+    Private SmallIcons As New ImageList
+    Private TypesFileName As String
 
     Delegate Sub NotifyEventHandler()
     Delegate Sub NodeChangedEventHandler(ByVal OldNodeName As String, ByVal Node As APSIMData)
@@ -35,23 +40,46 @@ Public MustInherit Class BaseController
     Public Event RefreshRequiredEvent As RefreshRequiredHandler     ' Fired whenever a refresh of the ui is required.
 
 #Region "Constructor / destructor"
-    Sub New(ByVal MainForm As Form, _
-            ByVal DefaultExtension As String, _
-            ByVal DialogFilter As String, _
-            ByVal FrequentListSection As String)
+    Sub New(ByVal MainForm As Form, ByVal SectionName As String)
         ' -----------------------
         ' constructor
         ' -----------------------
         MyMainForm = MainForm
-        MyDefaultExtension = DefaultExtension
-        MyDialogFilter = DialogFilter
-        MyFrequentListSection = FrequentListSection
+        MyDefaultExtension = APSIMSettings.INIRead(APSIMSettings.ApsimIniFile(), SectionName, "DefaultExtension")
+        MyDialogFilter = APSIMSettings.INIRead(APSIMSettings.ApsimIniFile(), SectionName, "DialogFilter")
+        If Not IsNothing(MainForm) Then
+            MyFrequentListSection = SectionName
+        End If
         MyData = Nothing
 
-        Dim TypesFileName As String = APSIMSettings.INIRead(APSIMSettings.ApsimIniFile(), "apsimui", "typesfile")
-        TypesFile.LoadFromFile(TypesFileName)
+        LargeIcons.ImageSize = New Size(32, 32)
+        MediumIcons.ImageSize = New Size(24, 24)
+        SmallIcons.ImageSize = New Size(16, 16)
+        LargeIcons.Tag = "LargeIcon"
+        MediumIcons.Tag = "MediumIcon"
+        SmallIcons.Tag = "SmallIcon"
 
-        SetupActions(FrequentListSection)
+        ' Setup the types file and load all images specified by it.
+        TypesFileName = APSIMSettings.INIRead(APSIMSettings.ApsimIniFile(), SectionName, "TypesFile")
+        If TypesFileName <> "" Then
+            TypesFile.LoadFromFile(TypesFileName)
+            For Each Child As APSIMData In TypesFile.Children
+                LoadIcon(Child, "LargeIcon", LargeIcons)
+                LoadIcon(Child, "MediumIcon", MediumIcons)
+                LoadIcon(Child, "SmallIcon", SmallIcons)
+            Next
+        End If
+
+        ' Setup the actions file and load all images specified by it.
+        Dim ActionFileName As String = APSIMSettings.INIRead(APSIMSettings.ApsimIniFile(), SectionName, "ActionFile")
+        If ActionFileName <> "" Then
+            ActionFile.LoadFromFile(ActionFileName)
+            For Each Child As APSIMData In ActionFile.Child("Actions").Children
+                LoadIcon(Child, "LargeIcon", LargeIcons)
+                LoadIcon(Child, "MediumIcon", MediumIcons)
+                LoadIcon(Child, "SmallIcon", SmallIcons)
+            Next
+        End If
         AddHandler ApsimData.DataDirtyChangedEvent, AddressOf OnDataDirtyChanged
     End Sub
     Protected Overridable Sub Dispose(ByVal disposing As Boolean)
@@ -74,14 +102,98 @@ Public MustInherit Class BaseController
 #End Region
 
 #Region "Overridable methods"
-    MustOverride ReadOnly Property SmallImageList() As ImageList
-    MustOverride Function SmallImageIndex(ByVal ComponentType As String) As Integer
-    MustOverride Function ImageFileForType(ByVal ComponentType As String) As String
-    MustOverride Function IsComponentVisible(ByVal Component As APSIMData) As Boolean
-    MustOverride Function AllowComponentAdd(ByVal ChildComponentType As String, ByVal ParentComponentType As String) As Boolean
-    MustOverride Function CreateUI(ByVal UIType As String) As BaseView
-    Protected Overridable Function IsDataReadOnly() As Boolean
-        Return (File.GetAttributes(FileName) And FileAttributes.ReadOnly) = FileAttributes.ReadOnly
+    Public Function IsComponentVisible(ByVal Component As APSIMData) As Boolean
+        If Component.Attribute("invisible") = "yes" Then
+            Return False
+        End If
+        Dim ComponentType As String = Component.Type()
+        If Not IsNothing(TypesFile.Child(ComponentType)) Then
+            If TypesFile.Child(ComponentType).Child("ShowInMainTree").Value = "Yes" Then
+                Return True
+            End If
+        End If
+        Return False
+    End Function
+    Public Function AllowComponentAdd(ByVal ChildComponentType As String, ByVal ParentComponentType As String) As Boolean
+        ' -------------------------------------------------
+        ' Return true if the specified component type can
+        ' be added as a child to the specified parent type.
+        ' -------------------------------------------------
+        ' Look in the componentinfo's drop targets.
+        For Each Drop As APSIMData In TypesFile.Child(ChildComponentType).Child("drops").Children
+            If Drop.Name.ToLower = ParentComponentType.ToLower Then
+                Return True
+            End If
+        Next
+        ' if we get here we haven't found what we're after
+        Return False
+    End Function
+    Public Function CreateUI(ByVal ComponentType As String) As BaseView
+        ' -------------------------------------
+        ' Create a User interface form for the
+        ' specified type.
+        ' -------------------------------------
+        Dim ComponentInfo As APSIMData = TypesFile.Child(ComponentType)
+        If Not IsNothing(ComponentInfo) Then
+            Dim UIType As String = ComponentInfo.ChildValue("UItype")
+            If UIType <> "" Then
+                Return CreateClass(UIType)
+            End If
+        End If
+        Return Nothing
+    End Function
+    Public Function ImageFileForType(ByVal GivenType As String) As String
+        Return TypesFile.Child(GivenType).Child("Image").Value
+    End Function
+    Public Function GetComponentTypeInfo(ByVal ComponentType As String)
+        Return TypesFile.Child(ComponentType)
+    End Function
+#End Region
+
+#Region "Icon methods"
+    Private Shared Sub LoadIcon(ByVal Data As APSIMData, ByVal Specifier As String, ByRef Icons As ImageList)
+        ' -----------------------------------------------------------------
+        ' Load an icon for the 'Data' type using the specifier. The icon
+        ' is stored in the specified imagelist and an index node createdef
+        ' to store the position of the icon in the imagelist.
+        ' -----------------------------------------------------------------
+        Dim IconChild As APSIMData = Data.Child(Specifier)
+        If Not IsNothing(IconChild) Then
+            Dim FileName As String = IconChild.Value
+            If File.Exists(FileName) Then
+                Dim Icon As New Bitmap(FileName)
+                Icons.Images.Add(Icon)
+                Data.ChildValue(Specifier + "Index") = Str(Icons.Images.Count - 1)
+            End If
+        End If
+    End Sub
+    Function IconImageList(ByVal IconType As String) As ImageList
+        If IconType = "SmallIcon" Then
+            Return SmallIcons
+        ElseIf IconType = "MediumIcon" Then
+            Return MediumIcons
+        Else
+            Return LargeIcons
+        End If
+    End Function
+    Public Function IconImageIndexForType(ByVal ComponentType As String, ByVal IconType As String) As Integer
+        Dim TypeInfo As APSIMData = TypesFile.Child(ComponentType)
+        If Not IsNothing(TypeInfo) Then
+            Dim ImageIndexChild As APSIMData = TypeInfo.Child(IconType + "Index")
+            If Not IsNothing(ImageIndexChild) Then
+                Return Val(ImageIndexChild.Value)
+            End If
+        End If
+        Return -1
+    End Function
+    Public Function IconImageIndexForAction(ByVal Action As APSIMData, ByVal IconType As String) As Integer
+        If Not IsNothing(Action) Then
+            Dim ImageIndexChild As APSIMData = Action.Child(IconType + "Index")
+            If Not IsNothing(ImageIndexChild) Then
+                Return Convert.ToInt32(ImageIndexChild.Value)
+            End If
+        End If
+        Return -1
     End Function
 #End Region
 
@@ -419,6 +531,60 @@ Public MustInherit Class BaseController
     End Sub
 #End Region
 
+#Region "Type info methods"
+    Public Function DescriptionForType(ByVal GivenType As String) As String
+        ' -----------------------------------------------------------------
+        ' Return description for the specified type.
+        ' -----------------------------------------------------------------
+        Return TypesFile.Child(GivenType).Child("Description").Value
+    End Function
+
+    Private ComponentDescriptionData As APSIMData = Nothing
+    Public Sub GetVariablesForComponent(ByVal ComponentType As String, ByVal InstanceName As String, _
+                                        ByVal PropertyGroup As String, ByVal ReturnVariables As APSIMData)
+        ' -----------------------------------------------------------------
+        ' Add variable info for the specified type and instance name to the
+        ' "VariableData" argument.
+        ' -----------------------------------------------------------------
+        Dim TypeInfo As APSIMData = TypesFile.Child(ComponentType)
+        If Not IsNothing(TypeInfo) Then
+            For Each TypeVariables As APSIMData In TypeInfo.Children(PropertyGroup)
+                Dim Variables As APSIMData = TypeVariables
+
+                If TypeVariables.Attribute("link") <> "" Then
+                    ' Load components description file if necessary
+                    If ComponentDescriptionData Is Nothing Then
+                        ComponentDescriptionData = New APSIMData
+                        ComponentDescriptionData.LoadFromFile(APSIMSettings.ApsimDirectory + "\\ApsimUI\\ComponentDescription.xml")
+                    End If
+
+                    Dim Component As APSIMData = ComponentDescriptionData.Child(TypeVariables.Attribute("link"))
+                    If Not IsNothing(Component) Then
+                        Variables = ReturnVariables.Add(Component.ChildByType(PropertyGroup))
+                        Variables.Name = TypeVariables.Name
+                        Variables.SetAttribute("module", TypeVariables.Attribute("module"))
+                    End If
+                ElseIf Not IsNothing(Variables) Then
+                    Variables = ReturnVariables.Add(Variables)
+                End If
+
+                If Not IsNothing(Variables) Then
+                    If Variables.Name = Variables.Type Then
+                        Variables.Name = InstanceName
+                    End If
+                    If Not Variables.AttributeExists("module") Then
+                        Variables.SetAttribute("module", InstanceName)
+                    Else
+                        Variables.SetAttribute("module", Variables.Attribute("module").Replace("[name]", InstanceName))
+                    End If
+                End If
+            Next
+        End If
+    End Sub
+
+#End Region
+
+
 #Region "Action methods"
     ' ------------------------------------------------------------------------
     ' These action methods populate and implement all context menu's and 
@@ -428,45 +594,9 @@ Public MustInherit Class BaseController
     ' actions referred to in the types.xml under the type the user clicked on.
     ' ------------------------------------------------------------------------
 
-    Dim ActionFile As New APSIMData
-    Private SmallActionImages As New ImageList
-    Private LargeActionImages As New ImageList
-    Private Actions() As APSIMData
+
     Private ToolStrips As New List(Of ToolStrip)
 
-    Private Sub SetupActions(ByVal SectionName As String)
-        ' --------------------------------------------------------------
-        ' Called at the very beginning to setup the action manager 
-        ' system. This method loads all bitmaps and actions in readiness
-        ' for later on.
-        ' --------------------------------------------------------------
-        If SectionName <> "" Then
-            Dim ActionFileName As String = APSIMSettings.INIRead(APSIMSettings.ApsimIniFile(), SectionName, "actionfile")
-            ActionFile.LoadFromFile(ActionFileName)
-            SmallActionImages.ImageSize = New Size(16, 16)
-            LargeActionImages.ImageSize = New Size(24, 24)
-
-            ' load all icons
-            Actions = ActionFile.Child("actions").Children
-            For Each Action As APSIMData In Actions
-                Dim IconFileName As String = Action.ChildValue("SmallIcon")
-                If IconFileName <> "" And File.Exists(IconFileName) Then
-                    Dim SmallBitmap As New Bitmap(IconFileName)
-                    SmallActionImages.Images.Add(SmallBitmap)
-                Else
-                    SmallActionImages.Images.Add(New Bitmap(16, 16))
-                End If
-
-                IconFileName = Action.ChildValue("LargeIcon")
-                If IconFileName <> "" And File.Exists(IconFileName) Then
-                    Dim LargeBitmap As New Bitmap(IconFileName)
-                    LargeActionImages.Images.Add(LargeBitmap)
-                Else
-                    LargeActionImages.Images.Add(New Bitmap(24, 24))
-                End If
-            Next
-        End If
-    End Sub
     Public Sub RefreshToolStrips()
         For Each ToolStrip As ToolStrip In ToolStrips
             EnableActions(ToolStrip)
@@ -487,6 +617,9 @@ Public MustInherit Class BaseController
         End If
         ToolStrips.Add(Strip)
     End Sub
+    Public Sub RemoveToolStrip(ByVal Strip As ToolStrip)
+        ToolStrips.Remove(Strip)
+    End Sub
 
     Private Sub PopulateToolStrip(ByVal Strip As ToolStrip, ByVal ToolStripDescriptor As APSIMData, ByVal ImageAboveText As Boolean)
         ' --------------------------------------------------------------
@@ -496,11 +629,7 @@ Public MustInherit Class BaseController
 
         For Each ToolDescriptor As APSIMData In ToolStripDescriptor.Children
             If ToolDescriptor.Type = "ImageSize" Then
-                If ToolDescriptor.Value = "Small" Then
-                    Strip.ImageList = SmallActionImages
-                Else
-                    Strip.ImageList = LargeActionImages
-                End If
+                Strip.ImageList = IconImageList(ToolDescriptor.Value)
 
             ElseIf ToolDescriptor.Type = "Item" Then
                 Dim Item As ToolStripItem = CreateToolStripItem(Strip, ToolDescriptor.Value)
@@ -509,7 +638,8 @@ Public MustInherit Class BaseController
                 End If
 
             ElseIf ToolDescriptor.Type = "DropDownItem" Then
-                Dim DropDownActionIndex As Integer = FindAction(ToolDescriptor.Attribute("action"))
+                Dim DropDownActionName As String = ToolDescriptor.Attribute("action")
+                Dim Action As APSIMData = ActionFile.Find("Folder\Actions\" + DropDownActionName)
                 Dim DropDownButton As ToolStripDropDownItem
                 Dim DropDownStrip As ToolStripDropDown
                 If Strip.GetType().ToString = "System.Windows.Forms.ToolStrip" Then
@@ -519,18 +649,18 @@ Public MustInherit Class BaseController
                     DropDownButton = New ToolStripMenuItem
                     DropDownStrip = New ToolStripDropDownMenu
                 End If
-                DropDownButton.Text = Actions(DropDownActionIndex).ChildValue("text")
-                DropDownButton.ImageIndex = DropDownActionIndex
+                DropDownButton.Text = Action.ChildValue("text")
+                DropDownButton.ImageIndex = IconImageIndexForAction(Action, Strip.ImageList.Tag.ToString)
                 DropDownButton.ImageScaling = ToolStripItemImageScaling.None
                 DropDownButton.AutoToolTip = False
-                DropDownButton.Tag = DropDownActionIndex
-                DropDownButton.Enabled = IsActionAllowed(DropDownActionIndex)
+                DropDownButton.Tag = DropDownActionName
+                DropDownButton.Enabled = IsActionAllowed(Action)
 
                 If ImageAboveText Then
                     DropDownButton.TextImageRelation = TextImageRelation.ImageAboveText
                 End If
 
-                DropDownStrip.ImageList = SmallActionImages
+                DropDownStrip.ImageList = SmallIcons
                 AddHandler DropDownStrip.ItemClicked, AddressOf ActionOnClick
                 PopulateToolStrip(DropDownStrip, ToolDescriptor, False)  ' recursion
 
@@ -544,7 +674,7 @@ Public MustInherit Class BaseController
                 For Each FileName As String In GetFrequentList()
                     Dim Item As ToolStripItem = Strip.Items.Add(FileName)
                     Item.ImageIndex = -1
-                    Item.Tag = 1000
+                    Item.Tag = ""
                     Item.ToolTipText = "Open this file"
                     If ImageAboveText Then
                         Item.TextImageRelation = TextImageRelation.ImageAboveText
@@ -554,18 +684,18 @@ Public MustInherit Class BaseController
         Next
     End Sub
     Private Function CreateToolStripItem(ByVal Strip As ToolStrip, ByVal ActionName As String) As ToolStripItem
-        Dim ActionIndex As Integer = FindAction(ActionName)
-        If ActionIndex <> -1 Then
-            Dim Item As ToolStripItem = Strip.Items.Add(Actions(ActionIndex).ChildValue("text"))
-            Item.ImageIndex = ActionIndex
-            Item.ToolTipText = Actions(ActionIndex).ChildValue("description")
-            Item.Tag = ActionIndex
+        Dim Action As APSIMData = ActionFile.Find("Folder\Actions\" + ActionName)
+        If Not IsNothing(Action) Then
+            Dim Item As ToolStripItem = Strip.Items.Add(Action.ChildValue("text"))
+            Item.ImageIndex = IconImageIndexForAction(Action, Strip.ImageList.Tag.ToString)
+            Item.ToolTipText = Action.ChildValue("description")
+            Item.Tag = ActionName
             Item.ImageScaling = ToolStripItemImageScaling.None
-            Dim ShortCut As String = Actions(ActionIndex).ChildValue("shortcut")
+            Dim ShortCut As String = Action.ChildValue("shortcut")
             If TypeOf Item Is ToolStripMenuItem AndAlso ShortCut <> "" Then
                 CType(Item, ToolStripMenuItem).ShortcutKeys = Keys.Parse(GetType(Keys), ShortCut)
             End If
-            Item.Enabled = IsActionAllowed(ActionIndex)
+            Item.Enabled = IsActionAllowed(Action)
             Return Item
         Else
             Return Nothing
@@ -574,52 +704,19 @@ Public MustInherit Class BaseController
     Private Sub EnableActions(ByVal Toolbox As ToolStrip)
         For Each ToolItem As ToolStripItem In Toolbox.Items
             If Not IsNothing(ToolItem.Tag) Then
-                ToolItem.Enabled = IsActionAllowed(ToolItem.Tag)
+                ToolItem.Enabled = IsActionAllowed(ActionFile.Find("Folder\Actions\" + ToolItem.Tag.ToString))
             End If
             If TypeOf ToolItem Is ToolStripDropDownItem Then
                 Dim DropDownItem As ToolStripDropDownItem = ToolItem
-                ToolItem.Enabled = IsActionAllowed(ToolItem.Tag)
+                ToolItem.Enabled = IsActionAllowed(ActionFile.Find("Folder\Actions\" + ToolItem.Tag.ToString))
                 EnableActions(DropDownItem.DropDown)
             End If
         Next
     End Sub
-    Private Sub ProcessKeyPress(ByVal e As KeyEventArgs)
-
-        'If e.Control And e.KeyCode = Keys.X Then
-        '    MessageBox.Show("dd")
-        'End If
-        'For Each Action As APSIMData In Actions
-        '    Dim ShortCut As String = Action.ChildValue("shortcut")
-        '    Dim St As String = e.KeyCode.ToString()
-        '    If ShortCut <> "" Then
-        '        Dim Kys As Keys = [Enum].Parse(GetType(Keys), ShortCut)
-        '        If ((Kys And Keys.Control) = Keys.Control) Then 'And e.Control Then
-        '            If e.KeyValue = (Kys And (Not Keys.Control)) Then
-        '                MessageBox.Show(e.KeyCode.ToString())
-        '            End If
-        '        End If
-        '    End If
-        'Next
-
-
-        'If e.KeyCode = Keys.Delete Then
-        '    DeleteSelected()
-        'ElseIf e.Control And e.KeyCode = Keys.X Then
-        '    Controller.Cut()
-        'ElseIf e.Control And e.KeyCode = Keys.C Then
-        '    Controller.Copy()
-        'ElseIf e.Control And e.KeyCode = Keys.V Then
-        '    Controller.Paste()
-        'ElseIf e.Control And e.KeyCode = Keys.Up Then
-        '    Controller.MoveSelectedUp()
-        'ElseIf e.Control And e.KeyCode = Keys.Down Then
-        '    Controller.MoveSelectedDown()
-        'End If
-    End Sub
-    Private Function IsActionAllowed(ByVal ActionIndex As Integer) As Boolean
+    Private Function IsActionAllowed(ByVal Action As APSIMData) As Boolean
         Dim Allowed As Boolean = True
-        If ActionIndex <> -1 And ActionIndex <> 1000 Then
-            For Each DisabledWhen As APSIMData In Actions(ActionIndex).Children("DisabledWhen")
+        If Not IsNothing(Action) Then
+            For Each DisabledWhen As APSIMData In Action.Children("DisabledWhen")
                 Dim DisabledWhenFlag As String = DisabledWhen.Value
                 If DisabledWhenFlag = "ReadOnly" AndAlso ApsimData.IsReadOnly Then
                     Allowed = False
@@ -640,48 +737,33 @@ Public MustInherit Class BaseController
                 End If
             Next
 
-            If Allowed And MySelectedData.Count = 1 And Actions(ActionIndex).Children("AppliesTo").Length > 0 Then
+            If Allowed And MySelectedData.Count = 1 And Action.Children("AppliesTo").Length > 0 Then
                 Allowed = False
-                For Each AppliesTo As APSIMData In Actions(ActionIndex).Children("AppliesTo")
+                For Each AppliesTo As APSIMData In Action.Children("AppliesTo")
                     If AppliesTo.Value.ToLower = Data.Type.ToLower Then
                         Allowed = True
                     End If
                 Next
             End If
-        ElseIf ActionIndex <> 1000 Then
-            Allowed = False
         End If
         Return Allowed
     End Function
-    Private Function FindAction(ByVal ActionName As String) As Integer
-        ' --------------------------------------------------------------
-        ' This method locates an action by name and returns its index.
-        ' It will return -1 if not found
-        ' --------------------------------------------------------------
-        Dim ActionIndex As Integer = 0
-        For Each Action As APSIMData In Actions
-            If Action.Type.ToLower = ActionName.ToLower Then
-                Return ActionIndex
-            End If
-            ActionIndex = ActionIndex + 1
-        Next
-        Return -1
-    End Function
+
     Private Sub ActionOnClick(ByVal Sender As Object, ByVal E As ToolStripItemClickedEventArgs)
         ' --------------------------------------------------------------
         ' When the user clicks on an action, this method is called.
         ' Go perform whatever action is necessary.
         ' --------------------------------------------------------------
         If Not IsNothing(E.ClickedItem.Tag) Then
-            If E.ClickedItem.Tag = 1000 AndAlso FileSaveAfterPrompt() Then
+            If E.ClickedItem.Tag = "" AndAlso FileSaveAfterPrompt() Then
                 FileOpen(E.ClickedItem.Text)
             Else
                 InvokeAction(Sender, E.ClickedItem.Tag)
             End If
         End If
     End Sub
-    Private Sub InvokeAction(ByVal Sender As Object, ByVal ActionIndex As Integer)
-        Dim Action As APSIMData = Actions(ActionIndex)
+    Private Sub InvokeAction(ByVal Sender As Object, ByVal ActionName As String)
+        Dim Action As APSIMData = ActionFile.Find("Folder\Actions\" + ActionName)
         Dim ClassToCall As String = Action.ChildValue("OnInvoke\call\class")
         Dim MethodToCall As String = Action.ChildValue("OnInvoke\call\method")
         If ClassToCall <> "" And MethodToCall <> "" Then
@@ -736,6 +818,34 @@ Public MustInherit Class BaseController
         End Try
         Return Nothing
     End Function
+    Private Shared Function CreateClass(ByVal ClassToCall As String) As Object
+        ' --------------------------------------------------------------
+        ' Call a static/shared method of a class to perform the 
+        ' necessary action.
+        ' --------------------------------------------------------------
+        Try
+            Dim PosPeriod As Integer = ClassToCall.IndexOf(".")
+            If PosPeriod = -1 Then
+                Throw New Exception("No namespace specified in action: " + ClassToCall)
+            End If
+            Dim NameSpaceName As String = ClassToCall.Substring(0, PosPeriod)
+            Dim t As Type = Nothing
+            For Each Assemb As Assembly In AppDomain.CurrentDomain.GetAssemblies
+                If NameSpaceName = Assemb.GetName().Name Then
+                    t = Assemb.GetType(ClassToCall, True, True)
+                End If
+            Next
+            If IsNothing(t) Then
+                Throw New Exception("Cannot find type: " + ClassToCall)
+            End If
+            Return Activator.CreateInstance(t)
+
+        Catch ex As Exception
+            MessageBox.Show(ex.GetBaseException().Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
+        End Try
+        Return Nothing
+    End Function
+
 #End Region
 
 End Class

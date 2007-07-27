@@ -29,7 +29,7 @@ namespace Graph
             this.Controller = Controller;
             GraphControl.Setup(Controller);
  	        }
-        public override void RefreshView(string NodePath)
+        public override void OnRefresh(string NodePath)
             {
             GraphControl.RefreshView();
             }

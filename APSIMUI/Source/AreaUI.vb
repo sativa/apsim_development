@@ -105,20 +105,18 @@ Public Class areaui
         Me.Controller = Controller
     End Sub
 
-    Public Overrides Sub RefreshView(ByVal NodePath As String)
+    Public Overrides Sub OnRefresh(ByVal NodePath As String)
         Me.NodePath = NodePath
 
-        Dim Settings As ApsimUIController = Controller
-
         ListView.Clear()
-        ListView.LargeImageList = Settings.LargeImageList
+        ListView.LargeImageList = Controller.IconImageList("LargeIcon")
 
         ' Add an item for all children of this system.
         For Each Child As APSIMData In Controller.Data.Children
-            If Settings.IsComponentVisible(Child) Then
+            If Controller.IsComponentVisible(Child) Then
                 'create new item
                 Dim item As New ListViewItem(Child.Name, 0)
-                item.ImageIndex = Settings.LargeImageIndex(Controller.Data.Child(Child.Name).Type)
+                item.ImageIndex = Controller.IconImageIndexForType(Controller.Data.Child(Child.Name).Type, "LargeIcon")
                 ListView.Items.Add(item)
 
                 ' try and position this new item.
@@ -208,7 +206,7 @@ Public Class areaui
             Dim NewDataString As String = e.Data.GetData(DataFormats.Text)
             Dim NewNode As New APSIMData(NewDataString)
             Controller.Data.Add(NewNode)
-            RefreshView(Controller.Data.FullPath)
+            OnRefresh(Controller.Data.FullPath)
         Else
             For Each item As ListViewItem In ListView.SelectedItems
                 CSUserInterface.ListViewAPI.SetItemPosition(ListView, ListView.SelectedItems.Item(0).Index, p.X, p.Y)
@@ -244,7 +242,7 @@ Public Class areaui
             Controller.SelectedPaths = Selections
             Controller.ApsimData.Delete(Controller.SelectedPaths)
             Controller.SelectedPaths = InitialSelections
-            RefreshView(NodePath)
+            OnRefresh(NodePath)
         End If
     End Sub
 

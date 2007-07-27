@@ -237,8 +237,8 @@ Public Class SwimSoilUI
         Me.Controller = Controller
         HypropsControl.OnLoad(Controller)
     End Sub
-    Overrides Sub RefreshView(ByVal NodePath As String)
-        HypropsControl.RefreshView(NodePath)
+    Overrides Sub OnRefresh(ByVal NodePath As String)
+        HypropsControl.OnRefresh(NodePath)
     End Sub
 
 

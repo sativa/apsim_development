@@ -265,7 +265,7 @@ Public Class OutputFileDescUI
     Public Overrides Sub OnLoad(ByVal Controller As VBUserInterface.BaseController)
         Me.Controller = Controller
     End Sub
-    Overrides Sub RefreshView(ByVal NodePath As String)
+    Overrides Sub OnRefresh(ByVal NodePath As String)
         ' ----------------------------------
         ' Refresh the variable grid
         ' ----------------------------------
@@ -294,12 +294,11 @@ Public Class OutputFileDescUI
         End If
 
         ' We want to find the component that is a child of our paddock.
-        Dim ApsimUI As ApsimUIController = Controller
         Dim Comp As APSIMData = Controller.Data
         While Not IsNothing(Comp.Parent) AndAlso Comp.Parent.Type.ToLower <> "area"
             Comp = Comp.Parent
         End While
-        ApsimUI.GetSiblingComponents(Comp, ComponentNames, ComponentTypes)
+        GetSiblingComponents(Comp, ComponentNames, ComponentTypes)
 
         UserChange = False
         PopulateComponentFilter()
@@ -363,7 +362,6 @@ Public Class OutputFileDescUI
         If ComponentFilter.SelectedIndex >= 0 And ComponentFilter.SelectedIndex < ComponentNames.Count Then
             Windows.Forms.Cursor.Current = Cursors.WaitCursor
 
-            Dim ApsimUI As ApsimUIController = Controller
             Dim ComponentType As String = ComponentTypes(ComponentFilter.SelectedIndex)
             Dim ComponentName As String = ComponentNames(ComponentFilter.SelectedIndex)
             Dim PropertyGroup As String = Controller.Data.Type  ' e.g. variables or events
@@ -371,7 +369,7 @@ Public Class OutputFileDescUI
                 PropertyGroup = "variables"
             End If
             Dim VariableData As New APSIMData(PropertyGroup, "")
-            ApsimUI.GetVariablesForComponent(ComponentType, ComponentName, PropertyGroup, VariableData)
+            Controller.GetVariablesForComponent(ComponentType, ComponentName, PropertyGroup, VariableData)
 
             VariableListView.BeginUpdate()
             VariableListView.Groups.Clear()
@@ -453,7 +451,7 @@ Public Class OutputFileDescUI
             End If
         End If
     End Sub
-    Public Overrides Sub Save()
+    Public Overrides Sub OnSave()
         SaveVariableGrid()
     End Sub
     Private Sub Grid_CellChanged(ByVal sender As System.Object, ByVal e As FarPoint.Win.Spread.SheetViewEventArgs) Handles Grid.CellChanged
@@ -558,4 +556,25 @@ Public Class OutputFileDescUI
     Private Sub ComponentFilter_TextChanged(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles ComponentFilter.TextChanged
         PopulateVariableListView()
     End Sub
+
+    ' --------------------------------------------------
+    ' Return a list of sibling component names and types
+    ' for the specified data component
+    ' --------------------------------------------------
+    Private Shared Sub GetSiblingComponents(ByVal Component As APSIMData, _
+                                            ByRef ComponentNames As StringCollection, ByRef ComponentTypes As StringCollection)
+        ComponentNames.Clear()
+        ComponentTypes.Clear()
+        If (Not IsNothing(Component.Parent)) Then
+            For Each Sibling As APSIMData In Component.Parent.Children
+                ComponentNames.Add(Sibling.Name)
+                ComponentTypes.Add(Sibling.Type.ToLower())
+            Next
+        End If
+    End Sub
+
+
+
+
+
 End Class

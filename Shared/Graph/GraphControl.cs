@@ -27,7 +27,7 @@ namespace Graph
             GraphData = Controller.Data.Parent.Child("Data");
             if (GraphData == null)
                 GraphData = Controller.Data.Child("Data");
-            GraphController = new GraphController(Controller.SmallImageList, GraphData);
+            GraphController = new GraphController(Controller.IconImageList("SmallIcon"), GraphData);
             }
         public void RefreshView()
             {

@@ -128,7 +128,7 @@ Public Class VineLogicUI
         Me.Controller = Controller
     End Sub
 
-    Overrides Sub RefreshView(ByVal NodePath As String)
+    Overrides Sub OnRefresh(ByVal NodePath As String)
         Try
             HelpText = "Parameterisation of this vinelogic component is via the standard VineLogic Input file structure shown above."
             TextBox.Text = Controller.Data.Child("data").Value

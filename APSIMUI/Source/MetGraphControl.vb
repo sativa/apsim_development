@@ -2467,7 +2467,7 @@ Public Class MetGraphControl
     Public Overrides Sub OnLoad(ByVal Controller As VBUserInterface.BaseController)
         Me.Controller = Controller
     End Sub
-    Public Overrides Sub RefreshView(ByVal NodePath As String)
+    Public Overrides Sub OnRefresh(ByVal NodePath As String)
 
     End Sub
 
