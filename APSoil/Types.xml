@@ -1,0 +1,62 @@
+<?xml version="1.0"?>
+<?xml-stylesheet type="text/xsl" href="../docs/shared/ModuleDocumentation.xsl"?>
+
+<Types>
+   <folder>
+      <ShowInMainTree>Yes</ShowInMainTree>
+      <Image>%apsuite\apsimui\images\banner2.jpg</Image>
+      <LargeIcon>%apsuite\apsimui\Images\folder_closed32.png</LargeIcon>
+      <SmallIcon>%apsuite\apsimui\Images\folder_closed16.png</SmallIcon>
+      <drops>
+         <drop name="folder"/>
+         <drop name="simulations"/>
+         <drop name="toolbox"/>
+      </drops>
+   </folder>   
+   <soil>
+      <UItype>CSUserInterface.SoilUI</UItype>
+      <ShowInMainTree>Yes</ShowInMainTree>
+      <LargeIcon>%apsuite\apsimui\Images\shovel32.bmp</LargeIcon>
+      <SmallIcon>%apsuite\apsimui\Images\shovel16.bmp</SmallIcon>
+      <drops>
+         <drop name="toolbox"/>
+         <drop name="area"/>
+         <drop name="simulation"/>
+         <drop name="folder"/>
+     </drops>
+   </soil>
+   <SoilWater>
+      <UItype>CSUserInterface.WaterUI</UItype>
+      <ShowInMainTree>Yes</ShowInMainTree>
+      <SmallIcon>%apsuite\apsimui\Images\water16.png</SmallIcon>
+      <drops>
+         <drop name="soil"/>
+      </drops>
+   </SoilWater>
+   <Chemistry>
+      <UItype>CSUserInterface.ProfileUI</UItype>
+      <ShowInMainTree>Yes</ShowInMainTree>
+      <SmallIcon>%apsuite\apsimui\Images\chemistry16.png</SmallIcon>
+      <drops>
+         <drop name="soil"/>
+      </drops>
+      <fields>
+         <Texture/>
+         <oc units="%"/>
+         <ec units="mS/cm"/>
+         <ph units="water"/>
+         <cl units="mg/kg"/>
+         <Boron units="mg/kg"/>
+         <CEC units="cmol+/kg"/>
+         <Ca units="cmol+/kg"/>
+         <Mg units="cmol+/kg"/>
+         <Na units="cmol+/kg"/>
+         <K units="cmol+/kg"/>
+         <ESP units="%"/>
+         <ParticleSizeSand units="%"/>
+         <ParticleSizeSilt units="%"/>
+         <ParticleSizeClay units="%"/>
+      </fields>
+   </Chemistry>   
+</Types>
+
