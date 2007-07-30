@@ -873,9 +873,9 @@ object Page1: TQuickRep
       Font.Name = 'Arial'
       Font.Style = []
       Lines.Strings = (
-        ' y = 1.12 x + -2.00 (r2 = 0.84)'
-        'n = 10'
-        'RMSD = 35.6')
+        ' y = 1.19 x + -8.43 (r2 = 0.92)'
+        'n = 9'
+        'RMSD = 27.1')
       ParentFont = False
       Transparent = False
       WordWrap = True
@@ -1829,7 +1829,7 @@ end
    </page>
    <page> <![CDATA[
 object Page3: TQuickRep
-  Left = 58
+  Left = 156
   Top = 0
   Width = 816
   Height = 1056
@@ -2110,13 +2110,10 @@ object Page3: TQuickRep
         Title.Font.Height = -16
         Title.Text.Strings = (
           'Moora 95')
-        BottomAxis.Automatic = False
-        BottomAxis.AutomaticMaximum = False
         BottomAxis.AxisValuesFormat = '###0.###'
         BottomAxis.Grid.Visible = False
         BottomAxis.LabelsFont.Height = -16
         BottomAxis.LabelsSeparation = 100
-        BottomAxis.Maximum = 200
         BottomAxis.MinorTicks.Visible = False
         BottomAxis.TickLength = 7
         BottomAxis.Title.Caption = 'Days after sowing'
@@ -2290,13 +2287,10 @@ object Page3: TQuickRep
         Title.Font.Height = -16
         Title.Text.Strings = (
           'Moora 96')
-        BottomAxis.Automatic = False
-        BottomAxis.AutomaticMaximum = False
         BottomAxis.AxisValuesFormat = '###0.###'
         BottomAxis.Grid.Visible = False
         BottomAxis.LabelsFont.Height = -16
         BottomAxis.LabelsSeparation = 100
-        BottomAxis.Maximum = 200
         BottomAxis.MinorTicks.Visible = False
         BottomAxis.TickLength = 7
         BottomAxis.Title.Caption = 'Days after sowing'
@@ -2438,7 +2432,7 @@ end
    </page>
    <page> <![CDATA[
 object Page4: TQuickRep
-  Left = 156
+  Left = 58
   Top = 0
   Width = 816
   Height = 1056

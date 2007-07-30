@@ -244,6 +244,37 @@ object Page1: TQuickRep
         ' '#13#10
       FontSize = 13
     end
+    object Text1: TText
+      Left = 112
+      Top = 513
+      Width = 535
+      Height = 20
+      Frame.Color = clBlack
+      Frame.DrawTop = False
+      Frame.DrawBottom = False
+      Frame.DrawLeft = False
+      Frame.DrawRight = False
+      Size.Values = (
+        52.9166666666667
+        296.333333333333
+        1357.3125
+        1415.52083333333)
+      Alignment = taLeftJustify
+      AlignToBand = False
+      AutoSize = True
+      AutoStretch = False
+      Color = clWhite
+      Lines.Strings = (
+        
+          'Simulated lupin yields vs. April - October rainfall for 15 diffe' +
+          'rent locations.')
+      Transparent = False
+      WordWrap = True
+      text = 
+        'Simulated lupin yields vs. April - October rainfall for 15 diffe' +
+        'rent locations.'#13#10
+      FontSize = 13
+    end
   end
 end
 ]]>

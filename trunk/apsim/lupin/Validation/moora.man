@@ -95,6 +95,10 @@ report do_output
         report do_output
 !endif
  
+if day>90 and day<305 then
+   apoc_rain = apoc_rain + rain
+endif
+
 swc_30 = (sw(1) + sw(2)+ sw(3) )/3
 
 sw_30 = sw_dep(1) + sw_dep(2) + sw_dep(3)   !mm water in 0-30 cm
