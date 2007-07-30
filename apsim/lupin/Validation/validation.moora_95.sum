@@ -108,6 +108,9 @@ Component      "lupin" = c:\development\apsim\plant\lib\plant.dll
      
      SECTION:- end_of_day
              report do_output
+     if day>90 and day<305 then
+        apoc_rain = apoc_rain + rain
+     endif
      swc_30 = (sw(1) + sw(2)+ sw(3) )/3
      sw_30 = sw_dep(1) + sw_dep(2) + sw_dep(3)
      sw_110 = sw_dep(1) + sw_dep(2) + sw_dep(3) + sw_dep(4) + sw_dep(5) + sw_dep(6) + sw_dep(7)
@@ -1382,6 +1385,8 @@ Component      "lupin" = c:\development\apsim\plant\lib\plant.dll
      !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
      
      
+1 April 1995(Day of year=91), manager: 
+     Manager creating a new local real variable : apoc_rain =     0.00000000000000
 12 April 1995(Day of year=102), operatns: 
       Sending set message to soiln2
       Sending set message to soiln2
