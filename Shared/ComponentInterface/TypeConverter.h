@@ -2,6 +2,7 @@
 #ifndef TypeConverterH
 #define TypeConverterH
 #include "MessageData.h"
+#include "MessageDataExt.h"
 #include "Type.h"
 #include <general/platform.h>
 namespace protocol {

@@ -106,9 +106,8 @@ class StringFromInt4 : public TypeConverter
          {
          int value;
          messageData >> value;
-         string result;
-         result = itoa(value);
-         bufferMessageData << FString(result.c_str(), result.length(), CString);
+         string result = itoa(value);
+         bufferMessageData << result;
          }
       virtual TypeConverter* clone(void)
          {
@@ -124,7 +123,7 @@ class StringFromSingle : public TypeConverter
          messageData >> value;
          char st[100];
          sprintf(st, "%f", value);
-         bufferMessageData << FString(st);
+         bufferMessageData << string(st);
          }
       virtual TypeConverter* clone(void)
          {
@@ -140,7 +139,7 @@ class StringFromDouble : public TypeConverter
          messageData >> value;
          char st[100];
          sprintf(st, "%f", value);
-         bufferMessageData << FString(st);
+         bufferMessageData << string(st);
          }
       virtual TypeConverter* clone(void)
          {
@@ -185,12 +184,12 @@ class Int4FromString : public TypeConverter
    public:
       void doConvert(MessageData& messageData)
          {
-         FString value;
+         string value;
          messageData >> value;
-         char buffer[50];
-         strncpy(buffer, value.f_str(), value.length());
-         buffer[value.length()] = 0;
-         bufferMessageData << atoi(buffer);
+         char *chk;
+         int result = strtol(value.c_str(), &chk, 10);
+         if (chk == value.c_str()) {throw std::runtime_error("Cannot parse integer from string \"" + value + "\"");}
+         bufferMessageData << result;
          }
       virtual TypeConverter* clone(void)
          {
@@ -202,13 +201,12 @@ class SingleFromString : public TypeConverter
    public:
       void doConvert(MessageData& messageData)
          {
-         FString value;
+         string value;
          messageData >> value;
-         char buffer[50];
-         strncpy(buffer, value.f_str(), value.length());
-         buffer[value.length()] = 0;
-         float f = atof(buffer);
-         bufferMessageData << f;
+         char *chk;
+         float result = (float) strtod(value.c_str(), &chk);
+         if (chk == value.c_str()) {throw std::runtime_error("Cannot parse float from string \"" + value + "\"");}
+         bufferMessageData << result;
          }
       virtual TypeConverter* clone(void)
          {
@@ -220,13 +218,12 @@ class DoubleFromString : public TypeConverter
    public:
       void doConvert(MessageData& messageData)
          {
-         FString value;
+         string value;
          messageData >> value;
-         char buffer[50];
-         strncpy(buffer, value.f_str(), value.length());
-         buffer[value.length()] = 0;
-         double f = atof(buffer);
-         bufferMessageData << f;
+         char *chk;
+         double result = strtod(value.c_str(), &chk);
+         if (chk == value.c_str()) {throw std::runtime_error("Cannot parse float from string \"" + value + "\"");}
+         bufferMessageData << result;
          }
       virtual TypeConverter* clone(void)
          {
@@ -238,7 +235,7 @@ class BooleanFromString : public TypeConverter
    public:
       void doConvert(MessageData& messageData)
          {
-         FString value;
+         string value;
          messageData >> value;
          bufferMessageData << (bool) (value == "1");
          }
@@ -285,7 +282,7 @@ class StringFromString : public TypeConverter
    public:
       void doConvert(MessageData& messageData)
          {
-         FString value;
+         string value;
          messageData >> value;
          bufferMessageData << value;
          }
