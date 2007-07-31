@@ -194,34 +194,58 @@ class TypeConverter
       // conversions from string to other data type.
       // ------------------------------------------------
       TypeConverter(const std::string& source, bool& dest)
-         {dest = atoi(source.c_str());}
+         {
+         char *chk;
+         dest = (bool) strtol(source.c_str(), &chk, 10);
+         if (chk == source.c_str()) {throw std::runtime_error("Cannot parse bool from string \"" + source + "\"");}
+         }
       TypeConverter(const std::string& source, int& dest)
-         {dest = atoi(source.c_str());}
+         {
+         char *chk;
+         dest = (int) strtol(source.c_str(), &chk, 10);
+         if (chk == source.c_str()) {throw std::runtime_error("Cannot parse int from string \"" + source + "\"");}
+         }
       TypeConverter(const std::string& source, float& dest)
-         {dest = atof(source.c_str());}
+         {
+         char *chk;
+         dest = (float) strtod(source.c_str(), &chk);
+         if (chk == source.c_str()) {throw std::runtime_error("Cannot parse float from string \"" + source + "\"");}
+         }
       TypeConverter(const std::string& source, double& dest)
-         {dest = atof(source.c_str());}
+         {
+         char *chk;
+         dest = (double) strtod(source.c_str(), &chk);
+         if (chk == source.c_str()) {throw std::runtime_error("Cannot parse double from string \"" + source + "\"");}
+         }
       TypeConverter(const std::string& source, std::string& dest)
          {dest = source;}
       TypeConverter(const std::string& source, std::vector<bool>& dest)
          {
          dest.erase(dest.begin(), dest.end());
-         dest.push_back(atoi(source.c_str()));
+         char *chk;
+         dest.push_back((bool) strtol(source.c_str(), &chk, 10));
+         if (chk == source.c_str()) {throw std::runtime_error("Cannot parse bool from string \"" + source + "\"");}
          }
       TypeConverter(const std::string& source, std::vector<int>& dest)
          {
          dest.erase(dest.begin(), dest.end());
-         dest.push_back(atoi(source.c_str()));
+         char *chk;
+         dest.push_back((int) strtol(source.c_str(), &chk, 10));
+         if (chk == source.c_str()) {throw std::runtime_error("Cannot parse int from string \"" + source + "\"");}
          }
       TypeConverter(const std::string& source, std::vector<float>& dest)
          {
          dest.erase(dest.begin(), dest.end());
-         dest.push_back(atof(source.c_str()));
+         char *chk;
+         dest.push_back((float) strtod(source.c_str(), &chk));
+         if (chk == source.c_str()) {throw std::runtime_error("Cannot parse float from string \"" + source + "\"");}
          }
       TypeConverter(const std::string& source, std::vector<double>& dest)
          {
          dest.erase(dest.begin(), dest.end());
-         dest.push_back(atof(source.c_str()));
+         char *chk;
+         dest.push_back( strtod(source.c_str(), &chk));
+         if (chk == source.c_str()) {throw std::runtime_error("Cannot parse double from string \"" + source + "\"");}
          }
       TypeConverter(const std::string& source, std::vector<std::string>& dest)
          {
@@ -438,7 +462,11 @@ class TypeConverter
          if (values.size() != 1)
             throw std::runtime_error("Data type conversion error. Cannot convert from string array to boolean");
          else
-            dest = atoi(values[0].c_str());
+            {
+            char *chk;
+            dest = (bool) strtol(values[0].c_str(), &chk, 10);
+            if (chk == values[0].c_str()) {throw std::runtime_error("Cannot parse bool from string \"" + values[0] + "\"");}
+            }
          }
       TypeConverter(const std::vector<std::string>& source, int& dest, ArraySpecifier* arraySpecifier)
          {
@@ -447,7 +475,11 @@ class TypeConverter
          if (values.size() != 1)
             throw std::runtime_error("Data type conversion error. Cannot convert from string array to integer");
          else
-            dest = atoi(values[0].c_str());
+            {
+            char *chk;
+            dest = (int) strtol(values[0].c_str(), &chk, 10);
+            if (chk == values[0].c_str()) {throw std::runtime_error("Cannot parse int from string \"" + values[0] + "\"");}
+            }
          }
       TypeConverter(const std::vector<std::string>& source, float& dest, ArraySpecifier* arraySpecifier)
          {
@@ -456,7 +488,11 @@ class TypeConverter
          if (values.size() != 1)
             throw std::runtime_error("Data type conversion error. Cannot convert from string array to single");
          else
-            dest = atof(values[0].c_str());
+            {
+            char *chk;
+            dest = (float) strtod(values[0].c_str(), &chk);
+            if (chk == values[0].c_str()) {throw std::runtime_error("Cannot parse float from string \"" + values[0] + "\"");}
+            }
          }
       TypeConverter(const std::vector<std::string>& source, double& dest, ArraySpecifier* arraySpecifier)
          {
@@ -465,7 +501,11 @@ class TypeConverter
          if (values.size() != 1)
             throw std::runtime_error("Data type conversion error. Cannot convert from string array to double");
          else
-            dest = atof(values[0].c_str());
+            {
+            char *chk;
+            dest = strtod(values[0].c_str(), &chk);
+            if (chk == values[0].c_str()) {throw std::runtime_error("Cannot parse double from string \"" + values[0] + "\"");}
+            }
          }
       TypeConverter(const std::vector<std::string>& source, std::string& dest, ArraySpecifier* arraySpecifier);
       TypeConverter(const std::vector<std::string>& source, std::vector<bool>& dest, ArraySpecifier* arraySpecifier);
