@@ -179,15 +179,18 @@ namespace Soils
                 int SecondBottomLayer = SampleThickness.Length - 2;
                 int BottomLayer = SampleThickness.Length - 1;
                 double BottomMeasuredSW = SW[Thickness.Length - 1];
-                SampleThickness[SecondBottomLayer] = 200;
+                SampleThickness[SecondBottomLayer] = Thickness[Thickness.Length - 1];
                 SampleSW[SecondBottomLayer] = 0.8 * BottomMeasuredSW;
 
-                SampleThickness[BottomLayer] = 200;
+                SampleThickness[BottomLayer] = Thickness[Thickness.Length - 1];
                 SampleSW[BottomLayer] = 0.4 * BottomMeasuredSW;
-                return Utility.MapSampleToSoilUsingSpatial(SampleSW, SampleThickness, DefaultValues, ParentSoil.Thickness);
+                SampleSW = Utility.MapSampleToSoilUsingSpatial(SampleSW, SampleThickness, DefaultValues, ParentSoil.Thickness);
+                for (int i = 0; i != SampleSW.Length; i++)
+                    SampleSW[i] = Math.Max(SampleSW[i], DefaultValues[i]);
+                return SampleSW;
                 }
             }
-        public double[] NO3MapedToSoil
+            public double[] NO3MapedToSoil
             {
             get
                 {
