@@ -1173,11 +1173,17 @@ C     Last change:  P    25 Oct 2000    9:26 am
       Is_apsim_variable = (index(variable_name, '.') .gt. 0)
       if (Is_apsim_variable) then
          call Split_line(variable_name, Mod_name, Var_name, '.')
-         ok = component_name_to_id(Mod_name, modNameID)
-         call set_variable_in_other_module(modNameID,
+         if (component_name_to_id(Mod_name, modNameID)) then
+            call set_variable_in_other_module(modNameID,
      .         trim(var_name),
      .         trim(Variable_value) )
-
+         else
+            write(str, '(3a)' )
+     :               'Cannot set variable value in module ',
+     :               Mod_name,
+     :               '.  Module does not exist.'
+            call fatal_error(err_user, str)
+         endif
       else
          ! Try to find variable in local variable list.
 
