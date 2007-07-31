@@ -612,8 +612,8 @@ int apsimSendMessageProc(ClientData cd, Tcl_Interp *interp, int objc, Tcl_Obj * 
          }
 
       // 1. destination
-      char *moduleName = Tcl_GetStringFromObj(objv[1], NULL);
-      char *actionName = Tcl_GetStringFromObj(objv[2], NULL);
+      const char *moduleName = Tcl_GetStringFromObj(objv[1], NULL);
+      const char *actionName = Tcl_GetStringFromObj(objv[2], NULL);
 
       // 2. build variant
       protocol::ApsimVariant outgoingApsimVariant(component);
@@ -643,11 +643,17 @@ int apsimSendMessageProc(ClientData cd, Tcl_Interp *interp, int objc, Tcl_Obj * 
             return TCL_ERROR;
             }
 
-         FString variableName = FString(Tcl_GetStringFromObj(firstListElement, NULL));
+         const char *v1 = Tcl_GetStringFromObj(firstListElement,NULL);
+         FString variableName = FString(v1);
 
-         FString variableValue = FString(Tcl_GetStringFromObj(secondListElement, NULL));
+         const char *v2 = Tcl_GetStringFromObj(secondListElement,NULL);
+         FString variableValue = FString(v2);
 
-         bool isArray = false;    // XX wrong.. Should test secondListElement and be sure..
+         if (Tcl_ListObjLength(interp, secondListElement, &check) != TCL_OK) {
+            check = 0;
+         }
+
+         bool isArray = check > 1;
 
          outgoingApsimVariant.store(variableName, protocol::DTstring, isArray, variableValue);
          }
