@@ -276,17 +276,23 @@ C     Last change:  P    25 Oct 2000    9:26 am
 !+  Local Variables
       integer numvals
       character values(max_size)*(max_len)
+      character units*(max_len)
 
 !- Implementation Section ----------------------------------
 
       call push_routine(This_routine)
+
+      ! Find "(unit)" things in the string
+      call Split_off_units(Variable_value, units)
+
       numvals = word_count(Variable_value)
 
       if (numvals.eq.1) then
          call set_char_var(modNameID,
-     .         trim(var_name), ' ',
+     .         trim(var_name), units,
      .         trim(Variable_value) )
       Else
+         ! Turn into array
          call string_to_Char_array(Variable_value
      :                            ,values
      :                            ,max_size
@@ -294,7 +300,7 @@ C     Last change:  P    25 Oct 2000    9:26 am
 
          call set_char_array(modNameID
      :                      ,trim(var_name)
-     :                      ,' '
+     :                      ,units
      :                      ,values
      :                      ,numvals)
 
