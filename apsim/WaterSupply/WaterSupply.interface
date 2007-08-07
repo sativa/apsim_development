@@ -12,6 +12,14 @@
       <read name="annual_allocation" type="annual_allocation" readable="T"/>
       <read name="renewal_day" type="renewal_day" readable="T"/>
       <read name="b" type="b" readable="T"/>
+      <read name="receive_rainfall" type="receive_rainfall" readable="T"/>
+      <read name="receive_catchment_runoff" type="receive_catchment_runoff" readable="T"/>
+      <read name="catchment_area" type="catchment_area" readable="T"/>
+      <read name="catchment_runoff_factor" type="catchment_runoff_factor" readable="T"/>
+      <read name="receive_crop_runoff" type="receive_crop_runoff" readable="T"/>
+      <read name="max_area" type="max_area" readable="T"/>
+      <read name="permeability" type="permeability" readable="T"/>
+      <read name="seal_thickness" type="seal_thickness" readable="T"/>
 
       <respondToEventReg name="gimme_water" type="gimme_water"/>
       <respondToEventReg name="top_up" type="top_up"/>

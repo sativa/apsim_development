@@ -2607,12 +2607,13 @@ if {$steps == 0} {tkwait variable steps}
       <min_volume description="Minimum volume in storage that the pump cannot access">2</min_volume>
       <permeability description="Permeability of sealing layer (m/day)">0.00007</permeability>
       <seal_thickness description="Thickness of low permeability seal (m)">0.5</seal_thickness>
-      <receive_catchment_runoff type="list" listvalues="no,yes" description="Dam collects runoff from larger catchment area">no</receive_catchment_runoff>
+      <receive_rainfall type="list" listvalues="no,yes" description="Does the dam recieve rainfall faling directly into its surface area">no</receive_rainfall>
+      <receive_catchment_runoff type="list" listvalues="no,yes" description="Does the dam receive runoff from a catchment">no</receive_catchment_runoff>
       <receive_crop_runoff type="list" listvalues="no,yes" description="Dam collects runoff from simulated crop area">no</receive_crop_runoff>
-      <init_salt_conc description="Initial chloride concentration (ppm)">704.0</init_salt_conc>
       <receive_catchment_runoff type="list" listvalues="no,yes" description="Dam collects runoff from larger catchment area">no</receive_catchment_runoff>
       <catchment_area description="Catchment area (ha)">50.0</catchment_area>
-      <catchment_runoff_factor description="soilwat2.runoff multiplier">0.5</catchment_runoff_factor>
+      <catchment_runoff_factor description="multiplier for soilwat2 runoff to simulate catchment runoff">0.5</catchment_runoff_factor>
+      <init_salt_conc description="Initial chloride concentration (ppm)">704.0</init_salt_conc>
       <receive_crop_runoff type="list" listvalues="yes,no" description="Dam collects runoff from simulated crop area">yes</receive_crop_runoff>
       <runoff_salt_conc description="Runoff chloride concentration (ppm)">700.0</runoff_salt_conc>
       <rainfall_salt_conc description="Rainfall chloride concentration (ppm)">20.0</rainfall_salt_conc>

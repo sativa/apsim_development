@@ -165,7 +165,6 @@ subroutine WaterSupply_read_parameters ()
 
    endif
 
-
    !********* get parameter indicating whether this storage receives catchment runoff******
    if (source_type.eq.'dam_gully'.or. &
        source_type.eq.'dam_exc'.or. &
@@ -742,7 +741,6 @@ subroutine WaterSupply_send_my_variable (variable_name)
 
    if (variable_name .eq. 'rain_capture') then
        call respond2get_real_var (variable_name,'(ML)', g%rain_capture)
-
 
    elseif (variable_name .eq. 'available_water') then
        call respond2get_real_var (variable_name,'(ML)', g%available_water)
@@ -1539,9 +1537,6 @@ subroutine WaterSupply_create ()
 !- Implementation Section ----------------------------------
    call push_routine (myname)
 
-   call doRegistrations(id)
-
-
    call WaterSupply_zero_variables ()
    call WaterSupply_zero_event_data ()
 
@@ -1549,7 +1544,40 @@ subroutine WaterSupply_create ()
    call pop_routine (myname)
    return
 end subroutine
-   end module WaterSupplyModule
+end module WaterSupplyModule
+   
+!* ====================================================================
+subroutine doInit1()
+!* ====================================================================
+   use WaterSupplyModule
+   Use infrastructure
+   implicit none
+   ml_external doInit1
+   integer dummy
+
+   call doRegistrations(id)
+
+   dummy = add_registration_with_units(getVariableReg, 'runoff', floatTypeDDML, 'mm')
+   dummy = add_registration_with_units(getVariableReg, 'crop_area', floatTypeDDML, 'ha')
+   dummy = add_registration_with_units(getVariableReg, 'day', intTypeDDML, '')
+   dummy = add_registration_with_units(respondToGetReg, 'rain_capture', floatTypeDDML, 'ML')
+   dummy = add_registration_with_units(respondToGetReg, 'available_water', floatTypeDDML, 'ML')
+   dummy = add_registration_with_units(respondToGetReg, 'evaporation', floatTypeDDML, 'ML')
+   dummy = add_registration_with_units(respondToGetReg, 'seepage', floatTypeDDML, 'ML')
+   dummy = add_registration_with_units(respondToGetReg, 'overflow', floatTypeDDML, 'ML')
+   dummy = add_registration_with_units(respondToGetReg, 'runoff_input', floatTypeDDML, 'ML')
+   dummy = add_registration_with_units(respondToGetReg, 'irrig_water_supplied', floatTypeDDML, 'ML')
+   dummy = add_registration_with_units(respondToGetReg, 'available_depth', floatTypeDDML, 'm')
+   dummy = add_registration_with_units(respondToGetReg, 'max_available_water', floatTypeDDML, 'Ml')
+   dummy = add_registration_with_units(respondToGetReg, 'min_volume', floatTypeDDML, 'Ml')
+   dummy = add_registration_with_units(respondToGetReg, 'max_pump', floatTypeDDML, 'Ml/day')
+   dummy = add_registration_with_units(respondToGetReg, 'annual_allocation', floatTypeDDML, 'ML')
+   dummy = add_registration_with_units(respondToGetReg, 'allocation_renewal_day', intTypeDDML, '')
+   dummy = add_registration_with_units(respondToGetReg, 'full', intTypeDDML, '')
+   dummy = add_registration_with_units(respondToGetReg, 'filling_event', intTypeDDML, '')
+   dummy = add_registration_with_units(respondToGetReg, 'storage_*', floatTypeDDML, 'ppm')
+
+end subroutine
 
 !  ===========================================================
 subroutine alloc_dealloc_instance(doAllocate)
