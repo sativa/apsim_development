@@ -20,7 +20,7 @@ source: ..\lib\WaterSupply.dll
 	$(ECHO) $(F90FLAGS) >> linker.tmp
 	$(ECHO) $(F90LIBS) >> linker.tmp
 	$(LF95) WaterSupply.obj Registrations.obj \
- -export Main,wrapperDLL,respondToEvent,alloc_dealloc_instance,getInstance -exe ..\lib\WaterSupply.dll @linker.tmp
+ -export Main,wrapperDLL,doInit1,respondToEvent,alloc_dealloc_instance,getInstance -exe ..\lib\WaterSupply.dll @linker.tmp
 	$(RM) linker.tmp
    
 WaterSupply.obj: WaterSupply.f90
