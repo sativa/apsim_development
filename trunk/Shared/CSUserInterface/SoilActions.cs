@@ -24,6 +24,7 @@ namespace CSUserInterface
                 SaveFileDialog Dialog = new SaveFileDialog();
                 Dialog.Filter = "Soils files (*.soils)|*.soils|" +
                                 "All files (*.*)|*.*";
+                Dialog.DefaultExt = "soils";
                 Dialog.Title = "Provide a filename to save the new soils file to";
                 if (Dialog.ShowDialog() == DialogResult.OK)
                     {
@@ -96,6 +97,7 @@ namespace CSUserInterface
             SaveFileDialog Dialog = new SaveFileDialog();
             Dialog.Filter = "Soils files (*.soils)|*.soils|All files (*.*)|*.*";
             Dialog.Title = "Enter a .soils file to export to";
+            Dialog.DefaultExt = "soils";
             if (Dialog.ShowDialog() == DialogResult.OK)
                 {
                 APSIMData ForeignSoils;
@@ -122,6 +124,7 @@ namespace CSUserInterface
             SaveFileDialog Dialog = new SaveFileDialog();
             Dialog.Filter = "Par files (*.par)|*.par|All files (*.*)|*.*";
             Dialog.Title = "Enter a .par file to export to";
+            Dialog.DefaultExt = "par";
             if (Dialog.ShowDialog() == DialogResult.OK)
                 {
                 File.Delete(Dialog.FileName);
@@ -148,6 +151,7 @@ namespace CSUserInterface
             SaveFileDialog Dialog = new SaveFileDialog();
             Dialog.Filter = "Spreadsheet files (*.xls)|*.xls|All files (*.*)|*.*";
             Dialog.Title = "Enter a spreadsheet file to export to";
+            Dialog.DefaultExt = "xls";
             if (Dialog.ShowDialog() == DialogResult.OK)
                 {
                 SoilSpreadsheet.ExportSelectedToFile(Dialog.FileName, Controller);
@@ -207,9 +211,7 @@ namespace CSUserInterface
             }
         public static string VersionString()
             {
-            System.Version Version = Assembly.GetEntryAssembly().GetName().Version;
-            return "Version " + Version.Major.ToString() + "." + Version.Minor.ToString()
-                    + " (" + Version.Build.ToString() + "." + Version.Revision.ToString() + ")";
+            return "Version " + APSIMSettings.ApsimVersion();
             }
         public static void SoilCropManagement(BaseController Controller)
             {

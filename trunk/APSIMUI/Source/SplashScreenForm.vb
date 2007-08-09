@@ -1,27 +1,18 @@
+Imports VBGeneral
+
 Public Class SplashScreenForm
     Inherits System.Windows.Forms.Form
-
-    Public Property VersionText() As String
-        ' Get/Sets the entire version text label.
-        Get
-            Return Me.VersionLabel.Text
-
-        End Get
-        Set(ByVal newText As String)
-            Me.VersionLabel.Text = newText
-
-        End Set
-    End Property
+    Private ApplicationName As String
 
 #Region " Windows Form Designer generated code "
 
-    Public Sub New()
+    Public Sub New(ByVal ApplicationName As String)
         MyBase.New()
 
         'This call is required by the Windows Form Designer.
         InitializeComponent()
 
-
+        Me.ApplicationName = ApplicationName
 
     End Sub
 
@@ -37,117 +28,99 @@ Public Class SplashScreenForm
 
     'Required by the Windows Form Designer
     Private components As System.ComponentModel.IContainer
+    Private WithEvents VersionLabel As System.Windows.Forms.Label
+    Friend WithEvents PictureBoxTop As System.Windows.Forms.PictureBox
+    Friend WithEvents OkButton As System.Windows.Forms.Button
 
     'NOTE: The following procedure is required by the Windows Form Designer
     'It can be modified using the Windows Form Designer.  
     'Do not modify it using the code editor.
     Friend WithEvents CloseTimer As System.Windows.Forms.Timer
-    Friend WithEvents SplashPanel As System.Windows.Forms.Panel
-    Friend WithEvents PictureBoxTop As System.Windows.Forms.PictureBox
-    Friend WithEvents APSIMLabel As System.Windows.Forms.Label
-    Private WithEvents VersionLabel As System.Windows.Forms.Label
-    Friend WithEvents LeftBanner As System.Windows.Forms.PictureBox
     <System.Diagnostics.DebuggerStepThrough()> Private Sub InitializeComponent()
         Me.components = New System.ComponentModel.Container
-        Dim resources As System.Resources.ResourceManager = New System.Resources.ResourceManager(GetType(SplashScreenForm))
         Me.CloseTimer = New System.Windows.Forms.Timer(Me.components)
-        Me.SplashPanel = New System.Windows.Forms.Panel
         Me.VersionLabel = New System.Windows.Forms.Label
-        Me.APSIMLabel = New System.Windows.Forms.Label
         Me.PictureBoxTop = New System.Windows.Forms.PictureBox
-        Me.LeftBanner = New System.Windows.Forms.PictureBox
-        Me.SplashPanel.SuspendLayout()
+        Me.OkButton = New System.Windows.Forms.Button
+        CType(Me.PictureBoxTop, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.SuspendLayout()
         '
         'CloseTimer
         '
+        Me.CloseTimer.Enabled = True
         Me.CloseTimer.Interval = 1500
-        '
-        'SplashPanel
-        '
-        Me.SplashPanel.BackColor = System.Drawing.Color.White
-        Me.SplashPanel.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle
-        Me.SplashPanel.Controls.Add(Me.VersionLabel)
-        Me.SplashPanel.Controls.Add(Me.APSIMLabel)
-        Me.SplashPanel.Controls.Add(Me.PictureBoxTop)
-        Me.SplashPanel.Controls.Add(Me.LeftBanner)
-        Me.SplashPanel.Dock = System.Windows.Forms.DockStyle.Fill
-        Me.SplashPanel.Location = New System.Drawing.Point(0, 0)
-        Me.SplashPanel.Name = "SplashPanel"
-        Me.SplashPanel.Size = New System.Drawing.Size(608, 294)
-        Me.SplashPanel.TabIndex = 0
         '
         'VersionLabel
         '
-        Me.VersionLabel.Dock = System.Windows.Forms.DockStyle.Top
-        Me.VersionLabel.Font = New System.Drawing.Font("Microsoft Sans Serif", 27.75!, CType((System.Drawing.FontStyle.Bold Or System.Drawing.FontStyle.Italic), System.Drawing.FontStyle), System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.VersionLabel.ForeColor = System.Drawing.Color.DarkOrange
-        Me.VersionLabel.Location = New System.Drawing.Point(95, 208)
+        Me.VersionLabel.Anchor = CType(((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left) _
+                    Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
+        Me.VersionLabel.BackColor = System.Drawing.Color.White
+        Me.VersionLabel.Font = New System.Drawing.Font("Microsoft Sans Serif", 12.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.VersionLabel.ForeColor = System.Drawing.Color.Black
+        Me.VersionLabel.Location = New System.Drawing.Point(1, 157)
         Me.VersionLabel.Name = "VersionLabel"
-        Me.VersionLabel.Size = New System.Drawing.Size(511, 40)
-        Me.VersionLabel.TabIndex = 13
+        Me.VersionLabel.Size = New System.Drawing.Size(107, 20)
+        Me.VersionLabel.TabIndex = 14
         Me.VersionLabel.Text = "Version 1.0"
         Me.VersionLabel.TextAlign = System.Drawing.ContentAlignment.MiddleCenter
         '
-        'APSIMLabel
-        '
-        Me.APSIMLabel.Dock = System.Windows.Forms.DockStyle.Top
-        Me.APSIMLabel.Font = New System.Drawing.Font("Microsoft Sans Serif", 72.0!, CType((System.Drawing.FontStyle.Bold Or System.Drawing.FontStyle.Italic), System.Drawing.FontStyle), System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.APSIMLabel.ForeColor = System.Drawing.Color.RoyalBlue
-        Me.APSIMLabel.Location = New System.Drawing.Point(95, 112)
-        Me.APSIMLabel.Name = "APSIMLabel"
-        Me.APSIMLabel.Size = New System.Drawing.Size(511, 96)
-        Me.APSIMLabel.TabIndex = 12
-        Me.APSIMLabel.Text = "APSIM"
-        Me.APSIMLabel.TextAlign = System.Drawing.ContentAlignment.MiddleCenter
-        '
         'PictureBoxTop
         '
-        Me.PictureBoxTop.Dock = System.Windows.Forms.DockStyle.Top
-        Me.PictureBoxTop.Image = CType(resources.GetObject("PictureBoxTop.Image"), System.Drawing.Image)
-        Me.PictureBoxTop.Location = New System.Drawing.Point(95, 0)
+        Me.PictureBoxTop.BackColor = System.Drawing.Color.White
+        Me.PictureBoxTop.Location = New System.Drawing.Point(0, 0)
         Me.PictureBoxTop.Name = "PictureBoxTop"
-        Me.PictureBoxTop.Size = New System.Drawing.Size(511, 112)
-        Me.PictureBoxTop.TabIndex = 11
+        Me.PictureBoxTop.Size = New System.Drawing.Size(50, 50)
+        Me.PictureBoxTop.SizeMode = System.Windows.Forms.PictureBoxSizeMode.AutoSize
+        Me.PictureBoxTop.TabIndex = 15
         Me.PictureBoxTop.TabStop = False
         '
-        'LeftBanner
+        'OkButton
         '
-        Me.LeftBanner.Dock = System.Windows.Forms.DockStyle.Left
-        Me.LeftBanner.Image = CType(resources.GetObject("LeftBanner.Image"), System.Drawing.Image)
-        Me.LeftBanner.Location = New System.Drawing.Point(0, 0)
-        Me.LeftBanner.Name = "LeftBanner"
-        Me.LeftBanner.Size = New System.Drawing.Size(95, 292)
-        Me.LeftBanner.TabIndex = 10
-        Me.LeftBanner.TabStop = False
+        Me.OkButton.Anchor = CType((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
+        Me.OkButton.AutoSize = True
+        Me.OkButton.DialogResult = System.Windows.Forms.DialogResult.OK
+        Me.OkButton.Location = New System.Drawing.Point(20, 12)
+        Me.OkButton.Name = "OkButton"
+        Me.OkButton.Size = New System.Drawing.Size(75, 23)
+        Me.OkButton.TabIndex = 16
+        Me.OkButton.Text = "Ok"
+        Me.OkButton.UseVisualStyleBackColor = True
         '
         'SplashScreenForm
         '
         Me.AutoScaleBaseSize = New System.Drawing.Size(5, 13)
-        Me.ClientSize = New System.Drawing.Size(608, 294)
+        Me.AutoSize = True
+        Me.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink
+        Me.ClientSize = New System.Drawing.Size(107, 177)
         Me.ControlBox = False
-        Me.Controls.Add(Me.SplashPanel)
-        Me.FormBorderStyle = System.Windows.Forms.FormBorderStyle.None
+        Me.Controls.Add(Me.OkButton)
+        Me.Controls.Add(Me.VersionLabel)
+        Me.Controls.Add(Me.PictureBoxTop)
+        Me.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedSingle
+        Me.Location = New System.Drawing.Point(100, 100)
         Me.Name = "SplashScreenForm"
         Me.ShowInTaskbar = False
-        Me.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen
+        Me.StartPosition = System.Windows.Forms.FormStartPosition.Manual
         Me.TopMost = True
-        Me.SplashPanel.ResumeLayout(False)
+        CType(Me.PictureBoxTop, System.ComponentModel.ISupportInitialize).EndInit()
         Me.ResumeLayout(False)
+        Me.PerformLayout()
 
     End Sub
 
 #End Region
 
-    Private Sub CloseTimer_Tick(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles CloseTimer.Tick
-        ' Close the form on timer tick.
-        Me.Close()
-
+    Private Sub OnFormLoad(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles MyBase.Load
+        PictureBoxTop.Image = Image.FromFile(APSIMSettings.INIRead(APSIMSettings.ApsimIniFile(), ApplicationName, "SplashScreen"))
+        VersionLabel.Text = "Version " & APSIMSettings.ApsimVersion
+        OkButton.Visible = APSIMSettings.INIRead(APSIMSettings.ApsimIniFile(), ApplicationName, "SplashScreenButtonVisible").ToLower = "yes"
+        OkButton.Text = APSIMSettings.INIRead(APSIMSettings.ApsimIniFile(), ApplicationName, "SplashScreenButtonText")
     End Sub
 
-    Private Sub SplashScreenForm_Activated(ByVal sender As Object, ByVal e As System.EventArgs) Handles MyBase.Activated
-        ' When form is activated, start the countdown timer.
-        Me.CloseTimer.Enabled = True
+    Private Sub OnTimerTick(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles CloseTimer.Tick
+        If Not OkButton.Visible Then
+            Me.Close()
+        End If
     End Sub
 
 End Class

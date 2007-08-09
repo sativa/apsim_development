@@ -162,6 +162,17 @@ namespace Soils
                 Utility.SetValue(Data, "", "Longitude", value.ToString());
                 }
             }
+        public string LocationAccuracy
+            {
+            get
+                {
+                return Utility.GetStringValue(Data, "", "LocationAccuracy");
+                }
+            set
+                {
+                Utility.SetValue(Data, "", "LocationAccuracy", value);
+                }
+            }
         #endregion
 
         public double[] Values(string DataType)
