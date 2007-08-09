@@ -170,6 +170,7 @@ namespace Soils
                     DefaultValues = ParentSoil.LL(ParentSoil.CropsMeasured[0]);
                 else
                     DefaultValues = ParentSoil.LL15;
+
                 double[] SampleSW; 
                 double[] SampleThickness;
                 SampleSW = new double[SW.Length + 2];
@@ -181,12 +182,19 @@ namespace Soils
                 double BottomMeasuredSW = SW[Thickness.Length - 1];
                 SampleThickness[SecondBottomLayer] = Thickness[Thickness.Length - 1];
                 SampleSW[SecondBottomLayer] = 0.8 * BottomMeasuredSW;
-
                 SampleThickness[BottomLayer] = Thickness[Thickness.Length - 1];
                 SampleSW[BottomLayer] = 0.4 * BottomMeasuredSW;
+
                 SampleSW = Utility.MapSampleToSoilUsingSpatial(SampleSW, SampleThickness, DefaultValues, ParentSoil.Thickness);
+
+                double[] CumMeasuredThickness = Utility.ToCumThickness(Thickness);
+                double BottomMeasuredThickness = CumMeasuredThickness[CumMeasuredThickness.Length - 1];
+                double[] CumThickness = Utility.ToCumThickness(ParentSoil.Thickness);
                 for (int i = 0; i != SampleSW.Length; i++)
-                    SampleSW[i] = Math.Max(SampleSW[i], DefaultValues[i]);
+                    {
+                    if (CumThickness[i] > BottomMeasuredThickness)
+                        SampleSW[i] = Math.Max(SampleSW[i], DefaultValues[i]);
+                    }
                 return SampleSW;
                 }
             }

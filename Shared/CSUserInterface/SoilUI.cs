@@ -82,16 +82,16 @@ namespace CSUserInterface
         FarPoint.Win.Spread.CellType.ButtonCellType buttonCellType3 = new FarPoint.Win.Spread.CellType.ButtonCellType();
         FarPoint.Win.Spread.CellType.ImageCellType imageCellType1 = new FarPoint.Win.Spread.CellType.ImageCellType();
         this.Grid = new FarPoint.Win.Spread.FpSpread();
-        this.PrintForm = new TMGDevelopment.Windows.Forms.PrintForm(this.components);
-        this.OpenAttachmentDialog = new System.Windows.Forms.OpenFileDialog();
-        this.SoilToolStrip = new System.Windows.Forms.ToolStrip();
-        this.WaterChartControl = new CSUserInterface.WaterChartControl();
         this.General = new FarPoint.Win.Spread.SheetView();
         this.Water = new FarPoint.Win.Spread.SheetView();
         this.SoilProfile = new FarPoint.Win.Spread.SheetView();
         this.APSIM = new FarPoint.Win.Spread.SheetView();
         this.Phosphorus = new FarPoint.Win.Spread.SheetView();
         this.PhotoAttachSheet = new FarPoint.Win.Spread.SheetView();
+        this.PrintForm = new TMGDevelopment.Windows.Forms.PrintForm(this.components);
+        this.OpenAttachmentDialog = new System.Windows.Forms.OpenFileDialog();
+        this.SoilToolStrip = new System.Windows.Forms.ToolStrip();
+        this.WaterChartControl = new CSUserInterface.WaterChartControl();
         ((System.ComponentModel.ISupportInitialize)(this.Grid)).BeginInit();
         ((System.ComponentModel.ISupportInitialize)(this.General)).BeginInit();
         ((System.ComponentModel.ISupportInitialize)(this.Water)).BeginInit();
@@ -108,7 +108,7 @@ namespace CSUserInterface
         this.Grid.Dock = System.Windows.Forms.DockStyle.Top;
         this.Grid.EditModeReplace = true;
         this.Grid.HorizontalScrollBarPolicy = FarPoint.Win.Spread.ScrollBarPolicy.AsNeeded;
-        this.Grid.Location = new System.Drawing.Point(0, 65);
+        this.Grid.Location = new System.Drawing.Point(0, 56);
         this.Grid.Name = "Grid";
         this.Grid.SelectionBlockOptions = ((FarPoint.Win.Spread.SelectionBlockOptions)(((FarPoint.Win.Spread.SelectionBlockOptions.Cells | FarPoint.Win.Spread.SelectionBlockOptions.Rows)
                     | FarPoint.Win.Spread.SelectionBlockOptions.Sheet)));
@@ -136,46 +136,15 @@ namespace CSUserInterface
         this.Grid.SetActiveViewport(1, 0, -1);
         this.Grid.ActiveSheetIndex = 1;
         // 
-        // PrintForm
-        // 
-        this.PrintForm.AutoFit = TMGDevelopment.Windows.Forms.PageElement.Body;
-        this.PrintForm.BodyContainer = this;
-        this.PrintForm.CenterStyle = TMGDevelopment.Windows.Forms.CenterStyle.None;
-        this.PrintForm.PreDraw += new TMGDevelopment.Windows.Forms.PreDrawEventHandler(this.OnPreDraw);
-        // 
-        // OpenAttachmentDialog
-        // 
-        this.OpenAttachmentDialog.Filter = "All files|*.*";
-        this.OpenAttachmentDialog.RestoreDirectory = true;
-        // 
-        // SoilToolStrip
-        // 
-        this.SoilToolStrip.ImageScalingSize = new System.Drawing.Size(24, 24);
-        this.SoilToolStrip.Location = new System.Drawing.Point(0, 40);
-        this.SoilToolStrip.Name = "SoilToolStrip";
-        this.SoilToolStrip.Size = new System.Drawing.Size(906, 25);
-        this.SoilToolStrip.TabIndex = 15;
-        this.SoilToolStrip.Text = "toolStrip1";
-        // 
-        // WaterChartControl
-        // 
-        this.WaterChartControl.Dock = System.Windows.Forms.DockStyle.Fill;
-        this.WaterChartControl.LinkedSoil = null;
-        this.WaterChartControl.Location = new System.Drawing.Point(0, 357);
-        this.WaterChartControl.Name = "WaterChartControl";
-        this.WaterChartControl.ShowSoilWaterLine = false;
-        this.WaterChartControl.Size = new System.Drawing.Size(906, 405);
-        this.WaterChartControl.TabIndex = 16;
-        // 
         // General
         // 
         this.General.Reset();
         // Formulas and custom names must be loaded with R1C1 reference style
         this.General.ReferenceStyle = FarPoint.Win.Spread.Model.ReferenceStyle.R1C1;
         this.General.ColumnCount = 2;
-        this.General.RowCount = 11;
+        this.General.RowCount = 12;
         this.General.ActiveColumnIndex = 1;
-        this.General.ActiveRowIndex = 3;
+        this.General.ActiveRowIndex = 8;
         this.General.AutoUpdateNotes = true;
         this.General.Cells.Get(0, 0).Value = "State: ";
         this.General.Cells.Get(1, 0).Value = "Region: ";
@@ -186,17 +155,18 @@ namespace CSUserInterface
         this.General.Cells.Get(5, 0).Value = "Classification: ";
         this.General.Cells.Get(6, 0).Value = "Latitude (WGS84): ";
         this.General.Cells.Get(7, 0).Value = "Longitude (WGS84): ";
-        this.General.Cells.Get(8, 0).Value = "Natural Vegetation: ";
-        this.General.Cells.Get(9, 0).Value = "Data source: ";
+        this.General.Cells.Get(8, 0).Value = "Location accuracy: ";
+        this.General.Cells.Get(9, 0).Value = "Natural Vegetation: ";
+        this.General.Cells.Get(10, 0).Value = "Data source: ";
         textCellType1.MaxLength = 500;
         textCellType1.Multiline = true;
         textCellType1.WordWrap = true;
-        this.General.Cells.Get(9, 1).CellType = textCellType1;
-        this.General.Cells.Get(10, 0).Value = "Comments: ";
+        this.General.Cells.Get(10, 1).CellType = textCellType1;
+        this.General.Cells.Get(11, 0).Value = "Comments: ";
         textCellType2.MaxLength = 500;
         textCellType2.Multiline = true;
         textCellType2.WordWrap = true;
-        this.General.Cells.Get(10, 1).CellType = textCellType2;
+        this.General.Cells.Get(11, 1).CellType = textCellType2;
         this.General.ColumnHeader.Visible = false;
         this.General.Columns.Get(0).Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
         this.General.Columns.Get(0).HorizontalAlignment = FarPoint.Win.Spread.CellHorizontalAlignment.Right;
@@ -208,8 +178,8 @@ namespace CSUserInterface
         this.General.RestrictColumns = true;
         this.General.RowHeader.Columns.Default.Resizable = false;
         this.General.RowHeader.Visible = false;
-        this.General.Rows.Get(9).Height = 41F;
-        this.General.Rows.Get(10).Height = 105F;
+        this.General.Rows.Get(10).Height = 41F;
+        this.General.Rows.Get(11).Height = 105F;
         this.General.SheetName = "General";
         this.General.CellChanged += new FarPoint.Win.Spread.SheetViewEventHandler(this.OnGeneralCellChanged);
         this.General.ReferenceStyle = FarPoint.Win.Spread.Model.ReferenceStyle.A1;
@@ -488,11 +458,43 @@ namespace CSUserInterface
         this.PhotoAttachSheet.VerticalGridLine = new FarPoint.Win.Spread.GridLine(FarPoint.Win.Spread.GridLineType.Flat, System.Drawing.Color.LightGray, System.Drawing.SystemColors.ControlLightLight, System.Drawing.SystemColors.ControlDark, 0);
         this.PhotoAttachSheet.ReferenceStyle = FarPoint.Win.Spread.Model.ReferenceStyle.A1;
         // 
+        // PrintForm
+        // 
+        this.PrintForm.AutoFit = TMGDevelopment.Windows.Forms.PageElement.Body;
+        this.PrintForm.BodyContainer = this;
+        this.PrintForm.CenterStyle = TMGDevelopment.Windows.Forms.CenterStyle.None;
+        this.PrintForm.PreDraw += new TMGDevelopment.Windows.Forms.PreDrawEventHandler(this.OnPreDraw);
+        // 
+        // OpenAttachmentDialog
+        // 
+        this.OpenAttachmentDialog.Filter = "All files|*.*";
+        this.OpenAttachmentDialog.RestoreDirectory = true;
+        // 
+        // SoilToolStrip
+        // 
+        this.SoilToolStrip.ImageScalingSize = new System.Drawing.Size(24, 24);
+        this.SoilToolStrip.Location = new System.Drawing.Point(0, 31);
+        this.SoilToolStrip.Name = "SoilToolStrip";
+        this.SoilToolStrip.Size = new System.Drawing.Size(906, 25);
+        this.SoilToolStrip.TabIndex = 15;
+        this.SoilToolStrip.Text = "toolStrip1";
+        // 
+        // WaterChartControl
+        // 
+        this.WaterChartControl.Dock = System.Windows.Forms.DockStyle.Fill;
+        this.WaterChartControl.LinkedSoil = null;
+        this.WaterChartControl.Location = new System.Drawing.Point(0, 348);
+        this.WaterChartControl.Name = "WaterChartControl";
+        this.WaterChartControl.ShowSoilWaterLine = false;
+        this.WaterChartControl.Size = new System.Drawing.Size(906, 414);
+        this.WaterChartControl.TabIndex = 16;
+        // 
         // SoilUI
         // 
         this.Controls.Add(this.WaterChartControl);
         this.Controls.Add(this.Grid);
         this.Controls.Add(this.SoilToolStrip);
+        this.DragBarVisible = true;
         this.Name = "SoilUI";
         this.Size = new System.Drawing.Size(906, 762);
         this.Controls.SetChildIndex(this.SoilToolStrip, 0);
@@ -564,9 +566,10 @@ namespace CSUserInterface
             General.Cells[5, 1].Value = MySoil.Classification;
             General.Cells[6, 1].Value = MySoil.Latitude;
             General.Cells[7, 1].Value = MySoil.Longitude;
-			General.Cells[8, 1].Value = MySoil.NaturalVegetation;
-			General.Cells[9, 1].Value = MySoil.DataSource;
-			General.Cells[10, 1].Value = MySoil.Comment;
+            General.Cells[8, 1].Value = MySoil.LocationAccuracy;
+            General.Cells[9, 1].Value = MySoil.NaturalVegetation;
+			General.Cells[10, 1].Value = MySoil.DataSource;
+			General.Cells[11, 1].Value = MySoil.Comment;
 			UserChange = true;
 			}
 		private void SaveGeneralGrid()
@@ -578,9 +581,10 @@ namespace CSUserInterface
             MySoil.Classification = GridUtils.GetCellAsString(General, 1, 5);
             MySoil.Latitude = Convert.ToDouble(GridUtils.GetCellAsString(General, 1, 6));
             MySoil.Longitude = Convert.ToDouble(GridUtils.GetCellAsString(General, 1, 7));
-            MySoil.NaturalVegetation = GridUtils.GetCellAsString(General, 1, 8);
-			MySoil.DataSource = GridUtils.GetCellAsString(General, 1, 9);
-			MySoil.Comment = GridUtils.GetCellAsString(General, 1, 10);
+            MySoil.LocationAccuracy = GridUtils.GetCellAsString(General, 1, 8);
+            MySoil.NaturalVegetation = GridUtils.GetCellAsString(General, 1, 9);
+			MySoil.DataSource = GridUtils.GetCellAsString(General, 1, 10);
+			MySoil.Comment = GridUtils.GetCellAsString(General, 1, 11);
 			}
         private void OnGeneralCellChanged(object sender, FarPoint.Win.Spread.SheetViewEventArgs e)
             {

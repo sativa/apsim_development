@@ -13,7 +13,7 @@ Public Class BaseController
     Private MyFileName As String
     Private MyDefaultExtension As String
     Private MyDialogFilter As String
-    Private MyFrequentListSection As String
+    Private ApplicationName As String
     Private MySelectedData As New StringCollection
     Private Updating As Boolean
     Protected disposed As Boolean = False
@@ -48,7 +48,7 @@ Public Class BaseController
         MyDefaultExtension = APSIMSettings.INIRead(APSIMSettings.ApsimIniFile(), SectionName, "DefaultExtension")
         MyDialogFilter = APSIMSettings.INIRead(APSIMSettings.ApsimIniFile(), SectionName, "DialogFilter")
         If Not IsNothing(MainForm) Then
-            MyFrequentListSection = SectionName
+            ApplicationName = SectionName
         End If
         MyData = Nothing
 
@@ -145,7 +145,7 @@ Public Class BaseController
     Public Function ImageFileForType(ByVal GivenType As String) As String
         Return TypesFile.Child(GivenType).Child("Image").Value
     End Function
-    Public Function GetComponentTypeInfo(ByVal ComponentType As String)
+    Public Function GetComponentTypeInfo(ByVal ComponentType As String) As APSIMData
         Return TypesFile.Child(ComponentType)
     End Function
 #End Region
@@ -249,11 +249,11 @@ Public Class BaseController
         ' ----------------------------------------
         If Not IsNothing(MainForm) Then
             If ApsimData.IsReadOnly Then
-                MainForm.Text = MyFrequentListSection + " - " + FileName + " [readonly]"
+                MainForm.Text = ApplicationName + " - " + FileName + " [readonly]"
             ElseIf IsDirty Then
-                MainForm.Text = MyFrequentListSection + " - " + FileName + " * "
+                MainForm.Text = ApplicationName + " - " + FileName + " * "
             Else
-                MainForm.Text = MyFrequentListSection + " - " + FileName
+                MainForm.Text = ApplicationName + " - " + FileName
             End If
         End If
     End Sub
@@ -352,7 +352,7 @@ Public Class BaseController
 
     Private Const MAX_NUM_FREQUENT_SIMS As Integer = 10
     Private Sub AddFileToFrequentList(ByVal filename As String)
-        If MyFrequentListSection <> "" Then
+        If ApplicationName <> "" Then
 
             Dim FileNames() As String = GetFrequentList()
 
@@ -369,11 +369,11 @@ Public Class BaseController
             Next
 
             ' Write NewFileList back to .ini file.
-            APSIMSettings.INIWriteMultiple(APSIMSettings.ApsimIniFile(), MyFrequentListSection, "RecentFile", NewFileList)
+            APSIMSettings.INIWriteMultiple(APSIMSettings.ApsimIniFile(), ApplicationName, "RecentFile", NewFileList)
         End If
     End Sub
     Private Function GetFrequentList() As String()
-        Dim FileNames As StringCollection = APSIMSettings.INIReadMultiple(APSIMSettings.ApsimIniFile(), MyFrequentListSection, "RecentFile")
+        Dim FileNames As StringCollection = APSIMSettings.INIReadMultiple(APSIMSettings.ApsimIniFile(), ApplicationName, "RecentFile")
         Dim GoodFileNames As New StringCollection
         For Each FileName As String In FileNames
             If File.Exists(FileName) Then
@@ -537,6 +537,12 @@ Public Class BaseController
         ' Return description for the specified type.
         ' -----------------------------------------------------------------
         Return TypesFile.Child(GivenType).Child("Description").Value
+    End Function
+    Public Function InfoForType(ByVal DataType As String, ByVal InfoType As String) As String
+        ' -----------------------------------------------------------------
+        ' Return description for the specified type.
+        ' -----------------------------------------------------------------
+        Return TypesFile.ChildValue(DataType + "\" + InfoType)
     End Function
 
     Private ComponentDescriptionData As APSIMData = Nothing
@@ -818,7 +824,7 @@ Public Class BaseController
         End Try
         Return Nothing
     End Function
-    Private Shared Function CreateClass(ByVal ClassToCall As String) As Object
+    Public Shared Function CreateClass(ByVal ClassToCall As String) As Object
         ' --------------------------------------------------------------
         ' Call a static/shared method of a class to perform the 
         ' necessary action.
