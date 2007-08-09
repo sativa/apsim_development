@@ -15,9 +15,9 @@ namespace CSUserInterface
     public partial class ProfileUI : VBUserInterface.BaseView
         {
         private BaseController Controller;
-        private Soil MySoil;
-        private string ComponentType;
-        private APSIMData FieldInfo;
+        private Soil MySoil = null;
+        //private string ComponentType;
+        //private APSIMData FieldInfo;
         public ProfileUI()
             {
             InitializeComponent();
