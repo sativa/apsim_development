@@ -5,6 +5,8 @@
 #include <stdexcept>
 #include <iosfwd.h>
 
+#include <vcl.h>
+
 #include <general/stringTokenizer.h>
 #include <general/string_functions.h>
 #include <general/path.h>
@@ -18,8 +20,6 @@
 #include "ApsimControlFile.h"
 #include "ApsimVersion.h"
 #include "ApsimDirectories.h"
-#include "TMoveParametersForm.h"
-#include "ApsimDirectories.h"
 
 #include "ControlFileConverter.h"
 
@@ -32,7 +32,7 @@ using namespace boost;
 void getScriptFilesToUse(const string& fileName, vector<string>& scriptFileNames)
    {
    int fileVersion = ApsimControlFile::getVersionNumber(fileName);
-   int apsimVersion = StrToFloat(getApsimVersion().c_str())*10;
+   int apsimVersion = atof(getApsimVersion().c_str())*10;
    if (fileVersion != apsimVersion)
       {
       string homeDir = getApsimDirectory() + "\\apsim\\";
@@ -40,7 +40,7 @@ void getScriptFilesToUse(const string& fileName, vector<string>& scriptFileNames
          {
          ostringstream conversionFile;
          conversionFile << homeDir << "conversions." << version;
-         if (FileExists(conversionFile.str().c_str()))
+         if (fileExists(conversionFile.str().c_str()))
             scriptFileNames.push_back(conversionFile.str());
          }
       if (scriptFileNames.size() == 0)
@@ -105,7 +105,7 @@ void ControlFileConverter::convert(const string& fileName,
 
    log.close();
 
-   int apsimVersion = StrToFloat(getApsimVersion().c_str())*10;
+   int apsimVersion = atof(getApsimVersion().c_str())*10;
    ApsimControlFile::setVersionNumber(fileName, apsimVersion);
    }
 //---------------------------------------------------------------------------
@@ -584,21 +584,7 @@ bool ControlFileConverter::executeMoveParametersOutOfCon(const std::string argum
       string parFileToUse = arguments;
       if (parFileToUse == "")
          {
-         static string parFile;
-         if (parFile == "")
-            {
-            parFileToUse = con->getFileName();
-            MoveParametersForm = new TMoveParametersForm(Application);
-            MoveParametersForm->FileEdit->Text = parFileToUse.c_str();
-            if (!MoveParametersForm->ShowModal())
-               {
-               delete MoveParametersForm;
-               return false;
-               }
-            parFile = MoveParametersForm->FileEdit->Text.c_str();
-            delete MoveParametersForm;
-            }
-         parFileToUse = parFile;
+         parFileToUse = con->getFileName() + ".par";
          }
       return con->moveParametersOutOfCon(conSection, parFileToUse);
       }
@@ -619,7 +605,7 @@ class RemoveSumAvg
          unsigned posSecondPeriod = section.find('.', posFirstPeriod+1);
          string instanceName = section.substr(posFirstPeriod+1, posSecondPeriod-posFirstPeriod-1);
 
-         string trackerInstanceName = string("tracker") + IntToStr(trackerNum).c_str();
+         string trackerInstanceName = string("tracker") + itoa(trackerNum);
 
          vector<string> trackerVariables;
          vector<string> variables;
@@ -1023,7 +1009,7 @@ bool ControlFileConverter::executeFindModuleLocalIniFile(const string& arguments
    for (unsigned i = 0; i != instanceNames.size(); i++)
       {
       string iniFile = con->getIniFileForInstance(conSection, instanceNames[i]);
-      if (stristr(ExtractFileDir(iniFile.c_str()).c_str(), apsimDirectory.c_str()) == NULL)
+      if (stristr(fileDirName(iniFile).c_str(), apsimDirectory.c_str()) == NULL)
          return true;
       }
    return false;
