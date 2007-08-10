@@ -494,7 +494,6 @@ namespace CSUserInterface
         this.Controls.Add(this.WaterChartControl);
         this.Controls.Add(this.Grid);
         this.Controls.Add(this.SoilToolStrip);
-        this.DragBarVisible = true;
         this.Name = "SoilUI";
         this.Size = new System.Drawing.Size(906, 762);
         this.Controls.SetChildIndex(this.SoilToolStrip, 0);
