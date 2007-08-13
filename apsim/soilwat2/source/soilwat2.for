@@ -4278,6 +4278,7 @@ c  dsg   070302  added runon
       integer    num_layers            ! number of layers
       integer    numvals               ! number of values returned in array
       real       temp(max_layer)       ! temporary array
+      real       water_table           ! temporary value of water table
 
 *- Implementation Section ----------------------------------
 
@@ -4568,6 +4569,11 @@ c  dsg   070302  added runon
          call collect_real_var (variable_name, '()'
      :                             , p%u, numvals
      :                             , 0.0001, 40.0)
+      elseif (variable_name .eq. 'water_table') then
+         call collect_real_var (variable_name, '()'
+     :                             , water_table, numvals
+     :                             , 0.0, 10000.)
+         call SetWaterTable(water_table)
       else
          call Message_unused ()
 
@@ -6914,6 +6920,59 @@ c dsg 150302  saturated layer = layer, layer above not over dul
       call pop_routine (myname)
       return
       end function
+
+* ====================================================================
+       subroutine SetWaterTable (water_table)
+* ====================================================================
+      Use Infrastructure
+      implicit none
+      real water_table
+
+*+  Purpose
+*     Calculate the set the system to a given water table depth
+
+
+*+  Constant Values
+      character*(*) myname               ! name of current procedure
+      parameter (myname = 'SetWaterTable')
+
+*+  Local Variables
+      integer layer
+      integer num_layers
+      real top
+      real bottom
+      real fraction
+      real drainable_porosity
+
+*- Implementation Section ----------------------------------
+      call push_routine (myname)
+
+      num_layers = count_of_real_vals (p%dlayer, max_layer)
+      top = 0.0
+      bottom = 0.0
+
+      do 100 layer = 1, num_layers
+         top = bottom
+         bottom = bottom + p%dlayer(layer)
+         if (water_table .ge. bottom) then
+            ! do nothing
+         else if (water_table.gt.top) then
+            ! top of water table is in this layer
+            fraction = (bottom - water_table)/(bottom - top)
+            drainable_porosity = g%sat_dep(layer) - g%dul_dep(layer)
+            g%sw_dep(layer) = g%dul_dep(layer)
+     :                      + fraction * drainable_porosity
+         else
+            g%sw_dep(layer) = g%sat_dep(layer)
+         endif
+
+  100 continue
+
+      g%water_table = water_table
+
+      return
+      end subroutine
+
 * ====================================================================
        subroutine soilwat2_create ()
 * ====================================================================
