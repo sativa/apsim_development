@@ -16,3 +16,12 @@ module = report   soilwat2_test.par [seasonalevap]
 module = input(Met)      %apsuite/apsim/met/sample/dalby.met[weather]
 module = manager  soilwat2_test.par [seasonalevap]
 module = soilwat2 soilwat2_test.par [seasonalevap]     %apsuite/apsim/soilwat2/soilwat2.ini [standard]
+
+[apsim.test_watertable_stuff]
+
+title=Soilwat2 test_watertable_stuff
+module = clock    soilwat2_test.par [watertable] %apsuite/apsim/clock/clock.ini[standard]
+module = report   soilwat2_test.par [watertable]
+module = input(Met)      %apsuite/apsim/met/sample/dalby.met[weather]
+module = manager  soilwat2_test.par [watertable]
+module = soilwat2 soilwat2_test.par [watertable]     %apsuite/apsim/soilwat2/soilwat2.ini [standard]
