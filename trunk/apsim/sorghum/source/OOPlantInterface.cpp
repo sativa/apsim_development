@@ -98,9 +98,9 @@ PlantInterface::~PlantInterface(void)
 //-----------------------------------------------------------------------------
 // Stage 1 initialisation.
 //-----------------------------------------------------------------------------
-void PlantInterface::doInit1(const FString& sdml)
+void PlantInterface::doInit1(const protocol::Init1Data& initData)
    {
-   protocol::Component::doInit1(sdml);
+   protocol::Component::doInit1(initData);
    plant = new OOPlant(this);
    plant->plantInit();
    }

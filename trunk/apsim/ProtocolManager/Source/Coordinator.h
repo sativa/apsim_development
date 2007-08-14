@@ -41,7 +41,7 @@ class Coordinator : public protocol::Component
       std::set<std::string> variablesBeenPolledForGets;
       std::set<std::string> variablesBeenPolledForSets;
 
-      virtual void doInit1(const FString& sdml);
+      virtual void doInit1(const protocol::Init1Data&);
       virtual void doInit2(void);
       virtual void doCommence(void);
       virtual void onReturnComponentIDMessage(protocol::ReturnComponentIDData& data);

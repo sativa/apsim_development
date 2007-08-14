@@ -14,7 +14,6 @@ class TrackerComponent : public protocol::Component
    public:
       TrackerComponent(void);
       ~TrackerComponent(void);
-      virtual void doInit1(const FString& sdml);
       virtual void doInit2(void);
       virtual void respondToGet(unsigned int& fromID, protocol::QueryValueData& queryData);
       virtual void respondToEvent(unsigned int& fromID, unsigned int& eventID, protocol::Variant& variant);

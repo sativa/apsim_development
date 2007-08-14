@@ -110,9 +110,9 @@ TclComponent::~TclComponent(void)
 // ------------------------------------------------------------------
 // Stage 1 initialisation. We can initialise the TCL world now that we know where we are..
 // ------------------------------------------------------------------
-void TclComponent::doInit1(const FString& sdml)
+void TclComponent::doInit1(const protocol::Init1Data& initData)
    {
-   protocol::Component::doInit1(sdml);
+   protocol::Component::doInit1(initData);
 
    if (initialisationState == 0) {
      StartTcl(Component::componentData->getExecutableFileName().c_str());
@@ -143,7 +143,7 @@ void TclComponent::doInit2(void)
       writeString("Top Level Interpreter");
    } else {
       // Create a slave interpreter for this instance.
-      Interp = NewInterp(TopLevelInterp, this, this->getName());  
+      Interp = NewInterp(TopLevelInterp, this, this->getName().c_str());  
       writeString((string("Interpreter name: '")+ this->getName() + "'").c_str());
    }
 
@@ -617,7 +617,7 @@ int apsimSendMessageProc(ClientData cd, Tcl_Interp *interp, int objc, Tcl_Obj * 
 
       // 2. build variant
       protocol::ApsimVariant outgoingApsimVariant(component);
-      outgoingApsimVariant.store(FString("sender"), protocol::DTstring, false, FString(component->getName()));
+      outgoingApsimVariant.store(FString("sender"), protocol::DTstring, false, FString(component->getName().c_str()));
       outgoingApsimVariant.store(FString("sender_id"), protocol::DTint4, false, (int)component->getId());
 
       for (int i = 3; i < objc; i++)

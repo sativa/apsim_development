@@ -55,7 +55,7 @@ PlantHerbage::~PlantHerbage(void)
 // ------------------------------------------------------------------
 // Init1 phase.
 // ------------------------------------------------------------------
-void PlantHerbage::doInit1(const FString& sdml)
+void PlantHerbage::doInit1(const protocol::Init1Data&)
    {
 //   protocol::Component::doInit1(sdml);
 

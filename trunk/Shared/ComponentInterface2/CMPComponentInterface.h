@@ -41,6 +41,7 @@ class EXPORT CMPComponentInterface
       void write(const std::string& msg);
 
       std::string getName() {return name;}
+      std::string getFQName() {return (parentName + "." + name);}
       std::string getParentName() {return parentName;}
 
       // internal stuff.

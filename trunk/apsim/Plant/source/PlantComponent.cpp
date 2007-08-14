@@ -84,11 +84,11 @@ PlantComponent::~PlantComponent(void)
    plant = NULL;
    }
 
-void PlantComponent::doInit1(const FString& sdml)
+void PlantComponent::doInit1(const protocol::Init1Data& initData)
 //=======================================================================================
 // Stage 1 initialisation.
    {
-   protocol::Component::doInit1(sdml);
+   protocol::Component::doInit1(initData);
 
    string crop_type;
    scienceAPI().read("crop_type", crop_type);

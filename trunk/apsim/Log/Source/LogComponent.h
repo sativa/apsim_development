@@ -18,7 +18,7 @@ class LogComponent : public protocol::Component,
    public:
       LogComponent(void);
       ~LogComponent(void);
-      virtual void doInit1(const FString& sdml);
+      virtual void doInit1(const protocol::Init1Data&);
       virtual void callback(const std::string& toName,
                             const protocol::Message* message);
       virtual bool respondToSet(unsigned int& fromID, protocol::QuerySetValueData& setValueData);

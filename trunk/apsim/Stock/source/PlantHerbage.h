@@ -53,7 +53,7 @@ class PlantHerbage : public HerbageBase
       float selectionFactor ( void );
 
          // Belongs to base class when implemented
-      void doInit1(const FString& sdml);
+      void doInit1(const protocol::Init1Data&);
       void doGrazed(protocol::RemoveHerbageType &grazed);
 
       void readParameters ( void );

@@ -146,8 +146,7 @@ try {
       {
       case Init1:               {Init1Data init1Data;
                                  messageData >> init1Data;
-                                 storeName(init1Data.fqn, init1Data.sdml);
-                                 doInit1(init1Data.sdml);
+                                 doInit1(init1Data);
                                  break;}
       case Init2:               {beforeInit2 = false;
                                  doInit2();
@@ -278,14 +277,28 @@ catch (const std::string& e)
 //  Changes:
 //    DPH 7/6/2001
 // ------------------------------------------------------------------
-void Component::doInit1(const FString& sdml)
+void Component::doInit1(const Init1Data& init1Data)
    {
+   // get instance name from fqn.
+   string fqn =  asString(init1Data.fqn);
+   unsigned posPeriod = fqn.rfind('.');
+   if (posPeriod == string::npos)
+      name = fqn;
+   else
+      {
+      name = fqn.substr(posPeriod+1);
+      parentName = fqn.substr(0, posPeriod);
+      }
+
    type = "?";
    version = "1";
    author = "APSRU";
    active = 1;
    state = "";
    
+   componentData = newApsimComponentData(init1Data.sdml.f_str(), 
+                                         init1Data.sdml.length());
+      
    addGettableVar("name", name, "", "");
    addGettableVar("type", type, "", "");
    addGettableVar("version", version, "", "");
@@ -300,37 +313,6 @@ void Component::doInit1(const FString& sdml)
                             "tick",
                             DDML(TimeType()).c_str());
    sendTickToComponent = false;
-   }
-
-// ------------------------------------------------------------------
-//  Short description:
-//     Do INIT1
-
-//  Notes:
-
-//  Changes:
-//    DPH 7/6/2001
-
-// ------------------------------------------------------------------
-void Component::storeName(const FString& fqn, const FString& sdml)
-   {
-   // get instance name by locating the last period and assuming the
-   // name of this component follows the period.
-   unsigned posLastPeriod = FString::npos;
-   unsigned posPeriod = fqn.find(".");
-   while (posPeriod != FString::npos)
-      {
-      posLastPeriod = posPeriod;
-      posPeriod = fqn.find(".", posLastPeriod+1);
-      }
-   FString componentName = fqn;
-   if (posLastPeriod != FString::npos)
-      componentName = fqn.substr(posLastPeriod+1);
-
-   // now create memory block for this name and fill it.
-   name = asString(componentName);
-
-   componentData = newApsimComponentData(sdml.f_str(), sdml.length());
    }
 
 // ------------------------------------------------------------------

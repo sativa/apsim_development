@@ -11,7 +11,7 @@ class YPComponent : public protocol::Component
    {
    public:
       YPComponent(void);
-      virtual void doInit1(const FString& sdml);
+      virtual void doInit1(const protocol::Init1Data&);
       virtual void respondToGet(unsigned int& fromID, protocol::QueryValueData& queryData);
 
    private:

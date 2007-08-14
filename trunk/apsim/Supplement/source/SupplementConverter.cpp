@@ -69,10 +69,10 @@ SupplementConverter::~SupplementConverter(void)
 // ------------------------------------------------------------------
 // Init1 phase.
 // ------------------------------------------------------------------
-void SupplementConverter::doInit1(const FString& sdml)
+void SupplementConverter::doInit1(const protocol::Init1Data& initData)
 //===========================================================================
    {
-   protocol::Component::doInit1(sdml);
+   protocol::Component::doInit1(initData);
 //   buyID = addRegistration(RegistrationType::event, "buy", supplementbuyTypeDDML);
    buySupplementID = addRegistration(RegistrationType::respondToEvent, "buysupplement", singleTypeDDML);
    feedID = addRegistration(RegistrationType::event, "feed", protocol::DDML(protocol::SupplementFeedType()).c_str());

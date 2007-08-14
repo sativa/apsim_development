@@ -47,7 +47,7 @@ ResidueHerbage::~ResidueHerbage(void)
 // ------------------------------------------------------------------
 // Init1 phase.
 // ------------------------------------------------------------------
-void ResidueHerbage::doInit1(const FString& sdml)
+void ResidueHerbage::doInit1(const protocol::Init1Data&)
    {
 //   protocol::Component::doInit1(sdml);
 //

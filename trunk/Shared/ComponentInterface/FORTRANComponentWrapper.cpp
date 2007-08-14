@@ -11,10 +11,11 @@
 #include <stdlib.h>
 #include <stdio.h>
 
-#include "Component.h"
-#include "FORTRANComponentWrapper.h"
+#include "Messages.h"
 #include "Variants.h"
 #include "datatypes.h"
+#include "Component.h"
+#include "FORTRANComponentWrapper.h"
 
 // turn of the warnings about "Functions containing for are not expanded inline.
 #pragma warn -inl
@@ -80,7 +81,7 @@ void FortranWrapper::setupFortranDll(void)
    const char *dlError = NULL;
 
 #ifdef __WIN32__
-   libraryHandle = LoadLibrary(this->getDllName());
+   libraryHandle = LoadLibrary(this->getDllName().c_str());
 #else
    libraryHandle = dlopen(this->getDllName(), RTLD_NOW | RTLD_LOCAL);
    dlError = dlerror();
@@ -159,12 +160,12 @@ void FortranWrapper::alloc_dealloc_instance(const unsigned int* doAllocate)
 // ------------------------------------------------------------------
 // do init1 stuff
 // ------------------------------------------------------------------
-void FortranWrapper::doInit1(const FString& sdml)
+void FortranWrapper::doInit1(const protocol::Init1Data& init1Data)
    {
    // Set up the dll pointers
    setup();
 
-   protocol::Component::doInit1(sdml);
+   protocol::Component::doInit1(init1Data);
    Instance saved = *instance;
    FortranWrapper* savedThis = currentInstance;
    swapInstanceIn();
@@ -172,7 +173,7 @@ void FortranWrapper::doInit1(const FString& sdml)
    if (my_do_init1)
       (*my_do_init1)();
    else
-      Main("create", asString(sdml).c_str());
+      Main("create", asString(init1Data.sdml).c_str());
 
    *instance = saved;
    currentInstance = savedThis;

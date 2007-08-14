@@ -49,9 +49,9 @@ PatchInputComponent::~PatchInputComponent(void)
 // ------------------------------------------------------------------
 // INIT1 method handler.
 // ------------------------------------------------------------------
-void PatchInputComponent::doInit1(const FString& sdml)
+void PatchInputComponent::doInit1(const protocol::Init1Data& initData)
    {
-   InputComponent::doInit1(sdml);
+   InputComponent::doInit1(initData);
 
    haveReadPatchData = false;
    preNewmetID = addRegistration(RegistrationType::respondToEvent, "preNewmet", DDML(protocol::NewMetType()).c_str());

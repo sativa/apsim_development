@@ -38,7 +38,7 @@ HerbageConverter::~HerbageConverter(void)
 // ------------------------------------------------------------------
 // Init1 phase.
 // ------------------------------------------------------------------
-void HerbageConverter::doInit1(const FString& sdml)
+void HerbageConverter::doInit1(const protocol::Init1Data& initData)
    {
    tramplingID = system->addRegistration(RegistrationType::respondToGet, "herbage_trampling", singleTypeDDML);
    plant2stockID = system->addRegistration(RegistrationType::respondToGet, "plant2stock", protocol::DDML(protocol::Plant2StockType()).c_str());
@@ -58,7 +58,7 @@ void HerbageConverter::doInit1(const FString& sdml)
     else
        throw std::invalid_argument("Unknown herbage model '" + herbage_model + "'");
 
-    conversion->doInit1(sdml);
+    conversion->doInit1(initData);
    }
 // ------------------------------------------------------------------
 // Init2 phase.

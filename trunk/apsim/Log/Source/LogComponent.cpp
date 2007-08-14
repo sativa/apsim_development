@@ -94,9 +94,9 @@ protocol::Component* createComponent(void)
 //    dph 27/6/2001
 
 // ------------------------------------------------------------------
-void LogComponent::doInit1(const FString& sdml)
+void LogComponent::doInit1(const protocol::Init1Data& initData)
    {
-   protocol::Component::doInit1(sdml);
+   protocol::Component::doInit1(initData);
 
    debug_outputID = addRegistration(RegistrationType::respondToSet, "debug_output", "");
    string filename = componentData->getProperty("parameters", "logfile");

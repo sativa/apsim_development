@@ -152,8 +152,10 @@ class EXPORT Component
       Component(void);
       virtual ~Component(void);
 
-      const char  *getName(void) {return name.c_str();};
-      const char  *getDllName(void) {return dllName.c_str();};
+      std::string getName(void) {return name;};
+      std::string getFQName(void) {return (parentName + "." + name);};
+      std::string getParentName(void) {return parentName;};
+      std::string getDllName(void) {return dllName;};
       unsigned int getId(void) {return componentID;};
       ScienceAPI& scienceAPI() {return *api;}
 
@@ -252,7 +254,7 @@ class EXPORT Component
       std::string getDescription(void);
 
       // override these methods if necessary.
-      virtual void doInit1(const FString& sdml);
+      virtual void doInit1(const Init1Data&);
       virtual void doInit2(void) { }
       virtual void doCommence(void) { }
       virtual void respondToEvent(unsigned int& fromID, unsigned int& eventID, Variant& variant);
@@ -326,6 +328,7 @@ class EXPORT Component
 
    private:
       std::string name;
+      std::string parentName;
       std::string dllName;
       std::string type;
       std::string version;
@@ -355,7 +358,6 @@ class EXPORT Component
                  const unsigned int parentid,
                  const unsigned int* callbackarg,
                  CallbackType messagecallback);
-      void storeName(const FString& fqn, const FString& sdml);
 
       void clearReturnInfos(void);
       void waitForComplete(void);

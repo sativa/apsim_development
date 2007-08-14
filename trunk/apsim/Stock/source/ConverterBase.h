@@ -24,7 +24,7 @@ class ConverterBase : public protocol::Component
       ConverterBase(void);
       ConverterBase(protocol::Component *system);
       virtual ~ConverterBase(void);
-      virtual void doInit1(const FString& sdml) = 0;
+      virtual void doInit1(const protocol::Init1Data&) = 0;
       virtual void doInit2(void) = 0;
       virtual void respondToGet(unsigned int& fromID, protocol::QueryValueData& queryData) = 0;
       virtual void respondToEvent(unsigned int& fromID, unsigned int& eventID, protocol::Variant& variant) = 0;

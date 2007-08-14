@@ -81,11 +81,11 @@ InputComponent::~InputComponent(void)
 // ------------------------------------------------------------------
 // INIT1 method handler.
 // ------------------------------------------------------------------
-void InputComponent::doInit1(const FString& sdml)
+void InputComponent::doInit1(const protocol::Init1Data& init1Data)
    {
    try
       {
-      protocol::Component::doInit1(sdml);
+      protocol::Component::doInit1(init1Data);
 
       static const char* getDataDDML = "<type kind=\"string\" array=\"T\"/>";
       static const char* stringDDML = "<type kind=\"string\"/>";

@@ -28,7 +28,7 @@ class ScienceConverterComponent : public protocol::Component
    public:
       ScienceConverterComponent(void);
       virtual ~ScienceConverterComponent(void);
-      virtual void doInit1(const FString& sdml);
+      virtual void doInit1(const protocol::Init1Data&);
       virtual void doInit2(void);
       virtual void respondToGet(unsigned int& fromID, protocol::QueryValueData& queryData);
       virtual void respondToEvent(unsigned int& fromID, unsigned int& eventID, protocol::Variant& variant);
