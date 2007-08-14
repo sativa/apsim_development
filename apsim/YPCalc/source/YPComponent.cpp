@@ -46,9 +46,9 @@ YPComponent::YPComponent(void)
 // ------------------------------------------------------------------
 // initialise the YP component - STAGE 1.
 // ------------------------------------------------------------------
-void YPComponent::doInit1(const FString& sdml)
+void YPComponent::doInit1(const protocol::Init1Data& initData)
    {
-   Component::doInit1(sdml);
+   Component::doInit1(initData);
    static const char* realArrayType = "<type kind=\"double\" array=\"T\"\\>";
    static const char* realType = "<type kind=\"double\"\\>";
 

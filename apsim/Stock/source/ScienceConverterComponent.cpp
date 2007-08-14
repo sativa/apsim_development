@@ -62,9 +62,9 @@ ScienceConverterComponent::~ScienceConverterComponent(void)
 // ------------------------------------------------------------------
 // Init1 phase.
 // ------------------------------------------------------------------
-void ScienceConverterComponent::doInit1(const FString& sdml)
+void ScienceConverterComponent::doInit1(const protocol::Init1Data& initData)
    {
-   protocol::Component::doInit1(sdml);
+   protocol::Component::doInit1(initData);
    endRunID = addRegistration(RegistrationType::respondToEvent, "end_run", protocol::DDML("").c_str());
 
     conversion_model = readParameter ("constants", "conversion_model");
@@ -80,7 +80,7 @@ void ScienceConverterComponent::doInit1(const FString& sdml)
     else
        throw std::invalid_argument("Unknown conversion model '" + conversion_model + "'");
 
-    conversion->doInit1(sdml);
+    conversion->doInit1(initData);
    }
 // ------------------------------------------------------------------
 // Init2 phase.

@@ -79,10 +79,10 @@ PastureConverter::~PastureConverter(void)
 // ------------------------------------------------------------------
 // Init1 phase.
 // ------------------------------------------------------------------
-void PastureConverter::doInit1(const FString& sdml)
+void PastureConverter::doInit1(const protocol::Init1Data& initData)
 //===========================================================================
    {
-   protocol::Component::doInit1(sdml);
+   protocol::Component::doInit1(initData);
    sandID = addRegistration(RegistrationType::respondToGet, "sand", doubleArrayTypeDDML);
    vpdID = addRegistration(RegistrationType::respondToGet, "vpd", singleTypeDDML);
    swLayerID = addRegistration(RegistrationType::respondToGet, "sw_layer", protocol::DDML(protocol::SoilLayersType()).c_str());

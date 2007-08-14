@@ -55,13 +55,6 @@ TrackerComponent::~TrackerComponent(void)
    {
    }
 // ------------------------------------------------------------------
-// Init1 phase.
-// ------------------------------------------------------------------
-void TrackerComponent::doInit1(const FString& sdml)
-   {
-   protocol::Component::doInit1(sdml);
-   }
-// ------------------------------------------------------------------
 // Init2 phase.
 // ------------------------------------------------------------------
 void TrackerComponent::doInit2(void)

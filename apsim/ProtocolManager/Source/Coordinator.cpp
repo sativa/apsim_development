@@ -102,13 +102,13 @@ Coordinator::~Coordinator(void)
 //    dph 22/2/2000
 
 // ------------------------------------------------------------------
-void Coordinator::doInit1(const FString& sdml)
+void Coordinator::doInit1(const protocol::Init1Data &init1Data)
    {
    if (componentID == parentID) {cout << "Version                = " + getApsimVersion() << endl;}
 
-   Component::doInit1(sdml);
+   Component::doInit1(init1Data);
 
-   string sdmlString = string(sdml.f_str(), sdml.length());
+   string sdmlString = string(init1Data.sdml.f_str(), init1Data.sdml.length());
    ApsimSimulationFile simulationData(sdmlString, true);
 
 
@@ -181,11 +181,6 @@ void Coordinator::doInit2(void)
    // resolve all registrations.
    afterInit2 = true;
 
-   char buffer[100];
-   FString st(buffer, sizeof(buffer), CString);
-   componentIDToName(parentID, st);
-   parentName = asString(st);
-
    // initialise all components.
    for (Components::iterator componentI = components.begin();
                              componentI != components.end() && !doTerminate;
@@ -257,6 +252,7 @@ void Coordinator::addComponent(const string& compName,
                                   compSdml.c_str(),
                                   fqn.c_str(),
                                   true));
+/////////////cout << "fqn="<<fqn<<endl; < wrong
       }
    catch (const runtime_error& error)
       {

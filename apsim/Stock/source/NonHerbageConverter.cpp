@@ -34,7 +34,7 @@ NonHerbageConverter::~NonHerbageConverter(void)
 // ------------------------------------------------------------------
 // Init1 phase.
 // ------------------------------------------------------------------
-void NonHerbageConverter::doInit1(const FString& sdml)
+void NonHerbageConverter::doInit1(const protocol::Init1Data& initData)
    {
    day_lengthID = system->addRegistration(RegistrationType::get, "day_length", singleTypeDDML);
 //   tramplingID = system->addRegistration(RegistrationType::get, "trampling", singleTypeDDML);

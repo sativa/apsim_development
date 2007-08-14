@@ -27,7 +27,7 @@ class NonHerbageConverter : public ConverterBase
       NonHerbageConverter(void);
       NonHerbageConverter(protocol::Component *system);
       ~NonHerbageConverter(void);
-      virtual void doInit1(const FString& sdml);
+      virtual void doInit1(const protocol::Init1Data&);
       virtual void doInit2(void);
       virtual void respondToGet(unsigned int& fromID, protocol::QueryValueData& queryData);
       virtual void respondToEvent(unsigned int& fromID, unsigned int& eventID, protocol::Variant& variant);

@@ -76,9 +76,9 @@ VensimComponent::~VensimComponent(void)
 // ------------------------------------------------------------------
 // Stage 1 initialisation.
 // ------------------------------------------------------------------
-void VensimComponent::doInit1(const FString& sdml)
+void VensimComponent::doInit1(const protocol::Init1Data& initData)
    {
-   Component::doInit1(sdml);
+   Component::doInit1(initData);
    processID = addRegistration(RegistrationType::respondToEvent, "prepare", "");   // XX Astounding!! XX
    }
 

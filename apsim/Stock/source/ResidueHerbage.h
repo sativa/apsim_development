@@ -12,6 +12,7 @@ class ResidueHerbage : public HerbageBase
       ResidueHerbage(void);
       ResidueHerbage(protocol::Component *system);
       ~ResidueHerbage(void);
+      void doInit1(const protocol::Init1Data&);
       void doInit2(void);
 //      void respondToGet(unsigned int& fromID, protocol::QueryValueData& queryData);
       void doDmdPoolsToHerbageParts(protocol::RemoveHerbageType &grazed, protocol::RemoveCropDmType &crop);
@@ -51,7 +52,6 @@ class ResidueHerbage : public HerbageBase
       float selectionFactor ( void );
 
 
-      void doInit1(const FString& sdml);
       void doGrazed(protocol::RemoveHerbageType &grazed);
       void readParameters ( void );
 

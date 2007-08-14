@@ -13,7 +13,7 @@ class PatchInputComponent : public InputComponent
       PatchInputComponent(void);
       ~PatchInputComponent(void);
 
-      virtual void doInit1(const FString& sdml);
+      virtual void doInit1(const protocol::Init1Data&);
       virtual void respondToEvent(unsigned int& fromID, unsigned int& eventID, protocol::Variant& variant);
       virtual void respondToGet(unsigned int& fromID, protocol::QueryValueData& queryData);
 
