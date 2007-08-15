@@ -15,7 +15,6 @@ class FarmwiseSequencer : public protocol::Component
    public:
       FarmwiseSequencer(void);
       ~FarmwiseSequencer(void);
-      virtual void doInit1(const FString& sdml);
       virtual void doInit2(void);
       virtual void respondToEvent(unsigned int& fromID, unsigned int& eventID, protocol::Variant& variant);
 
