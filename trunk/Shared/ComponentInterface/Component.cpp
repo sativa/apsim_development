@@ -283,11 +283,14 @@ void Component::doInit1(const Init1Data& init1Data)
    string fqn =  asString(init1Data.fqn);
    unsigned posPeriod = fqn.rfind('.');
    if (posPeriod == string::npos)
+      {
       name = fqn;
+      pathName = ".";
+      }
    else
       {
       name = fqn.substr(posPeriod+1);
-      parentName = fqn.substr(0, posPeriod);
+      pathName = fqn.substr(0, posPeriod);
       }
 
    type = "?";

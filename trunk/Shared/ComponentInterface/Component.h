@@ -153,8 +153,7 @@ class EXPORT Component
       virtual ~Component(void);
 
       std::string getName(void) {return name;};
-      std::string getFQName(void) {return (parentName + "." + name);};
-      std::string getParentName(void) {return parentName;};
+      std::string getFQName(void) {return (pathName + "." + name);};
       std::string getDllName(void) {return dllName;};
       unsigned int getId(void) {return componentID;};
       ScienceAPI& scienceAPI() {return *api;}
@@ -328,7 +327,7 @@ class EXPORT Component
 
    private:
       std::string name;
-      std::string parentName;
+      std::string pathName;
       std::string dllName;
       std::string type;
       std::string version;
