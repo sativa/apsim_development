@@ -191,7 +191,6 @@
                                  ! for N uptake (mm)
          real acc_growth_for_N   ! Accumulated growth, used for
                                  ! N uptake (kg/ha)
-         real acc_growth         ! Accumulated growth (kg/ha)
          real basal_area         ! Basal area (%)
          real dlt_basal_area     ! change in BA
          real acc_et_summer      ! cuml evapotrans for this season
@@ -339,7 +338,6 @@
          integer   day_start_dry  ! julian day of start of dry season
 
          integer   acc_et_reset    ! reset day for acc et
-         integer   acc_growth_reset ! reset day for acc_growth
          integer   trans_for_n_reset ! "
          integer   growth_for_n_reset ! "
 
@@ -2217,9 +2215,6 @@ C     condition. This is because of the wrap-around between years.
       g%acc_growth_for_N = g%acc_growth_for_N
      :                   + sum_real_array(g%dlt_dm_plant, max_part)
 
-      g%acc_growth = g%acc_growth
-     :             + sum_real_array(g%dlt_dm_plant, max_part)
-
 cplp
 c      write (*,*) 'g%acc_et_summer: ', g%acc_et_summer
 c      write (*,*) 'dm_green:     ', g%dm_green
@@ -2472,9 +2467,6 @@ c     Bound to reasonable values:
          g%acc_trans_for_N = - sum_real_array(g%dlt_sw_dep, max_layer)
       endif
 
-      if (g%day_of_year .eq. c%acc_growth_reset) then
-         g%acc_growth = 0.0
-      endif
       if (g%day_of_year .eq. c%acc_et_reset) then
          g%acc_ET_summer = 0.0
       endif
@@ -2690,7 +2682,6 @@ c     Bound to reasonable values:
       c%day_start_wet = 0
       c%day_start_dry = 0
       c%acc_et_reset = 0
-      c%acc_growth_reset = 0
       c%trans_for_n_reset = 0
       c%growth_for_n_reset = 0
 
@@ -2730,7 +2721,6 @@ c     Bound to reasonable values:
       g%basal_area = 0.0
       g%acc_trans_for_N = 0.0
       g%acc_growth_for_N = 0.0
-      g%acc_growth = 0.0
       call fill_real_array (g%detach, 0.0, max_part)
       g%litter = 0.0
       g%soil_loss = 0.0
@@ -3957,11 +3947,6 @@ cpdev. One of these is right. I don't know which...
      :        'basal_area',
      :        '(m^2/ha)', g%basal_area)
 
-      elseif (variable_name .eq. 'acc_growth') then
-         call respond2get_real_var (
-     :        'acc_growth',
-     :        '(kg/ha)', g%acc_growth)
-
       elseif (variable_name .eq. 'acc_growth_for_n') then
          call respond2get_real_var (
      :        'acc_growth_for_n',
@@ -4790,11 +4775,6 @@ c     :                    , 0.0, 10000.0)
       call read_integer_var (section_name
      :                   , 'acc_et_reset', '()'
      :                   , c%acc_et_reset, numvals
-     :                   , 0, 366)
-
-      call read_integer_var (section_name
-     :                   , 'acc_growth_reset', '()'
-     :                   , c%acc_growth_reset, numvals
      :                   , 0, 366)
 
       call read_integer_var (section_name
