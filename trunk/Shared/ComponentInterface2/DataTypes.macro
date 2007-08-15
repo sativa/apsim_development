@@ -105,7 +105,7 @@ class ScienceAPI
 
       virtual void write(const std::string& msg) = 0;
       virtual std::string name() = 0;
-      virtual std::string parent() = 0;
+      virtual std::string FQName() = 0;
 
       // -----------------------------------------------------------------------
       // Return a list of all variables or components (fully qualified)
@@ -158,7 +158,7 @@ class EXPORT CMPScienceAPI : public ScienceAPI
 
       virtual void write(const std::string& msg);
       virtual std::string name();
-      virtual std::string parent();
+      virtual std::string FQName();
 
       virtual void query(const std::string& pattern, std::vector<QueryMatch>& matches);
 
@@ -202,8 +202,8 @@ CMPScienceAPI::CMPScienceAPI(CMPComponentInterface& componentinterface)
 
 std::string CMPScienceAPI::name()
    {return componentInterface.getName();}
-std::string CMPScienceAPI::parent()
-   {return componentInterface.getParentName();}
+std::string CMPScienceAPI::FQName()
+   {return componentInterface.getFQName();}
 void CMPScienceAPI::write(const std::string& msg)
    {
    componentInterface.write(msg);

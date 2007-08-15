@@ -22,7 +22,7 @@ class ScienceAPI
 
       virtual void write(const std::string& msg) = 0;
       virtual std::string name() = 0;
-      virtual std::string parent() = 0;
+      virtual std::string FQName() = 0;
 
       // -----------------------------------------------------------------------
       // Return a list of all variables or components (fully qualified)

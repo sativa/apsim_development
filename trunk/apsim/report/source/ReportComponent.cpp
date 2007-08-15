@@ -347,18 +347,20 @@ void ReportComponent::createVariable(const string& name)
 // ------------------------------------------------------------------
 string ReportComponent::calcFileName()
    {
-   string title, pmName;
+   string title, FQName;
 
    scienceAPI.get("title", "", true, title);
-
-   pmName = scienceAPI.parent();
-
    string fileName = title;
-   if (!Str_i_Eq(pmName, "paddock") && !Str_i_Eq(pmName, "masterpm"))
+
+   FQName = scienceAPI.FQName();   // eg. ".masterpm.paddock.outputfile"
+   string parent = FQName.substr(0,FQName.rfind('.'));
+   parent = parent.substr(1+parent.rfind('.'), parent.length());
+
+   if (!Str_i_Eq(parent, "paddock") && !Str_i_Eq(parent, "masterpm"))
       {
       if (fileName != "")
          fileName += " ";
-      fileName += pmName;
+      fileName += parent;
       }
 
    if (!Str_i_Eq(scienceAPI.name(), "outputfile"))

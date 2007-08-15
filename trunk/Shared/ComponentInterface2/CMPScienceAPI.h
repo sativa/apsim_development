@@ -15,7 +15,7 @@ class EXPORT CMPScienceAPI : public ScienceAPI
 
       virtual void write(const std::string& msg);
       virtual std::string name();
-      virtual std::string parent();
+      virtual std::string FQName();
 
       virtual void query(const std::string& pattern, std::vector<QueryMatch>& matches);
 
