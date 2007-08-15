@@ -1,4 +1,4 @@
-version = 5.2
+version = 5.4
 [apsim.fm]
 title = report.title
 module = clock              %apsuite\apsim\wheat\sample\wheat.par [sample] %apsuite\apsim\clock\clock.ini[standard]
@@ -10,7 +10,6 @@ module = soiln2             %apsuite\apsim\soiln2\sample\soiln2.par [black_earth
 module = plant(wheat)       %apsuite\apsim\wheat\sample\wheat.par [sample] %apsuite\apsim\wheat\wheat.ini [standard]
 module = TclLink(machinery) machinery.par [machinery]
 module = TclLink(cashbook)  machinery.par [cashbook]
-module = SummaryFile        machinery.par [summaryfile]
 
 
 [apsim.show error1]
@@ -18,5 +17,4 @@ title = report.title
 module = clock              %apsuite\apsim\wheat\sample\wheat.par [sample] %apsuite\apsim\clock\clock.ini[standard]
 module = input(met)         %apsuite\apsim\met\sample\dalby.met [weather]
 module = manager            machinery.par [error1]
-module = TclLink(machinery) machinery.par [machinery] 
-module = SummaryFile        machinery.par [error1]
+module = TclLink(machinery) machinery.par [machinery]
