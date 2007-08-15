@@ -428,9 +428,14 @@ std::string getAttributeFromXML(const std::string& XML, const std::string& attri
    if (posAttribute != string::npos && posAttribute < posEnd)
       {
       unsigned posOpenQuote = XML.find('\"', posAttribute);
-      unsigned posCloseQuote = XML.find('\"', posOpenQuote+1);
-      if (posOpenQuote != string::npos && posCloseQuote != string::npos)
-         return XML.substr(posOpenQuote+1, posCloseQuote-posOpenQuote-1);
+      if (posOpenQuote != string::npos ) 
+         {
+         unsigned posCloseQuote = XML.find('\"', posOpenQuote+1);
+         if (posCloseQuote != string::npos)
+            {
+            return XML.substr(posOpenQuote+1, posCloseQuote-posOpenQuote-1);
+            }
+         }   
       }
    else
       return "?";
