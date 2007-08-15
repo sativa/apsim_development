@@ -1,4 +1,5 @@
 //---------------------------------------------------------------------------
+#include <iostream>
 #include <string>
 #include "TestHttp.h"
 #include "../http.h"
@@ -30,10 +31,9 @@ void testGetError(void)
    tHTTP t;
    string url ="http://192.168.0.60/no file";
    string result = t.Get(url);
-   string text = t.responseText();
+   //string text = t.responseText();
    int code = t.responseCode();
-
-   BOOST_CHECK(code = 404);
+   BOOST_CHECK(code == 404);
    }
 
 void testGetError2(void)
@@ -46,9 +46,9 @@ void testGetError2(void)
       string("&ddStart=1&mmStart=1&yyyyStart=1800&ddFinish=31&mmFinish=12&yyyyFinish=2100");
 
    string result = t.Get(url);
-   string text = t.responseText();
+   //string text = t.responseText();
    int code = t.responseCode();
-   BOOST_CHECK(code = 200);
+   BOOST_CHECK(code == 200);
    }
 
 void testGetError3(void)
@@ -61,9 +61,9 @@ void testGetError3(void)
       string("&ddStart=1&mmStart=1&yyyyStart=1800&ddFinish=31&mmFinish=12&yyyyFinish=2100");
 
    string result = t.Get(url);
-   string text = t.responseText();
+   //string text = t.responseText();
    int code = t.responseCode();
-   BOOST_CHECK(code = 200);
+   BOOST_CHECK(code == 200);
    }
 
 //---------------------------------------------------------------------------
