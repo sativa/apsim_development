@@ -10,8 +10,8 @@ CMPScienceAPI::CMPScienceAPI(CMPComponentInterface& componentinterface)
 
 std::string CMPScienceAPI::name()
    {return componentInterface.getName();}
-std::string CMPScienceAPI::parent()
-   {return componentInterface.getParentName();}
+std::string CMPScienceAPI::FQName()
+   {return componentInterface.getFQName();}
 void CMPScienceAPI::write(const std::string& msg)
    {
    componentInterface.write(msg);
