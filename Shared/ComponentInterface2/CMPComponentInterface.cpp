@@ -429,11 +429,14 @@ void CMPComponentInterface::onInit1(const Message& message)
    // get instance name from fqn.
    unsigned posPeriod = init1.fqn.rfind('.');
    if (posPeriod == string::npos)
+      {
       name = init1.fqn;
+      pathName = ".";
+      }
    else
       {
       name = init1.fqn.substr(posPeriod+1);
-      parentName = init1.fqn.substr(0, posPeriod);
+      pathName = init1.fqn.substr(0, posPeriod);
       }
    expose("name", "", "", false, new CMPBuiltIn<string>(name));
    expose("type", "", "", false, new CMPBuiltIn<string>(componentType));

@@ -242,7 +242,7 @@ void Coordinator::addComponent(const string& compName,
           
       components.insert(Components::value_type(childID, componentAlias));
 
-      string fqn = getName();
+      string fqn = getFQName();
       fqn += ".";
       fqn += compName;
 
@@ -252,7 +252,7 @@ void Coordinator::addComponent(const string& compName,
                                   compSdml.c_str(),
                                   fqn.c_str(),
                                   true));
-/////////////cout << "fqn="<<fqn<<endl; < wrong
+
       }
    catch (const runtime_error& error)
       {
@@ -331,36 +331,29 @@ void Coordinator::onRequestComponentIDMessage(unsigned int fromID,
 // ------------------------------------------------------------------
 void Coordinator::onRegisterMessage(unsigned int fromID, RegisterData& registerData)
    {
-   try
-      {
-      string regName = asString(registerData.name);
-      unsigned destID = registerData.destID;
-      unsigned posPeriod = regName.find('.');
+   string regName = asString(registerData.name);
+   unsigned destID = registerData.destID;
+   unsigned posPeriod = regName.find('.');
 
-      if (registerData.kind != RegistrationType::respondToGet
-          && posPeriod != string::npos)
-         {
-         string componentName = regName.substr(0, posPeriod);
-         if (Str_i_Eq(componentName.c_str(), getName()))
-            destID = componentID;
-         else if (Str_i_Eq(componentName.c_str(), parentName))
-            destID = parentID;
-         else if (Is_numerical(componentName.c_str()))
-            destID = atoi(componentName.c_str());
-         else
-            destID = componentNameToID(componentName);
-         if (destID == INT_MAX)
-            throw runtime_error("Cannot find component " + regName.substr(0, posPeriod));
-         regName.erase(0, posPeriod+1);
-         }
-
-      ::Registration newReg(fromID, registerData.ID, regName, asString(registerData.type), registerData.kind);
-      registrations.add(newReg, destID);
-      }
-   catch (const runtime_error& err)
+   if (registerData.kind != RegistrationType::respondToGet
+       && posPeriod != string::npos)
       {
-      error(err.what(), true);
+      string componentName = regName.substr(0, posPeriod);
+      if (Str_i_Eq(componentName.c_str(), getName()))
+         destID = componentID;
+      else if (Str_i_Eq(componentName.c_str(), parentName))
+         destID = parentID;
+      else if (Is_numerical(componentName.c_str()))
+         destID = atoi(componentName.c_str());
+      else
+         destID = componentNameToID(componentName);
+      if (destID == INT_MAX)
+         throw std::runtime_error("Cannot find component " + regName.substr(0, posPeriod));
+      regName.erase(0, posPeriod+1);
       }
+
+   ::Registration newReg(fromID, registerData.ID, regName, asString(registerData.type), registerData.kind);
+   registrations.add(newReg, destID);
    }
 
 // ------------------------------------------------------------------
@@ -375,14 +368,7 @@ void Coordinator::onRegisterMessage(unsigned int fromID, RegisterData& registerD
 // ------------------------------------------------------------------
 void Coordinator::onDeregisterMessage(unsigned int fromID, DeregisterData& deregisterData)
    {
-   try
-      {
-      registrations.erase(fromID, deregisterData.ID, deregisterData.kind);
-      }
-   catch (const runtime_error& err)
-      {
-      error(err.what(), true);
-      }
+   registrations.erase(fromID, deregisterData.ID, deregisterData.kind);
    }
 
 // ------------------------------------------------------------------
@@ -392,27 +378,20 @@ void Coordinator::onPublishEventMessage(unsigned int fromID, PublishEventData& p
    {
    if (!doTerminate)
       {
-      try
+      if (Str_i_Eq(registrations.getName(fromID, publishEventData.ID, RegistrationType::event),
+                   "error"))
          {
-         if (Str_i_Eq(registrations.getName(fromID, publishEventData.ID, RegistrationType::event),
-                      "error"))
-            {
-            protocol::ErrorData errorData;
-            publishEventData.variant.unpack(errorData);
-            string fromComponentName;
-            if (components.find(fromID) != components.end())
-               fromComponentName = components[fromID]->getName();
+         protocol::ErrorData errorData;
+         publishEventData.variant.unpack(errorData);
+         string fromComponentName;
+         if (components.find(fromID) != components.end())
+            fromComponentName = components[fromID]->getName();
 
-            onError(fromComponentName,
-                    asString(errorData.errorMessage),
-                    errorData.isFatal);
-            }
-         propogateEvent(fromID, publishEventData);
+         onError(fromComponentName,
+                 asString(errorData.errorMessage),
+                 errorData.isFatal);
          }
-      catch (const runtime_error& err)
-         {
-         error(err.what(), true);
-         }
+      propogateEvent(fromID, publishEventData);
       }
    }
 // ------------------------------------------------------------------
@@ -420,33 +399,26 @@ void Coordinator::onPublishEventMessage(unsigned int fromID, PublishEventData& p
 // ------------------------------------------------------------------
 void Coordinator::propogateEvent(unsigned int fromID, PublishEventData& publishEventData)
    {
-   try
+   ::Registrations::Subscriptions subscriptions;
+   registrations.getSubscriptions(fromID, publishEventData.ID, RegistrationType::event, subscriptions);
+
+   if (componentOrders.size() > 0)
+      reorderSubscriptions(subscriptions);
+
+   for (::Registrations::Subscriptions::iterator s = subscriptions.begin();
+                                                 s != subscriptions.end() && !doTerminate;
+                                                 s++)
       {
-      ::Registrations::Subscriptions subscriptions;
-      registrations.getSubscriptions(fromID, publishEventData.ID, RegistrationType::event, subscriptions);
+      // if the event is going to our parent then we need to say that it is
+      // coming from us rather than our child.
+      if (s->componentId == parentID)
+         fromID = componentID;
 
-      if (componentOrders.size() > 0)
-         reorderSubscriptions(subscriptions);
-
-      for (::Registrations::Subscriptions::iterator s = subscriptions.begin();
-                                                    s != subscriptions.end() && !doTerminate;
-                                                    s++)
-         {
-         // if the event is going to our parent then we need to say that it is
-         // coming from us rather than our child.
-         if (s->componentId == parentID)
-            fromID = componentID;
-
-         sendMessage(newEventMessage(componentID,
-                                     s->componentId,
-                                     s->id,
-                                     fromID,
-                                     publishEventData.variant));
-         }
-      }
-   catch (const runtime_error& err)
-      {
-      error(err.what(), true);
+      sendMessage(newEventMessage(componentID,
+                                  s->componentId,
+                                  s->id,
+                                  fromID,
+                                  publishEventData.variant));
       }
    }
 
@@ -488,68 +460,54 @@ void Coordinator::onGetValueMessage(unsigned int fromID, GetValueData& getValueD
 // ------------------------------------------------------------------
 void Coordinator::sendQueryValueMessage(unsigned fromID, unsigned regID)
    {
-   try
-      {
-      ::Registrations::Subscriptions subs;
+   ::Registrations::Subscriptions subs;
 
+   registrations.getSubscriptions(fromID, regID, RegistrationType::get, subs);
+
+   // apsim hack to poll modules for variables.  This is because we haven't
+   // yet got all the .interface files up to date.
+   if (subs.size() == 0)
+      {
+      string regName = registrations.getName(fromID, regID, RegistrationType::get);
+      unsigned destID = registrations.getDestId(fromID, regID, RegistrationType::get);
+      pollComponentsForGetVariable(regName, destID);
       registrations.getSubscriptions(fromID, regID, RegistrationType::get, subs);
-
-      // apsim hack to poll modules for variables.  This is because we haven't
-      // yet got all the .interface files up to date.
-      if (subs.size() == 0)
-         {
-         string regName = registrations.getName(fromID, regID, RegistrationType::get);
-         unsigned destID = registrations.getDestId(fromID, regID, RegistrationType::get);
-         pollComponentsForGetVariable(regName, destID);
-         registrations.getSubscriptions(fromID, regID, RegistrationType::get, subs);
-         }
-
-      previousGetValueCompID.push(fromID);
-      previousGetValueRegID.push(regID);
-      for (::Registrations::Subscriptions::iterator s = subs.begin();
-                                                    s != subs.end();
-                                                    s++)
-         {
-         sendMessage(newQueryValueMessage(componentID,
-                                          s->componentId,
-                                          s->id,
-                                          fromID));
-         }
-      previousGetValueCompID.pop();
-      previousGetValueRegID.pop();
       }
-   catch (const runtime_error& err)
+
+   previousGetValueCompID.push(fromID);
+   previousGetValueRegID.push(regID);
+   for (::Registrations::Subscriptions::iterator s = subs.begin();
+                                                 s != subs.end();
+                                                 s++)
       {
-      error(err.what(), true);
+      sendMessage(newQueryValueMessage(componentID,
+                                       s->componentId,
+                                       s->id,
+                                       fromID));
       }
+   previousGetValueCompID.pop();
+   previousGetValueRegID.pop();
    }
 // ------------------------------------------------------------------
 // Send a returnValue message back to originating component.
 // ------------------------------------------------------------------
 void Coordinator::onReplyValueMessage(unsigned fromID, ReplyValueData replyValueData)
    {
-   try
+   unsigned toID = previousGetValueCompID.top();
+   if (toID == parentID || components[toID]->isSystem())
       {
-      unsigned toID = previousGetValueCompID.top();
-      if (toID == parentID || components[toID]->isSystem())
-         {
-         sendMessage(newReplyValueMessage(componentID,
-                                          toID,
-                                          previousGetValueRegID.top(),
-                                          replyValueData.variant));
-         }
-      else
-         {
-         sendMessage(newReturnValueMessage(componentID,
-                                           toID,
-                                           fromID,
-                                           previousGetValueRegID.top(),
-                                           replyValueData.variant));
-         }
+      sendMessage(newReplyValueMessage(componentID,
+                                       toID,
+                                       previousGetValueRegID.top(),
+                                       replyValueData.variant));
       }
-   catch (const runtime_error& err)
+   else
       {
-      error(err.what(), true);
+      sendMessage(newReturnValueMessage(componentID,
+                                        toID,
+                                        fromID,
+                                        previousGetValueRegID.top(),
+                                        replyValueData.variant));
       }
    }
 
@@ -669,64 +627,57 @@ void Coordinator::sendQuerySetValueMessage(unsigned ourComponentID,
                                            unsigned foreignRegID,
                                            protocol::Variant& variant)
    {
-   try
+   ::Registrations::Subscriptions subs;
+   bool hasBeenResolved = registrations.isResolved(ourComponentID, ourRegID, RegistrationType::set);
+   registrations.getSubscriptions(ourComponentID, ourRegID, RegistrationType::set, subs);
+
+   // apsim hack to poll modules for variables.  This is because we haven't
+   // yet got all the .interface files up to date.
+   if (!hasBeenResolved && subs.size() == 0)
       {
-      ::Registrations::Subscriptions subs;
-      bool hasBeenResolved = registrations.isResolved(ourComponentID, ourRegID, RegistrationType::set);
-      registrations.getSubscriptions(ourComponentID, ourRegID, RegistrationType::set, subs);
-
-      // apsim hack to poll modules for variables.  This is because we haven't
-      // yet got all the .interface files up to date.
-      if (!hasBeenResolved && subs.size() == 0)
+      string regName = registrations.getName(ourComponentID, ourRegID, RegistrationType::set);
+      string fqn = itoa(registrations.getDestId(ourComponentID, ourRegID, RegistrationType::set));
+      fqn += "." + regName;
+      bool havePolled = (variablesBeenPolledForSets.find(fqn)
+         != variablesBeenPolledForSets.end());
+      if (!havePolled)
          {
-         string regName = registrations.getName(ourComponentID, ourRegID, RegistrationType::set);
-         string fqn = itoa(registrations.getDestId(ourComponentID, ourRegID, RegistrationType::set));
-         fqn += "." + regName;
-         bool havePolled = (variablesBeenPolledForSets.find(fqn)
-            != variablesBeenPolledForSets.end());
-         if (!havePolled)
-            {
-            variablesBeenPolledForSets.insert(fqn);
-            unsigned destID = registrations.getDestId(ourComponentID, ourRegID, RegistrationType::set);
-            pollComponentsForSetVariable(regName, destID, foreignComponentID, foreignRegID, variant);
-            registrations.getSubscriptions(ourComponentID, ourRegID, RegistrationType::set, subs);
-            return;
-            }
-         }
-      if (subs.size() == 0)
-         {
-         string regName = registrations.getName(ourComponentID, ourRegID, RegistrationType::set);
-         throw runtime_error("No module allows a set of the variable " + regName);
-         }
-
-      else if (subs.size() == 1)
-         {
-         if (subs[0].componentId == parentID)
-            {
-            sendMessage(newQuerySetValueMessage(componentID,
-                                                subs[0].componentId,
-                                                subs[0].id,
-                                                variant));
-            sendMessage(newReplySetValueSuccessMessage(componentID,
-                                                       foreignComponentID,
-                                                       subs[0].id,
-                                                       getSetVariableSuccess()));
-            }
-         else
-            sendMessage(newQuerySetValueMessage(foreignComponentID,
-                                                subs[0].componentId,
-                                                subs[0].id,
-                                                variant));
-         }
-      else if (subs.size() > 1)
-         {
-         string regName = registrations.getName(ourComponentID, ourRegID, RegistrationType::set);
-         throw runtime_error("Too many modules allow a set of the variable " + regName);
+         variablesBeenPolledForSets.insert(fqn);
+         unsigned destID = registrations.getDestId(ourComponentID, ourRegID, RegistrationType::set);
+         pollComponentsForSetVariable(regName, destID, foreignComponentID, foreignRegID, variant);
+         registrations.getSubscriptions(ourComponentID, ourRegID, RegistrationType::set, subs);
+         return;
          }
       }
-   catch (const runtime_error& err)
+   if (subs.size() == 0)
       {
-      error(err.what(), true);
+      string regName = registrations.getName(ourComponentID, ourRegID, RegistrationType::set);
+      throw runtime_error("No module allows a set of the variable " + regName);
+      }
+
+   else if (subs.size() == 1)
+      {
+      if (subs[0].componentId == parentID)
+         {
+         sendMessage(newQuerySetValueMessage(componentID,
+                                             subs[0].componentId,
+                                             subs[0].id,
+                                             variant));
+         sendMessage(newReplySetValueSuccessMessage(componentID,
+                                                    foreignComponentID,
+                                                    subs[0].id,
+                                                    getSetVariableSuccess()));
+         }
+      else
+         sendMessage(newQuerySetValueMessage(foreignComponentID,
+                                             subs[0].componentId,
+                                             subs[0].id,
+                                             variant));
+      }
+   else if (subs.size() > 1)
+      {
+      string regName = registrations.getName(ourComponentID, ourRegID, RegistrationType::set);
+      throw runtime_error("Too many modules allow a set of the variable " + regName);
       }
    }
 // ------------------------------------------------------------------

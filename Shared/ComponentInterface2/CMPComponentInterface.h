@@ -41,8 +41,7 @@ class EXPORT CMPComponentInterface
       void write(const std::string& msg);
 
       std::string getName() {return name;}
-      std::string getFQName() {return (parentName + "." + name);}
-      std::string getParentName() {return parentName;}
+      std::string getFQName() {return (pathName + "." + name);}
 
       // internal stuff.
       void messageToLogic(const Message& message);
@@ -55,7 +54,7 @@ class EXPORT CMPComponentInterface
       unsigned componentID;
       unsigned parentID;
       std::string name;
-      std::string parentName;
+      std::string pathName;
       CallbackType* messageCallback;
       bool errorHasOccurred;
       XMLDocument* simScript;

@@ -134,8 +134,8 @@ void Simulation::init(const string& fileName)
    replaceAll(dllFilename, "%apsuite", getApsimDirectory());
 
    // create a Master PM and give it to the transport layer.
-   masterPM = new Computation("MasterPM", dllFilename, "", parentID, masterPMID);
-   Transport::getTransport().addComponent(masterPMID, "MasterPM", masterPM);
+   masterPM = new Computation(".MasterPM", dllFilename, "", parentID, masterPMID);
+   Transport::getTransport().addComponent(masterPMID, ".MasterPM", masterPM);
 
    // get sdml contents.
    ifstream in(fileName.c_str());
@@ -147,7 +147,7 @@ void Simulation::init(const string& fileName)
    resolveIncludes(sdmlContents);
 
    // initialise the simulation
-   string pmName = "MasterPM";
+   string pmName = ".MasterPM";
    Message* message = constructMessage(Init1, parentID, masterPMID , false,
                                        memorySize(sdmlContents) + memorySize(pmName) + memorySize(true));
    MessageData messageData(message);
