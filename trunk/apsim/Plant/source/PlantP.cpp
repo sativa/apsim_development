@@ -352,11 +352,11 @@ void Plant::summary_p (void)
 
        P_grain = grainPTot() * gm2kg/sm2ha;
 
-       P_green = stoverPGreen() * gm2kg / sm2ha;
+       P_green = tops.pGreenVeg() * gm2kg / sm2ha;
 
-       P_senesced = stoverPSenesced() * gm2kg / sm2ha;
+       P_senesced = tops.pSenescedVeg() * gm2kg / sm2ha;
 
-       P_dead = stoverPDead() * gm2kg / sm2ha;
+       P_dead = tops.pDeadVeg() * gm2kg / sm2ha;
 
        P_stover = P_green + P_senesced + P_dead;
        P_total = P_grain + P_stover;

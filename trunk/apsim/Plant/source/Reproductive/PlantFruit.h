@@ -24,8 +24,6 @@ public:												// member functions
    const PlantFruit &operator=(const PlantFruit &other);		// Assigment operator
 
    void onInit1(protocol::Component *system);
-   void doNewCohort(protocol::Component *system);
-
    void addNewCohort (protocol::Component *system);
 
 private:

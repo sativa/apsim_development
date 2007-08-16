@@ -54,7 +54,7 @@ class RootBase : public plantPart
 //      virtual int find_layer_no(float) const{};
 //      virtual int find_layer_no(float,const vector<float>&){};
 //      virtual int find_layer_no(float, float *, int){};
-      virtual float sw_avail_ratio(int layer) const{};
+      virtual float sw_avail_ratio(int layer) const{return 0;}
 
       virtual void plant_water_stress (
                                        float sw_demand,
@@ -67,22 +67,22 @@ class RootBase : public plantPart
 
       virtual void waterSupply(){};
       virtual void doWaterUptake(float sw_demand){};
-      virtual float waterUptake(void){};
+      virtual float waterUptake(void){return 0;}
       virtual void getOtherVariables(){};
       virtual void UpdateOtherVariables(){};
 
-      virtual float oxdef_stress (){};
+      virtual float oxdef_stress (){return 0;}
       virtual void onNewProfile(protocol::Variant &v){};
       virtual void write(){};
 
-      virtual float plant_nit_supply(float biomass, float stageNumber, float swdef_fixation){};
+      virtual float plant_nit_supply(float biomass, float stageNumber, float swdef_fixation){return 0;}
       virtual void plant_nit_uptake(float sumNMax, float sumSoilNDemand, float NDemand){};
       virtual void plant_water_uptake (int option, float SWDemand){};
-      virtual float peswTotal(){};
-      virtual float pesw(int depth){};
-      virtual float dltSwDep(){};
-      virtual float nUptake(){};
-      virtual float fasw(int depth){};
+      virtual float peswTotal(){return 0;}
+      virtual float pesw(int depth){return 0;}
+      virtual float dltSwDep(){return 0;}
+      virtual float nUptake(){return 0;}
+      virtual float fasw(int depth){return 0;}
 
 
    };

@@ -1,9 +1,5 @@
-
-// Modification log
-// 2 Feb 05 J. Hargreaves  Implementation
-
-#ifndef CompositePart_H
-#define CompositePart_H
+#ifndef CompositePartH
+#define CompositePartH
 
 #include "PlantPart.h"
 
@@ -15,7 +11,7 @@ public:                                             // member functions
 
    const CompositePart &operator=(const CompositePart &other);      // Assigment operator
 
-   virtual void doInit1(protocol::Component *system);
+   void add(plantPart* part);
 
    virtual void onInit1(protocol::Component *);
    virtual void doNewMet(protocol::NewMetType &newmet) ;
@@ -29,26 +25,9 @@ public:                                             // member functions
 
    virtual void get_name(vector<string> &name);
    virtual void get_p_demand(vector<float> &p_demand);
-   virtual void get_dlt_p_green(vector<float> &dlt_p_green);
    virtual void get_dlt_p_retrans(vector<float> &dlt_p_retrans);
-   virtual void get_p_green(vector<float> &p_green);
-   virtual void get_dlt_p_sen(vector<float> &);
-   virtual void get_dlt_p_dead(vector<float> &);
-   virtual void get_dlt_p_detached(vector<float> &);
-   virtual void get_p_sen(vector<float> &);
-   virtual void get_p_dead(vector<float> &);
-   virtual void get_dlt_n_dead_detached(vector<float> &);
-   virtual void get_dlt_n_detached(vector<float> &);
-   virtual void get_dlt_n_senesced_trans(vector<float> &);
-   virtual void get_dlt_n_senesced_retrans(vector<float> &);
+   virtual void get_dlt_n_dead_detached(vector<float> &n_dead_detached);
    virtual void get_dlt_n_senesced_dead(vector<float> &);
-   virtual void get_dlt_n_senesced(vector<float> &);
-   virtual void get_dlt_n_retrans(vector<float> &);
-   virtual void get_dlt_n_dead(vector<float> &);
-   virtual void get_dlt_n_green(vector<float> &);
-   virtual void get_n_dead(vector<float> &);
-   virtual void get_n_senesced(vector<float> &);
-   virtual void get_n_green(vector<float> &);
    virtual void get_dlt_dm_senesced_dead(vector<float> &);
    virtual void get_dlt_dm_green_dead(vector<float> &);
    virtual void get_dlt_dm_dead_detached(vector<float> &);
@@ -148,35 +127,38 @@ public:                                             // member functions
 
    virtual float grainWaterContent(void) const;
    virtual float dmGreenDemand(void) const;
-   virtual float dmTotal(void) const;
    virtual float dmGrainTotal(void) const;
    virtual float dmGrainWetTotal(void) const;
-   virtual float dmVegTotal(void) const;
    virtual float dmGreenGrainTotal(void) const;
+
    virtual float dmGreen(void) const;
    virtual float dmGreenVeg(void) const;
    virtual float dmSenescedVeg(void) const;
    virtual float dmSenesced(void) const;
    virtual float dmDeadVeg(void) const;
    virtual float dmDead(void) const;
+   virtual float dmTotal(void) const;
+   virtual float dmTotalVeg(void) const;
    virtual float grainWt(void) const;
    virtual float dmRetransSupply(void) const;
    virtual float dmRetransDemand(void) ;
 
    virtual float nTotal(void) const;
-   virtual float nGrainTotal(void) const;
-   virtual float nVegTotal(void) const;
-   virtual float nGreenGrainTotal(void) const;
-   virtual float nGreenVegTotal(void) const;
+   virtual float nTotalVeg(void) const;
    virtual float nGreen(void) const;
-   virtual float nSenescedVegTotal(void) const;
+   virtual float nGreenVeg(void)const;
    virtual float nSenesced(void) const;
-   virtual float nDeadVegTotal(void) const;
-   virtual float nDead(void) const;
+   virtual float nSenescedVeg(void)const;
+   virtual float nDead(void)const;
+   virtual float nDeadVeg(void)const;
    virtual float nConcGrain(void) const;
    virtual float nDemandGrain2(void);
    virtual float nRetransSupply(void);
    virtual float nRetransDemand(void);
+
+   virtual float nGrainTotal(void) const;
+   virtual float nGreenGrainTotal(void) const;
+
    virtual float dltNRetransOut(void);
    virtual float dltNSenescedRetrans(void) const;
    virtual float dltNGreen(void)const;
@@ -189,16 +171,16 @@ public:                                             // member functions
    virtual float nMax(void) const;
    virtual float nMinPot(void) const;
    virtual float pTotal(void) const;
+   virtual float pTotalVeg(void) const;
    virtual float pGrainTotal(void) const;
-   virtual float pVegTotal(void) const;
    virtual float pGreenGrainTotal(void) const;
    virtual float pDeadGrainTotal(void) const;
-   virtual float pGreenVegTotal(void) const;
+   virtual float pGreenVeg(void) const;
    virtual float pGreen(void) const;
    virtual float pSenescedGrainTotal(void) const;
-   virtual float pSenescedVegTotal(void) const;
+   virtual float pSenescedVeg(void) const;
    virtual float pSenesced(void) const;
-   virtual float pDeadVegTotal(void) const;
+   virtual float pDeadVeg(void) const;
    virtual float pDead(void) const;
    virtual float pConcGrain(void) const;
    virtual float pConcGrainTotal(void) const;
@@ -266,54 +248,13 @@ public:                                             // member functions
    ~CompositePart();
 #endif
 
-
-   //      protected:
-   //         plantInterface *plant;                 // The plant we are attached to
-
 protected:
    float dmGreenStressDeterminant(void);
    float pGreenStressDeterminant(void);
    float pMaxPotStressDeterminant(void);
    float pMinPotStressDeterminant(void);
 
-   virtual void get_DMGreen(protocol::Component *, protocol::QueryValueData &);
-   virtual void get_NGreen(protocol::Component *, protocol::QueryValueData &);
-   virtual void get_PGreen(protocol::Component *, protocol::QueryValueData &);
-   virtual void get_DMDead(protocol::Component *, protocol::QueryValueData &);
-   virtual void get_NDead(protocol::Component *, protocol::QueryValueData &);
-   virtual void get_PDead(protocol::Component *, protocol::QueryValueData &);
-   virtual void get_DMSenesced(protocol::Component *, protocol::QueryValueData &);
-   virtual void get_NSenesced(protocol::Component *, protocol::QueryValueData &);
-   virtual void get_PSen(protocol::Component *, protocol::QueryValueData &);
-   virtual void get_Dlt_dm_green(protocol::Component *, protocol::QueryValueData &);
-   virtual void get_Dlt_n_green(protocol::Component *, protocol::QueryValueData &);
-   virtual void get_Dlt_p_green(protocol::Component *, protocol::QueryValueData &);
-   virtual void get_Dlt_dm_dead(protocol::Component *, protocol::QueryValueData &);
-   virtual void get_Dlt_n_dead(protocol::Component *, protocol::QueryValueData &);
-   virtual void get_Dlt_p_dead(protocol::Component *, protocol::QueryValueData &);
-   virtual void get_Dlt_dm_senesced(protocol::Component *, protocol::QueryValueData &);
-   virtual void get_Dlt_n_senesced(protocol::Component *, protocol::QueryValueData &);
-   virtual void get_Dlt_p_sen(protocol::Component *, protocol::QueryValueData &);
-   virtual void get_Dlt_dm_detached(protocol::Component *, protocol::QueryValueData &);
-   virtual void get_Dlt_n_detached(protocol::Component *, protocol::QueryValueData &);
-   virtual void get_Dlt_p_det(protocol::Component *, protocol::QueryValueData &);
-   virtual void get_n_conc(protocol::Component *, protocol::QueryValueData &);
-   virtual void get_p_conc(protocol::Component *, protocol::QueryValueData &);
-   virtual void get_n_conc_crit(protocol::Component *, protocol::QueryValueData &);
-   virtual void get_n_conc_min(protocol::Component *, protocol::QueryValueData &);
-   virtual void get_NDemand(protocol::Component *, protocol::QueryValueData &);
-   virtual void get_Dlt_n_retrans(protocol::Component *, protocol::QueryValueData &);
-   virtual void get_Dlt_n_senesced_retrans(protocol::Component *, protocol::QueryValueData &);
-   virtual void get_Dlt_n_senesced_trans(protocol::Component *, protocol::QueryValueData &);
-   virtual void get_Dlt_dm_green_retrans(protocol::Component *, protocol::QueryValueData &);
-
-
-
-   /* system interface: */
-////   UInt2SetFnMap   IDtoSetFn;    /* setVariable */
-
    vector <plantPart *> myParts;
-////   vector <plantPart *>::iterator part;
 
 };
 

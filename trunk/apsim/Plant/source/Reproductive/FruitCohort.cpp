@@ -6,6 +6,13 @@
 
 using namespace std;
 
+// ##############################################################
+// DPH: Most of this file can be removed by relying on
+// composite part to do the looping over parts for dmGreenVeg,
+// dmSenescedVeg etc. We would need to put in lines in the grain
+// parts to return 0.0 for the dmGreenVeg, dmSenescedVeg etc.
+// ##############################################################
+
 //  initialise data members.
 FruitCohort::FruitCohort(ScienceAPI& scienceAPI, plantInterface *p, const string &name)
    : CompositePart(scienceAPI, p, name)
@@ -22,9 +29,9 @@ FruitCohort::~FruitCohort()
       delete (*part);
 }
 
-void FruitCohort::doInit1(protocol::Component *system)
-   // ====================================================================
-{
+void FruitCohort::onInit1(protocol::Component *system)
+   //===========================================================================
+   {
    zeroAllGlobals(); zeroDeltas();
 
    string grainType;
@@ -41,12 +48,20 @@ void FruitCohort::doInit1(protocol::Component *system)
    myParts.push_back(podPart);
    myVegParts.push_back(podPart);
    supplyPools.push_back(podPart);
-   podPart->doInit1(system);
 
    myParts.push_back(grainPart);
    myGrainParts.push_back(grainPart);
-   grainPart->doInit1(system);
-}
+
+   // call into base class.
+   CompositePart::onInit1(system);
+
+   // register some other things.
+   system->addGettableVar("dlt_dm_fruit", gDlt_dm, "g/m^2", "Change in dry matter");
+   setupGetFunction(system, "head_wt", protocol::DTsingle, false,&FruitCohort::get_head_wt, "g/m^2", "Weight of heads");
+   setupGetFunction(system, "head_n", protocol::DTsingle, false,&FruitCohort::get_head_n, "g/m^2", "N in heads");
+   setupGetFunction(system, "head_p", protocol::DTsingle, false, &FruitCohort::get_head_p, "g/m^2","P in head");
+   }
+
 void FruitCohort::checkBounds (void)
 {
    for (vector<plantPart *>::iterator part = myParts.begin();
@@ -80,21 +95,6 @@ const FruitCohort &FruitCohort::operator=(const FruitCohort &/*other*/)
 {
    throw std::invalid_argument("Assignment operator NI for FruitCohort");
 }
-
-void FruitCohort::onInit1(protocol::Component *system)
-   //===========================================================================
-{
-   CompositePart::onInit1(system);
-
-   system->addGettableVar("dlt_dm_fruit", gDlt_dm, "g/m^2", "Change in dry matter");
-   setupGetFunction(system, "head_wt", protocol::DTsingle, false,&FruitCohort::get_head_wt, "g/m^2", "Weight of heads");
-   setupGetFunction(system, "head_n", protocol::DTsingle, false,&FruitCohort::get_head_n, "g/m^2", "N in heads");
-   setupGetFunction(system, "head_p", protocol::DTsingle, false, &FruitCohort::get_head_p, "g/m^2","P in head");
-
-   for (vector<plantPart *>::iterator part = myParts.begin(); part != myParts.end(); part++)
-      (*part)->onInit1(system);
-}
-
 
 
 //float FruitCohort::grainWaterContent(void) const
@@ -131,7 +131,7 @@ float FruitCohort::dmGrainWetTotal(void) const
    return dmTotal;
 }
 
-float FruitCohort::dmVegTotal(void) const
+float FruitCohort::dmTotalVeg(void) const
    //===========================================================================
 {
    float dmTotal = 0.0;
@@ -151,7 +151,7 @@ float FruitCohort::dmGreenGrainTotal(void) const
    return dmTotal;
 }
 
-float FruitCohort::dmGreenVegTotal(void) const
+float FruitCohort::dmGreenVeg(void) const
    //===========================================================================
 {
    float dmTotal = 0.0;
@@ -161,7 +161,7 @@ float FruitCohort::dmGreenVegTotal(void) const
    return dmTotal;
 }
 
-float FruitCohort::dmSenescedVegTotal(void) const
+float FruitCohort::dmSenescedVeg(void) const
    //===========================================================================
 {
    float dmTotal = 0.0;
@@ -172,7 +172,7 @@ float FruitCohort::dmSenescedVegTotal(void) const
 }
 
 
-float FruitCohort::dmDeadVegTotal(void) const
+float FruitCohort::dmDeadVeg(void) const
    //===========================================================================
 {
    float dmTotal = 0.0;
@@ -193,7 +193,7 @@ float FruitCohort::nGrainTotal(void) const
    return nTotal;
 }
 
-float FruitCohort::nVegTotal(void) const
+float FruitCohort::nTotalVeg(void) const
    //===========================================================================
 {
    float nTotal = 0.0;
@@ -213,7 +213,7 @@ float FruitCohort::nGreenGrainTotal(void) const
    return nTotal;
 }
 
-float FruitCohort::nGreenVegTotal(void) const
+float FruitCohort::nGreenVeg(void) const
    //===========================================================================
 {
    float nTotal = 0.0;
@@ -224,7 +224,7 @@ float FruitCohort::nGreenVegTotal(void) const
 }
 
 
-float FruitCohort::nSenescedVegTotal(void) const
+float FruitCohort::nSenescedVeg(void) const
    //===========================================================================
 {
    float nTotal = 0.0;
@@ -235,7 +235,7 @@ float FruitCohort::nSenescedVegTotal(void) const
 }
 
 
-float FruitCohort::nDeadVegTotal(void) const
+float FruitCohort::nDeadVeg(void) const
    //===========================================================================
 {
    float nTotal = 0.0;
@@ -298,7 +298,7 @@ float FruitCohort::pGrainTotal(void)  const
    return pTotal;
 }
 
-float FruitCohort::pVegTotal(void)const
+float FruitCohort::pTotalVeg(void)const
    //===========================================================================
 {
    float pTotal = 0.0;
@@ -328,7 +328,7 @@ float FruitCohort::pDeadGrainTotal(void)const
    return pTotal;
 }
 
-float FruitCohort::pGreenVegTotal(void) const
+float FruitCohort::pGreenVeg(void) const
    //===========================================================================
 {
    float pTotal = 0.0;
@@ -338,7 +338,7 @@ float FruitCohort::pGreenVegTotal(void) const
    return pTotal;
 }
 
-float FruitCohort::pSenescedVegTotal(void)const
+float FruitCohort::pSenescedVeg(void)const
    //===========================================================================
 {
    float pTotal = 0.0;
@@ -349,7 +349,7 @@ float FruitCohort::pSenescedVegTotal(void)const
 }
 
 
-float FruitCohort::pDeadVegTotal(void) const
+float FruitCohort::pDeadVeg(void) const
    //===========================================================================
 {
    float pTotal = 0.0;
@@ -393,7 +393,7 @@ void FruitCohort::get_head_wt(protocol::Component *system, protocol::QueryValueD
 void FruitCohort::get_head_n(protocol::Component *system, protocol::QueryValueData &qd)
    //===========================================================================
 {
-   system->sendVariable(qd, nGreenGrainTotal() + nGreenVegTotal());
+   system->sendVariable(qd, nGreenGrainTotal() + nGreenVeg());
 }
 
 void FruitCohort::get_pod_n(protocol::Component *systemInterface, protocol::QueryValueData &qd)     //put in pod
@@ -411,7 +411,7 @@ void FruitCohort::get_pod_p(protocol::Component *systemInterface, protocol::Quer
 void FruitCohort::get_head_p(protocol::Component *systemInterface, protocol::QueryValueData &qd)
    //===========================================================================
 {
-   systemInterface->sendVariable(qd, pGreenGrainTotal() + pGreenVegTotal());  //()
+   systemInterface->sendVariable(qd, pGreenGrainTotal() + pGreenVeg());  //()
 }
 
 

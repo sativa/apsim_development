@@ -13,6 +13,7 @@
 #include "RootPart.h"
 #include "RootGrowthOption1.h"
 #include "RootGrowthOption2.h"
+#include "Environment.h"
 
 using namespace std;
 
