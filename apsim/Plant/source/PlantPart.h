@@ -25,8 +25,6 @@
 #include "PlantComponent.h"
 #include "PlantInterface.h"
 #include "PlantSpatial.h"
-#include "Plant.h"
-
 
 class plantPart : public plantThing
    {
@@ -190,6 +188,7 @@ public:
    virtual void zeroDltNSenescedTrans(void);
    virtual void checkBounds(void);
 
+   bool tempFlagToShortCircuitInit1;   
    virtual void onInit1(protocol::Component *);
    virtual void readConstants (protocol::Component *, const string &);
    virtual void readSpeciesParameters (protocol::Component *, vector<string> &);
@@ -277,7 +276,6 @@ public:
    virtual float n_conc_crit(void) const;
    virtual float n_conc_min(void) const;
 
-   virtual float dmTotal(void) const;
    virtual float dmGreenDemand(void) const;
    virtual float dmDemandDifferential(void) const;
 
@@ -297,36 +295,45 @@ public:
    virtual float dmSenescedVeg(void) const;
    virtual float dmDead(void) const;
    virtual float dmDeadVeg(void) const;
+   virtual float dmTotal(void) const;
+   virtual float dmTotalVeg(void) const;
    virtual float dmRetransSupply(void) const;
    virtual float dmRetransDemand(void) ;
-
    virtual float dmGreenStressDeterminant(void);
+
+   virtual float nTotal(void) const;
+   virtual float nTotalVeg(void) const;
+   virtual float nGreen(void) const;
+   virtual float nGreenVeg(void)const;
+   virtual float nSenesced(void) const;
+   virtual float nSenescedVeg(void)const;
+   virtual float nDead(void)const;
+   virtual float nDeadVeg(void)const;
+   virtual float nConc(void)const;
+   virtual float nConcPercent(void)const;
+   virtual float nMaxPot(void) const;
+   virtual float nMinPot(void) const;
+   virtual float nDemand(void)const;
+   virtual float nMax(void)const;
+   virtual float nCapacity(void);
+
+   virtual float pTotal(void) const;
+   virtual float pTotalVeg(void) const;
+   virtual float pGreen(void) const;
+   virtual float pGreenVeg(void) const;
+   virtual float pSenesced(void)const ;
+   virtual float pSenescedVeg(void) const;
+   virtual float pDead(void)const;
+   virtual float pDeadVeg(void) const;
+   virtual float pConc(void)const;
+   virtual float pConcPercent(void)const;
    virtual float pGreenStressDeterminant(void);
    virtual float pMaxPotStressDeterminant(void);
    virtual float pMinPotStressDeterminant(void);
-   virtual float nTotal(void) const;
-   virtual float nGreen(void) const;
-   virtual float nSenesced(void) const;
-   virtual float nDead(void)const;
-   virtual float nConc(void)const;
-   virtual float nConcPercent(void)const;
-
-   virtual float nMaxPot(void) const;
-   virtual float nMinPot(void) const;
-   virtual float pTotal(void) const;
-   virtual float pGreen(void) const;
-   virtual float pSenesced(void)const ;
-   virtual float pDead(void)const;
-   virtual float pConc(void)const;
-   virtual float pConcPercent(void)const;
-
    virtual float pMaxPot(void) const;
    virtual float pMinPot(void) const;
 
    virtual float soilNDemand(void);
-   virtual float nDemand(void)const;
-   virtual float nMax(void)const;
-   virtual float nCapacity(void);
    virtual void  doNPartition(float nSupply, float n_demand_sum, float n_capacity_sum);
    virtual float nRetransSupply(void);
    virtual float nRetransDemand(void);
@@ -374,27 +381,9 @@ public:
 
    virtual void get_name(vector<string> &names);
    virtual void get_p_demand(vector<float> &p_demand);
-   virtual void get_dlt_p_green(vector<float> &dlt_p_green);
    virtual void get_dlt_p_retrans(vector<float> &dlt_p_retrans);
-   virtual void get_p_green(vector<float> &p_green);
-
-   virtual void get_dlt_p_sen(vector<float> &);
-   virtual void get_dlt_p_dead(vector<float> &);
-   virtual void get_dlt_p_detached(vector<float> &);
-   virtual void get_p_sen(vector<float> &);
-   virtual void get_p_dead(vector<float> &);
    virtual void get_dlt_n_dead_detached(vector<float> &);
-   virtual void get_dlt_n_detached(vector<float> &);
-   virtual void get_dlt_n_senesced_trans(vector<float> &);
-   virtual void get_dlt_n_senesced_retrans(vector<float> &);
    virtual void get_dlt_n_senesced_dead(vector<float> &);
-   virtual void get_dlt_n_senesced(vector<float> &);
-   virtual void get_dlt_n_retrans(vector<float> &);
-   virtual void get_dlt_n_dead(vector<float> &);
-   virtual void get_dlt_n_green(vector<float> &);
-   virtual void get_n_dead(vector<float> &);
-   virtual void get_n_senesced(vector<float> &);
-   virtual void get_n_green(vector<float> &);
    virtual void get_dlt_dm_senesced_dead(vector<float> &);
    virtual void get_dlt_dm_green_dead(vector<float> &);
    virtual void get_dlt_dm_dead_detached(vector<float> &);
@@ -422,38 +411,26 @@ public:
    virtual float dltDmPotTe(void) const;
    virtual float dltDm(void) const;
    virtual float dltLeafAreaPot(void) {throw std::runtime_error("plantPart::dltLeafAreaPot() called");};
-   virtual float dmDeadVegTotal(void)const;
    virtual float grainWaterContent(void) const;
    virtual float dmGrainTotal(void) const;
    virtual float dmGrainWetTotal(void) const;
    virtual float dmGreenGrainTotal(void)const;
-   virtual float dmGreenVegTotal(void)const;
-   virtual float dmSenescedVegTotal(void)const;
-   virtual float dmVegTotal(void) const ;
    virtual float grainNConcPercent(void) const;
    virtual float grainNo(void) const;
    virtual float grainWt(void) const;
    virtual float interceptRadiationGreen(float radiation);
    virtual float interceptRadiationTotal(float radiation);
    virtual float nConcGrain(void)const;
-   virtual float nDeadVegTotal(void) const;
    virtual float nDemandGrain(void) const;
    virtual float nDemandGrain2(void);
    virtual float nGrainTotal(void) const;
    virtual float nGreenGrainTotal(void)const;
-   virtual float nGreenVegTotal(void)const;
-   virtual float nSenescedVegTotal(void)const;
-   virtual float nVegTotal(void) const;
    virtual float pConcGrain(void)const;
    virtual float pConcGrainTotal(void)const;
    virtual float pDeadGrainTotal(void)const;
-   virtual float pDeadVegTotal(void)const;
    virtual float pGrainTotal(void) const;
    virtual float pGreenGrainTotal(void)const;
-   virtual float pGreenVegTotal(void)const;
    virtual float pSenescedGrainTotal(void)const;
-   virtual float pSenescedVegTotal(void)const;
-   virtual float pVegTotal(void)const;
    virtual void doSWDemand(float SWDemandMaxFactor);
    virtual float SWDemand(void);
    virtual float SWDemandTE(void);
@@ -463,7 +440,6 @@ public:
    virtual void doDmPotRUE (void );                      // (OUTPUT) potential dry matter (carbohydrate) production (g/m^2)
    virtual void doDmPotTE(float swSupply);                         //(OUTPUT) potential dry matter production by transpiration (g/m^2)
    virtual void doGrainNumber (void);
-   virtual void doInit1(protocol::Component *system);
    virtual void doNDemandGrain(float nfact_grain_conc, float swdef_expansion);
    virtual void doNewMet(protocol::NewMetType &newmet) ;
    virtual void doNInit (void);
@@ -486,11 +462,11 @@ public:
       void updateN(void);
       void updateP(void);
 
-      void get_n_conc(protocol::Component *, protocol::QueryValueData &);
-      void get_n_conc_crit(protocol::Component *, protocol::QueryValueData &);
-      void get_n_conc_min(protocol::Component *, protocol::QueryValueData &);
-      void get_p_conc(protocol::Component *, protocol::QueryValueData &);
+      float nConcCrit();
+      float nConcMin();
       void get_dm_green_demand(protocol::Component *system, protocol::QueryValueData &qd);
+      std::string addPartToVar(const std::string& variableName);
+      std::string addPartToDesc(const std::string& description);
 
 };
 

@@ -27,202 +27,92 @@ plantPart::plantPart(ScienceAPI& api, plantInterface *p, const string &name)
      c.retrans_part = false;
      c.n_deficit_uptake_fraction = 0;
      DMGreen = 0;
+     tempFlagToShortCircuitInit1 = false;
      };
 
 
-void plantPart::onInit1(protocol::Component *system)
-//=======================================================================================
+string plantPart::addPartToVar(const string& variableName)
    {
-   string varName1, varName2, varName3, varName4, varName5, varName6;
-   string varName7, varName8, varName9;
-   string desc1, desc2, desc3, desc4, desc5, desc6, desc7, desc8, desc9;
-
-
-   varName1 = "dm_green_" + c.name;
-   desc1 = "Weight of " + c.name;
-   system->addGettableVar(varName1.c_str(), DMGreen, "g/m^2", desc1.c_str());
-
-   varName2 = "n_green_" + c.name;
-   desc2 = "N in " + c.name;
-   system->addGettableVar(varName2.c_str(),  NGreen, "g/m^2", desc2.c_str());
-
-   varName3 = "p_green_" + c.name;
-   desc3 = "P in " + c.name;
-   system->addGettableVar(varName3.c_str(),  PGreen, "g/m^2", desc3.c_str());
-
-   varName1 = c.name + "_wt";
-   desc1 = "Weight of " + c.name;
-   system->addGettableVar(varName1.c_str(), DMGreen, "g/m^2", desc1.c_str());
-
-   varName2 = c.name + "_n";
-   desc2 = "N in " + c.name;
-   system->addGettableVar(varName2.c_str(),  NGreen, "g/m^2", desc2.c_str());
-
-   varName3 = c.name + "_p";
-   desc3 = "P in " + c.name;
-   system->addGettableVar(varName3.c_str(),  PGreen, "g/m^2", desc3.c_str());
-
-   varName1 = "dm_dead_" + c.name;
-   desc1 = "Weight of dead " + c.name;
-   system->addGettableVar(varName1.c_str(), DMDead, "g/m^2", desc1.c_str());
-
-   varName2 = "n_dead_" + c.name;
-   desc2 = "N in dead " + c.name;
-   system->addGettableVar(varName2.c_str(),  NDead, "g/m^2", desc2.c_str());
-
-   varName3 = "p_dead_" + c.name;
-   desc3 = "P in dead " + c.name;
-   system->addGettableVar(varName3.c_str(),  PDead, "g/m^2", desc3.c_str());
-
-   varName1 = "dead" + c.name + "_wt";
-   desc1 = "Weight of dead " + c.name;
-   system->addGettableVar(varName1.c_str(), DMDead, "g/m^2", desc1.c_str());
-
-   varName2 = "dead" + c.name + "_n";
-   desc2 = "N in dead " + c.name;
-   system->addGettableVar(varName2.c_str(),  NDead, "g/m^2", desc2.c_str());
-
-   varName3 = "dead" + c.name + "_p";
-   desc3 = "P in dead " + c.name;
-   system->addGettableVar(varName3.c_str(),  PDead, "g/m^2", desc3.c_str());
-
-   varName1 = "dm_senesced_" + c.name;
-   desc1 = "Weight of senesced " + c.name;
-   system->addGettableVar(varName1.c_str(), DMSenesced, "g/m^2", desc1.c_str());
-
-   varName2 = "n_senesced_" + c.name;
-   desc2 = "N in senesced " + c.name;
-   system->addGettableVar(varName2.c_str(),  NSenesced, "g/m^2", desc2.c_str());
-
-   varName3 = "p_senesced_" + c.name;
-   desc3 = "P in senesced " + c.name;
-   system->addGettableVar(varName3.c_str(),  PSen, "g/m^2", desc3.c_str());
-
-   varName1 = "dlt_dm_green_" + c.name;
-   desc1 = "Delta Weight of " + c.name;
-   system->addGettableVar(varName1.c_str(), dlt.dm_green, "g/m^2", desc1.c_str());
-
-   varName2 = "dlt_n_green_" + c.name;
-   desc2 = "Delta N in " + c.name;
-   system->addGettableVar(varName2.c_str(),  dlt.n_green, "g/m^2", desc2.c_str());
-
-   varName3 = "dlt_p_green_" + c.name;
-   desc3 = "Delta P in " + c.name;
-   system->addGettableVar(varName3.c_str(),  dlt.p_green, "g/m^2", desc3.c_str());
-
-   varName1 = "dlt_dm_dead_" + c.name;
-   desc1 = "Delta Weight of dead " + c.name;
-   system->addGettableVar(varName1.c_str(), dlt.dm_dead, "g/m^2", desc1.c_str());
-
-   varName2 = "dlt_n_dead_" + c.name;
-   desc2 = "Delta N in dead " + c.name;
-   system->addGettableVar(varName2.c_str(),  dlt.n_dead, "g/m^2", desc2.c_str());
-
-   varName3 = "dlt_p_dead_" + c.name;
-   desc3 = "Delta P in dead " + c.name;
-   system->addGettableVar(varName3.c_str(),  dlt.p_dead, "g/m^2", desc3.c_str());
-
-   varName1 = "dlt_dm_senesced_" + c.name;
-   desc1 = "Delta Weight of senesced " + c.name;
-   system->addGettableVar(varName1.c_str(), dlt.dm_senesced, "g/m^2", desc1.c_str());
-
-   varName2 = "dlt_n_senesced_" + c.name;
-   desc2 = "Delta N in senesced " + c.name;
-   system->addGettableVar(varName2.c_str(),  dlt.n_senesced, "g/m^2", desc2.c_str());
-
-   varName3 = "dlt_p_senesced_" + c.name;
-   desc3 = "Delta P in senesced " + c.name;
-   system->addGettableVar(varName3.c_str(),  dlt.p_sen, "g/m^2", desc3.c_str());
-
-   varName1 = "dlt_dm_detached_" + c.name;
-   desc1 = "Delta Weight of detached " + c.name;
-   system->addGettableVar(varName1.c_str(), dlt.dm_detached, "g/m^2", desc1.c_str());
-
-   varName2 = "dlt_n_detached_" + c.name;
-   desc2 = "Delta N in detached " + c.name;
-   system->addGettableVar(varName2.c_str(),  dlt.n_detached, "g/m^2", desc2.c_str());
-
-   varName3 = "dlt_p_detached_" + c.name;
-   desc3 = "Delta P in detached " + c.name;
-   system->addGettableVar(varName3.c_str(),  dlt.p_det, "g/m^2", desc3.c_str());
-
-   varName4 =  "n_conc_" + c.name;
-   desc4 = "N concentration in " + c.name;
-   setupGetFunction(system, varName4.c_str(), protocol::DTsingle, false,
-                    &plantPart::get_n_conc, "%", desc4.c_str());
-
-   varName5 = "p_conc_" + c.name;
-   desc5 = "P concentration in " + c.name;
-   setupGetFunction(system, varName5.c_str(), protocol::DTsingle, false,
-                    &plantPart::get_p_conc, "%", desc5.c_str());
-
-   varName6 = "n_conc_crit_" + c.name;
-   desc6 = "critical N content in " + c.name;
-   setupGetFunction(system, varName6.c_str(), protocol::DTsingle, false,
-                    &plantPart::get_n_conc_crit,
-                    "%", desc6.c_str());
-
-   varName7 = "n_conc_min_" + c.name;
-   desc7 = "minimum N content in " + c.name;
-   setupGetFunction(system, varName7.c_str(), protocol::DTsingle, false,
-                    &plantPart::get_n_conc_min,
-                    "%", desc7.c_str());
-
-   varName8 = "n_demand_" + c.name;
-   desc8 = "N demand of " + c.name;
-   system->addGettableVar(varName8.c_str(),
-               NDemand, "g/m^2", desc8.c_str());
-
-   varName9 = "dlt_n_retrans_" + c.name;
-   desc9 = "N retranslocated to/from " + c.name;
-   system->addGettableVar(varName9.c_str(),
-               dlt.n_retrans, "g/m^2", desc9.c_str());
-
-   varName9 = "dlt_n_senesced_retrans_" + c.name;
-   desc9 = "N retranslocated to/from senesced " + c.name;
-   system->addGettableVar(varName9.c_str(),
-               dlt.n_senesced_retrans, "g/m^2", desc9.c_str());
-
-   varName9 = "dlt_n_senesced_trans_" + c.name;
-   desc9 = "N translocated to/from senesced " + c.name;
-   system->addGettableVar(varName9.c_str(),
-               dlt.n_senesced_trans, "g/m^2", desc9.c_str());
-
-   varName9 = "dlt_dm_retrans_" + c.name;
-   desc9 = "DM retranslocated to/from " + c.name;
-   system->addGettableVar(varName9.c_str(),
-               dlt.dm_green_retrans, "g/m^2", desc9.c_str());
-
-   varName9 = "dm_demand_" + c.name;
-   desc9 = "DM demand of " + c.name;
-   setupGetFunction(system, varName9.c_str(), protocol::DTsingle, false,
-                    &plantPart::get_dm_green_demand, "g/m^2", desc9.c_str());
+   // --------------------------------------------------------------------------
+   // add the part name, if it isn't blank, to the specified variable name.
+   // --------------------------------------------------------------------------
+   if (c.name != "")
+      return variableName + "_" + c.name;
+   else
+      return variableName;
    }
 
-void plantPart::get_n_conc(protocol::Component *system, protocol::QueryValueData &qd)
-//=======================================================================================
+string plantPart::addPartToDesc(const string& description)
    {
-   float n_conc = divide (NGreen, DMGreen, 0.0) * fract2pcnt;
-   system->sendVariable(qd, n_conc);
+   // --------------------------------------------------------------------------
+   // add the part name, if it isn't blank, to the specified description
+   // --------------------------------------------------------------------------
+   if (c.name != "")
+      return description + c.name;
+   else
+      return description + " plant";
    }
 
-void plantPart::get_n_conc_crit(protocol::Component *system, protocol::QueryValueData &qd)
+void plantPart::onInit1(protocol::Component*)
 //=======================================================================================
    {
-   system->sendVariable(qd, (float) (g.n_conc_crit * fract2pcnt));
+   scienceAPI.exposeFunction(addPartToVar("dm_green"), "g/m^2", addPartToDesc("Green weight of "), FloatFunction(&plantPart::dmGreen));
+   scienceAPI.exposeFunction(addPartToVar("dm_senesced"), "g/m^2", addPartToDesc("Weight of senesced "), FloatFunction(&plantPart::dmSenesced));
+   scienceAPI.exposeFunction(addPartToVar("dm_dead"), "g/m^2", addPartToDesc("Weight of dead "), FloatFunction(&plantPart::dmDead));
+   scienceAPI.exposeFunction(addPartToVar("dlt_dm_green"), "g/m^2", addPartToDesc("Delta Weight of "), FloatFunction(&plantPart::dltDmGreen));
+   scienceAPI.exposeFunction(addPartToVar("dlt_dm_detached"), "g/m^2", addPartToDesc("Delta Weight of detached "), FloatFunction(&plantPart::dltDmDetached));
+   scienceAPI.exposeFunction(addPartToVar("dlt_dm_senesced"), "g/m^2", addPartToDesc("Delta Weight of senesced "), FloatFunction(&plantPart::dltDmSenesced));
+
+   scienceAPI.exposeFunction(addPartToVar("n_green"), "g/m^2", addPartToDesc("N in "), FloatFunction(&plantPart::nGreen));
+   scienceAPI.exposeFunction(addPartToVar("n_senesced"), "g/m^2", addPartToDesc("N in senesced "), FloatFunction(&plantPart::nSenesced));
+   scienceAPI.exposeFunction(addPartToVar("n_dead"), "g/m^2", addPartToDesc("N in dead "), FloatFunction(&plantPart::nDead));
+   scienceAPI.exposeFunction(addPartToVar("dlt_n_green"), "g/m^2", addPartToDesc("Delta N in "), FloatFunction(&plantPart::dltNGreen));
+   scienceAPI.exposeFunction(addPartToVar("dlt_n_dead"), "g/m^2", addPartToDesc("Delta N in dead "), FloatFunction(&plantPart::dltNDead));
+   scienceAPI.exposeFunction(addPartToVar("dlt_n_retrans"), "g/m^2", addPartToDesc("N retranslocated to/from "), FloatFunction(&plantPart::dltNRetrans));
+   scienceAPI.exposeFunction(addPartToVar("dlt_n_detached"), "g/m^2", addPartToDesc("Delta N in detached "), FloatFunction(&plantPart::dltNDetached));
+   scienceAPI.exposeFunction(addPartToVar("dlt_n_senesced"), "g/m^2", addPartToDesc("Delta N in senesced "), FloatFunction(&plantPart::dltNSenesced));
+   scienceAPI.exposeFunction(addPartToVar("dlt_n_senesced_trans"), "g/m^2", addPartToDesc("N translocated to/from senesced "), FloatFunction(&plantPart::dltNSenescedTrans));
+   scienceAPI.exposeFunction(addPartToVar("dlt_n_senesced_retrans"), "g/m^2", addPartToDesc("N retranslocated to/from senesced "), FloatFunction(&plantPart::dltNSenescedRetrans));
+   scienceAPI.exposeFunction(addPartToVar("n_demand"), "g/m^2", addPartToDesc("N demand of "), FloatFunction(&plantPart::nDemand));
+   scienceAPI.exposeFunction(addPartToVar("p_green"), "g/m^2", addPartToDesc("P in "), FloatFunction(&plantPart::pGreen));
+   scienceAPI.exposeFunction(addPartToVar("p_dead"), "g/m^2", addPartToDesc("P in dead "), FloatFunction(&plantPart::pDead));
+   scienceAPI.exposeFunction(addPartToVar("p_senesced"), "g/m^2", addPartToDesc("P in senesced "), FloatFunction(&plantPart::pSenesced));
+   scienceAPI.exposeFunction(addPartToVar("dlt_p_green"), "g/m^2", addPartToDesc("Delta P in "), FloatFunction(&plantPart::dltPGreen));
+   scienceAPI.exposeFunction(addPartToVar("dlt_p_dead"), "g/m^2", addPartToDesc("Delta P in dead "), FloatFunction(&plantPart::dltPDead));
+   scienceAPI.exposeFunction(addPartToVar("dlt_p_senesced"), "g/m^2", addPartToDesc("Delta P in senesced "), FloatFunction(&plantPart::dltPSenesced));
+   scienceAPI.exposeFunction(addPartToVar("dlt_p_detached"), "g/m^2", addPartToDesc("Delta P in detached "), FloatFunction(&plantPart::dltPDetached));
+
+   if (tempFlagToShortCircuitInit1) return;
+
+
+   scienceAPI.exposeFunction(addPartToVar("n_conc_crit"), "%", addPartToDesc("Critical N content in "), FloatFunction(&plantPart::nConcCrit));
+   scienceAPI.exposeFunction(addPartToVar("n_conc_min"), "%", addPartToDesc("Minimum N content in "), FloatFunction(&plantPart::nConcMin));
+
+   scienceAPI.exposeFunction(addPartToVar("dlt_dm_dead"), "g/m^2", addPartToDesc("Delta Weight of dead "), FloatFunction(&plantPart::dltDmDead));
+   scienceAPI.exposeFunction(addPartToVar("n_conc"), "%", addPartToDesc("N concentration in "), FloatFunction(&plantPart::nConcPercent));
+   scienceAPI.exposeFunction(addPartToVar("p_conc"), "%", addPartToDesc("P concentration in "), FloatFunction(&plantPart::pConcPercent));
+   scienceAPI.exposeFunction(addPartToVar("dlt_dm_retrans"), "g/m^2", addPartToDesc("DM retranslocated to/from "), FloatFunction(&plantPart::dltDmGreenRetrans));
+   scienceAPI.exposeFunction(addPartToVar("dm_demand"), "g/m^2", addPartToDesc("DM demand of "), FloatFunction(&plantPart::dmGreenDemand));
+
+   // These next 6 variables are the same as the ones above.
+   scienceAPI.exposeFunction(c.name + "_wt", "g/m^2", addPartToDesc("Weight of "), FloatFunction(&plantPart::dmGreen));
+   scienceAPI.exposeFunction(c.name + "_n", "g/m^2", addPartToDesc("N in "), FloatFunction(&plantPart::nGreen));
+   scienceAPI.exposeFunction(c.name + "_p", "g/m^2", addPartToDesc("P in "), FloatFunction(&plantPart::pGreen));
+   scienceAPI.exposeFunction("dead" + c.name+ "_wt", "g/m^2", addPartToDesc("Weight of dead "), FloatFunction(&plantPart::dmDead));
+   scienceAPI.exposeFunction("dead" + c.name+ "_n", "g/m^2", addPartToDesc("N in dead "), FloatFunction(&plantPart::nDead));
+   scienceAPI.exposeFunction("dead" + c.name+ "_p", "g/m^2", addPartToDesc("P in dead "), FloatFunction(&plantPart::pDead));
    }
 
-void plantPart::get_n_conc_min(protocol::Component *system, protocol::QueryValueData &qd)
+float plantPart::nConcCrit()
 //=======================================================================================
    {
-   system->sendVariable(qd, (float) (g.n_conc_min * fract2pcnt));
+   return g.n_conc_crit * fract2pcnt;
    }
 
-void plantPart::get_p_conc(protocol::Component *system, protocol::QueryValueData &qd)
+float plantPart::nConcMin()
 //=======================================================================================
    {
-   float p_conc = divide (PGreen, DMGreen, 0.0) * fract2pcnt;
-   system->sendVariable(qd, p_conc);
+   return g.n_conc_min * fract2pcnt;
    }
 
 void plantPart::get_dm_green_demand(protocol::Component *system, protocol::QueryValueData &qd)
@@ -554,7 +444,7 @@ void plantPart::readSpeciesParameters (protocol::Component *, vector<string> &)
         c.n_deficit_uptake_fraction = 0.0;
     }
 
-void plantPart::readCultivarParameters (protocol::Component *system, const string &cultivar)
+void plantPart::readCultivarParameters (protocol::Component*, const string&)
 //=======================================================================================
    {
    c.height.read(scienceAPI
@@ -1359,6 +1249,12 @@ float plantPart::dmTotal(void) const
    return (dmGreen() + dmSenesced() + dmDead());
    }
 
+float plantPart::dmTotalVeg(void) const
+//=======================================================================================
+   {
+   return (dmGreenVeg() + dmSenescedVeg() + dmDeadVeg());
+   }
+
 float plantPart::dmGreenDemand(void) const
 //=======================================================================================
    {
@@ -1601,9 +1497,13 @@ void plantPart::doNPartition(float nSupply, float n_demand_sum, float n_capacity
 
 float plantPart::pDemand(void) {return (PDemand);}
 float plantPart::nTotal(void) const {return (nGreen() + nSenesced() + nDead());}
+float plantPart::nTotalVeg(void) const {return nTotal();}
 float plantPart::nGreen(void) const {return (NGreen);}
 float plantPart::nSenesced(void) const{return (NSenesced);}
 float plantPart::nDead(void) const{return (NDead);}
+float plantPart::nGreenVeg(void) const {return NGreen;}
+float plantPart::nSenescedVeg(void) const {return NSenesced;}
+float plantPart::nDeadVeg(void) const {return NDead;}
 
 float plantPart::nConc(void) const
 //=======================================================================================
@@ -1641,9 +1541,13 @@ float plantPart::nMinPot(void) const
    return n_conc_min * DMGreen;
    }
 float plantPart::pTotal(void) const {return (pGreen() + pSenesced() + pDead());}
+float plantPart::pTotalVeg(void) const {return (pTotal());}
 float plantPart::pGreen(void) const {return (PGreen);}
 float plantPart::pSenesced(void) const{return (PSen);}
 float plantPart::pDead(void) const{return (PDead);}
+float plantPart::pGreenVeg(void) const {return PGreen;}
+float plantPart::pSenescedVeg(void) const {return PSen;}
+float plantPart::pDeadVeg(void) const {return PDead;}
 
 float plantPart::pConc(void) const
 //=======================================================================================
@@ -1787,8 +1691,6 @@ void plantPart::onPlantEvent(const string &event)
 
 void plantPart::get_name(vector<string> &names) {names.push_back(c.name);}
 void plantPart::get_p_demand(vector<float> &demands) {demands.push_back(PDemand);}
-void plantPart::get_dlt_p_green(vector<float> &dlt_p_green) {dlt_p_green.push_back(dlt.p_green);}
-void plantPart::get_p_green(vector<float> &p_green) {p_green.push_back(PGreen);}
 void plantPart::get_dlt_p_retrans(vector<float> &dlt_p_retrans) {dlt_p_retrans.push_back(dlt.p_retrans);}
 void plantPart::get_dm_plant_min(vector<float> &dm_min) {dm_min.push_back(DMPlantMin);}
 void plantPart::get_dm_green(vector<float> &dm_green) {dm_green.push_back(DMGreen);}
@@ -1801,24 +1703,9 @@ void plantPart::get_dlt_dm_senesced(vector<float> &dlt_dm_senesced) {dlt_dm_sene
 void plantPart::get_dlt_dm_dead_detached(vector<float> &dlt_dm_dead_detached) {dlt_dm_dead_detached.push_back(dlt.dm_dead_detached);}
 void plantPart::get_dlt_dm_green_dead(vector<float> &dlt_dm_green_dead) {dlt_dm_green_dead.push_back(dlt.dm_green_dead);}
 void plantPart::get_dlt_dm_senesced_dead(vector<float> &dlt_dm_senesced_dead) {dlt_dm_senesced_dead.push_back(dlt.dm_senesced_dead);}
-void plantPart::get_n_green(vector<float> &n_green) {n_green.push_back(NGreen);}
-void plantPart::get_n_senesced(vector<float> &n_senesced) {n_senesced.push_back(NSenesced);}
-void plantPart::get_n_dead(vector<float> &n_dead) {n_dead.push_back(NDead);}
 void plantPart::get_n_demanded(vector<float> &demands) {demands.push_back(NDemand);}
-void plantPart::get_dlt_n_green(vector<float> &n_green) {n_green.push_back(dlt.n_green);}
-void plantPart::get_dlt_n_dead(vector<float> &n_dead) {n_dead.push_back(dlt.n_dead);}
-void plantPart::get_dlt_n_retrans(vector<float> &n_retrans) {n_retrans.push_back(dlt.n_retrans);}
-void plantPart::get_dlt_n_senesced(vector<float> &n_senesced) {n_senesced.push_back(dlt.n_senesced);}
 void plantPart::get_dlt_n_senesced_dead(vector<float> &dlt_n_senesced_dead) {dlt_n_senesced_dead.push_back(dlt.n_senesced_dead);}
-void plantPart::get_dlt_n_senesced_retrans(vector<float> &n_senesced_retrans) {n_senesced_retrans.push_back(dlt.n_senesced_retrans);}
-void plantPart::get_dlt_n_senesced_trans(vector<float> &n_senesced_trans) {n_senesced_trans.push_back(dlt.n_senesced_trans);}
-void plantPart::get_dlt_n_detached(vector<float> &n_detached) {n_detached.push_back(dlt.n_detached);}
 void plantPart::get_dlt_n_dead_detached(vector<float> &n_dead_detached) {n_dead_detached.push_back(dlt.n_dead_detached);}
-void plantPart::get_p_dead(vector<float> &p_dead) {p_dead.push_back(PDead);}
-void plantPart::get_p_sen(vector<float> &p_sen) {p_sen.push_back(PSen);}
-void plantPart::get_dlt_p_detached(vector<float> &dlt_p_detached) {dlt_p_detached.push_back(dlt.p_det);}
-void plantPart::get_dlt_p_dead(vector<float> &dlt_p_dead) {dlt_p_dead.push_back(dlt.p_dead);}
-void plantPart::get_dlt_p_sen(vector<float> &dlt_p_sen) {dlt_p_sen.push_back(dlt.p_sen);}
 
    //needed to standardise interface for composite subclass
 
@@ -1829,38 +1716,26 @@ float plantPart::coverSen(void) {return 0;}
 float plantPart::coverTotal(void) {return 0;}
 float plantPart::dltDmGrainDemand(void) const {return 0;}
 ////float plantPart::dltDmRetranslocate(void){return 0;}
-float plantPart::dmDeadVegTotal(void)const{return 0;}
 float plantPart::dmGrainTotal(void) const{return 0;}
 float plantPart::dmGrainWetTotal(void) const{return 0;}
 float plantPart::grainWaterContent(void) const{return 0;}
 float plantPart::dmGreenGrainTotal(void) const{return 0;}
-float plantPart::dmGreenVegTotal(void)const{return 0;}
-float plantPart::dmSenescedVegTotal(void)const{return 0;}
-float plantPart::dmVegTotal(void) const {return 0;}
 float plantPart::grainNConcPercent(void) const {return 0;}
 float plantPart::grainNo(void) const {return 0;}
 float plantPart::grainWt(void) const {return 0;}
 float plantPart::interceptRadiationGreen(float /* radiation*/){return 0;}
 float plantPart::interceptRadiationTotal(float /* radiation*/){return 0;}
 float plantPart::nConcGrain(void)const{return 0;}
-float plantPart::nDeadVegTotal(void) const{return 0;}
 float plantPart::nDemandGrain(void) const {return 0;}
 float plantPart::nDemandGrain2(void){return 0;}
 float plantPart::nGrainTotal(void) const {return 0;}
 float plantPart::nGreenGrainTotal(void)const{return 0;}
-float plantPart::nGreenVegTotal(void)const{return 0;}
-float plantPart::nSenescedVegTotal(void)const{return 0;}
-float plantPart::nVegTotal(void)const{return 0;}
 float plantPart::pConcGrain(void)const{return 0;}
 float plantPart::pConcGrainTotal(void)const{return 0;}
 float plantPart::pDeadGrainTotal(void)const{return 0;}
-float plantPart::pDeadVegTotal(void)const{return 0;}
 float plantPart::pGrainTotal(void)const{return 0;}
 float plantPart::pGreenGrainTotal(void)const{return 0;}
-float plantPart::pGreenVegTotal(void)const{return 0;}
 float plantPart::pSenescedGrainTotal(void)const{return 0;}
-float plantPart::pSenescedVegTotal(void)const{return 0;}
-float plantPart::pVegTotal(void)const{return 0;}
 void plantPart::doSWDemand(float /*SWDemandMaxFactor*/){}
 float plantPart::SWDemand(void){return sw_demand;}
 float plantPart::SWDemandTE(void){return sw_demand_te;}
@@ -1870,7 +1745,6 @@ void plantPart::doDmDemand (float /* dlt_dm_supply_by_veg*/){}
 void plantPart::doDmPotRUE (void){}                         // (OUTPUT) potential dry matter (carbohydrate) production (g/m^2)
 void plantPart::doDmPotTE(float /*swSupply*/){}                           //(OUTPUT) potential dry matter production by transpiration (g/m^2)
 void plantPart::doGrainNumber (void){}
-void plantPart::doInit1(protocol::Component */* system*/){}
 void plantPart::doNDemandGrain(float /* nfact_grain_conc*/, float /* swdef_expansion*/){}
 void plantPart::doNewMet(protocol::NewMetType &/* newmet*/) {}
 void plantPart::doNInit (void){}

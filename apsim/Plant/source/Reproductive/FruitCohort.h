@@ -20,7 +20,6 @@ public:                                             // member functions
 
    const FruitCohort &operator=(const FruitCohort &other);      // Assigment operator
 
-   void doInit1(protocol::Component *system);
    void checkBounds(void);
    void onInit1(protocol::Component *);
    float availableRetranslocateN(void);
@@ -39,30 +38,30 @@ public:                                             // member functions
 //   float grainWaterContent(void) const;
    float dmGrainTotal(void) const;
    float dmGrainWetTotal(void) const;
-   float dmVegTotal(void) const;
+   float dmTotalVeg(void) const;
    float dmGreenGrainTotal(void) const;
-   float dmGreenVegTotal(void)const;
-   float dmSenescedVegTotal(void)const;
-   float dmDeadVegTotal(void)const;
+   float dmGreenVeg(void)const;
+   float dmSenescedVeg(void)const;
+   float dmDeadVeg(void)const;
 
    float nGrainTotal(void)const;
-   float nVegTotal(void)const;
+   float nTotalVeg(void)const;
    float nGreenGrainTotal(void)const;
-   float nGreenVegTotal(void)const;
-   float nSenescedVegTotal(void)const;
-   float nDeadVegTotal(void)const;
+   float nGreenVeg(void)const;
+   float nSenescedVeg(void)const;
+   float nDeadVeg(void)const;
    float nCapacity(void);
 
    float nMaxPot(void)const;
    float nMax(void)const;
    float nMinPot(void)const;
    float pGrainTotal(void)const;
-   float pVegTotal(void)const;
+   float pTotalVeg(void)const;
    float pGreenGrainTotal(void)const;
    float pDeadGrainTotal(void)const;
-   float pGreenVegTotal(void)const;
-   float pSenescedVegTotal(void)const;
-   float pDeadVegTotal(void)const;
+   float pGreenVeg(void)const;
+   float pSenescedVeg(void)const;
+   float pDeadVeg(void)const;
    float pMaxPot(void)const;
    float pMinPot(void)const;
 

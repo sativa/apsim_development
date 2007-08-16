@@ -2,8 +2,8 @@
 // Modification log
 // 2 Feb 05 J. Hargreaves  Implementation
 
-#ifndef GrainPartHI_H
-#define GrainPartHI_H
+#ifndef GrainPartHIH
+#define GrainPartHIH
 
 #include "GrainPart.h"
 

@@ -32,6 +32,12 @@ fruitGrainPart::~fruitGrainPart()
 void fruitGrainPart::onInit1(protocol::Component *system)
    //===========================================================================
 {
+   mealPart = new fruitMealPart(scienceAPI, plant, "meal");
+   myParts.push_back(mealPart);
+
+   oilPart = new fruitOilPart(scienceAPI, plant, "oil");
+   myParts.push_back(oilPart);
+
    CompositePart::onInit1(system);
 
    system->addGettableVar("dlt_dm_grain_demand",gDlt_dm_grain_demand, "g/m^2", "??");
@@ -53,16 +59,6 @@ void fruitGrainPart::onInit1(protocol::Component *system)
    setupGetFunction(system, "p_grain_pcnt", protocol::DTsingle, false, &fruitGrainPart::get_p_conc_grain, "%","P in grain");
 
    system->addGettableVar("grain_p_demand",  gP_grain_demand, "g/m^2","P demand of grain");
-
-
-
-   //   unsigned int id;
-   // Set My Variable
-   //   id = system->addRegistration(RegistrationType::respondToSet, "grain_oil_conc", floatType);
-   //   IDtoSetFn.insert(UInt2SetFnMap::value_type(id,&Plant::set_plant_grain_oil_conc));
-
-   for (vector<plantPart *>::iterator part = myParts.begin(); part != myParts.end(); part++)
-      (*part)->onInit1(system);
 }
 
 float fruitGrainPart::nDemand2(void)
@@ -253,16 +249,7 @@ void fruitGrainPart::onKillStem(void)
       (*part)->onKillStem();
 }
 
-void fruitGrainPart::doInit1(protocol::Component */* system*/)
-   // ====================================================================
-{
-   mealPart = new fruitMealPart(scienceAPI, plant, "meal");
-   myParts.push_back(mealPart);
 
-   oilPart = new fruitOilPart(scienceAPI, plant, "oil");
-   myParts.push_back(oilPart);
-
-}
 
 
 void fruitGrainPart::readConstants(protocol::Component *system, const string &section)

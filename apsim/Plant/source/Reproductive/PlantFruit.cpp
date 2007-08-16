@@ -67,18 +67,10 @@ const PlantFruit &PlantFruit::operator=(const PlantFruit &/*other*/)
 
 void PlantFruit::onInit1(protocol::Component *system)
    //===========================================================================
-{
+   {
    CompositePart::onInit1(system);
-
    addNewCohort(system);
-//   system->addGettableVar("dlt_dm_fruit", gDlt_dm, "g/m^2", "Change in dry matter");
-//   setupGetFunction(system, "head_wt", protocol::DTsingle, false,&PlantFruit::get_head_wt, "g/m^2", "Weight of heads");
-//   setupGetFunction(system, "head_n", protocol::DTsingle, false,&PlantFruit::get_head_n, "g/m^2", "N in heads");
-//   setupGetFunction(system, "head_p", protocol::DTsingle, false, &PlantFruit::get_head_p, "g/m^2","P in head");
-
-   for (vector<plantPart *>::iterator part = myParts.begin(); part != myParts.end(); part++)
-      (*part)->onInit1(system);
-}
+   }
 
 void PlantFruit::display(ostream &os) const
 {
@@ -104,13 +96,7 @@ void PlantFruit::addNewCohort (protocol::Component *system)
    myParts.push_back(new FruitCohort(scienceAPI, plant, cohortName.str()));
 
    plantPart *myPart = myParts.back();
-   myPart->doInit1(system);
+   myPart->onInit1(system);
 }
 
-void PlantFruit::doNewCohort (protocol::Component *system)
-   // ====================================================================
-{
-   // insert rules to make new cohort here
-   addNewCohort(system);
-}
 

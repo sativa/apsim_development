@@ -4,7 +4,6 @@
 class ApsimVariant;
 class PlantComponent;
 class PlantPhenology;
-class CompositePart;
 class plantPart;
 class plantStemPart;
 class plantLeafPart;
@@ -17,19 +16,14 @@ class Arbitrator;
 #include "PlantInterface.h"
 #include "Environment.h"
 #include "PlantSpatial.h"
+#include "CompositePart.h"
 
 typedef bool (Plant::*ptr2setFn) (protocol::QuerySetValueData&);
 
 typedef std::map<unsigned, ptr2setFn>   UInt2SetFnMap;
 typedef std::map<unsigned, string>      UInt2StringMap;
 
-////////////////////////
-// array size settings
-// Maximum number of layers in soil
-#define max_layer 100
 
-// Maximum size_of of tables
-#define max_table 30
 
 //      crop status names
 typedef enum {out, dead, alive} status_t;
@@ -61,6 +55,9 @@ private:
 
    PlantSpatial plantSpatial;
 
+   CompositePart plant;
+   CompositePart tops;
+
    vector <plantThing *> myThings;
    vector <plantPart *> myParts;
    vector <plantPart *> myTopsParts;
@@ -78,62 +75,9 @@ private:
    eventObserver *maturityEventObserver;   // Bookkeeper for maturity events
    Arbitrator    *arbitrator;
 
-   float plantCoverGreen(void) const;
-   float plantCoverDead(void) const;
-   float plantCoverSenesced(void) const;
-
    float plantDltDm(void) const;
    float plantDltDmPotRue(void) const;
    float plantDltDmPotTe(void) const;
-
-   float plantGreen(void) const;
-   float plantSenesced(void) const;
-   float plantDead(void) const;
-   float plantTot(void) const;
-   float plantDltDmGreen(void) const;
-
-   float plantNGreen(void);
-   float plantNSenesced(void);
-   float plantNDead(void);
-   float plantNTot(void);
-   float plantDltNRetrans(void);
-   float plantDltNGreen(void) ;
-
-   float plantPGreen(void) const;
-   float plantPSenesced(void) const;
-   float plantPDead(void) const;
-   float plantPTot(void) const;
-
-   float topsGreen(void) const;
-   float topsSenesced(void) const;
-   float topsDead(void) const;
-   float topsTot(void) const;
-   float topsDltDmGreen(void) const;
-
-   float topsNGreen(void) const;
-   float topsNSenesced(void) const;
-   float topsNDead(void) const;
-   float topsNTot(void) const;
-
-   float topsPGreen(void) const;
-   float topsPSenesced(void) const;
-   float topsPDead(void) const;
-   float topsPTot(void) const;
-
-   float stoverGreen(void) const;
-   float stoverSenesced(void) const;
-   float stoverDead(void) const;
-   float stoverTot(void) const;
-
-   float stoverNGreen(void) const;
-   float stoverNSenesced(void) const;
-   float stoverNDead(void) const;
-   float stoverNTot(void) const;
-
-   float stoverPGreen(void) const;
-   float stoverPSenesced(void) const;
-   float stoverPDead(void) const;
-   float stoverPTot(void) const;
 
    float grainGreen(void) const;
    float grainSenesced(void) const;
@@ -153,7 +97,6 @@ private:
    float grainPConcTot(void) const;
    float SWDemandTE(void) ;
    float SWDemand(void) ;
-   float nDemand(void) ;
    float nCapacity(void) ;
    void read();
 
@@ -440,11 +383,8 @@ public:
    void get_dlt_dm(protocol::Component *, protocol::QueryValueData &);
    void get_dlt_dm_pot_rue(protocol::Component *, protocol::QueryValueData &);
    void get_dlt_dm_pot_te(protocol::Component *, protocol::QueryValueData &);
-   void get_dlt_dm_green(protocol::Component *, protocol::QueryValueData &);
    void get_dlt_dm_green_dead(protocol::Component *, protocol::QueryValueData &);
    void get_dlt_dm_green_retrans(protocol::Component *, protocol::QueryValueData &);
-   void get_dlt_dm_detached(protocol::Component *, protocol::QueryValueData &);
-   void get_dlt_dm_senesced(protocol::Component *, protocol::QueryValueData &);
    void get_dlt_dm_senesced_dead(protocol::Component *, protocol::QueryValueData &);
    void get_dlt_dm_dead_detached(protocol::Component *, protocol::QueryValueData &);
    void get_biomass_n(protocol::Component *, protocol::QueryValueData &);
@@ -454,14 +394,7 @@ public:
    void get_stem_n(protocol::Component *, protocol::QueryValueData &);
    void get_root_n(protocol::Component *, protocol::QueryValueData &);
    void get_deadleaf_n(protocol::Component *, protocol::QueryValueData &);
-   void get_n_senesced(protocol::Component *, protocol::QueryValueData &);
-   void get_n_dead(protocol::Component *, protocol::QueryValueData &);
-   void get_dlt_n_green(protocol::Component *, protocol::QueryValueData &);
-   void get_dlt_n_retrans(protocol::Component *, protocol::QueryValueData &);
-   void get_dlt_n_senesced_trans(protocol::Component *, protocol::QueryValueData &);
-   void get_dlt_n_senesced_retrans(protocol::Component *, protocol::QueryValueData &);
    void get_dlt_n_senesced_dead(protocol::Component *, protocol::QueryValueData &);
-   void get_dlt_n_detached(protocol::Component *, protocol::QueryValueData &);
    void get_dlt_n_dead_detached(protocol::Component *, protocol::QueryValueData &);
    void get_temp_stress_photo(protocol::Component *, protocol::QueryValueData &);
    void get_swdef_pheno(protocol::Component *, protocol::QueryValueData &);
@@ -479,9 +412,6 @@ public:
    void get_cep(protocol::Component *, protocol::QueryValueData &);
    void get_sw_supply(protocol::Component *, protocol::QueryValueData &);
    void get_esw_layr(protocol::Component *, protocol::QueryValueData &);
-   void get_n_green(protocol::Component *, protocol::QueryValueData &);
-   void get_dlt_n_dead(protocol::Component *, protocol::QueryValueData &);
-   void get_dlt_n_senesced(protocol::Component *, protocol::QueryValueData &);
    void get_n_conc_stover(protocol::Component *, protocol::QueryValueData &);
    void get_n_conc_root(protocol::Component *, protocol::QueryValueData &);
    void get_n_conc_crit(protocol::Component *, protocol::QueryValueData &);
@@ -489,7 +419,6 @@ public:
 
    void get_n_uptake_stover(protocol::Component *, protocol::QueryValueData &);
    void get_no3_tot(protocol::Component *, protocol::QueryValueData &);
-   void get_n_demand(protocol::Component *, protocol::QueryValueData &);
    void get_n_demanded(protocol::Component *, protocol::QueryValueData &);
    void get_nfact_pheno(protocol::Component *, protocol::QueryValueData &);
    void get_dlt_n_fixed_pot(protocol::Component *, protocol::QueryValueData &);
@@ -519,8 +448,6 @@ public:
    void get_zadok_stage(protocol::Component *, protocol::QueryValueData &);
 
 
-   void get_p_green(protocol::Component *, protocol::QueryValueData &qd);
-   void get_p_sen(protocol::Component *, protocol::QueryValueData &qd);
    void get_p_demand(protocol::Component *, protocol::QueryValueData &qd);
    void get_p_demand_parts(protocol::Component *, protocol::QueryValueData &qd);
    void get_pfact_photo(protocol::Component *, protocol::QueryValueData &qd);
@@ -539,13 +466,7 @@ public:
    void get_stem_p(protocol::Component *, protocol::QueryValueData &qd);
    void get_root_p(protocol::Component *, protocol::QueryValueData &qd);
    void get_deadleaf_p(protocol::Component *, protocol::QueryValueData &qd);
-   void get_p_senesced(protocol::Component *, protocol::QueryValueData &qd);
-   void get_p_dead(protocol::Component *, protocol::QueryValueData &qd);
-   void get_dlt_p_green(protocol::Component *, protocol::QueryValueData &qd);
    void get_dlt_p_retrans(protocol::Component *, protocol::QueryValueData &qd);
-   void get_dlt_p_detached(protocol::Component *, protocol::QueryValueData &qd);
-   void get_dlt_p_dead(protocol::Component *, protocol::QueryValueData &qd);
-   void get_dlt_p_sen(protocol::Component *, protocol::QueryValueData &qd);
    void get_p_conc_stover(protocol::Component *, protocol::QueryValueData &qd);
    void get_p_conc_leaf(protocol::Component *, protocol::QueryValueData &qd);
    void get_p_uptake_stover(protocol::Component *, protocol::QueryValueData &qd);

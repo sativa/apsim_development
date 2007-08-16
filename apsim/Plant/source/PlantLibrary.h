@@ -169,7 +169,7 @@ void crop_dm_dead_detachment(const int num_part,
                              float *dlt_dm_dead_detached);     //(OUTPUT) change in dm of dead plant
 
 void cproc_dm_senescence1 (const int num_part,           //(INPUT)  number of plant parts
-                           const int max_table,          //(INPUT)  max lookup length
+                           const int max_tabl,          //(INPUT)  max lookup length
                            float independant_variable,   //(INPUT)  independant variable which
                            float **c_x_dm_sen_frac,        //(INPUT)  lookup for independant variabl   is said to drive senescence.
                            float **c_y_dm_sen_frac,        // (INPUT)  fraction of  material senescin

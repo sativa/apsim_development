@@ -16,9 +16,7 @@ public:                                             // member functions
    fruitGrainPart(ScienceAPI& scienceAPI, plantInterface *p, const string &name);
    virtual ~fruitGrainPart() = 0;
 
-   void doInit1(protocol::Component *system);
-
-   void onInit1(protocol::Component *);
+   void onInit1(protocol::Component *system);
    void doNewMet(protocol::NewMetType &newmet) ;
    void readConstants (protocol::Component *, const string &);
    void readSpeciesParameters (protocol::Component *, vector<string> &);

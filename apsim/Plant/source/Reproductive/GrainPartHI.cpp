@@ -3,6 +3,7 @@
 // 6 Aug 97 J. Hargreaves  Implementation
 
 #include "GrainPartHI.h"
+#include "Environment.h"
 #include <ComponentInterface/ScienceAPI.h>
 
 using namespace std;

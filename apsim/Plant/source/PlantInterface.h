@@ -4,6 +4,14 @@
 #include <boost/function.hpp>
 #include <boost/bind.hpp>
 
+// Maximum size_of of tables
+#define max_table 30
+
+////////////////////////
+// array size settings
+// Maximum number of layers in soil
+#define max_layer 100
+
 // Forward definitions..
 namespace protocol {
   class Component;

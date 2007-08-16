@@ -126,7 +126,9 @@ static const char* cropChoppedDDML =  "<type name = \"CropChopped\">" \
 
 Plant::Plant(PlantComponent *P, ScienceAPI& api)
 //=======================================================================================
-   : scienceAPI(api),Environment(api)
+   : scienceAPI(api),Environment(api),
+     plant(scienceAPI, this, ""),
+     tops(scienceAPI, this, "")
     {
     parent = P;
 
@@ -171,6 +173,7 @@ void Plant::onInit1()
     rootPart = RootBase::construct(scienceAPI, this, rootModel, "root");
     myThings.push_back(rootPart);
     myParts.push_back(rootPart);
+    plant.add(rootPart);
 
     string leafModel;
     scienceAPI.readOptional("leaf_part", leafModel);
@@ -178,23 +181,29 @@ void Plant::onInit1()
     myThings.push_back(leafPart);
     myParts.push_back(leafPart);
     myTopsParts.push_back(leafPart);
+    plant.add(leafPart);
+    tops.add(leafPart);
 
     stemPart = new plantStemPart(scienceAPI, this, "stem");
     myThings.push_back(stemPart);
     myParts.push_back(stemPart);
     myTopsParts.push_back(stemPart);
+    plant.add(stemPart);
+    tops.add(stemPart);
 
     fruitPart = PlantFruit::construct(scienceAPI, this, "fruit");
     myThings.push_back(fruitPart);
     myParts.push_back(fruitPart);
     myTopsParts.push_back(fruitPart);
-    fruitPart->doInit1(parent);
+    plant.add(fruitPart);
+    tops.add(fruitPart);
 
     StoragePart* storagePart = StoragePart::construct(scienceAPI, this, "tuber");
     if (storagePart != NULL)
        {
        myThings.push_back(storagePart);
        myParts.push_back(storagePart);
+       plant.add(storagePart);
        }
 
     arbitrator = constructArbitrator(scienceAPI, this, "");       // Make a null arbitrator until we call readSpecies...
@@ -281,17 +290,6 @@ void Plant::onInit1()
    setupGetFunction(parent, "cover_tot", protocol::DTsingle, false,
                      &Plant::get_cover_tot, "", "Total cover");
 
-//   parent->addGettableVar("lai_canopy_green",
-//               g.lai_canopy_green, "m^2/m^2", "Green lai");
-//
-   setupGetFunction(parent, "dm_green", protocol::DTsingle, true,
-                    &Plant::get_dm_green, "g/m^2", "Weight of green material");
-
-   setupGetFunction(parent, "dm_senesced", protocol::DTsingle, true,
-                    &Plant::get_dm_senesced, "g/m^2", "Weight of senesced material");
-
-   setupGetFunction(parent, "dm_dead", protocol::DTsingle, true,
-                     &Plant::get_dm_dead, "g/m^2","Weight of dead material");
 
    setupGetFunction(parent, "biomass", protocol::DTsingle, false,
                     &Plant::get_biomass, "kg/ha", "Biomass");
@@ -320,18 +318,9 @@ void Plant::onInit1()
    setupGetFunction(parent, "dlt_dm_pot_te", protocol::DTsingle, false,
                     &Plant::get_dlt_dm_pot_te,  "g/m^2", "Potential above_ground dry matter production via transpiration");
 
-   setupGetFunction(parent, "dlt_dm_green", protocol::DTsingle, true,
-                    &Plant::get_dlt_dm_green,  "g/m^2", "change in green pool");
-
-
    setupGetFunction(parent, "dlt_dm_green_retrans", protocol::DTsingle, true,
                     &Plant::get_dlt_dm_green_retrans, "g/m^2", "change in green pool from retranslocation");
 
-   setupGetFunction(parent, "dlt_dm_detached", protocol::DTsingle, true,
-                    &Plant::get_dlt_dm_detached,  "g/m^2", "change in dry matter via detachment");
-
-   setupGetFunction(parent, "dlt_dm_senesced", protocol::DTsingle, true,
-                    &Plant::get_dlt_dm_senesced,"g/m^2", "change in dry matter via senescence");
 
    setupGetFunction(parent, "dlt_dm_dead_detached", protocol::DTsingle, true,
                     &Plant::get_dlt_dm_dead_detached,"g/m^2", "change in dead dry matter via detachment");
@@ -351,38 +340,12 @@ void Plant::onInit1()
    setupGetFunction(parent, "green_biomass_n", protocol::DTsingle, false,
                     &Plant::get_green_biomass_n, "g/m^2", "N in green biomass");
 
-   setupGetFunction(parent, "n_green", protocol::DTsingle, true,
-                    &Plant::get_n_green,  "g/m^2", "N in green");
 
-   setupGetFunction(parent, "n_senesced", protocol::DTsingle, true,
-                    &Plant::get_n_senesced,  "g/m^2", "N in senesced");
 
-   setupGetFunction(parent, "n_dead", protocol::DTsingle, true,
-                    &Plant::get_n_dead,"g/m^2", "N in dead");
-
-   setupGetFunction(parent, "dlt_n_green", protocol::DTsingle, true,
-                    &Plant::get_dlt_n_green, "g/m^2", "N in delta green");
-
-   setupGetFunction(parent, "dlt_n_dead", protocol::DTsingle, true,
-                    &Plant::get_dlt_n_dead, "g/m^2", "N in delta dead");
-
-   setupGetFunction(parent, "dlt_n_retrans", protocol::DTsingle, true,
-                    &Plant::get_dlt_n_retrans, "g/m^2", "N in retranslocate");
-
-   setupGetFunction(parent, "dlt_n_senesced_trans", protocol::DTsingle, true,
-                    &Plant::get_dlt_n_senesced_trans, "g/m^2", "N in translocate");
-
-   setupGetFunction(parent, "dlt_n_senesced_retrans", protocol::DTsingle, true,
-                    &Plant::get_dlt_n_senesced_retrans, "g/m^2", "N in retranslocate");
-
-   setupGetFunction(parent, "dlt_n_senesced", protocol::DTsingle, true,
-                    &Plant::get_dlt_n_senesced, "g/m^2", "N in delta senesced");
 
    setupGetFunction(parent, "dlt_n_senesced_dead", protocol::DTsingle, true,
                     &Plant::get_dlt_n_senesced_dead, "g/m^2", "N in delta senesced dead");
 
-   setupGetFunction(parent, "dlt_n_detached", protocol::DTsingle, true,
-                    &Plant::get_dlt_n_detached, "g/m^2", "N in detached");
 
    setupGetFunction(parent, "dlt_n_dead_detached", protocol::DTsingle, true,
                     &Plant::get_dlt_n_dead_detached,  "g/m^2", "N in dead detached");
@@ -443,9 +406,6 @@ void Plant::onInit1()
                     &Plant::get_n_uptake_stover,
                     "g/m^2", "N taken up by agp");
 
-   setupGetFunction(parent, "n_demand", protocol::DTsingle, false,
-                    &Plant::get_n_demand,
-                    "g/m^2", "N demand");
 
    setupGetFunction(parent, "n_demanded", protocol::DTsingle, true,
                     &Plant::get_n_demanded,
@@ -511,21 +471,6 @@ void Plant::onInit1()
                      &Plant::get_parasite_c_gain,
                      "g/m^2", "Assimilate to parasite");
 
-   setupGetFunction(parent, "p_green", protocol::DTsingle, true,
-                    &Plant::get_p_green,
-                    "g/m^2", "P in green plant parts");
-
-   setupGetFunction(parent, "p_dead", protocol::DTsingle, true,
-                    &Plant::get_p_dead,
-                    "g/m^2", "P in dead plant parts");
-
-   setupGetFunction(parent, "p_senesced", protocol::DTsingle, true,
-                    &Plant::get_p_sen,
-                    "g/m^2","P in senesced plant parts");
-
-   setupGetFunction(parent, "p_sen", protocol::DTsingle, true,
-                    &Plant::get_p_sen,
-                    "g/m^2","P in senesced plant parts");
 
    setupGetFunction(parent, "p_demand", protocol::DTsingle, false,
                     &Plant::get_p_demand,
@@ -583,25 +528,11 @@ void Plant::onInit1()
                     &Plant::get_green_biomass_p,
                     "g/m^2","P in green biomass");
 
-   setupGetFunction(parent, "dlt_p_green", protocol::DTsingle, true,
-                    &Plant::get_dlt_p_green,
-                    "g/m^2","dlt P parts");
 
    setupGetFunction(parent, "dlt_p_retrans", protocol::DTsingle, true,
                     &Plant::get_dlt_p_retrans,
                     "g/m^2","dlt P parts");
 
-   setupGetFunction(parent, "dlt_p_detached", protocol::DTsingle, true,
-                    &Plant::get_dlt_p_detached,
-                    "g/m^2","dlt P detached");
-
-   setupGetFunction(parent, "dlt_p_dead", protocol::DTsingle, true,
-                    &Plant::get_dlt_p_dead,
-                    "g/m^2","dlt P in dead");
-
-   setupGetFunction(parent, "dlt_p_sen", protocol::DTsingle, true,
-                    &Plant::get_dlt_p_sen,
-                    "g/m^2","dlt P in senesced");
 
    setupGetFunction(parent, "p_conc_stover", protocol::DTsingle, false,
                     &Plant::get_p_conc_stover,
@@ -623,11 +554,18 @@ void Plant::onInit1()
    parent->addRegistration(RegistrationType::event, "harvesting", nullTypeDDML, "", "");
 
    Environment.onInit1(parent);
+
+   plant.tempFlagToShortCircuitInit1 = true;
+   plant.onInit1(parent);
+
+   // now go and call onInit1 for all non part things.
    for (vector<plantThing *>::iterator t = myThings.begin();
         t != myThings.end();
         t++)
-      (*t)->onInit1(parent);
-   rootPart->onInit1(parent);
+      {
+      if (dynamic_cast<plantPart*>(*t) == NULL)
+         (*t)->onInit1(parent);
+      }
    }
 
 void Plant::onInit2()
@@ -1208,7 +1146,7 @@ void Plant::plant_kill_crop (status_t *g_plant_status)
    if (*g_plant_status == alive)
       {
       *g_plant_status = dead;
-      biomass = (topsGreen()+topsSenesced()+topsDead()) * gm2kg /sm2ha;
+      biomass = (tops.dmGreen()+tops.dmSenesced()+tops.dmDead()) * gm2kg /sm2ha;
 
       // report
       char msg[80];
@@ -1287,7 +1225,7 @@ void Plant::plant_nit_uptake ()
       n_max += (*t)->nMax();
       }
 
-    rootPart->plant_nit_uptake(n_max, soil_n_demand, nDemand());
+    rootPart->plant_nit_uptake(n_max, soil_n_demand, plant.nDemand());
     }
 
 
@@ -1364,13 +1302,13 @@ void Plant::plant_nit_demand_est (int option)
            (*t)->doNDemand1Pot(dlt_dm_pot_rue, dlt_dm_pot_rue);
            }
 
-        g.ext_n_demand = nDemand();
+        g.ext_n_demand = plant.nDemand();
 
         //nh  use zero growth value here so that estimated n fix is always <= actual;
         float n_fix_pot;
         crop_n_fixation_pot1(phenology->stageNumber()
                              , c.n_fix_rate
-                             , topsGreen()
+                             , tops.dmGreen()
                              , g.swdef_fixation
                              , &n_fix_pot);
 
@@ -1456,9 +1394,9 @@ void Plant::plant_cleanup ()
     plant_update( g.dlt_plants
                 , &g.plants);
 
-    plant_check_bounds(plantCoverDead()
-                       , plantCoverGreen()
-                       , plantCoverSenesced()
+    plant_check_bounds(plant.coverDead()
+                       , plant.coverGreen()
+                       , plant.coverSen()
                        , g.plants);
 
     plant_totals(&g.lai_max
@@ -1611,15 +1549,15 @@ void Plant::plant_totals
 //- Implementation Section ----------------------------------
 
 // get totals
-    n_conc_stover = divide (stoverNGreen(),stoverGreen() , 0.0);
+    n_conc_stover = divide (tops.nGreenVeg(),tops.dmGreenVeg() , 0.0);
 
-    n_uptake = plantDltNRetrans();
+    n_uptake = plant.dltNRetrans();
     n_uptake_stover =  leafPart->dltNRetrans() + stemPart->dltNRetrans();
 
 // note - g_n_conc_crit should be done before the stages change
 
     n_conc_stover_crit = (leafPart->n_conc_crit() + stemPart->n_conc_crit()) * 0.5;
-    n_green_demand = nDemand();
+    n_green_demand = plant.nDemand();
 
     if (phenology->on_day_of ("sowing"))
         {
@@ -1630,7 +1568,7 @@ void Plant::plant_totals
         *g_n_demand_tot = n_green_demand;
         *g_n_uptake_stover_tot = n_uptake_stover;
 
-        n_uptake_soil = plantDltNGreen();
+        n_uptake_soil = plant.dltNGreen();
         n_uptake_soil_tops = n_uptake_soil - rootPart->dltNGreen();
         *g_n_fixed_tops = n_uptake_soil_tops
                               * divide (*g_n_fix_uptake
@@ -1647,7 +1585,7 @@ void Plant::plant_totals
         *g_n_demand_tot = (*g_n_demand_tot) + n_green_demand;
         *g_n_uptake_stover_tot = (*g_n_uptake_stover_tot) + n_uptake_stover;
 
-        n_uptake_soil = plantDltNGreen();
+        n_uptake_soil = plant.dltNGreen();
         n_uptake_soil_tops = n_uptake_soil - rootPart->dltNGreen();
         *g_n_fixed_tops = *g_n_fixed_tops + n_uptake_soil_tops * divide (*g_n_fix_uptake ,n_uptake_soil ,0.0);
 
@@ -1656,8 +1594,8 @@ void Plant::plant_totals
     *g_lai_max = max (*g_lai_max, leafPart->getLAI());             //FIXME - should be returned from leafPart method
 // note - oil has no N, thus it is not included in calculations
 
-    *g_n_uptake_stover_tot = stoverNTot();
-    *g_n_uptake_tot = fruitPart->nGrainTotal() + stoverNTot();
+    *g_n_uptake_stover_tot = tops.nTotalVeg();
+    *g_n_uptake_tot = fruitPart->nGrainTotal() + tops.nTotalVeg();
 
     }
 
@@ -1687,11 +1625,11 @@ void Plant::plant_event()
               , phenology->stageName().c_str());
     parent->writeString(msg);
 
-    biomass = topsTot();
+    biomass = tops.dmTotal();
 
     // note - oil has no N, thus is not included in calculations
-    dm_green = stoverGreen();
-    n_green = stoverNGreen();
+    dm_green = tops.dmGreenVeg();
+    n_green = tops.nGreenVeg();
 
     n_green_conc_percent = divide (n_green, dm_green, 0.0) * fract2pcnt;
 
@@ -1726,7 +1664,7 @@ void Plant::plant_light_supply_partition (int option /*(INPUT) option number*/)
           }
           else
           {
-            fractIncidentRadn = divide (g.fr_intc_radn, plantCoverGreen(), 0.0);
+            fractIncidentRadn = divide (g.fr_intc_radn, plant.coverGreen(), 0.0);
           }
           float incomingSolarRadiation = Environment.radn * fractIncidentRadn;
           fruitPart->interceptRadiationGreen (incomingSolarRadiation);
@@ -1851,7 +1789,7 @@ void Plant::legnew_n_partition
     // find the proportion of uptake to be distributed to
     // each plant part and distribute it.
     float n_uptake_sum = rootPart->nUptake();     // total plant N uptake (g/m^2)
-    n_demand_sum = nDemand();
+    n_demand_sum = plant.nDemand();
 
     n_capacity_sum = 0.0;
     for (part = allParts.begin(); part != allParts.end(); part++)
@@ -1990,7 +1928,7 @@ void Plant::plant_N_senescence (void)
 
    dlt_n_in_senescing_leaf = leafPart->dltDmSenesced() * leafPart->nConc();
 
-   n_demand_tot = nDemand();
+   n_demand_tot = plant.nDemand();
 
    navail = dlt_n_in_senescing_leaf - leafPart->dltNSenesced();
    navail = bound(navail, 0.0, n_demand_tot);
@@ -2103,7 +2041,7 @@ void Plant::plant_process ( void )
            (*t)->doNDemandGrain(g.nfact_grain_conc, g.swdef_expansion);
            }
 
-        float biomass = topsGreen() + plantDltDm();
+        float biomass = tops.dmGreen() + plantDltDm();
         g.n_fix_pot = rootPart->plant_nit_supply(biomass, phenology->stageNumber(), g.swdef_fixation);
 
         if (c.n_retrans_option==1)
@@ -3090,9 +3028,9 @@ void Plant::plant_end_crop ()
         // now do post harvest processes
         // put stover and any remaining grain into surface residue,
         //     any roots to soil FOM pool
-        dm_residue =topsTot();
-        n_residue =topsNTot();
-        p_residue =topsPTot();
+        dm_residue =tops.dmTotal();
+        n_residue =tops.nTotal();
+        p_residue =tops.pTotal();
 
         dm_root = rootPart->dmGreen()+ rootPart->dmDead() + rootPart->dmSenesced();     //FIXME - should be returned from a rootPart method
         n_root  = rootPart->nGreen() + rootPart->nDead() + rootPart->nSenesced();       //FIXME - should be returned from a rootPart method
@@ -3566,23 +3504,24 @@ void Plant::plant_harvest_report ()
 
     n_grain_conc_percent = fruitPart->grainNConcPercent();
 
-    n_green = stoverNGreen() * gm2kg / sm2ha;
-    n_senesced = stoverNSenesced() * gm2kg / sm2ha;
-    n_dead = stoverNDead() * gm2kg / sm2ha;
+    n_green = tops.nGreenVeg() * gm2kg / sm2ha;
+    n_senesced = tops.nSenescedVeg() * gm2kg / sm2ha;
+    n_dead = tops.nDeadVeg() * gm2kg / sm2ha;
 
     n_stover = n_green + n_senesced + n_dead;
     n_total = n_grain + n_stover;
 
-    float DMRrootShootRatio = divide(dmRoot, topsTot()* gm2kg / sm2ha, 0.0);
-    float HarvestIndex      = divide(yield, topsTot()* gm2kg / sm2ha, 0.0);
-    float StoverCNRatio     = divide(stoverTot()* gm2kg / sm2ha*plant_c_frac, n_stover, 0.0);
+    float stoverTot = tops.dmGreenVeg() + tops.dmSenescedVeg() + tops.dmDeadVeg();
+    float DMRrootShootRatio = divide(dmRoot, tops.dmTotal()* gm2kg / sm2ha, 0.0);
+    float HarvestIndex      = divide(yield, tops.dmTotal()* gm2kg / sm2ha, 0.0);
+    float StoverCNRatio     = divide(stoverTot* gm2kg / sm2ha*plant_c_frac, n_stover, 0.0);
     float RootCNRatio       = divide(dmRoot*plant_c_frac, nRoot, 0.0);
 
     parent->writeString ("");
 
     sprintf (msg, "%s%4d%26s%s%10.1f"
              , " flowering day          = ",floweringEventObserver->getDoy(), " "
-             , " stover (kg/ha)         = ",stoverTot()* gm2kg / sm2ha);
+             , " stover (kg/ha)         = ",stoverTot* gm2kg / sm2ha);
     parent->writeString (msg);
 
     sprintf (msg, "%s%4d%26s%s%10.1f"
@@ -3606,24 +3545,24 @@ void Plant::plant_harvest_report ()
     parent->writeString (msg);
 
     sprintf (msg, "%s%10.1f"
-             , " total above ground biomass (kg/ha)    = ", topsTot()* gm2kg / sm2ha);
+             , " total above ground biomass (kg/ha)    = ", tops.dmTotal()* gm2kg / sm2ha);
     parent->writeString (msg);
 
     sprintf (msg, "%s%10.1f",
                " live above ground biomass (kg/ha)     = "
-              , (topsGreen() + topsSenesced())* gm2kg / sm2ha);
+              , (tops.dmGreen() + tops.dmSenesced())* gm2kg / sm2ha);
     parent->writeString (msg);
 
     sprintf (msg, "%s%10.1f"
-             , " green above ground biomass (kg/ha)    = ", topsGreen()* gm2kg / sm2ha);
+             , " green above ground biomass (kg/ha)    = ", tops.dmGreen()* gm2kg / sm2ha);
     parent->writeString (msg);
 
     sprintf (msg, "%s%10.1f"
-             , " senesced above ground biomass (kg/ha) = ", topsSenesced()* gm2kg / sm2ha);
+             , " senesced above ground biomass (kg/ha) = ", tops.dmSenesced()* gm2kg / sm2ha);
     parent->writeString (msg);
 
     sprintf (msg, "%s%10.1f"
-             , " dead above ground biomass (kg/ha)     = ", topsDead()* gm2kg / sm2ha);
+             , " dead above ground biomass (kg/ha)     = ", tops.dmDead()* gm2kg / sm2ha);
     parent->writeString (msg);
 
     sprintf (msg, "%s%6.1f"
@@ -3800,16 +3739,16 @@ void Plant::get_plants(protocol::Component *system, protocol::QueryValueData &qd
 
 void Plant::get_cover_green(protocol::Component *system, protocol::QueryValueData &qd)
 {
-    system->sendVariable(qd, plantCoverGreen());
+    system->sendVariable(qd, plant.coverGreen());
 }
 
 
 void Plant::get_cover_tot(protocol::Component *system, protocol::QueryValueData &qd)
 {
     float cover_tot = 1.0
-        - (1.0 - plantCoverGreen())
-        * (1.0 - plantCoverSenesced())
-        * (1.0 - plantCoverDead());
+        - (1.0 - plant.coverGreen())
+        * (1.0 - plant.coverSen())
+        * (1.0 - plant.coverDead());
 
     system->sendVariable(qd, cover_tot);
 }
@@ -3817,30 +3756,31 @@ void Plant::get_cover_tot(protocol::Component *system, protocol::QueryValueData 
 //NIH up to here
 void Plant::get_biomass(protocol::Component *system, protocol::QueryValueData &qd)
 {
-    system->sendVariable(qd, topsTot() * gm2kg / sm2ha);
+    system->sendVariable(qd, tops.dmTotal() * gm2kg / sm2ha);
 }
 
 
 void Plant::get_green_biomass(protocol::Component *system, protocol::QueryValueData &qd)
 {
-    system->sendVariable(qd, topsGreen() * gm2kg / sm2ha);
+    system->sendVariable(qd, tops.dmGreen() * gm2kg / sm2ha);
 }
 
 
 void Plant::get_biomass_wt(protocol::Component *system, protocol::QueryValueData &qd)
 {
-    system->sendVariable(qd, topsTot());
+    system->sendVariable(qd, tops.dmTotal());
 }
 
 
 void Plant::get_green_biomass_wt(protocol::Component *system, protocol::QueryValueData &qd)
 {
-    system->sendVariable(qd, topsGreen());
+    system->sendVariable(qd, tops.dmGreen());
 }
 
 void Plant::get_stover_biomass_wt(protocol::Component *system, protocol::QueryValueData &qd)
 {
-    system->sendVariable(qd, stoverTot());
+    float stoverTot = tops.dmGreenVeg() + tops.dmSenescedVeg() + tops.dmDeadVeg();
+    system->sendVariable(qd, stoverTot);
 }
 
 void Plant::get_dm_plant_min(protocol::Component *system, protocol::QueryValueData &qd)
@@ -3857,19 +3797,19 @@ void Plant::get_dm_plant_min(protocol::Component *system, protocol::QueryValueDa
 
 void Plant::get_biomass_n(protocol::Component *system, protocol::QueryValueData &qd)
 {
-    system->sendVariable(qd, topsNTot());
+    system->sendVariable(qd, tops.nTotal());
 }
 
 
 void Plant::get_n_uptake(protocol::Component *system, protocol::QueryValueData &qd)
 {
-    system->sendVariable(qd, topsNTot());
+    system->sendVariable(qd, tops.nTotal());
 }
 
 
 void Plant::get_green_biomass_n(protocol::Component *system, protocol::QueryValueData &qd)
 {
-    system->sendVariable(qd, topsNGreen());
+    system->sendVariable(qd, tops.nGreen());
 }
 
 
@@ -3886,7 +3826,7 @@ void Plant::get_cep(protocol::Component *system, protocol::QueryValueData &qd)
 // plant nitrogen
 void Plant::get_n_conc_stover(protocol::Component *system, protocol::QueryValueData &qd)
 {
-    float n_conc = divide (stoverNGreen(), stoverGreen(), 0.0) * fract2pcnt;
+    float n_conc = divide (tops.nGreenVeg(), tops.dmGreenVeg(), 0.0) * fract2pcnt;
     system->sendVariable(qd, n_conc);
 }
 
@@ -3911,15 +3851,9 @@ void Plant::get_n_conc_min(protocol::Component *system, protocol::QueryValueData
 
 void Plant::get_n_uptake_stover(protocol::Component *system, protocol::QueryValueData &qd)
 {
-    system->sendVariable(qd, stoverNGreen());
+    system->sendVariable(qd, tops.nGreenVeg());
 }
 
-
-void Plant::get_n_demand(protocol::Component *system, protocol::QueryValueData &qd)
-{
-    float n_demand = nDemand();
-    system->sendVariable(qd, n_demand);
-}
 
 void Plant::get_n_demanded(protocol::Component *systemInterface, protocol::QueryValueData &qd)
 {
@@ -4110,23 +4044,23 @@ void Plant::get_pstress_grain(protocol::Component *systemInterface, protocol::Qu
 
 void Plant::get_biomass_p(protocol::Component *systemInterface, protocol::QueryValueData &qd)
 {
-    systemInterface->sendVariable(qd, topsPTot());  //()
+    systemInterface->sendVariable(qd, tops.pTotal());  //()
 }
 
 void Plant::get_green_biomass_p(protocol::Component *systemInterface, protocol::QueryValueData &qd)
 {
-    systemInterface->sendVariable(qd, topsPGreen());  //()
+    systemInterface->sendVariable(qd, tops.pGreen());  //()
 }
 //NIH up to here
 void Plant::get_p_conc_stover(protocol::Component *systemInterface, protocol::QueryValueData &qd)
 {
-    float p_conc_stover = divide (stoverPGreen(), stoverGreen(), 0.0) * fract2pcnt ;
+    float p_conc_stover = divide (tops.pGreenVeg(), tops.dmGreenVeg(), 0.0) * fract2pcnt ;
     systemInterface->sendVariable(qd, p_conc_stover);  //()
 }
 
 void Plant::get_p_uptake_stover(protocol::Component *systemInterface, protocol::QueryValueData &qd)
 {
-    systemInterface->sendVariable(qd, stoverPGreen());  //()
+    systemInterface->sendVariable(qd, tops.pGreenVeg());  //()
 }
 
 void Plant::get_dm_green(protocol::Component *systemInterface, protocol::QueryValueData &qd)
@@ -4177,16 +4111,6 @@ void Plant::get_dlt_dm_pot_rue(protocol::Component *systemInterface, protocol::Q
    systemInterface->sendVariable(qd, plantDltDmPotRue());
 }
 
-void Plant::get_dlt_dm_green(protocol::Component *systemInterface, protocol::QueryValueData &qd)
-{
-   vector<plantPart*>::iterator part;
-   vector<float>  get_dlt_dm_green;
-
-   for (part = myParts.begin(); part != myParts.end(); part++)
-      (*part)->get_dlt_dm_green(get_dlt_dm_green);
-
-   systemInterface->sendVariable(qd, get_dlt_dm_green);
-}
 void Plant::get_dlt_dm_green_retrans(protocol::Component *systemInterface, protocol::QueryValueData &qd)
 {
    vector<plantPart*>::iterator part;
@@ -4196,26 +4120,6 @@ void Plant::get_dlt_dm_green_retrans(protocol::Component *systemInterface, proto
       (*part)->get_dlt_dm_green_retrans(dlt_dm_green_retrans);
 
    systemInterface->sendVariable(qd, dlt_dm_green_retrans);
-}
-void Plant::get_dlt_dm_detached(protocol::Component *systemInterface, protocol::QueryValueData &qd)
-{
-   vector<plantPart*>::iterator part;
-   vector<float>  dlt_dm_detached;
-
-   for (part = myParts.begin(); part != myParts.end(); part++)
-      (*part)->get_dlt_dm_detached(dlt_dm_detached);
-
-   systemInterface->sendVariable(qd, dlt_dm_detached);
-}
-void Plant::get_dlt_dm_senesced(protocol::Component *systemInterface, protocol::QueryValueData &qd)
-{
-   vector<plantPart*>::iterator part;
-   vector<float>  dlt_dm_senesced;
-
-   for (part = myParts.begin(); part != myParts.end(); part++)
-      (*part)->get_dlt_dm_senesced(dlt_dm_senesced);
-
-   systemInterface->sendVariable(qd, dlt_dm_senesced);
 }
 void Plant::get_dlt_dm_dead_detached(protocol::Component *systemInterface, protocol::QueryValueData &qd)
 {
@@ -4247,76 +4151,6 @@ void Plant::get_dlt_dm_senesced_dead(protocol::Component *systemInterface, proto
 
    systemInterface->sendVariable(qd, dlt_dm_senesced_dead);
 }
-void Plant::get_n_green(protocol::Component *systemInterface, protocol::QueryValueData &qd)
-{
-   vector<plantPart*>::iterator part;
-   vector<float>  n_green;
-
-   for (part = myParts.begin(); part != myParts.end(); part++)
-      (*part)->get_n_green(n_green);
-
-   systemInterface->sendVariable(qd, n_green);
-}
-void Plant::get_n_senesced(protocol::Component *systemInterface, protocol::QueryValueData &qd)
-{
-   vector<plantPart*>::iterator part;
-   vector<float>  n_senesced;
-
-   for (part = myParts.begin(); part != myParts.end(); part++)
-      (*part)->get_n_senesced(n_senesced);
-
-   systemInterface->sendVariable(qd, n_senesced);
-}
-void Plant::get_n_dead(protocol::Component *systemInterface, protocol::QueryValueData &qd)
-{
-   vector<plantPart*>::iterator part;
-   vector<float>  n_dead;
-
-   for (part = myParts.begin(); part != myParts.end(); part++)
-      (*part)->get_n_dead(n_dead);
-
-   systemInterface->sendVariable(qd, n_dead);
-}
-void Plant::get_dlt_n_green(protocol::Component *systemInterface, protocol::QueryValueData &qd)
-{
-   vector<plantPart*>::iterator part;
-   vector<float>  n_green;
-
-   for (part = myParts.begin(); part != myParts.end(); part++)
-      (*part)->get_dlt_n_green(n_green);
-
-   systemInterface->sendVariable(qd, n_green);
-}
-void Plant::get_dlt_n_dead(protocol::Component *systemInterface, protocol::QueryValueData &qd)
-{
-   vector<plantPart*>::iterator part;
-   vector<float>  n_dead;
-
-   for (part = myParts.begin(); part != myParts.end(); part++)
-      (*part)->get_dlt_n_dead(n_dead);
-
-   systemInterface->sendVariable(qd, n_dead);
-}
-void Plant::get_dlt_n_retrans(protocol::Component *systemInterface, protocol::QueryValueData &qd)
-{
-   vector<plantPart*>::iterator part;
-   vector<float>  n_retrans;
-
-   for (part = myParts.begin(); part != myParts.end(); part++)
-      (*part)->get_dlt_n_retrans(n_retrans);
-
-   systemInterface->sendVariable(qd, n_retrans);
-}
-void Plant::get_dlt_n_senesced(protocol::Component *systemInterface, protocol::QueryValueData &qd)
-{
-   vector<plantPart*>::iterator part;
-   vector<float>  n_senesced;
-
-   for (part = myParts.begin(); part != myParts.end(); part++)
-      (*part)->get_dlt_n_senesced(n_senesced);
-
-   systemInterface->sendVariable(qd, n_senesced);
-}
 
 void Plant::get_dlt_n_senesced_dead(protocol::Component *systemInterface, protocol::QueryValueData &qd)
 {
@@ -4329,36 +4163,6 @@ void Plant::get_dlt_n_senesced_dead(protocol::Component *systemInterface, protoc
    systemInterface->sendVariable(qd, dlt_n_senesced_dead);
 }
 
-void Plant::get_dlt_n_senesced_retrans(protocol::Component *systemInterface, protocol::QueryValueData &qd)
-{
-   vector<plantPart*>::iterator part;
-   vector<float>  n_senesced_retrans;
-
-   for (part = myParts.begin(); part != myParts.end(); part++)
-      (*part)->get_dlt_n_senesced_retrans(n_senesced_retrans);
-
-   systemInterface->sendVariable(qd, n_senesced_retrans);
-}
-void Plant::get_dlt_n_senesced_trans(protocol::Component *systemInterface, protocol::QueryValueData &qd)
-{
-   vector<plantPart*>::iterator part;
-   vector<float>  n_senesced_trans;
-
-   for (part = myParts.begin(); part != myParts.end(); part++)
-      (*part)->get_dlt_n_senesced_trans(n_senesced_trans);
-
-   systemInterface->sendVariable(qd, n_senesced_trans);
-}
-void Plant::get_dlt_n_detached(protocol::Component *systemInterface, protocol::QueryValueData &qd)
-{
-   vector<plantPart*>::iterator part;
-   vector<float>  n_detached;
-
-   for (part = myParts.begin(); part != myParts.end(); part++)
-      (*part)->get_dlt_n_detached(n_detached);
-
-   systemInterface->sendVariable(qd, n_detached);
-}
 void Plant::get_dlt_n_dead_detached(protocol::Component *systemInterface, protocol::QueryValueData &qd)
 {
    vector<plantPart*>::iterator part;
@@ -4393,47 +4197,6 @@ void Plant::get_p_demand_parts(protocol::Component *systemInterface, protocol::Q
    systemInterface->sendVariable(qd, p_demand);   //(g/m^2
 }
 
-void Plant::get_p_green(protocol::Component *systemInterface, protocol::QueryValueData &qd)
-{
-   vector<plantPart*>::iterator part;
-   vector<float>  p_green;
-
-   for (part = myParts.begin(); part != myParts.end(); part++)
-      (*part)->get_p_green(p_green);
-
-   systemInterface->sendVariable(qd, p_green);
-}
-void Plant::get_p_dead(protocol::Component *systemInterface, protocol::QueryValueData &qd)
-{
-   vector<plantPart*>::iterator part;
-   vector<float>  p_dead;
-
-   for (part = myParts.begin(); part != myParts.end(); part++)
-      (*part)->get_p_dead(p_dead);
-
-   systemInterface->sendVariable(qd, p_dead);
-}
-void Plant::get_p_sen(protocol::Component *systemInterface, protocol::QueryValueData &qd)
-{
-   vector<plantPart*>::iterator part;
-   vector<float>  p_sen;
-
-   for (part = myParts.begin(); part != myParts.end(); part++)
-      (*part)->get_p_sen(p_sen);
-
-   systemInterface->sendVariable(qd, p_sen);
-}
-
-void Plant::get_dlt_p_green(protocol::Component *systemInterface, protocol::QueryValueData &qd)
-{
-   vector<plantPart*>::iterator part;
-   vector<float>  dlt_p_green;
-
-   for (part = myParts.begin(); part != myParts.end(); part++)
-      (*part)->get_dlt_p_green(dlt_p_green);
-
-   systemInterface->sendVariable(qd, dlt_p_green);
-}
 void Plant::get_dlt_p_retrans(protocol::Component *systemInterface, protocol::QueryValueData &qd)
 {
    vector<plantPart*>::iterator part;
@@ -4444,38 +4207,6 @@ void Plant::get_dlt_p_retrans(protocol::Component *systemInterface, protocol::Qu
 
    systemInterface->sendVariable(qd, dlt_p_retrans);
 }
-void Plant::get_dlt_p_detached(protocol::Component *systemInterface, protocol::QueryValueData &qd)
-{
-   vector<plantPart*>::iterator part;
-   vector<float>  dlt_p_detached;
-
-   for (part = myParts.begin(); part != myParts.end(); part++)
-      (*part)->get_dlt_p_detached(dlt_p_detached);
-
-   systemInterface->sendVariable(qd, dlt_p_detached);
-}
-void Plant::get_dlt_p_dead(protocol::Component *systemInterface, protocol::QueryValueData &qd)
-{
-   vector<plantPart*>::iterator part;
-   vector<float>  dlt_p_dead;
-
-   for (part = myParts.begin(); part != myParts.end(); part++)
-      (*part)->get_dlt_p_dead(dlt_p_dead);
-
-   systemInterface->sendVariable(qd, dlt_p_dead);
-}
-
-void Plant::get_dlt_p_sen(protocol::Component *systemInterface, protocol::QueryValueData &qd)
-{
-   vector<plantPart*>::iterator part;
-   vector<float>  dlt_p_sen;
-
-   for (part = myParts.begin(); part != myParts.end(); part++)
-      (*part)->get_dlt_p_sen(dlt_p_sen);
-
-   systemInterface->sendVariable(qd, dlt_p_sen);
-}
-
 
 
 
@@ -4489,14 +4220,14 @@ float Plant::getDmGreenVeg(void) const {return (leafPart->dmGreen() + stemPart->
 //float Plant::getDltDmVeg(void) const {return leafPart->dltDmTotal() + stemPart->dltDmTotal();}
 ////float Plant::getWaterSupplyPod(void) const {return g.swSupplyFruit;}
 ////float Plant::getWaterSupplyLeaf(void) const {return g.swSupplyVeg;}
-float Plant::getDmTops(void) const{ return topsGreen()+topsSenesced();}
+float Plant::getDmTops(void) const{ return tops.dmGreen()+tops.dmSenesced();}
 float Plant::getDltDm(void) const{ return plantDltDm();}
-float Plant::getDltDmGreen(void) const{ return plantDltDmGreen();}
+float Plant::getDltDmGreen(void) const{ return plant.dltDmGreen();}
 float Plant::getDmVeg(void) const {return leafPart->dmTotal() + stemPart->dmTotal();}
 float Plant::getDmGreenStem(void) const {return stemPart->dmGreen();}
-float Plant::getDmGreenTot(void) const {return plantGreen();}
+float Plant::getDmGreenTot(void) const {return plant.dmGreen();}
 // FIXME - remove next line when P demand corrections activated
-float Plant::getRelativeGrowthRate(void) {return divide(arbitrator->dltDMWhole(plantDltDmPotRue()), getDmGreenTot(), 0.0);} // the dlt_dm_pot_rue is only tops, thus either adjust it for roots or leave roots out of the divisor.
+float Plant::getRelativeGrowthRate(void) {return divide(arbitrator->dltDMWhole(plantDltDmPotRue()), plant.dmGreen(), 0.0);} // the dlt_dm_pot_rue is only tops, thus either adjust it for roots or leave roots out of the divisor.
 float Plant::getTotalPotentialGrowthRate(void) {return arbitrator->dltDMWhole(plantDltDmPotRue());} // the dlt_dm_pot_rue is only tops, thus adjust it for roots.
 float Plant::getDyingFractionPlants(void)
    {
@@ -4516,30 +4247,6 @@ float Plant::getOxdefPhoto(void) const {return g.oxdef_photo;}
 float Plant::getPfactPhoto(void) const {return g.pfact_photo;}
 float Plant::getSwdefPhoto(void) const {return g.swdef_photo;}
 
-float Plant::plantCoverGreen(void) const
-   {
-   float cover = 0.0;
-   for (vector<plantPart *>::const_iterator part = myParts.begin(); part != myParts.end(); part++)
-      cover = add_covers (cover, (*part)->coverGreen());
-   return cover;
-   }
-
-float Plant::plantCoverSenesced(void) const
-   {
-   float cover = 0.0;
-   for (vector<plantPart *>::const_iterator part = myParts.begin(); part != myParts.end(); part++)
-      cover = add_covers (cover, (*part)->coverSen());
-   return cover;
-   }
-
-float Plant::plantCoverDead(void) const
-   {
-   float cover = 0.0;
-   for (vector<plantPart *>::const_iterator part = myParts.begin(); part != myParts.end(); part++)
-      cover = add_covers (cover, (*part)->coverDead());
-   return cover;
-   }
-
 float Plant::plantDltDm(void) const
    {
       return  fruitPart->dltDm() + leafPart->dltDm();
@@ -4553,257 +4260,6 @@ float Plant::plantDltDmPotRue(void) const
 float Plant::plantDltDmPotTe(void) const
    {
       return  fruitPart->dltDmPotTe() + leafPart->dltDmPotTe();
-   }
-
-float Plant::plantGreen(void) const
-   {
-   float total = 0.0;
-   for (vector<plantPart *>::const_iterator part = myParts.begin(); part != myParts.end(); part++)
-      total += (*part)->dmGreen();
-   return  total;
-   }
-float Plant::plantSenesced(void) const
-   {
-   float total = 0.0;
-   for (vector<plantPart *>::const_iterator part = myParts.begin(); part != myParts.end(); part++)
-      total += (*part)->dmSenesced();
-   return  total;
-   }
-float Plant::plantDead(void) const
-   {
-   float total = 0.0;
-   for (vector<plantPart *>::const_iterator part = myParts.begin(); part != myParts.end(); part++)
-      total += (*part)->dmDead();
-   return  total;
-   }
-float Plant::plantDltDmGreen(void) const
-   {
-   float total = 0.0;
-   for (vector<plantPart *>::const_iterator part = myParts.begin(); part != myParts.end(); part++)
-      total += (*part)->dltDmGreen();
-   return  total;
-
-   }
-float Plant::plantTot(void) const
-   {
-      return  plantGreen() + plantSenesced() + plantDead();
-    }
-
-float Plant::topsGreen(void) const
-   {
-   float total = 0.0;
-   for (vector<plantPart *>::const_iterator part = myTopsParts.begin(); part != myTopsParts.end(); part++)
-      total += (*part)->dmGreen();
-   return  total;
-   }
-float Plant::topsSenesced(void) const
-   {
-   float total = 0.0;
-   for (vector<plantPart *>::const_iterator part = myTopsParts.begin(); part != myTopsParts.end(); part++)
-      total += (*part)->dmSenesced();
-   return  total;
-   }
-float Plant::topsDead(void) const
-   {
-   float total = 0.0;
-   for (vector<plantPart *>::const_iterator part = myTopsParts.begin(); part != myTopsParts.end(); part++)
-      total += (*part)->dmDead();
-   return  total;
-   }
-float Plant::topsDltDmGreen(void) const
-   {
-   float total = 0.0;
-   for (vector<plantPart *>::const_iterator part = myTopsParts.begin(); part != myTopsParts.end(); part++)
-      total += (*part)->dltDmGreen();
-   return  total;
-   }
-float Plant::topsTot(void) const
-   {
-      return  topsGreen() + topsSenesced() + topsDead();
-    }
-
-float Plant::stoverGreen(void) const
-   {
-   float total = 0.0;
-   for (vector<plantPart *>::const_iterator part = myTopsParts.begin(); part != myTopsParts.end(); part++)
-      total += (*part)->dmGreenVeg();
-   return  total;
-
-    }
-float Plant::stoverSenesced(void) const
-   {
-   float total = 0.0;
-   for (vector<plantPart *>::const_iterator part = myTopsParts.begin(); part != myTopsParts.end(); part++)
-      total += (*part)->dmSenescedVeg();
-   return  total;
-    }
-float Plant::stoverDead(void) const
-   {
-   float total = 0.0;
-   for (vector<plantPart *>::const_iterator part = myTopsParts.begin(); part != myTopsParts.end(); part++)
-      total += (*part)->dmDeadVeg();
-   return  total;
-    }
-
-float Plant::stoverTot(void) const
-   {
-      return  stoverGreen() + stoverSenesced() + stoverDead();
-   }
-
-float Plant::plantNGreen(void)
-   {
-   float ngreen = 0.0;
-   for (vector<plantPart *>::iterator t = myParts.begin();
-        t != myParts.end();
-        t++)
-      ngreen += (*t)->nGreen();
-
-   return ngreen;
-   }
-float Plant::plantNSenesced(void)
-   {
-   float nsenesced = 0.0;
-   for (vector<plantPart *>::iterator t = myParts.begin();
-        t != myParts.end();
-        t++)
-      nsenesced += (*t)->nSenesced();
-
-   return nsenesced;
-   }
-float Plant::plantNDead(void)
-   {
-   float ndead = 0.0;
-   for (vector<plantPart *>::iterator t = myParts.begin();
-        t != myParts.end();
-        t++)
-      ndead += (*t)->nDead();
-
-   return ndead;
-   }
-
-float Plant::plantNTot(void)
-   {
-   return  plantNGreen() + plantNSenesced() + plantNDead();
-   }
-
-float Plant::plantDltNGreen(void)
-   {
-   float sum = 0.0;
-   for (vector<plantPart *>::iterator t = myParts.begin();
-        t != myParts.end();
-        t++)
-      sum += (*t)->dltNGreen();
-
-   return sum;
-   }
-float Plant::plantDltNRetrans(void)
-   {
-   float sum = 0.0;
-   for (vector<plantPart *>::iterator t = myParts.begin();
-        t != myParts.end();
-        t++)
-      sum += (*t)->dltNRetransOut();
-
-   return sum;
-   }
-float Plant::topsNGreen(void) const
-   {
-   float total = 0.0;
-   for (vector<plantPart *>::const_iterator part = myTopsParts.begin(); part != myTopsParts.end(); part++)
-      total += (*part)->nGreen();
-   return  total;
-   }
-float Plant::topsNSenesced(void) const
-   {
-   float total = 0.0;
-   for (vector<plantPart *>::const_iterator part = myTopsParts.begin(); part != myTopsParts.end(); part++)
-      total += (*part)->nSenesced();
-   return  total;
-   }
-float Plant::topsNDead(void) const
-   {
-   float total = 0.0;
-   for (vector<plantPart *>::const_iterator part = myTopsParts.begin(); part != myTopsParts.end(); part++)
-      total += (*part)->nDead();
-   return  total;
-   }
-float Plant::topsNTot(void) const
-   {
-   return  topsNGreen() + topsNSenesced() + topsNDead();
-   }
-
-float Plant::stoverNGreen(void) const
-   {
-   return  leafPart->nGreen() + fruitPart->nGreenVegTotal() + stemPart->nGreen();   //XXX john, check please - nGreenVegTotal is not implemented??
-   }
-float Plant::stoverNSenesced(void) const
-   {
-   return  leafPart->nSenesced() + fruitPart->nSenescedVegTotal() + stemPart->nSenesced();
-   }
-float Plant::stoverNDead(void) const
-   {
-   return  leafPart->nDead() + fruitPart->nDeadVegTotal() + stemPart->nDead();
-   }
-float Plant::stoverNTot(void) const
-   {
-   return  stoverNGreen() + stoverNSenesced() + stoverNDead();
-   }
-
-float Plant::plantPGreen(void) const
-   {
-   return  rootPart->pGreen() + leafPart->pGreen() + fruitPart->pGreenVegTotal() + stemPart->pGreen();  // NIH has to be wrong!
-   }
-float Plant::plantPSenesced(void) const
-   {
-   return  rootPart->pSenesced() + leafPart->pSenesced() + fruitPart->pSenescedVegTotal() + stemPart->pSenesced();// NIH has to be wrong!
-   }
-float Plant::plantPDead(void) const
-   {
-   return  rootPart->pDead() + leafPart->pDead() + fruitPart->pDeadVegTotal()+ stemPart->pDead();// NIH has to be wrong!
-   }
-float Plant::plantPTot(void) const
-   {
-   return plantPGreen() + plantPSenesced() + plantPDead();
-   }
-
-float Plant::topsPGreen(void) const
-   {
-   float total = 0.0;
-   for (vector<plantPart *>::const_iterator part = myTopsParts.begin(); part != myTopsParts.end(); part++)
-      total += (*part)->pGreen();
-   return  total;
-   }
-float Plant::topsPSenesced(void) const
-   {
-   float total = 0.0;
-   for (vector<plantPart *>::const_iterator part = myTopsParts.begin(); part != myTopsParts.end(); part++)
-      total += (*part)->pSenesced();
-   return  total;
-   }
-float Plant::topsPDead(void) const
-   {
-   float total = 0.0;
-   for (vector<plantPart *>::const_iterator part = myTopsParts.begin(); part != myTopsParts.end(); part++)
-      total += (*part)->pDead();
-   return  total;
-   }
-
-float Plant::stoverPGreen(void) const
-   {
-   return leafPart->pGreen() + fruitPart->pGreenVegTotal() + stemPart->pGreen();
-   }
-
-float Plant::stoverPSenesced(void) const
-   {
-   return leafPart->pSenesced() + fruitPart->pSenescedVegTotal() + stemPart->pSenesced();
-   }
-float Plant::stoverPDead(void) const
-   {
-   return  leafPart->pDead() + fruitPart->pDeadVegTotal()+ stemPart->pDead();
-   }
-float Plant::stoverPTot(void) const
-   {
-   return  stoverPGreen() + stoverPSenesced() + stoverPDead();
    }
 
 float Plant::grainPGreen(void) const
@@ -4836,10 +4292,6 @@ float Plant::grainPConcTot(void) const
    {
    return  fruitPart->pConcGrainTotal();
    }
-float Plant::topsPTot(void) const
-   {
-   return  topsPGreen() + topsPSenesced() + topsPDead();
-   }
 float Plant::SWDemandTE(void)
    {
    return leafPart->SWDemandTE() + fruitPart->SWDemandTE();
@@ -4859,13 +4311,6 @@ float Plant::nCapacity(void)
       n_capacity_sum += (*part)->nCapacity();
    return n_capacity_sum;
    }
-float Plant::nDemand(void)
-   {
-      float n_demand = 0.0;
-      for (vector<plantPart *>::iterator t = myParts.begin(); t != myParts.end(); t++)
-         n_demand += (*t)->nDemand();
-      return n_demand;
-   }
 
 bool  Plant::on_day_of(const string &what) {return (phenology->on_day_of(what));};
 bool  Plant::inPhase(const string &what) {return (phenology->inPhase(what));};
@@ -4876,6 +4321,4 @@ void Plant::warningError (const char *msg) {parent->warningError(msg);};
 
 const std::string & Plant::getCropType(void) {return c.crop_type;};
 protocol::Component *Plant::getComponent(void) {return parent;};
-
-
 

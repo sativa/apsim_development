@@ -25,7 +25,10 @@
       Utility\Data.obj Utility\Date.obj Utility\Observers.obj Utility\Output.obj 
       Utility\OutputVariable.obj Utility\PlantUtility.obj Root\MultiRoot.obj 
       Root\NoRoot.obj Root\RootBase.obj Reproductive\FloretPart.obj 
-      Storage\StoragePart.obj"/>
+      Storage\StoragePart.obj Arbitrators\CerealArbitrator.obj 
+      Arbitrators\GenericArbitratorXY.obj Arbitrators\AllometricArbitrator.obj 
+      Utility\ExternalFunction.obj Utility\InterpolationFunction.obj 
+      Utility\LookupFunction.obj"/>
     <RESFILES value=""/>
     <IDLFILES value=""/>
     <DEFFILE value=""/>
@@ -47,8 +50,8 @@
     <USERDEFINES value="_DEBUG"/>
     <SYSDEFINES value="_RTLDLL;NO_STRICT;USEPACKAGES"/>
     <MAINSOURCE value="PlantComponent.cpp"/>
-    <INCLUDEPATH value="Storage;Utility;Root;Reproductive;Leaf;Arbitrators;Phenology;..\..\..\Shared\ComponentInterface;$(BCB)\include;$(BCB)\include\vcl;$(BCB)\Components\boost;..\..\..\Shared"/>
-    <LIBPATH value="Storage;Utility;Root;Reproductive;Leaf;Arbitrators;Phenology;..\..\..\Shared\ComponentInterface;$(BCB)\lib\debug;$(BCB)\lib\obj;$(BCB)\lib"/>
+    <INCLUDEPATH value="&quot;C:\Program Files\Borland\CBuilder6\Bin&quot;;Storage;Utility;Root;Reproductive;Leaf;Arbitrators;Phenology;..\..\..\Shared\ComponentInterface;$(BCB)\include;$(BCB)\include\vcl;$(BCB)\Components\boost;..\..\..\Shared"/>
+    <LIBPATH value="&quot;C:\Program Files\Borland\CBuilder6\Bin&quot;;Storage;Utility;Root;Reproductive;Leaf;Arbitrators;Phenology;..\..\..\Shared\ComponentInterface;$(BCB)\lib\debug;$(BCB)\lib\obj;$(BCB)\lib"/>
     <WARNINGS value="-wprc -wstv -wsig -w-par -wnod -w-8027 -w-8026 -wdef -wamb"/>
     <WARNOPTSTR value=""/>
     <OTHERFILES value=""/>
@@ -129,6 +132,12 @@
       <FILE FILENAME="Root\RootBase.cpp" FORMNAME="" UNITNAME="RootBase.cpp" CONTAINERID="CCompiler" DESIGNCLASS="" LOCALCOMMAND=""/>
       <FILE FILENAME="Reproductive\FloretPart.cpp" FORMNAME="" UNITNAME="FloretPart" CONTAINERID="CCompiler" DESIGNCLASS="" LOCALCOMMAND=""/>
       <FILE FILENAME="Storage\StoragePart.cpp" FORMNAME="" UNITNAME="StoragePart" CONTAINERID="CCompiler" DESIGNCLASS="" LOCALCOMMAND=""/>
+      <FILE FILENAME="Arbitrators\CerealArbitrator.cpp" FORMNAME="" UNITNAME="CerealArbitrator" CONTAINERID="CCompiler" DESIGNCLASS="" LOCALCOMMAND=""/>
+      <FILE FILENAME="Arbitrators\GenericArbitratorXY.cpp" FORMNAME="" UNITNAME="GenericArbitratorXY" CONTAINERID="CCompiler" DESIGNCLASS="" LOCALCOMMAND=""/>
+      <FILE FILENAME="Arbitrators\AllometricArbitrator.cpp" FORMNAME="" UNITNAME="AllometricArbitrator" CONTAINERID="CCompiler" DESIGNCLASS="" LOCALCOMMAND=""/>
+      <FILE FILENAME="Utility\ExternalFunction.cpp" FORMNAME="" UNITNAME="ExternalFunction.cpp" CONTAINERID="CCompiler" DESIGNCLASS="" LOCALCOMMAND=""/>
+      <FILE FILENAME="Utility\InterpolationFunction.cpp" FORMNAME="" UNITNAME="InterpolationFunction.cpp" CONTAINERID="CCompiler" DESIGNCLASS="" LOCALCOMMAND=""/>
+      <FILE FILENAME="Utility\LookupFunction.cpp" FORMNAME="" UNITNAME="LookupFunction.cpp" CONTAINERID="CCompiler" DESIGNCLASS="" LOCALCOMMAND=""/>
   </FILELIST>
   <BUILDTOOLS>
   </BUILDTOOLS>
@@ -231,7 +240,7 @@ Item1=..\lib
 DebugSourceDirs=$(BCB)\source\vcl;c:\data\Apsim\development\Shared\ComponentInterface\;c:\data\Apsim\development\apsim\SummaryFile\Source\
 
 [Parameters]
-RunParams=&quot;C:\Users\hol353\Development\apsim\Wheat\Sample\wheat.apsim.wheat_sample.sim&quot;
+RunParams=C:\Users\hol353\Development\apsim\Plant\Test\test.APSIM.test6.sim
 Launcher=
 UseLauncher=0
 DebugCWD=
