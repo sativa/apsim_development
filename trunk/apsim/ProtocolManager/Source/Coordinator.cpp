@@ -347,8 +347,11 @@ void Coordinator::onRegisterMessage(unsigned int fromID, RegisterData& registerD
          destID = atoi(componentName.c_str());
       else
          destID = componentNameToID(componentName);
-      if (destID == INT_MAX)
-         throw std::runtime_error("Cannot find component " + regName.substr(0, posPeriod));
+      if (destID == INT_MAX) 
+         {
+         string msg = "Cannot find component " + regName.substr(0, posPeriod);
+         error(msg.c_str(), true);
+         }   
       regName.erase(0, posPeriod+1);
       }
 
@@ -536,7 +539,11 @@ void Coordinator::onQueryInfoMessage(unsigned int fromID,
       if (componentName != "*")
          componentId = componentNameToID(componentName);
       if (componentId == INT_MAX)
-          throw std::runtime_error("Component \"" + componentName + "\" is unknown.");
+         {
+         string msg = "Component \"" + componentName + "\" is unknown.";
+         error(msg.c_str(), true);
+         return;
+         }
       }
    std::vector< ::Registration> matches;
    if (queryInfo.kind == respondToGetInfo)
@@ -651,8 +658,9 @@ void Coordinator::sendQuerySetValueMessage(unsigned ourComponentID,
       }
    if (subs.size() == 0)
       {
-      string regName = registrations.getName(ourComponentID, ourRegID, RegistrationType::set);
-      throw runtime_error("No module allows a set of the variable " + regName);
+      string msg = "No module allows a set of the variable " + 
+           registrations.getName(ourComponentID, ourRegID, RegistrationType::set);
+      error(msg.c_str(), true);
       }
 
    else if (subs.size() == 1)
@@ -676,8 +684,9 @@ void Coordinator::sendQuerySetValueMessage(unsigned ourComponentID,
       }
    else if (subs.size() > 1)
       {
-      string regName = registrations.getName(ourComponentID, ourRegID, RegistrationType::set);
-      throw runtime_error("Too many modules allow a set of the variable " + regName);
+      string msg =  "Too many modules allow a set of the variable "+ 
+              registrations.getName(ourComponentID, ourRegID, RegistrationType::set);
+      error(msg.c_str(), true);
       }
    }
 // ------------------------------------------------------------------
@@ -803,7 +812,8 @@ void Coordinator::onApsimChangeOrderData(MessageData& messageData)
             string msg;
             msg = "The CANOPY module has specified that " + componentNames[i]
                 + " be intercropped\nbut that module doesn't exist in the control file.";
-            throw runtime_error(msg);
+            error(msg.c_str(), true);
+            return;
             }
          componentOrders.push_back(componentID);
          }
