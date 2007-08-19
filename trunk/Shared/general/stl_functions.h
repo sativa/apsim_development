@@ -352,6 +352,18 @@ class EqualToName
          {return (Str_i_Eq(arg.getName(), name));};
    };
 template <class T>
+class MatchName
+   {
+   private:
+      std::string name;
+   public:
+      MatchName(const std::string& n)
+         : name(n) {}
+
+      bool operator () (T& arg)
+         {return (Str_i_Eq(arg.name, name));};
+   };
+template <class T>
 class PEqualToFileName
    {
    private:

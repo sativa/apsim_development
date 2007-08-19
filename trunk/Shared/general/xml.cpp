@@ -155,6 +155,26 @@ std::string XMLNode::getValue(void) const
       }
    return returnString;
    }
+
+std::string XMLNode::childValue(const std::string& childName) const
+   {
+   vector<string> values = childValues(childName);
+   if (values.size() == 0)
+      return "";
+   else if (values.size() > 1)
+      throw runtime_error("More than 1 child values found for node: " + childName);
+   return values[0];
+   }
+
+vector<std::string> XMLNode::childValues(const std::string& childName) const
+   {
+   vector<string> values;
+   for_each_if(begin(), end(),
+               GetValueFunction<vector<string>, XMLNode>(values),
+               EqualToName<XMLNode>(childName));
+   return values;
+   }
+
 // ------------------------------------------------------------------
 // Set an attribute of this node.
 // ------------------------------------------------------------------

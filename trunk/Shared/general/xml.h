@@ -55,6 +55,9 @@ class XMLNode
       void getAttributes(std::vector<std::string>& attributes) const;
       std::string getAttribute(const std::string& attributeName) const;
       std::string getValue(void) const;
+
+      std::string childValue(const std::string& childName) const;
+      std::vector<std::string> childValues(const std::string& childName) const;
       void setAttribute(const std::string& attributeName,
                         const std::string& attributeValue);
       void setValue(const std::string& value);

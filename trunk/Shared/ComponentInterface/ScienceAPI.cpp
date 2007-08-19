@@ -342,6 +342,48 @@ bool ScienceAPI::getOptional(const std::string& name, const std::string& units, 
    }
 
 // -------------------------------------------------------------
+// Expose methods.
+// -------------------------------------------------------------
+// -------------------------------------------------------------------
+// A wrapper class for CMP getters
+// -------------------------------------------------------------------
+template <class FT, class T>
+class CMPGetter : public DeletableThing
+   {
+   private:
+      FT getter;
+      T dummy;
+      std::string ddml;
+   public:
+      CMPGetter(FT& fn)
+         {
+         getter = fn;
+         ddml = protocol::DDML(dummy);
+         }
+      void CMPFunction(protocol::Component* component, protocol::QueryValueData &qd)
+         {
+         component->sendVariable(qd, getter());
+         }
+      const char* DDML() {return ddml.c_str();}
+
+   };
+
+void ScienceAPI::expose(const std::string& name, const std::string& units, const std::string& description, float& variable)
+   {
+   component->addGettableVar(name.c_str(), variable, units.c_str(), description.c_str());
+   }
+void ScienceAPI::exposeFunction(const std::string& name, const std::string& units, const std::string& description, boost::function0<float> handler)
+   {
+   typedef CMPGetter<FloatFunctionType, float> WrapperType;
+   WrapperType* wrapper = new WrapperType (handler);
+   stuffToDelete.push_back(wrapper);
+   boost::function2<void, protocol::Component*, protocol::QueryValueData &> fn;
+   fn = boost::bind(&WrapperType::CMPFunction, wrapper, _1, _2);
+   component->addGettableVar(name.c_str(), protocol::DTsingle, false, fn, units.c_str(), description.c_str());
+   }
+
+
+// -------------------------------------------------------------
 // SET methods.
 // -------------------------------------------------------------
 void ScienceAPI::set(const std::string& name, const std::string& units, std::vector<float>& data)
@@ -408,4 +450,5 @@ void ScienceAPI::subscribe(const std::string& name, NewMetFunctionType handler)
    component->addEvent(name.c_str(), RegistrationType::respondToEvent,
                        fn, wrapper->DDML());
    }
+
 

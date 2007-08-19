@@ -59,6 +59,12 @@ class EXPORT ScienceAPI
       bool getOptional(const std::string& name, const std::string& units, float& data, float lower, float upper);
       bool getOptional(const std::string& name, const std::string& units, std::vector<float>& data, float lower, float upper);
 
+      // expose variables
+      #define FloatFunctionType boost::function0<float>
+      #define FloatFunction(address) boost::function0<float>(boost::bind(address, this))
+      void expose(const std::string& name, const std::string& units, const std::string& description, float& variable);
+      void exposeFunction(const std::string& name, const std::string& units, const std::string& description, boost::function0<float> fn);
+
       // set methods
       void set(const std::string& name, const std::string& units, std::vector<float>& data);
 
