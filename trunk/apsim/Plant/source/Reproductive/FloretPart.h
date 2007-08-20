@@ -44,6 +44,20 @@ class FloretPart : public plantPart {
    void doDmPotTE(float swSupply);
    void doBioActual (void);
 
+   virtual float dmGreenVeg(void) const {return 0;}
+   virtual float dmSenescedVeg(void) const {return 0;}
+   virtual float dmDeadVeg(void) const {return 0;}
+   virtual float nGreenVeg(void)const {return 0;}
+   virtual float nSenescedVeg(void)const {return 0;}
+   virtual float nDeadVeg(void)const {return 0;}
+   virtual float pGreenVeg(void) const {return 0;}
+   virtual float pSenescedVeg(void) const {return 0;}
+   virtual float pDeadVeg(void) const {return 0;}
+
+
+
+
+
    private:
       float fracFloret(void);
       float fracFloret1(void);
