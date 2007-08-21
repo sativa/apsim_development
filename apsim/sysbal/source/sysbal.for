@@ -440,13 +440,13 @@
       parameter (kgha = '(kg/ha)')
 
       character  n_green*30
-      parameter (n_green = 'n_green()')
+      parameter (n_green = 'n_green')
 
       character  n_senesced*30
-      parameter (n_senesced = 'n_senesced()')
+      parameter (n_senesced = 'n_senesced')
 
       character  n_dead*30
-      parameter (n_dead = 'n_dead()')
+      parameter (n_dead = 'n_dead')
 
       character  nit_tot*30
       parameter (nit_tot = 'nit_tot()')
@@ -568,13 +568,13 @@
       parameter (kgha = '(kg/ha)')
 
       character  p_green*30
-      parameter (p_green = 'p_green()')
+      parameter (p_green = 'p_green')
 
       character  p_senesced*30
-      parameter (p_senesced = 'p_senesced()')
+      parameter (p_senesced = 'p_senesced')
 
       character  p_dead*30
-      parameter (p_dead = 'p_dead()')
+      parameter (p_dead = 'p_dead')
 
       character  fom_p*30
       parameter (fom_p = 'fom_p()')
@@ -699,13 +699,13 @@
       parameter (kgha = '(kg/ha)')
 
       character  dm_green*30
-      parameter (dm_green = 'dm_green()')
+      parameter (dm_green = 'dm_green')
 
       character  dm_senesced*30
-      parameter (dm_senesced = 'dm_senesced()')
+      parameter (dm_senesced = 'dm_senesced')
 
       character  dm_dead*30
-      parameter (dm_dead = 'dm_dead()')
+      parameter (dm_dead = 'dm_dead')
 
       character  carbon_tot*30
       parameter (carbon_tot = 'carbon_tot()')
@@ -732,7 +732,7 @@
       parameter (dlt_res_c_atm = 'dlt_res_c_atm')
 
       character  dlt_dm_green*30
-      parameter (dlt_dm_green = 'dlt_dm_green()')
+      parameter (dlt_dm_green = 'dlt_dm_green')
 
 
 !+  Local Variables
@@ -842,13 +842,13 @@
       parameter (kgha = '(kg/ha)')
 
       character  dm_green*30
-      parameter (dm_green = 'dm_green()')
+      parameter (dm_green = 'dm_green')
 
       character  dm_senesced*30
-      parameter (dm_senesced = 'dm_senesced()')
+      parameter (dm_senesced = 'dm_senesced')
 
       character  dm_dead*30
-      parameter (dm_dead = 'dm_dead()')
+      parameter (dm_dead = 'dm_dead')
 
       character  carbon_tot*30
       parameter (carbon_tot = 'carbon_tot()')
@@ -875,7 +875,7 @@
       parameter (dlt_res_c_atm = 'dlt_res_c_atm')
 
       character  dlt_dm_green*30
-      parameter (dlt_dm_green = 'dlt_dm_green()')
+      parameter (dlt_dm_green = 'dlt_dm_green')
 
 !+  Local Variables
 
@@ -1062,15 +1062,20 @@
       character  my_name*(*)           ! procedure name
       parameter (my_name='sysbal_get_variable')
 
+      integer maxvals
+      parameter (maxvals=200)
+      
 !+  Local Variables
       integer    module                  ! index for modules
-      real       temp                  !
+      real       tempsum               !
       integer    numvals               ! number of values in string
       integer    owner_module          ! owner module of variable
       real       value
       character  name*30
       character  unit*30
       character  string*400            ! output string
+      real        values(maxvals)
+      integer    i
 
 !- Implementation Section ----------------------------------
 
@@ -1079,22 +1084,26 @@
 
       module = 0
       value = 0.0
-      temp = 0.0
       name = var_name
       unit = units
 
 1000  continue
-
-         call get_real_vars (module+1, name, unit
-     :                              , temp, numvals
+         call get_real_arrays (module+1, name, maxvals, unit
+     :                              , values, numvals
      :                              , -1e-4, 1e6)
 
          if (numvals.ne.0) then
             if (module+1.le.max_modules) then
                module = module + 1
+               
+               tempsum = 0.0
+               do i = 1, numvals
+                  tempsum = tempsum + values(i)
+               enddo
+               
                Owner_module = get_posting_Module ()
                g%module_name(module) = owner_module
-               value = value + temp
+               value = value + tempsum
                goto 1000
             else
                call fatal_error (err_user
@@ -1138,8 +1147,10 @@
       character  my_name*(*)           ! procedure name
       parameter (my_name='sysbal_reg_variable')
 
+      integer maxvals
+      parameter (maxvals=200)
 !+  Local Variables
-      real dummy
+      real dummy(maxvals)
       integer numvals
       logical ok
       integer modNameID
@@ -1151,9 +1162,9 @@
 
       ok = component_name_to_id(Mod_name, modNameID)
       if (ok) then
-         call Get_real_var_optional (modNameID, trim(var_name)
-     :                             , trim(units), dummy, numvals
-     :                             , 0.0, 1.0e6)
+         call Get_real_array_optional (modNameID, trim(var_name)
+     :                     , maxvals, trim(units), dummy, numvals
+     :                     , 0.0, 1.0e6)
       else
       endif
 
@@ -1692,6 +1703,7 @@
      :               , g%Nstate_crop_yest
      :               , g%Nstate_soil_yest
      :               )
+
 
       if (g%Nerror_system .gt. error_threshold*0.1) then
          write (string, *)

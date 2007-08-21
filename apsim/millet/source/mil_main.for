@@ -3549,22 +3549,19 @@ cejvo
      :                             , g%dm_green(grain))
 
       elseif (variable_name .eq. 'dm_green') then
-         call respond2get_real_array (variable_name
-     :                             , '(g/m^2)'
-     :                             , g%dm_green
-     :                             , max_part)
+         call respond2get_real_var (variable_name
+     :                    , '(g/m^2)'
+     :                    , sum_real_array (g%dm_green, max_part))
 
       elseif (variable_name .eq. 'dm_senesced') then
-         call respond2get_real_array (variable_name
-     :                             , '(g/m^2)'
-     :                             , g%dm_senesced
-     :                             , max_part)
+         call respond2get_real_var (variable_name
+     :                    , '(g/m^2)'
+     :                    , sum_real_array (g%dm_senesced, max_part))
 
       elseif (variable_name .eq. 'dm_dead') then
-         call respond2get_real_array (variable_name
-     :                             , '(g/m^2)'
-     :                             , g%dm_dead
-     :                             , max_part)
+         call respond2get_real_var (variable_name
+     :                    , '(g/m^2)'
+     :                    , sum_real_array (g%dm_dead, max_part))
 
       elseif (variable_name .eq. 'yield') then
          yield = (g%dm_green(grain) + g%dm_dead(grain))
@@ -3667,10 +3664,9 @@ cejvo
      :                             , g%dlt_dm)
 
       elseif (variable_name .eq. 'dlt_dm_green') then
-         call respond2get_real_array (variable_name
-     :                             , '(g/m^2)'
-     :                             , g%dlt_dm_green
-     :                             , max_part)
+         call respond2get_real_var (variable_name
+     :                    , '(g/m^2)'
+     :                    , sum_real_array (g%dlt_dm_green, max_part))
 
       elseif (variable_name .eq. 'dlt_dm_green_retrans') then
          call respond2get_real_array (variable_name
@@ -3719,22 +3715,19 @@ cejvo
      :                             , biomass_n)
 
       elseif (variable_name .eq. 'n_green') then
-         call respond2get_real_array (variable_name
-     :                             , '(g/m^2)'
-     :                             , g%N_green
-     :                             , max_part)
+         call respond2get_real_var (variable_name
+     :                    , '(g/m^2)'
+     :                    , sum_real_array (g%N_green, max_part))
 
       elseif (variable_name .eq. 'n_senesced') then
-         call respond2get_real_array (variable_name
-     :                             , '(g/m^2)'
-     :                             , g%N_senesced
-     :                             , max_part)
+         call respond2get_real_var (variable_name
+     :                    , '(g/m^2)'
+     :                    , sum_real_array (g%N_senesced, max_part))
 
       elseif (variable_name .eq. 'n_dead') then
-         call respond2get_real_array (variable_name
-     :                             , '(g/m^2)'
-     :                             , g%N_dead
-     :                             , max_part)
+         call respond2get_real_var (variable_name
+     :                    , '(g/m^2)'
+     :                    , sum_real_array (g%N_dead, max_part))
 
       elseif (variable_name .eq. 'dlt_n_green') then
          call respond2get_real_array (variable_name
@@ -5434,7 +5427,7 @@ cjh special for erik - end
       integer :: id
       character DDML*128
 
-      DDML = '<type kind="single"  array="T">'
+      DDML = '<type kind="single">'
 
          ! WATER
       id = add_registration(respondToGetReg, 'ep'

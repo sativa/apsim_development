@@ -175,11 +175,11 @@
       dummy = add_registration_with_units(respondToGetReg,
      :                        'stover_wt', floatTypeDDML, '')
       dummy = add_registration_with_units(respondToGetReg,
-     :                        'dm_green', floatarrayTypeDDML, 'g/m^2')
+     :                        'dm_green', floatTypeDDML, 'g/m^2')
       dummy = add_registration_with_units(respondToGetReg,
-     :                     'dm_senesced', floatarrayTypeDDML, 'g/m^2')
+     :                     'dm_senesced', floatTypeDDML, 'g/m^2')
       dummy = add_registration_with_units(respondToGetReg,
-     :                        'dm_dead', floatarrayTypeDDML, 'g/m^2')
+     :                        'dm_dead', floatTypeDDML, 'g/m^2')
       dummy = add_registration_with_units(respondToGetReg,
      :                        'yield', floatTypeDDML, 'kg/ha')
       dummy = add_registration_with_units(respondToGetReg,
@@ -197,7 +197,7 @@
       dummy = add_registration_with_units(respondToGetReg,
      :                        'dlt_dm', floatTypeDDML, 'g/m^2')
       dummy = add_registration_with_units(respondToGetReg,
-     :                'dlt_dm_green', floatarrayTypeDDML, 'g/m^2')
+     :                'dlt_dm_green', floatTypeDDML, 'g/m^2')
       dummy = add_registration_with_units(respondToGetReg,
      :          'dlt_dm_green_retrans', floatarrayTypeDDML, 'g/m^2')
       dummy = add_registration_with_units(respondToGetReg,
@@ -329,11 +329,11 @@
       dummy = add_registration_with_units(respondToGetReg,
      :              'troot_n', floatTypeDDML, 'g/m^2')
       dummy = add_registration_with_units(respondToGetReg,
-     :              'n_green', floatarrayTypeDDML, 'g/m^2')
+     :              'n_green', floatTypeDDML, 'g/m^2')
       dummy = add_registration_with_units(respondToGetReg,
-     :              'n_senesced', floatarrayTypeDDML, 'g/m^2')
+     :              'n_senesced', floatTypeDDML, 'g/m^2')
       dummy = add_registration_with_units(respondToGetReg,
-     :              'n_dead', floatarrayTypeDDML, 'g/m^2')
+     :              'n_dead', floatTypeDDML, 'g/m^2')
       dummy = add_registration_with_units(respondToGetReg,
      :              'dlt_n_green', floatarrayTypeDDML, 'g/m^2')
       dummy = add_registration_with_units(respondToGetReg,
@@ -411,9 +411,9 @@
       dummy = add_registration_with_units(respondToGetReg,
      :              'n_stress_grain', floatTypeDDML, '')
       dummy = add_registration_with_units(respondToGetReg,
-     :              'p_green', floatarrayTypeDDML, 'g/m^2')
+     :              'p_green', floatTypeDDML, 'g/m^2')
       dummy = add_registration_with_units(respondToGetReg,
-     :              'p_sen', floatarrayTypeDDML, 'g/m^2')
+     :              'p_sen', floatTypeDDML, 'g/m^2')
       dummy = add_registration_with_units(respondToGetReg,
      :              'p_demand', floatTypeDDML, 'g/m^2')
       dummy = add_registration_with_units(respondToGetReg,

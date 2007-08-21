@@ -5,6 +5,7 @@
 #include "OOBiomass.h"
 
 #include <ComponentInterface/datatypes.h>
+#include <numeric>
 //---------------------------------------------------------------------------
 
 #pragma package(smart_init)
@@ -47,13 +48,13 @@ void Biomass::doRegistrations(void)
    setupGetVar("stover", biomStover, "kg/ha", "Stover biomass");
 #undef setupGetVar
 
-   setupGetFunction(plantInterface,"dm_green", protocol::DTsingle, true,
+   setupGetFunction(plantInterface,"dm_green", protocol::DTsingle, false,
                     &Biomass::getDMGreen, "g/m^2", "Live plant dry weight");
-   setupGetFunction(plantInterface,"dm_senesced", protocol::DTsingle, true,
+   setupGetFunction(plantInterface,"dm_senesced", protocol::DTsingle, false,
                     &Biomass::getDMSenesced, "g/m^2", "Senesced plant dry weight");
-   setupGetFunction(plantInterface,"dm_dead", protocol::DTsingle, true,
+   setupGetFunction(plantInterface,"dm_dead", protocol::DTsingle, false,
                     &Biomass::getDMDead, "g/m^2", "Dry weight of dead plants");
-   setupGetFunction(plantInterface,"dlt_dm_green", protocol::DTsingle, true,
+   setupGetFunction(plantInterface,"dlt_dm_green", protocol::DTsingle, false,
                     &Biomass::getDltDMGreen, "g/m^2", "Plant biomass growth in each part");
    setupGetFunction(plantInterface,"dlt_dm_detached", protocol::DTsingle, true,
                     &Biomass::getDltDMDetached, "g/m^2", "Plant biomass detached from each part");
@@ -304,22 +305,22 @@ void Biomass::detachment(vector<float> senDetachFrac, vector<float> deadDetachFr
 //------------------------------------------------------------------------------------------------
 void Biomass::getDMGreen(protocol::Component *system, protocol::QueryValueData &qd)
    {
-   system->sendVariable(qd, protocol::vector<float>(&greenDM[0], &greenDM[0] + greenDM.size()));
+   system->sendVariable(qd, std::accumulate(greenDM.begin(), greenDM.end(), 0.0));
    }
 //------------------------------------------------------------------------------------------------
 void Biomass::getDMSenesced(protocol::Component *system, protocol::QueryValueData &qd)
    {
-   system->sendVariable(qd, protocol::vector<float>(&senescedDM[0], &senescedDM[0] + senescedDM.size()));
+   system->sendVariable(qd, accumulate(senescedDM.begin(), senescedDM.end(), 0.0));
    }
 //------------------------------------------------------------------------------------------------
 void Biomass::getDMDead(protocol::Component *system, protocol::QueryValueData &qd)
    {
-   system->sendVariable(qd, protocol::vector<float>(&deadDM[0], &deadDM[0] + deadDM.size()));
+   system->sendVariable(qd, accumulate(deadDM.begin(), deadDM.end(), 0.0));
    }
 //------------------------------------------------------------------------------------------------
 void Biomass::getDltDMGreen(protocol::Component *system, protocol::QueryValueData &qd)
    {
-   system->sendVariable(qd, protocol::vector<float>(&dltDMGreen[0], &dltDMGreen[0] + dltDMGreen.size()));
+   system->sendVariable(qd, accumulate(dltDMGreen.begin(), dltDMGreen.end(), 0.0));
    }
 //------------------------------------------------------------------------------------------------
 void Biomass::getDltDMDetached(protocol::Component *system, protocol::QueryValueData &qd)

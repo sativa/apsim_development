@@ -1496,11 +1496,10 @@ cnh         cover = 1.0 - exp (-g%extinction_coef*g%lai)
          temp(2) = g%foliage_mass * kg2gm / ha2sm        ! leaf
          temp(3) = sum(g%adm_green) * kg2gm / ha2sm      ! stem
 
-         call respond2get_real_array (
+         call respond2get_real_var (
      :               variable_name     ! variable name
      :              ,'(g/m^2)'         ! variable units
-     :              ,temp              ! variable
-     :              ,3)                 ! array size
+     :              ,sum_real_array (temp, 3))
 
       elseif (variable_name .eq. 'dm_senesced') then
 
@@ -1508,11 +1507,10 @@ cnh         cover = 1.0 - exp (-g%extinction_coef*g%lai)
          temp(2) = g%foliage_mass_sen * kg2gm / ha2sm        ! leaf
          temp(3) = sum(g%adm_sen) * kg2gm / ha2sm      ! stem
 
-         call respond2get_real_array (
+         call respond2get_real_var (
      :               variable_name     ! variable name
      :              ,'(g/m^2)'         ! variable units
-     :              ,temp              ! variable
-     :              ,3)                 ! array size
+     :              ,sum_real_array (temp, 3))
 
       elseif (variable_name .eq. 'dm_dead') then
 
@@ -1520,11 +1518,10 @@ cnh         cover = 1.0 - exp (-g%extinction_coef*g%lai)
          temp(2) = 0.0        ! leaf
          temp(3) = sum(g%adm_dead) * kg2gm / ha2sm      ! stem
 
-         call respond2get_real_array (
+         call respond2get_real_var (
      :               variable_name     ! variable name
      :              ,'(g/m^2)'         ! variable units
-     :              ,temp              ! variable
-     :              ,3)                 ! array size
+     :              ,sum_real_array (temp, 3))
 
       elseif (variable_name .eq. 'dlt_dm_green') then
 
@@ -1532,11 +1529,10 @@ cnh         cover = 1.0 - exp (-g%extinction_coef*g%lai)
          temp(2) = g%dlt_foliage_mass * kg2gm / ha2sm          ! leaf
          temp(3) = sum(g%dlt_adm_green) * kg2gm / ha2sm      ! stem
 
-         call respond2get_real_array (
+         call respond2get_real_var (
      :               variable_name     ! variable name
      :              ,'(g/m^2)'         ! variable units
-     :              ,temp              ! variable
-     :              ,3)                 ! array size
+     :              ,sum_real_array (temp, 3))
 
       elseif (variable_name .eq. 'n_green') then
 
@@ -1544,11 +1540,10 @@ cnh         cover = 1.0 - exp (-g%extinction_coef*g%lai)
          temp(2) = g%foliage_n * kg2gm / ha2sm        ! leaf
          temp(3) = sum(g%an_green) * kg2gm / ha2sm      ! stem
 
-         call respond2get_real_array (
+         call respond2get_real_var (
      :               variable_name     ! variable name
      :              ,'(g/m^2)'         ! variable units
-     :              ,temp              ! variable
-     :              ,3)                 ! array size
+     :              ,sum_real_array (temp, 3))
 
       elseif (variable_name .eq. 'n_senesced') then
 
@@ -1556,11 +1551,10 @@ cnh         cover = 1.0 - exp (-g%extinction_coef*g%lai)
          temp(2) = g%foliage_n_sen * kg2gm / ha2sm        ! leaf
          temp(3) = sum(g%an_sen) * kg2gm / ha2sm      ! stem
 
-         call respond2get_real_array (
+         call respond2get_real_var (
      :               variable_name     ! variable name
      :              ,'(g/m^2)'         ! variable units
-     :              ,temp              ! variable
-     :              ,3)                 ! array size
+     :              ,sum_real_array (temp, 3))
 
       elseif (variable_name .eq. 'n_dead') then
 
@@ -1568,11 +1562,10 @@ cnh         cover = 1.0 - exp (-g%extinction_coef*g%lai)
          temp(2) = 0.0        ! leaf
          temp(3) = sum(g%an_dead) * kg2gm / ha2sm      ! stem
 
-         call respond2get_real_array (
+         call respond2get_real_var (
      :               variable_name     ! variable name
      :              ,'(g/m^2)'         ! variable units
-     :              ,temp              ! variable
-     :              ,3)                 ! array size
+     :              ,sum_real_array (temp, 3))
 
       else
          call Message_Unused ()

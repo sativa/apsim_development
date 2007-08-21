@@ -915,7 +915,7 @@ extern "C" void EXPORT STDCALL get_real_arrays
     unsigned variableNameLength, unsigned unitsLength)
    {
    protocol::vector<float> values(value, 0, *arraySize);
-   FortranWrapper::currentInstance->get_var
+   FortranWrapper::currentInstance->get_vars
       (*requestNo, FString(variableName, variableNameLength, FORString), realArrayType, values, *numvals);
    if (*numvals == 0)
       {

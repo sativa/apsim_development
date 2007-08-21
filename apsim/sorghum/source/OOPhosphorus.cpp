@@ -5,6 +5,7 @@
 #include "OOPlant.h"
 #include "OOPhosphorus.h"
 #include <vector>
+#include <numeric>
 #include <ComponentInterface/datatypes.h>
 //------------------------------------------------------------------------------------------------
 
@@ -59,13 +60,13 @@ void Phosphorus::doRegistrations(void)
 
 #undef setupGetVar
 
-   setupGetFunction(plantInterface,"p_green", protocol::DTsingle, true,
+   setupGetFunction(plantInterface,"p_green", protocol::DTsingle, false,
                     &Phosphorus::getPGreen, "g/m2", "P content of live plant parts");
-   setupGetFunction(plantInterface,"p_senesced", protocol::DTsingle, true,
+   setupGetFunction(plantInterface,"p_senesced", protocol::DTsingle, false,
                     &Phosphorus::getPSenesced, "g/m2", "P content of senesced plant parts");
-   setupGetFunction(plantInterface,"p_sen", protocol::DTsingle, true,
+   setupGetFunction(plantInterface,"p_sen", protocol::DTsingle, false,
                     &Phosphorus::getPSenesced, "g/m2", "P content of senesced plant parts");
-   setupGetFunction(plantInterface,"p_dead", protocol::DTsingle, true,
+   setupGetFunction(plantInterface,"p_dead", protocol::DTsingle, false,
                     &Phosphorus::getPDead, "g/m2", "P content of dead plant parts");
 
    setupGetFunction(plantInterface,"p_demand", protocol::DTsingle, true,
@@ -399,12 +400,12 @@ float Phosphorus::layerProportion(void)
 //------------------------------------------------------------------------------------------------
 void Phosphorus::getPGreen(protocol::Component *system, protocol::QueryValueData &qd)
    {
-   system->sendVariable(qd, protocol::vector<float>(&pGreen[0], &pGreen[0] + pGreen.size()));
+   system->sendVariable(qd, std::accumulate(pGreen.begin(), pGreen.end(), 0.0));
    }
 //------------------------------------------------------------------------------------------------
 void Phosphorus::getPSenesced(protocol::Component *system, protocol::QueryValueData &qd)
    {
-   system->sendVariable(qd, protocol::vector<float>(&pSenesced[0], &pSenesced[0] + pSenesced.size()));
+   system->sendVariable(qd, std::accumulate(pSenesced.begin(), pSenesced.end(), 0.0));
    }
 //------------------------------------------------------------------------------------------------
 void Phosphorus::getPDemand(protocol::Component *system, protocol::QueryValueData &qd)
@@ -439,7 +440,7 @@ void Phosphorus::getDltPDeadDetached(protocol::Component *system, protocol::Quer
 //------------------------------------------------------------------------------------------------
 void Phosphorus::getPDead(protocol::Component *system, protocol::QueryValueData &qd)
    {
-   system->sendVariable(qd, protocol::vector<float>(&pDead[0], &pDead[0] + pDead.size()));
+   system->sendVariable(qd, std::accumulate(pDead.begin(), pDead.end(), 0.0));
    }
 //------------------------------------------------------------------------------------------------
 void Phosphorus::Summary(void)
