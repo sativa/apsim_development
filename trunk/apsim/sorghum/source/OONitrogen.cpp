@@ -5,6 +5,7 @@
 #include <ComponentInterface/datatypes.h>
 
 #include <vector>
+#include <numeric>
 
 #include "TypeKind.h"
 #include "OOPlant.h"
@@ -54,15 +55,15 @@ void Nitrogen::doRegistrations(void)
 
 #undef setupGetVar
 
-   setupGetFunction(plantInterface,"n_green", protocol::DTsingle, true,
+   setupGetFunction(plantInterface,"n_green", protocol::DTsingle, false,
                     &Nitrogen::getNGreen, "g/m2", "N content of live plant parts");
    setupGetFunction(plantInterface,"dlt_n_green", protocol::DTsingle, true,
                     &Nitrogen::getDltNGreen, "g/m2", "Daily N increase in live plant parts");
    setupGetFunction(plantInterface,"dlt_n_retrans", protocol::DTsingle, true,
                     &Nitrogen::getDltNRetrans, "g/m2", "N retranslocated from plant parts to grain");
-   setupGetFunction(plantInterface,"n_senesced", protocol::DTsingle, true,
+   setupGetFunction(plantInterface,"n_senesced", protocol::DTsingle, false,
                     &Nitrogen::getNSenesced, "g/m2", "N content of senesced plant parts");
-   setupGetFunction(plantInterface,"n_dead", protocol::DTsingle, true,
+   setupGetFunction(plantInterface,"n_dead", protocol::DTsingle, false,
                     &Nitrogen::getNDead, "g/m2", "N content of dead plant parts");
    setupGetFunction(plantInterface,"dlt_n_detached", protocol::DTsingle, true,
                     &Nitrogen::getDltNDetached, "g/m2", "Actual N loss with detached plant");
@@ -531,7 +532,7 @@ float Nitrogen::layerProportion(void)
 //------------------------------------------------------------------------------------------------
 void Nitrogen::getNGreen(protocol::Component *system, protocol::QueryValueData &qd)
    {
-   system->sendVariable(qd, protocol::vector<float>(&nGreen[0], &nGreen[0] + nGreen.size()));
+   system->sendVariable(qd, std::accumulate(nGreen.begin(), nGreen.end(), 0.0));
    }
 //------------------------------------------------------------------------------------------------
 void Nitrogen::getDltNGreen(protocol::Component *system, protocol::QueryValueData &qd)
@@ -546,12 +547,12 @@ void Nitrogen::getDltNRetrans(protocol::Component *system, protocol::QueryValueD
 //------------------------------------------------------------------------------------------------
 void Nitrogen::getNSenesced(protocol::Component *system, protocol::QueryValueData &qd)
    {
-   system->sendVariable(qd, protocol::vector<float>(&nSenesced[0], &nSenesced[0] + nSenesced.size()));
+   system->sendVariable(qd, std::accumulate(nSenesced.begin(), nSenesced.end(), 0.0));
    }
 //------------------------------------------------------------------------------------------------
 void Nitrogen::getNDead(protocol::Component *system, protocol::QueryValueData &qd)
    {
-   system->sendVariable(qd, protocol::vector<float>(&nDead[0], &nDead[0] + nDead.size()));
+   system->sendVariable(qd, std::accumulate(nDead.begin(), nDead.end(), 0.0));
    }
 //------------------------------------------------------------------------------------------------
 void Nitrogen::getDltNDetached(protocol::Component *system, protocol::QueryValueData &qd)

@@ -158,18 +158,16 @@ c     :     ,1000.)          ! Upper Limit for bound checking
       PlantP_Send_my_variable = .true.
 
       if (variable_name .eq. 'p_green') then
-          call respond2get_real_array (
+          call respond2get_real_var (
      :               variable_name     ! variable name
      :              ,'(g/m^2)'          ! variable units
-     :              ,g%part_p_green          ! variable
-     :              ,max_parts)      ! Array size
+     :              ,sum_real_array(g%part_p_green, max_parts))
 
       elseif (variable_name .eq. 'p_sen') then
-          call respond2get_real_array (
+          call respond2get_real_var (
      :               variable_name     ! variable name
      :              ,'(g/m^2)'          ! variable units
-     :              ,g%part_p_sen          ! variable
-     :              ,max_parts)      ! Array size
+     :              ,sum_real_array(g%part_p_sen, max_parts))
 
 !      elseif (variable_name .eq. 'p_dead') then
 !          call respond2get_real_array (
