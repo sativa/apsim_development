@@ -5,7 +5,6 @@
 #include "OOPlant.h"
 #include "OOPhosphorus.h"
 #include <vector>
-#include <numeric>
 #include <ComponentInterface/datatypes.h>
 //------------------------------------------------------------------------------------------------
 
@@ -400,12 +399,12 @@ float Phosphorus::layerProportion(void)
 //------------------------------------------------------------------------------------------------
 void Phosphorus::getPGreen(protocol::Component *system, protocol::QueryValueData &qd)
    {
-   system->sendVariable(qd, std::accumulate(pGreen.begin(), pGreen.end(), 0.0));
+   system->sendVariable(qd, sumVector(pGreen));
    }
 //------------------------------------------------------------------------------------------------
 void Phosphorus::getPSenesced(protocol::Component *system, protocol::QueryValueData &qd)
    {
-   system->sendVariable(qd, std::accumulate(pSenesced.begin(), pSenesced.end(), 0.0));
+   system->sendVariable(qd, sumVector(pSenesced));
    }
 //------------------------------------------------------------------------------------------------
 void Phosphorus::getPDemand(protocol::Component *system, protocol::QueryValueData &qd)
@@ -440,7 +439,7 @@ void Phosphorus::getDltPDeadDetached(protocol::Component *system, protocol::Quer
 //------------------------------------------------------------------------------------------------
 void Phosphorus::getPDead(protocol::Component *system, protocol::QueryValueData &qd)
    {
-   system->sendVariable(qd, std::accumulate(pDead.begin(), pDead.end(), 0.0));
+   system->sendVariable(qd, sumVector(pDead));
    }
 //------------------------------------------------------------------------------------------------
 void Phosphorus::Summary(void)
