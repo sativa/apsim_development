@@ -109,7 +109,6 @@ endif
 
 dw1000gr = grain_size * 1000
 
-n_biomass = n_green() - n_green(1)
 
    report do_end_day_output
 endif
