@@ -37,12 +37,9 @@ Component     "peanut" = c:\development\apsim\Plant\lib\Plant.dll
         peanut.lai
         peanut.biomass
         peanut.green_biomass
-        peanut.dm_green()
         peanut.dm_green
-        peanut.p_green()
         peanut.p_green
-        peanut.p_sen()
-        peanut.p_sen
+        peanut.p_senesced
         peanut.p_demand
         peanut.pfact_photo
         peanut.pfact_pheno
@@ -57,8 +54,7 @@ Component     "peanut" = c:\development\apsim\Plant\lib\Plant.dll
         peanut.deadleaf_p
         peanut.pod_p
         peanut.head_p
-        peanut.p_senesced()
-        peanut.p_dead()
+        peanut.p_dead
         peanut.dlt_p_green()
         peanut.dlt_p_retrans()
         peanut.dlt_p_detached()

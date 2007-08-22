@@ -37,12 +37,9 @@ Component     "cowpea" = c:\development\apsim\Plant\lib\Plant.dll
         cowpea.lai
         cowpea.biomass
         cowpea.green_biomass
-        cowpea.dm_green()
         cowpea.dm_green
-        cowpea.p_green()
         cowpea.p_green
-        cowpea.p_sen()
-        cowpea.p_sen
+        cowpea.p_senesced
         cowpea.p_demand
         cowpea.pfact_photo
         cowpea.pfact_pheno
@@ -57,8 +54,7 @@ Component     "cowpea" = c:\development\apsim\Plant\lib\Plant.dll
         cowpea.deadleaf_p
         cowpea.pod_p
         cowpea.head_p
-        cowpea.p_senesced()
-        cowpea.p_dead()
+        cowpea.p_dead
         cowpea.dlt_p_green()
         cowpea.dlt_p_retrans()
         cowpea.dlt_p_detached()

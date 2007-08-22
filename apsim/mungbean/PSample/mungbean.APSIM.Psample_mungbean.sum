@@ -37,12 +37,9 @@ Component   "mungbean" = c:\development\apsim\Plant\lib\Plant.dll
         mungbean.lai
         mungbean.biomass
         mungbean.green_biomass
-        mungbean.dm_green()
         mungbean.dm_green
-        mungbean.p_green()
         mungbean.p_green
-        mungbean.p_sen()
-        mungbean.p_sen
+        mungbean.p_senesced
         mungbean.p_demand
         mungbean.pfact_photo
         mungbean.pfact_pheno
@@ -57,8 +54,7 @@ Component   "mungbean" = c:\development\apsim\Plant\lib\Plant.dll
         mungbean.deadleaf_p
         mungbean.pod_p
         mungbean.head_p
-        mungbean.p_senesced()
-        mungbean.p_dead()
+        mungbean.p_dead
         mungbean.dlt_p_green()
         mungbean.dlt_p_retrans()
         mungbean.dlt_p_detached()
