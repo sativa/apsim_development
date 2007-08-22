@@ -37,12 +37,9 @@ Component    "pigeonp" = c:\development\apsim\Plant\lib\Plant.dll
         pigeonp.lai
         pigeonp.biomass
         pigeonp.green_biomass
-        pigeonp.dm_green()
         pigeonp.dm_green
-        pigeonp.p_green()
         pigeonp.p_green
-        pigeonp.p_sen()
-        pigeonp.p_sen
+        pigeonp.p_senesced
         pigeonp.p_demand
         pigeonp.pfact_photo
         pigeonp.pfact_pheno
@@ -57,8 +54,7 @@ Component    "pigeonp" = c:\development\apsim\Plant\lib\Plant.dll
         pigeonp.deadleaf_p
         pigeonp.pod_p
         pigeonp.head_p
-        pigeonp.p_senesced()
-        pigeonp.p_dead()
+        pigeonp.p_dead
         pigeonp.dlt_p_green()
         pigeonp.dlt_p_retrans()
         pigeonp.dlt_p_detached()

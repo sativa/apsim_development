@@ -58,15 +58,11 @@ Component    "sorghum" = c:\development\apsim\sorghum\lib\sorghum.dll
         sorghum.n_conc_leaf
         sorghum.n_conc_stem
         sorghum.n_conc_grain
-        sorghum.dm_green()
         sorghum.dm_green
-        sorghum.dm_senesced()
         sorghum.dm_senesced
         sorghum.dlt_dm_detached
-        sorghum.p_green()
         sorghum.p_green
-        sorghum.p_sen()
-        sorghum.p_sen
+        sorghum.p_senesced
         sorghum.p_demand
         sorghum.pfact_photo
         sorghum.pfact_pheno
@@ -81,7 +77,6 @@ Component    "sorghum" = c:\development\apsim\sorghum\lib\sorghum.dll
         sorghum.deadleaf_p
         sorghum.flower_p
         sorghum.head_p
-        sorghum.p_senesced()
         sorghum.p_dead()
         sorghum.dlt_p_green()
         sorghum.dlt_p_retrans()
@@ -222,7 +217,7 @@ Component    "sorghum" = c:\development\apsim\sorghum\lib\sorghum.dll
      
      SECTION:- end_of_day
      p_below_ground = soilp.fom_p() + soilp.hum_p() + soilp.biom_p() + soilp.rock_p() + soilp.unavail_p() + soilp.labile_p()
-     p_above_ground = (sorghum.p_green() + sorghum.p_senesced() + sorghum.p_dead())*10.0 + surfaceom.surfaceom_p
+     p_above_ground = (sorghum.p_green + sorghum.p_senesced + sorghum.p_dead)*10.0 + surfaceom.surfaceom_p
      systemp = p_below_ground + p_above_ground
      dlt_systemp = systemp - systemp_yday
      if (systemp_yday >= 0.00001) then
@@ -232,7 +227,7 @@ Component    "sorghum" = c:\development\apsim\sorghum\lib\sorghum.dll
          cum_error_systemp = 0.0
          dlt_residue_p = 0.0
      endif
-     p_plant = (sorghum.p_green() + sorghum.p_sen() + sorghum.p_dead())*10.0
+     p_plant = (sorghum.p_green + sorghum.p_senesced + sorghum.p_dead)*10.0
      p_uptake_cum = p_uptake_cum + uptake_p_sorghum()
      p_pl_up_diff = p_plant - p_uptake_cum
      below_gnd_diff = p_below_ground - p_below_ground_yest

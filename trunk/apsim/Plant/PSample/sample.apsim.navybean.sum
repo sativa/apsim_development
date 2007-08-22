@@ -54,12 +54,9 @@ Component   "navybean" = c:\development\apsim\Plant\lib\Plant.dll
         navybean.n_conc_leaf
         navybean.n_conc_stem
         navybean.n_conc_meal
-        navybean.dm_green()
         navybean.dm_green
-        navybean.p_green()
         navybean.p_green
-        navybean.p_sen()
-        navybean.p_sen
+        navybean.p_senesced
         navybean.p_demand
         navybean.pfact_photo
         navybean.pfact_pheno
@@ -74,8 +71,7 @@ Component   "navybean" = c:\development\apsim\Plant\lib\Plant.dll
         navybean.deadleaf_p
         navybean.pod_p
         navybean.head_p
-        navybean.p_senesced()
-        navybean.p_dead()
+        navybean.p_dead
         navybean.dlt_p_green()
         navybean.dlt_p_retrans()
         navybean.dlt_p_detached()
@@ -221,7 +217,7 @@ Component   "navybean" = c:\development\apsim\Plant\lib\Plant.dll
      
      SECTION:- end_of_day
      p_below_ground = soilp.fom_p() + soilp.hum_p() + soilp.biom_p() + soilp.rock_p() + soilp.unavail_p() + soilp.labile_p()
-     p_above_ground = (navybean.p_green() + navybean.p_senesced() + navybean.p_dead())*10.0 + surfaceom.surfaceom_p
+     p_above_ground = (navybean.p_green + navybean.p_senesced + navybean.p_dead)*10.0 + surfaceom.surfaceom_p
      systemp = p_below_ground + p_above_ground
      dlt_systemp = systemp - systemp_yday
      if (systemp_yday >= 0.00001) then
@@ -231,7 +227,7 @@ Component   "navybean" = c:\development\apsim\Plant\lib\Plant.dll
          cum_error_systemp = 0.0
          dlt_residue_p = 0.0
      endif
-     p_plant = (navybean.p_green() + navybean.p_sen() + navybean.p_dead())*10.0
+     p_plant = (navybean.p_green + navybean.p_senesced + navybean.p_dead)*10.0
      p_uptake_cum = p_uptake_cum + uptake_p_navybean()
      p_pl_up_diff = p_plant - p_uptake_cum
      below_gnd_diff = p_below_ground - p_below_ground_yday
