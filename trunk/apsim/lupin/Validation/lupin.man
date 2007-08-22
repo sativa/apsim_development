@@ -126,8 +126,8 @@ else
    dlt_lai = (lai_today - lai_yesterday)
    ! dlt_lai multiplied by 1000000 to get back to mm as in the INI file for SLA
    ! dlt_dm_green(2) is the change in leaf biomass, (leaf = 2)
-   if (dlt_lai <> 0) and (dlt_dm_green(2) <> 0) then
-      sla = ((dlt_lai )/dlt_dm_green(2))
+   if (dlt_lai <> 0) and (dlt_dm_green_leaf <> 0) then
+      sla = ((dlt_lai )/dlt_dm_green_leaf)
    else
       sla = 0
    endif
