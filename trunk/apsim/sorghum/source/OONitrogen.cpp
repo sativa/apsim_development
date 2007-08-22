@@ -5,7 +5,6 @@
 #include <ComponentInterface/datatypes.h>
 
 #include <vector>
-#include <numeric>
 
 #include "TypeKind.h"
 #include "OOPlant.h"
@@ -532,7 +531,7 @@ float Nitrogen::layerProportion(void)
 //------------------------------------------------------------------------------------------------
 void Nitrogen::getNGreen(protocol::Component *system, protocol::QueryValueData &qd)
    {
-   system->sendVariable(qd, std::accumulate(nGreen.begin(), nGreen.end(), 0.0));
+   system->sendVariable(qd, sumVector(nGreen));
    }
 //------------------------------------------------------------------------------------------------
 void Nitrogen::getDltNGreen(protocol::Component *system, protocol::QueryValueData &qd)
@@ -547,12 +546,12 @@ void Nitrogen::getDltNRetrans(protocol::Component *system, protocol::QueryValueD
 //------------------------------------------------------------------------------------------------
 void Nitrogen::getNSenesced(protocol::Component *system, protocol::QueryValueData &qd)
    {
-   system->sendVariable(qd, std::accumulate(nSenesced.begin(), nSenesced.end(), 0.0));
+   system->sendVariable(qd, sumVector(nSenesced));
    }
 //------------------------------------------------------------------------------------------------
 void Nitrogen::getNDead(protocol::Component *system, protocol::QueryValueData &qd)
    {
-   system->sendVariable(qd, std::accumulate(nDead.begin(), nDead.end(), 0.0));
+   system->sendVariable(qd, sumVector(nDead));
    }
 //------------------------------------------------------------------------------------------------
 void Nitrogen::getDltNDetached(protocol::Component *system, protocol::QueryValueData &qd)

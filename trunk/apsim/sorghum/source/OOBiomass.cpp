@@ -5,7 +5,6 @@
 #include "OOBiomass.h"
 
 #include <ComponentInterface/datatypes.h>
-#include <numeric>
 //---------------------------------------------------------------------------
 
 #pragma package(smart_init)
@@ -305,22 +304,22 @@ void Biomass::detachment(vector<float> senDetachFrac, vector<float> deadDetachFr
 //------------------------------------------------------------------------------------------------
 void Biomass::getDMGreen(protocol::Component *system, protocol::QueryValueData &qd)
    {
-   system->sendVariable(qd, std::accumulate(greenDM.begin(), greenDM.end(), 0.0));
+   system->sendVariable(qd, sumVector(greenDM));
    }
 //------------------------------------------------------------------------------------------------
 void Biomass::getDMSenesced(protocol::Component *system, protocol::QueryValueData &qd)
    {
-   system->sendVariable(qd, accumulate(senescedDM.begin(), senescedDM.end(), 0.0));
+   system->sendVariable(qd, sumVector(senescedDM));
    }
 //------------------------------------------------------------------------------------------------
 void Biomass::getDMDead(protocol::Component *system, protocol::QueryValueData &qd)
    {
-   system->sendVariable(qd, accumulate(deadDM.begin(), deadDM.end(), 0.0));
+   system->sendVariable(qd, sumVector(deadDM));
    }
 //------------------------------------------------------------------------------------------------
 void Biomass::getDltDMGreen(protocol::Component *system, protocol::QueryValueData &qd)
    {
-   system->sendVariable(qd, accumulate(dltDMGreen.begin(), dltDMGreen.end(), 0.0));
+   system->sendVariable(qd, sumVector(dltDMGreen));
    }
 //------------------------------------------------------------------------------------------------
 void Biomass::getDltDMDetached(protocol::Component *system, protocol::QueryValueData &qd)
