@@ -284,7 +284,7 @@ subroutine surfom_get_other_variables ()
    call push_routine (my_name)
 
    call Get_real_var(unknown_module, 'eos', '(mm)', g%eos, numvals, 0.0, 100.0)
-   call Get_real_array(unknown_module, 'dlayer', max_layer, '(mm)',g%dlayer, numvals, 1.0, 1000.0)
+   call Get_real_array(unknown_module, 'dlayer', max_layer, '(mm)',g%dlayer, numvals, 1.0, 10000.0)
 
    call pop_routine (my_name)
    return
