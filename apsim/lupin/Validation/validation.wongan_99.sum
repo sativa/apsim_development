@@ -139,8 +139,8 @@ Component      "lupin" = c:\development\apsim\plant\lib\plant.dll
      else
         lai_today = tlai
         dlt_lai = (lai_today - lai_yesterday)
-        if (dlt_lai <> 0) and (dlt_dm_green(2) <> 0) then
-           sla = ((dlt_lai )/dlt_dm_green(2))
+        if (dlt_lai <> 0) and (dlt_dm_green_leaf <> 0) then
+           sla = ((dlt_lai )/dlt_dm_green_leaf)
         else
            sla = 0
         endif
