@@ -1,5 +1,7 @@
 Imports System.IO
 Imports System.Net
+Imports Microsoft.Office.Interop.Outlook
+Imports Redemption
 
 Module Module1
 
@@ -9,8 +11,15 @@ Module Module1
         Dim body As String = "<html>" + reader.ReadToEnd() + "</html>"
         reader.Close()
 
-        Dim Outlook = CreateObject("Outlook.Application")
-        Dim oItem = Outlook.CreateItem(0) 'Create a new message
+        Dim OutlookApplication As Microsoft.Office.Interop.Outlook.Application
+        OutlookApplication = New Microsoft.Office.Interop.Outlook.Application()
+
+        Dim OutlookNamespace As Microsoft.Office.Interop.Outlook.NameSpace
+        OutlookNamespace = OutlookApplication.GetNamespace("MAPI")
+        'OutlookNamespace.Logon("Outlook", "YieldProphet!", Nothing, Nothing)
+        OutlookNamespace.Logon("Outlook", "PassW0rd", Nothing, Nothing)
+
+        Dim oItem = OutlookApplication.CreateItem(0) 'Create a new message
         Dim SafeItem = CreateObject("Redemption.SafeMailItem") 'Create an instance of Redemption.SafeMailItem 
         SafeItem.Item = oItem 'set Item property
         SafeItem.Recipients.Add("dean.holzworth@csiro.au")
