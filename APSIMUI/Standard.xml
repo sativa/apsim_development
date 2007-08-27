@@ -1277,6 +1277,7 @@
                            [crop] sow plants =[density], sowing_depth = [depth], cultivar = [cultivar1], row_spacing = [row_spacing], tiller_no_fertile = [ftn] (), skip = [skiprow]
                         else
                           [crop] sow cultivar = [cultivar1], plants = [density] (plants/m2), sowing_depth = [depth], row_spacing = [row_spacing]
+                        endif                      
                         crop_in = crop_in + 1
                         if ('[rotation_exclude]' = 'no') then
                            ready_for_next = 1
