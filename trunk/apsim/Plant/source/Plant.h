@@ -271,6 +271,7 @@ public:
    void plant_N_senescence (void);
    void plant_process ( void );
 
+   bool onSetPhase (protocol::QuerySetValueData &v/*(INPUT) message variant*/);
    void plant_harvest (protocol::Variant &v/*(INPUT) message variant*/);
    void plant_kill_stem (protocol::Variant &v/*(INPUT) incoming message variant*/);
    void plant_remove_crop_biomass (protocol::Variant &v/*(INPUT) incoming message variant*/);

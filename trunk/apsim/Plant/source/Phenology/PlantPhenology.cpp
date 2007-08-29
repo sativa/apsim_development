@@ -414,3 +414,57 @@ void PlantPhenology::get_days_tot(protocol::Component *s, protocol::QueryValueDa
    s->sendVariable(qd, t);
    }
 
+void PlantPhenology::onSetPhase(float resetPhase)
+{
+
+   ostringstream msg;
+   msg << "Phenology change:-" << endl;
+   msg << "    Reset Phase  = " << resetPhase << endl;
+   msg << "    Old Phase    = " << currentStage << endl;
+
+   vector <pPhase*>::reverse_iterator rphase;
+   for (rphase = phases.rbegin(); rphase !=  phases.rend(); rphase++)
+   {
+      pPhase* phase = *rphase;
+      if (!phase->isEmpty())
+      {
+         if (floor(currentStage) > floor(resetPhase))
+         {
+            phase->reset();
+            currentStage -= 1.0;
+//            previousStage = currentStage;
+            if (currentStage < 4.0)  //FIXME - hack to stop onEmergence being fired which initialises biomass parts
+            {
+               currentStage = 4.0;
+//               previousStage = currentStage;
+               break;
+            }
+         }
+         else
+         {
+            if (floor(currentStage) == floor(resetPhase))
+            {
+               currentStage = resetPhase;
+//               previousStage = currentStage;
+               float ttPhase = phase->getTTTarget() * (currentStage - floor(currentStage));
+               phase->setTT(ttPhase);
+               break;
+            }
+            else
+            {
+               msg << "    Unable set to a higher phase" << endl;
+               plant->getComponent()->writeString (msg.str().c_str());
+               break;
+            } // Trying to set to a higher phase so do nothing
+         }
+      }
+      else
+      { // phase is empty - not interested in it
+      }
+   }
+   msg << "    New Phase  = " << currentStage << endl << ends;
+//   if (plant->removeBiomassReport())
+//      plant->getComponent()->writeString (msg.str().c_str());
+
+}
+
