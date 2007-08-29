@@ -550,6 +550,9 @@ void Plant::onInit1()
    id = parent->addRegistration(RegistrationType::respondToSet, "crop_class", stringType);
    IDtoSetFn.insert(UInt2SetFnMap::value_type(id,&Plant::set_plant_crop_class));
 
+   id = parent->addRegistration(RegistrationType::respondToSet, "stage", stringType);
+   IDtoSetFn.insert(UInt2SetFnMap::value_type(id,&Plant::onSetPhase));
+
    parent->addRegistration(RegistrationType::event, "sowing", nullTypeDDML, "", "");
    parent->addRegistration(RegistrationType::event, "harvesting", nullTypeDDML, "", "");
 
@@ -2542,6 +2545,23 @@ void Plant::plant_kill_stem_update (protocol::Variant &v/*(INPUT) message argume
         }
 
 
+    }
+
+bool Plant::onSetPhase (protocol::QuerySetValueData &v/*(INPUT) message arguments*/)
+    {
+
+       // Doesn't work for floats so have to use string
+    FString phaseStr;
+    v.variant.unpack(phaseStr);
+    float phase = atof(phaseStr.f_str());
+//    float phase;
+
+//    v.variant.unpack(phase);
+        bound_check_real_var(this,phase, 1.0, 11.0, "phase");
+        if (g.plant_status == alive)
+           phenology->onSetPhase(phase);
+
+    return true;
     }
 
 //NIH up to here

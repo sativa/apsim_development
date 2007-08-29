@@ -34,6 +34,7 @@ class pPhase
      void  add(float dlt_days, float dlt_tt) {days += dlt_days; tt += dlt_tt;};
      void  add(float dlt_days, float dlt_tt, float *balance_days, float *balance_tt);
      void  setTarget(float value) {target = value;};
+     void  setTT(float value)     {tt = value;};
      float getTT(void) const       {return tt;};
      float getTTTarget(void) const {return target;};
      float getDays(void) const     {return days;};

@@ -95,6 +95,7 @@ class PlantPhenology : public plantThing {
    string stageName(int);//xxxbad
    float  stageCode (void);//xxxbad
 
+   void onSetPhase(float resetPhase);
    virtual void onSow(unsigned &, unsigned &, protocol::Variant &v){};
    virtual void onEndCrop(unsigned &, unsigned &, protocol::Variant &v){};
    virtual void onHarvest(unsigned &, unsigned &, protocol::Variant &v){};
