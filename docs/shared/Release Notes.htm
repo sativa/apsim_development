@@ -12,6 +12,76 @@
 <body>
 <p class="Title1">APSIM<sup><b>5.4</b></sup> release notes</p>
 <p class="Title1">&nbsp;</p>
+<p class="Normal">30th August 2007 -  <strong><u>BETA 3 </u></strong></p>
+<p class="Normal">&nbsp;</p>
+<p class="Normal"><span class="Title2">SoilN2</span></p>
+<ul>
+  <li>
+  <p class="Normal">Change for sandy soil mineralisation processes for Western Australia. 2 lines were added:   
+  <ul>
+    <li>wfmin_index = 0.0 0.5 1.0 2.0  ! index specifying water content for water factor for mineralization<br>
+      wfmin_values= 0.05 1.0 1.0 0.5  ! value of water factor function at given index values(mineralization)</li>
+    </ul>
+  </li>
+</ul>
+<p class="Normal"><span class="Title2">SoilWat2</span></p>
+<ul>
+  <li>
+  <p class="Normal">Added settable water table depth for water logging studies. Parameter is called 'water_table'   </li>
+</ul>
+<p class="Normal"><span class="Title2">Plant</span></p>
+<ul>
+  <li>
+  <p class="Normal">Continued refactoring of PLANT. All Tops and Stover calculations have now been modelled using the composite pattern.</li>
+  <li>
+  <p class="Normal"> dm_green, dm_dead, dm_senesced, n_green, n_senesced, n_dead, p_green, p_senesced, p_dead and dlt_dm_green are now scalars rather than an array of values for each part. To output dm_green for the leaf part use: dm_green_leaf.</li>
+  <li>
+    <p class="Normal">Added a set_stage event to Plant phenology. 
+  </li>
+</ul>
+<p><span class="Title2">Lupin</span></p>
+<ul>
+  <li>
+  <p class="Normal">Lupin validation added</li>
+</ul>
+<p class="Normal"><span class="Title2">Oats</span></p>
+<ul>
+  <li>
+    <p class="Normal">Added new variety: Wintaroo  </li>
+</ul>
+<p class="Normal"><span class="Title2">Weeds</span></p>
+<ul>
+  <li>
+    <p class="Normal">Corrected p_conc_init names in the weed.ini file.   </li>
+</ul>
+<p><span class="Title2">APSwim</span></p>
+<ul>
+  <li><p class="Normal">Added methods for parameterising SWIM using soilwat-type parameters</li>
+</ul>
+<p class="Normal"><span class="Title2">Manager</span></p>
+<ul>
+  <li>
+    <p class="Normal">Allow replacement of multiple values of a variable  
+    e.g. soilwat2 set sw = sw1 sw2 sw3 (mm)
+  </li>
+</ul>
+<p class="Title2">APSIM user interface</p>
+<ul>
+  <li>
+  <p class="Normal">Updated the OzCot variable list.</li>
+  <li>
+  <p class="Normal">Simplified the code to further externalise button presses and menu clicks. APSoil and ApsimUI are now the same executable as a result.</li>
+  <li>
+    <p class="Normal">Added a WaterSupply sample to the user interface. 
+  </li>
+</ul>
+<p class="Title2">APSIM infrastructure </p>
+<ul>
+  <li>
+    <p class="Normal">Change the component interface so that parameters (SDML) is passed into the FORTRAN / DELPHI components as a string. This was done for AgResearch. 
+  </li>
+</ul>
+<p class="Normal">&nbsp;</p>
 <p class="Normal">21st June 2007 - <strong><u>BETA 2 </u></strong> </p>
 <p class="Normal">&nbsp;</p>
 <p class="Title2">APSIM user interface</p>
