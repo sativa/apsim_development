@@ -83,7 +83,7 @@ void FortranWrapper::setupFortranDll(void)
 #ifdef __WIN32__
    libraryHandle = LoadLibrary(this->getDllName().c_str());
 #else
-   libraryHandle = dlopen(this->getDllName(), RTLD_NOW | RTLD_LOCAL);
+   libraryHandle = dlopen(this->getDllName().c_str(), RTLD_NOW | RTLD_LOCAL);
    dlError = dlerror();
 #endif
 
