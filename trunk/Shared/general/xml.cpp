@@ -1,6 +1,7 @@
 #include <string>
 #include <fstream>
 #include <sstream>
+#include <stdexcept>
 
 #include <general/TreeNodeIterator.h>
 #include <general/stl_functions.h>
@@ -162,7 +163,7 @@ std::string XMLNode::childValue(const std::string& childName) const
    if (values.size() == 0)
       return "";
    else if (values.size() > 1)
-      throw runtime_error("More than 1 child values found for node: " + childName);
+      throw std::runtime_error("More than 1 child values found for node: " + childName);
    return values[0];
    }
 
