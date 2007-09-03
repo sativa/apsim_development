@@ -550,7 +550,7 @@ void Plant::onInit1()
    id = parent->addRegistration(RegistrationType::respondToSet, "crop_class", stringType);
    IDtoSetFn.insert(UInt2SetFnMap::value_type(id,&Plant::set_plant_crop_class));
 
-   id = parent->addRegistration(RegistrationType::respondToSet, "stage", stringType);
+   id = parent->addRegistration(RegistrationType::respondToSet, "phase", stringType);
    IDtoSetFn.insert(UInt2SetFnMap::value_type(id,&Plant::onSetPhase));
 
    parent->addRegistration(RegistrationType::event, "sowing", nullTypeDDML, "", "");
