@@ -149,7 +149,6 @@
     <oats />
     <peanut />
     <pigeonp />
-    <potato />
     <rice name="rice">
       <estab>transplant</estab>
       <sbdur>50</sbdur>
@@ -981,8 +980,7 @@
             <manure_date type="ddmmmdate" description="Enter fertiliser date (dd-mmm) : ">dd-mmm</manure_date>
           </category>
           <category name="Manure application details">
-            <surfaceommodule type="modulename" moduletype="surfaceom" description="Module used to apply the manure : ">
-            </surfaceommodule>
+          <surfaceommodule type="modulename" description="Name of your surface organic matter module : ">surface organic matter</surfaceommodule>
             <manure_amount type="text" description="Amount of manure to apply (kg/ha) : ">4</manure_amount>
             <manure_type type="list" listvalues="manure,fym,heap_uncov,heap_cov,pit,communal" description="manure type : ">manure</manure_type>
             <manure_cnr type="text" description="manure CNR : ">20</manure_cnr>
@@ -998,8 +996,7 @@
             <eventname type="text" description="On which event should manure be applied : ">sowing</eventname>
           </category>
           <category name="Manure application details">
-            <surfaceommodule type="modulename" moduletype="surfaceom" description="Module used to apply the manure : ">
-            </surfaceommodule>
+          <surfaceommodule type="modulename" description="Name of your surface organic matter module : ">surface organic matter</surfaceommodule>
             <manure_amount type="text" description="Amount of manure to apply (kg/ha) : ">4</manure_amount>
             <manure_type type="list" listvalues="manure,fym,heap_uncov,heap_cov,pit,communal" description="manure type : ">manure</manure_type>
             <manure_cnr type="text" description="manure CNR : ">20</manure_cnr>
@@ -1026,10 +1023,8 @@
             <tillage_date type="ddmmmdate" description="Enter tillage date (dd-mmm) : ">dd-mmm</tillage_date>
           </category>
           <category name="Tillage application details">
-            <surfaceommodule type="modulename" moduletype="surfaceom" description="Module used to apply the tillage : ">
-            </surfaceommodule>
-            <soilmodule type="modulename" moduletype="soil" description="Name of your soil module : ">
-            </soilmodule>
+          <surfaceommodule type="modulename" description="Name of your surface organic matter module : ">surface organic matter</surfaceommodule>
+          <soilmodule type="modulename" description="Name of your soil module : " />
             <tillage_type type="list" listvalues="user_defined, chisel, disc, planter, burn, burn_90, graze, scarifier, rip, blade, tine" description="Tillage type : ">disc</tillage_type>
             <tillage_depth description="User_defined depth of seedbed preparation (mm) : ">0</tillage_depth>
             <tillage_f_incorp description="User_defined fraction of surface residues to incorporate (0-1): ">0</tillage_f_incorp>
@@ -1081,8 +1076,7 @@
             ]]></condition>
           <category name="Output criteria">
             <crop type="crop" description="Enter name of crop to output at harvest : ">maize</crop>
-            <outputfile type="modulename" moduletype="outputfile" description="Name of outputfile component : ">
-            </outputfile>
+            <outputfile type="modulename" description="Name of outputfile component : ">outputfile</outputfile>
           </category>
         </rule>
         <rule name="Output at all phenological stages">
@@ -1098,8 +1092,7 @@
             ]]></condition>
           <category name="Output criteria">
             <crop type="crop" description="Enter name of crop to output at harvest : ">maize</crop>
-            <outputfile type="modulename" moduletype="outputfile" description="Name of outputfile component : ">
-            </outputfile>
+            <outputfile type="modulename" description="Name of outputfile component : ">outputfile</outputfile>
           </category>
         </rule>
         <rule name="Output at specified phenological stage">
@@ -1113,8 +1106,7 @@
           <category name="Output criteria">
             <crop type="crop" description="Enter name of crop to output at harvest : ">maize</crop>
             <stage_name type="list" listvalues="sowing,germination,emergence,end_of_juvenile,floral_initiation,flag_leaf,flowering,start_grain_fill,end_grain_fill,maturity,harvest_ripe,end_crop" description="Phenological stage name at which to output : ">flowering</stage_name>
-            <outputfile type="modulename" moduletype="outputfile" description="Name of outputfile component : ">
-            </outputfile>
+            <outputfile type="modulename" description="Name of outputfile component : ">outputfile</outputfile>
           </category>
         </rule>
         <rule name="Sow using a variable rule with intercropping">
@@ -1186,7 +1178,7 @@
                         ! do nothing
                         N_deficit = 0
                      else
-                        fertiliz apply amount = N_deficit (kg/ha), depth = 50 (mm), type = [fert_type_pre_sow] ()
+                        fertiliser apply amount = N_deficit (kg/ha), depth = 50 (mm), type = [fert_type_pre_sow] ()
                      endif
                   else
                      N_topsoil = no3(1) + nh4(1) + no3(2) + nh4(2)
@@ -1194,7 +1186,7 @@
                         ! enough N already in topsoil
                      else
                         ! just put on a fixed amount of N
-                        fertiliz apply amount = [fert_amount_pre_sow] (kg/ha), depth = 50 (mm), type = [fert_type_pre_sow] ()
+                        fertiliser apply amount = [fert_amount_pre_sow] (kg/ha), depth = 50 (mm), type = [fert_type_pre_sow] ()
                      endif
                   endif
                   ready_to_fert_pre_sow = 0
@@ -1277,7 +1269,7 @@
                            [crop] sow plants =[density], sowing_depth = [depth], cultivar = [cultivar1], row_spacing = [row_spacing], tiller_no_fertile = [ftn] (), skip = [skiprow]
                         else
                           [crop] sow cultivar = [cultivar1], plants = [density] (plants/m2), sowing_depth = [depth], row_spacing = [row_spacing]
-                        endif                      
+                        endif
                         crop_in = crop_in + 1
                         if ('[rotation_exclude]' = 'no') then
                            ready_for_next = 1
@@ -1376,8 +1368,7 @@
             <fert_type_TopDress description="Type" type="list" listvalues="NO3_N, NH4_N, NH4NO3, urea_N, urea_no3, urea">urea_N</fert_type_TopDress>
           </category>
           <category name="Pre-sowing manure application">
-            <surfaceommodule_pre_sow type="modulename" moduletype="surfaceom" description="Module used to apply the manure : ">
-            </surfaceommodule_pre_sow>
+            <surfaceommodule_pre_sow type="modulename" description="Module used to apply the manure : ">surface organic matter</surfaceommodule_pre_sow>
             <manure_days_pre_sow description="Enter number of days before window to apply pre-crop manure (days)" type="text">30</manure_days_pre_sow>
             <manure_amount_pre_sow type="text" description="Amount of manure to apply (kg/ha) : ">4000</manure_amount_pre_sow>
             <manure_type_pre_sow type="list" listvalues="manure,fym,heap_uncov,heap_cov,pit,communal" description="manure type : ">manure</manure_type_pre_sow>
@@ -1392,10 +1383,8 @@
             <fert_type_pre_sow description="Type (NO3_N, NH4_N, NH4NO3, urea_N, urea_no3, urea)" type="text">urea_N</fert_type_pre_sow>
           </category>
           <category name="Tillage components">
-            <surfaceommodule type="modulename" moduletype="surfaceom" description="Module used to apply the tillage : ">
-            </surfaceommodule>
-            <soilmodule type="modulename" moduletype="soil" description="Name of your soil module : ">
-            </soilmodule>
+          <surfaceommodule type="modulename" description="Name of your surface organic matter module : ">surface organic matter</surfaceommodule>
+          <soilmodule type="modulename" description="Name of your soil module : " />
           </category>
           <category name="Planter Tillage">
             <planter_type description="Planter type" type="list" listvalues="user_defined, planter">planter</planter_type>
@@ -1455,7 +1444,9 @@
                       AND days_after_weed_kill > 0) then
                         if (date_within('[date1], [date2]') = 1) then
                            crop_sow = 'waiting'
-                           if ((rain[[rain_days]] >= [rain_amount]  AND  esw >= [esw_amount]) OR
+                           surface_moist = (sw(1) - ll15(1)) / (dul(1)- ll15(1))
+                           if ((rain[[rain_days]] >= [rain_amount]  AND  esw >= [esw_amount] AND
+                                 (surface_moist <= [surface_up] and surface_moist >= [surface_low])) OR
                                ('[must_sow]' = 'yes' AND today = date('[date2]'))) THEN
 
 
@@ -1533,29 +1524,37 @@
 
             ]]></condition>
           <category name="Crop properties">
-            <crop description="Name of this crop" type="crop">weed</crop>
-            <cropmethod description="Method of cropping" type="list" listvalues="sole, intercrop">intercrop</cropmethod>
-            <rotation_exclude description="Exclude from rotation sequence" type="yesno">yes</rotation_exclude>
+            <crop type="crop" description="Name of this crop">weed</crop>
+            <cultivar1 type="list" listvalues="late, early" description="Enter first type"> early</cultivar1>
+            <cla type="list" listvalues="winter_grass, winter_dicot, summer_grass, perennial_legume" description="Enter class type "> summer_grass</cla>
+            <date_ch1 type="ddmmmdate" description="Enter type change date (dd-mmm)">1-jul</date_ch1>
+            <cultivar2 type="list" listvalues="late, early" description="Enter second type">late</cultivar2>
+            <cropmethod type="list" listvalues="sole, intercrop" description="Method of cropping">intercrop</cropmethod>
+            <rotation_exclude type="yesno" description="Exclude from rotation sequence">yes</rotation_exclude>
           </category>
           <category name="Sowing criteria">
-            <date1 description="Enter sowing window START date (dd-mmm)" type="ddmmmdate">15-may</date1>
-            <date2 description="Enter sowing window END date (dd-mmm)" type="ddmmmdate">15-jul</date2>
-            <must_sow description="Must Sow" type="yesno">no</must_sow>
-            <rain_amount description="Enter amount of rainfall (mm)" type="text">30</rain_amount>
-            <rain_days description="Enter number of days of rainfall (days)" type="text">3</rain_days>
-            <esw_amount description="Enter amount of soil water (mm)" type="text">30</esw_amount>
-            <sow_opp description="Enter sowing opportunity number to sow on (1..n)" type="text">1</sow_opp>
+            <date1 type="ddmmmdate" description="Enter sowing window START date (dd-mmm)">01-oct</date1>
+            <date2 type="ddmmmdate" description="Enter sowing window END date (dd-mmm)">30-apr</date2>
+            <must_sow type="yesno" description="Must Sow">no</must_sow>
+            <rain_amount type="text" description="Enter amount of rainfall (mm)">10</rain_amount>
+            <rain_days type="text" description="Enter number of days of rainfall (days)">5</rain_days>
+            <esw_amount type="text" description="Enter amount of soil water (mm)">5</esw_amount>
+            <sow_opp type="text" description="Enter sowing opportunity number to sow on (1..n)">1</sow_opp>
+            <surface_up type="text" description="Enter upper limit of sw in top layer (0-2) (mm esw/mm soil)">2</surface_up>
+            <surface_low type="text" description="Enter lower limit of sw in top layer (0-1) (mm esw/mm soil)">0</surface_low>
           </category>
           <category name="Sowing specs">
-            <density description="Enter sowing density  (plants/m2)" type="text">10</density>
-            <depth description="Enter sowing depth  (mm)" type="text">30</depth>
-            <row_spacing description="Enter row spacing  (mm)" type="text">350</row_spacing>
+            <density type="text" description="Enter sowing density  (plants/m2)">5</density>
+            <depth type="text" description="Enter sowing depth  (mm)">15</depth>
+            <row_spacing type="text" description="Enter row spacing  (mm)">350</row_spacing>
           </category>
-          <category name="Cultivar selection">
-            <cultivar1 description="Enter first type" type="list" listvalues="late, early" />
-            <cla description="Enter class type " type="list" listvalues="winter_grass, winter_dicot, summer_grass, perennial_legume">summer_grass</cla>
-            <date_ch1 description="Enter type change date (dd-mmm)" type="ddmmmdate">1-jul</date_ch1>
-            <cultivar2 description="Enter second type" type="list" listvalues="late, early" />
+          <category name="Seed-bed Tillage Preparation">
+            <till_days_pre_sow type="text" description="Enter number of days before window to prepare seed-bed (days)">0</till_days_pre_sow>
+            <must_till type="yesno" description="Must Till">no</must_till>
+            <tillage_type type="list" listvalues="user_defined, chisel, disc, planter,burn, burn_90, graze, scarifier, rip, blade, tine" description="Tillage type">disc</tillage_type>
+            <tillage_depth type="text" description="User_defined depth of seedbed preparation (mm)">100</tillage_depth>
+            <tillage_f_incorp type="text" description="User_defined fraction of surface residues to incorporate (0-1)">1</tillage_f_incorp>
+            <fraction type="text" description="Enter biomass removal fraction of growing weeds from field (0-1)">0.0</fraction>
           </category>
         </rule>
         <rule name="Rotations with Intercrop">
@@ -1799,8 +1798,7 @@
             <weed_maxno_out description="Maximum number of fallow weedings (1..n) : " type="text">0</weed_maxno_out>
             <thin_fraction description="Enter fraction of weed population weeded (0-1) : " type="text">1.0</thin_fraction>
             <fraction description="Enter biomass removal fraction from field (0-1) : " type="text">0.0</fraction>
-            <surfaceommodule type="modulename" moduletype="surfaceom" description="Module used to apply the tillage : ">
-            </surfaceommodule>
+            <surfaceommodule type="modulename" description="Name of your surface organic matter module : ">surface organic matter</surfaceommodule>
             <tillage_type description="Enter name of tillage type : " type="text">user_defined</tillage_type>
             <f_incorp description="Enter fraction of surface residues incorporated into soil (0-1) : " type="text">0.1</f_incorp>
             <tillage_depth description="Enter depth of incorporation of surface residues (mm) : " type="text">25</tillage_depth>
@@ -1814,8 +1812,7 @@
             ]]></condition>
           <category name="Removal criteria">
             <date description="Date to remove residues (dd-mmm) :" type="ddmmmdate">1-may</date>
-            <surfaceommodule type="modulename" moduletype="surfaceom" description="Module used to apply the tillage : ">
-            </surfaceommodule>
+          <surfaceommodule type="modulename" description="Name of your surface organic matter module : ">surface organic matter</surfaceommodule>
           </category>
         </rule>
         <rule name="Remove residues at harvest">
@@ -1832,8 +1829,7 @@
             ]]></condition>
           <category name="Removal criteria">
             <crop description="Name of crop harvest to trigger residue removal" type="crop">weed</crop>
-            <surfaceommodule type="modulename" moduletype="surfaceom" description="Module used to apply the tillage : ">
-            </surfaceommodule>
+            <surfaceommodule type="modulename" description="Name of your surface organic matter module : ">surface organic matter</surfaceommodule>
             <fraction description="Enter biomass removal fraction from field (0-1) : " type="text">0.0</fraction>
           </category>
         </rule>
@@ -2543,36 +2539,6 @@ if {$steps == 0} {tkwait variable steps}
     </soi>
     <YPCalc />
     <tracker />
-      <logic name="CanolaOilConc"><script><event>start_of_day</event>
-         <text><![CDATA[   
-         if (das = 1) then
-            cum_temp = 0
-            cum_swdef = 0
-            cum_days = 0
-         elseif (stage_name = 'start_grain_fill' or
-                       stage_name = 'end_grain_fill' or
-                       stage_name = 'maturity' or
-                       stage_name = 'harvest_ripe') then
-            cum_temp = cum_temp + (maxt + mint) / 2
-            cum_swdef = cum_swdef + swdef_photo
-            cum_days = cum_days + 1
-         endif
-      
-         ! calculate canola oil content
-         if (cum_days > 0) then
-            avg_temp = cum_temp / cum_days
-            avg_swdef = cum_swdef / cum_days
-            if (avg_temp <= 14) then
-               oil_conc =  47
-            else
-               oil_conc = (47 - ((avg_temp - 14)*1.21)) - (1.91*(1 - avg_swdef^2))
-            endif
-         else
-            oil_conc = 0
-         endif
-      ]]></text></script>
-      </logic>
-  
   </folder>
   <folder name="Water Management">
     <irrigation name="Irrigation">
@@ -2608,13 +2574,12 @@ if {$steps == 0} {tkwait variable steps}
       <min_volume description="Minimum volume in storage that the pump cannot access">2</min_volume>
       <permeability description="Permeability of sealing layer (m/day)">0.00007</permeability>
       <seal_thickness description="Thickness of low permeability seal (m)">0.5</seal_thickness>
-      <receive_rainfall type="list" listvalues="no,yes" description="Does the dam recieve rainfall faling directly into its surface area">no</receive_rainfall>
-      <receive_catchment_runoff type="list" listvalues="no,yes" description="Does the dam receive runoff from a catchment">no</receive_catchment_runoff>
+      <receive_catchment_runoff type="list" listvalues="no,yes" description="Dam collects runoff from larger catchment area">no</receive_catchment_runoff>
       <receive_crop_runoff type="list" listvalues="no,yes" description="Dam collects runoff from simulated crop area">no</receive_crop_runoff>
+      <init_salt_conc description="Initial chloride concentration (ppm)">704.0</init_salt_conc>
       <receive_catchment_runoff type="list" listvalues="no,yes" description="Dam collects runoff from larger catchment area">no</receive_catchment_runoff>
       <catchment_area description="Catchment area (ha)">50.0</catchment_area>
-      <catchment_runoff_factor description="multiplier for soilwat2 runoff to simulate catchment runoff">0.5</catchment_runoff_factor>
-      <init_salt_conc description="Initial chloride concentration (ppm)">704.0</init_salt_conc>
+      <catchment_runoff_factor description="soilwat2.runoff multiplier">0.5</catchment_runoff_factor>
       <receive_crop_runoff type="list" listvalues="yes,no" description="Dam collects runoff from simulated crop area">yes</receive_crop_runoff>
       <runoff_salt_conc description="Runoff chloride concentration (ppm)">700.0</runoff_salt_conc>
       <rainfall_salt_conc description="Rainfall chloride concentration (ppm)">20.0</rainfall_salt_conc>
