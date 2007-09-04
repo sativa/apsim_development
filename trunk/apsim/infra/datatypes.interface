@@ -662,6 +662,13 @@
          <field name="sender" kind="string"/>
          <field name="crop_type" kind="string"/>
       </type>
+      <type name="NewZone">
+         <field name="sender" kind="string"/>
+         <field name="area" kind="single"/>
+         <field name="slope" kind="single"/>
+         <field name="X" kind="single"/>
+         <field name="Y" kind="single"/>
+      </type>
 
    <type name="SoilLayers">
       <field name="layers" kind="double" unit="mm"  array = "T"/>
