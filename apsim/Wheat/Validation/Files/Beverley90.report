@@ -1,9 +1,44 @@
-<?xml version="1.0"?>
 <report version="4">
-  <Data><REMS name="Early"><FileName type="filename">D:\development\apsim\Wheat\Validation\Wheat.mdb</FileName><Experiment type="experiment">Beverly90</Experiment><Treatment type="treatment">N060 101 25/05/1990 </Treatment><DataSource type="datasource">Crop</DataSource></REMS><REMS name="Late"><FileName type="filename">D:\development\apsim\Wheat\Validation\Wheat.mdb</FileName><Experiment type="experiment">Beverly90</Experiment><Treatment type="treatment">N060 102 14/06/1990 </Treatment><DataSource type="datasource">Crop</DataSource></REMS><ApsimFileReader name="EarlyPre"><FileName type="filenames">Wheat_Beverly90_Early.out</FileName></ApsimFileReader><ApsimFileReader name="LatePre"><FileName type="filenames">Wheat_Beverly90_Late.out</FileName></ApsimFileReader><ApsimFileReader name="AllPre"><FileName type="filenames">Wheat_Beverley90_Early.out</FileName><FileName type="filenames">Wheat_Beverley90_Late.out</FileName><FileName type="filenames">Wheat_Beverley90_n15.out</FileName><FileName type="filenames">Wheat_Beverley90_n30.out</FileName><FileName type="filenames">Wheat_Beverley90_n60.out</FileName><Filter name="AllPreHarvest"><FilterString>zadok_stage=90</FilterString></Filter></ApsimFileReader><ApsimFileReader name="ObservedAll"><FileName type="filenames">Observed\CombinedFinalHarvest.txt</FileName><Filter name="ObsBev90"><FilterString>experiment='Beverley90'</FilterString></Filter></ApsimFileReader></Data>
-  <page><![CDATA[object Page1: TQuickRep
-  Left = 354
-  Top = 30
+<Data>
+   <REMS name="Early">
+      <FileName type="filename">D:\development\apsim\Wheat\Validation\Wheat.mdb</FileName>
+      <Experiment type="experiment">Beverly90</Experiment>
+      <Treatment type="treatment">N060 101 25/05/1990 </Treatment>
+      <DataSource type="datasource">Crop</DataSource>
+   </REMS>
+   <REMS name="Late">
+      <FileName type="filename">D:\development\apsim\Wheat\Validation\Wheat.mdb</FileName>
+      <Experiment type="experiment">Beverly90</Experiment>
+      <Treatment type="treatment">N060 102 14/06/1990 </Treatment>
+      <DataSource type="datasource">Crop</DataSource>
+   </REMS>
+   <ApsimFileReader name="EarlyPre">
+      <FileName type="filenames">Wheat_Beverly90_Early.out</FileName>
+   </ApsimFileReader>
+   <ApsimFileReader name="LatePre">
+      <FileName type="filenames">Wheat_Beverly90_Late.out</FileName>
+   </ApsimFileReader>
+   <ApsimFileReader name="AllPre">
+      <FileName type="filenames">Wheat_Beverley90_Early.out</FileName>
+      <FileName type="filenames">Wheat_Beverley90_Late.out</FileName>
+      <FileName type="filenames">Wheat_Beverley90_n15.out</FileName>
+      <FileName type="filenames">Wheat_Beverley90_n30.out</FileName>
+      <FileName type="filenames">Wheat_Beverley90_n60.out</FileName>
+      <Filter name="AllPreHarvest">
+         <FilterString>zadok_stage=90</FilterString>
+      </Filter>
+   </ApsimFileReader>
+   <ApsimFileReader name="ObservedAll">
+      <FileName type="filenames">C:\development\apsim\Wheat\Validation\Files\Observed\CombinedFinalHarvest.txt</FileName>
+      <Filter name="ObsBev90">
+         <FilterString>experiment='Beverley90'</FilterString>
+      </Filter>
+   </ApsimFileReader>
+</Data>
+   <page> <![CDATA[
+object Page1: TQuickRep
+  Left = 230
+  Top = -156
   Width = 556
   Height = 786
   Frame.Color = clBlack
@@ -989,5 +1024,6 @@
     end
   end
 end
-]]></page>
+]]>
+   </page>
 </report>

@@ -37,15 +37,13 @@
       <FileName type="filenames">c:\Development\apsim\Wheat\Validation\Files\Wheat_Corrigin_DryBasal.out</FileName>
       <ParseTitle type="yesno">yes</ParseTitle>
    </ApsimFileReader>
-
 </Data>
-
    <page> <![CDATA[
 object Page1: TQuickRep
-  Left = 358
-  Top = 48
-  Width = 556
-  Height = 786
+  Left = 270
+  Top = 0
+  Width = 476
+  Height = 674
   Frame.Color = clBlack
   Frame.DrawTop = False
   Frame.DrawBottom = False
@@ -86,12 +84,12 @@ object Page1: TQuickRep
   PrintIfEmpty = True
   SnapToGrid = True
   Units = MM
-  Zoom = 70
+  Zoom = 60
   object TitleBand1: TQRBand
     Left = 0
     Top = 0
-    Width = 556
-    Height = 786
+    Width = 476
+    Height = 674
     Frame.Color = clBlack
     Frame.DrawTop = False
     Frame.DrawBottom = False
@@ -103,13 +101,13 @@ object Page1: TQuickRep
     ForceNewPage = False
     Size.Values = (
       2970
-      2101.54761904762)
+      2099.02777777778)
     BandType = rbTitle
     object Graph1: TGraph
-      Left = 16
-      Top = 68
-      Width = 490
-      Height = 235
+      Left = 13
+      Top = 59
+      Width = 420
+      Height = 201
       Frame.Color = clBlack
       Frame.DrawTop = False
       Frame.DrawBottom = False
@@ -194,10 +192,10 @@ object Page1: TQuickRep
       end
     end
     object Graph2: TGraph
-      Left = 22
-      Top = 292
-      Width = 490
-      Height = 235
+      Left = 19
+      Top = 251
+      Width = 420
+      Height = 201
       Frame.Color = clBlack
       Frame.DrawTop = False
       Frame.DrawBottom = False
@@ -283,10 +281,10 @@ object Page1: TQuickRep
       end
     end
     object Graph3: TGraph
-      Left = 22
-      Top = 510
-      Width = 490
-      Height = 235
+      Left = 19
+      Top = 437
+      Width = 420
+      Height = 201
       Frame.Color = clBlack
       Frame.DrawTop = False
       Frame.DrawBottom = False
@@ -374,13 +372,112 @@ object Page1: TQuickRep
         end
       end
     end
+    object Text1: TText
+      Left = 43
+      Top = 40
+      Width = 90
+      Height = 16
+      Frame.Color = clBlack
+      Frame.DrawTop = False
+      Frame.DrawBottom = False
+      Frame.DrawLeft = False
+      Frame.DrawRight = False
+      Size.Values = (
+        70.5555555555556
+        189.618055555556
+        176.388888888889
+        396.875)
+      Alignment = taLeftJustify
+      AlignToBand = False
+      AutoSize = True
+      AutoStretch = False
+      Color = clWhite
+      Font.Charset = DEFAULT_CHARSET
+      Font.Color = clWindowText
+      Font.Height = -21
+      Font.Name = 'Arial'
+      Font.Style = []
+      Lines.Strings = (
+        'Grain Wt (g/m2)')
+      ParentFont = False
+      Transparent = False
+      WordWrap = True
+      text = 'Grain Wt (g/m2)'#13#10
+      FontSize = 16
+    end
+    object Text2: TText
+      Left = 43
+      Top = 242
+      Width = 82
+      Height = 16
+      Frame.Color = clBlack
+      Frame.DrawTop = False
+      Frame.DrawBottom = False
+      Frame.DrawLeft = False
+      Frame.DrawRight = False
+      Size.Values = (
+        70.5555555555556
+        189.618055555556
+        1067.15277777778
+        361.597222222222)
+      Alignment = taLeftJustify
+      AlignToBand = False
+      AutoSize = True
+      AutoStretch = False
+      Color = clWhite
+      Font.Charset = DEFAULT_CHARSET
+      Font.Color = clWindowText
+      Font.Height = -21
+      Font.Name = 'Arial'
+      Font.Style = []
+      Lines.Strings = (
+        'Grain N (g/m2)')
+      ParentFont = False
+      Transparent = False
+      WordWrap = True
+      text = 'Grain N (g/m2)'#13#10
+      FontSize = 16
+    end
+    object Text3: TText
+      Left = 43
+      Top = 430
+      Width = 67
+      Height = 16
+      Frame.Color = clBlack
+      Frame.DrawTop = False
+      Frame.DrawBottom = False
+      Frame.DrawLeft = False
+      Frame.DrawRight = False
+      Size.Values = (
+        70.5555555555556
+        189.618055555556
+        1896.18055555556
+        295.451388888889)
+      Alignment = taLeftJustify
+      AlignToBand = False
+      AutoSize = True
+      AutoStretch = False
+      Color = clWhite
+      Font.Charset = DEFAULT_CHARSET
+      Font.Color = clWindowText
+      Font.Height = -21
+      Font.Name = 'Arial'
+      Font.Style = []
+      Lines.Strings = (
+        'Grain N (%)')
+      ParentFont = False
+      Transparent = False
+      WordWrap = True
+      text = 'Grain N (%)'#13#10
+      FontSize = 16
+    end
   end
 end
 ]]>
    </page>
    <page> <![CDATA[
 object Page2: TQuickRep
-  Left = 279
+  Left = 53
   Top = 0
   Width = 714
   Height = 1010
@@ -429,7 +526,7 @@ object Page2: TQuickRep
     Left = 0
     Top = 0
     Width = 714
-    Height = 1010
+    Height = 1011
     Frame.Color = clBlack
     Frame.DrawTop = False
     Frame.DrawBottom = False
@@ -440,7 +537,7 @@ object Page2: TQuickRep
     ForceNewColumn = False
     ForceNewPage = False
     Size.Values = (
-      2970
+      2972.15277777778
       2099.02777777778)
     BandType = rbTitle
     object Graph4: TGraph
@@ -749,7 +846,7 @@ object Page2: TQuickRep
           Marks.Callout.Brush.Color = clBlack
           Marks.Visible = False
           DataSource = ObsTimeSeries
-          Title = 'Dry Basal'
+          Title = 'Dry Nil'
           ClickableLine = False
           Pointer.InflateMargins = True
           Pointer.Style = psRectangle
@@ -769,6 +866,7 @@ object Page2: TQuickRep
           DataSource = PreDryDeep
           SeriesColor = clTeal
           ShowInLegend = False
+          Title = 'Dry Basal'
           Pointer.InflateMargins = True
           Pointer.Style = psRectangle
           Pointer.Visible = False
