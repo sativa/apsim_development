@@ -1394,7 +1394,7 @@
           <dul>0.220</dul>
           <sat>0.280</sat>
           <sw>0.200</sw>
-          <swcon>0.110</swcon>
+          <swcon>0.2</swcon>
           <mwcon>0.000</mwcon>
           <fbiom>0.010</fbiom>
           <finert>0.900</finert>
@@ -4234,44 +4234,44 @@
       <InitWater>
         <profile>
           <layer>
-            <sw>0.010</sw>
             <thickness>100</thickness>
+            <sw>0.015</sw>
           </layer>
           <layer>
-            <sw>0.010</sw>
             <thickness>100</thickness>
+            <sw>0.015</sw>
           </layer>
           <layer>
-            <sw>0.040</sw>
             <thickness>100</thickness>
+            <sw>0.04</sw>
           </layer>
           <layer>
-            <sw>0.040</sw>
             <thickness>100</thickness>
+            <sw>0.04</sw>
           </layer>
           <layer>
-            <sw>0.080</sw>
             <thickness>100</thickness>
+            <sw>0.08</sw>
           </layer>
           <layer>
-            <sw>0.080</sw>
             <thickness>100</thickness>
+            <sw>0.08</sw>
           </layer>
           <layer>
-            <sw>0.110</sw>
             <thickness>100</thickness>
+            <sw>0.11</sw>
           </layer>
           <layer>
-            <sw>0.110</sw>
             <thickness>100</thickness>
+            <sw>0.11</sw>
           </layer>
           <layer>
-            <sw>0.110</sw>
             <thickness>100</thickness>
+            <sw>0.13</sw>
           </layer>
           <layer>
-            <sw>0.110</sw>
             <thickness>100</thickness>
+            <sw>0.15</sw>
           </layer>
         </profile>
       </InitWater>
@@ -4318,209 +4318,612 @@
             <thickness>100</thickness>
           </layer>
           <layer>
-            <no3>1</no3>
-            <nh4>1</nh4>
+            <no3>0.1</no3>
+            <nh4>0.1</nh4>
             <thickness>100</thickness>
           </layer>
           <layer>
-            <no3>1</no3>
-            <nh4>1</nh4>
+            <no3>0.1</no3>
+            <nh4>0.1</nh4>
             <thickness>100</thickness>
+          </layer>
+          <layer>
+            <thickness>100</thickness>
+            <no3>0.1</no3>
+            <nh4>0.1</nh4>
+          </layer>
+          <layer>
+            <thickness>100</thickness>
+            <no3>0.1</no3>
+            <nh4>0.1</nh4>
+          </layer>
+          <layer>
+            <thickness>100</thickness>
+            <no3>0.1</no3>
+            <nh4>0.1</nh4>
+          </layer>
+          <layer>
+            <thickness>100</thickness>
+            <no3>0.1</no3>
+            <nh4>0.1</nh4>
           </layer>
         </profile>
       </InitNitrogen>
       <profile>
         <layer>
           <thickness>100</thickness>
-          <bd>0.950</bd>
-          <ll15>0.010</ll15>
-          <airdry>0.010</airdry>
-          <dul>0.055</dul>
-          <sat>0.450</sat>
+          <bd>1.3</bd>
+          <ll15>0.015</ll15>
+          <airdry>0.01</airdry>
+          <dul>0.072</dul>
+          <sat>0.43</sat>
           <sw>0.120</sw>
-          <swcon>0.700</swcon>
+          <swcon>0.7</swcon>
           <mwcon>1</mwcon>
           <fbiom>0.030</fbiom>
-          <finert>0.300</finert>
-          <oc>0.900</oc>
-          <ph>4.700</ph>
-          <ll name="Wheat">0.010</ll>
-          <kl name="Wheat">0.060</kl>
-          <xf name="Wheat">0.700</xf>
+          <finert>0.3</finert>
+          <oc>0.8</oc>
+          <ph>4.7</ph>
+          <ll name="Wheat">0.015</ll>
+          <kl name="Wheat">0.06</kl>
+          <xf name="Wheat">1</xf>
         </layer>
         <layer>
           <thickness>100</thickness>
-          <bd>1.410</bd>
-          <ll15>0.010</ll15>
-          <airdry>0.010</airdry>
+          <bd>1.41</bd>
+          <ll15>0.015</ll15>
+          <airdry>0.01</airdry>
           <dul>0.072</dul>
-          <sat>0.430</sat>
+          <sat>0.43</sat>
           <sw>0.150</sw>
-          <swcon>0.700</swcon>
+          <swcon>0.7</swcon>
           <mwcon>1</mwcon>
           <fbiom>0.020</fbiom>
-          <finert>0.400</finert>
-          <oc>0.360</oc>
-          <ph>4.700</ph>
-          <ll name="Wheat">0.010</ll>
-          <kl name="Wheat">0.060</kl>
-          <xf name="Wheat">0.600</xf>
+          <finert>0.4</finert>
+          <oc>0.36</oc>
+          <ph>4.7</ph>
+          <ll name="Wheat">0.015</ll>
+          <kl name="Wheat">0.06</kl>
+          <xf name="Wheat">1</xf>
         </layer>
         <layer>
           <thickness>100</thickness>
-          <bd>1.610</bd>
-          <ll15>0.040</ll15>
-          <airdry>0.040</airdry>
-          <dul>0.080</dul>
-          <sat>0.360</sat>
+          <bd>1.61</bd>
+          <ll15>0.04</ll15>
+          <airdry>0.01</airdry>
+          <dul>0.08</dul>
+          <sat>0.36</sat>
           <sw>0.180</sw>
-          <swcon>0.700</swcon>
+          <swcon>0.7</swcon>
           <mwcon>1</mwcon>
           <fbiom>0.020</fbiom>
-          <finert>0.500</finert>
-          <oc>0.220</oc>
-          <ph>4.700</ph>
-          <ll name="Wheat">0.040</ll>
-          <kl name="Wheat">0.050</kl>
-          <xf name="Wheat">0.500</xf>
+          <finert>0.7</finert>
+          <oc>0.22</oc>
+          <ph>4.7</ph>
+          <ll name="Wheat">0.04</ll>
+          <kl name="Wheat">0.01</kl>
+          <xf name="Wheat">0.66</xf>
         </layer>
         <layer>
           <thickness>100</thickness>
-          <bd>1.610</bd>
-          <ll15>0.040</ll15>
-          <airdry>0.040</airdry>
-          <dul>0.224</dul>
-          <sat>0.360</sat>
+          <bd>1.61</bd>
+          <ll15>0.04</ll15>
+          <airdry>0.01</airdry>
+          <dul>0.1</dul>
+          <sat>0.36</sat>
           <sw>0.200</sw>
-          <swcon>0.700</swcon>
+          <swcon>0.7</swcon>
           <mwcon>1</mwcon>
           <fbiom>0.010</fbiom>
-          <finert>0.800</finert>
-          <oc>0.200</oc>
-          <ph>4.700</ph>
-          <ll name="Wheat">0.040</ll>
-          <kl name="Wheat">0.050</kl>
-          <xf name="Wheat">0.500</xf>
+          <finert>0.9</finert>
+          <oc>0.2</oc>
+          <ph>6</ph>
+          <ll name="Wheat">0.04</ll>
+          <kl name="Wheat">0.01</kl>
+          <xf name="Wheat">0.66</xf>
         </layer>
         <layer>
           <thickness>100</thickness>
-          <bd>1.870</bd>
-          <ll15>0.080</ll15>
-          <airdry>0.080</airdry>
-          <dul>0.243</dul>
-          <sat>0.270</sat>
+          <bd>1.87</bd>
+          <ll15>0.08</ll15>
+          <airdry>0.01</airdry>
+          <dul>0.13</dul>
+          <sat>0.27</sat>
           <sw>0.200</sw>
-          <swcon>0.700</swcon>
+          <swcon>0.7</swcon>
           <mwcon>1</mwcon>
           <fbiom>0.010</fbiom>
-          <finert>0.850</finert>
-          <oc>0.200</oc>
+          <finert>0.9</finert>
+          <oc>0.2</oc>
           <ph>6</ph>
-          <ll name="Wheat">0.080</ll>
-          <kl name="Wheat">0.040</kl>
-          <xf name="Wheat">0.500</xf>
+          <ll name="Wheat">0.08</ll>
+          <kl name="Wheat">0.03</kl>
+          <xf name="Wheat">1</xf>
         </layer>
         <layer>
           <thickness>100</thickness>
-          <bd>1.870</bd>
-          <ll15>0.080</ll15>
-          <airdry>0.080</airdry>
-          <dul>0.243</dul>
-          <sat>0.270</sat>
+          <bd>1.87</bd>
+          <ll15>0.08</ll15>
+          <airdry>0.01</airdry>
+          <dul>0.14</dul>
+          <sat>0.27</sat>
           <sw>0.210</sw>
-          <swcon>0.700</swcon>
+          <swcon>0.7</swcon>
           <mwcon>1</mwcon>
           <fbiom>0.010</fbiom>
-          <finert>0.900</finert>
-          <oc>0.200</oc>
+          <finert>0.9</finert>
+          <oc>0.2</oc>
           <ph>6</ph>
-          <ll name="Wheat">0.080</ll>
-          <kl name="Wheat">0.040</kl>
-          <xf name="Wheat">0.400</xf>
+          <ll name="Wheat">0.08</ll>
+          <kl name="Wheat">0.03</kl>
+          <xf name="Wheat">1</xf>
         </layer>
         <layer>
           <thickness>100</thickness>
-          <bd>1.910</bd>
-          <ll15>0.110</ll15>
-          <airdry>0.110</airdry>
-          <dul>0.243</dul>
-          <sat>0.260</sat>
+          <bd>1.91</bd>
+          <ll15>0.11</ll15>
+          <airdry>0.01</airdry>
+          <dul>0.15</dul>
+          <sat>0.25</sat>
           <sw>0.220</sw>
-          <swcon>0.700</swcon>
+          <swcon>0.7</swcon>
           <mwcon>1</mwcon>
           <fbiom>0.010</fbiom>
-          <finert>0.950</finert>
-          <oc>0.190</oc>
+          <finert>0.95</finert>
+          <oc>0.19</oc>
           <ph>6</ph>
-          <ll name="Wheat">0.110</ll>
-          <kl name="Wheat">0.030</kl>
-          <xf name="Wheat">0.300</xf>
+          <ll name="Wheat">0.11</ll>
+          <kl name="Wheat">0.03</kl>
+          <xf name="Wheat">1</xf>
         </layer>
         <layer>
           <thickness>100</thickness>
-          <bd>1.910</bd>
-          <ll15>0.110</ll15>
-          <airdry>0.110</airdry>
-          <dul>0.243</dul>
-          <sat>0.260</sat>
+          <bd>1.91</bd>
+          <ll15>0.11</ll15>
+          <airdry>0.01</airdry>
+          <dul>0.15</dul>
+          <sat>0.22</sat>
           <sw>0.220</sw>
-          <swcon>0.700</swcon>
+          <swcon>0.7</swcon>
           <mwcon>1</mwcon>
           <fbiom>0.010</fbiom>
-          <finert>0.950</finert>
-          <oc>0.190</oc>
+          <finert>0.95</finert>
+          <oc>0.19</oc>
           <ph>6</ph>
-          <ll name="Wheat">0.110</ll>
-          <kl name="Wheat">0.030</kl>
-          <xf name="Wheat">0.300</xf>
+          <ll name="Wheat">0.11</ll>
+          <kl name="Wheat">0.03</kl>
+          <xf name="Wheat">0.8</xf>
         </layer>
         <layer>
           <thickness>100</thickness>
-          <bd>1.910</bd>
-          <ll15>0.110</ll15>
-          <airdry>0.110</airdry>
-          <dul>0.243</dul>
-          <sat>0.260</sat>
+          <bd>1.91</bd>
+          <ll15>0.11</ll15>
+          <airdry>0.01</airdry>
+          <dul>0.18</dul>
+          <sat>0.22</sat>
           <sw>0.210</sw>
-          <swcon>0.700</swcon>
-          <mwcon>1</mwcon>
+          <swcon>0.2</swcon>
+          <mwcon>0</mwcon>
           <fbiom>0.010</fbiom>
-          <finert>0.950</finert>
-          <oc>0.100</oc>
+          <finert>0.95</finert>
+          <oc>0.1</oc>
           <ph>6</ph>
-          <ll name="Wheat">0.110</ll>
-          <kl name="Wheat">0.030</kl>
-          <xf name="Wheat">0</xf>
+          <ll name="Wheat">0.11</ll>
+          <kl name="Wheat">0.03</kl>
+          <xf name="Wheat">0.8</xf>
         </layer>
         <layer>
           <thickness>100</thickness>
-          <bd>1.910</bd>
-          <ll15>0.110</ll15>
-          <airdry>0.110</airdry>
-          <dul>0.243</dul>
-          <sat>0.260</sat>
+          <bd>1.91</bd>
+          <ll15>0.11</ll15>
+          <airdry>0.01</airdry>
+          <dul>0.18</dul>
+          <sat>0.22</sat>
           <sw>0.190</sw>
-          <swcon>0.700</swcon>
+          <swcon>0.2</swcon>
           <mwcon>1</mwcon>
           <fbiom>0.010</fbiom>
-          <finert>0.950</finert>
-          <oc>0.100</oc>
+          <finert>0.95</finert>
+          <oc>0.1</oc>
           <ph>6</ph>
-          <ll name="Wheat">0.110</ll>
-          <kl name="Wheat">0.030</kl>
-          <xf name="Wheat">0</xf>
+          <ll name="Wheat">0.11</ll>
+          <kl name="Wheat">0.03</kl>
+          <xf name="Wheat">0.8</xf>
+        </layer>
+        <layer>
+          <thickness>100</thickness>
+          <bd>1.91</bd>
+          <ll15>0.11</ll15>
+          <airdry>0.01</airdry>
+          <dul>0.18</dul>
+          <sat>0.22</sat>
+          <sw>0.190</sw>
+          <swcon>0.2</swcon>
+          <mwcon>1</mwcon>
+          <fbiom>0.010</fbiom>
+          <finert>0.95</finert>
+          <oc>0.1</oc>
+          <ph>6</ph>
+          <ll name="Wheat">0.11</ll>
+          <kl name="Wheat">0.03</kl>
+          <xf name="Wheat">0.8</xf>
+        </layer>
+        <layer>
+          <thickness>100</thickness>
+          <bd>1.91</bd>
+          <ll15>0.11</ll15>
+          <airdry>0.01</airdry>
+          <dul>0.18</dul>
+          <sat>0.22</sat>
+          <sw>0.190</sw>
+          <swcon>0.2</swcon>
+          <mwcon>1</mwcon>
+          <fbiom>0.010</fbiom>
+          <finert>0.95</finert>
+          <oc>0.1</oc>
+          <ph>6</ph>
+          <ll name="Wheat">0.11</ll>
+          <kl name="Wheat">0.03</kl>
+          <xf name="Wheat">0.8</xf>
+        </layer>
+        <layer>
+          <thickness>100</thickness>
+          <bd>1.91</bd>
+          <ll15>0.11</ll15>
+          <airdry>0.01</airdry>
+          <dul>0.18</dul>
+          <sat>0.22</sat>
+          <sw>0.190</sw>
+          <swcon>0.2</swcon>
+          <mwcon>1</mwcon>
+          <fbiom>0.010</fbiom>
+          <finert>0.95</finert>
+          <oc>0.1</oc>
+          <ph>6</ph>
+          <ll name="Wheat">0.11</ll>
+          <kl name="Wheat">0.03</kl>
+          <xf name="Wheat">0.8</xf>
+        </layer>
+        <layer>
+          <thickness>100</thickness>
+          <bd>1.91</bd>
+          <ll15>0.11</ll15>
+          <airdry>0.01</airdry>
+          <dul>0.18</dul>
+          <sat>0.22</sat>
+          <sw>0.190</sw>
+          <swcon>0.2</swcon>
+          <mwcon>1</mwcon>
+          <fbiom>0.010</fbiom>
+          <finert>0.95</finert>
+          <oc>0.1</oc>
+          <ph>6</ph>
+          <ll name="Wheat">0.11</ll>
+          <kl name="Wheat">0.03</kl>
+          <xf name="Wheat">0.8</xf>
         </layer>
       </profile>
       <Cona>2</Cona>
       <DiffusConst>88</DiffusConst>
       <DiffusSlope>35</DiffusSlope>
-      <U>6</U>
+      <U>2</U>
       <Salb>0.13</Salb>
       <Cn2Bare>25</Cn2Bare>
       <CnRed>20</CnRed>
       <CnCov>0.8</CnCov>
       <CnCanopyFact>0.8</CnCanopyFact>
-      <RootCn>40</RootCn>
+      <RootCn>30</RootCn>
+      <RootWt>500</RootWt>
+      <SoilCn>13</SoilCn>
+      <EnrACoeff>1</EnrACoeff>
+      <EnrBCoeff>1</EnrBCoeff>
+    </soil>
+    <soil name="Kojonup">
+      <Site>Kojonup</Site>
+      <Region>WA</Region>
+      <LocalName>Kojonup</LocalName>
+      <SoilType>sand
+</SoilType>
+      <NearestTown>Kojonup</NearestTown>
+      <NaturalVegetation>Unknown</NaturalVegetation>
+      <InitWater>
+        <PercentMethod>
+          <Percent>1.00</Percent>
+          <Distributed>Filled from top</Distributed>
+        </PercentMethod>
+      </InitWater>
+      <InitNitrogen>
+        <profile>
+          <layer>
+            <no3>7</no3>
+            <nh4>6</nh4>
+            <thickness>200</thickness>
+          </layer>
+          <layer>
+            <no3>1</no3>
+            <nh4>1</nh4>
+            <thickness>200</thickness>
+          </layer>
+          <layer>
+            <no3>3</no3>
+            <nh4>1</nh4>
+            <thickness>200</thickness>
+          </layer>
+          <layer>
+            <no3>1</no3>
+            <nh4>1</nh4>
+            <thickness>200</thickness>
+          </layer>
+          <layer>
+            <no3>1</no3>
+            <nh4>1</nh4>
+            <thickness>200</thickness>
+          </layer>
+          <layer>
+            <no3>1</no3>
+            <nh4>1</nh4>
+            <thickness>200</thickness>
+          </layer>
+          <layer>
+            <no3>1</no3>
+            <nh4>1</nh4>
+            <thickness>200</thickness>
+          </layer>
+          <layer>
+            <no3>1</no3>
+            <nh4>1</nh4>
+            <thickness>200</thickness>
+          </layer>
+          <layer>
+            <no3>0.1</no3>
+            <nh4>0.1</nh4>
+            <thickness>200</thickness>
+          </layer>
+          <layer>
+            <no3>0.1</no3>
+            <nh4>0.1</nh4>
+            <thickness>200</thickness>
+          </layer>
+          <layer>
+            <thickness>200</thickness>
+            <no3>0.1</no3>
+            <nh4>0.1</nh4>
+          </layer>
+          <layer>
+            <thickness>200</thickness>
+            <no3>0.1</no3>
+            <nh4>0.1</nh4>
+          </layer>
+        </profile>
+      </InitNitrogen>
+      <profile>
+        <layer>
+          <thickness>200</thickness>
+          <bd>1.47</bd>
+          <ll15>0.1</ll15>
+          <airdry>0.08</airdry>
+          <dul>0.31</dul>
+          <sat>0.43</sat>
+          <sw>0.120</sw>
+          <swcon>0.5</swcon>
+          <mwcon>1</mwcon>
+          <fbiom>0.04</fbiom>
+          <finert>0.31</finert>
+          <oc>2.49</oc>
+          <ph>5</ph>
+          <ll name="Wheat">0.1</ll>
+          <kl name="Wheat">0.06</kl>
+          <xf name="Wheat">1</xf>
+        </layer>
+        <layer>
+          <thickness>200</thickness>
+          <bd>1.62</bd>
+          <ll15>0.1</ll15>
+          <airdry>0.1</airdry>
+          <dul>0.31</dul>
+          <sat>0.35</sat>
+          <sw>0.120</sw>
+          <swcon>0.5</swcon>
+          <mwcon>1</mwcon>
+          <fbiom>0.04</fbiom>
+          <finert>0.31</finert>
+          <oc>2.49</oc>
+          <ph>5</ph>
+          <ll name="Wheat">0.1</ll>
+          <kl name="Wheat">0.06</kl>
+          <xf name="Wheat">1</xf>
+        </layer>
+        <layer>
+          <thickness>200</thickness>
+          <bd>1.42</bd>
+          <ll15>0.18</ll15>
+          <airdry>0.18</airdry>
+          <dul>0.33</dul>
+          <sat>0.36</sat>
+          <sw>0.120</sw>
+          <swcon>0.5</swcon>
+          <mwcon>1</mwcon>
+          <fbiom>0.03</fbiom>
+          <finert>0.31</finert>
+          <oc>0.85</oc>
+          <ph>5</ph>
+          <ll name="Wheat">0.18</ll>
+          <kl name="Wheat">0.06</kl>
+          <xf name="Wheat">1</xf>
+        </layer>
+        <layer>
+          <thickness>200</thickness>
+          <bd>1.42</bd>
+          <ll15>0.19</ll15>
+          <airdry>0.19</airdry>
+          <dul>0.32</dul>
+          <sat>0.35</sat>
+          <sw>0.120</sw>
+          <swcon>0.5</swcon>
+          <mwcon>1</mwcon>
+          <fbiom>0.02</fbiom>
+          <finert>0.31</finert>
+          <oc>0.8</oc>
+          <ph>5</ph>
+          <ll name="Wheat">0.19</ll>
+          <kl name="Wheat">0.06</kl>
+          <xf name="Wheat">1</xf>
+        </layer>
+        <layer>
+          <thickness>200</thickness>
+          <bd>1.42</bd>
+          <ll15>0.2</ll15>
+          <airdry>0.2</airdry>
+          <dul>0.27</dul>
+          <sat>0.29</sat>
+          <sw>0.120</sw>
+          <swcon>0.4</swcon>
+          <mwcon>0</mwcon>
+          <fbiom>0.01</fbiom>
+          <finert>0.31</finert>
+          <oc>0.55</oc>
+          <ph>5</ph>
+          <ll name="Wheat">0.2</ll>
+          <kl name="Wheat">0.06</kl>
+          <xf name="Wheat">1</xf>
+        </layer>
+        <layer>
+          <thickness>200</thickness>
+          <bd>1.42</bd>
+          <ll15>0.21</ll15>
+          <airdry>0.21</airdry>
+          <dul>0.22</dul>
+          <sat>0.25</sat>
+          <sw>0.120</sw>
+          <swcon>0.5</swcon>
+          <mwcon>1</mwcon>
+          <fbiom>0.01</fbiom>
+          <finert>0.31</finert>
+          <oc>0.5</oc>
+          <ph>5</ph>
+          <ll name="Wheat">0.21</ll>
+          <kl name="Wheat">0.06</kl>
+          <xf name="Wheat">1</xf>
+        </layer>
+        <layer>
+          <thickness>200</thickness>
+          <bd>1.42</bd>
+          <ll15>0.16</ll15>
+          <airdry>0.16</airdry>
+          <dul>0.22</dul>
+          <sat>0.24</sat>
+          <sw>0.120</sw>
+          <swcon>0.5</swcon>
+          <mwcon>1</mwcon>
+          <fbiom>0.01</fbiom>
+          <finert>0.25</finert>
+          <oc>0.45</oc>
+          <ph>5</ph>
+          <ll name="Wheat">0.16</ll>
+          <kl name="Wheat">0</kl>
+          <xf name="Wheat">0</xf>
+        </layer>
+        <layer>
+          <thickness>200</thickness>
+          <bd>1.42</bd>
+          <ll15>0.16</ll15>
+          <airdry>0.16</airdry>
+          <dul>0.19</dul>
+          <sat>0.24</sat>
+          <sw>0.120</sw>
+          <swcon>0.5</swcon>
+          <mwcon>1</mwcon>
+          <fbiom>0.01</fbiom>
+          <finert>0.2</finert>
+          <oc>0.45</oc>
+          <ph>5</ph>
+          <ll name="Wheat">0.16</ll>
+          <kl name="Wheat">0</kl>
+          <xf name="Wheat">0</xf>
+        </layer>
+        <layer>
+          <thickness>200</thickness>
+          <bd>1.42</bd>
+          <ll15>0.16</ll15>
+          <airdry>0.16</airdry>
+          <dul>0.16</dul>
+          <sat>0.21</sat>
+          <sw>0.120</sw>
+          <swcon>0.5</swcon>
+          <mwcon>1</mwcon>
+          <fbiom>0.01</fbiom>
+          <finert>0.2</finert>
+          <oc>0.4</oc>
+          <ph>5</ph>
+          <ll name="Wheat">0.16</ll>
+          <kl name="Wheat">0</kl>
+          <xf name="Wheat">0</xf>
+        </layer>
+        <layer>
+          <thickness>200</thickness>
+          <bd>1.42</bd>
+          <ll15>0.16</ll15>
+          <airdry>0.16</airdry>
+          <dul>0.16</dul>
+          <sat>0.17</sat>
+          <sw>0.120</sw>
+          <swcon>0.5</swcon>
+          <mwcon>1</mwcon>
+          <fbiom>0.01</fbiom>
+          <finert>0.2</finert>
+          <oc>0.4</oc>
+          <ph>5</ph>
+          <ll name="Wheat">0.16</ll>
+          <kl name="Wheat">0</kl>
+          <xf name="Wheat">0</xf>
+        </layer>
+        <layer>
+          <thickness>200</thickness>
+          <bd>1.42</bd>
+          <ll15>0.13</ll15>
+          <airdry>0.13</airdry>
+          <dul>0.16</dul>
+          <sat>0.18</sat>
+          <sw>0.120</sw>
+          <swcon>0.5</swcon>
+          <mwcon>1</mwcon>
+          <fbiom>0.01</fbiom>
+          <finert>0.2</finert>
+          <oc>0.2</oc>
+          <ph>5</ph>
+          <ll name="Wheat">0.13</ll>
+          <kl name="Wheat">0</kl>
+          <xf name="Wheat">0</xf>
+        </layer>
+        <layer>
+          <thickness>200</thickness>
+          <bd>1.42</bd>
+          <ll15>0.13</ll15>
+          <airdry>0.13</airdry>
+          <dul>0.16</dul>
+          <sat>0.18</sat>
+          <sw>0.120</sw>
+          <swcon>0.5</swcon>
+          <mwcon>1</mwcon>
+          <fbiom>0.01</fbiom>
+          <finert>0.2</finert>
+          <oc>0.2</oc>
+          <ph>5</ph>
+          <ll name="Wheat">0.13</ll>
+          <kl name="Wheat">0</kl>
+          <xf name="Wheat">0</xf>
+        </layer>
+      </profile>
+      <Cona>3</Cona>
+      <DiffusConst>40</DiffusConst>
+      <DiffusSlope>16</DiffusSlope>
+      <U>6</U>
+      <Salb>0.13</Salb>
+      <Cn2Bare>60</Cn2Bare>
+      <CnRed>20</CnRed>
+      <CnCov>0.8</CnCov>
+      <CnCanopyFact>0.8</CnCanopyFact>
+      <RootCn>30</RootCn>
       <RootWt>500</RootWt>
       <SoilCn>13</SoilCn>
       <EnrACoeff>1</EnrACoeff>
@@ -4557,6 +4960,7 @@
       <variable name="wheat.root_depth" description="plant rooting depth" array="?" />
       <variable name="wheat.ep" description="wheat water use" array="?" />
       <variable name="eo" description="potential et" array="?" />
+      <variable name="water_table" description="Water Table Depth" array="?" />
     </variables>
     <events name="DailyVariables Events">
       <event name="Daily" description="End of day" />
@@ -25492,7 +25896,7 @@
                endif
              </condition>
             <category name="Sowing criteria">
-              <date type="text" description="Enter sowing date (d/m/yyyy) : ">30/04/1991</date>
+              <date type="text" description="Enter sowing date (d/m/yyyy) : ">30/04/1992</date>
             </category>
             <category name="Sowing parameters">
               <crop type="modulename" description="Enter name of crop to sow : ">Wheat</crop>
@@ -25600,7 +26004,7 @@
                endif
              </condition>
             <category name="Sowing criteria">
-              <date type="text" description="Enter sowing date (d/m/yyyy) : ">30/04/1991</date>
+              <date type="text" description="Enter sowing date (d/m/yyyy) : ">30/04/1992</date>
             </category>
             <category name="Sowing parameters">
               <crop type="modulename" description="Enter name of crop to sow : ">Wheat</crop>
@@ -25708,7 +26112,7 @@
                endif
              </condition>
             <category name="Sowing criteria">
-              <date type="text" description="Enter sowing date (d/m/yyyy) : ">15/06/1991</date>
+              <date type="text" description="Enter sowing date (d/m/yyyy) : ">15/06/1992</date>
             </category>
             <category name="Sowing parameters">
               <crop type="modulename" description="Enter name of crop to sow : ">Wheat</crop>
@@ -25816,7 +26220,7 @@
                endif
              </condition>
             <category name="Sowing criteria">
-              <date type="text" description="Enter sowing date (d/m/yyyy) : ">15/06/1991</date>
+              <date type="text" description="Enter sowing date (d/m/yyyy) : ">15/06/1992</date>
             </category>
             <category name="Sowing parameters">
               <crop type="modulename" description="Enter name of crop to sow : ">Wheat</crop>
@@ -33517,7 +33921,7 @@
   <folder name="Corrigin">
     <simulation name="Wheat_Corrigin_DryBasal">
       <clock name="clock">
-        <start_date name="start_date" description="Select the start date of the simulation" type="date" lbound="1/01/2005" ubound="31/12/2005">30/05/2005</start_date>
+        <start_date name="start_date" description="Select the start date of the simulation" type="date" lbound="1/01/2005" ubound="31/12/2005">1/02/2005</start_date>
         <end_date name="end_date" description="Select the end date of the simulation" type="date" lbound="1/01/2005" ubound="31/12/2005">30/12/2005</end_date>
       </clock>
       <summaryfile name="summaryfile">
@@ -33639,15 +34043,15 @@
         <surfaceom name="Surface Organic Matter">
           <PoolName description="Organic Matter pool name">canola</PoolName>
           <type description="Organic Matter type">canola</type>
-          <mass description="Initial surface residue (kg/ha)">500</mass>
-          <cnr description="C:N ratio of initial residue">60</cnr>
+          <mass description="Initial surface residue (kg/ha)">1000</mass>
+          <cnr description="C:N ratio of initial residue">40</cnr>
           <standing_fraction description="Fraction of residue standing">0.0</standing_fraction>
         </surfaceom>
       </area>
     </simulation>
     <simulation name="Wheat_Corrigin_DryBasalTopDress">
       <clock name="clock">
-        <start_date name="start_date" description="Select the start date of the simulation" type="date" lbound="1/01/2005" ubound="31/12/2005">30/05/2005</start_date>
+        <start_date name="start_date" description="Select the start date of the simulation" type="date" lbound="1/01/2005" ubound="31/12/2005">1/02/2005</start_date>
         <end_date name="end_date" description="Select the end date of the simulation" type="date" lbound="1/01/2005" ubound="31/12/2005">30/12/2005</end_date>
       </clock>
       <summaryfile name="summaryfile">
@@ -33785,17 +34189,17 @@
         </logic>
         <soil name="Corrigin" shortcut="Corrigin" />
         <surfaceom name="Surface Organic Matter">
-          <PoolName description="Organic Matter pool name">canola</PoolName>
-          <type description="Organic Matter type">canola</type>
-          <mass description="Initial surface residue (kg/ha)">500</mass>
-          <cnr description="C:N ratio of initial residue">60</cnr>
+          <PoolName description="Organic Matter pool name">lupin</PoolName>
+          <type description="Organic Matter type">lupin</type>
+          <mass description="Initial surface residue (kg/ha)">1000</mass>
+          <cnr description="C:N ratio of initial residue">40</cnr>
           <standing_fraction description="Fraction of residue standing">0.0</standing_fraction>
         </surfaceom>
       </area>
     </simulation>
     <simulation name="Wheat_Corrigin_10mmBasal">
       <clock name="clock">
-        <start_date name="start_date" description="Select the start date of the simulation" type="date" lbound="1/01/2005" ubound="31/12/2005">30/05/2005</start_date>
+        <start_date name="start_date" description="Select the start date of the simulation" type="date" lbound="1/01/2005" ubound="31/12/2005">1/02/2005</start_date>
         <end_date name="end_date" description="Select the end date of the simulation" type="date" lbound="1/01/2005" ubound="31/12/2005">30/12/2005</end_date>
       </clock>
       <summaryfile name="summaryfile">
@@ -33915,10 +34319,10 @@
         </logic>
         <soil name="Corrigin" shortcut="Corrigin" />
         <surfaceom name="Surface Organic Matter">
-          <PoolName description="Organic Matter pool name">canola</PoolName>
-          <type description="Organic Matter type">canola</type>
-          <mass description="Initial surface residue (kg/ha)">500</mass>
-          <cnr description="C:N ratio of initial residue">60</cnr>
+          <PoolName description="Organic Matter pool name">lupin</PoolName>
+          <type description="Organic Matter type">lupin</type>
+          <mass description="Initial surface residue (kg/ha)">1000</mass>
+          <cnr description="C:N ratio of initial residue">40</cnr>
           <standing_fraction description="Fraction of residue standing">0.0</standing_fraction>
         </surfaceom>
         <operations>
@@ -33986,6 +34390,7 @@
             <variable name="sw" />
             <variable name="no3" />
             <variable name="flow_no3(8)" />
+            <variable name="dlayer" />
           </variables>
           <events name="Reporting Frequency">
             <event name="Daily" description="End of daily simulation time step" />
@@ -33995,7 +34400,7 @@
     </simulation>
     <simulation name="Wheat_Corrigin_10mmBasalTopDress">
       <clock name="clock">
-        <start_date name="start_date" description="Select the start date of the simulation" type="date" lbound="1/01/2005" ubound="31/12/2005">30/05/2005</start_date>
+        <start_date name="start_date" description="Select the start date of the simulation" type="date" lbound="1/01/2005" ubound="31/12/2005">1/02/2005</start_date>
         <end_date name="end_date" description="Select the end date of the simulation" type="date" lbound="1/01/2005" ubound="31/12/2005">30/12/2005</end_date>
       </clock>
       <summaryfile name="summaryfile">
@@ -34089,7 +34494,7 @@
             <category name="Fertiliser application details">
               <fertmodule type="modulename" description="Module used to apply the fertiliser : ">fertiliser</fertmodule>
               <fert_amount type="text" description="Amount of fertiliser to apply (kg/ha) : ">50</fert_amount>
-              <fert_type type="list" listvalues="NO3_N, NH4_N, NH4NO3, urea_N, urea_no3, urea" description="Sowing fertiliser type : "> urea_N</fert_type>
+              <fert_type type="list" listvalues="NO3_N, NH4_N, NH4NO3, urea_N, urea_no3, urea" description="Sowing fertiliser type : ">NO3_N</fert_type>
             </category>
           </rule>
         </manager>
@@ -34133,10 +34538,10 @@
         </logic>
         <soil name="Corrigin" shortcut="Corrigin" />
         <surfaceom name="Surface Organic Matter">
-          <PoolName description="Organic Matter pool name">canola</PoolName>
-          <type description="Organic Matter type">canola</type>
-          <mass description="Initial surface residue (kg/ha)">500</mass>
-          <cnr description="C:N ratio of initial residue">60</cnr>
+          <PoolName description="Organic Matter pool name">lupin</PoolName>
+          <type description="Organic Matter type">lupin</type>
+          <mass description="Initial surface residue (kg/ha)">1000</mass>
+          <cnr description="C:N ratio of initial residue">40</cnr>
           <standing_fraction description="Fraction of residue standing">0.0</standing_fraction>
         </surfaceom>
         <operations>
@@ -34204,6 +34609,7 @@
             <variable name="sw" />
             <variable name="no3" />
             <variable name="flow_no3(8)" />
+            <variable name="dlayer" />
           </variables>
           <events name="Reporting Frequency">
             <event name="Daily" description="End of daily simulation time step" />
@@ -34213,7 +34619,7 @@
     </simulation>
     <simulation name="Wheat_Corrigin_40mmBasal">
       <clock name="clock">
-        <start_date name="start_date" description="Select the start date of the simulation" type="date" lbound="1/01/2005" ubound="31/12/2005">30/05/2005</start_date>
+        <start_date name="start_date" description="Select the start date of the simulation" type="date" lbound="1/01/2005" ubound="31/12/2005">1/02/2005</start_date>
         <end_date name="end_date" description="Select the end date of the simulation" type="date" lbound="1/01/2005" ubound="31/12/2005">30/12/2005</end_date>
       </clock>
       <summaryfile name="summaryfile">
@@ -34333,10 +34739,10 @@
         </logic>
         <soil name="Corrigin" shortcut="Corrigin" />
         <surfaceom name="Surface Organic Matter">
-          <PoolName description="Organic Matter pool name">canola</PoolName>
-          <type description="Organic Matter type">canola</type>
-          <mass description="Initial surface residue (kg/ha)">500</mass>
-          <cnr description="C:N ratio of initial residue">60</cnr>
+          <PoolName description="Organic Matter pool name">lupin</PoolName>
+          <type description="Organic Matter type">lupin</type>
+          <mass description="Initial surface residue (kg/ha)">1000</mass>
+          <cnr description="C:N ratio of initial residue">40</cnr>
           <standing_fraction description="Fraction of residue standing">0.0</standing_fraction>
         </surfaceom>
         <operations>
@@ -34357,7 +34763,7 @@
     </simulation>
     <simulation name="Wheat_Corrigin_40mmBasalTopDress">
       <clock name="clock">
-        <start_date name="start_date" description="Select the start date of the simulation" type="date" lbound="1/01/2005" ubound="31/12/2005">30/05/2005</start_date>
+        <start_date name="start_date" description="Select the start date of the simulation" type="date" lbound="1/01/2005" ubound="31/12/2005">1/02/2005</start_date>
         <end_date name="end_date" description="Select the end date of the simulation" type="date" lbound="1/01/2005" ubound="31/12/2005">30/12/2005</end_date>
       </clock>
       <summaryfile name="summaryfile">
@@ -34451,7 +34857,7 @@
             <category name="Fertiliser application details">
               <fertmodule type="modulename" description="Module used to apply the fertiliser : ">fertiliser</fertmodule>
               <fert_amount type="text" description="Amount of fertiliser to apply (kg/ha) : ">50</fert_amount>
-              <fert_type type="list" listvalues="NO3_N, NH4_N, NH4NO3, urea_N, urea_no3, urea" description="Sowing fertiliser type : "> urea_N</fert_type>
+              <fert_type type="list" listvalues="NO3_N, NH4_N, NH4NO3, urea_N, urea_no3, urea" description="Sowing fertiliser type : ">NO3_N</fert_type>
             </category>
           </rule>
         </manager>
@@ -34495,10 +34901,10 @@
         </logic>
         <soil name="Corrigin" shortcut="Corrigin" />
         <surfaceom name="Surface Organic Matter">
-          <PoolName description="Organic Matter pool name">canola</PoolName>
-          <type description="Organic Matter type">canola</type>
-          <mass description="Initial surface residue (kg/ha)">500</mass>
-          <cnr description="C:N ratio of initial residue">60</cnr>
+          <PoolName description="Organic Matter pool name">lupin</PoolName>
+          <type description="Organic Matter type">lupin</type>
+          <mass description="Initial surface residue (kg/ha)">1000</mass>
+          <cnr description="C:N ratio of initial residue">40</cnr>
           <standing_fraction description="Fraction of residue standing">0.0</standing_fraction>
         </surfaceom>
         <operations>
@@ -34526,6 +34932,7 @@
             <variable name="sw" />
             <variable name="no3" />
             <variable name="flow_no3(8)" />
+            <variable name="dlayer" />
           </variables>
           <events name="Reporting Frequency">
             <event name="Daily" description="End of daily simulation time step" />
@@ -35051,6 +35458,417 @@
           <type description="Organic Matter type">lupin</type>
           <mass description="Initial surface residue (kg/ha)">4500</mass>
           <cnr description="C:N ratio of initial residue">25</cnr>
+          <standing_fraction description="Fraction of residue standing">0.0</standing_fraction>
+        </surfaceom>
+      </area>
+    </simulation>
+  </folder>
+  <folder name="Kojonup">
+    <simulation name="Wheat_Kojonup01_Upper">
+      <clock name="clock">
+        <start_date name="start_date" description="Select the start date of the simulation" type="date" lbound="1/01/2001" ubound="31/12/2003">1/01/2001</start_date>
+        <end_date name="end_date" description="Select the end date of the simulation" type="date" lbound="1/01/2001" ubound="31/12/2003">31/12/2001</end_date>
+      </clock>
+      <summaryfile name="summaryfile">
+        <filename name="filename">Wheat_Cunderdin97_DryN50bWilgoyneMid.sum</filename>
+      </summaryfile>
+      <metfile name="met">
+        <filename name="filename">C:\development\apsim\Wheat\Validation\Files\Kojonup0103.met</filename>
+      </metfile>
+      <area name="paddock">
+        <registrations name="global" />
+        <outputfile name="outputfile">
+          <filename name="filename">Wheat_Cunderdin97_DryN50bWilgoyneMid.out</filename>
+          <variables name="DailyVariables" shortcut="DailyVariables" />
+          <events name="DailyVariables Events" shortcut="DailyVariables Events" />
+        </outputfile>
+        <manager name="Manager">
+          <rule name="Sow on a fixed date">
+            <condition name="start_of_day">
+               if (paddock_is_fallow() = 1 and today = date('[date]')) then
+                 [crop] sow plants =[density], sowing_depth = [depth], cultivar = [cultivar], row_spacing = [row_spacing]
+               endif
+             </condition>
+            <category name="Sowing criteria">
+              <date type="text" description="Enter sowing date (d/m/yyyy) : ">25/05/2001</date>
+            </category>
+            <category name="Sowing parameters">
+              <crop type="modulename" description="Enter name of crop to sow : ">Wheat</crop>
+              <density type="text" description="Enter sowing density  (plants/m2) : ">135</density>
+              <depth type="text" description="Enter sowing depth  (mm) : ">30</depth>
+              <cultivar type="cultivars" croppropertyname="crop" description="Enter cultivar : ">wyalkatchem</cultivar>
+              <row_spacing type="text" description="Enter row spacing (m) : ">180</row_spacing>
+            </category>
+          </rule>
+          <rule name="Harvesting rule">
+            <condition name="end_of_day">
+
+           if [crop].stage_name = 'harvest_ripe' or [crop].plant_status = 'dead' then
+              [crop]  harvest
+              [crop]  end_crop
+           endif
+
+            </condition>
+            <category name="Harvesting criteria">
+              <crop type="modulename" description="Enter name of crop to harvest when ripe : ">Wheat</crop>
+            </category>
+          </rule>
+          <rule name="Fertilise at sowing">
+            <condition name="[modulename].[eventname]">
+           [fertmodule] apply amount = [fert_amount_sow] (kg/ha), depth = 50 (mm), type = [fert_type_sow]
+               </condition>
+            <category name="When should fertiliser be applied">
+              <modulename type="modulename" description="On which module should the event come from : ">wheat</modulename>
+              <eventname type="text" description="On which event should fertiliser be applied : ">sowing</eventname>
+            </category>
+            <category name="Fertiliser application details">
+              <fertmodule type="modulename" description="Module used to apply the fertiliser : ">fertiliser</fertmodule>
+              <fert_amount_sow type="text" description="Amount of starter fertiliser at sowing (kg/ha) : ">17</fert_amount_sow>
+              <fert_type_sow type="list" listvalues="NO3_N, NH4_N, NH4NO3, urea_N, urea_no3, urea" description="Sowing fertiliser type : ">NO3_N</fert_type_sow>
+            </category>
+          </rule>
+          <rule name="Fertilise on fixed date">
+            <condition name="start_of_day"><![CDATA[
+            if (today = date('[fert_date]') then
+               N_topsoil = no3(1) + nh4(1) + no3(2) + nh4(2)
+               if (N_topsoil < [fert_criteria]) then
+                  [fertmodule] apply amount = [fert_amount] (kg/ha), depth = 50 (mm), type = [fert_type] ()
+               endif
+            endif ]]></condition>
+            <category name="When should fertiliser be applied">
+              <fert_date type="ddmmmdate" description="Enter fertiliser date (dd-mmm) : ">14-jul</fert_date>
+              <fert_criteria type="text" description="Don't add fertiliser if N in top 2 layers exceeds (kg/ha) : ">1000</fert_criteria>
+            </category>
+            <category name="Fertiliser application details">
+              <fertmodule type="modulename" description="Module used to apply the fertiliser : ">fertiliser</fertmodule>
+              <fert_amount type="text" description="Amount of fertiliser to apply (kg/ha) : ">83</fert_amount>
+              <fert_type type="list" listvalues="NO3_N, NH4_N, NH4NO3, urea_N, urea_no3, urea" description="Sowing fertiliser type : ">NO3_N</fert_type>
+            </category>
+          </rule>
+        </manager>
+        <wheat />
+        <irrigation name="Irrigation">
+          <property name="automatic_irrigation" type="text" description="switch">off</property>
+          <property name="asw_depth" type="text" description="Depth to which ASW is calculated. (mm)">600.0</property>
+          <property name="crit_fr_asw" type="text" description="Fraction of ASW below which irrigation is applied (0-1.0)">0.9</property>
+          <property name="irrigation_efficiency" description="Efficiency of the irrigation. (0-1.0)">1.0</property>
+        </irrigation>
+        <logic name="Irrigator">
+          <script>
+            <event>init</event>
+            <text />
+          </script>
+          <script>
+            <event>start_of_day</event>
+            <text> ! irrigation record from senthold
+
+</text>
+          </script>
+          <script>
+            <event>end_of_day</event>
+            <text />
+          </script>
+        </logic>
+        <fertiliser name="fertiliser" />
+        <logic name="Fertilizer">
+          <script>
+            <event>init</event>
+            <text />
+          </script>
+          <script>
+            <event>start_of_day</event>
+            <text />
+          </script>
+          <script>
+            <event>end_of_day</event>
+            <text />
+          </script>
+        </logic>
+        <soil name="Kojonup" shortcut="Kojonup" />
+        <surfaceom name="Surface Organic Matter">
+          <PoolName description="Organic Matter pool name">canola</PoolName>
+          <type description="Organic Matter type">canola</type>
+          <mass description="Initial surface residue (kg/ha)">1000</mass>
+          <cnr description="C:N ratio of initial residue">20</cnr>
+          <standing_fraction description="Fraction of residue standing">0.0</standing_fraction>
+        </surfaceom>
+      </area>
+    </simulation>
+    <simulation name="Wheat_Kojonup02_Upper">
+      <clock name="clock">
+        <start_date name="start_date" description="Select the start date of the simulation" type="date" lbound="1/01/2001" ubound="31/12/2003">1/01/2002</start_date>
+        <end_date name="end_date" description="Select the end date of the simulation" type="date" lbound="1/01/2001" ubound="31/12/2003">31/12/2002</end_date>
+      </clock>
+      <summaryfile name="summaryfile">
+        <filename name="filename">Wheat_Cunderdin97_DryN50bWilgoyneMid.sum</filename>
+      </summaryfile>
+      <metfile name="met">
+        <filename name="filename">C:\development\apsim\Wheat\Validation\Files\Kojonup0103.met</filename>
+      </metfile>
+      <area name="paddock">
+        <registrations name="global" />
+        <outputfile name="outputfile">
+          <filename name="filename">Wheat_Cunderdin97_DryN50bWilgoyneMid.out</filename>
+          <variables name="DailyVariables" shortcut="DailyVariables" />
+          <events name="DailyVariables Events" shortcut="DailyVariables Events" />
+        </outputfile>
+        <manager name="Manager">
+          <rule name="Sow on a fixed date">
+            <condition name="start_of_day">
+               if (paddock_is_fallow() = 1 and today = date('[date]')) then
+                 [crop] sow plants =[density], sowing_depth = [depth], cultivar = [cultivar], row_spacing = [row_spacing]
+               endif
+             </condition>
+            <category name="Sowing criteria">
+              <date type="text" description="Enter sowing date (d/m/yyyy) : ">9/05/2002</date>
+            </category>
+            <category name="Sowing parameters">
+              <crop type="modulename" description="Enter name of crop to sow : ">Wheat</crop>
+              <density type="text" description="Enter sowing density  (plants/m2) : ">150</density>
+              <depth type="text" description="Enter sowing depth  (mm) : ">30</depth>
+              <cultivar type="cultivars" croppropertyname="crop" description="Enter cultivar : ">wyalkatchem</cultivar>
+              <row_spacing type="text" description="Enter row spacing (m) : ">180</row_spacing>
+            </category>
+          </rule>
+          <rule name="Harvesting rule">
+            <condition name="end_of_day">
+
+           if [crop].stage_name = 'harvest_ripe' or [crop].plant_status = 'dead' then
+              [crop]  harvest
+              [crop]  end_crop
+           endif
+
+            </condition>
+            <category name="Harvesting criteria">
+              <crop type="modulename" description="Enter name of crop to harvest when ripe : ">Wheat</crop>
+            </category>
+          </rule>
+          <rule name="Fertilise at sowing">
+            <condition name="[modulename].[eventname]">
+           [fertmodule] apply amount = [fert_amount_sow] (kg/ha), depth = 50 (mm), type = [fert_type_sow]
+               </condition>
+            <category name="When should fertiliser be applied">
+              <modulename type="modulename" description="On which module should the event come from : ">wheat</modulename>
+              <eventname type="text" description="On which event should fertiliser be applied : ">sowing</eventname>
+            </category>
+            <category name="Fertiliser application details">
+              <fertmodule type="modulename" description="Module used to apply the fertiliser : ">fertiliser</fertmodule>
+              <fert_amount_sow type="text" description="Amount of starter fertiliser at sowing (kg/ha) : ">17</fert_amount_sow>
+              <fert_type_sow type="list" listvalues="NO3_N, NH4_N, NH4NO3, urea_N, urea_no3, urea" description="Sowing fertiliser type : ">NO3_N</fert_type_sow>
+            </category>
+          </rule>
+          <rule name="Fertilise on fixed date">
+            <condition name="start_of_day"><![CDATA[
+            if (today = date('[fert_date]') then
+               N_topsoil = no3(1) + nh4(1) + no3(2) + nh4(2)
+               if (N_topsoil < [fert_criteria]) then
+                  [fertmodule] apply amount = [fert_amount] (kg/ha), depth = 50 (mm), type = [fert_type] ()
+               endif
+            endif ]]></condition>
+            <category name="When should fertiliser be applied">
+              <fert_date type="ddmmmdate" description="Enter fertiliser date (dd-mmm) : ">14-jul</fert_date>
+              <fert_criteria type="text" description="Don't add fertiliser if N in top 2 layers exceeds (kg/ha) : ">1000</fert_criteria>
+            </category>
+            <category name="Fertiliser application details">
+              <fertmodule type="modulename" description="Module used to apply the fertiliser : ">fertiliser</fertmodule>
+              <fert_amount type="text" description="Amount of fertiliser to apply (kg/ha) : ">83</fert_amount>
+              <fert_type type="list" listvalues="NO3_N, NH4_N, NH4NO3, urea_N, urea_no3, urea" description="Sowing fertiliser type : ">NO3_N</fert_type>
+            </category>
+          </rule>
+        </manager>
+        <wheat />
+        <irrigation name="Irrigation">
+          <property name="automatic_irrigation" type="text" description="switch">off</property>
+          <property name="asw_depth" type="text" description="Depth to which ASW is calculated. (mm)">600.0</property>
+          <property name="crit_fr_asw" type="text" description="Fraction of ASW below which irrigation is applied (0-1.0)">0.9</property>
+          <property name="irrigation_efficiency" description="Efficiency of the irrigation. (0-1.0)">1.0</property>
+        </irrigation>
+        <logic name="Irrigator">
+          <script>
+            <event>init</event>
+            <text />
+          </script>
+          <script>
+            <event>start_of_day</event>
+            <text> ! irrigation record from senthold
+
+</text>
+          </script>
+          <script>
+            <event>end_of_day</event>
+            <text />
+          </script>
+        </logic>
+        <fertiliser name="fertiliser" />
+        <logic name="WaterTable">
+          <script>
+            <event>init</event>
+            <text />
+          </script>
+          <script>
+            <event>start_of_day</event>
+            <text />
+          </script>
+          <script>
+            <event>end_of_day</event>
+            <text />
+          </script>
+        </logic>
+        <soil name="Kojonup" shortcut="Kojonup" />
+        <surfaceom name="Surface Organic Matter">
+          <PoolName description="Organic Matter pool name">canola</PoolName>
+          <type description="Organic Matter type">canola</type>
+          <mass description="Initial surface residue (kg/ha)">1000</mass>
+          <cnr description="C:N ratio of initial residue">20</cnr>
+          <standing_fraction description="Fraction of residue standing">0.0</standing_fraction>
+        </surfaceom>
+        <outputfile name="SoilOutput">
+          <filename name="filename">sample.out</filename>
+          <variables name="Variables">
+            <variable name="dd/mm/yyyy as Date" description="Date (dd/mm/yyyy)" array="?" />
+            <variable name="day" array="Day" />
+            <variable name="sw_dep()" />
+            <variable name="no3()" />
+            <variable name="nh4()" />
+            <variable name="urea()" />
+            <variable name="sw" />
+            <variable name="no3" />
+            <variable name="flow_no3(8)" />
+            <variable name="dlayer" />
+            <variable name="water_table" />
+          </variables>
+          <events name="Reporting Frequency">
+            <event name="Daily" description="End of daily simulation time step" />
+          </events>
+        </outputfile>
+      </area>
+    </simulation>
+    <simulation name="Wheat_Kojonup03_Upper">
+      <clock name="clock">
+        <start_date name="start_date" description="Select the start date of the simulation" type="date" lbound="1/01/2001" ubound="31/12/2003">1/01/2003</start_date>
+        <end_date name="end_date" description="Select the end date of the simulation" type="date" lbound="1/01/2001" ubound="31/12/2003">31/12/2003</end_date>
+      </clock>
+      <summaryfile name="summaryfile">
+        <filename name="filename">Wheat_Cunderdin97_DryN50bWilgoyneMid.sum</filename>
+      </summaryfile>
+      <metfile name="met">
+        <filename name="filename">C:\development\apsim\Wheat\Validation\Files\Kojonup0103.met</filename>
+      </metfile>
+      <area name="paddock">
+        <registrations name="global" />
+        <outputfile name="outputfile">
+          <filename name="filename">Wheat_Cunderdin97_DryN50bWilgoyneMid.out</filename>
+          <variables name="DailyVariables" shortcut="DailyVariables" />
+          <events name="DailyVariables Events" shortcut="DailyVariables Events" />
+        </outputfile>
+        <manager name="Manager">
+          <rule name="Sow on a fixed date">
+            <condition name="start_of_day">
+               if (paddock_is_fallow() = 1 and today = date('[date]')) then
+                 [crop] sow plants =[density], sowing_depth = [depth], cultivar = [cultivar], row_spacing = [row_spacing]
+               endif
+             </condition>
+            <category name="Sowing criteria">
+              <date type="text" description="Enter sowing date (d/m/yyyy) : ">14/05/2003</date>
+            </category>
+            <category name="Sowing parameters">
+              <crop type="modulename" description="Enter name of crop to sow : ">Wheat</crop>
+              <density type="text" description="Enter sowing density  (plants/m2) : ">150</density>
+              <depth type="text" description="Enter sowing depth  (mm) : ">30</depth>
+              <cultivar type="cultivars" croppropertyname="crop" description="Enter cultivar : ">wyalkatchem</cultivar>
+              <row_spacing type="text" description="Enter row spacing (m) : ">180</row_spacing>
+            </category>
+          </rule>
+          <rule name="Harvesting rule">
+            <condition name="end_of_day">
+
+           if [crop].stage_name = 'harvest_ripe' or [crop].plant_status = 'dead' then
+              [crop]  harvest
+              [crop]  end_crop
+           endif
+
+            </condition>
+            <category name="Harvesting criteria">
+              <crop type="modulename" description="Enter name of crop to harvest when ripe : ">Wheat</crop>
+            </category>
+          </rule>
+          <rule name="Fertilise at sowing">
+            <condition name="[modulename].[eventname]">
+           [fertmodule] apply amount = [fert_amount_sow] (kg/ha), depth = 50 (mm), type = [fert_type_sow]
+               </condition>
+            <category name="When should fertiliser be applied">
+              <modulename type="modulename" description="On which module should the event come from : ">wheat</modulename>
+              <eventname type="text" description="On which event should fertiliser be applied : ">sowing</eventname>
+            </category>
+            <category name="Fertiliser application details">
+              <fertmodule type="modulename" description="Module used to apply the fertiliser : ">fertiliser</fertmodule>
+              <fert_amount_sow type="text" description="Amount of starter fertiliser at sowing (kg/ha) : ">17</fert_amount_sow>
+              <fert_type_sow type="list" listvalues="NO3_N, NH4_N, NH4NO3, urea_N, urea_no3, urea" description="Sowing fertiliser type : ">NO3_N</fert_type_sow>
+            </category>
+          </rule>
+          <rule name="Fertilise on fixed date">
+            <condition name="start_of_day"><![CDATA[
+            if (today = date('[fert_date]') then
+               N_topsoil = no3(1) + nh4(1) + no3(2) + nh4(2)
+               if (N_topsoil < [fert_criteria]) then
+                  [fertmodule] apply amount = [fert_amount] (kg/ha), depth = 50 (mm), type = [fert_type] ()
+               endif
+            endif ]]></condition>
+            <category name="When should fertiliser be applied">
+              <fert_date type="ddmmmdate" description="Enter fertiliser date (dd-mmm) : ">14-jul</fert_date>
+              <fert_criteria type="text" description="Don't add fertiliser if N in top 2 layers exceeds (kg/ha) : ">1000</fert_criteria>
+            </category>
+            <category name="Fertiliser application details">
+              <fertmodule type="modulename" description="Module used to apply the fertiliser : ">fertiliser</fertmodule>
+              <fert_amount type="text" description="Amount of fertiliser to apply (kg/ha) : ">83</fert_amount>
+              <fert_type type="list" listvalues="NO3_N, NH4_N, NH4NO3, urea_N, urea_no3, urea" description="Sowing fertiliser type : ">NO3_N</fert_type>
+            </category>
+          </rule>
+        </manager>
+        <wheat />
+        <irrigation name="Irrigation">
+          <property name="automatic_irrigation" type="text" description="switch">off</property>
+          <property name="asw_depth" type="text" description="Depth to which ASW is calculated. (mm)">600.0</property>
+          <property name="crit_fr_asw" type="text" description="Fraction of ASW below which irrigation is applied (0-1.0)">0.9</property>
+          <property name="irrigation_efficiency" description="Efficiency of the irrigation. (0-1.0)">1.0</property>
+        </irrigation>
+        <logic name="Irrigator">
+          <script>
+            <event>init</event>
+            <text />
+          </script>
+          <script>
+            <event>start_of_day</event>
+            <text> ! irrigation record from senthold
+
+</text>
+          </script>
+          <script>
+            <event>end_of_day</event>
+            <text />
+          </script>
+        </logic>
+        <fertiliser name="fertiliser" />
+        <logic name="Fertilizer">
+          <script>
+            <event>init</event>
+            <text />
+          </script>
+          <script>
+            <event>start_of_day</event>
+            <text />
+          </script>
+          <script>
+            <event>end_of_day</event>
+            <text />
+          </script>
+        </logic>
+        <soil name="Kojonup" shortcut="Kojonup" />
+        <surfaceom name="Surface Organic Matter">
+          <PoolName description="Organic Matter pool name">canola</PoolName>
+          <type description="Organic Matter type">canola</type>
+          <mass description="Initial surface residue (kg/ha)">1000</mass>
+          <cnr description="C:N ratio of initial residue">20</cnr>
           <standing_fraction description="Fraction of residue standing">0.0</standing_fraction>
         </surfaceom>
       </area>
