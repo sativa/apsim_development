@@ -2549,14 +2549,23 @@ void Plant::plant_kill_stem_update (protocol::Variant &v/*(INPUT) message argume
 
 bool Plant::onSetPhase (protocol::QuerySetValueData &v/*(INPUT) message arguments*/)
     {
+       // FIXME - hack to workaround bug in variant type conversion
+     float phase = 0.0;
+     protocol::TypeConverter* converter = NULL;
+     if (getTypeConverter("phase",
+                                 v.variant.getType().getCode(),
+                                 protocol::DTsingle,
+                                 v.variant.getType().isArray(),
+                                 false,
+                                 converter))
+        {
+        v.variant.setTypeConverter(converter);
+        }
+     v.variant.unpack(phase);
 
-       // Doesn't work for floats so have to use string
-    FString phaseStr;
-    v.variant.unpack(phaseStr);
-    float phase = atof(phaseStr.f_str());
-//    float phase;
+     if (converter) delete converter;
+        // end of FIXME
 
-//    v.variant.unpack(phase);
         bound_check_real_var(this,phase, 1.0, 11.0, "phase");
         if (g.plant_status == alive)
            phenology->onSetPhase(phase);
