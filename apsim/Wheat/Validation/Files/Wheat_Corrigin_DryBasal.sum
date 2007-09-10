@@ -31,7 +31,7 @@ Component      "wheat" = c:\development\apsim\plant\lib\plant.dll
         prepare
         process
         post
-     Simulation start date = 30/05/2005
+     Simulation start date =  1/02/2005
      Simulation end date   = 30/12/2005
      Time step =           = 1440 (mins)
 
@@ -73,6 +73,7 @@ Component      "wheat" = c:\development\apsim\plant\lib\plant.dll
         wheat.root_depth
         wheat.ep
         eo
+        water_table
 
      Output file = Wheat_Corrigin_DryBasal.out
      Format = normal
@@ -193,16 +194,20 @@ Component      "wheat" = c:\development\apsim\plant\lib\plant.dll
               Depth  Air_Dry  LL15   Dul    Sat     Sw     BD   Runoff  SWCON
                 mm     mm/mm  mm/mm  mm/mm  mm/mm  mm/mm  g/cc    wf
         ---------------------------------------------------------------------
-            0.-  100.  0.010  0.010  0.055  0.450  0.010  0.950  0.613  0.700
-          100.-  200.  0.010  0.010  0.072  0.430  0.010  1.410  0.243  0.700
-          200.-  300.  0.040  0.040  0.080  0.360  0.040  1.610  0.096  0.700
-          300.-  400.  0.040  0.040  0.224  0.360  0.040  1.610  0.038  0.700
-          400.-  500.  0.080  0.080  0.243  0.270  0.080  1.870  0.009  0.700
-          500.-  600.  0.080  0.080  0.243  0.270  0.080  1.870  0.000  0.700
-          600.-  700.  0.110  0.110  0.243  0.260  0.110  1.910  0.000  0.700
-          700.-  800.  0.110  0.110  0.243  0.260  0.110  1.910  0.000  0.700
-          800.-  900.  0.110  0.110  0.243  0.260  0.110  1.910  0.000  0.700
-          900.- 1000.  0.110  0.110  0.243  0.260  0.110  1.910  0.000  0.700
+            0.-  100.  0.010  0.015  0.072  0.430  0.015  1.300  0.613  0.700
+          100.-  200.  0.010  0.015  0.072  0.430  0.015  1.410  0.243  0.700
+          200.-  300.  0.010  0.040  0.080  0.360  0.040  1.610  0.096  0.700
+          300.-  400.  0.010  0.040  0.100  0.360  0.040  1.610  0.038  0.700
+          400.-  500.  0.010  0.080  0.130  0.270  0.080  1.870  0.009  0.700
+          500.-  600.  0.010  0.080  0.140  0.270  0.080  1.870  0.000  0.700
+          600.-  700.  0.010  0.110  0.150  0.250  0.110  1.910  0.000  0.700
+          700.-  800.  0.010  0.110  0.150  0.220  0.110  1.910  0.000  0.700
+          800.-  900.  0.010  0.110  0.180  0.220  0.130  1.910  0.000  0.200
+          900.- 1000.  0.010  0.110  0.180  0.220  0.150  1.910  0.000  0.200
+         1000.- 1100.  0.010  0.110  0.180  0.220  0.110  1.910  0.000  0.200
+         1100.- 1200.  0.010  0.110  0.180  0.220  0.110  1.910  0.000  0.200
+         1200.- 1300.  0.010  0.110  0.180  0.220  0.110  1.910  0.000  0.200
+         1300.- 1400.  0.010  0.110  0.180  0.220  0.110  1.910  0.000  0.200
         ---------------------------------------------------------------------
      
      
@@ -213,18 +218,22 @@ Component      "wheat" = c:\development\apsim\plant\lib\plant.dll
                           (LL15)   (SW-LL15)  (DUL-LL15)  (SAT-DUL)
                             mm        mm          mm         mm
           ---------------------------------------------------------
-            0.-  100.       1.00       0.00       4.50      39.50
-          100.-  200.       1.00       0.00       6.20      35.80
+            0.-  100.       1.50       0.00       5.70      35.80
+          100.-  200.       1.50       0.00       5.70      35.80
           200.-  300.       4.00       0.00       4.00      28.00
-          300.-  400.       4.00       0.00      18.40      13.60
-          400.-  500.       8.00       0.00      16.30       2.70
-          500.-  600.       8.00       0.00      16.30       2.70
-          600.-  700.      11.00       0.00      13.30       1.70
-          700.-  800.      11.00       0.00      13.30       1.70
-          800.-  900.      11.00       0.00      13.30       1.70
-          900.- 1000.      11.00       0.00      13.30       1.70
+          300.-  400.       4.00       0.00       6.00      26.00
+          400.-  500.       8.00       0.00       5.00      14.00
+          500.-  600.       8.00       0.00       6.00      13.00
+          600.-  700.      11.00       0.00       4.00      10.00
+          700.-  800.      11.00       0.00       4.00       7.00
+          800.-  900.      11.00       2.00       7.00       4.00
+          900.- 1000.      11.00       4.00       7.00       4.00
+         1000.- 1100.      11.00       0.00       7.00       4.00
+         1100.- 1200.      11.00       0.00       7.00       4.00
+         1200.- 1300.      11.00       0.00       7.00       4.00
+         1300.- 1400.      11.00       0.00       7.00       4.00
           ---------------------------------------------------------
-               Totals      70.00       0.00     118.90     129.10
+               Totals     115.00       6.00      82.40     193.60
           ---------------------------------------------------------
      
      
@@ -251,7 +260,7 @@ Component      "wheat" = c:\development\apsim\plant\lib\plant.dll
      
      
            Using Ritchie evaporation model
-            Cuml evap (U):            6.00 (mm^0.5)
+            Cuml evap (U):            2.00 (mm^0.5)
             CONA:                     2.00 ()
             Eo from priestly-taylor
 
@@ -268,10 +277,10 @@ Component      "wheat" = c:\development\apsim\plant\lib\plant.dll
             Name   Type        Dry matter   C        N        P    Cover  Standing_fr
                                 (kg/ha)  (kg/ha)  (kg/ha)  (kg/ha) (0-1)     (0-1)
          ----------------------------------------------------------------------
-          canola    canola         500.0   200.0     3.3     0.0   0.095     0.0
+          canola    canola        1000.0   400.0    10.0     0.0   0.181     0.0
          ----------------------------------------------------------------------
      
-                      Effective Cover from Surface Materials =   0.1
+                      Effective Cover from Surface Materials =   0.2
      
 
 ------- Corrigin Nitrogen Initialisation --------------------------------------
@@ -293,18 +302,22 @@ Component      "wheat" = c:\development\apsim\plant\lib\plant.dll
            Layer    pH    OC     NO3     NH4    Urea
                          (%) (kg/ha) (kg/ha) (kg/ha)
           ------------------------------------------------
-             1     4.70  0.90    6.65    5.70    0.00
+             1     4.70  0.80    9.10    7.80    0.00
              2     4.70  0.36    1.41    1.41    0.00
              3     4.70  0.22    4.83    1.61    0.00
-             4     4.70  0.20    1.61    1.61    0.00
+             4     6.00  0.20    1.61    1.61    0.00
              5     6.00  0.20    1.87    1.87    0.00
              6     6.00  0.20    1.87    1.87    0.00
              7     6.00  0.19    1.91    1.91    0.00
              8     6.00  0.19    1.91    1.91    0.00
-             9     6.00  0.10    1.91    1.91    0.00
-            10     6.00  0.10    1.91    1.91    0.00
+             9     6.00  0.10    0.19    0.19    0.00
+            10     6.00  0.10    0.19    0.19    0.00
+            11     6.00  0.10    0.19    0.19    0.00
+            12     6.00  0.10    0.19    0.19    0.00
+            13     6.00  0.10    0.19    0.19    0.00
+            14     6.00  0.10    0.19    0.19    0.00
           ------------------------------------------------
-           Totals               25.88   21.71    0.00
+           Totals               25.66   21.14    0.00
           ------------------------------------------------
      
      
@@ -317,24 +330,30 @@ Component      "wheat" = c:\development\apsim\plant\lib\plant.dll
            Layer      Hum-C   Hum-N  Biom-C  Biom-N   FOM-C   FOM-N
                     (kg/ha) (kg/ha) (kg/ha) (kg/ha) (kg/ha) (kg/ha)
           ---------------------------------------------------------
-             1       8375.7   644.3   174.3    21.8    54.6     1.4
-             2       5016.3   385.9    59.7     7.5    40.4     1.0
-             3       3507.3   269.8    34.7     4.3    29.9     0.7
-             4       3213.6   247.2     6.4     0.8    22.2     0.6
-             5       3734.4   287.3     5.6     0.7    16.4     0.4
-             6       3736.3   287.4     3.7     0.5    12.2     0.3
-             7       3627.2   279.0     1.8     0.2     9.0     0.2
-             8       3627.2   279.0     1.8     0.2     6.7     0.2
-             9       1909.1   146.9     0.9     0.1     4.9     0.1
-            10       1909.1   146.9     0.9     0.1     3.7     0.1
+             1      10188.0   783.7   212.0    26.5    40.6     1.4
+             2       5016.3   385.9    59.7     7.5    32.8     1.1
+             3       3521.2   270.9    20.8     2.6    26.4     0.9
+             4       3216.8   247.4     3.2     0.4    21.3     0.7
+             5       3736.3   287.4     3.7     0.5    17.2     0.6
+             6       3736.3   287.4     3.7     0.5    13.9     0.5
+             7       3627.2   279.0     1.8     0.2    11.2     0.4
+             8       3627.2   279.0     1.8     0.2     9.1     0.3
+             9       1909.1   146.9     0.9     0.1     7.3     0.2
+            10       1909.1   146.9     0.9     0.1     5.9     0.2
+            11       1909.1   146.9     0.9     0.1     4.8     0.2
+            12       1909.1   146.9     0.9     0.1     3.8     0.1
+            13       1909.1   146.9     0.9     0.1     3.1     0.1
+            14       1909.1   146.9     0.9     0.1     2.5     0.1
           ---------------------------------------------------------
-           Totals   38656.1  2973.5   289.9    36.2   200.0     5.0
+           Totals   48123.5  3701.8   312.5    39.1   200.0     6.7
           ---------------------------------------------------------
 
 ------- wheat Initialisation --------------------------------------------------
      phenology model: Wheat
 ------- Start of simulation  --------------------------------------------------
+30 May 2005(Day of year=150), Manager: 
      Manager sending message :- wheat sow  plants = 250, sowing_depth = 53, cultivar = wyalkatchem, row_spacing = 250
+30 May 2005(Day of year=150), wheat: 
      Crop Sow
          ------------------------------------------------
         cultivar                   = wyalkatchem
@@ -356,20 +375,25 @@ Component      "wheat" = c:\development\apsim\plant\lib\plant.dll
           Depth     Factor         Limit      Factor
           (mm)         ()        (mm/mm)       (0-1)
          -----------------------------------------------
-         100.0     0.060          0.010       0.700
-         100.0     0.060          0.010       0.600
-         100.0     0.050          0.040       0.500
-         100.0     0.050          0.040       0.500
-         100.0     0.040          0.080       0.500
-         100.0     0.040          0.080       0.400
-         100.0     0.030          0.110       0.300
-         100.0     0.030          0.110       0.300
-         100.0     0.030          0.110       0.000
-         100.0     0.030          0.110       0.000
+         100.0     0.060          0.015       1.000
+         100.0     0.060          0.015       1.000
+         100.0     0.010          0.040       0.660
+         100.0     0.010          0.040       0.660
+         100.0     0.030          0.080       1.000
+         100.0     0.030          0.080       1.000
+         100.0     0.030          0.110       1.000
+         100.0     0.030          0.110       0.800
+         100.0     0.030          0.110       0.800
+         100.0     0.030          0.110       0.800
+         100.0     0.030          0.110       0.800
+         100.0     0.030          0.110       0.800
+         100.0     0.030          0.110       0.800
+         100.0     0.030          0.110       0.800
          -----------------------------------------------
-         Extractable SW:   119mm in  1000mm total depth ( 12%).
+         Extractable SW:    82mm in  1400mm total depth (  6%).
          Crop factor for bounding water use is set to   1.5 times eo.
      Manager sending message :- fertiliser apply  amount = 25 (kg/ha), depth = 50 (mm), type = urea_n
+30 May 2005(Day of year=150), fertiliser: 
      
         - Reading Fertiliser Type Parameters
         25.00 of N as urea (urea_n)
@@ -383,93 +407,93 @@ Component      "wheat" = c:\development\apsim\plant\lib\plant.dll
             150   53.0  250.0  250.0   0.0   0.0 wyalkatchem
          ------------------------------------------------
      
-4 June 2005(Day of year=155), wheat: 
+31 May 2005(Day of year=151), wheat: 
       stage 2.0 germination
-11 June 2005(Day of year=162), wheat: 
+8 June 2005(Day of year=159), wheat: 
       stage 3.0 emergence
                      biomass =           1.15 (g/m^2)   lai          =   0.050 (m^2/m^2)
-                     stover N conc =     5.85 (%)    extractable sw =    9.07 (mm)
-12 June 2005(Day of year=163), wheat: 
+                     stover N conc =     5.85 (%)    extractable sw =   15.34 (mm)
+9 June 2005(Day of year=160), wheat: 
       stage 4.0 end_of_juvenile
-                     biomass =           1.44 (g/m^2)   lai          =   0.055 (m^2/m^2)
-                     stover N conc =     5.83 (%)    extractable sw =   11.22 (mm)
+                     biomass =           1.49 (g/m^2)   lai          =   0.055 (m^2/m^2)
+                     stover N conc =     5.83 (%)    extractable sw =   14.76 (mm)
 14 July 2005(Day of year=195), Manager: 
-     Manager creating a new local real variable : n_topsoil =     7.03970691000000
+     Manager creating a new local real variable : n_topsoil =     6.99272996500000
      Manager sending message :- fertiliser apply  amount = 50 (kg/ha), depth = 50 (mm), type = urea_n
 14 July 2005(Day of year=195), fertiliser: 
      
         - Reading Fertiliser Type Parameters
         50.00 of N as urea (urea_n)
                                               added at depth   50.00 (layer   1)
-9 August 2005(Day of year=221), wheat: 
+6 August 2005(Day of year=218), wheat: 
       stage 5.0 floral_initiation
-                     biomass =         117.38 (g/m^2)   lai          =   1.651 (m^2/m^2)
-                     stover N conc =     2.42 (%)    extractable sw =   23.04 (mm)
-28 September 2005(Day of year=271), wheat: 
+                     biomass =          86.21 (g/m^2)   lai          =   1.246 (m^2/m^2)
+                     stover N conc =     2.48 (%)    extractable sw =   36.88 (mm)
+26 September 2005(Day of year=269), wheat: 
       stage 6.0 flowering
-                     biomass =         512.17 (g/m^2)   lai          =   1.017 (m^2/m^2)
-                     stover N conc =     1.21 (%)    extractable sw =   19.76 (mm)
-7 October 2005(Day of year=280), wheat: 
+                     biomass =         422.54 (g/m^2)   lai          =   0.889 (m^2/m^2)
+                     stover N conc =     1.24 (%)    extractable sw =   48.40 (mm)
+4 October 2005(Day of year=277), wheat: 
       stage 7.0 start_grain_fill
-                     biomass =         563.16 (g/m^2)   lai          =   0.796 (m^2/m^2)
-                     stover N conc =     0.99 (%)    extractable sw =   15.73 (mm)
-12 November 2005(Day of year=316), wheat: 
+                     biomass =         479.94 (g/m^2)   lai          =   0.857 (m^2/m^2)
+                     stover N conc =     1.05 (%)    extractable sw =   49.86 (mm)
+11 November 2005(Day of year=315), wheat: 
       stage 8.0 end_grain_fill
-                     biomass =         616.81 (g/m^2)   lai          =   0.227 (m^2/m^2)
-                     stover N conc =     0.31 (%)    extractable sw =    4.53 (mm)
-14 November 2005(Day of year=318), wheat: 
+                     biomass =         623.59 (g/m^2)   lai          =   0.393 (m^2/m^2)
+                     stover N conc =     0.33 (%)    extractable sw =   18.97 (mm)
+13 November 2005(Day of year=317), wheat: 
       stage 9.0 maturity
-                     biomass =         617.21 (g/m^2)   lai          =   0.211 (m^2/m^2)
-                     stover N conc =     0.31 (%)    extractable sw =    4.15 (mm)
-15 November 2005(Day of year=319), wheat: 
+                     biomass =         623.69 (g/m^2)   lai          =   0.370 (m^2/m^2)
+                     stover N conc =     0.32 (%)    extractable sw =   18.12 (mm)
+14 November 2005(Day of year=318), wheat: 
       stage 10.0 harvest_ripe
-                     biomass =         617.21 (g/m^2)   lai          =   0.001 (m^2/m^2)
-                     stover N conc =     0.30 (%)    extractable sw =    3.98 (mm)
-15 November 2005(Day of year=319), Manager: 
+                     biomass =         623.69 (g/m^2)   lai          =   0.001 (m^2/m^2)
+                     stover N conc =     0.32 (%)    extractable sw =   18.05 (mm)
+14 November 2005(Day of year=318), Manager: 
      Manager sending message :- wheat harvest
      
-      flowering day          =  271                           stover (kg/ha)         =     4137.9
-      maturity day           =  318                           grain yield (kg/ha)    =     2034.2
-      grain % water content  =   12.5                         grain yield wet (kg/ha)=     2324.8
-      grain wt (g)           =    0.026                       grains/m^2             =   7715.431
-      grains/plant           =   30.9                         maximum lai            =      2.195
-      total above ground biomass (kg/ha)    =     6172.1
-      live above ground biomass (kg/ha)     =     6172.1
-      green above ground biomass (kg/ha)    =     5231.8
-      senesced above ground biomass (kg/ha) =      940.3
+      flowering day          =  269                           stover (kg/ha)         =     3623.5
+      maturity day           =  317                           grain yield (kg/ha)    =     2613.5
+      grain % water content  =   12.5                         grain yield wet (kg/ha)=     2986.8
+      grain wt (g)           =    0.041                       grains/m^2             =   6443.641
+      grains/plant           =   25.8                         maximum lai            =      1.467
+      total above ground biomass (kg/ha)    =     6236.9
+      live above ground biomass (kg/ha)     =     6236.9
+      green above ground biomass (kg/ha)    =     5555.7
+      senesced above ground biomass (kg/ha) =      681.3
       dead above ground biomass (kg/ha)     =        0.0
-      number of leaves       =   22.0
-      DM Root:Shoot ratio    =    0.158                       Harvest Index          =      0.330
-      Stover C:N ratio       =  114.714                       Root C:N ratio         =     22.427
-      grain N percent        =       2.45                     total N content (kg/ha)=      64.17
-      grain N uptake (kg/ha) =      49.74                     senesced N content (kg/ha)=    4.70
-      green N content (kg/ha)=       9.73                     dead N content (kg/ha) =       0.00
+      number of leaves       =   21.2
+      DM Root:Shoot ratio    =    0.125                       Harvest Index          =      0.419
+      Stover C:N ratio       =  114.003                       Root C:N ratio         =     17.490
+      grain N percent        =       1.91                     total N content (kg/ha)=      62.65
+      grain N uptake (kg/ha) =      49.93                     senesced N content (kg/ha)=    3.41
+      green N content (kg/ha)=       9.31                     dead N content (kg/ha) =       0.00
      
       Average Stress Indices:                          Water Photo  Water Expan  N Photo      N grain conc
          emergence            to end_of_juvenile         0.000        0.000        0.000        0.000
-         end_of_juvenile      to floral_initiation       0.009        0.014        0.301        0.376
-         floral_initiation    to flowering               0.160        0.207        0.059        0.148
-         flowering            to start_grain_fill        0.298        0.389        0.000        0.000
-         start_grain_fill     to end_grain_fill          0.337        0.408        0.397        0.552
+         end_of_juvenile      to floral_initiation       0.005        0.010        0.376        0.430
+         floral_initiation    to flowering               0.141        0.184        0.038        0.079
+         flowering            to start_grain_fill        0.045        0.068        0.000        0.000
+         start_grain_fill     to end_grain_fill          0.206        0.269        0.254        0.471
      
      
      Crop harvested.
          Organic matter from crop:-      Tops to surface residue      Roots to soil FOM
-                          DM (kg/ha) =               4137.42                    0.00
-                          N  (kg/ha) =                 14.40                    0.00
+                          DM (kg/ha) =               3622.98                    0.00
+                          N  (kg/ha) =                 12.68                    0.00
      
          Organic matter removed from system:-      From Tops               From Roots
-                          DM (kg/ha) =               2034.18                    0.00
-                          N  (kg/ha) =                 49.74                    0.00
+                          DM (kg/ha) =               2613.49                    0.00
+                          N  (kg/ha) =                 49.93                    0.00
      
       stage 4.0 end_of_juvenile
                      biomass =           0.05 (g/m^2)   lai          =   0.050 (m^2/m^2)
-                     stover N conc =     6.30 (%)    extractable sw =    3.98 (mm)
+                     stover N conc =     6.30 (%)    extractable sw =   18.05 (mm)
      Manager sending message :- wheat end_crop
      Crop ended. Yield (dw) =     0.0  (kg/ha)
          Organic matter from crop:-      Tops to surface residue      Roots to soil FOM
-                          DM (kg/ha) =                  0.48                  973.65
-                          N  (kg/ha) =                  0.03                   17.37
+                          DM (kg/ha) =                  0.47                  779.09
+                          N  (kg/ha) =                  0.03                   17.82
      
 30 December 2005(Day of year=364), clock: 
      Simulation is terminating due to end criteria being met.
