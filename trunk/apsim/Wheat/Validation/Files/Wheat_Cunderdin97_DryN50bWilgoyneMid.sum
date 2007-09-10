@@ -73,6 +73,7 @@ Component      "wheat" = c:\development\apsim\plant\lib\plant.dll
         wheat.root_depth
         wheat.ep
         eo
+        water_table
 
      Output file = Wheat_Cunderdin97_DryN50bWilgoyneMid.out
      Format = normal
@@ -112,9 +113,9 @@ Component      "wheat" = c:\development\apsim\plant\lib\plant.dll
      Manager rules:
      
      SECTION:- start_of_day
-                if (paddock_is_fallow() = 1 and today = date('8/07/1997')) then
-                  wheat sow plants =150, sowing_depth = 30, cultivar = wilgoyne, row_spacing = 250
-                endif
+        if (paddock_is_fallow() = 1 and today = date('8/07/1997')) then
+          wheat sow plants =150, sowing_depth = 30, cultivar = wilgoyne, row_spacing = 250
+        endif
      
      SECTION:- end_of_day
                 if wheat.stage_name = 'harvest_ripe' or wheat.plant_status = 'dead' then

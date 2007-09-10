@@ -72,6 +72,7 @@ Component      "wheat" = c:\development\apsim\plant\lib\plant.dll
         wheat.root_depth
         wheat.ep
         eo
+        water_table
 
      Output file = Wheat_Beverley92_Late(normal).out
      Format = normal
@@ -111,9 +112,9 @@ Component      "wheat" = c:\development\apsim\plant\lib\plant.dll
      Manager rules:
      
      SECTION:- start_of_day
-                if (paddock_is_fallow() = 1 and today = date('15/06/1991')) then
-                  wheat sow plants =121, sowing_depth = 30, cultivar = spear, row_spacing = 250
-                endif
+        if (paddock_is_fallow() = 1 and today = date('15/06/1992')) then
+          wheat sow plants =121, sowing_depth = 30, cultivar = spear, row_spacing = 250
+        endif
      
      SECTION:- end_of_day
                if wheat.stage_name = 'harvest_ripe' or wheat.plant_status = 'dead' then
@@ -188,7 +189,7 @@ Component      "wheat" = c:\development\apsim\plant\lib\plant.dll
           100.-  200.  0.030  0.040  0.210  0.290  0.150  1.750  0.243  1.000
           200.-  300.  0.040  0.060  0.210  0.290  0.180  1.800  0.096  1.000
           300.-  400.  0.040  0.100  0.220  0.290  0.200  1.850  0.038  1.000
-          400.-  500.  0.040  0.130  0.220  0.280  0.200  1.850  0.009  0.110
+          400.-  500.  0.040  0.130  0.220  0.280  0.200  1.850  0.009  0.200
           500.-  600.  0.040  0.140  0.220  0.240  0.210  1.850  0.000  1.000
           600.-  700.  0.040  0.170  0.220  0.240  0.220  1.850  0.000  1.000
           700.-  900.  0.040  0.170  0.220  0.240  0.220  1.850  0.000  1.000
@@ -305,6 +306,52 @@ Component      "wheat" = c:\development\apsim\plant\lib\plant.dll
 ------- wheat Initialisation --------------------------------------------------
      phenology model: Wheat
 ------- Start of simulation  --------------------------------------------------
+15 June 1992(Day of year=167), Manager: 
+     Manager sending message :- wheat sow  plants = 121, sowing_depth = 30, cultivar = spear, row_spacing = 250
+15 June 1992(Day of year=167), wheat: 
+     Crop Sow
+         ------------------------------------------------
+        cultivar                   = spear
+        pesw germination           =       0.00 (0-1)
+        vernalisation sensitivity  =       1.50 ()
+        photoperiod sensitivity    =       3.50 ()
+        phyllochron                =         95 ()
+        tt start gf to maturity    =        580 (dd)
+        grains_per_gram_stem           =       20.0 (/g)
+        potential_grain_filling_rate   =     0.0020 (g/grain/day)
+        potential_grain_growth_rate    =     0.0010 (g/grain/day)
+        max_grain_size                 =     0.0450 (g)
+         ------------------------------------------------
+     
+     
+                        Root Profile
+         -----------------------------------------------
+          Layer       Kl           Lower    Exploration
+          Depth     Factor         Limit      Factor
+          (mm)         ()        (mm/mm)       (0-1)
+         -----------------------------------------------
+         100.0     0.060          0.050       0.200
+         100.0     0.060          0.040       0.200
+         100.0     0.060          0.060       0.400
+         100.0     0.060          0.060       0.400
+         100.0     0.060          0.130       0.400
+         100.0     0.060          0.140       0.200
+         100.0     0.060          0.170       0.200
+         200.0     0.060          0.170       0.200
+         200.0     0.060          0.170       0.200
+         200.0     0.060          0.170       0.000
+         -----------------------------------------------
+         Extractable SW:   103mm in  1300mm total depth (  8%).
+         Crop factor for bounding water use is set to   1.5 times eo.
+     
+                      Crop Sowing Data
+         ------------------------------------------------
+         Sowing  Depth Plants Spacing Skip  Skip  Cultivar
+         Day no   mm     m^2     mm   row   plant name
+         ------------------------------------------------
+            167   30.0  121.0  250.0   0.0   0.0 spear
+         ------------------------------------------------
+     
 16 June 1992(Day of year=168), Fertilizer: 
      Manager sending message :- fertiliser apply  amount = 30 (kg/ha), depth = 50 (mm), type = no3_n
 16 June 1992(Day of year=168), fertiliser: 
@@ -312,6 +359,16 @@ Component      "wheat" = c:\development\apsim\plant\lib\plant.dll
         - Reading Fertiliser Type Parameters
         30.00 of N as nitrate (no3_n)
                                               added at depth   50.00 (layer   1)
+16 June 1992(Day of year=168), wheat: 
+      stage 2.0 germination
+22 June 1992(Day of year=174), wheat: 
+      stage 3.0 emergence
+                     biomass =           0.56 (g/m^2)   lai          =   0.024 (m^2/m^2)
+                     stover N conc =     5.85 (%)    extractable sw =   25.96 (mm)
+23 June 1992(Day of year=175), wheat: 
+      stage 4.0 end_of_juvenile
+                     biomass =           0.72 (g/m^2)   lai          =   0.027 (m^2/m^2)
+                     stover N conc =     5.83 (%)    extractable sw =   27.15 (mm)
 20 July 1992(Day of year=202), Fertilizer: 
      Manager sending message :- fertiliser apply  amount = 30 (kg/ha), depth = 50 (mm), type = no3_n
 20 July 1992(Day of year=202), fertiliser: 
@@ -326,5 +383,75 @@ Component      "wheat" = c:\development\apsim\plant\lib\plant.dll
         - Reading Fertiliser Type Parameters
         30.00 of N as nitrate (no3_n)
                                               added at depth   50.00 (layer   1)
+30 August 1992(Day of year=243), wheat: 
+      stage 5.0 floral_initiation
+                     biomass =         319.59 (g/m^2)   lai          =   4.364 (m^2/m^2)
+                     stover N conc =     2.62 (%)    extractable sw =   68.84 (mm)
+15 October 1992(Day of year=289), wheat: 
+      stage 6.0 flowering
+                     biomass =         925.26 (g/m^2)   lai          =   2.237 (m^2/m^2)
+                     stover N conc =     1.14 (%)    extractable sw =   16.94 (mm)
+22 October 1992(Day of year=296), wheat: 
+      stage 7.0 start_grain_fill
+                     biomass =         949.07 (g/m^2)   lai          =   1.231 (m^2/m^2)
+                     stover N conc =     1.05 (%)    extractable sw =   14.22 (mm)
+21 November 1992(Day of year=326), wheat: 
+      stage 8.0 end_grain_fill
+                     biomass =        1007.70 (g/m^2)   lai          =   0.237 (m^2/m^2)
+                     stover N conc =     0.34 (%)    extractable sw =   20.82 (mm)
+23 November 1992(Day of year=328), wheat: 
+      stage 9.0 maturity
+                     biomass =        1008.38 (g/m^2)   lai          =   0.237 (m^2/m^2)
+                     stover N conc =     0.34 (%)    extractable sw =   16.94 (mm)
+24 November 1992(Day of year=329), wheat: 
+      stage 10.0 harvest_ripe
+                     biomass =        1008.38 (g/m^2)   lai          =   0.001 (m^2/m^2)
+                     stover N conc =     0.34 (%)    extractable sw =   14.98 (mm)
+24 November 1992(Day of year=329), Manager: 
+     Manager sending message :- wheat harvest
+     
+      flowering day          =  289                           stover (kg/ha)         =     7431.6
+      maturity day           =  328                           grain yield (kg/ha)    =     2652.2
+      grain % water content  =   12.5                         grain yield wet (kg/ha)=     3031.1
+      grain wt (g)           =    0.025                       grains/m^2             =  10664.535
+      grains/plant           =   88.1                         maximum lai            =      5.142
+      total above ground biomass (kg/ha)    =    10083.8
+      live above ground biomass (kg/ha)     =    10083.8
+      green above ground biomass (kg/ha)    =     7775.6
+      senesced above ground biomass (kg/ha) =     2308.1
+      dead above ground biomass (kg/ha)     =        0.0
+      number of leaves       =   46.9
+      DM Root:Shoot ratio    =    0.185                       Harvest Index          =      0.263
+      Stover C:N ratio       =  102.941                       Root C:N ratio         =     27.236
+      grain N percent        =       2.79                     total N content (kg/ha)=     102.81
+      grain N uptake (kg/ha) =      73.93                     senesced N content (kg/ha)=   11.54
+      green N content (kg/ha)=      17.34                     dead N content (kg/ha) =       0.00
+     
+      Average Stress Indices:                          Water Photo  Water Expan  N Photo      N grain conc
+         emergence            to end_of_juvenile         0.000        0.000        0.000        0.000
+         end_of_juvenile      to floral_initiation       0.002        0.004        0.006        0.053
+         floral_initiation    to flowering               0.179        0.217        0.047        0.255
+         flowering            to start_grain_fill        0.817        0.917        0.000        0.000
+         start_grain_fill     to end_grain_fill          0.547        0.623        0.092        0.414
+     
+     
+     Crop harvested.
+         Organic matter from crop:-      Tops to surface residue      Roots to soil FOM
+                          DM (kg/ha) =               7431.33                    0.00
+                          N  (kg/ha) =                 28.86                    0.00
+     
+         Organic matter removed from system:-      From Tops               From Roots
+                          DM (kg/ha) =               2652.19                    0.00
+                          N  (kg/ha) =                 73.93                    0.00
+     
+      stage 4.0 end_of_juvenile
+                     biomass =           0.02 (g/m^2)   lai          =   0.024 (m^2/m^2)
+                     stover N conc =     6.30 (%)    extractable sw =   14.98 (mm)
+     Manager sending message :- wheat end_crop
+     Crop ended. Yield (dw) =     0.0  (kg/ha)
+         Organic matter from crop:-      Tops to surface residue      Roots to soil FOM
+                          DM (kg/ha) =                  0.25                 1868.89
+                          N  (kg/ha) =                  0.02                   27.45
+     
 5 December 1992(Day of year=340), clock: 
      Simulation is terminating due to end criteria being met.
