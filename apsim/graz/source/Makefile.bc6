@@ -1,33 +1,59 @@
-# (Borlandish) Makefile for apsim graz module
+# (Borlandish) Makefile for graz module
+!if !$d(BCB)
+BCB = $(MAKEDIR)\..
+!endif
 
 # APSROOT needs to be defined here if you don't specify it on the commmand line. eg.
 #APSROOT=c:\progra~1\apsim33
 #APSROOT=c:\development
-
-# Platform specific defns
 !include $(APSROOT)\APSBuild\platform.make
+!include $(APSROOT)\APSBuild\cpp.make
 
-# Fortran compiler defns
-!include $(APSROOT)\APSBuild\fortran.make
+PROJECT=..\lib\graz.dll
 
-# The statically linked components of the engine interface
-!include $(APSROOT)\APSBuild\ApsimComponentInterface.make
+OBJFILES=graz.obj grazComponent.obj ..\..\..\Shared\ComponentInterface2\CMPComponentEntryPoints.obj
 
-# Main target
-source: ..\lib\graz.dll
-..\lib\graz.dll: Registrations.obj graz.obj $(STATICLINKEDOBJECTS) 
-	$(ECHO) $(STATICLINKEDOBJECTS) > linker.tmp
-	$(ECHO) $(F90FLAGS) >> linker.tmp
-	$(ECHO) $(F90LIBS) >> linker.tmp
-	$(LF95) graz.obj Registrations.obj \
- -export Main,wrapperDLL,respondToEvent,alloc_dealloc_instance,getInstance -exe ..\lib\graz.dll @linker.tmp
-	$(RM) linker.tmp
-   
-graz.obj: graz.for
-Registrations.obj: Registrations.f90
-Registrations.f90: ..\graz.interface 
-	$(APSROOT)\bin\CreateComponentInterfaceSource.exe ..\graz.interface
+LIBFILES = $(APSROOT)\Shared\general\general.lib                \
+   $(APSROOT)\Shared\ApsimShared\ApsimShared.lib \
+   $(APSROOT)\Shared\ComponentInterface2\ComponentInterface2.lib
+
+USERDEFINES =
+SYSDEFINES = _RTLDLL;NO_STRICT;USEPACKAGES
+INCLUDEPATH = $(APSROOT)\Shared\ComponentInterface2;$(BCB)\include;$(BCB)\include\vcl;$(BCB)\Components\Boost;$(APSROOT)\Shared
+LIBPATH = $(BCB)\lib\obj;$(BCB)\lib;$(APSROOT)\Shared\ComponentInterface2
+
+
+# ---------------------------------------------------------------------------
+CFLAG1 = $(SYSCFLAGS) -O2 -vi -TWD
+WARNINGS = -w-par
+LFLAGS = -D"" -aa -Tpd -x -Gn -Gi
+
+ALLOBJ = c0d32.obj rtl.bpi vcl.bpi Memmgr.Lib sysinit.obj $(OBJFILES)
+ALLRES = $(RESFILES)
+ALLLIB = $(SYSLIBS) $(LIBFILES) import32.lib cw32mti.lib
+
+CC=$(BCB)\Bin\bcc32.exe
+LD=$(BCB)\Bin\ilink32
+# ---------------------------------------------------------------------------
+source: $(PROJECT)
+
+$(PROJECT): $(OBJFILES) $(DEFFILE)
+    $(LD) @&&!
+    $(LFLAGS) -L$(LIBPATH) +
+    $(ALLOBJ), +
+    $(PROJECT),, +
+    $(ALLLIB), +
+    $(DEFFILE), +
+    $(ALLRES)
+!
+
+.cpp.obj:
+	$(CC) $(CFLAG1) $(WARNINGS) -I$(INCLUDEPATH) -D$(USERDEFINES);$(SYSDEFINES) -n$(@D) {$< }
+
+
+####
+graz.obj: graz.cpp graz.h
+grazComponent.obj: grazComponent.cpp 
 
 clean:
-	$(RM) ..\lib\graz.dll Registrations.obj Registrations.f90 graz.obj graz.imp
-
+	del /f $(PROJECT) $(OBJFILES)
