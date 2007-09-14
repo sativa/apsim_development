@@ -29,10 +29,10 @@
 
 !   Short description:
 !      outputs
-      real dlt_green_leaf
-      real dlt_green_stem
-      real dlt_dead_leaf
-      real dlt_dead_stem
+      real green_leaf_eaten
+      real green_stem_eaten
+      real dead_leaf_eaten
+      real dead_stem_eaten
       real dlt_lwg
       real dead_leaf_tramp
       real dead_stem_tramp
@@ -270,7 +270,7 @@ cPdeV. This should be a parameter.
       else 
          anim_intake = 0.0      
       endif
-      
+
 *     Lwg calculation.
 !        if supplementing, there is no restriction effect on LWG
       if (p%allow_supplements) then
@@ -292,19 +292,19 @@ cPdeV. This should be a parameter.
       dead_eaten = (1.0 - green_diet) * tsdm_eaten
       dead_eaten = min(dead_pool, dead_eaten)
 
-      g%dlt_green_leaf = - green_eaten *
+      g%green_leaf_eaten = green_eaten *
      :     graz_comp_curve(green_prop_leaf, curve_factor)
-      g%dlt_green_leaf = max(- g%green_leaf, g%dlt_green_leaf)
+      g%green_leaf_eaten = max(g%green_leaf, g%green_leaf_eaten)
 
-      g%dlt_dead_leaf = - dead_eaten *
+      g%dead_leaf_eaten = dead_eaten *
      :     graz_comp_curve(dead_prop_leaf, curve_factor)
-      g%dlt_dead_leaf = max(- g%dead_leaf, - g%dlt_dead_leaf)
+      g%dead_leaf_eaten = max(g%dead_leaf, - g%dead_leaf_eaten)
 
-      g%dlt_green_stem = -( green_eaten + g%dlt_green_leaf )
-      g%dlt_green_stem = max(- g%green_stem, g%dlt_green_stem)
+      g%green_stem_eaten = green_eaten - g%green_leaf_eaten 
+      g%green_stem_eaten = max(g%green_stem, g%green_stem_eaten)
 
-      g%dlt_dead_stem = -( dead_eaten + g%dlt_dead_leaf )
-      g%dlt_dead_stem = max(- g%dead_stem, g%dlt_dead_stem)
+      g%dead_stem_eaten = dead_eaten - g%dead_leaf_eaten 
+      g%dead_stem_eaten = max(g%dead_stem, g%dead_stem_eaten)
 
 *     Trampling
       trampled = tsdm_eaten * (
@@ -317,10 +317,10 @@ cPdeV. This should be a parameter.
 
 *     Limit the trampling so that we don't trample more than is
 *     actually there.
-      g%dead_leaf_tramp = min(
-     :     g%dead_leaf + g%dlt_dead_leaf, trampled_leaf)
-      g%dead_stem_tramp = min(
-     :     g%dead_stem + g%dlt_dead_stem, trampled_stem)
+      g%dead_leaf_tramp = max(
+     :     g%dead_leaf - g%dead_leaf_eaten, trampled_leaf)
+      g%dead_stem_tramp = max(
+     :     g%dead_stem - g%dead_stem_eaten, trampled_stem)
 
       call pop_routine (my_name)
       return
@@ -513,10 +513,10 @@ c     describing these functions available, there would be a better way.
       call push_routine (my_name)
 
       g%acc_eaten = g%acc_eaten +
-     :     (-g%dlt_green_leaf) +
-     :     (-g%dlt_green_stem) +
-     :     (-g%dlt_dead_leaf) +
-     :     (-g%dlt_dead_stem)
+     :     g%green_leaf_eaten +
+     :     g%green_stem_eaten +
+     :     g%dead_leaf_eaten +
+     :     g%dead_stem_eaten
 
       g%acc_growth = g%acc_growth + g%grass_growth
 
@@ -737,23 +737,25 @@ c     describing these functions available, there would be a better way.
       call get_integer_var (unknown_module, 'year'
      :     , '()', g%year, numvals, 1800, 2100)
                          
-                         
-      call get_real_var (unknown_module, 
-     :      'green_leaf', '(kg/ha)'
+      call get_real_var (unknown_module, 'dm_green_leaf', '(g/m^2)'
      :     , g%green_leaf, numvals
      :     , 0.0, 100000.0)
-
-      call get_real_var (unknown_module, 'green_stem', '(kg/ha)'
+      g%green_leaf = g%green_leaf * gm2kg /sm2ha 
+      
+      call get_real_var (unknown_module, 'dm_green_stem', '(g/m^2)'
      :     , g%green_stem, numvals
      :     , 0.0, 100000.0)
-
-      call get_real_var (unknown_module, 'dead_leaf', '(kg/ha)'
+      g%green_stem = g%green_stem * gm2kg /sm2ha 
+      
+      call get_real_var (unknown_module, 'dm_senesced_leaf', '(g/m^2)'
      :     , g%dead_leaf, numvals
      :     , 0.0, 100000.0)
+      g%dead_leaf = g%dead_leaf * gm2kg /sm2ha 
 
-      call get_real_var (unknown_module, 'dead_stem', '(kg/ha)'
+      call get_real_var (unknown_module, 'dm_senesced_stem', '(g/m^2)'
      :     , g%dead_stem, numvals
      :     , 0.0, 100000.0)
+      g%dead_stem = g%dead_stem * gm2kg /sm2ha 
 
       call get_real_var (unknown_module, 'growth', '(kg/ha)'
      :     , g%grass_growth, numvals
@@ -805,22 +807,41 @@ c     describing these functions available, there would be a better way.
       real  dlt_dm_n(2)                     ! (INPUT) residue N weight (kg/ha)
       real  fraction_to_Residue(2)          ! (INPUT) residue fraction to residue (0-1)
       integer max_part
+
+      type(dmType) greenEaten               ! Structures holding grazed material
+      type(dmType) deadEaten
+      type(RemoveCropDmType) eaten          
       
 * --------------------- Executable code section ----------------------
       call push_routine (my_name)
+      if (g%dead_leaf_eaten + g%green_leaf_eaten +
+     :    g%dead_stem_eaten + g%green_stem_eaten .gt. 0.0 ) then
 
-      call set_real_var (unknown_module, 'dlt_green_leaf', '(kg/ha)'
-     :     , g%dlt_green_leaf)
-
-      call set_real_var (unknown_module, 'dlt_green_stem', '(kg/ha)'
-     :                    , g%dlt_green_stem)
-
-      call set_real_var (unknown_module, 'dlt_dead_leaf', '(kg/ha)'
-     :     , g%dlt_dead_leaf - g%dead_leaf_tramp)
-
-      call set_real_var (unknown_module, 'dlt_dead_stem', '(kg/ha)'
-     :     , g%dlt_dead_stem - g%dead_stem_tramp)
-
+         greenEaten%pool = 'green'
+         greenEaten%part(1) = 'leaf'
+         greenEaten%part(2) = 'stem'
+         greenEaten%dlt(1) = g%green_leaf_eaten * kg2gm / ha2sm
+         greenEaten%dlt(2) = g%green_stem_eaten * kg2gm / ha2sm
+         greenEaten%num_part = 2
+         greenEaten%num_dlt = 2
+         
+         deadEaten%pool = 'dead'
+         deadEaten%part(1) = 'leaf'
+         deadEaten%part(2) = 'stem'
+         deadEaten%dlt(1) = (g%dead_leaf_eaten - g%dead_leaf_tramp) 
+     :                           * kg2gm / ha2sm   ! send in g/sm
+         deadEaten%dlt(2) = (g%dead_stem_eaten - g%dead_stem_tramp) 
+     :                           * kg2gm / ha2sm
+         deadEaten%num_part = 2
+         deadEaten%num_dlt = 2
+         
+         eaten%dm(1) = greenEaten
+         eaten%dm(2) = deadEaten
+         eaten%num_dm = 2
+         write(6,*) 'greenEaten=', eaten%dm(1)%dlt(1)
+         call publish_RemoveCropDm(id%remove_crop_biomass, eaten)
+      endif
+      
       if (g%dead_leaf_tramp + g%dead_stem_tramp .gt. 0.0 ) then
         call new_postbox()
 
