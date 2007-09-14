@@ -2499,6 +2499,43 @@
                "<field name=\"crop_type\" kind=\"string\" />"
                "</type>";}
 
+   //------ NewZone ------
+
+   void pack(MessageData& messageData, const NewZoneType& data)
+      {
+      pack(messageData, data.sender);
+      pack(messageData, data.area);
+      pack(messageData, data.slope);
+      pack(messageData, data.X);
+      pack(messageData, data.Y);
+      }
+   void unpack(MessageData& messageData, NewZoneType& data)
+      {
+      unpack(messageData, data.sender);
+      unpack(messageData, data.area);
+      unpack(messageData, data.slope);
+      unpack(messageData, data.X);
+      unpack(messageData, data.Y);
+      }
+   unsigned memorySize(const NewZoneType& data)
+      {
+      return 0
+              + ::memorySize(data.sender)
+              + ::memorySize(data.area)
+              + ::memorySize(data.slope)
+              + ::memorySize(data.X)
+              + ::memorySize(data.Y)
+              ;
+      }
+   std::string DDML(const NewZoneType& data)
+      {return "<type name=\"NewZone\">"
+               "<field name=\"sender\" kind=\"string\" />"
+               "<field name=\"area\" kind=\"single\" />"
+               "<field name=\"slope\" kind=\"single\" />"
+               "<field name=\"X\" kind=\"single\" />"
+               "<field name=\"Y\" kind=\"single\" />"
+               "</type>";}
+
    //------ SoilLayers ------
 
    void pack(MessageData& messageData, const SoilLayersType& data)

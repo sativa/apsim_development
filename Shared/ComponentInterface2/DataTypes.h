@@ -932,6 +932,21 @@
    unsigned memorySize(const NewCropType& data);
    std::string DDML(const NewCropType& data);
 
+   //------ NewZone ------
+   struct NewZoneType
+      {
+      std::string sender;
+      float area;
+      float slope;
+      float X;
+      float Y;
+      };
+
+   void pack(MessageData& messageData, const NewZoneType& data);
+   void unpack(MessageData& messageData, NewZoneType& data);
+   unsigned memorySize(const NewZoneType& data);
+   std::string DDML(const NewZoneType& data);
+
    //------ SoilLayers ------
    struct SoilLayersType
       {

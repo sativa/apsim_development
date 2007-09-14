@@ -88,6 +88,7 @@
 #include <vector>
 #include <boost/function.hpp>
 #include <boost/bind.hpp>
+#include <ComponentInterface2/DataTypes.h>
 
 struct QueryMatch
    {
@@ -135,6 +136,12 @@ class ScienceAPI
       virtual void publish(const std::string& name, [builtin.cpptype]& data) = 0;
 
       [endfor]
+      [foreach types.type]
+      // [type.name]
+//      virtual void subscribe(const std::string& name, boost::function1<void, [type.name]Type&> handler) = 0;
+      virtual void publish(const std::string& name, [type.name]Type& data) = 0;
+
+      [endfor]
    };
 #endif
 [endfile]
@@ -153,6 +160,9 @@ class CMPComponentInterface;
 // ------------------------------------------------------------------
 class EXPORT CMPScienceAPI : public ScienceAPI
    {
+   private:
+      CMPComponentInterface& componentInterface;
+
    public:
       CMPScienceAPI(CMPComponentInterface& componentinterface);
 
@@ -180,9 +190,12 @@ class EXPORT CMPScienceAPI : public ScienceAPI
       virtual void publish(const std::string& name, [builtin.cpptype]& data);
 
       [endfor]
+      [foreach types.type]
+//      virtual void subscribe(const std::string& name, boost::function1<void, [type.name]Type&> handler);
+      virtual void publish(const std::string& name, [type.name]Type& data);
 
-   private:
-      CMPComponentInterface& componentInterface;
+      [endfor]
+
    };
 #endif
 [endfile]
@@ -263,6 +276,13 @@ void CMPScienceAPI::subscribe(const std::string& name, boost::function1<void, [b
    {componentInterface.subscribe(name, new CMPMethod1<boost::function1<void, [builtin.cpptype]&>, [builtin.cpptype] > (handler, false));}
 void CMPScienceAPI::publish(const std::string& name, [builtin.cpptype]& data)
    {componentInterface.publish(name, new CMPBuiltIn<[builtin.cpptype] >(data));}
+
+[endfor]
+[foreach types.type]
+//void CMPScienceAPI::subscribe(const std::string& name, boost::function1<void, [type.name]Type&> handler)
+//   {componentInterface.subscribe(name, new CMPMethod1<boost::function1<void, [type.name]Type&>, [type.name]Type > (handler, false));}
+void CMPScienceAPI::publish(const std::string& name, [type.name]Type& data)
+     {componentInterface.publish(name, new CMPType< [type.name]Type >(data));}
 
 [endfor]
 
