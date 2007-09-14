@@ -13,6 +13,7 @@
       <setVariableReg name="dlt_dead_leaf" type="dlt_dead_leaf"/>
       <setVariableReg name="dlt_dead_stem" type="dlt_dead_stem"/>
 
+      <EventReg name="remove_crop_biomass" type="RemoveCropDm"/>
       <EventReg name="incorp_fom" type="IncorpFom"/>
       <EventReg name="crop_chopped" type="CropChopped"/>
    </registrations>
