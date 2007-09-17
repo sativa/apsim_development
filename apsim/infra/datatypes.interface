@@ -38,6 +38,10 @@
       <field name="ID" kind="integer4"/>
       <field name="success" kind="boolean"/>
    </type>
+   <type name="ReplySetValueSuccess">
+      <field name="ID" kind="integer4"/>
+      <field name="success" kind="boolean"/>
+   </type>
    <type name="PublishEvent">
       <field name="ID" kind="integer4"/>
       <field name="ddml" kind="string"/>
