@@ -19,6 +19,7 @@ const float kg2gm = 1000.0;               // conversion of kilograms to grams
 const float ha2sm = 10000.0;              // conversion of hectares to sq metres
 const float sm2ha = 1.0/10000.0;          // constant to convert m^2 to hectares
 
+#define min(a, b)  (((a) < (b)) ? (a) : (b))
 
 // ------------------------------------------------------------------
 // ------------------------------------------------------------------
@@ -44,6 +45,7 @@ grazComponent::grazComponent(ScienceAPI& scienceapi)
    acc_growth = 0.0;
    alw = 0.0;
    stocking_rate = 0.0;
+   pasture_source = "";
    }
 
 // ------------------------------------------------------------------
@@ -56,6 +58,7 @@ void grazComponent::onInit2(void)
    //expose..  (rw)
    scienceAPI.expose("stocking_rate", "beasts/ha", "Stocking rate",   1, stocking_rate);
    scienceAPI.expose("alw",           "kg",        "Weight of beast", 1, alw);
+   scienceAPI.expose("pasture_source", "",         "Crop or pasture module to eat", 1, pasture_source);
 
    //expose..  (r)
    scienceAPI.expose("lwg",          "kg",     "Live weight gain", 0,        dlt_lwg);
@@ -77,6 +80,11 @@ void grazComponent::onInit2(void)
    scienceAPI.read("prop_can_eat",          "", 0, prop_can_eat,         (float)  0.0, (float)100.0);
    scienceAPI.read("acc_eaten_reset",       "", 0, acc_eaten_reset,      (int)  0, (int)366);
    scienceAPI.read("allow_supplements",     "", 0, allow_supplements);
+
+   // (optional) initial values
+   scienceAPI.read("stocking_rate", "beasts/ha", 1, stocking_rate,(float)  0.0, (float)100.0);
+   scienceAPI.read("alw",           "kg",        1, alw,          (float)  0.0, (float)1000.0);
+   scienceAPI.read("pasture_source","",          1, pasture_source);
    }
 
 
@@ -86,12 +94,19 @@ void grazComponent::onPrepare(void)
    scienceAPI.get("day", "", 0, jday, 1, 366);
    scienceAPI.get("month", "", 0, month, 1, 12);
    scienceAPI.get("year", "", 0, year, 1800, 2100);
-   scienceAPI.get("dm_green_leaf",    "g/m^2", 0, green_leaf,   (float)0.0, (float)10000.0);
-   scienceAPI.get("dm_green_stem",    "g/m^2", 0, green_stem,   (float)0.0, (float)10000.0);
-   scienceAPI.get("dm_senesced_leaf", "g/m^2", 0, dead_leaf,    (float)0.0, (float)10000.0);
-   scienceAPI.get("dm_senesced_stem", "g/m^2", 0, dead_stem,    (float)0.0, (float)10000.0);
+
+   std::string prefix;
+   if (pasture_source == "") 
+      prefix = "";
+   else
+      prefix = pasture_source + ".";
+
+   scienceAPI.get(prefix + "dm_green_leaf",    "g/m^2", 0, green_leaf,   (float)0.0, (float)10000.0);
+   scienceAPI.get(prefix + "dm_green_stem",    "g/m^2", 0, green_stem,   (float)0.0, (float)10000.0);
+   // NB. This ignores dm_dead_xx - dm attached to dead plants. FIXME!!
+   scienceAPI.get(prefix + "dm_senesced_leaf", "g/m^2", 0, dead_leaf,    (float)0.0, (float)10000.0);
+   scienceAPI.get(prefix + "dm_senesced_stem", "g/m^2", 0, dead_stem,    (float)0.0, (float)10000.0);
    scienceAPI.get("growth",           "kg/ha", 0, grass_growth, (float)0.0, (float)10000.0);
-   //scienceAPI.get("crop_type",        "",      0, crop_type);
    
    // Set deltas
    green_leaf_eaten = 0.0;

@@ -33,8 +33,9 @@ class grazComponent
       float acc_eaten;          // accumulated intake by animals
       float acc_growth;         // accumulated growth of sward from grasp
       float intake_restr;       // final intake restriction (0-1)
-      std::string crop_type;    // crop type from grasp
+      std::string pasture_source; // The pasture or crop to eat.
 
+      
       // Deltas
       float green_leaf_eaten;
       float green_stem_eaten;
