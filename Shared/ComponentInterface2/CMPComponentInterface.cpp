@@ -486,6 +486,7 @@ void CMPComponentInterface::onQuerySetValue(const Message& message)
    // Handler for all QuerySetValue messages.
    // -----------------------------------------------------------------------
    {
+   unsigned fromID = message.from;
    MessageData messageData(message);
 	QuerySetValueType querySetValue;
    unpack(messageData, querySetValue);
@@ -494,12 +495,13 @@ void CMPComponentInterface::onQuerySetValue(const Message& message)
    // change the value of the variable.
    data.unpack(messageData, querySetValue.ddml, NULL);
 
-   // now send back a NotifySetValueSuccess message.
-   NotifySetValueSuccessType notifySetValueSuccess;
-   notifySetValueSuccess.ID = querySetValue.ID;
-   notifySetValueSuccess.success = true;
-   sendMessage(newMessage(Message::NotifySetValueSuccess, componentID, parentID, false,
-                          notifySetValueSuccess));
+   // now send back a replySetValueSuccess message.
+   ReplySetValueSuccessType replySetValueSuccess;
+   replySetValueSuccess.ID = querySetValue.ID;
+   replySetValueSuccess.success = true;
+   sendMessage(newMessage(Message::ReplySetValueSuccess, 
+                          componentID, fromID, false,
+                          replySetValueSuccess));
    }
 void CMPComponentInterface::onEvent(const Message& message)
    // -----------------------------------------------------------------------

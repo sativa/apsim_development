@@ -162,6 +162,31 @@
                "<field name=\"success\" kind=\"boolean\" />"
                "</type>";}
 
+   //------ ReplySetValueSuccess ------
+
+   void pack(MessageData& messageData, const ReplySetValueSuccessType& data)
+      {
+      pack(messageData, data.ID);
+      pack(messageData, data.success);
+      }
+   void unpack(MessageData& messageData, ReplySetValueSuccessType& data)
+      {
+      unpack(messageData, data.ID);
+      unpack(messageData, data.success);
+      }
+   unsigned memorySize(const ReplySetValueSuccessType& data)
+      {
+      return 0
+              + ::memorySize(data.ID)
+              + ::memorySize(data.success)
+              ;
+      }
+   std::string DDML(const ReplySetValueSuccessType& data)
+      {return "<type name=\"ReplySetValueSuccess\">"
+               "<field name=\"ID\" kind=\"integer4\" />"
+               "<field name=\"success\" kind=\"boolean\" />"
+               "</type>";}
+
    //------ PublishEvent ------
 
    void pack(MessageData& messageData, const PublishEventType& data)
