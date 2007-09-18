@@ -481,12 +481,13 @@ void CMPComponentInterface::onQueryValue(const Message& message)
 	sendMessage(replyValueMessage);
    }
 
+
 void CMPComponentInterface::onQuerySetValue(const Message& message)
    // -----------------------------------------------------------------------
    // Handler for all QuerySetValue messages.
    // -----------------------------------------------------------------------
    {
-   unsigned fromID = message.from;
+   unsigned int fromID = message.from;
    MessageData messageData(message);
 	QuerySetValueType querySetValue;
    unpack(messageData, querySetValue);
@@ -495,8 +496,9 @@ void CMPComponentInterface::onQuerySetValue(const Message& message)
    // change the value of the variable.
    data.unpack(messageData, querySetValue.ddml, NULL);
 
-   // now send back a replySetValueSuccess message.
-   ReplySetValueSuccessType replySetValueSuccess;
+   // now send back a replySetValueSuccess message. 
+   //NBNBNB can't seem to build a ReplySetValueSuccessType structure, so use a similar one YUCK!!
+   NotifySetValueSuccessType replySetValueSuccess;
    replySetValueSuccess.ID = querySetValue.ID;
    replySetValueSuccess.success = true;
    sendMessage(newMessage(Message::ReplySetValueSuccess, 
