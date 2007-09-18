@@ -89,18 +89,6 @@
    unsigned memorySize(const NotifySetValueSuccessType& data);
    std::string DDML(const NotifySetValueSuccessType& data);
 
-   //------ ReplySetValueSuccess ------
-   struct ReplySetValueSuccessType
-      {
-      int ID;
-      bool success;
-      };
-
-   void pack(MessageData& messageData, const ReplySetValueSuccessType& data);
-   void unpack(MessageData& messageData, ReplySetValueSuccessType& data);
-   unsigned memorySize(const ReplySetValueSuccessType& data);
-   std::string DDML(const ReplySetValueSuccessType& data);
-
    //------ PublishEvent ------
    struct PublishEventType
       {

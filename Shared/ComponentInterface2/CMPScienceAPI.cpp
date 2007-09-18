@@ -371,11 +371,6 @@ void CMPScienceAPI::publish(const std::string& name, Init1Type& data)
 void CMPScienceAPI::publish(const std::string& name, NotifySetValueSuccessType& data)
      {componentInterface.publish(name, new CMPType< NotifySetValueSuccessType >(data));}
 
-//void CMPScienceAPI::subscribe(const std::string& name, boost::function1<void, ReplySetValueSuccessType&> handler)
-//   {componentInterface.subscribe(name, new CMPMethod1<boost::function1<void, ReplySetValueSuccessType&>, ReplySetValueSuccessType > (handler, false));}
-void CMPScienceAPI::publish(const std::string& name, ReplySetValueSuccessType& data)
-     {componentInterface.publish(name, new CMPType< ReplySetValueSuccessType >(data));}
-
 //void CMPScienceAPI::subscribe(const std::string& name, boost::function1<void, PublishEventType&> handler)
 //   {componentInterface.subscribe(name, new CMPMethod1<boost::function1<void, PublishEventType&>, PublishEventType > (handler, false));}
 void CMPScienceAPI::publish(const std::string& name, PublishEventType& data)

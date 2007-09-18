@@ -183,10 +183,6 @@ class ScienceAPI
 //      virtual void subscribe(const std::string& name, boost::function1<void, NotifySetValueSuccessType&> handler) = 0;
       virtual void publish(const std::string& name, NotifySetValueSuccessType& data) = 0;
 
-      // ReplySetValueSuccess
-//      virtual void subscribe(const std::string& name, boost::function1<void, ReplySetValueSuccessType&> handler) = 0;
-      virtual void publish(const std::string& name, ReplySetValueSuccessType& data) = 0;
-
       // PublishEvent
 //      virtual void subscribe(const std::string& name, boost::function1<void, PublishEventType&> handler) = 0;
       virtual void publish(const std::string& name, PublishEventType& data) = 0;

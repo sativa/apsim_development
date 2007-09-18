@@ -164,9 +164,6 @@ class EXPORT CMPScienceAPI : public ScienceAPI
 //      virtual void subscribe(const std::string& name, boost::function1<void, NotifySetValueSuccessType&> handler);
       virtual void publish(const std::string& name, NotifySetValueSuccessType& data);
 
-//      virtual void subscribe(const std::string& name, boost::function1<void, ReplySetValueSuccessType&> handler);
-      virtual void publish(const std::string& name, ReplySetValueSuccessType& data);
-
 //      virtual void subscribe(const std::string& name, boost::function1<void, PublishEventType&> handler);
       virtual void publish(const std::string& name, PublishEventType& data);
 
