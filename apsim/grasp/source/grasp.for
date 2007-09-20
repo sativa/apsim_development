@@ -3906,11 +3906,19 @@ cpdev. One of these is right. I don't know which...
          call respond2get_real_var (
      :        'green_leaf',
      :        '(kg/ha)', g%dm_green(leaf))
+      elseif (variable_name .eq. 'dm_green_leaf') then
+         call respond2get_real_var (
+     :        variable_name,
+     :        '(g/m^2)', g%dm_green(leaf) * kg2gm / ha2sm)
 
       elseif (variable_name .eq. 'green_stem') then
          call respond2get_real_var (
      :        'green_stem',
      :        '(kg/ha)', g%dm_green(stem))
+      elseif (variable_name .eq. 'dm_green_stem') then
+         call respond2get_real_var (
+     :        variable_name,
+     :        '(kg/ha)', g%dm_green(stem)* kg2gm / ha2sm)
 
       elseif (variable_name .eq. 'green_pool') then
          call respond2get_real_var (
@@ -3931,11 +3939,19 @@ cpdev. One of these is right. I don't know which...
          call respond2get_real_var (
      :        'dead_leaf',
      :        '(kg/ha)', g%dm_dead(leaf))
+      elseif (variable_name .eq. 'dm_senesced_leaf') then
+         call respond2get_real_var (
+     :        variable_name,
+     :        '(kg/ha)', g%dm_dead(leaf) * kg2gm / ha2sm)
 
       elseif (variable_name .eq. 'dead_stem') then
          call respond2get_real_var (
      :        'dead_stem',
      :        '(kg/ha)', g%dm_dead(stem))
+      elseif (variable_name .eq. 'dm_senesced_stem') then
+         call respond2get_real_var (
+     :        variable_name,
+     :        '(kg/ha)', g%dm_dead(stem) * kg2gm / ha2sm)
 
       elseif (variable_name .eq. 'detachment') then
          call respond2get_real_var (
@@ -5282,6 +5298,166 @@ C     zero a few important state variables
       return
       end subroutine
 
+*     ===========================================================
+      subroutine Grasp_remove_crop_biomass (variant)
+*     ===========================================================
+      Use infrastructure
+      implicit none
+
+*+  Purpose
+*       Unpack the removeDM structures and update pools
+
+*+  Changes
+*      250894 jngh specified and programmed
+
+      integer, intent(in) :: variant
+
+*+  Constant Values
+      character  my_name*(*)           ! name of procedure
+      parameter (my_name = 'Grasp_remove_crop_biomass')
+
+*+  Local Variables
+      type(dmType)  greenEaten         ! Structures holding grazed material
+      type(dmType) deadEaten
+      type(RemoveCropDmType) :: eaten          
+      character string*1000
+      integer greenPart
+      integer deadPart
+      integer leafPart
+      integer stemPart
+      integer pool, part
+      real dlt, n_conc
+      
+*- Implementation Section ----------------------------------
+      call push_routine (my_name)
+
+      call unpack_RemoveCropDm(variant, eaten)
+
+      greenPart = 0
+      deadPart = 0
+      do pool = 1, eaten%num_dm
+        if (eaten%dm(pool)%pool .eq. 'green') then
+           greenPart = pool
+        elseif (eaten%dm(pool)%pool .eq. 'senesced') then
+           deadPart = pool
+        endif
+      end do
+      
+      if (greenPart .eq. 0 .OR. deadPart .eq. 0) then
+         write(string, *)
+     :     ' missing green or senesced part in'
+     :    ,' Grasp_remove_crop_biomass'
+         call fatal_error(err_user, string)
+      endif
+      
+      greenEaten = eaten%dm(greenPart)
+      leafPart = 0
+      stemPart = 0
+      do pool = 1, greenEaten%num_part
+        if (greenEaten%part(pool) .eq. 'leaf') then
+           leafPart = pool
+        elseif (greenEaten%part(pool) .eq. 'stem') then
+           stemPart = pool
+        endif
+      end do
+
+      if (leafPart .eq. 0 .OR. stemPart .eq. 0) then
+         write(string, *)
+     :     ' missing green leaf or stem part in'
+     :    ,' Grasp_remove_crop_biomass'
+         call fatal_error(err_user, string)
+      endif
+      
+      ! Green leaf
+      dlt = greenEaten%dlt(leafPart) * kg2gm / ha2sm
+      if (g%dm_green(leaf) .gt. 0.0) then
+         n_conc = g%n_green(leaf) / g%dm_green(leaf)
+      else
+         n_conc = c%litter_n / 100.0
+      endif
+      g%dm_green(leaf) = g%dm_green(leaf) - dlt
+      g%n_green(leaf) = g%n_green(leaf) - dlt * n_conc
+
+      ! Green stem
+      dlt = greenEaten%dlt(stemPart) * kg2gm / ha2sm
+      if (g%dm_green(stem) .gt. 0.0) then
+         n_conc = g%n_green(stem) / g%dm_green(stem)
+      else
+         n_conc = c%litter_n / 100.0
+      endif
+      g%dm_green(stem) = g%dm_green(stem) - dlt
+      g%n_green(stem) = g%n_green(stem) - dlt * n_conc
+
+
+      deadEaten = eaten%dm(deadPart) 
+      leafPart = 0
+      stemPart = 0
+      do pool = 1, deadEaten%num_part
+        if (deadEaten%part(pool) .eq. 'leaf') then
+           leafPart = pool
+        elseif (deadEaten%part(pool) .eq. 'stem') then
+           stemPart = pool
+        endif
+      end do
+
+      if (leafPart .eq. 0 .OR. stemPart .eq. 0) then
+         write(string, *)
+     :     ' missing dead leaf or stem part in'
+     :    ,' Grasp_remove_crop_biomass'
+         call fatal_error(err_user, string)
+      endif
+
+      ! dead leaf
+      if (g%dm_dead(leaf) .gt. 0.0) then
+         n_conc = g%n_dead(leaf) / g%dm_dead(leaf)
+      else
+         n_conc = c%litter_n / 100.0
+      endif
+      g%dm_dead(leaf) = g%dm_dead(leaf) - dlt
+      g%n_dead(leaf) = g%n_dead(leaf) - dlt * n_conc
+
+      if (g%dm_dead(stem) .gt. 0.0) then
+         n_conc = g%n_dead(stem) / g%dm_dead(stem)
+      else
+         n_conc = c%litter_n / 100.0
+      endif
+      g%dm_dead(stem) = g%dm_dead(stem) - dlt
+      g%n_dead(stem) = g%n_dead(stem) - dlt * n_conc
+
+      if ((g%dm_green(leaf) .lt. 0.0) .or.
+     :     (g%dm_green(stem) .lt. 0.0) .or.
+     :     (g%dm_dead(leaf) .lt. 0.0) .or.
+     :     (g%dm_dead(stem) .lt. 0.0) .or.
+     :     (g%litter .lt. 0.0) .OR.
+     :     (g%n_green(leaf) .lt. 0.0) .or.
+     :     (g%n_green(stem) .lt. 0.0) .or.
+     :     (g%n_dead(leaf) .lt. 0.0) .or.
+     :     (g%n_dead(stem) .lt. 0.0)) then
+
+         write(string, '(a,2f12.4)') ' green leaf dm,n = ',
+     :        g%dm_green(leaf),  g%n_green(leaf)
+         call write_string(string)
+
+         write(string, '(a,2f12.4)') ' green stem dm,n = ',
+     :        g%dm_green(stem), g%n_green(stem)
+         call write_string(string)
+
+         write(string, '(a,2f12.4)') ' dead leaf dm, n= ',
+     :        g%dm_dead(leaf), g%n_dead(leaf)
+         call write_string(string)
+
+         write(string, '(a,2f12.4)') ' dead stem dm, n= ',
+     :        g%dm_dead(stem), g%n_dead(stem)
+         call write_string(string)
+
+         write(string, '(2a)') ' Negative pool error in'
+     :          ,' Grasp_remove_crop_biomass'
+         call fatal_error(err_user, string)
+      endif
+      
+      call pop_routine (my_name)
+      return
+      end subroutine
 
 
       end module GraspModule
@@ -5425,6 +5601,7 @@ C     zero a few important state variables
 ! ====================================================================
       subroutine respondToEvent(fromID, eventID, variant)
       Use infrastructure
+      Use GraspModule
       implicit none
       ml_external respondToEvent
 
@@ -5432,6 +5609,10 @@ C     zero a few important state variables
       integer, intent(in) :: eventID
       integer, intent(in) :: variant
 
+      if (eventID .eq. ID%remove_crop_biomass) then
+         call Grasp_remove_crop_biomass(variant)
+      endif
+      
       return
       end subroutine respondToEvent
 
