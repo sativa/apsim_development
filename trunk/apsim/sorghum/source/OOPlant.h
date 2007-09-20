@@ -141,6 +141,7 @@ class OOPlant
    float frIntcRadn;
    float eo;
 
+   float co2;
    float coverGreen;
    float dltDeadPlants;
    TableFn tempStressTable;
@@ -154,12 +155,14 @@ class OOPlant
    // events.
    unsigned int cropChoppedID;
    unsigned int incorpFomID;
-   unsigned int swDepID;
+   unsigned int CO2ID;
 
    float radnInt(void);
 
    void initialize(void);
    void endPlant (void);
+   float rue_co2_modifier(void);
+   TableFn co2_te_modifier;
 
    public:
    // ------------------------------------------------------
@@ -202,7 +205,7 @@ class OOPlant
    float svp(float temp);
 
    float getTempStress(void)const{return tempStress;}
-   float getTranspEff(void)const{return transpEff;}
+   float getTranspEff(void)const{return (transpEff * co2_te_modifier.value(co2));}
    float getSowingDepth(void)const{return sowingDepth;}
    string getCropType(void)const{return cropType;}
 

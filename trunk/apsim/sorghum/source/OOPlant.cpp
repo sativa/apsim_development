@@ -134,7 +134,11 @@ void OOPlant::plantInit(void)
    setStatus(out);
 
    rowSpacingDefault = readVar (plantInterface,sections,"row_spacing_default" );
-
+   
+   // CO2 stuff
+   CO2ID = plantInterface->addRegistration(RegistrationType::get,"co2", 
+                                           "<type kind=\"single\" unit=\"mg/kg\"/>", "", "");
+   co2_te_modifier.read(plantInterface, sections, "x_co2_te_modifier", "y_co2_te_modifier");
   }
 //------------------------------------------------------------------------------------------------
 void OOPlant::setStatus(Status status)
@@ -253,11 +257,14 @@ void OOPlant::sowCrop(unsigned &, unsigned &, protocol::Variant &v)
 //------------------------------------------------------------------------------------------------
 void OOPlant::prepare (void)
    {
+   if (!plantInterface->getVariable(CO2ID, co2, 300.0, 1000.0, true))
+       co2 = 350.0;
+
    tempStress = tempStressTable.value(today.avgT);
 
    radnIntercepted = radnInt();
 
-   float rueToday = rue[(int) stage];
+   float rueToday = rue[(int) stage] * rue_co2_modifier();
 
    biomass->calcBiomassRUE(rueToday,radnIntercepted);
    transpEff = transpEfficiency();
@@ -271,6 +278,7 @@ void OOPlant::prepare (void)
 
    if(phosphorus->Active())
        phosphorus->prepare();
+
 
    }
 //------------------------------------------------------------------------------------------------
@@ -501,4 +509,13 @@ void OOPlant::get_height(protocol::Component *system, protocol::QueryValueData &
    system->sendVariable(qd, height);
    }
 
+
+float OOPlant::rue_co2_modifier(void)                 //!CO2 level (ppm)
+/*  Purpose
+*     Calculation of the CO2 modification on rue
+*/
+   {
+   const float scale = 1.0 / 350.0 * 0.05;
+   return (scale * this->co2 + 0.95); //Mark Howden, personal communication
+   }
 
