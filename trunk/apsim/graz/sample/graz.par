@@ -21,14 +21,10 @@ std_alw          = 200       ()
                                    ! (was hard coded) 
 metabol_expon    = 0.75      ()
                                    ! (was hard coded) 
-stocking_rate_init = 1         (hd/ha)
-                                   ! Initial stocking rate (beasts/ha) (p150) 
-alw_init         = 200       (kg)
-                                   ! Initial alw / hd 
 acc_eaten_reset  = 335       ()
                                    ! Day to reset eaten accumulator 
 
 prop_can_eat     = 1.0       ()    
 
-allow_supplements = true
+allow_supplements = 1
 
