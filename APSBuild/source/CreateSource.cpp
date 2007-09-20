@@ -234,6 +234,11 @@ class Field
             fieldNode.setAttribute("isArrayAndStructure", "T");
          else
             fieldNode.setAttribute("isArrayAndStructure", "F");
+         if (Str_i_Eq(dataTypeName, "string") && isArray)
+            fieldNode.setAttribute("isArrayAndString", "T");
+         else
+            fieldNode.setAttribute("isArrayAndString", "F");
+
          }
    private:
       string parentStructName;
