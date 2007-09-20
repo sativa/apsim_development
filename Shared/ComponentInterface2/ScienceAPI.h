@@ -231,73 +231,17 @@ class ScienceAPI
 //      virtual void subscribe(const std::string& name, boost::function1<void, NewMetType&> handler) = 0;
       virtual void publish(const std::string& name, NewMetType& data) = 0;
 
-      // SoilWaterProfileLayer
-//      virtual void subscribe(const std::string& name, boost::function1<void, SoilWaterProfileLayerType&> handler) = 0;
-      virtual void publish(const std::string& name, SoilWaterProfileLayerType& data) = 0;
-
       // SoilWaterLayer
 //      virtual void subscribe(const std::string& name, boost::function1<void, SoilWaterLayerType&> handler) = 0;
       virtual void publish(const std::string& name, SoilWaterLayerType& data) = 0;
-
-      // LateralFlowLayer
-//      virtual void subscribe(const std::string& name, boost::function1<void, LateralFlowLayerType&> handler) = 0;
-      virtual void publish(const std::string& name, LateralFlowLayerType& data) = 0;
-
-      // SoilWaterBalance
-//      virtual void subscribe(const std::string& name, boost::function1<void, SoilWaterBalanceType&> handler) = 0;
-      virtual void publish(const std::string& name, SoilWaterBalanceType& data) = 0;
 
       // NewSolute
 //      virtual void subscribe(const std::string& name, boost::function1<void, NewSoluteType&> handler) = 0;
       virtual void publish(const std::string& name, NewSoluteType& data) = 0;
 
-      // layer
-//      virtual void subscribe(const std::string& name, boost::function1<void, layerType&> handler) = 0;
-      virtual void publish(const std::string& name, layerType& data) = 0;
-
-      // SoluteProfile
-//      virtual void subscribe(const std::string& name, boost::function1<void, SoluteProfileType&> handler) = 0;
-      virtual void publish(const std::string& name, SoluteProfileType& data) = 0;
-
       // Irrigated
 //      virtual void subscribe(const std::string& name, boost::function1<void, IrrigatedType&> handler) = 0;
       virtual void publish(const std::string& name, IrrigatedType& data) = 0;
-
-      // CropWaterSupply
-//      virtual void subscribe(const std::string& name, boost::function1<void, CropWaterSupplyType&> handler) = 0;
-      virtual void publish(const std::string& name, CropWaterSupplyType& data) = 0;
-
-      // RootLayer
-//      virtual void subscribe(const std::string& name, boost::function1<void, RootLayerType&> handler) = 0;
-      virtual void publish(const std::string& name, RootLayerType& data) = 0;
-
-      // CropWaterDemand
-//      virtual void subscribe(const std::string& name, boost::function1<void, CropWaterDemandType&> handler) = 0;
-      virtual void publish(const std::string& name, CropWaterDemandType& data) = 0;
-
-      // CropNitrogenDemand
-//      virtual void subscribe(const std::string& name, boost::function1<void, CropNitrogenDemandType&> handler) = 0;
-      virtual void publish(const std::string& name, CropNitrogenDemandType& data) = 0;
-
-      // CropNitrogenSupply
-//      virtual void subscribe(const std::string& name, boost::function1<void, CropNitrogenSupplyType&> handler) = 0;
-      virtual void publish(const std::string& name, CropNitrogenSupplyType& data) = 0;
-
-      // Interception
-//      virtual void subscribe(const std::string& name, boost::function1<void, InterceptionType&> handler) = 0;
-      virtual void publish(const std::string& name, InterceptionType& data) = 0;
-
-      // LightProfile
-//      virtual void subscribe(const std::string& name, boost::function1<void, LightProfileType&> handler) = 0;
-      virtual void publish(const std::string& name, LightProfileType& data) = 0;
-
-      // Canopy
-//      virtual void subscribe(const std::string& name, boost::function1<void, CanopyType&> handler) = 0;
-      virtual void publish(const std::string& name, CanopyType& data) = 0;
-
-      // CanopyWaterBalance
-//      virtual void subscribe(const std::string& name, boost::function1<void, CanopyWaterBalanceType&> handler) = 0;
-      virtual void publish(const std::string& name, CanopyWaterBalanceType& data) = 0;
 
       // OrganicMatterFraction
 //      virtual void subscribe(const std::string& name, boost::function1<void, OrganicMatterFractionType&> handler) = 0;
@@ -318,10 +262,6 @@ class ScienceAPI
       // SurfaceWaterBalance
 //      virtual void subscribe(const std::string& name, boost::function1<void, SurfaceWaterBalanceType&> handler) = 0;
       virtual void publish(const std::string& name, SurfaceWaterBalanceType& data) = 0;
-
-      // FertiliserConstituents
-//      virtual void subscribe(const std::string& name, boost::function1<void, FertiliserConstituentsType&> handler) = 0;
-      virtual void publish(const std::string& name, FertiliserConstituentsType& data) = 0;
 
       // FPool
 //      virtual void subscribe(const std::string& name, boost::function1<void, FPoolType&> handler) = 0;
@@ -358,6 +298,10 @@ class ScienceAPI
       // IncorpFom
 //      virtual void subscribe(const std::string& name, boost::function1<void, IncorpFomType&> handler) = 0;
       virtual void publish(const std::string& name, IncorpFomType& data) = 0;
+
+      // layer
+//      virtual void subscribe(const std::string& name, boost::function1<void, layerType&> handler) = 0;
+      virtual void publish(const std::string& name, layerType& data) = 0;
 
       // SoilOrganicMatter
 //      virtual void subscribe(const std::string& name, boost::function1<void, SoilOrganicMatterType&> handler) = 0;

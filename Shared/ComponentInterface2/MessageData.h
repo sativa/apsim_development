@@ -219,7 +219,9 @@ inline void unpack(MessageData& messageData, std::vector<T>& values)
 template <class T>
 inline void pack(MessageData& messageData, const std::vector<T>& values)
    {
-   pack(messageData, (int)values.size());
+   int numValues = (int)values.size();
+  
+   pack(messageData, numValues);
    for (unsigned int i = 0; i < values.size(); i++)
       pack(messageData, values[i]);
    }
