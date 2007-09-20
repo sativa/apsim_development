@@ -519,7 +519,7 @@ void TableFn::load(vector<float> xVec,vector<float> yVec)
 //------------------------------------------------------------------------------------------------
 //------------ Return a y value from a table function
 //------------------------------------------------------------------------------------------------
-float TableFn::value(float v)
+float TableFn::value(float v) const
    {
    // find which sector of the function that v falls in
    unsigned sector;

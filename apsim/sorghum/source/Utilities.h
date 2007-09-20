@@ -108,7 +108,7 @@ class TableFn
    TableFn(vector<float> xVec,vector<float> yVec);
    void read(PlantInterface *P,  vector<string> sections, string xName, string yName);
    void load(vector<float> xVec,vector<float> yVec);
-   float value(float v);
+   float value(float v) const;
    };
 //------------------------------------------------------------------------------------------------
 #endif
