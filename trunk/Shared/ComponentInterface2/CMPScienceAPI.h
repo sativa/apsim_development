@@ -200,56 +200,14 @@ class EXPORT CMPScienceAPI : public ScienceAPI
 //      virtual void subscribe(const std::string& name, boost::function1<void, NewMetType&> handler);
       virtual void publish(const std::string& name, NewMetType& data);
 
-//      virtual void subscribe(const std::string& name, boost::function1<void, SoilWaterProfileLayerType&> handler);
-      virtual void publish(const std::string& name, SoilWaterProfileLayerType& data);
-
 //      virtual void subscribe(const std::string& name, boost::function1<void, SoilWaterLayerType&> handler);
       virtual void publish(const std::string& name, SoilWaterLayerType& data);
-
-//      virtual void subscribe(const std::string& name, boost::function1<void, LateralFlowLayerType&> handler);
-      virtual void publish(const std::string& name, LateralFlowLayerType& data);
-
-//      virtual void subscribe(const std::string& name, boost::function1<void, SoilWaterBalanceType&> handler);
-      virtual void publish(const std::string& name, SoilWaterBalanceType& data);
 
 //      virtual void subscribe(const std::string& name, boost::function1<void, NewSoluteType&> handler);
       virtual void publish(const std::string& name, NewSoluteType& data);
 
-//      virtual void subscribe(const std::string& name, boost::function1<void, layerType&> handler);
-      virtual void publish(const std::string& name, layerType& data);
-
-//      virtual void subscribe(const std::string& name, boost::function1<void, SoluteProfileType&> handler);
-      virtual void publish(const std::string& name, SoluteProfileType& data);
-
 //      virtual void subscribe(const std::string& name, boost::function1<void, IrrigatedType&> handler);
       virtual void publish(const std::string& name, IrrigatedType& data);
-
-//      virtual void subscribe(const std::string& name, boost::function1<void, CropWaterSupplyType&> handler);
-      virtual void publish(const std::string& name, CropWaterSupplyType& data);
-
-//      virtual void subscribe(const std::string& name, boost::function1<void, RootLayerType&> handler);
-      virtual void publish(const std::string& name, RootLayerType& data);
-
-//      virtual void subscribe(const std::string& name, boost::function1<void, CropWaterDemandType&> handler);
-      virtual void publish(const std::string& name, CropWaterDemandType& data);
-
-//      virtual void subscribe(const std::string& name, boost::function1<void, CropNitrogenDemandType&> handler);
-      virtual void publish(const std::string& name, CropNitrogenDemandType& data);
-
-//      virtual void subscribe(const std::string& name, boost::function1<void, CropNitrogenSupplyType&> handler);
-      virtual void publish(const std::string& name, CropNitrogenSupplyType& data);
-
-//      virtual void subscribe(const std::string& name, boost::function1<void, InterceptionType&> handler);
-      virtual void publish(const std::string& name, InterceptionType& data);
-
-//      virtual void subscribe(const std::string& name, boost::function1<void, LightProfileType&> handler);
-      virtual void publish(const std::string& name, LightProfileType& data);
-
-//      virtual void subscribe(const std::string& name, boost::function1<void, CanopyType&> handler);
-      virtual void publish(const std::string& name, CanopyType& data);
-
-//      virtual void subscribe(const std::string& name, boost::function1<void, CanopyWaterBalanceType&> handler);
-      virtual void publish(const std::string& name, CanopyWaterBalanceType& data);
 
 //      virtual void subscribe(const std::string& name, boost::function1<void, OrganicMatterFractionType&> handler);
       virtual void publish(const std::string& name, OrganicMatterFractionType& data);
@@ -265,9 +223,6 @@ class EXPORT CMPScienceAPI : public ScienceAPI
 
 //      virtual void subscribe(const std::string& name, boost::function1<void, SurfaceWaterBalanceType&> handler);
       virtual void publish(const std::string& name, SurfaceWaterBalanceType& data);
-
-//      virtual void subscribe(const std::string& name, boost::function1<void, FertiliserConstituentsType&> handler);
-      virtual void publish(const std::string& name, FertiliserConstituentsType& data);
 
 //      virtual void subscribe(const std::string& name, boost::function1<void, FPoolType&> handler);
       virtual void publish(const std::string& name, FPoolType& data);
@@ -295,6 +250,9 @@ class EXPORT CMPScienceAPI : public ScienceAPI
 
 //      virtual void subscribe(const std::string& name, boost::function1<void, IncorpFomType&> handler);
       virtual void publish(const std::string& name, IncorpFomType& data);
+
+//      virtual void subscribe(const std::string& name, boost::function1<void, layerType&> handler);
+      virtual void publish(const std::string& name, layerType& data);
 
 //      virtual void subscribe(const std::string& name, boost::function1<void, SoilOrganicMatterType&> handler);
       virtual void publish(const std::string& name, SoilOrganicMatterType& data);

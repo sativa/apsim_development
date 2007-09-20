@@ -526,53 +526,6 @@
                "<field name=\"vp\" kind=\"single\" units=\"????\" />"
                "</type>";}
 
-   //------ SoilWaterProfileLayer ------
-
-   void pack(MessageData& messageData, const SoilWaterProfileLayerType& data)
-      {
-      pack(messageData, data.thickness);
-      pack(messageData, data.BulkDensity);
-      pack(messageData, data.SatDepth);
-      pack(messageData, data.DULDepth);
-      pack(messageData, data.LL15Depth);
-      pack(messageData, data.AirDryDepth);
-      pack(messageData, data.SWDepth);
-      }
-   void unpack(MessageData& messageData, SoilWaterProfileLayerType& data)
-      {
-      unpack(messageData, data.thickness);
-      unpack(messageData, data.BulkDensity);
-      unpack(messageData, data.SatDepth);
-      unpack(messageData, data.DULDepth);
-      unpack(messageData, data.LL15Depth);
-      unpack(messageData, data.AirDryDepth);
-      unpack(messageData, data.SWDepth);
-      }
-   unsigned memorySize(const SoilWaterProfileLayerType& data)
-      {
-      return 0
-              + ::memorySize(data.thickness)
-              + ::memorySize(data.BulkDensity)
-              + ::memorySize(data.SatDepth)
-              + ::memorySize(data.DULDepth)
-              + ::memorySize(data.LL15Depth)
-              + ::memorySize(data.AirDryDepth)
-              + ::memorySize(data.SWDepth)
-              ;
-      }
-   std::string DDML(const SoilWaterProfileLayerType& data)
-      {return "<type name=\"SoilWaterProfileLayer\" array=\"T\">"
-               "<element>"
-               "<field name=\"thickness\" kind=\"single\" units=\"mm\" />"
-               "<field name=\"BulkDensity\" kind=\"single\" units=\"g/cc\" />"
-               "<field name=\"SatDepth\" kind=\"single\" units=\"mm\" />"
-               "<field name=\"DULDepth\" kind=\"single\" units=\"mm\" />"
-               "<field name=\"LL15Depth\" kind=\"single\" units=\"mm\" />"
-               "<field name=\"AirDryDepth\" kind=\"single\" units=\"mm\" />"
-               "<field name=\"SWDepth\" kind=\"single\" units=\"mm\" />"
-               "</element>"
-               "</type>";}
-
    //------ SoilWaterLayer ------
 
    void pack(MessageData& messageData, const SoilWaterLayerType& data)
@@ -598,71 +551,6 @@
                "<field name=\"thickness\" kind=\"single\" units=\"mm\" />"
                "<field name=\"amount\" kind=\"single\" units=\"mm\" />"
                "</element>"
-               "</type>";}
-
-   //------ LateralFlowLayer ------
-
-   void pack(MessageData& messageData, const LateralFlowLayerType& data)
-      {
-      pack(messageData, data.thickness);
-      pack(messageData, data.amount);
-      }
-   void unpack(MessageData& messageData, LateralFlowLayerType& data)
-      {
-      unpack(messageData, data.thickness);
-      unpack(messageData, data.amount);
-      }
-   unsigned memorySize(const LateralFlowLayerType& data)
-      {
-      return 0
-              + ::memorySize(data.thickness)
-              + ::memorySize(data.amount)
-              ;
-      }
-   std::string DDML(const LateralFlowLayerType& data)
-      {return "<field name=\"LateralFlowLayer\" array=\"T\">"
-               "<element>"
-               "<field name=\"thickness\" kind=\"single\" />"
-               "<field name=\"amount\" kind=\"single\" />"
-               "</element>"
-               "</field>";}
-
-   //------ SoilWaterBalance ------
-
-   void pack(MessageData& messageData, const SoilWaterBalanceType& data)
-      {
-      pack(messageData, data.infiltration);
-      pack(messageData, data.drainage);
-      pack(messageData, data.evaporation);
-      pack(messageData, data.LateralFlowLayer);
-      }
-   void unpack(MessageData& messageData, SoilWaterBalanceType& data)
-      {
-      unpack(messageData, data.infiltration);
-      unpack(messageData, data.drainage);
-      unpack(messageData, data.evaporation);
-      unpack(messageData, data.LateralFlowLayer);
-      }
-   unsigned memorySize(const SoilWaterBalanceType& data)
-      {
-      return 0
-              + ::memorySize(data.infiltration)
-              + ::memorySize(data.drainage)
-              + ::memorySize(data.evaporation)
-              + ::memorySize(data.LateralFlowLayer)
-              ;
-      }
-   std::string DDML(const SoilWaterBalanceType& data)
-      {return "<type name=\"SoilWaterBalance\">"
-               "<field name=\"infiltration\" kind=\"single\" />"
-               "<field name=\"drainage\" kind=\"single\" />"
-               "<field name=\"evaporation\" kind=\"single\" />"
-               "<field name=\"LateralFlowLayer\" array=\"T\">"
-               "<element>"
-               "<field name=\"thickness\" kind=\"single\" />"
-               "<field name=\"amount\" kind=\"single\" />"
-               "</element>"
-               "</field>"
                "</type>";}
 
    //------ NewSolute ------
@@ -742,65 +630,6 @@
                "<field name=\"solute_names_value\" kind=\"string\" array=\"T\" />"
                "</type>";}
 
-   //------ layer ------
-
-   void pack(MessageData& messageData, const layerType& data)
-      {
-      pack(messageData, data.thickness);
-      pack(messageData, data.amount);
-      }
-   void unpack(MessageData& messageData, layerType& data)
-      {
-      unpack(messageData, data.thickness);
-      unpack(messageData, data.amount);
-      }
-   unsigned memorySize(const layerType& data)
-      {
-      return 0
-              + ::memorySize(data.thickness)
-              + ::memorySize(data.amount)
-              ;
-      }
-   std::string DDML(const layerType& data)
-      {return "<field name=\"layer\" array=\"T\">"
-               "<element>"
-               "<field name=\"thickness\" kind=\"single\" />"
-               "<field name=\"amount\" kind=\"single\" />"
-               "</element>"
-               "</field>";}
-
-   //------ SoluteProfile ------
-
-   void pack(MessageData& messageData, const SoluteProfileType& data)
-      {
-      pack(messageData, data.name);
-      pack(messageData, data.layer);
-      }
-   void unpack(MessageData& messageData, SoluteProfileType& data)
-      {
-      unpack(messageData, data.name);
-      unpack(messageData, data.layer);
-      }
-   unsigned memorySize(const SoluteProfileType& data)
-      {
-      return 0
-              + ::memorySize(data.name)
-              + ::memorySize(data.layer)
-              ;
-      }
-   std::string DDML(const SoluteProfileType& data)
-      {return "<type name=\"SoluteProfile\" array=\"T\">"
-               "<element>"
-               "<field name=\"name\" kind=\"string\" />"
-               "<field name=\"layer\" array=\"T\">"
-               "<element>"
-               "<field name=\"thickness\" kind=\"single\" />"
-               "<field name=\"amount\" kind=\"single\" />"
-               "</element>"
-               "</field>"
-               "</element>"
-               "</type>";}
-
    //------ Irrigated ------
 
    void pack(MessageData& messageData, const IrrigatedType& data)
@@ -876,327 +705,6 @@
                "<field name=\"amount_code\" kind=\"integer4\" />"
                "<field name=\"amount_isarray\" kind=\"boolean\" />"
                "<field name=\"amount_value\" kind=\"single\" />"
-               "</type>";}
-
-   //------ CropWaterSupply ------
-
-   void pack(MessageData& messageData, const CropWaterSupplyType& data)
-      {
-      pack(messageData, data.name);
-      pack(messageData, data.layer);
-      }
-   void unpack(MessageData& messageData, CropWaterSupplyType& data)
-      {
-      unpack(messageData, data.name);
-      unpack(messageData, data.layer);
-      }
-   unsigned memorySize(const CropWaterSupplyType& data)
-      {
-      return 0
-              + ::memorySize(data.name)
-              + ::memorySize(data.layer)
-              ;
-      }
-   std::string DDML(const CropWaterSupplyType& data)
-      {return "<type name=\"CropWaterSupply\" array=\"T\">"
-               "<element>"
-               "<field name=\"name\" kind=\"string\" />"
-               "<field name=\"layer\" array=\"T\">"
-               "<element>"
-               "<field name=\"thickness\" kind=\"single\" unit=\"mm\" />"
-               "<field name=\"amount\" kind=\"single\" unit=\"mm\" />"
-               "</element>"
-               "</field>"
-               "</element>"
-               "</type>";}
-
-   //------ RootLayer ------
-
-   void pack(MessageData& messageData, const RootLayerType& data)
-      {
-      pack(messageData, data.thickness);
-      pack(messageData, data.RootLengthDensity);
-      pack(messageData, data.PotentialUptake);
-      }
-   void unpack(MessageData& messageData, RootLayerType& data)
-      {
-      unpack(messageData, data.thickness);
-      unpack(messageData, data.RootLengthDensity);
-      unpack(messageData, data.PotentialUptake);
-      }
-   unsigned memorySize(const RootLayerType& data)
-      {
-      return 0
-              + ::memorySize(data.thickness)
-              + ::memorySize(data.RootLengthDensity)
-              + ::memorySize(data.PotentialUptake)
-              ;
-      }
-   std::string DDML(const RootLayerType& data)
-      {return "<field name=\"RootLayer\" array=\"T\">"
-               "<element>"
-               "<field name=\"thickness\" kind=\"single\" units=\"mm\" />"
-               "<field name=\"RootLengthDensity\" kind=\"single\" units=\"mm/mm3\" />"
-               "<field name=\"PotentialUptake\" kind=\"single\" units=\"mm\" />"
-               "</element>"
-               "</field>";}
-
-   //------ CropWaterDemand ------
-
-   void pack(MessageData& messageData, const CropWaterDemandType& data)
-      {
-      pack(messageData, data.Name);
-      pack(messageData, data.CropType);
-      pack(messageData, data.RootLayer);
-      pack(messageData, data.amount);
-      }
-   void unpack(MessageData& messageData, CropWaterDemandType& data)
-      {
-      unpack(messageData, data.Name);
-      unpack(messageData, data.CropType);
-      unpack(messageData, data.RootLayer);
-      unpack(messageData, data.amount);
-      }
-   unsigned memorySize(const CropWaterDemandType& data)
-      {
-      return 0
-              + ::memorySize(data.Name)
-              + ::memorySize(data.CropType)
-              + ::memorySize(data.RootLayer)
-              + ::memorySize(data.amount)
-              ;
-      }
-   std::string DDML(const CropWaterDemandType& data)
-      {return "<type name=\"CropWaterDemand\" description=\"Message sent to add crop water demand terms to water balance calculations.\" array=\"T\">"
-               "<element>"
-               "<field name=\"Name\" kind=\"string\" description=\"Cohort name + instance name\" />"
-               "<field name=\"CropType\" kind=\"string\" />"
-               "<field name=\"RootLayer\" array=\"T\">"
-               "<element>"
-               "<field name=\"thickness\" kind=\"single\" units=\"mm\" />"
-               "<field name=\"RootLengthDensity\" kind=\"single\" units=\"mm/mm3\" />"
-               "<field name=\"PotentialUptake\" kind=\"single\" units=\"mm\" />"
-               "</element>"
-               "</field>"
-               "<field name=\"amount\" kind=\"single\" unit=\"mm\" />"
-               "</element>"
-               "</type>";}
-
-   //------ CropNitrogenDemand ------
-
-   void pack(MessageData& messageData, const CropNitrogenDemandType& data)
-      {
-      pack(messageData, data.Name);
-      pack(messageData, data.CropType);
-      pack(messageData, data.RootLayer);
-      pack(messageData, data.amount);
-      }
-   void unpack(MessageData& messageData, CropNitrogenDemandType& data)
-      {
-      unpack(messageData, data.Name);
-      unpack(messageData, data.CropType);
-      unpack(messageData, data.RootLayer);
-      unpack(messageData, data.amount);
-      }
-   unsigned memorySize(const CropNitrogenDemandType& data)
-      {
-      return 0
-              + ::memorySize(data.Name)
-              + ::memorySize(data.CropType)
-              + ::memorySize(data.RootLayer)
-              + ::memorySize(data.amount)
-              ;
-      }
-   std::string DDML(const CropNitrogenDemandType& data)
-      {return "<type name=\"CropNitrogenDemand\" array=\"T\" description=\"Message sent to add crop N demand terms to N balance calculations.\">"
-               "<element>"
-               "<field name=\"Name\" kind=\"string\" description=\"Cohort name + instance name\" />"
-               "<field name=\"CropType\" kind=\"string\" />"
-               "<field name=\"RootLayer\" array=\"T\">"
-               "<element>"
-               "<field name=\"thickness\" kind=\"single\" units=\"mm\" />"
-               "<field name=\"RootLengthDensity\" kind=\"single\" units=\"mm/mm3\" />"
-               "<field name=\"PotentialUptakeNO3\" kind=\"single\" units=\"kg/ha\" />"
-               "<field name=\"PotentialUptakeNH4\" kind=\"single\" units=\"kg/ha\" />"
-               "</element>"
-               "</field>"
-               "<field name=\"amount\" kind=\"single\" unit=\"kg/ha\" />"
-               "</element>"
-               "</type>";}
-
-   //------ CropNitrogenSupply ------
-
-   void pack(MessageData& messageData, const CropNitrogenSupplyType& data)
-      {
-      pack(messageData, data.name);
-      pack(messageData, data.layer);
-      }
-   void unpack(MessageData& messageData, CropNitrogenSupplyType& data)
-      {
-      unpack(messageData, data.name);
-      unpack(messageData, data.layer);
-      }
-   unsigned memorySize(const CropNitrogenSupplyType& data)
-      {
-      return 0
-              + ::memorySize(data.name)
-              + ::memorySize(data.layer)
-              ;
-      }
-   std::string DDML(const CropNitrogenSupplyType& data)
-      {return "<type name=\"CropNitrogenSupply\" array=\"T\">"
-               "<element>"
-               "<field name=\"name\" kind=\"string\" description=\"Crop type + instance name\" />"
-               "<field name=\"layer\" array=\"T\">"
-               "<element>"
-               "<field name=\"thickness\" kind=\"single\" unit=\"mm\" />"
-               "<field name=\"amount\">"
-               "<element>"
-               "<field name=\"NH4\" kind=\"single\" unit=\"kg/ha\" />"
-               "<field name=\"NO3\" kind=\"single\" unit=\"kg/ha\" />"
-               "</element>"
-               "</field>"
-               "</element>"
-               "</field>"
-               "</element>"
-               "</type>";}
-
-   //------ Interception ------
-
-   void pack(MessageData& messageData, const InterceptionType& data)
-      {
-      pack(messageData, data.name);
-      pack(messageData, data.CropType);
-      pack(messageData, data.layer);
-      }
-   void unpack(MessageData& messageData, InterceptionType& data)
-      {
-      unpack(messageData, data.name);
-      unpack(messageData, data.CropType);
-      unpack(messageData, data.layer);
-      }
-   unsigned memorySize(const InterceptionType& data)
-      {
-      return 0
-              + ::memorySize(data.name)
-              + ::memorySize(data.CropType)
-              + ::memorySize(data.layer)
-              ;
-      }
-   std::string DDML(const InterceptionType& data)
-      {return "<field name=\"Interception\" array=\"T\">"
-               "<element>"
-               "<field name=\"name\" kind=\"string\" />"
-               "<field name=\"CropType\" kind=\"string\" />"
-               "<field name=\"layer\" array=\"T\">"
-               "<element>"
-               "<field name=\"thickness\" kind=\"single\" />"
-               "<field name=\"amount\" kind=\"single\" />"
-               "</element>"
-               "</field>"
-               "</element>"
-               "</field>";}
-
-   //------ LightProfile ------
-
-   void pack(MessageData& messageData, const LightProfileType& data)
-      {
-      pack(messageData, data.Interception);
-      pack(messageData, data.transmission);
-      }
-   void unpack(MessageData& messageData, LightProfileType& data)
-      {
-      unpack(messageData, data.Interception);
-      unpack(messageData, data.transmission);
-      }
-   unsigned memorySize(const LightProfileType& data)
-      {
-      return 0
-              + ::memorySize(data.Interception)
-              + ::memorySize(data.transmission)
-              ;
-      }
-   std::string DDML(const LightProfileType& data)
-      {return "<type name=\"LightProfile\">"
-               "<field name=\"Interception\" array=\"T\">"
-               "<element>"
-               "<field name=\"name\" kind=\"string\" />"
-               "<field name=\"CropType\" kind=\"string\" />"
-               "<field name=\"layer\" array=\"T\">"
-               "<element>"
-               "<field name=\"thickness\" kind=\"single\" />"
-               "<field name=\"amount\" kind=\"single\" />"
-               "</element>"
-               "</field>"
-               "</element>"
-               "</field>"
-               "<field name=\"transmission\" kind=\"single\" />"
-               "</type>";}
-
-   //------ Canopy ------
-
-   void pack(MessageData& messageData, const CanopyType& data)
-      {
-      pack(messageData, data.name);
-      pack(messageData, data.CropType);
-      pack(messageData, data.PotentialEp);
-      }
-   void unpack(MessageData& messageData, CanopyType& data)
-      {
-      unpack(messageData, data.name);
-      unpack(messageData, data.CropType);
-      unpack(messageData, data.PotentialEp);
-      }
-   unsigned memorySize(const CanopyType& data)
-      {
-      return 0
-              + ::memorySize(data.name)
-              + ::memorySize(data.CropType)
-              + ::memorySize(data.PotentialEp)
-              ;
-      }
-   std::string DDML(const CanopyType& data)
-      {return "<field name=\"Canopy\" array=\"T\">"
-               "<element>"
-               "<field name=\"name\" kind=\"string\" />"
-               "<field name=\"CropType\" kind=\"string\" />"
-               "<field name=\"PotentialEp\" kind=\"single\" />"
-               "</element>"
-               "</field>";}
-
-   //------ CanopyWaterBalance ------
-
-   void pack(MessageData& messageData, const CanopyWaterBalanceType& data)
-      {
-      pack(messageData, data.Canopy);
-      pack(messageData, data.eo);
-      pack(messageData, data.interception);
-      }
-   void unpack(MessageData& messageData, CanopyWaterBalanceType& data)
-      {
-      unpack(messageData, data.Canopy);
-      unpack(messageData, data.eo);
-      unpack(messageData, data.interception);
-      }
-   unsigned memorySize(const CanopyWaterBalanceType& data)
-      {
-      return 0
-              + ::memorySize(data.Canopy)
-              + ::memorySize(data.eo)
-              + ::memorySize(data.interception)
-              ;
-      }
-   std::string DDML(const CanopyWaterBalanceType& data)
-      {return "<type name=\"CanopyWaterBalance\">"
-               "<field name=\"Canopy\" array=\"T\">"
-               "<element>"
-               "<field name=\"name\" kind=\"string\" />"
-               "<field name=\"CropType\" kind=\"string\" />"
-               "<field name=\"PotentialEp\" kind=\"single\" />"
-               "</element>"
-               "</field>"
-               "<field name=\"eo\" kind=\"single\" />"
-               "<field name=\"interception\" kind=\"single\" />"
                "</type>";}
 
    //------ OrganicMatterFraction ------
@@ -1369,42 +877,6 @@
                "<field name=\"evaporation\" kind=\"single\" />"
                "<field name=\"runon\" kind=\"single\" />"
                "<field name=\"WaterInput\" kind=\"single\" />"
-               "</type>";}
-
-   //------ FertiliserConstituents ------
-
-   void pack(MessageData& messageData, const FertiliserConstituentsType& data)
-      {
-      pack(messageData, data.name);
-      pack(messageData, data.SurfaceAmount);
-      pack(messageData, data.layer);
-      }
-   void unpack(MessageData& messageData, FertiliserConstituentsType& data)
-      {
-      unpack(messageData, data.name);
-      unpack(messageData, data.SurfaceAmount);
-      unpack(messageData, data.layer);
-      }
-   unsigned memorySize(const FertiliserConstituentsType& data)
-      {
-      return 0
-              + ::memorySize(data.name)
-              + ::memorySize(data.SurfaceAmount)
-              + ::memorySize(data.layer)
-              ;
-      }
-   std::string DDML(const FertiliserConstituentsType& data)
-      {return "<type name=\"FertiliserConstituents\" array=\"T\">"
-               "<element>"
-               "<field name=\"name\" kind=\"string\" />"
-               "<field name=\"SurfaceAmount\" kind=\"single\" />"
-               "<field name=\"layer\" array=\"T\">"
-               "<element>"
-               "<field name=\"thickness\" kind=\"single\" units=\"mm\" />"
-               "<field name=\"amount\" kind=\"single\" units=\"kg/ha\" />"
-               "</element>"
-               "</field>"
-               "</element>"
                "</type>";}
 
    //------ FPool ------
@@ -2010,6 +1482,37 @@
                "<field name=\"dlt_fom_p_isarray\" kind=\"boolean\" />"
                "<field name=\"dlt_fom_p_value\" kind=\"single\" array=\"T\" />"
                "</type>";}
+
+   //------ layer ------
+
+   void pack(MessageData& messageData, const layerType& data)
+      {
+      pack(messageData, data.OrganicMatterFraction);
+      }
+   void unpack(MessageData& messageData, layerType& data)
+      {
+      unpack(messageData, data.OrganicMatterFraction);
+      }
+   unsigned memorySize(const layerType& data)
+      {
+      return 0
+              + ::memorySize(data.OrganicMatterFraction)
+              ;
+      }
+   std::string DDML(const layerType& data)
+      {return "<field name=\"layer\" array=\"T\">"
+               "<element>"
+               "<field name=\"OrganicMatterFraction\" array=\"T\">"
+               "<element>"
+               "<field name=\"amount\" kind=\"single\" units=\"kg/ha\" />"
+               "<field name=\"C\" kind=\"single\" units=\"kg/ha\" />"
+               "<field name=\"N\" kind=\"single\" units=\"kg/ha\" />"
+               "<field name=\"P\" kind=\"single\" units=\"kg/ha\" />"
+               "<field name=\"AshAlk\" kind=\"single\" units=\"kg/ha\" />"
+               "</element>"
+               "</field>"
+               "</element>"
+               "</field>";}
 
    //------ SoilOrganicMatter ------
 

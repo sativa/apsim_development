@@ -49,6 +49,8 @@ struct Fstructure.nameType
    #for_each structure.field
    #if (field.isArrayAndStructure = T)
    Ffield.ctypeType field.name[max_array_size];
+   #elseif (field.isArrayAndString = T)
+   char field.name[max_array_size*max_array_size];
    #elseif (field.array = T)
    field.ctype field.name[max_array_size];
    #elseif (field.isStructure = T)
@@ -251,7 +253,11 @@ namespace protocol {
    inline protocol::MessageData& operator<<(protocol::MessageData& messageData, const Fstructure.nameType& data)
       {
       #for_each structure.field
-      #if (field.array = T)
+      #if (field.isArrayAndString = T)
+      messageData << data.num_field.name;
+      for (unsigned i = 0; i != data.num_field.name; i++)
+         messageData << FString(&data.field.name[i*max_array_size], max_array_size, FORString);
+      #elseif (field.array = T)
       messageData << data.num_field.name;
       for (unsigned i = 0; i != data.num_field.name; i++)
          messageData << data.field.name[i];
@@ -266,7 +272,16 @@ namespace protocol {
    inline protocol::MessageData& operator>>(protocol::MessageData& messageData, Fstructure.nameType& data)
       {
       #for_each structure.field
-      #if (field.array = T)
+      #if (field.isArrayAndString = T)
+      messageData >> data.num_field.name;
+      for (unsigned i = 0; i != data.num_field.name; i++)
+         {
+         FString field.nameString(&data.field.name[i*max_array_size], max_array_size, FORString);
+         FString field.nameAlias;
+         messageData >> field.nameAlias;
+         field.nameString = field.nameAlias;
+         }
+      #elseif (field.array = T)
       messageData >> data.num_field.name;
       for (unsigned i = 0; i != data.num_field.name; i++)
          messageData >> data.field.name[i];

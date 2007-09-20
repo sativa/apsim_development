@@ -249,23 +249,6 @@
    unsigned memorySize(const NewMetType& data);
    std::string DDML(const NewMetType& data);
 
-   //------ SoilWaterProfileLayer ------
-   struct SoilWaterProfileLayerType
-      {
-      float thickness;
-      float BulkDensity;
-      float SatDepth;
-      float DULDepth;
-      float LL15Depth;
-      float AirDryDepth;
-      float SWDepth;
-      };
-
-   void pack(MessageData& messageData, const SoilWaterProfileLayerType& data);
-   void unpack(MessageData& messageData, SoilWaterProfileLayerType& data);
-   unsigned memorySize(const SoilWaterProfileLayerType& data);
-   std::string DDML(const SoilWaterProfileLayerType& data);
-
    //------ SoilWaterLayer ------
    struct SoilWaterLayerType
       {
@@ -277,32 +260,6 @@
    void unpack(MessageData& messageData, SoilWaterLayerType& data);
    unsigned memorySize(const SoilWaterLayerType& data);
    std::string DDML(const SoilWaterLayerType& data);
-
-   //------ LateralFlowLayer ------
-   struct LateralFlowLayerType
-      {
-      float thickness;
-      float amount;
-      };
-
-   void pack(MessageData& messageData, const LateralFlowLayerType& data);
-   void unpack(MessageData& messageData, LateralFlowLayerType& data);
-   unsigned memorySize(const LateralFlowLayerType& data);
-   std::string DDML(const LateralFlowLayerType& data);
-
-   //------ SoilWaterBalance ------
-   struct SoilWaterBalanceType
-      {
-      float infiltration;
-      float drainage;
-      float evaporation;
-      std::vector<LateralFlowLayerType> LateralFlowLayer;
-      };
-
-   void pack(MessageData& messageData, const SoilWaterBalanceType& data);
-   void unpack(MessageData& messageData, SoilWaterBalanceType& data);
-   unsigned memorySize(const SoilWaterBalanceType& data);
-   std::string DDML(const SoilWaterBalanceType& data);
 
    //------ NewSolute ------
    struct NewSoluteType
@@ -329,30 +286,6 @@
    unsigned memorySize(const NewSoluteType& data);
    std::string DDML(const NewSoluteType& data);
 
-   //------ layer ------
-   struct layerType
-      {
-      float thickness;
-      float amount;
-      };
-
-   void pack(MessageData& messageData, const layerType& data);
-   void unpack(MessageData& messageData, layerType& data);
-   unsigned memorySize(const layerType& data);
-   std::string DDML(const layerType& data);
-
-   //------ SoluteProfile ------
-   struct SoluteProfileType
-      {
-      std::string name;
-      std::vector<layerType> layer;
-      };
-
-   void pack(MessageData& messageData, const SoluteProfileType& data);
-   void unpack(MessageData& messageData, SoluteProfileType& data);
-   unsigned memorySize(const SoluteProfileType& data);
-   std::string DDML(const SoluteProfileType& data);
-
    //------ Irrigated ------
    struct IrrigatedType
       {
@@ -377,122 +310,6 @@
    void unpack(MessageData& messageData, IrrigatedType& data);
    unsigned memorySize(const IrrigatedType& data);
    std::string DDML(const IrrigatedType& data);
-
-   //------ CropWaterSupply ------
-   struct CropWaterSupplyType
-      {
-      std::string name;
-      std::vector<layerType> layer;
-      };
-
-   void pack(MessageData& messageData, const CropWaterSupplyType& data);
-   void unpack(MessageData& messageData, CropWaterSupplyType& data);
-   unsigned memorySize(const CropWaterSupplyType& data);
-   std::string DDML(const CropWaterSupplyType& data);
-
-   //------ RootLayer ------
-   struct RootLayerType
-      {
-      float thickness;
-      float RootLengthDensity;
-      float PotentialUptake;
-      };
-
-   void pack(MessageData& messageData, const RootLayerType& data);
-   void unpack(MessageData& messageData, RootLayerType& data);
-   unsigned memorySize(const RootLayerType& data);
-   std::string DDML(const RootLayerType& data);
-
-   //------ CropWaterDemand ------
-   struct CropWaterDemandType
-      {
-      std::string Name;
-      std::string CropType;
-      std::vector<RootLayerType> RootLayer;
-      float amount;
-      };
-
-   void pack(MessageData& messageData, const CropWaterDemandType& data);
-   void unpack(MessageData& messageData, CropWaterDemandType& data);
-   unsigned memorySize(const CropWaterDemandType& data);
-   std::string DDML(const CropWaterDemandType& data);
-
-   //------ CropNitrogenDemand ------
-   struct CropNitrogenDemandType
-      {
-      std::string Name;
-      std::string CropType;
-      std::vector<RootLayerType> RootLayer;
-      float amount;
-      };
-
-   void pack(MessageData& messageData, const CropNitrogenDemandType& data);
-   void unpack(MessageData& messageData, CropNitrogenDemandType& data);
-   unsigned memorySize(const CropNitrogenDemandType& data);
-   std::string DDML(const CropNitrogenDemandType& data);
-
-   //------ CropNitrogenSupply ------
-   struct CropNitrogenSupplyType
-      {
-      std::string name;
-      std::vector<layerType> layer;
-      };
-
-   void pack(MessageData& messageData, const CropNitrogenSupplyType& data);
-   void unpack(MessageData& messageData, CropNitrogenSupplyType& data);
-   unsigned memorySize(const CropNitrogenSupplyType& data);
-   std::string DDML(const CropNitrogenSupplyType& data);
-
-   //------ Interception ------
-   struct InterceptionType
-      {
-      std::string name;
-      std::string CropType;
-      std::vector<layerType> layer;
-      };
-
-   void pack(MessageData& messageData, const InterceptionType& data);
-   void unpack(MessageData& messageData, InterceptionType& data);
-   unsigned memorySize(const InterceptionType& data);
-   std::string DDML(const InterceptionType& data);
-
-   //------ LightProfile ------
-   struct LightProfileType
-      {
-      std::vector<InterceptionType> Interception;
-      float transmission;
-      };
-
-   void pack(MessageData& messageData, const LightProfileType& data);
-   void unpack(MessageData& messageData, LightProfileType& data);
-   unsigned memorySize(const LightProfileType& data);
-   std::string DDML(const LightProfileType& data);
-
-   //------ Canopy ------
-   struct CanopyType
-      {
-      std::string name;
-      std::string CropType;
-      float PotentialEp;
-      };
-
-   void pack(MessageData& messageData, const CanopyType& data);
-   void unpack(MessageData& messageData, CanopyType& data);
-   unsigned memorySize(const CanopyType& data);
-   std::string DDML(const CanopyType& data);
-
-   //------ CanopyWaterBalance ------
-   struct CanopyWaterBalanceType
-      {
-      std::vector<CanopyType> Canopy;
-      float eo;
-      float interception;
-      };
-
-   void pack(MessageData& messageData, const CanopyWaterBalanceType& data);
-   void unpack(MessageData& messageData, CanopyWaterBalanceType& data);
-   unsigned memorySize(const CanopyWaterBalanceType& data);
-   std::string DDML(const CanopyWaterBalanceType& data);
 
    //------ OrganicMatterFraction ------
    struct OrganicMatterFractionType
@@ -560,19 +377,6 @@
    void unpack(MessageData& messageData, SurfaceWaterBalanceType& data);
    unsigned memorySize(const SurfaceWaterBalanceType& data);
    std::string DDML(const SurfaceWaterBalanceType& data);
-
-   //------ FertiliserConstituents ------
-   struct FertiliserConstituentsType
-      {
-      std::string name;
-      float SurfaceAmount;
-      std::vector<layerType> layer;
-      };
-
-   void pack(MessageData& messageData, const FertiliserConstituentsType& data);
-   void unpack(MessageData& messageData, FertiliserConstituentsType& data);
-   unsigned memorySize(const FertiliserConstituentsType& data);
-   std::string DDML(const FertiliserConstituentsType& data);
 
    //------ FPool ------
    struct FPoolType
@@ -767,6 +571,17 @@
    void unpack(MessageData& messageData, IncorpFomType& data);
    unsigned memorySize(const IncorpFomType& data);
    std::string DDML(const IncorpFomType& data);
+
+   //------ layer ------
+   struct layerType
+      {
+      std::vector<OrganicMatterFractionType> OrganicMatterFraction;
+      };
+
+   void pack(MessageData& messageData, const layerType& data);
+   void unpack(MessageData& messageData, layerType& data);
+   unsigned memorySize(const layerType& data);
+   std::string DDML(const layerType& data);
 
    //------ SoilOrganicMatter ------
    struct SoilOrganicMatterType
