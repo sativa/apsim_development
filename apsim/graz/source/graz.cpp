@@ -85,6 +85,16 @@ void grazComponent::onInit2(void)
    scienceAPI.read("stocking_rate", "beasts/ha", 1, stocking_rate,(float)  0.0, (float)100.0);
    scienceAPI.read("alw",           "kg",        1, alw,          (float)  0.0, (float)1000.0);
    scienceAPI.read("pasture_source","",          1, pasture_source);
+
+   cout << endl;
+   cout << "------- " << scienceAPI.name() << " Initialisation ";
+   cout.width(79-24-scienceAPI.name().length());
+   cout.fill('-');
+   cout << '-' << endl;
+   cout.fill(' ');
+   cout << "  Initial Stocking rate: " << stocking_rate << endl;
+   cout << "  Initial Live Weight: " << alw << endl;
+   cout << endl;
    }
 
 
@@ -101,12 +111,12 @@ void grazComponent::onPrepare(void)
    else
       prefix = pasture_source + ".";
 
-   scienceAPI.get(prefix + "dm_green_leaf",    "g/m^2", 0, green_leaf,   (float)0.0, (float)10000.0);
-   scienceAPI.get(prefix + "dm_green_stem",    "g/m^2", 0, green_stem,   (float)0.0, (float)10000.0);
+   scienceAPI.get(prefix + "dm_green_leaf",    "g/m^2", false, green_leaf,   (float)0.0, (float)10000.0);
+   scienceAPI.get(prefix + "dm_green_stem",    "g/m^2", false, green_stem,   (float)0.0, (float)10000.0);
    // NB. This ignores dm_dead_xx - dm attached to dead plants. FIXME!!
-   scienceAPI.get(prefix + "dm_senesced_leaf", "g/m^2", 0, dead_leaf,    (float)0.0, (float)10000.0);
-   scienceAPI.get(prefix + "dm_senesced_stem", "g/m^2", 0, dead_stem,    (float)0.0, (float)10000.0);
-   scienceAPI.get("growth",           "kg/ha", 0, grass_growth, (float)0.0, (float)10000.0);
+   scienceAPI.get(prefix + "dm_senesced_leaf", "g/m^2", false, dead_leaf,    (float)0.0, (float)10000.0);
+   scienceAPI.get(prefix + "dm_senesced_stem", "g/m^2", false, dead_stem,    (float)0.0, (float)10000.0);
+   scienceAPI.get("growth",           "kg/ha", false, grass_growth, (float)0.0, (float)10000.0);
    
    // Set deltas
    green_leaf_eaten = 0.0;
@@ -153,7 +163,6 @@ void grazComponent::eat(void)
    float stock_equiv;          // stock equivalent
 
 //   const float MIN_ALW = 10.0;
-
    green_pool = green_leaf + green_stem;
    dead_pool = dead_leaf + dead_stem;
    tsdm = green_pool + dead_pool;
@@ -336,7 +345,7 @@ void grazComponent::update (void)
       deadEaten.dlt.push_back(
            (dead_stem_eaten - dead_stem_tramp) * kg2gm / ha2sm);
       dmEaten.dm.push_back(deadEaten);
-         
+
       scienceAPI.publish("remove_crop_biomass", dmEaten);  
       }
 

@@ -1,37 +1,60 @@
-[graz.report.parameters]
+[ungrazed-grasp.report.parameters]
+outputfile =ungrazed-grasp.out
+[grazed-grasp.report.parameters]
+outputfile =grazed-grasp.out
+[ungrazed-wheat.report.parameters]
+outputfile =ungrazed-wheat.out
+[grazed-wheat.report.parameters]
+outputfile =grazed-wheat.out
 
-outputfile =model.out
+[wheat.report.parameters]
+variable = wheat.dm_green_leaf
+variable = wheat.dm_green_stem
+variable = wheat.dm_dead_leaf
+variable = wheat.dm_dead_stem
 
-variable = clock.year
-variable = clock.day
+[grasp.report.parameters]
 variable = grasp.green_pool
 variable = grasp.dead_pool
+
+[all.report.parameters]
+variable = clock.year
+variable = clock.day
+variable = manager.paddockState
 variable = surfaceom.surfaceom_wt as litter
 variable = graz.alw
-variable = graz.lwg
+variable = graz.stocking_rate
 variable = graz.acc_eaten
-variable = graz.acc_growth
 
 [graz.clock.parameters]
 start_date=1/1/1988
 end_date=1/1/1990
 
-[graz.manager.start_of_day]
+[all.manager.init]
+paddockState = 'empty'
+ready_to_graze = 0
 
-if (clock.day = clock.simulation_start_day and
-    clock.year = clock.simulation_start_year) then
-   grasp establish init_section = mature_sward
+[wheat.manager.init]
+growth = 0.0
 
+[wheat.manager.start_of_day]
+! This is accumulated within graz
+growth = wheat.dlt_dm
+
+[all.manager.end_of_day]
+annual_lwg = annual_lwg + graz.lwg
+report do_output
+
+[grazed.manager.start_of_day]
+if (ready_to_graze = 1 AND paddockState = 'empty') then
    graz set stocking_rate = 0.8
    graz set alw =  400.0                 ! p084
    annual_lwg = 0.0
+   paddockState = 'stocked'
 endif
 
-
 ! 'GRAZEON' stocking rate resets (%Use of TSDM for next year)
-annual_lwg = annual_lwg + graz.lwg
-
-if (today = date('1-jun') then                                 ! p081
+if (graz.stocking_rate > 0.0 AND today = date('1-jun') then                ! p081
    graz set alw = 400.0                                        ! p084
    avgDailyIntake = (annual_lwg/365.25 + 1.058) / 0.304
    targetUtil = 30.0 / 100.0                                   ! p083
@@ -46,20 +69,20 @@ if (today = date('1-jun') then                                 ! p081
    annual_lwg = 0.0
 endif
 
-[graz.manager.end_of_day]
-report do_output
 
-! Initial sward values
-[establishment.grasp.mature_sward]
-root_depth_init =  750      (mm)       ! Initial depth of roots
-dm_dead_leaf_init = 800        (kg/ha)
-dm_dead_stem_init = 400       (kg/ha)
-dm_dead_root_init =  400       (kg/ha)
-dm_green_leaf_init = 800        (kg/ha) ! Leaf weight at emergence (p135)
-dm_green_stem_init = 400       (kg/ha) ! Stem weight at emergence (p136)
-dm_green_root_init = 400        (kg/ha) ! Root weight at emergence
-basal_area_init =  1.5         (%)     ! Basal area (p005)
-acc_trans_for_n_init =  120        (mm)  ! Accumulated transpiration, used for N uptake
-acc_growth_for_n_init = 10    (kg/ha) ! Accumulated growth, used for N uptake
+[grasp.manager.start_of_day]
+if (clock.day = clock.simulation_start_day and
+    clock.year = clock.simulation_start_year) then
+   grasp establish init_section = seedling
+endif
 
+[grasp-grazed.manager.start_of_day]
+if (day = 222) then
+   ready_to_graze = 1
+endif
+
+[wheat-grazed.manager.start_of_day]
+if (wheat.stage > 5) then
+   ready_to_graze = 1
+endif
 
