@@ -343,12 +343,12 @@ float ResidueHerbage::bD ( void )
       return bd;
 }
 
-float ResidueHerbage::heightRatioVeg ( int pool )
+float ResidueHerbage::heightRatioVeg (void)
 {
       return  divide(100.0, 0.03*bD(), 0.0);
 }
 
-float ResidueHerbage::heightRatioSeed ( int pool )
+float ResidueHerbage::heightRatioSeed (void)
 {
       return  1.0;
 }

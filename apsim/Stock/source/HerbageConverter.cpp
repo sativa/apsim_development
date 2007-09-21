@@ -182,7 +182,7 @@ void HerbageConverter::sendTrampling(protocol::QueryValueData& queryData)
 
 void HerbageConverter::sendFeedOnOffer(protocol::QueryValueData& queryData)
 {
-      float dmFeedOnOffer[8] = {0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0};
+      float dmFeedOnOffer[20] = {0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0};
       int num_parts = feed.herbage.size();
       if (num_parts > 0)
       {
@@ -213,7 +213,7 @@ void HerbageConverter::sendFeedOnOffer(protocol::QueryValueData& queryData)
 
 void HerbageConverter::sendFeedRemoved(protocol::QueryValueData& queryData)
 {
-      float dmFeedRemoved[8] = {0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0};
+      float dmFeedRemoved[20] = {0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0};
       int num_parts = grazed.herbage.size();
       if (num_parts > 0)
       {
@@ -267,7 +267,7 @@ void HerbageConverter::sendPlant2Stock(protocol::QueryValueData& queryData)
          herbage.s_conc = conversion->sConcVeg(pool);      //parameter NSRatioLeaf = 19.0, NSRatioStem = 11.0;  herbage.s_conc = 0.0023;  kg/ha
          herbage.prot_dg = conversion->protDgVeg(pool);     // parameter ProtDegrade = 0.1;  herbage.prot_dg = 0.7;    // kg/ha
          herbage.ash_alk = conversion->ashAlkVeg(pool);      // herbage.ash_alk = 2.0;    // mol/kg
-         herbage.height_ratio = conversion->heightRatioVeg(pool);
+         herbage.height_ratio = conversion->heightRatioVeg();
 
          feed.herbage.push_back(herbage);
 
@@ -324,7 +324,7 @@ void HerbageConverter::sendPlant2Stock(protocol::QueryValueData& queryData)
       }
 
       protocol::seedType seed;
-      int seedClass;
+//      int seedClass;
 // Now PREPARE seed
       feed.seed.erase(feed.seed.begin(), feed.seed.end());
 
@@ -340,7 +340,7 @@ void HerbageConverter::sendPlant2Stock(protocol::QueryValueData& queryData)
             seed.s_conc = conversion->sConcSeed(pool);      //parameter NSRatioLeaf = 19.0, NSRatioStem = 11.0;  seed.s_conc = 0.0023;  kg/ha
             seed.prot_dg = conversion->protDgSeed(pool);     // parameter ProtDegrade = 0.1;  seed.prot_dg = 0.7;    // kg/ha
             seed.ash_alk = conversion->ashAlkSeed(pool);      // seed.ash_alk = 2.0;    // mol/kg
-            seed.height_ratio = conversion->heightRatioSeed(pool);
+            seed.height_ratio = conversion->heightRatioSeed();
 
             feed.seed.push_back(seed);
             feed.seed_class.push_back(conversion->seedClass(pool));

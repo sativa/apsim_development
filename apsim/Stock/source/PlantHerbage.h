@@ -5,6 +5,8 @@
 #include "PlantPool.h"
 #include "SeedPool.h"
 
+// number of plant parts
+ const int  max_part = 6 ; // NB. implies for (i=0; i < max_part; max_part++) usage
 
 // ------------------------------------------------------------------
 class PlantHerbage : public HerbageBase
@@ -20,10 +22,12 @@ class PlantHerbage : public HerbageBase
       void doDigestibility (void);
 
       void doRunTimeReg(void);
-      void getParts(PlantPartType &parts, SeedPartType &partsSeed, unsigned partsID);
-      void getPGreen(PlantPartType &pGreen, PlantPool &dm, SeedPartType &pGreenSeed, SeedPool &dmSeed);
-      void getPSenesced(PlantPartType &pSenesced, PlantPool &dm, SeedPartType &pSenescedSeed, SeedPool &dmSeed);
-      void getPDead(PlantPartType &pDead, PlantPool &dm, SeedPartType &pDeadSeed, SeedPool &dmSeed);
+      void doRegister(const int partNo, const std::string& partName);
+      float getPart(unsigned &partID);
+      void getParts(PlantPartType &parts, SeedPartType &partsSeed, unsigned partsID[]);
+      void getPGreen(PlantPartType &pGreen, PlantPool &dm, SeedPartType &pGreenSeed, SeedPool &dmSeed, unsigned partsID[]);
+      void getPSenesced(PlantPartType &pSenesced, PlantPool &dm, SeedPartType &pSenescedSeed, SeedPool &dmSeed, unsigned partsID[]);
+      void getPDead(PlantPartType &pDead, PlantPool &dm, SeedPartType &pDeadSeed, SeedPool &dmSeed, unsigned partsID[]);
       void getHeight(float &height);
       void getTrampling(void);
       void getStage(void);
@@ -31,7 +35,7 @@ class PlantHerbage : public HerbageBase
       void readHerbageModuleParameters ( void );
 
       void calcDmdDistribution(PlantPool dmdFraction[]);
-      void calcDmdClass(PlantPool &dmdClassMax, PlantPool &dmdClassMin);
+//      void calcDmdClass(void);
 ////      void calcDmdDecline(void);
 
       float dmTotalVeg(void);
@@ -59,16 +63,16 @@ class PlantHerbage : public HerbageBase
       void readParameters ( void );
       void proportion (float dmdAvg, float dmdMax, float dmdMin, float dmdFraction[]);
       void proportion (float dmdMax, float dmdMin, float dmdFraction[]);
-      void dmdClass (float dmdMax, float dmdMin, float &dmdClassMax, float &dmdClassMin);
+//      void dmdClass (float dmdMax, float dmdMin, float &dmdClassMax, float &dmdClassMin);
 
       float hHeight(void);
-      float heightRatioVeg(int pool);
+      float heightRatioVeg(void);
       float bD(void);
       float dmdValueVeg(int pool);
       float protDgVeg(int pool);
       int numDmdPoolsVeg ( void );
 
-      float heightRatioSeed(int pool);
+      float heightRatioSeed(void);
       float dmdValueSeed(int pool);
       float protDgSeed(int pool);
       int numDmdPoolsSeed ( void );
@@ -98,12 +102,17 @@ class PlantHerbage : public HerbageBase
       PlantPool dmdAvgVeg;
       PlantPool dmdMinVeg;
 
+      SeedPool dmdMaxSeed;
+      SeedPool dmdAvgSeed;
+      SeedPool dmdMinSeed;
+
       PlantPool dmdClassMaxVeg;
       PlantPool dmdClassMinVeg;
 
       PlantPool dmVeg;
       PlantPool NVeg;
       PlantPool PVeg;
+      PlantPool dmdVeg;
 ////      PlantPool dQVeg;
       float  eTrampling;
       float  height;
@@ -123,6 +132,7 @@ class PlantHerbage : public HerbageBase
       SeedPool dmSeed;
       SeedPool NSeed;
       SeedPool PSeed;
+      SeedPool dmdSeed;
 ////      SeedPool dQSeed;
 
          string cHerbageModuleName;
@@ -137,16 +147,26 @@ class PlantHerbage : public HerbageBase
    private:
 ////      protocol::Component *system;
       float divide (float dividend, float divisor, float default_value);
+      string addPartToName(const std::string& variableName, const std::string& partName);
 
-      unsigned dmGreenID;
-      unsigned dmSenescedID;
-      unsigned dmDeadID;
-      unsigned nGreenID;
-      unsigned nSenescedID;
-      unsigned nDeadID;
-      unsigned pGreenID;
-      unsigned pSenescedID;
-      unsigned pDeadID;
+      unsigned dmGreenID[max_part];
+      unsigned dmSenescedID[max_part];
+      unsigned dmDeadID[max_part];
+      unsigned nGreenID[max_part];
+      unsigned nSenescedID[max_part];
+      unsigned nDeadID[max_part];
+      unsigned pGreenID[max_part];
+      unsigned pSenescedID[max_part];
+      unsigned pDeadID[max_part];
+      unsigned dmdMaxGreenID[max_part];
+      unsigned dmdAvgGreenID[max_part];
+      unsigned dmdMinGreenID[max_part];
+      unsigned dmdMaxSenescedID[max_part];
+      unsigned dmdAvgSenescedID[max_part];
+      unsigned dmdMinSenescedID[max_part];
+      unsigned dmdMaxDeadID[max_part];
+      unsigned dmdAvgDeadID[max_part];
+      unsigned dmdMinDeadID[max_part];
       unsigned heightID;
       unsigned tramplingID;
       unsigned stageID;

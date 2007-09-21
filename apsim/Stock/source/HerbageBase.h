@@ -31,7 +31,7 @@ std::string ftoa(double Float);
 std::string ftoa(double Float, char *fmtwidth);
 std::string itoa(int value, int width);
 
-      const int maxDmdPoolsVeg = 6;
+      const int maxDmdPoolsVeg = 20;
       const int maxDmdPoolsSeed = 2;
       const int maxSeedClasses = 2;
 
@@ -57,7 +57,7 @@ class HerbageBase : public protocol::Component
     virtual float sConcVeg(int pool) = 0;
     virtual float protDgVeg(int pool) = 0;
     virtual float ashAlkVeg(int pool) = 0;
-    virtual float heightRatioVeg(int pool) = 0;
+    virtual float heightRatioVeg(void) = 0;
     virtual float bD(void) = 0;
     virtual float hHeight(void) = 0;
 
@@ -70,7 +70,7 @@ class HerbageBase : public protocol::Component
     virtual float sConcSeed(int pool) = 0;
     virtual float protDgSeed(int pool) = 0;
     virtual float ashAlkSeed(int pool) = 0;
-    virtual float heightRatioSeed(int pool) = 0;
+    virtual float heightRatioSeed(void) = 0;
     virtual void getStage(void) = 0;
     virtual float trampling(void) = 0;
 
