@@ -68,12 +68,6 @@ ApsimSettings.cpp:
 ApsimSimulationFile.cpp:
 ApsimSystemData.cpp:
 ApsimVersion.cpp:
-TAboutForm.cpp:
-Loaded pre-compiled headers.
-TSplashForm.cpp:
-Loaded cached pre-compiled headers.
-ApsimForms.cpp:
-Loaded cached pre-compiled headers.
 ApsimDataFile.cpp:
 ApsimDataTypesFile.cpp:
 Warning W8037 ApsimDataTypesFile.cpp 59: Non-const function XMLDocument::documentElement() called for const object in function ApsimDataTypesFile::begin() const
@@ -81,8 +75,6 @@ Warning W8037 ApsimDataTypesFile.cpp 66: Non-const function XMLDocument::documen
 ApsimDataTypeData.cpp:
 ApsimRegistrationData.cpp:
 ControlFileConverter.cpp:
-TMoveParametersForm.cpp:
-Loaded pre-compiled headers.
 SimCreator.cpp:
 SimCreatorSection.cpp:
 Loaded cached pre-compiled headers.
@@ -150,7 +142,8 @@ Wrote:C:\development\Shared\ComponentInterface\datatypes.h C:\development\Shared
 Borland C++ 5.6.4 for Win32 Copyright (c) 1993, 2002 Borland
 ComponentInterface.cpp:
 Component.cpp:
-Warning W8037 Component.cpp 163: Non-const function MessageData::reset() called for const object in function Component::messageToLogic(const Message *)
+Warning W8037 Component.cpp 162: Non-const function MessageData::reset() called for const object in function Component::messageToLogic(const Message *)
+Warning W8037 Component.cpp 425: Non-const function MessageData::reset() called for const object in function Component::respondToEvent(unsigned int &,unsigned int &,Variant &)
 message.cpp:
 Type.cpp:
 TypeConverter.cpp:
@@ -510,9 +503,9 @@ Lahey/Fujitsu Fortran 95 Compiler Release 5.60h  S/N: F9365075S
 Copyright (C) 1994-2002 Lahey Computer Systems.  All rights reserved.
 Copyright (C) 1998-2002 FUJITSU LIMITED. All rights reserved.
 Compiling program unit APSwimModule at line 1:
-Compiling program unit alloc_dealloc_instance at line 9520:
-Compiling program unit Main at line 9549:
-Compiling program unit respondToEvent at line 9641:
+Compiling program unit alloc_dealloc_instance at line 9731:
+Compiling program unit Main at line 9760:
+Compiling program unit respondToEvent at line 9852:
 Encountered 0 errors, 0 warnings in file apswim.for.
 Compiling file apswim.for.
 Lahey/Fujitsu Fortran 95 Compiler Release 5.60h  S/N: F9365075S 
@@ -691,15 +684,21 @@ Lahey/Fujitsu Fortran 95 Compiler Release 5.60h  S/N: F9365075S
 Copyright (C) 1994-2002 Lahey Computer Systems.  All rights reserved.
 Copyright (C) 1998-2002 FUJITSU LIMITED. All rights reserved.
 Compiling program unit GraspModule at line 1:
-Compiling program unit alloc_dealloc_instance at line 5308:
-Compiling program unit Main at line 5337:
-Compiling program unit respondToEvent at line 5442:
+Compiling program unit alloc_dealloc_instance at line 5464:
+Compiling program unit Main at line 5493:
+Compiling program unit respondToEvent at line 5598:
 Encountered 0 errors, 0 warnings in file grasp.for.
 Compiling file grasp.for.
 Lahey/Fujitsu Fortran 95 Compiler Release 5.60h  S/N: F9365075S 
 Copyright (C) 1994-2002 Lahey Computer Systems.  All rights reserved.
 Copyright (C) 1998-2002 FUJITSU LIMITED. All rights reserved.
 386|LINK: 9.2 -- Copyright (C) 1986-98 Phar Lap Software, Inc.
+------Compiling C:\development\apsim\graz\source
+MAKE Version 5.2  Copyright (c) 1987, 2000 Borland
+Borland C++ 5.6.4 for Win32 Copyright (c) 1993, 2002 Borland
+graz.cpp:
+grazComponent.cpp:
+Turbo Incremental Link 5.64 Copyright (c) 1997-2002 Borland
 ------Compiling C:\development\apsim\Growth\Source
 MAKE Version 5.2  Copyright (c) 1987, 2000 Borland
 Lahey/Fujitsu Fortran 95 Compiler Release 5.60h  S/N: F9365075S 
@@ -712,9 +711,9 @@ Lahey/Fujitsu Fortran 95 Compiler Release 5.60h  S/N: F9365075S
 Copyright (C) 1994-2002 Lahey Computer Systems.  All rights reserved.
 Copyright (C) 1998-2002 FUJITSU LIMITED. All rights reserved.
 Compiling program unit GrowthModule at line 1:
-Compiling program unit alloc_dealloc_instance at line 6886:
-Compiling program unit Main at line 6915:
-Compiling program unit respondToEvent at line 6991:
+Compiling program unit alloc_dealloc_instance at line 6879:
+Compiling program unit Main at line 6908:
+Compiling program unit respondToEvent at line 6984:
 Encountered 0 errors, 0 warnings in file growth.for.
 Compiling file growth.for.
 Lahey/Fujitsu Fortran 95 Compiler Release 5.60h  S/N: F9365075S 
@@ -790,9 +789,9 @@ Lahey/Fujitsu Fortran 95 Compiler Release 5.60h  S/N: F9365075S
 Copyright (C) 1994-2002 Lahey Computer Systems.  All rights reserved.
 Copyright (C) 1998-2002 FUJITSU LIMITED. All rights reserved.
 Compiling program unit ManagerModule at line 1:
-Compiling program unit alloc_dealloc_instance at line 3659:
-Compiling program unit Main at line 3684:
-Compiling program unit respondToEvent at line 3744:
+Compiling program unit alloc_dealloc_instance at line 3690:
+Compiling program unit Main at line 3715:
+Compiling program unit respondToEvent at line 3775:
 Encountered 0 errors, 0 warnings in file manager.for.
 Compiling file manager.for.
 Lahey/Fujitsu Fortran 95 Compiler Release 5.60h  S/N: F9365075S 
@@ -853,10 +852,10 @@ Lahey/Fujitsu Fortran 95 Compiler Release 5.60h  S/N: F9365075S
 Copyright (C) 1994-2002 Lahey Computer Systems.  All rights reserved.
 Copyright (C) 1998-2002 FUJITSU LIMITED. All rights reserved.
 Compiling program unit MilletModule at line 1:
-Compiling program unit alloc_dealloc_instance at line 5193:
-Compiling program unit Main at line 5223:
-Compiling program unit respondToEvent at line 5408:
-Compiling program unit doSysbalRegistrations at line 5428:
+Compiling program unit alloc_dealloc_instance at line 5186:
+Compiling program unit Main at line 5216:
+Compiling program unit respondToEvent at line 5401:
+Compiling program unit doSysbalRegistrations at line 5421:
 Encountered 0 errors, 0 warnings in file mil_main.for.
 Compiling file mil_main.for.
 Lahey/Fujitsu Fortran 95 Compiler Release 5.60h  S/N: F9365075S 
@@ -914,7 +913,7 @@ Compiling program unit OzcotModule at line 1:
 Compiling program unit alloc_dealloc_instance at line 7400:
 Compiling program unit Main at line 7430:
 Compiling program unit doInit1 at line 7574:
-Compiling program unit respondToEvent at line 7752:
+Compiling program unit respondToEvent at line 7750:
 Encountered 0 errors, 0 warnings in file ozcot.for.
 Compiling file ozcot.for.
 Lahey/Fujitsu Fortran 95 Compiler Release 5.60h  S/N: F9365075S 
@@ -976,7 +975,6 @@ MAKE Version 5.2  Copyright (c) 1987, 2000 Borland
 Borland C++ 5.6.4 for Win32 Copyright (c) 1993, 2002 Borland
 PlantComponent.cpp:
 Plant.cpp:
-Warning W8004 Plant.cpp 2013: 'fractIncidentRadn' is assigned a value that is never used in function Plant::plant_light_supply_partition(int)
 PlantPart.cpp:
 PlantBiomass.cpp:
 PlantCanopy.cpp:
@@ -984,17 +982,17 @@ Loaded cached pre-compiled headers.
 PlantFail.cpp:
 PlantLibrary.cpp:
 PlantNitrogen.cpp:
-Borland C++ 5.6.4 for Win32 Copyright (c) 1993, 2002 Borland
-Root\PlantRoot.cpp:
-Borland C++ 5.6.4 for Win32 Copyright (c) 1993, 2002 Borland
 PlantTemp.cpp:
 Borland C++ 5.6.4 for Win32 Copyright (c) 1993, 2002 Borland
 Utility\PlantUtility.cpp:
 Borland C++ 5.6.4 for Win32 Copyright (c) 1993, 2002 Borland
-PlantWater.cpp:
-Borland C++ 5.6.4 for Win32 Copyright (c) 1993, 2002 Borland
 Utility\Data.cpp:
-Borland C++ 5.6.4 for Win32 Copyright (c) 1993, 2002 Borland
+Utility\ExternalFunction.cpp:
+Loaded cached pre-compiled headers.
+Utility\InterpolationFunction.cpp:
+Loaded cached pre-compiled headers.
+Utility\LookupFunction.cpp:
+Loaded cached pre-compiled headers.
 Utility\Science.cpp:
 Loaded pre-compiled headers.
 Utility\Date.cpp:
@@ -1013,7 +1011,11 @@ Leaf\LeafPart.cpp:
 Borland C++ 5.6.4 for Win32 Copyright (c) 1993, 2002 Borland
 StemPart.cpp:
 Borland C++ 5.6.4 for Win32 Copyright (c) 1993, 2002 Borland
+Storage\StoragePart.cpp:
+Borland C++ 5.6.4 for Win32 Copyright (c) 1993, 2002 Borland
 Reproductive\PodPart.cpp:
+Borland C++ 5.6.4 for Win32 Copyright (c) 1993, 2002 Borland
+Reproductive\FloretPart.cpp:
 Reproductive\MealPart.cpp:
 Reproductive\OilPart.cpp:
 Reproductive\GrainPart.cpp:
@@ -1022,7 +1024,10 @@ Reproductive\GrainPartGN.cpp:
 Borland C++ 5.6.4 for Win32 Copyright (c) 1993, 2002 Borland
 CompositePart.cpp:
 Borland C++ 5.6.4 for Win32 Copyright (c) 1993, 2002 Borland
+Root\RootBase.cpp:
 Root\RootPart.cpp:
+Root\NoRoot.cpp:
+Root\MultiRoot.cpp:
 Root\RootGrowthOption1.cpp:
 Root\RootGrowthOption2.cpp:
 Borland C++ 5.6.4 for Win32 Copyright (c) 1993, 2002 Borland
@@ -1043,6 +1048,9 @@ Arbitrators\arbitrator.cpp:
 Borland C++ 5.6.4 for Win32 Copyright (c) 1993, 2002 Borland
 Arbitrators\NullArbitrator.cpp:
 Arbitrators\GenericArbitrator.cpp:
+Arbitrators\GenericArbitratorXY.cpp:
+Arbitrators\CerealArbitrator.cpp:
+Arbitrators\AllometricArbitrator.cpp:
 Borland C++ 5.6.4 for Win32 Copyright (c) 1993, 2002 Borland
 PlantSpatial.cpp:
 Borland C++ 5.6.4 for Win32 Copyright (c) 1993, 2002 Borland
@@ -1190,9 +1198,9 @@ Lahey/Fujitsu Fortran 95 Compiler Release 5.60h  S/N: F9365075S
 Copyright (C) 1994-2002 Lahey Computer Systems.  All rights reserved.
 Copyright (C) 1998-2002 FUJITSU LIMITED. All rights reserved.
 Compiling program unit SoilTempModule at line 1:
-Compiling program unit alloc_dealloc_instance at line 1398:
-Compiling program unit Main at line 1429:
-Compiling program unit respondToEvent at line 1503:
+Compiling program unit alloc_dealloc_instance at line 1385:
+Compiling program unit Main at line 1416:
+Compiling program unit respondToEvent at line 1490:
 Encountered 0 errors, 0 warnings in file soiltemp.for.
 Compiling file soiltemp.for.
 Lahey/Fujitsu Fortran 95 Compiler Release 5.60h  S/N: F9365075S 
@@ -1217,10 +1225,10 @@ Lahey/Fujitsu Fortran 95 Compiler Release 5.60h  S/N: F9365075S
 Copyright (C) 1994-2002 Lahey Computer Systems.  All rights reserved.
 Copyright (C) 1998-2002 FUJITSU LIMITED. All rights reserved.
 Compiling program unit Soilwat2Module at line 1:
-Compiling program unit alloc_dealloc_instance at line 6953:
-Compiling program unit Main at line 6987:
-Compiling program unit respondToEvent at line 7125:
-Compiling program unit doInit1 at line 7146:
+Compiling program unit alloc_dealloc_instance at line 7012:
+Compiling program unit Main at line 7046:
+Compiling program unit respondToEvent at line 7184:
+Compiling program unit doInit1 at line 7205:
 Encountered 0 errors, 0 warnings in file soilwat2.for.
 Compiling file soilwat2.for.
 Lahey/Fujitsu Fortran 95 Compiler Release 5.60h  S/N: F9365075S 
@@ -1273,7 +1281,7 @@ OOPlantComponents.cpp:
 OOWater.cpp:
 OOPhenology.cpp:
 OOPlant.cpp:
-Warning W8004 OOPlant.cpp 399: 'killfr' is assigned a value that is never used in function OOPlant::death()
+Warning W8004 OOPlant.cpp 407: 'killfr' is assigned a value that is never used in function OOPlant::death()
 OORoots.cpp:
 Warning W8004 OORoots.cpp 394: 'pInc' is assigned a value that is never used in function Roots::incorporateResidue()
 Warning W8004 OORoots.cpp 394: 'nInc' is assigned a value that is never used in function Roots::incorporateResidue()
@@ -1311,9 +1319,9 @@ Copyright (C) 1998-2002 FUJITSU LIMITED. All rights reserved.
 Compiling program unit SugarModule at line 1:
  Module subprogram name(sugar_nit_demand)
   2438-W: "sugar.for", line 5169: Name demand_parts enclosed in slashes is not a common block name in a SAVE statement.
-Compiling program unit alloc_dealloc_instance at line 4996:
-Compiling program unit Main at line 5026:
-Compiling program unit respondToEvent at line 5150:
+Compiling program unit alloc_dealloc_instance at line 4990:
+Compiling program unit Main at line 5020:
+Compiling program unit respondToEvent at line 5144:
 Encountered 0 errors, 1 warning in file sgr_main.for.
 Compiling file sgr_main.for.
 Lahey/Fujitsu Fortran 95 Compiler Release 5.60h  S/N: F9365075S 
@@ -1384,9 +1392,9 @@ Lahey/Fujitsu Fortran 95 Compiler Release 5.60h  S/N: F9365075S
 Copyright (C) 1994-2002 Lahey Computer Systems.  All rights reserved.
 Copyright (C) 1998-2002 FUJITSU LIMITED. All rights reserved.
 Compiling program unit SysBalModule at line 1:
-Compiling program unit alloc_dealloc_instance at line 2265:
-Compiling program unit Main at line 2290:
-Compiling program unit respondToEvent at line 2371:
+Compiling program unit alloc_dealloc_instance at line 2277:
+Compiling program unit Main at line 2302:
+Compiling program unit respondToEvent at line 2383:
 Encountered 0 errors, 0 warnings in file sysbal.for.
 Compiling file sysbal.for.
 Lahey/Fujitsu Fortran 95 Compiler Release 5.60h  S/N: F9365075S 
@@ -1496,9 +1504,10 @@ Lahey/Fujitsu Fortran 95 Compiler Release 5.60h  S/N: F9365075S
 Copyright (C) 1994-2002 Lahey Computer Systems.  All rights reserved.
 Copyright (C) 1998-2002 FUJITSU LIMITED. All rights reserved.
 Compiling program unit WaterSupplyModule at line 1:
-Compiling program unit alloc_dealloc_instance at line 1553:
-Compiling program unit Main at line 1583:
-Compiling program unit respondToEvent at line 1650:
+Compiling program unit doInit1 at line 1548:
+Compiling program unit alloc_dealloc_instance at line 1581:
+Compiling program unit Main at line 1611:
+Compiling program unit respondToEvent at line 1678:
 Encountered 0 errors, 0 warnings in file WaterSupply.f90.
 Compiling file WaterSupply.f90.
 Lahey/Fujitsu Fortran 95 Compiler Release 5.60h  S/N: F9365075S 
@@ -1513,16 +1522,3 @@ YPComponent.cpp:
 Loaded cached pre-compiled headers.
 WARNING: your code should #include oleauto.h instead of variant.h
 Turbo Incremental Link 5.64 Copyright (c) 1997-2002 Borland
-
-Microsoft (R) Visual Studio Version 8.0.50727.42.
-Copyright (C) Microsoft Corp 1984-2005. All rights reserved.
------- Build started: Project: VBGeneral, Configuration: Release Any CPU ------
-VBGeneral -> C:\development\Shared\VBGeneral\bin\Release\VBGeneral.dll
------- Build started: Project: CSGeneral, Configuration: Release Any CPU ------
-CSGeneral -> C:\development\Shared\CSGeneral\bin\Release\CSGeneral.dll
------- Build started: Project: GetComponentDescription, Configuration: Release Any CPU ------
-C:\WINDOWS\Microsoft.NET\Framework\v2.0.50727\Csc.exe /noconfig /unsafe- /checked- /nowarn:1701,1702 /nostdlib- /errorreport:prompt /warn:4 /baseaddress:285212672 /define:TRACE /reference:C:\development\Shared\CSGeneral\bin\Release\CSGeneral.dll /reference:C:\WINDOWS\Microsoft.NET\Framework\v2.0.50727\System.Data.dll /reference:C:\WINDOWS\Microsoft.NET\Framework\v2.0.50727\System.dll /reference:C:\WINDOWS\Microsoft.NET\Framework\v2.0.50727\System.Xml.dll /debug- /filealign:4096 /optimize+ /out:obj\Release\GetComponentDescription.exe /target:exe /warnaserror- /win32icon:App.ico AssemblyInfo.cs GetComponentDescription.cs
-
-Compile complete -- 0 errors, 0 warnings
-GetComponentDescription -> C:\development\Bin\GetComponentDescription.exe
-========== Build: 3 succeeded or up-to-date, 0 failed, 0 skipped ==========
