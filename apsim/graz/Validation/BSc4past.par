@@ -1,33 +1,44 @@
 [BSc4past.clock.parameters]
-start_date=31/12/1899     ! dd/mm/yyyy
-!end_date=31/12/2003     ! dd/mm/yyyy
-end_date=31/12/1910     ! dd/mm/yyyy
+start_date=1/1/1900     ! dd/mm/yyyy
+!end_date=31/12/1902     ! dd/mm/yyyy
+end_date=31/12/2003     ! dd/mm/yyyy
 
 
 [daily.daily.parameters]
-outputfile =daily.out
-variable = clock.year
-variable = clock.day
-variable = soilwat2.sw_dep
-variable = soilwat2.eos
-variable = soilwat2.es
-variable = soilwat2.cover_surface_runoff as soilwat_cover
+outputfile = daily.out
+variable = clock.dd/mm/yyyy   as Date
+variable = soilwat2.sw_dep(1) as sw1
+variable = soilwat2.sw_dep(2) as sw2
+variable = soilwat2.sw_dep(3) as sw3
+variable = manager.grass_sw   as grass_sw
+variable = soilwat2.sw_dep()  as total_sw
+variable = soilwat2.eos       as sevap_pot
+variable = soilwat2.es        as sevap_tot
+variable = soilwat2.drainage
+variable = soilwat2.runoff
+variable = soilwat2.cover_surface_runoff as run_cov
+
+variable = grasp.basal_area   as grass_ba
+variable = grasp.tsdm         as tsdm
 variable = grasp.green_pool
 variable = grasp.dead_pool
-variable = grasp.growth_transp
-variable = grasp.growth_photo
-variable = grasp.growth_regrowth
-variable = grasp.growth
-variable = grasp.death
-variable = grasp.n_index
-variable = grasp.rad_index
-variable = grasp.sw_index
-variable = grasp.temp_index
-variable = grasp.growth_index
-variable = grasp.basal_area
-variable = grasp.cover_tot
-variable = surfaceom.surfaceom_wt
-variable = surfaceom.surfaceom_cover
+variable = surfaceom.surfaceom_wt as litter
+
+variable = grasp.pot_trans_grass  as pot_trans
+variable = grasp.growth_transp    as grwth_trans
+variable = grasp.growth_photo     as grwth_rad
+variable = grasp.growth_regrowth  as grwth_regr
+variable = grasp.growth           as growth
+variable = grasp.death            as death
+variable = grasp.n_index          as n_ndx
+variable = grasp.rad_index        as rad_ndx
+variable = grasp.sw_index         as swi
+variable = grasp.temp_index       as temp_ndx
+variable = grasp.growth_index     as grwth_ndx
+
+variable = graz.alw
+variable = graz.acc_eaten
+variable = graz.daily_lwg
 
 [annual.annual.parameters]
 outputfile =annual.out
@@ -36,25 +47,32 @@ variable = tracker.rainfall
 variable = tracker.runoff
 variable = tracker.drainage
 variable = tracker.Esoil
-variable = tracker.Eplant
-variable = tracker.grassEaten
+variable = tracker.Egrass
+variable = tracker.grass_growth 
+variable = tracker.growth_regrow
+variable = tracker.growth_trans
+variable = tracker.growth_rad
 variable = tracker.lwg
 
-[annual.tracker.parameters]
+[all.tracker.parameters]
 variable = sum of met.rain on start_of_day from start_year to now as rainfall
 variable = sum of soilwat2.drain on end_of_day from start_year to now as drainage
 variable = sum of soilwat2.runoff on end_of_day from start_year to now as runoff
 variable = sum of soilwat2.es on end_of_day from start_year to now as Esoil
-variable = sum of grasp.ep on end_of_day from start_year to now as Eplant
+variable = sum of grasp.ep on end_of_day from start_year to now as Egrass
 variable = sum of graz.intake_restr on end_of_day from start_year to now as grassEaten
 variable = sum of graz.lwg on end_of_day from start_year to now as lwg
+variable = sum of grasp.growth on end_of_day from start_year to now as grass_growth
+variable = sum of grasp.growth_regrowth on end_of_day from start_year to now as growth_regrow
+variable = sum of grasp.growth_transp on end_of_day from start_year to now as growth_trans
+variable = sum of grasp.growth_photo on end_of_day from start_year to now as growth_rad
 
 
 
 [BlackVertosol.soilwat2.parameters]
 u               = 6         (mm)
 cona            = 3.5        ()
-insoil          = 1.0       ()
+insoil          = 2.0       ()
 cn2_bare        = 73        ()
 cn_red          = 20        ()
 cn_cov          = 0.8       ()
@@ -62,14 +80,15 @@ salb            = 0.12       ()
 diffus_const    = 40        ()
 diffus_slope    = 16        ()
 
-dlayer            = 150  150  300  300  300  300   300  200  1000
-air_dry           = 0.12 0.19 0.24 0.24 0.24 0.24 0.24 0.24  0.24
-ll15              = 0.24 0.24 0.24 0.24 0.24 0.24 0.24 0.24  0.24
-dul               = 0.48 0.46 0.46 0.35 0.33 0.33 0.32 0.31  0.30
-sat               = 0.58 0.51 0.51 0.47 0.43 0.4  0.39 0.38  0.37
-bd               = 1.04  1.22 1.21 1.32 1.42 1.5  1.5  1.5   1.5  ()
-ks               = 1.0   1.0  1.0  0.1  0.1  0.1  0.1  0.1   0.1 ()
-swcon =            0.3   0.3  0.3  0.3  0.3  0.3  0.3  0.3   0.3
+dlayer            = 100    400   1500
+air_dry           = 0.11   0.12  0.292
+ll15              = 0.253  0.298 0.292 
+dul               = 0.477  0.463 0.338
+sat               = 0.58   0.52  0.426
+bd                = 1.04   1.21  1.41
+ks                = 1.0   1.0   1.0
+swcon =            0.3   0.3  0.3 
+sw               = 0.253  0.298 0.292 
 
 [BlackVertosol.soiln2.parameters]   !! Mostly guessed..
 root_cn =  20.   ! C:N ratio of initial root residues
@@ -94,7 +113,7 @@ type = grass   ! Type if initial residue
 name = grass
 
 [BlackVertosol.grasp.parameters]
-ll   = 0.24 0.24 0.24 0.24 0.24 0.24 0.24 0.24 0.24   ! lower limit mm water/mm soil
+ll   = 0.253  0.298 0.292    ! lower limit mm water/mm soil
 xf   = 1.00 1.00 1.00 1.0  1.0  1.0  1.0  1.0  1.0 ! Weighting factor for root advance
 kl   = 0.4  0.4  0.4  0.4  0.0  0.0  0.0  0.0  0.0 ! Water Extraction Parameter (0-1)
 max_n_avail      =  21   (kg/ha/year)

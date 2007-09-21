@@ -28,8 +28,8 @@ Component       "graz" = c:\development\apsim\graz\lib\graz.dll
         prepare
         process
         post
-     Simulation start date = 31/12/1899
-     Simulation end date   = 31/12/1910
+     Simulation start date =  1/01/1900
+     Simulation end date   = 31/12/2003
      Time step =           = 1440 (mins)
 
 ------- annual Initialisation -------------------------------------------------
@@ -39,8 +39,11 @@ Component       "graz" = c:\development\apsim\graz\lib\graz.dll
         tracker.runoff
         tracker.drainage
         tracker.Esoil
-        tracker.Eplant
-        tracker.grassEaten
+        tracker.Egrass
+        tracker.grass_growth
+        tracker.growth_regrow
+        tracker.growth_trans
+        tracker.growth_rad
         tracker.lwg
 
      Output file = annual.out
@@ -48,28 +51,36 @@ Component       "graz" = c:\development\apsim\graz\lib\graz.dll
 
 ------- daily Initialisation --------------------------------------------------
      Output variables:
-        clock.year
-        clock.day
-        soilwat2.sw_dep
-        soilwat2.eos
-        soilwat2.es
-        soilwat2.cover_surface_runoff as soilwat_cover
+        clock.dd/mm/yyyy   as Date
+        soilwat2.sw_dep(1) as sw1
+        soilwat2.sw_dep(2) as sw2
+        soilwat2.sw_dep(3) as sw3
+        manager.grass_sw   as grass_sw
+        soilwat2.sw_dep()  as total_sw
+        soilwat2.eos       as sevap_pot
+        soilwat2.es        as sevap_tot
+        soilwat2.drainage
+        soilwat2.runoff
+        soilwat2.cover_surface_runoff as run_cov
+        grasp.basal_area   as grass_ba
+        grasp.tsdm         as tsdm
         grasp.green_pool
         grasp.dead_pool
-        grasp.growth_transp
-        grasp.growth_photo
-        grasp.growth_regrowth
-        grasp.growth
-        grasp.death
-        grasp.n_index
-        grasp.rad_index
-        grasp.sw_index
-        grasp.temp_index
-        grasp.growth_index
-        grasp.basal_area
-        grasp.cover_tot
-        surfaceom.surfaceom_wt
-        surfaceom.surfaceom_cover
+        surfaceom.surfaceom_wt as litter
+        grasp.pot_trans_grass  as pot_trans
+        grasp.growth_transp    as grwth_trans
+        grasp.growth_photo     as grwth_rad
+        grasp.growth_regrowth  as grwth_regr
+        grasp.growth           as growth
+        grasp.death            as death
+        grasp.n_index          as n_ndx
+        grasp.rad_index        as rad_ndx
+        grasp.sw_index         as swi
+        grasp.temp_index       as temp_ndx
+        grasp.growth_index     as grwth_ndx
+        graz.alw
+        graz.acc_eaten
+        graz.daily_lwg
 
      Output file = daily.out
      Format = normal
@@ -104,10 +115,18 @@ Component       "graz" = c:\development\apsim\graz\lib\graz.dll
      endif
      
      SECTION:- end_of_day
-     daily do_output
+     sw1 = sw_dep(1) - ll_dep(1)
+     sw2 = sw_dep(2) - ll_dep(2)
+     sw3 = sw_dep(3) - ll_dep(3)
+     grass_sw = sw_dep(1) + sw_dep(2) + sw_dep(3)
+     if (year >= 1900) then
+       daily do_output
+     endif
      
      SECTION:- end_year
-     annual do_output
+     if (year >= 1900) then
+       annual do_output
+     endif
      END of rules
      
 
@@ -118,10 +137,18 @@ Component       "graz" = c:\development\apsim\graz\lib\graz.dll
         - Reading Soil Property Parameters
      
         - Reading Soil Profile Parameters
+     Initial soilwater distributed using "sw" parameter.
+     !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+                      APSIM Warning Error
+                      -------------------
+     Value of variable is out of bounds.
+     Variable: dlayer
+     Value:     1500.0000000
+     Bounds:        0.0000000 to     1000.0000000
+     Component name: soiln2
+     !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
      
-     Soil water in parameter file is being overridden by
-     the insoil parameter which is between 0 and 1
-     Initial soilwater distributed evenly using "insoil" parameter.
+     
      
      
      
@@ -130,15 +157,9 @@ Component       "graz" = c:\development\apsim\graz\lib\graz.dll
               Depth  Air_Dry  LL15   Dul    Sat     Sw     BD   Runoff  SWCON
                 mm     mm/mm  mm/mm  mm/mm  mm/mm  mm/mm  g/cc    wf
         ---------------------------------------------------------------------
-            0.-  150.  0.120  0.240  0.480  0.580  0.480  1.040  0.762  0.300
-          150.-  300.  0.190  0.240  0.460  0.510  0.460  1.220  0.190  0.300
-          300.-  600.  0.240  0.240  0.460  0.510  0.460  1.210  0.048  0.300
-          600.-  900.  0.240  0.240  0.350  0.470  0.350  1.320  0.000  0.300
-          900.- 1200.  0.240  0.240  0.330  0.430  0.330  1.420  0.000  0.300
-         1200.- 1500.  0.240  0.240  0.330  0.400  0.330  1.500  0.000  0.300
-         1500.- 1800.  0.240  0.240  0.320  0.390  0.320  1.500  0.000  0.300
-         1800.- 2000.  0.240  0.240  0.310  0.380  0.310  1.500  0.000  0.300
-         2000.- 3000.  0.240  0.240  0.300  0.370  0.300  1.500  0.000  0.300
+            0.-  100.  0.110  0.253  0.477  0.580  0.253  1.040  0.613  0.300
+          100.-  500.  0.120  0.298  0.463  0.520  0.298  1.210  0.387  0.300
+          500.- 2000.  0.292  0.292  0.338  0.426  0.292  1.410  0.000  0.300
         ---------------------------------------------------------------------
      
      
@@ -149,17 +170,11 @@ Component       "graz" = c:\development\apsim\graz\lib\graz.dll
                           (LL15)   (SW-LL15)  (DUL-LL15)  (SAT-DUL)
                             mm        mm          mm         mm
           ---------------------------------------------------------
-            0.-  150.      36.00      36.00      36.00      15.00
-          150.-  300.      36.00      33.00      33.00       7.50
-          300.-  600.      72.00      66.00      66.00      15.00
-          600.-  900.      72.00      33.00      33.00      36.00
-          900.- 1200.      72.00      27.00      27.00      30.00
-         1200.- 1500.      72.00      27.00      27.00      21.00
-         1500.- 1800.      72.00      24.00      24.00      21.00
-         1800.- 2000.      48.00      14.00      14.00      14.00
-         2000.- 3000.     240.00      60.00      60.00      70.00
+            0.-  100.      25.30       0.00      22.40      10.30
+          100.-  500.     119.20       0.00      66.00      22.80
+          500.- 2000.     438.00       0.00      69.00     132.00
           ---------------------------------------------------------
-               Totals     720.00     320.00     320.00     229.50
+               Totals     582.50       0.00     157.40     165.10
           ---------------------------------------------------------
      
      
@@ -171,7 +186,7 @@ Component       "graz" = c:\development\apsim\graz\lib\graz.dll
           ---------------------------------------------------------
                  Insoil        Salb     Dif_Con   Dif_Slope
           ---------------------------------------------------------
-                   1.00        0.12       40.00       16.00
+                   2.00        0.12       40.00       16.00
           ---------------------------------------------------------
      
      
@@ -226,17 +241,11 @@ Component       "graz" = c:\development\apsim\graz\lib\graz.dll
            Layer    pH    OC     NO3     NH4    Urea
                          (%) (kg/ha) (kg/ha) (kg/ha)
           ------------------------------------------------
-             1     7.00  1.24   14.35    0.47    0.00
-             2     7.00  1.24    5.49    0.55    0.00
-             3     7.00  1.25    5.08    1.09    0.00
-             4     7.00  1.10    1.98    1.19    0.00
-             5     7.00  0.71    0.85    1.28    0.00
-             6     7.00  0.34    0.90    1.35    0.00
-             7     7.00  0.20    0.90    1.35    0.00
-             8     7.00  0.20    0.60    0.90    0.00
-             9     7.00  0.20    3.00    4.50    0.00
+             1     7.00  1.24    9.57    0.31    0.00
+             2     7.00  1.24   14.52    1.45    0.00
+             3     7.00  1.25   29.61    6.35    0.00
           ------------------------------------------------
-           Totals               33.16   12.67    0.00
+           Totals               53.70    8.11    0.00
           ------------------------------------------------
      
      
@@ -249,17 +258,11 @@ Component       "graz" = c:\development\apsim\graz\lib\graz.dll
            Layer      Hum-C   Hum-N  Biom-C  Biom-N   FOM-C   FOM-N
                     (kg/ha) (kg/ha) (kg/ha) (kg/ha) (kg/ha) (kg/ha)
           ---------------------------------------------------------
-             1      18897.6  1303.3   446.4    55.8   100.3     5.0
-             2      22514.0  1552.7   178.0    22.2    86.4     4.3
-             3      45197.1  3117.0   177.9    22.2    64.0     3.2
-             4      43560.0  3004.1     0.0     0.0    47.4     2.4
-             5      30246.0  2085.9     0.0     0.0    35.1     1.8
-             6      15300.0  1055.2     0.0     0.0    26.0     1.3
-             7       9000.0   620.7     0.0     0.0    19.3     1.0
-             8       6000.0   413.8     0.0     0.0    15.8     0.8
-             9      30000.0  2069.0     0.0     0.0     5.8     0.3
+             1      12598.4   868.9   297.6    37.2   249.0    12.4
+             2      59545.3  4106.6   470.7    58.8   136.6     6.8
+             3     263338.3 18161.3  1036.8   129.6    14.4     0.7
           ---------------------------------------------------------
-           Totals  220714.7 15221.7   802.3   100.3   400.0    20.0
+           Totals  335481.9 23136.7  1805.1   225.6   400.0    20.0
           ---------------------------------------------------------
 
 ------- grasp Initialisation --------------------------------------------------
@@ -276,15 +279,9 @@ Component       "graz" = c:\development\apsim\graz\lib\graz.dll
            Layer    Lower limit       Kl       Max N
             ()        (mm)            ()      (kg/ha)
          --------------------------------------------
-               1      36.000       0.400       14.70
-               2      36.000       0.400        2.10
-               3      72.000       0.400        1.05
-               4      72.000       0.400        1.05
-               5      72.000       0.000        1.05
-               6      72.000       0.000        1.05
-               7      72.000       0.000        0.00
-               8      48.000       0.000        0.00
-               9     240.000       0.000        0.00
+               1      25.300       0.400       14.70
+               2     119.200       0.400        2.10
+               3     438.000       0.400        1.05
          --------------------------------------------
      
 
@@ -294,9 +291,18 @@ Component       "graz" = c:\development\apsim\graz\lib\graz.dll
         sum of soilwat2.drain on end_of_day from start_year to now as drainage
         sum of soilwat2.runoff on end_of_day from start_year to now as runoff
         sum of soilwat2.es on end_of_day from start_year to now as Esoil
-        sum of grasp.ep on end_of_day from start_year to now as Eplant
+        sum of grasp.ep on end_of_day from start_year to now as Egrass
         sum of graz.intake_restr on end_of_day from start_year to now as grassEaten
         sum of graz.lwg on end_of_day from start_year to now as lwg
+        sum of grasp.growth on end_of_day from start_year to now as grass_growth
+        sum of grasp.growth_regrowth on end_of_day from start_year to now as growth_regrow
+        sum of grasp.growth_transp on end_of_day from start_year to now as growth_trans
+        sum of grasp.growth_photo on end_of_day from start_year to now as growth_rad
+
+------- graz Initialisation ---------------------------------------------------
+  Initial Stocking rate: 0
+  Initial Live Weight: 0
+
 ------- Start of simulation  --------------------------------------------------
      Manager sending message :- grasp establish  init_section = mature_sward
      Establishing Sward
@@ -312,13 +318,32 @@ Component       "graz" = c:\development\apsim\graz\lib\graz.dll
        Using vpd approximated from maxt, mint.
        Using Pan evap from met module.
      Manager creating a new local real variable : annual_lwg =     0.00000000000000
+     Manager creating a new local real variable : ll_dep(1) =     0.00000000000000
+     Manager creating a new local real variable : sw1 =     25.0561886000000
+     Manager creating a new local real variable : ll_dep(2) =     0.00000000000000
+     Manager creating a new local real variable : sw2 =     119.200005000000
+     Manager creating a new local real variable : ll_dep(3) =     0.00000000000000
+     Manager creating a new local real variable : sw3 =     438.000000000000
+     Manager creating a new local real variable : grass_sw =     582.256193600000
 1 September 1900(Day of year=244), manager: 
-     Manager creating a new local real variable : avgdailyintake =     3.45238504777582
+     Manager creating a new local real variable : avgdailyintake =     4.20568388834486
      Manager creating a new local real variable : targetutil =    0.200000000000000
-     Manager creating a new local real variable : annualintake =     1261.84669922500
-     Manager creating a new local real variable : stock_equiv_ratio =    0.334363007024532
+     Manager creating a new local real variable : annualintake =     1537.17739600500
+     Manager creating a new local real variable : stock_equiv_ratio =    0.146489487662510
      Manager creating a new local real variable : weight_ratio =     2.00000000000000
      Manager creating a new local real variable : factor =     1.68179283050743
-     Manager creating a new local real variable : beasts_ha =    0.198813434134808
-31 December 1910(Day of year=365), clock: 
-     Simulation is terminating due to end criteria being met.
+     Manager creating a new local real variable : beasts_ha =    0.871031679846708E-001
+23 June 1911(Day of year=174), grasp: 
+      green leaf dm,n =       0.0000      0.0000
+      green stem dm,n =       0.0000      0.0000
+      dead leaf dm, n=     343.2878      3.9992
+      dead stem dm, n=     343.0154      0.9033
+23 June 1911(Day of year=174): 
+     !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+                      APSIM  Fatal  Error
+                      -------------------
+      Negative pool error in Grasp_remove_crop_biomass
+     Component name: grasp
+     !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+     
+     
