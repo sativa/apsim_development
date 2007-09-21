@@ -158,6 +158,16 @@ class plantPart : public plantThing
       float y_p_conc_sen[max_table];
       float y_p_conc_max[max_table];
 
+      interpolationFunction digestibilityMaxDmGreen;
+      interpolationFunction digestibilityAvgDmGreen;
+      interpolationFunction digestibilityMinDmGreen;
+      interpolationFunction digestibilityMaxDmSenesced;
+      interpolationFunction digestibilityAvgDmSenesced;
+      interpolationFunction digestibilityMinDmSenesced;
+      interpolationFunction digestibilityMaxDmDead;
+      interpolationFunction digestibilityAvgDmDead;
+      interpolationFunction digestibilityMinDmDead;
+
       interpolationFunction height;
       interpolationFunction width;
 
@@ -188,7 +198,7 @@ public:
    virtual void zeroDltNSenescedTrans(void);
    virtual void checkBounds(void);
 
-   bool tempFlagToShortCircuitInit1;   
+   bool tempFlagToShortCircuitInit1;
    virtual void onInit1(protocol::Component *);
    virtual void readConstants (protocol::Component *, const string &);
    virtual void readSpeciesParameters (protocol::Component *, vector<string> &);
@@ -278,6 +288,16 @@ public:
 
    virtual float dmGreenDemand(void) const;
    virtual float dmDemandDifferential(void) const;
+
+   virtual float digestibilityMaxDmGreen(void) const;
+   virtual float digestibilityAvgDmGreen(void) const;
+   virtual float digestibilityMinDmGreen(void) const;
+   virtual float digestibilityMaxDmSenesced(void) const;
+   virtual float digestibilityAvgDmSenesced(void) const;
+   virtual float digestibilityMinDmSenesced(void) const;
+   virtual float digestibilityMaxDmDead(void) const;
+   virtual float digestibilityAvgDmDead(void) const;
+   virtual float digestibilityMinDmDead(void) const;
 
    virtual float giveDmGreen(float) ;           // Arbitrator gives this part dm; return amount used
    virtual float giveDmSenesced(float) ;

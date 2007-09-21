@@ -88,6 +88,18 @@ void plantPart::onInit1(protocol::Component*)
    scienceAPI.exposeFunction(addPartToVar("n_conc_crit"), "%", addPartToDesc("Critical N content in "), FloatFunction(&plantPart::nConcCrit));
    scienceAPI.exposeFunction(addPartToVar("n_conc_min"), "%", addPartToDesc("Minimum N content in "), FloatFunction(&plantPart::nConcMin));
 
+   scienceAPI.exposeFunction(addPartToVar("digestibility_max_dm_green"), "0-1", addPartToDesc("Maximum Digestibility of green dry matter of "), FloatFunction(&plantPart::digestibilityMaxDmGreen));
+   scienceAPI.exposeFunction(addPartToVar("digestibility_avg_dm_green"), "0-1", addPartToDesc("Average Digestibility of green dry matter of "), FloatFunction(&plantPart::digestibilityAvgDmGreen));
+   scienceAPI.exposeFunction(addPartToVar("digestibility_min_dm_green"), "0-1", addPartToDesc("Minimum Digestibility of green dry matter of "), FloatFunction(&plantPart::digestibilityMinDmGreen));
+
+   scienceAPI.exposeFunction(addPartToVar("digestibility_max_dm_senesced"), "0-1", addPartToDesc("Maximum Digestibility of senesced dry matter of "), FloatFunction(&plantPart::digestibilityMaxDmSenesced));
+   scienceAPI.exposeFunction(addPartToVar("digestibility_avg_dm_senesced"), "0-1", addPartToDesc("Average Digestibility of senesced dry matter of "), FloatFunction(&plantPart::digestibilityAvgDmSenesced));
+   scienceAPI.exposeFunction(addPartToVar("digestibility_min_dm_senesced"), "0-1", addPartToDesc("Minimum Digestibility of senesced dry matter of "), FloatFunction(&plantPart::digestibilityMinDmSenesced));
+
+   scienceAPI.exposeFunction(addPartToVar("digestibility_max_dm_dead"), "0-1", addPartToDesc("Maximum Digestibility of dead dry matter of "), FloatFunction(&plantPart::digestibilityMaxDmDead));
+   scienceAPI.exposeFunction(addPartToVar("digestibility_avg_dm_dead"), "0-1", addPartToDesc("Average Digestibility of dead dry matter of "), FloatFunction(&plantPart::digestibilityAvgDmDead));
+   scienceAPI.exposeFunction(addPartToVar("digestibility_min_dm_dead"), "0-1", addPartToDesc("Minimum Digestibility of dead dry matter of "), FloatFunction(&plantPart::digestibilityMinDmDead));
+
    scienceAPI.exposeFunction(addPartToVar("dlt_dm_dead"), "g/m^2", addPartToDesc("Delta Weight of dead "), FloatFunction(&plantPart::dltDmDead));
    scienceAPI.exposeFunction(addPartToVar("n_conc"), "%", addPartToDesc("N concentration in "), FloatFunction(&plantPart::nConcPercent));
    scienceAPI.exposeFunction(addPartToVar("p_conc"), "%", addPartToDesc("P concentration in "), FloatFunction(&plantPart::pConcPercent));
@@ -244,6 +256,60 @@ void plantPart::zeroDltDmGreenRetrans(void)
    {
    dlt.dm_green_retrans = 0.0;
    }
+
+float plantPart::digestibilityMaxDmGreen(void) const
+   //===========================================================================
+{
+   return c.digestibilityMaxDmGreen.value(plant->getStageCode());
+}
+
+float plantPart::digestibilityAvgDmGreen(void) const
+   //===========================================================================
+{
+   return c.digestibilityAvgDmGreen.value(plant->getStageCode());
+}
+
+float plantPart::digestibilityMinDmGreen(void) const
+   //===========================================================================
+{
+   return c.digestibilityMinDmGreen.value(plant->getStageCode());
+}
+
+float plantPart::digestibilityMaxDmSenesced(void) const
+   //===========================================================================
+{
+   return c.digestibilityMaxDmSenesced.value(plant->getStageCode());
+}
+
+float plantPart::digestibilityAvgDmSenesced(void) const
+   //===========================================================================
+{
+   return c.digestibilityAvgDmSenesced.value(plant->getStageCode());
+}
+
+float plantPart::digestibilityMinDmSenesced(void) const
+   //===========================================================================
+{
+   return c.digestibilityMinDmSenesced.value(plant->getStageCode());
+}
+
+float plantPart::digestibilityMaxDmDead(void) const
+   //===========================================================================
+{
+   return c.digestibilityMaxDmDead.value(plant->getStageCode());
+}
+
+float plantPart::digestibilityAvgDmDead(void) const
+   //===========================================================================
+{
+   return c.digestibilityAvgDmDead.value(plant->getStageCode());
+}
+
+float plantPart::digestibilityMinDmDead(void) const
+   //===========================================================================
+{
+   return c.digestibilityMinDmDead.value(plant->getStageCode());
+}
 
 void plantPart::zeroAllGlobals(void)
 //=======================================================================================
@@ -442,6 +508,43 @@ void plantPart::readSpeciesParameters (protocol::Component *, vector<string> &)
 
     if (!scienceAPI.readOptional("n_deficit_uptake_fraction", c.n_deficit_uptake_fraction, 0.0f, 1.0f))
         c.n_deficit_uptake_fraction = 0.0;
+
+    c.digestibilityMaxDmGreen.read(scienceAPI
+                        , "x_dmd_stage_code" , "()", 1.0, 12.0
+                        , ("y_dmd_max_green_" + c.name).c_str(), "()", 0.0, 1.0);
+
+    c.digestibilityAvgDmGreen.read(scienceAPI
+                        , "x_dmd_stage_code" , "()", 1.0, 12.0
+                        , ("y_dmd_avg_green_" + c.name).c_str(), "()", 0.0, 1.0);
+
+    c.digestibilityMinDmGreen.read(scienceAPI
+                        , "x_dmd_stage_code" , "()", 1.0, 12.0
+                        , ("y_dmd_min_green_" + c.name).c_str(), "()", 0.0, 1.0);
+
+    c.digestibilityMaxDmSenesced.read(scienceAPI
+                        , "x_dmd_stage_code" , "()", 1.0, 12.0
+                        , ("y_dmd_max_senesced_" + c.name).c_str(), "()", 0.0, 1.0);
+
+    c.digestibilityAvgDmSenesced.read(scienceAPI
+                        , "x_dmd_stage_code" , "()", 1.0, 12.0
+                        , ("y_dmd_avg_senesced_" + c.name).c_str(), "()", 0.0, 1.0);
+
+    c.digestibilityMinDmSenesced.read(scienceAPI
+                        , "x_dmd_stage_code" , "()", 1.0, 12.0
+                        , ("y_dmd_min_senesced_" + c.name).c_str(), "()", 0.0, 1.0);
+
+    c.digestibilityMaxDmDead.read(scienceAPI
+                        , "x_dmd_stage_code" , "()", 1.0, 12.0
+                        , ("y_dmd_max_dead_" + c.name).c_str(), "()", 0.0, 1.0);
+
+    c.digestibilityAvgDmDead.read(scienceAPI
+                        , "x_dmd_stage_code" , "()", 1.0, 12.0
+                        , ("y_dmd_avg_dead_" + c.name).c_str(), "()", 0.0, 1.0);
+
+    c.digestibilityMinDmDead.read(scienceAPI
+                        , "x_dmd_stage_code" , "()", 1.0, 12.0
+                        , ("y_dmd_min_dead_" + c.name).c_str(), "()", 0.0, 1.0);
+
     }
 
 void plantPart::readCultivarParameters (protocol::Component*, const string&)
