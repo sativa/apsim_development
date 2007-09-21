@@ -66,9 +66,6 @@ Component       "graz" = c:\development\apsim\graz\lib\graz.dll
      if day = 169 and year = 1988 then
         wheat sow cultivar = hartog, plants = 120, sowing_depth = 30 (mm)
      endif
-     if day = 190 and year = 1988 then
-        wheat set phase = 4.2
-     endif
      if wheat.stage_name = 'harvest_ripe' or wheat.plant_status = 'dead' then
         wheat harvest
         wheat end_crop
@@ -315,17 +312,17 @@ Component       "graz" = c:\development\apsim\graz\lib\graz.dll
       stage 4.0 end_of_juvenile
                      biomass =           0.73 (g/m^2)   lai          =   0.027 (m^2/m^2)
                      stover N conc =     5.83 (%)    extractable sw =   20.67 (mm)
-18 August 1988(Day of year=231), wheat: 
+16 August 1988(Day of year=229), wheat: 
       stage 5.0 floral_initiation
-                     biomass =         199.25 (g/m^2)   lai          =   2.850 (m^2/m^2)
-                     stover N conc =     2.19 (%)    extractable sw =  180.37 (mm)
-23 August 1988(Day of year=236), wheat: 
+                     biomass =         191.82 (g/m^2)   lai          =   2.765 (m^2/m^2)
+                     stover N conc =     2.20 (%)    extractable sw =  183.18 (mm)
+21 August 1988(Day of year=234), wheat: 
       stage 5.0 end_of_juvenile
-                     biomass =         166.82 (g/m^2)   lai          =   2.177 (m^2/m^2)
-                     stover N conc =     2.07 (%)    extractable sw =  205.95 (mm)
-24 August 1988(Day of year=237), wheat: 
+                     biomass =         164.22 (g/m^2)   lai          =   2.157 (m^2/m^2)
+                     stover N conc =     2.04 (%)    extractable sw =  174.21 (mm)
+22 August 1988(Day of year=235), wheat: 
       stage 5.0 floral_initiation
-                     biomass =         170.54 (g/m^2)   lai          =   2.208 (m^2/m^2)
-                     stover N conc =     2.06 (%)    extractable sw =  206.03 (mm)
+                     biomass =         167.01 (g/m^2)   lai          =   2.172 (m^2/m^2)
+                     stover N conc =     2.05 (%)    extractable sw =  172.45 (mm)
 17 November 1988(Day of year=322), clock: 
      Simulation is terminating due to end criteria being met.
