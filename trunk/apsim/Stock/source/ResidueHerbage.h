@@ -59,12 +59,12 @@ class ResidueHerbage : public HerbageBase
       void dmdClass (float dmdMax, float dmdMin, float &dmdClassMax, float &dmdClassMin);
 
       float hHeight(void);
-      float heightRatioVeg(int pool);
+      float heightRatioVeg(void);
       float bD(void);
       float dmdValueVeg(int pool);
       float protDgVeg(int pool);
 
-      float heightRatioSeed(int pool);
+      float heightRatioSeed(void);
       float dmdValueSeed(int pool);
       float protDgSeed(int pool);
 
