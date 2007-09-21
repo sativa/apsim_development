@@ -15,7 +15,7 @@
 !   Notes:
 
 !   Changes:
-!      psc - 300394                                           ark
+!      psc - 300394
 !      300695 jngh changed max_layer from 11 to 100
 !      DPH 7/7/94 Moved title variable out to separate common block.
 !                 Essential for UNIX systems.
@@ -407,7 +407,7 @@
       real        SFMCAT(Max_categories-1)
       real     sw_start(max_layers)
       integer nsince
-
+          real co2
       end type OzcotGlobals
 
 ! ====================================================================
@@ -436,8 +436,9 @@
          real     FBURR
          ! emergence
       real    rate_emergence
-
-
+         real     x_co2_fert(20)
+         real     y_co2_fert(20)
+         integer  num_co2_fert
       end type OzcotParameters
 ! ====================================================================
 
@@ -1049,7 +1050,7 @@
 
       p%UNUL(:)           = 0.0
       p%num_ll_vals       = 0
-
+      p%num_co2_fert      = 0
 
       call pop_routine (my_name)
       return
@@ -1543,6 +1544,12 @@
 
       g%yest_tsn = sum(no3(:)) + sum(nh4(:)) + sum(urea(:))
 
+      call get_real_var_optional (unknown_module, 'co2', '(mm)'
+     :                                  , g%co2, numvals
+     :                                  , 0.0, 1000.0)
+      if (numvals .eq. 0) then 
+         g%co2 = 350.0
+      endif
       call pop_routine(myname)
       return
       end subroutine
@@ -2684,7 +2691,8 @@
       RADN_watts = g%solrad*0.8942      ! convert RADN from ly to watts m**2            !const
       P_gossym = 2.391+RADN_watts*(1.374-RADN_watts*0.0005414) ! GOSSYM line1275        !const
       POT_PN = P_gossym*0.068           ! potential photosynthesis g%g/m2 CH2O          !const
-      PN = POT_PN*ALIGHT                ! net photosynthesis term
+      
+      PN = POT_PN*ALIGHT*co2FertFX()    ! net photosynthesis term
 !----- effect of water stress on photosysthesis -------------------------------
 !jh v2001
       rel_p = 1.0
@@ -6423,6 +6431,16 @@ C        IF(DEF.LT.2.5) THEN                          ! waterlogging
      :                     , c%days_since_fert_max, numvals
      :                     , 0, 100)
 
+      call read_real_array_optional (section_name
+     :                     , 'x_co2_fert', 20, '()'
+     :                     , p%x_co2_fert, p%num_co2_fert
+     :                     , 300.0, 1000.0)
+
+      call read_real_array_optional (section_name
+     :                     , 'y_co2_fert', 20, '()'
+     :                     , p%y_co2_fert, p%num_co2_fert
+     :                     , 0.0, 10.0)
+
       call pop_routine (my_name)
       return
       end subroutine
@@ -7395,7 +7413,20 @@ C        IF(DEF.LT.2.5) THEN                          ! waterlogging
 !      return
 !      end subroutine
 !
-!
+
+!     RUE modification via CO2
+      real function co2FertFX () 
+      use infrastructure
+      implicit none
+      if (p%num_co2_fert .gt. 0) then
+        co2FertFX = linear_interp_real (g%co2, p%x_co2_fert, 
+     :                                  p%y_co2_fert, 
+     :                                  p%num_co2_fert)
+      else 
+        co2FertFX = 1.0
+      endif
+      end function
+
       end module OzcotModule
 
 
