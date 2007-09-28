@@ -603,20 +603,26 @@ void plantPart::onKillStem(void)
    float n_init = u_bound(dm_init * plantPart::c.n_init_conc, plantPart::NGreen);
    float p_init = u_bound(dm_init * plantPart::c.p_init_conc, plantPart::PGreen);
 
-   DMDead += DMGreen + DMSenesced - dm_init;
-   DMDead = l_bound (DMDead, 0.0);
+   //DMDead += DMGreen + DMSenesced - dm_init;
+   //DMDead = l_bound (DMDead, 0.0);
+   DMSenesced += DMGreen - dm_init;
+   DMSenesced = l_bound (DMSenesced, 0.0);
    DMGreen = dm_init;
-   DMSenesced = 0.0;
 
-   NDead += NGreen + NSenesced - n_init;
-   NDead = l_bound (NDead, 0.0);
+
+   //NDead += NGreen + NSenesced - n_init;
+   //NDead = l_bound (NDead, 0.0);
+   NSenesced += NGreen - n_init;
+   NSenesced = l_bound (NSenesced, 0.0);
    NGreen = n_init;
-   NSenesced = 0.0;
 
-   PDead += PGreen + PSen - p_init;
-   PDead = l_bound (PDead, 0.0);
+
+   //PDead += PGreen + PSen - p_init;
+   //PDead = l_bound (PDead, 0.0);
+   PSen += PGreen - p_init;
+   PSen = l_bound (PSen, 0.0);
    PGreen = p_init;
-   PSen = 0.0;
+
 
    }
 
@@ -707,11 +713,11 @@ void plantPart::updateN(void)
    float dying_fract_plants = plant->getDyingFractionPlants();
    dlt.n_green_dead = NGreen * dying_fract_plants;
    NGreen -= dlt.n_green_dead;
-   NDead += dlt.n_green_dead;
+   NSenesced += dlt.n_green_dead;
 
-   dlt.n_senesced_dead = NSenesced * dying_fract_plants;
-   NSenesced -= dlt.n_senesced_dead;
-   NDead += dlt.n_senesced_dead;
+   //dlt.n_senesced_dead = NSenesced * dying_fract_plants;
+   //NSenesced -= dlt.n_senesced_dead;
+   //NDead += dlt.n_senesced_dead;
 
    NGreen = l_bound(NGreen, 0.0);   // Can occur at total leaf senescence.
    }
@@ -720,7 +726,7 @@ void plantPart::updateDm(void)
 //=======================================================================================
    {
    // Update DM
-   DMDead -= dlt.dm_dead_detached;
+   //DMDead -= dlt.dm_dead_detached;
 
    DMGreen += dlt.dm_green;
    DMGreen += dlt.dm_green_retrans;
@@ -733,11 +739,11 @@ void plantPart::updateDm(void)
    float dying_fract_plants = plant->getDyingFractionPlants();
    dlt.dm_green_dead = DMGreen * dying_fract_plants;
    DMGreen -=  dlt.dm_green_dead;
-   DMDead += dlt.dm_green_dead;
+   DMSenesced += dlt.dm_green_dead;
 
-   dlt.dm_senesced_dead = DMSenesced * dying_fract_plants;
-   DMSenesced -= dlt.dm_senesced_dead;
-   DMDead += dlt.dm_senesced_dead;
+   //dlt.dm_senesced_dead = DMSenesced * dying_fract_plants;
+   //DMSenesced -= dlt.dm_senesced_dead;
+   //DMDead += dlt.dm_senesced_dead;
    }
 
 void plantPart::updateP(void)
@@ -1879,6 +1885,7 @@ float plantPart::giveDmSenesced (float delta)
 float plantPart::giveDmDead (float delta)
 //=======================================================================================
    {
+      //nih - don't think this is used!!!!
    dlt.dm_dead += delta;
    return delta;
    }

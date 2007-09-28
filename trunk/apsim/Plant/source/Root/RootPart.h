@@ -124,7 +124,7 @@ class RootPart : public RootBase
       float sw_avail[max_layer];                        // actual extractable soil water (mm)
       float sw_supply [max_layer];                      // potential water to take up (supply)
                                                         // from current soil water (mm)
-      float root_length_dead[max_layer];                // root length of dead population (mm/mm^2)
+      float root_length_senesced[max_layer];                // root length of senesced material (mm/mm^2)
       vector<float> dltRootLengthDead;
       vector<float> dltRootLengthSenesced;
       float sw_dep_ub;                                  // upper limit of soilwater depth (mm)
@@ -210,7 +210,7 @@ class RootPart : public RootBase
       void get_no3_swfac(protocol::Component *systemInterface, protocol::QueryValueData &qd);
       void get_rlv(protocol::Component *system, protocol::QueryValueData &qd);
       void get_root_length(protocol::Component *system, protocol::QueryValueData &qd);
-      void get_root_length_dead(protocol::Component *system, protocol::QueryValueData &qd);
+      void get_root_length_senesced(protocol::Component *system, protocol::QueryValueData &qd);
       void get_kl(protocol::Component *system, protocol::QueryValueData &qd);
       void get_xf(protocol::Component *system, protocol::QueryValueData &qd);
 
