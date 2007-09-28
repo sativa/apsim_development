@@ -43,7 +43,7 @@ void RootPart::zeroAllGlobals(void)
    specificRootLength = 0.0;
 
    fill_real_array (root_length , 0.0, max_layer);
-   fill_real_array (root_length_dead, 0.0, max_layer);
+   fill_real_array (root_length_senesced, 0.0, max_layer);
    n_conc_min = n_conc_crit = n_conc_max = 0.0;
 
    num_sw_avail_ratio = 0;
@@ -148,8 +148,8 @@ void RootPart::onInit1(protocol::Component *system)
                     &RootPart::get_root_length,
                     "mm/mm^2", "Root length");
 
-   setupGetFunction(system, "root_length_dead", protocol::DTsingle, true,
-                    &RootPart::get_root_length_dead, "mm/mm^2", "Dead root length");
+   setupGetFunction(system, "root_length_senesced", protocol::DTsingle, true,
+                    &RootPart::get_root_length_senesced, "mm/mm^2", "Senesced root length");
 
    setupGetFunction(system, "rlv", protocol::DTsingle, true,
                     &RootPart::get_rlv, "mm/mm^3", "Root length density");
@@ -539,8 +539,10 @@ void RootPart::update(void)
       root_length[layer] += dltRootLength[layer];
 
    for (int layer = 0; layer < num_layers; layer++)
+      {
       root_length[layer] -= dltRootLengthSenesced[layer];
-
+      root_length_senesced[layer] += dltRootLengthSenesced[layer];
+      }
     // Note that movement and detachment of C is already done, just
     // need to maintain relationship between length and mass
     // Note that this is not entirely accurate.  It links live root
@@ -551,7 +553,7 @@ void RootPart::update(void)
         {
         dltRootLengthDead[layer] = root_length[layer] * dying_fract_plants;
         root_length[layer] -= dltRootLengthDead[layer];
-        root_length_dead[layer] += dltRootLengthDead[layer];
+        root_length_senesced[layer] += dltRootLengthDead[layer];
         }
 
    bound_check_real_var(plant, root_depth, 0.0
@@ -589,10 +591,10 @@ void RootPart::root_dist_dead(float root_sum, vector<float> &root_array)      //
    {
    // distribute roots over profile to root_depth
    int deepest_layer = find_layer_no (root_depth);
-   float root_length_sum = sum_real_array (root_length_dead, deepest_layer+1);
+   float root_length_sum = sum_real_array (root_length_senesced, deepest_layer+1);
    for (int layer = 0; layer <= deepest_layer; layer++)
       root_array[layer] = root_sum *
-                           divide (root_length_dead[layer], root_length_sum, 0.0);
+                           divide (root_length_senesced[layer], root_length_sum, 0.0);
    }
 
 void RootPart::collectDetachedForResidue(vector<string> &//part_name
@@ -625,8 +627,9 @@ void RootPart::onEndCrop(vector<string> &/*dm_type*/,
 //=======================================================================================
 // Unlike above ground parts, no roots go to surface residue module. Send our DM to FOM pool.
    {
-   root_incorp (dmGreen() + dmSenesced(), nGreen() + nSenesced(), pGreen() + pSenesced());
-   root_incorp_dead (dmDead(), nDead(), pDead());
+   root_incorp (dmGreen() , nGreen(), pGreen());
+   root_incorp_dead (dmSenesced(), nSenesced(), pSenesced());
+   //root_incorp_dead (dmDead(), nDead(), pDead());
 
    DMDead     = 0.0;
    DMSenesced = 0.0;
@@ -865,11 +868,11 @@ void RootPart::get_rlv(protocol::Component *system, protocol::QueryValueData &qd
     system->sendVariable(qd, protocol::vector<float>(rlv,rlv+num_layers));
 }
 
-void RootPart::get_root_length_dead(protocol::Component *system, protocol::QueryValueData &qd)
+void RootPart::get_root_length_senesced(protocol::Component *system, protocol::QueryValueData &qd)
 //=======================================================================================
 // Getter Function for dead plant root length
 {
-    system->sendVariable(qd, protocol::vector<float>(root_length_dead, root_length_dead+num_layers));
+    system->sendVariable(qd, protocol::vector<float>(root_length_senesced, root_length_senesced+num_layers));
 }
 
 void RootPart::get_kl(protocol::Component *system, protocol::QueryValueData &qd)
@@ -906,7 +909,7 @@ void RootPart::checkBounds(void)
       {
       if (root_length[layer] < 0)
          throw std::runtime_error(c.name + " length in layer " + itoa(layer+1) + " is negative! (" + ftoa(root_length[layer],".4") +")");
-      if (root_length_dead[layer] < 0)
+      if (root_length_senesced[layer] < 0)
          throw std::runtime_error(c.name + " length dead in layer " + itoa(layer+1) + " is negative! (" + ftoa(root_length[layer],".4") +")");
       }
    }
