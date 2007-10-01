@@ -653,7 +653,7 @@ void RootPart::updateOthers(void)
                 dlt.n_detached,
                 dlt.p_det);
 
-   root_incorp_dead (dlt.dm_dead_detached,
+   root_incorp_dead (0.0, //dlt.dm_dead_detached,
                      dlt.n_dead_detached,
                      dlt.p_dead_det);
    }
