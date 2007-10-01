@@ -647,16 +647,16 @@ Component     "sysbal" = c:\development\apsim\sysbal\lib\sysbal.dll
      
 2 March 1989(Day of year=61), maize: 
       stage    9.0 end_grain_fill
-                          biomass =           1813.919       lai =     1.425128
-                          stover N conc =   0.9979393       extractable sw =    145.9003
+                          biomass =           1813.917       lai =     1.425128
+                          stover N conc =   0.9979339       extractable sw =    145.9007
 3 March 1989(Day of year=62), maize: 
       stage   10.0 maturity
-                          biomass =           1818.556       lai =     1.383555
-                          stover N conc =   0.9969419       extractable sw =    144.8782
+                          biomass =           1818.554       lai =     1.383555
+                          stover N conc =   0.9969365       extractable sw =    144.8786
 4 March 1989(Day of year=63), maize: 
       stage   11.0 harvest_ripe
-                          biomass =           1818.556       lai =    0.3800869E-02
-                          stover N conc =    1.011459       extractable sw =    144.4049
+                          biomass =           1818.554       lai =    0.3800869E-02
+                          stover N conc =    1.011454       extractable sw =    144.4053
 4 March 1989(Day of year=63), manager: 
      Manager sending message :- maize harvest
      
@@ -668,8 +668,8 @@ Component     "sysbal" = c:\development\apsim\sysbal\lib\sysbal.dll
       grain % water content   =   15.5                      grain yield wet (kg/ha) =   10746.5
       grain wt (g) =     0.280                              grains/m^2   =  3241.331
       grains/head = 324.1                                   maximum lai = 4.236
-      total above ground biomass (kg/ha) =   18185.6
-      live above ground biomass (kg/ha) =   18185.6
+      total above ground biomass (kg/ha) =   18185.5
+      live above ground biomass (kg/ha) =   18185.5
       green above ground biomass (kg/ha) =   16593.4
       senesced above ground biomass (kg/ha) =    1592.2
       dead above ground biomass (kg/ha) =       0.0
@@ -689,7 +689,7 @@ Component     "sysbal" = c:\development\apsim\sysbal\lib\sysbal.dll
      
      Crop harvested.
          Organic matter removed from system:-      From Tops               From Roots
-                          DM (kg/ha) =               9080.79                    0.00
+                          DM (kg/ha) =               9080.77                    0.00
                           N  (kg/ha) =                124.34                    0.00
      
      Manager sending message :- maize end_crop
