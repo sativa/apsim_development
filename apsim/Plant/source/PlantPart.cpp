@@ -351,7 +351,6 @@ void plantPart::zeroDeltas(void)
    dlt.dm_senesced = 0.0;
    dlt.dm_detached = 0.0;
    dlt.dm_dead = 0.0;
-   dlt.dm_dead_detached = 0.0;
    dlt.dm_green_retrans = 0.0;
    dlt.dm_green_dead = 0.0;
    dlt.dm_senesced_dead = 0.0;
@@ -1158,7 +1157,7 @@ void plantPart::doDmDetachment(void)
 //=======================================================================================
    {
    dlt.dm_detached = DMSenesced * c.sen_detach_frac;
-   dlt.dm_dead_detached = DMDead * c.dead_detach_frac;
+   //dlt.dm_dead_detached = 0.0; //DMDead * c.dead_detach_frac;
    }
 
 void plantPart::doNDetachment(void)
@@ -1188,7 +1187,7 @@ void plantPart::doPDetachment(void)
    float sen_detach_frac = divide(dlt.dm_detached, DMSenesced, 0.0);
 
    dlt.p_det = PSen * sen_detach_frac;
-   float dead_detach_frac = divide(dlt.dm_dead_detached, DMDead, 0.0);
+   float dead_detach_frac = 0.0; //divide(dlt.dm_dead_detached, DMDead, 0.0);
 
    dlt.p_dead_det = PDead * dead_detach_frac;
    }
@@ -1346,7 +1345,7 @@ void plantPart::collectDeadDetachedForResidue(vector<string> &part_name
 //=======================================================================================
    {
    part_name.push_back(c.name);
-   dm_dead_detached.push_back(dlt.dm_dead_detached * gm2kg/sm2ha);
+   dm_dead_detached.push_back(0.0); //dlt.dm_dead_detached * gm2kg/sm2ha);
    n_dead_detached.push_back(dlt.n_dead_detached * gm2kg/sm2ha);
    p_dead_detached.push_back(dlt.p_dead_det * gm2kg/sm2ha);
    fraction_to_residue.push_back(1.0);
@@ -1809,7 +1808,7 @@ void plantPart::get_dlt_dm_green(vector<float> &dlt_dm_green) {dlt_dm_green.push
 void plantPart::get_dlt_dm_green_retrans(vector<float> &dlt_dm_green_retrans) {dlt_dm_green_retrans.push_back(dlt.dm_green_retrans);}
 void plantPart::get_dlt_dm_detached(vector<float> &dlt_dm_detached) {dlt_dm_detached.push_back(dlt.dm_detached);}
 void plantPart::get_dlt_dm_senesced(vector<float> &dlt_dm_senesced) {dlt_dm_senesced.push_back(dlt.dm_senesced);}
-void plantPart::get_dlt_dm_dead_detached(vector<float> &dlt_dm_dead_detached) {dlt_dm_dead_detached.push_back(dlt.dm_dead_detached);}
+void plantPart::get_dlt_dm_dead_detached(vector<float> &dlt_dm_dead_detached) {dlt_dm_dead_detached.push_back(0.0);}//dlt.dm_dead_detached);}
 void plantPart::get_dlt_dm_green_dead(vector<float> &dlt_dm_green_dead) {dlt_dm_green_dead.push_back(dlt.dm_green_dead);}
 void plantPart::get_dlt_dm_senesced_dead(vector<float> &dlt_dm_senesced_dead) {dlt_dm_senesced_dead.push_back(dlt.dm_senesced_dead);}
 void plantPart::get_n_demanded(vector<float> &demands) {demands.push_back(NDemand);}

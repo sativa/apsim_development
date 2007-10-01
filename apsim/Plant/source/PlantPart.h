@@ -73,7 +73,6 @@ class plantPart : public plantThing
       float dm_dead_removed;                      // dead biomass removed (g/m^2)
 
       float dm_detached;                  // biomass detached from senesced part (g/m^2)
-      float dm_dead_detached;             // biomass detached from dead plant (g/m^2)
 
       float dm_green_retrans;             // biomass retranslocated to/from (+/-) green part to/from <<somewhere else??>> (g/m^2)
 
