@@ -460,47 +460,47 @@ Component   "fieldpea" = c:\development\apsim\plant\lib\plant.dll
                      stover N conc =     4.37 (%)    extractable sw =   77.04 (mm)
 3 October 2003(Day of year=276), fieldpea: 
       stage 5.0 floral_initiation
-                     biomass =         357.19 (g/m^2)   lai          =   4.146 (m^2/m^2)
-                     stover N conc =     2.75 (%)    extractable sw =   71.08 (mm)
+                     biomass =         357.16 (g/m^2)   lai          =   4.145 (m^2/m^2)
+                     stover N conc =     2.75 (%)    extractable sw =   71.11 (mm)
 7 October 2003(Day of year=280), fieldpea: 
       stage 6.0 flowering
-                     biomass =         414.00 (g/m^2)   lai          =   4.709 (m^2/m^2)
-                     stover N conc =     2.83 (%)    extractable sw =   65.70 (mm)
+                     biomass =         413.97 (g/m^2)   lai          =   4.708 (m^2/m^2)
+                     stover N conc =     2.83 (%)    extractable sw =   65.73 (mm)
 27 October 2003(Day of year=300), fieldpea: 
       stage 7.0 start_grain_fill
-                     biomass =         619.72 (g/m^2)   lai          =   3.002 (m^2/m^2)
+                     biomass =         619.78 (g/m^2)   lai          =   3.004 (m^2/m^2)
                      stover N conc =     2.41 (%)    extractable sw =   21.00 (mm)
 1 December 2003(Day of year=335), fieldpea: 
       stage 8.0 end_grain_fill
-                     biomass =         716.84 (g/m^2)   lai          =   0.196 (m^2/m^2)
+                     biomass =         716.92 (g/m^2)   lai          =   0.196 (m^2/m^2)
                      stover N conc =     1.78 (%)    extractable sw =    3.22 (mm)
 5 December 2003(Day of year=339), fieldpea: 
       stage 9.0 maturity
-                     biomass =         719.17 (g/m^2)   lai          =   0.151 (m^2/m^2)
+                     biomass =         719.25 (g/m^2)   lai          =   0.151 (m^2/m^2)
                      stover N conc =     1.76 (%)    extractable sw =    2.50 (mm)
 6 December 2003(Day of year=340), fieldpea: 
       stage 10.0 harvest_ripe
-                     biomass =         719.37 (g/m^2)   lai          =   0.000 (m^2/m^2)
+                     biomass =         719.44 (g/m^2)   lai          =   0.000 (m^2/m^2)
                      stover N conc =     1.76 (%)    extractable sw =    2.34 (mm)
 6 December 2003(Day of year=340), manager: 
      Manager sending message :- fieldpea harvest
      
-      flowering day          =  280                           stover (kg/ha)         =     5529.5
-      maturity day           =  339                           grain yield (kg/ha)    =     1664.1
-      grain % water content  =   12.0                         grain yield wet (kg/ha)=     1891.0
+      flowering day          =  280                           stover (kg/ha)         =     5530.0
+      maturity day           =  339                           grain yield (kg/ha)    =     1664.5
+      grain % water content  =   12.0                         grain yield wet (kg/ha)=     1891.4
       grain wt (g)           =    0.000                       grains/m^2             =      0.000
       grains/plant           =    0.0                         maximum lai            =      5.146
-      total above ground biomass (kg/ha)    =     7193.7
-      live above ground biomass (kg/ha)     =     7193.7
-      green above ground biomass (kg/ha)    =     4781.4
-      senesced above ground biomass (kg/ha) =     2412.3
+      total above ground biomass (kg/ha)    =     7194.4
+      live above ground biomass (kg/ha)     =     7194.4
+      green above ground biomass (kg/ha)    =     4782.0
+      senesced above ground biomass (kg/ha) =     2412.4
       dead above ground biomass (kg/ha)     =        0.0
       number of leaves       =   57.8
       DM Root:Shoot ratio    =    0.454                       Harvest Index          =      0.231
       Stover C:N ratio       =   24.291                       Root C:N ratio         =     24.517
-      grain N percent        =       3.60                     total N content (kg/ha)=     150.96
-      grain N uptake (kg/ha) =      59.91                     senesced N content (kg/ha)=   36.18
-      green N content (kg/ha)=      54.87                     dead N content (kg/ha) =       0.00
+      grain N percent        =       3.60                     total N content (kg/ha)=     150.98
+      grain N uptake (kg/ha) =      59.92                     senesced N content (kg/ha)=   36.19
+      green N content (kg/ha)=      54.88                     dead N content (kg/ha) =       0.00
      
       Average Stress Indices:                          Water Photo  Water Expan  N Photo      N grain conc
          emergence            to end_of_juvenile         0.000        0.000        0.000        0.028
@@ -512,12 +512,12 @@ Component   "fieldpea" = c:\development\apsim\plant\lib\plant.dll
      
      Crop harvested.
          Organic matter from crop:-      Tops to surface residue      Roots to soil FOM
-                          DM (kg/ha) =               5529.54                    0.00
+                          DM (kg/ha) =               5529.98                    0.00
                           N  (kg/ha) =                 91.06                    0.00
      
          Organic matter removed from system:-      From Tops               From Roots
-                          DM (kg/ha) =               1664.11                    0.00
-                          N  (kg/ha) =                 59.91                    0.00
+                          DM (kg/ha) =               1664.45                    0.00
+                          N  (kg/ha) =                 59.92                    0.00
      
       stage 11.0 end_crop
      Manager sending message :- fieldpea kill_crop
@@ -525,7 +525,7 @@ Component   "fieldpea" = c:\development\apsim\plant\lib\plant.dll
      Manager sending message :- fieldpea end_crop
      Crop ended. Yield (dw) =     0.0  (kg/ha)
          Organic matter from crop:-      Tops to surface residue      Roots to soil FOM
-                          DM (kg/ha) =                  0.00                 3263.94
+                          DM (kg/ha) =                  0.00                 3263.96
                           N  (kg/ha) =                  0.00                   53.25
      
 31 December 2003(Day of year=365), clock: 
