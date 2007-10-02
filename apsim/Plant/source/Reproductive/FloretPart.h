@@ -46,7 +46,6 @@ class FloretPart : public plantPart {
 
    virtual float dmGreenVeg(void) const {return 0;}
    virtual float dmSenescedVeg(void) const {return 0;}
-   virtual float dmDeadVeg(void) const {return 0;}
    virtual float nGreenVeg(void)const {return 0;}
    virtual float nSenescedVeg(void)const {return 0;}
    virtual float nDeadVeg(void)const {return 0;}

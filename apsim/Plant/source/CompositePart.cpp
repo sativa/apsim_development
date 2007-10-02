@@ -69,37 +69,6 @@ float CompositePart::dltPGreen(void) const
    return sum;
 }
 
-
-float CompositePart::dltDmDead(void) const
-   //===========================================================================
-{
-   float sum = 0.0;
-   for (vector <plantPart *>::const_iterator part = myParts.begin(); part != myParts.end(); part++)
-      sum += (*part)->dltDmDead();
-   return sum;
-}
-
-
-float CompositePart::dltNDead(void) const
-   //===========================================================================
-{
-   float sum = 0.0;
-   for (vector <plantPart *>::const_iterator part = myParts.begin(); part != myParts.end(); part++)
-      sum += (*part)->dltNDead();
-   return sum;
-}
-
-
-float CompositePart::dltPDead(void) const
-   //===========================================================================
-{
-   float sum = 0.0;
-   for (vector <plantPart *>::const_iterator part = myParts.begin(); part != myParts.end(); part++)
-      sum += (*part)->dltPDead();
-   return sum;
-}
-
-
 float CompositePart::dltDmSenesced(void) const
    //===========================================================================
 {
@@ -363,15 +332,6 @@ float CompositePart::dmSenesced(void) const
    for (vector <plantPart * >::const_iterator part = myParts.begin(); part != myParts.end(); part++)
       result += (*part)->dmSenesced();
    return result;
-}
-
-float CompositePart::dmDeadVeg(void) const
-   //===========================================================================
-{
-   float dmTotal = 0.0;
-   for (vector <plantPart * >::const_iterator part = myParts.begin(); part != myParts.end(); part++)
-      dmTotal += (*part)->dmDeadVeg();
-   return dmTotal;
 }
 
 float CompositePart::dmDead(void) const
@@ -831,13 +791,6 @@ void CompositePart::get_dlt_dm_green_dead(vector<float> &dlt_dm_green_dead)
       (*part)->get_dlt_dm_green_dead(dlt_dm_green_dead);
 }
 
-void CompositePart::get_dlt_dm_senesced_dead(vector<float> &dlt_dm_senesced_dead)
-   //===========================================================================
-{
-   vector <plantPart *>::iterator part;
-   for (part = myParts.begin(); part != myParts.end(); part++)
-      (*part)->get_dlt_dm_senesced_dead(dlt_dm_senesced_dead);
-}
 
 void CompositePart::get_n_demanded(vector<float> &n_demand)
    //===========================================================================
@@ -845,23 +798,6 @@ void CompositePart::get_n_demanded(vector<float> &n_demand)
    vector <plantPart *>::iterator part;
    for (part = myParts.begin(); part != myParts.end(); part++)
       (*part)->get_n_demanded(n_demand);
-}
-
-void CompositePart::get_dlt_n_senesced_dead(vector<float> &dlt_n_senesced_dead)
-   //===========================================================================
-{
-   vector <plantPart *>::iterator part;
-   for (part = myParts.begin(); part != myParts.end(); part++)
-      (*part)->get_dlt_n_senesced_dead(dlt_n_senesced_dead);
-}
-
-
-void CompositePart::get_dlt_n_dead_detached(vector<float> &n_dead_detached)
-   //===========================================================================
-{
-   vector <plantPart *>::iterator part;
-   for (part = myParts.begin(); part != myParts.end(); part++)
-      (*part)->get_dlt_n_dead_detached(n_dead_detached);
 }
 
 void CompositePart::doGrainNumber (void)
@@ -963,15 +899,6 @@ float CompositePart::dltDmSenescedRemoved(void) const
    for (vector <plantPart * >::const_iterator part = myParts.begin(); part != myParts.end(); part++)
       DMSenescedRemoved +=(*part)->dltDmSenescedRemoved();
    return DMSenescedRemoved;
-   }
-
-float CompositePart::dltDmDeadRemoved(void) const
-//=======================================================================================
-   {
-   float DMDeadRemoved = 0.0;
-   for (vector <plantPart * >::const_iterator part = myParts.begin(); part != myParts.end(); part++)
-      DMDeadRemoved +=(*part)->dltDmDeadRemoved();
-   return DMDeadRemoved;
    }
 
 float CompositePart::dltDmRemoved(void) const
@@ -1129,21 +1056,6 @@ void CompositePart::collectDetachedForResidue(vector<string> &part_name
                                          , fraction_to_residue);
 }
 
-void CompositePart::collectDeadDetachedForResidue(vector<string> &part_name
-                                               , vector<float> &dm_dead_detached
-                                               , vector<float> &n_dead_detached
-                                               , vector<float> &p_dead_detached
-                                               , vector<float> &fraction_to_residue)
-   //===========================================================================
-{
-   vector <plantPart *>::iterator part;
-   for (part = myParts.begin(); part != myParts.end(); part++)
-      (*part)->collectDetachedForResidue(part_name
-                                         , dm_dead_detached
-                                         , n_dead_detached
-                                         , p_dead_detached
-                                         , fraction_to_residue);
-}
 
 void CompositePart::update(void)
    //===========================================================================

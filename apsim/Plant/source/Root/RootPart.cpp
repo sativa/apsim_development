@@ -608,17 +608,6 @@ void RootPart::collectDetachedForResidue(vector<string> &//part_name
    {
    }
 
-void RootPart::collectDeadDetachedForResidue(vector<string> &//part_name
-                              , vector<float> &//dm_residue
-                              , vector<float> &//dm_n
-                              , vector<float> &//dm_p
-                              , vector<float> &//fract_to_residue
-                              )
-//=======================================================================================
-// Unlike above ground parts, no roots go to surface residue module.
-   {
-   }
-
 void RootPart::onEndCrop(vector<string> &/*dm_type*/,
                           vector<float> &/*dlt_crop_dm*/,
                           vector<float> &/*dlt_dm_n*/,
@@ -652,10 +641,6 @@ void RootPart::updateOthers(void)
    root_incorp (dlt.dm_detached,
                 dlt.n_detached,
                 dlt.p_det);
-
-   root_incorp_dead (0.0, //dlt.dm_dead_detached,
-                     dlt.n_dead_detached,
-                     dlt.p_dead_det);
    }
 
 

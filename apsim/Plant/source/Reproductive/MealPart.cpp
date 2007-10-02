@@ -62,36 +62,31 @@ void fruitMealPart::onHarvest(float /* cutting_height */, float /*remove_fr*/,
 {
      dm_type.push_back (c.name);
      fraction_to_residue.push_back (0.0);
-     dlt_crop_dm.push_back ((DMDead+DMGreen+DMSenesced) * gm2kg/sm2ha);
-     dlt_dm_n.push_back    ((NDead+NGreen+NSenesced)  * gm2kg/sm2ha);
-     dlt_dm_p.push_back    ((PDead+PGreen+PSen)  * gm2kg/sm2ha);
+     dlt_crop_dm.push_back ((DMGreen+DMSenesced) * gm2kg/sm2ha);
+     dlt_dm_n.push_back    ((NGreen+NSenesced)  * gm2kg/sm2ha);
+     dlt_dm_p.push_back    ((PGreen+PSen)  * gm2kg/sm2ha);
 
-     DMDead     = 0.0;
      DMSenesced = 0.0;
      DMGreen    = 0.0;
 
-     NDead     = 0.0;
      NSenesced = 0.0;
      NGreen    = 0.0;
 
-     PDead     = 0.0;
      PSen      = 0.0;
      PGreen    = 0.0;
 }
 
 void fruitMealPart::onKillStem(void)
 {
-       DMDead += DMGreen + DMSenesced;
-       DMGreen = 0.0;
-       DMSenesced = 0.0;
+   DMSenesced += DMGreen;
+   DMGreen = 0.0;
 
-       NDead += NGreen + NSenesced;
-       NGreen = 0.0;
-       NSenesced = 0.0;
+   NSenesced += NGreen;
+   NGreen = 0.0;
 
-       PDead += PGreen + PSen;
-       PGreen = 0.0;
-       PSen = 0.0;
+   PSen += PGreen;
+   PGreen = 0.0;
+
 }
 
 void fruitMealPart::onFlowering(void)
@@ -110,16 +105,16 @@ void fruitMealPart::doNConcGrainLimits(float n_min_grain, float n_crit_grain, fl
    g.n_conc_crit = divide (n_crit_grain, dm_meal, 0.0);
    g.n_conc_max = divide (n_max_grain, dm_meal, 0.0);
    g.n_conc_min = divide (n_min_grain, dm_meal, 0.0);
-   
+
 }
 
 float fruitMealPart::nCapacity2(void)
 {
-   float n_potential  = dmGreenNew() * g.n_conc_max; 
+   float n_potential  = dmGreenNew() * g.n_conc_max;
    return (n_potential - nGreen());
 }
 
-float fruitMealPart::N_conc_pot(float nfact_grain_conc) 
+float fruitMealPart::N_conc_pot(float nfact_grain_conc)
 {
    return (g.n_conc_min + (g.n_conc_crit - g.n_conc_min) * nfact_grain_conc);
 }

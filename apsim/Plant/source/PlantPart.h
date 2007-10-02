@@ -66,44 +66,29 @@ class plantPart : public plantThing
 
       float dm_green;                     // biomass growth (g/m^2)
       float dm_senesced;                  // biomass senescence (g/m^2)
-      float dm_dead;                      // biomass dead (g/m^2)
 
       float dm_green_removed;                     // green biomass removed (g/m^2)
       float dm_senesced_removed;                  // senesced biomass removed (g/m^2)
-      float dm_dead_removed;                      // dead biomass removed (g/m^2)
 
       float dm_detached;                  // biomass detached from senesced part (g/m^2)
 
       float dm_green_retrans;             // biomass retranslocated to/from (+/-) green part to/from <<somewhere else??>> (g/m^2)
 
-      float dm_green_dead;                // plant biomass from green part to dead population(g/m^2)
-      float dm_senesced_dead;             // plant biomass from green part to dead population(g/m^2)
-
       float n_green;                      // actual N uptake into plant (g/m^2)
       float n_senesced;                   // actual N loss with senesced plant (g/m^2)
-      float n_dead;                       // actual N loss with dead plant (g/m^2)
 
       float n_detached;                   // actual N loss with detached senesced part (g/m^2)
-      float n_dead_detached;              // actual N loss with detached dead plant (g/m^2)
 
       float n_retrans;                    // nitrogen retranslocated to/from (+/-) green part to/from <<somewhere else??>> (g/m^2)
-
-      float n_green_dead;                 // plant N from green part to dead population(g/m^2)
-      float n_senesced_dead;              // plant N from senesced part to dead population(g/m^2)
 
       float n_senesced_retrans;           // plant N retranslocated to/from (+/-) senesced part to/from <<somewhere else??>> (g/m^2)
       float n_senesced_trans;
 
       float p_green;
       float p_sen;
-      float p_dead;
       float p_det;
 
-      float p_dead_det;
       float p_retrans;
-
-      float p_green_dead;
-      float p_senesced_dead;
 
       float height;                       // growth upwards (mm)
       float width;                        // growth outwards (mm)
@@ -163,9 +148,6 @@ class plantPart : public plantThing
       interpolationFunction digestibilityMaxDmSenesced;
       interpolationFunction digestibilityAvgDmSenesced;
       interpolationFunction digestibilityMinDmSenesced;
-      interpolationFunction digestibilityMaxDmDead;
-      interpolationFunction digestibilityAvgDmDead;
-      interpolationFunction digestibilityMinDmDead;
 
       interpolationFunction height;
       interpolationFunction width;
@@ -241,12 +223,6 @@ public:
                                           , vector<float> &dm_p
                                           , vector<float> &fract);
 
-   virtual void collectDeadDetachedForResidue(vector<string> &part_name
-                                          , vector<float> &dm_dead_detached
-                                          , vector<float> &n_dead_detached
-                                          , vector<float> &p_dead_detached
-                                          , vector<float> &fract);
-
    virtual float dlt_dm_green_retrans_hack(float);
    virtual float dltDmRetranslocateSupply(float DemandDifferential) ;
    virtual float dltNRetransOut(void);
@@ -256,12 +232,9 @@ public:
    virtual float dltDmRetranslocate(void) const;
    virtual float dltDmDetached(void) const;
    virtual float dltDmGreenNew(void) const;
-   virtual float dltDmDead(void) const;
    virtual float dltDmSenesced(void) const;
    virtual float dltNGreen(void) const;
    virtual float dltPGreen(void) const;
-   virtual float dltNDead(void) const;
-   virtual float dltPDead(void) const;
    virtual float dltNSenesced(void) const;
    virtual float dltPSenesced(void) const;
    virtual float dltNDetached(void) const;
@@ -270,15 +243,12 @@ public:
    virtual float dltNSenescedRetrans(void) const;
    virtual float dltNSenescedTrans(void) const;
    virtual float dltDmGreenRemoved(void) const;
-   virtual float dltDmDeadRemoved(void) const;
    virtual float dltDmSenescedRemoved(void) const;
    virtual float dltDmRemoved(void) const;
    virtual float dltNGreenRemoved(void) const;
-   virtual float dltNDeadRemoved(void) const;
    virtual float dltNSenescedRemoved(void) const;
    virtual float dltNRemoved(void) const;
    virtual float dltPGreenRemoved(void) const;
-   virtual float dltPDeadRemoved(void) const;
    virtual float dltPSenescedRemoved(void) const;
    virtual float dltPRemoved(void) const;
 
@@ -294,18 +264,13 @@ public:
    virtual float digestibilityMaxDmSenesced(void) const;
    virtual float digestibilityAvgDmSenesced(void) const;
    virtual float digestibilityMinDmSenesced(void) const;
-   virtual float digestibilityMaxDmDead(void) const;
-   virtual float digestibilityAvgDmDead(void) const;
-   virtual float digestibilityMinDmDead(void) const;
 
    virtual float giveDmGreen(float) ;           // Arbitrator gives this part dm; return amount used
    virtual float giveDmSenesced(float) ;
-   virtual float giveDmDead(float) ;
    virtual float giveNGreen(float) ;
 
    virtual float giveDmGreenRemoved(float) ;           //
    virtual float giveDmSenescedRemoved(float) ;
-   virtual float giveDmDeadRemoved(float) ;
 
    virtual float dmGreen(void) const;
    virtual float dmGreenVeg(void) const;
@@ -313,7 +278,6 @@ public:
    virtual float dmSenesced(void) const;
    virtual float dmSenescedVeg(void) const;
    virtual float dmDead(void) const;
-   virtual float dmDeadVeg(void) const;
    virtual float dmTotal(void) const;
    virtual float dmTotalVeg(void) const;
    virtual float dmRetransSupply(void) const;
@@ -401,9 +365,6 @@ public:
    virtual void get_name(vector<string> &names);
    virtual void get_p_demand(vector<float> &p_demand);
    virtual void get_dlt_p_retrans(vector<float> &dlt_p_retrans);
-   virtual void get_dlt_n_dead_detached(vector<float> &);
-   virtual void get_dlt_n_senesced_dead(vector<float> &);
-   virtual void get_dlt_dm_senesced_dead(vector<float> &);
    virtual void get_dlt_dm_green_dead(vector<float> &);
    virtual void get_dlt_dm_dead_detached(vector<float> &);
    virtual void get_dlt_dm_senesced(vector<float> &);

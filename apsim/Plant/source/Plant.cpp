@@ -328,9 +328,6 @@ void Plant::onInit1()
    setupGetFunction(parent, "dlt_dm_green_dead", protocol::DTsingle, true,
                     &Plant::get_dlt_dm_green_dead,  "g/m^2", "change in green dry matter via plant death");
 
-   setupGetFunction(parent, "dlt_dm_senesced_dead", protocol::DTsingle, true,
-                    &Plant::get_dlt_dm_senesced_dead,  "g/m^2", "change in green dry matter via plant death");
-
    setupGetFunction(parent, "biomass_n", protocol::DTsingle, false,
                     &Plant::get_biomass_n,  "g/m^2", "N in total biomass");
 
@@ -342,13 +339,6 @@ void Plant::onInit1()
 
 
 
-
-   setupGetFunction(parent, "dlt_n_senesced_dead", protocol::DTsingle, true,
-                    &Plant::get_dlt_n_senesced_dead, "g/m^2", "N in delta senesced dead");
-
-
-   setupGetFunction(parent, "dlt_n_dead_detached", protocol::DTsingle, true,
-                    &Plant::get_dlt_n_dead_detached,  "g/m^2", "N in dead detached");
 
    parent->addGettableVar("temp_stress_photo",
                g.temp_stress_photo, "", "Temperature Stress in photosynthesis");
@@ -3273,31 +3263,6 @@ void Plant::plant_update_other_variables (void)
                                       dm_p,
                                       fraction_to_residue);
 
-    // now dispose of dead population detachments
-    dm_residue.clear();
-    dm_n.clear();
-    dm_p.clear();
-    fraction_to_residue.clear();
-
-    for (vector<plantPart *>::iterator t = myParts.begin();
-         t != myParts.end();
-         t++)
-       (*t)->collectDeadDetachedForResidue(part_name,
-                                           dm_residue,
-                                           dm_n,
-                                           dm_p,
-                                           fraction_to_residue);
-
-    if (sum(dm_residue) > 0.0)
-       {
-       plant_send_crop_chopped_event(c.crop_type,
-                                     part_name,
-                                     dm_residue,
-                                     dm_n,
-                                     dm_p,
-                                     fraction_to_residue);
-       }
-
     }
 
 void Plant::plant_read_constants ( void )
@@ -3540,7 +3505,7 @@ void Plant::plant_harvest_report ()
     n_stover = n_green + n_senesced + n_dead;
     n_total = n_grain + n_stover;
 
-    float stoverTot = tops.dmGreenVeg() + tops.dmSenescedVeg() + tops.dmDeadVeg();
+    float stoverTot = tops.dmGreenVeg() + tops.dmSenescedVeg();
     float DMRrootShootRatio = divide(dmRoot, tops.dmTotal()* gm2kg / sm2ha, 0.0);
     float HarvestIndex      = divide(yield, tops.dmTotal()* gm2kg / sm2ha, 0.0);
     float StoverCNRatio     = divide(stoverTot* gm2kg / sm2ha*plant_c_frac, n_stover, 0.0);
@@ -3808,7 +3773,7 @@ void Plant::get_green_biomass_wt(protocol::Component *system, protocol::QueryVal
 
 void Plant::get_stover_biomass_wt(protocol::Component *system, protocol::QueryValueData &qd)
 {
-    float stoverTot = tops.dmGreenVeg() + tops.dmSenescedVeg() + tops.dmDeadVeg();
+    float stoverTot = tops.dmGreenVeg() + tops.dmSenescedVeg();
     system->sendVariable(qd, stoverTot);
 }
 
@@ -4169,38 +4134,6 @@ void Plant::get_dlt_dm_green_dead(protocol::Component *systemInterface, protocol
       (*part)->get_dlt_dm_green_dead(dlt_dm_green_dead);
 
    systemInterface->sendVariable(qd, dlt_dm_green_dead);
-}
-void Plant::get_dlt_dm_senesced_dead(protocol::Component *systemInterface, protocol::QueryValueData &qd)
-{
-   vector<plantPart*>::iterator part;
-   vector<float>  dlt_dm_senesced_dead;
-
-   for (part = myParts.begin(); part != myParts.end(); part++)
-      (*part)->get_dlt_dm_senesced_dead(dlt_dm_senesced_dead);
-
-   systemInterface->sendVariable(qd, dlt_dm_senesced_dead);
-}
-
-void Plant::get_dlt_n_senesced_dead(protocol::Component *systemInterface, protocol::QueryValueData &qd)
-{
-   vector<plantPart*>::iterator part;
-   vector<float>  dlt_n_senesced_dead;
-
-   for (part = myParts.begin(); part != myParts.end(); part++)
-      (*part)->get_dlt_n_senesced_dead(dlt_n_senesced_dead);
-
-   systemInterface->sendVariable(qd, dlt_n_senesced_dead);
-}
-
-void Plant::get_dlt_n_dead_detached(protocol::Component *systemInterface, protocol::QueryValueData &qd)
-{
-   vector<plantPart*>::iterator part;
-   vector<float>  n_dead_detached;
-
-   for (part = myParts.begin(); part != myParts.end(); part++)
-      (*part)->get_dlt_n_dead_detached(n_dead_detached);
-
-   systemInterface->sendVariable(qd, n_dead_detached);
 }
 
 void Plant::get_p_demand(protocol::Component *systemInterface, protocol::QueryValueData &qd)
