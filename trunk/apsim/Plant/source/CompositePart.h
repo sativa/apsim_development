@@ -26,9 +26,6 @@ public:                                             // member functions
    virtual void get_name(vector<string> &name);
    virtual void get_p_demand(vector<float> &p_demand);
    virtual void get_dlt_p_retrans(vector<float> &dlt_p_retrans);
-   virtual void get_dlt_n_dead_detached(vector<float> &n_dead_detached);
-   virtual void get_dlt_n_senesced_dead(vector<float> &);
-   virtual void get_dlt_dm_senesced_dead(vector<float> &);
    virtual void get_dlt_dm_green_dead(vector<float> &);
    virtual void get_dlt_dm_dead_detached(vector<float> &);
    virtual void get_dlt_dm_senesced(vector<float> &);
@@ -83,11 +80,6 @@ public:                                             // member functions
                                           , vector<float> &dm_n
                                           , vector<float> &dm_p
                                           , vector<float> &fract);
-   virtual void collectDeadDetachedForResidue(vector<string> &part_name
-                                              , vector<float> &dm_dead_detached
-                                              , vector<float> &n_dead_detached
-                                              , vector<float> &p_dead_detached
-                                              , vector<float> &fract);
 
    virtual void update(void);
    virtual void doNConccentrationLimits(float);
@@ -114,14 +106,12 @@ public:                                             // member functions
    virtual float dltDm(void) const;
 
    virtual float dltDmGreen(void) const ;
-   virtual float dltDmDead(void) const;
    virtual float dltDmSenesced(void) const;
    virtual float dltDmDetached(void) const;
    virtual float dltDmGreenRetrans(void) const ;
 
    virtual float dltDmGreenRemoved(void) const;
    virtual float dltDmSenescedRemoved(void) const;
-   virtual float dltDmDeadRemoved(void) const;
    virtual float dltDmRemoved(void) const;
    virtual float dltNRemoved(void) const;
 
@@ -135,7 +125,6 @@ public:                                             // member functions
    virtual float dmGreenVeg(void) const;
    virtual float dmSenescedVeg(void) const;
    virtual float dmSenesced(void) const;
-   virtual float dmDeadVeg(void) const;
    virtual float dmDead(void) const;
    virtual float dmTotal(void) const;
    virtual float dmTotalVeg(void) const;
@@ -224,8 +213,6 @@ public:                                             // member functions
    virtual void doPRetranslocate(float total_p_supply, float total_p_demand);
 
    virtual float dltPGreen(void) const;
-   virtual float dltNDead(void) const;
-   virtual float dltPDead(void) const;
    virtual float dltNSenesced(void) const;
    virtual float dltPSenesced(void) const;
    virtual float dltNDetached(void) const;

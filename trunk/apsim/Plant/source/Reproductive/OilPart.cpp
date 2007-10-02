@@ -67,19 +67,16 @@ void fruitOilPart::onHarvest(float /* cutting_height */, float /*remove_fr*/,
    // biomass is removed, nothing is sent to surface residues..
    dm_type.push_back (c.name);
    fraction_to_residue.push_back (0.0);
-   dlt_crop_dm.push_back ((DMDead+DMGreen+DMSenesced) * gm2kg/sm2ha);
-   dlt_dm_n.push_back    ((NDead+NGreen+NSenesced)  * gm2kg/sm2ha);
-   dlt_dm_p.push_back    ((PDead+PGreen+PSen)  * gm2kg/sm2ha);
+   dlt_crop_dm.push_back ((DMGreen+DMSenesced) * gm2kg/sm2ha);
+   dlt_dm_n.push_back    ((NGreen+NSenesced)  * gm2kg/sm2ha);
+   dlt_dm_p.push_back    ((PGreen+PSen)  * gm2kg/sm2ha);
 
-   DMDead     = 0.0;
    DMSenesced = 0.0;
    DMGreen    = 0.0;
 
-   NDead     = 0.0;
    NSenesced = 0.0;
    NGreen    = 0.0;
 
-   PDead     = 0.0;
    PSen      = 0.0;
    PGreen    = 0.0;
    }
@@ -89,17 +86,14 @@ void fruitOilPart::onKillStem(void)
 //=======================================================================================
 // Event Handler for KillStem event
    {
-   DMDead += DMGreen + DMSenesced;
+   DMSenesced += DMGreen;
    DMGreen = 0.0;
-   DMSenesced = 0.0;
 
-   NDead += NGreen + NSenesced;
+   NSenesced += NGreen;
    NGreen = 0.0;
-   NSenesced = 0.0;
 
-   PDead += PGreen + PSen;
+   PSen += PGreen;
    PGreen = 0.0;
-   PSen = 0.0;
    }
 
 void fruitOilPart::onFlowering(void)

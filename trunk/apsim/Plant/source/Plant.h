@@ -386,7 +386,6 @@ public:
    void get_dlt_dm_pot_te(protocol::Component *, protocol::QueryValueData &);
    void get_dlt_dm_green_dead(protocol::Component *, protocol::QueryValueData &);
    void get_dlt_dm_green_retrans(protocol::Component *, protocol::QueryValueData &);
-   void get_dlt_dm_senesced_dead(protocol::Component *, protocol::QueryValueData &);
    void get_dlt_dm_dead_detached(protocol::Component *, protocol::QueryValueData &);
    void get_biomass_n(protocol::Component *, protocol::QueryValueData &);
    void get_n_uptake(protocol::Component *, protocol::QueryValueData &);
@@ -395,8 +394,6 @@ public:
    void get_stem_n(protocol::Component *, protocol::QueryValueData &);
    void get_root_n(protocol::Component *, protocol::QueryValueData &);
    void get_deadleaf_n(protocol::Component *, protocol::QueryValueData &);
-   void get_dlt_n_senesced_dead(protocol::Component *, protocol::QueryValueData &);
-   void get_dlt_n_dead_detached(protocol::Component *, protocol::QueryValueData &);
    void get_temp_stress_photo(protocol::Component *, protocol::QueryValueData &);
    void get_swdef_pheno(protocol::Component *, protocol::QueryValueData &);
    void get_swdef_photo(protocol::Component *, protocol::QueryValueData &);

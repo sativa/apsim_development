@@ -41,11 +41,6 @@ class RootPart : public RootBase
                                           , vector<float> &dm_n
                                           , vector<float> &dm_p
                                           , vector<float> &fract);
-      void collectDeadDetachedForResidue(vector<string> &part_name
-                                          , vector<float> &dm_dead_detached
-                                          , vector<float> &n_dead_detached
-                                          , vector<float> &p_dead_detached
-                                          , vector<float> &fract);
       void doNConccentrationLimits(float);
       void redistribute(const vector<float> &, const vector<float> &, float);
 

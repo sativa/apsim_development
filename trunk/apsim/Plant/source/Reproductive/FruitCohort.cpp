@@ -172,17 +172,6 @@ float FruitCohort::dmSenescedVeg(void) const
 }
 
 
-float FruitCohort::dmDeadVeg(void) const
-   //===========================================================================
-{
-   float dmTotal = 0.0;
-   vector<plantPart *>::const_iterator part;
-   for (part = myVegParts.begin(); part != myVegParts.end(); part++)
-      dmTotal += (*part)->dmDead();
-   return dmTotal;
-}
-
-
 float FruitCohort::nGrainTotal(void) const
    //===========================================================================
 {

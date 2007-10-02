@@ -44,11 +44,6 @@ class RootBase : public plantPart
                                           , vector<float> &dm_n
                                           , vector<float> &dm_p
                                           , vector<float> &fract){};
-      virtual void collectDeadDetachedForResidue(vector<string> &part_name
-                                          , vector<float> &dm_dead_detached
-                                          , vector<float> &n_dead_detached
-                                          , vector<float> &p_dead_detached
-                                          , vector<float> &fract){};
       virtual void doNConccentrationLimits(float){};
       virtual void redistribute(const vector<float> &, const vector<float> &, float){};
 //      virtual int find_layer_no(float) const{};

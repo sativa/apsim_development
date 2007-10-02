@@ -42,7 +42,6 @@ public:                                             // member functions
    float dmGreenGrainTotal(void) const;
    float dmGreenVeg(void)const;
    float dmSenescedVeg(void)const;
-   float dmDeadVeg(void)const;
 
    float nGrainTotal(void)const;
    float nTotalVeg(void)const;
