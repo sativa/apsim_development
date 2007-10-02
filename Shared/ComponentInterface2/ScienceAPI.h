@@ -53,7 +53,9 @@ class ScienceAPI
 
       // int
       #define IntFunction(address) boost::function1<void, int& >(boost::bind(address, this, _1))
+      virtual bool read(const std::string& name, const std::string& units, bool optional, int& data) = 0;
       virtual bool read(const std::string& name, const std::string& units, bool optional, int& data, int lower, int upper) = 0;
+      virtual bool get(const std::string& name, const std::string& units, bool optional, int& data) = 0;
       virtual bool get(const std::string& name, const std::string& units, bool optional, int& data, int lower, int upper) = 0;
       virtual void set(const std::string& name, const std::string& units, int& data) = 0;
       virtual void expose(const std::string& name, const std::string& units, const std::string& description, bool writable, int& variable) = 0;
@@ -65,7 +67,9 @@ class ScienceAPI
 
       // float
       #define FloatFunction(address) boost::function1<void, float& >(boost::bind(address, this, _1))
+      virtual bool read(const std::string& name, const std::string& units, bool optional, float& data) = 0;
       virtual bool read(const std::string& name, const std::string& units, bool optional, float& data, float lower, float upper) = 0;
+      virtual bool get(const std::string& name, const std::string& units, bool optional, float& data) = 0;
       virtual bool get(const std::string& name, const std::string& units, bool optional, float& data, float lower, float upper) = 0;
       virtual void set(const std::string& name, const std::string& units, float& data) = 0;
       virtual void expose(const std::string& name, const std::string& units, const std::string& description, bool writable, float& variable) = 0;
@@ -77,7 +81,9 @@ class ScienceAPI
 
       // double
       #define DoubleFunction(address) boost::function1<void, double& >(boost::bind(address, this, _1))
+      virtual bool read(const std::string& name, const std::string& units, bool optional, double& data) = 0;
       virtual bool read(const std::string& name, const std::string& units, bool optional, double& data, double lower, double upper) = 0;
+      virtual bool get(const std::string& name, const std::string& units, bool optional, double& data) = 0;
       virtual bool get(const std::string& name, const std::string& units, bool optional, double& data, double lower, double upper) = 0;
       virtual void set(const std::string& name, const std::string& units, double& data) = 0;
       virtual void expose(const std::string& name, const std::string& units, const std::string& description, bool writable, double& variable) = 0;
@@ -113,7 +119,9 @@ class ScienceAPI
 
       // std::vector<int>
       #define IntArrayFunction(address) boost::function1<void, std::vector<int>& >(boost::bind(address, this, _1))
+      virtual bool read(const std::string& name, const std::string& units, bool optional, std::vector<int>& data) = 0;
       virtual bool read(const std::string& name, const std::string& units, bool optional, std::vector<int>& data, int lower, int upper) = 0;
+      virtual bool get(const std::string& name, const std::string& units, bool optional, std::vector<int>& data) = 0;
       virtual bool get(const std::string& name, const std::string& units, bool optional, std::vector<int>& data, int lower, int upper) = 0;
       virtual void set(const std::string& name, const std::string& units, std::vector<int>& data) = 0;
       virtual void expose(const std::string& name, const std::string& units, const std::string& description, bool writable, std::vector<int>& variable) = 0;
@@ -125,7 +133,9 @@ class ScienceAPI
 
       // std::vector<float>
       #define FloatArrayFunction(address) boost::function1<void, std::vector<float>& >(boost::bind(address, this, _1))
+      virtual bool read(const std::string& name, const std::string& units, bool optional, std::vector<float>& data) = 0;
       virtual bool read(const std::string& name, const std::string& units, bool optional, std::vector<float>& data, float lower, float upper) = 0;
+      virtual bool get(const std::string& name, const std::string& units, bool optional, std::vector<float>& data) = 0;
       virtual bool get(const std::string& name, const std::string& units, bool optional, std::vector<float>& data, float lower, float upper) = 0;
       virtual void set(const std::string& name, const std::string& units, std::vector<float>& data) = 0;
       virtual void expose(const std::string& name, const std::string& units, const std::string& description, bool writable, std::vector<float>& variable) = 0;
@@ -137,7 +147,9 @@ class ScienceAPI
 
       // std::vector<double>
       #define DoubleArrayFunction(address) boost::function1<void, std::vector<double>& >(boost::bind(address, this, _1))
+      virtual bool read(const std::string& name, const std::string& units, bool optional, std::vector<double>& data) = 0;
       virtual bool read(const std::string& name, const std::string& units, bool optional, std::vector<double>& data, double lower, double upper) = 0;
+      virtual bool get(const std::string& name, const std::string& units, bool optional, std::vector<double>& data) = 0;
       virtual bool get(const std::string& name, const std::string& units, bool optional, std::vector<double>& data, double lower, double upper) = 0;
       virtual void set(const std::string& name, const std::string& units, std::vector<double>& data) = 0;
       virtual void expose(const std::string& name, const std::string& units, const std::string& description, bool writable, std::vector<double>& variable) = 0;
@@ -160,380 +172,548 @@ class ScienceAPI
       virtual void publish(const std::string& name, std::vector<std::string>& data) = 0;
 
       // Complete
-//      virtual void subscribe(const std::string& name, boost::function1<void, CompleteType&> handler) = 0;
+      #define CompleteFunction(address) boost::function1<void, CompleteType& >(boost::bind(address, this, _1))
+      virtual void subscribe(const std::string& name, boost::function1<void, CompleteType&> handler) = 0;
       virtual void publish(const std::string& name, CompleteType& data) = 0;
 
       // Error
-//      virtual void subscribe(const std::string& name, boost::function1<void, ErrorType&> handler) = 0;
+      #define ErrorFunction(address) boost::function1<void, ErrorType& >(boost::bind(address, this, _1))
+      virtual void subscribe(const std::string& name, boost::function1<void, ErrorType&> handler) = 0;
       virtual void publish(const std::string& name, ErrorType& data) = 0;
 
       // Event
-//      virtual void subscribe(const std::string& name, boost::function1<void, EventType&> handler) = 0;
+      #define EventFunction(address) boost::function1<void, EventType& >(boost::bind(address, this, _1))
+      virtual void subscribe(const std::string& name, boost::function1<void, EventType&> handler) = 0;
       virtual void publish(const std::string& name, EventType& data) = 0;
 
       // GetValue
-//      virtual void subscribe(const std::string& name, boost::function1<void, GetValueType&> handler) = 0;
+      #define GetValueFunction(address) boost::function1<void, GetValueType& >(boost::bind(address, this, _1))
+      virtual void subscribe(const std::string& name, boost::function1<void, GetValueType&> handler) = 0;
       virtual void publish(const std::string& name, GetValueType& data) = 0;
 
       // Init1
-//      virtual void subscribe(const std::string& name, boost::function1<void, Init1Type&> handler) = 0;
+      #define Init1Function(address) boost::function1<void, Init1Type& >(boost::bind(address, this, _1))
+      virtual void subscribe(const std::string& name, boost::function1<void, Init1Type&> handler) = 0;
       virtual void publish(const std::string& name, Init1Type& data) = 0;
 
       // NotifySetValueSuccess
-//      virtual void subscribe(const std::string& name, boost::function1<void, NotifySetValueSuccessType&> handler) = 0;
+      #define NotifySetValueSuccessFunction(address) boost::function1<void, NotifySetValueSuccessType& >(boost::bind(address, this, _1))
+      virtual void subscribe(const std::string& name, boost::function1<void, NotifySetValueSuccessType&> handler) = 0;
       virtual void publish(const std::string& name, NotifySetValueSuccessType& data) = 0;
 
       // PublishEvent
-//      virtual void subscribe(const std::string& name, boost::function1<void, PublishEventType&> handler) = 0;
+      #define PublishEventFunction(address) boost::function1<void, PublishEventType& >(boost::bind(address, this, _1))
+      virtual void subscribe(const std::string& name, boost::function1<void, PublishEventType&> handler) = 0;
       virtual void publish(const std::string& name, PublishEventType& data) = 0;
 
       // QueryInfo
-//      virtual void subscribe(const std::string& name, boost::function1<void, QueryInfoType&> handler) = 0;
+      #define QueryInfoFunction(address) boost::function1<void, QueryInfoType& >(boost::bind(address, this, _1))
+      virtual void subscribe(const std::string& name, boost::function1<void, QueryInfoType&> handler) = 0;
       virtual void publish(const std::string& name, QueryInfoType& data) = 0;
 
       // Register
-//      virtual void subscribe(const std::string& name, boost::function1<void, RegisterType&> handler) = 0;
+      #define RegisterFunction(address) boost::function1<void, RegisterType& >(boost::bind(address, this, _1))
+      virtual void subscribe(const std::string& name, boost::function1<void, RegisterType&> handler) = 0;
       virtual void publish(const std::string& name, RegisterType& data) = 0;
 
       // ReplyValue
-//      virtual void subscribe(const std::string& name, boost::function1<void, ReplyValueType&> handler) = 0;
+      #define ReplyValueFunction(address) boost::function1<void, ReplyValueType& >(boost::bind(address, this, _1))
+      virtual void subscribe(const std::string& name, boost::function1<void, ReplyValueType&> handler) = 0;
       virtual void publish(const std::string& name, ReplyValueType& data) = 0;
 
       // RequestSetValue
-//      virtual void subscribe(const std::string& name, boost::function1<void, RequestSetValueType&> handler) = 0;
+      #define RequestSetValueFunction(address) boost::function1<void, RequestSetValueType& >(boost::bind(address, this, _1))
+      virtual void subscribe(const std::string& name, boost::function1<void, RequestSetValueType&> handler) = 0;
       virtual void publish(const std::string& name, RequestSetValueType& data) = 0;
 
       // ReturnInfo
-//      virtual void subscribe(const std::string& name, boost::function1<void, ReturnInfoType&> handler) = 0;
+      #define ReturnInfoFunction(address) boost::function1<void, ReturnInfoType& >(boost::bind(address, this, _1))
+      virtual void subscribe(const std::string& name, boost::function1<void, ReturnInfoType&> handler) = 0;
       virtual void publish(const std::string& name, ReturnInfoType& data) = 0;
 
       // ReturnValue
-//      virtual void subscribe(const std::string& name, boost::function1<void, ReturnValueType&> handler) = 0;
+      #define ReturnValueFunction(address) boost::function1<void, ReturnValueType& >(boost::bind(address, this, _1))
+      virtual void subscribe(const std::string& name, boost::function1<void, ReturnValueType&> handler) = 0;
       virtual void publish(const std::string& name, ReturnValueType& data) = 0;
 
       // QueryValue
-//      virtual void subscribe(const std::string& name, boost::function1<void, QueryValueType&> handler) = 0;
+      #define QueryValueFunction(address) boost::function1<void, QueryValueType& >(boost::bind(address, this, _1))
+      virtual void subscribe(const std::string& name, boost::function1<void, QueryValueType&> handler) = 0;
       virtual void publish(const std::string& name, QueryValueType& data) = 0;
 
       // QuerySetValue
-//      virtual void subscribe(const std::string& name, boost::function1<void, QuerySetValueType&> handler) = 0;
+      #define QuerySetValueFunction(address) boost::function1<void, QuerySetValueType& >(boost::bind(address, this, _1))
+      virtual void subscribe(const std::string& name, boost::function1<void, QuerySetValueType&> handler) = 0;
       virtual void publish(const std::string& name, QuerySetValueType& data) = 0;
 
       // Layered
-//      virtual void subscribe(const std::string& name, boost::function1<void, LayeredType&> handler) = 0;
+      #define LayeredFunction(address) boost::function1<void, LayeredType& >(boost::bind(address, this, _1))
+      virtual void subscribe(const std::string& name, boost::function1<void, LayeredType&> handler) = 0;
       virtual void publish(const std::string& name, LayeredType& data) = 0;
 
       // Time
-//      virtual void subscribe(const std::string& name, boost::function1<void, TimeType&> handler) = 0;
+      #define TimeFunction(address) boost::function1<void, TimeType& >(boost::bind(address, this, _1))
+      virtual void subscribe(const std::string& name, boost::function1<void, TimeType&> handler) = 0;
       virtual void publish(const std::string& name, TimeType& data) = 0;
 
       // NewMet
-//      virtual void subscribe(const std::string& name, boost::function1<void, NewMetType&> handler) = 0;
+      #define NewMetFunction(address) boost::function1<void, NewMetType& >(boost::bind(address, this, _1))
+      virtual void subscribe(const std::string& name, boost::function1<void, NewMetType&> handler) = 0;
       virtual void publish(const std::string& name, NewMetType& data) = 0;
 
+      // SoilWaterProfileLayer
+      #define SoilWaterProfileLayerFunction(address) boost::function1<void, SoilWaterProfileLayerType& >(boost::bind(address, this, _1))
+      virtual void subscribe(const std::string& name, boost::function1<void, SoilWaterProfileLayerType&> handler) = 0;
+      virtual void publish(const std::string& name, SoilWaterProfileLayerType& data) = 0;
+
       // SoilWaterLayer
-//      virtual void subscribe(const std::string& name, boost::function1<void, SoilWaterLayerType&> handler) = 0;
+      #define SoilWaterLayerFunction(address) boost::function1<void, SoilWaterLayerType& >(boost::bind(address, this, _1))
+      virtual void subscribe(const std::string& name, boost::function1<void, SoilWaterLayerType&> handler) = 0;
       virtual void publish(const std::string& name, SoilWaterLayerType& data) = 0;
 
+      // LateralFlowLayer
+      #define LateralFlowLayerFunction(address) boost::function1<void, LateralFlowLayerType& >(boost::bind(address, this, _1))
+      virtual void subscribe(const std::string& name, boost::function1<void, LateralFlowLayerType&> handler) = 0;
+      virtual void publish(const std::string& name, LateralFlowLayerType& data) = 0;
+
+      // SoilWaterBalance
+      #define SoilWaterBalanceFunction(address) boost::function1<void, SoilWaterBalanceType& >(boost::bind(address, this, _1))
+      virtual void subscribe(const std::string& name, boost::function1<void, SoilWaterBalanceType&> handler) = 0;
+      virtual void publish(const std::string& name, SoilWaterBalanceType& data) = 0;
+
       // NewSolute
-//      virtual void subscribe(const std::string& name, boost::function1<void, NewSoluteType&> handler) = 0;
+      #define NewSoluteFunction(address) boost::function1<void, NewSoluteType& >(boost::bind(address, this, _1))
+      virtual void subscribe(const std::string& name, boost::function1<void, NewSoluteType&> handler) = 0;
       virtual void publish(const std::string& name, NewSoluteType& data) = 0;
 
+      // layer
+      #define layerFunction(address) boost::function1<void, layerType& >(boost::bind(address, this, _1))
+      virtual void subscribe(const std::string& name, boost::function1<void, layerType&> handler) = 0;
+      virtual void publish(const std::string& name, layerType& data) = 0;
+
+      // SoluteProfile
+      #define SoluteProfileFunction(address) boost::function1<void, SoluteProfileType& >(boost::bind(address, this, _1))
+      virtual void subscribe(const std::string& name, boost::function1<void, SoluteProfileType&> handler) = 0;
+      virtual void publish(const std::string& name, SoluteProfileType& data) = 0;
+
       // Irrigated
-//      virtual void subscribe(const std::string& name, boost::function1<void, IrrigatedType&> handler) = 0;
+      #define IrrigatedFunction(address) boost::function1<void, IrrigatedType& >(boost::bind(address, this, _1))
+      virtual void subscribe(const std::string& name, boost::function1<void, IrrigatedType&> handler) = 0;
       virtual void publish(const std::string& name, IrrigatedType& data) = 0;
 
+      // CropWaterSupply
+      #define CropWaterSupplyFunction(address) boost::function1<void, CropWaterSupplyType& >(boost::bind(address, this, _1))
+      virtual void subscribe(const std::string& name, boost::function1<void, CropWaterSupplyType&> handler) = 0;
+      virtual void publish(const std::string& name, CropWaterSupplyType& data) = 0;
+
+      // RootLayer
+      #define RootLayerFunction(address) boost::function1<void, RootLayerType& >(boost::bind(address, this, _1))
+      virtual void subscribe(const std::string& name, boost::function1<void, RootLayerType&> handler) = 0;
+      virtual void publish(const std::string& name, RootLayerType& data) = 0;
+
+      // CropWaterDemand
+      #define CropWaterDemandFunction(address) boost::function1<void, CropWaterDemandType& >(boost::bind(address, this, _1))
+      virtual void subscribe(const std::string& name, boost::function1<void, CropWaterDemandType&> handler) = 0;
+      virtual void publish(const std::string& name, CropWaterDemandType& data) = 0;
+
+      // CropNitrogenDemand
+      #define CropNitrogenDemandFunction(address) boost::function1<void, CropNitrogenDemandType& >(boost::bind(address, this, _1))
+      virtual void subscribe(const std::string& name, boost::function1<void, CropNitrogenDemandType&> handler) = 0;
+      virtual void publish(const std::string& name, CropNitrogenDemandType& data) = 0;
+
+      // CropNitrogenSupply
+      #define CropNitrogenSupplyFunction(address) boost::function1<void, CropNitrogenSupplyType& >(boost::bind(address, this, _1))
+      virtual void subscribe(const std::string& name, boost::function1<void, CropNitrogenSupplyType&> handler) = 0;
+      virtual void publish(const std::string& name, CropNitrogenSupplyType& data) = 0;
+
+      // Interception
+      #define InterceptionFunction(address) boost::function1<void, InterceptionType& >(boost::bind(address, this, _1))
+      virtual void subscribe(const std::string& name, boost::function1<void, InterceptionType&> handler) = 0;
+      virtual void publish(const std::string& name, InterceptionType& data) = 0;
+
+      // LightProfile
+      #define LightProfileFunction(address) boost::function1<void, LightProfileType& >(boost::bind(address, this, _1))
+      virtual void subscribe(const std::string& name, boost::function1<void, LightProfileType&> handler) = 0;
+      virtual void publish(const std::string& name, LightProfileType& data) = 0;
+
+      // Canopy
+      #define CanopyFunction(address) boost::function1<void, CanopyType& >(boost::bind(address, this, _1))
+      virtual void subscribe(const std::string& name, boost::function1<void, CanopyType&> handler) = 0;
+      virtual void publish(const std::string& name, CanopyType& data) = 0;
+
+      // CanopyWaterBalance
+      #define CanopyWaterBalanceFunction(address) boost::function1<void, CanopyWaterBalanceType& >(boost::bind(address, this, _1))
+      virtual void subscribe(const std::string& name, boost::function1<void, CanopyWaterBalanceType&> handler) = 0;
+      virtual void publish(const std::string& name, CanopyWaterBalanceType& data) = 0;
+
       // OrganicMatterFraction
-//      virtual void subscribe(const std::string& name, boost::function1<void, OrganicMatterFractionType&> handler) = 0;
+      #define OrganicMatterFractionFunction(address) boost::function1<void, OrganicMatterFractionType& >(boost::bind(address, this, _1))
+      virtual void subscribe(const std::string& name, boost::function1<void, OrganicMatterFractionType&> handler) = 0;
       virtual void publish(const std::string& name, OrganicMatterFractionType& data) = 0;
 
       // Residue
-//      virtual void subscribe(const std::string& name, boost::function1<void, ResidueType&> handler) = 0;
+      #define ResidueFunction(address) boost::function1<void, ResidueType& >(boost::bind(address, this, _1))
+      virtual void subscribe(const std::string& name, boost::function1<void, ResidueType&> handler) = 0;
       virtual void publish(const std::string& name, ResidueType& data) = 0;
 
       // solute
-//      virtual void subscribe(const std::string& name, boost::function1<void, soluteType&> handler) = 0;
+      #define soluteFunction(address) boost::function1<void, soluteType& >(boost::bind(address, this, _1))
+      virtual void subscribe(const std::string& name, boost::function1<void, soluteType&> handler) = 0;
       virtual void publish(const std::string& name, soluteType& data) = 0;
 
       // SurfaceWater
-//      virtual void subscribe(const std::string& name, boost::function1<void, SurfaceWaterType&> handler) = 0;
+      #define SurfaceWaterFunction(address) boost::function1<void, SurfaceWaterType& >(boost::bind(address, this, _1))
+      virtual void subscribe(const std::string& name, boost::function1<void, SurfaceWaterType&> handler) = 0;
       virtual void publish(const std::string& name, SurfaceWaterType& data) = 0;
 
       // SurfaceWaterBalance
-//      virtual void subscribe(const std::string& name, boost::function1<void, SurfaceWaterBalanceType&> handler) = 0;
+      #define SurfaceWaterBalanceFunction(address) boost::function1<void, SurfaceWaterBalanceType& >(boost::bind(address, this, _1))
+      virtual void subscribe(const std::string& name, boost::function1<void, SurfaceWaterBalanceType&> handler) = 0;
       virtual void publish(const std::string& name, SurfaceWaterBalanceType& data) = 0;
 
+      // FertiliserConstituents
+      #define FertiliserConstituentsFunction(address) boost::function1<void, FertiliserConstituentsType& >(boost::bind(address, this, _1))
+      virtual void subscribe(const std::string& name, boost::function1<void, FertiliserConstituentsType&> handler) = 0;
+      virtual void publish(const std::string& name, FertiliserConstituentsType& data) = 0;
+
       // FPool
-//      virtual void subscribe(const std::string& name, boost::function1<void, FPoolType&> handler) = 0;
+      #define FPoolFunction(address) boost::function1<void, FPoolType& >(boost::bind(address, this, _1))
+      virtual void subscribe(const std::string& name, boost::function1<void, FPoolType&> handler) = 0;
       virtual void publish(const std::string& name, FPoolType& data) = 0;
 
       // FPoolProfileLayer
-//      virtual void subscribe(const std::string& name, boost::function1<void, FPoolProfileLayerType&> handler) = 0;
+      #define FPoolProfileLayerFunction(address) boost::function1<void, FPoolProfileLayerType& >(boost::bind(address, this, _1))
+      virtual void subscribe(const std::string& name, boost::function1<void, FPoolProfileLayerType&> handler) = 0;
       virtual void publish(const std::string& name, FPoolProfileLayerType& data) = 0;
 
       // StandingFraction
-//      virtual void subscribe(const std::string& name, boost::function1<void, StandingFractionType&> handler) = 0;
+      #define StandingFractionFunction(address) boost::function1<void, StandingFractionType& >(boost::bind(address, this, _1))
+      virtual void subscribe(const std::string& name, boost::function1<void, StandingFractionType&> handler) = 0;
       virtual void publish(const std::string& name, StandingFractionType& data) = 0;
 
       // LyingFraction
-//      virtual void subscribe(const std::string& name, boost::function1<void, LyingFractionType&> handler) = 0;
+      #define LyingFractionFunction(address) boost::function1<void, LyingFractionType& >(boost::bind(address, this, _1))
+      virtual void subscribe(const std::string& name, boost::function1<void, LyingFractionType&> handler) = 0;
       virtual void publish(const std::string& name, LyingFractionType& data) = 0;
 
       // SurfaceOrganicMatter
-//      virtual void subscribe(const std::string& name, boost::function1<void, SurfaceOrganicMatterType&> handler) = 0;
+      #define SurfaceOrganicMatterFunction(address) boost::function1<void, SurfaceOrganicMatterType& >(boost::bind(address, this, _1))
+      virtual void subscribe(const std::string& name, boost::function1<void, SurfaceOrganicMatterType&> handler) = 0;
       virtual void publish(const std::string& name, SurfaceOrganicMatterType& data) = 0;
 
       // SurfaceOrganicMatterDecomp
-//      virtual void subscribe(const std::string& name, boost::function1<void, SurfaceOrganicMatterDecompType&> handler) = 0;
+      #define SurfaceOrganicMatterDecompFunction(address) boost::function1<void, SurfaceOrganicMatterDecompType& >(boost::bind(address, this, _1))
+      virtual void subscribe(const std::string& name, boost::function1<void, SurfaceOrganicMatterDecompType&> handler) = 0;
       virtual void publish(const std::string& name, SurfaceOrganicMatterDecompType& data) = 0;
 
       // NBalance
-//      virtual void subscribe(const std::string& name, boost::function1<void, NBalanceType&> handler) = 0;
+      #define NBalanceFunction(address) boost::function1<void, NBalanceType& >(boost::bind(address, this, _1))
+      virtual void subscribe(const std::string& name, boost::function1<void, NBalanceType&> handler) = 0;
       virtual void publish(const std::string& name, NBalanceType& data) = 0;
 
       // CBalance
-//      virtual void subscribe(const std::string& name, boost::function1<void, CBalanceType&> handler) = 0;
+      #define CBalanceFunction(address) boost::function1<void, CBalanceType& >(boost::bind(address, this, _1))
+      virtual void subscribe(const std::string& name, boost::function1<void, CBalanceType&> handler) = 0;
       virtual void publish(const std::string& name, CBalanceType& data) = 0;
 
       // IncorpFom
-//      virtual void subscribe(const std::string& name, boost::function1<void, IncorpFomType&> handler) = 0;
+      #define IncorpFomFunction(address) boost::function1<void, IncorpFomType& >(boost::bind(address, this, _1))
+      virtual void subscribe(const std::string& name, boost::function1<void, IncorpFomType&> handler) = 0;
       virtual void publish(const std::string& name, IncorpFomType& data) = 0;
 
-      // layer
-//      virtual void subscribe(const std::string& name, boost::function1<void, layerType&> handler) = 0;
-      virtual void publish(const std::string& name, layerType& data) = 0;
-
       // SoilOrganicMatter
-//      virtual void subscribe(const std::string& name, boost::function1<void, SoilOrganicMatterType&> handler) = 0;
+      #define SoilOrganicMatterFunction(address) boost::function1<void, SoilOrganicMatterType& >(boost::bind(address, this, _1))
+      virtual void subscribe(const std::string& name, boost::function1<void, SoilOrganicMatterType&> handler) = 0;
       virtual void publish(const std::string& name, SoilOrganicMatterType& data) = 0;
 
       // SoilNitrogenFlowsLayer
-//      virtual void subscribe(const std::string& name, boost::function1<void, SoilNitrogenFlowsLayerType&> handler) = 0;
+      #define SoilNitrogenFlowsLayerFunction(address) boost::function1<void, SoilNitrogenFlowsLayerType& >(boost::bind(address, this, _1))
+      virtual void subscribe(const std::string& name, boost::function1<void, SoilNitrogenFlowsLayerType&> handler) = 0;
       virtual void publish(const std::string& name, SoilNitrogenFlowsLayerType& data) = 0;
 
       // NitrogenBalance
-//      virtual void subscribe(const std::string& name, boost::function1<void, NitrogenBalanceType&> handler) = 0;
+      #define NitrogenBalanceFunction(address) boost::function1<void, NitrogenBalanceType& >(boost::bind(address, this, _1))
+      virtual void subscribe(const std::string& name, boost::function1<void, NitrogenBalanceType&> handler) = 0;
       virtual void publish(const std::string& name, NitrogenBalanceType& data) = 0;
 
       // CropChopped
-//      virtual void subscribe(const std::string& name, boost::function1<void, CropChoppedType&> handler) = 0;
+      #define CropChoppedFunction(address) boost::function1<void, CropChoppedType& >(boost::bind(address, this, _1))
+      virtual void subscribe(const std::string& name, boost::function1<void, CropChoppedType&> handler) = 0;
       virtual void publish(const std::string& name, CropChoppedType& data) = 0;
 
       // NewProfile
-//      virtual void subscribe(const std::string& name, boost::function1<void, NewProfileType&> handler) = 0;
+      #define NewProfileFunction(address) boost::function1<void, NewProfileType& >(boost::bind(address, this, _1))
+      virtual void subscribe(const std::string& name, boost::function1<void, NewProfileType&> handler) = 0;
       virtual void publish(const std::string& name, NewProfileType& data) = 0;
 
       // NewPotentialGrowth
-//      virtual void subscribe(const std::string& name, boost::function1<void, NewPotentialGrowthType&> handler) = 0;
+      #define NewPotentialGrowthFunction(address) boost::function1<void, NewPotentialGrowthType& >(boost::bind(address, this, _1))
+      virtual void subscribe(const std::string& name, boost::function1<void, NewPotentialGrowthType&> handler) = 0;
       virtual void publish(const std::string& name, NewPotentialGrowthType& data) = 0;
 
       // NewCanopy
-//      virtual void subscribe(const std::string& name, boost::function1<void, NewCanopyType&> handler) = 0;
+      #define NewCanopyFunction(address) boost::function1<void, NewCanopyType& >(boost::bind(address, this, _1))
+      virtual void subscribe(const std::string& name, boost::function1<void, NewCanopyType&> handler) = 0;
       virtual void publish(const std::string& name, NewCanopyType& data) = 0;
 
       // NewCrop
-//      virtual void subscribe(const std::string& name, boost::function1<void, NewCropType&> handler) = 0;
+      #define NewCropFunction(address) boost::function1<void, NewCropType& >(boost::bind(address, this, _1))
+      virtual void subscribe(const std::string& name, boost::function1<void, NewCropType&> handler) = 0;
       virtual void publish(const std::string& name, NewCropType& data) = 0;
 
       // NewZone
-//      virtual void subscribe(const std::string& name, boost::function1<void, NewZoneType&> handler) = 0;
+      #define NewZoneFunction(address) boost::function1<void, NewZoneType& >(boost::bind(address, this, _1))
+      virtual void subscribe(const std::string& name, boost::function1<void, NewZoneType&> handler) = 0;
       virtual void publish(const std::string& name, NewZoneType& data) = 0;
 
       // SoilLayers
-//      virtual void subscribe(const std::string& name, boost::function1<void, SoilLayersType&> handler) = 0;
+      #define SoilLayersFunction(address) boost::function1<void, SoilLayersType& >(boost::bind(address, this, _1))
+      virtual void subscribe(const std::string& name, boost::function1<void, SoilLayersType&> handler) = 0;
       virtual void publish(const std::string& name, SoilLayersType& data) = 0;
 
       // rlv_layer
-//      virtual void subscribe(const std::string& name, boost::function1<void, rlv_layerType&> handler) = 0;
+      #define rlv_layerFunction(address) boost::function1<void, rlv_layerType& >(boost::bind(address, this, _1))
+      virtual void subscribe(const std::string& name, boost::function1<void, rlv_layerType&> handler) = 0;
       virtual void publish(const std::string& name, rlv_layerType& data) = 0;
 
       // demands
-//      virtual void subscribe(const std::string& name, boost::function1<void, demandsType&> handler) = 0;
+      #define demandsFunction(address) boost::function1<void, demandsType& >(boost::bind(address, this, _1))
+      virtual void subscribe(const std::string& name, boost::function1<void, demandsType&> handler) = 0;
       virtual void publish(const std::string& name, demandsType& data) = 0;
 
       // PastureWaterDemand
-//      virtual void subscribe(const std::string& name, boost::function1<void, PastureWaterDemandType&> handler) = 0;
+      #define PastureWaterDemandFunction(address) boost::function1<void, PastureWaterDemandType& >(boost::bind(address, this, _1))
+      virtual void subscribe(const std::string& name, boost::function1<void, PastureWaterDemandType&> handler) = 0;
       virtual void publish(const std::string& name, PastureWaterDemandType& data) = 0;
 
       // supplies
-//      virtual void subscribe(const std::string& name, boost::function1<void, suppliesType&> handler) = 0;
+      #define suppliesFunction(address) boost::function1<void, suppliesType& >(boost::bind(address, this, _1))
+      virtual void subscribe(const std::string& name, boost::function1<void, suppliesType&> handler) = 0;
       virtual void publish(const std::string& name, suppliesType& data) = 0;
 
       // PastureWaterSupply
-//      virtual void subscribe(const std::string& name, boost::function1<void, PastureWaterSupplyType&> handler) = 0;
+      #define PastureWaterSupplyFunction(address) boost::function1<void, PastureWaterSupplyType& >(boost::bind(address, this, _1))
+      virtual void subscribe(const std::string& name, boost::function1<void, PastureWaterSupplyType&> handler) = 0;
       virtual void publish(const std::string& name, PastureWaterSupplyType& data) = 0;
 
       // water_uptake
-//      virtual void subscribe(const std::string& name, boost::function1<void, water_uptakeType&> handler) = 0;
+      #define water_uptakeFunction(address) boost::function1<void, water_uptakeType& >(boost::bind(address, this, _1))
+      virtual void subscribe(const std::string& name, boost::function1<void, water_uptakeType&> handler) = 0;
       virtual void publish(const std::string& name, water_uptakeType& data) = 0;
 
       // PastureWaterUptake
-//      virtual void subscribe(const std::string& name, boost::function1<void, PastureWaterUptakeType&> handler) = 0;
+      #define PastureWaterUptakeFunction(address) boost::function1<void, PastureWaterUptakeType& >(boost::bind(address, this, _1))
+      virtual void subscribe(const std::string& name, boost::function1<void, PastureWaterUptakeType&> handler) = 0;
       virtual void publish(const std::string& name, PastureWaterUptakeType& data) = 0;
 
       // water_info
-//      virtual void subscribe(const std::string& name, boost::function1<void, water_infoType&> handler) = 0;
+      #define water_infoFunction(address) boost::function1<void, water_infoType& >(boost::bind(address, this, _1))
+      virtual void subscribe(const std::string& name, boost::function1<void, water_infoType&> handler) = 0;
       virtual void publish(const std::string& name, water_infoType& data) = 0;
 
       // WaterInfo
-//      virtual void subscribe(const std::string& name, boost::function1<void, WaterInfoType&> handler) = 0;
+      #define WaterInfoFunction(address) boost::function1<void, WaterInfoType& >(boost::bind(address, this, _1))
+      virtual void subscribe(const std::string& name, boost::function1<void, WaterInfoType&> handler) = 0;
       virtual void publish(const std::string& name, WaterInfoType& data) = 0;
 
       // fom
-//      virtual void subscribe(const std::string& name, boost::function1<void, fomType&> handler) = 0;
+      #define fomFunction(address) boost::function1<void, fomType& >(boost::bind(address, this, _1))
+      virtual void subscribe(const std::string& name, boost::function1<void, fomType&> handler) = 0;
       virtual void publish(const std::string& name, fomType& data) = 0;
 
       // FomAdded
-//      virtual void subscribe(const std::string& name, boost::function1<void, FomAddedType&> handler) = 0;
+      #define FomAddedFunction(address) boost::function1<void, FomAddedType& >(boost::bind(address, this, _1))
+      virtual void subscribe(const std::string& name, boost::function1<void, FomAddedType&> handler) = 0;
       virtual void publish(const std::string& name, FomAddedType& data) = 0;
 
       // PastureNutrientUptake
-//      virtual void subscribe(const std::string& name, boost::function1<void, PastureNutrientUptakeType&> handler) = 0;
+      #define PastureNutrientUptakeFunction(address) boost::function1<void, PastureNutrientUptakeType& >(boost::bind(address, this, _1))
+      virtual void subscribe(const std::string& name, boost::function1<void, PastureNutrientUptakeType&> handler) = 0;
       virtual void publish(const std::string& name, PastureNutrientUptakeType& data) = 0;
 
       // PastureSow
-//      virtual void subscribe(const std::string& name, boost::function1<void, PastureSowType&> handler) = 0;
+      #define PastureSowFunction(address) boost::function1<void, PastureSowType& >(boost::bind(address, this, _1))
+      virtual void subscribe(const std::string& name, boost::function1<void, PastureSowType&> handler) = 0;
       virtual void publish(const std::string& name, PastureSowType& data) = 0;
 
       // PastureKill
-//      virtual void subscribe(const std::string& name, boost::function1<void, PastureKillType&> handler) = 0;
+      #define PastureKillFunction(address) boost::function1<void, PastureKillType& >(boost::bind(address, this, _1))
+      virtual void subscribe(const std::string& name, boost::function1<void, PastureKillType&> handler) = 0;
       virtual void publish(const std::string& name, PastureKillType& data) = 0;
 
       // PastureCultivate
-//      virtual void subscribe(const std::string& name, boost::function1<void, PastureCultivateType&> handler) = 0;
+      #define PastureCultivateFunction(address) boost::function1<void, PastureCultivateType& >(boost::bind(address, this, _1))
+      virtual void subscribe(const std::string& name, boost::function1<void, PastureCultivateType&> handler) = 0;
       virtual void publish(const std::string& name, PastureCultivateType& data) = 0;
 
       // PastureCut
-//      virtual void subscribe(const std::string& name, boost::function1<void, PastureCutType&> handler) = 0;
+      #define PastureCutFunction(address) boost::function1<void, PastureCutType& >(boost::bind(address, this, _1))
+      virtual void subscribe(const std::string& name, boost::function1<void, PastureCutType&> handler) = 0;
       virtual void publish(const std::string& name, PastureCutType& data) = 0;
 
       // PastureOnCut
-//      virtual void subscribe(const std::string& name, boost::function1<void, PastureOnCutType&> handler) = 0;
+      #define PastureOnCutFunction(address) boost::function1<void, PastureOnCutType& >(boost::bind(address, this, _1))
+      virtual void subscribe(const std::string& name, boost::function1<void, PastureOnCutType&> handler) = 0;
       virtual void publish(const std::string& name, PastureOnCutType& data) = 0;
 
       // PastureWeather
-//      virtual void subscribe(const std::string& name, boost::function1<void, PastureWeatherType&> handler) = 0;
+      #define PastureWeatherFunction(address) boost::function1<void, PastureWeatherType& >(boost::bind(address, this, _1))
+      virtual void subscribe(const std::string& name, boost::function1<void, PastureWeatherType&> handler) = 0;
       virtual void publish(const std::string& name, PastureWeatherType& data) = 0;
 
       // Faeces
-//      virtual void subscribe(const std::string& name, boost::function1<void, FaecesType&> handler) = 0;
+      #define FaecesFunction(address) boost::function1<void, FaecesType& >(boost::bind(address, this, _1))
+      virtual void subscribe(const std::string& name, boost::function1<void, FaecesType&> handler) = 0;
       virtual void publish(const std::string& name, FaecesType& data) = 0;
 
       // FaecesInorg
-//      virtual void subscribe(const std::string& name, boost::function1<void, FaecesInorgType&> handler) = 0;
+      #define FaecesInorgFunction(address) boost::function1<void, FaecesInorgType& >(boost::bind(address, this, _1))
+      virtual void subscribe(const std::string& name, boost::function1<void, FaecesInorgType&> handler) = 0;
       virtual void publish(const std::string& name, FaecesInorgType& data) = 0;
 
       // Intake
-//      virtual void subscribe(const std::string& name, boost::function1<void, IntakeType&> handler) = 0;
+      #define IntakeFunction(address) boost::function1<void, IntakeType& >(boost::bind(address, this, _1))
+      virtual void subscribe(const std::string& name, boost::function1<void, IntakeType&> handler) = 0;
       virtual void publish(const std::string& name, IntakeType& data) = 0;
 
       // PastIntake
-//      virtual void subscribe(const std::string& name, boost::function1<void, PastIntakeType&> handler) = 0;
+      #define PastIntakeFunction(address) boost::function1<void, PastIntakeType& >(boost::bind(address, this, _1))
+      virtual void subscribe(const std::string& name, boost::function1<void, PastIntakeType&> handler) = 0;
       virtual void publish(const std::string& name, PastIntakeType& data) = 0;
 
       // SuppIntake
-//      virtual void subscribe(const std::string& name, boost::function1<void, SuppIntakeType&> handler) = 0;
+      #define SuppIntakeFunction(address) boost::function1<void, SuppIntakeType& >(boost::bind(address, this, _1))
+      virtual void subscribe(const std::string& name, boost::function1<void, SuppIntakeType&> handler) = 0;
       virtual void publish(const std::string& name, SuppIntakeType& data) = 0;
 
       // faeces_om
-//      virtual void subscribe(const std::string& name, boost::function1<void, faeces_omType&> handler) = 0;
+      #define faeces_omFunction(address) boost::function1<void, faeces_omType& >(boost::bind(address, this, _1))
+      virtual void subscribe(const std::string& name, boost::function1<void, faeces_omType&> handler) = 0;
       virtual void publish(const std::string& name, faeces_omType& data) = 0;
 
       // faeces_inorg
-//      virtual void subscribe(const std::string& name, boost::function1<void, faeces_inorgType&> handler) = 0;
+      #define faeces_inorgFunction(address) boost::function1<void, faeces_inorgType& >(boost::bind(address, this, _1))
+      virtual void subscribe(const std::string& name, boost::function1<void, faeces_inorgType&> handler) = 0;
       virtual void publish(const std::string& name, faeces_inorgType& data) = 0;
 
       // urine
-//      virtual void subscribe(const std::string& name, boost::function1<void, urineType&> handler) = 0;
+      #define urineFunction(address) boost::function1<void, urineType& >(boost::bind(address, this, _1))
+      virtual void subscribe(const std::string& name, boost::function1<void, urineType&> handler) = 0;
       virtual void publish(const std::string& name, urineType& data) = 0;
 
       // AddExcreta
-//      virtual void subscribe(const std::string& name, boost::function1<void, AddExcretaType&> handler) = 0;
+      #define AddExcretaFunction(address) boost::function1<void, AddExcretaType& >(boost::bind(address, this, _1))
+      virtual void subscribe(const std::string& name, boost::function1<void, AddExcretaType&> handler) = 0;
       virtual void publish(const std::string& name, AddExcretaType& data) = 0;
 
       // RemoveHerbage
-//      virtual void subscribe(const std::string& name, boost::function1<void, RemoveHerbageType&> handler) = 0;
+      #define RemoveHerbageFunction(address) boost::function1<void, RemoveHerbageType& >(boost::bind(address, this, _1))
+      virtual void subscribe(const std::string& name, boost::function1<void, RemoveHerbageType&> handler) = 0;
       virtual void publish(const std::string& name, RemoveHerbageType& data) = 0;
 
       // SuppEaten
-//      virtual void subscribe(const std::string& name, boost::function1<void, SuppEatenType&> handler) = 0;
+      #define SuppEatenFunction(address) boost::function1<void, SuppEatenType& >(boost::bind(address, this, _1))
+      virtual void subscribe(const std::string& name, boost::function1<void, SuppEatenType&> handler) = 0;
       virtual void publish(const std::string& name, SuppEatenType& data) = 0;
 
       // herbage
-//      virtual void subscribe(const std::string& name, boost::function1<void, herbageType&> handler) = 0;
+      #define herbageFunction(address) boost::function1<void, herbageType& >(boost::bind(address, this, _1))
+      virtual void subscribe(const std::string& name, boost::function1<void, herbageType&> handler) = 0;
       virtual void publish(const std::string& name, herbageType& data) = 0;
 
       // seed
-//      virtual void subscribe(const std::string& name, boost::function1<void, seedType&> handler) = 0;
+      #define seedFunction(address) boost::function1<void, seedType& >(boost::bind(address, this, _1))
+      virtual void subscribe(const std::string& name, boost::function1<void, seedType&> handler) = 0;
       virtual void publish(const std::string& name, seedType& data) = 0;
 
       // Plant2Stock
-//      virtual void subscribe(const std::string& name, boost::function1<void, Plant2StockType&> handler) = 0;
+      #define Plant2StockFunction(address) boost::function1<void, Plant2StockType& >(boost::bind(address, this, _1))
+      virtual void subscribe(const std::string& name, boost::function1<void, Plant2StockType&> handler) = 0;
       virtual void publish(const std::string& name, Plant2StockType& data) = 0;
 
       // BuyStock
-//      virtual void subscribe(const std::string& name, boost::function1<void, BuyStockType&> handler) = 0;
+      #define BuyStockFunction(address) boost::function1<void, BuyStockType& >(boost::bind(address, this, _1))
+      virtual void subscribe(const std::string& name, boost::function1<void, BuyStockType&> handler) = 0;
       virtual void publish(const std::string& name, BuyStockType& data) = 0;
 
       // SellStock
-//      virtual void subscribe(const std::string& name, boost::function1<void, SellStockType&> handler) = 0;
+      #define SellStockFunction(address) boost::function1<void, SellStockType& >(boost::bind(address, this, _1))
+      virtual void subscribe(const std::string& name, boost::function1<void, SellStockType&> handler) = 0;
       virtual void publish(const std::string& name, SellStockType& data) = 0;
 
       // CastrateStock
-//      virtual void subscribe(const std::string& name, boost::function1<void, CastrateStockType&> handler) = 0;
+      #define CastrateStockFunction(address) boost::function1<void, CastrateStockType& >(boost::bind(address, this, _1))
+      virtual void subscribe(const std::string& name, boost::function1<void, CastrateStockType&> handler) = 0;
       virtual void publish(const std::string& name, CastrateStockType& data) = 0;
 
       // DryOffStock
-//      virtual void subscribe(const std::string& name, boost::function1<void, DryOffStockType&> handler) = 0;
+      #define DryOffStockFunction(address) boost::function1<void, DryOffStockType& >(boost::bind(address, this, _1))
+      virtual void subscribe(const std::string& name, boost::function1<void, DryOffStockType&> handler) = 0;
       virtual void publish(const std::string& name, DryOffStockType& data) = 0;
 
       // JoinStock
-//      virtual void subscribe(const std::string& name, boost::function1<void, JoinStockType&> handler) = 0;
+      #define JoinStockFunction(address) boost::function1<void, JoinStockType& >(boost::bind(address, this, _1))
+      virtual void subscribe(const std::string& name, boost::function1<void, JoinStockType&> handler) = 0;
       virtual void publish(const std::string& name, JoinStockType& data) = 0;
 
       // MoveStock
-//      virtual void subscribe(const std::string& name, boost::function1<void, MoveStockType&> handler) = 0;
+      #define MoveStockFunction(address) boost::function1<void, MoveStockType& >(boost::bind(address, this, _1))
+      virtual void subscribe(const std::string& name, boost::function1<void, MoveStockType&> handler) = 0;
       virtual void publish(const std::string& name, MoveStockType& data) = 0;
 
       // ShearStock
-//      virtual void subscribe(const std::string& name, boost::function1<void, ShearStockType&> handler) = 0;
+      #define ShearStockFunction(address) boost::function1<void, ShearStockType& >(boost::bind(address, this, _1))
+      virtual void subscribe(const std::string& name, boost::function1<void, ShearStockType&> handler) = 0;
       virtual void publish(const std::string& name, ShearStockType& data) = 0;
 
       // SplitStock
-//      virtual void subscribe(const std::string& name, boost::function1<void, SplitStockType&> handler) = 0;
+      #define SplitStockFunction(address) boost::function1<void, SplitStockType& >(boost::bind(address, this, _1))
+      virtual void subscribe(const std::string& name, boost::function1<void, SplitStockType&> handler) = 0;
       virtual void publish(const std::string& name, SplitStockType& data) = 0;
 
       // TagStock
-//      virtual void subscribe(const std::string& name, boost::function1<void, TagStockType&> handler) = 0;
+      #define TagStockFunction(address) boost::function1<void, TagStockType& >(boost::bind(address, this, _1))
+      virtual void subscribe(const std::string& name, boost::function1<void, TagStockType&> handler) = 0;
       virtual void publish(const std::string& name, TagStockType& data) = 0;
 
       // WeanStock
-//      virtual void subscribe(const std::string& name, boost::function1<void, WeanStockType&> handler) = 0;
+      #define WeanStockFunction(address) boost::function1<void, WeanStockType& >(boost::bind(address, this, _1))
+      virtual void subscribe(const std::string& name, boost::function1<void, WeanStockType&> handler) = 0;
       virtual void publish(const std::string& name, WeanStockType& data) = 0;
 
       // dm
-//      virtual void subscribe(const std::string& name, boost::function1<void, dmType&> handler) = 0;
+      #define dmFunction(address) boost::function1<void, dmType& >(boost::bind(address, this, _1))
+      virtual void subscribe(const std::string& name, boost::function1<void, dmType&> handler) = 0;
       virtual void publish(const std::string& name, dmType& data) = 0;
 
       // RemoveCropDm
-//      virtual void subscribe(const std::string& name, boost::function1<void, RemoveCropDmType&> handler) = 0;
+      #define RemoveCropDmFunction(address) boost::function1<void, RemoveCropDmType& >(boost::bind(address, this, _1))
+      virtual void subscribe(const std::string& name, boost::function1<void, RemoveCropDmType&> handler) = 0;
       virtual void publish(const std::string& name, RemoveCropDmType& data) = 0;
 
       // RemoveResidueDm
-//      virtual void subscribe(const std::string& name, boost::function1<void, RemoveResidueDmType&> handler) = 0;
+      #define RemoveResidueDmFunction(address) boost::function1<void, RemoveResidueDmType& >(boost::bind(address, this, _1))
+      virtual void subscribe(const std::string& name, boost::function1<void, RemoveResidueDmType&> handler) = 0;
       virtual void publish(const std::string& name, RemoveResidueDmType& data) = 0;
 
       // SupplementBuy
-//      virtual void subscribe(const std::string& name, boost::function1<void, SupplementBuyType&> handler) = 0;
+      #define SupplementBuyFunction(address) boost::function1<void, SupplementBuyType& >(boost::bind(address, this, _1))
+      virtual void subscribe(const std::string& name, boost::function1<void, SupplementBuyType&> handler) = 0;
       virtual void publish(const std::string& name, SupplementBuyType& data) = 0;
 
       // SupplementFeed
-//      virtual void subscribe(const std::string& name, boost::function1<void, SupplementFeedType&> handler) = 0;
+      #define SupplementFeedFunction(address) boost::function1<void, SupplementFeedType& >(boost::bind(address, this, _1))
+      virtual void subscribe(const std::string& name, boost::function1<void, SupplementFeedType&> handler) = 0;
       virtual void publish(const std::string& name, SupplementFeedType& data) = 0;
 
       // SupplementMix
-//      virtual void subscribe(const std::string& name, boost::function1<void, SupplementMixType&> handler) = 0;
+      #define SupplementMixFunction(address) boost::function1<void, SupplementMixType& >(boost::bind(address, this, _1))
+      virtual void subscribe(const std::string& name, boost::function1<void, SupplementMixType&> handler) = 0;
       virtual void publish(const std::string& name, SupplementMixType& data) = 0;
 
+//      // Variant
+//      #define VariantFunction(address) boost::function1<void, Variant& >(boost::bind(address, this, _1))
+//      virtual void subscribe(const std::string& name, boost::function1<void, Variant&> handler) = 0;
+//      virtual void publish(const std::string& name, Variant& data) = 0;
    };
 #endif
