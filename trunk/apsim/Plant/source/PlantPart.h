@@ -44,13 +44,11 @@ class plantPart : public plantThing
    float Width;                      // The width of this part (mm)
    float PGreen;
    float PSen;
-   float PDead;
    float NGreen;                      // plant nitrogen content (g N/m^2)
-   float NDead;                       // plant N content of dead plants (g N/m^2)
    float NSenesced;                   // plant N content of senesced plant (g N/m^2)
    float DMGreen;                     // live plant dry weight (biomass) (g/m^2)
    float DMSenesced;                  // senesced plant dry wt (g/m^2)
-   float DMDead;                      // dry wt of dead plants (g/m^2)
+
 
    float relativeGrowthRate;
    float radiationInterceptedGreen;
@@ -291,7 +289,6 @@ public:
    virtual float nSenesced(void) const;
    virtual float nSenescedVeg(void)const;
    virtual float nDead(void)const;
-   virtual float nDeadVeg(void)const;
    virtual float nConc(void)const;
    virtual float nConcPercent(void)const;
    virtual float nMaxPot(void) const;
@@ -307,7 +304,6 @@ public:
    virtual float pSenesced(void)const ;
    virtual float pSenescedVeg(void) const;
    virtual float pDead(void)const;
-   virtual float pDeadVeg(void) const;
    virtual float pConc(void)const;
    virtual float pConcPercent(void)const;
    virtual float pGreenStressDeterminant(void);
@@ -365,8 +361,6 @@ public:
    virtual void get_name(vector<string> &names);
    virtual void get_p_demand(vector<float> &p_demand);
    virtual void get_dlt_p_retrans(vector<float> &dlt_p_retrans);
-   virtual void get_dlt_dm_green_dead(vector<float> &);
-   virtual void get_dlt_dm_dead_detached(vector<float> &);
    virtual void get_dlt_dm_senesced(vector<float> &);
    virtual void get_dlt_dm_detached(vector<float> &);
    virtual void get_dlt_dm_green_retrans(vector<float> &);

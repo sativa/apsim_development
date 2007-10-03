@@ -663,7 +663,7 @@ void genericLeafPart::removeBiomass(void)
     {
     float chop_fr_green = divide(dlt.dm_green_removed, DMGreen, 0.0);
     float chop_fr_sen   = divide(dlt.dm_senesced_removed, DMSenesced, 0.0);
-    float chop_fr_dead  = divide(0.0, DMDead, 0.0);
+    float chop_fr_dead  = 0.0;
 
     float dlt_lai = gLAI * chop_fr_green;
     float dlt_slai = gSLAI * chop_fr_sen;

@@ -61,15 +61,12 @@ void StoragePart::onHarvest(float cutting_height, float remove_fr,
                        + pGreen()
                        + pSenesced();
 
-   DMDead = 0.0;
    DMSenesced = 0.0;
    DMGreen = 0.0;
 
-   NDead = 0.0;
    NSenesced = 0.0;
    NGreen = 0.0;
 
-   PDead = 0.0;
    PSen = 0.0;
    PGreen = 0.0;
 

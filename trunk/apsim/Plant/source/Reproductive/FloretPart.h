@@ -15,7 +15,6 @@ class FloretPart : public plantPart {
                   vector<float> &dlt_dm_p,
                   vector<float> &fraction_to_residue);
 
-   void onKillStem(void);
 
    void onFlowering(void);
    void onStartGrainFill(void);

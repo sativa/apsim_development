@@ -16,7 +16,7 @@ class fruitOilPart : public plantPart {
                   vector<float> &dlt_dm_p,
                   vector<float> &fraction_to_residue);
 
-   void onKillStem(void);
+
    void onFlowering(void);
    void onStartGrainFill(void);
    void zeroAllGlobals(void);
@@ -28,7 +28,7 @@ class fruitOilPart : public plantPart {
    float calcDmDemand(float dmDemand) ;
    void doDMDemand(float dlt_dm_grain_demand) ;       //remove
    void doDMDemandGrain(float dlt_dm_grain_demand);
-   float giveDmGreen(float delta); 
+   float giveDmGreen(float delta);
    void doDmRetranslocate(float DMAvail, float DMDemandDifferentialTotal);
    float dltDmGreen(void) const;
    float dltDmGreenRetransUptake(void) const;

@@ -26,8 +26,6 @@ public:                                             // member functions
    virtual void get_name(vector<string> &name);
    virtual void get_p_demand(vector<float> &p_demand);
    virtual void get_dlt_p_retrans(vector<float> &dlt_p_retrans);
-   virtual void get_dlt_dm_green_dead(vector<float> &);
-   virtual void get_dlt_dm_dead_detached(vector<float> &);
    virtual void get_dlt_dm_senesced(vector<float> &);
    virtual void get_dlt_dm_detached(vector<float> &);
    virtual void get_dlt_dm_green_retrans(vector<float> &);
@@ -139,7 +137,6 @@ public:                                             // member functions
    virtual float nSenesced(void) const;
    virtual float nSenescedVeg(void)const;
    virtual float nDead(void)const;
-   virtual float nDeadVeg(void)const;
    virtual float nConcGrain(void) const;
    virtual float nDemandGrain2(void);
    virtual float nRetransSupply(void);
@@ -169,7 +166,6 @@ public:                                             // member functions
    virtual float pSenescedGrainTotal(void) const;
    virtual float pSenescedVeg(void) const;
    virtual float pSenesced(void) const;
-   virtual float pDeadVeg(void) const;
    virtual float pDead(void) const;
    virtual float pConcGrain(void) const;
    virtual float pConcGrainTotal(void) const;
