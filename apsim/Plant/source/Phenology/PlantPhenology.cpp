@@ -108,6 +108,8 @@ void PlantPhenology::readConstants (protocol::Component *s, const string &sectio
          pPhase* newPhase = new FixedPhase(scienceAPI, phase_names[i]);
          phases.push_back(newPhase);
          }
+
+      zeroAllGlobals();
       }
 
    //XX composites need to be defined as "start stage, end stage" pairs.
@@ -181,6 +183,13 @@ void PlantPhenology::onInit1(protocol::Component *s)
    setupGetFunction(s, "days_tot",protocol::DTsingle, true,
                     &PlantPhenology::get_days_tot, "days", "Days spent in each crop stage");
 
+   setupEvent(s, "sow", RegistrationType::respondToEvent, &CropPhenology::onSow, "<type/>");
+   setupEvent(s, "end_crop", RegistrationType::respondToEvent, &CropPhenology::onEndCrop, "<type/>");
+
+   s->addGettableVar("das", das, "d", "Days after Sowing");
+   s->addGettableVar("dlt_tt_phenol", dlt_tt_phenol,"dd", "Todays thermal time (incl. stress factors)");
+   s->addGettableVar("dlt_tt", dlt_tt, "dd", "Todays thermal time (no stress factors)");
+
 }
 
 
@@ -188,11 +197,38 @@ void PlantPhenology::onInit1(protocol::Component *s)
 void PlantPhenology::readSpeciesParameters (protocol::Component *s, vector<string> &sections)
    {
    scienceAPI.read("twilight", twilight, -90.0f, 90.0f);
+
+   iniSectionList = sections;
+   initialOnBiomassRemove = true;
+
+   stage_reduction_harvest.read(scienceAPI,
+                                "stage_code_list" , "()", 1.0, 100.0,
+                                "stage_stem_reduction_harvest" , "()", 1.0, 100.0);
+
+   stage_reduction_kill_stem.read(scienceAPI,
+                                  "stage_code_list" , "()", 1.0, 100.0,
+                                  "stage_stem_reduction_kill_stem" , "()", 1.0, 100.0);
+
+   y_tt.read(scienceAPI,
+               "x_temp", "oC", 0.0, 100.0,
+               "y_tt", "oC days", 0.0, 100.0);
+
+   scienceAPI.read("shoot_lag", shoot_lag, 0.0f, 100.0f);
+
+   scienceAPI.read("shoot_rate", shoot_rate, 0.0f, 100.0f);
+
+   scienceAPI.read("pesw_germ", pesw_germ, 0.0f, 1.0f);
+
+   rel_emerg_rate.read(scienceAPI,
+                         "fasw_emerg", "()", 0.0, 1.0,
+                         "rel_emerg_rate",  "()", 0.0, 1.0);
+
    }
 
 void PlantPhenology::zeroDeltas(void)
    {
    dltStage = 0;
+   dlt_tt = dlt_tt_phenol  = 0.0;
    }
 
 void PlantPhenology::prepare(const environment_t &/* sw*/)
@@ -358,6 +394,7 @@ void PlantPhenology::zeroAllGlobals(void)
    for (unsigned int i=0; i < phases.size(); i++) phases[i]->reset();
    day_of_year = 0;
    zeroDeltas();
+   das = 0;
 
    }
 
@@ -468,3 +505,52 @@ void PlantPhenology::onSetPhase(float resetPhase)
 
 }
 
+void PlantPhenology::onHarvest(unsigned &, unsigned &, protocol::Variant &)
+//=======================================================================================
+   {
+   previousStage = currentStage;
+   currentStage = stage_reduction_harvest[currentStage];
+   for (unsigned int stage = (int) currentStage; stage != phases.size(); stage++)
+      phases[stage]->reset();
+   setupTTTargets();
+   }
+
+void PlantPhenology::onKillStem(unsigned &, unsigned &, protocol::Variant &)
+//=======================================================================================
+   {
+   previousStage = currentStage;
+   currentStage = stage_reduction_kill_stem[currentStage];
+   for (unsigned int stage = (int)currentStage; stage != phases.size(); stage++)
+      phases[stage]->reset();
+   setupTTTargets();
+   }
+
+bool PlantPhenology::plant_germination(float pesw_germ,         // plant extractable soil water required for germination
+                                      float /* sowing_depth*/,      // depth of seed (mm)
+                                      float pesw_seed) // soil water structure
+//=======================================================================================
+//    Determine whether seed germinates based on soil water availability
+   {
+   // Soil water content of the seeded layer must be > the
+   // lower limit to be adequate for germination.
+   if (pesw_seed > pesw_germ)
+      {
+      // we have germination
+      return true;
+      }
+   // no germination yet.
+   return false;
+   }
+
+void PlantPhenology::onSow(unsigned &, unsigned &, protocol::Variant &v)
+//=======================================================================================
+   {
+   protocol::ApsimVariant incomingApsimVariant(plant->getComponent());
+   incomingApsimVariant.aliasTo(v.getMessageData());
+   if (incomingApsimVariant.get("sowing_depth", protocol::DTsingle, false, sowing_depth) == false)
+      throw std::invalid_argument("sowing_depth not specified");
+   bound_check_real_var(plant, sowing_depth, 0.0, 100.0, "sowing_depth");
+   currentStage = 1.0;
+   das = 0;
+   setupTTTargets();
+   }

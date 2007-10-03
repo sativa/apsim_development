@@ -11,17 +11,10 @@
 #include <iostream.h>
 #include <sstream>
 
-void GenericPhenology::zeroAllGlobals(void)
-//=======================================================================================
-   {
-   CropPhenology::zeroAllGlobals();
-   }
-
-
 void GenericPhenology::readConstants (protocol::Component *s, const string &section)
 //=======================================================================================
    {
-   CropPhenology::readConstants(s, section);
+   PlantPhenology::readConstants(s, section);
    s->writeString("phenology model: Generic");
    }
 
@@ -38,7 +31,7 @@ void GenericPhenology::setupTTTargets(void)
 void GenericPhenology::readCultivarParameters(protocol::Component *s, const string & cultivar)
 //=======================================================================================
    {
-   CropPhenology::readCultivarParameters(s, cultivar);
+   PlantPhenology::readCultivarParameters(s, cultivar);
    for(unsigned i=0; i!= phases.size();i++)
       {
       phases[i]->readCultivarParameters(s, cultivar);
@@ -50,7 +43,7 @@ void GenericPhenology::onSow(unsigned &, unsigned &, protocol::Variant &v)
    {
    protocol::ApsimVariant incomingApsimVariant(plant->getComponent());
    incomingApsimVariant.aliasTo(v.getMessageData());
-
+   cout << "GenericPhenology OnSOW****" << endl;
    for(unsigned i=0; i!= phases.size();i++)
       {
       phases[i]->onSow(incomingApsimVariant);
@@ -62,7 +55,7 @@ void GenericPhenology::onSow(unsigned &, unsigned &, protocol::Variant &v)
 void GenericPhenology::readSpeciesParameters (protocol::Component *s, vector<string> &sections)
 //=======================================================================================
    {
-   CropPhenology::readSpeciesParameters (s, sections);
+   PlantPhenology::readSpeciesParameters (s, sections);
    for(unsigned i=0; i!= phases.size();i++)
       {
       phases[i]->readSpeciesParameters(s, sections);
@@ -190,8 +183,8 @@ void GenericPhenology::process (const environment_t &e, const pheno_stress_t &/*
    if ((unsigned int)currentStage >= phases.size() || currentStage < 0.0)
      throw std::runtime_error("stage has gone wild in GenericPhenology::process()..");
 
-   if ((int)currentStage != (int)previousStage) plant->doPlantEvent(phases[(int)currentStage]->name());
-
+   if ((int)currentStage != (int)previousStage || phases[(int)currentStage]->getDays() == 1) plant->doPlantEvent(phases[(int)currentStage]->name());
+   //if (phases[(int)currentStage]->getDays() == 1) plant->doPlantEvent(phases[(int)currentStage]->name());
    das++;
    }
 
@@ -258,7 +251,7 @@ void GenericPhenology::onRemoveBiomass(float removeBiomPheno)
 void GenericPhenology::prepare (const environment_t &e)
 //=======================================================================================
    {
-   CropPhenology::prepare(e);
+   PlantPhenology::prepare(e);
    photoperiod = e.daylength (twilight);
 
    for(unsigned i=0; i!= phases.size();i++)

@@ -428,6 +428,7 @@ public:
       virtual void onSowing(void);
       virtual void onGermination(void);
       virtual void onEmergence(void);
+      virtual void onTransplanting(void) {};
       virtual void onFlowering(void);
       virtual void onStartGrainFill(void);
 

@@ -51,6 +51,13 @@ class PlantPhenology : public plantThing {
    std::vector<string>   iniSectionList;                  // list of sections to search in ini file
    bool initialOnBiomassRemove;
 
+       virtual void setupTTTargets()=0;
+
+       int   das;
+       // Rates
+   float dlt_tt;
+   float dlt_tt_phenol;
+
    float twilight;                                   // twilight in angular distance between
                                                      // sunset and end of twilight - altitude
                                                      // of sun. (deg)
@@ -65,6 +72,21 @@ class PlantPhenology : public plantThing {
    void get_tt_tot(protocol::Component *, protocol::QueryValueData &);
    void get_days_tot(protocol::Component *, protocol::QueryValueData &);
    pPhase* find(const string& phase_name);
+
+       // Parameters
+       float shoot_lag;                                  // minimum growing degree days for
+                                                         // germination (deg days)
+       float shoot_rate;                                 // growing deg day increase with depth
+                                                         // for germination (deg day/mm depth)
+       float sowing_depth;
+       float pesw_germ;                                  // plant extractable soil water in
+                                                         // seedling layer inadequate for
+                                                         // germination (mm/mm)
+       interpolationFunction y_tt, rel_emerg_rate;
+       interpolationFunction y_removeFractPheno;
+       lookupFunction stage_reduction_harvest;
+       lookupFunction stage_reduction_kill_stem;
+
 
  public:
    PlantPhenology(ScienceAPI& scienceAPI, plantInterface *p);
@@ -96,14 +118,15 @@ class PlantPhenology : public plantThing {
    float  stageCode (void);//xxxbad
 
    void onSetPhase(float resetPhase);
-   virtual void onSow(unsigned &, unsigned &, protocol::Variant &v){};
-   virtual void onEndCrop(unsigned &, unsigned &, protocol::Variant &v){};
-   virtual void onHarvest(unsigned &, unsigned &, protocol::Variant &v){};
-   virtual void onKillStem(unsigned &, unsigned &, protocol::Variant &v){};
+   virtual void onSow(unsigned &, unsigned &, protocol::Variant &v);
+   virtual void onEndCrop(unsigned &, unsigned &, protocol::Variant &v){zeroAllGlobals();};
+   virtual void onHarvest(unsigned &, unsigned &, protocol::Variant &v);
+   virtual void onKillStem(unsigned &, unsigned &, protocol::Variant &v);
    virtual void onRemoveBiomass(float removeBiomPheno){}; // XX arg should be protocol::Variant &v
 
    virtual float get_dlt_tt(void) = 0;                          // XX remove when leaf number development is finished
    void onPlantEvent(const string &) {};
+   virtual bool plant_germination(float pesw_germ, float sowing_depth, float pesw_seed);
 
    virtual void zeroAllGlobals(void);
    virtual void zeroDeltas(void);

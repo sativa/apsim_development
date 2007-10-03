@@ -3,7 +3,7 @@
 
 #include "CropPhenology.h"
 
-class GenericPhenology : public CropPhenology
+class GenericPhenology : public PlantPhenology
    {
    protected:
       float photoperiod;
@@ -11,7 +11,7 @@ class GenericPhenology : public CropPhenology
 
    public:
       GenericPhenology(ScienceAPI& scienceAPI, plantInterface *p)
-         : CropPhenology(scienceAPI, p) {};
+         : PlantPhenology(scienceAPI, p) {};
       void prepare(const environment_t &e);
       void process(const environment_t &e, const pheno_stress_t &ps, float fasw_seed, float pesw_seed);
       void readConstants (protocol::Component *, const string &);
@@ -22,7 +22,7 @@ class GenericPhenology : public CropPhenology
       void onRemoveBiomass(float removeBiomPheno);
       virtual float TT(const environment_t &e);
       float get_dlt_tt(void) {return dlt_tt;};
-      void zeroAllGlobals(void);
+
    };
 
 #endif

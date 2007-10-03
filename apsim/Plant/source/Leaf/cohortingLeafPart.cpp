@@ -369,6 +369,13 @@ void cohortingLeafPart::onEmergence(void)
    initialiseAreas();
    }
 
+void cohortingLeafPart::onTransplanting(void)
+   {
+   cout << "ON TRANSPLANTING"<<endl;
+   plantPart::onEmergence();
+   initialiseAreas();
+   }
+
 void cohortingLeafPart::onKillStem(void)
 //=======================================================================================
 // transfer plant leaf area to dead pool
