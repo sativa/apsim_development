@@ -356,7 +356,7 @@ void Plant::summary_p (void)
 
        P_senesced = tops.pSenescedVeg() * gm2kg / sm2ha;
 
-       P_dead = tops.pDeadVeg() * gm2kg / sm2ha;
+       P_dead = 0.0;
 
        P_stover = P_green + P_senesced + P_dead;
        P_total = P_grain + P_stover;

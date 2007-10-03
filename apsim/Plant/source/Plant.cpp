@@ -321,13 +321,6 @@ void Plant::onInit1()
    setupGetFunction(parent, "dlt_dm_green_retrans", protocol::DTsingle, true,
                     &Plant::get_dlt_dm_green_retrans, "g/m^2", "change in green pool from retranslocation");
 
-
-   setupGetFunction(parent, "dlt_dm_dead_detached", protocol::DTsingle, true,
-                    &Plant::get_dlt_dm_dead_detached,"g/m^2", "change in dead dry matter via detachment");
-
-   setupGetFunction(parent, "dlt_dm_green_dead", protocol::DTsingle, true,
-                    &Plant::get_dlt_dm_green_dead,  "g/m^2", "change in green dry matter via plant death");
-
    setupGetFunction(parent, "biomass_n", protocol::DTsingle, false,
                     &Plant::get_biomass_n,  "g/m^2", "N in total biomass");
 
@@ -3500,7 +3493,7 @@ void Plant::plant_harvest_report ()
 
     n_green = tops.nGreenVeg() * gm2kg / sm2ha;
     n_senesced = tops.nSenescedVeg() * gm2kg / sm2ha;
-    n_dead = tops.nDeadVeg() * gm2kg / sm2ha;
+    n_dead = 0.0;
 
     n_stover = n_green + n_senesced + n_dead;
     n_total = n_grain + n_stover;
@@ -4114,26 +4107,6 @@ void Plant::get_dlt_dm_green_retrans(protocol::Component *systemInterface, proto
       (*part)->get_dlt_dm_green_retrans(dlt_dm_green_retrans);
 
    systemInterface->sendVariable(qd, dlt_dm_green_retrans);
-}
-void Plant::get_dlt_dm_dead_detached(protocol::Component *systemInterface, protocol::QueryValueData &qd)
-{
-   vector<plantPart*>::iterator part;
-   vector<float>  dlt_dm_dead_detached;
-
-   for (part = myParts.begin(); part != myParts.end(); part++)
-      (*part)->get_dlt_dm_dead_detached(dlt_dm_dead_detached);
-
-   systemInterface->sendVariable(qd, dlt_dm_dead_detached);
-}
-void Plant::get_dlt_dm_green_dead(protocol::Component *systemInterface, protocol::QueryValueData &qd)
-{
-   vector<plantPart*>::iterator part;
-   vector<float>  dlt_dm_green_dead;
-
-   for (part = myParts.begin(); part != myParts.end(); part++)
-      (*part)->get_dlt_dm_green_dead(dlt_dm_green_dead);
-
-   systemInterface->sendVariable(qd, dlt_dm_green_dead);
 }
 
 void Plant::get_p_demand(protocol::Component *systemInterface, protocol::QueryValueData &qd)

@@ -82,19 +82,6 @@ void fruitOilPart::onHarvest(float /* cutting_height */, float /*remove_fr*/,
    }
 
 
-void fruitOilPart::onKillStem(void)
-//=======================================================================================
-// Event Handler for KillStem event
-   {
-   DMSenesced += DMGreen;
-   DMGreen = 0.0;
-
-   NSenesced += NGreen;
-   NGreen = 0.0;
-
-   PSen += PGreen;
-   PGreen = 0.0;
-   }
 
 void fruitOilPart::onFlowering(void)
 //=======================================================================================

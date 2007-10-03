@@ -271,10 +271,8 @@ float plantPart::digestibilityMinDmSenesced(void) const
 void plantPart::zeroAllGlobals(void)
 //=======================================================================================
    {
-   DMDead=0.0;
    DMGreen=0.0;
    DMSenesced=0.0;
-   NDead=0.0;
    NGreen=0.0;
    NSenesced=0.0;
    Height=0.0;
@@ -289,7 +287,6 @@ void plantPart::zeroAllGlobals(void)
 
    PGreen=0.0;
    PSen=0.0;
-   PDead=0.0;
    relativeGrowthRate = 0.0;
    radiationInterceptedGreen = 0.0;
    radiationInterceptedTotal = 0.0;
@@ -677,7 +674,7 @@ void plantPart::updateP(void)
       float dying_fract_plants = plant->getDyingFractionPlants();
       float p_green_dead = PGreen * dying_fract_plants;
       PGreen -= p_green_dead;
-      PDead += p_green_dead;
+      PSen += p_green_dead;
       dlt.p_sen += p_green_dead;
 
       }
@@ -1461,10 +1458,10 @@ float plantPart::nTotal(void) const {return (nGreen() + nSenesced() + nDead());}
 float plantPart::nTotalVeg(void) const {return nTotal();}
 float plantPart::nGreen(void) const {return (NGreen);}
 float plantPart::nSenesced(void) const{return (NSenesced);}
-float plantPart::nDead(void) const{return (NDead);}
+float plantPart::nDead(void) const{return (0.0);}
 float plantPart::nGreenVeg(void) const {return NGreen;}
 float plantPart::nSenescedVeg(void) const {return NSenesced;}
-float plantPart::nDeadVeg(void) const {return NDead;}
+
 
 float plantPart::nConc(void) const
 //=======================================================================================
@@ -1505,10 +1502,9 @@ float plantPart::pTotal(void) const {return (pGreen() + pSenesced() + pDead());}
 float plantPart::pTotalVeg(void) const {return (pTotal());}
 float plantPart::pGreen(void) const {return (PGreen);}
 float plantPart::pSenesced(void) const{return (PSen);}
-float plantPart::pDead(void) const{return (PDead);}
+float plantPart::pDead(void) const{return (0.0);}
 float plantPart::pGreenVeg(void) const {return PGreen;}
 float plantPart::pSenescedVeg(void) const {return PSen;}
-float plantPart::pDeadVeg(void) const {return PDead;}
 
 float plantPart::pConc(void) const
 //=======================================================================================
@@ -1661,8 +1657,6 @@ void plantPart::get_dlt_dm_green(vector<float> &dlt_dm_green) {dlt_dm_green.push
 void plantPart::get_dlt_dm_green_retrans(vector<float> &dlt_dm_green_retrans) {dlt_dm_green_retrans.push_back(dlt.dm_green_retrans);}
 void plantPart::get_dlt_dm_detached(vector<float> &dlt_dm_detached) {dlt_dm_detached.push_back(dlt.dm_detached);}
 void plantPart::get_dlt_dm_senesced(vector<float> &dlt_dm_senesced) {dlt_dm_senesced.push_back(dlt.dm_senesced);}
-void plantPart::get_dlt_dm_dead_detached(vector<float> &dlt_dm_dead_detached) {dlt_dm_dead_detached.push_back(0.0);}//dlt.dm_dead_detached);}
-void plantPart::get_dlt_dm_green_dead(vector<float> &dlt_dm_green_dead) {dlt_dm_green_dead.push_back(0.0);}
 void plantPart::get_n_demanded(vector<float> &demands) {demands.push_back(NDemand);}
 
 

@@ -384,9 +384,7 @@ public:
    void get_dlt_dm(protocol::Component *, protocol::QueryValueData &);
    void get_dlt_dm_pot_rue(protocol::Component *, protocol::QueryValueData &);
    void get_dlt_dm_pot_te(protocol::Component *, protocol::QueryValueData &);
-   void get_dlt_dm_green_dead(protocol::Component *, protocol::QueryValueData &);
    void get_dlt_dm_green_retrans(protocol::Component *, protocol::QueryValueData &);
-   void get_dlt_dm_dead_detached(protocol::Component *, protocol::QueryValueData &);
    void get_biomass_n(protocol::Component *, protocol::QueryValueData &);
    void get_n_uptake(protocol::Component *, protocol::QueryValueData &);
    void get_green_biomass_n(protocol::Component *, protocol::QueryValueData &);

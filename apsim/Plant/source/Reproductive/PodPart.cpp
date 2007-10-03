@@ -44,19 +44,6 @@ void fruitPodPart::onHarvest(float /* cutting_height */, float remove_fr,
    onHarvest_GenericAboveGroundPart(remove_fr, dm_type, dlt_crop_dm, dlt_dm_n, dlt_dm_p, fraction_to_residue);
 }
 
-void fruitPodPart::onKillStem(void)
-//=======================================================================================
-{
-   DMSenesced += DMGreen;
-   DMGreen = 0.0;
-
-   NSenesced += NGreen;
-   NGreen = 0.0;
-
-   PSen += PGreen;
-   PGreen = 0.0;
-
-}
 
 void fruitPodPart::onFlowering(void)
 //=======================================================================================

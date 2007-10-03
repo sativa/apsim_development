@@ -415,14 +415,6 @@ float CompositePart::nSenesced(void) const
    return result;
 }
 
-float CompositePart::nDeadVeg(void) const
-   //===========================================================================
-{
-   float nTotal = 0.0;
-   for (vector <plantPart * >::const_iterator part = myParts.begin(); part != myParts.end(); part++)
-      nTotal += (*part)->nDeadVeg();
-   return nTotal;
-}
 
 float CompositePart::nDead(void) const
    //===========================================================================
@@ -625,14 +617,6 @@ float CompositePart::pSenesced(void) const
    return pTotal;
 }
 
-float CompositePart::pDeadVeg(void) const
-   //===========================================================================
-{
-   float pTotal = 0.0;
-   for (vector <plantPart * >::const_iterator part = myParts.begin(); part != myParts.end(); part++)
-      pTotal += (*part)->pDeadVeg();
-   return pTotal;
-}
 
 float CompositePart::pDead(void) const
    //===========================================================================
@@ -774,23 +758,6 @@ void CompositePart::get_dlt_dm_senesced(vector<float> &dlt_dm_senesced)
    for (part = myParts.begin(); part != myParts.end(); part++)
       (*part)->get_dlt_dm_senesced(dlt_dm_senesced);
 }
-
-void CompositePart::get_dlt_dm_dead_detached(vector<float> &dlt_dm_dead_detached)
-   //===========================================================================
-{
-   vector <plantPart *>::iterator part;
-   for (part = myParts.begin(); part != myParts.end(); part++)
-      (*part)->get_dlt_dm_dead_detached(dlt_dm_dead_detached);
-}
-
-void CompositePart::get_dlt_dm_green_dead(vector<float> &dlt_dm_green_dead)
-   //===========================================================================
-{
-   vector <plantPart *>::iterator part;
-   for (part = myParts.begin(); part != myParts.end(); part++)
-      (*part)->get_dlt_dm_green_dead(dlt_dm_green_dead);
-}
-
 
 void CompositePart::get_n_demanded(vector<float> &n_demand)
    //===========================================================================

@@ -42,22 +42,6 @@ void FloretPart::onHarvest(float /* cutting_height */, float remove_fr,
    onHarvest_GenericAboveGroundPart(remove_fr, dm_type, dlt_crop_dm, dlt_dm_n, dlt_dm_p, fraction_to_residue);
 }
 
-void FloretPart::onKillStem(void)
-//=======================================================================================
-{
-   DMDead += DMGreen + DMSenesced;
-   DMGreen = 0.0;
-   DMSenesced = 0.0;
-
-   NDead += NGreen + NSenesced;
-   NGreen = 0.0;
-   NSenesced = 0.0;
-
-   PDead += PGreen + PSen;
-   PGreen = 0.0;
-   PSen = 0.0;
-}
-
 void FloretPart::onFlowering(void)
 //=======================================================================================
 {
