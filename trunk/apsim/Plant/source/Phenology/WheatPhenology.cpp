@@ -13,18 +13,18 @@
 ///////////////////////////WHEAT///////////////////////////////////
 void WheatPhenology::zeroDeltas(void)
    {
-   CropPhenology::zeroDeltas();
+   PlantPhenology::zeroDeltas();
    dlt_cumvd = 0.0;
    }
 void WheatPhenology::zeroAllGlobals(void)
    {
-   CropPhenology::zeroAllGlobals();
+   PlantPhenology::zeroAllGlobals();
    vern_eff = photop_eff = cumvd = 0.0;
    }
 
 void WheatPhenology::readConstants (protocol::Component *s, const string &section)
    {
-   CropPhenology::readConstants(s, section);
+   PlantPhenology::readConstants(s, section);
    s->writeString("phenology model: Wheat");
    }
 
@@ -70,7 +70,7 @@ void WheatPhenology::setupTTTargets(void)
 
 void WheatPhenology::readCultivarParameters(protocol::Component *s, const string & cultivar)
    {
-   CropPhenology::readCultivarParameters(s, cultivar);
+   PlantPhenology::readCultivarParameters(s, cultivar);
    scienceAPI.read("phyllochron", phyllochron, 0.0f, 300.0f);
    scienceAPI.read("startgf_to_mat", startgf_to_mat, 0.0f, 3000.0f);
    scienceAPI.read("vern_sens", vern_sens, 0.0f, 10.0f);
@@ -487,7 +487,7 @@ void WheatPhenology::onRemoveBiomass(float removeBiomPheno)
 
 void WheatPhenology::onInit1(protocol::Component *s)
    {
-   CropPhenology::onInit1(s);
+   PlantPhenology::onInit1(s);
 
    s->addGettableVar("cum_vernal_days", cumvd, "vd", "Cumulative vernalisation");
    s->addGettableVar("vern_eff", vern_eff,     "", "Vernalisation effect");

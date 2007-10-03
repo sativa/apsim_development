@@ -241,6 +241,11 @@ void genericLeafPart::onEmergence(void)
    initialiseAreas();
    }
 
+void genericLeafPart::onTransplanting(void)
+   {
+   plantPart::onEmergence();
+   initialiseAreas();
+   }
 void genericLeafPart::onKillStem(void)
    // transfer plant leaf area
    {

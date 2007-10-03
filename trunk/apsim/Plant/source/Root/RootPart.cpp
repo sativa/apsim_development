@@ -363,6 +363,12 @@ void RootPart::write()
     cout << msg << endl;
    }
 
+void RootPart::onTransplanting(void)
+   {
+   onSowing();
+   onGermination();
+   onEmergence();
+   }
 void RootPart::onSowing(void)
 //=======================================================================================
 // Sowing Event Handler

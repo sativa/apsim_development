@@ -14,6 +14,7 @@ class RootPart : public RootBase
       void onSowing(void);
       void onGermination(void);
       void onEmergence(void);
+      void onTransplanting(void);      
       void onFlowering(void);
       void onStartGrainFill(void);
       void onHarvest(float height, float remove_fr,

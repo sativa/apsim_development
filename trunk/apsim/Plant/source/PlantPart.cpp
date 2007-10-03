@@ -1642,6 +1642,7 @@ void plantPart::onPlantEvent(const string &event)
    if (event == "sowing") onSowing();
    else if (event == "germination") onGermination();
    else if (event == "emergence") onEmergence();
+   else if (event == "transplanting")onTransplanting();
    else if (event == "flowering") onFlowering();
    else if (event == "start_grain_fill") onStartGrainFill();
    }

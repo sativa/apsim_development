@@ -20,6 +20,7 @@ class cohortingLeafPart : public plantLeafPart {
    void readConstants (protocol::Component *, const string &);
    void readSpeciesParameters(protocol::Component *system, vector<string> &search_order);
    void onEmergence(void);
+   void onTransplanting(void);
    void onKillStem(void);
 
    float getLAI(void) const

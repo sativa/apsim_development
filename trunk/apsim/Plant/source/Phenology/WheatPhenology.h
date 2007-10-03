@@ -3,7 +3,7 @@
 
 #include "CropPhenology.h"
 
-class WheatPhenology : public CropPhenology {
+class WheatPhenology : public PlantPhenology {
  private:
    // State variables
 
@@ -28,7 +28,7 @@ class WheatPhenology : public CropPhenology {
 
  public:
    WheatPhenology(ScienceAPI& scienceAPI, plantInterface *p)
-      : CropPhenology(scienceAPI, p) {};
+      : PlantPhenology(scienceAPI, p) {};
 
    void readConstants (protocol::Component *, const string &);              // read structure etc from constants
    void onInit1(protocol::Component *);

@@ -30,6 +30,7 @@ class genericLeafPart : public plantLeafPart {
    void readConstants (protocol::Component *, const string &);
    void readSpeciesParameters(protocol::Component *system, vector<string> &search_order);
    void onEmergence(void);
+   void onTransplanting(void);
    void onKillStem(void);
 
   private:
