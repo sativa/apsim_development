@@ -43,7 +43,7 @@ void GenericPhenology::onSow(unsigned &, unsigned &, protocol::Variant &v)
    {
    protocol::ApsimVariant incomingApsimVariant(plant->getComponent());
    incomingApsimVariant.aliasTo(v.getMessageData());
-   cout << "GenericPhenology OnSOW****" << endl;
+   
    for(unsigned i=0; i!= phases.size();i++)
       {
       phases[i]->onSow(incomingApsimVariant);
