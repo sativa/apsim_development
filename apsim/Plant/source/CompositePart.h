@@ -31,7 +31,6 @@ public:                                             // member functions
    virtual void get_dlt_dm_green_retrans(vector<float> &);
    virtual void get_dlt_dm_green(vector<float> &);
    virtual void get_dm_senesced(vector<float> &);
-   virtual void get_dm_dead(vector<float> &);
    virtual void get_dm_green(vector<float> &);
    virtual void get_n_demanded(vector<float> &);
    virtual void get_dm_plant_min(vector<float> &);
@@ -122,7 +121,6 @@ public:                                             // member functions
    virtual float dmGreenVeg(void) const;
    virtual float dmSenescedVeg(void) const;
    virtual float dmSenesced(void) const;
-   virtual float dmDead(void) const;
    virtual float dmTotal(void) const;
    virtual float dmTotalVeg(void) const;
    virtual float grainWt(void) const;
@@ -135,7 +133,6 @@ public:                                             // member functions
    virtual float nGreenVeg(void)const;
    virtual float nSenesced(void) const;
    virtual float nSenescedVeg(void)const;
-   virtual float nDead(void)const;
    virtual float nConcGrain(void) const;
    virtual float nDemandGrain2(void);
    virtual float nRetransSupply(void);
@@ -159,13 +156,11 @@ public:                                             // member functions
    virtual float pTotalVeg(void) const;
    virtual float pGrainTotal(void) const;
    virtual float pGreenGrainTotal(void) const;
-   virtual float pDeadGrainTotal(void) const;
    virtual float pGreenVeg(void) const;
    virtual float pGreen(void) const;
    virtual float pSenescedGrainTotal(void) const;
    virtual float pSenescedVeg(void) const;
    virtual float pSenesced(void) const;
-   virtual float pDead(void) const;
    virtual float pConcGrain(void) const;
    virtual float pConcGrainTotal(void) const;
    virtual float pMaxPot(void) const;

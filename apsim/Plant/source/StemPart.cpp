@@ -37,29 +37,24 @@ void plantStemPart::onHarvest(float cutting_height, float remove_fr,
    // Some biomass is removed according to harvest height
    float fr_height = divide (cutting_height,Height, 0.0);
 
-   float retain_fr_green, retain_fr_sen, retain_fr_dead;
+   float retain_fr_green, retain_fr_sen;
    if (c.fr_remain.isInitialised())
       retain_fr_green = c.fr_remain.value(fr_height);
    else
       retain_fr_green = 0.0;
 
    retain_fr_sen  = retain_fr_green;
-   retain_fr_dead = 0.0;
 
    float chop_fr_green = (1.0 - retain_fr_green);
-   float chop_fr_dead = (1.0 - retain_fr_dead);
    float chop_fr_sen = (1.0 - retain_fr_sen);
 
-   float dlt_dm_harvest = dmDead() * chop_fr_dead
-                        + dmGreen() * chop_fr_green
+   float dlt_dm_harvest = dmGreen() * chop_fr_green
                         + dmSenesced() * chop_fr_sen;
 
-   float dlt_n_harvest = nDead() * chop_fr_dead
-                       + nGreen() * chop_fr_green
+   float dlt_n_harvest = nGreen() * chop_fr_green
                        + nSenesced() * chop_fr_sen;
 
-   float dlt_p_harvest = pDead() * chop_fr_dead
-                       + pGreen() * chop_fr_green
+   float dlt_p_harvest = pGreen() * chop_fr_green
                        + pSenesced() * chop_fr_sen;
 
    DMSenesced *= retain_fr_sen;
