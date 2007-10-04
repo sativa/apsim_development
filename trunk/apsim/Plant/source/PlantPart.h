@@ -45,11 +45,11 @@ class plantPart : public plantThing
    float Height;                     // The height of this part (mm)
    float Width;                      // The width of this part (mm)
    //float PGreen;
-   float PSen;
+   //float PSen;
    //float NGreen;                      // plant nitrogen content (g N/m^2)
-   float NSenesced;                   // plant N content of senesced plant (g N/m^2)
+   //float NSenesced;                   // plant N content of senesced plant (g N/m^2)
    //float DMGreen;                     // live plant dry weight (biomass) (g/m^2)
-   float DMSenesced;                  // senesced plant dry wt (g/m^2)
+   //float DMSenesced;                  // senesced plant dry wt (g/m^2)
    Pool Green;
    Pool Senesced;
    Delta Senescing;
