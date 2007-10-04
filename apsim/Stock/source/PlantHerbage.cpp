@@ -138,12 +138,12 @@ void PlantHerbage::doRegister(const int partNo, const string& partName)
       dmdAvgSenescedID[partNo] = system->addRegistration(RegistrationType::get, addPartToName("digestibility_avg_dm_senesced", partName).c_str(), singleTypeDDML,"", herbageModuleName().c_str());   // parameter crop name=lablab
       dmdMinSenescedID[partNo] = system->addRegistration(RegistrationType::get, addPartToName("digestibility_min_dm_senesced", partName).c_str(), singleTypeDDML,"", herbageModuleName().c_str());   // parameter crop name=lablab
 
-      dmDeadID[partNo] = system->addRegistration(RegistrationType::get, addPartToName("dm_dead", partName).c_str(), singleTypeDDML,"", herbageModuleName().c_str());   // parameter crop name=lablab
-      nDeadID[partNo] = system->addRegistration(RegistrationType::get, addPartToName("n_dead", partName).c_str(), singleTypeDDML,"", herbageModuleName().c_str());   // parameter crop name=lablab
-      pDeadID[partNo] = system->addRegistration(RegistrationType::get, addPartToName("p_dead", partName).c_str(), singleTypeDDML,"", herbageModuleName().c_str());   // parameter crop name=lablab
-      dmdMaxDeadID[partNo] = system->addRegistration(RegistrationType::get, addPartToName("digestibility_max_dm_dead", partName).c_str(), singleTypeDDML,"", herbageModuleName().c_str());   // parameter crop name=lablab
-      dmdAvgDeadID[partNo] = system->addRegistration(RegistrationType::get, addPartToName("digestibility_avg_dm_dead", partName).c_str(), singleTypeDDML,"", herbageModuleName().c_str());   // parameter crop name=lablab
-      dmdMinDeadID[partNo] = system->addRegistration(RegistrationType::get, addPartToName("digestibility_min_dm_dead", partName).c_str(), singleTypeDDML,"", herbageModuleName().c_str());   // parameter crop name=lablab
+      //dmDeadID[partNo] = system->addRegistration(RegistrationType::get, addPartToName("dm_dead", partName).c_str(), singleTypeDDML,"", herbageModuleName().c_str());   // parameter crop name=lablab
+      //nDeadID[partNo] = system->addRegistration(RegistrationType::get, addPartToName("n_dead", partName).c_str(), singleTypeDDML,"", herbageModuleName().c_str());   // parameter crop name=lablab
+      //pDeadID[partNo] = system->addRegistration(RegistrationType::get, addPartToName("p_dead", partName).c_str(), singleTypeDDML,"", herbageModuleName().c_str());   // parameter crop name=lablab
+      //dmdMaxDeadID[partNo] = system->addRegistration(RegistrationType::get, addPartToName("digestibility_max_dm_dead", partName).c_str(), singleTypeDDML,"", herbageModuleName().c_str());   // parameter crop name=lablab
+      //dmdAvgDeadID[partNo] = system->addRegistration(RegistrationType::get, addPartToName("digestibility_avg_dm_dead", partName).c_str(), singleTypeDDML,"", herbageModuleName().c_str());   // parameter crop name=lablab
+      //dmdMinDeadID[partNo] = system->addRegistration(RegistrationType::get, addPartToName("digestibility_min_dm_dead", partName).c_str(), singleTypeDDML,"", herbageModuleName().c_str());   // parameter crop name=lablab
 
    }
 
@@ -313,35 +313,35 @@ void PlantHerbage::doDmdPoolsToHerbageParts(protocol::RemoveHerbageType &grazed,
       dm.dlt.erase(dm.dlt.begin(), dm.dlt.end());
       dm.part.erase(dm.part.begin(), dm.part.end());
 
-      dm.pool = "dead";
-      dm.part.push_back("leaf");
-      dmPart = 0.0;
-      for (int pool = 0; pool < numDmdPoolsVeg(); pool++) dmPart += grazed.herbage[pool]*partFractionVeg[pool].dead.leaf;
-      dm.dlt.push_back(dmPart * kg2g / ha2sm);
-
-      dm.part.push_back("stem");
-      dmPart = 0.0;
-      for (int pool = 0; pool < numDmdPoolsVeg(); pool++) dmPart += grazed.herbage[pool]*partFractionVeg[pool].dead.stem;
-      dm.dlt.push_back(dmPart * kg2g / ha2sm);
-
-      dm.part.push_back("pod");
-      dmPart = 0.0;
-      for (int pool = 0; pool < numDmdPoolsVeg(); pool++) dmPart += grazed.herbage[pool]*partFractionVeg[pool].dead.pod;
-      dm.dlt.push_back(dmPart * kg2g / ha2sm);
-
-      dm.part.push_back("meal");
-      dmPart = 0.0;
-      for (int pool = 0; pool < numDmdPoolsSeed(); pool++) dmPart += grazed.seed[pool]*partFractionSeed[pool].dead.meal;
-      dm.dlt.push_back(dmPart * kg2g / ha2sm);
-
-      dm.part.push_back("oil");
-      dmPart = 0.0;
-      for (int pool = 0; pool < numDmdPoolsSeed(); pool++) dmPart += grazed.seed[pool]*partFractionSeed[pool].dead.oil;
-      dm.dlt.push_back(dmPart * kg2g / ha2sm);
-
-      crop.dm.push_back(dm);
-      dm.dlt.erase(dm.dlt.begin(), dm.dlt.end());
-      dm.part.erase(dm.part.begin(), dm.part.end());
+//      dm.pool = "dead";
+//      dm.part.push_back("leaf");
+//      dmPart = 0.0;
+//      for (int pool = 0; pool < numDmdPoolsVeg(); pool++) dmPart += grazed.herbage[pool]*partFractionVeg[pool].dead.leaf;
+//      dm.dlt.push_back(dmPart * kg2g / ha2sm);
+//
+//      dm.part.push_back("stem");
+//      dmPart = 0.0;
+//      for (int pool = 0; pool < numDmdPoolsVeg(); pool++) dmPart += grazed.herbage[pool]*partFractionVeg[pool].dead.stem;
+//      dm.dlt.push_back(dmPart * kg2g / ha2sm);
+//
+//      dm.part.push_back("pod");
+//      dmPart = 0.0;
+//      for (int pool = 0; pool < numDmdPoolsVeg(); pool++) dmPart += grazed.herbage[pool]*partFractionVeg[pool].dead.pod;
+//      dm.dlt.push_back(dmPart * kg2g / ha2sm);
+//
+//      dm.part.push_back("meal");
+//      dmPart = 0.0;
+//      for (int pool = 0; pool < numDmdPoolsSeed(); pool++) dmPart += grazed.seed[pool]*partFractionSeed[pool].dead.meal;
+//      dm.dlt.push_back(dmPart * kg2g / ha2sm);
+//
+//      dm.part.push_back("oil");
+//      dmPart = 0.0;
+//      for (int pool = 0; pool < numDmdPoolsSeed(); pool++) dmPart += grazed.seed[pool]*partFractionSeed[pool].dead.oil;
+//      dm.dlt.push_back(dmPart * kg2g / ha2sm);
+//
+//      crop.dm.push_back(dm);
+//      dm.dlt.erase(dm.dlt.begin(), dm.dlt.end());
+//      dm.part.erase(dm.part.begin(), dm.part.end());
 }
 
 float PlantHerbage::getPart(unsigned &partID)
@@ -595,7 +595,7 @@ void PlantHerbage::getVariables(void)
          // Get dm DEAD
       PlantPartType dmDead;
       SeedPartType dmDeadSeed;
-      getParts(dmDead, dmDeadSeed, dmDeadID);
+      //getParts(dmDead, dmDeadSeed, dmDeadID);
 
       dmVeg.setValue(dmGreen, dmSenesced, dmDead);
       dmSeed.setValue(dmGreenSeed, dmSenescedSeed, dmDeadSeed);
@@ -617,7 +617,7 @@ void PlantHerbage::getVariables(void)
          // Get N DEAD
          PlantPartType nDead;
          SeedPartType nDeadSeed;
-         getParts(nDead, nDeadSeed, nDeadID);
+         //getParts(nDead, nDeadSeed, nDeadID);
 
          NVeg.setValue(nGreen, nSenesced, nDead);
          NSeed.setValue(nGreenSeed, nSenescedSeed, nDeadSeed);
@@ -637,7 +637,7 @@ void PlantHerbage::getVariables(void)
          // Get P DEAD
          PlantPartType pDead;
          SeedPartType pDeadSeed;
-         getPDead(pDead, dmVeg, pDeadSeed, dmSeed, pDeadID);
+         //getPDead(pDead, dmVeg, pDeadSeed, dmSeed, pDeadID);
 
          PVeg.setValue(pGreen, pSenesced, pDead);
          PSeed.setValue(pGreenSeed, pSenescedSeed, pDeadSeed);
@@ -677,17 +677,17 @@ void PlantHerbage::getVariables(void)
             // Get dmd DEAD
          PlantPartType dmdMaxDead;
          SeedPartType dmdMaxDeadSeed;
-         getParts(dmdMaxDead, dmdMaxDeadSeed, dmdMaxDeadID);
+         //getParts(dmdMaxDead, dmdMaxDeadSeed, dmdMaxDeadID);
 
             // Get dmd DEAD
          PlantPartType dmdAvgDead;
          SeedPartType dmdAvgDeadSeed;
-         getParts(dmdAvgDead, dmdAvgDeadSeed, dmdAvgDeadID);
+         //getParts(dmdAvgDead, dmdAvgDeadSeed, dmdAvgDeadID);
 
             // Get dmd DEAD
          PlantPartType dmdMinDead;
          SeedPartType dmdMinDeadSeed;
-         getParts(dmdMinDead, dmdMinDeadSeed, dmdMinDeadID);
+         //getParts(dmdMinDead, dmdMinDeadSeed, dmdMinDeadID);
 
          dmdMaxVeg.setValue(dmdMaxGreen, dmdMaxSenesced, dmdMaxDead);
          dmdAvgVeg.setValue(dmdAvgGreen, dmdAvgSenesced, dmdAvgDead);
@@ -784,27 +784,27 @@ void PlantHerbage::calcDmdDistribution(PlantPool dmdFraction[])
 
 // get DEAD Leaf dmd fractions
       for (int pool = 0; pool < numDmdPoolsVeg(); pool++) fraction[pool] = 0.0;
-      proportion (dmdAvgVeg.dead.leaf, dmdMaxVeg.dead.leaf, dmdMinVeg.dead.leaf, fraction);
+      //proportion (dmdAvgVeg.dead.leaf, dmdMaxVeg.dead.leaf, dmdMinVeg.dead.leaf, fraction);
       for (int pool = 0; pool < numDmdPoolsVeg(); pool++) dmdFraction[pool].dead.leaf = fraction[pool];
 
 // get DEAD Stem dmd fractions
       for (int pool = 0; pool < numDmdPoolsVeg(); pool++) fraction[pool] = 0.0;
-      proportion (dmdAvgVeg.dead.stem, dmdMaxVeg.dead.stem, dmdMinVeg.dead.stem, fraction);
+      //proportion (dmdAvgVeg.dead.stem, dmdMaxVeg.dead.stem, dmdMinVeg.dead.stem, fraction);
       for (int pool = 0; pool < numDmdPoolsVeg(); pool++) dmdFraction[pool].dead.stem = fraction[pool];
 
 // get DEAD Pod dmd fractions
       for (int pool = 0; pool < numDmdPoolsVeg(); pool++) fraction[pool] = 0.0;
-      proportion (dmdAvgVeg.dead.pod, dmdMaxVeg.dead.pod, dmdMinVeg.dead.pod, fraction);
+      //proportion (dmdAvgVeg.dead.pod, dmdMaxVeg.dead.pod, dmdMinVeg.dead.pod, fraction);
       for (int pool = 0; pool < numDmdPoolsVeg(); pool++) dmdFraction[pool].dead.pod = fraction[pool];
 
 // get DEAD meal dmd fractions
       for (int pool = 0; pool < numDmdPoolsSeed(); pool++) fractionSeed[pool] = 0.0;
-      proportion (dmdUnripeSeed.dead.meal, dmdRipeSeed.dead.meal, fractionSeed);
+      //proportion (dmdUnripeSeed.dead.meal, dmdRipeSeed.dead.meal, fractionSeed);
       for (int pool = 0; pool < numDmdPoolsSeed(); pool++) dmdFractionSeed[pool].dead.meal = fractionSeed[pool];
 
 // get DEAD oil dmd fractions
       for (int pool = 0; pool < numDmdPoolsSeed(); pool++) fractionSeed[pool] = 0.0;
-      proportion (dmdUnripeSeed.dead.oil, dmdRipeSeed.dead.oil, fractionSeed);
+      //proportion (dmdUnripeSeed.dead.oil, dmdRipeSeed.dead.oil, fractionSeed);
       for (int pool = 0; pool < numDmdPoolsSeed(); pool++) dmdFractionSeed[pool].dead.oil = fractionSeed[pool];
 }
 
