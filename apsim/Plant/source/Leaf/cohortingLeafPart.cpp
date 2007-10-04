@@ -471,7 +471,7 @@ void cohortingLeafPart::leaf_area_actual(void)
 {
    float sla_max = cSLAMax[getLAI()];                      //calculated daily max spec leaf area
 
-   dltLAI_carbon = dlt.dm_green * sla_max * smm2sm;  //maximum daily increase in leaf area
+   dltLAI_carbon = Growth.DM * sla_max * smm2sm;  //maximum daily increase in leaf area
                                                            //index from carbon supply
    //cout <<  dltLAI_carbon, dltLAI_stressed;
 //    char  msg[200];                               // message

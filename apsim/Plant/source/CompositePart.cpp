@@ -46,9 +46,9 @@ void CompositePart::onInit1(protocol::Component *system)
 
    for (part =  myParts.begin(); part != myParts.end(); part++)
       (*part)->onInit1(system);
-      
-      
-      
+
+
+
    }
 
 void CompositePart::add(plantPart* part)
@@ -503,15 +503,15 @@ void CompositePart::doNPartition(float nSupply, float n_demand_sum, float n_capa
 
    vector <plantPart *>::iterator part;
    for (part = myParts.begin(); part != myParts.end(); part++)
-      (*part)->doNPartition(dlt.n_green, n_demand_sum, n_capacity_sum);
+      (*part)->doNPartition(Growth.N, n_demand_sum, n_capacity_sum);
 
    float dlt_n_green_sum = dltNGreen();
-   if (!reals_are_equal(dlt_n_green_sum - dlt.n_green, 0.0))
+   if (!reals_are_equal(dlt_n_green_sum - Growth.N, 0.0))
       {
       string msg = c.name + " dlt_n_green mass balance is off: dlt_n_green_sum ="
                   + ftoa(dlt_n_green_sum, ".6")
                   + " vs nSupply ="
-                  + ftoa(dlt.n_green, ".6");
+                  + ftoa(Growth.N, ".6");
       plant->warningError(msg.c_str());
       }
 }
@@ -1503,11 +1503,11 @@ void CompositePart::doNSenescence(void)
 void CompositePart::doDmDetachment(void)
    //============================================================================
 {
-   dlt.dm_detached = 0.0;
+   Detaching.DM = 0.0;
    vector <plantPart *>::iterator part;
    for (part = myParts.begin(); part != myParts.end(); part++)
       {
-      dlt.dm_detached += (*part)->dltDmDetached();
+      Detaching.DM += (*part)->dltDmDetached();
       (*part)->doDmDetachment();
       }
 }

@@ -62,6 +62,8 @@ OBJFILES=PlantComponent.obj \
    Arbitrators\CerealArbitrator.obj \
    Arbitrators\AllometricArbitrator.obj \
    PlantSpatial.obj \
+   Pool.obj \
+   Delta.obj \
     \
    Phenology\PlantPhenology.obj \
    Phenology\Phase.obj \
@@ -163,6 +165,8 @@ LeafAppPhase.obj: LeafAppPhase.cpp LeafAppPhase.h
 Utility\Output.obj: Utility\Output.cpp Utility\Output.h
 Utility\OutputVariable.obj: Utility\OutputVariable.cpp Utility\OutputVariable.h
 PlantSpatial.obj: PlantSpatial.cpp PlantSpatial.h PlantInterface.h PlantLibrary.h
+Pool.obj: Pool.cpp Pool.h
+Delta.obj: Delta.cpp Delta.h Pool.h
 
 Phenology\PlantPhenology.obj: Phenology\PlantPhenology.cpp Phenology\PlantPhenology.h
 Phenology\BroccoliPhenology.obj: Phenology\BroccoliPhenology.cpp Phenology\BroccoliPhenology.h
