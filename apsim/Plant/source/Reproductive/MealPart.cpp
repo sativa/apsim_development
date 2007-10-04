@@ -62,17 +62,17 @@ void fruitMealPart::onHarvest(float /* cutting_height */, float /*remove_fr*/,
 {
      dm_type.push_back (c.name);
      fraction_to_residue.push_back (0.0);
-     dlt_crop_dm.push_back ((Green.DM+DMSenesced) * gm2kg/sm2ha);
-     dlt_dm_n.push_back    ((Green.N+NSenesced)  * gm2kg/sm2ha);
-     dlt_dm_p.push_back    ((Green.P+PSen)  * gm2kg/sm2ha);
+     dlt_crop_dm.push_back ((Green.DM+Senesced.DM) * gm2kg/sm2ha);
+     dlt_dm_n.push_back    ((Green.N+Senesced.N)  * gm2kg/sm2ha);
+     dlt_dm_p.push_back    ((Green.P+Senesced.P)  * gm2kg/sm2ha);
 
-     DMSenesced = 0.0;
+     Senesced.DM = 0.0;
      Green.DM    = 0.0;
 
-     NSenesced = 0.0;
+     Senesced.N = 0.0;
      Green.N    = 0.0;
 
-     PSen      = 0.0;
+     Senesced.P      = 0.0;
      Green.P    = 0.0;
 }
 
