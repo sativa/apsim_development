@@ -722,7 +722,7 @@ void plantPart::doRemoveBiomass(protocol::RemoveCropDmType dmRemoved, string &c_
 
           else if (dmRemoved.dm[pool].pool == "dead")
           {
-             if (dmRemoved.dm[pool].part[part] == c.name)       {throw std::runtime_error(c.name + " cannot have dead dm removed "); }
+             if (dmRemoved.dm[pool].part[part] == c.name && dmRemoved.dm[pool].dlt[part] != 0.0)       {throw std::runtime_error(c.name + " cannot have dead dm removed "); }
              else { /* not my part */ }
           }
           else { /* unknown type */ }
@@ -1665,7 +1665,6 @@ void plantPart::get_n_demanded(vector<float> &demands) {demands.push_back(NDeman
    //needed to standardise interface for composite subclass
 
 void plantPart::doCover (PlantSpatial &/*spatial*/){}
-float plantPart::coverDead(void) {return 0;}
 float plantPart::coverGreen(void) {return 0;}
 float plantPart::coverSen(void) {return 0;}
 float plantPart::coverTotal(void) {return 0;}

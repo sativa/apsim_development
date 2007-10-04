@@ -1132,7 +1132,7 @@ void Plant::plant_kill_crop (status_t *g_plant_status)
    if (*g_plant_status == alive)
       {
       *g_plant_status = dead;
-      biomass = (tops.dmGreen()+tops.dmSenesced()+tops.dmDead()) * gm2kg /sm2ha;
+      biomass = (tops.dmGreen()+tops.dmSenesced()) * gm2kg /sm2ha;
 
       // report
       char msg[80];
@@ -1380,8 +1380,7 @@ void Plant::plant_cleanup ()
     plant_update( g.dlt_plants
                 , &g.plants);
 
-    plant_check_bounds(plant.coverDead()
-                       , plant.coverGreen()
+    plant_check_bounds(plant.coverGreen()
                        , plant.coverSen()
                        , g.plants);
 
@@ -1472,8 +1471,7 @@ void Plant::plant_update(float  g_dlt_plants                                    
     }
 
 void Plant::plant_check_bounds
-    (float  g_cover_dead                        // (INPUT)  fraction of radiation reaching
-    ,float  g_cover_green                       // (INPUT)  fraction of radiation reaching
+    (float  g_cover_green                       // (INPUT)  fraction of radiation reaching
     ,float  g_cover_sen                         // (INPUT)  fraction of radiation reaching
     ,float  g_plants                            // (INPUT)  Plant density (plants/m^2)
     )
@@ -1495,11 +1493,6 @@ void Plant::plant_check_bounds
                          , 0.0
                          , 1.0
                          , "cover_sen");
-
-    bound_check_real_var(this,g_cover_dead
-                         , 0.0
-                         , 1.0
-                         , "cover_dead");
 
     for (vector<plantPart *>::iterator t = myParts.begin(); t != myParts.end(); t++)
        {
@@ -2505,8 +2498,6 @@ void Plant::plant_kill_stem_update (protocol::Variant &v/*(INPUT) message argume
     for (vector<plantPart *>::iterator part = myParts.begin(); part != myParts.end(); part++)
        (*part)->onKillStem();
 
-    // JNGH need to account for dead pai
-
     // now update new canopy covers
 
     plantSpatial.setPlants(g.plants);
@@ -3044,9 +3035,9 @@ void Plant::plant_end_crop ()
         n_residue =tops.nTotal();
         p_residue =tops.pTotal();
 
-        dm_root = rootPart->dmGreen()+ rootPart->dmDead() + rootPart->dmSenesced();     //FIXME - should be returned from a rootPart method
-        n_root  = rootPart->nGreen() + rootPart->nDead() + rootPart->nSenesced();       //FIXME - should be returned from a rootPart method
-        p_root  = rootPart->pGreen() + rootPart->pDead() + rootPart->pSenesced();       //FIXME - should be returned from a rootPart method
+        dm_root = rootPart->dmGreen()+ rootPart->dmSenesced();     //FIXME - should be returned from a rootPart method
+        n_root  = rootPart->nGreen() + rootPart->nSenesced();       //FIXME - should be returned from a rootPart method
+        p_root  = rootPart->pGreen() + rootPart->pSenesced();       //FIXME - should be returned from a rootPart method
 
        if (dm_residue + dm_root > 0.0)
           {
@@ -3495,7 +3486,7 @@ void Plant::plant_harvest_report ()
     n_senesced = tops.nSenescedVeg() * gm2kg / sm2ha;
     n_dead = 0.0;
 
-    n_stover = n_green + n_senesced + n_dead;
+    n_stover = n_green + n_senesced;
     n_total = n_grain + n_stover;
 
     float stoverTot = tops.dmGreenVeg() + tops.dmSenescedVeg();
@@ -3734,8 +3725,7 @@ void Plant::get_cover_tot(protocol::Component *system, protocol::QueryValueData 
 {
     float cover_tot = 1.0
         - (1.0 - plant.coverGreen())
-        * (1.0 - plant.coverSen())
-        * (1.0 - plant.coverDead());
+        * (1.0 - plant.coverSen());
 
     system->sendVariable(qd, cover_tot);
 }
@@ -4211,16 +4201,9 @@ float Plant::grainPSenesced(void) const
       total += (*part)->pSenescedGrainTotal();
    return  total;
    }
-float Plant::grainPDead(void) const
-   {
-   float total = 0.0;
-   for (vector<plantPart *>::const_iterator part = myTopsParts.begin(); part != myTopsParts.end(); part++)
-      total += (*part)->pDeadGrainTotal();
-   return  total;
-   }
 float Plant::grainPTot(void) const
    {
-   return  grainPGreen() + grainPSenesced() + grainPDead();
+   return  grainPGreen() + grainPSenesced();
    }
 
 float Plant::grainPConcTot(void) const
