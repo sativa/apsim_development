@@ -127,7 +127,7 @@ float fruitOilPart::calcDmDemand (float dmDemand)
 float fruitOilPart::dltDmGreen(void) const
 //=======================================================================================
    {
-   return (dlt.dm_green + gDlt_dm_oil_conv);
+   return (Growth.DM + gDlt_dm_oil_conv);
    }
 
 float fruitOilPart::dltDmGreenRetransUptake(void) const
@@ -156,7 +156,7 @@ float fruitOilPart::giveDmGreen(float delta)
 //=======================================================================================
    {
    float d = divide (delta, cCarbo_oil_conv_ratio, 0.0);
-   dlt.dm_green += d;
+   Growth.DM += d;
    gDlt_dm_oil_conv = delta - d;
    return delta;
    }

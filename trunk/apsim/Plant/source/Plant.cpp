@@ -4216,3 +4216,4 @@ void Plant::warningError (const char *msg) {parent->warningError(msg);};
 const std::string & Plant::getCropType(void) {return c.crop_type;};
 protocol::Component *Plant::getComponent(void) {return parent;};
 
+ 

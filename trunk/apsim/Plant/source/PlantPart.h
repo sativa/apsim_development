@@ -53,7 +53,9 @@ class plantPart : public plantThing
    Pool Green;
    Pool Senesced;
    Delta Senescing;
-
+   Delta Detaching;
+   Delta Growth;
+   
    float relativeGrowthRate;
    float radiationInterceptedGreen;
    float radiationInterceptedTotal;
@@ -66,29 +68,29 @@ class plantPart : public plantThing
       float dm_pot_rue;
       float dm;
 
-      float dm_green;                     // biomass growth (g/m^2)
-      float dm_senesced;                  // biomass senescence (g/m^2)
+      //float dm_green;                     // biomass growth (g/m^2)
+      //float dm_senesced;                  // biomass senescence (g/m^2)
 
       float dm_green_removed;                     // green biomass removed (g/m^2)
       float dm_senesced_removed;                  // senesced biomass removed (g/m^2)
 
-      float dm_detached;                  // biomass detached from senesced part (g/m^2)
+      //float dm_detached;                  // biomass detached from senesced part (g/m^2)
 
       float dm_green_retrans;             // biomass retranslocated to/from (+/-) green part to/from <<somewhere else??>> (g/m^2)
 
-      float n_green;                      // actual N uptake into plant (g/m^2)
-      float n_senesced;                   // actual N loss with senesced plant (g/m^2)
+      //float n_green;                      // actual N uptake into plant (g/m^2)
+      //float n_senesced;                   // actual N loss with senesced plant (g/m^2)
 
-      float n_detached;                   // actual N loss with detached senesced part (g/m^2)
+      //float n_detached;                   // actual N loss with detached senesced part (g/m^2)
 
       float n_retrans;                    // nitrogen retranslocated to/from (+/-) green part to/from <<somewhere else??>> (g/m^2)
 
       float n_senesced_retrans;           // plant N retranslocated to/from (+/-) senesced part to/from <<somewhere else??>> (g/m^2)
       float n_senesced_trans;
 
-      float p_green;
-      float p_sen;
-      float p_det;
+      //float p_green;
+      //float p_sen;
+      //float p_det;
 
       float p_retrans;
 

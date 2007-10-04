@@ -573,7 +573,7 @@ void RootPart::sen_length(void)
 //     biomass and the specific root length.
    {
    setTo (dltRootLengthSenesced, (float) 0.0);
-   float senesced_length = dlt.dm_senesced / sm2smm * specificRootLength;
+   float senesced_length = Senescing.DM / sm2smm * specificRootLength;
    root_dist(senesced_length, dltRootLengthSenesced);
    }
 
@@ -641,9 +641,9 @@ void RootPart::updateOthers(void)
 //=======================================================================================
 // dispose of detached material from dead & senesced roots into FOM pool
    {
-   root_incorp (dlt.dm_detached,
-                dlt.n_detached,
-                dlt.p_det);
+   root_incorp (Detaching.DM,
+                Detaching.N,
+                Detaching.P);
    }
 
 
