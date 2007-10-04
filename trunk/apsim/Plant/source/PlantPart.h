@@ -375,7 +375,6 @@ public:
 
    virtual float availableRetranslocateN(void);
    virtual void doCover (PlantSpatial &spatial);
-   virtual float coverDead(void) ;
    virtual float coverGreen(void) ;
    virtual float coverSen(void) ;
    virtual float coverTotal(void) ;

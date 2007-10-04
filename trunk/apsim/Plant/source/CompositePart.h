@@ -87,7 +87,6 @@ public:                                             // member functions
    virtual float coverTotal(void) ;
    virtual float coverGreen(void) ;
    virtual float coverSen(void) ;
-   virtual float coverDead(void) ;
    virtual float interceptRadiationGreen(float radiation);
    virtual float interceptRadiationTotal(float radiation);
    virtual float grainNo(void) const;

@@ -206,8 +206,7 @@ public:
    void plant_cleanup ();
    void plant_update(float  g_dlt_plants
                      ,float *g_plants) ;
-   void plant_check_bounds(float  g_cover_dead
-                           ,float  g_cover_green
+   void plant_check_bounds( float  g_cover_green
                            ,float  g_cover_sen
                            ,float  g_plants
                           ) ;

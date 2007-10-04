@@ -1062,16 +1062,6 @@ float CompositePart::coverGreen(void)
    return cover;
 }
 
-float CompositePart::coverDead(void)
-   //===========================================================================
-{
-   float cover = 0.0;
-   vector <plantPart *>::iterator part;
-   for (part = myParts.begin(); part != myParts.end(); part++)
-      cover = add_covers (cover, (*part)->coverDead());
-   return cover;
-}
-
 float CompositePart::coverSen(void)
    //===========================================================================
 {
