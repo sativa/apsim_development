@@ -27,7 +27,7 @@ plantPart* PlantFruit::construct(ScienceAPI& scienceAPI, plantInterface *p, cons
    string type;
    scienceAPI.readOptional("fruit_part", type);
    if (type == "floret")
-      return new FloretPart(scienceAPI, p, "floret");
+      return new FloretPart(scienceAPI, p, "Floret");
    else
       return new PlantFruit(scienceAPI, p, name);
    }

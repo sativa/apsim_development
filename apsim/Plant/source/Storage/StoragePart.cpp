@@ -59,13 +59,13 @@ void StoragePart::onHarvest(float cutting_height, float remove_fr,
                        + pSenesced();
 
    DMSenesced = 0.0;
-   DMGreen = 0.0;
+   Green.DM = 0.0;
 
    NSenesced = 0.0;
-   NGreen = 0.0;
+   Green.N = 0.0;
 
    PSen = 0.0;
-   PGreen = 0.0;
+   Green.P = 0.0;
 
    dm_type.push_back(c.name);
    fraction_to_residue.push_back(fractToResidue);

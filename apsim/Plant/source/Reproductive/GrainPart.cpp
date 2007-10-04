@@ -521,3 +521,4 @@ float fruitGrainPart::dmGrainWetTotal(void) const
    }
 
 float fruitGrainPart::grainWaterContent(void) const{return cGrn_water_cont;}
+

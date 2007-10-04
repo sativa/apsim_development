@@ -25,6 +25,8 @@
 #include "PlantComponent.h"
 #include "PlantInterface.h"
 #include "PlantSpatial.h"
+#include "Pool.h"
+#include "Delta.h"
 
 class plantPart : public plantThing
    {
@@ -42,13 +44,15 @@ class plantPart : public plantThing
    float DMPlantMin;                 // minimum weight of each plant part (g/plant)
    float Height;                     // The height of this part (mm)
    float Width;                      // The width of this part (mm)
-   float PGreen;
+   //float PGreen;
    float PSen;
-   float NGreen;                      // plant nitrogen content (g N/m^2)
+   //float NGreen;                      // plant nitrogen content (g N/m^2)
    float NSenesced;                   // plant N content of senesced plant (g N/m^2)
-   float DMGreen;                     // live plant dry weight (biomass) (g/m^2)
+   //float DMGreen;                     // live plant dry weight (biomass) (g/m^2)
    float DMSenesced;                  // senesced plant dry wt (g/m^2)
-
+   Pool Green;
+   Pool Senesced;
+   Delta Senescing;
 
    float relativeGrowthRate;
    float radiationInterceptedGreen;

@@ -33,7 +33,6 @@ class FloretPart : public plantPart {
    float coverTotal(void)  ;
    float coverGreen(void)  ;
    float coverSen(void)  ;
-   float coverDead(void)  ;
    void doCover (PlantSpatial &spatial);
    void calcDlt_Floret_area (void);
    void doDmPotRUE (void );
@@ -83,7 +82,6 @@ class FloretPart : public plantPart {
       {
          float green;
          float sen;
-         float dead;
       };
 
       Cover coverFloret;

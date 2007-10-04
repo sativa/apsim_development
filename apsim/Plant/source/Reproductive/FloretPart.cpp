@@ -58,7 +58,7 @@ void FloretPart::onStartGrainFill(void)
 void FloretPart::doDmMin(void)
 //=======================================================================================
 {
-   float dm_plant = divide (DMGreen, plant->getPlants(), 0.0);
+   float dm_plant = divide (Green.DM, plant->getPlants(), 0.0);
    DMPlantMin = max (dm_plant * (1.0 - c.trans_frac), DMPlantMin);
 }
 
@@ -99,7 +99,7 @@ void FloretPart::doDmRetranslocate(float DMAvail, float DMDemandDifferentialTota
 float FloretPart::dltDmRetranslocateSupply(float DemandDifferential)
 //=======================================================================================
    {
-   float DMPartPot = DMGreen + dlt.dm_green_retrans;
+   float DMPartPot = Green.DM + dlt.dm_green_retrans;
    float DMPartAvail = DMPartPot - DMPlantMin * plant->getPlants();
    DMPartAvail = l_bound (DMPartAvail, 0.0);
    float DltDmRetransPart = min (DemandDifferential, DMPartAvail);
@@ -113,7 +113,6 @@ void FloretPart::zeroAllGlobals(void)
    plantPart::zeroAllGlobals();
    coverFloret.green = 0.0;
    coverFloret.sen   = 0.0;
-   coverFloret.dead  = 0.0;
    gPai = 0.0;
 }
 
@@ -171,19 +170,13 @@ void FloretPart::readSpeciesParameters(protocol::Component *system, vector<strin
 float FloretPart::coverTotal(void)
 //=======================================================================================
 {
-   return 1.0 - (1.0 - coverFloret.green) * (1.0 - coverFloret.sen) * (1.0 - coverFloret.dead);
+   return 1.0 - (1.0 - coverFloret.green) * (1.0 - coverFloret.sen);
 }
 
 float FloretPart::coverGreen(void)
 //=======================================================================================
 {
    return coverFloret.green;
-}
-
-float FloretPart::coverDead(void)
-//=======================================================================================
-{
-   return coverFloret.dead;
 }
 
 float FloretPart::coverSen(void)
