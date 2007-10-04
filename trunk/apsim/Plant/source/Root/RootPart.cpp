@@ -434,15 +434,15 @@ void RootPart::onHarvest(float /*cutting_height*/, float /* remove_fr*/,
    // Push dead fraction into senesced pool
    float dlt_dm_die = Green.DM * rootDieBackFraction;
    Green.DM -= dlt_dm_die;
-   DMSenesced += dlt_dm_die;
+   Senesced.DM += dlt_dm_die;
 
    float dlt_n_die = dlt_dm_die * c.n_sen_conc;
    Green.N -= dlt_n_die;
-   NSenesced += dlt_n_die;
+   Senesced.N += dlt_n_die;
 
    float dlt_p_die = Green.P * rootDieBackFraction;
    Green.P -= dlt_p_die;
-   PSen += dlt_p_die;
+   Senesced.P += dlt_p_die;
 
    // Unlike above ground parts, no roots go to surface residue module.
    dm_type.push_back(c.name);
@@ -459,15 +459,15 @@ void RootPart::onKillStem(void)
    {
    // Calculate Root Die Back
    float dlt_dm_sen = Green.DM * rootDieBackFraction;
-   DMSenesced += dlt_dm_sen;
+   Senesced.DM += dlt_dm_sen;
    Green.DM -= dlt_dm_sen;
 
    float dlt_n_sen =  Green.DM * rootDieBackFraction * c.n_sen_conc;
-   NSenesced += dlt_n_sen;
+   Senesced.N += dlt_n_sen;
    Green.N -= dlt_n_sen;
 
    float dlt_p_sen =  Green.P * rootDieBackFraction;
-   PSen += dlt_p_sen;
+   Senesced.P += dlt_p_sen;
    Green.P -= dlt_p_sen;
 
    plantPart::onKillStem();
@@ -626,13 +626,13 @@ void RootPart::onEndCrop(vector<string> &/*dm_type*/,
    root_incorp_dead (dmSenesced(), nSenesced(), pSenesced());
    //root_incorp_dead (dmDead(), nDead(), pDead());
 
-   DMSenesced = 0.0;
+   Senesced.DM = 0.0;
    Green.DM    = 0.0;
 
-   NSenesced = 0.0;
+   Senesced.N = 0.0;
    Green.N    = 0.0;
 
-   PSen   = 0.0;
+   Senesced.P   = 0.0;
    Green.P  = 0.0;
 
    }
@@ -1050,12 +1050,14 @@ void RootPart::removeBiomass2(float chop_fr)
 // Remove biomass from the root system due to senescence or plant death
    {
    float dlt_dm_die = Green.DM * rootDieBackFraction * chop_fr;
-   DMSenesced += dlt_dm_die;
+   Senesced.DM += dlt_dm_die;
    Green.DM -= dlt_dm_die;
 
    float dlt_n_die = dlt_dm_die * c.n_sen_conc;
-   NSenesced += dlt_n_die;
+   Senesced.N += dlt_n_die;
    Green.N -= dlt_n_die;
+
+   /// WHY NO P?????????
 
       // do root_length
    vector<float> dltRootLengthDie;
