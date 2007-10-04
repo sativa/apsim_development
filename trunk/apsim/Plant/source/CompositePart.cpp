@@ -3,7 +3,7 @@
 // 6 Aug 97 J. Hargreaves  Implementation
 
 #include "CompositePart.h"
-
+#include <ComponentInterface/ScienceAPI.h>
 
 using namespace std;
 
@@ -40,8 +40,15 @@ void CompositePart::onInit1(protocol::Component *system)
    plantPart::onInit1(system);
 
    vector <plantPart *>::iterator part;
+   scienceAPI.exposeFunction("dm_green", "g/m^2", "Green weight of ", FloatFunction(&CompositePart::dmGreen));
+   scienceAPI.exposeFunction("n_green", "g/m^2",  "Green nitrogen of ", FloatFunction(&CompositePart::nGreen));
+   scienceAPI.exposeFunction("p_green", "g/m^2",  "Green phosphorus of ", FloatFunction(&CompositePart::pGreen));
+
    for (part =  myParts.begin(); part != myParts.end(); part++)
       (*part)->onInit1(system);
+      
+      
+      
    }
 
 void CompositePart::add(plantPart* part)

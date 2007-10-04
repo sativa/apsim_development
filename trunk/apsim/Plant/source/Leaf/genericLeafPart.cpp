@@ -666,7 +666,7 @@ void genericLeafPart::remove_detachment (float dlt_slai_detached, float dlt_lai_
 void genericLeafPart::removeBiomass(void)
 // (Re)-Initialise plant leaf area from deltas
     {
-    float chop_fr_green = divide(dlt.dm_green_removed, DMGreen, 0.0);
+    float chop_fr_green = divide(dlt.dm_green_removed, Green.DM, 0.0);
     float chop_fr_sen   = divide(dlt.dm_senesced_removed, DMSenesced, 0.0);
     float chop_fr_dead  = 0.0;
 
@@ -688,28 +688,22 @@ void genericLeafPart::removeBiomass(void)
 
    // keep dm above a minimum
     float dm_init = c.dm_init * plant->getPlants();
-    DMGreen = l_bound (DMGreen, dm_init);
+    Green.DM = l_bound (Green.DM, dm_init);
 
     float n_init = dm_init * c.n_init_conc;
-    NGreen = l_bound (NGreen, n_init);
+    Green.N = l_bound (Green.N, n_init);
 }
 
 float genericLeafPart::coverTotal(void)
 //=======================================================================================
 {
-   return 1.0 - (1.0 - coverLeaf.green) * (1.0 - coverLeaf.sen) * (1.0 - coverLeaf.dead);
+   return 1.0 - (1.0 - coverLeaf.green) * (1.0 - coverLeaf.sen);
 }
 
 float genericLeafPart::coverGreen(void)
 //=======================================================================================
 {
    return coverLeaf.green;
-}
-
-float genericLeafPart::coverDead(void)
-//=======================================================================================
-{
-   return coverLeaf.dead;
 }
 
 float genericLeafPart::coverSen(void)

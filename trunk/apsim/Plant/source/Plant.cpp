@@ -170,35 +170,35 @@ void Plant::onInit1()
 
     string rootModel;
     scienceAPI.readOptional("root_part", rootModel);
-    rootPart = RootBase::construct(scienceAPI, this, rootModel, "root");
+    rootPart = RootBase::construct(scienceAPI, this, rootModel, "Root");
     myThings.push_back(rootPart);
     myParts.push_back(rootPart);
     plant.add(rootPart);
 
     string leafModel;
     scienceAPI.readOptional("leaf_part", leafModel);
-    leafPart = constructLeafPart(scienceAPI, this, leafModel, "leaf");
+    leafPart = constructLeafPart(scienceAPI, this, leafModel, "Leaf");
     myThings.push_back(leafPart);
     myParts.push_back(leafPart);
     myTopsParts.push_back(leafPart);
     plant.add(leafPart);
     tops.add(leafPart);
 
-    stemPart = new plantStemPart(scienceAPI, this, "stem");
+    stemPart = new plantStemPart(scienceAPI, this, "Stem");
     myThings.push_back(stemPart);
     myParts.push_back(stemPart);
     myTopsParts.push_back(stemPart);
     plant.add(stemPart);
     tops.add(stemPart);
 
-    fruitPart = PlantFruit::construct(scienceAPI, this, "fruit");
+    fruitPart = PlantFruit::construct(scienceAPI, this, "Fruit");
     myThings.push_back(fruitPart);
     myParts.push_back(fruitPart);
     myTopsParts.push_back(fruitPart);
     plant.add(fruitPart);
     tops.add(fruitPart);
 
-    StoragePart* storagePart = StoragePart::construct(scienceAPI, this, "tuber");
+    StoragePart* storagePart = StoragePart::construct(scienceAPI, this, "Tuber");
     if (storagePart != NULL)
        {
        myThings.push_back(storagePart);

@@ -432,16 +432,16 @@ void RootPart::onHarvest(float /*cutting_height*/, float /* remove_fr*/,
 // Harvesting Event Handler
    {
    // Push dead fraction into senesced pool
-   float dlt_dm_die = DMGreen * rootDieBackFraction;
-   DMGreen -= dlt_dm_die;
+   float dlt_dm_die = Green.DM * rootDieBackFraction;
+   Green.DM -= dlt_dm_die;
    DMSenesced += dlt_dm_die;
 
    float dlt_n_die = dlt_dm_die * c.n_sen_conc;
-   NGreen -= dlt_n_die;
+   Green.N -= dlt_n_die;
    NSenesced += dlt_n_die;
 
-   float dlt_p_die = PGreen * rootDieBackFraction;
-   PGreen -= dlt_p_die;
+   float dlt_p_die = Green.P * rootDieBackFraction;
+   Green.P -= dlt_p_die;
    PSen += dlt_p_die;
 
    // Unlike above ground parts, no roots go to surface residue module.
@@ -458,17 +458,17 @@ void RootPart::onKillStem(void)
 // Kill Stem Event Handler
    {
    // Calculate Root Die Back
-   float dlt_dm_sen = DMGreen * rootDieBackFraction;
+   float dlt_dm_sen = Green.DM * rootDieBackFraction;
    DMSenesced += dlt_dm_sen;
-   DMGreen -= dlt_dm_sen;
+   Green.DM -= dlt_dm_sen;
 
-   float dlt_n_sen =  DMGreen * rootDieBackFraction * c.n_sen_conc;
+   float dlt_n_sen =  Green.DM * rootDieBackFraction * c.n_sen_conc;
    NSenesced += dlt_n_sen;
-   NGreen -= dlt_n_sen;
+   Green.N -= dlt_n_sen;
 
-   float dlt_p_sen =  PGreen * rootDieBackFraction;
+   float dlt_p_sen =  Green.P * rootDieBackFraction;
    PSen += dlt_p_sen;
-   PGreen -= dlt_p_sen;
+   Green.P -= dlt_p_sen;
 
    plantPart::onKillStem();
    }
@@ -627,13 +627,13 @@ void RootPart::onEndCrop(vector<string> &/*dm_type*/,
    //root_incorp_dead (dmDead(), nDead(), pDead());
 
    DMSenesced = 0.0;
-   DMGreen    = 0.0;
+   Green.DM    = 0.0;
 
    NSenesced = 0.0;
-   NGreen    = 0.0;
+   Green.N    = 0.0;
 
    PSen   = 0.0;
-   PGreen  = 0.0;
+   Green.P  = 0.0;
 
    }
 
@@ -1049,13 +1049,13 @@ void RootPart::removeBiomass2(float chop_fr)
 //=======================================================================================
 // Remove biomass from the root system due to senescence or plant death
    {
-   float dlt_dm_die = DMGreen * rootDieBackFraction * chop_fr;
+   float dlt_dm_die = Green.DM * rootDieBackFraction * chop_fr;
    DMSenesced += dlt_dm_die;
-   DMGreen -= dlt_dm_die;
+   Green.DM -= dlt_dm_die;
 
    float dlt_n_die = dlt_dm_die * c.n_sen_conc;
    NSenesced += dlt_n_die;
-   NGreen -= dlt_n_die;
+   Green.N -= dlt_n_die;
 
       // do root_length
    vector<float> dltRootLengthDie;
