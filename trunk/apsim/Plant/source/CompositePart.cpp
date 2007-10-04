@@ -334,15 +334,6 @@ float CompositePart::dmSenesced(void) const
    return result;
 }
 
-float CompositePart::dmDead(void) const
-   //===========================================================================
-{
-   float result = 0.0;
-   for (vector <plantPart * >::const_iterator part = myParts.begin(); part != myParts.end(); part++)
-      result += (*part)->dmDead();
-   return result;
-}
-
 float CompositePart::nTotalVeg(void) const
    //===========================================================================
 {
@@ -415,15 +406,6 @@ float CompositePart::nSenesced(void) const
    return result;
 }
 
-
-float CompositePart::nDead(void) const
-   //===========================================================================
-{
-   float result = 0.0;
-   for (vector <plantPart * >::const_iterator part = myParts.begin(); part != myParts.end(); part++)
-      result += (*part)->nDead();
-   return result;
-}
 
 float CompositePart::nMaxPot(void) const
    //===========================================================================
@@ -563,15 +545,6 @@ float CompositePart::pGreenGrainTotal(void) const
    return pTotal;
 }
 
-float CompositePart::pDeadGrainTotal(void) const
-   //===========================================================================
-{
-   float pTotal = 0.0;
-   for (vector <plantPart * >::const_iterator part = myParts.begin(); part != myParts.end(); part++)
-      pTotal += (*part)->pDeadGrainTotal();
-   return pTotal;
-}
-
 float CompositePart::pGreenVeg(void) const
    //===========================================================================
 {
@@ -617,15 +590,6 @@ float CompositePart::pSenesced(void) const
    return pTotal;
 }
 
-
-float CompositePart::pDead(void) const
-   //===========================================================================
-{
-   float pTotal = 0.0;
-   for (vector <plantPart * >::const_iterator part = myParts.begin(); part != myParts.end(); part++)
-      pTotal += (*part)->pDead();
-   return pTotal;
-}
 
 float CompositePart::pConcGrain(void) const
    //===========================================================================
@@ -709,14 +673,6 @@ void CompositePart::get_dm_green(vector<float> &dm_green)
    vector <plantPart *>::iterator part;
    for (part = myParts.begin(); part != myParts.end(); part++)
       (*part)->get_dm_green(dm_green);
-}
-
-void CompositePart::get_dm_dead(vector<float> &dm_dead)
-   //===========================================================================
-{
-   vector <plantPart *>::iterator part;
-   for (part = myParts.begin(); part != myParts.end(); part++)
-      (*part)->get_dm_dead(dm_dead);
 }
 
 void CompositePart::get_dm_senesced(vector<float> &dm_senesced)

@@ -128,7 +128,6 @@ void fruitPodPart::zeroAllGlobals(void)
    plantPart::zeroAllGlobals();
    coverPod.green = 0.0;
    coverPod.sen   = 0.0;
-   coverPod.dead  = 0.0;
    gPai = 0.0;
 }
 
@@ -140,11 +139,6 @@ void fruitPodPart::zeroDeltas(void)
    gDlt_pai = 0.0;
 }
 
-
-void fruitPodPart::readConstants (protocol::Component *system, const string &section)
-   {
-   plantPart::readConstants(system, section);
-   }
 
 void fruitPodPart::readSpeciesParameters(protocol::Component *system, vector<string> &sections)
 //=======================================================================================
@@ -185,19 +179,13 @@ void fruitPodPart::readSpeciesParameters(protocol::Component *system, vector<str
 float fruitPodPart::coverTotal(void)
 //=======================================================================================
 {
-   return 1.0 - (1.0 - coverPod.green) * (1.0 - coverPod.sen) * (1.0 - coverPod.dead);
+   return 1.0 - (1.0 - coverPod.green) * (1.0 - coverPod.sen);
 }
 
 float fruitPodPart::coverGreen(void)
 //=======================================================================================
 {
    return coverPod.green;
-}
-
-float fruitPodPart::coverDead(void)
-//=======================================================================================
-{
-   return coverPod.dead;
 }
 
 float fruitPodPart::coverSen(void)

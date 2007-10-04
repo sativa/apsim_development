@@ -48,7 +48,6 @@ public:                                             // member functions
    float nGreenGrainTotal(void)const;
    float nGreenVeg(void)const;
    float nSenescedVeg(void)const;
-   float nDeadVeg(void)const;
    float nCapacity(void);
 
    float nMaxPot(void)const;
@@ -57,10 +56,8 @@ public:                                             // member functions
    float pGrainTotal(void)const;
    float pTotalVeg(void)const;
    float pGreenGrainTotal(void)const;
-   float pDeadGrainTotal(void)const;
    float pGreenVeg(void)const;
    float pSenescedVeg(void)const;
-   float pDeadVeg(void)const;
    float pMaxPot(void)const;
    float pMinPot(void)const;
 

@@ -21,7 +21,6 @@ class fruitPodPart : public plantPart {
    void doDmMin(void);
    void doDmDemand(float  dlt_dm_supply);
    void doProcessBioDemand(void);
-   void readConstants (protocol::Component *, const string &);
    void readSpeciesParameters (protocol::Component *, vector<string> &);
    void doDmRetranslocate(float DMAvail, float DMDemandDifferentialTotal);
    float dltDmRetranslocateSupply(float DemandDifferential) ;
@@ -33,7 +32,6 @@ class fruitPodPart : public plantPart {
    float coverTotal(void)  ;
    float coverGreen(void)  ;
    float coverSen(void)  ;
-   float coverDead(void)  ;
    void doCover (PlantSpatial &spatial);
    void calcDlt_pod_area (void);
    void doDmPotRUE (void );
@@ -70,7 +68,6 @@ class fruitPodPart : public plantPart {
       {
          float green;
          float sen;
-         float dead;
       };
 
       Cover coverPod;

@@ -2195,19 +2195,6 @@ void Plant::plant_detach_crop_biomass (protocol::Variant &v/*(INPUT) incoming me
       dm.part.erase(dm.part.begin(), dm.part.end());
       dmParts.clear();
 
-      dm.pool = "dead";
-
-      for (part = myTopsParts.begin(); part != myTopsParts.end(); part++)
-      {
-         (*part)->get_name(dm.part);
-         (*part)->get_dm_dead(dmParts);
-      }
-
-      for (unsigned int pool=0; pool < dmParts.size(); pool++)
-         dm.dlt.push_back(double(dmParts[pool] * detachRate));
-
-      dmRemoved.dm.push_back(dm);
-
     if (c.remove_biomass_report == "on")
     {
        ostringstream msg;
@@ -3540,7 +3527,7 @@ void Plant::plant_harvest_report ()
     parent->writeString (msg);
 
     sprintf (msg, "%s%10.1f"
-             , " dead above ground biomass (kg/ha)     = ", tops.dmDead()* gm2kg / sm2ha);
+             , " dead above ground biomass (kg/ha)     = ", 0.0);
     parent->writeString (msg);
 
     sprintf (msg, "%s%6.1f"
@@ -4049,17 +4036,6 @@ void Plant::get_dm_green(protocol::Component *systemInterface, protocol::QueryVa
       (*part)->get_dm_green(dm_green);
 
    systemInterface->sendVariable(qd, dm_green);
-}
-
-void Plant::get_dm_dead(protocol::Component *systemInterface, protocol::QueryValueData &qd)
-{
-   vector<plantPart*>::iterator part;
-   vector<float>  dm_dead;
-
-   for (part = myParts.begin(); part != myParts.end(); part++)
-      (*part)->get_dm_dead(dm_dead);
-
-   systemInterface->sendVariable(qd, dm_dead);
 }
 
 void Plant::get_dm_senesced(protocol::Component *systemInterface, protocol::QueryValueData &qd)

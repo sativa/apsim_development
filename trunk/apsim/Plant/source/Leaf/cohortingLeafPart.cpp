@@ -576,7 +576,7 @@ void cohortingLeafPart::detachment (void)
    cproc_lai_detachment1 (c.sen_detach_frac
                                , getSLAI()
                                , &dltSLAI_detached
-                               , c.dead_detach_frac
+                               , 0.0
                                , gTLAI_dead
                                , &dltTLAI_dead_detached);
 

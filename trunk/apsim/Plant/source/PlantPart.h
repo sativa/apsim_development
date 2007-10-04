@@ -114,7 +114,6 @@ class plantPart : public plantThing
       int   trans_frac_option;            // flag to say how trans_frac is to be used.
       float n_retrans_fraction;           // fraction of N in paret availale for retranslocation
 
-      float dead_detach_frac;             // fraction of dead plant parts detaching each day (0-1)
       float sen_detach_frac;              // fraction of dead plant parts detaching each day (0-1)
 
       bool  p_stress_determinant;         // is a P stress_determinant
@@ -275,7 +274,6 @@ public:
    virtual float dmGreenNew(void) const;
    virtual float dmSenesced(void) const;
    virtual float dmSenescedVeg(void) const;
-   virtual float dmDead(void) const;
    virtual float dmTotal(void) const;
    virtual float dmTotalVeg(void) const;
    virtual float dmRetransSupply(void) const;
@@ -288,7 +286,6 @@ public:
    virtual float nGreenVeg(void)const;
    virtual float nSenesced(void) const;
    virtual float nSenescedVeg(void)const;
-   virtual float nDead(void)const;
    virtual float nConc(void)const;
    virtual float nConcPercent(void)const;
    virtual float nMaxPot(void) const;
@@ -303,7 +300,6 @@ public:
    virtual float pGreenVeg(void) const;
    virtual float pSenesced(void)const ;
    virtual float pSenescedVeg(void) const;
-   virtual float pDead(void)const;
    virtual float pConc(void)const;
    virtual float pConcPercent(void)const;
    virtual float pGreenStressDeterminant(void);
@@ -366,7 +362,6 @@ public:
    virtual void get_dlt_dm_green_retrans(vector<float> &);
    virtual void get_dlt_dm_green(vector<float> &);
    virtual void get_dm_senesced(vector<float> &);
-   virtual void get_dm_dead(vector<float> &);
    virtual void get_dm_green(vector<float> &);
    virtual void get_n_demanded(vector<float> &);
    virtual void get_dm_plant_min(vector<float> &);
@@ -400,7 +395,6 @@ public:
    virtual float nGreenGrainTotal(void)const;
    virtual float pConcGrain(void)const;
    virtual float pConcGrainTotal(void)const;
-   virtual float pDeadGrainTotal(void)const;
    virtual float pGrainTotal(void) const;
    virtual float pGreenGrainTotal(void)const;
    virtual float pSenescedGrainTotal(void)const;
