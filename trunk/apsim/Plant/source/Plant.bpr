@@ -28,7 +28,7 @@
       Storage\StoragePart.obj Arbitrators\CerealArbitrator.obj 
       Arbitrators\GenericArbitratorXY.obj Arbitrators\AllometricArbitrator.obj 
       Utility\ExternalFunction.obj Utility\InterpolationFunction.obj 
-      Utility\LookupFunction.obj Pool.obj Delta.obj"/>
+      Utility\LookupFunction.obj Delta.obj Pool.obj"/>
     <RESFILES value=""/>
     <IDLFILES value=""/>
     <DEFFILE value=""/>
@@ -138,8 +138,8 @@
       <FILE FILENAME="Utility\ExternalFunction.cpp" FORMNAME="" UNITNAME="ExternalFunction.cpp" CONTAINERID="CCompiler" DESIGNCLASS="" LOCALCOMMAND=""/>
       <FILE FILENAME="Utility\InterpolationFunction.cpp" FORMNAME="" UNITNAME="InterpolationFunction.cpp" CONTAINERID="CCompiler" DESIGNCLASS="" LOCALCOMMAND=""/>
       <FILE FILENAME="Utility\LookupFunction.cpp" FORMNAME="" UNITNAME="LookupFunction.cpp" CONTAINERID="CCompiler" DESIGNCLASS="" LOCALCOMMAND=""/>
+      <FILE FILENAME="Delta.cpp" FORMNAME="" UNITNAME="Delta.cpp" CONTAINERID="CCompiler" DESIGNCLASS="" LOCALCOMMAND=""/>
       <FILE FILENAME="Pool.cpp" FORMNAME="" UNITNAME="Pool.cpp" CONTAINERID="CCompiler" DESIGNCLASS="" LOCALCOMMAND=""/>
-      <FILE FILENAME="Delta.cpp" FORMNAME="" UNITNAME="Delta" CONTAINERID="CCompiler" DESIGNCLASS="" LOCALCOMMAND=""/>
   </FILELIST>
   <BUILDTOOLS>
   </BUILDTOOLS>

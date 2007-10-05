@@ -80,7 +80,6 @@ void genericLeafPart::readSpeciesParameters (protocol::Component *system, vector
    scienceAPI.read("x_row_spacing", cXRowSpacing, cNumRowSpacing, 0.0f, 2000.0f);
    scienceAPI.read("y_extinct_coef", cYExtinctCoef, cNumRowSpacing, 0.0f, 1.0f);
    scienceAPI.read("y_extinct_coef_dead", cYExtinctCoefDead, cNumRowSpacing, 0.0f, 1.0f);
-
    cRue.read(scienceAPI,
                  "x_stage_rue", "()", 0.0, 1000.0,
                  "y_rue", "(g dm/mj)", 0.0, 1000.0);
@@ -127,8 +126,6 @@ void genericLeafPart::onInit1(protocol::Component *system)
 
    system->addGettableVar("dlt_leaf_no_pot", dltLeafNoPot, "m^2/m^2", "Potential Leaf no");
 
-   system->addGettableVar("tlai_dead", gTLAI_dead, "m^2/m^2", "tlai dead");
-
    system->addGettableVar("dlt_slai_age", dltSLAI_age, "m^2/m^2", "Change in lai via age");
 
    system->addGettableVar("dlt_slai_light", dltSLAI_light, "m^2/m^2", "Change in lai via light");
@@ -149,7 +146,7 @@ void genericLeafPart::get_tlai(protocol::Component *system, protocol::QueryValue
 
 void genericLeafPart::get_lai_sum(protocol::Component *system, protocol::QueryValueData &qd)
 {
-    float lai_sum = gLAI + gSLAI + gTLAI_dead;
+    float lai_sum = gLAI + gSLAI;
     system->sendVariable(qd, lai_sum);
 }
 void genericLeafPart::get_leaf_no(protocol::Component *system, protocol::QueryValueData &qd)
@@ -190,8 +187,6 @@ void genericLeafPart::zeroDeltas(void)
    dltSLAI = 0.0;
    dltLAI_pot = 0.0;
    dltLAI_stressed = 0.0;
-   dltTLAI_dead = 0.0;
-   dltTLAI_dead_detached = 0.0;
    dltSLAI_detached = 0.0;
    dltSLAI_age = 0.0;
    dltSLAI_light = 0.0;
@@ -216,7 +211,6 @@ void genericLeafPart::zeroAllGlobals(void)
 
    gSLAI = 0.0;
    gLAI = 0.0;
-   gTLAI_dead = 0.0;
    fill_real_array (gLeafNo , 0.0, max_node);
    fill_real_array (gLeafNoSen , 0.0, max_node);
    fill_real_array (gLeafArea , 0.0, max_node);
@@ -226,11 +220,9 @@ void genericLeafPart::zeroAllGlobals(void)
 
    coverLeaf.green = 0.0;
    coverLeaf.sen   = 0.0;
-   coverLeaf.dead  = 0.0;
 
    fill_real_array (cXRowSpacing, 0.0, max_table);
    fill_real_array (cYExtinctCoef, 0.0, max_table);
-   fill_real_array (cYExtinctCoefDead, 0.0, max_table);
    cNumRowSpacing = 0;
 }
 
@@ -250,9 +242,9 @@ void genericLeafPart::onKillStem(void)
    // transfer plant leaf area
    {
    plantPart::onKillStem();
-   float deadLAI = gTLAI_dead + gLAI;
+   float deadLAI = gLAI;
    onEmergence();
-   gTLAI_dead = deadLAI;
+   //gSLAI += deadLAI;
    }
 
 // Initialise leaf areas to a newly emerged state.
@@ -281,7 +273,6 @@ void genericLeafPart::initialiseAreas(void)
 
    gLAI = cInitialTPLA * smm2sm * plant->getPlants();
    gSLAI = 0.0;
-   gTLAI_dead = 0.0;
    }
 
 // Harvest event
@@ -302,7 +293,6 @@ void genericLeafPart::checkBounds(void)
    plantPart::checkBounds();
    if (gLAI < 0.0) throw std::runtime_error(c.name + " LAI is negative! (" + ftoa(gLAI,".6") + ")");
    if (gSLAI < 0.0) throw std::runtime_error(c.name + " SLAI is negative! (" + ftoa(gSLAI,".6") + ")");
-   if (gTLAI_dead < 0.0) throw std::runtime_error(c.name + " gTLAI_dead is negative! (" + ftoa(gTLAI_dead,".6") + ")");
    if (gNodeNo < 0) throw std::runtime_error(c.name + " node number is negative! (" + ftoa(gNodeNo,".6") + ")");
    if (gNodeNo >= max_node) throw std::runtime_error(c.name + " node number exceeds array size! (" + ftoa(gNodeNo,".6") + ")");
 
@@ -511,10 +501,7 @@ void genericLeafPart::detachment (void)
    {
         cproc_lai_detachment1 (c.sen_detach_frac
                                , gSLAI
-                               , &dltSLAI_detached
-                               , 0.0
-                               , gTLAI_dead
-                               , &dltTLAI_dead_detached);
+                               , &dltSLAI_detached);
 
 
         plant_leaf_detachment (gLeafArea
@@ -601,10 +588,8 @@ void genericLeafPart::update(void)
     // Transfer dead leaf areas
     float dying_fract_plants = plant->getDyingFractionPlants();
     float dlt_lai_dead  = gLAI  * dying_fract_plants;
-    float dlt_slai_dead = gSLAI * dying_fract_plants;
     gLAI -=  dlt_lai_dead;
-    gSLAI -=  dlt_slai_dead;
-    gTLAI_dead +=  dlt_lai_dead + dlt_slai_dead - dltTLAI_dead_detached;
+    dltSLAI += dlt_lai_dead;
 }
 
 // Remove detachment from leaf area record
@@ -668,11 +653,9 @@ void genericLeafPart::removeBiomass(void)
     {
     float chop_fr_green = divide(dlt.dm_green_removed, Green.DM, 0.0);
     float chop_fr_sen   = divide(dlt.dm_senesced_removed, Senesced.DM, 0.0);
-    float chop_fr_dead  = 0.0;
 
     float dlt_lai = gLAI * chop_fr_green;
     float dlt_slai = gSLAI * chop_fr_sen;
-    float dlt_tlai_dead = gTLAI_dead * chop_fr_dead;
 
     // keep leaf area above a minimum
     float lai_init = cInitialTPLA * smm2sm * plant->getPlants();
@@ -681,7 +664,6 @@ void genericLeafPart::removeBiomass(void)
 
     gLAI -= dlt_lai;
     gSLAI -= dlt_slai;
-    gTLAI_dead -= dlt_tlai_dead;
     remove_detachment (dlt_slai, dlt_lai);
 
      plantPart::removeBiomass();
@@ -740,14 +722,6 @@ void genericLeafPart::doCover (PlantSpatial &spatial)
                  , spatial.canopyFac()
                  , getSLAI()
                  , &coverLeaf.sen);
-
-    legnew_cover (spatial.rowSpacing()
-                 , cXRowSpacing
-                 , cYExtinctCoefDead
-                 , cNumRowSpacing
-                 , spatial.canopyFac()
-                 , getTLAI_dead()
-                 , &coverLeaf.dead);
 }
 
 float genericLeafPart::interceptRadiationGreen (float radiation)    // incident radiation on leafs

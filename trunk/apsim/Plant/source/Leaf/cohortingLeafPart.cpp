@@ -165,8 +165,6 @@ void cohortingLeafPart::onInit1(protocol::Component *system)
 
    system->addGettableVar("dlt_node_no", dltNodeNo, "/m2", "Change in number of main stem nodes");
 
-   system->addGettableVar("tlai_dead", gTLAI_dead, "m^2/m^2", "tlai dead");
-
    setupGetFunction(system, "dlt_slai", protocol::DTsingle, false,
                     &cohortingLeafPart::get_dlt_slai, "m^2/m^2", "Change in lai");
 
@@ -190,7 +188,7 @@ void cohortingLeafPart::get_tlai(protocol::Component *system, protocol::QueryVal
 void cohortingLeafPart::get_lai_sum(protocol::Component *system, protocol::QueryValueData &qd)
 //=======================================================================================
 {
-    float lai_sum = getLAI() + getSLAI() + gTLAI_dead;
+    float lai_sum = getLAI() + getSLAI();
     system->sendVariable(qd, lai_sum);
 }
 
@@ -319,8 +317,6 @@ void cohortingLeafPart::zeroDeltas(void)
    dltLAI_pot = 0.0;
    dltLAI_stressed = 0.0;
    dltLAI_carbon = 0.0;
-   dltTLAI_dead = 0.0;
-   dltTLAI_dead_detached = 0.0;
    dltSLAI_detached = 0.0;
    dltSLAI_light = 0.0;
    dltSLAI_water = 0.0;
@@ -344,7 +340,6 @@ void cohortingLeafPart::zeroAllGlobals(void)
    //cGrowthPeriod.clear();
    //cAreaPot.clear();
 
-   gTLAI_dead = 0.0;
    gLeafAge.clear();
    gLeafArea.clear();
    gLeafAreaMax.clear();
@@ -358,7 +353,6 @@ void cohortingLeafPart::zeroAllGlobals(void)
    dltNodeNo = 0.0;
    coverLeaf.green = 0.0;
    coverLeaf.sen = 0.0;
-   coverLeaf.dead = 0.0;
 }
 
 void cohortingLeafPart::onEmergence(void)
@@ -381,9 +375,11 @@ void cohortingLeafPart::onKillStem(void)
 // transfer plant leaf area to dead pool
    {
    plantPart::onKillStem();
-   float deadLAI = gTLAI_dead + getLAI();
+   vector <float> dying = gLeafArea;
    onEmergence();
-   gTLAI_dead = deadLAI;
+
+   for (unsigned int cohort = 0; cohort != gLeafArea.size(); cohort++)
+      gLeafAreaSen[cohort] =gLeafAreaSen[cohort]+ dying[cohort];
    }
 
 void cohortingLeafPart::initialiseAreas(void)
@@ -575,10 +571,7 @@ void cohortingLeafPart::detachment (void)
    {
    cproc_lai_detachment1 (c.sen_detach_frac
                                , getSLAI()
-                               , &dltSLAI_detached
-                               , 0.0
-                               , gTLAI_dead
-                               , &dltTLAI_dead_detached);
+                               , &dltSLAI_detached);
 
    float area_detached = divide(dltSLAI_detached,  plant->getPlants(), 0.0) * sm2smm;
 

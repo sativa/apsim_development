@@ -25,7 +25,6 @@ class plantLeafPart : public plantPart {
    virtual void onKillStem(void) = 0;
    virtual float getLAI(void) const = 0;                             //
    virtual float getSLAI(void) const = 0;                            //
-   virtual float getTLAI_dead(void) const = 0;                       //
    virtual float getLeafNo(void) const = 0;                          // The number of leaves
    virtual float senFract (void) const = 0;                          // Fraction of canopy senescing today
    virtual float dmGreenDemand(void) const =0;                       // Maximum DM this part can take today
