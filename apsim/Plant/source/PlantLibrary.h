@@ -463,10 +463,7 @@ void cproc_leaf_area_sen1 (int emergence,                 // (INPUT)  emergence 
 
 void cproc_lai_detachment1 (float c_sen_detach_frac,           //(INPUT)
                             float g_slai,                       //(INPUT)
-                            float *g_dlt_slai_detached,         //(OUTPUT)
-                            float c_dead_detach_frac,          //(INPUT)
-                            float g_tlai_dead,                  //(INPUT)
-                            float *g_dlt_tlai_dead_detached);    //(OUTPUT)
+                            float *g_dlt_slai_detached);    //(OUTPUT)
 
 void cproc_canopy_height (float g_canopy_height,          // (INPUT)  canopy height (mm)
                           float *pXStemWt,                //(INPUT)

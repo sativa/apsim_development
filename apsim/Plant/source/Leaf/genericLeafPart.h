@@ -44,7 +44,6 @@ class genericLeafPart : public plantLeafPart {
   public:
    float getLAI(void) const {return gLAI;};
    float getSLAI(void) const {return gSLAI;};
-   float getTLAI_dead(void) const {return gTLAI_dead;};
    float getLeafNo(void) const;
    float senFract (void) const
      { return(divide (dltSLAI, gLAI + dltLAI, 0.0)); };             // fraction of canopy senescing
@@ -79,7 +78,6 @@ class genericLeafPart : public plantLeafPart {
   private:
    float gLAI;                                        // area of leaf
    float gSLAI;                                       // area of leaf senesced from plant
-   float gTLAI_dead;                                  // total lai of dead plants
    float gNodeNo;                                     // number of fully expanded nodes ()
    float gLeafNo[max_node];                           // number of fully expanded leaves ()
    float gLeafNoSen[max_node];                        // no of senesced leaves ()
@@ -117,8 +115,6 @@ class genericLeafPart : public plantLeafPart {
    float dltSLAI;                                     // area of leaf that senesces from plant
    float dltLAI_pot;                                  // potential change in live plant lai
    float dltLAI_stressed;                             // potential change in lai allowing for stress
-   float dltTLAI_dead;                                // plant lai change in dead plant
-   float dltTLAI_dead_detached;                       // plant lai detached from dead plant
    float dltSLAI_detached;                            // senesced lai detached
    float dltSLAI_age;                                 // senesced lai from age
    float dltSLAI_light;                               // senesced lai from light
@@ -140,7 +136,6 @@ class genericLeafPart : public plantLeafPart {
    {
       float green;
       float sen;
-      float dead;
    };
    Cover coverLeaf;
    interpolationFunction cRue;                        // radiation use efficiency as f(stage number) (g dm/mj)
