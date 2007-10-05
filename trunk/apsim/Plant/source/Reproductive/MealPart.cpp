@@ -48,7 +48,7 @@ float fruitMealPart::nDemand2(void)
 void fruitMealPart::doNRetranslocate(float dltN, float /*grain_n_demand*/)
 //     ===========================================================
 {
-    dlt.n_retrans = dltN;
+    Retranslocation.N = dltN;
 }
 
 void fruitMealPart::onHarvest(float /* cutting_height */, float /*remove_fr*/,
