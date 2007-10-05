@@ -284,11 +284,7 @@ void fruitGrainPart::update(void)
    //===========================================================================
 {
 
-   vector<plantPart *>::iterator part;
-
-   // Update
-   for (part = myParts.begin(); part != myParts.end(); part++)
-      (*part)->update();
+   CompositePart::update();
 
    if (plant->inPhase("hi_stress_sensitive")) gDm_stress_max.update();
 }

@@ -75,12 +75,6 @@ void plantStemPart::onHarvest(float cutting_height, float remove_fr,
    dlt_dm_p.push_back(dlt_p_harvest * gm2kg/sm2ha);
    }
 
-void plantStemPart::update(void)
-//=======================================================================================
-   {
-   plantPart::update();
-   }
-
 void plantStemPart::removeBiomass2(float )
 //=======================================================================================
    {

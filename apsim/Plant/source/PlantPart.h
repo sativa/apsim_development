@@ -55,6 +55,7 @@ class plantPart : public plantThing
    Delta Senescing;
    Delta Detaching;
    Delta Growth;
+   Delta Retranslocation;
    
    float relativeGrowthRate;
    float radiationInterceptedGreen;
@@ -76,14 +77,14 @@ class plantPart : public plantThing
 
       //float dm_detached;                  // biomass detached from senesced part (g/m^2)
 
-      float dm_green_retrans;             // biomass retranslocated to/from (+/-) green part to/from <<somewhere else??>> (g/m^2)
+      //float dm_green_retrans;             // biomass retranslocated to/from (+/-) green part to/from <<somewhere else??>> (g/m^2)
 
       //float n_green;                      // actual N uptake into plant (g/m^2)
       //float n_senesced;                   // actual N loss with senesced plant (g/m^2)
 
       //float n_detached;                   // actual N loss with detached senesced part (g/m^2)
 
-      float n_retrans;                    // nitrogen retranslocated to/from (+/-) green part to/from <<somewhere else??>> (g/m^2)
+      //float n_retrans;                    // nitrogen retranslocated to/from (+/-) green part to/from <<somewhere else??>> (g/m^2)
 
       float n_senesced_retrans;           // plant N retranslocated to/from (+/-) senesced part to/from <<somewhere else??>> (g/m^2)
       float n_senesced_trans;
@@ -92,7 +93,7 @@ class plantPart : public plantThing
       //float p_sen;
       //float p_det;
 
-      float p_retrans;
+      //float p_retrans;
 
       float height;                       // growth upwards (mm)
       float width;                        // growth outwards (mm)
@@ -432,10 +433,6 @@ public:
       virtual void onStartGrainFill(void);
 
    private:
-      void updateDm(void);
-      void updateN(void);
-      void updateP(void);
-
       float nConcCrit();
       float nConcMin();
       void get_dm_green_demand(protocol::Component *system, protocol::QueryValueData &qd);
