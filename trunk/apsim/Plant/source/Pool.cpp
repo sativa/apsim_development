@@ -22,3 +22,9 @@ void Pool::Remove (Delta& Dlt)
    N -= Dlt.N;
    P -= Dlt.P;
    }
+void Pool::Clear (void)
+   {
+   DM = 0.0;
+   N = 0.0;
+   P = 0.0;
+   }

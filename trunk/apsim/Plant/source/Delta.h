@@ -11,6 +11,7 @@ class Delta
       float N;
       float P;
       void Move (Pool& From, Pool& To);
+      void Clear (void);
    private:
       
    };

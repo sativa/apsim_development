@@ -16,3 +16,9 @@ void Delta::Move (Pool& From, Pool& To)
    From.Remove(*this);
    To.Add(*this);
    }
+void Delta::Clear (void)
+   {
+   DM = 0.0;
+   N = 0.0;
+   P = 0.0;
+   }
