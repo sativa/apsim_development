@@ -75,10 +75,6 @@ private:
    eventObserver *maturityEventObserver;   // Bookkeeper for maturity events
    Arbitrator    *arbitrator;
 
-   float plantDltDm(void) const;
-   float plantDltDmPotRue(void) const;
-   float plantDltDmPotTe(void) const;
-
    float grainGreen(void) const;
    float grainSenesced(void) const;
    float grainDead(void) const;
@@ -89,15 +85,10 @@ private:
    float grainNDead(void) const;
    float grainNTot(void) const;
 
-   float grainPGreen(void) const;
-   float grainPSenesced(void) const;
    float grainPDead(void) const;
-   float grainPTot(void) const;
    float grainPConc(void) const;
-   float grainPConcTot(void) const;
    float SWDemandTE(void) ;
    float SWDemand(void) ;
-   float nCapacity(void) ;
    void read();
 
 public:
@@ -135,7 +126,6 @@ public:
 
 
    void plant_bio_retrans (void);
-   void plant_water_stress (void);
    void plant_temp_stress (void);
    void plant_oxdef_stress ();
    void plant_bio_water (void);
@@ -223,8 +213,6 @@ public:
                     )  ;
    void plant_event();
 
-   void plant_dm_init (void);
-
    void plant_root_depth (int option /* (INPUT) option number*/);
    void plant_water_distribute (int option /*(INPUT) option number*/);
    void plant_light_supply_partition (int option /*(INPUT) option number*/);
@@ -239,8 +227,6 @@ public:
                                float maxt,                //!daily max temp (C)
                                float mint,                //!daily min temp (C)
                                float *modifier);          //!modifier (-)
-
-   void plant_n_conc_limits (float  g_co2_modifier_n_conc) ;
 
    void legnew_n_partition(float g_n_fix_pot, float *n_fix_uptake, std::vector<plantPart *> &);
 
@@ -283,8 +269,6 @@ public:
    void plant_zero_variables (void);
    void plant_zero_daily_variables ();
    void plant_start_crop (protocol::Variant &v/*(INPUT) message arguments*/);
-   void plant_read_cultivar_params ();
-   void plant_read_root_params ();
    void plant_end_crop ();
    void plant_kill_crop_action (protocol::Variant &mVar);
    void plant_store_value (
@@ -294,7 +278,6 @@ public:
                            ,float  value
                           ) ;
    void plant_get_other_variables ();
-   void plant_set_other_variables ();
    void plant_update_other_variables (void);
    void plant_read_constants ( void );
    void plant_prepare (void);
@@ -364,16 +347,12 @@ public:
    float getPfactPhoto(void) const;
    float getSwdefPhoto(void) const;
 
-   void get_cover_green(protocol::Component *, protocol::QueryValueData &);
    void get_cover_tot(protocol::Component *, protocol::QueryValueData &);
    void get_lai_canopy_green(protocol::Component *, protocol::QueryValueData &);
    void get_pai(protocol::Component *, protocol::QueryValueData &);
    void get_root_wt(protocol::Component *, protocol::QueryValueData &);
    void get_leaf_wt(protocol::Component *, protocol::QueryValueData &);
    void get_stem_wt(protocol::Component *, protocol::QueryValueData &);
-   void get_dm_green(protocol::Component *, protocol::QueryValueData &);
-   void get_dm_senesced(protocol::Component *, protocol::QueryValueData &);
-   void get_dm_dead(protocol::Component *, protocol::QueryValueData &);
    void get_biomass(protocol::Component *, protocol::QueryValueData &);
    void get_green_biomass(protocol::Component *, protocol::QueryValueData &);
    void get_biomass_wt(protocol::Component *, protocol::QueryValueData &);
