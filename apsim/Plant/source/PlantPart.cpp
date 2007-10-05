@@ -1,4 +1,3 @@
-
 #include "PlantPart.h"
 #include <ComponentInterface/ScienceAPI.h>
 using namespace std;
@@ -269,10 +268,8 @@ float plantPart::digestibilityMinDmSenesced(void) const
 void plantPart::zeroAllGlobals(void)
 //=======================================================================================
    {
-   Green.DM=0.0;
-   Senesced.DM=0.0;
-   Green.N=0.0;
-   Senesced.N=0.0;
+   Green.Clear();
+   Senesced.Clear();
    Height=0.0;
    Width=0.0;
    g.n_conc_crit=0.0;
@@ -283,8 +280,6 @@ void plantPart::zeroAllGlobals(void)
    g.p_conc_min=0.0;
    DMPlantMin=0.0;
 
-   Green.P=0.0;
-   Senesced.P=0.0;
    relativeGrowthRate = 0.0;
    radiationInterceptedGreen = 0.0;
    radiationInterceptedTotal = 0.0;
@@ -299,25 +294,16 @@ void plantPart::zeroDeltas(void)
    dlt.dm_pot_te = 0.0;
    dlt.dm_pot_rue = 0.0;
    dlt.dm = 0.0;
-   Growth.DM = 0.0;
-   Senescing.DM = 0.0;
-   Detaching.DM = 0.0;
-   Retranslocation.DM = 0.0;
+   Growth.Clear();
+   Senescing.Clear();
+   Detaching.Clear();
+   Retranslocation.Clear();
    dlt.dm_green_removed = 0.0;
    dlt.dm_senesced_removed = 0.0;
 
 
-   Growth.N = 0.0;
-   Senescing.N = 0.0;
    dlt.n_senesced_retrans = 0.0;
    dlt.n_senesced_trans = 0.0;
-   Detaching.N = 0.0;
-   Retranslocation.N = 0.0;
-
-   Growth.P = 0.0;
-   Senescing.P = 0.0;
-   Detaching.P = 0.0;
-   Retranslocation.P = 0.0;
 
    dlt.height = 0.0;
    dlt.width = 0.0;

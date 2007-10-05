@@ -12,6 +12,7 @@ class Pool
       float P;
       void Add (Delta& Dlt);
       void Remove (Delta& Dlt);
+      void Clear (void);
    private:
       
    };
