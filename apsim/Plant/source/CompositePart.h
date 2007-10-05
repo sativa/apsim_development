@@ -79,6 +79,7 @@ public:                                             // member functions
                                           , vector<float> &fract);
 
    virtual void update(void);
+   void fixPools();
    virtual void doNConccentrationLimits(float);
    virtual void zeroDltDmGreen(void);
 

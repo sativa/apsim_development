@@ -128,7 +128,7 @@ Plant::Plant(PlantComponent *P, ScienceAPI& api)
 //=======================================================================================
    : scienceAPI(api),Environment(api),
      plant(scienceAPI, this, ""),
-     tops(scienceAPI, this, "")
+     tops(scienceAPI, this, "Tops")
     {
     parent = P;
 
@@ -284,9 +284,6 @@ void Plant::onInit1()
    parent->addGettableVar("plants",
                g.plants, "plants/m^2", "Plant desnity");
 
-   setupGetFunction(parent, "cover_green", protocol::DTsingle, false,
-                     &Plant::get_cover_green, "", "Green cover");
-
    setupGetFunction(parent, "cover_tot", protocol::DTsingle, false,
                      &Plant::get_cover_tot, "", "Total cover");
 
@@ -308,15 +305,6 @@ void Plant::onInit1()
 
    setupGetFunction(parent, "dm_plant_min", protocol::DTsingle, true,
                     &Plant::get_dm_plant_min, "g/m^2", "Minimum weights");
-
-   setupGetFunction(parent, "dlt_dm", protocol::DTsingle, false,
-                    &Plant::get_dlt_dm,  "g/m^2", "Actual above_ground dry matter production");
-
-   setupGetFunction(parent, "dlt_dm_pot_rue", protocol::DTsingle, false,
-                    &Plant::get_dlt_dm_pot_rue,  "g/m^2", "Potential above_ground dry matter production via photosynthesis");
-
-   setupGetFunction(parent, "dlt_dm_pot_te", protocol::DTsingle, false,
-                    &Plant::get_dlt_dm_pot_te,  "g/m^2", "Potential above_ground dry matter production via transpiration");
 
    setupGetFunction(parent, "dlt_dm_green_retrans", protocol::DTsingle, true,
                     &Plant::get_dlt_dm_green_retrans, "g/m^2", "change in green pool from retranslocation");
@@ -441,14 +429,6 @@ void Plant::onInit1()
    setupGetFunction(parent, "no3_demand", protocol::DTsingle, false,
                     &Plant::get_no3_demand,
                     "kg/ha", "Demand for NO3");
-
-   setupGetFunction(parent, "sw_demand", protocol::DTsingle, false,
-                    &Plant::get_sw_demand,
-                    "mm", "Demand for sw");
-
-   setupGetFunction(parent, "sw_demand_te", protocol::DTsingle, false,
-                    &Plant::get_sw_demand_te,
-                    "mm", "TE Demand for sw");
 
    setupGetFunction(parent, "parasite_dm_supply", protocol::DTsingle, false,
                      &Plant::get_parasite_c_gain,
@@ -639,7 +619,8 @@ void Plant::onProcess(unsigned &, unsigned &, protocol::Variant &)
      {
      plant_get_other_variables ();   // request and receive variables from owner-modules
      plant_process ();               // do crop processes
-     plant_set_other_variables ();   // send changes to owner-modules
+     plant_update_other_variables ();
+     rootPart->UpdateOtherVariables();
      }
   else
      {} // plant is out
@@ -776,29 +757,14 @@ void Plant::plant_bio_retrans (void)
 //      }
    }
 
-
-void Plant::plant_water_stress (void)
-//     ===========================================================
-//         Get current water stress factors (0-1)
-    {
-    rootPart->plant_water_stress (SWDemand(),
-                                  g.swdef_photo,
-                                  g.swdef_pheno,
-                                  g.swdef_pheno_flower,
-                                  g.swdef_pheno_grainfill,
-                                  g.swdef_expansion,
-                                  g.swdef_fixation );
-    }
-
-
 void Plant::plant_temp_stress (void)
 //     ===========================================================
 //         Get current temperature stress factors (0-1)
-    {
-        crop_temperature_stress_photo(c.num_ave_temp,
-                                      c.x_ave_temp, c.y_stress_photo,
-                                      Environment.maxt, Environment.mint, &g.temp_stress_photo);
-    }
+   {
+   float ave_temp = (Environment.maxt + Environment.mint) / 2.0;
+   g.temp_stress_photo = linear_interp_real (ave_temp, c.x_ave_temp, c.y_stress_photo, c.num_ave_temp);
+   g.temp_stress_photo = bound (g.temp_stress_photo, 0.0, 1.0);
+   }
 
 
 void Plant::plant_bio_water (void)
@@ -806,7 +772,7 @@ void Plant::plant_bio_water (void)
 //     Calculate biomass transpiration efficiency
     {
     float swSupply = rootPart->waterUptake();
-    float swSupplyVeg = swSupply * divide (leafPart->SWDemand(), SWDemand(), 0.0);
+    float swSupplyVeg = swSupply * divide (leafPart->SWDemand(), tops.SWDemand(), 0.0);
     float swSupplyFruit = swSupply - swSupplyVeg;
 
     fruitPart->doDmPotTE (swSupplyFruit);
@@ -1167,8 +1133,8 @@ void Plant::plant_nit_demand (int option /* (INPUT) option number*/)
 //=======================================================================================
 //       Find nitrogen demand.
     {
-    float dlt_dm = plantDltDm();
-    float dlt_dm_pot_rue = plantDltDmPotRue();
+    float dlt_dm = tops.dltDm();
+    float dlt_dm_pot_rue = tops.dltDmPotRue();
     if (option == 1)
         {
         for (vector<plantPart *>::iterator t = myParts.begin();
@@ -1280,7 +1246,7 @@ void Plant::plant_nit_demand_est (int option)
         // C will be similar after today and so N demand is that
         // required to raise all plant parts to max N conc.
 
-        float dlt_dm_pot_rue = plantDltDmPotRue();
+        float dlt_dm_pot_rue = plant.dltDmPotRue();
         for (vector<plantPart *>::iterator t = myParts.begin();
              t != myParts.end();
              t++)
@@ -1447,10 +1413,8 @@ void Plant::plant_update(float  g_dlt_plants                                    
     leafPart->giveNGreen(-1.0*n_senesced_retrans);
     rootPart->updateOthers();    // send off detached roots before root structure is updated by plant death
 
-    for (vector<plantPart *>::iterator part = myParts.begin();
-         part != myParts.end();
-         part++)
-       (*part)->update();
+    plant.update();
+    tops.fixPools();     // Temporary hack for composite parts.
 
     // now update new canopy covers
     plantSpatial.setPlants(*g_plants);
@@ -1466,7 +1430,7 @@ void Plant::plant_update(float  g_dlt_plants                                    
     // other plant states
     *g_plants = *g_plants + g_dlt_plants;
 
-    plant_n_conc_limits( g.co2_modifier_n_conc);
+    plant.doNConccentrationLimits(g.co2_modifier_n_conc);
 
     }
 
@@ -1711,42 +1675,6 @@ void Plant::plant_rue_co2_modifier(float co2,                 //!CO2 level (ppm)
    }
 
 
-void Plant::plant_dm_init (void)
-//=======================================================================================
-// Set minimum part weights
-   {
-
-// Should plant event be called for all parts?
-//    doPlantEvent(phenology->stageName());
-   if(phenology->on_day_of(phenology->stageName()))
-       fruitPart->onDayOf(phenology->stageName());
-
-    vector<plantPart *>::iterator myPart;
-    for (myPart = myParts.begin(); myPart != myParts.end(); myPart++)
-       (*myPart)->doDmMin();
-   }
-
-void Plant::plant_n_conc_limits(float  g_co2_modifier_n_conc)
-//=======================================================================================
-//+  Purpose
-//       Calculate the critical N concentration below which plant growth
-//       is affected.  Also minimum and maximum N concentrations below
-//       and above which it is not allowed to fall or rise.
-//       These are analogous to the water concentrations
-//       of sat, dul and ll.
-   {
-   // the tops critical N percentage concentration is the stover
-   // (non-grain shoot) concentration below which N concentration
-   // begins to affect plant growth.
-   for (vector<plantPart *>::iterator t = myParts.begin();
-        t != myParts.end();
-        t++)
-      {
-      (*t)->doNConccentrationLimits(g_co2_modifier_n_conc);
-      }
-
-   }
-
 
 //+  Purpose
 //       Return actual plant nitrogen uptake to each plant part.
@@ -1769,10 +1697,7 @@ void Plant::legnew_n_partition
     // each plant part and distribute it.
     float n_uptake_sum = rootPart->nUptake();     // total plant N uptake (g/m^2)
     n_demand_sum = plant.nDemand();
-
-    n_capacity_sum = 0.0;
-    for (part = allParts.begin(); part != allParts.end(); part++)
-       n_capacity_sum += (*part)->nCapacity();
+    n_capacity_sum = plant.nCapacity();
 
    for (part = allParts.begin(); part != allParts.end(); part++)
       (*part)->doNPartition(n_uptake_sum, n_demand_sum, n_capacity_sum);
@@ -1952,8 +1877,15 @@ void Plant::plant_process ( void )
                                                , c.num_co2_nconc_modifier);
 
 
-        rootPart->plant_water_uptake(1, SWDemand());
-        plant_water_stress ();
+        rootPart->plant_water_uptake(1, tops.SWDemand());
+       rootPart->plant_water_stress (tops.SWDemand(),
+                                     g.swdef_photo,
+                                     g.swdef_pheno,
+                                     g.swdef_pheno_flower,
+                                     g.swdef_pheno_grainfill,
+                                     g.swdef_expansion,
+                                     g.swdef_fixation );
+
         g.oxdef_photo = rootPart->oxdef_stress ();
 
         phenology->prepare (Environment);
@@ -1986,14 +1918,16 @@ void Plant::plant_process ( void )
         for (vector<plantPart *>::const_iterator part = myParts.begin(); part != myParts.end(); part++)
            (*part)->doDmPotRUE();
 
-        plant_dm_init();
+        if(phenology->on_day_of(phenology->stageName()))
+           fruitPart->onDayOf(phenology->stageName());
+        plant.doDmMin();
 
         // Calculate Actual DM increase from photosynthesis
         for (vector<plantPart *>::iterator t = myParts.begin(); t != myParts.end(); t++)
            (*t)->doBioActual();
 
         // Now calculate DM demands
-        float dlt_dm = plantDltDm();
+        float dlt_dm = plant.dltDm();
         for (vector<plantPart *>::iterator t = myParts.begin();
              t != myParts.end();
              t++)
@@ -2020,7 +1954,7 @@ void Plant::plant_process ( void )
            (*t)->doNDemandGrain(g.nfact_grain_conc, g.swdef_expansion);
            }
 
-        float biomass = tops.dmGreen() + plantDltDm();
+        float biomass = tops.dmGreen() + plant.dltDm();
         g.n_fix_pot = rootPart->plant_nit_supply(biomass, phenology->stageNumber(), g.swdef_fixation);
 
         if (c.n_retrans_option==1)
@@ -2061,7 +1995,13 @@ void Plant::plant_process ( void )
 
     plant_cleanup();
 
-    plant_water_stress ();
+    rootPart->plant_water_stress (tops.SWDemand(),
+                                  g.swdef_photo,
+                                  g.swdef_pheno,
+                                  g.swdef_pheno_flower,
+                                  g.swdef_pheno_grainfill,
+                                  g.swdef_expansion,
+                                  g.swdef_fixation );
     plant_nit_stress (c.n_stress_option);
 
     }
@@ -2442,7 +2382,7 @@ void Plant::plant_harvest_update (protocol::Variant &v/*(INPUT)message arguments
        (*t)->doCover(plantSpatial);
 
 // other plant states
-    plant_n_conc_limits (g.co2_modifier_n_conc);
+    plant.doNConccentrationLimits(g.co2_modifier_n_conc);
 
     if (g.plant_status == alive &&
         phenology->previousStageName() != phenology->stageName())
@@ -2493,7 +2433,7 @@ void Plant::plant_kill_stem_update (protocol::Variant &v/*(INPUT) message argume
    for (vector<plantPart *>::iterator t = myParts.begin(); t != myParts.end(); t++)
        (*t)->doCover(plantSpatial);
 
-    plant_n_conc_limits ( g.co2_modifier_n_conc )  ;                  // plant N concentr
+    plant.doNConccentrationLimits( g.co2_modifier_n_conc )  ;                  // plant N concentr
 
     if (g.plant_status == alive &&
         phenology->previousStageName() != phenology->stageName())
@@ -2604,7 +2544,7 @@ void Plant::plant_remove_biomass_update (protocol::RemoveCropDmType dmRemoved)
 
     phenology->onRemoveBiomass(g.remove_biom_pheno);
 
-    plant_n_conc_limits ( g.co2_modifier_n_conc );
+    plant.doNConccentrationLimits(g.co2_modifier_n_conc );
 
     if (g.plant_status == alive &&
         phenology->previousStageName() != phenology->stageName())
@@ -2948,41 +2888,19 @@ void Plant::plant_start_crop (protocol::Variant &v/*(INPUT) message arguments*/)
 void Plant::read()
    {
    plant_read_species_const ();
-   plant_read_cultivar_params ();
-   plant_read_root_params ();
-   rootPart->read();
-   }
-
-/////////////////////////////////////////////////////////////////
-//+  Purpose
-//       Get cultivar parameters for named cultivar, from crop parameter file.
-void Plant::plant_read_cultivar_params ()
-    {
-
-//+  Local Variables
-    string s;
-
-//- Implementation Section ----------------------------------
-
-    //  plant thing initialisations
     for (vector<plantThing *>::iterator t = myThings.begin();
          t != myThings.end();
          t++)
        {
        (*t)->readCultivarParameters(parent, g.cultivar);
        }
-    }
 
-void Plant::plant_read_root_params ()
-//============================================================================
-//  Get root profile parameters
-    {
-    if (!scienceAPI.readOptional("eo_crop_factor", p.eo_crop_factor, 0.0f, 100.0f))
-        p.eo_crop_factor = c.eo_crop_factor_default;
+   if (!scienceAPI.readOptional("eo_crop_factor", p.eo_crop_factor, 0.0f, 100.0f))
+      p.eo_crop_factor = c.eo_crop_factor_default;
+   scienceAPI.readOptional("remove_biomass_report", c.remove_biomass_report);
 
-    scienceAPI.readOptional("remove_biomass_report", c.remove_biomass_report);
-    }
-
+   rootPart->read();
+   }
 
 //+  Purpose
 //       End crop
@@ -3192,20 +3110,6 @@ void Plant::plant_get_other_variables ()
     rootPart->getOtherVariables();
     Environment.getOtherVariables(parent);
     }
-
-
-//+  Purpose
-//      Set the value of a variable or array in other module/s.
-//+  Notes
-//      a flag is set if any of the totals is requested.  The totals are
-//      reset during the next process phase when this happens.
-void Plant::plant_set_other_variables ()
-    {
-    plant_update_other_variables ();
-    rootPart->UpdateOtherVariables();
-    }
-
-
 void Plant::plant_update_other_variables (void)
 //=======================================================================================
 //  Update other modules states
@@ -3701,13 +3605,6 @@ void Plant::get_plants(protocol::Component *system, protocol::QueryValueData &qd
     system->sendVariable(qd, g.plants);
 }
 
-
-void Plant::get_cover_green(protocol::Component *system, protocol::QueryValueData &qd)
-{
-    system->sendVariable(qd, plant.coverGreen());
-}
-
-
 void Plant::get_cover_tot(protocol::Component *system, protocol::QueryValueData &qd)
 {
     float cover_tot = 1.0
@@ -3854,21 +3751,6 @@ void Plant::get_transp_eff(protocol::Component *system, protocol::QueryValueData
     float transp_eff = leafPart->transpirationEfficiency(); //FIXME - ?? how to handle fruitPart->transpirationEfficiency();
     system->sendVariable(qd, transp_eff);
 }
-
-void Plant::get_sw_demand(protocol::Component *system, protocol::QueryValueData &qd)
-{
-    system->sendVariable(qd, SWDemand());
-}
-
-void Plant::get_sw_demand_te(protocol::Component *system, protocol::QueryValueData &qd)
-{
-    system->sendVariable(qd, SWDemandTE());
-}
-
-
-
-
-
 
 void Plant::get_swstress_pheno(protocol::Component *systemInterface, protocol::QueryValueData &qd)
 {
@@ -4027,43 +3909,6 @@ void Plant::get_p_uptake_stover(protocol::Component *systemInterface, protocol::
     systemInterface->sendVariable(qd, tops.pGreenVeg());  //()
 }
 
-void Plant::get_dm_green(protocol::Component *systemInterface, protocol::QueryValueData &qd)
-{
-   vector<plantPart*>::iterator part;
-   vector<float>  dm_green;
-
-   for (part = myParts.begin(); part != myParts.end(); part++)
-      (*part)->get_dm_green(dm_green);
-
-   systemInterface->sendVariable(qd, dm_green);
-}
-
-void Plant::get_dm_senesced(protocol::Component *systemInterface, protocol::QueryValueData &qd)
-{
-   vector<plantPart*>::iterator part;
-   vector<float>  dm_senesced;
-
-   for (part = myParts.begin(); part != myParts.end(); part++)
-      (*part)->get_dm_senesced(dm_senesced);
-
-   systemInterface->sendVariable(qd, dm_senesced);
-}
-
-void Plant::get_dlt_dm(protocol::Component *systemInterface, protocol::QueryValueData &qd)
-{
-   systemInterface->sendVariable(qd, plantDltDm());
-}
-
-void Plant::get_dlt_dm_pot_te(protocol::Component *systemInterface, protocol::QueryValueData &qd)
-{
-   systemInterface->sendVariable(qd, plantDltDmPotTe());
-}
-
-void Plant::get_dlt_dm_pot_rue(protocol::Component *systemInterface, protocol::QueryValueData &qd)
-{
-   systemInterface->sendVariable(qd, plantDltDmPotRue());
-}
-
 void Plant::get_dlt_dm_green_retrans(protocol::Component *systemInterface, protocol::QueryValueData &qd)
 {
    vector<plantPart*>::iterator part;
@@ -4122,14 +3967,14 @@ float Plant::getDmGreenVeg(void) const {return (leafPart->dmGreen() + stemPart->
 ////float Plant::getWaterSupplyPod(void) const {return g.swSupplyFruit;}
 ////float Plant::getWaterSupplyLeaf(void) const {return g.swSupplyVeg;}
 float Plant::getDmTops(void) const{ return tops.dmGreen()+tops.dmSenesced();}
-float Plant::getDltDm(void) const{ return plantDltDm();}
+float Plant::getDltDm(void) const{ return plant.dltDm();}
 float Plant::getDltDmGreen(void) const{ return plant.dltDmGreen();}
 float Plant::getDmVeg(void) const {return leafPart->dmTotal() + stemPart->dmTotal();}
 float Plant::getDmGreenStem(void) const {return stemPart->dmGreen();}
 float Plant::getDmGreenTot(void) const {return plant.dmGreen();}
 // FIXME - remove next line when P demand corrections activated
-float Plant::getRelativeGrowthRate(void) {return divide(arbitrator->dltDMWhole(plantDltDmPotRue()), plant.dmGreen(), 0.0);} // the dlt_dm_pot_rue is only tops, thus either adjust it for roots or leave roots out of the divisor.
-float Plant::getTotalPotentialGrowthRate(void) {return arbitrator->dltDMWhole(plantDltDmPotRue());} // the dlt_dm_pot_rue is only tops, thus adjust it for roots.
+float Plant::getRelativeGrowthRate(void) {return divide(arbitrator->dltDMWhole(plant.dltDmPotRue()), plant.dmGreen(), 0.0);} // the dlt_dm_pot_rue is only tops, thus either adjust it for roots or leave roots out of the divisor.
+float Plant::getTotalPotentialGrowthRate(void) {return arbitrator->dltDMWhole(plant.dltDmPotRue());} // the dlt_dm_pot_rue is only tops, thus adjust it for roots.
 float Plant::getDyingFractionPlants(void)
    {
        float dying_fract_plants = divide (-g.dlt_plants, g.plants, 0.0);
@@ -4147,73 +3992,10 @@ float Plant::getNfactGrainConc(void) const {return g.nfact_grain_conc;}
 float Plant::getOxdefPhoto(void) const {return g.oxdef_photo;}
 float Plant::getPfactPhoto(void) const {return g.pfact_photo;}
 float Plant::getSwdefPhoto(void) const {return g.swdef_photo;}
-
-float Plant::plantDltDm(void) const
-   {
-      return  fruitPart->dltDm() + leafPart->dltDm();
-   }
-
-float Plant::plantDltDmPotRue(void) const
-   {
-      return  fruitPart->dltDmPotRue() + leafPart->dltDmPotRue();
-   }
-
-float Plant::plantDltDmPotTe(void) const
-   {
-      return  fruitPart->dltDmPotTe() + leafPart->dltDmPotTe();
-   }
-
-float Plant::grainPGreen(void) const
-   {
-   float total = 0.0;
-   for (vector<plantPart *>::const_iterator part = myTopsParts.begin(); part != myTopsParts.end(); part++)
-      total += (*part)->pGreenGrainTotal();
-   return  total;
-   }
-float Plant::grainPSenesced(void) const
-   {
-   float total = 0.0;
-   for (vector<plantPart *>::const_iterator part = myTopsParts.begin(); part != myTopsParts.end(); part++)
-      total += (*part)->pSenescedGrainTotal();
-   return  total;
-   }
-float Plant::grainPTot(void) const
-   {
-   return  grainPGreen() + grainPSenesced();
-   }
-
-float Plant::grainPConcTot(void) const
-   {
-   return  fruitPart->pConcGrainTotal();
-   }
-float Plant::SWDemandTE(void)
-   {
-   return leafPart->SWDemandTE() + fruitPart->SWDemandTE();
-   }
-float Plant::SWDemand(void)
-   {
-      float sw_demand = 0.0;
-      for (vector<plantPart *>::iterator t = myParts.begin(); t != myParts.end(); t++)
-         sw_demand += (*t)->SWDemand();
-      return sw_demand;
-   }
-float Plant::nCapacity(void)
-   {
-   float n_capacity_sum = 0.0;
-   vector<plantPart *>::iterator part;
-   for (part = myParts.begin(); part != myParts.end(); part++)
-      n_capacity_sum += (*part)->nCapacity();
-   return n_capacity_sum;
-   }
-
 bool  Plant::on_day_of(const string &what) {return (phenology->on_day_of(what));};
 bool  Plant::inPhase(const string &what) {return (phenology->inPhase(what));};
-
 void Plant::writeString (const char *line) {parent->writeString(line);};
 void Plant::warningError (const char *msg) {parent->warningError(msg);};
-
-
 const std::string & Plant::getCropType(void) {return c.crop_type;};
 protocol::Component *Plant::getComponent(void) {return parent;};
 
- 

@@ -43,12 +43,17 @@ void CompositePart::onInit1(protocol::Component *system)
    scienceAPI.exposeFunction("dm_green", "g/m^2", "Green weight of ", FloatFunction(&CompositePart::dmGreen));
    scienceAPI.exposeFunction("n_green", "g/m^2",  "Green nitrogen of ", FloatFunction(&CompositePart::nGreen));
    scienceAPI.exposeFunction("p_green", "g/m^2",  "Green phosphorus of ", FloatFunction(&CompositePart::pGreen));
-
+   if (c.name == "")  // If you don't have this then we get a TopsSWDemand - not needed.
+      {
+      scienceAPI.exposeFunction("sw_demand", "mm",  "Demand for soil water", FloatFunction(&CompositePart::SWDemand));
+      scienceAPI.exposeFunction("sw_demand_te", "mm",  "TE Demand for soil water", FloatFunction(&CompositePart::SWDemandTE));
+      scienceAPI.exposeFunction("dlt_dm", "g/m^2",  "Actual above_ground dry matter production", FloatFunction(&CompositePart::dltDm));
+      scienceAPI.exposeFunction("dlt_dm_pot_rue", "g/m^2",  "Potential above_ground dry matter production via photosynthesis", FloatFunction(&CompositePart::dltDmPotRue));
+      scienceAPI.exposeFunction("dlt_dm_pot_te", "g/m^2",  "Potential above_ground dry matter production via transpiration", FloatFunction(&CompositePart::dltDmPotTe));
+      scienceAPI.exposeFunction("cover_green", "",  "Green cover", FloatFunction(&CompositePart::coverGreen));
+      }
    for (part =  myParts.begin(); part != myParts.end(); part++)
       (*part)->onInit1(system);
-
-
-
    }
 
 void CompositePart::add(plantPart* part)
@@ -994,7 +999,49 @@ void CompositePart::update(void)
    vector <plantPart *>::iterator part;
    for (part = myParts.begin(); part != myParts.end(); part++)
       (*part)->update();
+   fixPools();
 }
+
+void CompositePart::fixPools()
+   {
+   // ----------------------------------------------------------
+   // DPH - This is a hack for now. Get rid of ASAP.
+   // ----------------------------------------------------------
+   vector <plantPart *>::iterator part;
+   Green.DM = 0.0;
+   Green.N = 0.0;
+   Green.P = 0.0;
+   Senesced.DM = 0.0;
+   Senesced.N = 0.0;
+   Senesced.P = 0.0;
+   Senescing.DM = 0.0;
+   Senescing.N = 0.0;
+   Senescing.P = 0.0;
+   Detaching.DM = 0.0;
+   Detaching.N = 0.0;
+   Detaching.P = 0.0;
+   Growth.DM = 0.0;
+   Growth.N = 0.0;
+   Growth.P = 0.0;
+   for (part = myParts.begin(); part != myParts.end(); part++)
+      {
+      Green.DM += (*part)->Green.DM;
+      Green.N += (*part)->Green.N;
+      Green.P += (*part)->Green.P;
+      Senesced.DM += (*part)->Senesced.DM;
+      Senesced.N += (*part)->Senesced.N;
+      Senesced.P += (*part)->Senesced.P;
+      Senescing.DM += (*part)->Senescing.DM;
+      Senescing.N += (*part)->Senescing.N;
+      Senescing.P += (*part)->Senescing.P;
+      Detaching.DM += (*part)->Detaching.DM;
+      Detaching.N += (*part)->Detaching.N;
+      Detaching.P += (*part)->Detaching.P;
+      Growth.DM += (*part)->Growth.DM;
+      Growth.N += (*part)->Growth.N;
+      Growth.P += (*part)->Growth.P;
+      }
+   }
 
 void CompositePart::doNConccentrationLimits(float modifier)
    //===========================================================================

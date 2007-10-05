@@ -892,13 +892,6 @@ void cproc_n_supply2 (float *g_dlayer,                // (INPUT)
 
 //---------------------------------------------------------------------------
 
-void crop_temperature_stress_photo (int   num_ave_temp ,     // (INPUT)  size_of critical temperature table
-                                    float *x_ave_temp,        // (INPUT)  critical temperatures for photosynthesis (oC)
-                                    float *y_stress_photo,    // (INPUT)  Factors for critical temperatures (0-1)
-                                    float maxt,              // (INPUT)  maximum air temperature (oC)
-                                    float mint,              // (INPUT)  minimum air temperature (oC)
-                                    float *temp_stress_photo); // (OUTPUT) photosynthetic reduction factor for  temperature stress (0-1)
-
 void crop_store_value(int day_of_year,
                                int year,
                                float *array,

@@ -50,12 +50,8 @@ class plantPart : public plantThing
    //float NSenesced;                   // plant N content of senesced plant (g N/m^2)
    //float DMGreen;                     // live plant dry weight (biomass) (g/m^2)
    //float DMSenesced;                  // senesced plant dry wt (g/m^2)
-   Pool Green;
-   Pool Senesced;
-   Delta Senescing;
-   Delta Detaching;
-   Delta Growth;
-   Delta Retranslocation;
+
+
    
    float relativeGrowthRate;
    float radiationInterceptedGreen;
@@ -177,6 +173,13 @@ public:
 
    plantPart(ScienceAPI& scienceAPI, plantInterface *p, const string &name);
    virtual ~plantPart() {};
+
+   Pool Green;
+   Pool Senesced;
+   Delta Senescing;
+   Delta Detaching;
+   Delta Growth;
+   Delta Retranslocation;
 
    virtual void zeroAllGlobals(void);
    virtual void zeroDeltas(void);
