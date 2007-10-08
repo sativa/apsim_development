@@ -684,9 +684,9 @@ IniFile* ApsimControlFile::getParFile(const std::string& parFileName, bool check
    {
    IniFile* iniToReturn = NULL;
 
-   Path cwd = Path::getCurrentFolder();
-   Path(ini->getFileName()).Change_directory();
-   string filePath = ExpandFileName(parFileName.c_str()).c_str();
+   string filePath = parFileName;
+   if (fileDirName(filePath) == "")            
+      filePath = fileDirName(ini->getFileName()) + "/" + parFileName;
    for (unsigned i = 0; iniToReturn == NULL && i != openedParFiles.size(); i++)
       {
       if (Str_i_Eq(openedParFiles[i]->getFileName(), filePath))
@@ -706,7 +706,6 @@ IniFile* ApsimControlFile::getParFile(const std::string& parFileName, bool check
    else
       iniToReturn = NULL;
 
-   cwd.Change_directory();
    return iniToReturn;
    }
 // ------------------------------------------------------------------

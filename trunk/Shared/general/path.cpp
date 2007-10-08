@@ -562,7 +562,7 @@ std::string fileDirName(const std::string &filename)
       pos--;    
    if (pos >= 0)
       return filename.substr(0,pos);
-   return filename;
+   return "";
    }
 
 bool fileExists(const std::string &filename)
