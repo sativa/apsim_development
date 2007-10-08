@@ -6,6 +6,7 @@
 
 #include <general/string_functions.h>
 #include <general/stl_functions.h>
+#include <general/io_functions.h>
 #include <general/stristr.h>
 #include <general/IniFile.h>
 #include <general/path.h>
@@ -681,24 +682,32 @@ void ApsimControlFile::setVersionNumber(const std::string& fileName,
 // ------------------------------------------------------------------
 IniFile* ApsimControlFile::getParFile(const std::string& parFileName, bool checkNonExistant) const
    {
-   for (unsigned i = 0; i != openedParFiles.size(); i++)
-      {
-      if (Str_i_Eq(openedParFiles[i]->getFileName(), ini->getFileName()))
-         return openedParFiles[i];
-      }
-   if (checkNonExistant && !Path(ini->getFileName()).Exists())
-      throw runtime_error("The control file has referenced a non-existant file.\n"
-                          "File = " + ini->getFileName());
+   IniFile* iniToReturn = NULL;
 
-   if (Path(ini->getFileName()).Get_extension() != ".met" &&
-       Path(ini->getFileName()).Get_extension() != ".soi")
+   Path cwd = Path::getCurrentFolder();
+   Path(ini->getFileName()).Change_directory();
+   string filePath = ExpandFileName(parFileName.c_str()).c_str();
+   for (unsigned i = 0; iniToReturn == NULL && i != openedParFiles.size(); i++)
       {
-      IniFile* par = new IniFile(ini->getFileName(), true);
+      if (Str_i_Eq(openedParFiles[i]->getFileName(), filePath))
+         iniToReturn = openedParFiles[i];
+      }
+   if (checkNonExistant && !Path(filePath).Exists())
+      throw runtime_error("The control file has referenced a non-existant file.\n"
+                          "File = " + filePath);
+
+   if (Path(filePath).Get_extension() != ".met" &&
+       Path(filePath).Get_extension() != ".soi")
+      {
+      IniFile* par = new IniFile(filePath, true);
       openedParFiles.push_back(par);
-      return par;
+      iniToReturn = par;
       }
    else
-      return NULL;
+      iniToReturn = NULL;
+
+   cwd.Change_directory();
+   return iniToReturn;
    }
 // ------------------------------------------------------------------
 // Find a parameter in parameter file.  Return true and the par and

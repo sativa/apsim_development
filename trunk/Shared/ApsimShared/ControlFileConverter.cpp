@@ -1038,7 +1038,12 @@ bool ControlFileConverter::executeRemoveReportVariable(const string& arguments)
       bool found = false;
       for (unsigned v = 0; v != variables.size(); v++)
          {
-         if (Str_i_Eq(args[0], variables[v]))
+         string Variable = variables[v];
+         if (Variable.find(' ') != string::npos)
+            Variable.erase(Variable.find(' '));
+         if (Variable.find('.') != string::npos)
+            Variable.erase(0, Variable.find('.')+1);
+         if (Str_i_Eq(args[0], Variable))
             found = true;
          else
             newVariables.push_back(variables[v]);
