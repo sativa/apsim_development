@@ -219,7 +219,7 @@ public  ref class ApsimProperties
          ApsimArray<Apsimtype.KKind, type.dotnetkind> Value;
          comms->getProperty(stringToStdString(PropertyName), "", Value);
       #else
-      void Get(String^ PropertyName, type.dotnetkind Data)
+      void Get(String^ PropertyName, type.dotnetkind% Data)
          {
          Apsimtype.KKind Value;
          comms->getProperty(stringToStdString(PropertyName), "", Value);
