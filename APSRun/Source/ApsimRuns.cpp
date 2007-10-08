@@ -121,7 +121,8 @@ void ApsimRuns::getFilesNeedingConversion(std::vector<std::string>& filesNeeding
       {
       string fileName = fileNames[f];
       if (fileExtension(fileName) == "con"
-          && ControlFileConverter::needsConversion(fileName))
+          && ControlFileConverter::needsConversion(fileName)
+          && find(filesNeedingConversion.begin(), filesNeedingConversion.begin(), fileName) == filesNeedingConversion.end())
          filesNeedingConversion.push_back(fileName);
       }
    }
