@@ -267,9 +267,9 @@ void genericLeafPart::initialiseAreas(void)
    float avg_leaf_area = divide (cInitialTPLA, cLeafNumberAtEmerg, 0.0);
    for (int leaf = 0; leaf < leaf_no_emerged; leaf++)
       {
-      gLeafArea[leaf] = avg_leaf_area;
+      gLeafArea[leaf] = avg_leaf_area * plant->getPlants();
       }
-   gLeafArea[leaf_no_emerged] = leaf_emerging_fract * avg_leaf_area;
+   gLeafArea[leaf_no_emerged] = leaf_emerging_fract * avg_leaf_area * plant->getPlants();
 
    gLAI = cInitialTPLA * smm2sm * plant->getPlants();
    gSLAI = 0.0;
@@ -297,7 +297,7 @@ void genericLeafPart::checkBounds(void)
    if (gNodeNo >= max_node) throw std::runtime_error(c.name + " node number exceeds array size! (" + ftoa(gNodeNo,".6") + ")");
 
    //     Check that leaf records agree
-   float leaf_area_tot = sum_real_array (gLeafArea, max_node) * plant->getPlants() * smm2sm;
+   float leaf_area_tot = sum_real_array (gLeafArea, max_node) * smm2sm;
 
    if (! reals_are_equal (leaf_area_tot, gLAI + gSLAI, tolerance_lai))
      {
@@ -412,8 +412,8 @@ void genericLeafPart::leaf_death (float  g_nfact_expansion, float  g_dlt_tt)
        dltLeafNoSen = divide (g_dlt_tt, leaf_death_rate, 0.0);
 
        // Ensure minimum leaf area remains
-       tpla_now = sum_real_array (gLeafArea, max_node);
-       max_sen_area = l_bound (tpla_now - cMinTPLA, 0.0);
+       tpla_now = sum_real_array (gLeafArea, max_node) ;
+       max_sen_area = l_bound (tpla_now - cMinTPLA, 0.0) * plant->getPlants();
        max_sleaf_no_now = legnew_leaf_no_from_area (gLeafArea
                                                     , gLeafNo
                                                     , max_node
@@ -506,7 +506,7 @@ void genericLeafPart::detachment (void)
 
         plant_leaf_detachment (gLeafArea
                                , dltSLAI_detached
-                               , plant->getPlants()
+                               , 1.0  //required because gLeafArea is on an area basis not a plant basis
                                , max_node);
 
    }
@@ -524,7 +524,7 @@ void genericLeafPart::leaf_area_sen(float swdef_photo , float mint)
                               , gSLAI
                               , cMinTPLA
                               , gLeafArea
-                              , plants);
+                              , 1.0);  // because gLeafArea is on an area basis and not a plant basis
 
     dltSLAI_light = crop_leaf_area_sen_light1 (cLAISenLight, cSenLightSlope, gLAI, plants, cMinTPLA);
 
@@ -551,16 +551,18 @@ void genericLeafPart::update(void)
     // need to account for truncation of partially developed leaf (add 1)
     float node_no = 1.0 + gNodeNo;
 
-    float dlt_leaf_area = divide (dltLAI, plant->getPlants(), 0.0) * sm2smm;
+    float dlt_leaf_area = dltLAI * sm2smm;
     accumulate (dlt_leaf_area, gLeafArea, node_no-1.0, dltNodeNo);
 
     // Area senescence is calculated apart from plant number death
     // so any decrease in plant number will mean an increase in average
     // plant size as far as the leaf size record is concerned.
-    if ((plant->getPlants() /*+ g_dlt_plants*/)<=0.0)   //XXXX FIXME!!
-        {
-        fill_real_array(gLeafArea, 0.0, max_node);
-        }
+
+    // NIH - Don't think this is needed anymore because death goes into SLAI not TLAI_dead now
+    //if ((plant->getPlants() /*+ g_dlt_plants*/)<=0.0)   //XXXX FIXME!!
+    //    {
+    //    fill_real_array(gLeafArea, 0.0, max_node);
+    //    }
 
     accumulate (dltLeafNo, gLeafNo, node_no-1.0, dltNodeNo);
 
@@ -596,7 +598,7 @@ void genericLeafPart::update(void)
 void genericLeafPart::remove_detachment (float dlt_slai_detached, float dlt_lai_removed )
     {
     // Remove detachment from leaf area record from bottom upwards
-    float area_detached = dlt_slai_detached / plant->getPlants() * sm2smm;  // (mm2/plant)
+    float area_detached = dlt_slai_detached * sm2smm;  // (mm2/plant)
 
     for (int node = 0; node < max_node; node++)
       {
@@ -613,7 +615,7 @@ void genericLeafPart::remove_detachment (float dlt_slai_detached, float dlt_lai_
       }
 
     // Remove detachment from leaf area record from top downwards
-    float area_removed = dlt_lai_removed / plant->getPlants() * sm2smm;  // (mm2/plant)
+    float area_removed = dlt_lai_removed * sm2smm;  // (mm2/plant)
 
     for (int node = (int)gNodeNo; node >= 0 ; node--)
     {
