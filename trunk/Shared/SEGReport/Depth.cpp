@@ -4,65 +4,18 @@
 #pragma hdrstop
 
 #include "Depth.h"
+#include "DataContainer.h"
 #include <general\db_functions.h>
 #include <general\math_functions.h>
 #include <general\string_functions.h>
 
 using namespace std;
 
-//---------------------------------------------------------------------------
-// Create the necessary fields in the result dataset.
-//---------------------------------------------------------------------------
-void Depth::createFields(TDataSet* source, TDataSet* result)
-   {
-   discoverVariables(source);
-   if (variableNames.size() > 0)
-      addDBField(result, "Depth", "1.0");
-   else
-      addDBField(result, "Dummy", "?");
-
-   for (unsigned v = 0; v != variableNames.size(); v++)
-      addDBField(result, variableNames[v].c_str(), "1.0");
-   }
-
-//---------------------------------------------------------------------------
-// Go do our processing, putting all results into 'data'
-//---------------------------------------------------------------------------
-void Depth::process(TDataSet* source, TDataSet* result)
-   {
-   // Loop through all series blocks and all records within that series.
-   source->First();
-   while (!source->Eof)
-      {
-      float DepthSoFar = 0;
-      for (int layer = 0; layer != numLayers; layer++)
-         {
-         result->Append();
-         for (unsigned v = 0; v != variableNames.size(); v++)
-            {
-            string sourceFieldName = variableNames[v] + "(" + itoa(layer+1) + ")";
-            result->FieldValues[variableNames[v].c_str()] = source->FieldValues[sourceFieldName.c_str()];
-            if (Str_i_Eq(variableNames[v], "dlayer"))
-               {
-               float previousDepth = DepthSoFar;
-               DepthSoFar += (float) source->FieldValues[sourceFieldName.c_str()];
-               float midPoint = (DepthSoFar + previousDepth) / 2;
-               result->FieldValues["Depth"] = midPoint;
-               }
-            }
-         result->Post();
-         }
-
-      source->Next();
-      }
-   }
 // ------------------------------------------------------------------
 // set one of our properties.
 // ------------------------------------------------------------------
-void Depth::discoverVariables(TDataSet* source)
+void discoverVariables(TDataSet* source, vector<string>& variableNames, int& numLayers)
    {
-   variableNames.erase(variableNames.begin(), variableNames.end());
-   
    // firstly look for dlayer to get the number of layers.
    numLayers = 0;
    for (int f = 0; f != source->FieldDefs->Count; f++)
@@ -88,6 +41,63 @@ void Depth::discoverVariables(TDataSet* source)
             splitOffBracketedValue(fieldName, '(', ')');
             variableNames.push_back(fieldName);
             }
+         }
+      }
+   }
+
+//---------------------------------------------------------------------------
+// this function does layered depth plot data manipulation.
+//---------------------------------------------------------------------------
+void processDepth(DataContainer& parent,
+                  const XMLNode& properties,
+                  TDataSet& result)
+   {
+   result.Active = false;
+   result.FieldDefs->Clear();
+   TDataSet* source = parent.data(properties.childValue("source"));
+   if (source != NULL)
+      {
+      vector<string> variableNames;
+      int numLayers;
+      discoverVariables(source, variableNames, numLayers);
+      if (variableNames.size() > 0)
+         addDBField(&result, "Depth", "1.0");
+      else
+         addDBField(&result, "Dummy", "?");
+
+      for (unsigned v = 0; v != variableNames.size(); v++)
+         {
+         if (!Str_i_Eq(variableNames[v], "dlayer"))
+            addDBField(&result, variableNames[v].c_str(), "1.0");
+         }
+
+      result.Active = true;
+
+      // Loop through all series blocks and all records within that series.
+      source->First();
+      while (!source->Eof)
+         {
+         float DepthSoFar = 0;
+         for (int layer = 0; layer != numLayers; layer++)
+            {
+            result.Append();
+            for (unsigned v = 0; v != variableNames.size(); v++)
+               {
+               string sourceFieldName = variableNames[v] + "(" + itoa(layer+1) + ")";
+               if (Str_i_Eq(variableNames[v], "dlayer"))
+                  {
+                  float previousDepth = DepthSoFar;
+                  DepthSoFar += (float) source->FieldValues[sourceFieldName.c_str()];
+                  float midPoint = (DepthSoFar + previousDepth) / 2;
+                  result.FieldValues["Depth"] = midPoint;
+                  }
+               else
+                  result.FieldValues[variableNames[v].c_str()] = source->FieldValues[sourceFieldName.c_str()];
+               }
+            result.Post();
+            }
+
+         source->Next();
          }
       }
    }

@@ -2,20 +2,14 @@
 #ifndef DiffH
 #define DiffH
 
-#include "DataProcessor.h"
+#include <db.hpp>
+class XMLNode;
+class DataContainer;
 
 //---------------------------------------------------------------------------
-// derived from DataProcessor, this creates a dataset that is calculated
-// as the different between 2 datasets.
+// this creates a dataset that is calculated as the different between 2 datasets.
 //---------------------------------------------------------------------------
-class Diff : public DataProcessor
-   {
-   private:
-      virtual void createFields(TDataSet* source, TDataSet* result);
-      virtual void process(TDataSet* source, TDataSet* result);
-
-   public:
-      Diff(const std::string& type, TComponent* owner)
-         : DataProcessor(type, owner) { };
-   };
+void processDiff(DataContainer& parent,
+                 const XMLNode& properties,
+                 TDataSet& result);
 #endif

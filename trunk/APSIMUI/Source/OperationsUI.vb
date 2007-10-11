@@ -4,12 +4,7 @@ Imports VBUserInterface
 
 Public Class OperationsUI
     Inherits BaseView
-    Private Controller As BaseController
-
-    Public Overrides Sub OnLoad(ByVal Controller As VBUserInterface.BaseController)
-        Me.Controller = Controller
-    End Sub
-    Overrides Sub OnRefresh(ByVal NodePath As String)
+    Overrides Sub OnRefresh()
         Dim StartGridRow As Integer = 0
         Dim EndGridRow As Integer = 0
         StartDayGrid.ClearRange(0, 0, StartDayGrid.RowCount, StartDayGrid.ColumnCount, False)

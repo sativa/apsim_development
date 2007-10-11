@@ -38,7 +38,6 @@ namespace CSUserInterface
         private Label label4;
         private ComboBox RelativeToCombo;
 		private bool UserChange = true;
-        private BaseController Controller;
 		
 
 		// -------------------
@@ -363,14 +362,10 @@ namespace CSUserInterface
 		}
 		#endregion
 
-        public override void OnLoad(BaseController Controller)
-            {
-            this.Controller = Controller;            
-            }
 		// -----------------------
 		// Refresh the form
 		// -----------------------
-		override public void OnRefresh(string NodePath)
+		override public void OnRefresh()
 			{
 			HelpText = "There are multiple ways of initialising soil water. Select a method by clicking one of the options below "
 				 	 + " and then filling in the details.";

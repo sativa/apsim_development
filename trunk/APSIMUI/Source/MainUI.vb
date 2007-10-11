@@ -513,7 +513,7 @@ Public Class MainUI
         ApsimUI = New BaseController(Me, ApplicationName)
         ' Show the Simulation Explorer.
         SimulationExplorer = New ExplorerUI(ApsimUI)
-        SimulationExplorer.OnLoad(ApsimUI)
+        SimulationExplorer.OnLoad(ApsimUI, "")
         SimulationExplorer.Dock = DockStyle.Fill
         SimulationExplorer.Parent = SimulationContainer.ContentPanel
         SimulationExplorer.Visible = False
@@ -534,7 +534,7 @@ Public Class MainUI
             ' Setup but don't show the Toolbox Explorer.
             Toolbox = New BaseController(Nothing, ApplicationName)
             ToolboxExplorer = New ExplorerUI(Toolbox)
-            ToolboxExplorer.OnLoad(Toolbox)
+            ToolboxExplorer.OnLoad(Toolbox, "")
             ToolboxExplorer.Parent = ToolBoxPanel
             ToolboxExplorer.Dock = DockStyle.Fill
             ToolboxExplorer.BringToFront()

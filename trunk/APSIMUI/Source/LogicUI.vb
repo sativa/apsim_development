@@ -4,7 +4,6 @@ Imports VBUserInterface
 Public Class LogicUI
     Inherits BaseView
     Private CurrentScriptNode As APSIMData = Nothing
-    Private Controller As BaseController
 
 #Region " Windows Form Designer generated code "
 
@@ -132,10 +131,7 @@ Public Class LogicUI
 
 #End Region
 
-    Public Overrides Sub OnLoad(ByVal Controller As VBUserInterface.BaseController)
-        Me.Controller = Controller
-    End Sub
-    Overrides Sub OnRefresh(ByVal NodePath As String)
+    Overrides Sub OnRefresh()
         TabControl.TabPages.Clear()
         CurrentScriptNode = Nothing
 

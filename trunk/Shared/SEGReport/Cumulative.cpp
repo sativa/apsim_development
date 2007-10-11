@@ -4,6 +4,7 @@
 #pragma hdrstop
 
 #include "Cumulative.h"
+#include "DataContainer.h"
 #include <vector>
 #include <string>
 #include <general\string_functions.h>
@@ -12,28 +13,30 @@
 using namespace std;
 
 //---------------------------------------------------------------------------
-// Create the necessary fields in the result dataset.
+// this function adds a cumulative column for each source column
 //---------------------------------------------------------------------------
-void Cumulative::createFields(TDataSet* source, TDataSet* result)
+void processCumulative(DataContainer& parent,
+                       const XMLNode& properties,
+                       TDataSet& result)
    {
+   TDataSet* source = parent.data(properties.childValue("source"));
+
+   result.Active = false;
    for (int i = 0; i != source->FieldDefs->Count; i++)
       {
       TFieldDef* fieldDef = source->FieldDefs->Items[i];
       if (fieldDef->DataType == ftFloat)
          {
          AnsiString newField = "CUMULATIVE_" + fieldDef->Name;
-         addDBField(result, newField.c_str(), "1.0");
+         addDBField(&result, newField.c_str(), "1.0");
          }
       else
-         result->FieldDefs->Add(fieldDef->Name, fieldDef->DataType,
-                                fieldDef->Size, false);
+         result.FieldDefs->Add(fieldDef->Name, fieldDef->DataType,
+                               fieldDef->Size, false);
       }
-   }
-//---------------------------------------------------------------------------
-// Go do our processing, putting all results into 'data'
-//---------------------------------------------------------------------------
-void Cumulative::process(TDataSet* source, TDataSet* result)
-   {
+
+   result.Active = false;
+
    // setup some space to store cumulative values for each column.
    int numColumns = source->FieldDefs->Count;
    double* sums = new double[numColumns];
@@ -44,7 +47,7 @@ void Cumulative::process(TDataSet* source, TDataSet* result)
    source->First();
    while (!source->Eof)
       {
-      result->Append();
+      result.Append();
       for (int i = 0; i != source->FieldDefs->Count; i++)
          {
          TFieldDef* fieldDef = source->FieldDefs->Items[i];
@@ -52,12 +55,12 @@ void Cumulative::process(TDataSet* source, TDataSet* result)
             {
             sums[i] += source->Fields->Fields[i]->AsFloat;
             AnsiString newField = "CUMULATIVE_" + fieldDef->Name;
-            result->FieldValues[newField] = sums[i];
+            result.FieldValues[newField] = sums[i];
             }
          else
-            result->FieldValues[fieldDef->Name] = source->FieldValues[fieldDef->Name];
+            result.FieldValues[fieldDef->Name] = source->FieldValues[fieldDef->Name];
          }
-      result->Post();
+      result.Post();
       source->Next();
       }
 

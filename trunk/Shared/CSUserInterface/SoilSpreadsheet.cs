@@ -190,7 +190,7 @@ namespace CSUserInterface
             NewSoil.NearestTown = GetStringValue(Table, "NearestTown", Row);
             NewSoil.Site = GetStringValue(Table, "Site", Row);
 			NewSoil.Classification = GetStringValue(Table, "Classification", Row);
-            NewSoil.Latitude = GetDoubleValue(Table, "Latitude", Row);
+            NewSoil.Latitude = GetDoubleValue(Table, "Latitude(WGS84)", Row);
             NewSoil.Longitude = GetDoubleValue(Table, "Longitude(WGS84)", Row);
             NewSoil.LocationAccuracy = GetStringValue(Table, "LocationAccuracy", Row);
             NewSoil.DataSource = GetStringValue(Table, "DataSource(WGS84)", Row);

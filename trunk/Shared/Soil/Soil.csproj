@@ -74,34 +74,6 @@
     <ErrorReport>prompt</ErrorReport>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="FarPoint.CalcEngine">
-      <Name>FarPoint.CalcEngine</Name>
-      <HintPath>C:\Program Files\FarPoint Technologies\Spread.WinForms.v2\v2.0.1.0\bin\FarPoint.CalcEngine.dll</HintPath>
-      <AssemblyFolderKey>hklm\dn\farpoint spread for windows forms 2.0.1.0</AssemblyFolderKey>
-    </Reference>
-    <Reference Include="FarPoint.Excel">
-      <Name>FarPoint.Excel</Name>
-      <HintPath>C:\Program Files\FarPoint Technologies\Spread.WinForms.v2\v2.0.1.0\bin\FarPoint.Excel.dll</HintPath>
-      <AssemblyFolderKey>hklm\dn\farpoint spread for windows forms 2.0.1.0</AssemblyFolderKey>
-    </Reference>
-    <Reference Include="FarPoint.PluginCalendar.WinForms">
-      <Name>FarPoint.PluginCalendar.WinForms</Name>
-      <HintPath>C:\Program Files\FarPoint Technologies\Spread.WinForms.v2\v2.0.1.0\bin\FarPoint.PluginCalendar.WinForms.dll</HintPath>
-      <AssemblyFolderKey>hklm\dn\farpoint spread for windows forms 2.0.1.0</AssemblyFolderKey>
-    </Reference>
-    <Reference Include="FarPoint.Win">
-      <Name>FarPoint.Win</Name>
-      <HintPath>C:\Program Files\FarPoint Technologies\Spread.WinForms.v2\v2.0.1.0\bin\FarPoint.Win.dll</HintPath>
-      <AssemblyFolderKey>hklm\dn\farpoint spread for windows forms 2.0.1.0</AssemblyFolderKey>
-    </Reference>
-    <Reference Include="FarPoint.Win.Spread">
-      <Name>FarPoint.Win.Spread</Name>
-      <HintPath>C:\Program Files\FarPoint Technologies\Spread.WinForms.v2\v2.0.1.0\bin\FarPoint.Win.Spread.dll</HintPath>
-      <AssemblyFolderKey>hklm\dn\farpoint spread for windows forms 2.0.1.0</AssemblyFolderKey>
-    </Reference>
-    <Reference Include="Microsoft.VisualBasic">
-      <Name>Microsoft.VisualBasic</Name>
-    </Reference>
     <Reference Include="System">
       <Name>System</Name>
     </Reference>
@@ -121,17 +93,6 @@
     </Reference>
     <Reference Include="System.Xml">
       <Name>System.XML</Name>
-    </Reference>
-    <Reference Include="TeeChart, Version=2.0.2306.26232, Culture=neutral, PublicKeyToken=9c8126276c77bdb7, processorArchitecture=MSIL" />
-    <Reference Include="TMGDevelopment.PrintForm">
-      <Name>TMGDevelopment.PrintForm</Name>
-      <HintPath>c:\Program Files\TMG Development Ltd\PrintForm Printing Component\bin\TMGDevelopment.PrintForm.dll</HintPath>
-      <AssemblyFolderKey>hklm\dn\tmgdevelopment.printform</AssemblyFolderKey>
-    </Reference>
-    <Reference Include="TMGDevelopment.Shared">
-      <Name>TMGDevelopment.Shared</Name>
-      <HintPath>c:\Program Files\Common Files\TMG Development Ltd\Shared\1.0.0.3\TMGDevelopment.Shared.dll</HintPath>
-      <AssemblyFolderKey>hklm\dn\tmgdevelopment.shared v1.0.0.3</AssemblyFolderKey>
     </Reference>
   </ItemGroup>
   <ItemGroup>

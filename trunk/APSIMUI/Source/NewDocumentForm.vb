@@ -125,8 +125,8 @@ Public Class NewDocumentForm
         DataTree.MaximumNumLevels = 1
         DataTree.HelpText = "Select a new simulation"
         DataTree.Dock = DockStyle.None
-        DataTree.OnLoad(Controller)
-        DataTree.OnRefresh("\")
+        DataTree.OnLoad(Controller, "\")
+        DataTree.OnRefresh()
         DataTree.ExpandAll()
     End Sub
 

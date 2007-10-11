@@ -5,6 +5,7 @@
 
 #include "PredObs.h"
 #include "ApsimFileReader.h"
+#include "DataContainer.h"
 #include <general\db_functions.h>
 #include <general\math_functions.h>
 #include <general\string_functions.h>
@@ -15,24 +16,37 @@
 
 using namespace std;
 
-
 //---------------------------------------------------------------------------
-// Create the necessary fields in the result dataset.
+// Return true if specified field name is a key field.
 //---------------------------------------------------------------------------
-void PredObs::createFields(TDataSet* pred, TDataSet* result)
+bool isKeyField(const std::vector<std::string>& keyFieldNames, const string& fieldName)
    {
-   string obsFileName = getProperty("obsfilename");
-   vector<string> keyFieldNames = getProperties("keyfieldname");
+   return (find_if(keyFieldNames.begin(), keyFieldNames.end(),
+                   CaseInsensitiveStringComparison(fieldName)) != keyFieldNames.end());
+   }
 
-   if (obsFileName != "" && keyFieldNames.size() > 0)
+//---------------------------------------------------------------------------
+// this function does predicted / observed data matching.
+//---------------------------------------------------------------------------
+void processPredObs(DataContainer& parent,
+                    const XMLNode& properties,
+                    TDataSet& result)
+   {
+   vector<string> keyFieldNames = properties.childValues("FieldName");
+   vector<string> sourceNames = properties.childValues("source");
+
+   result.Active = false;
+   result.FieldDefs->Clear();
+   if (sourceNames.size() == 2 && keyFieldNames.size() > 0)
       {
-      TDataSet* obs = getObservedData(obsFileName);
+      TDataSet* obs = parent.data(sourceNames[0]);
+      TDataSet* pred = parent.data(sourceNames[1]);
 
       for (int f = 0; f != obs->FieldDefs->Count; f++)
          {
          // if the obs field is in the keyfields then add it to our fielddefs.
          if (isKeyField(keyFieldNames, obs->FieldDefs->Items[f]->Name.c_str()))
-            result->FieldDefs->Add(obs->FieldDefs->Items[f]->Name,
+            result.FieldDefs->Add(obs->FieldDefs->Items[f]->Name,
                                    obs->FieldDefs->Items[f]->DataType,
                                    obs->FieldDefs->Items[f]->Size,
                                    false);
@@ -42,33 +56,21 @@ void PredObs::createFields(TDataSet* pred, TDataSet* result)
             // pred and a obs version of the field to our fielddefs.
             if (pred->FieldDefs->IndexOf(obs->FieldDefs->Items[f]->Name) >= 0)
                {
-               result->FieldDefs->Add("Pred" + obs->FieldDefs->Items[f]->Name,
+               result.FieldDefs->Add("Pred" + obs->FieldDefs->Items[f]->Name,
                                       obs->FieldDefs->Items[f]->DataType,
                                       obs->FieldDefs->Items[f]->Size,
                                       false);
-               result->FieldDefs->Add("Obs" + obs->FieldDefs->Items[f]->Name,
+               result.FieldDefs->Add("Obs" + obs->FieldDefs->Items[f]->Name,
                                       obs->FieldDefs->Items[f]->DataType,
                                       obs->FieldDefs->Items[f]->Size,
                                       false);
                }
             }
          }
-      }
-   }
 
-//---------------------------------------------------------------------------
-// Go do our processing, putting all results into 'data'
-//---------------------------------------------------------------------------
-void PredObs::process(TDataSet* pred, TDataSet* result)
-   {
-   string obsFileName = getProperty("obsfilename");
-   vector<string> keyFieldNames = getProperties("keyfieldname");
-
-   if (obsFileName != "" && keyFieldNames.size() > 0)
-      {
-      TDataSet* obs = getObservedData(obsFileName);
 
       // Loop through all series blocks and all records within that series.
+      result.Active = true;
       obs->First();
       while (!obs->Eof)
          {
@@ -101,25 +103,25 @@ void PredObs::process(TDataSet* pred, TDataSet* result)
                      {
                      if (!haveCreatedRecord)
                         {
-                        result->Append();
+                        result.Append();
 
                         // copy all key fields to us.
                         for (int f = 0; f != obs->FieldDefs->Count; f++)
                            {
                            string fieldName = obs->FieldDefs->Items[f]->Name.c_str();
                            if (isKeyField(keyFieldNames, fieldName) && !obs->FieldValues[fieldName.c_str()].IsNull())
-                              result->FieldValues[fieldName.c_str()] = obs->FieldValues[fieldName.c_str()];
+                              result.FieldValues[fieldName.c_str()] = obs->FieldValues[fieldName.c_str()];
                            }
                         haveCreatedRecord = true;
                         }
 
-                     result->FieldValues["Obs" + FieldName] = obs->FieldValues[FieldName];
-                     result->FieldValues["Pred" + FieldName] = pred->FieldValues[FieldName];
+                     result.FieldValues["Obs" + FieldName] = obs->FieldValues[FieldName];
+                     result.FieldValues["Pred" + FieldName] = pred->FieldValues[FieldName];
 
                      }
                   }
                }
-            result->Post();
+            result.Post();
             }
 
          // Clean up the predicted dataset by getting rid of the filter and us
@@ -127,36 +129,7 @@ void PredObs::process(TDataSet* pred, TDataSet* result)
          pred->Filtered = false;
          obs->Next();
          }
-
-      // cleanup
-      delete obs;
       }
    }
 
-//---------------------------------------------------------------------------
-// Return true if specified field name is a key field.
-//---------------------------------------------------------------------------
-bool PredObs::isKeyField(const std::vector<std::string>& keyFieldNames, const string& fieldName)
-   {
-   return (find_if(keyFieldNames.begin(), keyFieldNames.end(),
-                   CaseInsensitiveStringComparison(fieldName)) != keyFieldNames.end());
-   }
 
-//---------------------------------------------------------------------------
-// Return an observed dataset to caller. Caller should delete it when done.
-//---------------------------------------------------------------------------
-TDataSet* PredObs::getObservedData(const std::string& obsFileName)
-   {
-   if (!FileExists(obsFileName.c_str()))
-      throw runtime_error("Cannot find observed file: " + obsFileName);
-
-   ApsimFileReader obsReader("ApsimFileReader", owner);
-
-   string fileReaderProperties = "<ApsimFileReader><FileName>" + obsFileName + "</FileName><ParseTitle>yes</ParseTitle></ApsimFileReader>";
-   XMLDocument doc(fileReaderProperties, XMLDocument::xmlContents);
-
-   TDataSet* obs = new TkbmMemTable(NULL);
-   obsReader.setProperties(doc.documentElement());
-   obsReader.refresh(NULL, obs);
-   return obs;
-   }

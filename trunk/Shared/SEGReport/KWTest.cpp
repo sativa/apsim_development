@@ -6,6 +6,7 @@
 #include <vcl.h>
 
 #include "KWTest.h"
+#include "DataContainer.h"
 #include <general\db_functions.h>
 #include <general\math_functions.h>
 #include <general\string_functions.h>
@@ -15,68 +16,12 @@ using namespace std;
 
 static const double KRUSKAL_WALLIS_CRITICAL_VALUE = 0.1;
 
-//---------------------------------------------------------------------------
-// Create the necessary fields in the result dataset.
-//---------------------------------------------------------------------------
-void KWTest::createFields(TDataSet* source, TDataSet* result)
-   {
-   string source2Name = getProperty("source2name");
-   string fieldName = getProperty("fieldName");
-
-   if (fieldName != "")
-      {
-      addDBField(result, "PValue", "1.0");
-      addDBField(result, "Description", "a");
-      addDBField(result, "AreNot", "a");
-      }
-   }
-//---------------------------------------------------------------------------
-// Go do our processing, putting all results into 'data'
-//---------------------------------------------------------------------------
-void KWTest::process(TDataSet* source, TDataSet* result)
-   {
-   string source2Name = getProperty("source2name");
-   string fieldName = getProperty("fieldName");
-
-   if (fieldName != "")
-      {
-      TDataSet* source2 = getComponent<TDataSet> (owner, source2Name.c_str());
-      if (source2 == NULL)
-         throw runtime_error("Cannot find dataset: " + source2Name);
-
-      vector<RealSet> distributions;
-      AddDistributionFromTable(source, distributions, fieldName);
-      AddDistributionFromTable(source2, distributions, fieldName);
-
-      if (distributions.size() == 2)
-         {
-         KruskalWallisResult kwResult = KruskalWallis(distributions);
-         double pValue = kwResult.p;
-
-         result->Append();
-         result->FieldValues["PValue"] = pValue;
-         if (pValue < KRUSKAL_WALLIS_CRITICAL_VALUE)
-            {
-            result->FieldValues["Description"] = "There is a significant difference between the distributions.";
-            result->FieldValues["AreNot"] = "ARE";
-            }
-
-         else
-            {
-            result->FieldValues["Description"] = "There is NO significant difference between the distributions.";
-            result->FieldValues["AreNot"] = "ARE NOT";
-            }
-
-         result->Post();
-         }
-      }
-   }
 // ------------------------------------------------------------------
 // Loop through all series in specified table and store the values
 // as a new distribution in the specified vector of distributions.
 // ------------------------------------------------------------------
-void KWTest::AddDistributionFromTable(TDataSet* table, vector<RealSet>& distributions,
-                                      const string& fieldName)
+void AddDistributionFromTable(TDataSet* table, vector<RealSet>& distributions,
+                              const string& fieldName)
    {
    table->First();
    while (!table->Eof)
@@ -91,6 +36,58 @@ void KWTest::AddDistributionFromTable(TDataSet* table, vector<RealSet>& distribu
          distributions.push_back(distribution);
          }
       table->Next();
+      }
+   }
+
+
+//---------------------------------------------------------------------------
+// Create the necessary fields in the result dataset.
+//---------------------------------------------------------------------------
+void processKWTest(DataContainer& parent,
+                   const XMLNode& properties,
+                   TDataSet& result)
+   {
+   vector<string> sourceNames = properties.childValues("source");
+   string fieldName = properties.childValue("fieldName");
+
+   result.Active = false;
+   result.FieldDefs->Clear();
+   if (sourceNames.size() == 2 && fieldName != "")
+      {
+      TDataSet* source1 = parent.data(sourceNames[0]);
+      TDataSet* source2 = parent.data(sourceNames[1]);
+      if (source1 != NULL && source2 != NULL)
+         {
+         addDBField(&result, "PValue", "1.0");
+         addDBField(&result, "Description", "a");
+         addDBField(&result, "AreNot", "a");
+
+         vector<RealSet> distributions;
+         AddDistributionFromTable(source1, distributions, fieldName);
+         AddDistributionFromTable(source2, distributions, fieldName);
+
+         if (distributions.size() == 2)
+            {
+            KruskalWallisResult kwResult = KruskalWallis(distributions);
+            double pValue = kwResult.p;
+
+            result.Append();
+            result.FieldValues["PValue"] = pValue;
+            if (pValue < KRUSKAL_WALLIS_CRITICAL_VALUE)
+               {
+               result.FieldValues["Description"] = "There is a significant difference between the distributions.";
+               result.FieldValues["AreNot"] = "ARE";
+               }
+
+            else
+               {
+               result.FieldValues["Description"] = "There is NO significant difference between the distributions.";
+               result.FieldValues["AreNot"] = "ARE NOT";
+               }
+
+            result.Post();
+            }
+         }
       }
    }
 

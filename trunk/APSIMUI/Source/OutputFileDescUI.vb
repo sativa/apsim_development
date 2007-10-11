@@ -9,7 +9,6 @@ Imports VBUserInterface
 
 Public Class OutputFileDescUI
     Inherits BaseView
-    Private Controller As BaseController
     Private UserChange As Boolean = True
     Private ComponentNames As New StringCollection
     Private ComponentTypes As New StringCollection
@@ -262,10 +261,7 @@ Public Class OutputFileDescUI
 
 #End Region
 
-    Public Overrides Sub OnLoad(ByVal Controller As VBUserInterface.BaseController)
-        Me.Controller = Controller
-    End Sub
-    Overrides Sub OnRefresh(ByVal NodePath As String)
+    Overrides Sub OnRefresh()
         ' ----------------------------------
         ' Refresh the variable grid
         ' ----------------------------------

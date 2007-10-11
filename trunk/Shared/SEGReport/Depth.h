@@ -2,25 +2,13 @@
 #ifndef DepthH
 #define DepthH
 
-#include "DataProcessor.h"
-
+#include <db.hpp>
+class XMLNode;
+class DataContainer;
 //---------------------------------------------------------------------------
-// derived from TSEGTable, this creates a dataset that represents a
-// probability distribution of the source dataset.
+// this function does layered depth plot data manipulation.
 //---------------------------------------------------------------------------
-class Depth : public DataProcessor
-   {
-   private:
-      std::vector<std::string> variableNames;
-      int numLayers;
-
-      virtual void createFields(TDataSet* source, TDataSet* result);
-      virtual void process(TDataSet* source, TDataSet* result);
-
-      void discoverVariables(TDataSet* source);
-
-   public:
-      Depth(const std::string& type, TComponent* owner)
-         : DataProcessor(type, owner) { };
-   };
+void processDepth(DataContainer& parent,
+                  const XMLNode& properties,
+                  TDataSet& result);
 #endif

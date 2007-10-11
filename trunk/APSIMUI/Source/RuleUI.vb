@@ -8,7 +8,6 @@ Imports VBUserInterface
 
 Public Class RuleUI
     Inherits BaseView
-    Private Controller As BaseController
     Private InRefresh As Boolean
     Friend WithEvents GenericUI As GenericUI
     Private Cultivars As APSIMData
@@ -96,19 +95,19 @@ Public Class RuleUI
 
 #End Region
 
-    Public Overrides Sub OnLoad(ByVal Controller As VBUserInterface.BaseController)
-        Me.Controller = Controller
-        GenericUI.OnLoad(Controller)
+    Public Overrides Sub OnLoad(ByVal Controller As VBUserInterface.BaseController, ByVal NodePath As String)
+        MyBase.OnLoad(Controller, NodePath)
+        GenericUI.OnLoad(Controller, NodePath)
     End Sub
     ' -----------------------------------
     ' Refresh the UI
     ' -----------------------------------
-    Overrides Sub OnRefresh(ByVal NodePath As String)
+    Overrides Sub OnRefresh()
 
         InRefresh = True
 
         ' Fill the property grid.
-        GenericUI.OnRefresh(NodePath)
+        GenericUI.OnRefresh()
 
         ' Create a tab for each condition.
         While TabControl1.TabPages.Count > 1

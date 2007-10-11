@@ -172,6 +172,7 @@ class __declspec(dllexport) Report
       void __fastcall buttonClick(TObject* button);
 
       void convertVersion3To4(std::ifstream& in, const std::string& fileName);
+      void convertVersion4To5(std::ifstream& in, const std::string& fileName);
       void addObjectToXML(std::istream& in, const std::string& objectName,
                             const std::string& objectType, XMLDocument& doc);
       void nestAllObjectsUsingSource(XMLDocument& doc);
