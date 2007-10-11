@@ -412,7 +412,7 @@
          <SmallIcon>%apsuite\ApsimUI\Images\leaf16.png</SmallIcon>
          <DisabledWhen>NothingLoaded</DisabledWhen>
          <DisabledWhen>MultipleNodesSelected</DisabledWhen>
-         <AppliesTo>soilwater</AppliesTo>
+         <AppliesTo>soil</AppliesTo>
          <OnInvoke>
             <call>
                <class>CSUserInterface.SoilActions</class>

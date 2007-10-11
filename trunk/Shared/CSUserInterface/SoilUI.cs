@@ -31,9 +31,9 @@ namespace CSUserInterface
         private TMGDevelopment.Windows.Forms.PrintForm PrintForm;
 		private System.Windows.Forms.OpenFileDialog OpenAttachmentDialog;
 		private bool UserChange = true;
-		private FarPoint.Win.Spread.SheetView PhotoAttachSheet;
-        private ToolStrip SoilToolStrip;
+        private FarPoint.Win.Spread.SheetView PhotoAttachSheet;
         private WaterChartControl WaterChartControl;
+        private ContextMenuStrip PopupMenu;
 		private string AttachmentFileName;
         
 		
@@ -80,6 +80,7 @@ namespace CSUserInterface
         FarPoint.Win.Spread.CellType.ButtonCellType buttonCellType3 = new FarPoint.Win.Spread.CellType.ButtonCellType();
         FarPoint.Win.Spread.CellType.ImageCellType imageCellType1 = new FarPoint.Win.Spread.CellType.ImageCellType();
         this.Grid = new FarPoint.Win.Spread.FpSpread();
+        this.PopupMenu = new System.Windows.Forms.ContextMenuStrip(this.components);
         this.General = new FarPoint.Win.Spread.SheetView();
         this.Water = new FarPoint.Win.Spread.SheetView();
         this.SoilProfile = new FarPoint.Win.Spread.SheetView();
@@ -88,7 +89,6 @@ namespace CSUserInterface
         this.PhotoAttachSheet = new FarPoint.Win.Spread.SheetView();
         this.PrintForm = new TMGDevelopment.Windows.Forms.PrintForm(this.components);
         this.OpenAttachmentDialog = new System.Windows.Forms.OpenFileDialog();
-        this.SoilToolStrip = new System.Windows.Forms.ToolStrip();
         this.WaterChartControl = new CSUserInterface.WaterChartControl();
         ((System.ComponentModel.ISupportInitialize)(this.Grid)).BeginInit();
         ((System.ComponentModel.ISupportInitialize)(this.General)).BeginInit();
@@ -101,12 +101,13 @@ namespace CSUserInterface
         // 
         // Grid
         // 
-        this.Grid.AccessibleDescription = "Grid, Photo/Attach, Row 1, Column 0, ";
+        this.Grid.AccessibleDescription = "Grid, Water, Row 0, Column 0, ";
         this.Grid.AllowDragDrop = true;
+        this.Grid.ContextMenuStrip = this.PopupMenu;
         this.Grid.Dock = System.Windows.Forms.DockStyle.Top;
         this.Grid.EditModeReplace = true;
         this.Grid.HorizontalScrollBarPolicy = FarPoint.Win.Spread.ScrollBarPolicy.AsNeeded;
-        this.Grid.Location = new System.Drawing.Point(0, 56);
+        this.Grid.Location = new System.Drawing.Point(0, 18);
         this.Grid.Name = "Grid";
         this.Grid.SelectionBlockOptions = ((FarPoint.Win.Spread.SelectionBlockOptions)(((FarPoint.Win.Spread.SelectionBlockOptions.Cells | FarPoint.Win.Spread.SelectionBlockOptions.Rows)
                     | FarPoint.Win.Spread.SelectionBlockOptions.Sheet)));
@@ -130,9 +131,16 @@ namespace CSUserInterface
         this.Grid.ButtonClicked += new FarPoint.Win.Spread.EditorNotifyEventHandler(this.OnAttachGridButtonClicked);
         this.Grid.TextTipFetch += new FarPoint.Win.Spread.TextTipFetchEventHandler(this.OnGetTextTip);
         this.Grid.SetViewportLeftColumn(0, 1);
+        this.Grid.SetActiveViewport(0, -1);
         this.Grid.SetViewportLeftColumn(1, 0, 7);
         this.Grid.SetActiveViewport(1, 0, -1);
         this.Grid.ActiveSheetIndex = 1;
+        // 
+        // PopupMenu
+        // 
+        this.PopupMenu.Name = "PopupMenu";
+        this.PopupMenu.Size = new System.Drawing.Size(61, 4);
+        this.PopupMenu.Opening += new System.ComponentModel.CancelEventHandler(this.OnPopupMenuOpening);
         // 
         // General
         // 
@@ -140,9 +148,7 @@ namespace CSUserInterface
         // Formulas and custom names must be loaded with R1C1 reference style
         this.General.ReferenceStyle = FarPoint.Win.Spread.Model.ReferenceStyle.R1C1;
         this.General.ColumnCount = 2;
-        this.General.RowCount = 12;
-        this.General.ActiveColumnIndex = 1;
-        this.General.ActiveRowIndex = 8;
+        this.General.RowCount = 13;
         this.General.AutoUpdateNotes = true;
         this.General.Cells.Get(0, 0).Value = "State: ";
         this.General.Cells.Get(1, 0).Value = "Region: ";
@@ -150,21 +156,22 @@ namespace CSUserInterface
         this.General.Cells.Get(3, 0).Value = "Site: ";
         this.General.Cells.Get(4, 0).Value = "Name: ";
         this.General.Cells.Get(4, 1).Locked = true;
-        this.General.Cells.Get(5, 0).Value = "Classification: ";
-        this.General.Cells.Get(6, 0).Value = "Latitude (WGS84): ";
-        this.General.Cells.Get(7, 0).Value = "Longitude (WGS84): ";
-        this.General.Cells.Get(8, 0).Value = "Location accuracy: ";
-        this.General.Cells.Get(9, 0).Value = "Natural Vegetation: ";
-        this.General.Cells.Get(10, 0).Value = "Data source: ";
+        this.General.Cells.Get(5, 0).Value = "APSoil Number: ";
+        this.General.Cells.Get(6, 0).Value = "Classification: ";
+        this.General.Cells.Get(7, 0).Value = "Latitude (WGS84): ";
+        this.General.Cells.Get(8, 0).Value = "Longitude (WGS84): ";
+        this.General.Cells.Get(9, 0).Value = "Location accuracy: ";
+        this.General.Cells.Get(10, 0).Value = "Natural Vegetation: ";
+        this.General.Cells.Get(11, 0).Value = "Data source: ";
         textCellType1.MaxLength = 500;
         textCellType1.Multiline = true;
         textCellType1.WordWrap = true;
-        this.General.Cells.Get(10, 1).CellType = textCellType1;
-        this.General.Cells.Get(11, 0).Value = "Comments: ";
+        this.General.Cells.Get(11, 1).CellType = textCellType1;
+        this.General.Cells.Get(12, 0).Value = "Comments: ";
         textCellType2.MaxLength = 500;
         textCellType2.Multiline = true;
         textCellType2.WordWrap = true;
-        this.General.Cells.Get(11, 1).CellType = textCellType2;
+        this.General.Cells.Get(12, 1).CellType = textCellType2;
         this.General.ColumnHeader.Visible = false;
         this.General.Columns.Get(0).Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
         this.General.Columns.Get(0).HorizontalAlignment = FarPoint.Win.Spread.CellHorizontalAlignment.Right;
@@ -176,8 +183,8 @@ namespace CSUserInterface
         this.General.RestrictColumns = true;
         this.General.RowHeader.Columns.Default.Resizable = false;
         this.General.RowHeader.Visible = false;
-        this.General.Rows.Get(10).Height = 41F;
-        this.General.Rows.Get(11).Height = 105F;
+        this.General.Rows.Get(11).Height = 41F;
+        this.General.Rows.Get(12).Height = 105F;
         this.General.SheetName = "General";
         this.General.CellChanged += new FarPoint.Win.Spread.SheetViewEventHandler(this.OnGeneralCellChanged);
         this.General.ReferenceStyle = FarPoint.Win.Spread.Model.ReferenceStyle.A1;
@@ -468,33 +475,22 @@ namespace CSUserInterface
         this.OpenAttachmentDialog.Filter = "All files|*.*";
         this.OpenAttachmentDialog.RestoreDirectory = true;
         // 
-        // SoilToolStrip
-        // 
-        this.SoilToolStrip.ImageScalingSize = new System.Drawing.Size(24, 24);
-        this.SoilToolStrip.Location = new System.Drawing.Point(0, 31);
-        this.SoilToolStrip.Name = "SoilToolStrip";
-        this.SoilToolStrip.Size = new System.Drawing.Size(906, 25);
-        this.SoilToolStrip.TabIndex = 15;
-        this.SoilToolStrip.Text = "toolStrip1";
-        // 
         // WaterChartControl
         // 
         this.WaterChartControl.Dock = System.Windows.Forms.DockStyle.Fill;
         this.WaterChartControl.LinkedSoil = null;
-        this.WaterChartControl.Location = new System.Drawing.Point(0, 348);
+        this.WaterChartControl.Location = new System.Drawing.Point(0, 310);
         this.WaterChartControl.Name = "WaterChartControl";
         this.WaterChartControl.ShowSoilWaterLine = false;
-        this.WaterChartControl.Size = new System.Drawing.Size(906, 414);
+        this.WaterChartControl.Size = new System.Drawing.Size(906, 452);
         this.WaterChartControl.TabIndex = 16;
         // 
         // SoilUI
         // 
         this.Controls.Add(this.WaterChartControl);
         this.Controls.Add(this.Grid);
-        this.Controls.Add(this.SoilToolStrip);
         this.Name = "SoilUI";
         this.Size = new System.Drawing.Size(906, 762);
-        this.Controls.SetChildIndex(this.SoilToolStrip, 0);
         this.Controls.SetChildIndex(this.Grid, 0);
         this.Controls.SetChildIndex(this.WaterChartControl, 0);
         ((System.ComponentModel.ISupportInitialize)(this.Grid)).EndInit();
@@ -505,7 +501,6 @@ namespace CSUserInterface
         ((System.ComponentModel.ISupportInitialize)(this.Phosphorus)).EndInit();
         ((System.ComponentModel.ISupportInitialize)(this.PhotoAttachSheet)).EndInit();
         this.ResumeLayout(false);
-        this.PerformLayout();
 
 		}
 		#endregion
@@ -518,17 +513,12 @@ namespace CSUserInterface
                         FarPoint.Win.Spread.SpreadActions.ClipboardCut);
             InputMap.Put(new FarPoint.Win.Spread.Keystroke(Keys.Enter, Keys.None),
                         FarPoint.Win.Spread.SpreadActions.MoveToNextRow);
-            Controller.ProvideToolStrip(SoilToolStrip, "SoilToolBar");
-            }
-        public override void OnClose()
-            {
-            Controller.RemoveToolStrip(SoilToolStrip);
             }
 		override public void OnRefresh()
 			{
 			MySoil = new Soil(Controller.Data);
 
-			HelpText = "The 5 sheets below contain all the soil properties required for APSIM.";
+			HelpText = "";
 			WaterChartControl.LinkedSoil = MySoil;
 			PopulateGeneralGrid();
 			PopulateAttachGrid();
@@ -559,13 +549,14 @@ namespace CSUserInterface
             General.Cells[2, 1].Value = MySoil.NearestTown;
             General.Cells[3, 1].Value = MySoil.Site;
 			General.Cells[4, 1].Value = MySoil.Name;
-            General.Cells[5, 1].Value = MySoil.Classification;
-            General.Cells[6, 1].Value = MySoil.Latitude;
-            General.Cells[7, 1].Value = MySoil.Longitude;
-            General.Cells[8, 1].Value = MySoil.LocationAccuracy;
-            General.Cells[9, 1].Value = MySoil.NaturalVegetation;
-			General.Cells[10, 1].Value = MySoil.DataSource;
-			General.Cells[11, 1].Value = MySoil.Comment;
+            General.Cells[5, 1].Value = MySoil.ApsoilNumber;
+            General.Cells[6, 1].Value = MySoil.Classification;
+            General.Cells[7, 1].Value = MySoil.Latitude;
+            General.Cells[8, 1].Value = MySoil.Longitude;
+            General.Cells[9, 1].Value = MySoil.LocationAccuracy;
+            General.Cells[10, 1].Value = MySoil.NaturalVegetation;
+			General.Cells[11, 1].Value = MySoil.DataSource;
+			General.Cells[12, 1].Value = MySoil.Comment;
 			UserChange = true;
 			}
 		private void SaveGeneralGrid()
@@ -574,13 +565,14 @@ namespace CSUserInterface
             MySoil.Region = GridUtils.GetCellAsString(General, 1, 1);
             MySoil.NearestTown = GridUtils.GetCellAsString(General, 1, 2);
             MySoil.Site = GridUtils.GetCellAsString(General, 1, 3);
-            MySoil.Classification = GridUtils.GetCellAsString(General, 1, 5);
-            MySoil.Latitude = Convert.ToDouble(GridUtils.GetCellAsString(General, 1, 6));
-            MySoil.Longitude = Convert.ToDouble(GridUtils.GetCellAsString(General, 1, 7));
-            MySoil.LocationAccuracy = GridUtils.GetCellAsString(General, 1, 8);
-            MySoil.NaturalVegetation = GridUtils.GetCellAsString(General, 1, 9);
-			MySoil.DataSource = GridUtils.GetCellAsString(General, 1, 10);
-			MySoil.Comment = GridUtils.GetCellAsString(General, 1, 11);
+            MySoil.ApsoilNumber = GridUtils.GetCellAsString(General, 1, 5);
+            MySoil.Classification = GridUtils.GetCellAsString(General, 1, 6);
+            MySoil.Latitude = Convert.ToDouble(GridUtils.GetCellAsString(General, 1, 7));
+            MySoil.Longitude = Convert.ToDouble(GridUtils.GetCellAsString(General, 1, 8));
+            MySoil.LocationAccuracy = GridUtils.GetCellAsString(General, 1, 9);
+            MySoil.NaturalVegetation = GridUtils.GetCellAsString(General, 1, 10);
+			MySoil.DataSource = GridUtils.GetCellAsString(General, 1, 11);
+			MySoil.Comment = GridUtils.GetCellAsString(General, 1, 12);
 			}
         private void OnGeneralCellChanged(object sender, FarPoint.Win.Spread.SheetViewEventArgs e)
             {
@@ -1328,6 +1320,31 @@ namespace CSUserInterface
                     e.ShowTip = true;
                     }
                 }
+            }
+
+        private void OnPopupMenuOpening(object sender, CancelEventArgs e)
+            {
+            PopupMenu.Items.Clear();
+            if (Grid.ActiveSheetIndex == 1)
+                {
+                // Water sheet is currently open
+                ToolStripMenuItem ManageCropsMenuItem = (ToolStripMenuItem)PopupMenu.Items.Add("Manage crops");
+                ManageCropsMenuItem.Click += OnManageCropsClick;
+                }
+            else if (Grid.ActiveSheetIndex == 2)
+                {
+                // Profile sheet is currently open
+                ToolStripMenuItem ChangePHUnitsMenuItem = (ToolStripMenuItem)PopupMenu.Items.Add("Change PH Units");
+                ChangePHUnitsMenuItem.Click += OnChangePHUnitsClick;
+                }
+            }
+        private void OnManageCropsClick(object sender, EventArgs e)
+            {
+            SoilActions.SoilCropManagement(Controller);
+            }
+        private void OnChangePHUnitsClick(object sender, EventArgs e)
+            {
+            SoilActions.ChangePHUnits(Controller);
             }
 
 	

@@ -209,7 +209,6 @@ namespace CSUserInterface
 			{
 			UpButton.Enabled = (ListBox.SelectedIndices.Count > 0 && ListBox.SelectedIndices[0] != 0);
 			DownButton.Enabled = (ListBox.SelectedIndices.Count > 0 && ListBox.SelectedIndices[ListBox.SelectedIndices.Count-1] != ListBox.Items.Count-1);
-			OkButton.Enabled = (ListBox.SelectedIndices.Count > 0);
 			}
 
 		private void ListBox_SelectedIndexChanged(object sender, System.EventArgs e)

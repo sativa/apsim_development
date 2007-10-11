@@ -52,7 +52,12 @@ namespace Soils
 			get {return Utility.GetStringValue(Data, "", "SoilType");}
 			set {Utility.SetValue(Data, "", "SoilType", value);}
 			}
-		public string DataSource
+        public string ApsoilNumber
+            {
+            get { return Utility.GetStringValue(Data, "", "ApsoilNumber"); }
+            set { Utility.SetValue(Data, "", "ApsoilNumber", value); }
+            }
+        public string DataSource
 			{
 			get {return Utility.GetStringValue(Data, "", "datasource");}
 			set {Utility.SetValue(Data, "", "DataSource", value);}
