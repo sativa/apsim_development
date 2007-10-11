@@ -78,6 +78,7 @@ namespace CSUserInterface
             DataTableUtility.AddValue(Data, "Region", MySoil.Region, Row, NumLayers);
             DataTableUtility.AddValue(Data, "NearestTown", MySoil.NearestTown, Row, NumLayers);
             DataTableUtility.AddValue(Data, "Site", MySoil.Site, Row, NumLayers);
+            DataTableUtility.AddValue(Data, "APSoilNumber", MySoil.ApsoilNumber, Row, NumLayers);
             DataTableUtility.AddValue(Data, "Classification", MySoil.Classification, Row, NumLayers);
             DataTableUtility.AddValue(Data, "Latitude(WGS84)", MySoil.Latitude, Row, NumLayers);
             DataTableUtility.AddValue(Data, "Longitude(WGS84)", MySoil.Longitude, Row, NumLayers);
@@ -189,11 +190,12 @@ namespace CSUserInterface
             NewSoil.Region = GetStringValue(Table, "Region", Row);
             NewSoil.NearestTown = GetStringValue(Table, "NearestTown", Row);
             NewSoil.Site = GetStringValue(Table, "Site", Row);
-			NewSoil.Classification = GetStringValue(Table, "Classification", Row);
+            NewSoil.ApsoilNumber = GetStringValue(Table, "APSoilNumber", Row);
+            NewSoil.Classification = GetStringValue(Table, "Classification", Row);
             NewSoil.Latitude = GetDoubleValue(Table, "Latitude(WGS84)", Row);
             NewSoil.Longitude = GetDoubleValue(Table, "Longitude(WGS84)", Row);
             NewSoil.LocationAccuracy = GetStringValue(Table, "LocationAccuracy", Row);
-            NewSoil.DataSource = GetStringValue(Table, "DataSource(WGS84)", Row);
+            NewSoil.DataSource = GetStringValue(Table, "DataSource", Row);
 			NewSoil.Comment = GetStringValue(Table, "Comments", Row);
 			NewSoil.NaturalVegetation = GetStringValue(Table, "NaturalVegetation", Row);
 

@@ -479,8 +479,13 @@ Public Class MainUI
 
     Private Sub OnMainFormLoad(ByVal sender As Object, ByVal e As System.EventArgs) Handles MyBase.Load
         ' Get application name.
-        If Args.Count = 1 Then
-            ApplicationName = Args(0)
+        If Args.Count > 0 Then
+            If (Args(0)(0) = "/") Then
+                ApplicationName = Args(0).Substring(1)
+                Args.RemoveAt(0)
+            Else
+                ApplicationName = "ApsimUI"
+            End If
         Else
             ApplicationName = "ApsimUI"
         End If

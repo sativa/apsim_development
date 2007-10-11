@@ -215,7 +215,7 @@ namespace CSUserInterface
             }
         public static void SoilCropManagement(BaseController Controller)
             {
-            Soil MySoil = new Soil(Controller.Data.Parent);
+            Soil MySoil = new Soil(Controller.Data);
 
             ReorderForm Form = new ReorderForm();
             Form.Text = "Soil / Crop Management";
@@ -234,7 +234,7 @@ namespace CSUserInterface
                     if (VBGeneral.Utility.IndexOfCaseInsensitive(Form.GetItems(), CropName) == -1)
                         MySoil.DeleteCrop(CropName);
                     }
-                MySoil.SetCropOrder(Crops);
+                MySoil.SetCropOrder(Form.GetItems());
                 Controller.Explorer.RefreshCurrentView();
                 }
             }
