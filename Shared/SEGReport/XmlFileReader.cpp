@@ -15,53 +15,39 @@
 #include <general\io_functions.h>
 
 using namespace std;
-//---------------------------------------------------------------------------
-// Create the necessary fields in the result dataset.
-//---------------------------------------------------------------------------
-void XmlFileReader::createFields(TDataSet* source, TDataSet* result)
-   {
-   addDBField(result, "name", "xx");
-   addDBField(result, "value", "xx");
-   }
 
 //---------------------------------------------------------------------------
-// Go do our processing, putting all results into 'data'
+// Return a unique name for the specified node unique amongst the children of
+// the specified parent node
 //---------------------------------------------------------------------------
-void XmlFileReader::process(TDataSet* pred, TDataSet* result)
+string makeNameUnique(const XMLNode& parentNode, const XMLNode& node)
    {
-   std::string fileName = getProperty("filename");
-   readXmlFile(fileName, fieldNames, fieldValues);
-   for (unsigned i = 0; i != fieldNames.size(); i++)
+   string name = node.getName();
+   int numMatches = 0;
+   int nodeIndex = 0;
+   for (XMLNode::iterator child = parentNode.begin();
+                          child != parentNode.end();
+                          child++)
       {
-      result->Append();
-      result->FieldValues["name"] = fieldNames[i].c_str();
-      result->FieldValues["value"] = fieldValues[i].c_str();
-      result->Post();
+      if (name == child->getName())
+         numMatches++;
+      if (node == *child)
+         nodeIndex = numMatches;
       }
-   }
-
-//---------------------------------------------------------------------------
-// read in the contents of our XML file into fieldNames and fieldValues
-//---------------------------------------------------------------------------
-void XmlFileReader::readXmlFile(const std::string& fileName,
-                                vector<string>& fieldNames,
-                                vector<string>& fieldValues)
-   {
-   if (!FileExists(fileName))
-      throw runtime_error("Cannot find XML file: " + fileName);
-
-   fieldNames.erase(fieldNames.begin(), fieldNames.end());
-   fieldValues.erase(fieldValues.begin(), fieldValues.end());
-   XMLDocument xml(fileName.c_str());
-   readXmlNode(xml.documentElement(), "", fieldNames, fieldValues);
+   if (nodeIndex == 0)
+      throw runtime_error("Internal failure in XmlFileReader::makeNameUnique");
+   if (nodeIndex == 1)
+      return name;
+   else
+      return name + itoa(nodeIndex);
    }
 
 //---------------------------------------------------------------------------
 // read the specified XmlNode and add to fieldNames and fieldValues - recursive.
 //---------------------------------------------------------------------------
-void XmlFileReader::readXmlNode(const XMLNode& node, const string& name,
-                                vector<string>& fieldNames,
-                                vector<string>& fieldValues)
+void readXmlNode(const XMLNode& node, const string& name,
+                 vector<string>& fieldNames,
+                 vector<string>& fieldValues)
    {
    if (node.begin() == node.end())
       {
@@ -106,28 +92,45 @@ void XmlFileReader::readXmlNode(const XMLNode& node, const string& name,
    }
 
 //---------------------------------------------------------------------------
-// Return a unique name for the specified node unique amongst the children of
-// the specified parent node
+// read in the contents of our XML file into fieldNames and fieldValues
 //---------------------------------------------------------------------------
-string XmlFileReader::makeNameUnique(const XMLNode& parentNode, const XMLNode& node)
+void readXmlFile(const std::string& fileName,
+                 vector<string>& fieldNames,
+                 vector<string>& fieldValues)
    {
-   string name = node.getName();
-   int numMatches = 0;
-   int nodeIndex = 0;
-   for (XMLNode::iterator child = parentNode.begin();
-                          child != parentNode.end();
-                          child++)
+   if (!FileExists(fileName))
+      throw runtime_error("Cannot find XML file: " + fileName);
+
+   fieldNames.erase(fieldNames.begin(), fieldNames.end());
+   fieldValues.erase(fieldValues.begin(), fieldValues.end());
+   XMLDocument xml(fileName.c_str());
+   readXmlNode(xml.documentElement(), "", fieldNames, fieldValues);
+   }
+
+
+//---------------------------------------------------------------------------
+//---------------------------------------------------------------------------
+//---------------------------------------------------------------------------
+// this function reads all xml data from a file
+//---------------------------------------------------------------------------
+void processXmlFileReader(DataContainer& parent,
+                          const XMLNode& properties,
+                          TDataSet& result)
+   {
+   result.Active = false;
+   addDBField(&result, "name", "xx");
+   addDBField(&result, "value", "xx");
+
+   result.Active = true;
+   std::string fileName = properties.childValue("filename");
+   vector<string> fieldNames, fieldValues;
+   readXmlFile(fileName, fieldNames, fieldValues);
+   for (unsigned i = 0; i != fieldNames.size(); i++)
       {
-      if (name == child->getName())
-         numMatches++;
-      if (node == *child)
-         nodeIndex = numMatches;
+      result.Append();
+      result.FieldValues["name"] = fieldNames[i].c_str();
+      result.FieldValues["value"] = fieldValues[i].c_str();
+      result.Post();
       }
-   if (nodeIndex == 0)
-      throw runtime_error("Internal failure in XmlFileReader::makeNameUnique");
-   if (nodeIndex == 1)
-      return name;
-   else
-      return name + itoa(nodeIndex);
    }
 

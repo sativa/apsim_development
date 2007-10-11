@@ -4,6 +4,7 @@
 #pragma hdrstop
 
 #include "SOI.h"
+#include "DataContainer.h"
 #include <vector>
 #include <string>
 #include <fstream>
@@ -25,64 +26,13 @@ using namespace std;
 #define SOI_PHASE_NUMBER_FIELD_NAME "SOI Phase number"
 #define PHASE_NAMES_KEY "PhaseNames"
 
-//---------------------------------------------------------------------------
-// Create the necessary fields in the result dataset.
-//---------------------------------------------------------------------------
-void SOI::createFields(TDataSet* source, TDataSet* result)
-   {
-   result->FieldDefs->Assign(source->FieldDefs);
-   addDBField(result, SOI_PHASE_FIELD_NAME, "xxxx");
-   }
-//---------------------------------------------------------------------------
-// Go do our processing, putting all results into 'data'
-//---------------------------------------------------------------------------
-void SOI::process(TDataSet* source, TDataSet* result)
-   {
-   string soiFilename = getProperty("filename");
-   unsigned monthToUse = longMonthToInt(getProperty("month"));
-   vector<string> phaseNamesToKeep = getProperties("Phase");
-   allOtherYears = (find_if(phaseNamesToKeep.begin(), phaseNamesToKeep.end(),
-                            CaseInsensitiveStringComparison("AllOtherYears"))
-                    != phaseNamesToKeep.end());
-   if (soiFilename == "")
-      {
-      ApsimSettings settings;
-      settings.read("soi|soi file", soiFilename, true);
-      }
-
-   // read in all soi data from soi file.
-   readSoiData(soiFilename);
-
-   // get the sowing year field name
-   string sowYearFieldName = getSowYearFieldName(source);
-
-   // loop through all records.
-   source->First();
-   while (!source->Eof)
-      {
-      string currentPhaseName;
-      int year = source->FieldValues[sowYearFieldName.c_str()];
-      currentPhaseName = getPhase(year, monthToUse);
-
-      if (keepPhase(currentPhaseName, phaseNamesToKeep))
-         {
-         // add a new record that is identical to the current source record.
-         copyDBRecord(source, result);
-
-         result->Edit();
-         result->FieldValues[SOI_PHASE_FIELD_NAME] = currentPhaseName.c_str();
-         result->Post();
-         }
-
-      source->Next();
-      }
-   }
+typedef std::map<std::string, unsigned, std::less<std::string> > Phases;
 
 // ------------------------------------------------------------------
 // Look through all the field names and go find a sow_year
 // field.
 // ------------------------------------------------------------------
-string SOI::getSowYearFieldName(TDataSet* data) const throw (runtime_error)
+string getSowYearFieldName(TDataSet* data)
    {
    int i = data->FieldDefs->IndexOf("sow_year");
    if (i == -1)
@@ -97,7 +47,8 @@ string SOI::getSowYearFieldName(TDataSet* data) const throw (runtime_error)
 // Read in all soi data from SOI file.  The file is assumed to be in
 // the same directory as this DLL.
 // ------------------------------------------------------------------
-void SOI::readSoiData(const string& soiFilename)
+void readSoiData(const string& soiFilename,
+                 vector<string>& phaseNames, Phases& phases)
    {
    phaseNames.erase(phaseNames.begin(), phaseNames.end());
    phases.erase(phases.begin(), phases.end());
@@ -133,7 +84,7 @@ void SOI::readSoiData(const string& soiFilename)
 // Return an soi phase name for the specified
 // year and month.  Throws runtime_error if not found.
 // ------------------------------------------------------------------
-string SOI::getPhase(unsigned year, unsigned month)
+string getPhase(unsigned year, unsigned month, vector<string>& phaseNames, Phases& phases)
    {
    string yearMonth = AnsiString(IntToStr(year) + "/" + IntToStr(month)).c_str();
    Phases::iterator phaseI = phases.find(yearMonth.c_str());
@@ -156,7 +107,8 @@ string SOI::getPhase(unsigned year, unsigned month)
 // ------------------------------------------------------------------
 // Return true if we should keep the specified phase.
 // ------------------------------------------------------------------
-bool SOI::keepPhase(const string& phaseName, const std::vector<std::string>& phaseNamesToKeep)
+bool keepPhase(const string& phaseName, const std::vector<std::string>& phaseNamesToKeep,
+               bool allOtherYears)
    {
    bool keep = (find_if(phaseNamesToKeep.begin(), phaseNamesToKeep.end(),
                         CaseInsensitiveStringComparison(phaseName))
@@ -166,4 +118,66 @@ bool SOI::keepPhase(const string& phaseName, const std::vector<std::string>& pha
       keep = !keep;
    return keep;
    }
+
+
+
+//---------------------------------------------------------------------------
+// Create the necessary fields in the result dataset.
+//---------------------------------------------------------------------------
+void processSOI(DataContainer& parent,
+                const XMLNode& properties,
+                TDataSet& result)
+   {
+   result.Active = false;
+   result.FieldDefs->Clear();
+
+   TDataSet* source = parent.data(properties.childValue("source"));
+   result.FieldDefs->Assign(source->FieldDefs);
+   addDBField(&result, SOI_PHASE_FIELD_NAME, "xxxx");
+
+   string soiFilename = properties.childValue("filename");
+   unsigned monthToUse = longMonthToInt(properties.childValue("month"));
+   vector<string> phaseNamesToKeep = properties.childValues("Phase");
+
+   bool allOtherYears = (find_if(phaseNamesToKeep.begin(), phaseNamesToKeep.end(),
+                                 CaseInsensitiveStringComparison("AllOtherYears"))
+                    != phaseNamesToKeep.end());
+   if (soiFilename == "")
+      {
+      ApsimSettings settings;
+      settings.read("soi|soi file", soiFilename, true);
+      }
+
+   // read in all soi data from soi file.
+   vector<string> phaseNames;
+   Phases phases;
+   readSoiData(soiFilename, phaseNames, phases);
+
+   // get the sowing year field name
+   string sowYearFieldName = getSowYearFieldName(source);
+
+   result.Active = true;
+
+   // loop through all records.
+   source->First();
+   while (!source->Eof)
+      {
+      string currentPhaseName;
+      int year = source->FieldValues[sowYearFieldName.c_str()];
+      currentPhaseName = getPhase(year, monthToUse, phaseNames, phases);
+
+      if (keepPhase(currentPhaseName, phaseNamesToKeep, allOtherYears))
+         {
+         // add a new record that is identical to the current source record.
+         copyDBRecord(source, &result);
+
+         result.Edit();
+         result.FieldValues[SOI_PHASE_FIELD_NAME] = currentPhaseName.c_str();
+         result.Post();
+         }
+
+      source->Next();
+      }
+   }
+
 

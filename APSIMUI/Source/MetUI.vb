@@ -5,7 +5,6 @@ Imports VBUserInterface
 
 Public Class MetUI
     Inherits BaseView
-    Private Controller As BaseController
 
 #Region " Windows Form Designer generated code "
 
@@ -94,14 +93,14 @@ Public Class MetUI
 
 #End Region
 
-    Public Overrides Sub OnLoad(ByVal Controller As VBUserInterface.BaseController)
-        Me.Controller = Controller
-        MetGraphControl1.OnLoad(Controller)
+    Public Overrides Sub OnLoad(ByVal Controller As VBUserInterface.BaseController, ByVal NodePath As String)
+        MyBase.OnLoad(Controller, NodePath)
+        MetGraphControl1.OnLoad(Controller, NodePath)
     End Sub
-    Public Overrides Sub OnRefresh(ByVal NodePath As String)
+    Public Overrides Sub OnRefresh()
         Dim FileName As String = Controller.Data.ChildValue("filename")
 
-        MetGraphControl1.OnRefresh(NodePath)
+        MetGraphControl1.OnRefresh()
         HelpText = FileName
         OpenFileDialog.InitialDirectory = Path.GetDirectoryName(FileName)
         MetGraphControl1.SetFileName(FileName)
@@ -112,12 +111,14 @@ Public Class MetUI
     End Sub
 
     Private Sub btnBrowse_Click(ByVal sender As Object, ByVal e As System.EventArgs) Handles btnBrowse.Click
-
-        If OpenFileDialog.ShowDialog() = DialogResult.OK Then
-            MetGraphControl1.SetFileName(OpenFileDialog.FileName)
-            Me.HelpText = OpenFileDialog.FileName
-
-        End If
+        Try
+            If OpenFileDialog.ShowDialog() = DialogResult.OK Then
+                MetGraphControl1.SetFileName(OpenFileDialog.FileName)
+                Me.HelpText = OpenFileDialog.FileName
+            End If
+        Catch ex As Exception
+            MessageBox.Show(ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error)
+        End Try
 
     End Sub
 

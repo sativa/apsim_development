@@ -17,7 +17,6 @@ Public Class DataTree
     Private LastNode As TreeNode
     Private FirstNode As TreeNode
     Friend WithEvents PopupMenu As System.Windows.Forms.ContextMenuStrip
-    Private Controller As BaseController
 
     Public Event DoubleClickEvent As EventHandler(Of EventArgs)
 
@@ -117,7 +116,7 @@ Public Class DataTree
         Set(ByVal Value As Boolean)
             IsSorted = Value
             If Not IsNothing(Controller) Then
-                OnRefresh("\")
+                OnRefresh()
             End If
             TreeView.Sorted = IsSorted
         End Set
@@ -173,10 +172,10 @@ Public Class DataTree
 
         Return CurrentNode
     End Function
-    Public Overrides Sub OnLoad(ByVal Controller As BaseController)
+    Public Overrides Sub OnLoad(ByVal Controller As BaseController, ByVal NodePath As String)
+        MyBase.OnLoad(Controller, NodePath)
         HelpText = ""
         TreeView.ImageList = Controller.IconImageList("SmallIcon")
-        Me.Controller = Controller
         Controller.ProvideToolStrip(PopupMenu, "ContextMenu")
         AddHandler Controller.ApsimData.DataStructureChangedEvent, AddressOf OnRefresh
         AddHandler Controller.SelectionChangedEvent, AddressOf OnSelectionChanged
@@ -194,7 +193,10 @@ Public Class DataTree
 
 
 #Region "Refresh methods"
-    Public Overrides Sub OnRefresh(ByVal NodePath As String)
+    Public Overrides Sub OnRefresh()
+        OnRefresh(NodePath)
+    End Sub
+    Public Overloads Sub OnRefresh(ByVal NodePath As String)
         ' ----------------------------------------------
         ' Override the base refresh method and populate
         ' ourselves.

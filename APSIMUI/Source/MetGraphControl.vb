@@ -17,7 +17,6 @@ Public Class MetGraphControl
     Private EndDate As DateTime
     Private GraphType As String
     Private FileName As String
-    Private Controller As BaseController
     Friend WithEvents TabImages As System.Windows.Forms.ImageList
     Friend WithEvents TabControl As System.Windows.Forms.TabControl
     Friend WithEvents TabPage1 As System.Windows.Forms.TabPage
@@ -2464,10 +2463,7 @@ Public Class MetGraphControl
 
 #End Region
 
-    Public Overrides Sub OnLoad(ByVal Controller As VBUserInterface.BaseController)
-        Me.Controller = Controller
-    End Sub
-    Public Overrides Sub OnRefresh(ByVal NodePath As String)
+    Public Overrides Sub OnRefresh()
 
     End Sub
 

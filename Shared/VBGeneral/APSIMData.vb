@@ -284,6 +284,18 @@ Public Class APSIMData
         Next
         Return Nothing
     End Function
+    Public Function ChildByTypeAndValue(ByVal ChildType As String, ByVal ChildValue As String) As APSIMData
+        ' ------------------------------------------------------------------------------
+        ' Return a specific child with the specified type
+        ' Returns Nothing if not found.
+        ' ------------------------------------------------------------------------------
+        For Each ChildNode As APSIMData In Children
+            If ChildNode.Type.ToLower = ChildType.ToLower And ChildNode.Value.ToLower = ChildValue.ToLower Then
+                Return ChildNode
+            End If
+        Next
+        Return Nothing
+    End Function
     Public Function Find(ByVal FullPath As String) As APSIMData
         ' --------------------------------------------------------
         ' Find a specific data node from the specified full path.
@@ -421,6 +433,24 @@ Public Class APSIMData
                 Node.InnerXml = value
                 FireDataChangedEvent()
             End If
+        End Set
+    End Property
+    Public Property Values(ByVal ChildType As String) As String()
+        Get
+            Dim AllValues As New StringCollection
+            For Each Child As APSIMData In Children(ChildType)
+                AllValues.Add(Child.Value)
+            Next
+            Dim ReturnValues(AllValues.Count - 1) As String
+            AllValues.CopyTo(ReturnValues, 0)
+            Return ReturnValues
+        End Get
+        Set(ByVal value As String())
+            EnsureNumberOfChildren(ChildType, "", value.Length)
+            Dim Childs() As APSIMData = Children(ChildType)
+            For i As Integer = 0 To value.Length - 1
+                Childs(i).Value = value(i)
+            Next
         End Set
     End Property
     Public Function AttributeExists(ByVal AttributeName As String) As Boolean
@@ -616,6 +646,32 @@ Public Class APSIMData
                     End If
                     Name = BaseName + "{" + i.ToString + "}"
                     EnsureNameIsUnique()
+                End If
+            Next
+            Throw New Exception("Internal error in APSIMData.CalcUniqueName")
+        End If
+    End Sub
+
+    Public Sub EnsureNameIsUnique2()
+        ' ------------------------------------------------
+        ' Ensure our name is unique among our siblings.
+        ' ------------------------------------------------
+        If Not IsNothing(Parent) Then
+            Dim BaseName As String = Name
+            Dim Found As Boolean = False
+            Dim counter As Integer = 0
+
+            For i As Integer = 1 To 100000
+                Dim Count As Integer = 0
+                For Each Sibling As String In Parent.ChildNames
+                    If Sibling.ToLower = Name.ToLower Then
+                        Count += 1
+                    End If
+                Next
+                If Count <= 1 Then
+                    Return
+                Else
+                    Name = BaseName + i.ToString
                 End If
             Next
             Throw New Exception("Internal error in APSIMData.CalcUniqueName")

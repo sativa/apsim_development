@@ -5,47 +5,64 @@
 
 class DataProcessor;
 //---------------------------------------------------------------------------
-// This class houses a data processor and result data and a collection of child
-// data containers. This in effect gives us a tree of data processors and their
+// This class houses a data processor and result data and a collection of
+// processors. This in effect gives us a tree of data processors and their
 // resulting datasets.
-// Paths should be of the form: rootNode\childNode\subChildNode
 //---------------------------------------------------------------------------
 class DataContainer
    {
    public:
-      DataContainer(TComponent* _owner, DataContainer* parentContainer);
-      ~DataContainer();
+      DataContainer(TComponent* _owner);
 
       // Get and set the full XML for the system.
-      void setXML(const std::string& xml);
-      std::string getXML();
+      void setup(const std::string& xml);
 
-      // Return a dataset for the object at the specified path.
-      TDataSet* findData(const std::string& path);
-
-      // Return all matching properties for the object at the
-      // specified path.
-      std::vector<std::string> findProperties(const std::string& path,
-                                              const std::string& propertyName);
+      // Return a dataset for the object with the specified name
+      TDataSet* data(const std::string& name);
 
       // Return an error message for the object as specified
-      // by the path.
-      std::string findErrorMessage(const std::string& path);
+      // by the name
+      std::string errorMessage(const std::string& name);
 
       // Refresh all data
       void refresh();
 
+      // Add a new node with the given properties
+      void add(const XMLNode& properties);
+
+      // Delete a node with the given name
+      void erase(const std::string& name);
+
+      // Rename node
+      void rename(const std::string& name, const std::string& newName);
+
+      // Go set the properties for an existing node.
+      void set(const XMLNode& properties);
+
+      // Invalidate the specified node
+      void invalidate(const std::string& name);
+
+      // Return xml for whole system to caller.
+      std::string xml();
+
+      // Return a list of all child names to caller.
+      std::vector<std::string> childNames();
    private:
-      std::string name;
-      DataContainer* parent;
-      DataProcessor* processor;
-      TDataSet* data;
-      std::vector<DataContainer*> children;
+      struct ProcessorData
+         {
+         std::string name;
+         TDataSet* data;
+         bool refreshNeeded;
+         std::vector<std::string> sources;
+         std::string errorMessage;
+         std::string xml;
+         };
+      std::vector<ProcessorData> children;
+
       TComponent* owner;
 
-      void setProperties(const XMLNode& properties);
       void save(string& st, int level);
-      DataContainer* findContainer(const std::string& path);
+      void refreshIfNecessary();
 
    };
 #endif

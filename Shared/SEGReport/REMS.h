@@ -1,34 +1,33 @@
 //---------------------------------------------------------------------------
-
 #ifndef REMSH
 #define REMSH
-#include <stdexcept>
-#include <ADOdb.hpp>
-#include "DataProcessor.h"
+
+#include <db.hpp>
+class XMLNode;
+class DataContainer;
 //---------------------------------------------------------------------------
-// derived from DataProcessor, this class reads in experimental data from
-// the REMS database.
+// This class reads in experimental data from the REMS database.
 //---------------------------------------------------------------------------
-class REMS : public DataProcessor
-   {
-   private:
-      std::string fileName;
-      std::vector<std::string> allExperimentNames;
-      std::vector<std::string> allTreatmentNames;
-      std::vector<int> experimentIDs;
-      std::vector<int> treatmentIDs;
+void processREMS(DataContainer& parent,
+                 const XMLNode& properties,
+                 TDataSet& result);
 
-      virtual void createFields(TDataSet* source, TDataSet* result);
-      virtual void process(TDataSet* source, TDataSet* result);
+//---------------------------------------------------------------------------
+// Called to return a list of experment names.
+//---------------------------------------------------------------------------
+void lookupExperimentNames(const string& fileName,
+                           vector<string>& experimentNames,
+                           vector<int>& experimentIDs);
 
-      void lookupExperimentNames();
-      void lookupTreatmentNames(const std::string& experimentName);
-      TADOQuery* createQuery(const std::string treatmentName,
-                             const std::string& dataSourceName);
-   public:
-      REMS(const std::string& type, TComponent* owner)
-         : DataProcessor(type, owner) { };
+//---------------------------------------------------------------------------
+// Called to return a list of treatment names for the current experiment.
+//---------------------------------------------------------------------------
+void lookupTreatmentNames(const string& fileName,
+                          const string& experimentName,
+                          const vector<string>& experimentNames,
+                          const vector<int>& experimentIDs,
+                          vector<string>& treatmentNames,
+                          vector<int>& treatmentIDs);
 
-      virtual std::vector<std::string> getProperties(const std::string& name);
-   };
+
 #endif

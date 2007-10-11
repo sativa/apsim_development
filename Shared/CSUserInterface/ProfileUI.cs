@@ -14,7 +14,6 @@ namespace CSUserInterface
     {
     public partial class ProfileUI : VBUserInterface.BaseView
         {
-        private BaseController Controller;
         private Soil MySoil = null;
         //private string ComponentType;
         //private APSIMData FieldInfo;
@@ -23,9 +22,9 @@ namespace CSUserInterface
             InitializeComponent();
             }
 
-        public override void OnLoad(BaseController Controller)
+        public override void OnLoad(BaseController Controller, string NodePath)
             {
-            this.Controller = Controller;
+            base.OnLoad(Controller, NodePath);
             FarPoint.Win.Spread.InputMap InputMap = Grid.GetInputMap(FarPoint.Win.Spread.InputMapMode.WhenAncestorOfFocused);
             InputMap.Put(new FarPoint.Win.Spread.Keystroke(Keys.Delete, Keys.None),
                         FarPoint.Win.Spread.SpreadActions.ClipboardCut);
@@ -35,7 +34,7 @@ namespace CSUserInterface
         public override void OnClose()
             {
             }
-		override public void OnRefresh(string NodePath)
+		override public void OnRefresh()
 			{
             //APSIMData Component = Controller.ApsimData.Find(NodePath);
             //if (Component != null && Component.Parent != null)

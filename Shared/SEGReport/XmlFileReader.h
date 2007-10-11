@@ -1,30 +1,15 @@
 //---------------------------------------------------------------------------
-
 #ifndef XmlFileReaderH
 #define XmlFileReaderH
-#include "DataProcessor.h"
+
+#include <db.hpp>
 class XMLNode;
+class DataContainer;
 //---------------------------------------------------------------------------
-// derived from DataProcessor, this class reads all xml data from a file
+// this function reads all xml data from a file
 //---------------------------------------------------------------------------
-class XmlFileReader : public DataProcessor
-   {
-   private:
-      std::vector<std::string> fieldNames, fieldValues;
+void processXmlFileReader(DataContainer& parent,
+                          const XMLNode& properties,
+                          TDataSet& result);
 
-      virtual void createFields(TDataSet* source, TDataSet* result);
-      virtual void process(TDataSet* source, TDataSet* result);
-
-      void readXmlFile(const std::string& fileName,
-                       std::vector<std::string>& fieldNames,
-                       std::vector<std::string>& fieldValues);
-      void readXmlNode(const XMLNode& node, const std::string& name,
-                       std::vector<std::string>& fieldNames,
-                       std::vector<std::string>& fieldValues);
-      std::string makeNameUnique(const XMLNode& parentNode, const XMLNode& node);
-
-   public:
-      XmlFileReader(const std::string& type, TComponent* owner)
-         : DataProcessor(type, owner) { };
-   };
 #endif

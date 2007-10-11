@@ -8,7 +8,6 @@ Public Class ExplorerUI
     Private UIs As New ArrayList
     Private UITypes As New StringCollection
     Private CurrentUIIndex As Integer = -1
-    Private Controller As BaseController
 
 #Region " Windows Form Designer generated code "
 
@@ -86,14 +85,18 @@ Public Class ExplorerUI
 
 #End Region
 
-    Public Overrides Sub OnLoad(ByVal Controller As BaseController)
-        Me.Controller = Controller
-        DataTree.OnLoad(Controller)
+    Public Overrides Sub OnLoad(ByVal Controller As BaseController, ByVal NodePath As String)
+        MyBase.OnLoad(Controller, NodePath)
+        DataTree.OnLoad(Controller, NodePath)
         AddHandler Controller.ApsimData.DataStructureChangedEvent, AddressOf OnRefresh
         AddHandler Controller.SelectionChangedEvent, AddressOf OnSelectionChanged
         AddHandler Controller.BeforeSaveEvent, AddressOf OnBeforeSave
     End Sub
-    Public Overrides Sub OnRefresh(ByVal NodePath As String)
+    Public Overloads Sub OnRefresh(ByVal NodePath As String)
+        OnRefresh()
+    End Sub
+
+    Public Overrides Sub OnRefresh()
         ' -------------------------------------------------------
         ' Called by parent to refresh ourselves. 
         ' -------------------------------------------------------
@@ -143,11 +146,11 @@ Public Class ExplorerUI
         End If
         If CurrentUIIndex <> -1 Then
             Dim View As BaseView = UIs(CurrentUIIndex)
-            View.OnLoad(Controller)
+            View.OnLoad(Controller, Controller.Data.FullPath)
             View.Parent = UIPanel
             View.Dock = DockStyle.Fill
             View.Show()
-            View.OnRefresh(Controller.Data.FullPath)
+            View.OnRefresh()
         End If
     End Sub
 
@@ -176,7 +179,7 @@ Public Class ExplorerUI
     Public Sub RefreshCurrentView()
         If CurrentUIIndex <> -1 Then
             Dim View As BaseView = UIs(CurrentUIIndex)
-            View.OnRefresh(Controller.SelectedPath)
+            View.OnRefresh()
         End If
     End Sub
     Public ReadOnly Property CurrentView() As BaseView

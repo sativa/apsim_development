@@ -15,7 +15,7 @@ namespace Graph
     public partial class GraphDataUI : BaseView
         {
         private UInt32 DataWindow = 0;
-        private GraphController GraphController;
+        private DataProcessor GraphController;
         private string NodePath;
 
         public GraphDataUI()
@@ -34,8 +34,8 @@ namespace Graph
 
         public override void OnLoad(BaseController Controller)
             {
-            if (Controller is GraphController)
-                this.GraphController = (GraphController)Controller;
+            if (Controller is DataProcessor)
+                this.GraphController = (DataProcessor)Controller;
             else
                 {
                 // Need to go and find the root node for all graph data.
@@ -52,11 +52,11 @@ namespace Graph
                 ThisPath = "Data\\" + ThisPath;
 
                 // Give all graph data to a newly created graphcontroller.
-                if (Controller is GraphController)
-                    this.GraphController = (GraphController)Controller;
+                if (Controller is DataProcessor)
+                    this.GraphController = (DataProcessor)Controller;
                 else
                     {
-                    this.GraphController = new GraphController(Controller.IconImageList("SmallIcon"), GraphData);
+                    this.GraphController = new DataProcessor(Controller.IconImageList("SmallIcon"), GraphData);
                     StringCollection Selections = new StringCollection();
                     Selections.Add(ThisPath);
                     GraphController.SelectedPaths = Selections;

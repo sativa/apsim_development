@@ -8,7 +8,6 @@ Public Class GenericUI
     Inherits BaseView
     Private InRefresh As Boolean
     Private PropertyData As New ArrayList
-    Private Controller As BaseController
 
     Delegate Sub NotifyEventHandler()
     Public Event PropertiesChangedEvent As NotifyEventHandler
@@ -124,11 +123,7 @@ Public Class GenericUI
 
 #End Region
 
-    Public Overrides Sub OnLoad(ByVal Controller As BaseController)
-        Me.Controller = Controller
-    End Sub
-
-    Overrides Sub OnRefresh(ByVal NodePath As String)
+    Overrides Sub OnRefresh()
         ' --------------------------------------------------------------------
         ' Refresh this user interface
         ' --------------------------------------------------------------------

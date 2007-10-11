@@ -2,20 +2,15 @@
 #ifndef RegressionH
 #define RegressionH
 
-#include "DataProcessor.h"
+#include <db.hpp>
+class XMLNode;
+class DataContainer;
+
 //---------------------------------------------------------------------------
-// derived from DataProcessor, this creates a dataset that represents a
+// this creates a dataset that represents a
 // regression.
 //---------------------------------------------------------------------------
-class Regression : public DataProcessor
-   {
-   private:
-      virtual void createFields(TDataSet* source, TDataSet* result);
-      virtual void process(TDataSet* source, TDataSet* result);
-
-   public:
-      Regression(const std::string& type, TComponent* owner)
-         : DataProcessor(type, owner) { };
-
-   };
+void processRegression(DataContainer& parent,
+                        const XMLNode& properties,
+                        TDataSet& result);
 #endif

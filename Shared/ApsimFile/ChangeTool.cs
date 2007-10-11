@@ -11,7 +11,7 @@ namespace ApsimFile
 	// ------------------------------------------
 	public class APSIMChangeTool
 		{
-		public static int CurrentVersion = 9;	   
+		public static int CurrentVersion = 10;	   
 		private delegate void UpgraderDelegate(APSIMData Data);
 
 		// ------------------------------------------
@@ -60,6 +60,10 @@ namespace ApsimFile
                 if (DataVersion < 9)
                     Upgrade(Data, new UpgraderDelegate(UpdateToVersion9));
 
+                // Upgrade from version 9 to 10.
+                if (DataVersion < 10)
+                    Upgrade(Data, new UpgraderDelegate(UpdateToVersion10));
+
                 // All finished upgrading - write version number out.
                 Data.SetAttribute("version", CurrentVersion.ToString());
                 return (DataVersion != CurrentVersion);
@@ -85,7 +89,9 @@ namespace ApsimFile
                        || Child.Type.ToLower() == "folder"
                        || Child.Type.ToLower() == "simulation"
                        || Child.Type.ToLower() == "manager"
-                       || Child.Type.ToLower() == "outputfile")
+                       || Child.Type.ToLower() == "outputfile"
+                       || Child.Type.ToLower() == "graph"
+                       || Child.Type.ToLower() == "data")
                         {
                         Upgrader(Child);
                         Upgrade(Child, Upgrader);  // recursion
@@ -370,7 +376,38 @@ namespace ApsimFile
                 foreach (string Type in TypesToDelete)
                     Data.Delete(Type);
                 }
+            }
+
+        // -------------------------------
+        // Upgrade the data to version 10.
+        // -------------------------------
+        private static void UpdateToVersion10(APSIMData Data)
+            {
+            if (Data.Type.ToLower() == "data")
+                {
+                foreach (APSIMData Child in Data.get_Children(null))
+                    foreach (APSIMData SubChild in Child.get_Children(null))
+                        UpgradeDataComponent(Data, SubChild);
+                }
+            }
+
+        private static void UpgradeDataComponent(APSIMData ParentDataNode, APSIMData DataNode)
+            {
+            string[] OkDataTypes = {"apsimfilereader", "xmlfilereader", "probability", "filter",
+                                    "cumulative", "depth", "diff", "frequency", "kwtest",
+                                    "predobs", "regression", "stats", "soi", "rems", 
+                                    "excelreader", "recordfilter"};
+            if (Array.IndexOf(OkDataTypes, DataNode.Type.ToLower()) != -1)
+                {
+                // Add a source node to our data node.
+                DataNode.Add(new APSIMData("source", "")).Value = DataNode.Parent.Name;
+
+                // Move data node to parent.
+                ParentDataNode.Add(DataNode);
+                DataNode.Parent.DeleteNode(DataNode);
+                }
             }	
+
 
 
 		}

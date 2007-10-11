@@ -3,7 +3,6 @@ Imports VBUserInterface
 
 Public Class MemoUI
     Inherits BaseView
-    Private Controller As BaseController
 
 #Region " Windows Form Designer generated code "
 
@@ -70,11 +69,7 @@ Public Class MemoUI
         Controller.Data.Value = CSGeneral.CSUtility.EncodeStringToBase64(Me.Memo.TextRichFormat)
     End Sub
 
-    Public Overrides Sub OnLoad(ByVal Controller As VBUserInterface.BaseController)
-        Me.Controller = Controller
-    End Sub
-
-    Public Overrides Sub OnRefresh(ByVal NodePath As String)
+    Public Overrides Sub OnRefresh()
         'update the memo field with rich text syntax, after decoding the string from base64.
         Me.Memo.TextRichFormat(CSGeneral.CSUtility.EncodeBase64ToString(Controller.Data.InnerXML))
     End Sub

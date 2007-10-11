@@ -25,8 +25,7 @@ namespace CSUserInterface
         public Steema.TeeChart.TChart NitrogenChart;
         private Splitter splitter2;
 		private bool UserChange = true;
-        private BaseController Controller;
-
+        
 		public SampleUI()
 			{
 			InitializeComponent();
@@ -662,16 +661,16 @@ namespace CSUserInterface
 
 		}
 		#endregion
-        public override void OnLoad(BaseController Controller)
+        public override void OnLoad(BaseController Controller, string NodePath)
             {
-            this.Controller = Controller;
+            base.OnLoad(Controller, NodePath);
             FarPoint.Win.Spread.InputMap InputMap = FpSpread.GetInputMap(FarPoint.Win.Spread.InputMapMode.WhenAncestorOfFocused);
             InputMap.Put(new FarPoint.Win.Spread.Keystroke(Keys.Delete, Keys.None),
                         FarPoint.Win.Spread.SpreadActions.ClipboardCut);
             InputMap.Put(new FarPoint.Win.Spread.Keystroke(Keys.Enter, Keys.None),
                         FarPoint.Win.Spread.SpreadActions.MoveToNextRow);
             }
-		override public void OnRefresh(string NodePath)
+		override public void OnRefresh()
 			{
 			try
 				{

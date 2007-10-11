@@ -2,18 +2,14 @@
 #ifndef FilterH
 #define FilterH
 
-#include "DataProcessor.h"
+#include <db.hpp>
+class XMLNode;
+class DataContainer;
 //---------------------------------------------------------------------------
-// derived from DataProcessor, this class filters an existing dataset.
+// this function filters an existing dataset.
 //---------------------------------------------------------------------------
-class Filter : public DataProcessor
-   {
-   private:
-      virtual void createFields(TDataSet* source, TDataSet* result);
-      virtual void process(TDataSet* source, TDataSet* result);
+void processFilter(DataContainer& parent,
+                   const XMLNode& properties,
+                   TDataSet& result);
 
-   public:
-      Filter(const std::string& type, TComponent* owner)
-         : DataProcessor(type, owner) { };
-   };
 #endif

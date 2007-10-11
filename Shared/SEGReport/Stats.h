@@ -1,20 +1,17 @@
 //---------------------------------------------------------------------------
 #ifndef StatsH
 #define StatsH
-#include "DataProcessor.h"
+
+#include <db.hpp>
+class XMLNode;
+class DataContainer;
 
 //---------------------------------------------------------------------------
-// derived from DataProcessor, this creates a dataset that provides some
+// This creates a dataset that provides some
 // simple stats on a source dataset variable. e.g. mean, median, percentiles...
 //---------------------------------------------------------------------------
-class Stats : public DataProcessor
-   {
-   private:
-      virtual void createFields(TDataSet* source, TDataSet* result);
-      virtual void process(TDataSet* source, TDataSet* result);
+void processStats(DataContainer& parent,
+                  const XMLNode& properties,
+                  TDataSet& result);
 
-   public:
-      Stats(const std::string& type, TComponent* owner)
-         : DataProcessor(type, owner) { };
-   };
 #endif

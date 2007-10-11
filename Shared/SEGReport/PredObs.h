@@ -2,22 +2,14 @@
 #ifndef PredObsH
 #define PredObsH
 
-#include "DataProcessor.h"
+#include <db.hpp>
+class XMLNode;
+class DataContainer;
 //---------------------------------------------------------------------------
-// derived from DataProcessor, this class does predicted / observed data
-// matching.
+// this function does predicted / observed data matching.
 //---------------------------------------------------------------------------
-class PredObs : public DataProcessor
-   {
-   private:
-      virtual void createFields(TDataSet* source, TDataSet* result);
-      virtual void process(TDataSet* source, TDataSet* result);
+void processPredObs(DataContainer& parent,
+                    const XMLNode& properties,
+                    TDataSet& result);
 
-      TDataSet* getObservedData(const std::string& obsFileName);
-      bool isKeyField(const std::vector<std::string>& keyFieldNames, const std::string& fieldName);
-
-   public:
-      PredObs(const std::string& type, TComponent* owner)
-         : DataProcessor(type, owner) { };
-   };
 #endif

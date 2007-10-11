@@ -2,18 +2,14 @@
 #ifndef FrequencyH
 #define FrequencyH
 
-#include "DataProcessor.h"
-//---------------------------------------------------------------------------
-// derived from DataProcessor, this filters an existing dataset.
-//---------------------------------------------------------------------------
-class Frequency : public DataProcessor
-   {
-   private:
-      virtual void createFields(TDataSet* source, TDataSet* result);
-      virtual void process(TDataSet* source, TDataSet* result);
+#include <db.hpp>
+class XMLNode;
+class DataContainer;
 
-   public:
-      Frequency(const std::string& type, TComponent* owner)
-         : DataProcessor(type, owner) { };
-    };
+//---------------------------------------------------------------------------
+// Creates a frequency distribution from source data.
+//---------------------------------------------------------------------------
+void processFrequency(DataContainer& parent,
+                      const XMLNode& properties,
+                      TDataSet& result);
 #endif

@@ -4,6 +4,7 @@
 #pragma hdrstop
 
 #include "Diff.h"
+#include "DataContainer.h"
 #include <general\db_functions.h>
 #include <general\math_functions.h>
 #include <general\string_functions.h>
@@ -13,68 +14,45 @@
 using namespace std;
 
 //---------------------------------------------------------------------------
-// Create the necessary fields in the result dataset.
+// this creates a dataset that is calculated as the different between 2 datasets.
 //---------------------------------------------------------------------------
-void Diff::createFields(TDataSet* source, TDataSet* result)
+void processDiff(DataContainer& parent,
+                 const XMLNode& properties,
+                 TDataSet& result)
    {
-   string source2Name = getProperty("source2name");
-   vector<string> diffFieldNames = getProperties("diffFieldName");
-   vector<string> copyFieldNames = getProperties("copyFieldName");
+   vector<string> sourceNames = properties.childValues("source");
+   vector<string> diffFieldNames = properties.childValues("diffFieldName");
 
-   if (source2Name != "")
+   result.Active = false;
+   result.FieldDefs->Clear();
+   if (sourceNames.size() == 2 && diffFieldNames.size() > 0)
       {
-      for (unsigned f = 0; f != copyFieldNames.size(); f++)
+      TDataSet* source1 = parent.data(sourceNames[0]);
+      TDataSet* source2 = parent.data(sourceNames[1]);
+      if (source1 != NULL && source2 != NULL)
          {
-         int i = source->FieldDefs->IndexOf(copyFieldNames[f].c_str());
-         if (i != -1)
-            {
-            TFieldDef* field = source->FieldDefs->Items[i];
-            result->FieldDefs->Add(field->Name, field->DataType, field->Size, false);
-            }
-         }
+         TDataSet* source = parent.data(properties.childValue("source"));
+         result.FieldDefs->Assign(source->FieldDefs);
 
-      for (unsigned f = 0; f != diffFieldNames.size(); f++)
-         {
-         int i = source->FieldDefs->IndexOf(diffFieldNames[f].c_str());
-         if (i != -1)
-            {
-            TFieldDef* field = source->FieldDefs->Items[i];
-            result->FieldDefs->Add(field->Name, field->DataType, field->Size, false);
-            }
-         }
-      }
-   }
-//---------------------------------------------------------------------------
-// Go do our processing, putting all results into 'data'
-//---------------------------------------------------------------------------
-void Diff::process(TDataSet* source, TDataSet* result)
-   {
-   string source2Name = getProperty("source2name");
-   vector<string> diffFieldNames = getProperties("diffFieldName");
-   vector<string> copyFieldNames = getProperties("copyFieldName");
+         result.Active = true;
 
-   if (source2Name != "")
-      {
-      TDataSet* source2 = getComponent<TDataSet> (source->Owner, source2Name.c_str());
-      if (source2 != NULL && source2->Active)
-         {
-         source->First();
+         source1->First();
          source2->First();
-         while (!source->Eof && !source2->Eof)
+         while (!source1->Eof && !source2->Eof)
             {
-            result->Append();
-            for (unsigned f = 0; f != copyFieldNames.size(); f++)
-               result->FieldValues[copyFieldNames[f].c_str()] = source->FieldValues[copyFieldNames[f].c_str()];
+            copyDBRecord(source1, &result);
+
+            result.Edit();
 
             for (unsigned f = 0; f != diffFieldNames.size(); f++)
                {
                if (source2->FieldDefs->IndexOf(diffFieldNames[f].c_str()) != -1)
-                  result->FieldValues[diffFieldNames[f].c_str()] = source->FieldValues[diffFieldNames[f].c_str()]
+                  result.FieldValues[diffFieldNames[f].c_str()] = source1->FieldValues[diffFieldNames[f].c_str()]
                                                                 - source2->FieldValues[diffFieldNames[f].c_str()];
                }
 
-            result->Post();
-            source->Next();
+            result.Post();
+            source1->Next();
             source2->Next();
             }
          }

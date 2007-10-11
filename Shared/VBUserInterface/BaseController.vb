@@ -282,6 +282,7 @@ Public Class BaseController
         ' Often called at program exit to optionally prompt the
         ' user to save the current data if something has changed.
         ' --------------------------------------------------------
+        Explorer.SaveCurrentView()
         If ApsimData.IsDirty Then
             Dim DoSave As Integer = MessageBox.Show("The current file has changed. Do you want to save it before proceeding?", _
                                                     "Save?", MessageBoxButtons.YesNoCancel, MessageBoxIcon.Question)
@@ -343,8 +344,12 @@ Public Class BaseController
             End If
         End If
     End Sub
+    Public Sub LoadFromXML(ByVal XML As String)
+        ApsimData.[New](XML)
+    End Sub
     Public Sub FileSave(ByVal FileName As String)
         MyFileName = FileName
+        Explorer.SaveCurrentView()
         ApsimData.SaveAs(FileName)
         AddFileToFrequentList(FileName)
         OnDataDirtyChanged(False)

@@ -13,8 +13,6 @@ namespace CSUserInterface
     {
     public partial class WaterUI : VBUserInterface.BaseView
         {
-        private BaseController Controller;
-        private string NodePath;
         private Soil MySoil;
         private static int NUMBER_OF_STATIC_COLS = 7;
         private bool UserChange = true;
@@ -24,9 +22,9 @@ namespace CSUserInterface
             InitializeComponent();
             }
 
-        public override void OnLoad(BaseController Controller)
+        public override void OnLoad(BaseController Controller, string NodePath)
             {
-            this.Controller = Controller;
+            base.OnLoad(Controller, NodePath);
             FarPoint.Win.Spread.InputMap InputMap = Grid.GetInputMap(FarPoint.Win.Spread.InputMapMode.WhenAncestorOfFocused);
             InputMap.Put(new FarPoint.Win.Spread.Keystroke(Keys.Delete, Keys.None),
                         FarPoint.Win.Spread.SpreadActions.ClipboardCut);
@@ -36,9 +34,8 @@ namespace CSUserInterface
         public override void OnClose()
             {
             }
-        override public void OnRefresh(string NodePath)
+        override public void OnRefresh()
             {
-            this.NodePath = NodePath;
             MySoil = new Soil(Controller.Data.Parent);
 
             HelpText = "";

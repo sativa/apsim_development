@@ -33,7 +33,6 @@ namespace CSUserInterface
         private Label label2;
         private Label label1;
 		private Soil SoilData;
-        private BaseController Controller;
 
 		#region Constructor / Destructor
 		public InitNitrogenUI()
@@ -919,11 +918,7 @@ namespace CSUserInterface
 		#endregion
 		#endregion
 
-        public override void OnLoad(BaseController Controller)
-            {
-            this.Controller = Controller;
-            }
-		override public void OnRefresh(string NodePath)
+		override public void OnRefresh()
 			{
 			HelpText = "There are two ways of specifying initial soil nitrogen. You can either type a number for each layer (kg/ha or ppm) "
 					 + " or a total NO3 / NH4 number (kg/ha only) on the last row of the grid.";

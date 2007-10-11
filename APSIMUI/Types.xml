@@ -2917,6 +2917,7 @@
       <cultivar name="coolibah"/>
       <cultivar name="barcoo"/>
       <cultivar name="algerian"/>
+      <cultivar name="Wintaroo"/>
       <ApsimToSim>
          <type>component</type>
          <dll>%apsuite\apsim\plant\lib\plant.dll</dll>
@@ -4008,45 +4009,52 @@
          <dll>%apsuite\apsim\PatchInput\lib\PatchInput.dll</dll>
       </ApsimToSim>
    </patchinput>
-   <Report>
-      <UItype>APSIMUI.EmptyUI</UItype>
+   <TabbedReport>
+      <UItype>Graph.TabbedPageUI</UItype>
       <ShowInMainTree>Yes</ShowInMainTree>
       <LargeIcon>%apsuite\apsimui\Images\scroll32.png</LargeIcon>
       <SmallIcon>%apsuite\apsimui\Images\scroll16.png</SmallIcon>
-      <Image>%apsuite\apsimui\images\banner2.jpg</Image>
-      <Documentation name="Science documentation">../ApsimReport/Docs/Report_science.htm</Documentation>
       <drops>
-         <drop name="toolbox"/>
          <drop name="simulation"/>
          <drop name="folder"/>
          <drop name="area"/>
-     </drops>
-   </Report>
-   <Graph>
-      <UItype>Graph.GraphUI</UItype>
+      </drops>
+   </TabbedReport>
+   <SplitReport>
+      <UItype>Graph.SplitScreenPageUI</UItype>
       <ShowInMainTree>Yes</ShowInMainTree>
       <LargeIcon>%apsuite\apsimui\Images\chart32.png</LargeIcon>
       <SmallIcon>%apsuite\apsimui\Images\chart16.png</SmallIcon>
       <Documentation name="Science documentation">../ApsimReport/Docs/Report_science.htm</Documentation>
       <drops>
-         <drop name="report"/>
-         <drop name="toolbox"/>
-         <drop name="simulation"/>
+         <drop name="outputfile"/>
          <drop name="folder"/>
-         <drop name="area"/>
      </drops>
-   </Graph>
-   <Data>
-      <UItype>APSIMUI.EmptyUI</UItype>
-      <ShowInMainTree>Yes</ShowInMainTree>
-      <LargeIcon>%apsuite\apsimui\Images\data32.png</LargeIcon>
-      <SmallIcon>%apsuite\apsimui\Images\data16.png</SmallIcon>
-      <Image>%apsuite\apsimui\images\banner2.jpg</Image>
+   </SplitReport>
+   <Chart>
+      <UItype>Graph.ChartUI</UItype>
+      <ShowInMainTree>No</ShowInMainTree>
+      <LargeIcon>%apsuite\apsimui\Images\chart32.png</LargeIcon>
+      <SmallIcon>%apsuite\apsimui\Images\chart16.png</SmallIcon>
       <Documentation name="Science documentation">../ApsimReport/Docs/Report_science.htm</Documentation>
       <drops>
-         <drop name="report"/>
-     </drops>
-   </Data>
+         <drop name="outputfile"/>
+         <drop name="folder"/>
+      </drops>
+   </Chart>
+   <Page>
+      <UItype>Graph.SmartPanel</UItype>
+      <ShowInMainTree>No</ShowInMainTree>
+      <drops>
+         <drop name="outputfile"/>
+         <drop name="folder"/>
+      </drops>
+   </Page>
+   <DataGrid> 
+      <UItype>Graph.DataGridUI</UItype>
+      <ShowInMainTree>No</ShowInMainTree>
+      <ShowInData>Yes</ShowInData>
+   </DataGrid>
    <Series>
       <UItype>Graph.SeriesUI</UItype>
       <ShowInMainTree>Yes</ShowInMainTree>
@@ -4058,8 +4066,9 @@
      </drops>
    </Series>
    <ApsimFileReader>
-      <UItype>Graph.GraphDataUI</UItype>
-      <ShowInMainTree>Yes</ShowInMainTree>
+      <UItype>Graph.ApsimFileReaderUI</UItype>
+      <ShowInMainTree>No</ShowInMainTree>
+      <ShowInData>Yes</ShowInData>
       <LargeIcon>%apsuite\apsimui\Images\apsimfilereader16.png</LargeIcon>
       <SmallIcon>%apsuite\apsimui\Images\apsimfilereader16.png</SmallIcon>
       <Image>%apsuite\apsimui\images\banner2.jpg</Image>
@@ -4068,8 +4077,9 @@
      </drops>
    </ApsimFileReader>
    <XmlFileReader>
-      <UItype>Graph.GraphDataUI</UItype>
-      <ShowInMainTree>Yes</ShowInMainTree>
+      <UItype>Graph.ApsimFileReaderUI</UItype>
+      <ShowInMainTree>No</ShowInMainTree>
+      <ShowInData>Yes</ShowInData>
       <LargeIcon>%apsuite\apsimui\Images\xmlfilereader16.png</LargeIcon>
       <SmallIcon>%apsuite\apsimui\Images\xmlfilereader16.png</SmallIcon>
       <Image>%apsuite\apsimui\images\banner2.jpg</Image>
@@ -4077,30 +4087,18 @@
          <drop name="data"/>
      </drops>
    </XmlFileReader>
-   <REMS>
-      <UItype>Graph.GraphDataUI</UItype>
-      <ShowInMainTree>Yes</ShowInMainTree>
-      <LargeIcon>%apsuite\apsimui\Images\rems16.png</LargeIcon>
-      <SmallIcon>%apsuite\apsimui\Images\rems16.png</SmallIcon>
-      <Image>%apsuite\apsimui\images\banner2.jpg</Image>
+   <XY>
+      <UItype>Graph.XYPickerUI</UItype>
+      <ShowInMainTree>No</ShowInMainTree>
+      <ShowInData>Yes</ShowInData>
       <drops>
          <drop name="data"/>
      </drops>
-   </REMS>
-   <ExcelReader>
-      <UItype>Graph.GraphDataUI</UItype>
-      <ShowInMainTree>Yes</ShowInMainTree>
-      <LargeIcon>%apsuite\apsimui\Images\excelreader16.png</LargeIcon>
-      <SmallIcon>%apsuite\apsimui\Images\excelreader16.png</SmallIcon>
-      <Image>%apsuite\apsimui\images\banner2.jpg</Image>
-      <drops>
-         <drop name="data"/>
-     </drops>
-   </ExcelReader>
-
+   </XY>   
    <Probability>
-      <UItype>Graph.GraphDataUI</UItype>
-      <ShowInMainTree>Yes</ShowInMainTree>
+      <UItype>Graph.FieldListUI</UItype>
+      <ShowInMainTree>No</ShowInMainTree>
+      <ShowInData>Yes</ShowInData>
       <LargeIcon>%apsuite\apsimui\Images\data32.png</LargeIcon>
       <SmallIcon>%apsuite\apsimui\Images\data16.png</SmallIcon>
       <Image>%apsuite\apsimui\images\banner2.jpg</Image>
@@ -4112,8 +4110,9 @@
      </drops>
    </Probability>
    <Filter>
-      <UItype>Graph.GraphDataUI</UItype>
-      <ShowInMainTree>Yes</ShowInMainTree>
+      <UItype>Graph.FilterUI</UItype>
+      <ShowInMainTree>No</ShowInMainTree>
+      <ShowInData>Yes</ShowInData>
       <LargeIcon>%apsuite\apsimui\Images\data32.png</LargeIcon>
       <SmallIcon>%apsuite\apsimui\Images\data16.png</SmallIcon>
       <Image>%apsuite\apsimui\images\banner2.jpg</Image>
@@ -4125,8 +4124,9 @@
      </drops>
    </Filter>
    <Cumulative>
-      <UItype>Graph.GraphDataUI</UItype>
-      <ShowInMainTree>Yes</ShowInMainTree>
+      <UItype>Graph.EmptyGraphUI</UItype>
+      <ShowInMainTree>No</ShowInMainTree>
+      <ShowInData>Yes</ShowInData>
       <LargeIcon>%apsuite\apsimui\Images\cumulative16.png</LargeIcon>
       <SmallIcon>%apsuite\apsimui\Images\cumulative16.png</SmallIcon>
       <Image>%apsuite\apsimui\images\banner2.jpg</Image>
@@ -4138,8 +4138,9 @@
      </drops>
    </Cumulative>
    <Depth>
-      <UItype>Graph.GraphDataUI</UItype>
-      <ShowInMainTree>Yes</ShowInMainTree>
+      <UItype>Graph.EmptyGraphUI</UItype>
+      <ShowInMainTree>No</ShowInMainTree>
+      <ShowInData>Yes</ShowInData>
       <LargeIcon>%apsuite\apsimui\Images\depth16.png</LargeIcon>
       <SmallIcon>%apsuite\apsimui\Images\depth16.png</SmallIcon>
       <Image>%apsuite\apsimui\images\banner2.jpg</Image>
@@ -4151,8 +4152,9 @@
      </drops>
    </Depth>
    <Diff>
-      <UItype>Graph.GraphDataUI</UItype>
-      <ShowInMainTree>Yes</ShowInMainTree>
+      <UItype>Graph.FieldListUI</UItype>
+      <ShowInMainTree>No</ShowInMainTree>
+      <ShowInData>Yes</ShowInData>
       <LargeIcon>%apsuite\apsimui\Images\diff16.png</LargeIcon>
       <SmallIcon>%apsuite\apsimui\Images\diff16.png</SmallIcon>
       <Image>%apsuite\apsimui\images\banner2.jpg</Image>
@@ -4164,8 +4166,9 @@
      </drops>
    </Diff>
    <Frequency>
-      <UItype>Graph.GraphDataUI</UItype>
-      <ShowInMainTree>Yes</ShowInMainTree>
+      <UItype>Graph.FrequencyUI</UItype>
+      <ShowInMainTree>No</ShowInMainTree>
+      <ShowInData>Yes</ShowInData>
       <LargeIcon>%apsuite\apsimui\Images\data32.png</LargeIcon>
       <SmallIcon>%apsuite\apsimui\Images\data16.png</SmallIcon>
       <Image>%apsuite\apsimui\images\banner2.jpg</Image>
@@ -4177,8 +4180,9 @@
      </drops>
    </Frequency>
    <KWTest>
-      <UItype>Graph.GraphDataUI</UItype>
-      <ShowInMainTree>Yes</ShowInMainTree>
+      <UItype>Graph.FieldListUI</UItype>
+      <ShowInMainTree>No</ShowInMainTree>
+      <ShowInData>Yes</ShowInData>
       <LargeIcon>%apsuite\apsimui\Images\data32.png</LargeIcon>
       <SmallIcon>%apsuite\apsimui\Images\data16.png</SmallIcon>
       <Image>%apsuite\apsimui\images\banner2.jpg</Image>
@@ -4190,8 +4194,9 @@
      </drops>
    </KWTest>
    <PredObs>
-      <UItype>Graph.GraphDataUI</UItype>
-      <ShowInMainTree>Yes</ShowInMainTree>
+      <UItype>Graph.PredObsUI</UItype>
+      <ShowInMainTree>No</ShowInMainTree>
+      <ShowInData>Yes</ShowInData>
       <LargeIcon>%apsuite\apsimui\Images\PredObs16.png</LargeIcon>
       <SmallIcon>%apsuite\apsimui\Images\PredObs16.png</SmallIcon>
       <Image>%apsuite\apsimui\images\banner2.jpg</Image>
@@ -4203,8 +4208,9 @@
      </drops>
    </PredObs>
    <Regression>
-      <UItype>Graph.GraphDataUI</UItype>
-      <ShowInMainTree>Yes</ShowInMainTree>
+      <UItype>Graph.RegressionUI</UItype>
+      <ShowInMainTree>No</ShowInMainTree>
+      <ShowInData>Yes</ShowInData>
       <LargeIcon>%apsuite\apsimui\Images\data32.png</LargeIcon>
       <SmallIcon>%apsuite\apsimui\Images\data16.png</SmallIcon>
       <Image>%apsuite\apsimui\images\banner2.jpg</Image>
@@ -4216,8 +4222,9 @@
      </drops>
    </Regression>
    <Stats>
-      <UItype>Graph.GraphDataUI</UItype>
-      <ShowInMainTree>Yes</ShowInMainTree>
+      <UItype>Graph.StatsUI</UItype>
+      <ShowInMainTree>No</ShowInMainTree>
+      <ShowInData>Yes</ShowInData>
       <LargeIcon>%apsuite\apsimui\Images\data32.png</LargeIcon>
       <SmallIcon>%apsuite\apsimui\Images\data16.png</SmallIcon>
       <Image>%apsuite\apsimui\images\banner2.jpg</Image>
@@ -4229,8 +4236,9 @@
      </drops>
    </Stats>
    <SOI>
-      <UItype>Graph.GraphDataUI</UItype>
-      <ShowInMainTree>Yes</ShowInMainTree>
+      <UItype>Graph.SOIUI</UItype>
+      <ShowInMainTree>No</ShowInMainTree>
+      <ShowInData>Yes</ShowInData>
       <LargeIcon>%apsuite\apsimui\Images\data32.png</LargeIcon>
       <SmallIcon>%apsuite\apsimui\Images\data16.png</SmallIcon>
       <Image>%apsuite\apsimui\images\banner2.jpg</Image>
@@ -4240,10 +4248,31 @@
          <drop name="rems"/>
          <drop name="excelreader"/>
      </drops>
-   </SOI>
+   </SOI>   
+   <RecordFilter>
+      <UItype>APSIMUI.RecordFilterUI</UItype>
+      <ShowInMainTree>No</ShowInMainTree>
+      <ShowInData>Yes</ShowInData>
+   </RecordFilter>
+   <REMS>
+      <UItype>Graph.REMSUI</UItype>
+      <ShowInMainTree>No</ShowInMainTree>
+      <ShowInData>Yes</ShowInData>
+      <LargeIcon>%apsuite\apsimui\Images\rems16.png</LargeIcon>
+      <SmallIcon>%apsuite\apsimui\Images\rems16.png</SmallIcon>
+      <Image>%apsuite\apsimui\images\banner2.jpg</Image>
+      <drops>
+         <drop name="data"/>
+     </drops>
+   </REMS>
+
+
+
+
    <YPCalc>
       <UItype>APSIMUI.EmptyUI</UItype>
-      <ShowInMainTree>Yes</ShowInMainTree>
+      <ShowInMainTree>No</ShowInMainTree>
+      <ShowInData>Yes</ShowInData>
       <Image>%apsuite\apsimui\images\banner2.jpg</Image>
       <LargeIcon>%apsuite\apsimui\Images\layout_center32.png</LargeIcon>
       <SmallIcon>%apsuite\apsimui\Images\layout_center16.png</SmallIcon>

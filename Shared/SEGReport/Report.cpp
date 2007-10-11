@@ -8,6 +8,7 @@
 
 #include <QuickRpt.hpp>
 #include <general\vcl_functions.h>
+#include <general\stl_functions.h>
 #include <general\path.h>
 #include <general\inifile.h>
 #include <general\stringtokenizer.h>
@@ -89,7 +90,7 @@ Report::~Report(void)
 void Report::clear(void)
    {
    const string reportTemplate =
-      "<report version=\"4\">\r\n"
+      "<report version=\"5\">\r\n"
       "   <data/>\r\n"
       "   <page><![CDATA[\r\n"
       "     object Page1: TQuickRep\r\n"
@@ -182,7 +183,22 @@ void Report::load(const string& fileName, bool quiet)
       if (versionLine.find('<') == string::npos)
          convertVersion3To4(in, fileName);
       else
+         {
+         unsigned posVersion = versionLine.find("version=\"");
+         if (posVersion != string::npos)
+            {
+            posVersion += strlen("version=\"");
+            unsigned posQuote = versionLine.find('"', posVersion);
+            if (posQuote != string::npos)
+               {
+               string versionString = versionLine.substr(posVersion, posQuote - posVersion);
+               int version = atoi(versionString.c_str());
+               if (version < 5)
+                  convertVersion4To5(in, fileName);
+               }
+            }
          in.close();
+         }
 
       // set up the data.
       in.open(fileName.c_str());
@@ -212,8 +228,8 @@ void Report::loadFromContents(const string& contents, bool quiet)
       if (Str_i_Eq(i->getName(), "data"))
          {
          delete data;
-         data = new DataContainer(reportForm, NULL);
-         data->setXML(i->write());
+         data = new DataContainer(reportForm);
+         data->setup(i->write());
          }
       else if (Str_i_Eq(i->getName(), "page"))
          {
@@ -261,7 +277,7 @@ string Report::getReportXml()
    {
    ostringstream out;
    out << "<report version=\"4\">" << endl;
-   out << data->getXML() << endl;
+   out << data->xml() << endl;
    for (unsigned p = 0; p != pages.size(); p++)
       {
       out << "   <page> <![CDATA[" << endl;
@@ -432,7 +448,7 @@ void Report::showDataPage()
    ostringstream argument;
    argument << (unsigned) data;
 
-   string dllFileName = getApsimDirectory() + "\\bin\\ApsimReportData.dll";
+   string dllFileName = getApsimDirectory() + "\\bin\\Graph.dll";
 
    if (handle == NULL)
         {
@@ -444,7 +460,7 @@ void Report::showDataPage()
         ::MessageBox(NULL, "Cannot find CallManagedDLL.dll", "Error", MB_ICONSTOP | MB_OK);
    else
         {
-           (*callDLL)(dllFileName.c_str(), "ApsimReportData.MainForm", "Go", argument.str().c_str());
+        (*callDLL)(dllFileName.c_str(), "Graph.ApsimReportDataForm", "Go", argument.str().c_str());
         refreshAllPages();
         isDirty = true;
         }
@@ -816,17 +832,6 @@ void __fastcall Report::buttonClick(TObject* sender)
    TToolButton* button = dynamic_cast<TToolButton*>(sender);
    updateObjectInspector((TComponent*)button->Tag);
    }
-//---------------------------------------------------------------------------
-// Return a component to caller.
-//---------------------------------------------------------------------------
-//TComponent* Report::getAComponent(const std::string& componentName)
-//   {
-//   TComponent* component = getComponent<TComponent> (dataForm, componentName.c_str());
-//   if (component == NULL)
-//      component = getComponent<TComponent> (reportForm, componentName.c_str());
-//   return component;
-//   }
-
 
 //---------------------------------------------------------------------------
 // Version 3 to 4
@@ -1114,5 +1119,60 @@ void Report::nestAllObjectsUsingSource(XMLDocument& doc)
       else
          object++;
       }
+   }
+
+//---------------------------------------------------------------------------
+// Version 4 to 5 - Flatten out the children of data so that they are all
+// the same level i.e. they are a child of "<Data>"
+//---------------------------------------------------------------------------
+void Report::convertVersion4To5(ifstream& in, const std::string& fileName)
+   {
+   static const int MAXNAMES = 15;
+   static const char* Names[MAXNAMES] = {"ApsimFileReader",
+                                         "Probability",
+                                         "PredObs",
+                                         "XmlFileReader",
+                                         "Filter",
+                                         "Cumulative",
+                                         "Depth",
+                                         "Diff",
+                                         "Frequency",
+                                         "KWTest",
+                                         "REMS",
+                                         "Regression",
+                                         "SOI",
+                                         "Stats",
+                                         "RecordFilter"};
+   vector<string> validNames(Names, Names + MAXNAMES);
+   in.close();
+   XMLDocument doc(fileName);
+   XMLNode::iterator data = find_if(doc.documentElement().begin(), doc.documentElement().end(),
+                                    EqualToName<XMLNode>("Data"));
+   if (data != doc.documentElement().end())
+      {
+      XMLNode::iterator dataChild = data->begin();
+      while (dataChild != data->end())
+         {
+         XMLNode::iterator object = dataChild->begin();
+         while (object != dataChild->end())
+            {
+            if (find_if(validNames.begin(), validNames.end(),
+                        CaseInsensitiveStringComparison(object->getName())) != validNames.end())
+               {
+               // Is a valid name - should be moved to under data.
+               XMLNode newNode = data->appendChild(*object, true);
+               string sourceName = dataChild->getAttribute("name");
+               if (sourceName == "")
+                  sourceName = dataChild->getName();
+               newNode.appendChild("source", true).setValue(sourceName);
+               object = dataChild->erase(object);
+               }
+            else
+               object++;
+            }
+         dataChild++;
+         }
+      }
+   doc.write(fileName);
    }
 

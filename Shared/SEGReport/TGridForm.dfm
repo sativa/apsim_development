@@ -1,6 +1,6 @@
 object GridForm: TGridForm
-  Left = 283
-  Top = 516
+  Left = 276
+  Top = 379
   BorderIcons = []
   BorderStyle = bsNone
   ClientHeight = 454
@@ -21,11 +21,11 @@ object GridForm: TGridForm
     Height = 454
     Cursor = crDefault
     Align = alClient
-    ColCount = 2
+    ColCount = 1
     DefaultColWidth = 100
     DefaultRowHeight = 21
     DefaultDrawing = False
-    FixedCols = 1
+    FixedCols = 0
     RowCount = 5
     FixedRows = 1
     Font.Charset = DEFAULT_CHARSET
@@ -51,7 +51,7 @@ object GridForm: TGridForm
     Bands.SecondaryLength = 1
     Bands.Print = False
     AutoNumAlign = True
-    AutoSize = True
+    AutoSize = False
     VAlignment = vtaTop
     EnhTextSize = False
     EnhRowColMove = False
@@ -168,7 +168,7 @@ object GridForm: TGridForm
     OemConvert = False
     FixedFooters = 0
     FixedRightCols = 0
-    FixedColWidth = 24
+    FixedColWidth = 100
     FixedRowHeight = 21
     FixedFont.Charset = DEFAULT_CHARSET
     FixedFont.Color = clWindowText
@@ -197,10 +197,7 @@ object GridForm: TGridForm
     ShowMemoFields = True
     ShowPictureFields = True
     ShowBooleanFields = False
-    ShowIndicator = True
-    ColWidths = (
-      24
-      100)
+    ShowIndicator = False
   end
   object DataSource: TDataSource
     Left = 72

@@ -52,12 +52,6 @@
     <Compile Include="ColorBox.Designer.cs">
       <DependentUpon>ColorBox.cs</DependentUpon>
     </Compile>
-    <Compile Include="DragPanel.cs">
-      <SubType>Component</SubType>
-    </Compile>
-    <Compile Include="DragPanel.Designer.cs">
-      <DependentUpon>DragPanel.cs</DependentUpon>
-    </Compile>
     <Compile Include="ErrorMessageForm.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -130,10 +124,6 @@
     <Service Include="{94E38DFF-614B-4cbd-B67C-F211BB35CE8B}" />
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="DragPanel.resx">
-      <SubType>Designer</SubType>
-      <DependentUpon>DragPanel.cs</DependentUpon>
-    </EmbeddedResource>
     <EmbeddedResource Include="ErrorMessageForm.resx">
       <DependentUpon>ErrorMessageForm.cs</DependentUpon>
       <SubType>Designer</SubType>

@@ -13,10 +13,14 @@ Public Class BaseView
     ' ----------------------------------   
     Inherits System.Windows.Forms.UserControl
 
+    Protected Controller As BaseController
+    Protected NodePath As String
+
 #Region " Windows Form Designer generated code "
     Public Sub New()
         MyBase.New()
         InitializeComponent()
+        HelpText = ""
     End Sub
 
     Protected Overloads Overrides Sub Dispose(ByVal disposing As Boolean)
@@ -51,6 +55,7 @@ Public Class BaseView
         Me.MyHelpLabel.Size = New System.Drawing.Size(655, 40)
         Me.MyHelpLabel.TabIndex = 1
         Me.MyHelpLabel.TextAlign = System.Drawing.ContentAlignment.MiddleLeft
+        Me.MyHelpLabel.Visible = False
         '
         'BaseView
         '
@@ -64,10 +69,12 @@ Public Class BaseView
     End Sub
 #End Region
 
-    Public Overridable Overloads Sub OnLoad(ByVal Controller As BaseController)
+    Public Overridable Overloads Sub OnLoad(ByVal Controller As BaseController, ByVal NodePath As String)
+        Me.Controller = Controller
+        Me.NodePath = NodePath
     End Sub
 
-    Public Overridable Sub OnRefresh(ByVal NodePath As String)
+    Public Overridable Sub OnRefresh()
     End Sub
 
     Public Overridable Sub OnSave()
@@ -95,10 +102,10 @@ Public Class BaseView
         Set(ByVal Value As String)
             MyHelpLabel.Text = Value
             MyHelpLabel.Visible = Value <> ""
-            'MyHelpLabel.AutoSize = True
             Dim s As New Drawing.Size(MyHelpLabel.Size.Width, 100)
             MyHelpLabel.Height = MyHelpLabel.GetPreferredSize(s).Height
         End Set
     End Property
+
 
 End Class

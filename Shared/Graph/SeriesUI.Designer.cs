@@ -50,14 +50,13 @@ namespace Graph
             // Spreadsheet
             // 
             this.Spreadsheet.AccessibleDescription = "Spreadsheet, Sheet1, Row 0, Column 0, ";
-            this.Spreadsheet.Dock = System.Windows.Forms.DockStyle.Fill;
             this.Spreadsheet.HorizontalScrollBarPolicy = FarPoint.Win.Spread.ScrollBarPolicy.AsNeeded;
-            this.Spreadsheet.Location = new System.Drawing.Point(0, 40);
+            this.Spreadsheet.Location = new System.Drawing.Point(22, 307);
             this.Spreadsheet.Name = "Spreadsheet";
             this.Spreadsheet.ScrollBarShowMax = false;
             this.Spreadsheet.Sheets.AddRange(new FarPoint.Win.Spread.SheetView[] {
             this.Grid});
-            this.Spreadsheet.Size = new System.Drawing.Size(752, 501);
+            this.Spreadsheet.Size = new System.Drawing.Size(676, 213);
             this.Spreadsheet.TabIndex = 7;
             this.Spreadsheet.TabStrip.ButtonPolicy = FarPoint.Win.Spread.TabStripButtonPolicy.AsNeeded;
             this.Spreadsheet.TabStripPlacement = FarPoint.Win.Spread.TabStripPlacement.Bottom;
@@ -218,12 +217,12 @@ namespace Graph
             this.PopupMenu.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.DeleteSeriesMenu});
             this.PopupMenu.Name = "PopupMenu";
-            this.PopupMenu.Size = new System.Drawing.Size(164, 26);
+            this.PopupMenu.Size = new System.Drawing.Size(140, 26);
             // 
             // DeleteSeriesMenu
             // 
             this.DeleteSeriesMenu.Name = "DeleteSeriesMenu";
-            this.DeleteSeriesMenu.Size = new System.Drawing.Size(163, 22);
+            this.DeleteSeriesMenu.Size = new System.Drawing.Size(139, 22);
             this.DeleteSeriesMenu.Text = "Delete series";
             this.DeleteSeriesMenu.Click += new System.EventHandler(this.DeleteSeriesMenu_Click);
             // 
@@ -231,6 +230,7 @@ namespace Graph
             // 
             this.ContextMenuStrip = this.PopupMenu;
             this.Controls.Add(this.Spreadsheet);
+            this.DragBarVisible = true;
             this.Name = "SeriesUI";
             this.Size = new System.Drawing.Size(752, 541);
             this.Controls.SetChildIndex(this.Spreadsheet, 0);
@@ -238,6 +238,7 @@ namespace Graph
             ((System.ComponentModel.ISupportInitialize)(this.Grid)).EndInit();
             this.PopupMenu.ResumeLayout(false);
             this.ResumeLayout(false);
+            this.PerformLayout();
 
             }
 

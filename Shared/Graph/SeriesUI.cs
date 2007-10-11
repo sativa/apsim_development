@@ -15,7 +15,7 @@ namespace Graph
     {
     public partial class SeriesUI : BaseView
         {
-        private GraphController GraphController;
+        private DataProcessor GraphController;
         private BaseController Controller;
         private bool Updating = false;
         private APSIMData GraphData;
@@ -31,7 +31,7 @@ namespace Graph
             GraphData = Controller.Data.Parent.Child("Data");
             if (GraphData == null)
                 GraphData = Controller.Data.Parent.Parent.Child("Data");
-            this.GraphController = new GraphController(Controller.IconImageList("SmallIcon"), GraphData);
+            this.GraphController = new DataProcessor(GraphData);
             }
         public override void OnClose()
             {

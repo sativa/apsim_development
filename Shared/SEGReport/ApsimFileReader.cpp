@@ -11,97 +11,15 @@
 #include <general\io_functions.h>
 #include <general\path.h>
 #include <dir.h>
-
+#include <general\xml.h>
 using namespace std;
-
-//---------------------------------------------------------------------------
-// Create the necessary fields in the result dataset.
-//---------------------------------------------------------------------------
-void ApsimFileReader::createFields(TDataSet* source, TDataSet* result)
-   {
-   vector<string> fileNames = getFileNames();
-   bool parseTitle = Str_i_Eq(getProperty("parseTitle"), "yes");
-
-   if (fileNames.size() > 0)
-      {
-      if (!FileExists(fileNames[0].c_str()))
-         throw runtime_error("Cannot find file: " + fileNames[0]);
-
-      ifstream in(fileNames[0].c_str());
-      vector<string> fieldNames;
-      string title;
-      readApsimHeader(in, fieldNames, title);
-      if (title != "")
-         {
-         // split up title into factors and store as fields.
-         vector<string> factorNames, factorValues;
-         if (parseTitle)
-            splitTitleIntoFactors(title, factorNames, factorValues);
-         else
-            {
-            factorNames.push_back("title");
-            factorValues.push_back(title);
-            }
-         if (factorNames.size() > 0 && factorNames[0] != "")
-            addDBFields(result, factorNames, factorValues);
-
-         // Read headings and store as field names.
-         vector<string> fieldValues;
-         if (readNextRecord(in, fieldValues))
-            addDBFields(result, fieldNames, fieldValues);
-         }
-      }
-   }
-//---------------------------------------------------------------------------
-// Go do our processing, putting all results into 'data'
-//---------------------------------------------------------------------------
-void ApsimFileReader::process(TDataSet* source, TDataSet* result)
-   {
-   vector<string> fileNames = getFileNames();
-   bool parseTitle = Str_i_Eq(getProperty("parseTitle"), "yes");
-
-   for (unsigned f = 0; f != fileNames.size(); f++)
-      {
-      if (!FileExists(fileNames[f].c_str()))
-         throw runtime_error("Cannot find file: " + fileNames[f]);
-
-      ifstream in(fileNames[f].c_str());
-      vector<string> fieldNames;
-      string title;
-      readApsimHeader(in, fieldNames, title);
-      if (title != "")
-         {
-         // split up title into factors and store as fields.
-         vector<string> factorNames, factorValues;
-         if (parseTitle)
-            splitTitleIntoFactors(title, factorNames, factorValues);
-         else
-            {
-            factorNames.push_back("title");
-            factorValues.push_back(title);
-            }
-
-         copy(factorNames.begin(), factorNames.end(), back_inserter(fieldNames));
-
-         // Copy all rows to result dataset.
-         vector<string> fieldValues;
-         while (readNextRecord(in, fieldValues))
-            {
-            copy(factorValues.begin(), factorValues.end(), back_inserter(fieldValues));
-            appendDBRecord(result, fieldNames, fieldValues);
-            }
-         }
-      }
-   }
 
 // ------------------------------------------------------------------
 // read in the header part of an apsim output file.  The header part
 // consists of a title= line, followed by a line of field names
 // and a line of unit names.
 // ------------------------------------------------------------------
-void ApsimFileReader::readApsimHeader(istream& in,
-                                      vector<string>& fieldNames,
-                                      string& title)
+void readApsimHeader(istream& in, vector<string>& fieldNames, string& title)
    {
    // loop through all lines looking for heading line.
    string line, previousLine;
@@ -130,8 +48,7 @@ void ApsimFileReader::readApsimHeader(istream& in,
 // ------------------------------------------------------------------
 // Read in the next record.  Return true if values are returned.
 // ------------------------------------------------------------------
-bool ApsimFileReader::readNextRecord(istream& in,
-                                     vector<string>& fieldValues)
+bool readNextRecord(istream& in, vector<string>& fieldValues)
    {
    string line;
    if (getline(in, line) && line.length() > 0)
@@ -153,9 +70,8 @@ bool ApsimFileReader::readNextRecord(istream& in,
 // ------------------------------------------------------------------
 // split up title into factors and store as fields.
 // ------------------------------------------------------------------
-void ApsimFileReader::splitTitleIntoFactors(const string& title,
-                                            vector<string>& factorNames,
-                                            vector<string>& factorValues)
+void splitTitleIntoFactors(const string& title, vector<string>& factorNames,
+                           vector<string>& factorValues)
    {
    vector<string> namesAndValues;
    Split_string(title, ";", namesAndValues);
@@ -171,19 +87,108 @@ void ApsimFileReader::splitTitleIntoFactors(const string& title,
 //---------------------------------------------------------------------------
 // Get a list of file names for this reader - takes care of filespecs.
 //---------------------------------------------------------------------------
-vector<string> ApsimFileReader::getFileNames()
+vector<string> getFileNames(const XMLNode& properties)
    {
    vector<string> fileNames;
-   vector<string> fileSpecs = getProperties("filename");
-
+   vector<string> fileSpecs = properties.childValues("filename");
    for (unsigned i = 0; i != fileSpecs.size(); i++)
       {
-      getDirectoryListing(Path(fileSpecs[i]).Get_directory(),
-                          Path(fileSpecs[i]).Get_name(),
-                          fileNames,
-                          FA_NORMAL,
-                          true);
+      if (fileSpecs[i].find('*') == string::npos &&
+          fileSpecs[i].find('?') == string::npos)
+          fileNames.push_back(fileSpecs[0]);
+      else
+         getDirectoryListing(Path(fileSpecs[i]).Get_directory(),
+                             Path(fileSpecs[i]).Get_name(),
+                             fileNames,
+                             FA_NORMAL,
+                             true);
       }
-   return fileNames;
+   return fileNames;                    
    }
+
+//---------------------------------------------------------------------------
+//---------------------------------------------------------------------------
+//---------------------------------------------------------------------------
+// this function reads all data from 1 or more APSIM output files.
+//---------------------------------------------------------------------------
+void processApsimFileReader(DataContainer& parent,
+                            const XMLNode& properties,
+                            TDataSet& result)
+   {
+   vector<string> fileNames = getFileNames(properties);
+   bool parseTitle = Str_i_Eq(properties.childValue("parseTitle"), "yes");
+
+   // Read all headings.
+   result.Active = false;
+   result.FieldDefs->Clear();
+
+   if (fileNames.size() == 0)
+      return;
+
+   if (!FileExists(fileNames[0].c_str()))
+      throw runtime_error("Cannot find file: " + fileNames[0]);
+
+   ifstream in(fileNames[0].c_str());
+   vector<string> fieldNames;
+   string title;
+   readApsimHeader(in, fieldNames, title);
+   if (title != "")
+      {
+      // split up title into factors and store as fields.
+      vector<string> factorNames, factorValues;
+      if (parseTitle)
+         splitTitleIntoFactors(title, factorNames, factorValues);
+      else
+         {
+         factorNames.push_back("title");
+         factorValues.push_back(title);
+         }
+      if (factorNames.size() > 0 && factorNames[0] != "")
+         addDBFields(&result, factorNames, factorValues);
+      }
+
+   // Read headings and store as field names.
+   vector<string> fieldValues;
+   if (readNextRecord(in, fieldValues))
+      addDBFields(&result, fieldNames, fieldValues);
+
+   // Now read all data.
+   if (result.FieldDefs->Count > 0)
+      {
+      result.Active = true;
+      for (unsigned f = 0; f != fileNames.size(); f++)
+         {
+         if (!FileExists(fileNames[f].c_str()))
+            throw runtime_error("Cannot find file: " + fileNames[f]);
+
+         ifstream in(fileNames[f].c_str());
+         vector<string> fieldNames;
+         string title;
+         readApsimHeader(in, fieldNames, title);
+         vector<string> factorNames, factorValues;
+         if (title != "")
+            {
+            // split up title into factors and store as fields.
+            if (parseTitle)
+               splitTitleIntoFactors(title, factorNames, factorValues);
+            else
+               {
+               factorNames.push_back("title");
+               factorValues.push_back(title);
+               }
+
+            copy(factorNames.begin(), factorNames.end(), back_inserter(fieldNames));
+            }
+
+         // Copy all rows to result dataset.
+         vector<string> fieldValues;
+         while (readNextRecord(in, fieldValues))
+            {
+            copy(factorValues.begin(), factorValues.end(), back_inserter(fieldValues));
+            appendDBRecord(&result, fieldNames, fieldValues);
+            }
+         }
+      }
+   }
+
 

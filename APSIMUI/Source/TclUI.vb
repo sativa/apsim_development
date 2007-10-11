@@ -6,20 +6,15 @@ Imports VBUserInterface
 
 Public Class TclUI
     Inherits BaseView
-    Private controller As BaseController
-
-    Public Overrides Sub OnLoad(ByVal Controller As VBUserInterface.BaseController)
-        Me.controller = Controller
-    End Sub
-    Overrides Sub OnRefresh(ByVal NodePath As String)
+    Overrides Sub OnRefresh()
 
         'AxTclControl1.TraceVar("GlobalXMLDoc", TRACE_READS + GLOBAL_ONLY)
-        AxTclControl1.SetVar("GlobalXMLDoc", Me.controller.ApsimData.AllData.XML(), 1)
-        AxTclControl1.SetVar("myName", ApsimUIActions.CalcFileName(controller.Data), 1)
-        AxTclControl1.SetVar("XMLDoc", Me.controller.Data.XML(), 1)
+        AxTclControl1.SetVar("GlobalXMLDoc", Me.Controller.ApsimData.AllData.XML(), 1)
+        AxTclControl1.SetVar("myName", BaseActions.CalcFileName(Controller.Data), 1)
+        AxTclControl1.SetVar("XMLDoc", Me.Controller.Data.XML(), 1)
         AxTclControl1.SetVar("apsuite", ApsimDirectory(), 1)
 
-        Dim UIScript As String = Me.controller.Data.ChildValue("uiscript")
+        Dim UIScript As String = Me.Controller.Data.ChildValue("uiscript")
 
         If (AxTclControl1.Eval(UIScript) = False) Then
             MessageBox.Show(AxTclControl1.Result, "Tcl Error", MessageBoxButtons.OK, MessageBoxIcon.Error)

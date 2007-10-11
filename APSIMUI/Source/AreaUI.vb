@@ -8,8 +8,6 @@ Imports VBUserInterface
 
 Public Class areaui
     Inherits BaseView
-    Private Controller As BaseController
-    Private NodePath As String
 
 #Region " Windows Form Designer generated code "
 
@@ -101,13 +99,7 @@ Public Class areaui
     ' ----------------------------------
     ' Refresh the listview
     ' ----------------------------------
-    Public Overrides Sub OnLoad(ByVal Controller As VBUserInterface.BaseController)
-        Me.Controller = Controller
-    End Sub
-
-    Public Overrides Sub OnRefresh(ByVal NodePath As String)
-        Me.NodePath = NodePath
-
+    Public Overrides Sub OnRefresh()
         ListView.Clear()
         ListView.LargeImageList = Controller.IconImageList("LargeIcon")
 
@@ -206,7 +198,7 @@ Public Class areaui
             Dim NewDataString As String = e.Data.GetData(DataFormats.Text)
             Dim NewNode As New APSIMData(NewDataString)
             Controller.Data.Add(NewNode)
-            OnRefresh(Controller.Data.FullPath)
+            OnRefresh()
         Else
             For Each item As ListViewItem In ListView.SelectedItems
                 CSUserInterface.ListViewAPI.SetItemPosition(ListView, ListView.SelectedItems.Item(0).Index, p.X, p.Y)
@@ -242,7 +234,7 @@ Public Class areaui
             Controller.SelectedPaths = Selections
             Controller.ApsimData.Delete(Controller.SelectedPaths)
             Controller.SelectedPaths = InitialSelections
-            OnRefresh(NodePath)
+            OnRefresh()
         End If
     End Sub
 
