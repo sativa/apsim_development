@@ -56,7 +56,7 @@ void processKWTest(DataContainer& parent,
       {
       TDataSet* source1 = parent.data(sourceNames[0]);
       TDataSet* source2 = parent.data(sourceNames[1]);
-      if (source1 != NULL && source2 != NULL)
+      if (source1 != NULL && source2 != NULL && source1->Active && source2->Active)
          {
          addDBField(&result, "PValue", "1.0");
          addDBField(&result, "Description", "a");

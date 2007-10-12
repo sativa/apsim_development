@@ -22,7 +22,7 @@ void processProbability(DataContainer& parent,
    vector<string> fieldNames = properties.childValues("fieldname");
    bool exceedence = Str_i_Eq(properties.childValue("exceedence"), "yes");
    TDataSet* source = parent.data(properties.childValue("source"));
-   if (source != NULL)
+   if (source != NULL && source->Active)
       {
       result.Active = false;
       result.FieldDefs->Clear();
@@ -30,33 +30,36 @@ void processProbability(DataContainer& parent,
          addDBField(&result, fieldNames[f].c_str(), "1.0");
       addDBField(&result, "Probability", "1.0");
 
-      result.Active = true;
-      int numValues = 0;
-      vector<vector<double> > values, probValues;
-      for (unsigned f = 0; f != fieldNames.size(); f++)
+      if (result.FieldDefs->Count > 0)
          {
-         values.push_back(vector<double>());
-         probValues.push_back(vector<double>());
-         getDBFieldValues(source, fieldNames[f], values[f]);
-         Calculate_prob_dist(values[f], exceedence, probValues[f]);
-         numValues = values[f].size();
-         }
-
-      // Now loop through all values and append a record for each.
-      for (int recordNum = 0; recordNum < numValues; recordNum++)
-         {
-         result.Append();
+         result.Active = true;
+         int numValues = 0;
+         vector<vector<double> > values, probValues;
          for (unsigned f = 0; f != fieldNames.size(); f++)
             {
-            result.FieldValues[fieldNames[f].c_str()] = values[f][recordNum];
-            if (f == 0)
-               {
-               double value = probValues[f][recordNum] + 0.0005;
-               Round_to_nearest(value, 0.001, false);
-               result.FieldValues["Probability"] = value;
-               }
+            values.push_back(vector<double>());
+            probValues.push_back(vector<double>());
+            getDBFieldValues(source, fieldNames[f], values[f]);
+            Calculate_prob_dist(values[f], exceedence, probValues[f]);
+            numValues = values[f].size();
             }
-         result.Post();
+
+         // Now loop through all values and append a record for each.
+         for (int recordNum = 0; recordNum < numValues; recordNum++)
+            {
+            result.Append();
+            for (unsigned f = 0; f != fieldNames.size(); f++)
+               {
+               result.FieldValues[fieldNames[f].c_str()] = values[f][recordNum];
+               if (f == 0)
+                  {
+                  double value = probValues[f][recordNum] + 0.0005;
+                  Round_to_nearest(value, 0.001, false);
+                  result.FieldValues["Probability"] = value;
+                  }
+               }
+            result.Post();
+            }
          }
       }
    }

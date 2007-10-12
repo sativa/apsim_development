@@ -132,52 +132,56 @@ void processSOI(DataContainer& parent,
    result.FieldDefs->Clear();
 
    TDataSet* source = parent.data(properties.childValue("source"));
-   result.FieldDefs->Assign(source->FieldDefs);
-   addDBField(&result, SOI_PHASE_FIELD_NAME, "xxxx");
-
-   string soiFilename = properties.childValue("filename");
-   unsigned monthToUse = longMonthToInt(properties.childValue("month"));
-   vector<string> phaseNamesToKeep = properties.childValues("Phase");
-
-   bool allOtherYears = (find_if(phaseNamesToKeep.begin(), phaseNamesToKeep.end(),
-                                 CaseInsensitiveStringComparison("AllOtherYears"))
-                    != phaseNamesToKeep.end());
-   if (soiFilename == "")
+   if (source != NULL && source->Active)
       {
-      ApsimSettings settings;
-      settings.read("soi|soi file", soiFilename, true);
-      }
+      result.FieldDefs->Assign(source->FieldDefs);
+      addDBField(&result, SOI_PHASE_FIELD_NAME, "xxxx");
 
-   // read in all soi data from soi file.
-   vector<string> phaseNames;
-   Phases phases;
-   readSoiData(soiFilename, phaseNames, phases);
+      string soiFilename = properties.childValue("filename");
+      unsigned monthToUse = longMonthToInt(properties.childValue("month"));
+      vector<string> phaseNamesToKeep = properties.childValues("Phase");
 
-   // get the sowing year field name
-   string sowYearFieldName = getSowYearFieldName(source);
-
-   result.Active = true;
-
-   // loop through all records.
-   source->First();
-   while (!source->Eof)
-      {
-      string currentPhaseName;
-      int year = source->FieldValues[sowYearFieldName.c_str()];
-      currentPhaseName = getPhase(year, monthToUse, phaseNames, phases);
-
-      if (keepPhase(currentPhaseName, phaseNamesToKeep, allOtherYears))
+      bool allOtherYears = (find_if(phaseNamesToKeep.begin(), phaseNamesToKeep.end(),
+                                    CaseInsensitiveStringComparison("AllOtherYears"))
+                       != phaseNamesToKeep.end());
+      if (soiFilename == "")
          {
-         // add a new record that is identical to the current source record.
-         copyDBRecord(source, &result);
-
-         result.Edit();
-         result.FieldValues[SOI_PHASE_FIELD_NAME] = currentPhaseName.c_str();
-         result.Post();
+         ApsimSettings settings;
+         settings.read("soi|soi file", soiFilename, true);
          }
 
-      source->Next();
+      // read in all soi data from soi file.
+      vector<string> phaseNames;
+      Phases phases;
+      readSoiData(soiFilename, phaseNames, phases);
+
+      // get the sowing year field name
+      string sowYearFieldName = getSowYearFieldName(source);
+
+      if (result.FieldDefs->Count > 0)
+         {
+         result.Active = true;
+
+         // loop through all records.
+         source->First();
+         while (!source->Eof)
+            {
+            string currentPhaseName;
+            int year = source->FieldValues[sowYearFieldName.c_str()];
+            currentPhaseName = getPhase(year, monthToUse, phaseNames, phases);
+
+            if (keepPhase(currentPhaseName, phaseNamesToKeep, allOtherYears))
+               {
+               // add a new record that is identical to the current source record.
+               copyDBRecord(source, &result);
+
+               result.Edit();
+               result.FieldValues[SOI_PHASE_FIELD_NAME] = currentPhaseName.c_str();
+               result.Post();
+               }
+
+            source->Next();
+            }
+         }
       }
    }
-
-

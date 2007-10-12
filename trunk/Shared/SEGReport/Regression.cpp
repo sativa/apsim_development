@@ -23,7 +23,7 @@ void processRegression(DataContainer& parent,
    string XFieldName = properties.childValue("XFieldName");
    string YFieldName = properties.childValue("YFieldName");
    TDataSet* source = parent.data(properties.childValue("source"));
-   if (XFieldName != "" && YFieldName != "" && source != NULL)
+   if (XFieldName != "" && YFieldName != "" && source != NULL && source->Active)
       {
       addDBField(&result, "RegrX", "1.0");
       addDBField(&result, "RegrY", "1.0");
@@ -38,67 +38,69 @@ void processRegression(DataContainer& parent,
       addDBField(&result, "StdErr(c)", "1.0");
       addDBField(&result, "RMSD", "1.0");
 
-      result.Active = true;
-
-      // Loop through all series blocks and all records within that series.
-      vector<double> x,y;
-      source->First();
-      while (!source->Eof)
+      if (result.FieldDefs->Count > 0)
          {
-         try
+         result.Active = true;
+
+         // Loop through all series blocks and all records within that series.
+         vector<double> x,y;
+         source->First();
+         while (!source->Eof)
             {
-            double xValue = source->FieldValues[XFieldName.c_str()];
-            double yValue = source->FieldValues[YFieldName.c_str()];
-            x.push_back(xValue);
-            y.push_back(yValue);
+            try
+               {
+               double xValue = source->FieldValues[XFieldName.c_str()];
+               double yValue = source->FieldValues[YFieldName.c_str()];
+               x.push_back(xValue);
+               y.push_back(yValue);
+               }
+            catch (...)
+               {
+               }
+            source->Next();
             }
-         catch (...)
-            {
-            }
-         source->Next();
+
+         Regr_stats stats;
+         calcRegressionStats(x, y, stats);
+
+         double minX = *min_element(x.begin(), x.end());
+         double maxX = *max_element(x.begin(), x.end());
+         //double minY = *min_element(y.begin(), y.end());
+         //double maxY = *max_element(y.begin(), y.end());
+
+         string equation;
+         equation = " y = " + ftoa(stats.m, 2) + " x + " + ftoa(stats.c, 2);
+         equation += " (r2 = " + ftoa(stats.R2, 2) + ")";
+
+         result.Append();
+         result.FieldValues["RegrX"] = minX;
+         result.FieldValues["RegrY"] = stats.m * minX + stats.c;
+         result.FieldValues["1:1X"] = minX;
+         result.FieldValues["1:1Y"] = minX;
+         result.FieldValues["Equation"] = equation.c_str();
+         result.FieldValues["m"] = stats.m;
+         result.FieldValues["c"] = stats.c;
+         result.FieldValues["r2"] = stats.R2;
+         result.FieldValues["n"] = x.size();
+         result.FieldValues["StdErr(m)"] = stats.SEslope;
+         result.FieldValues["StdErr(c)"] = stats.SEcoeff;
+         result.FieldValues["RMSD"] = stats.RMSD;
+         result.Post();
+         result.Append();
+         result.FieldValues["RegrX"] = maxX;
+         result.FieldValues["RegrY"] = stats.m * maxX + stats.c;
+         result.FieldValues["1:1X"] = maxX;
+         result.FieldValues["1:1Y"] = maxX;
+         result.FieldValues["Equation"] = equation.c_str();
+         result.FieldValues["m"] = stats.m;
+         result.FieldValues["c"] = stats.c;
+         result.FieldValues["r2"] = stats.R2;
+         result.FieldValues["n"] = x.size();
+         result.FieldValues["StdErr(m)"] = stats.SEslope;
+         result.FieldValues["StdErr(c)"] = stats.SEcoeff;
+         result.FieldValues["RMSD"] = stats.RMSD;
+         result.Post();
          }
-
-      Regr_stats stats;
-      calcRegressionStats(x, y, stats);
-
-      double minX = *min_element(x.begin(), x.end());
-      double maxX = *max_element(x.begin(), x.end());
-      //double minY = *min_element(y.begin(), y.end());
-      //double maxY = *max_element(y.begin(), y.end());
-
-      string equation;
-      equation = " y = " + ftoa(stats.m, 2) + " x + " + ftoa(stats.c, 2);
-      equation += " (r2 = " + ftoa(stats.R2, 2) + ")";
-
-      result.Append();
-      result.FieldValues["RegrX"] = minX;
-      result.FieldValues["RegrY"] = stats.m * minX + stats.c;
-      result.FieldValues["1:1X"] = minX;
-      result.FieldValues["1:1Y"] = minX;
-      result.FieldValues["Equation"] = equation.c_str();
-      result.FieldValues["m"] = stats.m;
-      result.FieldValues["c"] = stats.c;
-      result.FieldValues["r2"] = stats.R2;
-      result.FieldValues["n"] = x.size();
-      result.FieldValues["StdErr(m)"] = stats.SEslope;
-      result.FieldValues["StdErr(c)"] = stats.SEcoeff;
-      result.FieldValues["RMSD"] = stats.RMSD;
-      result.Post();
-      result.Append();
-      result.FieldValues["RegrX"] = maxX;
-      result.FieldValues["RegrY"] = stats.m * maxX + stats.c;
-      result.FieldValues["1:1X"] = maxX;
-      result.FieldValues["1:1Y"] = maxX;
-      result.FieldValues["Equation"] = equation.c_str();
-      result.FieldValues["m"] = stats.m;
-      result.FieldValues["c"] = stats.c;
-      result.FieldValues["r2"] = stats.R2;
-      result.FieldValues["n"] = x.size();
-      result.FieldValues["StdErr(m)"] = stats.SEslope;
-      result.FieldValues["StdErr(c)"] = stats.SEcoeff;
-      result.FieldValues["RMSD"] = stats.RMSD;
-      result.Post();
       }
    }
-
 
