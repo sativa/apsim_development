@@ -685,8 +685,12 @@ IniFile* ApsimControlFile::getParFile(const std::string& parFileName, bool check
    IniFile* iniToReturn = NULL;
 
    string filePath = parFileName;
-   if (fileDirName(filePath) == "")            
-      filePath = fileDirName(ini->getFileName()) + "/" + parFileName;
+   if (fileDirName(filePath) == "")
+      {
+      string parFileDir = fileDirName(ini->getFileName());
+      if (parFileDir != "")
+         filePath = parFileDir + "/" + parFileName;
+      }
    for (unsigned i = 0; iniToReturn == NULL && i != openedParFiles.size(); i++)
       {
       if (Str_i_Eq(openedParFiles[i]->getFileName(), filePath))
