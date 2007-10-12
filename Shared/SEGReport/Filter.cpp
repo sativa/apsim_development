@@ -21,39 +21,42 @@ void processFilter(DataContainer& parent,
    std::string filter = properties.childValue("FilterString");
 
    result.Active = false;
-   if (source != NULL && filter != "")
+   if (source != NULL && source->Active && filter != "")
       {
       result.FieldDefs->Assign(source->FieldDefs);
 
-      result.Active = true;
-      std::string originalFilter;
-      if (source->Filtered)
-         originalFilter = source->Filter.c_str();
-      if (originalFilter != "")
-         filter = originalFilter + " and " + filter;
-
-      try
+      if (result.FieldDefs->Count > 0)
          {
-         source->Filter = filter.c_str();
-         source->Filtered = true;
-
-         source->First();
-         while (!source->Eof)
-            {
-            copyDBRecord(source, &result);
-            source->Next();
-            }
+         result.Active = true;
+         std::string originalFilter;
+         if (source->Filtered)
+            originalFilter = source->Filter.c_str();
          if (originalFilter != "")
-            source->Filter = originalFilter.c_str();
-         else
+            filter = originalFilter + " and " + filter;
+
+         try
             {
-            source->Filtered = false;
+            source->Filter = filter.c_str();
+            source->Filtered = true;
+
+            source->First();
+            while (!source->Eof)
+               {
+               copyDBRecord(source, &result);
+               source->Next();
+               }
+            if (originalFilter != "")
+               source->Filter = originalFilter.c_str();
+            else
+               {
+               source->Filtered = false;
+               source->Filter = "";
+               }
+            }
+         catch (Exception& err)
+            {
             source->Filter = "";
             }
-         }
-      catch (Exception& err)
-         {
-         source->Filter = "";
          }
       }
    }

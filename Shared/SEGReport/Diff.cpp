@@ -29,33 +29,35 @@ void processDiff(DataContainer& parent,
       {
       TDataSet* source1 = parent.data(sourceNames[0]);
       TDataSet* source2 = parent.data(sourceNames[1]);
-      if (source1 != NULL && source2 != NULL)
+      if (source1 != NULL && source2 != NULL && source1->Active && source2->Active)
          {
          TDataSet* source = parent.data(properties.childValue("source"));
          result.FieldDefs->Assign(source->FieldDefs);
 
-         result.Active = true;
-
-         source1->First();
-         source2->First();
-         while (!source1->Eof && !source2->Eof)
+         if (result.FieldDefs->Count > 0)
             {
-            copyDBRecord(source1, &result);
+            result.Active = true;
 
-            result.Edit();
-
-            for (unsigned f = 0; f != diffFieldNames.size(); f++)
+            source1->First();
+            source2->First();
+            while (!source1->Eof && !source2->Eof)
                {
-               if (source2->FieldDefs->IndexOf(diffFieldNames[f].c_str()) != -1)
-                  result.FieldValues[diffFieldNames[f].c_str()] = source1->FieldValues[diffFieldNames[f].c_str()]
-                                                                - source2->FieldValues[diffFieldNames[f].c_str()];
-               }
+               copyDBRecord(source1, &result);
 
-            result.Post();
-            source1->Next();
-            source2->Next();
+               result.Edit();
+
+               for (unsigned f = 0; f != diffFieldNames.size(); f++)
+                  {
+                  if (source2->FieldDefs->IndexOf(diffFieldNames[f].c_str()) != -1)
+                     result.FieldValues[diffFieldNames[f].c_str()] = source1->FieldValues[diffFieldNames[f].c_str()]
+                                                                   - source2->FieldValues[diffFieldNames[f].c_str()];
+                  }
+
+               result.Post();
+               source1->Next();
+               source2->Next();
+               }
             }
          }
       }
    }
-

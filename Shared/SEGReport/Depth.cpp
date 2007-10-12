@@ -55,7 +55,7 @@ void processDepth(DataContainer& parent,
    result.Active = false;
    result.FieldDefs->Clear();
    TDataSet* source = parent.data(properties.childValue("source"));
-   if (source != NULL)
+   if (source != NULL && source->Active)
       {
       vector<string> variableNames;
       int numLayers;
@@ -71,34 +71,36 @@ void processDepth(DataContainer& parent,
             addDBField(&result, variableNames[v].c_str(), "1.0");
          }
 
-      result.Active = true;
-
-      // Loop through all series blocks and all records within that series.
-      source->First();
-      while (!source->Eof)
+      if (result.FieldDefs->Count > 0)
          {
-         float DepthSoFar = 0;
-         for (int layer = 0; layer != numLayers; layer++)
-            {
-            result.Append();
-            for (unsigned v = 0; v != variableNames.size(); v++)
-               {
-               string sourceFieldName = variableNames[v] + "(" + itoa(layer+1) + ")";
-               if (Str_i_Eq(variableNames[v], "dlayer"))
-                  {
-                  float previousDepth = DepthSoFar;
-                  DepthSoFar += (float) source->FieldValues[sourceFieldName.c_str()];
-                  float midPoint = (DepthSoFar + previousDepth) / 2;
-                  result.FieldValues["Depth"] = midPoint;
-                  }
-               else
-                  result.FieldValues[variableNames[v].c_str()] = source->FieldValues[sourceFieldName.c_str()];
-               }
-            result.Post();
-            }
+         result.Active = true;
 
-         source->Next();
+         // Loop through all series blocks and all records within that series.
+         source->First();
+         while (!source->Eof)
+            {
+            float DepthSoFar = 0;
+            for (int layer = 0; layer != numLayers; layer++)
+               {
+               result.Append();
+               for (unsigned v = 0; v != variableNames.size(); v++)
+                  {
+                  string sourceFieldName = variableNames[v] + "(" + itoa(layer+1) + ")";
+                  if (Str_i_Eq(variableNames[v], "dlayer"))
+                     {
+                     float previousDepth = DepthSoFar;
+                     DepthSoFar += (float) source->FieldValues[sourceFieldName.c_str()];
+                     float midPoint = (DepthSoFar + previousDepth) / 2;
+                     result.FieldValues["Depth"] = midPoint;
+                     }
+                  else
+                     result.FieldValues[variableNames[v].c_str()] = source->FieldValues[sourceFieldName.c_str()];
+                  }
+               result.Post();
+               }
+
+            source->Next();
+            }
          }
       }
    }
-

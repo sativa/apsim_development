@@ -121,16 +121,19 @@ void processXmlFileReader(DataContainer& parent,
    addDBField(&result, "name", "xx");
    addDBField(&result, "value", "xx");
 
-   result.Active = true;
-   std::string fileName = properties.childValue("filename");
-   vector<string> fieldNames, fieldValues;
-   readXmlFile(fileName, fieldNames, fieldValues);
-   for (unsigned i = 0; i != fieldNames.size(); i++)
+   if (result.FieldDefs->Count > 0)
       {
-      result.Append();
-      result.FieldValues["name"] = fieldNames[i].c_str();
-      result.FieldValues["value"] = fieldValues[i].c_str();
-      result.Post();
+      result.Active = true;
+      std::string fileName = properties.childValue("filename");
+      vector<string> fieldNames, fieldValues;
+      readXmlFile(fileName, fieldNames, fieldValues);
+      for (unsigned i = 0; i != fieldNames.size(); i++)
+         {
+         result.Append();
+         result.FieldValues["name"] = fieldNames[i].c_str();
+         result.FieldValues["value"] = fieldValues[i].c_str();
+         result.Post();
+         }
       }
    }
 

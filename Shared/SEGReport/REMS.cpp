@@ -180,25 +180,27 @@ void processREMS(DataContainer& parent,
             field->Attributes.Clear();
             }
 
-         result.Active = true;
-
-         for (unsigned t = 0; t != treatmentNames.size(); t++)
+         if (result.FieldDefs->Count > 0)
             {
-            TADOQuery* query = createQuery(fileName, treatmentNames[t],
-                                           treatmentNames, treatmentIDs, dataSourceName);
-            while(!query->Eof)
+            result.Active = true;
+
+            for (unsigned t = 0; t != treatmentNames.size(); t++)
                {
-               result.Append();
-               result.FieldValues["experiment"] = experimentName.c_str();
-               result.FieldValues["treatment"] = treatmentNames[t].c_str();
-               for(int i=0;i < query->FieldCount;i++)
-                  result.Fields->Fields[i+2] = query->Fields->Fields[i];
-               result.Post();
-               query->Next();
+               TADOQuery* query = createQuery(fileName, treatmentNames[t],
+                                              treatmentNames, treatmentIDs, dataSourceName);
+               while(!query->Eof)
+                  {
+                  result.Append();
+                  result.FieldValues["experiment"] = experimentName.c_str();
+                  result.FieldValues["treatment"] = treatmentNames[t].c_str();
+                  for(int i=0;i < query->FieldCount;i++)
+                     result.Fields->Fields[i+2] = query->Fields->Fields[i];
+                  result.Post();
+                  query->Next();
+                  }
+               delete query;
                }
-            delete query;
             }
          }
       }
    }
-

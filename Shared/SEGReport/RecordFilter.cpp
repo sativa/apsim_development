@@ -21,7 +21,7 @@ void processRecordFilter(DataContainer& parent,
    result.FieldDefs->Clear();
    TDataSet* source = parent.data(properties.childValue("source"));
 
-   if (source != NULL)
+   if (source != NULL && source->Active)
       {
       result.FieldDefs->Assign(source->FieldDefs);
 
