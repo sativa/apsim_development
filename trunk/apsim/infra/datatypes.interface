@@ -675,6 +675,8 @@
       <field name="value" kind="double" unit="mm"  array = "T"/>
    </type>
 
+   <!--!!!!! PASTURE  types  !!!!!!!!!!!!!!!!!!!!!!-->
+
    <type name="PastureWaterDemand" description="Message sent to add crop water demand terms to water balance calculations.">
       <field name="demands" array="T">
          <element>
@@ -730,6 +732,7 @@
             <field name="p"       unit="kg/ha"  kind="double"/>
             <field name="s"       unit="kg/ha"  kind="double"/>
             <field name="ash_alk" unit="mol/ha" kind="double"/>
+            <field name="dmd"     unit="-"      kind="double"/>
          </element>
       </field>
    </type>
@@ -760,6 +763,12 @@
       <field name="gathered" unit="-" kind="double"/>
       <field name="dmd_loss" unit="-" kind="double"/>
       <field name="dm_content" unit="kg/kg" kind="double"/>
+   </type>
+
+   <type name="PastureBurn">
+      <field name="kill_plants"   unit="-" kind="double"/>
+      <field name="kill_seed"     unit="-" kind="double"/>
+      <field name="propn_unburnt" unit="-" kind="double"/>
    </type>
 
    <type name="PastureOnCut">
