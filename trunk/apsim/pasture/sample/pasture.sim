@@ -9,49 +9,80 @@
    <component name="clock" executable="%apsuite\apsim\clock\lib\clock.dll">
       <initdata>
          <include>%apsuite\apsim\clock\clock.ini</include>
-         <start_date>1/10/1988</start_date>
-         <end_date>30/4/1989</end_date>
+         <start_date>30/4/2002</start_date>
+         <end_date>15/12/2002</end_date>
       </initdata>
    </component>
    <component name="Met" executable="%apsuite\apsim\Input\lib\Input.dll">
       <initdata>
-         <filename>%apsuite\apsim\met\sample\dalby.met</filename>
+         <filename>%apsuite\apsim\met\sample\roseworthy.met</filename>
       </initdata>
    </component>
-    <component name="FarmwiseSequencer" executable="%apsuite\apsim\\FarmwiseSequencer\lib\FarmwiseSequencerConverter.dll">
+   <component name="sysbal" executable = "%apsuite/apsim/sysbal/lib/sysbal.dll">
       <initdata>
-         <include>%apsuite\apsim\FarmwiseSequencer\FarmwiseSequencer.ini</include>
       </initdata>
    </component>
-
    <component name="report" executable="%apsuite\apsim\report\lib\report.dll">
       <initdata>
         <outputfrequency>post </outputfrequency>
          <outputfile>pasture.out</outputfile>
          <variable>dd/mm/yyyy as Date</variable>
          <variable>rain as rain</variable>
+         <variable>pasture.assimilation</variable>
+         <variable>pasture.growth</variable>
+         <variable>pasture.green_dm</variable>
+         <variable>pasture.shoot_dm</variable>
+         <variable>pasture.shoot_n</variable>
+         <variable>pasture.senc_dm</variable>
+         <variable>pasture.seed_dm</variable>
          <variable>pasture.rtdep</variable>
          <variable>pasture.rlv</variable>
-         <variable>pasture.rwu()</variable>
+         <variable>pasture.sw_uptake()</variable>
          <variable>soilwat2.sw_dep()</variable>
          <variable>soilwat2.es</variable>
          <variable>soiln2.no3()</variable>
          <variable>soiln2.nh4()</variable>
-         <variable>soiln2.fom()</variable>
-         <variable>pasture.rwu</variable>
+         <variable>soiln2.fom_c()</variable>
+         <variable>pasture.sw_uptake</variable>
          <variable>soilwat2.sw_dep</variable>
          <variable>soiln2.no3</variable>
          <variable>soiln2.nh4</variable>
-         <variable>soiln2.fom</variable>
          <variable>pasture.cover_tot</variable>
          <variable>pasture.residue_cover</variable>
-         <variable>cona</variable>
+         <variable>pasture.senc_dm</variable>
+         <variable>pasture.litter_dm</variable>
+         <variable>pasture.uptake_no3</variable>
+         <variable>pasture.uptake_nh4</variable>
+         <variable>pasture.glf_gai</variable>
+         <variable>pasture.glf_nitr</variable>
+         <variable>pasture.glf_nutr</variable>
+         <variable>pasture.glf_phos</variable>
+         <variable>pasture.glf_sm</variable>
+         <variable>pasture.glf_sulf</variable>
+         <variable>pasture.glf_tmp</variable>
+         <variable>pasture.glf_vpd</variable>
+         <variable>pasture.glf_wl</variable>
       </initdata>
    </component>
    <component name="manager" executable="%apsuite\apsim\manager\lib\manager.dll">
       <initdata>
          <rule name="sample.start_of_day" condition="start_of_day">
             <![CDATA[
+            if (day = 124) then
+               pastureconverter cutpasture cut_height = 100, gathered = 0.5, dmd_loss = 0.1, dm_content = 0.9
+            endif
+            if (day = 126) then
+               pastureconverter burnpasture kill_plants = 0.5, kill_seed = 0.5, propn_unburnt = 0.2
+            endif
+            if (day = 128) then
+               pastureconverter killpasture propn_herbage = 0.5,  propn_seed = 0.5
+            endif
+            if (day = 130) then
+               pastureconverter sowpasture rate = 100.0
+            endif
+            if (day = 300) then
+               pastureconverter cultivatepasture depth = 100, propn_incorp = 0.5, propn_mixed = 0.3
+            endif
            ]]>
         </rule>
       </initdata>
@@ -90,7 +121,7 @@
          <ph>8.20 8.50 8.60 8.60 7.40 5.30 5.00</ph>
          <fbiom>.035 .025 .015 0.01 0.01 0.01 0.01</fbiom>
          <finert>0.30 0.50 0.60 0.75 0.90 0.99 0.99</finert>
-         <no3ppm>9.2  7.6  4.9  2.7  1.5  1.8  1.4</no3ppm>
+         <no3ppm>99.2  97.6  4.9  2.7  1.5  1.8  1.4</no3ppm>
          <nh4ppm>0.30 0.30 0.30 0.30 0.30 0.50 0.50</nh4ppm>
          <ureappm>0  0    0    0    0    0    0</ureappm>
          <enr_a_coeff>7.4</enr_a_coeff>
@@ -98,18 +129,22 @@
          <profile_reduction>off</profile_reduction>
       </initdata>
    </component>
-    <component name="pastureConverter" executable="%apsuite\apsim\pasture\lib\PastureScienceConverter.dll">
+    <component name="FarmwiseSequencer" executable="%apsuite\apsim\\FarmwiseSequencer\lib\FarmwiseSequencerConverter.dll">
       <initdata>
-         <debug>on</debug>
-         <sand>0.0   0.0   0.0   0.0   0.0   0.0   0.0</sand>
-         <kl> 0.12 0.12 0.12 0.11 0.06 0.05 0.03</kl>
-         <ll>  0.230 0.240 0.240 0.250 0.260 0.270 0.280</ll>
-         <svp_fract> 0.75</svp_fract>
+         <include>%apsuite\apsim\FarmwiseSequencer\FarmwiseSequencer.ini</include>
       </initdata>
    </component>
 
-    <component name="Pasture" executable="C:\Program Files\FarmWise\PASTURE.dll" active="T">
-      <executable name="C:\Program Files\FarmWise\PASTURE.dll" version="1.0"/>
+    <component name="pastureconverter" executable="%apsuite\apsim\pasture\lib\PastureScienceConverter.dll">
+      <initdata>
+         <debug>on</debug>
+         <sand>0.0     0.0     0.0     0.0     0.0     0.0     0.0  </sand>
+         <svp_fract> 0.75</svp_fract>
+         <co2_ppm> 350</co2_ppm>
+      </initdata>
+   </component>
+    <component name="Pasture" executable="C:\Program Files\Ausfarm\PASTURE.dll" active="T">
+      <executable name="C:\Program Files\Ausfarm\PASTURE.dll" version="1.2"/>
     <initdata>
       <![CDATA[
           <initsection>
@@ -124,10 +159,10 @@
               <val>Perennial Ryegrass</val>
             </init>
             <init name="nutrients" kind="string">
-              <val></val>
+              <val>N</val>
             </init>
             <init name="fertility" kind="double">
-              <val>0.75</val>
+              <val>0.0</val>
             </init>
             <init name="layers" kind="double" array="T" unit="mm">
             </init>
@@ -171,13 +206,16 @@
                       <val>0.825</val>
                     </field>
                     <field name="weight" kind="double" array="T" unit="kg/ha">
-                      <val>8000.0</val>
+                      <val>4000.0</val>
                     </field>
                     <field name="n_conc" kind="double" array="T" unit="kg/kg">
+                      <val>0.15</val>
                     </field>
                     <field name="p_conc" kind="double" array="T" unit="kg/kg">
+                      <val>0.15</val>
                     </field>
                     <field name="s_conc" kind="double" array="T" unit="kg/kg">
+                      <val>0.15</val>
                     </field>
                     <field name="spec_area" kind="double" array="T" unit="cm^2/g">
                       <val>10.0</val>
@@ -188,13 +226,16 @@
                       <val>0.825</val>
                     </field>
                     <field name="weight" kind="double" array="T" unit="kg/ha">
-                      <val>1000.0</val>
+                      <val>100.0</val>
                     </field>
                     <field name="n_conc" kind="double" array="T" unit="kg/kg">
+                      <val>0.08</val>
                     </field>
                     <field name="p_conc" kind="double" array="T" unit="kg/kg">
+                      <val>0.08</val>
                     </field>
                     <field name="s_conc" kind="double" array="T" unit="kg/kg">
+                      <val>0.08</val>
                     </field>
                     <field name="spec_area" kind="double" array="T" unit="cm^2/g">
                       <val>10.0</val>
@@ -203,14 +244,14 @@
                 </field>
                 <field name="root_wt" array="T">
                   <element kind="double" array="T" unit="kg/ha">
-                    <val>3600.0</val>
+                    <val>4000.0</val>
                   </element>
                   <element kind="double" array="T" unit="kg/ha">
                     <val>0.0</val>
                   </element>
                 </field>
                 <field name="rt_dep" kind="double" unit="mm">
-                  <val>100.0</val>
+                  <val>200.0</val>
                 </field>
                 <field name="estab_index" kind="double">
                   <val>0.0</val>
@@ -240,10 +281,13 @@
                       <val>500.0</val>
                     </field>
                     <field name="n_conc" kind="double" array="T" unit="kg/kg">
+                       <val>0.04</val>
                     </field>
                     <field name="p_conc" kind="double" array="T" unit="kg/kg">
+                       <val>0.04</val>
                     </field>
                     <field name="s_conc" kind="double" array="T" unit="kg/kg">
+                       <val>0.04</val>
                     </field>
                     <field name="spec_area" kind="double" array="T" unit="cm^2/g">
                       <val>10.0</val>
@@ -257,10 +301,13 @@
                       <val>100.0</val>
                     </field>
                     <field name="n_conc" kind="double" array="T" unit="kg/kg">
+                      <val>0.04</val>
                     </field>
                     <field name="p_conc" kind="double" array="T" unit="kg/kg">
+                       <val>0.04</val>
                     </field>
                     <field name="s_conc" kind="double" array="T" unit="kg/kg">
+                       <val>0.04</val>
                     </field>
                     <field name="spec_area" kind="double" array="T" unit="cm^2/g">
                       <val>10.0</val>
@@ -281,10 +328,13 @@
                       <val>233.0</val>
                     </field>
                     <field name="n_conc" kind="double" array="T" unit="kg/kg">
+                      <val>0.04</val>
                     </field>
                     <field name="p_conc" kind="double" array="T" unit="kg/kg">
+                       <val>0.04</val>
                     </field>
                     <field name="s_conc" kind="double" array="T" unit="kg/kg">
+                       <val>0.04</val>
                     </field>
                     <field name="spec_area" kind="double" array="T" unit="cm^2/g">
                       <val>10.0</val>
@@ -298,10 +348,13 @@
                       <val>0.0</val>
                     </field>
                     <field name="n_conc" kind="double" array="T" unit="kg/kg">
+                      <val>0.04</val>
                     </field>
                     <field name="p_conc" kind="double" array="T" unit="kg/kg">
+                       <val>0.04</val>
                     </field>
                     <field name="s_conc" kind="double" array="T" unit="kg/kg">
+                       <val>0.04</val>
                     </field>
                     <field name="spec_area" kind="double" array="T" unit="cm^2/g">
                       <val>10.0</val>
@@ -331,6 +384,7 @@
     </initdata>
 
     </component>
+
 
 
 </Simulation>
