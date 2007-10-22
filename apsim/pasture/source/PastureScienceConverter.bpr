@@ -5,7 +5,7 @@
     <VERSION value="BCB.06.00"/>
     <PROJECT value="..\lib\PastureScienceConverter.dll"/>
     <OBJFILES value="PastureScienceConverter.obj PastureConverter.obj 
-      ..\..\..\Shared\ComponentInterface\EntryPoints.obj"/>
+      ..\..\..\Shared\ComponentInterface\EntryPoints.obj PastureUptake.obj"/>
     <RESFILES value="PastureScienceConverter.res"/>
     <DEFFILE value=""/>
     <RESDEPEN value="$(RESFILES)"/>
@@ -56,6 +56,7 @@
       <FILE FILENAME="..\..\..\Shared\general\general.lib" FORMNAME="" UNITNAME="general.lib" CONTAINERID="LibTool" DESIGNCLASS="" LOCALCOMMAND=""/>
       <FILE FILENAME="C:\Program Files\Borland\CBuilder6\Components\Boost\libs\date_time\date_time.lib" FORMNAME="" UNITNAME="date_time.lib" CONTAINERID="LibTool" DESIGNCLASS="" LOCALCOMMAND=""/>
       <FILE FILENAME="..\..\..\Shared\ComponentInterface\EntryPoints.cpp" FORMNAME="" UNITNAME="EntryPoints" CONTAINERID="CCompiler" DESIGNCLASS="" LOCALCOMMAND=""/>
+      <FILE FILENAME="PastureUptake.cpp" FORMNAME="" UNITNAME="PastureUptake" CONTAINERID="CCompiler" DESIGNCLASS="" LOCALCOMMAND=""/>
   </FILELIST>
   <BUILDTOOLS>
   </BUILDTOOLS>
@@ -122,10 +123,10 @@ Item1=..\..\..\Bin\
 Item2=..\lib
 
 [Debugging]
-DebugSourceDirs=$(BCB)\source\vcl
+DebugSourceDirs=$(BCB)\source\vcl;C:\data\Apsim\development\Shared\ComponentInterface\
 
 [Parameters]
-RunParams=&quot;C:\data\APS\apswork\apsim\Grain_Graze\APSIM_STOCK\APSIM\Stock\Sheep Simulation.sim&quot;
+RunParams=&quot;C:\data\Apsim\development\apsim\pasture\sample\pasture.sim&quot;
 Launcher=
 UseLauncher=0
 DebugCWD=
