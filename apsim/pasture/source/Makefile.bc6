@@ -11,7 +11,7 @@ BCB = $(MAKEDIR)\..
 
 PROJECT=..\lib\PastureScienceConverter.dll
 
-OBJFILES=PastureScienceConverter.obj PastureConverter.obj ..\..\..\Shared\ComponentInterface\EntryPoints.obj
+OBJFILES=PastureScienceConverter.obj PastureConverter.obj PastureUptake.obj..\..\..\Shared\ComponentInterface\EntryPoints.obj
 
 LIBFILES = $(APSROOT)\Shared\ComponentInterface\ComponentInterface.lib \
 	$(APSROOT)\Shared\ApsimShared\ApsimShared.lib \
@@ -56,6 +56,7 @@ $(PROJECT): $(OBJFILES) $(DEFFILE)
 ####
 PastureScienceConverter.obj: PastureScienceConverter.cpp
 PastureConverter.obj: PastureConverter.cpp PastureConverter.h
+PastureUptake.obj: PastureUptake.cpp PastureUptake.h
 
 clean:
 	del /f $(PROJECT) $(OBJFILES)
