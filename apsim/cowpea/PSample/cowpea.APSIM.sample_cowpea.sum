@@ -51,10 +51,8 @@ Component     "cowpea" = c:\development\apsim\Plant\lib\Plant.dll
         cowpea.leaf_p
         cowpea.stem_p
         cowpea.root_p
-        cowpea.deadleaf_p
         cowpea.pod_p
         cowpea.head_p
-        cowpea.p_dead
         cowpea.dlt_p_green()
         cowpea.dlt_p_retrans()
         cowpea.dlt_p_detached()
@@ -370,8 +368,8 @@ Component     "cowpea" = c:\development\apsim\Plant\lib\Plant.dll
       grain N percent        =       4.50                     total N content (kg/ha)=      63.44
       grain N uptake (kg/ha) =      30.53                     senesced N content (kg/ha)=   14.46
       green N content (kg/ha)=      18.45                     dead N content (kg/ha) =       0.00
-      grain P percent        =       0.40                     total P content (kg/ha)=       4.67
-      grain P uptake (kg/ha) =       2.72                     senesced P content (kg/ha)=    0.92
+      grain P percent        =       0.40                     total P content (kg/ha)=       2.22
+      grain P uptake (kg/ha) =       0.27                     senesced P content (kg/ha)=    0.92
       green P content (kg/ha)=       1.03                     dead P content (kg/ha) =       0.00
      
       Average Stress Indices:                          Water Photo  Water Expan  N Photo      N grain conc
