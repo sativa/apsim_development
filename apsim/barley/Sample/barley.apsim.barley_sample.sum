@@ -43,18 +43,17 @@ Component     "sysbal" = c:\development\apsim\sysbal\lib\sysbal.dll
         barley.ep
         barley.dm_green(1)
         barley.dm_green(2)
-        barley.dm_green_leaf
+        barley.LeafGreenWt
         barley.dm_green(3)
-        barley.dm_green_stem
+        barley.StemGreenWt
         barley.dm_green(4)
-        barley.dm_green_pod
+        barley.PodGreenWt
         barley.dm_green(5)
-        barley.dm_green_meal
+        barley.MealGreenWt
         barley.dm_green(6)
-        barley.dm_green_oil
+        barley.OilGreenWt
         barley.dlt_dm_green_retrans
         barley.dm_senesced
-        barley.dm_dead
         barley.dm_plant_min
         barley.dlt_dm_green(1)
         barley.dlt_dm_green(2)
@@ -80,16 +79,16 @@ Component     "sysbal" = c:\development\apsim\sysbal\lib\sysbal.dll
         barley.yield
         barley.n_green(1)
         barley.n_green(2)
-        barley.n_green_leaf
+        barley.LeafGreenN
         barley.n_green(3)
-        barley.n_green_stem
+        barley.StemGreenN
         barley.n_green(4)
-        barley.n_green_pod
+        barley.PodGreenN
         barley.n_green(5)
-        barley.n_green_meal
+        barley.MealGreenN
         barley.n_green(6)
-        barley.n_green_oil
-        barley.n_green_fruit
+        barley.OilGreenN
+        barley.FruitGreenN
         barley.n_senesced(1)
         barley.n_senesced(2)
         barley.n_senesced_leaf
@@ -423,7 +422,7 @@ Component     "sysbal" = c:\development\apsim\sysbal\lib\sysbal.dll
                      stover N conc =     0.37 (%)    extractable sw =  179.77 (mm)
 12 October 1988(Day of year=286), barley: 
       stage 10.0 harvest_ripe
-                     biomass =         842.92 (g/m^2)   lai          =   0.001 (m^2/m^2)
+                     biomass =         842.92 (g/m^2)   lai          =   0.000 (m^2/m^2)
                      stover N conc =     0.36 (%)    extractable sw =  177.02 (mm)
 13 October 1988(Day of year=287), manager: 
      Manager sending message :- barley harvest
@@ -432,19 +431,19 @@ Component     "sysbal" = c:\development\apsim\sysbal\lib\sysbal.dll
       flowering day          =  250                           stover (kg/ha)         =     4876.0
       maturity day           =  285                           grain yield (kg/ha)    =     3553.2
       grain % water content  =   12.5                         grain yield wet (kg/ha)=     4060.8
-      grain wt (g)           =    0.073                       grains/m^2             =   4896.195
+      grain wt (g)           =    0.073                       grains/m^2             =   4896.194
       grains/plant           =   40.8                         maximum lai            =      3.297
       total above ground biomass (kg/ha)    =     8429.2
       live above ground biomass (kg/ha)     =     8429.2
-      green above ground biomass (kg/ha)    =     7112.4
-      senesced above ground biomass (kg/ha) =     1316.7
+      green above ground biomass (kg/ha)    =     7112.2
+      senesced above ground biomass (kg/ha) =     1316.9
       dead above ground biomass (kg/ha)     =        0.0
       number of leaves       =   51.4
       DM Root:Shoot ratio    =    0.128                       Harvest Index          =      0.422
       Stover C:N ratio       =  101.272                       Root C:N ratio         =     30.493
       grain N percent        =       1.45                     total N content (kg/ha)=      70.85
       grain N uptake (kg/ha) =      51.59                     senesced N content (kg/ha)=    6.58
-      green N content (kg/ha)=      12.68                     dead N content (kg/ha) =       0.00
+      green N content (kg/ha)=      12.67                     dead N content (kg/ha) =       0.00
      
       Average Stress Indices:                          Water Photo  Water Expan  N Photo      N grain conc
          emergence            to end_of_juvenile         0.000        0.000        0.000        0.000
@@ -456,21 +455,21 @@ Component     "sysbal" = c:\development\apsim\sysbal\lib\sysbal.dll
      
      Crop harvested.
          Organic matter from crop:-      Tops to surface residue      Roots to soil FOM
-                          DM (kg/ha) =               4875.76                    0.00
-                          N  (kg/ha) =                 19.25                    0.00
+                          DM (kg/ha) =               4875.97                    0.00
+                          N  (kg/ha) =                 19.26                    0.00
      
          Organic matter removed from system:-      From Tops               From Roots
                           DM (kg/ha) =               3553.20                    0.00
                           N  (kg/ha) =                 51.59                    0.00
      
       stage 4.0 end_of_juvenile
-                     biomass =           0.02 (g/m^2)   lai          =   0.024 (m^2/m^2)
+                     biomass =           0.00 (g/m^2)   lai          =   0.024 (m^2/m^2)
                      stover N conc =     6.30 (%)    extractable sw =  177.02 (mm)
      Manager sending message :- barley end_crop
      Crop ended. Yield (dw) =     0.0  (kg/ha)
          Organic matter from crop:-      Tops to surface residue      Roots to soil FOM
-                          DM (kg/ha) =                  0.21                 1080.58
-                          N  (kg/ha) =                  0.01                   14.17
+                          DM (kg/ha) =                  0.00                 1080.58
+                          N  (kg/ha) =                  0.00                   14.17
      
 17 November 1988(Day of year=322), clock: 
      Simulation is terminating due to end criteria being met.
