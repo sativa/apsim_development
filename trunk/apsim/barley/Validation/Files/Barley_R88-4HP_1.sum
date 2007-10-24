@@ -401,7 +401,7 @@ Component     "barley" = c:\development\apsim\plant\lib\plant.dll
                      stover N conc =     0.31 (%)    extractable sw =    8.76 (mm)
 17 October 1988(Day of year=291), barley: 
       stage 10.0 harvest_ripe
-                     biomass =         811.19 (g/m^2)   lai          =   0.001 (m^2/m^2)
+                     biomass =         811.19 (g/m^2)   lai          =   0.000 (m^2/m^2)
                      stover N conc =     0.30 (%)    extractable sw =    8.52 (mm)
 17 October 1988(Day of year=291), Manager: 
      Manager sending message :- barley harvest
@@ -409,12 +409,12 @@ Component     "barley" = c:\development\apsim\plant\lib\plant.dll
       flowering day          =  253                           stover (kg/ha)         =     5517.8
       maturity day           =  290                           grain yield (kg/ha)    =     2594.1
       grain % water content  =   12.5                         grain yield wet (kg/ha)=     2964.7
-      grain wt (g)           =    0.034                       grains/m^2             =   7545.175
+      grain wt (g)           =    0.034                       grains/m^2             =   7545.174
       grains/plant           =   44.4                         maximum lai            =      5.333
       total above ground biomass (kg/ha)    =     8111.9
       live above ground biomass (kg/ha)     =     8111.9
-      green above ground biomass (kg/ha)    =     5579.6
-      senesced above ground biomass (kg/ha) =     2532.3
+      green above ground biomass (kg/ha)    =     5579.3
+      senesced above ground biomass (kg/ha) =     2532.6
       dead above ground biomass (kg/ha)     =        0.0
       number of leaves       =   56.9
       DM Root:Shoot ratio    =    0.248                       Harvest Index          =      0.320
@@ -433,21 +433,21 @@ Component     "barley" = c:\development\apsim\plant\lib\plant.dll
      
      Crop harvested.
          Organic matter from crop:-      Tops to surface residue      Roots to soil FOM
-                          DM (kg/ha) =               5517.44                    0.00
-                          N  (kg/ha) =                 21.62                    0.00
+                          DM (kg/ha) =               5517.76                    0.00
+                          N  (kg/ha) =                 21.64                    0.00
      
          Organic matter removed from system:-      From Tops               From Roots
                           DM (kg/ha) =               2594.11                    0.00
                           N  (kg/ha) =                 55.95                    0.00
      
       stage 4.0 end_of_juvenile
-                     biomass =           0.03 (g/m^2)   lai          =   0.034 (m^2/m^2)
-                     stover N conc =     5.75 (%)    extractable sw =    8.52 (mm)
+                     biomass =           0.00 (g/m^2)   lai          =   0.034 (m^2/m^2)
+                     stover N conc =     6.30 (%)    extractable sw =    8.52 (mm)
      Manager sending message :- barley end_crop
      Crop ended. Yield (dw) =     0.0  (kg/ha)
          Organic matter from crop:-      Tops to surface residue      Roots to soil FOM
-                          DM (kg/ha) =                  0.32                 2013.19
-                          N  (kg/ha) =                  0.02                   23.93
+                          DM (kg/ha) =                  0.00                 2013.19
+                          N  (kg/ha) =                  0.00                   23.93
      
 19 October 1988(Day of year=293), clock: 
      Simulation is terminating due to end criteria being met.

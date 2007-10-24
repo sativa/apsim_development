@@ -306,7 +306,7 @@ Component     "canola" = c:\development\apsim\Plant\lib\Plant.dll
                      stover N conc =     0.65 (%)    extractable sw =  125.72 (mm)
 4 October 1988(Day of year=278), canola: 
       stage 10.0 harvest_ripe
-                     biomass =        1040.24 (g/m^2)   lai          =   0.002 (m^2/m^2)
+                     biomass =        1040.24 (g/m^2)   lai          =   0.000 (m^2/m^2)
                      stover N conc =     0.61 (%)    extractable sw =  118.32 (mm)
 5 October 1988(Day of year=279), manager: 
      Manager sending message :- canola harvest
@@ -319,15 +319,15 @@ Component     "canola" = c:\development\apsim\Plant\lib\Plant.dll
       grains/plant           =    0.0                         maximum lai            =      4.137
       total above ground biomass (kg/ha)    =    10402.4
       live above ground biomass (kg/ha)     =    10402.4
-      green above ground biomass (kg/ha)    =     8793.1
-      senesced above ground biomass (kg/ha) =     1609.3
+      green above ground biomass (kg/ha)    =     8792.4
+      senesced above ground biomass (kg/ha) =     1610.0
       dead above ground biomass (kg/ha)     =        0.0
       number of leaves       =   34.2
       DM Root:Shoot ratio    =    0.323                       Harvest Index          =      0.296
       Stover C:N ratio       =   55.797                       Root C:N ratio         =     55.929
       grain N percent        =       4.08                     total N content (kg/ha)=     178.21
       grain N uptake (kg/ha) =     125.74                     senesced N content (kg/ha)=   17.92
-      green N content (kg/ha)=      34.55                     dead N content (kg/ha) =       0.00
+      green N content (kg/ha)=      34.54                     dead N content (kg/ha) =       0.00
      
       Average Stress Indices:                          Water Photo  Water Expan  N Photo      N grain conc
          emergence            to end_of_juvenile         0.000        0.000        0.000        0.308
@@ -339,21 +339,21 @@ Component     "canola" = c:\development\apsim\Plant\lib\Plant.dll
      
      Crop harvested.
          Organic matter from crop:-      Tops to surface residue      Roots to soil FOM
-                          DM (kg/ha) =               7317.95                    0.00
-                          N  (kg/ha) =                 52.45                    0.00
+                          DM (kg/ha) =               7318.71                    0.00
+                          N  (kg/ha) =                 52.47                    0.00
      
          Organic matter removed from system:-      From Tops               From Roots
                           DM (kg/ha) =               3083.66                    0.00
                           N  (kg/ha) =                125.74                    0.00
      
       stage 4.0 end_of_juvenile
-                     biomass =           0.08 (g/m^2)   lai          =   0.004 (m^2/m^2)
-                     stover N conc =     1.98 (%)    extractable sw =  118.32 (mm)
+                     biomass =           0.00 (g/m^2)   lai          =   0.004 (m^2/m^2)
+                     stover N conc =     6.50 (%)    extractable sw =  118.32 (mm)
      Manager sending message :- canola end_crop
      Crop ended. Yield (dw) =     0.0  (kg/ha)
          Organic matter from crop:-      Tops to surface residue      Roots to soil FOM
-                          DM (kg/ha) =                  0.78                 3355.72
-                          N  (kg/ha) =                  0.02                   24.00
+                          DM (kg/ha) =                  0.02                 3355.72
+                          N  (kg/ha) =                  0.00                   24.00
      
 26 October 1988(Day of year=300), clock: 
      Simulation is terminating due to end criteria being met.

@@ -401,7 +401,7 @@ Component     "barley" = c:\development\apsim\plant\lib\plant.dll
                      stover N conc =     0.32 (%)    extractable sw =   14.39 (mm)
 30 September 1988(Day of year=274), barley: 
       stage 10.0 harvest_ripe
-                     biomass =         953.27 (g/m^2)   lai          =   0.001 (m^2/m^2)
+                     biomass =         953.27 (g/m^2)   lai          =   0.000 (m^2/m^2)
                      stover N conc =     0.30 (%)    extractable sw =   13.71 (mm)
 30 September 1988(Day of year=274), Manager: 
      Manager sending message :- barley harvest
@@ -409,18 +409,18 @@ Component     "barley" = c:\development\apsim\plant\lib\plant.dll
       flowering day          =  231                           stover (kg/ha)         =     6710.3
       maturity day           =  273                           grain yield (kg/ha)    =     2822.4
       grain % water content  =   12.5                         grain yield wet (kg/ha)=     3225.6
-      grain wt (g)           =    0.033                       grains/m^2             =   8458.391
+      grain wt (g)           =    0.033                       grains/m^2             =   8458.393
       grains/plant           =   48.3                         maximum lai            =      5.209
       total above ground biomass (kg/ha)    =     9532.7
       live above ground biomass (kg/ha)     =     9532.7
-      green above ground biomass (kg/ha)    =     6881.9
-      senesced above ground biomass (kg/ha) =     2650.8
+      green above ground biomass (kg/ha)    =     6881.6
+      senesced above ground biomass (kg/ha) =     2651.1
       dead above ground biomass (kg/ha)     =        0.0
       number of leaves       =   59.6
       DM Root:Shoot ratio    =    0.211                       Harvest Index          =      0.296
       Stover C:N ratio       =  105.375                       Root C:N ratio         =     31.538
       grain N percent        =       1.96                     total N content (kg/ha)=      80.93
-      grain N uptake (kg/ha) =      55.46                     senesced N content (kg/ha)=   13.25
+      grain N uptake (kg/ha) =      55.46                     senesced N content (kg/ha)=   13.26
       green N content (kg/ha)=      12.22                     dead N content (kg/ha) =       0.00
      
       Average Stress Indices:                          Water Photo  Water Expan  N Photo      N grain conc
@@ -433,21 +433,21 @@ Component     "barley" = c:\development\apsim\plant\lib\plant.dll
      
      Crop harvested.
          Organic matter from crop:-      Tops to surface residue      Roots to soil FOM
-                          DM (kg/ha) =               6709.92                    0.00
-                          N  (kg/ha) =                 25.45                    0.00
+                          DM (kg/ha) =               6710.25                    0.00
+                          N  (kg/ha) =                 25.47                    0.00
      
          Organic matter removed from system:-      From Tops               From Roots
                           DM (kg/ha) =               2822.40                    0.00
                           N  (kg/ha) =                 55.46                    0.00
      
       stage 4.0 end_of_juvenile
-                     biomass =           0.03 (g/m^2)   lai          =   0.035 (m^2/m^2)
+                     biomass =           0.00 (g/m^2)   lai          =   0.035 (m^2/m^2)
                      stover N conc =     6.30 (%)    extractable sw =   13.71 (mm)
      Manager sending message :- barley end_crop
      Crop ended. Yield (dw) =     0.0  (kg/ha)
          Organic matter from crop:-      Tops to surface residue      Roots to soil FOM
-                          DM (kg/ha) =                  0.33                 2012.58
-                          N  (kg/ha) =                  0.02                   25.53
+                          DM (kg/ha) =                  0.00                 2012.58
+                          N  (kg/ha) =                  0.00                   25.53
      
 4 October 1988(Day of year=278), clock: 
      Simulation is terminating due to end criteria being met.
