@@ -574,8 +574,8 @@ Component   "rainfall" = c:\development\apsim\patchinput\lib\patchinput.dll
                      biomass =         924.61 (g/m^2)   lai          =   0.000 (m^2/m^2)
                      stover N conc =     0.30 (%)    extractable sw =    1.85 (mm)
 7 November 2005(Day of year=311), manager: 
-     Manager creating a new local real variable : wet_yield =     3.34291689399385
-     Manager creating a new local real variable : cropprotein =     13.1368923000000
+     Manager creating a new local real variable : wet_yield =     3.34291716672112
+     Manager creating a new local real variable : cropprotein =     13.1368895000000
      Manager creating a new local real variable : price =     0.00000000000000
      Manager sending message :- wheat harvest
 7 November 2005(Day of year=311), Wheat: 
@@ -587,15 +587,15 @@ Component   "rainfall" = c:\development\apsim\patchinput\lib\patchinput.dll
       grains/plant           =  116.1                         maximum lai            =      3.097
       total above ground biomass (kg/ha)    =     9246.1
       live above ground biomass (kg/ha)     =     9246.1
-      green above ground biomass (kg/ha)    =     7787.1
-      senesced above ground biomass (kg/ha) =     1459.0
+      green above ground biomass (kg/ha)    =     7787.0
+      senesced above ground biomass (kg/ha) =     1459.2
       dead above ground biomass (kg/ha)     =        0.0
       number of leaves       =   55.3
       DM Root:Shoot ratio    =    0.166                       Harvest Index          =      0.318
       Stover C:N ratio       =  115.093                       Root C:N ratio         =     26.406
       grain N percent        =       2.30                     total N content (kg/ha)=      89.59
-      grain N uptake (kg/ha) =      67.68                     senesced N content (kg/ha)=    7.29
-      green N content (kg/ha)=      14.62                     dead N content (kg/ha) =       0.00
+      grain N uptake (kg/ha) =      67.68                     senesced N content (kg/ha)=    7.30
+      green N content (kg/ha)=      14.61                     dead N content (kg/ha) =       0.00
      
       Average Stress Indices:                          Water Photo  Water Expan  N Photo      N grain conc
          emergence            to end_of_juvenile         0.000        0.000        0.000        0.000
@@ -607,23 +607,23 @@ Component   "rainfall" = c:\development\apsim\patchinput\lib\patchinput.dll
      
      Crop harvested.
          Organic matter from crop:-      Tops to surface residue      Roots to soil FOM
-                          DM (kg/ha) =               6304.15                    0.00
-                          N  (kg/ha) =                 21.90                    0.00
+                          DM (kg/ha) =               6304.35                    0.00
+                          N  (kg/ha) =                 21.91                    0.00
      
          Organic matter removed from system:-      From Tops               From Roots
                           DM (kg/ha) =               2941.77                    0.00
                           N  (kg/ha) =                 67.68                    0.00
      
       stage 4.0 end_of_juvenile
-                     biomass =           0.02 (g/m^2)   lai          =   0.020 (m^2/m^2)
+                     biomass =           0.00 (g/m^2)   lai          =   0.020 (m^2/m^2)
                      stover N conc =     6.30 (%)    extractable sw =    1.85 (mm)
      Manager sending message :- wheat kill_crop
      Plant kill. 100.00% crop killed because of external action.
      Manager sending message :- wheat end_crop
      Crop ended. Yield (dw) =     0.0  (kg/ha)
          Organic matter from crop:-      Tops to surface residue      Roots to soil FOM
-                          DM (kg/ha) =                  0.20                 1536.02
-                          N  (kg/ha) =                  0.01                   23.27
+                          DM (kg/ha) =                  0.00                 1536.02
+                          N  (kg/ha) =                  0.00                   23.27
      
      Manager sending message :- surfaceom tillage  type = burn
 7 November 2005(Day of year=311), SurfaceOM: 

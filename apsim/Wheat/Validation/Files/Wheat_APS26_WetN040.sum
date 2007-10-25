@@ -432,7 +432,7 @@ Component      "wheat" = c:\development\apsim\plant\lib\plant.dll
                      stover N conc =     0.34 (%)    extractable sw =  233.33 (mm)
 28 October 1995(Day of year=301), wheat: 
       stage 10.0 harvest_ripe
-                     biomass =         908.72 (g/m^2)   lai          =   0.001 (m^2/m^2)
+                     biomass =         908.72 (g/m^2)   lai          =   0.000 (m^2/m^2)
                      stover N conc =     0.34 (%)    extractable sw =  232.01 (mm)
 28 October 1995(Day of year=301), Manager: 
      Manager sending message :- wheat harvest
@@ -440,12 +440,12 @@ Component      "wheat" = c:\development\apsim\plant\lib\plant.dll
       flowering day          =  265                           stover (kg/ha)         =     5497.5
       maturity day           =  300                           grain yield (kg/ha)    =     3589.7
       grain % water content  =   12.5                         grain yield wet (kg/ha)=     4102.5
-      grain wt (g)           =    0.039                       grains/m^2             =   9204.697
+      grain wt (g)           =    0.039                       grains/m^2             =   9204.699
       grains/plant           =   76.7                         maximum lai            =      3.367
       total above ground biomass (kg/ha)    =     9087.2
       live above ground biomass (kg/ha)     =     9087.2
-      green above ground biomass (kg/ha)    =     7558.8
-      senesced above ground biomass (kg/ha) =     1528.4
+      green above ground biomass (kg/ha)    =     7558.6
+      senesced above ground biomass (kg/ha) =     1528.7
       dead above ground biomass (kg/ha)     =        0.0
       number of leaves       =   48.3
       DM Root:Shoot ratio    =    0.164                       Harvest Index          =      0.395
@@ -464,21 +464,21 @@ Component      "wheat" = c:\development\apsim\plant\lib\plant.dll
      
      Crop harvested.
          Organic matter from crop:-      Tops to surface residue      Roots to soil FOM
-                          DM (kg/ha) =               5497.30                    0.00
-                          N  (kg/ha) =                 21.14                    0.00
+                          DM (kg/ha) =               5497.54                    0.00
+                          N  (kg/ha) =                 21.15                    0.00
      
          Organic matter removed from system:-      From Tops               From Roots
                           DM (kg/ha) =               3589.67                    0.00
                           N  (kg/ha) =                 58.66                    0.00
      
       stage 4.0 end_of_juvenile
-                     biomass =           0.02 (g/m^2)   lai          =   0.024 (m^2/m^2)
+                     biomass =           0.00 (g/m^2)   lai          =   0.024 (m^2/m^2)
                      stover N conc =     6.30 (%)    extractable sw =  232.01 (mm)
      Manager sending message :- wheat end_crop
      Crop ended. Yield (dw) =     0.0  (kg/ha)
          Organic matter from crop:-      Tops to surface residue      Roots to soil FOM
-                          DM (kg/ha) =                  0.24                 1487.87
-                          N  (kg/ha) =                  0.02                   17.78
+                          DM (kg/ha) =                  0.00                 1487.87
+                          N  (kg/ha) =                  0.00                   17.78
      
 31 October 1995(Day of year=304), clock: 
      Simulation is terminating due to end criteria being met.

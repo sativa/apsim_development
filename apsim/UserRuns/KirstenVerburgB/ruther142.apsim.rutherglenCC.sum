@@ -907,7 +907,7 @@ Component   "tracker2" = c:\development\apsim\tracker\lib\tracker.dll
       flowering day          =  314                           stover (kg/ha)         =     8771.5
       maturity day           =    0                           grain yield (kg/ha)    =     4215.2
       grain % water content  =   12.5                         grain yield wet (kg/ha)=     4817.3
-      grain wt (g)           =    0.027                       grains/m^2             =  15350.681
+      grain wt (g)           =    0.027                       grains/m^2             =  15350.682
       grains/plant           =   76.8                         maximum lai            =      5.194
       total above ground biomass (kg/ha)    =    12986.6
       live above ground biomass (kg/ha)     =    12986.6
@@ -1321,8 +1321,11 @@ Component   "tracker2" = c:\development\apsim\tracker\lib\tracker.dll
                      stover N conc =     0.33 (%)    extractable sw =   92.93 (mm)
 16 December 1995(Day of year=350), wheat: 
       stage 10.0 harvest_ripe
-                     biomass =         987.33 (g/m^2)   lai          =   0.001 (m^2/m^2)
+                     biomass =         987.33 (g/m^2)   lai          =   0.000 (m^2/m^2)
                      stover N conc =     0.32 (%)    extractable sw =   91.59 (mm)
+17 December 1995(Day of year=351), wheat: 
+     Crop failure because of total leaf senescence.
+     Plant death. standing above-ground dm = 9873.27 (kg/ha)
 21 December 1995(Day of year=355), operatns: 
       Sending harvest message to wheat
 21 December 1995(Day of year=355), wheat: 
@@ -1330,19 +1333,19 @@ Component   "tracker2" = c:\development\apsim\tracker\lib\tracker.dll
       flowering day          =  307                           stover (kg/ha)         =     6070.2
       maturity day           =  349                           grain yield (kg/ha)    =     3803.1
       grain % water content  =   12.5                         grain yield wet (kg/ha)=     4346.4
-      grain wt (g)           =    0.040                       grains/m^2             =   9399.816
-      grains/plant           =   47.0                         maximum lai            =      2.403
+      grain wt (g)           =    0.000                       grains/m^2             =      0.000
+      grains/plant           =    0.0                         maximum lai            =      2.403
       total above ground biomass (kg/ha)    =     9873.3
       live above ground biomass (kg/ha)     =     9873.3
-      green above ground biomass (kg/ha)    =     8464.4
-      senesced above ground biomass (kg/ha) =     1408.9
+      green above ground biomass (kg/ha)    =        0.0
+      senesced above ground biomass (kg/ha) =     9873.3
       dead above ground biomass (kg/ha)     =        0.0
       number of leaves       =   60.7
-      DM Root:Shoot ratio    =    0.133                       Harvest Index          =      0.385
-      Stover C:N ratio       =  109.454                       Root C:N ratio         =     34.669
+      DM Root:Shoot ratio    =    0.000                       Harvest Index          =      0.385
+      Stover C:N ratio       =  109.455                       Root C:N ratio         =      0.000
       grain N percent        =       1.32                     total N content (kg/ha)=      72.36
-      grain N uptake (kg/ha) =      50.18                     senesced N content (kg/ha)=    7.04
-      green N content (kg/ha)=      15.14                     dead N content (kg/ha) =       0.00
+      grain N uptake (kg/ha) =      50.18                     senesced N content (kg/ha)=   22.18
+      green N content (kg/ha)=       0.00                     dead N content (kg/ha) =       0.00
      
       Average Stress Indices:                          Water Photo  Water Expan  N Photo      N grain conc
          emergence            to end_of_juvenile         0.000        0.000        0.000        0.000
@@ -1354,23 +1357,20 @@ Component   "tracker2" = c:\development\apsim\tracker\lib\tracker.dll
      
      Crop harvested.
          Organic matter from crop:-      Tops to surface residue      Roots to soil FOM
-                          DM (kg/ha) =               6069.80                    0.00
-                          N  (kg/ha) =                 22.16                    0.00
+                          DM (kg/ha) =               6070.19                    0.00
+                          N  (kg/ha) =                 22.18                    0.00
      
          Organic matter removed from system:-      From Tops               From Roots
                           DM (kg/ha) =               3803.08                    0.00
                           N  (kg/ha) =                 50.18                    0.00
      
-      stage 4.0 end_of_juvenile
-                     biomass =           0.04 (g/m^2)   lai          =   0.040 (m^2/m^2)
-                     stover N conc =     6.30 (%)    extractable sw =   91.39 (mm)
       Sending kill_crop message to wheat
      Plant kill. 100.00% crop killed because of external action.
       Sending end_crop message to wheat
      Crop ended. Yield (dw) =     0.0  (kg/ha)
          Organic matter from crop:-      Tops to surface residue      Roots to soil FOM
-                          DM (kg/ha) =                  0.39                 1315.71
-                          N  (kg/ha) =                  0.02                   15.18
+                          DM (kg/ha) =                  0.00                    0.00
+                          N  (kg/ha) =                  0.00                    0.00
      
 29 April 1996(Day of year=120), operatns: 
       Sending tillage message to surfaceom
@@ -1459,78 +1459,78 @@ Component   "tracker2" = c:\development\apsim\tracker\lib\tracker.dll
                      stover N conc =     6.50 (%)    extractable sw =   16.31 (mm)
 19 June 1996(Day of year=171), canola: 
       stage 4.0 end_of_juvenile
-                     biomass =           6.09 (g/m^2)   lai          =   0.094 (m^2/m^2)
-                     stover N conc =     5.75 (%)    extractable sw =   71.60 (mm)
+                     biomass =           6.10 (g/m^2)   lai          =   0.094 (m^2/m^2)
+                     stover N conc =     5.76 (%)    extractable sw =   71.60 (mm)
 12 August 1996(Day of year=225), canola: 
       stage 5.0 floral_initiation
-                     biomass =         102.71 (g/m^2)   lai          =   1.181 (m^2/m^2)
-                     stover N conc =     4.94 (%)    extractable sw =  157.62 (mm)
+                     biomass =         102.80 (g/m^2)   lai          =   1.183 (m^2/m^2)
+                     stover N conc =     4.99 (%)    extractable sw =  157.62 (mm)
 7 September 1996(Day of year=251), canola: 
       stage 6.0 flowering
-                     biomass =         194.97 (g/m^2)   lai          =   2.137 (m^2/m^2)
-                     stover N conc =     3.14 (%)    extractable sw =  148.16 (mm)
+                     biomass =         201.35 (g/m^2)   lai          =   2.184 (m^2/m^2)
+                     stover N conc =     3.14 (%)    extractable sw =  147.65 (mm)
 26 September 1996(Day of year=270), canola: 
       stage 7.0 start_grain_fill
-                     biomass =         427.78 (g/m^2)   lai          =   2.013 (m^2/m^2)
-                     stover N conc =     1.51 (%)    extractable sw =  122.64 (mm)
+                     biomass =         436.26 (g/m^2)   lai          =   2.060 (m^2/m^2)
+                     stover N conc =     1.52 (%)    extractable sw =  121.97 (mm)
 19 November 1996(Day of year=324), canola: 
       stage 8.0 end_grain_fill
-                     biomass =         591.83 (g/m^2)   lai          =   0.333 (m^2/m^2)
-                     stover N conc =     0.51 (%)    extractable sw =  146.27 (mm)
+                     biomass =         601.68 (g/m^2)   lai          =   0.343 (m^2/m^2)
+                     stover N conc =     0.49 (%)    extractable sw =  146.73 (mm)
 20 November 1996(Day of year=325), canola: 
       stage 9.0 maturity
-                     biomass =         608.34 (g/m^2)   lai          =   0.321 (m^2/m^2)
-                     stover N conc =     0.49 (%)    extractable sw =  144.48 (mm)
+                     biomass =         618.28 (g/m^2)   lai          =   0.331 (m^2/m^2)
+                     stover N conc =     0.47 (%)    extractable sw =  144.98 (mm)
 21 November 1996(Day of year=326), canola: 
       stage 10.0 harvest_ripe
-                     biomass =         608.34 (g/m^2)   lai          =   0.004 (m^2/m^2)
-                     stover N conc =     0.49 (%)    extractable sw =  138.67 (mm)
+                     biomass =         618.28 (g/m^2)   lai          =   0.000 (m^2/m^2)
+                     stover N conc =     0.47 (%)    extractable sw =  139.14 (mm)
+22 November 1996(Day of year=327), canola: 
+     Crop failure because of total leaf senescence.
+     Plant death. standing above-ground dm = 6182.80 (kg/ha)
 8 December 1996(Day of year=343), operatns: 
       Sending harvest message to canola
 8 December 1996(Day of year=343), canola: 
      
-      flowering day          =  251                           stover (kg/ha)         =     4307.9
-      maturity day           =  325                           grain yield (kg/ha)    =     1775.5
-      grain % water content  =    8.5                         grain yield wet (kg/ha)=     1940.4
+      flowering day          =  251                           stover (kg/ha)         =     4377.7
+      maturity day           =  325                           grain yield (kg/ha)    =     1805.1
+      grain % water content  =    8.5                         grain yield wet (kg/ha)=     1972.7
       grain wt (g)           =    0.000                       grains/m^2             =      0.000
-      grains/plant           =    0.0                         maximum lai            =      2.137
-      total above ground biomass (kg/ha)    =     6083.4
-      live above ground biomass (kg/ha)     =     6083.4
-      green above ground biomass (kg/ha)    =     5020.9
-      senesced above ground biomass (kg/ha) =     1062.5
+      grains/plant           =    0.0                         maximum lai            =      2.184
+      total above ground biomass (kg/ha)    =     6182.8
+      live above ground biomass (kg/ha)     =     6182.8
+      green above ground biomass (kg/ha)    =        0.0
+      senesced above ground biomass (kg/ha) =     6182.8
       dead above ground biomass (kg/ha)     =        0.0
       number of leaves       =   19.9
-      DM Root:Shoot ratio    =    0.291                       Harvest Index          =      0.292
-      Stover C:N ratio       =   62.646                       Root C:N ratio         =     58.148
-      grain N percent        =       3.43                     total N content (kg/ha)=      88.45
-      grain N uptake (kg/ha) =      60.95                     senesced N content (kg/ha)=    8.63
-      green N content (kg/ha)=      18.88                     dead N content (kg/ha) =       0.00
+      DM Root:Shoot ratio    =    0.000                       Harvest Index          =      0.292
+      Stover C:N ratio       =   72.136                       Root C:N ratio         =      0.000
+      grain N percent        =       3.44                     total N content (kg/ha)=      86.44
+      grain N uptake (kg/ha) =      62.17                     senesced N content (kg/ha)=   24.28
+      green N content (kg/ha)=       0.00                     dead N content (kg/ha) =       0.00
      
       Average Stress Indices:                          Water Photo  Water Expan  N Photo      N grain conc
-         emergence            to end_of_juvenile         0.000        0.000        0.000        0.159
-         end_of_juvenile      to floral_initiation       0.000        0.000        0.000        0.204
-         floral_initiation    to flowering               0.000        0.000        0.619        0.796
-         flowering            to start_grain_fill        0.011        0.017        0.307        0.681
-         start_grain_fill     to end_grain_fill          0.000        0.000        0.783        0.892
+         emergence            to end_of_juvenile         0.000        0.000        0.000        0.157
+         end_of_juvenile      to floral_initiation       0.000        0.000        0.000        0.203
+         floral_initiation    to flowering               0.000        0.000        0.596        0.777
+         flowering            to start_grain_fill        0.012        0.017        0.304        0.680
+         start_grain_fill     to end_grain_fill          0.000        0.000        0.782        0.891
      
      
      Crop harvested.
          Organic matter from crop:-      Tops to surface residue      Roots to soil FOM
-                          DM (kg/ha) =               4305.75                    0.00
-                          N  (kg/ha) =                 27.48                    0.00
+                          DM (kg/ha) =               4377.75                    0.00
+                          N  (kg/ha) =                 24.28                    0.00
      
          Organic matter removed from system:-      From Tops               From Roots
-                          DM (kg/ha) =               1775.50                    0.00
-                          N  (kg/ha) =                 60.95                    0.00
+                          DM (kg/ha) =               1805.05                    0.00
+                          N  (kg/ha) =                 62.17                    0.00
      
-      stage 4.0 end_of_juvenile
-                     biomass =           0.22 (g/m^2)   lai          =   0.009 (m^2/m^2)
-                     stover N conc =     1.16 (%)    extractable sw =  133.56 (mm)
       Sending end_crop message to canola
      Crop ended. Yield (dw) =     0.0  (kg/ha)
          Organic matter from crop:-      Tops to surface residue      Roots to soil FOM
-                          DM (kg/ha) =                  2.19                 1767.79
-                          N  (kg/ha) =                  0.03                   12.16
+                          DM (kg/ha) =                  0.00                    0.00
+                          N  (kg/ha) =                  0.00                    0.00
      
       Sending kill_crop message to canola
 8 December 1996(Day of year=343): 
@@ -1638,76 +1638,76 @@ Component   "tracker2" = c:\development\apsim\tracker\lib\tracker.dll
                                               added at depth   10.00 (layer   1)
 30 August 1997(Day of year=242), wheat: 
       stage 5.0 floral_initiation
-                     biomass =         286.56 (g/m^2)   lai          =   3.946 (m^2/m^2)
-                     stover N conc =     2.26 (%)    extractable sw =  105.91 (mm)
+                     biomass =         302.31 (g/m^2)   lai          =   4.140 (m^2/m^2)
+                     stover N conc =     2.35 (%)    extractable sw =  104.30 (mm)
 20 October 1997(Day of year=293), wheat: 
       stage 6.0 flowering
-                     biomass =         874.72 (g/m^2)   lai          =   1.679 (m^2/m^2)
-                     stover N conc =     0.85 (%)    extractable sw =   77.61 (mm)
+                     biomass =         919.94 (g/m^2)   lai          =   1.691 (m^2/m^2)
+                     stover N conc =     0.90 (%)    extractable sw =   76.33 (mm)
 27 October 1997(Day of year=300), wheat: 
       stage 7.0 start_grain_fill
-                     biomass =         907.25 (g/m^2)   lai          =   1.028 (m^2/m^2)
-                     stover N conc =     0.71 (%)    extractable sw =   68.97 (mm)
+                     biomass =         951.47 (g/m^2)   lai          =   1.027 (m^2/m^2)
+                     stover N conc =     0.77 (%)    extractable sw =   67.96 (mm)
 27 November 1997(Day of year=331), wheat: 
       stage 8.0 end_grain_fill
-                     biomass =        1025.83 (g/m^2)   lai          =   0.496 (m^2/m^2)
-                     stover N conc =     0.31 (%)    extractable sw =   53.21 (mm)
+                     biomass =        1071.83 (g/m^2)   lai          =   0.571 (m^2/m^2)
+                     stover N conc =     0.31 (%)    extractable sw =   52.24 (mm)
 29 November 1997(Day of year=333), wheat: 
       stage 9.0 maturity
-                     biomass =        1026.29 (g/m^2)   lai          =   0.428 (m^2/m^2)
-                     stover N conc =     0.31 (%)    extractable sw =   51.24 (mm)
+                     biomass =        1072.33 (g/m^2)   lai          =   0.492 (m^2/m^2)
+                     stover N conc =     0.31 (%)    extractable sw =   50.19 (mm)
 30 November 1997(Day of year=334), wheat: 
       stage 10.0 harvest_ripe
-                     biomass =        1026.29 (g/m^2)   lai          =   0.001 (m^2/m^2)
-                     stover N conc =     0.30 (%)    extractable sw =   50.91 (mm)
+                     biomass =        1072.33 (g/m^2)   lai          =   0.000 (m^2/m^2)
+                     stover N conc =     0.30 (%)    extractable sw =   49.81 (mm)
+1 December 1997(Day of year=335), wheat: 
+     Crop failure because of total leaf senescence.
+     Plant death. standing above-ground dm = 10723.31 (kg/ha)
 11 December 1997(Day of year=345), operatns: 
       Sending harvest message to wheat
 11 December 1997(Day of year=345), wheat: 
      
-      flowering day          =  293                           stover (kg/ha)         =     7006.5
-      maturity day           =  333                           grain yield (kg/ha)    =     3256.3
-      grain % water content  =   12.5                         grain yield wet (kg/ha)=     3721.5
-      grain wt (g)           =    0.026                       grains/m^2             =  12669.070
-      grains/plant           =   64.6                         maximum lai            =      4.241
-      total above ground biomass (kg/ha)    =    10262.9
-      live above ground biomass (kg/ha)     =    10262.9
-      green above ground biomass (kg/ha)    =     8318.9
-      senesced above ground biomass (kg/ha) =     1944.0
+      flowering day          =  293                           stover (kg/ha)         =     7366.0
+      maturity day           =  333                           grain yield (kg/ha)    =     3357.4
+      grain % water content  =   12.5                         grain yield wet (kg/ha)=     3837.0
+      grain wt (g)           =    0.000                       grains/m^2             =      0.000
+      grains/plant           =    0.0                         maximum lai            =      4.534
+      total above ground biomass (kg/ha)    =    10723.3
+      live above ground biomass (kg/ha)     =    10723.3
+      green above ground biomass (kg/ha)    =        0.0
+      senesced above ground biomass (kg/ha) =    10723.3
       dead above ground biomass (kg/ha)     =        0.0
-      number of leaves       =   42.9
-      DM Root:Shoot ratio    =    0.155                       Harvest Index          =      0.317
-      Stover C:N ratio       =  111.847                       Root C:N ratio         =     32.400
-      grain N percent        =       1.59                     total N content (kg/ha)=      76.69
-      grain N uptake (kg/ha) =      51.64                     senesced N content (kg/ha)=    9.72
-      green N content (kg/ha)=      15.34                     dead N content (kg/ha) =       0.00
+      number of leaves       =   42.8
+      DM Root:Shoot ratio    =    0.000                       Harvest Index          =      0.313
+      Stover C:N ratio       =  111.578                       Root C:N ratio         =      0.000
+      grain N percent        =       1.71                     total N content (kg/ha)=      83.95
+      grain N uptake (kg/ha) =      57.54                     senesced N content (kg/ha)=   26.41
+      green N content (kg/ha)=       0.00                     dead N content (kg/ha) =       0.00
      
       Average Stress Indices:                          Water Photo  Water Expan  N Photo      N grain conc
          emergence            to end_of_juvenile         0.000        0.000        0.000        0.000
-         end_of_juvenile      to floral_initiation       0.000        0.000        0.062        0.111
-         floral_initiation    to flowering               0.171        0.211        0.160        0.406
-         flowering            to start_grain_fill        0.677        0.777        0.000        0.067
-         start_grain_fill     to end_grain_fill          0.118        0.155        0.513        0.763
+         end_of_juvenile      to floral_initiation       0.000        0.000        0.042        0.080
+         floral_initiation    to flowering               0.183        0.227        0.121        0.370
+         flowering            to start_grain_fill        0.687        0.787        0.000        0.018
+         start_grain_fill     to end_grain_fill          0.126        0.163        0.502        0.735
      
      
      Crop harvested.
          Organic matter from crop:-      Tops to surface residue      Roots to soil FOM
-                          DM (kg/ha) =               7006.14                    0.00
-                          N  (kg/ha) =                 25.03                    0.00
+                          DM (kg/ha) =               7365.96                    0.00
+                          N  (kg/ha) =                 26.41                    0.00
      
          Organic matter removed from system:-      From Tops               From Roots
-                          DM (kg/ha) =               3256.34                    0.00
-                          N  (kg/ha) =                 51.64                    0.00
+                          DM (kg/ha) =               3357.36                    0.00
+                          N  (kg/ha) =                 57.54                    0.00
      
-      stage 4.0 end_of_juvenile
-                     biomass =           0.04 (g/m^2)   lai          =   0.039 (m^2/m^2)
-                     stover N conc =     6.30 (%)    extractable sw =   50.90 (mm)
       Sending kill_crop message to wheat
      Plant kill. 100.00% crop killed because of external action.
       Sending end_crop message to wheat
      Crop ended. Yield (dw) =     0.0  (kg/ha)
          Organic matter from crop:-      Tops to surface residue      Roots to soil FOM
-                          DM (kg/ha) =                  0.40                 1590.93
-                          N  (kg/ha) =                  0.02                   19.64
+                          DM (kg/ha) =                  0.00                    0.00
+                          N  (kg/ha) =                  0.00                    0.00
      
 20 April 1998(Day of year=110), operatns: 
       Sending tillage message to surfaceom
@@ -1785,11 +1785,11 @@ Component   "tracker2" = c:\development\apsim\tracker\lib\tracker.dll
 9 May 1998(Day of year=129), wheat: 
       stage 3.0 emergence
                      biomass =           1.02 (g/m^2)   lai          =   0.044 (m^2/m^2)
-                     stover N conc =     5.85 (%)    extractable sw =   17.76 (mm)
+                     stover N conc =     5.85 (%)    extractable sw =   17.77 (mm)
 10 May 1998(Day of year=130), wheat: 
       stage 4.0 end_of_juvenile
                      biomass =           1.19 (g/m^2)   lai          =   0.047 (m^2/m^2)
-                     stover N conc =     5.84 (%)    extractable sw =   17.33 (mm)
+                     stover N conc =     5.84 (%)    extractable sw =   17.35 (mm)
 10 July 1998(Day of year=191), operatns: 
       Sending apply message to fertiliz
 10 July 1998(Day of year=191), fertiliz: 
@@ -1799,16 +1799,16 @@ Component   "tracker2" = c:\development\apsim\tracker\lib\tracker.dll
                                               added at depth   10.00 (layer   1)
 23 August 1998(Day of year=235), wheat: 
       stage 5.0 floral_initiation
-                     biomass =         198.91 (g/m^2)   lai          =   2.514 (m^2/m^2)
-                     stover N conc =     2.40 (%)    extractable sw =  123.63 (mm)
+                     biomass =         204.42 (g/m^2)   lai          =   2.591 (m^2/m^2)
+                     stover N conc =     2.38 (%)    extractable sw =  123.71 (mm)
 13 October 1998(Day of year=286), wheat: 
       stage 6.0 flowering
-                     biomass =         814.04 (g/m^2)   lai          =   2.809 (m^2/m^2)
-                     stover N conc =     0.83 (%)    extractable sw =  133.58 (mm)
+                     biomass =         818.12 (g/m^2)   lai          =   2.808 (m^2/m^2)
+                     stover N conc =     0.82 (%)    extractable sw =  133.57 (mm)
 23 October 1998(Day of year=296), wheat: 
       stage 7.0 start_grain_fill
-                     biomass =         975.92 (g/m^2)   lai          =   2.584 (m^2/m^2)
-                     stover N conc =     0.57 (%)    extractable sw =  110.32 (mm)
+                     biomass =         979.92 (g/m^2)   lai          =   2.567 (m^2/m^2)
+                     stover N conc =     0.56 (%)    extractable sw =  110.37 (mm)
 12 November 1998(Day of year=316), operatns: 
       Sending sow message to weed
 12 November 1998(Day of year=316), weed: 
@@ -1885,142 +1885,142 @@ Component   "tracker2" = c:\development\apsim\tracker\lib\tracker.dll
 19 November 1998(Day of year=323), weed: 
       stage 3.0 emergence
                      biomass =           0.90 (g/m^2)   lai          =   0.004 (m^2/m^2)
-                     stover N conc =     6.00 (%)    extractable sw =   19.89 (mm)
+                     stover N conc =     6.00 (%)    extractable sw =   20.75 (mm)
 27 November 1998(Day of year=331), wheat: 
       stage 8.0 end_grain_fill
-                     biomass =        1245.16 (g/m^2)   lai          =   0.532 (m^2/m^2)
-                     stover N conc =     0.32 (%)    extractable sw =  106.43 (mm)
+                     biomass =        1242.61 (g/m^2)   lai          =   0.525 (m^2/m^2)
+                     stover N conc =     0.32 (%)    extractable sw =  107.91 (mm)
 30 November 1998(Day of year=334), wheat: 
       stage 9.0 maturity
-                     biomass =        1247.64 (g/m^2)   lai          =   0.370 (m^2/m^2)
-                     stover N conc =     0.32 (%)    extractable sw =  107.75 (mm)
+                     biomass =        1245.01 (g/m^2)   lai          =   0.366 (m^2/m^2)
+                     stover N conc =     0.31 (%)    extractable sw =  109.32 (mm)
 1 December 1998(Day of year=335), wheat: 
       stage 10.0 harvest_ripe
-                     biomass =        1247.64 (g/m^2)   lai          =   0.001 (m^2/m^2)
-                     stover N conc =     0.31 (%)    extractable sw =  105.90 (mm)
+                     biomass =        1245.01 (g/m^2)   lai          =   0.000 (m^2/m^2)
+                     stover N conc =     0.31 (%)    extractable sw =  107.43 (mm)
+2 December 1998(Day of year=336), wheat: 
+     Crop failure because of total leaf senescence.
+     Plant death. standing above-ground dm = 12450.12 (kg/ha)
 15 December 1998(Day of year=349), weed: 
       stage 4.0 end_of_juvenile
-                     biomass =           4.16 (g/m^2)   lai          =   0.073 (m^2/m^2)
-                     stover N conc =     3.12 (%)    extractable sw =   56.80 (mm)
+                     biomass =           3.99 (g/m^2)   lai          =   0.070 (m^2/m^2)
+                     stover N conc =     3.12 (%)    extractable sw =   57.87 (mm)
 22 December 1998(Day of year=356), operatns: 
       Sending harvest message to wheat
 22 December 1998(Day of year=356), wheat: 
      
-      flowering day          =  286                           stover (kg/ha)         =     8691.7
-      maturity day           =  334                           grain yield (kg/ha)    =     3784.7
-      grain % water content  =   12.5                         grain yield wet (kg/ha)=     4325.4
-      grain wt (g)           =    0.031                       grains/m^2             =  12036.146
-      grains/plant           =   54.2                         maximum lai            =      3.151
-      total above ground biomass (kg/ha)    =    12476.4
-      live above ground biomass (kg/ha)     =    12476.4
-      green above ground biomass (kg/ha)    =    10982.8
-      senesced above ground biomass (kg/ha) =     1493.6
+      flowering day          =  286                           stover (kg/ha)         =     8864.1
+      maturity day           =  334                           grain yield (kg/ha)    =     3586.0
+      grain % water content  =   12.5                         grain yield wet (kg/ha)=     4098.3
+      grain wt (g)           =    0.000                       grains/m^2             =      0.000
+      grains/plant           =    0.0                         maximum lai            =      3.204
+      total above ground biomass (kg/ha)    =    12450.1
+      live above ground biomass (kg/ha)     =    12450.1
+      green above ground biomass (kg/ha)    =        0.0
+      senesced above ground biomass (kg/ha) =    12450.1
       dead above ground biomass (kg/ha)     =        0.0
-      number of leaves       =   40.5
-      DM Root:Shoot ratio    =    0.102                       Harvest Index          =      0.303
-      Stover C:N ratio       =  116.018                       Root C:N ratio         =     36.289
-      grain N percent        =       1.29                     total N content (kg/ha)=      78.62
-      grain N uptake (kg/ha) =      48.65                     senesced N content (kg/ha)=    7.47
-      green N content (kg/ha)=      22.50                     dead N content (kg/ha) =       0.00
+      number of leaves       =   40.8
+      DM Root:Shoot ratio    =    0.000                       Harvest Index          =      0.288
+      Stover C:N ratio       =  116.610                       Root C:N ratio         =      0.000
+      grain N percent        =       1.29                     total N content (kg/ha)=      76.70
+      grain N uptake (kg/ha) =      46.30                     senesced N content (kg/ha)=   30.41
+      green N content (kg/ha)=       0.00                     dead N content (kg/ha) =       0.00
      
       Average Stress Indices:                          Water Photo  Water Expan  N Photo      N grain conc
          emergence            to end_of_juvenile         0.000        0.000        0.000        0.000
-         end_of_juvenile      to floral_initiation       0.000        0.000        0.410        0.482
-         floral_initiation    to flowering               0.011        0.017        0.149        0.375
-         flowering            to start_grain_fill        0.084        0.128        0.000        0.283
-         start_grain_fill     to end_grain_fill          0.231        0.279        0.225        0.778
+         end_of_juvenile      to floral_initiation       0.000        0.000        0.403        0.477
+         floral_initiation    to flowering               0.011        0.018        0.156        0.381
+         flowering            to start_grain_fill        0.083        0.127        0.000        0.307
+         start_grain_fill     to end_grain_fill          0.229        0.278        0.243        0.795
      
      
      Crop harvested.
          Organic matter from crop:-      Tops to surface residue      Roots to soil FOM
-                          DM (kg/ha) =               8691.24                    0.00
-                          N  (kg/ha) =                 29.94                    0.00
+                          DM (kg/ha) =               8864.10                    0.00
+                          N  (kg/ha) =                 30.41                    0.00
      
          Organic matter removed from system:-      From Tops               From Roots
-                          DM (kg/ha) =               3784.69                    0.00
-                          N  (kg/ha) =                 48.65                    0.00
+                          DM (kg/ha) =               3586.03                    0.00
+                          N  (kg/ha) =                 46.30                    0.00
      
-      stage 4.0 end_of_juvenile
-                     biomass =           0.04 (g/m^2)   lai          =   0.044 (m^2/m^2)
-                     stover N conc =     6.30 (%)    extractable sw =   99.83 (mm)
       Sending kill_crop message to wheat
      Plant kill. 100.00% crop killed because of external action.
       Sending end_crop message to wheat
      Crop ended. Yield (dw) =     0.0  (kg/ha)
          Organic matter from crop:-      Tops to surface residue      Roots to soil FOM
-                          DM (kg/ha) =                  0.44                 1272.23
-                          N  (kg/ha) =                  0.03                   14.02
+                          DM (kg/ha) =                  0.00                    0.00
+                          N  (kg/ha) =                  0.00                    0.00
      
 18 January 1999(Day of year=18), weed: 
       stage 5.0 floral_initiation
-                     biomass =          67.29 (g/m^2)   lai          =   0.434 (m^2/m^2)
-                     stover N conc =     3.42 (%)    extractable sw =   28.72 (mm)
+                     biomass =          67.85 (g/m^2)   lai          =   0.440 (m^2/m^2)
+                     stover N conc =     3.42 (%)    extractable sw =   29.31 (mm)
 21 January 1999(Day of year=21), weed: 
       stage 6.0 flowering
-                     biomass =          71.94 (g/m^2)   lai          =   0.416 (m^2/m^2)
-                     stover N conc =     3.34 (%)    extractable sw =   27.02 (mm)
+                     biomass =          72.61 (g/m^2)   lai          =   0.422 (m^2/m^2)
+                     stover N conc =     3.33 (%)    extractable sw =   27.57 (mm)
 29 January 1999(Day of year=29), weed: 
       stage 7.0 start_grain_fill
-                     biomass =         107.85 (g/m^2)   lai          =   0.507 (m^2/m^2)
-                     stover N conc =     2.44 (%)    extractable sw =   43.43 (mm)
+                     biomass =         108.82 (g/m^2)   lai          =   0.513 (m^2/m^2)
+                     stover N conc =     2.46 (%)    extractable sw =   44.04 (mm)
 22 February 1999(Day of year=53), weed: 
       stage 8.0 end_grain_fill
-                     biomass =         153.80 (g/m^2)   lai          =   0.206 (m^2/m^2)
-                     stover N conc =     2.31 (%)    extractable sw =   16.84 (mm)
+                     biomass =         155.75 (g/m^2)   lai          =   0.208 (m^2/m^2)
+                     stover N conc =     2.30 (%)    extractable sw =   17.13 (mm)
 25 February 1999(Day of year=56), weed: 
       stage 9.0 maturity
-                     biomass =         158.08 (g/m^2)   lai          =   0.117 (m^2/m^2)
-                     stover N conc =     2.30 (%)    extractable sw =   20.96 (mm)
+                     biomass =         160.09 (g/m^2)   lai          =   0.118 (m^2/m^2)
+                     stover N conc =     2.30 (%)    extractable sw =   21.26 (mm)
 26 February 1999(Day of year=57), weed: 
       stage 10.0 harvest_ripe
-                     biomass =         159.80 (g/m^2)   lai          =   0.000 (m^2/m^2)
-                     stover N conc =     2.40 (%)    extractable sw =   19.66 (mm)
+                     biomass =         161.84 (g/m^2)   lai          =   0.000 (m^2/m^2)
+                     stover N conc =     2.39 (%)    extractable sw =   19.98 (mm)
 27 February 1999(Day of year=58), weed: 
      Crop failure because of total leaf senescence.
-     Plant death. standing above-ground dm = 1597.95 (kg/ha)
+     Plant death. standing above-ground dm = 1618.35 (kg/ha)
 29 April 1999(Day of year=119), operatns: 
       Sending harvest message to weed
 29 April 1999(Day of year=119), weed: 
      
-      flowering day          =   21                           stover (kg/ha)         =     1363.8
-      maturity day           =   56                           grain yield (kg/ha)    =      234.1
-      grain % water content  =   12.0                         grain yield wet (kg/ha)=      266.1
+      flowering day          =   21                           stover (kg/ha)         =     1381.2
+      maturity day           =   56                           grain yield (kg/ha)    =      237.1
+      grain % water content  =   12.0                         grain yield wet (kg/ha)=      269.5
       grain wt (g)           =    0.000                       grains/m^2             =      0.000
-      grains/plant           =    0.0                         maximum lai            =      0.520
-      total above ground biomass (kg/ha)    =     1598.0
-      live above ground biomass (kg/ha)     =     1598.0
+      grains/plant           =    0.0                         maximum lai            =      0.526
+      total above ground biomass (kg/ha)    =     1618.4
+      live above ground biomass (kg/ha)     =     1618.4
       green above ground biomass (kg/ha)    =        0.0
-      senesced above ground biomass (kg/ha) =     1598.0
+      senesced above ground biomass (kg/ha) =     1618.4
       dead above ground biomass (kg/ha)     =        0.0
       number of leaves       =   45.3
       DM Root:Shoot ratio    =    0.000                       Harvest Index          =      0.147
-      Stover C:N ratio       =   23.674                       Root C:N ratio         =      0.000
-      grain N percent        =       1.60                     total N content (kg/ha)=      26.79
-      grain N uptake (kg/ha) =       3.75                     senesced N content (kg/ha)=   23.04
+      Stover C:N ratio       =   23.695                       Root C:N ratio         =      0.000
+      grain N percent        =       1.60                     total N content (kg/ha)=      27.11
+      grain N uptake (kg/ha) =       3.79                     senesced N content (kg/ha)=   23.32
       green N content (kg/ha)=       0.00                     dead N content (kg/ha) =       0.00
      
       Average Stress Indices:                          Water Photo  Water Expan  N Photo      N grain conc
          emergence            to end_of_juvenile         0.000        0.000        0.000        0.027
-         end_of_juvenile      to floral_initiation       0.337        0.396        0.000        0.037
-         floral_initiation    to flowering               0.732        0.832        0.000        0.000
-         flowering            to start_grain_fill        0.462        0.576        0.000        0.000
-         start_grain_fill     to end_grain_fill          0.701        0.806        0.000        0.000
+         end_of_juvenile      to floral_initiation       0.328        0.387        0.000        0.041
+         floral_initiation    to flowering               0.729        0.829        0.000        0.000
+         flowering            to start_grain_fill        0.463        0.577        0.000        0.000
+         start_grain_fill     to end_grain_fill          0.698        0.802        0.000        0.000
      
      
      Crop harvested.
          Organic matter from crop:-      Tops to surface residue      Roots to soil FOM
-                          DM (kg/ha) =               1202.30                    0.00
-                          N  (kg/ha) =                 19.15                    0.00
+                          DM (kg/ha) =               1217.23                    0.00
+                          N  (kg/ha) =                 19.38                    0.00
      
          Organic matter removed from system:-      From Tops               From Roots
-                          DM (kg/ha) =                234.15                    0.00
-                          N  (kg/ha) =                  3.75                    0.00
+                          DM (kg/ha) =                237.14                    0.00
+                          N  (kg/ha) =                  3.79                    0.00
      
       Sending end_crop message to weed
      Crop ended. Yield (dw) =     0.0  (kg/ha)
          Organic matter from crop:-      Tops to surface residue      Roots to soil FOM
-                          DM (kg/ha) =                161.50                    0.00
-                          N  (kg/ha) =                  3.89                    0.00
+                          DM (kg/ha) =                163.98                    0.00
+                          N  (kg/ha) =                  3.94                    0.00
      
 30 April 1999(Day of year=120), operatns: 
       Sending tillage message to surfaceom
@@ -2112,7 +2112,7 @@ Component   "tracker2" = c:\development\apsim\tracker\lib\tracker.dll
 6 June 1999(Day of year=157), canola: 
       stage 3.0 emergence
                      biomass =           5.49 (g/m^2)   lai          =   0.009 (m^2/m^2)
-                     stover N conc =     6.50 (%)    extractable sw =   33.42 (mm)
+                     stover N conc =     6.50 (%)    extractable sw =   33.44 (mm)
 15 June 1999(Day of year=166), operatns: 
       Sending apply message to fertiliz
 15 June 1999(Day of year=166), fertiliz: 
@@ -2123,69 +2123,69 @@ Component   "tracker2" = c:\development\apsim\tracker\lib\tracker.dll
 28 June 1999(Day of year=179), canola: 
       stage 4.0 end_of_juvenile
                      biomass =           8.68 (g/m^2)   lai          =   0.093 (m^2/m^2)
-                     stover N conc =     5.87 (%)    extractable sw =   78.83 (mm)
+                     stover N conc =     5.87 (%)    extractable sw =   78.86 (mm)
 28 August 1999(Day of year=240), canola: 
       stage 5.0 floral_initiation
-                     biomass =         157.20 (g/m^2)   lai          =   1.998 (m^2/m^2)
-                     stover N conc =     5.14 (%)    extractable sw =  162.10 (mm)
+                     biomass =         156.99 (g/m^2)   lai          =   1.994 (m^2/m^2)
+                     stover N conc =     5.05 (%)    extractable sw =  162.14 (mm)
 20 September 1999(Day of year=263), canola: 
       stage 6.0 flowering
-                     biomass =         308.07 (g/m^2)   lai          =   4.026 (m^2/m^2)
-                     stover N conc =     3.15 (%)    extractable sw =  141.66 (mm)
+                     biomass =         285.93 (g/m^2)   lai          =   3.677 (m^2/m^2)
+                     stover N conc =     3.14 (%)    extractable sw =  146.02 (mm)
 5 October 1999(Day of year=278), canola: 
       stage 7.0 start_grain_fill
-                     biomass =         457.10 (g/m^2)   lai          =   2.848 (m^2/m^2)
-                     stover N conc =     2.28 (%)    extractable sw =  108.69 (mm)
+                     biomass =         436.17 (g/m^2)   lai          =   2.708 (m^2/m^2)
+                     stover N conc =     2.19 (%)    extractable sw =  112.43 (mm)
 6 December 1999(Day of year=340), canola: 
       stage 8.0 end_grain_fill
-                     biomass =         704.09 (g/m^2)   lai          =   0.453 (m^2/m^2)
-                     stover N conc =     0.49 (%)    extractable sw =   59.73 (mm)
+                     biomass =         657.32 (g/m^2)   lai          =   0.398 (m^2/m^2)
+                     stover N conc =     0.46 (%)    extractable sw =   71.83 (mm)
 7 December 1999(Day of year=341), operatns: 
       Sending harvest message to canola
 7 December 1999(Day of year=341), canola: 
      
-      flowering day          =  263                           stover (kg/ha)         =     4928.7
-      maturity day           =    0                           grain yield (kg/ha)    =     2112.3
-      grain % water content  =    8.5                         grain yield wet (kg/ha)=     2308.5
+      flowering day          =  263                           stover (kg/ha)         =     4601.3
+      maturity day           =    0                           grain yield (kg/ha)    =     1972.0
+      grain % water content  =    8.5                         grain yield wet (kg/ha)=     2155.2
       grain wt (g)           =    0.000                       grains/m^2             =      0.000
-      grains/plant           =    0.0                         maximum lai            =      4.027
-      total above ground biomass (kg/ha)    =     7040.9
-      live above ground biomass (kg/ha)     =     7040.9
-      green above ground biomass (kg/ha)    =     5550.4
-      senesced above ground biomass (kg/ha) =     1490.6
+      grains/plant           =    0.0                         maximum lai            =      3.677
+      total above ground biomass (kg/ha)    =     6573.2
+      live above ground biomass (kg/ha)     =     6573.2
+      green above ground biomass (kg/ha)    =     5153.5
+      senesced above ground biomass (kg/ha) =     1419.8
       dead above ground biomass (kg/ha)     =        0.0
       number of leaves       =   25.7
       DM Root:Shoot ratio    =    0.356                       Harvest Index          =      0.300
-      Stover C:N ratio       =   53.959                       Root C:N ratio         =     71.156
-      grain N percent        =       3.88                     total N content (kg/ha)=     118.45
-      grain N uptake (kg/ha) =      81.91                     senesced N content (kg/ha)=   19.63
-      green N content (kg/ha)=      16.91                     dead N content (kg/ha) =       0.00
+      Stover C:N ratio       =   56.998                       Root C:N ratio         =     73.297
+      grain N percent        =       3.86                     total N content (kg/ha)=     108.35
+      grain N uptake (kg/ha) =      76.06                     senesced N content (kg/ha)=   17.60
+      green N content (kg/ha)=      14.69                     dead N content (kg/ha) =       0.00
      
       Average Stress Indices:                          Water Photo  Water Expan  N Photo      N grain conc
-         emergence            to end_of_juvenile         0.000        0.000        0.000        0.057
-         end_of_juvenile      to floral_initiation       0.000        0.000        0.000        0.164
-         floral_initiation    to flowering               0.000        0.000        0.535        0.752
-         flowering            to start_grain_fill        0.242        0.306        0.201        0.598
-         start_grain_fill     to end_grain_fill          0.129        0.162        0.626        0.802
+         emergence            to end_of_juvenile         0.000        0.000        0.000        0.058
+         end_of_juvenile      to floral_initiation       0.000        0.000        0.000        0.166
+         floral_initiation    to flowering               0.000        0.000        0.603        0.802
+         flowering            to start_grain_fill        0.214        0.278        0.217        0.617
+         start_grain_fill     to end_grain_fill          0.108        0.136        0.667        0.826
      
      
      Crop harvested.
          Organic matter from crop:-      Tops to surface residue      Roots to soil FOM
-                          DM (kg/ha) =               4873.75                    0.00
-                          N  (kg/ha) =                 35.21                    0.00
+                          DM (kg/ha) =               4546.36                    0.00
+                          N  (kg/ha) =                 31.13                    0.00
      
          Organic matter removed from system:-      From Tops               From Roots
-                          DM (kg/ha) =               2112.28                    0.00
-                          N  (kg/ha) =                 81.91                    0.00
+                          DM (kg/ha) =               1971.97                    0.00
+                          N  (kg/ha) =                 76.06                    0.00
      
       stage 4.0 end_of_juvenile
                      biomass =           5.49 (g/m^2)   lai          =   0.009 (m^2/m^2)
-                     stover N conc =     2.41 (%)    extractable sw =   59.73 (mm)
+                     stover N conc =     2.11 (%)    extractable sw =   71.83 (mm)
       Sending end_crop message to canola
      Crop ended. Yield (dw) =     0.0  (kg/ha)
          Organic matter from crop:-      Tops to surface residue      Roots to soil FOM
-                          DM (kg/ha) =                 54.90                 2503.51
-                          N  (kg/ha) =                  1.32                   14.07
+                          DM (kg/ha) =                 54.90                 2342.13
+                          N  (kg/ha) =                  1.16                   12.78
      
 31 December 1999(Day of year=365), clock: 
      Simulation is terminating due to end criteria being met.

@@ -558,8 +558,8 @@ Component   "rainfall" = c:\development\apsim\patchinput\lib\patchinput.dll
                      biomass =         809.34 (g/m^2)   lai          =   0.000 (m^2/m^2)
                      stover N conc =     0.31 (%)    extractable sw =   18.75 (mm)
 11 December 2005(Day of year=345), manager: 
-     Manager creating a new local real variable : wet_yield =     3.40048441704821
-     Manager creating a new local real variable : cropprotein =     10.8677311000000
+     Manager creating a new local real variable : wet_yield =     3.40048524659367
+     Manager creating a new local real variable : cropprotein =     10.8677282000000
      Manager creating a new local real variable : price =     0.00000000000000
      Manager sending message :- wheat harvest
 11 December 2005(Day of year=345), Wheat: 
@@ -571,43 +571,43 @@ Component   "rainfall" = c:\development\apsim\patchinput\lib\patchinput.dll
       grains/plant           =   83.7                         maximum lai            =      3.753
       total above ground biomass (kg/ha)    =     8093.4
       live above ground biomass (kg/ha)     =     8093.4
-      green above ground biomass (kg/ha)    =     6179.5
-      senesced above ground biomass (kg/ha) =     1913.9
+      green above ground biomass (kg/ha)    =     6179.3
+      senesced above ground biomass (kg/ha) =     1914.1
       dead above ground biomass (kg/ha)     =        0.0
       number of leaves       =   47.6
       DM Root:Shoot ratio    =    0.166                       Harvest Index          =      0.370
       Stover C:N ratio       =  105.039                       Root C:N ratio         =     21.502
       grain N percent        =       1.90                     total N content (kg/ha)=      76.38
       grain N uptake (kg/ha) =      56.95                     senesced N content (kg/ha)=    9.57
-      green N content (kg/ha)=       9.86                     dead N content (kg/ha) =       0.00
+      green N content (kg/ha)=       9.85                     dead N content (kg/ha) =       0.00
      
       Average Stress Indices:                          Water Photo  Water Expan  N Photo      N grain conc
          emergence            to end_of_juvenile         0.000        0.000        0.000        0.000
          end_of_juvenile      to floral_initiation       0.030        0.041        0.034        0.070
          floral_initiation    to flowering               0.276        0.339        0.100        0.146
          flowering            to start_grain_fill        0.480        0.580        0.000        0.000
-         start_grain_fill     to end_grain_fill          0.149        0.197        0.373        0.562
+         start_grain_fill     to end_grain_fill          0.149        0.197        0.373        0.561
      
      
      Crop harvested.
          Organic matter from crop:-      Tops to surface residue      Roots to soil FOM
-                          DM (kg/ha) =               5100.77                    0.00
-                          N  (kg/ha) =                 19.41                    0.00
+                          DM (kg/ha) =               5100.97                    0.00
+                          N  (kg/ha) =                 19.43                    0.00
      
          Organic matter removed from system:-      From Tops               From Roots
                           DM (kg/ha) =               2992.43                    0.00
                           N  (kg/ha) =                 56.95                    0.00
      
       stage 4.0 end_of_juvenile
-                     biomass =           0.02 (g/m^2)   lai          =   0.020 (m^2/m^2)
+                     biomass =           0.00 (g/m^2)   lai          =   0.020 (m^2/m^2)
                      stover N conc =     6.30 (%)    extractable sw =   18.75 (mm)
      Manager sending message :- wheat kill_crop
      Plant kill. 100.00% crop killed because of external action.
      Manager sending message :- wheat end_crop
      Crop ended. Yield (dw) =     0.0  (kg/ha)
          Organic matter from crop:-      Tops to surface residue      Roots to soil FOM
-                          DM (kg/ha) =                  0.20                 1344.16
-                          N  (kg/ha) =                  0.01                   25.01
+                          DM (kg/ha) =                  0.00                 1344.16
+                          N  (kg/ha) =                  0.00                   25.01
      
      Manager sending message :- surfaceom tillage  type = burn
 11 December 2005(Day of year=345), SurfaceOM: 

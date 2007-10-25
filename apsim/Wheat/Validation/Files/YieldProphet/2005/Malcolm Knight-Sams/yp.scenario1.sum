@@ -566,11 +566,11 @@ Component   "rainfall" = c:\development\apsim\patchinput\lib\patchinput.dll
                      stover N conc =     0.32 (%)    extractable sw =   39.06 (mm)
 20 November 2005(Day of year=324), Wheat: 
       stage 10.0 harvest_ripe
-                     biomass =         935.24 (g/m^2)   lai          =   0.001 (m^2/m^2)
+                     biomass =         935.24 (g/m^2)   lai          =   0.000 (m^2/m^2)
                      stover N conc =     0.31 (%)    extractable sw =   37.04 (mm)
 21 November 2005(Day of year=325), manager: 
      Manager creating a new local real variable : wet_yield =     3.42025370125144
-     Manager creating a new local real variable : cropprotein =     15.0035067000000
+     Manager creating a new local real variable : cropprotein =     15.0035057000000
      Manager creating a new local real variable : price =     0.00000000000000
      Manager sending message :- wheat harvest
 21 November 2005(Day of year=325), Wheat: 
@@ -582,8 +582,8 @@ Component   "rainfall" = c:\development\apsim\patchinput\lib\patchinput.dll
       grains/plant           =  114.1                         maximum lai            =      4.380
       total above ground biomass (kg/ha)    =     9352.4
       live above ground biomass (kg/ha)     =     9352.4
-      green above ground biomass (kg/ha)    =     7401.0
-      senesced above ground biomass (kg/ha) =     1951.4
+      green above ground biomass (kg/ha)    =     7400.8
+      senesced above ground biomass (kg/ha) =     1951.6
       dead above ground biomass (kg/ha)     =        0.0
       number of leaves       =   43.6
       DM Root:Shoot ratio    =    0.169                       Harvest Index          =      0.322
@@ -602,23 +602,23 @@ Component   "rainfall" = c:\development\apsim\patchinput\lib\patchinput.dll
      
      Crop harvested.
          Organic matter from crop:-      Tops to surface residue      Roots to soil FOM
-                          DM (kg/ha) =               6342.37                    0.00
-                          N  (kg/ha) =                 23.26                    0.00
+                          DM (kg/ha) =               6342.57                    0.00
+                          N  (kg/ha) =                 23.28                    0.00
      
          Organic matter removed from system:-      From Tops               From Roots
                           DM (kg/ha) =               3009.82                    0.00
                           N  (kg/ha) =                 79.09                    0.00
      
       stage 4.0 end_of_juvenile
-                     biomass =           0.02 (g/m^2)   lai          =   0.020 (m^2/m^2)
+                     biomass =           0.00 (g/m^2)   lai          =   0.020 (m^2/m^2)
                      stover N conc =     6.30 (%)    extractable sw =   37.04 (mm)
      Manager sending message :- wheat kill_crop
      Plant kill. 100.00% crop killed because of external action.
      Manager sending message :- wheat end_crop
      Crop ended. Yield (dw) =     0.0  (kg/ha)
          Organic matter from crop:-      Tops to surface residue      Roots to soil FOM
-                          DM (kg/ha) =                  0.20                 1584.73
-                          N  (kg/ha) =                  0.01                   23.85
+                          DM (kg/ha) =                  0.00                 1584.73
+                          N  (kg/ha) =                  0.00                   23.85
      
      Manager sending message :- surfaceom tillage  type = burn
 21 November 2005(Day of year=325), SurfaceOM: 
