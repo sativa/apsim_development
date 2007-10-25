@@ -402,7 +402,7 @@ Component    "Tracker" = c:\development\apsim\Tracker\lib\Tracker.dll
                      stover N conc =     0.78 (%)    extractable sw =    7.70 (mm)
 12 November 1957(Day of year=316), Wheat: 
       stage 10.0 harvest_ripe
-                     biomass =         586.02 (g/m^2)   lai          =   0.001 (m^2/m^2)
+                     biomass =         586.02 (g/m^2)   lai          =   0.000 (m^2/m^2)
                      stover N conc =     0.78 (%)    extractable sw =    7.39 (mm)
 12 November 1957(Day of year=316), manager: 
      Manager creating a new local real variable : hi =    0.269767276645794
@@ -416,8 +416,8 @@ Component    "Tracker" = c:\development\apsim\Tracker\lib\Tracker.dll
       grains/plant           =   79.9                         maximum lai            =      2.919
       total above ground biomass (kg/ha)    =     5860.2
       live above ground biomass (kg/ha)     =     5860.2
-      green above ground biomass (kg/ha)    =     4624.7
-      senesced above ground biomass (kg/ha) =     1235.4
+      green above ground biomass (kg/ha)    =     4624.6
+      senesced above ground biomass (kg/ha) =     1235.6
       dead above ground biomass (kg/ha)     =        0.0
       number of leaves       =   37.6
       DM Root:Shoot ratio    =    0.174                       Harvest Index          =      0.270
@@ -436,21 +436,21 @@ Component    "Tracker" = c:\development\apsim\Tracker\lib\Tracker.dll
      
      Crop harvested.
          Organic matter from crop:-      Tops to surface residue      Roots to soil FOM
-                          DM (kg/ha) =               4279.09                    0.00
-                          N  (kg/ha) =                 29.96                    0.00
+                          DM (kg/ha) =               4279.29                    0.00
+                          N  (kg/ha) =                 29.97                    0.00
      
          Organic matter removed from system:-      From Tops               From Roots
                           DM (kg/ha) =               1580.88                    0.00
                           N  (kg/ha) =                 45.81                    0.00
      
       stage 4.0 end_of_juvenile
-                     biomass =           0.02 (g/m^2)   lai          =   0.020 (m^2/m^2)
+                     biomass =           0.00 (g/m^2)   lai          =   0.020 (m^2/m^2)
                      stover N conc =     6.30 (%)    extractable sw =    7.39 (mm)
      Manager sending message :- wheat end_crop
      Crop ended. Yield (dw) =     0.0  (kg/ha)
          Organic matter from crop:-      Tops to surface residue      Roots to soil FOM
-                          DM (kg/ha) =                  0.20                 1022.44
-                          N  (kg/ha) =                  0.01                   24.50
+                          DM (kg/ha) =                  0.00                 1022.44
+                          N  (kg/ha) =                  0.00                   24.50
      
 30 May 1958(Day of year=150), soilwat2: 
      
@@ -574,7 +574,7 @@ Component    "Tracker" = c:\development\apsim\Tracker\lib\Tracker.dll
                      stover N conc =     0.30 (%)    extractable sw =   12.87 (mm)
 25 November 1958(Day of year=329), Wheat: 
       stage 10.0 harvest_ripe
-                     biomass =        1488.53 (g/m^2)   lai          =   0.001 (m^2/m^2)
+                     biomass =        1488.53 (g/m^2)   lai          =   0.000 (m^2/m^2)
                      stover N conc =     0.30 (%)    extractable sw =   12.07 (mm)
 25 November 1958(Day of year=329), manager: 
      Manager sending message :- wheat harvest
@@ -586,12 +586,12 @@ Component    "Tracker" = c:\development\apsim\Tracker\lib\Tracker.dll
       grains/plant           =  145.6                         maximum lai            =      4.287
       total above ground biomass (kg/ha)    =    14885.3
       live above ground biomass (kg/ha)     =    14885.3
-      green above ground biomass (kg/ha)    =    13006.2
-      senesced above ground biomass (kg/ha) =     1879.1
+      green above ground biomass (kg/ha)    =    13006.0
+      senesced above ground biomass (kg/ha) =     1879.3
       dead above ground biomass (kg/ha)     =        0.0
       number of leaves       =   46.3
       DM Root:Shoot ratio    =    0.123                       Harvest Index          =      0.242
-      Stover C:N ratio       =  121.505                       Root C:N ratio         =     39.694
+      Stover C:N ratio       =  121.505                       Root C:N ratio         =     39.695
       grain N percent        =       1.50                     total N content (kg/ha)=      91.19
       grain N uptake (kg/ha) =      54.07                     senesced N content (kg/ha)=    9.40
       green N content (kg/ha)=      27.73                     dead N content (kg/ha) =       0.00
@@ -606,21 +606,21 @@ Component    "Tracker" = c:\development\apsim\Tracker\lib\Tracker.dll
      
      Crop harvested.
          Organic matter from crop:-      Tops to surface residue      Roots to soil FOM
-                          DM (kg/ha) =               11276.25                    0.00
-                          N  (kg/ha) =                 37.11                    0.00
+                          DM (kg/ha) =               11276.46                    0.00
+                          N  (kg/ha) =                 37.12                    0.00
      
          Organic matter removed from system:-      From Tops               From Roots
-                          DM (kg/ha) =               3608.84                    0.00
+                          DM (kg/ha) =               3608.83                    0.00
                           N  (kg/ha) =                 54.07                    0.00
      
       stage 4.0 end_of_juvenile
-                     biomass =           0.02 (g/m^2)   lai          =   0.020 (m^2/m^2)
+                     biomass =           0.00 (g/m^2)   lai          =   0.020 (m^2/m^2)
                      stover N conc =     6.30 (%)    extractable sw =   12.07 (mm)
      Manager sending message :- wheat end_crop
      Crop ended. Yield (dw) =     0.0  (kg/ha)
          Organic matter from crop:-      Tops to surface residue      Roots to soil FOM
-                          DM (kg/ha) =                  0.20                 1831.93
-                          N  (kg/ha) =                  0.01                   18.46
+                          DM (kg/ha) =                  0.00                 1831.93
+                          N  (kg/ha) =                  0.00                   18.46
      
 30 May 1959(Day of year=150), soilwat2: 
      
@@ -744,7 +744,7 @@ Component    "Tracker" = c:\development\apsim\Tracker\lib\Tracker.dll
                      stover N conc =     1.29 (%)    extractable sw =    0.53 (mm)
 11 November 1959(Day of year=315), Wheat: 
       stage 10.0 harvest_ripe
-                     biomass =         453.46 (g/m^2)   lai          =   0.001 (m^2/m^2)
+                     biomass =         453.46 (g/m^2)   lai          =   0.000 (m^2/m^2)
                      stover N conc =     1.31 (%)    extractable sw =    0.48 (mm)
 11 November 1959(Day of year=315), manager: 
      Manager sending message :- wheat harvest
@@ -752,12 +752,12 @@ Component    "Tracker" = c:\development\apsim\Tracker\lib\Tracker.dll
       flowering day          =  269                           stover (kg/ha)         =     3029.8
       maturity day           =  314                           grain yield (kg/ha)    =     1504.8
       grain % water content  =   12.5                         grain yield wet (kg/ha)=     1719.8
-      grain wt (g)           =    0.031                       grains/m^2             =   4828.156
+      grain wt (g)           =    0.031                       grains/m^2             =   4828.155
       grains/plant           =   48.3                         maximum lai            =      2.821
       total above ground biomass (kg/ha)    =     4534.6
       live above ground biomass (kg/ha)     =     4534.6
-      green above ground biomass (kg/ha)    =     3236.5
-      senesced above ground biomass (kg/ha) =     1298.1
+      green above ground biomass (kg/ha)    =     3236.3
+      senesced above ground biomass (kg/ha) =     1298.3
       dead above ground biomass (kg/ha)     =        0.0
       number of leaves       =   44.4
       DM Root:Shoot ratio    =    0.172                       Harvest Index          =      0.332
@@ -776,21 +776,21 @@ Component    "Tracker" = c:\development\apsim\Tracker\lib\Tracker.dll
      
      Crop harvested.
          Organic matter from crop:-      Tops to surface residue      Roots to soil FOM
-                          DM (kg/ha) =               3029.59                    0.00
-                          N  (kg/ha) =                 29.12                    0.00
+                          DM (kg/ha) =               3029.78                    0.00
+                          N  (kg/ha) =                 29.13                    0.00
      
          Organic matter removed from system:-      From Tops               From Roots
                           DM (kg/ha) =               1504.81                    0.00
                           N  (kg/ha) =                 43.55                    0.00
      
       stage 4.0 end_of_juvenile
-                     biomass =           0.02 (g/m^2)   lai          =   0.020 (m^2/m^2)
+                     biomass =           0.00 (g/m^2)   lai          =   0.020 (m^2/m^2)
                      stover N conc =     6.30 (%)    extractable sw =    0.48 (mm)
      Manager sending message :- wheat end_crop
      Crop ended. Yield (dw) =     0.0  (kg/ha)
          Organic matter from crop:-      Tops to surface residue      Roots to soil FOM
-                          DM (kg/ha) =                  0.20                  781.76
-                          N  (kg/ha) =                  0.01                   19.16
+                          DM (kg/ha) =                  0.00                  781.76
+                          N  (kg/ha) =                  0.00                   19.16
      
 29 May 1960(Day of year=150), soilwat2: 
      
@@ -926,8 +926,8 @@ Component    "Tracker" = c:\development\apsim\Tracker\lib\Tracker.dll
       grains/plant           =  142.5                         maximum lai            =      4.820
       total above ground biomass (kg/ha)    =    12261.9
       live above ground biomass (kg/ha)     =    12261.9
-      green above ground biomass (kg/ha)    =    10161.5
-      senesced above ground biomass (kg/ha) =     2100.4
+      green above ground biomass (kg/ha)    =    10161.3
+      senesced above ground biomass (kg/ha) =     2100.6
       dead above ground biomass (kg/ha)     =        0.0
       number of leaves       =   44.9
       DM Root:Shoot ratio    =    0.146                       Harvest Index          =      0.308
@@ -946,21 +946,21 @@ Component    "Tracker" = c:\development\apsim\Tracker\lib\Tracker.dll
      
      Crop harvested.
          Organic matter from crop:-      Tops to surface residue      Roots to soil FOM
-                          DM (kg/ha) =               8490.86                    0.00
-                          N  (kg/ha) =                 29.71                    0.00
+                          DM (kg/ha) =               8491.06                    0.00
+                          N  (kg/ha) =                 29.72                    0.00
      
          Organic matter removed from system:-      From Tops               From Roots
                           DM (kg/ha) =               3770.86                    0.00
                           N  (kg/ha) =                 60.31                    0.00
      
       stage 4.0 end_of_juvenile
-                     biomass =           0.02 (g/m^2)   lai          =   0.020 (m^2/m^2)
+                     biomass =           0.00 (g/m^2)   lai          =   0.020 (m^2/m^2)
                      stover N conc =     6.30 (%)    extractable sw =   17.25 (mm)
      Manager sending message :- wheat end_crop
      Crop ended. Yield (dw) =     0.0  (kg/ha)
          Organic matter from crop:-      Tops to surface residue      Roots to soil FOM
-                          DM (kg/ha) =                  0.20                 1786.67
-                          N  (kg/ha) =                  0.01                   18.26
+                          DM (kg/ha) =                  0.00                 1786.67
+                          N  (kg/ha) =                  0.00                   18.26
      
 30 May 1961(Day of year=150), soilwat2: 
      
@@ -1084,7 +1084,7 @@ Component    "Tracker" = c:\development\apsim\Tracker\lib\Tracker.dll
                      stover N conc =     0.76 (%)    extractable sw =    0.28 (mm)
 11 November 1961(Day of year=315), Wheat: 
       stage 10.0 harvest_ripe
-                     biomass =         617.78 (g/m^2)   lai          =   0.001 (m^2/m^2)
+                     biomass =         617.78 (g/m^2)   lai          =   0.000 (m^2/m^2)
                      stover N conc =     0.76 (%)    extractable sw =    0.27 (mm)
 11 November 1961(Day of year=315), manager: 
      Manager sending message :- wheat harvest
@@ -1092,12 +1092,12 @@ Component    "Tracker" = c:\development\apsim\Tracker\lib\Tracker.dll
       flowering day          =  272                           stover (kg/ha)         =     4723.2
       maturity day           =  314                           grain yield (kg/ha)    =     1454.6
       grain % water content  =   12.5                         grain yield wet (kg/ha)=     1662.4
-      grain wt (g)           =    0.017                       grains/m^2             =   8563.985
+      grain wt (g)           =    0.017                       grains/m^2             =   8563.986
       grains/plant           =   85.6                         maximum lai            =      3.337
       total above ground biomass (kg/ha)    =     6177.8
       live above ground biomass (kg/ha)     =     6177.8
-      green above ground biomass (kg/ha)    =     4664.5
-      senesced above ground biomass (kg/ha) =     1513.3
+      green above ground biomass (kg/ha)    =     4664.3
+      senesced above ground biomass (kg/ha) =     1513.5
       dead above ground biomass (kg/ha)     =        0.0
       number of leaves       =   42.6
       DM Root:Shoot ratio    =    0.197                       Harvest Index          =      0.235
@@ -1116,21 +1116,21 @@ Component    "Tracker" = c:\development\apsim\Tracker\lib\Tracker.dll
      
      Crop harvested.
          Organic matter from crop:-      Tops to surface residue      Roots to soil FOM
-                          DM (kg/ha) =               4723.04                    0.00
-                          N  (kg/ha) =                 31.94                    0.00
+                          DM (kg/ha) =               4723.23                    0.00
+                          N  (kg/ha) =                 31.95                    0.00
      
          Organic matter removed from system:-      From Tops               From Roots
                           DM (kg/ha) =               1454.57                    0.00
                           N  (kg/ha) =                 41.86                    0.00
      
       stage 4.0 end_of_juvenile
-                     biomass =           0.02 (g/m^2)   lai          =   0.020 (m^2/m^2)
+                     biomass =           0.00 (g/m^2)   lai          =   0.020 (m^2/m^2)
                      stover N conc =     6.30 (%)    extractable sw =    0.27 (mm)
      Manager sending message :- wheat end_crop
      Crop ended. Yield (dw) =     0.0  (kg/ha)
          Organic matter from crop:-      Tops to surface residue      Roots to soil FOM
-                          DM (kg/ha) =                  0.20                 1220.00
-                          N  (kg/ha) =                  0.01                   24.66
+                          DM (kg/ha) =                  0.00                 1220.00
+                          N  (kg/ha) =                  0.00                   24.66
      
 30 May 1962(Day of year=150), soilwat2: 
      
@@ -1266,8 +1266,8 @@ Component    "Tracker" = c:\development\apsim\Tracker\lib\Tracker.dll
       grains/plant           =   69.6                         maximum lai            =      3.206
       total above ground biomass (kg/ha)    =     7265.2
       live above ground biomass (kg/ha)     =     7265.2
-      green above ground biomass (kg/ha)    =     5874.2
-      senesced above ground biomass (kg/ha) =     1391.1
+      green above ground biomass (kg/ha)    =     5874.0
+      senesced above ground biomass (kg/ha) =     1391.3
       dead above ground biomass (kg/ha)     =        0.0
       number of leaves       =   42.7
       DM Root:Shoot ratio    =    0.138                       Harvest Index          =      0.393
@@ -1286,21 +1286,21 @@ Component    "Tracker" = c:\development\apsim\Tracker\lib\Tracker.dll
      
      Crop harvested.
          Organic matter from crop:-      Tops to surface residue      Roots to soil FOM
-                          DM (kg/ha) =               4410.18                    0.00
-                          N  (kg/ha) =                 16.92                    0.00
+                          DM (kg/ha) =               4410.37                    0.00
+                          N  (kg/ha) =                 16.93                    0.00
      
          Organic matter removed from system:-      From Tops               From Roots
                           DM (kg/ha) =               2854.85                    0.00
                           N  (kg/ha) =                 67.73                    0.00
      
       stage 4.0 end_of_juvenile
-                     biomass =           0.02 (g/m^2)   lai          =   0.020 (m^2/m^2)
+                     biomass =           0.00 (g/m^2)   lai          =   0.020 (m^2/m^2)
                      stover N conc =     6.30 (%)    extractable sw =   27.16 (mm)
      Manager sending message :- wheat end_crop
      Crop ended. Yield (dw) =     0.0  (kg/ha)
          Organic matter from crop:-      Tops to surface residue      Roots to soil FOM
-                          DM (kg/ha) =                  0.20                 1004.37
-                          N  (kg/ha) =                  0.01                   24.74
+                          DM (kg/ha) =                  0.00                 1004.37
+                          N  (kg/ha) =                  0.00                   24.74
      
 30 May 1963(Day of year=150), soilwat2: 
      
@@ -1432,12 +1432,12 @@ Component    "Tracker" = c:\development\apsim\Tracker\lib\Tracker.dll
       flowering day          =  272                           stover (kg/ha)         =     6350.7
       maturity day           =  314                           grain yield (kg/ha)    =     3660.8
       grain % water content  =   12.5                         grain yield wet (kg/ha)=     4183.8
-      grain wt (g)           =    0.032                       grains/m^2             =  11390.779
+      grain wt (g)           =    0.032                       grains/m^2             =  11390.778
       grains/plant           =  113.9                         maximum lai            =      3.042
       total above ground biomass (kg/ha)    =    10011.5
       live above ground biomass (kg/ha)     =    10011.5
-      green above ground biomass (kg/ha)    =     8712.8
-      senesced above ground biomass (kg/ha) =     1298.7
+      green above ground biomass (kg/ha)    =     8712.6
+      senesced above ground biomass (kg/ha) =     1298.9
       dead above ground biomass (kg/ha)     =        0.0
       number of leaves       =   39.2
       DM Root:Shoot ratio    =    0.140                       Harvest Index          =      0.366
@@ -1456,21 +1456,21 @@ Component    "Tracker" = c:\development\apsim\Tracker\lib\Tracker.dll
      
      Crop harvested.
          Organic matter from crop:-      Tops to surface residue      Roots to soil FOM
-                          DM (kg/ha) =               6350.47                    0.00
-                          N  (kg/ha) =                 22.40                    0.00
+                          DM (kg/ha) =               6350.67                    0.00
+                          N  (kg/ha) =                 22.42                    0.00
      
          Organic matter removed from system:-      From Tops               From Roots
                           DM (kg/ha) =               3660.82                    0.00
                           N  (kg/ha) =                 68.44                    0.00
      
       stage 4.0 end_of_juvenile
-                     biomass =           0.02 (g/m^2)   lai          =   0.020 (m^2/m^2)
+                     biomass =           0.00 (g/m^2)   lai          =   0.020 (m^2/m^2)
                      stover N conc =     6.30 (%)    extractable sw =   39.73 (mm)
      Manager sending message :- wheat end_crop
      Crop ended. Yield (dw) =     0.0  (kg/ha)
          Organic matter from crop:-      Tops to surface residue      Roots to soil FOM
-                          DM (kg/ha) =                  0.20                 1401.72
-                          N  (kg/ha) =                  0.01                   21.22
+                          DM (kg/ha) =                  0.00                 1401.72
+                          N  (kg/ha) =                  0.00                   21.22
      
 29 May 1964(Day of year=150), soilwat2: 
      
@@ -1606,8 +1606,8 @@ Component    "Tracker" = c:\development\apsim\Tracker\lib\Tracker.dll
       grains/plant           =  109.7                         maximum lai            =      3.443
       total above ground biomass (kg/ha)    =    11316.8
       live above ground biomass (kg/ha)     =    11316.8
-      green above ground biomass (kg/ha)    =     9832.4
-      senesced above ground biomass (kg/ha) =     1484.5
+      green above ground biomass (kg/ha)    =     9832.2
+      senesced above ground biomass (kg/ha) =     1484.7
       dead above ground biomass (kg/ha)     =        0.0
       number of leaves       =   42.6
       DM Root:Shoot ratio    =    0.120                       Harvest Index          =      0.337
@@ -1626,21 +1626,21 @@ Component    "Tracker" = c:\development\apsim\Tracker\lib\Tracker.dll
      
      Crop harvested.
          Organic matter from crop:-      Tops to surface residue      Roots to soil FOM
-                          DM (kg/ha) =               7507.59                    0.00
-                          N  (kg/ha) =                 25.95                    0.00
+                          DM (kg/ha) =               7507.79                    0.00
+                          N  (kg/ha) =                 25.96                    0.00
      
          Organic matter removed from system:-      From Tops               From Roots
                           DM (kg/ha) =               3809.04                    0.00
                           N  (kg/ha) =                 63.31                    0.00
      
       stage 4.0 end_of_juvenile
-                     biomass =           0.02 (g/m^2)   lai          =   0.020 (m^2/m^2)
+                     biomass =           0.00 (g/m^2)   lai          =   0.020 (m^2/m^2)
                      stover N conc =     6.30 (%)    extractable sw =   14.18 (mm)
      Manager sending message :- wheat end_crop
      Crop ended. Yield (dw) =     0.0  (kg/ha)
          Organic matter from crop:-      Tops to surface residue      Roots to soil FOM
-                          DM (kg/ha) =                  0.20                 1361.92
-                          N  (kg/ha) =                  0.01                   20.41
+                          DM (kg/ha) =                  0.00                 1361.92
+                          N  (kg/ha) =                  0.00                   20.41
      
 30 May 1965(Day of year=150), soilwat2: 
      
@@ -1764,7 +1764,7 @@ Component    "Tracker" = c:\development\apsim\Tracker\lib\Tracker.dll
                      stover N conc =     0.35 (%)    extractable sw =    5.75 (mm)
 12 November 1965(Day of year=316), Wheat: 
       stage 10.0 harvest_ripe
-                     biomass =         817.96 (g/m^2)   lai          =   0.001 (m^2/m^2)
+                     biomass =         817.96 (g/m^2)   lai          =   0.000 (m^2/m^2)
                      stover N conc =     0.35 (%)    extractable sw =    5.15 (mm)
 12 November 1965(Day of year=316), manager: 
      Manager sending message :- wheat harvest
@@ -1772,12 +1772,12 @@ Component    "Tracker" = c:\development\apsim\Tracker\lib\Tracker.dll
       flowering day          =  275                           stover (kg/ha)         =     6020.0
       maturity day           =  315                           grain yield (kg/ha)    =     2159.6
       grain % water content  =   12.5                         grain yield wet (kg/ha)=     2468.1
-      grain wt (g)           =    0.019                       grains/m^2             =  11218.207
+      grain wt (g)           =    0.019                       grains/m^2             =  11218.206
       grains/plant           =  112.2                         maximum lai            =      3.819
       total above ground biomass (kg/ha)    =     8179.6
       live above ground biomass (kg/ha)     =     8179.6
-      green above ground biomass (kg/ha)    =     6520.4
-      senesced above ground biomass (kg/ha) =     1659.2
+      green above ground biomass (kg/ha)    =     6520.2
+      senesced above ground biomass (kg/ha) =     1659.4
       dead above ground biomass (kg/ha)     =        0.0
       number of leaves       =   44.3
       DM Root:Shoot ratio    =    0.185                       Harvest Index          =      0.264
@@ -1796,21 +1796,21 @@ Component    "Tracker" = c:\development\apsim\Tracker\lib\Tracker.dll
      
      Crop harvested.
          Organic matter from crop:-      Tops to surface residue      Roots to soil FOM
-                          DM (kg/ha) =               6019.79                    0.00
-                          N  (kg/ha) =                 23.49                    0.00
+                          DM (kg/ha) =               6019.99                    0.00
+                          N  (kg/ha) =                 23.50                    0.00
      
          Organic matter removed from system:-      From Tops               From Roots
                           DM (kg/ha) =               2159.58                    0.00
                           N  (kg/ha) =                 56.68                    0.00
      
       stage 4.0 end_of_juvenile
-                     biomass =           0.02 (g/m^2)   lai          =   0.020 (m^2/m^2)
+                     biomass =           0.00 (g/m^2)   lai          =   0.020 (m^2/m^2)
                      stover N conc =     6.30 (%)    extractable sw =    5.15 (mm)
      Manager sending message :- wheat end_crop
      Crop ended. Yield (dw) =     0.0  (kg/ha)
          Organic matter from crop:-      Tops to surface residue      Roots to soil FOM
-                          DM (kg/ha) =                  0.20                 1517.24
-                          N  (kg/ha) =                  0.01                   22.19
+                          DM (kg/ha) =                  0.00                 1517.24
+                          N  (kg/ha) =                  0.00                   22.19
      
 30 May 1966(Day of year=150), soilwat2: 
      
@@ -1946,8 +1946,8 @@ Component    "Tracker" = c:\development\apsim\Tracker\lib\Tracker.dll
       grains/plant           =  114.2                         maximum lai            =      3.945
       total above ground biomass (kg/ha)    =     9044.8
       live above ground biomass (kg/ha)     =     9044.8
-      green above ground biomass (kg/ha)    =     7359.7
-      senesced above ground biomass (kg/ha) =     1685.2
+      green above ground biomass (kg/ha)    =     7359.5
+      senesced above ground biomass (kg/ha) =     1685.4
       dead above ground biomass (kg/ha)     =        0.0
       number of leaves       =   39.9
       DM Root:Shoot ratio    =    0.158                       Harvest Index          =      0.314
@@ -1966,21 +1966,21 @@ Component    "Tracker" = c:\development\apsim\Tracker\lib\Tracker.dll
      
      Crop harvested.
          Organic matter from crop:-      Tops to surface residue      Roots to soil FOM
-                          DM (kg/ha) =               6207.94                    0.00
-                          N  (kg/ha) =                 22.09                    0.00
+                          DM (kg/ha) =               6208.14                    0.00
+                          N  (kg/ha) =                 22.11                    0.00
      
          Organic matter removed from system:-      From Tops               From Roots
                           DM (kg/ha) =               2836.69                    0.00
                           N  (kg/ha) =                 61.17                    0.00
      
       stage 4.0 end_of_juvenile
-                     biomass =           0.02 (g/m^2)   lai          =   0.020 (m^2/m^2)
+                     biomass =           0.00 (g/m^2)   lai          =   0.020 (m^2/m^2)
                      stover N conc =     6.30 (%)    extractable sw =    1.91 (mm)
      Manager sending message :- wheat end_crop
      Crop ended. Yield (dw) =     0.0  (kg/ha)
          Organic matter from crop:-      Tops to surface residue      Roots to soil FOM
-                          DM (kg/ha) =                  0.20                 1431.67
-                          N  (kg/ha) =                  0.01                   21.76
+                          DM (kg/ha) =                  0.00                 1431.67
+                          N  (kg/ha) =                  0.00                   21.76
      
 30 May 1967(Day of year=150), soilwat2: 
      
@@ -2104,7 +2104,7 @@ Component    "Tracker" = c:\development\apsim\Tracker\lib\Tracker.dll
                      stover N conc =     0.49 (%)    extractable sw =    0.46 (mm)
 10 November 1967(Day of year=314), Wheat: 
       stage 10.0 harvest_ripe
-                     biomass =         685.27 (g/m^2)   lai          =   0.001 (m^2/m^2)
+                     biomass =         685.27 (g/m^2)   lai          =   0.000 (m^2/m^2)
                      stover N conc =     0.49 (%)    extractable sw =    0.42 (mm)
 10 November 1967(Day of year=314), manager: 
      Manager sending message :- wheat harvest
@@ -2116,8 +2116,8 @@ Component    "Tracker" = c:\development\apsim\Tracker\lib\Tracker.dll
       grains/plant           =   92.4                         maximum lai            =      3.512
       total above ground biomass (kg/ha)    =     6852.7
       live above ground biomass (kg/ha)     =     6852.7
-      green above ground biomass (kg/ha)    =     5332.3
-      senesced above ground biomass (kg/ha) =     1520.4
+      green above ground biomass (kg/ha)    =     5332.2
+      senesced above ground biomass (kg/ha) =     1520.6
       dead above ground biomass (kg/ha)     =        0.0
       number of leaves       =   43.2
       DM Root:Shoot ratio    =    0.186                       Harvest Index          =      0.258
@@ -2136,21 +2136,21 @@ Component    "Tracker" = c:\development\apsim\Tracker\lib\Tracker.dll
      
      Crop harvested.
          Organic matter from crop:-      Tops to surface residue      Roots to soil FOM
-                          DM (kg/ha) =               5084.86                    0.00
-                          N  (kg/ha) =                 24.95                    0.00
+                          DM (kg/ha) =               5085.06                    0.00
+                          N  (kg/ha) =                 24.96                    0.00
      
          Organic matter removed from system:-      From Tops               From Roots
                           DM (kg/ha) =               1767.68                    0.00
                           N  (kg/ha) =                 50.67                    0.00
      
       stage 4.0 end_of_juvenile
-                     biomass =           0.02 (g/m^2)   lai          =   0.020 (m^2/m^2)
+                     biomass =           0.00 (g/m^2)   lai          =   0.020 (m^2/m^2)
                      stover N conc =     6.30 (%)    extractable sw =    0.42 (mm)
      Manager sending message :- wheat end_crop
      Crop ended. Yield (dw) =     0.0  (kg/ha)
          Organic matter from crop:-      Tops to surface residue      Roots to soil FOM
-                          DM (kg/ha) =                  0.20                 1275.77
-                          N  (kg/ha) =                  0.01                   23.39
+                          DM (kg/ha) =                  0.00                 1275.77
+                          N  (kg/ha) =                  0.00                   23.39
      
 29 May 1968(Day of year=150), soilwat2: 
      
@@ -2274,7 +2274,7 @@ Component    "Tracker" = c:\development\apsim\Tracker\lib\Tracker.dll
                      stover N conc =     0.31 (%)    extractable sw =   31.12 (mm)
 20 November 1968(Day of year=325), Wheat: 
       stage 10.0 harvest_ripe
-                     biomass =        1474.79 (g/m^2)   lai          =   0.001 (m^2/m^2)
+                     biomass =        1474.79 (g/m^2)   lai          =   0.000 (m^2/m^2)
                      stover N conc =     0.31 (%)    extractable sw =   30.44 (mm)
 20 November 1968(Day of year=325), manager: 
      Manager sending message :- wheat harvest
@@ -2286,8 +2286,8 @@ Component    "Tracker" = c:\development\apsim\Tracker\lib\Tracker.dll
       grains/plant           =  141.0                         maximum lai            =      3.856
       total above ground biomass (kg/ha)    =    14747.9
       live above ground biomass (kg/ha)     =    14747.9
-      green above ground biomass (kg/ha)    =    13099.1
-      senesced above ground biomass (kg/ha) =     1648.8
+      green above ground biomass (kg/ha)    =    13098.9
+      senesced above ground biomass (kg/ha) =     1649.0
       dead above ground biomass (kg/ha)     =        0.0
       number of leaves       =   40.0
       DM Root:Shoot ratio    =    0.117                       Harvest Index          =      0.286
@@ -2306,21 +2306,21 @@ Component    "Tracker" = c:\development\apsim\Tracker\lib\Tracker.dll
      
      Crop harvested.
          Organic matter from crop:-      Tops to surface residue      Roots to soil FOM
-                          DM (kg/ha) =               10528.83                    0.00
-                          N  (kg/ha) =                 35.60                    0.00
+                          DM (kg/ha) =               10529.03                    0.00
+                          N  (kg/ha) =                 35.61                    0.00
      
          Organic matter removed from system:-      From Tops               From Roots
                           DM (kg/ha) =               4218.86                    0.00
                           N  (kg/ha) =                 61.83                    0.00
      
       stage 4.0 end_of_juvenile
-                     biomass =           0.02 (g/m^2)   lai          =   0.020 (m^2/m^2)
+                     biomass =           0.00 (g/m^2)   lai          =   0.020 (m^2/m^2)
                      stover N conc =     6.30 (%)    extractable sw =   30.44 (mm)
      Manager sending message :- wheat end_crop
      Crop ended. Yield (dw) =     0.0  (kg/ha)
          Organic matter from crop:-      Tops to surface residue      Roots to soil FOM
-                          DM (kg/ha) =                  0.20                 1720.03
-                          N  (kg/ha) =                  0.01                   18.65
+                          DM (kg/ha) =                  0.00                 1720.03
+                          N  (kg/ha) =                  0.00                   18.65
      
 30 May 1969(Day of year=150), soilwat2: 
      
@@ -2444,7 +2444,7 @@ Component    "Tracker" = c:\development\apsim\Tracker\lib\Tracker.dll
                      stover N conc =     0.31 (%)    extractable sw =    7.11 (mm)
 14 November 1969(Day of year=318), Wheat: 
       stage 10.0 harvest_ripe
-                     biomass =         984.11 (g/m^2)   lai          =   0.001 (m^2/m^2)
+                     biomass =         984.11 (g/m^2)   lai          =   0.000 (m^2/m^2)
                      stover N conc =     0.30 (%)    extractable sw =    6.26 (mm)
 14 November 1969(Day of year=318), manager: 
      Manager sending message :- wheat harvest
@@ -2456,8 +2456,8 @@ Component    "Tracker" = c:\development\apsim\Tracker\lib\Tracker.dll
       grains/plant           =  130.3                         maximum lai            =      3.537
       total above ground biomass (kg/ha)    =     9841.1
       live above ground biomass (kg/ha)     =     9841.1
-      green above ground biomass (kg/ha)    =     8320.4
-      senesced above ground biomass (kg/ha) =     1520.7
+      green above ground biomass (kg/ha)    =     8320.2
+      senesced above ground biomass (kg/ha) =     1520.9
       dead above ground biomass (kg/ha)     =        0.0
       number of leaves       =   41.4
       DM Root:Shoot ratio    =    0.158                       Harvest Index          =      0.299
@@ -2476,21 +2476,21 @@ Component    "Tracker" = c:\development\apsim\Tracker\lib\Tracker.dll
      
      Crop harvested.
          Organic matter from crop:-      Tops to surface residue      Roots to soil FOM
-                          DM (kg/ha) =               6902.29                    0.00
-                          N  (kg/ha) =                 23.98                    0.00
+                          DM (kg/ha) =               6902.48                    0.00
+                          N  (kg/ha) =                 23.99                    0.00
      
          Organic matter removed from system:-      From Tops               From Roots
                           DM (kg/ha) =               2938.63                    0.00
                           N  (kg/ha) =                 61.95                    0.00
      
       stage 4.0 end_of_juvenile
-                     biomass =           0.02 (g/m^2)   lai          =   0.020 (m^2/m^2)
+                     biomass =           0.00 (g/m^2)   lai          =   0.020 (m^2/m^2)
                      stover N conc =     6.30 (%)    extractable sw =    6.26 (mm)
      Manager sending message :- wheat end_crop
      Crop ended. Yield (dw) =     0.0  (kg/ha)
          Organic matter from crop:-      Tops to surface residue      Roots to soil FOM
-                          DM (kg/ha) =                  0.20                 1554.88
-                          N  (kg/ha) =                  0.01                   20.65
+                          DM (kg/ha) =                  0.00                 1554.88
+                          N  (kg/ha) =                  0.00                   20.65
      
 30 May 1970(Day of year=150), soilwat2: 
      
@@ -2614,7 +2614,7 @@ Component    "Tracker" = c:\development\apsim\Tracker\lib\Tracker.dll
                      stover N conc =     0.31 (%)    extractable sw =   20.39 (mm)
 19 November 1970(Day of year=323), Wheat: 
       stage 10.0 harvest_ripe
-                     biomass =        1022.32 (g/m^2)   lai          =   0.001 (m^2/m^2)
+                     biomass =        1022.32 (g/m^2)   lai          =   0.000 (m^2/m^2)
                      stover N conc =     0.30 (%)    extractable sw =   19.00 (mm)
 19 November 1970(Day of year=323), manager: 
      Manager sending message :- wheat harvest
@@ -2626,8 +2626,8 @@ Component    "Tracker" = c:\development\apsim\Tracker\lib\Tracker.dll
       grains/plant           =  119.0                         maximum lai            =      3.496
       total above ground biomass (kg/ha)    =    10223.2
       live above ground biomass (kg/ha)     =    10223.2
-      green above ground biomass (kg/ha)    =     8730.2
-      senesced above ground biomass (kg/ha) =     1493.0
+      green above ground biomass (kg/ha)    =     8730.0
+      senesced above ground biomass (kg/ha) =     1493.2
       dead above ground biomass (kg/ha)     =        0.0
       number of leaves       =   40.4
       DM Root:Shoot ratio    =    0.141                       Harvest Index          =      0.344
@@ -2646,21 +2646,21 @@ Component    "Tracker" = c:\development\apsim\Tracker\lib\Tracker.dll
      
      Crop harvested.
          Organic matter from crop:-      Tops to surface residue      Roots to soil FOM
-                          DM (kg/ha) =               6708.32                    0.00
-                          N  (kg/ha) =                 23.27                    0.00
+                          DM (kg/ha) =               6708.52                    0.00
+                          N  (kg/ha) =                 23.28                    0.00
      
          Organic matter removed from system:-      From Tops               From Roots
-                          DM (kg/ha) =               3514.72                    0.00
+                          DM (kg/ha) =               3514.71                    0.00
                           N  (kg/ha) =                 63.45                    0.00
      
       stage 4.0 end_of_juvenile
-                     biomass =           0.02 (g/m^2)   lai          =   0.020 (m^2/m^2)
+                     biomass =           0.00 (g/m^2)   lai          =   0.020 (m^2/m^2)
                      stover N conc =     6.30 (%)    extractable sw =   19.00 (mm)
      Manager sending message :- wheat end_crop
      Crop ended. Yield (dw) =     0.0  (kg/ha)
          Organic matter from crop:-      Tops to surface residue      Roots to soil FOM
-                          DM (kg/ha) =                  0.20                 1441.52
-                          N  (kg/ha) =                  0.01                   19.14
+                          DM (kg/ha) =                  0.00                 1441.52
+                          N  (kg/ha) =                  0.00                   19.14
      
 30 May 1971(Day of year=150), soilwat2: 
      
@@ -2784,7 +2784,7 @@ Component    "Tracker" = c:\development\apsim\Tracker\lib\Tracker.dll
                      stover N conc =     0.32 (%)    extractable sw =   31.01 (mm)
 19 November 1971(Day of year=323), Wheat: 
       stage 10.0 harvest_ripe
-                     biomass =        1270.79 (g/m^2)   lai          =   0.001 (m^2/m^2)
+                     biomass =        1270.79 (g/m^2)   lai          =   0.000 (m^2/m^2)
                      stover N conc =     0.31 (%)    extractable sw =   29.54 (mm)
 19 November 1971(Day of year=323), manager: 
      Manager sending message :- wheat harvest
@@ -2792,12 +2792,12 @@ Component    "Tracker" = c:\development\apsim\Tracker\lib\Tracker.dll
       flowering day          =  278                           stover (kg/ha)         =     8448.7
       maturity day           =  322                           grain yield (kg/ha)    =     4259.2
       grain % water content  =   12.5                         grain yield wet (kg/ha)=     4867.7
-      grain wt (g)           =    0.031                       grains/m^2             =  13833.664
+      grain wt (g)           =    0.031                       grains/m^2             =  13833.665
       grains/plant           =  138.3                         maximum lai            =      3.728
       total above ground biomass (kg/ha)    =    12707.9
       live above ground biomass (kg/ha)     =    12707.9
-      green above ground biomass (kg/ha)    =    11095.5
-      senesced above ground biomass (kg/ha) =     1612.4
+      green above ground biomass (kg/ha)    =    11095.3
+      senesced above ground biomass (kg/ha) =     1612.6
       dead above ground biomass (kg/ha)     =        0.0
       number of leaves       =   43.4
       DM Root:Shoot ratio    =    0.132                       Harvest Index          =      0.335
@@ -2816,21 +2816,21 @@ Component    "Tracker" = c:\development\apsim\Tracker\lib\Tracker.dll
      
      Crop harvested.
          Organic matter from crop:-      Tops to surface residue      Roots to soil FOM
-                          DM (kg/ha) =               8448.46                    0.00
-                          N  (kg/ha) =                 29.48                    0.00
+                          DM (kg/ha) =               8448.66                    0.00
+                          N  (kg/ha) =                 29.49                    0.00
      
          Organic matter removed from system:-      From Tops               From Roots
                           DM (kg/ha) =               4259.21                    0.00
                           N  (kg/ha) =                 63.81                    0.00
      
       stage 4.0 end_of_juvenile
-                     biomass =           0.02 (g/m^2)   lai          =   0.020 (m^2/m^2)
+                     biomass =           0.00 (g/m^2)   lai          =   0.020 (m^2/m^2)
                      stover N conc =     6.30 (%)    extractable sw =   29.54 (mm)
      Manager sending message :- wheat end_crop
      Crop ended. Yield (dw) =     0.0  (kg/ha)
          Organic matter from crop:-      Tops to surface residue      Roots to soil FOM
-                          DM (kg/ha) =                  0.20                 1671.67
-                          N  (kg/ha) =                  0.01                   19.34
+                          DM (kg/ha) =                  0.00                 1671.67
+                          N  (kg/ha) =                  0.00                   19.34
      
 29 May 1972(Day of year=150), soilwat2: 
      
@@ -2954,7 +2954,7 @@ Component    "Tracker" = c:\development\apsim\Tracker\lib\Tracker.dll
                      stover N conc =     0.31 (%)    extractable sw =    1.00 (mm)
 9 November 1972(Day of year=314), Wheat: 
       stage 10.0 harvest_ripe
-                     biomass =         804.75 (g/m^2)   lai          =   0.001 (m^2/m^2)
+                     biomass =         804.75 (g/m^2)   lai          =   0.000 (m^2/m^2)
                      stover N conc =     0.31 (%)    extractable sw =    0.96 (mm)
 9 November 1972(Day of year=314), manager: 
      Manager sending message :- wheat harvest
@@ -2966,8 +2966,8 @@ Component    "Tracker" = c:\development\apsim\Tracker\lib\Tracker.dll
       grains/plant           =  102.6                         maximum lai            =      3.277
       total above ground biomass (kg/ha)    =     8047.5
       live above ground biomass (kg/ha)     =     8047.5
-      green above ground biomass (kg/ha)    =     6617.6
-      senesced above ground biomass (kg/ha) =     1429.9
+      green above ground biomass (kg/ha)    =     6617.4
+      senesced above ground biomass (kg/ha) =     1430.1
       dead above ground biomass (kg/ha)     =        0.0
       number of leaves       =   45.4
       DM Root:Shoot ratio    =    0.165                       Harvest Index          =      0.307
@@ -2986,21 +2986,21 @@ Component    "Tracker" = c:\development\apsim\Tracker\lib\Tracker.dll
      
      Crop harvested.
          Organic matter from crop:-      Tops to surface residue      Roots to soil FOM
-                          DM (kg/ha) =               5579.36                    0.00
-                          N  (kg/ha) =                 20.01                    0.00
+                          DM (kg/ha) =               5579.56                    0.00
+                          N  (kg/ha) =                 20.02                    0.00
      
          Organic matter removed from system:-      From Tops               From Roots
                           DM (kg/ha) =               2467.98                    0.00
                           N  (kg/ha) =                 61.63                    0.00
      
       stage 4.0 end_of_juvenile
-                     biomass =           0.02 (g/m^2)   lai          =   0.020 (m^2/m^2)
+                     biomass =           0.00 (g/m^2)   lai          =   0.020 (m^2/m^2)
                      stover N conc =     6.30 (%)    extractable sw =    0.96 (mm)
      Manager sending message :- wheat end_crop
      Crop ended. Yield (dw) =     0.0  (kg/ha)
          Organic matter from crop:-      Tops to surface residue      Roots to soil FOM
-                          DM (kg/ha) =                  0.20                 1328.46
-                          N  (kg/ha) =                  0.01                   21.71
+                          DM (kg/ha) =                  0.00                 1328.46
+                          N  (kg/ha) =                  0.00                   21.71
      
 30 May 1973(Day of year=150), soilwat2: 
      
@@ -3104,7 +3104,7 @@ Component    "Tracker" = c:\development\apsim\Tracker\lib\Tracker.dll
                                               added at depth    5.00 (layer   1)
 17 August 1973(Day of year=229), Wheat: 
       stage 5.0 floral_initiation
-                     biomass =         207.46 (g/m^2)   lai          =   2.911 (m^2/m^2)
+                     biomass =         207.45 (g/m^2)   lai          =   2.911 (m^2/m^2)
                      stover N conc =     2.55 (%)    extractable sw =   98.07 (mm)
 29 September 1973(Day of year=272), Wheat: 
       stage 6.0 flowering
@@ -3136,8 +3136,8 @@ Component    "Tracker" = c:\development\apsim\Tracker\lib\Tracker.dll
       grains/plant           =  119.2                         maximum lai            =      3.541
       total above ground biomass (kg/ha)    =    12435.3
       live above ground biomass (kg/ha)     =    12435.3
-      green above ground biomass (kg/ha)    =    10891.9
-      senesced above ground biomass (kg/ha) =     1543.4
+      green above ground biomass (kg/ha)    =    10891.7
+      senesced above ground biomass (kg/ha) =     1543.6
       dead above ground biomass (kg/ha)     =        0.0
       number of leaves       =   44.8
       DM Root:Shoot ratio    =    0.125                       Harvest Index          =      0.345
@@ -3156,21 +3156,21 @@ Component    "Tracker" = c:\development\apsim\Tracker\lib\Tracker.dll
      
      Crop harvested.
          Organic matter from crop:-      Tops to surface residue      Roots to soil FOM
-                          DM (kg/ha) =               8148.13                    0.00
-                          N  (kg/ha) =                 28.63                    0.00
+                          DM (kg/ha) =               8148.33                    0.00
+                          N  (kg/ha) =                 28.64                    0.00
      
          Organic matter removed from system:-      From Tops               From Roots
                           DM (kg/ha) =               4286.94                    0.00
                           N  (kg/ha) =                 67.71                    0.00
      
       stage 4.0 end_of_juvenile
-                     biomass =           0.02 (g/m^2)   lai          =   0.020 (m^2/m^2)
+                     biomass =           0.00 (g/m^2)   lai          =   0.020 (m^2/m^2)
                      stover N conc =     6.30 (%)    extractable sw =   39.38 (mm)
      Manager sending message :- wheat end_crop
      Crop ended. Yield (dw) =     0.0  (kg/ha)
          Organic matter from crop:-      Tops to surface residue      Roots to soil FOM
-                          DM (kg/ha) =                  0.20                 1548.35
-                          N  (kg/ha) =                  0.01                   20.97
+                          DM (kg/ha) =                  0.00                 1548.35
+                          N  (kg/ha) =                  0.00                   20.97
      
 30 May 1974(Day of year=150), soilwat2: 
      
@@ -3294,7 +3294,7 @@ Component    "Tracker" = c:\development\apsim\Tracker\lib\Tracker.dll
                      stover N conc =     0.31 (%)    extractable sw =   15.42 (mm)
 18 November 1974(Day of year=322), Wheat: 
       stage 10.0 harvest_ripe
-                     biomass =        1200.50 (g/m^2)   lai          =   0.001 (m^2/m^2)
+                     biomass =        1200.50 (g/m^2)   lai          =   0.000 (m^2/m^2)
                      stover N conc =     0.31 (%)    extractable sw =   14.08 (mm)
 18 November 1974(Day of year=322), manager: 
      Manager sending message :- wheat harvest
@@ -3306,8 +3306,8 @@ Component    "Tracker" = c:\development\apsim\Tracker\lib\Tracker.dll
       grains/plant           =  112.2                         maximum lai            =      3.159
       total above ground biomass (kg/ha)    =    12005.0
       live above ground biomass (kg/ha)     =    12005.0
-      green above ground biomass (kg/ha)    =    10643.6
-      senesced above ground biomass (kg/ha) =     1361.4
+      green above ground biomass (kg/ha)    =    10643.4
+      senesced above ground biomass (kg/ha) =     1361.6
       dead above ground biomass (kg/ha)     =        0.0
       number of leaves       =   41.6
       DM Root:Shoot ratio    =    0.112                       Harvest Index          =      0.311
@@ -3326,21 +3326,21 @@ Component    "Tracker" = c:\development\apsim\Tracker\lib\Tracker.dll
      
      Crop harvested.
          Organic matter from crop:-      Tops to surface residue      Roots to soil FOM
-                          DM (kg/ha) =               8269.25                    0.00
-                          N  (kg/ha) =                 28.11                    0.00
+                          DM (kg/ha) =               8269.45                    0.00
+                          N  (kg/ha) =                 28.13                    0.00
      
          Organic matter removed from system:-      From Tops               From Roots
                           DM (kg/ha) =               3735.59                    0.00
                           N  (kg/ha) =                 63.77                    0.00
      
       stage 4.0 end_of_juvenile
-                     biomass =           0.02 (g/m^2)   lai          =   0.020 (m^2/m^2)
+                     biomass =           0.00 (g/m^2)   lai          =   0.020 (m^2/m^2)
                      stover N conc =     6.30 (%)    extractable sw =   14.08 (mm)
      Manager sending message :- wheat end_crop
      Crop ended. Yield (dw) =     0.0  (kg/ha)
          Organic matter from crop:-      Tops to surface residue      Roots to soil FOM
-                          DM (kg/ha) =                  0.20                 1342.15
-                          N  (kg/ha) =                  0.01                   19.68
+                          DM (kg/ha) =                  0.00                 1342.15
+                          N  (kg/ha) =                  0.00                   19.68
      
 30 May 1975(Day of year=150), soilwat2: 
      
@@ -3476,8 +3476,8 @@ Component    "Tracker" = c:\development\apsim\Tracker\lib\Tracker.dll
       grains/plant           =   96.1                         maximum lai            =      3.132
       total above ground biomass (kg/ha)    =    10998.1
       live above ground biomass (kg/ha)     =    10998.1
-      green above ground biomass (kg/ha)    =     9631.9
-      senesced above ground biomass (kg/ha) =     1366.1
+      green above ground biomass (kg/ha)    =     9631.8
+      senesced above ground biomass (kg/ha) =     1366.3
       dead above ground biomass (kg/ha)     =        0.0
       number of leaves       =   44.6
       DM Root:Shoot ratio    =    0.113                       Harvest Index          =      0.342
@@ -3496,21 +3496,21 @@ Component    "Tracker" = c:\development\apsim\Tracker\lib\Tracker.dll
      
      Crop harvested.
          Organic matter from crop:-      Tops to surface residue      Roots to soil FOM
-                          DM (kg/ha) =               7236.72                    0.00
-                          N  (kg/ha) =                 25.73                    0.00
+                          DM (kg/ha) =               7236.92                    0.00
+                          N  (kg/ha) =                 25.74                    0.00
      
          Organic matter removed from system:-      From Tops               From Roots
                           DM (kg/ha) =               3761.15                    0.00
                           N  (kg/ha) =                 66.64                    0.00
      
       stage 4.0 end_of_juvenile
-                     biomass =           0.02 (g/m^2)   lai          =   0.020 (m^2/m^2)
+                     biomass =           0.00 (g/m^2)   lai          =   0.020 (m^2/m^2)
                      stover N conc =     6.30 (%)    extractable sw =   43.16 (mm)
      Manager sending message :- wheat end_crop
      Crop ended. Yield (dw) =     0.0  (kg/ha)
          Organic matter from crop:-      Tops to surface residue      Roots to soil FOM
-                          DM (kg/ha) =                  0.20                 1237.34
-                          N  (kg/ha) =                  0.01                   21.62
+                          DM (kg/ha) =                  0.00                 1237.34
+                          N  (kg/ha) =                  0.00                   21.62
      
 29 May 1976(Day of year=150), soilwat2: 
      
@@ -3646,8 +3646,8 @@ Component    "Tracker" = c:\development\apsim\Tracker\lib\Tracker.dll
       grains/plant           =   66.7                         maximum lai            =      2.817
       total above ground biomass (kg/ha)    =     7095.8
       live above ground biomass (kg/ha)     =     7095.8
-      green above ground biomass (kg/ha)    =     5798.1
-      senesced above ground biomass (kg/ha) =     1297.6
+      green above ground biomass (kg/ha)    =     5797.9
+      senesced above ground biomass (kg/ha) =     1297.8
       dead above ground biomass (kg/ha)     =        0.0
       number of leaves       =   44.3
       DM Root:Shoot ratio    =    0.135                       Harvest Index          =      0.385
@@ -3666,21 +3666,21 @@ Component    "Tracker" = c:\development\apsim\Tracker\lib\Tracker.dll
      
      Crop harvested.
          Organic matter from crop:-      Tops to surface residue      Roots to soil FOM
-                          DM (kg/ha) =               4362.60                    0.00
-                          N  (kg/ha) =                 16.82                    0.00
+                          DM (kg/ha) =               4362.79                    0.00
+                          N  (kg/ha) =                 16.83                    0.00
      
          Organic matter removed from system:-      From Tops               From Roots
                           DM (kg/ha) =               2732.96                    0.00
                           N  (kg/ha) =                 64.93                    0.00
      
       stage 4.0 end_of_juvenile
-                     biomass =           0.02 (g/m^2)   lai          =   0.020 (m^2/m^2)
+                     biomass =           0.00 (g/m^2)   lai          =   0.020 (m^2/m^2)
                      stover N conc =     6.30 (%)    extractable sw =   14.19 (mm)
      Manager sending message :- wheat end_crop
      Crop ended. Yield (dw) =     0.0  (kg/ha)
          Organic matter from crop:-      Tops to surface residue      Roots to soil FOM
-                          DM (kg/ha) =                  0.20                  959.83
-                          N  (kg/ha) =                  0.01                   23.32
+                          DM (kg/ha) =                  0.00                  959.83
+                          N  (kg/ha) =                  0.00                   23.32
      
 30 May 1977(Day of year=150), soilwat2: 
      
@@ -3804,7 +3804,7 @@ Component    "Tracker" = c:\development\apsim\Tracker\lib\Tracker.dll
                      stover N conc =     0.63 (%)    extractable sw =    0.62 (mm)
 10 November 1977(Day of year=314), Wheat: 
       stage 10.0 harvest_ripe
-                     biomass =         580.81 (g/m^2)   lai          =   0.001 (m^2/m^2)
+                     biomass =         580.81 (g/m^2)   lai          =   0.000 (m^2/m^2)
                      stover N conc =     0.63 (%)    extractable sw =    6.05 (mm)
 10 November 1977(Day of year=314), manager: 
      Manager sending message :- wheat harvest
@@ -3816,14 +3816,14 @@ Component    "Tracker" = c:\development\apsim\Tracker\lib\Tracker.dll
       grains/plant           =   72.5                         maximum lai            =      3.117
       total above ground biomass (kg/ha)    =     5808.1
       live above ground biomass (kg/ha)     =     5808.1
-      green above ground biomass (kg/ha)    =     4457.1
-      senesced above ground biomass (kg/ha) =     1351.0
+      green above ground biomass (kg/ha)    =     4456.9
+      senesced above ground biomass (kg/ha) =     1351.2
       dead above ground biomass (kg/ha)     =        0.0
       number of leaves       =   43.4
       DM Root:Shoot ratio    =    0.183                       Harvest Index          =      0.286
       Stover C:N ratio       =   67.686                       Root C:N ratio         =     16.842
       grain N percent        =       2.87                     total N content (kg/ha)=      72.23
-      grain N uptake (kg/ha) =      47.72                     senesced N content (kg/ha)=    6.75
+      grain N uptake (kg/ha) =      47.72                     senesced N content (kg/ha)=    6.76
       green N content (kg/ha)=      17.76                     dead N content (kg/ha) =       0.00
      
       Average Stress Indices:                          Water Photo  Water Expan  N Photo      N grain conc
@@ -3836,21 +3836,21 @@ Component    "Tracker" = c:\development\apsim\Tracker\lib\Tracker.dll
      
      Crop harvested.
          Organic matter from crop:-      Tops to surface residue      Roots to soil FOM
-                          DM (kg/ha) =               4148.07                    0.00
-                          N  (kg/ha) =                 24.50                    0.00
+                          DM (kg/ha) =               4148.27                    0.00
+                          N  (kg/ha) =                 24.51                    0.00
      
          Organic matter removed from system:-      From Tops               From Roots
                           DM (kg/ha) =               1659.84                    0.00
                           N  (kg/ha) =                 47.72                    0.00
      
       stage 4.0 end_of_juvenile
-                     biomass =           0.02 (g/m^2)   lai          =   0.020 (m^2/m^2)
+                     biomass =           0.00 (g/m^2)   lai          =   0.020 (m^2/m^2)
                      stover N conc =     6.30 (%)    extractable sw =    6.05 (mm)
      Manager sending message :- wheat end_crop
      Crop ended. Yield (dw) =     0.0  (kg/ha)
          Organic matter from crop:-      Tops to surface residue      Roots to soil FOM
-                          DM (kg/ha) =                  0.20                 1061.29
-                          N  (kg/ha) =                  0.01                   25.21
+                          DM (kg/ha) =                  0.00                 1061.29
+                          N  (kg/ha) =                  0.00                   25.21
      
 30 May 1978(Day of year=150), soilwat2: 
      
@@ -3974,7 +3974,7 @@ Component    "Tracker" = c:\development\apsim\Tracker\lib\Tracker.dll
                      stover N conc =     0.31 (%)    extractable sw =   71.11 (mm)
 20 November 1978(Day of year=324), Wheat: 
       stage 10.0 harvest_ripe
-                     biomass =        1440.61 (g/m^2)   lai          =   0.001 (m^2/m^2)
+                     biomass =        1440.61 (g/m^2)   lai          =   0.000 (m^2/m^2)
                      stover N conc =     0.30 (%)    extractable sw =   69.90 (mm)
 20 November 1978(Day of year=324), manager: 
      Manager sending message :- wheat harvest
@@ -3986,8 +3986,8 @@ Component    "Tracker" = c:\development\apsim\Tracker\lib\Tracker.dll
       grains/plant           =  136.6                         maximum lai            =      3.599
       total above ground biomass (kg/ha)    =    14406.1
       live above ground biomass (kg/ha)     =    14406.1
-      green above ground biomass (kg/ha)    =    12854.8
-      senesced above ground biomass (kg/ha) =     1551.4
+      green above ground biomass (kg/ha)    =    12854.6
+      senesced above ground biomass (kg/ha) =     1551.6
       dead above ground biomass (kg/ha)     =        0.0
       number of leaves       =   42.9
       DM Root:Shoot ratio    =    0.114                       Harvest Index          =      0.258
@@ -4006,21 +4006,21 @@ Component    "Tracker" = c:\development\apsim\Tracker\lib\Tracker.dll
      
      Crop harvested.
          Organic matter from crop:-      Tops to surface residue      Roots to soil FOM
-                          DM (kg/ha) =               10683.75                    0.00
-                          N  (kg/ha) =                 35.33                    0.00
+                          DM (kg/ha) =               10683.95                    0.00
+                          N  (kg/ha) =                 35.34                    0.00
      
          Organic matter removed from system:-      From Tops               From Roots
                           DM (kg/ha) =               3722.19                    0.00
                           N  (kg/ha) =                 55.75                    0.00
      
       stage 4.0 end_of_juvenile
-                     biomass =           0.02 (g/m^2)   lai          =   0.020 (m^2/m^2)
+                     biomass =           0.00 (g/m^2)   lai          =   0.020 (m^2/m^2)
                      stover N conc =     6.30 (%)    extractable sw =   69.90 (mm)
      Manager sending message :- wheat end_crop
      Crop ended. Yield (dw) =     0.0  (kg/ha)
          Organic matter from crop:-      Tops to surface residue      Roots to soil FOM
-                          DM (kg/ha) =                  0.20                 1646.93
-                          N  (kg/ha) =                  0.01                   18.28
+                          DM (kg/ha) =                  0.00                 1646.93
+                          N  (kg/ha) =                  0.00                   18.28
      
 30 May 1979(Day of year=150), soilwat2: 
      
@@ -4156,8 +4156,8 @@ Component    "Tracker" = c:\development\apsim\Tracker\lib\Tracker.dll
       grains/plant           =  103.6                         maximum lai            =      3.167
       total above ground biomass (kg/ha)    =    12088.1
       live above ground biomass (kg/ha)     =    12088.1
-      green above ground biomass (kg/ha)    =    10721.1
-      senesced above ground biomass (kg/ha) =     1367.0
+      green above ground biomass (kg/ha)    =    10720.9
+      senesced above ground biomass (kg/ha) =     1367.2
       dead above ground biomass (kg/ha)     =        0.0
       number of leaves       =   42.2
       DM Root:Shoot ratio    =    0.108                       Harvest Index          =      0.315
@@ -4176,21 +4176,21 @@ Component    "Tracker" = c:\development\apsim\Tracker\lib\Tracker.dll
      
      Crop harvested.
          Organic matter from crop:-      Tops to surface residue      Roots to soil FOM
-                          DM (kg/ha) =               8282.52                    0.00
-                          N  (kg/ha) =                 28.74                    0.00
+                          DM (kg/ha) =               8282.72                    0.00
+                          N  (kg/ha) =                 28.76                    0.00
      
          Organic matter removed from system:-      From Tops               From Roots
                           DM (kg/ha) =               3805.34                    0.00
                           N  (kg/ha) =                 68.33                    0.00
      
       stage 4.0 end_of_juvenile
-                     biomass =           0.02 (g/m^2)   lai          =   0.020 (m^2/m^2)
+                     biomass =           0.00 (g/m^2)   lai          =   0.020 (m^2/m^2)
                      stover N conc =     6.30 (%)    extractable sw =   82.89 (mm)
      Manager sending message :- wheat end_crop
      Crop ended. Yield (dw) =     0.0  (kg/ha)
          Organic matter from crop:-      Tops to surface residue      Roots to soil FOM
-                          DM (kg/ha) =                  0.20                 1310.61
-                          N  (kg/ha) =                  0.01                   21.17
+                          DM (kg/ha) =                  0.00                 1310.61
+                          N  (kg/ha) =                  0.00                   21.17
      
 29 May 1980(Day of year=150), soilwat2: 
      
@@ -4326,8 +4326,8 @@ Component    "Tracker" = c:\development\apsim\Tracker\lib\Tracker.dll
       grains/plant           =   98.8                         maximum lai            =      3.242
       total above ground biomass (kg/ha)    =     8818.0
       live above ground biomass (kg/ha)     =     8818.0
-      green above ground biomass (kg/ha)    =     7420.6
-      senesced above ground biomass (kg/ha) =     1397.4
+      green above ground biomass (kg/ha)    =     7420.4
+      senesced above ground biomass (kg/ha) =     1397.6
       dead above ground biomass (kg/ha)     =        0.0
       number of leaves       =   42.6
       DM Root:Shoot ratio    =    0.146                       Harvest Index          =      0.392
@@ -4346,21 +4346,21 @@ Component    "Tracker" = c:\development\apsim\Tracker\lib\Tracker.dll
      
      Crop harvested.
          Organic matter from crop:-      Tops to surface residue      Roots to soil FOM
-                          DM (kg/ha) =               5365.21                    0.00
-                          N  (kg/ha) =                 19.60                    0.00
+                          DM (kg/ha) =               5365.41                    0.00
+                          N  (kg/ha) =                 19.61                    0.00
      
          Organic matter removed from system:-      From Tops               From Roots
                           DM (kg/ha) =               3452.56                    0.00
                           N  (kg/ha) =                 71.08                    0.00
      
       stage 4.0 end_of_juvenile
-                     biomass =           0.02 (g/m^2)   lai          =   0.020 (m^2/m^2)
+                     biomass =           0.00 (g/m^2)   lai          =   0.020 (m^2/m^2)
                      stover N conc =     6.30 (%)    extractable sw =   72.44 (mm)
      Manager sending message :- wheat end_crop
      Crop ended. Yield (dw) =     0.0  (kg/ha)
          Organic matter from crop:-      Tops to surface residue      Roots to soil FOM
-                          DM (kg/ha) =                  0.20                 1290.85
-                          N  (kg/ha) =                  0.01                   21.42
+                          DM (kg/ha) =                  0.00                 1290.85
+                          N  (kg/ha) =                  0.00                   21.42
      
 30 May 1981(Day of year=150), soilwat2: 
      
@@ -4492,12 +4492,12 @@ Component    "Tracker" = c:\development\apsim\Tracker\lib\Tracker.dll
       flowering day          =  268                           stover (kg/ha)         =     9351.8
       maturity day           =  312                           grain yield (kg/ha)    =     3618.2
       grain % water content  =   12.5                         grain yield wet (kg/ha)=     4135.1
-      grain wt (g)           =    0.030                       grains/m^2             =  12136.699
+      grain wt (g)           =    0.030                       grains/m^2             =  12136.698
       grains/plant           =  121.4                         maximum lai            =      3.341
       total above ground biomass (kg/ha)    =    12970.1
       live above ground biomass (kg/ha)     =    12970.1
-      green above ground biomass (kg/ha)    =    11521.8
-      senesced above ground biomass (kg/ha) =     1448.3
+      green above ground biomass (kg/ha)    =    11521.6
+      senesced above ground biomass (kg/ha) =     1448.5
       dead above ground biomass (kg/ha)     =        0.0
       number of leaves       =   43.7
       DM Root:Shoot ratio    =    0.116                       Harvest Index          =      0.279
@@ -4516,21 +4516,21 @@ Component    "Tracker" = c:\development\apsim\Tracker\lib\Tracker.dll
      
      Crop harvested.
          Organic matter from crop:-      Tops to surface residue      Roots to soil FOM
-                          DM (kg/ha) =               9351.64                    0.00
-                          N  (kg/ha) =                 31.33                    0.00
+                          DM (kg/ha) =               9351.83                    0.00
+                          N  (kg/ha) =                 31.34                    0.00
      
          Organic matter removed from system:-      From Tops               From Roots
                           DM (kg/ha) =               3618.24                    0.00
                           N  (kg/ha) =                 62.46                    0.00
      
       stage 4.0 end_of_juvenile
-                     biomass =           0.02 (g/m^2)   lai          =   0.020 (m^2/m^2)
+                     biomass =           0.00 (g/m^2)   lai          =   0.020 (m^2/m^2)
                      stover N conc =     6.30 (%)    extractable sw =   19.66 (mm)
      Manager sending message :- wheat end_crop
      Crop ended. Yield (dw) =     0.0  (kg/ha)
          Organic matter from crop:-      Tops to surface residue      Roots to soil FOM
-                          DM (kg/ha) =                  0.20                 1503.64
-                          N  (kg/ha) =                  0.01                   19.91
+                          DM (kg/ha) =                  0.00                 1503.64
+                          N  (kg/ha) =                  0.00                   19.91
      
 30 May 1982(Day of year=150), soilwat2: 
      
@@ -4654,7 +4654,7 @@ Component    "Tracker" = c:\development\apsim\Tracker\lib\Tracker.dll
                      stover N conc =     2.31 (%)    extractable sw =    0.46 (mm)
 11 November 1982(Day of year=315), Wheat: 
       stage 10.0 harvest_ripe
-                     biomass =         369.35 (g/m^2)   lai          =   0.001 (m^2/m^2)
+                     biomass =         369.35 (g/m^2)   lai          =   0.000 (m^2/m^2)
                      stover N conc =     2.34 (%)    extractable sw =    0.44 (mm)
 11 November 1982(Day of year=315), manager: 
      Manager sending message :- wheat harvest
@@ -4666,8 +4666,8 @@ Component    "Tracker" = c:\development\apsim\Tracker\lib\Tracker.dll
       grains/plant           =   36.7                         maximum lai            =      2.952
       total above ground biomass (kg/ha)    =     3693.5
       live above ground biomass (kg/ha)     =     3693.5
-      green above ground biomass (kg/ha)    =     2358.3
-      senesced above ground biomass (kg/ha) =     1335.1
+      green above ground biomass (kg/ha)    =     2358.1
+      senesced above ground biomass (kg/ha) =     1335.3
       dead above ground biomass (kg/ha)     =        0.0
       number of leaves       =   47.0
       DM Root:Shoot ratio    =    0.205                       Harvest Index          =      0.305
@@ -4686,21 +4686,21 @@ Component    "Tracker" = c:\development\apsim\Tracker\lib\Tracker.dll
      
      Crop harvested.
          Organic matter from crop:-      Tops to surface residue      Roots to soil FOM
-                          DM (kg/ha) =               2565.97                    0.00
-                          N  (kg/ha) =                 35.41                    0.00
+                          DM (kg/ha) =               2566.16                    0.00
+                          N  (kg/ha) =                 35.42                    0.00
      
          Organic matter removed from system:-      From Tops               From Roots
                           DM (kg/ha) =               1127.32                    0.00
                           N  (kg/ha) =                 32.61                    0.00
      
       stage 4.0 end_of_juvenile
-                     biomass =           0.02 (g/m^2)   lai          =   0.020 (m^2/m^2)
+                     biomass =           0.00 (g/m^2)   lai          =   0.020 (m^2/m^2)
                      stover N conc =     6.30 (%)    extractable sw =    0.44 (mm)
      Manager sending message :- wheat end_crop
      Crop ended. Yield (dw) =     0.0  (kg/ha)
          Organic matter from crop:-      Tops to surface residue      Roots to soil FOM
-                          DM (kg/ha) =                  0.20                  756.64
-                          N  (kg/ha) =                  0.01                   18.64
+                          DM (kg/ha) =                  0.00                  756.64
+                          N  (kg/ha) =                  0.00                   18.64
      
 30 May 1983(Day of year=150), soilwat2: 
      
@@ -4824,7 +4824,7 @@ Component    "Tracker" = c:\development\apsim\Tracker\lib\Tracker.dll
                      stover N conc =     0.31 (%)    extractable sw =   11.48 (mm)
 14 November 1983(Day of year=318), Wheat: 
       stage 10.0 harvest_ripe
-                     biomass =        1144.34 (g/m^2)   lai          =   0.001 (m^2/m^2)
+                     biomass =        1144.34 (g/m^2)   lai          =   0.000 (m^2/m^2)
                      stover N conc =     0.31 (%)    extractable sw =   10.60 (mm)
 14 November 1983(Day of year=318), manager: 
      Manager sending message :- wheat harvest
@@ -4836,8 +4836,8 @@ Component    "Tracker" = c:\development\apsim\Tracker\lib\Tracker.dll
       grains/plant           =  127.9                         maximum lai            =      3.724
       total above ground biomass (kg/ha)    =    11443.4
       live above ground biomass (kg/ha)     =    11443.4
-      green above ground biomass (kg/ha)    =     9809.2
-      senesced above ground biomass (kg/ha) =     1634.2
+      green above ground biomass (kg/ha)    =     9809.0
+      senesced above ground biomass (kg/ha) =     1634.4
       dead above ground biomass (kg/ha)     =        0.0
       number of leaves       =   46.4
       DM Root:Shoot ratio    =    0.144                       Harvest Index          =      0.349
@@ -4856,21 +4856,21 @@ Component    "Tracker" = c:\development\apsim\Tracker\lib\Tracker.dll
      
      Crop harvested.
          Organic matter from crop:-      Tops to surface residue      Roots to soil FOM
-                          DM (kg/ha) =               7452.43                    0.00
-                          N  (kg/ha) =                 25.94                    0.00
+                          DM (kg/ha) =               7452.63                    0.00
+                          N  (kg/ha) =                 25.95                    0.00
      
          Organic matter removed from system:-      From Tops               From Roots
                           DM (kg/ha) =               3990.81                    0.00
                           N  (kg/ha) =                 64.35                    0.00
      
       stage 4.0 end_of_juvenile
-                     biomass =           0.02 (g/m^2)   lai          =   0.020 (m^2/m^2)
+                     biomass =           0.00 (g/m^2)   lai          =   0.020 (m^2/m^2)
                      stover N conc =     6.30 (%)    extractable sw =   10.60 (mm)
      Manager sending message :- wheat end_crop
      Crop ended. Yield (dw) =     0.0  (kg/ha)
          Organic matter from crop:-      Tops to surface residue      Roots to soil FOM
-                          DM (kg/ha) =                  0.20                 1650.70
-                          N  (kg/ha) =                  0.01                   21.06
+                          DM (kg/ha) =                  0.00                 1650.70
+                          N  (kg/ha) =                  0.00                   21.06
      
 29 May 1984(Day of year=150), soilwat2: 
      
@@ -4994,7 +4994,7 @@ Component    "Tracker" = c:\development\apsim\Tracker\lib\Tracker.dll
                      stover N conc =     0.32 (%)    extractable sw =   28.40 (mm)
 16 November 1984(Day of year=321), Wheat: 
       stage 10.0 harvest_ripe
-                     biomass =        1278.73 (g/m^2)   lai          =   0.001 (m^2/m^2)
+                     biomass =        1278.73 (g/m^2)   lai          =   0.000 (m^2/m^2)
                      stover N conc =     0.31 (%)    extractable sw =   27.31 (mm)
 16 November 1984(Day of year=321), manager: 
      Manager sending message :- wheat harvest
@@ -5006,8 +5006,8 @@ Component    "Tracker" = c:\development\apsim\Tracker\lib\Tracker.dll
       grains/plant           =  120.8                         maximum lai            =      3.354
       total above ground biomass (kg/ha)    =    12787.3
       live above ground biomass (kg/ha)     =    12787.3
-      green above ground biomass (kg/ha)    =    11331.7
-      senesced above ground biomass (kg/ha) =     1455.6
+      green above ground biomass (kg/ha)    =    11331.5
+      senesced above ground biomass (kg/ha) =     1455.8
       dead above ground biomass (kg/ha)     =        0.0
       number of leaves       =   44.0
       DM Root:Shoot ratio    =    0.115                       Harvest Index          =      0.299
@@ -5026,21 +5026,21 @@ Component    "Tracker" = c:\development\apsim\Tracker\lib\Tracker.dll
      
      Crop harvested.
          Organic matter from crop:-      Tops to surface residue      Roots to soil FOM
-                          DM (kg/ha) =               8969.75                    0.00
-                          N  (kg/ha) =                 30.55                    0.00
+                          DM (kg/ha) =               8969.95                    0.00
+                          N  (kg/ha) =                 30.57                    0.00
      
          Organic matter removed from system:-      From Tops               From Roots
                           DM (kg/ha) =               3817.37                    0.00
                           N  (kg/ha) =                 62.55                    0.00
      
       stage 4.0 end_of_juvenile
-                     biomass =           0.02 (g/m^2)   lai          =   0.020 (m^2/m^2)
+                     biomass =           0.00 (g/m^2)   lai          =   0.020 (m^2/m^2)
                      stover N conc =     6.30 (%)    extractable sw =   27.31 (mm)
      Manager sending message :- wheat end_crop
      Crop ended. Yield (dw) =     0.0  (kg/ha)
          Organic matter from crop:-      Tops to surface residue      Roots to soil FOM
-                          DM (kg/ha) =                  0.20                 1474.45
-                          N  (kg/ha) =                  0.01                   21.02
+                          DM (kg/ha) =                  0.00                 1474.45
+                          N  (kg/ha) =                  0.00                   21.02
      
 30 May 1985(Day of year=150), soilwat2: 
      
@@ -5176,8 +5176,8 @@ Component    "Tracker" = c:\development\apsim\Tracker\lib\Tracker.dll
       grains/plant           =  133.3                         maximum lai            =      3.391
       total above ground biomass (kg/ha)    =    12396.1
       live above ground biomass (kg/ha)     =    12396.1
-      green above ground biomass (kg/ha)    =    10924.4
-      senesced above ground biomass (kg/ha) =     1471.7
+      green above ground biomass (kg/ha)    =    10924.2
+      senesced above ground biomass (kg/ha) =     1471.9
       dead above ground biomass (kg/ha)     =        0.0
       number of leaves       =   43.6
       DM Root:Shoot ratio    =    0.130                       Harvest Index          =      0.310
@@ -5196,21 +5196,21 @@ Component    "Tracker" = c:\development\apsim\Tracker\lib\Tracker.dll
      
      Crop harvested.
          Organic matter from crop:-      Tops to surface residue      Roots to soil FOM
-                          DM (kg/ha) =               8552.17                    0.00
-                          N  (kg/ha) =                 28.95                    0.00
+                          DM (kg/ha) =               8552.36                    0.00
+                          N  (kg/ha) =                 28.96                    0.00
      
          Organic matter removed from system:-      From Tops               From Roots
                           DM (kg/ha) =               3843.75                    0.00
                           N  (kg/ha) =                 64.03                    0.00
      
       stage 4.0 end_of_juvenile
-                     biomass =           0.02 (g/m^2)   lai          =   0.020 (m^2/m^2)
+                     biomass =           0.00 (g/m^2)   lai          =   0.020 (m^2/m^2)
                      stover N conc =     6.30 (%)    extractable sw =   15.44 (mm)
      Manager sending message :- wheat end_crop
      Crop ended. Yield (dw) =     0.0  (kg/ha)
          Organic matter from crop:-      Tops to surface residue      Roots to soil FOM
-                          DM (kg/ha) =                  0.20                 1606.79
-                          N  (kg/ha) =                  0.01                   20.44
+                          DM (kg/ha) =                  0.00                 1606.79
+                          N  (kg/ha) =                  0.00                   20.44
      
 30 May 1986(Day of year=150), soilwat2: 
      
@@ -5342,18 +5342,18 @@ Component    "Tracker" = c:\development\apsim\Tracker\lib\Tracker.dll
       flowering day          =  274                           stover (kg/ha)         =    10067.7
       maturity day           =  319                           grain yield (kg/ha)    =     3786.6
       grain % water content  =   12.5                         grain yield wet (kg/ha)=     4327.6
-      grain wt (g)           =    0.029                       grains/m^2             =  13019.365
+      grain wt (g)           =    0.029                       grains/m^2             =  13019.363
       grains/plant           =  130.2                         maximum lai            =      3.383
       total above ground biomass (kg/ha)    =    13854.3
       live above ground biomass (kg/ha)     =    13854.3
-      green above ground biomass (kg/ha)    =    12401.3
-      senesced above ground biomass (kg/ha) =     1453.0
+      green above ground biomass (kg/ha)    =    12401.1
+      senesced above ground biomass (kg/ha) =     1453.1
       dead above ground biomass (kg/ha)     =        0.0
       number of leaves       =   41.7
       DM Root:Shoot ratio    =    0.111                       Harvest Index          =      0.273
       Stover C:N ratio       =  119.346                       Root C:N ratio         =     30.696
       grain N percent        =       1.64                     total N content (kg/ha)=      95.92
-      grain N uptake (kg/ha) =      62.17                     senesced N content (kg/ha)=    7.26
+      grain N uptake (kg/ha) =      62.17                     senesced N content (kg/ha)=    7.27
       green N content (kg/ha)=      26.48                     dead N content (kg/ha) =       0.00
      
       Average Stress Indices:                          Water Photo  Water Expan  N Photo      N grain conc
@@ -5366,21 +5366,21 @@ Component    "Tracker" = c:\development\apsim\Tracker\lib\Tracker.dll
      
      Crop harvested.
          Organic matter from crop:-      Tops to surface residue      Roots to soil FOM
-                          DM (kg/ha) =               10067.46                    0.00
-                          N  (kg/ha) =                 33.73                    0.00
+                          DM (kg/ha) =               10067.65                    0.00
+                          N  (kg/ha) =                 33.74                    0.00
      
          Organic matter removed from system:-      From Tops               From Roots
                           DM (kg/ha) =               3786.63                    0.00
                           N  (kg/ha) =                 62.17                    0.00
      
       stage 4.0 end_of_juvenile
-                     biomass =           0.02 (g/m^2)   lai          =   0.020 (m^2/m^2)
+                     biomass =           0.00 (g/m^2)   lai          =   0.020 (m^2/m^2)
                      stover N conc =     6.30 (%)    extractable sw =   34.89 (mm)
      Manager sending message :- wheat end_crop
      Crop ended. Yield (dw) =     0.0  (kg/ha)
          Organic matter from crop:-      Tops to surface residue      Roots to soil FOM
-                          DM (kg/ha) =                  0.20                 1534.97
-                          N  (kg/ha) =                  0.01                   20.00
+                          DM (kg/ha) =                  0.00                 1534.97
+                          N  (kg/ha) =                  0.00                   20.00
      
 30 May 1987(Day of year=150), soilwat2: 
      
@@ -5516,8 +5516,8 @@ Component    "Tracker" = c:\development\apsim\Tracker\lib\Tracker.dll
       grains/plant           =   88.7                         maximum lai            =      3.440
       total above ground biomass (kg/ha)    =     7418.2
       live above ground biomass (kg/ha)     =     7418.2
-      green above ground biomass (kg/ha)    =     5937.7
-      senesced above ground biomass (kg/ha) =     1480.5
+      green above ground biomass (kg/ha)    =     5937.5
+      senesced above ground biomass (kg/ha) =     1480.7
       dead above ground biomass (kg/ha)     =        0.0
       number of leaves       =   42.2
       DM Root:Shoot ratio    =    0.168                       Harvest Index          =      0.336
@@ -5536,21 +5536,21 @@ Component    "Tracker" = c:\development\apsim\Tracker\lib\Tracker.dll
      
      Crop harvested.
          Organic matter from crop:-      Tops to surface residue      Roots to soil FOM
-                          DM (kg/ha) =               4924.89                    0.00
-                          N  (kg/ha) =                 18.23                    0.00
+                          DM (kg/ha) =               4925.08                    0.00
+                          N  (kg/ha) =                 18.25                    0.00
      
          Organic matter removed from system:-      From Tops               From Roots
                           DM (kg/ha) =               2493.12                    0.00
                           N  (kg/ha) =                 64.50                    0.00
      
       stage 4.0 end_of_juvenile
-                     biomass =           0.02 (g/m^2)   lai          =   0.020 (m^2/m^2)
+                     biomass =           0.00 (g/m^2)   lai          =   0.020 (m^2/m^2)
                      stover N conc =     6.30 (%)    extractable sw =   17.83 (mm)
      Manager sending message :- wheat end_crop
      Crop ended. Yield (dw) =     0.0  (kg/ha)
          Organic matter from crop:-      Tops to surface residue      Roots to soil FOM
-                          DM (kg/ha) =                  0.20                 1246.20
-                          N  (kg/ha) =                  0.01                   23.32
+                          DM (kg/ha) =                  0.00                 1246.20
+                          N  (kg/ha) =                  0.00                   23.32
      
 29 May 1988(Day of year=150), soilwat2: 
      
@@ -5686,8 +5686,8 @@ Component    "Tracker" = c:\development\apsim\Tracker\lib\Tracker.dll
       grains/plant           =   96.9                         maximum lai            =      3.187
       total above ground biomass (kg/ha)    =     8295.6
       live above ground biomass (kg/ha)     =     8295.6
-      green above ground biomass (kg/ha)    =     6922.5
-      senesced above ground biomass (kg/ha) =     1373.0
+      green above ground biomass (kg/ha)    =     6922.4
+      senesced above ground biomass (kg/ha) =     1373.2
       dead above ground biomass (kg/ha)     =        0.0
       number of leaves       =   42.4
       DM Root:Shoot ratio    =    0.154                       Harvest Index          =      0.342
@@ -5706,21 +5706,21 @@ Component    "Tracker" = c:\development\apsim\Tracker\lib\Tracker.dll
      
      Crop harvested.
          Organic matter from crop:-      Tops to surface residue      Roots to soil FOM
-                          DM (kg/ha) =               5459.36                    0.00
-                          N  (kg/ha) =                 19.33                    0.00
+                          DM (kg/ha) =               5459.56                    0.00
+                          N  (kg/ha) =                 19.34                    0.00
      
          Organic matter removed from system:-      From Tops               From Roots
                           DM (kg/ha) =               2836.01                    0.00
                           N  (kg/ha) =                 65.21                    0.00
      
       stage 4.0 end_of_juvenile
-                     biomass =           0.02 (g/m^2)   lai          =   0.020 (m^2/m^2)
+                     biomass =           0.00 (g/m^2)   lai          =   0.020 (m^2/m^2)
                      stover N conc =     6.30 (%)    extractable sw =   24.05 (mm)
      Manager sending message :- wheat end_crop
      Crop ended. Yield (dw) =     0.0  (kg/ha)
          Organic matter from crop:-      Tops to surface residue      Roots to soil FOM
-                          DM (kg/ha) =                  0.20                 1279.16
-                          N  (kg/ha) =                  0.01                   22.60
+                          DM (kg/ha) =                  0.00                 1279.16
+                          N  (kg/ha) =                  0.00                   22.60
      
 30 May 1989(Day of year=150), soilwat2: 
      
@@ -5844,7 +5844,7 @@ Component    "Tracker" = c:\development\apsim\Tracker\lib\Tracker.dll
                      stover N conc =     0.32 (%)    extractable sw =   13.15 (mm)
 21 November 1989(Day of year=325), Wheat: 
       stage 10.0 harvest_ripe
-                     biomass =        1035.50 (g/m^2)   lai          =   0.001 (m^2/m^2)
+                     biomass =        1035.50 (g/m^2)   lai          =   0.000 (m^2/m^2)
                      stover N conc =     0.31 (%)    extractable sw =   12.35 (mm)
 21 November 1989(Day of year=325), manager: 
      Manager sending message :- wheat harvest
@@ -5856,8 +5856,8 @@ Component    "Tracker" = c:\development\apsim\Tracker\lib\Tracker.dll
       grains/plant           =  129.3                         maximum lai            =      4.539
       total above ground biomass (kg/ha)    =    10355.0
       live above ground biomass (kg/ha)     =    10355.0
-      green above ground biomass (kg/ha)    =     8361.7
-      senesced above ground biomass (kg/ha) =     1993.2
+      green above ground biomass (kg/ha)    =     8361.5
+      senesced above ground biomass (kg/ha) =     1993.4
       dead above ground biomass (kg/ha)     =        0.0
       number of leaves       =   43.7
       DM Root:Shoot ratio    =    0.169                       Harvest Index          =      0.311
@@ -5876,21 +5876,21 @@ Component    "Tracker" = c:\development\apsim\Tracker\lib\Tracker.dll
      
      Crop harvested.
          Organic matter from crop:-      Tops to surface residue      Roots to soil FOM
-                          DM (kg/ha) =               7135.79                    0.00
-                          N  (kg/ha) =                 25.77                    0.00
+                          DM (kg/ha) =               7135.99                    0.00
+                          N  (kg/ha) =                 25.79                    0.00
      
          Organic matter removed from system:-      From Tops               From Roots
-                          DM (kg/ha) =               3218.99                    0.00
+                          DM (kg/ha) =               3218.98                    0.00
                           N  (kg/ha) =                 61.11                    0.00
      
       stage 4.0 end_of_juvenile
-                     biomass =           0.02 (g/m^2)   lai          =   0.020 (m^2/m^2)
+                     biomass =           0.00 (g/m^2)   lai          =   0.020 (m^2/m^2)
                      stover N conc =     6.30 (%)    extractable sw =   12.35 (mm)
      Manager sending message :- wheat end_crop
      Crop ended. Yield (dw) =     0.0  (kg/ha)
          Organic matter from crop:-      Tops to surface residue      Roots to soil FOM
-                          DM (kg/ha) =                  0.20                 1748.09
-                          N  (kg/ha) =                  0.01                   20.52
+                          DM (kg/ha) =                  0.00                 1748.09
+                          N  (kg/ha) =                  0.00                   20.52
      
 30 May 1990(Day of year=150), soilwat2: 
      
@@ -6022,12 +6022,12 @@ Component    "Tracker" = c:\development\apsim\Tracker\lib\Tracker.dll
       flowering day          =  269                           stover (kg/ha)         =     6662.4
       maturity day           =  310                           grain yield (kg/ha)    =     3743.8
       grain % water content  =   12.5                         grain yield wet (kg/ha)=     4278.7
-      grain wt (g)           =    0.034                       grains/m^2             =  11041.505
+      grain wt (g)           =    0.034                       grains/m^2             =  11041.504
       grains/plant           =  110.4                         maximum lai            =      3.279
       total above ground biomass (kg/ha)    =    10406.2
       live above ground biomass (kg/ha)     =    10406.2
-      green above ground biomass (kg/ha)    =     8997.0
-      senesced above ground biomass (kg/ha) =     1409.2
+      green above ground biomass (kg/ha)    =     8996.8
+      senesced above ground biomass (kg/ha) =     1409.4
       dead above ground biomass (kg/ha)     =        0.0
       number of leaves       =   41.8
       DM Root:Shoot ratio    =    0.138                       Harvest Index          =      0.360
@@ -6046,21 +6046,21 @@ Component    "Tracker" = c:\development\apsim\Tracker\lib\Tracker.dll
      
      Crop harvested.
          Organic matter from crop:-      Tops to surface residue      Roots to soil FOM
-                          DM (kg/ha) =               6662.17                    0.00
-                          N  (kg/ha) =                 23.21                    0.00
+                          DM (kg/ha) =               6662.36                    0.00
+                          N  (kg/ha) =                 23.22                    0.00
      
          Organic matter removed from system:-      From Tops               From Roots
                           DM (kg/ha) =               3743.82                    0.00
                           N  (kg/ha) =                 66.13                    0.00
      
       stage 4.0 end_of_juvenile
-                     biomass =           0.02 (g/m^2)   lai          =   0.020 (m^2/m^2)
+                     biomass =           0.00 (g/m^2)   lai          =   0.020 (m^2/m^2)
                      stover N conc =     6.30 (%)    extractable sw =    5.23 (mm)
      Manager sending message :- wheat end_crop
      Crop ended. Yield (dw) =     0.0  (kg/ha)
          Organic matter from crop:-      Tops to surface residue      Roots to soil FOM
-                          DM (kg/ha) =                  0.20                 1440.74
-                          N  (kg/ha) =                  0.01                   20.64
+                          DM (kg/ha) =                  0.00                 1440.74
+                          N  (kg/ha) =                  0.00                   20.64
      
 30 May 1991(Day of year=150), soilwat2: 
      
@@ -6196,8 +6196,8 @@ Component    "Tracker" = c:\development\apsim\Tracker\lib\Tracker.dll
       grains/plant           =  108.2                         maximum lai            =      2.751
       total above ground biomass (kg/ha)    =    10967.3
       live above ground biomass (kg/ha)     =    10967.3
-      green above ground biomass (kg/ha)    =     9794.2
-      senesced above ground biomass (kg/ha) =     1173.1
+      green above ground biomass (kg/ha)    =     9794.0
+      senesced above ground biomass (kg/ha) =     1173.3
       dead above ground biomass (kg/ha)     =        0.0
       number of leaves       =   38.8
       DM Root:Shoot ratio    =    0.120                       Harvest Index          =      0.333
@@ -6216,21 +6216,21 @@ Component    "Tracker" = c:\development\apsim\Tracker\lib\Tracker.dll
      
      Crop harvested.
          Organic matter from crop:-      Tops to surface residue      Roots to soil FOM
-                          DM (kg/ha) =               7311.84                    0.00
-                          N  (kg/ha) =                 24.55                    0.00
+                          DM (kg/ha) =               7312.03                    0.00
+                          N  (kg/ha) =                 24.56                    0.00
      
          Organic matter removed from system:-      From Tops               From Roots
-                          DM (kg/ha) =               3655.30                    0.00
+                          DM (kg/ha) =               3655.29                    0.00
                           N  (kg/ha) =                 68.12                    0.00
      
       stage 4.0 end_of_juvenile
-                     biomass =           0.02 (g/m^2)   lai          =   0.020 (m^2/m^2)
+                     biomass =           0.00 (g/m^2)   lai          =   0.020 (m^2/m^2)
                      stover N conc =     6.30 (%)    extractable sw =   38.84 (mm)
      Manager sending message :- wheat end_crop
      Crop ended. Yield (dw) =     0.0  (kg/ha)
          Organic matter from crop:-      Tops to surface residue      Roots to soil FOM
-                          DM (kg/ha) =                  0.20                 1310.79
-                          N  (kg/ha) =                  0.01                   21.77
+                          DM (kg/ha) =                  0.00                 1310.79
+                          N  (kg/ha) =                  0.00                   21.77
      
 29 May 1992(Day of year=150), soilwat2: 
      
@@ -6354,7 +6354,7 @@ Component    "Tracker" = c:\development\apsim\Tracker\lib\Tracker.dll
                      stover N conc =     0.32 (%)    extractable sw =  100.82 (mm)
 17 November 1992(Day of year=322), Wheat: 
       stage 10.0 harvest_ripe
-                     biomass =        1300.55 (g/m^2)   lai          =   0.001 (m^2/m^2)
+                     biomass =        1300.55 (g/m^2)   lai          =   0.000 (m^2/m^2)
                      stover N conc =     0.32 (%)    extractable sw =   98.63 (mm)
 17 November 1992(Day of year=322), manager: 
      Manager sending message :- wheat harvest
@@ -6362,19 +6362,19 @@ Component    "Tracker" = c:\development\apsim\Tracker\lib\Tracker.dll
       flowering day          =  277                           stover (kg/ha)         =     8926.1
       maturity day           =  321                           grain yield (kg/ha)    =     4079.4
       grain % water content  =   12.5                         grain yield wet (kg/ha)=     4662.2
-      grain wt (g)           =    0.033                       grains/m^2             =  12244.500
+      grain wt (g)           =    0.033                       grains/m^2             =  12244.498
       grains/plant           =  122.4                         maximum lai            =      3.233
       total above ground biomass (kg/ha)    =    13005.5
       live above ground biomass (kg/ha)     =    13005.5
-      green above ground biomass (kg/ha)    =    11601.0
-      senesced above ground biomass (kg/ha) =     1404.6
+      green above ground biomass (kg/ha)    =    11600.8
+      senesced above ground biomass (kg/ha) =     1404.8
       dead above ground biomass (kg/ha)     =        0.0
       number of leaves       =   43.6
       DM Root:Shoot ratio    =    0.114                       Harvest Index          =      0.314
       Stover C:N ratio       =  115.554                       Root C:N ratio         =     28.189
       grain N percent        =       1.65                     total N content (kg/ha)=      98.14
       grain N uptake (kg/ha) =      67.24                     senesced N content (kg/ha)=    7.02
-      green N content (kg/ha)=      23.88                     dead N content (kg/ha) =       0.00
+      green N content (kg/ha)=      23.87                     dead N content (kg/ha) =       0.00
      
       Average Stress Indices:                          Water Photo  Water Expan  N Photo      N grain conc
          emergence            to end_of_juvenile         0.000        0.000        0.000        0.000
@@ -6386,21 +6386,21 @@ Component    "Tracker" = c:\development\apsim\Tracker\lib\Tracker.dll
      
      Crop harvested.
          Organic matter from crop:-      Tops to surface residue      Roots to soil FOM
-                          DM (kg/ha) =               8925.90                    0.00
-                          N  (kg/ha) =                 30.89                    0.00
+                          DM (kg/ha) =               8926.10                    0.00
+                          N  (kg/ha) =                 30.90                    0.00
      
          Organic matter removed from system:-      From Tops               From Roots
                           DM (kg/ha) =               4079.45                    0.00
                           N  (kg/ha) =                 67.24                    0.00
      
       stage 4.0 end_of_juvenile
-                     biomass =           0.02 (g/m^2)   lai          =   0.020 (m^2/m^2)
+                     biomass =           0.00 (g/m^2)   lai          =   0.020 (m^2/m^2)
                      stover N conc =     6.30 (%)    extractable sw =   98.63 (mm)
      Manager sending message :- wheat end_crop
      Crop ended. Yield (dw) =     0.0  (kg/ha)
          Organic matter from crop:-      Tops to surface residue      Roots to soil FOM
-                          DM (kg/ha) =                  0.20                 1478.52
-                          N  (kg/ha) =                  0.01                   20.98
+                          DM (kg/ha) =                  0.00                 1478.52
+                          N  (kg/ha) =                  0.00                   20.98
      
 30 May 1993(Day of year=150), soilwat2: 
      
@@ -6524,7 +6524,7 @@ Component    "Tracker" = c:\development\apsim\Tracker\lib\Tracker.dll
                      stover N conc =     0.34 (%)    extractable sw =   32.15 (mm)
 9 November 1993(Day of year=313), Wheat: 
       stage 10.0 harvest_ripe
-                     biomass =         963.90 (g/m^2)   lai          =   0.001 (m^2/m^2)
+                     biomass =         963.90 (g/m^2)   lai          =   0.000 (m^2/m^2)
                      stover N conc =     0.33 (%)    extractable sw =   31.50 (mm)
 9 November 1993(Day of year=313), manager: 
      Manager sending message :- wheat harvest
@@ -6536,8 +6536,8 @@ Component    "Tracker" = c:\development\apsim\Tracker\lib\Tracker.dll
       grains/plant           =   94.5                         maximum lai            =      2.887
       total above ground biomass (kg/ha)    =     9639.0
       live above ground biomass (kg/ha)     =     9639.0
-      green above ground biomass (kg/ha)    =     8362.3
-      senesced above ground biomass (kg/ha) =     1276.6
+      green above ground biomass (kg/ha)    =     8362.1
+      senesced above ground biomass (kg/ha) =     1276.8
       dead above ground biomass (kg/ha)     =        0.0
       number of leaves       =   40.5
       DM Root:Shoot ratio    =    0.120                       Harvest Index          =      0.402
@@ -6556,21 +6556,21 @@ Component    "Tracker" = c:\development\apsim\Tracker\lib\Tracker.dll
      
      Crop harvested.
          Organic matter from crop:-      Tops to surface residue      Roots to soil FOM
-                          DM (kg/ha) =               5762.35                    0.00
-                          N  (kg/ha) =                 21.15                    0.00
+                          DM (kg/ha) =               5762.55                    0.00
+                          N  (kg/ha) =                 21.16                    0.00
      
          Organic matter removed from system:-      From Tops               From Roots
                           DM (kg/ha) =               3876.43                    0.00
                           N  (kg/ha) =                 70.86                    0.00
      
       stage 4.0 end_of_juvenile
-                     biomass =           0.02 (g/m^2)   lai          =   0.020 (m^2/m^2)
+                     biomass =           0.00 (g/m^2)   lai          =   0.020 (m^2/m^2)
                      stover N conc =     6.30 (%)    extractable sw =   31.50 (mm)
      Manager sending message :- wheat end_crop
      Crop ended. Yield (dw) =     0.0  (kg/ha)
          Organic matter from crop:-      Tops to surface residue      Roots to soil FOM
-                          DM (kg/ha) =                  0.20                 1159.67
-                          N  (kg/ha) =                  0.01                   22.24
+                          DM (kg/ha) =                  0.00                 1159.67
+                          N  (kg/ha) =                  0.00                   22.24
      
 30 May 1994(Day of year=150), soilwat2: 
      
@@ -6694,7 +6694,7 @@ Component    "Tracker" = c:\development\apsim\Tracker\lib\Tracker.dll
                      stover N conc =     0.68 (%)    extractable sw =   15.52 (mm)
 11 November 1994(Day of year=315), Wheat: 
       stage 10.0 harvest_ripe
-                     biomass =         614.51 (g/m^2)   lai          =   0.001 (m^2/m^2)
+                     biomass =         614.51 (g/m^2)   lai          =   0.000 (m^2/m^2)
                      stover N conc =     0.68 (%)    extractable sw =   14.83 (mm)
 11 November 1994(Day of year=315), manager: 
      Manager sending message :- wheat harvest
@@ -6706,8 +6706,8 @@ Component    "Tracker" = c:\development\apsim\Tracker\lib\Tracker.dll
       grains/plant           =   79.8                         maximum lai            =      3.523
       total above ground biomass (kg/ha)    =     6145.1
       live above ground biomass (kg/ha)     =     6145.1
-      green above ground biomass (kg/ha)    =     4603.4
-      senesced above ground biomass (kg/ha) =     1541.7
+      green above ground biomass (kg/ha)    =     4603.2
+      senesced above ground biomass (kg/ha) =     1541.9
       dead above ground biomass (kg/ha)     =        0.0
       number of leaves       =   44.0
       DM Root:Shoot ratio    =    0.185                       Harvest Index          =      0.266
@@ -6726,21 +6726,21 @@ Component    "Tracker" = c:\development\apsim\Tracker\lib\Tracker.dll
      
      Crop harvested.
          Organic matter from crop:-      Tops to surface residue      Roots to soil FOM
-                          DM (kg/ha) =               4511.49                    0.00
-                          N  (kg/ha) =                 27.92                    0.00
+                          DM (kg/ha) =               4511.69                    0.00
+                          N  (kg/ha) =                 27.93                    0.00
      
          Organic matter removed from system:-      From Tops               From Roots
                           DM (kg/ha) =               1633.42                    0.00
                           N  (kg/ha) =                 46.79                    0.00
      
       stage 4.0 end_of_juvenile
-                     biomass =           0.02 (g/m^2)   lai          =   0.020 (m^2/m^2)
+                     biomass =           0.00 (g/m^2)   lai          =   0.020 (m^2/m^2)
                      stover N conc =     6.30 (%)    extractable sw =   14.83 (mm)
      Manager sending message :- wheat end_crop
      Crop ended. Yield (dw) =     0.0  (kg/ha)
          Organic matter from crop:-      Tops to surface residue      Roots to soil FOM
-                          DM (kg/ha) =                  0.20                 1134.91
-                          N  (kg/ha) =                  0.01                   25.36
+                          DM (kg/ha) =                  0.00                 1134.91
+                          N  (kg/ha) =                  0.00                   25.36
      
 30 May 1995(Day of year=150), soilwat2: 
      
@@ -6864,7 +6864,7 @@ Component    "Tracker" = c:\development\apsim\Tracker\lib\Tracker.dll
                      stover N conc =     0.32 (%)    extractable sw =   13.81 (mm)
 9 November 1995(Day of year=313), Wheat: 
       stage 10.0 harvest_ripe
-                     biomass =         924.40 (g/m^2)   lai          =   0.001 (m^2/m^2)
+                     biomass =         924.40 (g/m^2)   lai          =   0.000 (m^2/m^2)
                      stover N conc =     0.31 (%)    extractable sw =   12.49 (mm)
 9 November 1995(Day of year=313), manager: 
      Manager sending message :- wheat harvest
@@ -6876,8 +6876,8 @@ Component    "Tracker" = c:\development\apsim\Tracker\lib\Tracker.dll
       grains/plant           =  106.8                         maximum lai            =      3.158
       total above ground biomass (kg/ha)    =     9244.0
       live above ground biomass (kg/ha)     =     9244.0
-      green above ground biomass (kg/ha)    =     7898.6
-      senesced above ground biomass (kg/ha) =     1345.4
+      green above ground biomass (kg/ha)    =     7898.4
+      senesced above ground biomass (kg/ha) =     1345.6
       dead above ground biomass (kg/ha)     =        0.0
       number of leaves       =   39.3
       DM Root:Shoot ratio    =    0.145                       Harvest Index          =      0.367
@@ -6896,21 +6896,21 @@ Component    "Tracker" = c:\development\apsim\Tracker\lib\Tracker.dll
      
      Crop harvested.
          Organic matter from crop:-      Tops to surface residue      Roots to soil FOM
-                          DM (kg/ha) =               5853.31                    0.00
-                          N  (kg/ha) =                 20.71                    0.00
+                          DM (kg/ha) =               5853.50                    0.00
+                          N  (kg/ha) =                 20.72                    0.00
      
          Organic matter removed from system:-      From Tops               From Roots
                           DM (kg/ha) =               3390.50                    0.00
                           N  (kg/ha) =                 67.40                    0.00
      
       stage 4.0 end_of_juvenile
-                     biomass =           0.02 (g/m^2)   lai          =   0.020 (m^2/m^2)
+                     biomass =           0.00 (g/m^2)   lai          =   0.020 (m^2/m^2)
                      stover N conc =     6.30 (%)    extractable sw =   12.49 (mm)
      Manager sending message :- wheat end_crop
      Crop ended. Yield (dw) =     0.0  (kg/ha)
          Organic matter from crop:-      Tops to surface residue      Roots to soil FOM
-                          DM (kg/ha) =                  0.20                 1338.15
-                          N  (kg/ha) =                  0.01                   20.29
+                          DM (kg/ha) =                  0.00                 1338.15
+                          N  (kg/ha) =                  0.00                   20.29
      
 29 May 1996(Day of year=150), soilwat2: 
      
@@ -7042,12 +7042,12 @@ Component    "Tracker" = c:\development\apsim\Tracker\lib\Tracker.dll
       flowering day          =  270                           stover (kg/ha)         =     9005.9
       maturity day           =  314                           grain yield (kg/ha)    =     3801.8
       grain % water content  =   12.5                         grain yield wet (kg/ha)=     4345.0
-      grain wt (g)           =    0.032                       grains/m^2             =  12060.697
+      grain wt (g)           =    0.032                       grains/m^2             =  12060.698
       grains/plant           =  120.6                         maximum lai            =      3.058
       total above ground biomass (kg/ha)    =    12807.8
       live above ground biomass (kg/ha)     =    12807.8
-      green above ground biomass (kg/ha)    =    11491.3
-      senesced above ground biomass (kg/ha) =     1316.5
+      green above ground biomass (kg/ha)    =    11491.1
+      senesced above ground biomass (kg/ha) =     1316.7
       dead above ground biomass (kg/ha)     =        0.0
       number of leaves       =   41.6
       DM Root:Shoot ratio    =    0.111                       Harvest Index          =      0.297
@@ -7066,21 +7066,21 @@ Component    "Tracker" = c:\development\apsim\Tracker\lib\Tracker.dll
      
      Crop harvested.
          Organic matter from crop:-      Tops to surface residue      Roots to soil FOM
-                          DM (kg/ha) =               9005.72                    0.00
-                          N  (kg/ha) =                 30.17                    0.00
+                          DM (kg/ha) =               9005.92                    0.00
+                          N  (kg/ha) =                 30.19                    0.00
      
          Organic matter removed from system:-      From Tops               From Roots
                           DM (kg/ha) =               3801.85                    0.00
                           N  (kg/ha) =                 66.24                    0.00
      
       stage 4.0 end_of_juvenile
-                     biomass =           0.02 (g/m^2)   lai          =   0.020 (m^2/m^2)
+                     biomass =           0.00 (g/m^2)   lai          =   0.020 (m^2/m^2)
                      stover N conc =     6.30 (%)    extractable sw =   34.30 (mm)
      Manager sending message :- wheat end_crop
      Crop ended. Yield (dw) =     0.0  (kg/ha)
          Organic matter from crop:-      Tops to surface residue      Roots to soil FOM
-                          DM (kg/ha) =                  0.20                 1423.07
-                          N  (kg/ha) =                  0.01                   21.19
+                          DM (kg/ha) =                  0.00                 1423.07
+                          N  (kg/ha) =                  0.00                   21.19
      
 30 May 1997(Day of year=150), soilwat2: 
      
@@ -7216,8 +7216,8 @@ Component    "Tracker" = c:\development\apsim\Tracker\lib\Tracker.dll
       grains/plant           =  120.7                         maximum lai            =      3.900
       total above ground biomass (kg/ha)    =     9340.1
       live above ground biomass (kg/ha)     =     9340.1
-      green above ground biomass (kg/ha)    =     7643.3
-      senesced above ground biomass (kg/ha) =     1696.8
+      green above ground biomass (kg/ha)    =     7643.1
+      senesced above ground biomass (kg/ha) =     1697.0
       dead above ground biomass (kg/ha)     =        0.0
       number of leaves       =   44.8
       DM Root:Shoot ratio    =    0.166                       Harvest Index          =      0.299
@@ -7236,21 +7236,21 @@ Component    "Tracker" = c:\development\apsim\Tracker\lib\Tracker.dll
      
      Crop harvested.
          Organic matter from crop:-      Tops to surface residue      Roots to soil FOM
-                          DM (kg/ha) =               6542.68                    0.00
-                          N  (kg/ha) =                 23.65                    0.00
+                          DM (kg/ha) =               6542.88                    0.00
+                          N  (kg/ha) =                 23.66                    0.00
      
          Organic matter removed from system:-      From Tops               From Roots
                           DM (kg/ha) =               2797.19                    0.00
                           N  (kg/ha) =                 64.38                    0.00
      
       stage 4.0 end_of_juvenile
-                     biomass =           0.02 (g/m^2)   lai          =   0.020 (m^2/m^2)
+                     biomass =           0.00 (g/m^2)   lai          =   0.020 (m^2/m^2)
                      stover N conc =     6.30 (%)    extractable sw =   75.68 (mm)
      Manager sending message :- wheat end_crop
      Crop ended. Yield (dw) =     0.0  (kg/ha)
          Organic matter from crop:-      Tops to surface residue      Roots to soil FOM
-                          DM (kg/ha) =                  0.20                 1548.42
-                          N  (kg/ha) =                  0.01                   19.82
+                          DM (kg/ha) =                  0.00                 1548.42
+                          N  (kg/ha) =                  0.00                   19.82
      
 30 May 1998(Day of year=150), soilwat2: 
      
@@ -7366,7 +7366,7 @@ Component    "Tracker" = c:\development\apsim\Tracker\lib\Tracker.dll
                      stover N conc =     1.10 (%)    extractable sw =   27.91 (mm)
 13 November 1998(Day of year=317), Wheat: 
       stage 8.0 end_grain_fill
-                     biomass =         779.75 (g/m^2)   lai          =   0.278 (m^2/m^2)
+                     biomass =         779.76 (g/m^2)   lai          =   0.278 (m^2/m^2)
                      stover N conc =     0.32 (%)    extractable sw =   28.07 (mm)
 15 November 1998(Day of year=319), Wheat: 
       stage 9.0 maturity
@@ -7386,8 +7386,8 @@ Component    "Tracker" = c:\development\apsim\Tracker\lib\Tracker.dll
       grains/plant           =   89.0                         maximum lai            =      3.749
       total above ground biomass (kg/ha)    =     7800.7
       live above ground biomass (kg/ha)     =     7800.7
-      green above ground biomass (kg/ha)    =     6080.3
-      senesced above ground biomass (kg/ha) =     1720.5
+      green above ground biomass (kg/ha)    =     6080.1
+      senesced above ground biomass (kg/ha) =     1720.7
       dead above ground biomass (kg/ha)     =        0.0
       number of leaves       =   44.7
       DM Root:Shoot ratio    =    0.165                       Harvest Index          =      0.337
@@ -7406,21 +7406,21 @@ Component    "Tracker" = c:\development\apsim\Tracker\lib\Tracker.dll
      
      Crop harvested.
          Organic matter from crop:-      Tops to surface residue      Roots to soil FOM
-                          DM (kg/ha) =               5173.24                    0.00
-                          N  (kg/ha) =                 19.28                    0.00
+                          DM (kg/ha) =               5173.44                    0.00
+                          N  (kg/ha) =                 19.29                    0.00
      
          Organic matter removed from system:-      From Tops               From Roots
                           DM (kg/ha) =               2627.31                    0.00
                           N  (kg/ha) =                 61.02                    0.00
      
       stage 4.0 end_of_juvenile
-                     biomass =           0.02 (g/m^2)   lai          =   0.020 (m^2/m^2)
+                     biomass =           0.00 (g/m^2)   lai          =   0.020 (m^2/m^2)
                      stover N conc =     6.30 (%)    extractable sw =   24.23 (mm)
      Manager sending message :- wheat end_crop
      Crop ended. Yield (dw) =     0.0  (kg/ha)
          Organic matter from crop:-      Tops to surface residue      Roots to soil FOM
-                          DM (kg/ha) =                  0.20                 1288.79
-                          N  (kg/ha) =                  0.01                   25.07
+                          DM (kg/ha) =                  0.00                 1288.79
+                          N  (kg/ha) =                  0.00                   25.07
      
 30 May 1999(Day of year=150), soilwat2: 
      
@@ -7556,8 +7556,8 @@ Component    "Tracker" = c:\development\apsim\Tracker\lib\Tracker.dll
       grains/plant           =   58.5                         maximum lai            =      3.096
       total above ground biomass (kg/ha)    =     5523.5
       live above ground biomass (kg/ha)     =     5523.5
-      green above ground biomass (kg/ha)    =     4127.8
-      senesced above ground biomass (kg/ha) =     1395.7
+      green above ground biomass (kg/ha)    =     4127.6
+      senesced above ground biomass (kg/ha) =     1395.9
       dead above ground biomass (kg/ha)     =        0.0
       number of leaves       =   44.9
       DM Root:Shoot ratio    =    0.170                       Harvest Index          =      0.353
@@ -7576,21 +7576,21 @@ Component    "Tracker" = c:\development\apsim\Tracker\lib\Tracker.dll
      
      Crop harvested.
          Organic matter from crop:-      Tops to surface residue      Roots to soil FOM
-                          DM (kg/ha) =               3572.26                    0.00
-                          N  (kg/ha) =                 22.61                    0.00
+                          DM (kg/ha) =               3572.45                    0.00
+                          N  (kg/ha) =                 22.62                    0.00
      
          Organic matter removed from system:-      From Tops               From Roots
                           DM (kg/ha) =               1951.05                    0.00
                           N  (kg/ha) =                 56.40                    0.00
      
       stage 4.0 end_of_juvenile
-                     biomass =           0.02 (g/m^2)   lai          =   0.020 (m^2/m^2)
+                     biomass =           0.00 (g/m^2)   lai          =   0.020 (m^2/m^2)
                      stover N conc =     6.30 (%)    extractable sw =   17.56 (mm)
      Manager sending message :- wheat end_crop
      Crop ended. Yield (dw) =     0.0  (kg/ha)
          Organic matter from crop:-      Tops to surface residue      Roots to soil FOM
-                          DM (kg/ha) =                  0.20                  936.87
-                          N  (kg/ha) =                  0.01                   22.81
+                          DM (kg/ha) =                  0.00                  936.87
+                          N  (kg/ha) =                  0.00                   22.81
      
 29 May 2000(Day of year=150), soilwat2: 
      
@@ -7714,7 +7714,7 @@ Component    "Tracker" = c:\development\apsim\Tracker\lib\Tracker.dll
                      stover N conc =     0.32 (%)    extractable sw =   23.80 (mm)
 14 November 2000(Day of year=319), Wheat: 
       stage 10.0 harvest_ripe
-                     biomass =        1160.90 (g/m^2)   lai          =   0.001 (m^2/m^2)
+                     biomass =        1160.90 (g/m^2)   lai          =   0.000 (m^2/m^2)
                      stover N conc =     0.31 (%)    extractable sw =   21.60 (mm)
 14 November 2000(Day of year=319), manager: 
      Manager sending message :- wheat harvest
@@ -7722,12 +7722,12 @@ Component    "Tracker" = c:\development\apsim\Tracker\lib\Tracker.dll
       flowering day          =  274                           stover (kg/ha)         =     7785.2
       maturity day           =  318                           grain yield (kg/ha)    =     3823.7
       grain % water content  =   12.5                         grain yield wet (kg/ha)=     4370.0
-      grain wt (g)           =    0.030                       grains/m^2             =  12567.179
+      grain wt (g)           =    0.030                       grains/m^2             =  12567.181
       grains/plant           =  125.7                         maximum lai            =      3.628
       total above ground biomass (kg/ha)    =    11609.0
       live above ground biomass (kg/ha)     =    11609.0
-      green above ground biomass (kg/ha)    =    10024.9
-      senesced above ground biomass (kg/ha) =     1584.1
+      green above ground biomass (kg/ha)    =    10024.7
+      senesced above ground biomass (kg/ha) =     1584.3
       dead above ground biomass (kg/ha)     =        0.0
       number of leaves       =   45.7
       DM Root:Shoot ratio    =    0.139                       Harvest Index          =      0.329
@@ -7746,21 +7746,21 @@ Component    "Tracker" = c:\development\apsim\Tracker\lib\Tracker.dll
      
      Crop harvested.
          Organic matter from crop:-      Tops to surface residue      Roots to soil FOM
-                          DM (kg/ha) =               7785.03                    0.00
-                          N  (kg/ha) =                 27.18                    0.00
+                          DM (kg/ha) =               7785.22                    0.00
+                          N  (kg/ha) =                 27.19                    0.00
      
          Organic matter removed from system:-      From Tops               From Roots
                           DM (kg/ha) =               3823.75                    0.00
                           N  (kg/ha) =                 63.42                    0.00
      
       stage 4.0 end_of_juvenile
-                     biomass =           0.02 (g/m^2)   lai          =   0.020 (m^2/m^2)
+                     biomass =           0.00 (g/m^2)   lai          =   0.020 (m^2/m^2)
                      stover N conc =     6.30 (%)    extractable sw =   21.60 (mm)
      Manager sending message :- wheat end_crop
      Crop ended. Yield (dw) =     0.0  (kg/ha)
          Organic matter from crop:-      Tops to surface residue      Roots to soil FOM
-                          DM (kg/ha) =                  0.20                 1614.24
-                          N  (kg/ha) =                  0.01                   20.61
+                          DM (kg/ha) =                  0.00                 1614.24
+                          N  (kg/ha) =                  0.00                   20.61
      
 30 May 2001(Day of year=150), soilwat2: 
      
@@ -7896,8 +7896,8 @@ Component    "Tracker" = c:\development\apsim\Tracker\lib\Tracker.dll
       grains/plant           =  118.2                         maximum lai            =      3.290
       total above ground biomass (kg/ha)    =    13310.7
       live above ground biomass (kg/ha)     =    13310.7
-      green above ground biomass (kg/ha)    =    11895.6
-      senesced above ground biomass (kg/ha) =     1415.1
+      green above ground biomass (kg/ha)    =    11895.4
+      senesced above ground biomass (kg/ha) =     1415.3
       dead above ground biomass (kg/ha)     =        0.0
       number of leaves       =   42.4
       DM Root:Shoot ratio    =    0.105                       Harvest Index          =      0.293
@@ -7916,21 +7916,21 @@ Component    "Tracker" = c:\development\apsim\Tracker\lib\Tracker.dll
      
      Crop harvested.
          Organic matter from crop:-      Tops to surface residue      Roots to soil FOM
-                          DM (kg/ha) =               9408.27                    0.00
-                          N  (kg/ha) =                 32.20                    0.00
+                          DM (kg/ha) =               9408.47                    0.00
+                          N  (kg/ha) =                 32.22                    0.00
      
          Organic matter removed from system:-      From Tops               From Roots
                           DM (kg/ha) =               3902.20                    0.00
                           N  (kg/ha) =                 65.05                    0.00
      
       stage 4.0 end_of_juvenile
-                     biomass =           0.02 (g/m^2)   lai          =   0.020 (m^2/m^2)
+                     biomass =           0.00 (g/m^2)   lai          =   0.020 (m^2/m^2)
                      stover N conc =     6.30 (%)    extractable sw =   22.69 (mm)
      Manager sending message :- wheat end_crop
      Crop ended. Yield (dw) =     0.0  (kg/ha)
          Organic matter from crop:-      Tops to surface residue      Roots to soil FOM
-                          DM (kg/ha) =                  0.20                 1401.97
-                          N  (kg/ha) =                  0.01                   20.69
+                          DM (kg/ha) =                  0.00                 1401.97
+                          N  (kg/ha) =                  0.00                   20.69
      
 30 May 2002(Day of year=150), soilwat2: 
      
@@ -8054,7 +8054,7 @@ Component    "Tracker" = c:\development\apsim\Tracker\lib\Tracker.dll
                      stover N conc =     1.63 (%)    extractable sw =    0.21 (mm)
 12 November 2002(Day of year=316), Wheat: 
       stage 10.0 harvest_ripe
-                     biomass =         423.43 (g/m^2)   lai          =   0.001 (m^2/m^2)
+                     biomass =         423.43 (g/m^2)   lai          =   0.000 (m^2/m^2)
                      stover N conc =     1.63 (%)    extractable sw =    0.20 (mm)
 12 November 2002(Day of year=316), manager: 
      Manager sending message :- wheat harvest
@@ -8062,12 +8062,12 @@ Component    "Tracker" = c:\development\apsim\Tracker\lib\Tracker.dll
       flowering day          =  273                           stover (kg/ha)         =     3292.9
       maturity day           =  315                           grain yield (kg/ha)    =      941.4
       grain % water content  =   12.5                         grain yield wet (kg/ha)=     1075.9
-      grain wt (g)           =    0.017                       grains/m^2             =   5401.560
+      grain wt (g)           =    0.017                       grains/m^2             =   5401.561
       grains/plant           =   54.0                         maximum lai            =      3.240
       total above ground biomass (kg/ha)    =     4234.3
       live above ground biomass (kg/ha)     =     4234.3
-      green above ground biomass (kg/ha)    =     2760.7
-      senesced above ground biomass (kg/ha) =     1473.7
+      green above ground biomass (kg/ha)    =     2760.5
+      senesced above ground biomass (kg/ha) =     1473.9
       dead above ground biomass (kg/ha)     =        0.0
       number of leaves       =   44.2
       DM Root:Shoot ratio    =    0.206                       Harvest Index          =      0.222
@@ -8086,21 +8086,21 @@ Component    "Tracker" = c:\development\apsim\Tracker\lib\Tracker.dll
      
      Crop harvested.
          Organic matter from crop:-      Tops to surface residue      Roots to soil FOM
-                          DM (kg/ha) =               3292.71                    0.00
-                          N  (kg/ha) =                 37.07                    0.00
+                          DM (kg/ha) =               3292.91                    0.00
+                          N  (kg/ha) =                 37.08                    0.00
      
          Organic matter removed from system:-      From Tops               From Roots
                           DM (kg/ha) =                941.40                    0.00
                           N  (kg/ha) =                 27.13                    0.00
      
       stage 4.0 end_of_juvenile
-                     biomass =           0.02 (g/m^2)   lai          =   0.020 (m^2/m^2)
+                     biomass =           0.00 (g/m^2)   lai          =   0.020 (m^2/m^2)
                      stover N conc =     6.30 (%)    extractable sw =    0.20 (mm)
      Manager sending message :- wheat end_crop
      Crop ended. Yield (dw) =     0.0  (kg/ha)
          Organic matter from crop:-      Tops to surface residue      Roots to soil FOM
-                          DM (kg/ha) =                  0.20                  870.30
-                          N  (kg/ha) =                  0.01                   21.23
+                          DM (kg/ha) =                  0.00                  870.30
+                          N  (kg/ha) =                  0.00                   21.23
      
 31 December 2002(Day of year=365), clock: 
      Simulation is terminating due to end criteria being met.

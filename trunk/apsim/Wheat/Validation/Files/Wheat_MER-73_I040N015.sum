@@ -424,7 +424,7 @@ Component      "wheat" = c:\development\apsim\plant\lib\plant.dll
                      stover N conc =     0.31 (%)    extractable sw =   17.54 (mm)
 26 November 1973(Day of year=330), wheat: 
       stage 10.0 harvest_ripe
-                     biomass =         946.43 (g/m^2)   lai          =   0.001 (m^2/m^2)
+                     biomass =         946.43 (g/m^2)   lai          =   0.000 (m^2/m^2)
                      stover N conc =     0.30 (%)    extractable sw =   17.42 (mm)
 26 November 1973(Day of year=330), Manager: 
      Manager sending message :- wheat harvest
@@ -432,19 +432,19 @@ Component      "wheat" = c:\development\apsim\plant\lib\plant.dll
       flowering day          =  282                           stover (kg/ha)         =     5780.2
       maturity day           =  329                           grain yield (kg/ha)    =     3684.2
       grain % water content  =   12.5                         grain yield wet (kg/ha)=     4210.5
-      grain wt (g)           =    0.034                       grains/m^2             =  10987.174
+      grain wt (g)           =    0.034                       grains/m^2             =  10987.173
       grains/plant           =  109.9                         maximum lai            =      2.785
       total above ground biomass (kg/ha)    =     9464.3
       live above ground biomass (kg/ha)     =     9464.3
-      green above ground biomass (kg/ha)    =     8293.9
-      senesced above ground biomass (kg/ha) =     1170.4
+      green above ground biomass (kg/ha)    =     8293.8
+      senesced above ground biomass (kg/ha) =     1170.6
       dead above ground biomass (kg/ha)     =        0.0
       number of leaves       =   36.1
       DM Root:Shoot ratio    =    0.135                       Harvest Index          =      0.389
-      Stover C:N ratio       =  116.139                       Root C:N ratio         =     32.014
+      Stover C:N ratio       =  116.139                       Root C:N ratio         =     32.012
       grain N percent        =       1.67                     total N content (kg/ha)=      81.54
       grain N uptake (kg/ha) =      61.63                     senesced N content (kg/ha)=    5.85
-      green N content (kg/ha)=      14.06                     dead N content (kg/ha) =       0.00
+      green N content (kg/ha)=      14.05                     dead N content (kg/ha) =       0.00
      
       Average Stress Indices:                          Water Photo  Water Expan  N Photo      N grain conc
          emergence            to end_of_juvenile         0.000        0.000        0.000        0.000
@@ -456,21 +456,21 @@ Component      "wheat" = c:\development\apsim\plant\lib\plant.dll
      
      Crop harvested.
          Organic matter from crop:-      Tops to surface residue      Roots to soil FOM
-                          DM (kg/ha) =               5780.00                    0.00
-                          N  (kg/ha) =                 19.90                    0.00
+                          DM (kg/ha) =               5780.19                    0.00
+                          N  (kg/ha) =                 19.91                    0.00
      
          Organic matter removed from system:-      From Tops               From Roots
                           DM (kg/ha) =               3684.15                    0.00
                           N  (kg/ha) =                 61.63                    0.00
      
       stage 4.0 end_of_juvenile
-                     biomass =           0.02 (g/m^2)   lai          =   0.020 (m^2/m^2)
+                     biomass =           0.00 (g/m^2)   lai          =   0.020 (m^2/m^2)
                      stover N conc =     6.30 (%)    extractable sw =   17.42 (mm)
      Manager sending message :- wheat end_crop
      Crop ended. Yield (dw) =     0.0  (kg/ha)
          Organic matter from crop:-      Tops to surface residue      Roots to soil FOM
-                          DM (kg/ha) =                  0.20                 1281.44
-                          N  (kg/ha) =                  0.01                   16.01
+                          DM (kg/ha) =                  0.00                 1281.44
+                          N  (kg/ha) =                  0.00                   16.01
      
 30 November 1973(Day of year=334), clock: 
      Simulation is terminating due to end criteria being met.

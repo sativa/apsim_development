@@ -582,8 +582,8 @@ Component   "rainfall" = c:\development\apsim\patchinput\lib\patchinput.dll
       grains/plant           =  100.2                         maximum lai            =      5.075
       total above ground biomass (kg/ha)    =     8486.6
       live above ground biomass (kg/ha)     =     8486.6
-      green above ground biomass (kg/ha)    =     6178.7
-      senesced above ground biomass (kg/ha) =     2307.9
+      green above ground biomass (kg/ha)    =     6178.5
+      senesced above ground biomass (kg/ha) =     2308.1
       dead above ground biomass (kg/ha)     =        0.0
       number of leaves       =   50.0
       DM Root:Shoot ratio    =    0.186                       Harvest Index          =      0.291
@@ -602,23 +602,23 @@ Component   "rainfall" = c:\development\apsim\patchinput\lib\patchinput.dll
      
      Crop harvested.
          Organic matter from crop:-      Tops to surface residue      Roots to soil FOM
-                          DM (kg/ha) =               6016.10                    0.00
-                          N  (kg/ha) =                 22.79                    0.00
+                          DM (kg/ha) =               6016.30                    0.00
+                          N  (kg/ha) =                 22.80                    0.00
      
          Organic matter removed from system:-      From Tops               From Roots
                           DM (kg/ha) =               2470.31                    0.00
                           N  (kg/ha) =                 60.51                    0.00
      
       stage 4.0 end_of_juvenile
-                     biomass =           0.02 (g/m^2)   lai          =   0.020 (m^2/m^2)
+                     biomass =           0.00 (g/m^2)   lai          =   0.020 (m^2/m^2)
                      stover N conc =     6.30 (%)    extractable sw =   19.47 (mm)
      Manager sending message :- wheat kill_crop
      Plant kill. 100.00% crop killed because of external action.
      Manager sending message :- wheat end_crop
      Crop ended. Yield (dw) =     0.0  (kg/ha)
          Organic matter from crop:-      Tops to surface residue      Roots to soil FOM
-                          DM (kg/ha) =                  0.21                 1575.02
-                          N  (kg/ha) =                  0.01                   28.29
+                          DM (kg/ha) =                  0.00                 1575.02
+                          N  (kg/ha) =                  0.00                   28.29
      
      Manager sending message :- surfaceom tillage  type = burn
 21 November 2005(Day of year=325), SurfaceOM: 
