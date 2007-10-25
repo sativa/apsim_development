@@ -48,6 +48,7 @@ void TRunForm::setup(ApsimRuns& apsimRuns, bool autoRun)
    ApsimSettings settings;
    settings.read("Apsim|PauseOnComplete", pauseOnComplete);
 
+   this->autoRun = autoRun;
    paused = false;
    if (autoRun)
       pauseOnComplete = false;
@@ -269,7 +270,8 @@ void TRunForm::saveSelections(void)
          runs->addSimulation(fileName, simName);
          }
       }
-   previousRuns.saveSelectedRunNames(*runs);
+   if (!autoRun)
+      previousRuns.saveSelectedRunNames(*runs);
    }
 
 void __fastcall TRunForm::simulationListClick(TObject *Sender)
@@ -401,8 +403,11 @@ void __fastcall TRunForm::PauseCheckBoxClick(TObject *Sender)
    else
       YesNoValue = "no";
 
-   ApsimSettings settings;
-   settings.write("Apsim|PauseOnComplete", YesNoValue);
+   if (!autoRun)
+      {
+      ApsimSettings settings;
+      settings.write("Apsim|PauseOnComplete", YesNoValue);
+      }
    pauseOnComplete = PauseCheckBox->Checked;
    }
 

@@ -65,6 +65,7 @@ class __declspec(dllexport) TRunForm : public TForm
       ApsimRuns* runs;
       bool paused;
       bool pauseOnComplete;
+      bool autoRun;
 
       unsigned long simStartJDay;
       unsigned long simEndJDay;
