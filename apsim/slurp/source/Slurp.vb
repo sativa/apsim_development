@@ -22,8 +22,6 @@ Public Class Slurp
     <ApsimVariable("rlv", "mm/mm3", ApsimProperties.ReadWriteType.Read)> _
     Public rlv() As Single                 ' Root Length Density (mm/mm3)
 
-    <ApsimVariable("sw_demand", "mm", ApsimProperties.ReadWriteType.Read), _
-     ApsimVariable("pet", "mm", ApsimProperties.ReadWriteType.Read)> _
     Public SWDemand As Single           ' Daily Soil Water Demand (mm)
 
     ' ------------------------  Component Data ---------------------------
@@ -46,6 +44,8 @@ Public Class Slurp
     Private SWUptake() As Single         ' Daily uptake of SW from each layer (mm)
     Private MetData As NewMet            ' Daily Met Data
     Private UptakeSource As String       ' User choice for source of uptake information
+    Private Zones() As String
+    Private Distances() As Single
 
     ' ===================================================
     Public Overrides Sub init2()
@@ -61,6 +61,10 @@ Public Class Slurp
         ' Get UptakeSource - if missing set to "calc"
         UptakeSource = Data.ChildValue("uptake_source")
         If UptakeSource = "" Then UptakeSource = "calc"
+        If UptakeSource = "distributed" Then
+            Zones = StringToStringArray(Data.Child("zones").Value)
+            Distances = StringToSingleArray(Data.Child("distances").Value)
+        End If
 
         LAI = Convert.ToSingle(Data.Child("lai").Value)
         LAId = Convert.ToSingle(Data.Child("laid").Value)
@@ -85,17 +89,18 @@ Public Class Slurp
     End Sub
     ' ===================================================
     Private Sub GetSoilData()
-        properties.Get("dlayer", dlayer)
-        If dlayer.Length <> ll.Length Then
-            Throw New Exception("Number of values of LL does not match the number of soil layers.")
+        If UptakeSource = "calc" Then
+            properties.Get("dlayer", dlayer)
+            If dlayer.Length <> ll.Length Then
+                Throw New Exception("Number of values of LL does not match the number of soil layers.")
+            End If
+            If dlayer.Length <> kl.Length Then
+                Throw New Exception("Number of values of KL does not match the number of soil layers.")
+            End If
+            If dlayer.Length <> rlv.Length Then
+                Throw New Exception("Number of values of RLV does not match the number of soil layers.")
+            End If
         End If
-        If dlayer.Length <> kl.Length Then
-            Throw New Exception("Number of values of KL does not match the number of soil layers.")
-        End If
-        If dlayer.Length <> rlv.Length Then
-            Throw New Exception("Number of values of RLV does not match the number of soil layers.")
-        End If
-
     End Sub
 
 #Region "EventHandlers"
@@ -111,8 +116,50 @@ Public Class Slurp
                 DltSWDep(layer) = SWUptake(layer) * -1
             Next
             properties.Set("dlt_sw_dep", DltSWDep)
+
+        ElseIf UptakeSource = "distributed" Then
+            Dim Supply(zones.Length - 1) As Single
+            Dim SupplyTot As Single = 0
+            Dim WeightingTot As Single = 0
+            Dim Weighting(Zones.Length - 1) As Single
+            Dim AdjSupply(Zones.Length - 1) As Single
+            Dim AdjSupplyTot As Single = 0
+            For i As Integer = 0 To zones.Length - 1
+                properties.Get(zones(i) + ".root_sw_supply", Supply(i))
+                'MsgBox(SupplyTot(i), MsgBoxStyle.Information, "Paddock Es")
+                Weighting(i) = (1.0 - bound(Distances(i) / (3 * Height / 1000.0), 0.0, 1.0)) ^ 1
+                Supply(i) = Supply(i)
+                AdjSupply(i) = Supply(i) * Weighting(i)
+                If Weighting(i) > 0 Then SupplyTot = SupplyTot + Supply(i)
+                AdjSupplyTot = AdjSupplyTot + AdjSupply(i)
+                WeightingTot = WeightingTot + Weighting(i)
+            Next
+            If SupplyTot > 0 Then
+                If SWDemand > SupplyTot Then
+                    ' Get as much as can be supplied
+                    For i As Integer = 0 To Zones.Length - 1
+                        If Weighting(i) > 0 And Supply(i) > 0.01 Then
+                            properties.Set(Zones(i) + ".sw_demand", Supply(i))
+                        End If
+                    Next
+                Else
+                    ' Scale back demands based upon source strength and distance
+                    Dim Fraction = SWDemand / AdjSupplyTot
+                    For i As Integer = 0 To Zones.Length - 1
+                        Supply(i) = AdjSupply(i) * Fraction
+                        properties.Set(Zones(i) + ".sw_demand", Supply(i))
+                    Next
+                End If
+            Else
+                For i As Integer = 0 To Zones.Length - 1
+                    Dim zilch As Single = 0
+                    properties.Set(Zones(i) + ".sw_demand", zilch)
+                Next
+            End If
+
         Else
             ' uptake is calculated by another module in APSIM
+            Dim SWUptake(1) As Single
             properties.Get(Trim("uptake_water_" + CropType), SWUptake)
             'SWUptake = CalcSWSupply()
         End If
@@ -230,12 +277,67 @@ Public Class Slurp
     End Property
     <ApsimProperty("ep", "mm")> Public ReadOnly Property EP() As Single
         Get
-            ' EP is daily total crop water use from all layers
-            Dim ReturnValue As Single = 0
-            For i As Integer = 0 To SWUptake.Length - 1
-                ReturnValue = ReturnValue + SWUptake(i)
+            If UptakeSource = "distributed" Then
+                ' EP is daily total crop water use from all zones
+                Dim ReturnValue As Single = 0
+                Dim temp As Single = 0
+                For i As Integer = 0 To Zones.Length - 1
+                    properties.Get(Zones(i) + ".root_ep", temp)
+                    ReturnValue = ReturnValue + temp
+                Next
+                Return ReturnValue
+
+            Else
+                ' EP is daily total crop water use from all layers
+                Dim ReturnValue As Single = 0
+                For i As Integer = 0 To SWUptake.Length - 1
+                    ReturnValue = ReturnValue + SWUptake(i)
+                Next
+                Return ReturnValue
+
+            End If
+        End Get
+    End Property
+    <ApsimProperty("root_ep", "mm")> Public ReadOnly Property Root_EP() As Single
+        Get
+            If UptakeSource = "distributed" Then
+                ' EP is daily total crop water use from all zones
+                Dim ReturnValue As Single = 0
+                Dim temp As Single = 0
+                For i As Integer = 0 To Zones.Length - 1
+                    properties.Get(Zones(i) + ".root_ep", temp)
+                    ReturnValue = ReturnValue + temp
+                Next
+                Return ReturnValue
+
+            Else
+                ' EP is daily total crop water use from all layers
+                Dim ReturnValue As Single = 0
+                For i As Integer = 0 To SWUptake.Length - 1
+                    ReturnValue = ReturnValue + SWUptake(i)
+                Next
+                Return ReturnValue
+
+            End If
+        End Get
+    End Property
+
+    <ApsimProperty("sw_demand", "mm")> Public Property SW_Demand() As Single
+        Get
+            Return SWDemand
+        End Get
+        Set(ByVal value As Single)
+            SWDemand = value
+        End Set
+    End Property
+    <ApsimProperty("root_sw_supply", "mm")> Public ReadOnly Property SW_Supply() As Single
+        Get
+            Dim SWSupplyTot As Single
+            Dim Supply As Single() = CalcSWSupply()
+            For layer As Integer = 0 To Supply.Length - 1
+                SWSupplyTot = SWSupplyTot + Supply(layer)
             Next
-            Return ReturnValue
+            Return SWSupplyTot
         End Get
     End Property
 
@@ -262,8 +364,6 @@ Public Class Slurp
         Dim SWSupply(dlayer.Length - 1) As Single
         Dim SWdep() As Single
         properties.Get("sw_dep", SWdep)
-
-
         For layer As Integer = 0 To dlayer.Length - 1
             SWSupply(layer) = Max(0.0, kl(layer) * (SWdep(layer) - ll(layer) * (dlayer(layer))))
         Next
@@ -296,6 +396,14 @@ Public Class Slurp
 
         Return ReturnValue
     End Function
+    Public Function StringToStringArray(ByVal Stream As String) As String()
+        Dim stringSeparators() As String = {" "}
+
+        Dim ValueStrings As String() = Stream.Split(stringSeparators, StringSplitOptions.RemoveEmptyEntries)
+        Return ValueStrings
+
+    End Function
+
 #End Region
     Private Class InterpSet
         Private XVals() As Double
