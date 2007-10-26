@@ -487,6 +487,35 @@ void ApsimControlFile::getParameterValues(const string& section,
          }
       }
    }
+// -----------------------------------------------------------------
+// Return a list of all sections within par files for a given module
+// instance.
+// -----------------------------------------------------------------
+void ApsimControlFile::getParameterSections(const std::string& section,
+                                            const std::string& instanceName,
+                                            std::vector<IniFile*>& inis,
+                                            std::vector<std::string>& fullSectionNames)
+   {
+   vector<ParamFile> paramFiles;
+   getParameterFilesForInstance(ini, section, instanceName, paramFiles, false);
+   for (vector<ParamFile>::const_iterator
+                 paramFile = paramFiles.begin();
+                 paramFile != paramFiles.end();
+                 paramFile++)
+      {
+      IniFile* par = getParFile(paramFile->fileName);
+      if (par != NULL)
+         {
+         vector<string> paramFileSections;
+         getParFileSectionsMatching(par, *paramFile, paramFileSections);
+         for (unsigned p = 0; p != paramFileSections.size(); p++)
+            {
+            inis.push_back(par);
+            fullSectionNames.push_back(paramFileSections[p]);
+            }
+         }
+      }
+   }
 // ------------------------------------------------------------------
 // Return a single parameter value for the specified module
 // and parameter name.

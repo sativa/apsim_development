@@ -1029,31 +1029,41 @@ bool ControlFileConverter::executeRemoveReportVariable(const string& arguments)
 
    vector<string> instanceNames;
    con->getInstances(conSection, "report", instanceNames);
+
    bool someHaveChanged = false;
    for (unsigned i = 0; i != instanceNames.size(); i++)
       {
-      vector<string> newVariables;
-      vector<string> variables;
-      con->getParameterValues(conSection, instanceNames[i], "variable", variables);
-      bool found = false;
-      for (unsigned v = 0; v != variables.size(); v++)
+      vector<IniFile*> parFiles;
+      vector<string> sectionNames;
+      con->getParameterSections(conSection, instanceNames[i], parFiles, sectionNames);
+
+      for (unsigned p = 0; p != parFiles.size(); p++)
          {
-         string Variable = variables[v];
-         if (Variable.find(' ') != string::npos)
-            Variable.erase(Variable.find(' '));
-         if (Variable.find('.') != string::npos)
-            Variable.erase(0, Variable.find('.')+1);
-         if (Str_i_Eq(args[0], Variable))
-            found = true;
-         else
-            newVariables.push_back(variables[v]);
+         vector<string> newVariables;
+         vector<string> variables;
+         parFiles[p]->read(sectionNames[p], "variable", variables);
+         bool found = false;
+         for (unsigned v = 0; v != variables.size(); v++)
+            {
+            string Variable = variables[v];
+            if (Variable.find(' ') != string::npos)
+               Variable.erase(Variable.find(' '));
+            if (Variable.find('.') != string::npos)
+               Variable.erase(0, Variable.find('.')+1);
+            if (Str_i_Eq(args[0], Variable))
+               found = true;
+            else
+               newVariables.push_back(variables[v]);
+            }
+
+         if (found)
+            {
+            parFiles[p]->write(sectionNames[p], "variable", newVariables);
+            someHaveChanged = true;
+            }
          }
 
-      if (found)
-         con->setParameterValues(conSection, instanceNames[i], "variable",
-                                 "", newVariables);
-
-      someHaveChanged = (someHaveChanged || found);
+      someHaveChanged = someHaveChanged;
       }
    return someHaveChanged;
    }

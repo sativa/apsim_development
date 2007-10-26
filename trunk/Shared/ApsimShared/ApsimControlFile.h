@@ -242,6 +242,16 @@ class EXPORT ApsimControlFile
                                        const std::string& managerAction,
                                        boost::function2<void, ManagerActionParameters& , bool& > callback);
 
+      // -----------------------------------------------------------------
+      // Return a list of all sections within par files for a given module
+      // instance.
+      // -----------------------------------------------------------------
+      void getParameterSections(const std::string& section,
+                                const std::string& instanceName,
+                                std::vector<IniFile*>& ini,
+                                std::vector<std::string>& fullSectionNames);
+
+
    private:
       IniFile* ini;
       mutable std::vector<IniFile*> openedParFiles;
