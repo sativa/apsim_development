@@ -159,7 +159,7 @@ Public Class Slurp
 
         Else
             ' uptake is calculated by another module in APSIM
-            Dim SWUptake(1) As Single
+            'Dim SWUptake(1) As Single
             properties.Get(Trim("uptake_water_" + CropType), SWUptake)
             'SWUptake = CalcSWSupply()
         End If
