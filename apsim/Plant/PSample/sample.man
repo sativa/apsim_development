@@ -68,7 +68,7 @@ end_date = 30/12/1993     ! dd/mm/yyyy
 [navybean.manager.end_of_day]
 
 P_below_ground = soilp.fom_p() + soilp.hum_p() + soilp.biom_p() + soilp.rock_p() + soilp.unavail_p() + soilp.labile_p()
-P_above_ground = (navybean.p_green + navybean.p_senesced + navybean.p_dead)*10.0 + surfaceom.surfaceom_p
+P_above_ground = (navybean.p_green + navybean.p_senesced)*10.0 + surfaceom.surfaceom_p
 systemP = P_below_ground + P_above_ground
 dlt_systemP = systemP - systemP_yday
 
@@ -80,7 +80,7 @@ else
     dlt_residue_P = 0.0
 endif
 
-P_plant = (navybean.P_green + navybean.P_senesced + navybean.P_dead)*10.0
+P_plant = (navybean.P_green + navybean.P_senesced)*10.0
 P_uptake_cum = P_uptake_cum + uptake_P_navybean()
 P_pl_up_diff = P_plant - P_uptake_cum
 below_gnd_diff = P_below_ground - P_below_ground_yday
