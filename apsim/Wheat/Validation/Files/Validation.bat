@@ -1,8 +1,6 @@
 pushd
 cd \development\apsim\wheat\validation\files
 
-\development\bin\apsrun.exe /auto  \development\apsim\wheat\validation\files\wheatvalidation.apsim  
-
 c:\progra~1\R\R-2.4.0\bin\Rterm.exe --slave < validation-1.r
 
 mkdir ..\aps6
