@@ -589,9 +589,11 @@ void genericLeafPart::update(void)
 
     // Transfer dead leaf areas
     float dying_fract_plants = plant->getDyingFractionPlants();
+
     float dlt_lai_dead  = gLAI  * dying_fract_plants;
     gLAI -=  dlt_lai_dead;
-    dltSLAI += dlt_lai_dead;
+    gSLAI += dlt_lai_dead;
+
 }
 
 // Remove detachment from leaf area record
