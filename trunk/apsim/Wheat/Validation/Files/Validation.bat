@@ -22,7 +22,6 @@ mkdir ..\mer-73
 \development\bin\apsimreport.exe merredin73.report ..\mer-73\merredin73.gif
 
 cd yieldprophet\2005
-call runall.bat
 \development\bin\apsimreport.exe YieldProphet2005.report ..\..\..\YieldProphet2005.gif
 
 popd
