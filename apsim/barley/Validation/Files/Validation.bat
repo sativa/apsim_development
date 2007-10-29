@@ -1,7 +1,5 @@
 pushd
 cd \development\apsim\barley\validation\files
-
-\development\bin\apsrun.exe /auto  \development\apsim\barley\validation\files\barley_validation.apsim  
 c:\progra~1\R\R-2.4.0\bin\Rterm.exe --slave < validation-1.r
 
 \development\bin\apsimreport.exe HB90Sow1.report         ../HB90Sow1.gif
@@ -24,9 +22,5 @@ c:\progra~1\R\R-2.4.0\bin\Rterm.exe --slave < validation-1.r
 \development\bin\apsimreport.exe Wellcamp93.report       ../wellcamp93.gif
 
 \development\bin\apsimreport.exe barley_validation.report ../Barley_validation.gif
-
-rem cd yieldprophet\2005
-rem call runall.bat
-rem \development\bin\apsimreport.exe YieldProphet2005.report ..\..\..\YieldProphet2005.gif
 
 popd
