@@ -12,8 +12,3 @@ rem --------- Go build all gui stuff.
 cd %APSROOT%
 %APSROOT%\tools\segmake\segmake %APSROOT%\all.bpg
 
-
-rem --------- Restore path.
-cd %APSROOT%
-call p.bat
-del p.bat
