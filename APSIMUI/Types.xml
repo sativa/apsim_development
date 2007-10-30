@@ -225,7 +225,7 @@
       <SmallIcon>%apsuite\apsimui\Images\document_edit16.png</SmallIcon>
       <drops>
          <drop name="toolbox"/>
- 			<drop name="area"/>
+            <drop name="area"/>
          <drop name="simulation"/>
          <drop name="folder"/>
      </drops>
@@ -596,10 +596,13 @@
      <events link="stock"/>
       <ApsimToSim>
          <type>component</type>
-         <dll>c:\program files\farmwise\stock.dll</dll>
+         <dll>c:\program files\ausfarm\stock.dll</dll>
          <sim>
             <![CDATA[
             <initsection>
+                <init name="rand_seed" kind="integer4">
+                  <val>1</val>
+                </init>
                <init name="genotypes" array="T">
                [foreach stock.StockGenotype as genotype]
                   <element>
@@ -1379,7 +1382,7 @@
          </calldll>
       </ApsimToSim>
    </canola>
-	<centro>
+    <centro>
       <UItype>APSIMUI.EmptyUI</UItype>
       <IsCrop>Yes</IsCrop>
       <ShowInMainTree>Yes</ShowInMainTree>
@@ -2925,7 +2928,7 @@
       </ApsimToSim>
    </wheat>
 
-	<oats>
+    <oats>
       <UItype>APSIMUI.EmptyUI</UItype>
       <IsCrop>Yes</IsCrop>
       <ShowInMainTree>Yes</ShowInMainTree>
@@ -3555,7 +3558,7 @@
          <dll>%apsuite\apsim\soi\lib\soi.dll</dll>
       </ApsimToSim>
    </soi>
-   <FarmwisePasture>
+   <AusfarmPasture>
       <UItype>VBUserInterface.GenericUI</UItype>
       <ShowInMainTree>Yes</ShowInMainTree>
       <Image>%apsuite\apsimui\images\banner2.jpg</Image>
@@ -3571,7 +3574,7 @@
       <events link="pasture"/>
       <ApsimToSim>
          <type>component</type>
-         <dll>c:\program files\farmwise\pasture.dll</dll>
+         <dll>c:\program files\ausfarm\pasture.dll</dll>
          <sim>
            <![CDATA[
             <initsection>
@@ -3583,39 +3586,39 @@
                  <val></val>
                </init>
                <init name="species" kind="string">
-                 <val>[FarmwisePasture.species]</val>
+                 <val>[AusfarmPasture.species]</val>
                </init>
                <init name="nutrients" kind="string">
-                 <val>[FarmwisePasture.nutrients]</val>
+                 <val>[AusfarmPasture.nutrients]</val>
                </init>
                <init name="fertility" kind="double">
-                 <val>[FarmwisePasture.fertility]</val>
+                 <val>[AusfarmPasture.fertility]</val>
                </init>
                <init name="layers" kind="double" array="T" unit="mm">
                </init>
                <init name="max_rtdep" kind="double" unit="mm">
-                 <val>[FarmwisePasture.max_rtdep]</val>
+                 <val>[AusfarmPasture.max_rtdep]</val>
                </init>
                <init name="lagged_day_t" kind="double" unit="oC">
-                 <val>[FarmwisePasture.lagged_day_t]</val>
+                 <val>[AusfarmPasture.lagged_day_t]</val>
                </init>
                <init name="phenology" kind="double">
-                 <val>[FarmwisePasture.phenology]</val>
+                 <val>[AusfarmPasture.phenology]</val>
                </init>
                <init name="flower_len" kind="double" unit="d">
-                 <val>[FarmwisePasture.flower_len]</val>
+                 <val>[AusfarmPasture.flower_len]</val>
                </init>
                <init name="flower_time" kind="double" unit="d">
-                 <val>[FarmwisePasture.flower_time]</val>
+                 <val>[AusfarmPasture.flower_time]</val>
                </init>
                <init name="senc_index" kind="double" unit="d">
-                 <val>[FarmwisePasture.senc_index]</val>
+                 <val>[AusfarmPasture.senc_index]</val>
                </init>
                <init name="dorm_index" kind="double" unit="d">
-                 <val>[FarmwisePasture.dorm_index]</val>
+                 <val>[AusfarmPasture.dorm_index]</val>
                </init>
                <init name="dorm_t" kind="double" unit="oC">
-                 <val>[FarmwisePasture.dorm_t]</val>
+                 <val>[AusfarmPasture.dorm_t]</val>
                </init>
                <init name="extinct_coeff" kind="double" array="T">
                  <val>0.0</val>
@@ -3623,13 +3626,13 @@
                  <val>0.0</val>
                </init>
                <init name="green" array="T">
-               [foreach FarmwisePasture.FarmwisePastureGreen as Green]
+               [foreach AusfarmPasture.AusfarmPastureGreen as Green]
                  <element>
                    <field name="status" kind="string">
                      <val>[Green.status]</val>
                    </field>
                    <field name="herbage" array="T">
-                     [foreach Green.FarmwisePastureGreenHerbage as Herbage]
+                     [foreach Green.AusfarmPastureGreenHerbage as Herbage]
                      <element>
                        <field name="dmd" kind="double" array="T" unit="kg/kg">
                          <val>[Herbage.dmd]</val>
@@ -3653,7 +3656,7 @@
                      [endfor]
                    </field>
                    <field name="root_wt" array="T">
-                     [foreach Green.FarmwisePastureGreenHerbage as Herbage]
+                     [foreach Green.AusfarmPastureGreenHerbage as Herbage]
                      <element kind="double" array="T" unit="kg/ha">
                        <val>[Herbage.root_wt]</val>
                      </element>
@@ -3678,13 +3681,13 @@
                [endfor]
                </init>
                <init name="dry" array="T">
-               [foreach FarmwisePasture.FarmwisePastureDry as Dry]
+               [foreach AusfarmPasture.AusfarmPastureDry as Dry]
                  <element>
                    <field name="status" kind="string">
                      <val>[Dry.status]</val>
                    </field>
                    <field name="herbage" array="T">
-                     [foreach Dry.FarmwisePastureDryHerbage as Herbage]
+                     [foreach Dry.AusfarmPastureDryHerbage as Herbage]
                      <element>
                        <field name="dmd" kind="double" array="T" unit="kg/kg">
                          <val>[Herbage.dmd]</val>
@@ -3710,7 +3713,7 @@
                  </element>
                [endfor]
                </init>
-               [foreach FarmwisePasture.FarmwisePastureSeeds as Seeds]
+               [foreach AusfarmPasture.AusfarmPastureSeeds as Seeds]
                <init name="seeds">
                  <field name="soft_unripe" kind="double" array="T" unit="kg/ha">
                    <val>[Seeds.soft_unripe]</val>
@@ -3727,61 +3730,67 @@
                </init>
                [endfor]
                <init name="seed_dorm_time" kind="double" unit="d">
-                 <val>[FarmwisePasture.seed_dorm_time]</val>
+                 <val>[AusfarmPasture.seed_dorm_time]</val>
                </init>
                <init name="germ_index" kind="double" unit="d">
-                 <val>[FarmwisePasture.germ_index]</val>
+                 <val>[AusfarmPasture.germ_index]</val>
+               </init>
+               <init name="kl" kind="double" unit="d^-1">
+                 <val>[AusfarmPasture.kl]</val>
+               </init>
+               <init name="ll" kind="double" unit="mm/mm">
+                 <val>[AusfarmPasture.ll]</val>
                </init>
             </initsection>
            ]]>
          </sim>
       </ApsimToSim>
-   </FarmwisePasture>
-   <FarmwisePastureGreen>
+   </AusfarmPasture>
+   <AusfarmPastureGreen>
       <UItype>VBUserInterface.GenericUI</UItype>
       <ShowInMainTree>Yes</ShowInMainTree>
       <Image>%apsuite\apsimui\images\banner2.jpg</Image>
       <SmallIcon>%apsuite\apsimui\Images\cube_green16.png</SmallIcon>
       <drops>
-         <drop name="FarmwisePasture"/>
+         <drop name="AusfarmPasture"/>
      </drops>
-   </FarmwisePastureGreen>
-   <FarmwisePastureDry>
+   </AusfarmPastureGreen>
+   <AusfarmPastureDry>
       <UItype>VBUserInterface.GenericUI</UItype>
       <ShowInMainTree>Yes</ShowInMainTree>
       <Image>%apsuite\apsimui\images\banner2.jpg</Image>
       <SmallIcon>%apsuite\apsimui\Images\cube_yellow16.png</SmallIcon>
       <drops>
-         <drop name="FarmwisePasture"/>
+         <drop name="AusfarmPasture"/>
      </drops>
-   </FarmwisePastureDry>
-   <FarmwisePastureSeeds>
+   </AusfarmPastureDry>
+   <AusfarmPastureSeeds>
       <UItype>VBUserInterface.GenericUI</UItype>
       <ShowInMainTree>Yes</ShowInMainTree>
       <Image>%apsuite\apsimui\images\banner2.jpg</Image>
       <SmallIcon>%apsuite\apsimui\Images\seeds16.gif</SmallIcon>
       <drops>
-         <drop name="FarmwisePasture"/>
+         <drop name="AusfarmPasture"/>
      </drops>
-   </FarmwisePastureSeeds>
-   <FarmwisePastureGreenHerbage>
+   </AusfarmPastureSeeds>
+   <AusfarmPastureGreenHerbage>
       <UItype>VBUserInterface.GenericUI</UItype>
       <ShowInMainTree>Yes</ShowInMainTree>
       <Image>%apsuite\apsimui\images\banner2.jpg</Image>
       <SmallIcon>%apsuite\apsimui\Images\herbage_green16.gif</SmallIcon>
       <drops>
-         <drop name="FarmwisePastureGreen"/>
+         <drop name="AusfarmPastureGreen"/>
      </drops>
-   </FarmwisePastureGreenHerbage>
-   <FarmwisePastureDryHerbage>
+   </AusfarmPastureGreenHerbage>
+   <AusfarmPastureDryHerbage>
       <UItype>VBUserInterface.GenericUI</UItype>
       <ShowInMainTree>Yes</ShowInMainTree>
       <Image>%apsuite\apsimui\images\banner2.jpg</Image>
       <SmallIcon>%apsuite\apsimui\Images\herbage_dry16.gif</SmallIcon>
       <drops>
-         <drop name="FarmwisePastureDry"/>
+         <drop name="AusfarmPastureDry"/>
      </drops>
-   </FarmwisePastureDryHerbage>
+   </AusfarmPastureDryHerbage>
    <PastureScienceConverter>
       <UItype>VBUserInterface.GenericUI</UItype>
       <ShowInMainTree>Yes</ShowInMainTree>
@@ -3820,7 +3829,7 @@
       <events link="supplement"/>
       <ApsimToSim>
          <type>component</type>
-         <dll>c:\program files\farmwise\supplement.dll</dll>
+         <dll>c:\program files\ausfarm\supplement.dll</dll>
          <sim>
             <![CDATA[
              <init name="spoilage_time" kind="double" unit="d">
@@ -3987,40 +3996,40 @@
       <SmallIcon>%apsuite\apsimui\Images\note_pinned16.png</SmallIcon>
       <drops>
         <drop name="barley" />
-    	<drop name="bambatsi" />
-    	<drop name="broccoli" />
-    	<drop name="butterflypea" />
-    	<drop name="canola" />
-    	<drop name="chickpea" />
-    	<drop name="cowpea" />
-    	<drop name="egrandis" />
-    	<drop name="fababean" />
-    	<drop name="fieldpea" />
-    	<drop name="horsegram" />
-    	<drop name="lablab" />
-    	<drop name="lucerne" />
-    	<drop name="lupin" />
-    	<drop name="maize" />
-    	<drop name="mucuna" />
-    	<drop name="mungbean" />
-    	<drop name="navybean" />
-    	<drop name="oats" />
-    	<drop name="peanut" />
-    	<drop name="pigeonp" />
-    	<drop name="sorghum" />
-    	<drop name="soybean" />
-    	<drop name="stylo" />
-    	<drop name="sugar" />
-    	<drop name="sunflower" />
-    	<drop name="SweetCorn" />
-    	<drop name="SweetSorghum" />
-    	<drop name="weed" />
-    	<drop name="wheat" />
-    	<drop name="cotton" />
-    	<drop name="rice"/>
+        <drop name="bambatsi" />
+        <drop name="broccoli" />
+        <drop name="butterflypea" />
+        <drop name="canola" />
+        <drop name="chickpea" />
+        <drop name="cowpea" />
+        <drop name="egrandis" />
+        <drop name="fababean" />
+        <drop name="fieldpea" />
+        <drop name="horsegram" />
+        <drop name="lablab" />
+        <drop name="lucerne" />
+        <drop name="lupin" />
+        <drop name="maize" />
+        <drop name="mucuna" />
+        <drop name="mungbean" />
+        <drop name="navybean" />
+        <drop name="oats" />
+        <drop name="peanut" />
+        <drop name="pigeonp" />
+        <drop name="sorghum" />
+        <drop name="soybean" />
+        <drop name="stylo" />
+        <drop name="sugar" />
+        <drop name="sunflower" />
+        <drop name="SweetCorn" />
+        <drop name="SweetSorghum" />
+        <drop name="weed" />
+        <drop name="wheat" />
+        <drop name="cotton" />
+        <drop name="rice"/>
       <drop name="seedling"/>
-    	<drop name="surfaceom"/>
-    	<drop name="venlink"/>
+        <drop name="surfaceom"/>
+        <drop name="venlink"/>
       </drops>
    </ini>
    <patchinput>
@@ -4081,7 +4090,7 @@
          <drop name="folder"/>
       </drops>
    </Page>
-   <DataGrid> 
+   <DataGrid>
       <UItype>Graph.DataGridUI</UItype>
       <ShowInMainTree>No</ShowInMainTree>
       <ShowInData>Yes</ShowInData>
@@ -4125,7 +4134,7 @@
       <drops>
          <drop name="data"/>
      </drops>
-   </XY>   
+   </XY>
    <Probability>
       <UItype>Graph.FieldListUI</UItype>
       <ShowInMainTree>No</ShowInMainTree>
@@ -4279,7 +4288,7 @@
          <drop name="rems"/>
          <drop name="excelreader"/>
      </drops>
-   </SOI>   
+   </SOI>
    <RecordFilter>
       <UItype>APSIMUI.RecordFilterUI</UItype>
       <ShowInMainTree>No</ShowInMainTree>
