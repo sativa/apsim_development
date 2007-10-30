@@ -66,18 +66,13 @@ void PastureUptake::doUptake(void)
       {
          bool ok = variantGet->unpack(elementUptake);
          if (ok && elementUptake.size() >= 1)
-         {
-               // ok
+         { // ok
          }
          else
-         {
             throw std::runtime_error("Couldn't unpack " + uptakeName);
-         }
       }
       else
-      {
          throw std::runtime_error("Couldn't get variable " + uptakeName);
-      }
 
       float dltElement[max_layer];
       fill_real_array (dltElement, 0.0, max_layer);
@@ -100,7 +95,7 @@ void PastureUptake::doUptake(void)
 
    if (cDebug == "on")
    {
-      msg << "   " + uptakeName + " total = " << uptakeTotal << " " << unitName << endl << ends;
+      msg << "   " << uptakeName << " total = " << uptakeTotal << " " << unitName << endl << ends;
       system->writeString (msg.str().c_str());
    }
 
@@ -113,8 +108,7 @@ void PastureUptake::doUptake(void)
 void PastureUptake::readParameters ( void )
 //===========================================================================
    {
-   const char*  section_name = "parameters" ;
-
+    const char*  section_name = "parameters" ;
     cDebug = system->readParameter (section_name, "debug");
    }
 
@@ -131,9 +125,7 @@ void PastureUptake::fill_real_array (float *var  //(OUTPUT) array to set
 
    {
    for (int indx = 0; indx < limit; indx++)
-      {
       var[indx] = value;
-      }
    }
 
 

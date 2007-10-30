@@ -60,7 +60,6 @@ class PastureConverter : public protocol::Component
       void dospraytopPasture(unsigned int& fromID, unsigned int& eventID, protocol::Variant& variant);
       double getVariableValue (protocol::Variant& variant, string eventName, string variableName, string unitName);
 
-      float sum_real_array (float *var, int nelem);
       void fill_real_array (float *var, float value, int limit);
 
       unsigned prepareID;

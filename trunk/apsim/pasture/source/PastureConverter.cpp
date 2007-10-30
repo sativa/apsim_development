@@ -81,7 +81,7 @@ void PastureConverter::doInit1(const protocol::Init1Data& initData)
    cultivateID =      addRegistration(RegistrationType::event, "cultivate", protocol::DDML(protocol::PastureCultivateType()).c_str());
    killID =           addRegistration(RegistrationType::event, "kill", protocol::DDML(protocol::PastureKillType()).c_str());
    burnID =           addRegistration(RegistrationType::event, "burn", protocol::DDML(protocol::PastureBurnType()).c_str());
-   spraytopID =       addRegistration(RegistrationType::event, "spraytop", "");
+ spraytopID =       addRegistration(RegistrationType::event, "spraytop", "");
 
 //   residueAddedID =   addRegistration(RegistrationType::event, "residue_added", residueAddedTypeDDML);
    incorpFOMID =        addRegistration(RegistrationType::event, "incorp_fom", "");
@@ -238,8 +238,7 @@ void PastureConverter::dokillPasture(unsigned int& fromID, unsigned int& eventID
 void PastureConverter::doburnPasture(unsigned int& fromID, unsigned int& eventID, protocol::Variant& variant)
 //===========================================================================
 {
-   protocol::PastureBurnType pastureBurn;
-
+     protocol::PastureBurnType pastureBurn;
    pastureBurn.kill_plants =   getVariableValue (variant, "Burn", "kill_plants", "(-)");
    pastureBurn.kill_seed =     getVariableValue (variant, "Burn", "kill_seed", "(-)");
    pastureBurn.propn_unburnt = getVariableValue (variant, "Burn", "propn_unburnt", "(-)");
@@ -427,8 +426,7 @@ void PastureConverter::sendCO2 (protocol::QueryValueData& queryData)
 float PastureConverter::vpd(float cSVPFract, float maxt, float mint) //(INPUT)
 //==========================================================================
 {
-      float vpd = max (cSVPFract * ( svp(maxt) - svp(mint)), 0.01);
-      return vpd;
+      return (max (cSVPFract * ( svp(maxt) - svp(mint)), 0.01));
 }
 
 //==========================================================================
@@ -449,8 +447,7 @@ float PastureConverter::svp(float temp) //(INPUT)  fraction of distance between 
       const double TC_C = 237.3;            // Teten coefficients
       const float mb2kpa = 100.0/1000.0;    // convert pressure mbar to kpa 1000 mbar = 100 kpa
 
-   float val = ES0 * exp(TC_B * temp / (TC_C + temp)) * mb2kpa;
-   return val;
+   return  (ES0 * exp(TC_B * temp / (TC_C + temp)) * mb2kpa);
    }
 
 //===========================================================================
@@ -463,10 +460,8 @@ void PastureConverter::fill_real_array (float *var  //(OUTPUT) array to set
  *   sets real array var to value up to level limit
  */
 
-   {
+{
    for (int indx = 0; indx < limit; indx++)
-      {
       var[indx] = value;
-      }
-   }
+}
 
