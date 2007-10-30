@@ -45,7 +45,7 @@ Component "managercattle" = c:\development\apsim\manager\lib\manager.dll
      Subscribe Event: prepare
            Publish Event/s: init_step do_pasture_water
      Subscribe Event: process
-           Publish Event/s: prewaterbalance do_pasture_growth do_stock
+           Publish Event/s: do_pasture_growth do_stock
      Subscribe Event: post
            Publish Event/s: end_step
      
