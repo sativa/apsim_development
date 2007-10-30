@@ -590,10 +590,10 @@ void plantPart::prepare(void)
 void plantPart::update(void)
 //=======================================================================================
    {
-   Green.Add (Growth);
+   Green = Green + Growth;
    Senescing.Move (Green, Senesced);
-   Senesced.Remove (Detaching);
-   Green.Add (Retranslocation);
+   Senesced = Senesced - Detaching;
+   Green = Green + Retranslocation;
 
    Green.N += dlt.n_senesced_retrans;
    relativeGrowthRate = divide (Growth.DM, plant->getDltDmGreen(), 0.0);
