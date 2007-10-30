@@ -22,12 +22,10 @@
     <cowpea />
     <egrandis />
     <fababean />
-    <FarmwisePasture>
+    <AusfarmPasture>
       <PastureScienceConverter>
         <debug type="list" listvalues="on,off">off</debug>
         <sand>0.0 0.0 0.0 0.0 0.0 0.0 0.0</sand>
-        <kl>  0.12 0.12 0.12 0.11 0.06 0.05 0.03</kl>
-        <ll>  0.230 0.240 0.240 0.250 0.260 0.270 0.280</ll>
         <svp_fract> 0.75</svp_fract>
       </PastureScienceConverter>
       <species>Perennial Ryegrass</species>
@@ -42,14 +40,14 @@
       <senc_index description="senc_index (d)">0.0</senc_index>
       <dorm_index description="dorm_index (d)">0.0</dorm_index>
       <dorm_t description="dorm_t (oc)">-999.9</dorm_t>
-      <FarmwisePastureGreen name="Green">
+      <AusfarmPastureGreen name="Green">
         <status>established</status>
         <rt_dep description="rt_dep (mm)">100.0</rt_dep>
         <estab_index>0.0</estab_index>
         <stress_index>0.0</stress_index>
         <stem_reloc description="stem_reloc (kg/ha)">0.0</stem_reloc>
         <frosts>0</frosts>
-        <FarmwisePastureGreenHerbage name="Herbage1">
+        <AusfarmPastureGreenHerbage name="Leaf">
           <dmd description="dmd (kg/kg)">0.825</dmd>
           <weight description="weight (kg/ha)">8000.0</weight>
           <n_conc description="n_conc (kg/kg)">
@@ -60,8 +58,8 @@
           </s_conc>
           <spec_area description="spec_area (cm^2/g)">10.0</spec_area>
           <root_wt description="root_wt (kg/ha)">3600.0</root_wt>
-        </FarmwisePastureGreenHerbage>
-        <FarmwisePastureGreenHerbage name="Herbage2">
+        </AusfarmPastureGreenHerbage>
+        <AusfarmPastureGreenHerbage name="Stem">
           <dmd description="dmd (kg/kg)">0.825</dmd>
           <weight description="weight (kg/ha)">1000.0</weight>
           <n_conc description="n_conc (kg/kg)">
@@ -72,11 +70,11 @@
           </s_conc>
           <spec_area description="spec_area (cm^2/g)">10.0</spec_area>
           <root_wt description="root_wt (kg/ha)">0.0</root_wt>
-        </FarmwisePastureGreenHerbage>
-      </FarmwisePastureGreen>
-      <FarmwisePastureDry name="Dry1">
+        </AusfarmPastureGreenHerbage>
+      </AusfarmPastureGreen>
+      <AusfarmPastureDry name="Dry">
         <status>dead</status>
-        <FarmwisePastureDryHerbage name="Herbage1">
+        <AusfarmPastureDryHerbage name="Leaf">
           <dmd description="dmd (kg/kg)">0.65</dmd>
           <weight description="weight (kg/ha)">500.0</weight>
           <n_conc description="n_conc (kg/kg)">
@@ -86,8 +84,8 @@
           <s_conc description="s_conc (kg/kg)">
           </s_conc>
           <spec_area description="spec_area (cm^2/g)">10.0</spec_area>
-        </FarmwisePastureDryHerbage>
-        <FarmwisePastureDryHerbage name="Herbage2">
+        </AusfarmPastureDryHerbage>
+        <AusfarmPastureDryHerbage name="Stem">
           <dmd description="dmd (kg/kg)">0.425</dmd>
           <weight description="weight (kg/ha)">100.0</weight>
           <n_conc description="n_conc (kg/kg)">
@@ -97,11 +95,11 @@
           <s_conc description="s_conc (kg/kg)">
           </s_conc>
           <spec_area description="spec_area (cm^2/g)">10.0</spec_area>
-        </FarmwisePastureDryHerbage>
-      </FarmwisePastureDry>
-      <FarmwisePastureDry name="Dry2">
+        </AusfarmPastureDryHerbage>
+      </AusfarmPastureDry>
+      <AusfarmPastureDry name="Litter">
         <status>litter</status>
-        <FarmwisePastureDryHerbage name="Herbage1">
+        <AusfarmPastureDryHerbage name="Leaf">
           <dmd description="dmd (kg/kg)">0.651</dmd>
           <weight description="weight (kg/ha)">233.0</weight>
           <n_conc description="n_conc (kg/kg)">
@@ -111,8 +109,8 @@
           <s_conc description="s_conc (kg/kg)">
           </s_conc>
           <spec_area description="spec_area (cm^2/g)">10.0</spec_area>
-        </FarmwisePastureDryHerbage>
-        <FarmwisePastureDryHerbage name="Herbage2">
+        </AusfarmPastureDryHerbage>
+        <AusfarmPastureDryHerbage name="Stem">
           <dmd description="dmd (kg/kg)">0.0</dmd>
           <weight description="weight (kg/ha)">0.0</weight>
           <n_conc description="n_conc (kg/kg)">
@@ -122,9 +120,9 @@
           <s_conc description="s_conc (kg/kg)">
           </s_conc>
           <spec_area description="spec_area (cm^2/g)">10.0</spec_area>
-        </FarmwisePastureDryHerbage>
-      </FarmwisePastureDry>
-      <FarmwisePastureSeeds name="Seeds">
+        </AusfarmPastureDryHerbage>
+      </AusfarmPastureDry>
+      <AusfarmPastureSeeds name="Seeds">
         <soft_unripe description="soft_unripe (kg/ha)">
         </soft_unripe>
         <soft_ripe description="soft_ripe (kg/ha)">
@@ -133,10 +131,12 @@
         </hard_unripe>
         <hard_ripe description="hard_ripe (kg/ha)">
         </hard_ripe>
-      </FarmwisePastureSeeds>
+      </AusfarmPastureSeeds>
       <seed_dorm_time description="seed_dorm_time (d)">0.0</seed_dorm_time>
       <germ_index description="germ_index (d)">0.0</germ_index>
-    </FarmwisePasture>
+      <kl description="kl (-)"></kl>
+      <ll description="lower limit (mm/mm)"></ll>
+    </AusfarmPasture>
     <fieldpea />
     <horsegram />
     <lablab />
@@ -549,6 +549,19 @@
           <crop type="crop" description="Enter name of crop to harvest when ripe : ">wheat</crop>
         </category>
       </rule>
+      <rule name="End crop on a fixed date">
+        <condition name="end_of_day">
+
+        if (today = date('[date]') then
+              [crop]  end_crop
+        endif
+
+            </condition>
+        <category name="Harvesting criteria">
+          <crop type="crop" description="Enter name of crop to harvest when ripe : ">wheat</crop>
+          <date type="text" description="Enter ending date (dd-mmm) : ">1-jan</date>
+        </category>
+      </rule>
       <rule name="Fertilise at sowing">
         <condition name="[modulename].[eventname]">
         [fertmodule] apply amount = [fert_amount_sow] (kg/ha), depth = 50 (mm), type = [fert_type_sow]
@@ -581,6 +594,38 @@
           <fert_type type="list" listvalues="NO3_N, NH4_N, NH4NO3, urea_N, urea_no3, urea" description="Fertiliser type : ">urea_N</fert_type>
         </category>
       </rule>
+      <rule name="Fertilise in a zadok stage window">
+        <condition name="init">
+            fert_applied[zadok_fert_stage_begin][zadok_fert_stage_end] = 0
+        </condition>
+        <condition name="sowing"><![CDATA[
+            fert_applied[zadok_fert_stage_begin][zadok_fert_stage_end] = 0
+        ]]></condition>
+        <condition name="start_of_day"><![CDATA[
+         if (zadok_stage >= [zadok_fert_stage_begin]
+            AND zadok_stage <= [zadok_fert_stage_end]
+            AND fert_applied[zadok_fert_stage_begin][zadok_fert_stage_end] = 0) then
+            if (esw >= [esw_amount]) then
+               N_topsoil = no3(1) + nh4(1) + no3(2) + nh4(2)
+               if (N_topsoil < [fert_criteria]) then
+                  [fertmodule] apply amount = [fert_amount] (kg/ha), depth = 50 (mm), type = [fert_type] ()
+               fert_applied[zadok_fert_stage_begin][zadok_fert_stage_end] = 1
+               endif
+            endif
+         endif
+         ]]></condition>
+        <category name="When should fertiliser be applied">
+          <zadok_fert_stage_begin type="text" description="Enter start of zadok window (10-71):   ">30</zadok_fert_stage_begin>
+          <zadok_fert_stage_end type="text" description="Enter end of zadok window (10-71):   ">32</zadok_fert_stage_end>
+          <fert_criteria type="text" description="Don't add fertiliser if N in top 2 layers exceeds (kg/ha) : ">1000</fert_criteria>
+          <esw_amount type="text" description="Enter amount of soil water (mm)">30</esw_amount>
+        </category>
+        <category name="Fertiliser application details">
+          <fertmodule type="modulename" description="Module used to apply the fertiliser : " />
+          <fert_amount type="text" description="Amount of fertiliser to apply (kg/ha) : ">25</fert_amount>
+          <fert_type type="list" listvalues="NO3_N, NH4_N, NH4NO3, urea_N, urea_no3, urea" description="Fertiliser type : ">urea_N</fert_type>
+        </category>
+      </rule>
       <rule name="Fertilise on fixed date - top up">
         <condition name="start_of_day"><![CDATA[
          if (today = date('[fert_date]') then
@@ -594,6 +639,41 @@
         <category name="Fertiliser application details">
           <fertmodule type="modulename" description="Module used to apply the fertiliser : " />
           <fert_type type="list" listvalues="NO3_N, NH4_N, NH4NO3, urea_N, urea_no3, urea" description="Fertiliser type : ">urea_N</fert_type>
+        </category>
+      </rule>
+      <rule name="Fertilise on days after sowing - top up">
+        <condition name="start_of_day"><![CDATA[
+         if ([modulename].das = [fert_das]) then
+            N_deficit = [fert_criteria] - (no3(1) + nh4(1) + no3(2) + nh4(2) + no3(3) + nh4(3))
+            '[fertmodule]' apply amount = N_deficit (kg/ha), depth = 50 (mm), type = [fert_type] ()
+         endif ]]></condition>
+        <category name="When should fertiliser be applied">
+          <modulename type="modulename" description="On which crop is fertiliser being applied : ">wheat</modulename>
+          <fert_das type="text" description="Enter fertiliser days after sowing  : ">dd-mmm</fert_das>
+          <fert_criteria type="text" description="Amount of N required in top 3 layers (kg/ha) : ">1000</fert_criteria>
+        </category>
+        <category name="Fertiliser application details">
+          <fertmodule type="modulename" description="Module used to apply the fertiliser : " />
+          <fert_type type="list" listvalues="NO3_N, NH4_N, NH4NO3, urea_N, urea_no3, urea" description="Fertiliser type : ">urea_N</fert_type>
+        </category>
+      </rule>
+      <rule name="Fertilise incrop on critical NO3 level- top up">
+        <condition name="start_of_day"><![CDATA[
+         if ([modulename].plant_status = 'alive') then
+            NO3_available = no3(1) + no3(2) + no3(3)
+            if (NO3_available <= [fert_critical]) then
+               N_deficit = [fert_criteria] - NO3_available
+               '[fertmodule]' apply amount = N_deficit (kg/ha), depth = 50 (mm), type = [fert_type] ()
+            endif
+         endif ]]></condition>
+        <category name="When should fertiliser be applied">
+          <modulename type="modulename" description="In which crop is fertiliser being applied : ">wheat</modulename>
+          <fert_criteria type="text" description="Maximum Amount of NO3 required in top 3 layers (kg/ha) : ">200</fert_criteria>
+          <fert_critical type="text" description="Critical Amount of NO3 in top 3 layers (kg/ha) : ">100</fert_critical>
+        </category>
+        <category name="Fertiliser application details">
+          <fertmodule type="modulename" description="Module used to apply the fertiliser : " />
+          <fert_type type="list" listvalues="NO3_N, NH4_N, NH4NO3, urea_N, urea_no3, urea" description="Fertiliser type : ">NO3_N</fert_type>
         </category>
       </rule>
       <rule name="Irrigate at sowing">
@@ -1857,6 +1937,26 @@
             <buy_weight type="text" description="Weight (kg) : ">250</buy_weight>
           </category>
         </rule>
+        <rule name="Buy cattle on a fixed days after sowing">
+          <condition name="init"><![CDATA[
+               cattle_presence = 'off'
+            ]]></condition>
+          <condition name="start_of_day"><![CDATA[
+        if (das = [buy_das]) then
+           [stockmodule] buystock number = [buy_number] (-), genotype = '[genotype]', sex = [sex], age = [buy_age] (months), weight = [buy_weight] (kg)
+           cattle_presence = 'on'
+         endif
+               ]]></condition>
+          <category name="Buy properties">
+            <stockmodule type="modulename" description="Name of stock converter module : ">StockScienceConverter</stockmodule>
+            <genotype type="list" listvalues="Angus,ayrshire,beef shorthorn,brahman,brahman x british,brown swiss,charolais,charolais x british,charolais x friesian,charolais x holstein,chianina,dairy shorthorn,fresian,fresian x british,guernsey,hereford,holstein,holstein x british,jersey,limousein,sahiwal,simmental,south devon" description="Select Genotype : ">Angus</genotype>
+            <buy_das type="text" description="Days after sowing : ">30</buy_das>
+            <buy_number type="text" description="Number of stock : ">5</buy_number>
+            <sex type="list" listvalues="cow,heifer,steer,bull" description="Select sex : ">steer</sex>
+            <buy_age type="text" description="Age (months) : ">12</buy_age>
+            <buy_weight type="text" description="Weight (kg) : ">250</buy_weight>
+          </category>
+        </rule>
         <rule name="Move cattle on a fixed date">
           <condition name="init"><![CDATA[
                cattle_presence = 'off'
@@ -2027,6 +2127,97 @@
             <sellpaddock type="modulename" description="Name of paddock: ">nil</sellpaddock>
             <stockmodule type="modulename" description="Name of stock converter module : ">StockScienceConverter</stockmodule>
             <sell_on_days_weight_loss type="text" description="Number of days of weight loss : ">2.0</sell_on_days_weight_loss>
+            <sell_number type="text" description="Number of stock : ">100</sell_number>
+          </category>
+        </rule>
+        <rule name="Sell cattle below minimum declining weight change">
+          <condition name="init">
+            numdaysweightchange = 0
+            wt_change_yesterday = 0
+        </condition>
+          <condition name="start_of_day"><![CDATA[
+            if ('[sellpaddock]' = 'nil') then
+              if (cattle_presence = 'on') then
+                 if (wt_change_all < [sell_min_weight_change] AND wt_change_all < wt_change_yesterday)then
+                    numdaysweightchange = numdaysweightchange + 1
+                 else
+                    numdaysweightchange = 0
+                 endif
+              endif
+              if ((numdaysweightchange >= [sell_on_days_weight_change] OR (intake_all < 0.001)) AND cattle_presence = 'on') then
+                 [stockmodule] sellstock number = [sell_number] (-)
+                 cattle_presence = 'off'
+                 maxstockwt = -1
+              endif
+              wt_change_yesterday = wt_change_all
+            else
+               if ([sellpaddock]_cattle_presence = 'on') then
+                  if ([sellpaddock].wt_change_all < [sell_min_weight_change] AND [sellpaddock].wt_change_all < wt_change_yesterday) then
+                     numdaysweightchange = numdaysweightchange + 1
+                  else
+                     numdaysweightchange = 0
+                  endif
+               endif
+               if ((numdaysweightchange >= [sell_on_days_weight_change] OR ([sellpaddock].intake_all < 0.001)) AND [sellpaddock]_cattle_presence = 'on') then
+                  [sellpaddock] sellstock number = [sell_number] (-)
+                  cattle_presence = 'off'
+                  [sellpaddock]_cattle_presence = 'off'
+               endif
+               wt_change_yesterday = [sellpaddock].wt_change_all
+            endif
+         ]]></condition>
+          <category name="Sell properties">
+            <sellpaddock type="modulename" description="Name of paddock: ">nil</sellpaddock>
+            <stockmodule type="modulename" description="Name of stock converter module : ">StockScienceConverter</stockmodule>
+            <sell_min_weight_change type="text" description="Minimum Weight change : ">0.2</sell_min_weight_change>
+            <sell_on_days_weight_change type="text" description="Number of days below weight change : ">2.0</sell_on_days_weight_change>
+            <sell_number type="text" description="Number of stock : ">100</sell_number>
+          </category>
+        </rule>
+        <rule name="Sell cattle on minimum condition score change">
+          <condition name="init">
+            numdays_cond_score_diminishing = 0
+            cond_score_yesterday = 0
+        </condition>
+          <condition name="start_of_day"><![CDATA[
+            if ('[sellpaddock]' = 'nil') then
+              if (cattle_presence = 'on') then
+                 cond_score_change = cond_score - cond_score_yesterday
+                 if (cond_score_change < [sell_min_cond_score_change])then
+                    numdays_cond_score_diminishing = numdays_cond_score_diminishing + 1
+                 else
+                    numdays_cond_score_diminishing = 0
+                 endif
+              endif
+              if ((numdays_cond_score_diminishing >= [sell_on_days_cond_score_change] OR (intake_all < 0.001)) AND cattle_presence = 'on') then
+                 [stockmodule] sellstock number = [sell_number] (-)
+                 cattle_presence = 'off'
+                 maxstockwt = -1
+              endif
+              cond_score_change_yesterday = cond_score_change
+              cond_score_yesterday = cond_score
+            else
+               if ([sellpaddock]_cattle_presence = 'on') then
+                  cond_score_change = [sellpaddock].cond_score - cond_score_yesterday
+                  if (cond_score_change < [sell_min_cond_score_change]) then
+                     numdays_cond_score_diminishing = numdays_cond_score_diminishing + 1
+                  else
+                     numdays_cond_score_diminishing = 0
+                  endif
+               endif
+               if ((numdays_cond_score_diminishing >= [sell_on_days_cond_score_change] OR ([sellpaddock].intake_all < 0.001)) AND [sellpaddock]_cattle_presence = 'on') then
+                  [sellpaddock] sellstock number = [sell_number] (-)
+                  cattle_presence = 'off'
+                  [sellpaddock]_cattle_presence = 'off'
+               endif
+               cond_score_yesterday = [sellpaddock].cond_score
+            endif
+         ]]></condition>
+          <category name="Sell properties">
+            <sellpaddock type="modulename" description="Name of paddock: ">nil</sellpaddock>
+            <stockmodule type="modulename" description="Name of stock converter module : ">StockScienceConverter</stockmodule>
+            <sell_min_cond_score_change type="text" description="Minimum condition score change : ">-0.001</sell_min_cond_score_change>
+            <sell_on_days_cond_score_change type="text" description="Number of days below cond score change : ">2.0</sell_on_days_cond_score_change>
             <sell_number type="text" description="Number of stock : ">100</sell_number>
           </category>
         </rule>
