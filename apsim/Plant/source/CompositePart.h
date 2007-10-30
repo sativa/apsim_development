@@ -102,7 +102,7 @@ public:                                             // member functions
    virtual float dltDmPotRue(void) const;
    virtual float dltDm(void) const;
 
-   virtual float dltDmGreen(void) const ;
+   virtual float dltDmGreen(void)  ;
    virtual float dltDmSenesced(void) const;
    virtual float dltDmDetached(void) const;
    virtual float dltDmGreenRetrans(void) const ;
@@ -144,7 +144,7 @@ public:                                             // member functions
 
    virtual float dltNRetransOut(void);
    virtual float dltNSenescedRetrans(void) const;
-   virtual float dltNGreen(void)const;
+   virtual float dltNGreen(void);
    virtual float nDemand(void) const;
    virtual float soilNDemand(void);
    virtual float nCapacity(void);
@@ -189,7 +189,7 @@ public:                                             // member functions
    virtual void doDmDemand (float dlt_dm_supply_by_veg);
    virtual float giveDmGreen(float dmSupplied);
    virtual void doDmRetranslocate(float DMAvail, float DMDemandDifferentialTotal);
-   virtual float dmDemandDifferential(void) const;
+   virtual float dmDemandDifferential(void) ;
    virtual float nDemandDifferential(void);
    virtual void doNFixRetranslocate(float NFix, float NDemandDifferentialTotal);
    virtual void doBioActual (void);
@@ -203,7 +203,7 @@ public:                                             // member functions
    virtual void doPPartition(float p_uptake, float total_p_demand);
    virtual void doPRetranslocate(float total_p_supply, float total_p_demand);
 
-   virtual float dltPGreen(void) const;
+   virtual float dltPGreen(void);
    virtual float dltNSenesced(void) const;
    virtual float dltPSenesced(void) const;
    virtual float dltNDetached(void) const;

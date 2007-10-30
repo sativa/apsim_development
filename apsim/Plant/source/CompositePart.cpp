@@ -62,7 +62,7 @@ void CompositePart::add(plantPart* part)
    myParts.push_back(part);
    }
 
-float CompositePart::dltNGreen(void) const
+float CompositePart::dltNGreen(void)
    //===========================================================================
 {
    float sum = 0.0;
@@ -72,7 +72,7 @@ float CompositePart::dltNGreen(void) const
 }
 
 
-float CompositePart::dltPGreen(void) const
+float CompositePart::dltPGreen(void)
    //===========================================================================
 {
    float sum = 0.0;
@@ -508,15 +508,15 @@ void CompositePart::doNPartition(float nSupply, float n_demand_sum, float n_capa
 
    vector <plantPart *>::iterator part;
    for (part = myParts.begin(); part != myParts.end(); part++)
-      (*part)->doNPartition(Growth.N, n_demand_sum, n_capacity_sum);
+      (*part)->doNPartition(Growth().N, n_demand_sum, n_capacity_sum);
 
    float dlt_n_green_sum = dltNGreen();
-   if (!reals_are_equal(dlt_n_green_sum - Growth.N, 0.0))
+   if (!reals_are_equal(dlt_n_green_sum - Growth().N, 0.0))
       {
       string msg = c.name + " dlt_n_green mass balance is off: dlt_n_green_sum ="
                   + ftoa(dlt_n_green_sum, ".6")
                   + " vs nSupply ="
-                  + ftoa(Growth.N, ".6");
+                  + ftoa(Growth().N, ".6");
       plant->warningError(msg.c_str());
       }
 }
@@ -946,7 +946,7 @@ float CompositePart::dmGreen(void) const
    return DMGreen;
 }
 
-float CompositePart::dltDmGreen(void) const
+float CompositePart::dltDmGreen(void)
    //===========================================================================
 {
    float dltDmGreen = 0.0;
@@ -1008,21 +1008,11 @@ void CompositePart::fixPools()
    // DPH - This is a hack for now. Get rid of ASAP.
    // ----------------------------------------------------------
    vector <plantPart *>::iterator part;
-   Green.DM = 0.0;
-   Green.N = 0.0;
-   Green.P = 0.0;
-   Senesced.DM = 0.0;
-   Senesced.N = 0.0;
-   Senesced.P = 0.0;
-   Senescing.DM = 0.0;
-   Senescing.N = 0.0;
-   Senescing.P = 0.0;
-   Detaching.DM = 0.0;
-   Detaching.N = 0.0;
-   Detaching.P = 0.0;
-   Growth.DM = 0.0;
-   Growth.N = 0.0;
-   Growth.P = 0.0;
+   Green.Clear();
+   Senesced.Clear();
+   Senescing.Clear();
+   Detaching.Clear();
+   Growth().Clear();
    for (part = myParts.begin(); part != myParts.end(); part++)
       {
       Green.DM += (*part)->Green.DM;
@@ -1037,9 +1027,9 @@ void CompositePart::fixPools()
       Detaching.DM += (*part)->Detaching.DM;
       Detaching.N += (*part)->Detaching.N;
       Detaching.P += (*part)->Detaching.P;
-      Growth.DM += (*part)->Growth.DM;
-      Growth.N += (*part)->Growth.N;
-      Growth.P += (*part)->Growth.P;
+      Growth().DM += (*part)->Growth().DM;
+      Growth().N += (*part)->Growth().N;
+      Growth().P += (*part)->Growth().P;
       }
    }
 
@@ -1335,7 +1325,7 @@ void CompositePart::doDmDemand ( float dlt_dm_veg_supply)
       (*part)->doDmDemand(dlt_dm_veg_supply);                                //FIXME - divey up dlt_dm_veg_supply? Only for HI approach
 }
 
-float CompositePart::dmDemandDifferential(void) const
+float CompositePart::dmDemandDifferential(void)
    //===========================================================================
 {
    float dm_demand_differential = 0.0;

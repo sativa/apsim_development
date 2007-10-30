@@ -65,7 +65,7 @@ void rootGrowthOption1::root_length_growth (void)
       rlv_factor_tot += rlv_factor[layer];
       }
 
-   dlt_length_tot = Growth.DM/sm2smm * specificRootLength;
+   dlt_length_tot = Growth().DM/sm2smm * specificRootLength;
 
    for(int layer = 0; layer <= deepest_layer; layer++)
       {

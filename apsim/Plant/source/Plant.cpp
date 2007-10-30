@@ -3968,7 +3968,7 @@ float Plant::getDmGreenVeg(void) const {return (leafPart->dmGreen() + stemPart->
 ////float Plant::getWaterSupplyLeaf(void) const {return g.swSupplyVeg;}
 float Plant::getDmTops(void) const{ return tops.dmGreen()+tops.dmSenesced();}
 float Plant::getDltDm(void) const{ return plant.dltDm();}
-float Plant::getDltDmGreen(void) const{ return plant.dltDmGreen();}
+float Plant::getDltDmGreen(void) { return plant.dltDmGreen();}
 float Plant::getDmVeg(void) const {return leafPart->dmTotal() + stemPart->dmTotal();}
 float Plant::getDmGreenStem(void) const {return stemPart->dmGreen();}
 float Plant::getDmGreenTot(void) const {return plant.dmGreen();}

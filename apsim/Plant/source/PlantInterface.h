@@ -45,7 +45,7 @@ class plantInterface {
       virtual float getDltDMPotRueVeg(void) const = 0;
       virtual float getDmGreenVeg(void) const = 0;
       virtual float getDmTops(void) const = 0;
-      virtual float getDltDmGreen(void) const = 0;
+      virtual float getDltDmGreen(void)  = 0;
       virtual float getDltDm(void) const = 0;
       virtual float getDmVeg(void) const = 0;
       virtual float getDmGreenStem(void) const = 0;

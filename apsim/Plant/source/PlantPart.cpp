@@ -9,7 +9,7 @@ plantPart::plantPart(ScienceAPI& api, plantInterface *p, const string &name)
        Senesced(api, "Senesced", name),
        Senescing(api, "Senescing", name),
        Detaching(api, "Detaching", name),
-       Growth(api, "Growth", name),
+       privateGrowth(api, "Growth", name),
        Retranslocation (api, "Retranslocation", name)
      {
      zeroAllGlobals();
@@ -127,17 +127,17 @@ void plantPart::get_dm_green_demand(protocol::Component *system, protocol::Query
    }
 
 
-float plantPart::dltNGreen(void) const
+float plantPart::dltNGreen(void)
    //===========================================================================
 {
-   return Growth.N;
+   return Growth().N;
 }
 
 
-float plantPart::dltPGreen(void) const
+float plantPart::dltPGreen(void)
    //===========================================================================
 {
-   return Growth.P;
+   return Growth().P;
 }
 
 
@@ -220,7 +220,7 @@ float plantPart::dltDmGreenRetrans(void) const
 void plantPart::zeroDltDmGreen(void)
 //=======================================================================================
    {
-   Growth.DM = 0.0;
+   Growth().DM = 0.0;
    }
 
 void plantPart::zeroDltDmGreenRetrans(void)
@@ -294,7 +294,7 @@ void plantPart::zeroDeltas(void)
    dlt.dm_pot_te = 0.0;
    dlt.dm_pot_rue = 0.0;
    dlt.dm = 0.0;
-   Growth.Clear();
+   Growth().Clear();
    Senescing.Clear();
    Detaching.Clear();
    Retranslocation.Clear();
@@ -590,13 +590,13 @@ void plantPart::prepare(void)
 void plantPart::update(void)
 //=======================================================================================
    {
-   Green = Green + Growth;
+   Green = Green + Growth();
    Senescing.Move (Green, Senesced);
    Senesced = Senesced - Detaching;
    Green = Green + Retranslocation;
 
    Green.N += dlt.n_senesced_retrans;
-   relativeGrowthRate = divide (Growth.DM, plant->getDltDmGreen(), 0.0);
+   relativeGrowthRate = divide (Growth().DM, plant->getDltDmGreen(), 0.0);
 
 
    float dying_fract_plants = plant->getDyingFractionPlants();
@@ -732,10 +732,10 @@ void plantPart::doNDemand1Pot(float dlt_dm             //  Whole plant the daily
 //=======================================================================================
    {
    // Estimate of dlt dm green
-   Growth.DM = dlt_dm_pot_rue * divide (Green.DM, plant->getDmGreenTot(), 0.0);
+   Growth().DM = dlt_dm_pot_rue * divide (Green.DM, plant->getDmGreenTot(), 0.0);
 
    doNDemand1(dlt_dm, dlt_dm_pot_rue);
-   Growth.DM = 0.0;
+   Growth().DM = 0.0;
    }
 
 void plantPart::doNDemand1(float dlt_dm               //   Whole plant the daily biomass production (g/m^2)
@@ -743,7 +743,7 @@ void plantPart::doNDemand1(float dlt_dm               //   Whole plant the daily
 //=======================================================================================
 //     Return plant nitrogen demand for this plant component
    {
-   float part_fract = divide (Growth.DM, dlt_dm, 0.0);
+   float part_fract = divide (Growth().DM, dlt_dm, 0.0);
    float dlt_dm_pot = dlt_dm_pot_rue * part_fract;         // potential dry weight increase (g/m^2)
    dlt_dm_pot = bound(dlt_dm_pot, 0.0, dlt_dm_pot_rue);
 
@@ -785,7 +785,7 @@ void plantPart::doNDemand2(float dlt_dm               // (INPUT)  Whole plant th
 //           from the stover.  Thus the total N demand is the sum of the
 //           demands of the stover and roots.  Stover N demand consists of
 //           two components:
-//           Firstly, the demand for nitrogen by the potential new growth.
+//           Firstly, the demand for nitrogen by the potential new Growth().
 //           Secondly, the demand due to the difference between
 //           the actual N concentration and the critical N concentration
 //           of the tops (stover), which can be positive or negative
@@ -794,7 +794,7 @@ void plantPart::doNDemand2(float dlt_dm               // (INPUT)  Whole plant th
 //           is broken. - NIH
 
    {
-   float part_fract = divide (Growth.DM, dlt_dm, 0.0);
+   float part_fract = divide (Growth().DM, dlt_dm, 0.0);
    float dlt_dm_pot = dlt_dm_pot_rue * part_fract;         // potential dry weight increase (g/m^2)
    dlt_dm_pot = bound(dlt_dm_pot, 0.0, dlt_dm_pot_rue);
 
@@ -894,7 +894,7 @@ void plantPart::doSenescence1(float sen_fr)
    {
    float fraction_senescing = c.dm_sen_frac.value(sen_fr);
    fraction_senescing = bound (fraction_senescing, 0.0, 1.0);
-   Senescing.DM = (Green.DM + Growth.DM + Retranslocation.DM)
+   Senescing.DM = (Green.DM + Growth().DM + Retranslocation.DM)
                    * fraction_senescing;
    }
 
@@ -918,7 +918,7 @@ void plantPart::doDmRetranslocate(float DMAvail, float DMDemandDifferentialTotal
    Retranslocation.DM = DMAvail * divide (dmDemandDifferential(), DMDemandDifferentialTotal, 0.0);
    }
 
-float plantPart::dmDemandDifferential(void) const
+float plantPart::dmDemandDifferential(void)
 //=======================================================================================
    {
    return l_bound(dmGreenDemand() - dltDmGreen(), 0.0);
@@ -972,7 +972,7 @@ void plantPart::doNSenescedRetrans(float navail, float n_demand_tot)
 void plantPart::doNFixRetranslocate(float NFix, float NDemandDifferentialTotal)
 //=======================================================================================
    {
-   Growth.N += NFix * divide (nDemandDifferential(), NDemandDifferentialTotal, 0.0);
+   Growth().N += NFix * divide (nDemandDifferential(), NDemandDifferentialTotal, 0.0);
    }
 
 void plantPart::doNRetranslocate( float N_supply, float g_grain_n_demand)
@@ -1195,10 +1195,10 @@ float plantPart::dmGreenVeg(void) const
    return (Green.DM);
    }
 
-float plantPart::dltDmGreen(void) const
+float plantPart::dltDmGreen(void)
 //=======================================================================================
    {
-   return (Growth.DM);
+   return (Growth().DM);
    }
 
 float plantPart::transpirationEfficiency(void) const
@@ -1237,16 +1237,16 @@ float plantPart::dltDmGreenRetransUptake(void) const
    return (Retranslocation.DM);
    }
 
-float plantPart::dmGreenNew(void) const
+float plantPart::dmGreenNew(void)
 //=======================================================================================
    {
-   return (Green.DM + Growth.DM + Retranslocation.DM);
+   return (Green.DM + Growth().DM + Retranslocation.DM);
    }
 
-float plantPart::dltDmGreenNew(void) const
+float plantPart::dltDmGreenNew(void)
 //=======================================================================================
    {
-   return (Growth.DM + Retranslocation.DM);
+   return (Growth().DM + Retranslocation.DM);
    }
 
 float plantPart::dltDmDetached(void) const
@@ -1374,7 +1374,7 @@ float plantPart::nCapacity(void)
 void plantPart::doNPartition(float nSupply, float n_demand_sum, float n_capacity_sum)
    //============================================================================
 {
-   Growth.N = 0.0;
+   Growth().N = 0.0;
 
    float n_excess = nSupply - n_demand_sum;
    n_excess = l_bound (n_excess, 0.0);
@@ -1382,12 +1382,12 @@ void plantPart::doNPartition(float nSupply, float n_demand_sum, float n_capacity
    if (n_excess>0.0)
       {
       float plant_part_fract = divide (nCapacity(), n_capacity_sum, 0.0);
-      Growth.N = nDemand() + n_excess * plant_part_fract;
+      Growth().N = nDemand() + n_excess * plant_part_fract;
       }
    else
       {
       float plant_part_fract = divide (nDemand(), n_demand_sum, 0.0);
-      Growth.N = nSupply * plant_part_fract;
+      Growth().N = nSupply * plant_part_fract;
       }
 }
 
@@ -1511,7 +1511,7 @@ float plantPart::dmRetransDemand(void)
 void plantPart::doPPartition(float p_uptake, float total_p_demand)
 //=======================================================================================
    {
-   Growth.P = p_uptake * divide(pDemand(), total_p_demand, 0.0);
+   Growth().P = p_uptake * divide(pDemand(), total_p_demand, 0.0);
    }
 
 void plantPart::doPRetranslocate(float total_p_supply, float total_p_demand)
@@ -1589,7 +1589,7 @@ void plantPart::get_dlt_p_retrans(vector<float> &dlt_p_retrans) {dlt_p_retrans.p
 void plantPart::get_dm_plant_min(vector<float> &dm_min) {dm_min.push_back(DMPlantMin);}
 void plantPart::get_dm_green(vector<float> &dm_green) {dm_green.push_back(Green.DM);}
 void plantPart::get_dm_senesced(vector<float> &dm_senesced) {dm_senesced.push_back(Senesced.DM);}
-void plantPart::get_dlt_dm_green(vector<float> &dlt_dm_green) {dlt_dm_green.push_back(Growth.DM);}
+void plantPart::get_dlt_dm_green(vector<float> &dlt_dm_green) {dlt_dm_green.push_back(Growth().DM);}
 void plantPart::get_dlt_dm_green_retrans(vector<float> &dlt_dm_green_retrans) {dlt_dm_green_retrans.push_back(Retranslocation.DM);}
 void plantPart::get_dlt_dm_detached(vector<float> &dlt_dm_detached) {dlt_dm_detached.push_back(Detaching.DM);}
 void plantPart::get_dlt_dm_senesced(vector<float> &dlt_dm_senesced) {dlt_dm_senesced.push_back(Senescing.DM);}
@@ -1643,14 +1643,14 @@ float plantPart::giveDmGreen(float delta)
 //=======================================================================================
 // giveXXX: something is giving us some XXX. return the amount we actually take.
    {
-   Growth.DM += delta;
+   Growth().DM += delta;
    return delta;
    }
 
 float plantPart::giveNGreen(float delta)
 //=======================================================================================
    {
-   Growth.N += delta;
+   Growth().N += delta;
    return delta;
    }
 
