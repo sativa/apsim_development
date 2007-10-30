@@ -32,7 +32,7 @@ void fruitOilPart::onInit1(protocol::Component *system)
    system->addGettableVar("grain_oil_conc", cGrain_oil_conc, "%", "??");
    }
 
-float fruitOilPart::grainEnergy(void) const {return gGrain_energy;}
+float fruitOilPart::grainEnergy(void)  {return gGrain_energy;}
 //=======================================================================================
 
 void fruitOilPart::zeroAllGlobals(void)
@@ -130,7 +130,7 @@ float fruitOilPart::dltDmGreen(void)
    return (Growth().DM + gDlt_dm_oil_conv);
    }
 
-float fruitOilPart::dltDmGreenRetransUptake(void) const
+float fruitOilPart::dltDmGreenRetransUptake(void)
 //=======================================================================================
    {
    return (Retranslocation.DM + dmOil_conv_retranslocate);

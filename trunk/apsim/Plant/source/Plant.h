@@ -75,18 +75,18 @@ private:
    eventObserver *maturityEventObserver;   // Bookkeeper for maturity events
    Arbitrator    *arbitrator;
 
-   float grainGreen(void) const;
-   float grainSenesced(void) const;
-   float grainDead(void) const;
-   float grainTot(void) const;
+   float grainGreen(void);
+   float grainSenesced(void);
+   float grainDead(void);
+   float grainTot(void);
 
-   float grainNGreen(void) const;
-   float grainNSenesced(void) const;
-   float grainNDead(void) const;
-   float grainNTot(void) const;
+   float grainNGreen(void);
+   float grainNSenesced(void);
+   float grainNDead(void);
+   float grainNTot(void);
 
-   float grainPDead(void) const;
-   float grainPConc(void) const;
+   float grainPDead(void);
+   float grainPConc(void);
    float SWDemandTE(void) ;
    float SWDemand(void) ;
    void read();
@@ -303,14 +303,14 @@ public:
    bool set_plant_crop_class(protocol::QuerySetValueData&v);
    bool set_plant_grain_oil_conc(protocol::QuerySetValueData&v);
 
-   void get_plant_status(protocol::Component *, protocol::QueryValueData &) const;
-   float getStageCode(void) const ;
-   float getStageNumber(void) const ;
+   void get_plant_status(protocol::Component *, protocol::QueryValueData &);
+   float getStageCode(void);
+   float getStageNumber(void);
 
    void get_crop_type(protocol::Component *, protocol::QueryValueData &);
    void get_crop_class(protocol::Component *, protocol::QueryValueData &);
    void get_leaf_no(protocol::Component *, protocol::QueryValueData &);
-   float getLeafNo(void) const;
+   float getLeafNo(void);
    void get_dlt_leaf_no(protocol::Component *, protocol::QueryValueData &);
    void get_dlt_node_no(protocol::Component *, protocol::QueryValueData &);
    void get_leaf_no_dead(protocol::Component *, protocol::QueryValueData &);
@@ -319,33 +319,33 @@ public:
    void get_width(protocol::Component *, protocol::QueryValueData &);
    void get_root_depth(protocol::Component *, protocol::QueryValueData &);
    void get_plants(protocol::Component *, protocol::QueryValueData &);
-   float getPlants(void) const;
-   float getCo2(void) const;
-   //  float getRadnInterceptedPod(void) const;
-   float getDltDMPotRueVeg(void) const;
-   float getDmGreenVeg(void) const;
-   //  float getDltDmVeg(void) const;
-   float getDmTops(void) const;
+   float getPlants(void);
+   float getCo2(void);
+   //  float getRadnInterceptedPod(void);
+   float getDltDMPotRueVeg(void);
+   float getDmGreenVeg(void);
+   //  float getDltDmVeg(void);
+   float getDmTops(void);
    float getDltDmGreen(void);
-   float getDltDm(void) const;
-   float getDmVeg(void) const;
-   float getDmGreenStem(void) const;
-   float getDmGreenTot(void) const;
+   float getDltDm(void);
+   float getDmVeg(void);
+   float getDmGreenStem(void);
+   float getDmGreenTot(void);
 // FIXME - remove next line when corrections for P demand activated
    float getRelativeGrowthRate(void);
    float getTotalPotentialGrowthRate(void);
    float getDyingFractionPlants(void);
-   float getCo2ModifierRue(void) const;
-   float getCo2ModifierTe(void) const;
-   float getCo2ModifierNConc(void) const;
-   float getVpd(void) const;
+   float getCo2ModifierRue(void);
+   float getCo2ModifierTe(void);
+   float getCo2ModifierNConc(void);
+   float getVpd(void);
 
-   float getTempStressPhoto(void) const;
-   float getNfactPhoto(void) const;
-   float getNfactGrainConc(void) const;
-   float getOxdefPhoto(void) const;
-   float getPfactPhoto(void) const;
-   float getSwdefPhoto(void) const;
+   float getTempStressPhoto(void);
+   float getNfactPhoto(void);
+   float getNfactGrainConc(void);
+   float getOxdefPhoto(void);
+   float getPfactPhoto(void);
+   float getSwdefPhoto(void);
 
    void get_cover_tot(protocol::Component *, protocol::QueryValueData &);
    void get_lai_canopy_green(protocol::Component *, protocol::QueryValueData &);
@@ -458,8 +458,8 @@ public:
    void doPInit(PlantComponent *systemInterface);
    void PlantP_set_phosphorus_aware (PlantComponent *systemInterface);
 
-   bool phosphorusAware(void) const {return g.phosphorus_aware;};
-   bool removeBiomassReport(void) const {return c.remove_biomass_report == "on";};
+   bool phosphorusAware(void)  {return g.phosphorus_aware;};
+   bool removeBiomassReport(void)  {return c.remove_biomass_report == "on";};
    void prepare_p(void);
    void plant_p_retrans (void);
    void summary_p (void);

@@ -42,12 +42,12 @@ class genericLeafPart : public plantLeafPart {
    void get_leaf_area_tot(protocol::Component *system, protocol::QueryValueData &qd);
 
   public:
-   float getLAI(void) const {return gLAI;};
-   float getSLAI(void) const {return gSLAI;};
-   float getLeafNo(void) const;
-   float senFract (void) const
+   float getLAI(void)  {return gLAI;};
+   float getSLAI(void)  {return gSLAI;};
+   float getLeafNo(void);
+   float senFract (void)
      { return(divide (dltSLAI, gLAI + dltLAI, 0.0)); };             // fraction of canopy senescing
-   float dmGreenDemand(void) const
+   float dmGreenDemand(void)
      { return(divide (dltLAI_stressed, cSLAMin * smm2sm, 0.0));};   // Maximum DM this part can take today
    float dltLeafAreaPot(void) {return (divide(dltLAI_stressed, plant->getPlants(), 0.0) * sm2smm);};
 

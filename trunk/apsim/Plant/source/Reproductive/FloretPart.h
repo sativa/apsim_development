@@ -42,14 +42,14 @@ class FloretPart : public plantPart {
    void doDmPotTE(float swSupply);
    void doBioActual (void);
 
-   virtual float dmGreenVeg(void) const {return 0;}
-   virtual float dmSenescedVeg(void) const {return 0;}
-   virtual float nGreenVeg(void)const {return 0;}
-   virtual float nSenescedVeg(void)const {return 0;}
-   virtual float nDeadVeg(void)const {return 0;}
-   virtual float pGreenVeg(void) const {return 0;}
-   virtual float pSenescedVeg(void) const {return 0;}
-   virtual float pDeadVeg(void) const {return 0;}
+   virtual float dmGreenVeg(void)  {return 0;}
+   virtual float dmSenescedVeg(void)  {return 0;}
+   virtual float nGreenVeg(void) {return 0;}
+   virtual float nSenescedVeg(void) {return 0;}
+   virtual float nDeadVeg(void) {return 0;}
+   virtual float pGreenVeg(void)  {return 0;}
+   virtual float pSenescedVeg(void)  {return 0;}
+   virtual float pDeadVeg(void)  {return 0;}
 
 
 

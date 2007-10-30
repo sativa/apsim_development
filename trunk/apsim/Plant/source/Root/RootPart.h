@@ -45,7 +45,7 @@ class RootPart : public RootBase
       void doNConccentrationLimits(float);
       void redistribute(const vector<float> &, const vector<float> &, float);
 
-      float sw_avail_ratio(int layer) const;
+      float sw_avail_ratio(int layer);
 
       void plant_water_stress (
                                        float sw_demand,
@@ -78,7 +78,7 @@ class RootPart : public RootBase
    protected:
       RootPart(ScienceAPI& scienceAPI, plantInterface *p, const string &name);
 
-      int find_layer_no(float) const;
+      int find_layer_no(float);
       int find_layer_no(float,const vector<float>&);
       int find_layer_no(float, float *, int);
 

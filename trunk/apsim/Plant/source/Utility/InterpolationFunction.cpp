@@ -29,7 +29,7 @@ void interpolationFunction::read(ScienceAPI& scienceAPI,
    }
 
 
-std::string interpolationFunction::description(void) const
+std::string interpolationFunction::description(void)
    {
    int pad;
    ostringstream text;
@@ -51,7 +51,7 @@ std::string interpolationFunction::description(void) const
    }
 
 // Return a y value from a linear interpolation function
-float interpolationFunction::value(float v) const
+float interpolationFunction::value(float v)
    {
    if (x.size() == 0 || y.size() == 0)
        throw std::runtime_error(string("Uninitialised call to interpolationFunction:") + xName + " and " + yName);

@@ -35,35 +35,35 @@ public:                                             // member functions
    void doNDemand1Pot(float, float);
 
 
-//   float grainWaterContent(void) const;
-   float dmGrainTotal(void) const;
-   float dmGrainWetTotal(void) const;
-   float dmTotalVeg(void) const;
-   float dmGreenGrainTotal(void) const;
-   float dmGreenVeg(void)const;
-   float dmSenescedVeg(void)const;
+//   float grainWaterContent(void);
+   float dmGrainTotal(void);
+   float dmGrainWetTotal(void);
+   float dmTotalVeg(void);
+   float dmGreenGrainTotal(void);
+   float dmGreenVeg(void);
+   float dmSenescedVeg(void);
 
-   float nGrainTotal(void)const;
-   float nTotalVeg(void)const;
-   float nGreenGrainTotal(void)const;
-   float nGreenVeg(void)const;
-   float nSenescedVeg(void)const;
+   float nGrainTotal(void);
+   float nTotalVeg(void);
+   float nGreenGrainTotal(void);
+   float nGreenVeg(void);
+   float nSenescedVeg(void);
    float nCapacity(void);
 
-   float nMaxPot(void)const;
-   float nMax(void)const;
-   float nMinPot(void)const;
-   float pGrainTotal(void)const;
-   float pTotalVeg(void)const;
-   float pGreenGrainTotal(void)const;
-   float pGreenVeg(void)const;
-   float pSenescedVeg(void)const;
-   float pMaxPot(void)const;
-   float pMinPot(void)const;
+   float nMaxPot(void);
+   float nMax(void);
+   float nMinPot(void);
+   float pGrainTotal(void);
+   float pTotalVeg(void);
+   float pGreenGrainTotal(void);
+   float pGreenVeg(void);
+   float pSenescedVeg(void);
+   float pMaxPot(void);
+   float pMinPot(void);
 
 
 
-   virtual void display(ostream &os = cout) const;  // display function
+   virtual void display(ostream &os = cout) ;  // display function
    void doDmDemand (float dlt_dm_supply_by_veg);
 
 #if TEST_FruitCohort

@@ -16,7 +16,7 @@ class NoRoot : public RootBase
       void zeroAllGlobals(void){};
       void zeroDeltas(void){};
 
-      float sw_avail_ratio(int layer) const;
+      float sw_avail_ratio(int layer);
 
       void plant_water_stress (
                                        float sw_demand,

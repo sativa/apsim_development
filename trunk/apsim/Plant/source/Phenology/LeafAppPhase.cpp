@@ -76,7 +76,7 @@ void LeafAppPhase::updateTTTargets(PlantPhenology &parent, const environment_t &
       }
    }
 
-string LeafAppPhase::description() const
+string LeafAppPhase::description()
 //=======================================================================================
    {
    return "   Stage duration determined by leaf appearance rates";

@@ -23,14 +23,14 @@ class cohortingLeafPart : public plantLeafPart {
    void onTransplanting(void);
    void onKillStem(void);
 
-   float getLAI(void) const
+   float getLAI(void)
      { return sum(gLeafArea) * plant->getPlants() * smm2sm; };
-   float getSLAI(void) const
+   float getSLAI(void)
      { return sum(gLeafAreaSen) * plant->getPlants() * smm2sm; };
-   float getTLAI_dead(void) const {return gTLAI_dead;};
-   float getLeafNo(void) const;
-   float senFract (void) const;
-   float dmGreenDemand(void) const
+   float getTLAI_dead(void)  {return gTLAI_dead;};
+   float getLeafNo(void);
+   float senFract (void);
+   float dmGreenDemand(void)
      { return(divide (dltLAI_stressed, cSLAMin * smm2sm, 0.0));};   // Maximum DM this part can take today
 
    float dltLeafAreaPot(void) {return (divide(dltLAI_stressed, plant->getPlants(), 0.0) * sm2smm);};

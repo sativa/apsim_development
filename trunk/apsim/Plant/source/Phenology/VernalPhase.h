@@ -21,7 +21,7 @@ class VernalPhase : public pPhase
       void updateTTTargets(PlantPhenology &parent, const environment_t &e);
       void GetOutputs(std::vector <Output*> &Outputs);
       virtual void reset();
-      virtual string description() const;
+      virtual string description();
    };
 
 

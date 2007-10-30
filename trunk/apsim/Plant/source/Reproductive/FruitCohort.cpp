@@ -97,7 +97,7 @@ const FruitCohort &FruitCohort::operator=(const FruitCohort &/*other*/)
 }
 
 
-//float FruitCohort::grainWaterContent(void) const
+//float FruitCohort::grainWaterContent(void)
 //   //===========================================================================
 //{
 //   float total = 0.0;
@@ -111,7 +111,7 @@ const FruitCohort &FruitCohort::operator=(const FruitCohort &/*other*/)
 //   return divide (total, count, 0.0);
 //}
 
-float FruitCohort::dmGrainTotal(void) const
+float FruitCohort::dmGrainTotal(void)
    //===========================================================================
 {
    float dmTotal = 0.0;
@@ -121,7 +121,7 @@ float FruitCohort::dmGrainTotal(void) const
    return dmTotal;
 }
 
-float FruitCohort::dmGrainWetTotal(void) const
+float FruitCohort::dmGrainWetTotal(void)
    //===========================================================================
 {
    float dmTotal = 0.0;
@@ -131,7 +131,7 @@ float FruitCohort::dmGrainWetTotal(void) const
    return dmTotal;
 }
 
-float FruitCohort::dmTotalVeg(void) const
+float FruitCohort::dmTotalVeg(void)
    //===========================================================================
 {
    float dmTotal = 0.0;
@@ -141,7 +141,7 @@ float FruitCohort::dmTotalVeg(void) const
    return dmTotal;
 }
 
-float FruitCohort::dmGreenGrainTotal(void) const
+float FruitCohort::dmGreenGrainTotal(void)
    //===========================================================================
 {
    float dmTotal = 0.0;
@@ -151,7 +151,7 @@ float FruitCohort::dmGreenGrainTotal(void) const
    return dmTotal;
 }
 
-float FruitCohort::dmGreenVeg(void) const
+float FruitCohort::dmGreenVeg(void)
    //===========================================================================
 {
    float dmTotal = 0.0;
@@ -161,7 +161,7 @@ float FruitCohort::dmGreenVeg(void) const
    return dmTotal;
 }
 
-float FruitCohort::dmSenescedVeg(void) const
+float FruitCohort::dmSenescedVeg(void)
    //===========================================================================
 {
    float dmTotal = 0.0;
@@ -172,7 +172,7 @@ float FruitCohort::dmSenescedVeg(void) const
 }
 
 
-float FruitCohort::nGrainTotal(void) const
+float FruitCohort::nGrainTotal(void)
    //===========================================================================
 {
    float nTotal = 0.0;
@@ -182,7 +182,7 @@ float FruitCohort::nGrainTotal(void) const
    return nTotal;
 }
 
-float FruitCohort::nTotalVeg(void) const
+float FruitCohort::nTotalVeg(void)
    //===========================================================================
 {
    float nTotal = 0.0;
@@ -192,7 +192,7 @@ float FruitCohort::nTotalVeg(void) const
    return nTotal;
 }
 
-float FruitCohort::nGreenGrainTotal(void) const
+float FruitCohort::nGreenGrainTotal(void)
    //===========================================================================
 {
    float nTotal = 0.0;
@@ -202,7 +202,7 @@ float FruitCohort::nGreenGrainTotal(void) const
    return nTotal;
 }
 
-float FruitCohort::nGreenVeg(void) const
+float FruitCohort::nGreenVeg(void)
    //===========================================================================
 {
    float nTotal = 0.0;
@@ -213,7 +213,7 @@ float FruitCohort::nGreenVeg(void) const
 }
 
 
-float FruitCohort::nSenescedVeg(void) const
+float FruitCohort::nSenescedVeg(void)
    //===========================================================================
 {
    float nTotal = 0.0;
@@ -224,7 +224,7 @@ float FruitCohort::nSenescedVeg(void) const
 }
 
 
-float FruitCohort::nMaxPot(void) const
+float FruitCohort::nMaxPot(void)
    //===========================================================================
 {
    float nMaxPot = 0.0;
@@ -234,7 +234,7 @@ float FruitCohort::nMaxPot(void) const
    return nMaxPot;
 }
 
-float FruitCohort::nMax(void)const
+float FruitCohort::nMax(void)
    //===========================================================================
 {
    float nMax = 0.0;
@@ -244,7 +244,7 @@ float FruitCohort::nMax(void)const
    return nMax;
 }
 
-float FruitCohort::nMinPot(void)const
+float FruitCohort::nMinPot(void)
    //===========================================================================
 {
    float nMinPot = 0.0;
@@ -266,7 +266,7 @@ float FruitCohort::nCapacity(void)
    return NCapacity;
 }
 
-float FruitCohort::pGrainTotal(void)  const
+float FruitCohort::pGrainTotal(void)
    //===========================================================================
 {
    float pTotal = 0.0;
@@ -276,7 +276,7 @@ float FruitCohort::pGrainTotal(void)  const
    return pTotal;
 }
 
-float FruitCohort::pTotalVeg(void)const
+float FruitCohort::pTotalVeg(void)
    //===========================================================================
 {
    float pTotal = 0.0;
@@ -286,7 +286,7 @@ float FruitCohort::pTotalVeg(void)const
    return pTotal;
 }
 
-float FruitCohort::pGreenGrainTotal(void)const
+float FruitCohort::pGreenGrainTotal(void)
    //===========================================================================
 {
    float pTotal = 0.0;
@@ -296,7 +296,7 @@ float FruitCohort::pGreenGrainTotal(void)const
    return pTotal;
 }
 
-float FruitCohort::pGreenVeg(void) const
+float FruitCohort::pGreenVeg(void)
    //===========================================================================
 {
    float pTotal = 0.0;
@@ -306,7 +306,7 @@ float FruitCohort::pGreenVeg(void) const
    return pTotal;
 }
 
-float FruitCohort::pSenescedVeg(void)const
+float FruitCohort::pSenescedVeg(void)
    //===========================================================================
 {
    float pTotal = 0.0;
@@ -316,7 +316,7 @@ float FruitCohort::pSenescedVeg(void)const
    return pTotal;
 }
 
-float FruitCohort::pMaxPot(void) const
+float FruitCohort::pMaxPot(void)
    //===========================================================================
 {
    float pMaxPot = 0.0;
@@ -326,7 +326,7 @@ float FruitCohort::pMaxPot(void) const
    return pMaxPot;
 }
 
-float FruitCohort::pMinPot(void) const
+float FruitCohort::pMinPot(void)
    //===========================================================================
 {
    float pMinPot = 0.0;
@@ -378,7 +378,7 @@ void FruitCohort::get_head_p(protocol::Component *systemInterface, protocol::Que
 //  return green.shell + green.meal + senesced.shell + senesced.meal + dead.shell + dead.meal;
 //}
 
-void FruitCohort::display(ostream &os) const
+void FruitCohort::display(ostream &os)
 {
    //   os << "FruitCohort:" << endl;
    //   os << "Green cover:    " << coverPod.green << endl;

@@ -68,7 +68,7 @@ void VernalPhase::updateTTTargets(PlantPhenology &/* parent*/, const environment
    target = vernal_tt.value(cumvd);
    }
 
-string VernalPhase::description() const
+string VernalPhase::description()
 //=======================================================================================
    {
    return vernal_tt.description();

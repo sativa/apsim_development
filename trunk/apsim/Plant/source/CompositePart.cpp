@@ -81,7 +81,7 @@ float CompositePart::dltPGreen(void)
    return sum;
 }
 
-float CompositePart::dltDmSenesced(void) const
+float CompositePart::dltDmSenesced(void)
    //===========================================================================
 {
    float sum = 0.0;
@@ -91,7 +91,7 @@ float CompositePart::dltDmSenesced(void) const
 }
 
 
-float CompositePart::dltNSenesced(void) const
+float CompositePart::dltNSenesced(void)
    //===========================================================================
 {
    float sum = 0.0;
@@ -101,7 +101,7 @@ float CompositePart::dltNSenesced(void) const
 }
 
 
-float CompositePart::dltPSenesced(void) const
+float CompositePart::dltPSenesced(void)
    //===========================================================================
 {
    float sum = 0.0;
@@ -110,7 +110,7 @@ float CompositePart::dltPSenesced(void) const
    return sum;
 }
 
-float CompositePart::dltNDetached(void) const
+float CompositePart::dltNDetached(void)
    //===========================================================================
 {
    float sum = 0.0;
@@ -120,7 +120,7 @@ float CompositePart::dltNDetached(void) const
 }
 
 
-float CompositePart::dltPDetached(void) const
+float CompositePart::dltPDetached(void)
    //===========================================================================
 {
    float sum = 0.0;
@@ -130,7 +130,7 @@ float CompositePart::dltPDetached(void) const
 }
 
 
-float CompositePart::nConc(void) const                                                //FIXME
+float CompositePart::nConc(void)                                                 //FIXME
    //===========================================================================
 {
    float sum = 0.0;
@@ -144,14 +144,14 @@ float CompositePart::nConc(void) const                                          
    return divide (sum , dmSum , 0.0);
 }
 
-float CompositePart::nConcPercent(void) const                                                //FIXME
+float CompositePart::nConcPercent(void)                                                 //FIXME
    //===========================================================================
 {
    return nConc() * fract2pcnt;
 }
 
 
-float CompositePart::pConc(void) const                                                 //FIXME
+float CompositePart::pConc(void)                                                  //FIXME
    //===========================================================================
 {
    float sum = 0.0;
@@ -165,14 +165,14 @@ float CompositePart::pConc(void) const                                          
    return divide (sum , dmSum , 0.0);
 }
 
-float CompositePart::pConcPercent(void) const                                                 //FIXME
+float CompositePart::pConcPercent(void)                                                  //FIXME
    //===========================================================================
 {
    return pConc() * fract2pcnt;
 }
 
 
-float CompositePart::n_conc_crit(void) const
+float CompositePart::n_conc_crit(void)
    //===========================================================================
 {
    float sum = 0.0;
@@ -182,7 +182,7 @@ float CompositePart::n_conc_crit(void) const
 }
 
 
-float CompositePart::n_conc_min(void) const
+float CompositePart::n_conc_min(void)
    //===========================================================================
 {
    float sum = 0.0;
@@ -192,7 +192,7 @@ float CompositePart::n_conc_min(void) const
 }
 
 
-float CompositePart::dltNRetrans(void) const
+float CompositePart::dltNRetrans(void)
    //===========================================================================
 {
    float sum = 0.0;
@@ -202,7 +202,7 @@ float CompositePart::dltNRetrans(void) const
 }
 
 
-float CompositePart::dltNSenescedRetrans(void) const
+float CompositePart::dltNSenescedRetrans(void)
    //===========================================================================
 {
    float sum = 0.0;
@@ -212,7 +212,7 @@ float CompositePart::dltNSenescedRetrans(void) const
 }
 
 
-float CompositePart::dltNSenescedTrans(void) const
+float CompositePart::dltNSenescedTrans(void)
    //===========================================================================
 {
    float sum = 0.0;
@@ -222,7 +222,7 @@ float CompositePart::dltNSenescedTrans(void) const
 }
 
 
-float CompositePart::dltDmGreenRetrans(void) const
+float CompositePart::dltDmGreenRetrans(void)
    //===========================================================================
 {
    float sum = 0.0;
@@ -232,7 +232,7 @@ float CompositePart::dltDmGreenRetrans(void) const
 }
 
 
-float CompositePart::dmTotal(void) const
+float CompositePart::dmTotal(void)
    //===========================================================================
 {
    float dmTotal = 0.0;
@@ -241,7 +241,7 @@ float CompositePart::dmTotal(void) const
    return dmTotal;
 }
 
-float CompositePart::dmTotalVeg(void) const
+float CompositePart::dmTotalVeg(void)
    //===========================================================================
 {
    float dmTotal = 0.0;
@@ -250,7 +250,7 @@ float CompositePart::dmTotalVeg(void) const
    return dmTotal;
 }
 
-float CompositePart::dmGreenDemand(void)  const
+float CompositePart::dmGreenDemand(void)
    //===========================================================================
 {
    float dmGreenDemand = 0.0;
@@ -259,7 +259,7 @@ float CompositePart::dmGreenDemand(void)  const
    return dmGreenDemand;
 }
 
-float CompositePart::grainWaterContent(void) const
+float CompositePart::grainWaterContent(void)
    //===========================================================================
 {
    float total = 0.0;
@@ -274,7 +274,7 @@ float CompositePart::grainWaterContent(void) const
    return total;                       //FIXME
 }
 
-float CompositePart::grainWt(void) const
+float CompositePart::grainWt(void)
    //===========================================================================
 {
    float grainWtTotal = 0.0;
@@ -283,7 +283,7 @@ float CompositePart::grainWt(void) const
    return grainWtTotal;
 }
 
-float CompositePart::dmGrainTotal(void) const
+float CompositePart::dmGrainTotal(void)
    //===========================================================================
 {
    float dmTotal = 0.0;
@@ -292,7 +292,7 @@ float CompositePart::dmGrainTotal(void) const
    return dmTotal;
 }
 
-float CompositePart::dmGrainWetTotal(void) const
+float CompositePart::dmGrainWetTotal(void)
    //===========================================================================
 {
    float dmTotal = 0.0;
@@ -301,7 +301,7 @@ float CompositePart::dmGrainWetTotal(void) const
    return dmTotal;
 }
 
-float CompositePart::dmGreenGrainTotal(void) const
+float CompositePart::dmGreenGrainTotal(void)
    //===========================================================================
 {
    float dmTotal = 0.0;
@@ -310,7 +310,7 @@ float CompositePart::dmGreenGrainTotal(void) const
    return dmTotal;
 }
 
-float CompositePart::dmGreenVeg(void) const
+float CompositePart::dmGreenVeg(void)
    //===========================================================================
 {
    float dmTotal = 0.0;
@@ -319,7 +319,7 @@ float CompositePart::dmGreenVeg(void) const
    return dmTotal;
 }
 
-float CompositePart::dmSenescedVeg(void) const
+float CompositePart::dmSenescedVeg(void)
    //===========================================================================
 {
    float dmTotal = 0.0;
@@ -328,7 +328,7 @@ float CompositePart::dmSenescedVeg(void) const
    return dmTotal;
 }
 
-float CompositePart::dltDmDetached(void) const
+float CompositePart::dltDmDetached(void)
    //===========================================================================
 {
    float dlt_dm_detached = 0.0;
@@ -337,7 +337,7 @@ float CompositePart::dltDmDetached(void) const
    return dlt_dm_detached;
 }
 
-float CompositePart::dmSenesced(void) const
+float CompositePart::dmSenesced(void)
    //===========================================================================
 {
    float result = 0.0;
@@ -346,7 +346,7 @@ float CompositePart::dmSenesced(void) const
    return result;
 }
 
-float CompositePart::nTotalVeg(void) const
+float CompositePart::nTotalVeg(void)
    //===========================================================================
 {
    float nTotal = 0.0;
@@ -355,7 +355,7 @@ float CompositePart::nTotalVeg(void) const
    return nTotal;
 }
 
-float CompositePart::nTotal(void) const
+float CompositePart::nTotal(void)
    //===========================================================================
 {
    float nTotal = 0.0;
@@ -364,7 +364,7 @@ float CompositePart::nTotal(void) const
    return nTotal;
 }
 
-float CompositePart::nGrainTotal(void) const
+float CompositePart::nGrainTotal(void)
    //===========================================================================
 {
    float nTotal = 0.0;
@@ -373,7 +373,7 @@ float CompositePart::nGrainTotal(void) const
    return nTotal;
 }
 
-float CompositePart::nGreenGrainTotal(void) const
+float CompositePart::nGreenGrainTotal(void)
    //===========================================================================
 {
    float nTotal = 0.0;
@@ -382,7 +382,7 @@ float CompositePart::nGreenGrainTotal(void) const
    return nTotal;
 }
 
-float CompositePart::nGreenVeg(void) const
+float CompositePart::nGreenVeg(void)
    //===========================================================================
 {
    float result = 0.0;
@@ -391,7 +391,7 @@ float CompositePart::nGreenVeg(void) const
    return result;
 }
 
-float CompositePart::nGreen(void) const
+float CompositePart::nGreen(void)
    //===========================================================================
 {
    float result = 0.0;
@@ -400,7 +400,7 @@ float CompositePart::nGreen(void) const
    return result;
 }
 
-float CompositePart::nSenescedVeg(void) const
+float CompositePart::nSenescedVeg(void)
    //===========================================================================
 {
    float nTotal = 0.0;
@@ -409,7 +409,7 @@ float CompositePart::nSenescedVeg(void) const
    return nTotal;
 }
 
-float CompositePart::nSenesced(void) const
+float CompositePart::nSenesced(void)
    //===========================================================================
 {
    float result = 0.0;
@@ -419,7 +419,7 @@ float CompositePart::nSenesced(void) const
 }
 
 
-float CompositePart::nMaxPot(void) const
+float CompositePart::nMaxPot(void)
    //===========================================================================
 {
    float nMaxPot = 0.0;
@@ -428,7 +428,7 @@ float CompositePart::nMaxPot(void) const
    return nMaxPot;
 }
 
-float CompositePart::nMax(void) const
+float CompositePart::nMax(void)
    //===========================================================================
 {
    float result = 0.0;
@@ -437,7 +437,7 @@ float CompositePart::nMax(void) const
    return result;
 }
 
-float CompositePart::nMinPot(void) const
+float CompositePart::nMinPot(void)
    //===========================================================================
 {
    float nMinPot = 0.0;
@@ -446,7 +446,7 @@ float CompositePart::nMinPot(void) const
    return nMinPot;                                                 //FIXME Is this a conc?
 }
 
-float CompositePart::nConcGrain(void) const
+float CompositePart::nConcGrain(void)
    //===========================================================================
 {
    float nGreen = 0.0;
@@ -479,7 +479,7 @@ float CompositePart::soilNDemand(void)
    return SoilNDemand;
 }
 
-float CompositePart::nDemand(void) const
+float CompositePart::nDemand(void)
    //============================================================================
 {
    float n_demand = 0.0;
@@ -521,7 +521,7 @@ void CompositePart::doNPartition(float nSupply, float n_demand_sum, float n_capa
       }
 }
 
-float CompositePart::pTotal(void) const
+float CompositePart::pTotal(void)
    //===========================================================================
 {
    float pTotal = 0.0;
@@ -530,7 +530,7 @@ float CompositePart::pTotal(void) const
    return pTotal;
 }
 
-float CompositePart::pTotalVeg(void) const
+float CompositePart::pTotalVeg(void)
    //===========================================================================
 {
    float pTotal = 0.0;
@@ -539,7 +539,7 @@ float CompositePart::pTotalVeg(void) const
    return pTotal;
 }
 
-float CompositePart::pGrainTotal(void) const
+float CompositePart::pGrainTotal(void)
    //===========================================================================
 {
    float pTotal = 0.0;
@@ -548,7 +548,7 @@ float CompositePart::pGrainTotal(void) const
    return pTotal;
 }
 
-float CompositePart::pGreenGrainTotal(void) const
+float CompositePart::pGreenGrainTotal(void)
    //===========================================================================
 {
    float pTotal = 0.0;
@@ -557,7 +557,7 @@ float CompositePart::pGreenGrainTotal(void) const
    return pTotal;
 }
 
-float CompositePart::pGreenVeg(void) const
+float CompositePart::pGreenVeg(void)
    //===========================================================================
 {
    float pTotal = 0.0;
@@ -566,7 +566,7 @@ float CompositePart::pGreenVeg(void) const
    return pTotal;
 }
 
-float CompositePart::pGreen(void) const
+float CompositePart::pGreen(void)
    //===========================================================================
 {
    float pTotal = 0.0;
@@ -575,7 +575,7 @@ float CompositePart::pGreen(void) const
    return pTotal;
 }
 
-float CompositePart::pSenescedGrainTotal(void) const
+float CompositePart::pSenescedGrainTotal(void)
    //===========================================================================
 {
    float pTotal = 0.0;
@@ -584,7 +584,7 @@ float CompositePart::pSenescedGrainTotal(void) const
    return pTotal;
 }
 
-float CompositePart::pSenescedVeg(void) const
+float CompositePart::pSenescedVeg(void)
    //===========================================================================
 {
    float pTotal = 0.0;
@@ -593,7 +593,7 @@ float CompositePart::pSenescedVeg(void) const
    return pTotal;
 }
 
-float CompositePart::pSenesced(void) const
+float CompositePart::pSenesced(void)
    //===========================================================================
 {
    float pTotal = 0.0;
@@ -603,7 +603,7 @@ float CompositePart::pSenesced(void) const
 }
 
 
-float CompositePart::pConcGrain(void) const
+float CompositePart::pConcGrain(void)
    //===========================================================================
 {
    float pGreen = 0.0;
@@ -616,7 +616,7 @@ float CompositePart::pConcGrain(void) const
    return divide (pGreen , dmGreen , 0.0) * fract2pcnt;
 }
 
-float CompositePart::pConcGrainTotal(void) const
+float CompositePart::pConcGrainTotal(void)
    //===========================================================================
 {
    float pTotal = 0.0;
@@ -629,7 +629,7 @@ float CompositePart::pConcGrainTotal(void) const
    return divide (pTotal , dmTotal , 0.0) * fract2pcnt;
 }
 
-float CompositePart::pMaxPot(void) const
+float CompositePart::pMaxPot(void)
    //===========================================================================
 {
    float pMaxPot = 0.0;
@@ -638,7 +638,7 @@ float CompositePart::pMaxPot(void) const
    return pMaxPot;
 }
 
-float CompositePart::pMinPot(void) const
+float CompositePart::pMinPot(void)
    //===========================================================================
 {
    float pMinPot = 0.0;
@@ -818,7 +818,7 @@ void CompositePart::zeroDltNSenescedTrans(void)
       (*part)->zeroDltNSenescedTrans();
 }
 
-float CompositePart::dltDmGreenRemoved(void) const
+float CompositePart::dltDmGreenRemoved(void)
 //=======================================================================================
    {
    float DMGreenRemoved = 0.0;
@@ -827,7 +827,7 @@ float CompositePart::dltDmGreenRemoved(void) const
    return DMGreenRemoved;
    }
 
-float CompositePart::dltDmSenescedRemoved(void) const
+float CompositePart::dltDmSenescedRemoved(void)
 //=======================================================================================
    {
    float DMSenescedRemoved = 0.0;
@@ -836,7 +836,7 @@ float CompositePart::dltDmSenescedRemoved(void) const
    return DMSenescedRemoved;
    }
 
-float CompositePart::dltDmRemoved(void) const
+float CompositePart::dltDmRemoved(void)
 //=======================================================================================
    {
    float DMRemoved = 0.0;
@@ -845,7 +845,7 @@ float CompositePart::dltDmRemoved(void) const
    return DMRemoved;
    }
 
-float CompositePart::dltNRemoved(void) const
+float CompositePart::dltNRemoved(void)
 //=======================================================================================
    {
    float NRemoved = 0.0;
@@ -937,7 +937,7 @@ void CompositePart::readSpeciesParameters(protocol::Component *system, vector<st
       (*part)->readSpeciesParameters(system, sections);
 }
 
-float CompositePart::dmGreen(void) const
+float CompositePart::dmGreen(void)
    //===========================================================================
 {
    float DMGreen = 0.0;
@@ -1078,7 +1078,7 @@ float CompositePart::coverSen(void)
 //  return green.shell + green.meal + senesced.shell + senesced.meal + dead.shell + dead.meal;
 //}
 
-void CompositePart::display(ostream &os) const
+void CompositePart::display(ostream &os)
 {
    //   os << "CompositePart:" << endl;
    //   os << "Green cover:    " << coverPod.green << endl;
@@ -1109,7 +1109,7 @@ void CompositePart::doProcessBioDemand(void)
       (*part)->doProcessBioDemand();
 }
 
-float CompositePart::grainNo(void) const
+float CompositePart::grainNo(void)
    //===========================================================================
 {
    float grainNo = 0.0;
@@ -1118,7 +1118,7 @@ float CompositePart::grainNo(void) const
    return grainNo;
 }
 
-float CompositePart::nDemandGrain(void) const
+float CompositePart::nDemandGrain(void)
    //===========================================================================
 {
    float nDemandGrain = 0.0;
@@ -1127,7 +1127,7 @@ float CompositePart::nDemandGrain(void) const
    return nDemandGrain;
 }
 
-float CompositePart::transpirationEfficiency(void) const
+float CompositePart::transpirationEfficiency(void)
    //===========================================================================
 {
    float transpEff = 0.0;
@@ -1137,7 +1137,7 @@ float CompositePart::transpirationEfficiency(void) const
    return transpEff;
 }
 
-float CompositePart::dltDmPotTe(void) const
+float CompositePart::dltDmPotTe(void)
    //===========================================================================
 {
    float dltDmPotTe = 0.0;
@@ -1147,7 +1147,7 @@ float CompositePart::dltDmPotTe(void) const
    return dltDmPotTe;
 }
 
-float CompositePart::dltDmPotRue(void) const
+float CompositePart::dltDmPotRue(void)
    //===========================================================================
 {
    float dltDmPotRue = 0.0;
@@ -1157,7 +1157,7 @@ float CompositePart::dltDmPotRue(void) const
    return dltDmPotRue;
 }
 
-float CompositePart::dltDm(void) const
+float CompositePart::dltDm(void)
    //===========================================================================
 {
    float dltDm = 0.0;
@@ -1167,7 +1167,7 @@ float CompositePart::dltDm(void) const
    return dltDm;
 }
 
-float CompositePart::grainNConcPercent(void) const
+float CompositePart::grainNConcPercent(void)
    //===========================================================================
 {
    float nTotal = 0.0;
@@ -1180,7 +1180,7 @@ float CompositePart::grainNConcPercent(void) const
    return divide (nTotal , dmTotal , 0.0) * fract2pcnt;
 }
 
-float CompositePart::dltDmGrainDemand(void) const
+float CompositePart::dltDmGrainDemand(void)
    //===========================================================================
 {
    float dltDmDemand = 0.0;
@@ -1198,7 +1198,7 @@ void CompositePart::calcDlt_pod_area (void)
       (*part)->calcDlt_pod_area();
 }
 
-float CompositePart::dltDmRetranslocate(void) const
+float CompositePart::dltDmRetranslocate(void)
    //===========================================================================
 {
    float dlt_dm_green_retrans = 0.0;
@@ -1208,7 +1208,7 @@ float CompositePart::dltDmRetranslocate(void) const
    return dlt_dm_green_retrans;
 }
 
-float CompositePart::dltDmGreenRetransUptake(void) const
+float CompositePart::dltDmGreenRetransUptake(void)
    //===========================================================================
 {
    float dltDmUptake = 0.0;
@@ -1605,7 +1605,7 @@ float CompositePart::pRetransDemand(void)
    return p_retrans_demand;
 }
 
-float CompositePart::dmRetransSupply(void) const
+float CompositePart::dmRetransSupply(void)
    //============================================================================
 {
    float dm_retrans_supply = 0.0;
@@ -1731,7 +1731,7 @@ float CompositePart::pMinPotStressDeterminant(void)
 }
 
 
-bool CompositePart::isYieldPart(void) const
+bool CompositePart::isYieldPart(void)
 //============================================================================
 // True if at least one of our parts is a dm sink
    {
@@ -1740,7 +1740,7 @@ bool CompositePart::isYieldPart(void) const
    return false;
    }
 
-bool CompositePart::isRetransPart(void) const
+bool CompositePart::isRetransPart(void)
 // True if at least one of our parts supplies retranslocate
    {
    for (vector <plantPart * >::const_iterator part = myParts.begin(); part != myParts.end(); part++)

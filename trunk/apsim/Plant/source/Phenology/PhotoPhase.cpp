@@ -62,7 +62,7 @@ void PhotoPhase::updateTTTargets(PlantPhenology &/* parent*/,const environment_t
       throw std::invalid_argument("Invalid cutoff for photoperiod inductive phase");
    }
 
-string PhotoPhase::description() const
+string PhotoPhase::description()
 //=======================================================================================
    {
    return photo_tt.description();

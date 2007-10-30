@@ -13,11 +13,11 @@ class Pool
       float N;
       float P;
 
-      Pool operator + (const Pool& Pool2) const;
-      Pool operator + (const Delta& Dlt) const;
-      Pool operator * (float Fraction) const;
+      Pool operator + (const Pool& Pool2);
+      Pool operator + (const Delta& Dlt);
+      Pool operator * (float Fraction);
       Pool operator = (const Pool& Pool2);
-      Pool operator - (const Delta& Dlt) const;
+      Pool operator - (const Delta& Dlt);
    private:
 
       std::string PartName;

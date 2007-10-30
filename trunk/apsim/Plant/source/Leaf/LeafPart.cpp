@@ -38,7 +38,7 @@ void plantLeafPart::doNConccentrationLimits(float modifier)
 }
 
 
-float plantLeafPart::dmRetransSupply(void) const
+float plantLeafPart::dmRetransSupply(void)
   {
   float dm_part_avail = Green.DM - DMPlantMin * plant->getPlants();
   return (l_bound (dm_part_avail, 0.0));

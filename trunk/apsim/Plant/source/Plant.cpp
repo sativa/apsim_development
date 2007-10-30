@@ -1201,7 +1201,7 @@ void Plant::plant_nit_stress (int option /* (INPUT) option number*/)
     {
     if (option == 1)
         {
-        vector<const plantPart *> parts;
+        vector<plantPart *> parts;
 
         // Expansion uses leaves only
         parts.push_back(leafPart);
@@ -1215,7 +1215,7 @@ void Plant::plant_nit_stress (int option /* (INPUT) option number*/)
         }
     else if (option == 2)
         {
-        vector<const plantPart *> parts;
+        vector< plantPart *> parts;
 
         // Expansion & photosynthesis from leaves only
         parts.push_back(leafPart);
@@ -3569,7 +3569,7 @@ bool Plant::set_plant_crop_class(protocol::QuerySetValueData&v)
     return true;
     }
 
-void Plant::get_plant_status(protocol::Component *system, protocol::QueryValueData &qd) const
+void Plant::get_plant_status(protocol::Component *system, protocol::QueryValueData &qd)
 {
     switch (g.plant_status) {
         case out: system->sendVariable(qd, FString("out")); break;
@@ -3585,7 +3585,7 @@ void Plant::get_crop_type(protocol::Component *system, protocol::QueryValueData 
     system->sendVariable(qd, FString(c.crop_type.c_str()));
 }
 
-float Plant::getLeafNo(void) const
+float Plant::getLeafNo(void)
 {
    return leafPart->getLeafNo();
 }
@@ -3956,22 +3956,22 @@ void Plant::get_dlt_p_retrans(protocol::Component *systemInterface, protocol::Qu
 
 
 
-float Plant::getStageCode(void) const {return phenology->stageCode();}
-float Plant::getStageNumber(void) const {return phenology->stageNumber();}
-float Plant::getPlants(void) const {return g.plants;}
-float Plant::getCo2(void) const {return Environment.co2;}
-//float Plant::getRadnInterceptedPod(void) const {return g.radn_int_pod;}
-float Plant::getDltDMPotRueVeg(void) const {return leafPart->dltDmPotRue();}
-float Plant::getDmGreenVeg(void) const {return (leafPart->dmGreen() + stemPart->dmGreen());}
-//float Plant::getDltDmVeg(void) const {return leafPart->dltDmTotal() + stemPart->dltDmTotal();}
-////float Plant::getWaterSupplyPod(void) const {return g.swSupplyFruit;}
-////float Plant::getWaterSupplyLeaf(void) const {return g.swSupplyVeg;}
-float Plant::getDmTops(void) const{ return tops.dmGreen()+tops.dmSenesced();}
-float Plant::getDltDm(void) const{ return plant.dltDm();}
+float Plant::getStageCode(void)  {return phenology->stageCode();}
+float Plant::getStageNumber(void)  {return phenology->stageNumber();}
+float Plant::getPlants(void)  {return g.plants;}
+float Plant::getCo2(void)  {return Environment.co2;}
+//float Plant::getRadnInterceptedPod(void)  {return g.radn_int_pod;}
+float Plant::getDltDMPotRueVeg(void)  {return leafPart->dltDmPotRue();}
+float Plant::getDmGreenVeg(void)  {return (leafPart->dmGreen() + stemPart->dmGreen());}
+//float Plant::getDltDmVeg(void)  {return leafPart->dltDmTotal() + stemPart->dltDmTotal();}
+////float Plant::getWaterSupplyPod(void)  {return g.swSupplyFruit;}
+////float Plant::getWaterSupplyLeaf(void)  {return g.swSupplyVeg;}
+float Plant::getDmTops(void) { return tops.dmGreen()+tops.dmSenesced();}
+float Plant::getDltDm(void) { return plant.dltDm();}
 float Plant::getDltDmGreen(void) { return plant.dltDmGreen();}
-float Plant::getDmVeg(void) const {return leafPart->dmTotal() + stemPart->dmTotal();}
-float Plant::getDmGreenStem(void) const {return stemPart->dmGreen();}
-float Plant::getDmGreenTot(void) const {return plant.dmGreen();}
+float Plant::getDmVeg(void)  {return leafPart->dmTotal() + stemPart->dmTotal();}
+float Plant::getDmGreenStem(void)  {return stemPart->dmGreen();}
+float Plant::getDmGreenTot(void)  {return plant.dmGreen();}
 // FIXME - remove next line when P demand corrections activated
 float Plant::getRelativeGrowthRate(void) {return divide(arbitrator->dltDMWhole(plant.dltDmPotRue()), plant.dmGreen(), 0.0);} // the dlt_dm_pot_rue is only tops, thus either adjust it for roots or leave roots out of the divisor.
 float Plant::getTotalPotentialGrowthRate(void) {return arbitrator->dltDMWhole(plant.dltDmPotRue());} // the dlt_dm_pot_rue is only tops, thus adjust it for roots.
@@ -3982,16 +3982,16 @@ float Plant::getDyingFractionPlants(void)
        return dying_fract_plants;
    }
 
-float Plant::getCo2ModifierRue(void) const {return g.co2_modifier_rue;}
-float Plant::getCo2ModifierTe(void) const {return g.co2_modifier_te;}
-float Plant::getCo2ModifierNConc(void) const {return g.co2_modifier_n_conc;}
-float Plant::getVpd(void) const {return Environment.vpdEstimate();}
-float Plant::getTempStressPhoto(void) const {return g.temp_stress_photo;}
-float Plant::getNfactPhoto(void) const {return g.nfact_photo;}
-float Plant::getNfactGrainConc(void) const {return g.nfact_grain_conc;}
-float Plant::getOxdefPhoto(void) const {return g.oxdef_photo;}
-float Plant::getPfactPhoto(void) const {return g.pfact_photo;}
-float Plant::getSwdefPhoto(void) const {return g.swdef_photo;}
+float Plant::getCo2ModifierRue(void)  {return g.co2_modifier_rue;}
+float Plant::getCo2ModifierTe(void)  {return g.co2_modifier_te;}
+float Plant::getCo2ModifierNConc(void)  {return g.co2_modifier_n_conc;}
+float Plant::getVpd(void)  {return Environment.vpdEstimate();}
+float Plant::getTempStressPhoto(void)  {return g.temp_stress_photo;}
+float Plant::getNfactPhoto(void)  {return g.nfact_photo;}
+float Plant::getNfactGrainConc(void)  {return g.nfact_grain_conc;}
+float Plant::getOxdefPhoto(void)  {return g.oxdef_photo;}
+float Plant::getPfactPhoto(void)  {return g.pfact_photo;}
+float Plant::getSwdefPhoto(void)  {return g.swdef_photo;}
 bool  Plant::on_day_of(const string &what) {return (phenology->on_day_of(what));};
 bool  Plant::inPhase(const string &what) {return (phenology->inPhase(what));};
 void Plant::writeString (const char *line) {parent->writeString(line);};

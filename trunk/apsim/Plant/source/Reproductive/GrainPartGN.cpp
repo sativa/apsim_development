@@ -48,7 +48,7 @@ void fruitGrainPartGN::onInit1(protocol::Component *system)
    setupGetFunction(system, "grain_size", protocol::DTsingle, false, &fruitGrainPartGN::get_grain_size, "g", "Size of each grain");
 }
 
-float fruitGrainPartGN::grainWt(void) const
+float fruitGrainPartGN::grainWt(void)
    //===========================================================================
 {
    return divide (dmTotal(), gGrain_no, 0.0);
@@ -166,7 +166,7 @@ void fruitGrainPartGN::update(void)
 
 }
 
-//void fruitGrainPartGN::display(ostream &os) const
+//void fruitGrainPartGN::display(ostream &os)
 //{
 //   //   os << "fruitGrainPartGN:" << endl;
 //   //   os << "Green meal: " << green.meal << endl;
@@ -186,7 +186,7 @@ void fruitGrainPartGN::doProcessBioDemand(void)
    doDMDemandGrain ();
 }
 
-float fruitGrainPartGN::grainNo(void) const {return gGrain_no;}
+float fruitGrainPartGN::grainNo(void)  {return gGrain_no;}
 
 void fruitGrainPartGN::doDMDemandGrain(void)
    //===========================================================================
