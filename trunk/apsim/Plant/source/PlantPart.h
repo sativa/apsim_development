@@ -52,7 +52,7 @@ class plantPart : public plantThing
    //float DMSenesced;                  // senesced plant dry wt (g/m^2)
 
 
-   
+
    float relativeGrowthRate;
    float radiationInterceptedGreen;
    float radiationInterceptedTotal;
@@ -178,7 +178,7 @@ public:
    Pool Senesced;
    Delta Senescing;
    Delta Detaching;
-   Delta Growth;
+   virtual Delta& Growth() {return privateGrowth;}
    Delta Retranslocation;
 
    virtual void zeroAllGlobals(void);
@@ -235,13 +235,13 @@ public:
    virtual float dltNRetransOut(void);
    virtual float dltDmGreenRetransUptake(void) const;
    virtual float dltDmGreenRetrans(void) const;
-   virtual float dltDmGreen(void) const;
+   virtual float dltDmGreen(void) ;
    virtual float dltDmRetranslocate(void) const;
    virtual float dltDmDetached(void) const;
-   virtual float dltDmGreenNew(void) const;
+   virtual float dltDmGreenNew(void) ;
    virtual float dltDmSenesced(void) const;
-   virtual float dltNGreen(void) const;
-   virtual float dltPGreen(void) const;
+   virtual float dltNGreen(void) ;
+   virtual float dltPGreen(void) ;
    virtual float dltNSenesced(void) const;
    virtual float dltPSenesced(void) const;
    virtual float dltNDetached(void) const;
@@ -263,7 +263,7 @@ public:
    virtual float n_conc_min(void) const;
 
    virtual float dmGreenDemand(void) const;
-   virtual float dmDemandDifferential(void) const;
+   virtual float dmDemandDifferential(void) ;
 
    virtual float digestibilityMaxDmGreen(void) const;
    virtual float digestibilityAvgDmGreen(void) const;
@@ -281,7 +281,7 @@ public:
 
    virtual float dmGreen(void) const;
    virtual float dmGreenVeg(void) const;
-   virtual float dmGreenNew(void) const;
+   virtual float dmGreenNew(void) ;
    virtual float dmSenesced(void) const;
    virtual float dmSenescedVeg(void) const;
    virtual float dmTotal(void) const;
@@ -442,6 +442,7 @@ public:
       std::string addPartToVar(const std::string& variableName);
       std::string addPartToDesc(const std::string& description);
 
+      Delta privateGrowth;
 };
 
 

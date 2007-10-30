@@ -42,7 +42,7 @@ void fruitMealPart::doDMDemandGrain (float dm_demand)
 float fruitMealPart::nDemand2(void)
    //===========================================================================
 {
-   return l_bound(NDemand - dlt.n_senesced_retrans - Growth.N, 0.0);
+   return l_bound(NDemand - dlt.n_senesced_retrans - Growth().N, 0.0);
 }
 
 void fruitMealPart::doNRetranslocate(float dltN, float /*grain_n_demand*/)

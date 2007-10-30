@@ -347,7 +347,7 @@ void genericLeafPart::leaf_area_actual(void)
 {
    float sla_max = cSLAMax.value(gLAI);                    //calculated daily max spec leaf area
 
-   float dltLAI_carbon = Growth.DM * sla_max * smm2sm;  //maximum daily increase in leaf area
+   float dltLAI_carbon = Growth().DM * sla_max * smm2sm;  //maximum daily increase in leaf area
                                                            //index from carbon supply
    dltLAI = min(dltLAI_carbon, dltLAI_stressed);
 }

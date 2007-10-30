@@ -326,7 +326,7 @@ public:
    float getDmGreenVeg(void) const;
    //  float getDltDmVeg(void) const;
    float getDmTops(void) const;
-   float getDltDmGreen(void) const;
+   float getDltDmGreen(void);
    float getDltDm(void) const;
    float getDmVeg(void) const;
    float getDmGreenStem(void) const;
