@@ -46,10 +46,10 @@ class RootBase : public plantPart
                                           , vector<float> &fract){};
       virtual void doNConccentrationLimits(float){};
       virtual void redistribute(const vector<float> &, const vector<float> &, float){};
-//      virtual int find_layer_no(float) const{};
+//      virtual int find_layer_no(float) {};
 //      virtual int find_layer_no(float,const vector<float>&){};
 //      virtual int find_layer_no(float, float *, int){};
-      virtual float sw_avail_ratio(int layer) const{return 0;}
+      virtual float sw_avail_ratio(int layer) {return 0;}
 
       virtual void plant_water_stress (
                                        float sw_demand,

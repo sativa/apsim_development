@@ -13,7 +13,7 @@
 #include "Phase.h"
 #include "CompositePhase.h"
 
-bool compositePhase::contains(const pPhase &PhaseToLookFor) const
+bool compositePhase::contains(const pPhase &PhaseToLookFor)
 //=======================================================================================
    {
    for (vector<pPhase *>::const_iterator phase = phases.begin(); phase !=  phases.end(); phase++)
@@ -22,7 +22,7 @@ bool compositePhase::contains(const pPhase &PhaseToLookFor) const
    return false;
    }
 
-float compositePhase::getTT(void) const
+float compositePhase::getTT(void)
 //=======================================================================================
    {
    float tt = 0.0;
@@ -32,7 +32,7 @@ float compositePhase::getTT(void) const
    return tt;
    }
 
-float compositePhase::getTTTarget(void) const
+float compositePhase::getTTTarget(void)
 //=======================================================================================
    {
    float tttarget = 0.0;
@@ -43,7 +43,7 @@ float compositePhase::getTTTarget(void) const
    }
 
 
-float compositePhase::getDays(void) const
+float compositePhase::getDays(void)
 //=======================================================================================
    {
    float days = 0.0;

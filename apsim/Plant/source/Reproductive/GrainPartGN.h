@@ -29,8 +29,8 @@ public:                                             // member functions
    void onKillStem(void);
    void zeroAllGlobals(void);
    void update(void);
-   float grainNo(void) const;
-   float grainWt(void) const;
+   float grainNo(void);
+   float grainWt(void);
    void doNDemandGrain(float nfact_grain_conc, float swdef_expansion);
 
 protected:

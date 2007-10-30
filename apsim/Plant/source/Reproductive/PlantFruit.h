@@ -18,7 +18,7 @@ public:												// member functions
    static plantPart* construct(ScienceAPI& scienceAPI, plantInterface *p, const string &name);
    PlantFruit(ScienceAPI& scienceAPI, plantInterface *p, const string &name);
    ~PlantFruit();
-   void display(ostream &os) const;
+   void display(ostream &os);
 
    PlantFruit(const PlantFruit &PlantFruit); 			// copy constructor
    const PlantFruit &operator=(const PlantFruit &other);		// Assigment operator

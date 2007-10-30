@@ -20,14 +20,14 @@ class lookupFunction : public externalFunction
    void read(ScienceAPI& scienceAPI,
              const string& xName, const string& xunits, float x0, float x1,
              const string& yName, const string& yunits, float y0, float y1);
-   float value(float v) const;
-   vector<float> xVal() const {
+   float value(float v);
+   vector<float> xVal()  {
    	return(x);
    };
-   vector<float> yVal() const {
+   vector<float> yVal()  {
    	return(y);
    };
-   std::string description(void) const;
+   std::string description(void);
 };
 
 #endif

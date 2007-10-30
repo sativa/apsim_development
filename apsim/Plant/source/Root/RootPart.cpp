@@ -1130,7 +1130,7 @@ void RootPart::onNewProfile(protocol::Variant &v)
         }
     }
 
-int RootPart::find_layer_no(float depth) const
+int RootPart::find_layer_no(float depth)
 //=======================================================================================
 // Return the index of the layer corresponding to the given depth
    {
@@ -1147,7 +1147,7 @@ int RootPart::find_layer_no(float depth) const
    return indx;                                            // index of
    }
 
-float RootPart::sw_avail_ratio(int layer) const //(INPUT) soil profile layer number
+float RootPart::sw_avail_ratio(int layer)  //(INPUT) soil profile layer number
 //===========================================================================
 //     Get the soil water availability factor in a layer.  For a layer,
 //     it is 1.0 unless the plant-extractable soil water declines

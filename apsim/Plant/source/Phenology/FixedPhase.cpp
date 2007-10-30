@@ -23,7 +23,7 @@ void FixedPhase::readCultivarParameters(protocol::Component *s, const string & c
    scienceAPI.read(key, target, 0.0f, 1000000.0f);
    }
 
-string FixedPhase::description() const
+string FixedPhase::description()
 //=======================================================================================
    {
    return "   tt_"+pPhase::name()+" = "+ftoa(target, "10.0")+ " (dd)";

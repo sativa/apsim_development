@@ -256,7 +256,7 @@ void cohortingLeafPart::get_dlt_slai_age(protocol::Component *system, protocol::
    system->sendVariable(qd, sum(dltSLA_age) * plant->getPlants() * smm2sm);
 }
 
-float cohortingLeafPart::getLeafNo(void) const
+float cohortingLeafPart::getLeafNo(void)
 //=======================================================================================
 {
    return (sum(gLeafNo));
@@ -758,7 +758,7 @@ void cohortingLeafPart::remove_detachment (float /* dlt_slai_detached*/, float /
 
    }
 
-float cohortingLeafPart::senFract (void) const
+float cohortingLeafPart::senFract (void)
 //=======================================================================================
    {
    float dltSLAI = max(max(max(sum(dltSLA_age) * plant->getPlants() * smm2sm,

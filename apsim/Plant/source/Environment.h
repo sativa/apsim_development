@@ -33,13 +33,13 @@ class environment_t {
       float     co2_default;
       float     co2;
 
-   float vpdEstimate (void) const;
+   float vpdEstimate (void);
 
    float daylength(float) const;
    float daylength(int, float) const;
    private:
-      float svp(float temp) const;
-      float vpd(float svp_fract, float maxt, float mint) const;
+      float svp(float temp);
+      float vpd(float svp_fract, float maxt, float mint);
       ScienceAPI& scienceAPI;
       bool hasreadconstants;
       void OnNewMet(protocol::NewMetType &newmet) ;

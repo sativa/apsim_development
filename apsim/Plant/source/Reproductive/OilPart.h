@@ -22,7 +22,7 @@ class fruitOilPart : public plantPart {
    void zeroAllGlobals(void);
    void zeroDeltas(void);
    void readSpeciesParameters (protocol::Component *, vector<string> &);
-   float grainEnergy(void) const;
+   float grainEnergy(void);
    float energyAdjustHI(float harvestIndex) ;
    float energyAdjustDM(float DM) ;
    float calcDmDemand(float dmDemand) ;
@@ -31,7 +31,7 @@ class fruitOilPart : public plantPart {
    float giveDmGreen(float delta);
    void doDmRetranslocate(float DMAvail, float DMDemandDifferentialTotal);
    float dltDmGreen(void) ;
-   float dltDmGreenRetransUptake(void) const;
+   float dltDmGreenRetransUptake(void);
    float dmDemandDifferential(void) ;
 
    void doBioGrainOil (void);

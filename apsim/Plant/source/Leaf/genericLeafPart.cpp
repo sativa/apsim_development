@@ -153,7 +153,7 @@ void genericLeafPart::get_leaf_no(protocol::Component *system, protocol::QueryVa
 {
    system->sendVariable(qd, this->getLeafNo());
 }
-float genericLeafPart::getLeafNo(void) const
+float genericLeafPart::getLeafNo(void)
 {
    float sum = 0.0;
    for (int i = 0; i < max_node; i++) sum += gLeafNo[i];

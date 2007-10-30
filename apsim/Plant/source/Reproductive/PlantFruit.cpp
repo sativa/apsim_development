@@ -72,7 +72,7 @@ void PlantFruit::onInit1(protocol::Component *system)
    addNewCohort(system);
    }
 
-void PlantFruit::display(ostream &os) const
+void PlantFruit::display(ostream &os)
 {
    //	os << "PlantFruit:" << endl;
    //	os << "Green cover:    " << coverPod.green << endl;

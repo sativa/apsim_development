@@ -34,7 +34,7 @@ void lookupFunction::read(ScienceAPI& scienceAPI,
    }
 
 
-std::string lookupFunction::description(void) const
+std::string lookupFunction::description(void)
    {
    int pad;
    ostringstream text;
@@ -55,7 +55,7 @@ std::string lookupFunction::description(void) const
    }
 
 // Return a y value via table lookup
-float lookupFunction::value(float v) const
+float lookupFunction::value(float v)
    {
    if (x.size() == 0 || y.size() == 0)
        throw std::runtime_error(string("Uninitialised call to lookupFunction:") + xName + " and " + yName);

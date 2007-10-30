@@ -20,7 +20,7 @@ class EmergentPhase : public pPhase
          : pPhase (scienceAPI, stage_name){};
       //void updateTTTargets(const environment_t &e);
       void setupTTTarget(void);
-      virtual string description() const;
+      virtual string description();
    };
 
 

@@ -25,7 +25,7 @@ void Pool::Clear (void)
    P = 0.0;
    }
 
-Pool Pool::operator + (const Pool& Pool2) const
+Pool Pool::operator + (const Pool& Pool2)
    {
    Pool Temp;
    Temp.DM = DM + Pool2.DM;
@@ -36,7 +36,7 @@ Pool Pool::operator + (const Pool& Pool2) const
    return Temp;
    }
 
-Pool Pool::operator + (const Delta& Dlt) const
+Pool Pool::operator + (const Delta& Dlt)
    {
    Pool Temp;
    Temp.DM = DM + Dlt.DM;
@@ -47,7 +47,7 @@ Pool Pool::operator + (const Delta& Dlt) const
    return Temp;
    }
 
-Pool Pool::operator - (const Delta& Dlt) const
+Pool Pool::operator - (const Delta& Dlt)
    {
    Pool Temp;
    Temp.DM = DM - Dlt.DM;
@@ -58,7 +58,7 @@ Pool Pool::operator - (const Delta& Dlt) const
    return Temp;
    }
 
-Pool Pool::operator * (float Fraction) const
+Pool Pool::operator * (float Fraction)
    {
    Pool Temp;
    Temp.DM = DM * Fraction;

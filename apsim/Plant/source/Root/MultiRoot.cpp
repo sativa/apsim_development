@@ -76,14 +76,14 @@ float MultiRoot::oxdef_stress ()
    }
 
 
-//int MultiRoot::find_layer_no(float depth) const
+//int MultiRoot::find_layer_no(float depth)
 ////=======================================================================================
 //// Return the index of the layer corresponding to the given depth
 //   {
 //   return 1;
 //   }
 
-float MultiRoot::sw_avail_ratio(int layer) const //(INPUT) soil profile layer number
+float MultiRoot::sw_avail_ratio(int layer)  //(INPUT) soil profile layer number
 //===========================================================================
 //     Get the soil water availability factor in a layer.  For a layer,
 //     it is 1.0 unless the plant-extractable soil water declines

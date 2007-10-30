@@ -26,7 +26,7 @@ void externalFunction::read(ScienceAPI& /*scienceAPI*/,
       xUnits = string(xunits); yUnits = string(yunits);
       }
 
-std::string externalFunction::description(void) const
+std::string externalFunction::description(void)
    {
    return string("");
    }

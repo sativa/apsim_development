@@ -63,24 +63,24 @@ public:                                             // member functions
    void update(void);
 
    float grainEnergy(void);        //remove
-   float nConcPercent(void)const;         //remove
-   float grainNConcPercent(void) const;
-   float nDemandGrain(void) const;
+   float nConcPercent(void);         //remove
+   float grainNConcPercent(void);
+   float nDemandGrain(void);
    float nDemandGrain2(void);
 
    float dltDmDemand(void);
-   float dltDmGrainDemand(void) const;
+   float dltDmGrainDemand(void);
 
    float nDemand2(void);
 
-   float pConcGrain(void)const;
-   float pConcGrainTotal(void) const;
-   float pSenescedGrainTotal(void)const;     //remove
+   float pConcGrain(void);
+   float pConcGrainTotal(void);
+   float pSenescedGrainTotal(void);     //remove
 
-   virtual void display(ostream &os = cout) const;  // display function
+   virtual void display(ostream &os = cout);  // display function
 
-   float dmGrainWetTotal(void) const;
-   float grainWaterContent(void) const;
+   float dmGrainWetTotal(void);
+   float grainWaterContent(void);
 
 
    void doNDemandGrain(float nfact_grain_conc, float swdef_expansion);

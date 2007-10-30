@@ -27,7 +27,7 @@ void Delta::Clear (void)
    P = 0.0;
    }
 
-Delta Delta::operator + (const Delta& Delta2) const
+Delta Delta::operator + (const Delta& Delta2)
    {
    Delta Temp;
    Temp.DM = DM + Delta2.DM;

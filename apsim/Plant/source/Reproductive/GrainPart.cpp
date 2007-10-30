@@ -67,20 +67,20 @@ float fruitGrainPart::nDemand2(void)
    return mealPart->nDemand2();
 }
 
-float fruitGrainPart::pConcGrain(void) const
+float fruitGrainPart::pConcGrain(void)
    //===========================================================================
 {
    return pConcPercent();
 }
 
-float fruitGrainPart::pConcGrainTotal(void)  const
+float fruitGrainPart::pConcGrainTotal(void) 
    //===========================================================================
 {
    float p_conc = divide (pTotal() , dmTotal() , 0.0) * fract2pcnt;
    return p_conc;
 }
 
-float fruitGrainPart::pSenescedGrainTotal(void) const
+float fruitGrainPart::pSenescedGrainTotal(void)
    //===========================================================================
 {
    return pSenesced();
@@ -289,7 +289,7 @@ void fruitGrainPart::update(void)
    if (plant->inPhase("hi_stress_sensitive")) gDm_stress_max.update();
 }
 
-void fruitGrainPart::display(ostream &os) const
+void fruitGrainPart::display(ostream &os)
 {
    //   os << "fruitGrainPart:" << endl;
    //   os << "Green meal: " << green.meal << endl;
@@ -308,12 +308,12 @@ void fruitGrainPart::doProcessBioDemand(void)
    doDMDemandGrain ();
 }
 
-float fruitGrainPart::nDemandGrain(void) const {return gN_grain_demand;}
+float fruitGrainPart::nDemandGrain(void)  {return gN_grain_demand;}
 float fruitGrainPart::nDemandGrain2(void){return nDemand2();}
-float fruitGrainPart::nConcPercent(void) const {return divide (nTotal(), dmTotal(), 0.0) * fract2pcnt;}   //remove
-float fruitGrainPart::grainNConcPercent(void) const {return divide (nTotal(), dmTotal(), 0.0) * fract2pcnt;}
+float fruitGrainPart::nConcPercent(void)  {return divide (nTotal(), dmTotal(), 0.0) * fract2pcnt;}   //remove
+float fruitGrainPart::grainNConcPercent(void)  {return divide (nTotal(), dmTotal(), 0.0) * fract2pcnt;}
 float fruitGrainPart::dltDmDemand(void) {return gDlt_dm_grain_demand;}                               //remove
-float fruitGrainPart::dltDmGrainDemand(void) const {return gDlt_dm_grain_demand;}
+float fruitGrainPart::dltDmGrainDemand(void)  {return gDlt_dm_grain_demand;}
 
 float fruitGrainPart::meanT (void) {return 0.5 * (gMaxt + gMint);}
 
@@ -510,11 +510,11 @@ void fruitGrainPart::doNDemand2(float /*dlt_dm*/             // (INPUT)  Whole p
    NDemand += mealPart->nDemand();
 }
 
-float fruitGrainPart::dmGrainWetTotal(void) const
+float fruitGrainPart::dmGrainWetTotal(void)
 //=======================================================================================
    {
    return (divide(dmTotal(), (1.0 - cGrn_water_cont), 0.0));
    }
 
-float fruitGrainPart::grainWaterContent(void) const{return cGrn_water_cont;}
+float fruitGrainPart::grainWaterContent(void) {return cGrn_water_cont;}
 

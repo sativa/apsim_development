@@ -23,11 +23,11 @@ class plantLeafPart : public plantPart {
    virtual void readSpeciesParameters(protocol::Component *system, vector<string> &search_order) =0;
    virtual void onEmergence(void) =0;
    virtual void onKillStem(void) = 0;
-   virtual float getLAI(void) const = 0;                             //
-   virtual float getSLAI(void) const = 0;                            //
-   virtual float getLeafNo(void) const = 0;                          // The number of leaves
-   virtual float senFract (void) const = 0;                          // Fraction of canopy senescing today
-   virtual float dmGreenDemand(void) const =0;                       // Maximum DM this part can take today
+   virtual float getLAI(void) = 0;                             //
+   virtual float getSLAI(void) = 0;                            //
+   virtual float getLeafNo(void) = 0;                          // The number of leaves
+   virtual float senFract (void) = 0;                          // Fraction of canopy senescing today
+   virtual float dmGreenDemand(void) =0;                       // Maximum DM this part can take today
 
    virtual void potential (int option, float, float) =0;             // Calculate potentials
    virtual void leaf_area_stressed(float) =0;                        // the leaf area development from the
@@ -39,7 +39,7 @@ class plantLeafPart : public plantPart {
    virtual void update (void) = 0;
    virtual void remove_detachment (float dlt_slai_detached, float dlt_lai_removed ) =0;
 
-   virtual float dmRetransSupply(void) const;
+   virtual float dmRetransSupply(void);
    virtual void  doNConccentrationLimits(float modifier);
 
 };

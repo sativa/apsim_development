@@ -69,7 +69,7 @@ void environment_t::zeroAllGlobals(void)
    svp_fract = 0.0;
    }
 
-float environment_t::vpd(float svp_fract, float maxt, float mint) const
+float environment_t::vpd(float svp_fract, float maxt, float mint)
 //==========================================================================
    {
    float vpd = svp_fract * (svp(maxt) - svp(mint));
@@ -77,7 +77,7 @@ float environment_t::vpd(float svp_fract, float maxt, float mint) const
    }
 
 
-float environment_t::svp(float temp) const
+float environment_t::svp(float temp)
 //==========================================================================
 // function to get saturation vapour pressure for a given temperature in oC (kpa)
    {
@@ -87,7 +87,7 @@ float environment_t::svp(float temp) const
    return val;
    }
 
-float environment_t::vpdEstimate (void) const
+float environment_t::vpdEstimate (void)
 //===========================================================================
    {
    return (vpd(svp_fract, maxt, mint));

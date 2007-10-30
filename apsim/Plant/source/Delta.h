@@ -13,7 +13,7 @@ class Delta
       float P;
       void Move (Pool& From, Pool& To);
       void Clear (void);
-      Delta operator + (const Delta& Delta2) const;
+      Delta operator + (const Delta& Delta2);
    private:
 
    };

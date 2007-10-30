@@ -22,9 +22,9 @@ class externalFunction {
                 const string& xname, const string& xunits, float x0, float x1,
                 const string& yname, const string& yunits, float y0, float y1);
 
-   virtual std::string description(void) const;
-   virtual float value(float v) const = 0;
-   float operator [] (float arg) const {return value(arg);};
+   virtual std::string description(void);
+   virtual float value(float v) = 0;
+   float operator [] (float arg)  {return value(arg);};
    virtual bool isInitialised(void) {return false;};
 };
 

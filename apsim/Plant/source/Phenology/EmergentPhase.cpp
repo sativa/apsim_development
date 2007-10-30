@@ -47,7 +47,7 @@ void EmergentPhase::setupTTTarget()
    target = shoot_lag+sowing_depth*shoot_rate;
    }
 
-string EmergentPhase::description() const
+string EmergentPhase::description()
 //=======================================================================================
    {
    string s;
