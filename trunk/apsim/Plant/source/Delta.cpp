@@ -13,8 +13,8 @@ Delta::Delta(ScienceAPI& scienceAPI, const std::string& Name, const std::string&
 
 void Delta::Move (Pool& From, Pool& To)
    {
-   From.Remove(*this);
-   To.Add(*this);
+   From = From - *this;
+   To = To + *this;
    }
 void Delta::Clear (void)
    {

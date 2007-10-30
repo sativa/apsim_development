@@ -6,15 +6,22 @@ class Delta;
 class Pool
    {
    public:
+      Pool ();
       Pool(ScienceAPI& scienceAPI, const std::string& Name, const std::string& PartName);
+      void Clear (void);
       float DM;
       float N;
       float P;
-      void Add (Delta& Dlt);
-      void Remove (Delta& Dlt);
-      void Clear (void);
+
+      Pool operator + (const Pool& Pool2) const;
+      Pool operator + (const Delta& Dlt) const;
+      Pool operator * (float Fraction) const;
+      Pool operator = (const Pool& Pool2);
+      Pool operator - (const Delta& Dlt) const;
    private:
-      
+
+      std::string PartName;
+      std::string Name;
    };
 
 #endif
