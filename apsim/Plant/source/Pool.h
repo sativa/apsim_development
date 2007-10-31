@@ -13,16 +13,21 @@ class Pool
       float DM;
       float N;
       float P;
+      interpolationFunction DigestibilityMax;
+      interpolationFunction DigestibilityAvg;
+      interpolationFunction DigestibilityMin;
 
       Pool operator + (const Pool& Pool2);
       Pool operator + (const Delta& Dlt);
       Pool operator * (float Fraction);
       Pool operator = (const Pool& Pool2);
       Pool operator - (const Delta& Dlt);
+
    private:
       std::string PartName;
       std::string Name;
       ScienceAPI* scienceAPI;
+
    };
 
 #endif

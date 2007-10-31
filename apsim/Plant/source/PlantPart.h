@@ -143,13 +143,6 @@ class plantPart : public plantThing
       float y_p_conc_sen[max_table];
       float y_p_conc_max[max_table];
 
-      interpolationFunction digestibilityMaxDmGreen;
-      interpolationFunction digestibilityAvgDmGreen;
-      interpolationFunction digestibilityMinDmGreen;
-      interpolationFunction digestibilityMaxDmSenesced;
-      interpolationFunction digestibilityAvgDmSenesced;
-      interpolationFunction digestibilityMinDmSenesced;
-
       interpolationFunction height;
       interpolationFunction width;
 
@@ -175,11 +168,11 @@ public:
    plantPart(ScienceAPI& scienceAPI, plantInterface *p, const string &name);
    virtual ~plantPart() {};
 
-   Pool Green;
    Pool Senesced;
    Delta Senescing;
    Delta Detaching;
    virtual Delta& Growth() {return privateGrowth;}
+   virtual Pool& Green() {return PrivateGreen;}
    Delta Retranslocation;
 
    virtual void zeroAllGlobals(void);
@@ -443,6 +436,7 @@ public:
       std::string addPartToDesc(const std::string& description);
 
       Delta privateGrowth;
+      Pool  PrivateGreen;
 };
 
 

@@ -18,6 +18,18 @@ Pool::Pool(ScienceAPI& API, const std::string& Name, const std::string& PartName
    scienceAPI->expose(PartName+Name+"Wt", "g/m^2", Name + " " + PartName + " dry matter", DM);
    scienceAPI->expose(PartName+Name+"N",  "g/m^2", Name + " " + PartName + " nitrogen", N);
    scienceAPI->expose(PartName+Name+"P",  "g/m^2", Name + " " + PartName + " phosphorus", P);
+
+   DigestibilityMax.read(*scienceAPI
+                        , "x_dmd_stage_code" , "()", 1.0, 12.0
+                        , ("y_dmd_max_"+Name+"_" + PartName).c_str(), "()", 0.0, 1.0);
+
+   DigestibilityAvg.read(*scienceAPI
+                        , "x_dmd_stage_code" , "()", 1.0, 12.0
+                        , ("y_dmd_avg_"+Name+"_" + PartName).c_str(), "()", 0.0, 1.0);
+
+   DigestibilityMin.read(*scienceAPI
+                        , "x_dmd_stage_code" , "()", 1.0, 12.0
+                        , ("y_dmd_min_"+Name+"_" + PartName).c_str(), "()", 0.0, 1.0);
    }
 
 Pool::Pool()

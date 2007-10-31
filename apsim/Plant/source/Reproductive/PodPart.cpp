@@ -65,7 +65,7 @@ void fruitPodPart::onStartGrainFill(void)
 void fruitPodPart::doDmMin(void)
 //=======================================================================================
 {
-   float dm_plant = divide (Green.DM, plant->getPlants(), 0.0);
+   float dm_plant = divide (Green().DM, plant->getPlants(), 0.0);
    DMPlantMin = max (dm_plant * (1.0 - c.trans_frac), DMPlantMin);
 }
 
@@ -118,7 +118,7 @@ void fruitPodPart::doDmRetranslocate(float DMAvail, float DMDemandDifferentialTo
 float fruitPodPart::dltDmRetranslocateSupply(float DemandDifferential)
 //=======================================================================================
    {
-   float DMPartPot = Green.DM + Retranslocation.DM;
+   float DMPartPot = Green().DM + Retranslocation.DM;
    float DMPartAvail = DMPartPot - DMPlantMin * plant->getPlants();
    DMPartAvail = l_bound (DMPartAvail, 0.0);
    float DltDmRetransPart = min (DemandDifferential, DMPartAvail);
