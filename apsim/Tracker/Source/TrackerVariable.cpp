@@ -281,7 +281,10 @@ void TrackerVariable::respondToGet(unsigned int& fromID,
 void TrackerVariable::doSample(void)
    {
    if (stat == countStat)
-      count++;
+      {
+      if (inWindow)
+         count++;
+      }
    else if (stat == dateStat)
       {
       protocol::Variant* variant;
