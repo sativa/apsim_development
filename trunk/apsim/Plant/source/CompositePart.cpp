@@ -1017,16 +1017,16 @@ void CompositePart::fixPools()
    // DPH - This is a hack for now. Get rid of ASAP.
    // ----------------------------------------------------------
    vector <plantPart *>::iterator part;
-   Green.Clear();
+   Green().Clear();
    Senesced.Clear();
    Senescing.Clear();
    Detaching.Clear();
    Growth().Clear();
    for (part = myParts.begin(); part != myParts.end(); part++)
       {
-      Green.DM += (*part)->Green.DM;
-      Green.N += (*part)->Green.N;
-      Green.P += (*part)->Green.P;
+      Green().DM += (*part)->Green().DM;
+      Green().N += (*part)->Green().N;
+      Green().P += (*part)->Green().P;
       Senesced.DM += (*part)->Senesced.DM;
       Senesced.N += (*part)->Senesced.N;
       Senesced.P += (*part)->Senesced.P;
