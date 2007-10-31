@@ -156,7 +156,7 @@
          </rule>
       </initdata>
    </component>
-   <component name="stock" executable="C:\Program Files\FarmWise\stock.dll">
+   <component name="stock" executable="C:\Program Files\AusFarm\stock.dll">
     <initdata>
         <initsection>
           <init name="genotypes" array="T">
@@ -241,7 +241,7 @@
         </rule>
       </initdata>
    </component>
-   <component name="supplement" executable="C:\Program Files\FarmWise\supplement.dll">
+   <component name="supplement" executable="C:\Program Files\AusFarm\supplement.dll">
     <initdata>
         <initsection>
           <init name="spoilage_time" kind="double" unit="d">
