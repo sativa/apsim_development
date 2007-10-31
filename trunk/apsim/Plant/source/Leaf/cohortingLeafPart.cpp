@@ -566,7 +566,7 @@ void cohortingLeafPart::leaf_area_stressed (float stressFactor)
    dltLAI_stressed = dltLAI_pot * stressFactor;
    }
 
-void cohortingLeafPart::detachment (void)
+void cohortingLeafPart::Detachment (void)
 //=======================================================================================
    {
    cproc_lai_detachment1 (c.sen_detach_frac
@@ -589,6 +589,7 @@ void cohortingLeafPart::detachment (void)
         }
       }
 
+    plantPart::Detachment();
   }
 
 void cohortingLeafPart::leaf_area_sen(float swdef_photo , float mint)

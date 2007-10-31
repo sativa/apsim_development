@@ -35,7 +35,6 @@ class plantLeafPart : public plantPart {
    virtual void actual(void) =0;                                     // Calculate actual leaf development from potential & stressed
    virtual void leaf_death (float nfact_expansion, float  dlt_tt) =0;//
    virtual void leaf_area_sen (float, float) =0;
-   virtual void detachment (void) =0;
    virtual void update (void) = 0;
    virtual void remove_detachment (float dlt_slai_detached, float dlt_lai_removed ) =0;
 

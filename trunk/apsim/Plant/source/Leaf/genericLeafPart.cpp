@@ -497,7 +497,7 @@ void genericLeafPart::leaf_area_stressed (float stressFactor)
     dltLAI_stressed = dltLAI_pot * stressFactor;
     }
 
-void genericLeafPart::detachment (void)
+void genericLeafPart::Detachment (void)
    {
         cproc_lai_detachment1 (c.sen_detach_frac
                                , gSLAI
@@ -509,6 +509,7 @@ void genericLeafPart::detachment (void)
                                , 1.0  //required because gLeafArea is on an area basis not a plant basis
                                , max_node);
 
+    plantPart::Detachment();
    }
 
 //   Calculate todays leaf area senescence

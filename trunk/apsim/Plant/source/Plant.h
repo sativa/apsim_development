@@ -130,7 +130,6 @@ public:
    void plant_oxdef_stress ();
    void plant_bio_water (void);
    void plant_retrans_init (int option);
-   void plant_detachment (void);
    void plant_plant_death (int option /* (INPUT) option number*/);
    float plant_death_seedling    (
                                   int    c_num_weighted_temp
