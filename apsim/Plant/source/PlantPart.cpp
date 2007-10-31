@@ -34,7 +34,6 @@ plantPart::plantPart(ScienceAPI& api, plantInterface *p, const string &name)
      c.yield_part = false;
      c.retrans_part = false;
      c.n_deficit_uptake_fraction = 0;
-     Green.DM = 0;
      tempFlagToShortCircuitInit1 = false;
      };
 
@@ -483,9 +482,7 @@ void plantPart::onGermination()
 void plantPart::onEmergence()
 //=======================================================================================
    {
-   Green.DM = c.dm_init * plant->getPlants();
-   Green.N = c.n_init_conc * Green.DM;
-   Green.P = c.p_init_conc * Green.DM;
+   Green.Init(plant->getPlants());
    }
 
 void plantPart::onFlowering(void)
@@ -893,21 +890,13 @@ void plantPart::doSoilNDemand(void)
    SoilNDemand = l_bound(SoilNDemand,0.0);
    }
 
-void plantPart::doSenescence1(float sen_fr)
+void plantPart::doSenescence(float sen_fr)
 //=======================================================================================
    {
    float fraction_senescing = c.dm_sen_frac.value(sen_fr);
    fraction_senescing = bound (fraction_senescing, 0.0, 1.0);
    Senescing.DM = (Green.DM + Growth().DM + Retranslocation.DM)
                    * fraction_senescing;
-   }
-
-void plantPart::doSenescence2(float sen_fr)
-//=======================================================================================
-   {
-   float fraction_senescing = c.dm_sen_frac.value(sen_fr);
-   fraction_senescing = bound (fraction_senescing, 0.0, 1.0);
-   Senescing.DM = Green.DM * fraction_senescing;
    }
 
 //void plantPart::doDmPartition(float DMAvail, float DMDemandTotal)
@@ -1527,11 +1516,6 @@ void plantPart::doPRetranslocate(float total_p_supply, float total_p_demand)
       }
    }
 
-void plantPart::doPInit()
-//=======================================================================================
-   {
-   Green.P = c.p_init_conc * Green.DM;
-   }
 
 float plantPart::pMaxPot(void)
 //=======================================================================================

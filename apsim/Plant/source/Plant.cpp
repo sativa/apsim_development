@@ -1253,31 +1253,6 @@ void Plant::plant_nit_demand_est (int option)
         }
     }
 
-void Plant::plant_sen_bio (int dm_senescence_option)
-//=======================================================================================
-//       Simulate plant senescence.
-    {
-    if (dm_senescence_option == 1)
-        {
-        for (vector<plantPart *>::iterator t = myParts.begin();
-             t != myParts.end();
-             t++)
-           (*t)->doSenescence1(leafPart->senFract());
-         }
-    else if (dm_senescence_option == 2)
-         {
-         //XX this arm is redundant - not used by any ini files..????
-        for (vector<plantPart *>::iterator t = myParts.begin();
-             t != myParts.end();
-             t++)
-           (*t)->doSenescence2(leafPart->senFract());
-        }
-    else
-        {
-        throw std::invalid_argument ("invalid template option in plant_sen_bio");
-        }
-    }
-
 void Plant::plant_sen_nit (int   option/*(INPUT) option number*/)
 //=======================================================================================
 //       Simulate plant nitrogen senescence.
@@ -1913,7 +1888,7 @@ void Plant::plant_process ( void )
         leafPart->leaf_death( min(g.nfact_expansion, g.pfact_expansion), phenology->get_dlt_tt());
         leafPart->leaf_area_sen( g.swdef_photo , Environment.mint);
 
-        plant_sen_bio (c.dm_senescence_option);
+        plant.doSenescence(leafPart->senFract());
         rootPart->sen_length();
 
         for (vector<plantPart *>::iterator t = myParts.begin(); t != myParts.end(); t++)
@@ -3257,9 +3232,6 @@ void Plant::plant_read_species_const ()
     //    plant_phenology_init                           //FIXME - should be in leafPart
     scienceAPI.read("leaf_no_pot_option", c.leaf_no_pot_option, 1, 2);
     scienceAPI.read("n_retrans_option", c.n_retrans_option, 1, 2);
-
-    //    plant_dm_senescence
-    scienceAPI.read("dm_senescence_option", c.dm_senescence_option, 1, 3);
 
     //    plant_n_senescence
     scienceAPI.read("n_senescence_option", c.n_senescence_option, 1, 2);

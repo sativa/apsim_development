@@ -188,7 +188,6 @@ public:
    void plant_nit_demand_est (int option);
    void plant_height (int   option/*(INPUT) option number*/);
    void plant_width (int   option /*(INPUT) option number*/);
-   void plant_sen_bio (int option);
    void plant_sen_nit (int   option/*(INPUT) option number*/);
    void plant_leaf_death (int   option/*(INPUT) option number*/);
    void plant_leaf_area_sen (int   option/*(INPUT) option number*/);
@@ -465,7 +464,6 @@ public:
 
    void  PlantP_demand (vector<plantPart *>&);
    void  PlantP_Stress (vector<plantPart *>&);
-   void  PlantP_init_pools (vector<plantPart*>&);
    void  PlantP_partition (vector<plantPart*>&);
    void  PlantP_senescence (vector<plantPart*>&);
    void  PlantP_retrans (vector<plantPart*>&);
@@ -611,7 +609,6 @@ private:
       int   n_retrans_option;
       int   n_stress_option;
       int   n_senescence_option;
-      int   dm_senescence_option;
 
       float n_stress_start_stage;
 

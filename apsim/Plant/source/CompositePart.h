@@ -22,7 +22,7 @@ public:                                             // member functions
    virtual void doProcessBioDemand(void);
    virtual void onDayOf(const string &);
    virtual float availableRetranslocateN(void);
-
+   virtual void onEmergence();
    virtual void get_name(vector<string> &name);
    virtual void get_p_demand(vector<float> &p_demand);
    virtual void get_dlt_p_retrans(vector<float> &dlt_p_retrans);
@@ -169,8 +169,6 @@ public:                                             // member functions
    virtual float pRetransSupply(void);
    virtual float pRetransDemand(void);
 
-   virtual void doPInit(void);
-
    virtual void display(ostream &os = cout) ;  // display function
    virtual void doCover (PlantSpatial &spatial);
 
@@ -191,8 +189,7 @@ public:                                             // member functions
    virtual float nDemandDifferential(void);
    virtual void doNFixRetranslocate(float NFix, float NDemandDifferentialTotal);
    virtual void doBioActual (void);
-   virtual void doSenescence1 (float sen_fr);
-   virtual void doSenescence2 (float sen_fr);
+   virtual void doSenescence (float sen_fr);
    virtual void doDmMin(void);
 
    virtual void doNInit (void);

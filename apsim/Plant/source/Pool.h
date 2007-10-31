@@ -9,6 +9,7 @@ class Pool
       Pool ();
       Pool(ScienceAPI& scienceAPI, const std::string& Name, const std::string& PartName);
       void Clear (void);
+      void Init (float Plants);
       float DM;
       float N;
       float P;
@@ -19,9 +20,9 @@ class Pool
       Pool operator = (const Pool& Pool2);
       Pool operator - (const Delta& Dlt);
    private:
-
       std::string PartName;
       std::string Name;
+      ScienceAPI* scienceAPI;
    };
 
 #endif
