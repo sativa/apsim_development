@@ -897,6 +897,14 @@ void CompositePart::onHarvest(float cutting_height, float remove_fr,
                          fraction_to_residue);
 }
 
+void CompositePart::onEmergence()
+//=======================================================================================
+   {
+   vector <plantPart *>::iterator part;
+   for (part =  myParts.begin(); part != myParts.end(); part++)
+      (*part)->onEmergence();
+   }
+
 void CompositePart::onKillStem(void)
    // ====================================================================
 {
@@ -1401,25 +1409,16 @@ void CompositePart::doDmRetranslocate(float DMAvail, float DMDemandDifferentialT
       }
    }
 
-void CompositePart::doSenescence1 (float sen_fr)       // (OUTPUT) actual biomass senesced from plant parts (g/m^2)
+void CompositePart::doSenescence (float sen_fr)       // (OUTPUT) actual biomass senesced from plant parts (g/m^2)
    //============================================================================
 {
    //   Derives seneseced plant dry matter (g/m^2) for the day
 
    vector <plantPart *>::iterator part;
    for (part =  myParts.begin(); part != myParts.end(); part++)
-      (*part)->doSenescence1(sen_fr);
+      (*part)->doSenescence(sen_fr);
 }
 
-void CompositePart::doSenescence2 (float sen_fr)       // (OUTPUT) actual biomass senesced from plant parts (g/m^2)
-   //============================================================================
-{
-   //   Derives seneseced plant dry matter (g/m^2) for the day
-
-   vector <plantPart *>::iterator part;
-   for (part =  myParts.begin(); part != myParts.end(); part++)
-      (*part)->doSenescence2(sen_fr);
-}
 
 void CompositePart::doDmMin (void)       // (OUTPUT) actual biomass senesced from plant parts (g/m^2)
    //============================================================================
@@ -1668,14 +1667,6 @@ void CompositePart::doPRetranslocate(float total_p_supply, float total_p_demand)
       (*part)->doPRetranslocate(total_p_supply, total_p_demand);    //FIXME - divy up?
 }
 
-
-void CompositePart::doPInit(void)
-   //============================================================================
-{
-   vector <plantPart *>::iterator part;
-   for (part = myParts.begin(); part != myParts.end(); part++)
-      (*part)->doPInit();
-}
 
 float CompositePart::dmGreenStressDeterminant(void)
    //============================================================================

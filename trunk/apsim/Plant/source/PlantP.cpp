@@ -252,35 +252,6 @@ void Plant::PlantP_Stress (vector<plantPart *> &allParts)
       g.pfact_grain = bound(g.pfact_grain, 0.0, 1.0);
 
 }
-void Plant::PlantP_init_pools (vector<plantPart*>&parts)  //FIXME - this is not referenced anywhere!!!
-// ====================================================================
-//      Initialise Plant P Pools
-{
-//+  Local Variables
-   vector<plantPart *>::iterator part;
-   float dmSum = 0.0, pSum = 0.0;
-
-//- Implementation Section ----------------------------------
-
-   // This is wrong. need to initialise these on an event. XXXX
-   for (part = parts.begin(); part != parts.end(); part++)
-      {
-      dmSum += (*part)->dmGreen();
-      pSum += (*part)->pGreen();
-      }
-
-
-
-   if (dmSum > 0.0 && pSum <= 0.0)
-         {
-         // biomass has been initialised but the p pools have not
-         for (part = parts.begin(); part != parts.end(); part++)
-            {
-            (*part)->doPInit();
-            }
-         }
-}
-
 void Plant::plant_p_retrans(void)
 {
    if (g.phosphorus_aware == true)

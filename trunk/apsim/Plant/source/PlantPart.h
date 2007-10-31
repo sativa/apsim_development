@@ -208,8 +208,7 @@ public:
    virtual void doNDemand1Pot(float, float);
    virtual void doNDemand2(float, float);
    virtual void doSoilNDemand(void);
-   virtual void doSenescence1(float);
-   virtual void doSenescence2(float);
+   virtual void doSenescence(float);
    virtual void doNSenescence(void);
    virtual void doNSenescedRetrans(float navail, float n_demand_tot);
    virtual void doNRetranslocate( float N_supply, float g_grain_n_demand);
@@ -336,7 +335,7 @@ public:
 
    virtual void doPPartition(float p_uptake, float total_p_demand);
    virtual void doPRetranslocate(float total_p_supply, float total_p_demand);
-   virtual void doPInit(void);
+
 
    virtual void onHarvest(float height, float remove_fr,
                           vector<string> &dm_type,
@@ -425,11 +424,13 @@ public:
    virtual bool isYieldPart(void)  {return c.yield_part;};
    virtual bool isRetransPart(void)  {return c.retrans_part;};
 
+   virtual void onEmergence(void);
+
    protected:
 
       virtual void onSowing(void);
       virtual void onGermination(void);
-      virtual void onEmergence(void);
+
       virtual void onTransplanting(void) {};
       virtual void onFlowering(void);
       virtual void onStartGrainFill(void);
