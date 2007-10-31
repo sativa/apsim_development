@@ -1,23 +1,9 @@
 #include <stdio.h>
 #include <math.h>
-#include <map>
-#include <string>
 #include <stdexcept>
+#include <string>
+#include "PlantPart.h"
 
-#include <boost/function.hpp>
-#include <boost/bind.hpp>
-
-#include <ComponentInterface/Type.h>
-#include <ComponentInterface/ApsimVariant.h>
-#include <ComponentInterface/Component.h>
-#include <ComponentInterface/datatypes.h>
-#include <ComponentInterface/Messages.h>
-#include <ComponentInterface/MessageDataExt.h>
-#include <ApsimShared/ApsimComponentData.h>
-#include <ApsimShared/FStringExt.h>
-#include <general/string_functions.h>
-
-#include "PlantInterface.h"
 #include "MealPart.h"
 using namespace std;
 

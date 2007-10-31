@@ -1,22 +1,11 @@
 #include <stdio.h>
 #include <math.h>
-#include <vector>
-#include <string>
 #include <stdexcept>
-#include <ComponentInterface/Component.h>
-#include <ComponentInterface/datatypes.h>
-#include <ComponentInterface/ApsimVariant.h>
-#include <ComponentInterface/MessageDataExt.h>
-#include <ComponentInterface/ScienceAPI.h>
+#include <string>
+#include "PlantPart.h"
 
-#include "PlantComponent.h"
-#include "PlantLibrary.h"
-#include "PlantInterface.h"
 #include "Phase.h"
 #include "EmergentPhase.h"
-#include "Environment.h"
-
-#include <iostream.h>
 
 void EmergentPhase::onSow(protocol::ApsimVariant incomingApsimVariant)
 //=======================================================================================

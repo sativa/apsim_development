@@ -1,13 +1,9 @@
 #include <stdio.h>
 #include <math.h>
-#include <vector>
-#include <string>
 #include <stdexcept>
-#include <general/string_functions.h>
-#include <ComponentInterface/Component.h>
-#include "PlantComponent.h"
-#include "PlantLibrary.h"
-#include "Plant.h"
+#include <string>
+#include "PlantPart.h"
+
 //+  Purpose
 //       Derives seneseced plant nitrogen (g N/m^2)
 

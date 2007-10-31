@@ -1,5 +1,9 @@
+#include <stdio.h>
+#include <math.h>
+#include <stdexcept>
+#include <string>
 #include "PlantPart.h"
-#include <ComponentInterface/ScienceAPI.h>
+
 using namespace std;
 
 plantPart::plantPart(ScienceAPI& api, plantInterface *p, const string &name)

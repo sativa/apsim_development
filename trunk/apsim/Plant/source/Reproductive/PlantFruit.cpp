@@ -1,10 +1,11 @@
-
-// Modification log
-// 6 Aug 97 J. Hargreaves  Implementation
+#include <stdio.h>
+#include <math.h>
+#include <stdexcept>
+#include <string>
+#include "PlantPart.h"
 
 #include "PlantFruit.h"
 #include "FloretPart.h"
-#include <ComponentInterface/ScienceAPI.h>
 
 using namespace std;
 

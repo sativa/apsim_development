@@ -1,11 +1,8 @@
 #include <stdio.h>
 #include <math.h>
-#include <vector>
+#include <stdexcept>
 #include <string>
-#include <ComponentInterface/Component.h>
-#include <ApsimShared/ApsimComponentData.h>
-#include "PlantComponent.h"
-#include "PlantLibrary.h"
+#include "PlantPart.h"
 
 //===========================================================================
 void crop_pool_fraction_delta (const int num_part,   // (INPUT)  number of plant parts

@@ -1,14 +1,8 @@
 #include <stdio.h>
 #include <math.h>
-#include <string>
 #include <stdexcept>
-
-#include <boost/function.hpp>
-#include <boost/bind.hpp>
-#include <numeric>
-
-#include <ComponentInterface/datatypes.h>
-#include <ComponentInterface/ScienceAPI.h>
+#include <string>
+#include "PlantPart.h"
 
 #include "MultiRoot.h"
 #include "RootGrowthOption1.h"

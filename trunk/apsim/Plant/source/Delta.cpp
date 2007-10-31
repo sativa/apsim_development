@@ -1,7 +1,12 @@
+#include <stdio.h>
+#include <math.h>
+#include <stdexcept>
+#include <string>
+#include "PlantPart.h"
 
 #include "Delta.h"
 #include "Pool.h"
-#include <ComponentInterface/ScienceAPI.h>
+
 using namespace std;
 
 Delta::Delta()

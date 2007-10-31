@@ -1,14 +1,9 @@
 #include <stdio.h>
-#include <string>
+#include <math.h>
 #include <stdexcept>
-#include <ComponentInterface/Component.h>
-#include <ComponentInterface/ApsimVariant.h>
-#include <ComponentInterface/ScienceAPI.h>
-
-#include "PlantComponent.h"
-#include "PlantLibrary.h"
-#include "Plant.h"
+#include <string>
 #include "PlantPart.h"
+
 #include "Leaf/LeafPart.h"
 #include "arbitrator.h"
 #include "CerealArbitrator.h"

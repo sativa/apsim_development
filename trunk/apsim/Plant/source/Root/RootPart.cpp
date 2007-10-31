@@ -1,20 +1,14 @@
 #include <stdio.h>
 #include <math.h>
-#include <string>
 #include <stdexcept>
-
-#include <boost/function.hpp>
-#include <boost/bind.hpp>
-#include <numeric>
-
-#include <ComponentInterface/datatypes.h>
-#include <ComponentInterface/ScienceAPI.h>
+#include <string>
+#include "PlantPart.h"
 
 #include "RootPart.h"
 #include "RootGrowthOption1.h"
 #include "RootGrowthOption2.h"
 #include "Environment.h"
-
+#include <numeric>
 using namespace std;
 
 string IncorpFOMType = protocol::DDML(protocol::IncorpFomType());
