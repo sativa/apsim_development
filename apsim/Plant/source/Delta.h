@@ -1,5 +1,6 @@
 #ifndef DeltaH
 #define DeltaH
+
 #include <string>
 class ScienceAPI;
 class Pool;

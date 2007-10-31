@@ -1,17 +1,9 @@
 #include <stdio.h>
 #include <math.h>
-#include <vector>
-#include <string>
 #include <stdexcept>
-#include <ComponentInterface/MessageDataExt.h>
-#include <ComponentInterface/Component.h>
-#include <ComponentInterface/datatypes.h>
-#include <ComponentInterface/ApsimVariant.h>
-#include <ComponentInterface/ScienceAPI.h>
+#include <string>
+#include "PlantPart.h"
 
-#include "PlantComponent.h"
-#include "PlantLibrary.h"
-#include "PlantInterface.h"
 #include "PlantPhenology.h"
 #include "Environment.h"
 #include "FixedPhase.h"
@@ -26,7 +18,6 @@
 #include "BroccoliPhenology.h"
 
 #include "Utility/OutputVariable.h"
-#include "iostream.h"
 
 PlantPhenology * constructPhenology(ScienceAPI& scienceAPI, plantInterface *plant, const string &name)
     {

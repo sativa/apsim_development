@@ -20,6 +20,7 @@
 #include <ApsimShared/ApsimComponentData.h>
 #include <ApsimShared/FStringExt.h>
 #include <general/string_functions.h>
+#include <ComponentInterface/ScienceAPI.h>
 
 #include "PlantLibrary.h"
 #include "PlantComponent.h"

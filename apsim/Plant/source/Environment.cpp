@@ -1,5 +1,11 @@
+#include <stdio.h>
+#include <math.h>
+#include <stdexcept>
+#include <string>
+#include "PlantPart.h"
+
 #include "Environment.h"
-#include <ComponentInterface/ScienceAPI.h>
+
 static const char* floatType =        "<type kind=\"single\"/>";
 
 environment_t::environment_t(ScienceAPI& sAPI)

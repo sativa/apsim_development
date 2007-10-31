@@ -1,9 +1,8 @@
 #include <stdio.h>
 #include <math.h>
-#include <vector>
-#include <string>
 #include <stdexcept>
-#include "PlantLibrary.h"
+#include <string>
+#include "PlantPart.h"
 
 
 //============================================================================

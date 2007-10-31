@@ -1,11 +1,8 @@
 #include <stdio.h>
-#include <vector>
-#include <string>
-#include <list>
-
-#include <string.h>
 #include <math.h>
 #include <stdexcept>
+#include <string>
+#include "PlantPart.h"
 #include "PlantLibrary.h"
 
 using namespace std;

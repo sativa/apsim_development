@@ -1,29 +1,12 @@
 #include <stdio.h>
 #include <math.h>
-#include <string>
-
-#include <map>
-#include <list>
-#include <vector>
 #include <stdexcept>
-#include <sstream>
-
-#include <boost/function.hpp>
-#include <boost/bind.hpp>
-
-#include <ComponentInterface/MessageDataExt.h>
-#include <ComponentInterface/Component.h>
-#include <ComponentInterface/Type.h>
-#include <ComponentInterface/ScienceAPI.h>
-#include <ComponentInterface/datatypes.h>
-
-#include "PlantComponent.h"
-#include "PlantInterface.h"
-#include "PlantLibrary.h"
-#include "Phenology/PlantPhenology.h"
-#include "Plant.h"
+#include <string>
 #include "PlantPart.h"
+
+#include "Plant.h"
 #include "CompositePart.h"
+#include "Phenology/PlantPhenology.h"
 #include "Leaf/LeafPart.h"
 #include "Reproductive/PlantFruit.h"
 #include "StemPart.h"

@@ -1,14 +1,9 @@
 #include <stdio.h>
-#include <string>
+#include <math.h>
 #include <stdexcept>
-
-#include <ComponentInterface/Component.h>
-#include <general/string_functions.h>
-
-#include "PlantInterface.h"
-#include "PlantLibrary.h"
-#include "Plant.h"
+#include <string>
 #include "PlantPart.h"
+
 #include "LeafPart.h"
 #include "genericLeafPart.h"
 #include "cohortingLeafPart.h"

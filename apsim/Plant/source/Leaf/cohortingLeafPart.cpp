@@ -1,29 +1,11 @@
 #include <stdio.h>
 #include <math.h>
-#include <map>
-#include <string>
 #include <stdexcept>
-
-#include <boost/function.hpp>
-#include <boost/bind.hpp>
-
-#include <ComponentInterface/MessageDataExt.h>
-#include <ComponentInterface/Type.h>
-#include <ComponentInterface/ApsimVariant.h>
-#include <ComponentInterface/Component.h>
-#include <ComponentInterface/datatypes.h>
-#include <ComponentInterface/ScienceAPI.h>
-#include <ApsimShared/ApsimComponentData.h>
-#include <ApsimShared/FStringExt.h>
-#include <general/string_functions.h>
-
-#include "PlantInterface.h"
-#include "PlantLibrary.h"
-#include "Plant.h"
+#include <string>
 #include "PlantPart.h"
+
 #include "LeafPart.h"
 #include "cohortingLeafPart.h"
-#include "iostream.h"
 using namespace std;
 
 

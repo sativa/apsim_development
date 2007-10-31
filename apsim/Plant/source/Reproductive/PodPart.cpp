@@ -1,7 +1,11 @@
-#include "CompositePart.h"
+#include <stdio.h>
+#include <math.h>
+#include <stdexcept>
+#include <string>
+#include "PlantPart.h"
+
 #include "GrainPart.h"
 #include "PodPart.h"
-#include <ComponentInterface/ScienceAPI.h>
 using namespace std;
 
 fruitPodPart::fruitPodPart(ScienceAPI& scienceAPI, plantInterface *p, fruitGrainPart *g, const string &name)

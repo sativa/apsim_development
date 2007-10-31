@@ -1,7 +1,10 @@
+#include <stdio.h>
+#include <math.h>
+#include <stdexcept>
+#include <string>
+#include "PlantPart.h"
 
 #include "PlantSpatial.h"
-#include <ComponentInterface/ScienceAPI.h>
-////using namespace std;
 
 PlantSpatial::PlantSpatial(void)
    {

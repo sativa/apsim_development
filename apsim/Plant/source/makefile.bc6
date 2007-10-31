@@ -90,7 +90,7 @@ INCLUDEPATH = $(BCB)\include;$(BCB)\include\vcl;$(BCB)\Components\Boost;$(APSROO
 LIBPATH = $(BCB)\lib\obj;$(BCB)\lib;$(APSROOT)\Shared\ComponentInterface
 
 # ---------------------------------------------------------------------------
-CFLAG1 = $(SYSCFLAGS) -O2 -vi -TWD
+CFLAG1 = $(SYSCFLAGS) -O2 -vi -TWD -H=$(BCB)\lib\vcl60.csm -Hh=PlantPart.h -Hc 
 WARNINGS = -w-par
 LFLAGS = -D"" -aa -Tpd -x -Gn -Gi
 

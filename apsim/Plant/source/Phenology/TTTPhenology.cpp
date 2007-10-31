@@ -1,12 +1,9 @@
-#include <sstream>
-#include <ComponentInterface/Component.h>
-#include <ComponentInterface/datatypes.h>
-#include <ComponentInterface/ApsimVariant.h>
-#include <ComponentInterface/MessageDataExt.h>
-#include <ComponentInterface/ScienceAPI.h>
-#include "PlantComponent.h"
-#include "PlantLibrary.h"
-#include "PlantInterface.h"
+#include <stdio.h>
+#include <math.h>
+#include <stdexcept>
+#include <string>
+#include "PlantPart.h"
+
 #include "PlantPhenology.h"
 #include "TTTPhenology.h"
 #include "Environment.h"

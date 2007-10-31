@@ -1,12 +1,9 @@
 #include <stdio.h>
-#include <string>
+#include <math.h>
 #include <stdexcept>
-#include <ComponentInterface/Component.h>
-#include <ComponentInterface/ApsimVariant.h>
+#include <string>
+#include "PlantPart.h"
 
-#include "PlantComponent.h"
-#include "PlantLibrary.h"
-//#include "Environment.h"
 #include "Plant.h"
 #include "Observers.h"
 
