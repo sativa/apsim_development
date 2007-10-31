@@ -42,10 +42,8 @@ public:                                             // member functions
    virtual void doNDemand2(float, float);
    virtual void doSoilNDemand(void);
    virtual void doNSenescence(void);
-   virtual void doDmDetachment(void);
-   virtual void doNDetachment(void);
-   virtual void doPDetachment(void);
    virtual void doPDemand(void);
+   virtual void Detachment(void);
    virtual void doPSenescence(void);
    virtual void  doRemoveBiomass(protocol::RemoveCropDmType dmRemoved, string &c_remove_biomass_report);
    virtual void  removeBiomass(void);

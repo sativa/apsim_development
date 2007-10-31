@@ -213,11 +213,9 @@ public:
    virtual void doNSenescedRetrans(float navail, float n_demand_tot);
    virtual void doNRetranslocate( float N_supply, float g_grain_n_demand);
    virtual void doNFixRetranslocate(float NFix, float NDemandDifferentialTotal);
-   virtual void doDmDetachment(void);
-   virtual void doNDetachment(void);
+   virtual void Detachment(void);
    virtual void doProcessBioDemand(void);
 
-   virtual void doPDetachment(void);
    virtual void doPDemand(void);
    virtual void doPSenescence(void);
 

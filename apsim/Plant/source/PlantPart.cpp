@@ -993,16 +993,12 @@ void plantPart::doNRetranslocate( float N_supply, float g_grain_n_demand)
 // need to do bound check here  FIXME
    }
 
-void plantPart::doDmDetachment(void)
+void plantPart::Detachment(void)
 //=======================================================================================
    {
    Detaching.DM = Senesced.DM * c.sen_detach_frac;
-   }
-
-void plantPart::doNDetachment(void)
-//=======================================================================================
-   {
    Detaching.N = Senesced.N * c.sen_detach_frac;
+   Detaching.P = Senesced.P * c.sen_detach_frac;
    }
 
 void plantPart::doPSenescence(void)
@@ -1018,16 +1014,6 @@ void plantPart::doPSenescence(void)
    Senescing.P = u_bound(sen_p_conc, green_p_conc) * Senescing.DM;
    Senescing.P = u_bound (Senescing.P, Green.P);
    }
-
-void plantPart::doPDetachment(void)
-//=======================================================================================
-   {
-   float sen_detach_frac = divide(Detaching.DM, Senesced.DM, 0.0);
-
-   Detaching.P = Senesced.P * sen_detach_frac;
-
-   }
-
 
 float critNFactor(vector< plantPart *> &parts, float multiplier)
 //=======================================================================================

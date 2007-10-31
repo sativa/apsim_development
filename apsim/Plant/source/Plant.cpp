@@ -780,21 +780,6 @@ void Plant::plant_bio_water (void)
     }
 
 
-void Plant::plant_detachment (void)
-//     ===========================================================
-//       Simulate plant detachment.
-    {
-        leafPart->detachment();
-
-        for (vector<plantPart *>::iterator t = myParts.begin();
-             t != myParts.end();
-             t++)
-           {
-           (*t)->doDmDetachment();
-           (*t)->doNDetachment();
-           if (g.phosphorus_aware == true) (*t)->doPDetachment();
-           }
-    }
 
 void Plant::plant_plant_death (int option /* (INPUT) option number*/)
 //=======================================================================================
@@ -1991,7 +1976,7 @@ void Plant::plant_process ( void )
         }
 
 
-    plant_detachment ();
+    plant.Detachment();
 
     plant_cleanup();
 

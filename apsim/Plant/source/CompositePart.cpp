@@ -1537,7 +1537,7 @@ void CompositePart::doNSenescence(void)
       (*part)->doNSenescence();
 }
 
-void CompositePart::doDmDetachment(void)
+void CompositePart::Detachment(void)
    //============================================================================
 {
    Detaching.DM = 0.0;
@@ -1545,17 +1545,10 @@ void CompositePart::doDmDetachment(void)
    for (part = myParts.begin(); part != myParts.end(); part++)
       {
       Detaching.DM += (*part)->dltDmDetached();
-      (*part)->doDmDetachment();
+      (*part)->Detachment();
       }
 }
 
-void CompositePart::doNDetachment(void)
-   //============================================================================
-{
-   vector <plantPart *>::iterator part;
-   for (part = myParts.begin(); part != myParts.end(); part++)
-      (*part)->doNDetachment();
-}
 
 void CompositePart::doPDemand(void)     // (INPUT)  Whole plant potential dry matter production (g/m^2)
    //============================================================================
@@ -1674,13 +1667,6 @@ void CompositePart::doPRetranslocate(float total_p_supply, float total_p_demand)
       (*part)->doPRetranslocate(total_p_supply, total_p_demand);    //FIXME - divy up?
 }
 
-void CompositePart::doPDetachment(void)
-   //============================================================================
-{
-   vector <plantPart *>::iterator part;
-   for (part = myParts.begin(); part != myParts.end(); part++)
-      (*part)->doPDetachment();
-}
 
 void CompositePart::doPInit(void)
    //============================================================================

@@ -57,7 +57,7 @@ class genericLeafPart : public plantLeafPart {
 
    void leaf_death (float nfact_expansion, float  dlt_tt);
    void leaf_area_sen (float, float);
-   void detachment (void);
+   void Detachment (void);
    void update (void) ;
 
    void remove_detachment (float dlt_slai_detached, float dlt_lai_removed );
