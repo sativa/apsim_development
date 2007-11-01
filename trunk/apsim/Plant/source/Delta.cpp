@@ -40,3 +40,26 @@ Delta Delta::operator + (const Delta& Delta2)
    Temp.P = P + Delta2.P;
    return Temp;
    }
+
+Delta Delta::operator * (float value)
+   {
+   Delta Temp;
+   Temp.DM = DM * value;
+   Temp.N = N * value;
+   Temp.P = P * value;
+   return Temp;
+   }
+Delta Delta::operator = (const Pool& Pool2)
+   {
+   DM = Pool2.DM;
+   N = Pool2.N;
+   P = Pool2.P;
+//   PartName = Pool2.PartName;
+ //  Name = Pool2.Name;
+   // Now check nothing is negative
+//   const float ctz = -0.00001;
+//   if (DM < ctz) throw std::runtime_error(PartName + " " + Name + " DM pool is negative! " + ftoa(DM,6));
+//   if (N < ctz) throw std::runtime_error(PartName + " " + Name + " N pool is negative! " + ftoa(N,6));
+//   if (P < ctz) throw std::runtime_error(PartName + " " + Name + " P pool is negative! " + ftoa(P,6));
+   return *this;
+   }      
