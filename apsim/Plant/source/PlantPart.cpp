@@ -965,22 +965,18 @@ void plantPart::doNRetranslocate( float N_supply, float g_grain_n_demand)
 void plantPart::Detachment(void)
 //=======================================================================================
    {
-   Detaching.DM = Senesced.DM * c.sen_detach_frac;
-   Detaching.N = Senesced.N * c.sen_detach_frac;
-   Detaching.P = Senesced.P * c.sen_detach_frac;
+   Detaching = Senesced * c.sen_detach_frac;
    }
 
 void plantPart::doPSenescence(void)
 //=======================================================================================
    {
-   float green_p_conc = divide (Green().P, Green().DM, 0.0);
-
    float sen_p_conc = linear_interp_real (plant->getStageCode()
                                         , c.x_p_stage_code
                                         , c.y_p_conc_sen
                                         , c.num_x_p_stage_code);
 
-   Senescing.P = u_bound(sen_p_conc, green_p_conc) * Senescing.DM;
+   Senescing.P = u_bound(sen_p_conc, Green().Pconc()) * Senescing.DM;
    Senescing.P = u_bound (Senescing.P, Green().P);
    }
 
@@ -1047,14 +1043,8 @@ void plantPart::onEndCrop(vector<string> &dm_type,
    dlt_dm_p.push_back    ((Green().P  + Senesced.P)       * gm2kg/sm2ha);
    fraction_to_residue.push_back(1.0);
 
-   Senesced.DM = 0.0;
-   Green().DM    = 0.0;
-
-   Senesced.N = 0.0;
-   Green().N    = 0.0;
-
-   Senesced.P   = 0.0;
-   Green().P  = 0.0;
+   Senesced.Clear();
+   Green().Clear();
 
    }
 

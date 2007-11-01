@@ -15,6 +15,8 @@ class Delta
       void Move (Pool& From, Pool& To);
       void Clear (void);
       Delta operator + (const Delta& Delta2);
+      Delta operator * (float value);
+      Delta operator = (const Pool& Pool2);
    private:
 
    };
