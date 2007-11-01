@@ -670,8 +670,8 @@ void plantPart::doRemoveBiomass(protocol::RemoveCropDmType dmRemoved, string &c_
        msg2 << "Crop Biomass Available:-" << endl;
        float dmTotal2 = 0.0;
 
-       msg2 << ("   dm green "+c.name+" = ") << dmGreen() << " (g/m2)" << endl;
-       dmTotal2 +=  dmGreen();
+       msg2 << ("   dm green "+c.name+" = ") << Green().DM << " (g/m2)" << endl;
+       dmTotal2 +=  Green().DM;
 
        msg2 << ("   dm senesced "+c.name+" = ") << dmSenesced() << " (g/m2)" << endl;
        dmTotal2 +=  dmSenesced();
@@ -682,11 +682,11 @@ void plantPart::doRemoveBiomass(protocol::RemoveCropDmType dmRemoved, string &c_
     }
 
     // Check sensibility of part deltas
-     if (dltDmGreenRemoved() > (dmGreen() + error_margin))
+     if (dltDmGreenRemoved() > (Green().DM + error_margin))
      {
           ostringstream msg;
           msg << "Attempting to remove more green " << name() << " biomass than available:-" << endl;
-          msg << "Removing " << -dltDmGreenRemoved() << " (g/m2) from " << dmGreen() << " (g/m2) available." << ends;
+          msg << "Removing " << -dltDmGreenRemoved() << " (g/m2) from " << Green().DM << " (g/m2) available." << ends;
           throw std::runtime_error (msg.str().c_str());
      }
      else if (dltDmSenescedRemoved() > (dmSenesced() + error_margin))
@@ -998,7 +998,7 @@ float critNFactor(vector< plantPart *> &parts, float multiplier)
    float dm = 0.0, N = 0.0;
    for (part = parts.begin(); part != parts.end(); part++)
       {
-      dm += (*part)->dmGreen();
+      dm += (*part)->Green().DM;
       N += (*part)->nGreen();
       }
 
@@ -1070,14 +1070,14 @@ void plantPart::onHarvest_GenericAboveGroundPart( float remove_fr,
 {
    float fractToResidue = 1.0 - remove_fr;
 
-   float dm_init = u_bound (c.dm_init * plant->getPlants(), dmGreen());
+   float dm_init = u_bound (c.dm_init * plant->getPlants(), Green().DM);
    float n_init  = u_bound (  dm_init * plantPart::c.n_init_conc, nGreen());
    float p_init  = u_bound (  dm_init * plantPart::c.p_init_conc, pGreen());
 
-   float retain_fr_green = divide(dm_init, dmGreen(), 0.0);
+   float retain_fr_green = divide(dm_init, Green().DM, 0.0);
    float retain_fr_sen   = 0.0;
 
-   float dlt_dm_harvest = dmGreen() + dmSenesced() - dm_init;
+   float dlt_dm_harvest = Green().DM + dmSenesced() - dm_init;
    float dlt_n_harvest  = nGreen()  + nSenesced()  - n_init;
    float dlt_p_harvest  = pGreen()  + pSenesced() - p_init;
 
@@ -1124,7 +1124,7 @@ void plantPart::collectDetachedForResidue(vector<string> &part_name
 float plantPart::dmTotal(void)
 //=======================================================================================
    {
-   return (dmGreen() + dmSenesced());
+   return (Green().DM + dmSenesced());
    }
 
 float plantPart::dmTotalVeg(void)
@@ -1623,11 +1623,11 @@ float plantPart::giveDmGreenRemoved (float delta)
    {
    dlt.dm_green_removed = delta;
    float error_margin = 1.0e-6 ;
-   if (delta > dmGreen() + error_margin)
+   if (delta > Green().DM + error_margin)
    {
        ostringstream msg;
        msg << "Attempting to remove more green " << name() << " biomass than available:-" << endl;
-       msg << "Removing " << -delta << " (g/m2) from " << dmGreen() << " (g/m2) available." << ends;
+       msg << "Removing " << -delta << " (g/m2) from " << Green().DM << " (g/m2) available." << ends;
        throw std::runtime_error (msg.str().c_str());
    }
    return delta;

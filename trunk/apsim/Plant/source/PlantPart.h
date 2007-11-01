@@ -314,8 +314,8 @@ public:
    virtual float nRetransSupply(void);
    virtual float nRetransDemand(void);
    virtual float nDemandDifferential(void);
-   virtual float nMin(void)  {return g.n_conc_min * dmGreen();};
-   virtual float nCrit(void)  {return g.n_conc_crit * dmGreen();};
+   virtual float nMin(void)  {return g.n_conc_min * Green().DM;};
+   virtual float nCrit(void)  {return g.n_conc_crit * Green().DM;};
    virtual float pDemand(void);
    virtual float pRetransSupply(void);
    virtual float pRetransDemand(void);
@@ -428,6 +428,8 @@ public:
       virtual void onFlowering(void);
       virtual void onStartGrainFill(void);
 
+      Pool  PrivateGreen;
+
    private:
       float nConcCrit();
       float nConcMin();
@@ -436,7 +438,6 @@ public:
       std::string addPartToDesc(const std::string& description);
 
       Delta privateGrowth;
-      Pool  PrivateGreen;
 };
 
 

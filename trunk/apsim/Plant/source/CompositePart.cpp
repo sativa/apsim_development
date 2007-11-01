@@ -35,6 +35,14 @@ const CompositePart &CompositePart::operator=(const CompositePart &/*other*/)
    throw std::invalid_argument("Assignment operator NI for CompositePart");
 }
 
+Pool& CompositePart::Green(void)
+   {
+   PrivateGreen.Clear();
+   for (vector <plantPart * >::const_iterator part = myParts.begin(); part != myParts.end(); part++)
+      PrivateGreen = PrivateGreen + (*part)->Green();
+   return PrivateGreen;
+
+   }
 void CompositePart::onInit1(protocol::Component *system)
    //===========================================================================
    {
