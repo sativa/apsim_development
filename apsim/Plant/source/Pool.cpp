@@ -54,7 +54,8 @@ void Pool::Init(float Plants)
    float p_init_conc;
    scienceAPI->read(PartName + "_dm_init", dm_init, 0.0f, 1.0f);
    scienceAPI->read(PartName + "_n_init_conc", n_init_conc, 0.0f, 1.0f);
-   scienceAPI->read(PartName + "_p_conc_init", p_init_conc, 0.0f, 1.0f);
+   p_init_conc = 0.0; //default value
+   scienceAPI->readOptional(PartName + "_p_conc_init", p_init_conc, 0.0f, 1.0f);
 
    DM = dm_init * Plants;
    N = DM * n_init_conc;

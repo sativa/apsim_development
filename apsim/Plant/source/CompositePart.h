@@ -13,6 +13,8 @@ public:                                             // member functions
 
    void add(plantPart* part);
 
+   virtual Pool& Green(void);
+
    virtual void onInit1(protocol::Component *);
    virtual void doNewMet(protocol::NewMetType &newmet) ;
    virtual void readConstants (protocol::Component *, const string &);
