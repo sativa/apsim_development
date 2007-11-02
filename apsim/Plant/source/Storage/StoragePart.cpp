@@ -41,13 +41,13 @@ void StoragePart::onHarvest(float cutting_height, float remove_fr,
    float dlt_p_harvest = pGreen()
                        + pSenesced();
 
-   Senesced.DM = 0.0;
+   Senesced().DM = 0.0;
    Green().DM = 0.0;
 
-   Senesced.N = 0.0;
+   Senesced().N = 0.0;
    Green().N = 0.0;
 
-   Senesced.P = 0.0;
+   Senesced().P = 0.0;
    Green().P = 0.0;
 
    dm_type.push_back(c.name);

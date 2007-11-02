@@ -43,6 +43,16 @@ Pool& CompositePart::Green(void)
    return PrivateGreen;
 
    }
+Pool& CompositePart::Senesced(void)
+   {
+   PrivateSenesced.Clear();
+   for (vector <plantPart * >::const_iterator part = myParts.begin(); part != myParts.end(); part++)
+      PrivateSenesced = PrivateSenesced + (*part)->Senesced();
+   return PrivateGreen;
+
+   }
+
+
 void CompositePart::onInit1(protocol::Component *system)
    //===========================================================================
    {
@@ -136,48 +146,6 @@ float CompositePart::dltPDetached(void)
    for (vector <plantPart *>::const_iterator part = myParts.begin(); part != myParts.end(); part++)
       sum += (*part)->dltPDetached();
    return sum;
-}
-
-
-float CompositePart::nConc(void)                                                 //FIXME
-   //===========================================================================
-{
-   float sum = 0.0;
-   float dmSum = 0.0;
-   vector <plantPart *>::const_iterator part;
-   for (part = myParts.begin(); part != myParts.end(); part++)
-   {
-      sum += (*part)->nGreen();
-      dmSum += (*part)->dmGreen();
-   }
-   return divide (sum , dmSum , 0.0);
-}
-
-float CompositePart::nConcPercent(void)                                                 //FIXME
-   //===========================================================================
-{
-   return nConc() * fract2pcnt;
-}
-
-
-float CompositePart::pConc(void)                                                  //FIXME
-   //===========================================================================
-{
-   float sum = 0.0;
-   float dmSum = 0.0;
-   vector <plantPart *>::const_iterator part;
-   for (part = myParts.begin(); part != myParts.end(); part++)
-   {
-      sum += (*part)->pGreen();
-      dmSum += (*part)->dmGreen();
-   }
-   return divide (sum , dmSum , 0.0);
-}
-
-float CompositePart::pConcPercent(void)                                                  //FIXME
-   //===========================================================================
-{
-   return pConc() * fract2pcnt;
 }
 
 
@@ -612,18 +580,6 @@ float CompositePart::pSenesced(void)
 }
 
 
-float CompositePart::pConcGrain(void)
-   //===========================================================================
-{
-   float pGreen = 0.0;
-   float dmGreen = 0.0;
-   for (vector <plantPart * >::const_iterator part = myParts.begin(); part != myParts.end(); part++)
-   {
-      pGreen += (*part)->pGreenGrainTotal();
-      dmGreen += (*part)->dmGreenGrainTotal();
-   }
-   return divide (pGreen , dmGreen , 0.0) * fract2pcnt;
-}
 
 float CompositePart::pConcGrainTotal(void)
    //===========================================================================
@@ -1026,7 +982,7 @@ void CompositePart::fixPools()
    // ----------------------------------------------------------
    vector <plantPart *>::iterator part;
    Green().Clear();
-   Senesced.Clear();
+   Senesced().Clear();
    Senescing.Clear();
    Detaching.Clear();
    Growth().Clear();
@@ -1035,9 +991,9 @@ void CompositePart::fixPools()
       Green().DM += (*part)->Green().DM;
       Green().N += (*part)->Green().N;
       Green().P += (*part)->Green().P;
-      Senesced.DM += (*part)->Senesced.DM;
-      Senesced.N += (*part)->Senesced.N;
-      Senesced.P += (*part)->Senesced.P;
+      Senesced().DM += (*part)->Senesced().DM;
+      Senesced().N += (*part)->Senesced().N;
+      Senesced().P += (*part)->Senesced().P;
       Senescing.DM += (*part)->Senescing.DM;
       Senescing.N += (*part)->Senescing.N;
       Senescing.P += (*part)->Senescing.P;

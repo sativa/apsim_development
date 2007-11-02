@@ -41,13 +41,13 @@ void plantStemPart::onHarvest(float cutting_height, float remove_fr,
    float dlt_p_harvest = pGreen() * chop_fr_green
                        + pSenesced() * chop_fr_sen;
 
-   Senesced.DM *= retain_fr_sen;
+   Senesced().DM *= retain_fr_sen;
    Green().DM *= retain_fr_green;
 
-   Senesced.N *= retain_fr_sen;
+   Senesced().N *= retain_fr_sen;
    Green().N *= retain_fr_green;
 
-   Senesced.P *= retain_fr_sen;
+   Senesced().P *= retain_fr_sen;
    Green().P *= retain_fr_green;
 
    Height = l_bound(cutting_height, 1.0);

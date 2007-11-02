@@ -1773,7 +1773,7 @@ void Plant::plant_N_senescence (void)
         t++)
       (*t)->zeroDltNSenescedTrans();
 
-   dlt_n_in_senescing_leaf = leafPart->dltDmSenesced() * leafPart->nConc();
+   dlt_n_in_senescing_leaf = leafPart->dltDmSenesced() * leafPart->Green().Nconc();
 
    n_demand_tot = plant.nDemand();
 

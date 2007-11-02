@@ -17,6 +17,9 @@ class Pool
       interpolationFunction DigestibilityAvg;
       interpolationFunction DigestibilityMin;
       float Pconc() {return divide(P,DM,0.0);};
+      float Nconc() {return divide(N,DM,0.0);};
+      float NconcPercent() {return divide(N,DM,0.0)*fract2pcnt;};
+      float PconcPercent() {return divide(P,DM,0.0)*fract2pcnt;};
 
       Pool operator + (const Pool& Pool2);
       Pool operator + (const Delta& Dlt);

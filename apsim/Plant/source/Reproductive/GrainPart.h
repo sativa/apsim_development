@@ -41,7 +41,7 @@ public:                                             // member functions
    //  void get_grain_oil_conc(protocol::Component *, protocol::QueryValueData &);
 
    void get_grain_p(protocol::Component *, protocol::QueryValueData &qd);
-   void get_p_conc_grain(protocol::Component *, protocol::QueryValueData &qd);
+
    //  void get_grain_p_demand(protocol::Component *, protocol::QueryValueData &qd);
 
    void morphology(void);
@@ -73,7 +73,6 @@ public:                                             // member functions
 
    float nDemand2(void);
 
-   float pConcGrain(void);
    float pConcGrainTotal(void);
    float pSenescedGrainTotal(void);     //remove
 

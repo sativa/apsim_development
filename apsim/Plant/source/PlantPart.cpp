@@ -9,7 +9,7 @@ using namespace std;
 plantPart::plantPart(ScienceAPI& api, plantInterface *p, const string &name)
 //=======================================================================================
      : plantThing(api),
-       Senesced(api, "Senesced", name),
+       PrivateSenesced(api, "Senesced", name),
        Senescing(api, "Senescing", name),
        Detaching(api, "Detaching", name),
        privateGrowth(api, "Growth", name),
@@ -97,8 +97,8 @@ void plantPart::onInit1(protocol::Component*)
    scienceAPI.exposeFunction(addPartToVar("digestibility_avg_dm_senesced"), "0-1", addPartToDesc("Average Digestibility of senesced dry matter of "), FloatFunction(&plantPart::digestibilityAvgDmSenesced));
    scienceAPI.exposeFunction(addPartToVar("digestibility_min_dm_senesced"), "0-1", addPartToDesc("Minimum Digestibility of senesced dry matter of "), FloatFunction(&plantPart::digestibilityMinDmSenesced));
 
-   scienceAPI.exposeFunction(addPartToVar("n_conc"), "%", addPartToDesc("N concentration in "), FloatFunction(&plantPart::nConcPercent));
-   scienceAPI.exposeFunction(addPartToVar("p_conc"), "%", addPartToDesc("P concentration in "), FloatFunction(&plantPart::pConcPercent));
+
+
    scienceAPI.exposeFunction(addPartToVar("dlt_dm_retrans"), "g/m^2", addPartToDesc("DM retranslocated to/from "), FloatFunction(&plantPart::dltDmGreenRetrans));
    scienceAPI.exposeFunction(addPartToVar("dm_demand"), "g/m^2", addPartToDesc("DM demand of "), FloatFunction(&plantPart::dmGreenDemand));
 
@@ -253,26 +253,26 @@ float plantPart::digestibilityMinDmGreen(void)
 float plantPart::digestibilityMaxDmSenesced(void)
    //===========================================================================
 {
-   return Senesced.DigestibilityMax.value(plant->getStageCode());
+   return Senesced().DigestibilityMax.value(plant->getStageCode());
 }
 
 float plantPart::digestibilityAvgDmSenesced(void)
    //===========================================================================
 {
-   return Senesced.DigestibilityAvg.value(plant->getStageCode());
+   return Senesced().DigestibilityAvg.value(plant->getStageCode());
 }
 
 float plantPart::digestibilityMinDmSenesced(void)
    //===========================================================================
 {
-   return Senesced.DigestibilityMin.value(plant->getStageCode());
+   return Senesced().DigestibilityMin.value(plant->getStageCode());
 }
 
 void plantPart::zeroAllGlobals(void)
 //=======================================================================================
    {
    Green().Clear();
-   Senesced.Clear();
+   Senesced().Clear();
    Height=0.0;
    Width=0.0;
    g.n_conc_crit=0.0;
@@ -335,9 +335,9 @@ void plantPart::checkBounds(void)
    if (Green().DM < ctz) throw std::runtime_error(c.name + " dm_green pool is negative! " + ftoa(Green().DM,".6"));
    if (Green().N < ctz) throw std::runtime_error(c.name + " n_green pool is negative!" + ftoa(Green().N,".6"));
    if (Green().P < ctz) throw std::runtime_error(c.name + " p_green pool is negative!" + ftoa(Green().P,".6"));
-   if (Senesced.DM < ctz) throw std::runtime_error(c.name + " dm_sen pool is negative!" + ftoa(Senesced.DM,".6"));
-   if (Senesced.N < ctz) throw std::runtime_error(c.name + " n_sen pool is negative!" + ftoa(Senesced.N,".6"));
-   if (Senesced.P < ctz) throw std::runtime_error(c.name + " p_sen pool is negative!" + ftoa(Senesced.P,".6"));
+   if (Senesced().DM < ctz) throw std::runtime_error(c.name + " dm_sen pool is negative!" + ftoa(Senesced().DM,".6"));
+   if (Senesced().N < ctz) throw std::runtime_error(c.name + " n_sen pool is negative!" + ftoa(Senesced().N,".6"));
+   if (Senesced().P < ctz) throw std::runtime_error(c.name + " p_sen pool is negative!" + ftoa(Senesced().P,".6"));
    }
 
 void plantPart::readConstants(protocol::Component *, const string &)
@@ -490,16 +490,16 @@ void plantPart::onKillStem(void)
    float n_init = u_bound(dm_init * plantPart::c.n_init_conc, plantPart::Green().N);
    float p_init = u_bound(dm_init * plantPart::c.p_init_conc, plantPart::Green().P);
 
-   Senesced.DM += Green().DM - dm_init;
-   Senesced.DM = l_bound (Senesced.DM, 0.0);
+   Senesced().DM += Green().DM - dm_init;
+   Senesced().DM = l_bound (Senesced().DM, 0.0);
    Green().DM = dm_init;
 
-   Senesced.N += Green().N - n_init;
-   Senesced.N = l_bound (Senesced.N, 0.0);
+   Senesced().N += Green().N - n_init;
+   Senesced().N = l_bound (Senesced().N, 0.0);
    Green().N = n_init;
 
-   Senesced.P += Green().P - p_init;
-   Senesced.P = l_bound (Senesced.P, 0.0);
+   Senesced().P += Green().P - p_init;
+   Senesced().P = l_bound (Senesced().P, 0.0);
    Green().P = p_init;
 
 
@@ -568,8 +568,8 @@ void plantPart::update(void)
 //=======================================================================================
    {
    Green() = Green() + Growth();
-   Senescing.Move (Green(), Senesced);
-   Senesced = Senesced - Detaching;
+   Senescing.Move (Green(), Senesced());
+   Senesced() = Senesced() - Detaching;
    Green() = Green() + Retranslocation;
 
    Green().N += dlt.n_senesced_retrans;
@@ -580,20 +580,20 @@ void plantPart::update(void)
 
    float n_green_dead = Green().N * dying_fract_plants;
    Green().N -= n_green_dead;
-   Senesced.N += n_green_dead;
+   Senesced().N += n_green_dead;
    Senescing.N +=n_green_dead;
    Green().N = l_bound(Green().N, 0.0);   // Can occur at total leaf senescence.
 
    float dm_green_dead = Green().DM * dying_fract_plants;
    Green().DM -=  dm_green_dead;
-   Senesced.DM += dm_green_dead;
+   Senesced().DM += dm_green_dead;
    Senescing.DM += dm_green_dead;
 
    if (plant->phosphorusAware())
       {
       float p_green_dead = Green().P * dying_fract_plants;
       Green().P -= p_green_dead;
-      Senesced.P += p_green_dead;
+      Senesced().P += p_green_dead;
       Senescing.P += p_green_dead;
       }
 
@@ -607,15 +607,15 @@ void plantPart::removeBiomass(void)
    {
 //    update();
    Green().N -= dltNGreenRemoved();
-   Senesced.N -= dltNSenescedRemoved();
+   Senesced().N -= dltNSenescedRemoved();
 
 
    Green().P -= dltPGreenRemoved();
-   Senesced.P -= dltPSenescedRemoved();
+   Senesced().P -= dltPSenescedRemoved();
 
 
    Green().DM -= dltDmGreenRemoved();
-   Senesced.DM -= dltDmSenescedRemoved();
+   Senesced().DM -= dltDmSenescedRemoved();
 
    }
 
@@ -965,7 +965,7 @@ void plantPart::doNRetranslocate( float N_supply, float g_grain_n_demand)
 void plantPart::Detachment(void)
 //=======================================================================================
    {
-   Detaching = Senesced * c.sen_detach_frac;
+   Detaching = Senesced() * c.sen_detach_frac;
    }
 
 void plantPart::doPSenescence(void)
@@ -1038,12 +1038,12 @@ void plantPart::onEndCrop(vector<string> &dm_type,
 //=======================================================================================
    {
    dm_type.push_back(c.name);
-   dlt_crop_dm.push_back ((Green().DM + Senesced.DM) * gm2kg/sm2ha);
-   dlt_dm_n.push_back    ((Green().N  + Senesced.N)  * gm2kg/sm2ha);
-   dlt_dm_p.push_back    ((Green().P  + Senesced.P)       * gm2kg/sm2ha);
+   dlt_crop_dm.push_back ((Green().DM + Senesced().DM) * gm2kg/sm2ha);
+   dlt_dm_n.push_back    ((Green().N  + Senesced().N)  * gm2kg/sm2ha);
+   dlt_dm_p.push_back    ((Green().P  + Senesced().P)       * gm2kg/sm2ha);
    fraction_to_residue.push_back(1.0);
 
-   Senesced.Clear();
+   Senesced().Clear();
    Green().Clear();
 
    }
@@ -1071,13 +1071,13 @@ void plantPart::onHarvest_GenericAboveGroundPart( float remove_fr,
    float dlt_n_harvest  = nGreen()  + nSenesced()  - n_init;
    float dlt_p_harvest  = pGreen()  + pSenesced() - p_init;
 
-   Senesced.DM *= retain_fr_sen;
+   Senesced().DM *= retain_fr_sen;
    Green().DM    *= retain_fr_green;
 
-   Senesced.N *= retain_fr_sen;
+   Senesced().N *= retain_fr_sen;
    Green().N    = n_init;
 
-   Senesced.P   *= retain_fr_sen;
+   Senesced().P   *= retain_fr_sen;
    Green().P  = p_init;
 
    dm_type.push_back(c.name);
@@ -1114,7 +1114,7 @@ void plantPart::collectDetachedForResidue(vector<string> &part_name
 float plantPart::dmTotal(void)
 //=======================================================================================
    {
-   return (Green().DM + dmSenesced());
+   return (Total().DM);
    }
 
 float plantPart::dmTotalVeg(void)
@@ -1222,7 +1222,7 @@ float plantPart::dltNGreenRemoved(void)
 float plantPart::dltNSenescedRemoved(void)
 //=======================================================================================
    {
-   return (Senesced.N * divide(dlt.dm_senesced_removed, Senesced.DM, 0.0));
+   return (Senesced().N * divide(dlt.dm_senesced_removed, Senesced().DM, 0.0));
    }
 
 
@@ -1235,7 +1235,7 @@ float plantPart::dltPGreenRemoved(void)
 float plantPart::dltPSenescedRemoved(void)
 //=======================================================================================
    {
-   return (Senesced.P * divide(dlt.dm_senesced_removed, Senesced.DM, 0.0));
+   return (Senesced().P * divide(dlt.dm_senesced_removed, Senesced().DM, 0.0));
    }
 
 float plantPart::dltDmRemoved(void)
@@ -1259,12 +1259,12 @@ float plantPart::dltPRemoved(void)
 float plantPart::dmSenesced(void)
 //=======================================================================================
    {
-   return (Senesced.DM);
+   return (Senesced().DM);
    }
 float plantPart::dmSenescedVeg(void)
 //=======================================================================================
    {
-   return (Senesced.DM);
+   return (Senesced().DM);
    }
 
 float plantPart::dmGreenStressDeterminant(void)
@@ -1340,23 +1340,9 @@ float plantPart::pDemand(void) {return (PDemand);}
 float plantPart::nTotal(void)  {return (nGreen() + nSenesced());}
 float plantPart::nTotalVeg(void)  {return nTotal();}
 float plantPart::nGreen(void)  {return (Green().N);}
-float plantPart::nSenesced(void) {return (Senesced.N);}
+float plantPart::nSenesced(void) {return (Senesced().N);}
 float plantPart::nGreenVeg(void)  {return Green().N;}
-float plantPart::nSenescedVeg(void)  {return Senesced.N;}
-
-
-float plantPart::nConc(void)
-//=======================================================================================
-   {
-   float n_conc = divide (Green().N, Green().DM, 0.0);
-   return n_conc;
-   }
-
-float plantPart::nConcPercent(void)
-//=======================================================================================
-   {
-   return nConc() * fract2pcnt;
-   }
+float plantPart::nSenescedVeg(void)  {return Senesced().N;}
 
 float plantPart::dltNRetransOut(void)
 //=======================================================================================
@@ -1383,22 +1369,10 @@ float plantPart::nMinPot(void)
 float plantPart::pTotal(void)  {return (pGreen() + pSenesced());}
 float plantPart::pTotalVeg(void)  {return (pTotal());}
 float plantPart::pGreen(void)  {return (Green().P);}
-float plantPart::pSenesced(void) {return (Senesced.P);}
+float plantPart::pSenesced(void) {return (Senesced().P);}
 float plantPart::pGreenVeg(void)  {return Green().P;}
-float plantPart::pSenescedVeg(void)  {return Senesced.P;}
+float plantPart::pSenescedVeg(void)  {return Senesced().P;}
 
-float plantPart::pConc(void)
-//=======================================================================================
-   {
-   float p_conc = divide (Green().P, Green().DM, 0.0);
-   return p_conc;
-   }
-
-float plantPart::pConcPercent(void)
-//=======================================================================================
-   {
-   return pConc() * fract2pcnt;
-   }
 
 float plantPart::pRetransSupply(void)
 //=======================================================================================
@@ -1528,7 +1502,7 @@ void plantPart::get_p_demand(vector<float> &demands) {demands.push_back(PDemand)
 void plantPart::get_dlt_p_retrans(vector<float> &dlt_p_retrans) {dlt_p_retrans.push_back(Retranslocation.P);}
 void plantPart::get_dm_plant_min(vector<float> &dm_min) {dm_min.push_back(DMPlantMin);}
 void plantPart::get_dm_green(vector<float> &dm_green) {dm_green.push_back(Green().DM);}
-void plantPart::get_dm_senesced(vector<float> &dm_senesced) {dm_senesced.push_back(Senesced.DM);}
+void plantPart::get_dm_senesced(vector<float> &dm_senesced) {dm_senesced.push_back(Senesced().DM);}
 void plantPart::get_dlt_dm_green(vector<float> &dlt_dm_green) {dlt_dm_green.push_back(Growth().DM);}
 void plantPart::get_dlt_dm_green_retrans(vector<float> &dlt_dm_green_retrans) {dlt_dm_green_retrans.push_back(Retranslocation.DM);}
 void plantPart::get_dlt_dm_detached(vector<float> &dlt_dm_detached) {dlt_dm_detached.push_back(Detaching.DM);}
@@ -1559,7 +1533,6 @@ float plantPart::nDemandGrain(void)  {return 0;}
 float plantPart::nDemandGrain2(void){return 0;}
 float plantPart::nGrainTotal(void)  {return 0;}
 float plantPart::nGreenGrainTotal(void) {return 0;}
-float plantPart::pConcGrain(void) {return 0;}
 float plantPart::pConcGrainTotal(void) {return 0;}
 float plantPart::pGrainTotal(void) {return 0;}
 float plantPart::pGreenGrainTotal(void) {return 0;}

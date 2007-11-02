@@ -639,7 +639,7 @@ void genericLeafPart::removeBiomass(void)
 // (Re)-Initialise plant leaf area from deltas
     {
     float chop_fr_green = divide(dlt.dm_green_removed, Green().DM, 0.0);
-    float chop_fr_sen   = divide(dlt.dm_senesced_removed, Senesced.DM, 0.0);
+    float chop_fr_sen   = divide(dlt.dm_senesced_removed, Senesced().DM, 0.0);
 
     float dlt_lai = gLAI * chop_fr_green;
     float dlt_slai = gSLAI * chop_fr_sen;

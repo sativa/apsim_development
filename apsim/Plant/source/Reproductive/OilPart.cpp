@@ -51,11 +51,11 @@ void fruitOilPart::onHarvest(float /* cutting_height */, float /*remove_fr*/,
    // biomass is removed, nothing is sent to surface residues..
    dm_type.push_back (c.name);
    fraction_to_residue.push_back (0.0);
-   dlt_crop_dm.push_back ((Green().DM+Senesced.DM) * gm2kg/sm2ha);
-   dlt_dm_n.push_back    ((Green().N+Senesced.N)  * gm2kg/sm2ha);
-   dlt_dm_p.push_back    ((Green().P+Senesced.P)  * gm2kg/sm2ha);
+   dlt_crop_dm.push_back ((Green().DM+Senesced().DM) * gm2kg/sm2ha);
+   dlt_dm_n.push_back    ((Green().N+Senesced().N)  * gm2kg/sm2ha);
+   dlt_dm_p.push_back    ((Green().P+Senesced().P)  * gm2kg/sm2ha);
 
-   Senesced.Clear();
+   Senesced().Clear();
    Green().Clear();
    }
 
