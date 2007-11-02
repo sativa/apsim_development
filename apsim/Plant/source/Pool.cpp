@@ -15,12 +15,12 @@ Pool::Pool(ScienceAPI& API, const std::string& Name, const std::string& PartName
    this->scienceAPI = &API;
    Clear();
 
-   scienceAPI->expose(PartName+Name+"Wt", "g/m^2", Name + " " + PartName + " dry matter", DM);
+   scienceAPI->expose(PartName+Name+"DM", "g/m^2", Name + " " + PartName + " dry matter", DM);
    scienceAPI->expose(PartName+Name+"N",  "g/m^2", Name + " " + PartName + " nitrogen", N);
    scienceAPI->expose(PartName+Name+"P",  "g/m^2", Name + " " + PartName + " phosphorus", P);
 
-   scienceAPI->exposeFunction("n_conc_"+Name+"_"+PartName, "%", "N concentration in "+Name+" "+PartName, FloatFunction(&Pool::NconcPercent));
-   scienceAPI->exposeFunction("p_conc_"+Name+"_"+PartName, "%", "P concentration in "+Name+" "+PartName, FloatFunction(&Pool::PconcPercent));
+   scienceAPI->exposeFunction(PartName+Name+"nconc", "%", "N concentration in "+Name+" "+PartName, FloatFunction(&Pool::NconcPercent));
+   scienceAPI->exposeFunction(PartName+Name+"pconc", "%", "P concentration in "+Name+" "+PartName, FloatFunction(&Pool::PconcPercent));
 
    DigestibilityMax.read(*scienceAPI
                         , "x_dmd_stage_code" , "()", 1.0, 12.0

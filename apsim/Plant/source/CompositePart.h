@@ -123,13 +123,11 @@ public:                                             // member functions
    virtual float dmGreenVeg(void);
    virtual float dmSenescedVeg(void);
    virtual float dmSenesced(void);
-   virtual float dmTotal(void);
    virtual float dmTotalVeg(void);
    virtual float grainWt(void);
    virtual float dmRetransSupply(void);
    virtual float dmRetransDemand(void) ;
 
-   virtual float nTotal(void);
    virtual float nTotalVeg(void);
    virtual float nGreen(void);
    virtual float nGreenVeg(void);
@@ -154,7 +152,6 @@ public:                                             // member functions
    virtual float nMaxPot(void);
    virtual float nMax(void);
    virtual float nMinPot(void);
-   virtual float pTotal(void);
    virtual float pTotalVeg(void);
    virtual float pGrainTotal(void);
    virtual float pGreenGrainTotal(void);

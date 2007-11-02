@@ -1511,7 +1511,7 @@ void Plant::plant_event()
               , phenology->stageName().c_str());
     parent->writeString(msg);
 
-    biomass = tops.dmTotal();
+    biomass = tops.Total().DM;
 
     // note - oil has no N, thus is not included in calculations
     dm_green = tops.dmGreenVeg();
@@ -2879,13 +2879,13 @@ void Plant::plant_end_crop ()
         // now do post harvest processes
         // put stover and any remaining grain into surface residue,
         //     any roots to soil FOM pool
-        dm_residue =tops.dmTotal();
-        n_residue =tops.nTotal();
-        p_residue =tops.pTotal();
+        dm_residue =tops.Total().DM;
+        n_residue =tops.Total().N;
+        p_residue =tops.Total().P;
 
-        dm_root = rootPart->Green().DM+ rootPart->dmSenesced();     //FIXME - should be returned from a rootPart method
-        n_root  = rootPart->nGreen() + rootPart->nSenesced();       //FIXME - should be returned from a rootPart method
-        p_root  = rootPart->pGreen() + rootPart->pSenesced();       //FIXME - should be returned from a rootPart method
+        dm_root = rootPart->Total().DM;     //FIXME - should be returned from a rootPart method
+        n_root  = rootPart->Total().N;       //FIXME - should be returned from a rootPart method
+        p_root  = rootPart->Total().P;       //FIXME - should be returned from a rootPart method
 
        if (dm_residue + dm_root > 0.0)
           {
@@ -3308,8 +3308,8 @@ void Plant::plant_harvest_report ()
        }
 
 
-    float dmRoot = rootPart->dmTotal() * gm2kg / sm2ha;
-    float nRoot = rootPart->nTotal() * gm2kg / sm2ha;
+    float dmRoot = rootPart->Total().DM * gm2kg / sm2ha;
+    float nRoot = rootPart->Total().N * gm2kg / sm2ha;
 
     n_grain_conc_percent = fruitPart->grainNConcPercent();
 
@@ -3321,8 +3321,8 @@ void Plant::plant_harvest_report ()
     n_total = n_grain + n_stover;
 
     float stoverTot = tops.dmGreenVeg() + tops.dmSenescedVeg();
-    float DMRrootShootRatio = divide(dmRoot, tops.dmTotal()* gm2kg / sm2ha, 0.0);
-    float HarvestIndex      = divide(yield, tops.dmTotal()* gm2kg / sm2ha, 0.0);
+    float DMRrootShootRatio = divide(dmRoot, tops.Total().DM* gm2kg / sm2ha, 0.0);
+    float HarvestIndex      = divide(yield, tops.Total().DM* gm2kg / sm2ha, 0.0);
     float StoverCNRatio     = divide(stoverTot* gm2kg / sm2ha*plant_c_frac, n_stover, 0.0);
     float RootCNRatio       = divide(dmRoot*plant_c_frac, nRoot, 0.0);
 
@@ -3354,7 +3354,7 @@ void Plant::plant_harvest_report ()
     parent->writeString (msg);
 
     sprintf (msg, "%s%10.1f"
-             , " total above ground biomass (kg/ha)    = ", tops.dmTotal()* gm2kg / sm2ha);
+             , " total above ground biomass (kg/ha)    = ", tops.Total().DM* gm2kg / sm2ha);
     parent->writeString (msg);
 
     sprintf (msg, "%s%10.1f",
@@ -3557,7 +3557,7 @@ void Plant::get_cover_tot(protocol::Component *system, protocol::QueryValueData 
 //NIH up to here
 void Plant::get_biomass(protocol::Component *system, protocol::QueryValueData &qd)
 {
-    system->sendVariable(qd, tops.dmTotal() * gm2kg / sm2ha);
+    system->sendVariable(qd, tops.Total().DM * gm2kg / sm2ha);
 }
 
 
@@ -3569,7 +3569,7 @@ void Plant::get_green_biomass(protocol::Component *system, protocol::QueryValueD
 
 void Plant::get_biomass_wt(protocol::Component *system, protocol::QueryValueData &qd)
 {
-    system->sendVariable(qd, tops.dmTotal());
+    system->sendVariable(qd, tops.Total().DM);
 }
 
 
@@ -3598,13 +3598,13 @@ void Plant::get_dm_plant_min(protocol::Component *system, protocol::QueryValueDa
 
 void Plant::get_biomass_n(protocol::Component *system, protocol::QueryValueData &qd)
 {
-    system->sendVariable(qd, tops.nTotal());
+    system->sendVariable(qd, tops.Total().N);
 }
 
 
 void Plant::get_n_uptake(protocol::Component *system, protocol::QueryValueData &qd)
 {
-    system->sendVariable(qd, tops.nTotal());
+    system->sendVariable(qd, tops.Total().N);
 }
 
 
@@ -3830,7 +3830,7 @@ void Plant::get_pstress_grain(protocol::Component *systemInterface, protocol::Qu
 
 void Plant::get_biomass_p(protocol::Component *systemInterface, protocol::QueryValueData &qd)
 {
-    systemInterface->sendVariable(qd, tops.pTotal());  //()
+    systemInterface->sendVariable(qd, tops.Total().P);  //()
 }
 
 void Plant::get_green_biomass_p(protocol::Component *systemInterface, protocol::QueryValueData &qd)
@@ -3909,7 +3909,7 @@ float Plant::getDmGreenVeg(void)  {return (leafPart->Green().DM + stemPart->Gree
 float Plant::getDmTops(void) { return tops.Green().DM+tops.dmSenesced();}
 float Plant::getDltDm(void) { return plant.dltDm();}
 float Plant::getDltDmGreen(void) { return plant.dltDmGreen();}
-float Plant::getDmVeg(void)  {return leafPart->dmTotal() + stemPart->dmTotal();}
+float Plant::getDmVeg(void)  {return leafPart->Total().DM + stemPart->Total().DM;}
 float Plant::getDmGreenStem(void)  {return stemPart->Green().DM;}
 float Plant::getDmGreenTot(void)  {return plant.Green().DM;}
 // FIXME - remove next line when P demand corrections activated
