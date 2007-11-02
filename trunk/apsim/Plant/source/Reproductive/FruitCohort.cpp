@@ -119,7 +119,7 @@ float FruitCohort::dmGrainTotal(void)
    float dmTotal = 0.0;
    vector<plantPart *>::const_iterator part;
    for (part = myGrainParts.begin(); part != myGrainParts.end(); part++)
-      dmTotal += (*part)->dmTotal();
+      dmTotal += (*part)->Total().DM;
    return dmTotal;
 }
 
@@ -139,7 +139,7 @@ float FruitCohort::dmTotalVeg(void)
    float dmTotal = 0.0;
    vector<plantPart *>::const_iterator part;
    for (part = myVegParts.begin(); part != myVegParts.end(); part++)
-      dmTotal += (*part)->dmTotal();
+      dmTotal += (*part)->Total().DM;
    return dmTotal;
 }
 
@@ -180,7 +180,7 @@ float FruitCohort::nGrainTotal(void)
    float nTotal = 0.0;
    vector<plantPart *>::const_iterator part;
    for (part = myGrainParts.begin(); part != myGrainParts.end(); part++)
-      nTotal += (*part)->nTotal();
+      nTotal += (*part)->Total().N;
    return nTotal;
 }
 
@@ -190,7 +190,7 @@ float FruitCohort::nTotalVeg(void)
    float nTotal = 0.0;
    vector<plantPart *>::const_iterator part;
    for (part = myVegParts.begin(); part != myVegParts.end(); part++)
-      nTotal += (*part)->nTotal();
+      nTotal += (*part)->Total().N;
    return nTotal;
 }
 
@@ -274,7 +274,7 @@ float FruitCohort::pGrainTotal(void)
    float pTotal = 0.0;
    vector<plantPart *>::const_iterator part;
    for (part = myGrainParts.begin(); part != myGrainParts.end(); part++)
-      pTotal += (*part)->pTotal();
+      pTotal += (*part)->Total().P;
    return pTotal;
 }
 
@@ -284,7 +284,7 @@ float FruitCohort::pTotalVeg(void)
    float pTotal = 0.0;
    vector<plantPart *>::const_iterator part;
    for (part = myVegParts.begin(); part != myVegParts.end(); part++)
-      pTotal += (*part)->pTotal();
+      pTotal += (*part)->Total().P;
    return pTotal;
 }
 

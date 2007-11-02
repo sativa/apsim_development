@@ -1111,12 +1111,6 @@ void plantPart::collectDetachedForResidue(vector<string> &part_name
    fraction_to_residue.push_back(1.0);
    }
 
-float plantPart::dmTotal(void)
-//=======================================================================================
-   {
-   return (Total().DM);
-   }
-
 float plantPart::dmTotalVeg(void)
 //=======================================================================================
    {
@@ -1337,8 +1331,7 @@ void plantPart::doNPartition(float nSupply, float n_demand_sum, float n_capacity
 }
 
 float plantPart::pDemand(void) {return (PDemand);}
-float plantPart::nTotal(void)  {return (nGreen() + nSenesced());}
-float plantPart::nTotalVeg(void)  {return nTotal();}
+float plantPart::nTotalVeg(void)  {return Total().N;}
 float plantPart::nGreen(void)  {return (Green().N);}
 float plantPart::nSenesced(void) {return (Senesced().N);}
 float plantPart::nGreenVeg(void)  {return Green().N;}
@@ -1366,8 +1359,7 @@ float plantPart::nMinPot(void)
    float n_conc_min = c.n_conc_min.value(plant->getStageCode());
    return n_conc_min * Green().DM;
    }
-float plantPart::pTotal(void)  {return (pGreen() + pSenesced());}
-float plantPart::pTotalVeg(void)  {return (pTotal());}
+float plantPart::pTotalVeg(void)  {return (Total().P);}
 float plantPart::pGreen(void)  {return (Green().P);}
 float plantPart::pSenesced(void) {return (Senesced().P);}
 float plantPart::pGreenVeg(void)  {return Green().P;}

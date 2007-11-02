@@ -48,7 +48,7 @@ Pool& CompositePart::Senesced(void)
    PrivateSenesced.Clear();
    for (vector <plantPart * >::const_iterator part = myParts.begin(); part != myParts.end(); part++)
       PrivateSenesced = PrivateSenesced + (*part)->Senesced();
-   return PrivateGreen;
+   return PrivateSenesced;
 
    }
 
@@ -209,14 +209,6 @@ float CompositePart::dltDmGreenRetrans(void)
 }
 
 
-float CompositePart::dmTotal(void)
-   //===========================================================================
-{
-   float dmTotal = 0.0;
-   for (vector <plantPart * >::const_iterator part = myParts.begin(); part != myParts.end(); part++)
-      dmTotal += (*part)->dmTotal();
-   return dmTotal;
-}
 
 float CompositePart::dmTotalVeg(void)
    //===========================================================================
@@ -329,15 +321,6 @@ float CompositePart::nTotalVeg(void)
    float nTotal = 0.0;
    for (vector <plantPart * >::const_iterator part = myParts.begin(); part != myParts.end(); part++)
       nTotal += (*part)->nTotalVeg();
-   return nTotal;
-}
-
-float CompositePart::nTotal(void)
-   //===========================================================================
-{
-   float nTotal = 0.0;
-   for (vector <plantPart * >::const_iterator part = myParts.begin(); part != myParts.end(); part++)
-      nTotal += (*part)->nTotal();
    return nTotal;
 }
 
@@ -496,15 +479,6 @@ void CompositePart::doNPartition(float nSupply, float n_demand_sum, float n_capa
                   + ftoa(Growth().N, ".6");
       plant->warningError(msg.c_str());
       }
-}
-
-float CompositePart::pTotal(void)
-   //===========================================================================
-{
-   float pTotal = 0.0;
-   for (vector <plantPart * >::const_iterator part = myParts.begin(); part != myParts.end(); part++)
-      pTotal += (*part)->pTotal();
-   return pTotal;
 }
 
 float CompositePart::pTotalVeg(void)

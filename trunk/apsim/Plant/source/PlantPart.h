@@ -281,13 +281,11 @@ public:
    virtual float dmGreenNew(void) ;
    virtual float dmSenesced(void);
    virtual float dmSenescedVeg(void);
-   virtual float dmTotal(void);
    virtual float dmTotalVeg(void);
    virtual float dmRetransSupply(void);
    virtual float dmRetransDemand(void) ;
    virtual float dmGreenStressDeterminant(void);
 
-   virtual float nTotal(void);
    virtual float nTotalVeg(void);
    virtual float nGreen(void);
    virtual float nGreenVeg(void);
@@ -299,7 +297,6 @@ public:
    virtual float nMax(void);
    virtual float nCapacity(void);
 
-   virtual float pTotal(void);
    virtual float pTotalVeg(void);
    virtual float pGreen(void);
    virtual float pGreenVeg(void);
