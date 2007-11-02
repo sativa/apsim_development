@@ -14,6 +14,7 @@ public:                                             // member functions
    void add(plantPart* part);
 
    virtual Pool& Green(void);
+   virtual Pool& Senesced(void);
 
    virtual void onInit1(protocol::Component *);
    virtual void doNewMet(protocol::NewMetType &newmet) ;
@@ -162,7 +163,6 @@ public:                                             // member functions
    virtual float pSenescedGrainTotal(void);
    virtual float pSenescedVeg(void);
    virtual float pSenesced(void);
-   virtual float pConcGrain(void);
    virtual float pConcGrainTotal(void);
    virtual float pMaxPot(void);
    virtual float pMinPot(void);
@@ -205,10 +205,6 @@ public:                                             // member functions
    virtual float dltPSenesced(void);
    virtual float dltNDetached(void);
    virtual float dltPDetached(void);
-   virtual float nConc(void);
-   virtual float nConcPercent(void);
-   virtual float pConc(void);
-   virtual float pConcPercent(void);
    virtual float n_conc_crit(void);
    virtual float n_conc_min(void);
    virtual float dltNRetrans(void);

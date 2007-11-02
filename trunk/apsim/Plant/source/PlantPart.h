@@ -32,6 +32,10 @@
 class plantPart : public plantThing
    {
  protected:
+//1) Need to make Senesced() method in PlantPart
+//2) Make a Total() method = Green+Senesced
+//3) Make Grain and GrainTotal methods which return Green or Total if it is a grain part.
+
    // state variables
    struct {
       float n_conc_crit;                  // critical N concentration (g N/g biomass)
@@ -168,11 +172,13 @@ public:
    plantPart(ScienceAPI& scienceAPI, plantInterface *p, const string &name);
    virtual ~plantPart() {};
 
-   Pool Senesced;
    Delta Senescing;
    Delta Detaching;
    virtual Delta& Growth() {return privateGrowth;}
    virtual Pool& Green() {return PrivateGreen;}
+   virtual Pool& Senesced() {return PrivateSenesced;}
+   virtual Pool Total() { return (Green()+Senesced());}
+
    Delta Retranslocation;
 
    virtual void zeroAllGlobals(void);
@@ -287,8 +293,6 @@ public:
    virtual float nGreenVeg(void);
    virtual float nSenesced(void);
    virtual float nSenescedVeg(void);
-   virtual float nConc(void);
-   virtual float nConcPercent(void);
    virtual float nMaxPot(void);
    virtual float nMinPot(void);
    virtual float nDemand(void);
@@ -301,8 +305,6 @@ public:
    virtual float pGreenVeg(void);
    virtual float pSenesced(void);
    virtual float pSenescedVeg(void);
-   virtual float pConc(void);
-   virtual float pConcPercent(void);
    virtual float pGreenStressDeterminant(void);
    virtual float pMaxPotStressDeterminant(void);
    virtual float pMinPotStressDeterminant(void);
@@ -394,7 +396,6 @@ public:
    virtual float nDemandGrain2(void);
    virtual float nGrainTotal(void);
    virtual float nGreenGrainTotal(void);
-   virtual float pConcGrain(void);
    virtual float pConcGrainTotal(void);
    virtual float pGrainTotal(void);
    virtual float pGreenGrainTotal(void);
@@ -429,7 +430,7 @@ public:
       virtual void onStartGrainFill(void);
 
       Pool  PrivateGreen;
-
+      Pool  PrivateSenesced;
    private:
       float nConcCrit();
       float nConcMin();
@@ -438,6 +439,7 @@ public:
       std::string addPartToDesc(const std::string& description);
 
       Delta privateGrowth;
+
 };
 
 

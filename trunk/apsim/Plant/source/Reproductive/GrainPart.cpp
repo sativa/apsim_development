@@ -55,10 +55,6 @@ void fruitGrainPart::onInit1(protocol::Component *system)
 
    setupGetFunction(system, "grain_p", protocol::DTsingle, false, &fruitGrainPart::get_grain_p, "g/m^2","P in grain");
 
-   setupGetFunction(system, "p_conc_grain", protocol::DTsingle, false, &fruitGrainPart::get_p_conc_grain, "%","P in grain");
-
-   setupGetFunction(system, "p_grain_pcnt", protocol::DTsingle, false, &fruitGrainPart::get_p_conc_grain, "%","P in grain");
-
    system->addGettableVar("grain_p_demand",  gP_grain_demand, "g/m^2","P demand of grain");
 }
 
@@ -68,13 +64,8 @@ float fruitGrainPart::nDemand2(void)
    return mealPart->nDemand2();
 }
 
-float fruitGrainPart::pConcGrain(void)
-   //===========================================================================
-{
-   return pConcPercent();
-}
 
-float fruitGrainPart::pConcGrainTotal(void) 
+float fruitGrainPart::pConcGrainTotal(void)
    //===========================================================================
 {
    float p_conc = divide (pTotal() , dmTotal() , 0.0) * fract2pcnt;
@@ -123,7 +114,7 @@ void fruitGrainPart::get_grain_protein(protocol::Component *system, protocol::Qu
 void fruitGrainPart::get_n_conc_meal(protocol::Component *system, protocol::QueryValueData &qd)
    //===========================================================================
 {
-   float n_conc = mealPart->nConcPercent();
+   float n_conc = mealPart->Green().NconcPercent();
    system->sendVariable(qd, n_conc);
 }
 
@@ -145,14 +136,6 @@ void fruitGrainPart::get_grain_p(protocol::Component *systemInterface, protocol:
    float grain_p = pGreen();
    systemInterface->sendVariable(qd, grain_p);  //()
 }
-
-void fruitGrainPart::get_p_conc_grain(protocol::Component *systemInterface, protocol::QueryValueData &qd)
-   //===========================================================================
-{
-   float p_conc_grain = pConcPercent();
-   systemInterface->sendVariable(qd, p_conc_grain);  //()
-}
-
 
 // Field a NewMet event
 void fruitGrainPart::doNewMet(protocol::NewMetType &newmet)
