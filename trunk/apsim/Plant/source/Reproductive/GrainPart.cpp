@@ -65,19 +65,6 @@ float fruitGrainPart::nDemand2(void)
 }
 
 
-float fruitGrainPart::pConcGrainTotal(void)
-   //===========================================================================
-{
-   return Total().PconcPercent();
-}
-
-float fruitGrainPart::pSenescedGrainTotal(void)
-   //===========================================================================
-{
-   return pSenesced();
-}
-
-
 void fruitGrainPart::get_grain_wt(protocol::Component *system, protocol::QueryValueData &qd)
    //===========================================================================
 {
@@ -294,7 +281,6 @@ void fruitGrainPart::doProcessBioDemand(void)
 float fruitGrainPart::nDemandGrain(void)  {return gN_grain_demand;}
 float fruitGrainPart::nDemandGrain2(void){return nDemand2();}
 float fruitGrainPart::nConcPercent(void)  {return Total().NconcPercent();}   //remove
-float fruitGrainPart::grainNConcPercent(void)  {return Total().NconcPercent();}
 float fruitGrainPart::dltDmDemand(void) {return gDlt_dm_grain_demand;}                               //remove
 float fruitGrainPart::dltDmGrainDemand(void)  {return gDlt_dm_grain_demand;}
 

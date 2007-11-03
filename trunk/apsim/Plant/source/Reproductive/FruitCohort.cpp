@@ -113,16 +113,6 @@ const FruitCohort &FruitCohort::operator=(const FruitCohort &/*other*/)
 //   return divide (total, count, 0.0);
 //}
 
-float FruitCohort::dmGrainTotal(void)
-   //===========================================================================
-{
-   float dmTotal = 0.0;
-   vector<plantPart *>::const_iterator part;
-   for (part = myGrainParts.begin(); part != myGrainParts.end(); part++)
-      dmTotal += (*part)->Total().DM;
-   return dmTotal;
-}
-
 float FruitCohort::dmGrainWetTotal(void)
    //===========================================================================
 {
@@ -173,17 +163,6 @@ float FruitCohort::dmSenescedVeg(void)
    return dmTotal;
 }
 
-
-float FruitCohort::nGrainTotal(void)
-   //===========================================================================
-{
-   float nTotal = 0.0;
-   vector<plantPart *>::const_iterator part;
-   for (part = myGrainParts.begin(); part != myGrainParts.end(); part++)
-      nTotal += (*part)->Total().N;
-   return nTotal;
-}
-
 float FruitCohort::nTotalVeg(void)
    //===========================================================================
 {
@@ -194,15 +173,6 @@ float FruitCohort::nTotalVeg(void)
    return nTotal;
 }
 
-float FruitCohort::nGreenGrainTotal(void)
-   //===========================================================================
-{
-   float nTotal = 0.0;
-   vector<plantPart *>::const_iterator part;
-   for (part = myGrainParts.begin(); part != myGrainParts.end(); part++)
-      nTotal += (*part)->nGreen();
-   return nTotal;
-}
 
 float FruitCohort::nGreenVeg(void)
    //===========================================================================
@@ -268,15 +238,6 @@ float FruitCohort::nCapacity(void)
    return NCapacity;
 }
 
-float FruitCohort::pGrainTotal(void)
-   //===========================================================================
-{
-   float pTotal = 0.0;
-   vector<plantPart *>::const_iterator part;
-   for (part = myGrainParts.begin(); part != myGrainParts.end(); part++)
-      pTotal += (*part)->Total().P;
-   return pTotal;
-}
 
 float FruitCohort::pTotalVeg(void)
    //===========================================================================
@@ -285,16 +246,6 @@ float FruitCohort::pTotalVeg(void)
    vector<plantPart *>::const_iterator part;
    for (part = myVegParts.begin(); part != myVegParts.end(); part++)
       pTotal += (*part)->Total().P;
-   return pTotal;
-}
-
-float FruitCohort::pGreenGrainTotal(void)
-   //===========================================================================
-{
-   float pTotal = 0.0;
-   vector<plantPart *>::const_iterator part;
-   for (part = myGrainParts.begin(); part != myGrainParts.end(); part++)
-      pTotal += (*part)->pGreen();
    return pTotal;
 }
 
@@ -352,7 +303,7 @@ void FruitCohort::get_head_wt(protocol::Component *system, protocol::QueryValueD
 void FruitCohort::get_head_n(protocol::Component *system, protocol::QueryValueData &qd)
    //===========================================================================
 {
-   system->sendVariable(qd, nGreenGrainTotal() + nGreenVeg());
+   system->sendVariable(qd, GrainTotal().N + nGreenVeg());
 }
 
 void FruitCohort::get_pod_n(protocol::Component *systemInterface, protocol::QueryValueData &qd)     //put in pod
@@ -370,7 +321,7 @@ void FruitCohort::get_pod_p(protocol::Component *systemInterface, protocol::Quer
 void FruitCohort::get_head_p(protocol::Component *systemInterface, protocol::QueryValueData &qd)
    //===========================================================================
 {
-   systemInterface->sendVariable(qd, pGreenGrainTotal() + pGreenVeg());  //()
+   systemInterface->sendVariable(qd, Grain().P + pGreenVeg());  //()
 }
 
 

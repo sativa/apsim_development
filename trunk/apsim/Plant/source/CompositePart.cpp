@@ -51,7 +51,20 @@ Pool& CompositePart::Senesced(void)
    return PrivateSenesced;
 
    }
-
+Pool CompositePart::Grain(void)
+   {
+   Pool Temp;
+   for (vector <plantPart * >::const_iterator part = myParts.begin(); part != myParts.end(); part++)
+      Temp = Temp + (*part)->Grain();
+   return Temp;
+   }
+Pool CompositePart::GrainTotal(void)
+   {
+   Pool Temp;
+   for (vector <plantPart * >::const_iterator part = myParts.begin(); part != myParts.end(); part++)
+      Temp = Temp + (*part)->GrainTotal();
+   return Temp;
+   }
 
 void CompositePart::onInit1(protocol::Component *system)
    //===========================================================================
@@ -252,30 +265,12 @@ float CompositePart::grainWt(void)
    return grainWtTotal;
 }
 
-float CompositePart::dmGrainTotal(void)
-   //===========================================================================
-{
-   float dmTotal = 0.0;
-   for (vector <plantPart * >::const_iterator part = myParts.begin(); part != myParts.end(); part++)
-      dmTotal += (*part)->dmGrainTotal();
-   return dmTotal;
-}
-
 float CompositePart::dmGrainWetTotal(void)
    //===========================================================================
 {
    float dmTotal = 0.0;
    for (vector <plantPart * >::const_iterator part = myParts.begin(); part != myParts.end(); part++)
       dmTotal += (*part)->dmGrainWetTotal();
-   return dmTotal;
-}
-
-float CompositePart::dmGreenGrainTotal(void)
-   //===========================================================================
-{
-   float dmTotal = 0.0;
-   for (vector <plantPart * >::const_iterator part = myParts.begin(); part != myParts.end(); part++)
-      dmTotal += (*part)->dmGreenGrainTotal();
    return dmTotal;
 }
 
@@ -321,24 +316,6 @@ float CompositePart::nTotalVeg(void)
    float nTotal = 0.0;
    for (vector <plantPart * >::const_iterator part = myParts.begin(); part != myParts.end(); part++)
       nTotal += (*part)->nTotalVeg();
-   return nTotal;
-}
-
-float CompositePart::nGrainTotal(void)
-   //===========================================================================
-{
-   float nTotal = 0.0;
-   for (vector <plantPart * >::const_iterator part = myParts.begin(); part != myParts.end(); part++)
-      nTotal += (*part)->nGrainTotal();
-   return nTotal;
-}
-
-float CompositePart::nGreenGrainTotal(void)
-   //===========================================================================
-{
-   float nTotal = 0.0;
-   for (vector <plantPart * >::const_iterator part = myParts.begin(); part != myParts.end(); part++)
-      nTotal += (*part)->nGreenGrainTotal();
    return nTotal;
 }
 
@@ -405,20 +382,6 @@ float CompositePart::nMinPot(void)
       nMinPot += (*part)->nMinPot();
    return nMinPot;                                                 //FIXME Is this a conc?
 }
-
-float CompositePart::nConcGrain(void)
-   //===========================================================================
-{
-   float nGreen = 0.0;
-   float dmGreen = 0.0;
-   for (vector <plantPart * >::const_iterator part = myParts.begin(); part != myParts.end(); part++)
-   {
-      nGreen += (*part)->nGreenGrainTotal();
-      dmGreen += (*part)->dmGreenGrainTotal();
-   }
-   return divide (nGreen , dmGreen , 0.0) * fract2pcnt;
-}
-
 
 float CompositePart::nDemandGrain2(void)
    //===========================================================================
@@ -490,24 +453,6 @@ float CompositePart::pTotalVeg(void)
    return pTotal;
 }
 
-float CompositePart::pGrainTotal(void)
-   //===========================================================================
-{
-   float pTotal = 0.0;
-   for (vector <plantPart * >::const_iterator part = myParts.begin(); part != myParts.end(); part++)
-      pTotal += (*part)->pGrainTotal();
-   return pTotal;
-}
-
-float CompositePart::pGreenGrainTotal(void)
-   //===========================================================================
-{
-   float pTotal = 0.0;
-   for (vector <plantPart * >::const_iterator part = myParts.begin(); part != myParts.end(); part++)
-      pTotal += (*part)->pGreenGrainTotal();
-   return pTotal;
-}
-
 float CompositePart::pGreenVeg(void)
    //===========================================================================
 {
@@ -523,15 +468,6 @@ float CompositePart::pGreen(void)
    float pTotal = 0.0;
    for (vector <plantPart * >::const_iterator part = myParts.begin(); part != myParts.end(); part++)
       pTotal += (*part)->pGreen();
-   return pTotal;
-}
-
-float CompositePart::pSenescedGrainTotal(void)
-   //===========================================================================
-{
-   float pTotal = 0.0;
-   for (vector <plantPart * >::const_iterator part = myParts.begin(); part != myParts.end(); part++)
-      pTotal += (*part)->pSenescedGrainTotal();
    return pTotal;
 }
 
@@ -551,21 +487,6 @@ float CompositePart::pSenesced(void)
    for (vector <plantPart * >::const_iterator part = myParts.begin(); part != myParts.end(); part++)
       pTotal += (*part)->pSenesced();
    return pTotal;
-}
-
-
-
-float CompositePart::pConcGrainTotal(void)
-   //===========================================================================
-{
-   float pTotal = 0.0;
-   float dmTotal = 0.0;
-   for (vector <plantPart * >::const_iterator part = myParts.begin(); part != myParts.end(); part++)
-   {
-      pTotal += (*part)->pGrainTotal();
-      dmTotal += (*part)->dmGrainTotal();
-   }
-   return divide (pTotal , dmTotal , 0.0) * fract2pcnt;
 }
 
 float CompositePart::pMaxPot(void)
@@ -1112,19 +1033,6 @@ float CompositePart::dltDm(void)
    for (part =  myParts.begin(); part != myParts.end(); part++)
       dltDm += (*part)->dltDm();
    return dltDm;
-}
-
-float CompositePart::grainNConcPercent(void)
-   //===========================================================================
-{
-   float nTotal = 0.0;
-   float dmTotal = 0.0;
-   for (vector <plantPart * >::const_iterator part = myParts.begin(); part != myParts.end(); part++)
-   {
-      nTotal += (*part)->nGrainTotal();
-      dmTotal += (*part)->dmGrainTotal();
-   }
-   return divide (nTotal , dmTotal , 0.0) * fract2pcnt;
 }
 
 float CompositePart::dltDmGrainDemand(void)

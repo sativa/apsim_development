@@ -1511,24 +1511,14 @@ float plantPart::coverSen(void) {return 0;}
 float plantPart::coverTotal(void) {return 0;}
 float plantPart::dltDmGrainDemand(void)  {return 0;}
 ////float plantPart::dltDmRetranslocate(void){return 0;}
-float plantPart::dmGrainTotal(void) {return 0;}
 float plantPart::dmGrainWetTotal(void) {return 0;}
 float plantPart::grainWaterContent(void) {return 0;}
-float plantPart::dmGreenGrainTotal(void) {return 0;}
-float plantPart::grainNConcPercent(void)  {return 0;}
 float plantPart::grainNo(void)  {return 0;}
 float plantPart::grainWt(void)  {return 0;}
 float plantPart::interceptRadiationGreen(float /* radiation*/){return 0;}
 float plantPart::interceptRadiationTotal(float /* radiation*/){return 0;}
-float plantPart::nConcGrain(void) {return 0;}
 float plantPart::nDemandGrain(void)  {return 0;}
 float plantPart::nDemandGrain2(void){return 0;}
-float plantPart::nGrainTotal(void)  {return 0;}
-float plantPart::nGreenGrainTotal(void) {return 0;}
-float plantPart::pConcGrainTotal(void) {return 0;}
-float plantPart::pGrainTotal(void) {return 0;}
-float plantPart::pGreenGrainTotal(void) {return 0;}
-float plantPart::pSenescedGrainTotal(void) {return 0;}
 void plantPart::doSWDemand(float /*SWDemandMaxFactor*/){}
 float plantPart::SWDemand(void){return sw_demand;}
 float plantPart::SWDemandTE(void){return sw_demand_te;}

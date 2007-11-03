@@ -16,6 +16,9 @@ public:                                             // member functions
    fruitGrainPart(ScienceAPI& scienceAPI, plantInterface *p, const string &name);
    virtual ~fruitGrainPart() = 0;
 
+   virtual Pool Grain(void) {return Green();}
+   virtual Pool GrainTotal(void) {return Total();}
+
    void onInit1(protocol::Component *system);
    void doNewMet(protocol::NewMetType &newmet) ;
    void readConstants (protocol::Component *, const string &);
@@ -72,9 +75,6 @@ public:                                             // member functions
    float dltDmGrainDemand(void);
 
    float nDemand2(void);
-
-   float pConcGrainTotal(void);
-   float pSenescedGrainTotal(void);     //remove
 
    virtual void display(ostream &os = cout);  // display function
 

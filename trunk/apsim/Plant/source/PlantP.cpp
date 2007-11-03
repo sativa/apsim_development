@@ -300,9 +300,9 @@ void Plant::summary_p (void)
 
    if (g.phosphorus_aware == true)
    {
-       P_grain_conc_percent = fruitPart->pConcGrainTotal();
+       P_grain_conc_percent = fruitPart->GrainTotal().PconcPercent();
 
-       P_grain = (tops.pGreenGrainTotal() + tops.pSenescedGrainTotal()) * gm2kg/sm2ha;
+       P_grain = tops.GrainTotal().P * gm2kg/sm2ha;  // why not graintotal??
 
        P_green = tops.pGreenVeg() * gm2kg / sm2ha;
 
