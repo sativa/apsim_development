@@ -75,6 +75,16 @@ Pool Pool::operator + (const Pool& Pool2)
    Temp.Name = Name;
    return Temp;
    }
+Pool Pool::operator + (const Pool Pool2)
+   {
+   Pool Temp;
+   Temp.DM = DM + Pool2.DM;
+   Temp.N = N + Pool2.N;
+   Temp.P = P + Pool2.P;
+   Temp.PartName = PartName;
+   Temp.Name = Name;
+   return Temp;
+   }
 
 Pool Pool::operator + (const Delta& Dlt)
    {

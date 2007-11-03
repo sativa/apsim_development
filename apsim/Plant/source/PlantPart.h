@@ -178,6 +178,8 @@ public:
    virtual Pool& Green() {return PrivateGreen;}
    virtual Pool& Senesced() {return PrivateSenesced;}
    virtual Pool Total() { return (Green()+Senesced());}
+   virtual Pool Grain() { return (Pool());}
+   virtual Pool GrainTotal() { return Pool();}
 
    Delta Retranslocation;
 
@@ -380,23 +382,14 @@ public:
    virtual float dltDm(void);
    virtual float dltLeafAreaPot(void) {throw std::runtime_error("plantPart::dltLeafAreaPot() called");};
    virtual float grainWaterContent(void);
-   virtual float dmGrainTotal(void);
    virtual float dmGrainWetTotal(void);
-   virtual float dmGreenGrainTotal(void);
-   virtual float grainNConcPercent(void);
    virtual float grainNo(void);
    virtual float grainWt(void);
    virtual float interceptRadiationGreen(float radiation);
    virtual float interceptRadiationTotal(float radiation);
-   virtual float nConcGrain(void);
    virtual float nDemandGrain(void);
    virtual float nDemandGrain2(void);
-   virtual float nGrainTotal(void);
-   virtual float nGreenGrainTotal(void);
-   virtual float pConcGrainTotal(void);
-   virtual float pGrainTotal(void);
-   virtual float pGreenGrainTotal(void);
-   virtual float pSenescedGrainTotal(void);
+
    virtual void doSWDemand(float SWDemandMaxFactor);
    virtual float SWDemand(void);
    virtual float SWDemandTE(void);
@@ -428,6 +421,7 @@ public:
 
       Pool  PrivateGreen;
       Pool  PrivateSenesced;
+
    private:
       float nConcCrit();
       float nConcMin();

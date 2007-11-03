@@ -15,6 +15,8 @@ public:                                             // member functions
 
    virtual Pool& Green(void);
    virtual Pool& Senesced(void);
+   virtual Pool Grain();
+   virtual Pool GrainTotal();
 
    virtual void onInit1(protocol::Component *);
    virtual void doNewMet(protocol::NewMetType &newmet) ;
@@ -91,7 +93,6 @@ public:                                             // member functions
    virtual float interceptRadiationGreen(float radiation);
    virtual float interceptRadiationTotal(float radiation);
    virtual float grainNo(void);
-   virtual float grainNConcPercent(void);
    virtual float nDemandGrain(void);
 
    virtual float dltDmGrainDemand(void);
@@ -115,9 +116,7 @@ public:                                             // member functions
 
    virtual float grainWaterContent(void);
    virtual float dmGreenDemand(void);
-   virtual float dmGrainTotal(void);
    virtual float dmGrainWetTotal(void);
-   virtual float dmGreenGrainTotal(void);
 
    virtual float dmGreen(void);
    virtual float dmGreenVeg(void);
@@ -133,13 +132,10 @@ public:                                             // member functions
    virtual float nGreenVeg(void);
    virtual float nSenesced(void);
    virtual float nSenescedVeg(void);
-   virtual float nConcGrain(void);
    virtual float nDemandGrain2(void);
    virtual float nRetransSupply(void);
    virtual float nRetransDemand(void);
 
-   virtual float nGrainTotal(void);
-   virtual float nGreenGrainTotal(void);
 
    virtual float dltNRetransOut(void);
    virtual float dltNSenescedRetrans(void);
@@ -153,14 +149,10 @@ public:                                             // member functions
    virtual float nMax(void);
    virtual float nMinPot(void);
    virtual float pTotalVeg(void);
-   virtual float pGrainTotal(void);
-   virtual float pGreenGrainTotal(void);
    virtual float pGreenVeg(void);
    virtual float pGreen(void);
-   virtual float pSenescedGrainTotal(void);
    virtual float pSenescedVeg(void);
    virtual float pSenesced(void);
-   virtual float pConcGrainTotal(void);
    virtual float pMaxPot(void);
    virtual float pMinPot(void);
 

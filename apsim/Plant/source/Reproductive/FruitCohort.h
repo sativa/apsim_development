@@ -36,16 +36,13 @@ public:                                             // member functions
 
 
 //   float grainWaterContent(void);
-   float dmGrainTotal(void);
    float dmGrainWetTotal(void);
    float dmTotalVeg(void);
    float dmGreenGrainTotal(void);
    float dmGreenVeg(void);
    float dmSenescedVeg(void);
 
-   float nGrainTotal(void);
    float nTotalVeg(void);
-   float nGreenGrainTotal(void);
    float nGreenVeg(void);
    float nSenescedVeg(void);
    float nCapacity(void);
@@ -53,9 +50,7 @@ public:                                             // member functions
    float nMaxPot(void);
    float nMax(void);
    float nMinPot(void);
-   float pGrainTotal(void);
    float pTotalVeg(void);
-   float pGreenGrainTotal(void);
    float pGreenVeg(void);
    float pSenescedVeg(void);
    float pMaxPot(void);

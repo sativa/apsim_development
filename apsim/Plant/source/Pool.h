@@ -22,6 +22,7 @@ class Pool
       float PconcPercent() {return divide(P,DM,0.0)*fract2pcnt;};
 
       Pool operator + (const Pool& Pool2);
+      Pool operator + (const Pool Pool2);
       Pool operator + (const Delta& Dlt);
       Pool operator * (float Fraction);
       Pool operator = (const Pool& Pool2);

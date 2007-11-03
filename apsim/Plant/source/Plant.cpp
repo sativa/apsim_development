@@ -1481,7 +1481,7 @@ void Plant::plant_totals
 // note - oil has no N, thus it is not included in calculations
 
     *g_n_uptake_stover_tot = tops.nTotalVeg();
-    *g_n_uptake_tot = fruitPart->nGrainTotal() + tops.nTotalVeg();
+    *g_n_uptake_tot = fruitPart->GrainTotal().N + tops.nTotalVeg();  //// Why not Tops.Total().N //????
 
     }
 
@@ -2871,7 +2871,7 @@ void Plant::plant_end_crop ()
         // report
         yield = 0.0;
         for (vector<plantPart *>::iterator t = myParts.begin(); t != myParts.end(); t++)
-            yield=yield+(*t)->dmGrainTotal() * gm2kg / sm2ha;
+            yield=yield+(*t)->GrainTotal().DM * gm2kg / sm2ha;
 
         sprintf (msg, "Crop ended. Yield (dw) = %7.1f  (kg/ha)", yield);
         parent->writeString (msg);
@@ -3300,18 +3300,18 @@ void Plant::plant_harvest_report ()
     n_grain = 0.0;
     for (vector<plantPart *>::iterator t = myParts.begin(); t != myParts.end(); t++)
        {
-       yield = yield+(*t)->dmGrainTotal() * gm2kg / sm2ha;
+       yield = yield+(*t)->GrainTotal().DM * gm2kg / sm2ha;
        yield_wet = yield_wet+(*t)->dmGrainWetTotal() * gm2kg / sm2ha;
        grain_wt = grain_wt + (*t)->grainWt();
        plant_grain_no = plant_grain_no+divide ((*t)->grainNo(), g.plants, 0.0);
-       n_grain = n_grain + (*t)->nGrainTotal() * gm2kg/sm2ha;
+       n_grain = n_grain + (*t)->GrainTotal().N * gm2kg/sm2ha;
        }
 
 
     float dmRoot = rootPart->Total().DM * gm2kg / sm2ha;
     float nRoot = rootPart->Total().N * gm2kg / sm2ha;
 
-    n_grain_conc_percent = fruitPart->grainNConcPercent();
+    n_grain_conc_percent = fruitPart->GrainTotal().NconcPercent();
 
     n_green = tops.nGreenVeg() * gm2kg / sm2ha;
     n_senesced = tops.nSenescedVeg() * gm2kg / sm2ha;
