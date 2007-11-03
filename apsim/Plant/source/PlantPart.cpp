@@ -65,12 +65,12 @@ string plantPart::addPartToDesc(const string& description)
 void plantPart::onInit1(protocol::Component*)
 //=======================================================================================
    {
-   scienceAPI.exposeFunction(addPartToVar("dm_senesced"), "g/m^2", addPartToDesc("Weight of senesced "), FloatFunction(&plantPart::dmSenesced));
+   scienceAPI.expose(addPartToVar("dm_senesced"), "g/m^2", addPartToDesc("Weight of senesced "), Senesced().DM);
    scienceAPI.exposeFunction(addPartToVar("dlt_dm_green"), "g/m^2", addPartToDesc("Delta Weight of "), FloatFunction(&plantPart::dltDmGreen));
    scienceAPI.exposeFunction(addPartToVar("dlt_dm_detached"), "g/m^2", addPartToDesc("Delta Weight of detached "), FloatFunction(&plantPart::dltDmDetached));
    scienceAPI.exposeFunction(addPartToVar("dlt_dm_senesced"), "g/m^2", addPartToDesc("Delta Weight of senesced "), FloatFunction(&plantPart::dltDmSenesced));
 
-   scienceAPI.exposeFunction(addPartToVar("n_senesced"), "g/m^2", addPartToDesc("N in senesced "), FloatFunction(&plantPart::nSenesced));
+   scienceAPI.expose(addPartToVar("n_senesced"), "g/m^2", addPartToDesc("N in senesced "), Senesced().N);
    scienceAPI.exposeFunction(addPartToVar("dlt_n_green"), "g/m^2", addPartToDesc("Delta N in "), FloatFunction(&plantPart::dltNGreen));
    scienceAPI.exposeFunction(addPartToVar("dlt_n_retrans"), "g/m^2", addPartToDesc("N retranslocated to/from "), FloatFunction(&plantPart::dltNRetrans));
    scienceAPI.exposeFunction(addPartToVar("dlt_n_detached"), "g/m^2", addPartToDesc("Delta N in detached "), FloatFunction(&plantPart::dltNDetached));
@@ -78,7 +78,7 @@ void plantPart::onInit1(protocol::Component*)
    scienceAPI.exposeFunction(addPartToVar("dlt_n_senesced_trans"), "g/m^2", addPartToDesc("N translocated to/from senesced "), FloatFunction(&plantPart::dltNSenescedTrans));
    scienceAPI.exposeFunction(addPartToVar("dlt_n_senesced_retrans"), "g/m^2", addPartToDesc("N retranslocated to/from senesced "), FloatFunction(&plantPart::dltNSenescedRetrans));
    scienceAPI.exposeFunction(addPartToVar("n_demand"), "g/m^2", addPartToDesc("N demand of "), FloatFunction(&plantPart::nDemand));
-   scienceAPI.exposeFunction(addPartToVar("p_senesced"), "g/m^2", addPartToDesc("P in senesced "), FloatFunction(&plantPart::pSenesced));
+   scienceAPI.expose(addPartToVar("p_senesced"), "g/m^2", addPartToDesc("P in senesced "), Senesced().P);
    scienceAPI.exposeFunction(addPartToVar("dlt_p_green"), "g/m^2", addPartToDesc("Delta P in "), FloatFunction(&plantPart::dltPGreen));
    scienceAPI.exposeFunction(addPartToVar("dlt_p_senesced"), "g/m^2", addPartToDesc("Delta P in senesced "), FloatFunction(&plantPart::dltPSenesced));
    scienceAPI.exposeFunction(addPartToVar("dlt_p_detached"), "g/m^2", addPartToDesc("Delta P in detached "), FloatFunction(&plantPart::dltPDetached));
@@ -106,9 +106,9 @@ void plantPart::onInit1(protocol::Component*)
    string LcaseName = c.name;
    To_lower(LcaseName);
 
-   scienceAPI.exposeFunction(LcaseName + "_wt", "g/m^2", addPartToDesc("Weight of "), FloatFunction(&plantPart::dmGreen));
-   scienceAPI.exposeFunction(LcaseName + "_n", "g/m^2", addPartToDesc("N in "), FloatFunction(&plantPart::nGreen));
-   scienceAPI.exposeFunction(LcaseName + "_p", "g/m^2", addPartToDesc("P in "), FloatFunction(&plantPart::pGreen));
+   scienceAPI.expose(LcaseName + "_wt", "g/m^2", addPartToDesc("Weight of "), Green().DM);
+   scienceAPI.expose(LcaseName + "_n", "g/m^2", addPartToDesc("N in "), Green().N);
+   scienceAPI.expose(LcaseName + "_p", "g/m^2", addPartToDesc("P in "), Green().P);
    }
 
 float plantPart::nConcCrit()
@@ -673,8 +673,8 @@ void plantPart::doRemoveBiomass(protocol::RemoveCropDmType dmRemoved, string &c_
        msg2 << ("   dm green "+c.name+" = ") << Green().DM << " (g/m2)" << endl;
        dmTotal2 +=  Green().DM;
 
-       msg2 << ("   dm senesced "+c.name+" = ") << dmSenesced() << " (g/m2)" << endl;
-       dmTotal2 +=  dmSenesced();
+       msg2 << ("   dm senesced "+c.name+" = ") << Senesced().DM << " (g/m2)" << endl;
+       dmTotal2 +=  Senesced().DM;
 
        msg2 << endl << ("   dm total "+c.name+" = ") << dmTotal2 << " (g/m2)" << endl << ends;
 
@@ -689,11 +689,11 @@ void plantPart::doRemoveBiomass(protocol::RemoveCropDmType dmRemoved, string &c_
           msg << "Removing " << -dltDmGreenRemoved() << " (g/m2) from " << Green().DM << " (g/m2) available." << ends;
           throw std::runtime_error (msg.str().c_str());
      }
-     else if (dltDmSenescedRemoved() > (dmSenesced() + error_margin))
+     else if (dltDmSenescedRemoved() > (Senesced().DM + error_margin))
      {
           ostringstream msg;
           msg << "Attempting to remove more senesced " << name() << " biomass than available:-" << endl;
-          msg << "Removing " << -dltDmSenescedRemoved() << " (g/m2) from " << dmSenesced() << " (g/m2) available." << ends;
+          msg << "Removing " << -dltDmSenescedRemoved() << " (g/m2) from " << Senesced().DM << " (g/m2) available." << ends;
           throw std::runtime_error (msg.str().c_str());
      }
      else
@@ -995,7 +995,7 @@ float critNFactor(vector< plantPart *> &parts, float multiplier)
    for (part = parts.begin(); part != parts.end(); part++)
       {
       dm += (*part)->Green().DM;
-      N += (*part)->nGreen();
+      N += (*part)->Green().N;
       }
 
    if (dm > 0.0)
@@ -1061,15 +1061,15 @@ void plantPart::onHarvest_GenericAboveGroundPart( float remove_fr,
    float fractToResidue = 1.0 - remove_fr;
 
    float dm_init = u_bound (c.dm_init * plant->getPlants(), Green().DM);
-   float n_init  = u_bound (  dm_init * plantPart::c.n_init_conc, nGreen());
-   float p_init  = u_bound (  dm_init * plantPart::c.p_init_conc, pGreen());
+   float n_init  = u_bound (  dm_init * plantPart::c.n_init_conc, Green().N);
+   float p_init  = u_bound (  dm_init * plantPart::c.p_init_conc, Green().P);
 
    float retain_fr_green = divide(dm_init, Green().DM, 0.0);
    float retain_fr_sen   = 0.0;
 
-   float dlt_dm_harvest = Green().DM + dmSenesced() - dm_init;
-   float dlt_n_harvest  = nGreen()  + nSenesced()  - n_init;
-   float dlt_p_harvest  = pGreen()  + pSenesced() - p_init;
+   float dlt_dm_harvest = Green().DM + Senesced().DM - dm_init;
+   float dlt_n_harvest  = Green().N  + Senesced().N  - n_init;
+   float dlt_p_harvest  = Green().P  + Senesced().P - p_init;
 
    Senesced().DM *= retain_fr_sen;
    Green().DM    *= retain_fr_green;
@@ -1111,27 +1111,11 @@ void plantPart::collectDetachedForResidue(vector<string> &part_name
    fraction_to_residue.push_back(1.0);
    }
 
-float plantPart::dmTotalVeg(void)
-//=======================================================================================
-   {
-   return (dmGreenVeg() + dmSenescedVeg());
-   }
 
 float plantPart::dmGreenDemand(void)
 //=======================================================================================
    {
    return (DMGreenDemand);
-   }
-
-float plantPart::dmGreen(void)
-//=======================================================================================
-   {
-   return (Green().DM);
-   }
-float plantPart::dmGreenVeg(void)
-//=======================================================================================
-   {
-   return (Green().DM);
    }
 
 float plantPart::dltDmGreen(void)
@@ -1250,11 +1234,6 @@ float plantPart::dltPRemoved(void)
    return (dltPGreenRemoved() + dltPSenescedRemoved());
    }
 
-float plantPart::dmSenesced(void)
-//=======================================================================================
-   {
-   return (Senesced().DM);
-   }
 float plantPart::dmSenescedVeg(void)
 //=======================================================================================
    {
@@ -1331,11 +1310,6 @@ void plantPart::doNPartition(float nSupply, float n_demand_sum, float n_capacity
 }
 
 float plantPart::pDemand(void) {return (PDemand);}
-float plantPart::nTotalVeg(void)  {return Total().N;}
-float plantPart::nGreen(void)  {return (Green().N);}
-float plantPart::nSenesced(void) {return (Senesced().N);}
-float plantPart::nGreenVeg(void)  {return Green().N;}
-float plantPart::nSenescedVeg(void)  {return Senesced().N;}
 
 float plantPart::dltNRetransOut(void)
 //=======================================================================================
@@ -1359,11 +1333,6 @@ float plantPart::nMinPot(void)
    float n_conc_min = c.n_conc_min.value(plant->getStageCode());
    return n_conc_min * Green().DM;
    }
-float plantPart::pTotalVeg(void)  {return (Total().P);}
-float plantPart::pGreen(void)  {return (Green().P);}
-float plantPart::pSenesced(void) {return (Senesced().P);}
-float plantPart::pGreenVeg(void)  {return Green().P;}
-float plantPart::pSenescedVeg(void)  {return Senesced().P;}
 
 
 float plantPart::pRetransSupply(void)
@@ -1583,11 +1552,11 @@ float plantPart::giveDmSenescedRemoved (float delta)
    {
    dlt.dm_senesced_removed = delta;
    float error_margin = 1.0e-6 ;
-   if (delta > dmSenesced() + error_margin)
+   if (delta > Senesced().DM + error_margin)
    {
        ostringstream msg;
        msg << "Attempting to remove more Senesced " << name() << " biomass than available:-" << endl;
-       msg << "Removing " << -delta << " (g/m2) from " << dmSenesced() << " (g/m2) available." << ends;
+       msg << "Removing " << -delta << " (g/m2) from " << Senesced().DM << " (g/m2) available." << ends;
        throw std::runtime_error (msg.str().c_str());
    }
    return delta;

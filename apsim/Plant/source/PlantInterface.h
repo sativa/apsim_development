@@ -43,7 +43,6 @@ class plantInterface {
       virtual float getStageCode (void) = 0;        // Phenological stage code AAACK DIE YOU BASTARD
       virtual float getStageNumber (void) = 0;        // Phenological stage code AAACK DIE YOU BASTARD
       virtual float getDltDMPotRueVeg(void) = 0;
-      virtual float getDmGreenVeg(void) = 0;
       virtual float getDmTops(void) = 0;
       virtual float getDltDmGreen(void)  = 0;
       virtual float getDltDm(void) = 0;

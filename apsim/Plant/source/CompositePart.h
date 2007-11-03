@@ -17,6 +17,8 @@ public:                                             // member functions
    virtual Pool& Senesced(void);
    virtual Pool Grain();
    virtual Pool GrainTotal();
+   virtual Pool Vegetative();
+   virtual Pool VegetativeTotal();
 
    virtual void onInit1(protocol::Component *);
    virtual void doNewMet(protocol::NewMetType &newmet) ;
@@ -118,20 +120,11 @@ public:                                             // member functions
    virtual float dmGreenDemand(void);
    virtual float dmGrainWetTotal(void);
 
-   virtual float dmGreen(void);
-   virtual float dmGreenVeg(void);
    virtual float dmSenescedVeg(void);
-   virtual float dmSenesced(void);
-   virtual float dmTotalVeg(void);
    virtual float grainWt(void);
    virtual float dmRetransSupply(void);
    virtual float dmRetransDemand(void) ;
 
-   virtual float nTotalVeg(void);
-   virtual float nGreen(void);
-   virtual float nGreenVeg(void);
-   virtual float nSenesced(void);
-   virtual float nSenescedVeg(void);
    virtual float nDemandGrain2(void);
    virtual float nRetransSupply(void);
    virtual float nRetransDemand(void);
@@ -148,11 +141,7 @@ public:                                             // member functions
    virtual float nMaxPot(void);
    virtual float nMax(void);
    virtual float nMinPot(void);
-   virtual float pTotalVeg(void);
-   virtual float pGreenVeg(void);
-   virtual float pGreen(void);
-   virtual float pSenescedVeg(void);
-   virtual float pSenesced(void);
+
    virtual float pMaxPot(void);
    virtual float pMinPot(void);
 

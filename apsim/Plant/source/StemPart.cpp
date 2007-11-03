@@ -32,14 +32,14 @@ void plantStemPart::onHarvest(float cutting_height, float remove_fr,
    float chop_fr_green = (1.0 - retain_fr_green);
    float chop_fr_sen = (1.0 - retain_fr_sen);
 
-   float dlt_dm_harvest = dmGreen() * chop_fr_green
-                        + dmSenesced() * chop_fr_sen;
+   float dlt_dm_harvest = Green().DM * chop_fr_green
+                        + Senesced().DM * chop_fr_sen;
 
-   float dlt_n_harvest = nGreen() * chop_fr_green
-                       + nSenesced() * chop_fr_sen;
+   float dlt_n_harvest = Green().N * chop_fr_green
+                       + Senesced().N * chop_fr_sen;
 
-   float dlt_p_harvest = pGreen() * chop_fr_green
-                       + pSenesced() * chop_fr_sen;
+   float dlt_p_harvest = Green().P * chop_fr_green
+                       + Senesced().P * chop_fr_sen;
 
    Senesced().DM *= retain_fr_sen;
    Green().DM *= retain_fr_green;

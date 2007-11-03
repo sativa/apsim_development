@@ -321,7 +321,6 @@ public:
    float getCo2(void);
    //  float getRadnInterceptedPod(void);
    float getDltDMPotRueVeg(void);
-   float getDmGreenVeg(void);
    //  float getDltDmVeg(void);
    float getDmTops(void);
    float getDltDmGreen(void);

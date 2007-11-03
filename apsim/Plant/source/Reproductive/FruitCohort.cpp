@@ -123,76 +123,14 @@ float FruitCohort::dmGrainWetTotal(void)
    return dmTotal;
 }
 
-float FruitCohort::dmTotalVeg(void)
-   //===========================================================================
-{
-   float dmTotal = 0.0;
-   vector<plantPart *>::const_iterator part;
-   for (part = myVegParts.begin(); part != myVegParts.end(); part++)
-      dmTotal += (*part)->Total().DM;
-   return dmTotal;
-}
-
-float FruitCohort::dmGreenGrainTotal(void)
-   //===========================================================================
-{
-   float dmTotal = 0.0;
-   vector<plantPart *>::const_iterator part;
-   for (part = myGrainParts.begin(); part != myGrainParts.end(); part++)
-      dmTotal += (*part)->dmGreen();
-   return dmTotal;
-}
-
-float FruitCohort::dmGreenVeg(void)
-   //===========================================================================
-{
-   float dmTotal = 0.0;
-   vector<plantPart *>::const_iterator part;
-   for (part = myVegParts.begin(); part != myVegParts.end(); part++)
-      dmTotal += (*part)->dmGreen();
-   return dmTotal;
-}
-
 float FruitCohort::dmSenescedVeg(void)
    //===========================================================================
 {
    float dmTotal = 0.0;
    vector<plantPart *>::const_iterator part;
    for (part = myVegParts.begin(); part != myVegParts.end(); part++)
-      dmTotal += (*part)->dmSenesced();
+      dmTotal += (*part)->Senesced().DM;
    return dmTotal;
-}
-
-float FruitCohort::nTotalVeg(void)
-   //===========================================================================
-{
-   float nTotal = 0.0;
-   vector<plantPart *>::const_iterator part;
-   for (part = myVegParts.begin(); part != myVegParts.end(); part++)
-      nTotal += (*part)->Total().N;
-   return nTotal;
-}
-
-
-float FruitCohort::nGreenVeg(void)
-   //===========================================================================
-{
-   float nTotal = 0.0;
-   vector<plantPart *>::const_iterator part;
-   for (part = myVegParts.begin(); part != myVegParts.end(); part++)
-      nTotal += (*part)->nGreen();
-   return nTotal;
-}
-
-
-float FruitCohort::nSenescedVeg(void)
-   //===========================================================================
-{
-   float nTotal = 0.0;
-   vector<plantPart *>::const_iterator part;
-   for (part = myVegParts.begin(); part != myVegParts.end(); part++)
-      nTotal += (*part)->nSenesced();
-   return nTotal;
 }
 
 
@@ -239,35 +177,6 @@ float FruitCohort::nCapacity(void)
 }
 
 
-float FruitCohort::pTotalVeg(void)
-   //===========================================================================
-{
-   float pTotal = 0.0;
-   vector<plantPart *>::const_iterator part;
-   for (part = myVegParts.begin(); part != myVegParts.end(); part++)
-      pTotal += (*part)->Total().P;
-   return pTotal;
-}
-
-float FruitCohort::pGreenVeg(void)
-   //===========================================================================
-{
-   float pTotal = 0.0;
-   vector<plantPart *>::const_iterator part;
-   for (part = myVegParts.begin(); part != myVegParts.end(); part++)
-      pTotal += (*part)->pGreen();
-   return pTotal;
-}
-
-float FruitCohort::pSenescedVeg(void)
-   //===========================================================================
-{
-   float pTotal = 0.0;
-   vector<plantPart *>::const_iterator part;
-   for (part = myVegParts.begin(); part != myVegParts.end(); part++)
-      pTotal += (*part)->pSenesced();
-   return pTotal;
-}
 
 float FruitCohort::pMaxPot(void)
    //===========================================================================
@@ -295,7 +204,7 @@ void FruitCohort::get_head_wt(protocol::Component *system, protocol::QueryValueD
    float headWt = 0.0;
    vector<plantPart *>::iterator part;
    for (part = myParts.begin(); part != myParts.end(); part++)
-      headWt += (*part)->dmGreen();
+      headWt += (*part)->Green().DM;
 
    system->sendVariable(qd, headWt);
 }
@@ -303,25 +212,25 @@ void FruitCohort::get_head_wt(protocol::Component *system, protocol::QueryValueD
 void FruitCohort::get_head_n(protocol::Component *system, protocol::QueryValueData &qd)
    //===========================================================================
 {
-   system->sendVariable(qd, GrainTotal().N + nGreenVeg());
+   system->sendVariable(qd, GrainTotal().N + Vegetative().N);  // Why not VegetativeTotal ????
 }
 
 void FruitCohort::get_pod_n(protocol::Component *systemInterface, protocol::QueryValueData &qd)     //put in pod
    //===========================================================================                      //put in pod
 {                                                                                                  //put in pod
-   systemInterface->sendVariable(qd, podPart->nGreen());   //()                                    //put in pod
+   systemInterface->sendVariable(qd, podPart->Green().N);   //()                                    //put in pod
 }                                                                                                  //put in pod
                                                                                                    //put in pod
 void FruitCohort::get_pod_p(protocol::Component *systemInterface, protocol::QueryValueData &qd)     //put in pod
    //===========================================================================                      //put in pod
 {                                                                                                  //put in pod
-   systemInterface->sendVariable(qd, podPart->pGreen());   //()                                    //put in pod
+   systemInterface->sendVariable(qd, podPart->Green().P);   //()                                    //put in pod
 }                                                                                                  //put in pod
 
 void FruitCohort::get_head_p(protocol::Component *systemInterface, protocol::QueryValueData &qd)
    //===========================================================================
 {
-   systemInterface->sendVariable(qd, Grain().P + pGreenVeg());  //()
+   systemInterface->sendVariable(qd, Grain().P + Vegetative().P);  // Why not VegetativeTotal?????
 }
 
 

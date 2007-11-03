@@ -65,6 +65,20 @@ Pool CompositePart::GrainTotal(void)
       Temp = Temp + (*part)->GrainTotal();
    return Temp;
    }
+Pool CompositePart::Vegetative(void)
+   {
+   Pool Temp;
+   for (vector <plantPart * >::const_iterator part = myParts.begin(); part != myParts.end(); part++)
+      Temp = Temp + (*part)->Vegetative();
+   return Temp;
+   }
+Pool CompositePart::VegetativeTotal(void)
+   {
+   Pool Temp;
+   for (vector <plantPart * >::const_iterator part = myParts.begin(); part != myParts.end(); part++)
+      Temp = Temp + (*part)->VegetativeTotal();
+   return Temp;
+   }
 
 void CompositePart::onInit1(protocol::Component *system)
    //===========================================================================
@@ -72,9 +86,9 @@ void CompositePart::onInit1(protocol::Component *system)
    plantPart::onInit1(system);
 
    vector <plantPart *>::iterator part;
-   scienceAPI.exposeFunction("dm_green", "g/m^2", "Green weight of ", FloatFunction(&CompositePart::dmGreen));
-   scienceAPI.exposeFunction("n_green", "g/m^2",  "Green nitrogen of ", FloatFunction(&CompositePart::nGreen));
-   scienceAPI.exposeFunction("p_green", "g/m^2",  "Green phosphorus of ", FloatFunction(&CompositePart::pGreen));
+   scienceAPI.expose("dm_green", "g/m^2", "Green weight of ", Green().DM);
+   scienceAPI.expose("n_green", "g/m^2",  "Green nitrogen of ", Green().N);
+   scienceAPI.expose("p_green", "g/m^2",  "Green phosphorus of ", Green().P);
    if (c.name == "")  // If you don't have this then we get a TopsSWDemand - not needed.
       {
       scienceAPI.exposeFunction("sw_demand", "mm",  "Demand for soil water", FloatFunction(&CompositePart::SWDemand));
@@ -223,15 +237,6 @@ float CompositePart::dltDmGreenRetrans(void)
 
 
 
-float CompositePart::dmTotalVeg(void)
-   //===========================================================================
-{
-   float dmTotal = 0.0;
-   for (vector <plantPart * >::const_iterator part = myParts.begin(); part != myParts.end(); part++)
-      dmTotal += (*part)->dmTotalVeg();
-   return dmTotal;
-}
-
 float CompositePart::dmGreenDemand(void)
    //===========================================================================
 {
@@ -274,15 +279,6 @@ float CompositePart::dmGrainWetTotal(void)
    return dmTotal;
 }
 
-float CompositePart::dmGreenVeg(void)
-   //===========================================================================
-{
-   float dmTotal = 0.0;
-   for (vector <plantPart * >::const_iterator part = myParts.begin(); part != myParts.end(); part++)
-      dmTotal += (*part)->dmGreenVeg();
-   return dmTotal;
-}
-
 float CompositePart::dmSenescedVeg(void)
    //===========================================================================
 {
@@ -300,61 +296,6 @@ float CompositePart::dltDmDetached(void)
       dlt_dm_detached += (*part)->dltDmDetached();
    return dlt_dm_detached;
 }
-
-float CompositePart::dmSenesced(void)
-   //===========================================================================
-{
-   float result = 0.0;
-   for (vector <plantPart * >::const_iterator part = myParts.begin(); part != myParts.end(); part++)
-      result += (*part)->dmSenesced();
-   return result;
-}
-
-float CompositePart::nTotalVeg(void)
-   //===========================================================================
-{
-   float nTotal = 0.0;
-   for (vector <plantPart * >::const_iterator part = myParts.begin(); part != myParts.end(); part++)
-      nTotal += (*part)->nTotalVeg();
-   return nTotal;
-}
-
-float CompositePart::nGreenVeg(void)
-   //===========================================================================
-{
-   float result = 0.0;
-   for (vector <plantPart * >::const_iterator part = myParts.begin(); part != myParts.end(); part++)
-      result += (*part)->nGreenVeg();
-   return result;
-}
-
-float CompositePart::nGreen(void)
-   //===========================================================================
-{
-   float result = 0.0;
-   for (vector <plantPart * >::const_iterator part = myParts.begin(); part != myParts.end(); part++)
-      result += (*part)->nGreen();
-   return result;
-}
-
-float CompositePart::nSenescedVeg(void)
-   //===========================================================================
-{
-   float nTotal = 0.0;
-   for (vector <plantPart * >::const_iterator part = myParts.begin(); part != myParts.end(); part++)
-      nTotal += (*part)->nSenescedVeg();
-   return nTotal;
-}
-
-float CompositePart::nSenesced(void)
-   //===========================================================================
-{
-   float result = 0.0;
-   for (vector <plantPart * >::const_iterator part = myParts.begin(); part != myParts.end(); part++)
-      result += (*part)->nSenesced();
-   return result;
-}
-
 
 float CompositePart::nMaxPot(void)
    //===========================================================================
@@ -444,50 +385,6 @@ void CompositePart::doNPartition(float nSupply, float n_demand_sum, float n_capa
       }
 }
 
-float CompositePart::pTotalVeg(void)
-   //===========================================================================
-{
-   float pTotal = 0.0;
-   for (vector <plantPart * >::const_iterator part = myParts.begin(); part != myParts.end(); part++)
-      pTotal += (*part)->pTotalVeg();
-   return pTotal;
-}
-
-float CompositePart::pGreenVeg(void)
-   //===========================================================================
-{
-   float pTotal = 0.0;
-   for (vector <plantPart * >::const_iterator part = myParts.begin(); part != myParts.end(); part++)
-      pTotal += (*part)->pGreenVeg();
-   return pTotal;
-}
-
-float CompositePart::pGreen(void)
-   //===========================================================================
-{
-   float pTotal = 0.0;
-   for (vector <plantPart * >::const_iterator part = myParts.begin(); part != myParts.end(); part++)
-      pTotal += (*part)->pGreen();
-   return pTotal;
-}
-
-float CompositePart::pSenescedVeg(void)
-   //===========================================================================
-{
-   float pTotal = 0.0;
-   for (vector <plantPart * >::const_iterator part = myParts.begin(); part != myParts.end(); part++)
-      pTotal += (*part)->pSenescedVeg();
-   return pTotal;
-}
-
-float CompositePart::pSenesced(void)
-   //===========================================================================
-{
-   float pTotal = 0.0;
-   for (vector <plantPart * >::const_iterator part = myParts.begin(); part != myParts.end(); part++)
-      pTotal += (*part)->pSenesced();
-   return pTotal;
-}
 
 float CompositePart::pMaxPot(void)
    //===========================================================================
@@ -803,15 +700,6 @@ void CompositePart::readSpeciesParameters(protocol::Component *system, vector<st
    vector <plantPart *>::iterator part;
    for (part =  myParts.begin(); part != myParts.end(); part++)
       (*part)->readSpeciesParameters(system, sections);
-}
-
-float CompositePart::dmGreen(void)
-   //===========================================================================
-{
-   float DMGreen = 0.0;
-   for (vector <plantPart * >::const_iterator part = myParts.begin(); part != myParts.end(); part++)
-      DMGreen +=(*part)->dmGreen();
-   return DMGreen;
 }
 
 float CompositePart::dltDmGreen(void)

@@ -391,7 +391,7 @@ void RootPart::onEmergence(void)
    DMPlantMin = 0.0;
 
    // initial root length (mm/mm^2)
-   float initial_root_length = dmGreen() / sm2smm * specificRootLength;
+   float initial_root_length = Green().DM / sm2smm * specificRootLength;
 
    // initial root length density (mm/mm^3)
    float rld = divide (initial_root_length, root_depth, 0.0);
@@ -616,8 +616,8 @@ void RootPart::onEndCrop(vector<string> &/*dm_type*/,
 //=======================================================================================
 // Unlike above ground parts, no roots go to surface residue module. Send our DM to FOM pool.
    {
-   root_incorp (dmGreen() , nGreen(), pGreen());
-   root_incorp_dead (dmSenesced(), nSenesced(), pSenesced());
+   root_incorp (Green().DM , Green().N, Green().P);
+   root_incorp_dead (Senesced().DM, Senesced().N, Senesced().P);
    //root_incorp_dead (dmDead(), nDead(), pDead());
 
    Senesced().Clear();

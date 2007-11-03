@@ -290,8 +290,6 @@ void Plant::summary_p (void)
    char  msg[400];
       float       P_grain;               // total grain P uptake (kg/ha)
       float       P_dead;                // above ground dead plant P (kg/ha)
-      float       P_green;               // above ground green plant P (kg/ha)
-      float       P_senesced;            // above ground senesced plant P (kg/ha)
       float       P_stover;              // nitrogen content of stover (kg\ha)
       float       P_total;               // total gross nitrogen content (kg/ha)
       float       P_grain_conc_percent;  // grain nitrogen .
@@ -304,13 +302,8 @@ void Plant::summary_p (void)
 
        P_grain = tops.GrainTotal().P * gm2kg/sm2ha;  // why not graintotal??
 
-       P_green = tops.pGreenVeg() * gm2kg / sm2ha;
 
-       P_senesced = tops.pSenescedVeg() * gm2kg / sm2ha;
-
-       P_dead = 0.0;
-
-       P_stover = P_green + P_senesced + P_dead;
+       P_stover = tops.VegetativeTotal().P;
        P_total = P_grain + P_stover;
 
        sprintf (msg, "%s%10.2f%20s%s%10.2f"
@@ -320,11 +313,11 @@ void Plant::summary_p (void)
 
        sprintf (msg, "%s%10.2f%20s%s%8.2f"
                 , " grain P uptake (kg/ha) = ", P_grain, " "
-                , " senesced P content (kg/ha)=", P_senesced);
+                , " senesced P content (kg/ha)=", (tops.VegetativeTotal().P - tops.Vegetative().P));
        parent->writeString (msg);
 
        sprintf (msg, "%s%10.2f%20s%s%10.2f"
-                , " green P content (kg/ha)= ", P_green, " "
+                , " green P content (kg/ha)= ", tops.Vegetative().P, " "
                 , " dead P content (kg/ha) = ", P_dead);
        parent->writeString (msg);
    }

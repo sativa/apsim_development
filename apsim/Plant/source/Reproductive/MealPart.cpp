@@ -79,7 +79,7 @@ void fruitMealPart::doNConcGrainLimits(float n_min_grain, float n_crit_grain, fl
 float fruitMealPart::nCapacity2(void)
 {
    float n_potential  = dmGreenNew() * g.n_conc_max;
-   return (n_potential - nGreen());
+   return (n_potential - Green().N);
 }
 
 float fruitMealPart::N_conc_pot(float nfact_grain_conc)
