@@ -32,14 +32,14 @@ void StoragePart::onHarvest(float cutting_height, float remove_fr,
    float fractToResidue = 0.0;
 
 
-   float dlt_dm_harvest = dmGreen()
-                        + dmSenesced();
+   float dlt_dm_harvest = Green().DM
+                        + Senesced().DM;
 
-   float dlt_n_harvest = nGreen()
-                       + nSenesced();
+   float dlt_n_harvest = Green().N
+                       + Senesced().N;
 
-   float dlt_p_harvest = pGreen()
-                       + pSenesced();
+   float dlt_p_harvest = Green().P
+                       + Senesced().P;
 
    Senesced().DM = 0.0;
    Green().DM = 0.0;

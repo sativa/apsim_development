@@ -18,6 +18,8 @@ public:                                             // member functions
 
    virtual Pool Grain(void) {return Green();}
    virtual Pool GrainTotal(void) {return Total();}
+   virtual Pool Vegetative(void) {return Pool();}
+   virtual Pool VegetativeTotal(void) {return Pool();}
 
    void onInit1(protocol::Component *system);
    void doNewMet(protocol::NewMetType &newmet) ;

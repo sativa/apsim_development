@@ -68,13 +68,13 @@ float fruitGrainPart::nDemand2(void)
 void fruitGrainPart::get_grain_wt(protocol::Component *system, protocol::QueryValueData &qd)
    //===========================================================================
 {
-   system->sendVariable(qd, dmGreen());
+   system->sendVariable(qd, Green().DM);
 }
 
 void fruitGrainPart::get_grain_n(protocol::Component *system, protocol::QueryValueData &qd)
    //===========================================================================
 {
-   system->sendVariable(qd, nGreen());
+   system->sendVariable(qd, Green().N);
 }
 
 void fruitGrainPart::get_grain_n_demand(protocol::Component *system, protocol::QueryValueData &qd)
@@ -119,7 +119,7 @@ void fruitGrainPart::get_yield_wet(protocol::Component *system, protocol::QueryV
 void fruitGrainPart::get_grain_p(protocol::Component *systemInterface, protocol::QueryValueData &qd)
    //===========================================================================
 {
-   float grain_p = pGreen();
+   float grain_p = Green().P;
    systemInterface->sendVariable(qd, grain_p);  //()
 }
 

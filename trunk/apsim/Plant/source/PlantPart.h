@@ -49,15 +49,6 @@ class plantPart : public plantThing
    float DMPlantMin;                 // minimum weight of each plant part (g/plant)
    float Height;                     // The height of this part (mm)
    float Width;                      // The width of this part (mm)
-   //float PGreen;
-   //float PSen;
-   //float NGreen;                      // plant nitrogen content (g N/m^2)
-   //float NSenesced;                   // plant N content of senesced plant (g N/m^2)
-   //float DMGreen;                     // live plant dry weight (biomass) (g/m^2)
-   //float DMSenesced;                  // senesced plant dry wt (g/m^2)
-
-
-
    float relativeGrowthRate;
    float radiationInterceptedGreen;
    float radiationInterceptedTotal;
@@ -69,33 +60,10 @@ class plantPart : public plantThing
       float dm_pot_te;
       float dm_pot_rue;
       float dm;
-
-      //float dm_green;                     // biomass growth (g/m^2)
-      //float dm_senesced;                  // biomass senescence (g/m^2)
-
       float dm_green_removed;                     // green biomass removed (g/m^2)
       float dm_senesced_removed;                  // senesced biomass removed (g/m^2)
-
-      //float dm_detached;                  // biomass detached from senesced part (g/m^2)
-
-      //float dm_green_retrans;             // biomass retranslocated to/from (+/-) green part to/from <<somewhere else??>> (g/m^2)
-
-      //float n_green;                      // actual N uptake into plant (g/m^2)
-      //float n_senesced;                   // actual N loss with senesced plant (g/m^2)
-
-      //float n_detached;                   // actual N loss with detached senesced part (g/m^2)
-
-      //float n_retrans;                    // nitrogen retranslocated to/from (+/-) green part to/from <<somewhere else??>> (g/m^2)
-
       float n_senesced_retrans;           // plant N retranslocated to/from (+/-) senesced part to/from <<somewhere else??>> (g/m^2)
       float n_senesced_trans;
-
-      //float p_green;
-      //float p_sen;
-      //float p_det;
-
-      //float p_retrans;
-
       float height;                       // growth upwards (mm)
       float width;                        // growth outwards (mm)
    } dlt;
@@ -138,9 +106,6 @@ class plantPart : public plantThing
       interpolationFunction n_conc_crit;
       interpolationFunction n_conc_max;
 
-//      interpolationFunction p_conc_min;
-//      interpolationFunction p_conc_sen;
-//      interpolationFunction p_conc_max;
       int   num_x_p_stage_code;
       float x_p_stage_code [max_table];
       float y_p_conc_min[max_table];
@@ -180,6 +145,8 @@ public:
    virtual Pool Total() { return (Green()+Senesced());}
    virtual Pool Grain() { return (Pool());}
    virtual Pool GrainTotal() { return Pool();}
+   virtual Pool Vegetative() {return Green();}
+   virtual Pool VegetativeTotal() {return Total();}
 
    Delta Retranslocation;
 
@@ -196,12 +163,9 @@ public:
    virtual void onPlantEvent(const string &);
    virtual void onRemoveBiomass(float) {};
    virtual void write() {};
-
    virtual void prepare(void);
    virtual void update(void);
-
    virtual void morphology(void);
-
    virtual void doNConccentrationLimits(float);
    virtual void doDmRetranslocate(float DMAvail, float DMDemandDifferentialTotal);
    virtual void doDmMin(void);
@@ -278,32 +242,18 @@ public:
    virtual float giveDmGreenRemoved(float) ;           //
    virtual float giveDmSenescedRemoved(float) ;
 
-   virtual float dmGreen(void);
-   virtual float dmGreenVeg(void);
    virtual float dmGreenNew(void) ;
-   virtual float dmSenesced(void);
    virtual float dmSenescedVeg(void);
-   virtual float dmTotalVeg(void);
    virtual float dmRetransSupply(void);
    virtual float dmRetransDemand(void) ;
    virtual float dmGreenStressDeterminant(void);
 
-   virtual float nTotalVeg(void);
-   virtual float nGreen(void);
-   virtual float nGreenVeg(void);
-   virtual float nSenesced(void);
-   virtual float nSenescedVeg(void);
    virtual float nMaxPot(void);
    virtual float nMinPot(void);
    virtual float nDemand(void);
    virtual float nMax(void);
    virtual float nCapacity(void);
 
-   virtual float pTotalVeg(void);
-   virtual float pGreen(void);
-   virtual float pGreenVeg(void);
-   virtual float pSenesced(void);
-   virtual float pSenescedVeg(void);
    virtual float pGreenStressDeterminant(void);
    virtual float pMaxPotStressDeterminant(void);
    virtual float pMinPotStressDeterminant(void);

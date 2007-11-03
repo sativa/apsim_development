@@ -223,7 +223,7 @@ void fruitGrainPartGN::doDMDemandGrain(void)
 
       // Check that growth does not exceed maximum grain size
       float max_grain = gGrain_no * pMaxGrainSize;
-      float max_dlt = max (max_grain - mealPart->dmGreen(), 0.0);
+      float max_dlt = max (max_grain - mealPart->Green().DM, 0.0);
       gDlt_dm_grain_demand = min (gDlt_dm_grain_demand, max_dlt);
 
       mealPart->doDMDemandGrain(gDlt_dm_grain_demand);
