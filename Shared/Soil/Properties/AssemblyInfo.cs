@@ -5,11 +5,11 @@ using System.Runtime.InteropServices;
 // General Information about an assembly is controlled through the following 
 // set of attributes. Change these attribute values to modify the information
 // associated with an assembly.
-[assembly: AssemblyTitle("Soil")]
+[assembly: AssemblyTitle("Soils")]
 [assembly: AssemblyDescription("")]
 [assembly: AssemblyConfiguration("")]
 [assembly: AssemblyCompany("APSRU")]
-[assembly: AssemblyProduct("Soil")]
+[assembly: AssemblyProduct("Soils")]
 [assembly: AssemblyCopyright("Copyright © APSRU 2006")]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]

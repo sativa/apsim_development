@@ -1,6 +1,7 @@
 using System;
 using VBGeneral;
 using CSGeneral;
+using System.Xml;
 
 namespace Soils
 	{
@@ -10,14 +11,14 @@ namespace Soils
 	public class InitNitrogen
 		{
 		private Soil ParentSoil;
-        private APSIMData Data;
+        private XmlNode Data;
 
-		public InitNitrogen(APSIMData data)
+        public InitNitrogen(XmlNode data, Soil ParentSoil)
 			{
             // -----------
             // Constructor
             // -----------
-            ParentSoil = new Soil(data.Parent);
+            this.ParentSoil = ParentSoil;
             Data = data;
 
             // Ensure this component has valid thickness, no3 and nh4 values - always.
@@ -175,5 +176,12 @@ namespace Soils
 
 			return Ppm; 
 			}
+
+        public XmlNode ExportToSim(XmlNode ParentNode)
+            {
+            XmlHelper.SetValue(ParentNode, "initdata/no3ppm", Utility.LayeredToString(NO3MapedToSoil));
+            XmlHelper.SetValue(ParentNode, "initdata/nh4ppm", Utility.LayeredToString(NH4MapedToSoil));
+            return ParentNode;
+            }
         }
 	}

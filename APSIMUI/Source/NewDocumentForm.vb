@@ -1,11 +1,16 @@
 Imports VBGeneral
+Imports CSGeneral
 Imports System
 Imports System.Drawing
+Imports System.Xml
 Imports System.Collections.Specialized
+Imports ApsimFile
+
+
 Public Class NewDocumentForm
     Inherits System.Windows.Forms.Form
-    Protected SelectedData As APSIMData
-    Protected Controller As New VBUserInterface.BaseController(Nothing, "apsimui")
+    Protected SelectedData As XmlNode
+    Protected Controller As New VBUserInterface.BaseController(Nothing, "apsimui", True)
 #Region " Windows Form Designer generated code "
 
     Public Sub New()
@@ -82,9 +87,7 @@ Public Class NewDocumentForm
         Me.DataTree.AllowDrop = True
         Me.DataTree.Anchor = CType(((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Bottom) _
                     Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
-        Me.DataTree.AutoScroll = True
         Me.DataTree.BackColor = System.Drawing.SystemColors.Control
-        Me.DataTree.HelpText = ""
         Me.DataTree.Location = New System.Drawing.Point(131, 22)
         Me.DataTree.Name = "DataTree"
         Me.DataTree.Size = New System.Drawing.Size(456, 340)
@@ -119,25 +122,42 @@ Public Class NewDocumentForm
     ' Document has just been displayed - set everything up
     ' ----------------------------------------------------
     Private Sub NewDocumentForm_Load(ByVal sender As Object, ByVal e As System.EventArgs) Handles MyBase.Load
+        DataTree.OnLoad(Controller)
         Dim inifile As New APSIMSettings
-        Dim TemplateFile As String = APSIMSettings.INIRead(APSIMSettings.ApsimIniFile(), "apsimui", "new_docs")
-        Controller.FileOpen(TemplateFile)
-        DataTree.MaximumNumLevels = 1
-        DataTree.HelpText = "Select a new simulation"
+        Dim TemplateFile As String = Controller.Configuration.Setting("new_docs")
+        Dim Doc As New XmlDocument
+        Doc.Load(TemplateFile)
+        RemoveUnwantedNodes(Doc.DocumentElement)
+        Controller.ApsimData.Open(Doc.DocumentElement)
         DataTree.Dock = DockStyle.None
-        DataTree.OnLoad(Controller, "\")
-        DataTree.OnRefresh()
         DataTree.ExpandAll()
     End Sub
 
+    Private Sub RemoveUnwantedNodes(ByVal Node As XmlNode)
+        For Each Child As XmlNode In XmlHelper.ChildNodes(Node, "")
+            If Child.Name.ToLower() = "folder" Then
+                RemoveUnwantedNodes(Child)
+            ElseIf Child.Name.ToLower() = "simulation" Then
+                For Each SimChild As XmlNode In XmlHelper.ChildNodes(Child, "")
+                    Child.RemoveChild(SimChild)
+                Next
+            Else
+                Child.ParentNode.RemoveChild(Child)
+            End If
+        Next
+    End Sub
 
     ' -----------------------------------
     ' Return selection to caller.
     ' -----------------------------------
-    Public ReadOnly Property Selection() As APSIMData
+    Public ReadOnly Property Selection() As XmlNode
         Get
-            Controller.Data.SetAttribute("version", Controller.ApsimData.AllData.Attribute("version"))
-            Return Controller.Data
+            Dim TemplateFile As String = Controller.Configuration.Setting("new_docs")
+            Dim Doc As New XmlDocument
+            Doc.Load(TemplateFile)
+            Dim SelectedNode As XmlNode = XmlHelper.Find(Doc.DocumentElement, Controller.SelectedPath)
+            XmlHelper.SetAttribute(SelectedNode, "version", APSIMChangeTool.CurrentVersion)
+            Return SelectedNode
         End Get
     End Property
 

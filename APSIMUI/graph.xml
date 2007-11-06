@@ -1,134 +1,127 @@
-<folder name="Charts" image="Images/chart24.png" version="8">
-
-   <folder name="Drop onto OutputFile">
-
-      <SplitReport name="XY Chart" EditMode="Off">
-         <Page name="Data" Left="0" Top="0" Width="715" Height="268">
-            <ApsimFileReader name="OutputFile" Visible="no" Left="0" Top="0" Width="318" Height="75">
-               <FileName type="filenames">C:\Users\hol353\Desktop\Continuous Wheat Simulation.out</FileName>
-            </ApsimFileReader>
-            <XY Left="12" Top="6" Width="357" Height="250">
-               <Source>OutputFile</Source>
-               <SeriesType>Bar</SeriesType>
-               <PointType>Circle</PointType>
-               <Colour>-65536</Colour>
-               <X>Date</X>
-               <Y>yield</Y>
-            </XY>
-         </Page>
-         <Page name="Report" Left="0" Top="271" Width="715" Height="506">
-            <Chart Left="18" Top="-17" RightMargin="5" BottomMargin="5" Width="586" Height="478">
-               <Source>XY</Source>
-            </Chart>
-         </Page>
-      </SplitReport>
-
-      <SplitReport name="Double XY Chart" EditMode="Off">
-         <Page name="Data" Left="0" Top="0" Width="715" Height="268">
-            <ApsimFileReader name="OutputFile" Visible="no" Left="0" Top="22" Width="318" Height="75">
-               <FileName type="filenames">C:\Users\hol353\Desktop\TestGraph\Continuous Wheat Simulation.out</FileName>
-            </ApsimFileReader>
-            <XY Left="12" Top="6" Width="326" Height="250" name="XY1">
-               <Source>OutputFile</Source>
-               <SeriesType>Solid line</SeriesType>
-               <PointType>None</PointType>
-               <Colour>-65536</Colour>
-               <X>Date</X>
-               <Y>dlayer(1)</Y>
-            </XY>
-            <XY name="XY2" Left="344" Top="6" Width="349" Height="250">
-               <source>OutputFile</source>
-               <X>Date</X>
-               <Y>dlayer(2)</Y>
-               <SeriesType>Solid line</SeriesType>
-               <PointType>None</PointType>
-            </XY>
-         </Page>
-         <Page name="Report" Left="0" Top="271" Width="715" Height="506">
-            <Chart Left="3" Top="3" RightMargin="5" BottomMargin="5" Width="350" Height="340" name="Chart1">
-               <source>XY1</source>
-            </Chart>
-            <Chart name="Chart2" Left="385" Top="3" Width="310" Height="340">
-               <source>XY2</source>
-            </Chart>
-         </Page>
-      </SplitReport>
-
-      <SplitReport name="Probability Exceedence Chart" EditMode="Off">
-         <Page name="Data" Left="0" Top="0" Width="715" Height="269">
-            <ApsimFileReader name="OutputFile" Visible="no" Left="0" Top="0" Width="318" Height="75">
-               <FileName type="filenames">C:\Users\hol353\Desktop\Continuous Wheat Simulation.out</FileName>
-            </ApsimFileReader>
-            <Probability>
-               <source>OutputFile</source>
-               <FieldName>yield</FieldName>
-               <Exceedence>Yes</Exceedence>
-            </Probability>
-         </Page>
-         <Page name="Report" Left="0" Top="272" Width="715" Height="505">
-            <Chart Left="18" Top="-17" RightMargin="5" BottomMargin="5" Width="586" Height="478">
-               <source>Probability</source>
-               <XY>
-                  <X>*</X>
-                  <Y>Probability</Y>
-                  <SeriesType>Line</SeriesType>
-                  <PointType>None</PointType>
-               </XY>
-            </Chart>
-         </Page>
-      </SplitReport>
-
-      <SplitReport name="CDF Chart" EditMode="Off">
-         <Page name="Data" Left="0" Top="0" Width="715" Height="269">
-            <ApsimFileReader name="OutputFile" Visible="no" Left="0" Top="0" Width="318" Height="75">
-               <FileName type="filenames">C:\Users\hol353\Desktop\Continuous Wheat Simulation.out</FileName>
-            </ApsimFileReader>
-            <Probability>
-               <source>OutputFile</source>
-               <FieldName>yield</FieldName>
-               <Exceedence>No</Exceedence>
-            </Probability>
-         </Page>
-         <Page name="Report" Left="0" Top="272" Width="715" Height="505">
-            <Chart Left="18" Top="-17" RightMargin="5" BottomMargin="5" Width="586" Height="478">
-               <source>Probability</source>
-               <XY>
-                  <X>*</X>
-                  <Y>Probability</Y>
-                  <SeriesType>Line</SeriesType>
-                  <PointType>None</PointType>
-               </XY>
-            </Chart>
-         </Page>
-      </SplitReport>
-
-      <SplitReport name="Depth" EditMode="Off">
-         <Page name="Data" Left="0" Top="0" Width="715" Height="268">
-            <ApsimFileReader name="OutputFile" Visible="no" Left="3" Top="3" Width="318" Height="75">
-               <FileName type="filenames">C:\Users\hol353\Desktop\TestGraph\Continuous Wheat Simulation.out</FileName>
-            </ApsimFileReader>
-            <Depth Left="3" Top="116" Width="114" Height="36">
-               <source>Filter</source>
-            </Depth>
-            <Filter Left="3" Top="23" Width="205" Height="68">
-               <source>OutputFile</source>
-               <FilterString>Date='1/1/1940'</FilterString>
-            </Filter>
-         </Page>
-         <Page name="Report" Left="0" Top="271" Width="715" Height="506">
-            <Chart Left="18" Top="-17" RightMargin="5" BottomMargin="5" Width="586" Height="478">
-               <source>Depth</source>
-               <XY>
-                  <XTop>*</XTop>
-                  <Y>Depth</Y>
-                  <SeriesType>Line</SeriesType>
-                  <PointType>None</PointType>
-               </XY>
-            </Chart>
-         </Page>
-      </SplitReport>
-
-   </folder>
-   <TabbedReport name="2 Tab Report"/>
-   <SplitReport/>
+<folder version="10" name="Charts">
+  <folder name="Drop onto OutputFile">
+    <SplitReport name="XY Chart">
+      <Page name="Data" Left="0" Top="0" Width="715" Height="268">
+        <ApsimFileReader name="OutputFile" Visible="no" Left="0" Top="0" Width="318" Height="75">
+          <FileName type="filenames">C:\Users\hol353\Desktop\Continuous Wheat Simulation.out</FileName>
+        </ApsimFileReader>
+        <XY Left="12" Top="6" Width="357" Height="250">
+          <Source>OutputFile</Source>
+          <SeriesType>Bar</SeriesType>
+          <PointType>Circle</PointType>
+          <Colour>-65536</Colour>
+          <X>Date</X>
+          <Y>yield</Y>
+        </XY>
+      </Page>
+      <Page name="Report" Left="0" Top="271" Width="715" Height="506">
+        <Chart Left="18" Top="-17" RightMargin="5" BottomMargin="5" Width="586" Height="478">
+          <Source>XY</Source>
+        </Chart>
+      </Page>
+    </SplitReport>
+    <SplitReport name="Double XY Chart">
+      <Page name="Data" Left="0" Top="0" Width="715" Height="268">
+        <ApsimFileReader name="OutputFile" Visible="no" Left="0" Top="22" Width="318" Height="75">
+          <FileName type="filenames">C:\Users\hol353\Desktop\TestGraph\Continuous Wheat Simulation.out</FileName>
+        </ApsimFileReader>
+        <XY Left="12" Top="6" Width="326" Height="250" name="XY1">
+          <Source>OutputFile</Source>
+          <SeriesType>Solid line</SeriesType>
+          <PointType>None</PointType>
+          <Colour>-65536</Colour>
+          <X>Date</X>
+          <Y>dlayer(1)</Y>
+        </XY>
+        <XY name="XY2" Left="344" Top="6" Width="349" Height="250">
+          <source>OutputFile</source>
+          <X>Date</X>
+          <Y>dlayer(2)</Y>
+          <SeriesType>Solid line</SeriesType>
+          <PointType>None</PointType>
+        </XY>
+      </Page>
+      <Page name="Report" Left="0" Top="271" Width="715" Height="506">
+        <Chart Left="3" Top="3" RightMargin="5" BottomMargin="5" Width="350" Height="340" name="Chart1">
+          <source>XY1</source>
+        </Chart>
+        <Chart name="Chart2" Left="385" Top="3" Width="310" Height="340">
+          <source>XY2</source>
+        </Chart>
+      </Page>
+    </SplitReport>
+    <SplitReport name="Probability Exceedence Chart">
+      <Page name="Data" Left="0" Top="0" Width="715" Height="269">
+        <ApsimFileReader name="OutputFile" Visible="no" Left="0" Top="0" Width="318" Height="75">
+          <FileName type="filenames">C:\Users\hol353\Desktop\Continuous Wheat Simulation.out</FileName>
+        </ApsimFileReader>
+        <Probability>
+          <source>OutputFile</source>
+          <FieldName>yield</FieldName>
+          <Exceedence>Yes</Exceedence>
+        </Probability>
+      </Page>
+      <Page name="Report" Left="0" Top="272" Width="715" Height="505">
+        <Chart Left="18" Top="-17" RightMargin="5" BottomMargin="5" Width="586" Height="478">
+          <source>Probability</source>
+          <XY>
+            <X>*</X>
+            <Y>Probability</Y>
+            <SeriesType>Line</SeriesType>
+            <PointType>None</PointType>
+          </XY>
+        </Chart>
+      </Page>
+    </SplitReport>
+    <SplitReport name="CDF Chart">
+      <Page name="Data" Left="0" Top="0" Width="715" Height="269">
+        <ApsimFileReader name="OutputFile" Visible="no" Left="0" Top="0" Width="318" Height="75">
+          <FileName type="filenames">C:\Users\hol353\Desktop\Continuous Wheat Simulation.out</FileName>
+        </ApsimFileReader>
+        <Probability>
+          <source>OutputFile</source>
+          <FieldName>yield</FieldName>
+          <Exceedence>No</Exceedence>
+        </Probability>
+      </Page>
+      <Page name="Report" Left="0" Top="272" Width="715" Height="505">
+        <Chart Left="18" Top="-17" RightMargin="5" BottomMargin="5" Width="586" Height="478">
+          <source>Probability</source>
+          <XY>
+            <X>*</X>
+            <Y>Probability</Y>
+            <SeriesType>Line</SeriesType>
+            <PointType>None</PointType>
+          </XY>
+        </Chart>
+      </Page>
+    </SplitReport>
+    <SplitReport name="Depth">
+      <Page name="Data" Left="0" Top="0" Width="715" Height="268">
+        <ApsimFileReader name="OutputFile" Visible="no" Left="3" Top="3" Width="318" Height="75">
+          <FileName type="filenames">C:\Users\hol353\Desktop\TestGraph\Continuous Wheat Simulation.out</FileName>
+        </ApsimFileReader>
+        <Depth Left="3" Top="116" Width="114" Height="36">
+          <source>Filter</source>
+        </Depth>
+        <Filter Left="3" Top="23" Width="205" Height="68">
+          <source>OutputFile</source>
+          <FilterString>Date='1/1/1940'</FilterString>
+        </Filter>
+      </Page>
+      <Page name="Report" Left="0" Top="271" Width="715" Height="506">
+        <Chart Left="18" Top="-17" RightMargin="5" BottomMargin="5" Width="586" Height="478">
+          <source>Depth</source>
+          <XY>
+            <XTop>*</XTop>
+            <Y>Depth</Y>
+            <SeriesType>Line</SeriesType>
+            <PointType>None</PointType>
+          </XY>
+        </Chart>
+      </Page>
+    </SplitReport>
+  </folder>
+  <TabbedReport name="2 Tab Report" />
+  <SplitReport />
 </folder>

@@ -13,13 +13,14 @@ using System.ComponentModel.Design;
 using Steema.TeeChart;
 using System.Drawing.Design;
 using System.Reflection;
+using System.Xml;
+using CSGeneral;
 
 namespace Graph
     {
     public partial class ChartPageUI : BaseView
         {
         private DataProcessor DataProcessor;
-        private APSIMData Data;
         private ArrowRenderer Arrow = new ArrowRenderer(10, 1f, true);
         enum PageMode {Normal, Arrow, Design};
         PageMode Mode;
@@ -71,67 +72,64 @@ namespace Graph
             set { DataProcessor = value; }
             }
 
-        public override void OnLoad(BaseController Controller, string NodePath)
+        protected override void OnLoad()
             {
-            base.OnLoad(Controller, NodePath);
-            Data = Controller.ApsimData.Find(NodePath);
             Mode = PageMode.Normal;
 
             //Special case where this dataui is dropped on an outputfile.
             //We want to give the filename to the child outputfile automatically.
-            if (Data.Parent != null && Data.Parent.Parent != null &&
-                Data.Parent.Parent.Type.ToLower() == "outputfile" &&
-                Data.Child("outputfile") != null)
+            ApsimFile.Component OutputFileParent = Controller.ApsimData.Find(NodePath+"/..");
+            XmlNode OutputFileChild = XmlHelper.Find(Data, "outputfile");
+            if (OutputFileParent != null && OutputFileParent.Type == "outputfile" &&
+                OutputFileChild != null)
                 {
-                string FullFileName = Path.GetDirectoryName(Controller.FileName) + "\\" 
-                                      + BaseActions.CalcFileName(Data.Parent.Parent);
-                Data.Child("outputfile").set_ChildValue("FileName", FullFileName);
+                string FullFileName = Path.GetDirectoryName(Controller.ApsimData.FileName) + "\\" 
+                                      + BaseActions.CalcFileName(OutputFileParent);
+                XmlHelper.SetValue(OutputFileChild, "FileName", FullFileName);
                 }
             // Position ourselves
-            if (Data.Attribute("Left") != "")
-                Left = Convert.ToInt32(Data.Attribute("Left"));
-            if (Data.Attribute("Top") != "")
-                Top = Convert.ToInt32(Data.Attribute("Top"));
-            if (Data.Attribute("Width") != "")
-                Width = Convert.ToInt32(Data.Attribute("Width"));
-            if (Data.Attribute("Height") != "")
-                Height = Convert.ToInt32(Data.Attribute("Height"));
+            if (XmlHelper.Attribute(Data, "Left") != "")
+                Left = Convert.ToInt32(XmlHelper.Attribute(Data, "Left"));
+            if (XmlHelper.Attribute(Data, "Top") != "")
+                Top = Convert.ToInt32(XmlHelper.Attribute(Data, "Top"));
+            if (XmlHelper.Attribute(Data, "Width") != "")
+                Width = Convert.ToInt32(XmlHelper.Attribute(Data, "Width"));
+            if (XmlHelper.Attribute(Data, "Height") != "")
+                Height = Convert.ToInt32(XmlHelper.Attribute(Data, "Height"));
 
             // Go create all child controls.
             Controls.Clear();
-            foreach (APSIMData Child in Data.get_Children(null))
+            foreach (XmlNode Child in XmlHelper.ChildNodes(Data, ""))
                 Add(Child);
             }
 
-        private void Add(APSIMData NewComponent)
+        private void Add(XmlNode NewComponent)
             {
             BaseView View = null;
 
-            APSIMData TypeInfo = Controller.GetComponentTypeInfo(NewComponent.Type);
-            string UIType = "";
-            if (TypeInfo != null)
-                UIType = TypeInfo.get_ChildValue("uitype");
+            string UIType = Controller.Configuration.Info(XmlHelper.Type(NewComponent), "uitype");
             if (UIType != "")
                 View = (BaseView)BaseController.CreateClass(UIType);
 
             if (View != null)
                 {
-                View.Name = NewComponent.Name;
+                View.Name = XmlHelper.Name(NewComponent);
 
-                View.Parent = this; 
-                View.OnLoad(Controller, NewComponent.FullPath);
+                View.Parent = this;
+                View.ViewChanged += PublishViewChanged;
+                View.OnLoad(Controller, XmlHelper.FullPath(NewComponent), NewComponent.OuterXml);
                 
-                if (NewComponent.Attribute("Left") != "")
-                    View.Left = Convert.ToInt32(NewComponent.Attribute("Left"));
-                if (NewComponent.Attribute("Top") != "")
-                    View.Top = Convert.ToInt32(NewComponent.Attribute("Top"));
-                if (NewComponent.Attribute("Width") != "")
-                    View.Width = Convert.ToInt32(NewComponent.Attribute("Width"));
-                if (NewComponent.Attribute("Height") != "")
-                    View.Height = Convert.ToInt32(NewComponent.Attribute("Height"));
-                View.Visible = (NewComponent.Attribute("Visible").ToLower() != "no");
+                if (XmlHelper.Attribute(NewComponent, "Left") != "")
+                    View.Left = Convert.ToInt32(XmlHelper.Attribute(NewComponent, "Left"));
+                if (XmlHelper.Attribute(NewComponent, "Top") != "")
+                    View.Top = Convert.ToInt32(XmlHelper.Attribute(NewComponent, "Top"));
+                if (XmlHelper.Attribute(NewComponent, "Width") != "")
+                    View.Width = Convert.ToInt32(XmlHelper.Attribute(NewComponent, "Width"));
+                if (XmlHelper.Attribute(NewComponent, "Height") != "")
+                    View.Height = Convert.ToInt32(XmlHelper.Attribute(NewComponent, "Height"));
+                View.Visible = (XmlHelper.Attribute(NewComponent, "Visible").ToLower() != "no");
                 if (!Processor.FromApsimReport)
-                    Processor.Add(NewComponent.XML);
+                    Processor.Add(NewComponent.OuterXml);
                 }
             }
 
@@ -144,7 +142,7 @@ namespace Graph
             foreach (BaseView View in Controls)
                 View.OnRefresh();
             }
-        public override void OnSave()
+        protected override void OnSave()
             {
             // -----------------------------------------------
             // Called when it's time to save everything back
@@ -153,40 +151,25 @@ namespace Graph
             OnNormalClick(null, null);
             if (Data != null)
                 {
-                Data.SetAttribute("Left", Left.ToString());
-                Data.SetAttribute("Top", Top.ToString());
-                Data.SetAttribute("Width", Width.ToString());
-                Data.SetAttribute("Height", Height.ToString());
+                XmlHelper.SetAttribute(Data, "Left", Left.ToString());
+                XmlHelper.SetAttribute(Data, "Top", Top.ToString());
+                XmlHelper.SetAttribute(Data, "Width", Width.ToString());
+                XmlHelper.SetAttribute(Data, "Height", Height.ToString());
+                XmlDocument Doc = new XmlDocument();
                 foreach (BaseView View in Controls)
                     {
-                    Data.Child(View.Name).SetAttribute("Left", View.Left.ToString());
-                    Data.Child(View.Name).SetAttribute("Top", View.Top.ToString());
-                    Data.Child(View.Name).SetAttribute("Width", View.Width.ToString());
-                    Data.Child(View.Name).SetAttribute("Height", View.Height.ToString());
+                    XmlNode ChildNode = XmlHelper.Find(Data, View.Name);
+                    Doc.LoadXml(View.GetData());
+                    ChildNode.InnerXml = Doc.DocumentElement.InnerXml;
+                    XmlHelper.SetAttribute(ChildNode, "Left", View.Left.ToString());
+                    XmlHelper.SetAttribute(ChildNode, "Top", View.Top.ToString());
+                    XmlHelper.SetAttribute(ChildNode, "Width", View.Width.ToString());
+                    XmlHelper.SetAttribute(ChildNode, "Height", View.Height.ToString());
                     if (Processor.FromApsimReport)
-                        Processor.Set(Data.Child(View.Name).XML);
+                        Processor.Set(XmlHelper.Find(Data, View.Name).OuterXml);
 
                     }
                 }
-            }
-
-        public void DoRefresh(APSIMData ChangedNode)
-            {
-            Processor.Set(ChangedNode.XML);
-            bool RefreshDone = false;
-            Control Ctrl = this;
-            while (Ctrl.Parent != null && !RefreshDone)
-                {
-                if (Ctrl.Parent is BaseView)
-                    {
-                    (Ctrl.Parent as BaseView).OnRefresh();
-                    RefreshDone = true;
-                    }
-                else
-                    Ctrl = Ctrl.Parent;
-                }
-            if (!RefreshDone)
-                OnRefresh();
             }
 
         #region ContextMenu methods
@@ -217,22 +200,22 @@ namespace Graph
                 {
                 if (ControlUnderMouse != null)
                     {
-                    APSIMData ControlData = Data.Child(ControlUnderMouse.Name);
+                    XmlNode ControlData = XmlHelper.Find(Data, ControlUnderMouse.Name);
                     string[] DataSetNames = Processor.DataSetNames();
                     foreach (string DataSetName in DataSetNames)
                         {
                         if (DataSetName != ControlUnderMouse.Name)
                             {
                             ToolStripMenuItem MenuItem = (ToolStripMenuItem)PopupMenu.Items.Add("Link to " + DataSetName);
-                            MenuItem.Checked = (ControlData.ChildByTypeAndValue("source", DataSetName) != null);
+                            MenuItem.Checked = (XmlHelper.ChildByTypeAndValue(ControlData, "source", DataSetName) != null);
                             MenuItem.Click += OnAddLinkMenuItemClick;
                             MenuItem.Tag = DataSetName + " " + ControlUnderMouse.Name;
                             }
                         }
-                    foreach (string SourceName in ControlData.get_Values("source"))
+                    foreach (string SourceName in XmlHelper.Values(ControlData, "source"))
                         {
                         if (Array.IndexOf(DataSetNames, SourceName) == -1)
-                            ControlData.DeleteNode(ControlData.ChildByTypeAndValue("source", SourceName));
+                            ControlData.RemoveChild(XmlHelper.ChildByTypeAndValue(ControlData, "source", SourceName));
                         }
                     }
                 PopupMenu.Items.Add(new ToolStripSeparator());               
@@ -250,14 +233,14 @@ namespace Graph
             if (NewControl.Name != "")
                 {
                 string NewTypeName = Toolbox.ToolboxCtrl.SelectedItem.DisplayName;
-                APSIMData NewChild = Data.Add(new APSIMData(NewTypeName, ""));
-                NewChild.EnsureNameIsUnique2();
+                XmlNode NewChild = XmlHelper.CreateNode(Data.OwnerDocument, NewTypeName, "");
+                XmlHelper.EnsureNodeIsUnique(NewChild);
                 if (NewTypeName.ToLower() != "page")
-                    Processor.Add(NewChild.XML);
+                    Processor.Add(NewChild.OuterXml);
 
                 NewControl.Parent = this;
                 NewControl.Name = NewChild.Name;
-                NewControl.OnLoad(Controller, NewChild.FullPath);
+                NewControl.OnLoad(Controller, XmlHelper.FullPath(NewChild), NewChild.OuterXml);
                 NewControl.OnRefresh();
                 }
             }
@@ -273,7 +256,7 @@ namespace Graph
                 {
                 ss.SetSelectedComponents(null);
                 string ComponentNameToRemove = ComponentToRemove.Name;
-                Data.Delete(ComponentNameToRemove);
+                Data.RemoveChild(XmlHelper.Find(Data, ComponentNameToRemove));
                 ComponentToRemove.Parent.Controls.Remove(ComponentToRemove);
                 Processor.Erase(ComponentNameToRemove);
                 Invalidate();
@@ -293,9 +276,9 @@ namespace Graph
                                                       "Rename", OldName, false);
                 if (NewName != "" && NewName != OldName)
                     {
-                    APSIMData RenamedChild = Data.Child(OldName);
-                    RenamedChild.Name = NewName;
-                    RenamedChild.EnsureNameIsUnique();
+                    XmlNode RenamedChild = XmlHelper.Find(Data, OldName);
+                    XmlHelper.SetName(RenamedChild, NewName);
+                    XmlHelper.EnsureNodeIsUnique(RenamedChild);
                     NewName = RenamedChild.Name;
                     ComponentToRename.Name = NewName;
                     ComponentToRename.Text = NewName;
@@ -344,17 +327,17 @@ namespace Graph
             string SourceName = TagNames[0];
             string ThisControlName = TagNames[1];
 
-            APSIMData ChildData = Data.Child(ThisControlName);
+            XmlNode ChildData = XmlHelper.Find(Data, ThisControlName);
             if (MenuItem.Checked)
-                ChildData.DeleteNode(ChildData.ChildByTypeAndValue("source", SourceName));
+                ChildData.RemoveChild(XmlHelper.ChildByTypeAndValue(ChildData, "source", SourceName));
             else
                 {
-                APSIMData NewSourceNode = new APSIMData("source", "");
-                NewSourceNode.Value = SourceName;
-                ChildData.Add(NewSourceNode);
+                XmlNode NewSourceNode = XmlHelper.CreateNode(ChildData.OwnerDocument, "source", "");
+                NewSourceNode.InnerText = SourceName;
+                ChildData.AppendChild(NewSourceNode);
                 }
             Invalidate();
-            DoRefresh(ChildData);
+            PublishViewChanged(Data);
             }
         #endregion
 
@@ -363,19 +346,19 @@ namespace Graph
             {
             //e.Graphics.DrawRectangle(SystemPens.ControlLightLight, Bounds);
             //e.Graphics.FillRectangle(SystemBrushes.ControlDark, Bounds /*e.ClipRectangle*/);
-            //APSIMData GraphDataNode = Controller.ApsimData.Find(NodePath);
+            //XmlNode GraphDataNode = Controller.XmlNode.Find(NodePath);
             //if (GraphDataNode.Attribute("EditMode") == "On")
             if (Data != null && Mode == PageMode.Arrow)
                 DrawArrows(e);
             }
         private void DrawArrows(PaintEventArgs e)
             {
-            foreach (APSIMData Child in Data.get_Children(null))
-                foreach (APSIMData Source in Child.get_Children("source"))
+            foreach (XmlNode Child in XmlHelper.ChildNodes(Data, null))
+                foreach (XmlNode Source in XmlHelper.ChildNodes(Child, "source"))
                     {
-                    if (Source.Value != "")
+                    if (Source.InnerText != "")
                         {
-                        Control[] FromCtrl = Controls.Find(Source.Value, true);
+                        Control[] FromCtrl = Controls.Find(Source.InnerText, true);
                         Control[] ToCtrl = Controls.Find(Child.Name, true);
                         if (FromCtrl.Length == 1 && ToCtrl.Length == 1)
                             DrawArrowBetweenControls(FromCtrl[0], ToCtrl[0], e);

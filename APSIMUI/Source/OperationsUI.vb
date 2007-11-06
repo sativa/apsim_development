@@ -1,5 +1,7 @@
 Imports VBGeneral
+Imports CSGeneral
 Imports VBUserInterface
+Imports System.Xml
 
 
 Public Class OperationsUI
@@ -8,14 +10,14 @@ Public Class OperationsUI
         Dim StartGridRow As Integer = 0
         Dim EndGridRow As Integer = 0
         StartDayGrid.ClearRange(0, 0, StartDayGrid.RowCount, StartDayGrid.ColumnCount, False)
-        For Each child As APSIMData In Controller.Data.Children("operation")
-            If child.Attribute("condition") = "start_of_day" Then
-                StartDayGrid.Cells(StartGridRow, 0).Text = child.ChildValue("date")
-                StartDayGrid.Cells(StartGridRow, 1).Text = child.ChildValue("action")
+        For Each child As XmlNode In XmlHelper.ChildNodes(Data, "")("operation")
+            If XmlHelper.Attribute(Child, "condition") = "start_of_day" Then
+                StartDayGrid.Cells(StartGridRow, 0).Text = XmlHelper.Value(child, "date")
+                StartDayGrid.Cells(StartGridRow, 1).Text = XmlHelper.Value(child, "action")
                 StartGridRow = StartGridRow + 1
             Else
-                EndDayGrid.Cells(EndGridRow, 0).Text = child.ChildValue("date")
-                EndDayGrid.Cells(EndGridRow, 1).Text = child.ChildValue("action")
+                EndDayGrid.Cells(EndGridRow, 0).Text = XmlHelper.Value(child, "date")
+                EndDayGrid.Cells(EndGridRow, 1).Text = XmlHelper.Value(child, "action")
                 EndGridRow = EndGridRow + 1
             End If
         Next
@@ -24,24 +26,24 @@ Public Class OperationsUI
         InputMap.Put(New FarPoint.Win.Spread.Keystroke(Keys.Enter, Keys.None), FarPoint.Win.Spread.SpreadActions.MoveToNextRow)
     End Sub
 
-    Public Overrides Sub OnSave()
-        Controller.Data.Clear()
+    Protected Overrides Sub OnSave()
+        Data.RemoveAll()
         Dim Row As Integer = 0
         While Row < StartDayGrid.RowCount - 1 And StartDayGrid.Cells(Row, 0).Text <> ""
-            Dim NewNode As New APSIMData("operation", "")
-            NewNode.SetAttribute("condition", "start_of_day")
-            NewNode.ChildValue("date") = StartDayGrid.Cells(Row, 0).Text
-            NewNode.ChildValue("action") = StartDayGrid.Cells(Row, 1).Text
-            Controller.Data.Add(NewNode)
+            Dim NewNode As XmlNode = XmlHelper.CreateNode(Data.OwnerDocument, "operation", "")
+            XmlHelper.SetAttribute(NewNode, "condition", "start_of_day")
+            XmlHelper.SetValue(NewNode, "date", StartDayGrid.Cells(Row, 0).Text)
+            XmlHelper.SetValue(NewNode, "action", StartDayGrid.Cells(Row, 1).Text)
+            Data.AppendChild(NewNode)
             Row = Row + 1
         End While
         Row = 0
         While Row < EndDayGrid.RowCount - 1 And EndDayGrid.Cells(Row, 0).Text <> ""
-            Dim NewNode As New APSIMData("operation", "")
-            NewNode.SetAttribute("condition", "end_of_day")
-            NewNode.ChildValue("date") = EndDayGrid.Cells(Row, 0).Text
-            NewNode.ChildValue("action") = EndDayGrid.Cells(Row, 1).Text
-            Controller.Data.Add(NewNode)
+            Dim NewNode As XmlNode = XmlHelper.CreateNode(Data.OwnerDocument, "operation", "")
+            XmlHelper.SetAttribute(NewNode, "condition", "end_of_day")
+            XmlHelper.SetValue(NewNode, "date", EndDayGrid.Cells(Row, 0).Text)
+            XmlHelper.SetValue(NewNode, "action", EndDayGrid.Cells(Row, 1).Text)
+            Data.AppendChild(NewNode)
             Row = Row + 1
         End While
     End Sub

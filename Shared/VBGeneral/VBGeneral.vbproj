@@ -47,10 +47,8 @@
     <Import Include="System.Diagnostics" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="APSIMData.vb" />
     <Compile Include="APSIMSettings.vb" />
     <Compile Include="MacroFile.vb" />
-    <Compile Include="MacroV2File.vb" />
     <Compile Include="My Project\AssemblyInfo.vb" />
     <Compile Include="My Project\Application.Designer.vb">
       <AutoGen>True</AutoGen>

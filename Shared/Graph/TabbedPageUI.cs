@@ -9,32 +9,38 @@ using VBUserInterface;
 using CSUserInterface;
 using VBGeneral;
 using System.IO;
+using System.Xml;
+using CSGeneral;
 
 namespace Graph
     {
     public partial class TabbedPageUI : BaseView
         {
         private DataProcessor DataProcessor;
-        private APSIMData Data;
 
         public TabbedPageUI()
             {
             InitializeComponent();
             }
-
+        ~TabbedPageUI()
+            {
+            if (DataProcessor != null)
+                {
+                DataProcessor.Shutdown();
+                DataProcessor = null;
+                }
+            }
         public DataProcessor Processor
             {
             get { return DataProcessor; }
             }
 
-        public override void OnLoad(BaseController Controller, string NodePath)
+        protected override void OnLoad()
             {
-            base.OnLoad(Controller, NodePath);
             DataProcessor = new DataProcessor();
 
             TabControl.TabPages.Clear();
-            Data = Controller.ApsimData.Find(NodePath);
-            foreach (APSIMData Page in Data.get_Children("page"))
+            foreach (XmlNode Page in XmlHelper.Find(Data, "page"))
                 {
                 TabPage NewTabPage = new TabPage(Page.Name);
                 ChartPageUI NewCanvas = new ChartPageUI();
@@ -42,7 +48,8 @@ namespace Graph
                 NewCanvas.Dock = DockStyle.Fill;
                 TabControl.TabPages.Add(NewTabPage);
                 NewCanvas.Processor = DataProcessor;
-                NewCanvas.OnLoad(Controller, Page.FullPath);
+                NewCanvas.OnLoad(Controller, XmlHelper.FullPath(Page), Page.OuterXml);
+                NewCanvas.ViewChanged += OnViewChanged;
                 }
             }
         public override void OnRefresh()
@@ -58,24 +65,29 @@ namespace Graph
                     ChartPage.OnRefresh();
                 }
             }
-        public override void OnSave()
+        protected override void OnSave()
             {
             // -----------------------------------------------
             // Called when it's time to save everything back
             // to XML
             // -----------------------------------------------
             base.OnSave();
+            string Contents = "";
             foreach (TabPage Page in TabControl.TabPages)
                 {
                 ChartPageUI Canvas = (ChartPageUI)Page.Controls[0];
-                Canvas.OnSave();
+                Contents += Canvas.GetData();
                 }
-            if (DataProcessor != null)
-                {
-                DataProcessor.Shutdown();
-                DataProcessor = null;
-                }
+            Data.InnerXml = Contents;
             }
+        private void OnViewChanged(XmlNode ChangedNode)
+            {
+            Processor.Set(ChangedNode.OuterXml);
+            OnSave();
+            OnRefresh();
+            }
+
+
 
         }
     }

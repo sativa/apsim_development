@@ -10,6 +10,7 @@ using System.Collections;
 using CSUserInterface;
 using Soils;
 using VBUserInterface;
+using System.Xml;
 
 namespace CSUserInterface
 	{
@@ -31,40 +32,48 @@ namespace CSUserInterface
             while (Row < Table.Rows.Count)
                 NewXml.Add(CreateSoilXmlFromSpreadsheet(Table, ref Row));
 
-            APSIMData AllNewData = new APSIMData("dummy", "");
+            XmlDocument Doc = new XmlDocument();
+            XmlNode AllNewData = Doc.CreateElement("dummy");
             foreach (string Xml in NewXml)
                 {
-                APSIMData NewData = new APSIMData(Xml);
-                APSIMData NewNode = CreateNodeFromPath(Controller, AllNewData, NewData.Name);
-                NewNode.InnerXML = NewData.InnerXML;
+                XmlDocument TempDoc = new XmlDocument();
+                TempDoc.LoadXml(Xml);
+                XmlNode NewData = TempDoc.DocumentElement;
+                XmlNode NewNode = CreateNodeFromPath(Controller, AllNewData, XmlHelper.Name(NewData));
+                NewNode.InnerXml = NewData.InnerXml;
 				}
-            Controller.ApsimData.Add(Controller.SelectedPath, AllNewData.InnerXML);
+            Controller.Selection.Add(AllNewData.InnerXml);
 			Cursor.Current = Cursors.Default;
 			}
 
 
-        static public void ExportSelectedToFile(string FileName, BaseController Apsoil)
+        static public void ExportSelectedToFile(string FileName, BaseController Controller)
 			{
             Cursor.Current = Cursors.WaitCursor;
             
             File.Delete(FileName);
             DataTable Table = new DataTable("SoilData");
             int Row = 0;
-            foreach (string SelectedPath in Apsoil.SelectedPaths)
-                CreateTableFromData(Apsoil.ApsimData.AllData.Find(SelectedPath), Table, SelectedPath, ref Row);
+            foreach (string SelectedPath in Controller.SelectedPaths)
+                {
+                ApsimFile.Component SoilComponent = Controller.ApsimData.Find(SelectedPath);
+                XmlDocument Doc = new XmlDocument();
+                Doc.LoadXml(SoilComponent.Contents);
+                CreateTableFromData(Doc.DocumentElement, Table, SelectedPath, ref Row);
+                }
             ExcelHelper.SendDataToSheet(FileName, "SoilData", Table);
             Cursor.Current = Cursors.Default;
             }
 
-		static private void CreateTableFromData(APSIMData Data, DataTable Table, string ChildPath, ref int Row)
+		static private void CreateTableFromData(XmlNode Data, DataTable Table, string ChildPath, ref int Row)
 			{
-            if (Data.Type.ToLower() == "soil")
+            if (XmlHelper.Type(Data).ToLower() == "soil")
                 CreateTableFromSoil(new Soil(Data), Table, ChildPath, ref Row);
 
-			foreach (APSIMData Child in Data.get_Children(null))
+			foreach (XmlNode Child in XmlHelper.ChildNodes(Data, ""))
 				{
-				if (Child.Type.ToLower() == "soil" ||
-				    Child.Type.ToLower() == "soils" || Child.Type.ToLower() == "folder")
+				if (XmlHelper.Type(Child).ToLower() == "soil" ||
+				    XmlHelper.Type(Child).ToLower() == "soils" || XmlHelper.Type(Child).ToLower() == "folder")
 					CreateTableFromData(Child, Table, ChildPath + "|" + Child.Name, ref Row); // recursion
 				}
 			}
@@ -185,7 +194,10 @@ namespace CSUserInterface
 			if (name == "")
 				throw new Exception("Cannot find a soil name");
 
-			Soil NewSoil = new Soil(new APSIMData("Soil", name));
+            XmlDocument Doc = new XmlDocument();
+            XmlNode SoilNode = Doc.CreateElement("Soil");
+            XmlHelper.SetName(SoilNode, name);
+			Soil NewSoil = new Soil(SoilNode);
             NewSoil.State = GetStringValue(Table, "State", Row);
             NewSoil.Region = GetStringValue(Table, "Region", Row);
             NewSoil.NearestTown = GetStringValue(Table, "NearestTown", Row);
@@ -289,7 +301,7 @@ namespace CSUserInterface
 				}
 
 			Row += NumLayers;
-			return NewSoil.Data.XML;
+			return NewSoil.Data.OuterXml;
 			}
 
 		static private string GetStringValue(DataTable Table, string FieldName, int Row)
@@ -328,7 +340,7 @@ namespace CSUserInterface
 				return new double[0];
 			}
 
-        static private APSIMData CreateNodeFromPath(BaseController Apsoil, APSIMData NewData, string SoilPath)
+        static private XmlNode CreateNodeFromPath(BaseController Apsoil, XmlNode NewData, string SoilPath)
             // ------------------------------------------------------
             // The SoilPath name passed in is a full path to a node
             // in the tree. e.g. \soils\Queensland\soilA
@@ -363,13 +375,13 @@ namespace CSUserInterface
 					}
 				else
 					{
-					APSIMData Child = NewData.Child(PathNodeName);
+					XmlNode Child = XmlHelper.Find(NewData, PathNodeName);
                     if (Child == null)
                         {
                         if (SoilPath == "")
-                            Child = NewData.Add(new APSIMData("soil", PathNodeName));
+                            Child = NewData.AppendChild(XmlHelper.CreateNode(NewData.OwnerDocument, "soil", PathNodeName));
                         else
-                            Child = NewData.Add(new APSIMData("folder", PathNodeName));
+                            Child = NewData.AppendChild(XmlHelper.CreateNode(NewData.OwnerDocument, "folder", PathNodeName));
                         }
 					NewData = Child;
 					}

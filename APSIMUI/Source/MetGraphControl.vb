@@ -6,6 +6,7 @@ Imports CSGeneral
 Imports VBMet
 Imports System.Drawing
 Imports VBUserInterface
+Imports System.Xml
 
 
 Public Class MetGraphControl
@@ -2469,7 +2470,7 @@ Public Class MetGraphControl
 
     Public Sub SetFileName(ByVal FileName As String)
         Me.FileName = FileName
-        Controller.Data.ChildValue("filename") = FileName
+        XmlHelper.SetValue(Data, "filename", FileName)
         ContentsBox.Text = ""
         Metfile.Data.Clear()
         Metfile.Clear()
@@ -2494,18 +2495,6 @@ Public Class MetGraphControl
             Dim StartDate As DateTime
             Dim EndDate As DateTime
             Metfile.GetStartEndDate(FileName, StartDate, EndDate)
-            'test if clock exists
-            Dim clockNode As APSIMData = Me.Controller.Data.Parent.FindChildByType("clock")
-            If Not IsNothing(clockNode) Then
-                Dim startDateNode As APSIMData = Me.Controller.Data.Parent.FindChildByType("clock|start_date")
-                Dim endDateNode As APSIMData = Me.Controller.Data.Parent.FindChildByType("clock|end_date")
-                startDateNode.SetAttribute("lbound", StartDate.ToShortDateString())
-                startDateNode.SetAttribute("ubound", EndDate.ToShortDateString())
-                endDateNode.SetAttribute("lbound", StartDate.ToShortDateString())
-                endDateNode.SetAttribute("ubound", EndDate.ToShortDateString())
-                YearBox.Minimum = StartDate.Year
-                YearBox.Maximum = EndDate.Year
-            End If
         End If
     End Sub
 

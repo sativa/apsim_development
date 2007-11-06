@@ -7,6 +7,7 @@ using System.Text;
 using System.Windows.Forms;
 using VBGeneral;
 using VBUserInterface;
+using System.Xml;
 
 namespace Graph
     {
@@ -31,10 +32,10 @@ namespace Graph
                 Processor = new DataProcessor(Convert.ToUInt32(CommandLine));
                 ChartPage.Processor = Processor;
 
-                APSIMData Data = new APSIMData(Processor.XML());
-                BaseController Controller = new BaseController(null, "ApsimUI");
-                Controller.LoadFromXML(Data.XML);
-                ChartPage.OnLoad(Controller, Data.FullPath);
+
+                BaseController Controller = new BaseController(null, "ApsimUI", false);
+                Controller.ApsimData.New(Processor.XML());
+                ChartPage.OnLoad(Controller, "\\Data", Processor.XML());
                 ChartPage.OnRefresh();
                 this.ShowDialog();
                 }
@@ -42,7 +43,7 @@ namespace Graph
 
         private void OnFormClosing(object sender, FormClosingEventArgs e)
             {
-            ChartPage.OnSave();
+            //ChartPage.OnSave();
             }
 
         }

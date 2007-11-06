@@ -5,15 +5,16 @@ using System.Data;
 using System.Drawing;
 using System.Text;
 using System.Windows.Forms;
+using System.Xml;
 using VBUserInterface;
 using VBGeneral;
 using FarPoint.Win.Spread.CellType;
+using CSGeneral;
 
 namespace Graph
     {
     public partial class XYPickerUI : BaseView
         {
-        private APSIMData XYNode;
         private bool InRefresh = false;
         private ChartPageUI ParentUI;
 
@@ -22,9 +23,8 @@ namespace Graph
             InitializeComponent();
             }
 
-        public override void OnLoad(BaseController Controller, string NodePath)
+        protected override void OnLoad()
             {
-            base.OnLoad(Controller, NodePath);
             ParentUI = (ChartPageUI)Parent;
             }
         public override void OnRefresh()
@@ -36,8 +36,7 @@ namespace Graph
 
             GroupBox.Text = Name;
             InRefresh = true;
-            XYNode = Controller.ApsimData.Find(NodePath);
-            string DataSource = XYNode.get_ChildValue("Source");
+            string DataSource = XmlHelper.Value(Data, "Source");
             if (DataSource != "")
                 {
                 string[] FieldNames = ParentUI.Processor.GetFieldNamesForDataSet(DataSource);
@@ -45,7 +44,7 @@ namespace Graph
                 // setup the x drop down
                 XDropDown.Items.Clear();
                 XDropDown.Items.AddRange(FieldNames);
-                XDropDown.Text = XYNode.get_ChildValue("X");
+                XDropDown.Text = XmlHelper.Value(Data, "X");
 
 
                 // setup the Y lists.
@@ -56,8 +55,8 @@ namespace Graph
                 SetupYCombo(Y5, Y5Right, FieldNames, 4);
 
                 // setup the radio buttons
-                TypeCombo.Text = XYNode.get_ChildValue("SeriesType");
-                PointCombo.Text = XYNode.get_ChildValue("PointType");
+                TypeCombo.Text = XmlHelper.Value(Data, "SeriesType");
+                PointCombo.Text = XmlHelper.Value(Data, "PointType");
                 }
             InRefresh = false;
             }
@@ -65,17 +64,17 @@ namespace Graph
         private void SetupYCombo(ComboBox YCombo, CheckBox YRight, 
                                  string[] FieldNames, int Index)
             {
-            string[] YFieldNames = XYNode.get_Values("Y");
-            string[] Y2FieldNames = XYNode.get_Values("YRight");
+            List<string> YFieldNames = XmlHelper.Values(Data, "Y");
+            List<string> Y2FieldNames = XmlHelper.Values(Data, "YRight");
 
             YCombo.Items.Clear();
             YCombo.Items.AddRange(FieldNames);
-            if (YFieldNames.Length > Index)
+            if (YFieldNames.Count > Index)
                 {
                 YCombo.Text = YFieldNames[Index];
                 YRight.Checked = false;
                 }
-            else if (Y2FieldNames.Length > Index)
+            else if (Y2FieldNames.Count > Index)
                 {
                 YCombo.Text = Y2FieldNames[Index];
                 YRight.Checked = true;
@@ -87,25 +86,25 @@ namespace Graph
             {
             if (!InRefresh)
                 {
-                XYNode.set_ChildValue("X", XDropDown.Text);
-                ParentUI.DoRefresh(XYNode);
+                XmlHelper.SetValue(Data, "X", XDropDown.Text);
+                PublishViewChanged(Data);
                 }
             }
         private void OnTypeChanged(object sender, EventArgs e)
             {
             if (!InRefresh)
                 {
-                XYNode.set_ChildValue("SeriesType", TypeCombo.Text);
+                XmlHelper.SetValue(Data, "SeriesType", TypeCombo.Text);
                 PointCombo.Enabled = (TypeCombo.Text != "Bar");
-                ParentUI.DoRefresh(XYNode);
+                PublishViewChanged(Data);
                 }
             }
         private void OnPointChanged(object sender, EventArgs e)
             {
             if (!InRefresh)
                 {
-                XYNode.set_ChildValue("PointType", PointCombo.Text);
-                ParentUI.DoRefresh(XYNode);
+                XmlHelper.SetValue(Data, "PointType", PointCombo.Text);
+                PublishViewChanged(Data);
                 }
             }
 
@@ -125,9 +124,7 @@ namespace Graph
                     Values.Add(Y4.Text);
                 if (Y5.Text != "" && !Y5Right.Checked)
                     Values.Add(Y5.Text);
-                string[] YValues = new string[Values.Count];
-                Values.CopyTo(YValues);
-                XYNode.set_Values("Y", YValues);
+                XmlHelper.SetValues(Data, "Y", Values);
 
                 Values.Clear();
                 if (Y1.Text != "" && Y1Right.Checked)
@@ -140,10 +137,8 @@ namespace Graph
                     Values.Add(Y4.Text);
                 if (Y5.Text != "" && Y5Right.Checked)
                     Values.Add(Y5.Text);
-                string[] Y2Values = new string[Values.Count];
-                Values.CopyTo(Y2Values);
-                XYNode.set_Values("YRight", Y2Values);
-                ParentUI.DoRefresh(XYNode);
+                XmlHelper.SetValues(Data, "YRight", Values);
+                PublishViewChanged(Data);
                 }
             }
 

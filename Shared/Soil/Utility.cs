@@ -4,6 +4,8 @@ using System.Collections.Specialized;
 using Microsoft.VisualBasic;
 using VBGeneral;
 using CSGeneral;
+using System.Xml;
+using System.Collections.Generic;
 
 namespace Soils
     {
@@ -14,7 +16,7 @@ namespace Soils
         // -----------------------------------------
 
 
-        public static string GetStringValue(APSIMData Data, string PropertyType, string PropertyName)
+        public static string GetStringValue(XmlNode Data, string PropertyType, string PropertyName)
 			{
             // ----------------------------------------------------
             // Return a string value to caller for specified child.
@@ -24,9 +26,9 @@ namespace Soils
 				Key = PropertyType + "\\" + PropertyName;
 			else
 				Key = PropertyName;
-			return Data.get_ChildValue(Key);
+			return XmlHelper.Value(Data, Key);
 			}
-		public static double GetDoubleValue(APSIMData Data, string PropertyType, string PropertyName)
+		public static double GetDoubleValue(XmlNode Data, string PropertyType, string PropertyName)
 			{
             // ----------------------------------------------------
             // Return a double value to caller for specified child.
@@ -37,7 +39,7 @@ namespace Soils
 			else
 				return Convert.ToDouble(Value);
 			}
-		public static void SetValue(APSIMData Data, string PropertyType, string PropertyName, double Value)
+		public static void SetValue(XmlNode Data, string PropertyType, string PropertyName, double Value)
 			{
             // ----------------------------------------------------
             // Set a string value for specified property.
@@ -49,7 +51,7 @@ namespace Soils
 				StringValue = Value.ToString();
 			SetValue(Data, PropertyType, PropertyName, StringValue);
 			}
-        public static void SetValue(APSIMData Data, string PropertyType, string PropertyName, string Value)
+        public static void SetValue(XmlNode Data, string PropertyType, string PropertyName, string Value)
 			{
             // ----------------------------------------------------
             // Return a double value to caller for specified child.
@@ -61,42 +63,44 @@ namespace Soils
 				Key = PropertyName;
 
 			if (Value != "")
-				Data.set_ChildValue(Key, Value);
+				XmlHelper.SetValue(Data, Key, Value);
 			else
 				{
 				if (PropertyType == "")
 					{
-					if (Data.Child(PropertyName) != null)
-						Data.Delete(PropertyName);
+					if (XmlHelper.Find(Data, PropertyName) != null)
+						Data.RemoveChild(XmlHelper.Find(Data, PropertyName));
 					}
 				else
 					{
-					APSIMData Child = Data.Child(PropertyType);
-					if (Child != null && Child.Child(PropertyName) != null)
-						Child.Delete(PropertyName);
+					XmlNode Child = XmlHelper.Find(Data, PropertyType + "\\" + PropertyName);
+					if (Child != null)
+                        {
+						Child.ParentNode.RemoveChild(Child);
+                        }
 					}
 				}
 			}
-        public static string[] getLayeredAsStrings(APSIMData Data, string ParentNodeName, string propertyType, string propertyName)
+        public static string[] getLayeredAsStrings(XmlNode Data, string ParentNodeName, string propertyType, string propertyName)
             {
             // ---------------------------------------
             // Return a layered variable as strings
             // ---------------------------------------
-            APSIMData Profile;
+            XmlNode Profile;
             if (ParentNodeName == "")
                 Profile = Data;
             else
-                Profile = Data.Child(ParentNodeName);
+                Profile = XmlHelper.Find(Data, ParentNodeName);
             if (Profile != null)
                 {
-                string[] values = new string[Profile.ChildNames("layer").Length];
+                List<XmlNode> LayerNodes = XmlHelper.ChildNodes(Profile, "layer");
+                string[] values = new string[LayerNodes.Count];
                 int index = 0;
-                foreach (APSIMData layer in Profile.get_Children("layer"))
+                foreach (XmlNode layer in LayerNodes)
                     {
-                    APSIMData MatchingValueNode = FindNodeByTypeAndName(layer, propertyType, propertyName);
-                    if (MatchingValueNode != null && 
-                        MatchingValueNode.InnerXML != null)
-                        values[index] = MatchingValueNode.InnerXML;
+                    XmlNode MatchingValueNode = FindNodeByTypeAndName(layer, propertyType, propertyName);
+                    if (MatchingValueNode != null && MatchingValueNode.InnerXml != null)
+                        values[index] = MatchingValueNode.InnerXml;
                     else
                         values[index] = "";
                     index++;
@@ -106,29 +110,29 @@ namespace Soils
             else
                 return new string[0];
             }
-        private static APSIMData FindNodeByTypeAndName(APSIMData ParentNode, string Type, string Name)
+        private static XmlNode FindNodeByTypeAndName(XmlNode ParentNode, string Type, string Name)
             {
             // ----------------------------------------------------------
             // Find a child name under Parent that matches the specified
             // type and name. 
             // ----------------------------------------------------------
-            foreach (APSIMData Child in ParentNode.get_Children(null))
+            foreach (XmlNode Child in XmlHelper.ChildNodes(ParentNode, ""))
                 {
                 bool ThisChildMatches = false;
                 if (Type != "" && Name != "")
-                    ThisChildMatches = (Child.Type.ToLower() == Type.ToLower() &&
-                                        Child.Name.ToLower() == Name.ToLower());
+                    ThisChildMatches = (XmlHelper.Type(Child).ToLower() == Type.ToLower() &&
+                                        XmlHelper.Name(Child).ToLower() == Name.ToLower());
                 else if (Type == "" && Name != "")
-                    ThisChildMatches = (Child.Name.ToLower() == Name.ToLower());
+                    ThisChildMatches = (XmlHelper.Name(Child).ToLower() == Name.ToLower());
                 else if (Type != "" && Name == "")
-                    ThisChildMatches = (Child.Type.ToLower() == Type.ToLower());
+                    ThisChildMatches = (XmlHelper.Type(Child).ToLower() == Type.ToLower());
 
                 if (ThisChildMatches)
                     return Child;
                 }
             return null;
             }
-        public static double[] getLayered(APSIMData Data, string ParentNodeName, string propertyType, string propertyName)
+        public static double[] getLayered(XmlNode Data, string ParentNodeName, string propertyType, string propertyName)
             {
             // ---------------------------------------
             // Return a layered variable as doubles.
@@ -150,49 +154,49 @@ namespace Soils
 				}
 			return values;
 			}
-        public static void setLayeredAsStrings(APSIMData Data, string ParentNodeName, string PropertyType, string PropertyName, string[] Values)
+        public static void setLayeredAsStrings(XmlNode Data, string ParentNodeName, string PropertyType, string PropertyName, string[] Values)
             {
             //--------------------------------------------------------------------------
             // Sets the values of the specified node as strings.
             //--------------------------------------------------------------------------	
-            APSIMData Profile;
+            XmlNode Profile;
             if (ParentNodeName == "")
                 Profile = Data;
             else
-                Profile = Data.Child(ParentNodeName);
+                Profile = XmlHelper.Find(Data, ParentNodeName);
             if (Profile == null)
-                Profile = Data.Add(new APSIMData("profile", ""));
+                Profile = Data.AppendChild(XmlHelper.CreateNode(Profile.OwnerDocument, "profile", ""));
 
 
             // if values is zero length then the caller wants to delete a property
             // from all layers.
             if (Values.Length == 0)
                 {
-                int NumLayers = Profile.get_Children("layer").Length;
+                int NumLayers = XmlHelper.ChildNodes(Profile, "layer").Count;
                 Values = new string[NumLayers];
                 for (int i = 0; i != NumLayers; i++)
                     Values[i] = "";
                 }
 
             // make sure we have the right amount of layer nodes.
-            Profile.EnsureNumberOfChildren("layer", "", Values.Length);
+            XmlHelper.EnsureNumberOfChildren(Profile, "layer", "", Values.Length);
 
-            APSIMData[] Layers = Profile.get_Children("layer");
+            List<XmlNode> Layers = XmlHelper.ChildNodes(Profile, "layer");
             for (int i = 0; i != Values.Length; i++)
 				{
-                APSIMData MatchingValueNode = FindNodeByTypeAndName(Layers[i], PropertyType, PropertyName);
+                XmlNode MatchingValueNode = FindNodeByTypeAndName(Layers[i], PropertyType, PropertyName);
                 if (MatchingValueNode == null)
                     {
                     if (Values[i] != "")
-                        MatchingValueNode = Layers[i].Add(new APSIMData(PropertyType, PropertyName));
+                        MatchingValueNode = Layers[i].AppendChild(XmlHelper.CreateNode(Layers[i].OwnerDocument, PropertyType, PropertyName));
                     }
                 else if (Values[i] == "")
-                    Layers[i].DeleteNode(MatchingValueNode);
+                    Layers[i].RemoveChild(MatchingValueNode);
                 if (MatchingValueNode != null)
-                    MatchingValueNode.Value = Values[i];
+                    MatchingValueNode.InnerText = Values[i];
 				}
 			}
-        public static void setLayered(APSIMData Data, string ParentNodeName, string PropertyType, string PropertyName, double[] Values)
+        public static void setLayered(XmlNode Data, string ParentNodeName, string PropertyType, string PropertyName, double[] Values)
             {
             //--------------------------------------------------------------------------
             // Sets the values of the specified node as doubles
@@ -209,7 +213,7 @@ namespace Soils
                 }
             setLayeredAsStrings(Data, ParentNodeName, PropertyType, PropertyName, StringValues);
             }
-        public static void DeleteLayered(APSIMData Data, string ParentNodeName, string PropertyType, string PropertyName)
+        public static void DeleteLayered(XmlNode Data, string ParentNodeName, string PropertyType, string PropertyName)
             {
             //--------------------------------------------------------------------------
             // Deletes the values of the specified property
@@ -327,7 +331,22 @@ namespace Soils
 				}
 			return ReturnValues;
 			}
-        
+
+        public static string LayeredToString(double[] Values)
+            {
+            // ------------------------------------------------------------------
+            // Convert an array of values to a single space separated string
+            //    e.g. "100.000    300.000   300.000"
+            // ------------------------------------------------------------------
+            string ReturnString = "";
+
+            foreach (double Value in Values)
+                {
+                string StringValue = Value.ToString("f3");
+                ReturnString += new string(' ', 10 - StringValue.Length) + StringValue;
+                }
+            return ReturnString;
+            }
         #region Soil mapping methods
         public static double[] MapSoilToSampleUsingSpatial(double[] FromValues, double[] FromThickness, double[] ToThickness)
             {

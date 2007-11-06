@@ -115,12 +115,6 @@
     <Compile Include="WaterChartControl.cs">
       <SubType>UserControl</SubType>
     </Compile>
-    <Compile Include="WaterUI.cs">
-      <SubType>UserControl</SubType>
-    </Compile>
-    <Compile Include="WaterUI.Designer.cs">
-      <DependentUpon>WaterUI.cs</DependentUpon>
-    </Compile>
     <Service Include="{94E38DFF-614B-4cbd-B67C-F211BB35CE8B}" />
   </ItemGroup>
   <ItemGroup>
@@ -174,10 +168,6 @@
       <DependentUpon>WaterChartControl.cs</DependentUpon>
       <SubType>Designer</SubType>
     </EmbeddedResource>
-    <EmbeddedResource Include="WaterUI.resx">
-      <SubType>Designer</SubType>
-      <DependentUpon>WaterUI.cs</DependentUpon>
-    </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\ApsimFile\ApsimFile.csproj">
@@ -192,9 +182,9 @@
       <Project>{4E5222B2-546F-40D8-A637-A987605BCCCC}</Project>
       <Name>ExcelUtility</Name>
     </ProjectReference>
-    <ProjectReference Include="..\Soil\Soil.csproj">
+    <ProjectReference Include="..\Soil\Soils.csproj">
       <Project>{6FAC5AE5-F7B4-4C02-B0D4-B992E0F96CAA}</Project>
-      <Name>Soil</Name>
+      <Name>Soils</Name>
     </ProjectReference>
     <ProjectReference Include="..\VBGeneral\VBGeneral.vbproj">
       <Project>{F1F780B2-4762-48B6-B0D7-A68C57DDB347}</Project>

@@ -11,6 +11,7 @@ using System.Reflection;
 using CSGeneral;
 using ApsimFile;
 using System.Drawing;
+using System.Xml;
 
 namespace CSUserInterface
     {
@@ -31,14 +32,13 @@ namespace CSUserInterface
                     StreamWriter Out = new StreamWriter(Dialog.FileName);
                     Out.WriteLine("<folder name=\"Soils\" version=\"" + ApsimFile.APSIMChangeTool.CurrentVersion.ToString() + "\"/>");
                     Out.Close();
-                    Controller.FileOpen(Dialog.FileName);
+                    Controller.ApsimData.OpenFile(Dialog.FileName);
                     }
                 }
             }
         public static void AddSoil(BaseController Controller)
             {
-            Soil NewSoil = new Soil(new APSIMData("soil", "NewSoil"));
-            Controller.ApsimData.Add(Controller.SelectedPath, NewSoil.Data.XML);
+            Controller.Selection.Add("<soil name=\"NewSoil\"/>");
             }
 
         #region Import methods
@@ -52,10 +52,10 @@ namespace CSUserInterface
                 {
                 foreach (string FileName in Dialog.FileNames)
                     {
-                    APSIMData NewData = new APSIMData();
-                    NewData.LoadFromFile(FileName);
-                    APSIMChangeTool.Upgrade(NewData);
-                    Controller.ApsimData.Add(Controller.SelectedPath, NewData.XML);
+                    XmlDocument Doc = new XmlDocument();
+                    Doc.Load(FileName);
+                    APSIMChangeTool.Upgrade(Doc.DocumentElement);
+                    Controller.Selection.Add(Doc.DocumentElement.OuterXml);
                     }
                 }
             }
@@ -100,21 +100,21 @@ namespace CSUserInterface
             Dialog.DefaultExt = "soils";
             if (Dialog.ShowDialog() == DialogResult.OK)
                 {
-                APSIMData ForeignSoils;
+                XmlDocument Doc = new XmlDocument();
                 if (!File.Exists(Dialog.FileName))
-                    {
-                    ForeignSoils = new APSIMData("soils", "");
-                    }
+                    Doc.AppendChild(XmlHelper.CreateNode(Doc, "soils", ""));
                 else
-                    {
-                    ForeignSoils = new APSIMData();
-                    ForeignSoils.LoadFromFile(Dialog.FileName);
-                    }
+                    Doc.Load(Dialog.FileName);
 
                 foreach (string SelectedPath in Controller.SelectedPaths)
-                    ForeignSoils.Add(Controller.ApsimData.AllData.Find(SelectedPath));
-                ForeignSoils.SetAttribute("version", ApsimFile.APSIMChangeTool.CurrentVersion.ToString());
-                ForeignSoils.SaveToFile(Dialog.FileName);
+                    {
+                    ApsimFile.Component Comp = Controller.ApsimData.Find(SelectedPath);
+                    XmlDocument NodeDoc = new XmlDocument();
+                    NodeDoc.LoadXml(Comp.Contents);
+                    Doc.DocumentElement.AppendChild(Doc.ImportNode(NodeDoc.DocumentElement, true));
+                    }
+                XmlHelper.SetAttribute(Doc.DocumentElement, "version", ApsimFile.APSIMChangeTool.CurrentVersion.ToString());
+                Doc.Save(Dialog.FileName);
                 MessageBox.Show("Soils have been successfully exported to '" + Dialog.FileName + "'. It is suggested that you rename soils within the new file to avoid confusion.",
                                 "Success", MessageBoxButtons.OK, MessageBoxIcon.Information);
                 }
@@ -129,20 +129,22 @@ namespace CSUserInterface
                 {
                 File.Delete(Dialog.FileName);
                 foreach (string SelectedPath in Controller.SelectedPaths)
-                    ExportToPar(Controller.ApsimData.AllData.Find(SelectedPath), Dialog.FileName, Controller);
+                    ExportToPar(Controller.ApsimData.Find(SelectedPath), Dialog.FileName, Controller);
                 MessageBox.Show("Soils have been exported to '" + Dialog.FileName + "'", "Success", MessageBoxButtons.OK, MessageBoxIcon.Information);
                 }
             }
-        private static void ExportToPar(APSIMData Data, string FileName, BaseController Controller)
+        private static void ExportToPar(ApsimFile.Component Data, string FileName, BaseController Controller)
             {
             if (Data.Type.ToLower() == "folder")
                 {
-                foreach (APSIMData Child in Data.get_Children(null))
+                foreach (ApsimFile.Component Child in Data.ChildNodes)
                     ExportToPar(Child, FileName, Controller);
                 }
             else
                 {
-                Soil SoilToExport = new Soil(Data);
+                XmlDocument Doc = new XmlDocument();
+                Doc.LoadXml(Data.Contents);
+                Soil SoilToExport = new Soil(Doc.DocumentElement);
                 SoilToExport.ExportToPar(FileName, SoilToExport.Name, true);
                 }
             }
@@ -168,7 +170,7 @@ namespace CSUserInterface
             Cursor.Current = Cursors.WaitCursor;
             string ErrorMessage = "";
             foreach (string SelectedPath in Controller.SelectedPaths)
-                CheckSoils(Controller.ApsimData.AllData.Find(SelectedPath), ref ErrorMessage);
+                CheckSoils(Controller.ApsimData.Find(SelectedPath), ref ErrorMessage);
             if (ErrorMessage == "")
                 MessageBox.Show("All soils checked out ok. No problems were encountered",
                                 "No problems encountered", MessageBoxButtons.OK,
@@ -181,18 +183,21 @@ namespace CSUserInterface
                 }
             Cursor.Current = Cursors.Default;
             }
-        private static void CheckSoils(APSIMData Data, ref string ErrorMessage)
+        private static void CheckSoils(ApsimFile.Component Data, ref string ErrorMessage)
             {
             if (Data.Type.ToLower() == "soil")
                 {
-                Soil ThisSoil = new Soil(Data);
+                XmlDocument Doc = new XmlDocument();
+                Doc.LoadXml(Data.Contents);
+
+                Soil ThisSoil = new Soil(Doc.DocumentElement);
                 string Errors = ThisSoil.CheckForErrors();
                 if (Errors != "")
                     ErrorMessage += "\r\n" + ThisSoil.Name + "\r\n" + StringManip.IndentText(Errors, 6);
                 }
             else if (Data.Type.ToLower() == "folder")
                 {
-                foreach (APSIMData Child in Data.get_Children(null))
+                foreach (ApsimFile.Component Child in Data.ChildNodes)
                     CheckSoils(Child, ref ErrorMessage);
                 }
             }
@@ -200,7 +205,7 @@ namespace CSUserInterface
         public static void SortSoils(BaseController Controller)
             {
             Cursor.Current = Cursors.WaitCursor;
-            Controller.ApsimData.Sort(Controller.SelectedPath);
+            Controller.Selection.Sort();
             Cursor.Current = Cursors.Default;
             }
 
@@ -215,7 +220,9 @@ namespace CSUserInterface
             }
         public static void SoilCropManagement(BaseController Controller)
             {
-            Soil MySoil = new Soil(Controller.Data);
+            XmlDocument Doc = new XmlDocument();
+            Doc.LoadXml(Controller.Selection.Contents);
+            Soil MySoil = new Soil(Doc.DocumentElement);
 
             ReorderForm Form = new ReorderForm();
             Form.Text = "Soil / Crop Management";
@@ -235,16 +242,21 @@ namespace CSUserInterface
                         MySoil.DeleteCrop(CropName);
                     }
                 MySoil.SetCropOrder(Form.GetItems());
+                Controller.Selection.Contents = Doc.DocumentElement.OuterXml;
                 Controller.Explorer.RefreshCurrentView();
                 }
             }
         public static void ChangePHUnits(BaseController Controller)
             {
-            Soil MySoil = new Soil(Controller.Data);
+            XmlDocument Doc = new XmlDocument();
+            Doc.LoadXml(Controller.Selection.Contents);
+            XmlNode SelectedData = Doc.DocumentElement;
+            Soil MySoil = new Soil(SelectedData);
             if (MySoil.PHStoredAsWater())
                 MySoil.PHCaCl = MySoil.PH;
             else
                 MySoil.PH = MySoil.PHCaCl;
+            Controller.Selection.Contents = SelectedData.OuterXml;
             Controller.Explorer.RefreshCurrentView();
             }
         public static void CheckWebForDataUpdate(BaseController Controller)
@@ -280,7 +292,7 @@ namespace CSUserInterface
         #region PrintSoil 
         public static void PrintSoil(BaseController Controller)
             {
-            WaterUI SoilUI = (WaterUI) Controller.Explorer.CurrentView;
+            SoilUI SoilUI = (SoilUI)Controller.Explorer.CurrentView;
 
             System.Drawing.Printing.PrintDocument PrintDocument = new System.Drawing.Printing.PrintDocument();
             PrintDocument.BeginPrint += new System.Drawing.Printing.PrintEventHandler(SoilUI.OnBeginPrint);

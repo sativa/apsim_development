@@ -7,6 +7,7 @@ using CSGeneral;
 using VBGeneral;
 using VBUserInterface;
 using Soils;
+using System.Xml;
 
 
 namespace CSUserInterface
@@ -923,15 +924,22 @@ namespace CSUserInterface
 			HelpText = "There are two ways of specifying initial soil nitrogen. You can either type a number for each layer (kg/ha or ppm) "
 					 + " or a total NO3 / NH4 number (kg/ha only) on the last row of the grid.";
 
-			SoilData = new Soil(Controller.Data.Parent);
-            InitialNitrogen = new InitNitrogen(Controller.Data);
-			FarPoint.Win.Spread.InputMap InputMap = Grid.GetInputMap(FarPoint.Win.Spread.InputMapMode.WhenAncestorOfFocused); 
-			InputMap.Put(new FarPoint.Win.Spread.Keystroke(Keys.Delete, Keys.None), 
-							FarPoint.Win.Spread.SpreadActions.ClipboardCut); 
-			InputMap.Put(new FarPoint.Win.Spread.Keystroke(Keys.Enter, Keys.None), 
-							FarPoint.Win.Spread.SpreadActions.MoveToNextRow);
-            PopulateEditBoxes(); // this will then cause TextChanged events on the edit boxes.
-            PopulateGrid();
+            ApsimFile.Component SoilNode = Controller.ApsimData.Find(NodePath);
+            if (SoilNode != null && SoilNode.Parent != null)
+                {
+                SoilNode = SoilNode.Parent;
+                XmlDocument Doc = new XmlDocument();
+                Doc.LoadXml(SoilNode.Contents);
+                SoilData = new Soil(Doc.DocumentElement);
+                InitialNitrogen = new InitNitrogen(Data, SoilData);
+                FarPoint.Win.Spread.InputMap InputMap = Grid.GetInputMap(FarPoint.Win.Spread.InputMapMode.WhenAncestorOfFocused);
+                InputMap.Put(new FarPoint.Win.Spread.Keystroke(Keys.Delete, Keys.None),
+                                FarPoint.Win.Spread.SpreadActions.ClipboardCut);
+                InputMap.Put(new FarPoint.Win.Spread.Keystroke(Keys.Enter, Keys.None),
+                                FarPoint.Win.Spread.SpreadActions.MoveToNextRow);
+                PopulateEditBoxes(); // this will then cause TextChanged events on the edit boxes.
+                PopulateGrid();
+                }
 			}
 
         private void PopulateEditBoxes()
@@ -1033,16 +1041,22 @@ namespace CSUserInterface
 
         private void TotalNO3_TextChanged(object sender, EventArgs e)
             {
-            InitialNitrogen.TotalNO3KgHa = Convert.ToDouble(TotalNO3.Text);
-            PopulateGrid();
-            UpdateGraph();
+            if (TotalNO3.Text != "")
+                {
+                InitialNitrogen.TotalNO3KgHa = Convert.ToDouble(TotalNO3.Text);
+                PopulateGrid();
+                UpdateGraph();
+                }
             }
 
         private void TotalNH4_TextChanged(object sender, EventArgs e)
             {
-            InitialNitrogen.TotalNH4KgHa = Convert.ToDouble(TotalNH4.Text);
-            PopulateGrid();
-            UpdateGraph();
+            if (TotalNH4.Text != "")
+                {
+                InitialNitrogen.TotalNH4KgHa = Convert.ToDouble(TotalNH4.Text);
+                PopulateGrid();
+                UpdateGraph();
+                }
             }
 
 

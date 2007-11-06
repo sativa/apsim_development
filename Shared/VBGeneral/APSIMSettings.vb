@@ -2,6 +2,7 @@ Imports System.Windows.Forms
 Imports System.IO
 Imports System.Text
 Imports System.Collections.Specialized
+Imports System.Reflection
 
 Public Class APSIMSettings
     Private Declare Ansi Function WritePrivateProfileString Lib "kernel32" _
@@ -23,14 +24,30 @@ Public Class APSIMSettings
     ' Return APSIM directory root
     ' ---------------------------
     Public Shared Function ApsimDirectory() As String
+        ' Check the executable path first.
         Dim ExeFolder As String = Path.GetDirectoryName(Application.ExecutablePath)
-        If File.Exists(ExeFolder + "\\apsim.ini") Then
-            Return ExeFolder
-        Else
-            Return Directory.GetParent(ExeFolder).ToString
+        Dim DirectoryPath As String = SearchDirectoryTree(ExeFolder)
+        If DirectoryPath = "" Then
+            DirectoryPath = SearchDirectoryTree(Directory.GetCurrentDirectory)
         End If
+        Return DirectoryPath
     End Function
 
+    Private Shared Function SearchDirectoryTree(ByVal DirectoryPath As String) As String
+        While (DirectoryPath <> "" AndAlso Not File.Exists(DirectoryPath + "\\apsim.ini"))
+            Dim Parent As DirectoryInfo = Directory.GetParent(DirectoryPath)
+            If Parent Is Nothing Then
+                DirectoryPath = ""
+            Else
+                DirectoryPath = Parent.ToString
+            End If
+        End While
+        If DirectoryPath <> "" Then
+            Return DirectoryPath
+        Else
+            Return ""
+        End If
+    End Function
 
     ' ---------------------------
     ' Return APSIM version number

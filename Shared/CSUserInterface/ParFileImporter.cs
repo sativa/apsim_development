@@ -2,6 +2,7 @@ using System;
 using System.IO;
 using System.Windows.Forms;
 using System.Collections.Specialized;
+using System.Xml;
 using VBGeneral;
 using CSGeneral;
 using CSUserInterface;
@@ -38,18 +39,20 @@ namespace CSUserInterface
 						if (SectionBits[1].ToLower() == "soilwat2")
 							{
 							string SoilName = SectionBits[0];
-							Soil NewSoil = new Soil(new APSIMData("soil", SoilName));
+                            XmlDocument Doc = new XmlDocument();
+                            Doc.AppendChild(XmlHelper.CreateNode(Doc, "soil", SoilName));
+							Soil NewSoil = new Soil(Doc.DocumentElement);
 							ReadWaterSection(SoilName, FileName, NewSoil);
 							ReadNitrogenSection(SoilName, FileName, NewSoil);
 							ReadCropSections(SoilName, FileName, NewSoil);
 							ReadPhosphorusSection(SoilName, FileName, NewSoil);
-                            XmlForAllSoils += NewSoil.Data.XML;
+                            XmlForAllSoils += NewSoil.Data.OuterXml;
 							}
 						}
 					}
 				}
             if (XmlForAllSoils != "")
-                Apsoil.ApsimData.Add(Apsoil.SelectedPath, XmlForAllSoils);
+                Apsoil.Selection.Add(XmlForAllSoils);
 
 			Cursor.Current = Cursors.Default;
 			}
@@ -82,7 +85,9 @@ namespace CSUserInterface
                     throw new Exception("Cannot find title line in file " + W2FileName);
 
                 // create a new soil.
-                Soil NewSoil = new Soil(new APSIMData("soil", Title));
+                XmlDocument Doc = new XmlDocument();
+                Doc.AppendChild(XmlHelper.CreateNode(Doc, "soil", Title));
+                Soil NewSoil = new Soil(Doc.DocumentElement);
 
                 // Read in all water parameters
                 ReadWaterSection("run%", W2FileName, NewSoil);
@@ -100,11 +105,11 @@ namespace CSUserInterface
                 if (File.Exists(P2FileName))
                     ReadPhosphorusSection("run%", P2FileName, NewSoil);
 
-                NewXml += NewSoil.Data.XML;
+                NewXml += NewSoil.Data.OuterXml;
                 }
 
 			// Add new soil to our soils.
-            Apsoil.ApsimData.Add(Apsoil.SelectedPath, NewXml);
+            Apsoil.Selection.Add(NewXml);
 
 			Cursor.Current = Cursors.Default;
 			}

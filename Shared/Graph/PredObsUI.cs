@@ -7,12 +7,13 @@ using System.Text;
 using System.Windows.Forms;
 using VBUserInterface;
 using VBGeneral;
+using CSGeneral;
+using System.Xml;
 
 namespace Graph
     {
     public partial class PredObsUI : BaseView
         {
-        private APSIMData Data;
         private bool InRefresh = false;
         private ChartPageUI ParentUI;
 
@@ -20,9 +21,8 @@ namespace Graph
             {
             InitializeComponent();
             }
-        public override void OnLoad(BaseController Controller, string NodePath)
+        protected override void OnLoad()
             {
-            base.OnLoad(Controller, NodePath);
             ParentUI = (ChartPageUI)Parent;
             }
         public override void OnRefresh()
@@ -34,20 +34,20 @@ namespace Graph
 
             InRefresh = true;
             GroupBox.Text = Name;
-            Data = Controller.ApsimData.Find(NodePath);
-            string DataSource = Data.get_ChildValue("Source");
+
+            string DataSource = XmlHelper.Value(Data, "Source");
             string[] FieldNames = ParentUI.Processor.GetFieldNamesForDataSet(DataSource);
 
             // setup the Field list.
             FieldList.Items.Clear();
             FieldList.Items.AddRange(FieldNames);
-            foreach (string FieldName in Data.get_Values("FieldName"))
+            foreach (string FieldName in XmlHelper.Values(Data, "FieldName"))
                 {
                 int PosItem = FieldList.Items.IndexOf(FieldName);
                 if (PosItem != -1)
                     FieldList.SetItemChecked(PosItem, true);
                 else
-                    Data.DeleteNode(Data.ChildByTypeAndValue("FieldName", FieldName));
+                    Data.RemoveChild(XmlHelper.ChildByTypeAndValue(Data, "FieldName", FieldName));
                 }
             InRefresh = false; 
             }
@@ -59,13 +59,13 @@ namespace Graph
                 string FieldName = FieldList.Items[e.Index].ToString();
                 if (e.NewValue == CheckState.Checked)
                     {
-                    APSIMData NewField = new APSIMData("FieldName", "");
-                    NewField.Value = FieldName;
-                    Data.Add(NewField);
+                    XmlNode NewField = XmlHelper.CreateNode(Data.OwnerDocument, "FieldName", "");
+                    NewField.InnerText = FieldName;
+                    Data.AppendChild(NewField);
                     }
                 else
-                    Data.DeleteNode(Data.ChildByTypeAndValue("FieldName", FieldName));
-                ParentUI.DoRefresh(Data);
+                    Data.RemoveChild(XmlHelper.ChildByTypeAndValue(Data, "FieldName", FieldName));
+                PublishViewChanged(Data);
                 }
             }
 

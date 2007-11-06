@@ -7,12 +7,13 @@ using System.Text;
 using System.Windows.Forms;
 using VBUserInterface;
 using VBGeneral;
+using CSGeneral;
+using System.Xml;
 
 namespace Graph
     {
     public partial class StatsUI : VBUserInterface.BaseView
         {
-        private APSIMData Data;
         private ChartPageUI ParentUI;
 
         public StatsUI()
@@ -20,9 +21,8 @@ namespace Graph
             InitializeComponent();
             }
 
-        public override void OnLoad(BaseController Controller, string NodePath)
+        protected override void OnLoad()
             {
-            base.OnLoad(Controller, NodePath);
             ParentUI = (ChartPageUI)Parent;
             }
         public override void OnRefresh()
@@ -36,22 +36,21 @@ namespace Graph
             FieldList.ItemCheck -= OnItemCheck;
             StatsList.ItemCheck -= OnStatItemCheck;
 
-            Data = Controller.ApsimData.Find(NodePath);
             FieldList.Items.Clear();
-            FieldList.Items.AddRange(ParentUI.Processor.GetFieldNamesForDataSet(Data.get_ChildValue("source")));
-            foreach (string FieldName in Data.get_Values("FieldName"))
+            FieldList.Items.AddRange(ParentUI.Processor.GetFieldNamesForDataSet(XmlHelper.Value(Data, "source")));
+            foreach (string FieldName in XmlHelper.Values(Data, "FieldName"))
                 {
                 int FieldIndex = FieldList.Items.IndexOf(FieldName);
                 if (FieldIndex == -1)
-                    Data.DeleteNode(Data.ChildByTypeAndValue("FieldName", FieldName));
+                    Data.RemoveChild(XmlHelper.ChildByTypeAndValue(Data, "FieldName", FieldName));
                 else
                     FieldList.SetItemChecked(FieldIndex, true);
                 }
-            foreach (string Stat in Data.get_Values("Stat"))
+            foreach (string Stat in XmlHelper.Values(Data, "Stat"))
                 {
                 int StatIndex = StatsList.Items.IndexOf(Stat);
                 if (StatIndex == -1)
-                    Data.DeleteNode(Data.ChildByTypeAndValue("Stat", Stat));
+                    Data.RemoveChild(XmlHelper.ChildByTypeAndValue(Data, "Stat", Stat));
                 else
                     StatsList.SetItemChecked(StatIndex, true);
                 }
@@ -65,26 +64,26 @@ namespace Graph
             {
             if (e.NewValue == CheckState.Checked)
                 {
-                APSIMData NewField = new APSIMData("FieldName", "");
-                NewField.Value = FieldList.Items[e.Index].ToString();
-                Data.Add(NewField);
+                XmlNode NewField = XmlHelper.CreateNode(Data.OwnerDocument, "FieldName", "");
+                XmlHelper.SetValue(NewField, "", FieldList.Items[e.Index].ToString());
+                Data.AppendChild(NewField);
                 }
             else
-                Data.DeleteNode(Data.ChildByTypeAndValue("FieldName", FieldList.Items[e.Index].ToString()));
-            ParentUI.DoRefresh(Data);
+                Data.RemoveChild(XmlHelper.ChildByTypeAndValue(Data, "FieldName", FieldList.Items[e.Index].ToString()));
+            PublishViewChanged(Data);
             }
 
         private void OnStatItemCheck(object sender, ItemCheckEventArgs e)
             {
             if (e.NewValue == CheckState.Checked)
                 {
-                APSIMData NewStat = new APSIMData("Stat", "");
-                NewStat.Value = StatsList.Items[e.Index].ToString();
-                Data.Add(NewStat);
+                XmlNode NewStat = XmlHelper.CreateNode(Data.OwnerDocument, "Stat", "");
+                XmlHelper.SetValue(NewStat, "", StatsList.Items[e.Index].ToString());
+                Data.AppendChild(NewStat);
                 }
             else
-                Data.DeleteNode(Data.ChildByTypeAndValue("Stat", StatsList.Items[e.Index].ToString()));
-            ParentUI.DoRefresh(Data);
+                Data.RemoveChild(XmlHelper.ChildByTypeAndValue(Data, "Stat", StatsList.Items[e.Index].ToString()));
+            PublishViewChanged(Data);
             }
 
         }

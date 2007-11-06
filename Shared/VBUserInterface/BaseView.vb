@@ -1,5 +1,6 @@
 Imports System
 Imports System.IO
+Imports VBGeneral
 
 
 Public Class BaseView
@@ -8,13 +9,19 @@ Public Class BaseView
     ' It has data and knowledge of a
     ' user interface.
     ' All user interfaces should override the
-    ' 'Refresh' method and optionally the 
-    ' 'Save' method.
+    ' 'OnRefresh' method and optionally the 
+    ' 'OnSave' method.
     ' ----------------------------------   
     Inherits System.Windows.Forms.UserControl
 
     Protected Controller As BaseController
-    Protected NodePath As String
+    Protected MyNodePath As String
+    Protected Data As Xml.XmlNode
+
+    Delegate Sub NotifyEventHandler(ByVal NodeChanged As Xml.XmlNode)
+    Public Event ViewChanged As NotifyEventHandler
+
+
 
 #Region " Windows Form Designer generated code "
     Public Sub New()
@@ -69,20 +76,57 @@ Public Class BaseView
     End Sub
 #End Region
 
-    Public Overridable Overloads Sub OnLoad(ByVal Controller As BaseController, ByVal NodePath As String)
+    Public Overloads Sub OnLoad(ByVal Controller As BaseController, _
+                                ByVal NodePath As String, _
+                                ByVal Contents As String)
         Me.Controller = Controller
-        Me.NodePath = NodePath
+        MyNodePath = NodePath
+
+        Dim Doc As Xml.XmlDocument = New Xml.XmlDocument
+        Doc.LoadXml(Contents)
+        Data = Doc.DocumentElement
+        OnLoad()
+    End Sub
+    Public Function GetData() As String
+        OnSave()
+        Return Data.OuterXml
+    End Function
+    Public ReadOnly Property NodePath() As String
+        Get
+            Return MyNodePath
+        End Get
+    End Property
+
+
+
+
+    Protected Overridable Overloads Sub OnLoad()
+        ' ---------------------------------------------
+        ' An overridable method that is called whenever
+        ' the object has just been loaded.
+        ' ---------------------------------------------
     End Sub
 
     Public Overridable Sub OnRefresh()
+        ' ---------------------------------------------
+        ' An overridable method that is called whenever
+        ' the object needs to be refreshed.
+        ' ---------------------------------------------
     End Sub
 
-    Public Overridable Sub OnSave()
+    Protected Overridable Sub OnSave()
         ' ---------------------------------------------
         ' An overridable method that is called whenever
         ' data should be saved back to the APSIMData 
         ' instance.
         ' ---------------------------------------------
+    End Sub
+
+    Protected Sub PublishViewChanged(ByVal ChangedNode As Xml.XmlNode)
+        ' ---------------------------------------------
+        ' This is used by the graph system.
+        ' ---------------------------------------------
+        RaiseEvent ViewChanged(ChangedNode)
     End Sub
 
     Public Overridable Sub OnClose()

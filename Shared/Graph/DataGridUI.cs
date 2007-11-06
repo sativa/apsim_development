@@ -7,6 +7,7 @@ using System.Text;
 using System.Windows.Forms;
 using VBUserInterface;
 using VBGeneral;
+using CSGeneral;
 
 namespace Graph
     {
@@ -20,9 +21,8 @@ namespace Graph
             InitializeComponent();
             }
 
-        public override void OnLoad(BaseController Controller, string NodePath)
+        protected override void OnLoad()
             {
-            base.OnLoad(Controller, NodePath);
             ParentUI = (ChartPageUI)Parent;
             DataWindow = ParentUI.Processor.CreateDataWindow(Handle);
             }
@@ -34,12 +34,11 @@ namespace Graph
             // -----------------------------------------------
             base.OnRefresh();
 
-            APSIMData Data = Controller.ApsimData.Find(NodePath);
-            ParentUI.Processor.RefreshDataWindow(DataWindow, Data.get_ChildValue("Source"));
+            ParentUI.Processor.RefreshDataWindow(DataWindow, XmlHelper.Value(Data, "Source"));
             OnResize(null, null);
             }
 
-        public override void OnSave()
+        protected override void OnSave()
             {
             base.OnSave();
             ParentUI.Processor.DeleteDataWindow(DataWindow);

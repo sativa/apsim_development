@@ -1,41 +1,58 @@
 Imports VBGeneral
+Imports CSGeneral
+Imports System.Xml
+
 Public Class BaseActions
     Public Shared Sub FileOpen(ByVal Controller As BaseController)
         If Controller.FileSaveAfterPrompt() Then
             Dim dialog As New OpenFileDialog
-            dialog.Filter = Controller.OpenDialogFilter
+            dialog.Filter = Controller.Configuration.Setting("DialogFilter")
+            dialog.DefaultExt = Controller.Configuration.Setting("DefaultExtension")
             If dialog.ShowDialog = DialogResult.OK Then
-                Controller.FileOpen(dialog.FileName)
+                Controller.ApsimData.OpenFile(dialog.FileName)
             End If
         End If
     End Sub
     Public Shared Sub FileSave(ByVal Controller As BaseController)
-        Controller.ApsimData.Save(Controller.FileName)
+        If Controller.ApsimData.FileName = "Untitled" Then
+            BaseActions.FileSaveAs(Controller)
+        Else
+            Controller.ApsimData.Save()
+        End If
     End Sub
     Public Shared Sub FileSaveAs(ByVal Controller As BaseController)
         Dim Dialog As New SaveFileDialog
-        Dialog.Filter = Controller.OpenDialogFilter
+        Dialog.Filter = Controller.Configuration.Setting("DialogFilter")
+        Dialog.DefaultExt = Controller.Configuration.Setting("DefaultExtension")
         Dialog.AddExtension = True
         Dialog.OverwritePrompt = True
         If Dialog.ShowDialog = DialogResult.OK Then
-            Controller.FileSave(Dialog.FileName)
+            Controller.Explorer.SaveCurrentView()
+            Controller.ApsimData.SaveAs(Dialog.FileName)
         End If
     End Sub
-
-
-
+    Public Shared Sub HelpAbout(ByVal Controller As BaseController)
+        If Controller.Configuration.Setting("SplashScreen") <> "" Then
+            Dim SplashForm As Form = BaseController.CreateClass(Controller.Configuration.Setting("SplashScreen"))
+            SplashForm.ShowDialog()
+        End If
+    End Sub
     Public Shared Sub AddFolder(ByVal Controller As BaseController)
         ' --------------------------------------------------------
         ' Add a folder
         ' --------------------------------------------------------
-        Controller.ApsimData.Add(Controller.SelectedPath, "<folder name=""New folder""/>")
+        Controller.Selection.Add("<folder/>")
     End Sub
     Public Shared Sub Delete(ByVal Controller As BaseController)
         ' --------------------------------------------------------
         ' Delete selected nodes
         ' --------------------------------------------------------
-        For Each SelectedPath As String In Controller.SelectedPaths
-            Controller.ApsimData.Delete(SelectedPath)
+        Dim PathsToDelete As Specialized.StringCollection = Controller.SelectedPaths
+        Dim Selection As ApsimFile.Component = Controller.ApsimData.Find(Controller.SelectedPaths(0))
+        Controller.SelectedPath = Selection.Parent.FullPath
+        For Each SelectedPath As String In PathsToDelete
+            Dim CompToDelete As ApsimFile.Component = Controller.ApsimData.Find(SelectedPath)
+            CompToDelete.Parent.Delete(CompToDelete)
         Next
     End Sub
     Public Shared Sub Rename(ByVal Controller As BaseController)
@@ -43,9 +60,8 @@ Public Class BaseActions
         ' Rename selected nodes
         ' --------------------------------------------------------
         For Each SelectedPath As String In Controller.SelectedPaths
-            Dim Node As APSIMData = Controller.ApsimData.Find(SelectedPath)
-            Dim NewName = InputDialog.InputBox("Enter new name for node:", "Rename the selected node", Node.Name, False)
-            Controller.ApsimData.Rename(SelectedPath, NewName)
+            Dim NewName = InputDialog.InputBox("Enter new name for node:", "Rename the selected node", Controller.Selection.Name, False)
+            Controller.Selection.Name = NewName
         Next
     End Sub
 
@@ -60,12 +76,7 @@ Public Class BaseActions
         ' --------------------------------------------------------
         ' Perform a clipboard copy operation
         ' --------------------------------------------------------
-        Dim Contents As String = ""
-        For Each SelectedPath As String In Controller.SelectedPaths
-            Dim Node As APSIMData = Controller.ApsimData.Find(SelectedPath)
-            Contents = Contents + Node.XML + vbCrLf
-        Next
-        Clipboard.SetDataObject(Contents, True)
+        Controller.ApsimData.CopyToClipboard(Controller.SelectedPaths)
     End Sub
     Public Shared Sub Paste(ByVal Controller As BaseController)
         ' --------------------------------------------------------
@@ -73,19 +84,27 @@ Public Class BaseActions
         ' --------------------------------------------------------
         Dim iData As IDataObject = Clipboard.GetDataObject()
         Dim xml As String = CType(iData.GetData(DataFormats.Text), String)
-        Controller.ApsimData.Add(Controller.SelectedPath, xml)
+        Controller.Selection.Add(xml)
     End Sub
     Public Shared Sub MoveUp(ByVal Controller As BaseController)
         ' --------------------------------------------------------        
         ' Move all selected items up
         ' --------------------------------------------------------
-        Controller.ApsimData.MoveUp(Controller.SelectedPaths)
+        Dim PathsToMove As New List(Of String)
+        For Each SelectedPath As String In Controller.SelectedPaths
+            PathsToMove.Add(SelectedPath.Substring(SelectedPath.LastIndexOf(XmlHelper.Delimiter) + 1))
+        Next
+        Controller.Selection.Parent.MoveUp(PathsToMove)
     End Sub
     Public Shared Sub MoveDown(ByVal Controller As BaseController)
         ' --------------------------------------------------------        
         ' Move all selected items down
         ' --------------------------------------------------------
-        Controller.ApsimData.MoveDown(Controller.SelectedPaths)
+        Dim PathsToMove As New List(Of String)
+        For Each SelectedPath As String In Controller.SelectedPaths
+            PathsToMove.Add(SelectedPath.Substring(SelectedPath.LastIndexOf(XmlHelper.Delimiter) + 1))
+        Next
+        Controller.Selection.Parent.MoveDown(PathsToMove)
     End Sub
 
     Public Shared Sub ExpandAll(ByVal Controller As BaseController)
@@ -101,7 +120,12 @@ Public Class BaseActions
         Controller.Explorer.CollapseAll()
     End Sub
 
-    Public Shared Function CalcFileName(ByVal Data As APSIMData) As String
+
+    Public Shared Sub MakeConcrete(ByVal Controller As BaseController)
+        Controller.Selection.MakeConcrete()
+    End Sub
+
+    Public Shared Function CalcFileName(ByVal Data As ApsimFile.Component) As String
         ' -----------------------------------
         ' Get an autogenerated output/summary
         ' file name for specified node.
@@ -110,7 +134,7 @@ Public Class BaseActions
         ' -----------------------------------
         Dim SimulationName As String = Nothing
         Dim PaddockName As String = Nothing
-        Dim D As APSIMData = Data
+        Dim D As ApsimFile.Component = Data
         While Not IsNothing(D.Parent)
             D = D.Parent
             If D.Type.ToLower() = "area" Then

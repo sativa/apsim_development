@@ -2,6 +2,7 @@ Imports System
 Imports System.IO
 Imports VBGeneral
 Imports VBUserInterface
+Imports CSGeneral
 
 Public Class FileUI
     Inherits BaseView
@@ -163,12 +164,12 @@ Public Class FileUI
 
         ' Get a filename
         Dim FileName As String
-        If Controller.Data.Type = "outputfile" Or Controller.Data.Type = "summaryfile" Then
-            FileName = BaseActions.CalcFileName(Controller.Data)
+        If XmlHelper.Type(Data) = "outputfile" Or XmlHelper.Type(Data) = "summaryfile" Then
+            FileName = BaseActions.CalcFileName(Controller.ApsimData.Find(NodePath))
             FileContentsBox.ReadOnly = True
         Else
-            FileName = Controller.Data.ChildValue("filename")
-            If Controller.Data.Type = "ini" Then
+            FileName = XmlHelper.Value(Data, "filename")
+            If XmlHelper.Type(Data) = "ini" Then
                 FileContentsBox.ReadOnly = False
             Else
                 FileContentsBox.ReadOnly = True
@@ -176,8 +177,8 @@ Public Class FileUI
         End If
 
         ' Add a path to filename if necessary.
-        If Controller.FileName <> "" Then
-            FullFileName = Path.Combine(Path.GetDirectoryName(Controller.FileName), FileName)
+        If Controller.ApsimData.FileName <> "" Then
+            FullFileName = Path.Combine(Path.GetDirectoryName(Controller.ApsimData.FileName), FileName)
         Else
             FullFileName = FileName
         End If
@@ -211,7 +212,7 @@ Public Class FileUI
             End If
         End While
 
-        BrowseToolBar.Visible = (Controller.Data.Type <> "outputfile" And Controller.Data.Type <> "summaryfile")
+        BrowseToolBar.Visible = (XmlHelper.Type(Data) <> "outputfile" And XmlHelper.Type(Data) <> "summaryfile")
     End Sub
 
 
@@ -221,7 +222,7 @@ Public Class FileUI
         ' ----------------------------------------------
         If OpenFileDialog.ShowDialog() = DialogResult.OK Then
             HelpText = OpenFileDialog.FileName
-            Controller.Data.ChildValue("filename") = OpenFileDialog.FileName
+            XmlHelper.SetValue(Data, "filename", OpenFileDialog.FileName)
             Me.OnRefresh()
         End If
     End Sub
@@ -233,9 +234,9 @@ Public Class FileUI
         End If
     End Sub
 
-    Public Overrides Sub OnSave()
-        If Controller.Data.Type = "ini" Then
-            Dim FileName As String = Controller.Data.ChildValue("filename")
+    Protected Overrides Sub OnSave()
+        If XmlHelper.Type(Data) = "ini" Then
+            Dim FileName As String = XmlHelper.Value(Data, "filename")
             If FileName <> "" Then
                 FileContentsBox.SaveFile(FileName, RichTextBoxStreamType.PlainText)
             End If

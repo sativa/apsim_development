@@ -1,11 +1,9 @@
-<folder name="Standard Toolbox" image="Images/toolbox.png" version="9">
+<folder version="11" name="Standard Toolbox">
+
   <folder name="Structural">
-    <memo>
-    </memo>
-    <folder name="folder">
-    </folder>
-    <folder name="shared">
-    </folder>
+    <memo />
+    <folder />
+    <folder name="shared" />
     <area name="paddock">
       <registrations name="global" />
     </area>
@@ -149,7 +147,8 @@
     <oats />
     <peanut />
     <pigeonp />
-    <rice name="rice">
+    <potato />
+    <rice>
       <estab>transplant</estab>
       <sbdur>50</sbdur>
       <nplh>10</nplh>
@@ -158,7 +157,7 @@
       <nplds>180</nplds>
     </rice>
     <seedling />
-    <slurp name="slurp">
+    <slurp>
       <type name="type">wheat</type>
       <lai name="LAI">6.0</lai>
       <laid name="LAId">0.5</laid>
@@ -223,7 +222,6 @@
   </clock>
   <clock name="ClockAllYears" />
   <outputfile name="Outputfile">
-    <filename name="filename">sample.out</filename>
     <variables name="Variables">
       <variable name="dd/mm/yyyy as Date" description="Date (dd/mm/yyyy)" array="?" />
     </variables>
@@ -266,6 +264,7 @@
     <max_pond>100</max_pond>
   </soilwatkludge>
   <folder name="Management">
+    <YPCalc />
     <manager name="Manager" />
     <manager name="Manager with examples">
       <rule name="Sow using a variable rule">
@@ -1103,8 +1102,10 @@
             <tillage_date type="ddmmmdate" description="Enter tillage date (dd-mmm) : ">dd-mmm</tillage_date>
           </category>
           <category name="Tillage application details">
-          <surfaceommodule type="modulename" description="Name of your surface organic matter module : ">surface organic matter</surfaceommodule>
-          <soilmodule type="modulename" description="Name of your soil module : " />
+            <surfaceommodule type="modulename" moduletype="surfaceom" description="Module used to apply the tillage : ">
+            </surfaceommodule>
+            <soilmodule type="modulename" moduletype="soil" description="Name of your soil module : ">
+            </soilmodule>
             <tillage_type type="list" listvalues="user_defined, chisel, disc, planter, burn, burn_90, graze, scarifier, rip, blade, tine" description="Tillage type : ">disc</tillage_type>
             <tillage_depth description="User_defined depth of seedbed preparation (mm) : ">0</tillage_depth>
             <tillage_f_incorp description="User_defined fraction of surface residues to incorporate (0-1): ">0</tillage_f_incorp>
@@ -1156,7 +1157,8 @@
             ]]></condition>
           <category name="Output criteria">
             <crop type="crop" description="Enter name of crop to output at harvest : ">maize</crop>
-            <outputfile type="modulename" description="Name of outputfile component : ">outputfile</outputfile>
+            <outputfile type="modulename" moduletype="outputfile" description="Name of outputfile component : ">
+            </outputfile>
           </category>
         </rule>
         <rule name="Output at all phenological stages">
@@ -1172,7 +1174,8 @@
             ]]></condition>
           <category name="Output criteria">
             <crop type="crop" description="Enter name of crop to output at harvest : ">maize</crop>
-            <outputfile type="modulename" description="Name of outputfile component : ">outputfile</outputfile>
+            <outputfile type="modulename" moduletype="outputfile" description="Name of outputfile component : ">
+            </outputfile>
           </category>
         </rule>
         <rule name="Output at specified phenological stage">
@@ -1186,7 +1189,8 @@
           <category name="Output criteria">
             <crop type="crop" description="Enter name of crop to output at harvest : ">maize</crop>
             <stage_name type="list" listvalues="sowing,germination,emergence,end_of_juvenile,floral_initiation,flag_leaf,flowering,start_grain_fill,end_grain_fill,maturity,harvest_ripe,end_crop" description="Phenological stage name at which to output : ">flowering</stage_name>
-            <outputfile type="modulename" description="Name of outputfile component : ">outputfile</outputfile>
+            <outputfile type="modulename" moduletype="outputfile" description="Name of outputfile component : ">
+            </outputfile>
           </category>
         </rule>
         <rule name="Sow using a variable rule with intercropping">
@@ -1258,7 +1262,7 @@
                         ! do nothing
                         N_deficit = 0
                      else
-                        fertiliser apply amount = N_deficit (kg/ha), depth = 50 (mm), type = [fert_type_pre_sow] ()
+                        fertiliz apply amount = N_deficit (kg/ha), depth = 50 (mm), type = [fert_type_pre_sow] ()
                      endif
                   else
                      N_topsoil = no3(1) + nh4(1) + no3(2) + nh4(2)
@@ -1266,7 +1270,7 @@
                         ! enough N already in topsoil
                      else
                         ! just put on a fixed amount of N
-                        fertiliser apply amount = [fert_amount_pre_sow] (kg/ha), depth = 50 (mm), type = [fert_type_pre_sow] ()
+                        fertiliz apply amount = [fert_amount_pre_sow] (kg/ha), depth = 50 (mm), type = [fert_type_pre_sow] ()
                      endif
                   endif
                   ready_to_fert_pre_sow = 0
@@ -2718,18 +2722,49 @@ if {$steps == 0} {tkwait variable steps}
       </script>
     </logic>
     <operations />
-    <accum name="accum">
+    <accum>
       <variable name="variable">variable</variable>
     </accum>
     <log name="Log">
       <debugoutput name="debugoutput">on</debugoutput>
       <filename name="filename">log.txt</filename>
     </log>
-    <soi name="soi">
+    <soi>
       <filename>%apsuite\soi\phases.soi</filename>
     </soi>
-    <YPCalc />
     <tracker />
+    <logic name="CanolaOilConc">
+      <script>
+        <event>script</event>
+        <text><![CDATA[start_of_day   
+         if (das = 1) then
+            cum_temp = 0
+            cum_swdef = 0
+            cum_days = 0
+         elseif (stage_name = 'start_grain_fill' or
+                       stage_name = 'end_grain_fill' or
+                       stage_name = 'maturity' or
+                       stage_name = 'harvest_ripe') then
+            cum_temp = cum_temp + (maxt + mint) / 2
+            cum_swdef = cum_swdef + swdef_photo
+            cum_days = cum_days + 1
+         endif
+      
+         ! calculate canola oil content
+         if (cum_days > 0) then
+            avg_temp = cum_temp / cum_days
+            avg_swdef = cum_swdef / cum_days
+            if (avg_temp <= 14) then
+               oil_conc =  47
+            else
+               oil_conc = (47 - ((avg_temp - 14)*1.21)) - (1.91*(1 - avg_swdef^2))
+            endif
+         else
+            oil_conc = 0
+         endif
+      ]]></text>
+      </script>
+    </logic>
   </folder>
   <folder name="Water Management">
     <irrigation name="Irrigation">
@@ -2738,7 +2773,7 @@ if {$steps == 0} {tkwait variable steps}
       <crit_fr_asw type="text" description="Fraction of ASW below which irrigation is applied (0-1.0)">0.5</crit_fr_asw>
       <irrigation_efficiency description="Efficiency of the irrigation. (0-1.0)">1.0</irrigation_efficiency>
     </irrigation>
-    <bore name="bore">
+    <bore>
       <max_available_water description="Capacity (ML)">100</max_available_water>
       <init_available_water description="Supply volume available at start of simulation (ML)">50</init_available_water>
       <max_pump description="Maximum pump delivery volume per day (ML/day)">10</max_pump>
@@ -2747,7 +2782,7 @@ if {$steps == 0} {tkwait variable steps}
       <allocation_renewal_day description="Day of year on which allocation is granted">180</allocation_renewal_day>
       <init_salt_conc description="Initial chloride concentration (ppm)">704.0</init_salt_conc>
     </bore>
-    <channel name="channel">
+    <channel>
       <max_available_water description="Capacity (ML)">100</max_available_water>
       <init_available_water description="Supply volume available at start of simulation (ML)">50</init_available_water>
       <max_pump description="Maximum pump delivery volume per day (ML/day)">10</max_pump>
@@ -2756,7 +2791,7 @@ if {$steps == 0} {tkwait variable steps}
       <allocation_renewal_day description="Day of year on which allocation is granted">180</allocation_renewal_day>
       <init_salt_conc description="Initial chloride concentration (ppm)">704.0</init_salt_conc>
     </channel>
-    <dam name="dam">
+    <dam>
       <source_type type="list" listvalues="dam_gully,dam_ring,dam_exc,sump" description="Source Type">dam_gully</source_type>
       <max_available_water description="Capacity (ML)">100</max_available_water>
       <max_area description="Storage water surface area at capacity (ha)">5</max_area>

@@ -176,7 +176,6 @@ namespace CSUserInterface
         this.waterChartControl1.LinkedSoil = null;
         this.waterChartControl1.Location = new System.Drawing.Point(0, 349);
         this.waterChartControl1.Name = "waterChartControl1";
-        this.waterChartControl1.ShowSoilWaterLine = false;
         this.waterChartControl1.Size = new System.Drawing.Size(348, 428);
         this.waterChartControl1.TabIndex = 5;
         // 
@@ -661,9 +660,8 @@ namespace CSUserInterface
 
 		}
 		#endregion
-        public override void OnLoad(BaseController Controller, string NodePath)
+        protected override void OnLoad()
             {
-            base.OnLoad(Controller, NodePath);
             FarPoint.Win.Spread.InputMap InputMap = FpSpread.GetInputMap(FarPoint.Win.Spread.InputMapMode.WhenAncestorOfFocused);
             InputMap.Put(new FarPoint.Win.Spread.Keystroke(Keys.Delete, Keys.None),
                         FarPoint.Win.Spread.SpreadActions.ClipboardCut);
@@ -674,7 +672,7 @@ namespace CSUserInterface
 			{
 			try
 				{
-				MySample = new SoilSample(Controller.Data);
+				MySample = new SoilSample(Data);
 				PopulateGrid();
 				}
 			catch (Exception err)

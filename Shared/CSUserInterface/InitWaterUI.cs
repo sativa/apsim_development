@@ -8,6 +8,7 @@ using CSGeneral;
 using VBGeneral;
 using VBUserInterface;
 using Soils;
+using System.Xml;
 
 namespace CSUserInterface
 	{
@@ -333,7 +334,6 @@ namespace CSUserInterface
         this.WaterChartControl.LinkedSoil = null;
         this.WaterChartControl.Location = new System.Drawing.Point(299, 40);
         this.WaterChartControl.Name = "WaterChartControl";
-        this.WaterChartControl.ShowSoilWaterLine = false;
         this.WaterChartControl.Size = new System.Drawing.Size(444, 677);
         this.WaterChartControl.TabIndex = 22;
         // 
@@ -370,21 +370,28 @@ namespace CSUserInterface
 			HelpText = "There are multiple ways of initialising soil water. Select a method by clicking one of the options below "
 				 	 + " and then filling in the details.";
 
-			SoilData = new Soil(Controller.Data.Parent);
-            InitialWater = new InitWater(Controller.Data);
+            ApsimFile.Component SoilNode = Controller.ApsimData.Find(NodePath);
+            if (SoilNode != null && SoilNode.Parent != null)
+                {
+                SoilNode = SoilNode.Parent;
+                XmlDocument Doc = new XmlDocument();
+                Doc.LoadXml(SoilNode.Contents);
+                SoilData = new Soil(Doc.DocumentElement);
+                InitialWater = new InitWater(Data, SoilData);
 
-            FarPoint.Win.Spread.InputMap InputMap = Grid.GetInputMap(FarPoint.Win.Spread.InputMapMode.WhenAncestorOfFocused);
-            InputMap.Put(new FarPoint.Win.Spread.Keystroke(Keys.Delete, Keys.None),
-                            FarPoint.Win.Spread.SpreadActions.ClipboardCut);
-            InputMap.Put(new FarPoint.Win.Spread.Keystroke(Keys.Enter, Keys.None),
-                            FarPoint.Win.Spread.SpreadActions.MoveToNextRow);
+                FarPoint.Win.Spread.InputMap InputMap = Grid.GetInputMap(FarPoint.Win.Spread.InputMapMode.WhenAncestorOfFocused);
+                InputMap.Put(new FarPoint.Win.Spread.Keystroke(Keys.Delete, Keys.None),
+                                FarPoint.Win.Spread.SpreadActions.ClipboardCut);
+                InputMap.Put(new FarPoint.Win.Spread.Keystroke(Keys.Enter, Keys.None),
+                                FarPoint.Win.Spread.SpreadActions.MoveToNextRow);
 
-			WaterChartControl.LinkedSoil = SoilData;
-			WaterChartControl.ShowSoilWaterLine = true;
-            RelativeToCombo.Items.Add("ll15");
-            RelativeToCombo.Items.AddRange(SoilData.Crops);
+                WaterChartControl.LinkedSoil = SoilData;
+                WaterChartControl.LinkedSoilWater = InitialWater;
+                RelativeToCombo.Items.Add("ll15");
+                RelativeToCombo.Items.AddRange(SoilData.Crops);
 
-			PopulateControls();
+                PopulateControls();
+                }
 			}
 
 

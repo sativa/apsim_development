@@ -7,24 +7,18 @@ using System.Text;
 using System.Windows.Forms;
 using VBUserInterface;
 using VBGeneral;
+using CSGeneral;
+using System.Xml;
 
 namespace Graph
     {
     public partial class SOIUI : VBUserInterface.BaseView
         {
-        private APSIMData Data;
-        private ChartPageUI ParentUI;
-
         public SOIUI()
             {
             InitializeComponent();
             }
 
-        public override void OnLoad(BaseController Controller, string NodePath)
-            {
-            base.OnLoad(Controller, NodePath);
-            ParentUI = (ChartPageUI)Parent;
-            }
         public override void OnRefresh()
             {
             // -----------------------------------------------
@@ -37,15 +31,14 @@ namespace Graph
             MonthDropDown.TextChanged -= OnMonthChanged;
             PhaseList.ItemCheck -= OnPhaseItemCheck;
 
-            Data = Controller.ApsimData.Find(NodePath);
-            FileNameEdit.Text = Data.get_ChildValue("FileName");
-            MonthDropDown.Text = Data.get_ChildValue("Month");
+            FileNameEdit.Text = XmlHelper.Value(Data, "FileName");
+            MonthDropDown.Text = XmlHelper.Value(Data, "Month");
 
-            foreach (string PhaseName in Data.get_Values("Phase"))
+            foreach (string PhaseName in XmlHelper.Values(Data, "Phase"))
                 {
                 int Index = PhaseList.Items.IndexOf(PhaseName);
                 if (Index == -1)
-                    Data.DeleteNode(Data.ChildByTypeAndValue("Phase", PhaseName));
+                    Data.RemoveChild(XmlHelper.ChildByTypeAndValue(Data, "Phase", PhaseName));
                 else
                     PhaseList.SetItemChecked(Index, true);
                 }
@@ -58,27 +51,27 @@ namespace Graph
 
         private void OnFileNameChanged(object sender, EventArgs e)
             {
-            Data.set_ChildValue("FileName", FileNameEdit.Text);
-            ParentUI.DoRefresh(Data);
+            XmlHelper.SetValue(Data, "FileName", FileNameEdit.Text);
+            PublishViewChanged(Data);
             }
 
         private void OnPhaseItemCheck(object sender, ItemCheckEventArgs e)
             {
             if (e.NewValue == CheckState.Checked)
                 {
-                APSIMData NewPhase = new APSIMData("Phase", "");
-                NewPhase.Value = PhaseList.Items[e.Index].ToString();
-                Data.Add(NewPhase);
+                XmlNode NewPhase = XmlHelper.CreateNode(Data.OwnerDocument, "Phase", "");
+                NewPhase.InnerText = PhaseList.Items[e.Index].ToString();
+                Data.AppendChild(NewPhase);
                 }
             else
-                Data.DeleteNode(Data.ChildByTypeAndValue("Phase", PhaseList.Items[e.Index].ToString()));
-            ParentUI.DoRefresh(Data);
+                Data.RemoveChild(XmlHelper.ChildByTypeAndValue(Data, "Phase", PhaseList.Items[e.Index].ToString()));
+            PublishViewChanged(Data);
             }
 
         private void OnMonthChanged(object sender, EventArgs e)
             {
-            Data.set_ChildValue("Month", MonthDropDown.Text);
-            ParentUI.DoRefresh(Data);
+            XmlHelper.SetValue(Data, "Month", MonthDropDown.Text);
+            PublishViewChanged(Data);
             }        
         }
     }

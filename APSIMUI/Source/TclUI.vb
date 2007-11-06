@@ -2,19 +2,19 @@ Imports System.Xml
 Imports VBGeneral.ApsimSettings
 Imports VBGeneral
 Imports VBUserInterface
-
+Imports CSGeneral
 
 Public Class TclUI
     Inherits BaseView
     Overrides Sub OnRefresh()
 
         'AxTclControl1.TraceVar("GlobalXMLDoc", TRACE_READS + GLOBAL_ONLY)
-        AxTclControl1.SetVar("GlobalXMLDoc", Me.Controller.ApsimData.AllData.XML(), 1)
-        AxTclControl1.SetVar("myName", BaseActions.CalcFileName(Controller.Data), 1)
-        AxTclControl1.SetVar("XMLDoc", Me.Controller.Data.XML(), 1)
+        AxTclControl1.SetVar("GlobalXMLDoc", Me.Controller.ApsimData.RootComponent.Contents, 1)
+        AxTclControl1.SetVar("myName", BaseActions.CalcFileName(Controller.ApsimData.Find(NodePath)), 1)
+        AxTclControl1.SetVar("XMLDoc", Me.Data.OuterXml(), 1)
         AxTclControl1.SetVar("apsuite", ApsimDirectory(), 1)
 
-        Dim UIScript As String = Me.Controller.Data.ChildValue("uiscript")
+        Dim UIScript As String = XmlHelper.Value(Data, "uiscript")
 
         If (AxTclControl1.Eval(UIScript) = False) Then
             MessageBox.Show(AxTclControl1.Result, "Tcl Error", MessageBoxButtons.OK, MessageBoxIcon.Error)
@@ -82,15 +82,15 @@ Public Class TclUI
 
 #End Region
     Public Overrides Sub OnClose()
-        'Dim script As String = Me.Controller.Data.ChildValue("uiCloseScript")
+        'Dim script As String = Me.XmlHelper.Value(Data, "uiCloseScript")
         Dim script As String = "foreach w [winfo chi .] {destroy $w} ;# trace remove variable XMLDoc read setXML"
         If (script <> "") Then
             AxTclControl1.Eval(script)
         End If
     End Sub
 
-    Public Overrides Sub OnSave()
-        If Not IsNothing(Me.Controller.Data) Then
+    Protected Overrides Sub OnSave()
+        If Not IsNothing(Me.Data) Then
             Dim newXML As String
             newXML = AxTclControl1.GetVar("XMLDoc", 1)
             If (newXML <> "") Then
@@ -100,7 +100,7 @@ Public Class TclUI
                 frag = frag.Substring(frag.IndexOf("<"))
                 frag = frag.Substring(0, frag.LastIndexOf("<"))
 
-                Me.Controller.Data.InnerXML = frag
+                Me.Data.InnerXML = frag
             End If
         End If
     End Sub

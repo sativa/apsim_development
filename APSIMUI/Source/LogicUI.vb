@@ -1,9 +1,11 @@
 Imports VBGeneral
 Imports VBUserInterface
+Imports CSGeneral
+Imports System.Xml
 
 Public Class LogicUI
     Inherits BaseView
-    Private CurrentScriptNode As APSIMData = Nothing
+    Private CurrentScriptNode As XmlNode = Nothing
 
 #Region " Windows Form Designer generated code "
 
@@ -135,13 +137,13 @@ Public Class LogicUI
         TabControl.TabPages.Clear()
         CurrentScriptNode = Nothing
 
-        For Each Script As APSIMData In Controller.Data.Children
+        For Each Script As XmlNode In XmlHelper.ChildNodes(Data, "")
             Dim TabName As String = ""
-            For Each EventData As APSIMData In Script.Children("event")
+            For Each EventData As XmlNode In XmlHelper.ChildNodes(Script, "event")
                 If TabName <> "" Then
                     TabName = TabName + ","
                 End If
-                TabName = TabName + EventData.Value
+                TabName = TabName + EventData.InnerText
             Next
             TabControl.TabPages.Add(TabName)
         Next
@@ -155,12 +157,12 @@ Public Class LogicUI
 
         ' load new script
         If TabControl.SelectedIndex >= 0 Then
-            CurrentScriptNode = Controller.Data.Children("script")(TabControl.SelectedIndex)
-            ScriptBox.Text = CurrentScriptNode.ChildValue("text").Replace("[cr]", vbCrLf)
+            CurrentScriptNode = XmlHelper.ChildNodes(Data, "script")(TabControl.SelectedIndex)
+            ScriptBox.Text = XmlHelper.Value(CurrentScriptNode, "text").Replace("[cr]", vbCrLf)
         End If
     End Sub
 
-    Public Overrides Sub OnSave()
+    Protected Overrides Sub OnSave()
         If Not IsNothing(CurrentScriptNode) Then
             Dim text As String = Replace(ScriptBox.Text, vbCrLf, "[cr]")
             If text = Nothing Then
@@ -168,7 +170,7 @@ Public Class LogicUI
             ElseIf Not text.StartsWith(" ") Then
                 text = " " + text
             End If
-            CurrentScriptNode.ChildValue("text") = text
+            XmlHelper.SetValue(CurrentScriptNode, "text", text)
         End If
     End Sub
 
@@ -185,9 +187,10 @@ Public Class LogicUI
         Dim EventNamesString As String = InputDialog.InputBox("Enter event name(s) to run script on", "APSIM event names (comma separated)", "", False)
         If EventNamesString <> "" Then
             Dim EventNames() As String = EventNamesString.Split(",".ToCharArray())
-            Dim NewScriptNode As APSIMData = Controller.Data.Add(New APSIMData("script", ""))
+            Dim NewScriptNode As XmlNode = Data.AppendChild(XmlHelper.CreateNode(Data.OwnerDocument, "script", ""))
             For Each EventName As String In EventNames
-                NewScriptNode.Add(New APSIMData("event", "")).Value = EventName
+                Dim NewChild As XmlNode = NewScriptNode.AppendChild(XmlHelper.CreateNode(Data.OwnerDocument, "event", ""))
+                XmlHelper.SetValue(NewChild, "", EventName)
             Next
             TabControl.TabPages.Add(EventNamesString)
             TabControl.SelectedIndex = TabControl.TabCount - 1
@@ -197,7 +200,7 @@ Public Class LogicUI
     Private Sub DeleteMenuItem_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles DeleteMenuItem.Click
         Dim CurrentTabName As String = TabControl.TabPages(TabControl.SelectedIndex).Text
         If MessageBox.Show("Are you sure you want to delete " + CurrentTabName + "?", "Confirmation required", MessageBoxButtons.YesNo, MessageBoxIcon.Question) = DialogResult.Yes Then
-            CurrentScriptNode.Parent.DeleteNode(CurrentScriptNode)
+            CurrentScriptNode.ParentNode.RemoveChild(CurrentScriptNode)
             CurrentScriptNode = Nothing
             TabControl.TabPages.Remove(TabControl.SelectedTab)
         End If
@@ -207,9 +210,12 @@ Public Class LogicUI
         Dim EventNamesString As String = InputDialog.InputBox("Enter event name(s) to run script on", "APSIM event names (comma separated)", TabControl.SelectedTab.Text, False)
         If EventNamesString <> TabControl.SelectedTab.Text Then
             Dim EventNames() As String = EventNamesString.Split(",".ToCharArray())
-            CurrentScriptNode.DeleteByType("event")
+            For Each NodeToDelete As XmlNode In XmlHelper.ChildNodes(CurrentScriptNode, "event")
+                NodeToDelete.ParentNode.RemoveChild(NodeToDelete)
+            Next
             For Each EventName As String In EventNames
-                CurrentScriptNode.Add(New APSIMData("event", "")).Value = EventName
+                Dim NewChild As XmlNode = CurrentScriptNode.AppendChild(XmlHelper.CreateNode(CurrentScriptNode.OwnerDocument, "event", ""))
+                XmlHelper.SetValue(NewChild, "", EventName)
             Next
             TabControl.SelectedTab.Text = EventNamesString
         End If

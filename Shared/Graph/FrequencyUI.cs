@@ -7,12 +7,12 @@ using System.Text;
 using System.Windows.Forms;
 using VBGeneral;
 using VBUserInterface;
+using CSGeneral;
 
 namespace Graph
     {
     public partial class FrequencyUI : VBUserInterface.BaseView
         {
-        private APSIMData Data;
         private ChartPageUI ParentUI;
 
         public FrequencyUI()
@@ -20,9 +20,8 @@ namespace Graph
             InitializeComponent();
             }
 
-        public override void OnLoad(BaseController Controller, string NodePath)
+        protected override void OnLoad()
             {
-            base.OnLoad(Controller, NodePath);
             ParentUI = (ChartPageUI)Parent;
             }
         public override void OnRefresh()
@@ -32,17 +31,16 @@ namespace Graph
             // -----------------------------------------------
             base.OnRefresh();
             GroupBox.Text = Name;
-            Data = Controller.ApsimData.Find(NodePath);
-
+            
             Grid.CellChanged -= OnCellChanged;
 
             Grid.ClearRange(0, 0, Grid.RowCount, Grid.ColumnCount, true);
-            string[] Labels = Data.get_Values("Label");
-            string[] Filters = Data.get_Values("FilterString");
-            for (int Row = 0; Row < Labels.Length && Row < Grid.RowCount; Row++)
+            List<string> Labels = XmlHelper.Values(Data, "Label");
+            List<string> Filters = XmlHelper.Values(Data, "FilterString");
+            for (int Row = 0; Row < Labels.Count && Row < Grid.RowCount; Row++)
                 Grid.Cells[Row, 0].Text = Labels[Row];
 
-            for (int Row = 0; Row < Filters.Length && Row < Grid.RowCount; Row++)
+            for (int Row = 0; Row < Filters.Count && Row < Grid.RowCount; Row++)
                 Grid.Cells[Row, 1].Text = Filters[Row];
             Grid.CellChanged += OnCellChanged;
             }
@@ -50,11 +48,13 @@ namespace Graph
         private void OnCellChanged(object sender, FarPoint.Win.Spread.SheetViewEventArgs e)
             {
             int NumValues = GridUtils.FindFirstBlankCell(Grid, 0);
-            string[] Labels = GridUtils.GetColumnAsStrings(Grid, 0, NumValues);
-            string[] Filters = GridUtils.GetColumnAsStrings(Grid, 1, NumValues);
-            Data.set_Values("Label", Labels);
-            Data.set_Values("FilterString", Filters);
-            ParentUI.DoRefresh(Data);
+            List<string> Labels = new List<string>();
+            Labels.AddRange(GridUtils.GetColumnAsStrings(Grid, 0, NumValues));
+            List<string> Filters = new List<string>();
+            Filters.AddRange(GridUtils.GetColumnAsStrings(Grid, 1, NumValues));
+            XmlHelper.SetValues(Data, "Label", Labels);
+            XmlHelper.SetValues(Data, "FilterString", Filters);
+            PublishViewChanged(Data);
             }
 
 

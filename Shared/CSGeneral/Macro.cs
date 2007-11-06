@@ -3,6 +3,8 @@ using VBGeneral;
 using System.Collections;
 using System.Collections.Specialized;
 using System.IO;
+using System.Xml;
+using System.Collections.Generic;
 namespace CSGeneral
 {
 	/// <summary>
@@ -35,12 +37,12 @@ namespace CSGeneral
 		// Go generate all files, putting all files in the specified OutputDirectory.
 		// This method returns a list of filenames that were generated.
 		// ------------------------------------------------------------------
-		public string Go(APSIMData MacroValues, string MacroContents)
+		public string Go(XmlNode MacroValues, string MacroContents)
 		{
 			StringCollection AliasNames = new StringCollection();
-			APSIMData[] AliasNodes = new APSIMData[100];
+            XmlNode[] AliasNodes = new XmlNode[100];
 
-			AliasNames.Add(MacroValues.Type.ToLower());
+			AliasNames.Add(XmlHelper.Type(MacroValues).ToLower());
 			AliasNodes[0] = MacroValues;
 
 			string Contents = MacroContents;
@@ -56,7 +58,7 @@ namespace CSGeneral
 		// Go generate all files, putting all files in the specified OutputDirectory.
 		// This method returns a list of filenames that were generated.
 		// ------------------------------------------------------------------
-		public StringCollection Go(APSIMData MacroValues, string MacroContents, string OutputDirectory, bool AppendToFile)
+		public StringCollection Go(XmlNode MacroValues, string MacroContents, string OutputDirectory, bool AppendToFile)
 		{
 			string Contents = Go(MacroValues, MacroContents);
 			Contents = ReplaceHTMLSymbols(Contents);
@@ -68,9 +70,9 @@ namespace CSGeneral
 		//
 		// ------------------------------------------------------------------
 		string ParseForEach(string Contents,
-			APSIMData ValuesNode,
+            XmlNode ValuesNode,
 			StringCollection AliasNames,
-			APSIMData[] AliasNodes)
+            XmlNode[] AliasNodes)
 		{
 			// Locate the next foreach macro.
 			int PosForEach = FindForEachMacro(Contents, 0);
@@ -99,13 +101,13 @@ namespace CSGeneral
 				// get the bit of text after the endfor macro
 				string PostForEachText = Contents.Substring(PosAfterEndFor);
 
-				// resolve node name to get a APSIMData node.
-				APSIMData MacroNode = ResolveNode(NodeName, AliasNames, AliasNodes);
+                // resolve node name to get a XmlNode node.
+                XmlNode MacroNode = ResolveNode(NodeName, AliasNames, AliasNodes);
 
 				// Loop through all matching child nodes and duplicate the foreach body for each child.
 				string Body = "";
-				APSIMData[] ChildNodes = MacroNode.get_Children(NodeType);
-				foreach (APSIMData Child in ChildNodes)
+                List<XmlNode> ChildNodes = XmlHelper.ChildNodes(MacroNode, NodeType);
+                foreach (XmlNode Child in ChildNodes)
 				{
 					AliasNames.Add(ForEachAlias.ToLower());
 					AliasNodes[AliasNames.Count-1] = Child;
@@ -229,10 +231,10 @@ namespace CSGeneral
 		// Parse the endfor macro and return the position to just after
 		// the macro.
 		//---------------------------------------------------------------
-		int ParseEndForMacro(string Contents, int PosEndForEach)
-		{
-			return AdjustEndPos(Contents, PosEndForEach);
-		}
+        int ParseEndForMacro(string Contents, int PosEndForEach)
+            {
+            return AdjustEndPos(Contents, PosEndForEach);
+            }
 		//---------------------------------------------------------------
 		// Find the matching endfor for the specified foreach.
 		//---------------------------------------------------------------
@@ -266,9 +268,9 @@ namespace CSGeneral
 			return PosEndFor;
 		}
 		//---------------------------------------------------------------
-		// Resolve the specified alias into an APSIMData node.
+        // Resolve the specified alias into an XmlNode node.
 		//---------------------------------------------------------------
-		APSIMData ResolveNode(string Alias, StringCollection AliasNames, APSIMData[] AliasNodes)
+        XmlNode ResolveNode(string Alias, StringCollection AliasNames, XmlNode[] AliasNodes)
 		{
 			int PosAlias = AliasNames.IndexOf(Alias.ToLower());
 			if (PosAlias == -1)
@@ -279,7 +281,7 @@ namespace CSGeneral
 		//---------------------------------------------------------------
 		// Replace all macros in the specified Contents.
 		//---------------------------------------------------------------
-		void ReplaceLocalMacros(ref string Contents, StringCollection AliasNames, APSIMData[] AliasNodes)
+        void ReplaceLocalMacros(ref string Contents, StringCollection AliasNames, XmlNode[] AliasNodes)
 		{
 			char[] delimiters = {'.'};
 
@@ -294,7 +296,7 @@ namespace CSGeneral
 					int PosAlias = AliasNames.IndexOf(words[0].ToLower());
 					if (PosAlias != -1)
 					{
-						APSIMData node = AliasNodes[PosAlias];
+                    XmlNode node = AliasNodes[PosAlias];
 						try
 						{
 							string Value = GetValueFromNode(node, words[1]);
@@ -311,7 +313,7 @@ namespace CSGeneral
 		//---------------------------------------------------------------
 		// Replace global macros in the specified Contents.
 		//---------------------------------------------------------------
-		void ReplaceGlobalMacros(ref string Contents, APSIMData Values)
+        void ReplaceGlobalMacros(ref string Contents, XmlNode Values)
 			{
 			char[] delimiters = {'.'};
 
@@ -324,7 +326,7 @@ namespace CSGeneral
 				if (PosPeriod != -1)
 					{
 					string MacroFirstBit = Macro.Substring(0, PosPeriod);
-					if (MacroFirstBit == Values.Name || MacroFirstBit == Values.Type)
+					if (MacroFirstBit == Values.Name || MacroFirstBit == XmlHelper.Type(Values))
 						Macro = Macro.Substring(PosPeriod+1);
 					}
 
@@ -343,7 +345,7 @@ namespace CSGeneral
 		//---------------------------------------------------------------
 		// Return a attribute value or child value from the specified child node
 		//---------------------------------------------------------------
-		string GetValueFromNode(APSIMData Child, string Macro)
+        string GetValueFromNode(XmlNode Child, string Macro)
 		{
 			int PosLastPeriod = Macro.LastIndexOf('.');
 			string FormatString = "";
@@ -360,27 +362,32 @@ namespace CSGeneral
                 else
 					{
                     ChildName = ChildName.Replace(".", "\\");
-					APSIMData NewChild = Child.Find(ChildName);
+					XmlNode NewChild = XmlHelper.Find(Child, ChildName);
                     if (NewChild != null)
                         Child = NewChild;
-                    else if (ChildName != "" && ChildName.ToLower() != Child.Type.ToLower())
+                    else if (ChildName != "" && ChildName.ToLower() != XmlHelper.Type(Child).ToLower())
                         throw new Exception("Invalid child name: " + ChildName);
 					}
 				}
 
 			string Value;
 			if (Macro == "name")
-				Value = Child.Name;
+				Value = XmlHelper.Name(Child);
 			else if (Macro == "xmltype")
-				Value = Child.Type;
-			else if (Child.AttributeExists(Macro))
-				Value =  Child.Attribute(Macro);
+                Value = XmlHelper.Type(Child);
+            else if (XmlHelper.Attribute(Child, Macro) != "")
+                Value = XmlHelper.Attribute(Child, Macro);
 			else if (Macro == "xml")
-				Value = Child.XML;
-			else if (Macro == "innerxml")
-				Value = Child.InnerXML;
-			else
-				Value = Child.Child(Macro).Value;
+				Value = Child.OuterXml;
+            else if (Macro == "innerxml")
+                Value = Child.InnerXml;
+            else
+                {
+                if (XmlHelper.Find(Child, Macro) != null)
+                    Value = XmlHelper.Value(Child, Macro);
+                else
+                    throw new Exception("Macro doesn't exist: " + Macro);
+                }
 
 			if (FormatString != "")
 				Value = Convert.ToDouble(Value).ToString(FormatString);

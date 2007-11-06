@@ -63,15 +63,14 @@ Public Class MemoUI
 
     End Sub
 
-    Public Overrides Sub OnSave()
+    Protected Overrides Sub OnSave()
         'Encode rtf syntax to base64 and save out to xml file.  Encoding to base64 overcomes
         'issues with xml keyword syntax.
-        Controller.Data.Value = CSGeneral.CSUtility.EncodeStringToBase64(Me.Memo.TextRichFormat)
+        Data.Value = CSGeneral.CSUtility.EncodeStringToBase64(Me.Memo.TextRichFormat)
     End Sub
-
     Public Overrides Sub OnRefresh()
         'update the memo field with rich text syntax, after decoding the string from base64.
-        Me.Memo.TextRichFormat(CSGeneral.CSUtility.EncodeBase64ToString(Controller.Data.InnerXML))
+        Me.Memo.TextRichFormat(CSGeneral.CSUtility.EncodeBase64ToString(Data.InnerXML))
     End Sub
 
 End Class

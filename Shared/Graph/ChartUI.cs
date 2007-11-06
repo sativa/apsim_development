@@ -11,13 +11,14 @@ using System.Collections;
 using FarPoint.Win.Spread;
 using Steema.TeeChart;
 using VBUserInterface;
+using System.Xml;
+using CSGeneral;
 
 
 namespace Graph
     {
     public partial class ChartUI : BaseView
         {
-        private APSIMData GraphNode;
         private ChartPageUI ParentUI;
 
         public ChartUI()
@@ -25,16 +26,14 @@ namespace Graph
             InitializeComponent();
             }
 
-        public override void OnLoad(BaseController Controller, string NodePath)
+        protected override void OnLoad()
             {
-            base.OnLoad(Controller, NodePath);
             ParentUI = (ChartPageUI)Parent;
             }
         public override void OnRefresh()
             {
             base.OnRefresh();
 
-            GraphNode = Controller.ApsimData.Find(NodePath);
             Chart.Series.Clear();
             Chart.Axes.Bottom.Title.Text = "";
             Chart.Axes.Left.Title.Text = "";
@@ -46,15 +45,19 @@ namespace Graph
             Chart.Axes.Bottom.Visible = false;
 
             // loop through all series in data and draw a chart series for each.
-            foreach (string XYSSeriesName in GraphNode.get_Values("source"))
+            foreach (string XYSSeriesName in XmlHelper.Values(Data, "source"))
                 {
-                APSIMData Series = GraphNode.Parent.Parent.Find(GraphNode.Parent.Parent.Name + "\\Data\\" + XYSSeriesName);
+                XmlDocument ReportDoc = new XmlDocument();
+                ReportDoc.LoadXml(Controller.Explorer.CurrentView.GetData());
+                XmlNode Series = XmlHelper.Find(ReportDoc.DocumentElement, "Data/" + XYSSeriesName);
                 if (Series != null)
-                    DrawSeries(Series, Series.get_ChildValue("Source"));
+                    {
+                    DrawSeries(Series, XmlHelper.Value(Series, "Source"));
+                    }
                 }
 
-            foreach (APSIMData XY in GraphNode.get_Children("xy"))
-                DrawSeries(XY, XY.Parent.get_ChildValue("Source"));
+            foreach (XmlNode XY in XmlHelper.ChildNodes(Data, "xy"))
+                DrawSeries(XY, XmlHelper.Value(XY.ParentNode, "Source"));
 
             // setup the legend.
             Chart.Legend.Visible = (Chart.Series.Count > 1);
@@ -76,31 +79,31 @@ namespace Graph
                 }
             }
 
-        private void DrawSeries(APSIMData Series, string DataSource)
+        private void DrawSeries(XmlNode Series, string DataSource)
             {
             if (DataSource != "")
                 {
-                string ColourString = ""; //Series.get_ChildValue("colour");
-                string SeriesType = Series.get_ChildValue("SeriesType").ToLower();
-                string PointType = Series.get_ChildValue("PointType").ToLower();
+                string ColourString = ""; //XmlHelper.Value(Series, "colour");
+                string SeriesType = XmlHelper.Value(Series, "SeriesType").ToLower();
+                string PointType = XmlHelper.Value(Series, "PointType").ToLower();
 
                 // Work out which fields we want to use as X        
                 bool XTop = false;
-                string[] XFieldNames = Series.get_Values("X");
-                if (XFieldNames.Length == 0)
+                List<string> XFieldNames = XmlHelper.Values(Series, "X");
+                if (XFieldNames.Count == 0)
                     {
-                    XFieldNames = Series.get_Values("XTop");
+                    XFieldNames = XmlHelper.Values(Series, "XTop");
                     XTop = true;
                     }
 
                 // If x field names is still empty then assume that the user wants
                 // to plot all fields as x except the y field.
-                if (XFieldNames.Length > 0)
+                if (XFieldNames.Count > 0)
                     {
-                    if (XFieldNames.Length == 1 && XFieldNames[0] == "*")
+                    if (XFieldNames.Count == 1 && XFieldNames[0] == "*")
                         {
                         string[] FieldNames = ParentUI.Processor.GetFieldNamesForDataSet(DataSource);
-                        string YFieldName = Series.get_ChildValue("Y");
+                        string YFieldName = XmlHelper.Value(Series, "Y");
                         foreach (string FieldName in FieldNames)
                             if (FieldName.ToLower() != YFieldName.ToLower())
                                 DrawSeries(DataSource, FieldName, YFieldName, SeriesType, PointType, XTop, false, ColourString,
@@ -109,8 +112,8 @@ namespace Graph
                     else
                         {
                         // By now we should have a single X with 0 or more Y values.
-                        string[] YFieldNames = Series.get_Values("Y");
-                        if (YFieldNames.Length == 1 && YFieldNames[0] == "*")
+                        List<string> YFieldNames = XmlHelper.Values(Series, "Y");
+                        if (YFieldNames.Count == 1 && YFieldNames[0] == "*")
                             {
                             string[] FieldNames = ParentUI.Processor.GetFieldNamesForDataSet(DataSource);
                             foreach (string FieldName in FieldNames)
@@ -125,7 +128,7 @@ namespace Graph
                                 DrawSeries(DataSource, XFieldNames[0], YFieldName, SeriesType, PointType, XTop, false, ColourString, YFieldName);
 
                             // Now plot up the right Y values.
-                            foreach (string YFieldName in Series.get_Values("YRight"))
+                            foreach (string YFieldName in XmlHelper.Values(Series, "YRight"))
                                 DrawSeries(DataSource, XFieldNames[0], YFieldName, SeriesType, PointType, XTop, true, ColourString, YFieldName);
                             }
                         }
@@ -158,7 +161,7 @@ namespace Graph
                     if (SeriesType == "bar")
                         {
                         Steema.TeeChart.Styles.Bar Bar = new Steema.TeeChart.Styles.Bar();
-                        int NumSeries = GraphNode.get_Children("xy").Length;
+                        int NumSeries = XmlHelper.ChildNodes(this.Data, "xy").Count;
                         Bar.MultiBar = Steema.TeeChart.Styles.MultiBars.None;
                         Bar.BarWidthPercent = 45; //50 / NumSeries) - 5;
                         NewSeries = Bar;

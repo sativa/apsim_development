@@ -2,6 +2,7 @@ Imports System
 Imports System.IO
 Imports VBGeneral
 Imports VBUserInterface
+Imports CSGeneral
 
 Public Class MetUI
     Inherits BaseView
@@ -93,12 +94,11 @@ Public Class MetUI
 
 #End Region
 
-    Public Overrides Sub OnLoad(ByVal Controller As VBUserInterface.BaseController, ByVal NodePath As String)
-        MyBase.OnLoad(Controller, NodePath)
-        MetGraphControl1.OnLoad(Controller, NodePath)
+    Protected Overrides Sub OnLoad()
+        MetGraphControl1.OnLoad(Controller, NodePath, Controller.Selection.Contents)
     End Sub
     Public Overrides Sub OnRefresh()
-        Dim FileName As String = Controller.Data.ChildValue("filename")
+        Dim FileName As String = XmlHelper.Value(Data, "filename")
 
         MetGraphControl1.OnRefresh()
         HelpText = FileName
