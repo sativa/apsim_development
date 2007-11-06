@@ -66,11 +66,13 @@ Public Class CheckedListBoxCellType
         End Set
     End Property
     Public Overrides Sub SetEditorValue(ByVal value As Object)
-        Dim SelectedStrings() As String = value.ToString().Split(vbCrLf.ToCharArray())
-        For i As Integer = 0 To list.Items.Count - 1
-            Dim IsSelected As Boolean = Array.IndexOf(SelectedStrings, list.Items(i)) <> -1
-            list.SetItemChecked(i, IsSelected)
-        Next
+        If Not IsNothing(value) Then
+            Dim SelectedStrings() As String = value.ToString().Split(vbCrLf.ToCharArray())
+            For i As Integer = 0 To list.Items.Count - 1
+                Dim IsSelected As Boolean = Array.IndexOf(SelectedStrings, list.Items(i)) <> -1
+                list.SetItemChecked(i, IsSelected)
+            Next
+        End If
     End Sub
     Public Overrides Function GetEditorValue() As Object
         Dim St As String = ""

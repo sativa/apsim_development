@@ -7,12 +7,13 @@ using System.Text;
 using System.Windows.Forms;
 using VBUserInterface;
 using VBGeneral;
+using CSGeneral;
+using System.Xml;
 
 namespace Graph
     {
     public partial class FieldListUI : BaseView
         {
-        private APSIMData Data;
         private ChartPageUI ParentUI;
 
         public FieldListUI()
@@ -20,9 +21,8 @@ namespace Graph
             InitializeComponent();
             }
 
-        public override void OnLoad(BaseController Controller, string NodePath)
+        protected override void OnLoad()
             {
-            base.OnLoad(Controller, NodePath);
             ParentUI = (ChartPageUI)Parent;
             }
         public override void OnRefresh()
@@ -33,21 +33,20 @@ namespace Graph
             base.OnRefresh();
             GroupBox.Text = Name;
             FieldList.ItemCheck -= OnItemCheck;
-            Data = Controller.ApsimData.Find(NodePath);
             FieldList.Items.Clear();
-            FieldList.Items.AddRange(ParentUI.Processor.GetFieldNamesForDataSet(Data.get_ChildValue("source")));
-            foreach (string FieldName in Data.get_Values("FieldName"))
+            FieldList.Items.AddRange(ParentUI.Processor.GetFieldNamesForDataSet(XmlHelper.Value(Data, "source")));
+            foreach (string FieldName in XmlHelper.Values(Data, "FieldName"))
                 {
                 int FieldIndex = FieldList.Items.IndexOf(FieldName);
                 if (FieldIndex == -1)
-                    Data.DeleteNode(Data.ChildByTypeAndValue("FieldName", FieldName));
+                    Data.RemoveChild(XmlHelper.ChildByTypeAndValue(Data, "FieldName", FieldName));
                 else
                     FieldList.SetItemChecked(FieldIndex, true);
                 }
 
             FieldList.ItemCheck += OnItemCheck;
             }
-        public override void OnSave()
+        protected override void OnSave()
             {
             // -----------------------------------------------
             // Called when it's time to save everything back
@@ -60,13 +59,13 @@ namespace Graph
             {
             if (e.NewValue == CheckState.Checked)
                 {
-                APSIMData NewField = new APSIMData("FieldName", "");
-                NewField.Value = FieldList.Items[e.Index].ToString();
-                Data.Add(NewField);
+                XmlNode NewField = XmlHelper.CreateNode(Data.OwnerDocument, "FieldName", "");
+                NewField.InnerText = FieldList.Items[e.Index].ToString();
+                Data.AppendChild(NewField);
                 }
             else
-                Data.DeleteNode(Data.ChildByTypeAndValue("FieldName", FieldList.Items[e.Index].ToString()));
-            ParentUI.DoRefresh(Data);
+                Data.RemoveChild(XmlHelper.ChildByTypeAndValue(Data, "FieldName", FieldList.Items[e.Index].ToString()));
+            PublishViewChanged(Data);
             }
 
         }

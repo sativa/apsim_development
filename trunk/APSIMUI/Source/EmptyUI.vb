@@ -2,6 +2,7 @@ Imports VBGeneral
 Imports System.Collections
 Imports System.Collections.Specialized
 Imports VBUserInterface
+Imports CSGeneral
 
 Public Class EmptyUI
     Inherits BaseView
@@ -127,17 +128,17 @@ Public Class EmptyUI
 #End Region
 
     Overrides Sub OnRefresh()
-        MainLabel.Text = Controller.Data.Type
+        MainLabel.Text = XmlHelper.Type(Data)
         Me.HelpText = "This module does not have any editable properties."
         Dim inifile As New APSIMSettings
 
         Try
-            Label1.Text = Controller.DescriptionForType(Controller.Data.Type)
+            Label1.Text = Controller.Configuration.Info(XmlHelper.Type(Data), "Description")
         Catch ex As System.Exception
             ' Don't update label.
         End Try
 
-        Dim imagefile As String = Controller.ImageFileForType(Controller.Data.Type)
+        Dim imagefile As String = Controller.Configuration.Info(Data.Name, "image")
         If System.IO.File.Exists(imagefile) Then
             PictureBox.Image = Image.FromFile(imagefile)
         Else
@@ -148,7 +149,7 @@ Public Class EmptyUI
     End Sub
 
     Private Sub DocumentationLink_LinkClicked(ByVal sender As System.Object, ByVal e As System.Windows.Forms.LinkLabelLinkClickedEventArgs) Handles DocumentationLink.LinkClicked
-        Dim url As String = APSIMSettings.ApsimDirectory + "\apsimui\types.xml#" + Controller.Data.Type
+        Dim url As String = APSIMSettings.ApsimDirectory + "\apsimui\types.xml#" + XmlHelper.Type(Data)
         Process.Start("IExplore.exe", url)
     End Sub
 

@@ -7,21 +7,20 @@ using System.Text;
 using System.Windows.Forms;
 using VBUserInterface;
 using VBGeneral;
+using CSGeneral;
 
 namespace Graph
     {
     public partial class ApsimFileReaderUI : BaseView
         {
-        private APSIMData Data;
         private ChartPageUI ParentUI;
         public ApsimFileReaderUI()
             {
             InitializeComponent();
             }
 
-        public override void OnLoad(BaseController Controller, string NodePath)
+        protected override void OnLoad()
             {
-            base.OnLoad(Controller, NodePath);
             ParentUI = (ChartPageUI)Parent;
             }
         public override void OnRefresh()
@@ -31,11 +30,12 @@ namespace Graph
             // everything on it.
             // -----------------------------------------------
             base.OnRefresh();
-            Data = Controller.ApsimData.Find(NodePath);
-            FileList.Lines = Data.get_Values("FileName");
+            List<string> FileNames = XmlHelper.Values(Data, "FileName");
+            string[] AllLines = new string[FileNames.Count];
+            FileList.Lines = AllLines;
             GroupBox.Text = Name;
             }
-        public override void OnSave()
+        protected override void OnSave()
             {
             // -----------------------------------------------
             // Called when it's time to save everything back
@@ -52,8 +52,10 @@ namespace Graph
 
         private void OnTextChanged(object sender, EventArgs e)
             {
-            Data.set_Values("FileName", FileList.Lines);
-            ParentUI.DoRefresh(Data);
+            List<string> FileNames = new List<string>();
+            FileNames.AddRange(FileList.Lines);
+            XmlHelper.SetValues(Data, "FileName", FileNames);
+            PublishViewChanged(Data);
             }
 
 

@@ -5,7 +5,7 @@ Imports System.Collections.Specialized
 Imports VBGeneral
 Imports CSGeneral
 Imports VBUserInterface
-
+Imports System.Xml
 
 Public Class OutputFileDescUI
     Inherits BaseView
@@ -266,7 +266,7 @@ Public Class OutputFileDescUI
         ' Refresh the variable grid
         ' ----------------------------------
 
-        If Controller.Data.Type.ToLower = "variables" Then
+        If XmlHelper.Type(Data).ToLower = "variables" Then
             HelpText = "Drag variables from the list at the bottom to the grid at the top." + vbCrLf + _
                        "Advanced examples of variable naming." + vbCrLf + _
                        "       wheat.yield            -  A variable name can be prefixed with a ComponentName." + vbCrLf + _
@@ -277,7 +277,7 @@ Public Class OutputFileDescUI
             DictionaryLabel.Text = "Variable dictionary - drag variables from the list below to the grid above."
             Grid.Columns(0).Width = 219
             Grid.Columns(0).Label = "Variable name"
-        ElseIf Controller.Data.Type.ToLower = "tracker" Then
+        ElseIf XmlHelper.Type(Data).ToLower = "tracker" Then
             HelpText = "Drag an example tracker variable from the list at the bottom to the grid at the top to use as a starting point for creating your own."
             DictionaryLabel.Text = "Example tracker variables - drag an example tracker variable to the grid above."
             Grid.Columns(0).Width = Spread.Size.Width - 50
@@ -290,11 +290,8 @@ Public Class OutputFileDescUI
         End If
 
         ' We want to find the component that is a child of our paddock.
-        Dim Comp As APSIMData = Controller.Data
-        While Not IsNothing(Comp.Parent) AndAlso Comp.Parent.Type.ToLower <> "area"
-            Comp = Comp.Parent
-        End While
-        GetSiblingComponents(Comp, ComponentNames, ComponentTypes)
+        Dim Paddock As ApsimFile.Component = Controller.ApsimData.Find(NodePath).FindContainingPaddock()
+        GetSiblingComponents(Paddock, ComponentNames, ComponentTypes)
 
         UserChange = False
         PopulateComponentFilter()
@@ -305,7 +302,7 @@ Public Class OutputFileDescUI
         Spread.SetViewportTopRow(0, 0)
         UserChange = True
 
-        If Controller.Data.Type.ToLower <> "variables" Then
+        If XmlHelper.Type(Data).ToLower <> "variables" Then
             VariableListView.Columns(1).Width = 0
             Grid.Columns(1).Visible = False
             Grid.Columns(2).Visible = False
@@ -328,7 +325,7 @@ Public Class OutputFileDescUI
         For Each ComponentName As String In ComponentNames
             ComponentFilter.Items.Add(ComponentName)
         Next
-        If Controller.Data.Type.ToLower = "tracker" Then
+        If XmlHelper.Type(Data).ToLower = "tracker" Then
             ComponentFilter.Text = "tracker"
             ComponentFilter.Visible = False
         Else
@@ -343,10 +340,10 @@ Public Class OutputFileDescUI
         ' -----------------------------------
         Grid.ClearRange(0, 0, Grid.RowCount, Grid.ColumnCount, False)
         Dim Row As Integer = 0
-        For Each Variable As APSIMData In Controller.Data.Children
-            Grid.Cells(Row, 0).Value = Variable.Name
-            Grid.Cells(Row, 1).Value = Variable.Attribute("array")
-            Grid.Cells(Row, 2).Value = Variable.Attribute("description")
+        For Each Variable As XmlNode In XmlHelper.ChildNodes(Data, "")
+            Grid.Cells(Row, 0).Value = XmlHelper.Name(Variable)
+            Grid.Cells(Row, 1).Value = XmlHelper.Attribute(Variable, "array")
+            Grid.Cells(Row, 2).Value = XmlHelper.Attribute(Variable, "description")
             Row += 1
         Next
     End Sub
@@ -360,35 +357,37 @@ Public Class OutputFileDescUI
 
             Dim ComponentType As String = ComponentTypes(ComponentFilter.SelectedIndex)
             Dim ComponentName As String = ComponentNames(ComponentFilter.SelectedIndex)
-            Dim PropertyGroup As String = Controller.Data.Type  ' e.g. variables or events
+            Dim PropertyGroup As String = XmlHelper.Type(Data)  ' e.g. variables or events
             If PropertyGroup.ToLower = "tracker" Then
                 PropertyGroup = "variables"
             End If
-            Dim VariableData As New APSIMData(PropertyGroup, "")
-            Controller.GetVariablesForComponent(ComponentType, ComponentName, PropertyGroup, VariableData)
+            Dim Doc As New XmlDocument
+            Doc.AppendChild(XmlHelper.CreateNode(Doc, PropertyGroup, ""))
+            Dim VariableData As XmlNode = Doc.DocumentElement
+            Controller.Configuration.GetVariablesForComponent(ComponentType, ComponentName, PropertyGroup, VariableData)
 
             VariableListView.BeginUpdate()
             VariableListView.Groups.Clear()
             VariableListView.Items.Clear()
 
-            For Each VariableGroup As APSIMData In VariableData.Children
+            For Each VariableGroup As XmlNode In XmlHelper.ChildNodes(VariableData, "")
                 Dim NewGroup As New ListViewGroup(VariableGroup.Name)
                 VariableListView.Groups.Add(NewGroup)
-                For Each Variable As APSIMData In VariableGroup.Children
-                    Dim ListItem As New ListViewItem(Variable.Name)
+                For Each Variable As XmlNode In XmlHelper.ChildNodes(VariableGroup, "")
+                    Dim ListItem As New ListViewItem(XmlHelper.Name(Variable))
                     ListItem.Group = NewGroup
-                    If Variable.Attribute("array") = "T" Then
+                    If XmlHelper.Attribute(Variable, "array") = "T" Then
                         ListItem.SubItems.Add("Yes")
                     Else
                         ListItem.SubItems.Add("No")
                     End If
-                    ListItem.SubItems.Add(Variable.Attribute("description"))
+                    ListItem.SubItems.Add(XmlHelper.Attribute(Variable, "description"))
                     VariableListView.Items.Add(ListItem)
                 Next
             Next
-            VariableListView.EndUpdate()
-            VariableListView.Columns(0).AutoResize(ColumnHeaderAutoResizeStyle.ColumnContent)
-            Windows.Forms.Cursor.Current = Cursors.Default
+        VariableListView.EndUpdate()
+        VariableListView.Columns(0).AutoResize(ColumnHeaderAutoResizeStyle.ColumnContent)
+        Windows.Forms.Cursor.Current = Cursors.Default
         End If
 
     End Sub
@@ -399,34 +398,34 @@ Public Class OutputFileDescUI
 
         ' Work out the property type from the currently selected data type by removing the last character.
         ' e.g. if current data type is 'variables' then property type is 'variable'
-        Dim PropertyType As String = Controller.Data.Type
+        Dim PropertyType As String = XmlHelper.Type(Data)
         If PropertyType.ToLower = "tracker" Then
             PropertyType = "variables"
         End If
         PropertyType = PropertyType.Remove(PropertyType.Length - 1)
         'how many blank
-        Dim BlankRows As Integer() = GridUtils.FindBlankCells(Grid, 0, Controller.Data.Children(PropertyType).Length)
+        Dim BlankRows As Integer() = GridUtils.FindBlankCells(Grid, 0, Grid.RowCount)
         'how mant total rows occupied in grid to check new ones need to be add
         Dim TotalRowsNow As Integer = GridUtils.FindRowsInSheet(Grid)
-        If TotalRowsNow > Controller.Data.Children(PropertyType).Length Then
-            For i As Integer = Controller.Data.Children(PropertyType).Length To TotalRowsNow - 1
-                Controller.Data.Add(New APSIMData(PropertyType, ""))
+        If TotalRowsNow > XmlHelper.ChildNodes(Data, PropertyType).Count Then
+            For i As Integer = XmlHelper.ChildNodes(Data, PropertyType).Count To TotalRowsNow - 1
+                Data.AppendChild(XmlHelper.CreateNode(Data.OwnerDocument, PropertyType, ""))
             Next
         End If
         'reset all the children to the grid values
         Dim Row As Integer = 0
-        For Each Variable As APSIMData In Controller.Data.Children(PropertyType)
-            Variable.Name = Grid.Cells(Row, 0).Text
-            Variable.SetAttribute("array", Grid.Cells(Row, 1).Text)
-            Variable.SetAttribute("description", Grid.Cells(Row, 2).Text)
+        For Each Variable As XmlNode In XmlHelper.ChildNodes(Data, PropertyType)
+            XmlHelper.SetName(Variable, Grid.Cells(Row, 0).Text)
+            XmlHelper.SetAttribute(Variable, "array", Grid.Cells(Row, 1).Text)
+            XmlHelper.SetAttribute(Variable, "description", Grid.Cells(Row, 2).Text)
             Row += 1
         Next
-        Dim ChildrenNames() As String = Controller.Data.ChildNames(PropertyType)
+        Dim ChildrenNames() As String = XmlHelper.ChildNames(Data, PropertyType)
         If BlankRows.Length <> 0 Then
             'delete some rows
-            For i As Integer = 0 To BlankRows.Length - 1
-                Controller.Data.Delete(ChildrenNames(BlankRows(i)))
-            Next
+            'For i As Integer = 0 To BlankRows.Length - 1
+            '    Data.Delete(ChildrenNames(BlankRows(i)))
+            'Next
         End If
     End Sub
 
@@ -447,7 +446,7 @@ Public Class OutputFileDescUI
             End If
         End If
     End Sub
-    Public Overrides Sub OnSave()
+    Protected Overrides Sub OnSave()
         SaveVariableGrid()
     End Sub
     Private Sub Grid_CellChanged(ByVal sender As System.Object, ByVal e As FarPoint.Win.Spread.SheetViewEventArgs) Handles Grid.CellChanged
@@ -557,16 +556,14 @@ Public Class OutputFileDescUI
     ' Return a list of sibling component names and types
     ' for the specified data component
     ' --------------------------------------------------
-    Private Shared Sub GetSiblingComponents(ByVal Component As APSIMData, _
+    Private Shared Sub GetSiblingComponents(ByVal Paddock As ApsimFile.Component, _
                                             ByRef ComponentNames As StringCollection, ByRef ComponentTypes As StringCollection)
         ComponentNames.Clear()
         ComponentTypes.Clear()
-        If (Not IsNothing(Component.Parent)) Then
-            For Each Sibling As APSIMData In Component.Parent.Children
-                ComponentNames.Add(Sibling.Name)
-                ComponentTypes.Add(Sibling.Type.ToLower())
-            Next
-        End If
+        For Each Sibling As ApsimFile.Component In Paddock.ChildNodes
+            ComponentNames.Add(Sibling.Name)
+            ComponentTypes.Add(Sibling.Type.ToLower())
+        Next
     End Sub
 
 

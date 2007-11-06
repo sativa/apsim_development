@@ -17,27 +17,27 @@ namespace Soils
 	public class SoilSample
 		{
 		private Soil ParentSoil;
-        private APSIMData Data;
-		public SoilSample(APSIMData data)
+        private XmlNode Data;
+		public SoilSample(XmlNode data)
 			{
             Data = data;
-			if (Data.Parent == null)
+			if (Data.ParentNode == null)
 				throw new Exception("Sample '" + Data.Name + "' has no parent soil.");
-			ParentSoil = new Soil(Data.Parent);
+			ParentSoil = new Soil(Data.ParentNode);
 			}
 
 		public string WaterFormat
             {
             get
                 {
-                string Format = Data.get_ChildValue("WaterFormat");
+                string Format = XmlHelper.Value(Data, "WaterFormat");
                 if (Format == "")
                     Format = "VolumetricPercent";
                 return Format;
                 }
             set
                 {
-                Data.set_ChildValue("WaterFormat", value);
+                XmlHelper.SetValue(Data, "WaterFormat", value);
                 }
             }
 		public DateTime SampleDate
@@ -318,14 +318,14 @@ namespace Soils
         #region Upgrade version
         public void UpgradeToVersion3()
 			{
-			string SWUnit = Data.get_ChildValue("swunit");
+			string SWUnit = XmlHelper.Value(Data, "swunit");
 			if (SWUnit != "")
 				{
                 if (SWUnit.ToLower() == "volumetric")
                     WaterFormat = "VolumetricPercent";
                 else
                     WaterFormat = "GravimetricPercent";
-				Data.Delete("swunit");
+				Data.RemoveChild(XmlHelper.Find(Data, "swunit"));
 				}
 			else
                 WaterFormat = "GravimetricPercent";
@@ -353,55 +353,55 @@ namespace Soils
 			}
         public void UpgradeToVersion7()
             {
-            APSIMData Result = new APSIMData("soilsample", Data.Name);
-            foreach (APSIMData Child in Data.get_Children(null))
+            XmlNode Result = XmlHelper.CreateNode(Data.OwnerDocument, "soilsample", Data.Name);
+            foreach (XmlNode Child in XmlHelper.ChildNodes(Data, ""))
                 {
-                if (Child.Type.ToLower() == "water" ||
-                    Child.Type.ToLower() == "nitrogen" ||
-                    Child.Type.ToLower() == "other" ||
-                    Child.Type.ToLower() == "soilcrop")
+                if (XmlHelper.Type(Child).ToLower() == "water" ||
+                    XmlHelper.Type(Child).ToLower() == "nitrogen" ||
+                    XmlHelper.Type(Child).ToLower() == "other" ||
+                    XmlHelper.Type(Child).ToLower() == "soilcrop")
                     UpgradeToNodeVersion7(Child, Result);
-                else if (Child.Type.ToLower() != "swunit")
-                    Result.Add(Child);
+                else if (XmlHelper.Type(Child).ToLower() != "swunit")
+                    Result.AppendChild(Child);
                 }
-            APSIMData DataParent = Data.Parent;
-            DataParent.DeleteNode(Data);
-            DataParent.Add(Result);
+            XmlNode DataParent = Data.ParentNode;
+            DataParent.RemoveChild(Data);
+            DataParent.AppendChild(Result);
             }
-        private void UpgradeToNodeVersion7(APSIMData Data, APSIMData Result)
+        private void UpgradeToNodeVersion7(XmlNode Data, XmlNode Result)
             {
             // ---------------------------------------------------------
             // Upgrade node putting all required child nodes into result
             // ---------------------------------------------------------
-            APSIMData Profile = Result.Child("profile");
+            XmlNode Profile = XmlHelper.Find(Result, "profile");
             if (Profile == null)
-                Profile = Result.Add(new APSIMData("profile", ""));
-            if (Data.Attribute("swunit").ToLower() == "gravimetricpercent" ||
-                Data.Parent.get_ChildValue("swunit") == "gravimetric")
-                Result.set_ChildValue("WaterFormat", "GravimetricPercent");
+                Profile = Result.AppendChild(XmlHelper.CreateNode(Result.OwnerDocument, "profile", ""));
+            if (XmlHelper.Attribute(Data, "swunit").ToLower() == "gravimetricpercent" ||
+                XmlHelper.Value(Data.ParentNode, "swunit") == "gravimetric")
+                XmlHelper.SetValue(Result, "WaterFormat", "GravimetricPercent");
 
             int LayerNumber = 0;
-            foreach (APSIMData Child in Data.get_Children(null))
+            foreach (XmlNode Child in XmlHelper.ChildNodes(Data, ""))
                 {
-                if (Child.Type.ToLower() == "layer")
+                if (XmlHelper.Type(Child).ToLower() == "layer")
                     {
                     LayerNumber++;
-                    int NumLayersInProfile = Profile.get_Children("layer").Length;
+                    int NumLayersInProfile = XmlHelper.ChildNodes(Profile, "layer").Count;
                     for (int i = NumLayersInProfile; i < LayerNumber; i++)
-                        Profile.Add(new APSIMData("layer", ""));
-                    APSIMData BottomMeasuredLayer = Profile.get_Children("layer")[LayerNumber - 1];
-                    foreach (APSIMData Value in Child.get_Children(null))
+                        Profile.AppendChild(XmlHelper.CreateNode(Profile.OwnerDocument, "layer", ""));
+                    XmlNode BottomMeasuredLayer = XmlHelper.ChildNodes(Profile, "layer")[LayerNumber - 1];
+                    foreach (XmlNode Value in XmlHelper.ChildNodes(Child, ""))
                         {
-                        if (Value.Value != "" && Convert.ToDouble(Value.Value) != MathUtility.MissingValue)
+                        if (Value.InnerText != "" && Convert.ToDouble(Value.InnerText) != MathUtility.MissingValue)
                             {
-                            APSIMData LayerData = BottomMeasuredLayer.Add(Value);
-                            if (Data.Type.ToLower() == "soilcrop")
-                                LayerData.Name = Data.Name;
+                            XmlNode LayerData = BottomMeasuredLayer.AppendChild(Value);
+                            if (XmlHelper.Type(Data).ToLower() == "soilcrop")
+                                XmlHelper.SetName(LayerData, Data.Name);
                             }
                         }
                     }
                 else
-                    Result.Add(Child);
+                    Result.AppendChild(Child);
                 }
             }
         #endregion

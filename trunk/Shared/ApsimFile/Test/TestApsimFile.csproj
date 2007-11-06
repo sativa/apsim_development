@@ -38,6 +38,10 @@
     <Compile Include="TestSimulation.cs" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\..\CSGeneral\CSGeneral.csproj">
+      <Project>{D2EDEF3F-995D-4E9D-9E7C-608D46259E9C}</Project>
+      <Name>CSGeneral</Name>
+    </ProjectReference>
     <ProjectReference Include="..\ApsimFile.csproj">
       <Project>{0091BB8D-3CE5-4C9D-B4E7-100EFFC4BE62}</Project>
       <Name>ApsimFile</Name>

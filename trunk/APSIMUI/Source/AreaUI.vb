@@ -5,6 +5,7 @@ Imports System.Convert
 Imports CSGeneral
 Imports VBGeneral
 Imports VBUserInterface
+Imports System.Xml
 
 Public Class areaui
     Inherits BaseView
@@ -101,27 +102,20 @@ Public Class areaui
     ' ----------------------------------
     Public Overrides Sub OnRefresh()
         ListView.Clear()
-        ListView.LargeImageList = Controller.IconImageList("LargeIcon")
+        ListView.LargeImageList = Controller.Configuration.ImageList("LargeIcon")
 
         ' Add an item for all children of this system.
-        For Each Child As APSIMData In Controller.Data.Children
-            If Controller.IsComponentVisible(Child) Then
-                'create new item
-                Dim item As New ListViewItem(Child.Name, 0)
-                item.ImageIndex = Controller.IconImageIndexForType(Controller.Data.Child(Child.Name).Type, "LargeIcon")
-                ListView.Items.Add(item)
-
-                ' try and position this new item.
-                Dim x As String = Child.Attribute("x")
-                Dim y As String = Child.Attribute("y")
-                If x <> "" And y <> "" Then
-                    CSUserInterface.ListViewAPI.SetItemPosition(ListView, item.Index, Convert.ToInt32(x), Convert.ToInt32(y))
-                End If
-            End If
+        Dim Comp As ApsimFile.Component = Controller.ApsimData.Find(NodePath)
+        For Each Child As ApsimFile.Component In Comp.ChildNodes
+            'create new item
+            Dim item As New ListViewItem(Child.Name, 0)
+            item.ImageIndex = Controller.Configuration.ImageIndex(Child.Type, "LargeIcon")
+            ListView.Items.Add(item)
         Next
 
+
         ' Put up a background bitmap on listview.
-        Dim BitmapNode As APSIMData = Controller.Data.Child("bitmap")
+        Dim BitmapNode As XmlNode = XmlHelper.Find(Data, "bitmap")
         If Not IsNothing(BitmapNode) Then
             Dim TempFileName As String = Path.GetTempPath() + "\\apsimui.jpg"
             Dim b As Bitmap = CSUtility.DecodeStringToBitmap(BitmapNode.Value)
@@ -136,11 +130,7 @@ Public Class areaui
     ' for that item.
     ' ---------------------------------------------------------
     Private Sub ListView_DoubleClick(ByVal sender As Object, ByVal e As System.EventArgs) Handles ListView.DoubleClick
-        Dim Item As APSIMData = Controller.Data.Child(ListView.SelectedItems.Item(0).Text)
-
-        Dim Selections As New StringCollection
-        Selections.Add(Item.FullPath)
-        Controller.SelectedPaths = Selections
+        Controller.SelectedPath = NodePath + "/" + ListView.SelectedItems.Item(0).Text
     End Sub
 
 
@@ -153,14 +143,14 @@ Public Class areaui
             Dim FileName As String = OpenFileDialog.FileName
             CSUserInterface.ListViewAPI.SetListViewImage(ListView, FileName, CSUserInterface.ImagePosition.TopLeft)
 
-            Dim BitmapNode As APSIMData = Controller.Data.Child("bitmap")
+            Dim BitmapNode As XmlNode = XmlHelper.Find(Data, "bitmap")
             If IsNothing(BitmapNode) Then
-                BitmapNode = New APSIMData("bitmap", "bitmap")
+                BitmapNode = XmlHelper.CreateNode(Data.OwnerDocument, "bitmap", "bitmap")
             End If
 
             Dim b As New Bitmap(FileName)
             BitmapNode.Value = CSUtility.EncodeBitmapToString(b)
-            Controller.Data.Add(BitmapNode)
+            Data.AppendChild(BitmapNode)
 
         End If
     End Sub
@@ -170,7 +160,7 @@ Public Class areaui
     ' User is trying to initiate a drag - allow drag operation
     ' --------------------------------------------------------
     Private Sub ListView_ItemDrag(ByVal sender As Object, ByVal e As System.Windows.Forms.ItemDragEventArgs) Handles ListView.ItemDrag
-        Dim DataString As String = Controller.Data.Child(ListView.SelectedItems.Item(0).Text).XML
+        Dim DataString As String = XmlHelper.Find(Data, ListView.SelectedItems.Item(0).Text).OuterXml
         ListView.DoDragDrop(DataString, DragDropEffects.All)
     End Sub
 
@@ -196,22 +186,23 @@ Public Class areaui
 
         If e.Effect = DragDropEffects.Copy Then
             Dim NewDataString As String = e.Data.GetData(DataFormats.Text)
-            Dim NewNode As New APSIMData(NewDataString)
-            Controller.Data.Add(NewNode)
+            Dim Doc As New XmlDocument
+            Doc.LoadXml(NewDataString)
+            Data.AppendChild(Doc.DocumentElement)
             OnRefresh()
         Else
             For Each item As ListViewItem In ListView.SelectedItems
                 CSUserInterface.ListViewAPI.SetItemPosition(ListView, ListView.SelectedItems.Item(0).Index, p.X, p.Y)
-                Dim child As APSIMData = Controller.Data.Child(item.Text)
-                child.SetAttribute("x", p.X.ToString)
-                child.SetAttribute("y", p.Y.ToString)
+                Dim child As XmlNode = XmlHelper.Find(Data, item.Text)
+                XmlHelper.SetAttribute(child, "x", p.X.ToString)
+                XmlHelper.SetAttribute(child, "y", p.Y.ToString)
             Next
         End If
     End Sub
 
     Private Sub ListView_DragOver(ByVal sender As Object, ByVal e As System.Windows.Forms.DragEventArgs) Handles ListView.DragOver
         Dim FullXML As String = e.Data.GetData(DataFormats.Text)
-        If Controller.AllowAddXMLToData(FullXML, Controller.Data.FullPath) Then
+        If Controller.Selection.AllowAdd(FullXML) Then
             If (e.KeyState And 5) = 5 Then
                 e.Effect = DragDropEffects.Move
             Else
@@ -224,18 +215,6 @@ Public Class areaui
     End Sub
 
     Private Sub ListView_KeyDown(ByVal sender As Object, ByVal e As System.Windows.Forms.KeyEventArgs) Handles ListView.KeyDown
-        If e.KeyCode = Keys.Delete Then
-            Dim Item As APSIMData = Controller.Data.Child(ListView.SelectedItems.Item(0).Text)
-            Dim InitialSelections As New StringCollection
-            InitialSelections.Add(Item.Parent.FullPath)
-
-            Dim Selections As New StringCollection
-            Selections.Add(Item.FullPath)
-            Controller.SelectedPaths = Selections
-            Controller.ApsimData.Delete(Controller.SelectedPaths)
-            Controller.SelectedPaths = InitialSelections
-            OnRefresh()
-        End If
     End Sub
 
 End Class

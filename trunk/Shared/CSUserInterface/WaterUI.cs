@@ -22,9 +22,8 @@ namespace CSUserInterface
             InitializeComponent();
             }
 
-        public override void OnLoad(BaseController Controller, string NodePath)
+        public override void OnLoad()
             {
-            base.OnLoad(Controller, NodePath);
             FarPoint.Win.Spread.InputMap InputMap = Grid.GetInputMap(FarPoint.Win.Spread.InputMapMode.WhenAncestorOfFocused);
             InputMap.Put(new FarPoint.Win.Spread.Keystroke(Keys.Delete, Keys.None),
                         FarPoint.Win.Spread.SpreadActions.ClipboardCut);
@@ -36,7 +35,7 @@ namespace CSUserInterface
             }
         override public void OnRefresh()
             {
-            MySoil = new Soil(Controller.Data.Parent);
+            MySoil = new Soil(Data.Parent);
 
             HelpText = "";
             WaterChartControl.LinkedSoil = MySoil;

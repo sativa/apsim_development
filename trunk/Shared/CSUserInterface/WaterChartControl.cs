@@ -14,21 +14,19 @@ namespace CSUserInterface
         {
 		private System.ComponentModel.Container components = null;
         private Soil MySoil;
-        //private System.ServiceProcess.ServiceController serviceController1;
+        private InitWater InitialWater = null;
         public Steema.TeeChart.TChart WaterChart;
         private Steema.TeeChart.Styles.Line AirDryLine;
         private Steema.TeeChart.Styles.Line SatLine;
         private Steema.TeeChart.Styles.Line DulLine;
         private Steema.TeeChart.Styles.Line LL15Line;
         private Steema.TeeChart.Styles.Line InitialWaterLine;
-		private bool ShowSW = false;
 
 		public WaterChartControl()
 			{
 			// This call is required by the Windows.Forms Form Designer.
 			InitializeComponent();
 			}
-
 		protected override void Dispose( bool disposing )
 			{
 			if( disposing )
@@ -785,10 +783,7 @@ namespace CSUserInterface
 		#endregion
 
 
-		// ---------------------------------------------
-		// MySoil property.
-		// ---------------------------------------------
-		public Soil LinkedSoil 
+    	public Soil LinkedSoil 
 			{
 			get {return MySoil;}
 			set {
@@ -796,18 +791,15 @@ namespace CSUserInterface
 				RefreshView();
 				}		
 			}
-
-		// ---------------------------------------------
-		// ShowSW property.
-		// ---------------------------------------------
-		public bool ShowSoilWaterLine 
-			{
-			get {return ShowSW;}
-			set {
-				ShowSW = value;
-				RefreshView();
-				}		
-			}
+        public InitWater LinkedSoilWater
+            {
+            get { return InitialWater; }
+            set
+                {
+                InitialWater = value;
+                RefreshView();
+                }
+            }
 
 		// -------------------
 		// Refresh            
@@ -827,16 +819,19 @@ namespace CSUserInterface
             double[] CumThicknessMidPoints = MathUtility.Divide_Value(Soils.Utility.ToMidPoints(MySoil.Thickness), 10);
             if (CumThicknessMidPoints.Length == 0)
                 return;
-            if ((MySoil.SAT[MySoil.SAT.Length - 1] <= 1) && (MySoil.DUL[MySoil.DUL.Length - 1] <= 1) && (MySoil.LL15[MySoil.LL15.Length - 1] <= 1) && (MySoil.Airdry[MySoil.Airdry.Length - 1] <= 1))
+            if ((MySoil.SAT[MySoil.SAT.Length - 1] <= 1) && 
+                (MySoil.DUL[MySoil.DUL.Length - 1] <= 1) && 
+                (MySoil.LL15[MySoil.LL15.Length - 1] <= 1) && 
+                (MySoil.Airdry[MySoil.Airdry.Length - 1] <= 1))
                 {
                 SatLine.Add(MathUtility.Multiply_Value(MySoil.SAT, 100), CumThicknessMidPoints);
                 DulLine.Add(MathUtility.Multiply_Value(MySoil.DUL, 100), CumThicknessMidPoints);
                 LL15Line.Add(MathUtility.Multiply_Value(MySoil.LL15, 100), CumThicknessMidPoints);
                 AirDryLine.Add(MathUtility.Multiply_Value(MySoil.Airdry, 100), CumThicknessMidPoints);
-                InitialWaterLine.Active = (ShowSW && MySoil.InitialSW.Length > 0);
+                InitialWaterLine.Active = (InitialWater != null);
                 InitialWaterLine.ShowInLegend = InitialWaterLine.Active;
 			    if (InitialWaterLine.Active)
-				    InitialWaterLine.Add(MathUtility.Multiply_Value(MySoil.InitialSW, 100), CumThicknessMidPoints);
+				    InitialWaterLine.Add(MathUtility.Multiply_Value(InitialWater.SW, 100), CumThicknessMidPoints);
 
                 // remove existing crops.
                 while (WaterChart.Series.Count > 5)

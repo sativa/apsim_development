@@ -105,6 +105,7 @@
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="AsyncOperation.cs" />
+    <Compile Include="CallDll.cs" />
     <Compile Include="ComponentDescription.cs">
       <SubType>Code</SubType>
     </Compile>
@@ -125,6 +126,7 @@
     <Compile Include="Utility.cs">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="XmlHelper.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\VBGeneral\VBGeneral.vbproj">

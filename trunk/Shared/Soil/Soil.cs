@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.IO;
 using VBGeneral;
 using CSGeneral;
+using System.Xml;
 
 namespace Soils
 {
@@ -12,10 +13,10 @@ namespace Soils
 	// ---------------------------------
 	public class Soil
 		{
-        public APSIMData Data;
-		private APSIMData PredLLCoeff = null;
-        private APSIMData PredKLCoeff = null;
-		public Soil(APSIMData data)
+        public XmlNode Data;
+        private XmlNode PredLLCoeff = null;
+        private XmlNode PredKLCoeff = null;
+        public Soil(XmlNode data)
             {
             Data = data;
             }
@@ -25,7 +26,7 @@ namespace Soils
         public string Name
             {
             get { return Data.Name; }
-            set { Data.Name = value; }
+            set { XmlHelper.SetName(Data, value); }
             }
         public string State
             {
@@ -395,13 +396,13 @@ namespace Soils
             {
             get
                 {
-                APSIMData Profile = Data.Child("profile");
+                XmlNode Profile = XmlHelper.Find(Data, "profile");
                 if (Profile != null)
                     {
-                    APSIMData Layer = Profile.ChildByType("layer");
+                    XmlNode Layer = XmlHelper.FindByType(Profile, "layer");
                     if (Layer != null)
                         {
-                        String[] ReturnListCollection = Layer.ChildNames("ll");
+                        String[] ReturnListCollection = XmlHelper.ChildNames(Layer, "ll");
                         string[] ReturnList = new string[ReturnListCollection.Length];
                         ReturnListCollection.CopyTo(ReturnList, 0);
                         return ReturnList;
@@ -503,8 +504,9 @@ namespace Soils
 				string CoeffFileName = APSIMSettings.INIRead(APSIMSettings.ApsimIniFile(), "APSoil", "PredLLCoeffFile");
 				if (File.Exists(CoeffFileName))
 					{
-					PredLLCoeff = new APSIMData();
-					PredLLCoeff.LoadFromFile(CoeffFileName);
+                    XmlDocument doc = new XmlDocument();
+					doc.Load(CoeffFileName);
+                    PredLLCoeff = doc.DocumentElement;
 					}
 				}
 			return (PredLLCoeff != null);
@@ -516,8 +518,9 @@ namespace Soils
                 string CoeffFileName = APSIMSettings.INIRead(APSIMSettings.ApsimIniFile(), "APSoil", "PredKLCoeffFile");
                 if (File.Exists(CoeffFileName))
                     {
-                    PredKLCoeff = new APSIMData();
-                    PredKLCoeff.LoadFromFile(CoeffFileName);
+                    XmlDocument doc = new XmlDocument();
+                    doc.Load(CoeffFileName);
+                    PredKLCoeff = doc.DocumentElement;
                     }
                 }
             return (PredKLCoeff != null);
@@ -534,9 +537,9 @@ namespace Soils
                     string SoilNameNoSpaces = Classification.Replace(" ", "");
                     double[] SoilDepthCentre = Utility.ToMidPoints(Thickness);
 				
-					foreach (APSIMData PredSoil in  PredLLCoeff.get_Children(null))
+					foreach (XmlNode PredSoil in  XmlHelper.ChildNodes(Data, ""))
 						if (PredSoil.Name.ToLower() == SoilNameNoSpaces.ToLower())
-							foreach (string CropName in PredSoil.ChildNames(null))
+                            foreach (string CropName in XmlHelper.ChildNames(PredSoil, ""))
 								if (!CropExists(CropName))
 									{
 									double[] a = null;
@@ -558,11 +561,12 @@ namespace Soils
 			StringCollection BStrings = new StringCollection();
 			StringCollection LayerCentreStrings = new StringCollection();
             string SoilNameNoSpaces = Classification.Replace(" ", "");
-			foreach (APSIMData Layer in PredLLCoeff.Child(SoilNameNoSpaces).Child(CropName).get_Children("layer"))
+            XmlNode CropCoeffNode = XmlHelper.Find(PredLLCoeff, SoilNameNoSpaces + XmlHelper.Delimiter + CropName);
+			foreach (XmlNode Layer in XmlHelper.ChildNodes(CropCoeffNode, "layer"))
 				{
-				AStrings.Add(Layer.get_ChildValue("a"));
-				BStrings.Add(Layer.get_ChildValue("b"));
-				LayerCentreStrings.Add(Layer.get_ChildValue("LayerCentre"));
+				AStrings.Add(XmlHelper.Value(Layer, "a"));
+				BStrings.Add(XmlHelper.Value(Layer, "b"));
+				LayerCentreStrings.Add(XmlHelper.Value(Layer, "LayerCentre"));
 				}
 
 			if (AStrings.Count == 0 || AStrings.Count != BStrings.Count || AStrings.Count != LayerCentreStrings.Count)
@@ -641,15 +645,15 @@ namespace Soils
 			{
             if (OpenPredKLCoeffFile())
                 {
-                APSIMData CropKlValues = PredKLCoeff.Child(CropName);
+                XmlNode CropKlValues = XmlHelper.Find(PredKLCoeff, CropName);
                 if (CropKlValues != null)
                     {
                     StringCollection LayerCentreStrings = new StringCollection();
                     StringCollection KLStrings = new StringCollection();
-                    foreach (APSIMData Layer in CropKlValues.get_Children("layer"))
+                    foreach (XmlNode Layer in XmlHelper.ChildNodes(CropKlValues, "layer"))
                         {
-                        KLStrings.Add(Layer.get_ChildValue("kl"));
-                        LayerCentreStrings.Add(Layer.get_ChildValue("LayerCentre"));
+                        KLStrings.Add(XmlHelper.Value(Layer, "kl"));
+                        LayerCentreStrings.Add(XmlHelper.Value(Layer, "LayerCentre"));
                         }
                     double[] kl = new double[KLStrings.Count];
                     double[] CoeffDepthCentre = new double[LayerCentreStrings.Count];
@@ -847,21 +851,6 @@ namespace Soils
 					PAWC[layer] = (DUL[layer] - LL[layer]) * Thickness[layer];
 			return PAWC;
 			}
-		public double[] PAW(string cropName)
-			{
-			double[] Thickness = this.Thickness;
-			double[] LL = this.LL(cropName);
-			double[] SW = InitialSW;
-			double[] PAW = new double[Thickness.Length];
-
-			// calculate depth increments.
-			if (Thickness.Length > 0)
-				{
-				for (int layer = 0; layer != SW.Length; layer++)
-					PAW[layer] = Math.Max((SW[layer] - LL[layer]), 0.0) * Thickness[layer];
-				}
-			return PAW;
-            }
         #endregion
 
         #region Export
@@ -895,7 +884,6 @@ namespace Soils
                 "   ll15    =[foreach profile.layer as Layer]    [Layer.ll15.3][endfor]   ! lower limit mm water/mm soil\r\n" +
                 "   dul     =[foreach profile.layer as Layer]    [Layer.dul.3][endfor]   ! drained upper limit mm water/mm soil\r\n" +
                 "   sat     =[foreach profile.layer as Layer]    [Layer.sat.3][endfor]   ! saturation mm water/mm soil\r\n" +
-                "   sw      =$SW$   ! starting soil water mm water/mm soil\r\n" +
                 "   swcon   =[foreach profile.layer as Layer]    [Layer.swcon.3][endfor]   ! drainage coefficient\r\n" +
                 "   bd      =[foreach profile.layer as Layer]    [Layer.bd.3][endfor]   ! bulk density gm dry soil/cc moist soil\r\n";
             if (MWCON.Length > 0 && MWCON[0] != MathUtility.MissingValue)
@@ -921,8 +909,6 @@ namespace Soils
                 "   ph      =$PH$   ! pH of soil\r\n" +
                 "   fbiom   =[foreach profile.layer as Layer]\r\n      [Layer.fbiom.3][endfor]   ! Organic C Biomass Fraction\r\n" +
                 "   finert  =[foreach profile.layer as Layer]\r\n      [Layer.finert.3][endfor]   ! Inert Organic C Fraction\r\n" +
-                "   no3ppm  =$NO3$   ! Nitrate Concentration\r\n" +
-                "   nh4ppm  =$NH4$   ! Ammonium Concentration\r\n" +
                 "[endfor]\r\n" +//END OF NITROGEN FOR LOOP
                 "\r\n" +
                 "[if [soil.rootcp] > 0]\r\n" +
@@ -970,32 +956,16 @@ namespace Soils
                 }
             Template = Template.Replace("$CROP$", CropStuff);
 
-			string SWLine = "";
-			string NO3Line = "";
-			string NH4Line = "";
             string PHLine = "";
-			double[] sw = InitialSW;
-			double[] no3 = InitialNO3;
-			double[] nh4 = InitialNH4;
             double[] ph = PH;
 
 			int NumLayers = Thickness.Length;
 			for (int i = 0; i != NumLayers; i++)
 				{
-                if (i < sw.Length)
-				    SWLine += "    " + sw[i].ToString("f3");
-
-                if (i < no3.Length)
-                    NO3Line += "      " + no3[i].ToString("f3");
-                if (i < nh4.Length)
-                    NH4Line += "      " + nh4[i].ToString("f3");
                 if (i < ph.Length)
                     PHLine += "      " + ph[i].ToString("f3");
 				}
 
-			Template = Template.Replace("$SW$", SWLine);
-			Template = Template.Replace("$NO3$", NO3Line);
-			Template = Template.Replace("$NH4$", NH4Line);
             Template = Template.Replace("$PH$", PHLine);
 			Template = Template.Replace("$SECTIONNAME$", SectionName);
 
@@ -1005,334 +975,121 @@ namespace Soils
 														Path.GetDirectoryName(FileName),
 														AppendToFile);
 			}
-		public void ExportToSim(TextWriter Out)
+		public XmlNode ExportToSim(XmlNode ParentNode)
 			{
-            string Template =
-                "<component name=\"[soil.name] Water\" executable=\"%apsuite\\apsim\\soilwat2\\lib\\soilwat2.dll\">\r\n" +
-                "   <initdata>\r\n" +
-                "      <include>%apsuite\\apsim\\soilwat2\\soilwat2.ini</include>\r\n" +
-                "      <diffus_const>[soil.DiffusConst]</diffus_const>\r\n" +
-                "      <diffus_slope>[soil.DiffusSlope]</diffus_slope>\r\n" +
-                "      <cn2_bare>[soil.Cn2Bare]</cn2_bare>\r\n" +
-                "      <cn_red>[soil.CnRed]</cn_red>\r\n" +
-                "      <cn_cov>[soil.CnCov]</cn_cov>\r\n" +
-                "      <salb>[soil.Salb]</salb>\r\n";
-            if (SummerCona != MathUtility.MissingValue)
-                {
-                Template +=
-                "      <SummerCona>[soil.SummerCona]</SummerCona>\r\n" +
-                "      <WinterCona>[soil.WinterCona]</WinterCona>\r\n" +
-                "      <SummerU>[soil.SummerU]</SummerU>\r\n" +
-                "      <WinterU>[soil.WinterU]</WinterU>\r\n" +
-                "      <SummerDate>[soil.SummerDate]</SummerDate>\r\n" +
-                "      <WinterDate>[soil.WinterDate]</WinterDate>\r\n";
-                }
-            else
-                Template +=
-                "      <cona>[soil.Cona]</cona>\r\n" +
-                "      <u>[soil.U]</u>\r\n";
-
-            Template +=
-                "[foreach soil.profile]\r\n" +
-                "      <dlayer> [foreach profile.layer as l][l.thickness] [endfor] </dlayer>\r\n" +
-                "      <sat>[foreach profile.layer as l][l.sat.3] [endfor]</sat>\r\n" +
-                "      <dul>[foreach profile.layer as l][l.dul.3] [endfor]</dul>\r\n" +
-                "      <ll15>[foreach profile.layer as l][l.ll15.3] [endfor]</ll15>\r\n" +
-                "      <air_dry>[foreach profile.layer as l][l.airdry.3] [endfor]</air_dry>\r\n" +
-                "      <swcon>[foreach profile.layer as l][l.swcon] [endfor]</swcon>\r\n" +
-                "      <bd>[foreach profile.layer as l][l.bd] [endfor]</bd>\r\n";
-            if (MWCON.Length > 0 && MWCON[0] != MathUtility.MissingValue)
-                Template +=
-                "      <mwcon>[foreach profile.layer as l][l.mwcon] [endfor]</mwcon>\r\n";
-            if (KS.Length > 0 && KS[0] != MathUtility.MissingValue)
-                Template +=
-                "      <ks>[foreach profile.layer as l][l.ks] [endfor]</ks>\r\n";
-
-            Template +=
-                "      <sw>$SW$</sw>\r\n" +
-                "[endfor]\r\n" +
-                "   </initdata>\r\n" +
-                "</component>\r\n" +
-                "<component name=\"[soil.name] Nitrogen\" executable=\"%apsuite\\apsim\\soiln2\\lib\\soiln2.dll\">\r\n" +
-                "   <initdata>\r\n" +
-                "      <include>%apsuite\\apsim\\soiln2\\soiln2.ini</include>\r\n" +
-                "      <soiltype>[soil.soiltype]</soiltype>\r\n" +
-                "      <root_cn>[soil.RootCN]</root_cn>\r\n" +
-                "      <root_wt>[soil.RootWT]</root_wt>\r\n" +
-                "      <soil_cn>[soil.SoilCN]</soil_cn>\r\n" +
-                "      <enr_a_coeff>[soil.EnrACoeff]</enr_a_coeff>\r\n" +
-                "      <enr_b_coeff>[soil.EnrBCoeff]</enr_b_coeff>\r\n" +
-                "      <profile_reduction>off</profile_reduction>\r\n" +
-                "[foreach soil.profile]\r\n" +
-                "      <oc>$OC$</oc>\r\n" +
-                "      <ph>$PH$</ph>\r\n" +
-                "      <fbiom>[foreach profile.layer as l] [l.fbiom][endfor]</fbiom>\r\n" +
-                "      <finert>[foreach profile.layer as l] [l.finert][endfor]</finert>\r\n";
-            if (Rocks.Length > 0 && Rocks[0] != MathUtility.MissingValue)
-                Template += "      <rocks>[foreach profile.layer as l][l.rocks] [endfor]</rocks>\r\n";
-            Template +=
-                "      <ureappm>0  0    0    0    0    0    0</ureappm>\r\n" +
-                "      <no3ppm>$NO3$</no3ppm>\r\n" +
-                "      <nh4ppm>$NH4$</nh4ppm>\r\n" +
-                "[endfor]\r\n" +
-                "   </initdata>\r\n" +
-                "</component>\r\n" +
-                "[if [soil.RootCP] > 0]\r\n" +
-                "<component name=\"[soil.name] Phosphorus\" executable=\"%apsuite\\apsim\\soilp\\lib\\soilp.dll\">\r\n" +
-                "   <initdata>\r\n" +
-                "      <include>%apsuite\\apsim\\soilp\\soilp.ini</include>\r\n" +
-                "[foreach soil.profile]\r\n" +
-                "      <Labile_P>[foreach profile.layer as l] [l.LabileP][endfor]</Labile_P>\r\n" +
-                "      <banded_P>[foreach profile.layer as l] [l.bandedP][endfor]</banded_P>\r\n" +
-                "      <rock_P>[foreach profile.layer as l] [l.rockP][endfor]</rock_P>\r\n" +
-                "      <sorption>[foreach profile.layer as l] [l.sorption][endfor]</sorption>\r\n" +
-                "[endfor]\r\n" +
-                "      <Root_CP>[soil.RootCP]</Root_CP>\r\n" +
-                "      <rate_dissol_rock_P>[soil.RateDissolRock]</rate_dissol_rock_P>\r\n" +
-                "      <rate_loss_avail_P>[soil.RateLossAvail]</rate_loss_avail_P>\r\n" +
-                "   </initdata>\r\n" +
-                "</component>\r\n" +
-                "[endif]\r\n";
-
             string errors = CheckThatSimulationWillRun();
             if (errors != "")
                 throw new Exception(errors);
 
-			string SWLine = "";
-			string NO3Line = "";
-			string NH4Line = "";
-            string PHLine = "";
-            string OCLine = "";
-			double[] sw = InitialSW;
-			double[] no3 = InitialNO3;
-			double[] nh4 = InitialNH4;
-            double[] ph = SamplePH();
-            double[] oc = SampleOC();
-
-            if (ph.Length == 0)
-                ph = PH;
-            if (oc.Length == 0)
-                oc = OC;
-
-			int NumLayers = Thickness.Length;
-			for (int i = 0; i != NumLayers; i++)
-				{
-				SWLine += "    " + sw[i].ToString("f3");
-				NO3Line += "      " + no3[i].ToString("f3");
-				NH4Line += "      " + nh4[i].ToString("f3");
-                PHLine += "      " + ph[i].ToString("f3");
-                OCLine += "      " + oc[i].ToString("f3");
+            // Water variables
+            XmlNode SoilNode = ParentNode.AppendChild(ParentNode.OwnerDocument.CreateElement("component"));
+            XmlHelper.SetName(SoilNode, Name + " Water");
+            XmlHelper.SetAttribute(SoilNode, "executable", "%apsuite\\apsim\\soilwat2\\lib\\soilwat2.dll");
+            XmlNode InitData = SoilNode.AppendChild(SoilNode.OwnerDocument.CreateElement("initdata"));
+            XmlHelper.SetValue(InitData, "include", "%apsuite\\apsim\\soilwat2\\soilwat2.ini");
+            XmlHelper.SetValue(InitData, "diffus_const", DiffusConst.ToString());
+            XmlHelper.SetValue(InitData, "diffus_slope", DiffusSlope.ToString());
+            XmlHelper.SetValue(InitData, "cn2_bare", CN2Bare.ToString());
+            XmlHelper.SetValue(InitData, "cn_red", CNRed.ToString());
+            XmlHelper.SetValue(InitData, "cn_cov", CNCov.ToString());
+            XmlHelper.SetValue(InitData, "salb", Salb.ToString());
+            if (SummerCona != MathUtility.MissingValue)
+                {
+                XmlHelper.SetValue(InitData, "SummerCona", SummerCona.ToString());
+                XmlHelper.SetValue(InitData, "WinterCona", WinterCona.ToString());
+                XmlHelper.SetValue(InitData, "SummerU", SummerU.ToString());
+                XmlHelper.SetValue(InitData, "WinterU", WinterU.ToString());
+                XmlHelper.SetValue(InitData, "SummerDate", SummerDate.ToString());
+                XmlHelper.SetValue(InitData, "WinterDate", WinterDate.ToString());
                 }
+            else
+                {
+                XmlHelper.SetValue(InitData, "cona", Cona.ToString());
+                XmlHelper.SetValue(InitData, "u", U.ToString());
+                }
+            XmlHelper.SetValue(InitData, "dlayer", Utility.LayeredToString(Thickness));
+            XmlHelper.SetValue(InitData, "sat", Utility.LayeredToString(SAT));
+            XmlHelper.SetValue(InitData, "dul", Utility.LayeredToString(DUL));
+            XmlHelper.SetValue(InitData, "ll15", Utility.LayeredToString(LL15));
+            XmlHelper.SetValue(InitData, "air_dry", Utility.LayeredToString(Airdry));
+            XmlHelper.SetValue(InitData, "swcon", Utility.LayeredToString(SWCON));
+            XmlHelper.SetValue(InitData, "bd", Utility.LayeredToString(BD));
+            if (MWCON.Length > 0 && MWCON[0] != MathUtility.MissingValue)
+                XmlHelper.SetValue(InitData, "mwcon", Utility.LayeredToString(MWCON));
+            if (KS.Length > 0 && KS[0] != MathUtility.MissingValue)
+                XmlHelper.SetValue(InitData, "ks", Utility.LayeredToString(KS));
 
-			Template = Template.Replace("$SW$", SWLine);
-			Template = Template.Replace("$NO3$", NO3Line);
-			Template = Template.Replace("$NH4$", NH4Line);
-            Template = Template.Replace("$PH$", PHLine);
-            Template = Template.Replace("$OC$", OCLine);
 
-            Macro SoilMacro = new Macro();
-            string Contents = SoilMacro.Go(Data, Template);
-            Contents = Contents.Replace("<soiltype>[soil.soiltype]</soiltype>", "");
-			Out.Write(Contents);
+
+            // Nitrogen variables
+            XmlNode Nitrogen = ParentNode.AppendChild(ParentNode.OwnerDocument.CreateElement("component"));
+            XmlHelper.SetName(Nitrogen, Name + " Nitrogen");
+            XmlHelper.SetAttribute(Nitrogen, "executable", "%apsuite\\apsim\\soiln2\\lib\\soiln2.dll");
+            XmlNode NitrogenInitData = Nitrogen.AppendChild(SoilNode.OwnerDocument.CreateElement("initdata"));
+            XmlHelper.SetValue(NitrogenInitData, "include", "%apsuite\\apsim\\soiln2\\soiln2.ini");
+            XmlHelper.SetValue(NitrogenInitData, "soiltype", Classification);
+            XmlHelper.SetValue(NitrogenInitData, "root_cn", RootCN.ToString());
+            XmlHelper.SetValue(NitrogenInitData, "root_wt", RootWT.ToString());
+            XmlHelper.SetValue(NitrogenInitData, "soil_cn", SoilCN.ToString());
+            XmlHelper.SetValue(NitrogenInitData, "enr_a_coeff", EnrACoeff.ToString());
+            XmlHelper.SetValue(NitrogenInitData, "enr_b_coeff", EnrBCoeff.ToString());
+            XmlHelper.SetValue(NitrogenInitData, "profile_reduction", "off");
+            XmlHelper.SetValue(NitrogenInitData, "oc", Utility.LayeredToString(OC));
+            XmlHelper.SetValue(NitrogenInitData, "ph", Utility.LayeredToString(PH));
+            XmlHelper.SetValue(NitrogenInitData, "fbiom", Utility.LayeredToString(FBIOM));
+            XmlHelper.SetValue(NitrogenInitData, "finert", Utility.LayeredToString(FINERT));
+            if (Rocks.Length > 0 && Rocks[0] != MathUtility.MissingValue)
+                XmlHelper.SetValue(NitrogenInitData, "rocks", Utility.LayeredToString(Rocks));
+
+
+
+            // Phosphorus variables
+            if (RootCP != MathUtility.MissingValue)
+                {
+                XmlNode Phosphorus = ParentNode.AppendChild(ParentNode.OwnerDocument.CreateElement("component"));
+                XmlHelper.SetName(Phosphorus, Name + " Phosphorus");
+                XmlHelper.SetAttribute(Phosphorus, "executable", "%apsuite\\apsim\\soilp\\lib\\soilp.dll");
+                XmlNode PhosphorusInitData = Phosphorus.AppendChild(SoilNode.OwnerDocument.CreateElement("initdata"));
+                XmlHelper.SetValue(PhosphorusInitData, "include", "%apsuite\\apsim\\soilp\\soilp.ini");
+                XmlHelper.SetValue(PhosphorusInitData, "Root_CP", RootCP.ToString());
+                XmlHelper.SetValue(PhosphorusInitData, "rate_dissol_rock_P", RateDissolRock.ToString());
+                XmlHelper.SetValue(PhosphorusInitData, "rate_loss_avail_P", RateLossAvail.ToString());
+
+                XmlHelper.SetValue(PhosphorusInitData, "Labile_P", Utility.LayeredToString(LabileP));
+                XmlHelper.SetValue(PhosphorusInitData, "banded_P", Utility.LayeredToString(BandedP));
+                XmlHelper.SetValue(PhosphorusInitData, "rock_P", Utility.LayeredToString(RockP));
+                XmlHelper.SetValue(PhosphorusInitData, "sorption", Utility.LayeredToString(Sorption));
+                }
+            return SoilNode;
 			}
-		public void ExportCropToSim(TextWriter Out, string CropName)
+		public XmlNode ExportCropToSim(XmlNode ParentNode, string CropName)
 			{
-			string Template =
-				"<ll>$LL$</ll>\r\n" +
-				"<kl>$KL$</kl>\r\n" +
-				"<xf>$XF$</xf>";
+            // Go look for our component node which has already been created for us.
+            foreach (XmlNode Node in ParentNode.ParentNode.ParentNode.ChildNodes)
+                {
+                if (XmlHelper.Name(Node).ToLower() == CropName.ToLower())
+                    {
+                    XmlHelper.SetValue(Node, "initdata/ll", Utility.LayeredToString(LL(CropName)));
+                    XmlHelper.SetValue(Node, "initdata/kl", Utility.LayeredToString(KL(CropName)));
 
-			string LLLine = "";
-			string KLLine = "";
-			string XFLine = "";
-			double[] ll = LL(CropName);
-			double[] kl = KL(CropName);
-			double[] xf = XF(CropName);
-            if (UseEC)
-                ApplyECXFFunction(Thickness, SampleEC(), ref xf);
-            if (MaxRootDepth > 0)
-                ApplyMaxRootDepth(Thickness, MaxRootDepth*10, ref xf);
-
-			for (int i = 0; i != ll.Length; i++)
-				{
-				LLLine += "    " + ll[i].ToString("f3");
-				KLLine += "      " + kl[i].ToString("f3");
-				XFLine += "      " + xf[i].ToString("f3");
-				}
-            if (LLLine == "" || KLLine == "" || XFLine == "")
-                throw new Exception("Soil is not parameterised for crop: " + CropName);
-			Template = Template.Replace("$LL$", LLLine);
-			Template = Template.Replace("$KL$", KLLine);
-			Template = Template.Replace("$XF$", XFLine);
-            Out.Write(Template);
-            }
-        #endregion
-
-        #region Initial water and nitrogen
-        public double[] InitialSW
-            {
-            get
-                {
-                double[] sw = SampleSW();
-                if (sw.Length > 0)
-                    {
-                    for (int i = 0; i != sw.Length; i++)
-                        {
-                        sw[i] = Math.Max(sw[i], Airdry[i]);
-                        sw[i] = Math.Min(sw[i], SAT[i]);
-                        }
-                    }
-                return sw;
-                }
-            }
-        public double[] InitialNO3
-            {
-            get { return SampleNO3(); }
-            }
-        public double[] InitialNH4
-            {
-            get {return SampleNH4();}
-            }
-        private double[] SampleSW()
-            {
-            // -------------------------------------------
-            // go find a sample with SW values 
-            // -------------------------------------------
-            foreach (APSIMData SampleData in Data.get_Children(null))
-                {
-                if (SampleData.Type.ToLower() == "soilsample")
-                    {
-                    SoilSample Sample = new SoilSample(SampleData);
-                    if (MathUtility.ValuesInArray(Sample.SW))
-                        {
-                        double[] sw = Sample.SWMapedToSoil;
-                        if (sw.Length > 0)
-                            return sw;
-                        }
-                    }
-                else if (SampleData.Type.ToLower() == "initwater")
-                    {
-                    InitWater Water = new InitWater(SampleData);
-                    return Water.SWMapedToSoil;
+                    double[] xf = XF(CropName);
+                    if (MaxRootDepth > 0)
+                        ApplyMaxRootDepth(Thickness, MaxRootDepth * 10, ref xf);
+                    XmlHelper.SetValue(Node, "initdata/xf", Utility.LayeredToString(xf));
+                    return Node;
                     }
                 }
-            return new double[0];
+            throw new Exception("Cannot find crop node : " + CropName);
             }
-        private double[] SampleNO3()
-            {
-            // -------------------------------------------
-            // go find a sample with NO3 values 
-            // -------------------------------------------
-            foreach (APSIMData SampleData in Data.get_Children(null))
-                {
-                if (SampleData.Type.ToLower() == "soilsample")
-                    {
-                    SoilSample Sample = new SoilSample(SampleData);
-                    if (MathUtility.ValuesInArray(Sample.NO3))
-                        {
-                        double[] no3 = Sample.NO3MapedToSoil;
-                        if (no3.Length > 0)
-                            return no3;
-                        }
-                    }
-                else if (SampleData.Type.ToLower() == "initnitrogen")
-                    {
-                    InitNitrogen Nitrogen = new InitNitrogen(SampleData);
-                    return Nitrogen.NO3MapedToSoil;
-                    }
-                }
-            return new double[0];
-            }
-        private double[] SampleNH4()
-            {
-            // -------------------------------------------
-            // go find a sample with NH4 values 
-            // -------------------------------------------
-            foreach (APSIMData SampleData in Data.get_Children(null))
-                {
-                if (SampleData.Type.ToLower() == "soilsample")
-                    {
-                    SoilSample Sample = new SoilSample(SampleData);
-                    if (MathUtility.ValuesInArray(Sample.NH4))
-                        {
-                        double[] nh4 = Sample.NH4MapedToSoil;
-                        if (nh4.Length > 0)
-                            return nh4;
-                        }
-                    }
-                else if (SampleData.Type.ToLower() == "initnitrogen")
-                    {
-                    InitNitrogen Nitrogen = new InitNitrogen(SampleData);
-                    return Nitrogen.NH4MapedToSoil;
-                    }
-                }
-            // for YP: use default values of 0.2 down the profile.
-            double[] DummyNH4 = new double[Thickness.Length];
-            for (int i = 0; i != DummyNH4.Length; i++)
-                DummyNH4[i] = 0.2;
-            return DummyNH4;
-            }
-        private double[] SampleOC()
-            {
-            // -------------------------------------------
-            // go find a sample with OC values 
-            // -------------------------------------------
-            foreach (APSIMData SampleData in Data.get_Children("soilsample"))
-                {
-                SoilSample Sample = new SoilSample(SampleData);
-                if (MathUtility.ValuesInArray(Sample.OC))
-                    {
-                    double[] oc = Sample.OCMapedToSoil;
-                    if (oc.Length > 0)
-                        return oc;
-                    }
-                }
-            return new double[0];
-            }
-        private double[] SampleEC()
-            {
-            // -------------------------------------------
-            // go find a sample with EC values 
-            // -------------------------------------------
-            foreach (APSIMData SampleData in Data.get_Children("soilsample"))
-                {
-                SoilSample Sample = new SoilSample(SampleData);
-                if (MathUtility.ValuesInArray(Sample.EC))
-                    {
-                    double[] ec = Sample.ECMapedToSoil;
-                    if (ec.Length > 0)
-                        return ec;
-                    }
-                }
-            return new double[0];
-            }
-        private double[] SamplePH()
-            {
-            // -------------------------------------------
-            // go find a sample with PH values 
-            // -------------------------------------------
-            foreach (APSIMData SampleData in Data.get_Children("soilsample"))
-                {
-                SoilSample Sample = new SoilSample(SampleData);
-                if (MathUtility.ValuesInArray(Sample.PH))
-                    {
-                    double[] ph = Sample.PHMapedToSoil;
-                    if (ph.Length > 0)
-                        return ph;
-                    }
-                }
-            return new double[0];
-            }
-
         #endregion
 
         #region Upgrade version
         public void UpgradeToVersion2()
 			{
-            APSIMData InitWaterNode = Data.Child("InitWater");
-			if (InitWaterNode == null || InitWaterNode.get_Children(null).Length == 0)
+            XmlNode InitWaterNode = XmlHelper.Find(Data, "InitWater");
+            if (InitWaterNode == null || XmlHelper.ChildNodes(InitWaterNode, "").Count == 0)
 				{
-                InitWaterNode = Data.Add(new APSIMData("InitWater", ""));
+                InitWaterNode = Data.AppendChild(XmlHelper.CreateNode(Data.OwnerDocument, "InitWater", ""));
 				double[] OldSW = Utility.getLayered(Data, "water", "sw", "");
                 if (OldSW != null && OldSW.Length > 0)
                     {
@@ -1340,10 +1097,10 @@ namespace Soils
                     }
 				}
 
-            APSIMData InitNitrogenNode = Data.Child("InitNitrogen");
-            if (InitNitrogenNode == null || InitNitrogenNode.get_Children(null).Length == 0)
+            XmlNode InitNitrogenNode = XmlHelper.Find(Data, "InitNitrogen");
+            if (InitNitrogenNode == null || XmlHelper.ChildNodes(InitNitrogenNode, "").Count == 0)
 				{
-                InitNitrogenNode = Data.Add(new APSIMData("InitNitrogen", ""));
+                InitNitrogenNode = Data.AppendChild(XmlHelper.CreateNode(Data.OwnerDocument, "InitNitrogen", ""));
 				double[] OldNO3 = Utility.getLayered(Data, "nitrogen", "no3", "");
                 if (OldNO3 != null && OldNO3.Length > 0)
                     {
@@ -1372,73 +1129,78 @@ namespace Soils
 			}
         public void UpgradeToVersion7()
             {
-            foreach (APSIMData Child in Data.get_Children(null))
+            foreach (XmlNode Child in XmlHelper.ChildNodes(Data, ""))
                 {
-                if (Child.Type.ToLower() == "water" || 
-                    Child.Type.ToLower() == "nitrogen" ||
-                    Child.Type.ToLower() == "other" ||
-                    Child.Type.ToLower() == "soilcrop")
+                if (XmlHelper.Type(Child).ToLower() == "water" ||
+                    XmlHelper.Type(Child).ToLower() == "nitrogen" ||
+                    XmlHelper.Type(Child).ToLower() == "other" ||
+                    XmlHelper.Type(Child).ToLower() == "soilcrop")
                     UpgradeToNodeVersion7(Child, Data);
                 }
-            Data.DeleteByType("water");
-            Data.DeleteByType("nitrogen");
-            Data.DeleteByType("other");
-            Data.DeleteByType("soilcrop");
-            Data.DeleteByType("waterformat");
+            foreach (XmlNode Node in XmlHelper.ChildNodes(Data, ""))
+                {
+                if (XmlHelper.Type(Node).ToLower() == "water" ||
+                    XmlHelper.Type(Node).ToLower() == "nitrogen" ||
+                    XmlHelper.Type(Node).ToLower() == "other" ||
+                    XmlHelper.Type(Node).ToLower() == "soilcrop" ||
+                    XmlHelper.Type(Node).ToLower() == "waterformat")
+                    Data.RemoveChild(Node);
+                }
             }
-        private void UpgradeToNodeVersion7(APSIMData Data, APSIMData Result)
+        private void UpgradeToNodeVersion7(XmlNode Data, XmlNode Result)
             {
             // ---------------------------------------------------------
             // Upgrade node putting all required child nodes into result
             // ---------------------------------------------------------
-            APSIMData Profile = Result.Child("profile");
+            XmlNode Profile = XmlHelper.Find(Result, "profile");
             if (Profile == null)
-                Profile = Result.Add(new APSIMData("profile", ""));
+                Profile = Result.AppendChild(XmlHelper.CreateNode(Result.OwnerDocument, "profile", ""));
 
             int LayerNumber = 0;
-            foreach (APSIMData Child in Data.get_Children(null))
+            foreach (XmlNode Child in XmlHelper.ChildNodes(Data, ""))
                 {
-                if (Child.Type.ToLower() == "layer")
+                if (XmlHelper.Type(Child).ToLower() == "layer")
                     {
                     LayerNumber++;
-                    int NumLayersInProfile = Profile.get_Children("layer").Length;
+                    int NumLayersInProfile = XmlHelper.ChildNodes(Profile, "layer").Count;
                     for (int i = NumLayersInProfile; i < LayerNumber; i++)
-                        Profile.Add(new APSIMData("layer", ""));
-                    APSIMData Layer = Profile.get_Children("layer")[LayerNumber - 1];
-                    foreach (APSIMData Value in Child.get_Children(null))
+                        Profile.AppendChild(XmlHelper.CreateNode(Profile.OwnerDocument, "layer", ""));
+                    XmlNode Layer = XmlHelper.ChildNodes(Profile, "layer")[LayerNumber - 1];
+                    foreach (XmlNode Value in XmlHelper.ChildNodes(Child, ""))
                         {
-                        if (Value.Value != MathUtility.MissingValue.ToString())
+                        if (Value.InnerText != MathUtility.MissingValue.ToString())
                             {
-                            APSIMData LayerData = Layer.Add(Value);
+                            XmlNode LayerData = Layer.AppendChild(Value);
 
                             // truncates to 3 dec places.
-                            if (Value.Value.IndexOf('.') != -1)
+                            if (Value.InnerText.IndexOf('.') != -1)
                                 {
-                                double DoubleValue = Convert.ToDouble(Value.Value);
-                                LayerData.Value = DoubleValue.ToString("f3");
+                                double DoubleValue = Convert.ToDouble(Value.InnerText);
+                                LayerData.InnerText = DoubleValue.ToString("f3");
                                 }
 
-                            if (Data.Type.ToLower() == "soilcrop")
-                                LayerData.Name = Data.Name;
+                            if (XmlHelper.Type(Data).ToLower() == "soilcrop")
+                                XmlHelper.SetName(LayerData, Data.Name);
                             }
                         }
                     }
-                else if (Child.Type.ToLower() != "profile")
-                    Result.Add(Child);  
+                else if (XmlHelper.Type(Child).ToLower() != "profile")
+                    Result.AppendChild(Child);  
                 }
             }
         public void UpgradeToVersion8()
             {
-            foreach (APSIMData Child in Data.get_Children(null))
+            foreach (XmlNode Child in XmlHelper.ChildNodes(Data, ""))
                 {
-                if (Child.Type.ToLower() == "initwater" ||
-                    Child.Type.ToLower() == "initnitrogen")
+                if (XmlHelper.Type(Child).ToLower() == "initwater" ||
+                    XmlHelper.Type(Child).ToLower() == "initnitrogen")
                     {
-                    if (Child.ChildByType("layer") != null)
+                    if (XmlHelper.FindByType(Child, "layer") != null)
                         {
                         UpgradeToNodeVersion7(Child, Child);
                         Utility.setLayered(Child, "profile", "thickness", "", Thickness);
-                        Child.DeleteByType("layer");
+                        foreach (XmlNode LayerChild in XmlHelper.ChildNodes(Child, "layer"))
+                        Child.RemoveChild(LayerChild);
                         }
                     }
                 }
@@ -1497,9 +1259,9 @@ namespace Soils
             //-------------------------------------------------------------------------
             string ErrorMessages = CheckForErrors();
 
-            ErrorMessages += CheckForMissing(this.InitialSW, "SW");
-            ErrorMessages += CheckForMissing(this.InitialNO3, "NO3");
-            ErrorMessages += CheckForMissing(this.InitialNH4, "NH4");
+            //ErrorMessages += CheckForMissing(this.InitialSW, "SW");
+            //ErrorMessages += CheckForMissing(this.InitialNO3, "NO3");
+            //ErrorMessages += CheckForMissing(this.InitialNH4, "NH4");
             ErrorMessages += CheckSW();
             return ErrorMessages;
 			}
@@ -1549,7 +1311,7 @@ namespace Soils
 			double[] dul = this.DUL;
 			double[] sat = this.SAT;
 			double[] bd = this.BD;
-            double[] sw = this.InitialSW;
+            //double[] sw = this.InitialSW;
 
 			for (int layer = 0; layer != thickness.Length; layer++)
 				{
@@ -1645,24 +1407,24 @@ namespace Soils
             double[] thickness = this.Thickness;
             double[] airdry = this.Airdry;
             double[] sat = this.SAT;
-            double[] sw = this.InitialSW;
-            if (sw.Length > 0)
-                {
-                for (int layer = 0; layer != thickness.Length; layer++)
-                    {
-                    int RealLayerNumber = layer + 1;
+            //double[] sw = this.InitialSW;
+            //if (sw.Length > 0)
+            //    {
+            //    for (int layer = 0; layer != thickness.Length; layer++)
+            //        {
+            //        int RealLayerNumber = layer + 1;
 
-                    if (sw[layer] > sat[layer])
-                        errorMessages += "Soil water of " + sw[layer].ToString("f3")
-                                      + " in layer " + RealLayerNumber.ToString() + " is above saturation of " + sat[layer].ToString("f3")
-                                      + "\r\n";
+            //        if (sw[layer] > sat[layer])
+            //            errorMessages += "Soil water of " + sw[layer].ToString("f3")
+            //                          + " in layer " + RealLayerNumber.ToString() + " is above saturation of " + sat[layer].ToString("f3")
+            //                          + "\r\n";
 
-                    if (sw[layer] < airdry[layer])
-                        errorMessages += "Soil water of " + sw[layer].ToString("f3")
-                                      + " in layer " + RealLayerNumber.ToString() + " is below air-dry value of " + airdry[layer].ToString("f3")
-                                      + "\r\n";
-                    }
-                }
+            //        if (sw[layer] < airdry[layer])
+            //            errorMessages += "Soil water of " + sw[layer].ToString("f3")
+            //                          + " in layer " + RealLayerNumber.ToString() + " is below air-dry value of " + airdry[layer].ToString("f3")
+            //                          + "\r\n";
+            //        }
+            //    }
             return errorMessages;
             }
 
@@ -1804,15 +1566,15 @@ namespace Soils
         public void DeleteNote(string GridName, int Col, int Row)
 			{
 			string NoteNameToDelete = "";
-			foreach (APSIMData Note in Data.get_Children("note"))
+			foreach (XmlNode Note in XmlHelper.ChildNodes(Data, "note"))
 				{
-				if (Note.get_ChildValue("grid") == GridName &&
-					Convert.ToInt32(Note.get_ChildValue("col")) == Col &&
-					Convert.ToInt32(Note.get_ChildValue("row")) == Row)
+				if (XmlHelper.Value(Note, "grid") == GridName &&
+					Convert.ToInt32(XmlHelper.Value(Note, "col")) == Col &&
+					Convert.ToInt32(XmlHelper.Value(Note, "row")) == Row)
 					NoteNameToDelete = Note.Name;
 				}
 			if (NoteNameToDelete != "")
-				Data.Delete(NoteNameToDelete);
+				Data.RemoveChild(XmlHelper.Find(Data, NoteNameToDelete));
 			}
 		public struct Note
 			{
@@ -1822,23 +1584,23 @@ namespace Soils
 			};
 		public void AddNote(string GridName, int Col, int Row, string Text)
 			{
-			APSIMData Note = new APSIMData("note", "note");
-			Note.set_ChildValue("grid", GridName);
-			Note.set_ChildValue("col", Col.ToString());
-			Note.set_ChildValue("row", Row.ToString());
-			Note.set_ChildValue("text", Text);
-			Data.Add(Note);
+			XmlNode Note = XmlHelper.CreateNode(Data.OwnerDocument, "note", "");
+			XmlHelper.SetValue(Note, "grid", GridName);
+			XmlHelper.SetValue(Note, "col", Col.ToString());
+            XmlHelper.SetValue(Note, "row", Row.ToString());
+            XmlHelper.SetValue(Note, "text", Text);
+			Data.AppendChild(Note);
 			}
 		public Note[] GetNotes()
 			{
-			Note[] ReturnList = new Note[Data.get_Children("note").Length];
+			Note[] ReturnList = new Note[XmlHelper.ChildNodes(Data, "note").Count];
 			int i = 0;
-			foreach (APSIMData NoteNode in Data.get_Children("note"))
+			foreach (XmlNode NoteNode in XmlHelper.ChildNodes(Data, "note"))
 				{
-				ReturnList[i].GridName = NoteNode.get_ChildValue("grid");
-				ReturnList[i].Col = Convert.ToInt32(NoteNode.get_ChildValue("col"));
-				ReturnList[i].Row = Convert.ToInt32(NoteNode.get_ChildValue("row"));
-				ReturnList[i].Text = NoteNode.get_ChildValue("text");
+				ReturnList[i].GridName = XmlHelper.Value(NoteNode, "grid");
+				ReturnList[i].Col = Convert.ToInt32(XmlHelper.Value(NoteNode, "col"));
+				ReturnList[i].Row = Convert.ToInt32(XmlHelper.Value(NoteNode, "row"));
+				ReturnList[i].Text = XmlHelper.Value(NoteNode, "text");
 
 				i++;
 				}
@@ -1852,11 +1614,11 @@ namespace Soils
             // ----------------------------------
             // Add another layer to the profile.
             // ----------------------------------
-            APSIMData Profile = Data.Child("profile");
+            XmlNode Profile = XmlHelper.Find(Data, "profile");
             if (Profile != null)
                 {
-                APSIMData[] Layers = Profile.get_Children("layer");
-                Profile.Add(Layers[Thickness.Length - 1]);
+                List<XmlNode> Layers = XmlHelper.ChildNodes(Profile, "layer");
+                Profile.AppendChild(Layers[Thickness.Length - 1]);
                 }
             }
         public void DeleteLayerFromBottom()
@@ -1864,12 +1626,12 @@ namespace Soils
             // ----------------------------------
             // Add another layer to the profile.
             // ----------------------------------
-            APSIMData Profile = Data.Child("profile");
+            XmlNode Profile = XmlHelper.Find(Data, "profile");
             if (Profile != null)
                 {
-                APSIMData[] Layers = Profile.get_Children("layer");
+                List<XmlNode> Layers = XmlHelper.ChildNodes(Profile, "layer");
 
-                Profile.DeleteNode(Layers[Thickness.Length - 1]);
+                Profile.RemoveChild(Layers[Thickness.Length - 1]);
                 }
             }
         #endregion

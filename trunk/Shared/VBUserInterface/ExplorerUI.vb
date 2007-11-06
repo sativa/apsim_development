@@ -1,21 +1,23 @@
 Imports System.Windows.Forms
 Imports System.Collections.Specialized
 Imports System.IO
+Imports System.xml
 Imports VBGeneral
+Imports CSGeneral
 
 Public Class ExplorerUI
-    Inherits BaseView
+    Inherits UserControl
     Private UIs As New ArrayList
     Private UITypes As New StringCollection
     Private CurrentUIIndex As Integer = -1
+    Private Controller As BaseController
 
 #Region " Windows Form Designer generated code "
 
-    Public Sub New(ByVal controller As BaseController)
+    Public Sub New()
         MyBase.New()
         InitializeComponent()
     End Sub
-
     Protected Overloads Overrides Sub Dispose(ByVal disposing As Boolean)
         If disposing Then
             If Not (components Is Nothing) Then
@@ -35,7 +37,7 @@ Public Class ExplorerUI
     Friend WithEvents UIPanel As System.Windows.Forms.Panel
     Friend WithEvents DataTree As DataTree
     <System.Diagnostics.DebuggerStepThrough()> Private Sub InitializeComponent()
-        Me.DataTree = New DataTree
+        Me.DataTree = New VBUserInterface.DataTree
         Me.Splitter = New System.Windows.Forms.Splitter
         Me.UIPanel = New System.Windows.Forms.Panel
         Me.SuspendLayout()
@@ -43,14 +45,12 @@ Public Class ExplorerUI
         'DataTree
         '
         Me.DataTree.AllowDrop = True
-        Me.DataTree.AutoScroll = True
-        Me.DataTree.BackColor = System.Drawing.SystemColors.Control
+        Me.DataTree.BackColor = System.Drawing.SystemColors.Window
+        Me.DataTree.BorderStyle = System.Windows.Forms.BorderStyle.None
         Me.DataTree.Dock = System.Windows.Forms.DockStyle.Left
-        Me.DataTree.HelpText = ""
         Me.DataTree.Location = New System.Drawing.Point(0, 0)
         Me.DataTree.Name = "DataTree"
         Me.DataTree.Size = New System.Drawing.Size(256, 828)
-        Me.DataTree.Sorted = False
         Me.DataTree.TabIndex = 3
         '
         'Splitter
@@ -76,84 +76,57 @@ Public Class ExplorerUI
         Me.Controls.Add(Me.DataTree)
         Me.Name = "ExplorerUI"
         Me.Size = New System.Drawing.Size(1020, 828)
-        Me.Controls.SetChildIndex(Me.DataTree, 0)
-        Me.Controls.SetChildIndex(Me.Splitter, 0)
-        Me.Controls.SetChildIndex(Me.UIPanel, 0)
         Me.ResumeLayout(False)
 
     End Sub
 
 #End Region
 
-    Public Overrides Sub OnLoad(ByVal Controller As BaseController, ByVal NodePath As String)
-        MyBase.OnLoad(Controller, NodePath)
-        DataTree.OnLoad(Controller, NodePath)
-        AddHandler Controller.ApsimData.DataStructureChangedEvent, AddressOf OnRefresh
+    Public Overloads Sub OnLoad(ByVal Controller As BaseController)
+        Me.Controller = Controller
+        DataTree.OnLoad(Controller)
         AddHandler Controller.SelectionChangedEvent, AddressOf OnSelectionChanged
-        AddHandler Controller.BeforeSaveEvent, AddressOf OnBeforeSave
-    End Sub
-    Public Overloads Sub OnRefresh(ByVal NodePath As String)
-        OnRefresh()
+        AddHandler Controller.ApsimData.BeforeSave, AddressOf OnBeforeSave
     End Sub
 
-    Public Overrides Sub OnRefresh()
-        ' -------------------------------------------------------
-        ' Called by parent to refresh ourselves. 
-        ' -------------------------------------------------------
-        Visible = True
-        MyHelpLabel.Visible = False
-    End Sub
-
-    WriteOnly Property SortAll() As Boolean
-        Set(ByVal Value As Boolean)
-            ' -------------------------------------------------------
-            ' Set the DataTree to display nodes in alphabetical order
-            ' -------------------------------------------------------
-            DataTree.SortAll = Value
-        End Set
-    End Property
-
-    Public Sub ExpandAllFolders()
-        DataTree.ExpandAllFolders()
-    End Sub
 
     Public Sub ExpandAll()
         DataTree.ExpandAll()
     End Sub
-    Public Sub ExpandOneLevel()
-        DataTree.ExpandOneLevel()
-    End Sub
     Public Sub CollapseAll()
         DataTree.CollapseAll()
     End Sub
-
     Private Sub ShowUI()
         ' -------------------------------------------------
         ' Create and show a specific UI depending on the
         ' currently selected data
         ' -------------------------------------------------
-        If CurrentUIIndex = -1 OrElse UITypes(CurrentUIIndex) <> Controller.Data.Type Then
+        Dim SelectedData As ApsimFile.Component = Controller.ApsimData.Find(Controller.SelectedPath)
+        If CurrentUIIndex = -1 OrElse UITypes(CurrentUIIndex) <> SelectedData.Type Then
             CloseUI()
-            CurrentUIIndex = UITypes.IndexOf(Controller.Data.Type)
+            CurrentUIIndex = UITypes.IndexOf(SelectedData.Type)
             If CurrentUIIndex = -1 Then
-                Dim View As BaseView = Controller.CreateUI(Controller.Data.Type)
+                Dim View As BaseView = Controller.CreateUI(SelectedData.Type)
                 If Not IsNothing(View) Then
                     UIs.Add(View)
-                    UITypes.Add(Controller.Data.Type)
+                    UITypes.Add(SelectedData.Type)
                     CurrentUIIndex = UIs.Count - 1
                 End If
             End If
         End If
         If CurrentUIIndex <> -1 Then
-            Dim View As BaseView = UIs(CurrentUIIndex)
-            View.OnLoad(Controller, Controller.Data.FullPath)
-            View.Parent = UIPanel
-            View.Dock = DockStyle.Fill
-            View.Show()
-            View.OnRefresh()
+            Try
+                Dim View As BaseView = UIs(CurrentUIIndex)
+                View.OnLoad(Controller, Controller.SelectedPath, Controller.Selection.Contents)
+                View.Parent = UIPanel
+                View.Dock = DockStyle.Fill
+                View.Show()
+                View.OnRefresh()
+            Catch ex As Exception
+                MessageBox.Show(ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error)
+            End Try
         End If
     End Sub
-
     Private Sub CloseUI()
         ' -------------------------------------------------
         ' Close the current UI
@@ -166,14 +139,16 @@ Public Class ExplorerUI
             CurrentUIIndex = -1
         End If
     End Sub
-
     Public Sub SaveCurrentView()
         ' -----------------------------------------------------
         ' Tell current view to save.
         ' -----------------------------------------------------
         If CurrentUIIndex <> -1 Then
             Dim View As BaseView = UIs(CurrentUIIndex)
-            View.OnSave()
+            Dim Comp As ApsimFile.Component = Controller.ApsimData.Find(View.NodePath)
+            If Not IsNothing(Comp) Then
+                Comp.Contents = View.GetData()
+            End If
         End If
     End Sub
     Public Sub RefreshCurrentView()
@@ -195,12 +170,10 @@ Public Class ExplorerUI
         ' -----------------------------------------------------
         ' User is about to do a save.
         ' -----------------------------------------------------
-        If Controller.SelectedPaths.Count = 1 AndAlso Not IsNothing(Controller.Data) Then
+        If Controller.SelectedPaths.Count = 1 Then
             SaveCurrentView()
         End If
     End Sub
-
-
     Private Sub OnSelectionChanged(ByVal OldSelections As StringCollection, ByVal NewSelections As StringCollection)
         ' -----------------------------------------------------
         ' User has selected a node - update user interface

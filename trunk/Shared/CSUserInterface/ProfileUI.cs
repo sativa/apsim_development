@@ -22,9 +22,8 @@ namespace CSUserInterface
             InitializeComponent();
             }
 
-        public override void OnLoad(BaseController Controller, string NodePath)
+        protected override void OnLoad()
             {
-            base.OnLoad(Controller, NodePath);
             FarPoint.Win.Spread.InputMap InputMap = Grid.GetInputMap(FarPoint.Win.Spread.InputMapMode.WhenAncestorOfFocused);
             InputMap.Put(new FarPoint.Win.Spread.Keystroke(Keys.Delete, Keys.None),
                         FarPoint.Win.Spread.SpreadActions.ClipboardCut);

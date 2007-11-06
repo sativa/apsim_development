@@ -1,7 +1,9 @@
 Imports VBGeneral
+Imports CSGeneral
 Imports System.Collections
 Imports System.Collections.Specialized
 Imports System.IO
+Imports System.Xml
 Imports FarPoint.Win.Spread
 Imports VBUserInterface
 
@@ -10,7 +12,7 @@ Public Class RuleUI
     Inherits BaseView
     Private InRefresh As Boolean
     Friend WithEvents GenericUI As GenericUI
-    Private Cultivars As APSIMData
+    Private Cultivars As XmlNode
 
 
 #Region " Windows Form Designer generated code "
@@ -95,9 +97,8 @@ Public Class RuleUI
 
 #End Region
 
-    Public Overrides Sub OnLoad(ByVal Controller As VBUserInterface.BaseController, ByVal NodePath As String)
-        MyBase.OnLoad(Controller, NodePath)
-        GenericUI.OnLoad(Controller, NodePath)
+    Protected Overrides Sub OnLoad()
+        GenericUI.OnLoad(Controller, NodePath, Controller.Selection.Contents)
     End Sub
     ' -----------------------------------
     ' Refresh the UI
@@ -113,10 +114,10 @@ Public Class RuleUI
         While TabControl1.TabPages.Count > 1
             TabControl1.TabPages.RemoveAt(1)
         End While
-        For Each Condition As APSIMData In Controller.Data.Children("condition")
-            Dim page As New TabPage(Condition.Name)
+        For Each Condition As XmlNode In XmlHelper.ChildNodes(Data, "condition")
+            Dim page As New TabPage(XmlHelper.Name(Condition))
             Dim ScriptBox As New RichTextBox
-            ScriptBox.Text = Condition.Value
+            ScriptBox.Text = Condition.InnerText
             ScriptBox.Font = New System.Drawing.Font("Microsoft Sans Serif", 9.75!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
             page.Controls.Add(ScriptBox)
             ScriptBox.Dock = DockStyle.Fill
@@ -127,21 +128,22 @@ Public Class RuleUI
     End Sub
 
 
-    Overrides Sub OnSave()
+    Protected Overrides Sub OnSave()
         ' --------------------------------------
         ' Save the script box if it has changd.
         ' --------------------------------------
-        GenericUI.OnSave()
-
-        Dim index As Integer = 1
-        If Not IsNothing(Controller.Data) Then
-            For Each Condition As APSIMData In Controller.Data.Children("condition")
-                Dim page As TabPage = TabControl1.TabPages.Item(index)
-                Dim ScriptBox As RichTextBox = page.Controls.Item(0)
-                Condition.Value = ScriptBox.Text
-                index = index + 1
-            Next
-        End If
+        Dim Contents As String = GenericUI.GetData()
+        Dim Doc As New XmlDocument
+        Doc.LoadXml(Contents)
+        For Each Page As TabPage In TabControl1.TabPages
+            If Page.Text <> "Properties" Then
+                Dim Condition As XmlNode = Doc.DocumentElement.AppendChild(Doc.CreateElement("condition"))
+                XmlHelper.SetName(Condition, Page.Text)
+                Dim ScriptBox As RichTextBox = Page.Controls.Item(0)
+                XmlHelper.SetValue(Condition, "", ScriptBox.Text)
+            End If
+        Next
+        Data.InnerXml = Doc.DocumentElement.InnerXml
     End Sub
 
 End Class

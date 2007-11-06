@@ -14,9 +14,8 @@ Imports VBUserInterface
 Public Class MainUI
     Inherits System.Windows.Forms.Form
 
-    Private ApsimUI As BaseController
+    Private Controller As BaseController
     Private Toolbox As BaseController
-    Private SimulationExplorer As ExplorerUI
     Private ToolboxExplorer As ExplorerUI
     Private CurrentRunningSimulationIndex As Integer
     Private ApsimProcess As ProcessCaller
@@ -51,7 +50,7 @@ Public Class MainUI
     Friend WithEvents ContextMenuStrip1 As System.Windows.Forms.ContextMenuStrip
     Friend WithEvents ToolStripMenuItem1 As System.Windows.Forms.ToolStripMenuItem
     Friend WithEvents RunPanelListBox As System.Windows.Forms.RichTextBox
-    Friend WithEvents Label1 As System.Windows.Forms.Label
+    Friend WithEvents SimulationExplorer As VBUserInterface.ExplorerUI
     Private Args As StringCollection
 
 
@@ -73,6 +72,44 @@ Public Class MainUI
 
         'This call is required by the Windows Form Designer.
         InitializeComponent()
+
+        ' Get application name.
+        If Args.Count > 0 Then
+            If (Args(0)(0) = "/") Then
+                ApplicationName = Args(0).Substring(1)
+                Args.RemoveAt(0)
+            Else
+                ApplicationName = "ApsimUI"
+            End If
+        Else
+            ApplicationName = "ApsimUI"
+        End If
+
+        ' Create our controller
+        Controller = New BaseController(Me, ApplicationName, True)
+
+        ' Display splash screen
+        If Controller.Configuration.Setting("SplashScreen") <> "" Then
+            Dim SplashForm As Form = BaseController.CreateClass(Controller.Configuration.Setting("SplashScreen"))
+            If Controller.Configuration.Setting("SplashScreenButtonVisible").ToLower = "yes" Then
+                SplashForm.ShowDialog()
+            Else
+                SplashForm.Show()
+                Application.DoEvents()
+            End If
+        End If
+
+        ' Position window correctly.
+        Try
+            Dim inifile As New APSIMSettings
+            WindowState = Convert.ToInt32(Controller.Configuration.Setting("windowstate"))
+            Top = Convert.ToInt32(Controller.Configuration.Setting("top"))
+            Left = Convert.ToInt32(Controller.Configuration.Setting("left"))
+            Height = Convert.ToInt32(Controller.Configuration.Setting("height"))
+            Width = Convert.ToInt32(Controller.Configuration.Setting("width"))
+        Catch ex As System.Exception
+            Me.WindowState = FormWindowState.Normal
+        End Try
 
     End Sub
     Protected Overloads Overrides Sub Dispose(ByVal disposing As Boolean)
@@ -116,7 +153,7 @@ Public Class MainUI
         Me.ToolBoxesToolStrip = New System.Windows.Forms.ToolStrip
         Me.ManageToolboxesButton = New System.Windows.Forms.ToolStripButton
         Me.ToolStripSeparator2 = New System.Windows.Forms.ToolStripSeparator
-        Me.Label1 = New System.Windows.Forms.Label
+        Me.SimulationExplorer = New VBUserInterface.ExplorerUI
         Me.RunPanelSplitter = New System.Windows.Forms.Splitter
         Me.RunPanel = New System.Windows.Forms.Panel
         Me.RunPanelListBox = New System.Windows.Forms.RichTextBox
@@ -228,7 +265,7 @@ Public Class MainUI
         '
         Me.SimulationContainer.ContentPanel.AutoScroll = True
         Me.SimulationContainer.ContentPanel.BackColor = System.Drawing.SystemColors.Window
-        Me.SimulationContainer.ContentPanel.Controls.Add(Me.Label1)
+        Me.SimulationContainer.ContentPanel.Controls.Add(Me.SimulationExplorer)
         Me.SimulationContainer.ContentPanel.Controls.Add(Me.RunPanelSplitter)
         Me.SimulationContainer.ContentPanel.Controls.Add(Me.RunPanel)
         Me.SimulationContainer.ContentPanel.Controls.Add(Me.ToolboxSplitter)
@@ -268,17 +305,13 @@ Public Class MainUI
         Me.ToolStripSeparator2.Name = "ToolStripSeparator2"
         Me.ToolStripSeparator2.Size = New System.Drawing.Size(6, 31)
         '
-        'Label1
+        'SimulationExplorer
         '
-        Me.Label1.AutoSize = True
-        Me.Label1.Font = New System.Drawing.Font("Microsoft Sans Serif", 9.75!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.Label1.ForeColor = System.Drawing.SystemColors.Highlight
-        Me.Label1.Location = New System.Drawing.Point(19, 39)
-        Me.Label1.Name = "Label1"
-        Me.Label1.Size = New System.Drawing.Size(525, 16)
-        Me.Label1.TabIndex = 35
-        Me.Label1.Text = "To get started click on the NEW button above or the OPEN button to load an existi" & _
-            "ng file."
+        Me.SimulationExplorer.Dock = System.Windows.Forms.DockStyle.Fill
+        Me.SimulationExplorer.Location = New System.Drawing.Point(0, 0)
+        Me.SimulationExplorer.Name = "SimulationExplorer"
+        Me.SimulationExplorer.Size = New System.Drawing.Size(735, 281)
+        Me.SimulationExplorer.TabIndex = 36
         '
         'RunPanelSplitter
         '
@@ -458,7 +491,6 @@ Public Class MainUI
         Me.SimulationContainer.BottomToolStripPanel.ResumeLayout(False)
         Me.SimulationContainer.BottomToolStripPanel.PerformLayout()
         Me.SimulationContainer.ContentPanel.ResumeLayout(False)
-        Me.SimulationContainer.ContentPanel.PerformLayout()
         Me.SimulationContainer.TopToolStripPanel.ResumeLayout(False)
         Me.SimulationContainer.TopToolStripPanel.PerformLayout()
         Me.SimulationContainer.ResumeLayout(False)
@@ -478,68 +510,27 @@ Public Class MainUI
 #End Region
 
     Private Sub OnMainFormLoad(ByVal sender As Object, ByVal e As System.EventArgs) Handles MyBase.Load
-        ' Get application name.
-        If Args.Count > 0 Then
-            If (Args(0)(0) = "/") Then
-                ApplicationName = Args(0).Substring(1)
-                Args.RemoveAt(0)
-            Else
-                ApplicationName = "ApsimUI"
-            End If
-        Else
-            ApplicationName = "ApsimUI"
-        End If
-        Text = ApplicationName
-
-        ' Position window correctly.
-        Try
-            Dim inifile As New APSIMSettings
-            WindowState = Convert.ToInt32(APSIMSettings.INIRead(APSIMSettings.ApsimIniFile(), ApplicationName, "windowstate"))
-            Top = Convert.ToInt32(APSIMSettings.INIRead(APSIMSettings.ApsimIniFile(), ApplicationName, "top"))
-            Left = Convert.ToInt32(APSIMSettings.INIRead(APSIMSettings.ApsimIniFile(), ApplicationName, "left"))
-            Height = Convert.ToInt32(APSIMSettings.INIRead(APSIMSettings.ApsimIniFile(), ApplicationName, "height"))
-            Width = Convert.ToInt32(APSIMSettings.INIRead(APSIMSettings.ApsimIniFile(), ApplicationName, "width"))
-        Catch ex As System.Exception
-            Me.WindowState = FormWindowState.Maximized
-        End Try
-
-        ' Display splash screen.
-        Dim Splash As SplashScreenForm = Nothing
-        If APSIMSettings.INIRead(APSIMSettings.ApsimIniFile(), ApplicationName, "SplashScreen") <> "" Then
-            Splash = New SplashScreenForm(ApplicationName)
-            If APSIMSettings.INIRead(APSIMSettings.ApsimIniFile(), ApplicationName, "SplashScreenButtonVisible").ToLower = "yes" Then
-                Splash.ShowDialog()
-            Else
-                Splash.Show()
-                Application.DoEvents()
-            End If
-        End If
-
-        ApsimUI = New BaseController(Me, ApplicationName)
         ' Show the Simulation Explorer.
-        SimulationExplorer = New ExplorerUI(ApsimUI)
-        SimulationExplorer.OnLoad(ApsimUI, "")
-        SimulationExplorer.Dock = DockStyle.Fill
-        SimulationExplorer.Parent = SimulationContainer.ContentPanel
-        SimulationExplorer.Visible = False
-        SimulationExplorer.BringToFront()
+        SimulationExplorer.OnLoad(Controller)
 
-        AddHandler ApsimUI.ApsimData.NewDataEvent, AddressOf OnNewData
+        AddHandler Controller.ApsimData.DirtyChanged, AddressOf OnDirtyChanged
+        AddHandler Controller.ApsimData.FileNameChanged, AddressOf OnFileNameChanged
 
         ' Load some assemblies for later. The code for some actions are found in
         ' these assemblies.
         Assembly.Load("Graph")
         Assembly.Load("CSUserInterface")
+        Assembly.Load("Soils")
 
         ' Give the explorer ui to the controller.
-        ApsimUI.Explorer = SimulationExplorer
+        Controller.Explorer = SimulationExplorer
 
         Dim ToolboxesVisible As Boolean = APSIMSettings.INIRead(APSIMSettings.ApsimIniFile(), ApplicationName, "ToolboxesVisible").ToLower = "yes"
         If ToolboxesVisible Then
             ' Setup but don't show the Toolbox Explorer.
-            Toolbox = New BaseController(Nothing, ApplicationName)
-            ToolboxExplorer = New ExplorerUI(Toolbox)
-            ToolboxExplorer.OnLoad(Toolbox, "")
+            Toolbox = New BaseController(Nothing, ApplicationName, False)
+            ToolboxExplorer = New ExplorerUI()
+            ToolboxExplorer.OnLoad(Toolbox)
             ToolboxExplorer.Parent = ToolBoxPanel
             ToolboxExplorer.Dock = DockStyle.Fill
             ToolboxExplorer.BringToFront()
@@ -551,24 +542,24 @@ Public Class MainUI
         End If
 
         ' Load a file if one was specified on the command line.
-        If Args.Count > 0 Then
+        If Control.ModifierKeys <> Keys.Control And Args.Count > 0 Then
             Dim FileName As String = Args(0).Replace("""", "")
             If FileName.Length() > 0 Then
-                ApsimUI.FileOpen(FileName)
+                Controller.ApsimData.OpenFile(FileName)
             End If
         End If
 
         ' If no file loaded then load previous one.
-        If ApsimUI.FileName = Nothing Then
-            ApsimUI.LoadPreviousFile()
+        If Control.ModifierKeys <> Keys.Control And Controller.ApsimData.FileName = Nothing Then
+            Controller.LoadPreviousFile()
         End If
 
-        ApsimUI.ProvideToolStrip(SimulationToolStrip, "MainToolBar")
+        Controller.ProvideToolStrip(SimulationToolStrip, "MainToolBar")
 
     End Sub
     Private Sub OnMainFormClosing(ByVal sender As Object, ByVal e As System.ComponentModel.CancelEventArgs) Handles MyBase.Closing
         ' User is closing down - save our work.
-        e.Cancel = Not ApsimUI.FileSaveAfterPrompt()
+        e.Cancel = Not Controller.FileSaveAfterPrompt()
         If Not e.Cancel Then
             Try
                 Dim inifile As New APSIMSettings
@@ -581,7 +572,7 @@ Public Class MainUI
             End Try
 
             If Not IsNothing(ToolboxExplorer) AndAlso ToolboxExplorer.Visible AndAlso Not Toolbox.ApsimData.IsReadOnly Then
-                Toolbox.ApsimData.Save(Toolbox.FileName)
+                Toolbox.ApsimData.Save()
             End If
         End If
     End Sub
@@ -592,18 +583,24 @@ Public Class MainUI
         RunPanel.Visible = False
         RunPanelSplitter.Visible = False
     End Sub
-    Private Sub OnNewData()
-        If ApsimUI.ApsimData.ChildNames(ApsimUI.ApsimData.RootNodeName).Length = 1 Then
-            Dim ChildName As String = ApsimUI.ApsimData.RootNodeName + "\" + ApsimUI.ApsimData.ChildNames(ApsimUI.ApsimData.RootNodeName)(0)
-            Dim ChildType As String = ApsimUI.ApsimData.Find(ChildName).Type
-            If ChildType.ToLower = "simulation" Then
-                SimulationExplorer.ExpandAll()
-                Return
-            End If
-        End If
-        SimulationExplorer.ExpandAllFolders()
+    Private Sub OnDirtyChanged(ByVal IsDirty As Boolean)
+        UpdateCaption()
     End Sub
-
+    Private Sub OnFileNameChanged(ByVal FileName As String)
+        UpdateCaption()
+    End Sub
+    Private Sub UpdateCaption()
+        ' ----------------------------------------
+        ' Called to update the main form's caption
+        ' ----------------------------------------
+        If Controller.ApsimData.IsReadOnly Then
+            Text = ApplicationName + " - " + Controller.ApsimData.FileName + " [readonly]"
+        ElseIf Controller.ApsimData.IsDirty Then
+            Text = ApplicationName + " - " + Controller.ApsimData.FileName + " * "
+        Else
+            Text = ApplicationName + " - " + Controller.ApsimData.FileName
+        End If
+    End Sub
 #Region "Toolbox button bar"
 
     Private Sub ManageToolboxesButton_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles ManageToolboxesButton.Click
@@ -630,13 +627,13 @@ Public Class MainUI
 
         ' Loop through each of the known toolboxes
         For Each FileName As String In toolboxes.Names
-            Dim apsimData As New VBGeneral.APSIMData
+            Dim Doc As New XmlDocument
             Dim toolBoxPath As String = toolboxes.NameToFileName(FileName)
 
-            apsimData.LoadFromFile(toolBoxPath)
+            Doc.Load(toolBoxPath)
 
             ' Get the image attribute from the root node of the loaded xml file
-            Dim ImageFileName As String = apsimData.Attribute("image")
+            Dim ImageFileName As String = XmlHelper.Attribute(Doc.DocumentElement, "image")
 
             If ImageFileName.IndexOf(":") = -1 Then
                 ImageFileName = APSIMSettings.ApsimDirectory() + "\ApsimUI\" + ImageFileName
@@ -683,9 +680,8 @@ Public Class MainUI
 
             Dim toolboxes As New Toolboxes
             Dim filename As String = toolboxes.NameToFileName(Sender.ToString)
-            Toolbox.FileOpen(filename)
-            ToolboxExplorer.OnRefresh("\")
-            Toolbox.Explorer.ExpandOneLevel()
+            Toolbox.ApsimData.OpenFile(filename)
+
         End If
     End Sub
     Private Sub HideToolBoxWindow(ByVal Sender As Object, ByVal e As EventArgs) Handles ToolboxButtonClose.Click
@@ -699,7 +695,7 @@ Public Class MainUI
             Button.Checked = False
         Next
 
-        Toolbox.ApsimData.Save(Toolbox.FileName)
+        Toolbox.ApsimData.Save()
 
         ToolBoxPanel.Visible = False
         ToolboxSplitter.Visible = ToolBoxPanel.Visible

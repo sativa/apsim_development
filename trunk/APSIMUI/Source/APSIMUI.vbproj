@@ -149,10 +149,10 @@
     <None Include="Resources\disk_blue.png" />
     <None Include="Resources\folder_document.png" />
     <None Include="Resources\document_new.png" />
-    <Compile Include="AboutBox.Designer.vb">
-      <DependentUpon>AboutBox.vb</DependentUpon>
+    <Compile Include="ApsimUISplash.Designer.vb">
+      <DependentUpon>ApsimUISplash.vb</DependentUpon>
     </Compile>
-    <Compile Include="AboutBox.vb">
+    <Compile Include="ApsimUISplash.vb">
       <SubType>Form</SubType>
     </Compile>
     <Compile Include="ApsimUIActions.vb" />
@@ -166,12 +166,6 @@
       <SubType>UserControl</SubType>
     </Compile>
     <Compile Include="FileUI.vb">
-      <SubType>UserControl</SubType>
-    </Compile>
-    <Compile Include="HelpAboutForm.vb">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="HypropsControl.vb">
       <SubType>UserControl</SubType>
     </Compile>
     <Compile Include="LogicUI.vb">
@@ -212,11 +206,8 @@
     <Compile Include="RuleUI.vb">
       <SubType>UserControl</SubType>
     </Compile>
-    <Compile Include="SplashScreenForm.vb">
+    <Compile Include="ApsoilSplash.vb">
       <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="SwimSoilUI.vb">
-      <SubType>UserControl</SubType>
     </Compile>
     <Compile Include="Toolboxes.vb">
       <SubType>Code</SubType>
@@ -224,9 +215,9 @@
     <Compile Include="VineLogicUI.vb">
       <SubType>UserControl</SubType>
     </Compile>
-    <EmbeddedResource Include="AboutBox.resx">
+    <EmbeddedResource Include="ApsimUISplash.resx">
       <SubType>Designer</SubType>
-      <DependentUpon>AboutBox.vb</DependentUpon>
+      <DependentUpon>ApsimUISplash.vb</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="AreaUI.resx">
       <DependentUpon>AreaUI.vb</DependentUpon>
@@ -242,14 +233,6 @@
     </EmbeddedResource>
     <EmbeddedResource Include="FileUI.resx">
       <DependentUpon>FileUI.vb</DependentUpon>
-      <SubType>Designer</SubType>
-    </EmbeddedResource>
-    <EmbeddedResource Include="HelpAboutForm.resx">
-      <DependentUpon>HelpAboutForm.vb</DependentUpon>
-      <SubType>Designer</SubType>
-    </EmbeddedResource>
-    <EmbeddedResource Include="HypropsControl.resx">
-      <DependentUpon>HypropsControl.vb</DependentUpon>
       <SubType>Designer</SubType>
     </EmbeddedResource>
     <EmbeddedResource Include="licenses.licx" />
@@ -299,12 +282,8 @@
       <DependentUpon>RuleUI.vb</DependentUpon>
       <SubType>Designer</SubType>
     </EmbeddedResource>
-    <EmbeddedResource Include="SplashScreenForm.resx">
-      <DependentUpon>SplashScreenForm.vb</DependentUpon>
-      <SubType>Designer</SubType>
-    </EmbeddedResource>
-    <EmbeddedResource Include="SwimSoilUI.resx">
-      <DependentUpon>SwimSoilUI.vb</DependentUpon>
+    <EmbeddedResource Include="ApsoilSplash.resx">
+      <DependentUpon>ApsoilSplash.vb</DependentUpon>
       <SubType>Designer</SubType>
     </EmbeddedResource>
     <EmbeddedResource Include="VineLogicUI.resx">
@@ -329,9 +308,9 @@
       <Project>{97151919-5377-4FD3-ABF9-9400A332CE6C}</Project>
       <Name>Graph</Name>
     </ProjectReference>
-    <ProjectReference Include="..\..\Shared\Soil\Soil.csproj">
+    <ProjectReference Include="..\..\Shared\Soil\Soils.csproj">
       <Project>{6FAC5AE5-F7B4-4C02-B0D4-B992E0F96CAA}</Project>
-      <Name>Soil</Name>
+      <Name>Soils</Name>
     </ProjectReference>
     <ProjectReference Include="..\..\Shared\VBGeneral\VBGeneral.vbproj">
       <Project>{F1F780B2-4762-48B6-B0D7-A68C57DDB347}</Project>

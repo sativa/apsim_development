@@ -3,25 +3,20 @@ Imports VBGeneral
 Imports CSGeneral
 Imports System.IO
 Imports System.Collections.Specialized
-
+Imports System.Xml
 
 Public Class ApsimUIActions
     Public Shared Sub FileNew(ByVal Controller As BaseController)
         If Controller.FileSaveAfterPrompt() Then
             Dim NewDocForm As New NewDocumentForm
             If NewDocForm.ShowDialog() = System.Windows.Forms.DialogResult.OK Then
-                Dim Dialog As New SaveFileDialog
-                Dialog.Filter = Controller.OpenDialogFilter
-                Dialog.AddExtension = True
-                Dialog.OverwritePrompt = True
-                If Dialog.ShowDialog = DialogResult.OK Then
-                    Dim newsim As New APSIMData("folder", "Simulations")
-                    Dim Data As APSIMData = newsim.Add(NewDocForm.Selection)
-                    newsim.SetAttribute("version", Data.Attribute("version"))
-                    Data.DeleteAttribute("version")
-                    Controller.ApsimData.[New](newsim.XML)
-                    Controller.FileSave(Dialog.FileName)
-                End If
+                Dim Doc As New XmlDocument()
+                Dim Folder As XmlNode = Doc.AppendChild(Doc.CreateElement("folder"))
+                XmlHelper.SetName(Folder, "Simulations")
+                Dim Data As XmlNode = Folder.AppendChild(Doc.ImportNode(NewDocForm.Selection, True))
+                XmlHelper.SetAttribute(Folder, "version", XmlHelper.Attribute(Data, "version"))
+                XmlHelper.DeleteAttribute(Data, "version")
+                Controller.ApsimData.[New](Folder.OuterXml)
             End If
             NewDocForm.Close()
         End If
@@ -31,25 +26,25 @@ Public Class ApsimUIActions
         Dim HelpURL As String = APSIMSettings.INIRead(APSIMSettings.ApsimIniFile(), "apsimui", "docfile")
         Process.Start(HelpURL)
     End Sub
-    Public Shared Sub HelpAbout(ByVal Controller As BaseController)
-        Dim about As New AboutBox
-        about.Show()
-    End Sub
+
 
 #Region "Simulation methods"
     Public Shared Sub Run(ByVal Cntroller As BaseController)
         Controller = Cntroller
         SimulationsToRun.Clear()
         For Each NodePath As String In Controller.SelectedPaths
-            Dim Data As APSIMData = Controller.ApsimData.Find(NodePath)
-            While Data.Type <> "simulation" AndAlso Data.Type <> "folder" AndAlso Data.Type <> "simulations"
-                Data = Data.Parent
+            Dim Comp As ApsimFile.Component = Controller.ApsimData.Find(NodePath)
+            While Comp.Type <> "simulation" AndAlso Comp.Type <> "folder" AndAlso Comp.Type <> "simulations"
+                Comp = Comp.Parent
             End While
-            If Data.Type = "simulation" Then
-                SimulationsToRun.Add(Data.FullPath)
-            ElseIf Data.Type = "folder" Then
-                For Each Simulation As APSIMData In Data.Children("simulation")
-                    SimulationsToRun.Add(Simulation.FullPath)
+            If Comp.Type = "simulation" Then
+                SimulationsToRun.Add(Comp.FullPath)
+            ElseIf Comp.Type = "folder" Then
+                For Each Child As ApsimFile.Component In Comp.ChildNodes
+                    If Child.Type = "simulation" Then
+                        SimulationsToRun.Add(Child.FullPath)
+                    End If
+
                 Next
             End If
         Next
@@ -98,12 +93,12 @@ Public Class ApsimUIActions
         ' Save the simulation and then run one or more simulations in
         ' the background.
         ' ---------------------------------------------------------------
-        Controller.ApsimData.Save(Controller.FileName)
+        BaseActions.FileSave(Controller)
 
         ' kill old apsim processes
         Dim AllProcesses As Process() = Process.GetProcesses()
         For Each proc As Process In AllProcesses
-            If Path.GetFileName(proc.ProcessName) = "apsrun" Or Path.GetFileName(proc.ProcessName) = "apsim" Then
+            If Path.GetFileName(proc.ProcessName) = "apsim" Then
                 proc.Kill()
             End If
         Next
@@ -134,44 +129,43 @@ Public Class ApsimUIActions
             CurrentErrors.Add("")
             MainForm.CurrentProgressBar.Value = MainForm.CurrentProgressBar.Minimum
 
-            Dim Simulation As APSIMData = Controller.ApsimData.Find(SimulationsToRun(CurrentRunningSimulationIndex))
+            Dim Simulation As ApsimFile.Component = Controller.ApsimData.Find(SimulationsToRun(CurrentRunningSimulationIndex))
             WriteToListBox("Running " + Simulation.Name + ": ", False)
 
-            Dim SimFileName As String = Path.GetDirectoryName(Controller.FileName) + "\" + Simulation.Name + ".sim"
+            Dim SimFileName As String = Path.GetDirectoryName(Controller.ApsimData.FileName) + "\" + Simulation.Name + ".sim"
             If File.Exists(SimFileName) Then
                 File.Delete(SimFileName)
             End If
+            Dim SumFileName As String = SimFileName.Replace(".sim", ".sum")
+            If File.Exists(SumFileName) Then
+                File.Delete(SumFileName)
+            End If
 
-            Dim ApsimToSimInfo As New ProcessStartInfo()
-            ApsimToSimInfo.FileName = Path.GetDirectoryName(Application.ExecutablePath) + "\apsimtosim.exe"
-            ApsimToSimInfo.Arguments = """" + Controller.FileName + """ """ + Simulation.Name + """"
-            ApsimToSimInfo.WorkingDirectory = Path.GetDirectoryName(Controller.FileName)
-            ApsimToSimInfo.RedirectStandardOutput = True
-            ApsimToSimInfo.UseShellExecute = False
-            ApsimToSimInfo.WindowStyle = ProcessWindowStyle.Hidden
-            ApsimToSimInfo.CreateNoWindow = True
 
-            Dim ApsimToSimProcess As Process = Process.Start(ApsimToSimInfo)
-            ApsimToSimProcess.StartInfo.WindowStyle = ProcessWindowStyle.Hidden
+            Try
+                Dim Doc As New XmlDocument
+                Simulation.WriteSim(Doc, Controller.Configuration)
+                Dim Contents As String = XmlHelper.FormattedXML(Doc.DocumentElement.OuterXml)
 
-            ApsimToSimProcess.WaitForExit()
-            If ApsimToSimProcess.ExitCode <> 0 Then
-                Dim Output As String = ApsimToSimProcess.StandardOutput.ReadToEnd()
-                WriteToListBox(vbCrLf + Output, True)
-                RunNextSimulation()
-            Else
-                CurrentSummaryFile = New StreamWriter(SimFileName.Replace(".sim", ".sum"))
+                Dim Writer As New StreamWriter(SimFileName)
+                Writer.Write(Contents)
+                Writer.Close()
+                CurrentSummaryFile = New StreamWriter(SumFileName)
 
                 Dim ApsimProcess As New ProcessCaller(MainForm)
                 ApsimProcess.FileName = Path.GetDirectoryName(Application.ExecutablePath) + "\apsim.exe"
                 ApsimProcess.Arguments = """" + SimFileName + """"
-                ApsimProcess.WorkingDirectory = Path.GetDirectoryName(Controller.FileName)
+                ApsimProcess.WorkingDirectory = Path.GetDirectoryName(Controller.ApsimData.FileName)
                 AddHandler ApsimProcess.Completed, AddressOf OnApsimExited
                 AddHandler ApsimProcess.Cancelled, AddressOf OnApsimExited
                 AddHandler ApsimProcess.StdOutReceived, AddressOf OnStdOut
                 AddHandler ApsimProcess.StdErrReceived, AddressOf OnStdError
                 ApsimProcess.Start()
-            End If
+
+            Catch ex As Exception
+                WriteToListBox(vbCrLf + ex.Message, True)
+                RunNextSimulation()
+            End Try
 
         Else
             ' All simulations are done
@@ -309,7 +303,7 @@ Public Class ApsimUIActions
         ' ---------------------------------------------------------------
         Dim OutputFiles As New StringCollection
         For Each SelectedNodePath As String In Controller.SelectedPaths
-            Dim SelectedData As APSIMData = Controller.ApsimData.Find(SelectedNodePath)
+            Dim SelectedData As ApsimFile.Component = Controller.ApsimData.Find(SelectedNodePath)
             While SelectedData.Type <> "simulation" AndAlso SelectedData.Type <> "folder" AndAlso SelectedData.Type <> "simulations"
                 SelectedData = SelectedData.Parent
             End While
@@ -328,11 +322,11 @@ Public Class ApsimUIActions
         Return ReturnString
     End Function
 
-    Private Shared Sub GetOutputFiles(ByVal Controller As BaseController, ByVal Data As APSIMData, ByVal OutputFiles As StringCollection)
+    Private Shared Sub GetOutputFiles(ByVal Controller As BaseController, ByVal Data As ApsimFile.Component, ByVal OutputFiles As StringCollection)
         ' ------------------------------------------------------------
         'return an array of output filenames under the specified data.
         ' ------------------------------------------------------------
-        For Each Child As APSIMData In Data.Children
+        For Each Child As ApsimFile.Component In Data.ChildNodes
             ' If child node is an "area", "simulation" or "simulations" then node is not a leaf
             ' and a recursive call is made
             If Child.Type.ToLower() = "area" Or Child.Type.ToLower() = "simulation" _
@@ -341,8 +335,8 @@ Public Class ApsimUIActions
 
             ElseIf Child.Type.ToLower() = "outputfile" Then
                 Dim FullFileName As String = BaseActions.CalcFileName(Child)
-                If Controller.FileName <> "" Then
-                    FullFileName = Path.Combine(Path.GetDirectoryName(Controller.FileName), FullFileName)
+                If Controller.ApsimData.FileName <> "" Then
+                    FullFileName = Path.Combine(Path.GetDirectoryName(Controller.ApsimData.FileName), FullFileName)
                 End If
                 If File.Exists(FullFileName) Then
                     OutputFiles.Add(FullFileName)
@@ -350,8 +344,109 @@ Public Class ApsimUIActions
             End If
         Next
     End Sub
-
-
-
 #End Region
+
+#Region "SIM file writing stuff"
+    Public Shared Function WriteSoilSim(ByVal Component As ApsimFile.Component, ByVal ParentNode As XmlNode) As XmlNode
+        Dim Doc As New XmlDocument
+        Doc.LoadXml(Component.Contents)
+        Dim Soil As New Soils.Soil(Doc.DocumentElement)
+        Return Soil.ExportToSim(ParentNode)
+    End Function
+    Public Shared Function WriteCropSim(ByVal Component As ApsimFile.Component, ByVal ParentNode As XmlNode) As XmlNode
+        ' Go find our related soil - must be a sibling.
+        Dim SoilComponent As ApsimFile.Component = Nothing
+        Dim Paddock As ApsimFile.Component = Component.FindContainingPaddock()
+        If IsNothing(Paddock) Then
+            Throw New Exception("Cannot find containing paddock for component: " + Component.Name)
+        End If
+        For Each Sibling As ApsimFile.Component In Paddock.ChildNodes
+            If Sibling.Type = "soil" Then
+                SoilComponent = Sibling
+            End If
+        Next
+
+        If IsNothing(SoilComponent) Then
+            Throw New Exception("Cannot find a soil component")
+        End If
+        Dim Doc As New XmlDocument
+        Doc.LoadXml(SoilComponent.Contents)
+        Dim Soil As New Soils.Soil(Doc.DocumentElement)
+        Return Soil.ExportCropToSim(ParentNode, Component.Type)
+    End Function
+
+    Public Shared Function WriteInitWaterSim(ByVal Component As ApsimFile.Component, ByVal ParentNode As XmlNode) As XmlNode
+        ' Go find our related soil - should be parent
+
+        Dim SoilComponent As ApsimFile.Component = Component.Parent
+        If IsNothing(SoilComponent) Then
+            Throw New Exception("Cannot find a soil component")
+        End If
+        Dim Doc As New XmlDocument
+        Doc.LoadXml(SoilComponent.Contents)
+        Dim Soil As New Soils.Soil(Doc.DocumentElement)
+
+        ' Go create an initwater object.
+        Dim InitWaterDoc As New XmlDocument
+        InitWaterDoc.LoadXml(Component.Contents)
+        Dim InitWater As New Soils.InitWater(InitWaterDoc.DocumentElement, Soil)
+        Return InitWater.ExportToSim(ParentNode)
+
+    End Function
+
+    Public Shared Function WriteInitNitrogenSim(ByVal Component As ApsimFile.Component, ByVal ParentNode As XmlNode) As XmlNode
+        ' Go find our related soil - should be parent
+        Dim SoilComponent As ApsimFile.Component = Component.Parent
+        If IsNothing(SoilComponent) Then
+            Throw New Exception("Cannot find a soil component")
+        End If
+        Dim Doc As New XmlDocument
+        Doc.LoadXml(SoilComponent.Contents)
+        Dim Soil As New Soils.Soil(Doc.DocumentElement)
+
+        ' Find the <component name="nitrogen"> node
+        Dim NitrogenComponentName As String = XmlHelper.Name(ParentNode).Replace(" Water", " Nitrogen")
+        Dim NitrogenSimNode As XmlNode = XmlHelper.Find(ParentNode.ParentNode, NitrogenComponentName)
+        If IsNothing(NitrogenSimNode) Then
+            Throw New Exception("Cannot find soiln2 node")
+        End If
+
+        ' Go create an initwater object.
+        Dim InitNitrogenDoc As New XmlDocument
+        InitNitrogenDoc.LoadXml(Component.Contents)
+        Dim InitNitrogen As New Soils.InitNitrogen(InitNitrogenDoc.DocumentElement, Soil)
+        Return InitNitrogen.ExportToSim(NitrogenSimNode)
+
+    End Function
+    Public Shared Function WriteManagerSim(ByVal Component As ApsimFile.Component, ByVal ParentNode As XmlNode) As XmlNode
+        For Each RuleComponent As ApsimFile.Component In Component.ChildNodes
+            Dim Doc As New XmlDocument
+            Doc.LoadXml(RuleComponent.Contents)
+            Dim Rule As XmlNode = Doc.DocumentElement
+            For Each Condition As XmlNode In XmlHelper.ChildNodes(Rule, "condition")
+                Dim Contents As String = Condition.OuterXml
+
+                For Each Category As XmlNode In XmlHelper.ChildNodes(Rule, "category")
+                    For Each Prop As XmlNode In XmlHelper.ChildNodes(Category, "")
+                        Dim MacroToLookFor As String = "[" + Prop.Name + "]"
+                        Contents = Contents.Replace(MacroToLookFor, Prop.InnerText)
+                    Next
+                Next
+                Contents = Contents.Replace("<condition ", "<rule ")
+                Contents = Contents.Replace("</condition>", "</rule>")
+                Dim RuleDoc As New XmlDocument
+                RuleDoc.LoadXml(Contents)
+                Dim NewRule As XmlNode = RuleDoc.DocumentElement
+
+                Dim RuleCondition As String = XmlHelper.Name(NewRule)
+                Dim NewName As String = XmlHelper.Name(Rule) + " - " + RuleCondition
+                XmlHelper.SetName(RuleDoc.DocumentElement, NewName)
+                XmlHelper.SetAttribute(RuleDoc.DocumentElement, "condition", RuleCondition)
+                ParentNode.AppendChild(ParentNode.OwnerDocument.ImportNode(NewRule, True))
+            Next
+        Next
+        Return ParentNode
+    End Function
+#End Region
+
 End Class

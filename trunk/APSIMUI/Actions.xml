@@ -71,7 +71,7 @@
          <Description>View version information</Description>
          <OnInvoke>
             <call>
-               <class>APSIMUI.ApsimUIActions</class>
+               <class>VBUserInterface.BaseActions</class>
                <method>HelpAbout</method>
             </call>
          </OnInvoke>         
@@ -288,6 +288,21 @@
             </call>
          </OnInvoke>
       </CollapseAll>
+      <MakeConcrete>
+         <text>Unlink</text>
+         <Location>AllNodes</Location>
+         <Description>Turn link node into a non-link node</Description>
+         <SmallIcon>%apsuite\ApsimUI\Images\link_delete16.png</SmallIcon>
+         <DisabledWhen>ReadOnly</DisabledWhen>
+         <DisabledWhen>NotShortcut</DisabledWhen>
+         <OnInvoke>
+            <call>
+               <class>VBUserInterface.BaseActions</class>
+               <method>MakeConcrete</method>
+            </call>
+         </OnInvoke>
+      </MakeConcrete>
+      
    </Actions>
 
    <MainToolBar ImageAboveText="yes">
@@ -324,6 +339,7 @@
       <Separator/>
       <Item>Delete</Item>
       <Item>Rename</Item>
+      <Item>MakeConcrete</Item>
       <Separator/>
       <Item>Cut</Item>
       <Item>Copy</Item>

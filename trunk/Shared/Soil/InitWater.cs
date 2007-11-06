@@ -1,6 +1,7 @@
 using System;
 using VBGeneral;
 using CSGeneral;
+using System.Xml;
 
 namespace Soils
 	{
@@ -9,15 +10,16 @@ namespace Soils
 	// -----------------------------------
 	public class InitWater
 		{
-        private APSIMData Data;
+        private XmlNode Data;
 		private Soil ParentSoil;
 
-		public InitWater(APSIMData data)
+		public InitWater(XmlNode data, Soil ParentSoil)
 			{
             // -----------
             // Constructor
             // -----------
-            ParentSoil = new Soil(data.Parent);
+
+            this.ParentSoil = ParentSoil;
             Data = data;
 			}
 
@@ -25,9 +27,9 @@ namespace Soils
 		public MethodType Method
 			{
 			get {
-                if (Data.ChildNames("profile").Length > 0)
+                if (XmlHelper.ChildNames(Data, "profile").Length > 0)
                     return MethodType.Layered;
-                else if (Data.Child("DepthWetSoilMethod") != null)
+                else if (XmlHelper.Find(Data, "DepthWetSoilMethod") != null)
                     return MethodType.DepthWetSoil;
 			    else
 				    return MethodType.Percent;
@@ -36,26 +38,26 @@ namespace Soils
 
 		public int Percent
 			{
-			get {return Convert.ToInt32(Convert.ToDouble(Data.get_ChildValue("PercentMethod\\Percent")) * 100);}
+			get {return Convert.ToInt32(Convert.ToDouble(XmlHelper.Value(Data, "PercentMethod/Percent")) * 100);}
 			}
 		public bool FilledFromTop
 			{
-			get {return (Data.get_ChildValue("PercentMethod\\Distributed").ToLower() == "filled from top");}
+            get { return (XmlHelper.Value(Data, "PercentMethod/Distributed").ToLower() == "filled from top"); }
 			}
 		public int DepthWetSoil
 			{
-			get {return Convert.ToInt32(Data.get_ChildValue("DepthWetSoilMethod\\Depth"));}
+            get { return Convert.ToInt32(XmlHelper.Value(Data, "DepthWetSoilMethod/Depth")); }
 			}
         public string RelativeTo
             {
             get {
-                string value = Data.get_ChildValue("RelativeTo");
+            string value = XmlHelper.Value(Data, "RelativeTo");
                 if (value == "")
                     value = "ll15";
                 return value;
                 }
             set {
-                Data.set_ChildValue("RelativeTo", value);
+                XmlHelper.SetValue(Data, "RelativeTo", value);
                 }
             }
 
@@ -164,23 +166,31 @@ namespace Soils
             // ----------------------------------
             // Set water via the percent method.
             // ----------------------------------
-            Data.DeleteByType("DepthWetSoilMethod");
-            Data.DeleteByType("profile");
+            foreach (XmlNode Child in XmlHelper.ChildNodes(Data, ""))
+                {
+                if (XmlHelper.Type(Child).ToLower() == "depthwetsoilmethod" ||
+                    XmlHelper.Type(Child).ToLower() == "profile")
+                    Child.ParentNode.RemoveChild(Child);
+                }
 			double Prop = Percent / 100.0;
-			Data.set_ChildValue("PercentMethod\\Percent", Prop.ToString("f2"));
+			XmlHelper.SetValue(Data, "PercentMethod/Percent", Prop.ToString("f2"));
 			string Distributed = "Filled from top";
 			if (!FilledFromTop)
 				Distributed = "Evenly distributed";
-			Data.set_ChildValue("PercentMethod\\Distributed", Distributed);
+			XmlHelper.SetValue(Data, "PercentMethod/Distributed", Distributed);
 			}
 		public void SetUsingDepthWetSoil(int Depth)
 			{
             // ----------------------------------
             // Set water via the depth wet soil method.
             // ----------------------------------
-            Data.DeleteByType("PercentMethod");
-            Data.DeleteByType("profile");
-            Data.set_ChildValue("DepthWetSoilMethod\\Depth", Depth.ToString());
+            foreach (XmlNode Child in XmlHelper.ChildNodes(Data, ""))
+                {
+                if (XmlHelper.Type(Child).ToLower() == "percentmethod" ||
+                    XmlHelper.Type(Child).ToLower() == "profile")
+                    Child.ParentNode.RemoveChild(Child);
+                }
+            XmlHelper.SetValue(Data, "DepthWetSoilMethod/Depth", Depth.ToString());
 			}
 		public void SetUsingLayered(double[] sw)
 			{
@@ -189,12 +199,35 @@ namespace Soils
             // ----------------------------------
             if (sw.Length > 0)
                 {
-                Data.DeleteByType("DepthWetSoilMethod");
-                Data.DeleteByType("PercentMethod");
+                foreach (XmlNode Child in XmlHelper.ChildNodes(Data, ""))
+                    {
+                    if (XmlHelper.Type(Child).ToLower() == "percentmethod" ||
+                        XmlHelper.Type(Child).ToLower() == "depthwetsoilmethod")
+                        Child.ParentNode.RemoveChild(Child);
+                    }
                 Utility.setLayered(Data, "profile", "sw", "", sw);
                 }
 			}
+        public double[] PAW(string cropName)
+            {
+            double[] Thickness = this.Thickness;
+            double[] LL = ParentSoil.LL(cropName);
+            double[] SW = this.SW;
+            double[] PAW = new double[Thickness.Length];
 
+            // calculate depth increments.
+            if (Thickness.Length > 0)
+                {
+                for (int layer = 0; layer != SW.Length; layer++)
+                    PAW[layer] = Math.Max((SW[layer] - LL[layer]), 0.0) * Thickness[layer];
+                }
+            return PAW;
+            }
 
+        public XmlNode ExportToSim(XmlNode ParentNode)
+            {
+            XmlHelper.SetValue(ParentNode, "initdata/sw", Utility.LayeredToString(SWMapedToSoil));
+            return ParentNode;
+            }
         }
 	}

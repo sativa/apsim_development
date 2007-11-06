@@ -4,336 +4,286 @@ namespace Test
     using System.IO;
     using NUnit.Framework;
     using ApsimFile;
+    using CSGeneral;
     using System.Collections.Specialized;
+    using System.Xml;
+    using System.Collections.Generic;
 
     [TestFixture] 
     public class TestApsimFile
         {
         private ApsimFile Simulations;
+        const string ApsimFileContents =
+            "<folder version=\"1000\">\r\n" +
+            "  <simulation name=\"My Sim\">\r\n" +
+            "    <clock>\r\n" +
+            "      <start_date>1/01/1940</start_date>\r\n" +
+            "      <end_date>31/01/1940</end_date>\r\n" +
+            "    </clock>\r\n" +
+            "    <outputfile>\r\n" +
+            "      <variable>variable1</variable>\r\n" +
+            "      <variable>variable2</variable>\r\n" +
+            "    </outputfile>\r\n" +
+            "    <metfile>\r\n" +
+            "      <filename>c:\\dummy.met</filename>\r\n" +
+            "    </metfile>\r\n" +
+            "  </simulation>\r\n" +
+            "  <simulation name=\"My Sim1\" shortcut=\"/folder/My Sim\">\r\n" +
+            "    <clock name=\"DerivedClock\">\r\n" +
+            "      <start_date>1/02/1940</start_date>\r\n" +
+            "      <end_date>31/04/1940</end_date>\r\n" +
+            "    </clock>\r\n" +
+            "    <outputfile shortcut=\"/folder/My Sim/outputfile\"/>\r\n" +
+            "    <metfile shortcut=\"/folder/My Sim/metfile\"/>\r\n" +
+            "  </simulation>\r\n" +
+            "</folder>";
 
-        [SetUp]
-        public void Init()
+        [SetUp] public void Init()
             {
-            const string ApsimFileContents =
-                "<folder name=\"Simulations\">\r\n" +
-                "  <simulation name=\"My Sim\">\r\n" +
-                "    <clock>\r\n" +
-                "      <start_date>1/01/1940</start_date>\r\n" +
-                "      <end_date>31/01/1940</end_date>\r\n" +
-                "    </clock>\r\n" +
-                "    <report name=\"My report\">\r\n" +
-                "      <variable>variable1</variable>\r\n" +
-                "      <variable>variable2</variable>\r\n" +
-                "    </report>\r\n" +
-                "    <met>\r\n" +
-                "      <filename>c:\\dummy.met</filename>\r\n" +
-                "    </met>\r\n" +
-                "  </simulation>\r\n" +
-                "  <simulation name=\"My Sim{1}\" InheritedFrom=\"Simulations\\My Sim\">\r\n" +
-                "    <clock InheritedFrom=\"Simulations\\My Sim\\clock\">\r\n" +
-                "      <start_date>1/02/1940</start_date>\r\n" +
-                "      <end_date>31/04/1940</end_date>\r\n" +
-                "    </clock>\r\n" +
-                "  </simulation>\r\n" +
-                "</folder>";
-            Simulations = new ApsimFile();
-            Simulations.Open(ApsimFileContents, false);
-            }
-
-        [Test]
-        public void TestChildEnumeration()
-            {
-            // -----------------------------------------------------------------------
-            // Use case: Load a file with 2 simulations and ensure that we can
-            // enumerate through all children including the ones in the derived
-            // simulation.
-            // -----------------------------------------------------------------------
-            string[] SimulationsNames = Simulations.ChildNames("Simulations");
-            Assert.AreEqual(SimulationsNames.Length, 2);
-            Assert.AreEqual(SimulationsNames[0], "My Sim");
-            Assert.AreEqual(SimulationsNames[1], "My Sim{1}");
-
-            string[] ComponentNames = Simulations.ChildNames("Simulations\\My Sim");
-            Assert.AreEqual(ComponentNames.Length, 3);
-            Assert.AreEqual(ComponentNames[0], "clock");
-            Assert.AreEqual(ComponentNames[1], "My report");
-            Assert.AreEqual(ComponentNames[2], "met");
-
-            ComponentNames = Simulations.ChildNames("Simulations\\My Sim{1}");
-            Assert.AreEqual(ComponentNames.Length, 3);
-            Assert.AreEqual(ComponentNames[0], "clock");
-            Assert.AreEqual(ComponentNames[1], "My report");
-            Assert.AreEqual(ComponentNames[2], "met");
-            }
-
-        [Test]
-        public void TestChildMetaData()
-            {
-            // -----------------------------------------------------------------------
-            // Use case: Load a file with 2 simulations and ensure that we can
-            // get the metadata for all children including the ones in the derived
-            // simulation.
-            // -----------------------------------------------------------------------
-            string Type;
-            ApsimFile.NodeStatus Status;
-            string InheritedFrom;
-            Simulations.MetaData("Simulations", out Type, out Status, out InheritedFrom);
-            Assert.AreEqual(Type, "folder");
-            Assert.AreEqual(Status, ApsimFile.NodeStatus.Normal);
-            Assert.AreEqual(InheritedFrom, "");
-
-            Simulations.MetaData("Simulations\\My Sim", out Type, out Status, out InheritedFrom);
-            Assert.AreEqual(Type, "simulation");
-            Assert.AreEqual(Status, ApsimFile.NodeStatus.Normal);
-            Assert.AreEqual(InheritedFrom, "");
-
-            Simulations.MetaData("Simulations\\My Sim{1}", out Type, out Status, out InheritedFrom);
-            Assert.AreEqual(Type, "simulation");
-            Assert.AreEqual(Status, ApsimFile.NodeStatus.Inherited);
-            Assert.AreEqual(InheritedFrom, "Simulations\\My Sim");
-
-            Simulations.MetaData("Simulations\\My Sim{1}\\clock", out Type, out Status, out InheritedFrom);
-            Assert.AreEqual(Type, "clock");
-            Assert.AreEqual(Status, ApsimFile.NodeStatus.Inherited);
-            Assert.AreEqual(InheritedFrom, "Simulations\\My Sim\\clock");
-            }
-
-        [Test]
-        public void TestContents()
-            {
-            // -----------------------------------------------------------------
-            // Use case: Load a file with 2 simulations and ensure that we can
-            // get the contents of both a normal node and a derived node.
-            // -----------------------------------------------------------------
-            Assert.AreEqual(Simulations.Contents("Simulations\\My Sim\\clock\\start_date"), "<start_date>1/01/1940</start_date>");
-            Assert.AreEqual(Simulations.Contents("Simulations\\My Sim\\clock\\end_date"), "<end_date>31/01/1940</end_date>");
-            Assert.AreEqual(Simulations.Contents("Simulations\\My Sim{1}\\clock\\start_date"), "<start_date>1/02/1940</start_date>");
-            Assert.AreEqual(Simulations.Contents("Simulations\\My Sim{1}\\clock\\end_date"), "<end_date>31/04/1940</end_date>");
-            Assert.AreEqual(Simulations.Contents("Simulations\\My Sim{1}\\My report"),
-                "<report name=\"My report\">\r\n" +
-                "  <variable>variable1</variable>\r\n" +
-                "  <variable>variable2</variable>\r\n" +
-                "</report>");
-            }
-
-        [Test]
-        public void TestSetContents()
-            {
-            // --------------------------------------------------------------------
-            // Use case: Set the contents of a normal node and an inherited node.
-            // --------------------------------------------------------------------
-            Simulations.SetContents("Simulations\\My Sim{1}\\clock",
-                "<start_date>1/09/1999</start_date>" +
-                "<end_date>31/09/1999</end_date>");
-            Simulations.SetContents("Simulations\\My Sim{1}\\met",
-                "<filename>c:\\dummy2.met</filename>");
-            Assert.AreEqual(Simulations.Contents("Simulations\\My Sim\\clock"),
-                "<clock>\r\n" + 
-                "  <start_date>1/01/1940</start_date>\r\n" +
-                "  <end_date>31/01/1940</end_date>\r\n" +
-                "</clock>");
-            Assert.AreEqual(Simulations.Contents("Simulations\\My Sim{1}\\clock"),
-                "<clock InheritedFrom=\"Simulations\\My Sim\\clock\">\r\n" +
-                "  <start_date>1/09/1999</start_date>\r\n" +
-                "  <end_date>31/09/1999</end_date>\r\n" +
-                "</clock>");
-            Assert.AreEqual(Simulations.Contents("Simulations\\My Sim\\met"),
-                "<met>\r\n" +
-                "  <filename>c:\\dummy.met</filename>\r\n" +
-                "</met>");
-            Assert.AreEqual(Simulations.Contents("Simulations\\My Sim{1}\\met"),
-                "<met InheritedFrom=\"Simulations\\My Sim\\met\">\r\n" +
-                "  <filename>c:\\dummy2.met</filename>\r\n" +
-                "</met>");
-            }
-        [Test]
-        public void TestRevertToBase()
-            {
-            // --------------------------------------------------------------------
-            // Use case: Revert an inherited node to it's base counterpart losing
-            // the updated contents in the process.
-            // --------------------------------------------------------------------
-            Simulations.RevertToBase("Simulations\\My Sim{1}\\clock");
-            Assert.AreEqual(Simulations.Contents("Simulations\\My Sim{1}\\clock"),
-                "<clock>\r\n" +
-                "  <start_date>1/01/1940</start_date>\r\n" +
-                "  <end_date>31/01/1940</end_date>\r\n" +
-                "</clock>");
-            }
-
-        [Test]
-        public void TestDeleteNode()
-            {
-            // --------------------------------------------------------------------
-            // Use case: Delete a node from the simulations. Ensure that IsDirtyData
-            // returns true.
-            // --------------------------------------------------------------------
-            Simulations.Delete("Simulations\\My Sim{1}\\clock");
-            Assert.AreEqual(Simulations.Contents("Simulations\\My Sim{1}"),
-                "<simulation name=\"My Sim{1}\" InheritedFrom=\"Simulations\\My Sim\">\r\n" +
-                "</simulation>");
+            Configuration Types = new Configuration("ApsimUI");
+            Simulations = new ApsimFile(Types);
+            XmlDocument Doc = new XmlDocument();
+            Doc.LoadXml(ApsimFileContents);
+            Simulations.Open(Doc.DocumentElement);
             Assert.IsTrue(Simulations.IsDirty);
+            Assert.AreEqual(Simulations.FileName, "Untitled");
             }
 
-
-        private string SimulationXml =
-            "<simulation name=\"My Sim\">" +
-            "   <clock>" +
-            "      <start_date>1/01/1940</start_date>" +
-            "      <end_date>31/01/1940</end_date>" +
-            "   </clock>" +
-            "   <report>" +
-            "      <variable>variable1</variable>" +
-            "      <variable>variable2</variable>" +
-            "   </report>" +
-            "   <met>" +
-            "      <filename>c:\\dummy.met</filename>" +
-            "   </met>" +
-            "</simulation>";
-
-        [Test]
-        public void TestCreate2Simulations()
+        [Test] public void TestCreate2Simulations()
             {
             // -------------------------------------------------------------
             // Use case: Drag a node from standard toolbox and drop on a 
-            // simulation set. Then make a copy of that simulation ensuing
-            // there is not a simulation name clash.
+            // simulation set. Drag same node and drop again.
+            // Ensure there is not a simulation name clash.
             // -------------------------------------------------------------
-            ApsimFile SimulationSet = new ApsimFile();
+            const string SimulationFromToolbox =
+                "<simulation name=\"My Sim\">" +
+                "   <clock>" +
+                "      <start_date>1/01/1940</start_date>" +
+                "      <end_date>31/01/1940</end_date>" +
+                "   </clock>" +
+                "   <outputfile>" +
+                "      <variable>variable1</variable>" +
+                "      <variable>variable2</variable>" +
+                "   </outputfile>" +
+                "   <metfile>" +
+                "      <filename>c:\\dummy.met</filename>" +
+                "   </metfile>" +
+                "</simulation>";
+
+
+            Configuration Types = new Configuration("ApsimUI");
+            ApsimFile SimulationSet = new ApsimFile(Types);
+            
             SimulationSet.New();
-            SimulationSet.Add("folder", SimulationXml);
-            SimulationSet.Add("folder", SimulationXml);
+            SimulationSet.RootComponent.Add(SimulationFromToolbox);
+            SimulationSet.RootComponent.Add(SimulationFromToolbox);
 
-            StringWriter St = new StringWriter();
-            SimulationSet.Save(St);
-            Assert.AreEqual(St.ToString(),
-                "<?xml version=\"1.0\" encoding=\"utf-16\"?>\r\n" +
-                "<folder version=\"9\">\r\n" +
-                "  <simulation name=\"My Sim\">\r\n" +
-                "    <clock>\r\n" +
-                "      <start_date>1/01/1940</start_date>\r\n" +
-                "      <end_date>31/01/1940</end_date>\r\n" +
-                "    </clock>\r\n" +
-                "    <report>\r\n" +
-                "      <variable>variable1</variable>\r\n" +
-                "      <variable>variable2</variable>\r\n" +
-                "    </report>\r\n" +
-                "    <met>\r\n" +
-                "      <filename>c:\\dummy.met</filename>\r\n" +
-                "    </met>\r\n" +
-                "  </simulation>\r\n" +
-                "  <simulation name=\"My Sim{1}\">\r\n" +
-                "    <clock>\r\n" +
-                "      <start_date>1/01/1940</start_date>\r\n" +
-                "      <end_date>31/01/1940</end_date>\r\n" +
-                "    </clock>\r\n" +
-                "    <report>\r\n" +
-                "      <variable>variable1</variable>\r\n" +
-                "      <variable>variable2</variable>\r\n" +
-                "    </report>\r\n" +
-                "    <met>\r\n" +
-                "      <filename>c:\\dummy.met</filename>\r\n" +
-                "    </met>\r\n" +
-                "  </simulation>\r\n" +
-                "</folder>");
-
-            string[] ComponentNames = SimulationSet.ChildNames("folder");
-            Assert.AreEqual(ComponentNames.Length, 2);
-            Assert.AreEqual(ComponentNames[0], "My Sim");
-            Assert.AreEqual(ComponentNames[1], "My Sim{1}");
-            }
-
-        [Test]
-        public void TestCreate2SimulationsWithInheritance()
-            {
-            // -------------------------------------------------------------
-            // Use case: Drag a node from standard toolbox and drop on a 
-            // simulation set. Then make an inherited copy of that simulation 
-            // ensuing there is not a simulation name clash.
-            // -------------------------------------------------------------
-            ApsimFile SimulationSet = new ApsimFile();
-            SimulationSet.New();
-            SimulationSet.Add("folder", SimulationXml);
-            SimulationSet.AddInherited("folder", "simulation", "My Sim", "folder\\My Sim");
-
-            StringWriter St = new StringWriter();
-            SimulationSet.Save(St);
-            Assert.AreEqual(St.ToString(), 
-                "<?xml version=\"1.0\" encoding=\"utf-16\"?>\r\n" +
-                "<folder version=\"9\">\r\n" +
-                "  <simulation name=\"My Sim\">\r\n" +
-                "    <clock>\r\n" +
-                "      <start_date>1/01/1940</start_date>\r\n" +
-                "      <end_date>31/01/1940</end_date>\r\n" +
-                "    </clock>\r\n" +
-                "    <report>\r\n" +
-                "      <variable>variable1</variable>\r\n" +
-                "      <variable>variable2</variable>\r\n" +
-                "    </report>\r\n" +
-                "    <met>\r\n" +
-                "      <filename>c:\\dummy.met</filename>\r\n" +
-                "    </met>\r\n" +
-                "  </simulation>\r\n" +
-                "  <simulation name=\"My Sim{1}\" InheritedFrom=\"folder\\My Sim\" />\r\n" +
-                "</folder>");
-            }
-        [Test]
-        public void TestInvalidAdd()
-            {
-            Simulations.Add("Simulations\\My Sim{1}\\clock", "invalidxml");
-            }
-
-        [Test]
-        public void TestMoveDown()
-            {
-            StringCollection NodePaths = new StringCollection();
-            NodePaths.Add("Simulations\\My Sim");
-            Simulations.MoveDown(NodePaths);
-            string[] ComponentNames = Simulations.ChildNames("Simulations");
-            Assert.AreEqual(ComponentNames[0], "My Sim{1}");
-            Assert.AreEqual(ComponentNames[1], "My Sim");
-
-            // try moving two nodes down when not possible - shouldn't do anything
-            NodePaths.Clear();
-            NodePaths.Add("Simulations\\My Sim{1}");
-            NodePaths.Add("Simulations\\My Sim");
-            Simulations.MoveDown(NodePaths);
-            ComponentNames = Simulations.ChildNames("Simulations");
-            Assert.AreEqual(ComponentNames[0], "My Sim{1}");
-            Assert.AreEqual(ComponentNames[1], "My Sim");
-
+            Assert.AreEqual(SimulationSet.RootComponent.ChildNodes.Count, 2);
+            Assert.AreEqual(SimulationSet.RootComponent.ChildNodes[0].Name, "My Sim");
+            Assert.AreEqual(SimulationSet.RootComponent.ChildNodes[1].Name, "My Sim1");
             Assert.IsTrue(Simulations.IsDirty);
             }
-
-        [Test]
-        public void TestMoveUp()
+        [Test] public void TestContents()
             {
-            StringCollection NodePaths = new StringCollection();
-            NodePaths.Add("Simulations\\My Sim{1}");
-            Simulations.MoveUp(NodePaths);
-            string[] ComponentNames = Simulations.ChildNames("Simulations");
-            Assert.AreEqual(ComponentNames[0], "My Sim{1}");
-            Assert.AreEqual(ComponentNames[1], "My Sim");
-
-            // try moving it up again - shouldn't do anything
-            NodePaths.Clear();
-            NodePaths.Add("Simulations\\My Sim{1}");
-            NodePaths.Add("Simulations\\My Sim");
-            Simulations.MoveUp(NodePaths);
-            ComponentNames = Simulations.ChildNames("Simulations");
-            Assert.AreEqual(ComponentNames[0], "My Sim{1}");
-            Assert.AreEqual(ComponentNames[1], "My Sim");
+            // -------------------------------------------------------------
+            // Use case: User clicks on a shortcut and non-shortcut node in 
+            // tree. Ask ApsimFile for the contents of these nodes.
+            // -------------------------------------------------------------
+            Component ShortCutNode = Simulations.Find("/folder/My Sim1/outputfile");
+            Assert.AreEqual(ShortCutNode.Contents, "<outputfile>" +
+                                                      "<variable>variable1</variable>" +
+                                                      "<variable>variable2</variable>" +
+                                                   "</outputfile>");
+            Component NormalNode = Simulations.Find("/folder/My Sim1/DerivedClock");
+            Assert.AreEqual(NormalNode.Contents, "<clock name=\"DerivedClock\">" +
+                                                    "<start_date>1/02/1940</start_date>" +
+                                                    "<end_date>31/04/1940</end_date>" +
+                                                 "</clock>");
             Assert.IsTrue(Simulations.IsDirty);
             }
-
-        [Test]
-        public void TestSort()
+        [Test] public void TestSetContents()
             {
-            Simulations.Sort("Simulations");
-            string[] SortedComponentNames = Simulations.ChildNames("Simulations");
-            Assert.AreEqual(SortedComponentNames[0], "My Sim{1}");
-            Assert.AreEqual(SortedComponentNames[1], "My Sim");
+            // --------------------------------------------------------------------
+            // Use case: Set the contents of a normal node and a shortcut node.
+            // --------------------------------------------------------------------
+
+            // Set the contents of a normal node.
+            Component NormalNode = Simulations.Find("/folder/My Sim1/DerivedClock");
+
+            NormalNode.Contents = "<clock name=\"DerivedClock\">" +
+                                     "<start_date>1/09/1999</start_date>" +
+                                     "<end_date>31/09/1999</end_date>" +
+                                  "</clock>";  
+
+            // Make sure the change worked.
+            Assert.AreEqual(NormalNode.Contents,
+                "<clock name=\"DerivedClock\">" +
+                    "<start_date>1/09/1999</start_date>" +
+                    "<end_date>31/09/1999</end_date>" +
+                "</clock>");
+
+            // The clock in the other simulation should be unchanged.
+            Component OtherClock = Simulations.Find("/folder/My Sim/clock");
+            Assert.AreEqual(OtherClock.Contents,
+                "<clock>" +
+                    "<start_date>1/01/1940</start_date>" +
+                    "<end_date>31/01/1940</end_date>" +
+                "</clock>");
+
+            // Now change a shortcut node.
+            Component ShortCutNode = Simulations.Find("/folder/My Sim1/metfile");
+            ShortCutNode.Contents = "<metfile><filename>c:\\dummy2.met</filename></metfile>";
+            
+            // Make sure the change worked.
+            Assert.AreEqual(ShortCutNode.Contents, "<metfile><filename>c:\\dummy2.met</filename></metfile>");
+  
+            // The metfile in the other simulation should now be the new value as well.
+            Component ShortCutSourceNode = Simulations.Find("/folder/My Sim/metfile");
+            Assert.AreEqual(ShortCutSourceNode.Contents, "<metfile><filename>c:\\dummy2.met</filename></metfile>");
+            Assert.IsTrue(Simulations.IsDirty);
             }
+        [Test] public void TestMoveDown()
+            {
+            // --------------------------------------------------------------------
+            // Use case: Move the /folder/My Sim/clock down 4 spots.
+            // --------------------------------------------------------------------
+
+            List<string> ChildNames = new List<string>();
+            ChildNames.Add("clock");
+
+            Component SimNode = Simulations.Find("/folder/My Sim");
+            SimNode.MoveDown(ChildNames);
+            SimNode.MoveDown(ChildNames);
+            SimNode.MoveDown(ChildNames);
+            SimNode.MoveDown(ChildNames);
+
+            Assert.AreEqual(SimNode.ChildNodes.Count, 3);
+            Assert.AreEqual(SimNode.ChildNodes[0].Name, "outputfile");
+            Assert.AreEqual(SimNode.ChildNodes[1].Name, "metfile");
+            Assert.AreEqual(SimNode.ChildNodes[2].Name, "clock");
+            Assert.IsTrue(Simulations.IsDirty);
+            }
+        [Test] public void TestMoveUp()
+            {
+            // --------------------------------------------------------------------
+            // Use case: Move the /folder/My Sim/metfile up 4 spots.
+            // --------------------------------------------------------------------
+            List<string> ChildNames = new List<string>();
+            ChildNames.Add("metfile");
+
+            Component SimNode = Simulations.Find("/folder/My Sim");
+            SimNode.MoveUp(ChildNames);
+            SimNode.MoveUp(ChildNames);
+            SimNode.MoveUp(ChildNames);
+            SimNode.MoveUp(ChildNames);
+
+            Assert.AreEqual(SimNode.ChildNodes.Count, 3);
+            Assert.AreEqual(SimNode.ChildNodes[0].Name, "metfile");
+            Assert.AreEqual(SimNode.ChildNodes[1].Name, "clock");
+            Assert.AreEqual(SimNode.ChildNodes[2].Name, "outputfile");
+            Assert.IsTrue(Simulations.IsDirty);
+            }
+        [Test] public void TestSort()
+            {
+            // --------------------------------------------------------------------
+            // Use case: Sort all child nodes of a simulation.
+            // --------------------------------------------------------------------
+            Component SimNode = Simulations.Find("/folder/My Sim");
+            SimNode.Sort();
+            Assert.AreEqual(SimNode.ChildNodes.Count, 3);
+            Assert.AreEqual(SimNode.ChildNodes[0].Name, "clock");
+            Assert.AreEqual(SimNode.ChildNodes[1].Name, "metfile");
+            Assert.AreEqual(SimNode.ChildNodes[2].Name, "outputfile");
+            Assert.IsTrue(Simulations.IsDirty);
+            }
+        [Test] public void TestAddAShortCut()
+            {
+            // --------------------------------------------------------------------
+            // Use case: Create a shortcut of the first simulation and make
+            // sure the child nodes are also shortcutted.
+            // --------------------------------------------------------------------
+            Component FolderNode = Simulations.RootComponent;
+            Component FirstSimulation = Simulations.Find("/folder/My Sim");
+
+            FolderNode.AddShortCut(FirstSimulation);
+
+            Assert.AreEqual(FolderNode.ChildNodes.Count, 3);
+            Assert.AreEqual(FolderNode.ChildNodes[0].Name, "My Sim");
+            Assert.AreEqual(FolderNode.ChildNodes[1].Name, "My Sim1");
+            Assert.AreEqual(FolderNode.ChildNodes[2].Name, "My Sim2");
+            
+            // Make sure the child clock and output file nodes are also shortcutted.
+            Component Clock = Simulations.Find("/folder/My Sim2/clock");
+            Assert.AreEqual(Clock.ShortCutTo.FullPath, "/folder/My Sim/clock");
+
+            Component OutputFile = Simulations.Find("/folder/My Sim2/OutputFile");
+            Assert.AreEqual(OutputFile.ShortCutTo.FullPath, "/folder/My Sim/outputfile");
+            Assert.IsTrue(Simulations.IsDirty);
+            }
+        [Test] public void TestRenameAShortCutDestination()
+            {
+            // --------------------------------------------------------------------
+            // Use case: Rename a node higher up the tree of a shortcut destination.
+            // Make sure the shortcuts are still pointing to the right place.
+            // --------------------------------------------------------------------
+            Component FirstSimulation = Simulations.Find("/folder/My Sim");
+            FirstSimulation.Name = "My Base Sim";
+
+            Component OutputFile = Simulations.Find("/folder/My Sim1/OutputFile");
+            Assert.AreEqual(OutputFile.ShortCutTo.FullPath, "/folder/My Base Sim/outputfile");
+
+            Component MetFile = Simulations.Find("/folder/My Sim1/metfile");
+            Assert.AreEqual(MetFile.ShortCutTo.FullPath, "/folder/My Base Sim/metfile");
+            Assert.IsTrue(Simulations.IsDirty);
+            }
+        [Test] public void TestMakeShortCutConcrete()
+            {
+            // --------------------------------------------------------------------
+            // Use case: Make a shortcut concrete i.e. not a shortcut anymore.
+            // --------------------------------------------------------------------
+
+            // Firstly get a shortcut node.
+            Component OutputFile = Simulations.Find("/folder/My Sim1/OutputFile");
+            Assert.IsTrue(OutputFile.ShortCutTo != null);
+
+            // Now convert to a non-shortcut node.
+            OutputFile.MakeConcrete();
+            Assert.IsTrue(OutputFile.ShortCutTo == null);
+
+            // Get the contents of the node to make sure.
+            Assert.AreEqual(OutputFile.Contents, "<outputfile>" +
+                                                    "<variable>variable1</variable>" +
+                                                    "<variable>variable2</variable>" +
+                                                 "</outputfile>");
+            }
+        [Test] public void TestDeleteAShortCutDestination()
+            {
+            // --------------------------------------------------------------------
+            // Use case: Delete a node higher up the tree of a shortcut destination.
+            // Make sure the shortcuts are converted into non-shortcut nodes.
+            // --------------------------------------------------------------------
+            Component SimNode = Simulations.Find("/folder/My Sim");
+            SimNode.Parent.Delete(SimNode);
+            
+            // Make sure the shortcut node still has contents and is concrete.
+            Component ShortCutNode = Simulations.Find("/folder/My Sim1/metfile");
+            Assert.AreEqual(ShortCutNode.Contents, "<metfile><filename>c:\\dummy.met</filename></metfile>");
+            Assert.IsTrue(ShortCutNode.ShortCutTo == null); 
+            }
+        [Test] public void TestWrite()
+            {
+            Simulations.SaveAs("Temp.xml");
+            XmlDocument FileDoc = new XmlDocument();
+            FileDoc.Load("Temp.xml");
+
+            XmlDocument Doc = new XmlDocument();
+            Doc.LoadXml(ApsimFileContents);
+
+            Assert.AreEqual(FileDoc.DocumentElement.InnerXml, Doc.DocumentElement.InnerXml);
+            File.Delete("Temp.xml");
+            }
+
 
         }
     }

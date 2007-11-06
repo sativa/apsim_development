@@ -7,12 +7,12 @@ using System.Text;
 using System.Windows.Forms;
 using VBUserInterface;
 using VBGeneral;
+using CSGeneral;
 
 namespace Graph
     {
     public partial class RecordFilterUI : VBUserInterface.BaseView
         {
-        private APSIMData Data;
         private ChartPageUI ParentUI;
 
         public RecordFilterUI()
@@ -20,9 +20,8 @@ namespace Graph
             InitializeComponent();
             }
 
-        public override void OnLoad(BaseController Controller, string NodePath)
+        protected override void OnLoad()
             {
-            base.OnLoad(Controller, NodePath);
             ParentUI = (ChartPageUI)Parent;
             }
         public override void OnRefresh()
@@ -33,15 +32,13 @@ namespace Graph
             base.OnRefresh();
             GroupBox.Text = Name;
 
-            Data = Controller.ApsimData.Find(NodePath);
-
             FirstRecordCheck.CheckedChanged -= OnFirstRecordChanged;
             LastRecordCheck.CheckedChanged -= OnLastRecordChanged;
             RecordNumberEdit.TextChanged -= OnRecordNumberChanged;
 
-            FirstRecordCheck.Checked = (Data.get_ChildValue("FirstRecord") == "yes");
-            LastRecordCheck.Checked = (Data.get_ChildValue("LastRecord") == "yes");
-            RecordNumberEdit.Text = Data.get_ChildValue("RecordNumber");
+            FirstRecordCheck.Checked = (XmlHelper.Value(Data, "FirstRecord") == "yes");
+            LastRecordCheck.Checked = (XmlHelper.Value(Data, "LastRecord") == "yes");
+            RecordNumberEdit.Text = XmlHelper.Value(Data, "RecordNumber");
 
             FirstRecordCheck.CheckedChanged += OnFirstRecordChanged;
             LastRecordCheck.CheckedChanged += OnLastRecordChanged;
@@ -56,8 +53,8 @@ namespace Graph
                 YesNo = "Yes";
             else
                 YesNo = "No";
-            Data.set_ChildValue("FirstRecord", YesNo);
-            ParentUI.DoRefresh(Data);
+            XmlHelper.SetValue(Data, "FirstRecord", YesNo);
+            PublishViewChanged(Data);
             }
         private void OnLastRecordChanged(object sender, EventArgs e)
             {
@@ -66,13 +63,13 @@ namespace Graph
                 YesNo = "Yes";
             else
                 YesNo = "No";
-            Data.set_ChildValue("LastRecord", YesNo);
-            ParentUI.DoRefresh(Data);
+            XmlHelper.SetValue(Data, "LastRecord", YesNo);
+            PublishViewChanged(Data);
             }
         private void OnRecordNumberChanged(object sender, EventArgs e)
             {
-            Data.set_ChildValue("RecordNumber", RecordNumberEdit.Text);
-            ParentUI.DoRefresh(Data);
+            XmlHelper.SetValue(Data, "RecordNumber", RecordNumberEdit.Text);
+            PublishViewChanged(Data);
             }
 
 

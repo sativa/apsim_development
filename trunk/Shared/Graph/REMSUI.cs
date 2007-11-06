@@ -7,12 +7,12 @@ using System.Text;
 using System.Windows.Forms;
 using VBUserInterface;
 using VBGeneral;
+using CSGeneral;
 
 namespace Graph
     {
     public partial class REMSUI : VBUserInterface.BaseView
         {
-        private APSIMData Data;
         private ChartPageUI ParentUI;
 
         public REMSUI()
@@ -20,9 +20,8 @@ namespace Graph
             InitializeComponent();
             }
 
-        public override void OnLoad(BaseController Controller, string NodePath)
+        protected override void OnLoad()
             {
-            base.OnLoad(Controller, NodePath);
             ParentUI = (ChartPageUI)Parent;
             }
         public override void OnRefresh()
@@ -38,18 +37,16 @@ namespace Graph
             TreatmentDropDown.TextChanged -= OnTreatmentChanged;
             DataSourceDropDown.TextChanged -= OnDataSourceChanged;
 
-            Data = Controller.ApsimData.Find(NodePath);
-
-            FileNameEdit.Text = Data.get_ChildValue("FileName");
+            FileNameEdit.Text = XmlHelper.Value(Data, "FileName");
             ExperimentDropDown.Items.Clear();
             ExperimentDropDown.Items.AddRange(ParentUI.Processor.GetExperimentNames(FileNameEdit.Text));
-            ExperimentDropDown.Text = Data.get_ChildValue("Experiment");
+            ExperimentDropDown.Text = XmlHelper.Value(Data, "Experiment");
 
             TreatmentDropDown.Items.Clear();
             TreatmentDropDown.Items.AddRange(ParentUI.Processor.GetTreatmentNames(FileNameEdit.Text, ExperimentDropDown.Text));
-            TreatmentDropDown.Text = Data.get_ChildValue("Treatment");
+            TreatmentDropDown.Text = XmlHelper.Value(Data, "Treatment");
 
-            DataSourceDropDown.Text = Data.get_ChildValue("DataSource");
+            DataSourceDropDown.Text = XmlHelper.Value(Data, "DataSource");
 
             FileNameEdit.TextChanged += OnFileNameChanged;
             ExperimentDropDown.TextChanged += OnExperimentChanged;
@@ -59,23 +56,23 @@ namespace Graph
 
         private void OnFileNameChanged(object sender, EventArgs e)
             {
-            Data.set_ChildValue("FileName", FileNameEdit.Text);
-            ParentUI.DoRefresh(Data);
+            XmlHelper.SetValue(Data, "FileName", FileNameEdit.Text);
+            PublishViewChanged(Data);
             }
         private void OnExperimentChanged(object sender, EventArgs e)
             {
-            Data.set_ChildValue("Experiment", ExperimentDropDown.Text);
-            ParentUI.DoRefresh(Data);
+            XmlHelper.SetValue(Data, "Experiment", ExperimentDropDown.Text);
+            PublishViewChanged(Data);
             }
         private void OnTreatmentChanged(object sender, EventArgs e)
             {
-            Data.set_ChildValue("Treatment", TreatmentDropDown.Text);
-            ParentUI.DoRefresh(Data);
+            XmlHelper.SetValue(Data, "Treatment", TreatmentDropDown.Text);
+            PublishViewChanged(Data);
             }
         private void OnDataSourceChanged(object sender, EventArgs e)
             {
-            Data.set_ChildValue("DataSource", DataSourceDropDown.Text);
-            ParentUI.DoRefresh(Data);
+            XmlHelper.SetValue(Data, "DataSource", DataSourceDropDown.Text);
+            PublishViewChanged(Data);
             }
 
         }
