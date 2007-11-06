@@ -747,19 +747,13 @@ float cohortingLeafPart::senFract (void)
 float cohortingLeafPart::coverTotal(void)
 //=======================================================================================
 {
-   return 1.0 - (1.0 - coverLeaf.green) * (1.0 - coverLeaf.sen) * (1.0 - coverLeaf.dead);
+   return 1.0 - (1.0 - coverLeaf.green) * (1.0 - coverLeaf.sen);
 }
 
 float cohortingLeafPart::coverGreen(void)
 //=======================================================================================
 {
    return coverLeaf.green;
-}
-
-float cohortingLeafPart::coverDead(void)
-//=======================================================================================
-{
-   return coverLeaf.dead;
 }
 
 float cohortingLeafPart::coverSen(void)
@@ -797,13 +791,6 @@ void cohortingLeafPart::doCover (PlantSpatial &spatial)
                  , getSLAI()
                  , &coverLeaf.sen);
 
-    legnew_cover (spatial.rowSpacing()
-                 , cXRowSpacing
-                 , cYExtinctCoefDead
-                 , cNumRowSpacing
-                 , spatial.canopyFac()
-                 , getTLAI_dead()
-                 , &coverLeaf.dead);
 }
 
 float cohortingLeafPart::interceptRadiationGreen (float radiation)    // incident radiation on leafs
