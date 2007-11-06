@@ -224,7 +224,7 @@ void genericLeafPart::onKillStem(void)
    // transfer plant leaf area
    {
    plantPart::onKillStem();
-   float deadLAI = gLAI;
+   //float deadLAI = gLAI;
    onEmergence();
    //gSLAI += deadLAI;
    }

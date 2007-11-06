@@ -398,7 +398,7 @@ void cohortingLeafPart::initialiseAreas(void)
 
       tpla -= cAreaPot[cohort+1];
       }
-   gTLAI_dead = 0.0;
+   
    }
 
 void cohortingLeafPart::onHarvest(float /* cutting_height */, float remove_fr,
@@ -419,7 +419,6 @@ void cohortingLeafPart::checkBounds(void)
 // Sanity checks
    {
    plantPart::checkBounds();
-   if (gTLAI_dead < 0.0) throw std::runtime_error(c.name + " gTLAI_dead is negative! (" + ftoa(gTLAI_dead,".6") + ")");
    if (gNodeNo < 0) throw std::runtime_error(c.name + " node number is negative! (" + ftoa(gNodeNo,".6") + ")");
 
    for (unsigned int cohort = 0; cohort != gLeafArea.size(); cohort++)
@@ -699,8 +698,6 @@ void cohortingLeafPart::update(void)
 
     // Plant death
     float dying_fract_plants = plant->getDyingFractionPlants();
-    float dltLAI_dead = 0.0, dltSLAI_dead = 0.0;
-
     //XX I'm not sure any of this is needed???????
     if (dying_fract_plants > 0.0)
        {
@@ -717,12 +714,7 @@ void cohortingLeafPart::update(void)
           area = dltLeafAreaSen * divide(gLeafAreaSen[cohort], areaTotSen, 0.0);
           gLeafAreaSen[cohort] = l_bound(gLeafAreaSen[cohort] - area, 0.0);
           }
-       dltLAI_dead = dltLeafArea * plant->getPlants() * smm2sm;
-       dltSLAI_dead = dltLeafAreaSen * plant->getPlants() * smm2sm;
        }
-
-       // Transfer dead leaf areas
-       gTLAI_dead +=  dltLAI_dead + dltSLAI_dead - dltTLAI_dead_detached;
 
        // Keep track of maximum size of each cohort
        for (cohort = 0; cohort != gLeafArea.size(); cohort++)
