@@ -27,7 +27,6 @@ class cohortingLeafPart : public plantLeafPart {
      { return sum(gLeafArea) * plant->getPlants() * smm2sm; };
    float getSLAI(void)
      { return sum(gLeafAreaSen) * plant->getPlants() * smm2sm; };
-   float getTLAI_dead(void)  {return gTLAI_dead;};
    float getLeafNo(void);
    float senFract (void);
    float dmGreenDemand(void)
@@ -50,7 +49,6 @@ class cohortingLeafPart : public plantLeafPart {
    float coverTotal(void)  ;
    float coverGreen(void)  ;
    float coverSen(void)  ;
-   float coverDead(void)  ;
    void doCover (PlantSpatial &spatial);
    void doDmPotRUE (void );
    void doTECO2();
@@ -80,7 +78,6 @@ class cohortingLeafPart : public plantLeafPart {
    void leaf_no_actual (void);
    void initialiseAreas(void);
 
-   float gTLAI_dead;                                  // total lai of dead plants
    float gNodeNo;                                     // number of nodes ()
    vector<float> gLeafNo;                             // number of leaves in each cohort
    vector<float> gLeafArea;                           // leaf area of each cohort (mm^2)
@@ -130,8 +127,6 @@ class cohortingLeafPart : public plantLeafPart {
    float dltLAI_pot;                                  // potential change in live plant lai
    float dltLAI_stressed;                             // potential change in lai allowing for stress
    float dltLAI_carbon;                               // potential change in lai allowing for growth
-   float dltTLAI_dead;                                // plant lai change in dead plant
-   float dltTLAI_dead_detached;                       // plant lai detached from dead plant
    float dltSLAI_detached;                            // senesced lai detached
    vector<float> dltSLA_age;                          // area that senesces from each leaf via age (mm^2)
    float dltSLAI_light;                               // senesced lai from light
@@ -153,7 +148,6 @@ class cohortingLeafPart : public plantLeafPart {
    {
       float green;
       float sen;
-      float dead;
    };
    Cover coverLeaf;
    interpolationFunction cRue;                        // radiation use efficiency as f(stage number) (g dm/mj)
