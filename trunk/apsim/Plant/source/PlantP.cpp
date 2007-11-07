@@ -305,6 +305,7 @@ void Plant::summary_p (void)
 
        P_stover = tops.VegetativeTotal().P;
        P_total = P_grain + P_stover;
+       P_dead = 0.0; //note we no longer have dead pools
 
        sprintf (msg, "%s%10.2f%20s%s%10.2f"
                 , " grain P percent        = ", P_grain_conc_percent, " "
