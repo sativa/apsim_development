@@ -328,6 +328,14 @@ public:
    float getDmVeg(void);
    float getDmGreenStem(void);
    float getDmGreenTot(void);
+   
+   float GreenDM(void) ;
+   float GreenN(void) ;
+   float GreenP(void) ;
+   float SenescedDM(void) ;
+   float SenescedN(void) ;
+   float SenescedP(void);
+   
 // FIXME - remove next line when corrections for P demand activated
    float getRelativeGrowthRate(void);
    float getTotalPotentialGrowthRate(void);
