@@ -43,13 +43,13 @@ Component  "Epopulnea" = c:\development\apsim\growth\lib\growth.dll
      Manager rules:
      
      SECTION:- init
-              co2 = 350
+        co2 = 350
      
      SECTION:- prenewmet
-              met.maxt = met.maxt + 0
-              met.mint = met.mint + 0
-              met.rain = met.rain * 0
-              met.radn = met.radn * 0.9
+        met.maxt = met.maxt + 0
+        met.mint = met.mint + 0
+        met.rain = met.rain * 0
+        met.radn = met.radn * 0.9
      END of rules
      
      Manager creating a new local real variable : co2 =     350.000000000000
