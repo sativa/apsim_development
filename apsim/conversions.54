@@ -1,39 +1,39 @@
 ------------------------------ DM ---------------------------------------------
 
-[Renamed variable: dm_green_leaf to LeafGreenDM]
-command = SearchReplace(report, "(\W)dm_green_leaf(\W)","$1LeafGreenDM$2")
-command = SearchReplace(tracker, "(\W)dm_green_leaf(\W)","$1LeafGreenDM$2")
-command = SearchReplace(manager, "(\W)dm_green_leaf(\W)","$1LeafGreenDM$2")
+[Renamed variable: dm_green_leaf to LeafGreenWt]
+command = SearchReplace(report, "(\W)dm_green_leaf(\W)","$1LeafGreenWt$2")
+command = SearchReplace(tracker, "(\W)dm_green_leaf(\W)","$1LeafGreenWt$2")
+command = SearchReplace(manager, "(\W)dm_green_leaf(\W)","$1LeafGreenWt$2")
 
-[Renamed variable: dm_green_stem to StemGreenDM]
-command = SearchReplace(report, "(\W)dm_green_stem(\W)","$1StemGreenDM$2")
-command = SearchReplace(tracker, "(\W)dm_green_stem(\W)","$1StemGreenDM$2")
-command = SearchReplace(manager, "(\W)dm_green_stem(\W)","$1StemGreenDM$2")
+[Renamed variable: dm_green_stem to StemGreenWt]
+command = SearchReplace(report, "(\W)dm_green_stem(\W)","$1StemGreenWt$2")
+command = SearchReplace(tracker, "(\W)dm_green_stem(\W)","$1StemGreenWt$2")
+command = SearchReplace(manager, "(\W)dm_green_stem(\W)","$1StemGreenWt$2")
 
-[Renamed variable: dm_green_pod to PodGreenDM]
-command = SearchReplace(report, "(\W)dm_green_pod(\W)","$1PodGreenDM$2")
-command = SearchReplace(tracker, "(\W)dm_green_pod(\W)","$1PodGreenDM$2")
-command = SearchReplace(manager, "(\W)dm_green_pod(\W)","$1PodGreenDM$2")
+[Renamed variable: dm_green_pod to PodGreenWt]
+command = SearchReplace(report, "(\W)dm_green_pod(\W)","$1PodGreenWt$2")
+command = SearchReplace(tracker, "(\W)dm_green_pod(\W)","$1PodGreenWt$2")
+command = SearchReplace(manager, "(\W)dm_green_pod(\W)","$1PodGreenWt$2")
 
-[Renamed variable: dm_green_meal to MealGreenDM]
-command = SearchReplace(report, "(\W)dm_green_meal(\W)","$1MealGreenDM$2")
-command = SearchReplace(tracker, "(\W)dm_green_meal(\W)","$1MealGreenDM$2")
-command = SearchReplace(manager, "(\W)dm_green_meal(\W)","$1MealGreenDM$2")
+[Renamed variable: dm_green_meal to MealGreenWt]
+command = SearchReplace(report, "(\W)dm_green_meal(\W)","$1MealGreenWt$2")
+command = SearchReplace(tracker, "(\W)dm_green_meal(\W)","$1MealGreenWt$2")
+command = SearchReplace(manager, "(\W)dm_green_meal(\W)","$1MealGreenWt$2")
 
-[Renamed variable: dm_green_oil to OilGreenDM]
-command = SearchReplace(report, "(\W)dm_green_oil(\W)","$1OilGreenDM$2")
-command = SearchReplace(tracker, "(\W)dm_green_oil(\W)","$1OilGreenDM$2")
-command = SearchReplace(manager, "(\W)dm_green_oil(\W)","$1OilGreenDM$2")
+[Renamed variable: dm_green_oil to OilGreenWt]
+command = SearchReplace(report, "(\W)dm_green_oil(\W)","$1OilGreenWt$2")
+command = SearchReplace(tracker, "(\W)dm_green_oil(\W)","$1OilGreenWt$2")
+command = SearchReplace(manager, "(\W)dm_green_oil(\W)","$1OilGreenWt$2")
 
-[Renamed variable: dm_green_fruit to FruitGreenDM]
-command = SearchReplace(report, "(\W)dm_green_fruit(\W)","$1FruitGreenDM$2")
-command = SearchReplace(tracker, "(\W)dm_green_fruit(\W)","$1FruitGreenDM$2")
-command = SearchReplace(manager, "(\W)dm_green_fruit(\W)","$1FruitGreenDM$2")
+[Renamed variable: dm_green_fruit to FruitGreenWt]
+command = SearchReplace(report, "(\W)dm_green_fruit(\W)","$1FruitGreenWt$2")
+command = SearchReplace(tracker, "(\W)dm_green_fruit(\W)","$1FruitGreenWt$2")
+command = SearchReplace(manager, "(\W)dm_green_fruit(\W)","$1FruitGreenWt$2")
 
-[Renamed variable: dm_green_root to RootGreenDM]
-command = SearchReplace(report, "(\W)dm_green_root(\W)","$1RootGreenDM$2")
-command = SearchReplace(tracker, "(\W)dm_green_root(\W)","$1RootGreenDM$2")
-command = SearchReplace(manager, "(\W)dm_green_root(\W)","$1RootGreenDM$2")
+[Renamed variable: dm_green_root to RootGreenWt]
+command = SearchReplace(report, "(\W)dm_green_root(\W)","$1RootGreenWt$2")
+command = SearchReplace(tracker, "(\W)dm_green_root(\W)","$1RootGreenWt$2")
+command = SearchReplace(manager, "(\W)dm_green_root(\W)","$1RootGreenWt$2")
 
 ------------------------------ N ----------------------------------------------
 
