@@ -563,6 +563,8 @@ namespace ApsimFile
                 string ModuleName1 = Path.GetFileNameWithoutExtension(XmlHelper.Attribute(Data1, "executable")).ToLower();
                 string ModuleName2 = Path.GetFileNameWithoutExtension(XmlHelper.Attribute(Data2, "executable")).ToLower();
 
+                if (x == y)
+                    return 0;
                 if (Data1.Name == "executable")
                     return -1;
                 if (Data2.Name == "executable")

@@ -431,7 +431,7 @@
       <events name="Nitrogen events" module="[name] Nitrogen" link="soiln2"/>
       <ApsimToSim>
          <calldll>
-            <class>APSIMUI.ApsimUIActions</class>
+            <class>CSUserInterface.SoilActions</class>
             <method>WriteSoilSim</method>
          </calldll>
       </ApsimToSim>
@@ -446,7 +446,7 @@
       </drops>
       <ApsimToSim>
          <calldll>
-            <class>APSIMUI.ApsimUIActions</class>
+            <class>CSUserInterface.SoilActions</class>
             <method>WriteInitWaterSim</method>
          </calldll>
       </ApsimToSim>
@@ -461,7 +461,7 @@
       </drops>
       <ApsimToSim>
          <calldll>
-            <class>APSIMUI.ApsimUIActions</class>
+            <class>CSUserInterface.SoilActions</class>
             <method>WriteInitNitrogenSim</method>
          </calldll>
       </ApsimToSim>      
@@ -900,7 +900,7 @@
          <type>component</type>
          <dll>%apsuite\apsim\manager\lib\manager.dll</dll>
          <calldll>
-            <class>APSIMUI.ApsimUIActions</class>
+            <class>CSUserInterface.SoilActions</class>
             <method>WriteManagerSim</method>
          </calldll>
       </ApsimToSim>
@@ -1252,7 +1252,7 @@
          <dll>%apsuite\apsim\plant\lib\plant.dll</dll>
          <ini>%apsuite\apsim\broccoli\broccoli.ini</ini>
          <calldll>
-            <class>APSIMUI.ApsimUIActions</class>
+            <class>CSUserInterface.SoilActions</class>
             <method>WriteCropSim</method>
          </calldll>
       </ApsimToSim>
@@ -1279,7 +1279,7 @@
          <dll>%apsuite\apsim\plant\lib\plant.dll</dll>
          <ini>%apsuite\apsim\lettuce\lettuce.ini</ini>
          <calldll>
-            <class>APSIMUI.ApsimUIActions</class>
+            <class>CSUserInterface.SoilActions</class>
             <method>WriteCropSim</method>
          </calldll>
       </ApsimToSim>
@@ -1308,7 +1308,7 @@
          <dll>%apsuite\apsim\plant\lib\plant.dll</dll>
          <ini>%apsuite\apsim\butterflypea\butterflypea.ini</ini>
          <calldll>
-            <class>APSIMUI.ApsimUIActions</class>
+            <class>CSUserInterface.SoilActions</class>
             <method>WriteCropSim</method>
          </calldll>
       </ApsimToSim>
@@ -1366,7 +1366,7 @@
          <dll>%apsuite\apsim\plant\lib\plant.dll</dll>
          <ini>%apsuite\apsim\canola\canola.ini</ini>
          <calldll>
-            <class>APSIMUI.ApsimUIActions</class>
+            <class>CSUserInterface.SoilActions</class>
             <method>WriteCropSim</method>
          </calldll>
       </ApsimToSim>
@@ -1395,7 +1395,7 @@
          <dll>%apsuite\apsim\plant\lib\plant.dll</dll>
          <ini>%apsuite\apsim\centro\centro.ini</ini>
          <calldll>
-            <class>APSIMUI.ApsimUIActions</class>
+            <class>CSUserInterface.SoilActions</class>
             <method>WriteCropSim</method>
          </calldll>
       </ApsimToSim>
@@ -1432,7 +1432,7 @@
          <dll>%apsuite\apsim\plant\lib\plant.dll</dll>
          <ini>%apsuite\apsim\chickpea\chickpea.ini</ini>
          <calldll>
-            <class>APSIMUI.ApsimUIActions</class>
+            <class>CSUserInterface.SoilActions</class>
             <method>WriteCropSim</method>
          </calldll>
       </ApsimToSim>
@@ -1465,7 +1465,7 @@
          <dll>%apsuite\apsim\plant\lib\plant.dll</dll>
          <ini>%apsuite\apsim\cowpea\cowpea.ini</ini>
          <calldll>
-            <class>APSIMUI.ApsimUIActions</class>
+            <class>CSUserInterface.SoilActions</class>
             <method>WriteCropSim</method>
          </calldll>
       </ApsimToSim>
@@ -1496,7 +1496,7 @@
          <dll>%apsuite\apsim\plant\lib\plant.dll</dll>
          <ini>%apsuite\apsim\fababean\fababean.ini</ini>
          <calldll>
-            <class>APSIMUI.ApsimUIActions</class>
+            <class>CSUserInterface.SoilActions</class>
             <method>WriteCropSim</method>
          </calldll>
       </ApsimToSim>
@@ -1530,7 +1530,7 @@
          <dll>%apsuite\apsim\plant\lib\plant.dll</dll>
          <ini>%apsuite\apsim\fieldpea\fieldpea.ini</ini>
          <calldll>
-            <class>APSIMUI.ApsimUIActions</class>
+            <class>CSUserInterface.SoilActions</class>
             <method>WriteCropSim</method>
          </calldll>
       </ApsimToSim>
@@ -1563,7 +1563,7 @@
          <dll>%apsuite\apsim\plant\lib\plant.dll</dll>
          <ini>%apsuite\apsim\lablab\lablab.ini</ini>
          <calldll>
-            <class>APSIMUI.ApsimUIActions</class>
+            <class>CSUserInterface.SoilActions</class>
             <method>WriteCropSim</method>
          </calldll>
       </ApsimToSim>
@@ -1604,7 +1604,7 @@
          <dll>%apsuite\apsim\plant\lib\plant.dll</dll>
          <ini>%apsuite\apsim\lucerne\lucerne.ini</ini>
          <calldll>
-            <class>APSIMUI.ApsimUIActions</class>
+            <class>CSUserInterface.SoilActions</class>
             <method>WriteCropSim</method>
          </calldll>
       </ApsimToSim>
@@ -1643,7 +1643,7 @@
          <dll>%apsuite\apsim\plant\lib\plant.dll</dll>
          <ini>%apsuite\apsim\lupin\lupin.ini</ini>
          <calldll>
-            <class>APSIMUI.ApsimUIActions</class>
+            <class>CSUserInterface.SoilActions</class>
             <method>WriteCropSim</method>
          </calldll>
       </ApsimToSim>
@@ -1746,7 +1746,7 @@
          <dll>%apsuite\apsim\maize\lib\maize.dll</dll>
          <ini>%apsuite\apsim\maize\maize.ini</ini>
          <calldll>
-            <class>APSIMUI.ApsimUIActions</class>
+            <class>CSUserInterface.SoilActions</class>
             <method>WriteCropSim</method>
          </calldll>
       </ApsimToSim>
@@ -1775,7 +1775,7 @@
          <dll>%apsuite\apsim\plant\lib\plant.dll</dll>
          <ini>%apsuite\apsim\mucuna\mucuna.ini</ini>
          <calldll>
-            <class>APSIMUI.ApsimUIActions</class>
+            <class>CSUserInterface.SoilActions</class>
             <method>WriteCropSim</method>
          </calldll>
       </ApsimToSim>
@@ -1814,7 +1814,7 @@
          <dll>%apsuite\apsim\plant\lib\plant.dll</dll>
          <ini>%apsuite\apsim\mungbean\mungbean.ini</ini>
          <calldll>
-            <class>APSIMUI.ApsimUIActions</class>
+            <class>CSUserInterface.SoilActions</class>
             <method>WriteCropSim</method>
          </calldll>
       </ApsimToSim>
@@ -1845,7 +1845,7 @@
          <dll>%apsuite\apsim\plant\lib\plant.dll</dll>
          <ini>%apsuite\apsim\horsegram\horsegram.ini</ini>
          <calldll>
-            <class>APSIMUI.ApsimUIActions</class>
+            <class>CSUserInterface.SoilActions</class>
             <method>WriteCropSim</method>
          </calldll>
       </ApsimToSim>
@@ -1879,7 +1879,7 @@
          <dll>%apsuite\apsim\plant\lib\plant.dll</dll>
          <ini>%apsuite\apsim\navybean\navybean.ini</ini>
          <calldll>
-            <class>APSIMUI.ApsimUIActions</class>
+            <class>CSUserInterface.SoilActions</class>
             <method>WriteCropSim</method>
          </calldll>
       </ApsimToSim>
@@ -1984,7 +1984,7 @@
          <dll>%apsuite\apsim\ozcot\lib\ozcot.dll</dll>
          <ini>%apsuite\apsim\ozcot\ozcot.ini</ini>
          <calldll>
-            <class>APSIMUI.ApsimUIActions</class>
+            <class>CSUserInterface.SoilActions</class>
             <method>WriteCropSim</method>
          </calldll>
       </ApsimToSim>
@@ -2100,7 +2100,7 @@
          <dll>%apsuite\apsim\plant\lib\plant.dll</dll>
          <ini>%apsuite\apsim\peanut\peanut.ini</ini>
          <calldll>
-            <class>APSIMUI.ApsimUIActions</class>
+            <class>CSUserInterface.SoilActions</class>
             <method>WriteCropSim</method>
          </calldll>
       </ApsimToSim>
@@ -2133,7 +2133,7 @@
          <dll>%apsuite\apsim\plant\lib\plant.dll</dll>
          <ini>%apsuite\apsim\pigeonp\pigeonp.ini</ini>
          <calldll>
-            <class>APSIMUI.ApsimUIActions</class>
+            <class>CSUserInterface.SoilActions</class>
             <method>WriteCropSim</method>
          </calldll>
       </ApsimToSim>
@@ -2163,7 +2163,7 @@
          <dll>%apsuite\apsim\plant\lib\plant.dll</dll>
          <ini>%apsuite\apsim\potato\potato.ini</ini>
          <calldll>
-            <class>APSIMUI.ApsimUIActions</class>
+            <class>CSUserInterface.SoilActions</class>
             <method>WriteCropSim</method>
          </calldll>
       </ApsimToSim>
@@ -2215,7 +2215,7 @@
             <rlv> 0.01 0 0 0 0 0 0 0 0 0 0 0 0 0</rlv>
          </sim>
          <calldll>
-            <class>APSIMUI.ApsimUIActions</class>
+            <class>CSUserInterface.SoilActions</class>
             <method>WriteCropSim</method>
          </calldll>
       </ApsimToSim>
@@ -2293,7 +2293,7 @@
             <ll> [slurp.ll]</ll>
          </sim>
          <calldll>
-            <class>APSIMUI.ApsimUIActions</class>
+            <class>CSUserInterface.SoilActions</class>
             <method>WriteCropSim</method>
          </calldll>
       </ApsimToSim>
@@ -2336,7 +2336,7 @@
          <dll>%apsuite\apsim\sorghum\lib\sorghum.dll</dll>
          <ini>%apsuite\apsim\sorghum\sorghum.ini</ini>
          <calldll>
-            <class>APSIMUI.ApsimUIActions</class>
+            <class>CSUserInterface.SoilActions</class>
             <method>WriteCropSim</method>
          </calldll>
       </ApsimToSim>
@@ -2375,7 +2375,7 @@
          <dll>%apsuite\apsim\plant\lib\plant.dll</dll>
          <ini>%apsuite\apsim\soybean\soybean.ini</ini>
          <calldll>
-            <class>APSIMUI.ApsimUIActions</class>
+            <class>CSUserInterface.SoilActions</class>
             <method>WriteCropSim</method>
          </calldll>
       </ApsimToSim>
@@ -2404,7 +2404,7 @@
          <dll>%apsuite\apsim\plant\lib\plant.dll</dll>
          <ini>%apsuite\apsim\stylo\stylo.ini</ini>
          <calldll>
-            <class>APSIMUI.ApsimUIActions</class>
+            <class>CSUserInterface.SoilActions</class>
             <method>WriteCropSim</method>
          </calldll>
       </ApsimToSim>
@@ -2512,7 +2512,7 @@
             <rlv>0.04  0.02  0.01  .005  0.00  0.00 0.00</rlv>
          </sim>
          <calldll>
-            <class>APSIMUI.ApsimUIActions</class>
+            <class>CSUserInterface.SoilActions</class>
             <method>WriteCropSim</method>
          </calldll>
       </ApsimToSim>
@@ -2601,7 +2601,7 @@
          <dll>%apsuite\apsim\cropmod\lib\cropmod.dll</dll>
          <ini>%apsuite\apsim\sunflower\sunflower.ini</ini>
          <calldll>
-            <class>APSIMUI.ApsimUIActions</class>
+            <class>CSUserInterface.SoilActions</class>
             <method>WriteCropSim</method>
          </calldll>
       </ApsimToSim>
@@ -2630,7 +2630,7 @@
          <dll>%apsuite\apsim\plant\lib\plant.dll</dll>
          <ini>%apsuite\apsim\SweetCorn\SweetCorn.ini</ini>
          <calldll>
-            <class>APSIMUI.ApsimUIActions</class>
+            <class>CSUserInterface.SoilActions</class>
             <method>WriteCropSim</method>
          </calldll>
       </ApsimToSim>
@@ -2659,7 +2659,7 @@
          <dll>%apsuite\apsim\plant\lib\plant.dll</dll>
          <ini>%apsuite\apsim\sweetsorghum\sweetsorghum.ini</ini>
          <calldll>
-            <class>APSIMUI.ApsimUIActions</class>
+            <class>CSUserInterface.SoilActions</class>
             <method>WriteCropSim</method>
          </calldll>
       </ApsimToSim>
@@ -2708,7 +2708,7 @@
          <dll>%apsuite\apsim\plant\lib\plant.dll</dll>
          <ini>%apsuite\apsim\weed\weed.ini</ini>
          <calldll>
-            <class>APSIMUI.ApsimUIActions</class>
+            <class>CSUserInterface.SoilActions</class>
             <method>WriteCropSim</method>
          </calldll>
       </ApsimToSim>
@@ -2834,7 +2834,7 @@
          <dll>%apsuite\apsim\plant\lib\plant.dll</dll>
          <ini>%apsuite\apsim\wheat\wheat.ini</ini>
          <calldll>
-            <class>APSIMUI.ApsimUIActions</class>
+            <class>CSUserInterface.SoilActions</class>
             <method>WriteCropSim</method>
          </calldll>
       </ApsimToSim>
@@ -2869,7 +2869,7 @@
          <dll>%apsuite\apsim\plant\lib\plant.dll</dll>
          <ini>%apsuite\apsim\oats\oats.ini</ini>
          <calldll>
-            <class>APSIMUI.ApsimUIActions</class>
+            <class>CSUserInterface.SoilActions</class>
             <method>WriteCropSim</method>
          </calldll>
       </ApsimToSim>
@@ -2923,7 +2923,7 @@
             <rlv> 0.01 0 0 0 0 0 0 0 0 0 0 0 0 0</rlv>
          </sim>
          <calldll>
-            <class>APSIMUI.ApsimUIActions</class>
+            <class>CSUserInterface.SoilActions</class>
             <method>WriteCropSim</method>
          </calldll>
       </ApsimToSim>
@@ -2965,7 +2965,7 @@
          <dll>%apsuite\apsim\plant\lib\plant.dll</dll>
          <ini>%apsuite\apsim\barley\barley.ini</ini>
          <calldll>
-            <class>APSIMUI.ApsimUIActions</class>
+            <class>CSUserInterface.SoilActions</class>
             <method>WriteCropSim</method>
          </calldll>
       </ApsimToSim>
@@ -3283,7 +3283,7 @@
             <rlv> 0.01 0 0 0 0 0 0 0 0 0 0 0 0 0</rlv>
          </sim>
          <calldll>
-            <class>APSIMUI.ApsimUIActions</class>
+            <class>CSUserInterface.SoilActions</class>
             <method>WriteCropSim</method>
          </calldll>
       </ApsimToSim>
@@ -3337,7 +3337,7 @@
             <rlv> 0.01 0 0 0 0 0 0 0 0 0 0 0 0 0</rlv>
          </sim>
          <calldll>
-            <class>APSIMUI.ApsimUIActions</class>
+            <class>CSUserInterface.SoilActions</class>
             <method>WriteCropSim</method>
          </calldll>
       </ApsimToSim>
@@ -3391,7 +3391,7 @@
             <rlv> 0.01 0 0 0 0 0 0 0 0 0 0 0 0 0</rlv>
          </sim>
          <calldll>
-            <class>APSIMUI.ApsimUIActions</class>
+            <class>CSUserInterface.SoilActions</class>
             <method>WriteCropSim</method>
          </calldll>
       </ApsimToSim>
