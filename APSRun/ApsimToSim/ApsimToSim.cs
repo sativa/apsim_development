@@ -32,6 +32,8 @@ namespace ApsimToSim
                     SimNames[i-1] = args[i];
                 }
 
+            Assembly.Load("CSUserInterface");
+
 			if (ApsimFileName == null)
 				Console.WriteLine("No .apsim file specified on the command line");
 
@@ -55,36 +57,31 @@ namespace ApsimToSim
 
 			// convert the specified simulations in the specified apsim file name
 			// into a separate .sim file for each.
-			XmlDocument Doc = new XmlDocument();
-			Doc.Load(ApsimFileName);
-            XmlNode Data = Doc.DocumentElement;
+            ApsimFile.ApsimFile Apsim = new ApsimFile.ApsimFile(Configuration);
+            Apsim.OpenFile(ApsimFileName);
 
-            // Run the converter in case a conversion is needed.
-            if (ApsimFile.APSIMChangeTool.Upgrade(Data))
-                Doc.Save(ApsimFileName);
+            // In case the file is now dirty due to .apsim file converter then save it
+            if (Apsim.IsDirty)
+                Apsim.Save();
 
-            findSimsAndConvert(Data, SimNames);
+            FindSimsAndConvert(Apsim.RootComponent, SimNames);
             }
-
-        private void findSimsAndConvert(XmlNode Data, string[] SimNames)
+        private void FindSimsAndConvert(ApsimFile.Component Apsim,  string[] SimNames)
             {
 			// Iterate through all nested simulations and convert them to
             // .sim format if necessary.
-            foreach (XmlNode child in XmlHelper.ChildNodes(Data, ""))
+            foreach (ApsimFile.Component child in Apsim.ChildNodes)
                 {
-                if (XmlHelper.Type(child).ToLower() == "simulation")
+                if (child.Type.ToLower() == "simulation")
                     {
-                    ApsimFile.ApsimFile Simulation = new ApsimFile.ApsimFile(Configuration);
-                    Simulation.Open(child);
-
-                    string SimName = XmlHelper.Name(child);
+                    string SimName = child.Name;
                     bool convertSim = (SimNames.Length == 0 || Array.IndexOf(SimNames, SimName) != -1);
                     if (convertSim)
                         {
                         try
                             {
                             XmlDocument Doc = new XmlDocument();
-                            Simulation.RootComponent.WriteSim(Doc, Configuration);
+                            child.WriteSim(Doc, Configuration);
                             Doc.Save(SimName + ".sim");
                             }
                         catch (Exception err)
@@ -93,8 +90,8 @@ namespace ApsimToSim
                             }
                         }
                     }
-                if (XmlHelper.Type(child).ToLower() == "folder")
-                    findSimsAndConvert(child, SimNames);
+                if (child.Type.ToLower() == "folder")
+                    FindSimsAndConvert(child, SimNames);
                 }                    
 			}
 

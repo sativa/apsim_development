@@ -314,5 +314,125 @@ namespace CSUserInterface
             e.PageSettings.Margins.Bottom = 50;
             }
         #endregion 
+
+        #region SIM file writing stuff
+        public static XmlNode WriteSoilSim(ApsimFile.Component Component, XmlNode ParentNode)
+            {
+            XmlDocument Doc = new XmlDocument();
+            Doc.LoadXml(Component.Contents);
+            Soils.Soil Soil = new Soils.Soil(Doc.DocumentElement);
+            return Soil.ExportToSim(ParentNode);
+            }
+        public static XmlNode WriteCropSim(ApsimFile.Component Component, XmlNode ParentNode)
+            {
+            // Go find our related soil - must be a sibling. 
+            ApsimFile.Component SoilComponent = null;
+            ApsimFile.Component Paddock = Component.FindContainingPaddock();
+            if ((Paddock == null))
+                {
+                throw new Exception("Cannot find containing paddock for component: " + Component.Name);
+                }
+            foreach (ApsimFile.Component Sibling in Paddock.ChildNodes)
+                {
+                if (Sibling.Type.ToLower() == "soil")
+                    {
+                    SoilComponent = Sibling;
+                    }
+                }
+
+            if ((SoilComponent == null))
+                {
+                throw new Exception("Cannot find a soil component");
+                }
+            XmlDocument Doc = new XmlDocument();
+            Doc.LoadXml(SoilComponent.Contents);
+            Soils.Soil Soil = new Soils.Soil(Doc.DocumentElement);
+            return Soil.ExportCropToSim(ParentNode, Component.Type);
+            }
+
+        public static XmlNode WriteInitWaterSim(ApsimFile.Component Component, XmlNode ParentNode)
+            {
+            // Go find our related soil - should be parent 
+
+            ApsimFile.Component SoilComponent = Component.Parent;
+            if ((SoilComponent == null))
+                {
+                throw new Exception("Cannot find a soil component");
+                }
+            XmlDocument Doc = new XmlDocument();
+            Doc.LoadXml(SoilComponent.Contents);
+            Soils.Soil Soil = new Soils.Soil(Doc.DocumentElement);
+
+            // Go create an initwater object. 
+            XmlDocument InitWaterDoc = new XmlDocument();
+            InitWaterDoc.LoadXml(Component.Contents);
+            Soils.InitWater InitWater = new Soils.InitWater(InitWaterDoc.DocumentElement, Soil);
+            return InitWater.ExportToSim(ParentNode);
+
+            }
+
+        public static XmlNode WriteInitNitrogenSim(ApsimFile.Component Component, XmlNode ParentNode)
+            {
+            // Go find our related soil - should be parent 
+            ApsimFile.Component SoilComponent = Component.Parent;
+            if ((SoilComponent == null))
+                {
+                throw new Exception("Cannot find a soil component");
+                }
+            XmlDocument Doc = new XmlDocument();
+            Doc.LoadXml(SoilComponent.Contents);
+            Soils.Soil Soil = new Soils.Soil(Doc.DocumentElement);
+
+            // Find the <component name="nitrogen"> node 
+            string NitrogenComponentName = XmlHelper.Name(ParentNode).Replace(" Water", " Nitrogen");
+            XmlNode NitrogenSimNode = XmlHelper.Find(ParentNode.ParentNode, NitrogenComponentName);
+            if ((NitrogenSimNode == null))
+                {
+                throw new Exception("Cannot find soiln2 node");
+                }
+
+            // Go create an initwater object. 
+            XmlDocument InitNitrogenDoc = new XmlDocument();
+            InitNitrogenDoc.LoadXml(Component.Contents);
+            Soils.InitNitrogen InitNitrogen = new Soils.InitNitrogen(InitNitrogenDoc.DocumentElement, Soil);
+            return InitNitrogen.ExportToSim(NitrogenSimNode);
+
+            }
+        public static XmlNode WriteManagerSim(ApsimFile.Component Component, XmlNode ParentNode)
+            {
+            foreach (ApsimFile.Component RuleComponent in Component.ChildNodes)
+                {
+                XmlDocument Doc = new XmlDocument();
+                Doc.LoadXml(RuleComponent.Contents);
+                XmlNode Rule = Doc.DocumentElement;
+                foreach (XmlNode Condition in XmlHelper.ChildNodes(Rule, "condition"))
+                    {
+                    string Contents = Condition.OuterXml;
+
+                    foreach (XmlNode Category in XmlHelper.ChildNodes(Rule, "category"))
+                        {
+                        foreach (XmlNode Prop in XmlHelper.ChildNodes(Category, ""))
+                            {
+                            string MacroToLookFor = "[" + Prop.Name + "]";
+                            Contents = Contents.Replace(MacroToLookFor, Prop.InnerText);
+                            }
+                        }
+                    Contents = Contents.Replace("<condition ", "<rule ");
+                    Contents = Contents.Replace("</condition>", "</rule>");
+                    XmlDocument RuleDoc = new XmlDocument();
+                    RuleDoc.LoadXml(Contents);
+                    XmlNode NewRule = RuleDoc.DocumentElement;
+
+                    string RuleCondition = XmlHelper.Name(NewRule);
+                    string NewName = XmlHelper.Name(Rule) + " - " + RuleCondition;
+                    XmlHelper.SetName(RuleDoc.DocumentElement, NewName);
+                    XmlHelper.SetAttribute(RuleDoc.DocumentElement, "condition", RuleCondition);
+                    ParentNode.AppendChild(ParentNode.OwnerDocument.ImportNode(NewRule, true));
+                    }
+                }
+            return ParentNode;
+            }
+        #endregion 
+
         }
     }
