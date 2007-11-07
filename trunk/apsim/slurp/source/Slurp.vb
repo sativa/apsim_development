@@ -59,27 +59,27 @@ Public Class Slurp
     Private Sub ReadParameters()
 
         ' Get UptakeSource - if missing set to "calc"
-        UptakeSource = Data.ChildValue("uptake_source")
+        UptakeSource = XmlHelper.Value(Data, "uptake_source")
         If UptakeSource = "" Then UptakeSource = "calc"
         If UptakeSource = "distributed" Then
-            Zones = StringToStringArray(Data.Child("zones").Value)
-            Distances = StringToSingleArray(Data.Child("distances").Value)
+            Zones = StringToStringArray(XmlHelper.Value(Data, "zones"))
+            Distances = StringToSingleArray(XmlHelper.Value(Data, "distances"))
         End If
 
-        LAI = Convert.ToSingle(Data.Child("lai").Value)
-        LAId = Convert.ToSingle(Data.Child("laid").Value)
-        Kg = Convert.ToSingle(Data.Child("kg").Value)
-        Kd = Convert.ToSingle(Data.Child("kd").Value)
-        Height = Convert.ToSingle(Data.Child("height").Value)
-        CropType = Data.Child("crop_type").Value
-        Frgr = Convert.ToSingle(Data.Child("frgr").Value)
+        LAI = Convert.ToSingle(XmlHelper.Value(Data, "lai"))
+        LAId = Convert.ToSingle(XmlHelper.Value(Data, "laid"))
+        Kg = Convert.ToSingle(XmlHelper.Value(Data, "kg"))
+        Kd = Convert.ToSingle(XmlHelper.Value(Data, "kd"))
+        Height = Convert.ToSingle(XmlHelper.Value(Data, "height"))
+        CropType = XmlHelper.Value(Data, "crop_type")
+        Frgr = Convert.ToSingle(XmlHelper.Value(Data, "frgr"))
 
-        FVPDFunction.data = Data.Child("fvpd")
-        FtFunction.data = Data.Child("ft")
+        FVPDFunction.data = XmlHelper.Find(Data, "fvpd")
+        FtFunction.data = XmlHelper.Find(Data, "ft")
 
-        rlv = StringToSingleArray(Data.Child("rlv").Value)
-        ll = StringToSingleArray(Data.Child("ll").Value)
-        kl = StringToSingleArray(Data.Child("kl").Value)
+        rlv = StringToSingleArray(XmlHelper.Value(Data, "rlv"))
+        ll = StringToSingleArray(XmlHelper.Value(Data, "ll"))
+        kl = StringToSingleArray(XmlHelper.Value(Data, "kl"))
 
         'Dim RootData As New RootParameters(Data.Child("layers"))
         'rlv = RootData.rlv
@@ -409,15 +409,16 @@ Public Class Slurp
         Private XVals() As Double
         Private YVals() As Double
 
-        Public WriteOnly Property data() As APSIMData
-            Set(ByVal Points As APSIMData)
-                ReDim XVals(Points.Children.Length - 1)
-                ReDim YVals(Points.Children.Length - 1)
+        Public WriteOnly Property data() As Xml.XmlNode
+            Set(ByVal Points As Xml.XmlNode)
+                Dim NumPoints As Integer = XmlHelper.ChildNodes(Points, "").Count
+                ReDim XVals(NumPoints - 1)
+                ReDim YVals(NumPoints - 1)
                 Dim i As Integer = -1
-                For Each point As APSIMData In Points.Children
+                For Each point As Xml.XmlNode In XmlHelper.ChildNodes(Points, "")
                     i = i + 1
-                    XVals(i) = Convert.ToSingle(point.Child("x").Value)
-                    YVals(i) = Convert.ToSingle(point.Child("y").Value)
+                    XVals(i) = Convert.ToSingle(XmlHelper.Value(point, "x"))
+                    YVals(i) = Convert.ToSingle(XmlHelper.Value(point, "y"))
                 Next
 
             End Set
@@ -430,21 +431,21 @@ Public Class Slurp
 
     Private Class RootParameters
 
-        Private MyData As APSIMData
-        Public Sub New(ByVal Data As APSIMData)
+        Private MyData As Xml.XmlNode
+        Public Sub New(ByVal Data As Xml.XmlNode)
             MyData = Data
         End Sub
 
 
         Private Function value(ByVal name As String) As Single()
 
-            Dim ReturnValue(MyData.Children.Length - 1) As Single
+            Dim ReturnValue(XmlHelper.ChildNodes(MyData, "").Count - 1) As Single
 
             Dim i As Integer = -1
-            For Each layer As APSIMData In MyData.Children
+            For Each layer As Xml.XmlNode In XmlHelper.ChildNodes(MyData, "")
                 i = i + 1
-                If Not IsNothing(layer.Child(name)) Then
-                    ReturnValue(i) = layer.Child(name).Value
+                If Not IsNothing(XmlHelper.Find(layer, name)) Then
+                    ReturnValue(i) = XmlHelper.Value(layer, name)
                 End If
             Next
 

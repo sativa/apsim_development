@@ -1,5 +1,6 @@
 #pragma once
 #using <System.dll>
+#using <System.Xml.dll>
 #include <vector>
 #include "datatypes.h"
 #include "ComponentInterface.h"
@@ -8,6 +9,7 @@
 #include "ApsimProperties.h"
 
 using namespace System::Reflection;
+using namespace System::Xml;
 
 namespace ComponentInterface {
 public ref class ApsimComponent
@@ -187,7 +189,7 @@ public ref class ApsimComponent
 		
 	protected:
 		String^ Name;
-		VBGeneral::APSIMData^ Data;
+		XmlNode^ Data;
 		ApsimEvents^ events;
 		ApsimProperties^ properties;		
 		
@@ -228,7 +230,9 @@ public ref class ApsimComponent
 			events = gcnew ApsimEvents(componentComms);
 			properties = gcnew ApsimProperties(componentComms);
 			Name = N;
-			Data = gcnew VBGeneral::APSIMData(SDML);
+			XmlDocument^ Doc = gcnew XmlDocument();
+			Doc->LoadXml(SDML);
+			Data = Doc->DocumentElement;
 			RegisterAllProperties();
 			RegisterAllFields();
 			RegisterAllEventHandlers();
