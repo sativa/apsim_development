@@ -313,11 +313,11 @@ void Plant::summary_p (void)
 
        sprintf (msg, "%s%10.2f%20s%s%8.2f"
                 , " grain P uptake (kg/ha) = ", P_grain, " "
-                , " senesced P content (kg/ha)=", (tops.VegetativeTotal().P - tops.Vegetative().P));
+                , " senesced P content (kg/ha)=", (tops.VegetativeTotal().P - tops.Vegetative().P))* gm2kg/sm2ha;
        parent->writeString (msg);
 
        sprintf (msg, "%s%10.2f%20s%s%10.2f"
-                , " green P content (kg/ha)= ", tops.Vegetative().P, " "
+                , " green P content (kg/ha)= ", tops.Vegetative().P * gm2kg/sm2ha, " "
                 , " dead P content (kg/ha) = ", P_dead);
        parent->writeString (msg);
    }

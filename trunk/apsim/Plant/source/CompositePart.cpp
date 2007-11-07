@@ -86,9 +86,6 @@ void CompositePart::onInit1(protocol::Component *system)
    plantPart::onInit1(system);
 
    vector <plantPart *>::iterator part;
-   scienceAPI.expose("dm_green", "g/m^2", "Green weight of ", Green().DM);
-   scienceAPI.expose("n_green", "g/m^2",  "Green nitrogen of ", Green().N);
-   scienceAPI.expose("p_green", "g/m^2",  "Green phosphorus of ", Green().P);
    if (c.name == "")  // If you don't have this then we get a TopsSWDemand - not needed.
       {
       scienceAPI.exposeFunction("sw_demand", "mm",  "Demand for soil water", FloatFunction(&CompositePart::SWDemand));
