@@ -342,10 +342,13 @@ namespace CSGeneral
             for (int i = 1; i <= NumChildrenToAdd; i++)
                 Node.AppendChild(CreateNode(Node.OwnerDocument, ChildType, ChildName));
 
-            List<XmlNode> ChildsToDelete = ChildNodes(Node, ChildType);
-            ChildsToDelete.RemoveRange(0, ChildsToDelete.Count - NumChildrenToDelete);
-            foreach (XmlNode ChildToDelete in ChildsToDelete)
-                Node.RemoveChild(ChildToDelete);
+            if (NumChildrenToDelete > 0)
+                {
+                List<XmlNode> ChildsToDelete = ChildNodes(Node, ChildType);
+                ChildsToDelete.RemoveRange(0, ChildsToDelete.Count - NumChildrenToDelete);
+                foreach (XmlNode ChildToDelete in ChildsToDelete)
+                    Node.RemoveChild(ChildToDelete);
+                }
             }
         
         private class XmlNodeComparer : System.Collections.IComparer

@@ -165,7 +165,7 @@ namespace Soils
             else
                 Profile = XmlHelper.Find(Data, ParentNodeName);
             if (Profile == null)
-                Profile = Data.AppendChild(XmlHelper.CreateNode(Profile.OwnerDocument, "profile", ""));
+                Profile = Data.AppendChild(Data.OwnerDocument.CreateElement("profile"));
 
 
             // if values is zero length then the caller wants to delete a property
