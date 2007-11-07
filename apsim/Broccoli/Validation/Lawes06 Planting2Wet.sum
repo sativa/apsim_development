@@ -21,9 +21,9 @@ Component "operations" = c:\development\apsim\operatns\lib\operatns.dll
 Component "fertiliser" = c:\development\apsim\fertiliz\lib\fertiliz.dll
 Component "Irrigation" = c:\development\apsim\irrigate\lib\irrigate.dll
 Component    "Manager" = c:\development\apsim\manager\lib\manager.dll
-Component "Soil Water" = c:\development\apsim\soilwat2\lib\soilwat2.dll
+Component "DPIGatton Water" = c:\development\apsim\soilwat2\lib\soilwat2.dll
 Component "surface organic matter" = c:\development\apsim\surfaceom\lib\surfaceom.dll
-Component "Soil Nitrogen" = c:\development\apsim\soiln2\lib\soiln2.dll
+Component "DPIGatton Nitrogen" = c:\development\apsim\soiln2\lib\soiln2.dll
 Component   "broccoli" = c:\development\apsim\plant\lib\plant.dll
 
 ------- clock Initialisation --------------------------------------------------
@@ -151,27 +151,27 @@ Component   "broccoli" = c:\development\apsim\plant\lib\plant.dll
      Manager rules:
      
      SECTION:- broccoli.sowing
-         fertiliser apply amount = 300 (kg/ha), depth = 50 (mm), type = no3_n
+             fertiliser apply amount = 300 (kg/ha), depth = 50 (mm), type = no3_n
      
      SECTION:- start_of_day
-       if (today = date('1-jun') then
-                     broccoli sow plants =4, sowing_depth = 50, cultivar = greenbelt, row_spacing = 600
-         endif
+           if (today = date('1-jun') then
+             broccoli sow plants =4, sowing_depth = 50, cultivar = greenbelt, row_spacing = 600
+             endif
      
      SECTION:- start_of_day
-         if (broccoli.stage_name = 'maturity') then
-                     broccoli harvest
-                     broccoli end_crop
-         endif
+             if (broccoli.stage_name = 'maturity') then
+             broccoli harvest
+             broccoli end_crop
+             endif
      
      SECTION:- broccoli.sowing
-          if (10 > 0) then
-             'irrigation' apply amount = 10 (mm)
-          endif
+              if (10 > 0) then
+     'irrigation' apply amount = 10 (mm)
+              endif
      END of rules
      
 
-------- Soil Water Initialisation ---------------------------------------------
+------- DPIGatton Water Initialisation ----------------------------------------
      
          - Reading constants
      
@@ -258,7 +258,7 @@ Component   "broccoli" = c:\development\apsim\plant\lib\plant.dll
                       Effective Cover from Surface Materials =   0.4
      
 
-------- Soil Nitrogen Initialisation ------------------------------------------
+------- DPIGatton Nitrogen Initialisation -------------------------------------
      
         - Reading Parameters
      
@@ -393,20 +393,20 @@ Component   "broccoli" = c:\development\apsim\plant\lib\plant.dll
 18 August 2006(Day of year=230), broccoli: 
       stage 6.0 buttoning
                      biomass =         397.80 (g/m^2)   lai          =   1.676 (m^2/m^2)
-                     stover N conc =     4.40 (%)    extractable sw =   56.65 (mm)
+                     stover N conc =     4.46 (%)    extractable sw =   56.65 (mm)
 20 August 2006(Day of year=232), operations: 
       Sending apply message to irrigation
 29 August 2006(Day of year=241), broccoli: 
       stage 7.0 maturity
                      biomass =         555.21 (g/m^2)   lai          =   1.581 (m^2/m^2)
-                     stover N conc =     4.32 (%)    extractable sw =   59.04 (mm)
+                     stover N conc =     4.23 (%)    extractable sw =   59.04 (mm)
 30 August 2006(Day of year=242), operations: 
       Sending apply message to irrigation
 30 August 2006(Day of year=242), Manager: 
      Manager sending message :- broccoli harvest
 30 August 2006(Day of year=242), broccoli: 
      
-      flowering day          =    0                           stover (kg/ha)         =     4300.0
+      flowering day          =    0                           stover (kg/ha)         =     5552.1
       maturity day           =  241                           grain yield (kg/ha)    =        0.0
       grain % water content  =    0.0                         grain yield wet (kg/ha)=        0.0
       grain wt (g)           =    0.000                       grains/m^2             =      0.000
@@ -418,10 +418,10 @@ Component   "broccoli" = c:\development\apsim\plant\lib\plant.dll
       dead above ground biomass (kg/ha)     =        0.0
       number of leaves       =   17.9
       DM Root:Shoot ratio    =    0.453                       Harvest Index          =      0.000
-      Stover C:N ratio       =   10.301                       Root C:N ratio         =     40.062
-      grain N percent        =       0.00                     total N content (kg/ha)=     166.98
+      Stover C:N ratio       =   10.252                       Root C:N ratio         =     40.062
+      grain N percent        =       0.00                     total N content (kg/ha)=     216.62
       grain N uptake (kg/ha) =       0.00                     senesced N content (kg/ha)=   10.02
-      green N content (kg/ha)=     156.96                     dead N content (kg/ha) =       0.00
+      green N content (kg/ha)=     206.60                     dead N content (kg/ha) =       0.00
      
       Average Stress Indices:                          Water Photo  Water Expan  N Photo      N grain conc
          emergence            to end_of_juvenile         0.000        0.000        0.000        0.000
