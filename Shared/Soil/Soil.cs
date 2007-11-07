@@ -25,7 +25,7 @@ namespace Soils
 
         public string Name
             {
-            get { return Data.Name; }
+            get { return XmlHelper.Name(Data); }
             set { XmlHelper.SetName(Data, value); }
             }
         public string State
