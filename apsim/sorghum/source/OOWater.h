@@ -118,7 +118,8 @@ class Water : public PlantProcess
    void getSwDefLayers(protocol::Component *system, protocol::QueryValueData &qd);
    void getSwUptakeLayers(protocol::Component *system, protocol::QueryValueData &qd);
    void getEpLayers(protocol::Component *system, protocol::QueryValueData &qd);
-
+   void getllDep(protocol::Component *system, protocol::QueryValueData &qd);
+   
    float getESW(void){return sumVector(esw);}
    float getESWAvail(void)const{return totalAvail;}
    };
