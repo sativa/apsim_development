@@ -1041,7 +1041,11 @@ namespace Soils
             if (Rocks.Length > 0 && Rocks[0] != MathUtility.MissingValue)
                 XmlHelper.SetValue(NitrogenInitData, "rocks", Utility.LayeredToString(Rocks));
 
-
+            // Write in some default NH4 values.
+            double[] DefaultNH4 = new double[Thickness.Length];
+            for (int i = 0; i != Thickness.Length; i++)
+                DefaultNH4[i] = 0.2;
+            XmlHelper.SetValue(NitrogenInitData, "nh4ppm", Utility.LayeredToString(DefaultNH4));
 
             // Phosphorus variables
             if (RootCP != MathUtility.MissingValue)
@@ -1073,8 +1077,12 @@ namespace Soils
                     XmlHelper.SetValue(Node, "initdata/kl", Utility.LayeredToString(KL(CropName)));
 
                     double[] xf = XF(CropName);
+                    double[] ec = EC;
                     if (MaxRootDepth > 0)
                         ApplyMaxRootDepth(Thickness, MaxRootDepth * 10, ref xf);
+                    if (UseEC && EC.Length > 0)
+                        ApplyECXFFunction(Thickness, ec, ref xf);
+
                     XmlHelper.SetValue(Node, "initdata/xf", Utility.LayeredToString(xf));
                     return Node;
                     }
@@ -1431,7 +1439,7 @@ namespace Soils
         #endregion
 
         #region Manipulation / fudges
-        private static void ApplyECXFFunction(double[] Thickness, double[] EC, ref double[] xf)
+        public static void ApplyECXFFunction(double[] Thickness, double[] EC, ref double[] xf)
 			{
             // -------------------------------------------------
             // Using the soil's EC values - create an XF profile

@@ -141,7 +141,8 @@ namespace ApsimFile
 				}
 			else if (XmlHelper.Type(Data).ToLower() == "sample")
 				{
-				SoilSample MySample = new SoilSample(Data);
+                Soil MySoil = new Soil(Data.ParentNode);
+				SoilSample MySample = new SoilSample(Data, MySoil);
 				MySample.UpgradeToVersion3();
 				}
 			}	
@@ -322,7 +323,8 @@ namespace ApsimFile
                 MySoil.UpgradeToVersion7();
                 foreach (XmlNode Child in XmlHelper.ChildNodes(Data, "soilsample"))
                     {
-                    SoilSample MySample = new SoilSample(Child);
+                    Soil ParentSoil = new Soil(Child.ParentNode);
+                    SoilSample MySample = new SoilSample(Child, ParentSoil);
                     MySample.UpgradeToVersion7();
                     }
                 }
