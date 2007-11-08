@@ -19,7 +19,7 @@ Water::Water(OOPlant *p)
    plant = p;
    plantInterface = p->plantInterface;
 
-   //Init Accumulation Vars
+   //Init Accumulation Vars     
     for(int i=0;i < nStages;i++)
       {
       phenoStressTotal.push_back(0.0);
@@ -64,8 +64,8 @@ void Water::doRegistrations(void)
                     &Water::getSwDefLayers, "mm", "Soil water deficit below dul (dul - sw)");
    setupGetFunction(plantInterface,"sw_uptake", protocol::DTsingle, true,
                     &Water::getSwUptakeLayers, "mm", "Daily water uptake in each different rooted layers");
-
-
+   setupGetFunction(plantInterface,"ll_dep", protocol::DTsingle, true,
+                    &Water::getllDep, "mm", "Crop lower limit");
 
    }
 //------------------------------------------------------------------------------------------------
@@ -399,4 +399,21 @@ void Water::getSwUptakeLayers(protocol::Component *system, protocol::QueryValueD
    system->sendVariable(qd, protocol::vector<float>(&swUptake[0], &swUptake[0] + swUptake.size()));
    }
 //------------------------------------------------------------------------------------------------
-
+void Water::getllDep(protocol::Component *system, protocol::QueryValueData &qd)
+   {
+   if (llDep.size() == 0)
+      {
+      vector<string> sections;                  // sections to look for parameters
+      sections.push_back("constants");
+      sections.push_back("parameters");
+      readArray (plantInterface,sections,"ll",ll);
+      if (ll.size() == 0) throw std::runtime_error("No Crop Lower Limit (ll) found");
+      llDep.clear();
+      for(int layer = 0; layer < ll.size(); layer++)
+         {
+         llDep.push_back(ll[layer]*dLayer[layer]);
+         }         
+         
+      }
+   system->sendVariable(qd, llDep);
+   }
