@@ -371,6 +371,27 @@ namespace CSUserInterface
 
             }
 
+        public static XmlNode WriteSoilSampleSim(ApsimFile.Component Component, XmlNode ParentNode)
+            {
+            // Go find our related soil - should be parent 
+
+            ApsimFile.Component SoilComponent = Component.Parent;
+            if ((SoilComponent == null))
+                {
+                throw new Exception("Cannot find a soil component");
+                }
+            XmlDocument Doc = new XmlDocument();
+            Doc.LoadXml(SoilComponent.Contents);
+            Soils.Soil Soil = new Soils.Soil(Doc.DocumentElement);
+
+            // Go create an initwater object. 
+            XmlDocument SampleDoc = new XmlDocument();
+            SampleDoc.LoadXml(Component.Contents);
+            Soils.SoilSample Sample = new Soils.SoilSample(SampleDoc.DocumentElement, Soil);
+            return Sample.ExportToSim(ParentNode);
+
+            }
+
         public static XmlNode WriteInitNitrogenSim(ApsimFile.Component Component, XmlNode ParentNode)
             {
             // Go find our related soil - should be parent 

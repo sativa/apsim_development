@@ -672,7 +672,7 @@ namespace CSUserInterface
 			{
 			try
 				{
-				MySample = new SoilSample(Data);
+				MySample = new SoilSample(Data, new Soil(Data.ParentNode));
 				PopulateGrid();
 				}
 			catch (Exception err)

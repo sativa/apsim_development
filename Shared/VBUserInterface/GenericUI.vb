@@ -199,15 +199,21 @@ Public Class GenericUI
                 Grid.Cells(Row, 1).Text = "category"
                 Grid.Cells(Row, 3).Text = XmlHelper.Attribute(Prop, "description")
                 If Grid.Cells(Row, 3).Text = "" Then
-                    Grid.Cells(Row, 3).Text = XmlHelper.Attribute(Prop, "name")
+                    Grid.Cells(Row, 3).Text = XmlHelper.Name(Prop)
                 End If
                 Row = Row + 1
                 PopulateGrid(Prop, Row)
             ElseIf Prop.Name <> "condition" Then
                 Grid.Cells(Row, 0).Text = Prop.Name
                 Grid.Cells(Row, 1).Text = XmlHelper.Attribute(Prop, "type")
+                If Grid.Cells(Row, 1).Text = "" Then
+                    Grid.Cells(Row, 1).Text = "text"
+                End If
                 Grid.Cells(Row, 2).Text = XmlHelper.Attribute(Prop, "listvalues")
                 Grid.Cells(Row, 3).Text = XmlHelper.Attribute(Prop, "description")
+                If Grid.Cells(Row, 3).Text = "" Then
+                    Grid.Cells(Row, 3).Text = XmlHelper.Name(Prop)
+                End If
                 Grid.Cells(Row, 4).Text = Prop.InnerText
                 Row = Row + 1
             End If

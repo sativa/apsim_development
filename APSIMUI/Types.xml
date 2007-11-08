@@ -466,6 +466,21 @@
          </calldll>
       </ApsimToSim>      
    </InitNitrogen>
+   <SoilSample>
+      <UItype>CSUserInterface.SampleUI</UItype>
+      <ShowInMainTree>Yes</ShowInMainTree>
+      <LargeIcon>%apsuite\apsimui\Images\drink_blue32.png</LargeIcon>
+      <SmallIcon>%apsuite\apsimui\Images\drink_blue16.png</SmallIcon>
+      <drops>
+         <drop name="soil"/>
+      </drops>
+      <ApsimToSim>
+         <calldll>
+            <class>CSUserInterface.SoilActions</class>
+            <method>WriteSoilSampleSim</method>
+         </calldll>
+      </ApsimToSim>
+   </SoilSample>
    <phos>
       <UItype>APSIMUI.EmptyUI</UItype>
       <ShowInMainTree>Yes</ShowInMainTree>

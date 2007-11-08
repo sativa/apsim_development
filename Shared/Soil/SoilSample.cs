@@ -18,12 +18,10 @@ namespace Soils
 		{
 		private Soil ParentSoil;
         private XmlNode Data;
-		public SoilSample(XmlNode data)
+		public SoilSample(XmlNode data, Soil ParentSoil)
 			{
             Data = data;
-			if (Data.ParentNode == null)
-				throw new Exception("Sample '" + Data.Name + "' has no parent soil.");
-			ParentSoil = new Soil(Data.ParentNode);
+            this.ParentSoil = ParentSoil;
 			}
 
 		public string WaterFormat
@@ -198,7 +196,7 @@ namespace Soils
                 return SampleSW;
                 }
             }
-            public double[] NO3MapedToSoil
+        public double[] NO3MapedToSoil
             {
             get
                 {
@@ -406,5 +404,64 @@ namespace Soils
             }
         #endregion
 
-		}
+
+        public XmlNode ExportToSim(XmlNode ParentNode)
+            {
+            string NitrogenComponentName = XmlHelper.Name(ParentNode).Replace(" Water", " Nitrogen");
+            XmlNode NitrogenSimNode = XmlHelper.Find(ParentNode.ParentNode, NitrogenComponentName);
+
+            if (SW.Length > 0)
+                {
+                // Make sure the soil water values are between airdry and sat
+                double[] sw = SWMapedToSoil;
+                for (int i = 0; i != sw.Length; i++)
+                    {
+                    sw[i] = Math.Max(sw[i], ParentSoil.Airdry[i]);
+                    sw[i] = Math.Min(sw[i], ParentSoil.SAT[i]);
+                    }
+                XmlHelper.SetValue(ParentNode, "initdata/sw", Utility.LayeredToString(sw));
+                }
+            if (NO3.Length > 0)
+                {
+                if (NitrogenSimNode == null)
+                    throw new Exception("Cannot find soiln2 node");
+
+                XmlHelper.SetValue(NitrogenSimNode, "initdata/no3ppm", Utility.LayeredToString(NO3MapedToSoil));
+                }
+            if (NH4.Length > 0)
+                {
+                if (NitrogenSimNode == null)
+                    throw new Exception("Cannot find soiln2 node");
+                XmlHelper.SetValue(NitrogenSimNode, "initdata/nh4ppm", Utility.LayeredToString(NH4MapedToSoil));
+                }
+            if (OC.Length > 0)
+                {
+                if (NitrogenSimNode == null)
+                    throw new Exception("Cannot find soiln2 node");
+
+                XmlHelper.SetValue(NitrogenSimNode, "initdata/oc", Utility.LayeredToString(OCMapedToSoil));
+                }
+            if (PH.Length > 0)
+                {
+                if (NitrogenSimNode == null)
+                    throw new Exception("Cannot find soiln2 node");
+
+                XmlHelper.SetValue(NitrogenSimNode, "initdata/ph", Utility.LayeredToString(PHMapedToSoil));
+                }
+            if (ParentSoil.UseEC && EC.Length > 0)
+                {
+                //foreach (XmlNode Child in XmlHelper.ChildNodes(ParentNode.ParentNode))
+                //    {
+                //    XmlNode XFNode = XmlHelper.Find(Child, "xf");
+                //    if (XFNode != null)
+                //        {
+                //        double[] xf;
+                //        Soil.ApplyECXFFunction(ParentSoil.Thickness, ECMapedToSoil, ref xf);
+                //        }
+                //    }
+                }
+
+            return ParentNode;
+            }
+        }
 	}
