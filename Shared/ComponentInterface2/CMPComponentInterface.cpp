@@ -396,27 +396,19 @@ void CMPComponentInterface::error(const string& errorMessage, bool isFatal)
    // -----------------------------------------------------------------------
 	{
 	string msg;
-	msg =  "!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!\n";
-	if (isFatal)
-		msg += "                 APSIM  Fatal  Error               \n";
-	else
-		msg += "                 APSIM Warning Error               \n";
-	msg += "                 -------------------               \n";
-
 	msg += errorMessage + "\n";
 	msg += "Component name: " + name + "\n";
-	msg += "!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!\n\n";
 
-	ErrorType errorData;
+   ErrorType errorData;
 	errorData.msg = msg;
 	errorData.isFatal = isFatal;
-/*	publish("error", errorData);
+	publish("error", new CMPType< ErrorType >(errorData));
 	if (isFatal)
 		{
-		terminateSimulation();
+		terminate();
 		errorHasOccurred = true;
 		}
-*/	}
+	}
 
 void CMPComponentInterface::onInit1(const Message& message)
    // -----------------------------------------------------------------------
@@ -519,3 +511,11 @@ void CMPComponentInterface::onEvent(const Message& message)
    data.unpack(messageData, event.ddml, NULL);
    }
 
+void CMPComponentInterface::terminate(void)
+   {
+   // -----------------------------------------------------------------------
+   // Terminate the simulation.
+   // -----------------------------------------------------------------------
+   Null n;
+   sendMessage(newMessage(Message::TerminateSimulation, componentID, parentID, false, n));
+   }

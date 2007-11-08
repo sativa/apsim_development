@@ -88,6 +88,7 @@ class EXPORT CMPComponentInterface
       void onQueryValue(const Message& message);
       void onQuerySetValue(const Message& message);
       void onEvent(const Message& message);
+      void terminate();
    };
 
 #endif
