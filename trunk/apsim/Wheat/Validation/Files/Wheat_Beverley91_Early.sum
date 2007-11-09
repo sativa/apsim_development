@@ -112,15 +112,15 @@ Component      "wheat" = c:\development\apsim\plant\lib\plant.dll
      Manager rules:
      
      SECTION:- start_of_day
-                if (paddock_is_fallow() = 1 and today = date('31/05/1991')) then
-                  wheat sow plants =94, sowing_depth = 30, cultivar = kulin, row_spacing = 250
-                endif
+        if (paddock_is_fallow() = 1 and today = date('31/05/1991')) then
+          wheat sow plants =94, sowing_depth = 30, cultivar = kulin, row_spacing = 250
+        endif
      
      SECTION:- end_of_day
-               if wheat.stage_name = 'harvest_ripe' or wheat.plant_status = 'dead' then
-                  wheat  harvest
-                  wheat  end_crop
-               endif
+       if wheat.stage_name = 'harvest_ripe' or wheat.plant_status = 'dead' then
+          wheat  harvest
+          wheat  end_crop
+       endif
      END of rules
      
 
@@ -147,15 +147,15 @@ Component      "wheat" = c:\development\apsim\plant\lib\plant.dll
      SECTION:- init
      
      SECTION:- start_of_day
-               if (day = 157) then
-                   fertiliser apply amount = 50 (kg/ha), depth = 50 (mm), type = no3_n ()
-               endif
-               if (day = 199) then
-                   fertiliser apply amount = 20 (kg/ha), depth = 50 (mm), type = no3_n ()
-               endif
-               if (day = 221) then
-                   fertiliser apply amount = 20 (kg/ha), depth = 50 (mm), type = no3_n ()
-               endif
+       if (day = 157) then
+           fertiliser apply amount = 50 (kg/ha), depth = 50 (mm), type = no3_n ()
+       endif
+       if (day = 199) then
+           fertiliser apply amount = 20 (kg/ha), depth = 50 (mm), type = no3_n ()
+       endif
+       if (day = 221) then
+           fertiliser apply amount = 20 (kg/ha), depth = 50 (mm), type = no3_n ()
+       endif
      
      SECTION:- end_of_day
      END of rules

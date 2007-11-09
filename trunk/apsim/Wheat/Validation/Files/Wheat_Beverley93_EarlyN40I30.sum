@@ -117,10 +117,10 @@ Component      "wheat" = c:\development\apsim\plant\lib\plant.dll
         endif
      
      SECTION:- end_of_day
-               if wheat.stage_name = 'harvest_ripe' or wheat.plant_status = 'dead' then
-                  wheat  harvest
-                  wheat  end_crop
-               endif
+       if wheat.stage_name = 'harvest_ripe' or wheat.plant_status = 'dead' then
+          wheat  harvest
+          wheat  end_crop
+       endif
      END of rules
      
 
@@ -130,24 +130,24 @@ Component      "wheat" = c:\development\apsim\plant\lib\plant.dll
      SECTION:- init
      
      SECTION:- start_of_day
-               if (day = 265) then
-                   irrigation apply amount = 10 (mm)
-               endif
-               if (day = 271) then
-                   irrigation apply amount = 0 (mm)
-               endif
-               if (day = 280) then
-                   irrigation apply amount = 10 (mm)
-               endif
-               if (day = 286) then
-                   irrigation apply amount = 0 (mm)
-               endif
-               if (day = 293) then
-                   irrigation apply amount = 10 (mm)
-               endif
-               if (day = 300) then
-                   irrigation apply amount = 0 (mm)
-               endif
+       if (day = 265) then
+           irrigation apply amount = 10 (mm)
+       endif
+       if (day = 271) then
+           irrigation apply amount = 0 (mm)
+       endif
+       if (day = 280) then
+           irrigation apply amount = 10 (mm)
+       endif
+       if (day = 286) then
+           irrigation apply amount = 0 (mm)
+       endif
+       if (day = 293) then
+           irrigation apply amount = 10 (mm)
+       endif
+       if (day = 300) then
+           irrigation apply amount = 0 (mm)
+       endif
      
      SECTION:- end_of_day
      END of rules
@@ -159,9 +159,9 @@ Component      "wheat" = c:\development\apsim\plant\lib\plant.dll
      SECTION:- init
      
      SECTION:- start_of_day
-               if (day = 125) then
-                   fertiliser apply amount = 40 (kg/ha), depth = 50 (mm), type = no3_n ()
-               endif
+       if (day = 125) then
+           fertiliser apply amount = 40 (kg/ha), depth = 50 (mm), type = no3_n ()
+       endif
      
      SECTION:- end_of_day
      END of rules
