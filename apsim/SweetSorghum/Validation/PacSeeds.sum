@@ -18,7 +18,9 @@ Component "outputfile" = c:\development\apsim\report\lib\report.dll
 Component      "accum" = c:\development\apsim\accum\lib\accum.dll
 Component "fertiliser" = c:\development\apsim\fertiliz\lib\fertiliz.dll
 Component "Irrigation" = c:\development\apsim\irrigate\lib\irrigate.dll
-Component    "Manager" = c:\development\apsim\manager\lib\manager.dll
+Component "Harvesting rule" = c:\development\apsim\manager\lib\manager.dll
+Component "Sowing fertiliser" = c:\development\apsim\manager\lib\manager.dll
+Component "Sow on a fixed date" = c:\development\apsim\manager\lib\manager.dll
 Component "LawesSoil Water" = c:\development\apsim\soilwat2\lib\soilwat2.dll
 Component "surface organic matter" = c:\development\apsim\surfaceom\lib\surfaceom.dll
 Component "LawesSoil Nitrogen" = c:\development\apsim\soiln2\lib\soiln2.dll
@@ -28,7 +30,9 @@ Component "outputfile" = c:\development\apsim\report\lib\report.dll
 Component      "accum" = c:\development\apsim\accum\lib\accum.dll
 Component "fertiliser" = c:\development\apsim\fertiliz\lib\fertiliz.dll
 Component "Irrigation" = c:\development\apsim\irrigate\lib\irrigate.dll
-Component    "Manager" = c:\development\apsim\manager\lib\manager.dll
+Component "Harvesting rule" = c:\development\apsim\manager\lib\manager.dll
+Component "Sowing fertiliser" = c:\development\apsim\manager\lib\manager.dll
+Component "Sow on a fixed date" = c:\development\apsim\manager\lib\manager.dll
 Component "LawesSoil Water" = c:\development\apsim\soilwat2\lib\soilwat2.dll
 Component "surface organic matter" = c:\development\apsim\surfaceom\lib\surfaceom.dll
 Component "LawesSoil Nitrogen" = c:\development\apsim\soiln2\lib\soiln2.dll
@@ -93,7 +97,7 @@ Component "SweetSorghum" = c:\development\apsim\plant\lib\plant.dll
            Irrigation Allocation Budget (Disabled)
           -----------------------------------------------
 
-------- Manager Initialisation ------------------------------------------------
+------- Harvesting rule Initialisation ----------------------------------------
      Manager rules:
      
      SECTION:- end_of_day
@@ -101,9 +105,19 @@ Component "SweetSorghum" = c:\development\apsim\plant\lib\plant.dll
        sweetsorghum  harvest
        sweetsorghum  end_crop
                 endif
+     END of rules
+     
+
+------- Sowing fertiliser Initialisation --------------------------------------
+     Manager rules:
      
      SECTION:- sweetsorghum.sowing
              fertiliser apply amount = 300 (kg/ha), depth = 50 (mm), type = no3_n
+     END of rules
+     
+
+------- Sow on a fixed date Initialisation ------------------------------------
+     Manager rules:
      
      SECTION:- start_of_day
            if (today = date('15-sep') then
@@ -332,7 +346,7 @@ Component "SweetSorghum" = c:\development\apsim\plant\lib\plant.dll
            Irrigation Allocation Budget (Disabled)
           -----------------------------------------------
 
-------- Manager Initialisation ------------------------------------------------
+------- Harvesting rule Initialisation ----------------------------------------
      Manager rules:
      
      SECTION:- end_of_day
@@ -340,9 +354,19 @@ Component "SweetSorghum" = c:\development\apsim\plant\lib\plant.dll
        sweetsorghum  harvest
        sweetsorghum  end_crop
                 endif
+     END of rules
+     
+
+------- Sowing fertiliser Initialisation --------------------------------------
+     Manager rules:
      
      SECTION:- sweetsorghum.sowing
              fertiliser apply amount = 300 (kg/ha), depth = 50 (mm), type = no3_n
+     END of rules
+     
+
+------- Sow on a fixed date Initialisation ------------------------------------
+     Manager rules:
      
      SECTION:- start_of_day
            if (today = date('12-jan') then
@@ -525,7 +549,7 @@ Component "SweetSorghum" = c:\development\apsim\plant\lib\plant.dll
      
      
 ------- Start of simulation  --------------------------------------------------
-15 September 2004(Day of year=259), Manager: 
+15 September 2004(Day of year=259), Sow on a fixed date: 
      Manager sending message :- sweetsorghum sow  plants = 10, sowing_depth = 50, cultivar = sugargraze, row_spacing = 600
 15 September 2004(Day of year=259), SweetSorghum: 
      Crop Sow
@@ -598,6 +622,7 @@ Component "SweetSorghum" = c:\development\apsim\plant\lib\plant.dll
          -----------------------------------------------
          Extractable SW:   243mm in  1800mm total depth ( 14%).
          Crop factor for bounding water use is set to   1.1 times eo.
+15 September 2004(Day of year=259), Sowing fertiliser: 
      Manager sending message :- fertiliser apply  amount = 300 (kg/ha), depth = 50 (mm), type = no3_n
 15 September 2004(Day of year=259), fertiliser: 
      
@@ -647,7 +672,7 @@ Component "SweetSorghum" = c:\development\apsim\plant\lib\plant.dll
       stage 10.0 harvest_ripe
                      biomass =        2396.14 (g/m^2)   lai          =   0.000 (m^2/m^2)
                      stover N conc =     0.91 (%)    extractable sw =  153.71 (mm)
-8 January 2005(Day of year=8), Manager: 
+8 January 2005(Day of year=8), Harvesting rule: 
      Manager sending message :- sweetsorghum harvest
      
       flowering day          =  348                           stover (kg/ha)         =    21308.0
@@ -691,7 +716,7 @@ Component "SweetSorghum" = c:\development\apsim\plant\lib\plant.dll
                           DM (kg/ha) =                  0.00                 4030.80
                           N  (kg/ha) =                  0.00                   69.31
      
-12 January 2005(Day of year=12), Manager: 
+12 January 2005(Day of year=12), Sow on a fixed date: 
      Manager sending message :- sweetsorghum sow  plants = 10, sowing_depth = 50, cultivar = sugargraze, row_spacing = 600
 12 January 2005(Day of year=12), SweetSorghum: 
      Crop Sow
@@ -764,6 +789,7 @@ Component "SweetSorghum" = c:\development\apsim\plant\lib\plant.dll
          -----------------------------------------------
          Extractable SW:   243mm in  1800mm total depth ( 14%).
          Crop factor for bounding water use is set to   1.1 times eo.
+12 January 2005(Day of year=12), Sowing fertiliser: 
      Manager sending message :- fertiliser apply  amount = 300 (kg/ha), depth = 50 (mm), type = no3_n
 12 January 2005(Day of year=12), fertiliser: 
      
@@ -813,7 +839,7 @@ Component "SweetSorghum" = c:\development\apsim\plant\lib\plant.dll
       stage 10.0 harvest_ripe
                      biomass =        2050.16 (g/m^2)   lai          =   0.000 (m^2/m^2)
                      stover N conc =     1.28 (%)    extractable sw =  100.89 (mm)
-2 May 2005(Day of year=122), Manager: 
+2 May 2005(Day of year=122), Harvesting rule: 
      Manager sending message :- sweetsorghum harvest
      
       flowering day          =   94                           stover (kg/ha)         =    18384.5
