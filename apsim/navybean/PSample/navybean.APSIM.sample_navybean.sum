@@ -63,9 +63,9 @@ Component   "navybean" = c:\development\apsim\Plant\lib\Plant.dll
         navybean.dlt_p_detached()
         navybean.dlt_p_sen()
         navybean.p_conc_stover
-        navybean.p_conc_leaf
-        navybean.p_conc_stem
-        navybean.p_conc_grain
+        navybean.LeafGreenPConc
+        navybean.StemGreenPConc
+        navybean.GrainGreenPConc
         navybean.p_uptake_stover
         navybean.grain_p_demand
         surfaceom.surfaceom_p
