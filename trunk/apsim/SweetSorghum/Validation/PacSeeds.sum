@@ -19,9 +19,9 @@ Component      "accum" = c:\development\apsim\accum\lib\accum.dll
 Component "fertiliser" = c:\development\apsim\fertiliz\lib\fertiliz.dll
 Component "Irrigation" = c:\development\apsim\irrigate\lib\irrigate.dll
 Component    "Manager" = c:\development\apsim\manager\lib\manager.dll
-Component "Soil Water" = c:\development\apsim\soilwat2\lib\soilwat2.dll
+Component "LawesSoil Water" = c:\development\apsim\soilwat2\lib\soilwat2.dll
 Component "surface organic matter" = c:\development\apsim\surfaceom\lib\surfaceom.dll
-Component "Soil Nitrogen" = c:\development\apsim\soiln2\lib\soiln2.dll
+Component "LawesSoil Nitrogen" = c:\development\apsim\soiln2\lib\soiln2.dll
 Component "SweetSorghum" = c:\development\apsim\plant\lib\plant.dll
 Paddock:
 Component "outputfile" = c:\development\apsim\report\lib\report.dll
@@ -29,9 +29,9 @@ Component      "accum" = c:\development\apsim\accum\lib\accum.dll
 Component "fertiliser" = c:\development\apsim\fertiliz\lib\fertiliz.dll
 Component "Irrigation" = c:\development\apsim\irrigate\lib\irrigate.dll
 Component    "Manager" = c:\development\apsim\manager\lib\manager.dll
-Component "Soil Water" = c:\development\apsim\soilwat2\lib\soilwat2.dll
+Component "LawesSoil Water" = c:\development\apsim\soilwat2\lib\soilwat2.dll
 Component "surface organic matter" = c:\development\apsim\surfaceom\lib\surfaceom.dll
-Component "Soil Nitrogen" = c:\development\apsim\soiln2\lib\soiln2.dll
+Component "LawesSoil Nitrogen" = c:\development\apsim\soiln2\lib\soiln2.dll
 Component "SweetSorghum" = c:\development\apsim\plant\lib\plant.dll
 
 ------- clock Initialisation --------------------------------------------------
@@ -97,22 +97,22 @@ Component "SweetSorghum" = c:\development\apsim\plant\lib\plant.dll
      Manager rules:
      
      SECTION:- end_of_day
-            if sweetsorghum.stage_name = 'harvest_ripe' or sweetsorghum.plant_status = 'dead' then
-               sweetsorghum  harvest
-               sweetsorghum  end_crop
-            endif
+                if sweetsorghum.stage_name = 'harvest_ripe' or sweetsorghum.plant_status = 'dead' then
+       sweetsorghum  harvest
+       sweetsorghum  end_crop
+                endif
      
      SECTION:- sweetsorghum.sowing
-         fertiliser apply amount = 300 (kg/ha), depth = 50 (mm), type = no3_n
+             fertiliser apply amount = 300 (kg/ha), depth = 50 (mm), type = no3_n
      
      SECTION:- start_of_day
-       if (today = date('15-sep') then
-                     sweetsorghum sow plants =10, sowing_depth = 50, cultivar = sugargraze, row_spacing = 600
-         endif
+           if (today = date('15-sep') then
+             sweetsorghum sow plants =10, sowing_depth = 50, cultivar = sugargraze, row_spacing = 600
+             endif
      END of rules
      
 
-------- Soil Water Initialisation ---------------------------------------------
+------- LawesSoil Water Initialisation ----------------------------------------
      
          - Reading constants
      
@@ -203,7 +203,7 @@ Component "SweetSorghum" = c:\development\apsim\plant\lib\plant.dll
                       Effective Cover from Surface Materials =   0.4
      
 
-------- Soil Nitrogen Initialisation ------------------------------------------
+------- LawesSoil Nitrogen Initialisation -------------------------------------
      
         - Reading Parameters
      
@@ -336,22 +336,22 @@ Component "SweetSorghum" = c:\development\apsim\plant\lib\plant.dll
      Manager rules:
      
      SECTION:- end_of_day
-            if sweetsorghum.stage_name = 'harvest_ripe' or sweetsorghum.plant_status = 'dead' then
-               sweetsorghum  harvest
-               sweetsorghum  end_crop
-            endif
+                if sweetsorghum.stage_name = 'harvest_ripe' or sweetsorghum.plant_status = 'dead' then
+       sweetsorghum  harvest
+       sweetsorghum  end_crop
+                endif
      
      SECTION:- sweetsorghum.sowing
-         fertiliser apply amount = 300 (kg/ha), depth = 50 (mm), type = no3_n
+             fertiliser apply amount = 300 (kg/ha), depth = 50 (mm), type = no3_n
      
      SECTION:- start_of_day
-       if (today = date('12-jan') then
-                     sweetsorghum sow plants =10, sowing_depth = 50, cultivar = sugargraze, row_spacing = 600
-         endif
+           if (today = date('12-jan') then
+             sweetsorghum sow plants =10, sowing_depth = 50, cultivar = sugargraze, row_spacing = 600
+             endif
      END of rules
      
 
-------- Soil Water Initialisation ---------------------------------------------
+------- LawesSoil Water Initialisation ----------------------------------------
      
          - Reading constants
      
@@ -442,7 +442,7 @@ Component "SweetSorghum" = c:\development\apsim\plant\lib\plant.dll
                       Effective Cover from Surface Materials =   0.6
      
 
-------- Soil Nitrogen Initialisation ------------------------------------------
+------- LawesSoil Nitrogen Initialisation -------------------------------------
      
         - Reading Parameters
      
