@@ -533,6 +533,13 @@ namespace ApsimFile
                         }
                     }
                }
+           else if (Type == "folder")
+               {
+               // Iterate through all children and call their WriteSim methods.
+               foreach (Component Child in ChildNodes)
+                   Child.WriteSim(Doc, ParentNode, Configuration);
+               XmlHelper.Sort(ParentNode, new ComponentSorter());
+               }
             }
 
         private class ComponentSorter : IComparer

@@ -171,6 +171,7 @@ namespace ApsimFile
             SetDirty(false);
             SetFileName(FileName);
             }
+
         public void Save()
             {
             // ---------------------------------------------------------
@@ -193,7 +194,7 @@ namespace ApsimFile
         public void SaveAs(string FileName)
             {
             ReadOnly = false;
-            MyFileName = FileName;
+            SetFileName(FileName);
             Save();
             }
 

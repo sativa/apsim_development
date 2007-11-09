@@ -156,7 +156,7 @@ Public Class NewDocumentForm
             Dim Doc As New XmlDocument
             Doc.Load(TemplateFile)
             Dim SelectedNode As XmlNode = XmlHelper.Find(Doc.DocumentElement, Controller.SelectedPath)
-            XmlHelper.SetAttribute(SelectedNode, "version", APSIMChangeTool.CurrentVersion)
+            XmlHelper.SetAttribute(SelectedNode, "version", XmlHelper.Attribute(Doc.DocumentElement, "version"))
             Return SelectedNode
         End Get
     End Property

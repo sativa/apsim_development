@@ -168,9 +168,11 @@ Public Class GenericUI
         ' --------------------------------------------------------------------
         'InRefresh = True
 
+        Dim Comp As ApsimFile.Component = Controller.ApsimData.Find(NodePath)
+
         ' set the banner image correctly.
         Dim inifile As New APSIMSettings
-        Dim imagefile As String = Controller.Configuration.Info(Data.Name, "image")
+        Dim imagefile As String = Controller.Configuration.Info(Comp.Type, "image")
         If imagefile <> "" And File.Exists(imagefile) Then
             PictureBox.BackgroundImage = Drawing.Image.FromFile(imagefile)
         End If
@@ -185,7 +187,7 @@ Public Class GenericUI
         Grid.RowCount = 1000
         Dim Row As Integer = 0
         PopulateGrid(Data, Row)
-        Grid.RowCount = Row
+        Grid.RowCount = Math.Max(Row, 1)
 
         'InRefresh = False
     End Sub
@@ -201,8 +203,6 @@ Public Class GenericUI
                 If Grid.Cells(Row, 3).Text = "" Then
                     Grid.Cells(Row, 3).Text = XmlHelper.Name(Prop)
                 End If
-                Row = Row + 1
-                PopulateGrid(Prop, Row)
             ElseIf Prop.Name <> "condition" Then
                 Grid.Cells(Row, 0).Text = Prop.Name
                 Grid.Cells(Row, 1).Text = XmlHelper.Attribute(Prop, "type")
@@ -215,14 +215,15 @@ Public Class GenericUI
                     Grid.Cells(Row, 3).Text = XmlHelper.Name(Prop)
                 End If
                 Grid.Cells(Row, 4).Text = Prop.InnerText
-                Row = Row + 1
             End If
+            Row = Row + 1
         Next
     End Sub
 
     Private Sub Grid_CellChanged(ByVal sender As Object, ByVal e As FarPoint.Win.Spread.SheetViewEventArgs) Handles Grid.CellChanged
         ' --------------------------------------------------------------------
-        ' User has changed something - go save change to Data
+        ' User has changed something - see if we need to create editors or
+        ' setup other columns.
         ' --------------------------------------------------------------------
         If e.Column = 1 Then
             CreateCellEditorForRow(e.Row)
@@ -246,7 +247,6 @@ Public Class GenericUI
             Me.FpSpread1.ActiveSheet.ActiveCell.Editor.StopEditing()
         End If
         Data.RemoveAll()
-        Dim Node As XmlNode = Data
         For Row As Integer = 0 To VBUserInterface.GridUtils.FindFirstBlankCell(Grid, 1) - 1
             Dim DataType As String = Grid.Cells(Row, 1).Text
             If DataType <> "" Then
@@ -254,9 +254,8 @@ Public Class GenericUI
                 If Type = "" Then
                     Dim Category As XmlNode = Data.AppendChild(Data.OwnerDocument.CreateElement("category"))
                     XmlHelper.SetAttribute(Category, "description", Grid.Cells(Row, 3).Text)
-                    Node = Category
                 Else
-                    Dim NewNode As XmlNode = Node.AppendChild(Data.OwnerDocument.CreateElement(Type))
+                    Dim NewNode As XmlNode = Data.AppendChild(Data.OwnerDocument.CreateElement(Type))
                     XmlHelper.SetAttribute(NewNode, "type", DataType)
                     If Grid.Cells(Row, 2).Text <> "" Then
                         XmlHelper.SetAttribute(NewNode, "listvalues", Grid.Cells(Row, 2).Text)

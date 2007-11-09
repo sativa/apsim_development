@@ -1027,7 +1027,8 @@ namespace Soils
             XmlHelper.SetAttribute(Nitrogen, "executable", "%apsuite\\apsim\\soiln2\\lib\\soiln2.dll");
             XmlNode NitrogenInitData = Nitrogen.AppendChild(SoilNode.OwnerDocument.CreateElement("initdata"));
             XmlHelper.SetValue(NitrogenInitData, "include", "%apsuite\\apsim\\soiln2\\soiln2.ini");
-            XmlHelper.SetValue(NitrogenInitData, "soiltype", Classification);
+            if (Classification != "")
+                XmlHelper.SetValue(NitrogenInitData, "soiltype", Classification);
             XmlHelper.SetValue(NitrogenInitData, "root_cn", RootCN.ToString());
             XmlHelper.SetValue(NitrogenInitData, "root_wt", RootWT.ToString());
             XmlHelper.SetValue(NitrogenInitData, "soil_cn", SoilCN.ToString());

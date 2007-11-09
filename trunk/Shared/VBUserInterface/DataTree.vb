@@ -352,8 +352,10 @@ Public Class DataTree
                 PreviousNode = ClickedNode
             End If
         Else
-            If SelectedPaths.Count = 1 AndAlso SelectedPaths(0) = GetPathFromNode(ClickedNode) And _
-                ClickedNode.Level > 0 Then
+            If Not Controller.ApsimData.IsReadOnly _
+                    AndAlso SelectedPaths.Count = 1 _
+                    AndAlso SelectedPaths(0) = GetPathFromNode(ClickedNode) _
+                    AndAlso ClickedNode.Level > 0 Then
                 LabelEdit = True
                 FirstTimeRename = True
                 ClickedNode.BeginEdit()

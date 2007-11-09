@@ -1,5 +1,8 @@
-<folder version="11" name="Standard Toolbox">
-
+<folder version="12" name="Standard Toolbox">
+  <soilwatkludge name="soilwatkludge">
+    <mwcon>1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0</mwcon>
+    <max_pond>100</max_pond>
+  </soilwatkludge>
   <folder name="Structural">
     <memo />
     <folder />
@@ -21,11 +24,6 @@
     <egrandis />
     <fababean />
     <AusfarmPasture>
-      <PastureScienceConverter>
-        <debug type="list" listvalues="on,off">off</debug>
-        <sand>0.0 0.0 0.0 0.0 0.0 0.0 0.0</sand>
-        <svp_fract> 0.75</svp_fract>
-      </PastureScienceConverter>
       <species>Perennial Ryegrass</species>
       <nutrients>
       </nutrients>
@@ -38,6 +36,17 @@
       <senc_index description="senc_index (d)">0.0</senc_index>
       <dorm_index description="dorm_index (d)">0.0</dorm_index>
       <dorm_t description="dorm_t (oc)">-999.9</dorm_t>
+      <seed_dorm_time description="seed_dorm_time (d)">0.0</seed_dorm_time>
+      <germ_index description="germ_index (d)">0.0</germ_index>
+      <kl description="kl (-)">
+      </kl>
+      <ll description="lower limit (mm/mm)">
+      </ll>
+      <PastureScienceConverter>
+        <debug type="list" listvalues="on,off">off</debug>
+        <sand>0.0 0.0 0.0 0.0 0.0 0.0 0.0</sand>
+        <svp_fract> 0.75</svp_fract>
+      </PastureScienceConverter>
       <AusfarmPastureGreen name="Green">
         <status>established</status>
         <rt_dep description="rt_dep (mm)">100.0</rt_dep>
@@ -130,10 +139,6 @@
         <hard_ripe description="hard_ripe (kg/ha)">
         </hard_ripe>
       </AusfarmPastureSeeds>
-      <seed_dorm_time description="seed_dorm_time (d)">0.0</seed_dorm_time>
-      <germ_index description="germ_index (d)">0.0</germ_index>
-      <kl description="kl (-)"></kl>
-      <ll description="lower limit (mm/mm)"></ll>
     </AusfarmPasture>
     <fieldpea />
     <horsegram />
@@ -259,16 +264,29 @@
       <d_interception name="d_interception">0.0</d_interception>
     </micromet>
   </folder>
-  <soilwatkludge name="soilwatkludge">
-    <mwcon>1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0</mwcon>
-    <max_pond>100</max_pond>
-  </soilwatkludge>
   <folder name="Management">
     <YPCalc />
-    <manager name="Manager" />
-    <manager name="Manager with examples">
-      <rule name="Sow using a variable rule">
-        <condition name="start_of_day"><![CDATA[
+    <manager name="Empty manager">
+      <script name="init">
+        <text>
+        </text>
+        <event>init</event>
+      </script>
+      <script name="start_of_day">
+        <text>
+        </text>
+        <event>start_of_day</event>
+      </script>
+      <script name="end_of_day">
+        <text>
+        </text>
+        <event>end_of_day</event>
+      </script>
+    </manager>
+    <folder name="Manager with examples">
+      <manager name="Sow using a variable rule">
+        <script>
+          <text><![CDATA[
       if (paddock_is_fallow() = 1 and FallowIn <> 'yes' and (NextCrop = 0 or NextCrop = '[crop]')) then
          if (date_within('[date1], [date2]') = 1) then
             if (rain[[rainnumdays]] >= [raincrit] AND esw >= [esw_amount]) OR
@@ -281,26 +299,29 @@
             endif
          endif
       endif
-            ]]></condition>
-        <category name="Sowing criteria">
+            ]]></text>
+          <event>start_of_day</event>
+        </script>
+        <ui>
+          <category name="Sowing criteria" />
           <date1 type="ddmmmdate" description="Enter sowing window START date (dd-mmm) : ">15-may</date1>
           <date2 type="ddmmmdate" description="Enter sowing window END date (dd-mmm) : ">10-jul</date2>
           <must_sow type="yesno" description="Must sow? : ">no</must_sow>
           <raincrit type="text" description="Amount of rainfall : ">30</raincrit>
           <rainnumdays type="text" description="Number of days of rainfall : ">3</rainnumdays>
           <esw_amount type="text" description="Enter minimum allowable available soil water (mm) : ">200</esw_amount>
-        </category>
-        <category name="Sowing parameters">
+          <category name="Sowing parameters" />
           <crop type="crop" description="Enter name of crop to sow : ">wheat</crop>
           <density type="text" description="Enter sowing density  (plants/m2) : ">100</density>
           <depth type="text" description="Enter sowing depth  (mm) : ">30</depth>
           <cultivar type="cultivars" croppropertyname="crop" description="Enter cultivar : ">hartog</cultivar>
           <class type="classes" croppropertyname="crop" description="Enter crop growth class : ">plant</class>
           <row_spacing type="text" description="Enter row spacing (mm) : ">250</row_spacing>
-        </category>
-      </rule>
-      <rule name="Cotton sowing rule">
-        <condition name="start_of_day"><![CDATA[
+        </ui>
+      </manager>
+      <manager name="Cotton sowing rule">
+        <script>
+          <text><![CDATA[
       if (paddock_is_fallow() = 1 and FallowIn <> 'yes' and (NextCrop = 0 or NextCrop = '[crop]')) then
          if (date_within('[date1], [date2]') = 1) then
             if (rain[[rainnumdays]] >= [raincrit] AND esw >= [esw_amount]) OR
@@ -313,26 +334,29 @@
             endif
          endif
       endif
-            ]]></condition>
-        <category name="Sowing criteria">
+            ]]></text>
+          <event>start_of_day</event>
+        </script>
+        <ui>
+          <category name="Sowing criteria" />
           <date1 type="ddmmmdate" description="Enter sowing window START date (dd-mmm) : ">15-oct</date1>
           <date2 type="ddmmmdate" description="Enter sowing window END date (dd-mmm) : ">10-jan</date2>
           <must_sow type="yesno" description="Must sow? : ">no</must_sow>
           <raincrit type="text" description="Amount of rainfall : ">30</raincrit>
           <rainnumdays type="text" description="Number of days of rainfall : ">3</rainnumdays>
           <esw_amount type="text" description="Enter minimum allowable available soil water (mm) : ">200</esw_amount>
-        </category>
-        <category name="Sowing parameters">
+          <category name="Sowing parameters" />
           <crop type="crop" description="Enter name of crop to sow : ">cotton</crop>
           <density type="text" description="Enter sowing density  (plants/m2 in row) : ">10</density>
           <depth type="text" description="Enter sowing depth  (mm) : ">30</depth>
           <cultivar type="cultivars" croppropertyname="crop" description="Enter cultivar : ">siok</cultivar>
           <row_spacing type="text" description="Enter row spacing (mm) : ">1000</row_spacing>
           <skiprow type="list" listvalues="0, 1, 2" description="Skip row : ">0</skiprow>
-        </category>
-      </rule>
-      <rule name="Sorghum sowing rule">
-        <condition name="start_of_day"><![CDATA[
+        </ui>
+      </manager>
+      <manager name="Sorghum sowing rule">
+        <script>
+          <text><![CDATA[
       if (paddock_is_fallow() = 1 and FallowIn <> 'yes' and (NextCrop = 0 or NextCrop = '[crop]')) then
          if (date_within('[date1], [date2]') = 1) then
             if (rain[[rainnumdays]] >= [raincrit] AND esw >= [esw_amount]) OR
@@ -345,16 +369,18 @@
             endif
          endif
       endif
-            ]]></condition>
-        <category name="Sowing criteria">
+            ]]></text>
+          <event>start_of_day</event>
+        </script>
+        <ui>
+          <category name="Sowing criteria" />
           <date1 type="ddmmmdate" description="Enter sowing window START date (dd-mmm) : ">15-oct</date1>
           <date2 type="ddmmmdate" description="Enter sowing window END date (dd-mmm) : ">10-jan</date2>
           <must_sow type="yesno" description="Must sow? : ">no</must_sow>
           <raincrit type="text" description="Amount of rainfall : ">30</raincrit>
           <rainnumdays type="text" description="Number of days of rainfall : ">3</rainnumdays>
           <esw_amount type="text" description="Enter minimum allowable available soil water (mm) : ">200</esw_amount>
-        </category>
-        <category name="Sowing parameters">
+          <category name="Sowing parameters" />
           <crop type="crop" description="Enter name of crop to sow : ">sorghum</crop>
           <density type="text" description="Enter sowing density  (plants/m2) : ">7</density>
           <depth type="text" description="Enter sowing depth  (mm) : ">30</depth>
@@ -362,28 +388,32 @@
           <row_spacing type="text" description="Enter row spacing (m) : ">1</row_spacing>
           <ftn type="text" description="Enter Fertile Tiller No. : ">1</ftn>
           <skiprow type="list" listvalues="solid, single, double" description="Skip row : ">solid</skiprow>
-        </category>
-      </rule>
-      <rule name="Sow on a fixed date">
-        <condition name="start_of_day"><![CDATA[
+        </ui>
+      </manager>
+      <manager name="Sow on a fixed date">
+        <script>
+          <text>
         if (today = date('[date]') then
               [crop] sow plants =[density], sowing_depth = [depth], cultivar = [cultivar], row_spacing = [row_spacing], crop_class = [class]
          endif
-               ]]></condition>
-        <category name="Sowing criteria">
+               </text>
+          <event>start_of_day</event>
+        </script>
+        <ui>
+          <category name="Sowing criteria" />
           <date type="text" description="Enter sowing date (dd-mmm) : ">1-jan</date>
-        </category>
-        <category name="Sowing parameters">
+          <category name="Sowing parameters" />
           <crop type="crop" description="Enter name of crop to sow : ">wheat</crop>
           <density type="text" description="Enter sowing density  (plants/m2) : ">10</density>
           <depth type="text" description="Enter sowing depth  (mm) : ">50</depth>
           <cultivar type="cultivars" croppropertyname="crop" description="Enter cultivar : " />
           <class type="classes" croppropertyname="crop" description="Enter crop growth class : ">plant</class>
           <row_spacing type="text" description="Enter row spacing (mm) : ">500</row_spacing>
-        </category>
-      </rule>
-      <rule name="SUGAR management">
-        <condition name="start_of_day"><![CDATA[
+        </ui>
+      </manager>
+      <manager name="SUGAR management">
+        <script>
+          <text><![CDATA[
             ! -----------------------------------------------------------------
             ! Book keeping to round days to integer values
             plantlen = nearest_int(plantlen)
@@ -426,87 +456,55 @@
             else
                dah = dah + 1
             endif
-               ]]></condition>
-        <category name="Sugar plant crop management parameters">
+               ]]></text>
+          <event>start_of_day</event>
+        </script>
+        <ui>
+          <category name="Sugar plant crop management parameters" />
           <crop type="crop" description="Enter name of crop to sow : ">sugar</crop>
           <planting_day type="text" description="Enter planting date (dd-mmm) : ">1-jan</planting_day>
           <plantlen type="text" description="Duration of a plant crop (days) (30 days/month * 15 months) : ">450</plantlen>
           <plant_stalks type="text" description="Stalk density of plant crop (/m2) :">10</plant_stalks>
           <variety type="list" listvalues="q117,q96,q138,ts65-28,h73,q141,nco376,n12,n14,cp51,r570,m1356,m55560,q124" description="Planting variety :">q117</variety>
           <sowing_depth type="text" description="Planting depth mm) :">150</sowing_depth>
-        </category>
-        <category name="Ratoon management parameters">
+          <category name="Ratoon management parameters" />
           <NoRatoons type="text" description="Number of ratoons (max = 5): ">4</NoRatoons>
           <ratoonlen type="text" description="Duration of a ratoon crop (days) (30 days/month * 13 months) : ">390</ratoonlen>
           <ratoon_stalks type="text" description="Stalk density of ratoon crop (/m2) :">10</ratoon_stalks>
-        </category>
-      </rule>
-      <rule name="Lucerne Ley fixed sow harvest at flowering">
-        <category name="Sowing criteria">
-          <date type="text" description="Enter sowing date (dd-mmm-yyyy) : ">1-jan-1985</date>
-        </category>
-        <category name="Sowing parameters">
-          <crop type="crop" description="Enter name of crop to sow : ">lucerne</crop>
-          <density type="text" description="Enter sowing density  (plants/m2) : ">200</density>
-          <depth type="text" description="Enter sowing depth  (mm) : ">20</depth>
-          <cultivar type="cultivars" croppropertyname="crop" description="Enter cultivar : " />
-          <class type="classes" croppropertyname="crop" description="Enter crop growth class : ">plant</class>
-          <row_spacing type="text" description="Enter row spacing (mm) : ">250</row_spacing>
-        </category>
-        <category name="Number of years">
-          <leyyears type="text" description="Enter numberofyeasr inley : ">3</leyyears>
-        </category>
-        <category name="Harvesting criteria">
-          <harvest_ht type="text" description="Enter the height to harvest the crop : ">50</harvest_ht>
-          <remove type="text" description="Fraction of maerial removed leaving the system (balance to residue): ">0.95</remove>
-          <killdate type="text" description="date lucerne is to be removed : ">15-nov</killdate>
-        </category>
-        <condition name="start_of_day"><![CDATA[
+        </ui>
+      </manager>
+      <manager name="Lucerne Ley fixed sow harvest at flowering">
+        <script>
+          <text>
        if (today = date('[date]') then
               [crop] sow plants =[density], sowing_depth = [depth], cultivar = [cultivar], row_spacing = [row_spacing], crop_class = [class]
               [crop]LeyYears = [leyyears]
        endif
 
-]]></condition>
-        <condition name="end_of_day"><![CDATA[
-                if [crop].stage_name = 'flowering'  then
-             [crop]  harvest height = [harvest_ht]
-        endif
-        if today= date('[killdate]') and [crop].plant_status <>'out' then
-             if ( [crop]LeyYears > 0 ) then
-                   [crop]LeyYears = [crop]LeyYears - 1
-             else
-                        [crop] end_crop
-             endif
-        endif
-]]></condition>
-      </rule>
-      <rule name="Lucerne Ley variable sow harvest at flowering">
-        <category name="Sowing criteria">
-          <date1 type="ddmmmdate" description="Enter sowing window START date (dd-mmm) : ">15-may</date1>
-          <date2 type="ddmmmdate" description="Enter sowing window END date (dd-mmm) : ">10-jul</date2>
-          <must_sow type="yesno" description="Must sow? : ">no</must_sow>
-          <raincrit type="text" description="Amount of rainfall : ">30</raincrit>
-          <rainnumdays type="text" description="Number of days of rainfall : ">3</rainnumdays>
-          <esw_amount type="text" description="Enter minimum allowable available soil water (mm) : ">200</esw_amount>
-        </category>
-        <category name="Sowing parameters">
+</text>
+          <event>start_of_day</event>
+        </script>
+        <ui>
+          <category name="Sowing criteria" />
+          <date type="text" description="Enter sowing date (dd-mmm-yyyy) : ">1-jan-1985</date>
+          <category name="Sowing parameters" />
           <crop type="crop" description="Enter name of crop to sow : ">lucerne</crop>
           <density type="text" description="Enter sowing density  (plants/m2) : ">200</density>
           <depth type="text" description="Enter sowing depth  (mm) : ">20</depth>
           <cultivar type="cultivars" croppropertyname="crop" description="Enter cultivar : " />
           <class type="classes" croppropertyname="crop" description="Enter crop growth class : ">plant</class>
           <row_spacing type="text" description="Enter row spacing (mm) : ">250</row_spacing>
-        </category>
-        <category name="Number of years">
+          <category name="Number of years" />
           <leyyears type="text" description="Enter numberofyeasr inley : ">3</leyyears>
-        </category>
-        <category name="Harvesting criteria">
+          <category name="Harvesting criteria" />
           <harvest_ht type="text" description="Enter the height to harvest the crop : ">50</harvest_ht>
           <remove type="text" description="Fraction of maerial removed leaving the system (balance to residue): ">0.95</remove>
           <killdate type="text" description="date lucerne is to be removed : ">15-nov</killdate>
-        </category>
-        <condition name="start_of_day"><![CDATA[
+        </ui>
+      </manager>
+      <manager name="Lucerne Ley variable sow harvest at flowering">
+        <script>
+          <text><![CDATA[
        if (paddock_is_fallow() = 1 and FallowIn <> 'yes' and (NextCrop = 0 or NextCrop = '[crop]')) then
          if (date_within('[date1], [date2]') = 1) then
             if (rain[[rainnumdays]] >= [raincrit] AND esw >= [esw_amount]) OR
@@ -521,192 +519,221 @@
          endif
       endif
 
-]]></condition>
-        <condition name="end_of_day"><![CDATA[
-                if [crop].stage_name = 'flowering'  then
-             [crop]  harvest height = [harvest_ht]
-        endif
-        if today= date('[killdate]') and [crop].plant_status <>'out' then
-             if ( [crop]LeyYears > 0 ) then
-                   [crop]LeyYears = [crop]LeyYears - 1
-             else
-                        [crop] end_crop
-             endif
-        endif
-]]></condition>
-      </rule>
-      <rule name="Harvesting rule">
-        <condition name="end_of_day">
+]]></text>
+          <event>start_of_day</event>
+        </script>
+        <ui>
+          <category name="Sowing criteria" />
+          <date1 type="ddmmmdate" description="Enter sowing window START date (dd-mmm) : ">15-may</date1>
+          <date2 type="ddmmmdate" description="Enter sowing window END date (dd-mmm) : ">10-jul</date2>
+          <must_sow type="yesno" description="Must sow? : ">no</must_sow>
+          <raincrit type="text" description="Amount of rainfall : ">30</raincrit>
+          <rainnumdays type="text" description="Number of days of rainfall : ">3</rainnumdays>
+          <esw_amount type="text" description="Enter minimum allowable available soil water (mm) : ">200</esw_amount>
+          <category name="Sowing parameters" />
+          <crop type="crop" description="Enter name of crop to sow : ">lucerne</crop>
+          <density type="text" description="Enter sowing density  (plants/m2) : ">200</density>
+          <depth type="text" description="Enter sowing depth  (mm) : ">20</depth>
+          <cultivar type="cultivars" croppropertyname="crop" description="Enter cultivar : " />
+          <class type="classes" croppropertyname="crop" description="Enter crop growth class : ">plant</class>
+          <row_spacing type="text" description="Enter row spacing (mm) : ">250</row_spacing>
+          <category name="Number of years" />
+          <leyyears type="text" description="Enter numberofyeasr inley : ">3</leyyears>
+          <category name="Harvesting criteria" />
+          <harvest_ht type="text" description="Enter the height to harvest the crop : ">50</harvest_ht>
+          <remove type="text" description="Fraction of maerial removed leaving the system (balance to residue): ">0.95</remove>
+          <killdate type="text" description="date lucerne is to be removed : ">15-nov</killdate>
+        </ui>
+      </manager>
+      <manager name="Harvesting rule">
+        <script>
+          <text>
 
            if [crop].stage_name = 'harvest_ripe' or [crop].plant_status = 'dead' then
               [crop]  harvest
               [crop]  end_crop
            endif
 
-            </condition>
-        <category name="Harvesting criteria">
+            </text>
+          <event>end_of_day</event>
+        </script>
+        <ui>
+          <category name="Harvesting criteria" />
           <crop type="crop" description="Enter name of crop to harvest when ripe : ">wheat</crop>
-        </category>
-      </rule>
-      <rule name="End crop on a fixed date">
-        <condition name="end_of_day">
+        </ui>
+      </manager>
+      <manager name="End crop on a fixed date">
+        <script>
+          <text>
 
         if (today = date('[date]') then
               [crop]  end_crop
         endif
 
-            </condition>
-        <category name="Harvesting criteria">
+            </text>
+          <event>end_of_day</event>
+        </script>
+        <ui>
+          <category name="Harvesting criteria" />
           <crop type="crop" description="Enter name of crop to harvest when ripe : ">wheat</crop>
           <date type="text" description="Enter ending date (dd-mmm) : ">1-jan</date>
-        </category>
-      </rule>
-      <rule name="Fertilise at sowing">
-        <condition name="[modulename].[eventname]">
+        </ui>
+      </manager>
+      <manager name="Fertilise at sowing">
+        <script>
+          <text>
         [fertmodule] apply amount = [fert_amount_sow] (kg/ha), depth = 50 (mm), type = [fert_type_sow]
-            </condition>
-        <category name="When should fertiliser be applied">
+            </text>
+          <event>[modulename].[eventname]</event>
+        </script>
+        <ui>
+          <category name="When should fertiliser be applied" />
           <modulename type="modulename" description="On which module should the event come from : ">wheat</modulename>
           <eventname type="text" description="On which event should fertiliser be applied : ">sowing</eventname>
-        </category>
-        <category name="Fertiliser application details">
+          <category name="Fertiliser application details" />
           <fertmodule type="modulename" description="Module used to apply the fertiliser : ">fertiliser</fertmodule>
           <fert_amount_sow type="text" description="Amount of starter fertiliser at sowing (kg/ha) : ">150</fert_amount_sow>
           <fert_type_sow type="list" listvalues="NO3_N, NH4_N, NH4NO3, urea_N, urea_no3, urea" description="Sowing fertiliser type : ">urea_N</fert_type_sow>
-        </category>
-      </rule>
-      <rule name="Fertilise on fixed date">
-        <condition name="start_of_day"><![CDATA[
+        </ui>
+      </manager>
+      <manager name="Fertilise on fixed date">
+        <script>
+          <text><![CDATA[
          if (today = date('[fert_date]') then
             N_topsoil = no3(1) + nh4(1) + no3(2) + nh4(2)
             if (N_topsoil < [fert_criteria]) then
                [fertmodule] apply amount = [fert_amount] (kg/ha), depth = 50 (mm), type = [fert_type] ()
             endif
-         endif ]]></condition>
-        <category name="When should fertiliser be applied">
+         endif ]]></text>
+          <event>start_of_day</event>
+        </script>
+        <ui>
+          <category name="When should fertiliser be applied" />
           <fert_date type="ddmmmdate" description="Enter fertiliser date (dd-mmm) : ">dd-mmm</fert_date>
           <fert_criteria type="text" description="Don't add fertiliser if N in top 2 layers exceeds (kg/ha) : ">1000</fert_criteria>
-        </category>
-        <category name="Fertiliser application details">
+          <category name="Fertiliser application details" />
           <fertmodule type="modulename" description="Module used to apply the fertiliser : " />
           <fert_amount type="text" description="Amount of fertiliser to apply (kg/ha) : ">150</fert_amount>
           <fert_type type="list" listvalues="NO3_N, NH4_N, NH4NO3, urea_N, urea_no3, urea" description="Fertiliser type : ">urea_N</fert_type>
-        </category>
-      </rule>
-      <rule name="Fertilise in a zadok stage window">
-        <condition name="init">
+        </ui>
+      </manager>
+      <manager name="Fertilise in a zadok stage window">
+        <script>
+          <text>
             fert_applied[zadok_fert_stage_begin][zadok_fert_stage_end] = 0
-        </condition>
-        <condition name="sowing"><![CDATA[
-            fert_applied[zadok_fert_stage_begin][zadok_fert_stage_end] = 0
-        ]]></condition>
-        <condition name="start_of_day"><![CDATA[
-         if (zadok_stage >= [zadok_fert_stage_begin]
-            AND zadok_stage <= [zadok_fert_stage_end]
-            AND fert_applied[zadok_fert_stage_begin][zadok_fert_stage_end] = 0) then
-            if (esw >= [esw_amount]) then
-               N_topsoil = no3(1) + nh4(1) + no3(2) + nh4(2)
-               if (N_topsoil < [fert_criteria]) then
-                  [fertmodule] apply amount = [fert_amount] (kg/ha), depth = 50 (mm), type = [fert_type] ()
-               fert_applied[zadok_fert_stage_begin][zadok_fert_stage_end] = 1
-               endif
-            endif
-         endif
-         ]]></condition>
-        <category name="When should fertiliser be applied">
+        </text>
+          <event>init</event>
+        </script>
+        <ui>
+          <category name="When should fertiliser be applied" />
           <zadok_fert_stage_begin type="text" description="Enter start of zadok window (10-71):   ">30</zadok_fert_stage_begin>
           <zadok_fert_stage_end type="text" description="Enter end of zadok window (10-71):   ">32</zadok_fert_stage_end>
           <fert_criteria type="text" description="Don't add fertiliser if N in top 2 layers exceeds (kg/ha) : ">1000</fert_criteria>
           <esw_amount type="text" description="Enter amount of soil water (mm)">30</esw_amount>
-        </category>
-        <category name="Fertiliser application details">
+          <category name="Fertiliser application details" />
           <fertmodule type="modulename" description="Module used to apply the fertiliser : " />
           <fert_amount type="text" description="Amount of fertiliser to apply (kg/ha) : ">25</fert_amount>
           <fert_type type="list" listvalues="NO3_N, NH4_N, NH4NO3, urea_N, urea_no3, urea" description="Fertiliser type : ">urea_N</fert_type>
-        </category>
-      </rule>
-      <rule name="Fertilise on fixed date - top up">
-        <condition name="start_of_day"><![CDATA[
+        </ui>
+      </manager>
+      <manager name="Fertilise on fixed date - top up">
+        <script>
+          <text>
          if (today = date('[fert_date]') then
             N_deficit = [fert_criteria] - (no3(1) + nh4(1) + no3(2) + nh4(2) + no3(3) + nh4(3))
             '[fertmodule]' apply amount = N_deficit (kg/ha), depth = 50 (mm), type = [fert_type] ()
-         endif ]]></condition>
-        <category name="When should fertiliser be applied">
+         endif </text>
+          <event>start_of_day</event>
+        </script>
+        <ui>
+          <category name="When should fertiliser be applied" />
           <fert_date type="ddmmmdate" description="Enter fertiliser date (dd-mmm) : ">dd-mmm</fert_date>
           <fert_criteria type="text" description="Amount of N required in top 3 layers (kg/ha) : ">1000</fert_criteria>
-        </category>
-        <category name="Fertiliser application details">
+          <category name="Fertiliser application details" />
           <fertmodule type="modulename" description="Module used to apply the fertiliser : " />
           <fert_type type="list" listvalues="NO3_N, NH4_N, NH4NO3, urea_N, urea_no3, urea" description="Fertiliser type : ">urea_N</fert_type>
-        </category>
-      </rule>
-      <rule name="Fertilise on days after sowing - top up">
-        <condition name="start_of_day"><![CDATA[
+        </ui>
+      </manager>
+      <manager name="Fertilise on days after sowing - top up">
+        <script>
+          <text>
          if ([modulename].das = [fert_das]) then
             N_deficit = [fert_criteria] - (no3(1) + nh4(1) + no3(2) + nh4(2) + no3(3) + nh4(3))
             '[fertmodule]' apply amount = N_deficit (kg/ha), depth = 50 (mm), type = [fert_type] ()
-         endif ]]></condition>
-        <category name="When should fertiliser be applied">
+         endif </text>
+          <event>start_of_day</event>
+        </script>
+        <ui>
+          <category name="When should fertiliser be applied" />
           <modulename type="modulename" description="On which crop is fertiliser being applied : ">wheat</modulename>
           <fert_das type="text" description="Enter fertiliser days after sowing  : ">dd-mmm</fert_das>
           <fert_criteria type="text" description="Amount of N required in top 3 layers (kg/ha) : ">1000</fert_criteria>
-        </category>
-        <category name="Fertiliser application details">
+          <category name="Fertiliser application details" />
           <fertmodule type="modulename" description="Module used to apply the fertiliser : " />
           <fert_type type="list" listvalues="NO3_N, NH4_N, NH4NO3, urea_N, urea_no3, urea" description="Fertiliser type : ">urea_N</fert_type>
-        </category>
-      </rule>
-      <rule name="Fertilise incrop on critical NO3 level- top up">
-        <condition name="start_of_day"><![CDATA[
+        </ui>
+      </manager>
+      <manager name="Fertilise incrop on critical NO3 level- top up">
+        <script>
+          <text><![CDATA[
          if ([modulename].plant_status = 'alive') then
             NO3_available = no3(1) + no3(2) + no3(3)
             if (NO3_available <= [fert_critical]) then
                N_deficit = [fert_criteria] - NO3_available
                '[fertmodule]' apply amount = N_deficit (kg/ha), depth = 50 (mm), type = [fert_type] ()
             endif
-         endif ]]></condition>
-        <category name="When should fertiliser be applied">
+         endif ]]></text>
+          <event>start_of_day</event>
+        </script>
+        <ui>
+          <category name="When should fertiliser be applied" />
           <modulename type="modulename" description="In which crop is fertiliser being applied : ">wheat</modulename>
           <fert_criteria type="text" description="Maximum Amount of NO3 required in top 3 layers (kg/ha) : ">200</fert_criteria>
           <fert_critical type="text" description="Critical Amount of NO3 in top 3 layers (kg/ha) : ">100</fert_critical>
-        </category>
-        <category name="Fertiliser application details">
+          <category name="Fertiliser application details" />
           <fertmodule type="modulename" description="Module used to apply the fertiliser : " />
           <fert_type type="list" listvalues="NO3_N, NH4_N, NH4NO3, urea_N, urea_no3, urea" description="Fertiliser type : ">NO3_N</fert_type>
-        </category>
-      </rule>
-      <rule name="Irrigate at sowing">
-        <condition name="[modulename].[eventname]"><![CDATA[
+        </ui>
+      </manager>
+      <manager name="Irrigate at sowing">
+        <script>
+          <text><![CDATA[
          if ([irrig_amount_evt] > 0) then
             '[irrigatemodule]' apply amount = [irrig_amount_evt] (mm)
          endif
-   ]]></condition>
-        <category name="When should irrigation be applied">
+   ]]></text>
+          <event>[modulename].[eventname]</event>
+        </script>
+        <ui>
+          <category name="When should irrigation be applied" />
           <modulename type="modulename" description="The module the event come from : " />
           <eventname type="text" description="Which event should irrigation be applied : ">sowing</eventname>
-        </category>
-        <category name="Irrigation application details">
+          <category name="Irrigation application details" />
           <irrigatemodule type="modulename" description="Module used to apply the irrigation : " />
           <irrig_amount_evt type="text" description="Amount of irrigation to apply (mm) : ">50</irrig_amount_evt>
-        </category>
-      </rule>
-      <rule name="Irrigate on fixed date">
-        <condition name="start_of_day">
+        </ui>
+      </manager>
+      <manager name="Irrigate on fixed date">
+        <script>
+          <text>
             if (today = date('[irrigate_date]')) then
                '[irrigate_module]' set irrigation_efficiency = [irrigate_efficiency]
                '[irrigate_module]' apply amount = [irrigate_amount] (mm)
-            endif </condition>
-        <category name="When should irrigation be applied">
+            endif </text>
+          <event>start_of_day</event>
+        </script>
+        <ui>
+          <category name="When should irrigation be applied" />
           <irrigate_date type="ddmmmdate" description="Enter irrigation date (dd-mmm) : ">dd-mmm</irrigate_date>
-        </category>
-        <category name="Irrigation application details">
+          <category name="Irrigation application details" />
           <irrigate_module type="modulename" description="Module used to apply the irrigation : ">ClockAllYears</irrigate_module>
           <irrigate_amount type="text" description="Amount of irrigation to apply (mm) : ">50</irrigate_amount>
           <irrigate_efficiency type="text" description="Irrigation efficiency (0-1) : ">1.0</irrigate_efficiency>
-        </category>
-      </rule>
-      <rule name="Tillage on fixed date">
-        <condition name="start_of_day"><![CDATA[
+        </ui>
+      </manager>
+      <manager name="Tillage on fixed date">
+        <script>
+          <text>
          if (today = date('[tillage_date]') then
             if ('[tillage_type]' = 'user_defined') then
                 '[surfaceommodule]' tillage type = [tillage_type], f_incorp = [tillage_f_incorp] (), tillage_depth = [tillage_depth]
@@ -716,34 +743,40 @@
             ready_to_till_pre_sow = 0
             till_day_pre_sow = 0
          endif
-      ]]></condition>
-        <category name="When should tillage be done">
+      </text>
+          <event>start_of_day</event>
+        </script>
+        <ui>
+          <category name="When should tillage be done" />
           <tillage_date type="ddmmmdate" description="Enter tillage date (dd-mmm) : ">dd-mmm</tillage_date>
-        </category>
-        <category name="Tillage application details">
+          <category name="Tillage application details" />
           <surfaceommodule type="modulename" description="Module used to apply the tillage : " />
           <tillage_type type="list" listvalues="user_defined, chisel, disc, planter, burn, burn_90, graze, scarifier, rip, blade, tine" description="Tillage type : ">disc</tillage_type>
           <tillage_depth description="User_defined depth of seedbed preparation (mm) : ">0</tillage_depth>
           <tillage_f_incorp description="User_defined fraction of surface residues to incorporate (0-1): ">0</tillage_f_incorp>
-        </category>
-      </rule>
-      <rule name="Tillage on an event">
-        <condition name="[modulename].[eventname]">
+        </ui>
+      </manager>
+      <manager name="Tillage on an event">
+        <script>
+          <text>
             '[surfaceommodule]' tillage type = [tillage_type], f_incorp = [tillage_f_incorp] (), tillage_depth = [tillage_depth]
-      </condition>
-        <category name="When should tillage be performed">
+      </text>
+          <event>[modulename].[eventname]</event>
+        </script>
+        <ui>
+          <category name="When should tillage be performed" />
           <modulename type="modulename" description="The module the event come from : ">ClockAllYears</modulename>
           <eventname type="text" description="On which event should tillage be done : ">sowing</eventname>
-        </category>
-        <category name="Tillage details">
+          <category name="Tillage details" />
           <surfaceommodule type="modulename" description="Module used to apply the tillage : ">ClockAllYears</surfaceommodule>
           <tillage_type type="list" listvalues="user_defined, chisel, disc, planter, burn, burn_90, graze, scarifier, rip, blade, tine" description="Tillage type : ">disc</tillage_type>
           <tillage_depth description="User_defined depth of seedbed preparation (mm) : ">0</tillage_depth>
           <tillage_f_incorp description="User_defined fraction of surface residues to incorporate (0-1): ">0</tillage_f_incorp>
-        </category>
-      </rule>
-      <rule name="Reset water, nitrogen and surfaceOM on fixed date">
-        <condition name="start_of_day">
+        </ui>
+      </manager>
+      <manager name="Reset water, nitrogen and surfaceOM on fixed date">
+        <script>
+          <text>
          if (today = date('[reset_date]')) then
             resetWater = '[resetWater]'
             resetNitrogen  = '[resetNitrogen]'
@@ -759,20 +792,23 @@
             endif
             act_mods reseting
          endif
-      </condition>
-        <category name="When should a reset be done">
+      </text>
+          <event>start_of_day</event>
+        </script>
+        <ui>
+          <category name="When should a reset be done" />
           <reset_date type="ddmmmdate" description="Enter date of reset (dd-mmm) : ">dd-mmm</reset_date>
-        </category>
-        <category name="Reset details">
+          <category name="Reset details" />
           <soilmodule type="modulename" description="Name of your soil module : " />
           <surfaceommodule type="modulename" description="Name of your surface organic matter module : ">surface organic matter</surfaceommodule>
           <resetWater type="yesno" description="Reset soil water?">yes</resetWater>
           <resetNitrogen type="yesno" description="Reset soil nitrogen?">yes</resetNitrogen>
           <resetSurfaceOM type="yesno" description="Reset surface organic matter?">yes</resetSurfaceOM>
-        </category>
-      </rule>
-      <rule name="Reset water, nitrogen and surfaceOM on sowing">
-        <condition name="[modulename].[eventname]">
+        </ui>
+      </manager>
+      <manager name="Reset water, nitrogen and surfaceOM on sowing">
+        <script>
+          <text>
             resetWater = '[resetWater]'
             resetNitrogen  = '[resetNitrogen]'
             resetSurfaceOM = '[resetSurfaceOM]'
@@ -788,116 +824,40 @@
             if (resetWater = 'yes' or resetNitrogen = 'yes' or resetSurfaceOM = 'yes') then
                act_mods reseting
             endif
-      </condition>
-        <category name="When should a reset be done">
+      </text>
+          <event>[modulename].[eventname]</event>
+        </script>
+        <ui>
+          <category name="When should a reset be done" />
           <modulename type="modulename" description="The module the event is to come from : ">wheat</modulename>
           <eventname type="text" description="On which event should a reset be done : ">sowing</eventname>
-        </category>
-        <category name="Reset details">
+          <category name="Reset details" />
           <soilmodule type="modulename" description="Name of your soil module : " />
           <surfaceommodule type="modulename" description="Name of your surface organic matter module : ">surface organic matter</surfaceommodule>
           <resetWater type="yesno" description="Reset soil water?">yes</resetWater>
           <resetNitrogen type="yesno" description="Reset soil nitrogen?">yes</resetNitrogen>
           <resetSurfaceOM type="yesno" description="Reset surface organic matter?">yes</resetSurfaceOM>
-        </category>
-      </rule>
-      <rule name="Rotations">
-        <condition name="init">
+        </ui>
+      </manager>
+      <manager name="Rotations">
+        <script>
+          <text>
          NextCropIndex = 1
          NextCrop = ' '
          ChooseNextCrop = 'yes'
          SummerFallowIn = 'no'
          WinterFallowIn = 'no'
          FallowIn = 'no'
-      </condition>
-        <condition name="start_of_day"><![CDATA[
-      if (ChooseNextCrop = 'yes') then
-         if (NextCropIndex = 1) then
-            NextCrop = '[crop1]'
-         elseif (NextCropIndex = 2) then
-            NextCrop = '[crop2]'
-         elseif (NextCropIndex = 3) then
-            NextCrop = '[crop3]'
-         elseif (NextCropIndex = 4) then
-            NextCrop = '[crop4]'
-         elseif (NextCropIndex = 5) then
-            NextCrop = '[crop5]'
-         elseif (NextCropIndex = 6) then
-            NextCrop = '[crop6]'
-         elseif (NextCropIndex = 7) then
-            NextCrop = '[crop7]'
-         elseif (NextCropIndex = 8) then
-            NextCrop = '[crop8]'
-         elseif (NextCropIndex = 9) then
-            NextCrop = '[crop9]'
-         elseif (NextCropIndex = 10) then
-            NextCrop = '[crop10]'
-         elseif (NextCropIndex = 11) then
-            NextCrop = '[crop11]'
-         elseif (NextCropIndex = 12) then
-            NextCrop = '[crop12]'
-         elseif (NextCropIndex = 13) then
-            NextCrop = '[crop13]'
-         elseif (NextCropIndex = 14) then
-            NextCrop = '[crop14]'
-         elseif (NextCropIndex = 15) then
-            NextCrop = '[crop15]'
-         elseif (NextCropIndex = 16) then
-            NextCrop = '[crop16]'
-         elseif (NextCropIndex = 17) then
-            NextCrop = '[crop17]'
-         elseif (NextCropIndex = 18) then
-            NextCrop = '[crop18]'
-         elseif (NextCropIndex = 19) then
-            NextCrop = '[crop19]'
-         elseif (NextCropIndex = 20) then
-            NextCrop = '[crop20]'
-         endif
-         if (NextCrop = 'nil' or NextCrop = ' ') then
-            NextCrop = '[crop1]'
-            NextCropIndex = 1
-         endif
-         NextCropIndex = NextCropIndex + 1
-         ChooseNextCrop = 'no'
-      endif
-      ! if the next crop is due to be a fallow and we're within the
-      ! correct date range then put a fallow in.
-      if (NextCrop = '[WinterFallowName]') then
-         if (paddock_is_fallow() = 1 and FallowIn = 'no') then
-            if (date_within('[SummerFallowEndDate], [WinterFallowEndDate]') then
-               WinterFallowIn = 'yes'
-               FallowIn = 'yes'
-               ChooseNextCrop = 'yes'
-            endif
-         endif
-      elseif (NextCrop = '[SummerFallowName]') then
-         if (paddock_is_fallow() = 1 and FallowIn = 'no') then
-            if (date_within('[WinterFallowEndDate], [SummerFallowEndDate]') then
-               SummerFallowIn = 'yes'
-               FallowIn = 'yes'
-               ChooseNextCrop = 'yes'
-            endif
-         endif
-      endif
-
-      ! if we currently have a fallow in and we're at the end of the fallow window
-      ! then remove the fallow.
-      if (WinterFallowIn = 'yes' and today = date('[WinterFallowEndDate]')+1) then
-         WinterFallowIn = 'no'
-         FallowIn = 'no'
-      endif
-      if (SummerFallowIn = 'yes' and today = date('[SummerFallowEndDate]')+1) then
-         SummerFallowIn = 'no'
-         FallowIn = 'no'
-      endif
-      ]]></condition>
-        <category name="Fallow options">
+      </text>
+          <event>init</event>
+        </script>
+        <ui>
+          <category name="Fallow options" />
           <SummerFallowName type="text" description="Enter summer fallow name : ">sf</SummerFallowName>
           <SummerFallowEndDate type="text" description="Enter summer fallow END date (dd-mmm) : ">15-mar</SummerFallowEndDate>
           <WinterFallowName type="text" description="Enter winter fallow name : ">wf</WinterFallowName>
           <WinterFallowEndDate type="text" description="Enter winter fallow END date (dd-mmm) : ">23-aug</WinterFallowEndDate>
-        </category>
-        <category name="Crop rotation sequence">
+          <category name="Crop rotation sequence" />
           <crop1 type="crop" description="Enter 1st crop : ">nil</crop1>
           <crop2 type="crop" description="Enter 2nd crop : ">nil</crop2>
           <crop3 type="crop" description="Enter 3rd crop : ">nil</crop3>
@@ -918,10 +878,11 @@
           <crop18 type="crop" description="Enter 18th crop : ">nil</crop18>
           <crop19 type="crop" description="Enter 19th crop : ">nil</crop19>
           <crop20 type="crop" description="Enter 20th crop : ">nil</crop20>
-        </category>
-      </rule>
-      <rule name="Summer and winter Cona/U">
-        <condition name="start_of_day">
+        </ui>
+      </manager>
+      <manager name="Summer and winter Cona/U">
+        <script>
+          <text>
              ! Modify evap for winter or summer
             if (date_within('[StartWinterDate], [EndWinterDate]') = 1) then
                '[SoilModule] water' set cona = [WinterCona]
@@ -930,8 +891,11 @@
                '[SoilModule] water' set cona = [SummerCona]
                '[SoilModule] water' set u = [SummerU]
             endif
-          </condition>
-        <category name="Properties">
+          </text>
+          <event>start_of_day</event>
+        </script>
+        <ui>
+          <category name="Properties" />
           <SoilModule type="modulename" description="Name of soil module : ">ClockAllYears</SoilModule>
           <StartWinterDate type="text" description="Date for start of winter (dd-mmm) : ">1-apr</StartWinterDate>
           <EndWinterDate type="text" description="Date for end of winter (dd-mmm) : ">30-sep</EndWinterDate>
@@ -939,18 +903,23 @@
           <SummerU type="text" description="Summer U value : ">4.0</SummerU>
           <WinterCona type="text" description="Winter Cona value : ">2.0</WinterCona>
           <WinterU type="text" description="Winter U value : ">2.0</WinterU>
-        </category>
-      </rule>
-      <rule name="Yield moisture correction">
-        <condition name="start_of_day">
+        </ui>
+      </manager>
+      <manager name="Yield moisture correction">
+        <script>
+          <text>
           WetYield = yield / (1 - [MoistureContent]/100)
-          </condition>
-        <category name="Properties">
+          </text>
+          <event>start_of_day</event>
+        </script>
+        <ui>
+          <category name="Properties" />
           <MoistureContent type="text" description="Moisture content of grain (%) : ">12</MoistureContent>
-        </category>
-      </rule>
-      <rule name="Simple gross margin (put before harvesting rule)">
-        <condition name="post"><![CDATA[
+        </ui>
+      </manager>
+      <manager name="Simple gross margin (put before harvesting rule)">
+        <script>
+          <text><![CDATA[
            ! Reset the bank to zero the day after harvest.
            if (ResetBank = 1) then
               Bank = 0
@@ -968,39 +937,44 @@
               Bank = Bank + FullPrice * (WetYield / 1000)
               ResetBank = 1
            endif
-           ]]></condition>
-        <category name="Cost properties">
+           ]]></text>
+          <event>post</event>
+        </script>
+        <ui>
+          <category name="Cost properties" />
           <NCost type="text" description="Cost of N fertiliser ($/ha) : ">1.2</NCost>
           <NApplicationCost type="text" description="Cost of N application ($/ha) : ">15</NApplicationCost>
-        </category>
-        <category name="Price properties">
+          <category name="Price properties" />
           <Price type="text" description="Price ($/t) : ">140</Price>
           <MinimumProtein type="text" description="Minimum protein for classification ($/t) : ">10.5</MinimumProtein>
           <ProteinIncrement type="text" description="Protein increment payment ($/t) : ">2</ProteinIncrement>
-        </category>
-      </rule>
-      <rule name="Publish an event when an APSIM variable meets a 2 part condition">
-        <condition name="post"><![CDATA[
+        </ui>
+      </manager>
+      <manager name="Publish an event when an APSIM variable meets a 2 part condition">
+        <script>
+          <text><![CDATA[
           if ([VariableName1] = [VariableValue1] and
               [VariableName2] >= [LowerBound] and
               [VariableName2] <= [UpperBound]) then
              act_mods [EventName]
-          endif]]></condition>
-        <category name="Condition1 properties">
+          endif]]></text>
+          <event>post</event>
+        </script>
+        <ui>
+          <category name="Condition1 properties" />
           <VariableName1 type="text" description="Name of 1st APSIM variable to check (e.g. stage_name) : ">stage_name</VariableName1>
           <VariableValue1 type="text" description="Value that 1st variable must have (e.g. flowering) : ">'flowering'</VariableValue1>
-        </category>
-        <category name="Condition2 properties">
+          <category name="Condition2 properties" />
           <VariableName2 type="text" description="Name of 2nd APSIM variable to bound check (e.g. maxt, mint, avtemp) : ">mint</VariableName2>
           <LowerBound type="text" description="Lower bound of variable : ">-100</LowerBound>
           <UpperBound type="text" description="Upper bound of variable : ">0</UpperBound>
-        </category>
-        <category name="Event properties">
+          <category name="Event properties" />
           <EventName type="text" description="Name of event to publish when above 2 conditions are met : ">SevereFrostAtFlowering</EventName>
-        </category>
-      </rule>
-      <rule name="Create a yes/no variable when within x TT of start of a crop stage">
-        <condition name="post"><![CDATA[
+        </ui>
+      </manager>
+      <manager name="Create a yes/no variable when within x TT of start of a crop stage">
+        <script>
+          <text><![CDATA[
             if (stage_name = '[StageName]') then
                TTFromStart[StageName] = TTFromStart[StageName] + dlt_tt
                [OutputVariableName] = 'yes'
@@ -1010,82 +984,97 @@
             else
                TTFromStart[StageName] = 0
                [OutputVariableName] = 'no'
-            endif ]]></condition>
-        <category name="Properties">
+            endif ]]></text>
+          <event>post</event>
+        </script>
+        <ui>
+          <category name="Properties" />
           <StageName type="text" description="Crop stage name (e.g. start_grain_fill) : ">start_grain_fill</StageName>
           <TT type="text" description="Thermal time threshold : ">150</TT>
-        </category>
-        <category name="Output variable properties">
+          <category name="Output variable properties" />
           <OutputVariableName type="text" description="Name of output variable to hold yes/no flag : ">InHeatShockWindow</OutputVariableName>
-        </category>
-      </rule>
-    </manager>
+        </ui>
+      </manager>
+    </folder>
     <folder name="Africa-India">
-      <manager name="Phosphorus and Manure">
-        <rule name="Fertilise with Phosphorus at sowing">
-          <condition name="[modulename].[eventname]">
+      <folder name="Phosphorus and Manure">
+        <manager name="Fertilise with Phosphorus at sowing">
+          <script>
+            <text>
         [fertmodule] apply amount = [fert_amount_sow] (kg/ha), depth = 50 (mm), type = [fert_type_sow]
-            </condition>
-          <category name="When should fertiliser be applied">
+            </text>
+            <event>[modulename].[eventname]</event>
+          </script>
+          <ui>
+            <category name="When should fertiliser be applied" />
             <modulename type="modulename" description="On which module should the event come from : ">maize</modulename>
             <eventname type="text" description="On which event should fertiliser be applied : ">sowing</eventname>
-          </category>
-          <category name="Fertiliser application details">
+            <category name="Fertiliser application details" />
             <fertmodule type="modulename" description="Module used to apply the fertiliser : ">fertiliser</fertmodule>
             <fert_amount_sow type="text" description="Amount of starter fertiliser at sowing (kg/ha) : ">150</fert_amount_sow>
             <fert_type_sow type="list" listvalues="rock_p, banded_p, broadcast_p" description="Sowing fertiliser type : ">broadcast_p</fert_type_sow>
-          </category>
-        </rule>
-        <rule name="Fertilise with Phosphorus on fixed date">
-          <condition name="start_of_day"><![CDATA[
+          </ui>
+        </manager>
+        <manager name="Fertilise with Phosphorus on fixed date">
+          <script>
+            <text>
          if (today = date('[fert_date]') then
                [fertmodule] apply amount = [fert_amount] (kg/ha), depth = 50 (mm), type = [fert_type] ()
-         endif ]]></condition>
-          <category name="When should fertiliser be applied">
+         endif </text>
+            <event>start_of_day</event>
+          </script>
+          <ui>
+            <category name="When should fertiliser be applied" />
             <fert_date type="ddmmmdate" description="Enter fertiliser date (dd-mmm) : ">dd-mmm</fert_date>
-          </category>
-          <category name="Fertiliser application details">
+            <category name="Fertiliser application details" />
             <fertmodule type="modulename" description="Module used to apply the fertiliser : ">fertiliser</fertmodule>
             <fert_amount type="text" description="Amount of fertiliser to apply (kg/ha) : ">150</fert_amount>
             <fert_type type="list" listvalues="rock_p, banded_p, broadcast_p" description="Sowing fertiliser type : ">broadcast_p</fert_type>
-          </category>
-        </rule>
-        <rule name="Manure on fixed date">
-          <condition name="start_of_day"><![CDATA[
+          </ui>
+        </manager>
+        <manager name="Manure on fixed date">
+          <script>
+            <text>
          if (today = date('[manure_date]') then
                '[surfaceommodule]' add_surfaceom type=[manure_type], name=[manure_type], mass=[manure_amount], cnr=[manure_cnr], cpr=[manure_cpr]
-         endif ]]></condition>
-          <category name="When should fertiliser be applied">
+         endif </text>
+            <event>start_of_day</event>
+          </script>
+          <ui>
+            <category name="When should fertiliser be applied" />
             <manure_date type="ddmmmdate" description="Enter fertiliser date (dd-mmm) : ">dd-mmm</manure_date>
-          </category>
-          <category name="Manure application details">
-          <surfaceommodule type="modulename" description="Name of your surface organic matter module : ">surface organic matter</surfaceommodule>
+            <category name="Manure application details" />
+            <surfaceommodule type="modulename" description="Name of your surface organic matter module : ">surface organic matter</surfaceommodule>
             <manure_amount type="text" description="Amount of manure to apply (kg/ha) : ">4</manure_amount>
             <manure_type type="list" listvalues="manure,fym,heap_uncov,heap_cov,pit,communal" description="manure type : ">manure</manure_type>
             <manure_cnr type="text" description="manure CNR : ">20</manure_cnr>
             <manure_cpr type="text" description="manure CPR : ">50</manure_cpr>
-          </category>
-        </rule>
-        <rule name="Manure at sowing">
-          <condition name="[modulename].[eventname]">
+          </ui>
+        </manager>
+        <manager name="Manure at sowing">
+          <script>
+            <text>
                '[surfaceommodule]' add_surfaceom type=[manure_type], name=[manure_type], mass=[manure_amount], cnr=[manure_cnr], cpr=[manure_cpr]
-            </condition>
-          <category name="When should manure be applied">
+            </text>
+            <event>[modulename].[eventname]</event>
+          </script>
+          <ui>
+            <category name="When should manure be applied" />
             <modulename type="modulename" description="On which module should the event come from : ">wheat</modulename>
             <eventname type="text" description="On which event should manure be applied : ">sowing</eventname>
-          </category>
-          <category name="Manure application details">
-          <surfaceommodule type="modulename" description="Name of your surface organic matter module : ">surface organic matter</surfaceommodule>
+            <category name="Manure application details" />
+            <surfaceommodule type="modulename" description="Name of your surface organic matter module : ">surface organic matter</surfaceommodule>
             <manure_amount type="text" description="Amount of manure to apply (kg/ha) : ">4</manure_amount>
             <manure_type type="list" listvalues="manure,fym,heap_uncov,heap_cov,pit,communal" description="manure type : ">manure</manure_type>
             <manure_cnr type="text" description="manure CNR : ">20</manure_cnr>
             <manure_cpr type="text" description="manure CPR : ">50</manure_cpr>
-          </category>
-        </rule>
-      </manager>
-      <manager name="Tillage">
-        <rule name="Tillage with cn_red on fixed date">
-          <condition name="start_of_day"><![CDATA[
+          </ui>
+        </manager>
+      </folder>
+      <folder name="Tillage">
+        <manager name="Tillage with cn_red on fixed date">
+          <script>
+            <text>
          if (today = date('[tillage_date]') then
             if ('[tillage_type]' = 'user_defined') then
                 '[surfaceommodule]' tillage type = [tillage_type], f_incorp = [tillage_f_incorp] (), tillage_depth = [tillage_depth]
@@ -1097,104 +1086,86 @@
             ready_to_till_pre_sow = 0
             till_day_pre_sow = 0
          endif
-      ]]></condition>
-          <category name="When should tillage be done">
+      </text>
+            <event>start_of_day</event>
+          </script>
+          <ui>
+            <category name="When should tillage be done" />
             <tillage_date type="ddmmmdate" description="Enter tillage date (dd-mmm) : ">dd-mmm</tillage_date>
-          </category>
-          <category name="Tillage application details">
-            <surfaceommodule type="modulename" moduletype="surfaceom" description="Module used to apply the tillage : ">
-            </surfaceommodule>
-            <soilmodule type="modulename" moduletype="soil" description="Name of your soil module : ">
-            </soilmodule>
+            <category name="Tillage application details" />
+            <surfaceommodule type="modulename" moduletype="surfaceom" description="Module used to apply the tillage : " />
+            <soilmodule type="modulename" moduletype="soil" description="Name of your soil module : " />
             <tillage_type type="list" listvalues="user_defined, chisel, disc, planter, burn, burn_90, graze, scarifier, rip, blade, tine" description="Tillage type : ">disc</tillage_type>
             <tillage_depth description="User_defined depth of seedbed preparation (mm) : ">0</tillage_depth>
             <tillage_f_incorp description="User_defined fraction of surface residues to incorporate (0-1): ">0</tillage_f_incorp>
             <tillage_cn_red description="cn reduction after tillage () : ">0</tillage_cn_red>
             <tillage_cn_rain description="amount of cummulative rain to dissipate tillage effects on cn () : ">0</tillage_cn_rain>
-          </category>
-        </rule>
-      </manager>
-      <manager name="Intercropping, Rotations and Weeds">
-        <rule name="Harvesting rule for intercropping">
-          <condition name="init"><![CDATA[
+          </ui>
+        </manager>
+      </folder>
+      <folder name="Intercropping, Rotations and Weeds">
+        <manager name="Harvesting rule for intercropping">
+          <script>
+            <text>
           [crop]_to_harvest = 0
-            ]]></condition>
-          <condition name="end_of_day"><![CDATA[
-         if ([crop]_to_harvest = 1) then
-            [crop] harvest, remove=[fraction_to_remove]
-            [crop] kill_crop
-            [crop] end_crop
-                  crop_in = crop_in - 1
-            [crop]_to_harvest = 0
-            fert_tot = 0
-            sow_year = 0
-            if (crop_current = '[crop]') then
-               crop_current = crop_current1
-               crop_current1 = crop_current2
-               crop_current2 = blank
-            elseif (crop_current1 = '[crop]') then
-               crop_current1 = crop_current2
-               crop_current2 = blank
-            elseif (crop_current2 = '[crop]') then
-               crop_current2 = blank
-            endif
-         endif
-
-         if ([crop].stage_name = 'harvest_ripe' OR [crop].plant_status = 'dead') then
-            [crop]_to_harvest = 1
-         endif
-            ]]></condition>
-          <category name="Harvesting criteria">
+            </text>
+            <event>init</event>
+          </script>
+          <ui>
+            <category name="Harvesting criteria" />
             <crop type="crop" description="Enter name of crop to harvest when ripe : ">maize</crop>
             <fraction_to_remove type="text" description="Enter fraction of stover to remove (not for maize): ">0.0</fraction_to_remove>
-          </category>
-        </rule>
-        <rule name="Output at harvesting for intercropping">
-          <condition name="end_of_day"><![CDATA[
+          </ui>
+        </manager>
+        <manager name="Output at harvesting for intercropping">
+          <script>
+            <text>
          if ([crop]_to_harvest = 1) then
             '[outputfile]' do_output
          endif
-            ]]></condition>
-          <category name="Output criteria">
+            </text>
+            <event>end_of_day</event>
+          </script>
+          <ui>
+            <category name="Output criteria" />
             <crop type="crop" description="Enter name of crop to output at harvest : ">maize</crop>
-            <outputfile type="modulename" moduletype="outputfile" description="Name of outputfile component : ">
-            </outputfile>
-          </category>
-        </rule>
-        <rule name="Output at all phenological stages">
-          <condition name="init"><![CDATA[
+            <outputfile type="modulename" moduletype="outputfile" description="Name of outputfile component : " />
+          </ui>
+        </manager>
+        <manager name="Output at all phenological stages">
+          <script>
+            <text>
                last_stage_name = 'none'
-            ]]></condition>
-          <condition name="end_of_day"><![CDATA[
-         if [crop].stage_name = last_stage_name  then
-         else
-            '[outputfile]' do_output
-         endif
-         last_stage_name = [crop].stage_name
-            ]]></condition>
-          <category name="Output criteria">
+            </text>
+            <event>init</event>
+          </script>
+          <ui>
+            <category name="Output criteria" />
             <crop type="crop" description="Enter name of crop to output at harvest : ">maize</crop>
-            <outputfile type="modulename" moduletype="outputfile" description="Name of outputfile component : ">
-            </outputfile>
-          </category>
-        </rule>
-        <rule name="Output at specified phenological stage">
-          <condition name="end_of_day"><![CDATA[
+            <outputfile type="modulename" moduletype="outputfile" description="Name of outputfile component : " />
+          </ui>
+        </manager>
+        <manager name="Output at specified phenological stage">
+          <script>
+            <text>
          if [crop].stage_name = [stage_name]  then
          else
             '[outputfile]' do_output
          endif
          last_stage_name = [crop].stage_name
-            ]]></condition>
-          <category name="Output criteria">
+            </text>
+            <event>end_of_day</event>
+          </script>
+          <ui>
+            <category name="Output criteria" />
             <crop type="crop" description="Enter name of crop to output at harvest : ">maize</crop>
             <stage_name type="list" listvalues="sowing,germination,emergence,end_of_juvenile,floral_initiation,flag_leaf,flowering,start_grain_fill,end_grain_fill,maturity,harvest_ripe,end_crop" description="Phenological stage name at which to output : ">flowering</stage_name>
-            <outputfile type="modulename" moduletype="outputfile" description="Name of outputfile component : ">
-            </outputfile>
-          </category>
-        </rule>
-        <rule name="Sow using a variable rule with intercropping">
-          <condition name="init"><![CDATA[
+            <outputfile type="modulename" moduletype="outputfile" description="Name of outputfile component : " />
+          </ui>
+        </manager>
+        <manager name="Sow using a variable rule with intercropping">
+          <script>
+            <text>
          next = 1
          crop_in = 0
          blank = 'fallow'
@@ -1210,219 +1181,16 @@
          ready_to_till_pre_sow = 0
          till_day_pre_sow = 0
          days_after_weed_kill = 0
-        ]]></condition>
-          <condition name="end_of_day"><![CDATA[
-
-         if (date_within('[date1], [date2]') = 1) THEN
-         else
-            wht_sow_opp_num = 0
-            wht_sow_opp_days = 0
-         endif
-         ]]></condition>
-          <condition name="process"><![CDATA[
-
-         if (next_crop = '[crop]' OR next_crop = blank OR '[rotation_exclude]' = 'yes') then
-               !  Presowing  manure application
-
-            if ([manure_amount_pre_sow] > 0) then
-               !  calculate day to fertilise
-               manure_day_pre_sow = date('[date1]') - [manure_days_pre_sow]
-               ! Need to correct for possible year boundary condition
-               if (manure_day_pre_sow < today) then
-                  manure_day_pre_sow = days_this_year + manure_day_pre_sow
-               endif
-               if (today = manure_day_pre_sow) then
-                  ready_to_manure_pre_sow = 1
-               endif
-               if (crop_in = 0 and ready_to_manure_pre_sow = 1) then
-                        ! just put on a fixed amount of manure
-                  '[surfaceommodule_pre_sow]' add_surfaceom type=[manure_type_pre_sow], name=[manure_type_pre_sow], mass=[manure_amount_pre_sow], cnr=[manure_cnr_pre_sow], cpr=[manure_cpr_pre_sow]
-                  ready_to_manure_pre_sow = 0
-                  manure_day_pre_sow = 0
-               endif
-            endif
-
-               !  Presowing  fertiliser application
-
-            if ([fert_amount_pre_sow] > 0 OR [totn_pre_sow] > 0 ) then
-               !  calculate day to fertilise
-               fert_day_pre_sow = date('[date1]') - [fert_days_pre_sow]
-               ! Need to correct for possible year boundary condition
-               if (fert_day_pre_sow < today) then
-                  fert_day_pre_sow = days_this_year + fert_day_pre_sow
-               endif
-               if (today = fert_day_pre_sow) then
-                  ready_to_fert_pre_sow = 1
-               endif
-               if (crop_in = 0 and ready_to_fert_pre_sow = 1) then
-                  if ([totn_pre_sow] > 0) then
-                     !   Top up soil N of top 3 layers
-                     N_deficit = [totn_pre_sow] - (no3(1) + nh4(1) + no3(2) + nh4(2) + no3(3) + nh4(3))
-                     if (N_deficit < 0) then
-                        ! do nothing
-                        N_deficit = 0
-                     else
-                        fertiliz apply amount = N_deficit (kg/ha), depth = 50 (mm), type = [fert_type_pre_sow] ()
-                     endif
-                  else
-                     N_topsoil = no3(1) + nh4(1) + no3(2) + nh4(2)
-                     if (N_topsoil > [fert_criteria_pre_sow]) then
-                        ! enough N already in topsoil
-                     else
-                        ! just put on a fixed amount of N
-                        fertiliz apply amount = [fert_amount_pre_sow] (kg/ha), depth = 50 (mm), type = [fert_type_pre_sow] ()
-                     endif
-                  endif
-                  ready_to_fert_pre_sow = 0
-                  fert_day_pre_sow = 0
-               endif
-            endif
-
-            !   Tillage - presowing seedbed preparation
-            if ( [till_days_pre_sow] > 0) then
-               ! calculate presowing tillage date
-               till_day_pre_sow = date('[date1]') - [till_days_pre_sow]
-               ! Need to correct for possible year boundary condition
-               if (till_day_pre_sow < today) then
-                  till_day_pre_sow = days_this_year + till_day_pre_sow
-               endif
-               if (today = till_day_pre_sow) then
-                  ready_to_till_pre_sow = 1
-               endif
-               if ((crop_in = 0 OR '[must_till]' = 'yes') AND (ready_to_till_pre_sow = 1)) then
-                  ! tillage
-                if (crop_current = 'weed' or crop_current1 = 'weed' or crop_current2 = 'weed') then
-                  if (weed.plant_status <> 'out') then
-                        weed harvest, remove=[fraction]
-                        weed kill_crop
-                        weed end_crop
-                        days_after_weed_kill = 0
-                       crop_in = crop_in - 1
-                       if (crop_current = 'weed') then
-                           crop_current = crop_current1
-                           crop_current1 = crop_current2
-                           crop_current2 = blank
-                        elseif (crop_current1 = 'weed') then
-                           crop_current1 = crop_current2
-                           crop_current2 = blank
-                        elseif (crop_current2 = 'weed') then
-                           crop_current2 = blank
-                        endif
-                  endif
-                 endif
-                  if ('[tillage_type]' = 'user_defined') then
-                      '[surfaceommodule]' tillage type = [tillage_type], f_incorp = [tillage_f_incorp] (), tillage_depth = [tillage_depth]
-                      '[soilmodule] Water' type = [tillage_type], cn_red = [tillage_cn_red], cn_rain = [tillage_cn_rain]
-                  else
-                      '[surfaceommodule]' tillage type = [tillage_type] ()
-                      '[soilmodule] Water' type = [planter_type]
-                  endif
-                  ready_to_till_pre_sow = 0
-                  till_day_pre_sow = 0
-               endif
-            endif
-
-            if (today = date('[date2]')) then
-               if ('[rotation_exclude]' = 'no') then
-                  ready_for_next = 1
-               endif
-            endif
-
-            if (wht_sow_opp_num > 0) then
-               wht_sow_opp_days = wht_sow_opp_days + 1
-            else
-            endif
-
-         if (crop_in = 0 OR ('[cropmethod]' = 'intercrop'
-             AND [crop].plant_status = 'out')) then
-               if (date_within('[date1], [date2]') = 1) then
-                  crop_sow = 'waiting'
-                  surface_moist = (sw(1) - ll15(1)) / (dul(1)- ll15(1))
-                  if ((rain[[rain_days]] >= [rain_amount]  AND  esw >= [esw_amount] AND
-                        (surface_moist <= [surface_up] and surface_moist >= [surface_low])) OR
-                      ('[must_sow]' = 'yes' AND today = date('[date2]'))) THEN
-
-
-                     if (wht_sow_opp_days >= [rain_days] OR wht_sow_opp_num = 0) then
-                        wht_sow_opp_num = wht_sow_opp_num + 1
-                        wht_sow_opp_days = 0
-                     endif
-
-                     if ((wht_sow_opp_num >= [sow_opp]) OR ('[must_sow]' = 'yes' AND today = date('[date2]')) then
-                        if ('[crop]' = 'sorghum') then
-                           [crop] sow plants =[density], sowing_depth = [depth], cultivar = [cultivar1], row_spacing = [row_spacing], tiller_no_fertile = [ftn] (), skip = [skiprow]
-                        else
-                          [crop] sow cultivar = [cultivar1], plants = [density] (plants/m2), sowing_depth = [depth], row_spacing = [row_spacing]
-                        endif
-                        crop_in = crop_in + 1
-                        if ('[rotation_exclude]' = 'no') then
-                           ready_for_next = 1
-                        endif
-                        crop_current2 = crop_current1
-                        crop_current1 = crop_current
-                        crop_current = '[crop]'
-                        crop_sow = '[crop]'
-                        ready_to_manure_pre_sow = 0
-                        if ([fert_amount_sow] > 0) then
-                           fertiliser apply amount = [fert_amount_sow] (kg/ha), depth = 50 (mm), type = [fert_type_sow] ()
-                        endif
-                        !   Planter -
-                        ! Planting
-                        if (crop_current = 'weed' or crop_current1 = 'weed' or crop_current2 = 'weed') then
-                           if (weed.plant_status <> 'out' AND [thin_fraction] > 0) then
-                              weed kill_crop plants_kill_fraction = [thin_fraction]
-                              if ([thin_fraction] = 1.0) then
-                                 weed end_crop
-                                 days_after_weed_kill = 0
-                              else
-                              endif
-                              if ([thin_fraction] = 1.0) then
-                                    crop_in = crop_in - 1
-                                   if (crop_current = 'weed') then
-                                       crop_current = crop_current1
-                                       crop_current1 = crop_current2
-                                       crop_current2 = blank
-                                    elseif (crop_current1 = 'weed') then
-                                       crop_current1 = crop_current2
-                                       crop_current2 = blank
-                                    elseif (crop_current2 = 'weed') then
-                                       crop_current2 = blank
-                                    endif
-                              endif
-                           endif
-                        endif
-                        if ('[planter_type]' = 'user_defined') then
-                            '[surfaceommodule]' tillage type = [planter_type], f_incorp = [planter_f_incorp] (), tillage_depth = [planter_depth]
-                            '[soilmodule] Water' type = [planter_type], cn_red = [planter_cn_red], cn_rain = [planter_cn_rain]
-                        else
-                            '[surfaceommodule]' tillage type = [planter_type] ()
-                            '[soilmodule] Water' type = [planter_type]
-                        endif
-
-
-                     else
-                        !not this opportunity
-                     endif
-                  endif
-               endif
-            endif
-         endif
-         ! apply topdress fertiliser
-         if ([fert_amount_TopDress] > 0.0) then
-            if ([crop].das = [fert_days_TopDress]) then
-               fertiliser apply amount = [fert_amount_TopDress] (kg/ha), depth = 50 (mm), type = [fert_type_TopDress] ()
-            else
-            endif
-         else
-         endif
-         ]]></condition>
-          <category name="Crop properties">
+        </text>
+            <event>init</event>
+          </script>
+          <ui>
+            <category name="Crop properties" />
             <crop description="Name of this crop" type="crop">maize</crop>
             <cultivar1 type="cultivars" croppropertyname="crop" description="Enter cultivar : ">katumani</cultivar1>
             <cropmethod description="Method of cropping" type="list" listvalues="sole,intercrop">sole</cropmethod>
             <rotation_exclude description="Exclude from rotation sequence" type="yesno">no</rotation_exclude>
-          </category>
-          <category name="Sowing criteria">
+            <category name="Sowing criteria" />
             <date1 description="Enter sowing window START date (dd-mmm)" type="ddmmmdate">1-nov</date1>
             <date2 description="Enter sowing window END date (dd-mmm)" type="ddmmmdate">30-dec</date2>
             <must_sow description="Must Sow" type="yesno">no</must_sow>
@@ -1432,53 +1200,44 @@
             <sow_opp description="Enter sowing opportunity number to sow on (1..n)">1</sow_opp>
             <surface_up description="Enter upper limit of sw in top layer (0-2) (mm esw/mm soil)">2</surface_up>
             <surface_low description="Enter lower limit of sw in top layer (0-1) (mm esw/mm soil)">0</surface_low>
-          </category>
-          <category name="Sowing specs">
+            <category name="Sowing specs" />
             <density description="Enter sowing density  (plants/m2)">5</density>
             <depth description="Enter sowing depth  (mm)">100</depth>
             <row_spacing description="Enter row spacing  (mm) (m for maize and sorghum)" type="text">0.9</row_spacing>
-          </category>
-          <category name="Sorghum specs">
+            <category name="Sorghum specs" />
             <ftn type="text" description="Enter Fertile Tiller No. : ">1</ftn>
             <skiprow type="list" listvalues="solid, single, double" description="Skip row : ">solid</skiprow>
-          </category>
-          <category name="Starter fertiliser application">
+            <category name="Starter fertiliser application" />
             <fert_amount_sow description="Amount of starter fertiliser at sowing (kg/ha)" type="text">0</fert_amount_sow>
             <fert_type_sow description="Type" type="list" listvalues="NO3_N, NH4_N, NH4NO3, urea_N, urea_no3, urea">urea_N</fert_type_sow>
-          </category>
-          <category name="TopDress fertiliser application">
+            <category name="TopDress fertiliser application" />
             <fert_days_TopDress description="Enter number of days after sowing to apply top-dress fertiliser (days)" type="text">60</fert_days_TopDress>
             <fert_amount_TopDress description="Amount of TopDress fertiliser (kg/ha)" type="text">0</fert_amount_TopDress>
             <fert_type_TopDress description="Type" type="list" listvalues="NO3_N, NH4_N, NH4NO3, urea_N, urea_no3, urea">urea_N</fert_type_TopDress>
-          </category>
-          <category name="Pre-sowing manure application">
+            <category name="Pre-sowing manure application" />
             <surfaceommodule_pre_sow type="modulename" description="Module used to apply the manure : ">surface organic matter</surfaceommodule_pre_sow>
             <manure_days_pre_sow description="Enter number of days before window to apply pre-crop manure (days)" type="text">30</manure_days_pre_sow>
             <manure_amount_pre_sow type="text" description="Amount of manure to apply (kg/ha) : ">4000</manure_amount_pre_sow>
             <manure_type_pre_sow type="list" listvalues="manure,fym,heap_uncov,heap_cov,pit,communal" description="manure type : ">manure</manure_type_pre_sow>
             <manure_cnr_pre_sow type="text" description="manure CNR : ">25</manure_cnr_pre_sow>
             <manure_cpr_pre_sow type="text" description="manure CPR : ">50</manure_cpr_pre_sow>
-          </category>
-          <category name="Pre-sowing fertiliser application">
+            <category name="Pre-sowing fertiliser application" />
             <fert_days_pre_sow description="Enter number of days before window to apply pre-crop fertiliser (days)" type="text">30</fert_days_pre_sow>
             <fert_amount_pre_sow description="Amount of pre-crop fertiliser (kg/ha)" type="text">0</fert_amount_pre_sow>
             <fert_criteria_pre_sow description="Don't add fertiliser if pre-crop N in top 2 layers exceeds (kg/ha)" type="text">1000</fert_criteria_pre_sow>
             <totn_pre_sow description=" OR  Amount of pre-crop N required in top 3 layers (kg/ha)" type="text">0</totn_pre_sow>
             <fert_type_pre_sow description="Type (NO3_N, NH4_N, NH4NO3, urea_N, urea_no3, urea)" type="text">urea_N</fert_type_pre_sow>
-          </category>
-          <category name="Tillage components">
-          <surfaceommodule type="modulename" description="Name of your surface organic matter module : ">surface organic matter</surfaceommodule>
-          <soilmodule type="modulename" description="Name of your soil module : " />
-          </category>
-          <category name="Planter Tillage">
+            <category name="Tillage components" />
+            <surfaceommodule type="modulename" description="Name of your surface organic matter module : ">surface organic matter</surfaceommodule>
+            <soilmodule type="modulename" description="Name of your soil module : " />
+            <category name="Planter Tillage" />
             <planter_type description="Planter type" type="list" listvalues="user_defined, planter">planter</planter_type>
             <planter_depth description="User_defined depth of seedbed preparation (mm)" type="text">0</planter_depth>
             <thin_fraction description="Enter fraction of weed population killed (0-1)" type="text">1.0</thin_fraction>
             <planter_f_incorp description="User_defined fraction of surface residues to incorporate (0-1)" type="text">0</planter_f_incorp>
             <planter_cn_red description="cn reduction after tillage () : ">0</planter_cn_red>
             <planter_cn_rain description="amount of cummulative rain to dissipate tillage effects on cn () : ">0</planter_cn_rain>
-          </category>
-          <category name="Seed-bed Tillage Preparation">
+            <category name="Seed-bed Tillage Preparation" />
             <till_days_pre_sow description="Enter number of days before window to prepare seed-bed (days)" type="text">0</till_days_pre_sow>
             <must_till description="Must Till (yes/no)" type="yesno">no</must_till>
             <tillage_type description="Tillage type (user_defined, chisel, disc, planter)" type="list" listvalues="user_defined,chisel,disc,planter,burn,burn_90,graze,scarifier,rip,blade,tine">disc</tillage_type>
@@ -1487,10 +1246,11 @@
             <fraction description="Enter biomass removal fraction of growing weeds from field (0-1)" type="text">0.0</fraction>
             <tillage_cn_red description="cn reduction after tillage () : ">0</tillage_cn_red>
             <tillage_cn_rain description="amount of cummulative rain to dissipate tillage effects on cn () : ">0</tillage_cn_rain>
-          </category>
-        </rule>
-        <rule name="Sow WEEDS using a variable rule with intercropping">
-          <condition name="init">
+          </ui>
+        </manager>
+        <manager name="Sow WEEDS using a variable rule with intercropping">
+          <script>
+            <text>
          next = 1
          crop_in = 0
          blank = 'fallow'
@@ -1507,107 +1267,11 @@
          till_day_pre_sow = 0
          days_after_weed_kill = 0
 
-      </condition>
-          <condition name="process"><![CDATA[
-               if (next_crop = '[crop]' OR next_crop = blank OR '[rotation_exclude]' = 'yes') then
-
-
-                  if (today = date('[date2]')) then
-                     if ('[rotation_exclude]' = 'no') then
-                        ready_for_next = 1
-                     endif
-                  endif
-
-                  if (wd_sow_opp_num > 0) then
-                     wd_sow_opp_days = wd_sow_opp_days + 1
-                  else
-                  endif
-
-                  if (crop_in = 0 OR ('[cropmethod]' = 'intercrop'
-                      AND weed.plant_status = 'out')
-                      AND days_after_weed_kill > 0) then
-                        if (date_within('[date1], [date2]') = 1) then
-                           crop_sow = 'waiting'
-                           surface_moist = (sw(1) - ll15(1)) / (dul(1)- ll15(1))
-                           if ((rain[[rain_days]] >= [rain_amount]  AND  esw >= [esw_amount] AND
-                                 (surface_moist <= [surface_up] and surface_moist >= [surface_low])) OR
-                               ('[must_sow]' = 'yes' AND today = date('[date2]'))) THEN
-
-
-                              if (wd_sow_opp_days >= [rain_days] OR wd_sow_opp_num = 0) then
-                                 wd_sow_opp_num = wd_sow_opp_num + 1
-                                 wd_sow_opp_days = 0
-                              endif
-
-                              if ((wd_sow_opp_num >= [sow_opp]) OR ('[must_sow]' = 'yes' AND today = date('[date2]')) then
-                                 if (date_within('[date1], [date_ch1]') = 1) then
-                                    weed sow crop_class = [cla], plants = [density] (plants/m2), sowing_depth = [depth], cultivar = [cultivar1], row_spacing = [row_spacing]
-                                 else
-                                    weed sow crop_class = [cla], plants = [density] (plants/m2), sowing_depth = [depth], cultivar = [cultivar2], row_spacing = [row_spacing]
-                                 endif
-                                 crop_in = crop_in + 1
-                                 if ('[rotation_exclude]' = 'no') then
-                                    ready_for_next = 1
-                                 endif
-                                 crop_current2 = crop_current1
-                                 crop_current1 = crop_current
-                                 crop_current = '[crop]'
-                                 crop_sow = '[crop]'
-                              else
-                                 !not this opportunity
-                              endif
-                        endif
-                     endif
-                  endif
-               endif
-                           ]]></condition>
-          <condition name="end_of_day"><![CDATA[
-
-               days_after_weed_kill = days_after_weed_kill + 1
-
-               if (next_crop = '[crop]' OR next_crop = blank OR '[rotation_exclude]' = 'yes') then
-                  !   Tillage - presowing seedbed preparation
-                  if ( [till_days_pre_sow] > 0) then
-                     ! calculate presowing tillage date
-                     till_day_pre_sow = date('[date1]') - [till_days_pre_sow]
-                     ! Need to correct for possible year boundary condition
-                     if (till_day_pre_sow < today) then
-                        till_day_pre_sow = days_this_year + till_day_pre_sow
-                     endif
-                     if (today = till_day_pre_sow) then
-                        ready_to_till_pre_sow = 1
-                     endif
-                     if ((crop_in = 0 OR '[must_till]' = 'yes') AND (ready_to_till_pre_sow = 1)) then
-                        ! tillage
-                        if (weed.plant_status <> 'out') then
-                           weed harvest, remove=[fraction]
-                           weed kill_crop
-                           weed end_crop
-                           crop_in = crop_in - 1
-                          if (crop_current = 'weed') then
-                              crop_current = crop_current1
-                              crop_current1 = crop_current2
-                              crop_current2 = blank
-                           elseif (crop_current1 = 'weed') then
-                              crop_current1 = crop_current2
-                              crop_current2 = blank
-                           elseif (crop_current2 = 'weed') then
-                              crop_current2 = blank
-                           endif
-                        endif
-                     endif
-                  endif
-               endif
-
-
-               if (date_within('[date1], [date2]') = 1) THEN
-               else
-                  wd_sow_opp_num = 0
-                  wd_sow_opp_days = 0
-               endif
-
-            ]]></condition>
-          <category name="Crop properties">
+      </text>
+            <event>init</event>
+          </script>
+          <ui>
+            <category name="Crop properties" />
             <crop type="crop" description="Name of this crop">weed</crop>
             <cultivar1 type="list" listvalues="late, early" description="Enter first type"> early</cultivar1>
             <cla type="list" listvalues="winter_grass, winter_dicot, summer_grass, perennial_legume" description="Enter class type "> summer_grass</cla>
@@ -1615,8 +1279,7 @@
             <cultivar2 type="list" listvalues="late, early" description="Enter second type">late</cultivar2>
             <cropmethod type="list" listvalues="sole, intercrop" description="Method of cropping">intercrop</cropmethod>
             <rotation_exclude type="yesno" description="Exclude from rotation sequence">yes</rotation_exclude>
-          </category>
-          <category name="Sowing criteria">
+            <category name="Sowing criteria" />
             <date1 type="ddmmmdate" description="Enter sowing window START date (dd-mmm)">01-oct</date1>
             <date2 type="ddmmmdate" description="Enter sowing window END date (dd-mmm)">30-apr</date2>
             <must_sow type="yesno" description="Must Sow">no</must_sow>
@@ -1626,23 +1289,22 @@
             <sow_opp type="text" description="Enter sowing opportunity number to sow on (1..n)">1</sow_opp>
             <surface_up type="text" description="Enter upper limit of sw in top layer (0-2) (mm esw/mm soil)">2</surface_up>
             <surface_low type="text" description="Enter lower limit of sw in top layer (0-1) (mm esw/mm soil)">0</surface_low>
-          </category>
-          <category name="Sowing specs">
+            <category name="Sowing specs" />
             <density type="text" description="Enter sowing density  (plants/m2)">5</density>
             <depth type="text" description="Enter sowing depth  (mm)">15</depth>
             <row_spacing type="text" description="Enter row spacing  (mm)">350</row_spacing>
-          </category>
-          <category name="Seed-bed Tillage Preparation">
+            <category name="Seed-bed Tillage Preparation" />
             <till_days_pre_sow type="text" description="Enter number of days before window to prepare seed-bed (days)">0</till_days_pre_sow>
             <must_till type="yesno" description="Must Till">no</must_till>
             <tillage_type type="list" listvalues="user_defined, chisel, disc, planter,burn, burn_90, graze, scarifier, rip, blade, tine" description="Tillage type">disc</tillage_type>
             <tillage_depth type="text" description="User_defined depth of seedbed preparation (mm)">100</tillage_depth>
             <tillage_f_incorp type="text" description="User_defined fraction of surface residues to incorporate (0-1)">1</tillage_f_incorp>
             <fraction type="text" description="Enter biomass removal fraction of growing weeds from field (0-1)">0.0</fraction>
-          </category>
-        </rule>
-        <rule name="Rotations with Intercrop">
-          <condition name="init">
+          </ui>
+        </manager>
+        <manager name="Rotations with Intercrop">
+          <script>
+            <text>
          next = 1
          crop_in = 0
          blank = 'fallow'
@@ -1659,143 +1321,16 @@
          till_day_pre_sow = 0
          days_after_weed_kill = 0
 
-      </condition>
-          <condition name="start_of_day"><![CDATA[
-         if (ready_for_next = 1) then
-            if      (next = 1) THEN
-               next_crop = '[crop01]'
-               next = 2
-            elseif      (next = 2) THEN
-               next_crop = '[crop02]'
-               next = 3
-            elseif (next = 3) THEN
-               next_crop = '[crop03]'
-               next = 4
-            elseif (next = 4) THEN
-               next_crop = '[crop04]'
-               next = 5
-            elseif (next = 5) THEN
-               next_crop = '[crop05]'
-               next = 6
-            elseif (next = 6) THEN
-               next_crop = '[crop06]'
-               next = 7
-            elseif (next = 7) THEN
-               next_crop = '[crop07]'
-               next = 8
-            elseif (next = 8) THEN
-               next_crop = '[crop08]'
-               next = 9
-            elseif (next = 9) THEN
-                  next_crop = '[crop09]'
-                  next = 10
-            elseif (next = 10) THEN
-                  next_crop = '[crop10]'
-                  next = 11
-            elseif (next = 11) THEN
-                  next_crop = '[crop11]'
-                  next = 12
-            elseif (next = 12) THEN
-                  next_crop = '[crop12]'
-                  next = 13
-            elseif (next = 13) THEN
-                  next_crop = '[crop13]'
-                  next = 14
-            elseif (next = 14) THEN
-                  next_crop = '[crop14]'
-                  next = 15
-            elseif (next = 15) THEN
-                  next_crop = '[crop15]'
-                  next = 16
-            elseif (next = 16) THEN
-                  next_crop = '[crop16]'
-                  next = 17
-            elseif (next = 17) THEN
-                  next_crop = '[crop17]'
-                  next = 18
-            elseif (next = 18) THEN
-                  next_crop = '[crop18]'
-                  next = 19
-            elseif (next = 19) THEN
-                  next_crop = '[crop19]'
-                  next = 20
-            elseif (next = 20) THEN
-                  next_crop = '[crop20]'
-                  next = 1
-            endif
-            if (next_crop = 'nil' OR next_crop = blank) THEN
-               next_crop = '[crop01]'
-               next = 2
-            endif
-            ready_for_next = 0
-         endif
-
-            ! treat fallow as a crop - its window starts when the other fallow finishes
-            ! assume initiation (sowing) of fallow takes place when previous fallow finishes
-            ! or when previous crop is harvested, whichever is the latest.
-            ! Assume fallow finishes (harvested) at end of fallow date.
-
-         if (next_crop = '[winterf_name]') then
-               ! initiate (sow)
-            if ((crop_in = 0)
-              OR (crop_in = 1 AND (crop_current = 'weed' OR crop_current1 = 'weed' OR crop_current2 = 'weed'))) then
-               if (date_within('[summerf_d2], [winterf_d2]') then
-                  crop_in = crop_in + 1
-                  ready_for_next = 1
-                  crop_current2 = crop_current1
-                  crop_current1 = crop_current
-                  crop_current = '[winterf_name]'
-                  crop_sow = '[winterf_name]'
-                  ready_to_fert_pre_sow = 0
-               endif
-            endif
-
-         elseif (next_crop = '[summerf_name]') then
-              ! initiate (sow)
-            if ((crop_in = 0)
-              OR (crop_in = 1 AND (crop_current = 'weed' OR crop_current1 = 'weed' OR crop_current2 = 'weed'))) then
-               if (date_within('[winterf_d2], [summerf_d2]') then
-                  crop_in = crop_in + 1
-                  ready_for_next = 1
-                  crop_current2 = crop_current1
-                  crop_current1 = crop_current
-                  crop_current = '[summerf_name]'
-                  crop_sow = '[summerf_name]'
-                  ready_to_fert_pre_sow = 0
-               endif
-            endif
-         endif
-
-         if (crop_current = '[winterf_name]'
-          OR crop_current1 = '[winterf_name]'
-          OR crop_current2 = '[winterf_name]') then
-               ! terminate (harvest)
-            if (today = date('[winterf_d2]')+1) then
-               crop_in = crop_in - 1
-               crop_current = crop_current1
-               crop_current1 = crop_current2
-               crop_current2 = blank
-            endif
-         elseif (crop_current = '[summerf_name]'
-              OR crop_current1 = '[summerf_name]'
-              OR crop_current2 = '[summerf_name]') then
-               ! terminate (harvest)
-            if (today = date('[summerf_d2]')+1) then
-               crop_in = crop_in - 1
-               crop_current = crop_current1
-               crop_current1 = crop_current2
-               crop_current2 = blank
-            endif
-         endif
-
-      ]]></condition>
-          <category name="Fallow properties">
+      </text>
+            <event>init</event>
+          </script>
+          <ui>
+            <category name="Fallow properties" />
             <summerf_name description="summer fallow name : " type="text">sf</summerf_name>
             <summerf_d2 description="summer fallow END   (dd-mmm) : " type="ddmmmdate">15-mar</summerf_d2>
             <winterf_name description="winter fallow name : " type="text">wf</winterf_name>
             <winterf_d2 description="winter fallow END   (dd-mmm) : " type="ddmmmdate">23-aug</winterf_d2>
-          </category>
-          <category name="Crop and fallow rotation sequence - finish with nil">
+            <category name="Crop and fallow rotation sequence - finish with nil" />
             <crop01 description="1 : " type="crop">sf  </crop01>
             <crop02 description="2 : " type="crop">wf </crop02>
             <crop03 description="3 : " type="crop">sf </crop03>
@@ -1816,66 +1351,17 @@
             <crop18 description="18 : " type="crop">wf  </crop18>
             <crop19 description="19 : " type="crop">sf  </crop19>
             <crop20 description="20 : " type="crop">wf  </crop20>
-          </category>
-        </rule>
-        <rule name="Weeding at threshold weed biomass or maximum days">
-          <condition name="init"><![CDATA[
+          </ui>
+        </manager>
+        <manager name="Weeding at threshold weed biomass or maximum days">
+          <script>
+            <text>
           daemerge = 0
-      ]]></condition>
-          <condition name="end_of_day"><![CDATA[
-         if ((crop_in >= 1)
-            AND (weed.plant_status <> 'out')) then
-            if (weed.stage >= 3.0) then
-               daemerge = daemerge + 1
-            endif
-
-            if (weed.biomass > [weed_biomass] OR daemerge >= [weed_interval]) then
-               if ((crop_in > 1 AND [weed_maxno_in] > weed_count_in) OR (crop_in = 1 AND [weed_maxno_out] > weed_count_out)) then
-                  if (crop_in > 1) then
-                     weed_count_in = weed_count_in + 1
-                  elseif (crop_in = 1) then
-                     weed_count_out = weed_count_out + 1
-                  endif
-                  weed harvest, remove = [fraction]
-                  weed kill_crop plants_kill_fraction = [thin_fraction]
-                  if ([thin_fraction] = 1.0) then
-                     weed end_crop
-                     days_after_weed_kill = 0
-                 else
-                  endif
-                  '[surfaceommodule]' tillage type = [tillage_type], f_incorp = [f_incorp], tillage_depth = [tillage_depth]
-                  if ([thin_fraction] = 1.0) then
-                    crop_in = crop_in - 1
-                    if (crop_current = 'weed') then
-                        crop_current = crop_current1
-                        crop_current1 = crop_current2
-                        crop_current2 = blank
-                     elseif (crop_current1 = 'weed') then
-                        crop_current1 = crop_current2
-                        crop_current2 = blank
-                     elseif (crop_current2 = 'weed') then
-                        crop_current2 = blank
-                     endif
-                     daemerge = 0
-                  else
-                  endif
-               else
-               endif
-            else
-            endif
-         else
-            daemerge = 0
-         endif
-
-         if (((crop_in = 1)
-            AND (weed.plant_status <> 'out'))
-            OR (crop_in = 0)) then
-            weed_count_in = 0
-         else
-            weed_count_out = 0
-         endif
-      ]]></condition>
-          <category name="Weeding properties">
+      </text>
+            <event>init</event>
+          </script>
+          <ui>
+            <category name="Weeding properties" />
             <weed_interval description="Maximum days after emergence to weed (days) : " type="text">30</weed_interval>
             <weed_biomass description="Weeding biomass threshold to weed (kg/ha) : " type="text">100</weed_biomass>
             <weed_maxno_in description="Maximum number of in-crop weedings (1..n) : " type="text">2</weed_maxno_in>
@@ -1886,52 +1372,50 @@
             <tillage_type description="Enter name of tillage type : " type="text">user_defined</tillage_type>
             <f_incorp description="Enter fraction of surface residues incorporated into soil (0-1) : " type="text">0.1</f_incorp>
             <tillage_depth description="Enter depth of incorporation of surface residues (mm) : " type="text">25</tillage_depth>
-          </category>
-        </rule>
-        <rule name="Remove all residues on a fixed date">
-          <condition name="start_of_day"><![CDATA[
+          </ui>
+        </manager>
+        <manager name="Remove all residues on a fixed date">
+          <script>
+            <text>
          if today = date('[date]') then
             '[surfaceommodule]' tillage type = user_defined, f_incorp = 1.0 (), tillage_depth = 0.0 ()
          endif
-            ]]></condition>
-          <category name="Removal criteria">
+            </text>
+            <event>start_of_day</event>
+          </script>
+          <ui>
+            <category name="Removal criteria" />
             <date description="Date to remove residues (dd-mmm) :" type="ddmmmdate">1-may</date>
-          <surfaceommodule type="modulename" description="Name of your surface organic matter module : ">surface organic matter</surfaceommodule>
-          </category>
-        </rule>
-        <rule name="Remove residues at harvest">
-          <condition name="init"><![CDATA[
+            <surfaceommodule type="modulename" description="Name of your surface organic matter module : ">surface organic matter</surfaceommodule>
+          </ui>
+        </manager>
+        <manager name="Remove residues at harvest">
+          <script>
+            <text>
                last_stage_name = 'none'
-            ]]></condition>
-          <condition name="start_of_day"><![CDATA[
-         if [crop].stage_name <> last_stage_name  then
-            if ([crop].stage_name = 'out') then
-               '[surfaceommodule]' tillage type = user_defined, f_incorp = [fraction] (), tillage_depth = 0.0 ()
-            endif
-         endif
-         last_stage_name = [crop].stage_name
-            ]]></condition>
-          <category name="Removal criteria">
+            </text>
+            <event>init</event>
+          </script>
+          <ui>
+            <category name="Removal criteria" />
             <crop description="Name of crop harvest to trigger residue removal" type="crop">weed</crop>
             <surfaceommodule type="modulename" description="Name of your surface organic matter module : ">surface organic matter</surfaceommodule>
             <fraction description="Enter biomass removal fraction from field (0-1) : " type="text">0.0</fraction>
-          </category>
-        </rule>
-      </manager>
+          </ui>
+        </manager>
+      </folder>
     </folder>
     <folder name="Stock">
-      <manager name="Cattle">
-        <rule name="Buy cattle on a fixed date">
-          <condition name="init"><![CDATA[
+      <folder name="Cattle">
+        <manager name="Buy cattle on a fixed date">
+          <script>
+            <text>
                cattle_presence = 'off'
-            ]]></condition>
-          <condition name="start_of_day"><![CDATA[
-        if (today = date('[buy_date]') then
-           [stockmodule] buystock number = [buy_number] (-), genotype = '[genotype]', sex = [sex], age = [buy_age] (months), weight = [buy_weight] (kg)
-           cattle_presence = 'on'
-         endif
-               ]]></condition>
-          <category name="Buy properties">
+            </text>
+            <event>init</event>
+          </script>
+          <ui>
+            <category name="Buy properties" />
             <stockmodule type="modulename" description="Name of stock converter module : ">StockScienceConverter</stockmodule>
             <genotype type="list" listvalues="Angus,ayrshire,beef shorthorn,brahman,brahman x british,brown swiss,charolais,charolais x british,charolais x friesian,charolais x holstein,chianina,dairy shorthorn,fresian,fresian x british,guernsey,hereford,holstein,holstein x british,jersey,limousein,sahiwal,simmental,south devon" description="Select Genotype : ">Angus</genotype>
             <buy_date type="text" description="Date (dd-mmm) : ">1-jan</buy_date>
@@ -1939,19 +1423,17 @@
             <sex type="list" listvalues="cow,heifer,steer,bull" description="Select sex : ">steer</sex>
             <buy_age type="text" description="Age (months) : ">12</buy_age>
             <buy_weight type="text" description="Weight (kg) : ">250</buy_weight>
-          </category>
-        </rule>
-        <rule name="Buy cattle on a fixed days after sowing">
-          <condition name="init"><![CDATA[
+          </ui>
+        </manager>
+        <manager name="Buy cattle on a fixed days after sowing">
+          <script>
+            <text>
                cattle_presence = 'off'
-            ]]></condition>
-          <condition name="start_of_day"><![CDATA[
-        if (das = [buy_das]) then
-           [stockmodule] buystock number = [buy_number] (-), genotype = '[genotype]', sex = [sex], age = [buy_age] (months), weight = [buy_weight] (kg)
-           cattle_presence = 'on'
-         endif
-               ]]></condition>
-          <category name="Buy properties">
+            </text>
+            <event>init</event>
+          </script>
+          <ui>
+            <category name="Buy properties" />
             <stockmodule type="modulename" description="Name of stock converter module : ">StockScienceConverter</stockmodule>
             <genotype type="list" listvalues="Angus,ayrshire,beef shorthorn,brahman,brahman x british,brown swiss,charolais,charolais x british,charolais x friesian,charolais x holstein,chianina,dairy shorthorn,fresian,fresian x british,guernsey,hereford,holstein,holstein x british,jersey,limousein,sahiwal,simmental,south devon" description="Select Genotype : ">Angus</genotype>
             <buy_das type="text" description="Days after sowing : ">30</buy_das>
@@ -1959,61 +1441,47 @@
             <sex type="list" listvalues="cow,heifer,steer,bull" description="Select sex : ">steer</sex>
             <buy_age type="text" description="Age (months) : ">12</buy_age>
             <buy_weight type="text" description="Weight (kg) : ">250</buy_weight>
-          </category>
-        </rule>
-        <rule name="Move cattle on a fixed date">
-          <condition name="init"><![CDATA[
+          </ui>
+        </manager>
+        <manager name="Move cattle on a fixed date">
+          <script>
+            <text>
                cattle_presence = 'off'
-            ]]></condition>
-          <condition name="start_of_day"><![CDATA[
-         if (today = date('[move_date]') then
-               stockage = [sellpaddock].age_all/30.4375
-               stockwt = [sellpaddock].weight_all
-               stocknumber = [sellpaddock].number_all
-               [sellpaddock] sellstock number = stocknumber (-)
-               [buypaddock] buystock number = stocknumber (-), genotype = '[genotype]', sex = [sex], age = stockage (months), weight = stockwt (kg)
-        endif
-        ]]></condition>
-          <category name="Move properties">
+            </text>
+            <event>init</event>
+          </script>
+          <ui>
+            <category name="Move properties" />
             <sellpaddock type="modulename" description="Name of sell paddock : ">Paddock</sellpaddock>
             <buypaddock type="modulename" description="Name of buy paddock : ">Paddock</buypaddock>
             <genotype type="list" listvalues="Angus,ayrshire,beef shorthorn,brahman,brahman x british,brown swiss,charolais,charolais x british,charolais x friesian,charolais x holstein,chianina,dairy shorthorn,fresian,fresian x british,guernsey,hereford,holstein,holstein x british,jersey,limousein,sahiwal,simmental,south devon" description="Select Genotype : ">Angus</genotype>
             <move_date type="text" description="Date (dd-mmm) : ">1-jan</move_date>
-          </category>
-        </rule>
-        <rule name="Move cattle on a weight change">
-          <condition name="init"><![CDATA[
+          </ui>
+        </manager>
+        <manager name="Move cattle on a weight change">
+          <script>
+            <text>
                cattle_presence = 'off'
-            ]]></condition>
-          <condition name="start_of_day"><![CDATA[
-          if (([sellpaddock].wt_change_all <= [minimum_wt_change] OR [buypaddock].stage_name = 'flowering') AND [sellpaddock]_cattle_presence = 'on') then
-               stockage = [sellpaddock].age_all/30.4375
-               stockwt = [sellpaddock].weight_all
-               stocknumber = [sellpaddock].number_all
-               [sellpaddock] sellstock number = stocknumber (-)
-               [buypaddock] buystock number = stocknumber (-), genotype = '[genotype]', sex = [sex], age = stockage (months), weight = stockwt (kg)
-               [sellpaddock]_cattle_presence = 'off'
-               [buypaddock]_cattle_presence = 'on'
-          endif
-          ]]></condition>
-          <category name="Move properties">
+            </text>
+            <event>init</event>
+          </script>
+          <ui>
+            <category name="Move properties" />
             <sellpaddock type="modulename" description="Name of sell paddock : ">Paddock</sellpaddock>
             <buypaddock type="modulename" description="Name of buy paddock : ">Paddock</buypaddock>
             <genotype type="list" listvalues="Angus,ayrshire,beef shorthorn,brahman,brahman x british,brown swiss,charolais,charolais x british,charolais x friesian,charolais x holstein,chianina,dairy shorthorn,fresian,fresian x british,guernsey,hereford,holstein,holstein x british,jersey,limousein,sahiwal,simmental,south devon" description="Select Genotype : ">Angus</genotype>
             <minimum_wt_change type="text" description="Minimum weight gain (kg/day) : ">0</minimum_wt_change>
-          </category>
-        </rule>
-        <rule name="Buy cattle on feed-on-offer">
-          <condition name="init"><![CDATA[
+          </ui>
+        </manager>
+        <manager name="Buy cattle on feed-on-offer">
+          <script>
+            <text>
                cattle_presence = 'off'
-            ]]></condition>
-          <condition name="start_of_day"><![CDATA[
-        if ([herbage_module].biomass >= [buy_feed_on_offer] AND cattle_presence = 'off') then
-           [stockmodule] buystock number = [buy_number] (-), genotype = '[genotype]', sex = [sex], age = [buy_age] (months), weight = [buy_weight] (kg)
-           cattle_presence = 'on'
-        endif
-               ]]></condition>
-          <category name="Buy properties">
+            </text>
+            <event>init</event>
+          </script>
+          <ui>
+            <category name="Buy properties" />
             <stockmodule type="modulename" description="Name of stock converter module : ">StockScienceConverter</stockmodule>
             <genotype type="list" listvalues="Angus,ayrshire,beef shorthorn,brahman,brahman x british,brown swiss,charolais,charolais x british,charolais x friesian,charolais x holstein,chianina,dairy shorthorn,fresian,fresian x british,guernsey,hereford,holstein,holstein x british,jersey,limousein,sahiwal,simmental,south devon" description="Select Genotype : ">Angus</genotype>
             <herbage_module type="modulename" description="Module supplying herbage : ">lucerne</herbage_module>
@@ -2022,37 +1490,19 @@
             <sex type="list" listvalues="cow,heifer,steer,bull" description="Select sex : ">steer</sex>
             <buy_age type="text" description="Age (months) : ">12</buy_age>
             <buy_weight type="text" description="Weight (kg) : ">250</buy_weight>
-          </category>
-        </rule>
-        <rule name="Buy cattle on feed-on-offer test">
-          <condition name="init"><![CDATA[
+          </ui>
+        </manager>
+        <manager name="Buy cattle on feed-on-offer test">
+          <script>
+            <text>
                [paddockname]_cattle_presence = 'off'
                cattle_presence = 'off'
                buy_count = 0
-            ]]></condition>
-          <condition name="start_of_day"><![CDATA[
-           if ('[paddockname]' = 'nil') then
-              if (stage_name = 'out') then
-                 buy_count = 0
-              endif
-              if ([herbage_module].biomass >= [buy_feed_on_offer] AND cattle_presence = 'off' AND buy_count = 0) then
-                 [stockmodule] buystock number = [buy_number] (-), genotype = '[genotype]', sex = [sex], age = [buy_age] (months), weight = [buy_weight] (kg)
-                 cattle_presence = 'on'
-                 buy_count = buy_count + 1
-              endif
-           else
-              if ([paddockname].stage_name = 'out') then
-                 buy_count = 0
-              endif
-              if ([paddockname].biomass >= [buy_feed_on_offer] AND cattle_presence = 'off' AND buy_count = 0) then
-                 [paddockname] buystock number = [buy_number] (-), genotype = '[genotype]', sex = [sex], age = [buy_age] (months), weight = [buy_weight] (kg)
-                 [paddockname]_cattle_presence = 'on'
-                 cattle_presence = 'on'
-                 buy_count = buy_count + 1
-              endif
-           endif
-         ]]></condition>
-          <category name="Buy properties">
+            </text>
+            <event>init</event>
+          </script>
+          <ui>
+            <category name="Buy properties" />
             <paddockname type="modulename" description="Name of paddock (nil if none) : ">nil</paddockname>
             <stockmodule type="modulename" description="Name of stock converter module : ">StockScienceConverter</stockmodule>
             <genotype type="list" listvalues="Angus,ayrshire,beef shorthorn,brahman,brahman x british,brown swiss,charolais,charolais x british,charolais x friesian,charolais x holstein,chianina,dairy shorthorn,fresian,fresian x british,guernsey,hereford,holstein,holstein x british,jersey,limousein,sahiwal,simmental,south devon" description="Select Genotype : ">Angus</genotype>
@@ -2062,23 +1512,28 @@
             <sex type="list" listvalues="cow,heifer,steer,bull" description="Select sex : ">steer</sex>
             <buy_age type="text" description="Age (months) : ">12</buy_age>
             <buy_weight type="text" description="Weight (kg) : ">250</buy_weight>
-          </category>
-        </rule>
-        <rule name="Sell cattle on a fixed date">
-          <condition name="start_of_day"><![CDATA[
+          </ui>
+        </manager>
+        <manager name="Sell cattle on a fixed date">
+          <script>
+            <text>
         if (today = date('[sell_date]') AND cattle_presence = 'on') then
            [stockmodule] sellstock number = [sell_number] (-)
            cattle_presence = 'off'
         endif
-               ]]></condition>
-          <category name="Sell properties">
+               </text>
+            <event>start_of_day</event>
+          </script>
+          <ui>
+            <category name="Sell properties" />
             <stockmodule type="modulename" description="Name of stock converter module : ">StockScienceConverter</stockmodule>
             <sell_date type="text" description="Date (dd-mmm) : ">1-jan</sell_date>
             <sell_number type="text" description="Number of stock : ">5</sell_number>
-          </category>
-        </rule>
-        <rule name="Sell cattle on weight test">
-          <condition name="start_of_day"><![CDATA[
+          </ui>
+        </manager>
+        <manager name="Sell cattle on weight test">
+          <script>
+            <text><![CDATA[
            if ('[sellpaddock]' = 'nil') then
              if ((stock.weight >= [sell_on_weight]) AND cattle_presence = 'on') then
                  [stockmodule] sellstock number = [sell_number] (-)
@@ -2090,168 +1545,95 @@
                  cattle_presence = 'off'
               endif
            endif
-         ]]></condition>
-          <category name="Sell properties">
+         ]]></text>
+            <event>start_of_day</event>
+          </script>
+          <ui>
+            <category name="Sell properties" />
             <sellpaddock type="modulename" description="Name of paddock: ">nil</sellpaddock>
             <stockmodule type="modulename" description="Name of stock converter module : ">StockScienceConverter</stockmodule>
             <sell_on_weight type="text" description="LiveWeight for sale : ">350.0</sell_on_weight>
             <sell_number type="text" description="Number of stock : ">100</sell_number>
-          </category>
-        </rule>
-        <rule name="Sell cattle on weight loss">
-          <condition name="init">
+          </ui>
+        </manager>
+        <manager name="Sell cattle on weight loss">
+          <script>
+            <text>
             numdaysweightloss = 0
-        </condition>
-          <condition name="start_of_day"><![CDATA[
-            if ('[sellpaddock]' = 'nil') then
-              if (wt_change_all < 0.0) then
-                 numdaysweightloss = numdaysweightloss + 1
-              endif
-              if ((numdaysweightloss >= [sell_on_days_weight_loss]) AND cattle_presence = 'on') then
-                 [stockmodule] sellstock number = [sell_number] (-)
-                 cattle_presence = 'off'
-                 maxstockwt = -1
-              endif
-            else
-               if ([sellpaddock]_cattle_presence = 'on') then
-                  if ([sellpaddock].wt_change_all < 0.0) then
-                     numdaysweightloss = numdaysweightloss + 1
-                  else
-                     numdaysweightloss = 0
-                  endif
-               endif
-               if ((numdaysweightloss >= [sell_on_days_weight_loss]) AND [sellpaddock]_cattle_presence = 'on') then
-                  [sellpaddock] sellstock number = [sell_number] (-)
-                  cattle_presence = 'off'
-                  [sellpaddock]_cattle_presence = 'off'
-               endif
-            endif
-         ]]></condition>
-          <category name="Sell properties">
+        </text>
+            <event>init</event>
+          </script>
+          <ui>
+            <category name="Sell properties" />
             <sellpaddock type="modulename" description="Name of paddock: ">nil</sellpaddock>
             <stockmodule type="modulename" description="Name of stock converter module : ">StockScienceConverter</stockmodule>
             <sell_on_days_weight_loss type="text" description="Number of days of weight loss : ">2.0</sell_on_days_weight_loss>
             <sell_number type="text" description="Number of stock : ">100</sell_number>
-          </category>
-        </rule>
-        <rule name="Sell cattle below minimum declining weight change">
-          <condition name="init">
+          </ui>
+        </manager>
+        <manager name="Sell cattle below minimum declining weight change">
+          <script>
+            <text>
             numdaysweightchange = 0
             wt_change_yesterday = 0
-        </condition>
-          <condition name="start_of_day"><![CDATA[
-            if ('[sellpaddock]' = 'nil') then
-              if (cattle_presence = 'on') then
-                 if (wt_change_all < [sell_min_weight_change] AND wt_change_all < wt_change_yesterday)then
-                    numdaysweightchange = numdaysweightchange + 1
-                 else
-                    numdaysweightchange = 0
-                 endif
-              endif
-              if ((numdaysweightchange >= [sell_on_days_weight_change] OR (intake_all < 0.001)) AND cattle_presence = 'on') then
-                 [stockmodule] sellstock number = [sell_number] (-)
-                 cattle_presence = 'off'
-                 maxstockwt = -1
-              endif
-              wt_change_yesterday = wt_change_all
-            else
-               if ([sellpaddock]_cattle_presence = 'on') then
-                  if ([sellpaddock].wt_change_all < [sell_min_weight_change] AND [sellpaddock].wt_change_all < wt_change_yesterday) then
-                     numdaysweightchange = numdaysweightchange + 1
-                  else
-                     numdaysweightchange = 0
-                  endif
-               endif
-               if ((numdaysweightchange >= [sell_on_days_weight_change] OR ([sellpaddock].intake_all < 0.001)) AND [sellpaddock]_cattle_presence = 'on') then
-                  [sellpaddock] sellstock number = [sell_number] (-)
-                  cattle_presence = 'off'
-                  [sellpaddock]_cattle_presence = 'off'
-               endif
-               wt_change_yesterday = [sellpaddock].wt_change_all
-            endif
-         ]]></condition>
-          <category name="Sell properties">
+        </text>
+            <event>init</event>
+          </script>
+          <ui>
+            <category name="Sell properties" />
             <sellpaddock type="modulename" description="Name of paddock: ">nil</sellpaddock>
             <stockmodule type="modulename" description="Name of stock converter module : ">StockScienceConverter</stockmodule>
             <sell_min_weight_change type="text" description="Minimum Weight change : ">0.2</sell_min_weight_change>
             <sell_on_days_weight_change type="text" description="Number of days below weight change : ">2.0</sell_on_days_weight_change>
             <sell_number type="text" description="Number of stock : ">100</sell_number>
-          </category>
-        </rule>
-        <rule name="Sell cattle on minimum condition score change">
-          <condition name="init">
+          </ui>
+        </manager>
+        <manager name="Sell cattle on minimum condition score change">
+          <script>
+            <text>
             numdays_cond_score_diminishing = 0
             cond_score_yesterday = 0
-        </condition>
-          <condition name="start_of_day"><![CDATA[
-            if ('[sellpaddock]' = 'nil') then
-              if (cattle_presence = 'on') then
-                 cond_score_change = cond_score - cond_score_yesterday
-                 if (cond_score_change < [sell_min_cond_score_change])then
-                    numdays_cond_score_diminishing = numdays_cond_score_diminishing + 1
-                 else
-                    numdays_cond_score_diminishing = 0
-                 endif
-              endif
-              if ((numdays_cond_score_diminishing >= [sell_on_days_cond_score_change] OR (intake_all < 0.001)) AND cattle_presence = 'on') then
-                 [stockmodule] sellstock number = [sell_number] (-)
-                 cattle_presence = 'off'
-                 maxstockwt = -1
-              endif
-              cond_score_change_yesterday = cond_score_change
-              cond_score_yesterday = cond_score
-            else
-               if ([sellpaddock]_cattle_presence = 'on') then
-                  cond_score_change = [sellpaddock].cond_score - cond_score_yesterday
-                  if (cond_score_change < [sell_min_cond_score_change]) then
-                     numdays_cond_score_diminishing = numdays_cond_score_diminishing + 1
-                  else
-                     numdays_cond_score_diminishing = 0
-                  endif
-               endif
-               if ((numdays_cond_score_diminishing >= [sell_on_days_cond_score_change] OR ([sellpaddock].intake_all < 0.001)) AND [sellpaddock]_cattle_presence = 'on') then
-                  [sellpaddock] sellstock number = [sell_number] (-)
-                  cattle_presence = 'off'
-                  [sellpaddock]_cattle_presence = 'off'
-               endif
-               cond_score_yesterday = [sellpaddock].cond_score
-            endif
-         ]]></condition>
-          <category name="Sell properties">
+        </text>
+            <event>init</event>
+          </script>
+          <ui>
+            <category name="Sell properties" />
             <sellpaddock type="modulename" description="Name of paddock: ">nil</sellpaddock>
             <stockmodule type="modulename" description="Name of stock converter module : ">StockScienceConverter</stockmodule>
             <sell_min_cond_score_change type="text" description="Minimum condition score change : ">-0.001</sell_min_cond_score_change>
             <sell_on_days_cond_score_change type="text" description="Number of days below cond score change : ">2.0</sell_on_days_cond_score_change>
             <sell_number type="text" description="Number of stock : ">100</sell_number>
-          </category>
-        </rule>
-        <rule name="Sell cattle on weight">
-          <condition name="start_of_day"><![CDATA[
+          </ui>
+        </manager>
+        <manager name="Sell cattle on weight">
+          <script>
+            <text><![CDATA[
         if ((stock.weight >= [sell_on_weight_gain] OR stock.weight <= [sell_on_weight_loss]) AND cattle_presence = 'on') then
            [stockmodule] sellstock number = [sell_number] (-)
            cattle_presence = 'off'
         endif
-               ]]></condition>
-          <category name="Sell properties">
+               ]]></text>
+            <event>start_of_day</event>
+          </script>
+          <ui>
+            <category name="Sell properties" />
             <stockmodule type="modulename" description="Name of stock converter module : ">StockScienceConverter</stockmodule>
             <sell_on_weight_gain type="text" description="Weight (gaining) : ">350.0</sell_on_weight_gain>
             <sell_on_weight_loss type="text" description="Weight (losing) : ">0.0</sell_on_weight_loss>
             <sell_number type="text" description="Number of stock : ">5</sell_number>
-          </category>
-        </rule>
-      </manager>
-      <manager name="Sheep">
-        <rule name="Buy sheep on a fixed date">
-          <condition name="init"><![CDATA[
+          </ui>
+        </manager>
+      </folder>
+      <folder name="Sheep">
+        <manager name="Buy sheep on a fixed date">
+          <script>
+            <text>
                sheep_presence = 'off'
-            ]]></condition>
-          <condition name="start_of_day"><![CDATA[
-        if (today = date('[buy_date]') then
-           [stockmodule] buystock number = [buy_number] (-), genotype = '[genotype]', sex = [sex], age = [buy_age] (months), weight = [buy_weight] (kg)
-           sheep_presence = 'on'
-         endif
-               ]]></condition>
-          <category name="Buy properties">
+            </text>
+            <event>init</event>
+          </script>
+          <ui>
+            <category name="Buy properties" />
             <stockmodule type="modulename" description="Name of stock converter module : ">StockScienceConverter</stockmodule>
             <genotype type="list" listvalues="black face x white face,birder keucester, border leicester x merino,columbia,corriedale,delaine-merino,dorset x merino,dorset,finnsheep,hampshire,large merino,medium merino,small merino,polwarth,polypay,romney,ryeland,southdown,suffolk,targhee,texel,US corriedale,US romney,US southdown,US suffolk" description="Select Genotype : ">suffolk</genotype>
             <buy_date type="text" description="Date (dd-mmm) : ">1-jan</buy_date>
@@ -2259,19 +1641,17 @@
             <sex type="list" listvalues="ewe,wether,ram,crypto" description="Select sex : ">wether</sex>
             <buy_age type="text" description="Age (months) : ">12</buy_age>
             <buy_weight type="text" description="Weight (kg) : ">45</buy_weight>
-          </category>
-        </rule>
-        <rule name="Buy sheep on feed-on-offer">
-          <condition name="init"><![CDATA[
+          </ui>
+        </manager>
+        <manager name="Buy sheep on feed-on-offer">
+          <script>
+            <text>
                sheep_presence = 'off'
-            ]]></condition>
-          <condition name="start_of_day"><![CDATA[
-        if ([herbage_module].biomass >= [buy_feed_on_offer] AND sheep_presence = 'off') then
-           [stockmodule] buystock number = [buy_number] (-), genotype = '[genotype]', sex = [sex], age = [buy_age] (months), weight = [buy_weight] (kg)
-           sheep_presence = 'on'
-         endif
-               ]]></condition>
-          <category name="Buy properties">
+            </text>
+            <event>init</event>
+          </script>
+          <ui>
+            <category name="Buy properties" />
             <stockmodule type="modulename" description="Name of stock converter module : ">StockScienceConverter</stockmodule>
             <genotype type="list" listvalues="black face x white face,birder keucester, border leicester x merino,columbia,corriedale,delaine-merino,dorset x merino,dorset,finnsheep,hampshire,large merino,medium merino,small merino,polwarth,polypay,romney,ryeland,southdown,suffolk,targhee,texel,US corriedale,US romney,US southdown,US suffolk" description="Select Genotype : ">suffolk</genotype>
             <herbage_module type="modulename" description="Module supplying herbage : ">lucerne</herbage_module>
@@ -2280,38 +1660,21 @@
             <sex type="list" listvalues="ewe,wether,ram,crypto" description="Select sex : ">wether</sex>
             <buy_age type="text" description="Age (months) : ">12</buy_age>
             <buy_weight type="text" description="Weight (kg) : ">45</buy_weight>
-          </category>
-        </rule>
-        <rule name="Buy variable sheep on green feed-on-offer">
-          <condition name="init"><![CDATA[
+          </ui>
+        </manager>
+        <manager name="Buy variable sheep on green feed-on-offer">
+          <script>
+            <text>
               sheep_presence = 'off'
               grazing_no = 0
               grazing_days = 0
               gpsm2kgpha = 10.0
               stem_discount = 0.17
-            ]]></condition>
-          <condition name="start_of_day"><![CDATA[
-            if sheep_presence = 'on' then
-               grazing_days = grazing_days + 1
-            else
-               grazing_days = 0
-            endif
-            feed_on_offer = ([herbage_module].dm_green(2) + [herbage_module].dm_green(3) * stem_discount) * gpsm2kgpha
-            if ((([herbage_module].stage_code >= 5) or (feed_on_offer  > [buy_green_leaf_on_offer])) and (sheep_presence = 'off')) then
-                leaf = [herbage_module].dm_green(2) + [herbage_module].dlt_dm_green(2)*[est_grazing_days]
-                stem = [herbage_module].dm_green(3) + [herbage_module].dlt_dm_green(3)*[est_grazing_days]
-                stock_in = ((leaf + stem * stem_discount) * gpsm2kgpha / ([est_grazing_days] * [est_intake_day]) + 0.5)
-
-                if (stock_in >= [min_buy_number]) then
-                   grazing_days = 0
-                   [stockmodule] buystock number = stock_in (-), genotype = '[genotype]', sex = [sex], age = [buy_age] (months), weight = [buy_weight] (kg)
-                   sheep_presence = 'on'
-                else
-                   sheep_presence = 'off'
-                endif
-            endif
-                              ]]></condition>
-          <category name="Buy properties">
+            </text>
+            <event>init</event>
+          </script>
+          <ui>
+            <category name="Buy properties" />
             <stockmodule type="modulename" description="Name of stock converter module : ">StockScienceConverter</stockmodule>
             <genotype type="list" listvalues="black face x white face,border leicester,border leicester x merino,columbia,corriedale,delaine-merino,dorset x merino,dorset,finnsheep,hampshire,large merino,medium merino,small merino,polwarth,polypay,romney,ryeland,southdown,suffolk,targhee,texel,US corriedale,US romney,US southdown,US suffolk" description="Select Genotype : ">suffolk</genotype>
             <herbage_module type="modulename" description="Module supplying herbage : ">lucerne</herbage_module>
@@ -2322,100 +1685,117 @@
             <sex type="list" listvalues="ewe,wether,ram,crypto" description="Select sex : ">wether</sex>
             <buy_age type="text" description="Age (months) : ">12</buy_age>
             <buy_weight type="text" description="Weight (kg) : ">45</buy_weight>
-          </category>
-        </rule>
-        <rule name="Sell sheep on a fixed date">
-          <condition name="start_of_day"><![CDATA[
+          </ui>
+        </manager>
+        <manager name="Sell sheep on a fixed date">
+          <script>
+            <text>
         if (today = date('[sell_date]') AND sheep_presence = 'on') then
            [stockmodule] sellstock number = [sell_number] (-)
            sheep_presence = 'off'
         endif
-               ]]></condition>
-          <category name="Sell properties">
+               </text>
+            <event>start_of_day</event>
+          </script>
+          <ui>
+            <category name="Sell properties" />
             <stockmodule type="modulename" description="Name of stock converter module : ">StockScienceConverter</stockmodule>
             <sell_date type="text" description="Date (dd-mmm) : ">1-jan</sell_date>
             <sell_number type="text" description="Number of stock : ">50</sell_number>
-          </category>
-        </rule>
-        <rule name="Sell sheep on weight">
-          <condition name="start_of_day"><![CDATA[
+          </ui>
+        </manager>
+        <manager name="Sell sheep on weight">
+          <script>
+            <text><![CDATA[
         if ((stock.weight >= [sell_on_weight_gain] OR stock.weight <= [sell_on_weight_loss]) AND sheep_presence = 'on') then
            [stockmodule] sellstock number = [sell_number] (-)
            sheep_presence = 'off'
         endif
-               ]]></condition>
-          <category name="Sell properties">
+               ]]></text>
+            <event>start_of_day</event>
+          </script>
+          <ui>
+            <category name="Sell properties" />
             <stockmodule type="modulename" description="Name of stock converter module : ">StockScienceConverter</stockmodule>
             <sell_on_weight_gain type="text" description="Weight (gaining) : ">60.0</sell_on_weight_gain>
             <sell_on_weight_loss type="text" description="Weight (losing) : ">0.0</sell_on_weight_loss>
             <sell_number type="text" description="Number of stock : ">50</sell_number>
-          </category>
-        </rule>
-        <rule name="Sell sheep on green feed-on-offer">
-          <condition name="init"><![CDATA[
+          </ui>
+        </manager>
+        <manager name="Sell sheep on green feed-on-offer">
+          <script>
+            <text>
               gpsm2kgpha = 10.0
               stem_discount = 0.17
-            ]]></condition>
-          <condition name="start_of_day"><![CDATA[
-           feed_on_offer = ([herbage_module].dm_green(2) + [herbage_module].dm_green(3) * stem_discount) * gpsm2kgpha
-            if (feed_on_offer < [sell_on_green_leaf] and sheep_presence = 'on') then
-                stock_sell = [stock_module].number_all
-                [stockmodule] sellstock number = stock_sell
-                sheep_presence = 'off'
-            endif
-                              ]]></condition>
-          <category name="Sell properties">
+            </text>
+            <event>init</event>
+          </script>
+          <ui>
+            <category name="Sell properties" />
             <stock_module type="modulename" description="Stock module name : ">stock</stock_module>
             <herbage_module type="modulename" description="Module supplying herbage : ">lucerne</herbage_module>
             <stockmodule type="modulename" description="Name of stock converter module : ">StockScienceConverter</stockmodule>
             <sell_on_green_leaf type="text" description="Green feed-on-offer (kg/ha) : ">50.0</sell_on_green_leaf>
-          </category>
-        </rule>
-      </manager>
-      <manager name="Supplement">
-        <rule name="Buy supplement on a fixed date">
-          <condition name="start_of_day"><![CDATA[
+          </ui>
+        </manager>
+      </folder>
+      <folder name="Supplement">
+        <manager name="Buy supplement on a fixed date">
+          <script>
+            <text>
         if (today = date('[buy_date]') then
            [supplementmodule] buysupplement supplement = [buy_name] (-), amount = [buy_amount] (kg)
          endif
-               ]]></condition>
-          <category name="Buy properties">
+               </text>
+            <event>start_of_day</event>
+          </script>
+          <ui>
+            <category name="Buy properties" />
             <supplementmodule type="modulename" description="Name of supplement converter module : ">SupplementScienceConverter</supplementmodule>
             <buy_date type="text" description="Date (dd-mmm) : ">1-jan</buy_date>
             <buy_name type="list" listvalues="'barley- crushed','barley- whole','barley straw','beans- field','bran','brewers grains','canola meal','canola straw','citrus pulp- dry','coconut meal','cottonseed- whole','cottonseed meal','fish meal','groundnut meal','hay','lucerne pellets','lupins','linseed meal','maize','maize bran','maize gluten fd','maize straw','molasses','oats- crushed','oats- whole','oat bran','oat chaff','oat straw','peas','pea pod meal','pea straw','pellets','rice- crushed','rice- whole','rice bran','rice straw','rye','safflower meal','silage','sorghum','sorghum- whole','soya bean meal','sunflower meal','tallow','triticale- crushed','triticale- whole','urea','vetch grain','wheat- crushed','wheat- whole','wheat chaff','wheat pollard','wheat straw'" description="Name of the supplement to purchase : ">wheat</buy_name>
             <buy_amount type="text" description="Fresh weight of supplement to purchase (kg) : ">1000</buy_amount>
-          </category>
-        </rule>
-        <rule name="Mix supplement on a fixed date">
-          <condition name="start_of_day"><![CDATA[
+          </ui>
+        </manager>
+        <manager name="Mix supplement on a fixed date">
+          <script>
+            <text>
         if (today = date('[mix_date]') then
            [supplementmodule] mixsupplement src_store = [src_store_name] (-), amount = [mix_amount] (kg), dest_store = [dest_store_name] (-)
          endif
-               ]]></condition>
-          <category name="Mix properties">
+               </text>
+            <event>start_of_day</event>
+          </script>
+          <ui>
+            <category name="Mix properties" />
             <supplementmodule type="modulename" description="Name of supplement converter module : ">SupplementScienceConverter</supplementmodule>
             <mix_date type="text" description="Date (dd-mmm) : ">1-jan</mix_date>
             <src_store_name type="list" listvalues="'barley- crushed','barley- whole','barley straw','beans- field','bran','brewers grains','canola meal','canola straw','citrus pulp- dry','coconut meal','cottonseed- whole','cottonseed meal','fish meal','groundnut meal','hay','lucerne pellets','lupins','linseed meal','maize','maize bran','maize gluten fd','maize straw','molasses','oats- crushed','oats- whole','oat bran','oat chaff','oat straw','peas','pea pod meal','pea straw','pellets','rice- crushed','rice- whole','rice bran','rice straw','rye','safflower meal','silage','sorghum','sorghum- whole','soya bean meal','sunflower meal','tallow','triticale- crushed','triticale- whole','urea','vetch grain','wheat- crushed','wheat- whole','wheat chaff','wheat pollard','wheat straw'" description="Name of the source supplement store. : ">wheat</src_store_name>
             <dest_store_name type="list" listvalues="'barley- crushed','barley- whole','barley straw','beans- field','bran','brewers grains','canola meal','canola straw','citrus pulp- dry','coconut meal','cottonseed- whole','cottonseed meal','fish meal','groundnut meal','hay','lucerne pellets','lupins','linseed meal','maize','maize bran','maize gluten fd','maize straw','molasses','oats- crushed','oats- whole','oat bran','oat chaff','oat straw','peas','pea pod meal','pea straw','pellets','rice- crushed','rice- whole','rice bran','rice straw','rye','safflower meal','silage','sorghum','sorghum- whole','soya bean meal','sunflower meal','tallow','triticale- crushed','triticale- whole','urea','vetch grain','wheat- crushed','wheat- whole','wheat chaff','wheat pollard','wheat straw'" description="Name of the destination store. : ">wheat</dest_store_name>
             <mix_amount type="text" description="Fresh weight of supplement to transfer. (kg) : ">1000</mix_amount>
-          </category>
-        </rule>
-        <rule name="Feed supplement in a fixed date window">
-          <condition name="start_of_day"><![CDATA[
+          </ui>
+        </manager>
+        <manager name="Feed supplement in a fixed date window">
+          <script>
+            <text>
         if (date_within('[feed_start_date], [feed_end_date]') = 1) then
            [supplementmodule] feedsupplement supplement = [feed_name] (-), amount = [feed_amount] (kg)
          endif
-               ]]></condition>
-          <category name="Feed properties">
+               </text>
+            <event>start_of_day</event>
+          </script>
+          <ui>
+            <category name="Feed properties" />
             <supplementmodule type="modulename" description="Name of supplement converter module : ">SupplementScienceConverter</supplementmodule>
             <feed_start_date type="text" description="Date (dd-mmm) : ">1-jan</feed_start_date>
             <feed_end_date type="text" description="Date (dd-mmm) : ">1-jan</feed_end_date>
             <feed_name type="list" listvalues="'barley- crushed','barley- whole','barley straw','beans- field','bran','brewers grains','canola meal','canola straw','citrus pulp- dry','coconut meal','cottonseed- whole','cottonseed meal','fish meal','groundnut meal','hay','lucerne pellets','lupins','linseed meal','maize','maize bran','maize gluten fd','maize straw','molasses','oats- crushed','oats- whole','oat bran','oat chaff','oat straw','peas','pea pod meal','pea straw','pellets','rice- crushed','rice- whole','rice bran','rice straw','rye','safflower meal','silage','sorghum','sorghum- whole','soya bean meal','sunflower meal','tallow','triticale- crushed','triticale- whole','urea','vetch grain','wheat- crushed','wheat- whole','wheat chaff','wheat pollard','wheat straw'" description="Name of the supplement to purchase : ">wheat</feed_name>
             <feed_amount type="text" description="Fresh weight of supplement to purchase (kg) : ">1000</feed_amount>
-          </category>
-        </rule>
-        <rule name="Feed supplement on animal condition">
-          <condition name="init"><![CDATA[
+          </ui>
+        </manager>
+        <manager name="Feed supplement on animal condition">
+          <script>
+            <text>
          FALSE = 0
          TRUE = 1
          feeding = FALSE
@@ -2424,48 +1804,20 @@
          est_lag_days = 10.0 / feed_rate_factor
          initial_feed_rate = 0.0
 
-            ]]></condition>
-          <condition name="start_of_day"><![CDATA[
-            dlt_cond_score = cond_score_all - yest_cond_score_all
-            yest_cond_score_all = cond_score_all
-            if (feeding = TRUE AND cond_score_all = 0.0) then
-               feeding = FALSE
-            endif
-
-            if ((feeding = FALSE) AND (cond_score_all < [crit_cs]) AND (dlt_cond_score < 0.0)) then
-               feeding = TRUE
-               feed_rate = initial_feed_rate
-            else
-               ! leave feeding as is
-            endif
-
-            if (feeding = TRUE) then
-               feed_rate = feed_rate - feed_rate_factor * (cond_score_all + dlt_cond_score*est_lag_days - [crit_cs])
-               if (feed_rate > [max_feed_rate]) then
-                  feed_rate = [max_feed_rate]
-               elseif (feed_rate < 0.0) then
-                  feed_rate = 0.0
-               endif
-               if (feed_rate > 0) then
-                   feed_amount = feed_rate * number_all
-                   [supplementmodule] feedsupplement  supplement = [feed_name], amount = feed_amount
-               else
-                  feed_rate = 0.0
-               endif
-            else
-               feed_rate = 0.0
-            endif
-
-               ]]></condition>
-          <category name="Feed properties">
+            </text>
+            <event>init</event>
+          </script>
+          <ui>
+            <category name="Feed properties" />
             <supplementmodule type="modulename" description="Name of supplement converter module : ">SupplementScienceConverter</supplementmodule>
             <crit_cs type="text" description="Critical condition score. 1.0 is sensible for dry stock : ">1.0</crit_cs>
             <max_feed_rate type="text" description="Maximum rate of feeding in kg FW/day; 1.0 is sensible for sheep : ">1.0</max_feed_rate>
             <feed_name type="list" listvalues="'barley- crushed','barley- whole','barley straw','beans- field','bran','brewers grains','canola meal','canola straw','citrus pulp- dry','coconut meal','cottonseed- whole','cottonseed meal','fish meal','groundnut meal','hay','lucerne pellets','lupins','linseed meal','maize','maize bran','maize gluten fd','maize straw','molasses','oats- crushed','oats- whole','oat bran','oat chaff','oat straw','peas','pea pod meal','pea straw','pellets','rice- crushed','rice- whole','rice bran','rice straw','rye','safflower meal','silage','sorghum','sorghum- whole','soya bean meal','sunflower meal','tallow','triticale- crushed','triticale- whole','urea','vetch grain','wheat- crushed','wheat- whole','wheat chaff','wheat pollard','wheat straw'" description="Name of the supplement to purchase : ">wheat</feed_name>
-          </category>
-        </rule>
-        <rule name="Feed supplement on animal condition loss">
-          <condition name="init"><![CDATA[
+          </ui>
+        </manager>
+        <manager name="Feed supplement on animal condition loss">
+          <script>
+            <text>
          FALSE = 0
          TRUE = 1
          feeding = FALSE
@@ -2474,53 +1826,21 @@
          feed_rate_factor = 0.2
          est_lag_days = 10.0 / feed_rate_factor
          initial_feed_rate = 0.0
-            ]]></condition>
-          <condition name="start_of_day"><![CDATA[
-         dlt_cond_score = cond_score_all - yest_cond_score_all
-         yest_cond_score_all = cond_score_all
-            if (feeding = TRUE AND cond_score_all = 0.0) then
-               crit_cs = 0.0
-               feeding = FALSE
-            endif
-
-            if (dlt_cond_score[[days]] < [crit_condition_change] AND crit_cs <= 0.0) then
-               crit_cs = cond_score_all
-            endif
-            if ((feeding = FALSE) AND (cond_score_all < crit_cs)) then
-               feeding = TRUE
-               feed_rate = initial_feed_rate
-            else
-               ! leave feeding as is
-            endif
-
-            if (feeding = TRUE) then
-               feed_rate = feed_rate - feed_rate_factor * (cond_score_all + dlt_cond_score*est_lag_days - crit_cs)
-               if (feed_rate > [max_feed_rate]) then
-                  feed_rate = [max_feed_rate]
-               elseif (feed_rate < 0.0) then
-                  feed_rate = 0.0
-               endif
-               if (feed_rate > 0) then
-                   feed_amount = feed_rate * number_all
-                   [supplementmodule] feedsupplement  supplement = [feed_name], amount = feed_amount
-               else
-                  feed_rate = 0.0
-               endif
-            else
-               feed_rate = 0.0
-            endif
-
-               ]]></condition>
-          <category name="Feed properties">
+            </text>
+            <event>init</event>
+          </script>
+          <ui>
+            <category name="Feed properties" />
             <supplementmodule type="modulename" description="Name of supplement converter module : ">SupplementScienceConverter</supplementmodule>
             <days type="text" description="Number of days to sum condition change : ">5</days>
             <crit_condition_change type="text" description="Critical condition change needed to start feeding (kg/head) : ">0.0</crit_condition_change>
             <max_feed_rate type="text" description="Maximum rate of feeding in kg FW/day; 1.0 is sensible for sheep : ">1.0</max_feed_rate>
             <feed_name type="list" listvalues="'barley- crushed','barley- whole','barley straw','beans- field','bran','brewers grains','canola meal','canola straw','citrus pulp- dry','coconut meal','cottonseed- whole','cottonseed meal','fish meal','groundnut meal','hay','lucerne pellets','lupins','linseed meal','maize','maize bran','maize gluten fd','maize straw','molasses','oats- crushed','oats- whole','oat bran','oat chaff','oat straw','peas','pea pod meal','pea straw','pellets','rice- crushed','rice- whole','rice bran','rice straw','rye','safflower meal','silage','sorghum','sorghum- whole','soya bean meal','sunflower meal','tallow','triticale- crushed','triticale- whole','urea','vetch grain','wheat- crushed','wheat- whole','wheat chaff','wheat pollard','wheat straw'" description="Name of the supplement to purchase : ">wheat</feed_name>
-          </category>
-        </rule>
-        <rule name="Feed supplement on animal weight loss">
-          <condition name="init"><![CDATA[
+          </ui>
+        </manager>
+        <manager name="Feed supplement on animal weight loss">
+          <script>
+            <text>
          FALSE = 0
          TRUE = 1
          feeding = FALSE
@@ -2529,93 +1849,37 @@
          feed_rate_factor = 0.5
          est_lag_days = 10.0 / feed_rate_factor
          initial_feed_rate = 0.1
-            ]]></condition>
-          <condition name="start_of_day"><![CDATA[
-            if (feeding = TRUE AND cond_score_all = 0.0) then
-               crit_wt = 0.0
-               feeding = FALSE
-            endif
-
-            if (wt_change_all[[days]] < [crit_wt_change] AND crit_wt <= 0.0) then
-               crit_wt = weight_all
-            endif
-            if ((feeding = FALSE) AND (weight_all < crit_wt)) then
-               feeding = TRUE
-               feed_rate = initial_feed_rate
-            else
-               ! leave feeding as is
-            endif
-
-            if (feeding = TRUE) then
-               feed_rate = feed_rate - feed_rate_factor * (weight_all + wt_change_all*est_lag_days - crit_wt)
-               if (feed_rate > [max_feed_rate]) then
-                  feed_rate = [max_feed_rate]
-               elseif (feed_rate < 0.0) then
-                  feed_rate = 0.0
-               endif
-               if (feed_rate > 0) then
-                   feed_amount = feed_rate * number_all
-                   [supplementmodule] feedsupplement  supplement = [feed_name], amount = feed_amount
-               else
-                  feed_rate = 0.0
-               endif
-            else
-               feed_rate = 0.0
-            endif
-
-               ]]></condition>
-          <category name="Feed properties">
+            </text>
+            <event>init</event>
+          </script>
+          <ui>
+            <category name="Feed properties" />
             <supplementmodule type="modulename" description="Name of supplement converter module : ">SupplementScienceConverter</supplementmodule>
             <days type="text" description="Number of days to sum weight change : ">5</days>
             <crit_weight_change type="text" description="Critical weight change needed to start feeding (kg/head) : ">0.0</crit_weight_change>
             <max_feed_rate type="text" description="Maximum rate of feeding in kg FW/day; 1.0 is sensible for sheep : ">1.0</max_feed_rate>
             <feed_name type="list" listvalues="'barley- crushed','barley- whole','barley straw','beans- field','bran','brewers grains','canola meal','canola straw','citrus pulp- dry','coconut meal','cottonseed- whole','cottonseed meal','fish meal','groundnut meal','hay','lucerne pellets','lupins','linseed meal','maize','maize bran','maize gluten fd','maize straw','molasses','oats- crushed','oats- whole','oat bran','oat chaff','oat straw','peas','pea pod meal','pea straw','pellets','rice- crushed','rice- whole','rice bran','rice straw','rye','safflower meal','silage','sorghum','sorghum- whole','soya bean meal','sunflower meal','tallow','triticale- crushed','triticale- whole','urea','vetch grain','wheat- crushed','wheat- whole','wheat chaff','wheat pollard','wheat straw'" description="Name of the supplement to purchase : ">wheat</feed_name>
-          </category>
-        </rule>
-        <rule name="Feed supplement to reach a target weight">
-          <condition name="init"><![CDATA[
+          </ui>
+        </manager>
+        <manager name="Feed supplement to reach a target weight">
+          <script>
+            <text>
          feed_rate = 0.0     ! Rate of feeding in kg FW/day
 
-            ]]></condition>
-          <condition name="start_of_day"><![CDATA[
-            if (date_within('[date_start_feed], [date_end_feed]') = 1) then
-               days_left = date('[date_end_feed]') - date('[date_start_feed]')
-               if (days_left < 0.0) then
-                  days_left = days_left + 365.0
-               endif
-               if (days_left > 0) then
-                  dwt_reqd = ([target_wt] - stock.weight_all) / days_left
-
-                  feed_rate = feed_rate + (2.0 * (dwt_reqd - wt_change_all))
-                  if (feed_rate > [max_feed_rate]) then
-                     feed_rate = [max_feed_rate]
-                  elseif (feed_rate < 0.0) then
-                     feed_rate = 0.0
-                  endif
-
-                  if (feed_rate > 0) then
-                     if (today = date('[date_start_feed]') then
-                        feed_rate = feed_rate * 0.5
-                     endif
-                      feed_amount = feed_rate * number_all
-                      [supplementmodule] feedsupplement  supplement = [feed_name], amount = feed_amount
-                  else
-                     feed_rate = 0.0
-                  endif
-               endif
-            endif
-
-               ]]></condition>
-          <category name="Feed properties">
+            </text>
+            <event>init</event>
+          </script>
+          <ui>
+            <category name="Feed properties" />
             <supplementmodule type="modulename" description="Name of supplement converter module : ">SupplementScienceConverter</supplementmodule>
             <date_start_feed type="text" description="date to begin feeding (dd-mmm) : ">1-jan</date_start_feed>
             <date_end_feed type="text" description="date to end feeding (dd-mmm) : ">1-jan</date_end_feed>
             <target_wt type="text" description="Target weight per head to finish (kg) : ">1.0</target_wt>
             <max_feed_rate type="text" description="Maximum rate of feeding in kg FW/day; 1.0 is sensible for sheep : ">1.0</max_feed_rate>
             <feed_name type="list" listvalues="'barley- crushed','barley- whole','barley straw','beans- field','bran','brewers grains','canola meal','canola straw','citrus pulp- dry','coconut meal','cottonseed- whole','cottonseed meal','fish meal','groundnut meal','hay','lucerne pellets','lupins','linseed meal','maize','maize bran','maize gluten fd','maize straw','molasses','oats- crushed','oats- whole','oat bran','oat chaff','oat straw','peas','pea pod meal','pea straw','pellets','rice- crushed','rice- whole','rice bran','rice straw','rye','safflower meal','silage','sorghum','sorghum- whole','soya bean meal','sunflower meal','tallow','triticale- crushed','triticale- whole','urea','vetch grain','wheat- crushed','wheat- whole','wheat chaff','wheat pollard','wheat straw'" description="Name of the supplement to purchase : ">wheat</feed_name>
-          </category>
-        </rule>
-      </manager>
+          </ui>
+        </manager>
+      </folder>
     </folder>
     <folder name="Tcl">
       <tclmanager name="TCL Manager (standalone)">
@@ -2707,20 +1971,6 @@ if {$steps == 0} {tkwait variable steps}
         </rule>
       </paddockmanager>
     </folder>
-    <logic name="Logic">
-      <script>
-        <event>init</event>
-        <text />
-      </script>
-      <script>
-        <event>start_of_day</event>
-        <text />
-      </script>
-      <script>
-        <event>end_of_day</event>
-        <text />
-      </script>
-    </logic>
     <operations />
     <accum>
       <variable name="variable">variable</variable>
@@ -2733,7 +1983,7 @@ if {$steps == 0} {tkwait variable steps}
       <filename>%apsuite\soi\phases.soi</filename>
     </soi>
     <tracker />
-    <logic name="CanolaOilConc">
+    <manager name="CanolaOilConc">
       <script>
         <event>script</event>
         <text><![CDATA[start_of_day   
@@ -2764,7 +2014,7 @@ if {$steps == 0} {tkwait variable steps}
          endif
       ]]></text>
       </script>
-    </logic>
+    </manager>
   </folder>
   <folder name="Water Management">
     <irrigation name="Irrigation">

@@ -12,7 +12,7 @@ namespace ApsimFile
 	// ------------------------------------------
 	public class APSIMChangeTool
 		{
-		public static int CurrentVersion = 11;	   
+		public static int CurrentVersion = 12;	   
 		private delegate void UpgraderDelegate(XmlNode Data, Configuration Config);
 
 		// ------------------------------------------
@@ -67,9 +67,13 @@ namespace ApsimFile
                 if (DataVersion < 10)
                     Upgrade(Data, new UpgraderDelegate(UpdateToVersion10), Config);
 
-                // Upgrade from version 9 to 11.
+                // Upgrade from version 10 to 11.
                 if (DataVersion < 11)
                     Upgrade(Data, new UpgraderDelegate(UpdateToVersion11), Config);
+
+                // Upgrade from version 11 to 12.
+                if (DataVersion < 12)
+                    Upgrade(Data, new UpgraderDelegate(UpdateToVersion12), Config);
 
                 // All finished upgrading - write version number out.
                 XmlHelper.SetAttribute(Data, "version", CurrentVersion.ToString());
@@ -87,11 +91,15 @@ namespace ApsimFile
 			{
 			foreach (XmlNode Child in XmlHelper.ChildNodes(Data, ""))
 				{
-                if (Config.IsComponentVisible(Child.Name))
-                    {
-                    Upgrader(Child, Config);
+                Upgrader(Child, Config);
+                if (Child.Name.ToLower() == "area"
+                   || Child.Name.ToLower() == "folder"
+                   || Child.Name.ToLower() == "simulation"
+                   || Child.Name.ToLower() == "manager"
+                   || Child.Name.ToLower() == "outputfile"
+                   || Child.Name.ToLower() == "graph"
+                   || Child.Name.ToLower() == "data")
                     Upgrade(Child, Upgrader, Config);  // recurse
-                    }
 				}
 			}
                
@@ -434,6 +442,45 @@ namespace ApsimFile
                     }
                 }
             }
+        private static void UpdateToVersion12(XmlNode Data, Configuration Config)
+            {
+            if (Data.Name.ToLower() == "manager")
+                {
+                XmlNode NewManagerNode = Data.ParentNode.AppendChild(Data.OwnerDocument.CreateElement("folder"));
+                if (XmlHelper.Name(Data).ToLower() == "manager")
+                    XmlHelper.SetName(NewManagerNode, "Manager folder");
+                else
+                    XmlHelper.SetName(NewManagerNode, XmlHelper.Name(Data));
+                foreach (XmlNode Rule in XmlHelper.ChildNodes(Data, "rule"))
+                    {
+                    XmlNode ManagerNode = NewManagerNode.AppendChild(NewManagerNode.OwnerDocument.CreateElement("manager"));
+                    XmlHelper.SetName(ManagerNode, XmlHelper.Name(Rule));
+
+                    XmlNode Condition = XmlHelper.FindByType(Rule, "condition");
+                    XmlHelper.SetValue(ManagerNode, "script/text", Condition.InnerText);
+                    XmlHelper.SetValue(ManagerNode, "script/event", XmlHelper.Name(Condition));
+
+                    XmlNode UI = ManagerNode.AppendChild(ManagerNode.OwnerDocument.CreateElement("ui"));
+                    foreach (XmlNode Category in XmlHelper.ChildNodes(Rule, "category"))
+                        {
+                        XmlNode CategoryNode = UI.AppendChild(UI.OwnerDocument.CreateElement("category"));
+                        XmlHelper.SetName(CategoryNode, XmlHelper.Name(Category));
+                        foreach (XmlNode Prop in XmlHelper.ChildNodes(Category, ""))
+                            UI.AppendChild(UI.OwnerDocument.ImportNode(Prop, true));
+                        }
+                    }
+                Data.ParentNode.ReplaceChild(NewManagerNode, Data);
+                }
+            else if (Data.Name.ToLower() == "logic")
+                {
+                XmlNode NewManagerNode = Data.ParentNode.AppendChild(Data.OwnerDocument.CreateElement("manager"));
+                XmlHelper.SetName(NewManagerNode, XmlHelper.Name(Data));
+                foreach (XmlNode Child in XmlHelper.ChildNodes(Data, ""))
+                    NewManagerNode.AppendChild(NewManagerNode.OwnerDocument.ImportNode(Child, true));
+                Data.ParentNode.ReplaceChild(NewManagerNode, Data);
+                }
+            }
+
 
 		}
 	}

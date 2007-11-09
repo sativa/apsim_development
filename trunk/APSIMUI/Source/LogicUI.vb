@@ -62,7 +62,7 @@ Public Class LogicUI
         Me.TabControl.ContextMenuStrip = Me.PopupMenu
         Me.TabControl.Controls.Add(Me.InitTab)
         Me.TabControl.Dock = System.Windows.Forms.DockStyle.Top
-        Me.TabControl.Location = New System.Drawing.Point(0, 40)
+        Me.TabControl.Location = New System.Drawing.Point(0, 18)
         Me.TabControl.Name = "TabControl"
         Me.TabControl.SelectedIndex = 0
         Me.TabControl.Size = New System.Drawing.Size(1020, 24)
@@ -110,9 +110,9 @@ Public Class LogicUI
         '
         Me.ScriptBox.Dock = System.Windows.Forms.DockStyle.Fill
         Me.ScriptBox.Font = New System.Drawing.Font("Microsoft Sans Serif", 9.75!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.ScriptBox.Location = New System.Drawing.Point(0, 64)
+        Me.ScriptBox.Location = New System.Drawing.Point(0, 42)
         Me.ScriptBox.Name = "ScriptBox"
-        Me.ScriptBox.Size = New System.Drawing.Size(1020, 528)
+        Me.ScriptBox.Size = New System.Drawing.Size(1020, 550)
         Me.ScriptBox.TabIndex = 3
         Me.ScriptBox.Text = ""
         Me.ScriptBox.WordWrap = False
