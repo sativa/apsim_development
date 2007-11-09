@@ -17,7 +17,7 @@ Paddock:
 Component "outputfile" = c:\development\apsim\report\lib\report.dll
 Component      "accum" = c:\development\apsim\accum\lib\accum.dll
 Component "fertiliser" = c:\development\apsim\fertiliz\lib\fertiliz.dll
-Component    "Manager" = c:\development\apsim\manager\lib\manager.dll
+Component "Sowing rule" = c:\development\apsim\manager\lib\manager.dll
 Component "#063 - Roma Res Stn, Roma,Brown Vertosol Water" = c:\development\apsim\soilwat2\lib\soilwat2.dll
 Component "surface organic matter" = c:\development\apsim\surfaceom\lib\surfaceom.dll
 Component "#063 - Roma Res Stn, Roma,Brown Vertosol Nitrogen" = c:\development\apsim\soiln2\lib\soiln2.dll
@@ -73,7 +73,7 @@ Component "butterflypea" = c:\development\apsim\plant\lib\plant.dll
            No fertiliser schedule is used
           -----------------------------------------------
 
-------- Manager Initialisation ------------------------------------------------
+------- Sowing rule Initialisation --------------------------------------------
      Manager rules:
      
      SECTION:- start_of_day
@@ -184,8 +184,6 @@ Component "butterflypea" = c:\development\apsim\plant\lib\plant.dll
         - Reading Parameters
      
         - Reading Constants
-     Using standard soil mineralisation for soil type
-     
      
      
      
@@ -231,7 +229,7 @@ Component "butterflypea" = c:\development\apsim\plant\lib\plant.dll
 ------- Start of simulation  --------------------------------------------------
      Manager creating a new local real variable : fallowin =     0.00000000000000
      Manager creating a new local real variable : nextcrop =     0.00000000000000
-31 January 1989(Day of year=31), Manager: 
+31 January 1989(Day of year=31), Sowing rule: 
      Manager creating a new local string variable : choosenextcrop = yes
      Manager sending message :- butterflypea sow  plants = 20, sowing_depth = 30, cultivar = milgarra, row_spacing = 300
 31 January 1989(Day of year=31), butterflypea: 

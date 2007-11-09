@@ -17,7 +17,9 @@ Paddock:
 Component "outputfile" = c:\development\apsim\report\lib\report.dll
 Component      "accum" = c:\development\apsim\accum\lib\accum.dll
 Component "fertiliser" = c:\development\apsim\fertiliz\lib\fertiliz.dll
-Component    "Manager" = c:\development\apsim\manager\lib\manager.dll
+Component "Sowing rule" = c:\development\apsim\manager\lib\manager.dll
+Component "Harvesting rule" = c:\development\apsim\manager\lib\manager.dll
+Component "Sowing fertiliser" = c:\development\apsim\manager\lib\manager.dll
 Component "Loam Water" = c:\development\apsim\soilwat2\lib\soilwat2.dll
 Component "surface organic matter" = c:\development\apsim\surfaceom\lib\surfaceom.dll
 Component "Loam Nitrogen" = c:\development\apsim\soiln2\lib\soiln2.dll
@@ -70,7 +72,7 @@ Component     "potato" = c:\development\apsim\plant\lib\plant.dll
            No fertiliser schedule is used
           -----------------------------------------------
 
-------- Manager Initialisation ------------------------------------------------
+------- Sowing rule Initialisation --------------------------------------------
      Manager rules:
      
      SECTION:- start_of_day
@@ -101,12 +103,22 @@ Component     "potato" = c:\development\apsim\plant\lib\plant.dll
      endif
               endif
            endif
+     END of rules
+     
+
+------- Harvesting rule Initialisation ----------------------------------------
+     Manager rules:
      
      SECTION:- end_of_day
                 if potato.stage_name = 'maturity' or potato.plant_status = 'dead' then
        potato  harvest
        potato  end_crop
                 endif
+     END of rules
+     
+
+------- Sowing fertiliser Initialisation --------------------------------------
+     Manager rules:
      
      SECTION:- potato.sowing
              fertiliser apply amount = 150 (kg/ha), depth = 50 (mm), type = urea_n
@@ -256,7 +268,7 @@ Component     "potato" = c:\development\apsim\plant\lib\plant.dll
 ------- Start of simulation  --------------------------------------------------
      Manager creating a new local real variable : fallowin =     0.00000000000000
      Manager creating a new local real variable : nextcrop =     0.00000000000000
-15 May 1999(Day of year=135), Manager: 
+15 May 1999(Day of year=135), Sowing rule: 
      Manager creating a new local string variable : choosenextcrop = yes
      Manager creating a new local real variable : stf =     2.18013592000000
      Manager creating a new local real variable : swf =    0.897912036250556
@@ -304,6 +316,7 @@ Component     "potato" = c:\development\apsim\plant\lib\plant.dll
          -----------------------------------------------
          Extractable SW:   346mm in  1500mm total depth ( 23%).
          Crop factor for bounding water use is set to 100.0 times eo.
+15 May 1999(Day of year=135), Sowing fertiliser: 
      Manager sending message :- fertiliser apply  amount = 150 (kg/ha), depth = 50 (mm), type = urea_n
 15 May 1999(Day of year=135), fertiliser: 
      
@@ -341,7 +354,7 @@ Component     "potato" = c:\development\apsim\plant\lib\plant.dll
       stage 7.0 maturity
                      biomass =         338.44 (g/m^2)   lai          =   0.165 (m^2/m^2)
                      stover N conc =     3.09 (%)    extractable sw =   91.71 (mm)
-1 December 1999(Day of year=335), Manager: 
+1 December 1999(Day of year=335), Harvesting rule: 
      Manager sending message :- potato harvest
      
       flowering day          =    0                           stover (kg/ha)         =     3384.4
