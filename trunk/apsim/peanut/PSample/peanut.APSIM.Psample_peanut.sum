@@ -58,9 +58,9 @@ Component     "peanut" = c:\development\apsim\Plant\lib\Plant.dll
         peanut.dlt_p_detached()
         peanut.dlt_p_sen()
         peanut.p_conc_stover
-        peanut.p_conc_leaf
-        peanut.p_conc_stem
-        peanut.p_conc_grain
+        peanut.LeafGreenPConc
+        peanut.StemGreenPConc
+        peanut.GrainGreenPConc
         peanut.p_uptake_stover
         peanut.grain_p_demand
         surfaceom.surfaceom_p

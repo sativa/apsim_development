@@ -58,9 +58,9 @@ Component   "mungbean" = c:\development\apsim\Plant\lib\Plant.dll
         mungbean.dlt_p_detached()
         mungbean.dlt_p_sen()
         mungbean.p_conc_stover
-        mungbean.p_conc_leaf
-        mungbean.p_conc_stem
-        mungbean.p_conc_grain
+        mungbean.LeafGreenPConc
+        mungbean.StemGreenPConc
+        mungbean.GrainGreenPConc
         mungbean.p_uptake_stover
         mungbean.grain_p_demand
         surfaceom.surfaceom_p

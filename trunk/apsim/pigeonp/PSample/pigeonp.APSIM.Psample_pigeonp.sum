@@ -58,9 +58,9 @@ Component    "pigeonp" = c:\development\apsim\Plant\lib\Plant.dll
         pigeonp.dlt_p_detached()
         pigeonp.dlt_p_sen()
         pigeonp.p_conc_stover
-        pigeonp.p_conc_leaf
-        pigeonp.p_conc_stem
-        pigeonp.p_conc_grain
+        pigeonp.LeafGreenPConc
+        pigeonp.StemGreenPConc
+        pigeonp.GrainGreenPConc
         pigeonp.p_uptake_stover
         pigeonp.grain_p_demand
         surfaceom.surfaceom_p

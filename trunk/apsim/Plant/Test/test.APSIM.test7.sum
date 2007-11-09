@@ -34,11 +34,11 @@ Component     "lablab" = c:\development\apsim\Plant\lib\Plant.dll
         clock.year
         clock.day
         lablab.n_conc_stover
-        lablab.n_conc_root
-        lablab.n_conc_leaf
-        lablab.n_conc_stem
+        lablab.RootGreenNConc
+        lablab.LeafGreenNConc
+        lablab.StemGreenNConc
         lablab.n_conc_grain
-        lablab.n_conc_meal
+        lablab.MealGreenNConc
         lablab.n_grain_pcnt
         lablab.grain_protein
         lablab.n_conc_crit
@@ -107,9 +107,9 @@ Component     "lablab" = c:\development\apsim\Plant\lib\Plant.dll
         lablab.dlt_p_detached
         lablab.dlt_p_sen
         lablab.p_conc_stover
-        lablab.p_conc_leaf
-        lablab.p_conc_stem
-        lablab.p_conc_grain
+        lablab.LeafGreenPConc
+        lablab.StemGreenPConc
+        lablab.GrainGreenPConc
         lablab.p_grain_pcnt
         lablab.p_uptake_stover
         lablab.grain_p_demand
