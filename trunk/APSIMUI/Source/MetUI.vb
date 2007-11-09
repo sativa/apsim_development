@@ -106,6 +106,12 @@ Public Class MetUI
         MetGraphControl1.SetFileName(FileName)
     End Sub
 
+    Protected Overrides Sub OnSave()
+        Dim Doc As New Xml.XmlDocument()
+        Doc.LoadXml(MetGraphControl1.GetData())
+        Data.InnerXml = Doc.DocumentElement.InnerXml
+    End Sub
+
     Private Sub btnBrowse_Paint(ByVal sender As Object, ByVal e As System.Windows.Forms.PaintEventArgs) Handles btnBrowse.Paint
         ControlPaint.DrawBorder3D(e.Graphics, e.ClipRectangle, Border3DStyle.Etched)
     End Sub

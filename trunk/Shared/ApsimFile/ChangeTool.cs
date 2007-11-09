@@ -447,6 +447,9 @@ namespace ApsimFile
             if (Data.Name.ToLower() == "manager")
                 {
                 XmlNode NewManagerNode = Data.ParentNode.AppendChild(Data.OwnerDocument.CreateElement("folder"));
+                if (XmlHelper.Attribute(Data, "shortcut") != "")
+                    XmlHelper.SetAttribute(NewManagerNode, "shortcut", XmlHelper.Attribute(Data, "shortcut"));
+                
                 if (XmlHelper.Name(Data).ToLower() == "manager")
                     XmlHelper.SetName(NewManagerNode, "Manager folder");
                 else
@@ -455,6 +458,8 @@ namespace ApsimFile
                     {
                     XmlNode ManagerNode = NewManagerNode.AppendChild(NewManagerNode.OwnerDocument.CreateElement("manager"));
                     XmlHelper.SetName(ManagerNode, XmlHelper.Name(Rule));
+                    if (XmlHelper.Attribute(Rule, "shortcut") != "")
+                        XmlHelper.SetAttribute(NewManagerNode, "shortcut", XmlHelper.Attribute(Rule, "shortcut"));
 
                     XmlNode Condition = XmlHelper.FindByType(Rule, "condition");
                     XmlHelper.SetValue(ManagerNode, "script/text", Condition.InnerText);
@@ -475,6 +480,8 @@ namespace ApsimFile
                 {
                 XmlNode NewManagerNode = Data.ParentNode.AppendChild(Data.OwnerDocument.CreateElement("manager"));
                 XmlHelper.SetName(NewManagerNode, XmlHelper.Name(Data));
+                if (XmlHelper.Attribute(Data, "shortcut") != "")
+                    XmlHelper.SetAttribute(NewManagerNode, "shortcut", XmlHelper.Attribute(Data, "shortcut"));
                 foreach (XmlNode Child in XmlHelper.ChildNodes(Data, ""))
                     NewManagerNode.AppendChild(NewManagerNode.OwnerDocument.ImportNode(Child, true));
                 Data.ParentNode.ReplaceChild(NewManagerNode, Data);
