@@ -18,7 +18,9 @@ Component "outputfile" = c:\development\apsim\report\lib\report.dll
 Component      "accum" = c:\development\apsim\accum\lib\accum.dll
 Component "fertiliser" = c:\development\apsim\fertiliz\lib\fertiliz.dll
 Component "Irrigation" = c:\development\apsim\irrigate\lib\irrigate.dll
-Component    "Manager" = c:\development\apsim\manager\lib\manager.dll
+Component "Sow on a fixed date" = c:\development\apsim\manager\lib\manager.dll
+Component "Harvesting rule" = c:\development\apsim\manager\lib\manager.dll
+Component "Fertilise at sowing" = c:\development\apsim\manager\lib\manager.dll
 Component "Calculator" = c:\development\apsim\manager\lib\manager.dll
 Component  "Irrigator" = c:\development\apsim\manager\lib\manager.dll
 Component "Fertilizer" = c:\development\apsim\manager\lib\manager.dll
@@ -106,13 +108,18 @@ Component     "barley" = c:\development\apsim\plant\lib\plant.dll
            Irrigation Allocation Budget (Disabled)
           -----------------------------------------------
 
-------- Manager Initialisation ------------------------------------------------
+------- Sow on a fixed date Initialisation ------------------------------------
      Manager rules:
      
      SECTION:- start_of_day
              if (today = date('26/05/1987') then
        barley sow plants =99.93, sowing_depth = 50, cultivar = grimmett, row_spacing = 250
               endif
+     END of rules
+     
+
+------- Harvesting rule Initialisation ----------------------------------------
+     Manager rules:
      
      SECTION:- end_of_day
       if (paddock_is_fallow() = 0) then
@@ -122,6 +129,11 @@ Component     "barley" = c:\development\apsim\plant\lib\plant.dll
        barley  harvest
        barley  end_crop
                 endif
+     END of rules
+     
+
+------- Fertilise at sowing Initialisation ------------------------------------
+     Manager rules:
      
      SECTION:- barley.sowing
              fertiliser apply amount = 80 (kg/ha), depth = 50 (mm), type = urea_n
@@ -132,7 +144,7 @@ Component     "barley" = c:\development\apsim\plant\lib\plant.dll
      Manager rules:
      
      SECTION:- init
-      sd = 0
+     sd = 0
      
      SECTION:- start_of_day
      
@@ -403,7 +415,7 @@ Component     "barley" = c:\development\apsim\plant\lib\plant.dll
       stage 10.0 harvest_ripe
                      biomass =        1060.65 (g/m^2)   lai          =   0.000 (m^2/m^2)
                      stover N conc =     0.30 (%)    extractable sw =   83.58 (mm)
-27 October 1987(Day of year=300), Manager: 
+27 October 1987(Day of year=300), Harvesting rule: 
      Manager sending message :- barley harvest
      
       flowering day          =  255                           stover (kg/ha)         =     7025.0

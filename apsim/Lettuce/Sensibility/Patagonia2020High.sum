@@ -16,7 +16,8 @@ Component        "met" = c:\development\apsim\input\lib\input.dll
 Paddock:
 Component "Outputfile" = c:\development\apsim\report\lib\report.dll
 Component      "accum" = c:\development\apsim\accum\lib\accum.dll
-Component    "Manager" = c:\development\apsim\manager\lib\manager.dll
+Component "Sow on a fixed date" = c:\development\apsim\manager\lib\manager.dll
+Component "Harvest on a Growth Stage" = c:\development\apsim\manager\lib\manager.dll
 Component "Soil Water" = c:\development\apsim\soilwat2\lib\soilwat2.dll
 Component "Soil Nitrogen" = c:\development\apsim\soiln2\lib\soiln2.dll
 Component    "lettuce" = c:\development\apsim\plant\lib\plant.dll
@@ -24,7 +25,8 @@ Component    "tracker" = c:\development\apsim\tracker\lib\tracker.dll
 Paddock:
 Component "Outputfile" = c:\development\apsim\report\lib\report.dll
 Component      "accum" = c:\development\apsim\accum\lib\accum.dll
-Component    "Manager" = c:\development\apsim\manager\lib\manager.dll
+Component "Sow on a fixed date" = c:\development\apsim\manager\lib\manager.dll
+Component "Harvest on a Growth Stage" = c:\development\apsim\manager\lib\manager.dll
 Component "Soil Water" = c:\development\apsim\soilwat2\lib\soilwat2.dll
 Component "Soil Nitrogen" = c:\development\apsim\soiln2\lib\soiln2.dll
 Component    "lettuce" = c:\development\apsim\plant\lib\plant.dll
@@ -32,7 +34,8 @@ Component    "tracker" = c:\development\apsim\tracker\lib\tracker.dll
 Paddock:
 Component "Outputfile" = c:\development\apsim\report\lib\report.dll
 Component      "accum" = c:\development\apsim\accum\lib\accum.dll
-Component    "Manager" = c:\development\apsim\manager\lib\manager.dll
+Component "Sow on a fixed date" = c:\development\apsim\manager\lib\manager.dll
+Component "Harvest on a Growth Stage" = c:\development\apsim\manager\lib\manager.dll
 Component "Soil Water" = c:\development\apsim\soilwat2\lib\soilwat2.dll
 Component "Soil Nitrogen" = c:\development\apsim\soiln2\lib\soiln2.dll
 Component    "lettuce" = c:\development\apsim\plant\lib\plant.dll
@@ -40,7 +43,8 @@ Component    "tracker" = c:\development\apsim\tracker\lib\tracker.dll
 Paddock:
 Component "Outputfile" = c:\development\apsim\report\lib\report.dll
 Component      "accum" = c:\development\apsim\accum\lib\accum.dll
-Component    "Manager" = c:\development\apsim\manager\lib\manager.dll
+Component "Sow on a fixed date" = c:\development\apsim\manager\lib\manager.dll
+Component "Harvest on a Growth Stage" = c:\development\apsim\manager\lib\manager.dll
 Component "Soil Water" = c:\development\apsim\soilwat2\lib\soilwat2.dll
 Component "Soil Nitrogen" = c:\development\apsim\soiln2\lib\soiln2.dll
 Component    "lettuce" = c:\development\apsim\plant\lib\plant.dll
@@ -48,7 +52,8 @@ Component    "tracker" = c:\development\apsim\tracker\lib\tracker.dll
 Paddock:
 Component "Outputfile" = c:\development\apsim\report\lib\report.dll
 Component      "accum" = c:\development\apsim\accum\lib\accum.dll
-Component    "Manager" = c:\development\apsim\manager\lib\manager.dll
+Component "Sow on a fixed date" = c:\development\apsim\manager\lib\manager.dll
+Component "Harvest on a Growth Stage" = c:\development\apsim\manager\lib\manager.dll
 Component "Soil Water" = c:\development\apsim\soilwat2\lib\soilwat2.dll
 Component "Soil Nitrogen" = c:\development\apsim\soiln2\lib\soiln2.dll
 Component    "lettuce" = c:\development\apsim\plant\lib\plant.dll
@@ -84,13 +89,18 @@ Component    "tracker" = c:\development\apsim\tracker\lib\tracker.dll
 ------- accum Initialisation --------------------------------------------------
      Initialising
 
-------- Manager Initialisation ------------------------------------------------
+------- Sow on a fixed date Initialisation ------------------------------------
      Manager rules:
      
      SECTION:- start_of_day
            if (today = date('1-may') then
              lettuce sow plants =6, sowing_depth = 50, cultivar = patagonia, row_spacing = 600
              endif
+     END of rules
+     
+
+------- Harvest on a Growth Stage Initialisation ------------------------------
+     Manager rules:
      
      SECTION:- start_of_day
              if (lettuce.stage_name = 'maturity') then
@@ -181,8 +191,6 @@ Component    "tracker" = c:\development\apsim\tracker\lib\tracker.dll
         - Reading Parameters
      
         - Reading Constants
-     Using standard soil mineralisation for soil type
-     
      
      
      
@@ -252,13 +260,18 @@ Component    "tracker" = c:\development\apsim\tracker\lib\tracker.dll
 ------- accum Initialisation --------------------------------------------------
      Initialising
 
-------- Manager Initialisation ------------------------------------------------
+------- Sow on a fixed date Initialisation ------------------------------------
      Manager rules:
      
      SECTION:- start_of_day
            if (today = date('15-may') then
              lettuce sow plants =6, sowing_depth = 50, cultivar = patagonia, row_spacing = 600
              endif
+     END of rules
+     
+
+------- Harvest on a Growth Stage Initialisation ------------------------------
+     Manager rules:
      
      SECTION:- start_of_day
              if (lettuce.stage_name = 'maturity') then
@@ -349,8 +362,6 @@ Component    "tracker" = c:\development\apsim\tracker\lib\tracker.dll
         - Reading Parameters
      
         - Reading Constants
-     Using standard soil mineralisation for soil type
-     
      
      
      
@@ -420,13 +431,18 @@ Component    "tracker" = c:\development\apsim\tracker\lib\tracker.dll
 ------- accum Initialisation --------------------------------------------------
      Initialising
 
-------- Manager Initialisation ------------------------------------------------
+------- Sow on a fixed date Initialisation ------------------------------------
      Manager rules:
      
      SECTION:- start_of_day
            if (today = date('1-jun') then
              lettuce sow plants =6, sowing_depth = 50, cultivar = patagonia, row_spacing = 600
              endif
+     END of rules
+     
+
+------- Harvest on a Growth Stage Initialisation ------------------------------
+     Manager rules:
      
      SECTION:- start_of_day
              if (lettuce.stage_name = 'maturity') then
@@ -517,8 +533,6 @@ Component    "tracker" = c:\development\apsim\tracker\lib\tracker.dll
         - Reading Parameters
      
         - Reading Constants
-     Using standard soil mineralisation for soil type
-     
      
      
      
@@ -588,13 +602,18 @@ Component    "tracker" = c:\development\apsim\tracker\lib\tracker.dll
 ------- accum Initialisation --------------------------------------------------
      Initialising
 
-------- Manager Initialisation ------------------------------------------------
+------- Sow on a fixed date Initialisation ------------------------------------
      Manager rules:
      
      SECTION:- start_of_day
            if (today = date('15-jun') then
              lettuce sow plants =6, sowing_depth = 50, cultivar = patagonia, row_spacing = 600
              endif
+     END of rules
+     
+
+------- Harvest on a Growth Stage Initialisation ------------------------------
+     Manager rules:
      
      SECTION:- start_of_day
              if (lettuce.stage_name = 'maturity') then
@@ -685,8 +704,6 @@ Component    "tracker" = c:\development\apsim\tracker\lib\tracker.dll
         - Reading Parameters
      
         - Reading Constants
-     Using standard soil mineralisation for soil type
-     
      
      
      
@@ -756,13 +773,18 @@ Component    "tracker" = c:\development\apsim\tracker\lib\tracker.dll
 ------- accum Initialisation --------------------------------------------------
      Initialising
 
-------- Manager Initialisation ------------------------------------------------
+------- Sow on a fixed date Initialisation ------------------------------------
      Manager rules:
      
      SECTION:- start_of_day
            if (today = date('1-jul') then
              lettuce sow plants =6, sowing_depth = 50, cultivar = patagonia, row_spacing = 600
              endif
+     END of rules
+     
+
+------- Harvest on a Growth Stage Initialisation ------------------------------
+     Manager rules:
      
      SECTION:- start_of_day
              if (lettuce.stage_name = 'maturity') then
@@ -853,8 +875,6 @@ Component    "tracker" = c:\development\apsim\tracker\lib\tracker.dll
         - Reading Parameters
      
         - Reading Constants
-     Using standard soil mineralisation for soil type
-     
      
      
      
@@ -907,7 +927,7 @@ Component    "tracker" = c:\development\apsim\tracker\lib\tracker.dll
         average of maxt on start_of_day from sowing to now as AvMax
         average of mint on start_of_day from sowing to now as AvMin
 ------- Start of simulation  --------------------------------------------------
-1 May 1961(Day of year=121), Manager: 
+1 May 1961(Day of year=121), Sow on a fixed date: 
      Manager sending message :- lettuce sow  plants = 6, sowing_depth = 50, cultivar = patagonia, row_spacing = 600
 1 May 1961(Day of year=121), lettuce: 
      Crop Sow
@@ -951,7 +971,7 @@ Component    "tracker" = c:\development\apsim\tracker\lib\tracker.dll
          ------------------------------------------------
      
 ON TRANSPLANTING
-15 May 1961(Day of year=135), Manager: 
+15 May 1961(Day of year=135), Sow on a fixed date: 
      Manager sending message :- lettuce sow  plants = 6, sowing_depth = 50, cultivar = patagonia, row_spacing = 600
 15 May 1961(Day of year=135), lettuce: 
      Crop Sow
@@ -995,7 +1015,7 @@ ON TRANSPLANTING
          ------------------------------------------------
      
 ON TRANSPLANTING
-1 June 1961(Day of year=152), Manager: 
+1 June 1961(Day of year=152), Sow on a fixed date: 
      Manager sending message :- lettuce sow  plants = 6, sowing_depth = 50, cultivar = patagonia, row_spacing = 600
 1 June 1961(Day of year=152), lettuce: 
      Crop Sow
@@ -1039,7 +1059,7 @@ ON TRANSPLANTING
          ------------------------------------------------
      
 ON TRANSPLANTING
-15 June 1961(Day of year=166), Manager: 
+15 June 1961(Day of year=166), Sow on a fixed date: 
      Manager sending message :- lettuce sow  plants = 6, sowing_depth = 50, cultivar = patagonia, row_spacing = 600
 15 June 1961(Day of year=166), lettuce: 
      Crop Sow
@@ -1087,7 +1107,7 @@ ON TRANSPLANTING
       stage 2.0 maturity
                      biomass =          28.40 (g/m^2)   lai          =   0.248 (m^2/m^2)
                      stover N conc =     5.51 (%)    extractable sw =  352.33 (mm)
-1 July 1961(Day of year=182), Manager: 
+1 July 1961(Day of year=182), Harvest on a Growth Stage: 
      Manager sending message :- lettuce harvest
 1 July 1961(Day of year=182), lettuce: 
      
@@ -1126,7 +1146,7 @@ ON TRANSPLANTING
                           DM (kg/ha) =                  1.80                  276.67
                           N  (kg/ha) =                  0.12                    2.54
      
-1 July 1961(Day of year=182), Manager: 
+1 July 1961(Day of year=182), Sow on a fixed date: 
      Manager sending message :- lettuce sow  plants = 6, sowing_depth = 50, cultivar = patagonia, row_spacing = 600
 1 July 1961(Day of year=182), lettuce: 
      Crop Sow
@@ -1174,7 +1194,7 @@ ON TRANSPLANTING
       stage 2.0 maturity
                      biomass =          31.08 (g/m^2)   lai          =   0.283 (m^2/m^2)
                      stover N conc =     5.47 (%)    extractable sw =  345.96 (mm)
-19 July 1961(Day of year=200), Manager: 
+19 July 1961(Day of year=200), Harvest on a Growth Stage: 
      Manager sending message :- lettuce harvest
 19 July 1961(Day of year=200), lettuce: 
      
@@ -1217,7 +1237,7 @@ ON TRANSPLANTING
       stage 2.0 maturity
                      biomass =          87.71 (g/m^2)   lai          =   0.794 (m^2/m^2)
                      stover N conc =     5.15 (%)    extractable sw =  370.85 (mm)
-11 August 1961(Day of year=223), Manager: 
+11 August 1961(Day of year=223), Harvest on a Growth Stage: 
      Manager sending message :- lettuce harvest
 11 August 1961(Day of year=223), lettuce: 
      
@@ -1260,7 +1280,7 @@ ON TRANSPLANTING
       stage 2.0 maturity
                      biomass =         103.93 (g/m^2)   lai          =   0.764 (m^2/m^2)
                      stover N conc =     5.03 (%)    extractable sw =  346.86 (mm)
-2 September 1961(Day of year=245), Manager: 
+2 September 1961(Day of year=245), Harvest on a Growth Stage: 
      Manager sending message :- lettuce harvest
 2 September 1961(Day of year=245), lettuce: 
      
@@ -1303,7 +1323,7 @@ ON TRANSPLANTING
       stage 2.0 maturity
                      biomass =         105.60 (g/m^2)   lai          =   0.823 (m^2/m^2)
                      stover N conc =     5.03 (%)    extractable sw =  334.03 (mm)
-13 September 1961(Day of year=256), Manager: 
+13 September 1961(Day of year=256), Harvest on a Growth Stage: 
      Manager sending message :- lettuce harvest
 13 September 1961(Day of year=256), lettuce: 
      
@@ -1342,7 +1362,7 @@ ON TRANSPLANTING
                           DM (kg/ha) =                  1.80                  976.74
                           N  (kg/ha) =                  0.12                    8.00
      
-1 May 1962(Day of year=121), Manager: 
+1 May 1962(Day of year=121), Sow on a fixed date: 
      Manager sending message :- lettuce sow  plants = 6, sowing_depth = 50, cultivar = patagonia, row_spacing = 600
 1 May 1962(Day of year=121), lettuce: 
      Crop Sow
@@ -1386,7 +1406,7 @@ ON TRANSPLANTING
          ------------------------------------------------
      
 ON TRANSPLANTING
-15 May 1962(Day of year=135), Manager: 
+15 May 1962(Day of year=135), Sow on a fixed date: 
      Manager sending message :- lettuce sow  plants = 6, sowing_depth = 50, cultivar = patagonia, row_spacing = 600
 15 May 1962(Day of year=135), lettuce: 
      Crop Sow
@@ -1430,7 +1450,7 @@ ON TRANSPLANTING
          ------------------------------------------------
      
 ON TRANSPLANTING
-1 June 1962(Day of year=152), Manager: 
+1 June 1962(Day of year=152), Sow on a fixed date: 
      Manager sending message :- lettuce sow  plants = 6, sowing_depth = 50, cultivar = patagonia, row_spacing = 600
 1 June 1962(Day of year=152), lettuce: 
      Crop Sow
@@ -1474,7 +1494,7 @@ ON TRANSPLANTING
          ------------------------------------------------
      
 ON TRANSPLANTING
-15 June 1962(Day of year=166), Manager: 
+15 June 1962(Day of year=166), Sow on a fixed date: 
      Manager sending message :- lettuce sow  plants = 6, sowing_depth = 50, cultivar = patagonia, row_spacing = 600
 15 June 1962(Day of year=166), lettuce: 
      Crop Sow
@@ -1522,7 +1542,7 @@ ON TRANSPLANTING
       stage 2.0 maturity
                      biomass =          24.51 (g/m^2)   lai          =   0.210 (m^2/m^2)
                      stover N conc =     5.61 (%)    extractable sw =  345.18 (mm)
-29 June 1962(Day of year=180), Manager: 
+29 June 1962(Day of year=180), Harvest on a Growth Stage: 
      Manager sending message :- lettuce harvest
 29 June 1962(Day of year=180), lettuce: 
      
@@ -1561,7 +1581,7 @@ ON TRANSPLANTING
                           DM (kg/ha) =                  1.80                  239.14
                           N  (kg/ha) =                  0.12                    2.24
      
-1 July 1962(Day of year=182), Manager: 
+1 July 1962(Day of year=182), Sow on a fixed date: 
      Manager sending message :- lettuce sow  plants = 6, sowing_depth = 50, cultivar = patagonia, row_spacing = 600
 1 July 1962(Day of year=182), lettuce: 
      Crop Sow
@@ -1609,7 +1629,7 @@ ON TRANSPLANTING
       stage 2.0 maturity
                      biomass =          17.84 (g/m^2)   lai          =   0.151 (m^2/m^2)
                      stover N conc =     5.63 (%)    extractable sw =  382.42 (mm)
-15 July 1962(Day of year=196), Manager: 
+15 July 1962(Day of year=196), Harvest on a Growth Stage: 
      Manager sending message :- lettuce harvest
 15 July 1962(Day of year=196), lettuce: 
      
@@ -1652,7 +1672,7 @@ ON TRANSPLANTING
       stage 2.0 maturity
                      biomass =          26.30 (g/m^2)   lai          =   0.230 (m^2/m^2)
                      stover N conc =     5.44 (%)    extractable sw =  356.43 (mm)
-5 August 1962(Day of year=217), Manager: 
+5 August 1962(Day of year=217), Harvest on a Growth Stage: 
      Manager sending message :- lettuce harvest
 5 August 1962(Day of year=217), lettuce: 
      
@@ -1695,7 +1715,7 @@ ON TRANSPLANTING
       stage 2.0 maturity
                      biomass =          66.01 (g/m^2)   lai          =   0.607 (m^2/m^2)
                      stover N conc =     5.45 (%)    extractable sw =  355.18 (mm)
-27 August 1962(Day of year=239), Manager: 
+27 August 1962(Day of year=239), Harvest on a Growth Stage: 
      Manager sending message :- lettuce harvest
 27 August 1962(Day of year=239), lettuce: 
      
@@ -1738,7 +1758,7 @@ ON TRANSPLANTING
       stage 2.0 maturity
                      biomass =          93.74 (g/m^2)   lai          =   0.860 (m^2/m^2)
                      stover N conc =     5.17 (%)    extractable sw =  338.71 (mm)
-10 September 1962(Day of year=253), Manager: 
+10 September 1962(Day of year=253), Harvest on a Growth Stage: 
      Manager sending message :- lettuce harvest
 10 September 1962(Day of year=253), lettuce: 
      
@@ -1777,7 +1797,7 @@ ON TRANSPLANTING
                           DM (kg/ha) =                  1.80                  902.12
                           N  (kg/ha) =                  0.12                    7.73
      
-1 May 1963(Day of year=121), Manager: 
+1 May 1963(Day of year=121), Sow on a fixed date: 
      Manager sending message :- lettuce sow  plants = 6, sowing_depth = 50, cultivar = patagonia, row_spacing = 600
 1 May 1963(Day of year=121), lettuce: 
      Crop Sow
@@ -1821,7 +1841,7 @@ ON TRANSPLANTING
          ------------------------------------------------
      
 ON TRANSPLANTING
-15 May 1963(Day of year=135), Manager: 
+15 May 1963(Day of year=135), Sow on a fixed date: 
      Manager sending message :- lettuce sow  plants = 6, sowing_depth = 50, cultivar = patagonia, row_spacing = 600
 15 May 1963(Day of year=135), lettuce: 
      Crop Sow
@@ -1865,7 +1885,7 @@ ON TRANSPLANTING
          ------------------------------------------------
      
 ON TRANSPLANTING
-1 June 1963(Day of year=152), Manager: 
+1 June 1963(Day of year=152), Sow on a fixed date: 
      Manager sending message :- lettuce sow  plants = 6, sowing_depth = 50, cultivar = patagonia, row_spacing = 600
 1 June 1963(Day of year=152), lettuce: 
      Crop Sow
@@ -1909,7 +1929,7 @@ ON TRANSPLANTING
          ------------------------------------------------
      
 ON TRANSPLANTING
-15 June 1963(Day of year=166), Manager: 
+15 June 1963(Day of year=166), Sow on a fixed date: 
      Manager sending message :- lettuce sow  plants = 6, sowing_depth = 50, cultivar = patagonia, row_spacing = 600
 15 June 1963(Day of year=166), lettuce: 
      Crop Sow
@@ -1957,7 +1977,7 @@ ON TRANSPLANTING
       stage 2.0 maturity
                      biomass =           4.92 (g/m^2)   lai          =   0.039 (m^2/m^2)
                      stover N conc =     5.66 (%)    extractable sw =  352.52 (mm)
-26 June 1963(Day of year=177), Manager: 
+26 June 1963(Day of year=177), Harvest on a Growth Stage: 
      Manager sending message :- lettuce harvest
 26 June 1963(Day of year=177), lettuce: 
      
@@ -1996,7 +2016,7 @@ ON TRANSPLANTING
                           DM (kg/ha) =                  1.80                   53.66
                           N  (kg/ha) =                  0.12                    0.51
      
-1 July 1963(Day of year=182), Manager: 
+1 July 1963(Day of year=182), Sow on a fixed date: 
      Manager sending message :- lettuce sow  plants = 6, sowing_depth = 50, cultivar = patagonia, row_spacing = 600
 1 July 1963(Day of year=182), lettuce: 
      Crop Sow
@@ -2044,7 +2064,7 @@ ON TRANSPLANTING
       stage 2.0 maturity
                      biomass =          17.32 (g/m^2)   lai          =   0.154 (m^2/m^2)
                      stover N conc =     5.51 (%)    extractable sw =  346.48 (mm)
-17 July 1963(Day of year=198), Manager: 
+17 July 1963(Day of year=198), Harvest on a Growth Stage: 
      Manager sending message :- lettuce harvest
 17 July 1963(Day of year=198), lettuce: 
      
@@ -2087,7 +2107,7 @@ ON TRANSPLANTING
       stage 2.0 maturity
                      biomass =          54.70 (g/m^2)   lai          =   0.498 (m^2/m^2)
                      stover N conc =     5.58 (%)    extractable sw =  335.14 (mm)
-9 August 1963(Day of year=221), Manager: 
+9 August 1963(Day of year=221), Harvest on a Growth Stage: 
      Manager sending message :- lettuce harvest
 9 August 1963(Day of year=221), lettuce: 
      
@@ -2130,7 +2150,7 @@ ON TRANSPLANTING
       stage 2.0 maturity
                      biomass =         110.22 (g/m^2)   lai          =   0.941 (m^2/m^2)
                      stover N conc =     5.10 (%)    extractable sw =  322.27 (mm)
-28 August 1963(Day of year=240), Manager: 
+28 August 1963(Day of year=240), Harvest on a Growth Stage: 
      Manager sending message :- lettuce harvest
 28 August 1963(Day of year=240), lettuce: 
      
@@ -2173,7 +2193,7 @@ ON TRANSPLANTING
       stage 2.0 maturity
                      biomass =         101.08 (g/m^2)   lai          =   0.830 (m^2/m^2)
                      stover N conc =     5.04 (%)    extractable sw =  347.14 (mm)
-11 September 1963(Day of year=254), Manager: 
+11 September 1963(Day of year=254), Harvest on a Growth Stage: 
      Manager sending message :- lettuce harvest
 11 September 1963(Day of year=254), lettuce: 
      
@@ -2212,7 +2232,7 @@ ON TRANSPLANTING
                           DM (kg/ha) =                  1.80                  951.52
                           N  (kg/ha) =                  0.12                    7.93
      
-1 May 1964(Day of year=122), Manager: 
+1 May 1964(Day of year=122), Sow on a fixed date: 
      Manager sending message :- lettuce sow  plants = 6, sowing_depth = 50, cultivar = patagonia, row_spacing = 600
 1 May 1964(Day of year=122), lettuce: 
      Crop Sow
@@ -2256,7 +2276,7 @@ ON TRANSPLANTING
          ------------------------------------------------
      
 ON TRANSPLANTING
-15 May 1964(Day of year=136), Manager: 
+15 May 1964(Day of year=136), Sow on a fixed date: 
      Manager sending message :- lettuce sow  plants = 6, sowing_depth = 50, cultivar = patagonia, row_spacing = 600
 15 May 1964(Day of year=136), lettuce: 
      Crop Sow
@@ -2300,7 +2320,7 @@ ON TRANSPLANTING
          ------------------------------------------------
      
 ON TRANSPLANTING
-1 June 1964(Day of year=153), Manager: 
+1 June 1964(Day of year=153), Sow on a fixed date: 
      Manager sending message :- lettuce sow  plants = 6, sowing_depth = 50, cultivar = patagonia, row_spacing = 600
 1 June 1964(Day of year=153), lettuce: 
      Crop Sow
@@ -2344,7 +2364,7 @@ ON TRANSPLANTING
          ------------------------------------------------
      
 ON TRANSPLANTING
-15 June 1964(Day of year=167), Manager: 
+15 June 1964(Day of year=167), Sow on a fixed date: 
      Manager sending message :- lettuce sow  plants = 6, sowing_depth = 50, cultivar = patagonia, row_spacing = 600
 15 June 1964(Day of year=167), lettuce: 
      Crop Sow
@@ -2392,7 +2412,7 @@ ON TRANSPLANTING
       stage 2.0 maturity
                      biomass =           7.93 (g/m^2)   lai          =   0.066 (m^2/m^2)
                      stover N conc =     5.49 (%)    extractable sw =  358.36 (mm)
-28 June 1964(Day of year=180), Manager: 
+28 June 1964(Day of year=180), Harvest on a Growth Stage: 
      Manager sending message :- lettuce harvest
 28 June 1964(Day of year=180), lettuce: 
      
@@ -2431,7 +2451,7 @@ ON TRANSPLANTING
                           DM (kg/ha) =                  1.80                   82.22
                           N  (kg/ha) =                  0.12                    0.76
      
-1 July 1964(Day of year=183), Manager: 
+1 July 1964(Day of year=183), Sow on a fixed date: 
      Manager sending message :- lettuce sow  plants = 6, sowing_depth = 50, cultivar = patagonia, row_spacing = 600
 1 July 1964(Day of year=183), lettuce: 
      Crop Sow
@@ -2479,7 +2499,7 @@ ON TRANSPLANTING
       stage 2.0 maturity
                      biomass =          16.63 (g/m^2)   lai          =   0.147 (m^2/m^2)
                      stover N conc =     5.46 (%)    extractable sw =  368.20 (mm)
-17 July 1964(Day of year=199), Manager: 
+17 July 1964(Day of year=199), Harvest on a Growth Stage: 
      Manager sending message :- lettuce harvest
 17 July 1964(Day of year=199), lettuce: 
      
@@ -2522,7 +2542,7 @@ ON TRANSPLANTING
       stage 2.0 maturity
                      biomass =          66.28 (g/m^2)   lai          =   0.608 (m^2/m^2)
                      stover N conc =     5.45 (%)    extractable sw =  343.02 (mm)
-9 August 1964(Day of year=222), Manager: 
+9 August 1964(Day of year=222), Harvest on a Growth Stage: 
      Manager sending message :- lettuce harvest
 9 August 1964(Day of year=222), lettuce: 
      
@@ -2565,7 +2585,7 @@ ON TRANSPLANTING
       stage 2.0 maturity
                      biomass =          90.61 (g/m^2)   lai          =   0.736 (m^2/m^2)
                      stover N conc =     5.04 (%)    extractable sw =  343.06 (mm)
-29 August 1964(Day of year=242), Manager: 
+29 August 1964(Day of year=242), Harvest on a Growth Stage: 
      Manager sending message :- lettuce harvest
 29 August 1964(Day of year=242), lettuce: 
      
@@ -2608,7 +2628,7 @@ ON TRANSPLANTING
       stage 2.0 maturity
                      biomass =          87.90 (g/m^2)   lai          =   0.709 (m^2/m^2)
                      stover N conc =     5.07 (%)    extractable sw =  337.17 (mm)
-10 September 1964(Day of year=254), Manager: 
+10 September 1964(Day of year=254), Harvest on a Growth Stage: 
      Manager sending message :- lettuce harvest
 10 September 1964(Day of year=254), lettuce: 
      
@@ -2647,7 +2667,7 @@ ON TRANSPLANTING
                           DM (kg/ha) =                  1.80                  816.00
                           N  (kg/ha) =                  0.12                    6.72
      
-1 May 1965(Day of year=121), Manager: 
+1 May 1965(Day of year=121), Sow on a fixed date: 
      Manager sending message :- lettuce sow  plants = 6, sowing_depth = 50, cultivar = patagonia, row_spacing = 600
 1 May 1965(Day of year=121), lettuce: 
      Crop Sow
@@ -2691,7 +2711,7 @@ ON TRANSPLANTING
          ------------------------------------------------
      
 ON TRANSPLANTING
-15 May 1965(Day of year=135), Manager: 
+15 May 1965(Day of year=135), Sow on a fixed date: 
      Manager sending message :- lettuce sow  plants = 6, sowing_depth = 50, cultivar = patagonia, row_spacing = 600
 15 May 1965(Day of year=135), lettuce: 
      Crop Sow
@@ -2735,7 +2755,7 @@ ON TRANSPLANTING
          ------------------------------------------------
      
 ON TRANSPLANTING
-1 June 1965(Day of year=152), Manager: 
+1 June 1965(Day of year=152), Sow on a fixed date: 
      Manager sending message :- lettuce sow  plants = 6, sowing_depth = 50, cultivar = patagonia, row_spacing = 600
 1 June 1965(Day of year=152), lettuce: 
      Crop Sow
@@ -2779,7 +2799,7 @@ ON TRANSPLANTING
          ------------------------------------------------
      
 ON TRANSPLANTING
-15 June 1965(Day of year=166), Manager: 
+15 June 1965(Day of year=166), Sow on a fixed date: 
      Manager sending message :- lettuce sow  plants = 6, sowing_depth = 50, cultivar = patagonia, row_spacing = 600
 15 June 1965(Day of year=166), lettuce: 
      Crop Sow
@@ -2827,7 +2847,7 @@ ON TRANSPLANTING
       stage 2.0 maturity
                      biomass =          12.33 (g/m^2)   lai          =   0.101 (m^2/m^2)
                      stover N conc =     5.73 (%)    extractable sw =  354.75 (mm)
-26 June 1965(Day of year=177), Manager: 
+26 June 1965(Day of year=177), Harvest on a Growth Stage: 
      Manager sending message :- lettuce harvest
 26 June 1965(Day of year=177), lettuce: 
      
@@ -2866,7 +2886,7 @@ ON TRANSPLANTING
                           DM (kg/ha) =                  1.80                  123.10
                           N  (kg/ha) =                  0.12                    1.18
      
-1 July 1965(Day of year=182), Manager: 
+1 July 1965(Day of year=182), Sow on a fixed date: 
      Manager sending message :- lettuce sow  plants = 6, sowing_depth = 50, cultivar = patagonia, row_spacing = 600
 1 July 1965(Day of year=182), lettuce: 
      Crop Sow
@@ -2914,7 +2934,7 @@ ON TRANSPLANTING
       stage 2.0 maturity
                      biomass =          24.36 (g/m^2)   lai          =   0.213 (m^2/m^2)
                      stover N conc =     5.48 (%)    extractable sw =  346.00 (mm)
-17 July 1965(Day of year=198), Manager: 
+17 July 1965(Day of year=198), Harvest on a Growth Stage: 
      Manager sending message :- lettuce harvest
 17 July 1965(Day of year=198), lettuce: 
      
@@ -2957,7 +2977,7 @@ ON TRANSPLANTING
       stage 2.0 maturity
                      biomass =          42.97 (g/m^2)   lai          =   0.393 (m^2/m^2)
                      stover N conc =     5.43 (%)    extractable sw =  356.80 (mm)
-10 August 1965(Day of year=222), Manager: 
+10 August 1965(Day of year=222), Harvest on a Growth Stage: 
      Manager sending message :- lettuce harvest
 10 August 1965(Day of year=222), lettuce: 
      
@@ -3000,7 +3020,7 @@ ON TRANSPLANTING
       stage 2.0 maturity
                      biomass =          93.90 (g/m^2)   lai          =   0.825 (m^2/m^2)
                      stover N conc =     5.06 (%)    extractable sw =  354.53 (mm)
-31 August 1965(Day of year=243), Manager: 
+31 August 1965(Day of year=243), Harvest on a Growth Stage: 
      Manager sending message :- lettuce harvest
 31 August 1965(Day of year=243), lettuce: 
      
@@ -3043,7 +3063,7 @@ ON TRANSPLANTING
       stage 2.0 maturity
                      biomass =          98.04 (g/m^2)   lai          =   0.765 (m^2/m^2)
                      stover N conc =     5.04 (%)    extractable sw =  346.13 (mm)
-13 September 1965(Day of year=256), Manager: 
+13 September 1965(Day of year=256), Harvest on a Growth Stage: 
      Manager sending message :- lettuce harvest
 13 September 1965(Day of year=256), lettuce: 
      
@@ -3082,7 +3102,7 @@ ON TRANSPLANTING
                           DM (kg/ha) =                  1.80                  908.05
                           N  (kg/ha) =                  0.12                    7.42
      
-1 May 1966(Day of year=121), Manager: 
+1 May 1966(Day of year=121), Sow on a fixed date: 
      Manager sending message :- lettuce sow  plants = 6, sowing_depth = 50, cultivar = patagonia, row_spacing = 600
 1 May 1966(Day of year=121), lettuce: 
      Crop Sow
@@ -3126,7 +3146,7 @@ ON TRANSPLANTING
          ------------------------------------------------
      
 ON TRANSPLANTING
-15 May 1966(Day of year=135), Manager: 
+15 May 1966(Day of year=135), Sow on a fixed date: 
      Manager sending message :- lettuce sow  plants = 6, sowing_depth = 50, cultivar = patagonia, row_spacing = 600
 15 May 1966(Day of year=135), lettuce: 
      Crop Sow
@@ -3170,7 +3190,7 @@ ON TRANSPLANTING
          ------------------------------------------------
      
 ON TRANSPLANTING
-1 June 1966(Day of year=152), Manager: 
+1 June 1966(Day of year=152), Sow on a fixed date: 
      Manager sending message :- lettuce sow  plants = 6, sowing_depth = 50, cultivar = patagonia, row_spacing = 600
 1 June 1966(Day of year=152), lettuce: 
      Crop Sow
@@ -3214,7 +3234,7 @@ ON TRANSPLANTING
          ------------------------------------------------
      
 ON TRANSPLANTING
-15 June 1966(Day of year=166), Manager: 
+15 June 1966(Day of year=166), Sow on a fixed date: 
      Manager sending message :- lettuce sow  plants = 6, sowing_depth = 50, cultivar = patagonia, row_spacing = 600
 15 June 1966(Day of year=166), lettuce: 
      Crop Sow
@@ -3262,7 +3282,7 @@ ON TRANSPLANTING
       stage 2.0 maturity
                      biomass =          24.34 (g/m^2)   lai          =   0.209 (m^2/m^2)
                      stover N conc =     5.52 (%)    extractable sw =  361.43 (mm)
-28 June 1966(Day of year=179), Manager: 
+28 June 1966(Day of year=179), Harvest on a Growth Stage: 
      Manager sending message :- lettuce harvest
 28 June 1966(Day of year=179), lettuce: 
      
@@ -3301,7 +3321,7 @@ ON TRANSPLANTING
                           DM (kg/ha) =                  1.80                  238.48
                           N  (kg/ha) =                  0.12                    2.19
      
-1 July 1966(Day of year=182), Manager: 
+1 July 1966(Day of year=182), Sow on a fixed date: 
      Manager sending message :- lettuce sow  plants = 6, sowing_depth = 50, cultivar = patagonia, row_spacing = 600
 1 July 1966(Day of year=182), lettuce: 
      Crop Sow
@@ -3349,7 +3369,7 @@ ON TRANSPLANTING
       stage 2.0 maturity
                      biomass =          19.54 (g/m^2)   lai          =   0.166 (m^2/m^2)
                      stover N conc =     5.64 (%)    extractable sw =  355.61 (mm)
-14 July 1966(Day of year=195), Manager: 
+14 July 1966(Day of year=195), Harvest on a Growth Stage: 
      Manager sending message :- lettuce harvest
 14 July 1966(Day of year=195), lettuce: 
      
@@ -3392,7 +3412,7 @@ ON TRANSPLANTING
       stage 2.0 maturity
                      biomass =          38.20 (g/m^2)   lai          =   0.344 (m^2/m^2)
                      stover N conc =     5.54 (%)    extractable sw =  344.63 (mm)
-6 August 1966(Day of year=218), Manager: 
+6 August 1966(Day of year=218), Harvest on a Growth Stage: 
      Manager sending message :- lettuce harvest
 6 August 1966(Day of year=218), lettuce: 
      
@@ -3435,7 +3455,7 @@ ON TRANSPLANTING
       stage 2.0 maturity
                      biomass =          69.80 (g/m^2)   lai          =   0.625 (m^2/m^2)
                      stover N conc =     5.23 (%)    extractable sw =  377.37 (mm)
-25 August 1966(Day of year=237), Manager: 
+25 August 1966(Day of year=237), Harvest on a Growth Stage: 
      Manager sending message :- lettuce harvest
 25 August 1966(Day of year=237), lettuce: 
      
@@ -3478,7 +3498,7 @@ ON TRANSPLANTING
       stage 2.0 maturity
                      biomass =          79.03 (g/m^2)   lai          =   0.696 (m^2/m^2)
                      stover N conc =     5.08 (%)    extractable sw =  368.67 (mm)
-9 September 1966(Day of year=252), Manager: 
+9 September 1966(Day of year=252), Harvest on a Growth Stage: 
      Manager sending message :- lettuce harvest
 9 September 1966(Day of year=252), lettuce: 
      
@@ -3517,7 +3537,7 @@ ON TRANSPLANTING
                           DM (kg/ha) =                  1.80                  753.14
                           N  (kg/ha) =                  0.12                    6.34
      
-1 May 1967(Day of year=121), Manager: 
+1 May 1967(Day of year=121), Sow on a fixed date: 
      Manager sending message :- lettuce sow  plants = 6, sowing_depth = 50, cultivar = patagonia, row_spacing = 600
 1 May 1967(Day of year=121), lettuce: 
      Crop Sow
@@ -3561,7 +3581,7 @@ ON TRANSPLANTING
          ------------------------------------------------
      
 ON TRANSPLANTING
-15 May 1967(Day of year=135), Manager: 
+15 May 1967(Day of year=135), Sow on a fixed date: 
      Manager sending message :- lettuce sow  plants = 6, sowing_depth = 50, cultivar = patagonia, row_spacing = 600
 15 May 1967(Day of year=135), lettuce: 
      Crop Sow
@@ -3605,7 +3625,7 @@ ON TRANSPLANTING
          ------------------------------------------------
      
 ON TRANSPLANTING
-1 June 1967(Day of year=152), Manager: 
+1 June 1967(Day of year=152), Sow on a fixed date: 
      Manager sending message :- lettuce sow  plants = 6, sowing_depth = 50, cultivar = patagonia, row_spacing = 600
 1 June 1967(Day of year=152), lettuce: 
      Crop Sow
@@ -3649,7 +3669,7 @@ ON TRANSPLANTING
          ------------------------------------------------
      
 ON TRANSPLANTING
-15 June 1967(Day of year=166), Manager: 
+15 June 1967(Day of year=166), Sow on a fixed date: 
      Manager sending message :- lettuce sow  plants = 6, sowing_depth = 50, cultivar = patagonia, row_spacing = 600
 15 June 1967(Day of year=166), lettuce: 
      Crop Sow
@@ -3697,7 +3717,7 @@ ON TRANSPLANTING
       stage 2.0 maturity
                      biomass =           4.57 (g/m^2)   lai          =   0.033 (m^2/m^2)
                      stover N conc =     5.71 (%)    extractable sw =  421.19 (mm)
-24 June 1967(Day of year=175), Manager: 
+24 June 1967(Day of year=175), Harvest on a Growth Stage: 
      Manager sending message :- lettuce harvest
 24 June 1967(Day of year=175), lettuce: 
      
@@ -3736,7 +3756,7 @@ ON TRANSPLANTING
                           DM (kg/ha) =                  1.80                   49.91
                           N  (kg/ha) =                  0.12                    0.48
      
-1 July 1967(Day of year=182), Manager: 
+1 July 1967(Day of year=182), Sow on a fixed date: 
      Manager sending message :- lettuce sow  plants = 6, sowing_depth = 50, cultivar = patagonia, row_spacing = 600
 1 July 1967(Day of year=182), lettuce: 
      Crop Sow
@@ -3784,7 +3804,7 @@ ON TRANSPLANTING
       stage 2.0 maturity
                      biomass =           5.41 (g/m^2)   lai          =   0.039 (m^2/m^2)
                      stover N conc =     5.54 (%)    extractable sw =  366.60 (mm)
-12 July 1967(Day of year=193), Manager: 
+12 July 1967(Day of year=193), Harvest on a Growth Stage: 
      Manager sending message :- lettuce harvest
 12 July 1967(Day of year=193), lettuce: 
      
@@ -3827,7 +3847,7 @@ ON TRANSPLANTING
       stage 2.0 maturity
                      biomass =           6.12 (g/m^2)   lai          =   0.052 (m^2/m^2)
                      stover N conc =     5.44 (%)    extractable sw =  361.82 (mm)
-2 August 1967(Day of year=214), Manager: 
+2 August 1967(Day of year=214), Harvest on a Growth Stage: 
      Manager sending message :- lettuce harvest
 2 August 1967(Day of year=214), lettuce: 
      
@@ -3870,7 +3890,7 @@ ON TRANSPLANTING
       stage 2.0 maturity
                      biomass =          39.45 (g/m^2)   lai          =   0.360 (m^2/m^2)
                      stover N conc =     5.47 (%)    extractable sw =  353.63 (mm)
-25 August 1967(Day of year=237), Manager: 
+25 August 1967(Day of year=237), Harvest on a Growth Stage: 
      Manager sending message :- lettuce harvest
 25 August 1967(Day of year=237), lettuce: 
      
@@ -3913,7 +3933,7 @@ ON TRANSPLANTING
       stage 2.0 maturity
                      biomass =          73.42 (g/m^2)   lai          =   0.613 (m^2/m^2)
                      stover N conc =     5.03 (%)    extractable sw =  338.75 (mm)
-12 September 1967(Day of year=255), Manager: 
+12 September 1967(Day of year=255), Harvest on a Growth Stage: 
      Manager sending message :- lettuce harvest
 12 September 1967(Day of year=255), lettuce: 
      
@@ -3952,7 +3972,7 @@ ON TRANSPLANTING
                           DM (kg/ha) =                  1.80                  687.36
                           N  (kg/ha) =                  0.12                    5.68
      
-1 May 1968(Day of year=122), Manager: 
+1 May 1968(Day of year=122), Sow on a fixed date: 
      Manager sending message :- lettuce sow  plants = 6, sowing_depth = 50, cultivar = patagonia, row_spacing = 600
 1 May 1968(Day of year=122), lettuce: 
      Crop Sow
@@ -3996,7 +4016,7 @@ ON TRANSPLANTING
          ------------------------------------------------
      
 ON TRANSPLANTING
-15 May 1968(Day of year=136), Manager: 
+15 May 1968(Day of year=136), Sow on a fixed date: 
      Manager sending message :- lettuce sow  plants = 6, sowing_depth = 50, cultivar = patagonia, row_spacing = 600
 15 May 1968(Day of year=136), lettuce: 
      Crop Sow
@@ -4040,7 +4060,7 @@ ON TRANSPLANTING
          ------------------------------------------------
      
 ON TRANSPLANTING
-1 June 1968(Day of year=153), Manager: 
+1 June 1968(Day of year=153), Sow on a fixed date: 
      Manager sending message :- lettuce sow  plants = 6, sowing_depth = 50, cultivar = patagonia, row_spacing = 600
 1 June 1968(Day of year=153), lettuce: 
      Crop Sow
@@ -4084,7 +4104,7 @@ ON TRANSPLANTING
          ------------------------------------------------
      
 ON TRANSPLANTING
-15 June 1968(Day of year=167), Manager: 
+15 June 1968(Day of year=167), Sow on a fixed date: 
      Manager sending message :- lettuce sow  plants = 6, sowing_depth = 50, cultivar = patagonia, row_spacing = 600
 15 June 1968(Day of year=167), lettuce: 
      Crop Sow
@@ -4128,7 +4148,7 @@ ON TRANSPLANTING
          ------------------------------------------------
      
 ON TRANSPLANTING
-1 July 1968(Day of year=183), Manager: 
+1 July 1968(Day of year=183), Sow on a fixed date: 
      Manager sending message :- lettuce sow  plants = 6, sowing_depth = 50, cultivar = patagonia, row_spacing = 600
 1 July 1968(Day of year=183), lettuce: 
      Crop Sow
@@ -4176,7 +4196,7 @@ ON TRANSPLANTING
                      biomass =          21.59 (g/m^2)   lai          =   0.190 (m^2/m^2)
                      stover N conc =     5.52 (%)    extractable sw =  346.83 (mm)
 ON TRANSPLANTING
-2 July 1968(Day of year=184), Manager: 
+2 July 1968(Day of year=184), Harvest on a Growth Stage: 
      Manager sending message :- lettuce harvest
 2 July 1968(Day of year=184), lettuce: 
      
@@ -4219,7 +4239,7 @@ ON TRANSPLANTING
       stage 2.0 maturity
                      biomass =          37.27 (g/m^2)   lai          =   0.320 (m^2/m^2)
                      stover N conc =     5.55 (%)    extractable sw =  371.15 (mm)
-22 July 1968(Day of year=204), Manager: 
+22 July 1968(Day of year=204), Harvest on a Growth Stage: 
      Manager sending message :- lettuce harvest
 22 July 1968(Day of year=204), lettuce: 
      
@@ -4262,7 +4282,7 @@ ON TRANSPLANTING
       stage 2.0 maturity
                      biomass =          56.45 (g/m^2)   lai          =   0.512 (m^2/m^2)
                      stover N conc =     5.44 (%)    extractable sw =  350.60 (mm)
-12 August 1968(Day of year=225), Manager: 
+12 August 1968(Day of year=225), Harvest on a Growth Stage: 
      Manager sending message :- lettuce harvest
 12 August 1968(Day of year=225), lettuce: 
      
@@ -4305,7 +4325,7 @@ ON TRANSPLANTING
       stage 2.0 maturity
                      biomass =          91.87 (g/m^2)   lai          =   0.816 (m^2/m^2)
                      stover N conc =     5.12 (%)    extractable sw =  353.28 (mm)
-1 September 1968(Day of year=245), Manager: 
+1 September 1968(Day of year=245), Harvest on a Growth Stage: 
      Manager sending message :- lettuce harvest
 1 September 1968(Day of year=245), lettuce: 
      
@@ -4348,7 +4368,7 @@ ON TRANSPLANTING
       stage 2.0 maturity
                      biomass =          77.93 (g/m^2)   lai          =   0.656 (m^2/m^2)
                      stover N conc =     5.04 (%)    extractable sw =  343.92 (mm)
-14 September 1968(Day of year=258), Manager: 
+14 September 1968(Day of year=258), Harvest on a Growth Stage: 
      Manager sending message :- lettuce harvest
 14 September 1968(Day of year=258), lettuce: 
      
@@ -4387,7 +4407,7 @@ ON TRANSPLANTING
                           DM (kg/ha) =                  1.80                  735.05
                           N  (kg/ha) =                  0.12                    6.10
      
-1 May 1969(Day of year=121), Manager: 
+1 May 1969(Day of year=121), Sow on a fixed date: 
      Manager sending message :- lettuce sow  plants = 6, sowing_depth = 50, cultivar = patagonia, row_spacing = 600
 1 May 1969(Day of year=121), lettuce: 
      Crop Sow
@@ -4431,7 +4451,7 @@ ON TRANSPLANTING
          ------------------------------------------------
      
 ON TRANSPLANTING
-15 May 1969(Day of year=135), Manager: 
+15 May 1969(Day of year=135), Sow on a fixed date: 
      Manager sending message :- lettuce sow  plants = 6, sowing_depth = 50, cultivar = patagonia, row_spacing = 600
 15 May 1969(Day of year=135), lettuce: 
      Crop Sow
@@ -4475,7 +4495,7 @@ ON TRANSPLANTING
          ------------------------------------------------
      
 ON TRANSPLANTING
-1 June 1969(Day of year=152), Manager: 
+1 June 1969(Day of year=152), Sow on a fixed date: 
      Manager sending message :- lettuce sow  plants = 6, sowing_depth = 50, cultivar = patagonia, row_spacing = 600
 1 June 1969(Day of year=152), lettuce: 
      Crop Sow
@@ -4519,7 +4539,7 @@ ON TRANSPLANTING
          ------------------------------------------------
      
 ON TRANSPLANTING
-15 June 1969(Day of year=166), Manager: 
+15 June 1969(Day of year=166), Sow on a fixed date: 
      Manager sending message :- lettuce sow  plants = 6, sowing_depth = 50, cultivar = patagonia, row_spacing = 600
 15 June 1969(Day of year=166), lettuce: 
      Crop Sow
@@ -4567,7 +4587,7 @@ ON TRANSPLANTING
       stage 2.0 maturity
                      biomass =           6.86 (g/m^2)   lai          =   0.056 (m^2/m^2)
                      stover N conc =     5.61 (%)    extractable sw =  369.15 (mm)
-27 June 1969(Day of year=178), Manager: 
+27 June 1969(Day of year=178), Harvest on a Growth Stage: 
      Manager sending message :- lettuce harvest
 27 June 1969(Day of year=178), lettuce: 
      
@@ -4606,7 +4626,7 @@ ON TRANSPLANTING
                           DM (kg/ha) =                  1.80                   71.92
                           N  (kg/ha) =                  0.12                    0.68
      
-1 July 1969(Day of year=182), Manager: 
+1 July 1969(Day of year=182), Sow on a fixed date: 
      Manager sending message :- lettuce sow  plants = 6, sowing_depth = 50, cultivar = patagonia, row_spacing = 600
 1 July 1969(Day of year=182), lettuce: 
      Crop Sow
@@ -4654,7 +4674,7 @@ ON TRANSPLANTING
       stage 2.0 maturity
                      biomass =          14.40 (g/m^2)   lai          =   0.122 (m^2/m^2)
                      stover N conc =     5.65 (%)    extractable sw =  353.74 (mm)
-17 July 1969(Day of year=198), Manager: 
+17 July 1969(Day of year=198), Harvest on a Growth Stage: 
      Manager sending message :- lettuce harvest
 17 July 1969(Day of year=198), lettuce: 
      
@@ -4697,7 +4717,7 @@ ON TRANSPLANTING
       stage 2.0 maturity
                      biomass =          34.76 (g/m^2)   lai          =   0.307 (m^2/m^2)
                      stover N conc =     5.48 (%)    extractable sw =  347.82 (mm)
-8 August 1969(Day of year=220), Manager: 
+8 August 1969(Day of year=220), Harvest on a Growth Stage: 
      Manager sending message :- lettuce harvest
 8 August 1969(Day of year=220), lettuce: 
      
@@ -4740,7 +4760,7 @@ ON TRANSPLANTING
       stage 2.0 maturity
                      biomass =          66.36 (g/m^2)   lai          =   0.604 (m^2/m^2)
                      stover N conc =     5.45 (%)    extractable sw =  354.91 (mm)
-27 August 1969(Day of year=239), Manager: 
+27 August 1969(Day of year=239), Harvest on a Growth Stage: 
      Manager sending message :- lettuce harvest
 27 August 1969(Day of year=239), lettuce: 
      
@@ -4783,7 +4803,7 @@ ON TRANSPLANTING
       stage 2.0 maturity
                      biomass =          66.00 (g/m^2)   lai          =   0.590 (m^2/m^2)
                      stover N conc =     5.25 (%)    extractable sw =  375.64 (mm)
-7 September 1969(Day of year=250), Manager: 
+7 September 1969(Day of year=250), Harvest on a Growth Stage: 
      Manager sending message :- lettuce harvest
 7 September 1969(Day of year=250), lettuce: 
      
@@ -4822,7 +4842,7 @@ ON TRANSPLANTING
                           DM (kg/ha) =                  1.80                  637.33
                           N  (kg/ha) =                  0.12                    5.56
      
-1 May 1970(Day of year=121), Manager: 
+1 May 1970(Day of year=121), Sow on a fixed date: 
      Manager sending message :- lettuce sow  plants = 6, sowing_depth = 50, cultivar = patagonia, row_spacing = 600
 1 May 1970(Day of year=121), lettuce: 
      Crop Sow
@@ -4866,7 +4886,7 @@ ON TRANSPLANTING
          ------------------------------------------------
      
 ON TRANSPLANTING
-15 May 1970(Day of year=135), Manager: 
+15 May 1970(Day of year=135), Sow on a fixed date: 
      Manager sending message :- lettuce sow  plants = 6, sowing_depth = 50, cultivar = patagonia, row_spacing = 600
 15 May 1970(Day of year=135), lettuce: 
      Crop Sow
@@ -4910,7 +4930,7 @@ ON TRANSPLANTING
          ------------------------------------------------
      
 ON TRANSPLANTING
-1 June 1970(Day of year=152), Manager: 
+1 June 1970(Day of year=152), Sow on a fixed date: 
      Manager sending message :- lettuce sow  plants = 6, sowing_depth = 50, cultivar = patagonia, row_spacing = 600
 1 June 1970(Day of year=152), lettuce: 
      Crop Sow
@@ -4954,7 +4974,7 @@ ON TRANSPLANTING
          ------------------------------------------------
      
 ON TRANSPLANTING
-15 June 1970(Day of year=166), Manager: 
+15 June 1970(Day of year=166), Sow on a fixed date: 
      Manager sending message :- lettuce sow  plants = 6, sowing_depth = 50, cultivar = patagonia, row_spacing = 600
 15 June 1970(Day of year=166), lettuce: 
      Crop Sow
@@ -5002,7 +5022,7 @@ ON TRANSPLANTING
       stage 2.0 maturity
                      biomass =          29.25 (g/m^2)   lai          =   0.255 (m^2/m^2)
                      stover N conc =     5.50 (%)    extractable sw =  350.31 (mm)
-1 July 1970(Day of year=182), Manager: 
+1 July 1970(Day of year=182), Harvest on a Growth Stage: 
      Manager sending message :- lettuce harvest
 1 July 1970(Day of year=182), lettuce: 
      
@@ -5041,7 +5061,7 @@ ON TRANSPLANTING
                           DM (kg/ha) =                  1.80                  284.87
                           N  (kg/ha) =                  0.12                    2.61
      
-1 July 1970(Day of year=182), Manager: 
+1 July 1970(Day of year=182), Sow on a fixed date: 
      Manager sending message :- lettuce sow  plants = 6, sowing_depth = 50, cultivar = patagonia, row_spacing = 600
 1 July 1970(Day of year=182), lettuce: 
      Crop Sow
@@ -5089,7 +5109,7 @@ ON TRANSPLANTING
       stage 2.0 maturity
                      biomass =          45.40 (g/m^2)   lai          =   0.410 (m^2/m^2)
                      stover N conc =     5.48 (%)    extractable sw =  347.69 (mm)
-20 July 1970(Day of year=201), Manager: 
+20 July 1970(Day of year=201), Harvest on a Growth Stage: 
      Manager sending message :- lettuce harvest
 20 July 1970(Day of year=201), lettuce: 
      
@@ -5132,7 +5152,7 @@ ON TRANSPLANTING
       stage 2.0 maturity
                      biomass =          83.82 (g/m^2)   lai          =   0.763 (m^2/m^2)
                      stover N conc =     5.65 (%)    extractable sw =  333.48 (mm)
-10 August 1970(Day of year=222), Manager: 
+10 August 1970(Day of year=222), Harvest on a Growth Stage: 
      Manager sending message :- lettuce harvest
 10 August 1970(Day of year=222), lettuce: 
      
@@ -5175,7 +5195,7 @@ ON TRANSPLANTING
       stage 2.0 maturity
                      biomass =          84.93 (g/m^2)   lai          =   0.689 (m^2/m^2)
                      stover N conc =     5.03 (%)    extractable sw =  329.07 (mm)
-29 August 1970(Day of year=241), Manager: 
+29 August 1970(Day of year=241), Harvest on a Growth Stage: 
      Manager sending message :- lettuce harvest
 29 August 1970(Day of year=241), lettuce: 
      
@@ -5218,7 +5238,7 @@ ON TRANSPLANTING
       stage 2.0 maturity
                      biomass =          88.63 (g/m^2)   lai          =   0.663 (m^2/m^2)
                      stover N conc =     5.03 (%)    extractable sw =  325.32 (mm)
-12 September 1970(Day of year=255), Manager: 
+12 September 1970(Day of year=255), Harvest on a Growth Stage: 
      Manager sending message :- lettuce harvest
 12 September 1970(Day of year=255), lettuce: 
      
@@ -5257,7 +5277,7 @@ ON TRANSPLANTING
                           DM (kg/ha) =                  1.80                  817.56
                           N  (kg/ha) =                  0.12                    6.63
      
-1 May 1971(Day of year=121), Manager: 
+1 May 1971(Day of year=121), Sow on a fixed date: 
      Manager sending message :- lettuce sow  plants = 6, sowing_depth = 50, cultivar = patagonia, row_spacing = 600
 1 May 1971(Day of year=121), lettuce: 
      Crop Sow
@@ -5301,7 +5321,7 @@ ON TRANSPLANTING
          ------------------------------------------------
      
 ON TRANSPLANTING
-15 May 1971(Day of year=135), Manager: 
+15 May 1971(Day of year=135), Sow on a fixed date: 
      Manager sending message :- lettuce sow  plants = 6, sowing_depth = 50, cultivar = patagonia, row_spacing = 600
 15 May 1971(Day of year=135), lettuce: 
      Crop Sow
@@ -5345,7 +5365,7 @@ ON TRANSPLANTING
          ------------------------------------------------
      
 ON TRANSPLANTING
-1 June 1971(Day of year=152), Manager: 
+1 June 1971(Day of year=152), Sow on a fixed date: 
      Manager sending message :- lettuce sow  plants = 6, sowing_depth = 50, cultivar = patagonia, row_spacing = 600
 1 June 1971(Day of year=152), lettuce: 
      Crop Sow
@@ -5389,7 +5409,7 @@ ON TRANSPLANTING
          ------------------------------------------------
      
 ON TRANSPLANTING
-15 June 1971(Day of year=166), Manager: 
+15 June 1971(Day of year=166), Sow on a fixed date: 
      Manager sending message :- lettuce sow  plants = 6, sowing_depth = 50, cultivar = patagonia, row_spacing = 600
 15 June 1971(Day of year=166), lettuce: 
      Crop Sow
@@ -5437,7 +5457,7 @@ ON TRANSPLANTING
       stage 2.0 maturity
                      biomass =          26.77 (g/m^2)   lai          =   0.233 (m^2/m^2)
                      stover N conc =     5.49 (%)    extractable sw =  339.73 (mm)
-1 July 1971(Day of year=182), Manager: 
+1 July 1971(Day of year=182), Harvest on a Growth Stage: 
      Manager sending message :- lettuce harvest
 1 July 1971(Day of year=182), lettuce: 
      
@@ -5476,7 +5496,7 @@ ON TRANSPLANTING
                           DM (kg/ha) =                  1.80                  260.96
                           N  (kg/ha) =                  0.12                    2.39
      
-1 July 1971(Day of year=182), Manager: 
+1 July 1971(Day of year=182), Sow on a fixed date: 
      Manager sending message :- lettuce sow  plants = 6, sowing_depth = 50, cultivar = patagonia, row_spacing = 600
 1 July 1971(Day of year=182), lettuce: 
      Crop Sow
@@ -5524,7 +5544,7 @@ ON TRANSPLANTING
       stage 2.0 maturity
                      biomass =          31.11 (g/m^2)   lai          =   0.276 (m^2/m^2)
                      stover N conc =     5.52 (%)    extractable sw =  350.23 (mm)
-20 July 1971(Day of year=201), Manager: 
+20 July 1971(Day of year=201), Harvest on a Growth Stage: 
      Manager sending message :- lettuce harvest
 20 July 1971(Day of year=201), lettuce: 
      
@@ -5567,7 +5587,7 @@ ON TRANSPLANTING
       stage 2.0 maturity
                      biomass =          53.80 (g/m^2)   lai          =   0.482 (m^2/m^2)
                      stover N conc =     5.67 (%)    extractable sw =  340.91 (mm)
-11 August 1971(Day of year=223), Manager: 
+11 August 1971(Day of year=223), Harvest on a Growth Stage: 
      Manager sending message :- lettuce harvest
 11 August 1971(Day of year=223), lettuce: 
      
@@ -5610,7 +5630,7 @@ ON TRANSPLANTING
       stage 2.0 maturity
                      biomass =          65.66 (g/m^2)   lai          =   0.536 (m^2/m^2)
                      stover N conc =     5.02 (%)    extractable sw =  348.40 (mm)
-1 September 1971(Day of year=244), Manager: 
+1 September 1971(Day of year=244), Harvest on a Growth Stage: 
      Manager sending message :- lettuce harvest
 1 September 1971(Day of year=244), lettuce: 
      
@@ -5653,7 +5673,7 @@ ON TRANSPLANTING
       stage 2.0 maturity
                      biomass =          64.49 (g/m^2)   lai          =   0.540 (m^2/m^2)
                      stover N conc =     5.07 (%)    extractable sw =  358.78 (mm)
-14 September 1971(Day of year=257), Manager: 
+14 September 1971(Day of year=257), Harvest on a Growth Stage: 
      Manager sending message :- lettuce harvest
 14 September 1971(Day of year=257), lettuce: 
      
@@ -5692,7 +5712,7 @@ ON TRANSPLANTING
                           DM (kg/ha) =                  1.80                  602.35
                           N  (kg/ha) =                  0.12                    5.02
      
-1 May 1972(Day of year=122), Manager: 
+1 May 1972(Day of year=122), Sow on a fixed date: 
      Manager sending message :- lettuce sow  plants = 6, sowing_depth = 50, cultivar = patagonia, row_spacing = 600
 1 May 1972(Day of year=122), lettuce: 
      Crop Sow
@@ -5736,7 +5756,7 @@ ON TRANSPLANTING
          ------------------------------------------------
      
 ON TRANSPLANTING
-15 May 1972(Day of year=136), Manager: 
+15 May 1972(Day of year=136), Sow on a fixed date: 
      Manager sending message :- lettuce sow  plants = 6, sowing_depth = 50, cultivar = patagonia, row_spacing = 600
 15 May 1972(Day of year=136), lettuce: 
      Crop Sow
@@ -5780,7 +5800,7 @@ ON TRANSPLANTING
          ------------------------------------------------
      
 ON TRANSPLANTING
-1 June 1972(Day of year=153), Manager: 
+1 June 1972(Day of year=153), Sow on a fixed date: 
      Manager sending message :- lettuce sow  plants = 6, sowing_depth = 50, cultivar = patagonia, row_spacing = 600
 1 June 1972(Day of year=153), lettuce: 
      Crop Sow
@@ -5824,7 +5844,7 @@ ON TRANSPLANTING
          ------------------------------------------------
      
 ON TRANSPLANTING
-15 June 1972(Day of year=167), Manager: 
+15 June 1972(Day of year=167), Sow on a fixed date: 
      Manager sending message :- lettuce sow  plants = 6, sowing_depth = 50, cultivar = patagonia, row_spacing = 600
 15 June 1972(Day of year=167), lettuce: 
      Crop Sow
@@ -5872,7 +5892,7 @@ ON TRANSPLANTING
       stage 2.0 maturity
                      biomass =          13.37 (g/m^2)   lai          =   0.115 (m^2/m^2)
                      stover N conc =     5.49 (%)    extractable sw =  347.57 (mm)
-29 June 1972(Day of year=181), Manager: 
+29 June 1972(Day of year=181), Harvest on a Growth Stage: 
      Manager sending message :- lettuce harvest
 29 June 1972(Day of year=181), lettuce: 
      
@@ -5911,7 +5931,7 @@ ON TRANSPLANTING
                           DM (kg/ha) =                  1.80                  133.85
                           N  (kg/ha) =                  0.12                    1.23
      
-1 July 1972(Day of year=183), Manager: 
+1 July 1972(Day of year=183), Sow on a fixed date: 
      Manager sending message :- lettuce sow  plants = 6, sowing_depth = 50, cultivar = patagonia, row_spacing = 600
 1 July 1972(Day of year=183), lettuce: 
      Crop Sow
@@ -5959,7 +5979,7 @@ ON TRANSPLANTING
       stage 2.0 maturity
                      biomass =          46.70 (g/m^2)   lai          =   0.424 (m^2/m^2)
                      stover N conc =     5.51 (%)    extractable sw =  337.81 (mm)
-21 July 1972(Day of year=203), Manager: 
+21 July 1972(Day of year=203), Harvest on a Growth Stage: 
      Manager sending message :- lettuce harvest
 21 July 1972(Day of year=203), lettuce: 
      
@@ -6002,7 +6022,7 @@ ON TRANSPLANTING
       stage 2.0 maturity
                      biomass =          72.20 (g/m^2)   lai          =   0.655 (m^2/m^2)
                      stover N conc =     5.19 (%)    extractable sw =  336.34 (mm)
-10 August 1972(Day of year=223), Manager: 
+10 August 1972(Day of year=223), Harvest on a Growth Stage: 
      Manager sending message :- lettuce harvest
 10 August 1972(Day of year=223), lettuce: 
      
@@ -6045,7 +6065,7 @@ ON TRANSPLANTING
       stage 2.0 maturity
                      biomass =          71.33 (g/m^2)   lai          =   0.553 (m^2/m^2)
                      stover N conc =     5.03 (%)    extractable sw =  333.23 (mm)
-28 August 1972(Day of year=241), Manager: 
+28 August 1972(Day of year=241), Harvest on a Growth Stage: 
      Manager sending message :- lettuce harvest
 28 August 1972(Day of year=241), lettuce: 
      
@@ -6088,7 +6108,7 @@ ON TRANSPLANTING
       stage 2.0 maturity
                      biomass =          72.82 (g/m^2)   lai          =   0.556 (m^2/m^2)
                      stover N conc =     5.04 (%)    extractable sw =  329.44 (mm)
-10 September 1972(Day of year=254), Manager: 
+10 September 1972(Day of year=254), Harvest on a Growth Stage: 
      Manager sending message :- lettuce harvest
 10 September 1972(Day of year=254), lettuce: 
      
@@ -6127,7 +6147,7 @@ ON TRANSPLANTING
                           DM (kg/ha) =                  1.80                  674.69
                           N  (kg/ha) =                  0.12                    5.53
      
-1 May 1973(Day of year=121), Manager: 
+1 May 1973(Day of year=121), Sow on a fixed date: 
      Manager sending message :- lettuce sow  plants = 6, sowing_depth = 50, cultivar = patagonia, row_spacing = 600
 1 May 1973(Day of year=121), lettuce: 
      Crop Sow
@@ -6171,7 +6191,7 @@ ON TRANSPLANTING
          ------------------------------------------------
      
 ON TRANSPLANTING
-15 May 1973(Day of year=135), Manager: 
+15 May 1973(Day of year=135), Sow on a fixed date: 
      Manager sending message :- lettuce sow  plants = 6, sowing_depth = 50, cultivar = patagonia, row_spacing = 600
 15 May 1973(Day of year=135), lettuce: 
      Crop Sow
@@ -6215,7 +6235,7 @@ ON TRANSPLANTING
          ------------------------------------------------
      
 ON TRANSPLANTING
-1 June 1973(Day of year=152), Manager: 
+1 June 1973(Day of year=152), Sow on a fixed date: 
      Manager sending message :- lettuce sow  plants = 6, sowing_depth = 50, cultivar = patagonia, row_spacing = 600
 1 June 1973(Day of year=152), lettuce: 
      Crop Sow
@@ -6259,7 +6279,7 @@ ON TRANSPLANTING
          ------------------------------------------------
      
 ON TRANSPLANTING
-15 June 1973(Day of year=166), Manager: 
+15 June 1973(Day of year=166), Sow on a fixed date: 
      Manager sending message :- lettuce sow  plants = 6, sowing_depth = 50, cultivar = patagonia, row_spacing = 600
 15 June 1973(Day of year=166), lettuce: 
      Crop Sow
@@ -6307,7 +6327,7 @@ ON TRANSPLANTING
       stage 2.0 maturity
                      biomass =           7.74 (g/m^2)   lai          =   0.061 (m^2/m^2)
                      stover N conc =     5.59 (%)    extractable sw =  346.91 (mm)
-23 June 1973(Day of year=174), Manager: 
+23 June 1973(Day of year=174), Harvest on a Growth Stage: 
      Manager sending message :- lettuce harvest
 23 June 1973(Day of year=174), lettuce: 
      
@@ -6346,7 +6366,7 @@ ON TRANSPLANTING
                           DM (kg/ha) =                  1.80                   80.15
                           N  (kg/ha) =                  0.12                    0.75
      
-1 July 1973(Day of year=182), Manager: 
+1 July 1973(Day of year=182), Sow on a fixed date: 
      Manager sending message :- lettuce sow  plants = 6, sowing_depth = 50, cultivar = patagonia, row_spacing = 600
 1 July 1973(Day of year=182), lettuce: 
      Crop Sow
@@ -6394,7 +6414,7 @@ ON TRANSPLANTING
       stage 2.0 maturity
                      biomass =           5.55 (g/m^2)   lai          =   0.041 (m^2/m^2)
                      stover N conc =     5.76 (%)    extractable sw =  422.96 (mm)
-10 July 1973(Day of year=191), Manager: 
+10 July 1973(Day of year=191), Harvest on a Growth Stage: 
      Manager sending message :- lettuce harvest
 10 July 1973(Day of year=191), lettuce: 
      
@@ -6437,7 +6457,7 @@ ON TRANSPLANTING
       stage 2.0 maturity
                      biomass =           7.73 (g/m^2)   lai          =   0.060 (m^2/m^2)
                      stover N conc =     5.53 (%)    extractable sw =  384.95 (mm)
-1 August 1973(Day of year=213), Manager: 
+1 August 1973(Day of year=213), Harvest on a Growth Stage: 
      Manager sending message :- lettuce harvest
 1 August 1973(Day of year=213), lettuce: 
      
@@ -6480,7 +6500,7 @@ ON TRANSPLANTING
       stage 2.0 maturity
                      biomass =          10.76 (g/m^2)   lai          =   0.091 (m^2/m^2)
                      stover N conc =     5.65 (%)    extractable sw =  374.19 (mm)
-18 August 1973(Day of year=230), Manager: 
+18 August 1973(Day of year=230), Harvest on a Growth Stage: 
      Manager sending message :- lettuce harvest
 18 August 1973(Day of year=230), lettuce: 
      
@@ -6523,7 +6543,7 @@ ON TRANSPLANTING
       stage 2.0 maturity
                      biomass =          21.59 (g/m^2)   lai          =   0.191 (m^2/m^2)
                      stover N conc =     5.51 (%)    extractable sw =  357.95 (mm)
-3 September 1973(Day of year=246), Manager: 
+3 September 1973(Day of year=246), Harvest on a Growth Stage: 
      Manager sending message :- lettuce harvest
 3 September 1973(Day of year=246), lettuce: 
      
@@ -6562,7 +6582,7 @@ ON TRANSPLANTING
                           DM (kg/ha) =                  1.80                  212.96
                           N  (kg/ha) =                  0.12                    1.96
      
-1 May 1974(Day of year=121), Manager: 
+1 May 1974(Day of year=121), Sow on a fixed date: 
      Manager sending message :- lettuce sow  plants = 6, sowing_depth = 50, cultivar = patagonia, row_spacing = 600
 1 May 1974(Day of year=121), lettuce: 
      Crop Sow
@@ -6606,7 +6626,7 @@ ON TRANSPLANTING
          ------------------------------------------------
      
 ON TRANSPLANTING
-15 May 1974(Day of year=135), Manager: 
+15 May 1974(Day of year=135), Sow on a fixed date: 
      Manager sending message :- lettuce sow  plants = 6, sowing_depth = 50, cultivar = patagonia, row_spacing = 600
 15 May 1974(Day of year=135), lettuce: 
      Crop Sow
@@ -6650,7 +6670,7 @@ ON TRANSPLANTING
          ------------------------------------------------
      
 ON TRANSPLANTING
-1 June 1974(Day of year=152), Manager: 
+1 June 1974(Day of year=152), Sow on a fixed date: 
      Manager sending message :- lettuce sow  plants = 6, sowing_depth = 50, cultivar = patagonia, row_spacing = 600
 1 June 1974(Day of year=152), lettuce: 
      Crop Sow
@@ -6694,7 +6714,7 @@ ON TRANSPLANTING
          ------------------------------------------------
      
 ON TRANSPLANTING
-15 June 1974(Day of year=166), Manager: 
+15 June 1974(Day of year=166), Sow on a fixed date: 
      Manager sending message :- lettuce sow  plants = 6, sowing_depth = 50, cultivar = patagonia, row_spacing = 600
 15 June 1974(Day of year=166), lettuce: 
      Crop Sow
@@ -6742,7 +6762,7 @@ ON TRANSPLANTING
       stage 2.0 maturity
                      biomass =           9.73 (g/m^2)   lai          =   0.082 (m^2/m^2)
                      stover N conc =     5.56 (%)    extractable sw =  354.77 (mm)
-27 June 1974(Day of year=178), Manager: 
+27 June 1974(Day of year=178), Harvest on a Growth Stage: 
      Manager sending message :- lettuce harvest
 27 June 1974(Day of year=178), lettuce: 
      
@@ -6781,7 +6801,7 @@ ON TRANSPLANTING
                           DM (kg/ha) =                  1.80                   99.41
                           N  (kg/ha) =                  0.12                    0.93
      
-1 July 1974(Day of year=182), Manager: 
+1 July 1974(Day of year=182), Sow on a fixed date: 
      Manager sending message :- lettuce sow  plants = 6, sowing_depth = 50, cultivar = patagonia, row_spacing = 600
 1 July 1974(Day of year=182), lettuce: 
      Crop Sow
@@ -6829,7 +6849,7 @@ ON TRANSPLANTING
       stage 2.0 maturity
                      biomass =          23.07 (g/m^2)   lai          =   0.205 (m^2/m^2)
                      stover N conc =     5.50 (%)    extractable sw =  347.22 (mm)
-18 July 1974(Day of year=199), Manager: 
+18 July 1974(Day of year=199), Harvest on a Growth Stage: 
      Manager sending message :- lettuce harvest
 18 July 1974(Day of year=199), lettuce: 
      
@@ -6872,7 +6892,7 @@ ON TRANSPLANTING
       stage 2.0 maturity
                      biomass =          59.22 (g/m^2)   lai          =   0.538 (m^2/m^2)
                      stover N conc =     5.45 (%)    extractable sw =  337.05 (mm)
-7 August 1974(Day of year=219), Manager: 
+7 August 1974(Day of year=219), Harvest on a Growth Stage: 
      Manager sending message :- lettuce harvest
 7 August 1974(Day of year=219), lettuce: 
      
@@ -6915,7 +6935,7 @@ ON TRANSPLANTING
       stage 2.0 maturity
                      biomass =         106.83 (g/m^2)   lai          =   0.948 (m^2/m^2)
                      stover N conc =     5.05 (%)    extractable sw =  362.99 (mm)
-29 August 1974(Day of year=241), Manager: 
+29 August 1974(Day of year=241), Harvest on a Growth Stage: 
      Manager sending message :- lettuce harvest
 29 August 1974(Day of year=241), lettuce: 
      
@@ -6958,7 +6978,7 @@ ON TRANSPLANTING
       stage 2.0 maturity
                      biomass =         100.96 (g/m^2)   lai          =   0.836 (m^2/m^2)
                      stover N conc =     5.08 (%)    extractable sw =  354.39 (mm)
-12 September 1974(Day of year=255), Manager: 
+12 September 1974(Day of year=255), Harvest on a Growth Stage: 
      Manager sending message :- lettuce harvest
 12 September 1974(Day of year=255), lettuce: 
      
@@ -6997,7 +7017,7 @@ ON TRANSPLANTING
                           DM (kg/ha) =                  1.80                  940.32
                           N  (kg/ha) =                  0.12                    7.84
      
-1 May 1975(Day of year=121), Manager: 
+1 May 1975(Day of year=121), Sow on a fixed date: 
      Manager sending message :- lettuce sow  plants = 6, sowing_depth = 50, cultivar = patagonia, row_spacing = 600
 1 May 1975(Day of year=121), lettuce: 
      Crop Sow
@@ -7041,7 +7061,7 @@ ON TRANSPLANTING
          ------------------------------------------------
      
 ON TRANSPLANTING
-15 May 1975(Day of year=135), Manager: 
+15 May 1975(Day of year=135), Sow on a fixed date: 
      Manager sending message :- lettuce sow  plants = 6, sowing_depth = 50, cultivar = patagonia, row_spacing = 600
 15 May 1975(Day of year=135), lettuce: 
      Crop Sow
@@ -7085,7 +7105,7 @@ ON TRANSPLANTING
          ------------------------------------------------
      
 ON TRANSPLANTING
-1 June 1975(Day of year=152), Manager: 
+1 June 1975(Day of year=152), Sow on a fixed date: 
      Manager sending message :- lettuce sow  plants = 6, sowing_depth = 50, cultivar = patagonia, row_spacing = 600
 1 June 1975(Day of year=152), lettuce: 
      Crop Sow
@@ -7129,7 +7149,7 @@ ON TRANSPLANTING
          ------------------------------------------------
      
 ON TRANSPLANTING
-15 June 1975(Day of year=166), Manager: 
+15 June 1975(Day of year=166), Sow on a fixed date: 
      Manager sending message :- lettuce sow  plants = 6, sowing_depth = 50, cultivar = patagonia, row_spacing = 600
 15 June 1975(Day of year=166), lettuce: 
      Crop Sow
@@ -7177,7 +7197,7 @@ ON TRANSPLANTING
       stage 2.0 maturity
                      biomass =          24.50 (g/m^2)   lai          =   0.211 (m^2/m^2)
                      stover N conc =     5.50 (%)    extractable sw =  368.03 (mm)
-29 June 1975(Day of year=180), Manager: 
+29 June 1975(Day of year=180), Harvest on a Growth Stage: 
      Manager sending message :- lettuce harvest
 29 June 1975(Day of year=180), lettuce: 
      
@@ -7216,7 +7236,7 @@ ON TRANSPLANTING
                           DM (kg/ha) =                  1.80                  238.80
                           N  (kg/ha) =                  0.12                    2.19
      
-1 July 1975(Day of year=182), Manager: 
+1 July 1975(Day of year=182), Sow on a fixed date: 
      Manager sending message :- lettuce sow  plants = 6, sowing_depth = 50, cultivar = patagonia, row_spacing = 600
 1 July 1975(Day of year=182), lettuce: 
      Crop Sow
@@ -7264,7 +7284,7 @@ ON TRANSPLANTING
       stage 2.0 maturity
                      biomass =          25.63 (g/m^2)   lai          =   0.222 (m^2/m^2)
                      stover N conc =     5.48 (%)    extractable sw =  362.24 (mm)
-17 July 1975(Day of year=198), Manager: 
+17 July 1975(Day of year=198), Harvest on a Growth Stage: 
      Manager sending message :- lettuce harvest
 17 July 1975(Day of year=198), lettuce: 
      
@@ -7307,7 +7327,7 @@ ON TRANSPLANTING
       stage 2.0 maturity
                      biomass =          25.39 (g/m^2)   lai          =   0.220 (m^2/m^2)
                      stover N conc =     5.57 (%)    extractable sw =  349.95 (mm)
-5 August 1975(Day of year=217), Manager: 
+5 August 1975(Day of year=217), Harvest on a Growth Stage: 
      Manager sending message :- lettuce harvest
 5 August 1975(Day of year=217), lettuce: 
      
@@ -7350,7 +7370,7 @@ ON TRANSPLANTING
       stage 2.0 maturity
                      biomass =          53.79 (g/m^2)   lai          =   0.483 (m^2/m^2)
                      stover N conc =     5.12 (%)    extractable sw =  347.65 (mm)
-26 August 1975(Day of year=238), Manager: 
+26 August 1975(Day of year=238), Harvest on a Growth Stage: 
      Manager sending message :- lettuce harvest
 26 August 1975(Day of year=238), lettuce: 
      
@@ -7393,7 +7413,7 @@ ON TRANSPLANTING
       stage 2.0 maturity
                      biomass =          56.03 (g/m^2)   lai          =   0.505 (m^2/m^2)
                      stover N conc =     5.10 (%)    extractable sw =  375.66 (mm)
-9 September 1975(Day of year=252), Manager: 
+9 September 1975(Day of year=252), Harvest on a Growth Stage: 
      Manager sending message :- lettuce harvest
 9 September 1975(Day of year=252), lettuce: 
      
@@ -7432,7 +7452,7 @@ ON TRANSPLANTING
                           DM (kg/ha) =                  1.80                  536.77
                           N  (kg/ha) =                  0.12                    4.55
      
-1 May 1976(Day of year=122), Manager: 
+1 May 1976(Day of year=122), Sow on a fixed date: 
      Manager sending message :- lettuce sow  plants = 6, sowing_depth = 50, cultivar = patagonia, row_spacing = 600
 1 May 1976(Day of year=122), lettuce: 
      Crop Sow
@@ -7476,7 +7496,7 @@ ON TRANSPLANTING
          ------------------------------------------------
      
 ON TRANSPLANTING
-15 May 1976(Day of year=136), Manager: 
+15 May 1976(Day of year=136), Sow on a fixed date: 
      Manager sending message :- lettuce sow  plants = 6, sowing_depth = 50, cultivar = patagonia, row_spacing = 600
 15 May 1976(Day of year=136), lettuce: 
      Crop Sow
@@ -7520,7 +7540,7 @@ ON TRANSPLANTING
          ------------------------------------------------
      
 ON TRANSPLANTING
-1 June 1976(Day of year=153), Manager: 
+1 June 1976(Day of year=153), Sow on a fixed date: 
      Manager sending message :- lettuce sow  plants = 6, sowing_depth = 50, cultivar = patagonia, row_spacing = 600
 1 June 1976(Day of year=153), lettuce: 
      Crop Sow
@@ -7564,7 +7584,7 @@ ON TRANSPLANTING
          ------------------------------------------------
      
 ON TRANSPLANTING
-15 June 1976(Day of year=167), Manager: 
+15 June 1976(Day of year=167), Sow on a fixed date: 
      Manager sending message :- lettuce sow  plants = 6, sowing_depth = 50, cultivar = patagonia, row_spacing = 600
 15 June 1976(Day of year=167), lettuce: 
      Crop Sow
@@ -7612,7 +7632,7 @@ ON TRANSPLANTING
       stage 2.0 maturity
                      biomass =           8.54 (g/m^2)   lai          =   0.070 (m^2/m^2)
                      stover N conc =     5.54 (%)    extractable sw =  350.12 (mm)
-25 June 1976(Day of year=177), Manager: 
+25 June 1976(Day of year=177), Harvest on a Growth Stage: 
      Manager sending message :- lettuce harvest
 25 June 1976(Day of year=177), lettuce: 
      
@@ -7651,7 +7671,7 @@ ON TRANSPLANTING
                           DM (kg/ha) =                  1.80                   87.85
                           N  (kg/ha) =                  0.12                    0.82
      
-1 July 1976(Day of year=183), Manager: 
+1 July 1976(Day of year=183), Sow on a fixed date: 
      Manager sending message :- lettuce sow  plants = 6, sowing_depth = 50, cultivar = patagonia, row_spacing = 600
 1 July 1976(Day of year=183), lettuce: 
      Crop Sow
@@ -7699,7 +7719,7 @@ ON TRANSPLANTING
       stage 2.0 maturity
                      biomass =          12.95 (g/m^2)   lai          =   0.111 (m^2/m^2)
                      stover N conc =     5.58 (%)    extractable sw =  351.53 (mm)
-13 July 1976(Day of year=195), Manager: 
+13 July 1976(Day of year=195), Harvest on a Growth Stage: 
      Manager sending message :- lettuce harvest
 13 July 1976(Day of year=195), lettuce: 
      
@@ -7742,7 +7762,7 @@ ON TRANSPLANTING
       stage 2.0 maturity
                      biomass =          30.90 (g/m^2)   lai          =   0.274 (m^2/m^2)
                      stover N conc =     5.45 (%)    extractable sw =  353.95 (mm)
-5 August 1976(Day of year=218), Manager: 
+5 August 1976(Day of year=218), Harvest on a Growth Stage: 
      Manager sending message :- lettuce harvest
 5 August 1976(Day of year=218), lettuce: 
      
@@ -7785,7 +7805,7 @@ ON TRANSPLANTING
       stage 2.0 maturity
                      biomass =          65.60 (g/m^2)   lai          =   0.584 (m^2/m^2)
                      stover N conc =     5.11 (%)    extractable sw =  338.15 (mm)
-27 August 1976(Day of year=240), Manager: 
+27 August 1976(Day of year=240), Harvest on a Growth Stage: 
      Manager sending message :- lettuce harvest
 27 August 1976(Day of year=240), lettuce: 
      
@@ -7828,7 +7848,7 @@ ON TRANSPLANTING
       stage 2.0 maturity
                      biomass =          67.21 (g/m^2)   lai          =   0.565 (m^2/m^2)
                      stover N conc =     5.04 (%)    extractable sw =  336.15 (mm)
-10 September 1976(Day of year=254), Manager: 
+10 September 1976(Day of year=254), Harvest on a Growth Stage: 
      Manager sending message :- lettuce harvest
 10 September 1976(Day of year=254), lettuce: 
      
@@ -7867,7 +7887,7 @@ ON TRANSPLANTING
                           DM (kg/ha) =                  1.80                  630.48
                           N  (kg/ha) =                  0.12                    5.22
      
-1 May 1977(Day of year=121), Manager: 
+1 May 1977(Day of year=121), Sow on a fixed date: 
      Manager sending message :- lettuce sow  plants = 6, sowing_depth = 50, cultivar = patagonia, row_spacing = 600
 1 May 1977(Day of year=121), lettuce: 
      Crop Sow
@@ -7911,7 +7931,7 @@ ON TRANSPLANTING
          ------------------------------------------------
      
 ON TRANSPLANTING
-15 May 1977(Day of year=135), Manager: 
+15 May 1977(Day of year=135), Sow on a fixed date: 
      Manager sending message :- lettuce sow  plants = 6, sowing_depth = 50, cultivar = patagonia, row_spacing = 600
 15 May 1977(Day of year=135), lettuce: 
      Crop Sow
@@ -7955,7 +7975,7 @@ ON TRANSPLANTING
          ------------------------------------------------
      
 ON TRANSPLANTING
-1 June 1977(Day of year=152), Manager: 
+1 June 1977(Day of year=152), Sow on a fixed date: 
      Manager sending message :- lettuce sow  plants = 6, sowing_depth = 50, cultivar = patagonia, row_spacing = 600
 1 June 1977(Day of year=152), lettuce: 
      Crop Sow
@@ -7999,7 +8019,7 @@ ON TRANSPLANTING
          ------------------------------------------------
      
 ON TRANSPLANTING
-15 June 1977(Day of year=166), Manager: 
+15 June 1977(Day of year=166), Sow on a fixed date: 
      Manager sending message :- lettuce sow  plants = 6, sowing_depth = 50, cultivar = patagonia, row_spacing = 600
 15 June 1977(Day of year=166), lettuce: 
      Crop Sow
@@ -8047,7 +8067,7 @@ ON TRANSPLANTING
       stage 2.0 maturity
                      biomass =           8.67 (g/m^2)   lai          =   0.074 (m^2/m^2)
                      stover N conc =     5.53 (%)    extractable sw =  358.14 (mm)
-27 June 1977(Day of year=178), Manager: 
+27 June 1977(Day of year=178), Harvest on a Growth Stage: 
      Manager sending message :- lettuce harvest
 27 June 1977(Day of year=178), lettuce: 
      
@@ -8086,7 +8106,7 @@ ON TRANSPLANTING
                           DM (kg/ha) =                  1.80                   89.16
                           N  (kg/ha) =                  0.12                    0.83
      
-1 July 1977(Day of year=182), Manager: 
+1 July 1977(Day of year=182), Sow on a fixed date: 
      Manager sending message :- lettuce sow  plants = 6, sowing_depth = 50, cultivar = patagonia, row_spacing = 600
 1 July 1977(Day of year=182), lettuce: 
      Crop Sow
@@ -8134,7 +8154,7 @@ ON TRANSPLANTING
       stage 2.0 maturity
                      biomass =          27.28 (g/m^2)   lai          =   0.238 (m^2/m^2)
                      stover N conc =     5.48 (%)    extractable sw =  348.92 (mm)
-17 July 1977(Day of year=198), Manager: 
+17 July 1977(Day of year=198), Harvest on a Growth Stage: 
      Manager sending message :- lettuce harvest
 17 July 1977(Day of year=198), lettuce: 
      
@@ -8177,7 +8197,7 @@ ON TRANSPLANTING
       stage 2.0 maturity
                      biomass =          74.93 (g/m^2)   lai          =   0.688 (m^2/m^2)
                      stover N conc =     5.45 (%)    extractable sw =  334.24 (mm)
-11 August 1977(Day of year=223), Manager: 
+11 August 1977(Day of year=223), Harvest on a Growth Stage: 
      Manager sending message :- lettuce harvest
 11 August 1977(Day of year=223), lettuce: 
      
@@ -8220,7 +8240,7 @@ ON TRANSPLANTING
       stage 2.0 maturity
                      biomass =          65.03 (g/m^2)   lai          =   0.547 (m^2/m^2)
                      stover N conc =     5.03 (%)    extractable sw =  331.45 (mm)
-28 August 1977(Day of year=240), Manager: 
+28 August 1977(Day of year=240), Harvest on a Growth Stage: 
      Manager sending message :- lettuce harvest
 28 August 1977(Day of year=240), lettuce: 
      
@@ -8263,7 +8283,7 @@ ON TRANSPLANTING
       stage 2.0 maturity
                      biomass =          67.62 (g/m^2)   lai          =   0.488 (m^2/m^2)
                      stover N conc =     5.02 (%)    extractable sw =  327.56 (mm)
-11 September 1977(Day of year=254), Manager: 
+11 September 1977(Day of year=254), Harvest on a Growth Stage: 
      Manager sending message :- lettuce harvest
 11 September 1977(Day of year=254), lettuce: 
      
@@ -8302,7 +8322,7 @@ ON TRANSPLANTING
                           DM (kg/ha) =                  1.80                  621.61
                           N  (kg/ha) =                  0.12                    4.99
      
-1 May 1978(Day of year=121), Manager: 
+1 May 1978(Day of year=121), Sow on a fixed date: 
      Manager sending message :- lettuce sow  plants = 6, sowing_depth = 50, cultivar = patagonia, row_spacing = 600
 1 May 1978(Day of year=121), lettuce: 
      Crop Sow
@@ -8346,7 +8366,7 @@ ON TRANSPLANTING
          ------------------------------------------------
      
 ON TRANSPLANTING
-15 May 1978(Day of year=135), Manager: 
+15 May 1978(Day of year=135), Sow on a fixed date: 
      Manager sending message :- lettuce sow  plants = 6, sowing_depth = 50, cultivar = patagonia, row_spacing = 600
 15 May 1978(Day of year=135), lettuce: 
      Crop Sow
@@ -8390,7 +8410,7 @@ ON TRANSPLANTING
          ------------------------------------------------
      
 ON TRANSPLANTING
-1 June 1978(Day of year=152), Manager: 
+1 June 1978(Day of year=152), Sow on a fixed date: 
      Manager sending message :- lettuce sow  plants = 6, sowing_depth = 50, cultivar = patagonia, row_spacing = 600
 1 June 1978(Day of year=152), lettuce: 
      Crop Sow
@@ -8434,7 +8454,7 @@ ON TRANSPLANTING
          ------------------------------------------------
      
 ON TRANSPLANTING
-15 June 1978(Day of year=166), Manager: 
+15 June 1978(Day of year=166), Sow on a fixed date: 
      Manager sending message :- lettuce sow  plants = 6, sowing_depth = 50, cultivar = patagonia, row_spacing = 600
 15 June 1978(Day of year=166), lettuce: 
      Crop Sow
@@ -8482,7 +8502,7 @@ ON TRANSPLANTING
       stage 2.0 maturity
                      biomass =          11.69 (g/m^2)   lai          =   0.098 (m^2/m^2)
                      stover N conc =     5.59 (%)    extractable sw =  355.65 (mm)
-29 June 1978(Day of year=180), Manager: 
+29 June 1978(Day of year=180), Harvest on a Growth Stage: 
      Manager sending message :- lettuce harvest
 29 June 1978(Day of year=180), lettuce: 
      
@@ -8521,7 +8541,7 @@ ON TRANSPLANTING
                           DM (kg/ha) =                  1.80                  117.38
                           N  (kg/ha) =                  0.12                    1.10
      
-1 July 1978(Day of year=182), Manager: 
+1 July 1978(Day of year=182), Sow on a fixed date: 
      Manager sending message :- lettuce sow  plants = 6, sowing_depth = 50, cultivar = patagonia, row_spacing = 600
 1 July 1978(Day of year=182), lettuce: 
      Crop Sow
@@ -8569,7 +8589,7 @@ ON TRANSPLANTING
       stage 2.0 maturity
                      biomass =          16.01 (g/m^2)   lai          =   0.139 (m^2/m^2)
                      stover N conc =     5.49 (%)    extractable sw =  369.53 (mm)
-19 July 1978(Day of year=200), Manager: 
+19 July 1978(Day of year=200), Harvest on a Growth Stage: 
      Manager sending message :- lettuce harvest
 19 July 1978(Day of year=200), lettuce: 
      
@@ -8612,7 +8632,7 @@ ON TRANSPLANTING
       stage 2.0 maturity
                      biomass =          31.94 (g/m^2)   lai          =   0.284 (m^2/m^2)
                      stover N conc =     5.60 (%)    extractable sw =  353.79 (mm)
-8 August 1978(Day of year=220), Manager: 
+8 August 1978(Day of year=220), Harvest on a Growth Stage: 
      Manager sending message :- lettuce harvest
 8 August 1978(Day of year=220), lettuce: 
      
@@ -8655,7 +8675,7 @@ ON TRANSPLANTING
       stage 2.0 maturity
                      biomass =          58.10 (g/m^2)   lai          =   0.503 (m^2/m^2)
                      stover N conc =     5.09 (%)    extractable sw =  357.43 (mm)
-30 August 1978(Day of year=242), Manager: 
+30 August 1978(Day of year=242), Harvest on a Growth Stage: 
      Manager sending message :- lettuce harvest
 30 August 1978(Day of year=242), lettuce: 
      
@@ -8698,7 +8718,7 @@ ON TRANSPLANTING
       stage 2.0 maturity
                      biomass =          59.24 (g/m^2)   lai          =   0.489 (m^2/m^2)
                      stover N conc =     5.03 (%)    extractable sw =  392.29 (mm)
-13 September 1978(Day of year=256), Manager: 
+13 September 1978(Day of year=256), Harvest on a Growth Stage: 
      Manager sending message :- lettuce harvest
 13 September 1978(Day of year=256), lettuce: 
      
@@ -8737,7 +8757,7 @@ ON TRANSPLANTING
                           DM (kg/ha) =                  1.80                  551.88
                           N  (kg/ha) =                  0.12                    4.54
      
-1 May 1979(Day of year=121), Manager: 
+1 May 1979(Day of year=121), Sow on a fixed date: 
      Manager sending message :- lettuce sow  plants = 6, sowing_depth = 50, cultivar = patagonia, row_spacing = 600
 1 May 1979(Day of year=121), lettuce: 
      Crop Sow
@@ -8781,7 +8801,7 @@ ON TRANSPLANTING
          ------------------------------------------------
      
 ON TRANSPLANTING
-15 May 1979(Day of year=135), Manager: 
+15 May 1979(Day of year=135), Sow on a fixed date: 
      Manager sending message :- lettuce sow  plants = 6, sowing_depth = 50, cultivar = patagonia, row_spacing = 600
 15 May 1979(Day of year=135), lettuce: 
      Crop Sow
@@ -8825,7 +8845,7 @@ ON TRANSPLANTING
          ------------------------------------------------
      
 ON TRANSPLANTING
-1 June 1979(Day of year=152), Manager: 
+1 June 1979(Day of year=152), Sow on a fixed date: 
      Manager sending message :- lettuce sow  plants = 6, sowing_depth = 50, cultivar = patagonia, row_spacing = 600
 1 June 1979(Day of year=152), lettuce: 
      Crop Sow
@@ -8869,7 +8889,7 @@ ON TRANSPLANTING
          ------------------------------------------------
      
 ON TRANSPLANTING
-15 June 1979(Day of year=166), Manager: 
+15 June 1979(Day of year=166), Sow on a fixed date: 
      Manager sending message :- lettuce sow  plants = 6, sowing_depth = 50, cultivar = patagonia, row_spacing = 600
 15 June 1979(Day of year=166), lettuce: 
      Crop Sow
@@ -8917,7 +8937,7 @@ ON TRANSPLANTING
       stage 2.0 maturity
                      biomass =          14.28 (g/m^2)   lai          =   0.118 (m^2/m^2)
                      stover N conc =     5.60 (%)    extractable sw =  395.81 (mm)
-27 June 1979(Day of year=178), Manager: 
+27 June 1979(Day of year=178), Harvest on a Growth Stage: 
      Manager sending message :- lettuce harvest
 27 June 1979(Day of year=178), lettuce: 
      
@@ -8956,7 +8976,7 @@ ON TRANSPLANTING
                           DM (kg/ha) =                  1.80                  141.75
                           N  (kg/ha) =                  0.12                    1.32
      
-1 July 1979(Day of year=182), Manager: 
+1 July 1979(Day of year=182), Sow on a fixed date: 
      Manager sending message :- lettuce sow  plants = 6, sowing_depth = 50, cultivar = patagonia, row_spacing = 600
 1 July 1979(Day of year=182), lettuce: 
      Crop Sow
@@ -9004,7 +9024,7 @@ ON TRANSPLANTING
       stage 2.0 maturity
                      biomass =          20.58 (g/m^2)   lai          =   0.175 (m^2/m^2)
                      stover N conc =     5.49 (%)    extractable sw =  355.28 (mm)
-15 July 1979(Day of year=196), Manager: 
+15 July 1979(Day of year=196), Harvest on a Growth Stage: 
      Manager sending message :- lettuce harvest
 15 July 1979(Day of year=196), lettuce: 
      
@@ -9047,7 +9067,7 @@ ON TRANSPLANTING
       stage 2.0 maturity
                      biomass =          28.20 (g/m^2)   lai          =   0.253 (m^2/m^2)
                      stover N conc =     5.46 (%)    extractable sw =  360.60 (mm)
-6 August 1979(Day of year=218), Manager: 
+6 August 1979(Day of year=218), Harvest on a Growth Stage: 
      Manager sending message :- lettuce harvest
 6 August 1979(Day of year=218), lettuce: 
      
@@ -9090,7 +9110,7 @@ ON TRANSPLANTING
       stage 2.0 maturity
                      biomass =          53.57 (g/m^2)   lai          =   0.473 (m^2/m^2)
                      stover N conc =     5.06 (%)    extractable sw =  345.89 (mm)
-26 August 1979(Day of year=238), Manager: 
+26 August 1979(Day of year=238), Harvest on a Growth Stage: 
      Manager sending message :- lettuce harvest
 26 August 1979(Day of year=238), lettuce: 
      
@@ -9133,7 +9153,7 @@ ON TRANSPLANTING
       stage 2.0 maturity
                      biomass =          57.99 (g/m^2)   lai          =   0.447 (m^2/m^2)
                      stover N conc =     5.03 (%)    extractable sw =  339.91 (mm)
-11 September 1979(Day of year=254), Manager: 
+11 September 1979(Day of year=254), Harvest on a Growth Stage: 
      Manager sending message :- lettuce harvest
 11 September 1979(Day of year=254), lettuce: 
      
@@ -9172,7 +9192,7 @@ ON TRANSPLANTING
                           DM (kg/ha) =                  1.80                  537.83
                           N  (kg/ha) =                  0.12                    4.39
      
-1 May 1980(Day of year=122), Manager: 
+1 May 1980(Day of year=122), Sow on a fixed date: 
      Manager sending message :- lettuce sow  plants = 6, sowing_depth = 50, cultivar = patagonia, row_spacing = 600
 1 May 1980(Day of year=122), lettuce: 
      Crop Sow
@@ -9216,7 +9236,7 @@ ON TRANSPLANTING
          ------------------------------------------------
      
 ON TRANSPLANTING
-15 May 1980(Day of year=136), Manager: 
+15 May 1980(Day of year=136), Sow on a fixed date: 
      Manager sending message :- lettuce sow  plants = 6, sowing_depth = 50, cultivar = patagonia, row_spacing = 600
 15 May 1980(Day of year=136), lettuce: 
      Crop Sow
@@ -9260,7 +9280,7 @@ ON TRANSPLANTING
          ------------------------------------------------
      
 ON TRANSPLANTING
-1 June 1980(Day of year=153), Manager: 
+1 June 1980(Day of year=153), Sow on a fixed date: 
      Manager sending message :- lettuce sow  plants = 6, sowing_depth = 50, cultivar = patagonia, row_spacing = 600
 1 June 1980(Day of year=153), lettuce: 
      Crop Sow
@@ -9304,7 +9324,7 @@ ON TRANSPLANTING
          ------------------------------------------------
      
 ON TRANSPLANTING
-15 June 1980(Day of year=167), Manager: 
+15 June 1980(Day of year=167), Sow on a fixed date: 
      Manager sending message :- lettuce sow  plants = 6, sowing_depth = 50, cultivar = patagonia, row_spacing = 600
 15 June 1980(Day of year=167), lettuce: 
      Crop Sow
@@ -9352,7 +9372,7 @@ ON TRANSPLANTING
       stage 2.0 maturity
                      biomass =           5.39 (g/m^2)   lai          =   0.044 (m^2/m^2)
                      stover N conc =     5.55 (%)    extractable sw =  355.28 (mm)
-23 June 1980(Day of year=175), Manager: 
+23 June 1980(Day of year=175), Harvest on a Growth Stage: 
      Manager sending message :- lettuce harvest
 23 June 1980(Day of year=175), lettuce: 
      
@@ -9391,7 +9411,7 @@ ON TRANSPLANTING
                           DM (kg/ha) =                  1.80                   58.49
                           N  (kg/ha) =                  0.12                    0.55
      
-1 July 1980(Day of year=183), Manager: 
+1 July 1980(Day of year=183), Sow on a fixed date: 
      Manager sending message :- lettuce sow  plants = 6, sowing_depth = 50, cultivar = patagonia, row_spacing = 600
 1 July 1980(Day of year=183), lettuce: 
      Crop Sow
@@ -9439,7 +9459,7 @@ ON TRANSPLANTING
       stage 2.0 maturity
                      biomass =          16.14 (g/m^2)   lai          =   0.141 (m^2/m^2)
                      stover N conc =     5.47 (%)    extractable sw =  348.41 (mm)
-14 July 1980(Day of year=196), Manager: 
+14 July 1980(Day of year=196), Harvest on a Growth Stage: 
      Manager sending message :- lettuce harvest
 14 July 1980(Day of year=196), lettuce: 
      
@@ -9482,7 +9502,7 @@ ON TRANSPLANTING
       stage 2.0 maturity
                      biomass =          50.62 (g/m^2)   lai          =   0.455 (m^2/m^2)
                      stover N conc =     5.49 (%)    extractable sw =  360.68 (mm)
-8 August 1980(Day of year=221), Manager: 
+8 August 1980(Day of year=221), Harvest on a Growth Stage: 
      Manager sending message :- lettuce harvest
 8 August 1980(Day of year=221), lettuce: 
      
@@ -9525,7 +9545,7 @@ ON TRANSPLANTING
       stage 2.0 maturity
                      biomass =          63.19 (g/m^2)   lai          =   0.550 (m^2/m^2)
                      stover N conc =     5.07 (%)    extractable sw =  347.84 (mm)
-25 August 1980(Day of year=238), Manager: 
+25 August 1980(Day of year=238), Harvest on a Growth Stage: 
      Manager sending message :- lettuce harvest
 25 August 1980(Day of year=238), lettuce: 
      
@@ -9568,7 +9588,7 @@ ON TRANSPLANTING
       stage 2.0 maturity
                      biomass =          63.63 (g/m^2)   lai          =   0.516 (m^2/m^2)
                      stover N conc =     5.04 (%)    extractable sw =  343.14 (mm)
-7 September 1980(Day of year=251), Manager: 
+7 September 1980(Day of year=251), Harvest on a Growth Stage: 
      Manager sending message :- lettuce harvest
 7 September 1980(Day of year=251), lettuce: 
      
@@ -9607,7 +9627,7 @@ ON TRANSPLANTING
                           DM (kg/ha) =                  1.80                  600.91
                           N  (kg/ha) =                  0.12                    4.98
      
-1 May 1981(Day of year=121), Manager: 
+1 May 1981(Day of year=121), Sow on a fixed date: 
      Manager sending message :- lettuce sow  plants = 6, sowing_depth = 50, cultivar = patagonia, row_spacing = 600
 1 May 1981(Day of year=121), lettuce: 
      Crop Sow
@@ -9651,7 +9671,7 @@ ON TRANSPLANTING
          ------------------------------------------------
      
 ON TRANSPLANTING
-15 May 1981(Day of year=135), Manager: 
+15 May 1981(Day of year=135), Sow on a fixed date: 
      Manager sending message :- lettuce sow  plants = 6, sowing_depth = 50, cultivar = patagonia, row_spacing = 600
 15 May 1981(Day of year=135), lettuce: 
      Crop Sow
@@ -9695,7 +9715,7 @@ ON TRANSPLANTING
          ------------------------------------------------
      
 ON TRANSPLANTING
-1 June 1981(Day of year=152), Manager: 
+1 June 1981(Day of year=152), Sow on a fixed date: 
      Manager sending message :- lettuce sow  plants = 6, sowing_depth = 50, cultivar = patagonia, row_spacing = 600
 1 June 1981(Day of year=152), lettuce: 
      Crop Sow
@@ -9739,7 +9759,7 @@ ON TRANSPLANTING
          ------------------------------------------------
      
 ON TRANSPLANTING
-15 June 1981(Day of year=166), Manager: 
+15 June 1981(Day of year=166), Sow on a fixed date: 
      Manager sending message :- lettuce sow  plants = 6, sowing_depth = 50, cultivar = patagonia, row_spacing = 600
 15 June 1981(Day of year=166), lettuce: 
      Crop Sow
@@ -9787,7 +9807,7 @@ ON TRANSPLANTING
       stage 2.0 maturity
                      biomass =          12.44 (g/m^2)   lai          =   0.105 (m^2/m^2)
                      stover N conc =     5.52 (%)    extractable sw =  358.57 (mm)
-29 June 1981(Day of year=180), Manager: 
+29 June 1981(Day of year=180), Harvest on a Growth Stage: 
      Manager sending message :- lettuce harvest
 29 June 1981(Day of year=180), lettuce: 
      
@@ -9826,7 +9846,7 @@ ON TRANSPLANTING
                           DM (kg/ha) =                  1.80                  124.76
                           N  (kg/ha) =                  0.12                    1.15
      
-1 July 1981(Day of year=182), Manager: 
+1 July 1981(Day of year=182), Sow on a fixed date: 
      Manager sending message :- lettuce sow  plants = 6, sowing_depth = 50, cultivar = patagonia, row_spacing = 600
 1 July 1981(Day of year=182), lettuce: 
      Crop Sow
@@ -9874,7 +9894,7 @@ ON TRANSPLANTING
       stage 2.0 maturity
                      biomass =          17.55 (g/m^2)   lai          =   0.156 (m^2/m^2)
                      stover N conc =     5.52 (%)    extractable sw =  351.87 (mm)
-17 July 1981(Day of year=198), Manager: 
+17 July 1981(Day of year=198), Harvest on a Growth Stage: 
      Manager sending message :- lettuce harvest
 17 July 1981(Day of year=198), lettuce: 
      
@@ -9917,7 +9937,7 @@ ON TRANSPLANTING
       stage 2.0 maturity
                      biomass =          45.24 (g/m^2)   lai          =   0.402 (m^2/m^2)
                      stover N conc =     5.45 (%)    extractable sw =  356.75 (mm)
-7 August 1981(Day of year=219), Manager: 
+7 August 1981(Day of year=219), Harvest on a Growth Stage: 
      Manager sending message :- lettuce harvest
 7 August 1981(Day of year=219), lettuce: 
      
@@ -9960,7 +9980,7 @@ ON TRANSPLANTING
       stage 2.0 maturity
                      biomass =          56.48 (g/m^2)   lai          =   0.486 (m^2/m^2)
                      stover N conc =     5.05 (%)    extractable sw =  355.27 (mm)
-27 August 1981(Day of year=239), Manager: 
+27 August 1981(Day of year=239), Harvest on a Growth Stage: 
      Manager sending message :- lettuce harvest
 27 August 1981(Day of year=239), lettuce: 
      
@@ -10003,7 +10023,7 @@ ON TRANSPLANTING
       stage 2.0 maturity
                      biomass =          57.09 (g/m^2)   lai          =   0.470 (m^2/m^2)
                      stover N conc =     5.02 (%)    extractable sw =  345.44 (mm)
-10 September 1981(Day of year=253), Manager: 
+10 September 1981(Day of year=253), Harvest on a Growth Stage: 
      Manager sending message :- lettuce harvest
 10 September 1981(Day of year=253), lettuce: 
      
@@ -10042,7 +10062,7 @@ ON TRANSPLANTING
                           DM (kg/ha) =                  1.80                  533.74
                           N  (kg/ha) =                  0.12                    4.39
      
-1 May 1982(Day of year=121), Manager: 
+1 May 1982(Day of year=121), Sow on a fixed date: 
      Manager sending message :- lettuce sow  plants = 6, sowing_depth = 50, cultivar = patagonia, row_spacing = 600
 1 May 1982(Day of year=121), lettuce: 
      Crop Sow
@@ -10086,7 +10106,7 @@ ON TRANSPLANTING
          ------------------------------------------------
      
 ON TRANSPLANTING
-15 May 1982(Day of year=135), Manager: 
+15 May 1982(Day of year=135), Sow on a fixed date: 
      Manager sending message :- lettuce sow  plants = 6, sowing_depth = 50, cultivar = patagonia, row_spacing = 600
 15 May 1982(Day of year=135), lettuce: 
      Crop Sow
@@ -10130,7 +10150,7 @@ ON TRANSPLANTING
          ------------------------------------------------
      
 ON TRANSPLANTING
-1 June 1982(Day of year=152), Manager: 
+1 June 1982(Day of year=152), Sow on a fixed date: 
      Manager sending message :- lettuce sow  plants = 6, sowing_depth = 50, cultivar = patagonia, row_spacing = 600
 1 June 1982(Day of year=152), lettuce: 
      Crop Sow
@@ -10174,7 +10194,7 @@ ON TRANSPLANTING
          ------------------------------------------------
      
 ON TRANSPLANTING
-15 June 1982(Day of year=166), Manager: 
+15 June 1982(Day of year=166), Sow on a fixed date: 
      Manager sending message :- lettuce sow  plants = 6, sowing_depth = 50, cultivar = patagonia, row_spacing = 600
 15 June 1982(Day of year=166), lettuce: 
      Crop Sow
@@ -10222,7 +10242,7 @@ ON TRANSPLANTING
       stage 2.0 maturity
                      biomass =          25.25 (g/m^2)   lai          =   0.224 (m^2/m^2)
                      stover N conc =     5.48 (%)    extractable sw =  351.04 (mm)
-1 July 1982(Day of year=182), Manager: 
+1 July 1982(Day of year=182), Harvest on a Growth Stage: 
      Manager sending message :- lettuce harvest
 1 July 1982(Day of year=182), lettuce: 
      
@@ -10261,7 +10281,7 @@ ON TRANSPLANTING
                           DM (kg/ha) =                  1.80                  247.33
                           N  (kg/ha) =                  0.12                    2.26
      
-1 July 1982(Day of year=182), Manager: 
+1 July 1982(Day of year=182), Sow on a fixed date: 
      Manager sending message :- lettuce sow  plants = 6, sowing_depth = 50, cultivar = patagonia, row_spacing = 600
 1 July 1982(Day of year=182), lettuce: 
      Crop Sow
@@ -10309,7 +10329,7 @@ ON TRANSPLANTING
       stage 2.0 maturity
                      biomass =          35.50 (g/m^2)   lai          =   0.322 (m^2/m^2)
                      stover N conc =     5.53 (%)    extractable sw =  344.80 (mm)
-20 July 1982(Day of year=201), Manager: 
+20 July 1982(Day of year=201), Harvest on a Growth Stage: 
      Manager sending message :- lettuce harvest
 20 July 1982(Day of year=201), lettuce: 
      
@@ -10352,7 +10372,7 @@ ON TRANSPLANTING
       stage 2.0 maturity
                      biomass =          76.95 (g/m^2)   lai          =   0.659 (m^2/m^2)
                      stover N conc =     5.05 (%)    extractable sw =  332.16 (mm)
-13 August 1982(Day of year=225), Manager: 
+13 August 1982(Day of year=225), Harvest on a Growth Stage: 
      Manager sending message :- lettuce harvest
 13 August 1982(Day of year=225), lettuce: 
      
@@ -10395,7 +10415,7 @@ ON TRANSPLANTING
       stage 2.0 maturity
                      biomass =          56.44 (g/m^2)   lai          =   0.387 (m^2/m^2)
                      stover N conc =     5.03 (%)    extractable sw =  338.22 (mm)
-31 August 1982(Day of year=243), Manager: 
+31 August 1982(Day of year=243), Harvest on a Growth Stage: 
      Manager sending message :- lettuce harvest
 31 August 1982(Day of year=243), lettuce: 
      
@@ -10438,7 +10458,7 @@ ON TRANSPLANTING
       stage 2.0 maturity
                      biomass =          54.91 (g/m^2)   lai          =   0.411 (m^2/m^2)
                      stover N conc =     5.05 (%)    extractable sw =  358.93 (mm)
-10 September 1982(Day of year=253), Manager: 
+10 September 1982(Day of year=253), Harvest on a Growth Stage: 
      Manager sending message :- lettuce harvest
 10 September 1982(Day of year=253), lettuce: 
      
@@ -10477,7 +10497,7 @@ ON TRANSPLANTING
                           DM (kg/ha) =                  1.80                  510.42
                           N  (kg/ha) =                  0.12                    4.17
      
-1 May 1983(Day of year=121), Manager: 
+1 May 1983(Day of year=121), Sow on a fixed date: 
      Manager sending message :- lettuce sow  plants = 6, sowing_depth = 50, cultivar = patagonia, row_spacing = 600
 1 May 1983(Day of year=121), lettuce: 
      Crop Sow
@@ -10521,7 +10541,7 @@ ON TRANSPLANTING
          ------------------------------------------------
      
 ON TRANSPLANTING
-15 May 1983(Day of year=135), Manager: 
+15 May 1983(Day of year=135), Sow on a fixed date: 
      Manager sending message :- lettuce sow  plants = 6, sowing_depth = 50, cultivar = patagonia, row_spacing = 600
 15 May 1983(Day of year=135), lettuce: 
      Crop Sow
@@ -10565,7 +10585,7 @@ ON TRANSPLANTING
          ------------------------------------------------
      
 ON TRANSPLANTING
-1 June 1983(Day of year=152), Manager: 
+1 June 1983(Day of year=152), Sow on a fixed date: 
      Manager sending message :- lettuce sow  plants = 6, sowing_depth = 50, cultivar = patagonia, row_spacing = 600
 1 June 1983(Day of year=152), lettuce: 
      Crop Sow
@@ -10609,7 +10629,7 @@ ON TRANSPLANTING
          ------------------------------------------------
      
 ON TRANSPLANTING
-15 June 1983(Day of year=166), Manager: 
+15 June 1983(Day of year=166), Sow on a fixed date: 
      Manager sending message :- lettuce sow  plants = 6, sowing_depth = 50, cultivar = patagonia, row_spacing = 600
 15 June 1983(Day of year=166), lettuce: 
      Crop Sow
@@ -10657,7 +10677,7 @@ ON TRANSPLANTING
       stage 2.0 maturity
                      biomass =           4.64 (g/m^2)   lai          =   0.036 (m^2/m^2)
                      stover N conc =     5.66 (%)    extractable sw =  426.14 (mm)
-24 June 1983(Day of year=175), Manager: 
+24 June 1983(Day of year=175), Harvest on a Growth Stage: 
      Manager sending message :- lettuce harvest
 24 June 1983(Day of year=175), lettuce: 
      
@@ -10696,7 +10716,7 @@ ON TRANSPLANTING
                           DM (kg/ha) =                  1.80                   50.71
                           N  (kg/ha) =                  0.12                    0.48
      
-1 July 1983(Day of year=182), Manager: 
+1 July 1983(Day of year=182), Sow on a fixed date: 
      Manager sending message :- lettuce sow  plants = 6, sowing_depth = 50, cultivar = patagonia, row_spacing = 600
 1 July 1983(Day of year=182), lettuce: 
      Crop Sow
@@ -10744,7 +10764,7 @@ ON TRANSPLANTING
       stage 2.0 maturity
                      biomass =           8.40 (g/m^2)   lai          =   0.070 (m^2/m^2)
                      stover N conc =     5.53 (%)    extractable sw =  367.53 (mm)
-14 July 1983(Day of year=195), Manager: 
+14 July 1983(Day of year=195), Harvest on a Growth Stage: 
      Manager sending message :- lettuce harvest
 14 July 1983(Day of year=195), lettuce: 
      
@@ -10787,7 +10807,7 @@ ON TRANSPLANTING
       stage 2.0 maturity
                      biomass =          21.15 (g/m^2)   lai          =   0.184 (m^2/m^2)
                      stover N conc =     5.51 (%)    extractable sw =  373.23 (mm)
-7 August 1983(Day of year=219), Manager: 
+7 August 1983(Day of year=219), Harvest on a Growth Stage: 
      Manager sending message :- lettuce harvest
 7 August 1983(Day of year=219), lettuce: 
      
@@ -10830,7 +10850,7 @@ ON TRANSPLANTING
       stage 2.0 maturity
                      biomass =          39.72 (g/m^2)   lai          =   0.358 (m^2/m^2)
                      stover N conc =     5.17 (%)    extractable sw =  354.22 (mm)
-26 August 1983(Day of year=238), Manager: 
+26 August 1983(Day of year=238), Harvest on a Growth Stage: 
      Manager sending message :- lettuce harvest
 26 August 1983(Day of year=238), lettuce: 
      
@@ -10873,7 +10893,7 @@ ON TRANSPLANTING
       stage 2.0 maturity
                      biomass =          45.27 (g/m^2)   lai          =   0.392 (m^2/m^2)
                      stover N conc =     5.07 (%)    extractable sw =  353.77 (mm)
-9 September 1983(Day of year=252), Manager: 
+9 September 1983(Day of year=252), Harvest on a Growth Stage: 
      Manager sending message :- lettuce harvest
 9 September 1983(Day of year=252), lettuce: 
      
@@ -10912,7 +10932,7 @@ ON TRANSPLANTING
                           DM (kg/ha) =                  1.80                  429.31
                           N  (kg/ha) =                  0.12                    3.59
      
-1 May 1984(Day of year=122), Manager: 
+1 May 1984(Day of year=122), Sow on a fixed date: 
      Manager sending message :- lettuce sow  plants = 6, sowing_depth = 50, cultivar = patagonia, row_spacing = 600
 1 May 1984(Day of year=122), lettuce: 
      Crop Sow
@@ -10956,7 +10976,7 @@ ON TRANSPLANTING
          ------------------------------------------------
      
 ON TRANSPLANTING
-15 May 1984(Day of year=136), Manager: 
+15 May 1984(Day of year=136), Sow on a fixed date: 
      Manager sending message :- lettuce sow  plants = 6, sowing_depth = 50, cultivar = patagonia, row_spacing = 600
 15 May 1984(Day of year=136), lettuce: 
      Crop Sow
@@ -11000,7 +11020,7 @@ ON TRANSPLANTING
          ------------------------------------------------
      
 ON TRANSPLANTING
-1 June 1984(Day of year=153), Manager: 
+1 June 1984(Day of year=153), Sow on a fixed date: 
      Manager sending message :- lettuce sow  plants = 6, sowing_depth = 50, cultivar = patagonia, row_spacing = 600
 1 June 1984(Day of year=153), lettuce: 
      Crop Sow
@@ -11044,7 +11064,7 @@ ON TRANSPLANTING
          ------------------------------------------------
      
 ON TRANSPLANTING
-15 June 1984(Day of year=167), Manager: 
+15 June 1984(Day of year=167), Sow on a fixed date: 
      Manager sending message :- lettuce sow  plants = 6, sowing_depth = 50, cultivar = patagonia, row_spacing = 600
 15 June 1984(Day of year=167), lettuce: 
      Crop Sow
@@ -11092,7 +11112,7 @@ ON TRANSPLANTING
       stage 2.0 maturity
                      biomass =          12.03 (g/m^2)   lai          =   0.096 (m^2/m^2)
                      stover N conc =     5.60 (%)    extractable sw =  361.69 (mm)
-27 June 1984(Day of year=179), Manager: 
+27 June 1984(Day of year=179), Harvest on a Growth Stage: 
      Manager sending message :- lettuce harvest
 27 June 1984(Day of year=179), lettuce: 
      
@@ -11131,7 +11151,7 @@ ON TRANSPLANTING
                           DM (kg/ha) =                  1.80                  120.31
                           N  (kg/ha) =                  0.12                    1.13
      
-1 July 1984(Day of year=183), Manager: 
+1 July 1984(Day of year=183), Sow on a fixed date: 
      Manager sending message :- lettuce sow  plants = 6, sowing_depth = 50, cultivar = patagonia, row_spacing = 600
 1 July 1984(Day of year=183), lettuce: 
      Crop Sow
@@ -11179,7 +11199,7 @@ ON TRANSPLANTING
       stage 2.0 maturity
                      biomass =          11.68 (g/m^2)   lai          =   0.097 (m^2/m^2)
                      stover N conc =     5.78 (%)    extractable sw =  376.94 (mm)
-15 July 1984(Day of year=197), Manager: 
+15 July 1984(Day of year=197), Harvest on a Growth Stage: 
      Manager sending message :- lettuce harvest
 15 July 1984(Day of year=197), lettuce: 
      
@@ -11222,7 +11242,7 @@ ON TRANSPLANTING
       stage 2.0 maturity
                      biomass =          13.10 (g/m^2)   lai          =   0.111 (m^2/m^2)
                      stover N conc =     5.48 (%)    extractable sw =  379.06 (mm)
-6 August 1984(Day of year=219), Manager: 
+6 August 1984(Day of year=219), Harvest on a Growth Stage: 
      Manager sending message :- lettuce harvest
 6 August 1984(Day of year=219), lettuce: 
      
@@ -11265,7 +11285,7 @@ ON TRANSPLANTING
       stage 2.0 maturity
                      biomass =          43.65 (g/m^2)   lai          =   0.396 (m^2/m^2)
                      stover N conc =     5.14 (%)    extractable sw =  353.87 (mm)
-27 August 1984(Day of year=240), Manager: 
+27 August 1984(Day of year=240), Harvest on a Growth Stage: 
      Manager sending message :- lettuce harvest
 27 August 1984(Day of year=240), lettuce: 
      
@@ -11308,7 +11328,7 @@ ON TRANSPLANTING
       stage 2.0 maturity
                      biomass =          47.27 (g/m^2)   lai          =   0.426 (m^2/m^2)
                      stover N conc =     5.06 (%)    extractable sw =  348.21 (mm)
-11 September 1984(Day of year=255), Manager: 
+11 September 1984(Day of year=255), Harvest on a Growth Stage: 
      Manager sending message :- lettuce harvest
 11 September 1984(Day of year=255), lettuce: 
      
@@ -11347,7 +11367,7 @@ ON TRANSPLANTING
                           DM (kg/ha) =                  1.80                  453.20
                           N  (kg/ha) =                  0.12                    3.80
      
-1 May 1985(Day of year=121), Manager: 
+1 May 1985(Day of year=121), Sow on a fixed date: 
      Manager sending message :- lettuce sow  plants = 6, sowing_depth = 50, cultivar = patagonia, row_spacing = 600
 1 May 1985(Day of year=121), lettuce: 
      Crop Sow
@@ -11391,7 +11411,7 @@ ON TRANSPLANTING
          ------------------------------------------------
      
 ON TRANSPLANTING
-15 May 1985(Day of year=135), Manager: 
+15 May 1985(Day of year=135), Sow on a fixed date: 
      Manager sending message :- lettuce sow  plants = 6, sowing_depth = 50, cultivar = patagonia, row_spacing = 600
 15 May 1985(Day of year=135), lettuce: 
      Crop Sow
@@ -11435,7 +11455,7 @@ ON TRANSPLANTING
          ------------------------------------------------
      
 ON TRANSPLANTING
-1 June 1985(Day of year=152), Manager: 
+1 June 1985(Day of year=152), Sow on a fixed date: 
      Manager sending message :- lettuce sow  plants = 6, sowing_depth = 50, cultivar = patagonia, row_spacing = 600
 1 June 1985(Day of year=152), lettuce: 
      Crop Sow
@@ -11479,7 +11499,7 @@ ON TRANSPLANTING
          ------------------------------------------------
      
 ON TRANSPLANTING
-15 June 1985(Day of year=166), Manager: 
+15 June 1985(Day of year=166), Sow on a fixed date: 
      Manager sending message :- lettuce sow  plants = 6, sowing_depth = 50, cultivar = patagonia, row_spacing = 600
 15 June 1985(Day of year=166), lettuce: 
      Crop Sow
@@ -11527,7 +11547,7 @@ ON TRANSPLANTING
       stage 2.0 maturity
                      biomass =          11.05 (g/m^2)   lai          =   0.093 (m^2/m^2)
                      stover N conc =     5.52 (%)    extractable sw =  355.33 (mm)
-28 June 1985(Day of year=179), Manager: 
+28 June 1985(Day of year=179), Harvest on a Growth Stage: 
      Manager sending message :- lettuce harvest
 28 June 1985(Day of year=179), lettuce: 
      
@@ -11566,7 +11586,7 @@ ON TRANSPLANTING
                           DM (kg/ha) =                  1.80                  111.69
                           N  (kg/ha) =                  0.12                    1.03
      
-1 July 1985(Day of year=182), Manager: 
+1 July 1985(Day of year=182), Sow on a fixed date: 
      Manager sending message :- lettuce sow  plants = 6, sowing_depth = 50, cultivar = patagonia, row_spacing = 600
 1 July 1985(Day of year=182), lettuce: 
      Crop Sow
@@ -11614,7 +11634,7 @@ ON TRANSPLANTING
       stage 2.0 maturity
                      biomass =          13.29 (g/m^2)   lai          =   0.114 (m^2/m^2)
                      stover N conc =     5.47 (%)    extractable sw =  369.40 (mm)
-16 July 1985(Day of year=197), Manager: 
+16 July 1985(Day of year=197), Harvest on a Growth Stage: 
      Manager sending message :- lettuce harvest
 16 July 1985(Day of year=197), lettuce: 
      
@@ -11657,7 +11677,7 @@ ON TRANSPLANTING
       stage 2.0 maturity
                      biomass =          59.10 (g/m^2)   lai          =   0.537 (m^2/m^2)
                      stover N conc =     5.45 (%)    extractable sw =  346.84 (mm)
-10 August 1985(Day of year=222), Manager: 
+10 August 1985(Day of year=222), Harvest on a Growth Stage: 
      Manager sending message :- lettuce harvest
 10 August 1985(Day of year=222), lettuce: 
      
@@ -11700,7 +11720,7 @@ ON TRANSPLANTING
       stage 2.0 maturity
                      biomass =          55.53 (g/m^2)   lai          =   0.451 (m^2/m^2)
                      stover N conc =     5.03 (%)    extractable sw =  348.18 (mm)
-30 August 1985(Day of year=242), Manager: 
+30 August 1985(Day of year=242), Harvest on a Growth Stage: 
      Manager sending message :- lettuce harvest
 30 August 1985(Day of year=242), lettuce: 
      
@@ -11743,7 +11763,7 @@ ON TRANSPLANTING
       stage 2.0 maturity
                      biomass =          52.08 (g/m^2)   lai          =   0.403 (m^2/m^2)
                      stover N conc =     5.03 (%)    extractable sw =  370.32 (mm)
-12 September 1985(Day of year=255), Manager: 
+12 September 1985(Day of year=255), Harvest on a Growth Stage: 
      Manager sending message :- lettuce harvest
 12 September 1985(Day of year=255), lettuce: 
      
@@ -11782,7 +11802,7 @@ ON TRANSPLANTING
                           DM (kg/ha) =                  1.80                  479.57
                           N  (kg/ha) =                  0.12                    3.90
      
-1 May 1986(Day of year=121), Manager: 
+1 May 1986(Day of year=121), Sow on a fixed date: 
      Manager sending message :- lettuce sow  plants = 6, sowing_depth = 50, cultivar = patagonia, row_spacing = 600
 1 May 1986(Day of year=121), lettuce: 
      Crop Sow
@@ -11826,7 +11846,7 @@ ON TRANSPLANTING
          ------------------------------------------------
      
 ON TRANSPLANTING
-15 May 1986(Day of year=135), Manager: 
+15 May 1986(Day of year=135), Sow on a fixed date: 
      Manager sending message :- lettuce sow  plants = 6, sowing_depth = 50, cultivar = patagonia, row_spacing = 600
 15 May 1986(Day of year=135), lettuce: 
      Crop Sow
@@ -11870,7 +11890,7 @@ ON TRANSPLANTING
          ------------------------------------------------
      
 ON TRANSPLANTING
-1 June 1986(Day of year=152), Manager: 
+1 June 1986(Day of year=152), Sow on a fixed date: 
      Manager sending message :- lettuce sow  plants = 6, sowing_depth = 50, cultivar = patagonia, row_spacing = 600
 1 June 1986(Day of year=152), lettuce: 
      Crop Sow
@@ -11914,7 +11934,7 @@ ON TRANSPLANTING
          ------------------------------------------------
      
 ON TRANSPLANTING
-15 June 1986(Day of year=166), Manager: 
+15 June 1986(Day of year=166), Sow on a fixed date: 
      Manager sending message :- lettuce sow  plants = 6, sowing_depth = 50, cultivar = patagonia, row_spacing = 600
 15 June 1986(Day of year=166), lettuce: 
      Crop Sow
@@ -11962,7 +11982,7 @@ ON TRANSPLANTING
       stage 2.0 maturity
                      biomass =           5.95 (g/m^2)   lai          =   0.048 (m^2/m^2)
                      stover N conc =     5.69 (%)    extractable sw =  350.17 (mm)
-21 June 1986(Day of year=172), Manager: 
+21 June 1986(Day of year=172), Harvest on a Growth Stage: 
      Manager sending message :- lettuce harvest
 21 June 1986(Day of year=172), lettuce: 
      
@@ -12001,7 +12021,7 @@ ON TRANSPLANTING
                           DM (kg/ha) =                  1.80                   63.70
                           N  (kg/ha) =                  0.12                    0.61
      
-1 July 1986(Day of year=182), Manager: 
+1 July 1986(Day of year=182), Sow on a fixed date: 
      Manager sending message :- lettuce sow  plants = 6, sowing_depth = 50, cultivar = patagonia, row_spacing = 600
 1 July 1986(Day of year=182), lettuce: 
      Crop Sow
@@ -12049,7 +12069,7 @@ ON TRANSPLANTING
       stage 2.0 maturity
                      biomass =          14.96 (g/m^2)   lai          =   0.126 (m^2/m^2)
                      stover N conc =     5.49 (%)    extractable sw =  345.51 (mm)
-12 July 1986(Day of year=193), Manager: 
+12 July 1986(Day of year=193), Harvest on a Growth Stage: 
      Manager sending message :- lettuce harvest
 12 July 1986(Day of year=193), lettuce: 
      
@@ -12092,7 +12112,7 @@ ON TRANSPLANTING
       stage 2.0 maturity
                      biomass =          21.03 (g/m^2)   lai          =   0.184 (m^2/m^2)
                      stover N conc =     5.53 (%)    extractable sw =  353.30 (mm)
-4 August 1986(Day of year=216), Manager: 
+4 August 1986(Day of year=216), Harvest on a Growth Stage: 
      Manager sending message :- lettuce harvest
 4 August 1986(Day of year=216), lettuce: 
      
@@ -12135,7 +12155,7 @@ ON TRANSPLANTING
       stage 2.0 maturity
                      biomass =          47.19 (g/m^2)   lai          =   0.420 (m^2/m^2)
                      stover N conc =     5.07 (%)    extractable sw =  370.06 (mm)
-26 August 1986(Day of year=238), Manager: 
+26 August 1986(Day of year=238), Harvest on a Growth Stage: 
      Manager sending message :- lettuce harvest
 26 August 1986(Day of year=238), lettuce: 
      
@@ -12178,7 +12198,7 @@ ON TRANSPLANTING
       stage 2.0 maturity
                      biomass =          48.73 (g/m^2)   lai          =   0.428 (m^2/m^2)
                      stover N conc =     5.05 (%)    extractable sw =  351.80 (mm)
-9 September 1986(Day of year=252), Manager: 
+9 September 1986(Day of year=252), Harvest on a Growth Stage: 
      Manager sending message :- lettuce harvest
 9 September 1986(Day of year=252), lettuce: 
      
@@ -12217,7 +12237,7 @@ ON TRANSPLANTING
                           DM (kg/ha) =                  1.80                  465.28
                           N  (kg/ha) =                  0.12                    3.90
      
-1 May 1987(Day of year=121), Manager: 
+1 May 1987(Day of year=121), Sow on a fixed date: 
      Manager sending message :- lettuce sow  plants = 6, sowing_depth = 50, cultivar = patagonia, row_spacing = 600
 1 May 1987(Day of year=121), lettuce: 
      Crop Sow
@@ -12261,7 +12281,7 @@ ON TRANSPLANTING
          ------------------------------------------------
      
 ON TRANSPLANTING
-15 May 1987(Day of year=135), Manager: 
+15 May 1987(Day of year=135), Sow on a fixed date: 
      Manager sending message :- lettuce sow  plants = 6, sowing_depth = 50, cultivar = patagonia, row_spacing = 600
 15 May 1987(Day of year=135), lettuce: 
      Crop Sow
@@ -12305,7 +12325,7 @@ ON TRANSPLANTING
          ------------------------------------------------
      
 ON TRANSPLANTING
-1 June 1987(Day of year=152), Manager: 
+1 June 1987(Day of year=152), Sow on a fixed date: 
      Manager sending message :- lettuce sow  plants = 6, sowing_depth = 50, cultivar = patagonia, row_spacing = 600
 1 June 1987(Day of year=152), lettuce: 
      Crop Sow
@@ -12349,7 +12369,7 @@ ON TRANSPLANTING
          ------------------------------------------------
      
 ON TRANSPLANTING
-15 June 1987(Day of year=166), Manager: 
+15 June 1987(Day of year=166), Sow on a fixed date: 
      Manager sending message :- lettuce sow  plants = 6, sowing_depth = 50, cultivar = patagonia, row_spacing = 600
 15 June 1987(Day of year=166), lettuce: 
      Crop Sow
@@ -12397,7 +12417,7 @@ ON TRANSPLANTING
       stage 2.0 maturity
                      biomass =           4.07 (g/m^2)   lai          =   0.031 (m^2/m^2)
                      stover N conc =     5.62 (%)    extractable sw =  353.23 (mm)
-21 June 1987(Day of year=172), Manager: 
+21 June 1987(Day of year=172), Harvest on a Growth Stage: 
      Manager sending message :- lettuce harvest
 21 June 1987(Day of year=172), lettuce: 
      
@@ -12436,7 +12456,7 @@ ON TRANSPLANTING
                           DM (kg/ha) =                  1.80                   45.75
                           N  (kg/ha) =                  0.12                    0.43
      
-1 July 1987(Day of year=182), Manager: 
+1 July 1987(Day of year=182), Sow on a fixed date: 
      Manager sending message :- lettuce sow  plants = 6, sowing_depth = 50, cultivar = patagonia, row_spacing = 600
 1 July 1987(Day of year=182), lettuce: 
      Crop Sow
@@ -12484,7 +12504,7 @@ ON TRANSPLANTING
       stage 2.0 maturity
                      biomass =          12.86 (g/m^2)   lai          =   0.109 (m^2/m^2)
                      stover N conc =     5.47 (%)    extractable sw =  354.54 (mm)
-14 July 1987(Day of year=195), Manager: 
+14 July 1987(Day of year=195), Harvest on a Growth Stage: 
      Manager sending message :- lettuce harvest
 14 July 1987(Day of year=195), lettuce: 
      
@@ -12527,7 +12547,7 @@ ON TRANSPLANTING
       stage 2.0 maturity
                      biomass =          24.88 (g/m^2)   lai          =   0.224 (m^2/m^2)
                      stover N conc =     5.45 (%)    extractable sw =  356.22 (mm)
-5 August 1987(Day of year=217), Manager: 
+5 August 1987(Day of year=217), Harvest on a Growth Stage: 
      Manager sending message :- lettuce harvest
 5 August 1987(Day of year=217), lettuce: 
      
@@ -12570,7 +12590,7 @@ ON TRANSPLANTING
       stage 2.0 maturity
                      biomass =          52.38 (g/m^2)   lai          =   0.433 (m^2/m^2)
                      stover N conc =     5.03 (%)    extractable sw =  348.95 (mm)
-26 August 1987(Day of year=238), Manager: 
+26 August 1987(Day of year=238), Harvest on a Growth Stage: 
      Manager sending message :- lettuce harvest
 26 August 1987(Day of year=238), lettuce: 
      
@@ -12613,7 +12633,7 @@ ON TRANSPLANTING
       stage 2.0 maturity
                      biomass =          52.82 (g/m^2)   lai          =   0.406 (m^2/m^2)
                      stover N conc =     5.03 (%)    extractable sw =  345.28 (mm)
-9 September 1987(Day of year=252), Manager: 
+9 September 1987(Day of year=252), Harvest on a Growth Stage: 
      Manager sending message :- lettuce harvest
 9 September 1987(Day of year=252), lettuce: 
      
@@ -12652,7 +12672,7 @@ ON TRANSPLANTING
                           DM (kg/ha) =                  1.80                  490.93
                           N  (kg/ha) =                  0.12                    4.02
      
-1 May 1988(Day of year=122), Manager: 
+1 May 1988(Day of year=122), Sow on a fixed date: 
      Manager sending message :- lettuce sow  plants = 6, sowing_depth = 50, cultivar = patagonia, row_spacing = 600
 1 May 1988(Day of year=122), lettuce: 
      Crop Sow
@@ -12696,7 +12716,7 @@ ON TRANSPLANTING
          ------------------------------------------------
      
 ON TRANSPLANTING
-15 May 1988(Day of year=136), Manager: 
+15 May 1988(Day of year=136), Sow on a fixed date: 
      Manager sending message :- lettuce sow  plants = 6, sowing_depth = 50, cultivar = patagonia, row_spacing = 600
 15 May 1988(Day of year=136), lettuce: 
      Crop Sow
@@ -12740,7 +12760,7 @@ ON TRANSPLANTING
          ------------------------------------------------
      
 ON TRANSPLANTING
-1 June 1988(Day of year=153), Manager: 
+1 June 1988(Day of year=153), Sow on a fixed date: 
      Manager sending message :- lettuce sow  plants = 6, sowing_depth = 50, cultivar = patagonia, row_spacing = 600
 1 June 1988(Day of year=153), lettuce: 
      Crop Sow
@@ -12784,7 +12804,7 @@ ON TRANSPLANTING
          ------------------------------------------------
      
 ON TRANSPLANTING
-15 June 1988(Day of year=167), Manager: 
+15 June 1988(Day of year=167), Sow on a fixed date: 
      Manager sending message :- lettuce sow  plants = 6, sowing_depth = 50, cultivar = patagonia, row_spacing = 600
 15 June 1988(Day of year=167), lettuce: 
      Crop Sow
@@ -12832,7 +12852,7 @@ ON TRANSPLANTING
       stage 2.0 maturity
                      biomass =          10.72 (g/m^2)   lai          =   0.090 (m^2/m^2)
                      stover N conc =     5.48 (%)    extractable sw =  363.31 (mm)
-24 June 1988(Day of year=176), Manager: 
+24 June 1988(Day of year=176), Harvest on a Growth Stage: 
      Manager sending message :- lettuce harvest
 24 June 1988(Day of year=176), lettuce: 
      
@@ -12871,7 +12891,7 @@ ON TRANSPLANTING
                           DM (kg/ha) =                  1.80                  109.09
                           N  (kg/ha) =                  0.12                    1.00
      
-1 July 1988(Day of year=183), Manager: 
+1 July 1988(Day of year=183), Sow on a fixed date: 
      Manager sending message :- lettuce sow  plants = 6, sowing_depth = 50, cultivar = patagonia, row_spacing = 600
 1 July 1988(Day of year=183), lettuce: 
      Crop Sow
@@ -12919,7 +12939,7 @@ ON TRANSPLANTING
       stage 2.0 maturity
                      biomass =          12.88 (g/m^2)   lai          =   0.108 (m^2/m^2)
                      stover N conc =     5.54 (%)    extractable sw =  392.72 (mm)
-12 July 1988(Day of year=194), Manager: 
+12 July 1988(Day of year=194), Harvest on a Growth Stage: 
      Manager sending message :- lettuce harvest
 12 July 1988(Day of year=194), lettuce: 
      
@@ -12962,7 +12982,7 @@ ON TRANSPLANTING
       stage 2.0 maturity
                      biomass =          27.37 (g/m^2)   lai          =   0.241 (m^2/m^2)
                      stover N conc =     5.56 (%)    extractable sw =  352.55 (mm)
-3 August 1988(Day of year=216), Manager: 
+3 August 1988(Day of year=216), Harvest on a Growth Stage: 
      Manager sending message :- lettuce harvest
 3 August 1988(Day of year=216), lettuce: 
      
@@ -13005,7 +13025,7 @@ ON TRANSPLANTING
       stage 2.0 maturity
                      biomass =          38.51 (g/m^2)   lai          =   0.333 (m^2/m^2)
                      stover N conc =     5.07 (%)    extractable sw =  344.02 (mm)
-23 August 1988(Day of year=236), Manager: 
+23 August 1988(Day of year=236), Harvest on a Growth Stage: 
      Manager sending message :- lettuce harvest
 23 August 1988(Day of year=236), lettuce: 
      
@@ -13048,7 +13068,7 @@ ON TRANSPLANTING
       stage 2.0 maturity
                      biomass =          39.43 (g/m^2)   lai          =   0.327 (m^2/m^2)
                      stover N conc =     5.07 (%)    extractable sw =  366.23 (mm)
-6 September 1988(Day of year=250), Manager: 
+6 September 1988(Day of year=250), Harvest on a Growth Stage: 
      Manager sending message :- lettuce harvest
 6 September 1988(Day of year=250), lettuce: 
      
@@ -13087,7 +13107,7 @@ ON TRANSPLANTING
                           DM (kg/ha) =                  1.80                  373.29
                           N  (kg/ha) =                  0.12                    3.11
      
-1 May 1989(Day of year=121), Manager: 
+1 May 1989(Day of year=121), Sow on a fixed date: 
      Manager sending message :- lettuce sow  plants = 6, sowing_depth = 50, cultivar = patagonia, row_spacing = 600
 1 May 1989(Day of year=121), lettuce: 
      Crop Sow
@@ -13131,7 +13151,7 @@ ON TRANSPLANTING
          ------------------------------------------------
      
 ON TRANSPLANTING
-15 May 1989(Day of year=135), Manager: 
+15 May 1989(Day of year=135), Sow on a fixed date: 
      Manager sending message :- lettuce sow  plants = 6, sowing_depth = 50, cultivar = patagonia, row_spacing = 600
 15 May 1989(Day of year=135), lettuce: 
      Crop Sow
@@ -13175,7 +13195,7 @@ ON TRANSPLANTING
          ------------------------------------------------
      
 ON TRANSPLANTING
-1 June 1989(Day of year=152), Manager: 
+1 June 1989(Day of year=152), Sow on a fixed date: 
      Manager sending message :- lettuce sow  plants = 6, sowing_depth = 50, cultivar = patagonia, row_spacing = 600
 1 June 1989(Day of year=152), lettuce: 
      Crop Sow
@@ -13219,7 +13239,7 @@ ON TRANSPLANTING
          ------------------------------------------------
      
 ON TRANSPLANTING
-15 June 1989(Day of year=166), Manager: 
+15 June 1989(Day of year=166), Sow on a fixed date: 
      Manager sending message :- lettuce sow  plants = 6, sowing_depth = 50, cultivar = patagonia, row_spacing = 600
 15 June 1989(Day of year=166), lettuce: 
      Crop Sow
@@ -13267,7 +13287,7 @@ ON TRANSPLANTING
       stage 2.0 maturity
                      biomass =           2.82 (g/m^2)   lai          =   0.020 (m^2/m^2)
                      stover N conc =     5.58 (%)    extractable sw =  355.42 (mm)
-22 June 1989(Day of year=173), Manager: 
+22 June 1989(Day of year=173), Harvest on a Growth Stage: 
      Manager sending message :- lettuce harvest
 22 June 1989(Day of year=173), lettuce: 
      
@@ -13306,7 +13326,7 @@ ON TRANSPLANTING
                           DM (kg/ha) =                  1.80                   33.89
                           N  (kg/ha) =                  0.12                    0.32
      
-1 July 1989(Day of year=182), Manager: 
+1 July 1989(Day of year=182), Sow on a fixed date: 
      Manager sending message :- lettuce sow  plants = 6, sowing_depth = 50, cultivar = patagonia, row_spacing = 600
 1 July 1989(Day of year=182), lettuce: 
      Crop Sow
@@ -13354,7 +13374,7 @@ ON TRANSPLANTING
       stage 2.0 maturity
                      biomass =           6.00 (g/m^2)   lai          =   0.049 (m^2/m^2)
                      stover N conc =     5.59 (%)    extractable sw =  353.44 (mm)
-11 July 1989(Day of year=192), Manager: 
+11 July 1989(Day of year=192), Harvest on a Growth Stage: 
      Manager sending message :- lettuce harvest
 11 July 1989(Day of year=192), lettuce: 
      
@@ -13397,7 +13417,7 @@ ON TRANSPLANTING
       stage 2.0 maturity
                      biomass =          26.21 (g/m^2)   lai          =   0.234 (m^2/m^2)
                      stover N conc =     5.44 (%)    extractable sw =  348.69 (mm)
-7 August 1989(Day of year=219), Manager: 
+7 August 1989(Day of year=219), Harvest on a Growth Stage: 
      Manager sending message :- lettuce harvest
 7 August 1989(Day of year=219), lettuce: 
      
@@ -13440,7 +13460,7 @@ ON TRANSPLANTING
       stage 2.0 maturity
                      biomass =          43.24 (g/m^2)   lai          =   0.365 (m^2/m^2)
                      stover N conc =     5.02 (%)    extractable sw =  349.59 (mm)
-30 August 1989(Day of year=242), Manager: 
+30 August 1989(Day of year=242), Harvest on a Growth Stage: 
      Manager sending message :- lettuce harvest
 30 August 1989(Day of year=242), lettuce: 
      
@@ -13483,7 +13503,7 @@ ON TRANSPLANTING
       stage 2.0 maturity
                      biomass =          45.37 (g/m^2)   lai          =   0.333 (m^2/m^2)
                      stover N conc =     5.03 (%)    extractable sw =  357.60 (mm)
-13 September 1989(Day of year=256), Manager: 
+13 September 1989(Day of year=256), Harvest on a Growth Stage: 
      Manager sending message :- lettuce harvest
 13 September 1989(Day of year=256), lettuce: 
      
@@ -13522,7 +13542,7 @@ ON TRANSPLANTING
                           DM (kg/ha) =                  1.80                  416.07
                           N  (kg/ha) =                  0.12                    3.34
      
-1 May 1990(Day of year=121), Manager: 
+1 May 1990(Day of year=121), Sow on a fixed date: 
      Manager sending message :- lettuce sow  plants = 6, sowing_depth = 50, cultivar = patagonia, row_spacing = 600
 1 May 1990(Day of year=121), lettuce: 
      Crop Sow
@@ -13566,7 +13586,7 @@ ON TRANSPLANTING
          ------------------------------------------------
      
 ON TRANSPLANTING
-15 May 1990(Day of year=135), Manager: 
+15 May 1990(Day of year=135), Sow on a fixed date: 
      Manager sending message :- lettuce sow  plants = 6, sowing_depth = 50, cultivar = patagonia, row_spacing = 600
 15 May 1990(Day of year=135), lettuce: 
      Crop Sow
@@ -13610,7 +13630,7 @@ ON TRANSPLANTING
          ------------------------------------------------
      
 ON TRANSPLANTING
-1 June 1990(Day of year=152), Manager: 
+1 June 1990(Day of year=152), Sow on a fixed date: 
      Manager sending message :- lettuce sow  plants = 6, sowing_depth = 50, cultivar = patagonia, row_spacing = 600
 1 June 1990(Day of year=152), lettuce: 
      Crop Sow
@@ -13654,7 +13674,7 @@ ON TRANSPLANTING
          ------------------------------------------------
      
 ON TRANSPLANTING
-15 June 1990(Day of year=166), Manager: 
+15 June 1990(Day of year=166), Sow on a fixed date: 
      Manager sending message :- lettuce sow  plants = 6, sowing_depth = 50, cultivar = patagonia, row_spacing = 600
 15 June 1990(Day of year=166), lettuce: 
      Crop Sow
@@ -13702,7 +13722,7 @@ ON TRANSPLANTING
       stage 2.0 maturity
                      biomass =           7.96 (g/m^2)   lai          =   0.063 (m^2/m^2)
                      stover N conc =     5.60 (%)    extractable sw =  357.12 (mm)
-25 June 1990(Day of year=176), Manager: 
+25 June 1990(Day of year=176), Harvest on a Growth Stage: 
      Manager sending message :- lettuce harvest
 25 June 1990(Day of year=176), lettuce: 
      
@@ -13741,7 +13761,7 @@ ON TRANSPLANTING
                           DM (kg/ha) =                  1.80                   82.23
                           N  (kg/ha) =                  0.12                    0.77
      
-1 July 1990(Day of year=182), Manager: 
+1 July 1990(Day of year=182), Sow on a fixed date: 
      Manager sending message :- lettuce sow  plants = 6, sowing_depth = 50, cultivar = patagonia, row_spacing = 600
 1 July 1990(Day of year=182), lettuce: 
      Crop Sow
@@ -13789,7 +13809,7 @@ ON TRANSPLANTING
       stage 2.0 maturity
                      biomass =          15.52 (g/m^2)   lai          =   0.137 (m^2/m^2)
                      stover N conc =     5.54 (%)    extractable sw =  350.26 (mm)
-17 July 1990(Day of year=198), Manager: 
+17 July 1990(Day of year=198), Harvest on a Growth Stage: 
      Manager sending message :- lettuce harvest
 17 July 1990(Day of year=198), lettuce: 
      
@@ -13832,7 +13852,7 @@ ON TRANSPLANTING
       stage 2.0 maturity
                      biomass =          40.08 (g/m^2)   lai          =   0.358 (m^2/m^2)
                      stover N conc =     5.32 (%)    extractable sw =  363.50 (mm)
-7 August 1990(Day of year=219), Manager: 
+7 August 1990(Day of year=219), Harvest on a Growth Stage: 
      Manager sending message :- lettuce harvest
 7 August 1990(Day of year=219), lettuce: 
      
@@ -13875,7 +13895,7 @@ ON TRANSPLANTING
       stage 2.0 maturity
                      biomass =          39.88 (g/m^2)   lai          =   0.301 (m^2/m^2)
                      stover N conc =     5.02 (%)    extractable sw =  351.27 (mm)
-29 August 1990(Day of year=241), Manager: 
+29 August 1990(Day of year=241), Harvest on a Growth Stage: 
      Manager sending message :- lettuce harvest
 29 August 1990(Day of year=241), lettuce: 
      
@@ -13918,7 +13938,7 @@ ON TRANSPLANTING
       stage 2.0 maturity
                      biomass =          39.94 (g/m^2)   lai          =   0.297 (m^2/m^2)
                      stover N conc =     5.03 (%)    extractable sw =  353.45 (mm)
-11 September 1990(Day of year=254), Manager: 
+11 September 1990(Day of year=254), Harvest on a Growth Stage: 
      Manager sending message :- lettuce harvest
 11 September 1990(Day of year=254), lettuce: 
      

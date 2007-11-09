@@ -19,7 +19,10 @@ Component      "final" = c:\development\apsim\report\lib\report.dll
 Component      "accum" = c:\development\apsim\accum\lib\accum.dll
 Component "fertiliser" = c:\development\apsim\fertiliz\lib\fertiliz.dll
 Component "Irrigation" = c:\development\apsim\irrigate\lib\irrigate.dll
-Component    "Manager" = c:\development\apsim\manager\lib\manager.dll
+Component "Sowing fertiliser" = c:\development\apsim\manager\lib\manager.dll
+Component "Sow on a fixed date" = c:\development\apsim\manager\lib\manager.dll
+Component "Harvest on a Growth Stage" = c:\development\apsim\manager\lib\manager.dll
+Component "Irrigate at sowing" = c:\development\apsim\manager\lib\manager.dll
 Component "DPIGatton Water" = c:\development\apsim\soilwat2\lib\soilwat2.dll
 Component "surface organic matter" = c:\development\apsim\surfaceom\lib\surfaceom.dll
 Component "DPIGatton Nitrogen" = c:\development\apsim\soiln2\lib\soiln2.dll
@@ -132,22 +135,37 @@ Component   "broccoli" = c:\development\apsim\plant\lib\plant.dll
            Irrigation Allocation Budget (Disabled)
           -----------------------------------------------
 
-------- Manager Initialisation ------------------------------------------------
+------- Sowing fertiliser Initialisation --------------------------------------
      Manager rules:
      
      SECTION:- broccoli.sowing
              fertiliser apply amount = 300 (kg/ha), depth = 50 (mm), type = no3_n
+     END of rules
+     
+
+------- Sow on a fixed date Initialisation ------------------------------------
+     Manager rules:
      
      SECTION:- start_of_day
            if (today = date('14-mar') then
              broccoli sow plants =4, sowing_depth = 50, cultivar = greenbelt, row_spacing = 600
              endif
+     END of rules
+     
+
+------- Harvest on a Growth Stage Initialisation ------------------------------
+     Manager rules:
      
      SECTION:- start_of_day
              if (broccoli.stage_name = 'maturity') then
              broccoli harvest
              broccoli end_crop
              endif
+     END of rules
+     
+
+------- Irrigate at sowing Initialisation -------------------------------------
+     Manager rules:
      
      SECTION:- broccoli.sowing
               if (50 > 0) then
@@ -292,7 +310,7 @@ Component   "broccoli" = c:\development\apsim\plant\lib\plant.dll
 ------- broccoli Initialisation -----------------------------------------------
      phenology model: Generic
 ------- Start of simulation  --------------------------------------------------
-14 March 2006(Day of year=73), Manager: 
+14 March 2006(Day of year=73), Sow on a fixed date: 
      Manager sending message :- broccoli sow  plants = 4, sowing_depth = 50, cultivar = greenbelt, row_spacing = 600
 14 March 2006(Day of year=73), broccoli: 
      Crop Sow
@@ -336,12 +354,14 @@ Component   "broccoli" = c:\development\apsim\plant\lib\plant.dll
          -----------------------------------------------
          Extractable SW:   242mm in  1200mm total depth ( 20%).
          Crop factor for bounding water use is set to   1.5 times eo.
+14 March 2006(Day of year=73), Sowing fertiliser: 
      Manager sending message :- fertiliser apply  amount = 300 (kg/ha), depth = 50 (mm), type = no3_n
 14 March 2006(Day of year=73), fertiliser: 
      
         - Reading Fertiliser Type Parameters
        300.00 of N as nitrate (no3_n)
                                               added at depth   50.00 (layer   1)
+14 March 2006(Day of year=73), Irrigate at sowing: 
      Manager sending message :- irrigation apply  amount = 50 (mm)
      
                       Crop Sowing Data
@@ -374,7 +394,7 @@ Component   "broccoli" = c:\development\apsim\plant\lib\plant.dll
       stage 7.0 maturity
                      biomass =         882.15 (g/m^2)   lai          =   3.056 (m^2/m^2)
                      stover N conc =     4.19 (%)    extractable sw =  108.77 (mm)
-18 June 2006(Day of year=169), Manager: 
+18 June 2006(Day of year=169), Harvest on a Growth Stage: 
      Manager sending message :- broccoli harvest
 18 June 2006(Day of year=169), broccoli: 
      

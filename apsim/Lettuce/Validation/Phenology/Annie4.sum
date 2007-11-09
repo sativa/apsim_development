@@ -16,7 +16,8 @@ Component        "met" = c:\development\apsim\input\lib\input.dll
 Paddock:
 Component "Outputfile" = c:\development\apsim\report\lib\report.dll
 Component      "accum" = c:\development\apsim\accum\lib\accum.dll
-Component    "Manager" = c:\development\apsim\manager\lib\manager.dll
+Component "Sow on a fixed date" = c:\development\apsim\manager\lib\manager.dll
+Component "Harvest on a Growth Stage" = c:\development\apsim\manager\lib\manager.dll
 Component "Soil Water" = c:\development\apsim\soilwat2\lib\soilwat2.dll
 Component "Soil Nitrogen" = c:\development\apsim\soiln2\lib\soiln2.dll
 Component    "lettuce" = c:\development\apsim\plant\lib\plant.dll
@@ -50,13 +51,18 @@ Component    "lettuce" = c:\development\apsim\plant\lib\plant.dll
 ------- accum Initialisation --------------------------------------------------
      Initialising
 
-------- Manager Initialisation ------------------------------------------------
+------- Sow on a fixed date Initialisation ------------------------------------
      Manager rules:
      
      SECTION:- start_of_day
            if (today = date('24-apr-2007') then
              lettuce sow plants =6, sowing_depth = 50, cultivar = annie, row_spacing = 600
              endif
+     END of rules
+     
+
+------- Harvest on a Growth Stage Initialisation ------------------------------
+     Manager rules:
      
      SECTION:- start_of_day
              if (lettuce.stage_name = 'maturity') then
@@ -147,8 +153,6 @@ Component    "lettuce" = c:\development\apsim\plant\lib\plant.dll
         - Reading Parameters
      
         - Reading Constants
-     Using standard soil mineralisation for soil type
-     
      
      
      
@@ -242,7 +246,7 @@ ON TRANSPLANTING
       stage 2.0 maturity
                      biomass =          15.13 (g/m^2)   lai          =   0.129 (m^2/m^2)
                      stover N conc =     5.52 (%)    extractable sw =  358.72 (mm)
-23 June 2007(Day of year=174), Manager: 
+23 June 2007(Day of year=174), Harvest on a Growth Stage: 
      Manager sending message :- lettuce harvest
 23 June 2007(Day of year=174), lettuce: 
      
