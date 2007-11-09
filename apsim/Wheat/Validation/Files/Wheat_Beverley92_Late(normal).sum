@@ -117,10 +117,10 @@ Component      "wheat" = c:\development\apsim\plant\lib\plant.dll
         endif
      
      SECTION:- end_of_day
-               if wheat.stage_name = 'harvest_ripe' or wheat.plant_status = 'dead' then
-                  wheat  harvest
-                  wheat  end_crop
-               endif
+       if wheat.stage_name = 'harvest_ripe' or wheat.plant_status = 'dead' then
+          wheat  harvest
+          wheat  end_crop
+       endif
      END of rules
      
 
@@ -147,15 +147,15 @@ Component      "wheat" = c:\development\apsim\plant\lib\plant.dll
      SECTION:- init
      
      SECTION:- start_of_day
-               if (day = 168) then
-                   fertiliser apply amount = 30 (kg/ha), depth = 50 (mm), type = no3_n ()
-               endif
-               if (day = 202) then
-                   fertiliser apply amount = 30 (kg/ha), depth = 50 (mm), type = no3_n ()
-               endif
-               if (day = 230) then
-                   fertiliser apply amount = 30 (kg/ha), depth = 50 (mm), type = no3_n ()
-               endif
+       if (day = 168) then
+           fertiliser apply amount = 30 (kg/ha), depth = 50 (mm), type = no3_n ()
+       endif
+       if (day = 202) then
+           fertiliser apply amount = 30 (kg/ha), depth = 50 (mm), type = no3_n ()
+       endif
+       if (day = 230) then
+           fertiliser apply amount = 30 (kg/ha), depth = 50 (mm), type = no3_n ()
+       endif
      
      SECTION:- end_of_day
      END of rules
@@ -422,7 +422,7 @@ Component      "wheat" = c:\development\apsim\plant\lib\plant.dll
       dead above ground biomass (kg/ha)     =        0.0
       number of leaves       =   46.9
       DM Root:Shoot ratio    =    0.185                       Harvest Index          =      0.263
-      Stover C:N ratio       =  102.942                       Root C:N ratio         =     27.236
+      Stover C:N ratio       =  102.941                       Root C:N ratio         =     27.236
       grain N percent        =       2.79                     total N content (kg/ha)=     102.81
       grain N uptake (kg/ha) =      73.93                     senesced N content (kg/ha)=   11.54
       green N content (kg/ha)=      17.33                     dead N content (kg/ha) =       0.00
