@@ -20,7 +20,10 @@ Component      "accum" = c:\development\apsim\accum\lib\accum.dll
 Component "operations" = c:\development\apsim\operatns\lib\operatns.dll
 Component "fertiliser" = c:\development\apsim\fertiliz\lib\fertiliz.dll
 Component "Irrigation" = c:\development\apsim\irrigate\lib\irrigate.dll
-Component    "Manager" = c:\development\apsim\manager\lib\manager.dll
+Component "Sowing fertiliser" = c:\development\apsim\manager\lib\manager.dll
+Component "Sow on a fixed date" = c:\development\apsim\manager\lib\manager.dll
+Component "Harvest on a Growth Stage" = c:\development\apsim\manager\lib\manager.dll
+Component "Irrigate at sowing" = c:\development\apsim\manager\lib\manager.dll
 Component "DPIGatton Water" = c:\development\apsim\soilwat2\lib\soilwat2.dll
 Component "surface organic matter" = c:\development\apsim\surfaceom\lib\surfaceom.dll
 Component "DPIGatton Nitrogen" = c:\development\apsim\soiln2\lib\soiln2.dll
@@ -147,22 +150,37 @@ Component   "broccoli" = c:\development\apsim\plant\lib\plant.dll
            Irrigation Allocation Budget (Disabled)
           -----------------------------------------------
 
-------- Manager Initialisation ------------------------------------------------
+------- Sowing fertiliser Initialisation --------------------------------------
      Manager rules:
      
      SECTION:- broccoli.sowing
              fertiliser apply amount = 300 (kg/ha), depth = 50 (mm), type = no3_n
+     END of rules
+     
+
+------- Sow on a fixed date Initialisation ------------------------------------
+     Manager rules:
      
      SECTION:- start_of_day
            if (today = date('1-jun') then
              broccoli sow plants =4, sowing_depth = 50, cultivar = greenbelt, row_spacing = 600
              endif
+     END of rules
+     
+
+------- Harvest on a Growth Stage Initialisation ------------------------------
+     Manager rules:
      
      SECTION:- start_of_day
              if (broccoli.stage_name = 'maturity') then
              broccoli harvest
              broccoli end_crop
              endif
+     END of rules
+     
+
+------- Irrigate at sowing Initialisation -------------------------------------
+     Manager rules:
      
      SECTION:- broccoli.sowing
               if (10 > 0) then
@@ -402,7 +420,7 @@ Component   "broccoli" = c:\development\apsim\plant\lib\plant.dll
                      stover N conc =     4.23 (%)    extractable sw =   59.04 (mm)
 30 August 2006(Day of year=242), operations: 
       Sending apply message to irrigation
-30 August 2006(Day of year=242), Manager: 
+30 August 2006(Day of year=242), Harvest on a Growth Stage: 
      Manager sending message :- broccoli harvest
 30 August 2006(Day of year=242), broccoli: 
      
