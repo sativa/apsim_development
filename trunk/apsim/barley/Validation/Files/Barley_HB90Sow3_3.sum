@@ -115,13 +115,13 @@ Component     "barley" = c:\development\apsim\plant\lib\plant.dll
               endif
      
      SECTION:- end_of_day
-              if (paddock_is_fallow() = 0) then
-                outputfile do_output
-             endif
-            if barley.stage_name = 'harvest_ripe' or barley.plant_status = 'dead' then
-               barley  harvest
-               barley  end_crop
-            endif
+      if (paddock_is_fallow() = 0) then
+        outputfile do_output
+     endif
+                if barley.stage_name = 'harvest_ripe' or barley.plant_status = 'dead' then
+       barley  harvest
+       barley  end_crop
+                endif
      
      SECTION:- barley.sowing
              fertiliser apply amount = 130.0 (kg/ha), depth = 50 (mm), type = urea_n
@@ -418,7 +418,7 @@ Component     "barley" = c:\development\apsim\plant\lib\plant.dll
       dead above ground biomass (kg/ha)     =        0.0
       number of leaves       =   44.2
       DM Root:Shoot ratio    =    0.146                       Harvest Index          =      0.231
-      Stover C:N ratio       =  114.397                       Root C:N ratio         =     31.496
+      Stover C:N ratio       =  114.397                       Root C:N ratio         =     31.497
       grain N percent        =       2.02                     total N content (kg/ha)=     114.73
       grain N uptake (kg/ha) =      72.79                     senesced N content (kg/ha)=   13.74
       green N content (kg/ha)=      28.21                     dead N content (kg/ha) =       0.00

@@ -115,13 +115,13 @@ Component     "barley" = c:\development\apsim\plant\lib\plant.dll
               endif
      
      SECTION:- end_of_day
-              if (paddock_is_fallow() = 0) then
-                outputfile do_output
-             endif
-            if barley.stage_name = 'harvest_ripe' or barley.plant_status = 'dead' then
-               barley  harvest
-               barley  end_crop
-            endif
+      if (paddock_is_fallow() = 0) then
+        outputfile do_output
+     endif
+                if barley.stage_name = 'harvest_ripe' or barley.plant_status = 'dead' then
+       barley  harvest
+       barley  end_crop
+                endif
      
      SECTION:- barley.sowing
              fertiliser apply amount = 130 (kg/ha), depth = 50 (mm), type = urea_n

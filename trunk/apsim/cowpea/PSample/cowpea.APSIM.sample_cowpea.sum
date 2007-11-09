@@ -58,9 +58,9 @@ Component     "cowpea" = c:\development\apsim\Plant\lib\Plant.dll
         cowpea.dlt_p_detached()
         cowpea.dlt_p_sen()
         cowpea.p_conc_stover
-        cowpea.p_conc_leaf
-        cowpea.p_conc_stem
-        cowpea.p_conc_grain
+        cowpea.LeafGreenPConc
+        cowpea.StemGreenPConc
+        cowpea.GrainGreenPConc
         cowpea.p_uptake_stover
         cowpea.grain_p_demand
         surfaceom.surfaceom_p
