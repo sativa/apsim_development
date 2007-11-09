@@ -19,9 +19,9 @@ Component      "accum" = c:\development\apsim\accum\lib\accum.dll
 Component "fertiliser" = c:\development\apsim\fertiliz\lib\fertiliz.dll
 Component "Irrigation" = c:\development\apsim\irrigate\lib\irrigate.dll
 Component    "Manager" = c:\development\apsim\manager\lib\manager.dll
-Component "Soil Water" = c:\development\apsim\soilwat2\lib\soilwat2.dll
+Component "LawesSoil Water" = c:\development\apsim\soilwat2\lib\soilwat2.dll
 Component "surface organic matter" = c:\development\apsim\surfaceom\lib\surfaceom.dll
-Component "Soil Nitrogen" = c:\development\apsim\soiln2\lib\soiln2.dll
+Component "LawesSoil Nitrogen" = c:\development\apsim\soiln2\lib\soiln2.dll
 Component "SweetSorghum" = c:\development\apsim\plant\lib\plant.dll
 Paddock:
 Component "outputfile" = c:\development\apsim\report\lib\report.dll
@@ -29,9 +29,9 @@ Component      "accum" = c:\development\apsim\accum\lib\accum.dll
 Component "fertiliser" = c:\development\apsim\fertiliz\lib\fertiliz.dll
 Component "Irrigation" = c:\development\apsim\irrigate\lib\irrigate.dll
 Component    "Manager" = c:\development\apsim\manager\lib\manager.dll
-Component "Soil Water" = c:\development\apsim\soilwat2\lib\soilwat2.dll
+Component "LawesSoil Water" = c:\development\apsim\soilwat2\lib\soilwat2.dll
 Component "surface organic matter" = c:\development\apsim\surfaceom\lib\surfaceom.dll
-Component "Soil Nitrogen" = c:\development\apsim\soiln2\lib\soiln2.dll
+Component "LawesSoil Nitrogen" = c:\development\apsim\soiln2\lib\soiln2.dll
 Component "SweetSorghum" = c:\development\apsim\plant\lib\plant.dll
 Paddock:
 Component "outputfile" = c:\development\apsim\report\lib\report.dll
@@ -39,9 +39,9 @@ Component      "accum" = c:\development\apsim\accum\lib\accum.dll
 Component "fertiliser" = c:\development\apsim\fertiliz\lib\fertiliz.dll
 Component "Irrigation" = c:\development\apsim\irrigate\lib\irrigate.dll
 Component    "Manager" = c:\development\apsim\manager\lib\manager.dll
-Component "Soil Water" = c:\development\apsim\soilwat2\lib\soilwat2.dll
+Component "LawesSoil Water" = c:\development\apsim\soilwat2\lib\soilwat2.dll
 Component "surface organic matter" = c:\development\apsim\surfaceom\lib\surfaceom.dll
-Component "Soil Nitrogen" = c:\development\apsim\soiln2\lib\soiln2.dll
+Component "LawesSoil Nitrogen" = c:\development\apsim\soiln2\lib\soiln2.dll
 Component "SweetSorghum" = c:\development\apsim\plant\lib\plant.dll
 Paddock:
 Component "outputfile" = c:\development\apsim\report\lib\report.dll
@@ -49,9 +49,9 @@ Component      "accum" = c:\development\apsim\accum\lib\accum.dll
 Component "fertiliser" = c:\development\apsim\fertiliz\lib\fertiliz.dll
 Component "Irrigation" = c:\development\apsim\irrigate\lib\irrigate.dll
 Component    "Manager" = c:\development\apsim\manager\lib\manager.dll
-Component "Soil Water" = c:\development\apsim\soilwat2\lib\soilwat2.dll
+Component "LawesSoil Water" = c:\development\apsim\soilwat2\lib\soilwat2.dll
 Component "surface organic matter" = c:\development\apsim\surfaceom\lib\surfaceom.dll
-Component "Soil Nitrogen" = c:\development\apsim\soiln2\lib\soiln2.dll
+Component "LawesSoil Nitrogen" = c:\development\apsim\soiln2\lib\soiln2.dll
 Component "SweetSorghum" = c:\development\apsim\plant\lib\plant.dll
 
 ------- clock Initialisation --------------------------------------------------
@@ -117,22 +117,22 @@ Component "SweetSorghum" = c:\development\apsim\plant\lib\plant.dll
      Manager rules:
      
      SECTION:- end_of_day
-            if sweetsorghum.stage_name = 'harvest_ripe' or sweetsorghum.plant_status = 'dead' then
-               sweetsorghum  harvest
-               sweetsorghum  end_crop
-            endif
+                if sweetsorghum.stage_name = 'harvest_ripe' or sweetsorghum.plant_status = 'dead' then
+       sweetsorghum  harvest
+       sweetsorghum  end_crop
+                endif
      
      SECTION:- sweetsorghum.sowing
-         fertiliser apply amount = 300 (kg/ha), depth = 50 (mm), type = no3_n
+             fertiliser apply amount = 300 (kg/ha), depth = 50 (mm), type = no3_n
      
      SECTION:- start_of_day
-       if (today = date('23-nov') then
-                     sweetsorghum sow plants =10, sowing_depth = 50, cultivar = sugargraze, row_spacing = 600
-         endif
+           if (today = date('23-nov') then
+             sweetsorghum sow plants =10, sowing_depth = 50, cultivar = sugargraze, row_spacing = 600
+             endif
      END of rules
      
 
-------- Soil Water Initialisation ---------------------------------------------
+------- LawesSoil Water Initialisation ----------------------------------------
      
          - Reading constants
      
@@ -223,7 +223,7 @@ Component "SweetSorghum" = c:\development\apsim\plant\lib\plant.dll
                       Effective Cover from Surface Materials =   0.4
      
 
-------- Soil Nitrogen Initialisation ------------------------------------------
+------- LawesSoil Nitrogen Initialisation -------------------------------------
      
         - Reading Parameters
      
@@ -356,22 +356,22 @@ Component "SweetSorghum" = c:\development\apsim\plant\lib\plant.dll
      Manager rules:
      
      SECTION:- end_of_day
-            if sweetsorghum.stage_name = 'harvest_ripe' or sweetsorghum.plant_status = 'dead' then
-               sweetsorghum  harvest
-               sweetsorghum  end_crop
-            endif
+                if sweetsorghum.stage_name = 'harvest_ripe' or sweetsorghum.plant_status = 'dead' then
+       sweetsorghum  harvest
+       sweetsorghum  end_crop
+                endif
      
      SECTION:- sweetsorghum.sowing
-         fertiliser apply amount = 300 (kg/ha), depth = 50 (mm), type = no3_n
+             fertiliser apply amount = 300 (kg/ha), depth = 50 (mm), type = no3_n
      
      SECTION:- start_of_day
-       if (today = date('21-dec') then
-                     sweetsorghum sow plants =10, sowing_depth = 50, cultivar = sugargraze, row_spacing = 600
-         endif
+           if (today = date('21-dec') then
+             sweetsorghum sow plants =10, sowing_depth = 50, cultivar = sugargraze, row_spacing = 600
+             endif
      END of rules
      
 
-------- Soil Water Initialisation ---------------------------------------------
+------- LawesSoil Water Initialisation ----------------------------------------
      
          - Reading constants
      
@@ -462,7 +462,7 @@ Component "SweetSorghum" = c:\development\apsim\plant\lib\plant.dll
                       Effective Cover from Surface Materials =   0.6
      
 
-------- Soil Nitrogen Initialisation ------------------------------------------
+------- LawesSoil Nitrogen Initialisation -------------------------------------
      
         - Reading Parameters
      
@@ -595,22 +595,22 @@ Component "SweetSorghum" = c:\development\apsim\plant\lib\plant.dll
      Manager rules:
      
      SECTION:- end_of_day
-            if sweetsorghum.stage_name = 'harvest_ripe' or sweetsorghum.plant_status = 'dead' then
-               sweetsorghum  harvest
-               sweetsorghum  end_crop
-            endif
+                if sweetsorghum.stage_name = 'harvest_ripe' or sweetsorghum.plant_status = 'dead' then
+       sweetsorghum  harvest
+       sweetsorghum  end_crop
+                endif
      
      SECTION:- sweetsorghum.sowing
-         fertiliser apply amount = 300 (kg/ha), depth = 50 (mm), type = no3_n
+             fertiliser apply amount = 300 (kg/ha), depth = 50 (mm), type = no3_n
      
      SECTION:- start_of_day
-       if (today = date('22-jan') then
-                     sweetsorghum sow plants =10, sowing_depth = 50, cultivar = sugargraze, row_spacing = 600
-         endif
+           if (today = date('22-jan') then
+             sweetsorghum sow plants =10, sowing_depth = 50, cultivar = sugargraze, row_spacing = 600
+             endif
      END of rules
      
 
-------- Soil Water Initialisation ---------------------------------------------
+------- LawesSoil Water Initialisation ----------------------------------------
      
          - Reading constants
      
@@ -701,7 +701,7 @@ Component "SweetSorghum" = c:\development\apsim\plant\lib\plant.dll
                       Effective Cover from Surface Materials =   0.8
      
 
-------- Soil Nitrogen Initialisation ------------------------------------------
+------- LawesSoil Nitrogen Initialisation -------------------------------------
      
         - Reading Parameters
      
@@ -834,22 +834,22 @@ Component "SweetSorghum" = c:\development\apsim\plant\lib\plant.dll
      Manager rules:
      
      SECTION:- end_of_day
-            if sweetsorghum.stage_name = 'harvest_ripe' or sweetsorghum.plant_status = 'dead' then
-               sweetsorghum  harvest
-               sweetsorghum  end_crop
-            endif
+                if sweetsorghum.stage_name = 'harvest_ripe' or sweetsorghum.plant_status = 'dead' then
+       sweetsorghum  harvest
+       sweetsorghum  end_crop
+                endif
      
      SECTION:- sweetsorghum.sowing
-         fertiliser apply amount = 300 (kg/ha), depth = 50 (mm), type = no3_n
+             fertiliser apply amount = 300 (kg/ha), depth = 50 (mm), type = no3_n
      
      SECTION:- start_of_day
-       if (today = date('21-feb') then
-                     sweetsorghum sow plants =10, sowing_depth = 50, cultivar = sugargraze, row_spacing = 600
-         endif
+           if (today = date('21-feb') then
+             sweetsorghum sow plants =10, sowing_depth = 50, cultivar = sugargraze, row_spacing = 600
+             endif
      END of rules
      
 
-------- Soil Water Initialisation ---------------------------------------------
+------- LawesSoil Water Initialisation ----------------------------------------
      
          - Reading constants
      
@@ -940,7 +940,7 @@ Component "SweetSorghum" = c:\development\apsim\plant\lib\plant.dll
                       Effective Cover from Surface Materials =   0.9
      
 
-------- Soil Nitrogen Initialisation ------------------------------------------
+------- LawesSoil Nitrogen Initialisation -------------------------------------
      
         - Reading Parameters
      
@@ -1658,7 +1658,7 @@ Component "SweetSorghum" = c:\development\apsim\plant\lib\plant.dll
       dead above ground biomass (kg/ha)     =        0.0
       number of leaves       =   17.7
       DM Root:Shoot ratio    =    0.151                       Harvest Index          =      0.096
-      Stover C:N ratio       =   34.051                       Root C:N ratio         =     18.110
+      Stover C:N ratio       =   34.050                       Root C:N ratio         =     18.110
       grain N percent        =       2.93                     total N content (kg/ha)=     208.33
       grain N uptake (kg/ha) =      43.76                     senesced N content (kg/ha)=   15.15
       green N content (kg/ha)=     149.42                     dead N content (kg/ha) =       0.00

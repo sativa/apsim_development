@@ -21,9 +21,9 @@ Component "operations" = c:\development\apsim\operatns\lib\operatns.dll
 Component "fertiliser" = c:\development\apsim\fertiliz\lib\fertiliz.dll
 Component "Irrigation" = c:\development\apsim\irrigate\lib\irrigate.dll
 Component    "manager" = c:\development\apsim\manager\lib\manager.dll
-Component "Soil Water" = c:\development\apsim\soilwat2\lib\soilwat2.dll
+Component "DPIGatton Water" = c:\development\apsim\soilwat2\lib\soilwat2.dll
 Component "surface organic matter" = c:\development\apsim\surfaceom\lib\surfaceom.dll
-Component "Soil Nitrogen" = c:\development\apsim\soiln2\lib\soiln2.dll
+Component "DPIGatton Nitrogen" = c:\development\apsim\soiln2\lib\soiln2.dll
 Component  "SweetCorn" = c:\development\apsim\plant\lib\plant.dll
 Paddock:
 Component "outputfile" = c:\development\apsim\report\lib\report.dll
@@ -33,9 +33,9 @@ Component "operations" = c:\development\apsim\operatns\lib\operatns.dll
 Component "fertiliser" = c:\development\apsim\fertiliz\lib\fertiliz.dll
 Component "Irrigation" = c:\development\apsim\irrigate\lib\irrigate.dll
 Component    "manager" = c:\development\apsim\manager\lib\manager.dll
-Component "Soil Water" = c:\development\apsim\soilwat2\lib\soilwat2.dll
+Component "DPIGatton Water" = c:\development\apsim\soilwat2\lib\soilwat2.dll
 Component "surface organic matter" = c:\development\apsim\surfaceom\lib\surfaceom.dll
-Component "Soil Nitrogen" = c:\development\apsim\soiln2\lib\soiln2.dll
+Component "DPIGatton Nitrogen" = c:\development\apsim\soiln2\lib\soiln2.dll
 Component  "SweetCorn" = c:\development\apsim\plant\lib\plant.dll
 
 ------- clock Initialisation --------------------------------------------------
@@ -171,19 +171,19 @@ Component  "SweetCorn" = c:\development\apsim\plant\lib\plant.dll
      Manager rules:
      
      SECTION:- end_of_day
-            if sweetcorn.stage_name = 'harvest_ripe' or sweetcorn.plant_status = 'dead' then
-               sweetcorn  harvest
-               sweetcorn  end_crop
-            endif
+                if sweetcorn.stage_name = 'harvest_ripe' or sweetcorn.plant_status = 'dead' then
+       sweetcorn  harvest
+       sweetcorn  end_crop
+                endif
      
      SECTION:- start_of_day
-       if (today = date('21-nov') then
-                     sweetcorn sow plants =5.7, sowing_depth = 50, cultivar = h5, row_spacing = 700
-         endif
+           if (today = date('21-nov') then
+             sweetcorn sow plants =5.7, sowing_depth = 50, cultivar = h5, row_spacing = 700
+             endif
      END of rules
      
 
-------- Soil Water Initialisation ---------------------------------------------
+------- DPIGatton Water Initialisation ----------------------------------------
      
          - Reading constants
      
@@ -272,7 +272,7 @@ Component  "SweetCorn" = c:\development\apsim\plant\lib\plant.dll
                       Effective Cover from Surface Materials =   0.0
      
 
-------- Soil Nitrogen Initialisation ------------------------------------------
+------- DPIGatton Nitrogen Initialisation -------------------------------------
      
         - Reading Parameters
      
@@ -461,19 +461,19 @@ Component  "SweetCorn" = c:\development\apsim\plant\lib\plant.dll
      Manager rules:
      
      SECTION:- end_of_day
-            if sweetcorn.stage_name = 'harvest_ripe' or sweetcorn.plant_status = 'dead' then
-               sweetcorn  harvest
-               sweetcorn  end_crop
-            endif
+                if sweetcorn.stage_name = 'harvest_ripe' or sweetcorn.plant_status = 'dead' then
+       sweetcorn  harvest
+       sweetcorn  end_crop
+                endif
      
      SECTION:- start_of_day
-       if (today = date('21-nov') then
-                     sweetcorn sow plants =5.7, sowing_depth = 50, cultivar = h5, row_spacing = 700
-         endif
+           if (today = date('21-nov') then
+             sweetcorn sow plants =5.7, sowing_depth = 50, cultivar = h5, row_spacing = 700
+             endif
      END of rules
      
 
-------- Soil Water Initialisation ---------------------------------------------
+------- DPIGatton Water Initialisation ----------------------------------------
      
          - Reading constants
      
@@ -562,7 +562,7 @@ Component  "SweetCorn" = c:\development\apsim\plant\lib\plant.dll
                       Effective Cover from Surface Materials =   0.0
      
 
-------- Soil Nitrogen Initialisation ------------------------------------------
+------- DPIGatton Nitrogen Initialisation -------------------------------------
      
         - Reading Parameters
      
@@ -1059,7 +1059,7 @@ Component  "SweetCorn" = c:\development\apsim\plant\lib\plant.dll
       Stover C:N ratio       =   23.489                       Root C:N ratio         =     37.662
       grain N percent        =       1.02                     total N content (kg/ha)=     149.20
       grain N uptake (kg/ha) =      14.75                     senesced N content (kg/ha)=    1.80
-      green N content (kg/ha)=     132.65                     dead N content (kg/ha) =       0.00
+      green N content (kg/ha)=     132.65                     dead N content (kg/ha) =      -0.00
      
       Average Stress Indices:                          Water Photo  Water Expan  N Photo      N grain conc
          emergence            to endjuv_to_fi            0.000        0.000        0.008        0.176
