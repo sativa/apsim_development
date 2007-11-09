@@ -268,31 +268,6 @@
          <dll>%apsuite\apsim\input\lib\input.dll</dll>
       </ApsimToSim>
    </metfile>
-   <logic>
-      <UItype>APSIMUI.LogicUI</UItype>
-      <ShowInMainTree>Yes</ShowInMainTree>
-      <Image>%apsuite\apsimui\images\banner2.jpg</Image>
-      <Documentation name="Science documentation">../apsim/manager/docs/manager_science.htm</Documentation>
-      <LargeIcon>%apsuite\apsimui\Images\lightbulb_on32.png</LargeIcon>
-      <SmallIcon>%apsuite\apsimui\Images\lightbulb_on16.png</SmallIcon>
-      <drops>
-         <drop name="toolbox"/>
-         <drop name="area"/>
-         <drop name="simulation"/>
-         <drop name="folder"/>
-     </drops>
-      <ApsimToSim>
-         <type>component</type>
-         <dll>%apsuite\apsim\manager\lib\manager.dll</dll>
-         <sim>
-            [foreach logic.script]
-            [foreach script.event]
-            <rule name="[event.innerxml]" condition="[event.innerxml]"><![CDATA[ [script.text] ]]></rule>
-            [endfor]
-            [endfor]
-         </sim>
-      </ApsimToSim>
-   </logic>
    <operations>
       <UItype>APSIMUI.OperationsUI</UItype>
       <ShowInMainTree>Yes</ShowInMainTree>
@@ -899,7 +874,7 @@
       </ApsimToSim>
    </events>
    <manager>
-      <UItype>APSIMUI.areaui</UItype>
+      <UItype>APSIMUI.ruleui</UItype>
       <ShowInMainTree>Yes</ShowInMainTree>
       <Image>%apsuite\apsimui\images\banner2.jpg</Image>
       <Documentation name="Science documentation">../apsim/manager/docs/manager_science.htm</Documentation>
@@ -1057,23 +1032,6 @@
          <drop name="tclgroup"/>
      </drops>
    </tclui>
-   <rule>
-      <UItype>APSIMUI.RuleUI</UItype>
-      <ShowInMainTree>Yes</ShowInMainTree>
-      <Image>%apsuite\apsimui\images\banner2.jpg</Image>
-      <LargeIcon>%apsuite\apsimui\Images\question_and_answer32.png</LargeIcon>
-      <SmallIcon>%apsuite\apsimui\Images\question_and_answer16.png</SmallIcon>
-      <drops>
-         <drop name="manager"/>
-         <drop name="folder"/>
-         <drop name="tclmanager"/>
-         <drop name="farmmanager"/>
-         <drop name="paddockmanager"/>
-         <drop name="StockScienceConverter"/>
-         <drop name="PastureScienceConverter"/>
-         <drop name="SupplementScienceConverter"/>
-     </drops>
-   </rule>
    <surfaceom>
       <UItype>VBUserInterface.GenericUI</UItype>
       <ShowInMainTree>Yes</ShowInMainTree>

@@ -349,7 +349,6 @@ namespace CSUserInterface
             Soils.Soil Soil = new Soils.Soil(Doc.DocumentElement);
             return Soil.ExportCropToSim(ParentNode, Component.Type);
             }
-
         public static XmlNode WriteInitWaterSim(ApsimFile.Component Component, XmlNode ParentNode)
             {
             // Go find our related soil - should be parent 
@@ -370,7 +369,6 @@ namespace CSUserInterface
             return InitWater.ExportToSim(ParentNode);
 
             }
-
         public static XmlNode WriteSoilSampleSim(ApsimFile.Component Component, XmlNode ParentNode)
             {
             // Go find our related soil - should be parent 
@@ -391,7 +389,6 @@ namespace CSUserInterface
             return Sample.ExportToSim(ParentNode);
 
             }
-
         public static XmlNode WriteInitNitrogenSim(ApsimFile.Component Component, XmlNode ParentNode)
             {
             // Go find our related soil - should be parent 
@@ -421,34 +418,36 @@ namespace CSUserInterface
             }
         public static XmlNode WriteManagerSim(ApsimFile.Component Component, XmlNode ParentNode)
             {
-            foreach (ApsimFile.Component RuleComponent in Component.ChildNodes)
+            XmlDocument Doc = new XmlDocument();
+            Doc.LoadXml(Component.Contents);
+
+            foreach (XmlNode Script in XmlHelper.ChildNodes(Doc.DocumentElement, ""))
                 {
-                XmlDocument Doc = new XmlDocument();
-                Doc.LoadXml(RuleComponent.Contents);
-                XmlNode Rule = Doc.DocumentElement;
-                foreach (XmlNode Condition in XmlHelper.ChildNodes(Rule, "condition"))
+                string Contents = XmlHelper.Value(Script, "text");
+                List<string> Events = XmlHelper.Values(Script, "event");
+
+                // Do manager macro replacement.
+                XmlNode UI = XmlHelper.Find(Doc.DocumentElement, "ui");
+                foreach (XmlNode Prop in XmlHelper.ChildNodes(UI, ""))
                     {
-                    string Contents = Condition.OuterXml;
-
-                    foreach (XmlNode Category in XmlHelper.ChildNodes(Rule, "category"))
+                    if (Prop.Name.ToLower() != "category")
                         {
-                        foreach (XmlNode Prop in XmlHelper.ChildNodes(Category, ""))
-                            {
-                            string MacroToLookFor = "[" + Prop.Name + "]";
-                            Contents = Contents.Replace(MacroToLookFor, Prop.InnerText);
-                            }
+                        string MacroToLookFor = "[" + Prop.Name + "]";
+                        Contents = Contents.Replace(MacroToLookFor, Prop.InnerText);
+                        for (int i = 0; i != Events.Count; i++)
+                            Events[i] = Events[i].Replace(MacroToLookFor, Prop.InnerText);
                         }
-                    Contents = Contents.Replace("<condition ", "<rule ");
-                    Contents = Contents.Replace("</condition>", "</rule>");
-                    XmlDocument RuleDoc = new XmlDocument();
-                    RuleDoc.LoadXml(Contents);
-                    XmlNode NewRule = RuleDoc.DocumentElement;
+                    }
 
-                    string RuleCondition = XmlHelper.Name(NewRule);
-                    string NewName = XmlHelper.Name(Rule) + " - " + RuleCondition;
-                    XmlHelper.SetName(RuleDoc.DocumentElement, NewName);
-                    XmlHelper.SetAttribute(RuleDoc.DocumentElement, "condition", RuleCondition);
-                    ParentNode.AppendChild(ParentNode.OwnerDocument.ImportNode(NewRule, true));
+                // For each event, write a rule node to parent node.
+                foreach (string Event in Events)
+                    {
+                    string RuleName = XmlHelper.Name(Script) + " - " + Event;
+
+                    XmlNode RuleNode = ParentNode.AppendChild(ParentNode.OwnerDocument.CreateElement("rule"));
+                    XmlHelper.SetName(RuleNode, RuleName);
+                    XmlHelper.SetAttribute(RuleNode, "condition", Event);
+                    XmlHelper.SetValue(RuleNode, "", Contents); 
                     }
                 }
             return ParentNode;

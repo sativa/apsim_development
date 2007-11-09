@@ -11,7 +11,7 @@ Public Class Toolboxes
     Public Property Filenames() As StringCollection
         Get
             Dim Files As New StringCollection
-            Dim Toolboxes As StringCollection = APSIMSettings.INIReadMultiple(APSIMSettings.ApsimIniFile(), "Toolboxes", "toolbox")
+            Dim Toolboxes As StringCollection = APSIMSettings.INIReadMultiple(APSIMSettings.ApsimIniFile(), "ApsimUI", "toolbox")
             For i As Integer = 0 To Toolboxes.Count - 1
                 If File.Exists(Toolboxes(i)) Then
                     Files.Add(Toolboxes(i))
@@ -22,7 +22,7 @@ Public Class Toolboxes
         Set(ByVal Value As StringCollection)
             Dim Values(Value.Count) As String
             Value.CopyTo(Values, 0)
-            APSIMSettings.INIWriteMultiple(APSIMSettings.ApsimIniFile(), "Toolboxes", "toolbox", Values)
+            APSIMSettings.INIWriteMultiple(APSIMSettings.ApsimIniFile(), "ApsimUI", "toolbox", Values)
         End Set
     End Property
 
@@ -33,7 +33,7 @@ Public Class Toolboxes
     Public ReadOnly Property Names() As StringCollection
         Get
             Dim Files As New StringCollection
-            Dim Toolboxes As StringCollection = APSIMSettings.INIReadMultiple(APSIMSettings.ApsimIniFile(), "Toolboxes", "toolbox")
+            Dim Toolboxes As StringCollection = APSIMSettings.INIReadMultiple(APSIMSettings.ApsimIniFile(), "ApsimUI", "toolbox")
             For i As Integer = 0 To Toolboxes.Count - 1
                 If File.Exists(Toolboxes(i)) Then
                     Files.Add(Path.GetFileNameWithoutExtension(Toolboxes(i)))
