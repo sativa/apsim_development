@@ -19,7 +19,9 @@ Component "SWOutputfile" = c:\development\apsim\report\lib\report.dll
 Component      "accum" = c:\development\apsim\accum\lib\accum.dll
 Component "fertiliser" = c:\development\apsim\fertiliz\lib\fertiliz.dll
 Component "Irrigation" = c:\development\apsim\irrigate\lib\irrigate.dll
-Component    "Manager" = c:\development\apsim\manager\lib\manager.dll
+Component "Sow on a fixed date" = c:\development\apsim\manager\lib\manager.dll
+Component "Harvesting rule" = c:\development\apsim\manager\lib\manager.dll
+Component "Reset water, nitrogen and surfaceOM on fixed date" = c:\development\apsim\manager\lib\manager.dll
 Component  "Irrigator" = c:\development\apsim\manager\lib\manager.dll
 Component "Fertilizer" = c:\development\apsim\manager\lib\manager.dll
 Component "LincolnField Water" = c:\development\apsim\soilwat2\lib\soilwat2.dll
@@ -120,19 +122,29 @@ Component      "wheat" = c:\development\apsim\plant\lib\plant.dll
            Irrigation Allocation Budget (Disabled)
           -----------------------------------------------
 
-------- Manager Initialisation ------------------------------------------------
+------- Sow on a fixed date Initialisation ------------------------------------
      Manager rules:
      
      SECTION:- start_of_day
         if (paddock_is_fallow() = 1 and today = date('08/06/1991')) then
           wheat sow plants =300, sowing_depth = 40, cultivar = rongotea, row_spacing = 250
         endif
+     END of rules
+     
+
+------- Harvesting rule Initialisation ----------------------------------------
+     Manager rules:
      
      SECTION:- end_of_day
        if wheat.stage_name = 'harvest_ripe' or wheat.plant_status = 'dead' then
           wheat  harvest
           wheat  end_crop
        endif
+     END of rules
+     
+
+------- Reset water, nitrogen and surfaceOM on fixed date Initialisation ------
+     Manager rules:
      
      SECTION:- start_of_day
      if (today = date('02-sep') then
@@ -424,7 +436,7 @@ Component      "wheat" = c:\development\apsim\plant\lib\plant.dll
                                               added at depth   50.00 (layer   1)
 29 August 1991(Day of year=241), Irrigator: 
      Manager sending message :- irrigation apply  amount = 20 (mm)
-2 September 1991(Day of year=245), Manager: 
+2 September 1991(Day of year=245), Reset water, nitrogen and surfaceOM on fixed date: 
      Manager creating a new local string variable : resetwater = yes
      Manager creating a new local string variable : resetnitrogen = no
      Manager creating a new local string variable : resetsurfaceom = no
@@ -475,7 +487,7 @@ Component      "wheat" = c:\development\apsim\plant\lib\plant.dll
       stage 10.0 harvest_ripe
                      biomass =        1752.50 (g/m^2)   lai          =   0.000 (m^2/m^2)
                      stover N conc =     0.32 (%)    extractable sw =   22.12 (mm)
-16 January 1992(Day of year=16), Manager: 
+16 January 1992(Day of year=16), Harvesting rule: 
      Manager sending message :- wheat harvest
      
       flowering day          =  331                           stover (kg/ha)         =    11646.6

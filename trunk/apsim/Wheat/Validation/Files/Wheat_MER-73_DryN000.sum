@@ -18,7 +18,9 @@ Component "outputfile" = c:\development\apsim\report\lib\report.dll
 Component      "accum" = c:\development\apsim\accum\lib\accum.dll
 Component "fertiliser" = c:\development\apsim\fertiliz\lib\fertiliz.dll
 Component "Irrigation" = c:\development\apsim\irrigate\lib\irrigate.dll
-Component    "Manager" = c:\development\apsim\manager\lib\manager.dll
+Component "Sow on a fixed date" = c:\development\apsim\manager\lib\manager.dll
+Component "Harvesting rule" = c:\development\apsim\manager\lib\manager.dll
+Component "Tillage on fixed date" = c:\development\apsim\manager\lib\manager.dll
 Component  "Irrigator" = c:\development\apsim\manager\lib\manager.dll
 Component "Fertilizer" = c:\development\apsim\manager\lib\manager.dll
 Component "MER-73Field Water" = c:\development\apsim\soilwat2\lib\soilwat2.dll
@@ -109,19 +111,29 @@ Component      "wheat" = c:\development\apsim\plant\lib\plant.dll
            Irrigation Allocation Budget (Disabled)
           -----------------------------------------------
 
-------- Manager Initialisation ------------------------------------------------
+------- Sow on a fixed date Initialisation ------------------------------------
      Manager rules:
      
      SECTION:- start_of_day
         if (paddock_is_fallow() = 1 and today = date('21/6/1973')) then
           wheat sow plants =100, sowing_depth = 30, cultivar = gamenya, row_spacing = 250
         endif
+     END of rules
+     
+
+------- Harvesting rule Initialisation ----------------------------------------
+     Manager rules:
      
      SECTION:- end_of_day
        if wheat.stage_name = 'harvest_ripe' or wheat.plant_status = 'dead' then
           wheat  harvest
           wheat  end_crop
        endif
+     END of rules
+     
+
+------- Tillage on fixed date Initialisation ----------------------------------
+     Manager rules:
      
      SECTION:- start_of_day
               if (today = date('21-jun') then
@@ -334,7 +346,7 @@ Component      "wheat" = c:\development\apsim\plant\lib\plant.dll
 ------- wheat Initialisation --------------------------------------------------
      phenology model: Wheat
 ------- Start of simulation  --------------------------------------------------
-21 June 1973(Day of year=172), Manager: 
+21 June 1973(Day of year=172), Sow on a fixed date: 
      Manager sending message :- wheat sow  plants = 100, sowing_depth = 30, cultivar = gamenya, row_spacing = 250
 21 June 1973(Day of year=172), wheat: 
      Crop Sow
@@ -380,6 +392,7 @@ Component      "wheat" = c:\development\apsim\plant\lib\plant.dll
             172   30.0  100.0  250.0   0.0   0.0 gamenya
          ------------------------------------------------
      
+21 June 1973(Day of year=172), Tillage on fixed date: 
      Manager sending message :- surface organic matter tillage  type = disc
 21 June 1973(Day of year=172), Surface Organic Matter: 
      
@@ -423,7 +436,7 @@ Component      "wheat" = c:\development\apsim\plant\lib\plant.dll
       stage 10.0 harvest_ripe
                      biomass =         714.93 (g/m^2)   lai          =   0.000 (m^2/m^2)
                      stover N conc =     0.30 (%)    extractable sw =    7.80 (mm)
-26 November 1973(Day of year=330), Manager: 
+26 November 1973(Day of year=330), Harvesting rule: 
      Manager sending message :- wheat harvest
      
       flowering day          =  282                           stover (kg/ha)         =     4501.1
