@@ -21,12 +21,12 @@ Component   "soilwat2" = c:\development\apsim\soilwat2\lib\soilwat2.dll
 Component  "surfaceom" = c:\development\apsim\surfaceom\lib\surfaceom.dll
 Component     "soiln2" = c:\development\apsim\soiln2\lib\soiln2.dll
 Component    "manager" = c:\development\apsim\manager\lib\manager.dll
-Component      "stock" = C:\Program Files\FarmWise\stock.dll
+Component      "stock" = C:\Program Files\AusFarm\stock.dll
 Component     "cattle" = c:\development\apsim\stock\lib\StockScienceConverter.dll
 Component "managercattle" = c:\development\apsim\manager\lib\manager.dll
 Component "supplementstore" = c:\development\apsim\supplement\lib\SupplementScienceConverter.dll
 Component "supplementmanager" = c:\development\apsim\manager\lib\manager.dll
-Component "supplement" = C:\Program Files\FarmWise\supplement.dll
+Component "supplement" = C:\Program Files\AusFarm\supplement.dll
 
 ------- clock Initialisation --------------------------------------------------
      Sequencer phases:
@@ -46,7 +46,7 @@ Component "supplement" = C:\Program Files\FarmWise\supplement.dll
      Subscribe Event: prepare
            Publish Event/s: init_step do_pasture_water
      Subscribe Event: process
-           Publish Event/s: prewaterbalance do_pasture_growth do_stock
+           Publish Event/s: do_pasture_growth do_stock
      Subscribe Event: post
            Publish Event/s: end_step
      
