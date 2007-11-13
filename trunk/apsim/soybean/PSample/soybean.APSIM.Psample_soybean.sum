@@ -58,9 +58,9 @@ Component    "soybean" = c:\development\apsim\Plant\lib\Plant.dll
         soybean.dlt_p_detached()
         soybean.dlt_p_sen()
         soybean.p_conc_stover
-        soybean.p_conc_leaf
-        soybean.p_conc_stem
-        soybean.p_conc_grain
+        soybean.LeafGreenPConc
+        soybean.StemGreenPConc
+        soybean.GrainGreenPConc
         soybean.p_uptake_stover
         soybean.grain_p_demand
         surfaceom.surfaceom_p
@@ -336,6 +336,9 @@ Component    "soybean" = c:\development\apsim\Plant\lib\Plant.dll
       stage 7.0 start_grain_fill
                      biomass =         208.11 (g/m^2)   lai          =   2.129 (m^2/m^2)
                      stover N conc =     3.13 (%)    extractable sw =  287.60 (mm)
+
+     *** Leaf Green N pool is negative! -0.000093
+
 13 March 1989(Day of year=72), soybean: 
      Crop failure because of total leaf senescence.
      Plant death. standing above-ground dm = 2906.03 (kg/ha)
