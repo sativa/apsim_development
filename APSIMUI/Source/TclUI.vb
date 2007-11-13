@@ -89,7 +89,7 @@ Public Class TclUI
         End If
     End Sub
 
-    Protected Overrides Sub OnSave()
+    Public Overrides Sub OnSave()
         If Not IsNothing(Me.Data) Then
             Dim newXML As String
             newXML = AxTclControl1.GetVar("XMLDoc", 1)

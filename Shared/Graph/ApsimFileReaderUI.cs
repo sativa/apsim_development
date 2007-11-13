@@ -5,6 +5,7 @@ using System.Data;
 using System.Drawing;
 using System.Text;
 using System.Windows.Forms;
+using System.IO;
 using VBUserInterface;
 using VBGeneral;
 using CSGeneral;
@@ -30,24 +31,28 @@ namespace Graph
             // everything on it.
             // -----------------------------------------------
             base.OnRefresh();
+
+            FileList.TextChanged -= OnTextChanged;
             List<string> FileNames = XmlHelper.Values(Data, "FileName");
             string[] AllLines = new string[FileNames.Count];
+            FileNames.CopyTo(AllLines);
             FileList.Lines = AllLines;
             GroupBox.Text = Name;
+            FileList.TextChanged += OnTextChanged;
             }
-        protected override void OnSave()
-            {
-            // -----------------------------------------------
-            // Called when it's time to save everything back
-            // to XML
-            // -----------------------------------------------
-            base.OnSave();
-            }
-        
+   
         private void OnBrowseButtonClick(object sender, EventArgs e)
             {
             if (OpenFileDialog.ShowDialog() == DialogResult.OK)
-                FileList.Lines = OpenFileDialog.FileNames;
+                {
+                string[] Files = OpenFileDialog.FileNames;
+                for (int i = 0; i != Files.Length; i++)
+                    {
+                    Files[i] = Files[i].Replace(Directory.GetCurrentDirectory() + "\\", "");
+                    Files[i] = Files[i].Replace(APSIMSettings.ApsimDirectory(), "%apsuite");
+                    }
+                FileList.Lines = Files;
+                }
             }
 
         private void OnTextChanged(object sender, EventArgs e)
@@ -55,7 +60,7 @@ namespace Graph
             List<string> FileNames = new List<string>();
             FileNames.AddRange(FileList.Lines);
             XmlHelper.SetValues(Data, "FileName", FileNames);
-            PublishViewChanged(Data);
+            PublishViewChanged();
             }
 
 

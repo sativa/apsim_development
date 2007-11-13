@@ -1,8 +1,79 @@
-<?xml version="1.0"?>
-<report version="4">
-  <Data><ApsimFileReader name="Observed"><FileName type="filenames">Observed\APS14.txt</FileName><ParseTitle type="yesno">yes</ParseTitle><Filter name="ObsBare"><FilterString>residue='Bare'</FilterString></Filter><Filter name="ObsLucerne"><FilterString>residue='Lucerne'</FilterString></Filter><Filter name="ObsStraw"><FilterString>residue='Straw'</FilterString></Filter></ApsimFileReader><ApsimFileReader name="Predicted"><FileName type="filenames">Wheat_APS14_BareN000.out</FileName><FileName type="filenames">Wheat_APS14_BareN040.out</FileName><FileName type="filenames">Wheat_APS14_BareN080.out</FileName><FileName type="filenames">Wheat_APS14_BareN200.out</FileName><FileName type="filenames">Wheat_APS14_LucN000.out</FileName><FileName type="filenames">Wheat_APS14_LucN040.out</FileName><FileName type="filenames">Wheat_APS14_LucN080.out</FileName><FileName type="filenames">Wheat_APS14_LucN200.out</FileName><FileName type="filenames">Wheat_APS14_StrawN000.out</FileName><FileName type="filenames">Wheat_APS14_StrawN040.out</FileName><FileName type="filenames">Wheat_APS14_StrawN080.out</FileName><FileName type="filenames">Wheat_APS14_StrawN200.out</FileName><Filter name="PredictedHarvest"><FilterString>zadok_stage=90</FilterString><PredObs name="PredObs1"><obsFileName type="filename">Observed</obsFileName><KeyFieldName type="fieldnames">title</KeyFieldName></PredObs></Filter></ApsimFileReader><ApsimFileReader name="PreBare"><FileName type="filenames">Wheat_APS14_BareN200.out</FileName><FileName type="filenames">Wheat_APS14_BareN000.out</FileName><FileName type="filenames">Wheat_APS14_BareN040.out</FileName><FileName type="filenames">Wheat_APS14_BareN080.out</FileName><Filter name="PreBareHarvest"><FilterString>zadok_stage=90</FilterString></Filter></ApsimFileReader><ApsimFileReader name="PreLucerne"><FileName type="filenames">Wheat_APS14_LucN200.out</FileName><FileName type="filenames">Wheat_APS14_LucN000.out</FileName><FileName type="filenames">Wheat_APS14_LucN040.out</FileName><FileName type="filenames">Wheat_APS14_LucN080.out</FileName><Filter name="PreLucerneHarvest"><FilterString>zadok_stage=90</FilterString></Filter></ApsimFileReader><ApsimFileReader name="PreStraw"><FileName type="filenames">Wheat_APS14_StrawN200.out</FileName><FileName type="filenames">Wheat_APS14_StrawN000.out</FileName><FileName type="filenames">Wheat_APS14_StrawN040.out</FileName><FileName type="filenames">Wheat_APS14_StrawN080.out</FileName><Filter name="PreStrawHarvest"><FilterString>zadok_stage=90</FilterString></Filter></ApsimFileReader></Data>
-  <page><![CDATA[object Page1: TQuickRep
-  Left = 279
+<report version="5">
+<Data>
+<ApsimFileReader name="Observed" Left="0" Top="0" Width="162" Height="150">
+  <FileName type="filenames">Observed\APS14.txt</FileName>
+  <ParseTitle type="yesno">yes</ParseTitle>
+</ApsimFileReader>
+<ApsimFileReader name="Predicted" Left="200" Top="0" Width="162" Height="150">
+  <FileName type="filenames">Wheat_APS14_BareN000.out</FileName>
+  <FileName type="filenames">Wheat_APS14_BareN040.out</FileName>
+  <FileName type="filenames">Wheat_APS14_BareN080.out</FileName>
+  <FileName type="filenames">Wheat_APS14_BareN200.out</FileName>
+  <FileName type="filenames">Wheat_APS14_LucN000.out</FileName>
+  <FileName type="filenames">Wheat_APS14_LucN040.out</FileName>
+  <FileName type="filenames">Wheat_APS14_LucN080.out</FileName>
+  <FileName type="filenames">Wheat_APS14_LucN200.out</FileName>
+  <FileName type="filenames">Wheat_APS14_StrawN000.out</FileName>
+  <FileName type="filenames">Wheat_APS14_StrawN040.out</FileName>
+  <FileName type="filenames">Wheat_APS14_StrawN080.out</FileName>
+  <FileName type="filenames">Wheat_APS14_StrawN200.out</FileName>
+</ApsimFileReader>
+<ApsimFileReader name="PreBare" Left="400" Top="0" Width="162" Height="150">
+  <FileName type="filenames">Wheat_APS14_BareN200.out</FileName>
+  <FileName type="filenames">Wheat_APS14_BareN000.out</FileName>
+  <FileName type="filenames">Wheat_APS14_BareN040.out</FileName>
+  <FileName type="filenames">Wheat_APS14_BareN080.out</FileName>
+</ApsimFileReader>
+<ApsimFileReader name="PreLucerne" Left="600" Top="0" Width="162" Height="150">
+  <FileName type="filenames">Wheat_APS14_LucN200.out</FileName>
+  <FileName type="filenames">Wheat_APS14_LucN000.out</FileName>
+  <FileName type="filenames">Wheat_APS14_LucN040.out</FileName>
+  <FileName type="filenames">Wheat_APS14_LucN080.out</FileName>
+</ApsimFileReader>
+<ApsimFileReader name="PreStraw" Left="600" Top="168" Width="162" Height="150">
+  <FileName type="filenames">Wheat_APS14_StrawN200.out</FileName>
+  <FileName type="filenames">Wheat_APS14_StrawN000.out</FileName>
+  <FileName type="filenames">Wheat_APS14_StrawN040.out</FileName>
+  <FileName type="filenames">Wheat_APS14_StrawN080.out</FileName>
+</ApsimFileReader>
+<Filter name="ObsBare" Left="145" Top="352" Width="135" Height="92">
+  <FilterString>residue='Bare'</FilterString>
+  <source>Observed</source>
+</Filter>
+<Filter name="ObsLucerne" Left="286" Top="352" Width="135" Height="92">
+  <FilterString>residue='Lucerne'</FilterString>
+  <source>Observed</source>
+</Filter>
+<Filter name="ObsStraw" Left="427" Top="352" Width="135" Height="92">
+  <FilterString>residue='Straw'</FilterString>
+  <source>Observed</source>
+</Filter>
+<Filter name="PredictedHarvest" Left="145" Top="454" Width="135" Height="92">
+  <FilterString>zadok_stage=90</FilterString>
+  <source>Predicted</source>
+</Filter>
+<Filter name="PreBareHarvest" Left="286" Top="454" Width="135" Height="92">
+  <FilterString>zadok_stage=90</FilterString>
+  <source>PreBare</source>
+</Filter>
+<Filter name="PreLucerneHarvest" Left="427" Top="454" Width="135" Height="92">
+  <FilterString>zadok_stage=90</FilterString>
+  <source>PreLucerne</source>
+</Filter>
+<Filter name="PreStrawHarvest" Left="145" Top="552" Width="135" Height="92">
+  <FilterString>zadok_stage=90</FilterString>
+  <source>PreStraw</source>
+</Filter>
+<PredObs name="PredObs1" Left="303" Top="168" Width="185" Height="167">
+  <obsFileName type="filename">Observed</obsFileName>
+  <source>PredictedHarvest</source>
+  <source>Observed</source>
+  <FieldName>Title</FieldName>
+</PredObs>
+</Data>
+   <page> <![CDATA[
+object Page1: TQuickRep
+  Left = 43
   Top = 0
   Width = 714
   Height = 1010
@@ -408,8 +479,10 @@
     end
   end
 end
-]]></page>
-  <page><![CDATA[object Page2: TQuickRep
+]]>
+   </page>
+   <page> <![CDATA[
+object Page2: TQuickRep
   Left = 279
   Top = 0
   Width = 714
@@ -470,7 +543,7 @@ end
     ForceNewColumn = False
     ForceNewPage = False
     Size.Values = (
-      2970
+      2969.21296296296
       2099.02777777778)
     BandType = rbTitle
     object Graph4: TGraph
@@ -650,5 +723,6 @@ end
     end
   end
 end
-]]></page>
+]]>
+   </page>
 </report>

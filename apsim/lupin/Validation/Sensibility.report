@@ -1,17 +1,18 @@
-<report version="4">
+<report version="5">
 <Data>
-   <ApsimFileReader name="Predicted">
+<ApsimFileReader name="Predicted" Left="0" Top="0">
       <FileName type="filenames">*.out</FileName>
       <ParseTitle type="yesno">no</ParseTitle>
-      <Filter name="OnHarvest">
+      
+   </ApsimFileReader>
+<Filter name="OnHarvest" Left="200" Top="0">
          <FilterString>stage_code = 10</FilterString>
          <GroupByFieldName type="fieldnames"/>
-      </Filter>
-   </ApsimFileReader>
+      <source>Predicted</source></Filter>
 </Data>
    <page> <![CDATA[
 object Page1: TQuickRep
-  Left = 167
+  Left = 3
   Top = 0
   Width = 794
   Height = 1123

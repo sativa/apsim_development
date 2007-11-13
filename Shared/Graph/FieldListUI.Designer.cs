@@ -39,7 +39,7 @@ namespace Graph
             this.GroupBox.Dock = System.Windows.Forms.DockStyle.Fill;
             this.GroupBox.Location = new System.Drawing.Point(0, 18);
             this.GroupBox.Name = "GroupBox";
-            this.GroupBox.Size = new System.Drawing.Size(180, 211);
+            this.GroupBox.Size = new System.Drawing.Size(128, 168);
             this.GroupBox.TabIndex = 6;
             this.GroupBox.TabStop = false;
             this.GroupBox.Text = "GroupBox";
@@ -53,7 +53,7 @@ namespace Graph
             this.FieldList.FormattingEnabled = true;
             this.FieldList.Location = new System.Drawing.Point(6, 19);
             this.FieldList.Name = "FieldList";
-            this.FieldList.Size = new System.Drawing.Size(168, 184);
+            this.FieldList.Size = new System.Drawing.Size(116, 139);
             this.FieldList.TabIndex = 6;
             // 
             // FieldListUI
@@ -61,7 +61,7 @@ namespace Graph
             this.BackColor = System.Drawing.SystemColors.Window;
             this.Controls.Add(this.GroupBox);
             this.Name = "FieldListUI";
-            this.Size = new System.Drawing.Size(180, 229);
+            this.Size = new System.Drawing.Size(128, 186);
             this.Controls.SetChildIndex(this.GroupBox, 0);
             this.GroupBox.ResumeLayout(false);
             this.ResumeLayout(false);

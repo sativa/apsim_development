@@ -1,9 +1,26 @@
-<?xml version="1.0"?>
-<report version="4">
-  <Data><ApsimFileReader name="ObsHarvest"><FileName type="filenames">Observed\Lincoln.txt</FileName></ApsimFileReader><ApsimFileReader name="PreAll"><FileName type="filenames">Wheat_Lincoln9192_I11.out</FileName><FileName type="filenames">Wheat_Lincoln9192_I01.out</FileName><FileName type="filenames">Wheat_Lincoln9192_I03.out</FileName><FileName type="filenames">Wheat_Lincoln9192_I05.out</FileName><FileName type="filenames">Wheat_Lincoln9192_I06.out</FileName><FileName type="filenames">Wheat_Lincoln9192_I07.out</FileName><FileName type="filenames">Wheat_Lincoln9192_I08.out</FileName><Filter name="PreFinal"><FilterString>day = 26</FilterString></Filter></ApsimFileReader></Data>
-  <page><![CDATA[object TQuickRep
-  Left = 283
-  Top = 125
+<report version="5">
+<Data>
+<ApsimFileReader name="ObsHarvest" Left="0" Top="0" Width="162" Height="150">
+  <FileName type="filenames">Observed\Lincoln.txt</FileName>
+</ApsimFileReader>
+<ApsimFileReader name="PreAll" Left="200" Top="0" Width="162" Height="150">
+  <FileName type="filenames">Wheat_Lincoln9192_I11.out</FileName>
+  <FileName type="filenames">Wheat_Lincoln9192_I01.out</FileName>
+  <FileName type="filenames">Wheat_Lincoln9192_I03.out</FileName>
+  <FileName type="filenames">Wheat_Lincoln9192_I05.out</FileName>
+  <FileName type="filenames">Wheat_Lincoln9192_I06.out</FileName>
+  <FileName type="filenames">Wheat_Lincoln9192_I07.out</FileName>
+  <FileName type="filenames">Wheat_Lincoln9192_I08.out</FileName>
+</ApsimFileReader>
+<Filter name="PreFinal" Left="400" Top="0" Width="135" Height="92">
+  <FilterString>day = 26</FilterString>
+  <source>PreAll</source>
+</Filter>
+</Data>
+   <page> <![CDATA[
+object TQuickRep
+  Left = 155
+  Top = 106
   Width = 490
   Height = 634
   Frame.Color = clBlack
@@ -466,5 +483,6 @@
     end
   end
 end
-]]></page>
+]]>
+   </page>
 </report>

@@ -13,6 +13,7 @@ class DataContainer
    {
    public:
       DataContainer(TComponent* _owner);
+      ~DataContainer();
 
       // Get and set the full XML for the system.
       void setup(const std::string& xml);
@@ -26,6 +27,7 @@ class DataContainer
 
       // Refresh all data
       void refresh();
+      void refreshIfNecessary();
 
       // Add a new node with the given properties
       void add(const XMLNode& properties);
@@ -38,6 +40,9 @@ class DataContainer
 
       // Go set the properties for an existing node.
       void set(const XMLNode& properties);
+
+      // Go set the properties for an existing node.
+      void setWithNoRefresh(const XMLNode& properties);
 
       // Invalidate the specified node
       void invalidate(const std::string& name);
@@ -62,7 +67,6 @@ class DataContainer
       TComponent* owner;
 
       void save(string& st, int level);
-      void refreshIfNecessary();
 
    };
 #endif

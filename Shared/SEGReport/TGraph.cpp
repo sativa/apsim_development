@@ -139,7 +139,16 @@ void __fastcall TGraph::DefineProperties(TFiler *Filer)
 //---------------------------------------------------------------------------
 void __fastcall TGraph::Loaded(void)
    {
-   TgtQRChart::Loaded();
+   try
+      {
+      TgtQRChart::Loaded();
+      }
+   catch (Exception* err)
+      {
+      }
+   catch (exception& err)
+      {
+      }
    }
 //---------------------------------------------------------------------------
 // refresh the chart
@@ -148,23 +157,33 @@ void TGraph::refresh(void)
    {
    if (!ComponentState.Contains(csLoading))
       {
-      Chart->RefreshData();
-      Chart->Refresh();
-
-      if (Chart->SeriesCount() == 1)
+      try
          {
-         TPieSeries* pieSeries = dynamic_cast<TPieSeries*> (Chart->Series[0]);
-         if (pieSeries != NULL)
+         Chart->RefreshData();
+         Chart->Refresh();
+
+         if (Chart->SeriesCount() == 1)
             {
-            static TColor OurColors[5] = {0x004080, 0x0080FF, clLtGray, clGreen, clBlue};
-            SetDefaultColorPalette(OurColors, 5);
+            TPieSeries* pieSeries = dynamic_cast<TPieSeries*> (Chart->Series[0]);
+            if (pieSeries != NULL)
+               {
+               static TColor OurColors[5] = {0x004080, 0x0080FF, clLtGray, clGreen, clBlue};
+               SetDefaultColorPalette(OurColors, 5);
+               }
             }
+
+
+         replaceChartMacros();
+         fixBottomAxisScaling();
          }
-
-
-      replaceChartMacros();
-      fixBottomAxisScaling();
+      catch (Exception* err)
+         {
+         }
+      catch (exception& err)
+         {
+         }
       }
+
    }
 //---------------------------------------------------------------------------
 // replace all chart macros.

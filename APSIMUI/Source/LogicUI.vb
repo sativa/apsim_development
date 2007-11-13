@@ -162,7 +162,7 @@ Public Class LogicUI
         End If
     End Sub
 
-    Protected Overrides Sub OnSave()
+    Public Overrides Sub OnSave()
         If Not IsNothing(CurrentScriptNode) Then
             Dim text As String = Replace(ScriptBox.Text, vbCrLf, "[cr]")
             If text = Nothing Then

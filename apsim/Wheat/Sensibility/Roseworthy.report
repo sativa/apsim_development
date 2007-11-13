@@ -1,607 +1,39 @@
-Version = 3.0
-NumPages = 1
-object data: TForm
-  Left = 4
-  Top = 4
-  Align = alClient
-  BorderIcons = []
-  BorderStyle = bsNone
-  ClientHeight = 865
-  ClientWidth = 1384
-  Color = clBtnFace
-  Font.Charset = DEFAULT_CHARSET
-  Font.Color = clWindowText
-  Font.Height = -11
-  Font.Name = 'MS Sans Serif'
-  Font.Style = []
-  OldCreateOrder = False
-  PixelsPerInch = 96
-  TextHeight = 13
-  object RoseworthyLowNTopDress: TApsimFileReader
-    Active = True
-    DesignActivation = True
-    AttachedAutoRefresh = True
-    AttachMaxCount = 1
-    FieldDefs = <
-      item
-        Name = 'title'
-        DataType = ftString
-        Size = 200
-      end
-      item
-        Name = 'date'
-        DataType = ftDate
-      end
-      item
-        Name = 'day'
-        DataType = ftFloat
-      end
-      item
-        Name = 'year'
-        DataType = ftFloat
-      end
-      item
-        Name = 'in_crop_rain'
-        DataType = ftFloat
-      end
-      item
-        Name = 'eff_in_crop_rain'
-        DataType = ftFloat
-      end
-      item
-        Name = 'lai'
-        DataType = ftFloat
-      end
-      item
-        Name = 'biomass'
-        DataType = ftFloat
-      end
-      item
-        Name = 'yield'
-        DataType = ftFloat
-      end
-      item
-        Name = 'hi'
-        DataType = ftFloat
-      end
-      item
-        Name = 'nhi'
-        DataType = ftFloat
-      end
-      item
-        Name = 'sum_ep'
-        DataType = ftFloat
-      end
-      item
-        Name = 'n_conc_grain'
-        DataType = ftFloat
-      end
-      item
-        Name = 'grain_n'
-        DataType = ftFloat
-      end
-      item
-        Name = 'no3()'
-        DataType = ftFloat
-      end
-      item
-        Name = 'esw'
-        DataType = ftFloat
-      end
-      item
-        Name = 'flowering_date'
-        DataType = ftFloat
-      end>
-    IndexDefs = <>
-    SortFields = 'year'
-    SortOptions = []
-    AllDataOptions = [mtfSaveData, mtfSaveNonVisible, mtfSaveBlobs, mtfSaveFiltered, mtfSaveIgnoreRange, mtfSaveIgnoreMasterDetail, mtfSaveDeltas]
-    CommaTextOptions = [mtfSaveData]
-    CSVQuote = '"'
-    CSVFieldDelimiter = ','
-    CSVRecordDelimiter = ','
-    CSVTrueString = 'True'
-    CSVFalseString = 'False'
-    PersistentSaveOptions = [mtfSaveData, mtfSaveNonVisible, mtfSaveIgnoreRange, mtfSaveIgnoreMasterDetail]
-    PersistentBackup = False
-    ProgressFlags = [mtpcLoad, mtpcSave, mtpcCopy]
-    FilterOptions = []
-    Version = '2.53g'
-    LanguageID = 0
-    SortID = 0
-    SubLanguageID = 1
-    LocaleID = 1024
-    subscriptionComponentNames.Strings = (
-      'Dalby600Prob.onSourceDataChanged'
-      'Warra600HighNProb.onSourceDataChanged'
-      'Graph2.afterDataRefresh'
-      'RoseworthyLowNTopDressProb.onSourceDataChanged')
-    sortFields = 'year'
-    filenames.Strings = (
-      'RoseworthyMidLowNTopDress.out')
-    Left = 170
-    Top = 157
-  end
-  object RoseworthyLowNTopDressProb: TProbability
-    Active = True
-    DesignActivation = True
-    AttachedAutoRefresh = True
-    AttachMaxCount = 1
-    FieldDefs = <
-      item
-        Name = 'yield'
-        DataType = ftFloat
-      end
-      item
-        Name = 'Probability'
-        DataType = ftFloat
-      end>
-    IndexDefs = <>
-    SortFields = 'Probability'
-    SortOptions = []
-    AllDataOptions = [mtfSaveData, mtfSaveNonVisible, mtfSaveBlobs, mtfSaveFiltered, mtfSaveIgnoreRange, mtfSaveIgnoreMasterDetail, mtfSaveDeltas]
-    CommaTextOptions = [mtfSaveData]
-    CSVQuote = '"'
-    CSVFieldDelimiter = ','
-    CSVRecordDelimiter = ','
-    CSVTrueString = 'True'
-    CSVFalseString = 'False'
-    PersistentSaveOptions = [mtfSaveData, mtfSaveNonVisible, mtfSaveIgnoreRange, mtfSaveIgnoreMasterDetail]
-    PersistentBackup = False
-    ProgressFlags = [mtpcLoad, mtpcSave, mtpcCopy]
-    FilterOptions = []
-    Version = '2.53g'
-    LanguageID = 0
-    SortID = 0
-    SubLanguageID = 1
-    LocaleID = 1024
-    source = RoseworthyLowNTopDress
-    subscriptionComponentNames.Strings = (
-      'Graph1.afterDataRefresh')
-    sortFields = 'Probability'
-    fieldName = 'yield'
-    Left = 304
-    Top = 160
-  end
-  object RoseworthyTopDress: TApsimFileReader
-    Active = True
-    DesignActivation = True
-    AttachedAutoRefresh = True
-    AttachMaxCount = 1
-    FieldDefs = <
-      item
-        Name = 'title'
-        DataType = ftString
-        Size = 200
-      end
-      item
-        Name = 'date'
-        DataType = ftDate
-      end
-      item
-        Name = 'day'
-        DataType = ftFloat
-      end
-      item
-        Name = 'year'
-        DataType = ftFloat
-      end
-      item
-        Name = 'in_crop_rain'
-        DataType = ftFloat
-      end
-      item
-        Name = 'eff_in_crop_rain'
-        DataType = ftFloat
-      end
-      item
-        Name = 'lai'
-        DataType = ftFloat
-      end
-      item
-        Name = 'biomass'
-        DataType = ftFloat
-      end
-      item
-        Name = 'yield'
-        DataType = ftFloat
-      end
-      item
-        Name = 'hi'
-        DataType = ftFloat
-      end
-      item
-        Name = 'nhi'
-        DataType = ftFloat
-      end
-      item
-        Name = 'sum_ep'
-        DataType = ftFloat
-      end
-      item
-        Name = 'n_conc_grain'
-        DataType = ftFloat
-      end
-      item
-        Name = 'grain_n'
-        DataType = ftFloat
-      end
-      item
-        Name = 'no3()'
-        DataType = ftFloat
-      end
-      item
-        Name = 'esw'
-        DataType = ftFloat
-      end
-      item
-        Name = 'flowering_date'
-        DataType = ftFloat
-      end>
-    IndexDefs = <>
-    SortFields = 'year'
-    SortOptions = []
-    AllDataOptions = [mtfSaveData, mtfSaveNonVisible, mtfSaveBlobs, mtfSaveFiltered, mtfSaveIgnoreRange, mtfSaveIgnoreMasterDetail, mtfSaveDeltas]
-    CommaTextOptions = [mtfSaveData]
-    CSVQuote = '"'
-    CSVFieldDelimiter = ','
-    CSVRecordDelimiter = ','
-    CSVTrueString = 'True'
-    CSVFalseString = 'False'
-    PersistentSaveOptions = [mtfSaveData, mtfSaveNonVisible, mtfSaveIgnoreRange, mtfSaveIgnoreMasterDetail]
-    PersistentBackup = False
-    ProgressFlags = [mtpcLoad, mtpcSave, mtpcCopy]
-    FilterOptions = []
-    Version = '2.53g'
-    LanguageID = 0
-    SortID = 0
-    SubLanguageID = 1
-    LocaleID = 1024
-    subscriptionComponentNames.Strings = (
-      'Warra1500HighNProb.onSourceDataChanged'
-      'Graph2.afterDataRefresh'
-      'RoseworthyTopDressProb.onSourceDataChanged')
-    sortFields = 'year'
-    filenames.Strings = (
-      'RoseworthyMidTopDress.out')
-    Left = 171
-    Top = 223
-  end
-  object RoseworthyLowN: TApsimFileReader
-    Active = True
-    DesignActivation = True
-    AttachedAutoRefresh = True
-    AttachMaxCount = 1
-    FieldDefs = <
-      item
-        Name = 'title'
-        DataType = ftString
-        Size = 200
-      end
-      item
-        Name = 'date'
-        DataType = ftDate
-      end
-      item
-        Name = 'day'
-        DataType = ftFloat
-      end
-      item
-        Name = 'year'
-        DataType = ftFloat
-      end
-      item
-        Name = 'in_crop_rain'
-        DataType = ftFloat
-      end
-      item
-        Name = 'eff_in_crop_rain'
-        DataType = ftFloat
-      end
-      item
-        Name = 'lai'
-        DataType = ftFloat
-      end
-      item
-        Name = 'biomass'
-        DataType = ftFloat
-      end
-      item
-        Name = 'yield'
-        DataType = ftFloat
-      end
-      item
-        Name = 'hi'
-        DataType = ftFloat
-      end
-      item
-        Name = 'nhi'
-        DataType = ftFloat
-      end
-      item
-        Name = 'sum_ep'
-        DataType = ftFloat
-      end
-      item
-        Name = 'n_conc_grain'
-        DataType = ftFloat
-      end
-      item
-        Name = 'grain_n'
-        DataType = ftFloat
-      end
-      item
-        Name = 'no3()'
-        DataType = ftFloat
-      end
-      item
-        Name = 'esw'
-        DataType = ftFloat
-      end
-      item
-        Name = 'flowering_date'
-        DataType = ftFloat
-      end>
-    IndexDefs = <>
-    SortFields = 'year'
-    SortOptions = []
-    AllDataOptions = [mtfSaveData, mtfSaveNonVisible, mtfSaveBlobs, mtfSaveFiltered, mtfSaveIgnoreRange, mtfSaveIgnoreMasterDetail, mtfSaveDeltas]
-    CommaTextOptions = [mtfSaveData]
-    CSVQuote = '"'
-    CSVFieldDelimiter = ','
-    CSVRecordDelimiter = ','
-    CSVTrueString = 'True'
-    CSVFalseString = 'False'
-    PersistentSaveOptions = [mtfSaveData, mtfSaveNonVisible, mtfSaveIgnoreRange, mtfSaveIgnoreMasterDetail]
-    PersistentBackup = False
-    ProgressFlags = [mtpcLoad, mtpcSave, mtpcCopy]
-    FilterOptions = []
-    Version = '2.53g'
-    LanguageID = 0
-    SortID = 0
-    SubLanguageID = 1
-    LocaleID = 1024
-    subscriptionComponentNames.Strings = (
-      'Warra600LowNProb.onSourceDataChanged'
-      'Graph2.afterDataRefresh'
-      'RoseworthyLowNProb.onSourceDataChanged')
-    sortFields = 'year'
-    filenames.Strings = (
-      'RoseworthyMidLowN.out')
-    Left = 176
-    Top = 320
-  end
-  object Roseworthy: TApsimFileReader
-    Active = True
-    DesignActivation = True
-    AttachedAutoRefresh = True
-    AttachMaxCount = 1
-    FieldDefs = <
-      item
-        Name = 'title'
-        DataType = ftString
-        Size = 200
-      end
-      item
-        Name = 'date'
-        DataType = ftDate
-      end
-      item
-        Name = 'day'
-        DataType = ftFloat
-      end
-      item
-        Name = 'year'
-        DataType = ftFloat
-      end
-      item
-        Name = 'in_crop_rain'
-        DataType = ftFloat
-      end
-      item
-        Name = 'eff_in_crop_rain'
-        DataType = ftFloat
-      end
-      item
-        Name = 'lai'
-        DataType = ftFloat
-      end
-      item
-        Name = 'biomass'
-        DataType = ftFloat
-      end
-      item
-        Name = 'yield'
-        DataType = ftFloat
-      end
-      item
-        Name = 'hi'
-        DataType = ftFloat
-      end
-      item
-        Name = 'nhi'
-        DataType = ftFloat
-      end
-      item
-        Name = 'sum_ep'
-        DataType = ftFloat
-      end
-      item
-        Name = 'n_conc_grain'
-        DataType = ftFloat
-      end
-      item
-        Name = 'grain_n'
-        DataType = ftFloat
-      end
-      item
-        Name = 'no3()'
-        DataType = ftFloat
-      end
-      item
-        Name = 'esw'
-        DataType = ftFloat
-      end
-      item
-        Name = 'flowering_date'
-        DataType = ftFloat
-      end>
-    IndexDefs = <>
-    SortFields = 'year'
-    SortOptions = []
-    AllDataOptions = [mtfSaveData, mtfSaveNonVisible, mtfSaveBlobs, mtfSaveFiltered, mtfSaveIgnoreRange, mtfSaveIgnoreMasterDetail, mtfSaveDeltas]
-    CommaTextOptions = [mtfSaveData]
-    CSVQuote = '"'
-    CSVFieldDelimiter = ','
-    CSVRecordDelimiter = ','
-    CSVTrueString = 'True'
-    CSVFalseString = 'False'
-    PersistentSaveOptions = [mtfSaveData, mtfSaveNonVisible, mtfSaveIgnoreRange, mtfSaveIgnoreMasterDetail]
-    PersistentBackup = False
-    ProgressFlags = [mtpcLoad, mtpcSave, mtpcCopy]
-    FilterOptions = []
-    Version = '2.53g'
-    LanguageID = 0
-    SortID = 0
-    SubLanguageID = 1
-    LocaleID = 1024
-    subscriptionComponentNames.Strings = (
-      'Warra1500LowNProb.onSourceDataChanged'
-      'Graph2.afterDataRefresh'
-      'RoseworthyProb.onSourceDataChanged')
-    sortFields = 'year'
-    filenames.Strings = (
-      'RoseworthyMid.out')
-    Left = 192
-    Top = 408
-  end
-  object RoseworthyTopDressProb: TProbability
-    Active = True
-    DesignActivation = True
-    AttachedAutoRefresh = True
-    AttachMaxCount = 1
-    FieldDefs = <
-      item
-        Name = 'yield'
-        DataType = ftFloat
-      end
-      item
-        Name = 'Probability'
-        DataType = ftFloat
-      end>
-    IndexDefs = <>
-    SortFields = 'Probability'
-    SortOptions = []
-    AllDataOptions = [mtfSaveData, mtfSaveNonVisible, mtfSaveBlobs, mtfSaveFiltered, mtfSaveIgnoreRange, mtfSaveIgnoreMasterDetail, mtfSaveDeltas]
-    CommaTextOptions = [mtfSaveData]
-    CSVQuote = '"'
-    CSVFieldDelimiter = ','
-    CSVRecordDelimiter = ','
-    CSVTrueString = 'True'
-    CSVFalseString = 'False'
-    PersistentSaveOptions = [mtfSaveData, mtfSaveNonVisible, mtfSaveIgnoreRange, mtfSaveIgnoreMasterDetail]
-    PersistentBackup = False
-    ProgressFlags = [mtpcLoad, mtpcSave, mtpcCopy]
-    FilterOptions = []
-    Version = '2.53g'
-    LanguageID = 0
-    SortID = 0
-    SubLanguageID = 1
-    LocaleID = 1024
-    source = RoseworthyTopDress
-    subscriptionComponentNames.Strings = (
-      'Graph1.afterDataRefresh')
-    sortFields = 'Probability'
-    fieldName = 'yield'
-    Left = 304
-    Top = 232
-  end
-  object RoseworthyLowNProb: TProbability
-    Active = True
-    DesignActivation = True
-    AttachedAutoRefresh = True
-    AttachMaxCount = 1
-    FieldDefs = <
-      item
-        Name = 'yield'
-        DataType = ftFloat
-      end
-      item
-        Name = 'Probability'
-        DataType = ftFloat
-      end>
-    IndexDefs = <>
-    SortFields = 'Probability'
-    SortOptions = []
-    AllDataOptions = [mtfSaveData, mtfSaveNonVisible, mtfSaveBlobs, mtfSaveFiltered, mtfSaveIgnoreRange, mtfSaveIgnoreMasterDetail, mtfSaveDeltas]
-    CommaTextOptions = [mtfSaveData]
-    CSVQuote = '"'
-    CSVFieldDelimiter = ','
-    CSVRecordDelimiter = ','
-    CSVTrueString = 'True'
-    CSVFalseString = 'False'
-    PersistentSaveOptions = [mtfSaveData, mtfSaveNonVisible, mtfSaveIgnoreRange, mtfSaveIgnoreMasterDetail]
-    PersistentBackup = False
-    ProgressFlags = [mtpcLoad, mtpcSave, mtpcCopy]
-    FilterOptions = []
-    Version = '2.53g'
-    LanguageID = 0
-    SortID = 0
-    SubLanguageID = 1
-    LocaleID = 1024
-    source = RoseworthyLowN
-    subscriptionComponentNames.Strings = (
-      'Graph1.afterDataRefresh')
-    sortFields = 'Probability'
-    fieldName = 'yield'
-    Left = 312
-    Top = 328
-  end
-  object RoseworthyProb: TProbability
-    Active = True
-    DesignActivation = True
-    AttachedAutoRefresh = True
-    AttachMaxCount = 1
-    FieldDefs = <
-      item
-        Name = 'yield'
-        DataType = ftFloat
-      end
-      item
-        Name = 'Probability'
-        DataType = ftFloat
-      end>
-    IndexDefs = <>
-    SortFields = 'Probability'
-    SortOptions = []
-    AllDataOptions = [mtfSaveData, mtfSaveNonVisible, mtfSaveBlobs, mtfSaveFiltered, mtfSaveIgnoreRange, mtfSaveIgnoreMasterDetail, mtfSaveDeltas]
-    CommaTextOptions = [mtfSaveData]
-    CSVQuote = '"'
-    CSVFieldDelimiter = ','
-    CSVRecordDelimiter = ','
-    CSVTrueString = 'True'
-    CSVFalseString = 'False'
-    PersistentSaveOptions = [mtfSaveData, mtfSaveNonVisible, mtfSaveIgnoreRange, mtfSaveIgnoreMasterDetail]
-    PersistentBackup = False
-    ProgressFlags = [mtpcLoad, mtpcSave, mtpcCopy]
-    FilterOptions = []
-    Version = '2.53g'
-    LanguageID = 0
-    SortID = 0
-    SubLanguageID = 1
-    LocaleID = 1024
-    source = Roseworthy
-    subscriptionComponentNames.Strings = (
-      'Graph1.afterDataRefresh')
-    sortFields = 'Probability'
-    fieldName = 'yield'
-    Left = 322
-    Top = 418
-  end
-end
+<?xml version="1.0"?>
+<report version="4">
+<Data>
+<ApsimFileReader name="RoseworthyLowNTopDress" Left="0" Top="0" Width="162" Height="150">
+  <FileName type="filenames">RoseworthyMidLowNTopDress.out</FileName>
+</ApsimFileReader>
+<ApsimFileReader name="RoseworthyTopDress" Left="100" Top="0" Width="162" Height="150">
+  <FileName type="filenames">RoseworthyMidTopDress.out</FileName>
+</ApsimFileReader>
+<ApsimFileReader name="RoseworthyLowN" Left="200" Top="0" Width="162" Height="150">
+  <FileName type="filenames">RoseworthyMidLowN.out</FileName>
+</ApsimFileReader>
+<ApsimFileReader name="Roseworthy" Left="300" Top="0" Width="162" Height="150">
+  <FileName type="filenames">RoseworthyMid.out</FileName>
+</ApsimFileReader>
+<Probability name="RoseworthyLowNTopDressProb" Left="400" Top="0" Width="128" Height="186">
+  <FieldName type="fieldnames">yield</FieldName>
+  <source>RoseworthyLowNTopDress</source>
+</Probability>
+<Probability name="RoseworthyTopDressProb" Left="500" Top="0" Width="128" Height="186">
+  <FieldName type="fieldnames">yield</FieldName>
+  <source>RoseworthyTopDress</source>
+</Probability>
+<Probability name="RoseworthyLowNProb" Left="0" Top="100" Width="128" Height="186">
+  <FieldName type="fieldnames">yield</FieldName>
+  <source>RoseworthyLowN</source>
+</Probability>
+<Probability name="RoseworthyProb" Left="100" Top="100" Width="128" Height="186">
+  <FieldName type="fieldnames">yield</FieldName>
+  <source>Roseworthy</source>
+</Probability>
+</Data>
+   <page> <![CDATA[
 object Page1: TQuickRep
-  Left = 196
-  Top = 26
+  Left = 222
+  Top = 27
   Width = 556
   Height = 786
   Frame.Color = clBlack
@@ -741,7 +173,7 @@ object Page1: TQuickRep
         object Series2: TLineSeries
           Marks.Callout.Brush.Color = clBlack
           Marks.Visible = False
-          DataSource = data.RoseworthyLowNTopDressProb
+          DataSource = RoseworthyLowNTopDressProb
           Title = 'Low N with TopDress'
           LinePen.Width = 3
           Pointer.InflateMargins = True
@@ -757,7 +189,7 @@ object Page1: TQuickRep
         object Series3: TLineSeries
           Marks.Callout.Brush.Color = clBlack
           Marks.Visible = False
-          DataSource = data.RoseworthyTopDressProb
+          DataSource = RoseworthyTopDressProb
           Title = 'High N with TopDress'
           LinePen.Width = 3
           Pointer.InflateMargins = True
@@ -773,7 +205,7 @@ object Page1: TQuickRep
         object Series4: TLineSeries
           Marks.Callout.Brush.Color = clBlack
           Marks.Visible = False
-          DataSource = data.RoseworthyLowNProb
+          DataSource = RoseworthyLowNProb
           Title = 'Low N No TopDress'
           LinePen.Width = 3
           Pointer.InflateMargins = True
@@ -789,7 +221,7 @@ object Page1: TQuickRep
         object Series1: TLineSeries
           Marks.Callout.Brush.Color = clBlack
           Marks.Visible = False
-          DataSource = data.RoseworthyProb
+          DataSource = RoseworthyProb
           Title = 'High N No TopDress'
           LinePen.Width = 3
           Pointer.InflateMargins = True
@@ -977,7 +409,7 @@ object Page1: TQuickRep
           Marks.Callout.Brush.Color = clBlack
           Marks.Callout.Length = 8
           Marks.Visible = False
-          DataSource = data.RoseworthyLowNTopDress
+          DataSource = RoseworthyLowNTopDress
           ClickableLine = False
           Pointer.InflateMargins = True
           Pointer.Style = psRectangle
@@ -993,7 +425,7 @@ object Page1: TQuickRep
           Marks.Callout.Brush.Color = clBlack
           Marks.Callout.Length = 8
           Marks.Visible = False
-          DataSource = data.RoseworthyTopDress
+          DataSource = RoseworthyTopDress
           ClickableLine = False
           Pointer.InflateMargins = True
           Pointer.Style = psRectangle
@@ -1009,7 +441,7 @@ object Page1: TQuickRep
           Marks.Callout.Brush.Color = clBlack
           Marks.Callout.Length = 8
           Marks.Visible = False
-          DataSource = data.RoseworthyLowN
+          DataSource = RoseworthyLowN
           ClickableLine = False
           Pointer.InflateMargins = True
           Pointer.Style = psRectangle
@@ -1025,7 +457,7 @@ object Page1: TQuickRep
           Marks.Callout.Brush.Color = clBlack
           Marks.Callout.Length = 8
           Marks.Visible = False
-          DataSource = data.Roseworthy
+          DataSource = Roseworthy
           ClickableLine = False
           Pointer.InflateMargins = True
           Pointer.Style = psRectangle
@@ -1041,3 +473,6 @@ object Page1: TQuickRep
     end
   end
 end
+]]>
+   </page>
+</report>

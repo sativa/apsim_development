@@ -1,60 +1,63 @@
-<report version="4">
+<report version="5">
 <Data>
-   <ApsimFileReader name="ApsimFileReader">
-      <FileName type="filenames">C:\development\apsim\Wheat\Validation\Files\Observed\Kojonup.txt</FileName>
-      <ParseTitle type="yesno">no</ParseTitle>
-      <Filter name="Filter01">
-         <FilterString>Treatment = 2001</FilterString>
-         <GroupByFieldName type="fieldnames"/>
-      </Filter>
-      <Filter name="Filter02">
-         <FilterString>Treatment = 2002</FilterString>
-         <GroupByFieldName type="fieldnames"/>
-      </Filter>
-      <Filter name="Filter03">
-         <FilterString>Treatment = 2003</FilterString>
-         <GroupByFieldName type="fieldnames"/>
-      </Filter>
-   </ApsimFileReader>
-   <ApsimFileReader name="Pre01">
-      <FileName type="filenames">C:\development\apsim\Wheat\Validation\Files\Wheat_Kojonup01_Upper.out</FileName>
-      <ParseTitle type="yesno">yes</ParseTitle>
-   </ApsimFileReader>
-   <ApsimFileReader name="Pre02">
-      <FileName type="filenames">C:\development\apsim\Wheat\Validation\Files\Wheat_Kojonup02_Upper.out</FileName>
-      <ParseTitle type="yesno">yes</ParseTitle>
-   </ApsimFileReader>
-   <ApsimFileReader name="Pre03">
-      <FileName type="filenames">C:\development\apsim\Wheat\Validation\Files\Wheat_Kojonup03_Upper.out</FileName>
-      <ParseTitle type="yesno">yes</ParseTitle>
-   </ApsimFileReader>
-   <ApsimFileReader name="SW02">
-      <FileName type="filenames">C:\development\apsim\Wheat\Validation\Files\Observed\Kojonup02sw.txt</FileName>
-      <ParseTitle type="yesno">no</ParseTitle>
-   </ApsimFileReader>
-   <ApsimFileReader name="SW01">
-      <FileName type="filenames">C:\development\apsim\Wheat\Validation\Files\Observed\Kojonup01sw.txt</FileName>
-      <ParseTitle type="yesno">no</ParseTitle>
-   </ApsimFileReader>
-   <ApsimFileReader name="SW03">
-      <FileName type="filenames">C:\development\apsim\Wheat\Validation\Files\Observed\Kojonup03sw.txt</FileName>
-      <ParseTitle type="yesno">no</ParseTitle>
-   </ApsimFileReader>
-   <ApsimFileReader name="PreSW02">
-      <FileName type="filenames">C:\development\apsim\Wheat\Validation\Files\Wheat_Kojonup02_Upper SoilOutput.out</FileName>
-      <ParseTitle type="yesno">no</ParseTitle>
-   </ApsimFileReader>
-   <ApsimFileReader name="WT02">
-      <FileName type="filenames">C:\development\apsim\Wheat\Validation\Files\Observed\Kojonup02WT.txt</FileName>
-      <ParseTitle type="yesno">no</ParseTitle>
-   </ApsimFileReader>
+<ApsimFileReader name="ApsimFileReader" Left="0" Top="0">
+  <FileName type="filenames">Observed\Kojonup.txt</FileName>
+  <ParseTitle type="yesno">no</ParseTitle>
+</ApsimFileReader>
+<ApsimFileReader name="Pre01" Left="200" Top="0">
+  <FileName type="filenames">Wheat_Kojonup01_Upper.out</FileName>
+  <ParseTitle type="yesno">yes</ParseTitle>
+</ApsimFileReader>
+<ApsimFileReader name="Pre02" Left="400" Top="0">
+  <FileName type="filenames">Wheat_Kojonup02_Upper.out</FileName>
+  <ParseTitle type="yesno">yes</ParseTitle>
+</ApsimFileReader>
+<ApsimFileReader name="Pre03" Left="600" Top="0">
+  <FileName type="filenames">Wheat_Kojonup03_Upper.out</FileName>
+  <ParseTitle type="yesno">yes</ParseTitle>
+</ApsimFileReader>
+<ApsimFileReader name="SW02" Left="0" Top="200">
+  <FileName type="filenames">Observed\Kojonup02sw.txt</FileName>
+  <ParseTitle type="yesno">no</ParseTitle>
+</ApsimFileReader>
+<ApsimFileReader name="SW01" Left="200" Top="200">
+  <FileName type="filenames">Observed\Kojonup01sw.txt</FileName>
+  <ParseTitle type="yesno">no</ParseTitle>
+</ApsimFileReader>
+<ApsimFileReader name="SW03" Left="400" Top="200">
+  <FileName type="filenames">Observed\Kojonup03sw.txt</FileName>
+  <ParseTitle type="yesno">no</ParseTitle>
+</ApsimFileReader>
+<ApsimFileReader name="PreSW02" Left="600" Top="200">
+  <FileName type="filenames">Wheat_Kojonup02_Upper SoilOutput.out</FileName>
+  <ParseTitle type="yesno">no</ParseTitle>
+</ApsimFileReader>
+<ApsimFileReader name="WT02" Left="0" Top="400">
+  <FileName type="filenames">Observed\Kojonup02WT.txt</FileName>
+  <ParseTitle type="yesno">no</ParseTitle>
+</ApsimFileReader>
+<Filter name="Filter01" Left="200" Top="400">
+  <FilterString>Treatment = 2001</FilterString>
+  <GroupByFieldName type="fieldnames"/>
+  <source>ApsimFileReader</source>
+</Filter>
+<Filter name="Filter02" Left="400" Top="400">
+  <FilterString>Treatment = 2002</FilterString>
+  <GroupByFieldName type="fieldnames"/>
+  <source>ApsimFileReader</source>
+</Filter>
+<Filter name="Filter03" Left="600" Top="400">
+  <FilterString>Treatment = 2003</FilterString>
+  <GroupByFieldName type="fieldnames"/>
+  <source>ApsimFileReader</source>
+</Filter>
 </Data>
    <page> <![CDATA[
 object Page1: TQuickRep
-  Left = 260
+  Left = 3
   Top = 0
-  Width = 556
-  Height = 786
+  Width = 794
+  Height = 1123
   Frame.Color = clBlack
   Frame.DrawTop = False
   Frame.DrawBottom = False
@@ -95,12 +98,12 @@ object Page1: TQuickRep
   PrintIfEmpty = True
   SnapToGrid = True
   Units = MM
-  Zoom = 70
+  Zoom = 100
   object TitleBand1: TQRBand
     Left = 0
     Top = 0
-    Width = 556
-    Height = 786
+    Width = 794
+    Height = 1123
     Frame.Color = clBlack
     Frame.DrawTop = False
     Frame.DrawBottom = False
@@ -111,14 +114,14 @@ object Page1: TQuickRep
     ForceNewColumn = False
     ForceNewPage = False
     Size.Values = (
-      2970
-      2101.54761904762)
+      2971.27083333333
+      2100.79166666667)
     BandType = rbTitle
     object Graph1: TGraph
-      Left = 48
-      Top = 57
-      Width = 424
-      Height = 221
+      Left = 68
+      Top = 82
+      Width = 605
+      Height = 316
       Frame.Color = clBlack
       Frame.DrawTop = False
       Frame.DrawBottom = False
@@ -278,10 +281,10 @@ object Page1: TQuickRep
       end
     end
     object Graph2: TGraph
-      Left = 29
-      Top = 298
-      Width = 448
-      Height = 221
+      Left = 41
+      Top = 426
+      Width = 640
+      Height = 316
       Frame.Color = clBlack
       Frame.DrawTop = False
       Frame.DrawBottom = False
@@ -448,8 +451,8 @@ end
    </page>
    <page> <![CDATA[
 object Page2: TQuickRep
-  Left = 252
-  Top = 0
+  Left = 115
+  Top = 54
   Width = 571
   Height = 739
   Frame.Color = clBlack
@@ -877,7 +880,6 @@ object Page2: TQuickRep
           Marks.Callout.Brush.Color = clBlack
           Marks.Visible = False
           DataSource = Pre01
-          SeriesColor = clRed
           Pointer.InflateMargins = True
           Pointer.Style = psRectangle
           Pointer.Visible = False
@@ -892,7 +894,6 @@ object Page2: TQuickRep
           Marks.Callout.Brush.Color = clBlack
           Marks.Visible = False
           DataSource = Pre02
-          SeriesColor = clGreen
           Pointer.InflateMargins = True
           Pointer.Style = psRectangle
           Pointer.Visible = False
@@ -925,7 +926,7 @@ end
    </page>
    <page> <![CDATA[
 object Page3: TQuickRep
-  Left = 130
+  Left = 0
   Top = 0
   Width = 816
   Height = 1056
@@ -1578,8 +1579,8 @@ end
    </page>
    <page> <![CDATA[
 object Page4: TQuickRep
-  Left = 334
-  Top = 32
+  Left = 196
+  Top = 159
   Width = 408
   Height = 528
   Frame.Color = clBlack

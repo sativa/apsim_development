@@ -65,7 +65,7 @@ namespace Graph
                     ChartPage.OnRefresh();
                 }
             }
-        protected override void OnSave()
+        public override void OnSave()
             {
             // -----------------------------------------------
             // Called when it's time to save everything back
@@ -76,15 +76,29 @@ namespace Graph
             foreach (TabPage Page in TabControl.TabPages)
                 {
                 ChartPageUI Canvas = (ChartPageUI)Page.Controls[0];
+                Canvas.OnSave();
                 Contents += Canvas.GetData();
                 }
             Data.InnerXml = Contents;
             }
-        private void OnViewChanged(XmlNode ChangedNode)
+        public override void OnClose()
             {
-            Processor.Set(ChangedNode.OuterXml);
+            foreach (TabPage Page in TabControl.TabPages)
+                {
+                ChartPageUI Canvas = (ChartPageUI)Page.Controls[0];
+                Canvas.OnClose();
+                }
+            }
+        private void OnViewChanged(BaseView ChangedNode)
+            {
             OnSave();
-            OnRefresh();
+            foreach (TabPage Page in TabControl.TabPages)
+                {
+                foreach (ChartPageUI ChartPage in Page.Controls)
+                    if (ChartPage != ChangedNode)
+                        ChartPage.OnRefresh();
+                }
+
             }
 
 

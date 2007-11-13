@@ -1,21 +1,19 @@
-<report version="4">
+<report version="5">
 <Data>
-   <ApsimFileReader name="ApsimFileReader1">
+<ApsimFileReader name="ApsimFileReader1" Left="0" Top="0">
       <FileName type="filenames">Barley_KthpeRain05_5.out</FileName>
    </ApsimFileReader>
-   <REMS name="REMS1">
-      <FileName type="filename">C:\development\apsim\barley\Validation\Files\Barley.mdb</FileName>
+<REMS name="REMS1" Left="200" Top="0">
+      <FileName type="filename">Barley.mdb</FileName>
       <Experiment type="experiment">KthpeRain05</Experiment>
       <Treatment type="treatment">100 0.25 Mackay </Treatment>
       <DataSource type="datasource">Crop</DataSource>
    </REMS>
-
 </Data>
-
    <page> <![CDATA[
 object TQuickRep
-  Left = 219
-  Top = 194
+  Left = 0
+  Top = 97
   Width = 845
   Height = 653
   Frame.Color = clBlack

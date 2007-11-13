@@ -49,13 +49,13 @@ namespace Graph
         private void OnXChanged(object sender, EventArgs e)
             {
             XmlHelper.SetValue(Data, "XFieldName", XDropDown.Text);
-            PublishViewChanged(Data);
+            PublishViewChanged();
             }
 
         private void OnYChanged(object sender, EventArgs e)
             {
             XmlHelper.SetValue(Data, "YFieldName", YDropDown.Text);
-            PublishViewChanged(Data);
+            PublishViewChanged();
             }
 
 

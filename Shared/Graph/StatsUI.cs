@@ -70,7 +70,7 @@ namespace Graph
                 }
             else
                 Data.RemoveChild(XmlHelper.ChildByTypeAndValue(Data, "FieldName", FieldList.Items[e.Index].ToString()));
-            PublishViewChanged(Data);
+            PublishViewChanged();
             }
 
         private void OnStatItemCheck(object sender, ItemCheckEventArgs e)
@@ -83,7 +83,7 @@ namespace Graph
                 }
             else
                 Data.RemoveChild(XmlHelper.ChildByTypeAndValue(Data, "Stat", StatsList.Items[e.Index].ToString()));
-            PublishViewChanged(Data);
+            PublishViewChanged();
             }
 
         }

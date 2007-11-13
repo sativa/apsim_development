@@ -1,61 +1,67 @@
-<report version="4">
+<report version="5">
 <Data>
-   <ApsimFileReader name="Observed">
-      <FileName type="filenames">C:\development\apsim\Wheat\Validation\Files\Observed\BevRoot.txt</FileName>
-      <ParseTitle type="yesno">no</ParseTitle>
-      <Filter name="ObsBev90e">
-         <FilterString>Treatment='Bev90early'</FilterString>
-         <GroupByFieldName type="fieldnames"/>
-      </Filter>
-      <Filter name="ObsBev90l">
-         <FilterString>Treatment='Bev90late'</FilterString>
-         <GroupByFieldName type="fieldnames"/>
-      </Filter>
-      <Filter name="ObsBev91e">
-         <FilterString>Treatment='Bev91early'</FilterString>
-         <GroupByFieldName type="fieldnames"/>
-      </Filter>
-      <Filter name="ObsBev91l">
-         <FilterString>Treatment='Bev91late'</FilterString>
-         <GroupByFieldName type="fieldnames"/>
-      </Filter>
-      <Filter name="ObsBev92e">
-         <FilterString>Treatment='Bev92early'</FilterString>
-         <GroupByFieldName type="fieldnames"/>
-      </Filter>
-      <Filter name="ObsBev92l">
-         <FilterString>Treatment='Bev92late'</FilterString>
-         <GroupByFieldName type="fieldnames"/>
-      </Filter>
-   </ApsimFileReader>
-   <ApsimFileReader name="PreBev90e">
-      <FileName type="filenames">C:\development\apsim\Wheat\Validation\Files\Wheat_Beverley90_Early.out</FileName>
-      <ParseTitle type="yesno">no</ParseTitle>
-   </ApsimFileReader>
-   <ApsimFileReader name="PreBev90l">
-      <FileName type="filenames">C:\development\apsim\Wheat\Validation\Files\Wheat_Beverley90_Late.out</FileName>
-      <ParseTitle type="yesno">no</ParseTitle>
-   </ApsimFileReader>
-   <ApsimFileReader name="PreBev91e">
-      <FileName type="filenames">C:\development\apsim\Wheat\Validation\Files\Wheat_Beverley91_Early.out</FileName>
-      <ParseTitle type="yesno">no</ParseTitle>
-   </ApsimFileReader>
-   <ApsimFileReader name="PreBev91l">
-      <FileName type="filenames">C:\development\apsim\Wheat\Validation\Files\Wheat_Beverley91_Late.out</FileName>
-      <ParseTitle type="yesno">no</ParseTitle>
-   </ApsimFileReader>
-   <ApsimFileReader name="PreBev92e">
-      <FileName type="filenames">C:\development\apsim\Wheat\Validation\Files\Wheat_Beverley92_Early(high).out</FileName>
-      <ParseTitle type="yesno">no</ParseTitle>
-   </ApsimFileReader>
-   <ApsimFileReader name="PreBev92l">
-      <FileName type="filenames">C:\development\apsim\Wheat\Validation\Files\Wheat_Beverley92_Late(high).out</FileName>
-      <ParseTitle type="yesno">no</ParseTitle>
-   </ApsimFileReader>
+<ApsimFileReader name="Observed" Left="0" Top="0">
+  <FileName type="filenames">Observed\BevRoot.txt</FileName>
+  <ParseTitle type="yesno">no</ParseTitle>
+</ApsimFileReader>
+<ApsimFileReader name="PreBev90e" Left="200" Top="0">
+  <FileName type="filenames">Wheat_Beverley90_Early.out</FileName>
+  <ParseTitle type="yesno">no</ParseTitle>
+</ApsimFileReader>
+<ApsimFileReader name="PreBev90l" Left="400" Top="0">
+  <FileName type="filenames">Wheat_Beverley90_Late.out</FileName>
+  <ParseTitle type="yesno">no</ParseTitle>
+</ApsimFileReader>
+<ApsimFileReader name="PreBev91e" Left="600" Top="0">
+  <FileName type="filenames">Wheat_Beverley91_Early.out</FileName>
+  <ParseTitle type="yesno">no</ParseTitle>
+</ApsimFileReader>
+<ApsimFileReader name="PreBev91l" Left="0" Top="200">
+  <FileName type="filenames">Wheat_Beverley91_Late.out</FileName>
+  <ParseTitle type="yesno">no</ParseTitle>
+</ApsimFileReader>
+<ApsimFileReader name="PreBev92e" Left="200" Top="200">
+  <FileName type="filenames">Wheat_Beverley92_Early(high).out</FileName>
+  <ParseTitle type="yesno">no</ParseTitle>
+</ApsimFileReader>
+<ApsimFileReader name="PreBev92l" Left="400" Top="200">
+  <FileName type="filenames">Wheat_Beverley92_Late(high).out</FileName>
+  <ParseTitle type="yesno">no</ParseTitle>
+</ApsimFileReader>
+<Filter name="ObsBev90e" Left="600" Top="200">
+  <FilterString>Treatment='Bev90early'</FilterString>
+  <GroupByFieldName type="fieldnames"/>
+  <source>Observed</source>
+</Filter>
+<Filter name="ObsBev90l" Left="0" Top="400">
+  <FilterString>Treatment='Bev90late'</FilterString>
+  <GroupByFieldName type="fieldnames"/>
+  <source>Observed</source>
+</Filter>
+<Filter name="ObsBev91e" Left="200" Top="400">
+  <FilterString>Treatment='Bev91early'</FilterString>
+  <GroupByFieldName type="fieldnames"/>
+  <source>Observed</source>
+</Filter>
+<Filter name="ObsBev91l" Left="400" Top="400">
+  <FilterString>Treatment='Bev91late'</FilterString>
+  <GroupByFieldName type="fieldnames"/>
+  <source>Observed</source>
+</Filter>
+<Filter name="ObsBev92e" Left="600" Top="400">
+  <FilterString>Treatment='Bev92early'</FilterString>
+  <GroupByFieldName type="fieldnames"/>
+  <source>Observed</source>
+</Filter>
+<Filter name="ObsBev92l" Left="0" Top="600">
+  <FilterString>Treatment='Bev92late'</FilterString>
+  <GroupByFieldName type="fieldnames"/>
+  <source>Observed</source>
+</Filter>
 </Data>
    <page> <![CDATA[
 object Page1: TQuickRep
-  Left = 101
+  Left = 0
   Top = 0
   Width = 873
   Height = 1235

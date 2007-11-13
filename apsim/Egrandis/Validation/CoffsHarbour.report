@@ -1,466 +1,17 @@
-Version = 2.0
-NumPages = 1
-object data: TForm
-  Left = 4
-  Top = 4
-  Align = alClient
-  BorderIcons = []
-  BorderStyle = bsNone
-  ClientHeight = 865
-  ClientWidth = 1384
-  Color = clBtnFace
-  Font.Charset = DEFAULT_CHARSET
-  Font.Color = clWindowText
-  Font.Height = -11
-  Font.Name = 'MS Sans Serif'
-  Font.Style = []
-  OldCreateOrder = False
-  PixelsPerInch = 96
-  TextHeight = 13
-  object Excel1: TExcel
-    Active = True
-    DesignActivation = True
-    AttachedAutoRefresh = True
-    AttachMaxCount = 1
-    FieldDefs = <
-      item
-        Name = 'Site'
-        DataType = ftString
-        Size = 200
-      end
-      item
-        Name = 'Age'
-        DataType = ftFloat
-      end
-      item
-        Name = 'Foliage'
-        DataType = ftFloat
-      end
-      item
-        Name = 'Branch'
-        DataType = ftFloat
-      end
-      item
-        Name = 'Bark'
-        DataType = ftFloat
-      end
-      item
-        Name = 'Sapwood'
-        DataType = ftFloat
-      end
-      item
-        Name = 'Heatwood'
-        DataType = ftFloat
-      end
-      item
-        Name = 'Total'
-        DataType = ftFloat
-      end
-      item
-        Name = 'Stem(t/ha)'
-        DataType = ftFloat
-      end
-      item
-        Name = 'TotalWood'
-        DataType = ftFloat
-      end
-      item
-        Name = 'Stem(kg/ha)'
-        DataType = ftFloat
-      end
-      item
-        Name = 'Bark(kg/ha)'
-        DataType = ftFloat
-      end
-      item
-        Name = 'Branch(kg/ha)'
-        DataType = ftFloat
-      end
-      item
-        Name = 'Foliage(kg/ha)'
-        DataType = ftFloat
-      end
-      item
-        Name = 'Total(kg/ha)'
-        DataType = ftFloat
-      end
-      item
-        Name = 'Series'
-        DataType = ftString
-        Size = 200
-      end>
-    IndexFieldNames = 'Series'
-    IndexName = 'mainIndex'
-    IndexDefs = <
-      item
-        Name = 'mainIndex'
-        Fields = 'Series'
-      end>
-    SortOptions = []
-    AllDataOptions = [mtfSaveData, mtfSaveNonVisible, mtfSaveBlobs, mtfSaveFiltered, mtfSaveIgnoreRange, mtfSaveIgnoreMasterDetail, mtfSaveDeltas]
-    CommaTextOptions = [mtfSaveData]
-    CSVQuote = '"'
-    CSVFieldDelimiter = ','
-    CSVRecordDelimiter = ','
-    CSVTrueString = 'True'
-    CSVFalseString = 'False'
-    PersistentSaveOptions = [mtfSaveData, mtfSaveNonVisible, mtfSaveIgnoreRange, mtfSaveIgnoreMasterDetail]
-    PersistentBackup = False
-    ProgressFlags = [mtpcLoad, mtpcSave, mtpcCopy]
-    FilterOptions = []
-    Version = '2.53g'
-    LanguageID = 0
-    SortID = 0
-    SubLanguageID = 1
-    LocaleID = 1024
-    subscriptionComponentNames.Strings = (
-      'Graph1.afterDataRefresh'
-      'Graph2.afterDataRefresh')
-    fileName = 
-      'C:\Program Files\Apsim32\apsim\Egrandis\Validation\ForestValidat' +
-      'ion.xls'
-    pageName = 'CoffsBiomass'
-    Left = 293
-    Top = 87
-  end
-  object ApsimFileReader1: TApsimFileReader
-    Active = True
-    DesignActivation = True
-    AttachedAutoRefresh = True
-    AttachMaxCount = 1
-    FieldDefs = <
-      item
-        Name = 'day'
-        DataType = ftFloat
-      end
-      item
-        Name = 'year'
-        DataType = ftFloat
-      end
-      item
-        Name = 'date'
-        DataType = ftDate
-      end
-      item
-        Name = 'age'
-        DataType = ftFloat
-      end
-      item
-        Name = 'lai'
-        DataType = ftFloat
-      end
-      item
-        Name = 'avg@Fn'
-        DataType = ftFloat
-      end
-      item
-        Name = 'avg@Fw'
-        DataType = ftFloat
-      end
-      item
-        Name = 'avg@Fvpd'
-        DataType = ftFloat
-      end
-      item
-        Name = 'avg@ft'
-        DataType = ftFloat
-      end
-      item
-        Name = 'stem_wt'
-        DataType = ftFloat
-      end
-      item
-        Name = 'branch_wt'
-        DataType = ftFloat
-      end
-      item
-        Name = 'bark_wt'
-        DataType = ftFloat
-      end
-      item
-        Name = 'leaf_wt'
-        DataType = ftFloat
-      end
-      item
-        Name = 'total_wt'
-        DataType = ftFloat
-      end
-      item
-        Name = 'root_mass'
-        DataType = ftFloat
-      end
-      item
-        Name = 'adm_sen()'
-        DataType = ftFloat
-      end
-      item
-        Name = 'avg@sw_demand'
-        DataType = ftFloat
-      end
-      item
-        Name = 'ep'
-        DataType = ftFloat
-      end
-      item
-        Name = 'height'
-        DataType = ftFloat
-      end
-      item
-        Name = 'dlt_stem_wt'
-        DataType = ftFloat
-      end
-      item
-        Name = 'dlt_branch_wt'
-        DataType = ftFloat
-      end
-      item
-        Name = 'dlt_bark_wt'
-        DataType = ftFloat
-      end
-      item
-        Name = 'dlt_leaf_wt'
-        DataType = ftFloat
-      end
-      item
-        Name = 'foliage_n'
-        DataType = ftFloat
-      end
-      item
-        Name = 'stem_n'
-        DataType = ftFloat
-      end
-      item
-        Name = 'branch_n'
-        DataType = ftFloat
-      end
-      item
-        Name = 'bark_n'
-        DataType = ftFloat
-      end
-      item
-        Name = 'sum@n_demand'
-        DataType = ftFloat
-      end
-      item
-        Name = 'sum@dlt_no3()'
-        DataType = ftString
-        Size = 200
-      end
-      item
-        Name = 'plants'
-        DataType = ftFloat
-      end
-      item
-        Name = 'carbon_tot(1)'
-        DataType = ftFloat
-      end
-      item
-        Name = 'carbon_tot(2)'
-        DataType = ftFloat
-      end
-      item
-        Name = 'nit_tot(1)'
-        DataType = ftFloat
-      end
-      item
-        Name = 'nit_tot(2)'
-        DataType = ftFloat
-      end
-      item
-        Name = 'esw'
-        DataType = ftFloat
-      end
-      item
-        Name = 'sum@runoff'
-        DataType = ftFloat
-      end
-      item
-        Name = 'sum@drain'
-        DataType = ftFloat
-      end
-      item
-        Name = 'sum@es'
-        DataType = ftFloat
-      end
-      item
-        Name = 'no3()'
-        DataType = ftFloat
-      end
-      item
-        Name = 'nh4()'
-        DataType = ftFloat
-      end
-      item
-        Name = 'biom_n()'
-        DataType = ftFloat
-      end
-      item
-        Name = 'fom_n()'
-        DataType = ftFloat
-      end
-      item
-        Name = 'hum_n()'
-        DataType = ftFloat
-      end
-      item
-        Name = 'sum@dlt_n_min()'
-        DataType = ftFloat
-      end
-      item
-        Name = 'residue_wt'
-        DataType = ftFloat
-      end
-      item
-        Name = 'residue_n'
-        DataType = ftFloat
-      end
-      item
-        Name = 'c_n1'
-        DataType = ftFloat
-      end
-      item
-        Name = 'c_n2'
-        DataType = ftFloat
-      end
-      item
-        Name = 'oc1'
-        DataType = ftFloat
-      end
-      item
-        Name = 'oc2'
-        DataType = ftFloat
-      end
-      item
-        Name = 'sum@flow_no3(5)'
-        DataType = ftString
-        Size = 200
-      end
-      item
-        Name = 'sum@flow_no3(8)'
-        DataType = ftString
-        Size = 200
-      end
-      item
-        Name = 'total_n'
-        DataType = ftFloat
-      end
-      item
-        Name = 'nit_tot()'
-        DataType = ftFloat
-      end
-      item
-        Name = 'rlv(1)'
-        DataType = ftFloat
-      end
-      item
-        Name = 'rlv(2)'
-        DataType = ftFloat
-      end
-      item
-        Name = 'rlv(3)'
-        DataType = ftFloat
-      end
-      item
-        Name = 'rlv(4)'
-        DataType = ftFloat
-      end
-      item
-        Name = 'rlv(5)'
-        DataType = ftFloat
-      end
-      item
-        Name = 'rlv(6)'
-        DataType = ftFloat
-      end
-      item
-        Name = 'rlv(7)'
-        DataType = ftFloat
-      end
-      item
-        Name = 'rlv(8)'
-        DataType = ftFloat
-      end
-      item
-        Name = 'dlayer(1)'
-        DataType = ftFloat
-      end
-      item
-        Name = 'dlayer(2)'
-        DataType = ftFloat
-      end
-      item
-        Name = 'dlayer(3)'
-        DataType = ftFloat
-      end
-      item
-        Name = 'dlayer(4)'
-        DataType = ftFloat
-      end
-      item
-        Name = 'dlayer(5)'
-        DataType = ftFloat
-      end
-      item
-        Name = 'dlayer(6)'
-        DataType = ftFloat
-      end
-      item
-        Name = 'dlayer(7)'
-        DataType = ftFloat
-      end
-      item
-        Name = 'dlayer(8)'
-        DataType = ftFloat
-      end
-      item
-        Name = 'sum@interception'
-        DataType = ftFloat
-      end
-      item
-        Name = 'sum@rain'
-        DataType = ftFloat
-      end
-      item
-        Name = 'Series'
-        DataType = ftString
-        Size = 200
-      end>
-    IndexFieldNames = 'Series'
-    IndexName = 'mainIndex'
-    IndexDefs = <
-      item
-        Name = 'mainIndex'
-        Fields = 'Series'
-      end>
-    SortOptions = []
-    AllDataOptions = [mtfSaveData, mtfSaveNonVisible, mtfSaveBlobs, mtfSaveFiltered, mtfSaveIgnoreRange, mtfSaveIgnoreMasterDetail, mtfSaveDeltas]
-    CommaTextOptions = [mtfSaveData]
-    CSVQuote = '"'
-    CSVFieldDelimiter = ','
-    CSVRecordDelimiter = ','
-    CSVTrueString = 'True'
-    CSVFalseString = 'False'
-    PersistentSaveOptions = [mtfSaveData, mtfSaveNonVisible, mtfSaveIgnoreRange, mtfSaveIgnoreMasterDetail]
-    PersistentBackup = False
-    ProgressFlags = [mtpcLoad, mtpcSave, mtpcCopy]
-    FilterOptions = []
-    Version = '2.53g'
-    LanguageID = 0
-    SortID = 0
-    SubLanguageID = 1
-    LocaleID = 1024
-    subscriptionComponentNames.Strings = (
-      'Graph1.afterDataRefresh'
-      'Graph2.afterDataRefresh')
-    filenames.Strings = (
-      'coffs.out')
-    Left = 167
-    Top = 86
-  end
-end
+<report version="5">
+<Data>
+<Excel name="Excel1" Left="0" Top="0">
+  <FileName type="filename"/>
+  <PageName>CoffsBiomass</PageName>
+</Excel>
+<ApsimFileReader name="ApsimFileReader1" Left="200" Top="0">
+  <FileName type="filenames">coffs.out</FileName>
+</ApsimFileReader>
+</Data>
+   <page> <![CDATA[
 object Page1: TQuickRep
-  Left = 339
-  Top = 73
+  Left = 122
+  Top = 30
   Width = 556
   Height = 786
   Frame.Color = clBlack
@@ -539,12 +90,17 @@ object Page1: TQuickRep
         638.779761904762
         1946.57738095238)
       title = ' '
+      subTitle = ' '
       leftAxisTitle = ' '
       topAxisTitle = ' '
       rightAxisTitle = ' '
       bottomAxisTitle = ' '
       footTitle = ' '
-      seriesTitle = ' '
+      seriesTitle1 = ' '
+      seriesTitle2 = ' '
+      seriesTitle3 = ' '
+      seriesTitle4 = ' '
+      seriesTitle5 = ' '
       object QRDBChart1: TQRDBChart
         Left = -1
         Top = -1
@@ -577,12 +133,9 @@ object Page1: TQuickRep
         TopAxis.TickLength = 7
         View3D = False
         object Series1: TPointSeries
-          Marks.ArrowLength = 0
           Marks.Callout.Brush.Color = clBlack
-          Marks.Callout.Length = 0
           Marks.Visible = False
-          DataSource = data.Excel1
-          SeriesColor = clRed
+          DataSource = Excel1
           Title = 'Leaf'
           ClickableLine = False
           Pointer.InflateMargins = True
@@ -592,15 +145,13 @@ object Page1: TQuickRep
           XValues.Order = loAscending
           XValues.ValueSource = 'Age'
           YValues.Name = 'Y'
+          YValues.Order = loNone
           YValues.ValueSource = 'Foliage(kg/ha)'
         end
         object Series2: TPointSeries
-          Marks.ArrowLength = 0
           Marks.Callout.Brush.Color = clBlack
-          Marks.Callout.Length = 0
           Marks.Visible = False
-          DataSource = data.Excel1
-          SeriesColor = clGreen
+          DataSource = Excel1
           Title = 'Bark'
           ClickableLine = False
           Pointer.InflateMargins = True
@@ -610,15 +161,13 @@ object Page1: TQuickRep
           XValues.Order = loAscending
           XValues.ValueSource = 'Age'
           YValues.Name = 'Y'
+          YValues.Order = loNone
           YValues.ValueSource = 'Bark(kg/ha)'
         end
         object Series3: TPointSeries
-          Marks.ArrowLength = 0
           Marks.Callout.Brush.Color = clBlack
-          Marks.Callout.Length = 0
           Marks.Visible = False
-          DataSource = data.Excel1
-          SeriesColor = clYellow
+          DataSource = Excel1
           Title = 'Branch'
           ClickableLine = False
           Pointer.InflateMargins = True
@@ -628,14 +177,13 @@ object Page1: TQuickRep
           XValues.Order = loAscending
           XValues.ValueSource = 'Age'
           YValues.Name = 'Y'
+          YValues.Order = loNone
           YValues.ValueSource = 'Branch(kg/ha)'
         end
         object Series4: TLineSeries
-          Marks.ArrowLength = 8
           Marks.Callout.Brush.Color = clBlack
-          Marks.Callout.Length = 8
           Marks.Visible = False
-          DataSource = data.ApsimFileReader1
+          DataSource = ApsimFileReader1
           SeriesColor = clRed
           ShowInLegend = False
           Pointer.InflateMargins = True
@@ -645,14 +193,13 @@ object Page1: TQuickRep
           XValues.Order = loAscending
           XValues.ValueSource = 'age'
           YValues.Name = 'Y'
+          YValues.Order = loNone
           YValues.ValueSource = 'leaf_wt'
         end
         object Series5: TLineSeries
-          Marks.ArrowLength = 8
           Marks.Callout.Brush.Color = clBlack
-          Marks.Callout.Length = 8
           Marks.Visible = False
-          DataSource = data.ApsimFileReader1
+          DataSource = ApsimFileReader1
           SeriesColor = clGreen
           ShowInLegend = False
           Pointer.InflateMargins = True
@@ -662,14 +209,13 @@ object Page1: TQuickRep
           XValues.Order = loAscending
           XValues.ValueSource = 'age'
           YValues.Name = 'Y'
+          YValues.Order = loNone
           YValues.ValueSource = 'bark_wt'
         end
         object Series6: TLineSeries
-          Marks.ArrowLength = 8
           Marks.Callout.Brush.Color = clBlack
-          Marks.Callout.Length = 8
           Marks.Visible = False
-          DataSource = data.ApsimFileReader1
+          DataSource = ApsimFileReader1
           SeriesColor = clYellow
           ShowInLegend = False
           Pointer.InflateMargins = True
@@ -679,6 +225,7 @@ object Page1: TQuickRep
           XValues.Order = loAscending
           XValues.ValueSource = 'age'
           YValues.Name = 'Y'
+          YValues.Order = loNone
           YValues.ValueSource = 'branch_wt'
         end
       end
@@ -734,12 +281,17 @@ object Page1: TQuickRep
         1606.39880952381
         1946.57738095238)
       title = ' '
+      subTitle = ' '
       leftAxisTitle = ' '
       topAxisTitle = ' '
       rightAxisTitle = ' '
       bottomAxisTitle = ' '
       footTitle = ' '
-      seriesTitle = ' '
+      seriesTitle1 = ' '
+      seriesTitle2 = ' '
+      seriesTitle3 = ' '
+      seriesTitle4 = ' '
+      seriesTitle5 = ' '
       object QRDBChart2: TQRDBChart
         Left = -1
         Top = -1
@@ -772,12 +324,9 @@ object Page1: TQuickRep
         TopAxis.TickLength = 7
         View3D = False
         object Series7: TPointSeries
-          Marks.ArrowLength = 0
           Marks.Callout.Brush.Color = clBlack
-          Marks.Callout.Length = 0
           Marks.Visible = False
-          DataSource = data.Excel1
-          SeriesColor = clRed
+          DataSource = Excel1
           Title = 'Stem'
           ClickableLine = False
           Pointer.InflateMargins = True
@@ -787,15 +336,13 @@ object Page1: TQuickRep
           XValues.Order = loAscending
           XValues.ValueSource = 'Age'
           YValues.Name = 'Y'
+          YValues.Order = loNone
           YValues.ValueSource = 'Stem(kg/ha)'
         end
         object Series8: TPointSeries
-          Marks.ArrowLength = 0
           Marks.Callout.Brush.Color = clBlack
-          Marks.Callout.Length = 0
           Marks.Visible = False
-          DataSource = data.Excel1
-          SeriesColor = clGreen
+          DataSource = Excel1
           Title = 'Total'
           ClickableLine = False
           Pointer.InflateMargins = True
@@ -805,14 +352,13 @@ object Page1: TQuickRep
           XValues.Order = loAscending
           XValues.ValueSource = 'Age'
           YValues.Name = 'Y'
+          YValues.Order = loNone
           YValues.ValueSource = 'Total(kg/ha)'
         end
         object Series9: TLineSeries
-          Marks.ArrowLength = 8
           Marks.Callout.Brush.Color = clBlack
-          Marks.Callout.Length = 8
           Marks.Visible = False
-          DataSource = data.ApsimFileReader1
+          DataSource = ApsimFileReader1
           SeriesColor = clRed
           Pointer.InflateMargins = True
           Pointer.Style = psRectangle
@@ -821,14 +367,13 @@ object Page1: TQuickRep
           XValues.Order = loAscending
           XValues.ValueSource = 'age'
           YValues.Name = 'Y'
+          YValues.Order = loNone
           YValues.ValueSource = 'stem_wt'
         end
         object Series10: TLineSeries
-          Marks.ArrowLength = 8
           Marks.Callout.Brush.Color = clBlack
-          Marks.Callout.Length = 8
           Marks.Visible = False
-          DataSource = data.ApsimFileReader1
+          DataSource = ApsimFileReader1
           SeriesColor = clGreen
           Pointer.InflateMargins = True
           Pointer.Style = psRectangle
@@ -837,6 +382,7 @@ object Page1: TQuickRep
           XValues.Order = loAscending
           XValues.ValueSource = 'age'
           YValues.Name = 'Y'
+          YValues.Order = loNone
           YValues.ValueSource = 'total_wt'
         end
       end
@@ -1849,3 +1395,6 @@ object Page1: TQuickRep
     end
   end
 end
+]]>
+   </page>
+</report>

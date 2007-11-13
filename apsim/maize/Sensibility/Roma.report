@@ -1,8 +1,37 @@
-<?xml version="1.0"?>
-<report version="4">
-  <Data><ApsimFileReader name="Low400"><FileName type="filenames">Roma400Low.out</FileName><Probability name="Low600Prob"><FieldName type="fieldnames">yield</FieldName></Probability></ApsimFileReader><ApsimFileReader name="High400"><FileName type="filenames">Roma400High.out</FileName><Probability name="High600Prob"><FieldName type="fieldnames">yield</FieldName></Probability></ApsimFileReader><ApsimFileReader name="Low800"><FileName type="filenames">Roma800Low.out</FileName><Probability name="Low1500Prob"><FieldName type="fieldnames">yield</FieldName></Probability></ApsimFileReader><ApsimFileReader name="High800"><FileName type="filenames">Roma800High.out</FileName><Probability name="High1500Prob"><FieldName type="fieldnames">yield</FieldName></Probability></ApsimFileReader></Data>
-  <page><![CDATA[object Page1: TQuickRep
-  Left = 66
+<report version="5">
+<Data>
+<ApsimFileReader name="Low400" Left="0" Top="0">
+    <FileName type="filenames">Roma400Low.out</FileName>
+  </ApsimFileReader>
+<ApsimFileReader name="High400" Left="200" Top="0">
+    <FileName type="filenames">Roma400High.out</FileName>
+  </ApsimFileReader>
+<ApsimFileReader name="Low800" Left="400" Top="0">
+    <FileName type="filenames">Roma800Low.out</FileName>
+  </ApsimFileReader>
+<ApsimFileReader name="High800" Left="600" Top="0">
+    <FileName type="filenames">Roma800High.out</FileName>
+  </ApsimFileReader>
+<Probability name="Low600Prob" Left="0" Top="200">
+    <FieldName type="fieldnames">yield</FieldName>
+    <source>Low400</source>
+  </Probability>
+<Probability name="High600Prob" Left="200" Top="200">
+    <FieldName type="fieldnames">yield</FieldName>
+    <source>High400</source>
+  </Probability>
+<Probability name="Low1500Prob" Left="400" Top="200">
+    <FieldName type="fieldnames">yield</FieldName>
+    <source>Low800</source>
+  </Probability>
+<Probability name="High1500Prob" Left="600" Top="200">
+    <FieldName type="fieldnames">yield</FieldName>
+    <source>High800</source>
+  </Probability>
+</Data>
+   <page> <![CDATA[
+object Page1: TQuickRep
+  Left = 0
   Top = 0
   Width = 816
   Height = 1056
@@ -310,5 +339,6 @@
     end
   end
 end
-]]></page>
+]]>
+   </page>
 </report>

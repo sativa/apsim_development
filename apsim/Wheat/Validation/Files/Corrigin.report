@@ -1,47 +1,48 @@
-<report version="4">
+<report version="5">
 <Data>
-   <ApsimFileReader name="Observed">
-      <FileName type="filenames">c:\Development\apsim\Wheat\Validation\Files\Observed\Corrigin.txt</FileName>
-      <ParseTitle type="yesno">yes</ParseTitle>
-   </ApsimFileReader>
-   <ApsimFileReader name="Predicted">
-      <ParseTitle type="yesno">yes</ParseTitle>
-      <FileName type="filenames">c:\Development\apsim\Wheat\Validation\Files\Wheat_Corrigin_DryBasal.out</FileName>
-      <FileName type="filenames">c:\Development\apsim\Wheat\Validation\Files\Wheat_Corrigin_DryBasalTopDress.out</FileName>
-      <FileName type="filenames">c:\Development\apsim\Wheat\Validation\Files\Wheat_Corrigin_10mmBasal.out</FileName>
-      <FileName type="filenames">c:\Development\apsim\Wheat\Validation\Files\Wheat_Corrigin_10mmBasalTopDress.out</FileName>
-      <FileName type="filenames">c:\Development\apsim\Wheat\Validation\Files\Wheat_Corrigin_40mmBasal.out</FileName>
-      <FileName type="filenames">c:\Development\apsim\Wheat\Validation\Files\Wheat_Corrigin_40mmBasalTopDress.out</FileName>
-      <Filter name="PredictedFinal">
-         <FilterString>zadok_stage = 90</FilterString>
-         <GroupByFieldName type="fieldnames"/>
-      </Filter>
-   </ApsimFileReader>
-   <ApsimFileReader name="ObsPhenology">
-      <FileName type="filenames">c:\Development\apsim\Wheat\Validation\Files\Observed\CorriginPhenology.txt</FileName>
-      <ParseTitle type="yesno">yes</ParseTitle>
-   </ApsimFileReader>
-   <ApsimFileReader name="PrePhenology">
-      <FileName type="filenames">c:\Development\apsim\Wheat\Validation\Files\Wheat_Corrigin_10mmBasalTopDress.out</FileName>
-      <ParseTitle type="yesno">yes</ParseTitle>
-   </ApsimFileReader>
-   <ApsimFileReader name="ObsTimeSeries">
-      <FileName type="filenames">c:\Development\apsim\Wheat\Validation\Files\Observed\CorriginTimeSeries.txt</FileName>
-      <ParseTitle type="yesno">yes</ParseTitle>
-   </ApsimFileReader>
-   <ApsimFileReader name="PreDryBasal">
-      <FileName type="filenames">c:\Development\apsim\Wheat\Validation\Files\Wheat_Corrigin_DryBasal.out</FileName>
-      <ParseTitle type="yesno">yes</ParseTitle>
-   </ApsimFileReader>
-   <ApsimFileReader name="PreDryDeep">
-      <FileName type="filenames">c:\Development\apsim\Wheat\Validation\Files\Wheat_Corrigin_DryBasal.out</FileName>
-      <ParseTitle type="yesno">yes</ParseTitle>
-   </ApsimFileReader>
+<ApsimFileReader name="Observed" Left="0" Top="0">
+  <FileName type="filenames">Observed\Corrigin.txt</FileName>
+  <ParseTitle type="yesno">yes</ParseTitle>
+</ApsimFileReader>
+<ApsimFileReader name="Predicted" Left="200" Top="0">
+  <ParseTitle type="yesno">yes</ParseTitle>
+  <FileName type="filenames">Wheat_Corrigin_DryBasal.out</FileName>
+  <FileName type="filenames">Wheat_Corrigin_DryBasalTopDress.out</FileName>
+  <FileName type="filenames">Wheat_Corrigin_10mmBasal.out</FileName>
+  <FileName type="filenames">Wheat_Corrigin_10mmBasalTopDress.out</FileName>
+  <FileName type="filenames">Wheat_Corrigin_40mmBasal.out</FileName>
+  <FileName type="filenames">Wheat_Corrigin_40mmBasalTopDress.out</FileName>
+</ApsimFileReader>
+<ApsimFileReader name="ObsPhenology" Left="400" Top="0">
+  <FileName type="filenames">Observed\CorriginPhenology.txt</FileName>
+  <ParseTitle type="yesno">yes</ParseTitle>
+</ApsimFileReader>
+<ApsimFileReader name="PrePhenology" Left="600" Top="0">
+  <FileName type="filenames">Wheat_Corrigin_10mmBasalTopDress.out</FileName>
+  <ParseTitle type="yesno">yes</ParseTitle>
+</ApsimFileReader>
+<ApsimFileReader name="ObsTimeSeries" Left="0" Top="200">
+  <FileName type="filenames">Observed\CorriginTimeSeries.txt</FileName>
+  <ParseTitle type="yesno">yes</ParseTitle>
+</ApsimFileReader>
+<ApsimFileReader name="PreDryBasal" Left="200" Top="200">
+  <FileName type="filenames">Wheat_Corrigin_DryBasal.out</FileName>
+  <ParseTitle type="yesno">yes</ParseTitle>
+</ApsimFileReader>
+<ApsimFileReader name="PreDryDeep" Left="400" Top="200">
+  <FileName type="filenames">Wheat_Corrigin_DryBasal.out</FileName>
+  <ParseTitle type="yesno">yes</ParseTitle>
+</ApsimFileReader>
+<Filter name="PredictedFinal" Left="600" Top="200">
+  <FilterString>zadok_stage = 90</FilterString>
+  <GroupByFieldName type="fieldnames"/>
+  <source>Predicted</source>
+</Filter>
 </Data>
    <page> <![CDATA[
 object Page1: TQuickRep
-  Left = 270
-  Top = 0
+  Left = 162
+  Top = 86
   Width = 476
   Height = 674
   Frame.Color = clBlack
@@ -477,7 +478,7 @@ end
    </page>
    <page> <![CDATA[
 object Page2: TQuickRep
-  Left = 53
+  Left = 43
   Top = 0
   Width = 714
   Height = 1010
@@ -526,7 +527,7 @@ object Page2: TQuickRep
     Left = 0
     Top = 0
     Width = 714
-    Height = 1011
+    Height = 1010
     Frame.Color = clBlack
     Frame.DrawTop = False
     Frame.DrawBottom = False
@@ -537,7 +538,7 @@ object Page2: TQuickRep
     ForceNewColumn = False
     ForceNewPage = False
     Size.Values = (
-      2972.15277777778
+      2970
       2099.02777777778)
     BandType = rbTitle
     object Graph4: TGraph

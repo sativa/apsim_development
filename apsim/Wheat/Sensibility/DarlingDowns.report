@@ -1,9 +1,39 @@
 <?xml version="1.0"?>
 <report version="4">
-  <Data><ApsimFileReader name="Dalby600"><FileName type="filenames">Dalby600.out</FileName><Probability name="Dalby600Prob"><FieldName type="fieldnames">yield</FieldName></Probability></ApsimFileReader><ApsimFileReader name="Dalby1500"><FileName type="filenames">Dalby1500.out</FileName><Probability name="Dalby1500Prob"><FieldName type="fieldnames">yield</FieldName></Probability></ApsimFileReader><ApsimFileReader name="Roma400"><FileName type="filenames">Roma400.out</FileName><Probability name="Roma600Prob"><FieldName type="fieldnames">yield</FieldName></Probability></ApsimFileReader><ApsimFileReader name="Roma800"><FileName type="filenames">Roma800.out</FileName><Probability name="Roma1500Prob"><FieldName type="fieldnames">yield</FieldName></Probability></ApsimFileReader></Data>
-  <page><![CDATA[object Page1: TQuickRep
-  Left = 196
-  Top = 26
+<Data>
+<ApsimFileReader name="Dalby600" Left="173" Top="10" Width="147" Height="94">
+  <FileName type="filenames">Dalby600.out</FileName>
+</ApsimFileReader>
+<ApsimFileReader name="Dalby1500" Left="483" Top="14" Width="157" Height="90">
+  <FileName type="filenames">Dalby1500.out</FileName>
+</ApsimFileReader>
+<ApsimFileReader name="Roma400" Left="3" Top="10" Width="150" Height="92">
+  <FileName type="filenames">Roma400.out</FileName>
+</ApsimFileReader>
+<ApsimFileReader name="Roma800" Left="335" Top="14" Width="130" Height="90">
+  <FileName type="filenames">Roma800.out</FileName>
+</ApsimFileReader>
+<Probability name="Dalby600Prob" Left="173" Top="139" Width="141" Height="229">
+  <FieldName type="fieldnames">yield</FieldName>
+  <source>Dalby600</source>
+</Probability>
+<Probability name="Dalby1500Prob" Left="503" Top="139" Width="150" Height="229">
+  <FieldName type="fieldnames">yield</FieldName>
+  <source>Dalby1500</source>
+</Probability>
+<Probability name="Roma600Prob" Left="3" Top="139" Width="140" Height="229">
+  <FieldName type="fieldnames">yield</FieldName>
+  <source>Roma400</source>
+</Probability>
+<Probability name="Roma1500Prob" Left="335" Top="139" Width="145" Height="229">
+  <FieldName type="fieldnames">yield</FieldName>
+  <source>Roma800</source>
+</Probability>
+</Data>
+   <page> <![CDATA[
+object Page1: TQuickRep
+  Left = 222
+  Top = -91
   Width = 556
   Height = 786
   Frame.Color = clBlack
@@ -436,5 +466,6 @@
     end
   end
 end
-]]></page>
+]]>
+   </page>
 </report>

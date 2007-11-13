@@ -57,22 +57,22 @@ namespace Graph
         private void OnFileNameChanged(object sender, EventArgs e)
             {
             XmlHelper.SetValue(Data, "FileName", FileNameEdit.Text);
-            PublishViewChanged(Data);
+            PublishViewChanged();
             }
         private void OnExperimentChanged(object sender, EventArgs e)
             {
             XmlHelper.SetValue(Data, "Experiment", ExperimentDropDown.Text);
-            PublishViewChanged(Data);
+            PublishViewChanged();
             }
         private void OnTreatmentChanged(object sender, EventArgs e)
             {
             XmlHelper.SetValue(Data, "Treatment", TreatmentDropDown.Text);
-            PublishViewChanged(Data);
+            PublishViewChanged();
             }
         private void OnDataSourceChanged(object sender, EventArgs e)
             {
             XmlHelper.SetValue(Data, "DataSource", DataSourceDropDown.Text);
-            PublishViewChanged(Data);
+            PublishViewChanged();
             }
 
         }

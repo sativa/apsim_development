@@ -1,39 +1,43 @@
-<report version="4">
+<report version="5">
 <Data>
-  <ApsimFileReader name="Obs">
-    <FileName type="filenames">Observed\Wongan83.txt</FileName>
-    <Filter name="Ripped">
-      <FilterString>Ripped = 1</FilterString>
-    </Filter>
-    <Filter name="UnRipped">
-      <FilterString>Ripped = 0</FilterString>
-    </Filter>
-  </ApsimFileReader>
-  <ApsimFileReader name="PreRipped">
-    <FileName type="filenames">Wheat_Wongan83Ripped_RippedN000.out</FileName>
-    <FileName type="filenames">Wheat_Wongan83Ripped_RippedN010.out</FileName>
-    <FileName type="filenames">Wheat_Wongan83Ripped_RippedN025.out</FileName>
-    <FileName type="filenames">Wheat_Wongan83Ripped_RippedN050.out</FileName>
-    <FileName type="filenames">Wheat_Wongan83Ripped_RippedN100.out</FileName>
-    <Filter name="PreRippedHarvest">
-      <FilterString>zadok_stage=90</FilterString>
-    </Filter>
-  </ApsimFileReader>
-  <ApsimFileReader name="PreUnRipped">
-    <FileName type="filenames">Wheat_Wongan83Unripped_UnrippedN000.out</FileName>
-    <FileName type="filenames">Wheat_Wongan83Unripped_UnrippedN010.out</FileName>
-    <FileName type="filenames">Wheat_Wongan83Unripped_UnrippedN025.out</FileName>
-    <FileName type="filenames">Wheat_Wongan83Unripped_UnrippedN050.out</FileName>
-    <FileName type="filenames">Wheat_Wongan83Unripped_UnrippedN100.out</FileName>
-    <Filter name="PreUnRippedHarvest">
-      <FilterString>zadok_stage=90</FilterString>
-    </Filter>
-  </ApsimFileReader>
+<ApsimFileReader name="Obs" Left="0" Top="0">
+  <FileName type="filenames">Observed\Wongan83.txt</FileName>
+</ApsimFileReader>
+<ApsimFileReader name="PreRipped" Left="200" Top="0">
+  <FileName type="filenames">Wheat_Wongan83Ripped_RippedN000.out</FileName>
+  <FileName type="filenames">Wheat_Wongan83Ripped_RippedN010.out</FileName>
+  <FileName type="filenames">Wheat_Wongan83Ripped_RippedN025.out</FileName>
+  <FileName type="filenames">Wheat_Wongan83Ripped_RippedN050.out</FileName>
+  <FileName type="filenames">Wheat_Wongan83Ripped_RippedN100.out</FileName>
+</ApsimFileReader>
+<ApsimFileReader name="PreUnRipped" Left="400" Top="0">
+  <FileName type="filenames">Wheat_Wongan83Unripped_UnrippedN000.out</FileName>
+  <FileName type="filenames">Wheat_Wongan83Unripped_UnrippedN010.out</FileName>
+  <FileName type="filenames">Wheat_Wongan83Unripped_UnrippedN025.out</FileName>
+  <FileName type="filenames">Wheat_Wongan83Unripped_UnrippedN050.out</FileName>
+  <FileName type="filenames">Wheat_Wongan83Unripped_UnrippedN100.out</FileName>
+</ApsimFileReader>
+<Filter name="Ripped" Left="600" Top="0">
+  <FilterString>Ripped = 1</FilterString>
+  <source>Obs</source>
+</Filter>
+<Filter name="UnRipped" Left="0" Top="200">
+  <FilterString>Ripped = 0</FilterString>
+  <source>Obs</source>
+</Filter>
+<Filter name="PreRippedHarvest" Left="200" Top="200">
+  <FilterString>zadok_stage=90</FilterString>
+  <source>PreRipped</source>
+</Filter>
+<Filter name="PreUnRippedHarvest" Left="400" Top="200">
+  <FilterString>zadok_stage=90</FilterString>
+  <source>PreUnRipped</source>
+</Filter>
 </Data>
    <page> <![CDATA[
 object Page1: TQuickRep
   Tag = 1
-  Left = 220
+  Left = 83
   Top = 0
   Width = 635
   Height = 898

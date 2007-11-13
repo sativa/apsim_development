@@ -1,34 +1,34 @@
-<report version="4">
+<report version="5">
 <Data>
-  <ApsimFileReader name="Planting1">
+<ApsimFileReader name="Planting1" Left="0" Top="0">
     <FileName type="filenames">PacSeeds Planting1.out</FileName>
   </ApsimFileReader>
-  <ApsimFileReader name="Planting2">
+<ApsimFileReader name="Planting2" Left="200" Top="0">
     <FileName type="filenames">PacSeeds Planting2.out</FileName>
   </ApsimFileReader>
-  <ApsimFileReader name="Planting1Phenology">
+<ApsimFileReader name="Planting1Phenology" Left="400" Top="0">
     <FileName type="filenames">PacSeeds1Phenology.txt</FileName>
   </ApsimFileReader>
-  <ApsimFileReader name="Planting2Phenology">
+<ApsimFileReader name="Planting2Phenology" Left="600" Top="0">
     <FileName type="filenames">PacSeeds2Phenology.txt</FileName>
   </ApsimFileReader>
-  <ApsimFileReader name="Planting1Leaf">
+<ApsimFileReader name="Planting1Leaf" Left="0" Top="200">
     <FileName type="filenames">PacSeeds1Leaf.txt</FileName>
   </ApsimFileReader>
-  <ApsimFileReader name="Planting2Leaf">
+<ApsimFileReader name="Planting2Leaf" Left="200" Top="200">
     <FileName type="filenames">PacSeeds2Leaf.txt</FileName>
   </ApsimFileReader>
-  <ApsimFileReader name="Planting1Biomass">
+<ApsimFileReader name="Planting1Biomass" Left="400" Top="200">
     <FileName type="filenames">PacSeeds1Biomass.txt</FileName>
   </ApsimFileReader>
-  <ApsimFileReader name="Planting2Biomass">
+<ApsimFileReader name="Planting2Biomass" Left="600" Top="200">
     <FileName type="filenames">PacSeeds2Biomass.txt</FileName>
   </ApsimFileReader>
 </Data>
    <page> <![CDATA[
 object Page1: TQuickRep
-  Left = 358
-  Top = 48
+  Left = 122
+  Top = 30
   Width = 556
   Height = 786
   Frame.Color = clBlack

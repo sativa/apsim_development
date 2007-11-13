@@ -37,13 +37,13 @@ namespace Graph
                 {
                 Page1.Processor = DataProcessor;
                 Page1.OnLoad(Controller, NodePath, Pages[0].OuterXml);
-                Page1.ViewChanged += OnViewChanged;
+                Page1.ViewChanged += OnPage1Changed;
                 }
             if (Pages.Count == 2)
                 {
                 Page2.Processor = DataProcessor;
                 Page2.OnLoad(Controller, NodePath, Pages[1].OuterXml);
-                Page2.ViewChanged += OnViewChanged;
+                Page2.ViewChanged += OnPage1Changed;
                 }
             }
         public override void OnRefresh()
@@ -59,21 +59,33 @@ namespace Graph
             if (XmlHelper.ChildNodes(Data, "page").Count == 2)
                 Page2.OnRefresh();
             }
-        protected override void OnSave()
+        public override void OnSave()
             {
             // -----------------------------------------------
             // Called when it's time to save everything back
             // to XML
             // -----------------------------------------------
             base.OnSave();
+            Page1.OnSave();
+            Page2.OnSave();
             Data.InnerXml = Page1.GetData() + Page2.GetData();
             }
-        private void OnViewChanged(XmlNode ChangedNode)
+        private void OnPage1Changed(BaseView ChangedNode)
             {
-            DataProcessor.Set(ChangedNode.OuterXml);
-            OnSave();
-            OnRefresh();
+            Data.InnerXml = Page1.GetData() + Page2.GetData();
+            Page2.OnRefresh();
             }
+        private void OnPage2Changed(BaseView ChangedNode)
+            {
+            Data.InnerXml = Page1.GetData() + Page2.GetData();
+            Page1.OnRefresh();
+            }
+        public override void OnClose()
+            {
+            Page1.OnClose();
+            Page2.OnClose();
+            }
+
         
         
         }

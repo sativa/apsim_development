@@ -31,13 +31,16 @@ namespace Graph
             // -----------------------------------------------
             base.OnRefresh();
             GroupBox.Text = Name;
+
+            FilterBox.TextChanged -= OnFilterChanged;
             FilterBox.Text = XmlHelper.Value(Data, "FilterString");
+            FilterBox.TextChanged += OnFilterChanged;
             }
 
         private void OnFilterChanged(object sender, EventArgs e)
             {
             XmlHelper.SetValue(Data, "FilterString", FilterBox.Text);
-            PublishViewChanged(Data);
+            PublishViewChanged();
             }
 
 

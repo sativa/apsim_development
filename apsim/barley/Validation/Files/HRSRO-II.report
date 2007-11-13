@@ -1,21 +1,19 @@
-<report version="4">
+<report version="5">
 <Data>
-   <ApsimFileReader name="ApsimFileReader1">
-      <FileName type="filenames">Barley_HRSRO - II_1.out</FileName>
+<ApsimFileReader name="ApsimFileReader1" Left="0" Top="0">
+      <FileName type="filenames">Barley_HRSRO-II_1.out</FileName>
    </ApsimFileReader>
-   <REMS name="REMS1">
-      <FileName type="filename">C:\development\apsim\barley\Validation\Files\Barley.mdb</FileName>
+<REMS name="REMS1" Left="200" Top="0">
+      <FileName type="filename">Barley.mdb</FileName>
       <Experiment type="experiment">HRSRO - II</Experiment>
       <Treatment type="treatment">Grimmett </Treatment>
       <DataSource type="datasource">Crop</DataSource>
    </REMS>
-
 </Data>
-
    <page> <![CDATA[
 object TQuickRep
-  Left = 166
-  Top = 153
+  Left = 0
+  Top = 56
   Width = 950
   Height = 734
   Frame.Color = clBlack

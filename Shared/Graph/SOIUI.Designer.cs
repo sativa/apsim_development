@@ -29,12 +29,12 @@ namespace Graph
         private void InitializeComponent()
             {
             this.GroupBox = new System.Windows.Forms.GroupBox();
-            this.FileNameEdit = new System.Windows.Forms.TextBox();
-            this.label2 = new System.Windows.Forms.Label();
-            this.MonthDropDown = new System.Windows.Forms.ComboBox();
-            this.label1 = new System.Windows.Forms.Label();
-            this.PhaseList = new System.Windows.Forms.CheckedListBox();
             this.label3 = new System.Windows.Forms.Label();
+            this.PhaseList = new System.Windows.Forms.CheckedListBox();
+            this.MonthDropDown = new System.Windows.Forms.ComboBox();
+            this.label2 = new System.Windows.Forms.Label();
+            this.FileNameEdit = new System.Windows.Forms.TextBox();
+            this.label1 = new System.Windows.Forms.Label();
             this.GroupBox.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -47,31 +47,43 @@ namespace Graph
             this.GroupBox.Controls.Add(this.FileNameEdit);
             this.GroupBox.Controls.Add(this.label1);
             this.GroupBox.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.GroupBox.Location = new System.Drawing.Point(0, 0);
+            this.GroupBox.Location = new System.Drawing.Point(0, 18);
             this.GroupBox.Name = "GroupBox";
-            this.GroupBox.Size = new System.Drawing.Size(232, 249);
+            this.GroupBox.Size = new System.Drawing.Size(127, 245);
             this.GroupBox.TabIndex = 2;
             this.GroupBox.TabStop = false;
             this.GroupBox.Text = "GroupBox";
             // 
-            // FileNameEdit
+            // label3
             // 
-            this.FileNameEdit.Location = new System.Drawing.Point(6, 44);
-            this.FileNameEdit.Name = "FileNameEdit";
-            this.FileNameEdit.Size = new System.Drawing.Size(220, 20);
-            this.FileNameEdit.TabIndex = 1;
+            this.label3.AutoSize = true;
+            this.label3.Location = new System.Drawing.Point(3, 124);
+            this.label3.Name = "label3";
+            this.label3.Size = new System.Drawing.Size(40, 13);
+            this.label3.TabIndex = 5;
+            this.label3.Text = "Phase:";
             // 
-            // label2
+            // PhaseList
             // 
-            this.label2.AutoSize = true;
-            this.label2.Location = new System.Drawing.Point(6, 75);
-            this.label2.Name = "label2";
-            this.label2.Size = new System.Drawing.Size(40, 13);
-            this.label2.TabIndex = 2;
-            this.label2.Text = "Month:";
+            this.PhaseList.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left)
+                        | System.Windows.Forms.AnchorStyles.Right)));
+            this.PhaseList.FormattingEnabled = true;
+            this.PhaseList.Items.AddRange(new object[] {
+            "Negative",
+            "Positive",
+            "Falling",
+            "Rising",
+            "Zero",
+            "AllOtherYears"});
+            this.PhaseList.Location = new System.Drawing.Point(6, 140);
+            this.PhaseList.Name = "PhaseList";
+            this.PhaseList.Size = new System.Drawing.Size(112, 94);
+            this.PhaseList.TabIndex = 4;
             // 
             // MonthDropDown
             // 
+            this.MonthDropDown.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left)
+                        | System.Windows.Forms.AnchorStyles.Right)));
             this.MonthDropDown.FormattingEnabled = true;
             this.MonthDropDown.Items.AddRange(new object[] {
             "January",
@@ -88,8 +100,26 @@ namespace Graph
             "December"});
             this.MonthDropDown.Location = new System.Drawing.Point(6, 91);
             this.MonthDropDown.Name = "MonthDropDown";
-            this.MonthDropDown.Size = new System.Drawing.Size(220, 21);
+            this.MonthDropDown.Size = new System.Drawing.Size(114, 21);
             this.MonthDropDown.TabIndex = 3;
+            // 
+            // label2
+            // 
+            this.label2.AutoSize = true;
+            this.label2.Location = new System.Drawing.Point(6, 75);
+            this.label2.Name = "label2";
+            this.label2.Size = new System.Drawing.Size(40, 13);
+            this.label2.TabIndex = 2;
+            this.label2.Text = "Month:";
+            // 
+            // FileNameEdit
+            // 
+            this.FileNameEdit.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left)
+                        | System.Windows.Forms.AnchorStyles.Right)));
+            this.FileNameEdit.Location = new System.Drawing.Point(6, 44);
+            this.FileNameEdit.Name = "FileNameEdit";
+            this.FileNameEdit.Size = new System.Drawing.Size(114, 20);
+            this.FileNameEdit.TabIndex = 1;
             // 
             // label1
             // 
@@ -100,35 +130,11 @@ namespace Graph
             this.label1.TabIndex = 0;
             this.label1.Text = "Phase filename:";
             // 
-            // PhaseList
-            // 
-            this.PhaseList.FormattingEnabled = true;
-            this.PhaseList.Items.AddRange(new object[] {
-            "Negative",
-            "Positive",
-            "Falling",
-            "Rising",
-            "Zero",
-            "AllOtherYears"});
-            this.PhaseList.Location = new System.Drawing.Point(6, 140);
-            this.PhaseList.Name = "PhaseList";
-            this.PhaseList.Size = new System.Drawing.Size(218, 94);
-            this.PhaseList.TabIndex = 4;
-            // 
-            // label3
-            // 
-            this.label3.AutoSize = true;
-            this.label3.Location = new System.Drawing.Point(3, 124);
-            this.label3.Name = "label3";
-            this.label3.Size = new System.Drawing.Size(40, 13);
-            this.label3.TabIndex = 5;
-            this.label3.Text = "Phase:";
-            // 
             // SOIUI
             // 
             this.Controls.Add(this.GroupBox);
             this.Name = "SOIUI";
-            this.Size = new System.Drawing.Size(232, 249);
+            this.Size = new System.Drawing.Size(127, 263);
             this.Controls.SetChildIndex(this.GroupBox, 0);
             this.GroupBox.ResumeLayout(false);
             this.GroupBox.PerformLayout();

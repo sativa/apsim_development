@@ -1,465 +1,24 @@
-Version = 2.0
-NumPages = 1
-object data: TForm
-  Left = 4
-  Top = 4
-  Align = alClient
-  BorderIcons = []
-  BorderStyle = bsNone
-  ClientHeight = 865
-  ClientWidth = 1384
-  Color = clBtnFace
-  Font.Charset = DEFAULT_CHARSET
-  Font.Color = clWindowText
-  Font.Height = -11
-  Font.Name = 'MS Sans Serif'
-  Font.Style = []
-  OldCreateOrder = False
-  PixelsPerInch = 96
-  TextHeight = 13
-  object Excel1: TExcel
-    Active = True
-    DesignActivation = True
-    AttachedAutoRefresh = True
-    AttachMaxCount = 1
-    FieldDefs = <
-      item
-        Name = 'Date'
-        DataType = ftDate
-      end
-      item
-        Name = 'B_LAI'
-        DataType = ftFloat
-      end
-      item
-        Name = 'D_LAI'
-        DataType = ftFloat
-      end
-      item
-        Name = 'LAI'
-        DataType = ftFloat
-      end
-      item
-        Name = 'B_Biomass'
-        DataType = ftFloat
-      end
-      item
-        Name = 'D_Biomass'
-        DataType = ftFloat
-      end
-      item
-        Name = 'Biomass'
-        DataType = ftFloat
-      end
-      item
-        Name = 'Dead'
-        DataType = ftFloat
-      end
-      item
-        Name = 'Total'
-        DataType = ftFloat
-      end
-      item
-        Name = 'Cum_production'
-        DataType = ftFloat
-      end
-      item
-        Name = 'Series'
-        DataType = ftString
-        Size = 200
-      end>
-    IndexFieldNames = 'Series'
-    IndexName = 'mainIndex'
-    IndexDefs = <
-      item
-        Name = 'mainIndex'
-        Fields = 'Series'
-      end>
-    SortOptions = []
-    AllDataOptions = [mtfSaveData, mtfSaveNonVisible, mtfSaveBlobs, mtfSaveFiltered, mtfSaveIgnoreRange, mtfSaveIgnoreMasterDetail, mtfSaveDeltas]
-    CommaTextOptions = [mtfSaveData]
-    CSVQuote = '"'
-    CSVFieldDelimiter = ','
-    CSVRecordDelimiter = ','
-    CSVTrueString = 'True'
-    CSVFalseString = 'False'
-    PersistentSaveOptions = [mtfSaveData, mtfSaveNonVisible, mtfSaveIgnoreRange, mtfSaveIgnoreMasterDetail]
-    PersistentBackup = False
-    ProgressFlags = [mtpcLoad, mtpcSave, mtpcCopy]
-    FilterOptions = []
-    Version = '2.53g'
-    LanguageID = 0
-    SortID = 0
-    SubLanguageID = 1
-    LocaleID = 1024
-    fileName =
-      'BambatsiValidation.xls'
-    pageName = 'HudsonBiomass'
-    Left = 127
-    Top = 86
-  end
-  object ApsimFileReader1: TApsimFileReader
-    Active = True
-    DesignActivation = True
-    AttachedAutoRefresh = True
-    AttachMaxCount = 1
-    FieldDefs = <
-      item
-        Name = 'date'
-        DataType = ftDate
-      end
-      item
-        Name = 'day'
-        DataType = ftFloat
-      end
-      item
-        Name = 'year'
-        DataType = ftFloat
-      end
-      item
-        Name = 'sum@soilwat2_runoff'
-        DataType = ftFloat
-      end
-      item
-        Name = 'sum@soilwat2_drain'
-        DataType = ftFloat
-      end
-      item
-        Name = 'sum@soilwat2_es'
-        DataType = ftFloat
-      end
-      item
-        Name = 'eo'
-        DataType = ftFloat
-      end
-      item
-        Name = 'rain'
-        DataType = ftFloat
-      end
-      item
-        Name = 'interception'
-        DataType = ftFloat
-      end
-      item
-        Name = 'nh4()'
-        DataType = ftFloat
-      end
-      item
-        Name = 'no3()'
-        DataType = ftFloat
-      end
-      item
-        Name = 'sum@soiln2_dnit[]'
-        DataType = ftFloat
-      end
-      item
-        Name = 'sum@soilwat2_flow_no3[16]'
-        DataType = ftFloat
-      end
-      item
-        Name = 'surf_biomn'
-        DataType = ftFloat
-      end
-      item
-        Name = 'subsurf_biomn'
-        DataType = ftFloat
-      end
-      item
-        Name = 'fom_n()'
-        DataType = ftFloat
-      end
-      item
-        Name = 'surf_humn'
-        DataType = ftFloat
-      end
-      item
-        Name = 'subsurf_humn'
-        DataType = ftFloat
-      end
-      item
-        Name = 'residue_wt'
-        DataType = ftFloat
-      end
-      item
-        Name = 'residue_cover'
-        DataType = ftFloat
-      end
-      item
-        Name = 'curve_no'
-        DataType = ftFloat
-      end
-      item
-        Name = 'b_lai'
-        DataType = ftFloat
-      end
-      item
-        Name = 'b_biomass'
-        DataType = ftFloat
-      end
-      item
-        Name = 'b_biomass_n'
-        DataType = ftString
-        Size = 200
-      end
-      item
-        Name = 'b_fw'
-        DataType = ftFloat
-      end
-      item
-        Name = 'b_fn'
-        DataType = ftFloat
-      end
-      item
-        Name = 'b_fvpd'
-        DataType = ftFloat
-      end
-      item
-        Name = 'b_ft'
-        DataType = ftFloat
-      end
-      item
-        Name = 'b_root_depth'
-        DataType = ftFloat
-      end
-      item
-        Name = 'b_ep'
-        DataType = ftFloat
-      end
-      item
-        Name = 'adm_sen()'
-        DataType = ftFloat
-      end
-      item
-        Name = 'adm_green()'
-        DataType = ftFloat
-      end
-      item
-        Name = 'adm_dead()'
-        DataType = ftFloat
-      end
-      item
-        Name = 'foliage_mass'
-        DataType = ftFloat
-      end
-      item
-        Name = 'foliage_mass_sen'
-        DataType = ftString
-        Size = 200
-      end
-      item
-        Name = 'b_height'
-        DataType = ftFloat
-      end
-      item
-        Name = 'average_t'
-        DataType = ftFloat
-      end
-      item
-        Name = 'maxt'
-        DataType = ftFloat
-      end
-      item
-        Name = 'mint'
-        DataType = ftFloat
-      end
-      item
-        Name = 'ffasw'
-        DataType = ftFloat
-      end
-      item
-        Name = 'month'
-        DataType = ftFloat
-      end
-      item
-        Name = 'sw1'
-        DataType = ftFloat
-      end
-      item
-        Name = 'sw2'
-        DataType = ftFloat
-      end
-      item
-        Name = 'sw3'
-        DataType = ftFloat
-      end
-      item
-        Name = 'swtot'
-        DataType = ftFloat
-      end
-      item
-        Name = 'cum_production'
-        DataType = ftFloat
-      end
-      item
-        Name = 'cum_runoff'
-        DataType = ftFloat
-      end
-      item
-        Name = 'cn2_new'
-        DataType = ftFloat
-      end
-      item
-        Name = 'Series'
-        DataType = ftString
-        Size = 200
-      end>
-    IndexFieldNames = 'Series'
-    IndexName = 'mainIndex'
-    IndexDefs = <
-      item
-        Name = 'mainIndex'
-        Fields = 'Series'
-      end>
-    SortOptions = []
-    AllDataOptions = [mtfSaveData, mtfSaveNonVisible, mtfSaveBlobs, mtfSaveFiltered, mtfSaveIgnoreRange, mtfSaveIgnoreMasterDetail, mtfSaveDeltas]
-    CommaTextOptions = [mtfSaveData]
-    CSVQuote = '"'
-    CSVFieldDelimiter = ','
-    CSVRecordDelimiter = ','
-    CSVTrueString = 'True'
-    CSVFalseString = 'False'
-    PersistentSaveOptions = [mtfSaveData, mtfSaveNonVisible, mtfSaveIgnoreRange, mtfSaveIgnoreMasterDetail]
-    PersistentBackup = False
-    ProgressFlags = [mtpcLoad, mtpcSave, mtpcCopy]
-    FilterOptions = []
-    Version = '2.53g'
-    LanguageID = 0
-    SortID = 0
-    SubLanguageID = 1
-    LocaleID = 1024
-    subscriptionComponentNames.Strings = (
-      'Graph1.afterDataRefresh'
-      'Graph4.afterDataRefresh'
-      'Graph2.afterDataRefresh'
-      'Graph3.afterDataRefresh')
-    filenames.Strings = (
-      'p3.out')
-    Left = 249
-    Top = 125
-  end
-  object Excel2: TExcel
-    Active = True
-    DesignActivation = True
-    AttachedAutoRefresh = True
-    AttachMaxCount = 1
-    FieldDefs = <
-      item
-        Name = 'Date'
-        DataType = ftDate
-      end
-      item
-        Name = 'SW1'
-        DataType = ftFloat
-      end
-      item
-        Name = 'SW2'
-        DataType = ftFloat
-      end
-      item
-        Name = 'SW3'
-        DataType = ftFloat
-      end
-      item
-        Name = 'Swtot'
-        DataType = ftFloat
-      end
-      item
-        Name = 'Series'
-        DataType = ftString
-        Size = 200
-      end>
-    IndexFieldNames = 'Series'
-    IndexName = 'mainIndex'
-    IndexDefs = <
-      item
-        Name = 'mainIndex'
-        Fields = 'Series'
-      end>
-    SortOptions = []
-    AllDataOptions = [mtfSaveData, mtfSaveNonVisible, mtfSaveBlobs, mtfSaveFiltered, mtfSaveIgnoreRange, mtfSaveIgnoreMasterDetail, mtfSaveDeltas]
-    CommaTextOptions = [mtfSaveData]
-    CSVQuote = '"'
-    CSVFieldDelimiter = ','
-    CSVRecordDelimiter = ','
-    CSVTrueString = 'True'
-    CSVFalseString = 'False'
-    PersistentSaveOptions = [mtfSaveData, mtfSaveNonVisible, mtfSaveIgnoreRange, mtfSaveIgnoreMasterDetail]
-    PersistentBackup = False
-    ProgressFlags = [mtpcLoad, mtpcSave, mtpcCopy]
-    FilterOptions = []
-    Version = '2.53g'
-    LanguageID = 0
-    SortID = 0
-    SubLanguageID = 1
-    LocaleID = 1024
-    subscriptionComponentNames.Strings = (
-      'Graph1.afterDataRefresh'
-      'Graph4.afterDataRefresh'
-      'Graph2.afterDataRefresh')
-    fileName =
-      'BambatsiValidation.xls'
-    pageName = 'HudsonSW'
-    Left = 142
-    Top = 154
-  end
-  object Excel3: TExcel
-    Active = True
-    DesignActivation = True
-    AttachedAutoRefresh = True
-    AttachMaxCount = 1
-    FieldDefs = <
-      item
-        Name = 'Date'
-        DataType = ftDate
-      end
-      item
-        Name = 'Runoff'
-        DataType = ftFloat
-      end
-      item
-        Name = 'CumRunoff'
-        DataType = ftFloat
-      end
-      item
-        Name = 'Series'
-        DataType = ftString
-        Size = 200
-      end>
-    IndexFieldNames = 'Series'
-    IndexName = 'mainIndex'
-    IndexDefs = <
-      item
-        Name = 'mainIndex'
-        Fields = 'Series'
-      end>
-    SortOptions = []
-    AllDataOptions = [mtfSaveData, mtfSaveNonVisible, mtfSaveBlobs, mtfSaveFiltered, mtfSaveIgnoreRange, mtfSaveIgnoreMasterDetail, mtfSaveDeltas]
-    CommaTextOptions = [mtfSaveData]
-    CSVQuote = '"'
-    CSVFieldDelimiter = ','
-    CSVRecordDelimiter = ','
-    CSVTrueString = 'True'
-    CSVFalseString = 'False'
-    PersistentSaveOptions = [mtfSaveData, mtfSaveNonVisible, mtfSaveIgnoreRange, mtfSaveIgnoreMasterDetail]
-    PersistentBackup = False
-    ProgressFlags = [mtpcLoad, mtpcSave, mtpcCopy]
-    FilterOptions = []
-    Version = '2.53g'
-    LanguageID = 0
-    SortID = 0
-    SubLanguageID = 1
-    LocaleID = 1024
-    subscriptionComponentNames.Strings = (
-      'Graph3.afterDataRefresh')
-    fileName =
-      'BambatsiValidation.xls'
-    pageName = 'HudsonRunoff'
-    Left = 103
-    Top = 218
-  end
-end
+<report version="5">
+<Data>
+<Excel name="Excel1" Left="0" Top="0">
+  <FileName type="filename"/>
+  <PageName>HudsonBiomass</PageName>
+</Excel>
+<ApsimFileReader name="ApsimFileReader1" Left="200" Top="0">
+  <FileName type="filenames">p3.out</FileName>
+</ApsimFileReader>
+<Excel name="Excel2" Left="400" Top="0">
+  <FileName type="filename"/>
+  <PageName>HudsonSW</PageName>
+</Excel>
+<Excel name="Excel3" Left="600" Top="0">
+  <FileName type="filename"/>
+  <PageName>HudsonRunoff</PageName>
+</Excel>
+</Data>
+   <page> <![CDATA[
 object Page1: TQuickRep
-  Left = 217
+  Left = 3
   Top = 0
   Width = 794
   Height = 1123
@@ -539,12 +98,17 @@ object Page1: TQuickRep
         2206.625
         1944.6875)
       title = ' '
+      subTitle = ' '
       leftAxisTitle = 'Cumulative Runoff'
       topAxisTitle = ' '
       rightAxisTitle = ' '
       bottomAxisTitle = ' '
       footTitle = ' '
-      seriesTitle = ' '
+      seriesTitle1 = ' '
+      seriesTitle2 = ' '
+      seriesTitle3 = ' '
+      seriesTitle4 = ' '
+      seriesTitle5 = ' '
       object QRDBChart3: TQRDBChart
         Left = -1
         Top = -1
@@ -582,12 +146,9 @@ object Page1: TQuickRep
         TopAxis.TickLength = 7
         View3D = False
         object PointSeries2: TPointSeries
-          Marks.ArrowLength = 0
           Marks.Callout.Brush.Color = clBlack
-          Marks.Callout.Length = 0
           Marks.Visible = False
-          DataSource = data.Excel3
-          SeriesColor = clRed
+          DataSource = Excel3
           ClickableLine = False
           Pointer.Brush.Color = clBlack
           Pointer.HorizSize = 6
@@ -600,14 +161,13 @@ object Page1: TQuickRep
           XValues.Order = loAscending
           XValues.ValueSource = 'Date'
           YValues.Name = 'Y'
+          YValues.Order = loNone
           YValues.ValueSource = 'CumRunoff'
         end
         object LineSeries2: TLineSeries
-          Marks.ArrowLength = 8
           Marks.Callout.Brush.Color = clBlack
-          Marks.Callout.Length = 8
           Marks.Visible = False
-          DataSource = data.ApsimFileReader1
+          DataSource = ApsimFileReader1
           SeriesColor = clBlack
           Pointer.InflateMargins = True
           Pointer.Style = psRectangle
@@ -617,6 +177,7 @@ object Page1: TQuickRep
           XValues.Order = loAscending
           XValues.ValueSource = 'date'
           YValues.Name = 'Y'
+          YValues.Order = loNone
           YValues.ValueSource = 'cum_runoff'
         end
       end
@@ -673,12 +234,17 @@ object Page1: TQuickRep
         505.354166666667
         1960.5625)
       title = ' '
+      subTitle = ' '
       leftAxisTitle = 'SW (10-110cm)'
       topAxisTitle = ' '
       rightAxisTitle = ' '
       bottomAxisTitle = ' '
       footTitle = ' '
-      seriesTitle = ' '
+      seriesTitle1 = ' '
+      seriesTitle2 = ' '
+      seriesTitle3 = ' '
+      seriesTitle4 = ' '
+      seriesTitle5 = ' '
       object QRDBChart1: TQRDBChart
         Left = -1
         Top = -1
@@ -721,12 +287,9 @@ object Page1: TQuickRep
           15
           35)
         object Series1: TPointSeries
-          Marks.ArrowLength = 0
           Marks.Callout.Brush.Color = clBlack
-          Marks.Callout.Length = 0
           Marks.Visible = False
-          DataSource = data.Excel2
-          SeriesColor = clRed
+          DataSource = Excel2
           ClickableLine = False
           Pointer.Brush.Color = clBlack
           Pointer.HorizSize = 6
@@ -739,14 +302,13 @@ object Page1: TQuickRep
           XValues.Order = loAscending
           XValues.ValueSource = 'Date'
           YValues.Name = 'Y'
+          YValues.Order = loNone
           YValues.ValueSource = 'SW1'
         end
         object Series2: TLineSeries
-          Marks.ArrowLength = 8
           Marks.Callout.Brush.Color = clBlack
-          Marks.Callout.Length = 8
           Marks.Visible = False
-          DataSource = data.ApsimFileReader1
+          DataSource = ApsimFileReader1
           SeriesColor = clBlack
           Pointer.InflateMargins = True
           Pointer.Style = psRectangle
@@ -756,6 +318,7 @@ object Page1: TQuickRep
           XValues.Order = loAscending
           XValues.ValueSource = 'date'
           YValues.Name = 'Y'
+          YValues.Order = loNone
           YValues.ValueSource = 'sw1'
         end
       end
@@ -777,12 +340,17 @@ object Page1: TQuickRep
         1640.41666666667
         1950.35714285714)
       title = ' '
+      subTitle = ' '
       leftAxisTitle = 'SW (210-310 cm)'
       topAxisTitle = ' '
       rightAxisTitle = ' '
       bottomAxisTitle = ' '
       footTitle = ' '
-      seriesTitle = ' '
+      seriesTitle1 = ' '
+      seriesTitle2 = ' '
+      seriesTitle3 = ' '
+      seriesTitle4 = ' '
+      seriesTitle5 = ' '
       object QRDBChart2: TQRDBChart
         Left = -1
         Top = -1
@@ -820,12 +388,9 @@ object Page1: TQuickRep
         TopAxis.TickLength = 7
         View3D = False
         object PointSeries1: TPointSeries
-          Marks.ArrowLength = 0
           Marks.Callout.Brush.Color = clBlack
-          Marks.Callout.Length = 0
           Marks.Visible = False
-          DataSource = data.Excel2
-          SeriesColor = clRed
+          DataSource = Excel2
           ClickableLine = False
           Pointer.Brush.Color = clBlack
           Pointer.HorizSize = 6
@@ -838,14 +403,13 @@ object Page1: TQuickRep
           XValues.Order = loAscending
           XValues.ValueSource = 'Date'
           YValues.Name = 'Y'
+          YValues.Order = loNone
           YValues.ValueSource = 'SW3'
         end
         object LineSeries1: TLineSeries
-          Marks.ArrowLength = 8
           Marks.Callout.Brush.Color = clBlack
-          Marks.Callout.Length = 8
           Marks.Visible = False
-          DataSource = data.ApsimFileReader1
+          DataSource = ApsimFileReader1
           SeriesColor = clBlack
           Pointer.InflateMargins = True
           Pointer.Style = psRectangle
@@ -855,6 +419,7 @@ object Page1: TQuickRep
           XValues.Order = loAscending
           XValues.ValueSource = 'date'
           YValues.Name = 'Y'
+          YValues.Order = loNone
           YValues.ValueSource = 'sw3'
         end
       end
@@ -876,12 +441,17 @@ object Page1: TQuickRep
         1073.45238095238
         1950.35714285714)
       title = ' '
+      subTitle = ' '
       leftAxisTitle = 'SW (110-210cm)'
       topAxisTitle = ' '
       rightAxisTitle = ' '
       bottomAxisTitle = ' '
       footTitle = ' '
-      seriesTitle = ' '
+      seriesTitle1 = ' '
+      seriesTitle2 = ' '
+      seriesTitle3 = ' '
+      seriesTitle4 = ' '
+      seriesTitle5 = ' '
       object QRDBChart4: TQRDBChart
         Left = -1
         Top = -1
@@ -919,12 +489,9 @@ object Page1: TQuickRep
         TopAxis.TickLength = 7
         View3D = False
         object PointSeries3: TPointSeries
-          Marks.ArrowLength = 0
           Marks.Callout.Brush.Color = clBlack
-          Marks.Callout.Length = 0
           Marks.Visible = False
-          DataSource = data.Excel2
-          SeriesColor = clRed
+          DataSource = Excel2
           ClickableLine = False
           Pointer.Brush.Color = clBlack
           Pointer.HorizSize = 6
@@ -937,14 +504,13 @@ object Page1: TQuickRep
           XValues.Order = loAscending
           XValues.ValueSource = 'Date'
           YValues.Name = 'Y'
+          YValues.Order = loNone
           YValues.ValueSource = 'SW2'
         end
         object LineSeries3: TLineSeries
-          Marks.ArrowLength = 8
           Marks.Callout.Brush.Color = clBlack
-          Marks.Callout.Length = 8
           Marks.Visible = False
-          DataSource = data.ApsimFileReader1
+          DataSource = ApsimFileReader1
           SeriesColor = clBlack
           Pointer.InflateMargins = True
           Pointer.Style = psRectangle
@@ -954,6 +520,7 @@ object Page1: TQuickRep
           XValues.Order = loAscending
           XValues.ValueSource = 'date'
           YValues.Name = 'Y'
+          YValues.Order = loNone
           YValues.ValueSource = 'sw2'
         end
       end
@@ -1732,13 +1299,13 @@ object Page1: TQuickRep
       Font.Style = []
       Lines.Strings = (
         'Model output is compared to measured pasture production'
-
+        
           'and soil water balance for Hudson Trial Site (Data provided by R' +
           '. Young)')
       ParentFont = False
       Transparent = False
       WordWrap = True
-      text =
+      text = 
         'Model output is compared to measured pasture production'#13#10'and soi' +
         'l water balance for Hudson Trial Site (Data provided by R. Young' +
         ')'#13#10
@@ -1998,3 +1565,6 @@ object Page1: TQuickRep
     end
   end
 end
+]]>
+   </page>
+</report>

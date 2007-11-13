@@ -26,7 +26,7 @@ Public Class OperationsUI
         InputMap.Put(New FarPoint.Win.Spread.Keystroke(Keys.Enter, Keys.None), FarPoint.Win.Spread.SpreadActions.MoveToNextRow)
     End Sub
 
-    Protected Overrides Sub OnSave()
+    Public Overrides Sub OnSave()
         Data.RemoveAll()
         Dim Row As Integer = 0
         While Row < StartDayGrid.RowCount - 1 And StartDayGrid.Cells(Row, 0).Text <> ""

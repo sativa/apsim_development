@@ -1,136 +1,145 @@
-<report version="4">
+<report version="5">
 <Data>
-   <ApsimFileReader name="ObservedFinal">
-      <FileName type="filenames">C:\development\apsim\Wheat\Validation\Files\Observed\CombinedFinalHarvest.txt</FileName>
-      <ParseTitle type="yesno">yes</ParseTitle>
-      <Filter name="ObsCunderdinFinal">
-         <FilterString>experiment='Cunderdin97'</FilterString>
-      </Filter>
-   </ApsimFileReader>
-   <ApsimFileReader name="Predicted">
-      <FileName type="filenames">Wheat_Cunderdin97_DryN0SpearEarly.out</FileName>
-      <FileName type="filenames">Wheat_Cunderdin97_DryN0SpearMid.out</FileName>
-      <FileName type="filenames">Wheat_Cunderdin97_DryN50SpearEarly.out</FileName>
-      <FileName type="filenames">Wheat_Cunderdin97_DryN50SpearMid.out</FileName>
-      <FileName type="filenames">Wheat_Cunderdin97_WetN0SpearEarly.out</FileName>
-      <FileName type="filenames">Wheat_Cunderdin97_WetN0SpearMid.out</FileName>
-      <FileName type="filenames">Wheat_Cunderdin97_WetN50SpearEarly.out</FileName>
-      <FileName type="filenames">Wheat_Cunderdin97_WetN50SpearMid.out</FileName>
-      <FileName type="filenames">Wheat_Cunderdin97_DryN0WilgoyneEarly.out</FileName>
-      <FileName type="filenames">Wheat_Cunderdin97_DryN0WilgoyneMid.out</FileName>
-      <FileName type="filenames">Wheat_Cunderdin97_DryN0WilgoyneLate.out</FileName>
-      <FileName type="filenames">Wheat_Cunderdin97_DryN50WilgoyneEarly.out</FileName>
-      <FileName type="filenames">Wheat_Cunderdin97_DryN50WilgoyneMid.out</FileName>
-      <FileName type="filenames">Wheat_Cunderdin97_WetN0WilgoyneEarly.out</FileName>
-      <FileName type="filenames">Wheat_Cunderdin97_WetN0WilgoyneMid.out</FileName>
-      <FileName type="filenames">Wheat_Cunderdin97_WetN0WilgoyneLate.out</FileName>
-      <FileName type="filenames">Wheat_Cunderdin97_WetN50WilgoyneEarly.out</FileName>
-      <FileName type="filenames">Wheat_Cunderdin97_WetN50WilgoyneMid.out</FileName>
-      <FileName type="filenames">Wheat_Cunderdin97_DryN0bSpearEarly.out</FileName>
-      <FileName type="filenames">Wheat_Cunderdin97_DryN0bSpearMid.out</FileName>
-      <FileName type="filenames">Wheat_Cunderdin97_DryN50bSpearEarly.out</FileName>
-      <FileName type="filenames">Wheat_Cunderdin97_DryN50bSpearMid.out</FileName>
-      <FileName type="filenames">Wheat_Cunderdin97_WetN0bSpearEarly.out</FileName>
-      <FileName type="filenames">Wheat_Cunderdin97_WetN0bSpearMid.out</FileName>
-      <FileName type="filenames">Wheat_Cunderdin97_WetN50bSpearEarly.out</FileName>
-      <FileName type="filenames">Wheat_Cunderdin97_WetN50bSpearMid.out</FileName>
-      <FileName type="filenames">Wheat_Cunderdin97_DryN0bWilgoyneEarly.out</FileName>
-      <FileName type="filenames">Wheat_Cunderdin97_DryN0bWilgoyneMid.out</FileName>
-      <FileName type="filenames">Wheat_Cunderdin97_DryN50bWilgoyneEarly.out</FileName>
-      <FileName type="filenames">Wheat_Cunderdin97_DryN50bWilgoyneMid.out</FileName>
-      <FileName type="filenames">Wheat_Cunderdin97_WetN0bWilgoyneEarly.out</FileName>
-      <FileName type="filenames">Wheat_Cunderdin97_WetN0bWilgoyneMid.out</FileName>
-      <FileName type="filenames">Wheat_Cunderdin97_WetN50bWilgoyneEarly.out</FileName>
-      <FileName type="filenames">Wheat_Cunderdin97_WetN50bWilgoyneMid.out</FileName>
-      <Filter name="PredictedFinal">
-         <FilterString>zadok_stage=90</FilterString>
-         <PredObs name="PredObs1">
-            <obsFileName type="filename">C:\development\apsim\Wheat\Validation\Files\Observed\CombinedFinalHarvest.txt</obsFileName>
-            <KeyFieldName type="fieldnames">title</KeyFieldName>
-            <Regression name="RegrBiomass">
-               <XFieldName type="fieldname">Obsbiomass_wt</XFieldName>
-               <YFieldName type="fieldname">Predbiomass_wt</YFieldName>
-            </Regression>
-            <Regression name="RegrYield">
-               <XFieldName type="fieldname">Obsgrain_wt</XFieldName>
-               <YFieldName type="fieldname">Predgrain_wt</YFieldName>
-            </Regression>
-            <Regression name="RegrGno">
-               <XFieldName type="fieldname">Obsgrain_no</XFieldName>
-               <YFieldName type="fieldname">Predgrain_no</YFieldName>
-            </Regression>
-            <Regression name="RegrProtein">
-               <XFieldName type="fieldname">Obsgrain_protein</XFieldName>
-               <YFieldName type="fieldname">Predgrain_protein</YFieldName>
-            </Regression>
-            <Regression name="RegrGrainN">
-               <XFieldName type="fieldname">Obsgrain_n</XFieldName>
-               <YFieldName type="fieldname">Predgrain_n</YFieldName>
-            </Regression>
-         </PredObs>
-      </Filter>
-   </ApsimFileReader>
-   <ApsimFileReader name="ObsTimeSeries">
-      <FileName type="filenames">Observed\CunderdinTimeSeries.txt</FileName>
-      <Filter name="ObsTimeSeriesN0">
-         <FilterString>Nrate=0</FilterString>
-      </Filter>
-      <Filter name="ObsTimeSeriesN50">
-         <FilterString>Nrate=50</FilterString>
-      </Filter>
-   </ApsimFileReader>
-   <ApsimFileReader name="PredictedSpearN0_1">
-      <FileName type="filenames">Wheat_Cunderdin97_DryN0SpearEarly.out</FileName>
-   </ApsimFileReader>
-   <ApsimFileReader name="PredictedSpearN0_2">
-      <FileName type="filenames">Wheat_Cunderdin97_DryN0SpearMid.out</FileName>
-   </ApsimFileReader>
-   <ApsimFileReader name="PredictedSpearN50_1">
-      <FileName type="filenames">Wheat_Cunderdin97_DryN50SpearEarly.out</FileName>
-   </ApsimFileReader>
-   <ApsimFileReader name="PredictedSpearN50_2">
-      <FileName type="filenames">Wheat_Cunderdin97_DryN50SpearMid.out</FileName>
-   </ApsimFileReader>
-   <ApsimFileReader name="PreSingleApp">
-      <FileName type="filenames">Wheat_Cunderdin97_DryN0SpearEarly.out</FileName>
-      <FileName type="filenames">Wheat_Cunderdin97_DryN0SpearMid.out</FileName>
-      <FileName type="filenames">Wheat_Cunderdin97_DryN50SpearEarly.out</FileName>
-      <FileName type="filenames">Wheat_Cunderdin97_DryN50SpearMid.out</FileName>
-      <FileName type="filenames">Wheat_Cunderdin97_WetN0SpearEarly.out</FileName>
-      <FileName type="filenames">Wheat_Cunderdin97_WetN0SpearMid.out</FileName>
-      <FileName type="filenames">Wheat_Cunderdin97_WetN50SpearEarly.out</FileName>
-      <FileName type="filenames">Wheat_Cunderdin97_WetN50SpearMid.out</FileName>
-      <FileName type="filenames">Wheat_Cunderdin97_DryN0WilgoyneEarly.out</FileName>
-      <FileName type="filenames">Wheat_Cunderdin97_DryN0WilgoyneMid.out</FileName>
-      <FileName type="filenames">Wheat_Cunderdin97_DryN50WilgoyneEarly.out</FileName>
-      <FileName type="filenames">Wheat_Cunderdin97_DryN50WilgoyneMid.out</FileName>
-      <FileName type="filenames">Wheat_Cunderdin97_WetN0WilgoyneEarly.out</FileName>
-      <FileName type="filenames">Wheat_Cunderdin97_WetN0WilgoyneMid.out</FileName>
-      <FileName type="filenames">Wheat_Cunderdin97_WetN50WilgoyneEarly.out</FileName>
-      <FileName type="filenames">Wheat_Cunderdin97_WetN50WilgoyneMid.out</FileName>
-   </ApsimFileReader>
-   <ApsimFileReader name="PreTopDress">
-      <FileName type="filenames">Wheat_Cunderdin97_DryN0bSpearEarly.out</FileName>
-      <FileName type="filenames">Wheat_Cunderdin97_DryN0bSpearMid.out</FileName>
-      <FileName type="filenames">Wheat_Cunderdin97_DryN50bSpearEarly.out</FileName>
-      <FileName type="filenames">Wheat_Cunderdin97_DryN50bSpearMid.out</FileName>
-      <FileName type="filenames">Wheat_Cunderdin97_WetN0bSpearEarly.out</FileName>
-      <FileName type="filenames">Wheat_Cunderdin97_WetN0bSpearMid.out</FileName>
-      <FileName type="filenames">Wheat_Cunderdin97_WetN50bSpearEarly.out</FileName>
-      <FileName type="filenames">Wheat_Cunderdin97_WetN50bSpearMid.out</FileName>
-      <FileName type="filenames">Wheat_Cunderdin97_DryN0bWilgoyneEarly.out</FileName>
-      <FileName type="filenames">Wheat_Cunderdin97_DryN0bWilgoyneMid.out</FileName>
-      <FileName type="filenames">Wheat_Cunderdin97_DryN50bWilgoyneEarly.out</FileName>
-      <FileName type="filenames">Wheat_Cunderdin97_DryN50bWilgoyneMid.out</FileName>
-      <FileName type="filenames">Wheat_Cunderdin97_WetN0bWilgoyneEarly.out</FileName>
-      <FileName type="filenames">Wheat_Cunderdin97_WetN0bWilgoyneMid.out</FileName>
-      <FileName type="filenames">Wheat_Cunderdin97_WetN50bWilgoyneEarly.out</FileName>
-      <FileName type="filenames">Wheat_Cunderdin97_WetN50bWilgoyneMid.out</FileName>
-   </ApsimFileReader>
-   <Filter name="Filter1">
-   </Filter>
-   <Filter name="Filter2">
-   </Filter>
+<ApsimFileReader name="ObservedFinal" Left="0" Top="0">
+  <FileName type="filenames">Observed\CombinedFinalHarvest.txt</FileName>
+  <ParseTitle type="yesno">yes</ParseTitle>
+</ApsimFileReader>
+<ApsimFileReader name="Predicted" Left="200" Top="0">
+  <FileName type="filenames">Wheat_Cunderdin97_DryN0SpearEarly.out</FileName>
+  <FileName type="filenames">Wheat_Cunderdin97_DryN0SpearMid.out</FileName>
+  <FileName type="filenames">Wheat_Cunderdin97_DryN50SpearEarly.out</FileName>
+  <FileName type="filenames">Wheat_Cunderdin97_DryN50SpearMid.out</FileName>
+  <FileName type="filenames">Wheat_Cunderdin97_WetN0SpearEarly.out</FileName>
+  <FileName type="filenames">Wheat_Cunderdin97_WetN0SpearMid.out</FileName>
+  <FileName type="filenames">Wheat_Cunderdin97_WetN50SpearEarly.out</FileName>
+  <FileName type="filenames">Wheat_Cunderdin97_WetN50SpearMid.out</FileName>
+  <FileName type="filenames">Wheat_Cunderdin97_DryN0WilgoyneEarly.out</FileName>
+  <FileName type="filenames">Wheat_Cunderdin97_DryN0WilgoyneMid.out</FileName>
+  <FileName type="filenames">Wheat_Cunderdin97_DryN0WilgoyneLate.out</FileName>
+  <FileName type="filenames">Wheat_Cunderdin97_DryN50WilgoyneEarly.out</FileName>
+  <FileName type="filenames">Wheat_Cunderdin97_DryN50WilgoyneMid.out</FileName>
+  <FileName type="filenames">Wheat_Cunderdin97_WetN0WilgoyneEarly.out</FileName>
+  <FileName type="filenames">Wheat_Cunderdin97_WetN0WilgoyneMid.out</FileName>
+  <FileName type="filenames">Wheat_Cunderdin97_WetN0WilgoyneLate.out</FileName>
+  <FileName type="filenames">Wheat_Cunderdin97_WetN50WilgoyneEarly.out</FileName>
+  <FileName type="filenames">Wheat_Cunderdin97_WetN50WilgoyneMid.out</FileName>
+  <FileName type="filenames">Wheat_Cunderdin97_DryN0bSpearEarly.out</FileName>
+  <FileName type="filenames">Wheat_Cunderdin97_DryN0bSpearMid.out</FileName>
+  <FileName type="filenames">Wheat_Cunderdin97_DryN50bSpearEarly.out</FileName>
+  <FileName type="filenames">Wheat_Cunderdin97_DryN50bSpearMid.out</FileName>
+  <FileName type="filenames">Wheat_Cunderdin97_WetN0bSpearEarly.out</FileName>
+  <FileName type="filenames">Wheat_Cunderdin97_WetN0bSpearMid.out</FileName>
+  <FileName type="filenames">Wheat_Cunderdin97_WetN50bSpearEarly.out</FileName>
+  <FileName type="filenames">Wheat_Cunderdin97_WetN50bSpearMid.out</FileName>
+  <FileName type="filenames">Wheat_Cunderdin97_DryN0bWilgoyneEarly.out</FileName>
+  <FileName type="filenames">Wheat_Cunderdin97_DryN0bWilgoyneMid.out</FileName>
+  <FileName type="filenames">Wheat_Cunderdin97_DryN50bWilgoyneEarly.out</FileName>
+  <FileName type="filenames">Wheat_Cunderdin97_DryN50bWilgoyneMid.out</FileName>
+  <FileName type="filenames">Wheat_Cunderdin97_WetN0bWilgoyneEarly.out</FileName>
+  <FileName type="filenames">Wheat_Cunderdin97_WetN0bWilgoyneMid.out</FileName>
+  <FileName type="filenames">Wheat_Cunderdin97_WetN50bWilgoyneEarly.out</FileName>
+  <FileName type="filenames">Wheat_Cunderdin97_WetN50bWilgoyneMid.out</FileName>
+</ApsimFileReader>
+<ApsimFileReader name="ObsTimeSeries" Left="400" Top="0">
+  <FileName type="filenames">Observed\CunderdinTimeSeries.txt</FileName>
+</ApsimFileReader>
+<ApsimFileReader name="PredictedSpearN0_1" Left="600" Top="0">
+  <FileName type="filenames">Wheat_Cunderdin97_DryN0SpearEarly.out</FileName>
+</ApsimFileReader>
+<ApsimFileReader name="PredictedSpearN0_2" Left="0" Top="200">
+  <FileName type="filenames">Wheat_Cunderdin97_DryN0SpearMid.out</FileName>
+</ApsimFileReader>
+<ApsimFileReader name="PredictedSpearN50_1" Left="200" Top="200">
+  <FileName type="filenames">Wheat_Cunderdin97_DryN50SpearEarly.out</FileName>
+</ApsimFileReader>
+<ApsimFileReader name="PredictedSpearN50_2" Left="400" Top="200">
+  <FileName type="filenames">Wheat_Cunderdin97_DryN50SpearMid.out</FileName>
+</ApsimFileReader>
+<ApsimFileReader name="PreSingleApp" Left="600" Top="200">
+  <FileName type="filenames">Wheat_Cunderdin97_DryN0SpearEarly.out</FileName>
+  <FileName type="filenames">Wheat_Cunderdin97_DryN0SpearMid.out</FileName>
+  <FileName type="filenames">Wheat_Cunderdin97_DryN50SpearEarly.out</FileName>
+  <FileName type="filenames">Wheat_Cunderdin97_DryN50SpearMid.out</FileName>
+  <FileName type="filenames">Wheat_Cunderdin97_WetN0SpearEarly.out</FileName>
+  <FileName type="filenames">Wheat_Cunderdin97_WetN0SpearMid.out</FileName>
+  <FileName type="filenames">Wheat_Cunderdin97_WetN50SpearEarly.out</FileName>
+  <FileName type="filenames">Wheat_Cunderdin97_WetN50SpearMid.out</FileName>
+  <FileName type="filenames">Wheat_Cunderdin97_DryN0WilgoyneEarly.out</FileName>
+  <FileName type="filenames">Wheat_Cunderdin97_DryN0WilgoyneMid.out</FileName>
+  <FileName type="filenames">Wheat_Cunderdin97_DryN50WilgoyneEarly.out</FileName>
+  <FileName type="filenames">Wheat_Cunderdin97_DryN50WilgoyneMid.out</FileName>
+  <FileName type="filenames">Wheat_Cunderdin97_WetN0WilgoyneEarly.out</FileName>
+  <FileName type="filenames">Wheat_Cunderdin97_WetN0WilgoyneMid.out</FileName>
+  <FileName type="filenames">Wheat_Cunderdin97_WetN50WilgoyneEarly.out</FileName>
+  <FileName type="filenames">Wheat_Cunderdin97_WetN50WilgoyneMid.out</FileName>
+</ApsimFileReader>
+<ApsimFileReader name="PreTopDress" Left="0" Top="400">
+  <FileName type="filenames">Wheat_Cunderdin97_DryN0bSpearEarly.out</FileName>
+  <FileName type="filenames">Wheat_Cunderdin97_DryN0bSpearMid.out</FileName>
+  <FileName type="filenames">Wheat_Cunderdin97_DryN50bSpearEarly.out</FileName>
+  <FileName type="filenames">Wheat_Cunderdin97_DryN50bSpearMid.out</FileName>
+  <FileName type="filenames">Wheat_Cunderdin97_WetN0bSpearEarly.out</FileName>
+  <FileName type="filenames">Wheat_Cunderdin97_WetN0bSpearMid.out</FileName>
+  <FileName type="filenames">Wheat_Cunderdin97_WetN50bSpearEarly.out</FileName>
+  <FileName type="filenames">Wheat_Cunderdin97_WetN50bSpearMid.out</FileName>
+  <FileName type="filenames">Wheat_Cunderdin97_DryN0bWilgoyneEarly.out</FileName>
+  <FileName type="filenames">Wheat_Cunderdin97_DryN0bWilgoyneMid.out</FileName>
+  <FileName type="filenames">Wheat_Cunderdin97_DryN50bWilgoyneEarly.out</FileName>
+  <FileName type="filenames">Wheat_Cunderdin97_DryN50bWilgoyneMid.out</FileName>
+  <FileName type="filenames">Wheat_Cunderdin97_WetN0bWilgoyneEarly.out</FileName>
+  <FileName type="filenames">Wheat_Cunderdin97_WetN0bWilgoyneMid.out</FileName>
+  <FileName type="filenames">Wheat_Cunderdin97_WetN50bWilgoyneEarly.out</FileName>
+  <FileName type="filenames">Wheat_Cunderdin97_WetN50bWilgoyneMid.out</FileName>
+</ApsimFileReader>
+<Filter name="Filter1" Left="200" Top="400"/>
+<Filter name="Filter2" Left="400" Top="400"/>
+<Filter name="ObsCunderdinFinal" Left="600" Top="400">
+  <FilterString>experiment='Cunderdin97'</FilterString>
+  <source>ObservedFinal</source>
+</Filter>
+<Filter name="PredictedFinal" Left="0" Top="600">
+  <FilterString>zadok_stage=90</FilterString>
+  <source>Predicted</source>
+</Filter>
+<Filter name="ObsTimeSeriesN0" Left="200" Top="600">
+  <FilterString>Nrate=0</FilterString>
+  <source>ObsTimeSeries</source>
+</Filter>
+<Filter name="ObsTimeSeriesN50" Left="400" Top="600">
+  <FilterString>Nrate=50</FilterString>
+  <source>ObsTimeSeries</source>
+</Filter>
+<PredObs name="PredObs1" Left="600" Top="600">
+  <obsFileName type="filename">C:\development\apsim\Wheat\Validation\Files\Observed\CombinedFinalHarvest.txt</obsFileName>
+  <source>PredictedFinal</source>
+  <FieldName>title</FieldName>
+  <source>ObservedFinal</source>
+</PredObs>
+<Regression name="RegrBiomass" Left="0" Top="800">
+  <XFieldName type="fieldname">Obsbiomass_wt</XFieldName>
+  <YFieldName type="fieldname">Predbiomass_wt</YFieldName>
+  <source>PredObs1</source>
+</Regression>
+<Regression name="RegrYield" Left="200" Top="800">
+  <XFieldName type="fieldname">Obsgrain_wt</XFieldName>
+  <YFieldName type="fieldname">Predgrain_wt</YFieldName>
+  <source>PredObs1</source>
+</Regression>
+<Regression name="RegrGno" Left="400" Top="800">
+  <XFieldName type="fieldname">Obsgrain_no</XFieldName>
+  <YFieldName type="fieldname">Predgrain_no</YFieldName>
+  <source>PredObs1</source>
+</Regression>
+<Regression name="RegrProtein" Left="600" Top="800">
+  <XFieldName type="fieldname">Obsgrain_protein</XFieldName>
+  <YFieldName type="fieldname">Predgrain_protein</YFieldName>
+  <source>PredObs1</source>
+</Regression>
+<Regression name="RegrGrainN" Left="0" Top="1000">
+  <XFieldName type="fieldname">Obsgrain_n</XFieldName>
+  <YFieldName type="fieldname">Predgrain_n</YFieldName>
+  <source>PredObs1</source>
+</Regression>
 </Data>
    <page> <![CDATA[
 object Page1: TQuickRep
@@ -590,7 +599,7 @@ end
    </page>
    <page> <![CDATA[
 object Page2: TQuickRep
-  Left = 32
+  Left = 0
   Top = 0
   Width = 952
   Height = 1347
@@ -777,7 +786,7 @@ object Page2: TQuickRep
     object Text3: TText
       Left = 202
       Top = 626
-      Width = 256
+      Width = 251
       Height = 24
       Frame.Color = clBlack
       Frame.DrawTop = False
@@ -788,7 +797,7 @@ object Page2: TQuickRep
         52.9166666666667
         445.381944444444
         1380.24305555556
-        564.444444444444)
+        553.420138888889)
       Alignment = taLeftJustify
       AlignToBand = False
       AutoSize = True
@@ -800,7 +809,7 @@ object Page2: TQuickRep
       Font.Name = 'Arial'
       Font.Style = []
       Lines.Strings = (
-        ' y = 0.95 x + 142.72 (r2 = 0.90)')
+        ' y = 0.95 x + -70.12 (r2 = 0.90)')
       ParentFont = False
       Transparent = False
       WordWrap = True
@@ -931,7 +940,7 @@ object Page2: TQuickRep
     object Text4: TText
       Left = 603
       Top = 626
-      Width = 245
+      Width = 251
       Height = 24
       Frame.Color = clBlack
       Frame.DrawTop = False
@@ -942,7 +951,7 @@ object Page2: TQuickRep
         52.9166666666667
         1329.53125
         1380.24305555556
-        540.190972222222)
+        553.420138888889)
       Alignment = taLeftJustify
       AlignToBand = False
       AutoSize = True
@@ -954,7 +963,7 @@ object Page2: TQuickRep
       Font.Name = 'Arial'
       Font.Style = []
       Lines.Strings = (
-        ' y = 0.73 x + 80.63 (r2 = 0.90)')
+        ' y = 1.23 x + -74.38 (r2 = 0.90)')
       ParentFont = False
       Transparent = False
       WordWrap = True
@@ -1085,7 +1094,7 @@ object Page2: TQuickRep
     object Text5: TText
       Left = 182
       Top = 1143
-      Width = 266
+      Width = 262
       Height = 24
       Frame.Color = clBlack
       Frame.DrawTop = False
@@ -1096,7 +1105,7 @@ object Page2: TQuickRep
         52.9166666666667
         401.284722222222
         2520.15625
-        586.493055555556)
+        577.673611111111)
       Alignment = taLeftJustify
       AlignToBand = False
       AutoSize = True
@@ -1108,7 +1117,7 @@ object Page2: TQuickRep
       Font.Name = 'Arial'
       Font.Style = []
       Lines.Strings = (
-        ' y = 0.67 x + 2110.14 (r2 = 0.75)')
+        ' y = 1.13 x + -711.78 (r2 = 0.75)')
       ParentFont = False
       Transparent = False
       WordWrap = True
@@ -1262,7 +1271,7 @@ object Page2: TQuickRep
       Font.Name = 'Arial'
       Font.Style = []
       Lines.Strings = (
-        ' y = 0.74 x + 3.72 (r2 = 0.73)')
+        ' y = 0.98 x + 0.09 (r2 = 0.73)')
       ParentFont = False
       Transparent = False
       WordWrap = True
@@ -1480,8 +1489,8 @@ end
    </page>
    <page> <![CDATA[
 object Page3: TQuickRep
-  Left = 309
-  Top = 36
+  Left = 202
+  Top = 143
   Width = 397
   Height = 561
   Frame.Color = clBlack
@@ -1926,7 +1935,7 @@ end
    </page>
    <page> <![CDATA[
 object Page4: TQuickRep
-  Left = 71
+  Left = 0
   Top = 0
   Width = 873
   Height = 1235
@@ -2120,7 +2129,7 @@ object Page4: TQuickRep
       AutoStretch = False
       Color = clWhite
       Lines.Strings = (
-        ' y = 0.90 x + 1.16 (r2 = 0.80)')
+        ' y = 0.89 x + 0.05 (r2 = 0.80)')
       Transparent = False
       WordWrap = True
       text = '$property(regrGrainN.equation)'#13#10

@@ -1,71 +1,69 @@
-<report version="4">
+<report version="5">
 <Data>
-   <REMS name="I01">
+<REMS name="I01" Left="0" Top="0">
       <FileName type="filename">Wheat.mdb</FileName>
       <Experiment type="experiment">Lincoln9192</Experiment>
       <Treatment type="treatment">I01 </Treatment>
       <DataSource type="datasource">Crop</DataSource>
    </REMS>
-   <REMS name="I03">
+<REMS name="I03" Left="200" Top="0">
       <FileName type="filename">Wheat.mdb</FileName>
       <Experiment type="experiment">Lincoln9192</Experiment>
       <Treatment type="treatment">I03 </Treatment>
       <DataSource type="datasource">Crop</DataSource>
    </REMS>
-   <REMS name="I05">
+<REMS name="I05" Left="400" Top="0">
       <FileName type="filename">Wheat.mdb</FileName>
       <Experiment type="experiment">Lincoln9192</Experiment>
       <Treatment type="treatment">I05 </Treatment>
       <DataSource type="datasource">Crop</DataSource>
    </REMS>
-   <REMS name="I06">
+<REMS name="I06" Left="600" Top="0">
       <FileName type="filename">Wheat.mdb</FileName>
       <Experiment type="experiment">Lincoln9192</Experiment>
       <Treatment type="treatment">I06 </Treatment>
       <DataSource type="datasource">Crop</DataSource>
    </REMS>
-   <REMS name="I07">
+<REMS name="I07" Left="0" Top="200">
       <FileName type="filename">Wheat.mdb</FileName>
       <Experiment type="experiment">Lincoln9192</Experiment>
       <Treatment type="treatment">I07 </Treatment>
       <DataSource type="datasource">Crop</DataSource>
    </REMS>
-   <REMS name="I08">
+<REMS name="I08" Left="200" Top="200">
       <FileName type="filename">Wheat.mdb</FileName>
       <Experiment type="experiment">Lincoln9192</Experiment>
       <Treatment type="treatment">I08 </Treatment>
       <DataSource type="datasource">Crop</DataSource>
    </REMS>
-   <REMS name="I11">
+<REMS name="I11" Left="400" Top="200">
       <FileName type="filename">Wheat.mdb</FileName>
       <Experiment type="experiment">Lincoln9192</Experiment>
       <Treatment type="treatment">I11 </Treatment>
       <DataSource type="datasource">Crop</DataSource>
    </REMS>
-   <ApsimFileReader name="I01pre">
+<ApsimFileReader name="I01pre" Left="600" Top="200">
       <FileName type="filenames">Wheat_Lincoln9192_I01.out</FileName>
    </ApsimFileReader>
-   <ApsimFileReader name="I03pre">
+<ApsimFileReader name="I03pre" Left="0" Top="400">
       <FileName type="filenames">Wheat_Lincoln9192_I03.out</FileName>
    </ApsimFileReader>
-   <ApsimFileReader name="I05pre">
+<ApsimFileReader name="I05pre" Left="200" Top="400">
       <FileName type="filenames">Wheat_Lincoln9192_I05.out</FileName>
    </ApsimFileReader>
-   <ApsimFileReader name="I06pre">
+<ApsimFileReader name="I06pre" Left="400" Top="400">
       <FileName type="filenames">Wheat_Lincoln9192_I06.out</FileName>
    </ApsimFileReader>
-   <ApsimFileReader name="I07pre">
+<ApsimFileReader name="I07pre" Left="600" Top="400">
       <FileName type="filenames">Wheat_Lincoln9192_I07.out</FileName>
    </ApsimFileReader>
-   <ApsimFileReader name="I08pre">
+<ApsimFileReader name="I08pre" Left="0" Top="600">
       <FileName type="filenames">Wheat_Lincoln9192_I08.out</FileName>
    </ApsimFileReader>
-   <ApsimFileReader name="I11pre">
+<ApsimFileReader name="I11pre" Left="200" Top="600">
       <FileName type="filenames">Wheat_Lincoln9192_I11.out</FileName>
    </ApsimFileReader>
-   <ApsimFileReader name="Allpre">
-   </ApsimFileReader>
-   <ApsimFileReader name="Allpre">
+<ApsimFileReader name="Allpre" Left="400" Top="600">
       <FileName type="filenames">Wheat_Lincoln9192_I11.out</FileName>
       <FileName type="filenames">Wheat_Lincoln9192_I01.out</FileName>
       <FileName type="filenames">Wheat_Lincoln9192_I03.out</FileName>
@@ -73,58 +71,57 @@
       <FileName type="filenames">Wheat_Lincoln9192_I06.out</FileName>
       <FileName type="filenames">Wheat_Lincoln9192_I07.out</FileName>
       <FileName type="filenames">Wheat_Lincoln9192_I08.out</FileName>
-      <Filter name="HarvestPre">
-         <FilterString>day=26</FilterString>
-      </Filter>
+      
    </ApsimFileReader>
-   <ApsimFileReader name="HarvestObs">
+<ApsimFileReader name="HarvestObs" Left="600" Top="600">
       <FileName type="filenames">Observed\Lincoln.txt</FileName>
    </ApsimFileReader>
-   <ApsimFileReader name="TotSWObs">
+<ApsimFileReader name="TotSWObs" Left="0" Top="800">
       <FileName type="filenames">Observed\LincolnTotSW.txt</FileName>
    </ApsimFileReader>
-   <ApsimFileReader name="Obs10cm">
+<ApsimFileReader name="Obs10cm" Left="200" Top="800">
       <FileName type="filenames">Observed\Lincoln10cm.txt</FileName>
    </ApsimFileReader>
-   <ApsimFileReader name="I01PreSW">
+<ApsimFileReader name="I01PreSW" Left="400" Top="800">
       <FileName type="filenames">Wheat_Lincoln9192_I01 SWOutputfile.out</FileName>
    </ApsimFileReader>
-   <ApsimFileReader name="I03preSW">
+<ApsimFileReader name="I03preSW" Left="600" Top="800">
       <FileName type="filenames">Wheat_Lincoln9192_I03 SWOutputfile.out</FileName>
    </ApsimFileReader>
-   <ApsimFileReader name="I05preSW">
+<ApsimFileReader name="I05preSW" Left="0" Top="1000">
       <FileName type="filenames">Wheat_Lincoln9192_I05 SWOutputfile.out</FileName>
    </ApsimFileReader>
-   <ApsimFileReader name="I06preSW">
+<ApsimFileReader name="I06preSW" Left="200" Top="1000">
       <FileName type="filenames">Wheat_Lincoln9192_I06 SWOutputfile.out</FileName>
    </ApsimFileReader>
-   <ApsimFileReader name="I07preSW">
+<ApsimFileReader name="I07preSW" Left="400" Top="1000">
       <FileName type="filenames">Wheat_Lincoln9192_I07 SWOutputfile.out</FileName>
    </ApsimFileReader>
-   <ApsimFileReader name="I08preSW">
+<ApsimFileReader name="I08preSW" Left="600" Top="1000">
       <FileName type="filenames">Wheat_Lincoln9192_I08 SWOutputfile.out</FileName>
    </ApsimFileReader>
-   <ApsimFileReader name="I11preSW">
+<ApsimFileReader name="I11preSW" Left="0" Top="1200">
       <FileName type="filenames">Wheat_Lincoln9192_I11 SWOutputfile.out</FileName>
    </ApsimFileReader>
-   <ApsimFileReader name="Obs30cm">
+<ApsimFileReader name="Obs30cm" Left="200" Top="1200">
       <FileName type="filenames">Observed\Lincoln30cm.txt</FileName>
    </ApsimFileReader>
-   <ApsimFileReader name="Obs50cm">
+<ApsimFileReader name="Obs50cm" Left="400" Top="1200">
       <FileName type="filenames">Observed\Lincoln50cm.txt</FileName>
    </ApsimFileReader>
-   <ApsimFileReader name="Obs70cm">
+<ApsimFileReader name="Obs70cm" Left="600" Top="1200">
       <FileName type="filenames">Observed\Lincoln70cm.txt</FileName>
    </ApsimFileReader>
-   <ApsimFileReader name="Obs90cm">
+<ApsimFileReader name="Obs90cm" Left="0" Top="1400">
       <FileName type="filenames">Observed\Lincoln90cm.txt</FileName>
    </ApsimFileReader>
-
+<Filter name="HarvestPre" Left="200" Top="1400">
+         <FilterString>day=26</FilterString>
+      <source>Allpre</source></Filter>
 </Data>
-
    <page> <![CDATA[
 object Page1: TQuickRep
-  Left = 279
+  Left = 43
   Top = 0
   Width = 714
   Height = 1010
@@ -998,7 +995,7 @@ object Page1: TQuickRep
           XValues.ValueSource = 'date'
           YValues.Name = 'Y'
           YValues.Order = loNone
-          YValues.ValueSource = 'sw_dep'
+          YValues.ValueSource = 'sw_dep()'
         end
         object LineSeries9: TLineSeries
           Marks.Callout.Brush.Color = clBlack
@@ -1015,7 +1012,7 @@ object Page1: TQuickRep
           XValues.ValueSource = 'date'
           YValues.Name = 'Y'
           YValues.Order = loNone
-          YValues.ValueSource = 'sw_dep'
+          YValues.ValueSource = 'sw_dep()'
         end
         object LineSeries10: TLineSeries
           Marks.Callout.Brush.Color = clBlack
@@ -1032,7 +1029,7 @@ object Page1: TQuickRep
           XValues.ValueSource = 'date'
           YValues.Name = 'Y'
           YValues.Order = loNone
-          YValues.ValueSource = 'sw_dep'
+          YValues.ValueSource = 'sw_dep()'
         end
         object LineSeries11: TLineSeries
           Marks.Callout.Brush.Color = clBlack
@@ -1049,7 +1046,7 @@ object Page1: TQuickRep
           XValues.ValueSource = 'date'
           YValues.Name = 'Y'
           YValues.Order = loNone
-          YValues.ValueSource = 'sw_dep'
+          YValues.ValueSource = 'sw_dep()'
         end
         object LineSeries12: TLineSeries
           Marks.Callout.Brush.Color = clBlack
@@ -1066,7 +1063,7 @@ object Page1: TQuickRep
           XValues.ValueSource = 'date'
           YValues.Name = 'Y'
           YValues.Order = loNone
-          YValues.ValueSource = 'sw_dep'
+          YValues.ValueSource = 'sw_dep()'
         end
         object LineSeries13: TLineSeries
           Marks.Callout.Brush.Color = clBlack
@@ -1083,7 +1080,7 @@ object Page1: TQuickRep
           XValues.ValueSource = 'date'
           YValues.Name = 'Y'
           YValues.Order = loNone
-          YValues.ValueSource = 'sw_dep'
+          YValues.ValueSource = 'sw_dep()'
         end
         object LineSeries14: TLineSeries
           Marks.Callout.Brush.Color = clBlack
@@ -1100,7 +1097,7 @@ object Page1: TQuickRep
           XValues.ValueSource = 'date'
           YValues.Name = 'Y'
           YValues.Order = loNone
-          YValues.ValueSource = 'sw_dep'
+          YValues.ValueSource = 'sw_dep()'
         end
       end
     end
@@ -1143,8 +1140,8 @@ end
    </page>
    <page> <![CDATA[
 object Page2: TQuickRep
-  Left = 358
-  Top = 48
+  Left = 122
+  Top = 30
   Width = 556
   Height = 786
   Frame.Color = clBlack
@@ -1203,7 +1200,7 @@ object Page2: TQuickRep
     ForceNewColumn = False
     ForceNewPage = False
     Size.Values = (
-      2970.89285714286
+      2970
       2101.54761904762)
     BandType = rbTitle
     object Graph4: TGraph

@@ -52,7 +52,7 @@ namespace Graph
         private void OnFileNameChanged(object sender, EventArgs e)
             {
             XmlHelper.SetValue(Data, "FileName", FileNameEdit.Text);
-            PublishViewChanged(Data);
+            PublishViewChanged();
             }
 
         private void OnPhaseItemCheck(object sender, ItemCheckEventArgs e)
@@ -65,13 +65,13 @@ namespace Graph
                 }
             else
                 Data.RemoveChild(XmlHelper.ChildByTypeAndValue(Data, "Phase", PhaseList.Items[e.Index].ToString()));
-            PublishViewChanged(Data);
+            PublishViewChanged();
             }
 
         private void OnMonthChanged(object sender, EventArgs e)
             {
             XmlHelper.SetValue(Data, "Month", MonthDropDown.Text);
-            PublishViewChanged(Data);
+            PublishViewChanged();
             }        
         }
     }

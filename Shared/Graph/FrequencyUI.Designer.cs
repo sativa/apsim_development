@@ -41,16 +41,16 @@ namespace Graph
             // 
             this.GroupBox.Controls.Add(this.Spread);
             this.GroupBox.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.GroupBox.Location = new System.Drawing.Point(0, 0);
+            this.GroupBox.Location = new System.Drawing.Point(0, 18);
             this.GroupBox.Name = "GroupBox";
-            this.GroupBox.Size = new System.Drawing.Size(303, 150);
+            this.GroupBox.Size = new System.Drawing.Size(302, 132);
             this.GroupBox.TabIndex = 2;
             this.GroupBox.TabStop = false;
             this.GroupBox.Text = "GroupBox";
             // 
             // Spread
             // 
-            this.Spread.AccessibleDescription = "fpSpread1";
+            this.Spread.AccessibleDescription = "Spread, Sheet1, Row 0, Column 0, ";
             this.Spread.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom)
                         | System.Windows.Forms.AnchorStyles.Left)
                         | System.Windows.Forms.AnchorStyles.Right)));
@@ -62,7 +62,7 @@ namespace Graph
             this.Spread.RowSplitBoxPolicy = FarPoint.Win.Spread.SplitBoxPolicy.AsNeeded;
             this.Spread.Sheets.AddRange(new FarPoint.Win.Spread.SheetView[] {
             this.Grid});
-            this.Spread.Size = new System.Drawing.Size(291, 125);
+            this.Spread.Size = new System.Drawing.Size(227, 107);
             this.Spread.TabIndex = 0;
             tipAppearance1.BackColor = System.Drawing.SystemColors.Info;
             tipAppearance1.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
@@ -82,10 +82,10 @@ namespace Graph
             this.Grid.ColumnHeader.Cells.Get(0, 0).Value = "Label";
             this.Grid.ColumnHeader.Cells.Get(0, 1).Value = "Filter";
             this.Grid.Columns.Get(0).Label = "Label";
-            this.Grid.Columns.Get(0).Width = 117F;
+            this.Grid.Columns.Get(0).Width = 97F;
             this.Grid.Columns.Get(1).Label = "Filter";
-            this.Grid.Columns.Get(1).Width = 152F;
-            this.Grid.RowHeader.Columns.Default.Resizable = true;
+            this.Grid.Columns.Get(1).Width = 110F;
+            this.Grid.RowHeader.Columns.Default.Resizable = false;
             this.Grid.SheetName = "Sheet1";
             this.Grid.ReferenceStyle = FarPoint.Win.Spread.Model.ReferenceStyle.A1;
             // 
@@ -93,7 +93,7 @@ namespace Graph
             // 
             this.Controls.Add(this.GroupBox);
             this.Name = "FrequencyUI";
-            this.Size = new System.Drawing.Size(303, 150);
+            this.Size = new System.Drawing.Size(302, 150);
             this.Controls.SetChildIndex(this.GroupBox, 0);
             this.GroupBox.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.Spread)).EndInit();

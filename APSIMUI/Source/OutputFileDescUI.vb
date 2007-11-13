@@ -446,7 +446,7 @@ Public Class OutputFileDescUI
             End If
         End If
     End Sub
-    Protected Overrides Sub OnSave()
+    Public Overrides Sub OnSave()
         SaveVariableGrid()
     End Sub
     Private Sub Grid_CellChanged(ByVal sender As System.Object, ByVal e As FarPoint.Win.Spread.SheetViewEventArgs) Handles Grid.CellChanged

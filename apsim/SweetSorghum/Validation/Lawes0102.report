@@ -1,40 +1,44 @@
-<report version="4">
+<report version="5">
 <Data>
-  <ApsimFileReader name="Planting1">
-    <FileName type="filenames">Lawes0102 Planting1.out</FileName>
-  </ApsimFileReader>
-  <ApsimFileReader name="Planting2">
-    <FileName type="filenames">Lawes0102 Planting2.out</FileName>
-  </ApsimFileReader>
-  <ApsimFileReader name="Planting3">
-    <FileName type="filenames">Lawes0102 Planting3.out</FileName>
-  </ApsimFileReader>
-  <ApsimFileReader name="Planting4">
-    <FileName type="filenames">Lawes0102 Planting4.out</FileName>
-  </ApsimFileReader>
-  <ApsimFileReader name="Biomass">
-    <FileName type="filenames">Lawes0102Biomass.txt</FileName>
-    <Filter name="Planting1Biomass">
-      <FilterString>Planting=1</FilterString>
-    </Filter>
-    <Filter name="Planting2Biomass">
-      <FilterString>Planting=2</FilterString>
-    </Filter>
-    <Filter name="Planting3Biomass">
-      <FilterString>Planting=3</FilterString>
-    </Filter>
-    <Filter name="Planting4Biomass">
-      <FilterString>Planting=4</FilterString>
-    </Filter>
-  </ApsimFileReader>
-  <ApsimFileReader name="Phenology">
-    <FileName type="filenames">Lawes0102Phenology.txt</FileName>
-  </ApsimFileReader>
+<ApsimFileReader name="Planting1" Left="0" Top="0">
+  <FileName type="filenames">Lawes0102 Planting1.out</FileName>
+</ApsimFileReader>
+<ApsimFileReader name="Planting2" Left="200" Top="0">
+  <FileName type="filenames">Lawes0102 Planting2.out</FileName>
+</ApsimFileReader>
+<ApsimFileReader name="Planting3" Left="400" Top="0">
+  <FileName type="filenames">Lawes0102 Planting3.out</FileName>
+</ApsimFileReader>
+<ApsimFileReader name="Planting4" Left="600" Top="0">
+  <FileName type="filenames">Lawes0102 Planting4.out</FileName>
+</ApsimFileReader>
+<ApsimFileReader name="Biomass" Left="0" Top="200">
+  <FileName type="filenames">Lawes0102Biomass.txt</FileName>
+</ApsimFileReader>
+<ApsimFileReader name="Phenology" Left="200" Top="200">
+  <FileName type="filenames">Lawes0102Phenology.txt</FileName>
+</ApsimFileReader>
+<Filter name="Planting1Biomass" Left="400" Top="200">
+  <FilterString>Planting=1</FilterString>
+  <source>Biomass</source>
+</Filter>
+<Filter name="Planting2Biomass" Left="600" Top="200">
+  <FilterString>Planting=2</FilterString>
+  <source>Biomass</source>
+</Filter>
+<Filter name="Planting3Biomass" Left="0" Top="400">
+  <FilterString>Planting=3</FilterString>
+  <source>Biomass</source>
+</Filter>
+<Filter name="Planting4Biomass" Left="200" Top="400">
+  <FilterString>Planting=4</FilterString>
+  <source>Biomass</source>
+</Filter>
 </Data>
    <page> <![CDATA[
 object TQuickRep
-  Left = 309
-  Top = 19
+  Left = 74
+  Top = 1
   Width = 653
   Height = 845
   Frame.Color = clBlack

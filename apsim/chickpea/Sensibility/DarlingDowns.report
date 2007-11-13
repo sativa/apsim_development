@@ -1,9 +1,38 @@
-<?xml version="1.0"?>
-<report version="4">
-  <Data><ApsimFileReader name="Dalby600"><FileName type="filenames">Dalby600.out</FileName><Probability name="Dalby600Prob"><FieldName type="fieldnames">yield</FieldName></Probability></ApsimFileReader><ApsimFileReader name="Dalby1500"><FileName type="filenames">Dalby1500.out</FileName><Probability name="Dalby1500Prob"><FieldName type="fieldnames">yield</FieldName></Probability></ApsimFileReader><ApsimFileReader name="Roma400"><FileName type="filenames">Roma400.out</FileName><Probability name="Roma600Prob"><FieldName type="fieldnames">yield</FieldName></Probability></ApsimFileReader><ApsimFileReader name="Roma800"><FileName type="filenames">Roma800.out</FileName><Probability name="Roma1500Prob"><FieldName type="fieldnames">yield</FieldName></Probability></ApsimFileReader></Data>
-  <page><![CDATA[object Page1: TQuickRep
-  Left = 196
-  Top = 26
+<report version="5">
+<Data>
+<ApsimFileReader name="Dalby600" Left="0" Top="0">
+    <FileName type="filenames">Dalby600.out</FileName>
+  </ApsimFileReader>
+<ApsimFileReader name="Dalby1500" Left="200" Top="0">
+    <FileName type="filenames">Dalby1500.out</FileName>
+  </ApsimFileReader>
+<ApsimFileReader name="Roma400" Left="400" Top="0">
+    <FileName type="filenames">Roma400.out</FileName>
+  </ApsimFileReader>
+<ApsimFileReader name="Roma800" Left="600" Top="0">
+    <FileName type="filenames">Roma800.out</FileName>
+  </ApsimFileReader>
+<Probability name="Dalby600Prob" Left="0" Top="200">
+    <FieldName type="fieldnames">yield</FieldName>
+    <source>Dalby600</source>
+  </Probability>
+<Probability name="Dalby1500Prob" Left="200" Top="200">
+    <FieldName type="fieldnames">yield</FieldName>
+    <source>Dalby1500</source>
+  </Probability>
+<Probability name="Roma600Prob" Left="400" Top="200">
+    <FieldName type="fieldnames">yield</FieldName>
+    <source>Roma400</source>
+  </Probability>
+<Probability name="Roma1500Prob" Left="600" Top="200">
+    <FieldName type="fieldnames">yield</FieldName>
+    <source>Roma800</source>
+  </Probability>
+</Data>
+   <page> <![CDATA[
+object Page1: TQuickRep
+  Left = 122
+  Top = 30
   Width = 556
   Height = 786
   Frame.Color = clBlack
@@ -453,5 +482,6 @@
     end
   end
 end
-]]></page>
+]]>
+   </page>
 </report>
