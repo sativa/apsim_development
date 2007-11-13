@@ -267,8 +267,8 @@ Component   "tracker6" = c:\development\apsim\tracker\lib\tracker.dll
         lucerne.sw_demand
         lucerne.sw_supply
         lucerne.sw_uptake(26)
-        lucerne.n_conc_leaf
-        lucerne.n_conc_stem
+        lucerne.LeafGreenNConc
+        lucerne.StemGreenNConc
         wheat.cover_green as W_cover_g
         wheat.cover_tot as W_cover_tot
         wheat.lai as W_lai
