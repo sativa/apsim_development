@@ -136,7 +136,7 @@ Component "Emelliodora" = c:\development\apsim\growth\lib\growth.dll
      windspeed = 5.55
      
      SECTION:- endofday
-      if lai > 0 then
+     if lai > 0 then
         plantbiomass = biomass/plants*1000
         plantleaf = foliage_mass/plants*1000
         plantstem = adm_green(1)/ plants*1000
