@@ -128,8 +128,8 @@ Pool Pool::operator = (const Pool& Pool2)
    Name = Pool2.Name;
    // Now check nothing is negative
    const float ctz = -0.00001;
-   if (DM < ctz) throw std::runtime_error(PartName + " " + Name + " DM pool is negative! " + ftoa(DM,6));
-   if (N < ctz) throw std::runtime_error(PartName + " " + Name + " N pool is negative! " + ftoa(N,6));
-   if (P < ctz) throw std::runtime_error(PartName + " " + Name + " P pool is negative! " + ftoa(P,6));
+   if (DM < ctz) cerr << endl << "     *** " << PartName + " " + Name + " DM pool is negative! " + ftoa(DM,6) << endl << endl;
+   if (N < ctz)  cerr << endl << "     *** " << PartName + " " + Name + " N pool is negative! " + ftoa(N,6) << endl<< endl;
+   if (P < ctz)  cerr << endl << "     *** " << PartName + " " + Name + " P pool is negative! " + ftoa(P,6) << endl<< endl;
    return *this;
    }   
