@@ -20,7 +20,7 @@ Component   "soilwat2" = c:\development\apsim\soilwat2\lib\soilwat2.dll
 Component     "soiln2" = c:\development\apsim\soiln2\lib\soiln2.dll
 Component "FarmwiseSequencer" = c:\development\apsim\\FarmwiseSequencer\lib\FarmwiseSequencerConverter.dll
 Component "pastureConverter" = c:\development\apsim\pasture\lib\PastureScienceConverter.dll
-Component    "Pasture" = C:\Program Files\FarmWise\PASTURE.dll
+Component    "Pasture" = C:\Program Files\AusFarm\PASTURE.dll
 
 ------- clock Initialisation --------------------------------------------------
      Sequencer phases:
@@ -199,19 +199,27 @@ Component    "Pasture" = C:\Program Files\FarmWise\PASTURE.dll
      Subscribe Event: prepare
            Publish Event/s: init_step do_pasture_water
      Subscribe Event: process
-           Publish Event/s: prewaterbalance do_pasture_growth do_stock
+           Publish Event/s: do_pasture_growth do_stock
      Subscribe Event: post
            Publish Event/s: end_step
      
 
 ------- pastureConverter Initialisation ---------------------------------------
       - reading parameters
-     sand (kg/kg) = 0 0 0 0 0 0 0
-     ll (mm/mm) = 0.23 0.24 0.24 0.25 0.26 0.27 0.28
-     kl (0-1) = 0.12 0.12 0.12 0.11 0.06 0.05 0.03
+     !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+                      APSIM  Fatal  Error
+                      -------------------
+     Cannot find a parameter in any of the files/sections
+     specified in the control file.
+     Parameter name = co2_ppm
+     Section name = parameters
+     Component name: pastureConverter
+     !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
      
-     send sand (kg/kg) = 0 0 0 0 0 0 0
+     
+     debug = on
+     svp_fract = 0.75
+     co2_ppm = 0
+     sand (kg/kg) = 0 0 0 0 0 0 0
      
 ------- Start of simulation  --------------------------------------------------
-30 April 1989(Day of year=120), clock: 
-     Simulation is terminating due to end criteria being met.
