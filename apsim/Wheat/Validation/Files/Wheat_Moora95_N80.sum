@@ -18,7 +18,10 @@ Component "outputfile" = c:\development\apsim\report\lib\report.dll
 Component      "accum" = c:\development\apsim\accum\lib\accum.dll
 Component "fertiliser" = c:\development\apsim\fertiliz\lib\fertiliz.dll
 Component "Irrigation" = c:\development\apsim\irrigate\lib\irrigate.dll
-Component    "Manager" = c:\development\apsim\manager\lib\manager.dll
+Component "Sow on a fixed date" = c:\development\apsim\manager\lib\manager.dll
+Component "Harvesting rule" = c:\development\apsim\manager\lib\manager.dll
+Component "Fertilise at sowing" = c:\development\apsim\manager\lib\manager.dll
+Component "Fertilise on fixed date" = c:\development\apsim\manager\lib\manager.dll
 Component  "Irrigator" = c:\development\apsim\manager\lib\manager.dll
 Component "Fertilizer" = c:\development\apsim\manager\lib\manager.dll
 Component "Moora95 Water" = c:\development\apsim\soilwat2\lib\soilwat2.dll
@@ -109,22 +112,37 @@ Component      "wheat" = c:\development\apsim\plant\lib\plant.dll
            Irrigation Allocation Budget (Disabled)
           -----------------------------------------------
 
-------- Manager Initialisation ------------------------------------------------
+------- Sow on a fixed date Initialisation ------------------------------------
      Manager rules:
      
      SECTION:- start_of_day
         if (paddock_is_fallow() = 1 and today = date('11/05/1995')) then
           wheat sow plants =115, sowing_depth = 40, cultivar = dagger, row_spacing = 250
         endif
+     END of rules
+     
+
+------- Harvesting rule Initialisation ----------------------------------------
+     Manager rules:
      
      SECTION:- end_of_day
                 if wheat.stage_name = 'harvest_ripe' or wheat.plant_status = 'dead' then
        wheat  harvest
        wheat  end_crop
                 endif
+     END of rules
+     
+
+------- Fertilise at sowing Initialisation ------------------------------------
+     Manager rules:
      
      SECTION:- wheat.sowing
                 fertiliser apply amount = 40 (kg/ha), depth = 50 (mm), type = urea_n
+     END of rules
+     
+
+------- Fertilise on fixed date Initialisation --------------------------------
+     Manager rules:
      
      SECTION:- start_of_day
      if (today = date('10-aug') then
@@ -334,7 +352,7 @@ Component      "wheat" = c:\development\apsim\plant\lib\plant.dll
 ------- wheat Initialisation --------------------------------------------------
      phenology model: Wheat
 ------- Start of simulation  --------------------------------------------------
-11 May 1995(Day of year=131), Manager: 
+11 May 1995(Day of year=131), Sow on a fixed date: 
      Manager sending message :- wheat sow  plants = 115, sowing_depth = 40, cultivar = dagger, row_spacing = 250
 11 May 1995(Day of year=131), wheat: 
      Crop Sow

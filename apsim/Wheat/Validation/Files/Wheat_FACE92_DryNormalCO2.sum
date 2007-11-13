@@ -18,7 +18,8 @@ Component "outputfile" = c:\development\apsim\report\lib\report.dll
 Component      "accum" = c:\development\apsim\accum\lib\accum.dll
 Component "fertiliser" = c:\development\apsim\fertiliz\lib\fertiliz.dll
 Component "Irrigation" = c:\development\apsim\irrigate\lib\irrigate.dll
-Component    "Manager" = c:\development\apsim\manager\lib\manager.dll
+Component "Sow on a fixed date" = c:\development\apsim\manager\lib\manager.dll
+Component "Harvesting rule" = c:\development\apsim\manager\lib\manager.dll
 Component  "Irrigator" = c:\development\apsim\manager\lib\manager.dll
 Component "Fertilizer" = c:\development\apsim\manager\lib\manager.dll
 Component "FACEField Water" = c:\development\apsim\soilwat2\lib\soilwat2.dll
@@ -108,13 +109,18 @@ Component      "wheat" = c:\development\apsim\plant\lib\plant.dll
            Irrigation Allocation Budget (Disabled)
           -----------------------------------------------
 
-------- Manager Initialisation ------------------------------------------------
+------- Sow on a fixed date Initialisation ------------------------------------
      Manager rules:
      
      SECTION:- start_of_day
         if (paddock_is_fallow() = 1 and today = date('18/12/1992')) then
           wheat sow plants =140, sowing_depth = 40, cultivar = yecora, row_spacing = 250
         endif
+     END of rules
+     
+
+------- Harvesting rule Initialisation ----------------------------------------
+     Manager rules:
      
      SECTION:- end_of_day
        if wheat.stage_name = 'harvest_ripe' or wheat.plant_status = 'dead' then
@@ -388,7 +394,7 @@ Component      "wheat" = c:\development\apsim\plant\lib\plant.dll
         - Reading Fertiliser Type Parameters
         20.00 of N as nitrate (no3_n)
                                               added at depth   50.00 (layer   1)
-18 December 1992(Day of year=353), Manager: 
+18 December 1992(Day of year=353), Sow on a fixed date: 
      Manager sending message :- wheat sow  plants = 140, sowing_depth = 40, cultivar = yecora, row_spacing = 250
 18 December 1992(Day of year=353), wheat: 
      Crop Sow
@@ -548,7 +554,7 @@ Component      "wheat" = c:\development\apsim\plant\lib\plant.dll
       stage 10.0 harvest_ripe
                      biomass =        1126.15 (g/m^2)   lai          =   0.000 (m^2/m^2)
                      stover N conc =     1.51 (%)    extractable sw =   79.11 (mm)
-14 May 1993(Day of year=134), Manager: 
+14 May 1993(Day of year=134), Harvesting rule: 
      Manager sending message :- wheat harvest
      
       flowering day          =   99                           stover (kg/ha)         =     7992.9
