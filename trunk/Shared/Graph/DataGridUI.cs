@@ -38,9 +38,8 @@ namespace Graph
             OnResize(null, null);
             }
 
-        protected override void OnSave()
+        public override void OnClose()
             {
-            base.OnSave();
             ParentUI.Processor.DeleteDataWindow(DataWindow);
             }
 

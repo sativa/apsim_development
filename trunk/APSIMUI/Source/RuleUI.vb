@@ -191,12 +191,13 @@ Public Class RuleUI
     End Sub
 
 
-    Protected Overrides Sub OnSave()
+    Public Overrides Sub OnSave()
         ' --------------------------------------
         ' Save the script box if it has changd.
         ' --------------------------------------
         Dim Contents As String = ""
         If TabControl.TabPages(0).Text = "Properties" Then
+            GenericUI.OnSave()
             Contents = GenericUI.GetData()
         End If
         Data.RemoveAll()

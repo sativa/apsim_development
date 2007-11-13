@@ -1,9 +1,17 @@
-<?xml version="1.0"?>
 <report version="4">
-  <Data><ApsimFileReader name="Walpeup200"><FileName type="filenames">walpeup200.out</FileName><Probability name="WalpeupProb"><FieldName type="fieldnames">yield</FieldName></Probability></ApsimFileReader></Data>
-  <page><![CDATA[object Page1: TQuickRep
-  Left = 117
-  Top = 0
+<Data>
+<ApsimFileReader name="Walpeup200" Left="0" Top="0">
+    <FileName type="filenames">walpeup200.out</FileName>
+  </ApsimFileReader>
+<Probability name="WalpeupProb" Left="100" Top="0">
+    <FieldName type="fieldnames">yield</FieldName>
+    <source>Walpeup200</source>
+  </Probability>
+</Data>
+   <page> <![CDATA[
+object Page1: TQuickRep
+  Left = 143
+  Top = -212
   Width = 714
   Height = 1010
   Frame.Color = clBlack
@@ -356,5 +364,6 @@
     end
   end
 end
-]]></page>
+]]>
+   </page>
 </report>

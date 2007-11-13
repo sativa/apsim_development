@@ -46,15 +46,6 @@ namespace Graph
 
             FieldList.ItemCheck += OnItemCheck;
             }
-        protected override void OnSave()
-            {
-            // -----------------------------------------------
-            // Called when it's time to save everything back
-            // to XML
-            // -----------------------------------------------
-            base.OnSave();
-            }
-
         private void OnItemCheck(object sender, ItemCheckEventArgs e)
             {
             if (e.NewValue == CheckState.Checked)
@@ -65,7 +56,7 @@ namespace Graph
                 }
             else
                 Data.RemoveChild(XmlHelper.ChildByTypeAndValue(Data, "FieldName", FieldList.Items[e.Index].ToString()));
-            PublishViewChanged(Data);
+            PublishViewChanged();
             }
 
         }

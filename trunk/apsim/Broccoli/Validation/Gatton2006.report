@@ -1,55 +1,57 @@
-<report version="4">
+<report version="5">
 <Data>
-   <ApsimFileReader name="ObsCrop">
-      <FileName type="filenames">c:\Development\apsim\Broccoli\Validation\Observed\Gatton2006.txt</FileName>
-      <ParseTitle type="yesno">yes</ParseTitle>
-      <Filter name="ObsSingle">
-         <FilterString>Treatment = 'Single'</FilterString>
-         <GroupByFieldName type="fieldnames"/>
-      </Filter>
-      <Filter name="ObsMild">
-         <FilterString>Treatment = 'Mild'</FilterString>
-         <GroupByFieldName type="fieldnames"/>
-      </Filter>
-      <Filter name="ObsSevere">
-         <FilterString>Treatment = 'Severe'</FilterString>
-         <GroupByFieldName type="fieldnames"/>
-      </Filter>
-      <Filter name="ObsComp">
-         <FilterString>Treatment = 'Comp'</FilterString>
-         <GroupByFieldName type="fieldnames"/>
-      </Filter>
-   </ApsimFileReader>
-   <ApsimFileReader name="ObsTotSW">
-      <FileName type="filenames">c:\Development\apsim\Broccoli\Validation\Observed\Gatton2006TotSW.txt</FileName>
-      <ParseTitle type="yesno">yes</ParseTitle>
-   </ApsimFileReader>
-   <ApsimFileReader name="ObsP2SW">
-      <FileName type="filenames">c:\Development\apsim\Broccoli\Validation\Observed\Gatton2006Planting2SW.txt</FileName>
-      <ParseTitle type="yesno">yes</ParseTitle>
-   </ApsimFileReader>
-   <ApsimFileReader name="PreP2Wet">
-      <ParseTitle type="yesno">no</ParseTitle>
-      <FileName type="filenames">c:\Development\apsim\Broccoli\Validation\Lawes06 Planting2Wet Block.out</FileName>
-   </ApsimFileReader>
-   <ApsimFileReader name="ObsP2Leaf">
-      <FileName type="filenames">c:\Development\apsim\Broccoli\Validation\Observed\Gatton2006Planting2Leaf.txt</FileName>
-      <ParseTitle type="yesno">yes</ParseTitle>
-   </ApsimFileReader>
-   <ApsimFileReader name="ObsP1Leaf">
-      <FileName type="filenames">c:\Development\apsim\Broccoli\Validation\Observed\Gatton2006Planting1Leaf.txt</FileName>
-      <ParseTitle type="yesno">yes</ParseTitle>
-   </ApsimFileReader>
-   <ApsimFileReader name="PreP1Wet">
-      <FileName type="filenames">c:\Development\apsim\Broccoli\Validation\Lawes06 Planting1Wet Block.out</FileName>
-      <ParseTitle type="yesno">yes</ParseTitle>
-   </ApsimFileReader>
-
+<ApsimFileReader name="ObsCrop" Left="0" Top="0">
+  <FileName type="filenames">Observed\Gatton2006.txt</FileName>
+  <ParseTitle type="yesno">yes</ParseTitle>
+</ApsimFileReader>
+<ApsimFileReader name="ObsTotSW" Left="200" Top="0">
+  <FileName type="filenames">Observed\Gatton2006TotSW.txt</FileName>
+  <ParseTitle type="yesno">yes</ParseTitle>
+</ApsimFileReader>
+<ApsimFileReader name="ObsP2SW" Left="400" Top="0">
+  <FileName type="filenames">Observed\Gatton2006Planting2SW.txt</FileName>
+  <ParseTitle type="yesno">yes</ParseTitle>
+</ApsimFileReader>
+<ApsimFileReader name="PreP2Wet" Left="600" Top="0">
+  <ParseTitle type="yesno">no</ParseTitle>
+  <FileName type="filenames">Lawes06 Planting2Wet Block.out</FileName>
+</ApsimFileReader>
+<ApsimFileReader name="ObsP2Leaf" Left="0" Top="200">
+  <FileName type="filenames">Observed\Gatton2006Planting2Leaf.txt</FileName>
+  <ParseTitle type="yesno">yes</ParseTitle>
+</ApsimFileReader>
+<ApsimFileReader name="ObsP1Leaf" Left="200" Top="200">
+  <FileName type="filenames">Observed\Gatton2006Planting1Leaf.txt</FileName>
+  <ParseTitle type="yesno">yes</ParseTitle>
+</ApsimFileReader>
+<ApsimFileReader name="PreP1Wet" Left="400" Top="200">
+  <FileName type="filenames">Lawes06 Planting1Wet Block.out</FileName>
+  <ParseTitle type="yesno">yes</ParseTitle>
+</ApsimFileReader>
+<Filter name="ObsSingle" Left="600" Top="200">
+  <FilterString>Treatment = 'Single'</FilterString>
+  <GroupByFieldName type="fieldnames"/>
+  <source>ObsCrop</source>
+</Filter>
+<Filter name="ObsMild" Left="0" Top="400">
+  <FilterString>Treatment = 'Mild'</FilterString>
+  <GroupByFieldName type="fieldnames"/>
+  <source>ObsCrop</source>
+</Filter>
+<Filter name="ObsSevere" Left="200" Top="400">
+  <FilterString>Treatment = 'Severe'</FilterString>
+  <GroupByFieldName type="fieldnames"/>
+  <source>ObsCrop</source>
+</Filter>
+<Filter name="ObsComp" Left="400" Top="400">
+  <FilterString>Treatment = 'Comp'</FilterString>
+  <GroupByFieldName type="fieldnames"/>
+  <source>ObsCrop</source>
+</Filter>
 </Data>
-
    <page> <![CDATA[
 object Page1: TQuickRep
-  Left = 181
+  Left = 43
   Top = 0
   Width = 714
   Height = 1010
@@ -950,8 +952,8 @@ end
    </page>
    <page> <![CDATA[
 object Page2: TQuickRep
-  Left = 339
-  Top = 158
+  Left = 202
+  Top = 143
   Width = 397
   Height = 561
   Frame.Color = clBlack
@@ -1718,7 +1720,7 @@ end
    </page>
    <page> <![CDATA[
 object Page3: TQuickRep
-  Left = 62
+  Left = 0
   Top = 0
   Width = 952
   Height = 1347

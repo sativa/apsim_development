@@ -45,6 +45,9 @@ namespace Graph
         private static extern void Set(UInt32 DataContainer, string Xml);
 
         [DllImport("segreport.dll", CharSet = CharSet.Ansi, CallingConvention = CallingConvention.StdCall)]
+        private static extern void SetWithNoRefresh(UInt32 DataContainer, string Xml);
+
+        [DllImport("segreport.dll", CharSet = CharSet.Ansi, CallingConvention = CallingConvention.StdCall)]
         private static extern void Add(UInt32 DataContainer, string Xml);
 
         [DllImport("segreport.dll", CharSet = CharSet.Ansi, CallingConvention = CallingConvention.StdCall)]
@@ -143,6 +146,14 @@ namespace Graph
             // by path.
             // -----------------------------------------------------
             Set(DataContainer, XML);
+            }
+        public void SetNoRefresh(string XML)
+            {
+            // -----------------------------------------------------
+            // Set the properties for the data component as specified
+            // by path.
+            // -----------------------------------------------------
+            SetWithNoRefresh(DataContainer, XML);
             }
         public void Add(string XML)
             {

@@ -54,7 +54,7 @@ namespace Graph
             Filters.AddRange(GridUtils.GetColumnAsStrings(Grid, 1, NumValues));
             XmlHelper.SetValues(Data, "Label", Labels);
             XmlHelper.SetValues(Data, "FilterString", Filters);
-            PublishViewChanged(Data);
+            PublishViewChanged();
             }
 
 

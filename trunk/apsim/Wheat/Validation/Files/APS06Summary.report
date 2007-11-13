@@ -1,8 +1,24 @@
-<?xml version="1.0"?>
-<report version="4">
-  <Data><ApsimFileReader name="Obs"><FileName type="filenames">Observed\aps6.txt</FileName></ApsimFileReader><ApsimFileReader name="PreAll"><FileName type="filenames">Wheat_APS6_N000.out</FileName><FileName type="filenames">Wheat_APS6_N040.out</FileName><FileName type="filenames">Wheat_APS6_N080.out</FileName><FileName type="filenames">Wheat_APS6_N120.out</FileName><FileName type="filenames">Wheat_APS6_N160.out</FileName><FileName type="filenames">Wheat_APS6_N360.out</FileName><Filter name="Pre"><FilterString>day = 306</FilterString></Filter></ApsimFileReader></Data>
-  <page><![CDATA[object Page1: TQuickRep
-  Left = 179
+<report version="5">
+<Data>
+<ApsimFileReader name="Obs" Left="0" Top="0">
+    <FileName type="filenames">Observed\aps6.txt</FileName>
+  </ApsimFileReader>
+<ApsimFileReader name="PreAll" Left="200" Top="0">
+    <FileName type="filenames">Wheat_APS6_N000.out</FileName>
+    <FileName type="filenames">Wheat_APS6_N040.out</FileName>
+    <FileName type="filenames">Wheat_APS6_N080.out</FileName>
+    <FileName type="filenames">Wheat_APS6_N120.out</FileName>
+    <FileName type="filenames">Wheat_APS6_N160.out</FileName>
+    <FileName type="filenames">Wheat_APS6_N360.out</FileName>
+  </ApsimFileReader>
+<Filter name="Pre" Left="400" Top="0">
+    <FilterString>day = 306</FilterString>
+    <source>PreAll</source>
+  </Filter>
+</Data>
+   <page> <![CDATA[
+object Page1: TQuickRep
+  Left = 83
   Top = 0
   Width = 635
   Height = 898
@@ -466,5 +482,6 @@
     end
   end
 end
-]]></page>
+]]>
+   </page>
 </report>

@@ -83,6 +83,7 @@ Report::~Report(void)
    pages.erase(pages.begin(), pages.end());
 
    delete buttonImages;
+   delete data;
    }
 //---------------------------------------------------------------------------
 // Clear the report and create a new one.
@@ -163,6 +164,7 @@ void Report::clear(void)
       "</report>";
 
    loadFromContents(reportTemplate, false);
+   isDirty = false;
    }
 //---------------------------------------------------------------------------
 // If the filename exists then load it into the report.
@@ -181,24 +183,28 @@ void Report::load(const string& fileName, bool quiet)
       string versionLine;
       getline(in, versionLine);
       if (versionLine.find('<') == string::npos)
-         convertVersion3To4(in, fileName);
-      else
          {
-         unsigned posVersion = versionLine.find("version=\"");
-         if (posVersion != string::npos)
-            {
-            posVersion += strlen("version=\"");
-            unsigned posQuote = versionLine.find('"', posVersion);
-            if (posQuote != string::npos)
-               {
-               string versionString = versionLine.substr(posVersion, posQuote - posVersion);
-               int version = atoi(versionString.c_str());
-               if (version < 5)
-                  convertVersion4To5(in, fileName);
-               }
-            }
-         in.close();
+         convertVersion3To4(in, fileName);
+         in.clear();
+         in.open(fileName.c_str());
+         getline(in, versionLine);
          }
+      if (versionLine.substr(0, 2) == "<?")
+         getline(in, versionLine);
+      unsigned posVersion = versionLine.find("version=\"");
+      if (posVersion != string::npos)
+         {
+         posVersion += strlen("version=\"");
+         unsigned posQuote = versionLine.find('"', posVersion);
+         if (posQuote != string::npos)
+            {
+            string versionString = versionLine.substr(posVersion, posQuote - posVersion);
+            int version = atoi(versionString.c_str());
+            if (version < 5)
+               convertVersion4To5(in, fileName);
+            }
+         }
+      in.close();
 
       // set up the data.
       in.open(fileName.c_str());
@@ -225,22 +231,35 @@ void Report::loadFromContents(const string& contents, bool quiet)
                           i != doc.documentElement().end();
                           i++)
       {
-      if (Str_i_Eq(i->getName(), "data"))
+      try
          {
-         delete data;
-         data = new DataContainer(reportForm);
-         data->setup(i->write());
+         if (Str_i_Eq(i->getName(), "data"))
+            {
+            delete data;
+            data = new DataContainer(reportForm);
+            data->setup(i->write());
+            }
+         else if (Str_i_Eq(i->getName(), "page"))
+            {
+            TQuickRep* newPage = new TQuickRep(reportForm);
+            pages.push_back(newPage);
+            string pageContents = i->getValue();
+            istringstream pageStream (pageContents);
+            if (pageContents != "")
+               loadComponent(pageStream, newPage);
+            newPage->Visible = false;
+            newPage->Parent = NULL;
+            }
          }
-      else if (Str_i_Eq(i->getName(), "page"))
+      catch (exception& err)
          {
-         TQuickRep* newPage = new TQuickRep(reportForm);
-         pages.push_back(newPage);
-         string pageContents = i->getValue();
-         istringstream pageStream (pageContents);
-         if (pageContents != "")
-            loadComponent(pageStream, newPage);
-         newPage->Visible = false;
-         newPage->Parent = NULL;
+         if (!quiet)
+            ::MessageBox(NULL, err.what(), "Error", MB_ICONSTOP | MB_OK);
+         }
+      catch (Exception* err)
+         {
+         if (!quiet)
+            ::MessageBox(NULL, err->Message.c_str(), "Error", MB_ICONSTOP | MB_OK);
          }
       }
 
@@ -276,7 +295,7 @@ void Report::save(const std::string& fileName)
 string Report::getReportXml()
    {
    ostringstream out;
-   out << "<report version=\"4\">" << endl;
+   out << "<report version=\"5\">" << endl;
    out << data->xml() << endl;
    for (unsigned p = 0; p != pages.size(); p++)
       {
@@ -650,12 +669,16 @@ void Report::refresh(bool quiet)
    Screen->Cursor = crHourGlass;
    try
       {
-      data->refresh();
+      data->refreshIfNecessary();
       refreshAllPages();
       }
-   catch (Exception& err)
+   catch (Exception* err)
       {
-      MessageBox(NULL, err.Message.c_str(), "Error", MB_ICONSTOP | MB_OK);
+      MessageBox(NULL, err->Message.c_str(), "Error", MB_ICONSTOP | MB_OK);
+      }
+   catch (exception& err)
+      {
+      MessageBox(NULL, err.what(), "Error", MB_ICONSTOP | MB_OK);
       }
 
    Screen->Cursor = savedCursor;
@@ -1165,6 +1188,23 @@ void Report::convertVersion4To5(ifstream& in, const std::string& fileName)
                if (sourceName == "")
                   sourceName = dataChild->getName();
                newNode.appendChild("source", true).setValue(sourceName);
+
+               if (newNode.getName() == "PredObs")
+                  {
+                  // Change "KeyFieldName" to "FieldName"
+                  XMLNode::iterator PredObsChild = newNode.begin();
+                  while (PredObsChild != newNode.end())
+                     {
+                     if (PredObsChild->getName() == "KeyFieldName")
+                        {
+                        XMLNode FieldNode = newNode.appendChild("FieldName", true);
+                        FieldNode.setValue(PredObsChild->getValue());
+                        PredObsChild = newNode.erase(PredObsChild);
+                        }
+                     else
+                        PredObsChild++;
+                     }
+                  }
                object = dataChild->erase(object);
                }
             else
@@ -1173,6 +1213,21 @@ void Report::convertVersion4To5(ifstream& in, const std::string& fileName)
          dataChild++;
          }
       }
+
+   int Col = 0;
+   int Row = 0;
+   for (XMLNode::iterator child = data->begin(); child != data->end(); child++)
+      {
+      child->setAttribute("Left", itoa(Col*200));
+      child->setAttribute("Top", itoa(Row*200));
+      Col++;
+      if (Col > 3)
+         {
+         Col = 0;
+         Row++;
+         }
+      }
+
    doc.write(fileName);
    }
 

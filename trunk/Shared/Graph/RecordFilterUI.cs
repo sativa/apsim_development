@@ -54,7 +54,7 @@ namespace Graph
             else
                 YesNo = "No";
             XmlHelper.SetValue(Data, "FirstRecord", YesNo);
-            PublishViewChanged(Data);
+            PublishViewChanged();
             }
         private void OnLastRecordChanged(object sender, EventArgs e)
             {
@@ -64,12 +64,12 @@ namespace Graph
             else
                 YesNo = "No";
             XmlHelper.SetValue(Data, "LastRecord", YesNo);
-            PublishViewChanged(Data);
+            PublishViewChanged();
             }
         private void OnRecordNumberChanged(object sender, EventArgs e)
             {
             XmlHelper.SetValue(Data, "RecordNumber", RecordNumberEdit.Text);
-            PublishViewChanged(Data);
+            PublishViewChanged();
             }
 
 

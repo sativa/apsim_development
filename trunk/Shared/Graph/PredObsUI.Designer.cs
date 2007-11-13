@@ -41,7 +41,7 @@ namespace Graph
             this.GroupBox.Dock = System.Windows.Forms.DockStyle.Fill;
             this.GroupBox.Location = new System.Drawing.Point(0, 18);
             this.GroupBox.Name = "GroupBox";
-            this.GroupBox.Size = new System.Drawing.Size(202, 194);
+            this.GroupBox.Size = new System.Drawing.Size(185, 149);
             this.GroupBox.TabIndex = 2;
             this.GroupBox.TabStop = false;
             this.GroupBox.Text = "Predicted / Observed";
@@ -63,15 +63,16 @@ namespace Graph
             this.FieldList.FormattingEnabled = true;
             this.FieldList.Location = new System.Drawing.Point(6, 61);
             this.FieldList.Name = "FieldList";
-            this.FieldList.Size = new System.Drawing.Size(190, 124);
+            this.FieldList.Size = new System.Drawing.Size(173, 79);
             this.FieldList.TabIndex = 2;
+            this.FieldList.ItemCheck += new System.Windows.Forms.ItemCheckEventHandler(this.OnFieldListChanged);
             // 
             // PredObsUI
             // 
             this.BackColor = System.Drawing.SystemColors.Window;
             this.Controls.Add(this.GroupBox);
             this.Name = "PredObsUI";
-            this.Size = new System.Drawing.Size(202, 212);
+            this.Size = new System.Drawing.Size(185, 167);
             this.Controls.SetChildIndex(this.GroupBox, 0);
             this.GroupBox.ResumeLayout(false);
             this.ResumeLayout(false);

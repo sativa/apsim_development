@@ -19,7 +19,14 @@ DataContainer::DataContainer(TComponent* _owner)
    : owner(_owner)
    {
    }
-
+//---------------------------------------------------------------------------
+// destructor
+//---------------------------------------------------------------------------
+DataContainer::~DataContainer()
+   {
+   for (unsigned i = 0; i != children.size(); i++)
+      delete children[i].data;
+   }
 //---------------------------------------------------------------------------
 // Set the full XML for the system.
 //---------------------------------------------------------------------------
@@ -70,6 +77,26 @@ void DataContainer::set(const XMLNode& properties)
    invalidate(name);
 
    refreshIfNecessary();
+   }
+//---------------------------------------------------------------------------
+// Go set the properties for an existing node. Don't do a refresh
+//---------------------------------------------------------------------------
+void DataContainer::setWithNoRefresh(const XMLNode& properties)
+   {
+   // Work out a name for the node.
+   string name = properties.getAttribute("name");
+   if (name == "")
+      name = properties.getName();
+
+   // Go find the node
+   vector<ProcessorData>::iterator i = find_if(children.begin(),
+                                               children.end(),
+                                               MatchName<ProcessorData>(name));
+   if (i == children.end())
+      throw runtime_error("Component doesn't exist: " + name);
+
+   // Save the XML for later.
+   i->xml = properties.write();
    }
 //---------------------------------------------------------------------------
 // Add a new node with the given properties
@@ -231,6 +258,10 @@ void DataContainer::refreshIfNecessary()
                {
                children[i].errorMessage = err.what();
                }
+            catch (Exception* err)
+               {
+               children[i].errorMessage = err->Message.c_str();
+               }
             children[i].refreshNeeded = false;
             finished = false;
             }
@@ -341,7 +372,14 @@ extern "C" void _export __stdcall Set(DataContainer* container,
    container->set(doc.documentElement());
    ENDSAFE;
    }
-
+extern "C" void _export __stdcall SetWithNoRefresh(DataContainer* container,
+                                      const char* xml)
+   {
+   BEGINSAFE;
+   XMLDocument doc(xml, XMLDocument::xmlContents);
+   container->setWithNoRefresh(doc.documentElement());
+   ENDSAFE;
+   }
 extern "C" void _export __stdcall ErrorMessage(DataContainer* container,
                                                const char* name,
                                                char* errorMessage)

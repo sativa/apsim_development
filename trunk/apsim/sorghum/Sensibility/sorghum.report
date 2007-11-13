@@ -1,9 +1,38 @@
-<?xml version="1.0"?>
-<report version="4">
-  <Data><ApsimFileReader name="Dalby600File"><FileName type="filenames">Dalby600.out</FileName><Probability name="Dalby600Prob"><FieldName type="fieldnames">yield</FieldName></Probability></ApsimFileReader><ApsimFileReader name="Roma600File"><FileName type="filenames">Roma600.out</FileName><Probability name="Roma600Prob"><FieldName type="fieldnames">yield</FieldName></Probability></ApsimFileReader><ApsimFileReader name="Roma1500File"><FileName type="filenames">Roma1500.out</FileName><Probability name="Roma1500Prob"><FieldName type="fieldnames">yield</FieldName></Probability></ApsimFileReader><ApsimFileReader name="Dalby1500File"><FileName type="filenames">Dalby1500.out</FileName><Probability name="Dalby1500Prob"><FieldName type="fieldnames">yield</FieldName></Probability></ApsimFileReader></Data>
-  <page><![CDATA[object QuickRepPage1: TQuickRep
-  Left = 240
-  Top = -47
+<report version="5">
+<Data>
+<ApsimFileReader name="Dalby600File" Left="0" Top="0">
+    <FileName type="filenames">Dalby600.out</FileName>
+  </ApsimFileReader>
+<ApsimFileReader name="Roma600File" Left="200" Top="0">
+    <FileName type="filenames">Roma600.out</FileName>
+  </ApsimFileReader>
+<ApsimFileReader name="Roma1500File" Left="400" Top="0">
+    <FileName type="filenames">Roma1500.out</FileName>
+  </ApsimFileReader>
+<ApsimFileReader name="Dalby1500File" Left="600" Top="0">
+    <FileName type="filenames">Dalby1500.out</FileName>
+  </ApsimFileReader>
+<Probability name="Dalby600Prob" Left="0" Top="200">
+    <FieldName type="fieldnames">yield</FieldName>
+    <source>Dalby600File</source>
+  </Probability>
+<Probability name="Roma600Prob" Left="200" Top="200">
+    <FieldName type="fieldnames">yield</FieldName>
+    <source>Roma600File</source>
+  </Probability>
+<Probability name="Roma1500Prob" Left="400" Top="200">
+    <FieldName type="fieldnames">yield</FieldName>
+    <source>Roma1500File</source>
+  </Probability>
+<Probability name="Dalby1500Prob" Left="600" Top="200">
+    <FieldName type="fieldnames">yield</FieldName>
+    <source>Dalby1500File</source>
+  </Probability>
+</Data>
+   <page> <![CDATA[
+object QuickRepPage1: TQuickRep
+  Left = 43
+  Top = 0
   Width = 714
   Height = 1010
   Frame.Color = clBlack
@@ -82,11 +111,17 @@
         502.708333333333
         1693.33333333333)
       title = ' '
+      subTitle = ' '
       leftAxisTitle = 'Cumulative probability (%)'
       topAxisTitle = ' '
       rightAxisTitle = ' '
       bottomAxisTitle = 'sorghum Grain Yield (kg/ha)'
       footTitle = ' '
+      seriesTitle1 = ' '
+      seriesTitle2 = ' '
+      seriesTitle3 = ' '
+      seriesTitle4 = ' '
+      seriesTitle5 = ' '
       object QRDBChart1: TQRDBChart
         Left = -1
         Top = -1
@@ -134,12 +169,9 @@
         View3D = False
         object Series1: TLineSeries
           Depth = 0
-          Marks.ArrowLength = 8
           Marks.Callout.Brush.Color = clBlack
-          Marks.Callout.Length = 8
           Marks.Visible = False
           DataSource = Dalby600Prob
-          SeriesColor = clRed
           Title = 'Dalby 600'
           Pointer.InflateMargins = True
           Pointer.Style = psRectangle
@@ -148,15 +180,13 @@
           XValues.Order = loAscending
           XValues.ValueSource = 'yield'
           YValues.Name = 'Y'
+          YValues.Order = loNone
           YValues.ValueSource = 'Probability'
         end
         object Series2: TLineSeries
-          Marks.ArrowLength = 8
           Marks.Callout.Brush.Color = clBlack
-          Marks.Callout.Length = 8
           Marks.Visible = False
           DataSource = Dalby1500Prob
-          SeriesColor = clGreen
           Title = 'Dalby1500'
           Pointer.InflateMargins = True
           Pointer.Style = psRectangle
@@ -165,15 +195,13 @@
           XValues.Order = loAscending
           XValues.ValueSource = 'yield'
           YValues.Name = 'Y'
+          YValues.Order = loNone
           YValues.ValueSource = 'Probability'
         end
         object Series3: TLineSeries
-          Marks.ArrowLength = 8
           Marks.Callout.Brush.Color = clBlack
-          Marks.Callout.Length = 8
           Marks.Visible = False
           DataSource = Roma600Prob
-          SeriesColor = clYellow
           Title = 'Roma600'
           Pointer.InflateMargins = True
           Pointer.Style = psRectangle
@@ -182,15 +210,13 @@
           XValues.Order = loAscending
           XValues.ValueSource = 'yield'
           YValues.Name = 'Y'
+          YValues.Order = loNone
           YValues.ValueSource = 'Probability'
         end
         object Series4: TLineSeries
-          Marks.ArrowLength = 8
           Marks.Callout.Brush.Color = clBlack
-          Marks.Callout.Length = 8
           Marks.Visible = False
           DataSource = Roma1500Prob
-          SeriesColor = clBlue
           Title = 'Roma1500'
           Pointer.InflateMargins = True
           Pointer.Style = psRectangle
@@ -199,6 +225,7 @@
           XValues.Order = loAscending
           XValues.ValueSource = 'yield'
           YValues.Name = 'Y'
+          YValues.Order = loNone
           YValues.ValueSource = 'Probability'
         end
       end
@@ -220,11 +247,17 @@
         1613.95833333333
         1693.33333333333)
       title = ' '
+      subTitle = ' '
       leftAxisTitle = 'sorghum Grain Yield (kg/ha)'
       topAxisTitle = ' '
       rightAxisTitle = ' '
       bottomAxisTitle = 'sorghum Transpiration (mm)'
       footTitle = ' '
+      seriesTitle1 = ' '
+      seriesTitle2 = ' '
+      seriesTitle3 = ' '
+      seriesTitle4 = ' '
+      seriesTitle5 = ' '
       object QRDBChart2: TQRDBChart
         Left = -1
         Top = -1
@@ -268,12 +301,10 @@
         View3D = False
         object LineSeries1: TPointSeries
           Depth = 0
-          Marks.ArrowLength = 8
           Marks.Callout.Brush.Color = clBlack
           Marks.Callout.Length = 8
           Marks.Visible = False
           DataSource = Dalby600File
-          SeriesColor = clRed
           Title = 'Dalby 600'
           ClickableLine = False
           Pointer.InflateMargins = True
@@ -283,15 +314,14 @@
           XValues.Order = loAscending
           XValues.ValueSource = 'sum_ep'
           YValues.Name = 'Y'
+          YValues.Order = loNone
           YValues.ValueSource = 'yield'
         end
         object LineSeries2: TPointSeries
-          Marks.ArrowLength = 8
           Marks.Callout.Brush.Color = clBlack
           Marks.Callout.Length = 8
           Marks.Visible = False
           DataSource = Dalby1500File
-          SeriesColor = clGreen
           Title = 'Dalby1500'
           ClickableLine = False
           Pointer.InflateMargins = True
@@ -301,15 +331,14 @@
           XValues.Order = loAscending
           XValues.ValueSource = 'sum_ep'
           YValues.Name = 'Y'
+          YValues.Order = loNone
           YValues.ValueSource = 'yield'
         end
         object LineSeries3: TPointSeries
-          Marks.ArrowLength = 8
           Marks.Callout.Brush.Color = clBlack
           Marks.Callout.Length = 8
           Marks.Visible = False
           DataSource = Roma600File
-          SeriesColor = clYellow
           Title = 'Roma600'
           ClickableLine = False
           Pointer.InflateMargins = True
@@ -319,15 +348,14 @@
           XValues.Order = loAscending
           XValues.ValueSource = 'sum_ep'
           YValues.Name = 'Y'
+          YValues.Order = loNone
           YValues.ValueSource = 'yield'
         end
         object LineSeries4: TPointSeries
-          Marks.ArrowLength = 8
           Marks.Callout.Brush.Color = clBlack
           Marks.Callout.Length = 8
           Marks.Visible = False
           DataSource = Roma1500File
-          SeriesColor = clBlue
           Title = 'Roma1500'
           ClickableLine = False
           Pointer.InflateMargins = True
@@ -337,6 +365,7 @@
           XValues.Order = loAscending
           XValues.ValueSource = 'sum_ep'
           YValues.Name = 'Y'
+          YValues.Order = loNone
           YValues.ValueSource = 'yield'
         end
       end
@@ -409,5 +438,6 @@
     end
   end
 end
-]]></page>
+]]>
+   </page>
 </report>

@@ -41,6 +41,7 @@ namespace Graph
             this.OpenFileDialog.DefaultExt = "out";
             this.OpenFileDialog.Filter = "Output files (*.out)|*.out|(All files (*.*)|*.*";
             this.OpenFileDialog.Multiselect = true;
+            this.OpenFileDialog.RestoreDirectory = true;
             this.OpenFileDialog.Title = "Select 1 or more output files";
             // 
             // GroupBox
@@ -50,7 +51,7 @@ namespace Graph
             this.GroupBox.Dock = System.Windows.Forms.DockStyle.Fill;
             this.GroupBox.Location = new System.Drawing.Point(0, 18);
             this.GroupBox.Name = "GroupBox";
-            this.GroupBox.Size = new System.Drawing.Size(323, 175);
+            this.GroupBox.Size = new System.Drawing.Size(162, 132);
             this.GroupBox.TabIndex = 8;
             this.GroupBox.TabStop = false;
             this.GroupBox.Text = "Apsim File Reader";
@@ -63,10 +64,9 @@ namespace Graph
             this.FileList.Location = new System.Drawing.Point(6, 43);
             this.FileList.Multiline = true;
             this.FileList.Name = "FileList";
-            this.FileList.Size = new System.Drawing.Size(312, 126);
+            this.FileList.Size = new System.Drawing.Size(151, 83);
             this.FileList.TabIndex = 8;
             this.FileList.WordWrap = false;
-            this.FileList.TextChanged += new System.EventHandler(this.OnTextChanged);
             // 
             // BrowseButton
             // 
@@ -83,7 +83,7 @@ namespace Graph
             this.BackColor = System.Drawing.SystemColors.Window;
             this.Controls.Add(this.GroupBox);
             this.Name = "ApsimFileReaderUI";
-            this.Size = new System.Drawing.Size(323, 193);
+            this.Size = new System.Drawing.Size(162, 150);
             this.Controls.SetChildIndex(this.GroupBox, 0);
             this.GroupBox.ResumeLayout(false);
             this.GroupBox.PerformLayout();

@@ -239,7 +239,7 @@ Public Class GenericUI
         End If
     End Sub
 
-    Protected Overrides Sub OnSave()
+    Public Overrides Sub OnSave()
         ' --------------------------------------------------------------
         ' Save all our changes back to Data
         ' --------------------------------------------------------------

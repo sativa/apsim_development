@@ -65,7 +65,7 @@ namespace Graph
                     }
                 else
                     Data.RemoveChild(XmlHelper.ChildByTypeAndValue(Data, "FieldName", FieldName));
-                PublishViewChanged(Data);
+                PublishViewChanged();
                 }
             }
 

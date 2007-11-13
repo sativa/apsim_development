@@ -8,9 +8,6 @@ Public Class BaseView
     ' Base class for all user interfaces
     ' It has data and knowledge of a
     ' user interface.
-    ' All user interfaces should override the
-    ' 'OnRefresh' method and optionally the 
-    ' 'OnSave' method.
     ' ----------------------------------   
     Inherits System.Windows.Forms.UserControl
 
@@ -18,7 +15,7 @@ Public Class BaseView
     Protected MyNodePath As String
     Protected Data As Xml.XmlNode
 
-    Delegate Sub NotifyEventHandler(ByVal NodeChanged As Xml.XmlNode)
+    Delegate Sub NotifyEventHandler(ByVal NodeChanged As BaseView)
     Public Event ViewChanged As NotifyEventHandler
 
 
@@ -88,7 +85,6 @@ Public Class BaseView
         OnLoad()
     End Sub
     Public Function GetData() As String
-        OnSave()
         Return Data.OuterXml
     End Function
     Public ReadOnly Property NodePath() As String
@@ -114,7 +110,7 @@ Public Class BaseView
         ' ---------------------------------------------
     End Sub
 
-    Protected Overridable Sub OnSave()
+    Public Overridable Sub OnSave()
         ' ---------------------------------------------
         ' An overridable method that is called whenever
         ' data should be saved back to the APSIMData 
@@ -122,11 +118,11 @@ Public Class BaseView
         ' ---------------------------------------------
     End Sub
 
-    Protected Sub PublishViewChanged(ByVal ChangedNode As Xml.XmlNode)
+    Protected Sub PublishViewChanged()
         ' ---------------------------------------------
         ' This is used by the graph system.
         ' ---------------------------------------------
-        RaiseEvent ViewChanged(ChangedNode)
+        RaiseEvent ViewChanged(Me)
     End Sub
 
     Public Overridable Sub OnClose()

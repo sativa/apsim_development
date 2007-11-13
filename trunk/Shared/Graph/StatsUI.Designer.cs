@@ -29,10 +29,10 @@ namespace Graph
         private void InitializeComponent()
             {
             this.GroupBox = new System.Windows.Forms.GroupBox();
-            this.FieldList = new System.Windows.Forms.CheckedListBox();
-            this.label1 = new System.Windows.Forms.Label();
-            this.StatsList = new System.Windows.Forms.CheckedListBox();
             this.label2 = new System.Windows.Forms.Label();
+            this.StatsList = new System.Windows.Forms.CheckedListBox();
+            this.label1 = new System.Windows.Forms.Label();
+            this.FieldList = new System.Windows.Forms.CheckedListBox();
             this.GroupBox.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -43,31 +43,21 @@ namespace Graph
             this.GroupBox.Controls.Add(this.label1);
             this.GroupBox.Controls.Add(this.FieldList);
             this.GroupBox.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.GroupBox.Location = new System.Drawing.Point(0, 0);
+            this.GroupBox.Location = new System.Drawing.Point(0, 18);
             this.GroupBox.Name = "GroupBox";
-            this.GroupBox.Size = new System.Drawing.Size(265, 261);
+            this.GroupBox.Size = new System.Drawing.Size(206, 145);
             this.GroupBox.TabIndex = 2;
             this.GroupBox.TabStop = false;
             this.GroupBox.Text = "GroupBox";
             // 
-            // FieldList
+            // label2
             // 
-            this.FieldList.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom)
-                        | System.Windows.Forms.AnchorStyles.Left)));
-            this.FieldList.FormattingEnabled = true;
-            this.FieldList.Location = new System.Drawing.Point(6, 38);
-            this.FieldList.Name = "FieldList";
-            this.FieldList.Size = new System.Drawing.Size(120, 214);
-            this.FieldList.TabIndex = 0;
-            // 
-            // label1
-            // 
-            this.label1.AutoSize = true;
-            this.label1.Location = new System.Drawing.Point(6, 22);
-            this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(66, 13);
-            this.label1.TabIndex = 1;
-            this.label1.Text = "Field names:";
+            this.label2.AutoSize = true;
+            this.label2.Location = new System.Drawing.Point(112, 23);
+            this.label2.Name = "label2";
+            this.label2.Size = new System.Drawing.Size(34, 13);
+            this.label2.TabIndex = 3;
+            this.label2.Text = "Stats:";
             // 
             // StatsList
             // 
@@ -89,25 +79,35 @@ namespace Graph
             "70",
             "80",
             "90"});
-            this.StatsList.Location = new System.Drawing.Point(138, 39);
+            this.StatsList.Location = new System.Drawing.Point(110, 38);
             this.StatsList.Name = "StatsList";
-            this.StatsList.Size = new System.Drawing.Size(120, 214);
+            this.StatsList.Size = new System.Drawing.Size(90, 79);
             this.StatsList.TabIndex = 2;
             // 
-            // label2
+            // label1
             // 
-            this.label2.AutoSize = true;
-            this.label2.Location = new System.Drawing.Point(140, 24);
-            this.label2.Name = "label2";
-            this.label2.Size = new System.Drawing.Size(34, 13);
-            this.label2.TabIndex = 3;
-            this.label2.Text = "Stats:";
+            this.label1.AutoSize = true;
+            this.label1.Location = new System.Drawing.Point(6, 22);
+            this.label1.Name = "label1";
+            this.label1.Size = new System.Drawing.Size(66, 13);
+            this.label1.TabIndex = 1;
+            this.label1.Text = "Field names:";
+            // 
+            // FieldList
+            // 
+            this.FieldList.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom)
+                        | System.Windows.Forms.AnchorStyles.Left)));
+            this.FieldList.FormattingEnabled = true;
+            this.FieldList.Location = new System.Drawing.Point(6, 38);
+            this.FieldList.Name = "FieldList";
+            this.FieldList.Size = new System.Drawing.Size(98, 79);
+            this.FieldList.TabIndex = 0;
             // 
             // StatsUI
             // 
             this.Controls.Add(this.GroupBox);
             this.Name = "StatsUI";
-            this.Size = new System.Drawing.Size(265, 261);
+            this.Size = new System.Drawing.Size(206, 163);
             this.Controls.SetChildIndex(this.GroupBox, 0);
             this.GroupBox.ResumeLayout(false);
             this.GroupBox.PerformLayout();

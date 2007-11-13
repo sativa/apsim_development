@@ -106,7 +106,8 @@ Public Class MetUI
         MetGraphControl1.SetFileName(FileName)
     End Sub
 
-    Protected Overrides Sub OnSave()
+    Public Overrides Sub OnSave()
+        MetGraphControl1.OnSave()
         Dim Doc As New Xml.XmlDocument()
         Doc.LoadXml(MetGraphControl1.GetData())
         Data.InnerXml = Doc.DocumentElement.InnerXml

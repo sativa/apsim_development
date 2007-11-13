@@ -1,51 +1,54 @@
-<report version="4">
+<report version="5">
 <Data>
-   <ApsimFileReader name="ApsimFileReader1">
-      <FileName type="filenames">C:\development\apsim\barley\Validation\Files\Barley_Well360_1.out</FileName>
-      <ParseTitle type="yesno">no</ParseTitle>
-      <FileName type="filenames">C:\development\apsim\barley\Validation\Files\Barley_HB90Sow1_3.out</FileName>
-      <FileName type="filenames">C:\development\apsim\barley\Validation\Files\Barley_HB90Sow2_3.out</FileName>
-      <FileName type="filenames">C:\development\apsim\barley\Validation\Files\Barley_HB90Sow3_3.out</FileName>
-      <FileName type="filenames">C:\development\apsim\barley\Validation\Files\Barley_HRS87-2MP_1.out</FileName>
-      <FileName type="filenames">C:\development\apsim\barley\Validation\Files\Barley_HRS87-3MP_1.out</FileName>
-      <FileName type="filenames">C:\development\apsim\barley\Validation\Files\Barley_HRSRO-DD_1.out</FileName>
-      <FileName type="filenames">C:\development\apsim\barley\Validation\Files\Barley_HRSRO-DI_1.out</FileName>
-      <FileName type="filenames">C:\development\apsim\barley\Validation\Files\Barley_HRSRO-II_1.out</FileName>
-      <FileName type="filenames">C:\development\apsim\barley\Validation\Files\Barley_KthpeRain05_5.out</FileName>
-      <FileName type="filenames">C:\development\apsim\barley\Validation\Files\Barley_R88-1HP_1.out</FileName>
-      <FileName type="filenames">C:\development\apsim\barley\Validation\Files\Barley_R88-1MP_1.out</FileName>
-      <FileName type="filenames">C:\development\apsim\barley\Validation\Files\Barley_R88-2HP_1.out</FileName>
-      <FileName type="filenames">C:\development\apsim\barley\Validation\Files\Barley_R88-2MP_1.out</FileName>
-      <FileName type="filenames">C:\development\apsim\barley\Validation\Files\Barley_R88-3HP_1.out</FileName>
-      <FileName type="filenames">C:\development\apsim\barley\Validation\Files\Barley_R88-3MP_1.out</FileName>
-      <FileName type="filenames">C:\development\apsim\barley\Validation\Files\Barley_R88-4HP_1.out</FileName>
-      <FileName type="filenames">C:\development\apsim\barley\Validation\Files\Barley_R88-4MP_1.out</FileName>
-      <Filter name="PredictedHarvest">
-         <FilterString>stage=10</FilterString>
-         <PredObs name="PredObsBiomass">
-            <obsFileName type="filename">C:\development\apsim\barley\Validation\Files\Barley_CombinedMaturity.dat</obsFileName>
-            <KeyFieldName type="fieldnames">title</KeyFieldName>
-            <Regression name="RegressionBiomass">
-               <XFieldName type="fieldname">Predbiomass_wt</XFieldName>
-               <YFieldName type="fieldname">Obsbiomass_wt</YFieldName>
-            </Regression>
-            <Regression name="RegressionYield">
-               <XFieldName type="fieldname">PreddmGrain</XFieldName>
-               <YFieldName type="fieldname">ObsdmGrain</YFieldName>
-            </Regression>
-         </PredObs>
-      </Filter>
-   </ApsimFileReader>
-   <ApsimFileReader name="ApsimFileReader2">
-      <FileName type="filenames">C:\development\apsim\barley\Validation\Files\Barley_CombinedMaturity.dat</FileName>
-      <ParseTitle type="yesno">yes</ParseTitle>
-   </ApsimFileReader>
-
+<ApsimFileReader name="ApsimFileReader1" Left="0" Top="0">
+  <FileName type="filenames">Barley_Well360_1.out</FileName>
+  <ParseTitle type="yesno">no</ParseTitle>
+  <FileName type="filenames">Barley_HB90Sow1_3.out</FileName>
+  <FileName type="filenames">Barley_HB90Sow2_3.out</FileName>
+  <FileName type="filenames">Barley_HB90Sow3_3.out</FileName>
+  <FileName type="filenames">Barley_HRS87-2MP_1.out</FileName>
+  <FileName type="filenames">Barley_HRS87-3MP_1.out</FileName>
+  <FileName type="filenames">Barley_HRSRO-DD_1.out</FileName>
+  <FileName type="filenames">Barley_HRSRO-DI_1.out</FileName>
+  <FileName type="filenames">Barley_HRSRO-II_1.out</FileName>
+  <FileName type="filenames">Barley_KthpeRain05_5.out</FileName>
+  <FileName type="filenames">Barley_R88-1HP_1.out</FileName>
+  <FileName type="filenames">Barley_R88-1MP_1.out</FileName>
+  <FileName type="filenames">Barley_R88-2HP_1.out</FileName>
+  <FileName type="filenames">Barley_R88-2MP_1.out</FileName>
+  <FileName type="filenames">Barley_R88-3HP_1.out</FileName>
+  <FileName type="filenames">Barley_R88-3MP_1.out</FileName>
+  <FileName type="filenames">Barley_R88-4HP_1.out</FileName>
+  <FileName type="filenames">Barley_R88-4MP_1.out</FileName>
+</ApsimFileReader>
+<ApsimFileReader name="ApsimFileReader2" Left="200" Top="0">
+  <FileName type="filenames">Barley_CombinedMaturity.dat</FileName>
+  <ParseTitle type="yesno">yes</ParseTitle>
+</ApsimFileReader>
+<Filter name="PredictedHarvest" Left="400" Top="0">
+  <FilterString>stage=10</FilterString>
+  <source>ApsimFileReader1</source>
+</Filter>
+<PredObs name="PredObsBiomass" Left="600" Top="0">
+  <obsFileName type="filename">Barley_CombinedMaturity.dat</obsFileName>
+  <source>PredictedHarvest</source>
+  <FieldName>title</FieldName>
+  <source>ApsimFileReader2</source>
+</PredObs>
+<Regression name="RegressionBiomass" Left="0" Top="200">
+  <XFieldName type="fieldname">Predbiomass_wt</XFieldName>
+  <YFieldName type="fieldname">Obsbiomass_wt</YFieldName>
+  <source>PredObsBiomass</source>
+</Regression>
+<Regression name="RegressionYield" Left="200" Top="200">
+  <XFieldName type="fieldname">PreddmGrain</XFieldName>
+  <YFieldName type="fieldname">ObsdmGrain</YFieldName>
+  <source>PredObsBiomass</source>
+</Regression>
 </Data>
-
    <page> <![CDATA[
 object Page1: TQuickRep
-  Left = 82
+  Left = 0
   Top = 0
   Width = 873
   Height = 1235

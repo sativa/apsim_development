@@ -1,266 +1,21 @@
-Version = 2.0
-NumPages = 1
-object data: TForm
-  Left = 4
-  Top = 4
-  Align = alClient
-  BorderIcons = []
-  BorderStyle = bsNone
-  ClientHeight = 865
-  ClientWidth = 1384
-  Color = clBtnFace
-  Font.Charset = DEFAULT_CHARSET
-  Font.Color = clWindowText
-  Font.Height = -11
-  Font.Name = 'MS Sans Serif'
-  Font.Style = []
-  OldCreateOrder = False
-  PixelsPerInch = 96
-  TextHeight = 13
-  object Biomass: TExcel
-    Active = True
-    DesignActivation = True
-    AttachedAutoRefresh = True
-    AttachMaxCount = 1
-    FieldDefs = <
-      item
-        Name = 'X'
-        DataType = ftInteger
-      end
-      item
-        Name = 'date'
-        DataType = ftDate
-      end
-      item
-        Name = 'Date2'
-        DataType = ftDate
-      end
-      item
-        Name = 'Years_since_Jul_91'
-        DataType = ftFloat
-      end
-      item
-        Name = 'lai'
-        DataType = ftFloat
-      end
-      item
-        Name = 'foliage'
-        DataType = ftFloat
-      end
-      item
-        Name = 'wood'
-        DataType = ftFloat
-      end
-      item
-        Name = 'Series'
-        DataType = ftString
-        Size = 200
-      end>
-    IndexFieldNames = 'Series'
-    IndexName = 'mainIndex'
-    IndexDefs = <
-      item
-        Name = 'mainIndex'
-        Fields = 'Series'
-      end>
-    SortOptions = []
-    AllDataOptions = [mtfSaveData, mtfSaveNonVisible, mtfSaveBlobs, mtfSaveFiltered, mtfSaveIgnoreRange, mtfSaveIgnoreMasterDetail, mtfSaveDeltas]
-    CommaTextOptions = [mtfSaveData]
-    CSVQuote = '"'
-    CSVFieldDelimiter = ','
-    CSVRecordDelimiter = ','
-    CSVTrueString = 'True'
-    CSVFalseString = 'False'
-    PersistentSaveOptions = [mtfSaveData, mtfSaveNonVisible, mtfSaveIgnoreRange, mtfSaveIgnoreMasterDetail]
-    PersistentBackup = False
-    ProgressFlags = [mtpcLoad, mtpcSave, mtpcCopy]
-    FilterOptions = []
-    Version = '2.53g'
-    LanguageID = 0
-    SortID = 0
-    SubLanguageID = 1
-    LocaleID = 1024
-    fileName = 
-      'C:\Program Files\Apsim32\apsim\Egrandis\Validation\ForestValidat' +
-      'ion.xls'
-    pageName = 'WaggaBiomass'
-    Left = 212
-    Top = 98
-  end
-  object ApsimFileReader1: TApsimFileReader
-    Active = True
-    DesignActivation = True
-    AttachedAutoRefresh = True
-    AttachMaxCount = 1
-    FieldDefs = <
-      item
-        Name = 'date'
-        DataType = ftDate
-      end
-      item
-        Name = 'day'
-        DataType = ftInteger
-      end
-      item
-        Name = 'year'
-        DataType = ftInteger
-      end
-      item
-        Name = 'age'
-        DataType = ftFloat
-      end
-      item
-        Name = 'lai'
-        DataType = ftFloat
-      end
-      item
-        Name = 'avg@fn'
-        DataType = ftFloat
-      end
-      item
-        Name = 'avg@fw'
-        DataType = ftFloat
-      end
-      item
-        Name = 'avg@fvpd'
-        DataType = ftFloat
-      end
-      item
-        Name = 'avg@ft'
-        DataType = ftFloat
-      end
-      item
-        Name = 'stem_wt'
-        DataType = ftFloat
-      end
-      item
-        Name = 'branch_wt'
-        DataType = ftFloat
-      end
-      item
-        Name = 'bark_wt'
-        DataType = ftFloat
-      end
-      item
-        Name = 'leaf_wt'
-        DataType = ftFloat
-      end
-      item
-        Name = 'root_mass'
-        DataType = ftFloat
-      end
-      item
-        Name = 'height'
-        DataType = ftFloat
-      end
-      item
-        Name = 'sum@ep()'
-        DataType = ftFloat
-      end
-      item
-        Name = 'litterfall'
-        DataType = ftFloat
-      end
-      item
-        Name = 'cum_litterfall'
-        DataType = ftFloat
-      end
-      item
-        Name = 'Series'
-        DataType = ftString
-        Size = 200
-      end>
-    IndexFieldNames = 'Series'
-    IndexName = 'mainIndex'
-    IndexDefs = <
-      item
-        Name = 'mainIndex'
-        Fields = 'Series'
-      end>
-    SortOptions = []
-    AllDataOptions = [mtfSaveData, mtfSaveNonVisible, mtfSaveBlobs, mtfSaveFiltered, mtfSaveIgnoreRange, mtfSaveIgnoreMasterDetail, mtfSaveDeltas]
-    CommaTextOptions = [mtfSaveData]
-    CSVQuote = '"'
-    CSVFieldDelimiter = ','
-    CSVRecordDelimiter = ','
-    CSVTrueString = 'True'
-    CSVFalseString = 'False'
-    PersistentSaveOptions = [mtfSaveData, mtfSaveNonVisible, mtfSaveIgnoreRange, mtfSaveIgnoreMasterDetail]
-    PersistentBackup = False
-    ProgressFlags = [mtpcLoad, mtpcSave, mtpcCopy]
-    FilterOptions = []
-    Version = '2.53g'
-    LanguageID = 0
-    SortID = 0
-    SubLanguageID = 1
-    LocaleID = 1024
-    filenames.Strings = (
-      'wagga.out')
-    Left = 281
-    Top = 99
-  end
-  object Litterfall: TExcel
-    Active = True
-    DesignActivation = True
-    AttachedAutoRefresh = True
-    AttachMaxCount = 1
-    FieldDefs = <
-      item
-        Name = 'Age'
-        DataType = ftFloat
-      end
-      item
-        Name = 'Date'
-        DataType = ftDate
-      end
-      item
-        Name = 'Monthly'
-        DataType = ftFloat
-      end
-      item
-        Name = 'Cumulative'
-        DataType = ftFloat
-      end
-      item
-        Name = 'Series'
-        DataType = ftString
-        Size = 200
-      end>
-    IndexFieldNames = 'Series'
-    IndexName = 'mainIndex'
-    IndexDefs = <
-      item
-        Name = 'mainIndex'
-        Fields = 'Series'
-      end>
-    SortOptions = []
-    AllDataOptions = [mtfSaveData, mtfSaveNonVisible, mtfSaveBlobs, mtfSaveFiltered, mtfSaveIgnoreRange, mtfSaveIgnoreMasterDetail, mtfSaveDeltas]
-    CommaTextOptions = [mtfSaveData]
-    CSVQuote = '"'
-    CSVFieldDelimiter = ','
-    CSVRecordDelimiter = ','
-    CSVTrueString = 'True'
-    CSVFalseString = 'False'
-    PersistentSaveOptions = [mtfSaveData, mtfSaveNonVisible, mtfSaveIgnoreRange, mtfSaveIgnoreMasterDetail]
-    PersistentBackup = False
-    ProgressFlags = [mtpcLoad, mtpcSave, mtpcCopy]
-    FilterOptions = []
-    Version = '2.53g'
-    LanguageID = 0
-    SortID = 0
-    SubLanguageID = 1
-    LocaleID = 1024
-    fileName = 
-      'C:\Program Files\Apsim32\apsim\Egrandis\Validation\ForestValidat' +
-      'ion.xls'
-    pageName = 'Waggalitterfall'
-    Left = 78
-    Top = 82
-  end
-end
+<report version="5">
+<Data>
+<Excel name="Biomass" Left="0" Top="0">
+  <FileName type="filename"/>
+  <PageName>WaggaBiomass</PageName>
+</Excel>
+<ApsimFileReader name="ApsimFileReader1" Left="200" Top="0">
+  <FileName type="filenames">wagga.out</FileName>
+</ApsimFileReader>
+<Excel name="Litterfall" Left="400" Top="0">
+  <FileName type="filename"/>
+  <PageName>Waggalitterfall</PageName>
+</Excel>
+</Data>
+   <page> <![CDATA[
 object Page1: TQuickRep
-  Left = 390
-  Top = 186
+  Left = 202
+  Top = 143
   Width = 397
   Height = 561
   Frame.Color = clBlack
@@ -339,11 +94,17 @@ object Page1: TQuickRep
         296.333333333333
         1629.83333333333)
       title = ' '
+      subTitle = ' '
       leftAxisTitle = ' '
       topAxisTitle = ' '
       rightAxisTitle = ' '
       bottomAxisTitle = ' '
       footTitle = ' '
+      seriesTitle1 = ' '
+      seriesTitle2 = ' '
+      seriesTitle3 = ' '
+      seriesTitle4 = ' '
+      seriesTitle5 = ' '
       object QRDBChart1: TQRDBChart
         Left = -1
         Top = -1
@@ -374,12 +135,10 @@ object Page1: TQuickRep
         TopAxis.TickLength = 7
         View3D = False
         object Series1: TPointSeries
-          Marks.ArrowLength = 8
           Marks.Callout.Brush.Color = clBlack
           Marks.Callout.Length = 8
           Marks.Visible = False
-          DataSource = data.Biomass
-          SeriesColor = clRed
+          DataSource = Biomass
           ClickableLine = False
           Pointer.InflateMargins = True
           Pointer.Style = psRectangle
@@ -389,14 +148,13 @@ object Page1: TQuickRep
           XValues.Order = loAscending
           XValues.ValueSource = 'date'
           YValues.Name = 'Y'
+          YValues.Order = loNone
           YValues.ValueSource = 'lai'
         end
         object Series2: TLineSeries
-          Marks.ArrowLength = 8
           Marks.Callout.Brush.Color = clBlack
-          Marks.Callout.Length = 8
           Marks.Visible = False
-          DataSource = data.ApsimFileReader1
+          DataSource = ApsimFileReader1
           SeriesColor = clRed
           Pointer.InflateMargins = True
           Pointer.Style = psRectangle
@@ -406,6 +164,7 @@ object Page1: TQuickRep
           XValues.Order = loAscending
           XValues.ValueSource = 'date'
           YValues.Name = 'Y'
+          YValues.Order = loNone
           YValues.ValueSource = 'lai'
         end
       end
@@ -427,11 +186,17 @@ object Page1: TQuickRep
         957.791666666667
         1608.66666666667)
       title = ' '
+      subTitle = ' '
       leftAxisTitle = ' '
       topAxisTitle = ' '
       rightAxisTitle = ' '
       bottomAxisTitle = ' '
       footTitle = ' '
+      seriesTitle1 = ' '
+      seriesTitle2 = ' '
+      seriesTitle3 = ' '
+      seriesTitle4 = ' '
+      seriesTitle5 = ' '
       object QRDBChart2: TQRDBChart
         Left = -1
         Top = -1
@@ -464,12 +229,9 @@ object Page1: TQuickRep
         TopAxis.TickLength = 7
         View3D = False
         object Series3: TPointSeries
-          Marks.ArrowLength = 0
           Marks.Callout.Brush.Color = clBlack
-          Marks.Callout.Length = 0
           Marks.Visible = False
-          DataSource = data.Biomass
-          SeriesColor = clRed
+          DataSource = Biomass
           Title = 'Stem'
           ClickableLine = False
           Pointer.InflateMargins = True
@@ -480,15 +242,13 @@ object Page1: TQuickRep
           XValues.Order = loAscending
           XValues.ValueSource = 'date'
           YValues.Name = 'Y'
+          YValues.Order = loNone
           YValues.ValueSource = 'wood'
         end
         object Series4: TPointSeries
-          Marks.ArrowLength = 0
           Marks.Callout.Brush.Color = clBlack
-          Marks.Callout.Length = 0
           Marks.Visible = False
-          DataSource = data.Biomass
-          SeriesColor = clGreen
+          DataSource = Biomass
           Title = 'Leaf'
           ClickableLine = False
           Pointer.InflateMargins = True
@@ -499,14 +259,13 @@ object Page1: TQuickRep
           XValues.Order = loAscending
           XValues.ValueSource = 'date'
           YValues.Name = 'Y'
+          YValues.Order = loNone
           YValues.ValueSource = 'foliage'
         end
         object Series5: TLineSeries
-          Marks.ArrowLength = 8
           Marks.Callout.Brush.Color = clBlack
-          Marks.Callout.Length = 8
           Marks.Visible = False
-          DataSource = data.ApsimFileReader1
+          DataSource = ApsimFileReader1
           SeriesColor = clRed
           ShowInLegend = False
           Pointer.InflateMargins = True
@@ -517,14 +276,13 @@ object Page1: TQuickRep
           XValues.Order = loAscending
           XValues.ValueSource = 'date'
           YValues.Name = 'Y'
+          YValues.Order = loNone
           YValues.ValueSource = 'stem_wt'
         end
         object Series6: TLineSeries
-          Marks.ArrowLength = 8
           Marks.Callout.Brush.Color = clBlack
-          Marks.Callout.Length = 8
           Marks.Visible = False
-          DataSource = data.ApsimFileReader1
+          DataSource = ApsimFileReader1
           SeriesColor = clGreen
           ShowInLegend = False
           Pointer.InflateMargins = True
@@ -535,6 +293,7 @@ object Page1: TQuickRep
           XValues.Order = loAscending
           XValues.ValueSource = 'date'
           YValues.Name = 'Y'
+          YValues.Order = loNone
           YValues.ValueSource = 'leaf_wt'
         end
       end
@@ -590,11 +349,17 @@ object Page1: TQuickRep
         1778
         1651)
       title = ' '
+      subTitle = ' '
       leftAxisTitle = ' '
       topAxisTitle = ' '
       rightAxisTitle = ' '
       bottomAxisTitle = ' '
       footTitle = ' '
+      seriesTitle1 = ' '
+      seriesTitle2 = ' '
+      seriesTitle3 = ' '
+      seriesTitle4 = ' '
+      seriesTitle5 = ' '
       object QRDBChart3: TQRDBChart
         Left = -1
         Top = -1
@@ -625,12 +390,9 @@ object Page1: TQuickRep
         TopAxis.TickLength = 7
         View3D = False
         object Series7: TPointSeries
-          Marks.ArrowLength = 0
           Marks.Callout.Brush.Color = clBlack
-          Marks.Callout.Length = 0
           Marks.Visible = False
-          DataSource = data.Litterfall
-          SeriesColor = clRed
+          DataSource = Litterfall
           ClickableLine = False
           Pointer.InflateMargins = True
           Pointer.Style = psRectangle
@@ -640,14 +402,13 @@ object Page1: TQuickRep
           XValues.Order = loAscending
           XValues.ValueSource = 'Date'
           YValues.Name = 'Y'
+          YValues.Order = loNone
           YValues.ValueSource = 'Cumulative'
         end
         object Series8: TLineSeries
-          Marks.ArrowLength = 8
           Marks.Callout.Brush.Color = clBlack
-          Marks.Callout.Length = 8
           Marks.Visible = False
-          DataSource = data.ApsimFileReader1
+          DataSource = ApsimFileReader1
           SeriesColor = clRed
           Pointer.InflateMargins = True
           Pointer.Style = psRectangle
@@ -657,9 +418,13 @@ object Page1: TQuickRep
           XValues.Order = loAscending
           XValues.ValueSource = 'date'
           YValues.Name = 'Y'
+          YValues.Order = loNone
           YValues.ValueSource = 'cum_litterfall'
         end
       end
     end
   end
 end
+]]>
+   </page>
+</report>

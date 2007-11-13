@@ -147,6 +147,7 @@ Public Class ExplorerUI
             Dim View As BaseView = UIs(CurrentUIIndex)
             Dim Comp As ApsimFile.Component = Controller.ApsimData.Find(View.NodePath)
             If Not IsNothing(Comp) Then
+                View.OnSave()
                 Comp.Contents = View.GetData()
             End If
         End If

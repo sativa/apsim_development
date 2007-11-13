@@ -1,9 +1,27 @@
-<?xml version="1.0"?>
-<report version="4">
-  <Data><ApsimFileReader name="Observed"><FileName type="filenames">Observed\CombinedFinalHarvest.txt</FileName><Filter name="ObsMer73"><FilterString>experiment='MER-73'</FilterString></Filter></ApsimFileReader><ApsimFileReader name="Predicted"><FileName type="filenames">Wheat_MER-73_DryN000.out</FileName><FileName type="filenames">Wheat_MER-73_DryN015.out</FileName><FileName type="filenames">Wheat_MER-73_I040N015.out</FileName><FileName type="filenames">Wheat_MER-73_I150N015.out</FileName><Filter name="PredictedHarvest"><FilterString>zadok_stage=90</FilterString></Filter></ApsimFileReader></Data>
-  <page><![CDATA[object Page1: TQuickRep
-  Left = 332
-  Top = 144
+<report version="5">
+<Data>
+<ApsimFileReader name="Observed" Left="0" Top="0">
+  <FileName type="filenames">Observed\CombinedFinalHarvest.txt</FileName>
+</ApsimFileReader>
+<ApsimFileReader name="Predicted" Left="200" Top="0">
+  <FileName type="filenames">Wheat_MER-73_DryN000.out</FileName>
+  <FileName type="filenames">Wheat_MER-73_DryN015.out</FileName>
+  <FileName type="filenames">Wheat_MER-73_I040N015.out</FileName>
+  <FileName type="filenames">Wheat_MER-73_I150N015.out</FileName>
+</ApsimFileReader>
+<Filter name="ObsMer73" Left="400" Top="0">
+  <FilterString>experiment='MER-73'</FilterString>
+  <source>Observed</source>
+</Filter>
+<Filter name="PredictedHarvest" Left="600" Top="0">
+  <FilterString>zadok_stage=90</FilterString>
+  <source>Predicted</source>
+</Filter>
+</Data>
+   <page> <![CDATA[
+object Page1: TQuickRep
+  Left = 202
+  Top = 143
   Width = 397
   Height = 561
   Frame.Color = clBlack
@@ -355,5 +373,6 @@
     end
   end
 end
-]]></page>
+]]>
+   </page>
 </report>

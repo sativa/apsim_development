@@ -116,7 +116,7 @@ namespace Graph
                 View.Name = XmlHelper.Name(NewComponent);
 
                 View.Parent = this;
-                View.ViewChanged += PublishViewChanged;
+                View.ViewChanged += OnViewChanged;
                 View.OnLoad(Controller, XmlHelper.FullPath(NewComponent), NewComponent.OuterXml);
                 
                 if (XmlHelper.Attribute(NewComponent, "Left") != "")
@@ -142,7 +142,7 @@ namespace Graph
             foreach (BaseView View in Controls)
                 View.OnRefresh();
             }
-        protected override void OnSave()
+        public override void OnSave()
             {
             // -----------------------------------------------
             // Called when it's time to save everything back
@@ -156,20 +156,41 @@ namespace Graph
                 XmlHelper.SetAttribute(Data, "Width", Width.ToString());
                 XmlHelper.SetAttribute(Data, "Height", Height.ToString());
                 XmlDocument Doc = new XmlDocument();
-                foreach (BaseView View in Controls)
+                foreach (Control ViewControl in Controls)
                     {
-                    XmlNode ChildNode = XmlHelper.Find(Data, View.Name);
-                    Doc.LoadXml(View.GetData());
-                    ChildNode.InnerXml = Doc.DocumentElement.InnerXml;
-                    XmlHelper.SetAttribute(ChildNode, "Left", View.Left.ToString());
-                    XmlHelper.SetAttribute(ChildNode, "Top", View.Top.ToString());
-                    XmlHelper.SetAttribute(ChildNode, "Width", View.Width.ToString());
-                    XmlHelper.SetAttribute(ChildNode, "Height", View.Height.ToString());
-                    if (Processor.FromApsimReport)
-                        Processor.Set(XmlHelper.Find(Data, View.Name).OuterXml);
-
+                    if (ViewControl is BaseView)
+                        {
+                        BaseView View = (BaseView)ViewControl;
+                        XmlNode ChildNode = XmlHelper.Find(Data, View.Name);
+                        Doc.LoadXml(View.GetData());
+                        ChildNode.InnerXml = Doc.DocumentElement.InnerXml;
+                        XmlHelper.SetAttribute(ChildNode, "Left", View.Left.ToString());
+                        XmlHelper.SetAttribute(ChildNode, "Top", View.Top.ToString());
+                        XmlHelper.SetAttribute(ChildNode, "Width", View.Width.ToString());
+                        XmlHelper.SetAttribute(ChildNode, "Height", View.Height.ToString());
+                        }
                     }
                 }
+            }
+        public override void OnClose()
+            {
+            OnNormalClick(null, null);
+            foreach (BaseView View in Controls)
+                {
+                View.OnClose();
+                }            
+            }
+        private void OnViewChanged(BaseView ChangedView)
+            {
+            DataProcessor.Set(ChangedView.GetData());
+            // We call onsave so that our 'Data' is completely up to date with
+            // respect to our children.
+            OnSave();
+            OnRefresh();
+
+            // Now we re-publish the event so that our parent container knows
+            // that something has changed.
+            PublishViewChanged();
             }
 
         #region ContextMenu methods
@@ -233,7 +254,7 @@ namespace Graph
             if (NewControl.Name != "")
                 {
                 string NewTypeName = Toolbox.ToolboxCtrl.SelectedItem.DisplayName;
-                XmlNode NewChild = XmlHelper.CreateNode(Data.OwnerDocument, NewTypeName, "");
+                XmlNode NewChild = Data.AppendChild(Data.OwnerDocument.CreateElement(NewTypeName));
                 XmlHelper.EnsureNodeIsUnique(NewChild);
                 if (NewTypeName.ToLower() != "page")
                     Processor.Add(NewChild.OuterXml);
@@ -241,7 +262,6 @@ namespace Graph
                 NewControl.Parent = this;
                 NewControl.Name = NewChild.Name;
                 NewControl.OnLoad(Controller, XmlHelper.FullPath(NewChild), NewChild.OuterXml);
-                NewControl.OnRefresh();
                 }
             }
         private void OnRemoveMenuItem(object sender, EventArgs e)
@@ -259,6 +279,8 @@ namespace Graph
                 Data.RemoveChild(XmlHelper.Find(Data, ComponentNameToRemove));
                 ComponentToRemove.Parent.Controls.Remove(ComponentToRemove);
                 Processor.Erase(ComponentNameToRemove);
+                OnSave();
+                PublishViewChanged();
                 Invalidate();
                 }
             }
@@ -283,15 +305,21 @@ namespace Graph
                     ComponentToRename.Name = NewName;
                     ComponentToRename.Text = NewName;
                     Processor.Rename(OldName, NewName);
-                    ComponentToRename.OnRefresh();
+                    OnSave();
+                    PublishViewChanged();
                     }
                 }
             }
         private void OnNormalClick(object sender, EventArgs e)
             {
-            IComponentChangeService iccs = (IComponentChangeService)FormDesigner.DesignerHost.GetService(typeof(IComponentChangeService));
-            iccs.ComponentAdded -= OnControlAdded;
-            FormDesigner.Active = false;
+            if (FormDesigner.Active)
+                {
+                IComponentChangeService iccs = (IComponentChangeService)FormDesigner.DesignerHost.GetService(typeof(IComponentChangeService));
+                iccs.ComponentAdded -= OnControlAdded;
+                FormDesigner.Active = false;
+                OnSave();
+                PublishViewChanged();
+                }
             Mode = PageMode.Normal;
 
             Toolbox.Visible = false;
@@ -336,8 +364,20 @@ namespace Graph
                 NewSourceNode.InnerText = SourceName;
                 ChildData.AppendChild(NewSourceNode);
                 }
+
+            // we need to give the new xml to the child control again.
+            Control[] ThisControl = Controls.Find(ThisControlName, false);
+            if (ThisControl.Length == 1)
+                {
+                BaseView Cntl = (BaseView)ThisControl[0];
+                Cntl.OnLoad(Controller, NodePath, ChildData.OuterXml);
+                }
+
+            // give the new xml to the data processor and then refresh everything.
+            Processor.Set(ChildData.OuterXml);
             Invalidate();
-            PublishViewChanged(Data);
+            OnRefresh();
+            PublishViewChanged();
             }
         #endregion
 
@@ -353,13 +393,13 @@ namespace Graph
             }
         private void DrawArrows(PaintEventArgs e)
             {
-            foreach (XmlNode Child in XmlHelper.ChildNodes(Data, null))
+            foreach (XmlNode Child in XmlHelper.ChildNodes(Data, ""))
                 foreach (XmlNode Source in XmlHelper.ChildNodes(Child, "source"))
                     {
                     if (Source.InnerText != "")
                         {
                         Control[] FromCtrl = Controls.Find(Source.InnerText, true);
-                        Control[] ToCtrl = Controls.Find(Child.Name, true);
+                        Control[] ToCtrl = Controls.Find(XmlHelper.Name(Child), true);
                         if (FromCtrl.Length == 1 && ToCtrl.Length == 1)
                             DrawArrowBetweenControls(FromCtrl[0], ToCtrl[0], e);
                         }
@@ -418,7 +458,6 @@ namespace Graph
             Arrow.DrawArrow(e.Graphics, Pens.Blue, Brushes.LightBlue, x1, y1, x2, y2);
             }
         #endregion
-
 
 
         }

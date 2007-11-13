@@ -234,7 +234,7 @@ Public Class FileUI
         End If
     End Sub
 
-    Protected Overrides Sub OnSave()
+    Public Overrides Sub OnSave()
         If XmlHelper.Type(Data) = "ini" Then
             Dim FileName As String = XmlHelper.Value(Data, "filename")
             If FileName <> "" Then

@@ -87,7 +87,7 @@ namespace Graph
             if (!InRefresh)
                 {
                 XmlHelper.SetValue(Data, "X", XDropDown.Text);
-                PublishViewChanged(Data);
+                PublishViewChanged();
                 }
             }
         private void OnTypeChanged(object sender, EventArgs e)
@@ -96,7 +96,7 @@ namespace Graph
                 {
                 XmlHelper.SetValue(Data, "SeriesType", TypeCombo.Text);
                 PointCombo.Enabled = (TypeCombo.Text != "Bar");
-                PublishViewChanged(Data);
+                PublishViewChanged();
                 }
             }
         private void OnPointChanged(object sender, EventArgs e)
@@ -104,7 +104,7 @@ namespace Graph
             if (!InRefresh)
                 {
                 XmlHelper.SetValue(Data, "PointType", PointCombo.Text);
-                PublishViewChanged(Data);
+                PublishViewChanged();
                 }
             }
 
@@ -138,7 +138,7 @@ namespace Graph
                 if (Y5.Text != "" && Y5Right.Checked)
                     Values.Add(Y5.Text);
                 XmlHelper.SetValues(Data, "YRight", Values);
-                PublishViewChanged(Data);
+                PublishViewChanged();
                 }
             }
 

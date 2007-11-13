@@ -29,8 +29,8 @@ namespace Graph
         private void InitializeComponent()
             {
             this.GroupBox = new System.Windows.Forms.GroupBox();
-            this.label1 = new System.Windows.Forms.Label();
             this.FilterBox = new System.Windows.Forms.TextBox();
+            this.label1 = new System.Windows.Forms.Label();
             this.GroupBox.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -39,12 +39,22 @@ namespace Graph
             this.GroupBox.Controls.Add(this.FilterBox);
             this.GroupBox.Controls.Add(this.label1);
             this.GroupBox.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.GroupBox.Location = new System.Drawing.Point(0, 0);
+            this.GroupBox.Location = new System.Drawing.Point(0, 18);
             this.GroupBox.Name = "GroupBox";
-            this.GroupBox.Size = new System.Drawing.Size(275, 68);
+            this.GroupBox.Size = new System.Drawing.Size(135, 74);
             this.GroupBox.TabIndex = 2;
             this.GroupBox.TabStop = false;
             this.GroupBox.Text = "GroupBox";
+            // 
+            // FilterBox
+            // 
+            this.FilterBox.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom)
+                        | System.Windows.Forms.AnchorStyles.Left)
+                        | System.Windows.Forms.AnchorStyles.Right)));
+            this.FilterBox.Location = new System.Drawing.Point(6, 41);
+            this.FilterBox.Name = "FilterBox";
+            this.FilterBox.Size = new System.Drawing.Size(126, 20);
+            this.FilterBox.TabIndex = 1;
             // 
             // label1
             // 
@@ -55,22 +65,11 @@ namespace Graph
             this.label1.TabIndex = 0;
             this.label1.Text = "Filter:";
             // 
-            // FilterBox
-            // 
-            this.FilterBox.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom)
-                        | System.Windows.Forms.AnchorStyles.Left)
-                        | System.Windows.Forms.AnchorStyles.Right)));
-            this.FilterBox.Location = new System.Drawing.Point(6, 41);
-            this.FilterBox.Name = "FilterBox";
-            this.FilterBox.Size = new System.Drawing.Size(266, 20);
-            this.FilterBox.TabIndex = 1;
-            this.FilterBox.TextChanged += new System.EventHandler(this.OnFilterChanged);
-            // 
             // FilterUI
             // 
             this.Controls.Add(this.GroupBox);
             this.Name = "FilterUI";
-            this.Size = new System.Drawing.Size(275, 68);
+            this.Size = new System.Drawing.Size(135, 92);
             this.Controls.SetChildIndex(this.GroupBox, 0);
             this.GroupBox.ResumeLayout(false);
             this.GroupBox.PerformLayout();

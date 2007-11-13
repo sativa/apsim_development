@@ -1,61 +1,69 @@
-<report version="4">
+<report version="5">
 <Data>
-   <ApsimFileReader name="ApsimFileReader1">
+<ApsimFileReader name="ApsimFileReader1" Left="0" Top="0">
       <FileName type="filenames">MarathonLawes97Leaf.txt</FileName>
-      <Filter name="Filter1">
-         <FilterString>Planting = 1</FilterString>
-      </Filter>
-      <Filter name="Filter2">
-         <FilterString>Planting = 2</FilterString>
-      </Filter>
-      <Filter name="Filter3">
-         <FilterString>Planting = 3</FilterString>
-      </Filter>
-      <Filter name="Filter4">
-         <FilterString>Planting = 4</FilterString>
-      </Filter>
-      <Filter name="Filter5">
-         <FilterString>Planting = 5</FilterString>
-      </Filter>
-      <Filter name="Filter6">
-         <FilterString>Planting = 6</FilterString>
-      </Filter>
-      <Filter name="Filter7">
-         <FilterString>Planting = 7</FilterString>
-      </Filter>
-      <Filter name="Filter8">
-         <FilterString>Planting = 8</FilterString>
-      </Filter>
+      
+      
+      
+      
+      
+      
+      
+      
    </ApsimFileReader>
-   <ApsimFileReader name="ApsimPlanting1">
+<ApsimFileReader name="ApsimPlanting1" Left="200" Top="0">
       <FileName type="filenames">Marathon1997 Planting1.out</FileName>
    </ApsimFileReader>
-   <ApsimFileReader name="ApsimPlanting2">
+<ApsimFileReader name="ApsimPlanting2" Left="400" Top="0">
       <FileName type="filenames">Marathon1997 Planting2.out</FileName>
    </ApsimFileReader>
-   <ApsimFileReader name="ApsimPlanting3">
+<ApsimFileReader name="ApsimPlanting3" Left="600" Top="0">
       <FileName type="filenames">Marathon1997 Planting3.out</FileName>
    </ApsimFileReader>
-   <ApsimFileReader name="ApsimPlanting4">
+<ApsimFileReader name="ApsimPlanting4" Left="0" Top="200">
       <FileName type="filenames">Marathon1997 Planting4.out</FileName>
    </ApsimFileReader>
-   <ApsimFileReader name="ApsimPlanting5">
+<ApsimFileReader name="ApsimPlanting5" Left="200" Top="200">
       <FileName type="filenames">Marathon1997 Planting5.out</FileName>
    </ApsimFileReader>
-   <ApsimFileReader name="ApsimPlanting6">
+<ApsimFileReader name="ApsimPlanting6" Left="400" Top="200">
       <FileName type="filenames">Marathon1997 Planting6.out</FileName>
    </ApsimFileReader>
-   <ApsimFileReader name="ApsimPlanting7">
+<ApsimFileReader name="ApsimPlanting7" Left="600" Top="200">
       <FileName type="filenames">Marathon1997 Planting7.out</FileName>
    </ApsimFileReader>
-   <ApsimFileReader name="ApsimPlanting8">
+<ApsimFileReader name="ApsimPlanting8" Left="0" Top="400">
       <FileName type="filenames">Marathon1997 Planting8.out</FileName>
    </ApsimFileReader>
+<Filter name="Filter1" Left="200" Top="400">
+         <FilterString>Planting = 1</FilterString>
+      <source>ApsimFileReader1</source></Filter>
+<Filter name="Filter2" Left="400" Top="400">
+         <FilterString>Planting = 2</FilterString>
+      <source>ApsimFileReader1</source></Filter>
+<Filter name="Filter3" Left="600" Top="400">
+         <FilterString>Planting = 3</FilterString>
+      <source>ApsimFileReader1</source></Filter>
+<Filter name="Filter4" Left="0" Top="600">
+         <FilterString>Planting = 4</FilterString>
+      <source>ApsimFileReader1</source></Filter>
+<Filter name="Filter5" Left="200" Top="600">
+         <FilterString>Planting = 5</FilterString>
+      <source>ApsimFileReader1</source></Filter>
+<Filter name="Filter6" Left="400" Top="600">
+         <FilterString>Planting = 6</FilterString>
+      <source>ApsimFileReader1</source></Filter>
+<Filter name="Filter7" Left="600" Top="600">
+         <FilterString>Planting = 7</FilterString>
+      <source>ApsimFileReader1</source></Filter>
+<Filter name="Filter8" Left="0" Top="800">
+         <FilterString>Planting = 8</FilterString>
+      <source>ApsimFileReader1</source></Filter>
 </Data>
    <page> <![CDATA[
 object Page1: TQuickRep
-  Left = 358
-  Top = -120
+  Left = 122
+  Top = 30
   Width = 556
   Height = 786
   Frame.Color = clBlack

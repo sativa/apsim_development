@@ -1,9 +1,38 @@
-<?xml version="1.0"?>
-<report version="4">
-  <Data><ApsimFileReader name="Low600"><FileName type="filenames">Dalby600Low.out</FileName><Probability name="Low600Prob"><FieldName type="fieldnames">yield</FieldName></Probability></ApsimFileReader><ApsimFileReader name="High600"><FileName type="filenames">Dalby600High.out</FileName><Probability name="High600Prob"><FieldName type="fieldnames">yield</FieldName></Probability></ApsimFileReader><ApsimFileReader name="Low1500"><FileName type="filenames">Dalby1500Low.out</FileName><Probability name="Low1500Prob"><FieldName type="fieldnames">yield</FieldName></Probability></ApsimFileReader><ApsimFileReader name="High1500"><FileName type="filenames">Dalby1500High.out</FileName><Probability name="High1500Prob"><FieldName type="fieldnames">yield</FieldName></Probability></ApsimFileReader></Data>
-  <page><![CDATA[object Page1: TQuickRep
-  Left = 51
-  Top = 0
+<report version="5">
+<Data>
+<ApsimFileReader name="Low600" Left="0" Top="0">
+    <FileName type="filenames">Dalby600Low.out</FileName>
+  </ApsimFileReader>
+<ApsimFileReader name="High600" Left="200" Top="0">
+    <FileName type="filenames">Dalby600High.out</FileName>
+  </ApsimFileReader>
+<ApsimFileReader name="Low1500" Left="400" Top="0">
+    <FileName type="filenames">Dalby1500Low.out</FileName>
+  </ApsimFileReader>
+<ApsimFileReader name="High1500" Left="600" Top="0">
+    <FileName type="filenames">Dalby1500High.out</FileName>
+  </ApsimFileReader>
+<Probability name="Low600Prob" Left="0" Top="200">
+    <FieldName type="fieldnames">yield</FieldName>
+    <source>Low600</source>
+  </Probability>
+<Probability name="High600Prob" Left="200" Top="200">
+    <FieldName type="fieldnames">yield</FieldName>
+    <source>High600</source>
+  </Probability>
+<Probability name="Low1500Prob" Left="400" Top="200">
+    <FieldName type="fieldnames">yield</FieldName>
+    <source>Low1500</source>
+  </Probability>
+<Probability name="High1500Prob" Left="600" Top="200">
+    <FieldName type="fieldnames">yield</FieldName>
+    <source>High1500</source>
+  </Probability>
+</Data>
+   <page> <![CDATA[
+object Page1: TQuickRep
+  Left = 74
+  Top = 1
   Width = 653
   Height = 845
   Frame.Color = clBlack
@@ -312,5 +341,6 @@
     end
   end
 end
-]]></page>
+]]>
+   </page>
 </report>

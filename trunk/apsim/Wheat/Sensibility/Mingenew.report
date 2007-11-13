@@ -1,9 +1,24 @@
-<?xml version="1.0"?>
 <report version="4">
-  <Data><ApsimFileReader name="RedSCL"><FileName type="filenames">Mingenew300RedSCL.out</FileName><Probability name="RedSCLProb"><FieldName type="fieldnames">yield</FieldName></Probability></ApsimFileReader><ApsimFileReader name="Gunnedah1500"><FileName type="filenames">Mingenew300Sand.out</FileName><Probability name="SandProb"><FieldName type="fieldnames">yield</FieldName></Probability></ApsimFileReader></Data>
-  <page><![CDATA[object Page1: TQuickRep
-  Left = 196
-  Top = 26
+<Data>
+<ApsimFileReader name="RedSCL" Left="299" Top="13" Width="155" Height="78">
+  <FileName type="filenames">Mingenew300RedSCL.out</FileName>
+</ApsimFileReader>
+<ApsimFileReader name="Gunnedah1500" Left="3" Top="13" Width="147" Height="85">
+  <FileName type="filenames">Mingenew300Sand.out</FileName>
+</ApsimFileReader>
+<Probability name="RedSCLProb" Left="299" Top="177" Width="180" Height="229">
+  <FieldName type="fieldnames">yield</FieldName>
+  <source>RedSCL</source>
+</Probability>
+<Probability name="SandProb" Left="3" Top="177" Width="180" Height="229">
+  <FieldName type="fieldnames">yield</FieldName>
+  <source>Gunnedah1500</source>
+</Probability>
+</Data>
+   <page> <![CDATA[
+object Page1: TQuickRep
+  Left = 222
+  Top = -137
   Width = 556
   Height = 786
   Frame.Color = clBlack
@@ -380,5 +395,6 @@
     end
   end
 end
-]]></page>
+]]>
+   </page>
 </report>
