@@ -50,8 +50,8 @@ Component   "chickpea" = c:\development\apsim\Plant\lib\Plant.dll
         soilwat2.sw(1-10)
         soiln2.no3ppm(1-6)
         soiln2.nh4ppm(1-6)
-        chickpea.n_conc_leaf
-        chickpea.n_conc_stem
+        chickpea.LeafGreenNConc
+        chickpea.StemGreenNConc
         chickpea.n_conc_grain
 
      Output file = g2_00_w1.out
