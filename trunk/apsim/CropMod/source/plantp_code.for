@@ -370,7 +370,7 @@ c     :     ,1000.)          ! Upper Limit for bound checking
      :                             , '(%)'
      :                             , p_conc)
 
-      elseif (variable_name .eq. 'p_conc_leaf') then
+      elseif (variable_name .eq. 'LeafGreenPConc') then
          p_conc = divide (g%part_p_green(leaf)
      :                  , g%dm_green(leaf)
      :                  , 0.0) * 100.0
@@ -378,7 +378,7 @@ c     :     ,1000.)          ! Upper Limit for bound checking
      :                             , '(%)'
      :                             , p_conc)
 
-      elseif (variable_name .eq. 'p_conc_stem') then
+      elseif (variable_name .eq. 'StemGreenPConc') then
          p_conc = divide (g%part_p_green(stem)
      :                  , g%dm_green(stem)
      :                  , 0.0) * 100.0

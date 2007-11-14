@@ -146,11 +146,6 @@ command = SearchReplace(report, "(\W)p_conc_root(\W)","$1RootGreenPConc$2")
 command = SearchReplace(tracker, "(\W)p_conc_root(\W)","$1RootGreenPConc$2")
 command = SearchReplace(manager, "(\W)p_conc_root(\W)","$1RootGreenPConc$2")
 
-[Renamed variable: p_conc_grain to GrainGreenPConc]
-command = SearchReplace(report, "(\W)p_conc_grain(\W)","$1GrainGreenPConc$2")
-command = SearchReplace(tracker, "(\W)p_conc_grain(\W)","$1GrainGreenPConc$2")
-command = SearchReplace(manager, "(\W)p_conc_grain(\W)","$1GrainGreenPConc$2")
-
 ;SENESCED STUFF
 ------------------------------ DM ---------------------------------------------
 
