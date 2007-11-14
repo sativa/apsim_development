@@ -3906,7 +3906,7 @@ cpdev. One of these is right. I don't know which...
          call respond2get_real_var (
      :        'green_leaf',
      :        '(kg/ha)', g%dm_green(leaf))
-      elseif (variable_name .eq. 'dm_green_leaf') then
+      elseif (variable_name .eq. 'LeafGreenWt') then
          call respond2get_real_var (
      :        variable_name,
      :        '(g/m^2)', g%dm_green(leaf) * kg2gm / ha2sm)
@@ -3915,7 +3915,7 @@ cpdev. One of these is right. I don't know which...
          call respond2get_real_var (
      :        'green_stem',
      :        '(kg/ha)', g%dm_green(stem))
-      elseif (variable_name .eq. 'dm_green_stem') then
+      elseif (variable_name .eq. 'StemGreenWt') then
          call respond2get_real_var (
      :        variable_name,
      :        '(kg/ha)', g%dm_green(stem)* kg2gm / ha2sm)
@@ -3939,7 +3939,7 @@ cpdev. One of these is right. I don't know which...
          call respond2get_real_var (
      :        'dead_leaf',
      :        '(kg/ha)', g%dm_dead(leaf))
-      elseif (variable_name .eq. 'dm_senesced_leaf') then
+      elseif (variable_name .eq. 'LeafSenescedWt') then
          call respond2get_real_var (
      :        variable_name,
      :        '(kg/ha)', g%dm_dead(leaf) * kg2gm / ha2sm)
@@ -3948,7 +3948,7 @@ cpdev. One of these is right. I don't know which...
          call respond2get_real_var (
      :        'dead_stem',
      :        '(kg/ha)', g%dm_dead(stem))
-      elseif (variable_name .eq. 'dm_senesced_stem') then
+      elseif (variable_name .eq. 'StemSenescedWt') then
          call respond2get_real_var (
      :        variable_name,
      :        '(kg/ha)', g%dm_dead(stem) * kg2gm / ha2sm)

@@ -111,11 +111,11 @@ void grazComponent::onPrepare(void)
    else
       prefix = pasture_source + ".";
 
-   scienceAPI.get(prefix + "dm_green_leaf",    "g/m^2", false, green_leaf,   (float)0.0, (float)10000.0);
-   scienceAPI.get(prefix + "dm_green_stem",    "g/m^2", false, green_stem,   (float)0.0, (float)10000.0);
+   scienceAPI.get(prefix + "LeafGreenWt",    "g/m^2", false, green_leaf,   (float)0.0, (float)10000.0);
+   scienceAPI.get(prefix + "StemGreenWt",    "g/m^2", false, green_stem,   (float)0.0, (float)10000.0);
    // NB. This ignores dm_dead_xx - dm attached to dead plants. FIXME!!
-   scienceAPI.get(prefix + "dm_senesced_leaf", "g/m^2", false, dead_leaf,    (float)0.0, (float)10000.0);
-   scienceAPI.get(prefix + "dm_senesced_stem", "g/m^2", false, dead_stem,    (float)0.0, (float)10000.0);
+   scienceAPI.get(prefix + "LeafSenescedWt", "g/m^2", false, dead_leaf,    (float)0.0, (float)10000.0);
+   scienceAPI.get(prefix + "StemSenescedWt", "g/m^2", false, dead_stem,    (float)0.0, (float)10000.0);
    scienceAPI.get("growth",           "kg/ha", false, grass_growth, (float)0.0, (float)10000.0);
    
    // Set deltas
