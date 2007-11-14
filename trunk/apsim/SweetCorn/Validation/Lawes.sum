@@ -20,7 +20,8 @@ Component      "accum" = c:\development\apsim\accum\lib\accum.dll
 Component "operations" = c:\development\apsim\operatns\lib\operatns.dll
 Component "fertiliser" = c:\development\apsim\fertiliz\lib\fertiliz.dll
 Component "Irrigation" = c:\development\apsim\irrigate\lib\irrigate.dll
-Component    "manager" = c:\development\apsim\manager\lib\manager.dll
+Component "Harvesting rule" = c:\development\apsim\manager\lib\manager.dll
+Component "Sow on a fixed date" = c:\development\apsim\manager\lib\manager.dll
 Component "DPIGatton Water" = c:\development\apsim\soilwat2\lib\soilwat2.dll
 Component "surface organic matter" = c:\development\apsim\surfaceom\lib\surfaceom.dll
 Component "DPIGatton Nitrogen" = c:\development\apsim\soiln2\lib\soiln2.dll
@@ -32,7 +33,8 @@ Component      "accum" = c:\development\apsim\accum\lib\accum.dll
 Component "operations" = c:\development\apsim\operatns\lib\operatns.dll
 Component "fertiliser" = c:\development\apsim\fertiliz\lib\fertiliz.dll
 Component "Irrigation" = c:\development\apsim\irrigate\lib\irrigate.dll
-Component    "manager" = c:\development\apsim\manager\lib\manager.dll
+Component "Harvesting rule" = c:\development\apsim\manager\lib\manager.dll
+Component "Sow on a fixed date" = c:\development\apsim\manager\lib\manager.dll
 Component "DPIGatton Water" = c:\development\apsim\soilwat2\lib\soilwat2.dll
 Component "surface organic matter" = c:\development\apsim\surfaceom\lib\surfaceom.dll
 Component "DPIGatton Nitrogen" = c:\development\apsim\soiln2\lib\soiln2.dll
@@ -167,7 +169,7 @@ Component  "SweetCorn" = c:\development\apsim\plant\lib\plant.dll
            Irrigation Allocation Budget (Disabled)
           -----------------------------------------------
 
-------- manager Initialisation ------------------------------------------------
+------- Harvesting rule Initialisation ----------------------------------------
      Manager rules:
      
      SECTION:- end_of_day
@@ -175,6 +177,11 @@ Component  "SweetCorn" = c:\development\apsim\plant\lib\plant.dll
        sweetcorn  harvest
        sweetcorn  end_crop
                 endif
+     END of rules
+     
+
+------- Sow on a fixed date Initialisation ------------------------------------
+     Manager rules:
      
      SECTION:- start_of_day
            if (today = date('21-nov') then
@@ -457,7 +464,7 @@ Component  "SweetCorn" = c:\development\apsim\plant\lib\plant.dll
            Irrigation Allocation Budget (Disabled)
           -----------------------------------------------
 
-------- manager Initialisation ------------------------------------------------
+------- Harvesting rule Initialisation ----------------------------------------
      Manager rules:
      
      SECTION:- end_of_day
@@ -465,6 +472,11 @@ Component  "SweetCorn" = c:\development\apsim\plant\lib\plant.dll
        sweetcorn  harvest
        sweetcorn  end_crop
                 endif
+     END of rules
+     
+
+------- Sow on a fixed date Initialisation ------------------------------------
+     Manager rules:
      
      SECTION:- start_of_day
            if (today = date('21-nov') then
@@ -643,7 +655,7 @@ Component  "SweetCorn" = c:\development\apsim\plant\lib\plant.dll
      
      
 ------- Start of simulation  --------------------------------------------------
-21 November 2005(Day of year=325), manager: 
+21 November 2005(Day of year=325), Sow on a fixed date: 
      Manager sending message :- sweetcorn sow  plants = 5.7, sowing_depth = 50, cultivar = h5, row_spacing = 700
 21 November 2005(Day of year=325), SweetCorn: 
      Crop Sow
@@ -742,7 +754,7 @@ Component  "SweetCorn" = c:\development\apsim\plant\lib\plant.dll
             325   50.0    5.7  700.0   0.0   0.0 h5
          ------------------------------------------------
      
-21 November 2005(Day of year=325), manager: 
+21 November 2005(Day of year=325), Sow on a fixed date: 
      Manager sending message :- sweetcorn sow  plants = 5.7, sowing_depth = 50, cultivar = h5, row_spacing = 700
 21 November 2005(Day of year=325), SweetCorn: 
      Crop Sow
