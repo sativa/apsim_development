@@ -477,7 +477,7 @@
       dummy = add_registration_with_units(respondToGetReg,
      :              'StemGreenPConc', floatTypeDDML, '%')
       dummy = add_registration_with_units(respondToGetReg,
-     :              'p_conc_grain', floatTypeDDML, '%')
+     :              'GrainGreenPConc', floatTypeDDML, '%')
       dummy = add_registration_with_units(respondToGetReg,
      :              'p_grain_pcnt', floatTypeDDML, '%')
       dummy = add_registration_with_units(respondToGetReg,

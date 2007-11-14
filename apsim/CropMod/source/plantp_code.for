@@ -386,7 +386,7 @@ c     :     ,1000.)          ! Upper Limit for bound checking
      :                             , '(%)'
      :                             , p_conc)
 
-      elseif (variable_name .eq. 'p_conc_grain'
+      elseif (variable_name .eq. 'GrainGreenPConc'
      :   .or. variable_name .eq. 'p_grain_pcnt') then
          p_conc = divide (g%part_p_green(grain)
      :                  , g%dm_green(grain)
