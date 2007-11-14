@@ -627,21 +627,21 @@ void plantPart::doRemoveBiomass(protocol::RemoveCropDmType dmRemoved, string &c_
     {
        for (unsigned int part = 0; part < dmRemoved.dm[pool].part.size(); part++)
        {
-          if (dmRemoved.dm[pool].pool == "green")
+          if (Str_i_Eq(dmRemoved.dm[pool].pool, "green"))
           {
-             if (dmRemoved.dm[pool].part[part] == c.name)       {giveDmGreenRemoved(dmRemoved.dm[pool].dlt[part]); }
+             if (Str_i_Eq(dmRemoved.dm[pool].part[part], c.name))       {giveDmGreenRemoved(dmRemoved.dm[pool].dlt[part]); }
              else {  /* not my part */ }
           }
 
-          else if (dmRemoved.dm[pool].pool == "senesced")
+          else if (Str_i_Eq(dmRemoved.dm[pool].pool, "senesced"))
           {
-             if (dmRemoved.dm[pool].part[part] == c.name)       {giveDmSenescedRemoved(dmRemoved.dm[pool].dlt[part]); }
+             if (Str_i_Eq(dmRemoved.dm[pool].part[part], c.name))       {giveDmSenescedRemoved(dmRemoved.dm[pool].dlt[part]); }
              else { /* not my part */ }
           }
 
-          else if (dmRemoved.dm[pool].pool == "dead")
+          else if (Str_i_Eq(dmRemoved.dm[pool].pool, "dead"))
           {
-             if (dmRemoved.dm[pool].part[part] == c.name && dmRemoved.dm[pool].dlt[part] != 0.0)       {throw std::runtime_error(c.name + " cannot have dead dm removed "); }
+             if (Str_i_Eq(dmRemoved.dm[pool].part[part], c.name) && dmRemoved.dm[pool].dlt[part] != 0.0)       {throw std::runtime_error(c.name + " cannot have dead dm removed "); }
              else { /* not my part */ }
           }
           else { /* unknown type */ }
