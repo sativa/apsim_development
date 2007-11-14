@@ -212,7 +212,7 @@ void FruitCohort::get_head_wt(protocol::Component *system, protocol::QueryValueD
 void FruitCohort::get_head_n(protocol::Component *system, protocol::QueryValueData &qd)
    //===========================================================================
 {
-   system->sendVariable(qd, GrainTotal().N + Vegetative().N);  // Why not VegetativeTotal ????
+   system->sendVariable(qd, Grain().N + Vegetative().N);  // Why not VegetativeTotal ????
 }
 
 void FruitCohort::get_pod_n(protocol::Component *systemInterface, protocol::QueryValueData &qd)     //put in pod
