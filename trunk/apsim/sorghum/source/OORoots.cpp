@@ -47,7 +47,7 @@ void Roots::doRegistrations(void)
    setupGetVar("root_wt", dmGreen, "g/m2", "Live root dry weight");
    setupGetVar("groot_n", nGreen, "g/m2", "N in live root");
    setupGetVar("troot_n", nTotal, "g/m2", "N in live and dead roots");
-   setupGetVar("n_conc_root", nConc, "%", "Live root N concentration");
+   setupGetVar("RootGreenNConc", nConc, "%", "Live root N concentration");
    setupGetVar("droot_wt", dmSenesced, "g/m2", "Dead root dry weight");
    setupGetVar("troot_wt", rootDMTot, "g/m2", "Total root dry weight");
    setupGetVar("root_nd", nDemand, "g/m2", "Today's N demand from roots");

@@ -31,10 +31,10 @@ void Stem::doRegistrations(void)
    setupGetVar("stem_wt", dmGreen, "g/m2", "Stem dry weight");
    setupGetVar("stem_n", nGreen, "g/m2", "N in stem");
    setupGetVar("dlt_n_retrans_stem", dltNRetranslocate, "g/m2", "Nitrogen retranslocated from stem to grain");
-   setupGetVar("n_conc_stem", nConc, "%", "Stem N concentration");
+   setupGetVar("StemGreenNConc", nConc, "%", "Stem N concentration");
    setupGetVar("stem_nd", nDemand, "g/m2", "Today's N demand from the stem");
    setupGetVar("dlt_n_green_stem", dltNGreen, "g/m2", "Today's N increase in stem");
-   setupGetVar("n_conc_stem", nConc, "%", "Live stem N concentration");
+   setupGetVar("StemGreenNConc", nConc, "%", "Live stem N concentration");
 
 #undef setupGetVar
    }

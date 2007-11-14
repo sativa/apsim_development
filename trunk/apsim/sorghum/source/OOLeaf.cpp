@@ -51,7 +51,7 @@ void Leaf::doRegistrations(void)
    setupGetVar("tleaf_n", nTotal, "g/m2", "Total N in live and dead leaf");
    setupGetVar("sln",SLN, "g(N)/m2(leaf)", "Specific leaf nitrogen");
    setupGetVar("dlt_n_retrans_leaf", dltNRetranslocate, "g/m2", "Nitrogen retranslocated from leaf to the grain");
-   setupGetVar("n_conc_leaf", nConc, "%", "N concentration in live leaf");
+   setupGetVar("LeafGreenNConc", nConc, "%", "N concentration in live leaf");
    setupGetVar("leaf_nd", nDemand, "g/m2", "Today's N demand from leaves");
    setupGetVar("dlt_n_green_leaf", dltNGreen, "g/m2", "Daily N increase in leaves");
    setupGetVar("dlt_leaf_no", dltLeafNo, "lvs/d", "Fraction of oldest leaf expanded");
