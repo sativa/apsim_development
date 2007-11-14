@@ -34,7 +34,7 @@ void Rachis::doRegistrations(void)
 #define setupGetVar plantInterface->addGettableVar
    setupGetVar("flower_wt", dmGreen, "g/m2", "Live flower dry weight");
    setupGetVar("flower_n", nGreen, "g/m2", "N in flower");
-   setupGetVar("n_conc_flower", nConc, "", "Flower N concentration");
+   setupGetVar("FlowerGreenNConc", nConc, "", "Flower N concentration");
    setupGetVar("flower_nd", nDemand, "g/m2", "Today's N demand from flower");
 
 #undef setupGetVar   

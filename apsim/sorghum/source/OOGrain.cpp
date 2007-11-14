@@ -39,7 +39,7 @@ void Grain::doRegistrations(void)
    setupGetVar("grain_size", grainSize, "g/grain", "Individual grain weight");
    setupGetVar("grain_n", nGreen, "g/m2", "N in grain");
 //   setupGetVar("dlt_n_retrans", dltNRetranslocate, "g/m2", "Nitrogen retranslocated out from parts to grain");
-   setupGetVar("n_conc_grain", nConc, "%", "N concentration in grain");
+   setupGetVar("GrainGreenNConc", nConc, "%", "N concentration in grain");
    setupGetVar("grain_nd", nDemand, "g/m2", "Today's N demand from grain");
 #undef setupGetVar     
    setupGetFunction(plantInterface,"n_grain_pcnt", protocol::DTsingle, false,
