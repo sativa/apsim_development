@@ -146,6 +146,15 @@ void Plant::onInit1()
     {
     plant_zero_variables (); // Zero global states
 
+   // Read the default crop class and cultivar and setup the
+   // scienceAPI.
+   scienceAPI.read("default_crop_class", c.default_crop_class);
+   string defaultCultivar;
+   scienceAPI.read("default_cultivar", defaultCultivar);
+   scienceAPI.setClass1(defaultCultivar);
+   scienceAPI.setClass2(c.default_crop_class);
+
+
     string phenologyModel;
     scienceAPI.readOptional("phenology_model", phenologyModel);
     phenology = constructPhenology(scienceAPI, this, phenologyModel);
