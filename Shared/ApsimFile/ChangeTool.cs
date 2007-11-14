@@ -433,11 +433,13 @@ namespace ApsimFile
             {
             foreach (XmlNode Child in XmlHelper.ChildNodes(RealNode, ""))
                 {
-                if (Config.IsComponentVisible(Child.Name))
+                if (Config.IsComponentVisible(Child.Name) || Child.Name == "rule")
                     {
                     XmlNode NewNode = ShortCutNode.AppendChild(ShortCutNode.OwnerDocument.CreateElement(Child.Name));
                     string ShortCutPath = XmlHelper.FullPath(RealNode) + "/" + XmlHelper.Name(Child);
+                    XmlNode RealChildNode = XmlHelper.Find(RealNode, ShortCutPath);
                     XmlHelper.SetAttribute(NewNode, "shortcut", ShortCutPath);
+                    XmlHelper.SetName(NewNode, XmlHelper.Name(RealChildNode));
                     MakeNodeShortcuts(NewNode, Child, Config);
                     }
                 }
@@ -448,9 +450,13 @@ namespace ApsimFile
                 {
                 XmlNode NewManagerNode = Data.ParentNode.AppendChild(Data.OwnerDocument.CreateElement("folder"));
                 if (XmlHelper.Attribute(Data, "shortcut") != "")
-                    XmlHelper.SetAttribute(NewManagerNode, "shortcut", XmlHelper.Attribute(Data, "shortcut"));
-                
-                if (XmlHelper.Name(Data).ToLower() == "manager")
+                    {
+                    string ShortCutPath = XmlHelper.Attribute(Data, "shortcut");
+                    XmlHelper.SetAttribute(NewManagerNode, "shortcut", ShortCutPath);
+                    XmlNode RealNode = XmlHelper.Find(Data, ShortCutPath);
+                    XmlHelper.SetName(NewManagerNode, XmlHelper.Name(RealNode));
+                    }
+                else if (XmlHelper.Name(Data).ToLower() == "manager")
                     XmlHelper.SetName(NewManagerNode, "Manager folder");
                 else
                     XmlHelper.SetName(NewManagerNode, XmlHelper.Name(Data));
@@ -459,19 +465,23 @@ namespace ApsimFile
                     XmlNode ManagerNode = NewManagerNode.AppendChild(NewManagerNode.OwnerDocument.CreateElement("manager"));
                     XmlHelper.SetName(ManagerNode, XmlHelper.Name(Rule));
                     if (XmlHelper.Attribute(Rule, "shortcut") != "")
-                        XmlHelper.SetAttribute(NewManagerNode, "shortcut", XmlHelper.Attribute(Rule, "shortcut"));
-
-                    XmlNode Condition = XmlHelper.FindByType(Rule, "condition");
-                    XmlHelper.SetValue(ManagerNode, "script/text", Condition.InnerText);
-                    XmlHelper.SetValue(ManagerNode, "script/event", XmlHelper.Name(Condition));
-
-                    XmlNode UI = ManagerNode.AppendChild(ManagerNode.OwnerDocument.CreateElement("ui"));
-                    foreach (XmlNode Category in XmlHelper.ChildNodes(Rule, "category"))
                         {
-                        XmlNode CategoryNode = UI.AppendChild(UI.OwnerDocument.CreateElement("category"));
-                        XmlHelper.SetName(CategoryNode, XmlHelper.Name(Category));
-                        foreach (XmlNode Prop in XmlHelper.ChildNodes(Category, ""))
-                            UI.AppendChild(UI.OwnerDocument.ImportNode(Prop, true));
+                        string ShortCutPath = XmlHelper.Attribute(Rule, "shortcut");
+                        XmlHelper.SetAttribute(ManagerNode, "shortcut", ShortCutPath);
+                        }
+                    else
+                        {
+                        XmlNode Condition = XmlHelper.FindByType(Rule, "condition");
+                        XmlHelper.SetValue(ManagerNode, "script/text", Condition.InnerText);
+                        XmlHelper.SetValue(ManagerNode, "script/event", XmlHelper.Name(Condition));
+                        XmlNode UI = ManagerNode.AppendChild(ManagerNode.OwnerDocument.CreateElement("ui"));
+                        foreach (XmlNode Category in XmlHelper.ChildNodes(Rule, "category"))
+                            {
+                            XmlNode CategoryNode = UI.AppendChild(UI.OwnerDocument.CreateElement("category"));
+                            XmlHelper.SetName(CategoryNode, XmlHelper.Name(Category));
+                            foreach (XmlNode Prop in XmlHelper.ChildNodes(Category, ""))
+                                UI.AppendChild(UI.OwnerDocument.ImportNode(Prop, true));
+                            }
                         }
                     }
                 Data.ParentNode.ReplaceChild(NewManagerNode, Data);
