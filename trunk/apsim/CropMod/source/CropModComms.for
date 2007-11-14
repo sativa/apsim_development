@@ -1982,7 +1982,7 @@ c      end if
      :                             , '(%)'
      :                             , N_conc)
 
-      elseif (variable_name .eq. 'n_conc_leaf') then
+      elseif (variable_name .eq. 'LeafGreenNConc') then
          N_conc = divide (g%N_green(leaf)
      :                  , g%dm_green(leaf)
      :                  , 0.0) * 100.
@@ -1991,7 +1991,7 @@ c      end if
      :                             , '(%)'
      :                             , N_conc)
 
-      elseif (variable_name .eq. 'n_conc_stem') then
+      elseif (variable_name .eq. 'StemGreenNConc') then
          N_conc = divide (g%N_green(stem)
      :                  , g%dm_green(stem)
      :                  , 0.0) * 100.
@@ -2000,7 +2000,7 @@ c      end if
      :                             , '(%)'
      :                             , N_conc)
 
-      elseif (variable_name .eq. 'n_conc_root') then
+      elseif (variable_name .eq. 'RootGreenNConc') then
          N_conc = divide (g%N_green(root)
      :                  , g%dm_green(root)
      :                  , 0.0) * 100.
@@ -2009,7 +2009,7 @@ c      end if
      :                             , '(%)'
      :                             , N_conc)
 
-      elseif (variable_name .eq. 'n_conc_grain') then
+      elseif (variable_name .eq. 'GrainGreenNConc') then
          N_conc = divide (g%N_green(grain)
      :                  , g%dm_green(grain)
      :                  , 0.0) * 100.
