@@ -54,9 +54,9 @@ Component    "sorghum" = c:\development\apsim\sorghum\lib\sorghum.dll
         sorghum.nfact_photo as Ns_photo
         sorghum.nfact_expan as Ns_expan
         sorghum.nfact_tiller as Ns_tiller
-        sorghum.n_conc_root
-        sorghum.n_conc_leaf
-        sorghum.n_conc_stem
+        sorghum.RootGreenNConc
+        sorghum.LeafGreenNConc
+        sorghum.StemGreenNConc
         sorghum.n_conc_grain
         sorghum.dm_green
         sorghum.dm_senesced
@@ -83,9 +83,9 @@ Component    "sorghum" = c:\development\apsim\sorghum\lib\sorghum.dll
         sorghum.dlt_p_dead()
         sorghum.dlt_p_sen()
         sorghum.p_conc_stover
-        sorghum.p_conc_leaf
-        sorghum.p_conc_stem
-        sorghum.p_conc_grain
+        sorghum.LeafGreenPConc
+        sorghum.StemGreenPConc
+        sorghum.GrainGreenPConc
         sorghum.p_uptake_stover
         sorghum.grain_p_demand
         surfaceom.surfaceom_p
