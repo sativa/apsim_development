@@ -475,7 +475,11 @@ namespace ApsimFile
                     string IniFileName = "";
                     foreach (Component Child in ChildNodes)
                         if (Child.Type.ToLower() == "ini")
-                            IniFileName = Child.Contents;
+                            {
+                            XmlDocument IniDoc = new XmlDocument();
+                            IniDoc.LoadXml(Child.Contents);
+                            IniFileName = XmlHelper.Value(IniDoc.DocumentElement, "filename");
+                            }
 
                     // If user didn't specify an ini component then see if types has an ini for us
                     if (IniFileName == "")
