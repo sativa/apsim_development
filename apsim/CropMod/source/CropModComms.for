@@ -2009,7 +2009,7 @@ c      end if
      :                             , '(%)'
      :                             , N_conc)
 
-      elseif (variable_name .eq. 'GrainGreenNConc') then
+      elseif (variable_name .eq. 'n_conc_grain') then
          N_conc = divide (g%N_green(grain)
      :                  , g%dm_green(grain)
      :                  , 0.0) * 100.

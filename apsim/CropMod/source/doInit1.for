@@ -347,11 +347,11 @@
       dummy = add_registration_with_units(respondToGetReg,
      :              'n_conc_stover', floatTypeDDML, '%')
       dummy = add_registration_with_units(respondToGetReg,
-     :              'n_conc_leaf', floatTypeDDML, '%')
+     :              'LeafGreenNConc', floatTypeDDML, '%')
       dummy = add_registration_with_units(respondToGetReg,
-     :              'n_conc_stem', floatTypeDDML, '%')
+     :              'StemGreenNConc', floatTypeDDML, '%')
       dummy = add_registration_with_units(respondToGetReg,
-     :              'n_conc_root', floatTypeDDML, '%')
+     :              'RootGreenNConc', floatTypeDDML, '%')
       dummy = add_registration_with_units(respondToGetReg,
      :              'n_conc_grain', floatTypeDDML, '%')
       dummy = add_registration_with_units(respondToGetReg,
@@ -473,9 +473,9 @@
       dummy = add_registration_with_units(respondToGetReg,
      :              'p_conc_stover', floatTypeDDML, '%')
       dummy = add_registration_with_units(respondToGetReg,
-     :              'p_conc_leaf', floatTypeDDML, '%')
+     :              'LeafGreenPConc', floatTypeDDML, '%')
       dummy = add_registration_with_units(respondToGetReg,
-     :              'p_conc_stem', floatTypeDDML, '%')
+     :              'StemGreenPConc', floatTypeDDML, '%')
       dummy = add_registration_with_units(respondToGetReg,
      :              'p_conc_grain', floatTypeDDML, '%')
       dummy = add_registration_with_units(respondToGetReg,
