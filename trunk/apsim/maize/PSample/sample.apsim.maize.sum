@@ -55,9 +55,9 @@ Component     "sysbal" = c:\development\apsim\sysbal\lib\sysbal.dll
         maize.nfact_photo as Ns_photo
         maize.nfact_expan as Ns_expan
         maize.nfact_tiller as Ns_tiller
-        maize.n_conc_root
-        maize.n_conc_leaf
-        maize.n_conc_stem
+        maize.RootGreenNConc
+        maize.LeafGreenNConc
+        maize.StemGreenNConc
         maize.n_conc_grain
         maize.dm_green()
         maize.dm_green
@@ -89,8 +89,8 @@ Component     "sysbal" = c:\development\apsim\sysbal\lib\sysbal.dll
         maize.dlt_p_dead()
         maize.dlt_p_sen()
         maize.p_conc_stover
-        maize.p_conc_leaf
-        maize.p_conc_stem
+        maize.LeafGreenPConc
+        maize.StemGreenPConc
         maize.p_conc_grain
         maize.p_uptake_stover
         maize.grain_p_demand

@@ -32,10 +32,8 @@ Component       "graz" = c:\development\apsim\graz\lib\graz.dll
 
 ------- report Initialisation -------------------------------------------------
      Output variables:
-        wheat.dm_green_leaf
-        wheat.dm_green_stem
-        wheat.dm_dead_leaf
-        wheat.dm_dead_stem
+        wheat.LeafGreenWt
+        wheat.StemGreenWt
         clock.year
         clock.day
         manager.paddockState
