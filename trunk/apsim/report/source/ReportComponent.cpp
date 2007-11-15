@@ -21,7 +21,8 @@ Field::Field (ScienceAPI& scienceAPI,
               const std::string& alias,
               const std::string& nastring,
               const std::string& format,
-              bool csv)
+              bool csv,
+              const std::string& unitsToOutput)
    : scienceAPI(&scienceAPI)
    {
    this->fqn = fqn;
@@ -31,12 +32,26 @@ Field::Field (ScienceAPI& scienceAPI,
    this->nastring = nastring;
    this->format = format;
    this->csv = csv;
+   this->unitsToOutput = unitsToOutput;
 
    if (this->units[0] != '(')
       this->units = "(" + this->units + ")";
 
-//   if (fqn.find('.') == string::npos)
-//      throw runtime_error("Invalid fqn variable name found in report variable: " + fqn);
+   if (this->unitsToOutput == "")
+      this->unitsToOutput = this->units;
+
+   if (this->unitsToOutput != "" && this->unitsToOutput[0] != '(')
+      this->unitsToOutput = "(" + this->unitsToOutput + ")";
+      
+   if (this->format == "")
+      {
+      if (this->unitsToOutput == "(g/m^2)")
+         this->format = "2";
+      else if (this->unitsToOutput == "(kg/ha)")
+         this->format = "1";
+      else 
+         this->format = "3";
+      }
    }
 
 // ------------------------------------------------------------------
@@ -85,7 +100,7 @@ void Field::writeUnits(ostream& out)
       {
       if (i > 0 && csv)
          out << ',';
-      writeValueTo(out, units, widths[i]);
+      writeValueTo(out, unitsToOutput,  widths[i]);
       }
    }
 
@@ -100,7 +115,10 @@ void Field::getValues()
    if (values.size() == 0)
       values.push_back(nastring);
    else
+      {
+      applyUnitConversion();   
       formatValues();
+      }
    }
 
 // ------------------------------------------------------------------
@@ -135,6 +153,62 @@ void Field::formatValues(void)
       }
    }
 
+// ------------------------------------------------------------------
+// Apply a simple unit conversion to all values if necessary
+// ------------------------------------------------------------------
+void Field::applyUnitConversion(void)
+   {
+   if (unitsToOutput != units)
+      {
+      for (unsigned i = 0; i != values.size(); i++)
+         {
+         if (Is_numerical(values[i].c_str()))
+            {
+            char* endptr;
+            double value = strtod(values[i].c_str(), &endptr);
+            if (*endptr == '\0')
+               {
+               bool error = false;
+               if (unitsToOutput == "(g/m^2)")
+                  {
+                  if (units == "(kg/ha)")
+                     value /= 10;
+                  else if (units == "(t/ha)")
+                     value *= 100;
+                  else
+                     error = true;
+                  }
+               else if (unitsToOutput == "(kg/ha)")
+                  {
+                  if (units == "(g/m^2)")
+                     value *= 10;
+                  else if (units == "(t/ha)")
+                     value *= 1000;
+                  else
+                     error = true;
+                  }
+               else if (unitsToOutput == "(t/ha)")
+                  {
+                  if (units == "(g/m^2)")
+                     value /= 100;
+                  else if (units == "(kg/ha)")
+                     value /= 1000;
+                  else
+                     error = true;
+                  }
+               else
+                  error = true;
+
+               if (error)
+                  throw runtime_error("Invalid unit conversion from " + units + " to " + unitsToOutput 
+                        + "\nCan only convert between (g/m^2), (kg/ha) and (t/ha)" 
+                        + "\nError occurred while outputting variable " + fqn);
+               values[i] = ftoa(value, 5);
+               }
+            }
+         }
+      }
+   }
 // ------------------------------------------------------------------
 // write this field to summary file
 // ------------------------------------------------------------------
@@ -188,6 +262,7 @@ ReportComponent::ReportComponent(ScienceAPI& scienceapi)
    outputOnThisDay = false;
    scienceAPI.subscribe("init1", nullFunction(&ReportComponent::onInit1));
    csv = false;
+   precision = 1000;
    }
 
 // ------------------------------------------------------------------
@@ -251,8 +326,6 @@ void ReportComponent::onInit2(void)
       {
       if (csv)
          precision = 6;
-      else
-         precision = 3;
       }
 
    // enumerate through all output variables
@@ -283,30 +356,23 @@ void ReportComponent::onInit2(void)
 // ------------------------------------------------------------------
 void ReportComponent::createVariable(const string& name)
    {
-   string variable = name;
-   string format, alias;
-   vector<string> variableNames;
-
-   // look for format.
-   unsigned pos = variable.find(" format ");
-   if (pos != string::npos)
+   StringTokenizer tokeniser(name, " ");
+   string variable = tokeniser.nextToken();
+   string format, alias, units;
+   string keyword = tokeniser.nextToken();
+   while (keyword != "")
       {
-      format = variable.substr(pos + strlen(" format "));
-      To_upper(format);
-      stripLeadingTrailing(format, " ");
-      variable.erase(pos);
+      if (keyword == "format")
+         {
+         format = tokeniser.nextToken();
+         To_upper(format);
+         }
+      else if (keyword == "units")
+         units = tokeniser.nextToken();
+      else if (keyword == "as")
+         alias = tokeniser.nextToken();
+      keyword = tokeniser.nextToken();
       }
-
-   // look for alias.
-   pos = variable.find(" as ");
-   if (pos != string::npos)
-      {
-      alias = variable.substr(pos + strlen(" as "));
-      stripLeadingTrailing(alias, " ");
-      variable.erase(pos);
-      }
-
-  stripLeadingTrailing(variable, " ");
 
    // find out who owns what out there in the simulation
    vector<QueryMatch> matches;
@@ -315,7 +381,7 @@ void ReportComponent::createVariable(const string& name)
    else
       scienceAPI.query(variable, matches);
 
-   if (format == "")
+   if (format == "" && precision != 1000)
       format = itoa(precision);
 
    if (matches.size() == 0)
@@ -323,7 +389,7 @@ void ReportComponent::createVariable(const string& name)
                              variable, 
                              "", 
                              alias,
-                             nastring, format, csv));
+                             nastring, format, csv, units));
    else
       {
       for (unsigned i = 0; i != matches.size(); i++)
@@ -337,7 +403,7 @@ void ReportComponent::createVariable(const string& name)
                                 matchName,
                                 matchDdml,
                                 thisAlias,
-                                nastring, format, csv));
+                                nastring, format, csv, units));
          }
       }
    }

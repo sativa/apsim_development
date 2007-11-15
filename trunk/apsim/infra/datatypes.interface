@@ -18,8 +18,8 @@
    </type>
 
    <type name="Error">
-      <field name="msg" kind="string"/>
       <field name="isFatal" kind="boolean"/>
+      <field name="msg" kind="string"/>
    </type>
    <type name="Event">
       <field name="ID" kind="integer4"/>
