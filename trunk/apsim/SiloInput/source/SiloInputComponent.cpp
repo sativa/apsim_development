@@ -88,7 +88,7 @@ void SiloInputComponent::openInputFile(void)
 
    if (statbuf.st_size == 0) 
        throw std::runtime_error("No data for station " + itoa(stationNumber) + 
-                                 " appeared in " + fileName);
+                                 " appeared from silo.\n\nIs the station number correct?");
 
    data.open(fileName);
    }
