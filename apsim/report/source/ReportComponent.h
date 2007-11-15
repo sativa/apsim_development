@@ -20,7 +20,8 @@ class Field
              const std::string& alias,
              const std::string& nastring,
              const std::string& format,
-             bool csv);
+             bool csv,
+             const std::string& unitsToOutput);
 
       void writeHeadings(std::ostream& out);
       void writeUnits(std::ostream& out);
@@ -36,13 +37,15 @@ class Field
       std::string nastring;
       std::string format;
       bool csv;
-
+      std::string unitsToOutput;
+      
       std::vector<unsigned> widths;
       std::vector<string> values;
 
       void getValues();
       void writeValueTo(std::ostream& out, const std::string& value, unsigned fieldWidth);
       void formatValues(void);
+      void applyUnitConversion(void);
    };
 // ------------------------------------------------------------------
 // Main report component
