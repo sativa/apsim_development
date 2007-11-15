@@ -11,16 +11,16 @@
 
 Version                = 5.4
 Title                  = Pasture PI SAMPLE Simulation
-Component        "Log" = c:\development\apsim\log\lib\log.dll
-Component      "clock" = c:\development\apsim\clock\lib\clock.dll
-Component        "Met" = c:\development\apsim\Input\lib\Input.dll
-Component     "report" = c:\development\apsim\report\lib\report.dll
-Component    "manager" = c:\development\apsim\manager\lib\manager.dll
-Component   "soilwat2" = c:\development\apsim\soilwat2\lib\soilwat2.dll
-Component     "soiln2" = c:\development\apsim\soiln2\lib\soiln2.dll
-Component "FarmwiseSequencer" = c:\development\apsim\\FarmwiseSequencer\lib\FarmwiseSequencerConverter.dll
-Component "pastureConverter" = c:\development\apsim\pasture\lib\PastureScienceConverter.dll
-Component    "Pasture" = C:\Program Files\AusFarm\PASTURE.dll
+Component        "Log" = c:\data\apsim\development\apsim\log\lib\log.dll
+Component      "clock" = c:\data\apsim\development\apsim\clock\lib\clock.dll
+Component        "Met" = c:\data\apsim\development\apsim\Input\lib\Input.dll
+Component     "report" = c:\data\apsim\development\apsim\report\lib\report.dll
+Component    "manager" = c:\data\apsim\development\apsim\manager\lib\manager.dll
+Component   "soilwat2" = c:\data\apsim\development\apsim\soilwat2\lib\soilwat2.dll
+Component     "soiln2" = c:\data\apsim\development\apsim\soiln2\lib\soiln2.dll
+Component "FarmwiseSequencer" = c:\data\apsim\development\apsim\\FarmwiseSequencer\lib\FarmwiseSequencerConverter.dll
+Component "pastureConverter" = c:\data\apsim\development\apsim\pasture\lib\PastureScienceConverter.dll
+Component    "Pasture" = C:\Program Files\FarmWise\PASTURE.dll
 
 ------- clock Initialisation --------------------------------------------------
      Sequencer phases:
@@ -33,7 +33,7 @@ Component    "Pasture" = C:\Program Files\AusFarm\PASTURE.dll
 
 ------- Met Initialisation ----------------------------------------------------
      Sparse data is not allowed
-     INPUT File name: c:\development\apsim\met\sample\dalby.met
+     INPUT File name: c:\data\apsim\development\apsim\met\sample\dalby.met
 
 ------- report Initialisation -------------------------------------------------
      Output frequency:
@@ -206,20 +206,7220 @@ Component    "Pasture" = C:\Program Files\AusFarm\PASTURE.dll
 
 ------- pastureConverter Initialisation ---------------------------------------
       - reading parameters
-     !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-                      APSIM  Fatal  Error
-                      -------------------
-     Cannot find a parameter in any of the files/sections
-     specified in the control file.
-     Parameter name = co2_ppm
-     Section name = parameters
-     Component name: pastureConverter
-     !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-     
-     
      debug = on
      svp_fract = 0.75
-     co2_ppm = 0
+     co2_ppm = 350
      sand (kg/kg) = 0 0 0 0 0 0 0
      
+     send sand (kg/kg) = 0 0 0 0 0 0 0
+     
 ------- Start of simulation  --------------------------------------------------
+     
+     sw_uptake:-
+        layer 1 = 1.95616 (mm)
+        layer 2 = 0 (mm)
+        layer 3 = 0 (mm)
+        layer 4 = 0 (mm)
+        layer 5 = 0 (mm)
+        layer 6 = 0 (mm)
+        layer 7 = 0 (mm)
+        sw_uptake total = 1.95616 (mm)
+     
+     
+     uptake_no3:-
+        layer 1 = 0 (kg/ha)
+        layer 2 = 0 (kg/ha)
+        layer 3 = 0 (kg/ha)
+        layer 4 = 0 (kg/ha)
+        layer 5 = 0 (kg/ha)
+        layer 6 = 0 (kg/ha)
+        layer 7 = 0 (kg/ha)
+        uptake_no3 total = 0 (kg/ha)
+     
+     
+     uptake_nh4:-
+        layer 1 = 0 (kg/ha)
+        layer 2 = 0 (kg/ha)
+        layer 3 = 0 (kg/ha)
+        layer 4 = 0 (kg/ha)
+        layer 5 = 0 (kg/ha)
+        layer 6 = 0 (kg/ha)
+        layer 7 = 0 (kg/ha)
+        uptake_nh4 total = 0 (kg/ha)
+     
+2 October 1988(Day of year=276), pastureConverter: 
+     
+     sw_uptake:-
+        layer 1 = 2.13783 (mm)
+        layer 2 = 0 (mm)
+        layer 3 = 0 (mm)
+        layer 4 = 0 (mm)
+        layer 5 = 0 (mm)
+        layer 6 = 0 (mm)
+        layer 7 = 0 (mm)
+        sw_uptake total = 2.13783 (mm)
+     
+     
+     uptake_no3:-
+        layer 1 = 0 (kg/ha)
+        layer 2 = 0 (kg/ha)
+        layer 3 = 0 (kg/ha)
+        layer 4 = 0 (kg/ha)
+        layer 5 = 0 (kg/ha)
+        layer 6 = 0 (kg/ha)
+        layer 7 = 0 (kg/ha)
+        uptake_no3 total = 0 (kg/ha)
+     
+     
+     uptake_nh4:-
+        layer 1 = 0 (kg/ha)
+        layer 2 = 0 (kg/ha)
+        layer 3 = 0 (kg/ha)
+        layer 4 = 0 (kg/ha)
+        layer 5 = 0 (kg/ha)
+        layer 6 = 0 (kg/ha)
+        layer 7 = 0 (kg/ha)
+        uptake_nh4 total = 0 (kg/ha)
+     
+3 October 1988(Day of year=277), pastureConverter: 
+     
+     sw_uptake:-
+        layer 1 = 2.21814 (mm)
+        layer 2 = 0 (mm)
+        layer 3 = 0 (mm)
+        layer 4 = 0 (mm)
+        layer 5 = 0 (mm)
+        layer 6 = 0 (mm)
+        layer 7 = 0 (mm)
+        sw_uptake total = 2.21814 (mm)
+     
+     
+     uptake_no3:-
+        layer 1 = 0 (kg/ha)
+        layer 2 = 0 (kg/ha)
+        layer 3 = 0 (kg/ha)
+        layer 4 = 0 (kg/ha)
+        layer 5 = 0 (kg/ha)
+        layer 6 = 0 (kg/ha)
+        layer 7 = 0 (kg/ha)
+        uptake_no3 total = 0 (kg/ha)
+     
+     
+     uptake_nh4:-
+        layer 1 = 0 (kg/ha)
+        layer 2 = 0 (kg/ha)
+        layer 3 = 0 (kg/ha)
+        layer 4 = 0 (kg/ha)
+        layer 5 = 0 (kg/ha)
+        layer 6 = 0 (kg/ha)
+        layer 7 = 0 (kg/ha)
+        uptake_nh4 total = 0 (kg/ha)
+     
+4 October 1988(Day of year=278), pastureConverter: 
+     
+     sw_uptake:-
+        layer 1 = 2.26257 (mm)
+        layer 2 = 0 (mm)
+        layer 3 = 0 (mm)
+        layer 4 = 0 (mm)
+        layer 5 = 0 (mm)
+        layer 6 = 0 (mm)
+        layer 7 = 0 (mm)
+        sw_uptake total = 2.26257 (mm)
+     
+     
+     uptake_no3:-
+        layer 1 = 0 (kg/ha)
+        layer 2 = 0 (kg/ha)
+        layer 3 = 0 (kg/ha)
+        layer 4 = 0 (kg/ha)
+        layer 5 = 0 (kg/ha)
+        layer 6 = 0 (kg/ha)
+        layer 7 = 0 (kg/ha)
+        uptake_no3 total = 0 (kg/ha)
+     
+     
+     uptake_nh4:-
+        layer 1 = 0 (kg/ha)
+        layer 2 = 0 (kg/ha)
+        layer 3 = 0 (kg/ha)
+        layer 4 = 0 (kg/ha)
+        layer 5 = 0 (kg/ha)
+        layer 6 = 0 (kg/ha)
+        layer 7 = 0 (kg/ha)
+        uptake_nh4 total = 0 (kg/ha)
+     
+5 October 1988(Day of year=279), pastureConverter: 
+     
+     sw_uptake:-
+        layer 1 = 2.01888 (mm)
+        layer 2 = 0 (mm)
+        layer 3 = 0 (mm)
+        layer 4 = 0 (mm)
+        layer 5 = 0 (mm)
+        layer 6 = 0 (mm)
+        layer 7 = 0 (mm)
+        sw_uptake total = 2.01888 (mm)
+     
+     
+     uptake_no3:-
+        layer 1 = 0 (kg/ha)
+        layer 2 = 0 (kg/ha)
+        layer 3 = 0 (kg/ha)
+        layer 4 = 0 (kg/ha)
+        layer 5 = 0 (kg/ha)
+        layer 6 = 0 (kg/ha)
+        layer 7 = 0 (kg/ha)
+        uptake_no3 total = 0 (kg/ha)
+     
+     
+     uptake_nh4:-
+        layer 1 = 0 (kg/ha)
+        layer 2 = 0 (kg/ha)
+        layer 3 = 0 (kg/ha)
+        layer 4 = 0 (kg/ha)
+        layer 5 = 0 (kg/ha)
+        layer 6 = 0 (kg/ha)
+        layer 7 = 0 (kg/ha)
+        uptake_nh4 total = 0 (kg/ha)
+     
+6 October 1988(Day of year=280), pastureConverter: 
+     
+     sw_uptake:-
+        layer 1 = 1.35121 (mm)
+        layer 2 = 0 (mm)
+        layer 3 = 0 (mm)
+        layer 4 = 0 (mm)
+        layer 5 = 0 (mm)
+        layer 6 = 0 (mm)
+        layer 7 = 0 (mm)
+        sw_uptake total = 1.35121 (mm)
+     
+     
+     uptake_no3:-
+        layer 1 = 0 (kg/ha)
+        layer 2 = 0 (kg/ha)
+        layer 3 = 0 (kg/ha)
+        layer 4 = 0 (kg/ha)
+        layer 5 = 0 (kg/ha)
+        layer 6 = 0 (kg/ha)
+        layer 7 = 0 (kg/ha)
+        uptake_no3 total = 0 (kg/ha)
+     
+     
+     uptake_nh4:-
+        layer 1 = 0 (kg/ha)
+        layer 2 = 0 (kg/ha)
+        layer 3 = 0 (kg/ha)
+        layer 4 = 0 (kg/ha)
+        layer 5 = 0 (kg/ha)
+        layer 6 = 0 (kg/ha)
+        layer 7 = 0 (kg/ha)
+        uptake_nh4 total = 0 (kg/ha)
+     
+7 October 1988(Day of year=281), pastureConverter: 
+     
+     sw_uptake:-
+        layer 1 = 0.88829 (mm)
+        layer 2 = 0 (mm)
+        layer 3 = 0 (mm)
+        layer 4 = 0 (mm)
+        layer 5 = 0 (mm)
+        layer 6 = 0 (mm)
+        layer 7 = 0 (mm)
+        sw_uptake total = 0.88829 (mm)
+     
+     
+     uptake_no3:-
+        layer 1 = 0 (kg/ha)
+        layer 2 = 0 (kg/ha)
+        layer 3 = 0 (kg/ha)
+        layer 4 = 0 (kg/ha)
+        layer 5 = 0 (kg/ha)
+        layer 6 = 0 (kg/ha)
+        layer 7 = 0 (kg/ha)
+        uptake_no3 total = 0 (kg/ha)
+     
+     
+     uptake_nh4:-
+        layer 1 = 0 (kg/ha)
+        layer 2 = 0 (kg/ha)
+        layer 3 = 0 (kg/ha)
+        layer 4 = 0 (kg/ha)
+        layer 5 = 0 (kg/ha)
+        layer 6 = 0 (kg/ha)
+        layer 7 = 0 (kg/ha)
+        uptake_nh4 total = 0 (kg/ha)
+     
+8 October 1988(Day of year=282), pastureConverter: 
+     
+     sw_uptake:-
+        layer 1 = 0.552196 (mm)
+        layer 2 = 0 (mm)
+        layer 3 = 0 (mm)
+        layer 4 = 0 (mm)
+        layer 5 = 0 (mm)
+        layer 6 = 0 (mm)
+        layer 7 = 0 (mm)
+        sw_uptake total = 0.552196 (mm)
+     
+     
+     uptake_no3:-
+        layer 1 = 0 (kg/ha)
+        layer 2 = 0 (kg/ha)
+        layer 3 = 0 (kg/ha)
+        layer 4 = 0 (kg/ha)
+        layer 5 = 0 (kg/ha)
+        layer 6 = 0 (kg/ha)
+        layer 7 = 0 (kg/ha)
+        uptake_no3 total = 0 (kg/ha)
+     
+     
+     uptake_nh4:-
+        layer 1 = 0 (kg/ha)
+        layer 2 = 0 (kg/ha)
+        layer 3 = 0 (kg/ha)
+        layer 4 = 0 (kg/ha)
+        layer 5 = 0 (kg/ha)
+        layer 6 = 0 (kg/ha)
+        layer 7 = 0 (kg/ha)
+        uptake_nh4 total = 0 (kg/ha)
+     
+9 October 1988(Day of year=283), pastureConverter: 
+     
+     sw_uptake:-
+        layer 1 = 0.420638 (mm)
+        layer 2 = 0 (mm)
+        layer 3 = 0 (mm)
+        layer 4 = 0 (mm)
+        layer 5 = 0 (mm)
+        layer 6 = 0 (mm)
+        layer 7 = 0 (mm)
+        sw_uptake total = 0.420638 (mm)
+     
+     
+     uptake_no3:-
+        layer 1 = 0 (kg/ha)
+        layer 2 = 0 (kg/ha)
+        layer 3 = 0 (kg/ha)
+        layer 4 = 0 (kg/ha)
+        layer 5 = 0 (kg/ha)
+        layer 6 = 0 (kg/ha)
+        layer 7 = 0 (kg/ha)
+        uptake_no3 total = 0 (kg/ha)
+     
+     
+     uptake_nh4:-
+        layer 1 = 0 (kg/ha)
+        layer 2 = 0 (kg/ha)
+        layer 3 = 0 (kg/ha)
+        layer 4 = 0 (kg/ha)
+        layer 5 = 0 (kg/ha)
+        layer 6 = 0 (kg/ha)
+        layer 7 = 0 (kg/ha)
+        uptake_nh4 total = 0 (kg/ha)
+     
+10 October 1988(Day of year=284), pastureConverter: 
+     
+     sw_uptake:-
+        layer 1 = 0.272822 (mm)
+        layer 2 = 0 (mm)
+        layer 3 = 0 (mm)
+        layer 4 = 0 (mm)
+        layer 5 = 0 (mm)
+        layer 6 = 0 (mm)
+        layer 7 = 0 (mm)
+        sw_uptake total = 0.272822 (mm)
+     
+     
+     uptake_no3:-
+        layer 1 = 0 (kg/ha)
+        layer 2 = 0 (kg/ha)
+        layer 3 = 0 (kg/ha)
+        layer 4 = 0 (kg/ha)
+        layer 5 = 0 (kg/ha)
+        layer 6 = 0 (kg/ha)
+        layer 7 = 0 (kg/ha)
+        uptake_no3 total = 0 (kg/ha)
+     
+     
+     uptake_nh4:-
+        layer 1 = 0 (kg/ha)
+        layer 2 = 0 (kg/ha)
+        layer 3 = 0 (kg/ha)
+        layer 4 = 0 (kg/ha)
+        layer 5 = 0 (kg/ha)
+        layer 6 = 0 (kg/ha)
+        layer 7 = 0 (kg/ha)
+        uptake_nh4 total = 0 (kg/ha)
+     
+11 October 1988(Day of year=285), pastureConverter: 
+     
+     sw_uptake:-
+        layer 1 = 0.170351 (mm)
+        layer 2 = 0 (mm)
+        layer 3 = 0 (mm)
+        layer 4 = 0 (mm)
+        layer 5 = 0 (mm)
+        layer 6 = 0 (mm)
+        layer 7 = 0 (mm)
+        sw_uptake total = 0.170351 (mm)
+     
+     
+     uptake_no3:-
+        layer 1 = 0 (kg/ha)
+        layer 2 = 0 (kg/ha)
+        layer 3 = 0 (kg/ha)
+        layer 4 = 0 (kg/ha)
+        layer 5 = 0 (kg/ha)
+        layer 6 = 0 (kg/ha)
+        layer 7 = 0 (kg/ha)
+        uptake_no3 total = 0 (kg/ha)
+     
+     
+     uptake_nh4:-
+        layer 1 = 0 (kg/ha)
+        layer 2 = 0 (kg/ha)
+        layer 3 = 0 (kg/ha)
+        layer 4 = 0 (kg/ha)
+        layer 5 = 0 (kg/ha)
+        layer 6 = 0 (kg/ha)
+        layer 7 = 0 (kg/ha)
+        uptake_nh4 total = 0 (kg/ha)
+     
+12 October 1988(Day of year=286), pastureConverter: 
+     
+     sw_uptake:-
+        layer 1 = 0.103488 (mm)
+        layer 2 = 0 (mm)
+        layer 3 = 0 (mm)
+        layer 4 = 0 (mm)
+        layer 5 = 0 (mm)
+        layer 6 = 0 (mm)
+        layer 7 = 0 (mm)
+        sw_uptake total = 0.103488 (mm)
+     
+     
+     uptake_no3:-
+        layer 1 = 0 (kg/ha)
+        layer 2 = 0 (kg/ha)
+        layer 3 = 0 (kg/ha)
+        layer 4 = 0 (kg/ha)
+        layer 5 = 0 (kg/ha)
+        layer 6 = 0 (kg/ha)
+        layer 7 = 0 (kg/ha)
+        uptake_no3 total = 0 (kg/ha)
+     
+     
+     uptake_nh4:-
+        layer 1 = 0 (kg/ha)
+        layer 2 = 0 (kg/ha)
+        layer 3 = 0 (kg/ha)
+        layer 4 = 0 (kg/ha)
+        layer 5 = 0 (kg/ha)
+        layer 6 = 0 (kg/ha)
+        layer 7 = 0 (kg/ha)
+        uptake_nh4 total = 0 (kg/ha)
+     
+13 October 1988(Day of year=287), pastureConverter: 
+     
+     sw_uptake:-
+        layer 1 = 0.0376932 (mm)
+        layer 2 = 0 (mm)
+        layer 3 = 0 (mm)
+        layer 4 = 0 (mm)
+        layer 5 = 0 (mm)
+        layer 6 = 0 (mm)
+        layer 7 = 0 (mm)
+        sw_uptake total = 0.0376932 (mm)
+     
+     
+     uptake_no3:-
+        layer 1 = 0 (kg/ha)
+        layer 2 = 0 (kg/ha)
+        layer 3 = 0 (kg/ha)
+        layer 4 = 0 (kg/ha)
+        layer 5 = 0 (kg/ha)
+        layer 6 = 0 (kg/ha)
+        layer 7 = 0 (kg/ha)
+        uptake_no3 total = 0 (kg/ha)
+     
+     
+     uptake_nh4:-
+        layer 1 = 0 (kg/ha)
+        layer 2 = 0 (kg/ha)
+        layer 3 = 0 (kg/ha)
+        layer 4 = 0 (kg/ha)
+        layer 5 = 0 (kg/ha)
+        layer 6 = 0 (kg/ha)
+        layer 7 = 0 (kg/ha)
+        uptake_nh4 total = 0 (kg/ha)
+     
+14 October 1988(Day of year=288), pastureConverter: 
+     
+     sw_uptake:-
+        layer 1 = 0 (mm)
+        layer 2 = 0 (mm)
+        layer 3 = 0 (mm)
+        layer 4 = 0 (mm)
+        layer 5 = 0 (mm)
+        layer 6 = 0 (mm)
+        layer 7 = 0 (mm)
+        sw_uptake total = 0 (mm)
+     
+     
+     uptake_no3:-
+        layer 1 = 0 (kg/ha)
+        layer 2 = 0 (kg/ha)
+        layer 3 = 0 (kg/ha)
+        layer 4 = 0 (kg/ha)
+        layer 5 = 0 (kg/ha)
+        layer 6 = 0 (kg/ha)
+        layer 7 = 0 (kg/ha)
+        uptake_no3 total = 0 (kg/ha)
+     
+     
+     uptake_nh4:-
+        layer 1 = 0 (kg/ha)
+        layer 2 = 0 (kg/ha)
+        layer 3 = 0 (kg/ha)
+        layer 4 = 0 (kg/ha)
+        layer 5 = 0 (kg/ha)
+        layer 6 = 0 (kg/ha)
+        layer 7 = 0 (kg/ha)
+        uptake_nh4 total = 0 (kg/ha)
+     
+15 October 1988(Day of year=289), pastureConverter: 
+     
+     sw_uptake:-
+        layer 1 = 0 (mm)
+        layer 2 = 0 (mm)
+        layer 3 = 0 (mm)
+        layer 4 = 0 (mm)
+        layer 5 = 0 (mm)
+        layer 6 = 0 (mm)
+        layer 7 = 0 (mm)
+        sw_uptake total = 0 (mm)
+     
+     
+     uptake_no3:-
+        layer 1 = 0 (kg/ha)
+        layer 2 = 0 (kg/ha)
+        layer 3 = 0 (kg/ha)
+        layer 4 = 0 (kg/ha)
+        layer 5 = 0 (kg/ha)
+        layer 6 = 0 (kg/ha)
+        layer 7 = 0 (kg/ha)
+        uptake_no3 total = 0 (kg/ha)
+     
+     
+     uptake_nh4:-
+        layer 1 = 0 (kg/ha)
+        layer 2 = 0 (kg/ha)
+        layer 3 = 0 (kg/ha)
+        layer 4 = 0 (kg/ha)
+        layer 5 = 0 (kg/ha)
+        layer 6 = 0 (kg/ha)
+        layer 7 = 0 (kg/ha)
+        uptake_nh4 total = 0 (kg/ha)
+     
+16 October 1988(Day of year=290), pastureConverter: 
+     
+     sw_uptake:-
+        layer 1 = 0 (mm)
+        layer 2 = 0 (mm)
+        layer 3 = 0 (mm)
+        layer 4 = 0 (mm)
+        layer 5 = 0 (mm)
+        layer 6 = 0 (mm)
+        layer 7 = 0 (mm)
+        sw_uptake total = 0 (mm)
+     
+     
+     uptake_no3:-
+        layer 1 = 0 (kg/ha)
+        layer 2 = 0 (kg/ha)
+        layer 3 = 0 (kg/ha)
+        layer 4 = 0 (kg/ha)
+        layer 5 = 0 (kg/ha)
+        layer 6 = 0 (kg/ha)
+        layer 7 = 0 (kg/ha)
+        uptake_no3 total = 0 (kg/ha)
+     
+     
+     uptake_nh4:-
+        layer 1 = 0 (kg/ha)
+        layer 2 = 0 (kg/ha)
+        layer 3 = 0 (kg/ha)
+        layer 4 = 0 (kg/ha)
+        layer 5 = 0 (kg/ha)
+        layer 6 = 0 (kg/ha)
+        layer 7 = 0 (kg/ha)
+        uptake_nh4 total = 0 (kg/ha)
+     
+17 October 1988(Day of year=291), pastureConverter: 
+     
+     sw_uptake:-
+        layer 1 = 0 (mm)
+        layer 2 = 0 (mm)
+        layer 3 = 0 (mm)
+        layer 4 = 0 (mm)
+        layer 5 = 0 (mm)
+        layer 6 = 0 (mm)
+        layer 7 = 0 (mm)
+        sw_uptake total = 0 (mm)
+     
+     
+     uptake_no3:-
+        layer 1 = 0 (kg/ha)
+        layer 2 = 0 (kg/ha)
+        layer 3 = 0 (kg/ha)
+        layer 4 = 0 (kg/ha)
+        layer 5 = 0 (kg/ha)
+        layer 6 = 0 (kg/ha)
+        layer 7 = 0 (kg/ha)
+        uptake_no3 total = 0 (kg/ha)
+     
+     
+     uptake_nh4:-
+        layer 1 = 0 (kg/ha)
+        layer 2 = 0 (kg/ha)
+        layer 3 = 0 (kg/ha)
+        layer 4 = 0 (kg/ha)
+        layer 5 = 0 (kg/ha)
+        layer 6 = 0 (kg/ha)
+        layer 7 = 0 (kg/ha)
+        uptake_nh4 total = 0 (kg/ha)
+     
+18 October 1988(Day of year=292), pastureConverter: 
+     
+     sw_uptake:-
+        layer 1 = 0 (mm)
+        layer 2 = 0 (mm)
+        layer 3 = 0 (mm)
+        layer 4 = 0 (mm)
+        layer 5 = 0 (mm)
+        layer 6 = 0 (mm)
+        layer 7 = 0 (mm)
+        sw_uptake total = 0 (mm)
+     
+     
+     uptake_no3:-
+        layer 1 = 0 (kg/ha)
+        layer 2 = 0 (kg/ha)
+        layer 3 = 0 (kg/ha)
+        layer 4 = 0 (kg/ha)
+        layer 5 = 0 (kg/ha)
+        layer 6 = 0 (kg/ha)
+        layer 7 = 0 (kg/ha)
+        uptake_no3 total = 0 (kg/ha)
+     
+     
+     uptake_nh4:-
+        layer 1 = 0 (kg/ha)
+        layer 2 = 0 (kg/ha)
+        layer 3 = 0 (kg/ha)
+        layer 4 = 0 (kg/ha)
+        layer 5 = 0 (kg/ha)
+        layer 6 = 0 (kg/ha)
+        layer 7 = 0 (kg/ha)
+        uptake_nh4 total = 0 (kg/ha)
+     
+19 October 1988(Day of year=293), pastureConverter: 
+     
+     sw_uptake:-
+        layer 1 = 0 (mm)
+        layer 2 = 0 (mm)
+        layer 3 = 0 (mm)
+        layer 4 = 0 (mm)
+        layer 5 = 0 (mm)
+        layer 6 = 0 (mm)
+        layer 7 = 0 (mm)
+        sw_uptake total = 0 (mm)
+     
+     
+     uptake_no3:-
+        layer 1 = 0 (kg/ha)
+        layer 2 = 0 (kg/ha)
+        layer 3 = 0 (kg/ha)
+        layer 4 = 0 (kg/ha)
+        layer 5 = 0 (kg/ha)
+        layer 6 = 0 (kg/ha)
+        layer 7 = 0 (kg/ha)
+        uptake_no3 total = 0 (kg/ha)
+     
+     
+     uptake_nh4:-
+        layer 1 = 0 (kg/ha)
+        layer 2 = 0 (kg/ha)
+        layer 3 = 0 (kg/ha)
+        layer 4 = 0 (kg/ha)
+        layer 5 = 0 (kg/ha)
+        layer 6 = 0 (kg/ha)
+        layer 7 = 0 (kg/ha)
+        uptake_nh4 total = 0 (kg/ha)
+     
+20 October 1988(Day of year=294), pastureConverter: 
+     
+     sw_uptake:-
+        layer 1 = 0 (mm)
+        layer 2 = 0 (mm)
+        layer 3 = 0 (mm)
+        layer 4 = 0 (mm)
+        layer 5 = 0 (mm)
+        layer 6 = 0 (mm)
+        layer 7 = 0 (mm)
+        sw_uptake total = 0 (mm)
+     
+     
+     uptake_no3:-
+        layer 1 = 0 (kg/ha)
+        layer 2 = 0 (kg/ha)
+        layer 3 = 0 (kg/ha)
+        layer 4 = 0 (kg/ha)
+        layer 5 = 0 (kg/ha)
+        layer 6 = 0 (kg/ha)
+        layer 7 = 0 (kg/ha)
+        uptake_no3 total = 0 (kg/ha)
+     
+     
+     uptake_nh4:-
+        layer 1 = 0 (kg/ha)
+        layer 2 = 0 (kg/ha)
+        layer 3 = 0 (kg/ha)
+        layer 4 = 0 (kg/ha)
+        layer 5 = 0 (kg/ha)
+        layer 6 = 0 (kg/ha)
+        layer 7 = 0 (kg/ha)
+        uptake_nh4 total = 0 (kg/ha)
+     
+21 October 1988(Day of year=295), pastureConverter: 
+     
+     sw_uptake:-
+        layer 1 = 0 (mm)
+        layer 2 = 0 (mm)
+        layer 3 = 0 (mm)
+        layer 4 = 0 (mm)
+        layer 5 = 0 (mm)
+        layer 6 = 0 (mm)
+        layer 7 = 0 (mm)
+        sw_uptake total = 0 (mm)
+     
+     
+     uptake_no3:-
+        layer 1 = 0 (kg/ha)
+        layer 2 = 0 (kg/ha)
+        layer 3 = 0 (kg/ha)
+        layer 4 = 0 (kg/ha)
+        layer 5 = 0 (kg/ha)
+        layer 6 = 0 (kg/ha)
+        layer 7 = 0 (kg/ha)
+        uptake_no3 total = 0 (kg/ha)
+     
+     
+     uptake_nh4:-
+        layer 1 = 0 (kg/ha)
+        layer 2 = 0 (kg/ha)
+        layer 3 = 0 (kg/ha)
+        layer 4 = 0 (kg/ha)
+        layer 5 = 0 (kg/ha)
+        layer 6 = 0 (kg/ha)
+        layer 7 = 0 (kg/ha)
+        uptake_nh4 total = 0 (kg/ha)
+     
+22 October 1988(Day of year=296), pastureConverter: 
+     
+     sw_uptake:-
+        layer 1 = 0 (mm)
+        layer 2 = 0 (mm)
+        layer 3 = 0 (mm)
+        layer 4 = 0 (mm)
+        layer 5 = 0 (mm)
+        layer 6 = 0 (mm)
+        layer 7 = 0 (mm)
+        sw_uptake total = 0 (mm)
+     
+     
+     uptake_no3:-
+        layer 1 = 0 (kg/ha)
+        layer 2 = 0 (kg/ha)
+        layer 3 = 0 (kg/ha)
+        layer 4 = 0 (kg/ha)
+        layer 5 = 0 (kg/ha)
+        layer 6 = 0 (kg/ha)
+        layer 7 = 0 (kg/ha)
+        uptake_no3 total = 0 (kg/ha)
+     
+     
+     uptake_nh4:-
+        layer 1 = 0 (kg/ha)
+        layer 2 = 0 (kg/ha)
+        layer 3 = 0 (kg/ha)
+        layer 4 = 0 (kg/ha)
+        layer 5 = 0 (kg/ha)
+        layer 6 = 0 (kg/ha)
+        layer 7 = 0 (kg/ha)
+        uptake_nh4 total = 0 (kg/ha)
+     
+23 October 1988(Day of year=297), pastureConverter: 
+     
+     sw_uptake:-
+        layer 1 = 0 (mm)
+        layer 2 = 0 (mm)
+        layer 3 = 0 (mm)
+        layer 4 = 0 (mm)
+        layer 5 = 0 (mm)
+        layer 6 = 0 (mm)
+        layer 7 = 0 (mm)
+        sw_uptake total = 0 (mm)
+     
+     
+     uptake_no3:-
+        layer 1 = 0 (kg/ha)
+        layer 2 = 0 (kg/ha)
+        layer 3 = 0 (kg/ha)
+        layer 4 = 0 (kg/ha)
+        layer 5 = 0 (kg/ha)
+        layer 6 = 0 (kg/ha)
+        layer 7 = 0 (kg/ha)
+        uptake_no3 total = 0 (kg/ha)
+     
+     
+     uptake_nh4:-
+        layer 1 = 0 (kg/ha)
+        layer 2 = 0 (kg/ha)
+        layer 3 = 0 (kg/ha)
+        layer 4 = 0 (kg/ha)
+        layer 5 = 0 (kg/ha)
+        layer 6 = 0 (kg/ha)
+        layer 7 = 0 (kg/ha)
+        uptake_nh4 total = 0 (kg/ha)
+     
+24 October 1988(Day of year=298), pastureConverter: 
+     
+     sw_uptake:-
+        layer 1 = 0 (mm)
+        layer 2 = 0 (mm)
+        layer 3 = 0 (mm)
+        layer 4 = 0 (mm)
+        layer 5 = 0 (mm)
+        layer 6 = 0 (mm)
+        layer 7 = 0 (mm)
+        sw_uptake total = 0 (mm)
+     
+     
+     uptake_no3:-
+        layer 1 = 0 (kg/ha)
+        layer 2 = 0 (kg/ha)
+        layer 3 = 0 (kg/ha)
+        layer 4 = 0 (kg/ha)
+        layer 5 = 0 (kg/ha)
+        layer 6 = 0 (kg/ha)
+        layer 7 = 0 (kg/ha)
+        uptake_no3 total = 0 (kg/ha)
+     
+     
+     uptake_nh4:-
+        layer 1 = 0 (kg/ha)
+        layer 2 = 0 (kg/ha)
+        layer 3 = 0 (kg/ha)
+        layer 4 = 0 (kg/ha)
+        layer 5 = 0 (kg/ha)
+        layer 6 = 0 (kg/ha)
+        layer 7 = 0 (kg/ha)
+        uptake_nh4 total = 0 (kg/ha)
+     
+25 October 1988(Day of year=299), pastureConverter: 
+     
+     sw_uptake:-
+        layer 1 = 0 (mm)
+        layer 2 = 0 (mm)
+        layer 3 = 0 (mm)
+        layer 4 = 0 (mm)
+        layer 5 = 0 (mm)
+        layer 6 = 0 (mm)
+        layer 7 = 0 (mm)
+        sw_uptake total = 0 (mm)
+     
+     
+     uptake_no3:-
+        layer 1 = 0 (kg/ha)
+        layer 2 = 0 (kg/ha)
+        layer 3 = 0 (kg/ha)
+        layer 4 = 0 (kg/ha)
+        layer 5 = 0 (kg/ha)
+        layer 6 = 0 (kg/ha)
+        layer 7 = 0 (kg/ha)
+        uptake_no3 total = 0 (kg/ha)
+     
+     
+     uptake_nh4:-
+        layer 1 = 0 (kg/ha)
+        layer 2 = 0 (kg/ha)
+        layer 3 = 0 (kg/ha)
+        layer 4 = 0 (kg/ha)
+        layer 5 = 0 (kg/ha)
+        layer 6 = 0 (kg/ha)
+        layer 7 = 0 (kg/ha)
+        uptake_nh4 total = 0 (kg/ha)
+     
+26 October 1988(Day of year=300), pastureConverter: 
+     
+     sw_uptake:-
+        layer 1 = 0 (mm)
+        layer 2 = 0 (mm)
+        layer 3 = 0 (mm)
+        layer 4 = 0 (mm)
+        layer 5 = 0 (mm)
+        layer 6 = 0 (mm)
+        layer 7 = 0 (mm)
+        sw_uptake total = 0 (mm)
+     
+     
+     uptake_no3:-
+        layer 1 = 0 (kg/ha)
+        layer 2 = 0 (kg/ha)
+        layer 3 = 0 (kg/ha)
+        layer 4 = 0 (kg/ha)
+        layer 5 = 0 (kg/ha)
+        layer 6 = 0 (kg/ha)
+        layer 7 = 0 (kg/ha)
+        uptake_no3 total = 0 (kg/ha)
+     
+     
+     uptake_nh4:-
+        layer 1 = 0 (kg/ha)
+        layer 2 = 0 (kg/ha)
+        layer 3 = 0 (kg/ha)
+        layer 4 = 0 (kg/ha)
+        layer 5 = 0 (kg/ha)
+        layer 6 = 0 (kg/ha)
+        layer 7 = 0 (kg/ha)
+        uptake_nh4 total = 0 (kg/ha)
+     
+27 October 1988(Day of year=301), pastureConverter: 
+     
+     sw_uptake:-
+        layer 1 = 0 (mm)
+        layer 2 = 0 (mm)
+        layer 3 = 0 (mm)
+        layer 4 = 0 (mm)
+        layer 5 = 0 (mm)
+        layer 6 = 0 (mm)
+        layer 7 = 0 (mm)
+        sw_uptake total = 0 (mm)
+     
+     
+     uptake_no3:-
+        layer 1 = 0 (kg/ha)
+        layer 2 = 0 (kg/ha)
+        layer 3 = 0 (kg/ha)
+        layer 4 = 0 (kg/ha)
+        layer 5 = 0 (kg/ha)
+        layer 6 = 0 (kg/ha)
+        layer 7 = 0 (kg/ha)
+        uptake_no3 total = 0 (kg/ha)
+     
+     
+     uptake_nh4:-
+        layer 1 = 0 (kg/ha)
+        layer 2 = 0 (kg/ha)
+        layer 3 = 0 (kg/ha)
+        layer 4 = 0 (kg/ha)
+        layer 5 = 0 (kg/ha)
+        layer 6 = 0 (kg/ha)
+        layer 7 = 0 (kg/ha)
+        uptake_nh4 total = 0 (kg/ha)
+     
+28 October 1988(Day of year=302), pastureConverter: 
+     
+     sw_uptake:-
+        layer 1 = 0 (mm)
+        layer 2 = 0 (mm)
+        layer 3 = 0 (mm)
+        layer 4 = 0 (mm)
+        layer 5 = 0 (mm)
+        layer 6 = 0 (mm)
+        layer 7 = 0 (mm)
+        sw_uptake total = 0 (mm)
+     
+     
+     uptake_no3:-
+        layer 1 = 0 (kg/ha)
+        layer 2 = 0 (kg/ha)
+        layer 3 = 0 (kg/ha)
+        layer 4 = 0 (kg/ha)
+        layer 5 = 0 (kg/ha)
+        layer 6 = 0 (kg/ha)
+        layer 7 = 0 (kg/ha)
+        uptake_no3 total = 0 (kg/ha)
+     
+     
+     uptake_nh4:-
+        layer 1 = 0 (kg/ha)
+        layer 2 = 0 (kg/ha)
+        layer 3 = 0 (kg/ha)
+        layer 4 = 0 (kg/ha)
+        layer 5 = 0 (kg/ha)
+        layer 6 = 0 (kg/ha)
+        layer 7 = 0 (kg/ha)
+        uptake_nh4 total = 0 (kg/ha)
+     
+29 October 1988(Day of year=303), pastureConverter: 
+     
+     sw_uptake:-
+        layer 1 = 0 (mm)
+        layer 2 = 0 (mm)
+        layer 3 = 0 (mm)
+        layer 4 = 0 (mm)
+        layer 5 = 0 (mm)
+        layer 6 = 0 (mm)
+        layer 7 = 0 (mm)
+        sw_uptake total = 0 (mm)
+     
+     
+     uptake_no3:-
+        layer 1 = 0 (kg/ha)
+        layer 2 = 0 (kg/ha)
+        layer 3 = 0 (kg/ha)
+        layer 4 = 0 (kg/ha)
+        layer 5 = 0 (kg/ha)
+        layer 6 = 0 (kg/ha)
+        layer 7 = 0 (kg/ha)
+        uptake_no3 total = 0 (kg/ha)
+     
+     
+     uptake_nh4:-
+        layer 1 = 0 (kg/ha)
+        layer 2 = 0 (kg/ha)
+        layer 3 = 0 (kg/ha)
+        layer 4 = 0 (kg/ha)
+        layer 5 = 0 (kg/ha)
+        layer 6 = 0 (kg/ha)
+        layer 7 = 0 (kg/ha)
+        uptake_nh4 total = 0 (kg/ha)
+     
+30 October 1988(Day of year=304), pastureConverter: 
+     
+     sw_uptake:-
+        layer 1 = 0 (mm)
+        layer 2 = 0 (mm)
+        layer 3 = 0 (mm)
+        layer 4 = 0 (mm)
+        layer 5 = 0 (mm)
+        layer 6 = 0 (mm)
+        layer 7 = 0 (mm)
+        sw_uptake total = 0 (mm)
+     
+     
+     uptake_no3:-
+        layer 1 = 0 (kg/ha)
+        layer 2 = 0 (kg/ha)
+        layer 3 = 0 (kg/ha)
+        layer 4 = 0 (kg/ha)
+        layer 5 = 0 (kg/ha)
+        layer 6 = 0 (kg/ha)
+        layer 7 = 0 (kg/ha)
+        uptake_no3 total = 0 (kg/ha)
+     
+     
+     uptake_nh4:-
+        layer 1 = 0 (kg/ha)
+        layer 2 = 0 (kg/ha)
+        layer 3 = 0 (kg/ha)
+        layer 4 = 0 (kg/ha)
+        layer 5 = 0 (kg/ha)
+        layer 6 = 0 (kg/ha)
+        layer 7 = 0 (kg/ha)
+        uptake_nh4 total = 0 (kg/ha)
+     
+31 October 1988(Day of year=305), pastureConverter: 
+     
+     sw_uptake:-
+        layer 1 = 0 (mm)
+        layer 2 = 0 (mm)
+        layer 3 = 0 (mm)
+        layer 4 = 0 (mm)
+        layer 5 = 0 (mm)
+        layer 6 = 0 (mm)
+        layer 7 = 0 (mm)
+        sw_uptake total = 0 (mm)
+     
+     
+     uptake_no3:-
+        layer 1 = 0 (kg/ha)
+        layer 2 = 0 (kg/ha)
+        layer 3 = 0 (kg/ha)
+        layer 4 = 0 (kg/ha)
+        layer 5 = 0 (kg/ha)
+        layer 6 = 0 (kg/ha)
+        layer 7 = 0 (kg/ha)
+        uptake_no3 total = 0 (kg/ha)
+     
+     
+     uptake_nh4:-
+        layer 1 = 0 (kg/ha)
+        layer 2 = 0 (kg/ha)
+        layer 3 = 0 (kg/ha)
+        layer 4 = 0 (kg/ha)
+        layer 5 = 0 (kg/ha)
+        layer 6 = 0 (kg/ha)
+        layer 7 = 0 (kg/ha)
+        uptake_nh4 total = 0 (kg/ha)
+     
+1 November 1988(Day of year=306), pastureConverter: 
+     
+     sw_uptake:-
+        layer 1 = 0 (mm)
+        layer 2 = 0 (mm)
+        layer 3 = 0 (mm)
+        layer 4 = 0 (mm)
+        layer 5 = 0 (mm)
+        layer 6 = 0 (mm)
+        layer 7 = 0 (mm)
+        sw_uptake total = 0 (mm)
+     
+     
+     uptake_no3:-
+        layer 1 = 0 (kg/ha)
+        layer 2 = 0 (kg/ha)
+        layer 3 = 0 (kg/ha)
+        layer 4 = 0 (kg/ha)
+        layer 5 = 0 (kg/ha)
+        layer 6 = 0 (kg/ha)
+        layer 7 = 0 (kg/ha)
+        uptake_no3 total = 0 (kg/ha)
+     
+     
+     uptake_nh4:-
+        layer 1 = 0 (kg/ha)
+        layer 2 = 0 (kg/ha)
+        layer 3 = 0 (kg/ha)
+        layer 4 = 0 (kg/ha)
+        layer 5 = 0 (kg/ha)
+        layer 6 = 0 (kg/ha)
+        layer 7 = 0 (kg/ha)
+        uptake_nh4 total = 0 (kg/ha)
+     
+2 November 1988(Day of year=307), pastureConverter: 
+     
+     sw_uptake:-
+        layer 1 = 0 (mm)
+        layer 2 = 0 (mm)
+        layer 3 = 0 (mm)
+        layer 4 = 0 (mm)
+        layer 5 = 0 (mm)
+        layer 6 = 0 (mm)
+        layer 7 = 0 (mm)
+        sw_uptake total = 0 (mm)
+     
+     
+     uptake_no3:-
+        layer 1 = 0 (kg/ha)
+        layer 2 = 0 (kg/ha)
+        layer 3 = 0 (kg/ha)
+        layer 4 = 0 (kg/ha)
+        layer 5 = 0 (kg/ha)
+        layer 6 = 0 (kg/ha)
+        layer 7 = 0 (kg/ha)
+        uptake_no3 total = 0 (kg/ha)
+     
+     
+     uptake_nh4:-
+        layer 1 = 0 (kg/ha)
+        layer 2 = 0 (kg/ha)
+        layer 3 = 0 (kg/ha)
+        layer 4 = 0 (kg/ha)
+        layer 5 = 0 (kg/ha)
+        layer 6 = 0 (kg/ha)
+        layer 7 = 0 (kg/ha)
+        uptake_nh4 total = 0 (kg/ha)
+     
+3 November 1988(Day of year=308), pastureConverter: 
+     
+     sw_uptake:-
+        layer 1 = 0 (mm)
+        layer 2 = 0 (mm)
+        layer 3 = 0 (mm)
+        layer 4 = 0 (mm)
+        layer 5 = 0 (mm)
+        layer 6 = 0 (mm)
+        layer 7 = 0 (mm)
+        sw_uptake total = 0 (mm)
+     
+     
+     uptake_no3:-
+        layer 1 = 0 (kg/ha)
+        layer 2 = 0 (kg/ha)
+        layer 3 = 0 (kg/ha)
+        layer 4 = 0 (kg/ha)
+        layer 5 = 0 (kg/ha)
+        layer 6 = 0 (kg/ha)
+        layer 7 = 0 (kg/ha)
+        uptake_no3 total = 0 (kg/ha)
+     
+     
+     uptake_nh4:-
+        layer 1 = 0 (kg/ha)
+        layer 2 = 0 (kg/ha)
+        layer 3 = 0 (kg/ha)
+        layer 4 = 0 (kg/ha)
+        layer 5 = 0 (kg/ha)
+        layer 6 = 0 (kg/ha)
+        layer 7 = 0 (kg/ha)
+        uptake_nh4 total = 0 (kg/ha)
+     
+4 November 1988(Day of year=309), pastureConverter: 
+     
+     sw_uptake:-
+        layer 1 = 0 (mm)
+        layer 2 = 0 (mm)
+        layer 3 = 0 (mm)
+        layer 4 = 0 (mm)
+        layer 5 = 0 (mm)
+        layer 6 = 0 (mm)
+        layer 7 = 0 (mm)
+        sw_uptake total = 0 (mm)
+     
+     
+     uptake_no3:-
+        layer 1 = 0 (kg/ha)
+        layer 2 = 0 (kg/ha)
+        layer 3 = 0 (kg/ha)
+        layer 4 = 0 (kg/ha)
+        layer 5 = 0 (kg/ha)
+        layer 6 = 0 (kg/ha)
+        layer 7 = 0 (kg/ha)
+        uptake_no3 total = 0 (kg/ha)
+     
+     
+     uptake_nh4:-
+        layer 1 = 0 (kg/ha)
+        layer 2 = 0 (kg/ha)
+        layer 3 = 0 (kg/ha)
+        layer 4 = 0 (kg/ha)
+        layer 5 = 0 (kg/ha)
+        layer 6 = 0 (kg/ha)
+        layer 7 = 0 (kg/ha)
+        uptake_nh4 total = 0 (kg/ha)
+     
+5 November 1988(Day of year=310), pastureConverter: 
+     
+     sw_uptake:-
+        layer 1 = 0 (mm)
+        layer 2 = 0 (mm)
+        layer 3 = 0 (mm)
+        layer 4 = 0 (mm)
+        layer 5 = 0 (mm)
+        layer 6 = 0 (mm)
+        layer 7 = 0 (mm)
+        sw_uptake total = 0 (mm)
+     
+     
+     uptake_no3:-
+        layer 1 = 0 (kg/ha)
+        layer 2 = 0 (kg/ha)
+        layer 3 = 0 (kg/ha)
+        layer 4 = 0 (kg/ha)
+        layer 5 = 0 (kg/ha)
+        layer 6 = 0 (kg/ha)
+        layer 7 = 0 (kg/ha)
+        uptake_no3 total = 0 (kg/ha)
+     
+     
+     uptake_nh4:-
+        layer 1 = 0 (kg/ha)
+        layer 2 = 0 (kg/ha)
+        layer 3 = 0 (kg/ha)
+        layer 4 = 0 (kg/ha)
+        layer 5 = 0 (kg/ha)
+        layer 6 = 0 (kg/ha)
+        layer 7 = 0 (kg/ha)
+        uptake_nh4 total = 0 (kg/ha)
+     
+6 November 1988(Day of year=311), pastureConverter: 
+     
+     sw_uptake:-
+        layer 1 = 0 (mm)
+        layer 2 = 0 (mm)
+        layer 3 = 0 (mm)
+        layer 4 = 0 (mm)
+        layer 5 = 0 (mm)
+        layer 6 = 0 (mm)
+        layer 7 = 0 (mm)
+        sw_uptake total = 0 (mm)
+     
+     
+     uptake_no3:-
+        layer 1 = 0 (kg/ha)
+        layer 2 = 0 (kg/ha)
+        layer 3 = 0 (kg/ha)
+        layer 4 = 0 (kg/ha)
+        layer 5 = 0 (kg/ha)
+        layer 6 = 0 (kg/ha)
+        layer 7 = 0 (kg/ha)
+        uptake_no3 total = 0 (kg/ha)
+     
+     
+     uptake_nh4:-
+        layer 1 = 0 (kg/ha)
+        layer 2 = 0 (kg/ha)
+        layer 3 = 0 (kg/ha)
+        layer 4 = 0 (kg/ha)
+        layer 5 = 0 (kg/ha)
+        layer 6 = 0 (kg/ha)
+        layer 7 = 0 (kg/ha)
+        uptake_nh4 total = 0 (kg/ha)
+     
+7 November 1988(Day of year=312), pastureConverter: 
+     
+     sw_uptake:-
+        layer 1 = 0 (mm)
+        layer 2 = 0 (mm)
+        layer 3 = 0 (mm)
+        layer 4 = 0 (mm)
+        layer 5 = 0 (mm)
+        layer 6 = 0 (mm)
+        layer 7 = 0 (mm)
+        sw_uptake total = 0 (mm)
+     
+     
+     uptake_no3:-
+        layer 1 = 0 (kg/ha)
+        layer 2 = 0 (kg/ha)
+        layer 3 = 0 (kg/ha)
+        layer 4 = 0 (kg/ha)
+        layer 5 = 0 (kg/ha)
+        layer 6 = 0 (kg/ha)
+        layer 7 = 0 (kg/ha)
+        uptake_no3 total = 0 (kg/ha)
+     
+     
+     uptake_nh4:-
+        layer 1 = 0 (kg/ha)
+        layer 2 = 0 (kg/ha)
+        layer 3 = 0 (kg/ha)
+        layer 4 = 0 (kg/ha)
+        layer 5 = 0 (kg/ha)
+        layer 6 = 0 (kg/ha)
+        layer 7 = 0 (kg/ha)
+        uptake_nh4 total = 0 (kg/ha)
+     
+8 November 1988(Day of year=313), pastureConverter: 
+     
+     sw_uptake:-
+        layer 1 = 0 (mm)
+        layer 2 = 0 (mm)
+        layer 3 = 0 (mm)
+        layer 4 = 0 (mm)
+        layer 5 = 0 (mm)
+        layer 6 = 0 (mm)
+        layer 7 = 0 (mm)
+        sw_uptake total = 0 (mm)
+     
+     
+     uptake_no3:-
+        layer 1 = 0 (kg/ha)
+        layer 2 = 0 (kg/ha)
+        layer 3 = 0 (kg/ha)
+        layer 4 = 0 (kg/ha)
+        layer 5 = 0 (kg/ha)
+        layer 6 = 0 (kg/ha)
+        layer 7 = 0 (kg/ha)
+        uptake_no3 total = 0 (kg/ha)
+     
+     
+     uptake_nh4:-
+        layer 1 = 0 (kg/ha)
+        layer 2 = 0 (kg/ha)
+        layer 3 = 0 (kg/ha)
+        layer 4 = 0 (kg/ha)
+        layer 5 = 0 (kg/ha)
+        layer 6 = 0 (kg/ha)
+        layer 7 = 0 (kg/ha)
+        uptake_nh4 total = 0 (kg/ha)
+     
+9 November 1988(Day of year=314), pastureConverter: 
+     
+     sw_uptake:-
+        layer 1 = 0 (mm)
+        layer 2 = 0 (mm)
+        layer 3 = 0 (mm)
+        layer 4 = 0 (mm)
+        layer 5 = 0 (mm)
+        layer 6 = 0 (mm)
+        layer 7 = 0 (mm)
+        sw_uptake total = 0 (mm)
+     
+     
+     uptake_no3:-
+        layer 1 = 0 (kg/ha)
+        layer 2 = 0 (kg/ha)
+        layer 3 = 0 (kg/ha)
+        layer 4 = 0 (kg/ha)
+        layer 5 = 0 (kg/ha)
+        layer 6 = 0 (kg/ha)
+        layer 7 = 0 (kg/ha)
+        uptake_no3 total = 0 (kg/ha)
+     
+     
+     uptake_nh4:-
+        layer 1 = 0 (kg/ha)
+        layer 2 = 0 (kg/ha)
+        layer 3 = 0 (kg/ha)
+        layer 4 = 0 (kg/ha)
+        layer 5 = 0 (kg/ha)
+        layer 6 = 0 (kg/ha)
+        layer 7 = 0 (kg/ha)
+        uptake_nh4 total = 0 (kg/ha)
+     
+10 November 1988(Day of year=315), pastureConverter: 
+     
+     sw_uptake:-
+        layer 1 = 0 (mm)
+        layer 2 = 0 (mm)
+        layer 3 = 0 (mm)
+        layer 4 = 0 (mm)
+        layer 5 = 0 (mm)
+        layer 6 = 0 (mm)
+        layer 7 = 0 (mm)
+        sw_uptake total = 0 (mm)
+     
+     
+     uptake_no3:-
+        layer 1 = 0 (kg/ha)
+        layer 2 = 0 (kg/ha)
+        layer 3 = 0 (kg/ha)
+        layer 4 = 0 (kg/ha)
+        layer 5 = 0 (kg/ha)
+        layer 6 = 0 (kg/ha)
+        layer 7 = 0 (kg/ha)
+        uptake_no3 total = 0 (kg/ha)
+     
+     
+     uptake_nh4:-
+        layer 1 = 0 (kg/ha)
+        layer 2 = 0 (kg/ha)
+        layer 3 = 0 (kg/ha)
+        layer 4 = 0 (kg/ha)
+        layer 5 = 0 (kg/ha)
+        layer 6 = 0 (kg/ha)
+        layer 7 = 0 (kg/ha)
+        uptake_nh4 total = 0 (kg/ha)
+     
+11 November 1988(Day of year=316), pastureConverter: 
+     
+     sw_uptake:-
+        layer 1 = 0 (mm)
+        layer 2 = 0 (mm)
+        layer 3 = 0 (mm)
+        layer 4 = 0 (mm)
+        layer 5 = 0 (mm)
+        layer 6 = 0 (mm)
+        layer 7 = 0 (mm)
+        sw_uptake total = 0 (mm)
+     
+     
+     uptake_no3:-
+        layer 1 = 0 (kg/ha)
+        layer 2 = 0 (kg/ha)
+        layer 3 = 0 (kg/ha)
+        layer 4 = 0 (kg/ha)
+        layer 5 = 0 (kg/ha)
+        layer 6 = 0 (kg/ha)
+        layer 7 = 0 (kg/ha)
+        uptake_no3 total = 0 (kg/ha)
+     
+     
+     uptake_nh4:-
+        layer 1 = 0 (kg/ha)
+        layer 2 = 0 (kg/ha)
+        layer 3 = 0 (kg/ha)
+        layer 4 = 0 (kg/ha)
+        layer 5 = 0 (kg/ha)
+        layer 6 = 0 (kg/ha)
+        layer 7 = 0 (kg/ha)
+        uptake_nh4 total = 0 (kg/ha)
+     
+12 November 1988(Day of year=317), pastureConverter: 
+     
+     sw_uptake:-
+        layer 1 = 0 (mm)
+        layer 2 = 0 (mm)
+        layer 3 = 0 (mm)
+        layer 4 = 0 (mm)
+        layer 5 = 0 (mm)
+        layer 6 = 0 (mm)
+        layer 7 = 0 (mm)
+        sw_uptake total = 0 (mm)
+     
+     
+     uptake_no3:-
+        layer 1 = 0 (kg/ha)
+        layer 2 = 0 (kg/ha)
+        layer 3 = 0 (kg/ha)
+        layer 4 = 0 (kg/ha)
+        layer 5 = 0 (kg/ha)
+        layer 6 = 0 (kg/ha)
+        layer 7 = 0 (kg/ha)
+        uptake_no3 total = 0 (kg/ha)
+     
+     
+     uptake_nh4:-
+        layer 1 = 0 (kg/ha)
+        layer 2 = 0 (kg/ha)
+        layer 3 = 0 (kg/ha)
+        layer 4 = 0 (kg/ha)
+        layer 5 = 0 (kg/ha)
+        layer 6 = 0 (kg/ha)
+        layer 7 = 0 (kg/ha)
+        uptake_nh4 total = 0 (kg/ha)
+     
+13 November 1988(Day of year=318), pastureConverter: 
+     
+     sw_uptake:-
+        layer 1 = 0 (mm)
+        layer 2 = 0 (mm)
+        layer 3 = 0 (mm)
+        layer 4 = 0 (mm)
+        layer 5 = 0 (mm)
+        layer 6 = 0 (mm)
+        layer 7 = 0 (mm)
+        sw_uptake total = 0 (mm)
+     
+     
+     uptake_no3:-
+        layer 1 = 0 (kg/ha)
+        layer 2 = 0 (kg/ha)
+        layer 3 = 0 (kg/ha)
+        layer 4 = 0 (kg/ha)
+        layer 5 = 0 (kg/ha)
+        layer 6 = 0 (kg/ha)
+        layer 7 = 0 (kg/ha)
+        uptake_no3 total = 0 (kg/ha)
+     
+     
+     uptake_nh4:-
+        layer 1 = 0 (kg/ha)
+        layer 2 = 0 (kg/ha)
+        layer 3 = 0 (kg/ha)
+        layer 4 = 0 (kg/ha)
+        layer 5 = 0 (kg/ha)
+        layer 6 = 0 (kg/ha)
+        layer 7 = 0 (kg/ha)
+        uptake_nh4 total = 0 (kg/ha)
+     
+14 November 1988(Day of year=319), pastureConverter: 
+     
+     sw_uptake:-
+        layer 1 = 0 (mm)
+        layer 2 = 0 (mm)
+        layer 3 = 0 (mm)
+        layer 4 = 0 (mm)
+        layer 5 = 0 (mm)
+        layer 6 = 0 (mm)
+        layer 7 = 0 (mm)
+        sw_uptake total = 0 (mm)
+     
+     
+     uptake_no3:-
+        layer 1 = 0 (kg/ha)
+        layer 2 = 0 (kg/ha)
+        layer 3 = 0 (kg/ha)
+        layer 4 = 0 (kg/ha)
+        layer 5 = 0 (kg/ha)
+        layer 6 = 0 (kg/ha)
+        layer 7 = 0 (kg/ha)
+        uptake_no3 total = 0 (kg/ha)
+     
+     
+     uptake_nh4:-
+        layer 1 = 0 (kg/ha)
+        layer 2 = 0 (kg/ha)
+        layer 3 = 0 (kg/ha)
+        layer 4 = 0 (kg/ha)
+        layer 5 = 0 (kg/ha)
+        layer 6 = 0 (kg/ha)
+        layer 7 = 0 (kg/ha)
+        uptake_nh4 total = 0 (kg/ha)
+     
+15 November 1988(Day of year=320), pastureConverter: 
+     
+     sw_uptake:-
+        layer 1 = 0 (mm)
+        layer 2 = 0 (mm)
+        layer 3 = 0 (mm)
+        layer 4 = 0 (mm)
+        layer 5 = 0 (mm)
+        layer 6 = 0 (mm)
+        layer 7 = 0 (mm)
+        sw_uptake total = 0 (mm)
+     
+     
+     uptake_no3:-
+        layer 1 = 0 (kg/ha)
+        layer 2 = 0 (kg/ha)
+        layer 3 = 0 (kg/ha)
+        layer 4 = 0 (kg/ha)
+        layer 5 = 0 (kg/ha)
+        layer 6 = 0 (kg/ha)
+        layer 7 = 0 (kg/ha)
+        uptake_no3 total = 0 (kg/ha)
+     
+     
+     uptake_nh4:-
+        layer 1 = 0 (kg/ha)
+        layer 2 = 0 (kg/ha)
+        layer 3 = 0 (kg/ha)
+        layer 4 = 0 (kg/ha)
+        layer 5 = 0 (kg/ha)
+        layer 6 = 0 (kg/ha)
+        layer 7 = 0 (kg/ha)
+        uptake_nh4 total = 0 (kg/ha)
+     
+16 November 1988(Day of year=321), pastureConverter: 
+     
+     sw_uptake:-
+        layer 1 = 0 (mm)
+        layer 2 = 0 (mm)
+        layer 3 = 0 (mm)
+        layer 4 = 0 (mm)
+        layer 5 = 0 (mm)
+        layer 6 = 0 (mm)
+        layer 7 = 0 (mm)
+        sw_uptake total = 0 (mm)
+     
+     
+     uptake_no3:-
+        layer 1 = 0 (kg/ha)
+        layer 2 = 0 (kg/ha)
+        layer 3 = 0 (kg/ha)
+        layer 4 = 0 (kg/ha)
+        layer 5 = 0 (kg/ha)
+        layer 6 = 0 (kg/ha)
+        layer 7 = 0 (kg/ha)
+        uptake_no3 total = 0 (kg/ha)
+     
+     
+     uptake_nh4:-
+        layer 1 = 0 (kg/ha)
+        layer 2 = 0 (kg/ha)
+        layer 3 = 0 (kg/ha)
+        layer 4 = 0 (kg/ha)
+        layer 5 = 0 (kg/ha)
+        layer 6 = 0 (kg/ha)
+        layer 7 = 0 (kg/ha)
+        uptake_nh4 total = 0 (kg/ha)
+     
+17 November 1988(Day of year=322), pastureConverter: 
+     
+     sw_uptake:-
+        layer 1 = 0.277787 (mm)
+        layer 2 = 0 (mm)
+        layer 3 = 0 (mm)
+        layer 4 = 0 (mm)
+        layer 5 = 0 (mm)
+        layer 6 = 0 (mm)
+        layer 7 = 0 (mm)
+        sw_uptake total = 0.277787 (mm)
+     
+     
+     uptake_no3:-
+        layer 1 = 0 (kg/ha)
+        layer 2 = 0 (kg/ha)
+        layer 3 = 0 (kg/ha)
+        layer 4 = 0 (kg/ha)
+        layer 5 = 0 (kg/ha)
+        layer 6 = 0 (kg/ha)
+        layer 7 = 0 (kg/ha)
+        uptake_no3 total = 0 (kg/ha)
+     
+     
+     uptake_nh4:-
+        layer 1 = 0 (kg/ha)
+        layer 2 = 0 (kg/ha)
+        layer 3 = 0 (kg/ha)
+        layer 4 = 0 (kg/ha)
+        layer 5 = 0 (kg/ha)
+        layer 6 = 0 (kg/ha)
+        layer 7 = 0 (kg/ha)
+        uptake_nh4 total = 0 (kg/ha)
+     
+18 November 1988(Day of year=323), pastureConverter: 
+     
+     sw_uptake:-
+        layer 1 = 0.284967 (mm)
+        layer 2 = 0 (mm)
+        layer 3 = 0 (mm)
+        layer 4 = 0 (mm)
+        layer 5 = 0 (mm)
+        layer 6 = 0 (mm)
+        layer 7 = 0 (mm)
+        sw_uptake total = 0.284967 (mm)
+     
+     
+     uptake_no3:-
+        layer 1 = 0 (kg/ha)
+        layer 2 = 0 (kg/ha)
+        layer 3 = 0 (kg/ha)
+        layer 4 = 0 (kg/ha)
+        layer 5 = 0 (kg/ha)
+        layer 6 = 0 (kg/ha)
+        layer 7 = 0 (kg/ha)
+        uptake_no3 total = 0 (kg/ha)
+     
+     
+     uptake_nh4:-
+        layer 1 = 0 (kg/ha)
+        layer 2 = 0 (kg/ha)
+        layer 3 = 0 (kg/ha)
+        layer 4 = 0 (kg/ha)
+        layer 5 = 0 (kg/ha)
+        layer 6 = 0 (kg/ha)
+        layer 7 = 0 (kg/ha)
+        uptake_nh4 total = 0 (kg/ha)
+     
+19 November 1988(Day of year=324), pastureConverter: 
+     
+     sw_uptake:-
+        layer 1 = 0.304676 (mm)
+        layer 2 = 0 (mm)
+        layer 3 = 0 (mm)
+        layer 4 = 0 (mm)
+        layer 5 = 0 (mm)
+        layer 6 = 0 (mm)
+        layer 7 = 0 (mm)
+        sw_uptake total = 0.304676 (mm)
+     
+     
+     uptake_no3:-
+        layer 1 = 0 (kg/ha)
+        layer 2 = 0 (kg/ha)
+        layer 3 = 0 (kg/ha)
+        layer 4 = 0 (kg/ha)
+        layer 5 = 0 (kg/ha)
+        layer 6 = 0 (kg/ha)
+        layer 7 = 0 (kg/ha)
+        uptake_no3 total = 0 (kg/ha)
+     
+     
+     uptake_nh4:-
+        layer 1 = 0 (kg/ha)
+        layer 2 = 0 (kg/ha)
+        layer 3 = 0 (kg/ha)
+        layer 4 = 0 (kg/ha)
+        layer 5 = 0 (kg/ha)
+        layer 6 = 0 (kg/ha)
+        layer 7 = 0 (kg/ha)
+        uptake_nh4 total = 0 (kg/ha)
+     
+20 November 1988(Day of year=325), pastureConverter: 
+     
+     sw_uptake:-
+        layer 1 = 0.210235 (mm)
+        layer 2 = 0 (mm)
+        layer 3 = 0 (mm)
+        layer 4 = 0 (mm)
+        layer 5 = 0 (mm)
+        layer 6 = 0 (mm)
+        layer 7 = 0 (mm)
+        sw_uptake total = 0.210235 (mm)
+     
+     
+     uptake_no3:-
+        layer 1 = 0 (kg/ha)
+        layer 2 = 0 (kg/ha)
+        layer 3 = 0 (kg/ha)
+        layer 4 = 0 (kg/ha)
+        layer 5 = 0 (kg/ha)
+        layer 6 = 0 (kg/ha)
+        layer 7 = 0 (kg/ha)
+        uptake_no3 total = 0 (kg/ha)
+     
+     
+     uptake_nh4:-
+        layer 1 = 0 (kg/ha)
+        layer 2 = 0 (kg/ha)
+        layer 3 = 0 (kg/ha)
+        layer 4 = 0 (kg/ha)
+        layer 5 = 0 (kg/ha)
+        layer 6 = 0 (kg/ha)
+        layer 7 = 0 (kg/ha)
+        uptake_nh4 total = 0 (kg/ha)
+     
+21 November 1988(Day of year=326), pastureConverter: 
+     
+     sw_uptake:-
+        layer 1 = 0.234161 (mm)
+        layer 2 = 0 (mm)
+        layer 3 = 0 (mm)
+        layer 4 = 0 (mm)
+        layer 5 = 0 (mm)
+        layer 6 = 0 (mm)
+        layer 7 = 0 (mm)
+        sw_uptake total = 0.234161 (mm)
+     
+     
+     uptake_no3:-
+        layer 1 = 0 (kg/ha)
+        layer 2 = 0 (kg/ha)
+        layer 3 = 0 (kg/ha)
+        layer 4 = 0 (kg/ha)
+        layer 5 = 0 (kg/ha)
+        layer 6 = 0 (kg/ha)
+        layer 7 = 0 (kg/ha)
+        uptake_no3 total = 0 (kg/ha)
+     
+     
+     uptake_nh4:-
+        layer 1 = 0 (kg/ha)
+        layer 2 = 0 (kg/ha)
+        layer 3 = 0 (kg/ha)
+        layer 4 = 0 (kg/ha)
+        layer 5 = 0 (kg/ha)
+        layer 6 = 0 (kg/ha)
+        layer 7 = 0 (kg/ha)
+        uptake_nh4 total = 0 (kg/ha)
+     
+22 November 1988(Day of year=327), pastureConverter: 
+     
+     sw_uptake:-
+        layer 1 = 0.194484 (mm)
+        layer 2 = 0 (mm)
+        layer 3 = 0 (mm)
+        layer 4 = 0 (mm)
+        layer 5 = 0 (mm)
+        layer 6 = 0 (mm)
+        layer 7 = 0 (mm)
+        sw_uptake total = 0.194484 (mm)
+     
+     
+     uptake_no3:-
+        layer 1 = 0 (kg/ha)
+        layer 2 = 0 (kg/ha)
+        layer 3 = 0 (kg/ha)
+        layer 4 = 0 (kg/ha)
+        layer 5 = 0 (kg/ha)
+        layer 6 = 0 (kg/ha)
+        layer 7 = 0 (kg/ha)
+        uptake_no3 total = 0 (kg/ha)
+     
+     
+     uptake_nh4:-
+        layer 1 = 0 (kg/ha)
+        layer 2 = 0 (kg/ha)
+        layer 3 = 0 (kg/ha)
+        layer 4 = 0 (kg/ha)
+        layer 5 = 0 (kg/ha)
+        layer 6 = 0 (kg/ha)
+        layer 7 = 0 (kg/ha)
+        uptake_nh4 total = 0 (kg/ha)
+     
+23 November 1988(Day of year=328), pastureConverter: 
+     
+     sw_uptake:-
+        layer 1 = 0.181693 (mm)
+        layer 2 = 0 (mm)
+        layer 3 = 0 (mm)
+        layer 4 = 0 (mm)
+        layer 5 = 0 (mm)
+        layer 6 = 0 (mm)
+        layer 7 = 0 (mm)
+        sw_uptake total = 0.181693 (mm)
+     
+     
+     uptake_no3:-
+        layer 1 = 0 (kg/ha)
+        layer 2 = 0 (kg/ha)
+        layer 3 = 0 (kg/ha)
+        layer 4 = 0 (kg/ha)
+        layer 5 = 0 (kg/ha)
+        layer 6 = 0 (kg/ha)
+        layer 7 = 0 (kg/ha)
+        uptake_no3 total = 0 (kg/ha)
+     
+     
+     uptake_nh4:-
+        layer 1 = 0 (kg/ha)
+        layer 2 = 0 (kg/ha)
+        layer 3 = 0 (kg/ha)
+        layer 4 = 0 (kg/ha)
+        layer 5 = 0 (kg/ha)
+        layer 6 = 0 (kg/ha)
+        layer 7 = 0 (kg/ha)
+        uptake_nh4 total = 0 (kg/ha)
+     
+24 November 1988(Day of year=329), pastureConverter: 
+     
+     sw_uptake:-
+        layer 1 = 0.143324 (mm)
+        layer 2 = 0 (mm)
+        layer 3 = 0 (mm)
+        layer 4 = 0 (mm)
+        layer 5 = 0 (mm)
+        layer 6 = 0 (mm)
+        layer 7 = 0 (mm)
+        sw_uptake total = 0.143324 (mm)
+     
+     
+     uptake_no3:-
+        layer 1 = 0 (kg/ha)
+        layer 2 = 0 (kg/ha)
+        layer 3 = 0 (kg/ha)
+        layer 4 = 0 (kg/ha)
+        layer 5 = 0 (kg/ha)
+        layer 6 = 0 (kg/ha)
+        layer 7 = 0 (kg/ha)
+        uptake_no3 total = 0 (kg/ha)
+     
+     
+     uptake_nh4:-
+        layer 1 = 0 (kg/ha)
+        layer 2 = 0 (kg/ha)
+        layer 3 = 0 (kg/ha)
+        layer 4 = 0 (kg/ha)
+        layer 5 = 0 (kg/ha)
+        layer 6 = 0 (kg/ha)
+        layer 7 = 0 (kg/ha)
+        uptake_nh4 total = 0 (kg/ha)
+     
+25 November 1988(Day of year=330), pastureConverter: 
+     
+     sw_uptake:-
+        layer 1 = 0.100742 (mm)
+        layer 2 = 0 (mm)
+        layer 3 = 0 (mm)
+        layer 4 = 0 (mm)
+        layer 5 = 0 (mm)
+        layer 6 = 0 (mm)
+        layer 7 = 0 (mm)
+        sw_uptake total = 0.100742 (mm)
+     
+     
+     uptake_no3:-
+        layer 1 = 0 (kg/ha)
+        layer 2 = 0 (kg/ha)
+        layer 3 = 0 (kg/ha)
+        layer 4 = 0 (kg/ha)
+        layer 5 = 0 (kg/ha)
+        layer 6 = 0 (kg/ha)
+        layer 7 = 0 (kg/ha)
+        uptake_no3 total = 0 (kg/ha)
+     
+     
+     uptake_nh4:-
+        layer 1 = 0 (kg/ha)
+        layer 2 = 0 (kg/ha)
+        layer 3 = 0 (kg/ha)
+        layer 4 = 0 (kg/ha)
+        layer 5 = 0 (kg/ha)
+        layer 6 = 0 (kg/ha)
+        layer 7 = 0 (kg/ha)
+        uptake_nh4 total = 0 (kg/ha)
+     
+26 November 1988(Day of year=331), pastureConverter: 
+     
+     sw_uptake:-
+        layer 1 = 0.0711089 (mm)
+        layer 2 = 0 (mm)
+        layer 3 = 0 (mm)
+        layer 4 = 0 (mm)
+        layer 5 = 0 (mm)
+        layer 6 = 0 (mm)
+        layer 7 = 0 (mm)
+        sw_uptake total = 0.0711089 (mm)
+     
+     
+     uptake_no3:-
+        layer 1 = 0 (kg/ha)
+        layer 2 = 0 (kg/ha)
+        layer 3 = 0 (kg/ha)
+        layer 4 = 0 (kg/ha)
+        layer 5 = 0 (kg/ha)
+        layer 6 = 0 (kg/ha)
+        layer 7 = 0 (kg/ha)
+        uptake_no3 total = 0 (kg/ha)
+     
+     
+     uptake_nh4:-
+        layer 1 = 0 (kg/ha)
+        layer 2 = 0 (kg/ha)
+        layer 3 = 0 (kg/ha)
+        layer 4 = 0 (kg/ha)
+        layer 5 = 0 (kg/ha)
+        layer 6 = 0 (kg/ha)
+        layer 7 = 0 (kg/ha)
+        uptake_nh4 total = 0 (kg/ha)
+     
+27 November 1988(Day of year=332), pastureConverter: 
+     
+     sw_uptake:-
+        layer 1 = 0.0440125 (mm)
+        layer 2 = 0 (mm)
+        layer 3 = 0 (mm)
+        layer 4 = 0 (mm)
+        layer 5 = 0 (mm)
+        layer 6 = 0 (mm)
+        layer 7 = 0 (mm)
+        sw_uptake total = 0.0440125 (mm)
+     
+     
+     uptake_no3:-
+        layer 1 = 0 (kg/ha)
+        layer 2 = 0 (kg/ha)
+        layer 3 = 0 (kg/ha)
+        layer 4 = 0 (kg/ha)
+        layer 5 = 0 (kg/ha)
+        layer 6 = 0 (kg/ha)
+        layer 7 = 0 (kg/ha)
+        uptake_no3 total = 0 (kg/ha)
+     
+     
+     uptake_nh4:-
+        layer 1 = 0 (kg/ha)
+        layer 2 = 0 (kg/ha)
+        layer 3 = 0 (kg/ha)
+        layer 4 = 0 (kg/ha)
+        layer 5 = 0 (kg/ha)
+        layer 6 = 0 (kg/ha)
+        layer 7 = 0 (kg/ha)
+        uptake_nh4 total = 0 (kg/ha)
+     
+28 November 1988(Day of year=333), pastureConverter: 
+     
+     sw_uptake:-
+        layer 1 = 0.0258563 (mm)
+        layer 2 = 0 (mm)
+        layer 3 = 0 (mm)
+        layer 4 = 0 (mm)
+        layer 5 = 0 (mm)
+        layer 6 = 0 (mm)
+        layer 7 = 0 (mm)
+        sw_uptake total = 0.0258563 (mm)
+     
+     
+     uptake_no3:-
+        layer 1 = 0 (kg/ha)
+        layer 2 = 0 (kg/ha)
+        layer 3 = 0 (kg/ha)
+        layer 4 = 0 (kg/ha)
+        layer 5 = 0 (kg/ha)
+        layer 6 = 0 (kg/ha)
+        layer 7 = 0 (kg/ha)
+        uptake_no3 total = 0 (kg/ha)
+     
+     
+     uptake_nh4:-
+        layer 1 = 0 (kg/ha)
+        layer 2 = 0 (kg/ha)
+        layer 3 = 0 (kg/ha)
+        layer 4 = 0 (kg/ha)
+        layer 5 = 0 (kg/ha)
+        layer 6 = 0 (kg/ha)
+        layer 7 = 0 (kg/ha)
+        uptake_nh4 total = 0 (kg/ha)
+     
+29 November 1988(Day of year=334), pastureConverter: 
+     
+     sw_uptake:-
+        layer 1 = 0.00978358 (mm)
+        layer 2 = 0 (mm)
+        layer 3 = 0 (mm)
+        layer 4 = 0 (mm)
+        layer 5 = 0 (mm)
+        layer 6 = 0 (mm)
+        layer 7 = 0 (mm)
+        sw_uptake total = 0.00978358 (mm)
+     
+     
+     uptake_no3:-
+        layer 1 = 0 (kg/ha)
+        layer 2 = 0 (kg/ha)
+        layer 3 = 0 (kg/ha)
+        layer 4 = 0 (kg/ha)
+        layer 5 = 0 (kg/ha)
+        layer 6 = 0 (kg/ha)
+        layer 7 = 0 (kg/ha)
+        uptake_no3 total = 0 (kg/ha)
+     
+     
+     uptake_nh4:-
+        layer 1 = 0 (kg/ha)
+        layer 2 = 0 (kg/ha)
+        layer 3 = 0 (kg/ha)
+        layer 4 = 0 (kg/ha)
+        layer 5 = 0 (kg/ha)
+        layer 6 = 0 (kg/ha)
+        layer 7 = 0 (kg/ha)
+        uptake_nh4 total = 0 (kg/ha)
+     
+30 November 1988(Day of year=335), pastureConverter: 
+     
+     sw_uptake:-
+        layer 1 = 0 (mm)
+        layer 2 = 0 (mm)
+        layer 3 = 0 (mm)
+        layer 4 = 0 (mm)
+        layer 5 = 0 (mm)
+        layer 6 = 0 (mm)
+        layer 7 = 0 (mm)
+        sw_uptake total = 0 (mm)
+     
+     
+     uptake_no3:-
+        layer 1 = 0 (kg/ha)
+        layer 2 = 0 (kg/ha)
+        layer 3 = 0 (kg/ha)
+        layer 4 = 0 (kg/ha)
+        layer 5 = 0 (kg/ha)
+        layer 6 = 0 (kg/ha)
+        layer 7 = 0 (kg/ha)
+        uptake_no3 total = 0 (kg/ha)
+     
+     
+     uptake_nh4:-
+        layer 1 = 0 (kg/ha)
+        layer 2 = 0 (kg/ha)
+        layer 3 = 0 (kg/ha)
+        layer 4 = 0 (kg/ha)
+        layer 5 = 0 (kg/ha)
+        layer 6 = 0 (kg/ha)
+        layer 7 = 0 (kg/ha)
+        uptake_nh4 total = 0 (kg/ha)
+     
+1 December 1988(Day of year=336), pastureConverter: 
+     
+     sw_uptake:-
+        layer 1 = 0 (mm)
+        layer 2 = 0 (mm)
+        layer 3 = 0 (mm)
+        layer 4 = 0 (mm)
+        layer 5 = 0 (mm)
+        layer 6 = 0 (mm)
+        layer 7 = 0 (mm)
+        sw_uptake total = 0 (mm)
+     
+     
+     uptake_no3:-
+        layer 1 = 0 (kg/ha)
+        layer 2 = 0 (kg/ha)
+        layer 3 = 0 (kg/ha)
+        layer 4 = 0 (kg/ha)
+        layer 5 = 0 (kg/ha)
+        layer 6 = 0 (kg/ha)
+        layer 7 = 0 (kg/ha)
+        uptake_no3 total = 0 (kg/ha)
+     
+     
+     uptake_nh4:-
+        layer 1 = 0 (kg/ha)
+        layer 2 = 0 (kg/ha)
+        layer 3 = 0 (kg/ha)
+        layer 4 = 0 (kg/ha)
+        layer 5 = 0 (kg/ha)
+        layer 6 = 0 (kg/ha)
+        layer 7 = 0 (kg/ha)
+        uptake_nh4 total = 0 (kg/ha)
+     
+2 December 1988(Day of year=337), pastureConverter: 
+     
+     sw_uptake:-
+        layer 1 = 0 (mm)
+        layer 2 = 0 (mm)
+        layer 3 = 0 (mm)
+        layer 4 = 0 (mm)
+        layer 5 = 0 (mm)
+        layer 6 = 0 (mm)
+        layer 7 = 0 (mm)
+        sw_uptake total = 0 (mm)
+     
+     
+     uptake_no3:-
+        layer 1 = 0 (kg/ha)
+        layer 2 = 0 (kg/ha)
+        layer 3 = 0 (kg/ha)
+        layer 4 = 0 (kg/ha)
+        layer 5 = 0 (kg/ha)
+        layer 6 = 0 (kg/ha)
+        layer 7 = 0 (kg/ha)
+        uptake_no3 total = 0 (kg/ha)
+     
+     
+     uptake_nh4:-
+        layer 1 = 0 (kg/ha)
+        layer 2 = 0 (kg/ha)
+        layer 3 = 0 (kg/ha)
+        layer 4 = 0 (kg/ha)
+        layer 5 = 0 (kg/ha)
+        layer 6 = 0 (kg/ha)
+        layer 7 = 0 (kg/ha)
+        uptake_nh4 total = 0 (kg/ha)
+     
+3 December 1988(Day of year=338), pastureConverter: 
+     
+     sw_uptake:-
+        layer 1 = 0 (mm)
+        layer 2 = 0 (mm)
+        layer 3 = 0 (mm)
+        layer 4 = 0 (mm)
+        layer 5 = 0 (mm)
+        layer 6 = 0 (mm)
+        layer 7 = 0 (mm)
+        sw_uptake total = 0 (mm)
+     
+     
+     uptake_no3:-
+        layer 1 = 0 (kg/ha)
+        layer 2 = 0 (kg/ha)
+        layer 3 = 0 (kg/ha)
+        layer 4 = 0 (kg/ha)
+        layer 5 = 0 (kg/ha)
+        layer 6 = 0 (kg/ha)
+        layer 7 = 0 (kg/ha)
+        uptake_no3 total = 0 (kg/ha)
+     
+     
+     uptake_nh4:-
+        layer 1 = 0 (kg/ha)
+        layer 2 = 0 (kg/ha)
+        layer 3 = 0 (kg/ha)
+        layer 4 = 0 (kg/ha)
+        layer 5 = 0 (kg/ha)
+        layer 6 = 0 (kg/ha)
+        layer 7 = 0 (kg/ha)
+        uptake_nh4 total = 0 (kg/ha)
+     
+4 December 1988(Day of year=339), pastureConverter: 
+     
+     sw_uptake:-
+        layer 1 = 0 (mm)
+        layer 2 = 0 (mm)
+        layer 3 = 0 (mm)
+        layer 4 = 0 (mm)
+        layer 5 = 0 (mm)
+        layer 6 = 0 (mm)
+        layer 7 = 0 (mm)
+        sw_uptake total = 0 (mm)
+     
+     
+     uptake_no3:-
+        layer 1 = 0 (kg/ha)
+        layer 2 = 0 (kg/ha)
+        layer 3 = 0 (kg/ha)
+        layer 4 = 0 (kg/ha)
+        layer 5 = 0 (kg/ha)
+        layer 6 = 0 (kg/ha)
+        layer 7 = 0 (kg/ha)
+        uptake_no3 total = 0 (kg/ha)
+     
+     
+     uptake_nh4:-
+        layer 1 = 0 (kg/ha)
+        layer 2 = 0 (kg/ha)
+        layer 3 = 0 (kg/ha)
+        layer 4 = 0 (kg/ha)
+        layer 5 = 0 (kg/ha)
+        layer 6 = 0 (kg/ha)
+        layer 7 = 0 (kg/ha)
+        uptake_nh4 total = 0 (kg/ha)
+     
+5 December 1988(Day of year=340), pastureConverter: 
+     
+     sw_uptake:-
+        layer 1 = 0 (mm)
+        layer 2 = 0 (mm)
+        layer 3 = 0 (mm)
+        layer 4 = 0 (mm)
+        layer 5 = 0 (mm)
+        layer 6 = 0 (mm)
+        layer 7 = 0 (mm)
+        sw_uptake total = 0 (mm)
+     
+     
+     uptake_no3:-
+        layer 1 = 0 (kg/ha)
+        layer 2 = 0 (kg/ha)
+        layer 3 = 0 (kg/ha)
+        layer 4 = 0 (kg/ha)
+        layer 5 = 0 (kg/ha)
+        layer 6 = 0 (kg/ha)
+        layer 7 = 0 (kg/ha)
+        uptake_no3 total = 0 (kg/ha)
+     
+     
+     uptake_nh4:-
+        layer 1 = 0 (kg/ha)
+        layer 2 = 0 (kg/ha)
+        layer 3 = 0 (kg/ha)
+        layer 4 = 0 (kg/ha)
+        layer 5 = 0 (kg/ha)
+        layer 6 = 0 (kg/ha)
+        layer 7 = 0 (kg/ha)
+        uptake_nh4 total = 0 (kg/ha)
+     
+6 December 1988(Day of year=341), pastureConverter: 
+     
+     sw_uptake:-
+        layer 1 = 0 (mm)
+        layer 2 = 0 (mm)
+        layer 3 = 0 (mm)
+        layer 4 = 0 (mm)
+        layer 5 = 0 (mm)
+        layer 6 = 0 (mm)
+        layer 7 = 0 (mm)
+        sw_uptake total = 0 (mm)
+     
+     
+     uptake_no3:-
+        layer 1 = 0 (kg/ha)
+        layer 2 = 0 (kg/ha)
+        layer 3 = 0 (kg/ha)
+        layer 4 = 0 (kg/ha)
+        layer 5 = 0 (kg/ha)
+        layer 6 = 0 (kg/ha)
+        layer 7 = 0 (kg/ha)
+        uptake_no3 total = 0 (kg/ha)
+     
+     
+     uptake_nh4:-
+        layer 1 = 0 (kg/ha)
+        layer 2 = 0 (kg/ha)
+        layer 3 = 0 (kg/ha)
+        layer 4 = 0 (kg/ha)
+        layer 5 = 0 (kg/ha)
+        layer 6 = 0 (kg/ha)
+        layer 7 = 0 (kg/ha)
+        uptake_nh4 total = 0 (kg/ha)
+     
+7 December 1988(Day of year=342), pastureConverter: 
+     
+     sw_uptake:-
+        layer 1 = 0 (mm)
+        layer 2 = 0 (mm)
+        layer 3 = 0 (mm)
+        layer 4 = 0 (mm)
+        layer 5 = 0 (mm)
+        layer 6 = 0 (mm)
+        layer 7 = 0 (mm)
+        sw_uptake total = 0 (mm)
+     
+     
+     uptake_no3:-
+        layer 1 = 0 (kg/ha)
+        layer 2 = 0 (kg/ha)
+        layer 3 = 0 (kg/ha)
+        layer 4 = 0 (kg/ha)
+        layer 5 = 0 (kg/ha)
+        layer 6 = 0 (kg/ha)
+        layer 7 = 0 (kg/ha)
+        uptake_no3 total = 0 (kg/ha)
+     
+     
+     uptake_nh4:-
+        layer 1 = 0 (kg/ha)
+        layer 2 = 0 (kg/ha)
+        layer 3 = 0 (kg/ha)
+        layer 4 = 0 (kg/ha)
+        layer 5 = 0 (kg/ha)
+        layer 6 = 0 (kg/ha)
+        layer 7 = 0 (kg/ha)
+        uptake_nh4 total = 0 (kg/ha)
+     
+8 December 1988(Day of year=343), pastureConverter: 
+     
+     sw_uptake:-
+        layer 1 = 0 (mm)
+        layer 2 = 0 (mm)
+        layer 3 = 0 (mm)
+        layer 4 = 0 (mm)
+        layer 5 = 0 (mm)
+        layer 6 = 0 (mm)
+        layer 7 = 0 (mm)
+        sw_uptake total = 0 (mm)
+     
+     
+     uptake_no3:-
+        layer 1 = 0 (kg/ha)
+        layer 2 = 0 (kg/ha)
+        layer 3 = 0 (kg/ha)
+        layer 4 = 0 (kg/ha)
+        layer 5 = 0 (kg/ha)
+        layer 6 = 0 (kg/ha)
+        layer 7 = 0 (kg/ha)
+        uptake_no3 total = 0 (kg/ha)
+     
+     
+     uptake_nh4:-
+        layer 1 = 0 (kg/ha)
+        layer 2 = 0 (kg/ha)
+        layer 3 = 0 (kg/ha)
+        layer 4 = 0 (kg/ha)
+        layer 5 = 0 (kg/ha)
+        layer 6 = 0 (kg/ha)
+        layer 7 = 0 (kg/ha)
+        uptake_nh4 total = 0 (kg/ha)
+     
+9 December 1988(Day of year=344), pastureConverter: 
+     
+     sw_uptake:-
+        layer 1 = 0.0035922 (mm)
+        layer 2 = 0 (mm)
+        layer 3 = 0 (mm)
+        layer 4 = 0 (mm)
+        layer 5 = 0 (mm)
+        layer 6 = 0 (mm)
+        layer 7 = 0 (mm)
+        sw_uptake total = 0.0035922 (mm)
+     
+     
+     uptake_no3:-
+        layer 1 = 0 (kg/ha)
+        layer 2 = 0 (kg/ha)
+        layer 3 = 0 (kg/ha)
+        layer 4 = 0 (kg/ha)
+        layer 5 = 0 (kg/ha)
+        layer 6 = 0 (kg/ha)
+        layer 7 = 0 (kg/ha)
+        uptake_no3 total = 0 (kg/ha)
+     
+     
+     uptake_nh4:-
+        layer 1 = 0 (kg/ha)
+        layer 2 = 0 (kg/ha)
+        layer 3 = 0 (kg/ha)
+        layer 4 = 0 (kg/ha)
+        layer 5 = 0 (kg/ha)
+        layer 6 = 0 (kg/ha)
+        layer 7 = 0 (kg/ha)
+        uptake_nh4 total = 0 (kg/ha)
+     
+10 December 1988(Day of year=345), pastureConverter: 
+     
+     sw_uptake:-
+        layer 1 = 0.00655045 (mm)
+        layer 2 = 0 (mm)
+        layer 3 = 0 (mm)
+        layer 4 = 0 (mm)
+        layer 5 = 0 (mm)
+        layer 6 = 0 (mm)
+        layer 7 = 0 (mm)
+        sw_uptake total = 0.00655045 (mm)
+     
+     
+     uptake_no3:-
+        layer 1 = 0 (kg/ha)
+        layer 2 = 0 (kg/ha)
+        layer 3 = 0 (kg/ha)
+        layer 4 = 0 (kg/ha)
+        layer 5 = 0 (kg/ha)
+        layer 6 = 0 (kg/ha)
+        layer 7 = 0 (kg/ha)
+        uptake_no3 total = 0 (kg/ha)
+     
+     
+     uptake_nh4:-
+        layer 1 = 0 (kg/ha)
+        layer 2 = 0 (kg/ha)
+        layer 3 = 0 (kg/ha)
+        layer 4 = 0 (kg/ha)
+        layer 5 = 0 (kg/ha)
+        layer 6 = 0 (kg/ha)
+        layer 7 = 0 (kg/ha)
+        uptake_nh4 total = 0 (kg/ha)
+     
+11 December 1988(Day of year=346), pastureConverter: 
+     
+     sw_uptake:-
+        layer 1 = 0.0799492 (mm)
+        layer 2 = 0 (mm)
+        layer 3 = 0 (mm)
+        layer 4 = 0 (mm)
+        layer 5 = 0 (mm)
+        layer 6 = 0 (mm)
+        layer 7 = 0 (mm)
+        sw_uptake total = 0.0799492 (mm)
+     
+     
+     uptake_no3:-
+        layer 1 = 0 (kg/ha)
+        layer 2 = 0 (kg/ha)
+        layer 3 = 0 (kg/ha)
+        layer 4 = 0 (kg/ha)
+        layer 5 = 0 (kg/ha)
+        layer 6 = 0 (kg/ha)
+        layer 7 = 0 (kg/ha)
+        uptake_no3 total = 0 (kg/ha)
+     
+     
+     uptake_nh4:-
+        layer 1 = 0 (kg/ha)
+        layer 2 = 0 (kg/ha)
+        layer 3 = 0 (kg/ha)
+        layer 4 = 0 (kg/ha)
+        layer 5 = 0 (kg/ha)
+        layer 6 = 0 (kg/ha)
+        layer 7 = 0 (kg/ha)
+        uptake_nh4 total = 0 (kg/ha)
+     
+12 December 1988(Day of year=347), pastureConverter: 
+     
+     sw_uptake:-
+        layer 1 = 0.0505382 (mm)
+        layer 2 = 0 (mm)
+        layer 3 = 0 (mm)
+        layer 4 = 0 (mm)
+        layer 5 = 0 (mm)
+        layer 6 = 0 (mm)
+        layer 7 = 0 (mm)
+        sw_uptake total = 0.0505382 (mm)
+     
+     
+     uptake_no3:-
+        layer 1 = 0 (kg/ha)
+        layer 2 = 0 (kg/ha)
+        layer 3 = 0 (kg/ha)
+        layer 4 = 0 (kg/ha)
+        layer 5 = 0 (kg/ha)
+        layer 6 = 0 (kg/ha)
+        layer 7 = 0 (kg/ha)
+        uptake_no3 total = 0 (kg/ha)
+     
+     
+     uptake_nh4:-
+        layer 1 = 0 (kg/ha)
+        layer 2 = 0 (kg/ha)
+        layer 3 = 0 (kg/ha)
+        layer 4 = 0 (kg/ha)
+        layer 5 = 0 (kg/ha)
+        layer 6 = 0 (kg/ha)
+        layer 7 = 0 (kg/ha)
+        uptake_nh4 total = 0 (kg/ha)
+     
+13 December 1988(Day of year=348), pastureConverter: 
+     
+     sw_uptake:-
+        layer 1 = 0.047507 (mm)
+        layer 2 = 0 (mm)
+        layer 3 = 0 (mm)
+        layer 4 = 0 (mm)
+        layer 5 = 0 (mm)
+        layer 6 = 0 (mm)
+        layer 7 = 0 (mm)
+        sw_uptake total = 0.047507 (mm)
+     
+     
+     uptake_no3:-
+        layer 1 = 0 (kg/ha)
+        layer 2 = 0 (kg/ha)
+        layer 3 = 0 (kg/ha)
+        layer 4 = 0 (kg/ha)
+        layer 5 = 0 (kg/ha)
+        layer 6 = 0 (kg/ha)
+        layer 7 = 0 (kg/ha)
+        uptake_no3 total = 0 (kg/ha)
+     
+     
+     uptake_nh4:-
+        layer 1 = 0 (kg/ha)
+        layer 2 = 0 (kg/ha)
+        layer 3 = 0 (kg/ha)
+        layer 4 = 0 (kg/ha)
+        layer 5 = 0 (kg/ha)
+        layer 6 = 0 (kg/ha)
+        layer 7 = 0 (kg/ha)
+        uptake_nh4 total = 0 (kg/ha)
+     
+14 December 1988(Day of year=349), pastureConverter: 
+     
+     sw_uptake:-
+        layer 1 = 0.0418732 (mm)
+        layer 2 = 0 (mm)
+        layer 3 = 0 (mm)
+        layer 4 = 0 (mm)
+        layer 5 = 0 (mm)
+        layer 6 = 0 (mm)
+        layer 7 = 0 (mm)
+        sw_uptake total = 0.0418732 (mm)
+     
+     
+     uptake_no3:-
+        layer 1 = 0 (kg/ha)
+        layer 2 = 0 (kg/ha)
+        layer 3 = 0 (kg/ha)
+        layer 4 = 0 (kg/ha)
+        layer 5 = 0 (kg/ha)
+        layer 6 = 0 (kg/ha)
+        layer 7 = 0 (kg/ha)
+        uptake_no3 total = 0 (kg/ha)
+     
+     
+     uptake_nh4:-
+        layer 1 = 0 (kg/ha)
+        layer 2 = 0 (kg/ha)
+        layer 3 = 0 (kg/ha)
+        layer 4 = 0 (kg/ha)
+        layer 5 = 0 (kg/ha)
+        layer 6 = 0 (kg/ha)
+        layer 7 = 0 (kg/ha)
+        uptake_nh4 total = 0 (kg/ha)
+     
+15 December 1988(Day of year=350), pastureConverter: 
+     
+     sw_uptake:-
+        layer 1 = 0.0360035 (mm)
+        layer 2 = 0 (mm)
+        layer 3 = 0 (mm)
+        layer 4 = 0 (mm)
+        layer 5 = 0 (mm)
+        layer 6 = 0 (mm)
+        layer 7 = 0 (mm)
+        sw_uptake total = 0.0360035 (mm)
+     
+     
+     uptake_no3:-
+        layer 1 = 0 (kg/ha)
+        layer 2 = 0 (kg/ha)
+        layer 3 = 0 (kg/ha)
+        layer 4 = 0 (kg/ha)
+        layer 5 = 0 (kg/ha)
+        layer 6 = 0 (kg/ha)
+        layer 7 = 0 (kg/ha)
+        uptake_no3 total = 0 (kg/ha)
+     
+     
+     uptake_nh4:-
+        layer 1 = 0 (kg/ha)
+        layer 2 = 0 (kg/ha)
+        layer 3 = 0 (kg/ha)
+        layer 4 = 0 (kg/ha)
+        layer 5 = 0 (kg/ha)
+        layer 6 = 0 (kg/ha)
+        layer 7 = 0 (kg/ha)
+        uptake_nh4 total = 0 (kg/ha)
+     
+16 December 1988(Day of year=351), pastureConverter: 
+     
+     sw_uptake:-
+        layer 1 = 0.0217886 (mm)
+        layer 2 = 0 (mm)
+        layer 3 = 0 (mm)
+        layer 4 = 0 (mm)
+        layer 5 = 0 (mm)
+        layer 6 = 0 (mm)
+        layer 7 = 0 (mm)
+        sw_uptake total = 0.0217886 (mm)
+     
+     
+     uptake_no3:-
+        layer 1 = 0 (kg/ha)
+        layer 2 = 0 (kg/ha)
+        layer 3 = 0 (kg/ha)
+        layer 4 = 0 (kg/ha)
+        layer 5 = 0 (kg/ha)
+        layer 6 = 0 (kg/ha)
+        layer 7 = 0 (kg/ha)
+        uptake_no3 total = 0 (kg/ha)
+     
+     
+     uptake_nh4:-
+        layer 1 = 0 (kg/ha)
+        layer 2 = 0 (kg/ha)
+        layer 3 = 0 (kg/ha)
+        layer 4 = 0 (kg/ha)
+        layer 5 = 0 (kg/ha)
+        layer 6 = 0 (kg/ha)
+        layer 7 = 0 (kg/ha)
+        uptake_nh4 total = 0 (kg/ha)
+     
+17 December 1988(Day of year=352), pastureConverter: 
+     
+     sw_uptake:-
+        layer 1 = 0.0111367 (mm)
+        layer 2 = 0 (mm)
+        layer 3 = 0 (mm)
+        layer 4 = 0 (mm)
+        layer 5 = 0 (mm)
+        layer 6 = 0 (mm)
+        layer 7 = 0 (mm)
+        sw_uptake total = 0.0111367 (mm)
+     
+     
+     uptake_no3:-
+        layer 1 = 0 (kg/ha)
+        layer 2 = 0 (kg/ha)
+        layer 3 = 0 (kg/ha)
+        layer 4 = 0 (kg/ha)
+        layer 5 = 0 (kg/ha)
+        layer 6 = 0 (kg/ha)
+        layer 7 = 0 (kg/ha)
+        uptake_no3 total = 0 (kg/ha)
+     
+     
+     uptake_nh4:-
+        layer 1 = 0 (kg/ha)
+        layer 2 = 0 (kg/ha)
+        layer 3 = 0 (kg/ha)
+        layer 4 = 0 (kg/ha)
+        layer 5 = 0 (kg/ha)
+        layer 6 = 0 (kg/ha)
+        layer 7 = 0 (kg/ha)
+        uptake_nh4 total = 0 (kg/ha)
+     
+18 December 1988(Day of year=353), pastureConverter: 
+     
+     sw_uptake:-
+        layer 1 = 0.0107889 (mm)
+        layer 2 = 0 (mm)
+        layer 3 = 0 (mm)
+        layer 4 = 0 (mm)
+        layer 5 = 0 (mm)
+        layer 6 = 0 (mm)
+        layer 7 = 0 (mm)
+        sw_uptake total = 0.0107889 (mm)
+     
+     
+     uptake_no3:-
+        layer 1 = 0 (kg/ha)
+        layer 2 = 0 (kg/ha)
+        layer 3 = 0 (kg/ha)
+        layer 4 = 0 (kg/ha)
+        layer 5 = 0 (kg/ha)
+        layer 6 = 0 (kg/ha)
+        layer 7 = 0 (kg/ha)
+        uptake_no3 total = 0 (kg/ha)
+     
+     
+     uptake_nh4:-
+        layer 1 = 0 (kg/ha)
+        layer 2 = 0 (kg/ha)
+        layer 3 = 0 (kg/ha)
+        layer 4 = 0 (kg/ha)
+        layer 5 = 0 (kg/ha)
+        layer 6 = 0 (kg/ha)
+        layer 7 = 0 (kg/ha)
+        uptake_nh4 total = 0 (kg/ha)
+     
+19 December 1988(Day of year=354), pastureConverter: 
+     
+     sw_uptake:-
+        layer 1 = 0.020804 (mm)
+        layer 2 = 0 (mm)
+        layer 3 = 0 (mm)
+        layer 4 = 0 (mm)
+        layer 5 = 0 (mm)
+        layer 6 = 0 (mm)
+        layer 7 = 0 (mm)
+        sw_uptake total = 0.020804 (mm)
+     
+     
+     uptake_no3:-
+        layer 1 = 0 (kg/ha)
+        layer 2 = 0 (kg/ha)
+        layer 3 = 0 (kg/ha)
+        layer 4 = 0 (kg/ha)
+        layer 5 = 0 (kg/ha)
+        layer 6 = 0 (kg/ha)
+        layer 7 = 0 (kg/ha)
+        uptake_no3 total = 0 (kg/ha)
+     
+     
+     uptake_nh4:-
+        layer 1 = 0 (kg/ha)
+        layer 2 = 0 (kg/ha)
+        layer 3 = 0 (kg/ha)
+        layer 4 = 0 (kg/ha)
+        layer 5 = 0 (kg/ha)
+        layer 6 = 0 (kg/ha)
+        layer 7 = 0 (kg/ha)
+        uptake_nh4 total = 0 (kg/ha)
+     
+20 December 1988(Day of year=355), pastureConverter: 
+     
+     sw_uptake:-
+        layer 1 = 0.0187272 (mm)
+        layer 2 = 0 (mm)
+        layer 3 = 0 (mm)
+        layer 4 = 0 (mm)
+        layer 5 = 0 (mm)
+        layer 6 = 0 (mm)
+        layer 7 = 0 (mm)
+        sw_uptake total = 0.0187272 (mm)
+     
+     
+     uptake_no3:-
+        layer 1 = 0 (kg/ha)
+        layer 2 = 0 (kg/ha)
+        layer 3 = 0 (kg/ha)
+        layer 4 = 0 (kg/ha)
+        layer 5 = 0 (kg/ha)
+        layer 6 = 0 (kg/ha)
+        layer 7 = 0 (kg/ha)
+        uptake_no3 total = 0 (kg/ha)
+     
+     
+     uptake_nh4:-
+        layer 1 = 0 (kg/ha)
+        layer 2 = 0 (kg/ha)
+        layer 3 = 0 (kg/ha)
+        layer 4 = 0 (kg/ha)
+        layer 5 = 0 (kg/ha)
+        layer 6 = 0 (kg/ha)
+        layer 7 = 0 (kg/ha)
+        uptake_nh4 total = 0 (kg/ha)
+     
+21 December 1988(Day of year=356), pastureConverter: 
+     
+     sw_uptake:-
+        layer 1 = 0.0175427 (mm)
+        layer 2 = 0 (mm)
+        layer 3 = 0 (mm)
+        layer 4 = 0 (mm)
+        layer 5 = 0 (mm)
+        layer 6 = 0 (mm)
+        layer 7 = 0 (mm)
+        sw_uptake total = 0.0175427 (mm)
+     
+     
+     uptake_no3:-
+        layer 1 = 0 (kg/ha)
+        layer 2 = 0 (kg/ha)
+        layer 3 = 0 (kg/ha)
+        layer 4 = 0 (kg/ha)
+        layer 5 = 0 (kg/ha)
+        layer 6 = 0 (kg/ha)
+        layer 7 = 0 (kg/ha)
+        uptake_no3 total = 0 (kg/ha)
+     
+     
+     uptake_nh4:-
+        layer 1 = 0 (kg/ha)
+        layer 2 = 0 (kg/ha)
+        layer 3 = 0 (kg/ha)
+        layer 4 = 0 (kg/ha)
+        layer 5 = 0 (kg/ha)
+        layer 6 = 0 (kg/ha)
+        layer 7 = 0 (kg/ha)
+        uptake_nh4 total = 0 (kg/ha)
+     
+22 December 1988(Day of year=357), pastureConverter: 
+     
+     sw_uptake:-
+        layer 1 = 0.0128409 (mm)
+        layer 2 = 0 (mm)
+        layer 3 = 0 (mm)
+        layer 4 = 0 (mm)
+        layer 5 = 0 (mm)
+        layer 6 = 0 (mm)
+        layer 7 = 0 (mm)
+        sw_uptake total = 0.0128409 (mm)
+     
+     
+     uptake_no3:-
+        layer 1 = 0 (kg/ha)
+        layer 2 = 0 (kg/ha)
+        layer 3 = 0 (kg/ha)
+        layer 4 = 0 (kg/ha)
+        layer 5 = 0 (kg/ha)
+        layer 6 = 0 (kg/ha)
+        layer 7 = 0 (kg/ha)
+        uptake_no3 total = 0 (kg/ha)
+     
+     
+     uptake_nh4:-
+        layer 1 = 0 (kg/ha)
+        layer 2 = 0 (kg/ha)
+        layer 3 = 0 (kg/ha)
+        layer 4 = 0 (kg/ha)
+        layer 5 = 0 (kg/ha)
+        layer 6 = 0 (kg/ha)
+        layer 7 = 0 (kg/ha)
+        uptake_nh4 total = 0 (kg/ha)
+     
+23 December 1988(Day of year=358), pastureConverter: 
+     
+     sw_uptake:-
+        layer 1 = 0.0110067 (mm)
+        layer 2 = 0 (mm)
+        layer 3 = 0 (mm)
+        layer 4 = 0 (mm)
+        layer 5 = 0 (mm)
+        layer 6 = 0 (mm)
+        layer 7 = 0 (mm)
+        sw_uptake total = 0.0110067 (mm)
+     
+     
+     uptake_no3:-
+        layer 1 = 0 (kg/ha)
+        layer 2 = 0 (kg/ha)
+        layer 3 = 0 (kg/ha)
+        layer 4 = 0 (kg/ha)
+        layer 5 = 0 (kg/ha)
+        layer 6 = 0 (kg/ha)
+        layer 7 = 0 (kg/ha)
+        uptake_no3 total = 0 (kg/ha)
+     
+     
+     uptake_nh4:-
+        layer 1 = 0 (kg/ha)
+        layer 2 = 0 (kg/ha)
+        layer 3 = 0 (kg/ha)
+        layer 4 = 0 (kg/ha)
+        layer 5 = 0 (kg/ha)
+        layer 6 = 0 (kg/ha)
+        layer 7 = 0 (kg/ha)
+        uptake_nh4 total = 0 (kg/ha)
+     
+24 December 1988(Day of year=359), pastureConverter: 
+     
+     sw_uptake:-
+        layer 1 = 0.00922368 (mm)
+        layer 2 = 0 (mm)
+        layer 3 = 0 (mm)
+        layer 4 = 0 (mm)
+        layer 5 = 0 (mm)
+        layer 6 = 0 (mm)
+        layer 7 = 0 (mm)
+        sw_uptake total = 0.00922368 (mm)
+     
+     
+     uptake_no3:-
+        layer 1 = 0 (kg/ha)
+        layer 2 = 0 (kg/ha)
+        layer 3 = 0 (kg/ha)
+        layer 4 = 0 (kg/ha)
+        layer 5 = 0 (kg/ha)
+        layer 6 = 0 (kg/ha)
+        layer 7 = 0 (kg/ha)
+        uptake_no3 total = 0 (kg/ha)
+     
+     
+     uptake_nh4:-
+        layer 1 = 0 (kg/ha)
+        layer 2 = 0 (kg/ha)
+        layer 3 = 0 (kg/ha)
+        layer 4 = 0 (kg/ha)
+        layer 5 = 0 (kg/ha)
+        layer 6 = 0 (kg/ha)
+        layer 7 = 0 (kg/ha)
+        uptake_nh4 total = 0 (kg/ha)
+     
+25 December 1988(Day of year=360), pastureConverter: 
+     
+     sw_uptake:-
+        layer 1 = 0.00812879 (mm)
+        layer 2 = 0 (mm)
+        layer 3 = 0 (mm)
+        layer 4 = 0 (mm)
+        layer 5 = 0 (mm)
+        layer 6 = 0 (mm)
+        layer 7 = 0 (mm)
+        sw_uptake total = 0.00812879 (mm)
+     
+     
+     uptake_no3:-
+        layer 1 = 0 (kg/ha)
+        layer 2 = 0 (kg/ha)
+        layer 3 = 0 (kg/ha)
+        layer 4 = 0 (kg/ha)
+        layer 5 = 0 (kg/ha)
+        layer 6 = 0 (kg/ha)
+        layer 7 = 0 (kg/ha)
+        uptake_no3 total = 0 (kg/ha)
+     
+     
+     uptake_nh4:-
+        layer 1 = 0 (kg/ha)
+        layer 2 = 0 (kg/ha)
+        layer 3 = 0 (kg/ha)
+        layer 4 = 0 (kg/ha)
+        layer 5 = 0 (kg/ha)
+        layer 6 = 0 (kg/ha)
+        layer 7 = 0 (kg/ha)
+        uptake_nh4 total = 0 (kg/ha)
+     
+26 December 1988(Day of year=361), pastureConverter: 
+     
+     sw_uptake:-
+        layer 1 = 0.00707117 (mm)
+        layer 2 = 0 (mm)
+        layer 3 = 0 (mm)
+        layer 4 = 0 (mm)
+        layer 5 = 0 (mm)
+        layer 6 = 0 (mm)
+        layer 7 = 0 (mm)
+        sw_uptake total = 0.00707117 (mm)
+     
+     
+     uptake_no3:-
+        layer 1 = 0 (kg/ha)
+        layer 2 = 0 (kg/ha)
+        layer 3 = 0 (kg/ha)
+        layer 4 = 0 (kg/ha)
+        layer 5 = 0 (kg/ha)
+        layer 6 = 0 (kg/ha)
+        layer 7 = 0 (kg/ha)
+        uptake_no3 total = 0 (kg/ha)
+     
+     
+     uptake_nh4:-
+        layer 1 = 0 (kg/ha)
+        layer 2 = 0 (kg/ha)
+        layer 3 = 0 (kg/ha)
+        layer 4 = 0 (kg/ha)
+        layer 5 = 0 (kg/ha)
+        layer 6 = 0 (kg/ha)
+        layer 7 = 0 (kg/ha)
+        uptake_nh4 total = 0 (kg/ha)
+     
+27 December 1988(Day of year=362), pastureConverter: 
+     
+     sw_uptake:-
+        layer 1 = 0.00451541 (mm)
+        layer 2 = 0 (mm)
+        layer 3 = 0 (mm)
+        layer 4 = 0 (mm)
+        layer 5 = 0 (mm)
+        layer 6 = 0 (mm)
+        layer 7 = 0 (mm)
+        sw_uptake total = 0.00451541 (mm)
+     
+     
+     uptake_no3:-
+        layer 1 = 0 (kg/ha)
+        layer 2 = 0 (kg/ha)
+        layer 3 = 0 (kg/ha)
+        layer 4 = 0 (kg/ha)
+        layer 5 = 0 (kg/ha)
+        layer 6 = 0 (kg/ha)
+        layer 7 = 0 (kg/ha)
+        uptake_no3 total = 0 (kg/ha)
+     
+     
+     uptake_nh4:-
+        layer 1 = 0 (kg/ha)
+        layer 2 = 0 (kg/ha)
+        layer 3 = 0 (kg/ha)
+        layer 4 = 0 (kg/ha)
+        layer 5 = 0 (kg/ha)
+        layer 6 = 0 (kg/ha)
+        layer 7 = 0 (kg/ha)
+        uptake_nh4 total = 0 (kg/ha)
+     
+28 December 1988(Day of year=363), pastureConverter: 
+     
+     sw_uptake:-
+        layer 1 = 0.00530946 (mm)
+        layer 2 = 0 (mm)
+        layer 3 = 0 (mm)
+        layer 4 = 0 (mm)
+        layer 5 = 0 (mm)
+        layer 6 = 0 (mm)
+        layer 7 = 0 (mm)
+        sw_uptake total = 0.00530946 (mm)
+     
+     
+     uptake_no3:-
+        layer 1 = 0 (kg/ha)
+        layer 2 = 0 (kg/ha)
+        layer 3 = 0 (kg/ha)
+        layer 4 = 0 (kg/ha)
+        layer 5 = 0 (kg/ha)
+        layer 6 = 0 (kg/ha)
+        layer 7 = 0 (kg/ha)
+        uptake_no3 total = 0 (kg/ha)
+     
+     
+     uptake_nh4:-
+        layer 1 = 0 (kg/ha)
+        layer 2 = 0 (kg/ha)
+        layer 3 = 0 (kg/ha)
+        layer 4 = 0 (kg/ha)
+        layer 5 = 0 (kg/ha)
+        layer 6 = 0 (kg/ha)
+        layer 7 = 0 (kg/ha)
+        uptake_nh4 total = 0 (kg/ha)
+     
+29 December 1988(Day of year=364), pastureConverter: 
+     
+     sw_uptake:-
+        layer 1 = 0.00432466 (mm)
+        layer 2 = 0 (mm)
+        layer 3 = 0 (mm)
+        layer 4 = 0 (mm)
+        layer 5 = 0 (mm)
+        layer 6 = 0 (mm)
+        layer 7 = 0 (mm)
+        sw_uptake total = 0.00432466 (mm)
+     
+     
+     uptake_no3:-
+        layer 1 = 0 (kg/ha)
+        layer 2 = 0 (kg/ha)
+        layer 3 = 0 (kg/ha)
+        layer 4 = 0 (kg/ha)
+        layer 5 = 0 (kg/ha)
+        layer 6 = 0 (kg/ha)
+        layer 7 = 0 (kg/ha)
+        uptake_no3 total = 0 (kg/ha)
+     
+     
+     uptake_nh4:-
+        layer 1 = 0 (kg/ha)
+        layer 2 = 0 (kg/ha)
+        layer 3 = 0 (kg/ha)
+        layer 4 = 0 (kg/ha)
+        layer 5 = 0 (kg/ha)
+        layer 6 = 0 (kg/ha)
+        layer 7 = 0 (kg/ha)
+        uptake_nh4 total = 0 (kg/ha)
+     
+30 December 1988(Day of year=365), pastureConverter: 
+     
+     sw_uptake:-
+        layer 1 = 0.00340895 (mm)
+        layer 2 = 0 (mm)
+        layer 3 = 0 (mm)
+        layer 4 = 0 (mm)
+        layer 5 = 0 (mm)
+        layer 6 = 0 (mm)
+        layer 7 = 0 (mm)
+        sw_uptake total = 0.00340895 (mm)
+     
+     
+     uptake_no3:-
+        layer 1 = 0 (kg/ha)
+        layer 2 = 0 (kg/ha)
+        layer 3 = 0 (kg/ha)
+        layer 4 = 0 (kg/ha)
+        layer 5 = 0 (kg/ha)
+        layer 6 = 0 (kg/ha)
+        layer 7 = 0 (kg/ha)
+        uptake_no3 total = 0 (kg/ha)
+     
+     
+     uptake_nh4:-
+        layer 1 = 0 (kg/ha)
+        layer 2 = 0 (kg/ha)
+        layer 3 = 0 (kg/ha)
+        layer 4 = 0 (kg/ha)
+        layer 5 = 0 (kg/ha)
+        layer 6 = 0 (kg/ha)
+        layer 7 = 0 (kg/ha)
+        uptake_nh4 total = 0 (kg/ha)
+     
+31 December 1988(Day of year=366), pastureConverter: 
+     
+     sw_uptake:-
+        layer 1 = 0.00287689 (mm)
+        layer 2 = 0 (mm)
+        layer 3 = 0 (mm)
+        layer 4 = 0 (mm)
+        layer 5 = 0 (mm)
+        layer 6 = 0 (mm)
+        layer 7 = 0 (mm)
+        sw_uptake total = 0.00287689 (mm)
+     
+     
+     uptake_no3:-
+        layer 1 = 0 (kg/ha)
+        layer 2 = 0 (kg/ha)
+        layer 3 = 0 (kg/ha)
+        layer 4 = 0 (kg/ha)
+        layer 5 = 0 (kg/ha)
+        layer 6 = 0 (kg/ha)
+        layer 7 = 0 (kg/ha)
+        uptake_no3 total = 0 (kg/ha)
+     
+     
+     uptake_nh4:-
+        layer 1 = 0 (kg/ha)
+        layer 2 = 0 (kg/ha)
+        layer 3 = 0 (kg/ha)
+        layer 4 = 0 (kg/ha)
+        layer 5 = 0 (kg/ha)
+        layer 6 = 0 (kg/ha)
+        layer 7 = 0 (kg/ha)
+        uptake_nh4 total = 0 (kg/ha)
+     
+1 January 1989(Day of year=1), pastureConverter: 
+     
+     sw_uptake:-
+        layer 1 = 0.00262246 (mm)
+        layer 2 = 0 (mm)
+        layer 3 = 0 (mm)
+        layer 4 = 0 (mm)
+        layer 5 = 0 (mm)
+        layer 6 = 0 (mm)
+        layer 7 = 0 (mm)
+        sw_uptake total = 0.00262246 (mm)
+     
+     
+     uptake_no3:-
+        layer 1 = 0 (kg/ha)
+        layer 2 = 0 (kg/ha)
+        layer 3 = 0 (kg/ha)
+        layer 4 = 0 (kg/ha)
+        layer 5 = 0 (kg/ha)
+        layer 6 = 0 (kg/ha)
+        layer 7 = 0 (kg/ha)
+        uptake_no3 total = 0 (kg/ha)
+     
+     
+     uptake_nh4:-
+        layer 1 = 0 (kg/ha)
+        layer 2 = 0 (kg/ha)
+        layer 3 = 0 (kg/ha)
+        layer 4 = 0 (kg/ha)
+        layer 5 = 0 (kg/ha)
+        layer 6 = 0 (kg/ha)
+        layer 7 = 0 (kg/ha)
+        uptake_nh4 total = 0 (kg/ha)
+     
+2 January 1989(Day of year=2), pastureConverter: 
+     
+     sw_uptake:-
+        layer 1 = 0.00157201 (mm)
+        layer 2 = 0 (mm)
+        layer 3 = 0 (mm)
+        layer 4 = 0 (mm)
+        layer 5 = 0 (mm)
+        layer 6 = 0 (mm)
+        layer 7 = 0 (mm)
+        sw_uptake total = 0.00157201 (mm)
+     
+     
+     uptake_no3:-
+        layer 1 = 0 (kg/ha)
+        layer 2 = 0 (kg/ha)
+        layer 3 = 0 (kg/ha)
+        layer 4 = 0 (kg/ha)
+        layer 5 = 0 (kg/ha)
+        layer 6 = 0 (kg/ha)
+        layer 7 = 0 (kg/ha)
+        uptake_no3 total = 0 (kg/ha)
+     
+     
+     uptake_nh4:-
+        layer 1 = 0 (kg/ha)
+        layer 2 = 0 (kg/ha)
+        layer 3 = 0 (kg/ha)
+        layer 4 = 0 (kg/ha)
+        layer 5 = 0 (kg/ha)
+        layer 6 = 0 (kg/ha)
+        layer 7 = 0 (kg/ha)
+        uptake_nh4 total = 0 (kg/ha)
+     
+3 January 1989(Day of year=3), pastureConverter: 
+     
+     sw_uptake:-
+        layer 1 = 0.00181931 (mm)
+        layer 2 = 0 (mm)
+        layer 3 = 0 (mm)
+        layer 4 = 0 (mm)
+        layer 5 = 0 (mm)
+        layer 6 = 0 (mm)
+        layer 7 = 0 (mm)
+        sw_uptake total = 0.00181931 (mm)
+     
+     
+     uptake_no3:-
+        layer 1 = 0 (kg/ha)
+        layer 2 = 0 (kg/ha)
+        layer 3 = 0 (kg/ha)
+        layer 4 = 0 (kg/ha)
+        layer 5 = 0 (kg/ha)
+        layer 6 = 0 (kg/ha)
+        layer 7 = 0 (kg/ha)
+        uptake_no3 total = 0 (kg/ha)
+     
+     
+     uptake_nh4:-
+        layer 1 = 0 (kg/ha)
+        layer 2 = 0 (kg/ha)
+        layer 3 = 0 (kg/ha)
+        layer 4 = 0 (kg/ha)
+        layer 5 = 0 (kg/ha)
+        layer 6 = 0 (kg/ha)
+        layer 7 = 0 (kg/ha)
+        uptake_nh4 total = 0 (kg/ha)
+     
+4 January 1989(Day of year=4), pastureConverter: 
+     
+     sw_uptake:-
+        layer 1 = 0.00194577 (mm)
+        layer 2 = 0 (mm)
+        layer 3 = 0 (mm)
+        layer 4 = 0 (mm)
+        layer 5 = 0 (mm)
+        layer 6 = 0 (mm)
+        layer 7 = 0 (mm)
+        sw_uptake total = 0.00194577 (mm)
+     
+     
+     uptake_no3:-
+        layer 1 = 0 (kg/ha)
+        layer 2 = 0 (kg/ha)
+        layer 3 = 0 (kg/ha)
+        layer 4 = 0 (kg/ha)
+        layer 5 = 0 (kg/ha)
+        layer 6 = 0 (kg/ha)
+        layer 7 = 0 (kg/ha)
+        uptake_no3 total = 0 (kg/ha)
+     
+     
+     uptake_nh4:-
+        layer 1 = 0 (kg/ha)
+        layer 2 = 0 (kg/ha)
+        layer 3 = 0 (kg/ha)
+        layer 4 = 0 (kg/ha)
+        layer 5 = 0 (kg/ha)
+        layer 6 = 0 (kg/ha)
+        layer 7 = 0 (kg/ha)
+        uptake_nh4 total = 0 (kg/ha)
+     
+5 January 1989(Day of year=5), pastureConverter: 
+     
+     sw_uptake:-
+        layer 1 = 0.0018594 (mm)
+        layer 2 = 0 (mm)
+        layer 3 = 0 (mm)
+        layer 4 = 0 (mm)
+        layer 5 = 0 (mm)
+        layer 6 = 0 (mm)
+        layer 7 = 0 (mm)
+        sw_uptake total = 0.0018594 (mm)
+     
+     
+     uptake_no3:-
+        layer 1 = 0 (kg/ha)
+        layer 2 = 0 (kg/ha)
+        layer 3 = 0 (kg/ha)
+        layer 4 = 0 (kg/ha)
+        layer 5 = 0 (kg/ha)
+        layer 6 = 0 (kg/ha)
+        layer 7 = 0 (kg/ha)
+        uptake_no3 total = 0 (kg/ha)
+     
+     
+     uptake_nh4:-
+        layer 1 = 0 (kg/ha)
+        layer 2 = 0 (kg/ha)
+        layer 3 = 0 (kg/ha)
+        layer 4 = 0 (kg/ha)
+        layer 5 = 0 (kg/ha)
+        layer 6 = 0 (kg/ha)
+        layer 7 = 0 (kg/ha)
+        uptake_nh4 total = 0 (kg/ha)
+     
+6 January 1989(Day of year=6), pastureConverter: 
+     
+     sw_uptake:-
+        layer 1 = 0.00089965 (mm)
+        layer 2 = 0 (mm)
+        layer 3 = 0 (mm)
+        layer 4 = 0 (mm)
+        layer 5 = 0 (mm)
+        layer 6 = 0 (mm)
+        layer 7 = 0 (mm)
+        sw_uptake total = 0.00089965 (mm)
+     
+     
+     uptake_no3:-
+        layer 1 = 0 (kg/ha)
+        layer 2 = 0 (kg/ha)
+        layer 3 = 0 (kg/ha)
+        layer 4 = 0 (kg/ha)
+        layer 5 = 0 (kg/ha)
+        layer 6 = 0 (kg/ha)
+        layer 7 = 0 (kg/ha)
+        uptake_no3 total = 0 (kg/ha)
+     
+     
+     uptake_nh4:-
+        layer 1 = 0 (kg/ha)
+        layer 2 = 0 (kg/ha)
+        layer 3 = 0 (kg/ha)
+        layer 4 = 0 (kg/ha)
+        layer 5 = 0 (kg/ha)
+        layer 6 = 0 (kg/ha)
+        layer 7 = 0 (kg/ha)
+        uptake_nh4 total = 0 (kg/ha)
+     
+7 January 1989(Day of year=7), pastureConverter: 
+     
+     sw_uptake:-
+        layer 1 = 0.00102066 (mm)
+        layer 2 = 0 (mm)
+        layer 3 = 0 (mm)
+        layer 4 = 0 (mm)
+        layer 5 = 0 (mm)
+        layer 6 = 0 (mm)
+        layer 7 = 0 (mm)
+        sw_uptake total = 0.00102066 (mm)
+     
+     
+     uptake_no3:-
+        layer 1 = 0 (kg/ha)
+        layer 2 = 0 (kg/ha)
+        layer 3 = 0 (kg/ha)
+        layer 4 = 0 (kg/ha)
+        layer 5 = 0 (kg/ha)
+        layer 6 = 0 (kg/ha)
+        layer 7 = 0 (kg/ha)
+        uptake_no3 total = 0 (kg/ha)
+     
+     
+     uptake_nh4:-
+        layer 1 = 0 (kg/ha)
+        layer 2 = 0 (kg/ha)
+        layer 3 = 0 (kg/ha)
+        layer 4 = 0 (kg/ha)
+        layer 5 = 0 (kg/ha)
+        layer 6 = 0 (kg/ha)
+        layer 7 = 0 (kg/ha)
+        uptake_nh4 total = 0 (kg/ha)
+     
+8 January 1989(Day of year=8), pastureConverter: 
+     
+     sw_uptake:-
+        layer 1 = 0.00100995 (mm)
+        layer 2 = 0 (mm)
+        layer 3 = 0 (mm)
+        layer 4 = 0 (mm)
+        layer 5 = 0 (mm)
+        layer 6 = 0 (mm)
+        layer 7 = 0 (mm)
+        sw_uptake total = 0.00100995 (mm)
+     
+     
+     uptake_no3:-
+        layer 1 = 0 (kg/ha)
+        layer 2 = 0 (kg/ha)
+        layer 3 = 0 (kg/ha)
+        layer 4 = 0 (kg/ha)
+        layer 5 = 0 (kg/ha)
+        layer 6 = 0 (kg/ha)
+        layer 7 = 0 (kg/ha)
+        uptake_no3 total = 0 (kg/ha)
+     
+     
+     uptake_nh4:-
+        layer 1 = 0 (kg/ha)
+        layer 2 = 0 (kg/ha)
+        layer 3 = 0 (kg/ha)
+        layer 4 = 0 (kg/ha)
+        layer 5 = 0 (kg/ha)
+        layer 6 = 0 (kg/ha)
+        layer 7 = 0 (kg/ha)
+        uptake_nh4 total = 0 (kg/ha)
+     
+9 January 1989(Day of year=9), pastureConverter: 
+     
+     sw_uptake:-
+        layer 1 = 0.000895668 (mm)
+        layer 2 = 0 (mm)
+        layer 3 = 0 (mm)
+        layer 4 = 0 (mm)
+        layer 5 = 0 (mm)
+        layer 6 = 0 (mm)
+        layer 7 = 0 (mm)
+        sw_uptake total = 0.000895668 (mm)
+     
+     
+     uptake_no3:-
+        layer 1 = 0 (kg/ha)
+        layer 2 = 0 (kg/ha)
+        layer 3 = 0 (kg/ha)
+        layer 4 = 0 (kg/ha)
+        layer 5 = 0 (kg/ha)
+        layer 6 = 0 (kg/ha)
+        layer 7 = 0 (kg/ha)
+        uptake_no3 total = 0 (kg/ha)
+     
+     
+     uptake_nh4:-
+        layer 1 = 0 (kg/ha)
+        layer 2 = 0 (kg/ha)
+        layer 3 = 0 (kg/ha)
+        layer 4 = 0 (kg/ha)
+        layer 5 = 0 (kg/ha)
+        layer 6 = 0 (kg/ha)
+        layer 7 = 0 (kg/ha)
+        uptake_nh4 total = 0 (kg/ha)
+     
+10 January 1989(Day of year=10), pastureConverter: 
+     
+     sw_uptake:-
+        layer 1 = 0.00100639 (mm)
+        layer 2 = 0 (mm)
+        layer 3 = 0 (mm)
+        layer 4 = 0 (mm)
+        layer 5 = 0 (mm)
+        layer 6 = 0 (mm)
+        layer 7 = 0 (mm)
+        sw_uptake total = 0.00100639 (mm)
+     
+     
+     uptake_no3:-
+        layer 1 = 0 (kg/ha)
+        layer 2 = 0 (kg/ha)
+        layer 3 = 0 (kg/ha)
+        layer 4 = 0 (kg/ha)
+        layer 5 = 0 (kg/ha)
+        layer 6 = 0 (kg/ha)
+        layer 7 = 0 (kg/ha)
+        uptake_no3 total = 0 (kg/ha)
+     
+     
+     uptake_nh4:-
+        layer 1 = 0 (kg/ha)
+        layer 2 = 0 (kg/ha)
+        layer 3 = 0 (kg/ha)
+        layer 4 = 0 (kg/ha)
+        layer 5 = 0 (kg/ha)
+        layer 6 = 0 (kg/ha)
+        layer 7 = 0 (kg/ha)
+        uptake_nh4 total = 0 (kg/ha)
+     
+11 January 1989(Day of year=11), pastureConverter: 
+     
+     sw_uptake:-
+        layer 1 = 0.000657206 (mm)
+        layer 2 = 0 (mm)
+        layer 3 = 0 (mm)
+        layer 4 = 0 (mm)
+        layer 5 = 0 (mm)
+        layer 6 = 0 (mm)
+        layer 7 = 0 (mm)
+        sw_uptake total = 0.000657206 (mm)
+     
+     
+     uptake_no3:-
+        layer 1 = 0 (kg/ha)
+        layer 2 = 0 (kg/ha)
+        layer 3 = 0 (kg/ha)
+        layer 4 = 0 (kg/ha)
+        layer 5 = 0 (kg/ha)
+        layer 6 = 0 (kg/ha)
+        layer 7 = 0 (kg/ha)
+        uptake_no3 total = 0 (kg/ha)
+     
+     
+     uptake_nh4:-
+        layer 1 = 0 (kg/ha)
+        layer 2 = 0 (kg/ha)
+        layer 3 = 0 (kg/ha)
+        layer 4 = 0 (kg/ha)
+        layer 5 = 0 (kg/ha)
+        layer 6 = 0 (kg/ha)
+        layer 7 = 0 (kg/ha)
+        uptake_nh4 total = 0 (kg/ha)
+     
+12 January 1989(Day of year=12), pastureConverter: 
+     
+     sw_uptake:-
+        layer 1 = 0.000629886 (mm)
+        layer 2 = 0 (mm)
+        layer 3 = 0 (mm)
+        layer 4 = 0 (mm)
+        layer 5 = 0 (mm)
+        layer 6 = 0 (mm)
+        layer 7 = 0 (mm)
+        sw_uptake total = 0.000629886 (mm)
+     
+     
+     uptake_no3:-
+        layer 1 = 0 (kg/ha)
+        layer 2 = 0 (kg/ha)
+        layer 3 = 0 (kg/ha)
+        layer 4 = 0 (kg/ha)
+        layer 5 = 0 (kg/ha)
+        layer 6 = 0 (kg/ha)
+        layer 7 = 0 (kg/ha)
+        uptake_no3 total = 0 (kg/ha)
+     
+     
+     uptake_nh4:-
+        layer 1 = 0 (kg/ha)
+        layer 2 = 0 (kg/ha)
+        layer 3 = 0 (kg/ha)
+        layer 4 = 0 (kg/ha)
+        layer 5 = 0 (kg/ha)
+        layer 6 = 0 (kg/ha)
+        layer 7 = 0 (kg/ha)
+        uptake_nh4 total = 0 (kg/ha)
+     
+13 January 1989(Day of year=13), pastureConverter: 
+     
+     sw_uptake:-
+        layer 1 = 0.000560337 (mm)
+        layer 2 = 0 (mm)
+        layer 3 = 0 (mm)
+        layer 4 = 0 (mm)
+        layer 5 = 0 (mm)
+        layer 6 = 0 (mm)
+        layer 7 = 0 (mm)
+        sw_uptake total = 0.000560337 (mm)
+     
+     
+     uptake_no3:-
+        layer 1 = 0 (kg/ha)
+        layer 2 = 0 (kg/ha)
+        layer 3 = 0 (kg/ha)
+        layer 4 = 0 (kg/ha)
+        layer 5 = 0 (kg/ha)
+        layer 6 = 0 (kg/ha)
+        layer 7 = 0 (kg/ha)
+        uptake_no3 total = 0 (kg/ha)
+     
+     
+     uptake_nh4:-
+        layer 1 = 0 (kg/ha)
+        layer 2 = 0 (kg/ha)
+        layer 3 = 0 (kg/ha)
+        layer 4 = 0 (kg/ha)
+        layer 5 = 0 (kg/ha)
+        layer 6 = 0 (kg/ha)
+        layer 7 = 0 (kg/ha)
+        uptake_nh4 total = 0 (kg/ha)
+     
+14 January 1989(Day of year=14), pastureConverter: 
+     
+     sw_uptake:-
+        layer 1 = 0.000405903 (mm)
+        layer 2 = 0 (mm)
+        layer 3 = 0 (mm)
+        layer 4 = 0 (mm)
+        layer 5 = 0 (mm)
+        layer 6 = 0 (mm)
+        layer 7 = 0 (mm)
+        sw_uptake total = 0.000405903 (mm)
+     
+     
+     uptake_no3:-
+        layer 1 = 0 (kg/ha)
+        layer 2 = 0 (kg/ha)
+        layer 3 = 0 (kg/ha)
+        layer 4 = 0 (kg/ha)
+        layer 5 = 0 (kg/ha)
+        layer 6 = 0 (kg/ha)
+        layer 7 = 0 (kg/ha)
+        uptake_no3 total = 0 (kg/ha)
+     
+     
+     uptake_nh4:-
+        layer 1 = 0 (kg/ha)
+        layer 2 = 0 (kg/ha)
+        layer 3 = 0 (kg/ha)
+        layer 4 = 0 (kg/ha)
+        layer 5 = 0 (kg/ha)
+        layer 6 = 0 (kg/ha)
+        layer 7 = 0 (kg/ha)
+        uptake_nh4 total = 0 (kg/ha)
+     
+15 January 1989(Day of year=15), pastureConverter: 
+     
+     sw_uptake:-
+        layer 1 = 0.00039075 (mm)
+        layer 2 = 0 (mm)
+        layer 3 = 0 (mm)
+        layer 4 = 0 (mm)
+        layer 5 = 0 (mm)
+        layer 6 = 0 (mm)
+        layer 7 = 0 (mm)
+        sw_uptake total = 0.00039075 (mm)
+     
+     
+     uptake_no3:-
+        layer 1 = 0 (kg/ha)
+        layer 2 = 0 (kg/ha)
+        layer 3 = 0 (kg/ha)
+        layer 4 = 0 (kg/ha)
+        layer 5 = 0 (kg/ha)
+        layer 6 = 0 (kg/ha)
+        layer 7 = 0 (kg/ha)
+        uptake_no3 total = 0 (kg/ha)
+     
+     
+     uptake_nh4:-
+        layer 1 = 0 (kg/ha)
+        layer 2 = 0 (kg/ha)
+        layer 3 = 0 (kg/ha)
+        layer 4 = 0 (kg/ha)
+        layer 5 = 0 (kg/ha)
+        layer 6 = 0 (kg/ha)
+        layer 7 = 0 (kg/ha)
+        uptake_nh4 total = 0 (kg/ha)
+     
+16 January 1989(Day of year=16), pastureConverter: 
+     
+     sw_uptake:-
+        layer 1 = 0.000344601 (mm)
+        layer 2 = 0 (mm)
+        layer 3 = 0 (mm)
+        layer 4 = 0 (mm)
+        layer 5 = 0 (mm)
+        layer 6 = 0 (mm)
+        layer 7 = 0 (mm)
+        sw_uptake total = 0.000344601 (mm)
+     
+     
+     uptake_no3:-
+        layer 1 = 0 (kg/ha)
+        layer 2 = 0 (kg/ha)
+        layer 3 = 0 (kg/ha)
+        layer 4 = 0 (kg/ha)
+        layer 5 = 0 (kg/ha)
+        layer 6 = 0 (kg/ha)
+        layer 7 = 0 (kg/ha)
+        uptake_no3 total = 0 (kg/ha)
+     
+     
+     uptake_nh4:-
+        layer 1 = 0 (kg/ha)
+        layer 2 = 0 (kg/ha)
+        layer 3 = 0 (kg/ha)
+        layer 4 = 0 (kg/ha)
+        layer 5 = 0 (kg/ha)
+        layer 6 = 0 (kg/ha)
+        layer 7 = 0 (kg/ha)
+        uptake_nh4 total = 0 (kg/ha)
+     
+17 January 1989(Day of year=17), pastureConverter: 
+     
+     sw_uptake:-
+        layer 1 = 0.000316958 (mm)
+        layer 2 = 0 (mm)
+        layer 3 = 0 (mm)
+        layer 4 = 0 (mm)
+        layer 5 = 0 (mm)
+        layer 6 = 0 (mm)
+        layer 7 = 0 (mm)
+        sw_uptake total = 0.000316958 (mm)
+     
+     
+     uptake_no3:-
+        layer 1 = 0 (kg/ha)
+        layer 2 = 0 (kg/ha)
+        layer 3 = 0 (kg/ha)
+        layer 4 = 0 (kg/ha)
+        layer 5 = 0 (kg/ha)
+        layer 6 = 0 (kg/ha)
+        layer 7 = 0 (kg/ha)
+        uptake_no3 total = 0 (kg/ha)
+     
+     
+     uptake_nh4:-
+        layer 1 = 0 (kg/ha)
+        layer 2 = 0 (kg/ha)
+        layer 3 = 0 (kg/ha)
+        layer 4 = 0 (kg/ha)
+        layer 5 = 0 (kg/ha)
+        layer 6 = 0 (kg/ha)
+        layer 7 = 0 (kg/ha)
+        uptake_nh4 total = 0 (kg/ha)
+     
+18 January 1989(Day of year=18), pastureConverter: 
+     
+     sw_uptake:-
+        layer 1 = 0.000302599 (mm)
+        layer 2 = 0 (mm)
+        layer 3 = 0 (mm)
+        layer 4 = 0 (mm)
+        layer 5 = 0 (mm)
+        layer 6 = 0 (mm)
+        layer 7 = 0 (mm)
+        sw_uptake total = 0.000302599 (mm)
+     
+     
+     uptake_no3:-
+        layer 1 = 0 (kg/ha)
+        layer 2 = 0 (kg/ha)
+        layer 3 = 0 (kg/ha)
+        layer 4 = 0 (kg/ha)
+        layer 5 = 0 (kg/ha)
+        layer 6 = 0 (kg/ha)
+        layer 7 = 0 (kg/ha)
+        uptake_no3 total = 0 (kg/ha)
+     
+     
+     uptake_nh4:-
+        layer 1 = 0 (kg/ha)
+        layer 2 = 0 (kg/ha)
+        layer 3 = 0 (kg/ha)
+        layer 4 = 0 (kg/ha)
+        layer 5 = 0 (kg/ha)
+        layer 6 = 0 (kg/ha)
+        layer 7 = 0 (kg/ha)
+        uptake_nh4 total = 0 (kg/ha)
+     
+19 January 1989(Day of year=19), pastureConverter: 
+     
+     sw_uptake:-
+        layer 1 = 0.00028201 (mm)
+        layer 2 = 0 (mm)
+        layer 3 = 0 (mm)
+        layer 4 = 0 (mm)
+        layer 5 = 0 (mm)
+        layer 6 = 0 (mm)
+        layer 7 = 0 (mm)
+        sw_uptake total = 0.00028201 (mm)
+     
+     
+     uptake_no3:-
+        layer 1 = 0 (kg/ha)
+        layer 2 = 0 (kg/ha)
+        layer 3 = 0 (kg/ha)
+        layer 4 = 0 (kg/ha)
+        layer 5 = 0 (kg/ha)
+        layer 6 = 0 (kg/ha)
+        layer 7 = 0 (kg/ha)
+        uptake_no3 total = 0 (kg/ha)
+     
+     
+     uptake_nh4:-
+        layer 1 = 0 (kg/ha)
+        layer 2 = 0 (kg/ha)
+        layer 3 = 0 (kg/ha)
+        layer 4 = 0 (kg/ha)
+        layer 5 = 0 (kg/ha)
+        layer 6 = 0 (kg/ha)
+        layer 7 = 0 (kg/ha)
+        uptake_nh4 total = 0 (kg/ha)
+     
+20 January 1989(Day of year=20), pastureConverter: 
+     
+     sw_uptake:-
+        layer 1 = 0.000196395 (mm)
+        layer 2 = 0 (mm)
+        layer 3 = 0 (mm)
+        layer 4 = 0 (mm)
+        layer 5 = 0 (mm)
+        layer 6 = 0 (mm)
+        layer 7 = 0 (mm)
+        sw_uptake total = 0.000196395 (mm)
+     
+     
+     uptake_no3:-
+        layer 1 = 0 (kg/ha)
+        layer 2 = 0 (kg/ha)
+        layer 3 = 0 (kg/ha)
+        layer 4 = 0 (kg/ha)
+        layer 5 = 0 (kg/ha)
+        layer 6 = 0 (kg/ha)
+        layer 7 = 0 (kg/ha)
+        uptake_no3 total = 0 (kg/ha)
+     
+     
+     uptake_nh4:-
+        layer 1 = 0 (kg/ha)
+        layer 2 = 0 (kg/ha)
+        layer 3 = 0 (kg/ha)
+        layer 4 = 0 (kg/ha)
+        layer 5 = 0 (kg/ha)
+        layer 6 = 0 (kg/ha)
+        layer 7 = 0 (kg/ha)
+        uptake_nh4 total = 0 (kg/ha)
+     
+21 January 1989(Day of year=21), pastureConverter: 
+     
+     sw_uptake:-
+        layer 1 = 0.000207719 (mm)
+        layer 2 = 0 (mm)
+        layer 3 = 0 (mm)
+        layer 4 = 0 (mm)
+        layer 5 = 0 (mm)
+        layer 6 = 0 (mm)
+        layer 7 = 0 (mm)
+        sw_uptake total = 0.000207719 (mm)
+     
+     
+     uptake_no3:-
+        layer 1 = 0 (kg/ha)
+        layer 2 = 0 (kg/ha)
+        layer 3 = 0 (kg/ha)
+        layer 4 = 0 (kg/ha)
+        layer 5 = 0 (kg/ha)
+        layer 6 = 0 (kg/ha)
+        layer 7 = 0 (kg/ha)
+        uptake_no3 total = 0 (kg/ha)
+     
+     
+     uptake_nh4:-
+        layer 1 = 0 (kg/ha)
+        layer 2 = 0 (kg/ha)
+        layer 3 = 0 (kg/ha)
+        layer 4 = 0 (kg/ha)
+        layer 5 = 0 (kg/ha)
+        layer 6 = 0 (kg/ha)
+        layer 7 = 0 (kg/ha)
+        uptake_nh4 total = 0 (kg/ha)
+     
+22 January 1989(Day of year=22), pastureConverter: 
+     
+     sw_uptake:-
+        layer 1 = 0.000119754 (mm)
+        layer 2 = 0 (mm)
+        layer 3 = 0 (mm)
+        layer 4 = 0 (mm)
+        layer 5 = 0 (mm)
+        layer 6 = 0 (mm)
+        layer 7 = 0 (mm)
+        sw_uptake total = 0.000119754 (mm)
+     
+     
+     uptake_no3:-
+        layer 1 = 0 (kg/ha)
+        layer 2 = 0 (kg/ha)
+        layer 3 = 0 (kg/ha)
+        layer 4 = 0 (kg/ha)
+        layer 5 = 0 (kg/ha)
+        layer 6 = 0 (kg/ha)
+        layer 7 = 0 (kg/ha)
+        uptake_no3 total = 0 (kg/ha)
+     
+     
+     uptake_nh4:-
+        layer 1 = 0 (kg/ha)
+        layer 2 = 0 (kg/ha)
+        layer 3 = 0 (kg/ha)
+        layer 4 = 0 (kg/ha)
+        layer 5 = 0 (kg/ha)
+        layer 6 = 0 (kg/ha)
+        layer 7 = 0 (kg/ha)
+        uptake_nh4 total = 0 (kg/ha)
+     
+23 January 1989(Day of year=23), pastureConverter: 
+     
+     sw_uptake:-
+        layer 1 = 9.13623e-05 (mm)
+        layer 2 = 0 (mm)
+        layer 3 = 0 (mm)
+        layer 4 = 0 (mm)
+        layer 5 = 0 (mm)
+        layer 6 = 0 (mm)
+        layer 7 = 0 (mm)
+        sw_uptake total = 9.13623e-05 (mm)
+     
+     
+     uptake_no3:-
+        layer 1 = 0 (kg/ha)
+        layer 2 = 0 (kg/ha)
+        layer 3 = 0 (kg/ha)
+        layer 4 = 0 (kg/ha)
+        layer 5 = 0 (kg/ha)
+        layer 6 = 0 (kg/ha)
+        layer 7 = 0 (kg/ha)
+        uptake_no3 total = 0 (kg/ha)
+     
+     
+     uptake_nh4:-
+        layer 1 = 0 (kg/ha)
+        layer 2 = 0 (kg/ha)
+        layer 3 = 0 (kg/ha)
+        layer 4 = 0 (kg/ha)
+        layer 5 = 0 (kg/ha)
+        layer 6 = 0 (kg/ha)
+        layer 7 = 0 (kg/ha)
+        uptake_nh4 total = 0 (kg/ha)
+     
+24 January 1989(Day of year=24), pastureConverter: 
+     
+     sw_uptake:-
+        layer 1 = 7.35896e-05 (mm)
+        layer 2 = 0 (mm)
+        layer 3 = 0 (mm)
+        layer 4 = 0 (mm)
+        layer 5 = 0 (mm)
+        layer 6 = 0 (mm)
+        layer 7 = 0 (mm)
+        sw_uptake total = 7.35896e-05 (mm)
+     
+     
+     uptake_no3:-
+        layer 1 = 0 (kg/ha)
+        layer 2 = 0 (kg/ha)
+        layer 3 = 0 (kg/ha)
+        layer 4 = 0 (kg/ha)
+        layer 5 = 0 (kg/ha)
+        layer 6 = 0 (kg/ha)
+        layer 7 = 0 (kg/ha)
+        uptake_no3 total = 0 (kg/ha)
+     
+     
+     uptake_nh4:-
+        layer 1 = 0 (kg/ha)
+        layer 2 = 0 (kg/ha)
+        layer 3 = 0 (kg/ha)
+        layer 4 = 0 (kg/ha)
+        layer 5 = 0 (kg/ha)
+        layer 6 = 0 (kg/ha)
+        layer 7 = 0 (kg/ha)
+        uptake_nh4 total = 0 (kg/ha)
+     
+25 January 1989(Day of year=25), pastureConverter: 
+     
+     sw_uptake:-
+        layer 1 = 9.47217e-05 (mm)
+        layer 2 = 0 (mm)
+        layer 3 = 0 (mm)
+        layer 4 = 0 (mm)
+        layer 5 = 0 (mm)
+        layer 6 = 0 (mm)
+        layer 7 = 0 (mm)
+        sw_uptake total = 9.47217e-05 (mm)
+     
+     
+     uptake_no3:-
+        layer 1 = 0 (kg/ha)
+        layer 2 = 0 (kg/ha)
+        layer 3 = 0 (kg/ha)
+        layer 4 = 0 (kg/ha)
+        layer 5 = 0 (kg/ha)
+        layer 6 = 0 (kg/ha)
+        layer 7 = 0 (kg/ha)
+        uptake_no3 total = 0 (kg/ha)
+     
+     
+     uptake_nh4:-
+        layer 1 = 0 (kg/ha)
+        layer 2 = 0 (kg/ha)
+        layer 3 = 0 (kg/ha)
+        layer 4 = 0 (kg/ha)
+        layer 5 = 0 (kg/ha)
+        layer 6 = 0 (kg/ha)
+        layer 7 = 0 (kg/ha)
+        uptake_nh4 total = 0 (kg/ha)
+     
+26 January 1989(Day of year=26), pastureConverter: 
+     
+     sw_uptake:-
+        layer 1 = 9.47469e-05 (mm)
+        layer 2 = 0 (mm)
+        layer 3 = 0 (mm)
+        layer 4 = 0 (mm)
+        layer 5 = 0 (mm)
+        layer 6 = 0 (mm)
+        layer 7 = 0 (mm)
+        sw_uptake total = 9.47469e-05 (mm)
+     
+     
+     uptake_no3:-
+        layer 1 = 0 (kg/ha)
+        layer 2 = 0 (kg/ha)
+        layer 3 = 0 (kg/ha)
+        layer 4 = 0 (kg/ha)
+        layer 5 = 0 (kg/ha)
+        layer 6 = 0 (kg/ha)
+        layer 7 = 0 (kg/ha)
+        uptake_no3 total = 0 (kg/ha)
+     
+     
+     uptake_nh4:-
+        layer 1 = 0 (kg/ha)
+        layer 2 = 0 (kg/ha)
+        layer 3 = 0 (kg/ha)
+        layer 4 = 0 (kg/ha)
+        layer 5 = 0 (kg/ha)
+        layer 6 = 0 (kg/ha)
+        layer 7 = 0 (kg/ha)
+        uptake_nh4 total = 0 (kg/ha)
+     
+27 January 1989(Day of year=27), pastureConverter: 
+     
+     sw_uptake:-
+        layer 1 = 6.58806e-05 (mm)
+        layer 2 = 0 (mm)
+        layer 3 = 0 (mm)
+        layer 4 = 0 (mm)
+        layer 5 = 0 (mm)
+        layer 6 = 0 (mm)
+        layer 7 = 0 (mm)
+        sw_uptake total = 6.58806e-05 (mm)
+     
+     
+     uptake_no3:-
+        layer 1 = 0 (kg/ha)
+        layer 2 = 0 (kg/ha)
+        layer 3 = 0 (kg/ha)
+        layer 4 = 0 (kg/ha)
+        layer 5 = 0 (kg/ha)
+        layer 6 = 0 (kg/ha)
+        layer 7 = 0 (kg/ha)
+        uptake_no3 total = 0 (kg/ha)
+     
+     
+     uptake_nh4:-
+        layer 1 = 0 (kg/ha)
+        layer 2 = 0 (kg/ha)
+        layer 3 = 0 (kg/ha)
+        layer 4 = 0 (kg/ha)
+        layer 5 = 0 (kg/ha)
+        layer 6 = 0 (kg/ha)
+        layer 7 = 0 (kg/ha)
+        uptake_nh4 total = 0 (kg/ha)
+     
+28 January 1989(Day of year=28), pastureConverter: 
+     
+     sw_uptake:-
+        layer 1 = 7.09716e-05 (mm)
+        layer 2 = 0 (mm)
+        layer 3 = 0 (mm)
+        layer 4 = 0 (mm)
+        layer 5 = 0 (mm)
+        layer 6 = 0 (mm)
+        layer 7 = 0 (mm)
+        sw_uptake total = 7.09716e-05 (mm)
+     
+     
+     uptake_no3:-
+        layer 1 = 0 (kg/ha)
+        layer 2 = 0 (kg/ha)
+        layer 3 = 0 (kg/ha)
+        layer 4 = 0 (kg/ha)
+        layer 5 = 0 (kg/ha)
+        layer 6 = 0 (kg/ha)
+        layer 7 = 0 (kg/ha)
+        uptake_no3 total = 0 (kg/ha)
+     
+     
+     uptake_nh4:-
+        layer 1 = 0 (kg/ha)
+        layer 2 = 0 (kg/ha)
+        layer 3 = 0 (kg/ha)
+        layer 4 = 0 (kg/ha)
+        layer 5 = 0 (kg/ha)
+        layer 6 = 0 (kg/ha)
+        layer 7 = 0 (kg/ha)
+        uptake_nh4 total = 0 (kg/ha)
+     
+29 January 1989(Day of year=29), pastureConverter: 
+     
+     sw_uptake:-
+        layer 1 = 6.49204e-05 (mm)
+        layer 2 = 0 (mm)
+        layer 3 = 0 (mm)
+        layer 4 = 0 (mm)
+        layer 5 = 0 (mm)
+        layer 6 = 0 (mm)
+        layer 7 = 0 (mm)
+        sw_uptake total = 6.49204e-05 (mm)
+     
+     
+     uptake_no3:-
+        layer 1 = 0 (kg/ha)
+        layer 2 = 0 (kg/ha)
+        layer 3 = 0 (kg/ha)
+        layer 4 = 0 (kg/ha)
+        layer 5 = 0 (kg/ha)
+        layer 6 = 0 (kg/ha)
+        layer 7 = 0 (kg/ha)
+        uptake_no3 total = 0 (kg/ha)
+     
+     
+     uptake_nh4:-
+        layer 1 = 0 (kg/ha)
+        layer 2 = 0 (kg/ha)
+        layer 3 = 0 (kg/ha)
+        layer 4 = 0 (kg/ha)
+        layer 5 = 0 (kg/ha)
+        layer 6 = 0 (kg/ha)
+        layer 7 = 0 (kg/ha)
+        uptake_nh4 total = 0 (kg/ha)
+     
+30 January 1989(Day of year=30), pastureConverter: 
+     
+     sw_uptake:-
+        layer 1 = 6.82995e-05 (mm)
+        layer 2 = 0 (mm)
+        layer 3 = 0 (mm)
+        layer 4 = 0 (mm)
+        layer 5 = 0 (mm)
+        layer 6 = 0 (mm)
+        layer 7 = 0 (mm)
+        sw_uptake total = 6.82995e-05 (mm)
+     
+     
+     uptake_no3:-
+        layer 1 = 0 (kg/ha)
+        layer 2 = 0 (kg/ha)
+        layer 3 = 0 (kg/ha)
+        layer 4 = 0 (kg/ha)
+        layer 5 = 0 (kg/ha)
+        layer 6 = 0 (kg/ha)
+        layer 7 = 0 (kg/ha)
+        uptake_no3 total = 0 (kg/ha)
+     
+     
+     uptake_nh4:-
+        layer 1 = 0 (kg/ha)
+        layer 2 = 0 (kg/ha)
+        layer 3 = 0 (kg/ha)
+        layer 4 = 0 (kg/ha)
+        layer 5 = 0 (kg/ha)
+        layer 6 = 0 (kg/ha)
+        layer 7 = 0 (kg/ha)
+        uptake_nh4 total = 0 (kg/ha)
+     
+31 January 1989(Day of year=31), pastureConverter: 
+     
+     sw_uptake:-
+        layer 1 = 7.18351e-05 (mm)
+        layer 2 = 0 (mm)
+        layer 3 = 0 (mm)
+        layer 4 = 0 (mm)
+        layer 5 = 0 (mm)
+        layer 6 = 0 (mm)
+        layer 7 = 0 (mm)
+        sw_uptake total = 7.18351e-05 (mm)
+     
+     
+     uptake_no3:-
+        layer 1 = 0 (kg/ha)
+        layer 2 = 0 (kg/ha)
+        layer 3 = 0 (kg/ha)
+        layer 4 = 0 (kg/ha)
+        layer 5 = 0 (kg/ha)
+        layer 6 = 0 (kg/ha)
+        layer 7 = 0 (kg/ha)
+        uptake_no3 total = 0 (kg/ha)
+     
+     
+     uptake_nh4:-
+        layer 1 = 0 (kg/ha)
+        layer 2 = 0 (kg/ha)
+        layer 3 = 0 (kg/ha)
+        layer 4 = 0 (kg/ha)
+        layer 5 = 0 (kg/ha)
+        layer 6 = 0 (kg/ha)
+        layer 7 = 0 (kg/ha)
+        uptake_nh4 total = 0 (kg/ha)
+     
+1 February 1989(Day of year=32), pastureConverter: 
+     
+     sw_uptake:-
+        layer 1 = 5.0196e-05 (mm)
+        layer 2 = 0 (mm)
+        layer 3 = 0 (mm)
+        layer 4 = 0 (mm)
+        layer 5 = 0 (mm)
+        layer 6 = 0 (mm)
+        layer 7 = 0 (mm)
+        sw_uptake total = 5.0196e-05 (mm)
+     
+     
+     uptake_no3:-
+        layer 1 = 0 (kg/ha)
+        layer 2 = 0 (kg/ha)
+        layer 3 = 0 (kg/ha)
+        layer 4 = 0 (kg/ha)
+        layer 5 = 0 (kg/ha)
+        layer 6 = 0 (kg/ha)
+        layer 7 = 0 (kg/ha)
+        uptake_no3 total = 0 (kg/ha)
+     
+     
+     uptake_nh4:-
+        layer 1 = 0 (kg/ha)
+        layer 2 = 0 (kg/ha)
+        layer 3 = 0 (kg/ha)
+        layer 4 = 0 (kg/ha)
+        layer 5 = 0 (kg/ha)
+        layer 6 = 0 (kg/ha)
+        layer 7 = 0 (kg/ha)
+        uptake_nh4 total = 0 (kg/ha)
+     
+2 February 1989(Day of year=33), pastureConverter: 
+     
+     sw_uptake:-
+        layer 1 = 2.95721e-05 (mm)
+        layer 2 = 0 (mm)
+        layer 3 = 0 (mm)
+        layer 4 = 0 (mm)
+        layer 5 = 0 (mm)
+        layer 6 = 0 (mm)
+        layer 7 = 0 (mm)
+        sw_uptake total = 2.95721e-05 (mm)
+     
+     
+     uptake_no3:-
+        layer 1 = 0 (kg/ha)
+        layer 2 = 0 (kg/ha)
+        layer 3 = 0 (kg/ha)
+        layer 4 = 0 (kg/ha)
+        layer 5 = 0 (kg/ha)
+        layer 6 = 0 (kg/ha)
+        layer 7 = 0 (kg/ha)
+        uptake_no3 total = 0 (kg/ha)
+     
+     
+     uptake_nh4:-
+        layer 1 = 0 (kg/ha)
+        layer 2 = 0 (kg/ha)
+        layer 3 = 0 (kg/ha)
+        layer 4 = 0 (kg/ha)
+        layer 5 = 0 (kg/ha)
+        layer 6 = 0 (kg/ha)
+        layer 7 = 0 (kg/ha)
+        uptake_nh4 total = 0 (kg/ha)
+     
+3 February 1989(Day of year=34), pastureConverter: 
+     
+     sw_uptake:-
+        layer 1 = 2.45455e-05 (mm)
+        layer 2 = 0 (mm)
+        layer 3 = 0 (mm)
+        layer 4 = 0 (mm)
+        layer 5 = 0 (mm)
+        layer 6 = 0 (mm)
+        layer 7 = 0 (mm)
+        sw_uptake total = 2.45455e-05 (mm)
+     
+     
+     uptake_no3:-
+        layer 1 = 0 (kg/ha)
+        layer 2 = 0 (kg/ha)
+        layer 3 = 0 (kg/ha)
+        layer 4 = 0 (kg/ha)
+        layer 5 = 0 (kg/ha)
+        layer 6 = 0 (kg/ha)
+        layer 7 = 0 (kg/ha)
+        uptake_no3 total = 0 (kg/ha)
+     
+     
+     uptake_nh4:-
+        layer 1 = 0 (kg/ha)
+        layer 2 = 0 (kg/ha)
+        layer 3 = 0 (kg/ha)
+        layer 4 = 0 (kg/ha)
+        layer 5 = 0 (kg/ha)
+        layer 6 = 0 (kg/ha)
+        layer 7 = 0 (kg/ha)
+        uptake_nh4 total = 0 (kg/ha)
+     
+4 February 1989(Day of year=35), pastureConverter: 
+     
+     sw_uptake:-
+        layer 1 = 9.27595e-06 (mm)
+        layer 2 = 0 (mm)
+        layer 3 = 0 (mm)
+        layer 4 = 0 (mm)
+        layer 5 = 0 (mm)
+        layer 6 = 0 (mm)
+        layer 7 = 0 (mm)
+        sw_uptake total = 9.27595e-06 (mm)
+     
+     
+     uptake_no3:-
+        layer 1 = 0 (kg/ha)
+        layer 2 = 0 (kg/ha)
+        layer 3 = 0 (kg/ha)
+        layer 4 = 0 (kg/ha)
+        layer 5 = 0 (kg/ha)
+        layer 6 = 0 (kg/ha)
+        layer 7 = 0 (kg/ha)
+        uptake_no3 total = 0 (kg/ha)
+     
+     
+     uptake_nh4:-
+        layer 1 = 0 (kg/ha)
+        layer 2 = 0 (kg/ha)
+        layer 3 = 0 (kg/ha)
+        layer 4 = 0 (kg/ha)
+        layer 5 = 0 (kg/ha)
+        layer 6 = 0 (kg/ha)
+        layer 7 = 0 (kg/ha)
+        uptake_nh4 total = 0 (kg/ha)
+     
+5 February 1989(Day of year=36), pastureConverter: 
+     
+     sw_uptake:-
+        layer 1 = 6.1297e-06 (mm)
+        layer 2 = 0 (mm)
+        layer 3 = 0 (mm)
+        layer 4 = 0 (mm)
+        layer 5 = 0 (mm)
+        layer 6 = 0 (mm)
+        layer 7 = 0 (mm)
+        sw_uptake total = 6.1297e-06 (mm)
+     
+     
+     uptake_no3:-
+        layer 1 = 0 (kg/ha)
+        layer 2 = 0 (kg/ha)
+        layer 3 = 0 (kg/ha)
+        layer 4 = 0 (kg/ha)
+        layer 5 = 0 (kg/ha)
+        layer 6 = 0 (kg/ha)
+        layer 7 = 0 (kg/ha)
+        uptake_no3 total = 0 (kg/ha)
+     
+     
+     uptake_nh4:-
+        layer 1 = 0 (kg/ha)
+        layer 2 = 0 (kg/ha)
+        layer 3 = 0 (kg/ha)
+        layer 4 = 0 (kg/ha)
+        layer 5 = 0 (kg/ha)
+        layer 6 = 0 (kg/ha)
+        layer 7 = 0 (kg/ha)
+        uptake_nh4 total = 0 (kg/ha)
+     
+6 February 1989(Day of year=37), pastureConverter: 
+     
+     sw_uptake:-
+        layer 1 = 1.47912e-05 (mm)
+        layer 2 = 0 (mm)
+        layer 3 = 0 (mm)
+        layer 4 = 0 (mm)
+        layer 5 = 0 (mm)
+        layer 6 = 0 (mm)
+        layer 7 = 0 (mm)
+        sw_uptake total = 1.47912e-05 (mm)
+     
+     
+     uptake_no3:-
+        layer 1 = 0 (kg/ha)
+        layer 2 = 0 (kg/ha)
+        layer 3 = 0 (kg/ha)
+        layer 4 = 0 (kg/ha)
+        layer 5 = 0 (kg/ha)
+        layer 6 = 0 (kg/ha)
+        layer 7 = 0 (kg/ha)
+        uptake_no3 total = 0 (kg/ha)
+     
+     
+     uptake_nh4:-
+        layer 1 = 0 (kg/ha)
+        layer 2 = 0 (kg/ha)
+        layer 3 = 0 (kg/ha)
+        layer 4 = 0 (kg/ha)
+        layer 5 = 0 (kg/ha)
+        layer 6 = 0 (kg/ha)
+        layer 7 = 0 (kg/ha)
+        uptake_nh4 total = 0 (kg/ha)
+     
+7 February 1989(Day of year=38), pastureConverter: 
+     
+     sw_uptake:-
+        layer 1 = 1.62674e-05 (mm)
+        layer 2 = 0 (mm)
+        layer 3 = 0 (mm)
+        layer 4 = 0 (mm)
+        layer 5 = 0 (mm)
+        layer 6 = 0 (mm)
+        layer 7 = 0 (mm)
+        sw_uptake total = 1.62674e-05 (mm)
+     
+     
+     uptake_no3:-
+        layer 1 = 0 (kg/ha)
+        layer 2 = 0 (kg/ha)
+        layer 3 = 0 (kg/ha)
+        layer 4 = 0 (kg/ha)
+        layer 5 = 0 (kg/ha)
+        layer 6 = 0 (kg/ha)
+        layer 7 = 0 (kg/ha)
+        uptake_no3 total = 0 (kg/ha)
+     
+     
+     uptake_nh4:-
+        layer 1 = 0 (kg/ha)
+        layer 2 = 0 (kg/ha)
+        layer 3 = 0 (kg/ha)
+        layer 4 = 0 (kg/ha)
+        layer 5 = 0 (kg/ha)
+        layer 6 = 0 (kg/ha)
+        layer 7 = 0 (kg/ha)
+        uptake_nh4 total = 0 (kg/ha)
+     
+8 February 1989(Day of year=39), pastureConverter: 
+     
+     sw_uptake:-
+        layer 1 = 1.92492e-05 (mm)
+        layer 2 = 0 (mm)
+        layer 3 = 0 (mm)
+        layer 4 = 0 (mm)
+        layer 5 = 0 (mm)
+        layer 6 = 0 (mm)
+        layer 7 = 0 (mm)
+        sw_uptake total = 1.92492e-05 (mm)
+     
+     
+     uptake_no3:-
+        layer 1 = 0 (kg/ha)
+        layer 2 = 0 (kg/ha)
+        layer 3 = 0 (kg/ha)
+        layer 4 = 0 (kg/ha)
+        layer 5 = 0 (kg/ha)
+        layer 6 = 0 (kg/ha)
+        layer 7 = 0 (kg/ha)
+        uptake_no3 total = 0 (kg/ha)
+     
+     
+     uptake_nh4:-
+        layer 1 = 0 (kg/ha)
+        layer 2 = 0 (kg/ha)
+        layer 3 = 0 (kg/ha)
+        layer 4 = 0 (kg/ha)
+        layer 5 = 0 (kg/ha)
+        layer 6 = 0 (kg/ha)
+        layer 7 = 0 (kg/ha)
+        uptake_nh4 total = 0 (kg/ha)
+     
+9 February 1989(Day of year=40), pastureConverter: 
+     
+     sw_uptake:-
+        layer 1 = 1.9174e-05 (mm)
+        layer 2 = 0 (mm)
+        layer 3 = 0 (mm)
+        layer 4 = 0 (mm)
+        layer 5 = 0 (mm)
+        layer 6 = 0 (mm)
+        layer 7 = 0 (mm)
+        sw_uptake total = 1.9174e-05 (mm)
+     
+     
+     uptake_no3:-
+        layer 1 = 0 (kg/ha)
+        layer 2 = 0 (kg/ha)
+        layer 3 = 0 (kg/ha)
+        layer 4 = 0 (kg/ha)
+        layer 5 = 0 (kg/ha)
+        layer 6 = 0 (kg/ha)
+        layer 7 = 0 (kg/ha)
+        uptake_no3 total = 0 (kg/ha)
+     
+     
+     uptake_nh4:-
+        layer 1 = 0 (kg/ha)
+        layer 2 = 0 (kg/ha)
+        layer 3 = 0 (kg/ha)
+        layer 4 = 0 (kg/ha)
+        layer 5 = 0 (kg/ha)
+        layer 6 = 0 (kg/ha)
+        layer 7 = 0 (kg/ha)
+        uptake_nh4 total = 0 (kg/ha)
+     
+10 February 1989(Day of year=41), pastureConverter: 
+     
+     sw_uptake:-
+        layer 1 = 1.98932e-05 (mm)
+        layer 2 = 0 (mm)
+        layer 3 = 0 (mm)
+        layer 4 = 0 (mm)
+        layer 5 = 0 (mm)
+        layer 6 = 0 (mm)
+        layer 7 = 0 (mm)
+        sw_uptake total = 1.98932e-05 (mm)
+     
+     
+     uptake_no3:-
+        layer 1 = 0 (kg/ha)
+        layer 2 = 0 (kg/ha)
+        layer 3 = 0 (kg/ha)
+        layer 4 = 0 (kg/ha)
+        layer 5 = 0 (kg/ha)
+        layer 6 = 0 (kg/ha)
+        layer 7 = 0 (kg/ha)
+        uptake_no3 total = 0 (kg/ha)
+     
+     
+     uptake_nh4:-
+        layer 1 = 0 (kg/ha)
+        layer 2 = 0 (kg/ha)
+        layer 3 = 0 (kg/ha)
+        layer 4 = 0 (kg/ha)
+        layer 5 = 0 (kg/ha)
+        layer 6 = 0 (kg/ha)
+        layer 7 = 0 (kg/ha)
+        uptake_nh4 total = 0 (kg/ha)
+     
+11 February 1989(Day of year=42), pastureConverter: 
+     
+     sw_uptake:-
+        layer 1 = 1.14221e-05 (mm)
+        layer 2 = 0 (mm)
+        layer 3 = 0 (mm)
+        layer 4 = 0 (mm)
+        layer 5 = 0 (mm)
+        layer 6 = 0 (mm)
+        layer 7 = 0 (mm)
+        sw_uptake total = 1.14221e-05 (mm)
+     
+     
+     uptake_no3:-
+        layer 1 = 0 (kg/ha)
+        layer 2 = 0 (kg/ha)
+        layer 3 = 0 (kg/ha)
+        layer 4 = 0 (kg/ha)
+        layer 5 = 0 (kg/ha)
+        layer 6 = 0 (kg/ha)
+        layer 7 = 0 (kg/ha)
+        uptake_no3 total = 0 (kg/ha)
+     
+     
+     uptake_nh4:-
+        layer 1 = 0 (kg/ha)
+        layer 2 = 0 (kg/ha)
+        layer 3 = 0 (kg/ha)
+        layer 4 = 0 (kg/ha)
+        layer 5 = 0 (kg/ha)
+        layer 6 = 0 (kg/ha)
+        layer 7 = 0 (kg/ha)
+        uptake_nh4 total = 0 (kg/ha)
+     
+12 February 1989(Day of year=43), pastureConverter: 
+     
+     sw_uptake:-
+        layer 1 = 9.40405e-06 (mm)
+        layer 2 = 0 (mm)
+        layer 3 = 0 (mm)
+        layer 4 = 0 (mm)
+        layer 5 = 0 (mm)
+        layer 6 = 0 (mm)
+        layer 7 = 0 (mm)
+        sw_uptake total = 9.40405e-06 (mm)
+     
+     
+     uptake_no3:-
+        layer 1 = 0 (kg/ha)
+        layer 2 = 0 (kg/ha)
+        layer 3 = 0 (kg/ha)
+        layer 4 = 0 (kg/ha)
+        layer 5 = 0 (kg/ha)
+        layer 6 = 0 (kg/ha)
+        layer 7 = 0 (kg/ha)
+        uptake_no3 total = 0 (kg/ha)
+     
+     
+     uptake_nh4:-
+        layer 1 = 0 (kg/ha)
+        layer 2 = 0 (kg/ha)
+        layer 3 = 0 (kg/ha)
+        layer 4 = 0 (kg/ha)
+        layer 5 = 0 (kg/ha)
+        layer 6 = 0 (kg/ha)
+        layer 7 = 0 (kg/ha)
+        uptake_nh4 total = 0 (kg/ha)
+     
+13 February 1989(Day of year=44), pastureConverter: 
+     
+     sw_uptake:-
+        layer 1 = 1.08944e-05 (mm)
+        layer 2 = 0 (mm)
+        layer 3 = 0 (mm)
+        layer 4 = 0 (mm)
+        layer 5 = 0 (mm)
+        layer 6 = 0 (mm)
+        layer 7 = 0 (mm)
+        sw_uptake total = 1.08944e-05 (mm)
+     
+     
+     uptake_no3:-
+        layer 1 = 0 (kg/ha)
+        layer 2 = 0 (kg/ha)
+        layer 3 = 0 (kg/ha)
+        layer 4 = 0 (kg/ha)
+        layer 5 = 0 (kg/ha)
+        layer 6 = 0 (kg/ha)
+        layer 7 = 0 (kg/ha)
+        uptake_no3 total = 0 (kg/ha)
+     
+     
+     uptake_nh4:-
+        layer 1 = 0 (kg/ha)
+        layer 2 = 0 (kg/ha)
+        layer 3 = 0 (kg/ha)
+        layer 4 = 0 (kg/ha)
+        layer 5 = 0 (kg/ha)
+        layer 6 = 0 (kg/ha)
+        layer 7 = 0 (kg/ha)
+        uptake_nh4 total = 0 (kg/ha)
+     
+14 February 1989(Day of year=45), pastureConverter: 
+     
+     sw_uptake:-
+        layer 1 = 9.89625e-06 (mm)
+        layer 2 = 0 (mm)
+        layer 3 = 0 (mm)
+        layer 4 = 0 (mm)
+        layer 5 = 0 (mm)
+        layer 6 = 0 (mm)
+        layer 7 = 0 (mm)
+        sw_uptake total = 9.89625e-06 (mm)
+     
+     
+     uptake_no3:-
+        layer 1 = 0 (kg/ha)
+        layer 2 = 0 (kg/ha)
+        layer 3 = 0 (kg/ha)
+        layer 4 = 0 (kg/ha)
+        layer 5 = 0 (kg/ha)
+        layer 6 = 0 (kg/ha)
+        layer 7 = 0 (kg/ha)
+        uptake_no3 total = 0 (kg/ha)
+     
+     
+     uptake_nh4:-
+        layer 1 = 0 (kg/ha)
+        layer 2 = 0 (kg/ha)
+        layer 3 = 0 (kg/ha)
+        layer 4 = 0 (kg/ha)
+        layer 5 = 0 (kg/ha)
+        layer 6 = 0 (kg/ha)
+        layer 7 = 0 (kg/ha)
+        uptake_nh4 total = 0 (kg/ha)
+     
+15 February 1989(Day of year=46), pastureConverter: 
+     
+     sw_uptake:-
+        layer 1 = 8.68064e-06 (mm)
+        layer 2 = 0 (mm)
+        layer 3 = 0 (mm)
+        layer 4 = 0 (mm)
+        layer 5 = 0 (mm)
+        layer 6 = 0 (mm)
+        layer 7 = 0 (mm)
+        sw_uptake total = 8.68064e-06 (mm)
+     
+     
+     uptake_no3:-
+        layer 1 = 0 (kg/ha)
+        layer 2 = 0 (kg/ha)
+        layer 3 = 0 (kg/ha)
+        layer 4 = 0 (kg/ha)
+        layer 5 = 0 (kg/ha)
+        layer 6 = 0 (kg/ha)
+        layer 7 = 0 (kg/ha)
+        uptake_no3 total = 0 (kg/ha)
+     
+     
+     uptake_nh4:-
+        layer 1 = 0 (kg/ha)
+        layer 2 = 0 (kg/ha)
+        layer 3 = 0 (kg/ha)
+        layer 4 = 0 (kg/ha)
+        layer 5 = 0 (kg/ha)
+        layer 6 = 0 (kg/ha)
+        layer 7 = 0 (kg/ha)
+        uptake_nh4 total = 0 (kg/ha)
+     
+16 February 1989(Day of year=47), pastureConverter: 
+     
+     sw_uptake:-
+        layer 1 = 7.62014e-06 (mm)
+        layer 2 = 0 (mm)
+        layer 3 = 0 (mm)
+        layer 4 = 0 (mm)
+        layer 5 = 0 (mm)
+        layer 6 = 0 (mm)
+        layer 7 = 0 (mm)
+        sw_uptake total = 7.62014e-06 (mm)
+     
+     
+     uptake_no3:-
+        layer 1 = 0 (kg/ha)
+        layer 2 = 0 (kg/ha)
+        layer 3 = 0 (kg/ha)
+        layer 4 = 0 (kg/ha)
+        layer 5 = 0 (kg/ha)
+        layer 6 = 0 (kg/ha)
+        layer 7 = 0 (kg/ha)
+        uptake_no3 total = 0 (kg/ha)
+     
+     
+     uptake_nh4:-
+        layer 1 = 0 (kg/ha)
+        layer 2 = 0 (kg/ha)
+        layer 3 = 0 (kg/ha)
+        layer 4 = 0 (kg/ha)
+        layer 5 = 0 (kg/ha)
+        layer 6 = 0 (kg/ha)
+        layer 7 = 0 (kg/ha)
+        uptake_nh4 total = 0 (kg/ha)
+     
+17 February 1989(Day of year=48), pastureConverter: 
+     
+     sw_uptake:-
+        layer 1 = 6.20701e-06 (mm)
+        layer 2 = 0 (mm)
+        layer 3 = 0 (mm)
+        layer 4 = 0 (mm)
+        layer 5 = 0 (mm)
+        layer 6 = 0 (mm)
+        layer 7 = 0 (mm)
+        sw_uptake total = 6.20701e-06 (mm)
+     
+     
+     uptake_no3:-
+        layer 1 = 0 (kg/ha)
+        layer 2 = 0 (kg/ha)
+        layer 3 = 0 (kg/ha)
+        layer 4 = 0 (kg/ha)
+        layer 5 = 0 (kg/ha)
+        layer 6 = 0 (kg/ha)
+        layer 7 = 0 (kg/ha)
+        uptake_no3 total = 0 (kg/ha)
+     
+     
+     uptake_nh4:-
+        layer 1 = 0 (kg/ha)
+        layer 2 = 0 (kg/ha)
+        layer 3 = 0 (kg/ha)
+        layer 4 = 0 (kg/ha)
+        layer 5 = 0 (kg/ha)
+        layer 6 = 0 (kg/ha)
+        layer 7 = 0 (kg/ha)
+        uptake_nh4 total = 0 (kg/ha)
+     
+18 February 1989(Day of year=49), pastureConverter: 
+     
+     sw_uptake:-
+        layer 1 = 5.3788e-06 (mm)
+        layer 2 = 0 (mm)
+        layer 3 = 0 (mm)
+        layer 4 = 0 (mm)
+        layer 5 = 0 (mm)
+        layer 6 = 0 (mm)
+        layer 7 = 0 (mm)
+        sw_uptake total = 5.3788e-06 (mm)
+     
+     
+     uptake_no3:-
+        layer 1 = 0 (kg/ha)
+        layer 2 = 0 (kg/ha)
+        layer 3 = 0 (kg/ha)
+        layer 4 = 0 (kg/ha)
+        layer 5 = 0 (kg/ha)
+        layer 6 = 0 (kg/ha)
+        layer 7 = 0 (kg/ha)
+        uptake_no3 total = 0 (kg/ha)
+     
+     
+     uptake_nh4:-
+        layer 1 = 0 (kg/ha)
+        layer 2 = 0 (kg/ha)
+        layer 3 = 0 (kg/ha)
+        layer 4 = 0 (kg/ha)
+        layer 5 = 0 (kg/ha)
+        layer 6 = 0 (kg/ha)
+        layer 7 = 0 (kg/ha)
+        uptake_nh4 total = 0 (kg/ha)
+     
+19 February 1989(Day of year=50), pastureConverter: 
+     
+     sw_uptake:-
+        layer 1 = 5.02463e-06 (mm)
+        layer 2 = 0 (mm)
+        layer 3 = 0 (mm)
+        layer 4 = 0 (mm)
+        layer 5 = 0 (mm)
+        layer 6 = 0 (mm)
+        layer 7 = 0 (mm)
+        sw_uptake total = 5.02463e-06 (mm)
+     
+     
+     uptake_no3:-
+        layer 1 = 0 (kg/ha)
+        layer 2 = 0 (kg/ha)
+        layer 3 = 0 (kg/ha)
+        layer 4 = 0 (kg/ha)
+        layer 5 = 0 (kg/ha)
+        layer 6 = 0 (kg/ha)
+        layer 7 = 0 (kg/ha)
+        uptake_no3 total = 0 (kg/ha)
+     
+     
+     uptake_nh4:-
+        layer 1 = 0 (kg/ha)
+        layer 2 = 0 (kg/ha)
+        layer 3 = 0 (kg/ha)
+        layer 4 = 0 (kg/ha)
+        layer 5 = 0 (kg/ha)
+        layer 6 = 0 (kg/ha)
+        layer 7 = 0 (kg/ha)
+        uptake_nh4 total = 0 (kg/ha)
+     
+20 February 1989(Day of year=51), pastureConverter: 
+     
+     sw_uptake:-
+        layer 1 = 4.48003e-06 (mm)
+        layer 2 = 0 (mm)
+        layer 3 = 0 (mm)
+        layer 4 = 0 (mm)
+        layer 5 = 0 (mm)
+        layer 6 = 0 (mm)
+        layer 7 = 0 (mm)
+        sw_uptake total = 4.48003e-06 (mm)
+     
+     
+     uptake_no3:-
+        layer 1 = 0 (kg/ha)
+        layer 2 = 0 (kg/ha)
+        layer 3 = 0 (kg/ha)
+        layer 4 = 0 (kg/ha)
+        layer 5 = 0 (kg/ha)
+        layer 6 = 0 (kg/ha)
+        layer 7 = 0 (kg/ha)
+        uptake_no3 total = 0 (kg/ha)
+     
+     
+     uptake_nh4:-
+        layer 1 = 0 (kg/ha)
+        layer 2 = 0 (kg/ha)
+        layer 3 = 0 (kg/ha)
+        layer 4 = 0 (kg/ha)
+        layer 5 = 0 (kg/ha)
+        layer 6 = 0 (kg/ha)
+        layer 7 = 0 (kg/ha)
+        uptake_nh4 total = 0 (kg/ha)
+     
+21 February 1989(Day of year=52), pastureConverter: 
+     
+     sw_uptake:-
+        layer 1 = 2.94818e-06 (mm)
+        layer 2 = 0 (mm)
+        layer 3 = 0 (mm)
+        layer 4 = 0 (mm)
+        layer 5 = 0 (mm)
+        layer 6 = 0 (mm)
+        layer 7 = 0 (mm)
+        sw_uptake total = 2.94818e-06 (mm)
+     
+     
+     uptake_no3:-
+        layer 1 = 0 (kg/ha)
+        layer 2 = 0 (kg/ha)
+        layer 3 = 0 (kg/ha)
+        layer 4 = 0 (kg/ha)
+        layer 5 = 0 (kg/ha)
+        layer 6 = 0 (kg/ha)
+        layer 7 = 0 (kg/ha)
+        uptake_no3 total = 0 (kg/ha)
+     
+     
+     uptake_nh4:-
+        layer 1 = 0 (kg/ha)
+        layer 2 = 0 (kg/ha)
+        layer 3 = 0 (kg/ha)
+        layer 4 = 0 (kg/ha)
+        layer 5 = 0 (kg/ha)
+        layer 6 = 0 (kg/ha)
+        layer 7 = 0 (kg/ha)
+        uptake_nh4 total = 0 (kg/ha)
+     
+22 February 1989(Day of year=53), pastureConverter: 
+     
+     sw_uptake:-
+        layer 1 = 2.96052e-06 (mm)
+        layer 2 = 0 (mm)
+        layer 3 = 0 (mm)
+        layer 4 = 0 (mm)
+        layer 5 = 0 (mm)
+        layer 6 = 0 (mm)
+        layer 7 = 0 (mm)
+        sw_uptake total = 2.96052e-06 (mm)
+     
+     
+     uptake_no3:-
+        layer 1 = 0 (kg/ha)
+        layer 2 = 0 (kg/ha)
+        layer 3 = 0 (kg/ha)
+        layer 4 = 0 (kg/ha)
+        layer 5 = 0 (kg/ha)
+        layer 6 = 0 (kg/ha)
+        layer 7 = 0 (kg/ha)
+        uptake_no3 total = 0 (kg/ha)
+     
+     
+     uptake_nh4:-
+        layer 1 = 0 (kg/ha)
+        layer 2 = 0 (kg/ha)
+        layer 3 = 0 (kg/ha)
+        layer 4 = 0 (kg/ha)
+        layer 5 = 0 (kg/ha)
+        layer 6 = 0 (kg/ha)
+        layer 7 = 0 (kg/ha)
+        uptake_nh4 total = 0 (kg/ha)
+     
+23 February 1989(Day of year=54), pastureConverter: 
+     
+     sw_uptake:-
+        layer 1 = 2.29107e-06 (mm)
+        layer 2 = 0 (mm)
+        layer 3 = 0 (mm)
+        layer 4 = 0 (mm)
+        layer 5 = 0 (mm)
+        layer 6 = 0 (mm)
+        layer 7 = 0 (mm)
+        sw_uptake total = 2.29107e-06 (mm)
+     
+     
+     uptake_no3:-
+        layer 1 = 0 (kg/ha)
+        layer 2 = 0 (kg/ha)
+        layer 3 = 0 (kg/ha)
+        layer 4 = 0 (kg/ha)
+        layer 5 = 0 (kg/ha)
+        layer 6 = 0 (kg/ha)
+        layer 7 = 0 (kg/ha)
+        uptake_no3 total = 0 (kg/ha)
+     
+     
+     uptake_nh4:-
+        layer 1 = 0 (kg/ha)
+        layer 2 = 0 (kg/ha)
+        layer 3 = 0 (kg/ha)
+        layer 4 = 0 (kg/ha)
+        layer 5 = 0 (kg/ha)
+        layer 6 = 0 (kg/ha)
+        layer 7 = 0 (kg/ha)
+        uptake_nh4 total = 0 (kg/ha)
+     
+24 February 1989(Day of year=55), pastureConverter: 
+     
+     sw_uptake:-
+        layer 1 = 1.66355e-06 (mm)
+        layer 2 = 0 (mm)
+        layer 3 = 0 (mm)
+        layer 4 = 0 (mm)
+        layer 5 = 0 (mm)
+        layer 6 = 0 (mm)
+        layer 7 = 0 (mm)
+        sw_uptake total = 1.66355e-06 (mm)
+     
+     
+     uptake_no3:-
+        layer 1 = 0 (kg/ha)
+        layer 2 = 0 (kg/ha)
+        layer 3 = 0 (kg/ha)
+        layer 4 = 0 (kg/ha)
+        layer 5 = 0 (kg/ha)
+        layer 6 = 0 (kg/ha)
+        layer 7 = 0 (kg/ha)
+        uptake_no3 total = 0 (kg/ha)
+     
+     
+     uptake_nh4:-
+        layer 1 = 0 (kg/ha)
+        layer 2 = 0 (kg/ha)
+        layer 3 = 0 (kg/ha)
+        layer 4 = 0 (kg/ha)
+        layer 5 = 0 (kg/ha)
+        layer 6 = 0 (kg/ha)
+        layer 7 = 0 (kg/ha)
+        uptake_nh4 total = 0 (kg/ha)
+     
+25 February 1989(Day of year=56), pastureConverter: 
+     
+     sw_uptake:-
+        layer 1 = 1.94954e-06 (mm)
+        layer 2 = 0 (mm)
+        layer 3 = 0 (mm)
+        layer 4 = 0 (mm)
+        layer 5 = 0 (mm)
+        layer 6 = 0 (mm)
+        layer 7 = 0 (mm)
+        sw_uptake total = 1.94954e-06 (mm)
+     
+     
+     uptake_no3:-
+        layer 1 = 0 (kg/ha)
+        layer 2 = 0 (kg/ha)
+        layer 3 = 0 (kg/ha)
+        layer 4 = 0 (kg/ha)
+        layer 5 = 0 (kg/ha)
+        layer 6 = 0 (kg/ha)
+        layer 7 = 0 (kg/ha)
+        uptake_no3 total = 0 (kg/ha)
+     
+     
+     uptake_nh4:-
+        layer 1 = 0 (kg/ha)
+        layer 2 = 0 (kg/ha)
+        layer 3 = 0 (kg/ha)
+        layer 4 = 0 (kg/ha)
+        layer 5 = 0 (kg/ha)
+        layer 6 = 0 (kg/ha)
+        layer 7 = 0 (kg/ha)
+        uptake_nh4 total = 0 (kg/ha)
+     
+26 February 1989(Day of year=57), pastureConverter: 
+     
+     sw_uptake:-
+        layer 1 = 1.7151e-06 (mm)
+        layer 2 = 0 (mm)
+        layer 3 = 0 (mm)
+        layer 4 = 0 (mm)
+        layer 5 = 0 (mm)
+        layer 6 = 0 (mm)
+        layer 7 = 0 (mm)
+        sw_uptake total = 1.7151e-06 (mm)
+     
+     
+     uptake_no3:-
+        layer 1 = 0 (kg/ha)
+        layer 2 = 0 (kg/ha)
+        layer 3 = 0 (kg/ha)
+        layer 4 = 0 (kg/ha)
+        layer 5 = 0 (kg/ha)
+        layer 6 = 0 (kg/ha)
+        layer 7 = 0 (kg/ha)
+        uptake_no3 total = 0 (kg/ha)
+     
+     
+     uptake_nh4:-
+        layer 1 = 0 (kg/ha)
+        layer 2 = 0 (kg/ha)
+        layer 3 = 0 (kg/ha)
+        layer 4 = 0 (kg/ha)
+        layer 5 = 0 (kg/ha)
+        layer 6 = 0 (kg/ha)
+        layer 7 = 0 (kg/ha)
+        uptake_nh4 total = 0 (kg/ha)
+     
+27 February 1989(Day of year=58), pastureConverter: 
+     
+     sw_uptake:-
+        layer 1 = 1.53892e-06 (mm)
+        layer 2 = 0 (mm)
+        layer 3 = 0 (mm)
+        layer 4 = 0 (mm)
+        layer 5 = 0 (mm)
+        layer 6 = 0 (mm)
+        layer 7 = 0 (mm)
+        sw_uptake total = 1.53892e-06 (mm)
+     
+     
+     uptake_no3:-
+        layer 1 = 0 (kg/ha)
+        layer 2 = 0 (kg/ha)
+        layer 3 = 0 (kg/ha)
+        layer 4 = 0 (kg/ha)
+        layer 5 = 0 (kg/ha)
+        layer 6 = 0 (kg/ha)
+        layer 7 = 0 (kg/ha)
+        uptake_no3 total = 0 (kg/ha)
+     
+     
+     uptake_nh4:-
+        layer 1 = 0 (kg/ha)
+        layer 2 = 0 (kg/ha)
+        layer 3 = 0 (kg/ha)
+        layer 4 = 0 (kg/ha)
+        layer 5 = 0 (kg/ha)
+        layer 6 = 0 (kg/ha)
+        layer 7 = 0 (kg/ha)
+        uptake_nh4 total = 0 (kg/ha)
+     
+28 February 1989(Day of year=59), pastureConverter: 
+     
+     sw_uptake:-
+        layer 1 = 9.4168e-07 (mm)
+        layer 2 = 0 (mm)
+        layer 3 = 0 (mm)
+        layer 4 = 0 (mm)
+        layer 5 = 0 (mm)
+        layer 6 = 0 (mm)
+        layer 7 = 0 (mm)
+        sw_uptake total = 9.4168e-07 (mm)
+     
+     
+     uptake_no3:-
+        layer 1 = 0 (kg/ha)
+        layer 2 = 0 (kg/ha)
+        layer 3 = 0 (kg/ha)
+        layer 4 = 0 (kg/ha)
+        layer 5 = 0 (kg/ha)
+        layer 6 = 0 (kg/ha)
+        layer 7 = 0 (kg/ha)
+        uptake_no3 total = 0 (kg/ha)
+     
+     
+     uptake_nh4:-
+        layer 1 = 0 (kg/ha)
+        layer 2 = 0 (kg/ha)
+        layer 3 = 0 (kg/ha)
+        layer 4 = 0 (kg/ha)
+        layer 5 = 0 (kg/ha)
+        layer 6 = 0 (kg/ha)
+        layer 7 = 0 (kg/ha)
+        uptake_nh4 total = 0 (kg/ha)
+     
+1 March 1989(Day of year=60), pastureConverter: 
+     
+     sw_uptake:-
+        layer 1 = 1.00713e-06 (mm)
+        layer 2 = 0 (mm)
+        layer 3 = 0 (mm)
+        layer 4 = 0 (mm)
+        layer 5 = 0 (mm)
+        layer 6 = 0 (mm)
+        layer 7 = 0 (mm)
+        sw_uptake total = 1.00713e-06 (mm)
+     
+     
+     uptake_no3:-
+        layer 1 = 0 (kg/ha)
+        layer 2 = 0 (kg/ha)
+        layer 3 = 0 (kg/ha)
+        layer 4 = 0 (kg/ha)
+        layer 5 = 0 (kg/ha)
+        layer 6 = 0 (kg/ha)
+        layer 7 = 0 (kg/ha)
+        uptake_no3 total = 0 (kg/ha)
+     
+     
+     uptake_nh4:-
+        layer 1 = 0 (kg/ha)
+        layer 2 = 0 (kg/ha)
+        layer 3 = 0 (kg/ha)
+        layer 4 = 0 (kg/ha)
+        layer 5 = 0 (kg/ha)
+        layer 6 = 0 (kg/ha)
+        layer 7 = 0 (kg/ha)
+        uptake_nh4 total = 0 (kg/ha)
+     
+2 March 1989(Day of year=61), pastureConverter: 
+     
+     sw_uptake:-
+        layer 1 = 1.09337e-06 (mm)
+        layer 2 = 0 (mm)
+        layer 3 = 0 (mm)
+        layer 4 = 0 (mm)
+        layer 5 = 0 (mm)
+        layer 6 = 0 (mm)
+        layer 7 = 0 (mm)
+        sw_uptake total = 1.09337e-06 (mm)
+     
+     
+     uptake_no3:-
+        layer 1 = 0 (kg/ha)
+        layer 2 = 0 (kg/ha)
+        layer 3 = 0 (kg/ha)
+        layer 4 = 0 (kg/ha)
+        layer 5 = 0 (kg/ha)
+        layer 6 = 0 (kg/ha)
+        layer 7 = 0 (kg/ha)
+        uptake_no3 total = 0 (kg/ha)
+     
+     
+     uptake_nh4:-
+        layer 1 = 0 (kg/ha)
+        layer 2 = 0 (kg/ha)
+        layer 3 = 0 (kg/ha)
+        layer 4 = 0 (kg/ha)
+        layer 5 = 0 (kg/ha)
+        layer 6 = 0 (kg/ha)
+        layer 7 = 0 (kg/ha)
+        uptake_nh4 total = 0 (kg/ha)
+     
+3 March 1989(Day of year=62), pastureConverter: 
+     
+     sw_uptake:-
+        layer 1 = 7.1805e-07 (mm)
+        layer 2 = 0 (mm)
+        layer 3 = 0 (mm)
+        layer 4 = 0 (mm)
+        layer 5 = 0 (mm)
+        layer 6 = 0 (mm)
+        layer 7 = 0 (mm)
+        sw_uptake total = 7.1805e-07 (mm)
+     
+     
+     uptake_no3:-
+        layer 1 = 0 (kg/ha)
+        layer 2 = 0 (kg/ha)
+        layer 3 = 0 (kg/ha)
+        layer 4 = 0 (kg/ha)
+        layer 5 = 0 (kg/ha)
+        layer 6 = 0 (kg/ha)
+        layer 7 = 0 (kg/ha)
+        uptake_no3 total = 0 (kg/ha)
+     
+     
+     uptake_nh4:-
+        layer 1 = 0 (kg/ha)
+        layer 2 = 0 (kg/ha)
+        layer 3 = 0 (kg/ha)
+        layer 4 = 0 (kg/ha)
+        layer 5 = 0 (kg/ha)
+        layer 6 = 0 (kg/ha)
+        layer 7 = 0 (kg/ha)
+        uptake_nh4 total = 0 (kg/ha)
+     
+4 March 1989(Day of year=63), pastureConverter: 
+     
+     sw_uptake:-
+        layer 1 = 7.31529e-07 (mm)
+        layer 2 = 0 (mm)
+        layer 3 = 0 (mm)
+        layer 4 = 0 (mm)
+        layer 5 = 0 (mm)
+        layer 6 = 0 (mm)
+        layer 7 = 0 (mm)
+        sw_uptake total = 7.31529e-07 (mm)
+     
+     
+     uptake_no3:-
+        layer 1 = 0 (kg/ha)
+        layer 2 = 0 (kg/ha)
+        layer 3 = 0 (kg/ha)
+        layer 4 = 0 (kg/ha)
+        layer 5 = 0 (kg/ha)
+        layer 6 = 0 (kg/ha)
+        layer 7 = 0 (kg/ha)
+        uptake_no3 total = 0 (kg/ha)
+     
+     
+     uptake_nh4:-
+        layer 1 = 0 (kg/ha)
+        layer 2 = 0 (kg/ha)
+        layer 3 = 0 (kg/ha)
+        layer 4 = 0 (kg/ha)
+        layer 5 = 0 (kg/ha)
+        layer 6 = 0 (kg/ha)
+        layer 7 = 0 (kg/ha)
+        uptake_nh4 total = 0 (kg/ha)
+     
+5 March 1989(Day of year=64), pastureConverter: 
+     
+     sw_uptake:-
+        layer 1 = 5.74345e-07 (mm)
+        layer 2 = 0 (mm)
+        layer 3 = 0 (mm)
+        layer 4 = 0 (mm)
+        layer 5 = 0 (mm)
+        layer 6 = 0 (mm)
+        layer 7 = 0 (mm)
+        sw_uptake total = 5.74345e-07 (mm)
+     
+     
+     uptake_no3:-
+        layer 1 = 0 (kg/ha)
+        layer 2 = 0 (kg/ha)
+        layer 3 = 0 (kg/ha)
+        layer 4 = 0 (kg/ha)
+        layer 5 = 0 (kg/ha)
+        layer 6 = 0 (kg/ha)
+        layer 7 = 0 (kg/ha)
+        uptake_no3 total = 0 (kg/ha)
+     
+     
+     uptake_nh4:-
+        layer 1 = 0 (kg/ha)
+        layer 2 = 0 (kg/ha)
+        layer 3 = 0 (kg/ha)
+        layer 4 = 0 (kg/ha)
+        layer 5 = 0 (kg/ha)
+        layer 6 = 0 (kg/ha)
+        layer 7 = 0 (kg/ha)
+        uptake_nh4 total = 0 (kg/ha)
+     
+6 March 1989(Day of year=65), pastureConverter: 
+     
+     sw_uptake:-
+        layer 1 = 6.71295e-07 (mm)
+        layer 2 = 0 (mm)
+        layer 3 = 0 (mm)
+        layer 4 = 0 (mm)
+        layer 5 = 0 (mm)
+        layer 6 = 0 (mm)
+        layer 7 = 0 (mm)
+        sw_uptake total = 6.71295e-07 (mm)
+     
+     
+     uptake_no3:-
+        layer 1 = 0 (kg/ha)
+        layer 2 = 0 (kg/ha)
+        layer 3 = 0 (kg/ha)
+        layer 4 = 0 (kg/ha)
+        layer 5 = 0 (kg/ha)
+        layer 6 = 0 (kg/ha)
+        layer 7 = 0 (kg/ha)
+        uptake_no3 total = 0 (kg/ha)
+     
+     
+     uptake_nh4:-
+        layer 1 = 0 (kg/ha)
+        layer 2 = 0 (kg/ha)
+        layer 3 = 0 (kg/ha)
+        layer 4 = 0 (kg/ha)
+        layer 5 = 0 (kg/ha)
+        layer 6 = 0 (kg/ha)
+        layer 7 = 0 (kg/ha)
+        uptake_nh4 total = 0 (kg/ha)
+     
+7 March 1989(Day of year=66), pastureConverter: 
+     
+     sw_uptake:-
+        layer 1 = 0 (mm)
+        layer 2 = 0 (mm)
+        layer 3 = 0 (mm)
+        layer 4 = 0 (mm)
+        layer 5 = 0 (mm)
+        layer 6 = 0 (mm)
+        layer 7 = 0 (mm)
+        sw_uptake total = 0 (mm)
+     
+     
+     uptake_no3:-
+        layer 1 = 0 (kg/ha)
+        layer 2 = 0 (kg/ha)
+        layer 3 = 0 (kg/ha)
+        layer 4 = 0 (kg/ha)
+        layer 5 = 0 (kg/ha)
+        layer 6 = 0 (kg/ha)
+        layer 7 = 0 (kg/ha)
+        uptake_no3 total = 0 (kg/ha)
+     
+     
+     uptake_nh4:-
+        layer 1 = 0 (kg/ha)
+        layer 2 = 0 (kg/ha)
+        layer 3 = 0 (kg/ha)
+        layer 4 = 0 (kg/ha)
+        layer 5 = 0 (kg/ha)
+        layer 6 = 0 (kg/ha)
+        layer 7 = 0 (kg/ha)
+        uptake_nh4 total = 0 (kg/ha)
+     
+8 March 1989(Day of year=67), pastureConverter: 
+     
+     sw_uptake:-
+        layer 1 = 0 (mm)
+        layer 2 = 0 (mm)
+        layer 3 = 0 (mm)
+        layer 4 = 0 (mm)
+        layer 5 = 0 (mm)
+        layer 6 = 0 (mm)
+        layer 7 = 0 (mm)
+        sw_uptake total = 0 (mm)
+     
+     
+     uptake_no3:-
+        layer 1 = 0 (kg/ha)
+        layer 2 = 0 (kg/ha)
+        layer 3 = 0 (kg/ha)
+        layer 4 = 0 (kg/ha)
+        layer 5 = 0 (kg/ha)
+        layer 6 = 0 (kg/ha)
+        layer 7 = 0 (kg/ha)
+        uptake_no3 total = 0 (kg/ha)
+     
+     
+     uptake_nh4:-
+        layer 1 = 0 (kg/ha)
+        layer 2 = 0 (kg/ha)
+        layer 3 = 0 (kg/ha)
+        layer 4 = 0 (kg/ha)
+        layer 5 = 0 (kg/ha)
+        layer 6 = 0 (kg/ha)
+        layer 7 = 0 (kg/ha)
+        uptake_nh4 total = 0 (kg/ha)
+     
+9 March 1989(Day of year=68), pastureConverter: 
+     
+     sw_uptake:-
+        layer 1 = 0 (mm)
+        layer 2 = 0 (mm)
+        layer 3 = 0 (mm)
+        layer 4 = 0 (mm)
+        layer 5 = 0 (mm)
+        layer 6 = 0 (mm)
+        layer 7 = 0 (mm)
+        sw_uptake total = 0 (mm)
+     
+     
+     uptake_no3:-
+        layer 1 = 0 (kg/ha)
+        layer 2 = 0 (kg/ha)
+        layer 3 = 0 (kg/ha)
+        layer 4 = 0 (kg/ha)
+        layer 5 = 0 (kg/ha)
+        layer 6 = 0 (kg/ha)
+        layer 7 = 0 (kg/ha)
+        uptake_no3 total = 0 (kg/ha)
+     
+     
+     uptake_nh4:-
+        layer 1 = 0 (kg/ha)
+        layer 2 = 0 (kg/ha)
+        layer 3 = 0 (kg/ha)
+        layer 4 = 0 (kg/ha)
+        layer 5 = 0 (kg/ha)
+        layer 6 = 0 (kg/ha)
+        layer 7 = 0 (kg/ha)
+        uptake_nh4 total = 0 (kg/ha)
+     
+10 March 1989(Day of year=69), pastureConverter: 
+     
+     sw_uptake:-
+        layer 1 = 0 (mm)
+        layer 2 = 0 (mm)
+        layer 3 = 0 (mm)
+        layer 4 = 0 (mm)
+        layer 5 = 0 (mm)
+        layer 6 = 0 (mm)
+        layer 7 = 0 (mm)
+        sw_uptake total = 0 (mm)
+     
+     
+     uptake_no3:-
+        layer 1 = 0 (kg/ha)
+        layer 2 = 0 (kg/ha)
+        layer 3 = 0 (kg/ha)
+        layer 4 = 0 (kg/ha)
+        layer 5 = 0 (kg/ha)
+        layer 6 = 0 (kg/ha)
+        layer 7 = 0 (kg/ha)
+        uptake_no3 total = 0 (kg/ha)
+     
+     
+     uptake_nh4:-
+        layer 1 = 0 (kg/ha)
+        layer 2 = 0 (kg/ha)
+        layer 3 = 0 (kg/ha)
+        layer 4 = 0 (kg/ha)
+        layer 5 = 0 (kg/ha)
+        layer 6 = 0 (kg/ha)
+        layer 7 = 0 (kg/ha)
+        uptake_nh4 total = 0 (kg/ha)
+     
+11 March 1989(Day of year=70), pastureConverter: 
+     
+     sw_uptake:-
+        layer 1 = 0 (mm)
+        layer 2 = 0 (mm)
+        layer 3 = 0 (mm)
+        layer 4 = 0 (mm)
+        layer 5 = 0 (mm)
+        layer 6 = 0 (mm)
+        layer 7 = 0 (mm)
+        sw_uptake total = 0 (mm)
+     
+     
+     uptake_no3:-
+        layer 1 = 0 (kg/ha)
+        layer 2 = 0 (kg/ha)
+        layer 3 = 0 (kg/ha)
+        layer 4 = 0 (kg/ha)
+        layer 5 = 0 (kg/ha)
+        layer 6 = 0 (kg/ha)
+        layer 7 = 0 (kg/ha)
+        uptake_no3 total = 0 (kg/ha)
+     
+     
+     uptake_nh4:-
+        layer 1 = 0 (kg/ha)
+        layer 2 = 0 (kg/ha)
+        layer 3 = 0 (kg/ha)
+        layer 4 = 0 (kg/ha)
+        layer 5 = 0 (kg/ha)
+        layer 6 = 0 (kg/ha)
+        layer 7 = 0 (kg/ha)
+        uptake_nh4 total = 0 (kg/ha)
+     
+12 March 1989(Day of year=71), pastureConverter: 
+     
+     sw_uptake:-
+        layer 1 = 0 (mm)
+        layer 2 = 0 (mm)
+        layer 3 = 0 (mm)
+        layer 4 = 0 (mm)
+        layer 5 = 0 (mm)
+        layer 6 = 0 (mm)
+        layer 7 = 0 (mm)
+        sw_uptake total = 0 (mm)
+     
+     
+     uptake_no3:-
+        layer 1 = 0 (kg/ha)
+        layer 2 = 0 (kg/ha)
+        layer 3 = 0 (kg/ha)
+        layer 4 = 0 (kg/ha)
+        layer 5 = 0 (kg/ha)
+        layer 6 = 0 (kg/ha)
+        layer 7 = 0 (kg/ha)
+        uptake_no3 total = 0 (kg/ha)
+     
+     
+     uptake_nh4:-
+        layer 1 = 0 (kg/ha)
+        layer 2 = 0 (kg/ha)
+        layer 3 = 0 (kg/ha)
+        layer 4 = 0 (kg/ha)
+        layer 5 = 0 (kg/ha)
+        layer 6 = 0 (kg/ha)
+        layer 7 = 0 (kg/ha)
+        uptake_nh4 total = 0 (kg/ha)
+     
+13 March 1989(Day of year=72), pastureConverter: 
+     
+     sw_uptake:-
+        layer 1 = 0 (mm)
+        layer 2 = 0 (mm)
+        layer 3 = 0 (mm)
+        layer 4 = 0 (mm)
+        layer 5 = 0 (mm)
+        layer 6 = 0 (mm)
+        layer 7 = 0 (mm)
+        sw_uptake total = 0 (mm)
+     
+     
+     uptake_no3:-
+        layer 1 = 0 (kg/ha)
+        layer 2 = 0 (kg/ha)
+        layer 3 = 0 (kg/ha)
+        layer 4 = 0 (kg/ha)
+        layer 5 = 0 (kg/ha)
+        layer 6 = 0 (kg/ha)
+        layer 7 = 0 (kg/ha)
+        uptake_no3 total = 0 (kg/ha)
+     
+     
+     uptake_nh4:-
+        layer 1 = 0 (kg/ha)
+        layer 2 = 0 (kg/ha)
+        layer 3 = 0 (kg/ha)
+        layer 4 = 0 (kg/ha)
+        layer 5 = 0 (kg/ha)
+        layer 6 = 0 (kg/ha)
+        layer 7 = 0 (kg/ha)
+        uptake_nh4 total = 0 (kg/ha)
+     
+14 March 1989(Day of year=73), pastureConverter: 
+     
+     sw_uptake:-
+        layer 1 = 0 (mm)
+        layer 2 = 0 (mm)
+        layer 3 = 0 (mm)
+        layer 4 = 0 (mm)
+        layer 5 = 0 (mm)
+        layer 6 = 0 (mm)
+        layer 7 = 0 (mm)
+        sw_uptake total = 0 (mm)
+     
+     
+     uptake_no3:-
+        layer 1 = 0 (kg/ha)
+        layer 2 = 0 (kg/ha)
+        layer 3 = 0 (kg/ha)
+        layer 4 = 0 (kg/ha)
+        layer 5 = 0 (kg/ha)
+        layer 6 = 0 (kg/ha)
+        layer 7 = 0 (kg/ha)
+        uptake_no3 total = 0 (kg/ha)
+     
+     
+     uptake_nh4:-
+        layer 1 = 0 (kg/ha)
+        layer 2 = 0 (kg/ha)
+        layer 3 = 0 (kg/ha)
+        layer 4 = 0 (kg/ha)
+        layer 5 = 0 (kg/ha)
+        layer 6 = 0 (kg/ha)
+        layer 7 = 0 (kg/ha)
+        uptake_nh4 total = 0 (kg/ha)
+     
+15 March 1989(Day of year=74), pastureConverter: 
+     
+     sw_uptake:-
+        layer 1 = 0 (mm)
+        layer 2 = 0 (mm)
+        layer 3 = 0 (mm)
+        layer 4 = 0 (mm)
+        layer 5 = 0 (mm)
+        layer 6 = 0 (mm)
+        layer 7 = 0 (mm)
+        sw_uptake total = 0 (mm)
+     
+     
+     uptake_no3:-
+        layer 1 = 0 (kg/ha)
+        layer 2 = 0 (kg/ha)
+        layer 3 = 0 (kg/ha)
+        layer 4 = 0 (kg/ha)
+        layer 5 = 0 (kg/ha)
+        layer 6 = 0 (kg/ha)
+        layer 7 = 0 (kg/ha)
+        uptake_no3 total = 0 (kg/ha)
+     
+     
+     uptake_nh4:-
+        layer 1 = 0 (kg/ha)
+        layer 2 = 0 (kg/ha)
+        layer 3 = 0 (kg/ha)
+        layer 4 = 0 (kg/ha)
+        layer 5 = 0 (kg/ha)
+        layer 6 = 0 (kg/ha)
+        layer 7 = 0 (kg/ha)
+        uptake_nh4 total = 0 (kg/ha)
+     
+16 March 1989(Day of year=75), pastureConverter: 
+     
+     sw_uptake:-
+        layer 1 = 0 (mm)
+        layer 2 = 0 (mm)
+        layer 3 = 0 (mm)
+        layer 4 = 0 (mm)
+        layer 5 = 0 (mm)
+        layer 6 = 0 (mm)
+        layer 7 = 0 (mm)
+        sw_uptake total = 0 (mm)
+     
+     
+     uptake_no3:-
+        layer 1 = 0 (kg/ha)
+        layer 2 = 0 (kg/ha)
+        layer 3 = 0 (kg/ha)
+        layer 4 = 0 (kg/ha)
+        layer 5 = 0 (kg/ha)
+        layer 6 = 0 (kg/ha)
+        layer 7 = 0 (kg/ha)
+        uptake_no3 total = 0 (kg/ha)
+     
+     
+     uptake_nh4:-
+        layer 1 = 0 (kg/ha)
+        layer 2 = 0 (kg/ha)
+        layer 3 = 0 (kg/ha)
+        layer 4 = 0 (kg/ha)
+        layer 5 = 0 (kg/ha)
+        layer 6 = 0 (kg/ha)
+        layer 7 = 0 (kg/ha)
+        uptake_nh4 total = 0 (kg/ha)
+     
+17 March 1989(Day of year=76), pastureConverter: 
+     
+     sw_uptake:-
+        layer 1 = 0 (mm)
+        layer 2 = 0 (mm)
+        layer 3 = 0 (mm)
+        layer 4 = 0 (mm)
+        layer 5 = 0 (mm)
+        layer 6 = 0 (mm)
+        layer 7 = 0 (mm)
+        sw_uptake total = 0 (mm)
+     
+     
+     uptake_no3:-
+        layer 1 = 0 (kg/ha)
+        layer 2 = 0 (kg/ha)
+        layer 3 = 0 (kg/ha)
+        layer 4 = 0 (kg/ha)
+        layer 5 = 0 (kg/ha)
+        layer 6 = 0 (kg/ha)
+        layer 7 = 0 (kg/ha)
+        uptake_no3 total = 0 (kg/ha)
+     
+     
+     uptake_nh4:-
+        layer 1 = 0 (kg/ha)
+        layer 2 = 0 (kg/ha)
+        layer 3 = 0 (kg/ha)
+        layer 4 = 0 (kg/ha)
+        layer 5 = 0 (kg/ha)
+        layer 6 = 0 (kg/ha)
+        layer 7 = 0 (kg/ha)
+        uptake_nh4 total = 0 (kg/ha)
+     
+18 March 1989(Day of year=77), pastureConverter: 
+     
+     sw_uptake:-
+        layer 1 = 0 (mm)
+        layer 2 = 0 (mm)
+        layer 3 = 0 (mm)
+        layer 4 = 0 (mm)
+        layer 5 = 0 (mm)
+        layer 6 = 0 (mm)
+        layer 7 = 0 (mm)
+        sw_uptake total = 0 (mm)
+     
+     
+     uptake_no3:-
+        layer 1 = 0 (kg/ha)
+        layer 2 = 0 (kg/ha)
+        layer 3 = 0 (kg/ha)
+        layer 4 = 0 (kg/ha)
+        layer 5 = 0 (kg/ha)
+        layer 6 = 0 (kg/ha)
+        layer 7 = 0 (kg/ha)
+        uptake_no3 total = 0 (kg/ha)
+     
+     
+     uptake_nh4:-
+        layer 1 = 0 (kg/ha)
+        layer 2 = 0 (kg/ha)
+        layer 3 = 0 (kg/ha)
+        layer 4 = 0 (kg/ha)
+        layer 5 = 0 (kg/ha)
+        layer 6 = 0 (kg/ha)
+        layer 7 = 0 (kg/ha)
+        uptake_nh4 total = 0 (kg/ha)
+     
+19 March 1989(Day of year=78), pastureConverter: 
+     
+     sw_uptake:-
+        layer 1 = 0 (mm)
+        layer 2 = 0 (mm)
+        layer 3 = 0 (mm)
+        layer 4 = 0 (mm)
+        layer 5 = 0 (mm)
+        layer 6 = 0 (mm)
+        layer 7 = 0 (mm)
+        sw_uptake total = 0 (mm)
+     
+     
+     uptake_no3:-
+        layer 1 = 0 (kg/ha)
+        layer 2 = 0 (kg/ha)
+        layer 3 = 0 (kg/ha)
+        layer 4 = 0 (kg/ha)
+        layer 5 = 0 (kg/ha)
+        layer 6 = 0 (kg/ha)
+        layer 7 = 0 (kg/ha)
+        uptake_no3 total = 0 (kg/ha)
+     
+     
+     uptake_nh4:-
+        layer 1 = 0 (kg/ha)
+        layer 2 = 0 (kg/ha)
+        layer 3 = 0 (kg/ha)
+        layer 4 = 0 (kg/ha)
+        layer 5 = 0 (kg/ha)
+        layer 6 = 0 (kg/ha)
+        layer 7 = 0 (kg/ha)
+        uptake_nh4 total = 0 (kg/ha)
+     
+20 March 1989(Day of year=79), pastureConverter: 
+     
+     sw_uptake:-
+        layer 1 = 0 (mm)
+        layer 2 = 0 (mm)
+        layer 3 = 0 (mm)
+        layer 4 = 0 (mm)
+        layer 5 = 0 (mm)
+        layer 6 = 0 (mm)
+        layer 7 = 0 (mm)
+        sw_uptake total = 0 (mm)
+     
+     
+     uptake_no3:-
+        layer 1 = 0 (kg/ha)
+        layer 2 = 0 (kg/ha)
+        layer 3 = 0 (kg/ha)
+        layer 4 = 0 (kg/ha)
+        layer 5 = 0 (kg/ha)
+        layer 6 = 0 (kg/ha)
+        layer 7 = 0 (kg/ha)
+        uptake_no3 total = 0 (kg/ha)
+     
+     
+     uptake_nh4:-
+        layer 1 = 0 (kg/ha)
+        layer 2 = 0 (kg/ha)
+        layer 3 = 0 (kg/ha)
+        layer 4 = 0 (kg/ha)
+        layer 5 = 0 (kg/ha)
+        layer 6 = 0 (kg/ha)
+        layer 7 = 0 (kg/ha)
+        uptake_nh4 total = 0 (kg/ha)
+     
+21 March 1989(Day of year=80), pastureConverter: 
+     
+     sw_uptake:-
+        layer 1 = 0 (mm)
+        layer 2 = 0 (mm)
+        layer 3 = 0 (mm)
+        layer 4 = 0 (mm)
+        layer 5 = 0 (mm)
+        layer 6 = 0 (mm)
+        layer 7 = 0 (mm)
+        sw_uptake total = 0 (mm)
+     
+     
+     uptake_no3:-
+        layer 1 = 0 (kg/ha)
+        layer 2 = 0 (kg/ha)
+        layer 3 = 0 (kg/ha)
+        layer 4 = 0 (kg/ha)
+        layer 5 = 0 (kg/ha)
+        layer 6 = 0 (kg/ha)
+        layer 7 = 0 (kg/ha)
+        uptake_no3 total = 0 (kg/ha)
+     
+     
+     uptake_nh4:-
+        layer 1 = 0 (kg/ha)
+        layer 2 = 0 (kg/ha)
+        layer 3 = 0 (kg/ha)
+        layer 4 = 0 (kg/ha)
+        layer 5 = 0 (kg/ha)
+        layer 6 = 0 (kg/ha)
+        layer 7 = 0 (kg/ha)
+        uptake_nh4 total = 0 (kg/ha)
+     
+22 March 1989(Day of year=81), pastureConverter: 
+     
+     sw_uptake:-
+        layer 1 = 0 (mm)
+        layer 2 = 0 (mm)
+        layer 3 = 0 (mm)
+        layer 4 = 0 (mm)
+        layer 5 = 0 (mm)
+        layer 6 = 0 (mm)
+        layer 7 = 0 (mm)
+        sw_uptake total = 0 (mm)
+     
+     
+     uptake_no3:-
+        layer 1 = 0 (kg/ha)
+        layer 2 = 0 (kg/ha)
+        layer 3 = 0 (kg/ha)
+        layer 4 = 0 (kg/ha)
+        layer 5 = 0 (kg/ha)
+        layer 6 = 0 (kg/ha)
+        layer 7 = 0 (kg/ha)
+        uptake_no3 total = 0 (kg/ha)
+     
+     
+     uptake_nh4:-
+        layer 1 = 0 (kg/ha)
+        layer 2 = 0 (kg/ha)
+        layer 3 = 0 (kg/ha)
+        layer 4 = 0 (kg/ha)
+        layer 5 = 0 (kg/ha)
+        layer 6 = 0 (kg/ha)
+        layer 7 = 0 (kg/ha)
+        uptake_nh4 total = 0 (kg/ha)
+     
+23 March 1989(Day of year=82), pastureConverter: 
+     
+     sw_uptake:-
+        layer 1 = 0 (mm)
+        layer 2 = 0 (mm)
+        layer 3 = 0 (mm)
+        layer 4 = 0 (mm)
+        layer 5 = 0 (mm)
+        layer 6 = 0 (mm)
+        layer 7 = 0 (mm)
+        sw_uptake total = 0 (mm)
+     
+     
+     uptake_no3:-
+        layer 1 = 0 (kg/ha)
+        layer 2 = 0 (kg/ha)
+        layer 3 = 0 (kg/ha)
+        layer 4 = 0 (kg/ha)
+        layer 5 = 0 (kg/ha)
+        layer 6 = 0 (kg/ha)
+        layer 7 = 0 (kg/ha)
+        uptake_no3 total = 0 (kg/ha)
+     
+     
+     uptake_nh4:-
+        layer 1 = 0 (kg/ha)
+        layer 2 = 0 (kg/ha)
+        layer 3 = 0 (kg/ha)
+        layer 4 = 0 (kg/ha)
+        layer 5 = 0 (kg/ha)
+        layer 6 = 0 (kg/ha)
+        layer 7 = 0 (kg/ha)
+        uptake_nh4 total = 0 (kg/ha)
+     
+24 March 1989(Day of year=83), pastureConverter: 
+     
+     sw_uptake:-
+        layer 1 = 0 (mm)
+        layer 2 = 0 (mm)
+        layer 3 = 0 (mm)
+        layer 4 = 0 (mm)
+        layer 5 = 0 (mm)
+        layer 6 = 0 (mm)
+        layer 7 = 0 (mm)
+        sw_uptake total = 0 (mm)
+     
+     
+     uptake_no3:-
+        layer 1 = 0 (kg/ha)
+        layer 2 = 0 (kg/ha)
+        layer 3 = 0 (kg/ha)
+        layer 4 = 0 (kg/ha)
+        layer 5 = 0 (kg/ha)
+        layer 6 = 0 (kg/ha)
+        layer 7 = 0 (kg/ha)
+        uptake_no3 total = 0 (kg/ha)
+     
+     
+     uptake_nh4:-
+        layer 1 = 0 (kg/ha)
+        layer 2 = 0 (kg/ha)
+        layer 3 = 0 (kg/ha)
+        layer 4 = 0 (kg/ha)
+        layer 5 = 0 (kg/ha)
+        layer 6 = 0 (kg/ha)
+        layer 7 = 0 (kg/ha)
+        uptake_nh4 total = 0 (kg/ha)
+     
+25 March 1989(Day of year=84), pastureConverter: 
+     
+     sw_uptake:-
+        layer 1 = 0 (mm)
+        layer 2 = 0 (mm)
+        layer 3 = 0 (mm)
+        layer 4 = 0 (mm)
+        layer 5 = 0 (mm)
+        layer 6 = 0 (mm)
+        layer 7 = 0 (mm)
+        sw_uptake total = 0 (mm)
+     
+     
+     uptake_no3:-
+        layer 1 = 0 (kg/ha)
+        layer 2 = 0 (kg/ha)
+        layer 3 = 0 (kg/ha)
+        layer 4 = 0 (kg/ha)
+        layer 5 = 0 (kg/ha)
+        layer 6 = 0 (kg/ha)
+        layer 7 = 0 (kg/ha)
+        uptake_no3 total = 0 (kg/ha)
+     
+     
+     uptake_nh4:-
+        layer 1 = 0 (kg/ha)
+        layer 2 = 0 (kg/ha)
+        layer 3 = 0 (kg/ha)
+        layer 4 = 0 (kg/ha)
+        layer 5 = 0 (kg/ha)
+        layer 6 = 0 (kg/ha)
+        layer 7 = 0 (kg/ha)
+        uptake_nh4 total = 0 (kg/ha)
+     
+26 March 1989(Day of year=85), pastureConverter: 
+     
+     sw_uptake:-
+        layer 1 = 0 (mm)
+        layer 2 = 0 (mm)
+        layer 3 = 0 (mm)
+        layer 4 = 0 (mm)
+        layer 5 = 0 (mm)
+        layer 6 = 0 (mm)
+        layer 7 = 0 (mm)
+        sw_uptake total = 0 (mm)
+     
+     
+     uptake_no3:-
+        layer 1 = 0 (kg/ha)
+        layer 2 = 0 (kg/ha)
+        layer 3 = 0 (kg/ha)
+        layer 4 = 0 (kg/ha)
+        layer 5 = 0 (kg/ha)
+        layer 6 = 0 (kg/ha)
+        layer 7 = 0 (kg/ha)
+        uptake_no3 total = 0 (kg/ha)
+     
+     
+     uptake_nh4:-
+        layer 1 = 0 (kg/ha)
+        layer 2 = 0 (kg/ha)
+        layer 3 = 0 (kg/ha)
+        layer 4 = 0 (kg/ha)
+        layer 5 = 0 (kg/ha)
+        layer 6 = 0 (kg/ha)
+        layer 7 = 0 (kg/ha)
+        uptake_nh4 total = 0 (kg/ha)
+     
+27 March 1989(Day of year=86), pastureConverter: 
+     
+     sw_uptake:-
+        layer 1 = 0 (mm)
+        layer 2 = 0 (mm)
+        layer 3 = 0 (mm)
+        layer 4 = 0 (mm)
+        layer 5 = 0 (mm)
+        layer 6 = 0 (mm)
+        layer 7 = 0 (mm)
+        sw_uptake total = 0 (mm)
+     
+     
+     uptake_no3:-
+        layer 1 = 0 (kg/ha)
+        layer 2 = 0 (kg/ha)
+        layer 3 = 0 (kg/ha)
+        layer 4 = 0 (kg/ha)
+        layer 5 = 0 (kg/ha)
+        layer 6 = 0 (kg/ha)
+        layer 7 = 0 (kg/ha)
+        uptake_no3 total = 0 (kg/ha)
+     
+     
+     uptake_nh4:-
+        layer 1 = 0 (kg/ha)
+        layer 2 = 0 (kg/ha)
+        layer 3 = 0 (kg/ha)
+        layer 4 = 0 (kg/ha)
+        layer 5 = 0 (kg/ha)
+        layer 6 = 0 (kg/ha)
+        layer 7 = 0 (kg/ha)
+        uptake_nh4 total = 0 (kg/ha)
+     
+28 March 1989(Day of year=87), pastureConverter: 
+     
+     sw_uptake:-
+        layer 1 = 0 (mm)
+        layer 2 = 0 (mm)
+        layer 3 = 0 (mm)
+        layer 4 = 0 (mm)
+        layer 5 = 0 (mm)
+        layer 6 = 0 (mm)
+        layer 7 = 0 (mm)
+        sw_uptake total = 0 (mm)
+     
+     
+     uptake_no3:-
+        layer 1 = 0 (kg/ha)
+        layer 2 = 0 (kg/ha)
+        layer 3 = 0 (kg/ha)
+        layer 4 = 0 (kg/ha)
+        layer 5 = 0 (kg/ha)
+        layer 6 = 0 (kg/ha)
+        layer 7 = 0 (kg/ha)
+        uptake_no3 total = 0 (kg/ha)
+     
+     
+     uptake_nh4:-
+        layer 1 = 0 (kg/ha)
+        layer 2 = 0 (kg/ha)
+        layer 3 = 0 (kg/ha)
+        layer 4 = 0 (kg/ha)
+        layer 5 = 0 (kg/ha)
+        layer 6 = 0 (kg/ha)
+        layer 7 = 0 (kg/ha)
+        uptake_nh4 total = 0 (kg/ha)
+     
+29 March 1989(Day of year=88), pastureConverter: 
+     
+     sw_uptake:-
+        layer 1 = 0 (mm)
+        layer 2 = 0 (mm)
+        layer 3 = 0 (mm)
+        layer 4 = 0 (mm)
+        layer 5 = 0 (mm)
+        layer 6 = 0 (mm)
+        layer 7 = 0 (mm)
+        sw_uptake total = 0 (mm)
+     
+     
+     uptake_no3:-
+        layer 1 = 0 (kg/ha)
+        layer 2 = 0 (kg/ha)
+        layer 3 = 0 (kg/ha)
+        layer 4 = 0 (kg/ha)
+        layer 5 = 0 (kg/ha)
+        layer 6 = 0 (kg/ha)
+        layer 7 = 0 (kg/ha)
+        uptake_no3 total = 0 (kg/ha)
+     
+     
+     uptake_nh4:-
+        layer 1 = 0 (kg/ha)
+        layer 2 = 0 (kg/ha)
+        layer 3 = 0 (kg/ha)
+        layer 4 = 0 (kg/ha)
+        layer 5 = 0 (kg/ha)
+        layer 6 = 0 (kg/ha)
+        layer 7 = 0 (kg/ha)
+        uptake_nh4 total = 0 (kg/ha)
+     
+30 March 1989(Day of year=89), pastureConverter: 
+     
+     sw_uptake:-
+        layer 1 = 0 (mm)
+        layer 2 = 0 (mm)
+        layer 3 = 0 (mm)
+        layer 4 = 0 (mm)
+        layer 5 = 0 (mm)
+        layer 6 = 0 (mm)
+        layer 7 = 0 (mm)
+        sw_uptake total = 0 (mm)
+     
+     
+     uptake_no3:-
+        layer 1 = 0 (kg/ha)
+        layer 2 = 0 (kg/ha)
+        layer 3 = 0 (kg/ha)
+        layer 4 = 0 (kg/ha)
+        layer 5 = 0 (kg/ha)
+        layer 6 = 0 (kg/ha)
+        layer 7 = 0 (kg/ha)
+        uptake_no3 total = 0 (kg/ha)
+     
+     
+     uptake_nh4:-
+        layer 1 = 0 (kg/ha)
+        layer 2 = 0 (kg/ha)
+        layer 3 = 0 (kg/ha)
+        layer 4 = 0 (kg/ha)
+        layer 5 = 0 (kg/ha)
+        layer 6 = 0 (kg/ha)
+        layer 7 = 0 (kg/ha)
+        uptake_nh4 total = 0 (kg/ha)
+     
+31 March 1989(Day of year=90), pastureConverter: 
+     
+     sw_uptake:-
+        layer 1 = 0 (mm)
+        layer 2 = 0 (mm)
+        layer 3 = 0 (mm)
+        layer 4 = 0 (mm)
+        layer 5 = 0 (mm)
+        layer 6 = 0 (mm)
+        layer 7 = 0 (mm)
+        sw_uptake total = 0 (mm)
+     
+     
+     uptake_no3:-
+        layer 1 = 0 (kg/ha)
+        layer 2 = 0 (kg/ha)
+        layer 3 = 0 (kg/ha)
+        layer 4 = 0 (kg/ha)
+        layer 5 = 0 (kg/ha)
+        layer 6 = 0 (kg/ha)
+        layer 7 = 0 (kg/ha)
+        uptake_no3 total = 0 (kg/ha)
+     
+     
+     uptake_nh4:-
+        layer 1 = 0 (kg/ha)
+        layer 2 = 0 (kg/ha)
+        layer 3 = 0 (kg/ha)
+        layer 4 = 0 (kg/ha)
+        layer 5 = 0 (kg/ha)
+        layer 6 = 0 (kg/ha)
+        layer 7 = 0 (kg/ha)
+        uptake_nh4 total = 0 (kg/ha)
+     
+1 April 1989(Day of year=91), pastureConverter: 
+     
+     sw_uptake:-
+        layer 1 = 0 (mm)
+        layer 2 = 0 (mm)
+        layer 3 = 0 (mm)
+        layer 4 = 0 (mm)
+        layer 5 = 0 (mm)
+        layer 6 = 0 (mm)
+        layer 7 = 0 (mm)
+        sw_uptake total = 0 (mm)
+     
+     
+     uptake_no3:-
+        layer 1 = 0 (kg/ha)
+        layer 2 = 0 (kg/ha)
+        layer 3 = 0 (kg/ha)
+        layer 4 = 0 (kg/ha)
+        layer 5 = 0 (kg/ha)
+        layer 6 = 0 (kg/ha)
+        layer 7 = 0 (kg/ha)
+        uptake_no3 total = 0 (kg/ha)
+     
+     
+     uptake_nh4:-
+        layer 1 = 0 (kg/ha)
+        layer 2 = 0 (kg/ha)
+        layer 3 = 0 (kg/ha)
+        layer 4 = 0 (kg/ha)
+        layer 5 = 0 (kg/ha)
+        layer 6 = 0 (kg/ha)
+        layer 7 = 0 (kg/ha)
+        uptake_nh4 total = 0 (kg/ha)
+     
+2 April 1989(Day of year=92), pastureConverter: 
+     
+     sw_uptake:-
+        layer 1 = 0 (mm)
+        layer 2 = 0 (mm)
+        layer 3 = 0 (mm)
+        layer 4 = 0 (mm)
+        layer 5 = 0 (mm)
+        layer 6 = 0 (mm)
+        layer 7 = 0 (mm)
+        sw_uptake total = 0 (mm)
+     
+     
+     uptake_no3:-
+        layer 1 = 0 (kg/ha)
+        layer 2 = 0 (kg/ha)
+        layer 3 = 0 (kg/ha)
+        layer 4 = 0 (kg/ha)
+        layer 5 = 0 (kg/ha)
+        layer 6 = 0 (kg/ha)
+        layer 7 = 0 (kg/ha)
+        uptake_no3 total = 0 (kg/ha)
+     
+     
+     uptake_nh4:-
+        layer 1 = 0 (kg/ha)
+        layer 2 = 0 (kg/ha)
+        layer 3 = 0 (kg/ha)
+        layer 4 = 0 (kg/ha)
+        layer 5 = 0 (kg/ha)
+        layer 6 = 0 (kg/ha)
+        layer 7 = 0 (kg/ha)
+        uptake_nh4 total = 0 (kg/ha)
+     
+3 April 1989(Day of year=93), pastureConverter: 
+     
+     sw_uptake:-
+        layer 1 = 0 (mm)
+        layer 2 = 0 (mm)
+        layer 3 = 0 (mm)
+        layer 4 = 0 (mm)
+        layer 5 = 0 (mm)
+        layer 6 = 0 (mm)
+        layer 7 = 0 (mm)
+        sw_uptake total = 0 (mm)
+     
+     
+     uptake_no3:-
+        layer 1 = 0 (kg/ha)
+        layer 2 = 0 (kg/ha)
+        layer 3 = 0 (kg/ha)
+        layer 4 = 0 (kg/ha)
+        layer 5 = 0 (kg/ha)
+        layer 6 = 0 (kg/ha)
+        layer 7 = 0 (kg/ha)
+        uptake_no3 total = 0 (kg/ha)
+     
+     
+     uptake_nh4:-
+        layer 1 = 0 (kg/ha)
+        layer 2 = 0 (kg/ha)
+        layer 3 = 0 (kg/ha)
+        layer 4 = 0 (kg/ha)
+        layer 5 = 0 (kg/ha)
+        layer 6 = 0 (kg/ha)
+        layer 7 = 0 (kg/ha)
+        uptake_nh4 total = 0 (kg/ha)
+     
+4 April 1989(Day of year=94), pastureConverter: 
+     
+     sw_uptake:-
+        layer 1 = 0 (mm)
+        layer 2 = 0 (mm)
+        layer 3 = 0 (mm)
+        layer 4 = 0 (mm)
+        layer 5 = 0 (mm)
+        layer 6 = 0 (mm)
+        layer 7 = 0 (mm)
+        sw_uptake total = 0 (mm)
+     
+     
+     uptake_no3:-
+        layer 1 = 0 (kg/ha)
+        layer 2 = 0 (kg/ha)
+        layer 3 = 0 (kg/ha)
+        layer 4 = 0 (kg/ha)
+        layer 5 = 0 (kg/ha)
+        layer 6 = 0 (kg/ha)
+        layer 7 = 0 (kg/ha)
+        uptake_no3 total = 0 (kg/ha)
+     
+     
+     uptake_nh4:-
+        layer 1 = 0 (kg/ha)
+        layer 2 = 0 (kg/ha)
+        layer 3 = 0 (kg/ha)
+        layer 4 = 0 (kg/ha)
+        layer 5 = 0 (kg/ha)
+        layer 6 = 0 (kg/ha)
+        layer 7 = 0 (kg/ha)
+        uptake_nh4 total = 0 (kg/ha)
+     
+5 April 1989(Day of year=95), pastureConverter: 
+     
+     sw_uptake:-
+        layer 1 = 0 (mm)
+        layer 2 = 0 (mm)
+        layer 3 = 0 (mm)
+        layer 4 = 0 (mm)
+        layer 5 = 0 (mm)
+        layer 6 = 0 (mm)
+        layer 7 = 0 (mm)
+        sw_uptake total = 0 (mm)
+     
+     
+     uptake_no3:-
+        layer 1 = 0 (kg/ha)
+        layer 2 = 0 (kg/ha)
+        layer 3 = 0 (kg/ha)
+        layer 4 = 0 (kg/ha)
+        layer 5 = 0 (kg/ha)
+        layer 6 = 0 (kg/ha)
+        layer 7 = 0 (kg/ha)
+        uptake_no3 total = 0 (kg/ha)
+     
+     
+     uptake_nh4:-
+        layer 1 = 0 (kg/ha)
+        layer 2 = 0 (kg/ha)
+        layer 3 = 0 (kg/ha)
+        layer 4 = 0 (kg/ha)
+        layer 5 = 0 (kg/ha)
+        layer 6 = 0 (kg/ha)
+        layer 7 = 0 (kg/ha)
+        uptake_nh4 total = 0 (kg/ha)
+     
+6 April 1989(Day of year=96), pastureConverter: 
+     
+     sw_uptake:-
+        layer 1 = 0 (mm)
+        layer 2 = 0 (mm)
+        layer 3 = 0 (mm)
+        layer 4 = 0 (mm)
+        layer 5 = 0 (mm)
+        layer 6 = 0 (mm)
+        layer 7 = 0 (mm)
+        sw_uptake total = 0 (mm)
+     
+     
+     uptake_no3:-
+        layer 1 = 0 (kg/ha)
+        layer 2 = 0 (kg/ha)
+        layer 3 = 0 (kg/ha)
+        layer 4 = 0 (kg/ha)
+        layer 5 = 0 (kg/ha)
+        layer 6 = 0 (kg/ha)
+        layer 7 = 0 (kg/ha)
+        uptake_no3 total = 0 (kg/ha)
+     
+     
+     uptake_nh4:-
+        layer 1 = 0 (kg/ha)
+        layer 2 = 0 (kg/ha)
+        layer 3 = 0 (kg/ha)
+        layer 4 = 0 (kg/ha)
+        layer 5 = 0 (kg/ha)
+        layer 6 = 0 (kg/ha)
+        layer 7 = 0 (kg/ha)
+        uptake_nh4 total = 0 (kg/ha)
+     
+7 April 1989(Day of year=97), pastureConverter: 
+     
+     sw_uptake:-
+        layer 1 = 0 (mm)
+        layer 2 = 0 (mm)
+        layer 3 = 0 (mm)
+        layer 4 = 0 (mm)
+        layer 5 = 0 (mm)
+        layer 6 = 0 (mm)
+        layer 7 = 0 (mm)
+        sw_uptake total = 0 (mm)
+     
+     
+     uptake_no3:-
+        layer 1 = 0 (kg/ha)
+        layer 2 = 0 (kg/ha)
+        layer 3 = 0 (kg/ha)
+        layer 4 = 0 (kg/ha)
+        layer 5 = 0 (kg/ha)
+        layer 6 = 0 (kg/ha)
+        layer 7 = 0 (kg/ha)
+        uptake_no3 total = 0 (kg/ha)
+     
+     
+     uptake_nh4:-
+        layer 1 = 0 (kg/ha)
+        layer 2 = 0 (kg/ha)
+        layer 3 = 0 (kg/ha)
+        layer 4 = 0 (kg/ha)
+        layer 5 = 0 (kg/ha)
+        layer 6 = 0 (kg/ha)
+        layer 7 = 0 (kg/ha)
+        uptake_nh4 total = 0 (kg/ha)
+     
+8 April 1989(Day of year=98), pastureConverter: 
+     
+     sw_uptake:-
+        layer 1 = 0 (mm)
+        layer 2 = 0 (mm)
+        layer 3 = 0 (mm)
+        layer 4 = 0 (mm)
+        layer 5 = 0 (mm)
+        layer 6 = 0 (mm)
+        layer 7 = 0 (mm)
+        sw_uptake total = 0 (mm)
+     
+     
+     uptake_no3:-
+        layer 1 = 0 (kg/ha)
+        layer 2 = 0 (kg/ha)
+        layer 3 = 0 (kg/ha)
+        layer 4 = 0 (kg/ha)
+        layer 5 = 0 (kg/ha)
+        layer 6 = 0 (kg/ha)
+        layer 7 = 0 (kg/ha)
+        uptake_no3 total = 0 (kg/ha)
+     
+     
+     uptake_nh4:-
+        layer 1 = 0 (kg/ha)
+        layer 2 = 0 (kg/ha)
+        layer 3 = 0 (kg/ha)
+        layer 4 = 0 (kg/ha)
+        layer 5 = 0 (kg/ha)
+        layer 6 = 0 (kg/ha)
+        layer 7 = 0 (kg/ha)
+        uptake_nh4 total = 0 (kg/ha)
+     
+9 April 1989(Day of year=99), pastureConverter: 
+     
+     sw_uptake:-
+        layer 1 = 0 (mm)
+        layer 2 = 0 (mm)
+        layer 3 = 0 (mm)
+        layer 4 = 0 (mm)
+        layer 5 = 0 (mm)
+        layer 6 = 0 (mm)
+        layer 7 = 0 (mm)
+        sw_uptake total = 0 (mm)
+     
+     
+     uptake_no3:-
+        layer 1 = 0 (kg/ha)
+        layer 2 = 0 (kg/ha)
+        layer 3 = 0 (kg/ha)
+        layer 4 = 0 (kg/ha)
+        layer 5 = 0 (kg/ha)
+        layer 6 = 0 (kg/ha)
+        layer 7 = 0 (kg/ha)
+        uptake_no3 total = 0 (kg/ha)
+     
+     
+     uptake_nh4:-
+        layer 1 = 0 (kg/ha)
+        layer 2 = 0 (kg/ha)
+        layer 3 = 0 (kg/ha)
+        layer 4 = 0 (kg/ha)
+        layer 5 = 0 (kg/ha)
+        layer 6 = 0 (kg/ha)
+        layer 7 = 0 (kg/ha)
+        uptake_nh4 total = 0 (kg/ha)
+     
+10 April 1989(Day of year=100), pastureConverter: 
+     
+     sw_uptake:-
+        layer 1 = 0 (mm)
+        layer 2 = 0 (mm)
+        layer 3 = 0 (mm)
+        layer 4 = 0 (mm)
+        layer 5 = 0 (mm)
+        layer 6 = 0 (mm)
+        layer 7 = 0 (mm)
+        sw_uptake total = 0 (mm)
+     
+     
+     uptake_no3:-
+        layer 1 = 0 (kg/ha)
+        layer 2 = 0 (kg/ha)
+        layer 3 = 0 (kg/ha)
+        layer 4 = 0 (kg/ha)
+        layer 5 = 0 (kg/ha)
+        layer 6 = 0 (kg/ha)
+        layer 7 = 0 (kg/ha)
+        uptake_no3 total = 0 (kg/ha)
+     
+     
+     uptake_nh4:-
+        layer 1 = 0 (kg/ha)
+        layer 2 = 0 (kg/ha)
+        layer 3 = 0 (kg/ha)
+        layer 4 = 0 (kg/ha)
+        layer 5 = 0 (kg/ha)
+        layer 6 = 0 (kg/ha)
+        layer 7 = 0 (kg/ha)
+        uptake_nh4 total = 0 (kg/ha)
+     
+11 April 1989(Day of year=101), pastureConverter: 
+     
+     sw_uptake:-
+        layer 1 = 0 (mm)
+        layer 2 = 0 (mm)
+        layer 3 = 0 (mm)
+        layer 4 = 0 (mm)
+        layer 5 = 0 (mm)
+        layer 6 = 0 (mm)
+        layer 7 = 0 (mm)
+        sw_uptake total = 0 (mm)
+     
+     
+     uptake_no3:-
+        layer 1 = 0 (kg/ha)
+        layer 2 = 0 (kg/ha)
+        layer 3 = 0 (kg/ha)
+        layer 4 = 0 (kg/ha)
+        layer 5 = 0 (kg/ha)
+        layer 6 = 0 (kg/ha)
+        layer 7 = 0 (kg/ha)
+        uptake_no3 total = 0 (kg/ha)
+     
+     
+     uptake_nh4:-
+        layer 1 = 0 (kg/ha)
+        layer 2 = 0 (kg/ha)
+        layer 3 = 0 (kg/ha)
+        layer 4 = 0 (kg/ha)
+        layer 5 = 0 (kg/ha)
+        layer 6 = 0 (kg/ha)
+        layer 7 = 0 (kg/ha)
+        uptake_nh4 total = 0 (kg/ha)
+     
+12 April 1989(Day of year=102), pastureConverter: 
+     
+     sw_uptake:-
+        layer 1 = 0 (mm)
+        layer 2 = 0 (mm)
+        layer 3 = 0 (mm)
+        layer 4 = 0 (mm)
+        layer 5 = 0 (mm)
+        layer 6 = 0 (mm)
+        layer 7 = 0 (mm)
+        sw_uptake total = 0 (mm)
+     
+     
+     uptake_no3:-
+        layer 1 = 0 (kg/ha)
+        layer 2 = 0 (kg/ha)
+        layer 3 = 0 (kg/ha)
+        layer 4 = 0 (kg/ha)
+        layer 5 = 0 (kg/ha)
+        layer 6 = 0 (kg/ha)
+        layer 7 = 0 (kg/ha)
+        uptake_no3 total = 0 (kg/ha)
+     
+     
+     uptake_nh4:-
+        layer 1 = 0 (kg/ha)
+        layer 2 = 0 (kg/ha)
+        layer 3 = 0 (kg/ha)
+        layer 4 = 0 (kg/ha)
+        layer 5 = 0 (kg/ha)
+        layer 6 = 0 (kg/ha)
+        layer 7 = 0 (kg/ha)
+        uptake_nh4 total = 0 (kg/ha)
+     
+13 April 1989(Day of year=103), pastureConverter: 
+     
+     sw_uptake:-
+        layer 1 = 0 (mm)
+        layer 2 = 0 (mm)
+        layer 3 = 0 (mm)
+        layer 4 = 0 (mm)
+        layer 5 = 0 (mm)
+        layer 6 = 0 (mm)
+        layer 7 = 0 (mm)
+        sw_uptake total = 0 (mm)
+     
+     
+     uptake_no3:-
+        layer 1 = 0 (kg/ha)
+        layer 2 = 0 (kg/ha)
+        layer 3 = 0 (kg/ha)
+        layer 4 = 0 (kg/ha)
+        layer 5 = 0 (kg/ha)
+        layer 6 = 0 (kg/ha)
+        layer 7 = 0 (kg/ha)
+        uptake_no3 total = 0 (kg/ha)
+     
+     
+     uptake_nh4:-
+        layer 1 = 0 (kg/ha)
+        layer 2 = 0 (kg/ha)
+        layer 3 = 0 (kg/ha)
+        layer 4 = 0 (kg/ha)
+        layer 5 = 0 (kg/ha)
+        layer 6 = 0 (kg/ha)
+        layer 7 = 0 (kg/ha)
+        uptake_nh4 total = 0 (kg/ha)
+     
+14 April 1989(Day of year=104), pastureConverter: 
+     
+     sw_uptake:-
+        layer 1 = 0 (mm)
+        layer 2 = 0 (mm)
+        layer 3 = 0 (mm)
+        layer 4 = 0 (mm)
+        layer 5 = 0 (mm)
+        layer 6 = 0 (mm)
+        layer 7 = 0 (mm)
+        sw_uptake total = 0 (mm)
+     
+     
+     uptake_no3:-
+        layer 1 = 0 (kg/ha)
+        layer 2 = 0 (kg/ha)
+        layer 3 = 0 (kg/ha)
+        layer 4 = 0 (kg/ha)
+        layer 5 = 0 (kg/ha)
+        layer 6 = 0 (kg/ha)
+        layer 7 = 0 (kg/ha)
+        uptake_no3 total = 0 (kg/ha)
+     
+     
+     uptake_nh4:-
+        layer 1 = 0 (kg/ha)
+        layer 2 = 0 (kg/ha)
+        layer 3 = 0 (kg/ha)
+        layer 4 = 0 (kg/ha)
+        layer 5 = 0 (kg/ha)
+        layer 6 = 0 (kg/ha)
+        layer 7 = 0 (kg/ha)
+        uptake_nh4 total = 0 (kg/ha)
+     
+15 April 1989(Day of year=105), pastureConverter: 
+     
+     sw_uptake:-
+        layer 1 = 0 (mm)
+        layer 2 = 0 (mm)
+        layer 3 = 0 (mm)
+        layer 4 = 0 (mm)
+        layer 5 = 0 (mm)
+        layer 6 = 0 (mm)
+        layer 7 = 0 (mm)
+        sw_uptake total = 0 (mm)
+     
+     
+     uptake_no3:-
+        layer 1 = 0 (kg/ha)
+        layer 2 = 0 (kg/ha)
+        layer 3 = 0 (kg/ha)
+        layer 4 = 0 (kg/ha)
+        layer 5 = 0 (kg/ha)
+        layer 6 = 0 (kg/ha)
+        layer 7 = 0 (kg/ha)
+        uptake_no3 total = 0 (kg/ha)
+     
+     
+     uptake_nh4:-
+        layer 1 = 0 (kg/ha)
+        layer 2 = 0 (kg/ha)
+        layer 3 = 0 (kg/ha)
+        layer 4 = 0 (kg/ha)
+        layer 5 = 0 (kg/ha)
+        layer 6 = 0 (kg/ha)
+        layer 7 = 0 (kg/ha)
+        uptake_nh4 total = 0 (kg/ha)
+     
+16 April 1989(Day of year=106), pastureConverter: 
+     
+     sw_uptake:-
+        layer 1 = 0 (mm)
+        layer 2 = 0 (mm)
+        layer 3 = 0 (mm)
+        layer 4 = 0 (mm)
+        layer 5 = 0 (mm)
+        layer 6 = 0 (mm)
+        layer 7 = 0 (mm)
+        sw_uptake total = 0 (mm)
+     
+     
+     uptake_no3:-
+        layer 1 = 0 (kg/ha)
+        layer 2 = 0 (kg/ha)
+        layer 3 = 0 (kg/ha)
+        layer 4 = 0 (kg/ha)
+        layer 5 = 0 (kg/ha)
+        layer 6 = 0 (kg/ha)
+        layer 7 = 0 (kg/ha)
+        uptake_no3 total = 0 (kg/ha)
+     
+     
+     uptake_nh4:-
+        layer 1 = 0 (kg/ha)
+        layer 2 = 0 (kg/ha)
+        layer 3 = 0 (kg/ha)
+        layer 4 = 0 (kg/ha)
+        layer 5 = 0 (kg/ha)
+        layer 6 = 0 (kg/ha)
+        layer 7 = 0 (kg/ha)
+        uptake_nh4 total = 0 (kg/ha)
+     
+17 April 1989(Day of year=107), pastureConverter: 
+     
+     sw_uptake:-
+        layer 1 = 0 (mm)
+        layer 2 = 0 (mm)
+        layer 3 = 0 (mm)
+        layer 4 = 0 (mm)
+        layer 5 = 0 (mm)
+        layer 6 = 0 (mm)
+        layer 7 = 0 (mm)
+        sw_uptake total = 0 (mm)
+     
+     
+     uptake_no3:-
+        layer 1 = 0 (kg/ha)
+        layer 2 = 0 (kg/ha)
+        layer 3 = 0 (kg/ha)
+        layer 4 = 0 (kg/ha)
+        layer 5 = 0 (kg/ha)
+        layer 6 = 0 (kg/ha)
+        layer 7 = 0 (kg/ha)
+        uptake_no3 total = 0 (kg/ha)
+     
+     
+     uptake_nh4:-
+        layer 1 = 0 (kg/ha)
+        layer 2 = 0 (kg/ha)
+        layer 3 = 0 (kg/ha)
+        layer 4 = 0 (kg/ha)
+        layer 5 = 0 (kg/ha)
+        layer 6 = 0 (kg/ha)
+        layer 7 = 0 (kg/ha)
+        uptake_nh4 total = 0 (kg/ha)
+     
+18 April 1989(Day of year=108), pastureConverter: 
+     
+     sw_uptake:-
+        layer 1 = 0 (mm)
+        layer 2 = 0 (mm)
+        layer 3 = 0 (mm)
+        layer 4 = 0 (mm)
+        layer 5 = 0 (mm)
+        layer 6 = 0 (mm)
+        layer 7 = 0 (mm)
+        sw_uptake total = 0 (mm)
+     
+     
+     uptake_no3:-
+        layer 1 = 0 (kg/ha)
+        layer 2 = 0 (kg/ha)
+        layer 3 = 0 (kg/ha)
+        layer 4 = 0 (kg/ha)
+        layer 5 = 0 (kg/ha)
+        layer 6 = 0 (kg/ha)
+        layer 7 = 0 (kg/ha)
+        uptake_no3 total = 0 (kg/ha)
+     
+     
+     uptake_nh4:-
+        layer 1 = 0 (kg/ha)
+        layer 2 = 0 (kg/ha)
+        layer 3 = 0 (kg/ha)
+        layer 4 = 0 (kg/ha)
+        layer 5 = 0 (kg/ha)
+        layer 6 = 0 (kg/ha)
+        layer 7 = 0 (kg/ha)
+        uptake_nh4 total = 0 (kg/ha)
+     
+19 April 1989(Day of year=109), pastureConverter: 
+     
+     sw_uptake:-
+        layer 1 = 0 (mm)
+        layer 2 = 0 (mm)
+        layer 3 = 0 (mm)
+        layer 4 = 0 (mm)
+        layer 5 = 0 (mm)
+        layer 6 = 0 (mm)
+        layer 7 = 0 (mm)
+        sw_uptake total = 0 (mm)
+     
+     
+     uptake_no3:-
+        layer 1 = 0 (kg/ha)
+        layer 2 = 0 (kg/ha)
+        layer 3 = 0 (kg/ha)
+        layer 4 = 0 (kg/ha)
+        layer 5 = 0 (kg/ha)
+        layer 6 = 0 (kg/ha)
+        layer 7 = 0 (kg/ha)
+        uptake_no3 total = 0 (kg/ha)
+     
+     
+     uptake_nh4:-
+        layer 1 = 0 (kg/ha)
+        layer 2 = 0 (kg/ha)
+        layer 3 = 0 (kg/ha)
+        layer 4 = 0 (kg/ha)
+        layer 5 = 0 (kg/ha)
+        layer 6 = 0 (kg/ha)
+        layer 7 = 0 (kg/ha)
+        uptake_nh4 total = 0 (kg/ha)
+     
+20 April 1989(Day of year=110), pastureConverter: 
+     
+     sw_uptake:-
+        layer 1 = 0 (mm)
+        layer 2 = 0 (mm)
+        layer 3 = 0 (mm)
+        layer 4 = 0 (mm)
+        layer 5 = 0 (mm)
+        layer 6 = 0 (mm)
+        layer 7 = 0 (mm)
+        sw_uptake total = 0 (mm)
+     
+     
+     uptake_no3:-
+        layer 1 = 0 (kg/ha)
+        layer 2 = 0 (kg/ha)
+        layer 3 = 0 (kg/ha)
+        layer 4 = 0 (kg/ha)
+        layer 5 = 0 (kg/ha)
+        layer 6 = 0 (kg/ha)
+        layer 7 = 0 (kg/ha)
+        uptake_no3 total = 0 (kg/ha)
+     
+     
+     uptake_nh4:-
+        layer 1 = 0 (kg/ha)
+        layer 2 = 0 (kg/ha)
+        layer 3 = 0 (kg/ha)
+        layer 4 = 0 (kg/ha)
+        layer 5 = 0 (kg/ha)
+        layer 6 = 0 (kg/ha)
+        layer 7 = 0 (kg/ha)
+        uptake_nh4 total = 0 (kg/ha)
+     
+21 April 1989(Day of year=111), pastureConverter: 
+     
+     sw_uptake:-
+        layer 1 = 0 (mm)
+        layer 2 = 0 (mm)
+        layer 3 = 0 (mm)
+        layer 4 = 0 (mm)
+        layer 5 = 0 (mm)
+        layer 6 = 0 (mm)
+        layer 7 = 0 (mm)
+        sw_uptake total = 0 (mm)
+     
+     
+     uptake_no3:-
+        layer 1 = 0 (kg/ha)
+        layer 2 = 0 (kg/ha)
+        layer 3 = 0 (kg/ha)
+        layer 4 = 0 (kg/ha)
+        layer 5 = 0 (kg/ha)
+        layer 6 = 0 (kg/ha)
+        layer 7 = 0 (kg/ha)
+        uptake_no3 total = 0 (kg/ha)
+     
+     
+     uptake_nh4:-
+        layer 1 = 0 (kg/ha)
+        layer 2 = 0 (kg/ha)
+        layer 3 = 0 (kg/ha)
+        layer 4 = 0 (kg/ha)
+        layer 5 = 0 (kg/ha)
+        layer 6 = 0 (kg/ha)
+        layer 7 = 0 (kg/ha)
+        uptake_nh4 total = 0 (kg/ha)
+     
+22 April 1989(Day of year=112), pastureConverter: 
+     
+     sw_uptake:-
+        layer 1 = 0 (mm)
+        layer 2 = 0 (mm)
+        layer 3 = 0 (mm)
+        layer 4 = 0 (mm)
+        layer 5 = 0 (mm)
+        layer 6 = 0 (mm)
+        layer 7 = 0 (mm)
+        sw_uptake total = 0 (mm)
+     
+     
+     uptake_no3:-
+        layer 1 = 0 (kg/ha)
+        layer 2 = 0 (kg/ha)
+        layer 3 = 0 (kg/ha)
+        layer 4 = 0 (kg/ha)
+        layer 5 = 0 (kg/ha)
+        layer 6 = 0 (kg/ha)
+        layer 7 = 0 (kg/ha)
+        uptake_no3 total = 0 (kg/ha)
+     
+     
+     uptake_nh4:-
+        layer 1 = 0 (kg/ha)
+        layer 2 = 0 (kg/ha)
+        layer 3 = 0 (kg/ha)
+        layer 4 = 0 (kg/ha)
+        layer 5 = 0 (kg/ha)
+        layer 6 = 0 (kg/ha)
+        layer 7 = 0 (kg/ha)
+        uptake_nh4 total = 0 (kg/ha)
+     
+23 April 1989(Day of year=113), pastureConverter: 
+     
+     sw_uptake:-
+        layer 1 = 0 (mm)
+        layer 2 = 0 (mm)
+        layer 3 = 0 (mm)
+        layer 4 = 0 (mm)
+        layer 5 = 0 (mm)
+        layer 6 = 0 (mm)
+        layer 7 = 0 (mm)
+        sw_uptake total = 0 (mm)
+     
+     
+     uptake_no3:-
+        layer 1 = 0 (kg/ha)
+        layer 2 = 0 (kg/ha)
+        layer 3 = 0 (kg/ha)
+        layer 4 = 0 (kg/ha)
+        layer 5 = 0 (kg/ha)
+        layer 6 = 0 (kg/ha)
+        layer 7 = 0 (kg/ha)
+        uptake_no3 total = 0 (kg/ha)
+     
+     
+     uptake_nh4:-
+        layer 1 = 0 (kg/ha)
+        layer 2 = 0 (kg/ha)
+        layer 3 = 0 (kg/ha)
+        layer 4 = 0 (kg/ha)
+        layer 5 = 0 (kg/ha)
+        layer 6 = 0 (kg/ha)
+        layer 7 = 0 (kg/ha)
+        uptake_nh4 total = 0 (kg/ha)
+     
+24 April 1989(Day of year=114), pastureConverter: 
+     
+     sw_uptake:-
+        layer 1 = 0 (mm)
+        layer 2 = 0 (mm)
+        layer 3 = 0 (mm)
+        layer 4 = 0 (mm)
+        layer 5 = 0 (mm)
+        layer 6 = 0 (mm)
+        layer 7 = 0 (mm)
+        sw_uptake total = 0 (mm)
+     
+     
+     uptake_no3:-
+        layer 1 = 0 (kg/ha)
+        layer 2 = 0 (kg/ha)
+        layer 3 = 0 (kg/ha)
+        layer 4 = 0 (kg/ha)
+        layer 5 = 0 (kg/ha)
+        layer 6 = 0 (kg/ha)
+        layer 7 = 0 (kg/ha)
+        uptake_no3 total = 0 (kg/ha)
+     
+     
+     uptake_nh4:-
+        layer 1 = 0 (kg/ha)
+        layer 2 = 0 (kg/ha)
+        layer 3 = 0 (kg/ha)
+        layer 4 = 0 (kg/ha)
+        layer 5 = 0 (kg/ha)
+        layer 6 = 0 (kg/ha)
+        layer 7 = 0 (kg/ha)
+        uptake_nh4 total = 0 (kg/ha)
+     
+25 April 1989(Day of year=115), pastureConverter: 
+     
+     sw_uptake:-
+        layer 1 = 0 (mm)
+        layer 2 = 0 (mm)
+        layer 3 = 0 (mm)
+        layer 4 = 0 (mm)
+        layer 5 = 0 (mm)
+        layer 6 = 0 (mm)
+        layer 7 = 0 (mm)
+        sw_uptake total = 0 (mm)
+     
+     
+     uptake_no3:-
+        layer 1 = 0 (kg/ha)
+        layer 2 = 0 (kg/ha)
+        layer 3 = 0 (kg/ha)
+        layer 4 = 0 (kg/ha)
+        layer 5 = 0 (kg/ha)
+        layer 6 = 0 (kg/ha)
+        layer 7 = 0 (kg/ha)
+        uptake_no3 total = 0 (kg/ha)
+     
+     
+     uptake_nh4:-
+        layer 1 = 0 (kg/ha)
+        layer 2 = 0 (kg/ha)
+        layer 3 = 0 (kg/ha)
+        layer 4 = 0 (kg/ha)
+        layer 5 = 0 (kg/ha)
+        layer 6 = 0 (kg/ha)
+        layer 7 = 0 (kg/ha)
+        uptake_nh4 total = 0 (kg/ha)
+     
+26 April 1989(Day of year=116), pastureConverter: 
+     
+     sw_uptake:-
+        layer 1 = 0 (mm)
+        layer 2 = 0 (mm)
+        layer 3 = 0 (mm)
+        layer 4 = 0 (mm)
+        layer 5 = 0 (mm)
+        layer 6 = 0 (mm)
+        layer 7 = 0 (mm)
+        sw_uptake total = 0 (mm)
+     
+     
+     uptake_no3:-
+        layer 1 = 0 (kg/ha)
+        layer 2 = 0 (kg/ha)
+        layer 3 = 0 (kg/ha)
+        layer 4 = 0 (kg/ha)
+        layer 5 = 0 (kg/ha)
+        layer 6 = 0 (kg/ha)
+        layer 7 = 0 (kg/ha)
+        uptake_no3 total = 0 (kg/ha)
+     
+     
+     uptake_nh4:-
+        layer 1 = 0 (kg/ha)
+        layer 2 = 0 (kg/ha)
+        layer 3 = 0 (kg/ha)
+        layer 4 = 0 (kg/ha)
+        layer 5 = 0 (kg/ha)
+        layer 6 = 0 (kg/ha)
+        layer 7 = 0 (kg/ha)
+        uptake_nh4 total = 0 (kg/ha)
+     
+27 April 1989(Day of year=117), pastureConverter: 
+     
+     sw_uptake:-
+        layer 1 = 0 (mm)
+        layer 2 = 0 (mm)
+        layer 3 = 0 (mm)
+        layer 4 = 0 (mm)
+        layer 5 = 0 (mm)
+        layer 6 = 0 (mm)
+        layer 7 = 0 (mm)
+        sw_uptake total = 0 (mm)
+     
+     
+     uptake_no3:-
+        layer 1 = 0 (kg/ha)
+        layer 2 = 0 (kg/ha)
+        layer 3 = 0 (kg/ha)
+        layer 4 = 0 (kg/ha)
+        layer 5 = 0 (kg/ha)
+        layer 6 = 0 (kg/ha)
+        layer 7 = 0 (kg/ha)
+        uptake_no3 total = 0 (kg/ha)
+     
+     
+     uptake_nh4:-
+        layer 1 = 0 (kg/ha)
+        layer 2 = 0 (kg/ha)
+        layer 3 = 0 (kg/ha)
+        layer 4 = 0 (kg/ha)
+        layer 5 = 0 (kg/ha)
+        layer 6 = 0 (kg/ha)
+        layer 7 = 0 (kg/ha)
+        uptake_nh4 total = 0 (kg/ha)
+     
+28 April 1989(Day of year=118), pastureConverter: 
+     
+     sw_uptake:-
+        layer 1 = 0 (mm)
+        layer 2 = 0 (mm)
+        layer 3 = 0 (mm)
+        layer 4 = 0 (mm)
+        layer 5 = 0 (mm)
+        layer 6 = 0 (mm)
+        layer 7 = 0 (mm)
+        sw_uptake total = 0 (mm)
+     
+     
+     uptake_no3:-
+        layer 1 = 0 (kg/ha)
+        layer 2 = 0 (kg/ha)
+        layer 3 = 0 (kg/ha)
+        layer 4 = 0 (kg/ha)
+        layer 5 = 0 (kg/ha)
+        layer 6 = 0 (kg/ha)
+        layer 7 = 0 (kg/ha)
+        uptake_no3 total = 0 (kg/ha)
+     
+     
+     uptake_nh4:-
+        layer 1 = 0 (kg/ha)
+        layer 2 = 0 (kg/ha)
+        layer 3 = 0 (kg/ha)
+        layer 4 = 0 (kg/ha)
+        layer 5 = 0 (kg/ha)
+        layer 6 = 0 (kg/ha)
+        layer 7 = 0 (kg/ha)
+        uptake_nh4 total = 0 (kg/ha)
+     
+29 April 1989(Day of year=119), pastureConverter: 
+     
+     sw_uptake:-
+        layer 1 = 0 (mm)
+        layer 2 = 0 (mm)
+        layer 3 = 0 (mm)
+        layer 4 = 0 (mm)
+        layer 5 = 0 (mm)
+        layer 6 = 0 (mm)
+        layer 7 = 0 (mm)
+        sw_uptake total = 0 (mm)
+     
+     
+     uptake_no3:-
+        layer 1 = 0 (kg/ha)
+        layer 2 = 0 (kg/ha)
+        layer 3 = 0 (kg/ha)
+        layer 4 = 0 (kg/ha)
+        layer 5 = 0 (kg/ha)
+        layer 6 = 0 (kg/ha)
+        layer 7 = 0 (kg/ha)
+        uptake_no3 total = 0 (kg/ha)
+     
+     
+     uptake_nh4:-
+        layer 1 = 0 (kg/ha)
+        layer 2 = 0 (kg/ha)
+        layer 3 = 0 (kg/ha)
+        layer 4 = 0 (kg/ha)
+        layer 5 = 0 (kg/ha)
+        layer 6 = 0 (kg/ha)
+        layer 7 = 0 (kg/ha)
+        uptake_nh4 total = 0 (kg/ha)
+     
+30 April 1989(Day of year=120), pastureConverter: 
+     
+     sw_uptake:-
+        layer 1 = 0 (mm)
+        layer 2 = 0 (mm)
+        layer 3 = 0 (mm)
+        layer 4 = 0 (mm)
+        layer 5 = 0 (mm)
+        layer 6 = 0 (mm)
+        layer 7 = 0 (mm)
+        sw_uptake total = 0 (mm)
+     
+     
+     uptake_no3:-
+        layer 1 = 0 (kg/ha)
+        layer 2 = 0 (kg/ha)
+        layer 3 = 0 (kg/ha)
+        layer 4 = 0 (kg/ha)
+        layer 5 = 0 (kg/ha)
+        layer 6 = 0 (kg/ha)
+        layer 7 = 0 (kg/ha)
+        uptake_no3 total = 0 (kg/ha)
+     
+     
+     uptake_nh4:-
+        layer 1 = 0 (kg/ha)
+        layer 2 = 0 (kg/ha)
+        layer 3 = 0 (kg/ha)
+        layer 4 = 0 (kg/ha)
+        layer 5 = 0 (kg/ha)
+        layer 6 = 0 (kg/ha)
+        layer 7 = 0 (kg/ha)
+        uptake_nh4 total = 0 (kg/ha)
+     
+30 April 1989(Day of year=120), clock: 
+     Simulation is terminating due to end criteria being met.
