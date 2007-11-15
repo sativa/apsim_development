@@ -98,7 +98,8 @@ namespace ApsimFile
                    || Child.Name.ToLower() == "manager"
                    || Child.Name.ToLower() == "outputfile"
                    || Child.Name.ToLower() == "graph"
-                   || Child.Name.ToLower() == "data")
+                   || Child.Name.ToLower() == "data"
+                   || Child.Name.ToLower() == "paddockmanager")
                     Upgrade(Child, Upgrader, Config);  // recurse
 				}
 			}

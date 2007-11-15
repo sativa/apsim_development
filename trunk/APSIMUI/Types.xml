@@ -923,9 +923,6 @@
             </rule>
             [endfor]
             [endfor]
-            [foreach tclmanager.tclui as tclui]
-             [tclui.innerxml]
-            [endfor]
          </sim>
      </ApsimToSim>
    </tclmanager>
@@ -1031,6 +1028,8 @@
          <drop name="paddockmanager"/>
          <drop name="tclgroup"/>
      </drops>
+     <ApsimToSim>
+     </ApsimToSim>
    </tclui>
    <surfaceom>
       <UItype>VBUserInterface.GenericUI</UItype>
