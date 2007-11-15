@@ -227,7 +227,7 @@ Component    "Manager" = c:\development\apsim\tcllink\lib\tcllink.dll
      Top Level Interpreter
      --->Section: init
      
-             source $apsuite/apsim/tcllink/lib/RotationInitialisation.tcl
+     source $apsuite/apsim/tcllink/lib/RotationInitialisation.tcl
      set state "WinterFallow"
      
      --->Section: process
