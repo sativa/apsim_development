@@ -59,47 +59,49 @@ void processRegression(DataContainer& parent,
                }
             source->Next();
             }
+         if (x.size() != 0 && y.size() != 0)
+            {
+            Regr_stats stats;
+            calcRegressionStats(x, y, stats);
 
-         Regr_stats stats;
-         calcRegressionStats(x, y, stats);
+            double minX = *min_element(x.begin(), x.end());
+            double maxX = *max_element(x.begin(), x.end());
+            //double minY = *min_element(y.begin(), y.end());
+            //double maxY = *max_element(y.begin(), y.end());
 
-         double minX = *min_element(x.begin(), x.end());
-         double maxX = *max_element(x.begin(), x.end());
-         //double minY = *min_element(y.begin(), y.end());
-         //double maxY = *max_element(y.begin(), y.end());
+            string equation;
+            equation = " y = " + ftoa(stats.m, 2) + " x + " + ftoa(stats.c, 2);
+            equation += " (r2 = " + ftoa(stats.R2, 2) + ")";
 
-         string equation;
-         equation = " y = " + ftoa(stats.m, 2) + " x + " + ftoa(stats.c, 2);
-         equation += " (r2 = " + ftoa(stats.R2, 2) + ")";
-
-         result.Append();
-         result.FieldValues["RegrX"] = minX;
-         result.FieldValues["RegrY"] = stats.m * minX + stats.c;
-         result.FieldValues["1:1X"] = minX;
-         result.FieldValues["1:1Y"] = minX;
-         result.FieldValues["Equation"] = equation.c_str();
-         result.FieldValues["m"] = stats.m;
-         result.FieldValues["c"] = stats.c;
-         result.FieldValues["r2"] = stats.R2;
-         result.FieldValues["n"] = x.size();
-         result.FieldValues["StdErr(m)"] = stats.SEslope;
-         result.FieldValues["StdErr(c)"] = stats.SEcoeff;
-         result.FieldValues["RMSD"] = stats.RMSD;
-         result.Post();
-         result.Append();
-         result.FieldValues["RegrX"] = maxX;
-         result.FieldValues["RegrY"] = stats.m * maxX + stats.c;
-         result.FieldValues["1:1X"] = maxX;
-         result.FieldValues["1:1Y"] = maxX;
-         result.FieldValues["Equation"] = equation.c_str();
-         result.FieldValues["m"] = stats.m;
-         result.FieldValues["c"] = stats.c;
-         result.FieldValues["r2"] = stats.R2;
-         result.FieldValues["n"] = x.size();
-         result.FieldValues["StdErr(m)"] = stats.SEslope;
-         result.FieldValues["StdErr(c)"] = stats.SEcoeff;
-         result.FieldValues["RMSD"] = stats.RMSD;
-         result.Post();
+            result.Append();
+            result.FieldValues["RegrX"] = minX;
+            result.FieldValues["RegrY"] = stats.m * minX + stats.c;
+            result.FieldValues["1:1X"] = minX;
+            result.FieldValues["1:1Y"] = minX;
+            result.FieldValues["Equation"] = equation.c_str();
+            result.FieldValues["m"] = stats.m;
+            result.FieldValues["c"] = stats.c;
+            result.FieldValues["r2"] = stats.R2;
+            result.FieldValues["n"] = x.size();
+            result.FieldValues["StdErr(m)"] = stats.SEslope;
+            result.FieldValues["StdErr(c)"] = stats.SEcoeff;
+            result.FieldValues["RMSD"] = stats.RMSD;
+            result.Post();
+            result.Append();
+            result.FieldValues["RegrX"] = maxX;
+            result.FieldValues["RegrY"] = stats.m * maxX + stats.c;
+            result.FieldValues["1:1X"] = maxX;
+            result.FieldValues["1:1Y"] = maxX;
+            result.FieldValues["Equation"] = equation.c_str();
+            result.FieldValues["m"] = stats.m;
+            result.FieldValues["c"] = stats.c;
+            result.FieldValues["r2"] = stats.R2;
+            result.FieldValues["n"] = x.size();
+            result.FieldValues["StdErr(m)"] = stats.SEslope;
+            result.FieldValues["StdErr(c)"] = stats.SEcoeff;
+            result.FieldValues["RMSD"] = stats.RMSD;
+            result.Post();
+            }
          }
       }
    }

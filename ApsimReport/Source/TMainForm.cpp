@@ -156,6 +156,12 @@ void TMainForm::populateOpenMenu()
    OpenMenu->Items->Add(NewItem);
    NewItem->Caption = "Open";
    NewItem->OnClick = OpenMenuItemClick;
+
+   NewItem = new TMenuItem(OpenMenu);
+   OpenMenu->Items->Add(NewItem);
+   NewItem->Caption = "Open (safe mode)";
+   NewItem->OnClick = OpenMenuItemClick;
+
    NewItem = new TMenuItem(OpenMenu);
    OpenMenu->Items->Add(NewItem);
    NewItem->Caption = "-";
@@ -183,15 +189,32 @@ void __fastcall TMainForm::OpenMenuItemClick(TObject* sender)
          if (OpenDialog1->Execute())
             {
             saveIfNecessary();
-            open(OpenDialog1->FileName);
+            open(OpenDialog1->FileName, false, false);
             ZoomUpDown->Position = report.getZoom();
             }
          }
+      else if (item->Caption == "O&pen (safe mode)")
+         {
+         if (OpenDialog1->Execute())
+            {
+            saveIfNecessary();
+            if (MessageBox(NULL, "Opening a file in safe mode means all chart series x/y values will "
+                                 "be unlinked from their data source. This can help when .report files "
+                                 "don't open properly. Are you sure you want to do this?",
+                                 "Question",
+                                 MB_ICONQUESTION | MB_YESNO) == IDYES)
+               {
+               open(OpenDialog1->FileName, false, true);
+               ZoomUpDown->Position = report.getZoom();
+               }
+            }
+         }
+
       else
          {
          string fileName = item->Caption.c_str();
          replaceAll(fileName, "&", "");
-         open(fileName.c_str(), false);
+         open(fileName.c_str(), false, false);
          }
       }
    }
@@ -213,11 +236,11 @@ void __fastcall TMainForm::SaveAsActionExecute(TObject *Sender)
 //---------------------------------------------------------------------------
 // Go open the specified file.
 //---------------------------------------------------------------------------
-void TMainForm::open(AnsiString file, bool quiet)
+void TMainForm::open(AnsiString file, bool quiet, bool safe)
    {
    filename = ExpandFileName(file);
    MRUFileList->AddItem(filename);
-   report.load(filename.c_str(), quiet);
+   report.load(filename.c_str(), quiet, safe);
    setCaption();
    ZoomUpDown->Position = report.getZoom();
    report.getPageNames(TabControl->Tabs);
@@ -327,7 +350,7 @@ void __fastcall TMainForm::RefreshActionExecute(TObject *Sender)
 void __fastcall TMainForm::MRUFileListMRUItemClick(TObject *Sender,
       AnsiString AFilename)
    {
-   open(AFilename);
+   open(AFilename, false, false);
    }
 //---------------------------------------------------------------------------
 // process the specified command line.
@@ -343,7 +366,7 @@ void TMainForm::processCommandLine(AnsiString commandLine)
       {
       string reportFileName = commandWords[0];
       stripLeadingTrailing(reportFileName, "\"");
-      open(reportFileName.c_str(), true);
+      open(reportFileName.c_str(), true, false);
       if (commandWords.size() >= 2)
          {
          string outputFileName = commandWords[1];
@@ -494,5 +517,4 @@ void __fastcall TMainForm::PageActionExecute(TObject *Sender)
    PagePopupMenu->Popup(Pos.x, Pos.y);
 
    }
-//---------------------------------------------------------------------------
 

@@ -108,7 +108,7 @@ private:	// User declarations
    Report report;
    int draggedTab;
 
-   void open(AnsiString file, bool quiet = false);
+   void open(AnsiString file, bool quiet, bool safe);
    void save(AnsiString file);
    void saveIfNecessary(void);
    void setCaption(void);

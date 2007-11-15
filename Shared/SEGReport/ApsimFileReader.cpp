@@ -107,11 +107,16 @@ vector<string> getFileNames(const XMLNode& properties)
           fileSpecs[i].find('?') == string::npos)
           fileNames.push_back(fileSpecs[i]);
       else
-         getDirectoryListing(Path(fileSpecs[i]).Get_directory(),
+         {
+         string dir = Path(fileSpecs[i]).Get_directory();
+         if (dir == "")
+            dir = Path::getCurrentFolder().Get_path();
+         getDirectoryListing(dir,
                              Path(fileSpecs[i]).Get_name(),
                              fileNames,
                              FA_NORMAL,
                              true);
+         }
       }
    for (unsigned i = 0; i != fileNames.size(); i++)
       replaceAll(fileNames[i], "%apsuite", getApsimDirectory());

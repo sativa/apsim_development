@@ -125,7 +125,8 @@ void processPredObs(DataContainer& parent,
                            }
                         }
                      }
-                  result.Post();
+                  if (haveCreatedRecord)
+                     result.Post();
                   }
 
                // Clean up the predicted dataset by getting rid of the filter and us

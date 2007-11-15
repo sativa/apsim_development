@@ -169,7 +169,7 @@ void Report::clear(void)
 //---------------------------------------------------------------------------
 // If the filename exists then load it into the report.
 //---------------------------------------------------------------------------
-void Report::load(const string& fileName, bool quiet)
+void Report::load(const string& fileName, bool quiet, bool safe)
    {
    if (FileExists(fileName.c_str()))
       {
@@ -205,6 +205,10 @@ void Report::load(const string& fileName, bool quiet)
             }
          }
       in.close();
+
+      // if use is holding down the CTRL key then open in 'safe' mode.
+      if (safe)
+         safeMode(fileName);
 
       // set up the data.
       in.open(fileName.c_str());
@@ -857,6 +861,28 @@ void __fastcall Report::buttonClick(TObject* sender)
    }
 
 //---------------------------------------------------------------------------
+// Safe mode is where we go through the .report file and remove all
+// .valuesource = lines. TChart gets quite upset when trying to load
+// a chart that has x and y value sources pointing to non-existant
+// table fields.
+//---------------------------------------------------------------------------
+void Report::safeMode(const std::string& fileName)
+   {
+   string tempFileName = Path::getTempFolder().Get_path() + "\\apsimreport.tmp";
+   ifstream in(fileName.c_str());
+   ofstream out(tempFileName.c_str());
+   string line;
+   while (getline(in, line))
+      {
+      if (line.find(".ValueSource = '") == string::npos)
+         out << line << endl;
+      }
+   in.close();
+   out.close();
+   CopyFile(tempFileName.c_str(), fileName.c_str(), false);
+   unlink(tempFileName.c_str());
+   }
+//---------------------------------------------------------------------------
 // Version 3 to 4
 //---------------------------------------------------------------------------
 void Report::convertVersion3To4(ifstream& in, const std::string& fileName)
@@ -1230,4 +1256,5 @@ void Report::convertVersion4To5(ifstream& in, const std::string& fileName)
 
    doc.write(fileName);
    }
+
 

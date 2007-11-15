@@ -72,7 +72,7 @@ void getDirectoryListing(const std::string& directoryName,
    Path p;
    struct ffblk ffblk;
    int done;
-   p.Set_path (directoryName.c_str());
+   p.Set_directory (directoryName.c_str());
    p.Set_name (extension.c_str());
    done = findfirst(p.Get_path().c_str(), &ffblk, attribute);
    while (!done)
@@ -86,7 +86,7 @@ void getDirectoryListing(const std::string& directoryName,
       else
          Keep = Keep && ((ffblk.ff_attrib & attribute) > 0);
 
-      if (Keep)
+      if (Keep)          
          {
          Path p;
          if (fullPath)

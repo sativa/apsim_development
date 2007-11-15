@@ -29,7 +29,7 @@ class __declspec(dllexport) Report
       //---------------------------------------------------------------------------
       // If the filename exists then load it into the report.
       //---------------------------------------------------------------------------
-      void load(const std::string& fileName, bool quiet);
+      void load(const std::string& fileName, bool quiet, bool safe);
 
       //---------------------------------------------------------------------------
       // Save the report to the specified filename.
@@ -178,7 +178,7 @@ class __declspec(dllexport) Report
       void nestAllObjectsUsingSource(XMLDocument& doc);
       void refreshAllPages();
       void refreshControls(TWinControl* parent);
-
+      void safeMode(const std::string& fileName);
 
    };
 #endif
