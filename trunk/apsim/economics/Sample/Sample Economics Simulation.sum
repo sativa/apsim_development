@@ -17,7 +17,10 @@ Paddock:
 Component "outputfile" = c:\development\apsim\report\lib\report.dll
 Component      "accum" = c:\development\apsim\accum\lib\accum.dll
 Component "fertiliser" = c:\development\apsim\fertiliz\lib\fertiliz.dll
-Component    "Manager" = c:\development\apsim\manager\lib\manager.dll
+Component "pre sow Tillage" = c:\development\apsim\manager\lib\manager.dll
+Component "Sowing rule" = c:\development\apsim\manager\lib\manager.dll
+Component "Harvesting rule" = c:\development\apsim\manager\lib\manager.dll
+Component "Sowing fertiliser" = c:\development\apsim\manager\lib\manager.dll
 Component "Jimbour,Waco (#016) Water" = c:\development\apsim\soilwat2\lib\soilwat2.dll
 Component "surface organic matter" = c:\development\apsim\surfaceom\lib\surfaceom.dll
 Component "Jimbour,Waco (#016) Nitrogen" = c:\development\apsim\soiln2\lib\soiln2.dll
@@ -67,7 +70,7 @@ Component  "Economics" = c:\development\apsim\tcllink\lib\tcllink.dll
            No fertiliser schedule is used
           -----------------------------------------------
 
-------- Manager Initialisation ------------------------------------------------
+------- pre sow Tillage Initialisation ----------------------------------------
      Manager rules:
      
      SECTION:- start_of_day
@@ -79,6 +82,11 @@ Component  "Economics" = c:\development\apsim\tcllink\lib\tcllink.dll
      endif
         economics operate tractor=t1, implement = p2, area = 200, costtype = fallow_cost
               endif
+     END of rules
+     
+
+------- Sowing rule Initialisation --------------------------------------------
+     Manager rules:
      
      SECTION:- start_of_day
      if (available('tractor=t1,implement=p1')) then
@@ -98,6 +106,11 @@ Component  "Economics" = c:\development\apsim\tcllink\lib\tcllink.dll
               endif
            endif
      endif
+     END of rules
+     
+
+------- Harvesting rule Initialisation ----------------------------------------
+     Manager rules:
      
      SECTION:- end_of_day
      if wheat.stage_name = 'harvest_ripe' or wheat.plant_status = 'dead' then
@@ -112,6 +125,11 @@ Component  "Economics" = c:\development\apsim\tcllink\lib\tcllink.dll
        wheat  harvest
        wheat  end_crop
      endif
+     END of rules
+     
+
+------- Sowing fertiliser Initialisation --------------------------------------
+     Manager rules:
      
      SECTION:- wheat.sowing
              economics expenditure category = fertilisercost, name =  urea, rate = 150, area = 200 (ha), incrop_cost = ?
@@ -286,8 +304,8 @@ Component  "Economics" = c:\development\apsim\tcllink\lib\tcllink.dll
      Interpreter name: 'Economics'
      --->Section: init
      
-             source $apsuite/apsim/Economics/lib/Cashbook.tcl
-             source $apsuite/apsim/Economics/lib/Machinery.tcl
+     source $apsuite/apsim/Economics/lib/Cashbook.tcl
+     source $apsuite/apsim/Economics/lib/Machinery.tcl
      
      --->End
      Machinery:
@@ -296,7 +314,7 @@ Component  "Economics" = c:\development\apsim\tcllink\lib\tcllink.dll
 ------- Start of simulation  --------------------------------------------------
      Manager creating a new local real variable : fallowin =     0.00000000000000
      Manager creating a new local real variable : nextcrop =     0.00000000000000
-1 May 1941(Day of year=121), Manager: 
+1 May 1941(Day of year=121), pre sow Tillage: 
      Manager sending message :- surface organic matter tillage  type = disc
 1 May 1941(Day of year=121), surface organic matter: 
      
@@ -309,9 +327,9 @@ Component  "Economics" = c:\development\apsim\tcllink\lib\tcllink.dll
      Machinery job 't1 + p2' is queued
 2 May 1941(Day of year=122), Economics: 
      Machinery job 't1 + p2' in  has finished
-10 July 1941(Day of year=191), Manager: 
+10 July 1941(Day of year=191), Sowing rule: 
      Manager creating a new local string variable : choosenextcrop = yes
-1 May 1942(Day of year=121), Manager: 
+1 May 1942(Day of year=121), pre sow Tillage: 
      Manager sending message :- surface organic matter tillage  type = disc
 1 May 1942(Day of year=121), surface organic matter: 
      
@@ -324,7 +342,7 @@ Component  "Economics" = c:\development\apsim\tcllink\lib\tcllink.dll
      Machinery job 't1 + p2' is queued
 2 May 1942(Day of year=122), Economics: 
      Machinery job 't1 + p2' in  has finished
-28 May 1942(Day of year=148), Manager: 
+28 May 1942(Day of year=148), Sowing rule: 
      Manager sending message :- economics operate  tractor = t1, implement = p1, area = 200, costtype = incrop_cost
 28 May 1942(Day of year=148), Economics: 
      Machinery job 't1 + p1' is queued
@@ -367,6 +385,7 @@ Component  "Economics" = c:\development\apsim\tcllink\lib\tcllink.dll
          -----------------------------------------------
          Extractable SW:   320mm in  3000mm total depth ( 11%).
          Crop factor for bounding water use is set to   1.5 times eo.
+28 May 1942(Day of year=148), Sowing fertiliser: 
      Manager sending message :- economics expenditure  category = fertilisercost, name = urea, rate = 150, area = 200 (ha), incrop_cost = ?
      Costed urea fertilisercost (rate=150, price=0.5) over 200 ha = 15000.0
      Manager sending message :- fertiliser apply  amount = 150 (kg/ha), depth = 50 (mm), type = urea
@@ -420,7 +439,7 @@ Component  "Economics" = c:\development\apsim\tcllink\lib\tcllink.dll
       stage 10.0 harvest_ripe
                      biomass =         951.66 (g/m^2)   lai          =   0.000 (m^2/m^2)
                      stover N conc =     0.35 (%)    extractable sw =  103.00 (mm)
-10 October 1942(Day of year=283), Manager: 
+10 October 1942(Day of year=283), Harvesting rule: 
      Manager sending message :- economics expenditure  category = contract, name = broadacre_harvesting, rate = 1, area = 200 (ha), incrop_cost = ?
 10 October 1942(Day of year=283), Economics: 
      Costed broadacre_harvesting contract (rate=1, price=250) over 200 ha = 50000

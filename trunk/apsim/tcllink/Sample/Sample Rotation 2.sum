@@ -22,6 +22,15 @@ Component "#009 - Kupunn Nitrogen" = c:\development\apsim\soiln2\lib\soiln2.dll
 Component      "wheat" = c:\development\apsim\plant\lib\plant.dll
 Component   "chickpea" = c:\development\apsim\plant\lib\plant.dll
 Component     "cotton" = c:\development\apsim\ozcot\lib\ozcot.dll
+Component   "Paddock1" = c:\development\apsim\tcllink\lib\tcllink.dll
+Paddock:
+Component      "accum" = c:\development\apsim\accum\lib\accum.dll
+Component "fertiliser" = c:\development\apsim\fertiliz\lib\fertiliz.dll
+Component "#009 - Kupunn Water" = c:\development\apsim\soilwat2\lib\soilwat2.dll
+Component "#009 - Kupunn Nitrogen" = c:\development\apsim\soiln2\lib\soiln2.dll
+Component      "wheat" = c:\development\apsim\plant\lib\plant.dll
+Component   "chickpea" = c:\development\apsim\plant\lib\plant.dll
+Component     "cotton" = c:\development\apsim\ozcot\lib\ozcot.dll
 Component   "Paddock2" = c:\development\apsim\tcllink\lib\tcllink.dll
 Paddock:
 Component      "accum" = c:\development\apsim\accum\lib\accum.dll
@@ -32,15 +41,6 @@ Component      "wheat" = c:\development\apsim\plant\lib\plant.dll
 Component   "chickpea" = c:\development\apsim\plant\lib\plant.dll
 Component     "cotton" = c:\development\apsim\ozcot\lib\ozcot.dll
 Component   "Paddock3" = c:\development\apsim\tcllink\lib\tcllink.dll
-Paddock:
-Component      "accum" = c:\development\apsim\accum\lib\accum.dll
-Component "fertiliser" = c:\development\apsim\fertiliz\lib\fertiliz.dll
-Component "#009 - Kupunn Water" = c:\development\apsim\soilwat2\lib\soilwat2.dll
-Component "#009 - Kupunn Nitrogen" = c:\development\apsim\soiln2\lib\soiln2.dll
-Component      "wheat" = c:\development\apsim\plant\lib\plant.dll
-Component   "chickpea" = c:\development\apsim\plant\lib\plant.dll
-Component     "cotton" = c:\development\apsim\ozcot\lib\ozcot.dll
-Component   "Paddock1" = c:\development\apsim\tcllink\lib\tcllink.dll
 
 ------- clock Initialisation --------------------------------------------------
      Sequencer phases:
@@ -173,7 +173,7 @@ Component   "Paddock1" = c:\development\apsim\tcllink\lib\tcllink.dll
      
      --->Section: start_simulation
      
-                          # NB. some funny business here. Delay opening report file until the 1st day of
+                    # NB. some funny business here. Delay opening report file until the 1st day of
      # simulation as it's hard to know how many paddocks are present at init2 time.
      
      setupLogging "Rotation Sample 2.log"
@@ -198,7 +198,528 @@ Component   "Paddock1" = c:\development\apsim\tcllink\lib\tcllink.dll
      
      --->Section: exit
      
-                          closeLogging
+                    closeLogging
+     
+     --->End
+
+------- accum Initialisation --------------------------------------------------
+     Initialising
+
+------- fertiliser Initialisation ---------------------------------------------
+      Initialising
+     
+        - Reading Parameters
+     
+     
+     
+                    Fertiliser Schedule (kg/ha)
+          -----------------------------------------------
+           No fertiliser schedule is used
+          -----------------------------------------------
+
+------- #009 - Kupunn Water Initialisation ------------------------------------
+     
+         - Reading constants
+     
+        - Reading Soil Property Parameters
+     
+        - Reading Soil Profile Parameters
+     Initial soilwater distributed using "sw" parameter.
+     
+     
+     
+                      Soil Profile Properties
+        ---------------------------------------------------------------------
+              Depth  Air_Dry  LL15   Dul    Sat     Sw     BD   Runoff  SWCON
+                mm     mm/mm  mm/mm  mm/mm  mm/mm  mm/mm  g/cc    wf
+        ---------------------------------------------------------------------
+            0.-  150.  0.105  0.210  0.390  0.440  0.390  1.400  0.762  0.300
+          150.-  300.  0.189  0.210  0.390  0.440  0.390  1.390  0.190  0.300
+          300.-  600.  0.220  0.220  0.400  0.450  0.400  1.370  0.048  0.300
+          600.-  900.  0.250  0.250  0.410  0.460  0.410  1.360  0.000  0.300
+          900.- 1200.  0.270  0.270  0.400  0.450  0.400  1.380  0.000  0.300
+         1200.- 1500.  0.310  0.310  0.390  0.440  0.390  1.390  0.000  0.300
+         1500.- 1800.  0.360  0.360  0.380  0.430  0.380  1.420  0.000  0.300
+        ---------------------------------------------------------------------
+     
+     
+     
+                  Soil Water Holding Capacity
+          ---------------------------------------------------------
+              Depth    Unavailable Available  Max Avail.  Drainable
+                          (LL15)   (SW-LL15)  (DUL-LL15)  (SAT-DUL)
+                            mm        mm          mm         mm
+          ---------------------------------------------------------
+            0.-  150.      31.50      27.00      27.00       7.50
+          150.-  300.      31.50      27.00      27.00       7.50
+          300.-  600.      66.00      54.00      54.00      15.00
+          600.-  900.      75.00      48.00      48.00      15.00
+          900.- 1200.      81.00      39.00      39.00      15.00
+         1200.- 1500.      93.00      24.00      24.00      15.00
+         1500.- 1800.     108.00       6.00       6.00      15.00
+          ---------------------------------------------------------
+               Totals     486.00     225.00     225.00      90.00
+          ---------------------------------------------------------
+     
+     
+     
+     
+     
+     
+                  Initial Soil Parameters
+          ---------------------------------------------------------
+                 Insoil        Salb     Dif_Con   Dif_Slope
+          ---------------------------------------------------------
+                   0.00        0.13       40.00       16.00
+          ---------------------------------------------------------
+     
+     
+     
+                  Runoff is predicted using scs curve number:
+                Cn2  Cn_Red  Cn_Cov   H_Eff_Depth
+                                           mm
+          ---------------------------------------------------------
+              73.00   20.00    0.80  450.00
+          ---------------------------------------------------------
+     
+     
+     
+           Using Ritchie evaporation model
+            Cuml evap (U):            6.00 (mm^0.5)
+            CONA:                     3.50 ()
+            Eo from priestly-taylor
+
+------- #009 - Kupunn Nitrogen Initialisation ---------------------------------
+     
+        - Reading Parameters
+     
+        - Reading Constants
+     Using standard soil mineralisation for soil type Grey Vertosol
+     
+     
+     
+           TAV and AMP supplied externally
+     
+     
+     
+                      Soil Profile Properties
+          ------------------------------------------------
+           Layer    pH    OC     NO3     NH4    Urea
+                         (%) (kg/ha) (kg/ha) (kg/ha)
+          ------------------------------------------------
+             1     7.00  1.24   13.65    1.26    0.00
+             2     7.00  1.24    4.38    0.21    0.00
+             3     7.00  1.25    8.63    0.41    0.00
+             4     7.00  1.10    6.94    0.41    0.00
+             5     7.00  0.71    7.04    0.41    0.00
+             6     7.00  0.34    7.09    0.42    0.00
+             7     7.00  0.26    7.24    0.43    0.00
+          ------------------------------------------------
+           Totals               54.96    3.54    0.00
+          ------------------------------------------------
+     
+     
+     
+     
+     
+     
+                  Initial Soil Organic Matter Status
+          ---------------------------------------------------------
+           Layer      Hum-C   Hum-N  Biom-C  Biom-N   FOM-C   FOM-N
+                    (kg/ha) (kg/ha) (kg/ha) (kg/ha) (kg/ha) (kg/ha)
+          ---------------------------------------------------------
+             1      25584.9  2046.8   455.1    56.9    27.8     0.7
+             2      25651.2  2052.1   202.8    25.3    21.6     0.5
+             3      51273.3  4101.9   101.7    12.7    13.1     0.3
+             4      44835.6  3586.8    44.4     5.6     8.0     0.2
+             5      29379.4  2350.4    14.6     1.8     4.8     0.1
+             6      14171.0  1133.7     7.0     0.9     2.9     0.1
+             7      11070.5   885.6     5.5     0.7     1.8     0.0
+          ---------------------------------------------------------
+           Totals  201965.9 16157.3   831.1   103.9    80.0     2.0
+          ---------------------------------------------------------
+
+------- wheat Initialisation --------------------------------------------------
+     phenology model: Wheat
+
+------- chickpea Initialisation -----------------------------------------------
+     phenology model: TTT
+
+------- cotton Initialisation -------------------------------------------------
+     Initialising
+     
+         - Reading constants
+     
+        - Reading root profile parameters
+     
+     
+     
+             Root Profile
+     ------------------------
+          Layer       Lower
+          Depth       Limit
+          (cm)      (mm/mm)
+     ------------------------
+           15.0          0.210
+           15.0          0.210
+           30.0          0.220
+           30.0          0.250
+           30.0          0.270
+           30.0          0.310
+           30.0          0.360
+     ------------------------
+     
+     
+     
+
+------- Paddock1 Initialisation -----------------------------------------------
+     Interpreter name: 'Paddock1'
+     --->Section: init
+     ############### INITIAL CONDITIONS
+     set state "F1"
+     set area  250.0
+     
+     ############### Support procedures
+     # Return the current state of the system
+     proc currentState {} {
+        global state
+        return $state
+     }
+     
+     ############### The decision routine.
+     # Return the score for planting "what"
+     proc checkRules {} {
+       log "State is [currentState]. (esw=[format %.0f [apsimGet esw]])"
+     
+       set bestScore -1.0; set bestTarget {}
+       foreach arc [stateGraph arcs -out [currentState]] {
+          set expr {}
+          set target [stateGraph arc target $arc]
+          foreach rule [stateGraph arc get $arc rules] {
+             set value [uplevel #0 expr $rule]
+             log "target=$target,rule=$rule, value=$value"
+             lappend expr $value
+          }
+          set score [expr [join $expr "*"]]
+          if {$score > $bestScore} {
+             set bestScore $score
+             set bestTarget $target
+          }
+       }
+       return [list $bestTarget $bestScore]
+     }
+     
+     # Change state to another
+     proc changeState {newState} {
+        global state
+        set arcs {}
+        foreach arc [stateGraph arcs -out [currentState]] {
+           if {[stateGraph arc target $arc] == "$newState" } {
+              lappend arcs $arc
+           }
+       }
+     
+        if {[llength $arcs] == 0} {error "No paths from [currentState] to $newState!"}
+        if {[llength $arcs] > 1} {
+           # More than 1 path - evaluate best option
+           set bestScore -1.0; set bestArc {}
+           foreach arc $arcs {
+              set expr {}
+              foreach rule [stateGraph arc get $arc rules] {
+                 set value [uplevel #0 expr $rule]
+                 lappend expr $value
+              }
+              set score [expr [join $expr "*"]]
+              if {$score > $bestScore} {
+                 set bestScore $score
+                 set bestArc $arc
+              }
+           }
+           if {$bestScore > 0.0} {
+              set arc $bestArc
+           } else {
+              error "No viable paths from [currentState] to $newState! (candidates are $arcs)"
+           }
+        } else {
+           # Only 1 path - take it.
+           set arc $arcs
+        }
+        foreach action [stateGraph arc get $arc actions] { uplevel #0 $action }
+        set state $newState
+        logState $newState
+     }
+     
+     proc setup {} {
+         #Nothing yet..
+     }
+     
+     # Apsimish utilities
+     proc pawc {} {
+       set sw [apsimGet sw_dep]
+       set ll [apsimGet ll15_dep]
+       set pawc 0.0
+       for {set i 0} {$i < [llength $sw]} {incr i} {
+           set pawc [expr $pawc + ([lindex $sw $i] - [lindex $ll $i])]
+       }
+       return $pawc
+     }
+     
+     proc fesw {layer} {
+       set dul [lindex [apsimGet dul_dep] [expr $layer-1]]
+       set sw  [lindex [apsimGet sw_dep] [expr $layer-1]]
+       set ll  [lindex [apsimGet ll15_dep] [expr $layer-1]]
+       set fesw [expr ($sw - $ll)/($dul - $ll)]
+       return $fesw
+     }
+     
+     --->Section: process
+     
+     --->Section: exit
+     
+     
+     exit
+     
+     
+     --->Section: init
+     package require struct
+     ::struct::graph stateGraph
+     stateGraph node insert "Chickpea"
+     set colour(Chickpea) "lightgreen"
+     stateGraph node insert "SummerFallow2"
+     set colour(SummerFallow2) "gray"
+     stateGraph node insert "Wheat"
+     set colour(Wheat) "darkgreen"
+     stateGraph node insert "WinterFallow"
+     set colour(WinterFallow) "gray"
+     stateGraph node insert "Cotton"
+     set colour(Cotton) "purple"
+     stateGraph node insert "F1"
+     set colour(F1) "gray"
+     stateGraph node insert "SummerFallow1"
+     set colour(SummerFallow1) "maroon"
+     stateGraph arc insert "WinterFallow" "Cotton" "arc6"
+     stateGraph arc lappend "arc6" actions {sow_cotton}
+     stateGraph arc lappend "arc6" rules {[canPlant_cotton]}
+     stateGraph arc lappend "arc6" rules {[areaPlanted Cotton] < 0.66}
+     stateGraph arc lappend "arc6" actions {}
+     stateGraph arc insert "SummerFallow1" "WinterFallow" "arc2"
+     stateGraph arc lappend "arc2" rules {[apsimGet day]  == 192}
+     stateGraph arc lappend "arc2" actions {}
+     stateGraph arc insert "F1" "SummerFallow1" "arc7"
+     stateGraph arc lappend "arc7" rules {[apsimGet day]  == 192}
+     stateGraph arc lappend "arc7" actions {}
+     stateGraph arc insert "Wheat" "SummerFallow2" "arc3"
+     stateGraph arc lappend "arc3" actions {apsimSendMessage wheat harvest}
+     stateGraph arc lappend "arc3" actions {apsimSendMessage wheat end_crop}
+     stateGraph arc lappend "arc3" rules {{[apsimGet wheat.stage_name] == "harvest_ripe" || [apsimGet wheat.plant_status] == "dead"}}
+     stateGraph arc lappend "arc3" actions {}
+     stateGraph arc insert "Chickpea" "SummerFallow1" "arc8"
+     stateGraph arc lappend "arc8" actions {apsimSendMessage chickpea harvest}
+     stateGraph arc lappend "arc8" actions {apsimSendMessage chickpea end_crop}
+     stateGraph arc lappend "arc8" rules {{[apsimGet chickpea.stage_name] == "harvest_ripe" || [apsimGet chickpea.plant_status] == "dead"}}
+     stateGraph arc lappend "arc8" actions {}
+     stateGraph arc insert "F1" "Chickpea" "arc0"
+     stateGraph arc lappend "arc0" actions {sow_chickpea}
+     stateGraph arc lappend "arc0" rules {[canPlant_chickpea]}
+     stateGraph arc lappend "arc0" actions {}
+     stateGraph arc insert "SummerFallow2" "WinterFallow" "arc9"
+     stateGraph arc lappend "arc9" rules {[apsimGet day]  == 74}
+     stateGraph arc lappend "arc9" actions {}
+     stateGraph arc insert "Cotton" "F1" "arc5"
+     stateGraph arc lappend "arc5" actions {apsimSendMessage cotton harvest}
+     stateGraph arc lappend "arc5" rules {[apsimGet ozcot_status] > 0}
+     stateGraph arc lappend "arc5" actions {}
+     stateGraph arc insert "SummerFallow1" "Wheat" "arc1"
+     stateGraph arc lappend "arc1" actions {sow_wheat}
+     stateGraph arc lappend "arc1" rules {[canPlant_wheat]}
+     stateGraph arc lappend "arc1" actions {}
+     
+     --->Section: init
+     
+     # Support procedures
+     # Can we plant a crop today?
+     proc canPlant_wheat {} {
+       if {"variable" == "variable"} {
+          set year [apsimGet year]; set day [apsimGet day]
+          set d1 [clock format [clock scan "15-may-$year"] -format %j]
+          set d2 [clock format [clock scan "10-jul-$year"] -format %j]
+     
+          if {"no" == "yes" && $day == $d2} {return 1}
+     
+          if {$d1 > $d2} {
+             set dateOK [expr $day >= $d1 || $day <= $d2]
+          } else {
+             set dateOK [expr $day >= $d1 && $day <= $d2]
+          }
+          set rainOK [expr [apsimGet rain\[3\]] >= 25]
+          set eswOK [expr [apsimGet esw] >= 50]
+          return [expr $dateOK && $rainOK && $eswOK]
+       } elseif {"variable" == "fixed"} {
+          set year [apsimGet year]; set day [apsimGet day]
+          set d1 [clock format [clock scan "15-may-$year"] -format %j]
+          return [expr $day == $d1]
+       } else {
+          error "Unknown sowing criteria \"variable\"."
+       }
+       return "notreached"
+     }
+     
+     # Plant a crop now
+     proc sow_wheat {} {
+       if {"plant" == "plant"} {
+          apsimSendMessage wheat sow {plants 100} {sowing_depth 30} \
+                  {cultivar hartog} {row_spacing 25} \
+                  {skipplant 0} {skiprow 0} {crop_class plant}
+       } elseif {"plant" == "cropmod"} {
+          apsimSendMessage wheat sow {plants [density]} {sowing_depth [depth]} \
+                  {cultivar hartog} {row_spacing 25} {skiprow 0}
+       } elseif {"plant" == "growth"} {
+          apsimSendMessage wheat ???
+       } elseif {"plant" == "ozcot"} {
+          apsimSendMessage wheat sow {plants_pm [plants_pm]} {sowing_depth 30} \
+                  {row_spacing 25} {skiprow 0} {cultivar hartog}
+       } elseif {"plant" == "oryza"} {
+          apsimSendMessage wheat sow {cultivar hartog}
+       } elseif {"plant" == "sorghum"} {
+          apsimSendMessage wheat sow {plants 100} {sowing_depth 30} \
+                  {cultivar hartog} {row_spacing 25} {skiprow 0} \
+                  {tiller_no_fertile [tiller_no_fertile]}
+       } elseif {"plant" == "sugar"} {
+          apsimSendMessage wheat sow {plants 100} {cultivar hartog} {sowing_depth 30}
+       } else {
+         error "Unknown crop module \"plant\"."
+       }
+     }
+     
+     
+     
+     
+     
+     
+     --->Section: init
+     
+     # Support procedures
+     # Can we plant a crop today?
+     proc canPlant_cotton {} {
+       if {"variable" == "variable"} {
+          set year [apsimGet year]; set day [apsimGet day]
+          set d1 [clock format [clock scan "15-oct-$year"] -format %j]
+          set d2 [clock format [clock scan "15-dec-$year"] -format %j]
+     
+          if {"yes" == "yes" && $day == $d2} {return 1}
+     
+          if {$d1 > $d2} {
+             set dateOK [expr $day >= $d1 || $day <= $d2]
+          } else {
+             set dateOK [expr $day >= $d1 && $day <= $d2]
+          }
+          set rainOK [expr [apsimGet rain\[3\]] >= 10]
+          set eswOK [expr [apsimGet esw] >= 100]
+          return [expr $dateOK && $rainOK && $eswOK]
+       } elseif {"variable" == "fixed"} {
+          set year [apsimGet year]; set day [apsimGet day]
+          set d1 [clock format [clock scan "15-oct-$year"] -format %j]
+          return [expr $day == $d1]
+       } else {
+          error "Unknown sowing criteria \"variable\"."
+       }
+       return "notreached"
+     }
+     
+     # Plant a crop now
+     proc sow_cotton {} {
+       if {"ozcot" == "plant"} {
+          apsimSendMessage cotton sow {plants 100} {sowing_depth 30} \
+                  {cultivar Siok} {row_spacing 1000} \
+                  {skipplant 0} {skiprow 0} {crop_class plant}
+       } elseif {"ozcot" == "cropmod"} {
+          apsimSendMessage cotton sow {plants [density]} {sowing_depth [depth]} \
+                  {cultivar Siok} {row_spacing 1000} {skiprow 0}
+       } elseif {"ozcot" == "growth"} {
+          apsimSendMessage cotton ???
+       } elseif {"ozcot" == "ozcot"} {
+          apsimSendMessage cotton sow {plants_pm 10} {sowing_depth 30} \
+                  {row_spacing 1000} {skiprow 0} {cultivar Siok}
+       } elseif {"ozcot" == "oryza"} {
+          apsimSendMessage cotton sow {cultivar Siok}
+       } elseif {"ozcot" == "sorghum"} {
+          apsimSendMessage cotton sow {plants 100} {sowing_depth 30} \
+                  {cultivar Siok} {row_spacing 1000} {skiprow 0} \
+                  {tiller_no_fertile [tiller_no_fertile]}
+       } elseif {"ozcot" == "sugar"} {
+          apsimSendMessage cotton sow {plants 100} {cultivar Siok} {sowing_depth 30}
+       } else {
+         error "Unknown crop module \"ozcot\"."
+       }
+     }
+     
+     
+     
+     
+     
+     
+     
+     --->Section: init
+     
+     # Support procedures
+     # Can we plant a crop today?
+     proc canPlant_chickpea {} {
+       if {"variable" == "variable"} {
+          set year [apsimGet year]; set day [apsimGet day]
+          set d1 [clock format [clock scan "15-may-$year"] -format %j]
+          set d2 [clock format [clock scan "10-jul-$year"] -format %j]
+     
+          if {"no" == "yes" && $day == $d2} {return 1}
+     
+          if {$d1 > $d2} {
+             set dateOK [expr $day >= $d1 || $day <= $d2]
+          } else {
+             set dateOK [expr $day >= $d1 && $day <= $d2]
+          }
+          set rainOK [expr [apsimGet rain\[3\]] >= 15]
+          set eswOK [expr [apsimGet esw] >= 100]
+          return [expr $dateOK && $rainOK && $eswOK]
+       } elseif {"variable" == "fixed"} {
+          set year [apsimGet year]; set day [apsimGet day]
+          set d1 [clock format [clock scan "15-may-$year"] -format %j]
+          return [expr $day == $d1]
+       } else {
+          error "Unknown sowing criteria \"variable\"."
+       }
+       return "notreached"
+     }
+     
+     # Plant a crop now
+     proc sow_chickpea {} {
+       if {"plant" == "plant"} {
+          apsimSendMessage chickpea sow {plants 25} {sowing_depth 30} \
+                  {cultivar amethyst} {row_spacing 25} \
+                  {skipplant 0} {skiprow 0} {crop_class plant}
+       } elseif {"plant" == "cropmod"} {
+          apsimSendMessage chickpea sow {plants [density]} {sowing_depth [depth]} \
+                  {cultivar amethyst} {row_spacing 25} {skiprow 0}
+       } elseif {"plant" == "growth"} {
+          apsimSendMessage chickpea ???
+       } elseif {"plant" == "ozcot"} {
+          apsimSendMessage chickpea sow {plants_pm } {sowing_depth 30} \
+                  {row_spacing 25} {skiprow 0} {cultivar amethyst}
+       } elseif {"plant" == "oryza"} {
+          apsimSendMessage chickpea sow {cultivar amethyst}
+       } elseif {"plant" == "sorghum"} {
+          apsimSendMessage chickpea sow {plants 25} {sowing_depth 30} \
+                  {cultivar amethyst} {row_spacing 25} {skiprow 0} \
+                  {tiller_no_fertile [tiller_no_fertile]}
+       } elseif {"plant" == "sugar"} {
+          apsimSendMessage chickpea sow {plants 25} {cultivar amethyst} {sowing_depth 30}
+       } else {
+         error "Unknown crop module \"plant\"."
+       }
+     }
+     
+     
+     
+     
+     
      
      --->End
 
@@ -898,527 +1419,6 @@ Component   "Paddock1" = c:\development\apsim\tcllink\lib\tcllink.dll
      --->Section: init
      ############### INITIAL CONDITIONS
      set state "WinterFallow"
-     set area  250.0
-     
-     ############### Support procedures
-     # Return the current state of the system
-     proc currentState {} {
-        global state
-        return $state
-     }
-     
-     ############### The decision routine.
-     # Return the score for planting "what"
-     proc checkRules {} {
-       log "State is [currentState]. (esw=[format %.0f [apsimGet esw]])"
-     
-       set bestScore -1.0; set bestTarget {}
-       foreach arc [stateGraph arcs -out [currentState]] {
-          set expr {}
-          set target [stateGraph arc target $arc]
-          foreach rule [stateGraph arc get $arc rules] {
-             set value [uplevel #0 expr $rule]
-             log "target=$target,rule=$rule, value=$value"
-             lappend expr $value
-          }
-          set score [expr [join $expr "*"]]
-          if {$score > $bestScore} {
-             set bestScore $score
-             set bestTarget $target
-          }
-       }
-       return [list $bestTarget $bestScore]
-     }
-     
-     # Change state to another
-     proc changeState {newState} {
-        global state
-        set arcs {}
-        foreach arc [stateGraph arcs -out [currentState]] {
-           if {[stateGraph arc target $arc] == "$newState" } {
-              lappend arcs $arc
-           }
-       }
-     
-        if {[llength $arcs] == 0} {error "No paths from [currentState] to $newState!"}
-        if {[llength $arcs] > 1} {
-           # More than 1 path - evaluate best option
-           set bestScore -1.0; set bestArc {}
-           foreach arc $arcs {
-              set expr {}
-              foreach rule [stateGraph arc get $arc rules] {
-                 set value [uplevel #0 expr $rule]
-                 lappend expr $value
-              }
-              set score [expr [join $expr "*"]]
-              if {$score > $bestScore} {
-                 set bestScore $score
-                 set bestArc $arc
-              }
-           }
-           if {$bestScore > 0.0} {
-              set arc $bestArc
-           } else {
-              error "No viable paths from [currentState] to $newState! (candidates are $arcs)"
-           }
-        } else {
-           # Only 1 path - take it.
-           set arc $arcs
-        }
-        foreach action [stateGraph arc get $arc actions] { uplevel #0 $action }
-        set state $newState
-        logState $newState
-     }
-     
-     proc setup {} {
-         #Nothing yet..
-     }
-     
-     # Apsimish utilities
-     proc pawc {} {
-       set sw [apsimGet sw_dep]
-       set ll [apsimGet ll15_dep]
-       set pawc 0.0
-       for {set i 0} {$i < [llength $sw]} {incr i} {
-           set pawc [expr $pawc + ([lindex $sw $i] - [lindex $ll $i])]
-       }
-       return $pawc
-     }
-     
-     proc fesw {layer} {
-       set dul [lindex [apsimGet dul_dep] [expr $layer-1]]
-       set sw  [lindex [apsimGet sw_dep] [expr $layer-1]]
-       set ll  [lindex [apsimGet ll15_dep] [expr $layer-1]]
-       set fesw [expr ($sw - $ll)/($dul - $ll)]
-       return $fesw
-     }
-     
-     --->Section: process
-     
-     --->Section: exit
-     
-     
-     exit
-     
-     
-     --->Section: init
-     package require struct
-     ::struct::graph stateGraph
-     stateGraph node insert "Chickpea"
-     set colour(Chickpea) "lightgreen"
-     stateGraph node insert "SummerFallow2"
-     set colour(SummerFallow2) "gray"
-     stateGraph node insert "Wheat"
-     set colour(Wheat) "darkgreen"
-     stateGraph node insert "WinterFallow"
-     set colour(WinterFallow) "gray"
-     stateGraph node insert "Cotton"
-     set colour(Cotton) "purple"
-     stateGraph node insert "F1"
-     set colour(F1) "gray"
-     stateGraph node insert "SummerFallow1"
-     set colour(SummerFallow1) "maroon"
-     stateGraph arc insert "WinterFallow" "Cotton" "arc6"
-     stateGraph arc lappend "arc6" actions {sow_cotton}
-     stateGraph arc lappend "arc6" rules {[canPlant_cotton]}
-     stateGraph arc lappend "arc6" rules {[areaPlanted Cotton] < 0.66}
-     stateGraph arc lappend "arc6" actions {}
-     stateGraph arc insert "SummerFallow1" "WinterFallow" "arc2"
-     stateGraph arc lappend "arc2" rules {[apsimGet day]  == 192}
-     stateGraph arc lappend "arc2" actions {}
-     stateGraph arc insert "F1" "SummerFallow1" "arc7"
-     stateGraph arc lappend "arc7" rules {[apsimGet day]  == 192}
-     stateGraph arc lappend "arc7" actions {}
-     stateGraph arc insert "Wheat" "SummerFallow2" "arc3"
-     stateGraph arc lappend "arc3" actions {apsimSendMessage wheat harvest}
-     stateGraph arc lappend "arc3" actions {apsimSendMessage wheat end_crop}
-     stateGraph arc lappend "arc3" rules {{[apsimGet wheat.stage_name] == "harvest_ripe" || [apsimGet wheat.plant_status] == "dead"}}
-     stateGraph arc lappend "arc3" actions {}
-     stateGraph arc insert "Chickpea" "SummerFallow1" "arc8"
-     stateGraph arc lappend "arc8" actions {apsimSendMessage chickpea harvest}
-     stateGraph arc lappend "arc8" actions {apsimSendMessage chickpea end_crop}
-     stateGraph arc lappend "arc8" rules {{[apsimGet chickpea.stage_name] == "harvest_ripe" || [apsimGet chickpea.plant_status] == "dead"}}
-     stateGraph arc lappend "arc8" actions {}
-     stateGraph arc insert "F1" "Chickpea" "arc0"
-     stateGraph arc lappend "arc0" actions {sow_chickpea}
-     stateGraph arc lappend "arc0" rules {[canPlant_chickpea]}
-     stateGraph arc lappend "arc0" actions {}
-     stateGraph arc insert "SummerFallow2" "WinterFallow" "arc9"
-     stateGraph arc lappend "arc9" rules {[apsimGet day]  == 74}
-     stateGraph arc lappend "arc9" actions {}
-     stateGraph arc insert "Cotton" "F1" "arc5"
-     stateGraph arc lappend "arc5" actions {apsimSendMessage cotton harvest}
-     stateGraph arc lappend "arc5" rules {[apsimGet ozcot_status] > 0}
-     stateGraph arc lappend "arc5" actions {}
-     stateGraph arc insert "SummerFallow1" "Wheat" "arc1"
-     stateGraph arc lappend "arc1" actions {sow_wheat}
-     stateGraph arc lappend "arc1" rules {[canPlant_wheat]}
-     stateGraph arc lappend "arc1" actions {}
-     
-     --->Section: init
-     
-     # Support procedures
-     # Can we plant a crop today?
-     proc canPlant_wheat {} {
-       if {"variable" == "variable"} {
-          set year [apsimGet year]; set day [apsimGet day]
-          set d1 [clock format [clock scan "15-may-$year"] -format %j]
-          set d2 [clock format [clock scan "10-jul-$year"] -format %j]
-     
-          if {"no" == "yes" && $day == $d2} {return 1}
-     
-          if {$d1 > $d2} {
-             set dateOK [expr $day >= $d1 || $day <= $d2]
-          } else {
-             set dateOK [expr $day >= $d1 && $day <= $d2]
-          }
-          set rainOK [expr [apsimGet rain\[3\]] >= 25]
-          set eswOK [expr [apsimGet esw] >= 50]
-          return [expr $dateOK && $rainOK && $eswOK]
-       } elseif {"variable" == "fixed"} {
-          set year [apsimGet year]; set day [apsimGet day]
-          set d1 [clock format [clock scan "15-may-$year"] -format %j]
-          return [expr $day == $d1]
-       } else {
-          error "Unknown sowing criteria \"variable\"."
-       }
-       return "notreached"
-     }
-     
-     # Plant a crop now
-     proc sow_wheat {} {
-       if {"plant" == "plant"} {
-          apsimSendMessage wheat sow {plants 100} {sowing_depth 30} \
-                  {cultivar hartog} {row_spacing 25} \
-                  {skipplant 0} {skiprow 0} {crop_class plant}
-       } elseif {"plant" == "cropmod"} {
-          apsimSendMessage wheat sow {plants [density]} {sowing_depth [depth]} \
-                  {cultivar hartog} {row_spacing 25} {skiprow 0}
-       } elseif {"plant" == "growth"} {
-          apsimSendMessage wheat ???
-       } elseif {"plant" == "ozcot"} {
-          apsimSendMessage wheat sow {plants_pm [plants_pm]} {sowing_depth 30} \
-                  {row_spacing 25} {skiprow 0} {cultivar hartog}
-       } elseif {"plant" == "oryza"} {
-          apsimSendMessage wheat sow {cultivar hartog}
-       } elseif {"plant" == "sorghum"} {
-          apsimSendMessage wheat sow {plants 100} {sowing_depth 30} \
-                  {cultivar hartog} {row_spacing 25} {skiprow 0} \
-                  {tiller_no_fertile [tiller_no_fertile]}
-       } elseif {"plant" == "sugar"} {
-          apsimSendMessage wheat sow {plants 100} {cultivar hartog} {sowing_depth 30}
-       } else {
-         error "Unknown crop module \"plant\"."
-       }
-     }
-     
-     
-     
-     
-     
-     
-     --->Section: init
-     
-     # Support procedures
-     # Can we plant a crop today?
-     proc canPlant_cotton {} {
-       if {"variable" == "variable"} {
-          set year [apsimGet year]; set day [apsimGet day]
-          set d1 [clock format [clock scan "15-oct-$year"] -format %j]
-          set d2 [clock format [clock scan "15-dec-$year"] -format %j]
-     
-          if {"yes" == "yes" && $day == $d2} {return 1}
-     
-          if {$d1 > $d2} {
-             set dateOK [expr $day >= $d1 || $day <= $d2]
-          } else {
-             set dateOK [expr $day >= $d1 && $day <= $d2]
-          }
-          set rainOK [expr [apsimGet rain\[3\]] >= 10]
-          set eswOK [expr [apsimGet esw] >= 100]
-          return [expr $dateOK && $rainOK && $eswOK]
-       } elseif {"variable" == "fixed"} {
-          set year [apsimGet year]; set day [apsimGet day]
-          set d1 [clock format [clock scan "15-oct-$year"] -format %j]
-          return [expr $day == $d1]
-       } else {
-          error "Unknown sowing criteria \"variable\"."
-       }
-       return "notreached"
-     }
-     
-     # Plant a crop now
-     proc sow_cotton {} {
-       if {"ozcot" == "plant"} {
-          apsimSendMessage cotton sow {plants 100} {sowing_depth 30} \
-                  {cultivar Siok} {row_spacing 1000} \
-                  {skipplant 0} {skiprow 0} {crop_class plant}
-       } elseif {"ozcot" == "cropmod"} {
-          apsimSendMessage cotton sow {plants [density]} {sowing_depth [depth]} \
-                  {cultivar Siok} {row_spacing 1000} {skiprow 0}
-       } elseif {"ozcot" == "growth"} {
-          apsimSendMessage cotton ???
-       } elseif {"ozcot" == "ozcot"} {
-          apsimSendMessage cotton sow {plants_pm 10} {sowing_depth 30} \
-                  {row_spacing 1000} {skiprow 0} {cultivar Siok}
-       } elseif {"ozcot" == "oryza"} {
-          apsimSendMessage cotton sow {cultivar Siok}
-       } elseif {"ozcot" == "sorghum"} {
-          apsimSendMessage cotton sow {plants 100} {sowing_depth 30} \
-                  {cultivar Siok} {row_spacing 1000} {skiprow 0} \
-                  {tiller_no_fertile [tiller_no_fertile]}
-       } elseif {"ozcot" == "sugar"} {
-          apsimSendMessage cotton sow {plants 100} {cultivar Siok} {sowing_depth 30}
-       } else {
-         error "Unknown crop module \"ozcot\"."
-       }
-     }
-     
-     
-     
-     
-     
-     
-     
-     --->Section: init
-     
-     # Support procedures
-     # Can we plant a crop today?
-     proc canPlant_chickpea {} {
-       if {"variable" == "variable"} {
-          set year [apsimGet year]; set day [apsimGet day]
-          set d1 [clock format [clock scan "15-may-$year"] -format %j]
-          set d2 [clock format [clock scan "10-jul-$year"] -format %j]
-     
-          if {"no" == "yes" && $day == $d2} {return 1}
-     
-          if {$d1 > $d2} {
-             set dateOK [expr $day >= $d1 || $day <= $d2]
-          } else {
-             set dateOK [expr $day >= $d1 && $day <= $d2]
-          }
-          set rainOK [expr [apsimGet rain\[3\]] >= 15]
-          set eswOK [expr [apsimGet esw] >= 100]
-          return [expr $dateOK && $rainOK && $eswOK]
-       } elseif {"variable" == "fixed"} {
-          set year [apsimGet year]; set day [apsimGet day]
-          set d1 [clock format [clock scan "15-may-$year"] -format %j]
-          return [expr $day == $d1]
-       } else {
-          error "Unknown sowing criteria \"variable\"."
-       }
-       return "notreached"
-     }
-     
-     # Plant a crop now
-     proc sow_chickpea {} {
-       if {"plant" == "plant"} {
-          apsimSendMessage chickpea sow {plants 25} {sowing_depth 30} \
-                  {cultivar amethyst} {row_spacing 25} \
-                  {skipplant 0} {skiprow 0} {crop_class plant}
-       } elseif {"plant" == "cropmod"} {
-          apsimSendMessage chickpea sow {plants [density]} {sowing_depth [depth]} \
-                  {cultivar amethyst} {row_spacing 25} {skiprow 0}
-       } elseif {"plant" == "growth"} {
-          apsimSendMessage chickpea ???
-       } elseif {"plant" == "ozcot"} {
-          apsimSendMessage chickpea sow {plants_pm } {sowing_depth 30} \
-                  {row_spacing 25} {skiprow 0} {cultivar amethyst}
-       } elseif {"plant" == "oryza"} {
-          apsimSendMessage chickpea sow {cultivar amethyst}
-       } elseif {"plant" == "sorghum"} {
-          apsimSendMessage chickpea sow {plants 25} {sowing_depth 30} \
-                  {cultivar amethyst} {row_spacing 25} {skiprow 0} \
-                  {tiller_no_fertile [tiller_no_fertile]}
-       } elseif {"plant" == "sugar"} {
-          apsimSendMessage chickpea sow {plants 25} {cultivar amethyst} {sowing_depth 30}
-       } else {
-         error "Unknown crop module \"plant\"."
-       }
-     }
-     
-     
-     
-     
-     
-     
-     --->End
-
-------- accum Initialisation --------------------------------------------------
-     Initialising
-
-------- fertiliser Initialisation ---------------------------------------------
-      Initialising
-     
-        - Reading Parameters
-     
-     
-     
-                    Fertiliser Schedule (kg/ha)
-          -----------------------------------------------
-           No fertiliser schedule is used
-          -----------------------------------------------
-
-------- #009 - Kupunn Water Initialisation ------------------------------------
-     
-         - Reading constants
-     
-        - Reading Soil Property Parameters
-     
-        - Reading Soil Profile Parameters
-     Initial soilwater distributed using "sw" parameter.
-     
-     
-     
-                      Soil Profile Properties
-        ---------------------------------------------------------------------
-              Depth  Air_Dry  LL15   Dul    Sat     Sw     BD   Runoff  SWCON
-                mm     mm/mm  mm/mm  mm/mm  mm/mm  mm/mm  g/cc    wf
-        ---------------------------------------------------------------------
-            0.-  150.  0.105  0.210  0.390  0.440  0.390  1.400  0.762  0.300
-          150.-  300.  0.189  0.210  0.390  0.440  0.390  1.390  0.190  0.300
-          300.-  600.  0.220  0.220  0.400  0.450  0.400  1.370  0.048  0.300
-          600.-  900.  0.250  0.250  0.410  0.460  0.410  1.360  0.000  0.300
-          900.- 1200.  0.270  0.270  0.400  0.450  0.400  1.380  0.000  0.300
-         1200.- 1500.  0.310  0.310  0.390  0.440  0.390  1.390  0.000  0.300
-         1500.- 1800.  0.360  0.360  0.380  0.430  0.380  1.420  0.000  0.300
-        ---------------------------------------------------------------------
-     
-     
-     
-                  Soil Water Holding Capacity
-          ---------------------------------------------------------
-              Depth    Unavailable Available  Max Avail.  Drainable
-                          (LL15)   (SW-LL15)  (DUL-LL15)  (SAT-DUL)
-                            mm        mm          mm         mm
-          ---------------------------------------------------------
-            0.-  150.      31.50      27.00      27.00       7.50
-          150.-  300.      31.50      27.00      27.00       7.50
-          300.-  600.      66.00      54.00      54.00      15.00
-          600.-  900.      75.00      48.00      48.00      15.00
-          900.- 1200.      81.00      39.00      39.00      15.00
-         1200.- 1500.      93.00      24.00      24.00      15.00
-         1500.- 1800.     108.00       6.00       6.00      15.00
-          ---------------------------------------------------------
-               Totals     486.00     225.00     225.00      90.00
-          ---------------------------------------------------------
-     
-     
-     
-     
-     
-     
-                  Initial Soil Parameters
-          ---------------------------------------------------------
-                 Insoil        Salb     Dif_Con   Dif_Slope
-          ---------------------------------------------------------
-                   0.00        0.13       40.00       16.00
-          ---------------------------------------------------------
-     
-     
-     
-                  Runoff is predicted using scs curve number:
-                Cn2  Cn_Red  Cn_Cov   H_Eff_Depth
-                                           mm
-          ---------------------------------------------------------
-              73.00   20.00    0.80  450.00
-          ---------------------------------------------------------
-     
-     
-     
-           Using Ritchie evaporation model
-            Cuml evap (U):            6.00 (mm^0.5)
-            CONA:                     3.50 ()
-            Eo from priestly-taylor
-
-------- #009 - Kupunn Nitrogen Initialisation ---------------------------------
-     
-        - Reading Parameters
-     
-        - Reading Constants
-     Using standard soil mineralisation for soil type Grey Vertosol
-     
-     
-     
-           TAV and AMP supplied externally
-     
-     
-     
-                      Soil Profile Properties
-          ------------------------------------------------
-           Layer    pH    OC     NO3     NH4    Urea
-                         (%) (kg/ha) (kg/ha) (kg/ha)
-          ------------------------------------------------
-             1     7.00  1.24   13.65    1.26    0.00
-             2     7.00  1.24    4.38    0.21    0.00
-             3     7.00  1.25    8.63    0.41    0.00
-             4     7.00  1.10    6.94    0.41    0.00
-             5     7.00  0.71    7.04    0.41    0.00
-             6     7.00  0.34    7.09    0.42    0.00
-             7     7.00  0.26    7.24    0.43    0.00
-          ------------------------------------------------
-           Totals               54.96    3.54    0.00
-          ------------------------------------------------
-     
-     
-     
-     
-     
-     
-                  Initial Soil Organic Matter Status
-          ---------------------------------------------------------
-           Layer      Hum-C   Hum-N  Biom-C  Biom-N   FOM-C   FOM-N
-                    (kg/ha) (kg/ha) (kg/ha) (kg/ha) (kg/ha) (kg/ha)
-          ---------------------------------------------------------
-             1      25584.9  2046.8   455.1    56.9    27.8     0.7
-             2      25651.2  2052.1   202.8    25.3    21.6     0.5
-             3      51273.3  4101.9   101.7    12.7    13.1     0.3
-             4      44835.6  3586.8    44.4     5.6     8.0     0.2
-             5      29379.4  2350.4    14.6     1.8     4.8     0.1
-             6      14171.0  1133.7     7.0     0.9     2.9     0.1
-             7      11070.5   885.6     5.5     0.7     1.8     0.0
-          ---------------------------------------------------------
-           Totals  201965.9 16157.3   831.1   103.9    80.0     2.0
-          ---------------------------------------------------------
-
-------- wheat Initialisation --------------------------------------------------
-     phenology model: Wheat
-
-------- chickpea Initialisation -----------------------------------------------
-     phenology model: TTT
-
-------- cotton Initialisation -------------------------------------------------
-     Initialising
-     
-         - Reading constants
-     
-        - Reading root profile parameters
-     
-     
-     
-             Root Profile
-     ------------------------
-          Layer       Lower
-          Depth       Limit
-          (cm)      (mm/mm)
-     ------------------------
-           15.0          0.210
-           15.0          0.210
-           30.0          0.220
-           30.0          0.250
-           30.0          0.270
-           30.0          0.310
-           30.0          0.360
-     ------------------------
-     
-     
-     
-
-------- Paddock1 Initialisation -----------------------------------------------
-     Interpreter name: 'Paddock1'
-     --->Section: init
-     ############### INITIAL CONDITIONS
-     set state "F1"
      set area  250.0
      
      ############### Support procedures
@@ -2838,6 +2838,8 @@ Component   "Paddock1" = c:\development\apsim\tcllink\lib\tcllink.dll
       maximum squares/m2     =  77.79        maximum lai (m2/m2)    =  0.239
       total above ground biomass (kg/ha) =     1895.9
 11 March 1945(Day of year=70), cotton: 
+      *** All bolls open; crop finished.
+11 March 1945(Day of year=70), cotton: 
      Initialising
      
          - Reading constants
@@ -2863,8 +2865,6 @@ Component   "Paddock1" = c:\development\apsim\tcllink\lib\tcllink.dll
      
      
      
-11 March 1945(Day of year=70), cotton: 
-      *** All bolls open; crop finished.
      harvest
      
      
@@ -3006,67 +3006,67 @@ Component   "Paddock1" = c:\development\apsim\tcllink\lib\tcllink.dll
 8 June 1945(Day of year=159), chickpea: 
       stage 3.0 emergence
                      biomass =           5.00 (g/m^2)   lai          =   0.002 (m^2/m^2)
-                     stover N conc =     6.00 (%)    extractable sw =   19.57 (mm)
+                     stover N conc =     6.00 (%)    extractable sw =   25.54 (mm)
 8 June 1945(Day of year=159), chickpea: 
       stage 3.0 emergence
                      biomass =           5.00 (g/m^2)   lai          =   0.002 (m^2/m^2)
-                     stover N conc =     6.00 (%)    extractable sw =   25.54 (mm)
-19 July 1945(Day of year=200), chickpea: 
-      stage 4.0 end_of_juvenile
-                     biomass =           8.35 (g/m^2)   lai          =   0.068 (m^2/m^2)
-                     stover N conc =     4.68 (%)    extractable sw =  118.75 (mm)
+                     stover N conc =     6.00 (%)    extractable sw =   19.57 (mm)
 19 July 1945(Day of year=200), chickpea: 
       stage 4.0 end_of_juvenile
                      biomass =           8.35 (g/m^2)   lai          =   0.068 (m^2/m^2)
                      stover N conc =     4.68 (%)    extractable sw =  146.59 (mm)
-18 August 1945(Day of year=230), chickpea: 
-      stage 5.0 floral_initiation
-                     biomass =          63.50 (g/m^2)   lai          =   1.048 (m^2/m^2)
-                     stover N conc =     3.70 (%)    extractable sw =  120.07 (mm)
+19 July 1945(Day of year=200), chickpea: 
+      stage 4.0 end_of_juvenile
+                     biomass =           8.35 (g/m^2)   lai          =   0.068 (m^2/m^2)
+                     stover N conc =     4.68 (%)    extractable sw =  118.75 (mm)
 18 August 1945(Day of year=230), chickpea: 
       stage 5.0 floral_initiation
                      biomass =          63.50 (g/m^2)   lai          =   1.048 (m^2/m^2)
                      stover N conc =     3.69 (%)    extractable sw =  134.49 (mm)
-20 August 1945(Day of year=232), chickpea: 
-      stage 6.0 flowering
-                     biomass =          72.60 (g/m^2)   lai          =   1.191 (m^2/m^2)
-                     stover N conc =     3.26 (%)    extractable sw =  115.06 (mm)
+18 August 1945(Day of year=230), chickpea: 
+      stage 5.0 floral_initiation
+                     biomass =          63.50 (g/m^2)   lai          =   1.048 (m^2/m^2)
+                     stover N conc =     3.70 (%)    extractable sw =  120.07 (mm)
 20 August 1945(Day of year=232), chickpea: 
       stage 6.0 flowering
                      biomass =          72.60 (g/m^2)   lai          =   1.191 (m^2/m^2)
                      stover N conc =     3.26 (%)    extractable sw =  129.48 (mm)
-18 September 1945(Day of year=261), chickpea: 
-      stage 7.0 start_grain_fill
-                     biomass =         312.73 (g/m^2)   lai          =   2.734 (m^2/m^2)
-                     stover N conc =     1.82 (%)    extractable sw =   55.60 (mm)
+20 August 1945(Day of year=232), chickpea: 
+      stage 6.0 flowering
+                     biomass =          72.60 (g/m^2)   lai          =   1.191 (m^2/m^2)
+                     stover N conc =     3.26 (%)    extractable sw =  115.06 (mm)
 18 September 1945(Day of year=261), chickpea: 
       stage 7.0 start_grain_fill
                      biomass =         318.99 (g/m^2)   lai          =   2.853 (m^2/m^2)
                      stover N conc =     1.81 (%)    extractable sw =   67.90 (mm)
-25 October 1945(Day of year=298), chickpea: 
-      stage 8.0 end_grain_fill
-                     biomass =         429.19 (g/m^2)   lai          =   0.277 (m^2/m^2)
-                     stover N conc =     1.79 (%)    extractable sw =    9.00 (mm)
+18 September 1945(Day of year=261), chickpea: 
+      stage 7.0 start_grain_fill
+                     biomass =         312.73 (g/m^2)   lai          =   2.734 (m^2/m^2)
+                     stover N conc =     1.82 (%)    extractable sw =   55.60 (mm)
 25 October 1945(Day of year=298), chickpea: 
       stage 8.0 end_grain_fill
                      biomass =         468.78 (g/m^2)   lai          =   0.357 (m^2/m^2)
                      stover N conc =     1.79 (%)    extractable sw =    6.54 (mm)
-27 October 1945(Day of year=300), chickpea: 
-      stage 9.0 maturity
-                     biomass =         430.45 (g/m^2)   lai          =   0.236 (m^2/m^2)
-                     stover N conc =     1.78 (%)    extractable sw =    8.29 (mm)
+25 October 1945(Day of year=298), chickpea: 
+      stage 8.0 end_grain_fill
+                     biomass =         429.19 (g/m^2)   lai          =   0.277 (m^2/m^2)
+                     stover N conc =     1.79 (%)    extractable sw =    9.00 (mm)
 27 October 1945(Day of year=300), chickpea: 
       stage 9.0 maturity
                      biomass =         470.04 (g/m^2)   lai          =   0.300 (m^2/m^2)
                      stover N conc =     1.79 (%)    extractable sw =    5.84 (mm)
-28 October 1945(Day of year=301), chickpea: 
-      stage 10.0 harvest_ripe
-                     biomass =         431.35 (g/m^2)   lai          =   0.000 (m^2/m^2)
-                     stover N conc =     1.79 (%)    extractable sw =    7.97 (mm)
+27 October 1945(Day of year=300), chickpea: 
+      stage 9.0 maturity
+                     biomass =         430.45 (g/m^2)   lai          =   0.236 (m^2/m^2)
+                     stover N conc =     1.78 (%)    extractable sw =    8.29 (mm)
 28 October 1945(Day of year=301), chickpea: 
       stage 10.0 harvest_ripe
                      biomass =         470.94 (g/m^2)   lai          =   0.000 (m^2/m^2)
                      stover N conc =     1.80 (%)    extractable sw =    5.53 (mm)
+28 October 1945(Day of year=301), chickpea: 
+      stage 10.0 harvest_ripe
+                     biomass =         431.35 (g/m^2)   lai          =   0.000 (m^2/m^2)
+                     stover N conc =     1.79 (%)    extractable sw =    7.97 (mm)
      
       flowering day          =  232                           stover (kg/ha)         =     3139.5
       maturity day           =  300                           grain yield (kg/ha)    =     1569.9
@@ -3546,7 +3546,7 @@ Component   "Paddock1" = c:\development\apsim\tcllink\lib\tcllink.dll
       grain wt (g)           =    0.000                       grains/m^2             =      0.000
       grains/plant           =    0.0                         maximum lai            =      3.296
       total above ground biomass (kg/ha)    =     5646.9
-      live above ground biomass (kg/ha)     =     5647.0
+      live above ground biomass (kg/ha)     =     5646.9
       green above ground biomass (kg/ha)    =     4097.1
       senesced above ground biomass (kg/ha) =     1549.9
       dead above ground biomass (kg/ha)     =        0.0
@@ -3746,18 +3746,18 @@ Component   "Paddock1" = c:\development\apsim\tcllink\lib\tcllink.dll
             161   30.0   25.0   25.0   0.0   0.0 amethyst
          ------------------------------------------------
      
-11 June 1948(Day of year=163), chickpea: 
-      stage 2.0 germination
 11 June 1948(Day of year=163), wheat: 
       stage 2.0 germination
-16 June 1948(Day of year=168), chickpea: 
-      stage 3.0 emergence
-                     biomass =           5.00 (g/m^2)   lai          =   0.002 (m^2/m^2)
-                     stover N conc =     6.00 (%)    extractable sw =   23.98 (mm)
+11 June 1948(Day of year=163), chickpea: 
+      stage 2.0 germination
 16 June 1948(Day of year=168), wheat: 
       stage 3.0 emergence
                      biomass =           0.46 (g/m^2)   lai          =   0.020 (m^2/m^2)
                      stover N conc =     5.85 (%)    extractable sw =   29.98 (mm)
+16 June 1948(Day of year=168), chickpea: 
+      stage 3.0 emergence
+                     biomass =           5.00 (g/m^2)   lai          =   0.002 (m^2/m^2)
+                     stover N conc =     6.00 (%)    extractable sw =   23.98 (mm)
 16 June 1948(Day of year=168), chickpea: 
      Crop Sow
          ------------------------------------------------
@@ -3944,7 +3944,7 @@ Component   "Paddock1" = c:\development\apsim\tcllink\lib\tcllink.dll
       Stover C:N ratio       =   24.140                       Root C:N ratio         =     24.502
       grain N percent        =       3.60                     total N content (kg/ha)=      64.81
       grain N uptake (kg/ha) =      23.32                     senesced N content (kg/ha)=   17.09
-      green N content (kg/ha)=      24.41                     dead N content (kg/ha) =       0.00
+      green N content (kg/ha)=      24.41                     dead N content (kg/ha) =      -0.00
      
       Average Stress Indices:                          Water Photo  Water Expan  N Photo      N grain conc
          emergence            to end_of_juvenile         0.000        0.000        0.000        0.003
@@ -4257,7 +4257,7 @@ Component   "Paddock1" = c:\development\apsim\tcllink\lib\tcllink.dll
       flowering day          =  262                           stover (kg/ha)         =     4804.2
       maturity day           =  298                           grain yield (kg/ha)    =     2458.7
       grain % water content  =   12.5                         grain yield wet (kg/ha)=     2809.9
-      grain wt (g)           =    0.030                       grains/m^2             =   8243.649
+      grain wt (g)           =    0.030                       grains/m^2             =   8243.650
       grains/plant           =   82.4                         maximum lai            =      3.032
       total above ground biomass (kg/ha)    =     7262.9
       live above ground biomass (kg/ha)     =     7262.9
@@ -4269,7 +4269,7 @@ Component   "Paddock1" = c:\development\apsim\tcllink\lib\tcllink.dll
       Stover C:N ratio       =  110.321                       Root C:N ratio         =     37.924
       grain N percent        =       1.51                     total N content (kg/ha)=      54.61
       grain N uptake (kg/ha) =      37.19                     senesced N content (kg/ha)=    6.80
-      green N content (kg/ha)=      10.61                     dead N content (kg/ha) =       0.00
+      green N content (kg/ha)=      10.61                     dead N content (kg/ha) =      -0.00
      
       Average Stress Indices:                          Water Photo  Water Expan  N Photo      N grain conc
          emergence            to end_of_juvenile         0.000        0.000        0.000        0.000
