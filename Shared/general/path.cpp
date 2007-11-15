@@ -571,3 +571,4 @@ bool fileExists(const std::string &filename)
    {
    return (access(filename.c_str(), 0) == 0);
    }
+

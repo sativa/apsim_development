@@ -125,16 +125,6 @@ std::string buildString(const std::vector<T>& values, const char* separators)
 // splits a string into words.
 // ------------------------------------------------------------------
 template <class container>
-void splitIntoValues(const std::string& text, const std::string& separators, container& words)
-   {
-   words.erase(words.begin(), words.end());
-   split<container>(text, separators, words);
-   }
-
-// ------------------------------------------------------------------
-// splits a string into words.
-// ------------------------------------------------------------------
-template <class container>
 void split(const std::string& text, const std::string& separators, container& words)
    {
    int n = text.length();
@@ -149,6 +139,16 @@ void split(const std::string& text, const std::string& separators, container& wo
       words.push_back(text.substr(start, stop - start));
       start = text.find_first_not_of(separators, stop+1);
       }
+   }
+
+// ------------------------------------------------------------------
+// splits a string into words.
+// ------------------------------------------------------------------
+template <class container>
+void splitIntoValues(const std::string& text, const std::string& separators, container& words)
+   {
+   words.erase(words.begin(), words.end());
+   split<container>(text, separators, words);
    }
 
 // ------------------------------------------------------------------
