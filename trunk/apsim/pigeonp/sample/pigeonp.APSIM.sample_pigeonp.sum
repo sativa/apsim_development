@@ -296,19 +296,18 @@ Component    "pigeonp" = c:\development\apsim\Plant\lib\Plant.dll
       flowering day          =   62                           stover (kg/ha)         =     9572.6
       maturity day           =  107                           grain yield (kg/ha)    =     3566.4
       grain % water content  =   12.0                         grain yield wet (kg/ha)=     4052.7
-      grain wt (g)           =    0.000                       grains/m^2             =      0.000
+      grain wt (g)           =    0.000                       grains/m^2             =        0.0
       grains/plant           =    0.0                         maximum lai            =      4.142
       total above ground biomass (kg/ha)    =    13139.0
       live above ground biomass (kg/ha)     =    13139.0
       green above ground biomass (kg/ha)    =     8741.7
       senesced above ground biomass (kg/ha) =     4397.3
-      dead above ground biomass (kg/ha)     =        0.0
-      number of leaves       =  465.3
-      DM Root:Shoot ratio    =    0.195                       Harvest Index          =      0.271
-      Stover C:N ratio       =   20.286                       Root C:N ratio         =     20.377
-      grain N percent        =       4.00                     total N content (kg/ha)=     331.41
-      grain N uptake (kg/ha) =     142.65                     senesced N content (kg/ha)=   87.95
-      green N content (kg/ha)=     100.81                     dead N content (kg/ha) =       0.00
+      number of leaves       =    465.3
+      DM Root:Shoot ratio    =     0.20                       Harvest Index          =       0.27
+      Stover C:N ratio       =    20.29                       Root C:N ratio         =      20.38
+      grain N percent        =     4.00                       total N content (kg/ha)=     331.41
+      grain N uptake (kg/ha) =   142.65                       senesced N content (kg/ha)=   87.95
+      green N content (kg/ha)=   100.81
      
       Average Stress Indices:                          Water Photo  Water Expan  N Photo      N grain conc
          emergence            to end_of_juvenile         0.000        0.000        0.000        0.001
@@ -320,12 +319,12 @@ Component    "pigeonp" = c:\development\apsim\Plant\lib\Plant.dll
      
      Crop harvested.
          Organic matter from crop:-      Tops to surface residue      Roots to soil FOM
-                          DM (kg/ha) =               9572.61                    0.00
-                          N  (kg/ha) =                188.76                    0.00
+                          DM (kg/ha) =                9572.6                     0.0
+                          N  (kg/ha) =                 188.76                    0.00
      
          Organic matter removed from system:-      From Tops               From Roots
-                          DM (kg/ha) =               3566.37                    0.00
-                          N  (kg/ha) =                142.65                    0.00
+                          DM (kg/ha) =                3566.4                     0.0
+                          N  (kg/ha) =                 142.65                    0.00
      
       stage 4.0 end_of_juvenile
                      biomass =           0.00 (g/m^2)   lai          =   0.013 (m^2/m^2)
@@ -333,8 +332,8 @@ Component    "pigeonp" = c:\development\apsim\Plant\lib\Plant.dll
      Manager sending message :- pigeonp end_crop
      Crop ended. Yield (dw) =     0.0  (kg/ha)
          Organic matter from crop:-      Tops to surface residue      Roots to soil FOM
-                          DM (kg/ha) =                  0.00                 2565.88
-                          N  (kg/ha) =                  0.00                   50.37
+                          DM (kg/ha) =                   0.0                  2565.9
+                          N  (kg/ha) =                   0.00                   50.37
      
 30 April 1989(Day of year=120), clock: 
      Simulation is terminating due to end criteria being met.

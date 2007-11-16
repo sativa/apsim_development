@@ -354,19 +354,18 @@ Component   "fieldpea" = c:\development\apsim\plant\lib\plant.dll
       flowering day          =  240                           stover (kg/ha)         =     3426.0
       maturity day           =  306                           grain yield (kg/ha)    =     1849.5
       grain % water content  =   12.0                         grain yield wet (kg/ha)=     2101.7
-      grain wt (g)           =    0.000                       grains/m^2             =      0.000
+      grain wt (g)           =    0.000                       grains/m^2             =        0.0
       grains/plant           =    0.0                         maximum lai            =      3.638
       total above ground biomass (kg/ha)    =     5275.5
       live above ground biomass (kg/ha)     =     5275.5
       green above ground biomass (kg/ha)    =     3820.1
       senesced above ground biomass (kg/ha) =     1455.4
-      dead above ground biomass (kg/ha)     =        0.0
-      number of leaves       =   57.5
-      DM Root:Shoot ratio    =    0.354                       Harvest Index          =      0.351
-      Stover C:N ratio       =   24.490                       Root C:N ratio         =     24.625
-      grain N percent        =       3.60                     total N content (kg/ha)=     122.54
-      grain N uptake (kg/ha) =      66.58                     senesced N content (kg/ha)=   21.83
-      green N content (kg/ha)=      34.13                     dead N content (kg/ha) =       0.00
+      number of leaves       =     57.5
+      DM Root:Shoot ratio    =     0.35                       Harvest Index          =       0.35
+      Stover C:N ratio       =    24.49                       Root C:N ratio         =      24.62
+      grain N percent        =     3.60                       total N content (kg/ha)=     122.54
+      grain N uptake (kg/ha) =    66.58                       senesced N content (kg/ha)=   21.83
+      green N content (kg/ha)=    34.13
      
       Average Stress Indices:                          Water Photo  Water Expan  N Photo      N grain conc
          emergence            to end_of_juvenile         0.000        0.000        0.000        0.013
@@ -378,12 +377,12 @@ Component   "fieldpea" = c:\development\apsim\plant\lib\plant.dll
      
      Crop harvested.
          Organic matter from crop:-      Tops to surface residue      Roots to soil FOM
-                          DM (kg/ha) =               3426.00                    0.00
-                          N  (kg/ha) =                 55.96                    0.00
+                          DM (kg/ha) =                3426.0                     0.0
+                          N  (kg/ha) =                  55.96                    0.00
      
          Organic matter removed from system:-      From Tops               From Roots
-                          DM (kg/ha) =               1849.51                    0.00
-                          N  (kg/ha) =                 66.58                    0.00
+                          DM (kg/ha) =                1849.5                     0.0
+                          N  (kg/ha) =                  66.58                    0.00
      
       stage 11.0 end_crop
      Manager sending message :- fieldpea kill_crop
@@ -391,8 +390,8 @@ Component   "fieldpea" = c:\development\apsim\plant\lib\plant.dll
      Manager sending message :- fieldpea end_crop
      Crop ended. Yield (dw) =     0.0  (kg/ha)
          Organic matter from crop:-      Tops to surface residue      Roots to soil FOM
-                          DM (kg/ha) =                  0.00                 1868.35
-                          N  (kg/ha) =                  0.00                   30.35
+                          DM (kg/ha) =                   0.0                  1868.3
+                          N  (kg/ha) =                   0.00                   30.35
      
 25 June 2003(Day of year=176), operatns: 
       Sending sow message to fieldpea
@@ -488,19 +487,18 @@ Component   "fieldpea" = c:\development\apsim\plant\lib\plant.dll
       flowering day          =  280                           stover (kg/ha)         =     5530.0
       maturity day           =  339                           grain yield (kg/ha)    =     1664.5
       grain % water content  =   12.0                         grain yield wet (kg/ha)=     1891.4
-      grain wt (g)           =    0.000                       grains/m^2             =      0.000
+      grain wt (g)           =    0.000                       grains/m^2             =        0.0
       grains/plant           =    0.0                         maximum lai            =      5.146
       total above ground biomass (kg/ha)    =     7194.4
       live above ground biomass (kg/ha)     =     7194.4
       green above ground biomass (kg/ha)    =     4782.0
       senesced above ground biomass (kg/ha) =     2412.4
-      dead above ground biomass (kg/ha)     =        0.0
-      number of leaves       =   57.8
-      DM Root:Shoot ratio    =    0.454                       Harvest Index          =      0.231
-      Stover C:N ratio       =   24.291                       Root C:N ratio         =     24.517
-      grain N percent        =       3.60                     total N content (kg/ha)=     150.98
-      grain N uptake (kg/ha) =      59.92                     senesced N content (kg/ha)=   36.19
-      green N content (kg/ha)=      54.88                     dead N content (kg/ha) =       0.00
+      number of leaves       =     57.8
+      DM Root:Shoot ratio    =     0.45                       Harvest Index          =       0.23
+      Stover C:N ratio       =    24.29                       Root C:N ratio         =      24.52
+      grain N percent        =     3.60                       total N content (kg/ha)=     150.98
+      grain N uptake (kg/ha) =    59.92                       senesced N content (kg/ha)=   36.19
+      green N content (kg/ha)=    54.88
      
       Average Stress Indices:                          Water Photo  Water Expan  N Photo      N grain conc
          emergence            to end_of_juvenile         0.000        0.000        0.000        0.028
@@ -512,12 +510,12 @@ Component   "fieldpea" = c:\development\apsim\plant\lib\plant.dll
      
      Crop harvested.
          Organic matter from crop:-      Tops to surface residue      Roots to soil FOM
-                          DM (kg/ha) =               5529.98                    0.00
-                          N  (kg/ha) =                 91.06                    0.00
+                          DM (kg/ha) =                5530.0                     0.0
+                          N  (kg/ha) =                  91.06                    0.00
      
          Organic matter removed from system:-      From Tops               From Roots
-                          DM (kg/ha) =               1664.45                    0.00
-                          N  (kg/ha) =                 59.92                    0.00
+                          DM (kg/ha) =                1664.5                     0.0
+                          N  (kg/ha) =                  59.92                    0.00
      
       stage 11.0 end_crop
      Manager sending message :- fieldpea kill_crop
@@ -525,8 +523,8 @@ Component   "fieldpea" = c:\development\apsim\plant\lib\plant.dll
      Manager sending message :- fieldpea end_crop
      Crop ended. Yield (dw) =     0.0  (kg/ha)
          Organic matter from crop:-      Tops to surface residue      Roots to soil FOM
-                          DM (kg/ha) =                  0.00                 3263.96
-                          N  (kg/ha) =                  0.00                   53.25
+                          DM (kg/ha) =                   0.0                  3264.0
+                          N  (kg/ha) =                   0.00                   53.25
      
 31 December 2003(Day of year=365), clock: 
      Simulation is terminating due to end criteria being met.

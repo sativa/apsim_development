@@ -351,19 +351,18 @@ Component     "centro" = c:\development\apsim\plant\lib\plant.dll
       flowering day          =  327                           stover (kg/ha)         =     4035.0
       maturity day           =   26                           grain yield (kg/ha)    =     1713.7
       grain % water content  =   12.0                         grain yield wet (kg/ha)=     1947.4
-      grain wt (g)           =    0.000                       grains/m^2             =      0.000
+      grain wt (g)           =    0.000                       grains/m^2             =        0.0
       grains/plant           =    0.0                         maximum lai            =      1.125
       total above ground biomass (kg/ha)    =     5748.7
       live above ground biomass (kg/ha)     =     5748.7
       green above ground biomass (kg/ha)    =     5466.1
       senesced above ground biomass (kg/ha) =      282.6
-      dead above ground biomass (kg/ha)     =        0.0
-      number of leaves       =  171.4
-      DM Root:Shoot ratio    =    0.676                       Harvest Index          =      0.298
-      Stover C:N ratio       =   18.726                       Root C:N ratio         =     15.240
-      grain N percent        =       1.70                     total N content (kg/ha)=     115.32
-      grain N uptake (kg/ha) =      29.13                     senesced N content (kg/ha)=    1.41
-      green N content (kg/ha)=      84.78                     dead N content (kg/ha) =       0.00
+      number of leaves       =    171.4
+      DM Root:Shoot ratio    =     0.68                       Harvest Index          =       0.30
+      Stover C:N ratio       =    18.73                       Root C:N ratio         =      15.24
+      grain N percent        =     1.70                       total N content (kg/ha)=     115.32
+      grain N uptake (kg/ha) =    29.13                       senesced N content (kg/ha)=    1.41
+      green N content (kg/ha)=    84.78
      
       Average Stress Indices:                          Water Photo  Water Expan  N Photo      N grain conc
          emergence            to end_of_juvenile         0.000        0.000        0.000        0.097
@@ -375,12 +374,12 @@ Component     "centro" = c:\development\apsim\plant\lib\plant.dll
      
      Crop harvested.
          Organic matter from crop:-      Tops to surface residue      Roots to soil FOM
-                          DM (kg/ha) =               3627.60                    0.00
-                          N  (kg/ha) =                 76.81                    0.00
+                          DM (kg/ha) =                3627.6                     0.0
+                          N  (kg/ha) =                  76.81                    0.00
      
          Organic matter removed from system:-      From Tops               From Roots
-                          DM (kg/ha) =               1713.69                    0.00
-                          N  (kg/ha) =                 29.13                    0.00
+                          DM (kg/ha) =                1713.7                     0.0
+                          N  (kg/ha) =                  29.13                    0.00
      
       stage 3.0 emergence
                      biomass =           1.20 (g/m^2)   lai          =   0.005 (m^2/m^2)
@@ -388,8 +387,8 @@ Component     "centro" = c:\development\apsim\plant\lib\plant.dll
      Manager sending message :- centro end_crop
      Crop ended. Yield (dw) =     0.0  (kg/ha)
          Organic matter from crop:-      Tops to surface residue      Roots to soil FOM
-                          DM (kg/ha) =                 12.00                  417.99
-                          N  (kg/ha) =                  0.72                    3.34
+                          DM (kg/ha) =                  12.0                   418.0
+                          N  (kg/ha) =                   0.72                    3.34
      
 23 September 1989(Day of year=266), Sowing rule: 
      Manager sending message :- centro sow  plants = 20, sowing_depth = 30, cultivar = cavalcade, row_spacing = 250, crop_class = plant
@@ -484,19 +483,18 @@ Component     "centro" = c:\development\apsim\plant\lib\plant.dll
       flowering day          =  335                           stover (kg/ha)         =     5525.1
       maturity day           =   35                           grain yield (kg/ha)    =     2322.1
       grain % water content  =   12.0                         grain yield wet (kg/ha)=     2638.8
-      grain wt (g)           =    0.000                       grains/m^2             =      0.000
+      grain wt (g)           =    0.000                       grains/m^2             =        0.0
       grains/plant           =    0.0                         maximum lai            =      1.532
       total above ground biomass (kg/ha)    =     7847.3
       live above ground biomass (kg/ha)     =     7847.3
       green above ground biomass (kg/ha)    =     7452.5
       senesced above ground biomass (kg/ha) =      394.7
-      dead above ground biomass (kg/ha)     =        0.0
-      number of leaves       =  170.9
-      DM Root:Shoot ratio    =    0.630                       Harvest Index          =      0.296
-      Stover C:N ratio       =   19.191                       Root C:N ratio         =     15.198
-      grain N percent        =       1.70                     total N content (kg/ha)=     154.64
-      grain N uptake (kg/ha) =      39.48                     senesced N content (kg/ha)=    1.97
-      green N content (kg/ha)=     113.19                     dead N content (kg/ha) =       0.00
+      number of leaves       =    170.9
+      DM Root:Shoot ratio    =     0.63                       Harvest Index          =       0.30
+      Stover C:N ratio       =    19.19                       Root C:N ratio         =      15.20
+      grain N percent        =     1.70                       total N content (kg/ha)=     154.64
+      grain N uptake (kg/ha) =    39.48                       senesced N content (kg/ha)=    1.97
+      green N content (kg/ha)=   113.19
      
       Average Stress Indices:                          Water Photo  Water Expan  N Photo      N grain conc
          emergence            to end_of_juvenile         0.000        0.000        0.000        0.082
@@ -508,12 +506,12 @@ Component     "centro" = c:\development\apsim\plant\lib\plant.dll
      
      Crop harvested.
          Organic matter from crop:-      Tops to surface residue      Roots to soil FOM
-                          DM (kg/ha) =               4955.32                    0.00
-                          N  (kg/ha) =                102.43                    0.00
+                          DM (kg/ha) =                4955.3                     0.0
+                          N  (kg/ha) =                 102.43                    0.00
      
          Organic matter removed from system:-      From Tops               From Roots
-                          DM (kg/ha) =               2322.13                    0.00
-                          N  (kg/ha) =                 39.48                    0.00
+                          DM (kg/ha) =                2322.1                     0.0
+                          N  (kg/ha) =                  39.48                    0.00
      
       stage 3.0 emergence
                      biomass =           1.20 (g/m^2)   lai          =   0.005 (m^2/m^2)
@@ -521,8 +519,8 @@ Component     "centro" = c:\development\apsim\plant\lib\plant.dll
      Manager sending message :- centro end_crop
      Crop ended. Yield (dw) =     0.0  (kg/ha)
          Organic matter from crop:-      Tops to surface residue      Roots to soil FOM
-                          DM (kg/ha) =                 12.00                  528.67
-                          N  (kg/ha) =                  0.72                    4.18
+                          DM (kg/ha) =                  12.0                   528.7
+                          N  (kg/ha) =                   0.72                    4.18
      
 30 April 1990(Day of year=120), clock: 
      Simulation is terminating due to end criteria being met.

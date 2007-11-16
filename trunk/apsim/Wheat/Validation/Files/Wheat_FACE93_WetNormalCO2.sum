@@ -553,19 +553,18 @@ Component      "wheat" = c:\development\apsim\plant\lib\plant.dll
       flowering day          =  103                           stover (kg/ha)         =    15631.0
       maturity day           =  137                           grain yield (kg/ha)    =     6234.2
       grain % water content  =   12.5                         grain yield wet (kg/ha)=     7124.8
-      grain wt (g)           =    0.041                       grains/m^2             =  15205.293
+      grain wt (g)           =    0.041                       grains/m^2             =    15205.3
       grains/plant           =   81.7                         maximum lai            =      7.306
       total above ground biomass (kg/ha)    =    21865.2
       live above ground biomass (kg/ha)     =    21865.2
       green above ground biomass (kg/ha)    =    17606.9
       senesced above ground biomass (kg/ha) =     4258.3
-      dead above ground biomass (kg/ha)     =        0.0
-      number of leaves       =   48.8
-      DM Root:Shoot ratio    =    0.152                       Harvest Index          =      0.285
-      Stover C:N ratio       =   54.596                       Root C:N ratio         =     17.681
-      grain N percent        =       2.88                     total N content (kg/ha)=     293.93
-      grain N uptake (kg/ha) =     179.41                     senesced N content (kg/ha)=   21.29
-      green N content (kg/ha)=      93.23                     dead N content (kg/ha) =       0.00
+      number of leaves       =     48.8
+      DM Root:Shoot ratio    =     0.15                       Harvest Index          =       0.29
+      Stover C:N ratio       =    54.60                       Root C:N ratio         =      17.68
+      grain N percent        =     2.88                       total N content (kg/ha)=     293.93
+      grain N uptake (kg/ha) =   179.41                       senesced N content (kg/ha)=   21.29
+      green N content (kg/ha)=    93.23
      
       Average Stress Indices:                          Water Photo  Water Expan  N Photo      N grain conc
          emergence            to end_of_juvenile         0.000        0.000        0.000        0.000
@@ -577,12 +576,12 @@ Component      "wheat" = c:\development\apsim\plant\lib\plant.dll
      
      Crop harvested.
          Organic matter from crop:-      Tops to surface residue      Roots to soil FOM
-                          DM (kg/ha) =               15631.00                    0.00
-                          N  (kg/ha) =                114.52                    0.00
+                          DM (kg/ha) =               15631.0                     0.0
+                          N  (kg/ha) =                 114.52                    0.00
      
          Organic matter removed from system:-      From Tops               From Roots
-                          DM (kg/ha) =               6234.17                    0.00
-                          N  (kg/ha) =                179.41                    0.00
+                          DM (kg/ha) =                6234.2                     0.0
+                          N  (kg/ha) =                 179.41                    0.00
      
       stage 4.0 end_of_juvenile
                      biomass =           0.00 (g/m^2)   lai          =   0.037 (m^2/m^2)
@@ -590,8 +589,8 @@ Component      "wheat" = c:\development\apsim\plant\lib\plant.dll
      Manager sending message :- wheat end_crop
      Crop ended. Yield (dw) =     0.0  (kg/ha)
          Organic matter from crop:-      Tops to surface residue      Roots to soil FOM
-                          DM (kg/ha) =                  0.00                 3326.61
-                          N  (kg/ha) =                  0.00                   75.26
+                          DM (kg/ha) =                   0.0                  3326.6
+                          N  (kg/ha) =                   0.00                   75.26
      
 30 May 1994(Day of year=150), clock: 
      Simulation is terminating due to end criteria being met.

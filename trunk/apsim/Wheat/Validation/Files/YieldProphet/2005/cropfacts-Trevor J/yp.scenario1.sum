@@ -621,19 +621,18 @@ Component   "rainfall" = c:\development\apsim\patchinput\lib\patchinput.dll
       flowering day          =  305                           stover (kg/ha)         =     6532.8
       maturity day           =  343                           grain yield (kg/ha)    =     4291.1
       grain % water content  =   12.5                         grain yield wet (kg/ha)=     4904.1
-      grain wt (g)           =    0.041                       grains/m^2             =  10465.975
+      grain wt (g)           =    0.041                       grains/m^2             =    10466.0
       grains/plant           =  104.7                         maximum lai            =      2.864
       total above ground biomass (kg/ha)    =    10823.9
       live above ground biomass (kg/ha)     =    10823.9
       green above ground biomass (kg/ha)    =     9563.1
       senesced above ground biomass (kg/ha) =     1260.8
-      dead above ground biomass (kg/ha)     =        0.0
-      number of leaves       =   41.8
-      DM Root:Shoot ratio    =    0.140                       Harvest Index          =      0.396
-      Stover C:N ratio       =   99.582                       Root C:N ratio         =     18.677
-      grain N percent        =       2.69                     total N content (kg/ha)=     141.51
-      grain N uptake (kg/ha) =     115.27                     senesced N content (kg/ha)=    6.30
-      green N content (kg/ha)=      19.94                     dead N content (kg/ha) =       0.00
+      number of leaves       =     41.8
+      DM Root:Shoot ratio    =     0.14                       Harvest Index          =       0.40
+      Stover C:N ratio       =    99.58                       Root C:N ratio         =      18.68
+      grain N percent        =     2.69                       total N content (kg/ha)=     141.51
+      grain N uptake (kg/ha) =   115.27                       senesced N content (kg/ha)=    6.30
+      green N content (kg/ha)=    19.94
      
       Average Stress Indices:                          Water Photo  Water Expan  N Photo      N grain conc
          emergence            to end_of_juvenile         0.000        0.000        0.000        0.000
@@ -645,12 +644,12 @@ Component   "rainfall" = c:\development\apsim\patchinput\lib\patchinput.dll
      
      Crop harvested.
          Organic matter from crop:-      Tops to surface residue      Roots to soil FOM
-                          DM (kg/ha) =               6532.83                    0.00
-                          N  (kg/ha) =                 26.24                    0.00
+                          DM (kg/ha) =                6532.8                     0.0
+                          N  (kg/ha) =                  26.24                    0.00
      
          Organic matter removed from system:-      From Tops               From Roots
-                          DM (kg/ha) =               4291.05                    0.00
-                          N  (kg/ha) =                115.27                    0.00
+                          DM (kg/ha) =                4291.1                     0.0
+                          N  (kg/ha) =                 115.27                    0.00
      
       stage 4.0 end_of_juvenile
                      biomass =           0.00 (g/m^2)   lai          =   0.020 (m^2/m^2)
@@ -660,8 +659,8 @@ Component   "rainfall" = c:\development\apsim\patchinput\lib\patchinput.dll
      Manager sending message :- wheat end_crop
      Crop ended. Yield (dw) =     0.0  (kg/ha)
          Organic matter from crop:-      Tops to surface residue      Roots to soil FOM
-                          DM (kg/ha) =                  0.00                 1514.52
-                          N  (kg/ha) =                  0.00                   32.44
+                          DM (kg/ha) =                   0.0                  1514.5
+                          N  (kg/ha) =                   0.00                   32.44
      
      Manager sending message :- surfaceom tillage  type = burn
 11 December 2005(Day of year=345), SurfaceOM: 

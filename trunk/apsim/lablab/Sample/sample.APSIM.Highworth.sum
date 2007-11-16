@@ -338,19 +338,18 @@ Component     "lablab" = c:\development\apsim\Plant\lib\Plant.dll
       flowering day          =   25                           stover (kg/ha)         =     5088.1
       maturity day           =    0                           grain yield (kg/ha)    =        0.0
       grain % water content  =   12.0                         grain yield wet (kg/ha)=        0.0
-      grain wt (g)           =    0.000                       grains/m^2             =      0.000
+      grain wt (g)           =    0.000                       grains/m^2             =        0.0
       grains/plant           =    0.0                         maximum lai            =      5.150
       total above ground biomass (kg/ha)    =     5088.1
       live above ground biomass (kg/ha)     =     5088.1
       green above ground biomass (kg/ha)    =     2745.2
       senesced above ground biomass (kg/ha) =     2342.9
-      dead above ground biomass (kg/ha)     =        0.0
-      number of leaves       =  141.7
-      DM Root:Shoot ratio    =    0.816                       Harvest Index          =      0.000
-      Stover C:N ratio       =    9.584                       Root C:N ratio         =     26.207
-      grain N percent        =       0.00                     total N content (kg/ha)=     212.35
-      grain N uptake (kg/ha) =       0.00                     senesced N content (kg/ha)=   23.43
-      green N content (kg/ha)=     188.92                     dead N content (kg/ha) =       0.00
+      number of leaves       =    141.7
+      DM Root:Shoot ratio    =     0.82                       Harvest Index          =       0.00
+      Stover C:N ratio       =     9.58                       Root C:N ratio         =      26.21
+      grain N percent        =     0.00                       total N content (kg/ha)=     212.35
+      grain N uptake (kg/ha) =     0.00                       senesced N content (kg/ha)=   23.43
+      green N content (kg/ha)=   188.92
      
       Average Stress Indices:                          Water Photo  Water Expan  N Photo      N grain conc
          emergence            to end_of_juvenile         0.384        0.438        0.000        0.022
@@ -360,12 +359,12 @@ Component     "lablab" = c:\development\apsim\Plant\lib\Plant.dll
      
      Crop harvested.
          Organic matter from crop:-      Tops to surface residue      Roots to soil FOM
-                          DM (kg/ha) =               5058.06                    0.00
-                          N  (kg/ha) =                210.40                    0.00
+                          DM (kg/ha) =                5058.1                     0.0
+                          N  (kg/ha) =                 210.40                    0.00
      
          Organic matter removed from system:-      From Tops               From Roots
-                          DM (kg/ha) =                  0.00                    0.00
-                          N  (kg/ha) =                  0.00                    0.00
+                          DM (kg/ha) =                   0.0                     0.0
+                          N  (kg/ha) =                   0.00                    0.00
      
       stage 4.0 end_of_juvenile
                      biomass =           3.00 (g/m^2)   lai          =   0.035 (m^2/m^2)
@@ -373,8 +372,8 @@ Component     "lablab" = c:\development\apsim\Plant\lib\Plant.dll
      Manager sending message :- lablab end_crop
      Crop ended. Yield (dw) =     0.0  (kg/ha)
          Organic matter from crop:-      Tops to surface residue      Roots to soil FOM
-                          DM (kg/ha) =                 30.00                 4153.67
-                          N  (kg/ha) =                  1.95                   63.40
+                          DM (kg/ha) =                  30.0                  4153.7
+                          N  (kg/ha) =                   1.95                   63.40
      
 26 November 1998(Day of year=330), manager: 
      Manager sending message :- lablab sow  cultivar = highworth, plants = 10 (/m2), sowing_depth = 40 (mm)
@@ -448,19 +447,18 @@ Component     "lablab" = c:\development\apsim\Plant\lib\Plant.dll
       flowering day          =    0                           stover (kg/ha)         =    12035.2
       maturity day           =    0                           grain yield (kg/ha)    =        0.0
       grain % water content  =   12.0                         grain yield wet (kg/ha)=        0.0
-      grain wt (g)           =    0.000                       grains/m^2             =      0.000
+      grain wt (g)           =    0.000                       grains/m^2             =        0.0
       grains/plant           =    0.0                         maximum lai            =      7.336
       total above ground biomass (kg/ha)    =    12035.2
       live above ground biomass (kg/ha)     =    12035.2
       green above ground biomass (kg/ha)    =     5529.8
       senesced above ground biomass (kg/ha) =     6505.5
-      dead above ground biomass (kg/ha)     =        0.0
-      number of leaves       =  140.1
-      DM Root:Shoot ratio    =    0.819                       Harvest Index          =      0.000
-      Stover C:N ratio       =    8.760                       Root C:N ratio         =     26.667
-      grain N percent        =       0.00                     total N content (kg/ha)=     549.55
-      grain N uptake (kg/ha) =       0.00                     senesced N content (kg/ha)=   65.05
-      green N content (kg/ha)=     484.49                     dead N content (kg/ha) =       0.00
+      number of leaves       =    140.1
+      DM Root:Shoot ratio    =     0.82                       Harvest Index          =       0.00
+      Stover C:N ratio       =     8.76                       Root C:N ratio         =      26.67
+      grain N percent        =     0.00                       total N content (kg/ha)=     549.55
+      grain N uptake (kg/ha) =     0.00                       senesced N content (kg/ha)=   65.05
+      green N content (kg/ha)=   484.49
      
       Average Stress Indices:                          Water Photo  Water Expan  N Photo      N grain conc
          emergence            to end_of_juvenile         0.046        0.063        0.000        0.009
@@ -469,12 +467,12 @@ Component     "lablab" = c:\development\apsim\Plant\lib\Plant.dll
      
      Crop harvested.
          Organic matter from crop:-      Tops to surface residue      Roots to soil FOM
-                          DM (kg/ha) =               12005.25                    0.00
-                          N  (kg/ha) =                547.60                    0.00
+                          DM (kg/ha) =               12005.2                     0.0
+                          N  (kg/ha) =                 547.60                    0.00
      
          Organic matter removed from system:-      From Tops               From Roots
-                          DM (kg/ha) =                  0.00                    0.00
-                          N  (kg/ha) =                  0.00                    0.00
+                          DM (kg/ha) =                   0.0                     0.0
+                          N  (kg/ha) =                   0.00                    0.00
      
       stage 4.0 end_of_juvenile
                      biomass =           3.00 (g/m^2)   lai          =   0.035 (m^2/m^2)
@@ -482,8 +480,8 @@ Component     "lablab" = c:\development\apsim\Plant\lib\Plant.dll
      Manager sending message :- lablab end_crop
      Crop ended. Yield (dw) =     0.0  (kg/ha)
          Organic matter from crop:-      Tops to surface residue      Roots to soil FOM
-                          DM (kg/ha) =                 30.00                 9860.04
-                          N  (kg/ha) =                  1.95                  147.90
+                          DM (kg/ha) =                  30.0                  9860.0
+                          N  (kg/ha) =                   1.95                  147.90
      
 15 October 1999(Day of year=288), manager: 
      Manager sending message :- lablab sow  cultivar = highworth, plants = 10 (/m2), sowing_depth = 40 (mm)
@@ -560,19 +558,18 @@ Component     "lablab" = c:\development\apsim\Plant\lib\Plant.dll
       flowering day          =   32                           stover (kg/ha)         =    11210.2
       maturity day           =    0                           grain yield (kg/ha)    =        0.0
       grain % water content  =   12.0                         grain yield wet (kg/ha)=        0.0
-      grain wt (g)           =    0.000                       grains/m^2             =      0.000
+      grain wt (g)           =    0.000                       grains/m^2             =        0.0
       grains/plant           =    0.0                         maximum lai            =      6.648
       total above ground biomass (kg/ha)    =    11210.2
       live above ground biomass (kg/ha)     =    11210.2
       green above ground biomass (kg/ha)    =     5556.2
       senesced above ground biomass (kg/ha) =     5654.0
-      dead above ground biomass (kg/ha)     =        0.0
-      number of leaves       =  142.2
-      DM Root:Shoot ratio    =    0.787                       Harvest Index          =      0.000
-      Stover C:N ratio       =    8.638                       Root C:N ratio         =     26.407
-      grain N percent        =       0.00                     total N content (kg/ha)=     519.14
-      grain N uptake (kg/ha) =       0.00                     senesced N content (kg/ha)=   56.54
-      green N content (kg/ha)=     462.60                     dead N content (kg/ha) =       0.00
+      number of leaves       =    142.2
+      DM Root:Shoot ratio    =     0.79                       Harvest Index          =       0.00
+      Stover C:N ratio       =     8.64                       Root C:N ratio         =      26.41
+      grain N percent        =     0.00                       total N content (kg/ha)=     519.14
+      grain N uptake (kg/ha) =     0.00                       senesced N content (kg/ha)=   56.54
+      green N content (kg/ha)=   462.60
      
       Average Stress Indices:                          Water Photo  Water Expan  N Photo      N grain conc
          emergence            to end_of_juvenile         0.125        0.150        0.000        0.000
@@ -582,12 +579,12 @@ Component     "lablab" = c:\development\apsim\Plant\lib\Plant.dll
      
      Crop harvested.
          Organic matter from crop:-      Tops to surface residue      Roots to soil FOM
-                          DM (kg/ha) =               11180.25                    0.00
-                          N  (kg/ha) =                517.19                    0.00
+                          DM (kg/ha) =               11180.2                     0.0
+                          N  (kg/ha) =                 517.19                    0.00
      
          Organic matter removed from system:-      From Tops               From Roots
-                          DM (kg/ha) =                  0.00                    0.00
-                          N  (kg/ha) =                  0.00                    0.00
+                          DM (kg/ha) =                   0.0                     0.0
+                          N  (kg/ha) =                   0.00                    0.00
      
       stage 4.0 end_of_juvenile
                      biomass =           3.00 (g/m^2)   lai          =   0.035 (m^2/m^2)
@@ -595,8 +592,8 @@ Component     "lablab" = c:\development\apsim\Plant\lib\Plant.dll
      Manager sending message :- lablab end_crop
      Crop ended. Yield (dw) =     0.0  (kg/ha)
          Organic matter from crop:-      Tops to surface residue      Roots to soil FOM
-                          DM (kg/ha) =                 30.00                 8825.55
-                          N  (kg/ha) =                  1.95                  133.69
+                          DM (kg/ha) =                  30.0                  8825.5
+                          N  (kg/ha) =                   1.95                  133.69
      
 1 May 2000(Day of year=122), clock: 
      Simulation is terminating due to end criteria being met.

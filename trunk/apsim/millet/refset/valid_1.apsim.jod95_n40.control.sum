@@ -424,12 +424,12 @@ Component     "sysbal" = c:\development\apsim\sysbal\lib\sysbal.dll
 29 June 1995(Day of year=180), operatns: 
       Sending set message to soilwat2
 29 June 1995(Day of year=180), sysbal: 
-      **** SW balance - unaccounted gain (mm) =  145.867386
+     **** SW balance - unaccounted gain (mm) =    145.867386
 30 June 1995(Day of year=181), operatns: 
       Sending set message to soiln2
       Sending set message to soiln2
 30 June 1995(Day of year=181), sysbal: 
-      **** N balance - unaccounted loss (kg/ha) =  -109.734245
+     **** N balance - unaccounted loss (kg/ha) =   -109.734245
 6 July 1995(Day of year=187), operatns: 
       Sending apply message to fertiliz
 6 July 1995(Day of year=187), fertiliz: 
@@ -438,7 +438,7 @@ Component     "sysbal" = c:\development\apsim\sysbal\lib\sysbal.dll
         40.00 of N as nitrate (no3_n)
                                               added at depth   70.00 (layer   1)
 6 July 1995(Day of year=187), sysbal: 
-      **** N balance - unaccounted gain (kg/ha) =  39.9999619
+     **** N balance - unaccounted gain (kg/ha) =     39.999962
 21 July 1995(Day of year=202), operatns: 
       Sending sow message to millet
 21 July 1995(Day of year=202), millet: 
@@ -506,17 +506,17 @@ Component     "sysbal" = c:\development\apsim\sysbal\lib\sysbal.dll
                           biomass =          0.3600000E-01   lai =    0.1800000E-02
                           stover N conc =    4.400000       extractable sw =    6.457686
 24 July 1995(Day of year=205), sysbal: 
-      **** N balance - unaccounted gain (kg/ha) =  2.78320313E-02
-      **** C balance - unaccounted gain (kg/ha) =  0.357427359
-      ****        equivalent DM as FOM  (kg/ha) =  0.893568397
+     **** N balance - unaccounted gain (kg/ha) =      0.027832
+     **** C balance - unaccounted gain (kg/ha) =      0.357427
+     ****        equivalent DM as FOM  (kg/ha) =      0.893568
 28 July 1995(Day of year=209), operatns: 
       Sending set message to soilwat2
 28 July 1995(Day of year=209), sysbal: 
-      **** SW balance - unaccounted loss (mm) =  -19.5000153
+     **** SW balance - unaccounted loss (mm) =    -19.500015
 31 July 1995(Day of year=212), operatns: 
       Sending set message to soilwat2
 31 July 1995(Day of year=212), sysbal: 
-      **** SW balance - unaccounted gain (mm) =  35.8066635
+     **** SW balance - unaccounted gain (mm) =     35.806664
 1 August 1995(Day of year=213), millet1: 
      Initiate
      
@@ -642,7 +642,7 @@ Component     "sysbal" = c:\development\apsim\sysbal\lib\sysbal.dll
                           biomass =          0.9000001E-02   lai =    0.1800000E-02
                           stover N conc =    4.400000       extractable sw =    7.576867
 3 August 1995(Day of year=215), sysbal: 
-      **** SW balance - unaccounted gain (mm) =  1.04207802
+     **** SW balance - unaccounted gain (mm) =      1.042078
 5 August 1995(Day of year=217), millet3: 
      Initiate
      
@@ -769,7 +769,7 @@ Component     "sysbal" = c:\development\apsim\sysbal\lib\sysbal.dll
      
      
 7 August 1995(Day of year=219), sysbal: 
-      **** SW balance - unaccounted gain (mm) =  7.90159416
+     **** SW balance - unaccounted gain (mm) =      7.901594
 8 August 1995(Day of year=220), millet4: 
       stage    3.0 emergence
                           biomass =          0.9000001E-02   lai =    0.1800000E-02
@@ -847,7 +847,7 @@ Component     "sysbal" = c:\development\apsim\sysbal\lib\sysbal.dll
                           biomass =           10.45391       lai =    0.1443819
                           stover N conc =    4.017979       extractable sw =    22.50544
 9 August 1995(Day of year=221), sysbal: 
-      **** SW balance - unaccounted gain (mm) =  5.55087090
+     **** SW balance - unaccounted gain (mm) =      5.550871
 10 August 1995(Day of year=222), millet2: 
       stage    4.0 end_of_juvenile
                           biomass =          0.9405402       lai =    0.4236858E-01
@@ -875,7 +875,7 @@ Component     "sysbal" = c:\development\apsim\sysbal\lib\sysbal.dll
 17 August 1995(Day of year=229), operatns: 
       Sending set message to soilwat2
 17 August 1995(Day of year=229), sysbal: 
-      **** SW balance - unaccounted loss (mm) =  -1.05513763
+     **** SW balance - unaccounted loss (mm) =     -1.055138
 18 August 1995(Day of year=230), millet4: 
       stage    5.0 floral_initiation
                           biomass =           1.314824       lai =    0.5866862E-01
@@ -895,11 +895,11 @@ Component     "sysbal" = c:\development\apsim\sysbal\lib\sysbal.dll
                           biomass =           2.137226       lai =    0.6101747E-01
                           stover N conc =    4.982524       extractable sw =    5.797581
 24 August 1995(Day of year=236), sysbal: 
-      **** SW balance - unaccounted gain (mm) =  3.97961235
+     **** SW balance - unaccounted gain (mm) =      3.979612
 26 August 1995(Day of year=238), operatns: 
       Sending set message to soilwat2
 26 August 1995(Day of year=238), sysbal: 
-      **** SW balance - unaccounted gain (mm) =  37.4954720
+     **** SW balance - unaccounted gain (mm) =     37.495472
 27 August 1995(Day of year=239), millet: 
       stage    6.0 flag_leaf
                           biomass =           132.6174       lai =    0.7232456
@@ -911,7 +911,7 @@ Component     "sysbal" = c:\development\apsim\sysbal\lib\sysbal.dll
                           biomass =           74.71463       lai =    0.7328321
                           stover N conc =    1.898065       extractable sw =    88.33897
 29 August 1995(Day of year=241), sysbal: 
-      **** SW balance - unaccounted loss (mm) =  -19.3605175
+     **** SW balance - unaccounted loss (mm) =    -19.360518
 30 August 1995(Day of year=242), millet2: 
       stage    6.0 flag_leaf
                           biomass =           52.13114       lai =    0.6458610
@@ -927,7 +927,7 @@ Component     "sysbal" = c:\development\apsim\sysbal\lib\sysbal.dll
                           biomass =           33.49949       lai =    0.4711805
                           stover N conc =    1.701915       extractable sw =    42.13123
 1 September 1995(Day of year=244), sysbal: 
-      **** SW balance - unaccounted loss (mm) =  -9.85959053
+     **** SW balance - unaccounted loss (mm) =     -9.859591
 2 September 1995(Day of year=245), millet1: 
       stage    7.0 flowering
                           biomass =           109.0704       lai =    0.7328321
@@ -967,7 +967,7 @@ Component     "sysbal" = c:\development\apsim\sysbal\lib\sysbal.dll
                           biomass =           52.44417       lai =    0.4415596
                           stover N conc =    1.301058       extractable sw =    27.99401
 8 September 1995(Day of year=251), sysbal: 
-      **** SW balance - unaccounted loss (mm) =  -2.89445543
+     **** SW balance - unaccounted loss (mm) =     -2.894455
 9 September 1995(Day of year=252), millet4: 
       stage    7.0 flowering
                           biomass =           19.63648       lai =    0.2251458
@@ -1056,14 +1056,14 @@ Component     "sysbal" = c:\development\apsim\sysbal\lib\sysbal.dll
                                              Fraction Incorporated =     1.00
                                              Incorporated Depth    =     0.00
 15 September 1995(Day of year=258), sysbal: 
-      **** N balance - unaccounted loss (kg/ha) =  -2.29248047
-      **** C balance - unaccounted loss (kg/ha) =  -66.2662354
+     **** N balance - unaccounted loss (kg/ha) =     -2.292480
+     **** C balance - unaccounted loss (kg/ha) =    -66.266235
       ****        equivalent DM as FOM  (kg/ha) =  -165.665588
-      **** SW balance - unaccounted loss (mm) =  -18.4275379
+     **** SW balance - unaccounted loss (mm) =    -18.427538
 22 September 1995(Day of year=265), operatns: 
       Sending set message to soilwat2
 22 September 1995(Day of year=265), sysbal: 
-      **** SW balance - unaccounted loss (mm) =  -9.25347137
+     **** SW balance - unaccounted loss (mm) =     -9.253471
 23 September 1995(Day of year=266), millet: 
       stage    9.0 end_grain_fill
                           biomass =           308.0554       lai =    0.1777088
@@ -1151,8 +1151,8 @@ Component     "sysbal" = c:\development\apsim\sysbal\lib\sysbal.dll
                                              Fraction Incorporated =     1.00
                                              Incorporated Depth    =     0.00
 25 September 1995(Day of year=268), sysbal: 
-      **** N balance - unaccounted loss (kg/ha) =  -30.8346596
-      **** C balance - unaccounted loss (kg/ha) =  -925.326721
+     **** N balance - unaccounted loss (kg/ha) =    -30.834660
+     **** C balance - unaccounted loss (kg/ha) =   -925.326721
       ****        equivalent DM as FOM  (kg/ha) =  -2313.31665
 26 September 1995(Day of year=269), millet2: 
       stage    9.0 end_grain_fill
@@ -1317,8 +1317,8 @@ Component     "sysbal" = c:\development\apsim\sysbal\lib\sysbal.dll
                                              Fraction Incorporated =     1.00
                                              Incorporated Depth    =     0.00
 28 September 1995(Day of year=271), sysbal: 
-      **** N balance - unaccounted loss (kg/ha) =  -28.2408428
-      **** C balance - unaccounted loss (kg/ha) =  -970.371155
+     **** N balance - unaccounted loss (kg/ha) =    -28.240843
+     **** C balance - unaccounted loss (kg/ha) =   -970.371155
       ****        equivalent DM as FOM  (kg/ha) =  -2425.92773
 29 September 1995(Day of year=272), operatns: 
       Sending set message to soilwat2
@@ -1327,7 +1327,7 @@ Component     "sysbal" = c:\development\apsim\sysbal\lib\sysbal.dll
                           biomass =           78.03883       lai =    0.5823854E-01
                           stover N conc =    1.335256       extractable sw =    8.939682
 29 September 1995(Day of year=272), sysbal: 
-      **** SW balance - unaccounted gain (mm) =  1.93367672
+     **** SW balance - unaccounted gain (mm) =      1.933677
 30 September 1995(Day of year=273), millet3: 
       stage   11.0 harvest_ripe
                           biomass =           78.03883       lai =    0.1800090E-02
@@ -1403,8 +1403,8 @@ Component     "sysbal" = c:\development\apsim\sysbal\lib\sysbal.dll
                                              Fraction Incorporated =     1.00
                                              Incorporated Depth    =     0.00
 30 September 1995(Day of year=273), sysbal: 
-      **** N balance - unaccounted loss (kg/ha) =  -6.89309454
-      **** C balance - unaccounted loss (kg/ha) =  -239.195862
+     **** N balance - unaccounted loss (kg/ha) =     -6.893095
+     **** C balance - unaccounted loss (kg/ha) =   -239.195862
       ****        equivalent DM as FOM  (kg/ha) =  -597.989624
 3 October 1995(Day of year=276), millet4: 
       stage    9.0 end_grain_fill
@@ -1489,26 +1489,26 @@ Component     "sysbal" = c:\development\apsim\sysbal\lib\sysbal.dll
                                              Fraction Incorporated =     1.00
                                              Incorporated Depth    =     0.00
 5 October 1995(Day of year=278), sysbal: 
-      **** N balance - unaccounted loss (kg/ha) =  -4.06390047
-      **** C balance - unaccounted loss (kg/ha) =  -131.631851
+     **** N balance - unaccounted loss (kg/ha) =     -4.063900
+     **** C balance - unaccounted loss (kg/ha) =   -131.631851
       ****        equivalent DM as FOM  (kg/ha) =  -329.079620
 6 October 1995(Day of year=279), operatns: 
       Sending set message to soilwat2
 6 October 1995(Day of year=279), sysbal: 
-      **** SW balance - unaccounted loss (mm) =  -2.67396379
+     **** SW balance - unaccounted loss (mm) =     -2.673964
 10 October 1995(Day of year=283), operatns: 
       Sending set message to soiln2
       Sending set message to soiln2
 10 October 1995(Day of year=283), sysbal: 
-      **** N balance - unaccounted gain (kg/ha) =  65.6246338
+     **** N balance - unaccounted gain (kg/ha) =     65.624634
 13 October 1995(Day of year=286), operatns: 
       Sending set message to soilwat2
 13 October 1995(Day of year=286), sysbal: 
-      **** SW balance - unaccounted loss (mm) =  -0.154801965
+     **** SW balance - unaccounted loss (mm) =     -0.154802
 20 October 1995(Day of year=293), operatns: 
       Sending set message to soilwat2
 20 October 1995(Day of year=293), sysbal: 
-      **** SW balance - unaccounted loss (mm) =  -1.29999542
+     **** SW balance - unaccounted loss (mm) =     -1.299995
 27 October 1995(Day of year=300), operatns: 
       Sending set message to soilwat2
 27 October 1995(Day of year=300): 
@@ -1531,7 +1531,7 @@ Component     "sysbal" = c:\development\apsim\sysbal\lib\sysbal.dll
      
      
 27 October 1995(Day of year=300), sysbal: 
-      **** SW balance - unaccounted loss (mm) =  -0.150001526
+     **** SW balance - unaccounted loss (mm) =     -0.150002
 28 October 1995(Day of year=301): 
      !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
                       APSIM Warning Error
