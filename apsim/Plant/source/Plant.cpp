@@ -266,7 +266,7 @@ void Plant::onInit1()
    scienceAPI.exposeFunction("n_senesced", "g/m2",  "senesced N", FloatFunction(&Plant::SenescedN));
    scienceAPI.exposeFunction("p_senesced", "g/m2",  "senesced P", FloatFunction(&Plant::SenescedP));
 
-                  
+
    setupGetFunction(parent, "plant_status", protocol::DTstring, false,
                      &Plant::get_plant_status, "", "Plant Status");
 
@@ -2299,14 +2299,14 @@ void Plant::plant_harvest_update (protocol::Variant &v/*(INPUT)message arguments
 
     parent->writeString ("    Organic matter from crop:-      Tops to surface residue      Roots to soil FOM");
 
-    sprintf (msg, "%48s%7.2f%24.2f", "DM (kg/ha) =               ", dm_tops_residue, dm_root_residue);
+    sprintf (msg, "%48s%7.1f%24.1f", "DM (kg/ha) =               ", dm_tops_residue, dm_root_residue);
     parent->writeString (msg);
 
-    sprintf (msg, "%48s%7.2f%24.2f", "N  (kg/ha) =               ", n_tops_residue, n_root_residue);
+    sprintf (msg, "%48s%8.2f%24.2f", "N  (kg/ha) =               ", n_tops_residue, n_root_residue);
     parent->writeString (msg);
     if (g.phosphorus_aware)
        {
-       sprintf (msg, "%48s%7.2f%24.2f",
+       sprintf (msg, "%48s%7.1f%24.2f",
                                      "P  (kg/ha) =               ", p_tops_residue, p_root_residue);
        parent->writeString (msg);
        }
@@ -2321,10 +2321,10 @@ void Plant::plant_harvest_update (protocol::Variant &v/*(INPUT)message arguments
 
     parent->writeString ("    Organic matter removed from system:-      From Tops               From Roots");
 
-    sprintf (msg, "%48s%7.2f%24.2f", "DM (kg/ha) =               ", dm_removed_tops, dm_removed_root);
+    sprintf (msg, "%48s%7.1f%24.1f", "DM (kg/ha) =               ", dm_removed_tops, dm_removed_root);
     parent->writeString (msg);
 
-    sprintf (msg, "%48s%7.2f%24.2f", "N  (kg/ha) =               ", n_removed_tops, n_removed_root);
+    sprintf (msg, "%48s%8.2f%24.2f", "N  (kg/ha) =               ", n_removed_tops, n_removed_root);
     parent->writeString (msg);
     if (g.phosphorus_aware)
        {
@@ -2934,11 +2934,11 @@ void Plant::plant_end_crop ()
 
         parent->writeString ("    Organic matter from crop:-      Tops to surface residue      Roots to soil FOM");
 
-        sprintf (msg, "%48s%7.2f%24.2f"
+        sprintf (msg, "%48s%7.1f%24.1f"
                            , "DM (kg/ha) =               ", dm_residue * gm2kg /sm2ha, dm_root * gm2kg /sm2ha);
         parent->writeString (msg);
 
-        sprintf (msg, "%48s%7.2f%24.2f"
+        sprintf (msg, "%48s%8.2f%24.2f"
                            , "N  (kg/ha) =               ", n_residue * gm2kg /sm2ha, n_root * gm2kg /sm2ha);
         parent->writeString (msg);
 
@@ -3358,7 +3358,7 @@ void Plant::plant_harvest_report ()
              , " grain yield wet (kg/ha)= ", yield_wet);
     parent->writeString (msg);
 
-    sprintf (msg, "%s%8.3f%22s%s%10.3f"
+    sprintf (msg, "%s%8.3f%22s%s%10.1f"
              , " grain wt (g)           = ", grain_wt, " "
              , " grains/m^2             = ", fruitPart->grainNo());
     parent->writeString (msg);
@@ -3385,37 +3385,32 @@ void Plant::plant_harvest_report ()
              , " senesced above ground biomass (kg/ha) = ", tops.Senesced().DM* gm2kg / sm2ha);
     parent->writeString (msg);
 
-    sprintf (msg, "%s%10.1f"
-             , " dead above ground biomass (kg/ha)     = ", 0.0);
-    parent->writeString (msg);
-
-    sprintf (msg, "%s%6.1f"
+    sprintf (msg, "%s%8.1f"
              , " number of leaves       = ", leafPart->getLeafNo());
     parent->writeString (msg);
 
-    sprintf (msg, "%s%8.3f%22s%s%10.3f"
+    sprintf (msg, "%s%8.2f%22s%s%10.2f"
              , " DM Root:Shoot ratio    = ", DMRrootShootRatio, " "
              , " Harvest Index          = ", HarvestIndex);
     parent->writeString (msg);
 
-    sprintf (msg, "%s%8.3f%22s%s%10.3f"
+    sprintf (msg, "%s%8.2f%22s%s%10.2f"
              , " Stover C:N ratio       = ", StoverCNRatio, " "
              , " Root C:N ratio         = ", RootCNRatio);
     parent->writeString (msg);
 
-    sprintf (msg, "%s%10.2f%20s%s%10.2f"
+    sprintf (msg, "%s%8.2f%22s%s%10.2f"
              , " grain N percent        = ", n_grain_conc_percent, " "
              , " total N content (kg/ha)= ", n_total);
     parent->writeString (msg);
 
-    sprintf (msg, "%s%10.2f%20s%s%8.2f"
+    sprintf (msg, "%s%8.2f%22s%s%8.2f"
              , " grain N uptake (kg/ha) = ", n_grain, " "
              , " senesced N content (kg/ha)=", (tops.VegetativeTotal().N - tops.Vegetative().N)* gm2kg / sm2ha);
     parent->writeString (msg);
 
-    sprintf (msg, "%s%10.2f%20s%s%10.2f"
-             , " green N content (kg/ha)= ", n_green, " "
-             , " dead N content (kg/ha) = ", n_dead);
+    sprintf (msg, "%s%8.2f"
+             , " green N content (kg/ha)= ", n_green);
     parent->writeString (msg);
 
     summary_p ();

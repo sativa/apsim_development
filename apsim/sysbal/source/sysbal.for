@@ -1064,7 +1064,7 @@
 
       integer maxvals
       parameter (maxvals=200)
-      
+
 !+  Local Variables
       integer    module                  ! index for modules
       real       tempsum               !
@@ -1095,12 +1095,12 @@
          if (numvals.ne.0) then
             if (module+1.le.max_modules) then
                module = module + 1
-               
+
                tempsum = 0.0
                do i = 1, numvals
                   tempsum = tempsum + values(i)
                enddo
-               
+
                Owner_module = get_posting_Module ()
                g%module_name(module) = owner_module
                value = value + tempsum
@@ -1706,13 +1706,13 @@
 
 
       if (g%Nerror_system .gt. error_threshold*0.1) then
-         write (string, *)
+         write (string, '(a,f13.6)')
      :                   '**** N balance - unaccounted gain (kg/ha) = '
      :                  , g%Nerror_system
          call Write_string (string)
 
       elseif (g%Nerror_system .lt. -error_threshold*0.1) then
-         write (string, *)
+         write (string, '(a,f13.6)')
      :                   '**** N balance - unaccounted loss (kg/ha) = '
      :                  , g%Nerror_system
          call Write_string (string)
@@ -1738,13 +1738,13 @@
      :               )
 
          if (g%Perror_system .gt. error_threshold*0.1/8.0) then
-            write (string, *)
+            write (string, '(a,f13.6)')
      :                   '**** P balance - unaccounted gain (kg/ha) = '
      :                  , g%Perror_system
             call Write_string (string)
 
          elseif (g%Perror_system .lt. -error_threshold*0.1/8.0) then
-            write (string, *)
+            write (string, '(a,f13.6)')
      :                   '**** P balance - unaccounted loss (kg/ha) = '
      :                  , g%Perror_system
             call Write_string (string)
@@ -1774,17 +1774,17 @@
      :               )
 
       if (g%Cerror_system .gt. error_threshold) then
-         write (string, *)
+         write (string, '(a,f13.6)')
      :                   '**** C balance - unaccounted gain (kg/ha) = '
      :                  , g%Cerror_system
          call Write_string (string)
-         write (string, *)
+         write (string, '(a,f13.6)')
      :                   '****        equivalent DM as FOM  (kg/ha) = '
      :                  , g%Cerror_system / 0.4
          call Write_string (string)
 
       elseif (g%Cerror_system .lt. -error_threshold) then
-         write (string, *)
+         write (string, '(a,f13.6)')
      :                   '**** C balance - unaccounted loss (kg/ha) = '
      :                  , g%Cerror_system
          call Write_string (string)
@@ -1845,13 +1845,13 @@
      :               )
 
       if (g%SWerror_system .gt. error_threshold) then
-         write (string, *)
+         write (string, '(a,f13.6)')
      :                   '**** SW balance - unaccounted gain (mm) = '
      :                  , g%SWerror_system
          call Write_string (string)
 
       elseif (g%SWerror_system .lt. -error_threshold) then
-         write (string, *)
+         write (string, '(a,f13.6)')
      :                   '**** SW balance - unaccounted loss (mm) = '
      :                  , g%SWerror_system
          call Write_string (string)
@@ -1862,6 +1862,7 @@
 
          ! Zero event data
       g%irrigation = 0.0
+
       g%dm_removed           = 0.0
       g%N_removed            = 0.0
       g%P_removed            = 0.0
