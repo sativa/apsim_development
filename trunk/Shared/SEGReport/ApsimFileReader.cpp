@@ -140,27 +140,27 @@ void processApsimFileReader(DataContainer& parent,
 
    for (unsigned f = 0; f != fileNames.size(); f++)
       {
-      if (!FileExists(fileNames[f].c_str()))
-         throw runtime_error("Cannot find file: " + fileNames[f]);
-
-      // add fields to our result dataset.
-      ifstream in(fileNames[f].c_str());
-      vector<string> fieldNames, fieldValues;
-      int numConstants = readApsimHeader(in, fieldNames, fieldValues);
-      if (!result.Active)
+      if (FileExists(fileNames[f].c_str()))
          {
-         addDBFields(&result, fieldNames, fieldValues);
-         result.Active = true;
+         // add fields to our result dataset.
+         ifstream in(fileNames[f].c_str());
+         vector<string> fieldNames, fieldValues;
+         int numConstants = readApsimHeader(in, fieldNames, fieldValues);
+         if (!result.Active)
+            {
+            addDBFields(&result, fieldNames, fieldValues);
+            result.Active = true;
+            }
+         if (fieldValues.size() > 0)
+            {
+            // Copy all rows to result dataset.
+            do
+               {
+               appendDBRecord(&result, fieldNames, fieldValues);
+               }
+            while (readNextRecord(in, numConstants, fieldValues));
+            }
          }
-      else if (fieldNames.size() != (unsigned)result.FieldDefs->Count)
-         throw runtime_error("The file: " + fileNames[f] + " does not have the same number of fields as previous files");
-
-      // Copy all rows to result dataset.
-      do
-         {
-         appendDBRecord(&result, fieldNames, fieldValues);
-         }
-      while (readNextRecord(in, numConstants, fieldValues));
       }
    }
 
