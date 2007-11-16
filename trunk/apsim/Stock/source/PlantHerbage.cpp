@@ -53,8 +53,6 @@ void PlantHerbage::doInit1(const protocol::Init1Data&)
    {
 //   protocol::Component::doInit1(sdml);
 
-//   dmFeedOnOfferID = system->addRegistration(RegistrationType::respondToGet, "dm_feed_on_offer", singleArrayTypeDDML);
-   dmPartsRemovedID = system->addRegistration(RegistrationType::respondToGet, "dm_parts_removed", singleArrayTypeDDML);
 
    }
 
@@ -129,6 +127,7 @@ void PlantHerbage::doRegister(const int partNo, const string& partName)
       pSenescedID[partNo] = system->addRegistration(RegistrationType::get, string(partName+"SenescedP").c_str(), singleTypeDDML,"", herbageModuleName().c_str());   // parameter crop name=lablab
       dmdMaxSenescedID[partNo] = system->addRegistration(RegistrationType::get, addPartToName("digestibility_max_dm_senesced", partName).c_str(), singleTypeDDML,"", herbageModuleName().c_str());   // parameter crop name=lablab
       dmdAvgSenescedID[partNo] = system->addRegistration(RegistrationType::get, addPartToName("digestibility_avg_dm_senesced", partName).c_str(), singleTypeDDML,"", herbageModuleName().c_str());   // parameter crop name=lablab
+      dmdMinSenescedID[partNo] = system->addRegistration(RegistrationType::get, addPartToName("digestibility_min_dm_senesced", partName).c_str(), singleTypeDDML,"", herbageModuleName().c_str());   // parameter crop name=lablab
    }
 
 
@@ -151,6 +150,9 @@ void PlantHerbage::doRunTimeReg(void)
 
     removeCropBiomassID = system->addRegistration(RegistrationType::event, "remove_crop_biomass", DDML(protocol::RemoveCropDmType()).c_str(),"", herbageModuleName().c_str());
     detachRateID = system->addRegistration(RegistrationType::event, "detach_crop_biomass_rate", "","", herbageModuleName().c_str());
+
+//   dmFeedOnOfferID = system->addRegistration(RegistrationType::respondToGet, "dm_feed_on_offer", singleArrayTypeDDML);
+     dmPartsRemovedID = system->addRegistration(RegistrationType::respondToGet, "dm_parts_removed", singleArrayTypeDDML);
   }
 
 // ------------------------------------------------------------------
