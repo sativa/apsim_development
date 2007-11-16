@@ -434,7 +434,7 @@ Component     "sysbal" = c:\development\apsim\sysbal\lib\sysbal.dll
                                               added at depth    5.00 (layer   1)
       Sending apply message to irrigate
 26 October 1988(Day of year=300), sysbal: 
-      **** N balance - unaccounted gain (kg/ha) =  149.999924
+     **** N balance - unaccounted gain (kg/ha) =    149.999924
 27 October 1988(Day of year=301), maize: 
       stage    2.0 germination
 29 October 1988(Day of year=303), maize: 
@@ -442,9 +442,9 @@ Component     "sysbal" = c:\development\apsim\sysbal\lib\sysbal.dll
                           biomass =          0.2000000       lai =    0.3800000E-02
                           stover N conc =    4.399999       extractable sw =    11.26175
 29 October 1988(Day of year=303), sysbal: 
-      **** N balance - unaccounted gain (kg/ha) =  0.109802902
-      **** C balance - unaccounted gain (kg/ha) =  1.19254589
-      ****        equivalent DM as FOM  (kg/ha) =  2.98136473
+     **** N balance - unaccounted gain (kg/ha) =      0.109803
+     **** C balance - unaccounted gain (kg/ha) =      1.192546
+     ****        equivalent DM as FOM  (kg/ha) =      2.981365
 30 October 1988(Day of year=304): 
      !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
                       APSIM Warning Error
@@ -527,9 +527,9 @@ Component     "sysbal" = c:\development\apsim\sysbal\lib\sysbal.dll
                      biomass =           0.75 (g/m^2)   lai          =   0.020 (m^2/m^2)
                      stover N conc =     6.00 (%)    extractable sw =   57.98 (mm)
 12 November 1988(Day of year=317), sysbal: 
-      **** N balance - unaccounted gain (kg/ha) =  1.54954219
-      **** C balance - unaccounted gain (kg/ha) =  23.0086479
-      ****        equivalent DM as FOM  (kg/ha) =  57.5216179
+     **** N balance - unaccounted gain (kg/ha) =      1.549542
+     **** C balance - unaccounted gain (kg/ha) =     23.008648
+     ****        equivalent DM as FOM  (kg/ha) =     57.521618
 13 November 1988(Day of year=318): 
      !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
                       APSIM Warning Error
@@ -607,19 +607,18 @@ Component     "sysbal" = c:\development\apsim\sysbal\lib\sysbal.dll
       flowering day          =  363                           stover (kg/ha)         =     1004.0
       maturity day           =   23                           grain yield (kg/ha)    =      360.6
       grain % water content  =   12.0                         grain yield wet (kg/ha)=      409.8
-      grain wt (g)           =    0.000                       grains/m^2             =      0.000
+      grain wt (g)           =    0.000                       grains/m^2             =        0.0
       grains/plant           =    0.0                         maximum lai            =      1.492
       total above ground biomass (kg/ha)    =     1364.6
       live above ground biomass (kg/ha)     =     1364.6
       green above ground biomass (kg/ha)    =      860.0
       senesced above ground biomass (kg/ha) =      504.6
-      dead above ground biomass (kg/ha)     =        0.0
-      number of leaves       =    7.7
-      DM Root:Shoot ratio    =    0.556                       Harvest Index          =      0.264
-      Stover C:N ratio       =   18.632                       Root C:N ratio         =     26.644
-      grain N percent        =       4.50                     total N content (kg/ha)=      37.78
-      grain N uptake (kg/ha) =      16.23                     senesced N content (kg/ha)=   10.09
-      green N content (kg/ha)=      11.46                     dead N content (kg/ha) =       0.00
+      number of leaves       =      7.7
+      DM Root:Shoot ratio    =     0.56                       Harvest Index          =       0.26
+      Stover C:N ratio       =    18.63                       Root C:N ratio         =      26.64
+      grain N percent        =     4.50                       total N content (kg/ha)=      37.78
+      grain N uptake (kg/ha) =    16.23                       senesced N content (kg/ha)=   10.09
+      green N content (kg/ha)=    11.46
      
       Average Stress Indices:                          Water Photo  Water Expan  N Photo      N grain conc
          emergence            to end_of_juvenile         0.052        0.000        0.000        0.022
@@ -631,19 +630,19 @@ Component     "sysbal" = c:\development\apsim\sysbal\lib\sysbal.dll
      
      Crop harvested.
          Organic matter from crop:-      Tops to surface residue      Roots to soil FOM
-                          DM (kg/ha) =               1003.96                    0.00
-                          N  (kg/ha) =                 21.55                    0.00
+                          DM (kg/ha) =                1004.0                     0.0
+                          N  (kg/ha) =                  21.55                    0.00
      
          Organic matter removed from system:-      From Tops               From Roots
-                          DM (kg/ha) =                360.62                    0.00
-                          N  (kg/ha) =                 16.23                    0.00
+                          DM (kg/ha) =                 360.6                     0.0
+                          N  (kg/ha) =                  16.23                    0.00
      
       stage 11.0 end_crop
      Manager sending message :- cowpea end_crop
      Crop ended. Yield (dw) =     0.0  (kg/ha)
          Organic matter from crop:-      Tops to surface residue      Roots to soil FOM
-                          DM (kg/ha) =                  0.00                  758.35
-                          N  (kg/ha) =                  0.00                   11.38
+                          DM (kg/ha) =                   0.0                   758.4
+                          N  (kg/ha) =                   0.00                   11.38
      
 2 March 1989(Day of year=61), maize: 
       stage    9.0 end_grain_fill

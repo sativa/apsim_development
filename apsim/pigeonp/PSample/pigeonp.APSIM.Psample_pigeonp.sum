@@ -355,19 +355,18 @@ Component    "pigeonp" = c:\development\apsim\Plant\lib\Plant.dll
       flowering day          =   62                           stover (kg/ha)         =     3990.5
       maturity day           =  107                           grain yield (kg/ha)    =     1571.3
       grain % water content  =   12.0                         grain yield wet (kg/ha)=     1785.5
-      grain wt (g)           =    0.000                       grains/m^2             =      0.000
+      grain wt (g)           =    0.000                       grains/m^2             =        0.0
       grains/plant           =    0.0                         maximum lai            =      4.516
       total above ground biomass (kg/ha)    =     5561.8
       live above ground biomass (kg/ha)     =     5561.8
       green above ground biomass (kg/ha)    =     3950.5
       senesced above ground biomass (kg/ha) =     1611.3
-      dead above ground biomass (kg/ha)     =        0.0
-      number of leaves       =  469.0
-      DM Root:Shoot ratio    =    0.218                       Harvest Index          =      0.283
-      Stover C:N ratio       =   20.042                       Root C:N ratio         =     19.662
-      grain N percent        =       4.00                     total N content (kg/ha)=     142.50
-      grain N uptake (kg/ha) =      62.85                     senesced N content (kg/ha)=   32.23
-      green N content (kg/ha)=      47.42                     dead N content (kg/ha) =       0.00
+      number of leaves       =    469.0
+      DM Root:Shoot ratio    =     0.22                       Harvest Index          =       0.28
+      Stover C:N ratio       =    20.04                       Root C:N ratio         =      19.66
+      grain N percent        =     4.00                       total N content (kg/ha)=     142.50
+      grain N uptake (kg/ha) =    62.85                       senesced N content (kg/ha)=   32.23
+      green N content (kg/ha)=    47.42
       grain P percent        =       0.36                     total P content (kg/ha)=      13.28
       grain P uptake (kg/ha) =       5.63                     senesced P content (kg/ha)=    2.90
       green P content (kg/ha)=       4.76                     dead P content (kg/ha) =       0.00
@@ -382,13 +381,13 @@ Component    "pigeonp" = c:\development\apsim\Plant\lib\Plant.dll
      
      Crop harvested.
          Organic matter from crop:-      Tops to surface residue      Roots to soil FOM
-                          DM (kg/ha) =               3990.55                    0.00
-                          N  (kg/ha) =                 79.65                    0.00
-                          P  (kg/ha) =                  7.66                    0.00
+                          DM (kg/ha) =                3990.5                     0.0
+                          N  (kg/ha) =                  79.65                    0.00
+                          P  (kg/ha) =                   7.7                    0.00
      
          Organic matter removed from system:-      From Tops               From Roots
-                          DM (kg/ha) =               1571.27                    0.00
-                          N  (kg/ha) =                 62.85                    0.00
+                          DM (kg/ha) =                1571.3                     0.0
+                          N  (kg/ha) =                  62.85                    0.00
                           P  (kg/ha) =                  5.63                    0.00
      
       stage 4.0 end_of_juvenile
@@ -397,8 +396,8 @@ Component    "pigeonp" = c:\development\apsim\Plant\lib\Plant.dll
      Manager sending message :- pigeonp end_crop
      Crop ended. Yield (dw) =     0.0  (kg/ha)
          Organic matter from crop:-      Tops to surface residue      Roots to soil FOM
-                          DM (kg/ha) =                  0.00                 1211.32
-                          N  (kg/ha) =                  0.00                   24.64
+                          DM (kg/ha) =                   0.0                  1211.3
+                          N  (kg/ha) =                   0.00                   24.64
                           P  (kg/ha) =                  0.00                    1.58
      
 30 April 1989(Day of year=120), clock: 

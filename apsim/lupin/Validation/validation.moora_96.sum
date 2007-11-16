@@ -2791,19 +2791,18 @@ Component      "lupin" = c:\development\apsim\plant\lib\plant.dll
       flowering day          =  257                           stover (kg/ha)         =     4739.1
       maturity day           =  336                           grain yield (kg/ha)    =     1561.2
       grain % water content  =   12.0                         grain yield wet (kg/ha)=     1774.1
-      grain wt (g)           =    0.000                       grains/m^2             =      0.000
+      grain wt (g)           =    0.000                       grains/m^2             =        0.0
       grains/plant           =    0.0                         maximum lai            =      3.032
       total above ground biomass (kg/ha)    =     6300.3
       live above ground biomass (kg/ha)     =     6300.3
       green above ground biomass (kg/ha)    =     4365.5
       senesced above ground biomass (kg/ha) =     1934.8
-      dead above ground biomass (kg/ha)     =        0.0
-      number of leaves       =  327.3
-      DM Root:Shoot ratio    =    0.272                       Harvest Index          =      0.248
-      Stover C:N ratio       =   33.688                       Root C:N ratio         =     18.624
-      grain N percent        =       5.24                     total N content (kg/ha)=     138.15
-      grain N uptake (kg/ha) =      81.88                     senesced N content (kg/ha)=    9.67
-      green N content (kg/ha)=      46.60                     dead N content (kg/ha) =       0.00
+      number of leaves       =    327.3
+      DM Root:Shoot ratio    =     0.27                       Harvest Index          =       0.25
+      Stover C:N ratio       =    33.69                       Root C:N ratio         =      18.62
+      grain N percent        =     5.24                       total N content (kg/ha)=     138.15
+      grain N uptake (kg/ha) =    81.88                       senesced N content (kg/ha)=    9.67
+      green N content (kg/ha)=    46.60
      
       Average Stress Indices:                          Water Photo  Water Expan  N Photo      N grain conc
          emergence            to end_of_juvenile         0.000        0.000        0.000        0.007
@@ -2815,12 +2814,12 @@ Component      "lupin" = c:\development\apsim\plant\lib\plant.dll
      
      Crop harvested.
          Organic matter from crop:-      Tops to surface residue      Roots to soil FOM
-                          DM (kg/ha) =               4739.07                    0.00
-                          N  (kg/ha) =                 56.27                    0.00
+                          DM (kg/ha) =                4739.1                     0.0
+                          N  (kg/ha) =                  56.27                    0.00
      
          Organic matter removed from system:-      From Tops               From Roots
-                          DM (kg/ha) =               1561.22                    0.00
-                          N  (kg/ha) =                 81.88                    0.00
+                          DM (kg/ha) =                1561.2                     0.0
+                          N  (kg/ha) =                  81.88                    0.00
      
       stage 11.0 end_crop
      Manager sending message :- lupin kill_crop
@@ -2828,8 +2827,8 @@ Component      "lupin" = c:\development\apsim\plant\lib\plant.dll
      Manager sending message :- lupin end_crop
      Crop ended. Yield (dw) =     0.0  (kg/ha)
          Organic matter from crop:-      Tops to surface residue      Roots to soil FOM
-                          DM (kg/ha) =                  0.00                 1710.87
-                          N  (kg/ha) =                  0.00                   36.75
+                          DM (kg/ha) =                   0.0                  1710.9
+                          N  (kg/ha) =                   0.00                   36.75
      
      Manager creating a new local real variable : dateset =     0.00000000000000
 30 December 1996(Day of year=365), clock: 

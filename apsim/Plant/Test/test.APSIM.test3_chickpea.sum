@@ -305,19 +305,18 @@ Component   "chickpea" = c:\development\apsim\Plant\lib\Plant.dll
       flowering day          =  204                           stover (kg/ha)         =     3358.1
       maturity day           =  279                           grain yield (kg/ha)    =     2371.1
       grain % water content  =   12.0                         grain yield wet (kg/ha)=     2694.4
-      grain wt (g)           =    0.000                       grains/m^2             =      0.000
+      grain wt (g)           =    0.000                       grains/m^2             =        0.0
       grains/plant           =    0.0                         maximum lai            =      2.736
       total above ground biomass (kg/ha)    =     5729.1
       live above ground biomass (kg/ha)     =     5729.1
       green above ground biomass (kg/ha)    =     4655.9
       senesced above ground biomass (kg/ha) =     1073.2
-      dead above ground biomass (kg/ha)     =        0.0
-      number of leaves       =  269.8
-      DM Root:Shoot ratio    =    0.143                       Harvest Index          =      0.414
-      Stover C:N ratio       =   23.596                       Root C:N ratio         =     26.417
-      grain N percent        =       3.60                     total N content (kg/ha)=     142.29
-      grain N uptake (kg/ha) =      85.36                     senesced N content (kg/ha)=   16.10
-      green N content (kg/ha)=      40.83                     dead N content (kg/ha) =       0.00
+      number of leaves       =    269.8
+      DM Root:Shoot ratio    =     0.14                       Harvest Index          =       0.41
+      Stover C:N ratio       =    23.60                       Root C:N ratio         =      26.42
+      grain N percent        =     3.60                       total N content (kg/ha)=     142.29
+      grain N uptake (kg/ha) =    85.36                       senesced N content (kg/ha)=   16.10
+      green N content (kg/ha)=    40.83
      
       Average Stress Indices:                          Water Photo  Water Expan  N Photo      N grain conc
          emergence            to end_of_juvenile         0.000        0.000        0.000        0.000
@@ -329,19 +328,19 @@ Component   "chickpea" = c:\development\apsim\Plant\lib\Plant.dll
      
      Crop harvested.
          Organic matter from crop:-      Tops to surface residue      Roots to soil FOM
-                          DM (kg/ha) =               3358.08                    0.00
-                          N  (kg/ha) =                 56.93                    0.00
+                          DM (kg/ha) =                3358.1                     0.0
+                          N  (kg/ha) =                  56.93                    0.00
      
          Organic matter removed from system:-      From Tops               From Roots
-                          DM (kg/ha) =               2371.06                    0.00
-                          N  (kg/ha) =                 85.36                    0.00
+                          DM (kg/ha) =                2371.1                     0.0
+                          N  (kg/ha) =                  85.36                    0.00
      
       stage 11.0 end_crop
      Manager sending message :- chickpea end_crop
      Crop ended. Yield (dw) =     0.0  (kg/ha)
          Organic matter from crop:-      Tops to surface residue      Roots to soil FOM
-                          DM (kg/ha) =                  0.00                  819.95
-                          N  (kg/ha) =                  0.00                   12.42
+                          DM (kg/ha) =                   0.0                   820.0
+                          N  (kg/ha) =                   0.00                   12.42
      
 8 October 1988(Day of year=282), manager: 
      Manager sending message :- chickpea sow  cultivar = amethyst, plants = 25 (/m2), sowing_depth = 40 (mm)

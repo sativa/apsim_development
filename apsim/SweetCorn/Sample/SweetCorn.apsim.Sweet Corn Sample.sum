@@ -395,19 +395,18 @@ Component  "SweetCorn" = c:\development\apsim\Plant\lib\Plant.dll
       flowering day          =   38                           stover (kg/ha)         =    11777.1
       maturity day           =  101                           grain yield (kg/ha)    =     5661.6
       grain % water content  =   12.5                         grain yield wet (kg/ha)=     6470.4
-      grain wt (g)           =    0.000                       grains/m^2             =      0.000
+      grain wt (g)           =    0.000                       grains/m^2             =        0.0
       grains/plant           =    0.0                         maximum lai            =      4.051
       total above ground biomass (kg/ha)    =    17438.7
       live above ground biomass (kg/ha)     =    17438.7
       green above ground biomass (kg/ha)    =        0.0
       senesced above ground biomass (kg/ha) =    17438.7
-      dead above ground biomass (kg/ha)     =        0.0
-      number of leaves       =   20.7
-      DM Root:Shoot ratio    =    0.114                       Harvest Index          =      0.325
-      Stover C:N ratio       =   27.807                       Root C:N ratio         =     37.497
-      grain N percent        =       1.13                     total N content (kg/ha)=     233.37
-      grain N uptake (kg/ha) =      63.95                     senesced N content (kg/ha)=  169.41
-      green N content (kg/ha)=       0.00                     dead N content (kg/ha) =       0.00
+      number of leaves       =     20.7
+      DM Root:Shoot ratio    =     0.11                       Harvest Index          =       0.32
+      Stover C:N ratio       =    27.81                       Root C:N ratio         =      37.50
+      grain N percent        =     1.13                       total N content (kg/ha)=     233.37
+      grain N uptake (kg/ha) =    63.95                       senesced N content (kg/ha)=  169.41
+      green N content (kg/ha)=     0.00
      
       Average Stress Indices:                          Water Photo  Water Expan  N Photo      N grain conc
          emergence            to endjuv_to_fi            0.000        0.000        0.000        0.020
@@ -420,18 +419,18 @@ Component  "SweetCorn" = c:\development\apsim\Plant\lib\Plant.dll
      
      Crop harvested.
          Organic matter from crop:-      Tops to surface residue      Roots to soil FOM
-                          DM (kg/ha) =               11777.13                    0.00
-                          N  (kg/ha) =                169.41                    0.00
+                          DM (kg/ha) =               11777.1                     0.0
+                          N  (kg/ha) =                 169.41                    0.00
      
          Organic matter removed from system:-      From Tops               From Roots
-                          DM (kg/ha) =               5661.57                    0.00
-                          N  (kg/ha) =                 63.95                    0.00
+                          DM (kg/ha) =                5661.6                     0.0
+                          N  (kg/ha) =                  63.95                    0.00
      
      Manager sending message :- sweetcorn end_crop
      Crop ended. Yield (dw) =     0.0  (kg/ha)
          Organic matter from crop:-      Tops to surface residue      Roots to soil FOM
-                          DM (kg/ha) =                  0.00                 1982.93
-                          N  (kg/ha) =                  0.00                   21.15
+                          DM (kg/ha) =                   0.0                  1982.9
+                          N  (kg/ha) =                   0.00                   21.15
      
 30 June 1999(Day of year=181), clock: 
      Simulation is terminating due to end criteria being met.

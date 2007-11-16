@@ -290,19 +290,18 @@ Component    "soybean" = c:\development\apsim\Plant\lib\Plant.dll
       flowering day          =   15                           stover (kg/ha)         =     6207.3
       maturity day           =    0                           grain yield (kg/ha)    =     2911.4
       grain % water content  =    8.5                         grain yield wet (kg/ha)=     3181.9
-      grain wt (g)           =    0.000                       grains/m^2             =      0.000
+      grain wt (g)           =    0.000                       grains/m^2             =        0.0
       grains/plant           =    0.0                         maximum lai            =      6.584
       total above ground biomass (kg/ha)    =     9118.7
       live above ground biomass (kg/ha)     =     9118.7
       green above ground biomass (kg/ha)    =        0.0
       senesced above ground biomass (kg/ha) =     9118.7
-      dead above ground biomass (kg/ha)     =        0.0
-      number of leaves       =   30.6
-      DM Root:Shoot ratio    =    0.371                       Harvest Index          =      0.319
-      Stover C:N ratio       =   20.616                       Root C:N ratio         =     19.956
-      grain N percent        =       6.50                     total N content (kg/ha)=     309.68
-      grain N uptake (kg/ha) =     189.24                     senesced N content (kg/ha)=  120.44
-      green N content (kg/ha)=       0.00                     dead N content (kg/ha) =       0.00
+      number of leaves       =     30.6
+      DM Root:Shoot ratio    =     0.37                       Harvest Index          =       0.32
+      Stover C:N ratio       =    20.62                       Root C:N ratio         =      19.96
+      grain N percent        =     6.50                       total N content (kg/ha)=     309.68
+      grain N uptake (kg/ha) =   189.24                       senesced N content (kg/ha)=  120.44
+      green N content (kg/ha)=     0.00
      
       Average Stress Indices:                          Water Photo  Water Expan  N Photo      N grain conc
          emergence            to end_of_juvenile         0.000        0.000        0.000        0.007
@@ -313,18 +312,18 @@ Component    "soybean" = c:\development\apsim\Plant\lib\Plant.dll
      
      Crop harvested.
          Organic matter from crop:-      Tops to surface residue      Roots to soil FOM
-                          DM (kg/ha) =               6207.32                    0.00
-                          N  (kg/ha) =                120.44                    0.00
+                          DM (kg/ha) =                6207.3                     0.0
+                          N  (kg/ha) =                 120.44                    0.00
      
          Organic matter removed from system:-      From Tops               From Roots
-                          DM (kg/ha) =               2911.43                    0.00
-                          N  (kg/ha) =                189.24                    0.00
+                          DM (kg/ha) =                2911.4                     0.0
+                          N  (kg/ha) =                 189.24                    0.00
      
      Manager sending message :- soybean end_crop
      Crop ended. Yield (dw) =     0.0  (kg/ha)
          Organic matter from crop:-      Tops to surface residue      Roots to soil FOM
-                          DM (kg/ha) =                  0.00                 3378.96
-                          N  (kg/ha) =                  0.00                   67.73
+                          DM (kg/ha) =                   0.0                  3379.0
+                          N  (kg/ha) =                   0.00                   67.73
      
 31 March 1989(Day of year=90), clock: 
      Simulation is terminating due to end criteria being met.
