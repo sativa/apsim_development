@@ -46,6 +46,8 @@ void HerbageConverter::doInit1(const protocol::Init1Data& initData)
 
    dmFeedOnOfferID = system->addRegistration(RegistrationType::respondToGet, "dm_feed_on_offer", singleArrayTypeDDML);
    dmFeedRemovedID = system->addRegistration(RegistrationType::respondToGet, "dm_feed_removed", singleArrayTypeDDML);
+   DmdFeedRemovedID = system->addRegistration(RegistrationType::respondToGet, "dm_feed_removed_dmd_class", singleArrayTypeDDML);
+   DmdAvgFeedRemovedID = system->addRegistration(RegistrationType::respondToGet, "dmd_avg_feed_removed", singleTypeDDML);
 
      herbage_model = system->readParameter ("constants", "herbage_model");
 
@@ -162,6 +164,8 @@ void HerbageConverter::respondToGet(unsigned int& fromID,
 
    //dm feed removed
    else if (queryData.ID == dmFeedRemovedID) sendFeedRemoved(queryData);
+   else if (queryData.ID == DmdAvgFeedRemovedID) sendDmdAvgFeedRemoved(queryData);
+   else if (queryData.ID == DmdFeedRemovedID) sendDmdFeedRemoved(queryData);
 
    // plant2stock
    else if (queryData.ID == plant2stockID)  sendPlant2Stock(queryData);
@@ -182,7 +186,7 @@ void HerbageConverter::sendTrampling(protocol::QueryValueData& queryData)
 
 void HerbageConverter::sendFeedOnOffer(protocol::QueryValueData& queryData)
 {
-      float dmFeedOnOffer[20] = {0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0};
+      float dmFeedOnOffer[8] = {0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0};
       int num_parts = feed.herbage.size();
       if (num_parts > 0)
       {
@@ -208,12 +212,12 @@ void HerbageConverter::sendFeedOnOffer(protocol::QueryValueData& queryData)
       {
          num_seed_parts = 2;
       }
-      system->sendVariable(queryData, vector <float> (dmFeedOnOffer, dmFeedOnOffer+num_parts+num_seed_parts-1));
+      system->sendVariable(queryData, vector <float> (dmFeedOnOffer, dmFeedOnOffer+num_parts+num_seed_parts));
 }
 
 void HerbageConverter::sendFeedRemoved(protocol::QueryValueData& queryData)
 {
-      float dmFeedRemoved[20] = {0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0};
+      float dmFeedRemoved[8] = {0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0};
       int num_parts = grazed.herbage.size();
       if (num_parts > 0)
       {
@@ -239,7 +243,70 @@ void HerbageConverter::sendFeedRemoved(protocol::QueryValueData& queryData)
       {
          num_seed_parts = 2;
       }
-      system->sendVariable(queryData, vector <float> (dmFeedRemoved, dmFeedRemoved+num_parts+num_seed_parts-1));
+      system->sendVariable(queryData, vector <float> (dmFeedRemoved, dmFeedRemoved+num_parts+num_seed_parts));
+}
+
+void HerbageConverter::sendDmdFeedRemoved(protocol::QueryValueData& queryData)
+{
+      float dmdFeedRemoved[8] = {0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0};
+      int num_parts = grazed.herbage.size();
+      if (num_parts > 0)
+      {
+         for (int i = 0; i != num_parts; i++)
+         {
+            dmdFeedRemoved[i] = grazed.herbage[i];
+         }
+      }
+      else
+      {
+         num_parts = 6;
+      }
+
+      int num_seed_parts = grazed.seed.size();
+      if (num_seed_parts > 0)
+      {
+         for (int i = 0; i != num_seed_parts; i++)
+         {
+            dmdFeedRemoved[num_parts + i] = grazed.seed[i];
+         }
+      }
+      else
+      {
+         num_seed_parts = 2;
+      }
+      system->sendVariable(queryData, vector <float> (dmdFeedRemoved, dmdFeedRemoved+num_parts+num_seed_parts));
+}
+
+void HerbageConverter::sendDmdAvgFeedRemoved(protocol::QueryValueData& queryData)
+{
+      float dmdFeedRemoved = 0.0;
+      float dmTotal1 = 0.0;
+      int num_parts = feed.herbage.size();
+      if (num_parts > 0)
+      {
+         for (int i = 0; i != num_parts; i++)
+         {
+            dmdFeedRemoved += feed.herbage[i].dmd * grazed.herbage[i];
+            dmTotal1 +=  grazed.herbage[i];
+         }
+      }
+
+      int num_seed_parts = grazed.seed.size();
+      if (num_seed_parts > 0)
+      {
+         for (int i = 0; i != num_seed_parts; i++)
+         {
+            dmdFeedRemoved += feed.seed[i].dmd * grazed.seed[i];
+            dmTotal1 +=  grazed.seed[i];
+         }
+      }
+      if (dmTotal1 > 0)
+         dmdFeedRemoved = dmdFeedRemoved / dmTotal1;
+      else
+         dmdFeedRemoved;
+
+      system->sendVariable(queryData, dmdFeedRemoved);
+
 }
 
 void HerbageConverter::sendPlant2Stock(protocol::QueryValueData& queryData)

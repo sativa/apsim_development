@@ -48,7 +48,7 @@ class PlantPool
    friend ostream &operator<<(ostream &, const PlantPool &);
       public:                                                                       // member functions
             PlantPool(void);                  // default constructor
-            PlantPool(float greenLeaf, float greenStem, float greenPod, float senescedLeaf, float senescedStem, float senescedPod, float deadLeaf, float deadStem, float deadPod);
+            PlantPool(float greenLeaf, float greenStem, float greenPod, float senescedLeaf, float senescedStem, float senescedPod);
             virtual ~PlantPool(void);                                       // destructor
             PlantPool(const PlantPool &PlantPool);                                  // copy constructor
             const PlantPool &operator=(const PlantPool &other);         // Assigment operator
@@ -60,8 +60,8 @@ class PlantPool
             PlantPool operator/ (const PlantPool &y) const;  // Command
             PlantPool operator/ (const float &y) const;  // Command
             PlantPool multiply (const PlantPool &y);  // Command
-            void setValue(float greenLeaf, float greenStem, float greenPod, float senescedLeaf, float senescedStem, float senescedPod, float deadLeaf, float deadStem, float deadPod);
-            void setValue(PlantPartType &green, PlantPartType &senesced, PlantPartType &dead);
+            void setValue(float greenLeaf, float greenStem, float greenPod, float senescedLeaf, float senescedStem, float senescedPod);
+            void setValue(PlantPartType &green, PlantPartType &senesced);
             float total(void) const;    // Query
 
             virtual void display(ostream &os = cout) const; // display function
@@ -70,7 +70,6 @@ class PlantPool
 
          PlantPartType green;
          PlantPartType senesced;
-         PlantPartType dead;
       private:
 };
 

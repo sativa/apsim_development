@@ -47,7 +47,7 @@ class SeedPool
    friend ostream &operator<<(ostream &, const SeedPool &);
       public:                                                                       // member functions
             SeedPool();                  // default constructor
-            SeedPool(float greenmeal, float greenoil, float senescedmeal, float senescedoil, float deadmeal, float deadoil);
+            SeedPool(float greenmeal, float greenoil, float senescedmeal, float senescedoil);
             virtual ~SeedPool();                                       // destructor
             SeedPool(const SeedPool &SeedPool);                                  // copy constructor
             const SeedPool &operator=(const SeedPool &other);         // Assigment operator
@@ -59,8 +59,8 @@ class SeedPool
             SeedPool operator/ (const SeedPool &y) const;  // Command
             SeedPool operator/ (const float &y) const;  // Command
             SeedPool multiply (const SeedPool &y);  // Command
-            void setValue(float greenmeal, float greenoil, float senescedmeal, float senescedoil, float deadmeal, float deadoil);
-            void setValue(SeedPartType &green, SeedPartType &senesced, SeedPartType &dead);
+            void setValue(float greenmeal, float greenoil, float senescedmeal, float senescedoil);
+            void setValue(SeedPartType &green, SeedPartType &senesced);
             float total() const;    // Query
 
             virtual void display(ostream &os = cout) const; // display function
@@ -69,7 +69,6 @@ class SeedPool
 
          SeedPartType green;
          SeedPartType senesced;
-         SeedPartType dead;
       private:
 };
 

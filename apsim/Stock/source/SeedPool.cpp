@@ -327,16 +327,14 @@ SeedPool::SeedPool()                     // member initialisation
 {
    green.setValue(0.0, 0.0);
    senesced.setValue(0.0, 0.0);
-   dead.setValue(0.0, 0.0);
 
 }
 
-SeedPool::SeedPool(float greenmeal, float greenoil, float senescedmeal, float senescedoil, float deadmeal, float deadoil)
+SeedPool::SeedPool(float greenmeal, float greenoil, float senescedmeal, float senescedoil)
 {
 
       green.setValue(greenmeal, greenoil);
       senesced.setValue(senescedmeal, senescedoil);
-      dead.setValue(deadmeal, deadoil);
 
 }
 
@@ -350,7 +348,6 @@ ostream &operator<<(ostream &output, const SeedPool &pool)
       output << "SeedPool:" << endl;
       output << "   Green :    " << endl << pool.green;
       output << "   Senesced : " << endl << pool.senesced;
-      output << "   Dead :     " << endl << pool.dead;
       return output;
 }
 
@@ -360,7 +357,6 @@ SeedPool::SeedPool(const SeedPool &SeedPool)
 {
       green = SeedPool.green;
       senesced=SeedPool.senesced;
-      dead=SeedPool.dead;
 
 }
 
@@ -374,7 +370,6 @@ const SeedPool &SeedPool::operator=(const SeedPool &other)
             // copy data members over
             green = other.green;
             senesced = other.senesced;
-            dead = other.dead;
 
       }
       return *this;
@@ -396,7 +391,6 @@ SeedPool SeedPool::operator+ (const SeedPool &y) const
    //Implementation
    result.green = green + y.green;
    result.senesced = senesced + y.senesced;
-   result.dead = dead + y.dead;
 
    return result;
    }
@@ -418,7 +412,6 @@ SeedPool SeedPool::operator- (const SeedPool &y) const
    //Implementation
    result.green = green - y.green;
    result.senesced = senesced - y.senesced;
-   result.dead = dead - y.dead;
 
    return result;
    }
@@ -439,7 +432,6 @@ SeedPool SeedPool::operator* (const SeedPool &y) const
    //Implementation
    result.green = green * y.green;
    result.senesced = senesced * y.senesced;
-   result.dead = dead * y.dead;
 
    return result;
    }
@@ -460,7 +452,6 @@ SeedPool SeedPool::operator* (const float &y) const
    //Implementation
    result.green = green * y;
    result.senesced = senesced * y;
-   result.dead = dead * y;
 
    return result;
    }
@@ -479,7 +470,6 @@ SeedPool SeedPool::operator/ (const SeedPool &divisor)  const
    //Implementation
    quotient.green = green / divisor.green;
    quotient.senesced = senesced / divisor.senesced;
-   quotient.dead = dead / divisor.dead;
 
    return quotient;
    }
@@ -498,7 +488,6 @@ SeedPool SeedPool::operator/ (const float &divisor)  const
    //Implementation
    quotient.green = green / divisor;
    quotient.senesced = senesced / divisor;
-   quotient.dead = dead / divisor;
 
    return quotient;
    }
@@ -520,26 +509,23 @@ SeedPool SeedPool::multiply (const SeedPool &y)
    //Implementation
    result.green = green * y.green;
    result.senesced = senesced * y.senesced;
-   result.dead = dead * y.dead;
 
    return result;
    }
 
-void SeedPool::setValue(float greenmeal, float greenoil, float senescedmeal, float senescedoil, float deadmeal, float deadoil)
+void SeedPool::setValue(float greenmeal, float greenoil, float senescedmeal, float senescedoil)
 {
 
       green.setValue(greenmeal, greenoil);
       senesced.setValue(senescedmeal, senescedoil);
-      dead.setValue(deadmeal, deadoil);
 
 }
 
-void SeedPool::setValue(SeedPartType &greenValue, SeedPartType &senescedValue, SeedPartType &deadValue)
+void SeedPool::setValue(SeedPartType &greenValue, SeedPartType &senescedValue)
 {
 
       green = greenValue;
       senesced = senescedValue;
-      dead = deadValue;
 
 }
 
@@ -548,7 +534,7 @@ void SeedPool::setValue(SeedPartType &greenValue, SeedPartType &senescedValue, S
 // Query
 float SeedPool::total() const
 {
-      return (green.total() + senesced.total() + dead.total());
+      return (green.total() + senesced.total());
 }
 
 void SeedPool::display(ostream &os) const
@@ -558,8 +544,6 @@ void SeedPool::display(ostream &os) const
       os << "Green oil: " << green.oil << endl;
       os << "Senesced meal: " << senesced.meal << endl;
       os << "Senesced oil: " << senesced.oil << endl;
-      os << "Dead meal: " << dead.meal << endl;
-      os << "Dead oil: " << dead.oil << endl << endl;
 }
 
 
@@ -588,9 +572,9 @@ int main()
 	SeedPool p; //, *aPtr = &p;
 
 	cout << endl << "Test set and get functions:" << endl;
-	p.setValue(10.0, 2.0, 1.0, 20.0, 3.0, 1.5);
+	p.setValue(10.0, 2.0, 1.0, 20.0);
 	if (p.total() != 69.0)
-		cout << "setValue(10.0, 2.0, 1.0, 20.0, 3.0, 1.5) / Total() test FAILED"
+		cout << "setValue(10.0, 2.0, 1.0, 20.0) / Total() test FAILED"
 		<< endl;
 
 	cout << endl << "Test default constructor:" << endl;
@@ -599,7 +583,7 @@ int main()
 		cout << "default constructor test FAILED" << endl;
 
 	cout << endl << "Test constructor:" << endl;
-	SeedPool a(1.0, 2.0, 3.0, 4.0, 5.0, 6.0);                           						// run default constructor
+	SeedPool a(1.0, 2.0, 3.0, 4.0);                           						// run default constructor
 	if (a.total() != 21.0)
 		cout << "constructor test FAILED" << endl;
 
@@ -609,7 +593,7 @@ int main()
       cout << "copy constructor test FAILED" << endl;
 
 	cout << endl << "Test assignment operator:" << endl;
-	s.setValue(50.0, 5.0, 0.5, 60.0, 6.0, 0.6); // change object
+	s.setValue(50.0, 5.0, 0.5, 60.0); // change object
 
 	if (s.total() != p.total())
 	{
@@ -621,36 +605,36 @@ int main()
 		cout << "assignment operator test FAILED DIFFERENCE TEST" << endl;
 
 	cout << endl << "Test multiply operator:" << endl;
-	s.setValue(50.0, 5.0, 0.5, 60.0, 6.0, 0.6); // change object
+	s.setValue(50.0, 5.0, 0.5, 60.0); // change object
 	SeedPool k = p * s;
 	if (k.total() != 3856.0)
 		cout << "multiply operator test FAILED" << endl;
 
 	cout << endl << "Test simple multiply operator:" << endl;
-	s.setValue(50.0, 5.0, 0.5, 60.0, 6.0, 0.6); // change object
+	s.setValue(50.0, 5.0, 0.5, 60.0); // change object
 	 k = s * 2.0;
 	if (k.total() != 396.0)
 		cout << "simple multiply operator test FAILED" << endl;
 
 	cout << endl << "Test divide operator:" << endl;
-	s.setValue(50.0, 5.0, 0.5, 60.0, 6.0, 0.6); // change object
+	s.setValue(50.0, 5.0, 0.5, 60.0); // change object
 	 k = s/p;
 	if (k.total() < 16.58332 || k.total() > 16.58334)
 		cout << "divide operator test FAILED" << endl;
 
 	cout << endl << "Test simple divide operator:" << endl;
-	s.setValue(50.0, 5.0, 0.5, 60.0, 6.0, 0.6); // change object
+	s.setValue(50.0, 5.0, 0.5, 60.0); // change object
 	 k = s / 2.0;
 	if (k.total() != 99.0)
 		cout << "simple divide operator test FAILED" << endl;
 
 	SeedPool t;
-	t.setValue(50.0, 5.0, 0.5, 60.0, 6.0, 0.6); // change object
+	t.setValue(50.0, 5.0, 0.5, 60.0); // change object
 	cout << endl << "Display SeedPool t" << endl;
 	t.display();
 
 	SeedPool x;
-	x.setValue(50.0, 5.0, 0.5, 60.0, 6.0, 0.6); // change object
+	x.setValue(50.0, 5.0, 0.5, 60.0); // change object
 
 	cout << endl << "Display SeedPool x - static binding" << endl;
 	x.display();
