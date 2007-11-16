@@ -445,14 +445,6 @@ void plantPart::readCultivarParameters (protocol::Component*, const string&)
                 , "y_width", "(mm)", 0.0, 5000.0);
    }
 
-void plantPart::onSowing()
-//=======================================================================================
-   {
-   }
-void plantPart::onGermination()
-//=======================================================================================
-   {
-   }
 void plantPart::onEmergence()
 //=======================================================================================
    {
@@ -503,11 +495,6 @@ void plantPart::onKillStem(void)
 
    }
 
-
-void plantPart::doProcessBioDemand(void)
-//===========================================================================
-{
-}
 
 void plantPart::doNConccentrationLimits(float)
 //=======================================================================================
@@ -901,11 +888,6 @@ float plantPart::dltDmRetranslocateSupply(float /* DemandDifferential*/)
 //   dlt.dm_green_retrans = - DltDmRetransPart;
 //   return DltDmRetransPart;
    return 0.0;
-   }
-
-void plantPart::doDmMin(void)
-//=======================================================================================
-   {   // do nothing - set on events
    }
 
 float plantPart::nDemandDifferential(void)
@@ -1365,24 +1347,6 @@ float plantPart::pRetransDemand(void)
       return l_bound(pMaxPot() - Green().P, 0.0);
    else
       return 0.0;
-   }
-
-float plantPart::nRetransDemand(void)
-//=======================================================================================
-   {
-//    if (c.yield_part)
-//       return l_bound(nMaxPot() - Green().N, 0.0);
-//    else
-   return 0.0;
-   }
-
-float plantPart::dmRetransDemand(void)
-//=======================================================================================
-   {
-//    if (c.yield_part)
-//       return l_bound(dmMaxPot() - Green().DM, 0.0);
-//    else
-   return 0.0;
    }
 
 

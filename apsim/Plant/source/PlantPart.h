@@ -168,7 +168,7 @@ public:
    virtual void morphology(void);
    virtual void doNConccentrationLimits(float);
    virtual void doDmRetranslocate(float DMAvail, float DMDemandDifferentialTotal);
-   virtual void doDmMin(void);
+   virtual void doDmMin(void){};
    virtual void doNDemand1(float, float);
    virtual void doNDemand1Pot(float, float);
    virtual void doNDemand2(float, float);
@@ -179,7 +179,7 @@ public:
    virtual void doNRetranslocate( float N_supply, float g_grain_n_demand);
    virtual void doNFixRetranslocate(float NFix, float NDemandDifferentialTotal);
    virtual void Detachment(void);
-   virtual void doProcessBioDemand(void);
+   virtual void doProcessBioDemand(void){};
 
    virtual void doPDemand(void);
    virtual void doPSenescence(void);
@@ -245,7 +245,7 @@ public:
    virtual float dmGreenNew(void) ;
    virtual float dmSenescedVeg(void);
    virtual float dmRetransSupply(void);
-   virtual float dmRetransDemand(void) ;
+   virtual float dmRetransDemand(void){return 0.0;} ;
    virtual float dmGreenStressDeterminant(void);
 
    virtual float nMaxPot(void);
@@ -263,7 +263,7 @@ public:
    virtual float soilNDemand(void);
    virtual void  doNPartition(float nSupply, float n_demand_sum, float n_capacity_sum);
    virtual float nRetransSupply(void);
-   virtual float nRetransDemand(void);
+   virtual float nRetransDemand(void){return 0.0;};
    virtual float nDemandDifferential(void);
    virtual float nMin(void)  {return g.n_conc_min * Green().DM;};
    virtual float nCrit(void)  {return g.n_conc_crit * Green().DM;};
@@ -362,8 +362,8 @@ public:
 
    protected:
 
-      virtual void onSowing(void);
-      virtual void onGermination(void);
+      virtual void onSowing(void){};
+      virtual void onGermination(void){};
 
       virtual void onTransplanting(void) {};
       virtual void onFlowering(void);
