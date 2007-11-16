@@ -9,11 +9,11 @@ using namespace std;
 plantPart::plantPart(ScienceAPI& api, plantInterface *p, const string &name)
 //=======================================================================================
      : plantThing(api),
-       PrivateSenesced(api, "Senesced", name),
+       PrivateSenesced(*p, api, "Senesced", name),
        Senescing(api, "Senescing", name),
        Detaching(api, "Detaching", name),
        privateGrowth(api, "Growth", name),
-       PrivateGreen(api, "Green", name),
+       PrivateGreen(*p, api, "Green", name),
        Retranslocation (api, "Retranslocation", name)
      {
      zeroAllGlobals();
@@ -448,7 +448,7 @@ void plantPart::readCultivarParameters (protocol::Component*, const string&)
 void plantPart::onEmergence()
 //=======================================================================================
    {
-   Green().Init(plant->getPlants());
+   Green().Init();
    }
 
 void plantPart::onFlowering(void)

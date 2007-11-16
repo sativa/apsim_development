@@ -8,11 +8,12 @@
 #include "Delta.h"
 using namespace std;
 
-Pool::Pool(ScienceAPI& API, const std::string& Name, const std::string& PartName)
+Pool::Pool(plantInterface& p, ScienceAPI& API, const std::string& Name, const std::string& PartName)
    {
    this->Name = Name;
    this->PartName = PartName;
    this->scienceAPI = &API;
+   this->plant = &p;
    Clear();
 
    scienceAPI->expose(PartName+Name+"Wt", "g/m^2", Name + " " + PartName + " dry matter", DM);
@@ -21,6 +22,7 @@ Pool::Pool(ScienceAPI& API, const std::string& Name, const std::string& PartName
 
    scienceAPI->exposeFunction(PartName+Name+"nconc", "%", "N concentration in "+Name+" "+PartName, FloatFunction(&Pool::NconcPercent));
    scienceAPI->exposeFunction(PartName+Name+"pconc", "%", "P concentration in "+Name+" "+PartName, FloatFunction(&Pool::PconcPercent));
+
 
    DigestibilityMax.read(*scienceAPI
                         , "x_dmd_stage_code" , "()", 1.0, 12.0
@@ -47,11 +49,11 @@ void Pool::Clear (void)
    P = 0.0;
    }
 
-void Pool::Init(float Plants)
+void Pool::Init()
    {
    if (scienceAPI == NULL)
       throw runtime_error ("Cannot initialise pool. SciencAPI is NULL");
-
+   float Plants = plant->getPlants();
    float dm_init;
    float n_init_conc;
    float p_init_conc;
@@ -128,8 +130,8 @@ Pool Pool::operator = (const Pool& Pool2)
    Name = Pool2.Name;
    // Now check nothing is negative
    const float ctz = -0.00001;
-   if (DM < ctz) cerr << endl << "     *** " << PartName + " " + Name + " DM pool is negative! " + ftoa(DM,6) << endl << endl;
-   if (N < ctz)  cerr << endl << "     *** " << PartName + " " + Name + " N pool is negative! " + ftoa(N,6) << endl<< endl;
-   if (P < ctz)  cerr << endl << "     *** " << PartName + " " + Name + " P pool is negative! " + ftoa(P,6) << endl<< endl;
+   if (DM < ctz) cerr << endl << "     *** " << PartName << " " << Name << " DM pool is negative! " << ftoa(DM,6) << endl << endl;
+   if (N < ctz)  cerr << endl << "     *** " << PartName << " "<< Name << " N pool is negative! " << ftoa(N,6) << endl<< endl;
+   if (P < ctz)  cerr << endl << "     *** " << PartName << " " << Name << " P pool is negative! " << ftoa(P,6) << endl<< endl;
    return *this;
    }   
