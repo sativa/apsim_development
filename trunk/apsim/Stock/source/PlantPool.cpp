@@ -341,15 +341,13 @@ PlantPool::PlantPool(void)                     // member initialisation
 {
    green.setValue(0.0, 0.0, 0.0);
    senesced.setValue(0.0, 0.0, 0.0);
-   dead.setValue(0.0, 0.0, 0.0);
 }
 
-PlantPool::PlantPool(float greenLeaf, float greenStem, float greenPod, float senescedLeaf, float senescedStem, float senescedPod, float deadLeaf, float deadStem, float deadPod)
+PlantPool::PlantPool(float greenLeaf, float greenStem, float greenPod, float senescedLeaf, float senescedStem, float senescedPod)
 {
 
       green.setValue(greenLeaf, greenStem, greenPod);
       senesced.setValue(senescedLeaf, senescedStem, senescedPod);
-      dead.setValue(deadLeaf, deadStem, deadPod);
 }
 
 // destructor
@@ -362,7 +360,6 @@ ostream &operator<<(ostream &output, const PlantPool &pool)
       output << "PlantPool:" << endl;
       output << "   Green :    " << endl << pool.green;
       output << "   Senesced : " << endl << pool.senesced;
-      output << "   Dead :     " << endl << pool.dead;
       return output;
 }
 
@@ -372,7 +369,6 @@ PlantPool::PlantPool(const PlantPool &PlantPool)
 {
       green = PlantPool.green;
       senesced=PlantPool.senesced;
-      dead=PlantPool.dead;
 }
 
 
@@ -385,7 +381,6 @@ const PlantPool &PlantPool::operator=(const PlantPool &other)
             // copy data members over
             green = other.green;
             senesced = other.senesced;
-            dead = other.dead;
       }
       return *this;
 }
@@ -406,7 +401,6 @@ PlantPool PlantPool::operator+ (const PlantPool &y) const
    //Implementation
    result.green = green + y.green;
    result.senesced = senesced + y.senesced;
-   result.dead = dead + y.dead;
    return result;
    }
 
@@ -427,7 +421,6 @@ PlantPool PlantPool::operator- (const PlantPool &y) const
    //Implementation
    result.green = green - y.green;
    result.senesced = senesced - y.senesced;
-   result.dead = dead - y.dead;
    return result;
    }
 
@@ -447,7 +440,6 @@ PlantPool PlantPool::operator* (const PlantPool &y) const
    //Implementation
    result.green = green * y.green;
    result.senesced = senesced * y.senesced;
-   result.dead = dead * y.dead;
    return result;
    }
 
@@ -467,7 +459,6 @@ PlantPool PlantPool::operator* (const float &y) const
    //Implementation
    result.green = green * y;
    result.senesced = senesced * y;
-   result.dead = dead * y;
    return result;
    }
 
@@ -485,7 +476,6 @@ PlantPool PlantPool::operator/ (const PlantPool &divisor)  const
    //Implementation
    quotient.green = green / divisor.green;
    quotient.senesced = senesced / divisor.senesced;
-   quotient.dead = dead / divisor.dead;
    return quotient;
    }
 
@@ -503,7 +493,6 @@ PlantPool PlantPool::operator/ (const float &divisor)  const
    //Implementation
    quotient.green = green / divisor;
    quotient.senesced = senesced / divisor;
-   quotient.dead = dead / divisor;
    return quotient;
    }
 
@@ -523,24 +512,21 @@ PlantPool PlantPool::multiply (const PlantPool &y)
    //Implementation
    result.green = green * y.green;
    result.senesced = senesced * y.senesced;
-   result.dead = dead * y.dead;
    return result;
    }
 
-void PlantPool::setValue(float greenLeaf, float greenStem, float greenPod, float senescedLeaf, float senescedStem, float senescedPod, float deadLeaf, float deadStem, float deadPod)
+void PlantPool::setValue(float greenLeaf, float greenStem, float greenPod, float senescedLeaf, float senescedStem, float senescedPod)
 {
 
       green.setValue(greenLeaf, greenStem, greenPod);
       senesced.setValue(senescedLeaf, senescedStem, senescedPod);
-      dead.setValue(deadLeaf, deadStem, deadPod);
 }
 
-void PlantPool::setValue(PlantPartType &greenValue, PlantPartType &senescedValue, PlantPartType &deadValue)
+void PlantPool::setValue(PlantPartType &greenValue, PlantPartType &senescedValue)
 {
 
       green = greenValue;
       senesced = senescedValue;
-      dead = deadValue;
 }
 
 
@@ -548,7 +534,7 @@ void PlantPool::setValue(PlantPartType &greenValue, PlantPartType &senescedValue
 // Query
 float PlantPool::total(void) const
 {
-      return (green.total() + senesced.total() + dead.total());
+      return (green.total() + senesced.total());
 }
 
 void PlantPool::display(ostream &os) const
@@ -560,9 +546,6 @@ void PlantPool::display(ostream &os) const
       os << "Senesced leaf: " << senesced.leaf << endl;
       os << "Senesced stem: " << senesced.stem << endl;
       os << "Senesced pod: " << senesced.pod << endl;
-      os << "Dead leaf: " << dead.leaf << endl;
-      os << "Dead pod: " << dead.pod << endl;
-      os << "Dead stem: " << dead.stem << endl << endl;
 }
 
 
@@ -591,9 +574,9 @@ int main(void)
       PlantPool p; //, *aPtr = &p;
 
       cout << endl << "Test set and get functions:" << endl;
-      p.setValue(10.0, 2.0, 1.0, 20.0, 3.0, 1.5, 30.0, 4.0, 2.0);
+      p.setValue(10.0, 2.0, 1.0, 20.0, 3.0, 1.5);
       if (p.total() != 69.0)
-            cout << "setValue(10.0, 2.0, 1.0, 20.0, 3.0, 1.5, 30.0, 4.0, 2.0) / Total() test FAILED"
+            cout << "setValue(10.0, 2.0, 1.0, 20.0, 3.0, 1.5) / Total() test FAILED"
             << endl;
 
       cout << endl << "Test default constructor:" << endl;
@@ -602,7 +585,7 @@ int main(void)
             cout << "default constructor test FAILED" << endl;
 
       cout << endl << "Test constructor:" << endl;
-      PlantPool a(1.0, 2.0, 3.0, 4.0, 5.0, 6.0, 7.0, 8.0, 9.0);                                                               // run default constructor
+      PlantPool a(1.0, 2.0, 3.0, 4.0, 5.0, 6.0);                                                               // run default constructor
       if (a.total() != 21.0)
             cout << "constructor test FAILED" << endl;
 
@@ -612,7 +595,7 @@ int main(void)
       cout << "copy constructor test FAILED" << endl;
 
       cout << endl << "Test assignment operator:" << endl;
-      s.setValue(50.0, 5.0, 0.5, 60.0, 6.0, 0.6, 70.0, 7.0, 0.7); // change object
+      s.setValue(50.0, 5.0, 0.5, 60.0, 6.0, 0.6); // change object
 
       if (s.total() != p.total())
       {
@@ -624,36 +607,36 @@ int main(void)
             cout << "assignment operator test FAILED DIFFERENCE TEST" << endl;
 
       cout << endl << "Test multiply operator:" << endl;
-      s.setValue(50.0, 5.0, 0.5, 60.0, 6.0, 0.6, 70.0, 7.0, 0.7); // change object
+      s.setValue(50.0, 5.0, 0.5, 60.0, 6.0, 0.6); // change object
       PlantPool k = p * s;
       if (k.total() != 3856.0)
             cout << "multiply operator test FAILED" << endl;
 
       cout << endl << "Test simple multiply operator:" << endl;
-      s.setValue(50.0, 5.0, 0.5, 60.0, 6.0, 0.6, 70.0, 7.0, 0.7); // change object
+      s.setValue(50.0, 5.0, 0.5, 60.0, 6.0, 0.6); // change object
        k = s * 2.0;
       if (k.total() != 396.0)
             cout << "simple multiply operator test FAILED" << endl;
 
       cout << endl << "Test divide operator:" << endl;
-      s.setValue(50.0, 5.0, 0.5, 60.0, 6.0, 0.6, 70.0, 7.0, 0.7); // change object
+      s.setValue(50.0, 5.0, 0.5, 60.0, 6.0, 0.6); // change object
        k = s/p;
       if (k.total() < 16.58332 || k.total() > 16.58334)
             cout << "divide operator test FAILED" << endl;
 
       cout << endl << "Test simple divide operator:" << endl;
-      s.setValue(50.0, 5.0, 0.5, 60.0, 6.0, 0.6, 70.0, 7.0, 0.7); // change object
+      s.setValue(50.0, 5.0, 0.5, 60.0, 6.0, 0.6); // change object
        k = s / 2.0;
       if (k.total() != 99.0)
             cout << "simple divide operator test FAILED" << endl;
 
       PlantPool t;
-      t.setValue(50.0, 5.0, 0.5, 60.0, 6.0, 0.6, 70.0, 7.0, 0.7); // change object
+      t.setValue(50.0, 5.0, 0.5, 60.0, 6.0, 0.6); // change object
       cout << endl << "Display PlantPool t" << endl;
       t.display();
 
       PlantPool x;
-      x.setValue(50.0, 5.0, 0.5, 60.0, 6.0, 0.6, 70.0, 7.0, 0.7); // change object
+      x.setValue(50.0, 5.0, 0.5, 60.0, 6.0, 0.6); // change object
 
       cout << endl << "Display PlantPool x - static binding" << endl;
       x.display();

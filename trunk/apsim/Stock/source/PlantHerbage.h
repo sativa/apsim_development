@@ -17,7 +17,7 @@ class PlantHerbage : public HerbageBase
       ~PlantHerbage(void);
 
       void doInit2(void);
-//      void respondToGet(unsigned int& fromID, protocol::QueryValueData& queryData);
+      void respondToGet(unsigned int& fromID, protocol::QueryValueData& queryData);
       void doDmdPoolsToHerbageParts(protocol::RemoveHerbageType &grazed, protocol::RemoveCropDmType &crop);
       void doDigestibility (void);
 
@@ -27,13 +27,12 @@ class PlantHerbage : public HerbageBase
       void getParts(PlantPartType &parts, SeedPartType &partsSeed, unsigned partsID[]);
       void getPGreen(PlantPartType &pGreen, PlantPool &dm, SeedPartType &pGreenSeed, SeedPool &dmSeed, unsigned partsID[]);
       void getPSenesced(PlantPartType &pSenesced, PlantPool &dm, SeedPartType &pSenescedSeed, SeedPool &dmSeed, unsigned partsID[]);
-      void getPDead(PlantPartType &pDead, PlantPool &dm, SeedPartType &pDeadSeed, SeedPool &dmSeed, unsigned partsID[]);
       void getHeight(float &height);
       void getTrampling(void);
       void getStage(void);
       void getVariables(void);
       void readHerbageModuleParameters ( void );
-
+      void sendPartsRemoved(protocol::QueryValueData& queryData);
       void calcDmdDistribution(PlantPool dmdFraction[]);
 //      void calcDmdClass(void);
 ////      void calcDmdDecline(void);
@@ -148,29 +147,25 @@ class PlantHerbage : public HerbageBase
 ////      protocol::Component *system;
       float divide (float dividend, float divisor, float default_value);
       string addPartToName(const std::string& variableName, const std::string& partName);
+      protocol::RemoveCropDmType crop;
 
       unsigned dmGreenID[max_part];
       unsigned dmSenescedID[max_part];
-      unsigned dmDeadID[max_part];
       unsigned nGreenID[max_part];
       unsigned nSenescedID[max_part];
-      unsigned nDeadID[max_part];
       unsigned pGreenID[max_part];
       unsigned pSenescedID[max_part];
-      unsigned pDeadID[max_part];
       unsigned dmdMaxGreenID[max_part];
       unsigned dmdAvgGreenID[max_part];
       unsigned dmdMinGreenID[max_part];
       unsigned dmdMaxSenescedID[max_part];
       unsigned dmdAvgSenescedID[max_part];
       unsigned dmdMinSenescedID[max_part];
-      unsigned dmdMaxDeadID[max_part];
-      unsigned dmdAvgDeadID[max_part];
-      unsigned dmdMinDeadID[max_part];
       unsigned heightID;
       unsigned tramplingID;
       unsigned stageID;
       unsigned stageNameID;
+      unsigned dmPartsRemovedID;
 
       struct
       {
@@ -186,11 +181,6 @@ class PlantHerbage : public HerbageBase
          float pConcGreenLeafDefault;
          float pConcGreenMealDefault;
          float pConcGreenOilDefault;
-         float pConcDeadStemDefault;
-         float pConcDeadPodDefault;
-         float pConcDeadLeafDefault;
-         float pConcDeadMealDefault;
-         float pConcDeadOilDefault;
          float pConcSenescedStemDefault;
          float pConcSenescedPodDefault;
          float pConcSenescedLeafDefault;
@@ -202,11 +192,6 @@ class PlantHerbage : public HerbageBase
          float AshAlkGreenLeafDefault;
          float AshAlkGreenMealDefault;
          float AshAlkGreenOilDefault;
-         float AshAlkDeadStemDefault;
-         float AshAlkDeadPodDefault;
-         float AshAlkDeadLeafDefault;
-         float AshAlkDeadMealDefault;
-         float AshAlkDeadOilDefault;
          float AshAlkSenescedStemDefault;
          float AshAlkSenescedPodDefault;
          float AshAlkSenescedLeafDefault;
@@ -218,11 +203,6 @@ class PlantHerbage : public HerbageBase
          float NSRatioGreenLeafDefault;
          float NSRatioGreenMealDefault;
          float NSRatioGreenOilDefault;
-         float NSRatioDeadStemDefault;
-         float NSRatioDeadPodDefault;
-         float NSRatioDeadLeafDefault;
-         float NSRatioDeadMealDefault;
-         float NSRatioDeadOilDefault;
          float NSRatioSenescedStemDefault;
          float NSRatioSenescedPodDefault;
          float NSRatioSenescedLeafDefault;
@@ -234,11 +214,6 @@ class PlantHerbage : public HerbageBase
          float NPRatioGreenLeafDefault;
          float NPRatioGreenMealDefault;
          float NPRatioGreenOilDefault;
-         float NPRatioDeadStemDefault;
-         float NPRatioDeadPodDefault;
-         float NPRatioDeadLeafDefault;
-         float NPRatioDeadMealDefault;
-         float NPRatioDeadOilDefault;
          float NPRatioSenescedStemDefault;
          float NPRatioSenescedPodDefault;
          float NPRatioSenescedLeafDefault;
@@ -255,11 +230,6 @@ class PlantHerbage : public HerbageBase
          float dmdSenescedPod[3];
          float dmdSenescedMeal[2];
          float dmdSenescedOil[2];
-         float dmdDeadLeaf[3];
-         float dmdDeadStem[3];
-         float dmdDeadPod[3];
-         float dmdDeadMeal[2];
-         float dmdDeadOil[2];
 
          int seedClass[2];
 

@@ -14,9 +14,7 @@ using namespace std;
 
       const int  GREEN = 0 ;
       const int  SENESCED = 1 ;
-      const int  DEAD = 2 ;
 
-//      enum plantPart {ROOT, LEAF, STEM, POD, MEAL, OIL};
  //      indices of plant part names
       const int  ROOT = 0 ;
       const int  LEAF = 1 ;
@@ -25,8 +23,6 @@ using namespace std;
       const int  MEAL = 4 ; // excludes oil component
       const int  OIL  = 5 ; // seed oil
 
-
-//      const float dmdValue[numDmdPools] = {0.8, 0.7, 0.6, 0.5, 0.4, 0.3};
 
       inline bool floatsAreEqual(float A, float B, float C) {return(fabs(A-B)<C);}
       float divide (float dividend, float divisor, float default_value);
@@ -58,7 +54,7 @@ void PlantHerbage::doInit1(const protocol::Init1Data&)
 //   protocol::Component::doInit1(sdml);
 
 //   dmFeedOnOfferID = system->addRegistration(RegistrationType::respondToGet, "dm_feed_on_offer", singleArrayTypeDDML);
-//   dmFeedRemovedID = system->addRegistration(RegistrationType::respondToGet, "dm_feed_removed", singleArrayTypeDDML);
+   dmPartsRemovedID = system->addRegistration(RegistrationType::respondToGet, "dm_parts_removed", singleArrayTypeDDML);
 
    }
 
@@ -70,9 +66,6 @@ void PlantHerbage::doInit2(void)
       readParameters (); // Read constants
       readHerbageModuleParameters ();
       doRunTimeReg ();
-//     zero_variables (); // Zero global states
-//     init ();           // Site specific init
-//     get_other_variables (); // sw etc..
       cropMatureStageNo = 1000;
    }
 
@@ -136,15 +129,6 @@ void PlantHerbage::doRegister(const int partNo, const string& partName)
       pSenescedID[partNo] = system->addRegistration(RegistrationType::get, string(partName+"SenescedP").c_str(), singleTypeDDML,"", herbageModuleName().c_str());   // parameter crop name=lablab
       dmdMaxSenescedID[partNo] = system->addRegistration(RegistrationType::get, addPartToName("digestibility_max_dm_senesced", partName).c_str(), singleTypeDDML,"", herbageModuleName().c_str());   // parameter crop name=lablab
       dmdAvgSenescedID[partNo] = system->addRegistration(RegistrationType::get, addPartToName("digestibility_avg_dm_senesced", partName).c_str(), singleTypeDDML,"", herbageModuleName().c_str());   // parameter crop name=lablab
-      dmdMinSenescedID[partNo] = system->addRegistration(RegistrationType::get, addPartToName("digestibility_min_dm_senesced", partName).c_str(), singleTypeDDML,"", herbageModuleName().c_str());   // parameter crop name=lablab
-
-      //dmDeadID[partNo] = system->addRegistration(RegistrationType::get, addPartToName("dm_dead", partName).c_str(), singleTypeDDML,"", herbageModuleName().c_str());   // parameter crop name=lablab
-      //nDeadID[partNo] = system->addRegistration(RegistrationType::get, addPartToName("n_dead", partName).c_str(), singleTypeDDML,"", herbageModuleName().c_str());   // parameter crop name=lablab
-      //pDeadID[partNo] = system->addRegistration(RegistrationType::get, addPartToName("p_dead", partName).c_str(), singleTypeDDML,"", herbageModuleName().c_str());   // parameter crop name=lablab
-      //dmdMaxDeadID[partNo] = system->addRegistration(RegistrationType::get, addPartToName("digestibility_max_dm_dead", partName).c_str(), singleTypeDDML,"", herbageModuleName().c_str());   // parameter crop name=lablab
-      //dmdAvgDeadID[partNo] = system->addRegistration(RegistrationType::get, addPartToName("digestibility_avg_dm_dead", partName).c_str(), singleTypeDDML,"", herbageModuleName().c_str());   // parameter crop name=lablab
-      //dmdMinDeadID[partNo] = system->addRegistration(RegistrationType::get, addPartToName("digestibility_min_dm_dead", partName).c_str(), singleTypeDDML,"", herbageModuleName().c_str());   // parameter crop name=lablab
-
    }
 
 
@@ -169,13 +153,47 @@ void PlantHerbage::doRunTimeReg(void)
     detachRateID = system->addRegistration(RegistrationType::event, "detach_crop_biomass_rate", "","", herbageModuleName().c_str());
   }
 
+// ------------------------------------------------------------------
+// return a variable to caller.  Return true if we own variable.
+// ------------------------------------------------------------------
+void PlantHerbage::respondToGet(unsigned int& fromID, protocol::QueryValueData& queryData)
+{
+   if (queryData.ID == dmPartsRemovedID) sendPartsRemoved(queryData);
+   else
+   { }  // don't respond to any other gets.
+}
+
+
+void PlantHerbage::sendPartsRemoved(protocol::QueryValueData& queryData)
+{
+      float dmPartsRemoved[15] = {0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0};
+      int num_parts = crop.dm.size() * crop.dm[0].part.size();
+      if (num_parts > 0)
+      {
+         int i = 0;
+         for (unsigned int pool=0; pool < crop.dm.size(); pool++)
+         {
+            for (unsigned int part = 0; part < crop.dm[pool].part.size(); part++)
+            {
+               i ++;
+               dmPartsRemoved[i] =  crop.dm[pool].dlt[part];
+            }
+         }
+
+      }
+      else
+      {
+         num_parts = 15;
+      }
+
+      system->sendVariable(queryData, vector <float> (dmPartsRemoved, dmPartsRemoved+num_parts));
+}
 
 // ------------------------------------------------------------------
 // Event handler.
 // ------------------------------------------------------------------
 void PlantHerbage::doGrazed(protocol::RemoveHerbageType &grazed)
 {
-      protocol::RemoveCropDmType crop;
 
       doDmdPoolsToHerbageParts(grazed, crop);
 
@@ -312,36 +330,6 @@ void PlantHerbage::doDmdPoolsToHerbageParts(protocol::RemoveHerbageType &grazed,
       crop.dm.push_back(dm);
       dm.dlt.erase(dm.dlt.begin(), dm.dlt.end());
       dm.part.erase(dm.part.begin(), dm.part.end());
-
-//      dm.pool = "dead";
-//      dm.part.push_back("leaf");
-//      dmPart = 0.0;
-//      for (int pool = 0; pool < numDmdPoolsVeg(); pool++) dmPart += grazed.herbage[pool]*partFractionVeg[pool].dead.leaf;
-//      dm.dlt.push_back(dmPart * kg2g / ha2sm);
-//
-//      dm.part.push_back("stem");
-//      dmPart = 0.0;
-//      for (int pool = 0; pool < numDmdPoolsVeg(); pool++) dmPart += grazed.herbage[pool]*partFractionVeg[pool].dead.stem;
-//      dm.dlt.push_back(dmPart * kg2g / ha2sm);
-//
-//      dm.part.push_back("pod");
-//      dmPart = 0.0;
-//      for (int pool = 0; pool < numDmdPoolsVeg(); pool++) dmPart += grazed.herbage[pool]*partFractionVeg[pool].dead.pod;
-//      dm.dlt.push_back(dmPart * kg2g / ha2sm);
-//
-//      dm.part.push_back("meal");
-//      dmPart = 0.0;
-//      for (int pool = 0; pool < numDmdPoolsSeed(); pool++) dmPart += grazed.seed[pool]*partFractionSeed[pool].dead.meal;
-//      dm.dlt.push_back(dmPart * kg2g / ha2sm);
-//
-//      dm.part.push_back("oil");
-//      dmPart = 0.0;
-//      for (int pool = 0; pool < numDmdPoolsSeed(); pool++) dmPart += grazed.seed[pool]*partFractionSeed[pool].dead.oil;
-//      dm.dlt.push_back(dmPart * kg2g / ha2sm);
-//
-//      crop.dm.push_back(dm);
-//      dm.dlt.erase(dm.dlt.begin(), dm.dlt.end());
-//      dm.part.erase(dm.part.begin(), dm.part.end());
 }
 
 float PlantHerbage::getPart(unsigned &partID)
@@ -454,45 +442,6 @@ void PlantHerbage::getPSenesced(PlantPartType &pSenesced, PlantPool &dm, SeedPar
          }
 }
 
-void PlantHerbage::getPDead(PlantPartType &pDead, PlantPool &dm, SeedPartType &pDeadSeed, SeedPool &dmSeed, unsigned partsID[])
-{
-      protocol::Variant* variant;
-         bool ok = system->getVariable(partsID[LEAF], variant, true);
-         if (ok)
-         {
-            float P;
-            bool ok = variant->unpack(P);
-            if (ok)
-            {
-               if (P > 0.0)
-               {
-                  pDead.leaf = getPart(partsID[LEAF]) * g2kg/sm2ha;
-                  pDead.stem = getPart(partsID[STEM]) * g2kg/sm2ha;
-                  pDead.pod = getPart(partsID[POD]) * g2kg/sm2ha;
-                  pDeadSeed.meal = getPart(partsID[MEAL]) * g2kg/sm2ha;
-                  pDeadSeed.oil = getPart(partsID[OIL]) * g2kg/sm2ha;
-
-               }
-               else
-               {
-                  pDead.stem = c.pConcDeadStemDefault * dm.dead.stem;  // parameter for default P contents
-                  pDead.leaf = c.pConcDeadLeafDefault * dm.dead.leaf;
-                  pDead.pod = c.pConcDeadPodDefault * dm.dead.pod;
-                  pDeadSeed.meal = c.pConcDeadMealDefault * dmSeed.dead.meal;
-                  pDeadSeed.oil = c.pConcDeadOilDefault * dmSeed.dead.oil;
-               }
-            }
-            else
-            {
-               throw std::runtime_error("Couldn't unpack pDead");
-           }
-         }
-         else
-         {
-            throw std::runtime_error("Couldn't get variable pDeadID");
-         }
-}
-
 void PlantHerbage::getTrampling(void)
 {
       protocol::Variant* variant;
@@ -592,13 +541,8 @@ void PlantHerbage::getVariables(void)
       SeedPartType dmSenescedSeed;
       getParts(dmSenesced, dmSenescedSeed, dmSenescedID);
 
-         // Get dm DEAD
-      PlantPartType dmDead;
-      SeedPartType dmDeadSeed;
-      //getParts(dmDead, dmDeadSeed, dmDeadID);
-
-      dmVeg.setValue(dmGreen, dmSenesced, dmDead);
-      dmSeed.setValue(dmGreenSeed, dmSenescedSeed, dmDeadSeed);
+      dmVeg.setValue(dmGreen, dmSenesced);
+      dmSeed.setValue(dmGreenSeed, dmSenescedSeed);
       dmVeg = dmVeg * g2kg/sm2ha;
       dmSeed = dmSeed * g2kg/sm2ha;
 
@@ -614,13 +558,8 @@ void PlantHerbage::getVariables(void)
          SeedPartType nSenescedSeed;
          getParts(nSenesced, nSenescedSeed, nSenescedID);
 
-         // Get N DEAD
-         PlantPartType nDead;
-         SeedPartType nDeadSeed;
-         //getParts(nDead, nDeadSeed, nDeadID);
-
-         NVeg.setValue(nGreen, nSenesced, nDead);
-         NSeed.setValue(nGreenSeed, nSenescedSeed, nDeadSeed);
+         NVeg.setValue(nGreen, nSenesced);
+         NSeed.setValue(nGreenSeed, nSenescedSeed);
          NVeg = NVeg * g2kg/sm2ha;
          NSeed = NSeed * g2kg/sm2ha;
 
@@ -634,13 +573,8 @@ void PlantHerbage::getVariables(void)
          SeedPartType pSenescedSeed;
          getPSenesced(pSenesced, dmVeg, pSenescedSeed, dmSeed, pSenescedID);
 
-         // Get P DEAD
-         PlantPartType pDead;
-         SeedPartType pDeadSeed;
-         //getPDead(pDead, dmVeg, pDeadSeed, dmSeed, pDeadID);
-
-         PVeg.setValue(pGreen, pSenesced, pDead);
-         PSeed.setValue(pGreenSeed, pSenescedSeed, pDeadSeed);
+         PVeg.setValue(pGreen, pSenesced);
+         PSeed.setValue(pGreenSeed, pSenescedSeed);
          PVeg = PVeg * g2kg/sm2ha;
          PSeed = PSeed * g2kg/sm2ha;
 
@@ -659,41 +593,26 @@ void PlantHerbage::getVariables(void)
          SeedPartType dmdMinGreenSeed;                              // get type names: standing,lying or green, senesced, dead
          getParts(dmdMinGreen, dmdMinGreenSeed, dmdMinGreenID);                       // get element: dm, N, P, ash alk
                                                              // get dm deltas?
-            // Get dmd SENESCED
+            // Get dmd max SENESCED
          PlantPartType dmdMaxSenesced;
          SeedPartType dmdMaxSenescedSeed;
          getParts(dmdMaxSenesced, dmdMaxSenescedSeed, dmdMaxSenescedID);
 
-            // Get dmd SENESCED
+            // Get dmd average SENESCED
          PlantPartType dmdAvgSenesced;
          SeedPartType dmdAvgSenescedSeed;
          getParts(dmdAvgSenesced, dmdAvgSenescedSeed, dmdAvgSenescedID);
 
-            // Get dmd SENESCED
+            // Get dmd min SENESCED
          PlantPartType dmdMinSenesced;
          SeedPartType dmdMinSenescedSeed;
          getParts(dmdMinSenesced, dmdMinSenescedSeed, dmdMinSenescedID);
 
-            // Get dmd DEAD
-         PlantPartType dmdMaxDead;
-         SeedPartType dmdMaxDeadSeed;
-         //getParts(dmdMaxDead, dmdMaxDeadSeed, dmdMaxDeadID);
-
-            // Get dmd DEAD
-         PlantPartType dmdAvgDead;
-         SeedPartType dmdAvgDeadSeed;
-         //getParts(dmdAvgDead, dmdAvgDeadSeed, dmdAvgDeadID);
-
-            // Get dmd DEAD
-         PlantPartType dmdMinDead;
-         SeedPartType dmdMinDeadSeed;
-         //getParts(dmdMinDead, dmdMinDeadSeed, dmdMinDeadID);
-
-         dmdMaxVeg.setValue(dmdMaxGreen, dmdMaxSenesced, dmdMaxDead);
-         dmdAvgVeg.setValue(dmdAvgGreen, dmdAvgSenesced, dmdAvgDead);
-         dmdMinVeg.setValue(dmdMinGreen, dmdMinSenesced, dmdMinDead);
-         dmdUnripeSeed.setValue(dmdAvgGreenSeed, dmdAvgSenescedSeed, dmdAvgDeadSeed);
-         dmdRipeSeed.setValue(dmdAvgGreenSeed, dmdAvgSenescedSeed, dmdAvgDeadSeed);
+         dmdMaxVeg.setValue(dmdMaxGreen, dmdMaxSenesced);
+         dmdAvgVeg.setValue(dmdAvgGreen, dmdAvgSenesced);
+         dmdMinVeg.setValue(dmdMinGreen, dmdMinSenesced);
+         dmdUnripeSeed.setValue(dmdAvgGreenSeed, dmdAvgSenescedSeed);
+         dmdRipeSeed.setValue(dmdAvgGreenSeed, dmdAvgSenescedSeed);
         // Get HEIGHT
 //         PlantPool  heightRatio;
 
@@ -781,31 +700,6 @@ void PlantHerbage::calcDmdDistribution(PlantPool dmdFraction[])
       for (int pool = 0; pool < numDmdPoolsSeed(); pool++) fractionSeed[pool] = 0.0;
       proportion (dmdUnripeSeed.senesced.oil, dmdRipeSeed.senesced.oil, fractionSeed);
       for (int pool = 0; pool < numDmdPoolsSeed(); pool++) dmdFractionSeed[pool].senesced.oil = fractionSeed[pool];
-
-// get DEAD Leaf dmd fractions
-      for (int pool = 0; pool < numDmdPoolsVeg(); pool++) fraction[pool] = 0.0;
-      //proportion (dmdAvgVeg.dead.leaf, dmdMaxVeg.dead.leaf, dmdMinVeg.dead.leaf, fraction);
-      for (int pool = 0; pool < numDmdPoolsVeg(); pool++) dmdFraction[pool].dead.leaf = fraction[pool];
-
-// get DEAD Stem dmd fractions
-      for (int pool = 0; pool < numDmdPoolsVeg(); pool++) fraction[pool] = 0.0;
-      //proportion (dmdAvgVeg.dead.stem, dmdMaxVeg.dead.stem, dmdMinVeg.dead.stem, fraction);
-      for (int pool = 0; pool < numDmdPoolsVeg(); pool++) dmdFraction[pool].dead.stem = fraction[pool];
-
-// get DEAD Pod dmd fractions
-      for (int pool = 0; pool < numDmdPoolsVeg(); pool++) fraction[pool] = 0.0;
-      //proportion (dmdAvgVeg.dead.pod, dmdMaxVeg.dead.pod, dmdMinVeg.dead.pod, fraction);
-      for (int pool = 0; pool < numDmdPoolsVeg(); pool++) dmdFraction[pool].dead.pod = fraction[pool];
-
-// get DEAD meal dmd fractions
-      for (int pool = 0; pool < numDmdPoolsSeed(); pool++) fractionSeed[pool] = 0.0;
-      //proportion (dmdUnripeSeed.dead.meal, dmdRipeSeed.dead.meal, fractionSeed);
-      for (int pool = 0; pool < numDmdPoolsSeed(); pool++) dmdFractionSeed[pool].dead.meal = fractionSeed[pool];
-
-// get DEAD oil dmd fractions
-      for (int pool = 0; pool < numDmdPoolsSeed(); pool++) fractionSeed[pool] = 0.0;
-      //proportion (dmdUnripeSeed.dead.oil, dmdRipeSeed.dead.oil, fractionSeed);
-      for (int pool = 0; pool < numDmdPoolsSeed(); pool++) dmdFractionSeed[pool].dead.oil = fractionSeed[pool];
 }
 
 
@@ -859,7 +753,7 @@ float PlantHerbage::cpConcSeed ( int pool )
 
 float PlantHerbage::pConcVeg ( int pool )
 {
-      PlantPool NPRatioVeg(c.NPRatioGreenLeafDefault,  c.NPRatioGreenStemDefault,  c.NPRatioGreenPodDefault,  c.NPRatioSenescedLeafDefault,  c.NPRatioSenescedStemDefault,  c.NPRatioSenescedPodDefault,  c.NPRatioDeadLeafDefault,  c.NPRatioDeadStemDefault,  c.NPRatioDeadPodDefault);
+      PlantPool NPRatioVeg(c.NPRatioGreenLeafDefault,  c.NPRatioGreenStemDefault,  c.NPRatioGreenPodDefault,  c.NPRatioSenescedLeafDefault,  c.NPRatioSenescedStemDefault,  c.NPRatioSenescedPodDefault);
 //      poolP = P * dmdFractionVeg[pool];
       PlantPool poolPVeg = NVeg/NPRatioVeg * dmdFractionVeg[pool];
       float pTot = poolPVeg.total();
@@ -869,7 +763,7 @@ float PlantHerbage::pConcVeg ( int pool )
 
 float PlantHerbage::pConcSeed ( int pool )
 {
-      SeedPool NPRatioSeed(c.NPRatioGreenMealDefault,  c.NPRatioGreenOilDefault,  c.NPRatioSenescedMealDefault,  c.NPRatioSenescedOilDefault,  c.NPRatioDeadMealDefault,  c.NPRatioDeadOilDefault);
+      SeedPool NPRatioSeed(c.NPRatioGreenMealDefault,  c.NPRatioGreenOilDefault,  c.NPRatioSenescedMealDefault,  c.NPRatioSenescedOilDefault);
 //      poolP = P * dmdFractionSeed[pool];
       SeedPool poolPSeed = NSeed/NPRatioSeed * dmdFractionSeed[pool];
       float pTot = poolPSeed.total();
@@ -879,7 +773,7 @@ float PlantHerbage::pConcSeed ( int pool )
 
 float PlantHerbage::ashAlkVeg ( int pool )
 {
-      PlantPool partAshAlkVeg(c.AshAlkGreenLeafDefault, c.AshAlkGreenStemDefault, c.AshAlkGreenPodDefault, c.AshAlkSenescedLeafDefault, c.AshAlkSenescedStemDefault, c.AshAlkSenescedPodDefault, c.AshAlkDeadLeafDefault, c.AshAlkDeadStemDefault, c.AshAlkDeadPodDefault);
+      PlantPool partAshAlkVeg(c.AshAlkGreenLeafDefault, c.AshAlkGreenStemDefault, c.AshAlkGreenPodDefault, c.AshAlkSenescedLeafDefault, c.AshAlkSenescedStemDefault, c.AshAlkSenescedPodDefault);
       partAshAlkVeg = partAshAlkVeg*cmol2mol;
       PlantPool poolAAVeg    = partAshAlkVeg * dmVeg * dmdFractionVeg[pool];  // ash alk to be got from lablab
       float aaTot = poolAAVeg.total();
@@ -889,7 +783,7 @@ float PlantHerbage::ashAlkVeg ( int pool )
 
 float PlantHerbage::ashAlkSeed ( int pool )
 {
-      SeedPool partAshAlkSeed(c.AshAlkGreenMealDefault, c.AshAlkGreenOilDefault, c.AshAlkSenescedMealDefault, c.AshAlkSenescedOilDefault, c.AshAlkDeadMealDefault, c.AshAlkDeadOilDefault);
+      SeedPool partAshAlkSeed(c.AshAlkGreenMealDefault, c.AshAlkGreenOilDefault, c.AshAlkSenescedMealDefault, c.AshAlkSenescedOilDefault);
       partAshAlkSeed = partAshAlkSeed*cmol2mol;
       SeedPool poolAASeed    = partAshAlkSeed * dmSeed * dmdFractionSeed[pool];  // ash alk to be got from lablab
       float aaTot = poolAASeed.total();
@@ -899,7 +793,7 @@ float PlantHerbage::ashAlkSeed ( int pool )
 
 float PlantHerbage::sConcVeg ( int pool )
 {
-      PlantPool NSRatioVeg(c.NSRatioGreenLeafDefault, c.NSRatioGreenStemDefault, c.NSRatioGreenPodDefault, c.NSRatioSenescedLeafDefault, c.NSRatioSenescedStemDefault, c.NSRatioSenescedPodDefault, c.NSRatioDeadLeafDefault, c.NSRatioDeadStemDefault, c.NSRatioDeadPodDefault);
+      PlantPool NSRatioVeg(c.NSRatioGreenLeafDefault, c.NSRatioGreenStemDefault, c.NSRatioGreenPodDefault, c.NSRatioSenescedLeafDefault, c.NSRatioSenescedStemDefault, c.NSRatioSenescedPodDefault);
       PlantPool poolSVeg = NVeg/NSRatioVeg * dmdFractionVeg[pool];
       float sTot = poolSVeg.total();
       float sConc = divide (sTot, dmTotVeg(pool), 0.0);
@@ -908,7 +802,7 @@ float PlantHerbage::sConcVeg ( int pool )
 
 float PlantHerbage::sConcSeed ( int pool )
 {
-      SeedPool NSRatioSeed(c.NSRatioGreenMealDefault, c.NSRatioGreenOilDefault, c.NSRatioSenescedMealDefault, c.NSRatioSenescedOilDefault, c.NSRatioDeadMealDefault, c.NSRatioDeadOilDefault);
+      SeedPool NSRatioSeed(c.NSRatioGreenMealDefault, c.NSRatioGreenOilDefault, c.NSRatioSenescedMealDefault, c.NSRatioSenescedOilDefault);
       SeedPool poolSSeed = NSeed/NSRatioSeed * dmdFractionSeed[pool];
       float sTot = poolSSeed.total();
       float sConc = divide (sTot, dmTotSeed(pool), 0.0);
@@ -918,7 +812,7 @@ float PlantHerbage::sConcSeed ( int pool )
 float PlantHerbage::proportionGreen ( void )
 {
          float dm_green = dmVeg.green.pod + dmVeg.green.stem + dmVeg.green.leaf;
-         float dm_dead = dmVeg.senesced.pod + dmVeg.senesced.stem + dmVeg.senesced.leaf + dmVeg.dead.pod + dmVeg.dead.stem + dmVeg.dead.leaf;
+         float dm_dead = dmVeg.senesced.pod + dmVeg.senesced.stem + dmVeg.senesced.leaf;
          float dm_total = dm_green + dm_dead;
          return divide (dm_green, dm_total, 0.0);
 }
@@ -1301,11 +1195,6 @@ void PlantHerbage::readHerbageModuleParameters ( void )
     system->readParameter (herbageModuleName().c_str(), "p_conc_senesced_pod_default", c.pConcSenescedPodDefault, 0.0, 1.0);
     system->readParameter (herbageModuleName().c_str(), "p_conc_senesced_meal_default", c.pConcSenescedMealDefault, 0.0, 1.0);
     system->readParameter (herbageModuleName().c_str(), "p_conc_senesced_oil_default", c.pConcSenescedOilDefault, 0.0, 1.0);
-    system->readParameter (herbageModuleName().c_str(), "p_conc_dead_leaf_default", c.pConcDeadLeafDefault, 0.0, 1.0);
-    system->readParameter (herbageModuleName().c_str(), "p_conc_dead_stem_default", c.pConcDeadStemDefault, 0.0, 1.0);
-    system->readParameter (herbageModuleName().c_str(), "p_conc_dead_pod_default", c.pConcDeadPodDefault, 0.0, 1.0);
-    system->readParameter (herbageModuleName().c_str(), "p_conc_dead_meal_default", c.pConcDeadMealDefault, 0.0, 1.0);
-    system->readParameter (herbageModuleName().c_str(), "p_conc_dead_oil_default", c.pConcDeadOilDefault, 0.0, 1.0);
 
     system->readParameter (herbageModuleName().c_str(), "ash_alk_green_leaf_default", c.AshAlkGreenLeafDefault, 0.0, 500.0);
     system->readParameter (herbageModuleName().c_str(), "ash_alk_green_stem_default", c.AshAlkGreenStemDefault, 0.0, 500.0);
@@ -1317,11 +1206,6 @@ void PlantHerbage::readHerbageModuleParameters ( void )
     system->readParameter (herbageModuleName().c_str(), "ash_alk_senesced_pod_default", c.AshAlkSenescedPodDefault, 0.0, 500.0);
     system->readParameter (herbageModuleName().c_str(), "ash_alk_senesced_meal_default", c.AshAlkSenescedMealDefault, 0.0, 500.0);
     system->readParameter (herbageModuleName().c_str(), "ash_alk_senesced_oil_default", c.AshAlkSenescedOilDefault, 0.0, 500.0);
-    system->readParameter (herbageModuleName().c_str(), "ash_alk_dead_leaf_default", c.AshAlkDeadLeafDefault, 0.0, 500.0);
-    system->readParameter (herbageModuleName().c_str(), "ash_alk_dead_stem_default", c.AshAlkDeadStemDefault, 0.0, 500.0);
-    system->readParameter (herbageModuleName().c_str(), "ash_alk_dead_pod_default", c.AshAlkDeadPodDefault, 0.0, 500.0);
-    system->readParameter (herbageModuleName().c_str(), "ash_alk_dead_meal_default", c.AshAlkDeadMealDefault, 0.0, 500.0);
-    system->readParameter (herbageModuleName().c_str(), "ash_alk_dead_oil_default", c.AshAlkDeadOilDefault, 0.0, 500.0);
 
     system->readParameter (herbageModuleName().c_str(), "ns_ratio_green_leaf_default", c.NSRatioGreenLeafDefault, 0.0, 30.0);
     system->readParameter (herbageModuleName().c_str(), "ns_ratio_green_stem_default", c.NSRatioGreenStemDefault, 0.0, 30.0);
@@ -1333,11 +1217,6 @@ void PlantHerbage::readHerbageModuleParameters ( void )
     system->readParameter (herbageModuleName().c_str(), "ns_ratio_senesced_pod_default", c.NSRatioSenescedPodDefault, 0.0, 30.0);
     system->readParameter (herbageModuleName().c_str(), "ns_ratio_senesced_meal_default", c.NSRatioSenescedMealDefault, 0.0, 30.0);
     system->readParameter (herbageModuleName().c_str(), "ns_ratio_senesced_oil_default", c.NSRatioSenescedOilDefault, 0.0, 30.0);
-    system->readParameter (herbageModuleName().c_str(), "ns_ratio_dead_leaf_default", c.NSRatioDeadLeafDefault, 0.0, 30.0);
-    system->readParameter (herbageModuleName().c_str(), "ns_ratio_dead_stem_default", c.NSRatioDeadStemDefault, 0.0, 30.0);
-    system->readParameter (herbageModuleName().c_str(), "ns_ratio_dead_pod_default", c.NSRatioDeadPodDefault, 0.0, 30.0);
-    system->readParameter (herbageModuleName().c_str(), "ns_ratio_dead_meal_default", c.NSRatioDeadMealDefault, 0.0, 30.0);
-    system->readParameter (herbageModuleName().c_str(), "ns_ratio_dead_oil_default", c.NSRatioDeadOilDefault, 0.0, 30.0);
 
     system->readParameter (herbageModuleName().c_str(), "np_ratio_green_leaf_default", c.NPRatioGreenLeafDefault, 0.0, 10.0);
     system->readParameter (herbageModuleName().c_str(), "np_ratio_green_stem_default", c.NPRatioGreenStemDefault, 0.0, 10.0);
@@ -1349,61 +1228,14 @@ void PlantHerbage::readHerbageModuleParameters ( void )
     system->readParameter (herbageModuleName().c_str(), "np_ratio_senesced_pod_default", c.NPRatioSenescedPodDefault, 0.0, 10.0);
     system->readParameter (herbageModuleName().c_str(), "np_ratio_senesced_meal_default", c.NPRatioSenescedMealDefault, 0.0, 10.0);
     system->readParameter (herbageModuleName().c_str(), "np_ratio_senesced_oil_default", c.NPRatioSenescedOilDefault, 0.0, 10.0);
-    system->readParameter (herbageModuleName().c_str(), "np_ratio_dead_leaf_default", c.NPRatioDeadLeafDefault, 0.0, 10.0);
-    system->readParameter (herbageModuleName().c_str(), "np_ratio_dead_stem_default", c.NPRatioDeadStemDefault, 0.0, 10.0);
-    system->readParameter (herbageModuleName().c_str(), "np_ratio_dead_pod_default", c.NPRatioDeadPodDefault, 0.0, 10.0);
-    system->readParameter (herbageModuleName().c_str(), "np_ratio_dead_meal_default", c.NPRatioDeadMealDefault, 0.0, 10.0);
-    system->readParameter (herbageModuleName().c_str(), "np_ratio_dead_oil_default", c.NPRatioDeadOilDefault, 0.0, 10.0);
 
-//    int numClasses = 3;
-//    system->readParameter (herbageModuleName().c_str(), "dmd_green_leaf", c.dmdGreenLeaf, numClasses, 0.0, 1.0);
-//    system->readParameter (herbageModuleName().c_str(), "dmd_green_stem", c.dmdGreenStem, numClasses, 0.0, 1.0);
-//    system->readParameter (herbageModuleName().c_str(), "dmd_green_pod", c.dmdGreenPod, numClasses, 0.0, 1.0);
-//    system->readParameter (herbageModuleName().c_str(), "dmd_senesced_leaf", c.dmdSenescedLeaf, numClasses, 0.0, 1.0);
-//    system->readParameter (herbageModuleName().c_str(), "dmd_senesced_stem", c.dmdSenescedStem, numClasses, 0.0, 1.0);
-//    system->readParameter (herbageModuleName().c_str(), "dmd_senesced_pod", c.dmdSenescedPod, numClasses, 0.0, 1.0);
-//    system->readParameter (herbageModuleName().c_str(), "dmd_dead_leaf", c.dmdDeadLeaf, numClasses, 0.0, 1.0);
-//    system->readParameter (herbageModuleName().c_str(), "dmd_dead_stem", c.dmdDeadStem, numClasses, 0.0, 1.0);
-//    system->readParameter (herbageModuleName().c_str(), "dmd_dead_pod", c.dmdDeadPod, numClasses, 0.0, 1.0);
 
     int numSeedClasses = 0;
     system->readParameter (herbageModuleName().c_str(), "dmd_seed", cDmdValueSeed, numSeedClasses, 0.0, 1.0);
-//    system->readParameter (herbageModuleName().c_str(), "dmd_green_meal", c.dmdGreenMeal, numSeedClasses, 0.0, 1.0);
-//    system->readParameter (herbageModuleName().c_str(), "dmd_green_oil", c.dmdGreenOil, numSeedClasses, 0.0, 1.0);
-//    system->readParameter (herbageModuleName().c_str(), "dmd_senesced_meal", c.dmdSenescedMeal, numSeedClasses, 0.0, 1.0);
-//    system->readParameter (herbageModuleName().c_str(), "dmd_senesced_oil", c.dmdSenescedOil, numSeedClasses, 0.0, 1.0);
-//    system->readParameter (herbageModuleName().c_str(), "dmd_dead_meal", c.dmdDeadMeal, numSeedClasses, 0.0, 1.0);
-//    system->readParameter (herbageModuleName().c_str(), "dmd_dead_oil", c.dmdDeadOil, numSeedClasses, 0.0, 1.0);
-
-//   for (int pool = 0; pool < numSeedClasses; pool ++)
-//   {
-//       c.dmdGreenMeal[pool] = cDmdValueSeed[pool];
-//       c.dmdGreenOil[pool] = cDmdValueSeed[pool];
-//       c.dmdSenescedMeal[pool] = cDmdValueSeed[pool];
-//       c.dmdSenescedOil[pool] = cDmdValueSeed[pool];
-//       c.dmdDeadMeal[pool] = cDmdValueSeed[pool];
-//       c.dmdDeadOil[pool] = cDmdValueSeed[pool];
-//   }
 
     system->readParameter (herbageModuleName().c_str(), "cp_n_ratio", c.cpNRatio, 0.0, 10.0);
     system->readParameter (herbageModuleName().c_str(), "proportion_legume", c.proportionLegume, 0.0, 1.0);
     system->readParameter (herbageModuleName().c_str(), "seed_class", c.seedClass, cNumDmdPoolsSeed, 0.0, 6.0);
-//    cNumDmdPoolsSeed = numSeedClasses;
-
-//   const int MAX = 0;
-//   const int AVG = 1;
-//   const int MIN = 2;
-//         //plant pools  GL    GS   SL    SS   DL   DS
-////      PlantPool dmdMax(c.dmdGreenLeaf, c.dmdMaxGreenStem, c.dmdMaxSenescedLeaf, c.dmdMaxSenescedStem, c.dmdMaxDeadLeaf, c.dmdMaxDeadStem);
-//   dmdMaxVeg.setValue(c.dmdGreenLeaf[MAX], c.dmdGreenStem[MAX], c.dmdGreenPod[MAX], c.dmdSenescedLeaf[MAX], c.dmdSenescedStem[MAX], c.dmdSenescedPod[MAX], c.dmdDeadLeaf[MAX], c.dmdDeadStem[MAX], c.dmdDeadPod[MAX]);
-//   dmdAvgVeg.setValue(c.dmdGreenLeaf[AVG], c.dmdGreenStem[AVG], c.dmdGreenPod[AVG], c.dmdSenescedLeaf[AVG], c.dmdSenescedStem[AVG], c.dmdSenescedPod[AVG], c.dmdDeadLeaf[AVG], c.dmdDeadStem[AVG], c.dmdDeadPod[AVG]);
-//   dmdMinVeg.setValue(c.dmdGreenLeaf[MIN], c.dmdGreenStem[MIN], c.dmdGreenPod[MIN], c.dmdSenescedLeaf[MIN], c.dmdSenescedStem[MIN], c.dmdSenescedPod[MIN], c.dmdDeadLeaf[MIN], c.dmdDeadStem[MIN], c.dmdDeadPod[MIN]);
-
-//   const int UNRIPE = 0;
-//   const int RIPE = 1;
-//   dmdUnripeSeed.setValue(c.dmdGreenMeal[UNRIPE], c.dmdGreenStem[UNRIPE], c.dmdSenescedMeal[UNRIPE], c.dmdSenescedOil[UNRIPE], c.dmdDeadMeal[UNRIPE], c.dmdDeadOil[UNRIPE]);
-//   dmdRipeSeed.setValue(c.dmdGreenMeal[RIPE], c.dmdGreenStem[RIPE], c.dmdSenescedMeal[RIPE], c.dmdSenescedOil[RIPE], c.dmdDeadMeal[RIPE], c.dmdDeadOil[RIPE]);
-
 //   calcDmdClass(dmdClassMaxVeg, dmdClassMinVeg);
 }
 

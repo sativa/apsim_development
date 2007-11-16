@@ -29,6 +29,8 @@ class HerbageConverter : public ConverterBase
       void doRunTimeReg(void);
       void sendFeedOnOffer(protocol::QueryValueData& queryData);
       void sendFeedRemoved(protocol::QueryValueData& queryData);
+      void sendDmdAvgFeedRemoved(protocol::QueryValueData& queryData);
+      void sendDmdFeedRemoved(protocol::QueryValueData& queryData);
       void sendPlant2Stock(protocol::QueryValueData& queryData);
       void sendTrampling(protocol::QueryValueData& queryData);
       void readParameters ( void );
@@ -40,6 +42,8 @@ class HerbageConverter : public ConverterBase
 
       unsigned dmFeedOnOfferID;
       unsigned dmFeedRemovedID;
+      unsigned DmdAvgFeedRemovedID;
+      unsigned DmdFeedRemovedID;
       unsigned removeCropBiomassID;
       bool plant2StockSent;
 
