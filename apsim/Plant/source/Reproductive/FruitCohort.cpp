@@ -123,17 +123,6 @@ float FruitCohort::dmGrainWetTotal(void)
    return dmTotal;
 }
 
-float FruitCohort::dmSenescedVeg(void)
-   //===========================================================================
-{
-   float dmTotal = 0.0;
-   vector<plantPart *>::const_iterator part;
-   for (part = myVegParts.begin(); part != myVegParts.end(); part++)
-      dmTotal += (*part)->Senesced().DM;
-   return dmTotal;
-}
-
-
 float FruitCohort::nMaxPot(void)
    //===========================================================================
 {

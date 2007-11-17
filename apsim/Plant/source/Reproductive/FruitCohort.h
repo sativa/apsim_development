@@ -38,7 +38,6 @@ public:                                             // member functions
 //   float grainWaterContent(void);
    float dmGrainWetTotal(void);
    float dmGreenGrainTotal(void);
-   float dmSenescedVeg(void);
 
    float nCapacity(void);
 

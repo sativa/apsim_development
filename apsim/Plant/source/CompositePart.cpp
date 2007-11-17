@@ -208,14 +208,6 @@ float CompositePart::dmGrainWetTotal(void)
    return dmTotal;
 }
 
-float CompositePart::dmSenescedVeg(void)
-   //===========================================================================
-{
-   float dmTotal = 0.0;
-   for (vector <plantPart * >::const_iterator part = myParts.begin(); part != myParts.end(); part++)
-      dmTotal += (*part)->dmSenescedVeg();
-   return dmTotal;
-}
 
 float CompositePart::dltDmDetached(void)
    //===========================================================================
@@ -395,22 +387,6 @@ void CompositePart::get_dlt_dm_green_retrans(vector<float> &dlt_dm_green_retrans
    vector <plantPart *>::iterator part;
    for (part = myParts.begin(); part != myParts.end(); part++)
       (*part)->get_dlt_dm_green_retrans(dlt_dm_green_retrans);
-}
-
-void CompositePart::get_dlt_dm_detached(vector<float> &dlt_dm_detached)
-   //===========================================================================
-{
-   vector <plantPart *>::iterator part;
-   for (part = myParts.begin(); part != myParts.end(); part++)
-      (*part)->get_dlt_dm_detached(dlt_dm_detached);
-}
-
-void CompositePart::get_dlt_dm_senesced(vector<float> &dlt_dm_senesced)
-   //===========================================================================
-{
-   vector <plantPart *>::iterator part;
-   for (part = myParts.begin(); part != myParts.end(); part++)
-      (*part)->get_dlt_dm_senesced(dlt_dm_senesced);
 }
 
 void CompositePart::get_n_demanded(vector<float> &n_demand)
@@ -1371,15 +1347,6 @@ float CompositePart::pMinPotStressDeterminant(void)
    return p_min_pot;
 }
 
-
-bool CompositePart::isYieldPart(void)
-//============================================================================
-// True if at least one of our parts is a dm sink
-   {
-   for (vector <plantPart * >::const_iterator part = myParts.begin(); part != myParts.end(); part++)
-      if ((*part)->isYieldPart()) return true;
-   return false;
-   }
 
 bool CompositePart::isRetransPart(void)
 // True if at least one of our parts supplies retranslocate

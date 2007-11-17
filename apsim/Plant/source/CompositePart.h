@@ -33,8 +33,6 @@ public:                                             // member functions
    virtual void get_name(vector<string> &name);
    virtual void get_p_demand(vector<float> &p_demand);
    virtual void get_dlt_p_retrans(vector<float> &dlt_p_retrans);
-   virtual void get_dlt_dm_senesced(vector<float> &);
-   virtual void get_dlt_dm_detached(vector<float> &);
    virtual void get_dlt_dm_green_retrans(vector<float> &);
    virtual void get_dlt_dm_green(vector<float> &);
    virtual void get_dm_senesced(vector<float> &);
@@ -119,7 +117,6 @@ public:                                             // member functions
    virtual float dmGreenDemand(void);
    virtual float dmGrainWetTotal(void);
 
-   virtual float dmSenescedVeg(void);
    virtual float grainWt(void);
    virtual float dmRetransSupply(void);
    virtual float dmRetransDemand(void) ;
@@ -181,7 +178,6 @@ public:                                             // member functions
    virtual float dltNRetrans(void);
    virtual float dltNSenescedTrans(void);
 
-   virtual bool isYieldPart(void);
    virtual bool isRetransPart(void);
 
 #if TEST_CompositePart

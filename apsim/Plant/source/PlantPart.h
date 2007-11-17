@@ -213,7 +213,6 @@ public:
    virtual float dltNRemoved(void);
    virtual float dltPGreenRemoved(void);
    virtual float dltPSenescedRemoved(void);
-   virtual float dltPRemoved(void);
 
    virtual float n_conc_crit(void);
    virtual float n_conc_min(void);
@@ -236,7 +235,6 @@ public:
    virtual float giveDmSenescedRemoved(float) ;
 
    virtual float dmGreenNew(void) ;
-   virtual float dmSenescedVeg(void);
    virtual float dmRetransSupply(void);
    virtual float dmRetransDemand(void){return 0.0;} ;
    virtual float dmGreenStressDeterminant(void);
@@ -302,8 +300,6 @@ public:
    virtual void get_name(vector<string> &names);
    virtual void get_p_demand(vector<float> &p_demand);
    virtual void get_dlt_p_retrans(vector<float> &dlt_p_retrans);
-   virtual void get_dlt_dm_senesced(vector<float> &);
-   virtual void get_dlt_dm_detached(vector<float> &);
    virtual void get_dlt_dm_green_retrans(vector<float> &);
    virtual void get_dlt_dm_green(vector<float> &);
    virtual void get_dm_senesced(vector<float> &);
@@ -348,7 +344,6 @@ public:
    virtual void doTECO2(void);                                       // (OUTPUT) transpiration coefficient                         //FIXME
    virtual void writeCultivarInfo (protocol::Component *);
 
-   virtual bool isYieldPart(void)  {return c.yield_part;};
    virtual bool isRetransPart(void)  {return c.retrans_part;};
 
    virtual void onEmergence(void);

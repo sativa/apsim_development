@@ -42,7 +42,6 @@ class FloretPart : public plantPart {
    void doDmPotTE(float swSupply);
    void doBioActual (void);
 
-   virtual float dmSenescedVeg(void)  {return 0;}
    virtual float nDeadVeg(void) {return 0;}
    virtual float pDeadVeg(void)  {return 0;}
 
