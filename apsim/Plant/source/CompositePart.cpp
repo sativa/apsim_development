@@ -105,74 +105,6 @@ void CompositePart::add(plantPart* part)
    myParts.push_back(part);
    }
 
-float CompositePart::dltNGreen(void)
-   //===========================================================================
-{
-   float sum = 0.0;
-   for (vector <plantPart * >::const_iterator part = myParts.begin(); part != myParts.end(); part++)
-      sum += (*part)->dltNGreen();
-   return sum;
-}
-
-
-float CompositePart::dltPGreen(void)
-   //===========================================================================
-{
-   float sum = 0.0;
-   for (vector <plantPart * >::const_iterator part = myParts.begin(); part != myParts.end(); part++)
-      sum += (*part)->dltPGreen();
-   return sum;
-}
-
-float CompositePart::dltDmSenesced(void)
-   //===========================================================================
-{
-   float sum = 0.0;
-   for (vector <plantPart *>::const_iterator part = myParts.begin(); part != myParts.end(); part++)
-      sum += (*part)->dltDmSenesced();
-   return sum;
-}
-
-
-float CompositePart::dltNSenesced(void)
-   //===========================================================================
-{
-   float sum = 0.0;
-   for (vector <plantPart *>::const_iterator part = myParts.begin(); part != myParts.end(); part++)
-      sum += (*part)->dltNSenesced();
-   return sum;
-}
-
-
-float CompositePart::dltPSenesced(void)
-   //===========================================================================
-{
-   float sum = 0.0;
-   for (vector <plantPart *>::const_iterator part = myParts.begin(); part != myParts.end(); part++)
-      sum += (*part)->dltPSenesced();
-   return sum;
-}
-
-float CompositePart::dltNDetached(void)
-   //===========================================================================
-{
-   float sum = 0.0;
-   for (vector <plantPart *>::const_iterator part = myParts.begin(); part != myParts.end(); part++)
-      sum += (*part)->dltNDetached();
-   return sum;
-}
-
-
-float CompositePart::dltPDetached(void)
-   //===========================================================================
-{
-   float sum = 0.0;
-   for (vector <plantPart *>::const_iterator part = myParts.begin(); part != myParts.end(); part++)
-      sum += (*part)->dltPDetached();
-   return sum;
-}
-
-
 float CompositePart::n_conc_crit(void)
    //===========================================================================
 {
@@ -371,8 +303,8 @@ void CompositePart::doNPartition(float nSupply, float n_demand_sum, float n_capa
    for (part = myParts.begin(); part != myParts.end(); part++)
       (*part)->doNPartition(Growth().N, n_demand_sum, n_capacity_sum);
 
-   float dlt_n_green_sum = dltNGreen();
-   if (!reals_are_equal(dlt_n_green_sum - Growth().N, 0.0))
+   float dlt_n_green_sum = Growth().N;
+   if (!reals_are_equal(dlt_n_green_sum - Growth().N, 0.0))   // WHAT IS GOING ON HERE!!!!!!! NIH
       {
       string msg = c.name + " dlt_n_green mass balance is off: dlt_n_green_sum ="
                   + ftoa(dlt_n_green_sum, ".6")
