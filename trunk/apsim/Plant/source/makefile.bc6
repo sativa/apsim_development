@@ -63,7 +63,6 @@ OBJFILES=PlantComponent.obj \
    Arbitrators\AllometricArbitrator.obj \
    PlantSpatial.obj \
    Pool.obj \
-   LivePool.obj \
    Delta.obj \
     \
    Phenology\PlantPhenology.obj \
@@ -167,7 +166,6 @@ Utility\Output.obj: Utility\Output.cpp Utility\Output.h
 Utility\OutputVariable.obj: Utility\OutputVariable.cpp Utility\OutputVariable.h
 PlantSpatial.obj: PlantSpatial.cpp PlantSpatial.h PlantInterface.h PlantLibrary.h
 Pool.obj: Pool.cpp Pool.h
-LivePool.obj: LivePool.h LivePool.cpp Pool.cpp Pool.h
 Delta.obj: Delta.cpp Delta.h Pool.h
 
 Phenology\PlantPhenology.obj: Phenology\PlantPhenology.cpp Phenology\PlantPhenology.h
