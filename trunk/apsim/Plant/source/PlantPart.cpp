@@ -31,7 +31,6 @@ plantPart::plantPart(ScienceAPI& api, plantInterface *p, const string &name)
      c.p_yield_part = false;
      c.p_retrans_part = false;
      c.stress_determinant = false;
-     c.yield_part = false;
      c.retrans_part = false;
      c.n_deficit_uptake_fraction = 0;
      tempFlagToShortCircuitInit1 = false;
@@ -302,12 +301,10 @@ void plantPart::readConstants(protocol::Component *, const string &)
     if (find_if(parts.begin(),parts.end(), CaseInsensitiveStringComparison(c.name)) != parts.end())
        {
        c.p_yield_part = true;
-       c.yield_part = true;
        }
     else
        {
        c.p_yield_part = false;
-       c.yield_part = false;
        }
 
     scienceAPI.readOptional("retrans_parts", parts);
@@ -1134,18 +1131,6 @@ float plantPart::dltNRemoved(void)
    return (dltNGreenRemoved() + dltNSenescedRemoved());
    }
 
-float plantPart::dltPRemoved(void)
-//=======================================================================================
-   {
-   return (dltPGreenRemoved() + dltPSenescedRemoved());
-   }
-
-float plantPart::dmSenescedVeg(void)
-//=======================================================================================
-   {
-   return (Senesced().DM);
-   }
-
 float plantPart::dmGreenStressDeterminant(void)
 //=======================================================================================
    {
@@ -1354,8 +1339,6 @@ void plantPart::get_dm_green(vector<float> &dm_green) {dm_green.push_back(Green(
 void plantPart::get_dm_senesced(vector<float> &dm_senesced) {dm_senesced.push_back(Senesced().DM);}
 void plantPart::get_dlt_dm_green(vector<float> &dlt_dm_green) {dlt_dm_green.push_back(Growth().DM);}
 void plantPart::get_dlt_dm_green_retrans(vector<float> &dlt_dm_green_retrans) {dlt_dm_green_retrans.push_back(Retranslocation.DM);}
-void plantPart::get_dlt_dm_detached(vector<float> &dlt_dm_detached) {dlt_dm_detached.push_back(Detaching.DM);}
-void plantPart::get_dlt_dm_senesced(vector<float> &dlt_dm_senesced) {dlt_dm_senesced.push_back(Senescing.DM);}
 void plantPart::get_n_demanded(vector<float> &demands) {demands.push_back(NDemand);}
 
 
