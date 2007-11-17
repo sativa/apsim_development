@@ -107,7 +107,6 @@ public:                                             // member functions
    virtual float dltDm(void);
 
    virtual float dltDmGreen(void)  ;
-   virtual float dltDmSenesced(void);
    virtual float dltDmDetached(void);
    virtual float dltDmGreenRetrans(void);
 
@@ -132,7 +131,6 @@ public:                                             // member functions
 
    virtual float dltNRetransOut(void);
    virtual float dltNSenescedRetrans(void);
-   virtual float dltNGreen(void);
    virtual float nDemand(void);
    virtual float soilNDemand(void);
    virtual float nCapacity(void);
@@ -178,11 +176,6 @@ public:                                             // member functions
    virtual void doPPartition(float p_uptake, float total_p_demand);
    virtual void doPRetranslocate(float total_p_supply, float total_p_demand);
 
-   virtual float dltPGreen(void);
-   virtual float dltNSenesced(void);
-   virtual float dltPSenesced(void);
-   virtual float dltNDetached(void);
-   virtual float dltPDetached(void);
    virtual float n_conc_crit(void);
    virtual float n_conc_min(void);
    virtual float dltNRetrans(void);

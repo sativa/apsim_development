@@ -1472,8 +1472,8 @@ void Plant::plant_totals
         *g_n_demand_tot = n_green_demand;
         *g_n_uptake_stover_tot = n_uptake_stover;
 
-        n_uptake_soil = plant.dltNGreen();
-        n_uptake_soil_tops = n_uptake_soil - rootPart->dltNGreen();
+        n_uptake_soil = plant.Growth().N;
+        n_uptake_soil_tops = n_uptake_soil - rootPart->Growth().N;
         *g_n_fixed_tops = n_uptake_soil_tops
                               * divide (*g_n_fix_uptake
                                         ,n_uptake_soil
@@ -1489,8 +1489,8 @@ void Plant::plant_totals
         *g_n_demand_tot = (*g_n_demand_tot) + n_green_demand;
         *g_n_uptake_stover_tot = (*g_n_uptake_stover_tot) + n_uptake_stover;
 
-        n_uptake_soil = plant.dltNGreen();
-        n_uptake_soil_tops = n_uptake_soil - rootPart->dltNGreen();
+        n_uptake_soil = plant.Growth().N;
+        n_uptake_soil_tops = n_uptake_soil - rootPart->Growth().N;
         *g_n_fixed_tops = *g_n_fixed_tops + n_uptake_soil_tops * divide (*g_n_fix_uptake ,n_uptake_soil ,0.0);
 
         }
@@ -1665,7 +1665,7 @@ void Plant::legnew_n_partition
 
     float dlt_n_green_sum = 0.0;
     for (part = allParts.begin(); part != allParts.end(); part++)
-         dlt_n_green_sum += (*part)->dltNGreen();
+         dlt_n_green_sum += (*part)->Growth().N;
 
     if (!reals_are_equal(dlt_n_green_sum - n_uptake_sum, 0.0))
         {
@@ -1791,11 +1791,11 @@ void Plant::plant_N_senescence (void)
         t++)
       (*t)->zeroDltNSenescedTrans();
 
-   dlt_n_in_senescing_leaf = leafPart->dltDmSenesced() * leafPart->Green().Nconc();
+   dlt_n_in_senescing_leaf = leafPart->Senescing.DM * leafPart->Green().Nconc();
 
    n_demand_tot = plant.nDemand();
 
-   navail = dlt_n_in_senescing_leaf - leafPart->dltNSenesced();
+   navail = dlt_n_in_senescing_leaf - leafPart->Senescing.N;
    navail = bound(navail, 0.0, n_demand_tot);
 
    for (vector<plantPart *>::iterator t = myParts.begin();

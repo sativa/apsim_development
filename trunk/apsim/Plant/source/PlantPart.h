@@ -194,7 +194,7 @@ public:
                                           , vector<float> &fract);
 
    virtual float dlt_dm_green_retrans_hack(float);
-   virtual float dltDmRetranslocateSupply(float DemandDifferential) ;
+   virtual float dltDmRetranslocateSupply(float DemandDifferential){return 0.0;} ;
    virtual float dltNRetransOut(void);
    virtual float dltDmGreenRetransUptake(void);
    virtual float dltDmGreenRetrans(void);
@@ -202,13 +202,6 @@ public:
    virtual float dltDmRetranslocate(void);
    virtual float dltDmDetached(void);
    virtual float dltDmGreenNew(void) ;
-   virtual float dltDmSenesced(void);
-   virtual float dltNGreen(void) ;
-   virtual float dltPGreen(void) ;
-   virtual float dltNSenesced(void);
-   virtual float dltPSenesced(void);
-   virtual float dltNDetached(void);
-   virtual float dltPDetached(void);
    virtual float dltNRetrans(void);
    virtual float dltNSenescedRetrans(void);
    virtual float dltNSenescedTrans(void);
