@@ -287,7 +287,7 @@ command = SearchReplace(manager, "(\W)dlt_n_green_fruit(\W)","$1FruitGrowthN$2")
 
 
 ;senescing delta
-[Renamed variable: dlt_n_senesced to GrowthN]
+[Renamed variable: dlt_n_senesced to SenescingN]
 command = SearchReplace(report, "(\W)dlt_n_senesced(\W)","$1SenescingN$2")
 command = SearchReplace(tracker, "(\W)dlt_n_senesced(\W)","$1SenescingN$2")
 command = SearchReplace(manager, "(\W)dlt_n_senesced(\W)","$1SenescingN$2")
@@ -351,3 +351,29 @@ command = RemoveReportVariable(deadleaf_p)
 
 [Removed variable: tlai_dead]
 command = RemoveReportVariable(tlai_dead)
+
+[Removed variable: GrowthN(1)]
+command = RemoveReportVariable(GrowthN(1))
+[Removed variable: GrowthN(2)]
+command = RemoveReportVariable(GrowthN(2))
+[Removed variable: GrowthN(3)]
+command = RemoveReportVariable(GrowthN(3))
+[Removed variable: GrowthN(4)]
+command = RemoveReportVariable(GrowthN(4))
+[Removed variable: GrowthN(5)]
+command = RemoveReportVariable(GrowthN(5))
+[Removed variable: GrowthN(6)]
+command = RemoveReportVariable(GrowthN(6))
+
+[Removed variable: SenescingN(1)]
+command = RemoveReportVariable(SenescingN(1))
+[Removed variable: SenescingN(2)]
+command = RemoveReportVariable(SenescingN(2))
+[Removed variable: SenescingN(3)]
+command = RemoveReportVariable(SenescingN(3))
+[Removed variable: SenescingN(4)]
+command = RemoveReportVariable(SenescingN(4))
+[Removed variable: SenescingN(5)]
+command = RemoveReportVariable(SenescingN(5))
+[Removed variable: SenescingN(6)]
+command = RemoveReportVariable(SenescingN(6))
