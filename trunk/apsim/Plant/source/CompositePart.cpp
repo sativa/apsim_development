@@ -588,6 +588,13 @@ void CompositePart::onEndCrop(vector<string> &dm_type,
                          dlt_dm_n,
                          dlt_dm_p,
                          fraction_to_residue);
+
+   Senesced().Clear();
+   Green().Clear();
+   Growth().Clear();
+   Senescing.Clear();
+   Detaching.Clear();
+   Retranslocation.Clear();                         
 }
 
 
