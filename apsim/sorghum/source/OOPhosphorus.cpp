@@ -71,11 +71,11 @@ void Phosphorus::doRegistrations(void)
    setupGetFunction(plantInterface,"p_demand", protocol::DTsingle, true,
                     &Phosphorus::getPDemand, "kg/ha", "P demand of plant parts");
 
-   setupGetFunction(plantInterface, "dlt_p_green", protocol::DTsingle, true,
+   setupGetFunction(plantInterface, "GrowthP", protocol::DTsingle, true,
                     &Phosphorus::getDltPGreen, "g/m2", "Daily P increase in live plant parts");
    setupGetFunction(plantInterface, "dlt_p_retrans", protocol::DTsingle, true,
                     &Phosphorus::getDltPRetrans, "g/m2", "P retranslocated from plant parts to grain");
-   setupGetFunction(plantInterface, "dlt_p_detached", protocol::DTsingle, true,
+   setupGetFunction(plantInterface, "DetachingP", protocol::DTsingle, true,
                     &Phosphorus::getDltPDetached, "g/m2", "Actual P loss with detached plant");
    setupGetFunction(plantInterface, "dlt_p_dead", protocol::DTsingle, true,
                     &Phosphorus::getDltPDead, "g/m2", "Actual P loss with dead plant");
