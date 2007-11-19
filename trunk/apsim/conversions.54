@@ -226,6 +226,106 @@ command = SearchReplace(report, "(\W)n_senesced_root(\W)","$1RootSenescedN$2")
 command = SearchReplace(tracker, "(\W)n_senesced_root(\W)","$1RootSenescedN$2")
 command = SearchReplace(manager, "(\W)n_senesced_root(\W)","$1RootSenescedN$2")
 
+
+;Deltas STUFF
+------------------------------ DM ---------------------------------------------
+
+[Renamed variable: dlt_p_green to GrowthP]
+command = SearchReplace(report, "(\W)dlt_p_green(\W)","$1GrowthP$2")
+command = SearchReplace(tracker, "(\W)dlt_p_green(\W)","$1GrowthP$2")
+command = SearchReplace(manager, "(\W)dlt_p_green(\W)","$1GrowthP$2")
+
+[Renamed variable: dlt_p_detached to DetachingP]
+command = SearchReplace(report, "(\W)dlt_p_detached(\W)","$1DetachingP$2")
+command = SearchReplace(tracker, "(\W)dlt_p_detached(\W)","$1DetachingP$2")
+command = SearchReplace(manager, "(\W)dlt_p_detached(\W)","$1DetachingP$2")
+
+[Renamed variable: dlt_dm_senesced to SenescingWt]
+command = SearchReplace(report, "(\W)dlt_dm_senesced(\W)","$1SenescingWt$2")
+command = SearchReplace(tracker, "(\W)dlt_dm_senesced(\W)","$1SenescingWt$2")
+command = SearchReplace(manager, "(\W)dlt_dm_senesced(\W)","$1SenescingWt$2")
+
+[Renamed variable: dlt_n_green to GrowthN]
+command = SearchReplace(report, "(\W)dlt_n_green(\W)","$1GrowthN$2")
+command = SearchReplace(tracker, "(\W)dlt_n_green(\W)","$1GrowthN$2")
+command = SearchReplace(manager, "(\W)dlt_n_green(\W)","$1GrowthN$2")
+
+[Renamed variable: dlt_n_green_leaf to LeafGrowthN]
+command = SearchReplace(report, "(\W)dlt_n_green_leaf(\W)","$1LeafGrowthN$2")
+command = SearchReplace(tracker, "(\W)dlt_n_green_leaf(\W)","$1LeafGrowthN$2")
+command = SearchReplace(manager, "(\W)dlt_n_green_leaf(\W)","$1LeafGrowthN$2")
+
+[Renamed variable: dlt_n_green_leaf to StemGrowthN]
+command = SearchReplace(report, "(\W)dlt_n_green_stem(\W)","$1StemGrowthN$2")
+command = SearchReplace(tracker, "(\W)dlt_n_green_stem(\W)","$1StemGrowthN$2")
+command = SearchReplace(manager, "(\W)dlt_n_green_stem(\W)","$1StemGrowthN$2")
+
+[Renamed variable: dlt_n_green_root to RootGrowthN]
+command = SearchReplace(report, "(\W)dlt_n_green_root(\W)","$1RootGrowthN$2")
+command = SearchReplace(tracker, "(\W)dlt_n_green_root(\W)","$1RootGrowthN$2")
+command = SearchReplace(manager, "(\W)dlt_n_green_root(\W)","$1RootGrowthN$2")
+
+[Renamed variable: dlt_n_green_pod to PodGrowthN]
+command = SearchReplace(report, "(\W)dlt_n_green_pod(\W)","$1PodGrowthN$2")
+command = SearchReplace(tracker, "(\W)dlt_n_green_pod(\W)","$1PodGrowthN$2")
+command = SearchReplace(manager, "(\W)dlt_n_green_pod(\W)","$1PodGrowthN$2")
+
+[Renamed variable: dlt_n_green_oil to OilGrowthN]
+command = SearchReplace(report, "(\W)dlt_n_green_oil(\W)","$1OilGrowthN$2")
+command = SearchReplace(tracker, "(\W)dlt_n_green_oil(\W)","$1OilGrowthN$2")
+command = SearchReplace(manager, "(\W)dlt_n_green_oil(\W)","$1OilGrowthN$2")
+
+[Renamed variable: dlt_n_green_meal to MealGrowthN]
+command = SearchReplace(report, "(\W)dlt_n_green_meal(\W)","$1MealGrowthN$2")
+command = SearchReplace(tracker, "(\W)dlt_n_green_meal(\W)","$1MealGrowthN$2")
+command = SearchReplace(manager, "(\W)dlt_n_green_meal(\W)","$1MealGrowthN$2")
+
+[Renamed variable: dlt_n_green_fruit to FruitGrowthN]
+command = SearchReplace(report, "(\W)dlt_n_green_fruit(\W)","$1FruitGrowthN$2")
+command = SearchReplace(tracker, "(\W)dlt_n_green_fruit(\W)","$1FruitGrowthN$2")
+command = SearchReplace(manager, "(\W)dlt_n_green_fruit(\W)","$1FruitGrowthN$2")
+
+
+;senescing delta
+[Renamed variable: dlt_n_senesced to GrowthN]
+command = SearchReplace(report, "(\W)dlt_n_senesced(\W)","$1SenescingN$2")
+command = SearchReplace(tracker, "(\W)dlt_n_senesced(\W)","$1SenescingN$2")
+command = SearchReplace(manager, "(\W)dlt_n_senesced(\W)","$1SenescingN$2")
+
+[Renamed variable: dlt_n_senesced_leaf to LeafSenescingN]
+command = SearchReplace(report, "(\W)dlt_n_senesced_leaf(\W)","$1LeafSenescingN$2")
+command = SearchReplace(tracker, "(\W)dlt_n_senesced_leaf(\W)","$1LeafSenescingN$2")
+command = SearchReplace(manager, "(\W)dlt_n_senesced_leaf(\W)","$1LeafSenescingN$2")
+
+[Renamed variable: dlt_n_senesced_leaf to StemSenescingN]
+command = SearchReplace(report, "(\W)dlt_n_senesced_stem(\W)","$1StemSenescingN$2")
+command = SearchReplace(tracker, "(\W)dlt_n_senesced_stem(\W)","$1StemSenescingN$2")
+command = SearchReplace(manager, "(\W)dlt_n_senesced_stem(\W)","$1StemSenescingN$2")
+
+[Renamed variable: dlt_n_senesced_root to RootSenescingN]
+command = SearchReplace(report, "(\W)dlt_n_senesced_root(\W)","$1RootSenescingN$2")
+command = SearchReplace(tracker, "(\W)dlt_n_senesced_root(\W)","$1RootSenescingN$2")
+command = SearchReplace(manager, "(\W)dlt_n_senesced_root(\W)","$1RootSenescingN$2")
+
+[Renamed variable: dlt_n_senesced_pod to PodSenescingN]
+command = SearchReplace(report, "(\W)dlt_n_senesced_pod(\W)","$1PodSenescingN$2")
+command = SearchReplace(tracker, "(\W)dlt_n_senesced_pod(\W)","$1PodSenescingN$2")
+command = SearchReplace(manager, "(\W)dlt_n_senesced_pod(\W)","$1PodSenescingN$2")
+
+[Renamed variable: dlt_n_senesced_oil to OilSenescingN]
+command = SearchReplace(report, "(\W)dlt_n_senesced_oil(\W)","$1OilSenescingN$2")
+command = SearchReplace(tracker, "(\W)dlt_n_senesced_oil(\W)","$1OilSenescingN$2")
+command = SearchReplace(manager, "(\W)dlt_n_senesced_oil(\W)","$1OilSenescingN$2")
+
+[Renamed variable: dlt_n_senesced_meal to MealSenescingN]
+command = SearchReplace(report, "(\W)dlt_n_senesced_meal(\W)","$1MealSenescingN$2")
+command = SearchReplace(tracker, "(\W)dlt_n_senesced_meal(\W)","$1MealSenescingN$2")
+command = SearchReplace(manager, "(\W)dlt_n_senesced_meal(\W)","$1MealSenescingN$2")
+
+[Renamed variable: dlt_n_senesced_fruit to FruitSenescingN]
+command = SearchReplace(report, "(\W)dlt_n_senesced_fruit(\W)","$1FruitSenescingN$2")
+command = SearchReplace(tracker, "(\W)dlt_n_senesced_fruit(\W)","$1FruitSenescingN$2")
+command = SearchReplace(manager, "(\W)dlt_n_senesced_fruit(\W)","$1FruitSenescingN$2")
 ------------------------------ Dead -------------------------------------------
 
 [Removed variable: dm_dead]
