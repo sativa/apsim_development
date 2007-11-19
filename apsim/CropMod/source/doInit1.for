@@ -461,11 +461,11 @@
       dummy = add_registration_with_units(respondToGetReg,
      :              'p_dead', floatarrayTypeDDML, 'g/m^2')
       dummy = add_registration_with_units(respondToGetReg,
-     :              'dlt_p_green', floatarrayTypeDDML, 'g/m^2')
+     :              'GrowthP', floatarrayTypeDDML, 'g/m^2')
       dummy = add_registration_with_units(respondToGetReg,
      :              'dlt_p_retrans', floatarrayTypeDDML, 'g/m^2')
       dummy = add_registration_with_units(respondToGetReg,
-     :              'dlt_p_detached', floatarrayTypeDDML, 'g/m^2')
+     :              'DetachingP', floatarrayTypeDDML, 'g/m^2')
       dummy = add_registration_with_units(respondToGetReg,
      :              'dlt_p_dead', floatarrayTypeDDML, 'g/m^2')
       dummy = add_registration_with_units(respondToGetReg,
