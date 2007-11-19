@@ -240,11 +240,6 @@ command = SearchReplace(report, "(\W)dlt_p_detached(\W)","$1DetachingP$2")
 command = SearchReplace(tracker, "(\W)dlt_p_detached(\W)","$1DetachingP$2")
 command = SearchReplace(manager, "(\W)dlt_p_detached(\W)","$1DetachingP$2")
 
-[Renamed variable: dlt_dm_senesced to SenescingWt]
-command = SearchReplace(report, "(\W)dlt_dm_senesced(\W)","$1SenescingWt$2")
-command = SearchReplace(tracker, "(\W)dlt_dm_senesced(\W)","$1SenescingWt$2")
-command = SearchReplace(manager, "(\W)dlt_dm_senesced(\W)","$1SenescingWt$2")
-
 [Renamed variable: dlt_n_green to GrowthN]
 command = SearchReplace(report, "(\W)dlt_n_green(\W)","$1GrowthN$2")
 command = SearchReplace(tracker, "(\W)dlt_n_green(\W)","$1GrowthN$2")
@@ -367,7 +362,86 @@ command = SearchReplace(report, "(\W)dlt_dm_senesced_fruit(\W)","$1FruitSenescin
 command = SearchReplace(tracker, "(\W)dlt_dm_senesced_fruit(\W)","$1FruitSenescingWt$2")
 command = SearchReplace(manager, "(\W)dlt_dm_senesced_fruit(\W)","$1FruitSenescingWt$2")
 
+;detaching
+[Renamed variable: dlt_n_detached to DetachingN]
+command = SearchReplace(report, "(\W)dlt_n_detached(\W)","$1DetachingN$2")
+command = SearchReplace(tracker, "(\W)dlt_n_detached(\W)","$1DetachingN$2")
+command = SearchReplace(manager, "(\W)dlt_n_detached(\W)","$1DetachingN$2")
 
+[Renamed variable: dlt_n_detached_leaf to LeafDetachingN]
+command = SearchReplace(report, "(\W)dlt_n_detached_leaf(\W)","$1LeafDetachingN$2")
+command = SearchReplace(tracker, "(\W)dlt_n_detached_leaf(\W)","$1LeafDetachingN$2")
+command = SearchReplace(manager, "(\W)dlt_n_detached_leaf(\W)","$1LeafDetachingN$2")
+
+[Renamed variable: dlt_n_detached_leaf to StemDetachingN]
+command = SearchReplace(report, "(\W)dlt_n_detached_stem(\W)","$1StemDetachingN$2")
+command = SearchReplace(tracker, "(\W)dlt_n_detached_stem(\W)","$1StemDetachingN$2")
+command = SearchReplace(manager, "(\W)dlt_n_detached_stem(\W)","$1StemDetachingN$2")
+
+[Renamed variable: dlt_n_detached_root to RootDetachingN]
+command = SearchReplace(report, "(\W)dlt_n_detached_root(\W)","$1RootDetachingN$2")
+command = SearchReplace(tracker, "(\W)dlt_n_detached_root(\W)","$1RootDetachingN$2")
+command = SearchReplace(manager, "(\W)dlt_n_detached_root(\W)","$1RootDetachingN$2")
+
+[Renamed variable: dlt_n_detached_pod to PodDetachingN]
+command = SearchReplace(report, "(\W)dlt_n_detached_pod(\W)","$1PodDetachingN$2")
+command = SearchReplace(tracker, "(\W)dlt_n_detached_pod(\W)","$1PodDetachingN$2")
+command = SearchReplace(manager, "(\W)dlt_n_detached_pod(\W)","$1PodDetachingN$2")
+
+[Renamed variable: dlt_n_detached_oil to OilDetachingN]
+command = SearchReplace(report, "(\W)dlt_n_detached_oil(\W)","$1OilDetachingN$2")
+command = SearchReplace(tracker, "(\W)dlt_n_detached_oil(\W)","$1OilDetachingN$2")
+command = SearchReplace(manager, "(\W)dlt_n_detached_oil(\W)","$1OilDetachingN$2")
+
+[Renamed variable: dlt_n_detached_meal to MealDetachingN]
+command = SearchReplace(report, "(\W)dlt_n_detached_meal(\W)","$1MealDetachingN$2")
+command = SearchReplace(tracker, "(\W)dlt_n_detached_meal(\W)","$1MealDetachingN$2")
+command = SearchReplace(manager, "(\W)dlt_n_detached_meal(\W)","$1MealDetachingN$2")
+
+[Renamed variable: dlt_n_detached_fruit to FruitDetachingN]
+command = SearchReplace(report, "(\W)dlt_n_detached_fruit(\W)","$1FruitDetachingN$2")
+command = SearchReplace(tracker, "(\W)dlt_n_detached_fruit(\W)","$1FruitDetachingN$2")
+command = SearchReplace(manager, "(\W)dlt_n_detached_fruit(\W)","$1FruitDetachingN$2")
+
+[Renamed variable: dlt_dm_detached to DetachingWt]
+command = SearchReplace(report, "(\W)dlt_dm_detached(\W)","$1DetachingWt$2")
+command = SearchReplace(tracker, "(\W)dlt_dm_detached(\W)","$1DetachingWt$2")
+command = SearchReplace(manager, "(\W)dlt_dm_detached(\W)","$1DetachingWt$2")
+
+[Renamed variable: dlt_dm_detached_leaf to LeafDetachingWt]
+command = SearchReplace(report, "(\W)dlt_dm_detached_leaf(\W)","$1LeafDetachingWt$2")
+command = SearchReplace(tracker, "(\W)dlt_dm_detached_leaf(\W)","$1LeafDetachingWt$2")
+command = SearchReplace(manager, "(\W)dlt_dm_detached_leaf(\W)","$1LeafDetachingWt$2")
+
+[Renamed variable: dlt_dm_detached_leaf to StemDetachingWt]
+command = SearchReplace(report, "(\W)dlt_dm_detached_stem(\W)","$1StemDetachingWt$2")
+command = SearchReplace(tracker, "(\W)dlt_dm_detached_stem(\W)","$1StemDetachingWt$2")
+command = SearchReplace(manager, "(\W)dlt_dm_detached_stem(\W)","$1StemDetachingWt$2")
+
+[Renamed variable: dlt_dm_detached_root to RootDetachingWt]
+command = SearchReplace(report, "(\W)dlt_dm_detached_root(\W)","$1RootDetachingWt$2")
+command = SearchReplace(tracker, "(\W)dlt_dm_detached_root(\W)","$1RootDetachingWt$2")
+command = SearchReplace(manager, "(\W)dlt_dm_detached_root(\W)","$1RootDetachingWt$2")
+
+[Renamed variable: dlt_dm_detached_pod to PodDetachingWt]
+command = SearchReplace(report, "(\W)dlt_dm_detached_pod(\W)","$1PodDetachingWt$2")
+command = SearchReplace(tracker, "(\W)dlt_dm_detached_pod(\W)","$1PodDetachingWt$2")
+command = SearchReplace(manager, "(\W)dlt_dm_detached_pod(\W)","$1PodDetachingWt$2")
+
+[Renamed variable: dlt_dm_detached_oil to OilDetachingWt]
+command = SearchReplace(report, "(\W)dlt_dm_detached_oil(\W)","$1OilDetachingWt$2")
+command = SearchReplace(tracker, "(\W)dlt_dm_detached_oil(\W)","$1OilDetachingWt$2")
+command = SearchReplace(manager, "(\W)dlt_dm_detached_oil(\W)","$1OilDetachingWt$2")
+
+[Renamed variable: dlt_dm_detached_meal to MealDetachingWt]
+command = SearchReplace(report, "(\W)dlt_dm_detached_meal(\W)","$1MealDetachingWt$2")
+command = SearchReplace(tracker, "(\W)dlt_dm_detached_meal(\W)","$1MealDetachingWt$2")
+command = SearchReplace(manager, "(\W)dlt_dm_detached_meal(\W)","$1MealDetachingWt$2")
+
+[Renamed variable: dlt_dm_detached_fruit to FruitDetachingWt]
+command = SearchReplace(report, "(\W)dlt_dm_detached_fruit(\W)","$1FruitDetachingWt$2")
+command = SearchReplace(tracker, "(\W)dlt_dm_detached_fruit(\W)","$1FruitDetachingWt$2")
+command = SearchReplace(manager, "(\W)dlt_dm_detached_fruit(\W)","$1FruitDetachingWt$2")
 
 ------------------------------ Dead -------------------------------------------
 
