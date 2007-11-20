@@ -7,9 +7,9 @@ class Pool
    {
    public:
       Pool ();
-      Pool(plantInterface& plant, ScienceAPI& scienceAPI, const std::string& Name, const std::string& PartName);
+      Pool(ScienceAPI& scienceAPI, const std::string& Name, const std::string& PartName);
       void Clear (void);
-      void Init ();
+      void Init (float Plants);
       float DM;
       float N;
       float P;
@@ -32,7 +32,6 @@ class Pool
       std::string PartName;
       std::string Name;
       ScienceAPI* scienceAPI;
-      plantInterface* plant;                 // The plant we are attached to
 
    };
 

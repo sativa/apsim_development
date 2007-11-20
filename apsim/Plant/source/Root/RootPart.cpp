@@ -622,10 +622,6 @@ void RootPart::onEndCrop(vector<string> &/*dm_type*/,
 
    Senesced().Clear();
    Green().Clear();
-   Growth().Clear();
-   Senescing.Clear();
-   Detaching.Clear();
-   Retranslocation.Clear();
 
    }
 
