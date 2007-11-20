@@ -9,11 +9,11 @@ using namespace std;
 plantPart::plantPart(ScienceAPI& api, plantInterface *p, const string &name)
 //=======================================================================================
      : plantThing(api),
-       PrivateSenesced(*p, api, "Senesced", name),
+       PrivateSenesced(api, "Senesced", name),
        Senescing(api, "Senescing", name),
        Detaching(api, "Detaching", name),
        privateGrowth(api, "Growth", name),
-       PrivateGreen(*p, api, "Green", name),
+       PrivateGreen(api, "Green", name),
        Retranslocation (api, "Retranslocation", name)
      {
      zeroAllGlobals();
@@ -31,6 +31,7 @@ plantPart::plantPart(ScienceAPI& api, plantInterface *p, const string &name)
      c.p_yield_part = false;
      c.p_retrans_part = false;
      c.stress_determinant = false;
+     c.yield_part = false;
      c.retrans_part = false;
      c.n_deficit_uptake_fraction = 0;
      tempFlagToShortCircuitInit1 = false;
@@ -66,10 +67,19 @@ void plantPart::onInit1(protocol::Component*)
    {
    scienceAPI.exposeFunction(addPartToVar("dlt_dm_green"), "g/m^2", addPartToDesc("Delta Weight of "), FloatFunction(&plantPart::dltDmGreen));
    scienceAPI.exposeFunction(addPartToVar("dlt_dm_detached"), "g/m^2", addPartToDesc("Delta Weight of detached "), FloatFunction(&plantPart::dltDmDetached));
+   scienceAPI.exposeFunction(addPartToVar("dlt_dm_senesced"), "g/m^2", addPartToDesc("Delta Weight of senesced "), FloatFunction(&plantPart::dltDmSenesced));
+
+   scienceAPI.exposeFunction(addPartToVar("dlt_n_green"), "g/m^2", addPartToDesc("Delta N in "), FloatFunction(&plantPart::dltNGreen));
    scienceAPI.exposeFunction(addPartToVar("dlt_n_retrans"), "g/m^2", addPartToDesc("N retranslocated to/from "), FloatFunction(&plantPart::dltNRetrans));
+   scienceAPI.exposeFunction(addPartToVar("dlt_n_detached"), "g/m^2", addPartToDesc("Delta N in detached "), FloatFunction(&plantPart::dltNDetached));
+   scienceAPI.exposeFunction(addPartToVar("dlt_n_senesced"), "g/m^2", addPartToDesc("Delta N in senesced "), FloatFunction(&plantPart::dltNSenesced));
    scienceAPI.exposeFunction(addPartToVar("dlt_n_senesced_trans"), "g/m^2", addPartToDesc("N translocated to/from senesced "), FloatFunction(&plantPart::dltNSenescedTrans));
    scienceAPI.exposeFunction(addPartToVar("dlt_n_senesced_retrans"), "g/m^2", addPartToDesc("N retranslocated to/from senesced "), FloatFunction(&plantPart::dltNSenescedRetrans));
    scienceAPI.exposeFunction(addPartToVar("n_demand"), "g/m^2", addPartToDesc("N demand of "), FloatFunction(&plantPart::nDemand));
+
+   scienceAPI.exposeFunction(addPartToVar("dlt_p_green"), "g/m^2", addPartToDesc("Delta P in "), FloatFunction(&plantPart::dltPGreen));
+   scienceAPI.exposeFunction(addPartToVar("dlt_p_senesced"), "g/m^2", addPartToDesc("Delta P in senesced "), FloatFunction(&plantPart::dltPSenesced));
+   scienceAPI.exposeFunction(addPartToVar("dlt_p_detached"), "g/m^2", addPartToDesc("Delta P in detached "), FloatFunction(&plantPart::dltPDetached));
 
    if (tempFlagToShortCircuitInit1) return;
 
@@ -117,6 +127,53 @@ void plantPart::get_dm_green_demand(protocol::Component *system, protocol::Query
    system->sendVariable(qd, dmGreenDemand());
    }
 
+
+float plantPart::dltNGreen(void)
+   //===========================================================================
+{
+   return Growth().N;
+}
+
+
+float plantPart::dltPGreen(void)
+   //===========================================================================
+{
+   return Growth().P;
+}
+
+
+float plantPart::dltDmSenesced(void)
+   //===========================================================================
+{
+   return Senescing.DM;
+}
+
+
+float plantPart::dltNSenesced(void)
+   //===========================================================================
+{
+   return Senescing.N;
+}
+
+
+float plantPart::dltPSenesced(void)
+   //===========================================================================
+{
+   return Senescing.P;
+}
+
+float plantPart::dltNDetached(void)
+   //===========================================================================
+{
+   return Detaching.N;
+}
+
+
+float plantPart::dltPDetached(void)
+   //===========================================================================
+{
+   return Detaching.P;
+}
 
 
 float plantPart::n_conc_crit(void)
@@ -301,10 +358,12 @@ void plantPart::readConstants(protocol::Component *, const string &)
     if (find_if(parts.begin(),parts.end(), CaseInsensitiveStringComparison(c.name)) != parts.end())
        {
        c.p_yield_part = true;
+       c.yield_part = true;
        }
     else
        {
        c.p_yield_part = false;
+       c.yield_part = false;
        }
 
     scienceAPI.readOptional("retrans_parts", parts);
@@ -389,7 +448,7 @@ void plantPart::readCultivarParameters (protocol::Component*, const string&)
 void plantPart::onEmergence()
 //=======================================================================================
    {
-   Green().Init();
+   Green().Init(plant->getPlants());
    }
 
 void plantPart::onFlowering(void)
@@ -801,6 +860,12 @@ void plantPart::doSenescence(float sen_fr)
                    * fraction_senescing;
    }
 
+//void plantPart::doDmPartition(float DMAvail, float DMDemandTotal)
+//=======================================================================================
+//   {
+//   dlt.dm_green = DMAvail * divide (DMGreenDemand, DMDemandTotal, 0.0);
+//   }
+
 void plantPart::doDmRetranslocate(float DMAvail, float DMDemandDifferentialTotal)
 //=======================================================================================
    {
@@ -813,10 +878,22 @@ float plantPart::dmDemandDifferential(void)
    return l_bound(dmGreenDemand() - dltDmGreen(), 0.0);
    }
 
+float plantPart::dltDmRetranslocateSupply(float /* DemandDifferential*/)
+//=======================================================================================
+   {
+//   float DMPartPot = DMGreen + dlt.dm_green_retrans;
+//   float DMPartAvail = DMPartPot - DMPlantMin * plant->getPlants();
+//   DMPartAvail = l_bound (DMPartAvail, 0.0);
+//   float DltDmRetransPart = min (DemandDifferential, DMPartAvail);
+//   dlt.dm_green_retrans = - DltDmRetransPart;
+//   return DltDmRetransPart;
+   return 0.0;
+   }
+
 float plantPart::nDemandDifferential(void)
 //=======================================================================================
    {
-   return l_bound(nDemand() - Growth().N, 0.0);
+   return l_bound(nDemand() - dltNGreen(), 0.0);
    }
 
 void plantPart::doNSenescence(void)
@@ -948,11 +1025,7 @@ void plantPart::onEndCrop(vector<string> &dm_type,
 
    Senesced().Clear();
    Green().Clear();
-   Growth().Clear();
-   Senescing.Clear();
-   Detaching.Clear();
-   Retranslocation.Clear();
-     
+
    }
 
 
@@ -1133,6 +1206,18 @@ float plantPart::dltNRemoved(void)
 //=======================================================================================
    {
    return (dltNGreenRemoved() + dltNSenescedRemoved());
+   }
+
+float plantPart::dltPRemoved(void)
+//=======================================================================================
+   {
+   return (dltPGreenRemoved() + dltPSenescedRemoved());
+   }
+
+float plantPart::dmSenescedVeg(void)
+//=======================================================================================
+   {
+   return (Senesced().DM);
    }
 
 float plantPart::dmGreenStressDeterminant(void)
@@ -1343,6 +1428,8 @@ void plantPart::get_dm_green(vector<float> &dm_green) {dm_green.push_back(Green(
 void plantPart::get_dm_senesced(vector<float> &dm_senesced) {dm_senesced.push_back(Senesced().DM);}
 void plantPart::get_dlt_dm_green(vector<float> &dlt_dm_green) {dlt_dm_green.push_back(Growth().DM);}
 void plantPart::get_dlt_dm_green_retrans(vector<float> &dlt_dm_green_retrans) {dlt_dm_green_retrans.push_back(Retranslocation.DM);}
+void plantPart::get_dlt_dm_detached(vector<float> &dlt_dm_detached) {dlt_dm_detached.push_back(Detaching.DM);}
+void plantPart::get_dlt_dm_senesced(vector<float> &dlt_dm_senesced) {dlt_dm_senesced.push_back(Senescing.DM);}
 void plantPart::get_n_demanded(vector<float> &demands) {demands.push_back(NDemand);}
 
 

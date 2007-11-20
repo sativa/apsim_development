@@ -33,6 +33,8 @@ public:                                             // member functions
    virtual void get_name(vector<string> &name);
    virtual void get_p_demand(vector<float> &p_demand);
    virtual void get_dlt_p_retrans(vector<float> &dlt_p_retrans);
+   virtual void get_dlt_dm_senesced(vector<float> &);
+   virtual void get_dlt_dm_detached(vector<float> &);
    virtual void get_dlt_dm_green_retrans(vector<float> &);
    virtual void get_dlt_dm_green(vector<float> &);
    virtual void get_dm_senesced(vector<float> &);
@@ -105,6 +107,7 @@ public:                                             // member functions
    virtual float dltDm(void);
 
    virtual float dltDmGreen(void)  ;
+   virtual float dltDmSenesced(void);
    virtual float dltDmDetached(void);
    virtual float dltDmGreenRetrans(void);
 
@@ -117,6 +120,7 @@ public:                                             // member functions
    virtual float dmGreenDemand(void);
    virtual float dmGrainWetTotal(void);
 
+   virtual float dmSenescedVeg(void);
    virtual float grainWt(void);
    virtual float dmRetransSupply(void);
    virtual float dmRetransDemand(void) ;
@@ -128,6 +132,7 @@ public:                                             // member functions
 
    virtual float dltNRetransOut(void);
    virtual float dltNSenescedRetrans(void);
+   virtual float dltNGreen(void);
    virtual float nDemand(void);
    virtual float soilNDemand(void);
    virtual float nCapacity(void);
@@ -173,11 +178,17 @@ public:                                             // member functions
    virtual void doPPartition(float p_uptake, float total_p_demand);
    virtual void doPRetranslocate(float total_p_supply, float total_p_demand);
 
+   virtual float dltPGreen(void);
+   virtual float dltNSenesced(void);
+   virtual float dltPSenesced(void);
+   virtual float dltNDetached(void);
+   virtual float dltPDetached(void);
    virtual float n_conc_crit(void);
    virtual float n_conc_min(void);
    virtual float dltNRetrans(void);
    virtual float dltNSenescedTrans(void);
 
+   virtual bool isYieldPart(void);
    virtual bool isRetransPart(void);
 
 #if TEST_CompositePart

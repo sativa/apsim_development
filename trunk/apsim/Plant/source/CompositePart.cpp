@@ -105,6 +105,74 @@ void CompositePart::add(plantPart* part)
    myParts.push_back(part);
    }
 
+float CompositePart::dltNGreen(void)
+   //===========================================================================
+{
+   float sum = 0.0;
+   for (vector <plantPart * >::const_iterator part = myParts.begin(); part != myParts.end(); part++)
+      sum += (*part)->dltNGreen();
+   return sum;
+}
+
+
+float CompositePart::dltPGreen(void)
+   //===========================================================================
+{
+   float sum = 0.0;
+   for (vector <plantPart * >::const_iterator part = myParts.begin(); part != myParts.end(); part++)
+      sum += (*part)->dltPGreen();
+   return sum;
+}
+
+float CompositePart::dltDmSenesced(void)
+   //===========================================================================
+{
+   float sum = 0.0;
+   for (vector <plantPart *>::const_iterator part = myParts.begin(); part != myParts.end(); part++)
+      sum += (*part)->dltDmSenesced();
+   return sum;
+}
+
+
+float CompositePart::dltNSenesced(void)
+   //===========================================================================
+{
+   float sum = 0.0;
+   for (vector <plantPart *>::const_iterator part = myParts.begin(); part != myParts.end(); part++)
+      sum += (*part)->dltNSenesced();
+   return sum;
+}
+
+
+float CompositePart::dltPSenesced(void)
+   //===========================================================================
+{
+   float sum = 0.0;
+   for (vector <plantPart *>::const_iterator part = myParts.begin(); part != myParts.end(); part++)
+      sum += (*part)->dltPSenesced();
+   return sum;
+}
+
+float CompositePart::dltNDetached(void)
+   //===========================================================================
+{
+   float sum = 0.0;
+   for (vector <plantPart *>::const_iterator part = myParts.begin(); part != myParts.end(); part++)
+      sum += (*part)->dltNDetached();
+   return sum;
+}
+
+
+float CompositePart::dltPDetached(void)
+   //===========================================================================
+{
+   float sum = 0.0;
+   for (vector <plantPart *>::const_iterator part = myParts.begin(); part != myParts.end(); part++)
+      sum += (*part)->dltPDetached();
+   return sum;
+}
+
+
 float CompositePart::n_conc_crit(void)
    //===========================================================================
 {
@@ -208,6 +276,14 @@ float CompositePart::dmGrainWetTotal(void)
    return dmTotal;
 }
 
+float CompositePart::dmSenescedVeg(void)
+   //===========================================================================
+{
+   float dmTotal = 0.0;
+   for (vector <plantPart * >::const_iterator part = myParts.begin(); part != myParts.end(); part++)
+      dmTotal += (*part)->dmSenescedVeg();
+   return dmTotal;
+}
 
 float CompositePart::dltDmDetached(void)
    //===========================================================================
@@ -295,8 +371,8 @@ void CompositePart::doNPartition(float nSupply, float n_demand_sum, float n_capa
    for (part = myParts.begin(); part != myParts.end(); part++)
       (*part)->doNPartition(Growth().N, n_demand_sum, n_capacity_sum);
 
-   float dlt_n_green_sum = Growth().N;
-   if (!reals_are_equal(dlt_n_green_sum - Growth().N, 0.0))   // WHAT IS GOING ON HERE!!!!!!! NIH
+   float dlt_n_green_sum = dltNGreen();
+   if (!reals_are_equal(dlt_n_green_sum - Growth().N, 0.0))
       {
       string msg = c.name + " dlt_n_green mass balance is off: dlt_n_green_sum ="
                   + ftoa(dlt_n_green_sum, ".6")
@@ -387,6 +463,22 @@ void CompositePart::get_dlt_dm_green_retrans(vector<float> &dlt_dm_green_retrans
    vector <plantPart *>::iterator part;
    for (part = myParts.begin(); part != myParts.end(); part++)
       (*part)->get_dlt_dm_green_retrans(dlt_dm_green_retrans);
+}
+
+void CompositePart::get_dlt_dm_detached(vector<float> &dlt_dm_detached)
+   //===========================================================================
+{
+   vector <plantPart *>::iterator part;
+   for (part = myParts.begin(); part != myParts.end(); part++)
+      (*part)->get_dlt_dm_detached(dlt_dm_detached);
+}
+
+void CompositePart::get_dlt_dm_senesced(vector<float> &dlt_dm_senesced)
+   //===========================================================================
+{
+   vector <plantPart *>::iterator part;
+   for (part = myParts.begin(); part != myParts.end(); part++)
+      (*part)->get_dlt_dm_senesced(dlt_dm_senesced);
 }
 
 void CompositePart::get_n_demanded(vector<float> &n_demand)
@@ -588,13 +680,6 @@ void CompositePart::onEndCrop(vector<string> &dm_type,
                          dlt_dm_n,
                          dlt_dm_p,
                          fraction_to_residue);
-
-   Senesced().Clear();
-   Green().Clear();
-   Growth().Clear();
-   Senescing.Clear();
-   Detaching.Clear();
-   Retranslocation.Clear();                         
 }
 
 
@@ -1354,6 +1439,15 @@ float CompositePart::pMinPotStressDeterminant(void)
    return p_min_pot;
 }
 
+
+bool CompositePart::isYieldPart(void)
+//============================================================================
+// True if at least one of our parts is a dm sink
+   {
+   for (vector <plantPart * >::const_iterator part = myParts.begin(); part != myParts.end(); part++)
+      if ((*part)->isYieldPart()) return true;
+   return false;
+   }
 
 bool CompositePart::isRetransPart(void)
 // True if at least one of our parts supplies retranslocate
