@@ -62,7 +62,7 @@ void rootGrowthOption2::root_length_growth (void)
       rlv_factor_tot += rlv_factor[layer];
       }
 
-   dlt_length_tot = Growth().DM/sm2smm * specificRootLength;
+   dlt_length_tot = Growth().DM()/sm2smm * specificRootLength;
 
    root_length_tot = sum_real_array(root_length, max_layer) + dlt_length_tot;
 

@@ -391,7 +391,7 @@ void RootPart::onEmergence(void)
    DMPlantMin = 0.0;
 
    // initial root length (mm/mm^2)
-   float initial_root_length = Green().DM / sm2smm * specificRootLength;
+   float initial_root_length = Green().DM() / sm2smm * specificRootLength;
 
    // initial root length density (mm/mm^3)
    float rld = divide (initial_root_length, root_depth, 0.0);
@@ -426,17 +426,14 @@ void RootPart::onHarvest(float /*cutting_height*/, float /* remove_fr*/,
 // Harvesting Event Handler
    {
    // Push dead fraction into senesced pool
-   float dlt_dm_die = Green().DM * rootDieBackFraction;
-   Green().DM -= dlt_dm_die;
-   Senesced().DM += dlt_dm_die;
-
+   float dlt_dm_die = Green().DM() * rootDieBackFraction;
    float dlt_n_die = dlt_dm_die * c.n_sen_conc;
-   Green().N -= dlt_n_die;
-   Senesced().N += dlt_n_die;
+   float dlt_p_die = Green().P() * rootDieBackFraction;
 
-   float dlt_p_die = Green().P * rootDieBackFraction;
-   Green().P -= dlt_p_die;
-   Senesced().P += dlt_p_die;
+   Biomass Dead(dlt_dm_die, dlt_n_die, dlt_p_die);
+
+   Green() = Green() - Dead;
+   Senesced() = Senesced() + Dead;
 
    // Unlike above ground parts, no roots go to surface residue module.
    dm_type.push_back(c.name);
@@ -452,17 +449,13 @@ void RootPart::onKillStem(void)
 // Kill Stem Event Handler
    {
    // Calculate Root Die Back
-   float dlt_dm_sen = Green().DM * rootDieBackFraction;
-   Senesced().DM += dlt_dm_sen;
-   Green().DM -= dlt_dm_sen;
+   float dlt_dm_sen = Green().DM() * rootDieBackFraction;
+   float dlt_n_sen =  (Green().DM() - dlt_dm_sen) * rootDieBackFraction * c.n_sen_conc;
+   float dlt_p_sen =  Green().P() * rootDieBackFraction;
 
-   float dlt_n_sen =  Green().DM * rootDieBackFraction * c.n_sen_conc;
-   Senesced().N += dlt_n_sen;
-   Green().N -= dlt_n_sen;
-
-   float dlt_p_sen =  Green().P * rootDieBackFraction;
-   Senesced().P += dlt_p_sen;
-   Green().P -= dlt_p_sen;
+   Biomass Dead(dlt_dm_sen, dlt_n_sen, dlt_p_sen);
+   Green() = Green() - Dead;
+   Senesced() = Senesced() + Dead;
 
    plantPart::onKillStem();
    }
@@ -567,7 +560,7 @@ void RootPart::sen_length(void)
 //     biomass and the specific root length.
    {
    setTo (dltRootLengthSenesced, (float) 0.0);
-   float senesced_length = Senescing.DM / sm2smm * specificRootLength;
+   float senesced_length = Senescing.DM() / sm2smm * specificRootLength;
    root_dist(senesced_length, dltRootLengthSenesced);
    }
 
@@ -616,8 +609,8 @@ void RootPart::onEndCrop(vector<string> &/*dm_type*/,
 //=======================================================================================
 // Unlike above ground parts, no roots go to surface residue module. Send our DM to FOM pool.
    {
-   root_incorp (Green().DM , Green().N, Green().P);
-   root_incorp_dead (Senesced().DM, Senesced().N, Senesced().P);
+   root_incorp (Green().DM() , Green().N(), Green().P());
+   root_incorp_dead (Senesced().DM(), Senesced().N(), Senesced().P());
    //root_incorp_dead (dmDead(), nDead(), pDead());
 
    Senesced().Clear();
@@ -629,9 +622,9 @@ void RootPart::updateOthers(void)
 //=======================================================================================
 // dispose of detached material from dead & senesced roots into FOM pool
    {
-   root_incorp (Detaching.DM,
-                Detaching.N,
-                Detaching.P);
+   root_incorp (Detaching.DM(),
+                Detaching.N(),
+                Detaching.P());
    }
 
 
@@ -1037,13 +1030,12 @@ void RootPart::removeBiomass2(float chop_fr)
 //=======================================================================================
 // Remove biomass from the root system due to senescence or plant death
    {
-   float dlt_dm_die = Green().DM * rootDieBackFraction * chop_fr;
-   Senesced().DM += dlt_dm_die;
-   Green().DM -= dlt_dm_die;
-
+   float dlt_dm_die = Green().DM() * rootDieBackFraction * chop_fr;
    float dlt_n_die = dlt_dm_die * c.n_sen_conc;
-   Senesced().N += dlt_n_die;
-   Green().N -= dlt_n_die;
+
+   Biomass Dead(dlt_dm_die, dlt_n_die, 0);
+   Green() = Green() - Dead;
+   Senesced() = Senesced() + Dead;
 
    /// WHY NO P?????????
 

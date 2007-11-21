@@ -150,7 +150,7 @@ void fruitGrainPartHI::doDMDemandGrain(void)
                                    ,pNum_pp_hi_incr);
 
       // effective grain filling period
-      float dm_green_yield_parts = mealPart->Green().DM + oilPart->Green().DM;
+      float dm_green_yield_parts = mealPart->Green().DM() + oilPart->Green().DM();
 
       harvest_index = divide (dm_green_yield_parts, plant->getDmTops(), 0.0);
       dm_tops_new = plant->getDmTops() + plant->getDltDm();

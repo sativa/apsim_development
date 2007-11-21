@@ -16,10 +16,10 @@ public:                                             // member functions
    fruitGrainPart(ScienceAPI& scienceAPI, plantInterface *p, const string &name);
    virtual ~fruitGrainPart() = 0;
 
-   virtual Pool Grain(void) {return Green();}
-   virtual Pool GrainTotal(void) {return Total();}
-   virtual Pool Vegetative(void) {return Pool();}
-   virtual Pool VegetativeTotal(void) {return Pool();}
+   virtual Biomass Grain(void) {return Green();}
+   virtual Biomass GrainTotal(void) {return Total();}
+   virtual Biomass Vegetative(void) {return Biomass();}
+   virtual Biomass VegetativeTotal(void) {return Biomass();}
 
    void onInit1(protocol::Component *system);
    void doNewMet(protocol::NewMetType &newmet) ;

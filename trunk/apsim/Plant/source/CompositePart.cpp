@@ -51,30 +51,30 @@ Pool& CompositePart::Senesced(void)
    return PrivateSenesced;
 
    }
-Pool CompositePart::Grain(void)
+Biomass CompositePart::Grain(void)
    {
-   Pool Temp;
+   Biomass Temp;
    for (vector <plantPart * >::const_iterator part = myParts.begin(); part != myParts.end(); part++)
       Temp = Temp + (*part)->Grain();
    return Temp;
    }
-Pool CompositePart::GrainTotal(void)
+Biomass CompositePart::GrainTotal(void)
    {
-   Pool Temp;
+   Biomass Temp;
    for (vector <plantPart * >::const_iterator part = myParts.begin(); part != myParts.end(); part++)
       Temp = Temp + (*part)->GrainTotal();
    return Temp;
    }
-Pool CompositePart::Vegetative(void)
+Biomass CompositePart::Vegetative(void)
    {
-   Pool Temp;
+   Biomass Temp;
    for (vector <plantPart * >::const_iterator part = myParts.begin(); part != myParts.end(); part++)
       Temp = Temp + (*part)->Vegetative();
    return Temp;
    }
-Pool CompositePart::VegetativeTotal(void)
+Biomass CompositePart::VegetativeTotal(void)
    {
-   Pool Temp;
+   Biomass Temp;
    for (vector <plantPart * >::const_iterator part = myParts.begin(); part != myParts.end(); part++)
       Temp = Temp + (*part)->VegetativeTotal();
    return Temp;
@@ -369,15 +369,15 @@ void CompositePart::doNPartition(float nSupply, float n_demand_sum, float n_capa
 
    vector <plantPart *>::iterator part;
    for (part = myParts.begin(); part != myParts.end(); part++)
-      (*part)->doNPartition(Growth().N, n_demand_sum, n_capacity_sum);
+      (*part)->doNPartition(Growth().N(), n_demand_sum, n_capacity_sum);
 
    float dlt_n_green_sum = dltNGreen();
-   if (!reals_are_equal(dlt_n_green_sum - Growth().N, 0.0))
+   if (!reals_are_equal(dlt_n_green_sum - Growth().N(), 0.0))
       {
       string msg = c.name + " dlt_n_green mass balance is off: dlt_n_green_sum ="
                   + ftoa(dlt_n_green_sum, ".6")
                   + " vs nSupply ="
-                  + ftoa(Growth().N, ".6");
+                  + ftoa(Growth().N(), ".6");
       plant->warningError(msg.c_str());
       }
 }
@@ -768,21 +768,11 @@ void CompositePart::fixPools()
    Growth().Clear();
    for (part = myParts.begin(); part != myParts.end(); part++)
       {
-      Green().DM += (*part)->Green().DM;
-      Green().N += (*part)->Green().N;
-      Green().P += (*part)->Green().P;
-      Senesced().DM += (*part)->Senesced().DM;
-      Senesced().N += (*part)->Senesced().N;
-      Senesced().P += (*part)->Senesced().P;
-      Senescing.DM += (*part)->Senescing.DM;
-      Senescing.N += (*part)->Senescing.N;
-      Senescing.P += (*part)->Senescing.P;
-      Detaching.DM += (*part)->Detaching.DM;
-      Detaching.N += (*part)->Detaching.N;
-      Detaching.P += (*part)->Detaching.P;
-      Growth().DM += (*part)->Growth().DM;
-      Growth().N += (*part)->Growth().N;
-      Growth().P += (*part)->Growth().P;
+      Green() = Green() + (*part)->Green();
+      Senesced() = Senesced() + (*part)->Senesced();
+      Senescing = Senescing + (*part)->Senescing;
+      Detaching = Detaching + (*part)->Detaching;
+      Growth() = Growth() + (*part)->Growth();
       }
    }
 
@@ -1271,13 +1261,14 @@ void CompositePart::doNSenescence(void)
 void CompositePart::Detachment(void)
    //============================================================================
 {
-   Detaching.DM = 0.0;
+   float DetachingDM = 0.0;
    vector <plantPart *>::iterator part;
    for (part = myParts.begin(); part != myParts.end(); part++)
       {
-      Detaching.DM += (*part)->dltDmDetached();
+      DetachingDM += (*part)->dltDmDetached();
       (*part)->Detachment();
       }
+   Detaching = Biomass(DetachingDM, 0, 0);
 }
 
 

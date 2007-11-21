@@ -28,7 +28,7 @@
       Storage\StoragePart.obj Arbitrators\CerealArbitrator.obj 
       Arbitrators\GenericArbitratorXY.obj Arbitrators\AllometricArbitrator.obj 
       Utility\ExternalFunction.obj Utility\InterpolationFunction.obj 
-      Utility\LookupFunction.obj Delta.obj Pool.obj"/>
+      Utility\LookupFunction.obj Delta.obj Pool.obj CompositePool.obj Biomass.obj"/>
     <RESFILES value=""/>
     <IDLFILES value=""/>
     <DEFFILE value=""/>
@@ -141,6 +141,8 @@
       <FILE FILENAME="Utility\LookupFunction.cpp" FORMNAME="" UNITNAME="LookupFunction.cpp" CONTAINERID="CCompiler" DESIGNCLASS="" LOCALCOMMAND=""/>
       <FILE FILENAME="Delta.cpp" FORMNAME="" UNITNAME="Delta.cpp" CONTAINERID="CCompiler" DESIGNCLASS="" LOCALCOMMAND=""/>
       <FILE FILENAME="Pool.cpp" FORMNAME="" UNITNAME="Pool.cpp" CONTAINERID="CCompiler" DESIGNCLASS="" LOCALCOMMAND=""/>
+      <FILE FILENAME="CompositePool.cpp" FORMNAME="" UNITNAME="CompositePool" CONTAINERID="CCompiler" DESIGNCLASS="" LOCALCOMMAND=""/>
+      <FILE FILENAME="Biomass.cpp" FORMNAME="" UNITNAME="Biomass" CONTAINERID="CCompiler" DESIGNCLASS="" LOCALCOMMAND=""/>
   </FILELIST>
   <BUILDTOOLS>
   </BUILDTOOLS>
@@ -245,7 +247,7 @@ Item1=..\lib
 DebugSourceDirs=$(BCB)\source\vcl;c:\data\Apsim\development\Shared\ComponentInterface\;c:\data\Apsim\development\apsim\SummaryFile\Source\
 
 [Parameters]
-RunParams=C:\Users\hol353\Development\apsim\Wheat\Sample\wheat.apsim.wheat_sample.sim
+RunParams=C:\Users\hol353\Development\apsim\Plant\Test\test.APSIM.test6.sim
 Launcher=
 UseLauncher=0
 DebugCWD=

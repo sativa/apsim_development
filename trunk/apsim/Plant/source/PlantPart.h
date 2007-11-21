@@ -139,14 +139,14 @@ public:
 
    Delta Senescing;
    Delta Detaching;
-   virtual Delta& Growth() {return privateGrowth;}
    virtual Pool& Green() {return PrivateGreen;}
    virtual Pool& Senesced() {return PrivateSenesced;}
-   virtual Pool Total() { return (Green()+Senesced());}
-   virtual Pool Grain() { return (Pool());}
-   virtual Pool GrainTotal() { return Pool();}
-   virtual Pool Vegetative() {return Green();}
-   virtual Pool VegetativeTotal() {return Total();}
+   virtual Delta& Growth() {return privateGrowth;}
+   virtual Biomass Total() { return (Green()+Senesced());}
+   virtual Biomass Grain() { return (Biomass());}
+   virtual Biomass GrainTotal() { return Biomass();}
+   virtual Biomass Vegetative() {return Green();}
+   virtual Biomass VegetativeTotal() {return Total();}
 
    Delta Retranslocation;
 
@@ -265,8 +265,8 @@ public:
    virtual float nRetransSupply(void);
    virtual float nRetransDemand(void){return 0.0;};
    virtual float nDemandDifferential(void);
-   virtual float nMin(void)  {return g.n_conc_min * Green().DM;};
-   virtual float nCrit(void)  {return g.n_conc_crit * Green().DM;};
+   virtual float nMin(void)  {return g.n_conc_min * Green().DM();};
+   virtual float nCrit(void)  {return g.n_conc_crit * Green().DM();};
    virtual float pDemand(void);
    virtual float pRetransSupply(void);
    virtual float pRetransDemand(void);
@@ -372,6 +372,7 @@ public:
       Pool  PrivateGreen;
       Pool  PrivateSenesced;
 
+
    private:
       float nConcCrit();
       float nConcMin();
@@ -379,7 +380,7 @@ public:
       std::string addPartToVar(const std::string& variableName);
       std::string addPartToDesc(const std::string& description);
 
-      Delta privateGrowth;
+         Delta privateGrowth;
 
 };
 

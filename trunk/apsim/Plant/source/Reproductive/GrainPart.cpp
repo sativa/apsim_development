@@ -68,13 +68,13 @@ float fruitGrainPart::nDemand2(void)
 void fruitGrainPart::get_grain_wt(protocol::Component *system, protocol::QueryValueData &qd)
    //===========================================================================
 {
-   system->sendVariable(qd, Green().DM);
+   system->sendVariable(qd, Green().DM());
 }
 
 void fruitGrainPart::get_grain_n(protocol::Component *system, protocol::QueryValueData &qd)
    //===========================================================================
 {
-   system->sendVariable(qd, Green().N);
+   system->sendVariable(qd, Green().N());
 }
 
 void fruitGrainPart::get_grain_n_demand(protocol::Component *system, protocol::QueryValueData &qd)
@@ -107,19 +107,19 @@ void fruitGrainPart::get_n_conc_meal(protocol::Component *system, protocol::Quer
 void fruitGrainPart::get_yield(protocol::Component *system, protocol::QueryValueData &qd)
    //===========================================================================
 {
-   system->sendVariable(qd, Total().DM * gm2kg / sm2ha);
+   system->sendVariable(qd, Total().DM() * gm2kg / sm2ha);
 }
 
 void fruitGrainPart::get_yield_wet(protocol::Component *system, protocol::QueryValueData &qd)
    //===========================================================================
 {
-   system->sendVariable(qd, Total().DM * gm2kg / sm2ha / (1.0 - cGrn_water_cont));
+   system->sendVariable(qd, Total().DM() * gm2kg / sm2ha / (1.0 - cGrn_water_cont));
 }
 
 void fruitGrainPart::get_grain_p(protocol::Component *systemInterface, protocol::QueryValueData &qd)
    //===========================================================================
 {
-   float grain_p = Green().P;
+   float grain_p = Green().P();
    systemInterface->sendVariable(qd, grain_p);  //()
 }
 
@@ -482,7 +482,7 @@ void fruitGrainPart::doNDemand2(float /*dlt_dm*/             // (INPUT)  Whole p
 float fruitGrainPart::dmGrainWetTotal(void)
 //=======================================================================================
    {
-   return (divide(Total().DM, (1.0 - cGrn_water_cont), 0.0));
+   return (divide(Total().DM(), (1.0 - cGrn_water_cont), 0.0));
    }
 
 float fruitGrainPart::grainWaterContent(void) {return cGrn_water_cont;}
