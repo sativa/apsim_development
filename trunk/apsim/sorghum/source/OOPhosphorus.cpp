@@ -413,13 +413,13 @@ void Phosphorus::getPDead(float &result)
 void Phosphorus::Summary(void)
    {
    char msg[120];
-   sprintf(msg, "grain P percent            =  %8.3f \t grain P uptake     (kg/ha) = %8.3f",
+   sprintf(msg, "grain P percent            =  %8.3f \t grain P uptake     (kg/ha) = %8.3f\n",
             plant->grain->getPConc() * 100,plant->grain->getPGreen() * 10.0);
    scienceAPI.write(msg);
-   sprintf(msg, "total P content    (kg/ha) =  %8.3f \t senesced P content (kg/ha) = %8.3f",
+   sprintf(msg, "total P content    (kg/ha) =  %8.3f \t senesced P content (kg/ha) = %8.3f\n",
             pBiomass * 10.0,sumVector(pSenesced) * 10.0);
    scienceAPI.write(msg);
-   sprintf(msg, "green P content    (kg/ha) =  %8.3f \t dead P content     (kg/ha) = %8.3f",
+   sprintf(msg, "green P content    (kg/ha) =  %8.3f \t dead P content     (kg/ha) = %8.3f\n",
             sumVector(pGreen) * 10.0 - plant->grain->getPGreen() * 10.0, sumVector(pDead) * 10.0);
    scienceAPI.write(msg);
    }
