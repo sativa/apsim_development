@@ -354,12 +354,10 @@ void Roots::incorporateResidue(void)
    incorpFom.dlt_fom_p_value = pIncorp;
 #else
    Variant incorpFom;
-   pack(incorpFom, "name", plant->getCropType());
-
-   pack(incorpFom, "dlt_fom_wt_name", plant->getCropType());
-   pack(incorpFom, "dlt_fom_wt_value", dmIncorp);
-   pack(incorpFom, "dlt_fom_n_value", nIncorp);
-   pack(incorpFom, "dlt_fom_p_value", pIncorp);
+   pack(incorpFom, "dlt_fom_type", plant->getCropType());
+   pack(incorpFom, "dlt_fom_wt", dmIncorp);
+   pack(incorpFom, "dlt_fom_n", nIncorp);
+   pack(incorpFom, "dlt_fom_p", pIncorp);
 #endif
 
    scienceAPI.publish ("incorp_fom", incorpFom);
