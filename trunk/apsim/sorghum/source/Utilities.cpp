@@ -73,24 +73,32 @@ float sumVector(vector<float> vec, int from, int to)
 //------------------------------------------------------------------------------------------------
 void checkRange(ScienceAPI &api, float value, float lower, float upper, const std::string &vName)
    {
-   char msg[80];
+   char msg[512];
+   char m1[] = "!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!\n"
+"                      APSIM Warning Error\n"
+"                      -------------------\n";
+   char m2[] = "     !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!\n";
+
+
    if(lower > upper)
       {
       sprintf(msg,
-         "%s: Lower bound (%f) exceeds upper bound (%f)\n        Variable is not checked",
-         vName.c_str(),lower, upper);
+         "%s     %s: Lower bound (%f) exceeds upper bound (%f)\n        Variable is not checked\n%s",
+         m1, vName.c_str(),lower, upper, m2);
       api.write(msg);
       }
    else if (value > upper)                   //is the value too big?
       {
       sprintf(msg,
-         "%s = %f\n        exceeds upper limit of %f",vName.c_str(),value,upper);
+              "%s     %s = %f\n        exceeds upper limit of %f\n%s",
+              m1, vName.c_str(),value,upper, m2);
       api.write(msg);
       }
    else if (value  < lower)                  //is the value too small?
       {
       sprintf(msg,
-         "%s = %f\n        less than lower limit of %f",vName.c_str(), value, lower);
+              "%s     %s = %f\n        less than lower limit of %f\n%s",
+              m1, vName.c_str(), value, lower, m2);
       api.write(msg);
       }
    }
