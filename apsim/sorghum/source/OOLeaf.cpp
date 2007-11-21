@@ -1,22 +1,23 @@
-//------------------------------------------------------------------------------------------------
-
-
 #pragma hdrstop
 
-#include "OOLeaf.h"
+#include <stdio.h>
+#include <math.h>
+#include <map>
+#include <string>
+#include <stdexcept>
+#include <strstream>
+
 #include "OOPlant.h"
+#include "OOPlantComponents.h"
+#include "OOLeaf.h"
+
 using namespace std;
-//------------------------------------------------------------------------------------------------
-
-#pragma package(smart_init)
-
 //------------------------------------------------------------------------------------------------
 //------ Leaf Constructor
 //------------------------------------------------------------------------------------------------
-Leaf::Leaf(OOPlant *p)
+Leaf::Leaf(ScienceAPI &api, OOPlant *p) : PlantPart(api) 
    {
    plant = p;
-   plantInterface = p->plantInterface;
    name = "Leaf";
 
    doRegistrations();
@@ -34,29 +35,27 @@ Leaf::~Leaf()
 //--------------------------------------------------------------------------------------------------
 void Leaf::doRegistrations(void)
    {  
-#define setupGetVar plantInterface->addGettableVar
-   setupGetVar("lai", lai, "m2/m2", "Live plant green lai");
-   setupGetVar("dlt_lai", dltLAI, "m2/m2", "Leaf area growth rate");
-   setupGetVar("slai", sLai, "m2/m2", "Senesced plant lai");
-   setupGetVar("dlt_slai", dltSlai, "m2/m2", "Leaf area senescence rate");
-   setupGetVar("tpla", tpla, "m2", "Total plant leaf area");
-   setupGetVar("spla", spla, "m2", "Senesced plant leaf area");
-   setupGetVar("leaf_no", nLeaves, "leaves", "Number of fully expanded leaves within a stage");
-   setupGetVar("leaf_wt", dmGreen, "g/m2", "Live leaf dry weight");
-   setupGetVar("dleaf_wt", dmSenesced, "g/m2", "Dead leaf dry weight");
-   setupGetVar("tleaf_wt", dmSenesced, "g/m2", "Dead leaf dry weight");
-   setupGetVar("lai_max", maxLai, "m2/m2", "Maximum lai reached during the growing season");
-   setupGetVar("gleaf_n", nGreen, "g/m2", "N in green leaf");
-   setupGetVar("dleaf_n", nSenesced, "g/m2", "N in senesced and dead leaf");
-   setupGetVar("tleaf_n", nTotal, "g/m2", "Total N in live and dead leaf");
-   setupGetVar("sln",SLN, "g(N)/m2(leaf)", "Specific leaf nitrogen");
-   setupGetVar("dlt_n_retrans_leaf", dltNRetranslocate, "g/m2", "Nitrogen retranslocated from leaf to the grain");
-   setupGetVar("LeafGreenNConc", nConc, "%", "N concentration in live leaf");
-   setupGetVar("leaf_nd", nDemand, "g/m2", "Today's N demand from leaves");
-   setupGetVar("dlt_n_green_leaf", dltNGreen, "g/m2", "Daily N increase in leaves");
-   setupGetVar("dlt_leaf_no", dltLeafNo, "lvs/d", "Fraction of oldest leaf expanded");
-
-#undef setupGetVar
+   scienceAPI.expose("lai",      "m2/m2",  "Live plant green lai",         0, lai);
+   scienceAPI.expose("dlt_lai",  "m2/m2",  "Leaf area growth rate",        0, dltLAI);
+   scienceAPI.expose("slai",     "m2/m2",  "Senesced plant lai",           0, sLai);
+   scienceAPI.expose("dlt_slai", "m2/m2",  "Leaf area senescence rate",    0, dltSlai);
+   scienceAPI.expose("tpla",     "m2",     "Total plant leaf area",        0, tpla);
+   scienceAPI.expose("spla",     "m2",     "Senesced plant leaf area",     0, spla);
+   scienceAPI.expose("leaf_no",  "leaves", "Number of fully expanded leaves within a stage", 0, nLeaves);
+   scienceAPI.expose("leaf_wt",  "g/m2",   "Live leaf dry weight",         0, dmGreen);
+   scienceAPI.expose("dleaf_wt", "g/m2",   "Dead leaf dry weight",         0, dmSenesced);
+   scienceAPI.expose("tleaf_wt", "g/m2",   "Dead leaf dry weight",         0, dmSenesced);
+   scienceAPI.expose("lai_max",  "m2/m2", "Maximum lai reached during the growing season", 0, maxLai);
+   scienceAPI.expose("gleaf_n",  "g/m2",  "N in green leaf",               0, nGreen);
+   scienceAPI.expose("dleaf_n",  "g/m2",  "N in senesced and dead leaf",  0, nSenesced);
+   scienceAPI.expose("tleaf_n",  "g/m2",  "Total N in live and dead leaf", 0, nTotal);
+   scienceAPI.expose("sln",      "g(N)/m2(leaf)", "Specific leaf nitrogen",0, SLN);
+   scienceAPI.expose("dlt_n_retrans_leaf",  "g/m2", "Nitrogen retranslocated from leaf to the grain", 0, dltNRetranslocate);
+   scienceAPI.expose("n_conc_leaf", "%", "N concentration in live leaf",  0, nConc);
+   scienceAPI.expose("leaf_nd",  "g/m2", "Today's N demand from leaves", 0, nDemand);
+   scienceAPI.expose("dlt_n_green_leaf", "g/m2", "Daily N increase in leaves", 0, dltNGreen);
+   scienceAPI.expose("dlt_leaf_no", "lvs/d", "Fraction of oldest leaf expanded", 0, dltLeafNo);
+   scienceAPI.expose("extinctionCoef", "", "",0, extinctionCoef);
    }
 //------------------------------------------------------------------------------------------------
 //------- Initialize variables
@@ -108,81 +107,75 @@ void Leaf::initialize(void)
 //------------------------------------------------------------------------------------------------
 void Leaf::readParams (string cultivar)
    {
-   vector<string> sections;                  // sections to look for parameters
-   sections.push_back("constants");
-   sections.push_back(cultivar);
-
-   noSeed      = readVar(plantInterface,sections,"leaf_no_seed");
-   initRate    = readVar(plantInterface,sections,"leaf_init_rate");
-   noEmergence = readVar(plantInterface,sections,"leaf_no_at_emerg");
-   minLeafNo   = readVar(plantInterface,sections,"leaf_no_min");
-   maxLeafNo   = readVar(plantInterface,sections,"leaf_no_max");
+   scienceAPI.read("leaf_no_seed"    , "", 0, noSeed);
+   scienceAPI.read("leaf_init_rate"  , "", 0, initRate);
+   scienceAPI.read("leaf_no_at_emerg", "", 0, noEmergence);
+   scienceAPI.read("leaf_no_min"     , "", 0, minLeafNo);
+   scienceAPI.read("leaf_no_max"     , "", 0, maxLeafNo);
 
    // leaf appearance rates
-   appearanceRate1 = readVar(plantInterface,sections,"leaf_app_rate1");
-   appearanceRate2 = readVar(plantInterface,sections,"leaf_app_rate2");
-   noRateChange    = readVar(plantInterface,sections,"leaf_no_rate_change");
+   scienceAPI.read("leaf_app_rate1"     ,"", 0, appearanceRate1);
+   scienceAPI.read("leaf_app_rate2"     ,"", 0, appearanceRate2);
+   scienceAPI.read("leaf_no_rate_change","", 0, noRateChange);
 
    // leaf area TPLA
-   initialTPLA         = readVar(plantInterface,sections,"initial_tpla");
-   tplaInflectionRatio = readVar(plantInterface,sections,"tpla_inflection_ratio");
-   tplaProductionCoef  = readVar(plantInterface,sections,"tpla_prod_coef");
-   tillerCoef = readVar(plantInterface,sections,"tiller_coef");
-   mainStemCoef = readVar(plantInterface,sections,"main_stem_coef");
+   scienceAPI.read("initial_tpla"         ,"", 0, initialTPLA);
+   scienceAPI.read("tpla_inflection_ratio","", 0, tplaInflectionRatio);
+   scienceAPI.read("tpla_prod_coef"       ,"", 0, tplaProductionCoef);
+   scienceAPI.read("tiller_coef"          ,"", 0, tillerCoef);
+   scienceAPI.read("main_stem_coef"       ,"", 0, mainStemCoef);
 
    // dry matter
-   initialDM    = readVar(plantInterface,sections,"dm_leaf_init");
-   translocFrac = readVar(plantInterface,sections,"Leaf_trans_frac");
-   leafPartitionRate = readVar(plantInterface,sections,"partition_rate_leaf");
-
+   scienceAPI.read("dm_leaf_init"       , "", 0, initialDM);
+   scienceAPI.read("Leaf_trans_frac"    , "", 0, translocFrac);
+   scienceAPI.read("partition_rate_leaf", "", 0, leafPartitionRate);
+    
    // sla
-   slaMin = readVar(plantInterface,sections,"sla_min");
-   slaMax = readVar(plantInterface,sections,"sla_max");
+   scienceAPI.read("sla_min", "", 0, slaMin); 
+   scienceAPI.read("sla_max", "", 0, slaMax); 
 
    // spla
-   splaIntercept = readVar(plantInterface,sections,"spla_intercept");
-   splaSlope     = readVar(plantInterface,sections,"spla_slope");
-   splaProdCoef  = readVar(plantInterface,sections,"spla_prod_coef");
+   scienceAPI.read("spla_intercept", "", 0, splaIntercept);
+   scienceAPI.read("spla_slope"    , "", 0, splaSlope    );
+   scienceAPI.read("spla_prod_coef", "", 0, splaProdCoef );
 
 
    // nitrogen
-   initialSLN = readVar(plantInterface,sections,"initialLeafSLN");
-   targetSLN  = readVar(plantInterface,sections,"targetLeafSLN");
-   newLeafSLN  = readVar(plantInterface,sections,"newLeafSLN");
+   scienceAPI.read("initialLeafSLN", "", 0, initialSLN );
+   scienceAPI.read("targetLeafSLN" , "", 0, targetSLN  );
+   scienceAPI.read("newLeafSLN"    , "", 0, newLeafSLN );
 
 
    // senescence
-   senRadnCrit  = readVar(plantInterface,sections,"sen_radn_crit");
-   senLightTimeConst  = readVar(plantInterface,sections,"sen_light_time_const");
-   senThreshold = readVar(plantInterface,sections,"sen_threshold");
-   senWaterTimeConst  = readVar(plantInterface,sections,"sen_water_time_const");
-   frostKill  = readVar(plantInterface,sections,"frost_kill");
+   scienceAPI.read("sen_radn_crit"       , "", 0, senRadnCrit      );
+   scienceAPI.read("sen_light_time_const", "", 0, senLightTimeConst);
+   scienceAPI.read("sen_threshold"       , "", 0, senThreshold     );
+   scienceAPI.read("sen_water_time_const", "", 0, senWaterTimeConst);
+   scienceAPI.read("frost_kill"          , "", 0, frostKill        );
 
    // phosphorus
-   pMaxTable.read(plantInterface,sections,"x_p_stage_code","y_p_conc_max_leaf");
-   pMinTable.read(plantInterface,sections,"x_p_stage_code","y_p_conc_min_leaf");
-   pSenTable.read(plantInterface,sections,"x_p_stage_code","y_p_conc_sen_leaf");
-   initialPConc = readVar(plantInterface,sections,"p_conc_init_leaf");
+   pMaxTable.read(scienceAPI, "x_p_stage_code","y_p_conc_max_leaf");
+   pMinTable.read(scienceAPI, "x_p_stage_code","y_p_conc_min_leaf");
+   pSenTable.read(scienceAPI, "x_p_stage_code","y_p_conc_sen_leaf");
+   scienceAPI.read("p_conc_init_leaf", "", 0, initialPConc );
 
    density = plant->getPlantDensity();
 
    // report
-   plantInterface->writeString ("    -------------------------------------------------------");
-   char msg[100];
-   sprintf(msg, "    tpla_prod_coef           =  %6.2f",tplaProductionCoef);plantInterface->writeString (msg);
-   sprintf(msg, "    tpla_inflection_ratio    =  %6.2f",tplaInflectionRatio);plantInterface->writeString (msg);
-   sprintf(msg, "    spla_prod_coef           =  %6.2f",splaProdCoef);plantInterface->writeString (msg);
-   sprintf(msg, "    spla_intercept           =  %6.2f",splaIntercept);plantInterface->writeString (msg);
-   sprintf(msg, "    spla_slope               =  %6.2f",splaSlope);plantInterface->writeString (msg);
+   char msg[120];
+   sprintf(msg, "    -------------------------------------------------------\n"); scienceAPI.write(msg);
+   sprintf(msg, "    tpla_prod_coef           =  %6.2f\n",tplaProductionCoef); scienceAPI.write(msg);
+   sprintf(msg, "    tpla_inflection_ratio    =  %6.2f\n",tplaInflectionRatio); scienceAPI.write(msg);
+   sprintf(msg, "    spla_prod_coef           =  %6.2f\n",splaProdCoef); scienceAPI.write(msg);
+   sprintf(msg, "    spla_intercept           =  %6.2f\n",splaIntercept); scienceAPI.write(msg);
+   sprintf(msg, "    spla_slope               =  %6.2f\n",splaSlope); scienceAPI.write(msg);
 
 
 
    // calculate extinction coef
    TableFn extinction;
-   extinction.read(plantInterface,sections,"x_row_spacing","y_extinct_coef");
+   extinction.read(scienceAPI,"x_row_spacing","y_extinct_coef");
    extinctionCoef = extinction.value(plant->getRowSpacing());
-
-
    }
 //------------------------------------------------------------------------------------------------
 //----------- update Leaf state variables at the end of the day
@@ -332,7 +325,7 @@ void Leaf::senesceArea(void)
       dltSlaiAge = calcLaiSenescenceAge();
 
    if (dltSlaiAge > 0.0 && isEqual(dltSlaiAge, lai))
-      plantInterface->writeString ("Age kills all leaves.");
+      scienceAPI.write("Age kills all leaves.\n");
 
 
    dltSlai = Max(dltSlai,dltSlaiAge);
@@ -719,12 +712,8 @@ float Leaf::calcPDemand(void)
 //------------------------------------------------------------------------------------------------
 void Leaf::Summary(void)
    {
-   summaryLine(plantInterface,"maximum lai           = %.3f \t number of leaves        = %.3f",
-            maxLai,nLeaves);
+   char msg[120];
+   sprintf(msg,"maximum lai           = %.3f \t number of leaves        = %.3f\n",
+           maxLai,nLeaves);
+   scienceAPI.write(msg);
    }
-
-
-
-
-
-

@@ -30,10 +30,6 @@ class Water : public PlantProcess
    float profileDepth;
    int    nLayers;
 
-   unsigned int swDepID;
-   unsigned int dltSwDepID;
-
-
 //  Variables  -----------------------------------------------------
 
    int currentLayer;                   // number of the layer that the roots are in now (starts at 0)
@@ -82,7 +78,7 @@ class Water : public PlantProcess
 
 // public Methods -------------------------------------------------------
    public:
-   Water(OOPlant *p);                   // plant
+   Water(ScienceAPI &, OOPlant *p);                   // plant
    ~Water();                          // plant
    vector<float> photoStressTotal;
    vector<float> phenoStressTotal;
@@ -94,11 +90,12 @@ class Water : public PlantProcess
    ////////////////////////////////////////////////////////
 
    void   readParams (string cultivar);          // plant
+   void   readLL(void);
    void   updateVars(void);           // plant
 
    void   process(void);              // plant
    float calcDemand(void);           // plant
-   void   doNewProfile(protocol::Variant &v);   // plantActions
+   void   onNewProfile(NewProfileType &);   // plantActions
 
    float swAvailRatio(int currentLayer);   // Roots
 
@@ -114,11 +111,11 @@ class Water : public PlantProcess
    float dltSwDepLayer(int layer){return dltSwDep[layer];}
 
    //Registration functions
-   void getEswLayers(protocol::Component *system, protocol::QueryValueData &qd);
-   void getSwDefLayers(protocol::Component *system, protocol::QueryValueData &qd);
-   void getSwUptakeLayers(protocol::Component *system, protocol::QueryValueData &qd);
-   void getEpLayers(protocol::Component *system, protocol::QueryValueData &qd);
-   void getllDep(protocol::Component *system, protocol::QueryValueData &qd);
+   void getEswLayers(vector<float> &);
+   void getSwDefLayers(vector<float> &);
+   void getSwUptakeLayers(vector<float> &);
+   void getEpLayers(vector<float> &);
+   void getllDep(vector<float> &);
    
    float getESW(void){return sumVector(esw);}
    float getESWAvail(void)const{return totalAvail;}

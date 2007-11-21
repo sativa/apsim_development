@@ -198,69 +198,6 @@
 
    <!--      !!!!! CROP types !!!!!-->
 
-   <type name="CropWaterSupply" array = "T">
-      <element>
-      <field name="name" kind="string"/>
-      <field name="layer" array = "T">
-         <element>
-         <field name="thickness" kind="single" unit="mm" />
-         <field name="amount"    kind="single" unit="mm" />
-         </element>
-      </field>
-      </element>
-   </type>
-
-   <type name="CropWaterDemand" description="Message sent to add crop water demand terms to water balance calculations." array="T">
-      <element>
-      <field name="Name" kind = "string" description="Cohort name + instance name"/>
-      <field name="CropType" kind = "string"/>
-      <field name="RootLayer" array = "T">
-          <element>
-             <field name="thickness" kind="single" units="mm"/>
-             <field name="RootLengthDensity" kind="single" units="mm/mm3"/>
-             <field name="PotentialUptake" kind="single" units="mm"/>
-          </element>
-      </field>
-      <field name="amount" kind="single" unit="mm"/>
-      </element>
-   </type>
-
-   <type name="CropNitrogenDemand" array="T" description="Message sent to add crop N demand terms to N balance calculations." >
-      <element>
-      <field name="Name" kind = "string" description="Cohort name + instance name"/>
-      <field name="CropType" kind = "string"/>
-      <field name="RootLayer" array = "T">
-          <element>
-             <field name="thickness" kind="single" units="mm"/>
-             <field name="RootLengthDensity" kind="single" units="mm/mm3"/>
-             <field name="PotentialUptakeNO3" kind="single" units="kg/ha"/>
-             <field name="PotentialUptakeNH4" kind="single" units="kg/ha"/>
-          </element>
-      </field>
-      <field name="amount" kind="single" unit="kg/ha"/>
-      </element>
-   </type>
-
-<!--
-!  dsg 030702  array sized for number of crops
-!
--->
-   <type name="CropNitrogenSupply" array = "T">
-      <element>
-      <field name="name" kind="string" description="Crop type + instance name"/>
-      <field name="layer" array = "T">
-         <element>
-         <field name="thickness" kind="single" unit="mm" />
-         <field name="amount" >
-              <element>
-                   <field name="NH4"    kind="single" unit="kg/ha" />
-                   <field name="NO3"    kind="single" unit="kg/ha" />
-              </element>
-         </field>
-         </element>
-      </field>
-      </element>
-   </type>
 
    <!--      !!!!! MICROMET types !!!!!-->
 
@@ -528,6 +465,25 @@
          <field name="dlt_fom_p_value" kind="single" array="T" />
       </type>
 
+   <type name="SoilOrganicMatter">
+      <field name="OrganicMatterType" kind="string"/>
+      <field name="layer" array = "T">
+          <element>
+          <field name="OrganicMatterFraction" array="T">
+             <element>
+             <field name="amount"  kind="single" units="kg/ha"/>
+             <field name="C"       kind="single" units="kg/ha"/>
+             <field name="N"       kind="single" units="kg/ha"/>
+             <field name="P"       kind="single" units="kg/ha"/>
+             <field name="AshAlk"  kind="single" units="kg/ha"/>
+             </element>
+          </field>
+          </element>
+      </field>
+   </type>
+
+
+
    <!--!!!!! WaterStorage  types  !!!!!!!!!!!!!!!!!!!!!!-->
 
       <type name="CropChopped">
@@ -593,10 +549,6 @@
          <field name="bd_value" kind="single" array="T" />
       </type>
 
-   <type name="NewPotentialGrowth">
-      <field name="sender" kind="string"/>
-      <field name="frgr" kind="single" units=""/>
-   </type>
    <type name="NewCanopy">
       <field name="sender" kind="string"/>
       <field name="height" kind="single"/>
@@ -622,8 +574,6 @@
       <field name="layers" kind="double" unit="mm"  array = "T"/>
       <field name="value" kind="double" unit="mm"  array = "T"/>
    </type>
-
-   <!--!!!!! PASTURE  types  !!!!!!!!!!!!!!!!!!!!!!-->
 
    <type name="PastureWaterDemand" description="Message sent to add crop water demand terms to water balance calculations.">
       <field name="demands" array="T">
@@ -680,7 +630,6 @@
             <field name="p"       unit="kg/ha"  kind="double"/>
             <field name="s"       unit="kg/ha"  kind="double"/>
             <field name="ash_alk" unit="mol/ha" kind="double"/>
-            <field name="dmd"     unit="-"      kind="double"/>
          </element>
       </field>
    </type>
@@ -697,7 +646,7 @@
 
    <type name="PastureKill">
       <field name="propn_herbage" unit="-" kind="double"/>
-      <field name="propn_seed" unit="-" kind="double"/>
+      <field name="propn_seeds" unit="-" kind="double"/>
    </type>
 
    <type name="PastureCultivate">
@@ -711,12 +660,6 @@
       <field name="gathered" unit="-" kind="double"/>
       <field name="dmd_loss" unit="-" kind="double"/>
       <field name="dm_content" unit="kg/kg" kind="double"/>
-   </type>
-
-   <type name="PastureBurn">
-      <field name="kill_plants"   unit="-" kind="double"/>
-      <field name="kill_seed"     unit="-" kind="double"/>
-      <field name="propn_unburnt" unit="-" kind="double"/>
    </type>
 
    <type name="PastureOnCut">

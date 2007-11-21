@@ -331,7 +331,7 @@ void ReportComponent::onInit2(void)
    // enumerate through all output variables
    // and create a field for each.
    cout << "     Output variables:" << endl;
-   scienceAPI.read("variable", "", true, variableLines);
+   scienceAPI.readRaw("variable", variableLines);
    for (unsigned i = 0; i != variableLines.size(); i++)
       cout << "        " + variableLines[i] << endl;
 

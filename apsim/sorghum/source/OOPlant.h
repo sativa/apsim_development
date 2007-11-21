@@ -1,58 +1,28 @@
 #ifndef OOPLANT_H_
 #define OOPLANT_H_
 
-#include <ComponentInterface/Component.h>
-#include <ComponentInterface/ApsimVariant.h>
+#include <ComponentInterface2/ScienceAPI.h>
+#include <ComponentInterface2/DataTypes.h>
+
+#include "Utilities.h"
+#include "OOPlantComponents.h"
 
 #include "OORoots.h"
 #include "OOLeaf.h"
 #include "OOStem.h"
 #include "OORachis.h"
 #include "OOGrain.h"
-
+//
 #include "OONitrogen.h"
 #include "OOPhosphorus.h"
 #include "OOPhenology.h"
 #include "OOWater.h"
 #include "OOBiomass.h"
-//#include "o_GenePhenology.h"
-
-#define setupEvent(s,name,type,address,ddml) {\
-   boost::function3<void, unsigned &, unsigned &, protocol::Variant &> fn;\
-   fn = boost::bind(address, this, _1, _2, _3); \
-   s->addEvent(name, type, fn,ddml);\
-   }
-
-#define setupGetFunction(s,name,type,length,address,units,desc) {\
-   boost::function2<void, protocol::Component *, protocol::QueryValueData &> fn;\
-   fn = boost::bind(address, this, _1, _2); \
-   s->addGettableVar(name, type, length, fn, units, desc);\
-   }
-
 
 //------------------------------------------------------------------------------------------------
 
-typedef bool (OOPlant::*ptr2setFn) (protocol::QuerySetValueData&);
-//typedef void (Plant::*ptr2EventFn) (unsigned int &, protocol::Variant&);
-
-//typedef std::map<unsigned, ptr2setFn>   UInt2SetFnMap;
-//typedef std::map<unsigned, ptr2EventFn> UInt2EventFnMap;
-
-typedef std::map<unsigned, ptr2setFn>   UInt2SetFnMap;
-typedef std::map<unsigned, string>      UInt2StringMap;
-
-
-
 
 typedef enum {aFloat, aInt, aString} aType;
-/*typedef struct VAR
-   {
-   void *ptr;
-   int type;
-   string name;
-   }VarInfo; */
-
-//typedef std::map<unsigned, VarInfo *>   VariableMap;
 
 //------------------------------------------------------------------------------------------------
 //---------------- PLANT CLASS
@@ -64,19 +34,13 @@ typedef enum {aFloat, aInt, aString} aType;
 class OOPlant
    {
    private:
-   /* system interface: */
- //  UInt2EventFnMap   IDtoEventFn;   /* events */
-   UInt2SetFnMap     IDtoSetFn;     /* setVariable */
- //  VariableMap       vMap;          /* getVariable */
-
-
+   ScienceAPI& scienceAPI;
    float stage;
 
    public:
-   OOPlant(PlantInterface *P);
+   OOPlant(ScienceAPI &api);
    ~OOPlant();
 
-   PlantInterface *plantInterface;            // for interface calls to system
    // Plant sub-classes
    Roots *roots;
    Leaf *leaf;
@@ -169,32 +133,28 @@ class OOPlant
    void setStatus(Status status);
 
 
-   void plantInit(void) ;
+   void plantInit1(void) ;
+   void plantInit2(void) ;
    void readParams(void);
    void prepare (void);               // do crop preparation
    void process (void);               // do crop processes
 
    // Plant - System actions   - in PlantActions.cpp
    void doRegistrations(void) ;
-  // void doEvent(unsigned int &id, protocol::Variant &v);
-   void doPrepare(unsigned &, unsigned &,protocol::Variant &) ;
-   void doProcess(unsigned &, unsigned &, protocol::Variant &) ;
-   void doTick(unsigned &id, unsigned &, protocol::Variant &v) ;
-   void doNewMet(unsigned &, unsigned &, protocol::Variant &v) ;
-   void doNewProfile(unsigned &, unsigned &, protocol::Variant &v) ;
 
-   void sowCrop(unsigned &, unsigned &, protocol::Variant &v);
-   void doHarvest(unsigned &, unsigned &, protocol::Variant &v) ;
-   void doEndCrop(unsigned &, unsigned &, protocol::Variant &v) ;
-   void doEndRun(unsigned &, unsigned &, protocol::Variant &v) ;
-   void doKillCrop(unsigned &, unsigned &, protocol::Variant &v);
+   void onPrepare(void) ;
+   void onProcess(void) ;
+   void onTick(TimeType &) ;
+   void onNewMet(NewMetType &) ;
+   void onNewProfile(NewProfileType &v) ;
 
-   bool setVariable(unsigned id, protocol::QuerySetValueData& qd);
- //  void getVariable(protocol::QueryValueData& qd);
- //  void mapVar(unsigned id,string name,void *ptr,int dType);
+   void onSowCrop(Variant &);
+   void onHarvest(void) ;
+   void onEndCrop(void) ;
+   void onEndRun(void) ;
+   void onKillCrop(void);
 
    void getOtherVariables(void);
- //  void startCrop (protocol::Variant &v/*(INPUT) message arguments*/);
 
    void updateVars(void);
    void death(void);
@@ -218,16 +178,13 @@ class OOPlant
    float getFtn(void)const{return ftn;}
    void killCrop(void);
 
-   void getPlantStatus(protocol::Component *system, protocol::QueryValueData &qd);
-   void get_crop_type(protocol::Component *system, protocol::QueryValueData &qd);
-   void get_cover_green(protocol::Component *system, protocol::QueryValueData &qd);
-   void get_cover_tot(protocol::Component *system, protocol::QueryValueData &qd);
-   void get_height(protocol::Component *system, protocol::QueryValueData &qd);
-
+   void getPlantStatus(string &);
+   void get_crop_type(string &);
+   void get_cover_green(float &);
+   void get_cover_tot(float &);
+   void get_height(float &);
 
    void   phenologyEvent(int stage);
-
-
    };  // Plant
 
 //------------------------------------------------------------------------------------------------

@@ -1,25 +1,24 @@
 //------------------------------------------------------------------------------------------------
 #pragma hdrstop
 
-#include "OORoots.h"
-#include "OOPlant.h"
-#include "TypeKind.h"
+#include <ComponentInterface2/Variant.h>
 
+#include "OOPlant.h"
+#include "OOPlantComponents.h"
+#include "OORoots.h"
 
 #pragma package(smart_init)
 
 //------------------------------------------------------------------------------------------------
 //------ Roots Constructor
 //------------------------------------------------------------------------------------------------
-Roots::Roots(OOPlant *p)
+Roots::Roots(ScienceAPI& api, OOPlant *p) : PlantPart(api)
    {
    plant = p;
-   plantInterface = p->plantInterface;
    name = "Roots";
 
    initialize();
    doRegistrations();
-
    }
 //------------------------------------------------------------------------------------------------
 //------ Roots Destructor
@@ -33,41 +32,28 @@ Roots::~Roots()
 void Roots::doRegistrations(void)
    {
 
-   setupGetFunction(plantInterface,"root_length", protocol::DTsingle, true,
-                    &Roots::getRootLength, "mm/mm2", "Root length");
-   setupGetFunction(plantInterface,"rlv", protocol::DTsingle, true,
-                    &Roots::getRLV, "mm/mm3", "Root length density in layers");
-   setupGetFunction(plantInterface,"root_proportion", protocol::DTsingle, true,
-                    &Roots::getRP, "0-1", "Root proportion in layers");
+   scienceAPI.expose("root_length", "mm/mm2", "Root length", false, rootLength);
+   scienceAPI.expose("rlv", "mm/mm3", "Root length density in layers", false, rlvFactor);
+   scienceAPI.exposeFunction("root_proportion", "0-1", "Root proportion in layers",
+                    FloatArrayFunction(&Roots::getRP));
 
-
-#define setupGetVar plantInterface->addGettableVar
-   setupGetVar("root_depth", rootDepth, "mm", "Depth of roots");
-   setupGetVar("root_front", rootFront, "mm", "Depth of roots");
-   setupGetVar("root_wt", dmGreen, "g/m2", "Live root dry weight");
-   setupGetVar("groot_n", nGreen, "g/m2", "N in live root");
-   setupGetVar("troot_n", nTotal, "g/m2", "N in live and dead roots");
-   setupGetVar("RootGreenNConc", nConc, "%", "Live root N concentration");
-   setupGetVar("droot_wt", dmSenesced, "g/m2", "Dead root dry weight");
-   setupGetVar("troot_wt", rootDMTot, "g/m2", "Total root dry weight");
-   setupGetVar("root_nd", nDemand, "g/m2", "Today's N demand from roots");
-
-#undef setupGetVar
-
+   scienceAPI.expose("root_depth", "mm", "Depth of roots",false,               rootDepth);
+   scienceAPI.expose("root_front", "mm", "Depth of roots",false,               rootFront);
+   scienceAPI.expose("root_wt",    "g/m2", "Live root dry weight",false,       dmGreen);
+   scienceAPI.expose("groot_n",    "g/m2", "N in live root",false,             nGreen);
+   scienceAPI.expose("troot_n",    "g/m2", "N in live and dead roots",false,   nTotal);
+   scienceAPI.expose("n_conc_root","%", "Live root N concentration",false,     nConc);
+   scienceAPI.expose("droot_wt",   "g/m2", "Dead root dry weight",false,       dmSenesced);
+   scienceAPI.expose("troot_wt",   "g/m2", "Total root dry weight",false,      rootDMTot);
+   scienceAPI.expose("root_nd",    "g/m2", "Today's N demand from roots",false,nDemand);
    }
 
 //------------------------------------------------------------------------------------------------
 //------- React to a newProfile message
 //------------------------------------------------------------------------------------------------
-void Roots::doNewProfile(protocol::Variant &v /* message */)
+void Roots::onNewProfile(NewProfileType &v /* message */)
    {
-   protocol::ApsimVariant av(plantInterface);
-   av.aliasTo(v.getMessageData());
-
-   protocol::vector<float> temp;
-/* TODO : Problem here summing the protocol::vector - do we need it? */
-   av.get("dlayer",   protocol::DTsingle, true, temp);
-   convertVector(temp,dLayer);
+   dLayer = v.dlayer_value;
 
    // dlayer may be changed from its last setting due to erosion
    profileDepth = sumVector(dLayer);      // depth of soil profile (mm)
@@ -84,7 +70,6 @@ void Roots::doNewProfile(protocol::Variant &v /* message */)
       rlvFactor.push_back(0.0);
       dltRootLength.push_back(0.0);
       dltScenescedRootLength.push_back(0.0);
-
       }
 
    /* TODO : Check validity of ll,dul etc as in crop_check_sw */
@@ -112,33 +97,27 @@ void Roots::initialize(void)
 //------------------------------------------------------------------------------------------------
 void Roots::readParams (string cultivar)
    {
-   vector<string> sections;                  // sections to look for parameters
-   sections.push_back("constants");
-   sections.push_back("parameters");
-   sections.push_back(cultivar);
+   scienceAPI.read("xf", "", 0, xf);
 
-   readArray(plantInterface,sections, "xf", xf);
-
-   //initialRootDepth   = readVar(plantInterface,sections,"initial_root_depth");
    initialRootDepth   = plant->getSowingDepth();
-   initialDM          = readVar(plantInterface,sections,"dm_root_init");
-   specificRootLength = readVar(plantInterface,sections,"specific_root_length");
-   dmRootSenFrac      = readVar(plantInterface,sections,"dm_root_sen_frac");
-   readArray(plantInterface,sections,"root_depth_rate",rootDepthRate);
+   scienceAPI.read("dm_root_init", "", 0, initialDM);
+   scienceAPI.read("specific_root_length", "", 0, specificRootLength);
+   scienceAPI.read("dm_root_sen_frac", "", 0, dmRootSenFrac);
+   scienceAPI.read("root_depth_rate","", 0, rootDepthRate);
    rootDepthRate.insert(rootDepthRate.begin(),0);  // for compatibility with fortran
 
-   swRoot.read(plantInterface,sections,"x_sw_ratio","y_sw_fac_root");
-   rldFn.read(plantInterface,sections,"x_plant_rld","y_rel_root_rate");
+   swRoot.read(scienceAPI, "x_sw_ratio","y_sw_fac_root");
+   rldFn.read(scienceAPI, "x_plant_rld","y_rel_root_rate");
 
    // nitrogen
-   initialNConc = readVar(plantInterface,sections,"initialRootNConc");
-   targetNConc  = readVar(plantInterface,sections,"targetRootNConc");
+   scienceAPI.read("initialRootNConc", "", 0, initialNConc);
+   scienceAPI.read("targetRootNConc", "", 0, targetNConc);
 
    // phosphorus
-   pMaxTable.read(plantInterface,sections,"x_p_stage_code","y_p_conc_max_root");
-   pMinTable.read(plantInterface,sections,"x_p_stage_code","y_p_conc_min_root");
-   pSenTable.read(plantInterface,sections,"x_p_stage_code","y_p_conc_sen_root");
-   initialPConc = readVar(plantInterface,sections,"p_conc_init_root");
+   pMaxTable.read(scienceAPI, "x_p_stage_code","y_p_conc_max_root");
+   pMinTable.read(scienceAPI, "x_p_stage_code","y_p_conc_min_root");
+   pSenTable.read(scienceAPI, "x_p_stage_code","y_p_conc_sen_root");
+   scienceAPI.read("p_conc_init_root", "", 0, initialPConc);
 
    }
 
@@ -322,26 +301,13 @@ void Roots::calcSenescence(void)
 //------------------------------------------------------------------------------------------------
 //Get functions for registration
 //------------------------------------------------------------------------------------------------
-void Roots::getRootLength(protocol::Component *system, protocol::QueryValueData &qd)
+void Roots::getRP(vector<float> &result)
    {
-   system->sendVariable(qd, protocol::vector<float>(&rootLength[0], &rootLength[0]+ rootLength.size()));
-   }
-//------------------------------------------------------------------------------------------------
-void Roots::getRLV(protocol::Component *system, protocol::QueryValueData &qd)
-   {
-   system->sendVariable(qd, protocol::vector<float>(&rlvFactor[0], &rlvFactor[0]+ rlvFactor.size()));
-   }
-void Roots::getRP(protocol::Component *system, protocol::QueryValueData &qd)
-   {
-   protocol::vector<float> rp;
-
    for (int layer = 0; layer < nLayers; layer++)
       if (layer <= currentLayer)
-        rp.push_back(RootProportionInLayer(layer));
+        result.push_back(RootProportionInLayer(layer));
       else 
-        rp.push_back(0.0);  
-
-   system->sendVariable(qd, rp);
+        result.push_back(0.0);  
    }
 //------------------------------------------------------------------------------------------------
 float Roots::calcPDemand(void)
@@ -362,7 +328,7 @@ void Roots::incorporateResidue(void)
    //Root residue incorporation    called from plantActions doEndCrop
 
    if(!totalBiomass() > 0.0)return;
-
+   
    vector <float> dmIncorp;
    vector <float> nIncorp;
    vector <float> pIncorp;
@@ -378,19 +344,25 @@ void Roots::incorporateResidue(void)
       pIncorp.push_back(p * divide(rootLength[layer],rootLengthSum,0.0));
       }
 
-   float dmInc = sumVector(dmIncorp);
-   float nInc = sumVector(nIncorp);
-   float pInc = sumVector(pIncorp);
-   unsigned int id = plantInterface->addRegistration(RegistrationType::event,"incorp_fom", "", "", "");
+#if 0
+   IncorpFomType incorpFom;
+   incorpFom.dlt_fom_type_name =plant->getCropType();
 
-   protocol::ApsimVariant outgoingApsimVariant(plantInterface);
-   outgoingApsimVariant.store("dlt_fom_type", protocol::DTstring, false,
-                                    FString(plant->getCropType().c_str()));
-   outgoingApsimVariant.store("dlt_fom_wt", protocol::DTsingle, true,dmIncorp);
-   outgoingApsimVariant.store("dlt_fom_n", protocol::DTsingle, true,nIncorp);
-   outgoingApsimVariant.store("dlt_fom_p", protocol::DTsingle, true,pIncorp);
-   plantInterface->publish (id, outgoingApsimVariant);
+   incorpFom.dlt_fom_wt_name =plant->getCropType(); //????
+   incorpFom.dlt_fom_wt_value = dmIncorp;
+   incorpFom.dlt_fom_n_value = nIncorp;
+   incorpFom.dlt_fom_p_value = pIncorp;
+#else
+   Variant incorpFom;
+   pack(incorpFom, "name", plant->getCropType());
 
+   pack(incorpFom, "dlt_fom_wt_name", plant->getCropType());
+   pack(incorpFom, "dlt_fom_wt_value", dmIncorp);
+   pack(incorpFom, "dlt_fom_n_value", nIncorp);
+   pack(incorpFom, "dlt_fom_p_value", pIncorp);
+#endif
+
+   scienceAPI.publish ("incorp_fom", incorpFom);
    }
 //------------------------------------------------------------------------------------------------
 float Roots::RootProportionInLayer(int layer)

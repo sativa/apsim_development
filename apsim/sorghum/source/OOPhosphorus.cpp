@@ -1,21 +1,17 @@
-//------------------------------------------------------------------------------------------------
 #pragma hdrstop
-
-#include "TypeKind.h"
-#include "OOPlant.h"
-#include "OOPhosphorus.h"
 #include <vector>
-#include <ComponentInterface/datatypes.h>
-//------------------------------------------------------------------------------------------------
 
-#pragma package(smart_init)
+#include "OOPlant.h"
+#include "OOPlantComponents.h"
+#include "OOPhosphorus.h"
+
+using namespace std;
 //------------------------------------------------------------------------------------------------
 //------ Phosphorus Constructor
 //------------------------------------------------------------------------------------------------
-Phosphorus::Phosphorus(OOPlant *p)
+Phosphorus::Phosphorus(ScienceAPI &api, OOPlant *p) : PlantProcess(api)
    {
    plant = p;
-   plantInterface = plant->plantInterface;
 
    StressParts.push_back(plant->leaf);
    StressParts.push_back(plant->stem);
@@ -36,59 +32,37 @@ Phosphorus::~Phosphorus()
 //--------------------------------------------------------------------------------------------------
 void Phosphorus::doRegistrations(void)
    {
-#define setupGetVar plantInterface->addGettableVar
-//   setupGetVar("p_demand", totalDemand, "g/m2", "Today's total crop P demand");
+   scienceAPI.expose("pfact_pheno", "", "Phosphorus stress factor for phenology", 0, phenoStress);
+   scienceAPI.expose("pfact_expansion", "", "Phosphorus stress factor for leaf expansion", 0, expansionStress);
+   scienceAPI.expose("pfact_photo", "", "Phosphorus stress factor for photosynthesis", 0, photoStress);
+   scienceAPI.expose("pfact_grain", "", "Phosphorus stress factor for grain", 0, grainStress);
+   scienceAPI.expose("p_total_uptake", "g/m2", "Today's P uptake", 0, pUptakeTotal);
 
-   setupGetVar("pfact_pheno", phenoStress, "", "Phosphorus stress factor for phenology");
-//   setupGetVar("pfact_expan", expansionStress, "", "Phosphorus stress factor for leaf expansion");
-   setupGetVar("pfact_expansion", expansionStress, "", "Phosphorus stress factor for leaf expansion");
-   setupGetVar("pfact_photo", photoStress, "", "Phosphorus stress factor for photosynthesis");
-   setupGetVar("pfact_grain", grainStress, "", "Phosphorus stress factor for grain");
-   setupGetVar("p_total_uptake", pUptakeTotal, "g/m2", "Today's P uptake");
+   scienceAPI.exposeFunction("p_green", "g/m2", "P content of live plant parts", 
+                     FloatFunction(&Phosphorus::getPGreen));
+   scienceAPI.exposeFunction("p_senesced","g/m2", "P content of senesced plant parts",
+                     FloatFunction(&Phosphorus::getPSenesced));
+   scienceAPI.exposeFunction("p_sen",  "g/m2", "P content of senesced plant parts",
+                     FloatFunction(&Phosphorus::getPSenesced));
+   scienceAPI.exposeFunction("p_dead", "g/m2", "P content of dead plant parts",    
+                     FloatFunction(&Phosphorus::getPDead));
 
-/*   setupGetVar("n_sd_ratio", supplyDemandRatio, "", "Phosphorus supply/demand ratio");
-   setupGetVar("n_supply_soil", nSupply, "g/m2", "Today's total N supply from soil profile");
-   setupGetVar("n_massflow_uptake", actualMassFlow, "g/m2", "Today's N uptake by massflow from soil profile");
-   setupGetVar("n_diffusion_uptake", actualDiffusion, "g/m2", "Today's N uptake by diffusion from soil profile");
-   setupGetVar("diffusion_supply_tot", sumDiffSupply, "g/m2", "Accumulative total of crop N supply by diffusion");
-   setupGetVar("biomass_n", nBiomass, "g/m2", "N above ground biomass including grain");
-   setupGetVar("stover_n", nStover, "g/m2", "N above ground biomass excluding grain");
-   setupGetVar("green_biomass_n", nGreenBiomass, "g/m2", "N in live above ground biomass including grain");
-   setupGetVar("n_cum_uptake", nUptakeTotal, "g/m2", "Phosphorus stress factor for photosynthesis");
-   setupGetVar("n_Plant", nPlant, "g/m2", "Total Phosphorus in the plant including roots");      */
+   scienceAPI.exposeFunction("p_demand", "kg/ha", "P demand of plant parts",
+                     FloatArrayFunction(&Phosphorus::getPDemand));
 
-#undef setupGetVar
-
-   setupGetFunction(plantInterface,"p_green", protocol::DTsingle, false,
-                    &Phosphorus::getPGreen, "g/m2", "P content of live plant parts");
-   setupGetFunction(plantInterface,"p_senesced", protocol::DTsingle, false,
-                    &Phosphorus::getPSenesced, "g/m2", "P content of senesced plant parts");
-   setupGetFunction(plantInterface,"p_sen", protocol::DTsingle, false,
-                    &Phosphorus::getPSenesced, "g/m2", "P content of senesced plant parts");
-   setupGetFunction(plantInterface,"p_dead", protocol::DTsingle, false,
-                    &Phosphorus::getPDead, "g/m2", "P content of dead plant parts");
-
-   setupGetFunction(plantInterface,"p_demand", protocol::DTsingle, true,
-                    &Phosphorus::getPDemand, "kg/ha", "P demand of plant parts");
-
-   setupGetFunction(plantInterface, "dlt_p_green", protocol::DTsingle, true,
-                    &Phosphorus::getDltPGreen, "g/m2", "Daily P increase in live plant parts");
-   setupGetFunction(plantInterface, "dlt_p_retrans", protocol::DTsingle, true,
-                    &Phosphorus::getDltPRetrans, "g/m2", "P retranslocated from plant parts to grain");
-   setupGetFunction(plantInterface, "dlt_p_detached", protocol::DTsingle, true,
-                    &Phosphorus::getDltPDetached, "g/m2", "Actual P loss with detached plant");
-   setupGetFunction(plantInterface, "dlt_p_dead", protocol::DTsingle, true,
-                    &Phosphorus::getDltPDead, "g/m2", "Actual P loss with dead plant");
-   setupGetFunction(plantInterface, "dlt_n_dead_detached", protocol::DTsingle, true,
-                    &Phosphorus::getDltPDeadDetached, "g/m2", "Actual N loss with detached dead plant");
+   scienceAPI.exposeFunction("dlt_p_green", "g/m2", "Daily P increase in live plant parts",
+                     FloatArrayFunction(&Phosphorus::getDltPGreen));
+   scienceAPI.exposeFunction("dlt_p_retrans", "g/m2", "P retranslocated from plant parts to grain",
+                     FloatArrayFunction(&Phosphorus::getDltPRetrans));
+   scienceAPI.exposeFunction("dlt_p_detached", "g/m2", "Actual P loss with detached plant",
+                     FloatArrayFunction(&Phosphorus::getDltPDetached));
+   scienceAPI.exposeFunction("dlt_p_dead", "g/m2", "Actual P loss with dead plant",
+                     FloatArrayFunction(&Phosphorus::getDltPDead));
+   scienceAPI.exposeFunction("dlt_n_dead_detached", "g/m2", "Actual N loss with detached dead plant",
+                     FloatArrayFunction(&Phosphorus::getDltPDeadDetached));
 
 
 
-   labileID    = plantInterface->addRegistration(RegistrationType::get,"labile_p", floatArrayType,"", "");
-   uptakeID = plantInterface->addRegistration(RegistrationType::get,"uptake_p_sorghum", floatArrayType,"", "");
-/*
-   no3MinID = plantInterface->addRegistration(RegistrationType::get,"no3_min", floatArrayType,"", "");
-   dltNo3ID = plantInterface->addRegistration(RegistrationType::set,"dlt_no3", floatArrayType,"", "");  */
    }
 //------------------------------------------------------------------------------------------------
 //------- Initialize variables
@@ -144,19 +118,16 @@ void Phosphorus::initialize(void)
 void Phosphorus::readParams (string cultivar)
    {
    std::vector<float> values;
-   if (plantInterface->getVariable(labileID, values, 0.0, 10000.0, true))
+   if (scienceAPI.get("labile_p", "", 1, values, 0.0, 10000.0))
       {
       active = true;
       }
    else return;
-   std::vector<string> sections;                  // sections to look for parameters
-   sections.push_back("constants");
-   sections.push_back(cultivar);
 
-   phenoSlope = readVar(plantInterface,sections,"pfact_pheno_slope");
-   photoSlope = readVar(plantInterface,sections,"pfact_photo_slope");
-   expansionSlope = readVar(plantInterface,sections,"pfact_expansion_slope");
-   grainSlope = readVar(plantInterface,sections,"pfact_grain_slope");
+   scienceAPI.read("pfact_pheno_slope"    ,"", 0, phenoSlope);
+   scienceAPI.read("pfact_photo_slope"    ,"", 0, photoSlope);
+   scienceAPI.read("pfact_expansion_slope","", 0, expansionSlope);
+   scienceAPI.read("pfact_grain_slope"    ,"", 0, grainSlope);
 
    }
 //------------------------------------------------------------------------------------------------
@@ -165,7 +136,6 @@ void Phosphorus::readParams (string cultivar)
 void Phosphorus::getOtherVariables (void)
    {
    stage = plant->phenology->currentStage();
-
    }
 //------------------------------------------------------------------------------------------------
 //-------- Set Phosphorus variables in other modules
@@ -291,9 +261,7 @@ void Phosphorus::uptake(void)
    {
    vector<float> layeredUptake;
 
-   float dumP = sumVector(pDemand);
-   
-   if (!plantInterface->getVariable(uptakeID, layeredUptake, 0.0, 10000.0, true))
+   if (!scienceAPI.get("uptake_p_sorghum", "", 1, layeredUptake, 0.0f, 10000.0f))
       {
       // we have no P uptake - set to demand
       pUptakeTotal = totalDemand * kg2gm/ha2sm;
@@ -397,65 +365,68 @@ float Phosphorus::layerProportion(void)
    return Min(divide(rootDepth - layerTop,layerBottom - layerTop),1.0);
    }
 //------------------------------------------------------------------------------------------------
-void Phosphorus::getPGreen(protocol::Component *system, protocol::QueryValueData &qd)
+void Phosphorus::getPGreen(float &result)
    {
-   system->sendVariable(qd, sumVector(pGreen));
+   result = sumVector(pGreen);
    }
 //------------------------------------------------------------------------------------------------
-void Phosphorus::getPSenesced(protocol::Component *system, protocol::QueryValueData &qd)
+void Phosphorus::getPSenesced(float &result)
    {
-   system->sendVariable(qd, sumVector(pSenesced));
+   result = sumVector(pSenesced);
    }
 //------------------------------------------------------------------------------------------------
-void Phosphorus::getPDemand(protocol::Component *system, protocol::QueryValueData &qd)
+void Phosphorus::getPDemand(vector<float> &result)
    {
-   system->sendVariable(qd, protocol::vector<float>(&pDemand[0], &pDemand[0] + pDemand.size()));
+   result = pDemand;
    }
 //------------------------------------------------------------------------------------------------
-void Phosphorus::getDltPGreen(protocol::Component *system, protocol::QueryValueData &qd)
+void Phosphorus::getDltPGreen(vector<float> &result)
    {
-   system->sendVariable(qd, protocol::vector<float>(&dltPGreen[0], &dltPGreen[0] + dltPGreen.size()));
+   result = dltPGreen;
    }
 //------------------------------------------------------------------------------------------------
-void Phosphorus::getDltPRetrans(protocol::Component *system, protocol::QueryValueData &qd)
+void Phosphorus::getDltPRetrans(vector<float> &result)
    {
-   system->sendVariable(qd, protocol::vector<float>(&dltPRetrans[0], &dltPRetrans[0] + dltPRetrans.size()));
+   result = dltPRetrans;
    }
 //------------------------------------------------------------------------------------------------
-void Phosphorus::getDltPDetached(protocol::Component *system, protocol::QueryValueData &qd)
+void Phosphorus::getDltPDetached(vector<float> &result)
    {
-   system->sendVariable(qd, protocol::vector<float>(&dltPDetached[0], &dltPDetached[0] + dltPDetached.size()));
+   result = dltPDetached;
    }
 //------------------------------------------------------------------------------------------------
-void Phosphorus::getDltPDead(protocol::Component *system, protocol::QueryValueData &qd)
+void Phosphorus::getDltPDead(vector<float> &result)
    {
-   system->sendVariable(qd, protocol::vector<float>(&dltPDead[0], &dltPDead[0] + dltPDead.size()));
+   result= dltPDead;
    }
 //------------------------------------------------------------------------------------------------
-void Phosphorus::getDltPDeadDetached(protocol::Component *system, protocol::QueryValueData &qd)
+void Phosphorus::getDltPDeadDetached(vector<float> &result)
    {
-   system->sendVariable(qd, protocol::vector<float>(&dltPDetachedDead[0], &dltPDetachedDead[0] + dltPDetachedDead.size()));
+   result = dltPDetachedDead;
    }
 //------------------------------------------------------------------------------------------------
-void Phosphorus::getPDead(protocol::Component *system, protocol::QueryValueData &qd)
+void Phosphorus::getPDead(float &result)
    {
-   system->sendVariable(qd, sumVector(pDead));
+   result = sumVector(pDead);
    }
 //------------------------------------------------------------------------------------------------
 void Phosphorus::Summary(void)
    {
-   float f = sumVector(pGreen);
-   summaryLine(plantInterface,"grain P percent            =  %8.3f \t grain P uptake     (kg/ha) = %8.3f",
+   char msg[120];
+   sprintf(msg, "grain P percent            =  %8.3f \t grain P uptake     (kg/ha) = %8.3f",
             plant->grain->getPConc() * 100,plant->grain->getPGreen() * 10.0);
-   summaryLine(plantInterface,"total P content    (kg/ha) =  %8.3f \t senesced P content (kg/ha) = %8.3f",
+   scienceAPI.write(msg);
+   sprintf(msg, "total P content    (kg/ha) =  %8.3f \t senesced P content (kg/ha) = %8.3f",
             pBiomass * 10.0,sumVector(pSenesced) * 10.0);
-   summaryLine(plantInterface,"green P content    (kg/ha) =  %8.3f \t dead P content     (kg/ha) = %8.3f",
+   scienceAPI.write(msg);
+   sprintf(msg, "green P content    (kg/ha) =  %8.3f \t dead P content     (kg/ha) = %8.3f",
             sumVector(pGreen) * 10.0 - plant->grain->getPGreen() * 10.0, sumVector(pDead) * 10.0);
+   scienceAPI.write(msg);
    }
 //------------------------------------------------------------------------------------------------
 //------- React to a newProfile message
 //------------------------------------------------------------------------------------------------
-void Phosphorus::doNewProfile(protocol::Variant &v /* message */)
+void Phosphorus::onNewProfile(NewProfileType &p /* message */)
    {
    /*
    protocol::ApsimVariant av(plantInterface);

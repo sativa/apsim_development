@@ -1,9 +1,8 @@
-//------------------------------------------------------------------------------------------------
-
 #pragma hdrstop
 
-#include "OOGrain.h"
 #include "OOPlant.h"
+#include "OOPlantComponents.h"
+#include "OOGrain.h"
 
 //---------------------------------------------------------------------------
 
@@ -12,10 +11,9 @@
 //------------------------------------------------------------------------------------------------
 //------ Grain Constructor
 //------------------------------------------------------------------------------------------------
-Grain::Grain(OOPlant *p)
+Grain::Grain(ScienceAPI &api, OOPlant *p) : PlantPart(api)
    {
    plant = p;
-   plantInterface = p->plantInterface;
    name = "Grain";
 
    doRegistrations();
@@ -33,18 +31,16 @@ Grain::~Grain()
 //--------------------------------------------------------------------------------------------------
 void Grain::doRegistrations(void)
    {
-#define setupGetVar plantInterface->addGettableVar
-   setupGetVar("grain_wt", dmGreen, "g/m2", "Live grain dry weight");
-   setupGetVar("grain_no", grainNo, "grains/m2", "Grain number");
-   setupGetVar("grain_size", grainSize, "g/grain", "Individual grain weight");
-   setupGetVar("grain_n", nGreen, "g/m2", "N in grain");
-//   setupGetVar("dlt_n_retrans", dltNRetranslocate, "g/m2", "Nitrogen retranslocated out from parts to grain");
-   setupGetVar("n_conc_grain", nConc, "%", "N concentration in grain");
-   setupGetVar("grain_nd", nDemand, "g/m2", "Today's N demand from grain");
-#undef setupGetVar     
-   setupGetFunction(plantInterface,"n_grain_pcnt", protocol::DTsingle, false,
-                    &Grain::get_n_grain_pcnt, "%", "% N in grain");
+   scienceAPI.expose("grain_wt",     "g/m2",     "Live grain dry weight",0,      dmGreen);
+   scienceAPI.expose("grain_no",     "grains/m2","Grain number",0,               grainNo);
+   scienceAPI.expose("grain_size",   "g/grain",  "Individual grain weight",0,    grainSize);
+   scienceAPI.expose("grain_n",      "g/m2",     "N in grain",0,                 nGreen);
+   scienceAPI.expose("n_conc_grain", "%",        "N concentration in grain",0,   nConc);
+   scienceAPI.expose("grain_nd",     "g/m2",     "Today's N demand from grain",0,nDemand);
+   scienceAPI.exposeFunction("n_grain_pcnt", "%", "% N in grain",
+                             FloatFunction(&Grain::get_n_grain_pcnt));
 
+//   setupGetVar("dlt_n_retrans", dltNRetranslocate, "g/m2", "Nitrogen retranslocated out from parts to grain");
    }
 //------------------------------------------------------------------------------------------------
 //------- Initialize variables
@@ -65,22 +61,17 @@ void Grain::initialize(void)
 //------------------------------------------------------------------------------------------------
 void Grain::readParams (string cultivar)
    {
-   vector<string> sections;                  // sections to look for parameters
-   sections.push_back("constants");
-   sections.push_back(cultivar);
-   dmPerSeed = readVar(plantInterface,sections,"dm_per_seed");
-   waterContent = readVar(plantInterface,sections,"grn_water_cont");
+   scienceAPI.read("dm_per_seed", "", 0, dmPerSeed);
+   scienceAPI.read("grn_water_cont", "", 0, waterContent);
    // nitrogen
-   grainFillRate = readVar(plantInterface,sections,"grainFillRate");
-   targetNConc = readVar(plantInterface,sections,"targetGrainNConc");
+   scienceAPI.read("grainFillRate","", 0, grainFillRate);
+   scienceAPI.read("targetGrainNConc", "", 0, targetNConc);
 
    // phosphorus
-   pMaxTable.read(plantInterface,sections,"x_p_stage_code","y_p_conc_max_grain");
-   pMinTable.read(plantInterface,sections,"x_p_stage_code","y_p_conc_min_grain");
-   pSenTable.read(plantInterface,sections,"x_p_stage_code","y_p_conc_sen_grain");
-   initialPConc = readVar(plantInterface,sections,"p_conc_init_grain");
-
-
+   pMaxTable.read(scienceAPI, "x_p_stage_code","y_p_conc_max_grain");
+   pMinTable.read(scienceAPI, "x_p_stage_code","y_p_conc_min_grain");
+   pSenTable.read(scienceAPI, "x_p_stage_code","y_p_conc_sen_grain");
+   scienceAPI.read("p_conc_init_grain", "", 0, initialPConc);
    }
 
 //------------------------------------------------------------------------------------------------
@@ -258,20 +249,23 @@ float Grain::calcPRetransDemand(void)
 //------------------------------------------------------------------------------------------------
 void Grain::Summary(void)
    {
-   summaryLine(plantInterface,"stover (kg/ha)        = %.1f \t grain yield (kg/ha)     = %.1f",
+   char msg[120];
+   sprintf(msg,"stover (kg/ha)        = %.1f \t grain yield (kg/ha)     = %.1f\n",
                plant->biomass->getAboveGroundBiomass() - dmGreen * 10.0, dmGreen * 10.0);
-   summaryLine(plantInterface,"grain %% water content = %.1f \t grain yield wet (kg/ha) = %.1f",
+   scienceAPI.write(msg);
+   sprintf(msg,"grain %% water content = %.1f \t grain yield wet (kg/ha) = %.1f\n",
                waterContent*100,dmGreen * 10.0 * 100 / (100 - waterContent*100));
-   summaryLine(plantInterface,"grain wt (g)          = %.3f \t grains/m^2              = %.1f",
+   scienceAPI.write(msg);
+   sprintf(msg,"grain wt (g)          = %.3f \t grains/m^2              = %.1f\n",
                grainSize,grainNo);
-   summaryLine(plantInterface,"grains/head           = %.1f",grainNo / plant->getPlantDensity(),NULL);
+   scienceAPI.write(msg);
+   sprintf(msg,"grains/head           = %.1f\n",grainNo / plant->getPlantDensity(),NULL);
+   scienceAPI.write(msg);
   }
 
 
 
-void Grain::get_n_grain_pcnt(protocol::Component *system, protocol::QueryValueData &qd)
+void Grain::get_n_grain_pcnt(float &result)
    {
-   float grain_N_pcnt = divide (nGreen, dmGreen, 0.0) * fract2pcnt;
-
-   system->sendVariable(qd, grain_N_pcnt);
+   result = divide (nGreen, dmGreen, 0.0) * fract2pcnt;
    }

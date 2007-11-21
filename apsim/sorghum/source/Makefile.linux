@@ -25,7 +25,7 @@ SRC=	OOLeaf.cpp		\
 	OORoots.cpp		\
 
 
-OBJ=    $(SRC:.cpp=.o) $(APSROOT)/Shared/ComponentInterface/EntryPoints.o
+OBJ=    $(SRC:.cpp=.o) $(APSROOT)/Shared/ComponentInterface2/CMPComponentEntryPoints.o
 
 #-----------------------------------------------------------------------
 # Compiler options
@@ -33,7 +33,7 @@ OBJ=    $(SRC:.cpp=.o) $(APSROOT)/Shared/ComponentInterface/EntryPoints.o
 CC=		/usr/bin/gcc
 CPPFLAGS=	-I/usr/include/boost -I/usr/include/libxml2	\
 		-I$(APSROOT)/Shared				\
-		-I$(APSROOT)/Shared/ComponentInterface		\
+		-I$(APSROOT)/Shared/ComponentInterface2		\
 		-Wno-deprecated 				\
 		-fpermissive -fPIC $(CPPDEBUGFLAGS)
 
@@ -44,7 +44,7 @@ CPPFLAGS=	-I/usr/include/boost -I/usr/include/libxml2	\
 LDFLAGS=	-L/usr/lib 				\
 		-L$(APSROOT)/lib $(LDDEBUGFLAGS)
 
-LIBS=		-lComponentInterface	\
+LIBS=		-lComponentInterface2	\
 		-lprotocol		\
 		-lApsimShared		\
 		-lgeneral		\

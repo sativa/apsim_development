@@ -28,7 +28,7 @@ class Rachis : public PlantPart
 
 // public Methods -------------------------------------------------------
    public:
-   Rachis(OOPlant *p);
+   Rachis(ScienceAPI &, OOPlant *p);
    ~Rachis();
 
    void   readParams (string cultivar);                    // plant

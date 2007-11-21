@@ -74,8 +74,7 @@ class Phenology : public PlantProcess
 
 // public Methods -------------------------------------------------------
    public:
-      Phenology(OOPlant *p);               // plant
-      Phenology(void){};
+      Phenology(ScienceAPI &api, OOPlant *p);               // plant
       ~Phenology();                      // plant
       void   readParams (string cultivar);          // plant
       void   updateVars(void);           // plant
@@ -97,9 +96,9 @@ class Phenology : public PlantProcess
 
       float getDltStage(void)const{return dltStage;}            // Phenology
 
-      void getTTTot(protocol::Component *system, protocol::QueryValueData &qd);
-      void getPhaseTT(protocol::Component *system, protocol::QueryValueData &qd);
-      void getStageName(protocol::Component *system, protocol::QueryValueData &qd);
+      void getTTTot(vector<float>&);
+      void getPhaseTT(vector<float>&);
+      void getStageName(string&);
 
       void Summary(void);
       string returnStageName(void)const{ return stageName;}

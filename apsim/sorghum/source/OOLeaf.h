@@ -1,11 +1,10 @@
-//------------------------------------------------------------------------------------------------
-//---------------------------------------------------------------------------
-
 #ifndef OOLeafH
 #define OOLeafH
 
-#include "OOPlantComponents.h"
+#include <vector>
+#include <string>
 #include "Utilities.h"
+using namespace std;
 
 //------------------------------------------------------------------------------------------------
 
@@ -130,7 +129,7 @@ class Leaf : public PlantPart
 
 // public Methods -------------------------------------------------------
    public:
-   Leaf(OOPlant *p);
+   Leaf(ScienceAPI &, OOPlant *p);
    ~Leaf();
 
    ///////////////////////////

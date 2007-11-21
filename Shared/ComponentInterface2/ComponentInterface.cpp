@@ -1,5 +1,7 @@
 #include <general\pch.h>
-#include <vcl.h>
+#ifdef __WIN32__
+ #include <vcl.h>
+#endif
 #pragma hdrstop
 HINSTANCE instanceNumber;
 //---------------------------------------------------------------------------

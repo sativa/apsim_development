@@ -96,7 +96,7 @@ class Phosphorus : public PlantProcess
 
 // public Methods -------------------------------------------------------
    public:
-   Phosphorus(OOPlant *p);
+   Phosphorus(ScienceAPI &, OOPlant *p);
    ~Phosphorus();
 
    void   readParams (string cultivar);          // plant
@@ -105,7 +105,7 @@ class Phosphorus : public PlantProcess
 
    void prepare(void);
    void process(void);                // plant
-   void doNewProfile(protocol::Variant &v);  // plantActions
+   void onNewProfile(NewProfileType &p);  // plantActions
 
 
    float getExpansionStress(void){return expansionStress;} // Leaf
@@ -114,15 +114,15 @@ class Phosphorus : public PlantProcess
    float getPhenoStress(void){return phenoStress;}         // phenology
    void detachment(vector<float> senDetachFrac, vector<float> deadDetachFrac);
 
-   void getPGreen(protocol::Component *system, protocol::QueryValueData &qd);
-   void getDltPGreen(protocol::Component *system, protocol::QueryValueData &qd);
-   void getDltPRetrans(protocol::Component *system, protocol::QueryValueData &qd);
-   void getPSenesced(protocol::Component *system, protocol::QueryValueData &qd);
-   void getPDead(protocol::Component *system, protocol::QueryValueData &qd);
-   void getDltPDetached(protocol::Component *system, protocol::QueryValueData &qd);
-   void getDltPDead(protocol::Component *system, protocol::QueryValueData &qd);
-   void getDltPDeadDetached(protocol::Component *system, protocol::QueryValueData &qd);
-   void getPDemand(protocol::Component *system, protocol::QueryValueData &qd);
+   void getPGreen(float &);
+   void getDltPGreen(vector<float> &);
+   void getDltPRetrans(vector<float> &);
+   void getPSenesced(float &);
+   void getPDead(float &);
+   void getDltPDetached(vector<float> &);
+   void getDltPDead(vector<float> &);
+   void getDltPDeadDetached(vector<float> &);
+   void getPDemand(vector<float> &);
 
    bool Active(void){return active;}
    void Summary(void);

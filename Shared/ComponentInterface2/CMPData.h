@@ -1,18 +1,16 @@
-//---------------------------------------------------------------------------
-
 #ifndef CMPDataH
 #define CMPDataH
 //---------------------------------------------------------------------------
 #include <string>
 #include <vector>
-#include <ComponentInterface2/MessageData.h>
+#include <boost/function.hpp>
 #include <ComponentInterface2/Interfaces.h>
 #include <ComponentInterface2/DataTypes.h>
 #include <ComponentInterface2/TypeConverter.h>
-#include <boost/function.hpp>
 
-void getKindAndArray(const std::string& ddml,
-                     std::string& kind, bool& isArray);
+void getKindAndArray(const std::string& ddml, std::string& kind, bool& isArray);
+
+class MessageData;
 
 // -------------------------------------------------------------------
 // A wrapper class for passing builtin types via the CMP
@@ -29,7 +27,7 @@ class CMPBuiltIn : public IPackableData
          {
          TypeConverter(values, variable, NULL);
          }
-      virtual unsigned memorySize()
+      virtual unsigned memorySize() 
          {return ::memorySize(variable);}
       virtual void pack(MessageData& messageData)
          {::pack(messageData, variable);}
@@ -194,7 +192,10 @@ class CMPBuiltInBounded : public CMPBuiltIn<T>
       std::string name;
    public:
       CMPBuiltInBounded(const std::string& variableName,  T& value, B lower, B upper)
-         : name(variableName), variable(value), lowerBound(lower), upperBound(upper),
+         : variable(value), 
+           lowerBound(lower), 
+           upperBound(upper),
+           name(variableName),
            CMPBuiltIn<T>(value) { }
 
       virtual void setValue(const std::vector<std::string>& values)
@@ -225,7 +226,7 @@ class CMPType : public IPackableData
          {
          throw runtime_error("Cannot set the value of a type");
          }
-      virtual unsigned memorySize()
+      virtual unsigned memorySize() 
          {return ::memorySize(variable);}
       virtual void pack(MessageData& messageData)
          {::pack(messageData, variable);}
@@ -263,7 +264,7 @@ class CMPMethod1 : public IPackableData
          throw runtime_error("Cannot call setValue on a function");
          }
 
-      virtual unsigned memorySize()
+      virtual unsigned memorySize() 
          {
          if (getter.empty())
             throw runtime_error("Cannot call pack on a setter function");
@@ -310,7 +311,7 @@ class CMPMethod0 : public IPackableData
          throw runtime_error("Cannot call setValue on a Null method");
          }
 
-      virtual unsigned memorySize()
+      virtual unsigned memorySize() 
          {
          return ::memorySize(null);
          }
@@ -329,5 +330,4 @@ class CMPMethod0 : public IPackableData
          }
 
    };
-
 #endif

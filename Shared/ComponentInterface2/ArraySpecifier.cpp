@@ -1,11 +1,10 @@
 //---------------------------------------------------------------------------
-#pragma hdrstop
 #include <stdexcept>
 #ifdef __WIN32__
    #include <stdlib>
 #endif
-#include "ArraySpecifier.h"
 #include <general/string_functions.h>
+#include "ArraySpecifier.h"
 
 using namespace std;
 

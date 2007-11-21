@@ -1,12 +1,11 @@
-#pragma hdrstop
 #include <stdexcept>
 #include <string>
 
+#include <general/platform.h>
+#include <general/dll.h>
 #include <ComponentInterface2/CMPScienceAPI.h>
 #include <ComponentInterface2/CMPComponentInterface.h>
-#include <general/platform.h>
 #include <map>
-#include <general/dll.h>
 
 using namespace std;
 

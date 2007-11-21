@@ -2,10 +2,9 @@
 #pragma hdrstop
 
 #include <vector>
-#include <ComponentInterface/datatypes.h>
 
 #include "OOPlant.h"
-#include "TypeKind.h"
+#include "OOPlantComponents.h"
 #include "OOWater.h"
 //------------------------------------------------------------------------------------------------
 
@@ -14,10 +13,9 @@
 //------------------------------------------------------------------------------------------------
 //------ Water Constructor
 //------------------------------------------------------------------------------------------------
-Water::Water(OOPlant *p)
+Water::Water(ScienceAPI &api, OOPlant *p) : PlantProcess(api)
    {
    plant = p;
-   plantInterface = p->plantInterface;
 
    //Init Accumulation Vars     
     for(int i=0;i < nStages;i++)
@@ -39,33 +37,27 @@ Water::~Water()
 //--------------------------------------------------------------------------------------------------
 void Water::doRegistrations(void)
    {
-#define setupGetVar plantInterface->addGettableVar
-   setupGetVar("sw_supply_demand_ratio", sdRatio, "", "Water Supply/demand ratio");
-   setupGetVar("sw_supply_sum", AccTotalSupply, "mm", "Accumulative soil water supply over the profile");
-   setupGetVar("sw_supply", totalSupply, "mm", "Daily soil water supply over the profile");
-   setupGetVar("sw_demand", swDemand, "mm", "Total crop demand for water");
-   setupGetVar("transpiration", dltUptake, "mm", "Daily water uptake from all rooted soil layers");
-   setupGetVar("transpiration_tot", totalUptake, "mm", "Accumulative water uptake from the whole profile");
-   setupGetVar("cep", totalUptake, "mm", "Accumulative water uptake from the whole profile");
-   setupGetVar("swdef_photo", photoStress, "", "Water stress factor for photosynthesis");
-   setupGetVar("swdef_pheno", phenoStress, "", "Water stress factor for phenology");
-   setupGetVar("swdef_expan", expansionStress, "", "Water stress factor for leaf expansion growth");
-   setupGetVar("esw_profile", eswTot, "", "Plant extractable water over the whole profile");
-   setupGetVar("ep", ep, "", "Water uptake from the whole profile");
+   scienceAPI.expose("sw_supply_demand_ratio", "",   "Water Supply/demand ratio",false,                       sdRatio);
+   scienceAPI.expose("sw_supply_sum",          "mm", "Accumulative soil water supply over the profile",false, AccTotalSupply);
+   scienceAPI.expose("sw_supply",              "mm", "Daily soil water supply over the profile",false,        totalSupply);
+   scienceAPI.expose("sw_demand",              "mm", "Total crop demand for water",false,                     swDemand);
+   scienceAPI.expose("transpiration",          "mm", "Daily water uptake from all rooted soil layers",false,  dltUptake);
+   scienceAPI.expose("transpiration_tot",      "mm", "Accumulative water uptake from the whole profile",false,totalUptake);
+   scienceAPI.expose("cep",                    "mm", "Accumulative water uptake from the whole profile",false,totalUptake);
+   scienceAPI.expose("swdef_photo",            "",   "Water stress factor for photosynthesis",false,          photoStress);
+   scienceAPI.expose("swdef_pheno",            "",   "Water stress factor for phenology",false,               phenoStress);
+   scienceAPI.expose("swdef_expan",            "",   "Water stress factor for leaf expansion growth",false,   expansionStress);
+   scienceAPI.expose("esw_profile",            "",   "Plant extractable water over the whole profile",false,  eswTot);
+   scienceAPI.expose("ep",                     "",   "Water uptake from the whole profile",false,             ep);
 
-#undef setupGetVar
-
-   swDepID       = plantInterface->addRegistration(RegistrationType::get,"sw_dep", floatArrayType,"", "");
-   dltSwDepID    = plantInterface->addRegistration(RegistrationType::set,
-                                                           "dlt_sw_dep", floatArrayType,"", "");
-   setupGetFunction(plantInterface,"esw_layer", protocol::DTsingle, true,
-                    &Water::getEswLayers, "mm", "Plant extractable soil water in each layer");
-   setupGetFunction(plantInterface,"sw_deficit", protocol::DTsingle, true,
-                    &Water::getSwDefLayers, "mm", "Soil water deficit below dul (dul - sw)");
-   setupGetFunction(plantInterface,"sw_uptake", protocol::DTsingle, true,
-                    &Water::getSwUptakeLayers, "mm", "Daily water uptake in each different rooted layers");
-   setupGetFunction(plantInterface,"ll_dep", protocol::DTsingle, true,
-                    &Water::getllDep, "mm", "Crop lower limit");
+   scienceAPI.exposeFunction("esw_layer", "mm", "Plant extractable soil water in each layer",
+                    FloatArrayFunction(&Water::getEswLayers));
+   scienceAPI.exposeFunction("sw_deficit", "mm", "Soil water deficit below dul (dul - sw)",
+                    FloatArrayFunction(&Water::getSwDefLayers));
+   scienceAPI.exposeFunction("sw_uptake", "mm", "Daily water uptake in each different rooted layers",
+                    FloatArrayFunction(&Water::getSwUptakeLayers));
+   scienceAPI.exposeFunction("ll_dep", "mm", "Crop lower limit",
+                    FloatArrayFunction(&Water::getllDep));
 
    }
 //------------------------------------------------------------------------------------------------
@@ -86,16 +78,19 @@ void Water::initialize(void)
 //------------------------------------------------------------------------------------------------
 //------ read Water parameters
 //------------------------------------------------------------------------------------------------
-void Water::readParams (string cultivar)
-   {
-   vector<string> sections;                  // sections to look for parameters
-   sections.push_back("constants");
-   sections.push_back("parameters");
-   swPhenoTable.read(plantInterface,sections,"x_sw_avail_ratio","y_swdef_pheno");
-   swExpansionTable.read(plantInterface,sections,"x_sw_demand_ratio","y_swdef_leaf");
+void Water::readLL(void) 
+{
+   scienceAPI.read("ll","mm/mm", 0, ll);
 
-   readArray (plantInterface,sections,"ll",ll);
-   if (ll.size() == 0) throw std::runtime_error("No Crop Lower Limit (ll) found");
+   if (ll.size() != (unsigned int)nLayers) 
+      {
+      string msg = "Number of soil layers (";
+      msg += itoa(nLayers) ;
+      msg += ") doesn't match ll parameter (";
+      msg += itoa(ll.size());
+      msg += ").";
+      throw std::runtime_error(msg);
+      }
    llDep.clear();
    eswCap.clear();
    for(int layer = 0; layer < nLayers; layer++)
@@ -104,29 +99,35 @@ void Water::readParams (string cultivar)
       eswCap.push_back(dulDep[layer] - llDep[layer]);
       }
 
-   readArray (plantInterface,sections, "kl", kl);
-   if (kl.size() == 0) throw std::runtime_error("No Crop water uptake rate (kl) found");
-   readArray (plantInterface,sections, "xf", xf);
-   if (xf.size() == 0) throw std::runtime_error("No Crop Exploration Factor (xf) found");
+}
+void Water::readParams (string cultivar)
+   {
+   swPhenoTable.read(scienceAPI,"x_sw_avail_ratio","y_swdef_pheno");
+   swExpansionTable.read(scienceAPI,"x_sw_demand_ratio","y_swdef_leaf");
+
+   readLL();
+   scienceAPI.read("kl", "", 0, kl);
+   scienceAPI.read("xf", "", 0, xf);
 
     // report
-   plantInterface->writeString ("");
-   plantInterface->writeString ("");
-   plantInterface->writeString ("                       Root Profile");
-   plantInterface->writeString ("    ---------------------------------------------------");
-   plantInterface->writeString ("         Layer       Kl           Lower    Exploration");
-   plantInterface->writeString ("         Depth     Factor         Limit      Factor  ");
-   plantInterface->writeString ("         (mm)         ()        (mm/mm)       (0-1)");
-   plantInterface->writeString ("    ---------------------------------------------------");
-
    char msg[100];
+   sprintf(msg,"\n");   scienceAPI.write(msg);
+   sprintf(msg,"\n");   scienceAPI.write(msg);
+   sprintf(msg,"                       Root Profile\n");   scienceAPI.write(msg);
+   sprintf(msg,"    ---------------------------------------------------\n");   scienceAPI.write(msg);
+   sprintf(msg,"         Layer       Kl           Lower    Exploration\n");   scienceAPI.write(msg);
+   sprintf(msg,"         Depth     Factor         Limit      Factor\n");   scienceAPI.write(msg);
+   sprintf(msg,"         (mm)         ()        (mm/mm)       (0-1)\n");   scienceAPI.write(msg);
+   sprintf(msg,"    ---------------------------------------------------\n");   scienceAPI.write(msg);
+
    for (int layer = 0; layer < nLayers; layer++)
       {
-      sprintf (msg, "    %9.1f%10.3f%15.3f%12.3f", dLayer[layer],kl[layer],
+      sprintf (msg, "    %9.1f%10.3f%15.3f%12.3f\n", dLayer[layer],kl[layer],
                                               ll[layer],xf[layer]);
-      plantInterface->writeString (msg);
+      scienceAPI.write(msg);
       }
-   plantInterface->writeString ("    ---------------------------------------------------\n");
+   scienceAPI.write("    ---------------------------------------------------\n");
+   scienceAPI.write("\n");
 
    }
 //------------------------------------------------------------------------------------------------
@@ -154,13 +155,10 @@ void Water::updateVars(void)
 //------------------------------------------------------------------------------------------------
 void Water::getOtherVariables (void)
    {
-  // get sw from Soilwat2
-   std::vector<float> temp;
-   plantInterface->getVariable(swDepID, temp, 0.0, 1000.0);
-//   convertVector(temp,swDep);
-   fillVector(temp,swDep);
+   // get sw from Soilwat2
+   scienceAPI.get("sw_dep", "mm", false, swDep, 0.0, 1000.0);
 
-//   esw.clear();
+   //   esw.clear();
    for (int i = 0; i < nLayers; i++)
       {
       esw[i] = swDep[i] - llDep[i];
@@ -171,36 +169,19 @@ void Water::getOtherVariables (void)
 //------------------------------------------------------------------------------------------------
 void Water::setOtherVariables (void)
    {
-   std::vector<float> dltSWDepValues;
-   for(unsigned i=0;i < dltSwDep.size();i++)
-      {
-      dltSWDepValues.push_back(dltSwDep[i]);
-      }
-   plantInterface->setVariable(dltSwDepID, dltSWDepValues);
+   scienceAPI.set("dlt_sw_dep", "mm", dltSwDep);
    }
 //------------------------------------------------------------------------------------------------
 //------- React to a newProfile message
 //------------------------------------------------------------------------------------------------
-void Water::doNewProfile(protocol::Variant &v /* message */)
+void Water::onNewProfile(NewProfileType &v /* message */)
    {
-   protocol::ApsimVariant av(plantInterface);
-   av.aliasTo(v.getMessageData());
-
-   protocol::vector<float> temp;
-/* TODO : Problem here summing the protocol::vector - do we need it? */
-   av.get("dlayer",   protocol::DTsingle, true, temp);
-   convertVector(temp,dLayer);
-   av.get("ll15_dep", protocol::DTsingle, true, temp);
-   convertVector(temp,ll15Dep);
-   av.get("dul_dep",  protocol::DTsingle, true, temp);
-   convertVector(temp,dulDep);
-   av.get("sat_dep",  protocol::DTsingle, true, temp);
-   convertVector(temp,satDep);
-   av.get("sw_dep",   protocol::DTsingle, true, temp);
-   convertVector(temp,swDep);
-   av.get("bd",       protocol::DTsingle, true, temp);
-   convertVector(temp,bd);
-
+   dLayer = v.dlayer_value;
+   ll15Dep = v.ll15_dep_value;
+   dulDep = v.dul_dep_value;
+   satDep = v.sat_dep_value;
+   swDep = v.sw_dep_value;
+   bd = v.bd_value;
 
    // dlayer may be changed from its last setting due to erosion
    profileDepth = sumVector(dLayer);      // depth of soil profile (mm)
@@ -384,36 +365,26 @@ float Water::swAvailFracLayer(int layer)
 //------------------------------------------------------------------------------------------------
 //Get functions for registration
 //------------------------------------------------------------------------------------------------
-void Water::getEswLayers(protocol::Component *system, protocol::QueryValueData &qd)
+void Water::getEswLayers(vector<float> &result)
    {
-   system->sendVariable(qd, protocol::vector<float>(&esw[0], &esw[0] + esw.size()));
+   result = esw;
    }
 //------------------------------------------------------------------------------------------------
-void Water::getSwDefLayers(protocol::Component *system, protocol::QueryValueData &qd)
+void Water::getSwDefLayers(vector<float> &result)
    {
-   system->sendVariable(qd, protocol::vector<float>(&swDef[0], &swDef[0] + swDef.size()));
+   result = swDef;
    }
 //------------------------------------------------------------------------------------------------
-void Water::getSwUptakeLayers(protocol::Component *system, protocol::QueryValueData &qd)
+void Water::getSwUptakeLayers(vector<float> &result)
    {
-   system->sendVariable(qd, protocol::vector<float>(&swUptake[0], &swUptake[0] + swUptake.size()));
+   result = swUptake;
    }
 //------------------------------------------------------------------------------------------------
-void Water::getllDep(protocol::Component *system, protocol::QueryValueData &qd)
+void Water::getllDep(vector<float> &result)
    {
    if (llDep.size() == 0)
       {
-      vector<string> sections;                  // sections to look for parameters
-      sections.push_back("constants");
-      sections.push_back("parameters");
-      readArray (plantInterface,sections,"ll",ll);
-      if (ll.size() == 0) throw std::runtime_error("No Crop Lower Limit (ll) found");
-      llDep.clear();
-      for(int layer = 0; layer < ll.size(); layer++)
-         {
-         llDep.push_back(ll[layer]*dLayer[layer]);
-         }         
-         
+      readLL();
       }
-   system->sendVariable(qd, llDep);
+   result = llDep;
    }

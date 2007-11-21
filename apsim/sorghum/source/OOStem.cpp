@@ -2,20 +2,18 @@
 
 #pragma hdrstop
 
-#include "OOStem.h"
 #include "OOPlant.h"
+#include "OOPlantComponents.h"
+#include "OOStem.h"
 
 //---------------------------------------------------------------------------
-
-#pragma package(smart_init)
 
 //------------------------------------------------------------------------------------------------
 //------ Stem Constructor
 //------------------------------------------------------------------------------------------------
-Stem::Stem(OOPlant *p)
+Stem::Stem(ScienceAPI &api, OOPlant *p) : PlantPart(api) 
    {
    plant = p;
-   plantInterface = p->plantInterface;
    name = "Stem";
 
    doRegistrations();
@@ -26,17 +24,13 @@ Stem::Stem(OOPlant *p)
 //--------------------------------------------------------------------------------------------------
 void Stem::doRegistrations(void)
    {
-#define setupGetVar plantInterface->addGettableVar
-//   setupGetVar("height", canopyHeight, "mm", "Height from ground to the top of canopy");
-   setupGetVar("stem_wt", dmGreen, "g/m2", "Stem dry weight");
-   setupGetVar("stem_n", nGreen, "g/m2", "N in stem");
-   setupGetVar("dlt_n_retrans_stem", dltNRetranslocate, "g/m2", "Nitrogen retranslocated from stem to grain");
-   setupGetVar("StemGreenNConc", nConc, "%", "Stem N concentration");
-   setupGetVar("stem_nd", nDemand, "g/m2", "Today's N demand from the stem");
-   setupGetVar("dlt_n_green_stem", dltNGreen, "g/m2", "Today's N increase in stem");
-   setupGetVar("StemGreenNConc", nConc, "%", "Live stem N concentration");
-
-#undef setupGetVar
+   scienceAPI.expose("stem_wt",            "g/m2", "Stem dry weight"                           , 0, dmGreen);
+   scienceAPI.expose("stem_n",             "g/m2", "N in stem"                                 , 0, nGreen);
+   scienceAPI.expose("dlt_n_retrans_stem", "g/m2", "Nitrogen retranslocated from stem to grain", 0, dltNRetranslocate);
+   scienceAPI.expose("n_conc_stem",        "%",    "Stem N concentration"                      , 0, nConc);
+   scienceAPI.expose("stem_nd",            "g/m2", "Today's N demand from the stem"            , 0, nDemand);
+   scienceAPI.expose("dlt_n_green_stem",   "g/m2", "Today's N increase in stem"                , 0, dltNGreen);
+   scienceAPI.expose("n_conc_stem",        "%",    "Live stem N concentration"                 , 0, nConc);
    }
 //------------------------------------------------------------------------------------------------
 //------- Initialize variables
@@ -55,23 +49,20 @@ void Stem::initialize(void)
 //------------------------------------------------------------------------------------------------
 void Stem::readParams (string cultivar)
    {
-   vector<string> sections;                  // sections to look for parameters
-   sections.push_back("constants");
-   sections.push_back(cultivar);
-   heightFn.read(plantInterface,sections,"x_stem_wt","y_height");
-   initialDM = readVar(plantInterface,sections,"dm_stem_init");
-   translocFrac = readVar(plantInterface,sections,"stem_trans_frac");
+   heightFn.read(scienceAPI, "x_stem_wt","y_height");
+   scienceAPI.read("dm_stem_init", "", 0, initialDM);
+   scienceAPI.read("stem_trans_frac","", 0, translocFrac);
    // nitrogen
-   initialNConc = readVar(plantInterface,sections,"initialStemNConc");
-   targetNFn.read(plantInterface,sections,"x_stem_n","targetStemNConc");
+   scienceAPI.read("initialStemNConc", "", 0, initialNConc);
+   targetNFn.read(scienceAPI,"x_stem_n","targetStemNConc");
 //   targetNConc  = readVar(plantInterface,sections,"targetStemNConc");
-   structNFn.read(plantInterface,sections,"x_stem_n","structStemNConc");
+   structNFn.read(scienceAPI, "x_stem_n","structStemNConc");
 
    // phosphorus
-   pMaxTable.read(plantInterface,sections,"x_p_stage_code","y_p_conc_max_stem");
-   pMinTable.read(plantInterface,sections,"x_p_stage_code","y_p_conc_min_stem");
-   pSenTable.read(plantInterface,sections,"x_p_stage_code","y_p_conc_sen_stem");
-   initialPConc = readVar(plantInterface,sections,"p_conc_init_stem");
+   pMaxTable.read(scienceAPI, "x_p_stage_code","y_p_conc_max_stem");
+   pMinTable.read(scienceAPI, "x_p_stage_code","y_p_conc_min_stem");
+   pSenTable.read(scienceAPI, "x_p_stage_code","y_p_conc_sen_stem");
+   scienceAPI.read("p_conc_init_stem", "", 0, initialPConc);
 
    density = plant->getPlantDensity();
    }

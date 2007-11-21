@@ -1,24 +1,19 @@
 //------------------------------------------------------------------------------------------------
 #pragma hdrstop
 
-#include <ComponentInterface/MessageDataExt.h>
-#include <ComponentInterface/datatypes.h>
-
 #include <vector>
 
-#include "TypeKind.h"
 #include "OOPlant.h"
+#include "OOPlantComponents.h"
 #include "OONitrogen.h"
 //------------------------------------------------------------------------------------------------
 
-#pragma package(smart_init)
 //------------------------------------------------------------------------------------------------
 //------ Nitrogen Constructor
 //------------------------------------------------------------------------------------------------
-Nitrogen::Nitrogen(OOPlant *p)
+Nitrogen::Nitrogen(ScienceAPI &api, OOPlant *p) : PlantProcess(api)
    {
    plant = p;
-   plantInterface = plant->plantInterface;
 
    initialize();
    doRegistrations();
@@ -35,46 +30,39 @@ Nitrogen::~Nitrogen()
 //--------------------------------------------------------------------------------------------------
 void Nitrogen::doRegistrations(void)
    {
-#define setupGetVar plantInterface->addGettableVar
-   setupGetVar("nfact_pheno", phenoStress, "", "Nitrogen stress factor for phenology");
-   setupGetVar("nfact_expan", expansionStress, "", "Nitrogen stress factor for leaf expansion");
-   setupGetVar("nfact_photo", photoStress, "", "Nitrogen stress factor for photosynthesis");
-   setupGetVar("n_sd_ratio", supplyDemandRatio, "", "Nitrogen supply/demand ratio");
-   setupGetVar("n_supply_soil", nSupply, "g/m2", "Today's total N supply from soil profile");
-   setupGetVar("n_massflow_uptake", actualMassFlow, "g/m2", "Today's N uptake by massflow from soil profile");
-   setupGetVar("n_diffusion_uptake", actualDiffusion, "g/m2", "Today's N uptake by diffusion from soil profile");
-   setupGetVar("n_total_uptake", actualTotal, "g/m2", "Today's N uptake by mass flow and diffusion");
-   setupGetVar("no3_demand", plantNDemand, "g/m2", "Today's total crop N demand");
-   setupGetVar("diffusion_supply_tot", sumDiffSupply, "g/m2", "Accumulative total of crop N supply by diffusion");
-   setupGetVar("biomass_n", nBiomass, "g/m2", "N above ground biomass including grain");
-   setupGetVar("stover_n", nStover, "g/m2", "N above ground biomass excluding grain");
-   setupGetVar("green_biomass_n", nGreenBiomass, "g/m2", "N in live above ground biomass including grain");
-   setupGetVar("n_cum_uptake", nUptakeTotal, "g/m2", "Cumulative N Uptake");
-   setupGetVar("n_Plant", nPlant, "g/m2", "Total Nitrogen in the plant including roots");
 
-#undef setupGetVar
-
-   setupGetFunction(plantInterface,"n_green", protocol::DTsingle, false,
-                    &Nitrogen::getNGreen, "g/m2", "N content of live plant parts");
-   setupGetFunction(plantInterface,"dlt_n_green", protocol::DTsingle, true,
-                    &Nitrogen::getDltNGreen, "g/m2", "Daily N increase in live plant parts");
-   setupGetFunction(plantInterface,"dlt_n_retrans", protocol::DTsingle, true,
-                    &Nitrogen::getDltNRetrans, "g/m2", "N retranslocated from plant parts to grain");
-   setupGetFunction(plantInterface,"n_senesced", protocol::DTsingle, false,
-                    &Nitrogen::getNSenesced, "g/m2", "N content of senesced plant parts");
-   setupGetFunction(plantInterface,"n_dead", protocol::DTsingle, false,
-                    &Nitrogen::getNDead, "g/m2", "N content of dead plant parts");
-   setupGetFunction(plantInterface,"dlt_n_detached", protocol::DTsingle, true,
-                    &Nitrogen::getDltNDetached, "g/m2", "Actual N loss with detached plant");
-   setupGetFunction(plantInterface,"dlt_n_dead_detached", protocol::DTsingle, true,
-                    &Nitrogen::getDltNDeadDetached, "g/m2", "Actual N loss with detached dead plant");
+   scienceAPI.expose("nfact_pheno",          "",     "Nitrogen stress factor for phenology",            0, phenoStress);
+   scienceAPI.expose("nfact_expan",          "",     "Nitrogen stress factor for leaf expansion",       0, expansionStress);
+   scienceAPI.expose("nfact_photo",          "",     "Nitrogen stress factor for photosynthesis",       0, photoStress);
+   scienceAPI.expose("n_sd_ratio",           "",     "Nitrogen supply/demand ratio",                    0, supplyDemandRatio);
+   scienceAPI.expose("n_supply_soil",        "g/m2", "Today's total N supply from soil profile",        0, nSupply);
+   scienceAPI.expose("n_massflow_uptake",    "g/m2", "Today's N uptake by massflow from soil profile",  0, actualMassFlow);
+   scienceAPI.expose("n_diffusion_uptake",   "g/m2", "Today's N uptake by diffusion from soil profile", 0, actualDiffusion);
+   scienceAPI.expose("n_total_uptake",       "g/m2", "Today's N uptake by mass flow and diffusion",     0, actualTotal);
+   scienceAPI.expose("no3_demand",           "g/m2", "Today's total crop N demand",                     0, plantNDemand);
+   scienceAPI.expose("diffusion_supply_tot", "g/m2", "Accumulative total of crop N supply by diffusion",0, sumDiffSupply);
+   scienceAPI.expose("biomass_n",            "g/m2", "N above ground biomass including grain",          0, nBiomass);
+   scienceAPI.expose("stover_n",             "g/m2", "N above ground biomass excluding grain",          0, nStover);
+   scienceAPI.expose("green_biomass_n",      "g/m2", "N in live above ground biomass including grain",  0, nGreenBiomass);
+   scienceAPI.expose("n_cum_uptake",         "g/m2", "Cumulative N Uptake",                             0, nUptakeTotal);
+   scienceAPI.expose("n_Plant",              "g/m2", "Total Nitrogen in the plant including roots",     0, nPlant);
 
 
+   scienceAPI.exposeFunction("n_green", "g/m2", "N content of live plant parts",
+                    FloatFunction(&Nitrogen::getNGreen));
+   scienceAPI.exposeFunction("dlt_n_green", "g/m2", "Daily N increase in live plant parts",
+                    FloatArrayFunction(&Nitrogen::getDltNGreen));
+   scienceAPI.exposeFunction("dlt_n_retrans", "g/m2", "N retranslocated from plant parts to grain",
+                    FloatArrayFunction(&Nitrogen::getDltNRetrans));
+   scienceAPI.exposeFunction("n_senesced", "g/m2", "N content of senesced plant parts",
+                    FloatFunction(&Nitrogen::getNSenesced));
+   scienceAPI.exposeFunction("n_dead", "g/m2", "N content of dead plant parts",
+                    FloatFunction(&Nitrogen::getNDead));
+   scienceAPI.exposeFunction("dlt_n_detached", "g/m2", "Actual N loss with detached plant",
+                    FloatArrayFunction(&Nitrogen::getDltNDetached));
+   scienceAPI.exposeFunction("dlt_n_dead_detached", "g/m2", "Actual N loss with detached dead plant",
+                    FloatArrayFunction(&Nitrogen::getDltNDeadDetached));
 
-
-   no3ID    = plantInterface->addRegistration(RegistrationType::get,"no3", floatArrayType,"", "");
-   no3MinID = plantInterface->addRegistration(RegistrationType::get,"no3_min", floatArrayType,"", "");
-   dltNo3ID = plantInterface->addRegistration(RegistrationType::set,"dlt_no3", floatArrayType,"", "");
    }
 //------------------------------------------------------------------------------------------------
 //------- Initialize variables
@@ -122,11 +110,7 @@ void Nitrogen::initialize(void)
 //------------------------------------------------------------------------------------------------
 void Nitrogen::readParams (string cultivar)
    {
-   std::vector<string> sections;                  // sections to look for parameters
-   sections.push_back("constants");
-   sections.push_back(cultivar);
-
-   diffnConstant = readVar(plantInterface,sections,"NO3_diffn_const");
+   scienceAPI.read("NO3_diffn_const", "", 0, diffnConstant);
    }
 //------------------------------------------------------------------------------------------------
 //-------- Get Nitrogen variables from other modules
@@ -135,7 +119,7 @@ void Nitrogen::getOtherVariables (void)
    {
    std::vector<float> values;
 
-   if (!plantInterface->getVariable(no3ID, values, 0.0, 10000.0, true))
+   if (!scienceAPI.get("no3", "kg/ha", true, values, 0.0, 10000.0))
       {
       // we have no N supply - make non-limiting.
       for (int i = 0; i < nLayers; i++)
@@ -146,9 +130,9 @@ void Nitrogen::getOtherVariables (void)
  //  convertVector(values,no3);
    fillVector(values, no3);
 
-   //values.clear();
+   values.clear();
 
-   plantInterface->getVariable(no3MinID, values, 0.0, 10000.0,true);
+   scienceAPI.get("no3_min", "kg/ha", true, values, 0.0, 10000.0);
 
    //convertVector(values,no3Min);
    fillVector(values, no3Min);
@@ -172,20 +156,14 @@ void Nitrogen::setOtherVariables (void)
       {
       dltNo3Values[i] = dltNo3[i] * gm2kg /sm2ha;
       }
-   plantInterface->setVariable(dltNo3ID, dltNo3Values);
+   scienceAPI.set("dlt_no3", "kg/ha", dltNo3Values);
    }
 //------------------------------------------------------------------------------------------------
 //------- React to a newProfile message
 //------------------------------------------------------------------------------------------------
-void Nitrogen::doNewProfile(protocol::Variant &v /* message */)
+void Nitrogen::onNewProfile(NewProfileType &v /* message */)
    {
-   protocol::ApsimVariant av(plantInterface);
-   av.aliasTo(v.getMessageData());
-
-   protocol::vector<float> temp;
-/* TODO : Problem here summing the protocol::vector - do we need it? */
-   av.get("dlayer",   protocol::DTsingle, true, temp);
-   convertVector(temp,dLayer);
+   dLayer = v.dlayer_value;
 
    // dlayer may be changed from its last setting due to erosion
    profileDepth = sumVector(dLayer);      // depth of soil profile (mm)
@@ -529,48 +507,52 @@ float Nitrogen::layerProportion(void)
    return Min(divide(rootDepth - layerTop,layerBottom - layerTop),1.0);
    }
 //------------------------------------------------------------------------------------------------
-void Nitrogen::getNGreen(protocol::Component *system, protocol::QueryValueData &qd)
+void Nitrogen::getNGreen(float &result)
    {
-   system->sendVariable(qd, sumVector(nGreen));
+   result = sumVector(nGreen);
    }
 //------------------------------------------------------------------------------------------------
-void Nitrogen::getDltNGreen(protocol::Component *system, protocol::QueryValueData &qd)
+void Nitrogen::getDltNGreen(vector<float> &result)
    {
-   system->sendVariable(qd, protocol::vector<float>(&dltNGreen[0], &dltNGreen[0] + dltNGreen.size()));
+   result = dltNGreen;
    }
 //------------------------------------------------------------------------------------------------
-void Nitrogen::getDltNRetrans(protocol::Component *system, protocol::QueryValueData &qd)
+void Nitrogen::getDltNRetrans(vector<float> &result)
    {
-   system->sendVariable(qd, protocol::vector<float>(&dltNRetrans[0], &dltNRetrans[0] + dltNRetrans.size()));
+   result = dltNRetrans;
    }
 //------------------------------------------------------------------------------------------------
-void Nitrogen::getNSenesced(protocol::Component *system, protocol::QueryValueData &qd)
+void Nitrogen::getNSenesced(float &result)
    {
-   system->sendVariable(qd, sumVector(nSenesced));
+   result = sumVector(nSenesced);
    }
 //------------------------------------------------------------------------------------------------
-void Nitrogen::getNDead(protocol::Component *system, protocol::QueryValueData &qd)
+void Nitrogen::getNDead(float &result)
    {
-   system->sendVariable(qd, sumVector(nDead));
+   result = sumVector(nDead);
    }
 //------------------------------------------------------------------------------------------------
-void Nitrogen::getDltNDetached(protocol::Component *system, protocol::QueryValueData &qd)
+void Nitrogen::getDltNDetached(vector<float> &result)
    {
-   system->sendVariable(qd, protocol::vector<float>(&dltNDetached[0], &dltNDetached[0] + dltNDetached.size()));
+   result = dltNDetached;
    }
 //------------------------------------------------------------------------------------------------
-void Nitrogen::getDltNDeadDetached(protocol::Component *system, protocol::QueryValueData &qd)
+void Nitrogen::getDltNDeadDetached(vector<float> &result)
    {
-   system->sendVariable(qd, protocol::vector<float>(&dltNDetachedDead[0], &dltNDetachedDead[0] + dltNDetachedDead.size()));
+   result = dltNDetachedDead;
    }
 
 //------------------------------------------------------------------------------------------------
 void Nitrogen::Summary(void)
    {
-   summaryLine(plantInterface,"grain N percent            =  %8.3f \t grain N uptake     (kg/ha) = %8.3f",
+   char msg[120];
+   sprintf(msg,"grain N percent            =  %8.3f \t grain N uptake     (kg/ha) = %8.3f\n",
             plant->grain->getNConc() * 100,plant->grain->getNGreen() * 10.0);
-   summaryLine(plantInterface,"total N content    (kg/ha) =  %8.3f \t senesced N content (kg/ha) = %8.3f",
+   scienceAPI.write(msg);
+   sprintf(msg,"total N content    (kg/ha) =  %8.3f \t senesced N content (kg/ha) = %8.3f\n",
             nBiomass * 10.0,sumVector(nSenesced) * 10.0);
-   summaryLine(plantInterface,"green N content    (kg/ha) =  %8.3f \t dead N content     (kg/ha) = %8.3f",
+   scienceAPI.write(msg);
+   sprintf(msg,"green N content    (kg/ha) =  %8.3f \t dead N content     (kg/ha) = %8.3f\n",
             sumVector(nGreen) * 10.0 - plant->grain->getNGreen() * 10.0, sumVector(nDead) * 10.0);
+   scienceAPI.write(msg);
    }

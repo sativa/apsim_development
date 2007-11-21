@@ -1,34 +1,29 @@
-//---------------------------------------------------------------------------
-
 #ifndef OOPlantComponentsH
 #define OOPlantComponentsH
 
-
-#include <ComponentInterface/Component.h>
-
-#include "OOPlantInterface.h"
-
+#include <vector>
+#include <string>
 #include "Utilities.h"
 
-
-#include <vector>
-
 class TableFn;
+class ScienceAPI;
+class OOPlant;
 
 //---------------------------------------------------------------------------
 
 class PlantComponent
    {
    private:
-
+   protected:
    public:
-   PlantInterface *plantInterface;            // for interface calls to system
+   ScienceAPI  &scienceAPI;
+   PlantComponent(ScienceAPI &api) : scienceAPI(api) {};
+
    OOPlant *plant;
 
    virtual void initialize(void) = 0;
-   virtual void readParams (string cultivar) = 0;
+   virtual void readParams (std::string cultivar) = 0;
    virtual void updateVars(void) = 0;
-
    };
 //---------------------------------------------------------------------------
 class PlantPart : public PlantComponent
@@ -40,7 +35,7 @@ class PlantPart : public PlantComponent
    // variables
    float stage;
    int partNo;
-   string name;
+   std::string name;
 
 
    // Biomass
@@ -94,15 +89,15 @@ class PlantPart : public PlantComponent
 
 
    public:
-   PlantPart();
+   PlantPart(ScienceAPI &api) ;
    void initialize(void);
    virtual void phenologyEvent(int) = 0;
    virtual float calcNDemand(void) = 0;
    virtual float calcPDemand(void) = 0;
 
    //Detatchmenet Routines
-   virtual void dmDetachment(vector<float>, vector<float>);
-   virtual void NDetachment(vector<float>, vector<float>);
+   virtual void dmDetachment(std::vector<float>, std::vector<float>);
+   virtual void NDetachment(std::vector<float>, std::vector<float>);
 
    //Getters
    virtual float getNGreen(void){return nGreen;};
@@ -147,7 +142,7 @@ class PlantPart : public PlantComponent
    void calcDltPDetached(void);
    void updateP(void);
 
-   string getName(void){return name;}
+   std::string getName(void){return name;}
    };
 //---------------------------------------------------------------------------
 class PlantProcess : public PlantComponent
@@ -155,7 +150,7 @@ class PlantProcess : public PlantComponent
    private:
 
    public:
-
+    PlantProcess(ScienceAPI &api) : PlantComponent(api) {};
 
    // variables
    };

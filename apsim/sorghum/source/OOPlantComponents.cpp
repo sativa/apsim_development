@@ -1,20 +1,17 @@
 //---------------------------------------------------------------------------
-
-#pragma hdrstop
+#include <vector>
+using namespace std;
 
 #include "OOPlantComponents.h"
 #include "Utilities.h"
 
 //---------------------------------------------------------------------------
-
-#pragma package(smart_init)
-//---------------------------------------------------------------------------
-PlantPart::PlantPart(void)
+PlantPart::PlantPart(ScienceAPI &api) : PlantComponent (api)
    {
    initialize();
    }
-//---------------------------------------------------------------------------
 
+//---------------------------------------------------------------------------
 void PlantPart::initialize(void)
    {
    //Init Variables
