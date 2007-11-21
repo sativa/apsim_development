@@ -80,7 +80,7 @@ Message& newMessage(Message::Type messageType,
 
 
 // ------ boolean ------
-inline unsigned int memorySize(const bool& value)
+inline unsigned int memorySize(const bool& value) 
    {return 1;}
 inline void unpack(MessageData& messageData, bool& value)
    {
@@ -96,7 +96,7 @@ inline std::string DDML(bool value)
    {return "<type kind=\"boolean\"/>";}
 
 // ------ int ------
-inline unsigned int memorySize(const int& value)
+inline unsigned int memorySize(const int& value) 
    {return 4;}
 inline void unpack(MessageData& messageData, int& value)
    {
@@ -112,7 +112,7 @@ inline std::string DDML(int value)
    {return "<type kind=\"integer4\"/>";}
 
 // ------ float ------
-inline unsigned int memorySize(const float& value)
+inline unsigned int memorySize(const float& value) 
    {return 4;}
 inline void unpack(MessageData& messageData, float& value)
    {
@@ -128,7 +128,7 @@ inline std::string DDML(float value)
    {return "<type kind=\"single\"/>";}
 
 // ------ double ------
-inline unsigned int memorySize(const double& value)
+inline unsigned int memorySize(const double& value) 
    {return 8;}
 inline void unpack(MessageData& messageData, double& value)
    {
@@ -144,7 +144,7 @@ inline std::string DDML(double value)
    {return "<type kind=\"double\"/>";}
 
 // ------ char ------
-inline unsigned int memorySize(const char& value)
+inline unsigned int memorySize(const char& value) 
    {return 1;}
 inline void unpack(MessageData& messageData, char& value)
    {
@@ -161,7 +161,7 @@ inline std::string DDML(char value)
 
 // ------ wchar ------
 typedef wchar_t WCHAR;
-inline unsigned int memorySize(const WCHAR& value)
+inline unsigned int memorySize(const WCHAR& value) 
    {return 2;}
 inline void unpack(MessageData& messageData, WCHAR& value)
    {
@@ -177,7 +177,7 @@ inline std::string DDML(WCHAR value)
    {return "<type kind=\"wchar\"/>";}
 
 // ------ std::string ------
-inline unsigned int memorySize(const std::string& value)
+inline unsigned int memorySize(const std::string& value) 
    {return value.length() + 4;}
 inline void unpack(MessageData& messageData, std::string& value)
    {
@@ -196,7 +196,7 @@ inline std::string DDML(const std::string& value)
 
 // ------ std::vector ------
 template <class T>
-unsigned int memorySize(const std::vector<T>& values)
+unsigned int memorySize(const std::vector<T>& values) 
    {
    unsigned size = 4;
    for (unsigned i = 0; i != values.size(); i++)
@@ -209,7 +209,7 @@ inline void unpack(MessageData& messageData, std::vector<T>& values)
    values.erase(values.begin(), values.end());
    int numValues;
    unpack(messageData, numValues);
-   for (unsigned int i = 0; i < numValues; i++)
+   for (int i = 0; i < numValues; i++)
       {
       T value;
       unpack(messageData, value);
@@ -222,7 +222,7 @@ inline void pack(MessageData& messageData, const std::vector<T>& values)
    int numValues = (int)values.size();
   
    pack(messageData, numValues);
-   for (unsigned int i = 0; i < values.size(); i++)
+   for (int i = 0; i < (int) values.size(); i++)
       pack(messageData, values[i]);
    }
 template <class T>

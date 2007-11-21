@@ -1,10 +1,11 @@
 //------------------------------------------------------------------------------------------------
 #pragma hdrstop
 
-#include "OOPhenology.h"
-#include "TypeKind.h"
-#include "Utilities.h"
+#include <vector>
+
 #include "OOPlant.h"
+#include "OOPlantComponents.h"
+#include "OOPhenology.h"
 
 using namespace std;
 
@@ -15,17 +16,14 @@ using namespace std;
 //------------------------------------------------------------------------------------------------
 //------ Phenology constructor
 //------------------------------------------------------------------------------------------------
-Phenology::Phenology(OOPlant *p)
+Phenology::Phenology(ScienceAPI &api, OOPlant *p) : PlantProcess(api)
    {
    plant = p;
-   plantInterface = p->plantInterface;
 
-   readArray(plantInterface, "constants","stage_names","",stageNames,false);
+   scienceAPI.read("stage_names","", false, stageNames);
    stageNames.insert(stageNames.begin(),string("nocrop"));  // for compatibility with fortran
    initialize();
    doRegistrations();
-
-
    }
 //------------------------------------------------------------------------------------------------
 //------ Phenology destructor
@@ -66,60 +64,59 @@ void Phenology::initialize(void)
 //------------------------------------------------------------------------------------------------
 void Phenology::readParams (string cultivar)
    {
-   vector<string> sections;                  // sections to look for parameters
-   sections.push_back("constants");
-   sections.push_back(cultivar);
-
    float shootLag,shootRate;
-   readVar(plantInterface,sections,"shoot_lag",shootLag);
-   readVar(plantInterface,sections,"shoot_rate",shootRate);
+   scienceAPI.read("shoot_lag", "", false, shootLag);
+   scienceAPI.read("shoot_rate","", false, shootRate);
    ttTarget[germination] = shootLag + plant->getSowingDepth() * shootRate;
 
-   ttTarget[emergence] = readVar(plantInterface,sections,"tt_emerg_to_endjuv");
-   ttEndJuvInit = readVar(plantInterface,sections,"tt_endjuv_to_init");
+   scienceAPI.read("tt_emerg_to_endjuv", "", false, ttTarget[emergence]);
+   scienceAPI.read("tt_endjuv_to_init", "", false, ttEndJuvInit);
    ttTarget[endJuv] = ttEndJuvInit;
    ttTarget[fi] = 50;
-   ttTarget[flag] = readVar(plantInterface,sections,"tt_flag_to_flower");
-   ttTarget[flowering] = readVar(plantInterface,sections,"tt_flower_to_start_grain");
-   ttFlowerMaturity = readVar(plantInterface,sections,"tt_flower_to_maturity");
+   scienceAPI.read("tt_flag_to_flower", "", false, ttTarget[flag] );
+   scienceAPI.read("tt_flower_to_start_grain","", false, ttTarget[flowering]);
+   scienceAPI.read("tt_flower_to_maturity", "", false, ttFlowerMaturity);
    ttTarget[endGrainFill] = 0.05 * ttFlowerMaturity;
    ttTarget[startGrainFill] = ttFlowerMaturity - ttTarget[flowering]
                                        - ttTarget[endGrainFill];
-   ttTarget[maturity] = readVar(plantInterface,sections,"tt_maturity_to_ripe");
+   scienceAPI.read("tt_maturity_to_ripe", "", false, ttTarget[maturity]);
 
 
    // photoperiod function
+   float photoperiod_crit1, photoperiod_crit2;
+   scienceAPI.read("photoperiod_crit1", "", 0, photoperiod_crit1);
+   scienceAPI.read("photoperiod_crit2", "", 0, photoperiod_crit2);
    vector<float> xVec;
+   xVec.push_back(photoperiod_crit1);
+   xVec.push_back(photoperiod_crit2);
+
+   float slope;
+   scienceAPI.read("photoperiod_slope", "", 0, slope);
+
    vector<float> yVec;
-   xVec.push_back(readVar(plantInterface,sections,"photoperiod_crit1"));
-   xVec.push_back(readVar(plantInterface,sections,"photoperiod_crit2"));
-   float slope = readVar(plantInterface,sections,"photoperiod_slope");
    yVec.push_back(ttEndJuvInit);
    yVec.push_back(ttEndJuvInit + (xVec[1]-xVec[0]) * slope);
    photoParams.load(xVec,yVec);
 
    // thermal time
-   ttParams.read(plantInterface,sections,"x_temp","y_tt");
-   ttFmParams.read(plantInterface,sections,"x_temp_fm","y_tt_fm");
+   ttParams.read(scienceAPI, "x_temp","y_tt");
+   ttFmParams.read(scienceAPI, "x_temp_fm","y_tt_fm");
 
    // germination
-   peswGerm = readVar(plantInterface,sections,"pesw_germ");
+   scienceAPI.read("pesw_germ", "", 0, peswGerm);
 
-   int latitudeID    = plantInterface->addRegistration(RegistrationType::get,
-                                                            "latitude", floatType,"", "");
-  
-   plantInterface->getVariable(latitudeID, latitude, -90.0, 90.0, true);
-   readVar (plantInterface,sections, "twilight",twilight);
-
+ 
+   scienceAPI.get("latitude", "", 0, latitude, -90.0f, 90.0f);
+   scienceAPI.read("twilight","", 0, twilight);
 
    // report
-   char msg[100];
-   sprintf(msg, "    tt_emerg_to_endjuv       =  %6.2f",ttEndJuvInit);plantInterface->writeString (msg);
-   sprintf(msg, "    tt_flower_to_maturity    =  %6.2f",ttFlowerMaturity);  plantInterface->writeString (msg);
-   sprintf(msg, "    tt_flag_to_flower        =  %6.2f",ttTarget[flag]);  plantInterface->writeString (msg);
-   sprintf(msg, "    tt_flower_to_start_grain =  %6.2f",ttTarget[flowering]);  plantInterface->writeString (msg);
-   sprintf(msg, "    tt_maturity_to_ripe      =  %6.2f",ttTarget[maturity]);  plantInterface->writeString (msg);
-   plantInterface->writeString ("    -------------------------------------------------------");
+   char msg[120];
+   sprintf(msg, "    tt_emerg_to_endjuv       =  %6.2f\n",ttEndJuvInit);   scienceAPI.write(msg);
+   sprintf(msg, "    tt_flower_to_maturity    =  %6.2f\n",ttFlowerMaturity);   scienceAPI.write(msg);
+   sprintf(msg, "    tt_flag_to_flower        =  %6.2f\n",ttTarget[flag]);   scienceAPI.write(msg);
+   sprintf(msg, "    tt_flower_to_start_grain =  %6.2f\n",ttTarget[flowering]);   scienceAPI.write(msg);
+   sprintf(msg, "    tt_maturity_to_ripe      =  %6.2f\n",ttTarget[maturity]);   scienceAPI.write(msg);
+   sprintf(msg, "    -------------------------------------------------------\n");   scienceAPI.write(msg);
 
 
 
@@ -137,30 +134,28 @@ void Phenology::setStage(float stageNow)
 //------------------------------------------------------------------------------------------------
 void Phenology::doRegistrations(void)
    {
-#define setupGetVar plantInterface->addGettableVar
-   setupGetVar("stage", stage, "", "Phenological stage of development");
-//   setupGetVar("stage_name", stageName, "", "Full names of stage for reporting");
-   setupGetVar("dlt_tt", dltTT, "oCd", "Daily thermal time");
-   setupGetVar("dlt_tt_fm", dltTTFM, "oCd", "Daily thermal time between flowering and maturity");
-   setupGetVar("dlt_stage", dltStage, "", "Change in stage number");
-   setupGetVar("tt_sum", ttCurrStage, "oCd", "The sum of growing degree days for the current stage");
-   setupGetVar("flowering_date", floweringDOY, "doy", "Flowering day number");
-   setupGetVar("maturity_date", maturityDOY, "doy", "Maturity day number");
-   setupGetVar("flowering_das", floweringDAS, "das", "Days to flowering");
-   setupGetVar("maturity_das", maturityDAS, "das", "Days to maturity");
-   setupGetVar("stage_code", stageCode, "", "Code of the developmental stages");
-#undef setupGetVar
 
-   setupGetFunction(plantInterface,"tt_tot", protocol::DTsingle, true,
-                    &Phenology::getTTTot, "oCd", "The sum of growing degree days");
-   setupGetFunction(plantInterface,"phase_tt", protocol::DTsingle, true,
-                    &Phenology::getPhaseTT, "oCd", "Cumulative growing degree days required for each stage");
-   setupGetFunction(plantInterface,"stage_name", protocol::DTstring, false,
-                    &Phenology::getStageName, "", "Full names of stage for reporting");
+   scienceAPI.expose("stage",          "",    "Phenological stage of development",false,                    stage);
+   scienceAPI.expose("dlt_tt",         "oCd", "Daily thermal time",false,                                   dltTT);
+   scienceAPI.expose("dlt_tt_fm",      "oCd", "Daily thermal time between flowering and maturity",false,    dltTTFM);
+   scienceAPI.expose("dlt_stage",      "",    "Change in stage number",false,                               dltStage);
+   scienceAPI.expose("tt_sum",         "oCd", "The sum of growing degree days for the current stage",false, ttCurrStage);
+   scienceAPI.expose("flowering_date", "doy", "Flowering day number",false,                                 floweringDOY);
+   scienceAPI.expose("maturity_date",  "doy", "Maturity day number",false,                                  maturityDOY);
+   scienceAPI.expose("flowering_das",  "das", "Days to flowering",false,                                    floweringDAS);
+   scienceAPI.expose("maturity_das",   "das", "Days to maturity",false,                                     maturityDAS);
+   scienceAPI.expose("stage_code",     "",    "Code of the developmental stages",false,                     stageCode);
+
+   scienceAPI.exposeFunction("tt_tot",  "oCd", "The sum of growing degree days",
+                    FloatArrayFunction(&Phenology::getTTTot));
+   scienceAPI.exposeFunction("phase_tt", "oCd", "Cumulative growing degree days required for each stage",
+                    FloatArrayFunction(&Phenology::getPhaseTT));
+   scienceAPI.exposeFunction("stage_name", "", "Full names of stage for reporting",
+                    StringFunction(&Phenology::getStageName));
 
 
 
-   }
+  }
 //------------------------------------------------------------------------------------------------
 //--------  Do the daily phenology development  - called from plant->process
 //-----------   this is two stage thermal time development used in sorghum
@@ -197,12 +192,11 @@ void Phenology::development(void)
 
    if(!isEqual((int)previousStage,(int)stage))        // new stage
       {
-      char msg[80];
-      sprintf(msg, " stage %.1lf %s",stage,stageName.c_str());
-      plantInterface->writeString(msg);
+      char msg[120];
+      sprintf(msg, " stage %.1lf %s\n",stage,stageName.c_str());
+      scienceAPI.write(msg);
 
       // send message to plant parts
-
       for(unsigned i=0;i < plant->PlantParts.size();i++)
          {
          plant->PlantParts[i]->phenologyEvent(stage);
@@ -213,12 +207,12 @@ void Phenology::development(void)
       if((int)stage == flowering)
          {
          floweringDAS = plant->das;
-         floweringDOY = plant->today.todayDate.doy;
+         floweringDOY = plant->today.doy;
          }
       if((int)stage == maturity)
          {
          maturityDAS = plant->das;
-         maturityDOY = plant->today.todayDate.doy;
+         maturityDOY = plant->today.doy;
          }
       }
 
@@ -253,7 +247,7 @@ float Phenology::sumDaysTotal(int from, int to)
 //------------------------------------------------------------------------------------------------
 void Phenology::checkTargets(void)
    {
- //   if(plant->today.todayDate.doy >= 313 && plant->today.todayDate.doy <= 323)
+ //   if(plant->today.doy >= 313 && plant->today.doy <= 323)
    if(stage >= emergence && stage <= endJuv)
       {
       float photoPeriod = plant->today.getPhotoPeriod(latitude,twilight);
@@ -401,27 +395,30 @@ void Phenology::calcDevelopment(void)
    stage = Min(stage,(float)harvest);
    }
 //------------------------------------------------------------------------------------------------
-void Phenology::getTTTot(protocol::Component *system, protocol::QueryValueData &qd)
+void Phenology::getTTTot(vector<float> &result)
    {
-   system->sendVariable(qd, protocol::vector<float>(&ttTotal[0], &ttTotal[0] + ttTotal.size()));
+   result = ttTotal;
    }
 //------------------------------------------------------------------------------------------------
-void Phenology::getPhaseTT(protocol::Component *system, protocol::QueryValueData &qd)
+void Phenology::getPhaseTT(vector<float> &result)
    {
-   system->sendVariable(qd, protocol::vector<float>(&ttTarget[0], &ttTarget[0] + ttTarget.size()));
+   result = ttTarget;
    }
 //------------------------------------------------------------------------------------------------
-void Phenology::getStageName(protocol::Component *system, protocol::QueryValueData &qd)
+void Phenology::getStageName(string &result)
    {
-   system->sendVariable(qd, FString(stageName.c_str()));
+   result = stageName;
    }
 //------------------------------------------------------------------------------------------------
 void Phenology::Summary(void)
    {
-   summaryLine(plantInterface,"flowering (DAS)       = %.0f \t maturity (DAS)          = %.0f",
+   char msg[120];
+   sprintf(msg,"flowering (DAS)       = %.0d \t maturity (DAS)          = %.0d\n",
                                floweringDAS, maturityDAS);
-   summaryLine(plantInterface,"flowering day         = %.0f \t maturity day            = %.0f",
+   scienceAPI.write(msg);
+   sprintf(msg,"flowering day         = %.0d \t maturity day            = %.0d\n",
                               floweringDOY, maturityDOY);
+   scienceAPI.write(msg);
    }
 //------------------------------------------------------------------------------------------------
 

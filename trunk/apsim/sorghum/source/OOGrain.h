@@ -42,13 +42,13 @@ class Grain : public PlantPart
 
 // public Methods -------------------------------------------------------
    public:
-    Grain(OOPlant *p);                            // plant
+    Grain(ScienceAPI &, OOPlant *p);                            // plant
    ~Grain();                                    // plant
    void   readParams (string cultivar);                    // plant
    void   updateVars(void);                     // plant
    void   calcDemandStress(void);               // plant
    void   calcBiomassDemand(void);              // plant
-   void   get_n_grain_pcnt(protocol::Component *system, protocol::QueryValueData &qd);
+   void get_n_grain_pcnt(float &);
 
    float calcNDemand(void);                     // nitrogen
 //   float getNGreen(void)const{return nGreen;}   // nitrogen

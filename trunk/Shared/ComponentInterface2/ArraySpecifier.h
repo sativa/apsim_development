@@ -36,22 +36,22 @@ class ArraySpecifier
          {
          if (values.size() > 0)
             {
-            unsigned start = startIndex;
-            unsigned end = endIndex;
+            int start = startIndex;
+            int end = endIndex;
             if (start == -1)
                start = 0;
             else
                start--;   // 1 based to zero based indexing
             if (end == -1)
-               end = values.size()-1;
+               end = (int) values.size()-1;
             else
                end--;     // 1 base to zero based indexing.
 
 
             unsigned index = 0;
-            for (unsigned i = start; i <= end; i++)
+            for (int i = start; i <= end; i++)
                {
-               if (i >= values.size())
+               if (i >= (int)values.size())
                   throw std::runtime_error("Invalid array index.");
                values[index++] = values[i];
                }

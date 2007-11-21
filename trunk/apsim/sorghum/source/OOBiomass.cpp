@@ -1,10 +1,11 @@
-
 #pragma hdrstop
 
+#include <ComponentInterface2/Variant.h>
+
 #include "OOPlant.h"
+#include "OOPlantComponents.h"
 #include "OOBiomass.h"
 
-#include <ComponentInterface/datatypes.h>
 //---------------------------------------------------------------------------
 
 #pragma package(smart_init)
@@ -12,10 +13,9 @@
 //------------------------------------------------------------------------------------------------
 //------ Biomass Constructor
 //------------------------------------------------------------------------------------------------
-Biomass::Biomass(OOPlant *p)
+Biomass::Biomass(ScienceAPI &api, OOPlant *p) : PlantProcess(api)
    {
    plant = p;
-   plantInterface = p->plantInterface;
 
    initialize();
    doRegistrations();
@@ -33,41 +33,35 @@ Biomass::~Biomass()
 //--------------------------------------------------------------------------------------------------
 void Biomass::doRegistrations(void)
    {
-#define setupGetVar plantInterface->addGettableVar
-   setupGetVar("dlt_dm", dltDM, "g/m^2", "Daily biomass production");
-   setupGetVar("dlt_dm_water", dltDMPotTE, "g/m^2", "Potential daily biomass production due to TE");
-   setupGetVar("dlt_dm_light", dltDMPotRUE, "g/m^2", "Potential daily biomass production due to RUE");
-   setupGetVar("stem+flower_wt", stemRachisBiomass, "g/m^2", "Live plant stem and flower dry weight");
-   setupGetVar("biomass", aboveGroundBiomass, "kg/ha", "Total above-ground biomass");
-   setupGetVar("green_biomass_wt", aboveGroundGreenBiomass, "g/m^2", "Total live above-ground biomass");
-   setupGetVar("hi", hi, "", "Harvest index");
-   setupGetVar("stover_wt", dmStover, "g/m^2", "Stover biomass weight");
-   setupGetVar("yield", yield, "kg/ha", "Grain yield");
-   setupGetVar("green_biomass", biomGreen, "kg/ha", "Total above ground live biomass");
-   setupGetVar("stover", biomStover, "kg/ha", "Stover biomass");
-#undef setupGetVar
+   scienceAPI.expose("dlt_dm",           "g/m^2", "Daily biomass production",false,                     dltDM);
+   scienceAPI.expose("dlt_dm_water",     "g/m^2", "Potential daily biomass production due to TE",false, dltDMPotTE);
+   scienceAPI.expose("dlt_dm_light",     "g/m^2", "Potential daily biomass production due to RUE",false,dltDMPotRUE);
+   scienceAPI.expose("stem+flower_wt",   "g/m^2", "Live plant stem and flower dry weight",false,        stemRachisBiomass);
+   scienceAPI.expose("biomass",          "kg/ha", "Total above-ground biomass",false,                   aboveGroundBiomass);
+   scienceAPI.expose("green_biomass_wt", "g/m^2", "Total live above-ground biomass",false,              aboveGroundGreenBiomass);
+   scienceAPI.expose("hi",               "",  "Harvest index",false,                                    hi);
+   scienceAPI.expose("stover_wt",        "g/m^2", "Stover biomass weight",false,                        dmStover);
+   scienceAPI.expose("yield",            "kg/ha", "Grain yield",false,                                  yield);
+   scienceAPI.expose("green_biomass",    "kg/ha", "Total above ground live biomass",false,              biomGreen);
+   scienceAPI.expose("stover",           "kg/ha", "Stover biomass",false,                               biomStover);
 
-   setupGetFunction(plantInterface,"dm_green", protocol::DTsingle, false,
-                    &Biomass::getDMGreen, "g/m^2", "Live plant dry weight");
-   setupGetFunction(plantInterface,"dm_senesced", protocol::DTsingle, false,
-                    &Biomass::getDMSenesced, "g/m^2", "Senesced plant dry weight");
-   setupGetFunction(plantInterface,"dm_dead", protocol::DTsingle, false,
-                    &Biomass::getDMDead, "g/m^2", "Dry weight of dead plants");
-   setupGetFunction(plantInterface,"dlt_dm_green", protocol::DTsingle, false,
-                    &Biomass::getDltDMGreen, "g/m^2", "Plant biomass growth in each part");
-   setupGetFunction(plantInterface,"dlt_dm_detached", protocol::DTsingle, true,
-                    &Biomass::getDltDMDetached, "g/m^2", "Plant biomass detached from each part");
-   setupGetFunction(plantInterface,"dlt_dm_dead_detached", protocol::DTsingle, true,
-                    &Biomass::getDltDMDeadDetached, "g/m^2", "Plant biomass detached from dead plant parts");
-   setupGetFunction(plantInterface,"dlt_dm_green_retrans", protocol::DTsingle, true,
-                    &Biomass::getDltDMGreenRetrans, "g/m^2", "Plant biomass retranslocated from each part");
+   scienceAPI.exposeFunction("dm_green", "g/m^2", "Live plant dry weight",
+                    FloatFunction(&Biomass::getDMGreen));
+   scienceAPI.exposeFunction("dm_senesced", "g/m^2", "Senesced plant dry weight",
+                    FloatFunction(&Biomass::getDMSenesced));
+   scienceAPI.exposeFunction("dm_dead", "g/m^2", "Dry weight of dead plants",
+                    FloatFunction(&Biomass::getDMDead));
+   scienceAPI.exposeFunction("dlt_dm_green", "g/m^2", "Plant biomass growth in each part",
+                    FloatFunction(&Biomass::getDltDMGreen));
+   scienceAPI.exposeFunction("dlt_dm_detached", "g/m^2", "Plant biomass detached from each part",
+                    FloatArrayFunction(&Biomass::getDltDMDetached));
+   scienceAPI.exposeFunction("dlt_dm_dead_detached", "g/m^2", "Plant biomass detached from dead plant parts",
+                    FloatArrayFunction(&Biomass::getDltDMDeadDetached));
+   scienceAPI.exposeFunction("dlt_dm_green_retrans", "g/m^2", "Plant biomass retranslocated from each part",
+                    FloatArrayFunction(&Biomass::getDltDMGreenRetrans));
 
-   setupGetFunction(plantInterface,"biomass_wt", protocol::DTsingle, false,
-                    &Biomass::getBiomass, "g/m2", "Total above-ground biomass");
-
-
-
-
+   scienceAPI.exposeFunction("biomass_wt", "g/m2", "Total above-ground biomass",
+                    FloatFunction(&Biomass::getBiomass));
 
    }                  
 //------------------------------------------------------------------------------------------------
@@ -105,15 +99,10 @@ void Biomass::initialize(void)
 //------------------------------------------------------------------------------------------------
 void Biomass::readParams (string cultivar)
    {
-   vector<string> sections;                  // sections to look for parameters
-   sections.push_back("constants");
-   sections.push_back(cultivar);
-//   initialDM = readVar(plantInterface,sections,"dm_Biomass_init");
-
-   readArray(plantInterface,sections,"ratio_root_shoot",ratioRootShoot);
+   scienceAPI.read("ratio_root_shoot","", 0, ratioRootShoot);
    ratioRootShoot.insert(ratioRootShoot.begin(),0);  // for compatibility with fortran
    
-   stem2FlowerFrac = readVar(plantInterface,sections,"frac_stem2flower");
+   scienceAPI.read("frac_stem2flower", "", 0, stem2FlowerFrac);
    }
 
 
@@ -302,136 +291,126 @@ void Biomass::detachment(vector<float> senDetachFrac, vector<float> deadDetachFr
       }
    }
 //------------------------------------------------------------------------------------------------
-void Biomass::getDMGreen(protocol::Component *system, protocol::QueryValueData &qd)
+void Biomass::getDMGreen(float &result)
    {
-   system->sendVariable(qd, sumVector(greenDM));
+   result = sumVector(greenDM);
    }
 //------------------------------------------------------------------------------------------------
-void Biomass::getDMSenesced(protocol::Component *system, protocol::QueryValueData &qd)
+void Biomass::getDMSenesced(float &result)
    {
-   system->sendVariable(qd, sumVector(senescedDM));
+   result = sumVector(senescedDM);
    }
 //------------------------------------------------------------------------------------------------
-void Biomass::getDMDead(protocol::Component *system, protocol::QueryValueData &qd)
+void Biomass::getDMDead(float &result)
    {
-   system->sendVariable(qd, sumVector(deadDM));
+   result = sumVector(deadDM);
    }
 //------------------------------------------------------------------------------------------------
-void Biomass::getDltDMGreen(protocol::Component *system, protocol::QueryValueData &qd)
+void Biomass::getDltDMGreen(float &result)
    {
-   system->sendVariable(qd, sumVector(dltDMGreen));
+   result = sumVector(dltDMGreen);
    }
 //------------------------------------------------------------------------------------------------
-void Biomass::getDltDMDetached(protocol::Component *system, protocol::QueryValueData &qd)
+void Biomass::getDltDMDetached(vector<float> &result)
    {
-   system->sendVariable(qd, protocol::vector<float>(&dltDMDetachedSen[0], &dltDMDetachedSen[0] + dltDMDetachedSen.size()));
+   result = dltDMDetachedSen;
    }
 //------------------------------------------------------------------------------------------------
-void Biomass::getDltDMDeadDetached(protocol::Component *system, protocol::QueryValueData &qd)
+void Biomass::getDltDMDeadDetached(vector<float> &result)
    {
-   system->sendVariable(qd, protocol::vector<float>(&dltDMDetachedDead[0], &dltDMDetachedDead[0] + dltDMDetachedDead.size()));
+   result = dltDMDetachedDead;
    }
 //------------------------------------------------------------------------------------------------
-void Biomass::getDltDMGreenRetrans(protocol::Component *system, protocol::QueryValueData &qd)
+void Biomass::getDltDMGreenRetrans(vector<float> &result)
    {
-   system->sendVariable(qd, protocol::vector<float>(&dltDMRetranslocate[0], &dltDMRetranslocate[0] + dltDMRetranslocate.size()));
+   result = dltDMRetranslocate;
    }
 //------------------------------------------------------------------------------------------------
-void Biomass::getBiomass(protocol::Component *system, protocol::QueryValueData &qd)
+void Biomass::getBiomass(float &result)
    {
-   float biom = aboveGroundBiomass / 10;
-   system->sendVariable(qd, biom);
+   result = aboveGroundBiomass / 10;
    }
 //------------------------------------------------------------------------------------------------
 void Biomass::Summary(void)
    {
-   summaryLine(plantInterface,"total above ground biomass    (kg/ha) = %.1f",aboveGroundBiomass,NULL);
-   summaryLine(plantInterface,"live above ground biomass     (kg/ha) = %.1f",aboveGroundBiomass,NULL);
-   summaryLine(plantInterface,"green above ground biomass    (kg/ha) = %.1f",aboveGroundGreenBiomass*10,NULL);
-   summaryLine(plantInterface,"senesced above ground biomass (kg/ha) = %.1f",
-            aboveGroundBiomass - aboveGroundGreenBiomass*10,NULL);
-   summaryLine(plantInterface,"dead above ground biomass     (kg/ha) = %.1f",
-            aboveGroundBiomass - aboveGroundBiomass,NULL);
+   char msg[80];
+   sprintf(msg,"total above ground biomass    (kg/ha) = %.1f\n",aboveGroundBiomass); scienceAPI.write(msg);
+   sprintf(msg,"live above ground biomass     (kg/ha) = %.1f\n",aboveGroundBiomass); scienceAPI.write(msg);
+   sprintf(msg,"green above ground biomass    (kg/ha) = %.1f\n",aboveGroundGreenBiomass*10); scienceAPI.write(msg);
+   sprintf(msg,"senesced above ground biomass (kg/ha) = %.1f\n",aboveGroundBiomass - aboveGroundGreenBiomass*10); scienceAPI.write(msg);
+   sprintf(msg,"dead above ground biomass     (kg/ha) = %.1f\n",aboveGroundBiomass - aboveGroundBiomass); scienceAPI.write(msg);
    }
 //------------------------------------------------------------------------------------------------
 void Biomass::incorporateResidue(void)
    {
    //Stover + remaining grain into surface residue     called from plantActions doEndCrop
-   float carbon = totalBiomass - plant->roots->getDmGreen() -  plant->roots->getDmSenesced()
-                                                   -   plant->roots->getDmDead();
-   float n = plant->nitrogen->getNStover();
-   float p = plant->phosphorus->getPStover();
-
-   if(carbon > 0.0)
-      {      	
+   float remaining = totalBiomass - plant->roots->getDmGreen() -  
+                                 plant->roots->getDmSenesced() -   
+                                 plant->roots->getDmDead();
+   if (remaining > 0.0)
+      {
       // Build surface residues by part
+      float fracts[] = {0.0, 1.0, 1.0, 1.0, 1.0};  // No root to surface residue.
+
+#if 0
+      CropChoppedType chopped;
+      chopped.crop_type = plant->getCropType();
+      for (unsigned part = 0; part < plant->PlantParts.size(); part++)
+         {
+         chopped.dm_type.push_back(plant->PlantParts[part]->getName());
+         chopped.dlt_crop_dm.push_back((plant->PlantParts[part]->getDmGreen() +
+                                        plant->PlantParts[part]->getDmSenesced() + 
+                                        plant->PlantParts[part]->getDmDead()) *
+                                         gm2kg/sm2ha);
+         chopped.dlt_dm_n.push_back((plant->PlantParts[part]->getNGreen() +
+                                     plant->PlantParts[part]->getNSenesced() + 
+                                     plant->PlantParts[part]->getNDead()) *
+                                      gm2kg/sm2ha);
+
+/// where did this get to???
+///         chopped.dlt_dm_p.push_back((plant->PlantParts[part]->getPGreen() +
+///                                     plant->PlantParts[part]->getPSenesced() + 
+///                                     plant->PlantParts[part]->getPDead()) *
+///                                      gm2kg/sm2ha);
+
+         chopped.fraction_to_residue.push_back(fracts[part]);
+         }
+#else
+      Variant chopped;
       vector<string> part_name;
       vector<float> fraction_to_residue;           // fraction sent to residue (0-1)
       vector<float> dlt_dm_crop;                   // change in dry matter of crop (kg/ha)
       vector<float> dlt_dm_n;                      // N content of changed dry matter (kg/ha)
-      vector<float> dlt_dm_p;                      // P content of changed dry matter (kg/ha)
-
-      float fracts[] = {0.0, 1.0, 1.0, 1.0, 1.0};  // No root or grain to residue.
+      vector<float> dlt_dm_p;                      // N content of changed dry matter (kg/ha)
 
       for (unsigned part = 0; part < plant->PlantParts.size(); part++)
          {
          part_name.push_back(plant->PlantParts[part]->getName());
          dlt_dm_crop.push_back((plant->PlantParts[part]->getDmGreen() +
-               plant->PlantParts[part]->getDmSenesced() + plant->PlantParts[part]->getDmDead()) *
+                                plant->PlantParts[part]->getDmSenesced() + 
+                                plant->PlantParts[part]->getDmDead()) *
                                                        gm2kg/sm2ha);
          dlt_dm_n.push_back((plant->PlantParts[part]->getNGreen() +
-               plant->PlantParts[part]->getNSenesced() + plant->PlantParts[part]->getNDead()) *
+                             plant->PlantParts[part]->getNSenesced() + 
+                             plant->PlantParts[part]->getNDead()) *
                                                        gm2kg/sm2ha);
          dlt_dm_p.push_back((plant->PlantParts[part]->getPGreen() +
-               plant->PlantParts[part]->getPSenesced() + plant->PlantParts[part]->getPDead()) *
+                             plant->PlantParts[part]->getPSenesced() + 
+                             plant->PlantParts[part]->getPDead()) *
                                                        gm2kg/sm2ha);
-
-
          fraction_to_residue.push_back(fracts[part]);
          }
 
-      float sum = sumVector(dlt_dm_crop) - dlt_dm_crop[0];
-      unsigned int id = plantInterface->addRegistration(RegistrationType::event,"crop_chopped", "", "", "");
-/*      protocol::crop_choppedType chopped;
-      chopped.crop_type = plant->getCropType();
 
-      chopped. dm_type = part_name;
-      chopped.dlt_crop_dm = dlt_dm_crop;
-      chopped.dlt_dm_n = dlt_dm_n;
-      chopped.fraction_to_residue = fraction_to_residue;
-
-
-      plantInterface->publish (id, chopped);    */
-
-    protocol::ApsimVariant outgoingApsimVariant(plantInterface);
-    outgoingApsimVariant.store("crop_type", protocol::DTstring, false, FString(plant->getCropType().c_str()));
-
-    // Make an FStrings string array and store it..
-    unsigned int maxlen = 0;
-    for (unsigned int i=0; i <  part_name.size();i++)
-        {
-        maxlen = max(maxlen, part_name[i].size());
-        }
-    char *buf = new char [maxlen*part_name.size()];
-    memset(buf, 0,maxlen*part_name.size());
-    for (unsigned int i=0; i <  part_name.size();i++)
-        {
-        strncpy(buf+i*maxlen, part_name[i].c_str(), maxlen);
-        }
-    outgoingApsimVariant.store("dm_type", protocol::DTstring, true,
-              FStrings(buf, maxlen, part_name.size(), part_name.size()));
-    delete [] buf;
-
-    outgoingApsimVariant.store("dlt_crop_dm", protocol::DTsingle, true, dlt_dm_crop);
-    outgoingApsimVariant.store("dlt_dm_n", protocol::DTsingle, true, dlt_dm_n);
-    outgoingApsimVariant.store("dlt_dm_p", protocol::DTsingle, true, dlt_dm_p);
-    outgoingApsimVariant.store("fraction_to_residue", protocol::DTsingle, true, fraction_to_residue);
-    plantInterface->publish (id, outgoingApsimVariant);
-
-
+      pack(chopped, "crop_type",   plant->getCropType());
+      pack(chopped, "dm_type",     part_name);
+      pack(chopped, "dlt_crop_dm", dlt_dm_crop);
+      pack(chopped, "dlt_dm_n",    dlt_dm_n);
+      pack(chopped, "dlt_dm_p",    dlt_dm_p);
+      pack(chopped, "fraction_to_residue", fraction_to_residue);
+      
+#endif
+      scienceAPI.publish ("crop_chopped", chopped); 
       }
    }
 //------------------------------------------------------------------------------------------------
-
-
-

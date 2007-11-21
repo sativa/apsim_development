@@ -6,6 +6,7 @@
 #include "OOPlantComponents.h"
 #include "Utilities.h"
 
+
 //------------------------------------------------------------------------------------------------
 
 class Roots : public PlantPart
@@ -75,12 +76,12 @@ class Roots : public PlantPart
     void   calcRootDistribution(void);           // plant
 
    /////////////////////////////////////////////////////
-   Roots(OOPlant *p);                           // plant
+   Roots(ScienceAPI &, OOPlant *p);                           // plant
    ~Roots();                                    // plant
    void   readParams (string cultivar);                    // plant
    void   updateVars(void);                     // plant
    void   process(void);                        // plant
-   void   doNewProfile(protocol::Variant &v);   // plantActions
+   void   onNewProfile(NewProfileType &);      // plantActions
 
 //   float getDmGreen(void)const{return dmGreen;} // biomass
    void   calcSenescence(void);                  // biomass
@@ -103,9 +104,7 @@ class Roots : public PlantPart
 
 
    //Registration functions
-   void getRootLength(protocol::Component *system, protocol::QueryValueData &qd);
-   void getRLV(protocol::Component *system, protocol::QueryValueData &qd);
-   void getRP(protocol::Component *system, protocol::QueryValueData &qd);
+   void getRP(vector<float>&);
 
    // phenology
    void phenologyEvent(int);

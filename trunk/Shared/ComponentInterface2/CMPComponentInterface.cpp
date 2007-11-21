@@ -1,16 +1,14 @@
-#pragma hdrstop
-
 #include <iostream>
-
-#include "CMPComponentInterface.h"
 #include <general/xml.h>
+#include <general/date_class.h>
 #include <general/stl_functions.h>
 #include <general/string_functions.h>
-#include <general/dll.h>
 #include "DataTypes.h"
 #include "CMPData.h"
 #include "CMPScienceAPI.h"
+#include "CMPComponentInterface.h"
 
+using namespace std;
 
 string componentType = "APSRU";
 string version = "2.0";
@@ -36,6 +34,8 @@ CMPComponentInterface::CMPComponentInterface(unsigned* callbackarg, CallbackType
    simScript = NULL;
    init1 = NULL;
    init2 = NULL;
+   tickID = 0;
+   haveWrittenToStdOutToday = false;
    }
 
 CMPComponentInterface::~CMPComponentInterface()
@@ -133,14 +133,13 @@ bool CMPComponentInterface::get(const std::string& name, const std::string& unit
 
    else if (messages.size() > 1)
       errorMsg = "Too many components responded to a 'get' for variable: " + name;
-
    if (alreadyRegistered)
       delete data;
 
    delete arraySpecifier;
    if (errorMsg != "")
       {
-      if (!optional)
+      if (!optional) 
          throw runtime_error(errorMsg);
       return false;
       }
@@ -172,31 +171,118 @@ void CMPComponentInterface::set(const std::string& name,
 	sendMessage(requestSetValueMessage);
    }
 
+bool CMPComponentInterface::readRaw(const string& parName, vector<string> &values)
+   {
+   // -----------------------------------------------------------------------
+   // return the raw data for this component. Used to discover manager rules etc.
+   // -----------------------------------------------------------------------
+   XMLNode::iterator initData = find_if(simScript->documentElement().begin(),
+                                        simScript->documentElement().end(),
+                                        EqualToName<XMLNode>("initdata"));
+
+   for_each_if(initData->begin(), initData->end(),
+               GetValueFunction<vector<string>, XMLNode>(values),
+               EqualToName<XMLNode>(parName));
+
+   return (values.size() > 0);
+   }
+
 bool CMPComponentInterface::read(const std::string& parName, IPackableData* value, bool optional)
    {
    // -----------------------------------------------------------------------
    // Read a parameter from the initial SIM script.
+   // 1. read each "section" (in reverse order)
+   // 2.  check for a "derived_from" in each section
+   // 3. read <initdata> finally.
    // -----------------------------------------------------------------------
-
-   XMLNode::iterator initdata = find_if(simScript->documentElement().begin(),
+   XMLNode::iterator initData = find_if(simScript->documentElement().begin(),
                                         simScript->documentElement().end(),
                                         EqualToName<XMLNode>("initdata"));
-   if (initdata == simScript->documentElement().end())
-      throw runtime_error("Cannot find <initdata> element for component: " + name);
 
-   vector<string> values;
-   for_each_if(initdata->begin(), initdata->end(),
-               GetValueFunction<vector<string>, XMLNode>(values),
-               EqualToName<XMLNode>(parName));
-   if (values.size() >= 1)
-      {
-      value->setValue(values);
+   if (initData == simScript->documentElement().end())
+      throw runtime_error("Cannot find <initdata> element for component: " + name);
+   
+   // Look in each section
+   for (vector<string>::reverse_iterator section = simSectionsToSearch.rbegin(); 
+        section != simSectionsToSearch.rend(); 
+        section++) 
+      {  
+      XMLNode::iterator sectionData = find_if(initData->begin(),
+                                              initData->end(),
+                                              EqualToName<XMLNode>(*section));
+      if (sectionData != initData->end())
+         if (readFromSection(initData, sectionData, parName, value))
+            return true;
+      }     
+
+   // Look in the "global" section
+   if (readFromSection(initData, initData, parName, value))
       return true;
-      }
-   else if (!optional)
-      throw runtime_error("Cannot read parameter: " + parName + " for module: " + name);
+
+   if (!optional)
+      throw runtime_error("Cannot read parameter \"" + parName + "\" for module " + name + ".");
    return false;
    }
+
+bool CMPComponentInterface::readFromSection(XMLNode::iterator initData, 
+                                            XMLNode::iterator sectionData, 
+                                            const std::string& parName, 
+                                            IPackableData* value)
+   {
+   // Read a parameter from a section.
+   // If there's a "derived_from" member, try it.
+   vector<string> allValues;
+   for_each_if(sectionData->begin(), sectionData->end(),
+               GetValueFunction<vector<string>, XMLNode>(allValues),
+               EqualToName<XMLNode>(parName));
+
+   if (allValues.size() > 1)
+       {
+       throw std::runtime_error("Parameter \"" + parName + "\" has multiple definitions.");
+       }
+   else if (allValues.size() == 1)
+       {
+       string firstValue = allValues[0];
+
+       // Remove any units specifier "(..)":
+       unsigned int posBracket = firstValue.find('(');
+       if (posBracket != std::string::npos)
+         firstValue = firstValue.substr(0,posBracket);
+
+       // And any whitespace...
+       stripLeadingTrailing(firstValue, " \t");
+       
+       // Split into list if it can
+       vector <string> result;
+       splitIntoValues (firstValue, " ", result);
+       
+       // OK. Typeconverter kicks in here.
+       value->setValue(result);
+       return true;
+       }
+   
+   if (sectionData == initData) return false;     // Don't go circular 
+   
+   // Handle any "derived_from" directives
+   vector<string> sections;
+   for_each_if(sectionData->begin(), sectionData->end(),
+               GetValueFunction<vector<string>, XMLNode>(sections),
+               EqualToName<XMLNode>("derived_from"));
+
+   for (vector<string>::iterator section = sections.begin(); 
+        section != sections.end(); 
+        section++) 
+       {
+       XMLNode::iterator parentData = find_if(initData->begin(),
+                                              initData->end(),
+                                              EqualToName<XMLNode>(*section));
+       if (parentData != initData->end()) 
+          if (readFromSection(initData, parentData, parName, value))
+             return true;
+       }
+   return false;
+   }
+
 
 void CMPComponentInterface::expose(const std::string& name,
                                    const std::string& units,
@@ -247,7 +333,6 @@ void CMPComponentInterface::publish(const std::string& name, IPackableData* data
 	PublishEventType publishEvent;
 	publishEvent.ID = id;
 	publishEvent.ddml = data->ddml;
-
 	Message& publishEventMessage = constructMessage(Message::PublishEvent, componentID, parentID, false,
                                                    memorySize(publishEvent) + data->memorySize());
    MessageData publishEventMessageData(publishEventMessage);
@@ -315,8 +400,18 @@ void CMPComponentInterface::write(const std::string& msg)
    // -----------------------------------------------------------------------
    // write a message to the summary stream.
    // -----------------------------------------------------------------------
-
-   cout <<  msg;
+   if (!haveWrittenToStdOutToday) 
+      {
+      GDate gDate;
+      gDate.Set(tick.startday);
+      gDate.Set_write_format("D MMMMMM YYYY");
+      gDate.Write(cout);
+      cout << "(Day of year=" << gDate.Get_day_of_year() << ")";
+      cout << ", " << getName();
+      cout << ": " << endl;
+      haveWrittenToStdOutToday = true;
+      }
+   cout <<  "     " << msg;
    }
 
 
@@ -447,6 +542,7 @@ void CMPComponentInterface::onInit2(const Message& message)
    // Handler for Init2 message.
    // -----------------------------------------------------------------------
    {
+   tickID = nameToRegistrationID("tick", respondToEventReg);
    if (init2 != NULL)
       init2->invoke();
    }
@@ -507,6 +603,12 @@ void CMPComponentInterface::onEvent(const Message& message)
    unpack(messageData, event);
    IPackableData& data = *(IPackableData*) event.ID;
 
+   if (event.ID == tickID)
+      {
+      unpack(messageData, tick);
+      messageData.reset();   unpack(messageData, event);
+      haveWrittenToStdOutToday = false;
+      }
    // unpack the data - this will unpack and then call the function.
    data.unpack(messageData, event.ddml, NULL);
    }
@@ -519,3 +621,6 @@ void CMPComponentInterface::terminate(void)
    Null n;
    sendMessage(newMessage(Message::TerminateSimulation, componentID, parentID, false, n));
    }
+
+std::string CMPComponentInterface::getName() {return name;}
+std::string CMPComponentInterface::getFQName() {return (pathName + "." + name);}

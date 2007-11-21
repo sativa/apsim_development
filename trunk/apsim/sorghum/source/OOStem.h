@@ -38,12 +38,11 @@ class Stem : public PlantPart
    void doRegistrations(void);
    void initialize(void);
 
-
 // public Methods -------------------------------------------------------
    public:
+   Stem(ScienceAPI &, OOPlant *p);
    // plant
    void calcCanopyHeight(void);
-   Stem(OOPlant *p);
    void   readParams (string cultivar);
    void   updateVars(void);
    void   process(void);

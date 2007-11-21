@@ -20,27 +20,30 @@ BCB = $(MAKEDIR)\..
 !include $(APSROOT)\APSBuild\ApsimComponentInterface.make
 
 # Main target
-source: ..\lib\sorghum.dll
+PROJECT=..\lib\sorghum.dll
 
 
 ####---------------OO sorghum:
 
-OBJFILES= OOLeaf.obj OOPlantInterface.obj OOBiomass.obj OOPhosphorus.obj OOPlantActions.obj \
-OOStem.obj Utilities.obj OONitrogen.obj   OORachis.obj OOGrain.obj \
-OOPlantComponents.obj OOWater.obj OOPhenology.obj  OOPlant.obj  OORoots.obj \
-..\..\..\Shared\ComponentInterface\EntryPoints.obj 
+OBJFILES= OOPlantInterface.obj OOPlantComponents.obj OOPhosphorus.obj OOPlantActions.obj \
+OOLeaf.obj OOStem.obj OONitrogen.obj OORachis.obj OOGrain.obj \
+OOWater.obj OOPhenology.obj  OOPlant.obj  OORoots.obj \
+OOBiomass.obj Utilities.obj OODll.obj \
+..\..\..\Shared\ComponentInterface2\CMPComponentEntryPoints.obj
 
-LIBFILES = $(APSROOT)\Shared\ComponentInterface\ComponentInterface.lib \
+LIBFILES = $(APSROOT)\Shared\ComponentInterface2\ComponentInterface2.lib \
 	$(APSROOT)\Shared\ApsimShared\ApsimShared.lib \
 	$(APSROOT)\Shared\general\general.lib
 
 USERDEFINES =
 SYSDEFINES = _RTLDLL;NO_STRICT;_NO_VCL;USEPACKAGES
 INCLUDEPATH = $(BCB)\include;$(BCB)\include\vcl;$(BCB)\Components\Boost;$(APSROOT)\Shared
-LIBPATH = $(BCB)\lib\obj;$(BCB)\lib;$(APSROOT)\Shared\ComponentInterface
+LIBPATH = $(BCB)\lib\obj;$(BCB)\lib;$(APSROOT)\Shared\ComponentInterface2
 
 # ---------------------------------------------------------------------------
 CFLAG1 = $(SYSCFLAGS) -O2 -vi -TWD
+CFLAG1 =                                    -Vx -Ve -X- -a8 -b- -tWM -tWD -O2 -c -V -w-inl
+
 WARNINGS = -w-par
 LFLAGS = -D"" -aa -Tpd -x -Gn -Gi
 
@@ -51,11 +54,13 @@ ALLLIB = $(SYSLIBS) $(LIBFILES) import32.lib cp32mti.lib
 CC=$(BCB)\Bin\bcc32.exe
 LD=$(BCB)\Bin\ilink32
 
-..\lib\sorghum.dll: $(OBJFILES) $(DEFFILE)
+source: $(PROJECT)
+
+$(PROJECT): $(OBJFILES) $(DEFFILE)
     $(LD) @&&!
     $(LFLAGS) -L$(LIBPATH) +
     $(ALLOBJ), +
-    ..\lib\sorghum.dll,, +
+    $(PROJECT),, +
     $(ALLLIB), +
     $(DEFFILE), +
     $(ALLRES)
@@ -65,7 +70,6 @@ LD=$(BCB)\Bin\ilink32
 	$(CC) $(CFLAG1) $(WARNINGS) -I$(INCLUDEPATH) -D$(USERDEFINES);$(SYSDEFINES) -n$(@D) {$< }
 
 clean:
-	$(RM) ..\lib\sorghum.dll sorghum.obj sorghum.imp
-	$(RM) $(OBJFILES) *.bak *.csm
+	del /f $(PROJECT) $(OBJFILES)
 
 ###Dependancies

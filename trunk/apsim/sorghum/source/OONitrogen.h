@@ -21,10 +21,6 @@ class Nitrogen : public PlantProcess
 //  Variables  ---------------------------------------------------------
    float profileDepth;
 
-   unsigned int no3ID;
-   unsigned int no3MinID;
-   unsigned int dltNo3ID;
-
    float phenoStress;
    float expansionStress;
    float photoStress;
@@ -90,7 +86,7 @@ class Nitrogen : public PlantProcess
 
 // public Methods -------------------------------------------------------
    public:
-   Nitrogen(OOPlant *p);
+   Nitrogen(ScienceAPI &, OOPlant *p);
    ~Nitrogen();
 
    void   readParams (string cultivar);          // plant
@@ -98,7 +94,7 @@ class Nitrogen : public PlantProcess
 
 
    void process(void);                // plant
-   void doNewProfile(protocol::Variant &v);  // plantActions
+   void onNewProfile(NewProfileType &);  // plantActions
 
 
    float getExpansionStress(void){return expansionStress;} // Leaf
@@ -107,13 +103,13 @@ class Nitrogen : public PlantProcess
    float getPhenoStress(void){return phenoStress;}         // phenology
    void detachment(vector<float> senDetachFrac, vector<float> deadDetachFrac);
 
-   void getNGreen(protocol::Component *system, protocol::QueryValueData &qd);
-   void getDltNGreen(protocol::Component *system, protocol::QueryValueData &qd);
-   void getDltNRetrans(protocol::Component *system, protocol::QueryValueData &qd);
-   void getNSenesced(protocol::Component *system, protocol::QueryValueData &qd);
-   void getNDead(protocol::Component *system, protocol::QueryValueData &qd);
-   void getDltNDetached(protocol::Component *system, protocol::QueryValueData &qd);
-   void getDltNDeadDetached(protocol::Component *system, protocol::QueryValueData &qd);
+   void getNGreen(float &);
+   void getDltNGreen(vector<float> &);
+   void getDltNRetrans(vector<float> &);
+   void getNSenesced(float &);
+   void getNDead(float &);
+   void getDltNDetached(vector<float> &);
+   void getDltNDeadDetached(vector<float> &);
 
    float getNStover(void){return nStover;}
    void Summary(void);

@@ -1,26 +1,31 @@
-#pragma hdrstop
-
-#include "CMPScienceAPI.h"
-#include "CMPComponentInterface.h"
 #include "CMPData.h"
+#include "CMPComponentInterface.h"
+#include "CMPScienceAPI.h"
+#include "Variant.h"
 
 using namespace std;
 CMPScienceAPI::CMPScienceAPI(CMPComponentInterface& componentinterface)
    : componentInterface(componentinterface){}
 
-std::string CMPScienceAPI::name()
+string CMPScienceAPI::name()
    {return componentInterface.getName();}
-std::string CMPScienceAPI::FQName()
+string CMPScienceAPI::FQName()
    {return componentInterface.getFQName();}
-void CMPScienceAPI::write(const std::string& msg)
+void CMPScienceAPI::write(const string& msg)
    {
    componentInterface.write(msg);
    }
 
-void CMPScienceAPI::query(const std::string& pattern, std::vector<QueryMatch>& matches)
+void CMPScienceAPI::query(const string& pattern, vector<QueryMatch>& matches)
    {
    componentInterface.query(pattern, matches);
    }
+
+void CMPScienceAPI::setSearchOrder(const std::vector<string> &list) {componentInterface.setSearchOrder(list);};
+void CMPScienceAPI::getSearchOrder(std::vector<string> &list) {componentInterface.getSearchOrder(list);};
+
+bool CMPScienceAPI::readRaw(const string& parName, vector<string> &values)
+   {return componentInterface.readRaw(parName, values);}
 
 // null
 void CMPScienceAPI::subscribe(const std::string& name, boost::function0<void> handler)
@@ -537,31 +542,6 @@ void CMPScienceAPI::subscribe(const std::string& name, boost::function1<void, Ir
 void CMPScienceAPI::publish(const std::string& name, IrrigatedType& data)
      {componentInterface.publish(name, new CMPType< IrrigatedType >(data));}
 
-void CMPScienceAPI::subscribe(const std::string& name, boost::function1<void, CropWaterSupplyType&> handler)
-     {componentInterface.subscribe(name, new CMPMethod1<boost::function1<void, CropWaterSupplyType&>, CropWaterSupplyType > (handler, false));}
-void CMPScienceAPI::publish(const std::string& name, CropWaterSupplyType& data)
-     {componentInterface.publish(name, new CMPType< CropWaterSupplyType >(data));}
-
-void CMPScienceAPI::subscribe(const std::string& name, boost::function1<void, RootLayerType&> handler)
-     {componentInterface.subscribe(name, new CMPMethod1<boost::function1<void, RootLayerType&>, RootLayerType > (handler, false));}
-void CMPScienceAPI::publish(const std::string& name, RootLayerType& data)
-     {componentInterface.publish(name, new CMPType< RootLayerType >(data));}
-
-void CMPScienceAPI::subscribe(const std::string& name, boost::function1<void, CropWaterDemandType&> handler)
-     {componentInterface.subscribe(name, new CMPMethod1<boost::function1<void, CropWaterDemandType&>, CropWaterDemandType > (handler, false));}
-void CMPScienceAPI::publish(const std::string& name, CropWaterDemandType& data)
-     {componentInterface.publish(name, new CMPType< CropWaterDemandType >(data));}
-
-void CMPScienceAPI::subscribe(const std::string& name, boost::function1<void, CropNitrogenDemandType&> handler)
-     {componentInterface.subscribe(name, new CMPMethod1<boost::function1<void, CropNitrogenDemandType&>, CropNitrogenDemandType > (handler, false));}
-void CMPScienceAPI::publish(const std::string& name, CropNitrogenDemandType& data)
-     {componentInterface.publish(name, new CMPType< CropNitrogenDemandType >(data));}
-
-void CMPScienceAPI::subscribe(const std::string& name, boost::function1<void, CropNitrogenSupplyType&> handler)
-     {componentInterface.subscribe(name, new CMPMethod1<boost::function1<void, CropNitrogenSupplyType&>, CropNitrogenSupplyType > (handler, false));}
-void CMPScienceAPI::publish(const std::string& name, CropNitrogenSupplyType& data)
-     {componentInterface.publish(name, new CMPType< CropNitrogenSupplyType >(data));}
-
 void CMPScienceAPI::subscribe(const std::string& name, boost::function1<void, InterceptionType&> handler)
      {componentInterface.subscribe(name, new CMPMethod1<boost::function1<void, InterceptionType&>, InterceptionType > (handler, false));}
 void CMPScienceAPI::publish(const std::string& name, InterceptionType& data)
@@ -662,16 +642,6 @@ void CMPScienceAPI::subscribe(const std::string& name, boost::function1<void, So
 void CMPScienceAPI::publish(const std::string& name, SoilOrganicMatterType& data)
      {componentInterface.publish(name, new CMPType< SoilOrganicMatterType >(data));}
 
-void CMPScienceAPI::subscribe(const std::string& name, boost::function1<void, SoilNitrogenFlowsLayerType&> handler)
-     {componentInterface.subscribe(name, new CMPMethod1<boost::function1<void, SoilNitrogenFlowsLayerType&>, SoilNitrogenFlowsLayerType > (handler, false));}
-void CMPScienceAPI::publish(const std::string& name, SoilNitrogenFlowsLayerType& data)
-     {componentInterface.publish(name, new CMPType< SoilNitrogenFlowsLayerType >(data));}
-
-void CMPScienceAPI::subscribe(const std::string& name, boost::function1<void, NitrogenBalanceType&> handler)
-     {componentInterface.subscribe(name, new CMPMethod1<boost::function1<void, NitrogenBalanceType&>, NitrogenBalanceType > (handler, false));}
-void CMPScienceAPI::publish(const std::string& name, NitrogenBalanceType& data)
-     {componentInterface.publish(name, new CMPType< NitrogenBalanceType >(data));}
-
 void CMPScienceAPI::subscribe(const std::string& name, boost::function1<void, CropChoppedType&> handler)
      {componentInterface.subscribe(name, new CMPMethod1<boost::function1<void, CropChoppedType&>, CropChoppedType > (handler, false));}
 void CMPScienceAPI::publish(const std::string& name, CropChoppedType& data)
@@ -681,11 +651,6 @@ void CMPScienceAPI::subscribe(const std::string& name, boost::function1<void, Ne
      {componentInterface.subscribe(name, new CMPMethod1<boost::function1<void, NewProfileType&>, NewProfileType > (handler, false));}
 void CMPScienceAPI::publish(const std::string& name, NewProfileType& data)
      {componentInterface.publish(name, new CMPType< NewProfileType >(data));}
-
-void CMPScienceAPI::subscribe(const std::string& name, boost::function1<void, NewPotentialGrowthType&> handler)
-     {componentInterface.subscribe(name, new CMPMethod1<boost::function1<void, NewPotentialGrowthType&>, NewPotentialGrowthType > (handler, false));}
-void CMPScienceAPI::publish(const std::string& name, NewPotentialGrowthType& data)
-     {componentInterface.publish(name, new CMPType< NewPotentialGrowthType >(data));}
 
 void CMPScienceAPI::subscribe(const std::string& name, boost::function1<void, NewCanopyType&> handler)
      {componentInterface.subscribe(name, new CMPMethod1<boost::function1<void, NewCanopyType&>, NewCanopyType > (handler, false));}
@@ -947,4 +912,7 @@ void CMPScienceAPI::subscribe(const std::string& name, boost::function1<void, Su
 void CMPScienceAPI::publish(const std::string& name, SupplementMixType& data)
      {componentInterface.publish(name, new CMPType< SupplementMixType >(data));}
 
-
+void CMPScienceAPI::subscribe(const string& name, boost::function1<void, Variant&> handler)
+     {componentInterface.subscribe(name, new CMPMethod1<boost::function1<void, Variant&>, Variant > (handler, false));}
+void CMPScienceAPI::publish(const string& name, Variant& data)
+     {componentInterface.publish(name, new CMPType< Variant >(data));}

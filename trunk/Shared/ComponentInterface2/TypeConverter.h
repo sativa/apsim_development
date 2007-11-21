@@ -5,6 +5,7 @@
 #include <stdexcept>
 #include <stdio.h>
 #include <stdlib.h>
+
 #include <general/string_functions.h>
 #include "ArraySpecifier.h"
 
@@ -435,7 +436,7 @@ class TypeConverter
       TypeConverter(const std::vector<double>& source, std::vector<int>& dest, ArraySpecifier* arraySpecifier)
          {
          dest.erase(dest.begin(), dest.end());
-         for (unsigned int i = 0; i < source.size(); i++) { dest.push_back(source[i]); }
+         for (unsigned int i = 0; i < source.size(); i++) { dest.push_back((int)source[i]); }
          if (arraySpecifier) arraySpecifier->processArray(dest);
          }
       TypeConverter(const std::vector<double>& source, std::vector<float>& dest, ArraySpecifier* arraySpecifier)

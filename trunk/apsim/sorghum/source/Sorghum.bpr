@@ -6,19 +6,21 @@
     <PROJECT value="..\lib\Sorghum.dll"/>
     <OBJFILES value="OOWater.obj OOBiomass.obj OOGrain.obj OONitrogen.obj OOLeaf.obj 
       OOPhenology.obj OOPlant.obj OOPlantActions.obj OOPlantComponents.obj 
-      OOPlantInterface.obj OORachis.obj OORoots.obj OOStem.obj Utilities.obj 
-      ..\..\..\Shared\ComponentInterface\EntryPoints.obj OOPhosphorus.obj"/>
+      OOPlantInterface.obj OORachis.obj OORoots.obj OOStem.obj OODll.obj 
+      Utilities.obj 
+      ..\..\..\Shared\ComponentInterface2\CMPComponentEntryPoints.obj 
+      OOPhosphorus.obj"/>
     <RESFILES value=""/>
     <DEFFILE value=""/>
     <RESDEPEN value="$(RESFILES)"/>
     <LIBFILES value="..\..\..\Shared\ApsimShared\ApsimShared.lib 
       ..\..\..\Shared\general\general.lib 
-      ..\..\..\Shared\ComponentInterface\ComponentInterface.lib"/>
+      ..\..\..\Shared\ComponentInterface2\ComponentInterface2.lib"/>
     <LIBRARIES value=""/>
     <SPARELIBS value="vcl.lib rtl.lib"/>
     <PACKAGES value="rtl.bpi vcl.bpi vclx.bpi vcljpg.bpi ibsmp.bpi dbrtl.bpi vcldb.bpi 
       bdertl.bpi bcbsmp.bpi vcldbx.bpi dclocx.bpi qrpt.bpi"/>
-    <PATHCPP value=".;..\..\..\Shared\ComponentInterface"/>
+    <PATHCPP value=".;..\..\..\Shared\ComponentInterface2"/>
     <PATHPAS value=".;"/>
     <PATHRC value=".;"/>
     <PATHASM value=".;"/>
@@ -26,10 +28,10 @@
     <RELEASELIBPATH value="$(BCB)\lib\release"/>
     <LINKER value="ilink32"/>
     <USERDEFINES value="_DEBUG"/>
-    <SYSDEFINES value="NO_STRICT;_RTLDLL;USEPACKAGES"/>
+    <SYSDEFINES value="NO_STRICT;_NO_VCL;_RTLDLL;USEPACKAGES"/>
     <MAINSOURCE value="Sorghum.bpf"/>
-    <INCLUDEPATH value="c:\development\Shared\ComponentInterface;$(BCB)\include;$(BCB)\include\vcl;..\..\..\Shared;$(BCB)\components\boost"/>
-    <LIBPATH value="c:\development\Shared\ComponentInterface;$(BCB)\lib\obj;$(BCB)\lib"/>
+    <INCLUDEPATH value="..\..\..\Shared\ComponentInterface2;$(BCB)\include;$(BCB)\include\vcl;..\..\..\Shared;$(BCB)\components\boost"/>
+    <LIBPATH value="..\..\..\Shared\ComponentInterface2;$(BCB)\lib\obj;$(BCB)\lib"/>
     <WARNINGS value="-wprc -wstv -wsig -w-par -wnod -w-8027 -w-8026 -wdef -wamb"/>
     <WARNOPTSTR value=""/>
     <OTHERFILES value=""/>
@@ -46,7 +48,7 @@
   <LINKER>
     <ALLOBJ value="c0d32.obj $(PACKAGES) Memmgr.Lib sysinit.obj $(OBJFILES)"/>
     <ALLRES value="$(RESFILES)"/>
-    <ALLLIB value="$(LIBFILES) $(LIBRARIES) import32.lib cp32mti.lib"/>
+    <ALLLIB value="$(LIBFILES) $(LIBRARIES) import32.lib cw32mti.lib"/>
     <OTHERFILES value=""/>
   </LINKER>
   <FILELIST>
@@ -64,11 +66,12 @@
       <FILE FILENAME="OORachis.cpp" FORMNAME="" UNITNAME="OORachis" CONTAINERID="CCompiler" DESIGNCLASS="" LOCALCOMMAND=""/>
       <FILE FILENAME="OORoots.cpp" FORMNAME="" UNITNAME="OORoots" CONTAINERID="CCompiler" DESIGNCLASS="" LOCALCOMMAND=""/>
       <FILE FILENAME="OOStem.cpp" FORMNAME="" UNITNAME="OOStem" CONTAINERID="CCompiler" DESIGNCLASS="" LOCALCOMMAND=""/>
+      <FILE FILENAME="OODll.cpp" FORMNAME="" UNITNAME="OODll" CONTAINERID="CCompiler" DESIGNCLASS="" LOCALCOMMAND=""/>
       <FILE FILENAME="Utilities.cpp" FORMNAME="" UNITNAME="Utilities" CONTAINERID="CCompiler" DESIGNCLASS="" LOCALCOMMAND=""/>
       <FILE FILENAME="..\..\..\Shared\ApsimShared\ApsimShared.lib" FORMNAME="" UNITNAME="ApsimShared.lib" CONTAINERID="LibTool" DESIGNCLASS="" LOCALCOMMAND=""/>
       <FILE FILENAME="..\..\..\Shared\general\general.lib" FORMNAME="" UNITNAME="general.lib" CONTAINERID="LibTool" DESIGNCLASS="" LOCALCOMMAND=""/>
-      <FILE FILENAME="..\..\..\Shared\ComponentInterface\ComponentInterface.lib" FORMNAME="" UNITNAME="ComponentInterface.lib" CONTAINERID="LibTool" DESIGNCLASS="" LOCALCOMMAND=""/>
-      <FILE FILENAME="..\..\..\Shared\ComponentInterface\EntryPoints.cpp" FORMNAME="" UNITNAME="EntryPoints" CONTAINERID="CCompiler" DESIGNCLASS="" LOCALCOMMAND=""/>
+      <FILE FILENAME="..\..\..\Shared\ComponentInterface2\ComponentInterface2.lib" FORMNAME="" UNITNAME="ComponentInterface.lib" CONTAINERID="LibTool" DESIGNCLASS="" LOCALCOMMAND=""/>
+      <FILE FILENAME="..\..\..\Shared\ComponentInterface2\CMPComponentEntryPoints.cpp" FORMNAME="" UNITNAME="EntryPoints" CONTAINERID="CCompiler" DESIGNCLASS="" LOCALCOMMAND=""/>
       <FILE FILENAME="OOPhosphorus.cpp" FORMNAME="" UNITNAME="OOPhosphorus" CONTAINERID="CCompiler" DESIGNCLASS="" LOCALCOMMAND=""/>
   </FILELIST>
   <BUILDTOOLS>

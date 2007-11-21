@@ -1,12 +1,10 @@
-#pragma hdrstop
-
 #include "CMPData.h"
 
 void getKindAndArray(const std::string& ddml,
                      std::string& kind, bool& isArray)
    {
    isArray = (ddml.find("array=\"T\"") != string::npos);
-   int posKind = ddml.find("kind=\"");
+   unsigned posKind = ddml.find("kind=\"");
    if (posKind != string::npos)
       {
       kind = ddml.substr(posKind + strlen("kind=\""));

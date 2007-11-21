@@ -20,6 +20,7 @@ OBJ = message.o                  \
           CMPData.o                  \
           CMPComponentEntryPoints.o  \
           EntryPoints.o              \
+          Variant.o                  \
           CreateComponent.o
 
 #-----------------------------------------------------------------------
@@ -35,8 +36,7 @@ CPPFLAGS = $(BOOST_INCLUDEDIR) $(XML2_INCLUDEDIR) -I$(APSROOT)/Shared \
 
 LDFLAGS=	$(XML2_LIBDIR)	-L$(APSROOT)/lib $(LDDEBUGFLAGS)
 
-LIBS=		-lprotocol		\
-		-lApsimShared		\
+LIBS=-lApsimShared		\
 		-lgeneral		\
 		-lxml2 			\
 		-lc

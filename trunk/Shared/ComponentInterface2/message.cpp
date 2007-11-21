@@ -1,9 +1,8 @@
-#pragma hdrstop
-
-#include "message.h"
 #include <stdio.h>
 #include <stdexcept>
 #include <general/platform.h>
+
+#include "message.h"
 
 using namespace std;
 
@@ -89,7 +88,7 @@ void EXPORT deleteMessage(Message& message)
    // Delete the specified message that was created by constructMessage
    // ------------------------------------------------------------------
    {
-   if (message.nDataBytes > MAX_MESSAGE_SIZE - sizeof(Message))
+   if (message.nDataBytes > (int) (MAX_MESSAGE_SIZE - sizeof(Message)))
       delete [] &message;
    else
       nextFreeMessage--;

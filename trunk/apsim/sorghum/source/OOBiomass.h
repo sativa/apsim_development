@@ -57,7 +57,7 @@ class Biomass : public PlantProcess
 
 // public Methods -------------------------------------------------------
    public:
-   Biomass(OOPlant *p);                 // plant
+   Biomass(ScienceAPI &, OOPlant *p);                 // plant
    ~Biomass();                        // plant
 
    void   readParams (string cultivar);          // plant
@@ -76,14 +76,14 @@ class Biomass : public PlantProcess
    void detachment(vector<float> senDetachFrac, vector<float> deadDetachFrac);
    void incorporateResidue(void);
 
-   void getDMGreen(protocol::Component *system, protocol::QueryValueData &qd);
-   void getDMSenesced(protocol::Component *system, protocol::QueryValueData &qd);
-   void getDMDead(protocol::Component *system, protocol::QueryValueData &qd);
-   void getDltDMGreen(protocol::Component *system, protocol::QueryValueData &qd);
-   void getDltDMDetached(protocol::Component *system, protocol::QueryValueData &qd);
-   void getDltDMDeadDetached(protocol::Component *system, protocol::QueryValueData &qd);
-   void getDltDMGreenRetrans(protocol::Component *system, protocol::QueryValueData &qd);
-   void getBiomass(protocol::Component *system, protocol::QueryValueData &qd);
+   void getDMGreen(float &);
+   void getDMSenesced(float &);
+   void getDMDead(float &);
+   void getDltDMGreen(float &);
+   void getDltDMDetached(vector<float> &);
+   void getDltDMDeadDetached(vector<float> &);
+   void getDltDMGreenRetrans(vector<float> &);
+   void getBiomass(float &);
 
    void Update(void) {updateVars();}
    void Harvest(void) {initialize();}

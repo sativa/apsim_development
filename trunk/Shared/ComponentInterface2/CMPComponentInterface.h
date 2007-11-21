@@ -4,16 +4,13 @@
 #include <string>
 #include <map>
 #include <ComponentInterface2/Interfaces.h>
+#include <ComponentInterface2/CMPData.h>
 #include <ComponentInterface2/ScienceAPI.h>
+
 class Message;
 class XMLDocument;
-class ScienceAPI;
-class CMPMethod0;
 
-typedef EXPORT STDCALL void (CallbackType)(const unsigned int *compInst,
-                                           Message& message);
-
-
+typedef EXPORT STDCALL void (CallbackType)(const unsigned int *compInst, Message& message);
 
 class EXPORT CMPComponentInterface
    {
@@ -24,10 +21,15 @@ class EXPORT CMPComponentInterface
       bool get(const std::string& name, const std::string& units, bool optional, IPackableData* data);
       void set(const std::string& name, const std::string& units, IPackableData* data);
       bool read(const std::string& name, IPackableData* value, bool optional);
+      bool read(const std::string& name, std::vector<IPackableData*> values, bool optional);
 
       void publish(const std::string& name, IPackableData* data);
       void subscribe(const std::string& eventName, IPackableData* handler);
       void query(const std::string& pattern, std::vector<QueryMatch>& matches);
+
+      void setSearchOrder(const std::vector<std::string> &list) {simSectionsToSearch = list;};
+      void getSearchOrder(std::vector<std::string> &list) {list = simSectionsToSearch;};
+      bool readRaw(const std::string& parName, std::vector<std::string> &values);
 
       // Export a variable. The variable passed in is stored directly
       // in our map so the assumption is that we are now owners.
@@ -40,8 +42,8 @@ class EXPORT CMPComponentInterface
 
       void write(const std::string& msg);
 
-      std::string getName() {return name;}
-      std::string getFQName() {return (pathName + "." + name);}
+      std::string getName();
+      std::string getFQName();
 
       // internal stuff.
       void messageToLogic(const Message& message);
@@ -59,6 +61,8 @@ class EXPORT CMPComponentInterface
       bool errorHasOccurred;
       XMLDocument* simScript;
       std::vector<std::string> simSectionsToSearch;
+      std::string currentClass1;
+      std::string currentClass2;
       CMPMethod0* init1;
       CMPMethod0* init2;
 
@@ -66,6 +70,10 @@ class EXPORT CMPComponentInterface
 		typedef std::vector<Message*> Messages;
       NameToRegMap regNames;
       Messages messages;
+
+      TimeType tick;
+      int tickID;
+      bool haveWrittenToStdOutToday;
 
       enum RegistrationKind {getReg=1,         respondToGetReg=2,
                              setReg=9,         respondToSetReg=3,
@@ -88,6 +96,10 @@ class EXPORT CMPComponentInterface
       void onQueryValue(const Message& message);
       void onQuerySetValue(const Message& message);
       void onEvent(const Message& message);
+      bool readFromSection(XMLNode::iterator initData, 
+                           XMLNode::iterator sectionData, 
+                           const std::string& parName, 
+                           IPackableData* value);
       void terminate();
    };
 

@@ -10,16 +10,17 @@ OBJECTS = ComponentInterface.obj       \
           TypeConverter.obj            \
           ArraySpecifier.obj           \
           DataTypes.obj                \
-          CMPScienceAPI.obj            \
-          CMPComponentInterface.obj    \
           CMPData.obj                  \
           CMPComponentEntryPoints.obj  \
-          EntryPoints.obj              \
-          CreateComponent.obj
+          CMPComponentInterface.obj    \
+          CMPScienceAPI.obj            \
+          CreateComponent.obj          \
+          Variant.obj                  \
+          EntryPoints.obj              
 
 PACKAGES = vcl.bpi rtl.bpi
 USERDEFINES =
-SYSDEFINES = NO_STRICT;_RTLDLL;USEPACKAGES
+SYSDEFINES = NO_STRICT;_RTLDLL;_NO_VCL;USEPACKAGES
 INCLUDEPATH = $(SYSINCLUDES);$(APSROOT)\Shared;$(BCB)\Components\Boost
 LIBPATH = $(SYSLIBPATH)
 LIBRARIES = rtl.lib
@@ -35,9 +36,12 @@ ALLRES = $(RESFILES)
 ALLLIB = vcl.lib $(LIBFILES) $(LIBRARIES) import32.lib cp32mti.lib
 # ---------------------------------------------------------------------------
 # For ComponentInterface.dll, use:
-CFLAG1 =  $(SYSCFLAGS) -tWD -tWM
-# Use this with lahey fortran-linked objects
-CFLAGLF95 =  -x- -RT- -r- -H=$(APSROOT)\Bin\vcl60.csm -Hc -Vx -Ve -X- -a8 -b- -k -y -v -vi- -tWD -tWM -c
+!if "$(DEBUG)" == ""
+#SYSCFLAGS = -H=$(APSROOT)\Bin\vcl60.csm -Hc -Vx -Ve -X- -a8 -b- -tWM -c
+CFLAG1 =                                     -Vx -Ve -X- -a8 -b- -tWM -tWD -O2 -c -V -w-inl
+!else
+CFLAG1 =                                     -Vx -Ve -X- -a8 -b- -tWM -tWD -Od -c -V -w-inl -vG
+!endif
 
 WARNINGS = -w-par
 LFLAGS = $(SYSLDFLAGS) -aa -Tpd -x -Gn -Gi -v

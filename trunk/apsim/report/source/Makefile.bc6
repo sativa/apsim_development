@@ -24,8 +24,10 @@ LIBPATH = $(BCB)\lib\obj;$(BCB)\lib;$(APSROOT)\Shared\ComponentInterface2
 
 
 # ---------------------------------------------------------------------------
-CFLAG1 = $(SYSCFLAGS) -O2 -vi -TWD
-WARNINGS = -w-par
+CFLAG1 = $(SYSCFLAGS) -O2 -vi -TWD -V -w-inl
+CFLAG1 =                                    -Vx -Ve -X- -a8 -b- -tWM -tWD -O2 -c -V
+
+WARNINGS = -w-par -w-inl
 LFLAGS = -D"" -aa -Tpd -x -Gn -Gi
 
 ALLOBJ = c0d32.obj rtl.bpi vcl.bpi Memmgr.Lib sysinit.obj $(OBJFILES)

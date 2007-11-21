@@ -1,6 +1,6 @@
-#pragma hdrstop
-#include <ComponentInterface2/ScienceAPI.h>
+
 #include <general/dll.h>
+#include <ComponentInterface2/ScienceAPI.h>
 
 class CMPComponentInterface;
 unsigned CreateComponent(ScienceAPI* scienceAPI, CMPComponentInterface*, const char* dllFileName, void* dllHandle)
@@ -15,5 +15,3 @@ void DeleteComponent(unsigned component, void* dllHandle)
    deleteComponent = (void STDCALL(*)(unsigned component)) dllProcAddress(dllHandle, "deleteComponent");
    deleteComponent(component);
    }
-
- 

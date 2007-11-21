@@ -378,71 +378,6 @@
    unsigned memorySize(const IrrigatedType& data);
    std::string DDML(const IrrigatedType& data);
 
-   //------ CropWaterSupply ------
-   struct CropWaterSupplyType
-      {
-      std::string name;
-      std::vector<layerType> layer;
-      };
-
-   void pack(MessageData& messageData, const CropWaterSupplyType& data);
-   void unpack(MessageData& messageData, CropWaterSupplyType& data);
-   unsigned memorySize(const CropWaterSupplyType& data);
-   std::string DDML(const CropWaterSupplyType& data);
-
-   //------ RootLayer ------
-   struct RootLayerType
-      {
-      float thickness;
-      float RootLengthDensity;
-      float PotentialUptake;
-      };
-
-   void pack(MessageData& messageData, const RootLayerType& data);
-   void unpack(MessageData& messageData, RootLayerType& data);
-   unsigned memorySize(const RootLayerType& data);
-   std::string DDML(const RootLayerType& data);
-
-   //------ CropWaterDemand ------
-   struct CropWaterDemandType
-      {
-      std::string Name;
-      std::string CropType;
-      std::vector<RootLayerType> RootLayer;
-      float amount;
-      };
-
-   void pack(MessageData& messageData, const CropWaterDemandType& data);
-   void unpack(MessageData& messageData, CropWaterDemandType& data);
-   unsigned memorySize(const CropWaterDemandType& data);
-   std::string DDML(const CropWaterDemandType& data);
-
-   //------ CropNitrogenDemand ------
-   struct CropNitrogenDemandType
-      {
-      std::string Name;
-      std::string CropType;
-      std::vector<RootLayerType> RootLayer;
-      float amount;
-      };
-
-   void pack(MessageData& messageData, const CropNitrogenDemandType& data);
-   void unpack(MessageData& messageData, CropNitrogenDemandType& data);
-   unsigned memorySize(const CropNitrogenDemandType& data);
-   std::string DDML(const CropNitrogenDemandType& data);
-
-   //------ CropNitrogenSupply ------
-   struct CropNitrogenSupplyType
-      {
-      std::string name;
-      std::vector<layerType> layer;
-      };
-
-   void pack(MessageData& messageData, const CropNitrogenSupplyType& data);
-   void unpack(MessageData& messageData, CropNitrogenSupplyType& data);
-   unsigned memorySize(const CropNitrogenSupplyType& data);
-   std::string DDML(const CropNitrogenSupplyType& data);
-
    //------ Interception ------
    struct InterceptionType
       {
@@ -780,47 +715,6 @@
    unsigned memorySize(const SoilOrganicMatterType& data);
    std::string DDML(const SoilOrganicMatterType& data);
 
-   //------ SoilNitrogenFlowsLayer ------
-   struct SoilNitrogenFlowsLayerType
-      {
-      float nh4_transform_net;
-      float no3_transform_net;
-      float dlt_nh4_net;
-      float dlt_no3_net;
-      float dlt_oc;
-      float dlt_om;
-      std::vector<float> dlt_fomc_hum;
-      std::vector<float> dlt_fomc_biom;
-      std::vector<float> dlt_fomc_atm;
-      float dlt_humc_biom;
-      float dlt_humc_atm;
-      float dlt_biomc_hum;
-      float dlt_biomc_atm;
-      std::vector<float> dlt_fomc_pool;
-      };
-
-   void pack(MessageData& messageData, const SoilNitrogenFlowsLayerType& data);
-   void unpack(MessageData& messageData, SoilNitrogenFlowsLayerType& data);
-   unsigned memorySize(const SoilNitrogenFlowsLayerType& data);
-   std::string DDML(const SoilNitrogenFlowsLayerType& data);
-
-   //------ NitrogenBalance ------
-   struct NitrogenBalanceType
-      {
-      float Fertilizer;
-      float ResiduesMineralised;
-      float Leaching;
-      float Denitrification;
-      float Uptake;
-      float Erosion;
-      float LateralFlow;
-      };
-
-   void pack(MessageData& messageData, const NitrogenBalanceType& data);
-   void unpack(MessageData& messageData, NitrogenBalanceType& data);
-   unsigned memorySize(const NitrogenBalanceType& data);
-   std::string DDML(const NitrogenBalanceType& data);
-
    //------ CropChopped ------
    struct CropChoppedType
       {
@@ -890,18 +784,6 @@
    void unpack(MessageData& messageData, NewProfileType& data);
    unsigned memorySize(const NewProfileType& data);
    std::string DDML(const NewProfileType& data);
-
-   //------ NewPotentialGrowth ------
-   struct NewPotentialGrowthType
-      {
-      std::string sender;
-      float frgr;
-      };
-
-   void pack(MessageData& messageData, const NewPotentialGrowthType& data);
-   void unpack(MessageData& messageData, NewPotentialGrowthType& data);
-   unsigned memorySize(const NewPotentialGrowthType& data);
-   std::string DDML(const NewPotentialGrowthType& data);
 
    //------ NewCanopy ------
    struct NewCanopyType
@@ -1608,4 +1490,9 @@
    unsigned memorySize(const SupplementMixType& data);
    std::string DDML(const SupplementMixType& data);
 
+   class Variant;
+   void pack(MessageData& messageData, const Variant& data);
+   void unpack(MessageData& messageData, Variant& data);
+   unsigned memorySize(Variant& data) ;
+   std::string DDML(const Variant& data);
 #endif

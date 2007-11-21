@@ -15,6 +15,7 @@ class IMessageHook
    public:
       virtual void callback(const std::string& toName,
                             const protocol::Message* message) = 0;
+      virtual ~IMessageHook() {};
    };
 
 // ------------------------------------------------------------------

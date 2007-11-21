@@ -1,65 +1,16 @@
 //------------------------------------------------------------------------------------------------
 #pragma hdrstop
 
-//#include "OOPlantInterface.h"
-#include "OOPlantComponents.h"
+#include <ComponentInterface2/ScienceAPI.h>
+using namespace std;
 
+#include "OOPlantComponents.h"
 #include "Utilities.h"
 
-//------------------------------------------------------------------------------------------------
-
-string ftoa(float Float, char *fmtspec)
-   {
-   char fbuf[80], buf[80];
-   sprintf(fbuf, "%%%sf", fmtspec);
-   sprintf(buf, fbuf, Float);
-   return(string(buf));
-   }
-//------------------------------------------------------------------------------------------------
-
-//std::string itoa(int value, int width=5);
-
-inline bool char2any(const char *str, int &value)
-   {
-   return (sscanf(str, "%d", &value) == 1);
-   }
-inline bool char2any(const char *str, float &value)
-   {
-   return (sscanf(str, "%f", &value) == 1);
-   }
-inline bool string2any(const string str, int &value)
-   {
-   return (sscanf(str.c_str(), "%d", &value) == 1);
-   }
-inline bool string2any(const string str, float &value)
-   {
-   return (sscanf(str.c_str(), "%f", &value) == 1);
-   }
-inline std::string any2string(float value)
-   {
-   return(ftoa(value,"10.2"));
-   }
-inline std::string any2string(int value)
-   {
-   return(itoa(value));
-   }
-
-//------------------------------------------------------------------------------------------------
 
 // Conversion from a Julian date to a Gregorian calendar date.
 // Reference: Fliegel, H. F. and van Flandern, T. C. (1968).
 //    Communications of the ACM, Vol. 11, No. 10 (October, 1968).
-
-//------------------------------------------------------------------------------------------------
-void aDate::convertJulian(float jDay)
-   {
-   julian = int(jDay);
-   if (jDay > 0.0) JulianToCalendar(jDay,day,month,year);
-   else day = month = year = 0;
-
-   doy = julian - CalendarToJulian(1,1,year) + 1;
-   }
-//------------------------------------------------------------------------------------------------
 void JulianToCalendar(float jDay,int &day,int &month,int &year)
    {
    float work = jDay + 68569.0;
@@ -120,7 +71,7 @@ float sumVector(vector<float> vec, int from, int to)
 //------------------------------------------------------------------------------------------------
 //---  Checks if a variable lies outside lower and upper bounds.
 //------------------------------------------------------------------------------------------------
-void checkRange(PlantInterface *p,float value, float lower, float upper,string vName)
+void checkRange(ScienceAPI &api, float value, float lower, float upper, const std::string &vName)
    {
    char msg[80];
    if(lower > upper)
@@ -128,238 +79,22 @@ void checkRange(PlantInterface *p,float value, float lower, float upper,string v
       sprintf(msg,
          "%s: Lower bound (%f) exceeds upper bound (%f)\n        Variable is not checked",
          vName.c_str(),lower, upper);
-      p->warningError(msg);
+      api.write(msg);
       }
    else if (value > upper)                   //is the value too big?
       {
       sprintf(msg,
          "%s = %f\n        exceeds upper limit of %f",vName.c_str(),value,upper);
-      p->warningError(msg);
+      api.write(msg);
       }
    else if (value  < lower)                  //is the value too small?
       {
       sprintf(msg,
          "%s = %f\n        less than lower limit of %f",vName.c_str(), value, lower);
-      p->warningError(msg);
+      api.write(msg);
       }
    }
-//------------------------------------------------------------------------------------------------
-//-----------------   read from sdml   -----------------------------------
-//------------------------------------------------------------------------------------------------
-bool readArray(PlantInterface *P, string section,string variable,string units,
-                                    vector<string> &values,bool optional)
-   {
-   values.clear();
-   string valueString;
-   valueString.clear();
-   valueString = P->getProperty(section, variable);
-   if (valueString.length() == 0)
-      {
-      if (!optional)
-         {
-         string msg = "Cannot find an array\n Parameter name = " + string(variable);
-         //P->error(msg.c_str(),fatal);
-         throw std::runtime_error(msg.c_str());
-         }
-      return false;
-      }
-   Split_string(valueString, " ", values);
-   return true;
-   }
-//------------------------------------------------------------------------------------------------
-bool readArray(PlantInterface *P,string section,string variable,string units,
-      vector<float> &values,float lower,float upper,bool optional)
-   {
-
-
-   char msg[256];
-   std::string valueString = P->readParameter(section, variable);
-
-   vector<std::string> splitValues;
-   Split_string(valueString, " ", splitValues);
-
-   int numValues = splitValues.size();
-   if (numValues == 0 && !optional)
-      {
-      string msg = "Cannot find an array\n Parameter name = " + string(variable);
-      throw std::runtime_error(msg.c_str());
-      }
-
-   values.clear();
-   float temp;
-   for (int v = 0; v < numValues; v++)
-      {
-      if (string2any(splitValues[v], temp) != 1)
-         {
-         if (!optional)
-            {
-            strcpy(msg, "Cannot read a value from string\n"
-                        "Parameter name = ");
-            strcat(msg, variable.c_str());
-            strcat(msg, "\n");
-            strcat(msg, "value = '");
-            strncat(msg, splitValues[v].c_str(), 20);
-            strcat(msg, "'");
-            //fatal_error(&err_user, msg, strlen(msg));
-            throw std::runtime_error(msg);
-            }
-         return false;
-         }
-         else values.push_back(temp);
-      }
-
-   for (int v = 0; v < numValues; v++)
-      {
-      //are the upper and lower bounds valid?
-      if (lower > upper)
-         {
-         strcpy(msg, "Parameter ");
-         strcat(msg, variable.c_str());
-         strcpy(msg, "\nLower bound (");
-         strcat(msg, any2string(lower).c_str());
-         strcat(msg, ") exceeds upper bound (");
-         strcat(msg, any2string(upper).c_str());
-         strcat(msg, "Variable is not checked");
-         //warning_error (&err_user, msg);
-         P->warningError(msg);
-         }
-      //is the value too big?
-      else if (values[v] > upper)    //XX wrong. Should be relative tolerance.
-         {
-         strcpy(msg, variable.c_str());
-         strcat(msg, " = ");
-         strncat(msg, splitValues[v].c_str(), 20);
-         strcat(msg, "\n        exceeds upper limit of ");
-         strcat(msg, any2string(upper).c_str());
-         //warning_error (&err_user, msg);
-         P->warningError(msg);
-         }
-      //is the value too small?
-      else if (values[v]  < lower)
-         {
-         strcpy(msg, variable.c_str());
-         strcat(msg, " = ");
-         strncat(msg, splitValues[v].c_str(), 20);
-         strcat(msg, "\n        is less than lower limit of ");
-         strcat(msg, any2string(lower).c_str());
-         //warning_error (&err_user, msg);
-         P->warningError(msg);
-         }
-      }
-      return true;
-   }
-//------------------------------------------------------------------------------------------------
-bool readArray(PlantInterface *P,vector<string> sections,string variable,
-                                                      vector<float> &values)
-   {
-   char msg[256];
-   std::string valueString;
-   for (vector<string>::const_iterator i = sections.begin();
-                                       i != sections.end();i++)
-      {
-      valueString = P->readParameter(*i, variable);
-      if(!valueString.empty())break;
-      }
-   if(valueString.empty())
-      {
-      return false;
-      //fatal_error(&err_user, msg, strlen(msg));
-      }
-
-   vector<std::string> splitValues;
-   Split_string(valueString, " ", splitValues);
-
-   int numValues = splitValues.size();
-   values.clear();
-   float temp;
-   for (int v = 0; v < numValues; v++)
-      if (string2any(splitValues[v], temp) == 1)
-         values.push_back(temp);
-
-   return true;
-   }
-//------------------------------------------------------------------------------------------------
-bool readArray(PlantInterface *P,vector<string> sections,string variable,
-                                                      vector<int> &values)
-   {
-   char msg[256];
-   std::string valueString;
-   for (vector<string>::const_iterator i = sections.begin();
-                                       i != sections.end();i++)
-      {
-      valueString = P->readParameter(*i, variable);
-      if(!valueString.empty())break;
-      }
-   if(valueString.empty())
-      {
-      return false;
-      //fatal_error(&err_user, msg, strlen(msg));
-      }
-
-   vector<std::string> splitValues;
-   Split_string(valueString, " ", splitValues);
-
-   int numValues = splitValues.size();
-   values.clear();
-   int temp;
-   for (int v = 0; v < numValues; v++)
-      if (string2any(splitValues[v], temp) == 1)
-         values.push_back(temp);
-
-   return true;
-   }
-//------------------------------------------------------------------------------------------------
-bool readVar(PlantInterface *P,string section,string variable,string units,
-                                              string &valueString,bool optional)
-   {
-   valueString = P->readParameter(section,variable);
-   if (valueString.length() == 0)
-      {
-      if (!optional)
-         {
-         string msg = "Cannot find a variable\n Parameter name = "
-                                             + string(variable);
-         //P->error(msg.c_str(),fatal);
-         throw std::runtime_error(msg.c_str());
-         }
-      return false;
-      }
-   return true;
-   }
-//------------------------------------------------------------------------------------------------
-float readVar(PlantInterface *P,vector<string> sections,string variable)
-   {
-   float temp;
-   readVar(P,sections, variable, temp,false);
-   return temp;
-   }
-//------------------------------------------------------------------------------------------------
-bool readVar(PlantInterface *P,vector<string> sections,string variable,
-                                                  float &value, bool optional)
-   {
-   value = 0.0;
-   string valueString;
-   for (vector<string>::const_iterator i = sections.begin();
-                                       i != sections.end();i++)
-      {
-      valueString = P->readParameter(*i, variable);
-      if(!valueString.empty())break;
-      }
-   if(valueString.empty())
-      {
-      if (!optional)
-         {
-         string msg = "Cannot find a variable\n Parameter name = "
-                                             + string(variable);
-         //P->error(msg.c_str(),fatal);
-         throw std::runtime_error(msg.c_str());
-         }
-      return false;
-      }
-   char2any(valueString.c_str(), value);
-   return true;
-   }
- /* TODO : Needs looking at! */
+/* TODO : Needs looking at! */
 //XX Needs to be replaced with try/catch of EOverflow/EUnderflow etc..    XXXXXXXXXXXXXXXXXXXXXXX
 //===========================================================================
 float divide (float dividend, float divisor, float default_value)
@@ -442,18 +177,6 @@ int findIndex(float value, vector<float> items)
    return index == items.size() ? index - 1 : index;
    }
 //------------------------------------------------------------------------------------------------
-//-------- function to copy a protocol::vector to a vector
-//------------------------------------------------------------------------------------------------
-void convertVector(protocol::vector<float> &temp,vector<float> &newVect)
-   {
-   newVect.clear();
-   for(unsigned i=0;i < temp.size();i++)
-      {
-      newVect.push_back(temp[i]);
-      }
-   temp.empty();
-   }
-//------------------------------------------------------------------------------------------------
 //-------- function to copy a vector to a vector
 //------------------------------------------------------------------------------------------------
 void fillVector(vector<float> &temp,vector<float> &newVect)
@@ -487,18 +210,18 @@ float bound(float value,float lower, float upper)
 //------------------------------------------------------------------------------------------------
 //----------- Table Function constructor
 //------------------------------------------------------------------------------------------------
-TableFn::TableFn(PlantInterface *P, vector<string> sections, string xName,string yName)
+TableFn::TableFn(ScienceAPI &P, string xName,string yName)
    {
-   readArray(P,sections,xName,x);
-   readArray(P,sections,yName,y);
+   P.read(xName,"",true,x);
+   P.read(yName,"",true,y);
    }
 //------------------------------------------------------------------------------------------------
 //----------- Table Function read
 //------------------------------------------------------------------------------------------------
-void TableFn::read(PlantInterface *P, vector<string> sections, string xName,string yName)
+void TableFn::read(ScienceAPI &P, string xName,string yName)
    {
-   readArray(P,sections,xName,x);
-   readArray(P,sections,yName,y);
+   P.read(xName,"",true,x);
+   P.read(yName,"",true,y);
    }
 //------------------------------------------------------------------------------------------------
 //----------- Table Function constructor
@@ -696,13 +419,5 @@ void calcPartFractionDelta (int partNo, vector<float> fraction, float part,
       float &dltPart)
    {
    dltPart = part * fraction[partNo];
-   }
-
-//------------------------------------------------------------------------------------------------
-
-void summaryLine(PlantInterface *p,char *format,float arg0, float arg1)
-   {
-   char line[200];
-   sprintf(line,format,arg0,arg1);p->writeString(line);
    }
 

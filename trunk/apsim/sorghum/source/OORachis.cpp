@@ -1,9 +1,8 @@
-
-
 #pragma hdrstop
 
-#include "OORachis.h"
 #include "OOPlant.h"
+#include "OOPlantComponents.h"
+#include "OORachis.h"
 //---------------------------------------------------------------------------
 
 #pragma package(smart_init)
@@ -11,10 +10,9 @@
 //------------------------------------------------------------------------------------------------
 //------ Rachis Constructor
 //------------------------------------------------------------------------------------------------
-Rachis::Rachis(OOPlant *p)
+Rachis::Rachis(ScienceAPI &api, OOPlant *p) : PlantPart(api)
    {
    plant = p;
-   plantInterface = p->plantInterface;
    name = "Rachis";
 
    doRegistrations();
@@ -31,13 +29,10 @@ Rachis::~Rachis()
 //--------------------------------------------------------------------------------------------------
 void Rachis::doRegistrations(void)
    {
-#define setupGetVar plantInterface->addGettableVar
-   setupGetVar("flower_wt", dmGreen, "g/m2", "Live flower dry weight");
-   setupGetVar("flower_n", nGreen, "g/m2", "N in flower");
-   setupGetVar("FlowerGreenNConc", nConc, "", "Flower N concentration");
-   setupGetVar("flower_nd", nDemand, "g/m2", "Today's N demand from flower");
-
-#undef setupGetVar   
+   scienceAPI.expose("flower_wt",     "g/m2", "Live flower dry weight", 0,      dmGreen);
+   scienceAPI.expose("flower_n",      "g/m2", "N in flower", 0,                 nGreen);
+   scienceAPI.expose("n_conc_flower", "",     "Flower N concentration", 0,      nConc);
+   scienceAPI.expose("flower_nd",     "g/m2", "Today's N demand from flower", 0,nDemand);
    }
 //------------------------------------------------------------------------------------------------
 //------- Initialize variables
@@ -52,19 +47,15 @@ void Rachis::initialize(void)
 //------------------------------------------------------------------------------------------------
 void Rachis::readParams (string cultivar)
    {
-   vector<string> sections;                  // sections to look for parameters
-   sections.push_back("constants");
-   sections.push_back(cultivar);
    // nitrogen
-   initialNConc = readVar(plantInterface,sections,"initialRachisNConc");
-   targetNConc = readVar(plantInterface,sections,"targetRachisNConc");
-   structRachisNConc = readVar(plantInterface,sections,"structRachisNConc");
+   scienceAPI.read("initialRachisNConc","", 0, initialNConc      );
+   scienceAPI.read("targetRachisNConc" ,"", 0, targetNConc       );
+   scienceAPI.read("structRachisNConc" ,"", 0, structRachisNConc );
    // phosphorus
-   pMaxTable.read(plantInterface,sections,"x_p_stage_code","y_p_conc_max_flower");
-   pMinTable.read(plantInterface,sections,"x_p_stage_code","y_p_conc_min_flower");
-   pSenTable.read(plantInterface,sections,"x_p_stage_code","y_p_conc_sen_flower");
-   initialPConc = readVar(plantInterface,sections,"p_conc_init_flower");
-
+   pMaxTable.read(scienceAPI, "x_p_stage_code","y_p_conc_max_flower");
+   pMinTable.read(scienceAPI, "x_p_stage_code","y_p_conc_min_flower");
+   pSenTable.read(scienceAPI, "x_p_stage_code","y_p_conc_sen_flower");
+   scienceAPI.read("p_conc_init_flower", "", 0, initialPConc);
    }
 
 //------------------------------------------------------------------------------------------------
