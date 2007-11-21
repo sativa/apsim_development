@@ -51,7 +51,7 @@ void Leaf::doRegistrations(void)
    scienceAPI.expose("tleaf_n",  "g/m2",  "Total N in live and dead leaf", 0, nTotal);
    scienceAPI.expose("sln",      "g(N)/m2(leaf)", "Specific leaf nitrogen",0, SLN);
    scienceAPI.expose("dlt_n_retrans_leaf",  "g/m2", "Nitrogen retranslocated from leaf to the grain", 0, dltNRetranslocate);
-   scienceAPI.expose("n_conc_leaf", "%", "N concentration in live leaf",  0, nConc);
+   scienceAPI.expose("LeafGreenNConc", "%", "Live leaf N concentration", 0, nConc);
    scienceAPI.expose("leaf_nd",  "g/m2", "Today's N demand from leaves", 0, nDemand);
    scienceAPI.expose("dlt_n_green_leaf", "g/m2", "Daily N increase in leaves", 0, dltNGreen);
    scienceAPI.expose("dlt_leaf_no", "lvs/d", "Fraction of oldest leaf expanded", 0, dltLeafNo);

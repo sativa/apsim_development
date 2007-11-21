@@ -42,7 +42,7 @@ void Roots::doRegistrations(void)
    scienceAPI.expose("root_wt",    "g/m2", "Live root dry weight",false,       dmGreen);
    scienceAPI.expose("groot_n",    "g/m2", "N in live root",false,             nGreen);
    scienceAPI.expose("troot_n",    "g/m2", "N in live and dead roots",false,   nTotal);
-   scienceAPI.expose("n_conc_root","%", "Live root N concentration",false,     nConc);
+   scienceAPI.expose("RootGreenNConc", "%", "Live root N concentration", false, nConc);
    scienceAPI.expose("droot_wt",   "g/m2", "Dead root dry weight",false,       dmSenesced);
    scienceAPI.expose("troot_wt",   "g/m2", "Total root dry weight",false,      rootDMTot);
    scienceAPI.expose("root_nd",    "g/m2", "Today's N demand from roots",false,nDemand);

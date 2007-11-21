@@ -27,7 +27,7 @@ void Stem::doRegistrations(void)
    scienceAPI.expose("stem_wt",            "g/m2", "Stem dry weight"                           , 0, dmGreen);
    scienceAPI.expose("stem_n",             "g/m2", "N in stem"                                 , 0, nGreen);
    scienceAPI.expose("dlt_n_retrans_stem", "g/m2", "Nitrogen retranslocated from stem to grain", 0, dltNRetranslocate);
-   scienceAPI.expose("n_conc_stem",        "%",    "Stem N concentration"                      , 0, nConc);
+   scienceAPI.expose("StemGreenNConc",     "%",    "Live stem N concentration",                  0, nConc);
    scienceAPI.expose("stem_nd",            "g/m2", "Today's N demand from the stem"            , 0, nDemand);
    scienceAPI.expose("dlt_n_green_stem",   "g/m2", "Today's N increase in stem"                , 0, dltNGreen);
    scienceAPI.expose("n_conc_stem",        "%",    "Live stem N concentration"                 , 0, nConc);
