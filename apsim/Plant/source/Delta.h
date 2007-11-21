@@ -2,23 +2,15 @@
 #define DeltaH
 
 #include <string>
+#include "Biomass.h"
 class ScienceAPI;
 class Pool;
-class Delta
+class Delta : public Biomass
    {
    public:
-      Delta ();
       Delta(ScienceAPI& scienceAPI, const std::string& Name, const std::string& PartName);
-      float DM;
-      float N;
-      float P;
       void Move (Pool& From, Pool& To);
-      void Clear (void);
-      Delta operator + (const Delta& Delta2);
-      Delta operator * (float value);
-      Delta operator = (const Pool& Pool2);
-   private:
-
+      Delta operator = (const Biomass& Pool2);
    };
 
 #endif

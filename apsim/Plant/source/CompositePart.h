@@ -15,10 +15,10 @@ public:                                             // member functions
 
    virtual Pool& Green(void);
    virtual Pool& Senesced(void);
-   virtual Pool Grain();
-   virtual Pool GrainTotal();
-   virtual Pool Vegetative();
-   virtual Pool VegetativeTotal();
+   virtual Biomass Grain();
+   virtual Biomass GrainTotal();
+   virtual Biomass Vegetative();
+   virtual Biomass VegetativeTotal();
 
    virtual void onInit1(protocol::Component *);
    virtual void doNewMet(protocol::NewMetType &newmet) ;
@@ -204,6 +204,9 @@ protected:
    float pMinPotStressDeterminant(void);
 
    vector <plantPart *> myParts;
+
+
+private:
 
 };
 

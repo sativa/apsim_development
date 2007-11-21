@@ -52,13 +52,13 @@ void fruitGrainPartGN::onInit1(protocol::Component *system)
 float fruitGrainPartGN::grainWt(void)
    //===========================================================================
 {
-   return divide (Total().DM, gGrain_no, 0.0);
+   return divide (Total().DM(), gGrain_no, 0.0);
 }
 
 void fruitGrainPartGN::get_grain_size(protocol::Component *system, protocol::QueryValueData &qd)
    //===========================================================================
 {
-   float grain_size = divide (Total().DM, gGrain_no, 0.0);
+   float grain_size = divide (Total().DM(), gGrain_no, 0.0);
 
    system->sendVariable(qd, grain_size);
 }
@@ -223,7 +223,7 @@ void fruitGrainPartGN::doDMDemandGrain(void)
 
       // Check that growth does not exceed maximum grain size
       float max_grain = gGrain_no * pMaxGrainSize;
-      float max_dlt = max (max_grain - mealPart->Green().DM, 0.0);
+      float max_dlt = max (max_grain - mealPart->Green().DM(), 0.0);
       gDlt_dm_grain_demand = min (gDlt_dm_grain_demand, max_dlt);
 
       mealPart->doDMDemandGrain(gDlt_dm_grain_demand);

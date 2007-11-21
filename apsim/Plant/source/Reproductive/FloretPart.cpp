@@ -63,7 +63,7 @@ void FloretPart::onStartGrainFill(void)
 void FloretPart::doDmMin(void)
 //=======================================================================================
 {
-   float dm_plant = divide (Green().DM, plant->getPlants(), 0.0);
+   float dm_plant = divide (Green().DM(), plant->getPlants(), 0.0);
    DMPlantMin = max (dm_plant * (1.0 - c.trans_frac), DMPlantMin);
 }
 
@@ -98,17 +98,18 @@ void FloretPart::doDmDemand2(float dlt_dm_supply)
 void FloretPart::doDmRetranslocate(float DMAvail, float DMDemandDifferentialTotal)
 //=======================================================================================
    {
-   Retranslocation.DM += DMAvail * divide (dmDemandDifferential(), DMDemandDifferentialTotal, 0.0);
+   Retranslocation = Retranslocation + Biomass(DMAvail * divide (dmDemandDifferential(), DMDemandDifferentialTotal, 0.0),
+                                               0, 0);
    }
 
 float FloretPart::dltDmRetranslocateSupply(float DemandDifferential)
 //=======================================================================================
    {
-   float DMPartPot = Green().DM + Retranslocation.DM;
+   float DMPartPot = Green().DM() + Retranslocation.DM();
    float DMPartAvail = DMPartPot - DMPlantMin * plant->getPlants();
    DMPartAvail = l_bound (DMPartAvail, 0.0);
    float DltDmRetransPart = min (DemandDifferential, DMPartAvail);
-   Retranslocation.DM = - DltDmRetransPart;          //XXXX this is a bad thing..
+   Retranslocation = Retranslocation - Biomass(-DltDmRetransPart, 0, 0);  //XXXX this is a bad thing..
    return DltDmRetransPart;
    }
 

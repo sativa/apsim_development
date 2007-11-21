@@ -329,7 +329,7 @@ void genericLeafPart::leaf_area_actual(void)
 {
    float sla_max = cSLAMax.value(gLAI);                    //calculated daily max spec leaf area
 
-   float dltLAI_carbon = Growth().DM * sla_max * smm2sm;  //maximum daily increase in leaf area
+   float dltLAI_carbon = Growth().DM() * sla_max * smm2sm;  //maximum daily increase in leaf area
                                                            //index from carbon supply
    dltLAI = min(dltLAI_carbon, dltLAI_stressed);
 }
@@ -638,8 +638,8 @@ void genericLeafPart::remove_detachment (float dlt_slai_detached, float dlt_lai_
 void genericLeafPart::removeBiomass(void)
 // (Re)-Initialise plant leaf area from deltas
     {
-    float chop_fr_green = divide(dlt.dm_green_removed, Green().DM, 0.0);
-    float chop_fr_sen   = divide(dlt.dm_senesced_removed, Senesced().DM, 0.0);
+    float chop_fr_green = divide(dlt.dm_green_removed, Green().DM(), 0.0);
+    float chop_fr_sen   = divide(dlt.dm_senesced_removed, Senesced().DM(), 0.0);
 
     float dlt_lai = gLAI * chop_fr_green;
     float dlt_slai = gSLAI * chop_fr_sen;
@@ -657,10 +657,11 @@ void genericLeafPart::removeBiomass(void)
 
    // keep dm above a minimum
     float dm_init = c.dm_init * plant->getPlants();
-    Green().DM = l_bound (Green().DM, dm_init);
-
     float n_init = dm_init * c.n_init_conc;
-    Green().N = l_bound (Green().N, n_init);
+
+    Green() = Biomass(l_bound (Green().DM(), dm_init),
+                      l_bound (Green().N(), n_init),
+                      Green().P());
 }
 
 float genericLeafPart::coverTotal(void)
