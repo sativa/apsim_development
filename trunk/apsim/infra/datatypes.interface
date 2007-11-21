@@ -549,6 +549,10 @@
          <field name="bd_value" kind="single" array="T" />
       </type>
 
+   <type name="NewPotentialGrowth">
+      <field name="sender" kind="string"/>
+      <field name="frgr" kind="single" units=""/>
+   </type>
    <type name="NewCanopy">
       <field name="sender" kind="string"/>
       <field name="height" kind="single"/>
