@@ -526,9 +526,14 @@ namespace ApsimFile
                             int Pos = VariableLine.ToLower().IndexOf("." + OldName);
                             if (Pos != -1)
                                 {
-                                VariableLine = VariableLine.Substring(0, Pos) 
-                                              + "." + NewName 
-                                              + VariableLine.Substring(Pos + OldName.Length + 1);
+                                Pos += OldName.Length + 1;
+                                if (Pos == VariableLine.Length || VariableLine[Pos] == ' ')
+                                    {
+                                    Pos -= OldName.Length + 1;
+                                    VariableLine = VariableLine.Substring(0, Pos)
+                                                  + "." + NewName
+                                                  + VariableLine.Substring(Pos + OldName.Length + 1);
+                                    }
                                 }
                             else if (VariableLine.Length >= OldName.Length && VariableLine.ToLower().Substring(0, OldName.Length) == OldName.ToLower())
                                 VariableLine = NewName + VariableLine.Substring(NewName.Length);
