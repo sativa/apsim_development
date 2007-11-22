@@ -12,7 +12,7 @@ namespace ApsimFile
 	// ------------------------------------------
 	public class APSIMChangeTool
 		{
-		public static int CurrentVersion = 12;	   
+		public static int CurrentVersion = 13;	   
 		private delegate void UpgraderDelegate(XmlNode Data, Configuration Config);
 
 		// ------------------------------------------
@@ -74,6 +74,10 @@ namespace ApsimFile
                 // Upgrade from version 11 to 12.
                 if (DataVersion < 12)
                     Upgrade(Data, new UpgraderDelegate(UpdateToVersion12), Config);
+
+                // Upgrade from version 12 to 13.
+                if (DataVersion < 13)
+                    Upgrade(Data, new UpgraderDelegate(UpdateToVersion13), Config);
 
                 // All finished upgrading - write version number out.
                 XmlHelper.SetAttribute(Data, "version", CurrentVersion.ToString());
@@ -498,6 +502,66 @@ namespace ApsimFile
                 Data.ParentNode.ReplaceChild(NewManagerNode, Data);
                 }
             }
+        private static void UpdateToVersion13(XmlNode Data, Configuration Config)
+            {
+            if (Data.Name.ToLower() == "outputfile")
+                {
+                string[] Conversions = APSIMSettings.INIReadAllSections(APSIMSettings.ApsimDirectory() + "\\apsim\\conversions.54");
+                foreach (string Conversion in Conversions)
+                    {
+                    string[] Bits = Conversion.Split(' ');
+                    if (Bits.Length == 5 && Bits[0] == "Renamed")
+                        {
+                        string OldName = Bits[2];
+                        string NewName = Bits[4];
+                        foreach (XmlNode Variables in XmlHelper.ChildNodes(Data, "Variables"))
+                            foreach (XmlNode Variable in XmlHelper.ChildNodes(Variables, "Variable"))
+                                {
+                                string VariableLine = XmlHelper.Name(Variable);
+
+                                // Do replacement where a module name was specified.
+                                int Pos = VariableLine.ToLower().IndexOf("." + OldName + " ");
+                                if (Pos != -1)
+                                    {
+                                    VariableLine = VariableLine.Substring(0, Pos) 
+                                                  + "." + NewName + " " 
+                                                  + VariableLine.Substring(Pos + OldName.Length + 2);
+                                    }
+                                else if (VariableLine.Length >= OldName.Length && VariableLine.ToLower().Substring(0, OldName.Length) == OldName.ToLower())
+                                    VariableLine = NewName + VariableLine.Substring(NewName.Length);
+                                XmlHelper.SetName(Variable, VariableLine);
+                                }
+                        }
+                    else if (Bits.Length == 3 && Bits[0] == "Removed")
+                        {
+                        string NameToDelete = Bits[2].ToLower();
+                        foreach (XmlNode Variables in XmlHelper.ChildNodes(Data, "Variables"))
+                            foreach (XmlNode Variable in XmlHelper.ChildNodes(Variables, "Variable"))
+                                {
+                                string VariableLine = XmlHelper.Name(Variable).ToLower();
+                                int PosSpace = VariableLine.IndexOf(' ');
+                                if (PosSpace == -1)
+                                    PosSpace = VariableLine.Length;
+                                int PosPeriod = VariableLine.IndexOf('.');
+
+                                // get the variable name
+                                string VariableName;
+                                if (PosPeriod != -1 && PosPeriod < PosSpace)
+                                    VariableName = VariableLine.Substring(PosPeriod, PosSpace - PosPeriod - 1);
+                                else
+                                    VariableName = VariableLine.Substring(0, PosSpace);
+
+                                // Do we want to delete this variable?
+                                if (VariableName == NameToDelete)
+                                    Variables.RemoveChild(Variable);
+                                }
+
+                        }
+                    }
+
+                }
+            }
+
 
 
 		}
