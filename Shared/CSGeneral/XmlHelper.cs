@@ -35,7 +35,7 @@ namespace CSGeneral
             }
         public static void SetName(XmlNode Node, string Name)
             {
-            if (Name != Node.Name)
+            if (Name != XmlHelper.Name(Node))
                 SetAttribute(Node, "name", Name);
             }
         public static string Type(XmlNode Node)
