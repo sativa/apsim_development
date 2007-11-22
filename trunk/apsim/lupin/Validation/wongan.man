@@ -82,7 +82,7 @@ etp_cum =etp_cum + eo     !cum potential ET  , eo=daily potential ET
 if (lupin.stage>=3 and lupin.stage <= 9) then
    hi = yield / biomass
    hi_green = grain_wt / green_biomass_wt   !! HI_green= grain/green biomass 
-   sla_tot = lai/leaf_wt
+   sla_tot = lai/LeafGreenWt
    yield_in_t = yield/1000
    
 else
