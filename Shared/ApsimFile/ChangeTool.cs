@@ -502,9 +502,13 @@ namespace ApsimFile
                 Data.ParentNode.ReplaceChild(NewManagerNode, Data);
                 }
             }
-        private static void UpdateToVersion13(XmlNode Data, Configuration Config)
+        private static void UpdateToVersion13(XmlNode Variables, Configuration Config)
             {
-            if (Data.Name.ToLower() == "outputfile")
+            if (XmlHelper.Name(Variables).ToLower() == "shared")
+                {
+
+                }
+            if (Variables.Name.ToLower() == "variables")
                 {
                 string[] Conversions = APSIMSettings.INIReadAllSections(APSIMSettings.ApsimDirectory() + "\\apsim\\conversions.54");
                 foreach (string Conversion in Conversions)
@@ -512,49 +516,47 @@ namespace ApsimFile
                     string[] Bits = Conversion.Split(' ');
                     if (Bits.Length == 5 && Bits[0] == "Renamed")
                         {
-                        string OldName = Bits[2];
+                        string OldName = Bits[2].ToLower();
                         string NewName = Bits[4];
-                        foreach (XmlNode Variables in XmlHelper.ChildNodes(Data, "Variables"))
-                            foreach (XmlNode Variable in XmlHelper.ChildNodes(Variables, "Variable"))
-                                {
-                                string VariableLine = XmlHelper.Name(Variable);
+                        foreach (XmlNode Variable in XmlHelper.ChildNodes(Variables, "Variable"))
+                            {
+                            string VariableLine = XmlHelper.Name(Variable);
 
-                                // Do replacement where a module name was specified.
-                                int Pos = VariableLine.ToLower().IndexOf("." + OldName + " ");
-                                if (Pos != -1)
-                                    {
-                                    VariableLine = VariableLine.Substring(0, Pos) 
-                                                  + "." + NewName + " " 
-                                                  + VariableLine.Substring(Pos + OldName.Length + 2);
-                                    }
-                                else if (VariableLine.Length >= OldName.Length && VariableLine.ToLower().Substring(0, OldName.Length) == OldName.ToLower())
-                                    VariableLine = NewName + VariableLine.Substring(NewName.Length);
-                                XmlHelper.SetName(Variable, VariableLine);
+                            // Do replacement where a module name was specified.
+                            int Pos = VariableLine.ToLower().IndexOf("." + OldName);
+                            if (Pos != -1)
+                                {
+                                VariableLine = VariableLine.Substring(0, Pos) 
+                                              + "." + NewName 
+                                              + VariableLine.Substring(Pos + OldName.Length + 1);
                                 }
+                            else if (VariableLine.Length >= OldName.Length && VariableLine.ToLower().Substring(0, OldName.Length) == OldName.ToLower())
+                                VariableLine = NewName + VariableLine.Substring(NewName.Length);
+                            XmlHelper.SetName(Variable, VariableLine);
+                            }
                         }
                     else if (Bits.Length == 3 && Bits[0] == "Removed")
                         {
                         string NameToDelete = Bits[2].ToLower();
-                        foreach (XmlNode Variables in XmlHelper.ChildNodes(Data, "Variables"))
-                            foreach (XmlNode Variable in XmlHelper.ChildNodes(Variables, "Variable"))
-                                {
-                                string VariableLine = XmlHelper.Name(Variable).ToLower();
-                                int PosSpace = VariableLine.IndexOf(' ');
-                                if (PosSpace == -1)
-                                    PosSpace = VariableLine.Length;
-                                int PosPeriod = VariableLine.IndexOf('.');
+                        foreach (XmlNode Variable in XmlHelper.ChildNodes(Variables, "Variable"))
+                            {
+                            string VariableLine = XmlHelper.Name(Variable).ToLower();
+                            int PosSpace = VariableLine.IndexOf(' ');
+                            if (PosSpace == -1)
+                                PosSpace = VariableLine.Length;
+                            int PosPeriod = VariableLine.IndexOf('.');
 
-                                // get the variable name
-                                string VariableName;
-                                if (PosPeriod != -1 && PosPeriod < PosSpace)
-                                    VariableName = VariableLine.Substring(PosPeriod, PosSpace - PosPeriod - 1);
-                                else
-                                    VariableName = VariableLine.Substring(0, PosSpace);
+                            // get the variable name
+                            string VariableName;
+                            if (PosPeriod != -1 && PosPeriod < PosSpace)
+                                VariableName = VariableLine.Substring(PosPeriod, PosSpace - PosPeriod - 1);
+                            else
+                                VariableName = VariableLine.Substring(0, PosSpace);
 
-                                // Do we want to delete this variable?
-                                if (VariableName == NameToDelete)
-                                    Variables.RemoveChild(Variable);
-                                }
+                            // Do we want to delete this variable?
+                            if (VariableName == NameToDelete)
+                                Variables.RemoveChild(Variable);
+                            }
 
                         }
                     }
