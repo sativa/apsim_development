@@ -72,6 +72,117 @@ command = SearchReplace(report, "(\W)n_green_root(\W)","$1RootGreenN$2")
 command = SearchReplace(tracker, "(\W)n_green_root(\W)","$1RootGreenN$2")
 command = SearchReplace(manager, "(\W)n_green_root(\W)","$1RootGreenN$2")
 
+------------------------------ _Wt variables --------------------------------------
+
+[Renamed variable: leaf_wt to LeafGreenWt]
+command = SearchReplace(report, "(\W)leaf_wt(\W)","$1LeafGreenWt$2")
+command = SearchReplace(tracker, "(\W)leaf_wt(\W)","$1LeafGreenWt$2")
+command = SearchReplace(manager, "(\W)leaf_wt(\W)","$1LeafGreenWt$2")
+
+[Renamed variable: stem_wt to StemGreenWt]
+command = SearchReplace(report, "(\W)stem_wt(\W)","$1StemGreenWt$2")
+command = SearchReplace(tracker, "(\W)stem_wt(\W)","$1StemGreenWt$2")
+command = SearchReplace(manager, "(\W)stem_wt(\W)","$1StemGreenWt$2")
+
+[Renamed variable: pod_wt to PodGreenWt]
+command = SearchReplace(report, "(\W)pod_wt(\W)","$1PodGreenWt$2")
+command = SearchReplace(tracker, "(\W)pod_wt(\W)","$1PodGreenWt$2")
+command = SearchReplace(manager, "(\W)pod_wt(\W)","$1PodGreenWt$2")
+
+[Renamed variable: meal_wt to MealGreenWt]
+command = SearchReplace(report, "(\W)meal_wt(\W)","$1MealGreenWt$2")
+command = SearchReplace(tracker, "(\W)meal_wt(\W)","$1MealGreenWt$2")
+command = SearchReplace(manager, "(\W)meal_wt(\W)","$1MealGreenWt$2")
+
+[Renamed variable: oil_wt to OilGreenWt]
+command = SearchReplace(report, "(\W)oil_wt(\W)","$1OilGreenWt$2")
+command = SearchReplace(tracker, "(\W)oil_wt(\W)","$1OilGreenWt$2")
+command = SearchReplace(manager, "(\W)oil_wt(\W)","$1OilGreenWt$2")
+
+[Renamed variable: fruit_wt to FruitGreenWt]
+command = SearchReplace(report, "(\W)fruit_wt(\W)","$1FruitGreenWt$2")
+command = SearchReplace(tracker, "(\W)fruit_wt(\W)","$1FruitGreenWt$2")
+command = SearchReplace(manager, "(\W)fruit_wt(\W)","$1FruitGreenWt$2")
+
+[Renamed variable: root_wt to RootGreenWt]
+command = SearchReplace(report, "(\W)root_wt(\W)","$1RootGreenWt$2")
+command = SearchReplace(tracker, "(\W)root_wt(\W)","$1RootGreenWt$2")
+command = SearchReplace(manager, "(\W)root_wt(\W)","$1RootGreenWt$2")
+
+------------------------------ _n variables --------------------------------------
+
+[Renamed variable: leaf_n to LeafGreenN]
+command = SearchReplace(report, "(\W)leaf_n(\W)","$1LeafGreenN$2")
+command = SearchReplace(tracker, "(\W)leaf_n(\W)","$1LeafGreenN$2")
+command = SearchReplace(manager, "(\W)leaf_n(\W)","$1LeafGreenN$2")
+
+[Renamed variable: stem_n to StemGreenN]
+command = SearchReplace(report, "(\W)stem_n(\W)","$1StemGreenN$2")
+command = SearchReplace(tracker, "(\W)stem_n(\W)","$1StemGreenN$2")
+command = SearchReplace(manager, "(\W)stem_n(\W)","$1StemGreenN$2")
+
+[Renamed variable: pod_n to PodGreenN]
+command = SearchReplace(report, "(\W)pod_n(\W)","$1PodGreenN$2")
+command = SearchReplace(tracker, "(\W)pod_n(\W)","$1PodGreenN$2")
+command = SearchReplace(manager, "(\W)pod_n(\W)","$1PodGreenN$2")
+
+[Renamed variable: meal_n to MealGreenN]
+command = SearchReplace(report, "(\W)meal_n(\W)","$1MealGreenN$2")
+command = SearchReplace(tracker, "(\W)meal_n(\W)","$1MealGreenN$2")
+command = SearchReplace(manager, "(\W)meal_n(\W)","$1MealGreenN$2")
+
+[Renamed variable: oil_n to OilGreenN]
+command = SearchReplace(report, "(\W)oil_n(\W)","$1OilGreenN$2")
+command = SearchReplace(tracker, "(\W)oil_n(\W)","$1OilGreenN$2")
+command = SearchReplace(manager, "(\W)oil_n(\W)","$1OilGreenN$2")
+
+[Renamed variable: fruit_n to FruitGreenN]
+command = SearchReplace(report, "(\W)fruit_n(\W)","$1FruitGreenN$2")
+command = SearchReplace(tracker, "(\W)fruit_n(\W)","$1FruitGreenN$2")
+command = SearchReplace(manager, "(\W)fruit_n(\W)","$1FruitGreenN$2")
+
+[Renamed variable: root_n to RootGreenN]
+command = SearchReplace(report, "(\W)root_n(\W)","$1RootGreenN$2")
+command = SearchReplace(tracker, "(\W)root_n(\W)","$1RootGreenN$2")
+command = SearchReplace(manager, "(\W)root_n(\W)","$1RootGreenN$2")
+
+------------------------------ _p variables --------------------------------------
+
+[Renamed variable: leaf_p to LeafGreenN]
+command = SearchReplace(report, "(\W)leaf_p(\W)","$1LeafGreenP$2")
+command = SearchReplace(tracker, "(\W)leaf_p(\W)","$1LeafGreenP$2")
+command = SearchReplace(manager, "(\W)leaf_p(\W)","$1LeafGreenP$2")
+
+[Renamed variable: stem_p to StemGreenN]
+command = SearchReplace(report, "(\W)stem_p(\W)","$1StemGreenP$2")
+command = SearchReplace(tracker, "(\W)stem_p(\W)","$1StemGreenP$2")
+command = SearchReplace(manager, "(\W)stem_p(\W)","$1StemGreenP$2")
+
+[Renamed variable: pod_p to PodGreenN]
+command = SearchReplace(report, "(\W)pod_p(\W)","$1PodGreenP$2")
+command = SearchReplace(tracker, "(\W)pod_p(\W)","$1PodGreenP$2")
+command = SearchReplace(manager, "(\W)pod_p(\W)","$1PodGreenP$2")
+
+[Renamed variable: meal_p to MealGreenN]
+command = SearchReplace(report, "(\W)meal_p(\W)","$1MealGreenP$2")
+command = SearchReplace(tracker, "(\W)meal_p(\W)","$1MealGreenP$2")
+command = SearchReplace(manager, "(\W)meal_p(\W)","$1MealGreenP$2")
+
+[Renamed variable: oil_p to OilGreenN]
+command = SearchReplace(report, "(\W)oil_p(\W)","$1OilGreenP$2")
+command = SearchReplace(tracker, "(\W)oil_p(\W)","$1OilGreenP$2")
+command = SearchReplace(manager, "(\W)oil_p(\W)","$1OilGreenP$2")
+
+[Renamed variable: fruit_p to FruitGreenN]
+command = SearchReplace(report, "(\W)fruit_p(\W)","$1FruitGreenP$2")
+command = SearchReplace(tracker, "(\W)fruit_p(\W)","$1FruitGreenP$2")
+command = SearchReplace(manager, "(\W)fruit_p(\W)","$1FruitGreenP$2")
+
+[Renamed variable: root_p to RootGreenN]
+command = SearchReplace(report, "(\W)root_p(\W)","$1RootGreenP$2")
+command = SearchReplace(tracker, "(\W)root_p(\W)","$1RootGreenP$2")
+command = SearchReplace(manager, "(\W)root_p(\W)","$1RootGreenP$2")
+
 ------------------------------ NConc ---------------------------------------------
 
 [Renamed variable: n_conc_leaf to LeafGreenNConc]
@@ -151,8 +262,7 @@ command = SearchReplace(report, "(\W)p_conc_grain(\W)","$1GrainGreenPConc$2")
 command = SearchReplace(tracker, "(\W)p_conc_grain(\W)","$1GrainGreenPConc$2")
 command = SearchReplace(manager, "(\W)p_conc_grain(\W)","$1GrainGreenPConc$2")
 
-;SENESCED STUFF
------------------------------- DM ---------------------------------------------
+------------------------------ SENESCED DM ---------------------------------------------
 
 [Renamed variable: dm_senesced_leaf to LeafSenescedWt]
 command = SearchReplace(report, "(\W)dm_senesced_leaf(\W)","$1LeafSenescedWt$2")
@@ -189,7 +299,7 @@ command = SearchReplace(report, "(\W)dm_senesced_root(\W)","$1RootSenescedWt$2")
 command = SearchReplace(tracker, "(\W)dm_senesced_root(\W)","$1RootSenescedWt$2")
 command = SearchReplace(manager, "(\W)dm_senesced_root(\W)","$1RootSenescedWt$2")
 
------------------------------- N ----------------------------------------------
+------------------------------ SENESCED N ----------------------------------------------
 
 [Renamed variable: n_senesced_leaf to LeafSenescedN]
 command = SearchReplace(report, "(\W)n_senesced_leaf(\W)","$1LeafSenescedN$2")
