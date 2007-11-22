@@ -5,14 +5,16 @@
 #include "PlantPart.h"
 
 #include "CompositePart.h"
+#include "CompositePool.h"
 
 using namespace std;
 
 //  initialise data members.
 CompositePart::CompositePart(ScienceAPI& scienceAPI, plantInterface *p, const string &name)
-   : plantPart(scienceAPI, p, name)
-{
-}
+   : plantPart(scienceAPI, p, name,
+               *new CompositePool(scienceAPI, "Green", name))
+   {
+   }
 
 // destructor
 CompositePart::~CompositePart()
@@ -35,14 +37,6 @@ const CompositePart &CompositePart::operator=(const CompositePart &/*other*/)
    throw std::invalid_argument("Assignment operator NI for CompositePart");
 }
 
-Pool& CompositePart::Green(void)
-   {
-   PrivateGreen.Clear();
-   for (vector <plantPart * >::const_iterator part = myParts.begin(); part != myParts.end(); part++)
-      PrivateGreen = PrivateGreen + (*part)->Green();
-   return PrivateGreen;
-
-   }
 Pool& CompositePart::Senesced(void)
    {
    PrivateSenesced.Clear();
@@ -103,6 +97,9 @@ void CompositePart::add(plantPart* part)
    //===========================================================================
    {
    myParts.push_back(part);
+
+   CompositePool& GreenPool = (CompositePool&) Green;
+   GreenPool.AddPool(part->Green);
    }
 
 float CompositePart::dltNGreen(void)
@@ -369,15 +366,15 @@ void CompositePart::doNPartition(float nSupply, float n_demand_sum, float n_capa
 
    vector <plantPart *>::iterator part;
    for (part = myParts.begin(); part != myParts.end(); part++)
-      (*part)->doNPartition(Growth().N(), n_demand_sum, n_capacity_sum);
+      (*part)->doNPartition(Growth.N(), n_demand_sum, n_capacity_sum);
 
    float dlt_n_green_sum = dltNGreen();
-   if (!reals_are_equal(dlt_n_green_sum - Growth().N(), 0.0))
+   if (!reals_are_equal(dlt_n_green_sum - Growth.N(), 0.0))
       {
       string msg = c.name + " dlt_n_green mass balance is off: dlt_n_green_sum ="
                   + ftoa(dlt_n_green_sum, ".6")
                   + " vs nSupply ="
-                  + ftoa(Growth().N(), ".6");
+                  + ftoa(Growth.N(), ".6");
       plant->warningError(msg.c_str());
       }
 }
@@ -761,18 +758,16 @@ void CompositePart::fixPools()
    // DPH - This is a hack for now. Get rid of ASAP.
    // ----------------------------------------------------------
    vector <plantPart *>::iterator part;
-   Green().Clear();
    Senesced().Clear();
    Senescing.Clear();
    Detaching.Clear();
-   Growth().Clear();
+   Growth.Clear();
    for (part = myParts.begin(); part != myParts.end(); part++)
       {
-      Green() = Green() + (*part)->Green();
       Senesced() = Senesced() + (*part)->Senesced();
       Senescing = Senescing + (*part)->Senescing;
       Detaching = Detaching + (*part)->Detaching;
-      Growth() = Growth() + (*part)->Growth();
+      Growth = Growth + (*part)->Growth;
       }
    }
 

@@ -94,7 +94,7 @@ void PlantFruit::addNewCohort (protocol::Component *system)
    cohortNum ++;
    ostringstream cohortName;
    cohortName << "cohort" << cohortNum;
-   myParts.push_back(new FruitCohort(scienceAPI, plant, cohortName.str()));
+   add(new FruitCohort(scienceAPI, plant, cohortName.str()));
 
    plantPart *myPart = myParts.back();
    myPart->onInit1(system);

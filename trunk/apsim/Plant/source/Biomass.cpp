@@ -7,7 +7,7 @@
 #include "Biomass.h"
 #include "Delta.h"
 using namespace std;
-
+ 
 Biomass::Biomass()
    {
    Clear();
@@ -30,35 +30,35 @@ void Biomass::Clear (void)
 Biomass Biomass::operator + (const Biomass& Biomass2)
    {
    Biomass Temp;
-   Temp.privateDM = privateDM + Biomass2.privateDM;
-   Temp.privateN = privateN + Biomass2.privateN;
-   Temp.privateP = privateP + Biomass2.privateP;
+   Temp.privateDM = DM() + Biomass2.DM();
+   Temp.privateN = N() + Biomass2.N();
+   Temp.privateP = P() + Biomass2.P();
    return Temp;
    }
 
 Biomass Biomass::operator - (const Biomass& Biomass2)
    {
    Biomass Temp;
-   Temp.privateDM = privateDM - Biomass2.privateDM;
-   Temp.privateN = privateN - Biomass2.privateN;
-   Temp.privateP = privateP - Biomass2.privateP;
+   Temp.privateDM = DM() - Biomass2.DM();
+   Temp.privateN = N() - Biomass2.N();
+   Temp.privateP = P() - Biomass2.P();
    return Temp;
    }
 
 Biomass Biomass::operator * (float Fraction)
    {
    Biomass Temp;
-   Temp.privateDM = privateDM * Fraction;
-   Temp.privateN = privateN * Fraction;
-   Temp.privateP = privateP * Fraction;
+   Temp.privateDM = DM() * Fraction;
+   Temp.privateN = N() * Fraction;
+   Temp.privateP = P() * Fraction;
    return Temp;
    }
 
-Biomass Biomass::operator = (const Biomass& Biomass2)
+Biomass& Biomass::operator = (const Biomass& Biomass2)
    {
-   privateDM = Biomass2.privateDM;
-   privateN = Biomass2.privateN;
-   privateP = Biomass2.privateP;
+   privateDM = Biomass2.DM();
+   privateN = Biomass2.N();
+   privateP = Biomass2.P();
    CheckBounds();
    return *this;
    }

@@ -28,7 +28,7 @@ void fruitMealPart::doDMDemandGrain (float dm_demand)
 float fruitMealPart::nDemand2(void)
    //===========================================================================
 {
-   return l_bound(NDemand - dlt.n_senesced_retrans - Growth().N(), 0.0);
+   return l_bound(NDemand - dlt.n_senesced_retrans - Growth.N(), 0.0);
 }
 
 void fruitMealPart::doNRetranslocate(float dltN, float /*grain_n_demand*/)
@@ -50,12 +50,12 @@ void fruitMealPart::onHarvest(float /* cutting_height */, float /*remove_fr*/,
 {
      dm_type.push_back (c.name);
      fraction_to_residue.push_back (0.0);
-     dlt_crop_dm.push_back ((Green().DM()+Senesced().DM()) * gm2kg/sm2ha);
-     dlt_dm_n.push_back    ((Green().N()+Senesced().N())  * gm2kg/sm2ha);
-     dlt_dm_p.push_back    ((Green().P()+Senesced().P())  * gm2kg/sm2ha);
+     dlt_crop_dm.push_back ((Green.DM()+Senesced().DM()) * gm2kg/sm2ha);
+     dlt_dm_n.push_back    ((Green.N()+Senesced().N())  * gm2kg/sm2ha);
+     dlt_dm_p.push_back    ((Green.P()+Senesced().P())  * gm2kg/sm2ha);
 
      Senesced().Clear();
-     Green().Clear();
+     Green.Clear();
 }
 
 
@@ -81,7 +81,7 @@ void fruitMealPart::doNConcGrainLimits(float n_min_grain, float n_crit_grain, fl
 float fruitMealPart::nCapacity2(void)
 {
    float n_potential  = dmGreenNew() * g.n_conc_max;
-   return (n_potential - Green().N());
+   return (n_potential - Green.N());
 }
 
 float fruitMealPart::N_conc_pot(float nfact_grain_conc)

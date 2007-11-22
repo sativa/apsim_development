@@ -11,9 +11,9 @@ using namespace std;
 
 Delta::Delta(ScienceAPI& scienceAPI, const std::string& Name, const std::string& PartName)
    {
-   scienceAPI.expose(PartName+"Delta"+Name+"Wt", "g/m^2", "Change in " + Name + " " + PartName + " dry matter", privateDM);
-   scienceAPI.expose(PartName+"Delta"+Name+"N",  "g/m^2", "Change in " + Name + " " + PartName + " nitrogen", privateN);
-   scienceAPI.expose(PartName+"Delta"+Name+"P",  "g/m^2", "Change in " + Name + " " + PartName + " phosphorus", privateP);
+   scienceAPI.exposeFunction(PartName+"Delta"+Name+"Wt", "g/m^2", "Change in " + Name + " " + PartName + " dry matter", FloatFunction(&Biomass::DM));
+   scienceAPI.exposeFunction(PartName+"Delta"+Name+"N",  "g/m^2", "Change in " + Name + " " + PartName + " nitrogen", FloatFunction(&Biomass::N));
+   scienceAPI.exposeFunction(PartName+"Delta"+Name+"P",  "g/m^2", "Change in " + Name + " " + PartName + " phosphorus", FloatFunction(&Biomass::P));
    }
 
 void Delta::Move (Pool& From, Pool& To)
@@ -22,11 +22,8 @@ void Delta::Move (Pool& From, Pool& To)
    To = To + *this;
    }
 
-Delta Delta::operator = (const Biomass& Pool2)
+Biomass& Delta::operator = (const Biomass& Biomass2)
    {
-   privateDM = Pool2.DM();
-   privateN = Pool2.N();
-   privateP = Pool2.P();
-//   *(Biomass*)this = Pool2;
-   return *this;
+   return Biomass::operator=(Biomass2);
    }
+

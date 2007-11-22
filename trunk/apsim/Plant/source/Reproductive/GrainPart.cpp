@@ -34,10 +34,10 @@ void fruitGrainPart::onInit1(protocol::Component *system)
    //===========================================================================
 {
    mealPart = new fruitMealPart(scienceAPI, plant, "meal");
-   myParts.push_back(mealPart);
+   add(mealPart);
 
    oilPart = new fruitOilPart(scienceAPI, plant, "oil");
-   myParts.push_back(oilPart);
+   add(oilPart);
 
    CompositePart::onInit1(system);
 
@@ -68,13 +68,13 @@ float fruitGrainPart::nDemand2(void)
 void fruitGrainPart::get_grain_wt(protocol::Component *system, protocol::QueryValueData &qd)
    //===========================================================================
 {
-   system->sendVariable(qd, Green().DM());
+   system->sendVariable(qd, Green.DM());
 }
 
 void fruitGrainPart::get_grain_n(protocol::Component *system, protocol::QueryValueData &qd)
    //===========================================================================
 {
-   system->sendVariable(qd, Green().N());
+   system->sendVariable(qd, Green.N());
 }
 
 void fruitGrainPart::get_grain_n_demand(protocol::Component *system, protocol::QueryValueData &qd)
@@ -100,7 +100,7 @@ void fruitGrainPart::get_grain_protein(protocol::Component *system, protocol::Qu
 void fruitGrainPart::get_n_conc_meal(protocol::Component *system, protocol::QueryValueData &qd)
    //===========================================================================
 {
-   float n_conc = mealPart->Green().NconcPercent();
+   float n_conc = mealPart->Green.NconcPercent();
    system->sendVariable(qd, n_conc);
 }
 
@@ -119,7 +119,7 @@ void fruitGrainPart::get_yield_wet(protocol::Component *system, protocol::QueryV
 void fruitGrainPart::get_grain_p(protocol::Component *systemInterface, protocol::QueryValueData &qd)
    //===========================================================================
 {
-   float grain_p = Green().P();
+   float grain_p = Green.P();
    systemInterface->sendVariable(qd, grain_p);  //()
 }
 

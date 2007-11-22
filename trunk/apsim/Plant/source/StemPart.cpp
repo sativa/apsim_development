@@ -32,17 +32,17 @@ void plantStemPart::onHarvest(float cutting_height, float remove_fr,
    float chop_fr_green = (1.0 - retain_fr_green);
    float chop_fr_sen = (1.0 - retain_fr_sen);
 
-   float dlt_dm_harvest = Green().DM() * chop_fr_green
+   float dlt_dm_harvest = Green.DM() * chop_fr_green
                         + Senesced().DM() * chop_fr_sen;
 
-   float dlt_n_harvest = Green().N() * chop_fr_green
+   float dlt_n_harvest = Green.N() * chop_fr_green
                        + Senesced().N() * chop_fr_sen;
 
-   float dlt_p_harvest = Green().P() * chop_fr_green
+   float dlt_p_harvest = Green.P() * chop_fr_green
                        + Senesced().P() * chop_fr_sen;
 
    Senesced() = Senesced() * retain_fr_sen;
-   Green() = Green() * retain_fr_green;
+   Green = Green * retain_fr_green;
 
    Height = l_bound(cutting_height, 1.0);
 
@@ -57,7 +57,7 @@ void plantStemPart::removeBiomass2(float )
 //=======================================================================================
    {
    float dm_plant;               // dry matter of part (g/plant)
-   dm_plant = divide (Green().DM(), plant->getPlants(), 0.0);
+   dm_plant = divide (Green.DM(), plant->getPlants(), 0.0);
 
    if (c.height.isInitialised())
       Height = c.height.value(dm_plant);       // new plant height (mm)
