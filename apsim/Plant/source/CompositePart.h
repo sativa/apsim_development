@@ -13,7 +13,6 @@ public:                                             // member functions
 
    void add(plantPart* part);
 
-   virtual Pool& Green(void);
    virtual Pool& Senesced(void);
    virtual Biomass Grain();
    virtual Biomass GrainTotal();

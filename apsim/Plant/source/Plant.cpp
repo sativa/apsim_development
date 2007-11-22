@@ -1246,7 +1246,7 @@ void Plant::plant_nit_demand_est (int option)
         float n_fix_pot;
         crop_n_fixation_pot1(phenology->stageNumber()
                              , c.n_fix_rate
-                             , tops.Green().DM()
+                             , tops.Green.DM()
                              , g.swdef_fixation
                              , &n_fix_pot);
 
@@ -1791,7 +1791,7 @@ void Plant::plant_N_senescence (void)
         t++)
       (*t)->zeroDltNSenescedTrans();
 
-   dlt_n_in_senescing_leaf = leafPart->dltDmSenesced() * leafPart->Green().Nconc();
+   dlt_n_in_senescing_leaf = leafPart->dltDmSenesced() * leafPart->Green.Nconc();
 
    n_demand_tot = plant.nDemand();
 
@@ -1915,7 +1915,7 @@ void Plant::plant_process ( void )
            (*t)->doNDemandGrain(g.nfact_grain_conc, g.swdef_expansion);
            }
 
-        float biomass = tops.Green().DM() + plant.dltDm();
+        float biomass = tops.Green.DM() + plant.dltDm();
         g.n_fix_pot = rootPart->plant_nit_supply(biomass, phenology->stageNumber(), g.swdef_fixation);
 
         if (c.n_retrans_option==1)
@@ -2455,7 +2455,7 @@ void Plant::plant_remove_biomass_update (protocol::RemoveCropDmType dmRemoved)
 
     // Update biomass and N pools.  Different types of plant pools are affected in different ways.
     // Calculate Root Die Back
-    float chop_fr_green_leaf = divide(leafPart->dltDmGreenRemoved(), leafPart->Green().DM(), 0.0);
+    float chop_fr_green_leaf = divide(leafPart->dltDmGreenRemoved(), leafPart->Green.DM(), 0.0);
 
     rootPart->removeBiomass2(chop_fr_green_leaf);
 
@@ -2466,7 +2466,7 @@ void Plant::plant_remove_biomass_update (protocol::RemoveCropDmType dmRemoved)
 
     for (part = myTopsParts.begin(); part != myTopsParts.end(); part++)
         {
-        biomassGreenTops +=  (*part)->Green().DM();
+        biomassGreenTops +=  (*part)->Green.DM();
         dmRemovedGreenTops += (*part)->dltDmGreenRemoved();
         dmRemovedTops += ((*part)->dltDmRemoved()) * gm2kg/sm2ha;
         nRemovedTops += ((*part)->dltNRemoved()) * gm2kg/sm2ha;
@@ -3378,7 +3378,7 @@ void Plant::plant_harvest_report ()
     parent->writeString (msg);
 
     sprintf (msg, "%s%10.1f"
-             , " green above ground biomass (kg/ha)    = ", tops.Green().DM()* gm2kg / sm2ha);
+             , " green above ground biomass (kg/ha)    = ", tops.Green.DM()* gm2kg / sm2ha);
     parent->writeString (msg);
 
     sprintf (msg, "%s%10.1f"
@@ -3573,7 +3573,7 @@ void Plant::get_biomass(protocol::Component *system, protocol::QueryValueData &q
 
 void Plant::get_green_biomass(protocol::Component *system, protocol::QueryValueData &qd)
 {
-    system->sendVariable(qd, tops.Green().DM() * gm2kg / sm2ha);
+    system->sendVariable(qd, tops.Green.DM() * gm2kg / sm2ha);
 }
 
 
@@ -3585,7 +3585,7 @@ void Plant::get_biomass_wt(protocol::Component *system, protocol::QueryValueData
 
 void Plant::get_green_biomass_wt(protocol::Component *system, protocol::QueryValueData &qd)
 {
-    system->sendVariable(qd, tops.Green().DM());
+    system->sendVariable(qd, tops.Green.DM());
 }
 
 void Plant::get_stover_biomass_wt(protocol::Component *system, protocol::QueryValueData &qd)
@@ -3620,7 +3620,7 @@ void Plant::get_n_uptake(protocol::Component *system, protocol::QueryValueData &
 
 void Plant::get_green_biomass_n(protocol::Component *system, protocol::QueryValueData &qd)
 {
-    system->sendVariable(qd, tops.Green().N());
+    system->sendVariable(qd, tops.Green.N());
 }
 
 
@@ -3643,18 +3643,18 @@ void Plant::get_n_conc_stover(protocol::Component *system, protocol::QueryValueD
 
 void Plant::get_n_conc_crit(protocol::Component *system, protocol::QueryValueData &qd)
 {
-    float n_conc = divide ((leafPart->n_conc_crit()*leafPart->Green().DM()
-                           + stemPart->n_conc_crit()*stemPart->Green().DM())
-                          , (leafPart->Green().DM() + stemPart->Green().DM())
+    float n_conc = divide ((leafPart->n_conc_crit()*leafPart->Green.DM()
+                           + stemPart->n_conc_crit()*stemPart->Green.DM())
+                          , (leafPart->Green.DM() + stemPart->Green.DM())
                           , 0.0) * fract2pcnt;
     system->sendVariable(qd, n_conc);
 }
 
 void Plant::get_n_conc_min(protocol::Component *system, protocol::QueryValueData &qd)
 {
-    float n_conc = divide ((leafPart->n_conc_min() * leafPart->Green().DM()
-                            + stemPart->n_conc_min() * stemPart->Green().DM())
-                          , (leafPart->Green().DM() + stemPart->Green().DM())
+    float n_conc = divide ((leafPart->n_conc_min() * leafPart->Green.DM()
+                            + stemPart->n_conc_min() * stemPart->Green.DM())
+                          , (leafPart->Green.DM() + stemPart->Green.DM())
                           , 0.0) * fract2pcnt;
     system->sendVariable(qd, n_conc);
 }
@@ -3845,7 +3845,7 @@ void Plant::get_biomass_p(protocol::Component *systemInterface, protocol::QueryV
 
 void Plant::get_green_biomass_p(protocol::Component *systemInterface, protocol::QueryValueData &qd)
 {
-    systemInterface->sendVariable(qd, tops.Green().P());  //()
+    systemInterface->sendVariable(qd, tops.Green.P());  //()
 }
 //NIH up to here
 void Plant::get_p_conc_stover(protocol::Component *systemInterface, protocol::QueryValueData &qd)
@@ -3905,9 +3905,9 @@ void Plant::get_dlt_p_retrans(protocol::Component *systemInterface, protocol::Qu
 }
 
 
-float Plant::GreenDM(void) {return plant.Green().DM();}
-float Plant::GreenN(void) {return plant.Green().N();}
-float Plant::GreenP(void) {return plant.Green().P();}
+float Plant::GreenDM(void) {return plant.Green.DM();}
+float Plant::GreenN(void) {return plant.Green.N();}
+float Plant::GreenP(void) {return plant.Green.P();}
 float Plant::SenescedDM(void) {return plant.Senesced().DM();}
 float Plant::SenescedN(void) {return plant.Senesced().N();}
 float Plant::SenescedP(void) {return plant.Senesced().P();}
@@ -3925,10 +3925,10 @@ float Plant::getDmTops(void) { return tops.Total().DM();}
 float Plant::getDltDm(void) { return plant.dltDm();}
 float Plant::getDltDmGreen(void) { return plant.dltDmGreen();}
 float Plant::getDmVeg(void)  {return leafPart->Total().DM() + stemPart->Total().DM();}
-float Plant::getDmGreenStem(void)  {return stemPart->Green().DM();}
-float Plant::getDmGreenTot(void)  {return plant.Green().DM();}
+float Plant::getDmGreenStem(void)  {return stemPart->Green.DM();}
+float Plant::getDmGreenTot(void)  {return plant.Green.DM();}
 // FIXME - remove next line when P demand corrections activated
-float Plant::getRelativeGrowthRate(void) {return divide(arbitrator->dltDMWhole(plant.dltDmPotRue()), plant.Green().DM(), 0.0);} // the dlt_dm_pot_rue is only tops, thus either adjust it for roots or leave roots out of the divisor.
+float Plant::getRelativeGrowthRate(void) {return divide(arbitrator->dltDMWhole(plant.dltDmPotRue()), plant.Green.DM(), 0.0);} // the dlt_dm_pot_rue is only tops, thus either adjust it for roots or leave roots out of the divisor.
 float Plant::getTotalPotentialGrowthRate(void) {return arbitrator->dltDMWhole(plant.dltDmPotRue());} // the dlt_dm_pot_rue is only tops, thus adjust it for roots.
 float Plant::getDyingFractionPlants(void)
    {

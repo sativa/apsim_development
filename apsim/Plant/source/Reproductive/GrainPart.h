@@ -16,7 +16,7 @@ public:                                             // member functions
    fruitGrainPart(ScienceAPI& scienceAPI, plantInterface *p, const string &name);
    virtual ~fruitGrainPart() = 0;
 
-   virtual Biomass Grain(void) {return Green();}
+   virtual Biomass Grain(void) {return Green;}
    virtual Biomass GrainTotal(void) {return Total();}
    virtual Biomass Vegetative(void) {return Biomass();}
    virtual Biomass VegetativeTotal(void) {return Biomass();}

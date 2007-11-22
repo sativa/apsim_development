@@ -391,7 +391,7 @@ void RootPart::onEmergence(void)
    DMPlantMin = 0.0;
 
    // initial root length (mm/mm^2)
-   float initial_root_length = Green().DM() / sm2smm * specificRootLength;
+   float initial_root_length = Green.DM() / sm2smm * specificRootLength;
 
    // initial root length density (mm/mm^3)
    float rld = divide (initial_root_length, root_depth, 0.0);
@@ -426,13 +426,13 @@ void RootPart::onHarvest(float /*cutting_height*/, float /* remove_fr*/,
 // Harvesting Event Handler
    {
    // Push dead fraction into senesced pool
-   float dlt_dm_die = Green().DM() * rootDieBackFraction;
+   float dlt_dm_die = Green.DM() * rootDieBackFraction;
    float dlt_n_die = dlt_dm_die * c.n_sen_conc;
-   float dlt_p_die = Green().P() * rootDieBackFraction;
+   float dlt_p_die = Green.P() * rootDieBackFraction;
 
    Biomass Dead(dlt_dm_die, dlt_n_die, dlt_p_die);
 
-   Green() = Green() - Dead;
+   Green = Green - Dead;
    Senesced() = Senesced() + Dead;
 
    // Unlike above ground parts, no roots go to surface residue module.
@@ -449,12 +449,12 @@ void RootPart::onKillStem(void)
 // Kill Stem Event Handler
    {
    // Calculate Root Die Back
-   float dlt_dm_sen = Green().DM() * rootDieBackFraction;
-   float dlt_n_sen =  (Green().DM() - dlt_dm_sen) * rootDieBackFraction * c.n_sen_conc;
-   float dlt_p_sen =  Green().P() * rootDieBackFraction;
+   float dlt_dm_sen = Green.DM() * rootDieBackFraction;
+   float dlt_n_sen =  (Green.DM() - dlt_dm_sen) * rootDieBackFraction * c.n_sen_conc;
+   float dlt_p_sen =  Green.P() * rootDieBackFraction;
 
    Biomass Dead(dlt_dm_sen, dlt_n_sen, dlt_p_sen);
-   Green() = Green() - Dead;
+   Green = Green - Dead;
    Senesced() = Senesced() + Dead;
 
    plantPart::onKillStem();
@@ -609,12 +609,12 @@ void RootPart::onEndCrop(vector<string> &/*dm_type*/,
 //=======================================================================================
 // Unlike above ground parts, no roots go to surface residue module. Send our DM to FOM pool.
    {
-   root_incorp (Green().DM() , Green().N(), Green().P());
+   root_incorp (Green.DM() , Green.N(), Green.P());
    root_incorp_dead (Senesced().DM(), Senesced().N(), Senesced().P());
    //root_incorp_dead (dmDead(), nDead(), pDead());
 
    Senesced().Clear();
-   Green().Clear();
+   Green.Clear();
 
    }
 
@@ -1030,11 +1030,11 @@ void RootPart::removeBiomass2(float chop_fr)
 //=======================================================================================
 // Remove biomass from the root system due to senescence or plant death
    {
-   float dlt_dm_die = Green().DM() * rootDieBackFraction * chop_fr;
+   float dlt_dm_die = Green.DM() * rootDieBackFraction * chop_fr;
    float dlt_n_die = dlt_dm_die * c.n_sen_conc;
 
    Biomass Dead(dlt_dm_die, dlt_n_die, 0);
-   Green() = Green() - Dead;
+   Green = Green - Dead;
    Senesced() = Senesced() + Dead;
 
    /// WHY NO P?????????

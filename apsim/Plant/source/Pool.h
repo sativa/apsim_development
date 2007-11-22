@@ -14,9 +14,9 @@ class Pool : public Biomass
       interpolationFunction DigestibilityAvg;
       interpolationFunction DigestibilityMin;
 
-      Pool operator = (const Biomass& Pool2);
+      virtual Biomass& operator = (const Biomass& Pool2);
 
-   private:
+   protected:
       std::string PartName;
       std::string Name;
       ScienceAPI& scienceAPI;

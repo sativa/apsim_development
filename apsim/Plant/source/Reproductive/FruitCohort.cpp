@@ -47,11 +47,11 @@ void FruitCohort::onInit1(protocol::Component *system)
 
    podPart = new fruitPodPart(scienceAPI, plant, grainPart, "pod");
 
-   myParts.push_back(podPart);
+   add(podPart);
    myVegParts.push_back(podPart);
    supplyPools.push_back(podPart);
 
-   myParts.push_back(grainPart);
+   add(grainPart);
    myGrainParts.push_back(grainPart);
 
    // call into base class.
@@ -204,7 +204,7 @@ void FruitCohort::get_head_wt(protocol::Component *system, protocol::QueryValueD
    float headWt = 0.0;
    vector<plantPart *>::iterator part;
    for (part = myParts.begin(); part != myParts.end(); part++)
-      headWt += (*part)->Green().DM();
+      headWt += (*part)->Green.DM();
 
    system->sendVariable(qd, headWt);
 }
@@ -218,13 +218,13 @@ void FruitCohort::get_head_n(protocol::Component *system, protocol::QueryValueDa
 void FruitCohort::get_pod_n(protocol::Component *systemInterface, protocol::QueryValueData &qd)     //put in pod
    //===========================================================================                      //put in pod
 {                                                                                                  //put in pod
-   systemInterface->sendVariable(qd, podPart->Green().N());   //()                                    //put in pod
+   systemInterface->sendVariable(qd, podPart->Green.N());   //()                                    //put in pod
 }                                                                                                  //put in pod
                                                                                                    //put in pod
 void FruitCohort::get_pod_p(protocol::Component *systemInterface, protocol::QueryValueData &qd)     //put in pod
    //===========================================================================                      //put in pod
 {                                                                                                  //put in pod
-   systemInterface->sendVariable(qd, podPart->Green().P());   //()                                    //put in pod
+   systemInterface->sendVariable(qd, podPart->Green.P());   //()                                    //put in pod
 }                                                                                                  //put in pod
 
 void FruitCohort::get_head_p(protocol::Component *systemInterface, protocol::QueryValueData &qd)

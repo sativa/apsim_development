@@ -15,9 +15,9 @@ Pool::Pool(ScienceAPI& API, const std::string& Name, const std::string& PartName
    this->PartName = PartName;
    Clear();
 
-   scienceAPI.expose(PartName+Name+"Wt", "g/m^2", Name + " " + PartName + " dry matter", privateDM);
-   scienceAPI.expose(PartName+Name+"N",  "g/m^2", Name + " " + PartName + " nitrogen", privateN);
-   scienceAPI.expose(PartName+Name+"P",  "g/m^2", Name + " " + PartName + " phosphorus", privateP);
+   scienceAPI.exposeFunction(PartName+Name+"Wt", "g/m^2", Name + " " + PartName + " dry matter", FloatFunction(&Biomass::DM));
+   scienceAPI.exposeFunction(PartName+Name+"N",  "g/m^2", Name + " " + PartName + " nitrogen", FloatFunction(&Biomass::N));
+   scienceAPI.exposeFunction(PartName+Name+"P",  "g/m^2", Name + " " + PartName + " phosphorus", FloatFunction(&Biomass::P));
 
    scienceAPI.exposeFunction(PartName+Name+"nconc", "%", "N concentration in "+Name+" "+PartName, FloatFunction(&Pool::NconcPercent));
    scienceAPI.exposeFunction(PartName+Name+"pconc", "%", "P concentration in "+Name+" "+PartName, FloatFunction(&Pool::PconcPercent));
@@ -45,15 +45,14 @@ void Pool::Init(float Plants)
    p_init_conc = 0.0; //default value
    scienceAPI.readOptional(PartName + "_p_conc_init", p_init_conc, 0.0f, 1.0f);
 
-   privateDM = dm_init * Plants;
-   privateN = privateDM * n_init_conc;
-   privateP = privateDM * p_init_conc;
+   *this = Biomass(dm_init * Plants,
+                   dm_init * Plants * n_init_conc,
+                   dm_init * Plants * p_init_conc);
    }
 
 
-Pool Pool::operator = (const Biomass& Pool2)
+Biomass& Pool::operator = (const Biomass& Pool2)
    {
-   *(Biomass*)this = Pool2;
-   return *this;
+   return Biomass::operator=(Pool2);
    }
 
