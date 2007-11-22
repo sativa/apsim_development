@@ -69,12 +69,22 @@ void Biomass::doRegistrations(void)
 //------------------------------------------------------------------------------------------------
 void Biomass::initialize(void)
    {
+   effectiveRue = 0.0;
+   stem2FlowerFrac = 0.0;
    aboveGroundBiomass = 0.0;
+   aboveGroundGreenBiomass = 0.0;
+   totalBiomass = 0.0;
+   stemRachisBiomass = 0.0;
    hi = 0.0;
    yield = 0.0;
-   dltDM = 0.0;
    dltDMPotTE = 0.0;
    dltDMPotRUE = 0.0;
+   dltDM = 0.0;
+   stage = 0.0;
+   dmStover = 0.0;
+   biomGreen = 0.0;
+   biomStover = 0.0;
+
    //Setup report vectors
    greenDM.clear();
    senescedDM.clear();

@@ -59,8 +59,6 @@ void OOPlant::onPrepare(void)
          {
          PlantComponents[i]->initialize ();
          }
-//      for(unsigned i=0;i < PlantParts.size();i++) 
-//         PlantParts[i]->initialize ();
       }
    else if (plantStatus == alive)
       {
