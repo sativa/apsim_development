@@ -445,11 +445,11 @@
       dummy = add_registration_with_units(respondToGetReg,
      :              'grain_p', floatTypeDDML, 'g/m^2')
       dummy = add_registration_with_units(respondToGetReg,
-     :              'leaf_p', floatTypeDDML, 'g/m^2')
+     :              'leafgreenp', floatTypeDDML, 'g/m^2')
       dummy = add_registration_with_units(respondToGetReg,
-     :              'stem_p', floatTypeDDML, 'g/m^2')
+     :              'stemgreenp', floatTypeDDML, 'g/m^2')
       dummy = add_registration_with_units(respondToGetReg,
-     :              'root_p', floatTypeDDML, 'g/m^2')
+     :              'rootgreenp', floatTypeDDML, 'g/m^2')
       dummy = add_registration_with_units(respondToGetReg,
      :              'deadleaf_p', floatTypeDDML, 'g/m^2')
       dummy = add_registration_with_units(respondToGetReg,

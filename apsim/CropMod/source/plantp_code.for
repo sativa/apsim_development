@@ -275,17 +275,17 @@ c     :     ,1000.)          ! Upper Limit for bound checking
      :                             , '(g/m^2)'
      :                             , g%part_p_green(grain))
 
-      elseif (variable_name .eq. 'leaf_p') then
+      elseif (variable_name .eq. 'leafgreenp') then
          call respond2get_real_var (variable_name
      :                             , '(g/m^2)'
      :                             , g%part_p_green(leaf))
 
-      elseif (variable_name .eq. 'stem_p') then
+      elseif (variable_name .eq. 'stemgreenp') then
          call respond2get_real_var (variable_name
      :                             , '(g/m^2)'
      :                             , g%part_p_green(stem))
 
-      elseif (variable_name .eq. 'root_p') then
+      elseif (variable_name .eq. 'rootgreenp') then
          call respond2get_real_var (variable_name
      :                             , '(g/m^2)'
      :                             , g%part_p_green(root))
