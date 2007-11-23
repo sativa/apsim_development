@@ -25,6 +25,10 @@ Water::Water(ScienceAPI &api, OOPlant *p) : PlantProcess(api)
        }
    doRegistrations();
    initialize();
+
+   profileDepth = 0.0;
+   nLayers = 0;
+   currentLayer = 0;
    }
 //------------------------------------------------------------------------------------------------
 //------ Water Destructor
@@ -65,15 +69,19 @@ void Water::doRegistrations(void)
 //------------------------------------------------------------------------------------------------
 void Water::initialize(void)
    {
-   photoStress = 1;phenoStress = 1;expansionStress = 1;
-   currentLayer = 0;
-   lastLayerPropn = 0;
-   sdRatio = 1;
-   rootDepth = 0;
-   totalUptake = 0.0;
+   lastLayerPropn = 0.0;
+   totalAvail = 0.0;
+   totalAvailPot = 0.0;
+   totalSupply = 0.0;
    AccTotalSupply = 0.0;
+   dltUptake = 0.0;
+   totalUptake = 0.0;
+   eswTot = 0.0;
    ep = 0.0;
    swDemand = 0.0;
+   sdRatio = 0.0;
+   photoStress = 1;phenoStress = 1;expansionStress = 1;
+   rootDepth = 0;
    }
 //------------------------------------------------------------------------------------------------
 //------ read Water parameters

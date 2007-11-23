@@ -212,7 +212,8 @@ void OOPlant::onSowCrop(Variant &sowLine)
    // now we have the cultivar, get all 'constants' and cultivar parameters.
    readParams(); 
 
-   for(unsigned i=0;i < PlantComponents.size();i++) PlantComponents[i]->readParams (cultivar);
+   for(unsigned i=0;i < PlantComponents.size();i++) 
+     PlantComponents[i]->readParams (cultivar);
 
    scienceAPI.publish("sowing");
    }
