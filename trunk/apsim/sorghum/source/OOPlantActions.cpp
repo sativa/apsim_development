@@ -155,10 +155,10 @@ void OOPlant::onHarvest(void)     // Field a Harvest event
    sprintf(msg,"\n"); scienceAPI.write(msg);
    sprintf(msg,"Crop harvested.\n"); scienceAPI.write(msg);
    sprintf(msg,"   Organic matter removed from system:-      From Tops\t\tFrom Roots\n"); scienceAPI.write(msg);
-   sprintf(msg,"                    DM (kg/ha) =              %8.2f\t\t%8.2f\n",
-                 grain->getDmGreen() * 10,0); scienceAPI.write(msg);
-   sprintf(msg,"                    N  (kg/ha) =              %8.2f\t\t%8.2f\n",
-                 grain->getNGreen() * 10,0); scienceAPI.write(msg);
+   sprintf(msg,"                    DM (kg/ha) =              %8.2f\t\t    0.00\n",
+                 grain->getDmGreen() * 10.0); scienceAPI.write(msg);
+   sprintf(msg,"                    N  (kg/ha) =              %8.2f\t\t    0.00\n",
+                 grain->getNGreen() * 10.0); scienceAPI.write(msg);
    
    scienceAPI.publish("harvesting");
 
@@ -221,7 +221,7 @@ void OOPlant::onEndCrop(void)     // Field a End crop event
       }
    else
       {
-      sprintf(msg,"                    P  (kg/ha) =              %8.2f\t\t%8.2f\n",0,0);
+      sprintf(msg,"                    P  (kg/ha) =                  0.00\t\t    0.00\n",0,0);
       scienceAPI.write(msg);
       }
 

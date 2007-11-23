@@ -17,7 +17,6 @@ Nitrogen::Nitrogen(ScienceAPI &api, OOPlant *p) : PlantProcess(api)
 
    initialize();
    doRegistrations();
-
    }
 //------------------------------------------------------------------------------------------------
 //------ Nitrogen Destructor
@@ -78,6 +77,7 @@ void Nitrogen::initialize(void)
    nGreenBiomass = 0.0;
    nUptakeTotal = 0.0;
    nPlant = 0.0;
+   rootDepth = 0.0;
 
    currentLayer = 0.0;
    //Set up reporting vectors

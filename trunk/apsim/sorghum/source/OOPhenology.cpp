@@ -38,6 +38,8 @@ void Phenology::initialize(void)
    {
    dltTT = 0.0;
    dltTTFM = 0.0;
+   dltPhase = 0.0;
+   dltStage = 0.0;
 
    ttTotal.clear();
    ttTotalFM.clear();
