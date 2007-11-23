@@ -129,7 +129,7 @@ float FruitCohort::dmSenescedVeg(void)
    float dmTotal = 0.0;
    vector<plantPart *>::const_iterator part;
    for (part = myVegParts.begin(); part != myVegParts.end(); part++)
-      dmTotal += (*part)->Senesced().DM();
+      dmTotal += (*part)->Senesced.DM();
    return dmTotal;
 }
 
@@ -212,7 +212,7 @@ void FruitCohort::get_head_wt(protocol::Component *system, protocol::QueryValueD
 void FruitCohort::get_head_n(protocol::Component *system, protocol::QueryValueData &qd)
    //===========================================================================
 {
-   system->sendVariable(qd, Grain().N() + Vegetative().N());  // Why not VegetativeTotal ????
+   system->sendVariable(qd, Grain.N() + Vegetative.N());  // Why not VegetativeTotal ????
 }
 
 void FruitCohort::get_pod_n(protocol::Component *systemInterface, protocol::QueryValueData &qd)     //put in pod
@@ -230,7 +230,7 @@ void FruitCohort::get_pod_p(protocol::Component *systemInterface, protocol::Quer
 void FruitCohort::get_head_p(protocol::Component *systemInterface, protocol::QueryValueData &qd)
    //===========================================================================
 {
-   systemInterface->sendVariable(qd, Grain().P() + Vegetative().P());  // Why not VegetativeTotal?????
+   systemInterface->sendVariable(qd, Grain.P() + Vegetative.P());  // Why not VegetativeTotal?????
 }
 
 

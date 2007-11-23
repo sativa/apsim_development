@@ -26,7 +26,7 @@
 #include "PlantComponent.h"
 #include "PlantInterface.h"
 #include "PlantSpatial.h"
-#include "Pool.h"
+#include "CompositePool.h"
 #include "Delta.h"
 
 class plantPart : public plantThing
@@ -137,25 +137,28 @@ public:
    plantPart(ScienceAPI& scienceAPI, plantInterface *p, const string &name);
    virtual ~plantPart() {};
 
+   // deltas
    Delta Senescing;
    Delta Growth;
    Delta Detaching;
-   Pool& Green;
-
-
-   virtual Pool& Senesced() {return PrivateSenesced;}
-   virtual Biomass Total() { return (Green+Senesced());}
-   virtual Biomass Grain() { return (Biomass());}
-   virtual Biomass GrainTotal() { return Biomass();}
-   virtual Biomass Vegetative() {return Green;}
-   virtual Biomass VegetativeTotal() {return Total();}
-
    Delta Retranslocation;
+
+   // pools
+   Pool& Green;
+   Pool& Senesced;
+
+   CompositePool Grain;
+
+   // summary pools
+   CompositePool Total;
+   CompositePool GrainTotal;
+   CompositePool Vegetative;
+   CompositePool VegetativeTotal;
 
    virtual void zeroAllGlobals(void);
    virtual void zeroDeltas(void);
    virtual void zeroDltNSenescedTrans(void);
-   virtual void checkBounds(void);
+   virtual void checkBounds(void) {};
 
    bool tempFlagToShortCircuitInit1;
    virtual void onInit1(protocol::Component *);
@@ -371,10 +374,9 @@ public:
       virtual void onFlowering(void);
       virtual void onStartGrainFill(void);
 
-      Pool  PrivateSenesced;
-
+      // protected constructor called by CompositePart only.
       plantPart(ScienceAPI& api, plantInterface *p, const string &name,
-                Pool& green);
+                Pool& green, Pool& senesced);
 
    private:
       float nConcCrit();

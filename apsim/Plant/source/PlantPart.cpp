@@ -9,28 +9,49 @@ using namespace std;
 plantPart::plantPart(ScienceAPI& api, plantInterface *p, const string &name)
 //=======================================================================================
      : plantThing(api),
-       Green(*new Pool(api, "Green", name)),
-       PrivateSenesced(api, "Senesced", name),
+       // deltas
        Senescing(api, "Senescing", name),
        Growth(api, "Growth", name),
        Detaching(api, "Detaching", name),
-       Retranslocation (api, "Retranslocation", name)
+       Retranslocation (api, "Retranslocation", name),
+
+       // pools
+       Green(*new Pool(api, "Green", name)),
+       Senesced(*new Pool(api, "Senesced", name)),
+
+       // summary pools
+       Total(api, "Total", name),
+       Grain(api, "Grain", name),
+       GrainTotal(api, "GrainTotal", name),
+       Vegetative(api, "Vegetative", name),
+       VegetativeTotal(api, "VegetativeTotal", name)
      {
      plant = p;
      c.name = name;
+
      Initialise();
      }
 
 plantPart::plantPart(ScienceAPI& api, plantInterface *p, const string &name,
-                     Pool& green)
+                     Pool& green, Pool& senesced)
 //=======================================================================================
      : plantThing(api),
-       Green(green),
-       PrivateSenesced(api, "Senesced", name),
+       // deltas
        Senescing(api, "Senescing", name),
        Growth(api, "Growth", name),
        Detaching(api, "Detaching", name),
-       Retranslocation (api, "Retranslocation", name)
+       Retranslocation (api, "Retranslocation", name),
+
+       // pools
+       Green(green),
+       Senesced(senesced),
+
+       // summary pools
+       Total(api, "Total", name),
+       Grain(api, "Grain", name),
+       GrainTotal(api, "GrainTotal", name),
+       Vegetative(api, "Vegetative", name),
+       VegetativeTotal(api, "VegetativeTotal", name)
    {
    plant = p;
    c.name = name;
@@ -39,6 +60,14 @@ plantPart::plantPart(ScienceAPI& api, plantInterface *p, const string &name,
 
 void plantPart::Initialise()
    {
+   // setup summary pools
+   Vegetative.AddPool(Green);
+
+   Total.AddPool(Green);
+   Total.AddPool(Senesced);
+   VegetativeTotal.AddPool(Green);
+   VegetativeTotal.AddPool(Senesced);
+
      zeroAllGlobals();
      c.dm_init = 0;
      c.n_init_conc = 0;
@@ -264,26 +293,26 @@ float plantPart::digestibilityMinDmGreen(void)
 float plantPart::digestibilityMaxDmSenesced(void)
    //===========================================================================
 {
-   return Senesced().DigestibilityMax.value(plant->getStageCode());
+   return Senesced.DigestibilityMax.value(plant->getStageCode());
 }
 
 float plantPart::digestibilityAvgDmSenesced(void)
    //===========================================================================
 {
-   return Senesced().DigestibilityAvg.value(plant->getStageCode());
+   return Senesced.DigestibilityAvg.value(plant->getStageCode());
 }
 
 float plantPart::digestibilityMinDmSenesced(void)
    //===========================================================================
 {
-   return Senesced().DigestibilityMin.value(plant->getStageCode());
+   return Senesced.DigestibilityMin.value(plant->getStageCode());
 }
 
 void plantPart::zeroAllGlobals(void)
 //=======================================================================================
    {
    Green.Clear();
-   Senesced().Clear();
+   Senesced.Clear();
    Height=0.0;
    Width=0.0;
    g.n_conc_crit=0.0;
@@ -336,19 +365,6 @@ void plantPart::zeroDltNSenescedTrans(void)
 //=======================================================================================
    {
    dlt.n_senesced_trans = 0.0;
-   }
-
-void plantPart::checkBounds(void)
-//=======================================================================================
-   {
-   // Use a small comparison tolerance here.
-   const float ctz = -0.00001;
-   if (Green.DM() < ctz) throw std::runtime_error(c.name + " dm_green pool is negative! " + ftoa(Green.DM(),".6"));
-   if (Green.N() < ctz) throw std::runtime_error(c.name + " n_green pool is negative!" + ftoa(Green.N(),".6"));
-   if (Green.P() < ctz) throw std::runtime_error(c.name + " p_green pool is negative!" + ftoa(Green.P(),".6"));
-   if (Senesced().DM() < ctz) throw std::runtime_error(c.name + " dm_sen pool is negative!" + ftoa(Senesced().DM(),".6"));
-   if (Senesced().N() < ctz) throw std::runtime_error(c.name + " n_sen pool is negative!" + ftoa(Senesced().N(),".6"));
-   if (Senesced().P() < ctz) throw std::runtime_error(c.name + " p_sen pool is negative!" + ftoa(Senesced().P(),".6"));
    }
 
 void plantPart::readConstants(protocol::Component *, const string &)
@@ -494,7 +510,7 @@ void plantPart::onKillStem(void)
    float p_init = u_bound(dm_init * plantPart::c.p_init_conc, plantPart::Green.P());
 
    Biomass Init(dm_init, n_init, p_init);
-   Senesced() = Senesced() + (Green - Init);
+   Senesced = Senesced + (Green - Init);
    Green = Init;
    }
 
@@ -556,7 +572,7 @@ void plantPart::update(void)
 //=======================================================================================
    {
    Green = Green + Growth - Senescing;
-   Senesced() = Senesced() - Detaching + Senescing;
+   Senesced = Senesced - Detaching + Senescing;
    Green = Green + Retranslocation;
 
    Green = Green + Biomass(0, dlt.n_senesced_retrans, 0);
@@ -569,19 +585,19 @@ void plantPart::update(void)
    float greenN = Green.N() - n_green_dead;
    greenN = l_bound(greenN, 0.0);   // Can occur at total leaf senescence.
    Green = Biomass(Green.DM(), greenN, Green.P());
-   Senesced() = Senesced() + Biomass(0, n_green_dead, 0);
+   Senesced = Senesced + Biomass(0, n_green_dead, 0);
    Senescing = Senescing + Biomass(0, n_green_dead, 0);
 
    Biomass dm_green_dead(Green.DM() * dying_fract_plants, 0, 0);
    Green = Green - dm_green_dead;
-   Senesced() = Senesced() + dm_green_dead;
+   Senesced = Senesced + dm_green_dead;
    Senescing = Senescing + dm_green_dead;
 
    if (plant->phosphorusAware())
       {
       Biomass p_green_dead(0, 0, Green.P() * dying_fract_plants);
       Green = Green - p_green_dead;
-      Senesced() = Senesced() + p_green_dead;
+      Senesced = Senesced + p_green_dead;
       Senescing = Senescing + p_green_dead;
       }
 
@@ -597,7 +613,7 @@ void plantPart::removeBiomass(void)
    Biomass SenescedRemoved(dltDmSenescedRemoved(), dltNSenescedRemoved(), dltPSenescedRemoved());
 
    Green = Green - GreenRemoved;
-   Senesced() = Senesced() - SenescedRemoved;
+   Senesced = Senesced - SenescedRemoved;
    }
 
 void plantPart::doRemoveBiomass(protocol::RemoveCropDmType dmRemoved, string &c_remove_biomass_report)
@@ -654,8 +670,8 @@ void plantPart::doRemoveBiomass(protocol::RemoveCropDmType dmRemoved, string &c_
        msg2 << ("   dm green "+c.name+" = ") << Green.DM() << " (g/m2)" << endl;
        dmTotal2 +=  Green.DM();
 
-       msg2 << ("   dm senesced "+c.name+" = ") << Senesced().DM() << " (g/m2)" << endl;
-       dmTotal2 +=  Senesced().DM();
+       msg2 << ("   dm senesced "+c.name+" = ") << Senesced.DM() << " (g/m2)" << endl;
+       dmTotal2 +=  Senesced.DM();
 
        msg2 << endl << ("   dm total "+c.name+" = ") << dmTotal2 << " (g/m2)" << endl << ends;
 
@@ -670,11 +686,11 @@ void plantPart::doRemoveBiomass(protocol::RemoveCropDmType dmRemoved, string &c_
           msg << "Removing " << -dltDmGreenRemoved() << " (g/m2) from " << Green.DM() << " (g/m2) available." << ends;
           throw std::runtime_error (msg.str().c_str());
      }
-     else if (dltDmSenescedRemoved() > (Senesced().DM() + error_margin))
+     else if (dltDmSenescedRemoved() > (Senesced.DM() + error_margin))
      {
           ostringstream msg;
           msg << "Attempting to remove more senesced " << name() << " biomass than available:-" << endl;
-          msg << "Removing " << -dltDmSenescedRemoved() << " (g/m2) from " << Senesced().DM() << " (g/m2) available." << ends;
+          msg << "Removing " << -dltDmSenescedRemoved() << " (g/m2) from " << Senesced.DM() << " (g/m2) available." << ends;
           throw std::runtime_error (msg.str().c_str());
      }
      else
@@ -951,7 +967,7 @@ void plantPart::doNRetranslocate( float N_supply, float g_grain_n_demand)
 void plantPart::Detachment(void)
 //=======================================================================================
    {
-   Detaching = Senesced() * c.sen_detach_frac;
+   Detaching = Senesced * c.sen_detach_frac;
    }
 
 void plantPart::doPSenescence(void)
@@ -1025,12 +1041,12 @@ void plantPart::onEndCrop(vector<string> &dm_type,
 //=======================================================================================
    {
    dm_type.push_back(c.name);
-   dlt_crop_dm.push_back ((Green.DM() + Senesced().DM()) * gm2kg/sm2ha);
-   dlt_dm_n.push_back    ((Green.N()  + Senesced().N())  * gm2kg/sm2ha);
-   dlt_dm_p.push_back    ((Green.P()  + Senesced().P())       * gm2kg/sm2ha);
+   dlt_crop_dm.push_back ((Green.DM() + Senesced.DM()) * gm2kg/sm2ha);
+   dlt_dm_n.push_back    ((Green.N()  + Senesced.N())  * gm2kg/sm2ha);
+   dlt_dm_p.push_back    ((Green.P()  + Senesced.P())       * gm2kg/sm2ha);
    fraction_to_residue.push_back(1.0);
 
-   Senesced().Clear();
+   Senesced.Clear();
    Green.Clear();
 
    }
@@ -1054,11 +1070,11 @@ void plantPart::onHarvest_GenericAboveGroundPart( float remove_fr,
    float retain_fr_green = divide(dm_init, Green.DM(), 0.0);
    float retain_fr_sen   = 0.0;
 
-   float dlt_dm_harvest = Green.DM() + Senesced().DM() - dm_init;
-   float dlt_n_harvest  = Green.N()  + Senesced().N()  - n_init;
-   float dlt_p_harvest  = Green.P()  + Senesced().P() - p_init;
+   float dlt_dm_harvest = Green.DM() + Senesced.DM() - dm_init;
+   float dlt_n_harvest  = Green.N()  + Senesced.N()  - n_init;
+   float dlt_p_harvest  = Green.P()  + Senesced.P() - p_init;
 
-   Senesced() = Senesced() * retain_fr_sen;
+   Senesced = Senesced * retain_fr_sen;
    Green = Biomass(Green.DM() * retain_fr_green, n_init, p_init);
 
    dm_type.push_back(c.name);
@@ -1181,7 +1197,7 @@ float plantPart::dltNGreenRemoved(void)
 float plantPart::dltNSenescedRemoved(void)
 //=======================================================================================
    {
-   return (Senesced().N() * divide(dlt.dm_senesced_removed, Senesced().DM(), 0.0));
+   return (Senesced.N() * divide(dlt.dm_senesced_removed, Senesced.DM(), 0.0));
    }
 
 
@@ -1194,7 +1210,7 @@ float plantPart::dltPGreenRemoved(void)
 float plantPart::dltPSenescedRemoved(void)
 //=======================================================================================
    {
-   return (Senesced().P() * divide(dlt.dm_senesced_removed, Senesced().DM(), 0.0));
+   return (Senesced.P() * divide(dlt.dm_senesced_removed, Senesced.DM(), 0.0));
    }
 
 float plantPart::dltDmRemoved(void)
@@ -1218,7 +1234,7 @@ float plantPart::dltPRemoved(void)
 float plantPart::dmSenescedVeg(void)
 //=======================================================================================
    {
-   return (Senesced().DM());
+   return (Senesced.DM());
    }
 
 float plantPart::dmGreenStressDeterminant(void)
@@ -1431,7 +1447,7 @@ void plantPart::get_p_demand(vector<float> &demands) {demands.push_back(PDemand)
 void plantPart::get_dlt_p_retrans(vector<float> &dlt_p_retrans) {dlt_p_retrans.push_back(Retranslocation.P());}
 void plantPart::get_dm_plant_min(vector<float> &dm_min) {dm_min.push_back(DMPlantMin);}
 void plantPart::get_dm_green(vector<float> &dm_green) {dm_green.push_back(Green.DM());}
-void plantPart::get_dm_senesced(vector<float> &dm_senesced) {dm_senesced.push_back(Senesced().DM());}
+void plantPart::get_dm_senesced(vector<float> &dm_senesced) {dm_senesced.push_back(Senesced.DM());}
 void plantPart::get_dlt_dm_green(vector<float> &dlt_dm_green) {dlt_dm_green.push_back(Growth.DM());}
 void plantPart::get_dlt_dm_green_retrans(vector<float> &dlt_dm_green_retrans) {dlt_dm_green_retrans.push_back(Retranslocation.DM());}
 void plantPart::get_dlt_dm_detached(vector<float> &dlt_dm_detached) {dlt_dm_detached.push_back(Detaching.DM());}
@@ -1520,11 +1536,11 @@ float plantPart::giveDmSenescedRemoved (float delta)
    {
    dlt.dm_senesced_removed = delta;
    float error_margin = 1.0e-6 ;
-   if (delta > Senesced().DM() + error_margin)
+   if (delta > Senesced.DM() + error_margin)
    {
        ostringstream msg;
        msg << "Attempting to remove more Senesced " << name() << " biomass than available:-" << endl;
-       msg << "Removing " << -delta << " (g/m2) from " << Senesced().DM() << " (g/m2) available." << ends;
+       msg << "Removing " << -delta << " (g/m2) from " << Senesced.DM() << " (g/m2) available." << ends;
        throw std::runtime_error (msg.str().c_str());
    }
    return delta;

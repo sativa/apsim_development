@@ -13,12 +13,6 @@ public:                                             // member functions
 
    void add(plantPart* part);
 
-   virtual Pool& Senesced(void);
-   virtual Biomass Grain();
-   virtual Biomass GrainTotal();
-   virtual Biomass Vegetative();
-   virtual Biomass VegetativeTotal();
-
    virtual void onInit1(protocol::Component *);
    virtual void doNewMet(protocol::NewMetType &newmet) ;
    virtual void readConstants (protocol::Component *, const string &);
@@ -83,7 +77,6 @@ public:                                             // member functions
                                           , vector<float> &fract);
 
    virtual void update(void);
-   void fixPools();
    virtual void doNConccentrationLimits(float);
    virtual void zeroDltDmGreen(void);
 

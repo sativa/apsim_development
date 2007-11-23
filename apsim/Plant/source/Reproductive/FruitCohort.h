@@ -1,9 +1,5 @@
-
-// Modification log
-// 2 Feb 05 J. Hargreaves  Implementation
-
-#ifndef FruitCohort_H
-#define FruitCohort_H
+#ifndef FruitCohortH
+#define FruitCohortH
 
 ////#include "Phenology/PlantPhenology.h"
 #include "CompositePart.h"
