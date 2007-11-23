@@ -298,12 +298,12 @@ void Plant::summary_p (void)
 
    if (g.phosphorus_aware == true)
    {
-       P_grain_conc_percent = fruitPart->GrainTotal().PconcPercent();
+       P_grain_conc_percent = fruitPart->GrainTotal.PconcPercent();
 
-       P_grain = tops.GrainTotal().P() * gm2kg/sm2ha;  // why not graintotal??
+       P_grain = tops.GrainTotal.P() * gm2kg/sm2ha;  // why not graintotal??
 
 
-       P_stover = tops.VegetativeTotal().P()* gm2kg/sm2ha;
+       P_stover = tops.VegetativeTotal.P()* gm2kg/sm2ha;
        P_total = P_grain + P_stover;
        P_dead = 0.0; //note we no longer have dead pools
 
@@ -314,11 +314,11 @@ void Plant::summary_p (void)
 
        sprintf (msg, "%s%10.2f%20s%s%8.2f"
                 , " grain P uptake (kg/ha) = ", P_grain, " "
-                , " senesced P content (kg/ha)=", (tops.VegetativeTotal().P() - tops.Vegetative().P())* gm2kg/sm2ha);
+                , " senesced P content (kg/ha)=", (tops.VegetativeTotal.P() - tops.Vegetative.P())* gm2kg/sm2ha);
        parent->writeString (msg);
 
        sprintf (msg, "%s%10.2f%20s%s%10.2f"
-                , " green P content (kg/ha)= ", tops.Vegetative().P() * gm2kg/sm2ha, " "
+                , " green P content (kg/ha)= ", tops.Vegetative.P() * gm2kg/sm2ha, " "
                 , " dead P content (kg/ha) = ", P_dead);
        parent->writeString (msg);
    }

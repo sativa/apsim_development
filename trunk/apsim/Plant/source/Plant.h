@@ -200,14 +200,8 @@ public:
                           ) ;
 
    void plant_totals(float *g_lai_max
-                     ,float  *g_n_conc_act_stover_tot
-                     ,float  *g_n_conc_crit_stover_tot
-                     ,float  *g_n_demand_tot
-                     ,float  *g_n_uptake_stover_tot
-                     ,float  *g_n_uptake_tot
                      ,float  *g_n_fix_uptake
                      ,float  *g_n_fixed_tops
-                     ,float  *g_transpiration_tot
                     )  ;
    void plant_event();
 
@@ -256,7 +250,6 @@ public:
 
    bool onSetPhase (protocol::QuerySetValueData &v/*(INPUT) message variant*/);
    void plant_harvest (protocol::Variant &v/*(INPUT) message variant*/);
-   void plant_kill_stem (protocol::Variant &v/*(INPUT) incoming message variant*/);
    void plant_remove_crop_biomass (protocol::Variant &v/*(INPUT) incoming message variant*/);
    void plant_detach_crop_biomass (protocol::Variant &v/*(INPUT) incoming message variant*/);
    void plant_dormancy (protocol::Variant &v/*(INPUT) incoming message variant*/);
@@ -268,7 +261,6 @@ public:
    void plant_zero_daily_variables ();
    void plant_start_crop (protocol::Variant &v/*(INPUT) message arguments*/);
    void plant_end_crop ();
-   void plant_kill_crop_action (protocol::Variant &mVar);
    void plant_store_value (
                            int    g_day_of_year
                            ,int    g_year
@@ -388,7 +380,6 @@ public:
    void get_transp_eff(protocol::Component *, protocol::QueryValueData &);
    void get_ep(protocol::Component *, protocol::QueryValueData &);
    void get_sw_uptake(protocol::Component *, protocol::QueryValueData &);
-   void get_cep(protocol::Component *, protocol::QueryValueData &);
    void get_sw_supply(protocol::Component *, protocol::QueryValueData &);
    void get_esw_layr(protocol::Component *, protocol::QueryValueData &);
    void get_n_conc_stover(protocol::Component *, protocol::QueryValueData &);
@@ -402,7 +393,6 @@ public:
    void get_nfact_pheno(protocol::Component *, protocol::QueryValueData &);
    void get_dlt_n_fixed_pot(protocol::Component *, protocol::QueryValueData &);
    void get_dlt_n_fixed(protocol::Component *, protocol::QueryValueData &);
-   void get_n_fixed_tops(protocol::Component *, protocol::QueryValueData &);
    void get_nfact_photo(protocol::Component *, protocol::QueryValueData &);
    void get_nfact_expan(protocol::Component *, protocol::QueryValueData &);
    void get_nfact_grain(protocol::Component *, protocol::QueryValueData &);
@@ -568,12 +558,6 @@ private:
       float n_fix_uptake;                               // N fixation actual (g/m^2)
       float n_fixed_tops;                               // cum. fixed N in tops
 
-      float transpiration_tot;                          // cumulative transpiration (mm)
-      float n_uptake_tot;                               // cumulative total N uptake (g/m^2)
-      float n_demand_tot;                               // sum of N demand since last output (g/m^2)
-      float n_conc_act_stover_tot;                      // sum of tops actual N concentration (g N/g biomass)
-      float n_conc_crit_stover_tot;                     // sum of tops critical N concentration (g N/g biomass)
-      float n_uptake_stover_tot;                        // sum of tops N uptake (g N/m^2)
       float lai_max;                                    // maximum lai - occurs at flowering
       float ext_n_demand;
 

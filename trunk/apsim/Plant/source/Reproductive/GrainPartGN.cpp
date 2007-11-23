@@ -52,13 +52,13 @@ void fruitGrainPartGN::onInit1(protocol::Component *system)
 float fruitGrainPartGN::grainWt(void)
    //===========================================================================
 {
-   return divide (Total().DM(), gGrain_no, 0.0);
+   return divide (Total.DM(), gGrain_no, 0.0);
 }
 
 void fruitGrainPartGN::get_grain_size(protocol::Component *system, protocol::QueryValueData &qd)
    //===========================================================================
 {
-   float grain_size = divide (Total().DM(), gGrain_no, 0.0);
+   float grain_size = divide (Total.DM(), gGrain_no, 0.0);
 
    system->sendVariable(qd, grain_size);
 }

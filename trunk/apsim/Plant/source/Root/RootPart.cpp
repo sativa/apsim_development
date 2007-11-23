@@ -433,7 +433,7 @@ void RootPart::onHarvest(float /*cutting_height*/, float /* remove_fr*/,
    Biomass Dead(dlt_dm_die, dlt_n_die, dlt_p_die);
 
    Green = Green - Dead;
-   Senesced() = Senesced() + Dead;
+   Senesced = Senesced + Dead;
 
    // Unlike above ground parts, no roots go to surface residue module.
    dm_type.push_back(c.name);
@@ -455,7 +455,7 @@ void RootPart::onKillStem(void)
 
    Biomass Dead(dlt_dm_sen, dlt_n_sen, dlt_p_sen);
    Green = Green - Dead;
-   Senesced() = Senesced() + Dead;
+   Senesced = Senesced + Dead;
 
    plantPart::onKillStem();
    }
@@ -610,10 +610,10 @@ void RootPart::onEndCrop(vector<string> &/*dm_type*/,
 // Unlike above ground parts, no roots go to surface residue module. Send our DM to FOM pool.
    {
    root_incorp (Green.DM() , Green.N(), Green.P());
-   root_incorp_dead (Senesced().DM(), Senesced().N(), Senesced().P());
+   root_incorp_dead (Senesced.DM(), Senesced.N(), Senesced.P());
    //root_incorp_dead (dmDead(), nDead(), pDead());
 
-   Senesced().Clear();
+   Senesced.Clear();
    Green.Clear();
 
    }
@@ -1035,7 +1035,7 @@ void RootPart::removeBiomass2(float chop_fr)
 
    Biomass Dead(dlt_dm_die, dlt_n_die, 0);
    Green = Green - Dead;
-   Senesced() = Senesced() + Dead;
+   Senesced = Senesced + Dead;
 
    /// WHY NO P?????????
 

@@ -12,8 +12,11 @@ using namespace std;
 //  initialise data members.
 CompositePart::CompositePart(ScienceAPI& scienceAPI, plantInterface *p, const string &name)
    : plantPart(scienceAPI, p, name,
-               *new CompositePool(scienceAPI, "Green", name))
+               *new CompositePool(scienceAPI, "Green", name),
+               *new CompositePool(scienceAPI, "Senesced", name))
    {
+   Vegetative.ClearPools();
+   VegetativeTotal.ClearPools();
    }
 
 // destructor
@@ -36,43 +39,6 @@ const CompositePart &CompositePart::operator=(const CompositePart &/*other*/)
 {
    throw std::invalid_argument("Assignment operator NI for CompositePart");
 }
-
-Pool& CompositePart::Senesced(void)
-   {
-   PrivateSenesced.Clear();
-   for (vector <plantPart * >::const_iterator part = myParts.begin(); part != myParts.end(); part++)
-      PrivateSenesced = PrivateSenesced + (*part)->Senesced();
-   return PrivateSenesced;
-
-   }
-Biomass CompositePart::Grain(void)
-   {
-   Biomass Temp;
-   for (vector <plantPart * >::const_iterator part = myParts.begin(); part != myParts.end(); part++)
-      Temp = Temp + (*part)->Grain();
-   return Temp;
-   }
-Biomass CompositePart::GrainTotal(void)
-   {
-   Biomass Temp;
-   for (vector <plantPart * >::const_iterator part = myParts.begin(); part != myParts.end(); part++)
-      Temp = Temp + (*part)->GrainTotal();
-   return Temp;
-   }
-Biomass CompositePart::Vegetative(void)
-   {
-   Biomass Temp;
-   for (vector <plantPart * >::const_iterator part = myParts.begin(); part != myParts.end(); part++)
-      Temp = Temp + (*part)->Vegetative();
-   return Temp;
-   }
-Biomass CompositePart::VegetativeTotal(void)
-   {
-   Biomass Temp;
-   for (vector <plantPart * >::const_iterator part = myParts.begin(); part != myParts.end(); part++)
-      Temp = Temp + (*part)->VegetativeTotal();
-   return Temp;
-   }
 
 void CompositePart::onInit1(protocol::Component *system)
    //===========================================================================
@@ -98,8 +64,19 @@ void CompositePart::add(plantPart* part)
    {
    myParts.push_back(part);
 
+   // Add this part's pools to green and senesced composite pools
    CompositePool& GreenPool = (CompositePool&) Green;
+   CompositePool& SenescedPool = (CompositePool&) Senesced;
+   CompositePool& GrainPool = (CompositePool&) Grain;
+   CompositePool& GrainTotalPool = (CompositePool&) GrainTotal;
    GreenPool.AddPool(part->Green);
+   SenescedPool.AddPool(part->Senesced);
+
+   Vegetative.AddPool(part->Vegetative);
+   VegetativeTotal.AddPool(part->VegetativeTotal);
+
+   GrainPool.AddPool(part->Grain);
+   GrainTotalPool.AddPool(part->GrainTotal);
    }
 
 float CompositePart::dltNGreen(void)
@@ -749,27 +726,7 @@ void CompositePart::update(void)
    vector <plantPart *>::iterator part;
    for (part = myParts.begin(); part != myParts.end(); part++)
       (*part)->update();
-   fixPools();
 }
-
-void CompositePart::fixPools()
-   {
-   // ----------------------------------------------------------
-   // DPH - This is a hack for now. Get rid of ASAP.
-   // ----------------------------------------------------------
-   vector <plantPart *>::iterator part;
-   Senesced().Clear();
-   Senescing.Clear();
-   Detaching.Clear();
-   Growth.Clear();
-   for (part = myParts.begin(); part != myParts.end(); part++)
-      {
-      Senesced() = Senesced() + (*part)->Senesced();
-      Senescing = Senescing + (*part)->Senescing;
-      Detaching = Detaching + (*part)->Detaching;
-      Growth = Growth + (*part)->Growth;
-      }
-   }
 
 void CompositePart::doNConccentrationLimits(float modifier)
    //===========================================================================

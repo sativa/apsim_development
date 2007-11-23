@@ -33,16 +33,16 @@ void StoragePart::onHarvest(float cutting_height, float remove_fr,
 
 
    float dlt_dm_harvest = Green.DM()
-                        + Senesced().DM();
+                        + Senesced.DM();
 
    float dlt_n_harvest = Green.N()
-                       + Senesced().N();
+                       + Senesced.N();
 
    float dlt_p_harvest = Green.P()
-                       + Senesced().P();
+                       + Senesced.P();
 
    Green.Clear();
-   Senesced().Clear();
+   Senesced.Clear();
 
    dm_type.push_back(c.name);
    fraction_to_residue.push_back(fractToResidue);

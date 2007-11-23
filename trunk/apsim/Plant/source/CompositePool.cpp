@@ -13,6 +13,15 @@ CompositePool::CompositePool(ScienceAPI& scienceAPI, const std::string& Name, co
    {
    }
 
+void CompositePool::Clear()
+   {
+   for (unsigned i = 0; i != Pools.size(); i++)
+      Pools[i]->Clear();
+   }
+void CompositePool::ClearPools()
+   {
+   Pools.erase(Pools.begin(), Pools.end());
+   }
 void CompositePool::AddPool(Biomass& pool)
    {
    Pools.push_back(&pool);
