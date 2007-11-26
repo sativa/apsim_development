@@ -68,8 +68,8 @@ Component   "broccoli" = c:\development\apsim\plant\lib\plant.dll
         broccoli.node_no_sen
         broccoli.node_no_fx
         sw_dep()
-        broccoli.leaf_wt
-        broccoli.stem_wt
+        broccoli.LeafGreenWt
+        broccoli.StemGreenWt
         sw
 
      Output file = Lawes06 Planting1Wet Block.out
@@ -84,7 +84,7 @@ Component   "broccoli" = c:\development\apsim\plant\lib\plant.dll
         broccoli.floral_initiation_das
         broccoli.maturity_das
         broccoli.green_biomass_wt
-        broccoli.pod_wt
+        broccoli.PodGreenWt
         broccoli.leaf_area_max
         broccoli.stage
         broccoli.cumvd

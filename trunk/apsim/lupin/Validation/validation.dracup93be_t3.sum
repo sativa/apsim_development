@@ -51,12 +51,12 @@ Component      "lupin" = c:\development\apsim\plant\lib\plant.dll
         lupin.green_biomass
         lupin.biomass
         lupin.biomass_wt
-        lupin.leaf_wt
-        lupin.stem_wt
+        lupin.LeafGreenWt
+        lupin.StemGreenWt
         lupin.grain_wt
-        lupin.pod_wt
-        lupin.root_wt
-        lupin.fruit_wt
+        lupin.PodGreenWt
+        lupin.RootGreenWt
+        lupin.FruitGreenWt
         lupin.lai
         manager.apoc_rain
 
@@ -164,7 +164,7 @@ Component      "lupin" = c:\development\apsim\plant\lib\plant.dll
      if (lupin.stage>=3 and lupin.stage <= 9) then
         hi = yield / biomass
         hi_green = grain_wt / green_biomass_wt
-        sla_tot = lai/leaf_wt
+        sla_tot = lai/leafgreenwt
         yield_in_t = yield/1000
      else
         hi = 0

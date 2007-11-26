@@ -89,9 +89,9 @@ Component   "tracker2" = c:\development\apsim\tracker\lib\tracker.dll
         surfaceom.surfaceom_cover
         wheat.biomass_wt as W_topbiom
         wheat.dleaf_wt as W_dleaf_wt
-        wheat.root_wt as W_rootwt
-        wheat.leaf_wt as W_leafwt
-        wheat.stem_wt as W_stemwt
+        wheat.RootGreenWt as W_rootwt
+        wheat.LeafGreenWt as W_leafwt
+        wheat.StemGreenWt as W_stemwt
         wheat.grain_wt as W_grainwt
         wheat.zadok_stage as W_stage
         wheat.flowering_date as W_antdat
@@ -182,9 +182,9 @@ Component   "tracker2" = c:\development\apsim\tracker\lib\tracker.dll
         lucerne.stage as L_stage
         lucerne.biomass as L_biomass
         lucerne.green_biomass as L_gbiomass
-        lucerne.root_wt as rootwt
-        lucerne.leaf_wt as leafwt
-        lucerne.stem_wt as stemwt
+        lucerne.RootGreenWt as rootwt
+        lucerne.LeafGreenWt as leafwt
+        lucerne.StemGreenWt as stemwt
         surfaceom.surfaceom_n
         surfaceom.surfaceom_wt
         surfaceom.surfaceom_cover
@@ -1568,7 +1568,7 @@ Component   "tracker2" = c:\development\apsim\tracker\lib\tracker.dll
 1 December 1996(Day of year=336), canola: 
       stage 10.0 harvest_ripe
                      biomass =         646.85 (g/m^2)   lai          =   0.000 (m^2/m^2)
-                     stover N conc =     0.59 (%)    extractable sw =   87.07 (mm)
+                     stover N conc =     0.59 (%)    extractable sw =   87.08 (mm)
 2 December 1996(Day of year=337), canola: 
      Crop failure because of total leaf senescence.
      Plant death. standing above-ground dm = 6468.54 (kg/ha)
@@ -1986,7 +1986,7 @@ Component   "tracker2" = c:\development\apsim\tracker\lib\tracker.dll
                      stover N conc =     0.32 (%)    extractable sw =  120.01 (mm)
 2 December 1998(Day of year=336), wheat: 
      Crop failure because of total leaf senescence.
-     Plant death. standing above-ground dm = 8722.35 (kg/ha)
+     Plant death. standing above-ground dm = 8722.36 (kg/ha)
 15 December 1998(Day of year=349), weed: 
       stage 4.0 end_of_juvenile
                      biomass =           9.60 (g/m^2)   lai          =   0.159 (m^2/m^2)

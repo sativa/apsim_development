@@ -46,11 +46,11 @@ Component     "barley" = c:\development\apsim\plant\lib\plant.dll
         barley.das
         barley.stage
         barley.biomass_wt
-        barley.leaf_wt as dmLeaf
-        barley.stem_wt as dmStem 
+        barley.LeafGreenWt as dmLeaf
+        barley.StemGreenWt as dmStem 
         barley.grain_wt as dmGrain
         barley.biomass_n as nBiomass
-        barley.stem_n as nStem
+        barley.StemGreenN as nStem
         barley.n_green(4) as nRachis
         barley.grain_n as nGrain
         barley.n_senesced() as nSenLeaf

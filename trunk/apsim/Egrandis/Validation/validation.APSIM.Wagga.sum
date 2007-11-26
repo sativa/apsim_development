@@ -44,10 +44,10 @@ Component   "Egrandis" = c:\development\apsim\Growth\lib\Growth.dll
         tracker.avg@fw
         tracker.avg@fvpd
         tracker.avg@ft
-        Egrandis.adm_green(1) as stem_wt
+        Egrandis.adm_green(1) as StemGreenWt
         Egrandis.adm_green(2) as branch_wt
         Egrandis.adm_green(3) as bark_wt
-        Egrandis.foliage_mass as leaf_wt
+        Egrandis.foliage_mass as LeafGreenWt
         Egrandis.root_mass
         Egrandis.height
         tracker.sum@ep()

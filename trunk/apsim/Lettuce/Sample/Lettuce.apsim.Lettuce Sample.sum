@@ -38,9 +38,9 @@ Component    "Lettuce" = c:\development\apsim\plant\lib\plant.dll
         Lettuce.biomass
         Lettuce.ep
         Lettuce.tt_tot
-        Lettuce.leaf_wt
-        Lettuce.stem_wt
-        Lettuce.floret_wt
+        Lettuce.LeafGreenWt
+        Lettuce.StemGreenWt
+        Lettuce.FloretGreenWt
         Lettuce.node_no
 
      Output file = Lettuce.out

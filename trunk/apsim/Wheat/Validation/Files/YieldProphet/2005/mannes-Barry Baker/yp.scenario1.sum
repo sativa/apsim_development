@@ -567,10 +567,10 @@ Component   "rainfall" = c:\development\apsim\patchinput\lib\patchinput.dll
 20 November 2005(Day of year=324), Wheat: 
       stage 10.0 harvest_ripe
                      biomass =        1020.23 (g/m^2)   lai          =   0.000 (m^2/m^2)
-                     stover N conc =     0.27 (%)    extractable sw =   47.14 (mm)
+                     stover N conc =     0.27 (%)    extractable sw =   47.15 (mm)
 21 November 2005(Day of year=325), manager: 
-     Manager creating a new local real variable : wet_yield =     1.91316904496119
-     Manager creating a new local real variable : cropprotein =     7.91794491000000
+     Manager creating a new local real variable : wet_yield =     1.91317043132483
+     Manager creating a new local real variable : cropprotein =     7.91794395000000
      Manager creating a new local real variable : price =     0.00000000000000
      Manager sending message :- wheat harvest
 21 November 2005(Day of year=325), Wheat: 
@@ -610,7 +610,7 @@ Component   "rainfall" = c:\development\apsim\patchinput\lib\patchinput.dll
      
       stage 4.0 end_of_juvenile
                      biomass =           0.00 (g/m^2)   lai          =   0.020 (m^2/m^2)
-                     stover N conc =     6.30 (%)    extractable sw =   47.14 (mm)
+                     stover N conc =     6.30 (%)    extractable sw =   47.15 (mm)
      Manager sending message :- wheat kill_crop
      Plant kill. 100.00% crop killed because of external action.
      Manager sending message :- wheat end_crop

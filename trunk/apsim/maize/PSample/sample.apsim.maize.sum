@@ -46,7 +46,6 @@ Component     "sysbal" = c:\development\apsim\sysbal\lib\sysbal.dll
         maize.grain_n
         maize.tiller_no_fertile as tillers
         maize.root_depth as rootdepth
-        maize.cep
         maize.swdef_pheno as ws_pheno
         maize.swdef_photo as ws_photo
         maize.swdef_expan as ws_expan
@@ -76,9 +75,9 @@ Component     "sysbal" = c:\development\apsim\sysbal\lib\sysbal.dll
         maize.biomass_p
         maize.green_biomass_p
         maize.grain_p
-        maize.leaf_p
-        maize.stem_p
-        maize.root_p
+        maize.LeafGreenP
+        maize.StemGreenP
+        maize.RootGreenP
         maize.flower_p
         maize.head_p
         maize.p_senesced()

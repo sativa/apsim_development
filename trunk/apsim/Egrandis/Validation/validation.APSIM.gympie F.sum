@@ -58,10 +58,10 @@ Component   "Egrandis" = c:\development\apsim\Growth\lib\Growth.dll
         tracker1.avg@Egrandis_Fw
         tracker1.avg@Egrandis_Fvpd
         tracker1.avg@Egrandis_ft
-        Egrandis.adm_green(1) as stem_wt
+        Egrandis.adm_green(1) as StemGreenWt
         Egrandis.adm_green(2) as branch_wt
         Egrandis.adm_green(3) as bark_wt
-        Egrandis.foliage_mass as leaf_wt
+        Egrandis.foliage_mass as LeafGreenWt
         Egrandis.root_mass
         Egrandis.adm_sen()
         tracker1.avg@Egrandis_sw_demand
@@ -72,7 +72,7 @@ Component   "Egrandis" = c:\development\apsim\Growth\lib\Growth.dll
         tracker1.sum@Egrandis_dlt_adm_green[3] as dlt_bark_wt
         tracker1.sum@Egrandis_dlt_foliage_mass as dlt_leaf_wt
         Egrandis.foliage_n
-        Egrandis.an_green(1) as stem_n
+        Egrandis.an_green(1) as StemGreenN
         Egrandis.an_green(2) as branch_n
         Egrandis.an_green(3) as bark_n
         tracker1.sum@Egrandis_n_demand

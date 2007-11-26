@@ -139,13 +139,13 @@ Component   "Tracker4" = c:\development\apsim\Tracker\lib\Tracker.dll
         wheat.rlv as W_rlv
         wheat.biomass as W_tops_biom
         wheat.green_biomass as W_stover_biom
-        wheat.root_wt as W_root_wt
-        wheat.leaf_wt as W_leaf_wt
-        wheat.stem_wt as W_stem_wt
+        wheat.RootGreenWt as W_root_wt
+        wheat.LeafGreenWt as W_leaf_wt
+        wheat.StemGreenWt as W_stem_wt
         wheat.grain_wt as W_grain_wt
         wheat.grain_n as W_grainn
-        wheat.leaf_n as W_leafn
-        wheat.stem_n as W_stemn
+        wheat.LeafGreenN as W_leafn
+        wheat.StemGreenN as W_stemn
         wheat.green_biomass_n as W_topsn
         wheat.biomass_n as W_plantn
         wheat.yield as W_yield
@@ -168,7 +168,7 @@ Component   "Tracker4" = c:\development\apsim\Tracker\lib\Tracker.dll
         lucerne.plant_status as L_status
         lucerne.biomass_wt as L_biomass
         lucerne.biomass_n as L_biomass_n
-        lucerne.root_wt as L_root_wt
+        lucerne.RootGreenWt as L_root_wt
         tracker2.sum@lucerne_dlt_n_fixed as L_dlt_n_fixed
         canola.rlv as C_rlv
         canola.swdef_photo as C_swdef
@@ -178,16 +178,16 @@ Component   "Tracker4" = c:\development\apsim\Tracker\lib\Tracker.dll
         canola.lai as C_lai
         canola.pai as C_pai
         canola.biomass_wt as C_biomass
-        canola.root_wt as C_root_wt
-        canola.leaf_wt as C_leaf_wt
-        canola.stem_wt as C_stem_wt
-        canola.pod_wt as C_pod_wt
+        canola.RootGreenWt as C_root_wt
+        canola.LeafGreenWt as C_leaf_wt
+        canola.StemGreenWt as C_stem_wt
+        canola.PodGreenWt as C_pod_wt
         canola.grain_wt as C_grain_wt
         canola.biomass_n as C_biomass_n
-        canola.root_n as C_root_n
-        canola.leaf_n as C_leaf_n
-        canola.stem_n as C_stem_n
-        canola.pod_n as C_pod_n
+        canola.RootGreenN as C_root_n
+        canola.LeafGreenN as C_leaf_n
+        canola.StemGreenN as C_stem_n
+        canola.PodGreenN as C_pod_n
         canola.grain_n as C_grain_n
         canola.n_uptake as C_n_uptake
         canola.yield as C_yield
@@ -233,10 +233,10 @@ Component   "Tracker4" = c:\development\apsim\Tracker\lib\Tracker.dll
         lucerne.lai as L_lai
         lucerne.biomass_wt as L_biomass
         lucerne.biomass_n as L_biomass_n
-        lucerne.root_wt as L_root_wt
-        lucerne.leaf_wt as L_leaf_wt
-        lucerne.stem_wt as L_stem_wt
-        lucerne.pod_wt as L_pod_wt
+        lucerne.RootGreenWt as L_root_wt
+        lucerne.LeafGreenWt as L_leaf_wt
+        lucerne.StemGreenWt as L_stem_wt
+        lucerne.PodGreenWt as L_pod_wt
         lucerne.grain_wt as L_grain_wt
         lucerne.stage as L_stage
         lucerne.dm_green

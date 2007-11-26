@@ -89,9 +89,9 @@ Component   "tracker2" = c:\development\apsim\tracker\lib\tracker.dll
         surfaceom.surfaceom_cover
         wheat.biomass_wt as W_topbiom
         wheat.dleaf_wt as W_dleaf_wt
-        wheat.root_wt as W_rootwt
-        wheat.leaf_wt as W_leafwt
-        wheat.stem_wt as W_stemwt
+        wheat.RootGreenWt as W_rootwt
+        wheat.LeafGreenWt as W_leafwt
+        wheat.StemGreenWt as W_stemwt
         wheat.grain_wt as W_grainwt
         wheat.zadok_stage as W_stage
         wheat.flowering_date as W_antdat
@@ -182,9 +182,9 @@ Component   "tracker2" = c:\development\apsim\tracker\lib\tracker.dll
         lucerne.stage as L_stage
         lucerne.biomass as L_biomass
         lucerne.green_biomass as L_gbiomass
-        lucerne.root_wt as rootwt
-        lucerne.leaf_wt as leafwt
-        lucerne.stem_wt as stemwt
+        lucerne.RootGreenWt as rootwt
+        lucerne.LeafGreenWt as leafwt
+        lucerne.StemGreenWt as stemwt
         surfaceom.surfaceom_n
         surfaceom.surfaceom_wt
         surfaceom.surfaceom_cover

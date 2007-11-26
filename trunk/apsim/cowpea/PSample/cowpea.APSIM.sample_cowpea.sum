@@ -48,10 +48,10 @@ Component     "cowpea" = c:\development\apsim\Plant\lib\Plant.dll
         cowpea.biomass_p
         cowpea.green_biomass_p
         cowpea.grain_p
-        cowpea.leaf_p
-        cowpea.stem_p
-        cowpea.root_p
-        cowpea.pod_p
+        cowpea.LeafGreenP
+        cowpea.StemGreenP
+        cowpea.RootGreenP
+        cowpea.PodGreenP
         cowpea.head_p
         cowpea.dlt_p_green()
         cowpea.dlt_p_retrans()

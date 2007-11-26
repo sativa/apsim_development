@@ -51,12 +51,12 @@ Component      "lupin" = c:\development\apsim\plant\lib\plant.dll
         lupin.green_biomass
         lupin.biomass
         lupin.biomass_wt
-        lupin.leaf_wt
-        lupin.stem_wt
+        lupin.LeafGreenWt
+        lupin.StemGreenWt
         lupin.grain_wt
-        lupin.pod_wt
-        lupin.root_wt
-        lupin.fruit_wt
+        lupin.PodGreenWt
+        lupin.RootGreenWt
+        lupin.FruitGreenWt
         lupin.lai
         manager.apoc_rain
 
@@ -122,7 +122,7 @@ Component      "lupin" = c:\development\apsim\plant\lib\plant.dll
      if (lupin.stage>=3 and lupin.stage <= 8) then
         hi = yield / biomass
         hi_green = grain_wt / green_biomass_wt
-        sla_tot = lai/leaf_wt
+        sla_tot = lai/leafgreenwt
         yield_in_t = yield/1000
      else
         hi = 0
@@ -1496,7 +1496,7 @@ Component      "lupin" = c:\development\apsim\plant\lib\plant.dll
       DM Root:Shoot ratio    =     0.25                       Harvest Index          =       0.25
       Stover C:N ratio       =    31.96                       Root C:N ratio         =      19.15
       grain N percent        =     5.30                       total N content (kg/ha)=     195.34
-      grain N uptake (kg/ha) =   114.37                       senesced N content (kg/ha)=   12.29
+      grain N uptake (kg/ha) =   114.38                       senesced N content (kg/ha)=   12.29
       green N content (kg/ha)=    68.68
      
       Average Stress Indices:                          Water Photo  Water Expan  N Photo      N grain conc
@@ -1514,7 +1514,7 @@ Component      "lupin" = c:\development\apsim\plant\lib\plant.dll
      
          Organic matter removed from system:-      From Tops               From Roots
                           DM (kg/ha) =                2156.5                     0.0
-                          N  (kg/ha) =                 114.37                    0.00
+                          N  (kg/ha) =                 114.38                    0.00
      
       stage 11.0 end_crop
      Manager sending message :- lupin kill_crop
