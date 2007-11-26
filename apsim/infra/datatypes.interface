@@ -494,59 +494,13 @@
          <field name="fraction_to_residue" kind="single" array="T"/>
       </type>
       <type name="NewProfile">
-         <field name="sender_name" kind="string"/>
-         <field name="sender_numbytes" kind="integer4"/>
-         <field name="sender_code" kind="integer4"/>
-         <field name="sender_isarray" kind="boolean"/>
-         <field name="sender_value" kind="string" />
-
-         <field name="sender_id_name" kind="string"/>
-         <field name="sender_id_numbytes" kind="integer4"/>
-         <field name="sender_id_code" kind="integer4"/>
-         <field name="sender_id_isarray" kind="boolean"/>
-         <field name="sender_id_value" kind="integer4" />
-
-         <field name="dlayer_name" kind="string"/>
-         <field name="dlayer_numbytes" kind="integer4"/>
-         <field name="dlayer_code" kind="integer4"/>
-         <field name="dlayer_isarray" kind="boolean"/>
-         <field name="dlayer_value" kind="single" array="T" />
-
-         <field name="air_dry_dep_name" kind="string"/>
-         <field name="air_dry_dep_numbytes" kind="integer4"/>
-         <field name="air_dry_dep_code" kind="integer4"/>
-         <field name="air_dry_dep_isarray" kind="boolean"/>
-         <field name="air_dry_dep_value" kind="single" array="T" />
-
-         <field name="ll15_dep_name" kind="string"/>
-         <field name="ll15_dep_numbytes" kind="integer4"/>
-         <field name="ll15_dep_code" kind="integer4"/>
-         <field name="ll15_dep_isarray" kind="boolean"/>
-         <field name="ll15_dep_value" kind="single" array="T" />
-
-         <field name="dul_dep_name" kind="string"/>
-         <field name="dul_dep_numbytes" kind="integer4"/>
-         <field name="dul_dep_code" kind="integer4"/>
-         <field name="dul_dep_isarray" kind="boolean"/>
-         <field name="dul_dep_value" kind="single" array="T" />
-
-         <field name="sat_dep_name" kind="string"/>
-         <field name="sat_dep_numbytes" kind="integer4"/>
-         <field name="sat_dep_code" kind="integer4"/>
-         <field name="sat_dep_isarray" kind="boolean"/>
-         <field name="sat_dep_value" kind="single" array="T" />
-
-         <field name="sw_dep_name" kind="string"/>
-         <field name="sw_dep_numbytes" kind="integer4"/>
-         <field name="sw_dep_code" kind="integer4"/>
-         <field name="sw_dep_isarray" kind="boolean"/>
-         <field name="sw_dep_value" kind="single" array="T" />
-
-         <field name="bd_name" kind="string"/>
-         <field name="bd_numbytes" kind="integer4"/>
-         <field name="bd_code" kind="integer4"/>
-         <field name="bd_isarray" kind="boolean"/>
-         <field name="bd_value" kind="single" array="T" />
+         <field name="dlayer" kind="single" array="T" />
+         <field name="air_dry_dep" kind="single" array="T" />
+         <field name="ll15_dep" kind="single" array="T" />
+         <field name="dul_dep" kind="single" array="T" />
+         <field name="sat_dep" kind="single" array="T" />
+         <field name="sw_dep" kind="single" array="T" />
+         <field name="bd" kind="single" array="T" />
       </type>
 
    <type name="NewPotentialGrowth">

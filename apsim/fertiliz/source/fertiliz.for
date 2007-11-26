@@ -763,7 +763,7 @@ c     include   'fertiliz.inc'
 
 
 *     ===========================================================
-      subroutine fertiliz_ONNew_Profile ()
+      subroutine fertiliz_ONNew_Profile (variant)
 *     ===========================================================
       Use infrastructure
       implicit none
@@ -776,9 +776,11 @@ c     include   'fertiliz.inc'
 
 *+  Changes
 *        150600 nih
+      integer variant
 
 *+  Local Variables
       integer numvals
+      type(NewProfileType) :: newProfile
 
 *+  Constant Values
       character*(*) myname               ! name of current procedure
@@ -786,15 +788,8 @@ c     include   'fertiliz.inc'
 
 *- Implementation Section ----------------------------------
       call push_routine (myname)
-
-         call collect_real_array
-     :         (DATA_dlayer  ! Name of Variable  (not used)
-     :        , max_layer    ! size of array to be set
-     :        , '(mm)'       ! Units of variable (not used)
-     :        , g%dlayer     ! Variable array
-     :        , numvals      ! Number of elements returned
-     :        , 0.0          ! Lower Limit for bound checking
-     :        , 1000.0)      ! Upper Limit for bound checking
+      call unpack_newProfile(variant, newProfile)
+      g%dlayer = newProfile%dlayer
 
       call pop_routine (myname)
       return
@@ -894,9 +889,6 @@ C      call set_warning_off ()
          call fertiliz_get_other_variables ()
          call fertiliz_set_my_variable (Data_string)
 
-      else if (Action .eq. EVENT_new_profile) then
-         call fertiliz_OnNew_Profile()
-
       else
             ! Don't use message
          call Message_unused ()
@@ -923,6 +915,8 @@ C      call set_warning_off ()
 
       if (eventID .eq. id%tick) then
          call fertiliz_ONtick(variant)
+      elseif (eventID .eq. id%new_profile) then
+         call fertiliz_OnNew_Profile(variant)
       endif
 
       return

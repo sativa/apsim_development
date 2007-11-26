@@ -1050,43 +1050,46 @@ void RootPart::removeBiomass2(float chop_fr)
 
    }
 
-void RootPart::onNewProfile(protocol::Variant &v)
+void RootPart::onNewProfile(protocol::NewProfileType &v)
 //=======================================================================================
 // Handler for OnNewProfile event
     {
 
     float profile_depth;                          // depth of soil profile (mm)
 
-    protocol::ApsimVariant av(plant->getComponent());
-    av.aliasTo(v.getMessageData());
-
-    protocol::vector<float> previousLayers;
+    vector<float> previousLayers;
     for (unsigned layer = 0; layer != max_layer; layer++)
        previousLayers.push_back(dlayer[layer]);
 
-    protocol::vector<float> scratch;
-    av.get("dlayer", protocol::DTsingle, true, scratch);
+    vector<float> scratch = v.dlayer;
     num_layers = scratch.size();
+    for (unsigned i = 0; i < scratch.size(); i++) 
+      dlayer[i] = scratch[i];
 
+    scratch = v.ll15_dep;
+    for (unsigned i = 0; i < scratch.size(); i++) 
+      ll15_dep[i] = scratch[i];
+      
+    scratch = v.dul_dep;
+    for (unsigned i = 0; i < scratch.size(); i++) 
+      dul_dep[i] = scratch[i];
+    
+    scratch = v.sat_dep;
+    for (unsigned i = 0; i < scratch.size(); i++) 
+      sat_dep[i] = scratch[i];
+      
+    scratch = v.sw_dep;
+    for (unsigned i = 0; i < scratch.size(); i++) 
+      sw_dep[i] = scratch[i];
 
-    for (unsigned layer = 0; layer != scratch.size(); layer++)
-       dlayer[layer] = scratch[layer];
+    scratch = v.bd;
+    for (unsigned i = 0; i < scratch.size(); i++) 
+      bd[i] = scratch[i];
 
     if (xf.size()==0)
-       for (unsigned layer = 0; layer != scratch.size(); layer++)
+       for (unsigned layer = 0; layer != num_layers; layer++)
           xf.push_back(0.0);
 
-
-    av.get("ll15_dep", protocol::DTsingle, true, scratch);
-    for (unsigned layer = 0; layer != scratch.size(); layer++) { ll15_dep[layer] = scratch[layer]; }
-    av.get("dul_dep", protocol::DTsingle, true, scratch);
-    for (unsigned layer = 0; layer != scratch.size(); layer++) { dul_dep[layer] = scratch[layer]; }
-    av.get("sat_dep", protocol::DTsingle, true, scratch);
-    for (unsigned layer = 0; layer != scratch.size(); layer++) { sat_dep[layer] = scratch[layer]; }
-    av.get("sw_dep", protocol::DTsingle, true, scratch);
-    for (unsigned layer = 0; layer != scratch.size(); layer++) { sw_dep[layer] = scratch[layer]; }
-    av.get("bd", protocol::DTsingle, true, scratch);
-    for (unsigned layer = 0; layer != scratch.size(); layer++) { bd[layer] = scratch[layer]; }
 
     // dlayer may be changed from its last setting due to erosion
     profile_depth = sum_real_array(dlayer,max_layer);

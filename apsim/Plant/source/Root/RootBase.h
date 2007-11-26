@@ -67,7 +67,7 @@ class RootBase : public plantPart
       virtual void UpdateOtherVariables(){};
 
       virtual float oxdef_stress (){return 0;}
-      virtual void onNewProfile(protocol::Variant &v){};
+      virtual void onNewProfile(protocol::NewProfileType &v){};
       virtual void write(){};
 
       virtual float plant_nit_supply(float biomass, float stageNumber, float swdef_fixation){return 0;}
