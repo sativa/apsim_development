@@ -45,7 +45,6 @@ Component    "sorghum" = c:\development\apsim\sorghum\lib\sorghum.dll
         sorghum.grain_n
         sorghum.tiller_no_fertile as tillers
         sorghum.root_depth as rootdepth
-        sorghum.cep
         sorghum.swdef_pheno as ws_pheno
         sorghum.swdef_photo as ws_photo
         sorghum.swdef_expan as ws_expan
@@ -71,9 +70,9 @@ Component    "sorghum" = c:\development\apsim\sorghum\lib\sorghum.dll
         sorghum.biomass_p
         sorghum.green_biomass_p
         sorghum.grain_p
-        sorghum.leaf_p
-        sorghum.stem_p
-        sorghum.root_p
+        sorghum.LeafGreenP
+        sorghum.StemGreenP
+        sorghum.RootGreenP
         sorghum.flower_p
         sorghum.head_p
         sorghum.p_dead()

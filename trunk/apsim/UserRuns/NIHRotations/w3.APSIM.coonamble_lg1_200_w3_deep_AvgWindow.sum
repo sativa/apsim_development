@@ -743,16 +743,16 @@ Component     "sysbal" = c:\development\apsim\sysbal\lib\sysbal.dll
                      stover N conc =     1.50 (%)    extractable sw =  228.89 (mm)
 10 November 1973(Day of year=314), wheat: 
       stage 8.0 end_grain_fill
-                     biomass =        1565.63 (g/m^2)   lai          =   0.720 (m^2/m^2)
+                     biomass =        1565.64 (g/m^2)   lai          =   0.720 (m^2/m^2)
                      stover N conc =     0.68 (%)    extractable sw =  127.69 (mm)
 11 November 1973(Day of year=315), wheat: 
       stage 9.0 maturity
-                     biomass =        1565.63 (g/m^2)   lai          =   0.643 (m^2/m^2)
-                     stover N conc =     0.68 (%)    extractable sw =  123.98 (mm)
+                     biomass =        1565.64 (g/m^2)   lai          =   0.643 (m^2/m^2)
+                     stover N conc =     0.68 (%)    extractable sw =  123.97 (mm)
 12 November 1973(Day of year=316), wheat: 
       stage 10.0 harvest_ripe
-                     biomass =        1565.63 (g/m^2)   lai          =   0.000 (m^2/m^2)
-                     stover N conc =     0.68 (%)    extractable sw =  122.84 (mm)
+                     biomass =        1565.64 (g/m^2)   lai          =   0.000 (m^2/m^2)
+                     stover N conc =     0.68 (%)    extractable sw =  122.83 (mm)
 13 November 1973(Day of year=317), manager: 
      Manager sending message :- wheat harvest
 13 November 1973(Day of year=317), wheat: 
@@ -762,8 +762,8 @@ Component     "sysbal" = c:\development\apsim\sysbal\lib\sysbal.dll
       grain % water content  =   12.5                         grain yield wet (kg/ha)=     6441.8
       grain wt (g)           =    0.041                       grains/m^2             =    13747.8
       grains/plant           =  137.5                         maximum lai            =      5.075
-      total above ground biomass (kg/ha)    =    15656.3
-      live above ground biomass (kg/ha)     =    15656.3
+      total above ground biomass (kg/ha)    =    15656.4
+      live above ground biomass (kg/ha)     =    15656.4
       green above ground biomass (kg/ha)    =    13419.9
       senesced above ground biomass (kg/ha) =     2236.5
       number of leaves       =     41.6
@@ -792,7 +792,7 @@ Component     "sysbal" = c:\development\apsim\sysbal\lib\sysbal.dll
      
       stage 4.0 end_of_juvenile
                      biomass =           0.00 (g/m^2)   lai          =   0.020 (m^2/m^2)
-                     stover N conc =     6.30 (%)    extractable sw =  122.84 (mm)
+                     stover N conc =     6.30 (%)    extractable sw =  122.83 (mm)
      Manager sending message :- wheat kill_crop
      Plant kill. 100.00% crop killed because of external action.
      Manager sending message :- wheat end_crop
@@ -875,9 +875,9 @@ Component     "sysbal" = c:\development\apsim\sysbal\lib\sysbal.dll
                      biomass =           5.00 (g/m^2)   lai          =   0.002 (m^2/m^2)
                      stover N conc =     6.00 (%)    extractable sw =   32.09 (mm)
 4 June 1974(Day of year=155), sysbal: 
-     **** N balance - unaccounted gain (kg/ha) =      3.750849
-     **** C balance - unaccounted gain (kg/ha) =     40.000378
-     ****        equivalent DM as FOM  (kg/ha) =    100.000946
+     **** N balance - unaccounted gain (kg/ha) =      3.749872
+     **** C balance - unaccounted gain (kg/ha) =     40.000381
+     ****        equivalent DM as FOM  (kg/ha) =    100.000954
 23 July 1974(Day of year=204), chickpea: 
       stage 4.0 end_of_juvenile
                      biomass =           7.81 (g/m^2)   lai          =   0.065 (m^2/m^2)
@@ -1018,7 +1018,7 @@ Component     "sysbal" = c:\development\apsim\sysbal\lib\sysbal.dll
                                              Fraction Incorporated =     0.10
                                              Incorporated Depth    =    50.00
 23 June 1975(Day of year=174), sysbal: 
-     **** N balance - unaccounted gain (kg/ha) =    174.048828
+     **** N balance - unaccounted gain (kg/ha) =    174.047852
 24 June 1975(Day of year=175), wheat: 
       stage 2.0 germination
 9 July 1975(Day of year=190), wheat: 
@@ -1026,9 +1026,9 @@ Component     "sysbal" = c:\development\apsim\sysbal\lib\sysbal.dll
                      biomass =           0.46 (g/m^2)   lai          =   0.020 (m^2/m^2)
                      stover N conc =     5.85 (%)    extractable sw =   39.73 (mm)
 9 July 1975(Day of year=190), sysbal: 
-     **** N balance - unaccounted gain (kg/ha) =      0.469727
-     **** C balance - unaccounted gain (kg/ha) =      5.808558
-     ****        equivalent DM as FOM  (kg/ha) =     14.521395
+     **** N balance - unaccounted gain (kg/ha) =      0.468750
+     **** C balance - unaccounted gain (kg/ha) =      5.792924
+     ****        equivalent DM as FOM  (kg/ha) =     14.482309
 10 July 1975(Day of year=191), wheat: 
       stage 4.0 end_of_juvenile
                      biomass =           0.61 (g/m^2)   lai          =   0.022 (m^2/m^2)
@@ -1180,8 +1180,8 @@ Component     "sysbal" = c:\development\apsim\sysbal\lib\sysbal.dll
                      stover N conc =     6.00 (%)    extractable sw =   29.90 (mm)
 7 July 1976(Day of year=189), sysbal: 
      **** N balance - unaccounted gain (kg/ha) =      3.750977
-     **** C balance - unaccounted gain (kg/ha) =     40.004696
-     ****        equivalent DM as FOM  (kg/ha) =    100.011742
+     **** C balance - unaccounted gain (kg/ha) =     40.020325
+     ****        equivalent DM as FOM  (kg/ha) =    100.050812
 23 August 1976(Day of year=236), chickpea: 
       stage 4.0 end_of_juvenile
                      biomass =           9.52 (g/m^2)   lai          =   0.092 (m^2/m^2)
@@ -1321,7 +1321,7 @@ Component     "sysbal" = c:\development\apsim\sysbal\lib\sysbal.dll
                                              Fraction Incorporated =     0.10
                                              Incorporated Depth    =    50.00
 20 May 1977(Day of year=140), sysbal: 
-     **** N balance - unaccounted gain (kg/ha) =    146.952637
+     **** N balance - unaccounted gain (kg/ha) =    146.953613
 21 May 1977(Day of year=141), wheat: 
       stage 2.0 germination
 4 June 1977(Day of year=155), wheat: 
@@ -1329,7 +1329,7 @@ Component     "sysbal" = c:\development\apsim\sysbal\lib\sysbal.dll
                      biomass =           0.46 (g/m^2)   lai          =   0.020 (m^2/m^2)
                      stover N conc =     5.85 (%)    extractable sw =   38.22 (mm)
 4 June 1977(Day of year=155), sysbal: 
-     **** N balance - unaccounted gain (kg/ha) =      0.468859
+     **** N balance - unaccounted gain (kg/ha) =      0.468860
      **** C balance - unaccounted gain (kg/ha) =      5.883644
      ****        equivalent DM as FOM  (kg/ha) =     14.709110
 5 June 1977(Day of year=156), wheat: 
@@ -1482,9 +1482,9 @@ Component     "sysbal" = c:\development\apsim\sysbal\lib\sysbal.dll
                      biomass =           5.00 (g/m^2)   lai          =   0.002 (m^2/m^2)
                      stover N conc =     6.00 (%)    extractable sw =   51.87 (mm)
 3 June 1978(Day of year=154), sysbal: 
-     **** N balance - unaccounted gain (kg/ha) =      3.750164
-     **** C balance - unaccounted gain (kg/ha) =     40.056465
-     ****        equivalent DM as FOM  (kg/ha) =    100.141159
+     **** N balance - unaccounted gain (kg/ha) =      3.750163
+     **** C balance - unaccounted gain (kg/ha) =     40.040840
+     ****        equivalent DM as FOM  (kg/ha) =    100.102097
 23 July 1978(Day of year=204), chickpea: 
       stage 4.0 end_of_juvenile
                      biomass =           6.92 (g/m^2)   lai          =   0.041 (m^2/m^2)
@@ -1633,8 +1633,8 @@ Component     "sysbal" = c:\development\apsim\sysbal\lib\sysbal.dll
                      stover N conc =     5.85 (%)    extractable sw =   24.31 (mm)
 9 July 1979(Day of year=190), sysbal: 
      **** N balance - unaccounted gain (kg/ha) =      0.468750
-     **** C balance - unaccounted gain (kg/ha) =      5.848162
-     ****        equivalent DM as FOM  (kg/ha) =     14.620404
+     **** C balance - unaccounted gain (kg/ha) =      5.863787
+     ****        equivalent DM as FOM  (kg/ha) =     14.659467
 10 July 1979(Day of year=191), wheat: 
       stage 4.0 end_of_juvenile
                      biomass =           0.62 (g/m^2)   lai          =   0.023 (m^2/m^2)
@@ -1785,9 +1785,9 @@ Component     "sysbal" = c:\development\apsim\sysbal\lib\sysbal.dll
                      biomass =           5.00 (g/m^2)   lai          =   0.002 (m^2/m^2)
                      stover N conc =     6.00 (%)    extractable sw =   33.58 (mm)
 9 June 1980(Day of year=161), sysbal: 
-     **** N balance - unaccounted gain (kg/ha) =      3.751115
-     **** C balance - unaccounted gain (kg/ha) =     40.007828
-     ****        equivalent DM as FOM  (kg/ha) =    100.019569
+     **** N balance - unaccounted gain (kg/ha) =      3.749162
+     **** C balance - unaccounted gain (kg/ha) =     39.992203
+     ****        equivalent DM as FOM  (kg/ha) =     99.980507
 27 July 1980(Day of year=209), chickpea: 
       stage 4.0 end_of_juvenile
                      biomass =           7.40 (g/m^2)   lai          =   0.048 (m^2/m^2)
@@ -1935,9 +1935,9 @@ Component     "sysbal" = c:\development\apsim\sysbal\lib\sysbal.dll
                      biomass =           0.46 (g/m^2)   lai          =   0.020 (m^2/m^2)
                      stover N conc =     5.85 (%)    extractable sw =   50.24 (mm)
 6 June 1981(Day of year=157), sysbal: 
-     **** N balance - unaccounted gain (kg/ha) =      0.467325
-     **** C balance - unaccounted gain (kg/ha) =      5.814115
-     ****        equivalent DM as FOM  (kg/ha) =     14.535286
+     **** N balance - unaccounted gain (kg/ha) =      0.468302
+     **** C balance - unaccounted gain (kg/ha) =      5.798490
+     ****        equivalent DM as FOM  (kg/ha) =     14.496223
 7 June 1981(Day of year=158), wheat: 
       stage 4.0 end_of_juvenile
                      biomass =           0.61 (g/m^2)   lai          =   0.022 (m^2/m^2)
@@ -2375,7 +2375,7 @@ Component     "sysbal" = c:\development\apsim\sysbal\lib\sysbal.dll
                                              Fraction Incorporated =     0.10
                                              Incorporated Depth    =    50.00
 27 July 1986(Day of year=208), sysbal: 
-     **** N balance - unaccounted gain (kg/ha) =     85.874023
+     **** N balance - unaccounted gain (kg/ha) =     85.875977
 28 July 1986(Day of year=209), wheat: 
       stage 2.0 germination
 12 August 1986(Day of year=224), wheat: 
@@ -2528,7 +2528,7 @@ Component     "sysbal" = c:\development\apsim\sysbal\lib\sysbal.dll
                      biomass =           0.46 (g/m^2)   lai          =   0.020 (m^2/m^2)
                      stover N conc =     5.85 (%)    extractable sw =   30.91 (mm)
 21 July 1988(Day of year=203), sysbal: 
-     **** N balance - unaccounted gain (kg/ha) =      0.469727
+     **** N balance - unaccounted gain (kg/ha) =      0.468750
      **** C balance - unaccounted gain (kg/ha) =      5.844503
      ****        equivalent DM as FOM  (kg/ha) =     14.611259
 22 July 1988(Day of year=204), wheat: 
@@ -2831,9 +2831,9 @@ Component     "sysbal" = c:\development\apsim\sysbal\lib\sysbal.dll
                      biomass =           0.46 (g/m^2)   lai          =   0.020 (m^2/m^2)
                      stover N conc =     5.85 (%)    extractable sw =   36.25 (mm)
 2 June 1990(Day of year=153), sysbal: 
-     **** N balance - unaccounted gain (kg/ha) =      0.468686
-     **** C balance - unaccounted gain (kg/ha) =      5.829527
-     ****        equivalent DM as FOM  (kg/ha) =     14.573817
+     **** N balance - unaccounted gain (kg/ha) =      0.469663
+     **** C balance - unaccounted gain (kg/ha) =      5.813902
+     ****        equivalent DM as FOM  (kg/ha) =     14.534755
 3 June 1990(Day of year=154), wheat: 
       stage 4.0 end_of_juvenile
                      biomass =           0.61 (g/m^2)   lai          =   0.022 (m^2/m^2)
@@ -3120,7 +3120,7 @@ Component     "sysbal" = c:\development\apsim\sysbal\lib\sysbal.dll
                                              Fraction Incorporated =     0.10
                                              Incorporated Depth    =    50.00
 21 May 1995(Day of year=141), sysbal: 
-     **** N balance - unaccounted gain (kg/ha) =    153.690414
+     **** N balance - unaccounted gain (kg/ha) =    153.688461
 22 May 1995(Day of year=142), wheat: 
       stage 2.0 germination
 2 June 1995(Day of year=153), wheat: 
@@ -3128,9 +3128,9 @@ Component     "sysbal" = c:\development\apsim\sysbal\lib\sysbal.dll
                      biomass =           0.46 (g/m^2)   lai          =   0.020 (m^2/m^2)
                      stover N conc =     5.85 (%)    extractable sw =   31.03 (mm)
 2 June 1995(Day of year=153), sysbal: 
-     **** N balance - unaccounted gain (kg/ha) =      0.468559
-     **** C balance - unaccounted gain (kg/ha) =      5.811454
-     ****        equivalent DM as FOM  (kg/ha) =     14.528634
+     **** N balance - unaccounted gain (kg/ha) =      0.468558
+     **** C balance - unaccounted gain (kg/ha) =      5.827079
+     ****        equivalent DM as FOM  (kg/ha) =     14.567697
 3 June 1995(Day of year=154), wheat: 
       stage 4.0 end_of_juvenile
                      biomass =           0.57 (g/m^2)   lai          =   0.022 (m^2/m^2)
@@ -3282,8 +3282,8 @@ Component     "sysbal" = c:\development\apsim\sysbal\lib\sysbal.dll
                      stover N conc =     6.00 (%)    extractable sw =   25.72 (mm)
 21 June 1996(Day of year=173), sysbal: 
      **** N balance - unaccounted gain (kg/ha) =      3.750000
-     **** C balance - unaccounted gain (kg/ha) =     39.981628
-     ****        equivalent DM as FOM  (kg/ha) =     99.954071
+     **** C balance - unaccounted gain (kg/ha) =     40.012878
+     ****        equivalent DM as FOM  (kg/ha) =    100.032196
 9 August 1996(Day of year=222), chickpea: 
       stage 4.0 end_of_juvenile
                      biomass =           7.36 (g/m^2)   lai          =   0.046 (m^2/m^2)
@@ -3432,8 +3432,8 @@ Component     "sysbal" = c:\development\apsim\sysbal\lib\sysbal.dll
                      stover N conc =     5.85 (%)    extractable sw =   32.00 (mm)
 31 May 1997(Day of year=151), sysbal: 
      **** N balance - unaccounted gain (kg/ha) =      0.469727
-     **** C balance - unaccounted gain (kg/ha) =      5.846229
-     ****        equivalent DM as FOM  (kg/ha) =     14.615573
+     **** C balance - unaccounted gain (kg/ha) =      5.814980
+     ****        equivalent DM as FOM  (kg/ha) =     14.537449
 1 June 1997(Day of year=152), wheat: 
       stage 4.0 end_of_juvenile
                      biomass =           0.63 (g/m^2)   lai          =   0.023 (m^2/m^2)
@@ -3584,9 +3584,9 @@ Component     "sysbal" = c:\development\apsim\sysbal\lib\sysbal.dll
                      biomass =           5.00 (g/m^2)   lai          =   0.002 (m^2/m^2)
                      stover N conc =     6.00 (%)    extractable sw =   30.27 (mm)
 4 June 1998(Day of year=155), sysbal: 
-     **** N balance - unaccounted gain (kg/ha) =      3.749498
-     **** C balance - unaccounted gain (kg/ha) =     39.988983
-     ****        equivalent DM as FOM  (kg/ha) =     99.972458
+     **** N balance - unaccounted gain (kg/ha) =      3.751451
+     **** C balance - unaccounted gain (kg/ha) =     40.004608
+     ****        equivalent DM as FOM  (kg/ha) =    100.011520
 24 July 1998(Day of year=205), chickpea: 
       stage 4.0 end_of_juvenile
                      biomass =           6.74 (g/m^2)   lai          =   0.040 (m^2/m^2)
@@ -3734,9 +3734,9 @@ Component     "sysbal" = c:\development\apsim\sysbal\lib\sysbal.dll
                      biomass =           0.46 (g/m^2)   lai          =   0.020 (m^2/m^2)
                      stover N conc =     5.85 (%)    extractable sw =   26.51 (mm)
 27 June 1999(Day of year=178), sysbal: 
-     **** N balance - unaccounted gain (kg/ha) =      0.468750
-     **** C balance - unaccounted gain (kg/ha) =      5.854385
-     ****        equivalent DM as FOM  (kg/ha) =     14.635962
+     **** N balance - unaccounted gain (kg/ha) =      0.469727
+     **** C balance - unaccounted gain (kg/ha) =      5.854384
+     ****        equivalent DM as FOM  (kg/ha) =     14.635961
 28 June 1999(Day of year=179), wheat: 
       stage 4.0 end_of_juvenile
                      biomass =           0.62 (g/m^2)   lai          =   0.023 (m^2/m^2)
@@ -3887,7 +3887,7 @@ Component     "sysbal" = c:\development\apsim\sysbal\lib\sysbal.dll
                      biomass =           5.00 (g/m^2)   lai          =   0.002 (m^2/m^2)
                      stover N conc =     6.00 (%)    extractable sw =   26.98 (mm)
 16 June 2000(Day of year=168), sysbal: 
-     **** N balance - unaccounted gain (kg/ha) =      3.750000
+     **** N balance - unaccounted gain (kg/ha) =      3.749023
      **** C balance - unaccounted gain (kg/ha) =     40.000790
      ****        equivalent DM as FOM  (kg/ha) =    100.001976
 2 August 2000(Day of year=215), chickpea: 
