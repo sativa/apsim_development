@@ -536,7 +536,11 @@ namespace ApsimFile
                                     }
                                 }
                             else if (VariableLine.Length >= OldName.Length && VariableLine.ToLower().Substring(0, OldName.Length) == OldName.ToLower())
-                                VariableLine = NewName + VariableLine.Substring(NewName.Length);
+                                {
+                                VariableLine = NewName;
+                                if (NewName.Length < VariableLine.Length)
+                                    VariableLine += VariableLine.Substring(NewName.Length);
+                                }
                             XmlHelper.SetName(Variable, VariableLine);
                             }
                         }
