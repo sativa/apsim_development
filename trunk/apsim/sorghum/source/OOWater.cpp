@@ -184,12 +184,12 @@ void Water::setOtherVariables (void)
 //------------------------------------------------------------------------------------------------
 void Water::onNewProfile(NewProfileType &v /* message */)
    {
-   dLayer = v.dlayer_value;
-   ll15Dep = v.ll15_dep_value;
-   dulDep = v.dul_dep_value;
-   satDep = v.sat_dep_value;
-   swDep = v.sw_dep_value;
-   bd = v.bd_value;
+   dLayer = v.dlayer;
+   ll15Dep = v.ll15_dep;
+   dulDep = v.dul_dep;
+   satDep = v.sat_dep;
+   swDep = v.sw_dep;
+   bd = v.bd;
 
    // dlayer may be changed from its last setting due to erosion
    profileDepth = sumVector(dLayer);      // depth of soil profile (mm)

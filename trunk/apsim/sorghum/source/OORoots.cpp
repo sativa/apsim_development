@@ -53,7 +53,7 @@ void Roots::doRegistrations(void)
 //------------------------------------------------------------------------------------------------
 void Roots::onNewProfile(NewProfileType &v /* message */)
    {
-   dLayer = v.dlayer_value;
+   dLayer = v.dlayer;
 
    // dlayer may be changed from its last setting due to erosion
    profileDepth = sumVector(dLayer);      // depth of soil profile (mm)
@@ -70,7 +70,9 @@ void Roots::onNewProfile(NewProfileType &v /* message */)
       rlvFactor.push_back(0.0);
       dltRootLength.push_back(0.0);
       dltScenescedRootLength.push_back(0.0);
+printf("layer %d = %f\n", i, dLayer[i]);
       }
+printf("Done root newp\n");
 
    /* TODO : Check validity of ll,dul etc as in crop_check_sw */
    /* TODO : why does this not include no3 */
