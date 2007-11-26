@@ -163,7 +163,7 @@ void Nitrogen::setOtherVariables (void)
 //------------------------------------------------------------------------------------------------
 void Nitrogen::onNewProfile(NewProfileType &v /* message */)
    {
-   dLayer = v.dlayer_value;
+   dLayer = v.dlayer;
 
    // dlayer may be changed from its last setting due to erosion
    profileDepth = sumVector(dLayer);      // depth of soil profile (mm)
