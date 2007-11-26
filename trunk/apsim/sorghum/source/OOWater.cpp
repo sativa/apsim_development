@@ -28,7 +28,6 @@ Water::Water(ScienceAPI &api, OOPlant *p) : PlantProcess(api)
 
    profileDepth = 0.0;
    nLayers = 0;
-   currentLayer = 0;
    }
 //------------------------------------------------------------------------------------------------
 //------ Water Destructor
@@ -82,6 +81,7 @@ void Water::initialize(void)
    sdRatio = 0.0;
    photoStress = 1;phenoStress = 1;expansionStress = 1;
    rootDepth = 0;
+   currentLayer = 0;
    }
 //------------------------------------------------------------------------------------------------
 //------ read Water parameters
