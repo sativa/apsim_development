@@ -89,9 +89,9 @@ Component   "tracker2" = c:\development\apsim\tracker\lib\tracker.dll
         surfaceom.surfaceom_cover
         wheat.biomass_wt as W_topbiom
         wheat.dleaf_wt as W_dleaf_wt
-        wheat.root_wt as W_rootwt
-        wheat.leaf_wt as W_leafwt
-        wheat.stem_wt as W_stemwt
+        wheat.RootGreenWt as W_rootwt
+        wheat.LeafGreenWt as W_leafwt
+        wheat.StemGreenWt as W_stemwt
         wheat.grain_wt as W_grainwt
         wheat.zadok_stage as W_stage
         wheat.flowering_date as W_antdat
@@ -182,9 +182,9 @@ Component   "tracker2" = c:\development\apsim\tracker\lib\tracker.dll
         lucerne.stage as L_stage
         lucerne.biomass as L_biomass
         lucerne.green_biomass as L_gbiomass
-        lucerne.root_wt as rootwt
-        lucerne.leaf_wt as leafwt
-        lucerne.stem_wt as stemwt
+        lucerne.RootGreenWt as rootwt
+        lucerne.LeafGreenWt as leafwt
+        lucerne.StemGreenWt as stemwt
         surfaceom.surfaceom_n
         surfaceom.surfaceom_wt
         surfaceom.surfaceom_cover
@@ -1577,11 +1577,11 @@ Component   "tracker2" = c:\development\apsim\tracker\lib\tracker.dll
                      stover N conc =     0.31 (%)    extractable sw =   17.33 (mm)
 29 November 1997(Day of year=333), wheat: 
       stage 9.0 maturity
-                     biomass =         784.91 (g/m^2)   lai          =   0.307 (m^2/m^2)
+                     biomass =         784.90 (g/m^2)   lai          =   0.307 (m^2/m^2)
                      stover N conc =     0.31 (%)    extractable sw =   16.20 (mm)
 30 November 1997(Day of year=334), wheat: 
       stage 10.0 harvest_ripe
-                     biomass =         784.91 (g/m^2)   lai          =   0.000 (m^2/m^2)
+                     biomass =         784.90 (g/m^2)   lai          =   0.000 (m^2/m^2)
                      stover N conc =     0.30 (%)    extractable sw =   15.94 (mm)
 1 December 1997(Day of year=335), wheat: 
      Crop failure because of total leaf senescence.
@@ -1595,10 +1595,10 @@ Component   "tracker2" = c:\development\apsim\tracker\lib\tracker.dll
       grain % water content  =   12.5                         grain yield wet (kg/ha)=     2798.6
       grain wt (g)           =    0.000                       grains/m^2             =        0.0
       grains/plant           =    0.0                         maximum lai            =      3.226
-      total above ground biomass (kg/ha)    =     7849.1
-      live above ground biomass (kg/ha)     =     7849.1
+      total above ground biomass (kg/ha)    =     7849.0
+      live above ground biomass (kg/ha)     =     7849.0
       green above ground biomass (kg/ha)    =        0.0
-      senesced above ground biomass (kg/ha) =     7849.1
+      senesced above ground biomass (kg/ha) =     7849.0
       number of leaves       =     42.8
       DM Root:Shoot ratio    =     0.00                       Harvest Index          =       0.31
       Stover C:N ratio       =   111.90                       Root C:N ratio         =       0.00
@@ -1848,7 +1848,7 @@ Component   "tracker2" = c:\development\apsim\tracker\lib\tracker.dll
          emergence            to end_of_juvenile         0.000        0.000        0.000        0.000
          end_of_juvenile      to floral_initiation       0.000        0.000        0.304        0.372
          floral_initiation    to flowering               0.003        0.007        0.297        0.420
-         flowering            to start_grain_fill        0.000        0.000        0.000        0.297
+         flowering            to start_grain_fill        0.000        0.000        0.000        0.298
          start_grain_fill     to end_grain_fill          0.086        0.120        0.094        0.766
      
      

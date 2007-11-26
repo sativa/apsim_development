@@ -38,15 +38,15 @@ Component      "wheat" = c:\development\apsim\Plant\lib\Plant.dll
         wheat.grain_no
         wheat.grain_size
         wheat.head_wt
-        wheat.pod_wt
-        wheat.meal_wt
-        wheat.oil_wt
+        wheat.PodGreenWt
+        wheat.MealGreenWt
+        wheat.OilGreenWt
         wheat.yield
         wheat.dlt_dm_grain_demand
         wheat.grain_oil_conc
         wheat.dlt_dm_oil_conv
         wheat.dlt_dm_oil_conv_retrans
-        wheat.pod_n
+        wheat.PodGreenN
         wheat.head_n
 
      Output file = test6_grain_grno.out

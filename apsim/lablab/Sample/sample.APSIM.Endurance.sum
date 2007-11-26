@@ -42,8 +42,8 @@ Component     "lablab" = c:\development\apsim\Plant\lib\Plant.dll
         lablab.biomass
         lablab.node_no
         lablab.leaf_no
-        lablab.stem_wt
-        lablab.leaf_wt
+        lablab.StemGreenWt
+        lablab.LeafGreenWt
         soilwat2.sw_dep() as total_sw_mm
         lablab.tt_tot()
         lablab.dlt_tt

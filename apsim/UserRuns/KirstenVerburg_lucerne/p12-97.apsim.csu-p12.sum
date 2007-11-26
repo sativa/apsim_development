@@ -108,9 +108,9 @@ Component   "tracker6" = c:\development\apsim\tracker\lib\tracker.dll
         wheat.biomass_n as W_biomass_n
         wheat.groot_n as W_root_n
         lucerne.biomass_n as L_biomass_n
-        lucerne.root_n as L_root_n
+        lucerne.RootGreenN as L_root_n
         canola.biomass_n as C_biomass_n
-        canola.root_n as C_root_n
+        canola.RootGreenN as C_root_n
         manager.cum_nmin010
         manager.cum_nmin1020
         manager.cum_nmin2030
@@ -141,17 +141,17 @@ Component   "tracker6" = c:\development\apsim\tracker\lib\tracker.dll
         wheat.lai as W_lai
         wheat.sla as W_sla
         wheat.biomass_wt as W_biomass
-        wheat.root_wt as W_root_wt
-        wheat.leaf_wt as W_leaf_wt
+        wheat.RootGreenWt as W_root_wt
+        wheat.LeafGreenWt as W_leaf_wt
         wheat.dleaf_wt as W_dleaf_wt
-        wheat.stem_wt as W_stem_wt
+        wheat.StemGreenWt as W_stem_wt
         wheat.flower_wt as W_flower_wt
         wheat.grain_wt as W_grain_wt
         wheat.biomass_n as W_biomass_n
         wheat.groot_n as W_root_n
         wheat.gleaf_n as W_leaf_n
         wheat.dleaf_n as W_dleaf_n
-        wheat.stem_n as W_stem_n
+        wheat.StemGreenN as W_stem_n
         wheat.flower_n as W_flower_n
         wheat.grain_n as W_grain_n
         wheat.flowering_date as W_flowering
@@ -174,7 +174,7 @@ Component   "tracker6" = c:\development\apsim\tracker\lib\tracker.dll
         lucerne.plant_status as L_status
         lucerne.biomass_wt as L_biomass
         lucerne.biomass_n as L_biomass_n
-        lucerne.root_wt as L_root_wt
+        lucerne.RootGreenWt as L_root_wt
         tracker2.sum@lucerne_dlt_n_fixed as L_dlt_n_fixed
         lucerne.green_biomass_wt as L_gbiomass_wt
         lucerne.green_biomass_n as L_gbiomass_n
@@ -186,16 +186,16 @@ Component   "tracker6" = c:\development\apsim\tracker\lib\tracker.dll
         canola.lai as C_lai
         canola.pai as C_pai
         canola.biomass_wt as C_biomass
-        canola.root_wt as C_root_wt
-        canola.leaf_wt as C_leaf_wt
-        canola.stem_wt as C_stem_wt
-        canola.pod_wt as C_pod_wt
+        canola.RootGreenWt as C_root_wt
+        canola.LeafGreenWt as C_leaf_wt
+        canola.StemGreenWt as C_stem_wt
+        canola.PodGreenWt as C_pod_wt
         canola.grain_wt as C_grain_wt
         canola.biomass_n as C_biomass_n
-        canola.root_n as C_root_n
-        canola.leaf_n as C_leaf_n
-        canola.stem_n as C_stem_n
-        canola.pod_n as C_pod_n
+        canola.RootGreenN as C_root_n
+        canola.LeafGreenN as C_leaf_n
+        canola.StemGreenN as C_stem_n
+        canola.PodGreenN as C_pod_n
         canola.grain_n as C_grain_n
         canola.n_uptake as C_n_uptake
         canola.yield as C_yield
@@ -255,7 +255,7 @@ Component   "tracker6" = c:\development\apsim\tracker\lib\tracker.dll
         lucerne.lai as L_lai
         lucerne.biomass_wt as L_biomass
         lucerne.biomass_n as L_biomass_n
-        lucerne.root_wt as L_root_wt
+        lucerne.RootGreenWt as L_root_wt
         lucerne.swdef_photo
         lucerne.swdef_pheno
         lucerne.swdef_expan
@@ -325,16 +325,16 @@ Component   "tracker6" = c:\development\apsim\tracker\lib\tracker.dll
         clock.day_of_month as day_month
         wheat.rlv(1-16) as W_rlv
         wheat.root_depth as W_root_depth
-        wheat.root_wt as W_root_wt
+        wheat.RootGreenWt as W_root_wt
         wheat.groot_n as W_root_n
         canola.rlv(1-16) as C_rlv
         canola.root_depth as C_root_depth
-        canola.root_wt as C_root_wt
-        canola.root_n as C_root_n
+        canola.RootGreenWt as C_root_wt
+        canola.RootGreenN as C_root_n
         lucerne.rlv as L_rlv
         lucerne.root_depth as L_root_depth
-        lucerne.root_wt as L_root_wt
-        lucerne.root_n as L_root_n
+        lucerne.RootGreenWt as L_root_wt
+        lucerne.RootGreenN as L_root_n
 
      Output file = root-97.out
      Format = normal

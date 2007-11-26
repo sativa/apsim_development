@@ -48,10 +48,10 @@ Component    "pigeonp" = c:\development\apsim\Plant\lib\Plant.dll
         pigeonp.biomass_p
         pigeonp.green_biomass_p
         pigeonp.grain_p
-        pigeonp.leaf_p
-        pigeonp.stem_p
-        pigeonp.root_p
-        pigeonp.pod_p
+        pigeonp.LeafGreenP
+        pigeonp.StemGreenP
+        pigeonp.RootGreenP
+        pigeonp.PodGreenP
         pigeonp.head_p
         pigeonp.dlt_p_green()
         pigeonp.dlt_p_retrans()

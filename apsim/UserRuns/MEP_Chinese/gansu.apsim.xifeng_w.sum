@@ -58,7 +58,7 @@ Component     "sysbal" = c:\development\apsim\sysbal\lib\sysbal.dll
         wheat.lai as w_lai
         wheat.yield as w_yield
         wheat.biomass as w_biomass
-        wheat.root_wt as w_root_wt
+        wheat.RootGreenWt as w_root_wt
         wheat.root_depth as w_root_dep
         wheat.biomass_n as w_biom_n
         wheat.maturity_date as w_mat
@@ -3755,8 +3755,8 @@ Component     "sysbal" = c:\development\apsim\sysbal\lib\sysbal.dll
                      stover N conc =     5.85 (%)    extractable sw =   40.77 (mm)
 2 October 1982(Day of year=275), sysbal: 
      **** N balance - unaccounted gain (kg/ha) =      1.876465
-     **** C balance - unaccounted gain (kg/ha) =     23.361639
-     ****        equivalent DM as FOM  (kg/ha) =     58.404099
+     **** C balance - unaccounted gain (kg/ha) =     23.353827
+     ****        equivalent DM as FOM  (kg/ha) =     58.384567
 3 October 1982(Day of year=276), wheat: 
       stage 4.0 end_of_juvenile
                      biomass =           2.63 (g/m^2)   lai          =   0.093 (m^2/m^2)
@@ -6508,7 +6508,7 @@ Component     "sysbal" = c:\development\apsim\sysbal\lib\sysbal.dll
                      biomass =           1.84 (g/m^2)   lai          =   0.080 (m^2/m^2)
                      stover N conc =     5.85 (%)    extractable sw =   40.24 (mm)
 29 September 1999(Day of year=272), sysbal: 
-     **** N balance - unaccounted gain (kg/ha) =      1.875488
+     **** N balance - unaccounted gain (kg/ha) =      1.875000
      **** C balance - unaccounted gain (kg/ha) =     23.356079
      ****        equivalent DM as FOM  (kg/ha) =     58.390198
 30 September 1999(Day of year=273), wheat: 

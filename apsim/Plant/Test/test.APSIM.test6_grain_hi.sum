@@ -36,15 +36,15 @@ Component     "lablab" = c:\development\apsim\Plant\lib\Plant.dll
         lablab.grain_wt
         lablab.grain_n
         lablab.head_wt
-        lablab.pod_wt
-        lablab.meal_wt
-        lablab.oil_wt
+        lablab.PodGreenWt
+        lablab.MealGreenWt
+        lablab.OilGreenWt
         lablab.yield
         lablab.dlt_dm_grain_demand
         lablab.grain_oil_conc
         lablab.dlt_dm_oil_conv
         lablab.dlt_dm_oil_conv_retrans
-        lablab.pod_n
+        lablab.PodGreenN
         lablab.head_n
 
      Output file = test6_grain_hi.out

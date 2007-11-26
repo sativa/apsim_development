@@ -39,13 +39,12 @@ Component   "chickpea" = c:\development\apsim\Plant\lib\Plant.dll
         chickpea.lai
         chickpea.biomass_wt
         chickpea.grain_wt as grain_wt
-        chickpea.leaf_wt
-        chickpea.stem_wt
+        chickpea.LeafGreenWt
+        chickpea.StemGreenWt
         chickpea.biomass_n
         chickpea.grain_n
         chickpea.root_depth
-        chickpea.stem_n
-        chickpea.cep
+        chickpea.StemGreenN
         soilwat2.sw(1-10)
         soiln2.no3ppm(1-6)
         soiln2.nh4ppm(1-6)

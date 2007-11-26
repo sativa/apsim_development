@@ -62,9 +62,9 @@ Component     "lablab" = c:\development\apsim\Plant\lib\Plant.dll
         lablab.dlt_slai_light
         lablab.dlt_slai_water
         lablab.dlt_slai_frost
-        lablab.root_wt
-        lablab.stem_wt
-        lablab.leaf_wt
+        lablab.RootGreenWt
+        lablab.StemGreenWt
+        lablab.LeafGreenWt
         lablab.biomass
         lablab.biomass_wt
         lablab.green_biomass
@@ -82,9 +82,9 @@ Component     "lablab" = c:\development\apsim\Plant\lib\Plant.dll
         lablab.biomass_n
         lablab.n_uptake
         lablab.green_biomass_n
-        lablab.leaf_n
-        lablab.root_n
-        lablab.stem_n
+        lablab.LeafGreenN
+        lablab.RootGreenN
+        lablab.StemGreenN
         lablab.n_green
         lablab.n_senesced
         lablab.dlt_n_green
@@ -109,7 +109,6 @@ Component     "lablab" = c:\development\apsim\Plant\lib\Plant.dll
         lablab.transp_eff
         lablab.ep
         lablab.sw_uptake
-        lablab.cep
         lablab.sw_supply
         lablab.sw_supply_layr
         lablab.esw_layr

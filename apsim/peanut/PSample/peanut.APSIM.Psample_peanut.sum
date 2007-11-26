@@ -48,10 +48,10 @@ Component     "peanut" = c:\development\apsim\Plant\lib\Plant.dll
         peanut.biomass_p
         peanut.green_biomass_p
         peanut.grain_p
-        peanut.leaf_p
-        peanut.stem_p
-        peanut.root_p
-        peanut.pod_p
+        peanut.LeafGreenP
+        peanut.StemGreenP
+        peanut.RootGreenP
+        peanut.PodGreenP
         peanut.head_p
         peanut.dlt_p_green()
         peanut.dlt_p_retrans()
