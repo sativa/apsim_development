@@ -2623,6 +2623,7 @@ c+!!!!!! fix problem with deltas in update when change from alive to dead ?zero
 
 *+  Local Variables
       integer    numvals
+      type(NewProfileType) :: newProfile
 
 
 *+  Constant Values
@@ -2632,14 +2633,7 @@ c+!!!!!! fix problem with deltas in update when change from alive to dead ?zero
 *- Implementation Section ----------------------------------
       call push_routine (myname)
 
-         call collect_real_array
-     :         (DATA_dlayer  ! Name of Variable  (not used)
-     :        , max_layer    ! size of array to be set
-     :        , '(mm)'       ! Units of variable (not used)
-     :        , g%dlayer       ! Variable array
-     :        , numvals      ! Number of elements returned
-     :        , 0.0          ! Lower Limit for bound checking
-     :        , 1000.0)      ! Upper Limit for bound checking
+      g%dlayer = newProfile%dlayer
 
       call pop_routine (myname)
       return
@@ -2793,8 +2787,6 @@ c+!!!!!! fix problem with deltas in update when change from alive to dead ?zero
       elseif (action.eq.'weeding') then
          call Weeding ()
 
-      elseif (Action.eq.Event_New_Profile) then
-         call parasite_OnNew_Profile (1)
       else
          call Message_unused ()
       endif
@@ -2821,8 +2813,8 @@ c+!!!!!! fix problem with deltas in update when change from alive to dead ?zero
          call Parasite_ONtick(variant)
       else if (eventID .eq. id%newmet) then
          call Parasite_ONnewmet(variant)
-!      else if (eventID .eq. id%ne`w_profile) then
-!         call Parasite_ONNew_Profile(variant)
+      else if (eventID .eq. id%new_profile) then
+         call Parasite_ONNew_Profile(variant)
       endif
 
       return

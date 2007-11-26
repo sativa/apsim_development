@@ -9628,7 +9628,7 @@ c      pause
 *        210800 nih
 
 *+  Local Variables
-      double precision dummy(M)
+      type(NewProfileType) :: newProfile
 
 *+  Constant Values
       character*(*) myname               ! name of current procedure
@@ -9637,49 +9637,28 @@ c      pause
 *- Implementation Section ----------------------------------
       call push_routine (myname)
 
-      call new_postbox ()
+      newProfile%dlayer(:) = g%dlayer(0:p%n)
+      newProfile%num_dlayer = p%n+1
 
-      call post_double_array   (DATA_dlayer
-     :                        ,'(mm)'
-     :                        , g%dlayer(0:p%n)
-     :                        , p%n+1)
+      newProfile%air_dry_dep(:) = 0.0
+      newProfile%num_air_dry_dep = p%n+1
 
-      dummy(:) = 0d0
+      newProfile%ll15_dep(:) = g%ll15(0:p%n)*g%dlayer(0:p%n)
+      newProfile%num_ll15_dep = p%n+1
 
-      call post_double_array   (DATA_air_dry_dep
-     :                        ,'(mm)'
-     :                        , dummy
-     :                        , p%n+1)
+      newProfile%dul_dep(:) = g%dul(0:p%n)*g%dlayer(0:p%n)
+      newProfile%num_dul_dep = p%n+1
 
-      call post_double_array   (DATA_ll15_Dep
-     :                        ,'(mm)'
-     :                        , g%ll15(0:p%n)*g%dlayer(0:p%n)
-     :                        , p%n+1)
+      newProfile%sat_dep(:) = g%sat(0:p%n)*g%dlayer(0:p%n)
+      newProfile%num_sat_dep = p%n+1
 
-      call post_double_array   (DATA_dul_dep
-     :                        ,'(mm)'
-     :                        , g%dul(0:p%n)*g%dlayer(0:p%n)
-     :                        , p%n+1)
+      newProfile%sw_dep(:) = g%th(0:p%n)*g%dlayer(0:p%n)
+      newProfile%num_sw_dep = p%n+1
 
-      call post_double_array   (DATA_sat_dep
-     :                        ,'(mm)'
-     :                        , g%sat(0:p%n)*g%dlayer(0:p%n)
-     :                        , p%n+1)
+      newProfile%bd(:) = p%rhob(0:p%n)
+      newProfile%num_bd = p%n+1
 
-      call post_double_array   (DATA_sw_dep
-     :                        ,'(mm)'
-     :                        , g%th(0:p%n)*g%dlayer(0:p%n)
-     :                        , p%n+1)
-
-      call post_double_array   (DATA_bd
-     :                        ,'(g/cc)'
-     :                        , p%rhob(0:p%n)
-     :                        , p%n+1)
-
-      call event_send (EVENT_new_profile)
-
-      call delete_postbox ()
-
+      call publish_NewProfile(ID%new_profile, newProfile)
 
       call pop_routine (myname)
       return

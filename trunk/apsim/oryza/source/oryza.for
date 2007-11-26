@@ -5217,7 +5217,7 @@
 
 
 *     ===========================================================
-      subroutine oryza_ONNew_Profile ()
+      subroutine oryza_ONNew_Profile (variant)
 *     ===========================================================
       Use Infrastructure
       implicit none
@@ -5229,11 +5229,12 @@
 *     Update internal soil layer structure with new data
 
 *+  Changes
-
+      integer variant
 
 *+  Local Variables
       integer    numvals
       integer    layer
+      type(NewProfileType) :: newProfile
 !
 !*+  Constant Values
       character*(*) myname               ! name of current procedure
@@ -5242,34 +5243,17 @@
 *- Implementation Section ----------------------------------
       call push_routine (myname)
 
-      call collect_real_array (DATA_dlayer, max_layer
-     :                                    , '(mm)'
-     :                                    , p%tkl, numvals
-     :                                    , 0.0, 1000.0)
-
-      call collect_real_array (DATA_dul_dep, max_layer
-     :                                    , '(mm)'
-     :                                    , p%wcfc, numvals
-     :                                    , 0.0, 1000.0)
-      
-      call collect_real_array (DATA_ll15_dep, max_layer
-     :                                    , '(mm)'
-     :                                    , p%wcwp, numvals
-     :                                    , 0.0, 1000.0)
-      
-      call collect_real_array (DATA_air_dry_dep, max_layer
-     :                                    , '(mm)'
-     :                                    , p%wcad, numvals
-     :                                    , 0.0, 1000.0)
-          
-            
-      call collect_real_array (DATA_sat_dep, max_layer
-     :                                    , '(mm)'
-     :                                    , p%wcst, numvals
-     :                                    , 0.0, 1000.0)
+      call unpack_newProfile(variant, newProfile)
+   
+      p%tkl = newProfile%dlayer
+      p%wcad = newProfile%air_dry_dep
+      p%wcwp = newProfile%ll15_dep
+      p%wcfc = newProfile%dul_dep
+      p%wcst = newProfile%sat_dep
 
       g%TKLT = 0.0
       ! cvt to (mm3/mm3)
+      numvals = count_of_real_vals (p%tkl, max_layer)
       do 1000 layer = 1, numvals
          p%wcad(layer) = divide (p%wcad(layer)
      :                           , p%tkl(layer), 0.0)
@@ -5544,9 +5528,6 @@
       else if (Action.eq.ACTION_Set_variable) then
          call oryza_Set_my_variable (data_string)
 
-      elseif (Action.eq.Event_New_Profile) then
-         call oryza_OnNew_Profile ()
-
       else
          ! Don't use message
          call Message_Unused ()
@@ -5572,6 +5553,8 @@
          call oryza_ONtick(variant)   
       elseif (eventID .eq. id%newmet) then
          call oryza_ONnewmet(variant)
+      elseif (eventID .eq. id%new_profile) then
+         call oryza_ONNew_Profile(variant)
       else 
          ! Nothing I know about??
       endif

@@ -3399,7 +3399,9 @@ void Plant::onNewProfile(unsigned &, unsigned &, protocol::Variant &v /* (INPUT)
 //=======================================================================================
 // Event Handler for the NewProfile Event
     {
-    rootPart->onNewProfile(v);
+    struct protocol::NewProfileType newProfile;
+    v.unpack(newProfile);
+    rootPart->onNewProfile(newProfile);
     }
 
 /////////////////////////////Get&Set Interface code

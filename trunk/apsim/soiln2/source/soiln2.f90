@@ -4565,7 +4565,7 @@ end subroutine
 
 
 !     ===========================================================
-subroutine Soiln2_ONNew_Profile ()
+subroutine Soiln2_ONNew_Profile (variant)
 !     ===========================================================
    Use Infrastructure
    implicit none
@@ -4575,10 +4575,10 @@ subroutine Soiln2_ONNew_Profile ()
 
 !+  Mission Statement
 !     Update internal soil layer structure with new data
-
+   integer variant
+   
 !+  Local Variables
-   integer    numvals
-   real       new_dlayer(max_layer) ! soil layer depths (mm)
+   type(NewProfileType) :: newProfile
 
 !+  Constant Values
    character*(*) myname               ! name of current procedure
@@ -4587,21 +4587,21 @@ subroutine Soiln2_ONNew_Profile ()
 !- Implementation Section ----------------------------------
    call push_routine (myname)
 
-   call fill_real_array (new_dlayer, 0.0, max_layer)
+!   g%ll15_dep(:) = 0.0
+!   g%dul_dep(:) = 0.0
+!   g%sat_dep(:) = 0.0
+!   g%sw_dep(:) = 0.0
+!   g%bd(:) = 0.0
+   
+   call unpack_newProfile(variant, newProfile)
 
-   call collect_real_array(DATA_dlayer, max_layer, '(mm)', new_dlayer, numvals, 0.0, 1000.0)
+   g%ll15_dep(:) = newProfile%ll15_dep
+   g%dul_dep(:) = newProfile%dul_dep
+   g%sat_dep(:) = newProfile%sat_dep
+   g%sw_dep(:) = newProfile%sw_dep
+   g%bd(:) = newProfile%bd
 
-   call collect_real_array(DATA_ll15_dep, max_layer, '(mm)', g%ll15_dep, numvals, 0.0, 1000.0)
-
-   call collect_real_array(DATA_dul_dep, max_layer, '(mm)', g%dul_dep, numvals, 0.0, 1000.0)
-
-   call collect_real_array(DATA_sat_dep, max_layer, '(mm)', g%sat_dep, numvals, 0.0, 1000.0)
-
-   call collect_real_array(DATA_sw_dep, max_layer, '(mm)', g%sw_dep, numvals, 0.0, 1000.0)
-
-   call collect_real_array(DATA_bd, max_layer, '(g/cc)', g%bd, numvals, 0.01, 3.0)
-
-   call soiln2_check_profile (new_dlayer)
+   call soiln2_check_profile (newProfile%dlayer)
 
    call pop_routine (myname)
    return
@@ -4671,9 +4671,6 @@ subroutine Main (action, data_string)
 
    else if (action .eq. ACTION_set_variable) then
       call soiln2_set_my_variable (data_string)
-
-   elseif (action .eq. EVENT_new_profile) then
-      call SoilN2_ONNew_Profile ()
 
    else if (action.eq.ACTION_process) then
       call soiln2_get_other_variables ()
@@ -4854,6 +4851,9 @@ subroutine respondToEvent(fromID, eventID, variant)
 
    elseif (eventID .eq.id%FreshOrganicMatterIncorporated) then
       call soiln2_ONFreshOrganicMatterIncorporated(variant)
+
+   elseif (eventID .eq.id%new_profile) then
+      call soiln2_ONnew_profile(variant)
 
    endif
    return

@@ -214,8 +214,8 @@
          real   cona                                  ! stage 2 drying coefficient
          real   summercona                            ! cona to use in summer (OPTIONAL)
          real   wintercona                            ! cona to use in winter (OPTIONAL)
-         character winterdate*6                       ! Date for start of winter evaporation (dd-mmm)
-         character summerdate*6                       ! Date for start of summer evaporation (dd-mmm)
+         character winterdate*7                       ! Date for start of winter evaporation (dd-mmm)
+         character summerdate*7                       ! Date for start of summer evaporation (dd-mmm)
          real   diffus_const                          ! diffusivity constant for soil testure
          real   diffus_slope                          ! slope for diffusivity/soil water content
                                                       ! relationship
@@ -6774,6 +6774,7 @@ c dsg 070302 added runon
 
 *+  Local Variables
       integer num_layers
+      type(NewProfileType) :: newProfile
 
 *+  Constant Values
       character*(*) myname               ! name of current procedure
@@ -6784,47 +6785,28 @@ c dsg 070302 added runon
 
       num_layers = count_of_real_vals (p%dlayer, max_layer)
 
-      call new_postbox ()
+      newProfile%dlayer = p%dlayer(1:num_layers)
+      newProfile%num_dlayer = num_layers
 
-      call post_real_array   (DATA_dlayer
-     :                        ,'(mm)'
-     :                        , p%dlayer
-     :                        , num_layers)
+      newProfile%air_dry_dep = g%air_dry_dep(1:num_layers)
+      newProfile%num_air_dry_dep = num_layers
 
-      call post_real_array   (DATA_air_dry_dep
-     :                        ,'(mm)'
-     :                        , g%air_dry_dep
-     :                        , num_layers)
+      newProfile%ll15_dep = g%ll15_dep(1:num_layers)
+      newProfile%num_ll15_dep = num_layers
 
-      call post_real_array   (DATA_ll15_Dep
-     :                        ,'(mm)'
-     :                        , g%ll15_dep
-     :                        , num_layers)
+      newProfile%dul_dep = g%dul_dep(1:num_layers)
+      newProfile%num_dul_dep = num_layers
 
-      call post_real_array   (DATA_dul_dep
-     :                        ,'(mm)'
-     :                        , g%dul_dep
-     :                        , num_layers)
+      newProfile%sat_dep = g%sat_dep(1:num_layers)
+      newProfile%num_sat_dep = num_layers
 
-      call post_real_array   (DATA_sat_dep
-     :                        ,'(mm)'
-     :                        , g%sat_dep
-     :                        , num_layers)
+      newProfile%sw_dep = g%sw_dep(1:num_layers)
+      newProfile%num_sw_dep = num_layers
 
-      call post_real_array   (DATA_sw_dep
-     :                        ,'(mm)'
-     :                        , g%sw_dep
-     :                        , num_layers)
+      newProfile%bd = g%bd(1:num_layers)
+      newProfile%num_bd = num_layers
 
-      call post_real_array   (DATA_bd
-     :                        ,'(g/cc)'
-     :                        , g%bd
-     :                        , num_layers)
-
-      call event_send (EVENT_new_profile)
-
-      call delete_postbox ()
-
+      call publish_NewProfile(ID%new_profile, NewProfile)
 
       call pop_routine (myname)
       return
