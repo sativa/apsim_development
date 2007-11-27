@@ -70,10 +70,7 @@ void Roots::onNewProfile(NewProfileType &v /* message */)
       rlvFactor.push_back(0.0);
       dltRootLength.push_back(0.0);
       dltScenescedRootLength.push_back(0.0);
-printf("layer %d = %f\n", i, dLayer[i]);
       }
-printf("Done root newp\n");
-
    /* TODO : Check validity of ll,dul etc as in crop_check_sw */
    /* TODO : why does this not include no3 */
    }
