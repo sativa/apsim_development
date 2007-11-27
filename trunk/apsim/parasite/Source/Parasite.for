@@ -381,8 +381,9 @@
       call push_routine (my_name)
 
       ! 1. Determine the module 'number' of our host crop.
-      if (component_name_to_id(g%host_name, my_crop_module)
-     :     .eq.  .false.) then
+      if (.not. 
+     :   component_name_to_id(g%host_name, my_crop_module)
+     :   ) then
           call fatal_error (err_user,
      :                      'Cant get id of host crop (1)')
           call write_string('No host crop is present??')
@@ -2622,7 +2623,7 @@ c+!!!!!! fix problem with deltas in update when change from alive to dead ?zero
 *        150600 nih
 
 *+  Local Variables
-      integer    numvals
+      
       type(NewProfileType) :: newProfile
 
 
@@ -2632,8 +2633,10 @@ c+!!!!!! fix problem with deltas in update when change from alive to dead ?zero
 
 *- Implementation Section ----------------------------------
       call push_routine (myname)
-
-      g%dlayer = newProfile%dlayer
+      
+      call unpack_newProfile(variant, newProfile)
+      
+      g%dlayer(:) = newProfile%dlayer
 
       call pop_routine (myname)
       return
