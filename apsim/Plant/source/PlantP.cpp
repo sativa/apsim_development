@@ -69,7 +69,7 @@ void Plant::prepare_p(void)
 {
    if (g.phosphorus_aware == true)
       {
-      PlantP_demand(myParts);
+      plant.doPDemand();
       PlantP_Stress(myParts);
       }
 }
@@ -100,23 +100,6 @@ void Plant::PlantP_partition (vector<plantPart*>&parts)
 
       for (part = parts.begin(); part != parts.end(); part++)
          (*part)->doPPartition(p_uptake, total_p_demand);
-
-}
-
-
-// ====================================================================
-void Plant::PlantP_senescence (vector<plantPart*>&parts)
-{
-        for (vector<plantPart *>::iterator t = parts.begin();
-             t != parts.end();
-             t++)
-           (*t)->doPSenescence();
-}
-
-
-// ====================================================================
-void Plant::zero_daily_p_variables ()
-{
 
 }
 // ====================================================================
@@ -161,21 +144,6 @@ void Plant::PlantP_set_phosphorus_aware (PlantComponent *systemInterface)
       }
 
 }
-
-
-// ====================================================================
-void Plant::PlantP_demand (vector<plantPart *> &allParts)
-{
-
-//+  Purpose
-//      Calculate plant P demands
-
-        for (vector<plantPart *>::iterator t = allParts.begin();
-             t != allParts.end();
-             t++)
-           (*t)->doPDemand();
-}
-
 
 float Plant::PlantP_Pfact (vector<plantPart *> &allParts)
 // ====================================================================

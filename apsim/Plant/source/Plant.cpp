@@ -111,7 +111,8 @@ Plant::Plant(PlantComponent *P, ScienceAPI& api)
 //=======================================================================================
    : scienceAPI(api),Environment(api),
      plant(scienceAPI, this, ""),
-     tops(scienceAPI, this, "Tops")
+     tops(scienceAPI, this, "Tops"),
+     population(scienceAPI, *this)
     {
     parent = P;
 
@@ -154,6 +155,7 @@ void Plant::onInit1()
    scienceAPI.setClass1(defaultCultivar);
    scienceAPI.setClass2(c.default_crop_class);
 
+   population.Initialise();
 
     string phenologyModel;
     scienceAPI.readOptional("phenology_model", phenologyModel);
@@ -229,9 +231,6 @@ void Plant::onInit1()
    id.parasite_sw_demand = parent->addRegistration(RegistrationType::get,
                                    "parasite_sw_demand", addUnitsToDDML(floatType, "mm").c_str(),
                                    "", "");
-   id.maxt_soil_surface = parent->addRegistration(RegistrationType::get,
-                                   "maxt_soil_surface", addUnitsToDDML(floatType, "degree Celsius").c_str(),
-                                   "", "");
 
    string canopyName = string("fr_intc_radn_") + string(parent->getName());
    id.fr_intc_radn = parent->addRegistration(RegistrationType::get,
@@ -244,12 +243,9 @@ void Plant::onInit1()
                                    "", "");
    setupEvent(parent, "prepare",     RegistrationType::respondToEvent, &Plant::onPrepare, nullTypeDDML);
    setupEvent(parent, "process",     RegistrationType::respondToEvent, &Plant::onProcess, nullTypeDDML);
-   setupEvent(parent, "newmet",      RegistrationType::respondToEvent, &Plant::onNewMet, DDML(protocol::NewMetType()).c_str());
-   setupEvent(parent, "new_profile", RegistrationType::respondToEvent, &Plant::onNewProfile, DDML(protocol::NewProfileType()).c_str());
    setupEvent(parent, "sow",         RegistrationType::respondToEvent, &Plant::onSow, sowDDML);
    setupEvent(parent, "harvest",     RegistrationType::respondToEvent, &Plant::onHarvest, nullTypeDDML);
    setupEvent(parent, "end_crop",    RegistrationType::respondToEvent, &Plant::onEndCrop, nullTypeDDML);
-   setupEvent(parent, "kill_crop",   RegistrationType::respondToEvent, &Plant::onKillCrop, nullTypeDDML);
    setupEvent(parent, "end_run",     RegistrationType::respondToEvent, &Plant::onEndRun, nullTypeDDML);
    setupEvent(parent, "kill_stem",   RegistrationType::respondToEvent, &Plant::onKillStem, killStemDDML);
    setupEvent(parent, "remove_crop_biomass",   RegistrationType::respondToEvent, &Plant::onRemoveCropBiomass, DDML(protocol::RemoveCropDmType()).c_str());
@@ -281,9 +277,6 @@ void Plant::onInit1()
 
    setupGetFunction(parent, "width", protocol::DTsingle, false,
                      &Plant::get_width, "mm", "canopy row width");
-
-   parent->addGettableVar("plants",
-               g.plants, "plants/m^2", "Plant desnity");
 
    setupGetFunction(parent, "cover_tot", protocol::DTsingle, false,
                      &Plant::get_cover_tot, "", "Total cover");
@@ -594,7 +587,6 @@ void Plant::onPrepare(unsigned &, unsigned &, protocol::Variant &)
 // Event Handler for Prepare Event
   {
   plant_zero_daily_variables ();
-  zero_daily_p_variables();
 
   plant_get_other_variables ();     // request and receive variables from owner-modules
   if (g.plant_status == out)
@@ -645,25 +637,6 @@ void Plant::onEndCrop(unsigned &, unsigned &, protocol::Variant &)
   plant_end_crop ();            //end crop - turn into residue
   }
 
-void Plant::onKillCrop(unsigned &, unsigned &, protocol::Variant &v)
-//=======================================================================================
-// Event Handler for Kill Crop Event
-   {
-   if (g.plant_status != out)
-      {
-      // kill crop - die
-      plant_death_external_action (v, g.plants, &g.dlt_plants_death_external );
-      }
-   else
-      {
-      char msg[500];
-      sprintf(msg, "%s%s%s"
-        ,g.module_name.c_str()
-        , " is not in the ground -"
-        , " unable to kill crop.");
-      parent->warningError (msg);
-      }
-   }
 
 void Plant::onKillStem(unsigned &, unsigned &, protocol::Variant &v)
 //=======================================================================================
@@ -714,25 +687,6 @@ void Plant::doAutoClassChange(unsigned &/*fromId*/, unsigned &eventId, protocol:
   plant_auto_class_change(ps.c_str());
   }
 
-
-
-void Plant::onNewMet(unsigned &, unsigned &, protocol::Variant &v)
-//=======================================================================================
-//  Event handler for the NewMet Event
-  {
-   struct protocol::NewMetType newmet;
-   v.unpack(newmet);
-   for (vector<plantPart *>::iterator t = myParts.begin(); t != myParts.end(); t++)
-     (*t)->doNewMet(newmet);
-
-  }
-
-
-
-
-
-
-
 void Plant::plant_bio_retrans (void)
 //=======================================================================================
 //       Retranslocate biomass.
@@ -748,7 +702,7 @@ void Plant::plant_bio_retrans (void)
    legnew_dm_retranslocate(myParts
                            , supply_pools_by_veg
                            , dm_demand_differential
-                           , g.plants
+                           , getPlants()
                            , &dlt_dm_retrans_to_fruit);
 
    fruitPart->doDmRetranslocate (dlt_dm_retrans_to_fruit, dm_demand_differential);
@@ -803,319 +757,6 @@ void Plant::plant_bio_water (void)
 
 
 
-void Plant::plant_plant_death (int option /* (INPUT) option number*/)
-//=======================================================================================
-//   Determine plant death rate
-    {
-    if (option == 1)
-        {
-        if (phenology->inPhase("sowing"))
-           g.dlt_plants_failure_germ =
-                  crop_failure_germination (this,
-                                            (int)c.days_germ_limit,
-                                            phenology->daysInCurrentPhase(),
-                                            g.plants);
-        else
-           g.dlt_plants_failure_germ = 0.0;
-
-        if (phenology->inPhase("germination"))
-           g.dlt_plants_failure_emergence =
-                  crop_failure_emergence (this,
-                                          c.tt_emerg_limit,
-                                          phenology->ttInCurrentPhase(),
-                                          g.plants);
-        else
-           g.dlt_plants_failure_emergence = 0.0;
-
-        g.dlt_plants_death_seedling = 0.0;
-        if (phenology->inPhase("emergence"))
-           {
-           int days_after_emerg = phenology->daysInCurrentPhase();//XZZZZ Can do this on emergence day?
-           if (days_after_emerg == 1)
-              {
-              g.dlt_plants_death_seedling =
-                  plant_death_seedling(c.num_weighted_temp
-                                     , c.x_weighted_temp
-                                     , c.y_plant_death
-                                     , Environment.day_of_year
-                                     , g.soil_temp
-                                     , Environment.year
-                                     , g.plants);
-              }
-           }
-        /*XXXX this needs tou be coupled with dlt_leaf_area_sen, c_sen_start_stage  FIXME*/
-//        if (phenology->inPhase("leaf_senescence"))
-        if (phenology->inPhase("above_ground"))
-           g.dlt_plants_failure_leaf_sen =
-                  crop_failure_leaf_sen(this, leafPart->getLAI(), g.plants);
-        else
-           g.dlt_plants_failure_leaf_sen = 0.0;
-
-        if (phenology->inPhase("preflowering"))
-           g.dlt_plants_failure_phen_delay =
-                  crop_failure_phen_delay(this
-                                         , c.swdf_pheno_limit
-                                         , g.cswd_pheno.getSum()
-                                         , g.plants);
-        else
-           g.dlt_plants_failure_phen_delay = 0.0;
-
-        if (phenology->inPhase("preflowering"))   // XX NEW - check pls.
-           g.dlt_plants_death_drought =
-              plant_death_drought(c.leaf_no_crit
-                                 , c.swdf_photo_limit
-                                 , c.swdf_photo_rate
-                                 , g.cswd_photo.getSum()
-                                 , g.plants
-                                 , g.swdef_photo);
-        else
-           g.dlt_plants_death_drought = 0.0;
-
-        plant_death_actual(g.dlt_plants_death_drought
-                           , &g.dlt_plants_death_external
-                           , g.dlt_plants_death_seedling
-                           , g.dlt_plants_failure_emergence
-                           , g.dlt_plants_failure_germ
-                           , g.dlt_plants_failure_leaf_sen
-                           , g.dlt_plants_failure_phen_delay
-                           , &g.dlt_plants);
-
-        if (reals_are_equal (g.dlt_plants + g.plants, 0.0))
-            {
-            plant_kill_crop(&g.plant_status);
-            // XX Needs to signal a need to call zero_variables here...
-            // Present method is to rely on calling zero_xx at tomorrow's prepare() event.. :(
-            }
-        else
-            {
-            }
-
-        }
-    else
-        {
-        throw std::invalid_argument ("invalid template option in plant_death");
-        }
-
-    }
-
-float Plant::plant_death_seedling
-//=======================================================================================
-//   Determine seedling death rate due to high soil temperatures
-    (
-     int    c_num_weighted_temp      // (INPUT)  size of table
-    ,float  *c_x_weighted_temp        // (INPUT)  temperature table for poor est
-    ,float  *c_y_plant_death          // (INPUT)  index of plant death
-    ,int    g_day_of_year            // (INPUT)  day of year
-    ,float  *g_soil_temp              // (INPUT)  soil surface temperature (oC)
-    ,int    g_year                   // (INPUT)  year
-    ,float  g_plants                 // (INPUT)  Plant density (plants/m^2)
-    ) {
-    float killfr;                                 // fraction of crop population to kill
-
-    // code to kill plants for high soil surface temperatures
-    plant_plants_temp(c_num_weighted_temp
-                          , c_x_weighted_temp
-                          , c_y_plant_death
-                          , g_day_of_year
-                          , g_soil_temp
-                          , g_year
-                          , &killfr);
-
-    float dlt_plants = - g_plants*killfr;
-
-    if (killfr > 0.0)
-       {
-       string msg= "Plant kill. ";
-         msg = msg + ftoa(killfr*fract2pcnt, ".2").c_str();
-         msg = msg + "% failure because of high soil surface temperatures.";
-       parent->writeString (msg.c_str());
-       }
-    return dlt_plants;
-    }
-
-
-float Plant::plant_death_drought
-//=======================================================================================
-//   Determine plant death rate due to drought
-    (
-     float  c_leaf_no_crit              // (INPUT)  critical number of leaves belo
-    ,float  c_swdf_photo_limit          // (INPUT)  critical cumulative photosynth
-    ,float  c_swdf_photo_rate           // (INPUT)  rate of plant reduction with p
-    ,float  cswd_photo                 // (INPUT)  cumulative water stress type 1
-    ,float  g_plants                    // (INPUT)  Plant density (plants/m^2)
-    ,float  g_swdef_photo               // (INPUT)
-    )
-    {
-    float killfr;                                 // fraction of crop population to kill
-    float dlt_plants = 0.0;                       // population to kill
-
-    if (getLeafNo() < c_leaf_no_crit
-        && cswd_photo>c_swdf_photo_limit
-        && g_swdef_photo<1.0)
-        {
-        killfr = c_swdf_photo_rate * (cswd_photo - c_swdf_photo_limit);
-        killfr = bound (killfr, 0.0, 1.0);
-        dlt_plants = - g_plants*killfr;
-
-        string msg= "Plant kill. ";
-        msg = msg + ftoa(killfr*fract2pcnt, ".2").c_str();
-        msg = msg + "% failure because of water stress.";
-        parent->writeString (msg.c_str());
-        }
-    return dlt_plants;
-    }
-
-
-//+  Purpose
-//      Determine plant seedling death.
-void Plant::plant_death_external_action(protocol::Variant &v         // (INPUT) message variant
-                                        ,float g_plants              // (INPUT) Plant density (plants/m^2)
-                                        ,float *dlt_plants           // (OUTPUT) change in plant number
-                                        ) {
-
-    float killfr;                                 // fraction of crop population to kill
-
-
-
-    protocol::ApsimVariant incomingApsimVariant(parent);
-    incomingApsimVariant.aliasTo(v.getMessageData());
-
-    // Determine kill fraction
-    if (incomingApsimVariant.get("plants_kill_fraction", protocol::DTsingle, false, killfr) == false)
-       {
-       killfr = 1.0;
-       *dlt_plants = - g_plants   ;               // default to whole crop
-       }
-    else
-       {
-       bound_check_real_var(this, killfr, 0.0, 1.0, "killfr");
-       *dlt_plants = *dlt_plants - g_plants*killfr;
-       }
-
-    if (killfr > 0.0)
-        {
-        string msg= "Plant kill. ";
-          msg = msg + ftoa(killfr*fract2pcnt, ".2").c_str();
-          msg = msg + "% crop killed because of external action.";
-        parent->writeString (msg.c_str());
-        }
-    else
-        {
-        // do nothing - no fraction
-        }
-
-    }
-
-
-void Plant::plant_death_crop_killed
-//=======================================================================================
-//   Kill off all plants due to external action
-   ( float    g_plants                           // (INPUT)  Plant density (plants/m^2)
-   , status_t g_plant_status                     // (INPUT)
-   , float    *dlt_plants                        // (OUTPUT) change in plant number
-   )
-   {
-   if (g_plant_status == dead)
-      {
-      *dlt_plants = - g_plants;
-      parent->writeString ("Crop killed because of external action.");
-      }
-   else
-      {
-      *dlt_plants = 0.0;
-      }
-   }
-
-
-void Plant::plant_death_actual
-//=======================================================================================
-//   Determine plant death rate due to a range of given processes
-    (
-     float g_dlt_plants_death_drought                 // (INPUT)
-    ,float *g_dlt_plants_death_external              // (INPUT)
-    ,float g_dlt_plants_death_seedling              // (INPUT)
-    ,float g_dlt_plants_failure_emergence           // (INPUT)
-    ,float g_dlt_plants_failure_germ                // (INPUT)
-    ,float g_dlt_plants_failure_leaf_sen            // (INPUT)
-    ,float g_dlt_plants_failure_phen_delay          // (INPUT)
-    ,float *dlt_plants                               // (OUTPUT) change in plant number
-    )
-    {
-        // dlt's are negative so take minimum.
-    float pmin = g_dlt_plants_failure_germ;             // Progressive minimum
-    pmin = min(pmin, g_dlt_plants_failure_emergence);
-    pmin = min(pmin, g_dlt_plants_failure_leaf_sen);
-    pmin = min(pmin, g_dlt_plants_failure_phen_delay);
-    pmin = min(pmin, g_dlt_plants_death_drought);
-    pmin = min(pmin, g_dlt_plants_death_seedling);
-    pmin = min(pmin, *g_dlt_plants_death_external);
-
-    *dlt_plants = pmin;
-
-    *g_dlt_plants_death_external = 0.0;                //Ugly hack here??
-
-    }
-
-
-//+  Purpose
-//        Calculate fraction of plants killed by high temperature during
-//        emergence (0-1).
-void Plant::plant_plants_temp
-    (
-     int    c_num_weighted_temp                          // (INPUT)  size of table
-    ,float  *c_x_weighted_temp                           // (INPUT)  temperature table for poor est
-    ,float  *c_y_plant_death                             // (INPUT)  index of plant death
-    ,int    g_day_of_year                                // (INPUT)  day of year
-    ,float  *g_soil_temp                                 // (INPUT)  soil surface temperature (oC)
-    ,int    g_year                                       // (INPUT)  year
-    ,float  *killfr                                      // (OUTPUT) fraction of plants killed  (plants/m^2)
-    ) {
-
-//+  Local Variables
-    int   day_before;                             // day of year number of day before
-                                                  // yesterday ()
-    float weighted_temp;                          // 3 day weighted soil temperature (oC)
-    int   yesterday;                              // day of year number of yesterday
-
-//- Implementation Section ----------------------------------
-
-    yesterday = offset_day_of_year (g_year, g_day_of_year, - 1);
-    day_before = offset_day_of_year (g_year, g_day_of_year, - 2);
-
-    weighted_temp = 0.25 * g_soil_temp[day_before]
-                  + 0.50 * g_soil_temp[yesterday]
-                  + 0.25 * g_soil_temp[g_day_of_year];
-
-    *killfr = linear_interp_real (weighted_temp
-                                , c_x_weighted_temp
-                                , c_y_plant_death
-                                , c_num_weighted_temp);
-
-
-    }
-
-
-void Plant::plant_kill_crop (status_t *g_plant_status)
-//=======================================================================================
-// Kill the Crop
-   {
-   float biomass;                                // above ground dm (kg/ha)
-//!!!!! fix problem with deltas in update when change from alive to dead ?zero deltas
-
-   if (*g_plant_status == alive)
-      {
-      *g_plant_status = dead;
-      biomass = tops.Total.DM() * gm2kg /sm2ha;
-
-      // report
-      char msg[80];
-      sprintf(msg, "Plant death. standing above-ground dm = %.2f (kg/ha)", biomass);
-      parent->writeString (msg);
-      }
-   else
-      {
-      }
-   }
 
 
 void Plant::plant_nit_retrans (int option/* (INPUT) option number*/)
@@ -1313,9 +954,7 @@ void Plant::plant_sen_nit (int   option/*(INPUT) option number*/)
         }
 
     if (g.phosphorus_aware == true)
-       {
-       PlantP_senescence(myParts);
-       }
+       plant.doPSenescence();
     }
 
 void Plant::plant_cleanup ()
@@ -1325,12 +964,11 @@ void Plant::plant_cleanup ()
 
     g.remove_biom_pheno = 1.0;
 
-    plant_update( g.dlt_plants
-                , &g.plants);
+    plant_update();
 
     plant_check_bounds(plant.coverGreen()
                        , plant.coverSen()
-                       , g.plants);
+                       , getPlants());
 
     plant_totals(&g.lai_max
                 , &g.n_fix_uptake
@@ -1366,15 +1004,9 @@ void Plant::plant_cleanup ()
 
 
 
-//+  Purpose
-//       Update states
-void Plant::plant_update(float  g_dlt_plants                                       // (INPUT)  change in Plant density (plant
-    ,float *g_plants)                                           // (out/INPUT)  Plant density (plants/m^2)
-{
-
-//+  Local Variables
-
-//- Implementation Section ----------------------------------
+void Plant::plant_update()
+   {
+   // Update states
 
     // Let me register my surprise at how this is done on the next few lines
     // - why intrinsically limit processes to leaf etc right here!!! - NIH
@@ -1392,7 +1024,7 @@ void Plant::plant_update(float  g_dlt_plants                                    
     plant.update();
 
     // now update new canopy covers
-    plantSpatial.setPlants(*g_plants);
+    plantSpatial.setPlants(getPlants());
     plantSpatial.setCanopyWidth(leafPart->width());
 
     for (vector<plantPart *>::iterator t = myParts.begin(); t != myParts.end(); t++)
@@ -1402,8 +1034,7 @@ void Plant::plant_update(float  g_dlt_plants                                    
     stageObservers.update();
     if (phenology->inPhase("preflowering")) g.cswd_pheno.update();
 
-    // other plant states
-    *g_plants = *g_plants + g_dlt_plants;
+    population.Update();
 
     plant.doNConccentrationLimits(g.co2_modifier_n_conc);
 
@@ -1905,7 +1536,7 @@ void Plant::plant_process ( void )
 
         plant_p_retrans();
 
-        plant_plant_death (1);
+        population.PlantDeath();
         }
     else
         {
@@ -2156,10 +1787,7 @@ void Plant::plant_harvest_update (protocol::Variant &v/*(INPUT)message arguments
     // determine the new stem density
     // ==============================
     if (incomingApsimVariant.get("plants", protocol::DTsingle, false, temp) == true)
-        {
-        bound_check_real_var(this,temp, 0.0, 10000.0, "plants");
-        g.plants = temp;
-        }
+        population.SetPlants(temp);
 
     if (incomingApsimVariant.get("remove", protocol::DTsingle, false, remove_fr) == false)
         {
@@ -2276,7 +1904,7 @@ void Plant::plant_harvest_update (protocol::Variant &v/*(INPUT)message arguments
 
 // now update new canopy covers
 
-    plantSpatial.setPlants(g.plants);
+    plantSpatial.setPlants(getPlants());
     plantSpatial.setCanopyWidth(leafPart->width());
 
    for (vector<plantPart *>::iterator t = myParts.begin(); t != myParts.end(); t++)
@@ -2317,10 +1945,7 @@ void Plant::plant_kill_stem_update (protocol::Variant &v/*(INPUT) message argume
     // determine the new stem density
     // ==============================
     if (aV.get("plants", protocol::DTsingle, false, temp) == true)
-        {
-        bound_check_real_var(this,temp, 0.0, 10000.0, "plants");
-        g.plants = temp;
-        }
+        population.SetPlants(temp);
 
     // Update biomass and N pools.
     for (vector<plantPart *>::iterator part = myParts.begin(); part != myParts.end(); part++)
@@ -2328,7 +1953,7 @@ void Plant::plant_kill_stem_update (protocol::Variant &v/*(INPUT) message argume
 
     // now update new canopy covers
 
-    plantSpatial.setPlants(g.plants);
+    plantSpatial.setPlants(getPlants());
     plantSpatial.setCanopyWidth(leafPart->width());
 
    for (vector<plantPart *>::iterator t = myParts.begin(); t != myParts.end(); t++)
@@ -2437,7 +2062,7 @@ void Plant::plant_remove_biomass_update (protocol::RemoveCropDmType dmRemoved)
     stemPart->removeBiomass2(-1.0); // the values calculated here are overwritten in plantPart::morphology(void)
 
     // now update new canopy covers
-    plantSpatial.setPlants(g.plants);
+    plantSpatial.setPlants(getPlants());
     plantSpatial.setCanopyWidth(leafPart->width());
 
     for (vector<plantPart *>::iterator t = myParts.begin(); t != myParts.end(); t++)
@@ -2489,17 +2114,7 @@ void Plant::plant_zero_all_globals (void)
       g.oxdef_photo = 1.0;
       g.fr_intc_radn = 0.0;
 
-      fill_real_array (g.soil_temp, 0.0, 366+1);
       g.eo = 0.0;
-      g.plants = 0.0;
-      g.dlt_plants = 0.0;
-      g.dlt_plants_death_seedling = 0.0;
-      g.dlt_plants_death_drought = 0.0;
-      g.dlt_plants_failure_phen_delay = 0.0;
-      g.dlt_plants_failure_leaf_sen = 0.0;
-      g.dlt_plants_failure_emergence = 0.0;
-      g.dlt_plants_failure_germ = 0.0;
-      g.dlt_plants_death_external = 0.0;
       g.dlt_dm_parasite  =  0.0;
       g.dlt_dm_parasite_demand = 0.0;
       g.dlt_sw_parasite_demand = 0.0;
@@ -2526,20 +2141,11 @@ void Plant::plant_zero_all_globals (void)
       c.n_fact_photo = 0.0;
       c.n_fact_pheno = 0.0;
       c.n_fact_expansion = 0.0;
-      c.leaf_no_crit = 0.0;
-      c.tt_emerg_limit = 0.0;
-      c.days_germ_limit = 0;
-      c.swdf_pheno_limit = 0.0;
-      c.swdf_photo_limit = 0.0;
-      c.swdf_photo_rate = 0.0;
       fill_real_array (c.n_fix_rate, 0.0,max_table);
       fill_real_array (c.x_ave_temp, 0.0, max_table);
       fill_real_array (c.y_stress_photo, 0.0, max_table);
-      fill_real_array (c.x_weighted_temp, 0.0, max_table);
-      fill_real_array (c.y_plant_death, 0.0, max_table);
       c.num_ave_temp = 0;
       c.num_factors = 0;
-      c.num_weighted_temp = 0;
 
       c.class_action.clear();
       c.class_change.clear();
@@ -2585,14 +2191,8 @@ void Plant::plant_zero_variables (void)
     Environment.zeroAllGlobals();
     plantSpatial.zeroAllGlobals();
 
-    fill_real_array (g.soil_temp , 0.0, 366);
-
-//    fill_real_array (p.ll_dep , 0.0, max_layer);
-
-    g.dlt_plants_death_external     = 0.0;
     g.lai_max               = 0.0;
 
-    g.plants                = 0.0;
 
     g.swdef_pheno = 1.0;
     g.swdef_photo = 1.0;
@@ -2634,22 +2234,7 @@ void Plant::plant_zero_daily_variables ()
        (*t)->zeroDeltas();
 
 
-    g.dlt_plants               = 0.0;
     g.ext_n_demand             = 0.0;
-
-//      g%dlt_plants_death_barrenness     = 0.0
-    g.dlt_plants_death_seedling       = 0.0;
-    g.dlt_plants_death_drought        = 0.0;
-    g.dlt_plants_failure_phen_delay   = 0.0;
-    g.dlt_plants_failure_leaf_sen     = 0.0;
-    g.dlt_plants_failure_emergence    = 0.0;
-    g.dlt_plants_failure_germ         = 0.0;
-
-    //g.pfact_photo        = 1.0;  NO!! needed during prepare()
-    //g.pfact_expansion    = 1.0;
-    //g.pfact_pheno        = 1.0;
-    //g.pfact_grain        = 1.0;
-
     }
 
 //+  Purpose
@@ -2706,11 +2291,12 @@ void Plant::plant_start_crop (protocol::Variant &v/*(INPUT) message arguments*/)
            read();
 
            // get other sowing criteria
-           if (incomingApsimVariant.get("plants", protocol::DTsingle, false, g.plants) == false)
+           float temp;
+           if (incomingApsimVariant.get("plants", protocol::DTsingle, false, temp) == false)
                {
                throw std::invalid_argument("plant density ('plants') not specified");
                }
-           bound_check_real_var(this,g.plants, 0.0, 1000.0, "plants");
+           population.SetPlants(temp);
 
            parent->writeString ("    ------------------------------------------------");
            sprintf (msg, "   %s%s",  "cultivar                   = ", g.cultivar.c_str());
@@ -2745,7 +2331,7 @@ void Plant::plant_start_crop (protocol::Variant &v/*(INPUT) message arguments*/)
 
            sprintf(msg, "   %7d%7.1f%7.1f%7.1f%6.1f%6.1f %s"
                   , Environment.day_of_year, plantSpatial.sowing_depth
-                  , g.plants, plantSpatial.row_spacing
+                  , getPlants(), plantSpatial.row_spacing
                   , plantSpatial.skip_row, plantSpatial.skip_plant, g.cultivar.c_str());
            parent->writeString (msg);
 
@@ -2891,42 +2477,11 @@ void Plant::plant_end_crop ()
         }
 
     }
-
-
-
-//+  Purpose
-//       Stores a value in an annual circular array
-void Plant::plant_store_value (
-     int    g_day_of_year        // (INPUT)  day of year
-    ,int    g_year               // (INPUT)  year
-    ,float  array[]                // (OUTPUT) storage array
-    ,float  value                // (INPUT) value to be stored
-    ) {
-
-//- Implementation Section ----------------------------------
-
-        array[g_day_of_year] = value;
-
-    if (g_day_of_year==365 && leap_year (g_year - 1))
-        {
-        array[366] = 0.0;
-        }
-    else
-        {
-        }
-    }
-
-
 //+  Purpose
 //      Get the values of variables/arrays from other modules.
 void Plant::plant_get_other_variables ()
     {
     std::vector<float> values;               // Scratch area
-
-    float soil_temp;                              // soil surface temperature (oC)
-
-//- Implementation Section ----------------------------------
-
 
     // Parasite assimilate demand
     if (id.parasite_c_demand != 0)
@@ -2947,18 +2502,6 @@ void Plant::plant_get_other_variables ()
        g.dlt_sw_parasite_demand = 0.0;
        }
 
-    // Soil temperature at surface
-    if (id.maxt_soil_surface != 0)
-       {
-       soil_temp = 0.0;
-       if (parent->getVariable(id.maxt_soil_surface, soil_temp, 0.0, 80.0, true));
-          {
-          plant_store_value (Environment.day_of_year
-                           , Environment.year
-                           , g.soil_temp
-                           , soil_temp);
-          }
-       }
 
     parent->getVariable(id.fr_intc_radn, g.fr_intc_radn, 0.0, 1.0, true);
 
@@ -3133,12 +2676,6 @@ void Plant::plant_read_species_const ()
     plantSpatial.read(scienceAPI);
 
     scienceAPI.read("n_fix_rate", c.n_fix_rate, numvals, 0.0f, 1.0f);
-    scienceAPI.read("leaf_no_crit", c.leaf_no_crit, 0.0f, 100.0f);
-    scienceAPI.read("tt_emerg_limit", c.tt_emerg_limit, 0.0f, 1000.0f);
-    scienceAPI.read("days_germ_limit", c.days_germ_limit, 0.0f, 365.0f);
-    scienceAPI.read("swdf_pheno_limit", c.swdf_pheno_limit, 0.0f, 1000.0f);
-    scienceAPI.read("swdf_photo_limit", c.swdf_photo_limit, 0.0f, 1000.0f);
-    scienceAPI.read("swdf_photo_rate", c.swdf_photo_rate, 0.0f, 1.0f);
     scienceAPI.read("eo_crop_factor_default", c.eo_crop_factor_default, 0.0f, 100.0f);
 
     scienceAPI.read("n_supply_preference", c.n_supply_preference);
@@ -3161,8 +2698,6 @@ void Plant::plant_read_species_const ()
     //    plant_rue_reduction
     scienceAPI.read("x_ave_temp", c.x_ave_temp, c.num_ave_temp, 0.0f, 100.0f);
     scienceAPI.read("y_stress_photo", c.y_stress_photo, c.num_factors, 0.0f, 1.0f);
-    scienceAPI.read("x_weighted_temp", c.x_weighted_temp, c.num_weighted_temp, 0.0f, 100.0f);
-    scienceAPI.read("y_plant_death", c.y_plant_death, c.num_weighted_temp, 0.0f, 100.0f);
     scienceAPI.read("x_co2_te_modifier", c.x_co2_te_modifier, c.num_co2_te_modifier, 0.0f, 1000.0f);
     scienceAPI.read("y_co2_te_modifier", c.y_co2_te_modifier, c.num_co2_te_modifier, 0.0f, 10.0f);
     scienceAPI.read("x_co2_nconc_modifier", c.x_co2_nconc_modifier, c.num_co2_nconc_modifier, 0.0f, 1000.0f);
@@ -3215,7 +2750,7 @@ void Plant::plant_harvest_report ()
        yield = yield+(*t)->GrainTotal.DM() * gm2kg / sm2ha;
        yield_wet = yield_wet+(*t)->dmGrainWetTotal() * gm2kg / sm2ha;
        grain_wt = grain_wt + (*t)->grainWt();
-       plant_grain_no = plant_grain_no+divide ((*t)->grainNo(), g.plants, 0.0);
+       plant_grain_no = plant_grain_no+divide ((*t)->grainNo(), getPlants(), 0.0);
        n_grain = n_grain + (*t)->GrainTotal.N() * gm2kg/sm2ha;
        }
 
@@ -3395,15 +2930,6 @@ void Plant::plant_send_crop_chopped_event (const string&  crop_type             
 #endif
     }
 
-void Plant::onNewProfile(unsigned &, unsigned &, protocol::Variant &v /* (INPUT) message arguments*/)
-//=======================================================================================
-// Event Handler for the NewProfile Event
-    {
-    struct protocol::NewProfileType newProfile;
-    v.unpack(newProfile);
-    rootPart->onNewProfile(newProfile);
-    }
-
 /////////////////////////////Get&Set Interface code
 bool Plant::set_plant_crop_class(protocol::QuerySetValueData&v)
     {
@@ -3446,10 +2972,6 @@ void Plant::get_width(protocol::Component *system, protocol::QueryValueData &qd)
    system->sendVariable(qd, leafPart->width());
 }
 
-void Plant::get_plants(protocol::Component *system, protocol::QueryValueData &qd)
-{
-    system->sendVariable(qd, g.plants);
-}
 
 void Plant::get_cover_tot(protocol::Component *system, protocol::QueryValueData &qd)
 {
@@ -3793,7 +3315,7 @@ float Plant::SenescedP(void) {return plant.Senesced.P();}
 
 float Plant::getStageCode(void)  {return phenology->stageCode();}
 float Plant::getStageNumber(void)  {return phenology->stageNumber();}
-float Plant::getPlants(void)  {return g.plants;}
+float Plant::getPlants(void)  {return population.Density();}
 float Plant::getCo2(void)  {return Environment.co2;}
 //float Plant::getRadnInterceptedPod(void)  {return g.radn_int_pod;}
 float Plant::getDltDMPotRueVeg(void)  {return leafPart->dltDmPotRue();}
@@ -3809,13 +3331,10 @@ float Plant::getDmGreenTot(void)  {return plant.Green.DM();}
 // FIXME - remove next line when P demand corrections activated
 float Plant::getRelativeGrowthRate(void) {return divide(arbitrator->dltDMWhole(plant.dltDmPotRue()), plant.Green.DM(), 0.0);} // the dlt_dm_pot_rue is only tops, thus either adjust it for roots or leave roots out of the divisor.
 float Plant::getTotalPotentialGrowthRate(void) {return arbitrator->dltDMWhole(plant.dltDmPotRue());} // the dlt_dm_pot_rue is only tops, thus adjust it for roots.
-float Plant::getDyingFractionPlants(void)
-   {
-       float dying_fract_plants = divide (-g.dlt_plants, g.plants, 0.0);
-       dying_fract_plants = bound (dying_fract_plants, 0.0, 1.0);
-       return dying_fract_plants;
-   }
-
+float Plant::getDyingFractionPlants(void) {return population.DyingFractionPlants();}
+float Plant::getLAI() {return leafPart->getLAI();}
+float Plant::getCumSwdefPheno() {return g.cswd_pheno.getSum();}
+float Plant::getCumSwdefPhoto() {return g.cswd_photo.getSum();}
 float Plant::getCo2ModifierRue(void)  {return g.co2_modifier_rue;}
 float Plant::getCo2ModifierTe(void)  {return g.co2_modifier_te;}
 float Plant::getCo2ModifierNConc(void)  {return g.co2_modifier_n_conc;}
@@ -3832,4 +3351,5 @@ void Plant::writeString (const char *line) {parent->writeString(line);};
 void Plant::warningError (const char *msg) {parent->warningError(msg);};
 const std::string & Plant::getCropType(void) {return c.crop_type;};
 protocol::Component *Plant::getComponent(void) {return parent;};
-
+int Plant::daysInCurrentPhase() {return phenology->daysInCurrentPhase();}
+float Plant::ttInCurrentPhase() {return phenology->ttInCurrentPhase();}

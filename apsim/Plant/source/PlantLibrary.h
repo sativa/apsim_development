@@ -621,77 +621,7 @@ void plant_leaf_removal_top (float *leaf_area
     ) ;
 
 
-//---------------------------------------------------------------------------
-
-
-float crop_failure_germination(plantInterface *,
-                              int days_germ_limit,   // (INPUT)  maximum days allowed after sowing for germination to take place (days)
-                              int daysInStage,        // (Input) days we have spent in current stage
-                              float plants);         // (INPUT)  Plant density (plants/m^2)
-
-float crop_failure_emergence(plantInterface *,
-                            float tt_emerg_limit,    // (INPUT)  maximum degree days allowed for emergence to take place (deg day)
-                             float ttInStage,         // (INPUT)  the sum of growing degree days for a phenological stage (oC d)
-                             float plants);           // (INPUT)  Plant density (plants/m^2)
-
-float crop_failure_leaf_sen (plantInterface *
-                            ,float g_lai              // (INPUT)  live plant green lai
-                            ,float g_plants);           // (INPUT)  Plant density (plants/m^2)
-
-float crop_failure_phen_delay (plantInterface *
-                              ,float c_swdf_pheno_limit          // (INPUT)  critical cumulative phenology water stress above which the crop fails (unitless)
-                              ,float cswd_pheno                 // (INPUT)  cumulative water stress type 3
-                              ,float g_plants);                    // (INPUT)  Plant density (plants/m^2)
-
-void crop_death_drought (plantInterface *,
-                         int  emerg,                // (INPUT) emergence stage
-                         int  flag_leaf,            // (INPUT) flag leaf stage
-                         int  plant_end,            // (INPUT) maximum plant stage
-                         float *g_cswd_photo,       // (INPUT) cumulative water stress photosynthesis
-                         float *g_leaf_no,          // (INPUT) leaf no in different phases
-                         float  c_leaf_no_crit,     // (INPUT) critical leaf no below which drought death may occur
-                         float  c_swdf_photo_limit, // (INPUT) critical cumulative photosynthesis water stress, above which the crop partly fails (unitless)
-                         float  g_swdef_photo,      // (INPUT) daily water stress for photosynthesis
-                         float  c_swdf_photo_rate,  // (INPUT) rate of plant reduction with photosynthesis water stress,above which the crop fails (unitless)
-                         float  g_plants,           // (INPUT) plant density (plants/m2)
-                         float *dlt_plants);         // (OUTPUT)daily plant death (plants/m2)
-
-void crop_death_seedling_hightemp (plantInterface *,
-                                   int days_after_emerg,           // (INPUT) days after emergence
-                                   int g_year,                     // (INPUT) year
-                                   int g_day_of_year,              // (INPUT) day of year
-                                   float *g_soil_temp,              // (INPUT) soil surface temperature (C)
-                                   float *c_x_weighted_temp,        // (INPUT) soil temperature (C) in lookup table
-                                   float *c_y_plant_death,          // (INPUT) fraction of plants killed
-                                   int   c_num_weighted_temp,        // (INPUT) no of table elements
-                                   float g_plants,                 // (INPUT) plant density (plants/m2)
-                                   float *dlt_plants);               // (OUPUT) daily plant death (plants/m2)
-
-void soil_temp_weighted_3days (int  g_year,                  //   (INPUT) year
-                               int  g_day_of_year,           //   (INPUT) day of year
-                               float *g_soil_temp,            //   (INPUT) soil surface temperature (C)
-                               float *c_x_weighted_temp,     //   (INPUT) soil temperature (C) in lookup table
-                               float *c_y_plant_death,       //   (INPUT) fraction of plants killed
-                               int   c_num_weighted_temp,    //   (INPUT) no of table elements
-                               float *killfr);                //    (OUTPUT) fraction of plants killed
-
-void crop_death_actual (float g_dlt_plants_failure_germ,
-                        float g_dlt_plants_failure_emergence,
-                        float g_dlt_plants_failure_leaf_sen,
-                        float g_dlt_plants_failure_phen_delay,
-                        float g_dlt_plants_death_seedling,
-                        float g_dlt_plants_death_drought,
-                        float g_dlt_plants_death_barrenness,
-                        float *dlt_plants);
-  void crop_crown_temp_nwheat
-   ( float tempmx
-    ,float tempmn
-    ,float snow
-    ,float *tempcx
-    ,float *tempcn
-    ) ;
-
-//---------------------------------------------------------------------------
+//--------------------------------------------------------------------------
   void cproc_n_uptake3
     (
      float  *g_dlayer

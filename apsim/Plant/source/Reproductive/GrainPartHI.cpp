@@ -170,7 +170,7 @@ void fruitGrainPartHI::doDMDemandGrain(void)
 
 
       // delay grainfill after cold snap
-      if (gMint <= pMinTempGrnFill)
+      if (plant->getEnvironment()->mint <= pMinTempGrnFill)
          gDelayGrnFill = true;
       if (gDelayGrnFill)
          {

@@ -1405,6 +1405,9 @@ C     Last change:  P    25 Oct 2000    9:26 am
      :               '.  Module does not exist.'
             call fatal_error(err_user, msg)
          endif
+      else if (Action .eq. 'kill_crop') then
+         call PublishKillCrop(Module_name, Data_string)
+         
       else
          ! some other action
          call New_postbox ()
@@ -1424,6 +1427,40 @@ C     Last change:  P    25 Oct 2000    9:26 am
          call Delete_postbox ()
       endif
       return
+      end subroutine
+
+* ====================================================================
+      recursive subroutine PublishKillCrop(ModuleName, DataString)
+* ====================================================================
+      use ConstantsModule
+      use ErrorModule
+      use StringModule
+      use DataStrModule
+      Use infrastructure
+
+      implicit none
+      
+      character DataString*(*)        ! (INPUT) Should be blank or have a plants_kill_fraction
+      character ModuleName*(*)        ! (INPUT) Name of module to send event to.
+      character Name*(MAX_VARIABLE_NAME_SIZE)
+      character Value*(500)
+      real Fraction
+      type(KillCropType) Kill
+      integer KillCropID
+      integer NumVals
+      
+      call Get_next_variable(DataString, Name, Value)
+      Name = Lower_case(Name)
+      if (Name .eq. 'plants_kill_fraction') then
+         call String_to_real_var(Value, Fraction, NumVals)
+      else
+         Fraction = 1.0
+      endif
+      KillCropID = add_registration(eventReg, 
+     .                              Trim(ModuleName) // '.kill_crop',
+     .                              KillCropTypeDDML, '', '')
+      call publish_KillCrop(KillCropID, Kill)
+
       end subroutine
 
 * ====================================================================

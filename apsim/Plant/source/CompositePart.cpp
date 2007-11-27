@@ -472,15 +472,6 @@ void CompositePart::doGrainNumber (void)
       (*part)->doGrainNumber();
 }
 
-// Field a NewMet event
-void CompositePart::doNewMet(protocol::NewMetType &newmet)
-   //===========================================================================
-{
-   vector <plantPart *>::iterator part;
-   for (part = myParts.begin(); part != myParts.end(); part++)
-      (*part)->doNewMet(newmet);
-}
-
 void CompositePart::readCultivarParameters (protocol::Component *system, const string &cultivar)
    //===========================================================================
 {
