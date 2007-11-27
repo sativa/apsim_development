@@ -16,7 +16,6 @@ OBJFILES=PlantComponent.obj \
    PlantPart.obj \
    PlantBiomass.obj \
    PlantCanopy.obj \
-   PlantFail.obj \
    PlantLibrary.obj \
    PlantNitrogen.obj \
    PlantTemp.obj \
@@ -29,6 +28,7 @@ OBJFILES=PlantComponent.obj \
    Utility\Date.obj \
    PlantComms.obj \
    PlantP.obj \
+   Population.obj \
    ..\..\..\Shared\ComponentInterface\EntryPoints.obj \
    Environment.obj \
    Utility\Observers.obj \
@@ -172,6 +172,7 @@ CompositePool.obj: CompositePool.cpp CompositePool.h
 LivePool.obj: LivePool.h LivePool.cpp Pool.cpp Pool.h
 Delta.obj: Delta.cpp Delta.h Pool.h Biomass.h
 Biomass.obj: Biomass.cpp Biomass.h
+Population.obj: Population.cpp Population.h
 
 Phenology\PlantPhenology.obj: Phenology\PlantPhenology.cpp Phenology\PlantPhenology.h
 Phenology\BroccoliPhenology.obj: Phenology\BroccoliPhenology.cpp Phenology\BroccoliPhenology.h
