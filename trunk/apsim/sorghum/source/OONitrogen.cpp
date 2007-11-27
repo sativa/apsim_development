@@ -78,7 +78,8 @@ void Nitrogen::initialize(void)
    nUptakeTotal = 0.0;
    nPlant = 0.0;
    rootDepth = 0.0;
-
+   plantNDemand = 0.0;
+   
    currentLayer = 0.0;
    //Set up reporting vectors
    nGreen.clear();

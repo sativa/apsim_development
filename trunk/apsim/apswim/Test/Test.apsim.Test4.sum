@@ -280,7 +280,7 @@ Component    "sorghum" = c:\development\apsim\sorghum\lib\sorghum.dll
           ---------------------------------------------------------
 ------- Start of simulation  --------------------------------------------------
       Sending sow message to sorghum
-1 January 1995(Day of year=1), sorghum: 
+dd/mm/yyyy(Day of year=0), sorghum: 
      Sowing initiate
      
                       Crop Sowing Data
@@ -326,16 +326,6 @@ Component    "sorghum" = c:\development\apsim\sorghum\lib\sorghum.dll
              250.0     0.040          0.070       1.000
              100.0     0.040          0.070       1.000
          ---------------------------------------------------
-     
-1 January 1995(Day of year=1): 
-     !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-                      APSIM Warning Error
-                      -------------------
-     Cannot set value of the specified variable.
-     Variable name: dlt_sw_dep
-     Component name: sorghum
-     !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-     
      
 2 January 1995(Day of year=2), sorghum: 
       stage 2.0 germination
