@@ -138,17 +138,6 @@ Component       "graz" = c:\development\apsim\graz\lib\graz.dll
      
         - Reading Soil Profile Parameters
      Initial soilwater distributed using "sw" parameter.
-     !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-                      APSIM Warning Error
-                      -------------------
-     Value of variable is out of bounds.
-     Variable: dlayer
-     Value:     1500.0000000
-     Bounds:        0.0000000 to     1000.0000000
-     Component name: soiln2
-     !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-     
-     
      
      
      
@@ -326,13 +315,13 @@ Component       "graz" = c:\development\apsim\graz\lib\graz.dll
      Manager creating a new local real variable : sw3 =     438.000000000000
      Manager creating a new local real variable : grass_sw =     582.256193600000
 1 September 1900(Day of year=244), manager: 
-     Manager creating a new local real variable : avgdailyintake =    0.100012275329351E+023
+     Manager creating a new local real variable : avgdailyintake =     4.20568388834486
      Manager creating a new local real variable : targetutil =    0.200000000000000
-     Manager creating a new local real variable : annualintake =    0.365544846850000E+025
-     Manager creating a new local real variable : stock_equiv_ratio =    0.616012834588086E-022
+     Manager creating a new local real variable : annualintake =     1537.17739600500
+     Manager creating a new local real variable : stock_equiv_ratio =    0.146489487662510
      Manager creating a new local real variable : weight_ratio =     2.00000000000000
      Manager creating a new local real variable : factor =     1.68179283050743
-     Manager creating a new local real variable : beasts_ha =    0.366283416734211E-022
+     Manager creating a new local real variable : beasts_ha =    0.871031679846708E-001
 23 June 1911(Day of year=174), grasp: 
       green leaf dm,n =       0.0000      0.0000
       green stem dm,n =       0.0000      0.0000
