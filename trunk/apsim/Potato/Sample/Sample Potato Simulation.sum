@@ -45,14 +45,14 @@ Component     "potato" = c:\development\apsim\plant\lib\plant.dll
         dd/mm/yyyy as Date
         biomass
         lai
-        leaf_wt
-        stem_wt
-        tuber_wt
+        LeafGreenWt
+        StemGreenWt
+        TuberGreenWt
         st(1)
         plants
         node_no
         node_no_fx
-        leaf_no
+        LeafGreenN
 
      Output file = Sample Potato Simulation.out
      Format = normal

@@ -124,6 +124,11 @@ command = SearchReplace(report, "(\W)floret_wt(\W)","$1FloretGreenWt$2")
 command = SearchReplace(tracker, "(\W)floret_wt(\W)","$1FloretGreenWt$2")
 command = SearchReplace(manager, "(\W)floret_wt(\W)","$1FloretGreenWt$2")
 
+[Renamed variable: tuber_wt to TuberGreenWt]
+command = SearchReplace(report, "(\W)tuber_wt(\W)","$1TuberGreenWt$2")
+command = SearchReplace(tracker, "(\W)tuber_wt(\W)","$1TuberGreenWt$2")
+command = SearchReplace(manager, "(\W)tuber_wt(\W)","$1TuberGreenWt$2")
+
 ------------------------------ _n variables --------------------------------------
 
 [Renamed variable: leaf_n to LeafGreenN]
