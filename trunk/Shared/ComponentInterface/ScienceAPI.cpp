@@ -423,10 +423,43 @@ class CMPMethod1 : public DeletableThing
 
    };
 
+// -------------------------------------------------------------------
+// A wrapper class for CMP events, gets and sets that take a single
+// data item as an arguemnt.
+// -------------------------------------------------------------------
+template <class FT>
+class CMPMethod0 : public DeletableThing
+   {
+   private:
+      FT setter;
+   public:
+      CMPMethod0(FT& fn)
+         {
+         setter = fn;
+         }
+      void invoke(unsigned &, unsigned &, protocol::Variant& variant)
+         {
+         setter();
+         }
+      const char* DDML() {return nullTypeDDML;}
+
+   };
+
 
 // -------------------------------------------------------------
 // Event handlers.
 // -------------------------------------------------------------
+void ScienceAPI::subscribe(const std::string& name, NullFunctionType handler)
+   {
+   typedef CMPMethod0<NullFunctionType> WrapperType;
+   WrapperType* wrapper = new WrapperType (handler);
+   stuffToDelete.push_back(wrapper);
+
+   boost::function3<void, unsigned &, unsigned &, protocol::Variant &> fn;
+   fn = boost::bind(&WrapperType::invoke, wrapper, _1, _2, _3);
+   component->addEvent(name.c_str(), RegistrationType::respondToEvent,
+                       fn, wrapper->DDML());
+   }
 void ScienceAPI::subscribe(const std::string& name, TimeFunctionType handler)
    {
    typedef CMPMethod1<TimeFunctionType, protocol::TimeType> WrapperType;
@@ -442,6 +475,30 @@ void ScienceAPI::subscribe(const std::string& name, TimeFunctionType handler)
 void ScienceAPI::subscribe(const std::string& name, NewMetFunctionType handler)
    {
    typedef CMPMethod1<NewMetFunctionType, protocol::NewMetType> WrapperType;
+   WrapperType* wrapper = new WrapperType (handler);
+   stuffToDelete.push_back(wrapper);
+
+   boost::function3<void, unsigned &, unsigned &, protocol::Variant &> fn;
+   fn = boost::bind(&WrapperType::invoke, wrapper, _1, _2, _3);
+   component->addEvent(name.c_str(), RegistrationType::respondToEvent,
+                       fn, wrapper->DDML());
+   }
+
+void ScienceAPI::subscribe(const std::string& name, KillCropFunctionType handler)
+   {
+   typedef CMPMethod1<KillCropFunctionType, protocol::KillCropType> WrapperType;
+   WrapperType* wrapper = new WrapperType (handler);
+   stuffToDelete.push_back(wrapper);
+
+   boost::function3<void, unsigned &, unsigned &, protocol::Variant &> fn;
+   fn = boost::bind(&WrapperType::invoke, wrapper, _1, _2, _3);
+   component->addEvent(name.c_str(), RegistrationType::respondToEvent,
+                       fn, wrapper->DDML());
+   }
+
+void ScienceAPI::subscribe(const std::string& name, NewProfileFunctionType handler)
+   {
+   typedef CMPMethod1<NewProfileFunctionType, protocol::NewProfileType> WrapperType;
    WrapperType* wrapper = new WrapperType (handler);
    stuffToDelete.push_back(wrapper);
 

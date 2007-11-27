@@ -197,7 +197,9 @@
 
 
    <!--      !!!!! CROP types !!!!!-->
-
+   <type name="KillCrop">
+      <field name="KillFraction" kind="single"/>
+   </type>    
 
    <!--      !!!!! MICROMET types !!!!!-->
 

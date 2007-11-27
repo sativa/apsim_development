@@ -5,18 +5,18 @@
     <VERSION value="BCB.06.00"/>
     <PROJECT value="..\lib\Plant.dll"/>
     <OBJFILES value="PlantComponent.obj ..\..\..\Shared\ComponentInterface\EntryPoints.obj 
-      Plant.obj PlantFail.obj PlantCanopy.obj PlantLibrary.obj PlantNitrogen.obj 
-      PlantTemp.obj PlantBiomass.obj PlantP.obj Environment.obj StemPart.obj 
-      CompositePart.obj PlantPart.obj PlantSpatial.obj 
-      Phenology\WheatPhenology.obj Phenology\BroccoliPhenology.obj 
-      Phenology\CompositePhase.obj Phenology\CropPhenology.obj 
-      Phenology\EmergentPhase.obj Phenology\FixedPhase.obj 
-      Phenology\GenericPhenology.obj Phenology\LeafAppPhase.obj 
-      Phenology\Phase.obj Phenology\PhotoPhase.obj Phenology\PlantPhenology.obj 
-      Phenology\TTTPhenology.obj Phenology\TTTRatePhenology.obj 
-      Phenology\VernalPhase.obj Arbitrators\NullArbitrator.obj 
-      Arbitrators\arbitrator.obj Arbitrators\GenericArbitrator.obj 
-      Leaf\LeafPart.obj Leaf\cohortingLeafPart.obj Leaf\genericLeafPart.obj 
+      Plant.obj PlantCanopy.obj PlantLibrary.obj PlantNitrogen.obj PlantTemp.obj 
+      PlantBiomass.obj PlantP.obj Environment.obj StemPart.obj CompositePart.obj 
+      PlantPart.obj PlantSpatial.obj Phenology\WheatPhenology.obj 
+      Phenology\BroccoliPhenology.obj Phenology\CompositePhase.obj 
+      Phenology\CropPhenology.obj Phenology\EmergentPhase.obj 
+      Phenology\FixedPhase.obj Phenology\GenericPhenology.obj 
+      Phenology\LeafAppPhase.obj Phenology\Phase.obj Phenology\PhotoPhase.obj 
+      Phenology\PlantPhenology.obj Phenology\TTTPhenology.obj 
+      Phenology\TTTRatePhenology.obj Phenology\VernalPhase.obj 
+      Arbitrators\NullArbitrator.obj Arbitrators\arbitrator.obj 
+      Arbitrators\GenericArbitrator.obj Leaf\LeafPart.obj 
+      Leaf\cohortingLeafPart.obj Leaf\genericLeafPart.obj 
       Reproductive\PodPart.obj Reproductive\FruitCohort.obj 
       Reproductive\GrainPart.obj Reproductive\GrainPartGN.obj 
       Reproductive\GrainPartHI.obj Reproductive\MealPart.obj 
@@ -28,7 +28,8 @@
       Storage\StoragePart.obj Arbitrators\CerealArbitrator.obj 
       Arbitrators\GenericArbitratorXY.obj Arbitrators\AllometricArbitrator.obj 
       Utility\ExternalFunction.obj Utility\InterpolationFunction.obj 
-      Utility\LookupFunction.obj Delta.obj Pool.obj CompositePool.obj Biomass.obj"/>
+      Utility\LookupFunction.obj Delta.obj Pool.obj CompositePool.obj 
+      Biomass.obj Population.obj"/>
     <RESFILES value=""/>
     <IDLFILES value=""/>
     <DEFFILE value=""/>
@@ -78,7 +79,6 @@
       <FILE FILENAME="..\..\..\Shared\ApsimShared\ApsimShared.lib" FORMNAME="" UNITNAME="ApsimShared.lib" CONTAINERID="LibTool" DESIGNCLASS="" LOCALCOMMAND=""/>
       <FILE FILENAME="..\..\..\Shared\general\general.lib" FORMNAME="" UNITNAME="general.lib" CONTAINERID="LibTool" DESIGNCLASS="" LOCALCOMMAND=""/>
       <FILE FILENAME="Plant.cpp" FORMNAME="" UNITNAME="Plant.cpp" CONTAINERID="CCompiler" DESIGNCLASS="" LOCALCOMMAND=""/>
-      <FILE FILENAME="PlantFail.cpp" FORMNAME="" UNITNAME="PlantFail.cpp" CONTAINERID="CCompiler" DESIGNCLASS="" LOCALCOMMAND=""/>
       <FILE FILENAME="PlantCanopy.cpp" FORMNAME="" UNITNAME="PlantCanopy.cpp" CONTAINERID="CCompiler" DESIGNCLASS="" LOCALCOMMAND=""/>
       <FILE FILENAME="PlantLibrary.cpp" FORMNAME="" UNITNAME="PlantLibrary.cpp" CONTAINERID="CCompiler" DESIGNCLASS="" LOCALCOMMAND=""/>
       <FILE FILENAME="PlantNitrogen.cpp" FORMNAME="" UNITNAME="PlantNitrogen.cpp" CONTAINERID="CCompiler" DESIGNCLASS="" LOCALCOMMAND=""/>
@@ -143,6 +143,7 @@
       <FILE FILENAME="Pool.cpp" FORMNAME="" UNITNAME="Pool.cpp" CONTAINERID="CCompiler" DESIGNCLASS="" LOCALCOMMAND=""/>
       <FILE FILENAME="CompositePool.cpp" FORMNAME="" UNITNAME="CompositePool" CONTAINERID="CCompiler" DESIGNCLASS="" LOCALCOMMAND=""/>
       <FILE FILENAME="Biomass.cpp" FORMNAME="" UNITNAME="Biomass" CONTAINERID="CCompiler" DESIGNCLASS="" LOCALCOMMAND=""/>
+      <FILE FILENAME="Population.cpp" FORMNAME="" UNITNAME="Population" CONTAINERID="CCompiler" DESIGNCLASS="" LOCALCOMMAND=""/>
   </FILELIST>
   <BUILDTOOLS>
   </BUILDTOOLS>
@@ -247,7 +248,7 @@ Item1=..\lib
 DebugSourceDirs=$(BCB)\source\vcl;c:\data\Apsim\development\Shared\ComponentInterface\;c:\data\Apsim\development\apsim\SummaryFile\Source\
 
 [Parameters]
-RunParams=C:\Users\hol353\Development\apsim\cowpea\PSample\cowpea.APSIM.sample_cowpea.sim
+RunParams=&quot;C:\Users\hol353\Development\apsim\Wheat\Sample\wheat.apsim.wheat_sample.sim&quot;
 Launcher=
 UseLauncher=0
 DebugCWD=

@@ -1,5 +1,5 @@
-#ifndef CEREALARBITRATOR_H
-#define CEREALARBITRATOR_H
+#ifndef CerealArbitratorH
+#define CerealArbitratorH
 
 #include "PlantInterface.h"
 #include "arbitrator.h"

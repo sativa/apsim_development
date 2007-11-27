@@ -5,10 +5,8 @@
 #include "PlantPart.h"
 
 #include "GrainPart.h"
-
+#include "Environment.h"
 using namespace std;
-
-static const char* floatType =        "<type kind=\"single\"/>";
 
 inline bool floatsAreEqual(float A, float B, float C) {return(fabs(A-B)<C);}
 
@@ -122,17 +120,6 @@ void fruitGrainPart::get_grain_p(protocol::Component *systemInterface, protocol:
    systemInterface->sendVariable(qd, grain_p);  //()
 }
 
-// Field a NewMet event
-void fruitGrainPart::doNewMet(protocol::NewMetType &newmet)
-   //===========================================================================
-{
-   if (gHasreadconstants)
-      {
-      gMaxt = newmet.maxt;
-      gMint = newmet.mint;
-      }
-}
-
 void fruitGrainPart::readCultivarParameters (protocol::Component *system, const string &cultivar)
    //===========================================================================
 {
@@ -166,9 +153,6 @@ void fruitGrainPart::zeroAllGlobals(void)
    plantPart::zeroAllGlobals();
 
    gHasreadconstants = false;
-
-   gMaxt = 0.0;
-   gMint = 0.0;
 
    gDelayGrnFill  = false;
    gDaysDelayedGrnFill  = 0;
@@ -283,7 +267,8 @@ float fruitGrainPart::nConcPercent(void)  {return Total.NconcPercent();}   //rem
 float fruitGrainPart::dltDmDemand(void) {return gDlt_dm_grain_demand;}                               //remove
 float fruitGrainPart::dltDmGrainDemand(void)  {return gDlt_dm_grain_demand;}
 
-float fruitGrainPart::meanT (void) {return 0.5 * (gMaxt + gMint);}
+float fruitGrainPart::meanT (void) {return 0.5 * (plant->getEnvironment()->maxt +
+                                                  plant->getEnvironment()->mint);}
 
 void fruitGrainPart::doDMDemandGrain(void)
    //===========================================================================
@@ -485,4 +470,5 @@ float fruitGrainPart::dmGrainWetTotal(void)
    }
 
 float fruitGrainPart::grainWaterContent(void) {return cGrn_water_cont;}
+
 

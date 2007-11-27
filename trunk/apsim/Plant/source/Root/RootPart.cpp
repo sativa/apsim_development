@@ -138,6 +138,8 @@ void RootPart::onInit1(protocol::Component *system)
    system->addGettableVar("root_depth",
                root_depth, "mm", "depth of roots");
 
+   scienceAPI.subscribe("new_profile", NewProfileFunction(&RootPart::onNewProfile));
+
    setupGetFunction(system, "root_length", protocol::DTsingle, true,
                     &RootPart::get_root_length,
                     "mm/mm^2", "Root length");

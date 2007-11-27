@@ -14,7 +14,6 @@ public:                                             // member functions
    void add(plantPart* part);
 
    virtual void onInit1(protocol::Component *);
-   virtual void doNewMet(protocol::NewMetType &newmet) ;
    virtual void readConstants (protocol::Component *, const string &);
    virtual void readSpeciesParameters (protocol::Component *, vector<string> &);
    virtual void readCultivarParameters (protocol::Component *, const string &);

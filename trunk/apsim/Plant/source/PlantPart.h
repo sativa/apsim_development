@@ -355,7 +355,6 @@ public:
    virtual void doDmPotTE(float swSupply);                         //(OUTPUT) potential dry matter production by transpiration (g/m^2)
    virtual void doGrainNumber (void);
    virtual void doNDemandGrain(float nfact_grain_conc, float swdef_expansion);
-   virtual void doNewMet(protocol::NewMetType &newmet) ;
    virtual void doNInit (void);
    virtual void doTECO2(void);                                       // (OUTPUT) transpiration coefficient                         //FIXME
    virtual void writeCultivarInfo (protocol::Component *);

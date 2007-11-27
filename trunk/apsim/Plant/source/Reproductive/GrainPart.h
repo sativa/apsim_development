@@ -13,7 +13,6 @@ public:                                             // member functions
    virtual ~fruitGrainPart() = 0;
 
    void onInit1(protocol::Component *system);
-   void doNewMet(protocol::NewMetType &newmet) ;
    void readConstants (protocol::Component *, const string &);
    void readSpeciesParameters (protocol::Component *, vector<string> &);
    void readCultivarParameters (protocol::Component *, const string &);
@@ -118,8 +117,6 @@ protected:
    int   gDaysDelayedGrnFill;
 
    bool  gHasreadconstants;
-   float gMaxt;
-   float gMint;
 
    float dmRetranslocate;
    float gDlt_dm;

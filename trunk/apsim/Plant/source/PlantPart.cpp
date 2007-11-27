@@ -1482,7 +1482,6 @@ void plantPart::doDmPotRUE (void){}                         // (OUTPUT) potentia
 void plantPart::doDmPotTE(float /*swSupply*/){}                           //(OUTPUT) potential dry matter production by transpiration (g/m^2)
 void plantPart::doGrainNumber (void){}
 void plantPart::doNDemandGrain(float /* nfact_grain_conc*/, float /* swdef_expansion*/){}
-void plantPart::doNewMet(protocol::NewMetType &/* newmet*/) {}
 void plantPart::doNInit (void){}
 void plantPart::doTECO2(void){}                              // (OUTPUT) transpiration coefficient                         //FIXME
 void plantPart::writeCultivarInfo (protocol::Component *){}

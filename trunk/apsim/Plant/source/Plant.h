@@ -17,7 +17,7 @@ class Arbitrator;
 #include "Environment.h"
 #include "PlantSpatial.h"
 #include "CompositePart.h"
-
+#include "Population.h"
 typedef bool (Plant::*ptr2setFn) (protocol::QuerySetValueData&);
 
 typedef std::map<unsigned, ptr2setFn>   UInt2SetFnMap;
@@ -25,8 +25,6 @@ typedef std::map<unsigned, string>      UInt2StringMap;
 
 
 
-//      crop status names
-typedef enum {out, dead, alive} status_t;
 
 typedef enum {photosynthetic_pathway_UNDEF, photosynthetic_pathway_C3, photosynthetic_pathway_C4} photosynthetic_pathway_t;
 
@@ -67,6 +65,7 @@ private:
    RootBase  *rootPart;
    PlantPhenology *phenology;
    plantPart     *fruitPart;
+   Population population;
 
    eventObserver *sowingEventObserver;     // Bookkeeper for Sowing events
    eventObserver *emergenceEventObserver;  // Bookkeeper for Emergence events
@@ -104,15 +103,12 @@ public:
    void onSow(unsigned &, unsigned &, protocol::Variant &v) ;
    void onHarvest(unsigned &, unsigned &, protocol::Variant &v) ;
    void onEndCrop(unsigned &, unsigned &, protocol::Variant &v) ;
-   void onKillCrop(unsigned &, unsigned &, protocol::Variant &v) ;
    void onKillStem(unsigned &, unsigned &, protocol::Variant &v) ;
    void onRemoveCropBiomass(unsigned &, unsigned &, protocol::Variant &v) ;
    void onDetachCropBiomass(unsigned &, unsigned &, protocol::Variant &v) ;
    void onEndRun(unsigned &, unsigned &, protocol::Variant &v) ;
    void doAutoClassChange(unsigned &, unsigned &, protocol::Variant &v) ;
    void onTick(unsigned &, unsigned &, protocol::Variant &v) ;
-   void onNewMet(unsigned &, unsigned &, protocol::Variant &v) ;
-   void onNewProfile(unsigned &, unsigned &, protocol::Variant &v) ;
 
    void registerClassActions(void);
    void sendStageMessage(const char *what);
@@ -123,54 +119,13 @@ public:
 
    const std::string & getCropType(void) ;
    protocol::Component *getComponent(void) ;
-
+   std::string Name() {return g.module_name;}
 
    void plant_bio_retrans (void);
    void plant_temp_stress (void);
    void plant_oxdef_stress ();
    void plant_bio_water (void);
    void plant_retrans_init (int option);
-   void plant_plant_death (int option /* (INPUT) option number*/);
-   float plant_death_seedling    (
-                                  int    c_num_weighted_temp
-                                  ,float  *c_x_weighted_temp
-                                  ,float  *c_y_plant_death
-                                  ,int    g_day_of_year
-                                  ,float  *g_soil_temp
-                                  ,int    g_year
-                                  ,float  g_plants) ;
-   float plant_death_drought(float  c_leaf_no_crit
-                             ,float  c_swdf_photo_limit
-                             ,float  c_swdf_photo_rate
-                             ,float  g_cswd_photo
-                             ,float  g_plants
-                             ,float  g_swdef_photo) ;
-   void plant_death_external_action(protocol::Variant &v
-                                    ,float g_plants
-                                    ,float *dlt_plants
-                                   ) ;
-   void plant_death_crop_killed(float g_plants
-                                , status_t g_plant_status
-                                , float *dlt_plants
-                               ) ;
-   void plant_death_actual(float g_dlt_plants_death_drought
-                           ,float *g_dlt_plants_death_external
-                           ,float g_dlt_plants_death_seedling
-                           ,float g_dlt_plants_failure_emergence
-                           ,float g_dlt_plants_failure_germ
-                           ,float g_dlt_plants_failure_leaf_sen
-                           ,float g_dlt_plants_failure_phen_delay
-                           ,float *dlt_plants
-                          ) ;
-   void plant_plants_temp (int    c_num_weighted_temp
-                           ,float  *c_x_weighted_temp
-                           ,float  *c_y_plant_death
-                           ,int    g_day_of_year
-                           ,float  *g_soil_temp
-                           ,int    g_year
-                           ,float  *killfr
-                          ) ;
-   void plant_kill_crop (status_t *g_plant_status) ;
    void plant_leaf_area_potential (int option /* (INPUT) option number */);
    void plant_leaf_area_stressed (int option  /* (INPUT) option number*/);
    void plant_leaf_area_init (int option);
@@ -192,8 +147,7 @@ public:
    void plant_leaf_death (int   option/*(INPUT) option number*/);
    void plant_leaf_area_sen (int   option/*(INPUT) option number*/);
    void plant_cleanup ();
-   void plant_update(float  g_dlt_plants
-                     ,float *g_plants) ;
+   void plant_update() ;
    void plant_check_bounds( float  g_cover_green
                            ,float  g_cover_sen
                            ,float  g_plants
@@ -261,12 +215,6 @@ public:
    void plant_zero_daily_variables ();
    void plant_start_crop (protocol::Variant &v/*(INPUT) message arguments*/);
    void plant_end_crop ();
-   void plant_store_value (
-                           int    g_day_of_year
-                           ,int    g_year
-                           ,float  array[]
-                           ,float  value
-                          ) ;
    void plant_get_other_variables ();
    void plant_update_other_variables (void);
    void plant_read_constants ( void );
@@ -296,11 +244,20 @@ public:
    void get_plant_status(protocol::Component *, protocol::QueryValueData &);
    float getStageCode(void);
    float getStageNumber(void);
+   int daysInCurrentPhase();
+   float ttInCurrentPhase();
+   status_t Status() {return g.plant_status;}
+   void SetStatus(status_t NewStatus) {g.plant_status = NewStatus;}
+   CompositePart& Tops() {return tops;}
 
    void get_crop_type(protocol::Component *, protocol::QueryValueData &);
    void get_crop_class(protocol::Component *, protocol::QueryValueData &);
    void get_leaf_no(protocol::Component *, protocol::QueryValueData &);
    float getLeafNo(void);
+   float getLAI();
+   float getCumSwdefPheno();
+   float getCumSwdefPhoto();
+   float getDyingFractionPlants(void);
    void get_dlt_leaf_no(protocol::Component *, protocol::QueryValueData &);
    void get_dlt_node_no(protocol::Component *, protocol::QueryValueData &);
    void get_leaf_no_dead(protocol::Component *, protocol::QueryValueData &);
@@ -331,7 +288,6 @@ public:
 // FIXME - remove next line when corrections for P demand activated
    float getRelativeGrowthRate(void);
    float getTotalPotentialGrowthRate(void);
-   float getDyingFractionPlants(void);
    float getCo2ModifierRue(void);
    float getCo2ModifierTe(void);
    float getCo2ModifierNConc(void);
@@ -448,7 +404,6 @@ public:
 
    //Phosporousy things:
    void zero_p_variables ();
-   void zero_daily_p_variables ();
    void read_p_constants (PlantComponent *systemInterface);
    void doPInit(PlantComponent *systemInterface);
    void PlantP_set_phosphorus_aware (PlantComponent *systemInterface);
@@ -459,10 +414,8 @@ public:
    void plant_p_retrans (void);
    void summary_p (void);
 
-   void  PlantP_demand (vector<plantPart *>&);
    void  PlantP_Stress (vector<plantPart *>&);
    void  PlantP_partition (vector<plantPart*>&);
-   void  PlantP_senescence (vector<plantPart*>&);
    void  PlantP_retrans (vector<plantPart*>&);
 
    float PlantP_Pfact (vector<plantPart *>&);
@@ -484,7 +437,6 @@ private:
 
       unsigned int parasite_c_demand;
       unsigned int parasite_sw_demand;
-      unsigned int maxt_soil_surface;
       unsigned int add_residue_p;
       unsigned int layered_p_uptake;
 
@@ -532,7 +484,6 @@ private:
       float temp_stress_photo;
       float oxdef_photo;
       float fr_intc_radn;                               // fraction of radiation intercepted by canopy
-      float soil_temp[366+1];                           // soil surface temperature (oC)
       float eo;                                         // potential evapotranspiration (mm)
       factorObserver cnd_photo;                         // cumulative nitrogen stress type 1
       factorObserver cnd_grain_conc ;                   // cumulative nitrogen stress type 2
@@ -542,15 +493,6 @@ private:
       float dlt_canopy_height;                          // change in canopy height (mm)
       float dlt_canopy_width;                           // change in canopy height (mm)
       float canopy_width;                               // canopy height (mm)
-      float plants;                                     // Plant density (plants/m^2)
-      float dlt_plants;                                 // change in Plant density (plants/m^2)
-      float dlt_plants_death_seedling;
-      float dlt_plants_death_drought;
-      float dlt_plants_failure_phen_delay;
-      float dlt_plants_failure_leaf_sen;
-      float dlt_plants_failure_emergence;
-      float dlt_plants_failure_germ;
-      float dlt_plants_death_external;
 
 //      float lai_canopy_green;                           // green lai of canopy
 
@@ -611,21 +553,6 @@ private:
       float n_fact_pheno;                               // multipler for N deficit effect on phenology
       float n_fact_expansion;
 
-      float leaf_no_crit;                               // critical number of leaves below
-                                                        // which portion of the crop may
-                                                        // die due to water stress
-      float tt_emerg_limit;                             // maximum degree days allowed for
-                                                        // emergence to take place (deg day)
-      float days_germ_limit;                            // maximum days allowed after sowing
-                                                        // for germination to take place (days)
-      float swdf_pheno_limit;                           // critical cumulative phenology
-                                                        // water stress above which the crop
-                                                        // fails (unitless)
-      float swdf_photo_limit;                           // critical cumulative photosynthesis
-                                                        // water stress above which the crop
-                                                        // partly fails (unitless)
-      float swdf_photo_rate;                            // rate of plant reduction with
-                                                        // photosynthesis water stress
       float svp_fract;                                  // fraction of distance between svp at
                                                         // min temp and svp at max temp where
                                                         // average svp during transpiration
@@ -648,14 +575,8 @@ private:
       float x_temp[max_table];                          // temperature table for photosynthesis
                                                         // degree days
       float y_tt[max_table];                            // degree days
-      float x_weighted_temp[max_table];                 // temperature table for poor
-                                                        // establishment
-      float y_plant_death[max_table];                   // index of plant death
-                                                        // rates for critical temperatures
-                                                        // (0-1)
       int   num_ave_temp;                               // size_of critical temperature table
       int   num_factors;                                // size_of table
-      int   num_weighted_temp;                          // size of table
 
 
       vector<string> class_action;

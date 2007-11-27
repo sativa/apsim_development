@@ -69,6 +69,10 @@ class EXPORT ScienceAPI
       void set(const std::string& name, const std::string& units, std::vector<float>& data);
 
       // event handlers
+      #define NullFunctionType boost::function0<void>
+      #define NullFunction(address) NullFunctionType(boost::bind(address, this))
+      void subscribe(const std::string& name, NullFunctionType handler);
+
       #define TimeFunctionType boost::function1<void, protocol::TimeType& >
       #define TimeFunction(address) TimeFunctionType(boost::bind(address, this, _1))
       void subscribe(const std::string& name, TimeFunctionType handler);
@@ -76,6 +80,14 @@ class EXPORT ScienceAPI
       #define NewMetFunctionType boost::function1<void, protocol::NewMetType& >
       #define NewMetFunction(address) NewMetFunctionType(boost::bind(address, this, _1))
       void subscribe(const std::string& name, NewMetFunctionType handler);
+
+      #define KillCropFunctionType boost::function1<void, protocol::KillCropType&>
+      #define KillCropFunction(address) KillCropFunctionType(boost::bind(address, this, _1))
+      void subscribe(const std::string& name, KillCropFunctionType handler);
+
+      #define NewProfileFunctionType boost::function1<void, protocol::NewProfileType&>
+      #define NewProfileFunction(address) NewProfileFunctionType(boost::bind(address, this, _1))
+      void subscribe(const std::string& name, NewProfileFunctionType handler);
 
    private:
       std::string currentClass1;
