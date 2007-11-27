@@ -1457,8 +1457,8 @@ C     Last change:  P    25 Oct 2000    9:26 am
          Fraction = 1.0
       endif
       KillCropID = add_registration(eventReg, 
-     .                              Trim(ModuleName) // '.kill_crop',
-     .                              KillCropTypeDDML, '', '')
+     .                              'kill_crop',
+     .                              KillCropTypeDDML, '', ModuleName)
       call publish_KillCrop(KillCropID, Kill)
 
       end subroutine
