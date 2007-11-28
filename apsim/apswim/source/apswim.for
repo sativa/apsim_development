@@ -3022,7 +3022,6 @@ c      double precision tth
          if(tx.gt.p%slmin)hklgd=((3d0*a3*z+2d0*a2)*z+a1)/tdx
 
       else ! Using simple specification
-         ! ggg
          tth   = apswim_Simpletheta(node,tpsi)
          temp  = apswim_Simpletheta(node,tpsi+dpsi)
          thd   = (temp-tth)/log10((tpsi+dpsi)/tpsi)
@@ -3122,7 +3121,7 @@ c      double precision tth
       parameter (myname = 'apswim_SimpleK')
 
       double precision Kdul
-      parameter (Kdul = 0.1d0/24d0)
+      parameter (Kdul = 1.0d0/24d0)
 
 *+  Local Variables
       double precision S
@@ -3135,7 +3134,10 @@ c      double precision tth
       call push_routine (myname)
 
       S = Apswim_SimpleS(layer,psi)
+      apswim_SimpleK = p%Ks(layer)*S**(p%b(layer)*2d0+3d0)
+
 !      Sdul = Apswim_SimpleS(layer,psi_dul)
+!
 !      Kdula = min(Kdul,p%Ks(layer))
 !
 !      if (S.lt.Sdul) then
@@ -3146,7 +3148,8 @@ c      double precision tth
 !         Power = Log(Kdula/p%Ks(layer)) / Log(Sdul)
 !         apswim_SimpleK = p%Ks(layer) * S**Power
 !      End If
-      apswim_SimpleK = p%Ks(layer)*S**(p%b(layer)*2d0+3d0)
+!      !print*,Sdul,apswim_SimpleK,psi
+!      apswim_SimpleK = apswim_SimpleK/10d0/24d0
 
       call pop_ routine (myname)
       return
@@ -3187,6 +3190,9 @@ c      double precision tth
 *
       double precision tolerance
       parameter (tolerance = 1d-9)
+      double precision dpsi
+      parameter (dpsi = 0.01d0)
+
 
 *+  Local Variables
       double precision a1,a2,a3
@@ -3202,105 +3208,126 @@ c      double precision tth
       logical          solved
       double precision theta1
       double precision z
-
+      double precision err
+      double precision dthdpsi
 *+  Initial Data Values
       theta1 = theta
 
 *- Implementation Section ----------------------------------
       call push_routine (myname)
 
-
-      if (theta1 .gt. p%wc(node,1)) then
-         write(error_string,'(1x,a,f5.3,a,i2,a,f5.3)')
-     :      'Water Content of ',theta1,
-     :      ' in node ',node,
-     :      ' exceeds upper limit of ',p%wc(node,1)
-         call warning_error(Err_Internal,error_String)
-         theta1 = p%wc(node,1)
-      else
-      endif
-
-      do 10 k=2,MP
-         if (p%wc(node,k).eq.0d0) then
-            ! Theta is too low for soil specs - bound to lowest possible
-            ! value and report error.
+      if (p%specification_type .eq. 1) then
+         if (theta1 .gt. p%wc(node,1)) then
             write(error_string,'(1x,a,f5.3,a,i2,a,f5.3)')
      :         'Water Content of ',theta1,
      :         ' in node ',node,
-     :         ' is below lower limit of ',p%wc(node,k-1)
+     :         ' exceeds upper limit of ',p%wc(node,1)
             call warning_error(Err_Internal,error_String)
-            theta1 = p%wc(node,k-1)
-            ! theta1 now lies between previous node and the one before
-            i=k-2
-            j=k-1
-            goto 11
-
-         elseif (p%wc(node,k).le.theta1) then
-            ! theta1 lies between this node and the previous node
-            i=k-1
-            j=k
-            goto 11
+            theta1 = p%wc(node,1)
          else
          endif
-   10 continue
-   11 continue
 
-      ! Take intital guess at Z
-      if ((p%wc(node,j)-p%wc(node,i)).eq.0.d0) then
-         write (error_string,'(A,i3)')
-     :      'Cannot determine unique g%psi for given theta for node'
-     :      ,node
-         call Fatal_Error (Err_User, error_string)
-         Z = 0.d0
-      else
-         Z = (theta1 - p%wc(node,i))/(p%wc(node,j)-p%wc(node,i))
-      endif
-      ! calculate coefficients for section of moisture characteristic
-      deltasl = p%sl(node,j) - p%sl(node,i)
-      deltawc = p%wc(node,j) - p%wc(node,i)
-      a1 = deltasl * p%wcd(node,i)
-      a3 = -2d0 * deltawc + deltasl*(p%wcd(node,i)+p%wcd(node,j))
-      a2 = deltawc - a1 - a3
-      f = ((a3*Z + a2)*Z + a1)*Z + p%wc(node,i) - theta1
-      dfdz = (3d0*a3*Z + 2d0*a2) * Z + a1
+         do 10 k=2,MP
+            if (p%wc(node,k).eq.0d0) then
+               ! Theta is too low for soil specs - bound to lowest possible
+               ! value and report error.
+               write(error_string,'(1x,a,f5.3,a,i2,a,f5.3)')
+     :            'Water Content of ',theta1,
+     :            ' in node ',node,
+     :            ' is below lower limit of ',p%wc(node,k-1)
+               call warning_error(Err_Internal,error_String)
+               theta1 = p%wc(node,k-1)
+               ! theta1 now lies between previous node and the one before
+               i=k-2
+               j=k-1
+               goto 11
 
-      if (abs(f) .lt. tolerance) then
-         ! It is already solved
-         solved = .true.
-
-      else if (dfdz .eq. 0d0) then
-         ! It will not be solved - ever
-         solved = .false.
-         call fatal_error (err_internal,'solution will not'//
-     :                                        ' converge')
-
-      else
-         solved = .false.
-         do 100 iteration = 1,max_iterations
-            f = ((a3*Z + a2)*Z + a1)*Z + p%wc(node,i) - theta1
-            dfdz = (3d0*a3*Z + 2d0*a2) * Z + a1
-
-            if (abs(f) .lt. tolerance) then
-               solved = .true.
-               goto 200
+            elseif (p%wc(node,k).le.theta1) then
+               ! theta1 lies between this node and the previous node
+               i=k-1
+               j=k
+               goto 11
             else
-               Z = Z - f/dfdz
+            endif
+   10    continue
+   11    continue
+
+         ! Take intital guess at Z
+         if ((p%wc(node,j)-p%wc(node,i)).eq.0.d0) then
+            write (error_string,'(A,i3)')
+     :         'Cannot determine unique g%psi for given theta for node'
+     :         ,node
+            call Fatal_Error (Err_User, error_string)
+            Z = 0.d0
+         else
+            Z = (theta1 - p%wc(node,i))/(p%wc(node,j)-p%wc(node,i))
+         endif
+         ! calculate coefficients for section of moisture characteristic
+         deltasl = p%sl(node,j) - p%sl(node,i)
+         deltawc = p%wc(node,j) - p%wc(node,i)
+         a1 = deltasl * p%wcd(node,i)
+         a3 = -2d0 * deltawc + deltasl*(p%wcd(node,i)+p%wcd(node,j))
+         a2 = deltawc - a1 - a3
+         f = ((a3*Z + a2)*Z + a1)*Z + p%wc(node,i) - theta1
+         dfdz = (3d0*a3*Z + 2d0*a2) * Z + a1
+
+         if (abs(f) .lt. tolerance) then
+            ! It is already solved
+            solved = .true.
+
+         else if (dfdz .eq. 0d0) then
+            ! It will not be solved - ever
+            solved = .false.
+            call fatal_error (err_internal,'solution will not'//
+     :                                           ' converge')
+
+         else
+            solved = .false.
+            do 100 iteration = 1,max_iterations
+               f = ((a3*Z + a2)*Z + a1)*Z + p%wc(node,i) - theta1
+               dfdz = (3d0*a3*Z + 2d0*a2) * Z + a1
+
+               if (abs(f) .lt. tolerance) then
+                  solved = .true.
+                  goto 200
+               else
+                  Z = Z - f/dfdz
+               endif
+
+  100       continue
+  200       continue
+
+         endif
+
+         if (.not.solved) then
+            call fatal_error (err_internal,
+     :    'APSwim failed to solve p%wc for given g%psi')
+            apswim_suction = -1.0 * exp(dlog(10.d0)*p%slmin)
+         else
+            log_suction = p%sl(node,i) + Z*(p%sl(node,j) - p%sl(node,i))
+            suction = -1.0d0 * exp(dlog(10.d0)*log_suction)
+
+            apswim_suction = suction
+         endif
+      else
+
+         suction = psi_dul
+         solved = .false.
+         do 300 iteration = 1,max_iterations
+            dthdpsi = (apswim_SimpleTheta(node,suction)
+     :                -apswim_SimpleTheta(node,suction+dpsi))
+     :              /dpsi
+            err = apswim_SimpleTheta(node,suction)-theta
+            if (abs(err) .lt. tolerance) then
+               solved = .true.
+               goto 400
+            else
+               suction = suction - err/dthdpsi
             endif
 
-  100    continue
-  200    continue
+  300    continue
+  400    continue
 
-      endif
-
-      if (.not.solved) then
-         call fatal_error (err_internal,
-     : 'APSwim failed to solve p%wc for given g%psi')
-         apswim_suction = -1.0 * exp(dlog(10.d0)*p%slmin)
-      else
-         log_suction = p%sl(node,i) + Z*(p%sl(node,j) - p%sl(node,i))
-         suction = -1.0d0 * exp(dlog(10.d0)*log_suction)
-
-         apswim_suction = suction
       endif
 
       call pop_routine (myname)
@@ -4668,6 +4695,8 @@ c      endif
       do 300 i=1,MV
          g%root_radius(i) = g%root_radius(i)/10d0
   300 continue
+
+
 
       call pop_routine (myname)
       return
