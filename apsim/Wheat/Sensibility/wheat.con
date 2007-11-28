@@ -1,4 +1,4 @@
-version = 5.3
+version = 5.2
 [APSIM.Dalby 600mm]
 title=Dalby 600mm wet soil
 module = clock      wheat.par[sensibility]  %apsuite/apsim/clock/clock.ini[standard]
@@ -203,6 +203,32 @@ module = clock      wheat.par[sensibility] %apsuite/apsim/clock/clock.ini[standa
 module = report     wheat.par[sensibility] wheat.par[Warra1500LowN]
 module = input(met)        %apsuite/apsim/Common Files/warra.met[weather]
 module = manager    wheat.par[sensibility] wheat.par[hartog] wheat.par[mid_may]  wheat.par[N010] wheat.par[splitN000]
+module = fertiliz   %apsuite/apsim/fertiliz/fertiliz.ini[standard]
+module = soilwat2   %apsuite/apsim/Common Files/warra.par[Warra] %apsuite/apsim/Common Files/warra.par[1500mm] %apsuite/apsim/soilwat2/soilwat2.ini[standard]
+module = SurfaceOM   %apsuite/apsim/SurfaceOM/sample/SurfaceOM.par [legume_residue] %apsuite/apsim/SurfaceOM/SurfaceOM.ini [standard]
+module = soiln2     %apsuite/apsim/Common Files/warra.par[WarraN50] %apsuite/apsim/Common Files/warra.par[common]     %apsuite/apsim/soiln2/soiln2.ini[standard]
+module = Plant(Wheat)   %apsuite/apsim/Common Files/warra.par[Warra] %apsuite/apsim/Wheat/wheat.ini[standard]
+module = Tracker    wheat.par[sensibility]
+
+[APSIM.Warra 600mm Medium N]
+title=Warra 600mm wet soil Medium N
+module = clock      wheat.par[sensibility] %apsuite/apsim/clock/clock.ini[standard]
+module = report     wheat.par[sensibility] wheat.par[Warra600MediumN]
+module = input(met)        %apsuite/apsim/Common Files/warra.met[weather]
+module = manager    wheat.par[sensibility] wheat.par[hartog] wheat.par[mid_may]  wheat.par[N050] wheat.par[splitN000]
+module = fertiliz   %apsuite/apsim/fertiliz/fertiliz.ini[standard]
+module = soilwat2   %apsuite/apsim/Common Files/warra.par[Warra] %apsuite/apsim/Common Files/warra.par[600mm] %apsuite/apsim/soilwat2/soilwat2.ini[standard]
+module = SurfaceOM   %apsuite/apsim/SurfaceOM/sample/SurfaceOM.par [legume_residue] %apsuite/apsim/SurfaceOM/SurfaceOM.ini [standard]
+module = soiln2     %apsuite/apsim/Common Files/warra.par[WarraN50] %apsuite/apsim/Common Files/warra.par[common]     %apsuite/apsim/soiln2/soiln2.ini[standard]
+module = Plant(Wheat)   %apsuite/apsim/Common Files/warra.par[Warra] %apsuite/apsim/Wheat/wheat.ini[standard]
+module = Tracker    wheat.par[sensibility]
+
+[APSIM.Warra 1500mm Medium N]
+title=Warra 1500mm wet soil Medium N
+module = clock      wheat.par[sensibility] %apsuite/apsim/clock/clock.ini[standard]
+module = report     wheat.par[sensibility] wheat.par[Warra1500MediumN]
+module = input(met)        %apsuite/apsim/Common Files/warra.met[weather]
+module = manager    wheat.par[sensibility] wheat.par[hartog] wheat.par[mid_may]  wheat.par[N050] wheat.par[splitN000]
 module = fertiliz   %apsuite/apsim/fertiliz/fertiliz.ini[standard]
 module = soilwat2   %apsuite/apsim/Common Files/warra.par[Warra] %apsuite/apsim/Common Files/warra.par[1500mm] %apsuite/apsim/soilwat2/soilwat2.ini[standard]
 module = SurfaceOM   %apsuite/apsim/SurfaceOM/sample/SurfaceOM.par [legume_residue] %apsuite/apsim/SurfaceOM/SurfaceOM.ini [standard]
