@@ -18,29 +18,18 @@ public:                                             // member functions
 
    void checkBounds(void);
    void onInit1(protocol::Component *);
-   float availableRetranslocateN(void);
 
    void get_head_wt(protocol::Component *, protocol::QueryValueData &);
    void get_head_n(protocol::Component *, protocol::QueryValueData &);
 
-   void get_pod_n(protocol::Component *, protocol::QueryValueData &);
-   void get_pod_p(protocol::Component *, protocol::QueryValueData &qd);
    void get_head_p(protocol::Component *, protocol::QueryValueData &qd);
 
    void doNDemand1(float, float);
    void doNDemand1Pot(float, float);
 
-
-//   float grainWaterContent(void);
-   float dmGrainWetTotal(void);
    float dmGreenGrainTotal(void);
-   float dmSenescedVeg(void);
 
-   float nCapacity(void);
-
-   float nMaxPot(void);
    float nMax(void);
-   float nMinPot(void);
    float pMaxPot(void);
    float pMinPot(void);
 

@@ -1231,12 +1231,6 @@ float plantPart::dltPRemoved(void)
    return (dltPGreenRemoved() + dltPSenescedRemoved());
    }
 
-float plantPart::dmSenescedVeg(void)
-//=======================================================================================
-   {
-   return (Senesced.DM());
-   }
-
 float plantPart::dmGreenStressDeterminant(void)
 //=======================================================================================
    {
@@ -1319,21 +1313,6 @@ float plantPart::dltNRetransOut(void)
       return 0.0;
    }
 
-float plantPart::nMaxPot(void)
-//=======================================================================================
-   {
-   float n_conc_max = c.n_conc_max.value(plant->getStageCode());
-   return n_conc_max * Green.DM();
-   }
-
-float plantPart::nMinPot(void)
-//=======================================================================================
-   {
-   float n_conc_min = c.n_conc_min.value(plant->getStageCode());
-   return n_conc_min * Green.DM();
-   }
-
-
 float plantPart::pRetransSupply(void)
 //=======================================================================================
    {
@@ -1346,8 +1325,6 @@ float plantPart::pRetransSupply(void)
 float plantPart::nRetransSupply(void)
 //=======================================================================================
    {
-//   if (c.retrans_part)
-//       return l_bound(Green.N - nMinPot(), 0.0);
    return 0.0;
    }
 

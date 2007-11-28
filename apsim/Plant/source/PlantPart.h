@@ -248,13 +248,10 @@ public:
    virtual float giveDmSenescedRemoved(float) ;
 
    virtual float dmGreenNew(void) ;
-   virtual float dmSenescedVeg(void);
    virtual float dmRetransSupply(void);
    virtual float dmRetransDemand(void){return 0.0;} ;
    virtual float dmGreenStressDeterminant(void);
 
-   virtual float nMaxPot(void);
-   virtual float nMinPot(void);
    virtual float nDemand(void);
    virtual float nMax(void);
    virtual float nCapacity(void);

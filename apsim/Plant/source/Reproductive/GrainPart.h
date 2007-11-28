@@ -61,7 +61,6 @@ public:                                             // member functions
    float nConcPercent(void);         //remove
    float grainNConcPercent(void);
    float nDemandGrain(void);
-   float nDemandGrain2(void);
 
    float dltDmDemand(void);
    float dltDmGrainDemand(void);

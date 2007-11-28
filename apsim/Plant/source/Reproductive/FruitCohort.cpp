@@ -98,52 +98,6 @@ const FruitCohort &FruitCohort::operator=(const FruitCohort &/*other*/)
    throw std::invalid_argument("Assignment operator NI for FruitCohort");
 }
 
-
-//float FruitCohort::grainWaterContent(void)
-//   //===========================================================================
-//{
-//   float total = 0.0;
-//   float count = 0.0;
-//   vector<plantPart *>::const_iterator part;
-//   for (part = myGrainParts.begin(); part != myGrainParts.end(); part++)
-//   {
-//      total += (*part)->grainWaterContent();
-//      count +=1.0;
-//   }
-//   return divide (total, count, 0.0);
-//}
-
-float FruitCohort::dmGrainWetTotal(void)
-   //===========================================================================
-{
-   float dmTotal = 0.0;
-   vector<plantPart *>::const_iterator part;
-   for (part = myGrainParts.begin(); part != myGrainParts.end(); part++)
-      dmTotal += (*part)->dmGrainWetTotal();
-   return dmTotal;
-}
-
-float FruitCohort::dmSenescedVeg(void)
-   //===========================================================================
-{
-   float dmTotal = 0.0;
-   vector<plantPart *>::const_iterator part;
-   for (part = myVegParts.begin(); part != myVegParts.end(); part++)
-      dmTotal += (*part)->Senesced.DM();
-   return dmTotal;
-}
-
-
-float FruitCohort::nMaxPot(void)
-   //===========================================================================
-{
-   float nMaxPot = 0.0;
-   vector<plantPart *>::const_iterator part;
-   for (part = myVegParts.begin(); part != myVegParts.end(); part++)
-      nMaxPot += (*part)->nMaxPot();
-   return nMaxPot;
-}
-
 float FruitCohort::nMax(void)
    //===========================================================================
 {
@@ -153,30 +107,6 @@ float FruitCohort::nMax(void)
       nMax += (*part)->nMax();
    return nMax;
 }
-
-float FruitCohort::nMinPot(void)
-   //===========================================================================
-{
-   float nMinPot = 0.0;
-   vector<plantPart *>::const_iterator part;
-   for (part = myVegParts.begin(); part != myVegParts.end(); part++)
-      nMinPot += (*part)->nMinPot();
-   return nMinPot;
-}
-
-float FruitCohort::nCapacity(void)
-   //============================================================================
-{
-   NCapacity = 0.0;
-   vector<plantPart *>::iterator part;
-   for (part = myVegParts.begin(); part != myVegParts.end(); part++)
-      {
-      NCapacity += (*part)->nCapacity();
-      }
-   return NCapacity;
-}
-
-
 
 float FruitCohort::pMaxPot(void)
    //===========================================================================
@@ -215,30 +145,12 @@ void FruitCohort::get_head_n(protocol::Component *system, protocol::QueryValueDa
    system->sendVariable(qd, Grain.N() + Vegetative.N());  // Why not VegetativeTotal ????
 }
 
-void FruitCohort::get_pod_n(protocol::Component *systemInterface, protocol::QueryValueData &qd)     //put in pod
-   //===========================================================================                      //put in pod
-{                                                                                                  //put in pod
-   systemInterface->sendVariable(qd, podPart->Green.N());   //()                                    //put in pod
-}                                                                                                  //put in pod
-                                                                                                   //put in pod
-void FruitCohort::get_pod_p(protocol::Component *systemInterface, protocol::QueryValueData &qd)     //put in pod
-   //===========================================================================                      //put in pod
-{                                                                                                  //put in pod
-   systemInterface->sendVariable(qd, podPart->Green.P());   //()                                    //put in pod
-}                                                                                                  //put in pod
-
 void FruitCohort::get_head_p(protocol::Component *systemInterface, protocol::QueryValueData &qd)
    //===========================================================================
 {
    systemInterface->sendVariable(qd, Grain.P() + Vegetative.P());  // Why not VegetativeTotal?????
 }
 
-
-//float FruitCohort::total()
-//{
-//
-//  return green.shell + green.meal + senesced.shell + senesced.meal + dead.shell + dead.meal;
-//}
 
 void FruitCohort::display(ostream &os)
 {
@@ -264,15 +176,6 @@ void FruitCohort::doDmDemand ( float dlt_dm_veg_supply)
    podPart->doDmDemand(dlt_dm_veg_supply);
 }
 
-float FruitCohort::availableRetranslocateN(void)
-   //============================================================================
-{
-   float nAvail = 0.0;
-   for (vector<plantPart *>::iterator part = supplyPools.begin(); part != supplyPools.end(); part++)
-      nAvail += (*part)->availableRetranslocateN();
-
-   return nAvail;
-}
 
 void FruitCohort::doNDemand1(float dlt_dm             // (INPUT)  Whole plant the daily biomass production (g/m^2)
                             , float dlt_dm_pot_rue)  // (INPUT)  Whole plant potential dry matter production (g/m^2)
