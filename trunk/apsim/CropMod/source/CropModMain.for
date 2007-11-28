@@ -296,17 +296,12 @@ c        if (TestTrue)   close (1)
 
 
       elseif (action.eq.ACTION_kill_crop) then
-         if (crop_my_type (c%crop_type)) then
             ! kill crop - died, but biomass remain in field
             call Kill_Crop (
      .          g%plant_status,
      .          g%dm_green,
      .          g%dm_senesced,
      .          g%dm_dead)
-         else
-            ! not my type!
-            call Message_unused ()
-         endif
       else
          ! don't use message
          call Message_unused ()

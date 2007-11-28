@@ -5362,17 +5362,12 @@ cpsc
          endif
 
       elseif (action.eq.ACTION_kill_crop) then
-         if (millet_my_type ()) then
                ! kill crop - die
             call millet_kill_crop (
      :          g%plant_status,
      :          g%dm_green,
      :          g%dm_senesced,
      :          g%dm_dead)
-         else
-            ! not my type!
-            call message_unused ()
-         endif
 
       elseif (Action.eq.ACTION_Create) then
          call doRegistrations(id)
