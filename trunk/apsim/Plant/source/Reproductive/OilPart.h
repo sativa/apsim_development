@@ -34,7 +34,8 @@ class fruitOilPart : public plantPart {
    float dmDemandDifferential(void) ;
 
    void doBioGrainOil (void);
-
+   float nCapacity(void){return 0.0;};
+   float availableRetranslocateN(void){return 0.0;};
   private:
 
 

@@ -55,13 +55,6 @@ void fruitGrainPart::onInit1(protocol::Component *system)
    system->addGettableVar("grain_p_demand",  gP_grain_demand, "g/m^2","P demand of grain");
 }
 
-float fruitGrainPart::nDemand2(void)
-   //===========================================================================
-{
-   return mealPart->nDemand2();
-}
-
-
 void fruitGrainPart::get_grain_wt(protocol::Component *system, protocol::QueryValueData &qd)
    //===========================================================================
 {
@@ -262,7 +255,7 @@ void fruitGrainPart::doProcessBioDemand(void)
 }
 
 float fruitGrainPart::nDemandGrain(void)  {return gN_grain_demand;}
-float fruitGrainPart::nDemandGrain2(void){return nDemand2();}
+
 float fruitGrainPart::nConcPercent(void)  {return Total.NconcPercent();}   //remove
 float fruitGrainPart::dltDmDemand(void) {return gDlt_dm_grain_demand;}                               //remove
 float fruitGrainPart::dltDmGrainDemand(void)  {return gDlt_dm_grain_demand;}

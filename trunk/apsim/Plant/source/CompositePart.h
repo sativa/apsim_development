@@ -111,7 +111,6 @@ public:                                             // member functions
    virtual float dmGreenDemand(void);
    virtual float dmGrainWetTotal(void);
 
-   virtual float dmSenescedVeg(void);
    virtual float grainWt(void);
    virtual float dmRetransSupply(void);
    virtual float dmRetransDemand(void) ;
@@ -129,9 +128,7 @@ public:                                             // member functions
    virtual float nCapacity(void);
    virtual void  doNPartition(float nSupply, float n_demand_sum, float n_capacity_sum);
 
-   virtual float nMaxPot(void);
    virtual float nMax(void);
-   virtual float nMinPot(void);
 
    virtual float pMaxPot(void);
    virtual float pMinPot(void);

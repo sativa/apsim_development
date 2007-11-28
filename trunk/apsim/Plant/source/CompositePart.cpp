@@ -250,15 +250,6 @@ float CompositePart::dmGrainWetTotal(void)
    return dmTotal;
 }
 
-float CompositePart::dmSenescedVeg(void)
-   //===========================================================================
-{
-   float dmTotal = 0.0;
-   for (vector <plantPart * >::const_iterator part = myParts.begin(); part != myParts.end(); part++)
-      dmTotal += (*part)->dmSenescedVeg();
-   return dmTotal;
-}
-
 float CompositePart::dltDmDetached(void)
    //===========================================================================
 {
@@ -268,15 +259,6 @@ float CompositePart::dltDmDetached(void)
    return dlt_dm_detached;
 }
 
-float CompositePart::nMaxPot(void)
-   //===========================================================================
-{
-   float nMaxPot = 0.0;
-   for (vector <plantPart * >::const_iterator part = myParts.begin(); part != myParts.end(); part++)
-      nMaxPot += (*part)->nMaxPot();                                //FIXME Is this a conc?
-   return nMaxPot;
-}
-
 float CompositePart::nMax(void)
    //===========================================================================
 {
@@ -284,15 +266,6 @@ float CompositePart::nMax(void)
    for (vector <plantPart * >::const_iterator part = myParts.begin(); part != myParts.end(); part++)
       result += (*part)->nMax();                                      //FIXME Is this a conc?
    return result;
-}
-
-float CompositePart::nMinPot(void)
-   //===========================================================================
-{
-   float nMinPot = 0.0;
-   for (vector <plantPart * >::const_iterator part = myParts.begin(); part != myParts.end(); part++)
-      nMinPot += (*part)->nMinPot();
-   return nMinPot;                                                 //FIXME Is this a conc?
 }
 
 float CompositePart::nDemandGrain2(void)
