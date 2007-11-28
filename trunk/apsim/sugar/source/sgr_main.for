@@ -5102,7 +5102,6 @@ cnh      c%crop_type = ' '
          endif
 
       elseif (action.eq.ACTION_kill_crop) then
-         if (crop_my_type (c%crop_type)) then
                ! kill crop - die
             call sugar_kill_crop
      :               (
@@ -5113,10 +5112,6 @@ cnh      c%crop_type = ' '
      :              , g%dm_senesced
      :              , g%year
      :               )
-         else
-            ! not my type!
-            call message_unused ()
-         endif
 
       elseif (action.eq.'graze') then
          call sugar_graze ()
