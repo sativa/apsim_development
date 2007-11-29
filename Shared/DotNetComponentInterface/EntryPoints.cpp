@@ -18,8 +18,26 @@ ref class Instances
 			ApsimComponent^ Component = createInstanceOfComponent(dllFileName);
 			if (numComponents == 0)
 				c0 = Component;
-			else
+			else if (numComponents == 1)
 				c1 = Component;
+			else if (numComponents == 2)
+				c2 = Component;
+			else if (numComponents == 3)
+				c3 = Component;
+			else if (numComponents == 4)
+				c4 = Component;
+			else if (numComponents == 5)
+				c5 = Component;
+			else if (numComponents == 6)
+				c6 = Component;
+			else if (numComponents == 7)
+				c7 = Component;
+			else if (numComponents == 8)
+				c8 = Component;
+			else if (numComponents == 9)
+				c9 = Component;
+			else
+				c10 = Component;
 			numComponents++;
 			return Component;
 			}
@@ -27,8 +45,26 @@ ref class Instances
 			{
 			if (index == 0)
 				return c0;
-			else
+			else if (index == 1)
 				return c1;
+			else if (index == 2)
+				return c2;
+			else if (index == 3)
+				return c3;
+			else if (index == 4)
+				return c4;
+			else if (index == 5)
+				return c5;
+			else if (index == 6)
+				return c6;
+			else if (index == 7)
+				return c7;
+			else if (index == 8)
+				return c8;
+			else if (index == 9)
+				return c9;
+			else
+				return c10;
 			}
 		
 		static unsigned count() {return numComponents;}
@@ -36,6 +72,15 @@ ref class Instances
 	//private:
 		static ApsimComponent^ c0;
 		static ApsimComponent^ c1;
+		static ApsimComponent^ c2;
+		static ApsimComponent^ c3;
+		static ApsimComponent^ c4;
+		static ApsimComponent^ c5;
+		static ApsimComponent^ c6;
+		static ApsimComponent^ c7;
+		static ApsimComponent^ c8;
+		static ApsimComponent^ c9;
+		static ApsimComponent^ c10;
 		//static array<ApsimComponent^>^ components;
 		static unsigned numComponents = 0;
 			

@@ -44,6 +44,13 @@
       <field name="crop_type" kind="string"/>
    </type>
 
+   <type name="NewZone">
+      <field name="sender" kind="string"/>
+      <field name="area" kind="single"/>
+      <field name="slope" kind="single"/>
+      <field name="X" kind="single"/>
+      <field name="Y" kind="single"/>
+   </type>
 
    <type name="Time" description="Change in the simulation system time and the duration of the new time step">
       <field name="startday" kind="integer4" description="Day number of the start of the timestep"/>
@@ -106,7 +113,7 @@
    <event name="NewPotentialGrowthEvent" type="NewPotentialGrowth"/>
    <event name="new_crop" type="NewCrop"/>
    <event name="NewSoilProfileEvent" type="SoilWaterProfileLayer"/>
-
+   <event name="NewZoneEvent" type="NewZone"/>
 </types>
 
 
