@@ -36,6 +36,8 @@ class fruitOilPart : public plantPart {
    void doBioGrainOil (void);
    float nCapacity(void){return 0.0;};
    float availableRetranslocateN(void){return 0.0;};
+   virtual bool isYieldPart(void)  {return true;};
+
   private:
 
 

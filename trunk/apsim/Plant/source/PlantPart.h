@@ -93,7 +93,6 @@ class plantPart : public plantThing
       float sen_detach_frac;              // fraction of dead plant parts detaching each day (0-1)
 
       bool  p_stress_determinant;         // is a P stress_determinant
-      bool  p_yield_part;                 // is a P yield_part
       bool  p_retrans_part;               // is a P retrans_part
 
       bool  stress_determinant;           // is a stress_determinant
@@ -356,7 +355,7 @@ public:
    virtual void doTECO2(void);                                       // (OUTPUT) transpiration coefficient                         //FIXME
    virtual void writeCultivarInfo (protocol::Component *);
 
-   virtual bool isYieldPart(void)  {return c.yield_part;};
+   virtual bool isYieldPart(void)  {return false;};
    virtual bool isRetransPart(void)  {return c.retrans_part;};
 
    virtual void onEmergence(void);

@@ -1,6 +1,8 @@
 #ifndef MealPartH
 #define MealPartH
 #include "ReproductivePart.h"
+#include "PlantPart.h"
+
 
 class fruitMealPart : public ReproductivePart {
   public:
@@ -26,7 +28,8 @@ class fruitMealPart : public ReproductivePart {
    float N_conc_pot(float);
    float nCapacity(void){return 0.0;};
    float availableRetranslocateN(void){return 0.0;};
-   
+   virtual bool isYieldPart(void)  {return true;};
+
   private:
 };
 
