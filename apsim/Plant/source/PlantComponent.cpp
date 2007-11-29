@@ -2,9 +2,9 @@
 #ifdef __WIN32__
  #include <vcl.h>
 #endif
-
+                 
 #include <boost/function.hpp>
-
+                         
 #include <ComponentInterface/Component.h>
 #include <ComponentInterface/ApsimVariant.h>
 #include <ComponentInterface/ScienceAPI.h>

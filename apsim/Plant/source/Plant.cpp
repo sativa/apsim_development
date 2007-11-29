@@ -1878,6 +1878,15 @@ void Plant::plant_harvest_update (protocol::Variant &v/*(INPUT)message arguments
        }
     parent->writeString (" ");
 
+    protocol::BalanceErrorType BE;
+    BE.DM = dm_removed_tops + dm_removed_root;
+    BE.N  = n_removed_tops + n_removed_root;
+    BE.P  = p_removed_tops + p_removed_root;
+    BE.C = 0.0; // ?????
+    BE.SW = 0.0;
+    scienceAPI.publish("BalanceError",BE);
+
+
 // now update new canopy covers
 
     plantSpatial.setPlants(getPlants());

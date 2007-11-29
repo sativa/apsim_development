@@ -1,8 +1,8 @@
 #ifndef MealPartH
 #define MealPartH
-#include "PlantPart.h"
+#include "ReproductivePart.h"
 
-class fruitMealPart : public plantPart {
+class fruitMealPart : public ReproductivePart {
   public:
    fruitMealPart(ScienceAPI& scienceAPI, plantInterface *p, const string &name);
    ~fruitMealPart() {};

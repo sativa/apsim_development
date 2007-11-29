@@ -3,12 +3,12 @@
 #include <stdexcept>
 #include <string>
 #include "PlantPart.h"
-
+#include "ReproductivePart.h"
 #include "MealPart.h"
 using namespace std;
 
 fruitMealPart::fruitMealPart(ScienceAPI& scienceAPI, plantInterface *p, const string &name)
-   : plantPart(scienceAPI, p, name)
+   : ReproductivePart(scienceAPI, p, name)
    {
    Vegetative.ClearPools();
    VegetativeTotal.ClearPools();
