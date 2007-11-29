@@ -5,9 +5,11 @@
   ! define system states
   !---------------
 
-      state_crop = n_green()    * gm2kg/sm2ha
-     :           + n_senesced() * gm2kg/sm2ha
-     :           + n_dead()     * gm2kg/sm2ha
+      state_crop = n_green    * gm2kg/sm2ha
+     :           + GreenN     * gm2kg/sm2ha
+     :           + n_senesced * gm2kg/sm2ha
+     :           + SenescedN  * gm2kg/sm2ha
+     :           + n_dead     * gm2kg/sm2ha
 
       state_soil    = nit_tot()
       state_surface = surfaceom_n
@@ -35,9 +37,11 @@
   ! define system states
   !---------------
 
-      state_crop = p_green()    * gm2kg/sm2ha
-     :           + p_senesced() * gm2kg/sm2ha
-     :           + p_dead()     * gm2kg/sm2ha
+      state_crop = p_green    * gm2kg/sm2ha
+     :           + GreenP     * gm2kg/sm2ha
+     :           + p_senesced * gm2kg/sm2ha
+     :           + SenescedP  * gm2kg/sm2ha
+     :           + p_dead     * gm2kg/sm2ha
 
       state_soil = fom_p()
      :           + hum_p()
@@ -69,9 +73,11 @@
   ! define system states
   !---------------
 
-      state_crop = dm_green()    * gm2kg/sm2ha * 0.4
-     :           + dm_senesced() * gm2kg/sm2ha * 0.4
-     :           + dm_dead()     * gm2kg/sm2ha * 0.4
+      state_crop = dm_green    * gm2kg/sm2ha * 0.4
+     :           + GreenWt     * gm2kg/sm2ha * 0.4
+     :           + dm_senesced * gm2kg/sm2ha * 0.4
+     :           + SenescedWt  * gm2kg/sm2ha * 0.4
+     :           + dm_dead     * gm2kg/sm2ha * 0.4
 
       state_soil    = carbon_tot()
       state_surface = surfaceom_c
@@ -91,7 +97,8 @@
   !-------------
 
       gain_soil = 0.0
-      gain_crop = dlt_dm_green() * gm2kg/sm2ha * 0.4
+      gain_crop = dlt_dm_green * gm2kg/sm2ha * 0.4
+     :          + GrowthWt     * gm2kg/sm2ha * 0.4
       gain_surface = 0.0
 
 !==========================================================
@@ -101,9 +108,11 @@
   ! define system states
   !---------------
 
-      state_crop = dm_green()    * gm2kg/sm2ha
-     :           + dm_senesced() * gm2kg/sm2ha
-     :           + dm_dead()     * gm2kg/sm2ha
+      state_crop = dm_green    * gm2kg/sm2ha
+     :           + GreenWt     * gm2kg/sm2ha
+     :           + dm_senesced * gm2kg/sm2ha
+     :           + SenescedWt  * gm2kg/sm2ha
+     :           + dm_dead     * gm2kg/sm2ha
 
       state_soil    = carbon_tot() / 0.4
       state_surface = surfaceom_wt
@@ -121,7 +130,8 @@
   ! define system gains
   !-------------
       gain_soil = 0.0
-      gain_crop = dlt_dm_green() * gm2kg/sm2ha
+      gain_crop = dlt_dm_green * gm2kg/sm2ha
+     :          + GrowthWt     * gm2kg/sm2ha * 0.4
       gain_surface = 0.0
 
 !==========================================================
