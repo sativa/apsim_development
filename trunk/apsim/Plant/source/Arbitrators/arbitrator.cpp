@@ -42,7 +42,3 @@ Arbitrator* constructArbitrator(ScienceAPI& scienceAPI, plantInterface *p, const
 
    return (object);
    }
-
-
-
-   

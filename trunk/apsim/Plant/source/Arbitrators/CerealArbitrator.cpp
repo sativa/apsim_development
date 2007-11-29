@@ -120,5 +120,3 @@ float cerealArbitrator::dltDMWhole(float dlt_dm)
                                           ,y_ratio_root_shoot
                                           ,num_stage_no_partition)) * dlt_dm);
    }
-
-   

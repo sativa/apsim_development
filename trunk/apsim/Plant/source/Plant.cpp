@@ -1455,8 +1455,8 @@ void Plant::plant_process ( void )
         ps.swdef_grainfill = g.swdef_pheno_grainfill;
         ps.remove_biom_pheno = g.remove_biom_pheno;
 
-        float fasw_seed = rootPart->fasw(plantSpatial.sowing_depth);
-        float pesw_seed = rootPart->pesw(plantSpatial.sowing_depth);
+        float fasw_seed = rootPart->fasw((int)plantSpatial.sowing_depth);
+        float pesw_seed = rootPart->pesw((int)plantSpatial.sowing_depth);
 
         phenology->process (Environment, ps, fasw_seed, pesw_seed);
 
