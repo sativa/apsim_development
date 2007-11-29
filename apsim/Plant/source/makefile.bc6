@@ -35,6 +35,7 @@ OBJFILES=PlantComponent.obj \
    Leaf\LeafPart.obj \
    StemPart.obj \
    Storage\StoragePart.obj \
+   ReproductivePart.obj \
    Reproductive\PodPart.obj \
    Reproductive\FloretPart.obj \
    Reproductive\MealPart.obj \
@@ -83,8 +84,8 @@ OBJFILES=PlantComponent.obj \
    Phenology\LeafAppPhase.obj \
 
 LIBFILES = $(APSROOT)\Shared\ComponentInterface\ComponentInterface.lib \
-	$(APSROOT)\Shared\ApsimShared\ApsimShared.lib \
-	$(APSROOT)\Shared\general\general.lib
+    $(APSROOT)\Shared\ApsimShared\ApsimShared.lib \
+    $(APSROOT)\Shared\general\general.lib
 
 USERDEFINES =
 SYSDEFINES = _RTLDLL;NO_STRICT;_NO_VCL;USEPACKAGES
@@ -116,12 +117,12 @@ $(PROJECT): $(OBJFILES) $(DEFFILE)
 !
 
 .cpp.obj:
-	$(CC) $(CFLAG1) $(WARNINGS) -I$(INCLUDEPATH) -D$(USERDEFINES);$(SYSDEFINES) -n$(@D) {$< }
+    $(CC) $(CFLAG1) $(WARNINGS) -I$(INCLUDEPATH) -D$(USERDEFINES);$(SYSDEFINES) -n$(@D) {$< }
 
 
 ####
 clean:
-	del $(OBJFILES) *.bak *.csm
+    del $(OBJFILES) *.bak *.csm
 
 PlantComponent.obj: PlantComponent.cpp plant.h
 Plant.obj: plant.cpp plant.h PlantLibrary.h Phenology\PlantPhenology.h Reproductive\PlantFruit.h PlantPart.h Leaf\LeafPart.h
@@ -149,6 +150,7 @@ Utility\Observers.obj: Utility\Observers.cpp Utility\Observers.h
 Leaf\LeafPart.obj: Leaf\LeafPart.cpp PlantPart.h Leaf\LeafPart.h
 StemPart.obj: StemPart.cpp StemPart.h PlantPart.h
 Storage\StoragePart.obj: Storage\StoragePart.cpp Storage\StoragePart.h PlantPart.h
+ReproductivePart.obj: ReproductivePart.cpp ReproductivePart.h PlantPart.h
 Reproductive\PodPart.obj: Reproductive\PodPart.cpp Reproductive\PodPart.h PlantPart.h
 Reproductive\FloretPart.obj: Reproductive\FloretPart.cpp Reproductive\FloretPart.h PlantPart.h
 Reproductive\MealPart.obj: Reproductive\MealPart.cpp Reproductive\MealPart.h PlantPart.h
