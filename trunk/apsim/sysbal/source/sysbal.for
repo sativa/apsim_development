@@ -442,8 +442,14 @@
       character  n_green*30
       parameter (n_green = 'n_green')
 
+      character  GreenN*30
+      parameter (GreenN = 'greenn')
+
       character  n_senesced*30
       parameter (n_senesced = 'n_senesced')
+
+      character  SenescedN*30
+      parameter (SenescedN = 'senescedn')
 
       character  n_dead*30
       parameter (n_dead = 'n_dead')
@@ -475,29 +481,14 @@
 
       call push_routine (my_name)
 
-  ! ensure crop variables are registered with fortran modules (e.g. cropmod)
-  !-------------------------------------------------------------------------
-      call sysbal_reg_variable ('sorghum', n_green, gm2)
-      call sysbal_reg_variable ('sorghum', n_senesced, gm2)
-      call sysbal_reg_variable ('sorghum', n_dead, gm2)
-      call sysbal_reg_variable ('sorghum', dlt_n_fixed, gm2)
-
-      call sysbal_reg_variable ('maize', n_green, gm2)
-      call sysbal_reg_variable ('maize', n_senesced, gm2)
-      call sysbal_reg_variable ('maize', n_dead, gm2)
-      call sysbal_reg_variable ('maize', dlt_n_fixed, gm2)
-
-      call sysbal_reg_variable ('sunflower', n_green, gm2)
-      call sysbal_reg_variable ('sunflower', n_senesced, gm2)
-      call sysbal_reg_variable ('sunflower', n_dead, gm2)
-      call sysbal_reg_variable ('sunflower', dlt_n_fixed, gm2)
-
   ! define system states
   !---------------
 
       state_crop =
      :      sysbal_get_variable(n_green, gm2) * gm2kg/sm2ha
+     :    + sysbal_get_variable(GreenN, gm2) * gm2kg/sm2ha
      :    + sysbal_get_variable(n_senesced, gm2) * gm2kg/sm2ha
+     :    + sysbal_get_variable(SenescedN, gm2) * gm2kg/sm2ha
      :    + sysbal_get_variable(n_dead, gm2) * gm2kg/sm2ha
 
       state_soil = sysbal_get_variable(nit_tot, kgha)
@@ -570,8 +561,14 @@
       character  p_green*30
       parameter (p_green = 'p_green')
 
+      character  GreenP*30
+      parameter (GreenP = 'GreenP')
+
       character  p_senesced*30
       parameter (p_senesced = 'p_senesced')
+
+      character  SenescedP*30
+      parameter (SenescedP = 'SenescedP')
 
       character  p_dead*30
       parameter (p_dead = 'p_dead')
@@ -606,26 +603,14 @@
 
       call push_routine (my_name)
 
-  ! ensure crop variables are registered with fortran modules (e.g. cropmod)
-  !-------------------------------------------------------------------------
-      call sysbal_reg_variable ('sorghum', p_green, gm2)
-      call sysbal_reg_variable ('sorghum', p_senesced, gm2)
-      call sysbal_reg_variable ('sorghum', p_dead, gm2)
-
-      call sysbal_reg_variable ('maize', p_green, gm2)
-      call sysbal_reg_variable ('maize', p_senesced, gm2)
-      call sysbal_reg_variable ('maize', p_dead, gm2)
-
-      call sysbal_reg_variable ('sunflower', p_green, gm2)
-      call sysbal_reg_variable ('sunflower', p_senesced, gm2)
-      call sysbal_reg_variable ('sunflower', p_dead, gm2)
-
   ! define system states
   !---------------
 
       state_crop =
      :      sysbal_get_variable(p_green, gm2) * gm2kg/sm2ha
+     :    + sysbal_get_variable(GreenP, gm2) * gm2kg/sm2ha
      :    + sysbal_get_variable(p_senesced, gm2) * gm2kg/sm2ha
+     :    + sysbal_get_variable(SenescedP, gm2) * gm2kg/sm2ha
      :    + sysbal_get_variable(p_dead, gm2) * gm2kg/sm2ha
 
       state_soil = sysbal_get_variable(fom_p, kgha)
@@ -701,8 +686,14 @@
       character  dm_green*30
       parameter (dm_green = 'dm_green')
 
+      character  GreenWt*30
+      parameter (GreenWt = 'GreenWt')
+
       character  dm_senesced*30
       parameter (dm_senesced = 'dm_senesced')
+
+      character  SenescedWt*30
+      parameter (SenescedWt = 'SenescedWt')
 
       character  dm_dead*30
       parameter (dm_dead = 'dm_dead')
@@ -734,6 +725,9 @@
       character  dlt_dm_green*30
       parameter (dlt_dm_green = 'dlt_dm_green')
 
+      character  GrowthWt*30
+      parameter (GrowthWt = 'GrowthWt')
+
 
 !+  Local Variables
 
@@ -741,31 +735,13 @@
 
       call push_routine (my_name)
 
-  ! ensure crop variables are registered with fortran modules (e.g. cropmod)
-  !-------------------------------------------------------------------------
-      call sysbal_reg_variable ('sorghum', dm_green, gm2)
-      call sysbal_reg_variable ('sorghum', dm_senesced, gm2)
-      call sysbal_reg_variable ('sorghum', dm_dead, gm2)
-      call sysbal_reg_variable ('sorghum', dlt_dm_oil_conv_retrans, gm2)
-      call sysbal_reg_variable ('sorghum', dlt_dm_green, gm2)
-
-      call sysbal_reg_variable ('maize', dm_green, gm2)
-      call sysbal_reg_variable ('maize', dm_senesced, gm2)
-      call sysbal_reg_variable ('maize', dm_dead, gm2)
-      call sysbal_reg_variable ('maize', dlt_dm_oil_conv_retrans, gm2)
-      call sysbal_reg_variable ('maize', dlt_dm_green, gm2)
-
-      call sysbal_reg_variable ('sunflower', dm_green, gm2)
-      call sysbal_reg_variable ('sunflower', dm_senesced, gm2)
-      call sysbal_reg_variable ('sunflower', dm_dead, gm2)
-      call sysbal_reg_variable ('sunflower',dlt_dm_oil_conv_retrans,gm2)
-      call sysbal_reg_variable ('sunflower', dlt_dm_green, gm2)
-
   ! define system states
   !---------------
 
       state_crop = sysbal_get_variable(dm_green, gm2)* gm2kg/sm2ha * 0.4
+     :       + sysbal_get_variable(GreenWt, gm2) * gm2kg/sm2ha * 0.4
      :       + sysbal_get_variable(dm_senesced, gm2) * gm2kg/sm2ha * 0.4
+     :       + sysbal_get_variable(SenescedWt, gm2) * gm2kg/sm2ha * 0.4
      :       + sysbal_get_variable(dm_dead, gm2) * gm2kg/sm2ha * 0.4
 
       state_soil = sysbal_get_variable(carbon_tot, kgha)
@@ -789,6 +765,8 @@
 
       gain_soil = 0.0
       gain_crop = sysbal_get_variable(dlt_dm_green, gm2)
+     :          * gm2kg/sm2ha * 0.4
+     :          + sysbal_get_variable(GrowthWt, gm2)
      :          * gm2kg/sm2ha * 0.4
       gain_surface = g%dm_added * 0.4
 
@@ -844,8 +822,14 @@
       character  dm_green*30
       parameter (dm_green = 'dm_green')
 
+      character  GreenWt*30
+      parameter (GreenWt = 'GreenWt')
+
       character  dm_senesced*30
       parameter (dm_senesced = 'dm_senesced')
+
+      character  SenescedWt*30
+      parameter (SenescedWt = 'SenescedWt')
 
       character  dm_dead*30
       parameter (dm_dead = 'dm_dead')
@@ -877,42 +861,22 @@
       character  dlt_dm_green*30
       parameter (dlt_dm_green = 'dlt_dm_green')
 
+      character  GrowthWt*30
+      parameter (GrowthWt = 'GrowthWt')
+
 !+  Local Variables
 
 !- Implementation Section ----------------------------------
 
       call push_routine (my_name)
 
-  ! ensure crop variables are registered with fortran modules (e.g. cropmod)
-  !-------------------------------------------------------------------------
-      call sysbal_reg_variable ('sorghum', dm_green, gm2)
-      call sysbal_reg_variable ('sorghum', dm_senesced, gm2)
-      call sysbal_reg_variable ('sorghum', dm_dead, gm2)
-      call sysbal_reg_variable ('sorghum', dlt_dm_oil_conv_retrans, gm2)
-      call sysbal_reg_variable ('sorghum', dlt_dm_green, gm2)
-
-      call sysbal_reg_variable ('maize', dm_green, gm2)
-      call sysbal_reg_variable ('maize', dm_senesced, gm2)
-      call sysbal_reg_variable ('maize', dm_dead, gm2)
-      call sysbal_reg_variable ('maize', dlt_dm_oil_conv_retrans, gm2)
-      call sysbal_reg_variable ('maize', dlt_dm_green, gm2)
-
-      call sysbal_reg_variable ('sunflower', dm_green, gm2)
-      call sysbal_reg_variable ('sunflower', dm_senesced, gm2)
-      call sysbal_reg_variable ('sunflower', dm_dead, gm2)
-      call sysbal_reg_variable ('sunflower',dlt_dm_oil_conv_retrans,gm2)
-      call sysbal_reg_variable ('sunflower', dlt_dm_green, gm2)
-
-      call sysbal_reg_variable ('sugar', dm_green, gm2)
-      call sysbal_reg_variable ('sugar', dm_senesced, gm2)
-      call sysbal_reg_variable ('sugar', dm_dead, gm2)
-      call sysbal_reg_variable ('sugar', dlt_dm_green, gm2)
-
   ! define system states
   !---------------
 
       state_crop = sysbal_get_variable(dm_green, gm2) * gm2kg/sm2ha
+     :           + sysbal_get_variable(GreenWt, gm2) * gm2kg/sm2ha
      :           + sysbal_get_variable(dm_senesced, gm2) * gm2kg/sm2ha
+     :           + sysbal_get_variable(SenescedWt, gm2) * gm2kg/sm2ha
      :           + sysbal_get_variable(dm_dead, gm2) * gm2kg/sm2ha
 
       state_soil = sysbal_get_variable(carbon_tot, kgha) / 0.4
@@ -933,6 +897,7 @@
   !-------------
       gain_soil = 0.0
       gain_crop = sysbal_get_variable(dlt_dm_green, gm2) * gm2kg/sm2ha
+     :          + sysbal_get_variable(GrowthWt, gm2) * gm2kg/sm2ha
       gain_surface = g%dm_added
 
       call pop_routine (my_name)
@@ -1007,12 +972,6 @@
 !- Implementation Section ----------------------------------
 
       call push_routine (my_name)
-
-  ! ensure crop variables are registered with fortran modules (e.g. cropmod)
-  !-------------------------------------------------------------------------
-      call sysbal_reg_variable ('sorghum', ep, mm)
-      call sysbal_reg_variable ('maize', ep, mm)
-      call sysbal_reg_variable ('sunflower', ep, mm)
 
   ! define system states
   !---------------
@@ -1125,53 +1084,6 @@
       call pop_routine (my_name)
       return
       end function
-
-!     ===========================================================
-      subroutine sysbal_reg_variable (mod_name, var_name, units)
-!     ===========================================================
-
-      Use Infrastructure
-      implicit none
-
-      character mod_name*(*)
-      character var_name*(*)
-      character units*(*)
-
-!+  Purpose
-!      Register get variables from other modules
-
-!+  Changes
-!      201093 jngh specified and programmed
-
-!+  Constant Values
-      character  my_name*(*)           ! procedure name
-      parameter (my_name='sysbal_reg_variable')
-
-      integer maxvals
-      parameter (maxvals=200)
-!+  Local Variables
-      real dummy(maxvals)
-      integer numvals
-      logical ok
-      integer modNameID
-
-
-!- Implementation Section ----------------------------------
-
-      call push_routine (my_name)
-
-      ok = component_name_to_id(Mod_name, modNameID)
-      if (ok) then
-         call Get_real_array_optional (modNameID, trim(var_name)
-     :                     , maxvals, trim(units), dummy, numvals
-     :                     , 0.0, 1.0e6)
-      else
-      endif
-
-
-      call pop_routine (my_name)
-      return
-      end subroutine
 
 !     ===========================================================
       integer function sysbal_get_last_index (var_name, units)
