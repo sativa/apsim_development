@@ -199,7 +199,7 @@
    <!--      !!!!! CROP types !!!!!-->
    <type name="KillCrop">
       <field name="KillFraction" kind="single"/>
-   </type>    
+   </type>
 
    <!--      !!!!! MICROMET types !!!!!-->
 
@@ -861,5 +861,15 @@
       <field name="amount" kind="double" unit="kg"/>
       <field name="dest_store" kind="string" unit="-"/>
    </type>
+
+   <!--!   !!!!! Sysbal  types  !!!!!!!!!!!!!!!!!!!!!!-->
+   <type name="BalanceError">
+      <field name="C" kind="single" unit="kg/ha"/>
+      <field name="N" kind="single" unit="kg/ha"/>
+      <field name="P" kind="single" unit="kg/ha"/>
+      <field name="DM" kind="single" unit="kg/ha"/>
+      <field name="SW" kind="single" unit="mm"/>
+   </type>
+
 
 </types>
