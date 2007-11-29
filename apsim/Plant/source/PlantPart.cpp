@@ -78,7 +78,6 @@ void plantPart::Initialise()
      c.n_retrans_fraction = 1.0;
      c.sen_detach_frac = 0;
      c.p_stress_determinant = false;
-     c.p_yield_part = false;
      c.p_retrans_part = false;
      c.stress_determinant = false;
      c.yield_part = false;
@@ -386,12 +385,10 @@ void plantPart::readConstants(protocol::Component *, const string &)
     scienceAPI.readOptional("yield_parts", parts);
     if (find_if(parts.begin(),parts.end(), CaseInsensitiveStringComparison(c.name)) != parts.end())
        {
-       c.p_yield_part = true;
        c.yield_part = true;
        }
     else
        {
-       c.p_yield_part = false;
        c.yield_part = false;
        }
 
@@ -818,7 +815,7 @@ void plantPart::doPDemand(void)
    PDemand = 0.0;
    totalPotentialGrowthRate = plant->getTotalPotentialGrowthRate();
 
-   if (c.p_yield_part)
+   if (c.yield_part)
       {
       // A yield part - does not contribute to soil demand
       PDemand = 0.0;
@@ -921,8 +918,8 @@ void plantPart::doNSenescence(void)
 
    float SenescingN = Senescing.DM() * sen_n_conc;
    SenescingN = u_bound (SenescingN, Green.N());
-   Senescing = Biomass(Senescing.DM(), 
-                       SenescingN, 
+   Senescing = Biomass(Senescing.DM(),
+                       SenescingN,
                        Senescing.P());
 
    dlt.n_senesced_trans = dlt_n_in_senescing_part - Senescing.N();
@@ -1339,7 +1336,7 @@ float plantPart::dmRetransSupply(void)
 float plantPart::pRetransDemand(void)
 //=======================================================================================
    {
-   if (c.p_yield_part)
+   if (c.yield_part)
       return l_bound(pMaxPot() - Green.P(), 0.0);
    else
       return 0.0;
