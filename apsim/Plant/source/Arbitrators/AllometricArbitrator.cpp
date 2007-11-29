@@ -155,6 +155,3 @@ float allometricArbitrator::dltDMWhole(float dlt_dm)
    {
    return ((1.0 + ratio_root_shoot[plant->getStageNumber()]) * dlt_dm);
    }
-
-
-   
