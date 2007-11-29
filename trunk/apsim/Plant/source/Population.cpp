@@ -136,7 +136,7 @@ void Population::PlantDeath()
          // report
          char msg[80];
          sprintf(msg, "Plant death. standing above-ground dm = %.2f (kg/ha)", biomass);
-         cout << msg << endl;
+         scienceAPI.write(msg);
          }
       // XX Needs to signal a need to call zero_variables here...
       // Present method is to rely on calling zero_xx at tomorrow's prepare() event.. :(
@@ -150,10 +150,12 @@ float Population::CropFailureGermination()
    // Crop failure from lack of germination within a specific maximum number of days.
    if (Plant.daysInCurrentPhase() >= days_germ_limit)
       {
-      cout << "      crop failure because of lack of" << endl
-           << "         germination within "
-           << days_germ_limit
-           << " days of sowing" << endl;
+      ostringstream out;
+      out << "      crop failure because of lack of" << endl
+          << "         germination within "
+          << days_germ_limit
+          << " days of sowing" << endl;
+      scienceAPI.write(out.str());
       return -1.0 * plants;
       }
    return 0.0;
@@ -166,7 +168,7 @@ float Population::CropFailureEmergence()
    // thermal time sum from germination.
    if (Plant.ttInCurrentPhase() > tt_emerg_limit)
       {
-      cout << " failed emergence due to deep planting" << endl;
+      scienceAPI.write(" failed emergence due to deep planting");
       return -1.0 * plants;
       }
    return 0.0;
@@ -177,8 +179,8 @@ float Population::CropFailurePhenDelay()
    // Determine plant death from prolonged phenology delay.
    if (Plant.getCumSwdefPheno() >= swdf_pheno_limit)
       {
-      cout << "Crop failure because of prolonged";
-      cout << "phenology delay through water stress." << endl;
+      scienceAPI.write("Crop failure because of prolonged"
+                       "phenology delay through water stress.");
       return -1.0 * plants;
       }
   return 0.0;
@@ -190,7 +192,7 @@ float Population::CropFailureLeafSen()
 
    if (reals_are_equal (leaf_area, 0.0, 1.0e-6))
       {
-      cout << "Crop failure because of total leaf senescence." << endl;
+      scienceAPI.write("Crop failure because of total leaf senescence.");
       return -1.0 * plants;
       }
    return 0.0;
@@ -210,7 +212,7 @@ float Population::DeathSeedling()
       string msg= "Plant kill. ";
       msg = msg + ftoa(killfr*fract2pcnt, ".2").c_str();
       msg = msg + "% failure because of high soil surface temperatures.";
-      cout << msg << endl;
+      scienceAPI.write(msg);
       }
    return dlt_plants;
    }             
@@ -253,7 +255,7 @@ float Population::DeathDrought()
       string msg= "Plant kill. ";
       msg = msg + ftoa(killfr*fract2pcnt, ".2").c_str();
       msg = msg + "% failure because of water stress.";
-      cout << msg << endl;
+      scienceAPI.write(msg);
       }
    return dlt_plants;
    }
@@ -292,7 +294,7 @@ void Population::OnKillCrop(protocol::KillCropType& Kill)
          string msg= "Plant kill. ";
          msg = msg + ftoa(Kill.KillFraction*fract2pcnt, ".2").c_str();
          msg = msg + "% crop killed because of external action.";
-         cout << msg << endl;
+         scienceAPI.write(msg);
          }
       }
    else

@@ -1444,7 +1444,6 @@ C     Last change:  P    25 Oct 2000    9:26 am
       character ModuleName*(*)        ! (INPUT) Name of module to send event to.
       character Name*(MAX_VARIABLE_NAME_SIZE)
       character Value*(500)
-      real Fraction
       type(KillCropType) Kill
       integer KillCropID
       integer NumVals
@@ -1452,9 +1451,9 @@ C     Last change:  P    25 Oct 2000    9:26 am
       call Get_next_variable(DataString, Name, Value)
       Name = Lower_case(Name)
       if (Name .eq. 'plants_kill_fraction') then
-         call String_to_real_var(Value, Fraction, NumVals)
+         call String_to_real_var(Value, Kill%KillFraction, NumVals)
       else
-         Fraction = 1.0
+         Kill%KillFraction = 1.0
       endif
       KillCropID = add_registration(eventReg, 
      .                              'kill_crop',
