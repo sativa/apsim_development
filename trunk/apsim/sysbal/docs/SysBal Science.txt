@@ -131,7 +131,7 @@
   !-------------
       gain_soil = 0.0
       gain_crop = dlt_dm_green * gm2kg/sm2ha
-     :          + GrowthWt     * gm2kg/sm2ha * 0.4
+     :          + GrowthWt     * gm2kg/sm2ha
       gain_surface = 0.0
 
 !==========================================================
