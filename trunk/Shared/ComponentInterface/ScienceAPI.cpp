@@ -372,6 +372,11 @@ void ScienceAPI::expose(const std::string& name, const std::string& units, const
    {
    component->addGettableVar(name.c_str(), variable, units.c_str(), description.c_str());
    }
+void ScienceAPI::expose(const std::string& name, const std::string& units, const std::string& description, std::string& variable)
+   {
+   component->addGettableVar(name.c_str(), variable, units.c_str(), description.c_str());
+   }
+
 void ScienceAPI::exposeFunction(const std::string& name, const std::string& units, const std::string& description, boost::function0<float> handler)
    {
    typedef CMPGetter<FloatFunctionType, float> WrapperType;
