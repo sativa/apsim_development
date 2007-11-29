@@ -25,5 +25,3 @@ LivePool::LivePool(ScienceAPI& API, const std::string& Name, const std::string& 
                         , ("y_n_conc_max_" + PartName).c_str(), "()", 0.0, 100.0);
 
    }
-
-   

@@ -42,6 +42,8 @@ OBJFILES=PlantComponent.obj \
    Reproductive\GrainPart.obj \
    Reproductive\GrainPartHI.obj \
    Reproductive\GrainPartGN.obj \
+   Reproductive\FruitCohort.obj \
+   Reproductive\PlantFruit.obj \
    CompositePart.obj \
    Root\RootBase.obj \
    Root\RootPart.obj \
@@ -49,8 +51,6 @@ OBJFILES=PlantComponent.obj \
    Root\MultiRoot.obj \
    Root\RootGrowthOption1.obj \
    Root\RootGrowthOption2.obj \
-   Reproductive\FruitCohort.obj \
-   Reproductive\PlantFruit.obj \
    Utility\Output.obj \
    Utility\OutputVariable.obj \
    Leaf\genericLeafPart.obj \
@@ -67,7 +67,6 @@ OBJFILES=PlantComponent.obj \
    LivePool.obj \
    Delta.obj \
    Biomass.obj \
-    \
    Phenology\PlantPhenology.obj \
    Phenology\Phase.obj \
    Phenology\CompositePhase.obj \

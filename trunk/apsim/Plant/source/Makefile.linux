@@ -27,11 +27,13 @@ OBJ=PlantComponent.o \
    Utility/Date.o \
    PlantComms.o \
    PlantP.o \
+   Population.o \
    Environment.o \
    Utility/Observers.o \
    Leaf/LeafPart.o \
    StemPart.o \
    Storage/StoragePart.o \
+   ReproductivePart.o \
    Reproductive/PodPart.o \
    Reproductive/FloretPart.o \
    Reproductive/MealPart.o \
@@ -39,6 +41,8 @@ OBJ=PlantComponent.o \
    Reproductive/GrainPart.o \
    Reproductive/GrainPartHI.o \
    Reproductive/GrainPartGN.o \
+   Reproductive/FruitCohort.o \
+   Reproductive/PlantFruit.o \
    CompositePart.o \
    Root/RootBase.o \
    Root/RootPart.o \
@@ -46,8 +50,6 @@ OBJ=PlantComponent.o \
    Root/MultiRoot.o \
    Root/RootGrowthOption1.o \
    Root/RootGrowthOption2.o \
-   Reproductive/FruitCohort.o \
-   Reproductive/PlantFruit.o \
    Utility/Output.o \
    Utility/OutputVariable.o \
    Leaf/genericLeafPart.o \
@@ -59,6 +61,11 @@ OBJ=PlantComponent.o \
    Arbitrators/GenericArbitrator.o \
    Arbitrators/GenericArbitratorXY.o \
    PlantSpatial.o \
+   Pool.o \
+   CompositePool.o \
+   LivePool.o \
+   Delta.o \
+   Biomass.o \
    Phenology/PlantPhenology.o \
    Phenology/Phase.o \
    Phenology/CompositePhase.o \
@@ -74,6 +81,7 @@ OBJ=PlantComponent.o \
    Phenology/EmergentPhase.o \
    Phenology/LeafAppPhase.o \
    ../../../Shared/ComponentInterface/EntryPoints.o
+
 #-----------------------------------------------------------------------
 # Compiler options
 
