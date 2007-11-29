@@ -75,6 +75,9 @@ Public Class MetGraphControl
         Me.TabPage1 = New System.Windows.Forms.TabPage
         Me.ContentsBox = New System.Windows.Forms.TextBox
         Me.TabPage2 = New System.Windows.Forms.TabPage
+        Me.Label2 = New System.Windows.Forms.Label
+        Me.Label1 = New System.Windows.Forms.Label
+        Me.RainfallLabel = New System.Windows.Forms.Label
         Me.RainfallChart = New Steema.TeeChart.TChart
         Me.RainfallBar = New Steema.TeeChart.Styles.Bar
         Me.TabPage3 = New System.Windows.Forms.TabPage
@@ -91,9 +94,6 @@ Public Class MetGraphControl
         Me.RadiationLine = New Steema.TeeChart.Styles.Line
         Me.MaximumRadiationLine = New Steema.TeeChart.Styles.Line
         Me.YearBox = New System.Windows.Forms.NumericUpDown
-        Me.RainfallLabel = New System.Windows.Forms.Label
-        Me.Label1 = New System.Windows.Forms.Label
-        Me.Label2 = New System.Windows.Forms.Label
         Me.TabControl.SuspendLayout()
         Me.TabPage1.SuspendLayout()
         Me.TabPage2.SuspendLayout()
@@ -121,10 +121,10 @@ Public Class MetGraphControl
         Me.TabControl.Controls.Add(Me.TabPage4)
         Me.TabControl.Dock = System.Windows.Forms.DockStyle.Fill
         Me.TabControl.ImageList = Me.TabImages
-        Me.TabControl.Location = New System.Drawing.Point(0, 40)
+        Me.TabControl.Location = New System.Drawing.Point(0, 18)
         Me.TabControl.Name = "TabControl"
         Me.TabControl.SelectedIndex = 0
-        Me.TabControl.Size = New System.Drawing.Size(1015, 684)
+        Me.TabControl.Size = New System.Drawing.Size(1015, 706)
         Me.TabControl.TabIndex = 15
         '
         'TabPage1
@@ -134,7 +134,7 @@ Public Class MetGraphControl
         Me.TabPage1.Location = New System.Drawing.Point(4, 23)
         Me.TabPage1.Name = "TabPage1"
         Me.TabPage1.Padding = New System.Windows.Forms.Padding(3)
-        Me.TabPage1.Size = New System.Drawing.Size(1007, 657)
+        Me.TabPage1.Size = New System.Drawing.Size(1007, 679)
         Me.TabPage1.TabIndex = 0
         Me.TabPage1.Text = "Raw data"
         Me.TabPage1.UseVisualStyleBackColor = True
@@ -149,7 +149,7 @@ Public Class MetGraphControl
         Me.ContentsBox.Name = "ContentsBox"
         Me.ContentsBox.ReadOnly = True
         Me.ContentsBox.ScrollBars = System.Windows.Forms.ScrollBars.Vertical
-        Me.ContentsBox.Size = New System.Drawing.Size(1001, 651)
+        Me.ContentsBox.Size = New System.Drawing.Size(1001, 673)
         Me.ContentsBox.TabIndex = 0
         Me.ContentsBox.WordWrap = False
         '
@@ -163,10 +163,37 @@ Public Class MetGraphControl
         Me.TabPage2.Location = New System.Drawing.Point(4, 23)
         Me.TabPage2.Name = "TabPage2"
         Me.TabPage2.Padding = New System.Windows.Forms.Padding(3)
-        Me.TabPage2.Size = New System.Drawing.Size(1007, 657)
+        Me.TabPage2.Size = New System.Drawing.Size(1007, 679)
         Me.TabPage2.TabIndex = 1
         Me.TabPage2.Text = "Rainfall chart"
         Me.TabPage2.UseVisualStyleBackColor = True
+        '
+        'Label2
+        '
+        Me.Label2.AutoSize = True
+        Me.Label2.Location = New System.Drawing.Point(439, 11)
+        Me.Label2.Name = "Label2"
+        Me.Label2.Size = New System.Drawing.Size(23, 13)
+        Me.Label2.TabIndex = 17
+        Me.Label2.Text = "mm"
+        '
+        'Label1
+        '
+        Me.Label1.AutoSize = True
+        Me.Label1.Location = New System.Drawing.Point(303, 11)
+        Me.Label1.Name = "Label1"
+        Me.Label1.Size = New System.Drawing.Size(72, 13)
+        Me.Label1.TabIndex = 16
+        Me.Label1.Text = "Total Rainfall:"
+        '
+        'RainfallLabel
+        '
+        Me.RainfallLabel.AutoSize = True
+        Me.RainfallLabel.Location = New System.Drawing.Point(381, 11)
+        Me.RainfallLabel.Name = "RainfallLabel"
+        Me.RainfallLabel.Size = New System.Drawing.Size(19, 13)
+        Me.RainfallLabel.TabIndex = 15
+        Me.RainfallLabel.Text = "L1"
         '
         'RainfallChart
         '
@@ -546,7 +573,7 @@ Public Class MetGraphControl
         '
         Me.RainfallChart.Panel.Shadow.Visible = False
         Me.RainfallChart.Series.Add(Me.RainfallBar)
-        Me.RainfallChart.Size = New System.Drawing.Size(1001, 651)
+        Me.RainfallChart.Size = New System.Drawing.Size(1001, 673)
         '
         '
         '
@@ -2414,33 +2441,6 @@ Public Class MetGraphControl
         Me.YearBox.TabIndex = 16
         Me.YearBox.Value = New Decimal(New Integer() {1900, 0, 0, 0})
         '
-        'RainfallLabel
-        '
-        Me.RainfallLabel.AutoSize = True
-        Me.RainfallLabel.Location = New System.Drawing.Point(381, 11)
-        Me.RainfallLabel.Name = "RainfallLabel"
-        Me.RainfallLabel.Size = New System.Drawing.Size(19, 13)
-        Me.RainfallLabel.TabIndex = 15
-        Me.RainfallLabel.Text = "L1"
-        '
-        'Label1
-        '
-        Me.Label1.AutoSize = True
-        Me.Label1.Location = New System.Drawing.Point(303, 11)
-        Me.Label1.Name = "Label1"
-        Me.Label1.Size = New System.Drawing.Size(72, 13)
-        Me.Label1.TabIndex = 16
-        Me.Label1.Text = "Total Rainfall:"
-        '
-        'Label2
-        '
-        Me.Label2.AutoSize = True
-        Me.Label2.Location = New System.Drawing.Point(406, 11)
-        Me.Label2.Name = "Label2"
-        Me.Label2.Size = New System.Drawing.Size(23, 13)
-        Me.Label2.TabIndex = 17
-        Me.Label2.Text = "mm"
-        '
         'MetGraphControl
         '
         Me.Controls.Add(Me.YearBox)
@@ -2548,10 +2548,10 @@ Public Class MetGraphControl
 
         End If
     End Sub
-    Private Function CalcYearlyRainfall() As Integer
-        Dim TotalYearlyRainfall As Integer = 0
+    Private Function CalcYearlyRainfall() As Single
+        Dim TotalYearlyRainfall As Single = 0
         For Each Row As DataRow In Metfile.Data.Rows
-            TotalYearlyRainfall = TotalYearlyRainfall + Convert.ToInt16(Row("rain"))
+            TotalYearlyRainfall = TotalYearlyRainfall + Convert.ToSingle(Row("rain"))
         Next
         Return TotalYearlyRainfall
     End Function
@@ -2562,7 +2562,7 @@ Public Class MetGraphControl
         ' ----------------------------------------------------------------------------------
         Metfile.Clear()
         Metfile.ReadFromFile(FileName, New Date(Year, 1, 1), New Date(Year, 12, 31))
-        RainfallLabel.Text = CalcYearlyRainfall.ToString("f0")
+        RainfallLabel.Text = CalcYearlyRainfall.ToString("f1")
     End Sub
 
     Private Sub CalcMonthlyData()
