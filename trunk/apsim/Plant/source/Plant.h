@@ -149,9 +149,7 @@ public:
    void plant_cleanup ();
    void plant_update() ;
    void plant_check_bounds( float  g_cover_green
-                           ,float  g_cover_sen
-                           ,float  g_plants
-                          ) ;
+                           ,float  g_cover_sen) ;
 
    void plant_totals(float *g_lai_max
                      ,float  *g_n_fix_uptake
@@ -204,7 +202,6 @@ public:
 
    bool onSetPhase (protocol::QuerySetValueData &v/*(INPUT) message variant*/);
    void plant_harvest (protocol::Variant &v/*(INPUT) message variant*/);
-   void plant_remove_crop_biomass (protocol::Variant &v/*(INPUT) incoming message variant*/);
    void plant_detach_crop_biomass (protocol::Variant &v/*(INPUT) incoming message variant*/);
    void plant_dormancy (protocol::Variant &v/*(INPUT) incoming message variant*/);
    void plant_harvest_update (protocol::Variant &v/*(INPUT)message arguments*/);

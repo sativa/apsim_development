@@ -257,8 +257,7 @@ void Plant::onInit1()
    setupGetFunction(parent, "plant_status", protocol::DTstring, false,
                      &Plant::get_plant_status, "", "Plant Status");
 
-   setupGetFunction(parent, "crop_type", protocol::DTstring, false,
-                     &Plant::get_crop_type, "", "Crop Type");
+   scienceAPI.expose("crop_type", "", "Crop Type", c.crop_type);
 
    parent->addGettableVar("crop_class",
                           g.crop_class, "", "Plant crop class");
@@ -660,7 +659,29 @@ void Plant::onRemoveCropBiomass(unsigned &, unsigned &, protocol::Variant &v)
 //=======================================================================================
 // Event Handler for a RemoveCropBiomass Event
    {
-   plant_remove_crop_biomass (v);
+    protocol::RemoveCropDmType dmRemoved;
+    v.unpack(dmRemoved);
+
+    if (c.remove_biomass_report == "on")
+       {
+       ostringstream msg;
+       msg << "Remove Crop Biomass:-" << endl;
+       float dmTotal = 0.0;
+
+       for (unsigned int pool=0; pool < dmRemoved.dm.size(); pool++)
+          {
+          for (unsigned int part = 0; part < dmRemoved.dm[pool].part.size(); part++)
+             {
+             msg << "   dm " << dmRemoved.dm[pool].pool << " " << dmRemoved.dm[pool].part[part] << " = " << dmRemoved.dm[pool].dlt[part] << " (g/m2)" << endl;
+             dmTotal +=  dmRemoved.dm[pool].dlt[part];
+             }
+          }
+       msg << endl << "   dm total = " << dmTotal << " (g/m2)" << endl << ends;
+
+       parent->writeString (msg.str().c_str());
+       }
+
+    plant_remove_biomass_update(dmRemoved);
    }
 
 void Plant::onDetachCropBiomass(unsigned &, unsigned &, protocol::Variant &v)
@@ -958,8 +979,7 @@ void Plant::plant_cleanup ()
     plant_update();
 
     plant_check_bounds(plant.coverGreen()
-                       , plant.coverSen()
-                       , getPlants());
+                       , plant.coverSen());
 
     plant_totals(&g.lai_max
                 , &g.n_fix_uptake
@@ -1034,17 +1054,11 @@ void Plant::plant_update()
 void Plant::plant_check_bounds
     (float  g_cover_green                       // (INPUT)  fraction of radiation reaching
     ,float  g_cover_sen                         // (INPUT)  fraction of radiation reaching
-    ,float  g_plants                            // (INPUT)  Plant density (plants/m^2)
     )
 //=======================================================================================
 // Check bounds of internal plant data
 
     {
-    bound_check_real_var(this,g_plants
-                         , 0.0
-                         , 10000.0
-                         , "plants");
-
     bound_check_real_var(this,g_cover_green
                          , 0.0
                          , 1.0
@@ -1581,35 +1595,6 @@ void Plant::plant_harvest (protocol::Variant &v/*(INPUT) message variant*/)
                 , " is not in the ground - unable to harvest.");
         parent->warningError (msg);
         }
-    }
-
-void Plant::plant_remove_crop_biomass (protocol::Variant &v/*(INPUT) incoming message variant*/)
-//=======================================================================================
-// Event Handler for RemoveCropBiomass Event
-    {
-    protocol::RemoveCropDmType dmRemoved;
-    v.unpack(dmRemoved);
-
-    if (c.remove_biomass_report == "on")
-       {
-       ostringstream msg;
-       msg << "Remove Crop Biomass:-" << endl;
-       float dmTotal = 0.0;
-
-       for (unsigned int pool=0; pool < dmRemoved.dm.size(); pool++)
-          {
-          for (unsigned int part = 0; part < dmRemoved.dm[pool].part.size(); part++)
-             {
-             msg << "   dm " << dmRemoved.dm[pool].pool << " " << dmRemoved.dm[pool].part[part] << " = " << dmRemoved.dm[pool].dlt[part] << " (g/m2)" << endl;
-             dmTotal +=  dmRemoved.dm[pool].dlt[part];
-             }
-          }
-       msg << endl << "   dm total = " << dmTotal << " (g/m2)" << endl << ends;
-
-       parent->writeString (msg.str().c_str());
-       }
-
-    plant_remove_biomass_update(dmRemoved);
     }
 
 //       Detach crop biomass.
@@ -2942,11 +2927,6 @@ void Plant::get_plant_status(protocol::Component *system, protocol::QueryValueDa
 }
 
 
-
-void Plant::get_crop_type(protocol::Component *system, protocol::QueryValueData &qd)
-{
-    system->sendVariable(qd, FString(c.crop_type.c_str()));
-}
 
 float Plant::getLeafNo(void)
 {
