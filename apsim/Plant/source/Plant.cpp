@@ -254,15 +254,6 @@ void Plant::onInit1()
 
    // Send My Variable
 
-// The following are needed for SysBal - ultimately need to change sysbal to use the new names.
-   scienceAPI.exposeFunction("dm_green", "g/m2",  "Green Dry Matter", FloatFunction(&Plant::GreenDM));
-   scienceAPI.exposeFunction("n_green", "g/m2",  "Green N", FloatFunction(&Plant::GreenN));
-   scienceAPI.exposeFunction("p_green", "g/m2",  "Green P", FloatFunction(&Plant::GreenP));
-   scienceAPI.exposeFunction("dm_senesced", "g/m2",  "senesced Dry Matter", FloatFunction(&Plant::SenescedDM));
-   scienceAPI.exposeFunction("n_senesced", "g/m2",  "senesced N", FloatFunction(&Plant::SenescedN));
-   scienceAPI.exposeFunction("p_senesced", "g/m2",  "senesced P", FloatFunction(&Plant::SenescedP));
-
-
    setupGetFunction(parent, "plant_status", protocol::DTstring, false,
                      &Plant::get_plant_status, "", "Plant Status");
 
