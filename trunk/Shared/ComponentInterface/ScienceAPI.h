@@ -27,6 +27,8 @@ class EXPORT ScienceAPI
 
       protocol::Component* getComponent() {return component;}   // get rid of this ASAP.
 
+      void write(const std::string& msg);
+
       // read methods.
       bool read(const std::string& name, int& data, int lower, int upper);
       bool read(const std::string& name, float& data, float lower, float upper);
@@ -63,7 +65,7 @@ class EXPORT ScienceAPI
       #define FloatFunctionType boost::function0<float>
       #define FloatFunction(address) boost::function0<float>(boost::bind(address, this))
       void expose(const std::string& name, const std::string& units, const std::string& description, float& variable);
-      void expose(const std::string& name, const std::string& units, const std::string& description, std::string& variable);
+      void expose(const std::string& name, const std::string& units, const std::string& description, string& variable);
       void exposeFunction(const std::string& name, const std::string& units, const std::string& description, boost::function0<float> fn);
 
       // set methods
@@ -90,6 +92,9 @@ class EXPORT ScienceAPI
       #define NewProfileFunction(address) NewProfileFunctionType(boost::bind(address, this, _1))
       void subscribe(const std::string& name, NewProfileFunctionType handler);
 
+      #define BalanceFunctionType boost::function1<void, protocol::BalanceErrorType&>
+      #define BalanceFunction(address) BalanceFunctionType(boost::bind(address, this, _1))
+      void publish(const std::string& name, protocol::BalanceErrorType& value);
    private:
       std::string currentClass1;
       std::string currentClass2;

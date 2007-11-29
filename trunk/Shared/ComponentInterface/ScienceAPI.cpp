@@ -85,6 +85,12 @@ ScienceAPI::~ScienceAPI()
       delete stuffToDelete[i];
    stuffToDelete.erase(stuffToDelete.begin(), stuffToDelete.end());
    }
+
+void ScienceAPI::write(const std::string& msg)
+   {
+   component->writeString(msg.c_str());
+   }
+
 bool ScienceAPI::read(const std::string& name, int& data, int lower, int upper)
    {
    string valueAsString;
@@ -372,11 +378,10 @@ void ScienceAPI::expose(const std::string& name, const std::string& units, const
    {
    component->addGettableVar(name.c_str(), variable, units.c_str(), description.c_str());
    }
-void ScienceAPI::expose(const std::string& name, const std::string& units, const std::string& description, std::string& variable)
+void ScienceAPI::expose(const std::string& name, const std::string& units, const std::string& description, string& variable)
    {
    component->addGettableVar(name.c_str(), variable, units.c_str(), description.c_str());
    }
-
 void ScienceAPI::exposeFunction(const std::string& name, const std::string& units, const std::string& description, boost::function0<float> handler)
    {
    typedef CMPGetter<FloatFunctionType, float> WrapperType;
@@ -513,4 +518,12 @@ void ScienceAPI::subscribe(const std::string& name, NewProfileFunctionType handl
                        fn, wrapper->DDML());
    }
 
-
+// -------------------------------------------------------------
+// Publish methods
+// -------------------------------------------------------------
+void ScienceAPI::publish(const std::string& name, protocol::BalanceErrorType& value)
+   {
+   string ddml = protocol::DDML(value);
+   unsigned id = component->addRegistration(RegistrationType::event, name.c_str(), ddml.c_str(), "", "");
+   component->publish(id, value);
+   }
