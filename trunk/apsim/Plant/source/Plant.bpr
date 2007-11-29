@@ -29,7 +29,7 @@
       Arbitrators\GenericArbitratorXY.obj Arbitrators\AllometricArbitrator.obj 
       Utility\ExternalFunction.obj Utility\InterpolationFunction.obj 
       Utility\LookupFunction.obj Delta.obj Pool.obj CompositePool.obj 
-      Biomass.obj Population.obj"/>
+      Biomass.obj Population.obj ReproductivePart.obj"/>
     <RESFILES value=""/>
     <IDLFILES value=""/>
     <DEFFILE value=""/>
@@ -144,6 +144,7 @@
       <FILE FILENAME="CompositePool.cpp" FORMNAME="" UNITNAME="CompositePool" CONTAINERID="CCompiler" DESIGNCLASS="" LOCALCOMMAND=""/>
       <FILE FILENAME="Biomass.cpp" FORMNAME="" UNITNAME="Biomass" CONTAINERID="CCompiler" DESIGNCLASS="" LOCALCOMMAND=""/>
       <FILE FILENAME="Population.cpp" FORMNAME="" UNITNAME="Population" CONTAINERID="CCompiler" DESIGNCLASS="" LOCALCOMMAND=""/>
+      <FILE FILENAME="ReproductivePart.cpp" FORMNAME="" UNITNAME="ReproductivePart" CONTAINERID="CCompiler" DESIGNCLASS="" LOCALCOMMAND=""/>
   </FILELIST>
   <BUILDTOOLS>
   </BUILDTOOLS>
@@ -248,11 +249,11 @@ Item1=..\lib
 DebugSourceDirs=$(BCB)\source\vcl;c:\data\Apsim\development\Shared\ComponentInterface\;c:\data\Apsim\development\apsim\SummaryFile\Source\
 
 [Parameters]
-RunParams=&quot;C:\Users\hol353\Development\apsim\Wheat\Sample\wheat.apsim.wheat_sample.sim&quot;
+RunParams=c:\development\apsim\wheat\sample\debug.sim
 Launcher=
 UseLauncher=0
 DebugCWD=
-HostApplication=c:\users\hol353\development\bin\apsim.exe
+HostApplication=C:\development\Bin\apsim.exe
 RemoteHost=
 RemotePath=
 RemoteLauncher=
@@ -263,6 +264,11 @@ RemoteDebug=0
 ShowInfoMsgs=1
 LinkDebugVcl=0
 LinkCGLIB=0
+
+[Language]
+ActiveLang=
+ProjectLang=
+RootDir=
 
 [Linker]
 LibPrefix=
