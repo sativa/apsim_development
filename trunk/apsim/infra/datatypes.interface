@@ -863,7 +863,9 @@
    </type>
 
    <!--!   !!!!! Sysbal  types  !!!!!!!!!!!!!!!!!!!!!!-->
-   <type name="BalanceError">
+   <type name="ExternalMassFlow">
+      <field name="PoolClass" kind="string" unit="-"/>
+      <field name="FlowType" kind="string" unit="-"/>
       <field name="C" kind="single" unit="kg/ha"/>
       <field name="N" kind="single" unit="kg/ha"/>
       <field name="P" kind="single" unit="kg/ha"/>
