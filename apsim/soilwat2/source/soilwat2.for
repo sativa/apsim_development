@@ -5707,15 +5707,26 @@ cjh            out_solute = solute_kg_layer*divide (out_w, water, 0.0) *0.5
      ://'----------'
       call write_string (line)
 
-      line =
+      if (.not.p%using_ks) then
+         line =
      :'         Depth  Air_Dry  LL15   Dul    Sat     Sw     BD   '
      ://'Runoff  SWCON'
-      call write_string (line)
+         call write_string (line)
 
-      line =
+         line =
      :'           mm     mm/mm  mm/mm  mm/mm  mm/mm  mm/mm  g/cc    wf'
-      call write_string (line)
+         call write_string (line)
+      else 
+         line =
+     :'         Depth  Air_Dry  LL15   Dul    Sat     Sw     BD   '
+     ://'Runoff  SWCON   Ks'
+         call write_string (line)
 
+         line =
+     :'           mm     mm/mm  mm/mm  mm/mm  mm/mm  mm/mm  g/cc  '
+     ://'  wf           mm/day'
+         call write_string (line)
+      endif
       line =
      :'   -----------------------------------------------------------'
      ://'----------'
@@ -5728,7 +5739,8 @@ cjh            out_solute = solute_kg_layer*divide (out_w, water, 0.0) *0.5
       do 1000 layer = 1,num_layers
          depth_layer_bottom = depth_layer_top + p%dlayer(layer)
 
-         write (line,'(3x, f6.0, a, f6.0, 8f7.3)')
+         if (.not.p%using_ks) then
+            write (line,'(3x, f6.0, a, f6.0, 8f7.3)')
      :            depth_layer_top, '-', depth_layer_bottom
      :          , divide (g%air_dry_dep(layer)
      :                  , p%dlayer(layer), 0.0)
@@ -5740,7 +5752,21 @@ cjh            out_solute = solute_kg_layer*divide (out_w, water, 0.0) *0.5
      :          , g%bd(layer)
      :          , runoff_wf(layer)
      :          , p%swcon(layer)
-
+         else
+            write (line,'(3x, f6.0, a, f6.0, 9f7.3)')
+     :            depth_layer_top, '-', depth_layer_bottom
+     :          , divide (g%air_dry_dep(layer)
+     :                  , p%dlayer(layer), 0.0)
+     :          , divide (g%ll15_dep(layer)
+     :                  , p%dlayer(layer), 0.0)
+     :          , divide (g%dul_dep(layer), p%dlayer(layer), 0.0)
+     :          , divide (g%sat_dep(layer), p%dlayer(layer), 0.0)
+     :          , divide (g%sw_dep(layer), p%dlayer(layer), 0.0)
+     :          , g%bd(layer)
+     :          , runoff_wf(layer)
+     :          , p%swcon(layer)
+     :          , p%ks(layer)
+         endif
          call write_string (line)
          depth_layer_top = depth_layer_bottom
 1000  continue
