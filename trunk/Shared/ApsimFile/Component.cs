@@ -23,28 +23,32 @@ namespace ApsimFile
         private Component MyParent = null;
         private string TempShortCutName = "";
         private void EnsureNameIsUnique()
-            {
+        {
             // -------------------------------------------------------------
             // Make sure our name is unique amongst our siblings.
             // -------------------------------------------------------------
             string BaseName = Name;
             string UniqueChildName = BaseName;
-            for (int i = 1; i != 10000; i++)
+
+            if (Parent != null)
+            {
+                for (int i = 1; i != 10000; i++)
                 {
-                int Count = 0;
-                foreach (Component Sibling in Parent.ChildNodes)
+                    int Count = 0;
+                    foreach (Component Sibling in Parent.ChildNodes)
                     {
-                    if (Sibling.Name.ToLower() == UniqueChildName.ToLower())
-                        Count++;
+                        if (Sibling.Name.ToLower() == UniqueChildName.ToLower())
+                            Count++;
                     }
-                if (Count == 1)
-                    return;
-                UniqueChildName = BaseName + i.ToString();
-                Name = UniqueChildName;
+                    if (Count == 1)
+                        return;
+                    UniqueChildName = BaseName + i.ToString();
+                    Name = UniqueChildName;
                 }
-            throw new Exception("Cannot find a unique name for component: " + BaseName);
+                throw new Exception("Cannot find a unique name for component: " + BaseName);
 
             }
+        }
         private int ChildNameToIndex(string Name)
             {
             // ---------------------------------------------------------------------
@@ -132,6 +136,7 @@ namespace ApsimFile
             set
                 {
                 MyName = value;
+                EnsureNameIsUnique();
                 MyFile.PublishComponentChanged(this.Parent);
                 }
             }
