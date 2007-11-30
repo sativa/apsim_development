@@ -22,6 +22,7 @@ class PlantPartType
       PlantPartType(float leafInit, float stemInit, float podInit);
       PlantPartType(const PlantPartType &PlantPartType);                                  // copy constructor
       const PlantPartType &operator=(const PlantPartType &other);       // Assigment operator
+      const PlantPartType &operator=(const float &y);       // Assigment operator
 
       PlantPartType operator- (const PlantPartType &y) const;  // Command
       PlantPartType operator+ (const PlantPartType &y) const;  // Command
@@ -52,6 +53,7 @@ class PlantPool
             virtual ~PlantPool(void);                                       // destructor
             PlantPool(const PlantPool &PlantPool);                                  // copy constructor
             const PlantPool &operator=(const PlantPool &other);         // Assigment operator
+            const PlantPool &operator=(const float &y);         // Assigment operator
 
             PlantPool operator- (const PlantPool &y) const;  // Command
             PlantPool operator+ (const PlantPool &y) const;  // Command

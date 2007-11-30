@@ -65,12 +65,17 @@ const SeedPartType &SeedPartType::operator=(const SeedPartType &other)
       return *this;
 }
 
+const SeedPartType &SeedPartType::operator=(const float &y)
+{
+            // copy data members over
+            meal = y;
+            oil = y;
+      return *this;
+}
+
 //===========================================================================
 SeedPartType SeedPartType::operator+ (const SeedPartType &y) const
 //===========================================================================
-
-/*Definition
- */
 
    {
    //Constant Values
@@ -372,6 +377,15 @@ const SeedPool &SeedPool::operator=(const SeedPool &other)
             senesced = other.senesced;
 
       }
+      return *this;
+}
+
+const SeedPool &SeedPool::operator=(const float &y)
+{
+            // copy data members over
+            green = y;
+            senesced = y;
+
       return *this;
 }
 

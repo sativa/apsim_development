@@ -22,6 +22,7 @@ class SeedPartType
       SeedPartType(float mealInit, float oilInit);
       SeedPartType(const SeedPartType &SeedPartType);                                  // copy constructor
       const SeedPartType &operator=(const SeedPartType &other);       // Assigment operator
+      const SeedPartType &operator=(const float &y);       // Assigment operator
 
       SeedPartType operator- (const SeedPartType &y) const;  // Command
       SeedPartType operator+ (const SeedPartType &y) const;  // Command
@@ -51,6 +52,7 @@ class SeedPool
             virtual ~SeedPool();                                       // destructor
             SeedPool(const SeedPool &SeedPool);                                  // copy constructor
             const SeedPool &operator=(const SeedPool &other);         // Assigment operator
+            const SeedPool &operator=(const float &y);         // Assigment operator
 
             SeedPool operator- (const SeedPool &y) const;  // Command
             SeedPool operator+ (const SeedPool &y) const;  // Command

@@ -32,6 +32,7 @@ using namespace std;
 // ------------------------------------------------------------------
 PlantHerbage::PlantHerbage(void)
    {
+      initialiseData();
    }
 // ------------------------------------------------------------------
 // constructor
@@ -39,6 +40,7 @@ PlantHerbage::PlantHerbage(void)
 PlantHerbage::PlantHerbage(protocol::Component *s) : HerbageBase(s)
    {
 ////      system = s;
+      initialiseData();
    }
 // ------------------------------------------------------------------
 // destructor
@@ -52,7 +54,6 @@ PlantHerbage::~PlantHerbage(void)
 void PlantHerbage::doInit1(const protocol::Init1Data&)
    {
 //   protocol::Component::doInit1(sdml);
-
 
    }
 
@@ -702,6 +703,169 @@ void PlantHerbage::calcDmdDistribution(PlantPool dmdFraction[])
       for (int pool = 0; pool < numDmdPoolsSeed(); pool++) fractionSeed[pool] = 0.0;
       proportion (dmdUnripeSeed.senesced.oil, dmdRipeSeed.senesced.oil, fractionSeed);
       for (int pool = 0; pool < numDmdPoolsSeed(); pool++) dmdFractionSeed[pool].senesced.oil = fractionSeed[pool];
+}
+
+void PlantHerbage::initialiseData ( void )
+{
+      removeHerbageID = 0;
+
+      dmFeedOnOfferID = 0;
+      dmFeedRemovedID = 0;
+      removeCropBiomassID = 0;
+      detachRateID = 0;
+
+      for (int pool = 0; pool < maxDmdPoolsVeg; pool++)
+      {
+         dmdFractionVeg[pool] = 0.0;
+         dmdPoolDmVeg[pool] = 0.0;
+         partFractionVeg[pool] = 0.0;
+      }
+      dmdMaxVeg = 0.0;
+      dmdAvgVeg = 0.0;
+      dmdMinVeg = 0.0;
+
+      dmdMaxSeed = 0.0;
+      dmdAvgSeed = 0.0;
+      dmdMinSeed = 0.0;
+
+      dmdClassMaxVeg = 0.0;
+      dmdClassMinVeg = 0.0;
+
+      dmVeg = 0.0;
+      NVeg = 0.0;
+      PVeg = 0.0;
+      dmdVeg = 0.0;
+      eTrampling = 0.0;
+      height = 0.0;
+      cropMatureStageNo = 0;
+      cropStageNo = 0.0;
+      string cropStageName = "";
+
+      for (int pool = 0; pool < maxDmdPoolsSeed; pool++)
+      {
+         dmdFractionSeed[pool] = 0.0;
+         dmdPoolDmSeed[pool] = 0.0;
+         partFractionSeed[pool] = 0.0;
+      }
+      dmdUnripeSeed = 0.0;
+      dmdRipeSeed = 0.0;
+
+      dmdClassMaxSeed = 0.0;
+      dmdClassMinSeed = 0.0;
+
+      dmSeed = 0.0;
+      NSeed = 0.0;
+      PSeed = 0.0;
+      dmdSeed = 0.0;
+
+      cHerbageModuleName = "";
+      cDebug = "";
+
+      for (int pool = 0; pool < maxDmdPoolsVeg; pool++)
+         cDmdValueVeg[pool] = 0.0;
+      cNumDmdPoolsVeg = 0.0;
+
+      for (int pool = 0; pool < maxDmdPoolsSeed; pool++)
+         cDmdValueSeed[pool] = 0.0;
+      cNumDmdPoolsSeed = 0.0;
+
+      for (int part = 0; part < max_part; part++)
+      {
+         dmGreenID[part] = 0;
+         dmSenescedID[part] = 0;
+         nGreenID[part] = 0;
+         nSenescedID[part] = 0;
+         pGreenID[part] = 0;
+         pSenescedID[part] = 0;
+         dmdMaxGreenID[part] = 0;
+         dmdAvgGreenID[part] = 0;
+         dmdMinGreenID[part] = 0;
+         dmdMaxSenescedID[part] = 0;
+         dmdAvgSenescedID[part] = 0;
+         dmdMinSenescedID[part] = 0;
+      }
+
+      heightID = 0;
+      tramplingID = 0;
+      stageID = 0;
+      stageNameID = 0;
+      dmPartsRemovedID = 0;
+
+      c.numDmdPoolsVeg = 0;
+      for (int pool = 0; pool < maxDmdPoolsSeed; pool++)
+         c.dmdValueSeed[pool] = 0.0;
+      c.numDmdPoolsSeed = 0;
+      c.specificDetachRate = 0.0;
+
+      c.pConcGreenStemDefault = 0.0;
+      c.pConcGreenPodDefault = 0.0;
+      c.pConcGreenLeafDefault = 0.0;
+      c.pConcGreenMealDefault = 0.0;
+      c.pConcGreenOilDefault = 0.0;
+      c.pConcSenescedStemDefault = 0.0;
+      c.pConcSenescedPodDefault = 0.0;
+      c.pConcSenescedLeafDefault = 0.0;
+      c.pConcSenescedMealDefault = 0.0;
+      c.pConcSenescedOilDefault = 0.0;
+
+      c.AshAlkGreenStemDefault = 0.0;
+      c.AshAlkGreenPodDefault = 0.0;
+      c.AshAlkGreenLeafDefault = 0.0;
+      c.AshAlkGreenMealDefault = 0.0;
+      c.AshAlkGreenOilDefault = 0.0;
+      c.AshAlkSenescedStemDefault = 0.0;
+      c.AshAlkSenescedPodDefault = 0.0;
+      c.AshAlkSenescedLeafDefault = 0.0;
+      c.AshAlkSenescedMealDefault = 0.0;
+      c.AshAlkSenescedOilDefault = 0.0;
+
+      c.NSRatioGreenStemDefault = 0.0;
+      c.NSRatioGreenPodDefault = 0.0;
+      c.NSRatioGreenLeafDefault = 0.0;
+      c.NSRatioGreenMealDefault = 0.0;
+      c.NSRatioGreenOilDefault = 0.0;
+      c.NSRatioSenescedStemDefault = 0.0;
+      c.NSRatioSenescedPodDefault = 0.0;
+      c.NSRatioSenescedLeafDefault = 0.0;
+      c.NSRatioSenescedMealDefault = 0.0;
+      c.NSRatioSenescedOilDefault = 0.0;
+
+      c.NPRatioGreenStemDefault = 0.0;
+      c.NPRatioGreenPodDefault = 0.0;
+      c.NPRatioGreenLeafDefault = 0.0;
+      c.NPRatioGreenMealDefault = 0.0;
+      c.NPRatioGreenOilDefault = 0.0;
+      c.NPRatioSenescedStemDefault = 0.0;
+      c.NPRatioSenescedPodDefault = 0.0;
+      c.NPRatioSenescedLeafDefault = 0.0;
+      c.NPRatioSenescedMealDefault = 0.0;
+      c.NPRatioSenescedOilDefault = 0.0;
+
+      for (int i = 0; i < 3; i++)
+      {
+         c.dmdGreenLeaf[i] = 0.0;
+         c.dmdGreenStem[i] = 0.0;
+         c.dmdGreenPod[i] = 0.0;
+         c.dmdSenescedLeaf[i] = 0.0;
+         c.dmdSenescedStem[i] = 0.0;
+         c.dmdSenescedPod[i] = 0.0;
+      }
+      for (int i = 0; i < 2; i++)
+      {
+         c.dmdGreenMeal[i] = 0.0;
+         c.dmdGreenOil[i] = 0.0;
+         c.dmdSenescedMeal[i] = 0.0;
+         c.dmdSenescedOil[i] = 0.0;
+
+         c.seedClass[i] = 0;
+      }
+
+      c.cpNRatio = 0.0;
+      c.proportionLegume = 0.0;
+
+      c.KQ5Leaf = 0.0;
+      c.KQ5Stem = 0.0;
+      c.KQ4 = 0.0;
 }
 
 
