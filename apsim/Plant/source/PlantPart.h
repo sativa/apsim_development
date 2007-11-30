@@ -95,7 +95,6 @@ class plantPart : public plantThing
       bool  p_stress_determinant;         // is a P stress_determinant
       bool  p_retrans_part;               // is a P retrans_part
 
-      bool  stress_determinant;           // is a stress_determinant
       bool  yield_part;                   // is a yield_part
       bool  retrans_part;                // is a retrans_part
 
