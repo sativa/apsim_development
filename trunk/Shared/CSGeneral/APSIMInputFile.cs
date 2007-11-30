@@ -131,12 +131,12 @@ namespace CSGeneral
 			Line = In.ReadLine();
 			while (In.Peek() >= 0)
 				{
-            int PosEquals = Line.IndexOf('=');
+                // constant found.
+                string Comment = StringManip.SplitOffAfterDelimiter(ref Line, "!");
+                Comment.Trim();
+                int PosEquals = Line.IndexOf('=');
 				if (PosEquals != -1)
 					{	
-					// constant found.
-					string Comment = StringManip.SplitOffAfterDelimiter(ref Line, "!");
-					Comment.Trim();
 					if (Line.Length > 0)
 						{
 						string Name = Line.Substring(0, PosEquals).Trim();
