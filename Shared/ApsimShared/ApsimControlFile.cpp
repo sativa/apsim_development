@@ -393,7 +393,7 @@ std::string ApsimControlFile::getIniFileForInstance(const std::string& section,
          {
          if (paramFiles[0].instanceName != instanceName)
             break;
-         if (Str_i_Eq(Path(paramFiles[p].fileName).Get_extension(), ".ini"))
+         if (fileExtensionEquals(paramFiles[p].fileName, "ini"))
             return paramFiles[p].fileName;
          }
       }
@@ -725,12 +725,12 @@ IniFile* ApsimControlFile::getParFile(const std::string& parFileName, bool check
       if (Str_i_Eq(openedParFiles[i]->getFileName(), filePath))
          iniToReturn = openedParFiles[i];
       }
-   if (checkNonExistant && !Path(filePath).Exists())
+   if (checkNonExistant && !fileExists(filePath))
       throw runtime_error("The control file has referenced a non-existant file.\n"
                           "File = " + filePath);
 
-   if (Path(filePath).Get_extension() != ".met" &&
-       Path(filePath).Get_extension() != ".soi")
+   if (!fileExtensionEquals(filePath, "met") &&
+       !fileExtensionEquals(filePath, "soi"))
       {
       IniFile* par = new IniFile(filePath, true);
       openedParFiles.push_back(par);
@@ -1118,7 +1118,7 @@ void ApsimControlFile::enumerateParametersForInstance(const std::string& section
       if (paramFiles[p].fileName != "")
          {
          if (!constantsOnly
-             || Str_i_Eq(Path(paramFiles[p].fileName).Get_extension(), ".ini"))
+             || fileExtensionEquals(paramFiles[p].fileName, "ini"))
             {
             IniFile* par = getParFile(paramFiles[p].fileName);
             if (par != NULL)
