@@ -60,8 +60,13 @@ Public Class BaseActions
         ' Rename selected nodes
         ' --------------------------------------------------------
         For Each SelectedPath As String In Controller.SelectedPaths
+
+            'get the new name the user entered
             Dim NewName = InputDialog.InputBox("Enter new name for node:", "Rename the selected node", Controller.Selection.Name, False)
+
+            'set rename the selected node
             Controller.Selection.Name = NewName
+
         Next
     End Sub
 
