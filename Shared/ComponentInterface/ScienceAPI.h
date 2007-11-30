@@ -92,9 +92,9 @@ class EXPORT ScienceAPI
       #define NewProfileFunction(address) NewProfileFunctionType(boost::bind(address, this, _1))
       void subscribe(const std::string& name, NewProfileFunctionType handler);
 
-      #define BalanceFunctionType boost::function1<void, protocol::BalanceErrorType&>
-      #define BalanceFunction(address) BalanceFunctionType(boost::bind(address, this, _1))
-      void publish(const std::string& name, protocol::BalanceErrorType& value);
+      #define ExternalMassFlowFunctionType boost::function1<void, protocol::ExternalMassFlowType&>
+      #define ExternalMassFlowFunction(address) ExternalMassFlowFunctionType(boost::bind(address, this, _1))
+      void publish(const std::string& name, protocol::ExternalMassFlowType& value);
    private:
       std::string currentClass1;
       std::string currentClass2;
