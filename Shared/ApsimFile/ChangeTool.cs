@@ -504,10 +504,6 @@ namespace ApsimFile
             }
         private static void UpdateToVersion13(XmlNode Variables, Configuration Config)
             {
-            if (XmlHelper.Name(Variables).ToLower() == "shared")
-                {
-
-                }
             if (Variables.Name.ToLower() == "variables")
                 {
                 string[] Conversions = APSIMSettings.INIReadAllSections(APSIMSettings.ApsimDirectory() + "\\apsim\\conversions.54");
