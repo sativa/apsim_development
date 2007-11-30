@@ -29,6 +29,7 @@ OBJFILES=PlantComponent.obj \
    PlantComms.obj \
    PlantP.obj \
    Population.obj \
+   StageBasedInterpolationFunction.obj \
    ..\..\..\Shared\ComponentInterface\EntryPoints.obj \
    Environment.obj \
    Utility\Observers.obj \
@@ -174,7 +175,7 @@ LivePool.obj: LivePool.h LivePool.cpp Pool.cpp Pool.h
 Delta.obj: Delta.cpp Delta.h Pool.h Biomass.h
 Biomass.obj: Biomass.cpp Biomass.h
 Population.obj: Population.cpp Population.h
-
+StageBasedInterpolationFunction.obj: StageBasedInterpolationFunction.cpp StageBasedInterpolationFunction.h
 Phenology\PlantPhenology.obj: Phenology\PlantPhenology.cpp Phenology\PlantPhenology.h
 Phenology\BroccoliPhenology.obj: Phenology\BroccoliPhenology.cpp Phenology\BroccoliPhenology.h
 Phenology\FixedPhase.obj: Phenology\FixedPhase.cpp Phenology\FixedPhase.h
