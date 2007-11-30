@@ -1,4 +1,5 @@
       module FertilizModule
+      use ComponentInterfaceModule
       use Registrations
 !     ================================================================
 !     Fertiliz_array_sizes and constants
@@ -352,6 +353,8 @@ c     include   'fertiliz.inc'
       integer    owner_module          ! module that owns 'array'
       character  string*200            ! output string
 
+      type (ExternalMassFlowType) :: massBalanceChange
+
 *- Implementation Section ----------------------------------
 
       call push_routine (myname)
@@ -418,6 +421,38 @@ c     include   'fertiliz.inc'
      :                    , '(kg/ha)'
      :                    , delta_array
      :                    , array_size)
+
+               massBalanceChange%PoolClass = "soil"
+               massBalanceChange%FlowType = "gain"
+               massBalanceChange%DM = 0.0
+               massBalanceChange%C  = 0.0
+               massBalanceChange%N  = 0.0
+               massBalanceChange%P  = 0.0
+               massBalanceChange%SW = 0.0
+
+              if (components(counter) == 'labile_p') then
+                  massBalanceChange%N  = 0.0
+                  massBalanceChange%P  = sum(delta_array(:))
+              elseif (components(counter) == 'rock_p') then
+                  massBalanceChange%N  = 0.0
+                  massBalanceChange%P  = sum(delta_array(:))
+              elseif (components(counter) == 'banded_p') then
+                  massBalanceChange%N  = 0.0
+                  massBalanceChange%P  = sum(delta_array(:))
+              elseif (components(counter) == 'no3') then
+                  massBalanceChange%N  = sum(delta_array(:))
+                  massBalanceChange%P  = 0.0
+              elseif (components(counter) == 'nh4') then
+                  massBalanceChange%N  = sum(delta_array(:))
+                  massBalanceChange%P  = 0.0
+              elseif (components(counter) == 'urea') then
+                  massBalanceChange%N  = sum(delta_array(:))
+                  massBalanceChange%P  = 0.0
+              else
+              endif
+
+               call publish_ExternalMassFlow(ID%ExternalMassFlow
+     :                                     , massBalanceChange)
 
             else
                ! nobody knows about this component - forget it!
