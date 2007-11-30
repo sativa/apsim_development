@@ -6,7 +6,6 @@
   <folder name="Structural">
     <memo />
     <folder />
-    <folder name="shared" />
     <area name="paddock">
       <registrations name="global" />
     </area>
@@ -547,13 +546,16 @@
       </manager>
       <manager name="Harvesting rule">
         <script>
-          <text>
-
-           if [crop].stage_name = 'harvest_ripe' or [crop].plant_status = 'dead' then
+          <text><![CDATA[
+           if ('[crop]' = 'cotton') then
+              if ([crop].ozcot_status > 0) then
+                  [crop] harvest
+              endif 
+           elseif ([crop].stage_name = 'harvest_ripe' or [crop].plant_status = 'dead') then
               [crop]  harvest
               [crop]  end_crop
            endif
-
+]]>
             </text>
           <event>end_of_day</event>
         </script>
