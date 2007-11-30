@@ -10,5 +10,6 @@
       <respondToEventReg name="tick" type="tick"/>
       <respondToEventReg name="new_profile" type="NewProfile"/>
       <respondToEventReg name="process" type="Process"/>
+      <eventReg name="ExternalMassFlow" type="ExternalMassFlow"/>
    </registrations>
 </component>
