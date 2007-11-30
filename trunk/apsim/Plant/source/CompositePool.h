@@ -7,7 +7,7 @@ class ScienceAPI;
 class CompositePool : public Pool
    {
    public:
-      CompositePool(ScienceAPI& scienceAPI, const std::string& Name, const std::string& PartName);
+      CompositePool(plantInterface& plant,ScienceAPI& scienceAPI, const std::string& Name, const std::string& PartName);
 
       virtual void Clear();
 
