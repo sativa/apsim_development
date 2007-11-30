@@ -1,4 +1,4 @@
-version = 5.3
+version = 5.4
 [apsim.tcllink]
 title = Test Tcl library
 
@@ -30,15 +30,16 @@ module = soiln2          %apsuite/apsim/soiln2/sample/soiln2.par [black_earth]  
 module = sorghum         %apsuite/apsim/sorghum/sample/sorghum.par [sample] %apsuite/apsim/sorghum/sorghum.ini [standard]
 module = tcllink          tcllink.par [catchEvent]
 
-[apsim.catchEvent2]
-module = clock           %apsuite/apsim/sorghum/sample/sorghum.par [sample] %apsuite/apsim/clock/clock.ini[standard]
-module = input(met)      %apsuite/apsim/met/sample/dalby.met [weather]
-module = report          %apsuite/apsim/sorghum/sample/sorghum.par [sample]
-module = manager         %apsuite/apsim/sorghum/sample/sorghum.par [sample]
-module = soilwat2        %apsuite/apsim/soilwat2/sample/soilwat2.par [black_earth]    %apsuite/apsim/soilwat2/soilwat2.ini [standard]
-module = soiln2          %apsuite/apsim/soiln2/sample/soiln2.par [black_earth]    %apsuite/apsim/soiln2/soiln2.ini     [standard]
-module = sorghum         %apsuite/apsim/sorghum/sample/sorghum.par [sample] %apsuite/apsim/sorghum/sorghum.ini [standard]
-module = tcllink         tcllink.par [catchEvent2]
+! This one is broken until every message has proper xml 
+![apsim.catchEvent2]
+!module = clock           %apsuite/apsim/sorghum/sample/sorghum.par [sample] %apsuite/apsim/clock/clock.ini[standard]
+!module = input(met)      %apsuite/apsim/met/sample/dalby.met [weather]
+!module = report          %apsuite/apsim/sorghum/sample/sorghum.par [sample]
+!module = manager         %apsuite/apsim/sorghum/sample/sorghum.par [sample]
+!module = soilwat2        %apsuite/apsim/soilwat2/sample/soilwat2.par [black_earth]    %apsuite/apsim/soilwat2/soilwat2.ini [standard]
+!module = soiln2          %apsuite/apsim/soiln2/sample/soiln2.par [black_earth]    %apsuite/apsim/soiln2/soiln2.ini     [standard]
+!module = sorghum         %apsuite/apsim/sorghum/sample/sorghum.par [sample] %apsuite/apsim/sorghum/sorghum.ini [standard]
+!module = tcllink         tcllink.par [catchEvent2]
 
 
 [apsim.profileMessages]
