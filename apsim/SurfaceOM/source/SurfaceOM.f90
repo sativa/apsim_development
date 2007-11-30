@@ -427,9 +427,9 @@ subroutine surfom_read_param ()
       p%report_removals = 'no'
    else
    endif
- 
 
- 
+
+
    ! NOW, PUT ALL THIS INFO INTO THE 'SurfaceOM' STRUCTURE
    do  i = 1,g%num_surfom
 
@@ -730,7 +730,7 @@ end function
 
    if (c%cnrf_optcn.eq.0) then
       cnrf = 1.0
-   else 
+   else
       cnrf = exp ( - c%cnrf_coeff * ((cnr - c%cnrf_optcn)/c%cnrf_optcn))
    endif
 
@@ -1448,6 +1448,7 @@ subroutine surfom_incorp (action_type, F_incorp, Tillage_depth)
    real       nh4(max_layer)               ! total nh4 to go into each soil layer (from all surfOM's)
    real       po4(max_layer)               ! total po4 to go into each soil layer (from all surfOM's)
    type (FPoolProfileLayerType), dimension(max_layer)::FPoolProfileLayer
+   type (ExternalMassFlowType) :: massBalanceChange
 
 
 !- Implementation Section ----------------------------------
@@ -1522,6 +1523,29 @@ subroutine surfom_incorp (action_type, F_incorp, Tillage_depth)
       ! no residue incorporated
    endif
 
+   if (Tillage_depth <= 0.000001) then
+         ! the OM is not incorporated and is lost from the system
+
+      massBalanceChange%PoolClass = "surface"
+      massBalanceChange%FlowType = "loss"
+      massBalanceChange%DM = 0.0
+      massBalanceChange%C  = 0.0
+      massBalanceChange%N  = 0.0
+      massBalanceChange%P  = 0.0
+      massBalanceChange%SW = 0.0
+
+      do pool = 1, MaxFr
+
+         massBalanceChange%DM = massBalanceChange%DM + (sum(g%SurfOM(:)%Lying(pool)%amount) + sum(g%SurfOM(:)%Standing(pool)%amount)) * F_incorp
+         massBalanceChange%C  = massBalanceChange%C + (sum(g%SurfOM(:)%Lying(pool)%C)      + sum(g%SurfOM(:)%Standing(pool)%C)     ) * F_incorp
+         massBalanceChange%N  = massBalanceChange%N + (sum(g%SurfOM(:)%Lying(pool)%N)      + sum(g%SurfOM(:)%Standing(pool)%N)     ) * F_incorp
+         massBalanceChange%P  = massBalanceChange%P + (sum(g%SurfOM(:)%Lying(pool)%P)      + sum(g%SurfOM(:)%Standing(pool)%P)     ) * F_incorp
+
+      end do
+      call publish_ExternalMassFlow(ID%ExternalMassFlow, massBalanceChange)
+   else
+   endif
+
 
    ! Now update globals.  They must be updated here because there is the possibility of
    ! more than one incorporation on any given day
@@ -1583,10 +1607,10 @@ subroutine surfom_add_surfom ()
    real       surfom_p_added        ! P added in new material (kg/ha)
    real       surfom_cpr_added      ! C:P ratio of new material
    real       added_wt
-   real       tot_mass 
-   real       removed_from_standing 
-   real       removed_from_lying 
- 
+   real       tot_mass
+   real       removed_from_standing
+   real       removed_from_lying
+
 
 !- Implementation Section ----------------------------------
    call push_routine (my_name)
@@ -1692,8 +1716,8 @@ subroutine surfom_add_surfom ()
          g%SurfOM(SOMNo)%Standing(1:MaxFr)%N      = g%SurfOM(SOMNo)%Standing(1:MaxFr)%N      + surfom_N_added*(divide(removed_from_standing,surfom_added,0.0)) * c%fr_pool_n(1:MaxFr,SOMNo)
          g%SurfOM(SOMNo)%Standing(1:MaxFr)%P      = g%SurfOM(SOMNo)%Standing(1:MaxFr)%P      + surfom_P_added*(divide(removed_from_standing,surfom_added,0.0)) * c%fr_pool_p(1:MaxFr,SOMNo)
          g%SurfOM(SOMNo)%Standing(1:MaxFr)%AshAlk = 0.0
-       endif        
-         
+       endif
+
       ! Report Additions
       if (p%report_additions.eq.'yes') then
          Write (Err_string,*)   &
@@ -1740,7 +1764,7 @@ subroutine surfom_prop_up ()
 !+  Local Variables
    character  Err_string*300         ! Error message string
    character*100 surfom_name
-   real standing_fract               ! new standing fraction for specified residue pool 
+   real standing_fract               ! new standing fraction for specified residue pool
    integer numvals                   ! counter
    integer SOMNo                     ! surfaceom pool number
    real old_standing                 ! previous standing residue mass in specified pool
@@ -1762,20 +1786,20 @@ subroutine surfom_prop_up ()
             Err_string = 'SurfaceOM residue name unknown. Cannot Prop up'
             call Fatal_ERROR (ERR_user, Err_string)
    endif
-   
+
    call collect_real_var ('Standing_fract', '()', standing_fract, numvals, 0.0, 1.0)
-   
+
        old_standing = sum(g%SurfOM(SOMNo)%Standing(:)%amount)
        old_lying = sum(g%SurfOM(SOMNo)%Lying(:)%amount)
        tot_mass = old_standing + old_lying
        new_standing = tot_mass * standing_fract
        new_lying = tot_mass - new_standing
-       
-       if(old_standing.gt.0.0) then 
+
+       if(old_standing.gt.0.0) then
 
           standing_change_fract = divide(new_standing, old_standing, 0.0)
           lying_change_fract = divide(new_lying, old_lying, 0.0)
-   
+
           g%SurfOM(SOMNo)%Standing(1:MaxFr)%amount = (g%SurfOM(SOMNo)%Standing(1:MaxFr)%amount)*standing_change_fract
           g%SurfOM(SOMNo)%Standing(1:MaxFr)%C = (g%SurfOM(SOMNo)%Standing(1:MaxFr)%C)*standing_change_fract
           g%SurfOM(SOMNo)%Standing(1:MaxFr)%N = (g%SurfOM(SOMNo)%Standing(1:MaxFr)%N)*standing_change_fract
@@ -1786,11 +1810,11 @@ subroutine surfom_prop_up ()
           g%SurfOM(SOMNo)%Lying(1:MaxFr)%N = (g%SurfOM(SOMNo)%Lying(1:MaxFr)%N)*lying_change_fract
           g%SurfOM(SOMNo)%Lying(1:MaxFr)%P = (g%SurfOM(SOMNo)%Lying(1:MaxFr)%P)*lying_change_fract
           g%SurfOM(SOMNo)%Lying(1:MaxFr)%AshAlk = (g%SurfOM(SOMNo)%Lying(1:MaxFr)%AshAlk)*lying_change_fract
-   
+
         else
 
           lying_change_fract = divide(new_lying, old_lying, 0.0)
-        
+
           g%SurfOM(SOMNo)%Standing(1:MaxFr)%amount = (g%SurfOM(SOMNo)%Lying(1:MaxFr)%amount)*(1-lying_change_fract)
           g%SurfOM(SOMNo)%Standing(1:MaxFr)%C = (g%SurfOM(SOMNo)%Lying(1:MaxFr)%C)*(1-lying_change_fract)
           g%SurfOM(SOMNo)%Standing(1:MaxFr)%N = (g%SurfOM(SOMNo)%Lying(1:MaxFr)%N)*(1-lying_change_fract)
@@ -1803,7 +1827,7 @@ subroutine surfom_prop_up ()
           g%SurfOM(SOMNo)%Lying(1:MaxFr)%AshAlk = (g%SurfOM(SOMNo)%Lying(1:MaxFr)%AshAlk)*lying_change_fract
 
         endif
-        
+
 
       ! Report Additions
       if (p%report_additions.eq.'yes') then
@@ -1830,7 +1854,7 @@ end subroutine
 !================================================================
 subroutine surfom_read_type_specific_constants(surfom_type,i)
 !================================================================
-   Use Infrastructure 
+   Use Infrastructure
    implicit none
 
 !+  Sub-Program Arguments
@@ -2244,9 +2268,9 @@ real function Surfom_Cover (SOMindex)
    real      F_Cover                ! Fraction of soil surface covered
                                     ! by residue (0-1)
    real      Area_lying             ! area of lying component
-   real      Area_standing          ! effective area of standing component 
-                                    ! (the 0.5 extinction coefficient in area calculation 
-                                    ! provides a random distribution in degree to which standing 
+   real      Area_standing          ! effective area of standing component
+                                    ! (the 0.5 extinction coefficient in area calculation
+                                    ! provides a random distribution in degree to which standing
                                     ! stubble is 'lying over'
 
 !- Implementation Section ----------------------------------
