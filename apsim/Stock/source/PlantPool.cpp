@@ -70,6 +70,15 @@ const PlantPartType &PlantPartType::operator=(const PlantPartType &other)
       return *this;
 }
 
+const PlantPartType &PlantPartType::operator=(const float &y)
+{
+            // copy data members over
+            leaf = y;
+            stem = y;
+            pod = y;
+      return *this;
+}
+
 //===========================================================================
 PlantPartType PlantPartType::operator+ (const PlantPartType &y) const
 //===========================================================================
@@ -382,6 +391,14 @@ const PlantPool &PlantPool::operator=(const PlantPool &other)
             green = other.green;
             senesced = other.senesced;
       }
+      return *this;
+}
+
+const PlantPool &PlantPool::operator=(const float &y)
+{
+      // copy data members over
+      green = y;
+      senesced = y;
       return *this;
 }
 

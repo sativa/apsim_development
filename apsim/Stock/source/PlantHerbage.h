@@ -81,6 +81,8 @@ class PlantHerbage : public HerbageBase
       bool ripeSeed(void);
       float trampling(void);
 
+      void initialiseData(void);
+
       string herbageModuleName(void);
       string debug();
 
