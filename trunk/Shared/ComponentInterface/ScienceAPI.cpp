@@ -521,7 +521,7 @@ void ScienceAPI::subscribe(const std::string& name, NewProfileFunctionType handl
 // -------------------------------------------------------------
 // Publish methods
 // -------------------------------------------------------------
-void ScienceAPI::publish(const std::string& name, protocol::BalanceErrorType& value)
+void ScienceAPI::publish(const std::string& name, protocol::ExternalMassFlowType& value)
    {
    string ddml = protocol::DDML(value);
    unsigned id = component->addRegistration(RegistrationType::event, name.c_str(), ddml.c_str(), "", "");
