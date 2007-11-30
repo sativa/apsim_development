@@ -19,9 +19,9 @@ Pool::Pool(plantInterface& plant, ScienceAPI& API, const std::string& Name, cons
    this->PartName = PartName;
    Clear();
 
-//   scienceAPI.exposeFunction(PartName+Name+"Wt", "g/m^2", Name + " " + PartName + " dry matter", FloatFunction(&Biomass::DM));
-//   scienceAPI.exposeFunction(PartName+Name+"N",  "g/m^2", Name + " " + PartName + " nitrogen", FloatFunction(&Biomass::N));
-//   scienceAPI.exposeFunction(PartName+Name+"P",  "g/m^2", Name + " " + PartName + " phosphorus", FloatFunction(&Biomass::P));
+   scienceAPI.exposeFunction(PartName+Name+"Wt", "g/m^2", Name + " " + PartName + " dry matter", FloatFunction(&Biomass::DM));
+   scienceAPI.exposeFunction(PartName+Name+"N",  "g/m^2", Name + " " + PartName + " nitrogen", FloatFunction(&Biomass::N));
+   scienceAPI.exposeFunction(PartName+Name+"P",  "g/m^2", Name + " " + PartName + " phosphorus", FloatFunction(&Biomass::P));
 
    scienceAPI.exposeFunction(PartName+Name+"nconc", "%", "N concentration in "+Name+" "+PartName, FloatFunction(&Pool::NconcPercent));
    scienceAPI.exposeFunction(PartName+Name+"pconc", "%", "P concentration in "+Name+" "+PartName, FloatFunction(&Pool::PconcPercent));
