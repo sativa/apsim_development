@@ -287,7 +287,7 @@ void Population::OnKillCrop(protocol::KillCropType& Kill)
    if (Plant.Status() != out)
       {
       bound_check_real_var(&Plant, Kill.KillFraction, 0.0, 1.0, "KillFraction");
-      dlt_plants = dlt_plants - plants * Kill.KillFraction;
+      dlt_plants_death_external = dlt_plants_death_external - plants * Kill.KillFraction;
 
       if (Kill.KillFraction > 0.0)
          {
