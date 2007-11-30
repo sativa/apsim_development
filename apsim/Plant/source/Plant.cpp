@@ -67,7 +67,6 @@ static const char* killStemDDML =     "<type name = \"KillStem\">" \
                                       "   <field name=\"plants_value\" kind=\"single\"/>" \
                                       "</type>";
 
-
 static const char* cropChoppedDDML =  "<type name = \"CropChopped\">" \
                                       "   <field name=\"croptype_name\" kind=\"string\"/>" \
                                       "   <field name=\"croptype_numbytes\" kind=\"integer4\"/>" \
@@ -105,7 +104,6 @@ static const char* cropChoppedDDML =  "<type name = \"CropChopped\">" \
                                       "   <field name=\"fraction_to_residue_isarray\" kind=\"boolean\"/>" \
                                       "   <field name=\"fraction_to_residue_value\" kind=\"single\" array=\"T\"/>" \
                                       "</type>";
-
 
 Plant::Plant(PlantComponent *P, ScienceAPI& api)
 //=======================================================================================
@@ -241,6 +239,7 @@ void Plant::onInit1()
    id.crop_chopped = parent->addRegistration(RegistrationType::event,
                                    "crop_chopped", cropChoppedDDML,
                                    "", "");
+
    setupEvent(parent, "prepare",     RegistrationType::respondToEvent, &Plant::onPrepare, nullTypeDDML);
    setupEvent(parent, "process",     RegistrationType::respondToEvent, &Plant::onProcess, nullTypeDDML);
    setupEvent(parent, "sow",         RegistrationType::respondToEvent, &Plant::onSow, sowDDML);
@@ -1878,15 +1877,6 @@ void Plant::plant_harvest_update (protocol::Variant &v/*(INPUT)message arguments
        }
     parent->writeString (" ");
 
-    protocol::BalanceErrorType BE;
-    BE.DM = dm_removed_tops + dm_removed_root;
-    BE.N  = n_removed_tops + n_removed_root;
-    BE.P  = p_removed_tops + p_removed_root;
-    BE.C = 0.0; // ?????
-    BE.SW = 0.0;
-    scienceAPI.publish("BalanceError",BE);
-
-
 // now update new canopy covers
 
     plantSpatial.setPlants(getPlants());
@@ -2913,6 +2903,7 @@ void Plant::plant_send_crop_chopped_event (const string&  crop_type             
     outgoingApsimVariant.store("fraction_to_residue", protocol::DTsingle, true, fraction_to_residue);
     parent->publish (id.crop_chopped, outgoingApsimVariant);
 #endif
+
     }
 
 /////////////////////////////Get&Set Interface code
