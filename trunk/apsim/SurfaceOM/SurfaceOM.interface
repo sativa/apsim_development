@@ -54,6 +54,7 @@
       <eventReg name="residue_removed" type="residue_removed"/>
       <eventReg name="surfaceOM_removed" type="surfaceOM_removed"/>
       <eventReg name="decomposed" type="decomposed"/>
+      <eventReg name="ExternalMassFlow" type="ExternalMassFlow"/>
       <respondToEventReg name="tick" type="tick"/>
       <respondToEventReg name="newmet" type="newmet"/>
       <respondToEventReg name="irrigated" type="irrigated"/>
