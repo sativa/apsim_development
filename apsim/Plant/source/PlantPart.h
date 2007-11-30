@@ -231,13 +231,6 @@ public:
    virtual float dmGreenDemand(void);
    virtual float dmDemandDifferential(void) ;
 
-   virtual float digestibilityMaxDmGreen(void);
-   virtual float digestibilityAvgDmGreen(void);
-   virtual float digestibilityMinDmGreen(void);
-   virtual float digestibilityMaxDmSenesced(void);
-   virtual float digestibilityAvgDmSenesced(void);
-   virtual float digestibilityMinDmSenesced(void);
-
    virtual float giveDmGreen(float) ;           // Arbitrator gives this part dm; return amount used
    virtual float giveDmSenesced(float) ;
    virtual float giveNGreen(float) ;

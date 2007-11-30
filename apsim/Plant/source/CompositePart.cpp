@@ -12,8 +12,8 @@ using namespace std;
 //  initialise data members.
 CompositePart::CompositePart(ScienceAPI& scienceAPI, plantInterface *p, const string &name)
    : plantPart(scienceAPI, p, name,
-               *new CompositePool(scienceAPI, "Green", name),
-               *new CompositePool(scienceAPI, "Senesced", name))
+               *new CompositePool(*p, scienceAPI, "Green", name),
+               *new CompositePool(*p, scienceAPI, "Senesced", name))
    {
    Vegetative.ClearPools();
    VegetativeTotal.ClearPools();

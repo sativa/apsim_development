@@ -8,8 +8,8 @@
 #include "Delta.h"
 using namespace std;
 
-CompositePool::CompositePool(ScienceAPI& scienceAPI, const std::string& Name, const std::string& PartName)
-   : Pool(scienceAPI, Name, PartName)
+CompositePool::CompositePool(plantInterface& plant, ScienceAPI& scienceAPI, const std::string& Name, const std::string& PartName)
+   : Pool(plant, scienceAPI, Name, PartName)
    {
    }
 

@@ -8,35 +8,28 @@
 #include "Delta.h"
 using namespace std;
 
-Pool::Pool(ScienceAPI& API, const std::string& Name, const std::string& PartName)
-   : scienceAPI(API)
+Pool::Pool(plantInterface& plant, ScienceAPI& API, const std::string& Name, const std::string& PartName)
+   : scienceAPI(API), Plant(plant),
+     DigestibilityMax(plant, API, PartName+Name+"DigestibilityMax", "", "Maximum Digestibility of "+Name+" " + PartName),
+     DigestibilityMin(plant, API, PartName+Name+"DigestibilityMin", "", "Minimum Digestibility of "+Name+" " + PartName),
+     DigestibilityAvg(plant, API, PartName+Name+"DigestibilityAvg", "", "Average Digestibility of "+Name+" " + PartName)
+
    {
    this->Name = Name;
    this->PartName = PartName;
    Clear();
 
-   scienceAPI.exposeFunction(PartName+Name+"Wt", "g/m^2", Name + " " + PartName + " dry matter", FloatFunction(&Biomass::DM));
-   scienceAPI.exposeFunction(PartName+Name+"N",  "g/m^2", Name + " " + PartName + " nitrogen", FloatFunction(&Biomass::N));
-   scienceAPI.exposeFunction(PartName+Name+"P",  "g/m^2", Name + " " + PartName + " phosphorus", FloatFunction(&Biomass::P));
+//   scienceAPI.exposeFunction(PartName+Name+"Wt", "g/m^2", Name + " " + PartName + " dry matter", FloatFunction(&Biomass::DM));
+//   scienceAPI.exposeFunction(PartName+Name+"N",  "g/m^2", Name + " " + PartName + " nitrogen", FloatFunction(&Biomass::N));
+//   scienceAPI.exposeFunction(PartName+Name+"P",  "g/m^2", Name + " " + PartName + " phosphorus", FloatFunction(&Biomass::P));
 
    scienceAPI.exposeFunction(PartName+Name+"nconc", "%", "N concentration in "+Name+" "+PartName, FloatFunction(&Pool::NconcPercent));
    scienceAPI.exposeFunction(PartName+Name+"pconc", "%", "P concentration in "+Name+" "+PartName, FloatFunction(&Pool::PconcPercent));
-
-   DigestibilityMax.read(scienceAPI
-                        , "x_dmd_stage_code" , "()", 1.0, 12.0
-                        , ("y_dmd_max_"+Name+"_" + PartName).c_str(), "()", 0.0, 1.0);
-
-   DigestibilityAvg.read(scienceAPI
-                        , "x_dmd_stage_code" , "()", 1.0, 12.0
-                        , ("y_dmd_avg_"+Name+"_" + PartName).c_str(), "()", 0.0, 1.0);
-
-   DigestibilityMin.read(scienceAPI
-                        , "x_dmd_stage_code" , "()", 1.0, 12.0
-                        , ("y_dmd_min_"+Name+"_" + PartName).c_str(), "()", 0.0, 1.0);
    }
 
-void Pool::Init(float Plants)
+void Pool::Init()
    {
+   float Plants = Plant.getPlants();
    float dm_init;
    float n_init_conc;
    float p_init_conc;

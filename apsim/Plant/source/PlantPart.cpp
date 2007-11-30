@@ -16,15 +16,15 @@ plantPart::plantPart(ScienceAPI& api, plantInterface *p, const string &name)
        Retranslocation (api, "Retranslocation", name),
 
        // pools
-       Green(*new Pool(api, "Green", name)),
-       Senesced(*new Pool(api, "Senesced", name)),
+       Green(*new Pool(*p, api, "Green", name)),
+       Senesced(*new Pool(*p, api, "Senesced", name)),
 
        // summary pools
-       Total(api, "Total", name),
-       Grain(api, "Grain", name),
-       GrainTotal(api, "GrainTotal", name),
-       Vegetative(api, "Vegetative", name),
-       VegetativeTotal(api, "VegetativeTotal", name)
+       Total(*p, api, "Total", name),
+       Grain(*p, api, "Grain", name),
+       GrainTotal(*p, api, "GrainTotal", name),
+       Vegetative(*p, api, "Vegetative", name),
+       VegetativeTotal(*p, api, "VegetativeTotal", name)
      {
      plant = p;
      c.name = name;
@@ -47,11 +47,11 @@ plantPart::plantPart(ScienceAPI& api, plantInterface *p, const string &name,
        Senesced(senesced),
 
        // summary pools
-       Total(api, "Total", name),
-       Grain(api, "Grain", name),
-       GrainTotal(api, "GrainTotal", name),
-       Vegetative(api, "Vegetative", name),
-       VegetativeTotal(api, "VegetativeTotal", name)
+       Total(*p, api, "Total", name),
+       Grain(*p, api, "Grain", name),
+       GrainTotal(*p, api, "GrainTotal", name),
+       Vegetative(*p, api, "Vegetative", name),
+       VegetativeTotal(*p, api, "VegetativeTotal", name)
    {
    plant = p;
    c.name = name;
@@ -134,16 +134,6 @@ void plantPart::onInit1(protocol::Component*)
 
    scienceAPI.exposeFunction(addPartToVar("n_conc_crit"), "%", addPartToDesc("Critical N content in "), FloatFunction(&plantPart::nConcCrit));
    scienceAPI.exposeFunction(addPartToVar("n_conc_min"), "%", addPartToDesc("Minimum N content in "), FloatFunction(&plantPart::nConcMin));
-
-   scienceAPI.exposeFunction(addPartToVar("digestibility_max_dm_green"), "0-1", addPartToDesc("Maximum Digestibility of green dry matter of "), FloatFunction(&plantPart::digestibilityMaxDmGreen));
-   scienceAPI.exposeFunction(addPartToVar("digestibility_avg_dm_green"), "0-1", addPartToDesc("Average Digestibility of green dry matter of "), FloatFunction(&plantPart::digestibilityAvgDmGreen));
-   scienceAPI.exposeFunction(addPartToVar("digestibility_min_dm_green"), "0-1", addPartToDesc("Minimum Digestibility of green dry matter of "), FloatFunction(&plantPart::digestibilityMinDmGreen));
-
-   scienceAPI.exposeFunction(addPartToVar("digestibility_max_dm_senesced"), "0-1", addPartToDesc("Maximum Digestibility of senesced dry matter of "), FloatFunction(&plantPart::digestibilityMaxDmSenesced));
-   scienceAPI.exposeFunction(addPartToVar("digestibility_avg_dm_senesced"), "0-1", addPartToDesc("Average Digestibility of senesced dry matter of "), FloatFunction(&plantPart::digestibilityAvgDmSenesced));
-   scienceAPI.exposeFunction(addPartToVar("digestibility_min_dm_senesced"), "0-1", addPartToDesc("Minimum Digestibility of senesced dry matter of "), FloatFunction(&plantPart::digestibilityMinDmSenesced));
-
-
 
    scienceAPI.exposeFunction(addPartToVar("dlt_dm_retrans"), "g/m^2", addPartToDesc("DM retranslocated to/from "), FloatFunction(&plantPart::dltDmGreenRetrans));
    scienceAPI.exposeFunction(addPartToVar("dm_demand"), "g/m^2", addPartToDesc("DM demand of "), FloatFunction(&plantPart::dmGreenDemand));
@@ -269,42 +259,6 @@ void plantPart::zeroDltDmGreenRetrans(void)
    {
    Retranslocation = Biomass(0.0, Retranslocation.N(), Retranslocation.P());
    }
-
-float plantPart::digestibilityMaxDmGreen(void)
-   //===========================================================================
-{
-   return Green.DigestibilityMax.value(plant->getStageCode());
-}
-
-float plantPart::digestibilityAvgDmGreen(void)
-   //===========================================================================
-{
-   return Green.DigestibilityAvg.value(plant->getStageCode());
-}
-
-float plantPart::digestibilityMinDmGreen(void)
-   //===========================================================================
-{
-   return Green.DigestibilityMin.value(plant->getStageCode());
-}
-
-float plantPart::digestibilityMaxDmSenesced(void)
-   //===========================================================================
-{
-   return Senesced.DigestibilityMax.value(plant->getStageCode());
-}
-
-float plantPart::digestibilityAvgDmSenesced(void)
-   //===========================================================================
-{
-   return Senesced.DigestibilityAvg.value(plant->getStageCode());
-}
-
-float plantPart::digestibilityMinDmSenesced(void)
-   //===========================================================================
-{
-   return Senesced.DigestibilityMin.value(plant->getStageCode());
-}
 
 void plantPart::zeroAllGlobals(void)
 //=======================================================================================
@@ -471,7 +425,7 @@ void plantPart::readCultivarParameters (protocol::Component*, const string&)
 void plantPart::onEmergence()
 //=======================================================================================
    {
-   Green.Init(plant->getPlants());
+   Green.Init();
    }
 
 void plantPart::onFlowering(void)
