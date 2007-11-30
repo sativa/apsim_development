@@ -1,4 +1,5 @@
       module SysBalModule
+      use ComponentInterfaceModule
       use Registrations
 ! ====================================================================
 !     sysbal constants
@@ -43,6 +44,7 @@
 
       type SysBalGlobals
          sequence
+         type(ExternalMassFlowType) :: massBalanceChange
          integer    sysbal_index(max_modules) ! index to sorted sysbal height ()
          real       height(max_modules)       ! sysbal height of modules (mm)
          integer    num_modules               ! number of modules ()
@@ -116,6 +118,16 @@
          real       dm_added          ! amount of residue added (kg/ha)
          real       N_added        ! amount of residue N removed (kg/ha)
          real       P_added       ! amount of residue N removed (kg/ha)
+
+         type(ExternalMassFlowType) :: removedCrop
+         type(ExternalMassFlowType) :: addedCrop
+
+         type(ExternalMassFlowType) :: removedSoil
+         type(ExternalMassFlowType) :: addedSoil
+
+         type(ExternalMassFlowType) :: removedSurface
+         type(ExternalMassFlowType) :: addedSurface
+
          logical    phosphorus_aware
 
       end type SysBalGlobals
@@ -351,9 +363,66 @@
       g%dm_added           = 0.0
       g%N_added            = 0.0
       g%P_added            = 0.0
+
+
       g%irrigation           = 0.0
       g%phosphorus_aware     = .false.
 
+      g%massBalanceChange%PoolClass = ' '
+      g%massBalanceChange%FlowType = ' '
+      g%massBalanceChange%C = 0.0
+      g%massBalanceChange%N = 0.0
+      g%massBalanceChange%P = 0.0
+      g%massBalanceChange%DM = 0.0
+      g%massBalanceChange%SW = 0.0
+
+      g%removedCrop%PoolClass = ' '
+      g%removedCrop%FlowType = ' '
+      g%removedCrop%C = 0.0
+      g%removedCrop%N = 0.0
+      g%removedCrop%P = 0.0
+      g%removedCrop%DM = 0.0
+      g%removedCrop%SW = 0.0
+
+      g%addedCrop%PoolClass = ' '
+      g%addedCrop%FlowType = ' '
+      g%addedCrop%C = 0.0
+      g%addedCrop%N = 0.0
+      g%addedCrop%P = 0.0
+      g%addedCrop%DM = 0.0
+      g%addedCrop%SW = 0.0
+
+      g%removedSurface%PoolClass = ' '
+      g%removedSurface%FlowType = ' '
+      g%removedSurface%C = 0.0
+      g%removedSurface%N = 0.0
+      g%removedSurface%P = 0.0
+      g%removedSurface%DM = 0.0
+      g%removedSurface%SW = 0.0
+
+      g%addedSurface%PoolClass = ' '
+      g%addedSurface%FlowType = ' '
+      g%addedSurface%C = 0.0
+      g%addedSurface%N = 0.0
+      g%addedSurface%P = 0.0
+      g%addedSurface%DM = 0.0
+      g%addedSurface%SW = 0.0
+
+      g%removedSoil%PoolClass = ' '
+      g%removedSoil%FlowType = ' '
+      g%removedSoil%C = 0.0
+      g%removedSoil%N = 0.0
+      g%removedSoil%P = 0.0
+      g%removedSoil%DM = 0.0
+      g%removedSoil%SW = 0.0
+
+      g%addedSoil%PoolClass = ' '
+      g%addedSoil%FlowType = ' '
+      g%addedSoil%C = 0.0
+      g%addedSoil%N = 0.0
+      g%addedSoil%P = 0.0
+      g%addedSoil%DM = 0.0
+      g%addedSoil%SW = 0.0
 
       call pop_routine (my_name)
       return
@@ -399,9 +468,11 @@
      :                                  , loss_soil
      :                                  , loss_crop
      :                                  , loss_surface
+     :                                  , loss_discontinuity
      :                                  , gain_soil
      :                                  , gain_crop
      :                                  , gain_surface
+     :                                  , gain_discontinuity
      :                                  )
 !     ===========================================================
 
@@ -414,9 +485,11 @@
       real       loss_soil
       real       loss_crop
       real       loss_surface
+      real       loss_discontinuity
       real       gain_soil
       real       gain_crop
       real       gain_surface
+      real       gain_discontinuity
 
 !+  Purpose
 !      Get the values of variables from other modules
@@ -476,6 +549,7 @@
       parameter (dlayer = 'dlayer')
 
 !+  Local Variables
+      character*200   message          !
 
 !- Implementation Section ----------------------------------
 
@@ -499,15 +573,27 @@
       loss_soil = sysbal_get_variable(dlt_no3_dnit, kgha)
      :          + sysbal_get_variable(leach_NO3, kgha)
      :          + sysbal_get_variable(leach_NH4, kgha)
+     :          + g%removedSoil%N
 
-      loss_crop    = g%N_removed
-      loss_surface = 0.0
+      loss_crop    = g%N_removed + g%removedCrop%N
+      loss_surface = g%removedSurface%N
 
   ! define system gains
   !-------------
-      gain_soil    = 0.0
+      gain_soil    = g%addedSoil%N
       gain_crop    = sysbal_get_variable(dlt_n_fixed, gm2) * gm2kg/sm2ha
-      gain_surface = g%N_added
+     :             + g%addedCrop%N
+      gain_surface = g%N_added + g%addedSurface%N
+
+!  ! define system discontinuities
+!  !------------------------------
+!      if (g%massBalanceChange%N >= 0.0) then   ! a gain
+!         gain_discontinuity = g%massBalanceChange%N
+!         loss_discontinuity = 0.0
+!      else                                     ! a loss
+!         loss_discontinuity = - g%massBalanceChange%N
+!         gain_discontinuity = 0.0
+!      endif
 
       call pop_routine (my_name)
       return
@@ -521,9 +607,11 @@
      :                                  , loss_soil
      :                                  , loss_crop
      :                                  , loss_surface
+     :                                  , loss_discontinuity
      :                                  , gain_soil
      :                                  , gain_crop
      :                                  , gain_surface
+     :                                  , gain_discontinuity
      :                                  )
 !     ===========================================================
 
@@ -536,9 +624,11 @@
       real       loss_soil
       real       loss_crop
       real       loss_surface
+      real       loss_discontinuity
       real       gain_soil
       real       gain_crop
       real       gain_surface
+      real       gain_discontinuity
 
 !+  Purpose
 !      Get the values of variables from other crops
@@ -598,6 +688,7 @@
       parameter (surfaceom_p = 'surfaceom_p')
 
 !+  Local Variables
+      character*200   message          !
 
 !- Implementation Section ----------------------------------
 
@@ -624,15 +715,25 @@
 
   ! define system losses
   !--------------
-      loss_soil = 0.0
-      loss_crop    = g%P_removed
-      loss_surface = 0.0
+      loss_soil = g%removedSoil%P
+      loss_crop    = g%P_removed + g%removedCrop%P
+      loss_surface = g%removedSurface%P
 
   ! define system gains
   !-------------
-      gain_soil    = 0.0
-      gain_crop    = 0.0
-      gain_surface = g%P_added
+      gain_soil    = g%addedSoil%P
+      gain_crop    = g%addedCrop%P
+      gain_surface = g%P_added + g%addedSurface%P
+
+!  ! define system discontinuities
+!  !------------------------------
+!      if (g%massBalanceChange%P >= 0.0) then   ! a gain
+!         gain_discontinuity = g%massBalanceChange%P
+!         loss_discontinuity = 0.0
+!      else                                     ! a loss
+!         loss_discontinuity = - g%massBalanceChange%P
+!         gain_discontinuity = 0.0
+!      endif
 
       call pop_routine (my_name)
       return
@@ -646,9 +747,11 @@
      :                                  , loss_soil
      :                                  , loss_crop
      :                                  , loss_surface
+     :                                  , loss_discontinuity
      :                                  , gain_soil
      :                                  , gain_crop
      :                                  , gain_surface
+     :                                  , gain_discontinuity
      :                                  )
 !     ===========================================================
 
@@ -661,9 +764,11 @@
       real       loss_soil
       real       loss_crop
       real       loss_surface
+      real       loss_discontinuity
       real       gain_soil
       real       gain_crop
       real       gain_surface
+      real       gain_discontinuity
 
 !+  Purpose
 !      Get the values of variables from other modules
@@ -730,6 +835,7 @@
 
 
 !+  Local Variables
+      character*200   message          !
 
 !- Implementation Section ----------------------------------
 
@@ -753,22 +859,38 @@
       loss_soil = sysbal_get_variable(dlt_fom_c_atm, kgha)
      :          + sysbal_get_variable(dlt_hum_c_atm, kgha)
      :          + sysbal_get_variable(dlt_biom_c_atm, kgha)
+     :          + g%removedSoil%C
+
       loss_crop    =
 !     :   sysbal_get_variable(dlt_dm_oil_conv, gm2) * gm2kg/sm2ha * 0.4     ! conversion is not included in the dlt_dm_green
      : + sysbal_get_variable(dlt_dm_oil_conv_retrans, gm2)
      :   * gm2kg/sm2ha * 0.4
      :   + g%dm_removed * 0.4
+     :   + g%removedCrop%DM * 0.4
       loss_surface = sysbal_get_variable(dlt_res_c_atm, kgha)
+     :             + g%removedSurface%C
 
   ! define system gains
   !-------------
 
-      gain_soil = 0.0
+      gain_soil = g%addedSoil%C
       gain_crop = sysbal_get_variable(dlt_dm_green, gm2)
      :          * gm2kg/sm2ha * 0.4
      :          + sysbal_get_variable(GrowthWt, gm2)
      :          * gm2kg/sm2ha * 0.4
+     :          + g%addedCrop%DM * 0.4
       gain_surface = g%dm_added * 0.4
+     :             + g%addedSurface%C
+
+!  ! define system discontinuities
+!  !------------------------------
+!      if (g%massBalanceChange%C >= 0.0) then   ! a gain
+!         gain_discontinuity = g%massBalanceChange%C
+!         loss_discontinuity = 0.0
+!      else                                     ! a loss
+!         loss_discontinuity = - g%massBalanceChange%C
+!         gain_discontinuity = 0.0
+!      endif
 
       call pop_routine (my_name)
       return
@@ -782,9 +904,11 @@
      :                                  , loss_soil
      :                                  , loss_crop
      :                                  , loss_surface
+     :                                  , loss_discontinuity
      :                                  , gain_soil
      :                                  , gain_crop
      :                                  , gain_surface
+     :                                  , gain_discontinuity
      :                                  )
 !     ===========================================================
 
@@ -797,9 +921,11 @@
       real       loss_soil
       real       loss_crop
       real       loss_surface
+      real       loss_discontinuity
       real       gain_soil
       real       gain_crop
       real       gain_surface
+      real       gain_discontinuity
 
 !+  Purpose
 !      Get the values of variables from other modules
@@ -865,6 +991,7 @@
       parameter (GrowthWt = 'GrowthWt')
 
 !+  Local Variables
+      character*200   message          !
 
 !- Implementation Section ----------------------------------
 
@@ -887,18 +1014,32 @@
       loss_soil = sysbal_get_variable(dlt_fom_c_atm, kgha) / 0.4
      :          + sysbal_get_variable(dlt_hum_c_atm, kgha) / 0.4
      :          + sysbal_get_variable(dlt_biom_c_atm, kgha) / 0.4
+     :          + g%removedSoil%C / 0.4
       loss_crop    =
 !     :   sysbal_get_variable(dlt_dm_oil_conv, gm2) * gm2kg/sm2ha          ! conversion is not included in the dlt_dm_green
      : + sysbal_get_variable(dlt_dm_oil_conv_retrans, gm2) * gm2kg/sm2ha
      :   + g%dm_removed
+     :   + g%removedCrop%DM
       loss_surface = sysbal_get_variable(dlt_res_c_atm, kgha) / 0.4
+     :             + g%removedSurface%DM
 
   ! define system gains
   !-------------
-      gain_soil = 0.0
+      gain_soil = g%addedSoil%C / 0.4
       gain_crop = sysbal_get_variable(dlt_dm_green, gm2) * gm2kg/sm2ha
      :          + sysbal_get_variable(GrowthWt, gm2) * gm2kg/sm2ha
-      gain_surface = g%dm_added
+     :          + g%addedCrop%DM
+      gain_surface = g%dm_added + g%addedSurface%DM
+
+!  ! define system discontinuities
+!  !------------------------------
+!      if (g%massBalanceChange%DM >= 0.0) then   ! a gain
+!         gain_discontinuity = g%massBalanceChange%DM
+!         loss_discontinuity = 0.0
+!      else                                     ! a loss
+!         loss_discontinuity = - g%massBalanceChange%DM
+!         gain_discontinuity = 0.0
+!      endif
 
       call pop_routine (my_name)
       return
@@ -912,9 +1053,11 @@
      :                                  , loss_soil
      :                                  , loss_crop
      :                                  , loss_surface
+     :                                  , loss_discontinuity
      :                                  , gain_soil
      :                                  , gain_crop
      :                                  , gain_surface
+     :                                  , gain_discontinuity
      :                                  )
 !     ===========================================================
 
@@ -927,9 +1070,11 @@
       real       loss_soil
       real       loss_crop
       real       loss_surface
+      real       loss_discontinuity
       real       gain_soil
       real       gain_crop
       real       gain_surface
+      real       gain_discontinuity
 
 !+  Purpose
 !      Get the values of variables from other modules
@@ -968,6 +1113,7 @@
       parameter (rain = 'rain')
 
 !+  Local Variables
+      character*200   message          !
 
 !- Implementation Section ----------------------------------
 
@@ -984,16 +1130,28 @@
   !--------------
       loss_soil = sysbal_get_variable(es, mm)
      :          + sysbal_get_variable(drain, mm)
+     :          + g%removedSoil%SW
       loss_crop    = sysbal_get_variable(ep, mm)
+     :             + g%removedCrop%SW
       loss_surface = sysbal_get_variable(runoff, mm)
+     :             + g%removedSurface%SW
 
   ! define system gains
   !-------------
-      gain_soil    = 0.0
-      gain_crop    = 0.0
+      gain_soil    = g%addedSoil%SW
+      gain_crop    = g%addedCrop%SW
       gain_surface = sysbal_get_variable(rain, mm)
-     :             + g%irrigation
+     :             + g%irrigation + g%addedSurface%SW
 
+  ! define system discontinuities
+  !------------------------------
+!      if (g%massBalanceChange%SW >= 0.0) then   ! a gain
+!         gain_discontinuity = g%massBalanceChange%SW
+!         loss_discontinuity = 0.0
+!      else                                     ! a loss
+!         loss_discontinuity = - g%massBalanceChange%SW
+!         gain_discontinuity = 0.0
+!      endif
 
       call pop_routine (my_name)
       return
@@ -1783,6 +1941,62 @@
       g%N_added            = 0.0
       g%P_added            = 0.0
 
+      g%massBalanceChange%PoolClass = ' '
+      g%massBalanceChange%FlowType = ' '
+      g%massBalanceChange%C = 0.0
+      g%massBalanceChange%N = 0.0
+      g%massBalanceChange%P = 0.0
+      g%massBalanceChange%DM = 0.0
+      g%massBalanceChange%SW = 0.0
+
+      g%removedCrop%PoolClass = ' '
+      g%removedCrop%FlowType = ' '
+      g%removedCrop%C = 0.0
+      g%removedCrop%N = 0.0
+      g%removedCrop%P = 0.0
+      g%removedCrop%DM = 0.0
+      g%removedCrop%SW = 0.0
+
+      g%addedCrop%PoolClass = ' '
+      g%addedCrop%FlowType = ' '
+      g%addedCrop%C = 0.0
+      g%addedCrop%N = 0.0
+      g%addedCrop%P = 0.0
+      g%addedCrop%DM = 0.0
+      g%addedCrop%SW = 0.0
+
+      g%removedSurface%PoolClass = ' '
+      g%removedSurface%FlowType = ' '
+      g%removedSurface%C = 0.0
+      g%removedSurface%N = 0.0
+      g%removedSurface%P = 0.0
+      g%removedSurface%DM = 0.0
+      g%removedSurface%SW = 0.0
+
+      g%addedSurface%PoolClass = ' '
+      g%addedSurface%FlowType = ' '
+      g%addedSurface%C = 0.0
+      g%addedSurface%N = 0.0
+      g%addedSurface%P = 0.0
+      g%addedSurface%DM = 0.0
+      g%addedSurface%SW = 0.0
+
+      g%removedSoil%PoolClass = ' '
+      g%removedSoil%FlowType = ' '
+      g%removedSoil%C = 0.0
+      g%removedSoil%N = 0.0
+      g%removedSoil%P = 0.0
+      g%removedSoil%DM = 0.0
+      g%removedSoil%SW = 0.0
+
+      g%addedSoil%PoolClass = ' '
+      g%addedSoil%FlowType = ' '
+      g%addedSoil%C = 0.0
+      g%addedSoil%N = 0.0
+      g%addedSoil%P = 0.0
+      g%addedSoil%DM = 0.0
+      g%addedSoil%SW = 0.0
+
       call pop_routine (my_name)
       return
       end subroutine
@@ -1844,10 +2058,12 @@
       real  loss_soil
       real  loss_surface
       real  loss_crop
+      real  loss_discontinuity
 
       real  gain_soil
       real  gain_surface
       real  gain_crop
+      real  gain_discontinuity
 
 
 !- Implementation Section ----------------------------------
@@ -1861,13 +2077,17 @@
      :        , loss_soil
      :        , loss_crop
      :        , loss_surface
+     :        , loss_discontinuity
      :        , gain_soil
      :        , gain_crop
      :        , gain_surface
+     :        , gain_discontinuity
      :        )
 
-      loss_system =  loss_soil + loss_crop + loss_surface
-      gain_system =  gain_soil + gain_crop + gain_surface
+      loss_system = loss_soil + loss_crop + loss_surface
+     :            + loss_discontinuity
+      gain_system = gain_soil + gain_crop + gain_surface
+     :            + gain_discontinuity
 
       state_system = state_surface + state_soil + state_crop
       dlt_system = state_system - state_system_yest
@@ -1952,6 +2172,107 @@
 
 !===========================================================
       subroutine sysbal_ON_Crop_chopped ()
+!===========================================================
+      Use Infrastructure
+      implicit none
+
+!+  Purpose
+!     Get information on surfom added from the crops
+
+!+  Local Variables
+      real      dm_removed
+      real      N_removed
+      real      P_removed
+      real      dlt_crop_dm(MaxArraySize)
+      real      dlt_dm_N(MaxArraySize)
+      real      dlt_dm_P(MaxArraySize)
+      real      fraction_to_Residue(MaxArraySize)
+      real      fraction_removed(MaxArraySize)
+      character  Event_string*400      ! Event message string
+      character  flag*5                ! p data flag
+      integer    NumVals               ! number of values read from file
+      integer    NumVal_dm             ! number of values read from file
+      integer    NumVal_N              ! number of values read from file
+      integer    NumVal_P              ! number of values read from file
+      integer    SOMNo     ! system number of the surface organic matter added
+      integer    residue               ! system surfom counter
+      integer    max_part              ! number of plant parts
+      parameter (max_part = 10)
+      integer    root_num
+      integer    counter
+
+      character*20 part_name(max_part)
+
+!- Implementation Section ----------------------------------
+
+      fraction_to_Residue(:) = 0.0
+      call collect_real_array (DATA_fraction_to_Residue, MaxArraySize
+     :                      , '()', fraction_to_Residue, numvals
+     :                      , 0.0, 100000.0)
+
+      call collect_char_array (DATA_dm_type, max_part
+     :                      , '()', part_name, numvals)
+
+      do  counter = 1, numvals
+         if (part_name(counter)(1:4) .eq. 'root') then
+            root_num = counter
+            exit
+         else
+            root_num = 0
+         endif
+      end do
+
+         ! Find the amount of surfom to be removed today
+      dlt_crop_dm(:) = 0.0
+      call collect_real_array (DATA_dlt_crop_dm, MaxArraySize, '()'
+     :                      , dlt_crop_dm, numval_dm, 0.0, 100000.0)
+      fraction_removed(:numvals) = 1.0 - fraction_to_Residue(:numvals)
+         ! assume roots are not removed from system but end up in soil.
+      if(root_num .gt. 0) fraction_removed(root_num) = 0.0
+
+      dm_removed = sum(dlt_crop_dm(:numvals)
+     :           * fraction_removed(:numvals))
+
+      if (dm_removed .gt. 0.0) then
+
+          ! Find the amount of N removed in surfom today
+         dlt_dm_N(:) = 0.0
+         call collect_real_array(DATA_dlt_dm_n, MaxArraySize, '(kg/ha)'
+     :                      , dlt_dm_n, numval_n, -10000.0, 10000.0)
+         N_removed = sum(dlt_dm_N(:numvals)
+     :             *  fraction_removed(:numvals))
+
+             ! Find the amount of P removed in surfom today, if phosphorus aware
+
+         if ( g%phosphorus_aware ) then
+            dlt_dm_P(:) = 0.0
+            call collect_real_array_optional (DATA_dlt_dm_p
+     :                        , MaxArraySize
+     :                        , '(kg/ha)'
+     :                        , dlt_dm_p
+     :                        , numval_p
+     :                        , -10000.0
+     :                        , 10000.0)
+            P_removed = sum(dlt_dm_P(:numvals)
+     :                * fraction_removed(:numvals))
+         else
+            ! Not phosphorus aware
+            dlt_dm_P(:) = 0.0
+            P_removed = 0.0
+         endif
+
+         g%dm_removed = g%dm_removed + dm_removed
+         g%N_removed = g%N_removed + N_removed
+         g%P_removed = g%P_removed + P_removed
+      else
+            !nothing to add
+      endif
+
+      return
+      end subroutine
+
+!===========================================================
+      subroutine sysbal_ON_Residue_removed ()
 !===========================================================
       Use Infrastructure
       implicit none
@@ -2185,6 +2506,129 @@
       return
       end subroutine
 
+! ====================================================================
+       subroutine sysbal_ONExternalMassFlow (variant)
+! ====================================================================
+      Use Infrastructure
+      implicit none
+
+      integer, intent(in) :: variant
+!+  Purpose
+!     catch Mass balance discontinuites
+
+!+  Mission statement
+!     Create
+
+!+  Changes
+!   neilh - 04-01-2002 - Programmed and Specified
+
+
+!+  Local Variables
+      type(ExternalMassFlowType) :: massBalanceChange
+      character*200   message          !
+
+!- Implementation Section ----------------------------------
+
+
+      call unpack_ExternalMassFlow(variant, massBalanceChange)
+
+      if (massBalanceChange%PoolClass == 'soil') then
+         if (massBalanceChange%FlowType == 'gain') then
+            g%addedSoil%C = g%addedSoil%C
+     :                    + massBalanceChange%C
+            g%addedSoil%N = g%addedSoil%N
+     :                    + massBalanceChange%N
+            g%addedSoil%P = g%addedSoil%P
+     :                    + massBalanceChange%P
+            g%addedSoil%DM = g%addedSoil%DM
+     :                     + massBalanceChange%DM
+            g%addedSoil%SW = g%addedSoil%SW
+     :                     + massBalanceChange%SW
+         elseif (massBalanceChange%FlowType == 'loss') then
+            g%removedSoil%C = g%removedSoil%C
+     :                      + massBalanceChange%C
+            g%removedSoil%N = g%removedSoil%N
+     :                      + massBalanceChange%N
+            g%removedSoil%P = g%removedSoil%P
+     :                      + massBalanceChange%P
+            g%removedSoil%DM = g%removedSoil%DM
+     :                       + massBalanceChange%DM
+            g%removedSoil%SW = g%removedSoil%SW
+     :                       + massBalanceChange%SW
+         else
+            ! unknown Flow Type
+            write (message, *) 'Unknown External Mass Flow Type: '
+     :           , trim(massBalanceChange%FlowType)
+     :           , ': Must be gain or loss'
+         endif
+      elseif (massBalanceChange%PoolClass == 'crop') then
+         if (massBalanceChange%FlowType == 'gain') then
+            g%addedCrop%C = g%addedCrop%C
+     :                    + massBalanceChange%C
+            g%addedCrop%N = g%addedCrop%N
+     :                    + massBalanceChange%N
+            g%addedCrop%P = g%addedCrop%P
+     :                    + massBalanceChange%P
+            g%addedCrop%DM = g%addedCrop%DM
+     :                     + massBalanceChange%DM
+            g%addedCrop%SW = g%addedCrop%SW
+     :                     + massBalanceChange%SW
+         elseif (massBalanceChange%FlowType == 'loss') then
+            g%removedCrop%C = g%removedCrop%C
+     :                      + massBalanceChange%C
+            g%removedCrop%N = g%removedCrop%N
+     :                      + massBalanceChange%N
+            g%removedCrop%P = g%removedCrop%P
+     :                       + massBalanceChange%P
+            g%removedCrop%DM = g%removedCrop%DM
+     :                       + massBalanceChange%DM
+            g%removedCrop%SW = g%removedCrop%SW
+     :                       + massBalanceChange%SW
+         else
+            ! unknown Flow Type
+            write (message, *) 'Unknown External Mass Flow Type: '
+     :           , trim(massBalanceChange%FlowType)
+     :           , ': Must be gain or loss'
+         endif
+      elseif (massBalanceChange%PoolClass == 'surface') then
+         if (massBalanceChange%FlowType == 'gain') then
+            g%addedSurface%C = g%addedSurface%C
+     :                       + massBalanceChange%C
+            g%addedSurface%N = g%addedSurface%N
+     :                       + massBalanceChange%N
+            g%addedSurface%P = g%addedSurface%P
+     :                       + massBalanceChange%P
+            g%addedSurface%DM = g%addedSurface%DM
+     :                        + massBalanceChange%DM
+            g%addedSurface%SW = g%addedSurface%SW
+     :                        + massBalanceChange%SW
+         elseif (massBalanceChange%FlowType == 'loss') then
+            g%removedSurface%C = g%removedSurface%C
+     :                         + massBalanceChange%C
+            g%removedSurface%N = g%removedSurface%N
+     :                         + massBalanceChange%N
+            g%removedSurface%P = g%removedSurface%P
+     :                         + massBalanceChange%P
+            g%removedSurface%DM = g%removedSurface%DM
+     :                          + massBalanceChange%DM
+            g%removedSurface%SW = g%removedSurface%SW
+     :                          + massBalanceChange%SW
+         else
+            ! unknown Flow Type
+            write (message, *) 'Unknown External Mass Flow Type: '
+     :           , trim(massBalanceChange%FlowType)
+     :           , ': Must be gain or loss'
+         endif
+      else
+         ! unknown Pool Class
+            write (message, *) 'Unknown External Mass Pool Type: '
+     :           , trim(massBalanceChange%PoolClass)
+     :           , ': Must be surface, crop or soil'
+      endif
+
+      return
+      end subroutine
+
 
       end module SysBalModule
 
@@ -2262,6 +2706,9 @@
       else if (Action.eq.'add_surfaceom') then
          call sysbal_Add_surfom ()
 
+      elseif (Action .eq. EVENT_Residue_removed) then
+         call sysbal_ON_Residue_removed ()
+
       elseif (Action .eq. ACTION_Prepare) then
          call sysbal_zero_variables ()
          call sysbal_find_modules ()
@@ -2299,6 +2746,7 @@
 ! ====================================================================
       subroutine respondToEvent(fromID, eventID, variant)
       Use infrastructure
+      Use SysBalModule
       implicit none
       ml_external respondToEvent
 
@@ -2306,5 +2754,8 @@
       integer, intent(in) :: eventID
       integer, intent(in) :: variant
 
+      if (eventID .eq. id%ExternalMassFlow) then
+         call sysbal_ONExternalMassFlow(variant)
+      endif
       return
       end subroutine respondToEvent
