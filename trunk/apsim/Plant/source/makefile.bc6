@@ -66,7 +66,6 @@ OBJFILES=PlantComponent.obj \
    PlantSpatial.obj \
    Pool.obj \
    CompositePool.obj \
-   LivePool.obj \
    Delta.obj \
    Biomass.obj \
    Phenology\PlantPhenology.obj \
@@ -171,7 +170,6 @@ Utility\OutputVariable.obj: Utility\OutputVariable.cpp Utility\OutputVariable.h
 PlantSpatial.obj: PlantSpatial.cpp PlantSpatial.h PlantInterface.h PlantLibrary.h
 Pool.obj: Pool.cpp Pool.h
 CompositePool.obj: CompositePool.cpp CompositePool.h
-LivePool.obj: LivePool.h LivePool.cpp Pool.cpp Pool.h
 Delta.obj: Delta.cpp Delta.h Pool.h Biomass.h
 Biomass.obj: Biomass.cpp Biomass.h
 Population.obj: Population.cpp Population.h
