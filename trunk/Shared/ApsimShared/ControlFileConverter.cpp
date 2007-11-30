@@ -892,6 +892,23 @@ bool ControlFileConverter::executeRenameModule(const string& arguments) throw(ru
 
    return con->renameModule(conSection, arg1, arg2);
    }
+void TurnIntoRegEx(string& st)
+   {
+   string ReturnString;
+   string LowerCaseSt = st;
+   string UpperCaseSt = st;
+   To_lower(LowerCaseSt);
+   To_upper(UpperCaseSt);
+   for (unsigned i = 0; i != st.length(); i++)
+      {
+      if ((st[i] > 'A' && st[i] < 'Z') ||
+          (st[i] > 'a' && st[i] < 'z'))
+         ReturnString += string("[") + UpperCaseSt[i] + LowerCaseSt[i] + "]";
+      else
+         ReturnString += st[i];
+      }
+   st = ReturnString;
+   }
 //---------------------------------------------------------------------------
 // Perform a search and replace on a param file section
 //---------------------------------------------------------------------------
@@ -908,7 +925,16 @@ bool ControlFileConverter::executeSearchReplace(const string& arguments) throw(r
    stripLeadingTrailing(args[0], "\"");
    stripLeadingTrailing(args[1], "\"");
    stripLeadingTrailing(args[2], "\"");
-   return con->searchReplace(conSection, args[0], args[1], args[2]);
+   string StringToFind = args[1];
+   TurnIntoRegEx(StringToFind);
+   replaceAll(StringToFind, "(", "\\~");
+   replaceAll(StringToFind, "~", "(");
+
+   replaceAll(StringToFind, ")", "\\~");
+   replaceAll(StringToFind, "~", ")");
+   StringToFind = "(\\W)" + StringToFind + "(\\W)";
+   string ReplacementString = "$1" + args[2] + "$2";
+   return con->searchReplace(conSection, args[0], StringToFind, ReplacementString);
    }
 //---------------------------------------------------------------------------
 // Set a manager action parameter.

@@ -1348,7 +1348,7 @@ bool ApsimControlFile::searchReplace(const std::string& section,
          ostringstream out;
          ostream_iterator<char, char> outI(out);
          boost::regex e(stringToFind);
-         regex_merge(outI, contents.begin(), contents.end(), e, replacementString);
+         regex_merge(outI, contents.begin(), contents.end(), e, replacementString, boost::format_all);
          if (out.str() != contents)
             {
             par->writeSection(paramFileSections[s], out.str());
