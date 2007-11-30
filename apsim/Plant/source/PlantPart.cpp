@@ -426,6 +426,17 @@ void plantPart::onEmergence()
 //=======================================================================================
    {
    Green.Init();
+
+    protocol::ExternalMassFlowType EMF;
+    EMF.PoolClass = "crop";
+    EMF.FlowType = "gain";
+    EMF.DM = Green.DM() * gm2kg/sm2ha;
+    EMF.N  = Green.N() * gm2kg/sm2ha;
+    EMF.P  = Green.P() * gm2kg/sm2ha;
+    EMF.C = 0.0; // ?????
+    EMF.SW = 0.0;
+
+    scienceAPI.publish("ExternalMassFlow", EMF);
    }
 
 void plantPart::onFlowering(void)
