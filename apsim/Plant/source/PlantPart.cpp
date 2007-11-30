@@ -655,6 +655,17 @@ void plantPart::doRemoveBiomass(protocol::RemoveCropDmType dmRemoved, string &c_
      else
      { // no more checks
      }
+
+    protocol::ExternalMassFlowType EMF;
+    EMF.PoolClass = "crop";
+    EMF.FlowType = "loss";
+    EMF.DM = dltDmRemoved() * gm2kg/sm2ha;
+    EMF.N  = dltNRemoved() * gm2kg/sm2ha;
+    EMF.P  = dltPRemoved() * gm2kg/sm2ha;
+    EMF.C = 0.0; // ?????
+    EMF.SW = 0.0;
+
+    scienceAPI.publish("ExternalMassFlow", EMF);
 }
 
 void plantPart::removeBiomass2(float)
