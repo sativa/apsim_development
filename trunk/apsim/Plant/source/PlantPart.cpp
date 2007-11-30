@@ -79,7 +79,6 @@ void plantPart::Initialise()
      c.sen_detach_frac = 0;
      c.p_stress_determinant = false;
      c.p_retrans_part = false;
-     c.stress_determinant = false;
      c.yield_part = false;
      c.retrans_part = false;
      c.n_deficit_uptake_fraction = 0;
@@ -374,12 +373,10 @@ void plantPart::readConstants(protocol::Component *, const string &)
     if (find_if(parts.begin(), parts.end(), CaseInsensitiveStringComparison(c.name)) != parts.end())
        {
        c.p_stress_determinant = true;
-       c.stress_determinant = true;
        }
     else
        {
        c.p_stress_determinant = false;
-       c.stress_determinant = false;
        }
 
     scienceAPI.readOptional("yield_parts", parts);

@@ -166,6 +166,7 @@ float Plant::PlantP_Pfact (vector<plantPart *> &allParts)
       max_p = 0.0;
       determinants_wt = 0.0;
 
+
       for (part = allParts.begin(); part != allParts.end(); part++)
          {
             act_p += (*part)->pGreenStressDeterminant();
