@@ -498,35 +498,35 @@ command = SearchReplace(report, "n_senesced_floret","FloretSenescedN")
 command = SearchReplace(tracker, "n_senesced_floret","FloretSenescedN")
 command = SearchReplace(manager, "n_senesced_floret","FloretSenescedN")
 
-[Renamed variable: SenescedN(1) to RootSenescedWt]
-command = SearchReplace(report, "SenescedN(1)","RootSenescedWt")
-command = SearchReplace(tracker, "SenescedN(1)","RootSenescedWt")
-command = SearchReplace(manager, "SenescedN(1)","RootSenescedWt")
+[Renamed variable: n_senesced(1) to RootSenescedWt]
+command = SearchReplace(report, "n_senesced(1)","RootSenescedWt")
+command = SearchReplace(tracker, "n_senesced(1)","RootSenescedWt")
+command = SearchReplace(manager, "n_senesced(1)","RootSenescedWt")
 
-[Renamed variable: SenescedN(2) to LeafSenescedWt]
-command = SearchReplace(report, "SenescedN(2)","LeafSenescedWt")
-command = SearchReplace(tracker, "SenescedN(2)","LeafSenescedWt")
-command = SearchReplace(manager, "SenescedN(2)","LeafSenescedWt")
+[Renamed variable: n_senesced(2) to LeafSenescedWt]
+command = SearchReplace(report, "n_senesced(2)","LeafSenescedWt")
+command = SearchReplace(tracker, "n_senesced(2)","LeafSenescedWt")
+command = SearchReplace(manager, "n_senesced(2)","LeafSenescedWt")
 
-[Renamed variable: SenescedN(3) to StemSenescedWt]
-command = SearchReplace(report, "SenescedN(3)","StemSenescedWt")
-command = SearchReplace(tracker, "SenescedN(3)","StemSenescedWt")
-command = SearchReplace(manager, "SenescedN(3)","StemSenescedWt")
+[Renamed variable: n_senesced(3) to StemSenescedWt]
+command = SearchReplace(report, "n_senesced(3)","StemSenescedWt")
+command = SearchReplace(tracker, "n_senesced(3)","StemSenescedWt")
+command = SearchReplace(manager, "n_senesced(3)","StemSenescedWt")
 
-[Renamed variable: SenescedN(4) to PodSenescedWt]
-command = SearchReplace(report, "SenescedN(4)","PodSenescedWt")
-command = SearchReplace(tracker, "SenescedN(4)","PodSenescedWt")
-command = SearchReplace(manager, "SenescedN(4)","PodSenescedWt")
+[Renamed variable: n_senesced(4) to PodSenescedWt]
+command = SearchReplace(report, "n_senesced(4)","PodSenescedWt")
+command = SearchReplace(tracker, "n_senesced(4)","PodSenescedWt")
+command = SearchReplace(manager, "n_senesced(4)","PodSenescedWt")
 
-[Renamed variable: SenescedN(5) to MealSenescedWt]
-command = SearchReplace(report, "SenescedN(5)","MealSenescedWt")
-command = SearchReplace(tracker, "SenescedN(5)","MealSenescedWt")
-command = SearchReplace(manager, "SenescedN(5)","MealSenescedWt")
+[Renamed variable: n_senesced(5) to MealSenescedWt]
+command = SearchReplace(report, "n_senesced(5)","MealSenescedWt")
+command = SearchReplace(tracker, "n_senesced(5)","MealSenescedWt")
+command = SearchReplace(manager, "n_senesced(5)","MealSenescedWt")
 
-[Renamed variable: SenescedN(6) to OilSenescedWt]
-command = SearchReplace(report, "SenescedN(6)","OilSenescedWt")
-command = SearchReplace(tracker, "SenescedN(6)","OilSenescedWt")
-command = SearchReplace(manager, "SenescedN(6)","OilSenescedWt")
+[Renamed variable: n_senesced(6) to OilSenescedWt]
+command = SearchReplace(report, "n_senesced(6)","OilSenescedWt")
+command = SearchReplace(tracker, "n_senesced(6)","OilSenescedWt")
+command = SearchReplace(manager, "n_senesced(6)","OilSenescedWt")
 
 ------------------------ REMOVE SPURIOUS BRACKETS -----------------------------
 
