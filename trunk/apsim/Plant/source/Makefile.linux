@@ -22,6 +22,7 @@ OBJ=PlantComponent.o \
    Utility/Data.o \
    Utility/ExternalFunction.o \
    Utility/InterpolationFunction.o \
+   StageBasedInterpolationFunction.o \
    Utility/LookupFunction.o \
    Utility/Science.o \
    Utility/Date.o \
@@ -63,7 +64,6 @@ OBJ=PlantComponent.o \
    PlantSpatial.o \
    Pool.o \
    CompositePool.o \
-   LivePool.o \
    Delta.o \
    Biomass.o \
    Phenology/PlantPhenology.o \
