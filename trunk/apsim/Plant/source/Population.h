@@ -48,6 +48,7 @@ class Population
       float CropFailurePhenDelay();
       float CropFailureLeafSen();
       void OnPrepare();
+      void OnEndCrop();
       void OnKillCrop(protocol::KillCropType& Kill);
       void Zero();
       void ZeroDaily();
