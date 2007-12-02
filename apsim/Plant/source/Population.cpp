@@ -16,6 +16,7 @@ Population::Population(ScienceAPI& api, plantInterface& plant)
    scienceAPI.expose("plants", "plants/m^2", "Plant desnity", plants);
    scienceAPI.subscribe("prepare", NullFunction(&Population::OnPrepare));
    scienceAPI.subscribe("kill_crop", KillCropFunction(&Population::OnKillCrop));
+   scienceAPI.subscribe("end_crop", NullFunction(&Population::OnEndCrop));
 
    Zero();
    }
@@ -77,6 +78,11 @@ void Population::OnPrepare()
    SoilTemp[1] = SoilTemp[0];
    scienceAPI.getOptional("maxt_soil_surface", "degree Celsius", SoilTemp[0], 0.0, 80.0);
    }
+void Population::OnEndCrop()
+   {
+   Zero();
+   }
+
 void Population::SetPlants(float Density)
    {
    plants = Density;
