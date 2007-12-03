@@ -1268,12 +1268,12 @@ c      end if
       !----------------------------------------------------
       !Biomass arrays in g/m2
 
-            elseif (variable_name .eq. 'dm_green') then
+            elseif (variable_name .eq. 'GreenWt') then
          call respond2get_real_var (variable_name
      :                       , '(g/m^2)'
      :                       , sum_real_array(g%dm_green, max_part))
 
-      elseif (variable_name .eq. 'dm_senesced') then
+      elseif (variable_name .eq. 'SenescedWt') then
          call respond2get_real_var (variable_name
      :                       , '(g/m^2)'
      :                       , sum_real_array(g%dm_senesced, max_part))

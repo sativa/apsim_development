@@ -178,9 +178,9 @@
       dummy = add_registration_with_units(respondToGetReg,
      :                        'stover_wt', floatTypeDDML, '')
       dummy = add_registration_with_units(respondToGetReg,
-     :                        'dm_green', floatTypeDDML, 'g/m^2')
+     :                        'GreenWt', floatTypeDDML, 'g/m^2')
       dummy = add_registration_with_units(respondToGetReg,
-     :                     'dm_senesced', floatTypeDDML, 'g/m^2')
+     :                     'SenescedWt', floatTypeDDML, 'g/m^2')
       dummy = add_registration_with_units(respondToGetReg,
      :                        'dm_dead', floatTypeDDML, 'g/m^2')
       dummy = add_registration_with_units(respondToGetReg,
@@ -414,7 +414,7 @@
       dummy = add_registration_with_units(respondToGetReg,
      :              'n_stress_grain', floatTypeDDML, '')
       dummy = add_registration_with_units(respondToGetReg,
-     :              'p_green', floatTypeDDML, 'g/m^2')
+     :              'GreenP', floatTypeDDML, 'g/m^2')
       dummy = add_registration_with_units(respondToGetReg,
      :              'p_sen', floatTypeDDML, 'g/m^2')
       dummy = add_registration_with_units(respondToGetReg,
@@ -427,7 +427,7 @@
      :              'pfact_expan', floatTypeDDML, '')
       dummy = add_registration_with_units(respondToGetReg,
      :              'pfact_expansion', floatTypeDDML, '')
-      dummy = add_registration_with_units(respondToGetReg,
+      dummy = add_registration_with_units(respondToGetReg, 
      :              'pfact_grain', floatTypeDDML, '')
       dummy = add_registration_with_units(respondToGetReg,
      :              'p_stress_photo', floatTypeDDML, '')
@@ -460,7 +460,7 @@
       dummy = add_registration_with_units(respondToGetReg,
      :              'head_p', floatTypeDDML, 'g/m^2')
       dummy = add_registration_with_units(respondToGetReg,
-     :              'p_senesced', floatarrayTypeDDML, 'g/m^2')
+     :              'SenescedP', floatarrayTypeDDML, 'g/m^2')
       dummy = add_registration_with_units(respondToGetReg,
      :              'p_dead', floatarrayTypeDDML, 'g/m^2')
       dummy = add_registration_with_units(respondToGetReg,
