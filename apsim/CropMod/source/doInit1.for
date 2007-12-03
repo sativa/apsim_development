@@ -460,7 +460,7 @@
       dummy = add_registration_with_units(respondToGetReg,
      :              'head_p', floatTypeDDML, 'g/m^2')
       dummy = add_registration_with_units(respondToGetReg,
-     :              'SenescedP', floatarrayTypeDDML, 'g/m^2')
+     :              'SenescedP', floatTypeDDML, 'g/m^2')
       dummy = add_registration_with_units(respondToGetReg,
      :              'p_dead', floatarrayTypeDDML, 'g/m^2')
       dummy = add_registration_with_units(respondToGetReg,

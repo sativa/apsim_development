@@ -307,10 +307,9 @@ c     :     ,1000.)          ! Upper Limit for bound checking
      :                               + g%part_p_green(grain))
  
       elseif (variable_name .eq. 'SenescedP') then
-         call respond2get_real_array (variable_name
-     :                             , '(g/m^2)'
-     :                             , g%part_p_sen
-     :                             , max_part)
+         call respond2get_real_var (variable_name
+     :                     , '(g/m^2)'
+     :                     , sum_real_array (g%part_p_sen, max_part))
 
       elseif (variable_name .eq. 'p_dead') then
          call respond2get_real_array (variable_name
