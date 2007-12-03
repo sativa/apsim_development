@@ -157,7 +157,7 @@ c     :     ,1000.)          ! Upper Limit for bound checking
 
       PlantP_Send_my_variable = .true.
 
-      if (variable_name .eq. 'p_green') then
+      if (variable_name .eq. 'GreenP') then
           call respond2get_real_var (
      :               variable_name     ! variable name
      :              ,'(g/m^2)'          ! variable units
@@ -305,8 +305,8 @@ c     :     ,1000.)          ! Upper Limit for bound checking
      :                             , '(g/m^2)'
      :                             , g%part_p_green(flower)
      :                               + g%part_p_green(grain))
-
-      elseif (variable_name .eq. 'p_senesced') then
+ 
+      elseif (variable_name .eq. 'SenescedP') then
          call respond2get_real_array (variable_name
      :                             , '(g/m^2)'
      :                             , g%part_p_sen
