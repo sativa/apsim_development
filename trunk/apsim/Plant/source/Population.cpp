@@ -49,7 +49,7 @@ void Population::ZeroDaily()
    dlt_plants_failure_leaf_sen = 0.0;
    dlt_plants_failure_emergence = 0.0;
    dlt_plants_failure_germ = 0.0;
-   dlt_plants_death_external = 0.0;
+   //dlt_plants_death_external = 0.0;
    }
 
 void Population::Update()
