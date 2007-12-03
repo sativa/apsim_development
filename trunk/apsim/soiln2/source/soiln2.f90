@@ -302,6 +302,7 @@ module Soiln2Module
 ! ====================================================================
    type IDsType
       sequence
+      integer :: ExternalMassFlow
       integer :: new_solute
       integer :: n_balance
       integer :: c_balance
@@ -1489,6 +1490,52 @@ subroutine soiln2_send_my_variable (variable_name)
    return
 end subroutine
 
+!     ===========================================================
+      subroutine soilN2_ExternalMassFlow (dltN)
+!     ===========================================================
+      Use Infrastructure
+      implicit none
+
+      real, intent(in) :: dltN
+
+!+  Purpose
+!     Update internal time record and reset daily state variables.
+
+!+  Mission Statement
+!     Update internal time record and reset daily state variables.
+
+!+  Changes
+!        260899 nih
+
+!+  Local Variables
+      type (ExternalMassFlowType) :: massBalanceChange
+
+!+  Constant Values
+      character*(*) myname               ! name of current procedure
+      parameter (myname = 'soilN2_ExternalMassFlow')
+
+!- Implementation Section ----------------------------------
+      call push_routine (myname)
+
+      if (dltN >= 0.0) then
+         massBalanceChange%FlowType = "gain"
+      else
+         massBalanceChange%FlowType = "loss"
+      endif
+         massBalanceChange%PoolClass = "soil"
+         massBalanceChange%DM = 0.0
+         massBalanceChange%C  = 0.0
+         massBalanceChange%N  = abs(dltN)
+         massBalanceChange%P  = 0.0
+         massBalanceChange%SW = 0.0
+
+         call publish_ExternalMassFlow(ID%ExternalMassFlow, massBalanceChange)
+
+
+      call pop_routine (myname)
+      return
+      end subroutine
+
 
 
 !     ===========================================================
@@ -1524,19 +1571,25 @@ subroutine soiln2_set_my_variable (variable_name)
    integer      pool_num            ! pool number
    character    error_string*100    ! error string
    character    err_string*80
+      real       dltN
+      real       oldN(max_layer)       ! temporary array
+
 !- Implementation Section ----------------------------------
    call push_routine (my_name)
 
    if (variable_name .eq. 'no3') then
-
+      oldN = g%no3
       call collect_real_array(variable_name, max_layer, '(kg/ha)', g%no3, numvals, 0.0, 1000.0)
 
       do layer = 1, numvals
          call bound_check_real_var (g%no3(layer), g%no3_min(layer), g%no3(layer), 'g%NO3(layer)')
       end do
+      dltN = sum(g%no3) - sum(oldN)
+      call soilN2_ExternalMassFlow (dltN)
 
    elseif (variable_name .eq. 'no3ppm') then
 
+      oldN = g%no3
       call fill_real_array (no3,0.0,max_layer)
 
       call collect_real_array(variable_name, max_layer, '(ppm)', no3, numvals, c%no3ppm_min, 1000.0)
@@ -1544,17 +1597,23 @@ subroutine soiln2_set_my_variable (variable_name)
       do layer=1,numvals
          g%no3(layer) = divide (no3(layer), soiln2_fac (layer), 0.0)
       end do
+      dltN = sum(g%no3) - sum(oldN)
+      call soilN2_ExternalMassFlow (dltN)
 
    elseif (variable_name .eq. 'nh4') then
 
+      oldN = g%nh4
       call collect_real_array(variable_name, max_layer, '(kg/ha)', g%nh4, numvals, 0.0, 1000.0)
 
       do layer = 1, numvals
          call bound_check_real_var (g%nh4(layer), g%nh4_min(layer), g%nh4(layer), 'g%NH4(layer)')
       end do
+      dltN = sum(g%nh4) - sum(oldN)
+      call soilN2_ExternalMassFlow (dltN)
 
    elseif (variable_name .eq. 'nh4ppm') then
 
+      oldN = g%nh4
       call fill_real_array (nh4, 0.0, max_layer)
 
       call collect_real_array(variable_name, max_layer, '(ppm)', nh4, numvals, c%nh4ppm_min, 1000.0)
@@ -1562,10 +1621,16 @@ subroutine soiln2_set_my_variable (variable_name)
       do layer=1,numvals
          g%nh4(layer) = divide (nh4(layer), soiln2_fac (layer), 0.0)
       end do
+      dltN = sum(g%nh4) - sum(oldN)
+      call soilN2_ExternalMassFlow (dltN)
 
    elseif (variable_name .eq. 'urea') then
 
+      oldN = g%urea
       call collect_real_array(variable_name, max_layer, '(kg/ha)', g%urea, numvals, g_urea_min, 1000.0)
+
+      dltN = sum(g%urea) - sum(oldN)
+      call soilN2_ExternalMassFlow (dltN)
 
    elseif (variable_name .eq. 'dlt_no3') then
 
@@ -4576,7 +4641,7 @@ subroutine Soiln2_ONNew_Profile (variant)
 !+  Mission Statement
 !     Update internal soil layer structure with new data
    integer variant
-   
+
 !+  Local Variables
    type(NewProfileType) :: newProfile
 
@@ -4592,7 +4657,7 @@ subroutine Soiln2_ONNew_Profile (variant)
 !   g%sat_dep(:) = 0.0
 !   g%sw_dep(:) = 0.0
 !   g%bd(:) = 0.0
-   
+
    call unpack_newProfile(variant, newProfile)
 
    g%ll15_dep(:) = newProfile%ll15_dep
@@ -4719,6 +4784,7 @@ subroutine doInit1()
    integer dummy
 
    ! events published
+   id%ExternalMassFlow = add_registration(eventReg, 'ExternalMassFlow', ExternalMassFlowTypeDDML, '', '')
    id%new_solute = add_registration(eventReg, 'new_solute', NewSoluteTypeDDML, '', '')
    id%n_balance = add_registration(eventReg, 'n_balance', nbalanceTypeDDML, '', '')
    id%c_balance = add_registration(eventReg, 'c_balance', cbalanceTypeDDML, '', '')
