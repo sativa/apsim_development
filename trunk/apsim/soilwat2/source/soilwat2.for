@@ -264,6 +264,7 @@
 ! ====================================================================
       type IDsType
          sequence
+          integer :: ExternalMassFlow
           integer :: new_profile
           integer :: tillage
           integer :: reset
@@ -4237,6 +4238,52 @@ c  dsg   070302  added runon
       end subroutine
 
 
+*     ===========================================================
+      subroutine soilwat2_ExternalMassFlow (dltSWDep)
+*     ===========================================================
+      Use Infrastructure
+      implicit none
+
+      real, intent(in) :: dltSWDep
+
+*+  Purpose
+*     Update internal time record and reset daily state variables.
+
+*+  Mission Statement
+*     Update internal time record and reset daily state variables.
+
+*+  Changes
+*        260899 nih
+
+*+  Local Variables
+      type (ExternalMassFlowType) :: massBalanceChange
+
+*+  Constant Values
+      character*(*) myname               ! name of current procedure
+      parameter (myname = 'soilwat2_ExternalMassFlow')
+
+*- Implementation Section ----------------------------------
+      call push_routine (myname)
+
+      if (dltSWDep >= 0.0) then
+         massBalanceChange%FlowType = "gain"
+      else
+         massBalanceChange%FlowType = "loss"
+      endif
+         massBalanceChange%PoolClass = "soil"
+         massBalanceChange%DM = 0.0
+         massBalanceChange%C  = 0.0
+         massBalanceChange%N  = 0.0
+         massBalanceChange%P  = 0.0
+         massBalanceChange%SW = abs(dltSWDep)
+
+         call publish_ExternalMassFlow(ID%ExternalMassFlow
+     :                               , massBalanceChange)
+
+
+      call pop_routine (myname)
+      return
+      end subroutine
 
 * ====================================================================
       subroutine soilwat2_set_my_variable (variable_name)
@@ -4279,12 +4326,17 @@ c  dsg   070302  added runon
       integer    numvals               ! number of values returned in array
       real       temp(max_layer)       ! temporary array
       real       water_table           ! temporary value of water table
+      real       newSWDep              ! temporary
+      real       dltSWDep
+      real       oldSWDep(max_layer)       ! temporary array
 
+      character  string*300            ! output string
 *- Implementation Section ----------------------------------
 
       call push_routine (my_name)
 
       if (variable_name .eq. 'sw') then
+         oldSWDep = g%sw_dep
          call soilwat2_zero_default_variables ()
 
          call collect_real_array (variable_name, max_layer, '()'
@@ -4293,23 +4345,34 @@ c  dsg   070302  added runon
 
 !jh         call soilwat2_set_default ()   ! this causes output to occur whenever a module changes "sw", such as nwheat!
          num_layers = count_of_real_vals (p%dlayer, max_layer)
+         dltSWDep = 0.0
          do 1000 layer = 1,num_layers
-            g%sw_dep(layer) = temp(layer)*p%dlayer(layer)
+            newSWDep = temp(layer)*p%dlayer(layer)
+            dltSWDep = dltSWDep + (newSWDep - oldSWDep(layer))
+            g%sw_dep(layer) = newSWDep
             call soilwat2_check_profile (layer)
 1000     continue
 
+         call soilwat2_ExternalMassFlow (dltSWDep)
+
       elseif (variable_name .eq. 'sw_dep') then
+         oldSWDep = g%sw_dep
          call soilwat2_zero_default_variables ()
 
          call collect_real_array (variable_name, max_layer, '(mm)'
-     :                               , g%sw_dep, g%numvals_sw
+     :                               , temp, g%numvals_sw
      :                               , 0.0, 10000.0)
 
 !jh         call soilwat2_set_default ()  this causes output to occur whenever a module changes "sw", such as nwheat!
          num_layers = count_of_real_vals (p%dlayer, max_layer)
+         dltSWDep = 0.0
          do 2000 layer = 1,num_layers
+            newSWDep = temp(layer)
+            dltSWDep = dltSWDep + (newSWDep - oldSWDep(layer))
+            g%sw_dep(layer) = newSWDep
             call soilwat2_check_profile (layer)
 2000     continue
+!         call soilwat2_ExternalMassFlow (dltSWDep)
 
       elseif (variable_name .eq. 'insoil') then
 
@@ -5716,7 +5779,7 @@ cjh            out_solute = solute_kg_layer*divide (out_w, water, 0.0) *0.5
          line =
      :'           mm     mm/mm  mm/mm  mm/mm  mm/mm  mm/mm  g/cc    wf'
          call write_string (line)
-      else 
+      else
          line =
      :'         Depth  Air_Dry  LL15   Dul    Sat     Sw     BD   '
      ://'Runoff  SWCON   Ks'
@@ -7224,6 +7287,10 @@ c dsg 150302  saturated layer = layer, layer above not over dul
       ! events published
       id%new_profile = add_registration(eventReg, 'new_profile',
      .                                  newprofileTypeDDML, '', '')
+
+      id%ExternalMassFlow = add_registration(eventReg
+     .                    , 'ExternalMassFlow', ExternalMassFlowTypeDDML
+     :                    , '', '')
 
       ! events subscribed to
       id%tillage = add_registration(respondToEventReg, 'tillage',
