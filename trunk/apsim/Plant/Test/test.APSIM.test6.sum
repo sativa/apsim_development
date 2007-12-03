@@ -69,8 +69,8 @@ Component     "lablab" = c:\development\apsim\Plant\lib\Plant.dll
         lablab.biomass_wt
         lablab.green_biomass
         lablab.green_biomass_wt
-        lablab.dm_green
-        lablab.dm_senesced
+        lablab.GreenWt
+        lablab.SenescedWt
         lablab.dm_plant_min
         lablab.dlt_dm
         lablab.dlt_dm_pot_rue
@@ -85,8 +85,8 @@ Component     "lablab" = c:\development\apsim\Plant\lib\Plant.dll
         lablab.LeafGreenN
         lablab.RootGreenN
         lablab.StemGreenN
-        lablab.n_green
-        lablab.n_senesced
+        lablab.GreenN
+        lablab.SenescedN
         lablab.dlt_n_green
         lablab.dlt_n_dead
         lablab.dlt_n_retrans
