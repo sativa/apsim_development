@@ -148,7 +148,6 @@ class PlantHerbage : public HerbageBase
    private:
 ////      protocol::Component *system;
       float divide (float dividend, float divisor, float default_value);
-      string addPartToName(const std::string& variableName, const std::string& partName);
       protocol::RemoveCropDmType crop;
 
       unsigned dmGreenID[max_part];
