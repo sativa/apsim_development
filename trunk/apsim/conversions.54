@@ -297,10 +297,20 @@ command = SearchReplace(report, "floret_p","FloretGreenP")
 command = SearchReplace(tracker, "floret_p","FloretGreenP")
 command = SearchReplace(manager, "floret_p","FloretGreenP")
 
+[Renamed variable: p_green() to GreenP]
+command = SearchReplace(report, "p_green()","GreenP")
+command = SearchReplace(tracker, "p_green()","GreenP")
+command = SearchReplace(manager, "p_green()","GreenP")
+
 [Renamed variable: p_green to GreenP]
 command = SearchReplace(report, "p_green","GreenP")
 command = SearchReplace(tracker, "p_green","GreenP")
 command = SearchReplace(manager, "p_green","GreenP")
+
+[Renamed variable: p_senesced() to SenescedP]
+command = SearchReplace(report, "p_senesced()","SenescedP")
+command = SearchReplace(tracker, "p_senesced()","SenescedP")
+command = SearchReplace(manager, "p_senesced()","SenescedP")
 
 [Renamed variable: p_senesced to SenescedP]
 command = SearchReplace(report, "p_senesced","SenescedP")
