@@ -7,6 +7,9 @@
       ml_external doInit1
       integer dummy
 
+      id%externalmassflow = add_registration(eventReg
+     :                     , 'externalmassflow'
+     :                     , ExternalMassFlowTypeDDML, '', '')
       id%incorp_fom = add_registration(eventReg, 'incorp_fom',
      :                                 nullTypeDDML, '', '')
       id%add_residue_p = add_registration(eventReg, 'add_residue_p',

@@ -1756,6 +1756,8 @@ cjh  changed 0.0 to 1.0
       real       dm_plant_stem         ! dry matter in stems (g/plant)
       real       dm_plant_flower       ! dry matter in flowers (g/plant) !!added for sunflower
 
+      type (ExternalMassFlowType) :: massBalanceChange
+
 *- Implementation Section ----------------------------------
 
       call push_routine (my_name)
@@ -1774,6 +1776,19 @@ cjh  changed 0.0 to 1.0
          dm_green(leaf) = c_dm_leaf_init * g_plants
          dm_green(grain) = 0.0
          dm_green(flower) = 0.0
+
+         massBalanceChange%PoolClass = "crop"
+         massBalanceChange%FlowType = "gain"
+         massBalanceChange%DM = (dm_green(root)
+     :                        + dm_green(stem)
+     :                        + dm_green(leaf)) * gm2kg/sm2ha
+         massBalanceChange%C  = 0.0
+         massBalanceChange%N  = 0.0
+         massBalanceChange%P  = 0.0
+         massBalanceChange%SW = 0.0
+
+         call publish_ExternalMassFlow(ID%ExternalMassFlow
+     :                               , massBalanceChange)
 
 !changed from start_grain_fill
 

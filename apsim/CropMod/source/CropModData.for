@@ -1653,6 +1653,7 @@
 ! ====================================================================
       type IDsType
          sequence
+          integer :: externalmassflow
           integer :: incorp_fom
           integer :: add_residue_p
           integer :: crop_chopped

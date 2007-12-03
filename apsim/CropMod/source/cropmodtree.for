@@ -4732,6 +4732,8 @@ c"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
       REAL dlt_stem_n
       REAL dlt_root_n
 
+      type (ExternalMassFlowType) :: massBalanceChange
+
 
 *- Implementation Section ----------------------------------
       call push_routine (my_name)
@@ -4750,6 +4752,24 @@ c"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
      :              , g%dm_green
      :              , g%N_green
      :               )
+
+         if (on_day_of (emerg, g%current_stage, g%days_tot)) then
+             ! seedling has just emerged.
+            massBalanceChange%PoolClass = "crop"
+            massBalanceChange%FlowType = "gain"
+            massBalanceChange%DM = 0.0
+            massBalanceChange%C  = 0.0
+            massBalanceChange%N = (g%N_green(root)
+     :                           + g%N_green(stem)
+     :                           + g%N_green(leaf)) * gm2kg/sm2ha
+            massBalanceChange%P  = 0.0
+            massBalanceChange%SW = 0.0
+
+            call publish_ExternalMassFlow(ID%ExternalMassFlow
+     :                                 , massBalanceChange)
+         else
+               !do nothing
+         endif
 
       else if (Option.eq.5) then
 
