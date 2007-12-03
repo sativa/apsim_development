@@ -77,5 +77,6 @@
       <getVariableReg name="residue_wt" type="residue_wt"/>
       <respondToEventReg name="tick" type="tick"/>
       <respondToEventReg name="process" type="process"/>
+      <eventReg name="ExternalMassFlow" type="ExternalMassFlow"/>
    </registrations>
 </component>

@@ -527,6 +527,52 @@ subroutine soilp_read_param ()
    return
 end subroutine
 
+!     ===========================================================
+      subroutine soilP_ExternalMassFlow (dltP)
+!     ===========================================================
+      Use Infrastructure
+      implicit none
+
+      real, intent(in) :: dltP
+
+!+  Purpose
+!     Update internal time record and reset daily state variables.
+
+!+  Mission Statement
+!     Update internal time record and reset daily state variables.
+
+!+  Changes
+!        260899 nih
+
+!+  Local Variables
+      type (ExternalMassFlowType) :: massBalanceChange
+
+!+  Constant Values
+      character*(*) myname               ! name of current procedure
+      parameter (myname = 'soilP_ExternalMassFlow')
+
+!- Implementation Section ----------------------------------
+      call push_routine (myname)
+
+      if (dltP >= 0.0) then
+         massBalanceChange%FlowType = "gain"
+      else
+         massBalanceChange%FlowType = "loss"
+      endif
+         massBalanceChange%PoolClass = "soil"
+         massBalanceChange%DM = 0.0
+         massBalanceChange%C  = 0.0
+         massBalanceChange%N  = 0.0
+         massBalanceChange%P  = abs(dltP)
+         massBalanceChange%SW = 0.0
+
+         call publish_ExternalMassFlow(ID%ExternalMassFlow, massBalanceChange)
+
+
+      call pop_routine (myname)
+      return
+      end subroutine
+
 
 
 ! ====================================================================
@@ -551,21 +597,32 @@ subroutine soilp_set_my_variable (Variable_name)
 !+  Local Variables
    real Tarray(max_layer)           ! temporary array
    integer Numvals                  ! number of values read
+      real       dltP
+      real       oldP(max_layer)       ! temporary array
 
 !- Implementation Section ----------------------------------
 
    call push_routine (myname)
    if (Variable_name .eq. 'labile_p') then
+      oldP = g%labile_p
 
       call collect_real_array(variable_name, max_layer, '(kg/ha)', g%labile_p, Numvals, 0.0, 1000.0)
+      dltP = sum(g%labile_p) - sum(oldP)
+      call soilP_ExternalMassFlow (dltP)
 
    elseif (Variable_name .eq. 'banded_p') then
+      oldP = g%banded_p
 
       call collect_real_array(variable_name, max_layer, '(kg/ha)', g%banded_p, Numvals, 0.0, 1000.0)
+      dltP = sum(g%banded_p) - sum(oldP)
+      call soilP_ExternalMassFlow (dltP)
 
    elseif (Variable_name .eq. 'rock_p') then
+      oldP = g%rock_p
 
       call collect_real_array(variable_name, max_layer, '(ppm)', g%rock_p, Numvals, 0.0, 1000.0)
+      dltP = sum(g%rock_p) - sum(oldP)
+      call soilP_ExternalMassFlow (dltP)
 
    elseif (Variable_name .eq. 'dlt_labile_p') then
 
