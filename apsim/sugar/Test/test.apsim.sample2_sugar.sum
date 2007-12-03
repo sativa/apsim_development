@@ -45,8 +45,8 @@ Component      "sugar" = c:\development\apsim\sugar\lib\sugar.dll
         sugar.green_biomass
         sugar.swdef_photo
         sugar.nfact_photo
-        sugar.dm_senesced()
-        sugar.n_senesced()
+        sugar.SenescedWt
+        sugar.SenescedN
         sugar.dm_dead()
         sugar.dlt_dm_detached()
         manager.error

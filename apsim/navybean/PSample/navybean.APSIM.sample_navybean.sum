@@ -37,10 +37,10 @@ Component   "navybean" = c:\development\apsim\Plant\lib\Plant.dll
         navybean.lai
         navybean.biomass
         navybean.green_biomass
-        navybean.dm_green()
-        navybean.dm_green
-        navybean.p_green()
-        navybean.p_green
+        navybean.GreenWt
+        navybean.GreenWt
+        navybean.GreenP
+        navybean.GreenP
         navybean.p_sen()
         navybean.p_sen
         navybean.p_demand
@@ -56,7 +56,7 @@ Component   "navybean" = c:\development\apsim\Plant\lib\Plant.dll
         navybean.RootGreenP
         navybean.PodGreenP
         navybean.head_p
-        navybean.p_senesced()
+        navybean.SenescedP
         navybean.p_dead()
         navybean.dlt_p_green()
         navybean.dlt_p_retrans()
