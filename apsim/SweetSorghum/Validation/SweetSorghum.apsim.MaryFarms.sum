@@ -57,7 +57,7 @@ Component "sweetsorghum" = c:\development\apsim\Plant\lib\Plant.dll
         sweetsorghum.node_no
         sweetsorghum.height
         sweetsorghum.head_wt
-        sweetsorghum.dm_senesced(2) as dead_leaf
+        sweetsorghum.LeafSenescedWt as dead_leaf
         sweetsorghum.leaf_no_sen
 
      Output file = MaryFarms.out
