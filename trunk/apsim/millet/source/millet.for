@@ -34,6 +34,7 @@
 *+  Local Variables
       real       dm_plant_leaf         ! dry matter in leaves (g/plant)
       real       dm_plant_stem         ! dry matter in stems (g/plant)
+      type (ExternalMassFlowType) :: massBalanceChange
 
 *- Implementation Section ----------------------------------
 
@@ -54,6 +55,19 @@
          dm_green(tiller) = 0.0
          dm_green(grain) = 0.0
          dm_green(flower) = 0.0
+
+         massBalanceChange%PoolClass = "crop"
+         massBalanceChange%FlowType = "gain"
+         massBalanceChange%DM = (dm_green(root)
+     :                        + dm_green(stem)
+     :                        + dm_green(leaf)) * gm2kg/sm2ha
+         massBalanceChange%C  = 0.0
+         massBalanceChange%N  = 0.0
+         massBalanceChange%P  = 0.0
+         massBalanceChange%SW = 0.0
+
+         call publish_ExternalMassFlow(ID%ExternalMassFlow
+     :                               , massBalanceChange)
 
       elseif (on_day_of (flowering, g%current_stage, g%days_tot)) then
              ! we are at first day of flowering
@@ -509,6 +523,8 @@ cejvo
 *+  Changes
 *     010994 jngh specified and programmed
 
+      type (ExternalMassFlowType) :: massBalanceChange
+
 *+  Constant Values
       character  my_name*(*)           ! name of procedure
       parameter (my_name = 'millet_N_init')
@@ -523,6 +539,19 @@ cejvo
          N_green(leaf) = c%N_leaf_init_conc*g%dm_green(leaf)
          N_green(flower) = 0.0
          N_green(grain) = 0.0
+
+         massBalanceChange%PoolClass = "crop"
+         massBalanceChange%FlowType = "gain"
+         massBalanceChange%DM = 0.0
+         massBalanceChange%C  = 0.0
+         massBalanceChange%N  = (N_green(root)
+     :                        + N_green(stem)
+     :                        + N_green(leaf)) * gm2kg/sm2ha
+         massBalanceChange%P  = 0.0
+         massBalanceChange%SW = 0.0
+
+         call publish_ExternalMassFlow(ID%ExternalMassFlow
+     :                               , massBalanceChange)
 
       else
       endif
@@ -4367,6 +4396,7 @@ cnh         P_conc_min = linear_interp_real (current_stage_code
 
 *+  Local Variables
       real       biomass
+      type (ExternalMassFlowType) :: massBalanceChange
 
 *- Implementation Section ----------------------------------
 
@@ -4375,6 +4405,18 @@ cnh         P_conc_min = linear_interp_real (current_stage_code
       if (on_day_of (init_stage, g_current_stage, g_days_tot)) then
          biomass = sum_real_array (g_dm_green, max_part)
          g_plant_p = g_p_conc_max * biomass
+
+         massBalanceChange%PoolClass = "crop"
+         massBalanceChange%FlowType = "gain"
+         massBalanceChange%DM = 0.0
+         massBalanceChange%C  = 0.0
+         massBalanceChange%N  = 0.0
+         massBalanceChange%P  = g_plant_p * gm2kg/sm2ha
+         massBalanceChange%SW = 0.0
+
+         call publish_ExternalMassFlow(ID%ExternalMassFlow
+     :                               , massBalanceChange)
+
       else
       endif
 
