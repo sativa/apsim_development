@@ -639,6 +639,8 @@ c       PRINT *, 'g_phase_tt = ',g_phase_tt(germ_to_emerg)
 
       REAL       shoot_nc
       REAL       stem_trans_frac
+      type (ExternalMassFlowType) :: massBalanceChange
+      character  string*300            ! output string
 
 *- Implementation Section ----------------------------------
 
@@ -659,6 +661,23 @@ c       PRINT *, 'g_phase_tt = ',g_phase_tt(germ_to_emerg)
          g_dm_seed_reserve = c_dm_seed_reserve * g_plants       ! (g/m2)   !  ew
 
       !   g_dm_green_grainno = g_dm_green(stem)
+
+      call write_string ('Init DM ExternalMassFlow')
+      write(string,*) g_dm_green(1:4)
+      call write_string (string)
+         massBalanceChange%PoolClass = "crop"
+         massBalanceChange%FlowType = "gain"
+         massBalanceChange%DM = (g_dm_green(root)
+     :                        + g_dm_green(stem)
+     :                        + g_dm_green(leaf)
+     :                        + g_dm_seed_reserve) * gm2kg/sm2ha
+         massBalanceChange%C  = 0.0
+         massBalanceChange%N  = 0.0
+         massBalanceChange%P  = 0.0
+         massBalanceChange%SW = 0.0
+
+         call publish_ExternalMassFlow(ID%ExternalMassFlow
+     :                               , massBalanceChange)
 
 c for nwheat min stem weight at beginning of grain filling stage, no carbon mobile from leaves
       elseif (on_day_of (start_grain_fill

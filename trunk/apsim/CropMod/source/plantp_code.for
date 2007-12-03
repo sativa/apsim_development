@@ -1799,6 +1799,8 @@ c     :          ,1.0)                 ! Upper Limit for bound check
 
 *+  Local Variables
 
+      type (ExternalMassFlowType) :: massBalanceChange
+
 
 *- Implementation Section ----------------------------------
       call push_routine (myname)
@@ -1811,6 +1813,23 @@ c     :          ,1.0)                 ! Upper Limit for bound check
          ! biomass has been initialised but the p pools have not
          g%part_p_green(1:g%num_parts) = dm_green(1:g%num_parts)
      :                                 * c%p_conc_init(1:g%num_parts)
+
+         if (on_day_of (emerg, g%current_stage, g%days_tot)) then
+             ! seedling has just emerged.
+            massBalanceChange%PoolClass = "crop"
+            massBalanceChange%FlowType = "gain"
+            massBalanceChange%DM = 0.0
+            massBalanceChange%C  = 0.0
+            massBalanceChange%N  = 0.0
+            massBalanceChange%P = sum(g%part_p_green(1:g%num_parts))
+     :                          * gm2kg/sm2ha
+            massBalanceChange%SW = 0.0
+
+            call publish_ExternalMassFlow(ID%ExternalMassFlow
+     :                                 , massBalanceChange)
+         else
+               !do nothing
+         endif
 
       else
          ! Do nothing
