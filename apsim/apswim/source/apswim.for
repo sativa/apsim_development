@@ -1515,7 +1515,6 @@ c      read(ret_string, *, iostat = err_code) g%rain
 * ====================================================================
        subroutine apswim_set_other_variables ()
 * ====================================================================
-            use Infrastructure
       Use infrastructure
       implicit none
 
@@ -1525,11 +1524,56 @@ c      read(ret_string, *, iostat = err_code) g%rain
 *+  Changes
 *     <insert here>
 
+       double precision start_of_day
+       double precision end_of_day
+       real daily_rain
+       character*10 :: variable_name = 'rain'
+       character*10 :: units = '(mm)'
+
 *- Implementation Section ----------------------------------
 
+      call apswim_set_rain_variable ()
       return
       end subroutine
 
+
+* ====================================================================
+       subroutine apswim_set_rain_variable ()
+* ====================================================================
+      Use infrastructure
+      implicit none
+
+*+  Purpose
+*     Update variables owned by other modules.
+
+*+  Changes
+*     <insert here>
+
+       double precision start_of_day
+       double precision end_of_day
+       real daily_rain
+       character*10 :: variable_name = 'rain'
+       character*10 :: units = '(mm)'
+
+*- Implementation Section ----------------------------------
+
+         start_of_day = apswim_time (g%year,g%day,
+     :                               apswim_time_to_mins(g%apsim_time))
+         end_of_day = apswim_time (g%year
+     :                            ,g%day
+     :                            ,apswim_time_to_mins(g%apsim_time)
+     :                                +int(g%apsim_timestep))
+
+         daily_rain = (apswim_crain(end_of_day)-
+     :                     apswim_crain(start_of_day))*10d0
+
+         call set_real_var(unknown_module
+     :                       , trim(variable_name)
+     :                       , trim(units)
+     :                       , daily_rain)
+
+      return
+      end subroutine
 
 
 * ====================================================================
@@ -1836,7 +1880,8 @@ cnh      print*,g%TD_pevap
      :            '(mm)',
      :            hmin_mm)
 
-      else if (Variable_name .eq. 'h') then
+      else if (Variable_name .eq. 'h'
+     :    .OR. variable_name .eq. 'pond') then
          h_mm = g%h * 10.d0
          call respond2Get_double_var (
      :            Variable_name,
@@ -9872,6 +9917,8 @@ c      pause
 
       if (eventID .eq. id%tick) then
          call apswim_ONtick (variant)
+!      elseif (eventID .eq. id%prenewmet) then
+!         call apswim_set_rain_variable ()
 !      elseif (eventID .eq. id%subsurfaceflow) then
 !         call apswim_OnSubSurfaceFlow(variant)
       endif
