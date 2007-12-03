@@ -51,9 +51,9 @@ Component     "barley" = c:\development\apsim\plant\lib\plant.dll
         barley.grain_wt as dmGrain
         barley.biomass_n as nBiomass
         barley.StemGreenN as nStem
-        barley.n_green(4) as nRachis
+        barley.PodGreenN as nRachis
         barley.grain_n as nGrain
-        barley.n_senesced() as nSenLeaf
+        barley.SenescedN as nSenLeaf
         barley.n_conc_grain as nConcGrain
         barley.grain_no
         barley.lai

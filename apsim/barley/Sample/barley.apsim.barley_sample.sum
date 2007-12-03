@@ -41,19 +41,19 @@ Component     "sysbal" = c:\development\apsim\sysbal\lib\sysbal.dll
         barley.yield
         barley.root_depth
         barley.ep
-        barley.dm_green(1)
-        barley.dm_green(2)
+        barley.RootGreenWt
         barley.LeafGreenWt
-        barley.dm_green(3)
+        barley.LeafGreenWt
         barley.StemGreenWt
-        barley.dm_green(4)
+        barley.StemGreenWt
         barley.PodGreenWt
-        barley.dm_green(5)
+        barley.PodGreenWt
         barley.MealGreenWt
-        barley.dm_green(6)
+        barley.MealGreenWt
+        barley.OilGreenWt
         barley.OilGreenWt
         barley.dlt_dm_green_retrans
-        barley.dm_senesced
+        barley.SenescedWt
         barley.dm_plant_min
         barley.dlt_dm_green(1)
         barley.dlt_dm_green(2)
@@ -77,41 +77,26 @@ Component     "sysbal" = c:\development\apsim\sysbal\lib\sysbal.dll
         barley.OilGreenWt
         barley.head_wt
         barley.yield
-        barley.n_green(1)
-        barley.n_green(2)
+        barley.RootGreenN
         barley.LeafGreenN
-        barley.n_green(3)
         barley.StemGreenN
-        barley.n_green(4)
         barley.PodGreenN
-        barley.n_green(5)
         barley.MealGreenN
-        barley.n_green(6)
         barley.OilGreenN
         barley.FruitGreenN
-        barley.n_senesced(1)
-        barley.n_senesced(2)
-        barley.LeafSenescedN
-        barley.n_senesced(3)
-        barley.StemSenescedN
-        barley.n_senesced(4)
-        barley.PodSenescedN
-        barley.n_senesced(5)
-        barley.MealSenescedN
-        barley.n_senesced(6)
-        barley.OilSenescedN
+        barley.RootSenescedWt
+        barley.LeafSenescedWt
+        barley.StemSenescedWt
+        barley.PodSenescedWt
+        barley.MealSenescedWt
+        barley.OilSenescedWt
         barley.FruitSenescedN
         barley.dlt_n_green(1)
         barley.dlt_n_green(2)
-        barley.dlt_n_green_leaf
         barley.dlt_n_green(3)
-        barley.dlt_n_green_stem
         barley.dlt_n_green(4)
-        barley.dlt_n_green_pod
         barley.dlt_n_green(5)
-        barley.dlt_n_green_meal
         barley.dlt_n_green(6)
-        barley.dlt_n_green_oil
         barley.dlt_n_green_fruit
         barley.dlt_n_retrans(1)
         barley.dlt_n_retrans(2)
@@ -151,15 +136,10 @@ Component     "sysbal" = c:\development\apsim\sysbal\lib\sysbal.dll
         barley.dlt_n_senesced_retrans_fruit
         barley.dlt_n_senesced(1)
         barley.dlt_n_senesced(2)
-        barley.dlt_n_senesced_leaf
         barley.dlt_n_senesced(3)
-        barley.dlt_n_senesced_stem
         barley.dlt_n_senesced(4)
-        barley.dlt_n_senesced_pod
         barley.dlt_n_senesced(5)
-        barley.dlt_n_senesced_meal
         barley.dlt_n_senesced(6)
-        barley.dlt_n_senesced_oil
         barley.dlt_n_senesced_fruit
         barley.n_demand
         barley.n_demanded(1)
@@ -392,10 +372,6 @@ Component     "sysbal" = c:\development\apsim\sysbal\lib\sysbal.dll
       stage 3.0 emergence
                      biomass =           0.55 (g/m^2)   lai          =   0.024 (m^2/m^2)
                      stover N conc =     5.85 (%)    extractable sw =   20.39 (mm)
-24 June 1988(Day of year=176), sysbal: 
-     **** N balance - unaccounted gain (kg/ha) =      0.562500
-     **** C balance - unaccounted gain (kg/ha) =      6.995025
-     ****        equivalent DM as FOM  (kg/ha) =     17.487562
 25 June 1988(Day of year=177), barley: 
       stage 4.0 end_of_juvenile
                      biomass =           0.73 (g/m^2)   lai          =   0.027 (m^2/m^2)
