@@ -36,22 +36,7 @@ void Population::Initialise()
 void Population::Zero()
    {
    plants = 0.0;
-   dlt_plants = 0.0;
-   dlt_plants_death_seedling = 0.0;
-   dlt_plants_death_drought = 0.0;
-   dlt_plants_failure_phen_delay = 0.0;
-   dlt_plants_failure_leaf_sen = 0.0;
-   dlt_plants_failure_emergence = 0.0;
-   dlt_plants_failure_germ = 0.0;
-   dlt_plants_death_external = 0.0;
-   leaf_no_crit = 0.0;
-   tt_emerg_limit = 0.0;
-   days_germ_limit = 0;
-   swdf_pheno_limit = 0.0;
-   swdf_photo_limit = 0.0;
-   swdf_photo_rate = 0.0;
-   dlt_plants_death_external = 0.0;
-   plants = 0.0;
+   ZeroDaily();
    }
 
 void Population::ZeroDaily()
@@ -64,6 +49,7 @@ void Population::ZeroDaily()
    dlt_plants_failure_leaf_sen = 0.0;
    dlt_plants_failure_emergence = 0.0;
    dlt_plants_failure_germ = 0.0;
+   dlt_plants_death_external = 0.0;
    }
 
 void Population::Update()
