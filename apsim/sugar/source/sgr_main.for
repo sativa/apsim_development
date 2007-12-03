@@ -3010,12 +3010,12 @@ c I removed this NIH
 
             ! plant biomass
 
-      elseif (variable_name .eq. 'root_wt') then
+      elseif (variable_name .eq. 'rootgreenwt') then
          call respond2get_real_var (variable_name
      :                             , '(g/m^2)'
      :                             , g%dm_green(root))
 
-      elseif (variable_name .eq. 'leaf_wt') then
+      elseif (variable_name .eq. 'leafgreenwt') then
          call respond2get_real_var (variable_name
      :                             , '(g/m^2)'
      :                             , g%dm_green(leaf))
@@ -3105,12 +3105,12 @@ c I removed this NIH
      :                             , '(g/m^2)'
      :                             , biomass)
 
-      elseif (variable_name .eq. 'dm_green') then
+      elseif (variable_name .eq. 'greenwt') then
          call respond2get_real_var (variable_name
      :                    , '(g/m^2)'
      :                    , sum_real_array (g%dm_green, max_part))
 
-      elseif (variable_name .eq. 'dm_senesced') then
+      elseif (variable_name .eq. 'senescedwt') then
          call respond2get_real_var (variable_name
      :                    , '(g/m^2)'
      :                    , sum_real_array (g%dm_senesced, max_part))
@@ -3223,12 +3223,12 @@ cbak
      :                             , green_biomass_n)
 
 
-      elseif (variable_name .eq. 'n_green') then
+      elseif (variable_name .eq. 'greenn') then
          call respond2get_real_var (variable_name
      :                    , '(g/m^2)'
      :                    , sum_real_array (g%N_green, max_part))
 
-      elseif (variable_name .eq. 'n_senesced') then
+      elseif (variable_name .eq. 'senescedn') then
          call respond2get_real_var (variable_name
      :                    , '(g/m^2)'
      :                    , sum_real_array (g%N_senesced, max_part))
