@@ -38,9 +38,9 @@ void Phosphorus::doRegistrations(void)
    scienceAPI.expose("pfact_grain", "", "Phosphorus stress factor for grain", 0, grainStress);
    scienceAPI.expose("p_total_uptake", "g/m2", "Today's P uptake", 0, pUptakeTotal);
 
-   scienceAPI.exposeFunction("p_green", "g/m2", "P content of live plant parts", 
+   scienceAPI.exposeFunction("GreenP", "g/m2", "P content of live plant parts", 
                      FloatFunction(&Phosphorus::getPGreen));
-   scienceAPI.exposeFunction("p_senesced","g/m2", "P content of senesced plant parts",
+   scienceAPI.exposeFunction("SenescedP","g/m2", "P content of senesced plant parts",
                      FloatFunction(&Phosphorus::getPSenesced));
    scienceAPI.exposeFunction("p_sen",  "g/m2", "P content of senesced plant parts",
                      FloatFunction(&Phosphorus::getPSenesced));
