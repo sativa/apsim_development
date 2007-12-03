@@ -103,15 +103,6 @@ void PlantHerbage::doDigestibility(void)
    }
 }
 
-string PlantHerbage::addPartToName(const string& variableName, const string& partName)
-   {
-      // add the part name, if it isn't blank, to the specified variable name.
-   if (partName != "")
-      return variableName + "_" + partName;
-   else
-      return variableName;
-   }
-
 void PlantHerbage::doRegister(const int partNo, const string& partName)
    {
    // register interest in plant part parameters.
@@ -119,16 +110,16 @@ void PlantHerbage::doRegister(const int partNo, const string& partName)
       dmGreenID[partNo] = system->addRegistration(RegistrationType::get, string(partName+"GreenWt").c_str(), singleTypeDDML,"", herbageModuleName().c_str());   // parameter crop name=lablab
       nGreenID[partNo] = system->addRegistration(RegistrationType::get, string(partName+"GreenN").c_str(), singleTypeDDML,"", herbageModuleName().c_str());   // parameter crop name=lablab
       pGreenID[partNo] = system->addRegistration(RegistrationType::get, string(partName+"GreenP").c_str(), singleTypeDDML,"", herbageModuleName().c_str());   // parameter crop name=lablab
-      dmdMaxGreenID[partNo] = system->addRegistration(RegistrationType::get, addPartToName("digestibility_max_dm_green", partName).c_str(), singleTypeDDML,"", herbageModuleName().c_str());   // parameter crop name=lablab
-      dmdAvgGreenID[partNo] = system->addRegistration(RegistrationType::get, addPartToName("digestibility_avg_dm_green", partName).c_str(), singleTypeDDML,"", herbageModuleName().c_str());   // parameter crop name=lablab
-      dmdMinGreenID[partNo] = system->addRegistration(RegistrationType::get, addPartToName("digestibility_min_dm_green", partName).c_str(), singleTypeDDML,"", herbageModuleName().c_str());   // parameter crop name=lablab
+      dmdMaxGreenID[partNo] = system->addRegistration(RegistrationType::get, string(partName+"GreenDigestibilityMax").c_str(), singleTypeDDML,"", herbageModuleName().c_str());   // parameter crop name=lablab
+      dmdAvgGreenID[partNo] = system->addRegistration(RegistrationType::get, string(partName+"GreenDigestibilityAvg").c_str(), singleTypeDDML,"", herbageModuleName().c_str());   // parameter crop name=lablab
+      dmdMinGreenID[partNo] = system->addRegistration(RegistrationType::get, string(partName+"GreenDigestibilityMin").c_str(), singleTypeDDML,"", herbageModuleName().c_str());   // parameter crop name=lablab
 
       dmSenescedID[partNo] = system->addRegistration(RegistrationType::get, string(partName+"SenescedWt").c_str(), singleTypeDDML,"", herbageModuleName().c_str());   // parameter crop name=lablab
       nSenescedID[partNo] = system->addRegistration(RegistrationType::get, string(partName+"SenescedN").c_str(), singleTypeDDML,"", herbageModuleName().c_str());   // parameter crop name=lablab
       pSenescedID[partNo] = system->addRegistration(RegistrationType::get, string(partName+"SenescedP").c_str(), singleTypeDDML,"", herbageModuleName().c_str());   // parameter crop name=lablab
-      dmdMaxSenescedID[partNo] = system->addRegistration(RegistrationType::get, addPartToName("digestibility_max_dm_senesced", partName).c_str(), singleTypeDDML,"", herbageModuleName().c_str());   // parameter crop name=lablab
-      dmdAvgSenescedID[partNo] = system->addRegistration(RegistrationType::get, addPartToName("digestibility_avg_dm_senesced", partName).c_str(), singleTypeDDML,"", herbageModuleName().c_str());   // parameter crop name=lablab
-      dmdMinSenescedID[partNo] = system->addRegistration(RegistrationType::get, addPartToName("digestibility_min_dm_senesced", partName).c_str(), singleTypeDDML,"", herbageModuleName().c_str());   // parameter crop name=lablab
+      dmdMaxSenescedID[partNo] = system->addRegistration(RegistrationType::get, string(partName+"SenescedDigestibilityMax").c_str(), singleTypeDDML,"", herbageModuleName().c_str());   // parameter crop name=lablab
+      dmdAvgSenescedID[partNo] = system->addRegistration(RegistrationType::get, string(partName+"SenescedDigestibilityAvg").c_str(), singleTypeDDML,"", herbageModuleName().c_str());   // parameter crop name=lablab
+      dmdMinSenescedID[partNo] = system->addRegistration(RegistrationType::get, string(partName+"SenescedDigestibilityMin").c_str(), singleTypeDDML,"", herbageModuleName().c_str());   // parameter crop name=lablab
    }
 
 
