@@ -45,9 +45,9 @@ void Biomass::doRegistrations(void)
    scienceAPI.expose("green_biomass",    "kg/ha", "Total above ground live biomass",false,              biomGreen);
    scienceAPI.expose("stover",           "kg/ha", "Stover biomass",false,                               biomStover);
 
-   scienceAPI.exposeFunction("dm_green", "g/m^2", "Live plant dry weight",
+   scienceAPI.exposeFunction("GreenWt", "g/m^2", "Live plant dry weight",
                     FloatFunction(&Biomass::getDMGreen));
-   scienceAPI.exposeFunction("dm_senesced", "g/m^2", "Senesced plant dry weight",
+   scienceAPI.exposeFunction("SenescedWt", "g/m^2", "Senesced plant dry weight",
                     FloatFunction(&Biomass::getDMSenesced));
    scienceAPI.exposeFunction("dm_dead", "g/m^2", "Dry weight of dead plants",
                     FloatFunction(&Biomass::getDMDead));
