@@ -210,6 +210,9 @@ module Soiln2Module
       real       dlt_urea_hydrol(max_layer) ! nitrogen moved by hydrolysis (kg/ha)
       real       excess_nh4(max_layer)      ! excess N required above NH4 supply
 
+      real oldC
+      real oldN
+
       ! CHARACTER
       character   soiltype*32               ! soil type spec used to determine mineralisation parameters.
       character   residue_module*(Max_module_name_size)
@@ -352,6 +355,9 @@ subroutine soiln2_reset ()
 !- Implementation Section ----------------------------------
    call push_routine (my_name)
 
+   ! Save State
+   call soiln2_save_state ()
+
    ! Zero internal State Variables
    call soiln2_zero_variables ()
 
@@ -373,11 +379,138 @@ subroutine soiln2_reset ()
    ! Perform initial calculations from inputs
    call soiln2_init_calc()
 
+   ! Change of State
+   call soiln2_delta_state ()
+
    call pop_routine (my_name)
    return
 end subroutine
 
 
+
+!     ===========================================================
+subroutine soiln2_save_state ()
+!     ===========================================================
+   Use Infrastructure
+   implicit none
+
+
+!+  Sub-Program Arguments
+
+!+  Purpose
+!     Calculate Organic Carbon Percentage
+
+!+  Mission Statement
+!     Calculate Organic Carbon Percentage
+
+!+  Calls
+
+
+!+  Local Variables
+
+!+  Constant Values
+   character*(*) myname               ! name of current procedure
+   parameter (myname = 'soiln2_save_state')
+
+!- Implementation Section ----------------------------------
+   call push_routine (myname)
+
+   g%oldN = soiln2_total_n()
+   g%oldC = soiln2_total_c()
+
+   call pop_routine (myname)
+   return
+end subroutine
+
+!     ===========================================================
+subroutine soiln2_delta_state ()
+!     ===========================================================
+   Use Infrastructure
+   implicit none
+
+
+!+  Sub-Program Arguments
+
+!+  Purpose
+!     Calculate Organic Carbon Percentage
+
+!+  Mission Statement
+!     Calculate Organic Carbon Percentage
+
+!+  Calls
+
+
+!+  Local Variables
+      real       dltN
+      real       newN
+      real       dltC
+      real       newC
+
+!+  Constant Values
+   character*(*) myname               ! name of current procedure
+   parameter (myname = 'soiln2_delta_state')
+
+!- Implementation Section ----------------------------------
+   call push_routine (myname)
+
+   newN = soiln2_total_n()
+   newC = soiln2_total_c()
+
+   dltN = newN - g%oldN
+   dltC = newC - g%oldC
+
+   call soilN2_ExternalMassFlow (dltN)
+   call soilN2_ExternalMassFlowC (dltC)
+
+
+   call pop_routine (myname)
+   return
+end subroutine
+
+!     ===========================================================
+real function soiln2_total_c ()
+!     ===========================================================
+   Use Infrastructure
+   implicit none
+   integer    num_layers
+   integer    layer                 ! layer number
+   real       fom_c (max_layer)     ! fresh organic C (kg/ha)
+   real       carbon_tot  ! total carbon in soil(kg/ha)
+
+!- Implementation Section ----------------------------------
+
+      num_layers = count_of_real_vals (g%dlayer, max_layer)
+      call fill_real_array (fom_c, 0.0, max_layer)
+
+      do layer = 1, num_layers
+        fom_c(layer) = sum_real_array (g%fom_c_pool(1,layer), nfract)
+      end do
+
+      carbon_tot = 0.0
+      do layer = 1, num_layers
+         carbon_tot = carbon_tot + fom_c(layer)+ g%hum_c(layer)+ g%biom_c(layer)
+      end do
+
+   soiln2_total_c = carbon_tot
+
+   return
+end function
+
+!     ===========================================================
+real function soiln2_total_n ()
+!     ===========================================================
+   Use Infrastructure
+   implicit none
+   integer    num_layers
+
+!- Implementation Section ----------------------------------
+
+   num_layers = count_of_real_vals (g%dlayer, max_layer)
+   soiln2_total_n = sum(g%fom_n(1:num_layers)) + sum(g%hum_n(1:num_layers)) + sum(g%biom_n(1:num_layers)) &
+                  + sum(g%no3(1:num_layers)) + sum(g%nh4(1:num_layers)) + sum(g%urea(1:num_layers))
+
+   return
+end function
 
 !     ===========================================================
 subroutine soiln2_read_param ()
@@ -410,6 +543,7 @@ subroutine soiln2_read_param ()
    character  string*80
 
 !+  Initial Data Values
+
    call fill_real_array (no3, 0.0, max_layer)
    call fill_real_array (nh4, 0.0, max_layer)
    call fill_real_array (ureappm,0.0, max_layer)
@@ -632,6 +766,8 @@ subroutine soiln2_zero_all_globals ()
    g%dlt_N_sed              = 0.0
    g%dlt_C_loss_sed         = 0.0
    g%p_N_reduction    = 0
+   g%oldC = 0.0
+   g%oldN = 0.0
    g%use_organic_solutes = .false.
    g%residue_name(:)    = blank
    g%residue_type(:)     = blank
@@ -1526,6 +1662,53 @@ end subroutine
          massBalanceChange%DM = 0.0
          massBalanceChange%C  = 0.0
          massBalanceChange%N  = abs(dltN)
+         massBalanceChange%P  = 0.0
+         massBalanceChange%SW = 0.0
+
+         call publish_ExternalMassFlow(ID%ExternalMassFlow, massBalanceChange)
+
+
+      call pop_routine (myname)
+      return
+      end subroutine
+
+
+!     ===========================================================
+      subroutine soilN2_ExternalMassFlowC (dltC)
+!     ===========================================================
+      Use Infrastructure
+      implicit none
+
+      real, intent(in) :: dltC
+
+!+  Purpose
+!     Update internal time record and reset daily state variables.
+
+!+  Mission Statement
+!     Update internal time record and reset daily state variables.
+
+!+  Changes
+!        260899 nih
+
+!+  Local Variables
+      type (ExternalMassFlowType) :: massBalanceChange
+
+!+  Constant Values
+      character*(*) myname               ! name of current procedure
+      parameter (myname = 'soilN2_ExternalMassFlowC')
+
+!- Implementation Section ----------------------------------
+      call push_routine (myname)
+
+      if (dltC >= 0.0) then
+         massBalanceChange%FlowType = "gain"
+      else
+         massBalanceChange%FlowType = "loss"
+      endif
+         massBalanceChange%PoolClass = "soil"
+         massBalanceChange%DM = 0.0
+         massBalanceChange%C  = abs(dltC)
+         massBalanceChange%N  = 0.0
          massBalanceChange%P  = 0.0
          massBalanceChange%SW = 0.0
 
