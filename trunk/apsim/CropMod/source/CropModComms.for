@@ -1170,7 +1170,7 @@ c      end if
       !----------------------------------------------------------------
       !Biomass in g/m2
 
-      elseif (variable_name .eq. 'leaf_wt') then
+      elseif (variable_name .eq. 'LeafGreenWt') then
          call respond2get_real_var (variable_name
      :                             , '(g/m^2)'
      :                             , g%dm_green(leaf))
@@ -1187,7 +1187,7 @@ c      end if
      :                             , g%dm_green(leaf)
      :                             + g%dm_senesced(leaf))
 
-      elseif (variable_name .eq. 'stem_wt') then
+      elseif (variable_name .eq. 'StemGreenWt') then
          call respond2get_real_var (variable_name
      :                             , '(g/m^2)'
      :                             , g%dm_green(stem))
@@ -1209,7 +1209,7 @@ c      end if
      :                             , g%dm_green(grain))
 
 
-      elseif (variable_name .eq. 'root_wt') then
+      elseif (variable_name .eq. 'RootGreenWt') then
          call respond2get_real_var (variable_name
      :                             , '(g/m^2)'
      :                             , g%dm_green(root))
