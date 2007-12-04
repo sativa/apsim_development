@@ -311,6 +311,11 @@ class ScienceAPI
       virtual void subscribe(const std::string& name, boost::function1<void, IrrigatedType&> handler) = 0;
       virtual void publish(const std::string& name, IrrigatedType& data) = 0;
 
+      // KillCrop
+      #define KillCropFunction(address) boost::function1<void, KillCropType& >(boost::bind(address, this, _1))
+      virtual void subscribe(const std::string& name, boost::function1<void, KillCropType&> handler) = 0;
+      virtual void publish(const std::string& name, KillCropType& data) = 0;
+
       // Interception
       #define InterceptionFunction(address) boost::function1<void, InterceptionType& >(boost::bind(address, this, _1))
       virtual void subscribe(const std::string& name, boost::function1<void, InterceptionType&> handler) = 0;
@@ -421,6 +426,11 @@ class ScienceAPI
       virtual void subscribe(const std::string& name, boost::function1<void, NewProfileType&> handler) = 0;
       virtual void publish(const std::string& name, NewProfileType& data) = 0;
 
+      // NewPotentialGrowth
+      #define NewPotentialGrowthFunction(address) boost::function1<void, NewPotentialGrowthType& >(boost::bind(address, this, _1))
+      virtual void subscribe(const std::string& name, boost::function1<void, NewPotentialGrowthType&> handler) = 0;
+      virtual void publish(const std::string& name, NewPotentialGrowthType& data) = 0;
+
       // NewCanopy
       #define NewCanopyFunction(address) boost::function1<void, NewCanopyType& >(boost::bind(address, this, _1))
       virtual void subscribe(const std::string& name, boost::function1<void, NewCanopyType&> handler) = 0;
@@ -520,6 +530,11 @@ class ScienceAPI
       #define PastureCutFunction(address) boost::function1<void, PastureCutType& >(boost::bind(address, this, _1))
       virtual void subscribe(const std::string& name, boost::function1<void, PastureCutType&> handler) = 0;
       virtual void publish(const std::string& name, PastureCutType& data) = 0;
+
+      // PastureBurn
+      #define PastureBurnFunction(address) boost::function1<void, PastureBurnType& >(boost::bind(address, this, _1))
+      virtual void subscribe(const std::string& name, boost::function1<void, PastureBurnType&> handler) = 0;
+      virtual void publish(const std::string& name, PastureBurnType& data) = 0;
 
       // PastureOnCut
       #define PastureOnCutFunction(address) boost::function1<void, PastureOnCutType& >(boost::bind(address, this, _1))
@@ -680,6 +695,11 @@ class ScienceAPI
       #define SupplementMixFunction(address) boost::function1<void, SupplementMixType& >(boost::bind(address, this, _1))
       virtual void subscribe(const std::string& name, boost::function1<void, SupplementMixType&> handler) = 0;
       virtual void publish(const std::string& name, SupplementMixType& data) = 0;
+
+      // ExternalMassFlow
+      #define ExternalMassFlowFunction(address) boost::function1<void, ExternalMassFlowType& >(boost::bind(address, this, _1))
+      virtual void subscribe(const std::string& name, boost::function1<void, ExternalMassFlowType&> handler) = 0;
+      virtual void publish(const std::string& name, ExternalMassFlowType& data) = 0;
 
       // Variant
       #define VariantFunction(address) boost::function1<void, Variant& >(bind(address, this, _1))

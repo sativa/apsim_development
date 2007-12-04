@@ -31,8 +31,8 @@
    //------ Error ------
    struct ErrorType
       {
-      std::string msg;
       bool isFatal;
+      std::string msg;
       };
 
    void pack(MessageData& messageData, const ErrorType& data);
@@ -377,6 +377,17 @@
    void unpack(MessageData& messageData, IrrigatedType& data);
    unsigned memorySize(const IrrigatedType& data);
    std::string DDML(const IrrigatedType& data);
+
+   //------ KillCrop ------
+   struct KillCropType
+      {
+      float KillFraction;
+      };
+
+   void pack(MessageData& messageData, const KillCropType& data);
+   void unpack(MessageData& messageData, KillCropType& data);
+   unsigned memorySize(const KillCropType& data);
+   std::string DDML(const KillCropType& data);
 
    //------ Interception ------
    struct InterceptionType
@@ -733,57 +744,31 @@
    //------ NewProfile ------
    struct NewProfileType
       {
-      std::string sender_name;
-      int sender_numbytes;
-      int sender_code;
-      bool sender_isarray;
-      std::string sender_value;
-      std::string sender_id_name;
-      int sender_id_numbytes;
-      int sender_id_code;
-      bool sender_id_isarray;
-      int sender_id_value;
-      std::string dlayer_name;
-      int dlayer_numbytes;
-      int dlayer_code;
-      bool dlayer_isarray;
-      std::vector<float> dlayer_value;
-      std::string air_dry_dep_name;
-      int air_dry_dep_numbytes;
-      int air_dry_dep_code;
-      bool air_dry_dep_isarray;
-      std::vector<float> air_dry_dep_value;
-      std::string ll15_dep_name;
-      int ll15_dep_numbytes;
-      int ll15_dep_code;
-      bool ll15_dep_isarray;
-      std::vector<float> ll15_dep_value;
-      std::string dul_dep_name;
-      int dul_dep_numbytes;
-      int dul_dep_code;
-      bool dul_dep_isarray;
-      std::vector<float> dul_dep_value;
-      std::string sat_dep_name;
-      int sat_dep_numbytes;
-      int sat_dep_code;
-      bool sat_dep_isarray;
-      std::vector<float> sat_dep_value;
-      std::string sw_dep_name;
-      int sw_dep_numbytes;
-      int sw_dep_code;
-      bool sw_dep_isarray;
-      std::vector<float> sw_dep_value;
-      std::string bd_name;
-      int bd_numbytes;
-      int bd_code;
-      bool bd_isarray;
-      std::vector<float> bd_value;
+      std::vector<float> dlayer;
+      std::vector<float> air_dry_dep;
+      std::vector<float> ll15_dep;
+      std::vector<float> dul_dep;
+      std::vector<float> sat_dep;
+      std::vector<float> sw_dep;
+      std::vector<float> bd;
       };
 
    void pack(MessageData& messageData, const NewProfileType& data);
    void unpack(MessageData& messageData, NewProfileType& data);
    unsigned memorySize(const NewProfileType& data);
    std::string DDML(const NewProfileType& data);
+
+   //------ NewPotentialGrowth ------
+   struct NewPotentialGrowthType
+      {
+      std::string sender;
+      float frgr;
+      };
+
+   void pack(MessageData& messageData, const NewPotentialGrowthType& data);
+   void unpack(MessageData& messageData, NewPotentialGrowthType& data);
+   unsigned memorySize(const NewPotentialGrowthType& data);
+   std::string DDML(const NewPotentialGrowthType& data);
 
    //------ NewCanopy ------
    struct NewCanopyType
@@ -961,6 +946,7 @@
       double p;
       double s;
       double ash_alk;
+      double dmd;
       };
 
    void pack(MessageData& messageData, const fomType& data);
@@ -1008,7 +994,7 @@
    struct PastureKillType
       {
       double propn_herbage;
-      double propn_seeds;
+      double propn_seed;
       };
 
    void pack(MessageData& messageData, const PastureKillType& data);
@@ -1042,6 +1028,19 @@
    void unpack(MessageData& messageData, PastureCutType& data);
    unsigned memorySize(const PastureCutType& data);
    std::string DDML(const PastureCutType& data);
+
+   //------ PastureBurn ------
+   struct PastureBurnType
+      {
+      double kill_plants;
+      double kill_seed;
+      double propn_unburnt;
+      };
+
+   void pack(MessageData& messageData, const PastureBurnType& data);
+   void unpack(MessageData& messageData, PastureBurnType& data);
+   unsigned memorySize(const PastureBurnType& data);
+   std::string DDML(const PastureBurnType& data);
 
    //------ PastureOnCut ------
    struct PastureOnCutType
@@ -1489,6 +1488,23 @@
    void unpack(MessageData& messageData, SupplementMixType& data);
    unsigned memorySize(const SupplementMixType& data);
    std::string DDML(const SupplementMixType& data);
+
+   //------ ExternalMassFlow ------
+   struct ExternalMassFlowType
+      {
+      std::string PoolClass;
+      std::string FlowType;
+      float C;
+      float N;
+      float P;
+      float DM;
+      float SW;
+      };
+
+   void pack(MessageData& messageData, const ExternalMassFlowType& data);
+   void unpack(MessageData& messageData, ExternalMassFlowType& data);
+   unsigned memorySize(const ExternalMassFlowType& data);
+   std::string DDML(const ExternalMassFlowType& data);
 
    class Variant;
    void pack(MessageData& messageData, const Variant& data);
