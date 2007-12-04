@@ -37,25 +37,25 @@
 
    void pack(MessageData& messageData, const ErrorType& data)
       {
-      pack(messageData, data.msg);
       pack(messageData, data.isFatal);
+      pack(messageData, data.msg);
       }
    void unpack(MessageData& messageData, ErrorType& data)
       {
-      unpack(messageData, data.msg);
       unpack(messageData, data.isFatal);
+      unpack(messageData, data.msg);
       }
    unsigned memorySize(const ErrorType& data)
       {
       return 0
-              + ::memorySize(data.msg)
               + ::memorySize(data.isFatal)
+              + ::memorySize(data.msg)
               ;
       }
    std::string DDML(const ErrorType& data)
       {return "<type name=\"Error\">"
-               "<field name=\"msg\" kind=\"string\" />"
                "<field name=\"isFatal\" kind=\"boolean\" />"
+               "<field name=\"msg\" kind=\"string\" />"
                "</type>";}
 
    //------ Event ------
@@ -876,6 +876,27 @@
                "<field name=\"amount_code\" kind=\"integer4\" />"
                "<field name=\"amount_isarray\" kind=\"boolean\" />"
                "<field name=\"amount_value\" kind=\"single\" />"
+               "</type>";}
+
+   //------ KillCrop ------
+
+   void pack(MessageData& messageData, const KillCropType& data)
+      {
+      pack(messageData, data.KillFraction);
+      }
+   void unpack(MessageData& messageData, KillCropType& data)
+      {
+      unpack(messageData, data.KillFraction);
+      }
+   unsigned memorySize(const KillCropType& data)
+      {
+      return 0
+              + ::memorySize(data.KillFraction)
+              ;
+      }
+   std::string DDML(const KillCropType& data)
+      {return "<type name=\"KillCrop\">"
+               "<field name=\"KillFraction\" kind=\"single\" />"
                "</type>";}
 
    //------ Interception ------
@@ -1906,197 +1927,70 @@
 
    void pack(MessageData& messageData, const NewProfileType& data)
       {
-      pack(messageData, data.sender_name);
-      pack(messageData, data.sender_numbytes);
-      pack(messageData, data.sender_code);
-      pack(messageData, data.sender_isarray);
-      pack(messageData, data.sender_value);
-      pack(messageData, data.sender_id_name);
-      pack(messageData, data.sender_id_numbytes);
-      pack(messageData, data.sender_id_code);
-      pack(messageData, data.sender_id_isarray);
-      pack(messageData, data.sender_id_value);
-      pack(messageData, data.dlayer_name);
-      pack(messageData, data.dlayer_numbytes);
-      pack(messageData, data.dlayer_code);
-      pack(messageData, data.dlayer_isarray);
-      pack(messageData, data.dlayer_value);
-      pack(messageData, data.air_dry_dep_name);
-      pack(messageData, data.air_dry_dep_numbytes);
-      pack(messageData, data.air_dry_dep_code);
-      pack(messageData, data.air_dry_dep_isarray);
-      pack(messageData, data.air_dry_dep_value);
-      pack(messageData, data.ll15_dep_name);
-      pack(messageData, data.ll15_dep_numbytes);
-      pack(messageData, data.ll15_dep_code);
-      pack(messageData, data.ll15_dep_isarray);
-      pack(messageData, data.ll15_dep_value);
-      pack(messageData, data.dul_dep_name);
-      pack(messageData, data.dul_dep_numbytes);
-      pack(messageData, data.dul_dep_code);
-      pack(messageData, data.dul_dep_isarray);
-      pack(messageData, data.dul_dep_value);
-      pack(messageData, data.sat_dep_name);
-      pack(messageData, data.sat_dep_numbytes);
-      pack(messageData, data.sat_dep_code);
-      pack(messageData, data.sat_dep_isarray);
-      pack(messageData, data.sat_dep_value);
-      pack(messageData, data.sw_dep_name);
-      pack(messageData, data.sw_dep_numbytes);
-      pack(messageData, data.sw_dep_code);
-      pack(messageData, data.sw_dep_isarray);
-      pack(messageData, data.sw_dep_value);
-      pack(messageData, data.bd_name);
-      pack(messageData, data.bd_numbytes);
-      pack(messageData, data.bd_code);
-      pack(messageData, data.bd_isarray);
-      pack(messageData, data.bd_value);
+      pack(messageData, data.dlayer);
+      pack(messageData, data.air_dry_dep);
+      pack(messageData, data.ll15_dep);
+      pack(messageData, data.dul_dep);
+      pack(messageData, data.sat_dep);
+      pack(messageData, data.sw_dep);
+      pack(messageData, data.bd);
       }
    void unpack(MessageData& messageData, NewProfileType& data)
       {
-      unpack(messageData, data.sender_name);
-      unpack(messageData, data.sender_numbytes);
-      unpack(messageData, data.sender_code);
-      unpack(messageData, data.sender_isarray);
-      unpack(messageData, data.sender_value);
-      unpack(messageData, data.sender_id_name);
-      unpack(messageData, data.sender_id_numbytes);
-      unpack(messageData, data.sender_id_code);
-      unpack(messageData, data.sender_id_isarray);
-      unpack(messageData, data.sender_id_value);
-      unpack(messageData, data.dlayer_name);
-      unpack(messageData, data.dlayer_numbytes);
-      unpack(messageData, data.dlayer_code);
-      unpack(messageData, data.dlayer_isarray);
-      unpack(messageData, data.dlayer_value);
-      unpack(messageData, data.air_dry_dep_name);
-      unpack(messageData, data.air_dry_dep_numbytes);
-      unpack(messageData, data.air_dry_dep_code);
-      unpack(messageData, data.air_dry_dep_isarray);
-      unpack(messageData, data.air_dry_dep_value);
-      unpack(messageData, data.ll15_dep_name);
-      unpack(messageData, data.ll15_dep_numbytes);
-      unpack(messageData, data.ll15_dep_code);
-      unpack(messageData, data.ll15_dep_isarray);
-      unpack(messageData, data.ll15_dep_value);
-      unpack(messageData, data.dul_dep_name);
-      unpack(messageData, data.dul_dep_numbytes);
-      unpack(messageData, data.dul_dep_code);
-      unpack(messageData, data.dul_dep_isarray);
-      unpack(messageData, data.dul_dep_value);
-      unpack(messageData, data.sat_dep_name);
-      unpack(messageData, data.sat_dep_numbytes);
-      unpack(messageData, data.sat_dep_code);
-      unpack(messageData, data.sat_dep_isarray);
-      unpack(messageData, data.sat_dep_value);
-      unpack(messageData, data.sw_dep_name);
-      unpack(messageData, data.sw_dep_numbytes);
-      unpack(messageData, data.sw_dep_code);
-      unpack(messageData, data.sw_dep_isarray);
-      unpack(messageData, data.sw_dep_value);
-      unpack(messageData, data.bd_name);
-      unpack(messageData, data.bd_numbytes);
-      unpack(messageData, data.bd_code);
-      unpack(messageData, data.bd_isarray);
-      unpack(messageData, data.bd_value);
+      unpack(messageData, data.dlayer);
+      unpack(messageData, data.air_dry_dep);
+      unpack(messageData, data.ll15_dep);
+      unpack(messageData, data.dul_dep);
+      unpack(messageData, data.sat_dep);
+      unpack(messageData, data.sw_dep);
+      unpack(messageData, data.bd);
       }
    unsigned memorySize(const NewProfileType& data)
       {
       return 0
-              + ::memorySize(data.sender_name)
-              + ::memorySize(data.sender_numbytes)
-              + ::memorySize(data.sender_code)
-              + ::memorySize(data.sender_isarray)
-              + ::memorySize(data.sender_value)
-              + ::memorySize(data.sender_id_name)
-              + ::memorySize(data.sender_id_numbytes)
-              + ::memorySize(data.sender_id_code)
-              + ::memorySize(data.sender_id_isarray)
-              + ::memorySize(data.sender_id_value)
-              + ::memorySize(data.dlayer_name)
-              + ::memorySize(data.dlayer_numbytes)
-              + ::memorySize(data.dlayer_code)
-              + ::memorySize(data.dlayer_isarray)
-              + ::memorySize(data.dlayer_value)
-              + ::memorySize(data.air_dry_dep_name)
-              + ::memorySize(data.air_dry_dep_numbytes)
-              + ::memorySize(data.air_dry_dep_code)
-              + ::memorySize(data.air_dry_dep_isarray)
-              + ::memorySize(data.air_dry_dep_value)
-              + ::memorySize(data.ll15_dep_name)
-              + ::memorySize(data.ll15_dep_numbytes)
-              + ::memorySize(data.ll15_dep_code)
-              + ::memorySize(data.ll15_dep_isarray)
-              + ::memorySize(data.ll15_dep_value)
-              + ::memorySize(data.dul_dep_name)
-              + ::memorySize(data.dul_dep_numbytes)
-              + ::memorySize(data.dul_dep_code)
-              + ::memorySize(data.dul_dep_isarray)
-              + ::memorySize(data.dul_dep_value)
-              + ::memorySize(data.sat_dep_name)
-              + ::memorySize(data.sat_dep_numbytes)
-              + ::memorySize(data.sat_dep_code)
-              + ::memorySize(data.sat_dep_isarray)
-              + ::memorySize(data.sat_dep_value)
-              + ::memorySize(data.sw_dep_name)
-              + ::memorySize(data.sw_dep_numbytes)
-              + ::memorySize(data.sw_dep_code)
-              + ::memorySize(data.sw_dep_isarray)
-              + ::memorySize(data.sw_dep_value)
-              + ::memorySize(data.bd_name)
-              + ::memorySize(data.bd_numbytes)
-              + ::memorySize(data.bd_code)
-              + ::memorySize(data.bd_isarray)
-              + ::memorySize(data.bd_value)
+              + ::memorySize(data.dlayer)
+              + ::memorySize(data.air_dry_dep)
+              + ::memorySize(data.ll15_dep)
+              + ::memorySize(data.dul_dep)
+              + ::memorySize(data.sat_dep)
+              + ::memorySize(data.sw_dep)
+              + ::memorySize(data.bd)
               ;
       }
    std::string DDML(const NewProfileType& data)
       {return "<type name=\"NewProfile\">"
-               "<field name=\"sender_name\" kind=\"string\" />"
-               "<field name=\"sender_numbytes\" kind=\"integer4\" />"
-               "<field name=\"sender_code\" kind=\"integer4\" />"
-               "<field name=\"sender_isarray\" kind=\"boolean\" />"
-               "<field name=\"sender_value\" kind=\"string\" />"
-               "<field name=\"sender_id_name\" kind=\"string\" />"
-               "<field name=\"sender_id_numbytes\" kind=\"integer4\" />"
-               "<field name=\"sender_id_code\" kind=\"integer4\" />"
-               "<field name=\"sender_id_isarray\" kind=\"boolean\" />"
-               "<field name=\"sender_id_value\" kind=\"integer4\" />"
-               "<field name=\"dlayer_name\" kind=\"string\" />"
-               "<field name=\"dlayer_numbytes\" kind=\"integer4\" />"
-               "<field name=\"dlayer_code\" kind=\"integer4\" />"
-               "<field name=\"dlayer_isarray\" kind=\"boolean\" />"
-               "<field name=\"dlayer_value\" kind=\"single\" array=\"T\" />"
-               "<field name=\"air_dry_dep_name\" kind=\"string\" />"
-               "<field name=\"air_dry_dep_numbytes\" kind=\"integer4\" />"
-               "<field name=\"air_dry_dep_code\" kind=\"integer4\" />"
-               "<field name=\"air_dry_dep_isarray\" kind=\"boolean\" />"
-               "<field name=\"air_dry_dep_value\" kind=\"single\" array=\"T\" />"
-               "<field name=\"ll15_dep_name\" kind=\"string\" />"
-               "<field name=\"ll15_dep_numbytes\" kind=\"integer4\" />"
-               "<field name=\"ll15_dep_code\" kind=\"integer4\" />"
-               "<field name=\"ll15_dep_isarray\" kind=\"boolean\" />"
-               "<field name=\"ll15_dep_value\" kind=\"single\" array=\"T\" />"
-               "<field name=\"dul_dep_name\" kind=\"string\" />"
-               "<field name=\"dul_dep_numbytes\" kind=\"integer4\" />"
-               "<field name=\"dul_dep_code\" kind=\"integer4\" />"
-               "<field name=\"dul_dep_isarray\" kind=\"boolean\" />"
-               "<field name=\"dul_dep_value\" kind=\"single\" array=\"T\" />"
-               "<field name=\"sat_dep_name\" kind=\"string\" />"
-               "<field name=\"sat_dep_numbytes\" kind=\"integer4\" />"
-               "<field name=\"sat_dep_code\" kind=\"integer4\" />"
-               "<field name=\"sat_dep_isarray\" kind=\"boolean\" />"
-               "<field name=\"sat_dep_value\" kind=\"single\" array=\"T\" />"
-               "<field name=\"sw_dep_name\" kind=\"string\" />"
-               "<field name=\"sw_dep_numbytes\" kind=\"integer4\" />"
-               "<field name=\"sw_dep_code\" kind=\"integer4\" />"
-               "<field name=\"sw_dep_isarray\" kind=\"boolean\" />"
-               "<field name=\"sw_dep_value\" kind=\"single\" array=\"T\" />"
-               "<field name=\"bd_name\" kind=\"string\" />"
-               "<field name=\"bd_numbytes\" kind=\"integer4\" />"
-               "<field name=\"bd_code\" kind=\"integer4\" />"
-               "<field name=\"bd_isarray\" kind=\"boolean\" />"
-               "<field name=\"bd_value\" kind=\"single\" array=\"T\" />"
+               "<field name=\"dlayer\" kind=\"single\" array=\"T\" />"
+               "<field name=\"air_dry_dep\" kind=\"single\" array=\"T\" />"
+               "<field name=\"ll15_dep\" kind=\"single\" array=\"T\" />"
+               "<field name=\"dul_dep\" kind=\"single\" array=\"T\" />"
+               "<field name=\"sat_dep\" kind=\"single\" array=\"T\" />"
+               "<field name=\"sw_dep\" kind=\"single\" array=\"T\" />"
+               "<field name=\"bd\" kind=\"single\" array=\"T\" />"
+               "</type>";}
+
+   //------ NewPotentialGrowth ------
+
+   void pack(MessageData& messageData, const NewPotentialGrowthType& data)
+      {
+      pack(messageData, data.sender);
+      pack(messageData, data.frgr);
+      }
+   void unpack(MessageData& messageData, NewPotentialGrowthType& data)
+      {
+      unpack(messageData, data.sender);
+      unpack(messageData, data.frgr);
+      }
+   unsigned memorySize(const NewPotentialGrowthType& data)
+      {
+      return 0
+              + ::memorySize(data.sender)
+              + ::memorySize(data.frgr)
+              ;
+      }
+   std::string DDML(const NewPotentialGrowthType& data)
+      {return "<type name=\"NewPotentialGrowth\">"
+               "<field name=\"sender\" kind=\"string\" />"
+               "<field name=\"frgr\" kind=\"single\" units=\"\" />"
                "</type>";}
 
    //------ NewCanopy ------
@@ -2523,6 +2417,7 @@
       pack(messageData, data.p);
       pack(messageData, data.s);
       pack(messageData, data.ash_alk);
+      pack(messageData, data.dmd);
       }
    void unpack(MessageData& messageData, fomType& data)
       {
@@ -2531,6 +2426,7 @@
       unpack(messageData, data.p);
       unpack(messageData, data.s);
       unpack(messageData, data.ash_alk);
+      unpack(messageData, data.dmd);
       }
    unsigned memorySize(const fomType& data)
       {
@@ -2540,6 +2436,7 @@
               + ::memorySize(data.p)
               + ::memorySize(data.s)
               + ::memorySize(data.ash_alk)
+              + ::memorySize(data.dmd)
               ;
       }
    std::string DDML(const fomType& data)
@@ -2550,6 +2447,7 @@
                "<field name=\"p\" unit=\"kg/ha\" kind=\"double\" />"
                "<field name=\"s\" unit=\"kg/ha\" kind=\"double\" />"
                "<field name=\"ash_alk\" unit=\"mol/ha\" kind=\"double\" />"
+               "<field name=\"dmd\" unit=\"-\" kind=\"double\" />"
                "</element>"
                "</field>";}
 
@@ -2582,6 +2480,7 @@
                "<field name=\"p\" unit=\"kg/ha\" kind=\"double\" />"
                "<field name=\"s\" unit=\"kg/ha\" kind=\"double\" />"
                "<field name=\"ash_alk\" unit=\"mol/ha\" kind=\"double\" />"
+               "<field name=\"dmd\" unit=\"-\" kind=\"double\" />"
                "</element>"
                "</field>"
                "</type>";}
@@ -2641,24 +2540,24 @@
    void pack(MessageData& messageData, const PastureKillType& data)
       {
       pack(messageData, data.propn_herbage);
-      pack(messageData, data.propn_seeds);
+      pack(messageData, data.propn_seed);
       }
    void unpack(MessageData& messageData, PastureKillType& data)
       {
       unpack(messageData, data.propn_herbage);
-      unpack(messageData, data.propn_seeds);
+      unpack(messageData, data.propn_seed);
       }
    unsigned memorySize(const PastureKillType& data)
       {
       return 0
               + ::memorySize(data.propn_herbage)
-              + ::memorySize(data.propn_seeds)
+              + ::memorySize(data.propn_seed)
               ;
       }
    std::string DDML(const PastureKillType& data)
       {return "<type name=\"PastureKill\">"
                "<field name=\"propn_herbage\" unit=\"-\" kind=\"double\" />"
-               "<field name=\"propn_seeds\" unit=\"-\" kind=\"double\" />"
+               "<field name=\"propn_seed\" unit=\"-\" kind=\"double\" />"
                "</type>";}
 
    //------ PastureCultivate ------
@@ -2721,6 +2620,35 @@
                "<field name=\"gathered\" unit=\"-\" kind=\"double\" />"
                "<field name=\"dmd_loss\" unit=\"-\" kind=\"double\" />"
                "<field name=\"dm_content\" unit=\"kg/kg\" kind=\"double\" />"
+               "</type>";}
+
+   //------ PastureBurn ------
+
+   void pack(MessageData& messageData, const PastureBurnType& data)
+      {
+      pack(messageData, data.kill_plants);
+      pack(messageData, data.kill_seed);
+      pack(messageData, data.propn_unburnt);
+      }
+   void unpack(MessageData& messageData, PastureBurnType& data)
+      {
+      unpack(messageData, data.kill_plants);
+      unpack(messageData, data.kill_seed);
+      unpack(messageData, data.propn_unburnt);
+      }
+   unsigned memorySize(const PastureBurnType& data)
+      {
+      return 0
+              + ::memorySize(data.kill_plants)
+              + ::memorySize(data.kill_seed)
+              + ::memorySize(data.propn_unburnt)
+              ;
+      }
+   std::string DDML(const PastureBurnType& data)
+      {return "<type name=\"PastureBurn\">"
+               "<field name=\"kill_plants\" unit=\"-\" kind=\"double\" />"
+               "<field name=\"kill_seed\" unit=\"-\" kind=\"double\" />"
+               "<field name=\"propn_unburnt\" unit=\"-\" kind=\"double\" />"
                "</type>";}
 
    //------ PastureOnCut ------
@@ -3835,5 +3763,50 @@
                "<field name=\"src_store\" kind=\"string\" unit=\"-\" />"
                "<field name=\"amount\" kind=\"double\" unit=\"kg\" />"
                "<field name=\"dest_store\" kind=\"string\" unit=\"-\" />"
+               "</type>";}
+
+   //------ ExternalMassFlow ------
+
+   void pack(MessageData& messageData, const ExternalMassFlowType& data)
+      {
+      pack(messageData, data.PoolClass);
+      pack(messageData, data.FlowType);
+      pack(messageData, data.C);
+      pack(messageData, data.N);
+      pack(messageData, data.P);
+      pack(messageData, data.DM);
+      pack(messageData, data.SW);
+      }
+   void unpack(MessageData& messageData, ExternalMassFlowType& data)
+      {
+      unpack(messageData, data.PoolClass);
+      unpack(messageData, data.FlowType);
+      unpack(messageData, data.C);
+      unpack(messageData, data.N);
+      unpack(messageData, data.P);
+      unpack(messageData, data.DM);
+      unpack(messageData, data.SW);
+      }
+   unsigned memorySize(const ExternalMassFlowType& data)
+      {
+      return 0
+              + ::memorySize(data.PoolClass)
+              + ::memorySize(data.FlowType)
+              + ::memorySize(data.C)
+              + ::memorySize(data.N)
+              + ::memorySize(data.P)
+              + ::memorySize(data.DM)
+              + ::memorySize(data.SW)
+              ;
+      }
+   std::string DDML(const ExternalMassFlowType& data)
+      {return "<type name=\"ExternalMassFlow\">"
+               "<field name=\"PoolClass\" kind=\"string\" unit=\"-\" />"
+               "<field name=\"FlowType\" kind=\"string\" unit=\"-\" />"
+               "<field name=\"C\" kind=\"single\" unit=\"kg/ha\" />"
+               "<field name=\"N\" kind=\"single\" unit=\"kg/ha\" />"
+               "<field name=\"P\" kind=\"single\" unit=\"kg/ha\" />"
+               "<field name=\"DM\" kind=\"single\" unit=\"kg/ha\" />"
+               "<field name=\"SW\" kind=\"single\" unit=\"mm\" />"
                "</type>";}
 

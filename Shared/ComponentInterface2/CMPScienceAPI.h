@@ -244,6 +244,9 @@ class EXPORT CMPScienceAPI : public ScienceAPI
       virtual void subscribe(const std::string& name, boost::function1<void, IrrigatedType&> handler);
       virtual void publish(const std::string& name, IrrigatedType& data);
 
+      virtual void subscribe(const std::string& name, boost::function1<void, KillCropType&> handler);
+      virtual void publish(const std::string& name, KillCropType& data);
+
       virtual void subscribe(const std::string& name, boost::function1<void, InterceptionType&> handler);
       virtual void publish(const std::string& name, InterceptionType& data);
 
@@ -310,6 +313,9 @@ class EXPORT CMPScienceAPI : public ScienceAPI
       virtual void subscribe(const std::string& name, boost::function1<void, NewProfileType&> handler);
       virtual void publish(const std::string& name, NewProfileType& data);
 
+      virtual void subscribe(const std::string& name, boost::function1<void, NewPotentialGrowthType&> handler);
+      virtual void publish(const std::string& name, NewPotentialGrowthType& data);
+
       virtual void subscribe(const std::string& name, boost::function1<void, NewCanopyType&> handler);
       virtual void publish(const std::string& name, NewCanopyType& data);
 
@@ -369,6 +375,9 @@ class EXPORT CMPScienceAPI : public ScienceAPI
 
       virtual void subscribe(const std::string& name, boost::function1<void, PastureCutType&> handler);
       virtual void publish(const std::string& name, PastureCutType& data);
+
+      virtual void subscribe(const std::string& name, boost::function1<void, PastureBurnType&> handler);
+      virtual void publish(const std::string& name, PastureBurnType& data);
 
       virtual void subscribe(const std::string& name, boost::function1<void, PastureOnCutType&> handler);
       virtual void publish(const std::string& name, PastureOnCutType& data);
@@ -465,6 +474,9 @@ class EXPORT CMPScienceAPI : public ScienceAPI
 
       virtual void subscribe(const std::string& name, boost::function1<void, SupplementMixType&> handler);
       virtual void publish(const std::string& name, SupplementMixType& data);
+
+      virtual void subscribe(const std::string& name, boost::function1<void, ExternalMassFlowType&> handler);
+      virtual void publish(const std::string& name, ExternalMassFlowType& data);
 
 
       virtual void subscribe(const std::string& name, boost::function1<void, Variant&> handler);
