@@ -266,6 +266,7 @@
          double precision pwuptake(MV,0:M)
          double precision pwuptakepot(MV,0:M)
          double precision cslold(nsol,0:M)
+         double precision cslstart(nsol,0:M)
 
          double precision hyscon
 
@@ -636,7 +637,7 @@
 * ====================================================================
        subroutine apswim_read_param ()
 * ====================================================================
-            use Infrastructure
+
       Use infrastructure
       implicit none
 
@@ -1457,7 +1458,7 @@ c     :              1.0d0)
 * ====================================================================
        subroutine apswim_get_other_variables ()
 * ====================================================================
-            use Infrastructure
+
       Use infrastructure
       implicit none
 
@@ -1579,7 +1580,7 @@ c      read(ret_string, *, iostat = err_code) g%rain
 * ====================================================================
        subroutine apswim_Send_my_variable (Variable_name)
 * ====================================================================
-            use Infrastructure
+
       Use infrastructure
       implicit none
 
@@ -2018,7 +2019,7 @@ cnh added as per request by Dr Val Snow
 * ====================================================================
        subroutine apswim_set_my_variable (Variable_name)
 * ====================================================================
-            use Infrastructure
+
       Use infrastructure
       implicit none
 
@@ -2161,7 +2162,7 @@ cnh added as per request by Dr Val Snow
 * ====================================================================
        subroutine apswim_zero_variables ()
 * ====================================================================
-            use Infrastructure
+
       Use infrastructure
       implicit none
 
@@ -2374,6 +2375,7 @@ c         wtint(counter) = 0.d0
 
          do 23 node = 0,M
             g%csl(counter,node)=0d0
+            g%cslstart(counter,node)=0d0
             g%cslt(counter,node)=0d0
             g%qsl(counter,node)=0d0
             g%qsls(counter,node)=0d0
@@ -2607,7 +2609,7 @@ cnh      call fill_real_array(ts(2,1),0.0,MTS)
 * ====================================================================
        subroutine apswim_zero_module_links ()
 * ====================================================================
-            use Infrastructure
+
       Use infrastructure
       implicit none
 
@@ -2637,7 +2639,7 @@ cnh      call fill_real_array(ts(2,1),0.0,MTS)
 * ====================================================================
        subroutine apswim_Prepare ()
 * ====================================================================
-            use Infrastructure
+
       Use infrastructure
       implicit none
 
@@ -2704,7 +2706,7 @@ cnh      call fill_real_array(ts(2,1),0.0,MTS)
 * ====================================================================
        subroutine apswim_post ()
 * ====================================================================
-            use Infrastructure
+
       Use infrastructure
       implicit none
 
@@ -2724,7 +2726,7 @@ cnh      call fill_real_array(ts(2,1),0.0,MTS)
 * ====================================================================
        subroutine apswim_end_run ()
 * ====================================================================
-            use Infrastructure
+
       Use infrastructure
       implicit none
 
@@ -2753,7 +2755,7 @@ cnh      call fill_real_array(ts(2,1),0.0,MTS)
 * ====================================================================
        subroutine apswim_init_calc ()
 * ====================================================================
-            use Infrastructure
+
       Use infrastructure
       implicit none
 
@@ -2962,7 +2964,7 @@ c      double precision tth
 * ====================================================================
        subroutine apswim_interp (node,tpsi,tth,thd,hklg,hklgd)
 * ====================================================================
-            use Infrastructure
+
       Use infrastructure
       implicit none
 
@@ -3203,7 +3205,7 @@ c      double precision tth
 * ====================================================================
        double precision function apswim_suction (node, theta)
 * ====================================================================
-            use Infrastructure
+
       Use infrastructure
       implicit none
 
@@ -3384,7 +3386,7 @@ c      double precision tth
 * ====================================================================
        logical function apswim_swim (timestep_start, timestep)
 * ====================================================================
-            use Infrastructure
+
       Use infrastructure
       implicit none
 
@@ -3764,7 +3766,7 @@ cnh
 * ====================================================================
        integer function apswim_time_to_mins (timestring)
 * ====================================================================
-            use Infrastructure
+
       Use infrastructure
       implicit none
 
@@ -4158,7 +4160,7 @@ cnh     :       p%x(layer), p%soil_type(layer), g%th(layer),g%psi(layer)*1000.,
 * ====================================================================
        subroutine apswim_reset_daily_totals()
 * ====================================================================
-            use Infrastructure
+
       Use infrastructure
       implicit none
 
@@ -4212,7 +4214,7 @@ cnh     :       p%x(layer), p%soil_type(layer), g%th(layer),g%psi(layer)*1000.,
 * ====================================================================
        subroutine apswim_check_inputs ()
 * ====================================================================
-            use Infrastructure
+
       Use infrastructure
       implicit none
 
@@ -4296,7 +4298,7 @@ cnh     :       p%x(layer), p%soil_type(layer), g%th(layer),g%psi(layer)*1000.,
 * ====================================================================
        subroutine apswim_init_defaults ()
 * ====================================================================
-            use Infrastructure
+
       Use infrastructure
       implicit none
 
@@ -4345,7 +4347,7 @@ c      eqr0  = 0.d0
 * ====================================================================
        double precision function apswim_crain (time)
 * ====================================================================
-            use Infrastructure
+
       Use infrastructure
       implicit none
 
@@ -4385,7 +4387,7 @@ c      eqr0  = 0.d0
 * ====================================================================
        double precision function apswim_cevap (time)
 * ====================================================================
-            use Infrastructure
+
       Use infrastructure
       implicit none
 
@@ -4561,7 +4563,7 @@ c      eqr0  = 0.d0
 *     ===========================================================
       double precision function ddivide (dividend, divisor, default)
 *     ===========================================================
-            use Infrastructure
+
       Use infrastructure
       implicit none
 
@@ -4632,7 +4634,7 @@ c      eqr0  = 0.d0
 * ====================================================================
        double precision function apswim_time (yy,dd,tt)
 * ====================================================================
-            use Infrastructure
+
       Use infrastructure
       implicit none
 
@@ -4695,7 +4697,7 @@ c      endif
 * ====================================================================
        subroutine apswim_init_change_units ()
 * ====================================================================
-            use Infrastructure
+
       Use infrastructure
       implicit none
 
@@ -4752,7 +4754,7 @@ c      endif
 * ====================================================================
        real function apswim_eqrain (time)
 * ====================================================================
-            use Infrastructure
+
       Use infrastructure
       implicit none
 
@@ -4791,7 +4793,7 @@ c      endif
 * ====================================================================
        subroutine apswim_read_solute_params ()
 * ====================================================================
-            use Infrastructure
+
       Use infrastructure
       implicit none
 
@@ -5008,7 +5010,7 @@ cnh               g%slscr(solnum) = table_slscr(solnum2)
 * ====================================================================
        subroutine apswim_read_solsoil_params ()
 * ====================================================================
-            use Infrastructure
+
       Use infrastructure
       implicit none
 
@@ -5148,7 +5150,6 @@ c                     p%beta(solnum,node) = table_beta(solnum2)
 * ====================================================================
        subroutine apswim_get_solute_variables ()
 * ====================================================================
-            use Infrastructure
       Use infrastructure
       implicit none
 
@@ -5189,7 +5190,6 @@ c                     p%beta(solnum,node) = table_beta(solnum2)
 * ====================================================================
        subroutine apswim_set_solute_variables ()
 * ====================================================================
-            use Infrastructure
       Use infrastructure
       implicit none
 
@@ -5205,6 +5205,7 @@ c                     p%beta(solnum,node) = table_beta(solnum2)
       integer solnum                   ! solute array index counter
       integer node                     ! node number specifier
       double precision solute_n(0:M)   ! solute concn in layers(kg/ha)
+      double precision dlt_solute_n(0:M)   ! solute concn in layers(kg/ha)
       character string*100
 
 *- Implementation Section ----------------------------------
@@ -5267,15 +5268,16 @@ c                     p%beta(solnum,node) = table_beta(solnum2)
 
             ! finished testing - assign value to array element
             solute_n(node) = Ctot
+            dlt_solute_n(node) = Ctot - g%cslstart(solnum,node)
 
    50    continue
 
 
          call Set_double_array (
      :           g%solute_owners(solnum),
-     :           p%solute_names(solnum),
+     :           'dlt_'//p%solute_names(solnum),
      :           '(kg/ha)',
-     :           solute_n(0),
+     :           dlt_solute_n(0),
      :           p%n+1)
 
 
@@ -5289,7 +5291,6 @@ c                     p%beta(solnum,node) = table_beta(solnum2)
 * ====================================================================
        subroutine apswim_read_crop_params ()
 * ====================================================================
-            use Infrastructure
       Use infrastructure
       implicit none
 
@@ -5360,7 +5361,6 @@ c                     p%beta(solnum,node) = table_beta(solnum2)
 * ====================================================================
        subroutine apswim_assign_crop_params ()
 * ====================================================================
-            use Infrastructure
       Use infrastructure
       implicit none
 
@@ -5606,7 +5606,7 @@ c                     p%beta(solnum,node) = table_beta(solnum2)
 * ====================================================================
        subroutine apswim_get_crop_variables ()
 * ====================================================================
-            use Infrastructure
+
       Use infrastructure
       implicit none
 
@@ -5990,7 +5990,7 @@ cnh NOTE - intensity is not part of the official design !!!!?
 * ====================================================================
        double precision function apswim_csol (solnum,time)
 * ====================================================================
-            use Infrastructure
+
       Use infrastructure
       implicit none
 
@@ -6043,7 +6043,7 @@ cnh NOTE - intensity is not part of the official design !!!!?
 * ====================================================================
        subroutine apswim_get_uptake (ucrop, uname, uarray, uunits,uflag)
 * ====================================================================
-            use Infrastructure
+
       Use infrastructure
       implicit none
 
@@ -6258,7 +6258,7 @@ cnh NOTE - intensity is not part of the official design !!!!?
 * ====================================================================
        integer function apswim_solute_number (solname)
 * ====================================================================
-            use Infrastructure
+
       Use infrastructure
       implicit none
 
@@ -6413,7 +6413,7 @@ cnh NOTE - intensity is not part of the official design !!!!?
 *     ===========================================================
       subroutine apswim_pot_evapotranspiration (pot_eo)
 *     ===========================================================
-            use Infrastructure
+
       Use infrastructure
       implicit none
 
@@ -6476,7 +6476,7 @@ cnh NOTE - intensity is not part of the official design !!!!?
 *     ===========================================================
       real function apswim_eeq_fac ()
 *     ===========================================================
-            use Infrastructure
+
       Use infrastructure
       implicit none
 
@@ -6525,7 +6525,7 @@ cnh NOTE - intensity is not part of the official design !!!!?
 * ====================================================================
        subroutine apswim_read_constants ()
 * ====================================================================
-            use Infrastructure
+
       Use infrastructure
       implicit none
 
@@ -6991,7 +6991,7 @@ cnh NOTE - intensity is not part of the official design !!!!?
 * ====================================================================
        subroutine apswim_calc_evap_variables ()
 * ====================================================================
-            use Infrastructure
+
       Use infrastructure
       implicit none
 
@@ -7197,7 +7197,7 @@ c      endif
 * ====================================================================
        subroutine apswim_recalc_eqrain ()
 * ====================================================================
-            use Infrastructure
+
       Use infrastructure
       implicit none
 
@@ -7252,7 +7252,7 @@ c      endif
 * ====================================================================
        subroutine apswim_tillage ()
 * ====================================================================
-            use Infrastructure
+
       Use infrastructure
       implicit none
 
@@ -7382,7 +7382,7 @@ c      endif
 * ====================================================================
        subroutine apswim_reset_water_balance (wc_flag, water_content)
 * ====================================================================
-            use Infrastructure
+
       Use infrastructure
       implicit none
 
@@ -7658,7 +7658,7 @@ c      endif
 * ====================================================================
        subroutine apswim_hmin (deqrain, sstorage)
 * ====================================================================
-            use Infrastructure
+
       Use infrastructure
       implicit none
 
@@ -7734,7 +7734,7 @@ cnh      end if
 * ====================================================================
        subroutine apswim_freundlich (node, solnum, Cw, Ctot, dCtot)
 * ====================================================================
-            use Infrastructure
+
       Use infrastructure
       implicit none
 
@@ -7777,7 +7777,7 @@ cnh      end if
        double precision function apswim_solve_freundlich
      :                                      (node, solnum, Ctot)
 * ====================================================================
-            use Infrastructure
+
       Use infrastructure
       implicit none
 
@@ -7871,7 +7871,7 @@ cnh      end if
 * ====================================================================
        subroutine apswim_get_obs_evap_variables ()
 * ====================================================================
-            use Infrastructure
+
       Use infrastructure
       implicit none
 
@@ -7961,7 +7961,7 @@ cnh      end if
 * ====================================================================
        subroutine apswim_extra_solute_supply ()
 * ====================================================================
-            use Infrastructure
+
       Use infrastructure
       implicit none
 
@@ -8196,7 +8196,7 @@ cnh      end if
 * ====================================================================
        double precision function apswim_solute_amount (solnum,node)
 * ====================================================================
-            use Infrastructure
+
       Use infrastructure
       implicit none
 
@@ -8283,7 +8283,7 @@ cnh      end if
 * ====================================================================
        double precision function apswim_solute_conc (solnum,node,amount)
 * ====================================================================
-            use Infrastructure
+
       Use infrastructure
       implicit none
 
@@ -8337,7 +8337,7 @@ cnh      end if
 * ====================================================================
        double precision function apswim_transp_redn (crop_num)
 * ====================================================================
-            use Infrastructure
+
       Use infrastructure
       implicit none
 
@@ -8407,7 +8407,7 @@ cnh      end if
 * ====================================================================
        double precision function apswim_slupf (crop, solnum)
 * ====================================================================
-            use Infrastructure
+
       Use infrastructure
       implicit none
 
@@ -8461,7 +8461,7 @@ c     :       max(g%solute_demand (crop,solnum) - tpsuptake,0d0)
 * ====================================================================
        subroutine apswim_check_demand ()
 * ====================================================================
-            use Infrastructure
+
       Use infrastructure
       implicit none
 
@@ -8515,7 +8515,7 @@ c     :       max(g%solute_demand (crop,solnum) - tpsuptake,0d0)
 * ====================================================================
        subroutine apswim_report_status ()
 * ====================================================================
-            use Infrastructure
+
       Use infrastructure
       implicit none
 
@@ -8917,7 +8917,7 @@ c      pause
 * ====================================================================
        subroutine apswim_conc_water_solute (solname,conc_water_solute)
 * ====================================================================
-            use Infrastructure
+
       Use infrastructure
       implicit none
 
@@ -8989,6 +8989,7 @@ c      pause
                ! ------- = ------- * -- * -------
                ! cc soil   ha(node)  kg   cc soil
 
+               g%cslstart(solnum,node) = solute_n(node)
                solute_n(node) = solute_n(node)
      :                        * 1d9             ! ug/kg
      :                        / (p%dx(node)*1d8) ! cc soil/ha
@@ -9024,7 +9025,7 @@ c      pause
 * ====================================================================
        subroutine apswim_conc_adsorb_solute (solname,conc_adsorb_solute)
 * ====================================================================
-            use Infrastructure
+
       Use infrastructure
       implicit none
 
@@ -9141,7 +9142,7 @@ c      pause
       subroutine apswim_get_flow (flow_name, flow_array, flow_units
      :                           ,flow_flag)
 * ====================================================================
-            use Infrastructure
+
       Use infrastructure
       implicit none
 
@@ -9208,7 +9209,7 @@ c      pause
 * ====================================================================
        subroutine apswim_diagnostics (pold)
 * ====================================================================
-            use Infrastructure
+
       Use infrastructure
       implicit none
 
@@ -9274,7 +9275,7 @@ c      pause
 * ====================================================================
        subroutine apswim_get_residue_variables ()
 * ====================================================================
-            use Infrastructure
+
       Use infrastructure
       implicit none
 
@@ -9310,7 +9311,7 @@ c      pause
 * ====================================================================
       double precision function apswim_cover_eos_redn  ()
 * ====================================================================
-            use Infrastructure
+
       Use infrastructure
       implicit none
 
@@ -9377,7 +9378,7 @@ c      pause
 *     ===========================================================
       subroutine apswim_on_new_solute ()
 *     ===========================================================
-            use Infrastructure
+
       Use infrastructure
       implicit none
 
@@ -9573,7 +9574,7 @@ c      pause
 * ====================================================================
        subroutine apswim_remove_interception ()
 * ====================================================================
-             use Infrastructure
+
       Use infrastructure
       implicit none
 
