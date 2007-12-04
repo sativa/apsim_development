@@ -86,6 +86,8 @@ module SoilPModule
       real      soil_t   (max_layer)   ! soil temperature for each soil layer (oC)
       real      bd       (max_layer)   ! soil bulk density (g/cc)
 
+      real oldP
+
    end type SoilPGlobals
 ! ====================================================================
    type SoilPParameters
@@ -186,6 +188,9 @@ subroutine soilp_reset ()
 
    call push_routine (myname)
 
+   ! Save State
+   call soilp_save_state ()
+
    call soilp_zero_variables ()
 
    call soilp_get_other_variables ()
@@ -203,11 +208,103 @@ subroutine soilp_reset ()
 
    call soilp_get_other_init_variables ()
 
+   ! Change of State
+   call soilp_delta_state ()
+
    call pop_routine (myname)
 
    return
 end subroutine
 
+!     ===========================================================
+subroutine soilp_save_state ()
+!     ===========================================================
+   Use Infrastructure
+   implicit none
+
+
+!+  Sub-Program Arguments
+
+!+  Purpose
+!     Calculate Organic Carbon Percentage
+
+!+  Mission Statement
+!     Calculate Organic Carbon Percentage
+
+!+  Calls
+
+
+!+  Local Variables
+
+!+  Constant Values
+   character*(*) myname               ! name of current procedure
+   parameter (myname = 'soilp_save_state')
+
+!- Implementation Section ----------------------------------
+   call push_routine (myname)
+
+   g%oldP = soilp_total_p()
+
+   call pop_routine (myname)
+   return
+end subroutine
+
+
+!     ===========================================================
+subroutine soilP_delta_state ()
+!     ===========================================================
+   Use Infrastructure
+   implicit none
+
+
+!+  Sub-Program Arguments
+
+!+  Purpose
+!     Calculate Organic Carbon Percentage
+
+!+  Mission Statement
+!     Calculate Organic Carbon Percentage
+
+!+  Calls
+
+
+!+  Local Variables
+      real       dltP
+      real       newP
+
+!+  Constant Values
+   character*(*) myname               ! name of current procedure
+   parameter (myname = 'soilP_delta_state')
+
+!- Implementation Section ----------------------------------
+   call push_routine (myname)
+
+   newP = soilP_total_p()
+   dltP = newP - g%oldP
+   call soilP_ExternalMassFlow (dltP)
+
+
+   call pop_routine (myname)
+   return
+end subroutine
+
+!     ===========================================================
+real function soilP_total_P ()
+!     ===========================================================
+   Use Infrastructure
+   implicit none
+   integer    num_layers
+      character  string*300            ! output string
+
+!- Implementation Section ----------------------------------
+   num_layers = count_of_real_vals (g%dlayer, max_layer)
+
+   soilP_total_p = sum(g%fom_p_pool(1,1:num_layers)) + sum(g%fom_p_pool(2,1:num_layers)) + sum(g%fom_p_pool(3,1:num_layers)) &
+                 + sum(g%hum_p(1:num_layers)) + sum(g%biom_p(1:num_layers)) &
+                 + sum(g%labile_p(1:num_layers)) + sum(g%unavail_p(1:num_layers)) + sum(g%banded_p(1:num_layers)) + sum(g%rock_p(1:num_layers))
+
+   return
+end function
 
 
 ! ====================================================================
