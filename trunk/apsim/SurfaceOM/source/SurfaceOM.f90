@@ -495,7 +495,7 @@ subroutine surfom_read_param ()
       ! Read in 'standing_fraction' from parameter file
       !         --------------
    call read_real_array_optional (section_name, 'standing_fraction', max_residues, '()', p%standing_fraction, numvals1, 0.0, 1.0)
-   if (numvals1.eq.0) then
+   if (numvals1 .eq. 0) then
       p%standing_fraction(:) = c%default_standing_fraction
    endif
 
@@ -503,7 +503,7 @@ subroutine surfom_read_param ()
       !         --------------------
     call read_real_array (section_name, 'cnr ', max_residues, '()', temp_residue_cnr, numvals1, 0.0, 200.0)
     call read_real_array_optional (section_name, 'cpr ', max_residues, '()', temp_residue_cpr, numvals1, 0.0, 200.0)
-    if (numvals1.eq.0) then
+    if (numvals1 .eq. 0) then
         temp_residue_cpr(:) = c%default_cpr
     else
        g%phosphorus_aware = .true.
@@ -511,13 +511,13 @@ subroutine surfom_read_param ()
 
 
    call read_char_var_optional (section_name, 'report_additions', '()', p%report_additions, numvals1)
-   if (numvals1.eq.0) then
+   if (numvals1 .eq. 0) then
       p%report_additions = 'no'
    else
    endif
 
    call read_char_var_optional (section_name, 'report_removals', '()', p%report_removals, numvals1)
-   if (numvals1.eq.0) then
+   if (numvals1 .eq. 0) then
       p%report_removals = 'no'
    else
    endif
@@ -534,24 +534,24 @@ subroutine surfom_read_param ()
       g%SurfOM(i)%OrganicMatterType = temp_type(i)
 
       ! convert the ppm figures into kg/ha
-      g%SurfOM(i)%no3 = divide(c%no3ppm(i),1000000.0,0.0)* temp_wt(i)
-      g%SurfOM(i)%nh4 = divide(c%nh4ppm(i),1000000.0,0.0)* temp_wt(i)
-      g%SurfOM(i)%po4 = divide(c%po4ppm(i),1000000.0,0.0)* temp_wt(i)
+      g%SurfOM(i)%no3 = divide(c%no3ppm(i), 1000000.0, 0.0) *  temp_wt(i)
+      g%SurfOM(i)%nh4 = divide(c%nh4ppm(i), 1000000.0, 0.0) *  temp_wt(i)
+      g%SurfOM(i)%po4 = divide(c%po4ppm(i), 1000000.0, 0.0) *  temp_wt(i)
 
       tot_c(i) = temp_wt(i) * c%c_fract(i)
-      tot_n(i) = divide(tot_c(i),temp_residue_cnr(i),0.0)
-      tot_p(i) = divide(tot_c(i),temp_residue_cpr(i),0.0)
+      tot_n(i) = divide(tot_c(i), temp_residue_cnr(i), 0.0)
+      tot_p(i) = divide(tot_c(i), temp_residue_cpr(i), 0.0)
 
-      g%SurfOM(i)%Standing(1:MaxFr)%amount =temp_wt(i)*c%fr_pool_c(1:MaxFr,i) * p%standing_fraction(i)
-      g%SurfOM(i)%Standing(1:MaxFr)%C =tot_c(i)* c%fr_pool_c(1:MaxFr,i) * p%standing_fraction(i)
-      g%SurfOM(i)%Standing(1:MaxFr)%N =tot_n(i)* c%fr_pool_n(1:MaxFr,i) * p%standing_fraction(i)
-      g%SurfOM(i)%Standing(1:MaxFr)%P =tot_p(i)* c%fr_pool_p(1:MaxFr,i) * p%standing_fraction(i)
+      g%SurfOM(i)%Standing(1:MaxFr)%amount  = temp_wt(i) * c%fr_pool_c(1:MaxFr,i) * p%standing_fraction(i)
+      g%SurfOM(i)%Standing(1:MaxFr)%C  = tot_c(i) *  c%fr_pool_c(1:MaxFr,i) * p%standing_fraction(i)
+      g%SurfOM(i)%Standing(1:MaxFr)%N  = tot_n(i) *  c%fr_pool_n(1:MaxFr,i) * p%standing_fraction(i)
+      g%SurfOM(i)%Standing(1:MaxFr)%P  = tot_p(i) *  c%fr_pool_p(1:MaxFr,i) * p%standing_fraction(i)
       g%SurfOM(i)%Standing(1:MaxFr)%AshAlk = 0.0
 
-      g%SurfOM(i)%Lying(1:MaxFr)%amount =temp_wt(i) * c%fr_pool_c(1:MaxFr,i)* (1 - p%standing_fraction(i))
-      g%SurfOM(i)%Lying(1:MaxFr)%C =tot_c(i)* c%fr_pool_c(1:MaxFr,i) * (1 - p%standing_fraction(i))
-      g%SurfOM(i)%Lying(1:MaxFr)%N =tot_n(i)* c%fr_pool_n(1:MaxFr,i) * (1 - p%standing_fraction(i))
-      g%SurfOM(i)%Lying(1:MaxFr)%P =tot_p(i)* c%fr_pool_p(1:MaxFr,i) * (1 - p%standing_fraction(i))
+      g%SurfOM(i)%Lying(1:MaxFr)%amount  = temp_wt(i) * c%fr_pool_c(1:MaxFr,i) *  (1 - p%standing_fraction(i))
+      g%SurfOM(i)%Lying(1:MaxFr)%C  = tot_c(i) *  c%fr_pool_c(1:MaxFr,i) * (1 - p%standing_fraction(i))
+      g%SurfOM(i)%Lying(1:MaxFr)%N  = tot_n(i) *  c%fr_pool_n(1:MaxFr,i) * (1 - p%standing_fraction(i))
+      g%SurfOM(i)%Lying(1:MaxFr)%P  = tot_p(i) *  c%fr_pool_p(1:MaxFr,i) * (1 - p%standing_fraction(i))
       g%SurfOM(i)%Lying(1:MaxFr)%AshAlk = 0.0
 
    end do
@@ -589,7 +589,7 @@ end subroutine
 
    resnum = 0
    do  counter = 1, g%num_surfom
-      if (g%SurfOM(counter)%name.eq.surfomname) then
+      if (g%SurfOM(counter)%name .eq. surfomname) then
          resnum = counter
          exit
       else
@@ -681,14 +681,14 @@ subroutine surfom_Pot_Decomp (C_decomp, N_decomp, P_decomp)
          Fdecomp = 1.0
       else
          ! Calculate today's decomposition  as a fraction of potential rate
-         Fdecomp = g%SurfOM(residue)%PotDecompRate *mf*tf*cnrf*cf
+         Fdecomp = g%SurfOM(residue)%PotDecompRate  * mf * tf * cnrf * cf
       endif
 
       ! Now calculate pool decompositions for this residue
 
-      C_decomp(residue) = Fdecomp* sum(g%SurfOM(residue)%Lying(1:MaxFr)%C)
-      N_decomp(residue) = Fdecomp* sum(g%SurfOM(residue)%Lying(1:MaxFr)%N)
-      P_decomp(residue) = Fdecomp* sum(g%SurfOM(residue)%Lying(1:MaxFr)%P)
+      C_decomp(residue) = Fdecomp *  sum(g%SurfOM(residue)%Lying(1:MaxFr)%C)
+      N_decomp(residue) = Fdecomp *  sum(g%SurfOM(residue)%Lying(1:MaxFr)%N)
+      P_decomp(residue) = Fdecomp *  sum(g%SurfOM(residue)%Lying(1:MaxFr)%P)
 
    end do
 
@@ -723,9 +723,9 @@ end subroutine
 !- Implementation Section ----------------------------------
    call push_routine (my_name)
 
-   ave_temp = divide((g%MetData%maxt + g%MetData%mint),2.0,0.0)
+   ave_temp = divide((g%MetData%maxt + g%MetData%mint), 2.0, 0.0)
 
-   if (ave_temp.gt.0.0) then
+   if (ave_temp .gt. 0.0) then
       tf = divide (ave_temp, c%opt_temp, 0.0)**2.0
       tf = bound (tf, 0.0, 1.0)
    else
@@ -767,7 +767,7 @@ end function
    ! The 'effective' weight takes into account the haystack effect and is governed by the
    ! cf_contrib factor (ini file).  ie some residue types do not contribute to the haystack effect.
 
-   eff_surfom_wt= 0
+   eff_surfom_wt =  0
    do residue = 1, g%num_surfom
      eff_surfom_wt = eff_surfom_wt + sum(g%SurfOM(residue)%Lying(1:MaxFr)%amount) * c%cf_contrib(residue)
    end do
@@ -775,7 +775,7 @@ end function
    if (eff_surfom_wt.le.c%crit_residue_wt) then
       cf = 1.0
    else
-      cf = divide(c%crit_residue_wt,eff_surfom_wt,0.0)
+      cf = divide(c%crit_residue_wt, eff_surfom_wt, 0.0)
       cf = bound (cf, 0.0, 1.0)
    endif
 
@@ -808,7 +808,7 @@ end function
    real       cnrf              ! C:N factor for decomposition(0-1)
    real       total_c           ! organic C component of this residue (kg/ha)
    real       total_n           ! organic N component of this residue (kg/ha)
-   real       total_mineral_n   ! mineral N component of this surfom (no3+nh4)(kg/ha)
+   real       total_mineral_n   ! mineral N component of this surfom (no3 + nh4)(kg/ha)
 
 !- Implementation Section ----------------------------------
    call push_routine (my_name)
@@ -817,12 +817,12 @@ end function
    total_C = sum(g%SurfOM(residue)%Lying(1:MaxFr)%C)
    total_N = sum(g%SurfOM(residue)%Lying(1:MaxFr)%N)
    total_mineral_n = g%SurfOM(residue)%no3 + g%SurfOM(residue)%nh4
-   cnr= divide(total_C,(total_N+total_mineral_n),0.0)
+   cnr =  divide(total_C, (total_N + total_mineral_n), 0.0)
 
    ! As C:N increases above optcn cnrf decreases exponentially toward zero
    ! As C:N decreases below optcn cnrf is constrained to one
 
-   if (c%cnrf_optcn.eq.0) then
+   if (c%cnrf_optcn .eq. 0) then
       cnrf = 1.0
    else
       cnrf = exp ( - c%cnrf_coeff * ((cnr - c%cnrf_optcn)/c%cnrf_optcn))
@@ -897,7 +897,7 @@ subroutine surfom_Process ()
 
    call surfom_set_vars (g%cumeos, leach_rain)
 
-   if (leach_rain .gt.0.0) then
+   if (leach_rain .gt. 0.0) then
       call surfom_leach (leach_rain)
    else
        ! no mineral N or P is leached today
@@ -937,7 +937,7 @@ subroutine surfom_set_vars (cumeos, leach_rain)
 
    precip = g%MetData%rain + g%irrig
 
-   if (precip.gt. 4.0) then
+   if (precip .gt. 4.0) then
       ! reset cumulative to just today's g%eos
       cumeos = g%eos - precip
 
@@ -993,8 +993,8 @@ subroutine surfom_Leach (leach_rain)
    po4_incorp(:) = 0.0
 
    !  Calculate Leaching Fraction
-   g%leaching_fr = divide(leach_rain,c%leach_rain_tot,0.0)
-   g%leaching_fr = bound(g%leaching_fr,0.0,1.0)
+   g%leaching_fr = divide(leach_rain, c%leach_rain_tot, 0.0)
+   g%leaching_fr = bound(g%leaching_fr, 0.0, 1.0)
 
 
    ! Apply leaching fraction to all mineral pools
@@ -1004,7 +1004,7 @@ subroutine surfom_Leach (leach_rain)
    po4_incorp(1) = sum(g%SurfOM(1:g%Num_surfom)%po4) * g%leaching_fr
 
    ! If neccessary, Send the mineral N & P leached to the Soil N&P modules
-   if(no3_incorp(1).gt.0.0.or.nh4_incorp(1).gt.0.0.or.po4_incorp(1).gt.0.0) then
+   if(no3_incorp(1) .gt. 0.0 .OR. nh4_incorp(1) .gt. 0.0 .OR. po4_incorp(1) .gt. 0.0) then
        deepest_layer = count_of_real_vals (g%dlayer, max_layer)
        call set_real_array (unknown_module, 'dlt_no3','(kg/ha)', no3_incorp,deepest_layer)
        call set_real_array (unknown_module, 'dlt_nh4','(kg/ha)', nh4_incorp,deepest_layer)
@@ -1015,9 +1015,9 @@ subroutine surfom_Leach (leach_rain)
    endif
 
    ! Update globals
-   g%SurfOM(1:g%Num_surfom)%no3=g%SurfOM(1:g%Num_surfom)%no3 * (1.-g%Leaching_Fr)
-   g%SurfOM(1:g%Num_surfom)%nh4=g%SurfOM(1:g%Num_surfom)%nh4 * (1.-g%Leaching_Fr)
-   g%SurfOM(1:g%Num_surfom)%po4=g%SurfOM(1:g%Num_surfom)%po4 * (1.-g%Leaching_Fr)
+   g%SurfOM(1:g%Num_surfom)%no3 = g%SurfOM(1:g%Num_surfom)%no3 * (1.-g%Leaching_Fr)
+   g%SurfOM(1:g%Num_surfom)%nh4 = g%SurfOM(1:g%Num_surfom)%nh4 * (1.-g%Leaching_Fr)
+   g%SurfOM(1:g%Num_surfom)%po4 = g%SurfOM(1:g%Num_surfom)%po4 * (1.-g%Leaching_Fr)
 
    call pop_routine (my_name)
    return
@@ -1051,8 +1051,8 @@ end subroutine
 
    do residue = 1, g%num_surfom
        SOMDecomp(residue)%name = g%SurfOM(residue)%name
-       SOMDecomp(residue)%OrganicMatterType =g%SurfOM(residue)%OrganicMatterType
-       SOMDecomp(residue)%amount = divide(Pot_C_decomp(residue),c%c_fract(residue),0.0)
+       SOMDecomp(residue)%OrganicMatterType  = g%SurfOM(residue)%OrganicMatterType
+       SOMDecomp(residue)%amount = divide(Pot_C_decomp(residue), c%c_fract(residue), 0.0)
        SOMDecomp(residue)%C = Pot_C_decomp(residue)
        SOMDecomp(residue)%N = Pot_N_decomp(residue)
        SOMDecomp(residue)%P = Pot_P_decomp(residue)
@@ -1154,7 +1154,7 @@ subroutine surfom_remove_surfom (variant)
       ! Determine which residue pool corresponds to this index in the array
       SOMNo = surfom_number(SOM(som_index)%name)
 
-      if (SOMNo.eq.0) then
+      if (SOMNo .eq. 0) then
          ! This is an unknown type - error
          write (Err_string, *)'Attempting to remove Surface Organic Matter from unknown ' &
                              , SOM(som_index)%name, ' Surface Organic Matter name.'
@@ -1209,7 +1209,7 @@ subroutine surfom_remove_surfom (variant)
       endif
 
       ! Report Removals
-      if (p%report_removals .eq.'yes') then
+      if (p%report_removals  .eq. 'yes') then
          Write (Err_string,*)   &
               'Removed SurfaceOM', New_Line   &
              ,'    SurfaceOM name         = ', trim(SOM(SOMNo)%name),    New_Line   &
@@ -1311,10 +1311,10 @@ subroutine surfom_decompose_surfom (variant)
 !- Implementation Section ----------------------------------
    call push_routine (myname)
 
-   call unpack_SurfaceOrganicMatterDecomp(variant,SOMDecomp,num_surfom)
+   call unpack_SurfaceOrganicMatterDecomp(variant, SOMDecomp, num_surfom)
 
    ! calculate potential decompostion of C, N, and P
-   call surfom_pot_decomp (c_pot_decomp,n_pot_decomp,p_pot_decomp)
+   call surfom_pot_decomp (c_pot_decomp, n_pot_decomp, p_pot_decomp)
 
    do counter = 1, num_surfom
 
@@ -1330,22 +1330,21 @@ subroutine surfom_decompose_surfom (variant)
       ! check if C:N ratio of decomposed material is correct
       SOMc = sum(g%SurfOM(residue_no)%Standing(1:MaxFr)%c) + sum(g%SurfOM(residue_no)%Lying(1:MaxFr)%c)
       SOMn = sum(g%SurfOM(residue_no)%Standing(1:MaxFr)%n) + sum(g%SurfOM(residue_no)%Lying(1:MaxFr)%n)
-      SOMcnr = divide(SOMc,SOMn,0.0)
+      SOMcnr = divide(SOMc, SOMn, 0.0)
 
-      if (reals_are_equal(tot_c_decomp,0.0).and.reals_are_equal(tot_n_decomp,0.0)) then
+      if (reals_are_equal(tot_c_decomp, 0.0) .and. reals_are_equal(tot_n_decomp, 0.0)) then
             ! all OK - nothing happening
 
-      elseif (tot_c_decomp .gt.c_pot_decomp(residue_no)+ error_margin(c_pot_decomp(residue_no)))then
-
+      elseif (tot_c_decomp .gt. c_pot_decomp(residue_no) + error_margin(c_pot_decomp(residue_no)))then
 
             call fatal_error (Err_internal,'C decomposition exceeds potential rate')
 
-      elseif (tot_n_decomp .gt.n_pot_decomp(residue_no)+ error_margin(n_pot_decomp(residue_no)))then
+      elseif (tot_n_decomp .gt. n_pot_decomp(residue_no) + error_margin(n_pot_decomp(residue_no)))then
             call fatal_error (Err_internal,'N decomposition exceeds potential rate')
 
         ! NIH - If both the following tests are empty then they can both be deleted.
 
-      elseif(reals_are_equal(divide(tot_c_decomp,tot_n_decomp,0.0),SOMcnr)) then
+      elseif(reals_are_equal(divide(tot_c_decomp, tot_n_decomp, 0.0), SOMcnr)) then
            !all ok - decomposition and residue pool have same C:N
 
       else
@@ -1355,10 +1354,10 @@ subroutine surfom_decompose_surfom (variant)
 
 
       !calculate total p decomposition
-      tot_p_decomp = tot_c_decomp * divide(p_pot_decomp(residue_no),c_pot_decomp(residue_no),0.0)
+      tot_p_decomp = tot_c_decomp * divide(p_pot_decomp(residue_no), c_pot_decomp(residue_no), 0.0)
 
       ! Do actual decomposing - update pools for C, N, and P
-      call surfom_decomp (tot_c_decomp,tot_n_decomp,tot_p_decomp,residue_no)
+      call surfom_decomp (tot_c_decomp, tot_n_decomp, tot_p_decomp, residue_no)
 
    end do
 
@@ -1399,7 +1398,7 @@ subroutine surfom_Decomp (C_decomp, N_decomp, P_decomp,residue)
 !______________________________________________________________________
 
    lying_c =   sum(g%SurfOM(residue)%Lying(1:MaxFr)%C)
-   Fdecomp = divide(C_decomp,lying_c,0.0)
+   Fdecomp = divide(C_decomp, lying_c, 0.0)
    Fdecomp = bound (Fdecomp, 0.0, 1.0)
    g%SurfOM(residue)%Lying(1:MaxFr)%C =   g%SurfOM(residue)%Lying(1:MaxFr)%C * (1 - Fdecomp)
    g%SurfOM(residue)%Lying(1:MaxFr)%amount =   g%SurfOM(residue)%Lying(1:MaxFr)%amount * (1 - Fdecomp)
@@ -1407,13 +1406,13 @@ subroutine surfom_Decomp (C_decomp, N_decomp, P_decomp,residue)
 !______________________________________________________________________
 
    lying_n =   sum(g%SurfOM(residue)%Lying(1:MaxFr)%N)
-   Fdecomp = divide(N_decomp,lying_n,0.0)
+   Fdecomp = divide(N_decomp, lying_n, 0.0)
    g%SurfOM(residue)%Lying(1:MaxFr)%N =   g%SurfOM(residue)%Lying(1:MaxFr)%N * (1 - Fdecomp)
 
 !______________________________________________________________________
 
    lying_p =   sum(g%SurfOM(residue)%Lying(1:MaxFr)%P)
-   Fdecomp = divide(P_decomp,lying_p,0.0)
+   Fdecomp = divide(P_decomp, lying_p, 0.0)
    g%SurfOM(residue)%Lying(1:MaxFr)%P =   g%SurfOM(residue)%Lying(1:MaxFr)%P * (1 - Fdecomp)
 
    call pop_routine (my_name)
@@ -1463,7 +1462,7 @@ subroutine surfom_Tillage ()
    !    If no user defined characteristics then use the
    !      lookup table compiled from expert knowledge
    ! ----------------------------------------------------------
-   If (Numvals_t .eq.0 .or. numvals_f.eq.0) then
+   If (Numvals_t  .eq. 0  .OR.  numvals_f .eq. 0) then
       call write_string (new_line//'    - Reading residue tillage info')
 
       call read_real_array_optional (tillage_section, till_type, 2, '()', type_info, numvals, 0.0, 1000.0)
@@ -1556,9 +1555,9 @@ subroutine surfom_incorp (action_type, F_incorp, Tillage_depth)
    N_Pool(:,:) = 0.0
    P_Pool(:,:) = 0.0
    AshAlk_Pool(:,:) = 0.0
-   no3(:)=0.0
-   nh4(:)=0.0
-   po4(:)=0.0
+   no3(:) = 0.0
+   nh4(:) = 0.0
+   po4(:) = 0.0
 
    cum_depth = 0.0
 
@@ -1570,13 +1569,13 @@ subroutine surfom_incorp (action_type, F_incorp, Tillage_depth)
          layer_incorp_depth = min (depth_to_go, g%dlayer(layer))
          F_incorp_layer = divide (layer_incorp_depth, tillage_depth, 0.0)
 
-         C_pool(1:MaxFr,layer) = C_pool(1:MaxFr,layer)+ (g%SurfOM(residue)%Lying(1:MaxFr)%C &
+         C_pool(1:MaxFr,layer) = C_pool(1:MaxFr,layer) +  (g%SurfOM(residue)%Lying(1:MaxFr)%C &
                                + g%SurfOM(residue)%Standing(1:MaxFr)%C) * F_incorp * F_incorp_layer
-         N_pool(1:MaxFr,layer) = N_pool(1:MaxFr,layer)+ (g%SurfOM(residue)%Lying(1:MaxFr)%N &
+         N_pool(1:MaxFr,layer) = N_pool(1:MaxFr,layer) +  (g%SurfOM(residue)%Lying(1:MaxFr)%N &
                                + g%SurfOM(residue)%Standing(1:MaxFr)%N) * F_incorp * F_incorp_layer
-         P_pool(1:MaxFr,layer) = P_pool(1:MaxFr,layer)+ (g%SurfOM(residue)%Lying(1:MaxFr)%P &
+         P_pool(1:MaxFr,layer) = P_pool(1:MaxFr,layer) +  (g%SurfOM(residue)%Lying(1:MaxFr)%P &
                                + g%SurfOM(residue)%Standing(1:MaxFr)%P) * F_incorp * F_incorp_layer
-         AshAlk_pool(1:MaxFr,layer) = AshAlk_pool(1:MaxFr,layer)+ (g%SurfOM(residue)%Lying(1:MaxFr)%AshAlk &
+         AshAlk_pool(1:MaxFr,layer) = AshAlk_pool(1:MaxFr,layer) +  (g%SurfOM(residue)%Lying(1:MaxFr)%AshAlk &
                                + g%SurfOM(residue)%Standing(1:MaxFr)%AshAlk) * F_incorp * F_incorp_layer
          no3(layer) = no3(layer) + g%SurfOM(residue)%no3 * F_incorp * F_incorp_layer
          nh4(layer) = nh4(layer) + g%SurfOM(residue)%nh4 * F_incorp * F_incorp_layer
@@ -1646,20 +1645,20 @@ subroutine surfom_incorp (action_type, F_incorp, Tillage_depth)
 
    do pool = 1, MaxFr
 
-      g%SurfOM(:)%Lying(pool)%amount =g%SurfOM(:)%Lying(pool)%amount * (1-F_incorp)
-      g%SurfOM(:)%Standing(pool)%amount =g%SurfOM(:)%Standing(pool)%amount * (1-F_incorp)
+      g%SurfOM(:)%Lying(pool)%amount  = g%SurfOM(:)%Lying(pool)%amount * (1-F_incorp)
+      g%SurfOM(:)%Standing(pool)%amount  = g%SurfOM(:)%Standing(pool)%amount * (1-F_incorp)
 
-      g%SurfOM(:)%Lying(pool)%C =g%SurfOM(:)%Lying(pool)%C * (1-F_incorp)
-      g%SurfOM(:)%Standing(pool)%C =g%SurfOM(:)%Standing(pool)%C * (1-F_incorp)
+      g%SurfOM(:)%Lying(pool)%C  = g%SurfOM(:)%Lying(pool)%C * (1-F_incorp)
+      g%SurfOM(:)%Standing(pool)%C  = g%SurfOM(:)%Standing(pool)%C * (1-F_incorp)
 
-      g%SurfOM(:)%Lying(pool)%N =g%SurfOM(:)%Lying(pool)%N * (1-F_incorp)
-      g%SurfOM(:)%Standing(pool)%N =g%SurfOM(:)%Standing(pool)%N * (1-F_incorp)
+      g%SurfOM(:)%Lying(pool)%N  = g%SurfOM(:)%Lying(pool)%N * (1-F_incorp)
+      g%SurfOM(:)%Standing(pool)%N  = g%SurfOM(:)%Standing(pool)%N * (1-F_incorp)
 
-      g%SurfOM(:)%Lying(pool)%P =g%SurfOM(:)%Lying(pool)%P * (1-F_incorp)
-      g%SurfOM(:)%Standing(pool)%P =g%SurfOM(:)%Standing(pool)%P * (1-F_incorp)
+      g%SurfOM(:)%Lying(pool)%P  = g%SurfOM(:)%Lying(pool)%P * (1-F_incorp)
+      g%SurfOM(:)%Standing(pool)%P  = g%SurfOM(:)%Standing(pool)%P * (1-F_incorp)
 
-      g%SurfOM(:)%Lying(pool)%AshAlk =g%SurfOM(:)%Lying(pool)%AshAlk * (1-F_incorp)
-      g%SurfOM(:)%Standing(pool)%AshAlk =g%SurfOM(:)%Standing(pool)%AshAlk * (1-F_incorp)
+      g%SurfOM(:)%Lying(pool)%AshAlk  = g%SurfOM(:)%Lying(pool)%AshAlk * (1-F_incorp)
+      g%SurfOM(:)%Standing(pool)%AshAlk  = g%SurfOM(:)%Standing(pool)%AshAlk * (1-F_incorp)
 
    end do
 
@@ -1713,7 +1712,7 @@ subroutine surfom_add_surfom ()
 
 
    SOMNo = surfom_number(surfom_name)
-   if (SOMNo.eq.0) then
+   if (SOMNo .eq. 0) then
       ! This is a new type - build internal record for it
 
        g%num_surfom = g%num_surfom + 1
@@ -1723,10 +1722,10 @@ subroutine surfom_add_surfom ()
        surfom_type = ' '
        call collect_char_var ('type','()',g%SurfOM(SOMNo)%OrganicMatterType, numvals)
 
-       g%SurfOM(SOMNo)%PotDecompRate=0.0
-       g%SurfOM(SOMNo)%no3 =0.0
-       g%SurfOM(SOMNo)%nh4 =0.0
-       g%SurfOM(SOMNo)%po4 =0.0
+       g%SurfOM(SOMNo)%PotDecompRate = 0.0
+       g%SurfOM(SOMNo)%no3  = 0.0
+       g%SurfOM(SOMNo)%nh4  = 0.0
+       g%SurfOM(SOMNo)%po4  = 0.0
        g%SurfOM(SOMNo)%Standing(:)%amount = 0.0
        g%SurfOM(SOMNo)%Standing(:)%C = 0.0
        g%SurfOM(SOMNo)%Standing(:)%N = 0.0
@@ -1750,12 +1749,12 @@ subroutine surfom_add_surfom ()
    if (surfom_added .gt. -10000.0) then
       ! Get N content of material added
       call collect_real_var_optional ('n', '(kg/ha)', surfom_N_added, numval_n, -10000.0, 10000.0)
-      if (numval_n.eq.0) then
+      if (numval_n  .eq.  0) then
          call collect_real_var_optional ('cnr', '()', surfom_cnr_added, numval_cnr, 0.0, 10000.0)
          surfom_N_added = divide ((surfom_added * c%C_fract(SOMNo)), surfom_cnr_added, 0.0)
 
          ! If no N info provided, and no cnr info provided then throw error
-         if (numval_cnr.eq.0) then
+         if (numval_cnr .eq. 0) then
             Err_string = 'SurfaceOM N or SurfaceOM CN ratio not specified.'
             call Fatal_ERROR (ERR_user, Err_string)
          else
@@ -1767,14 +1766,14 @@ subroutine surfom_add_surfom ()
       ! collect P information from this new member
       surfom_p_added = 0.0
       call collect_real_var_optional ('p', '(kg/ha)', surfom_p_added, numval_p, -10000.0, 10000.0)
-      if (numval_p.eq.0) then
+      if (numval_p .eq. 0) then
          surfom_cpr_added = 0.0
          call collect_real_var_optional ('cpr', '()', surfom_cpr_added, numval_cpr, 0.0, 10000.0)
-         surfom_P_added = divide ((surfom_added* c%C_fract(SOMNo)), surfom_cpr_added, 0.0)
+         surfom_P_added = divide ((surfom_added *  c%C_fract(SOMNo)), surfom_cpr_added, 0.0)
          ! If no P info provided, and no cpr info provided then
          ! use default cpr and throw warning error to notify user
-         If (numval_CPr .eq. 0) then
-            surfom_p_added = divide ((surfom_added*c%C_fract(SOMNo)),c%default_cpr,0.0)
+         If (numval_CPr  .eq.  0) then
+            surfom_p_added = divide ((surfom_added * c%C_fract(SOMNo)), c%default_cpr, 0.0)
             Err_string = 'SurfOM P or SurfaceOM C:P ratio not specified - Default value applied.'
             call Warning_ERROR (ERR_user, Err_string)
          Endif
@@ -1782,38 +1781,38 @@ subroutine surfom_add_surfom ()
       endif
 
       ! convert the ppm figures into kg/ha
-      g%SurfOM(SOMNo)%no3 = g%SurfOM(SOMNo)%no3+  divide(c%no3ppm(SOMNo),1000000.0,0.0) * surfom_added
-      g%SurfOM(SOMNo)%nh4 = g%SurfOM(SOMNo)%nh4+  divide(c%nh4ppm(SOMNo),1000000.0,0.0) * surfom_added
-      g%SurfOM(SOMNo)%po4 = g%SurfOM(SOMNo)%po4+  divide(c%po4ppm(SOMNo),1000000.0,0.0) * surfom_added
+      g%SurfOM(SOMNo)%no3 = g%SurfOM(SOMNo)%no3 +   divide(c%no3ppm(SOMNo), 1000000.0, 0.0) * surfom_added
+      g%SurfOM(SOMNo)%nh4 = g%SurfOM(SOMNo)%nh4 +   divide(c%nh4ppm(SOMNo), 1000000.0, 0.0) * surfom_added
+      g%SurfOM(SOMNo)%po4 = g%SurfOM(SOMNo)%po4 +   divide(c%po4ppm(SOMNo), 1000000.0, 0.0) * surfom_added
 
 
-      if(surfom_added.gt.0.0) then
+      if(surfom_added .gt. 0.0) then
       ! Assume all residue added is in the LYING pool, ie No STANDING component
 
          g%SurfOM(SOMNo)%Lying(1:MaxFr)%amount = g%SurfOM(SOMNo)%Lying(1:MaxFr)%amount + surfom_added   * c%fr_pool_c(1:MaxFr,SOMNo)
-         g%SurfOM(SOMNo)%Lying(1:MaxFr)%C      = g%SurfOM(SOMNo)%Lying(1:MaxFr)%C      + surfom_added   * c%c_fract(SOMNo)* c%fr_pool_c(1:MaxFr,SOMNo)
+         g%SurfOM(SOMNo)%Lying(1:MaxFr)%C      = g%SurfOM(SOMNo)%Lying(1:MaxFr)%C      + surfom_added   * c%c_fract(SOMNo) * c%fr_pool_c(1:MaxFr,SOMNo)
          g%SurfOM(SOMNo)%Lying(1:MaxFr)%N      = g%SurfOM(SOMNo)%Lying(1:MaxFr)%N      + surfom_N_added * c%fr_pool_n(1:MaxFr,SOMNo)
          g%SurfOM(SOMNo)%Lying(1:MaxFr)%P      = g%SurfOM(SOMNo)%Lying(1:MaxFr)%P      + surfom_P_added * c%fr_pool_p(1:MaxFr,SOMNo)
          g%SurfOM(SOMNo)%Lying(1:MaxFr)%AshAlk = 0.0
       else
       ! if residue is being removed, remove residue from both standing and lying pools
          tot_mass = sum(g%SurfOM(SOMNo)%Lying(:)%amount) + sum(g%SurfOM(SOMNo)%Standing(:)%amount)
-         removed_from_standing = surfom_added*(divide(sum(g%SurfOM(SOMNo)%Standing(:)%amount),tot_mass,0.0))
+         removed_from_standing = surfom_added * (divide(sum(g%SurfOM(SOMNo)%Standing(:)%amount), tot_mass, 0.0))
          removed_from_lying = surfom_added - removed_from_standing
          g%SurfOM(SOMNo)%Lying(1:MaxFr)%amount = g%SurfOM(SOMNo)%Lying(1:MaxFr)%amount + removed_from_lying   * c%fr_pool_c(1:MaxFr,SOMNo)
-         g%SurfOM(SOMNo)%Lying(1:MaxFr)%C      = g%SurfOM(SOMNo)%Lying(1:MaxFr)%C      + removed_from_lying   * c%c_fract(SOMNo)* c%fr_pool_c(1:MaxFr,SOMNo)
-         g%SurfOM(SOMNo)%Lying(1:MaxFr)%N      = g%SurfOM(SOMNo)%Lying(1:MaxFr)%N      + surfom_N_added*(divide(removed_from_lying,surfom_added,0.0)) * c%fr_pool_n(1:MaxFr,SOMNo)
-         g%SurfOM(SOMNo)%Lying(1:MaxFr)%P      = g%SurfOM(SOMNo)%Lying(1:MaxFr)%P      + surfom_P_added*(divide(removed_from_lying,surfom_added,0.0)) * c%fr_pool_p(1:MaxFr,SOMNo)
+         g%SurfOM(SOMNo)%Lying(1:MaxFr)%C      = g%SurfOM(SOMNo)%Lying(1:MaxFr)%C      + removed_from_lying   * c%c_fract(SOMNo) *  c%fr_pool_c(1:MaxFr,SOMNo)
+         g%SurfOM(SOMNo)%Lying(1:MaxFr)%N      = g%SurfOM(SOMNo)%Lying(1:MaxFr)%N      + surfom_N_added * (divide(removed_from_lying, surfom_added, 0.0)) * c%fr_pool_n(1:MaxFr,SOMNo)
+         g%SurfOM(SOMNo)%Lying(1:MaxFr)%P      = g%SurfOM(SOMNo)%Lying(1:MaxFr)%P      + surfom_P_added * (divide(removed_from_lying, surfom_added, 0.0)) * c%fr_pool_p(1:MaxFr,SOMNo)
          g%SurfOM(SOMNo)%Lying(1:MaxFr)%AshAlk = 0.0
          g%SurfOM(SOMNo)%Standing(1:MaxFr)%amount = g%SurfOM(SOMNo)%Standing(1:MaxFr)%amount + removed_from_standing   * c%fr_pool_c(1:MaxFr,SOMNo)
-         g%SurfOM(SOMNo)%Standing(1:MaxFr)%C      = g%SurfOM(SOMNo)%Standing(1:MaxFr)%C      + removed_from_standing   * c%c_fract(SOMNo)* c%fr_pool_c(1:MaxFr,SOMNo)
-         g%SurfOM(SOMNo)%Standing(1:MaxFr)%N      = g%SurfOM(SOMNo)%Standing(1:MaxFr)%N      + surfom_N_added*(divide(removed_from_standing,surfom_added,0.0)) * c%fr_pool_n(1:MaxFr,SOMNo)
-         g%SurfOM(SOMNo)%Standing(1:MaxFr)%P      = g%SurfOM(SOMNo)%Standing(1:MaxFr)%P      + surfom_P_added*(divide(removed_from_standing,surfom_added,0.0)) * c%fr_pool_p(1:MaxFr,SOMNo)
+         g%SurfOM(SOMNo)%Standing(1:MaxFr)%C      = g%SurfOM(SOMNo)%Standing(1:MaxFr)%C      + removed_from_standing   * c%c_fract(SOMNo) *  c%fr_pool_c(1:MaxFr,SOMNo)
+         g%SurfOM(SOMNo)%Standing(1:MaxFr)%N      = g%SurfOM(SOMNo)%Standing(1:MaxFr)%N      + surfom_N_added * (divide(removed_from_standing, surfom_added, 0.0)) * c%fr_pool_n(1:MaxFr,SOMNo)
+         g%SurfOM(SOMNo)%Standing(1:MaxFr)%P      = g%SurfOM(SOMNo)%Standing(1:MaxFr)%P      + surfom_P_added * (divide(removed_from_standing, surfom_added, 0.0)) * c%fr_pool_p(1:MaxFr,SOMNo)
          g%SurfOM(SOMNo)%Standing(1:MaxFr)%AshAlk = 0.0
        endif
 
       ! Report Additions
-      if (p%report_additions.eq.'yes') then
+      if (p%report_additions .eq. 'yes') then
          Write (Err_string,*)   &
               'Added SurfaceOM', New_Line   &
              ,'    SurfaceOM name         = '   &
@@ -1876,7 +1875,7 @@ subroutine surfom_prop_up ()
 
 
    SOMNo = surfom_number(surfom_name)
-   if (SOMNo.eq.0) then
+   if (SOMNo .eq. 0) then
             Err_string = 'SurfaceOM residue name unknown. Cannot Prop up'
             call Fatal_ERROR (ERR_user, Err_string)
    endif
@@ -1889,42 +1888,42 @@ subroutine surfom_prop_up ()
        new_standing = tot_mass * standing_fract
        new_lying = tot_mass - new_standing
 
-       if(old_standing.gt.0.0) then
+       if(old_standing .gt. 0.0) then
 
           standing_change_fract = divide(new_standing, old_standing, 0.0)
           lying_change_fract = divide(new_lying, old_lying, 0.0)
 
-          g%SurfOM(SOMNo)%Standing(1:MaxFr)%amount = (g%SurfOM(SOMNo)%Standing(1:MaxFr)%amount)*standing_change_fract
-          g%SurfOM(SOMNo)%Standing(1:MaxFr)%C = (g%SurfOM(SOMNo)%Standing(1:MaxFr)%C)*standing_change_fract
-          g%SurfOM(SOMNo)%Standing(1:MaxFr)%N = (g%SurfOM(SOMNo)%Standing(1:MaxFr)%N)*standing_change_fract
-          g%SurfOM(SOMNo)%Standing(1:MaxFr)%P = (g%SurfOM(SOMNo)%Standing(1:MaxFr)%P)*standing_change_fract
-          g%SurfOM(SOMNo)%Standing(1:MaxFr)%AshAlk = (g%SurfOM(SOMNo)%Standing(1:MaxFr)%AshAlk)*standing_change_fract
-          g%SurfOM(SOMNo)%Lying(1:MaxFr)%amount = (g%SurfOM(SOMNo)%Lying(1:MaxFr)%amount)*lying_change_fract
-          g%SurfOM(SOMNo)%Lying(1:MaxFr)%C = (g%SurfOM(SOMNo)%Lying(1:MaxFr)%C)*lying_change_fract
-          g%SurfOM(SOMNo)%Lying(1:MaxFr)%N = (g%SurfOM(SOMNo)%Lying(1:MaxFr)%N)*lying_change_fract
-          g%SurfOM(SOMNo)%Lying(1:MaxFr)%P = (g%SurfOM(SOMNo)%Lying(1:MaxFr)%P)*lying_change_fract
-          g%SurfOM(SOMNo)%Lying(1:MaxFr)%AshAlk = (g%SurfOM(SOMNo)%Lying(1:MaxFr)%AshAlk)*lying_change_fract
+          g%SurfOM(SOMNo)%Standing(1:MaxFr)%amount = (g%SurfOM(SOMNo)%Standing(1:MaxFr)%amount) * standing_change_fract
+          g%SurfOM(SOMNo)%Standing(1:MaxFr)%C = (g%SurfOM(SOMNo)%Standing(1:MaxFr)%C) * standing_change_fract
+          g%SurfOM(SOMNo)%Standing(1:MaxFr)%N = (g%SurfOM(SOMNo)%Standing(1:MaxFr)%N) * standing_change_fract
+          g%SurfOM(SOMNo)%Standing(1:MaxFr)%P = (g%SurfOM(SOMNo)%Standing(1:MaxFr)%P) * standing_change_fract
+          g%SurfOM(SOMNo)%Standing(1:MaxFr)%AshAlk = (g%SurfOM(SOMNo)%Standing(1:MaxFr)%AshAlk) * standing_change_fract
+          g%SurfOM(SOMNo)%Lying(1:MaxFr)%amount = (g%SurfOM(SOMNo)%Lying(1:MaxFr)%amount) * lying_change_fract
+          g%SurfOM(SOMNo)%Lying(1:MaxFr)%C = (g%SurfOM(SOMNo)%Lying(1:MaxFr)%C) * lying_change_fract
+          g%SurfOM(SOMNo)%Lying(1:MaxFr)%N = (g%SurfOM(SOMNo)%Lying(1:MaxFr)%N) * lying_change_fract
+          g%SurfOM(SOMNo)%Lying(1:MaxFr)%P = (g%SurfOM(SOMNo)%Lying(1:MaxFr)%P) * lying_change_fract
+          g%SurfOM(SOMNo)%Lying(1:MaxFr)%AshAlk = (g%SurfOM(SOMNo)%Lying(1:MaxFr)%AshAlk) * lying_change_fract
 
         else
 
           lying_change_fract = divide(new_lying, old_lying, 0.0)
 
-          g%SurfOM(SOMNo)%Standing(1:MaxFr)%amount = (g%SurfOM(SOMNo)%Lying(1:MaxFr)%amount)*(1-lying_change_fract)
-          g%SurfOM(SOMNo)%Standing(1:MaxFr)%C = (g%SurfOM(SOMNo)%Lying(1:MaxFr)%C)*(1-lying_change_fract)
-          g%SurfOM(SOMNo)%Standing(1:MaxFr)%N = (g%SurfOM(SOMNo)%Lying(1:MaxFr)%N)*(1-lying_change_fract)
-          g%SurfOM(SOMNo)%Standing(1:MaxFr)%P = (g%SurfOM(SOMNo)%Lying(1:MaxFr)%P)*(1-lying_change_fract)
-          g%SurfOM(SOMNo)%Standing(1:MaxFr)%AshAlk = (g%SurfOM(SOMNo)%Lying(1:MaxFr)%AshAlk)*(1-lying_change_fract)
-          g%SurfOM(SOMNo)%Lying(1:MaxFr)%amount = (g%SurfOM(SOMNo)%Lying(1:MaxFr)%amount)*lying_change_fract
-          g%SurfOM(SOMNo)%Lying(1:MaxFr)%C = (g%SurfOM(SOMNo)%Lying(1:MaxFr)%C)*lying_change_fract
-          g%SurfOM(SOMNo)%Lying(1:MaxFr)%N = (g%SurfOM(SOMNo)%Lying(1:MaxFr)%N)*lying_change_fract
-          g%SurfOM(SOMNo)%Lying(1:MaxFr)%P = (g%SurfOM(SOMNo)%Lying(1:MaxFr)%P)*lying_change_fract
-          g%SurfOM(SOMNo)%Lying(1:MaxFr)%AshAlk = (g%SurfOM(SOMNo)%Lying(1:MaxFr)%AshAlk)*lying_change_fract
+          g%SurfOM(SOMNo)%Standing(1:MaxFr)%amount = (g%SurfOM(SOMNo)%Lying(1:MaxFr)%amount) * (1-lying_change_fract)
+          g%SurfOM(SOMNo)%Standing(1:MaxFr)%C = (g%SurfOM(SOMNo)%Lying(1:MaxFr)%C) * (1-lying_change_fract)
+          g%SurfOM(SOMNo)%Standing(1:MaxFr)%N = (g%SurfOM(SOMNo)%Lying(1:MaxFr)%N) * (1-lying_change_fract)
+          g%SurfOM(SOMNo)%Standing(1:MaxFr)%P = (g%SurfOM(SOMNo)%Lying(1:MaxFr)%P) * (1-lying_change_fract)
+          g%SurfOM(SOMNo)%Standing(1:MaxFr)%AshAlk = (g%SurfOM(SOMNo)%Lying(1:MaxFr)%AshAlk) * (1-lying_change_fract)
+          g%SurfOM(SOMNo)%Lying(1:MaxFr)%amount = (g%SurfOM(SOMNo)%Lying(1:MaxFr)%amount) * lying_change_fract
+          g%SurfOM(SOMNo)%Lying(1:MaxFr)%C = (g%SurfOM(SOMNo)%Lying(1:MaxFr)%C) * lying_change_fract
+          g%SurfOM(SOMNo)%Lying(1:MaxFr)%N = (g%SurfOM(SOMNo)%Lying(1:MaxFr)%N) * lying_change_fract
+          g%SurfOM(SOMNo)%Lying(1:MaxFr)%P = (g%SurfOM(SOMNo)%Lying(1:MaxFr)%P) * lying_change_fract
+          g%SurfOM(SOMNo)%Lying(1:MaxFr)%AshAlk = (g%SurfOM(SOMNo)%Lying(1:MaxFr)%AshAlk) * lying_change_fract
 
         endif
 
 
       ! Report Additions
-      if (p%report_additions.eq.'yes') then
+      if (p%report_additions .eq. 'yes') then
          Write (Err_string,*)   &
               'Propped-up SurfaceOM', New_Line   &
              ,'    SurfaceOM name         = '   &
@@ -1972,7 +1971,7 @@ subroutine surfom_read_type_specific_constants(surfom_type,i)
    ! check that there is 'type' information in the ini file for the specified 'type'
    call read_char_var (surfom_type, 'fom_type', '()', check_type, numvals)
 
-   if (numvals.eq.0) then
+   if (numvals .eq. 0) then
       ! We do not have any data for the specified 'type'
       call fatal_error (ERR_USER,'No ini-file information available on specified residue-type')
    else
@@ -2073,7 +2072,7 @@ subroutine surfom_Send_my_variable (Variable_name)
    !                       --------
       total_ashalk = 0.0
       do i = 1,g%num_surfom
-         Total_AshAlk = Total_AshAlk+ sum(g%surfom(i)%Standing(1:MaxFr)%AshAlk)+ sum(g%surfom(i)%Lying(1:MaxFr)%AshAlk)
+         Total_AshAlk = Total_AshAlk +  sum(g%surfom(i)%Standing(1:MaxFr)%AshAlk) +  sum(g%surfom(i)%Lying(1:MaxFr)%AshAlk)
       end do
       call respond2get_real_var (variable_name, '(kg/ha)', total_ashalk)
 
@@ -2102,189 +2101,189 @@ subroutine surfom_Send_my_variable (Variable_name)
 
    ! Individual surfom weights can be requested here in the format 'surfaceom_wt_wheat' (for example)
    !             where 'wheat' is the name of the surfom
-   else if (index(Variable_name,'surfaceom_wt_').eq.1) then
+   else if (index(Variable_name, 'surfaceom_wt_') .eq. 1) then
 
       surfnum = surfom_number (Variable_name(14:))
 
-      if (surfnum.gt.0)then
-         total_wt =sum(g%SurfOM(surfnum)%Standing(1:MaxFr)%amount)+sum(g%SurfOM(surfnum)%Lying(1:MaxFr)%amount)
+      if (surfnum .gt. 0)then
+         total_wt = sum(g%SurfOM(surfnum)%Standing(1:MaxFr)%amount) + sum(g%SurfOM(surfnum)%Lying(1:MaxFr)%amount)
          call respond2Get_real_var (Variable_name,'(kg/ha)',total_wt)
       endif
 
    ! Individual surfom C can be requested here in the format 'surfaceom_c_wheat' (for example)
    ! where 'wheat' is the name of the surfom
-   else if (index(Variable_name,'surfaceom_c_').eq.1) then
+   else if (index(Variable_name,'surfaceom_c_') .eq. 1) then
 
       surfnum = surfom_number (Variable_name(13:))
-      if (surfnum.gt.0)then
-         total_c =sum(g%SurfOM(surfnum)%Standing(1:MaxFr)%c)+sum(g%SurfOM(surfnum)%Lying(1:MaxFr)%c)
+      if (surfnum .gt. 0)then
+         total_c = sum(g%SurfOM(surfnum)%Standing(1:MaxFr)%c) + sum(g%SurfOM(surfnum)%Lying(1:MaxFr)%c)
          call respond2Get_real_var (Variable_name,'(kg/ha)',total_c)
       endif
 
 
    ! Individual surfom N can be requested here in the format 'surfaceom_n_wheat' (for example)
    ! where 'wheat' is the name of the surfom
-   else if (index(Variable_name,'surfaceom_n_').eq.1) then
+   else if (index(Variable_name,'surfaceom_n_') .eq. 1) then
 
       surfnum = surfom_number (Variable_name(13:))
-      if (surfnum.gt.0)then
-         total_n =sum(g%SurfOM(surfnum)%Standing(1:MaxFr)%n)+sum(g%SurfOM(surfnum)%Lying(1:MaxFr)%n)
+      if (surfnum .gt. 0)then
+         total_n = sum(g%SurfOM(surfnum)%Standing(1:MaxFr)%n) + sum(g%SurfOM(surfnum)%Lying(1:MaxFr)%n)
          call respond2Get_real_var (Variable_name,'(kg/ha)',total_n)
       endif
 
    ! Individual surfom P can be requested here in the format 'surfaceom_p_wheat' (for example)
    ! where 'wheat' is the name of the surfom
-   else if (index(Variable_name,'surfaceom_p_').eq.1) then
+   else if (index(Variable_name,'surfaceom_p_') .eq. 1) then
       surfnum = surfom_number (Variable_name(13:))
-      if (surfnum.gt.0)then
-         total_p =sum(g%surfom(surfnum)%Standing(1:MaxFr)%P)+ sum(g%surfom(surfnum)%Lying(1:MaxFr)%P)
+      if (surfnum .gt. 0)then
+         total_p = sum(g%surfom(surfnum)%Standing(1:MaxFr)%P) +  sum(g%surfom(surfnum)%Lying(1:MaxFr)%P)
          call respond2Get_real_var (Variable_name,'(kg/ha)',Total_P)
       endif
 
 
    ! Individual surfom AshAlk can be requested here in the format 'surfaceom_ashalk_wheat' (for example)
    ! where 'wheat' is the name of the surfom
-   else if (index(Variable_name,'surfaceom_ashalk_').eq.1) then
+   else if (index(Variable_name,'surfaceom_ashalk_') .eq. 1) then
       surfnum = surfom_number (Variable_name(18:))
-      if (surfnum.gt.0)then
-         total_AshAlk =sum(g%surfom(surfnum)%Standing(1:MaxFr)%AshAlk) + sum(g%surfom(surfnum)%Lying(1:MaxFr)%AshAlk)
+      if (surfnum .gt. 0)then
+         total_AshAlk = sum(g%surfom(surfnum)%Standing(1:MaxFr)%AshAlk) + sum(g%surfom(surfnum)%Lying(1:MaxFr)%AshAlk)
          call respond2Get_real_var (Variable_name,'(kg/ha)',total_AshAlk)
       endif
 
 
    ! Individual surfom NO3 pool can be requested here in the format 'surfaceom_no3_wheat' (for example)
    ! where 'wheat' is the name of the surfom
-   else if (index(Variable_name,'surfaceom_no3_').eq.1) then
+   else if (index(Variable_name,'surfaceom_no3_') .eq. 1) then
       surfnum = surfom_number (Variable_name(15:))
-      if (surfnum.gt.0)then
+      if (surfnum .gt. 0)then
          call respond2Get_real_var (Variable_name,'(kg/ha)',g%SurfOM(surfnum)%no3)
       endif
 
 
    ! Individual surfom NH4 pool can be requested here in the format 'surfaceom_nh4_wheat' (for example)
    ! where 'wheat' is the name of the surfom
-   else if (index(Variable_name,'surfaceom_nh4_').eq.1) then
+   else if (index(Variable_name,'surfaceom_nh4_') .eq. 1) then
       surfnum = surfom_number (Variable_name(15:))
-      if (surfnum.gt.0)then
+      if (surfnum .gt. 0)then
          call respond2Get_real_var (Variable_name,'(kg/ha)',g%SurfOM(surfnum)%nh4)
       endif
 
 
    ! Individual surfom PO4 pool can be requested here in the format 'surfaceom_labile_p_wheat' (for example)
    ! where 'wheat' is the name of the surfom
-   else if (index(Variable_name,'surfaceom_labile_p_').eq.1) then
+   else if (index(Variable_name,'surfaceom_labile_p_') .eq. 1) then
       surfnum = surfom_number (Variable_name(20:))
-      if (surfnum.gt.0)then
+      if (surfnum .gt. 0)then
          call respond2Get_real_var (Variable_name,'(kg/ha)',g%SurfOM(surfnum)%po4)
       endif
 
 
    ! Individual surfom C in pool1 can be requested here in the format 'surfaceom_c1_wheat' (for example)
    ! where 'wheat' is the name of the surfom
-   else if (index(Variable_name,'surfaceom_c1_').eq.1) then
+   else if (index(Variable_name,'surfaceom_c1_') .eq. 1) then
       surfnum = surfom_number (Variable_name(14:))
-      if (surfnum.gt.0)then
-         call respond2Get_real_var (Variable_name,'(kg/ha)',(g%SurfOM(surfnum)%Standing(1)%C+ g%SurfOM(surfnum)%Lying(1)%C))
+      if (surfnum .gt. 0)then
+         call respond2Get_real_var (Variable_name,'(kg/ha)',(g%SurfOM(surfnum)%Standing(1)%C +  g%SurfOM(surfnum)%Lying(1)%C))
       endif
 
 
    ! Individual surfom C in pool2 can be requested here in the format 'surfaceom_c2_wheat' (for example)
    ! where 'wheat' is the name of the surfom
-   else if (index(Variable_name,'surfaceom_c2_').eq.1) then
+   else if (index(Variable_name,'surfaceom_c2_') .eq. 1) then
       surfnum = surfom_number (Variable_name(14:))
-      if (surfnum.gt.0)then
-         call respond2Get_real_var (Variable_name,'(kg/ha)',(g%SurfOM(surfnum)%Standing(2)%C+ g%SurfOM(surfnum)%Lying(2)%C))
+      if (surfnum .gt. 0)then
+         call respond2Get_real_var (Variable_name,'(kg/ha)',(g%SurfOM(surfnum)%Standing(2)%C +  g%SurfOM(surfnum)%Lying(2)%C))
       endif
 
 
 	! Individual surfom C in pool3 can be requested here in the format 'surfaceom_c3_wheat' (for example)
 	! where 'wheat' is the name of the surfom
-   else if (index(Variable_name,'surfaceom_c3_').eq.1) then
+   else if (index(Variable_name,'surfaceom_c3_') .eq. 1) then
       surfnum = surfom_number (Variable_name(14:))
-      if (surfnum.gt.0)then
-         call respond2Get_real_var (Variable_name,'(kg/ha)',(g%SurfOM(surfnum)%Standing(3)%C+ g%SurfOM(surfnum)%Lying(3)%C))
+      if (surfnum .gt. 0)then
+         call respond2Get_real_var (Variable_name,'(kg/ha)',(g%SurfOM(surfnum)%Standing(3)%C +  g%SurfOM(surfnum)%Lying(3)%C))
       endif
 
 
 	! Individual surfom N in pool1 can be requested here in the format 'surfaceom_n1_wheat' (for example)
 	! where 'wheat' is the name of the surfom
-   else if (index(Variable_name,'surfaceom_n1_').eq.1) then
+   else if (index(Variable_name,'surfaceom_n1_') .eq. 1) then
       surfnum = surfom_number (Variable_name(14:))
-      if (surfnum.gt.0)then
-         call respond2Get_real_var (Variable_name,'(kg/ha)',(g%SurfOM(surfnum)%Standing(1)%N+ g%SurfOM(surfnum)%Lying(1)%N))
+      if (surfnum .gt. 0)then
+         call respond2Get_real_var (Variable_name,'(kg/ha)',(g%SurfOM(surfnum)%Standing(1)%N +  g%SurfOM(surfnum)%Lying(1)%N))
       endif
 
 
 	! Individual surfom N in pool2 can be requested here in the format 'surfaceom_n2_wheat' (for example)
 	! where 'wheat' is the name of the surfom
-   else if (index(Variable_name,'surfaceom_n2_').eq.1) then
+   else if (index(Variable_name,'surfaceom_n2_') .eq. 1) then
       surfnum = surfom_number (Variable_name(14:))
-      if (surfnum.gt.0)then
-         call respond2Get_real_var (Variable_name,'(kg/ha)',(g%SurfOM(surfnum)%Standing(2)%N+ g%SurfOM(surfnum)%Lying(2)%N))
+      if (surfnum .gt. 0)then
+         call respond2Get_real_var (Variable_name,'(kg/ha)',(g%SurfOM(surfnum)%Standing(2)%N +  g%SurfOM(surfnum)%Lying(2)%N))
       endif
 
 	! Individual surfom N in pool3 can be requested here in the format 'surfaceom_n3_wheat' (for example)
 	! where 'wheat' is the name of the surfom
-   else if (index(Variable_name,'surfaceom_n3_').eq.1) then
+   else if (index(Variable_name,'surfaceom_n3_') .eq. 1) then
       surfnum = surfom_number (Variable_name(14:))
-      if (surfnum.gt.0)then
-         call respond2Get_real_var (Variable_name,'(kg/ha)',(g%SurfOM(surfnum)%Standing(3)%N+ g%SurfOM(surfnum)%Lying(3)%N))
+      if (surfnum .gt. 0)then
+         call respond2Get_real_var (Variable_name,'(kg/ha)',(g%SurfOM(surfnum)%Standing(3)%N +  g%SurfOM(surfnum)%Lying(3)%N))
       endif
 
 
 	! Individual surfom P in pool1 can be requested here in the format 'surfaceom_p1_wheat' (for example)
 	! where 'wheat' is the name of the surfom
-   else if (index(Variable_name,'surfaceom_p1_').eq.1) then
+   else if (index(Variable_name,'surfaceom_p1_') .eq. 1) then
       surfnum = surfom_number (Variable_name(14:))
-      if (surfnum.gt.0)then
-         call respond2Get_real_var (Variable_name,'(kg/ha)',(g%SurfOM(surfnum)%Standing(1)%P+ g%SurfOM(surfnum)%Lying(1)%P))
+      if (surfnum .gt. 0)then
+         call respond2Get_real_var (Variable_name,'(kg/ha)',(g%SurfOM(surfnum)%Standing(1)%P +  g%SurfOM(surfnum)%Lying(1)%P))
       endif
 
 	! Individual surfom P in pool2 can be requested here in the format 'surfaceom_p2_wheat' (for example)
 	! where 'wheat' is the name of the surfom
-   else if (index(Variable_name,'surfaceom_p2_').eq.1) then
+   else if (index(Variable_name,'surfaceom_p2_') .eq. 1) then
       surfnum = surfom_number (Variable_name(14:))
-      if (surfnum.gt.0)then
-         call respond2Get_real_var (Variable_name,'(kg/ha)',(g%SurfOM(surfnum)%Standing(2)%P+ g%SurfOM(surfnum)%Lying(2)%P))
+      if (surfnum .gt. 0)then
+         call respond2Get_real_var (Variable_name,'(kg/ha)',(g%SurfOM(surfnum)%Standing(2)%P +  g%SurfOM(surfnum)%Lying(2)%P))
       endif
 
 
 	! Individual surfom P in pool3 can be requested here in the format 'surfaceom_p3_wheat' (for example)
 	! where 'wheat' is the name of the surfom
-   else if (index(Variable_name,'surfaceom_p3_').eq.1) then
+   else if (index(Variable_name,'surfaceom_p3_') .eq. 1) then
       surfnum = surfom_number (Variable_name(14:))
-      if (surfnum.gt.0)then
-         call respond2Get_real_var (Variable_name,'(kg/ha)',(g%SurfOM(surfnum)%Standing(3)%P+ g%SurfOM(surfnum)%Lying(3)%P))
+      if (surfnum .gt. 0)then
+         call respond2Get_real_var (Variable_name,'(kg/ha)',(g%SurfOM(surfnum)%Standing(3)%P +  g%SurfOM(surfnum)%Lying(3)%P))
       endif
 
 
 	! Individual potential decompositions can be requested here in the
 	! format 'pot_c_decomp_wheat' (for example), where 'wheat' is the name
 	! of the surfom
-   else if (index(variable_name,'pot_c_decomp_').eq.1) then
+   else if (index(variable_name,'pot_c_decomp_') .eq. 1) then
       surfnum = surfom_number (Variable_name(14:))
       call Surfom_Pot_Decomp (c_decomp, n_decomp,p_decomp)
       call respond2get_real_var (variable_name, '(kg/ha)', c_decomp(surfnum))
 
-   else if (index(variable_name,'pot_n_decomp_').eq.1) then
+   else if (index(variable_name,'pot_n_decomp_') .eq. 1) then
       surfnum = surfom_number (Variable_name(14:))
       call Surfom_Pot_Decomp (c_decomp, n_decomp,p_decomp)
       call respond2get_real_var (variable_name, '(kg/ha)', n_decomp(surfnum))
 
-   else if (index(variable_name,'pot_p_decomp_').eq.1) then
+   else if (index(variable_name,'pot_p_decomp_') .eq. 1) then
       surfnum = surfom_number (Variable_name(14:))
       call Surfom_Pot_Decomp (c_decomp, n_decomp,p_decomp)
       call respond2get_real_var (variable_name, '(kg/ha)', p_decomp(surfnum))
 
 	! Standing fraction for individual surfom's
-   else if (index(variable_name,'standing_fr_').eq.1) then
+   else if (index(variable_name,'standing_fr_') .eq. 1) then
       surfnum = surfom_number (Variable_name(13:))
-      standing_fraction = divide(g%SurfOM(surfnum)%Standing(1)%amount,(g%SurfOM(surfnum)%Standing(1)%amount+ g%SurfOM(surfnum)%Lying(1)%amount),0.0)
+      standing_fraction = divide(g%SurfOM(surfnum)%Standing(1)%amount, (g%SurfOM(surfnum)%Standing(1)%amount +  g%SurfOM(surfnum)%Lying(1)%amount), 0.0)
       call respond2get_real_var (variable_name, '()', standing_fraction)
 
 	! The total cover is calculated here by combining all surfom's in system.
    else if (Variable_name .eq. 'surfaceom_cover') then
-      cover1=0.0
+      cover1 = 0.0
       do i = 1,g%num_surfom
          cover2 = surfom_Cover(i)
          combined_cover = add_cover(cover1,cover2)
@@ -2293,7 +2292,7 @@ subroutine surfom_Send_my_variable (Variable_name)
       call respond2get_real_var (variable_name, '(m^2/m^2)', combined_cover)
 
 	! Individual surfom cover is reported here in the format 'surfaceom_cover_wheat'
-   else if (index(variable_name,'surfaceom_cover_').eq.1) then
+   else if (index(variable_name,'surfaceom_cover_') .eq. 1) then
       surfnum = surfom_number (Variable_name(17:))
       cover1 = surfom_Cover(surfnum)
       call respond2get_real_var (variable_name, '(m^2/m^2)', cover1)
@@ -2305,7 +2304,7 @@ subroutine surfom_Send_my_variable (Variable_name)
       factor = surfom_wf()
       call respond2get_real_var (variable_name, '(0-1)', factor)
 
-   else if (index(variable_name,'cnrf_').eq.1) then
+   else if (index(variable_name,'cnrf_') .eq. 1) then
       surfnum = 0
       surfnum = surfom_number (Variable_name(6:))
       factor = surfom_cnrf(surfnum)
@@ -2373,10 +2372,10 @@ real function Surfom_Cover (SOMindex)
    ! calculate fraction of cover and check bounds (0-1).  Bounds checking
    ! is required only for detecting internal rounding error.
 
-   Area_lying = c%specific_area(SOMindex)*(sum(g%surfOM(SOMindex)%Lying(1:MaxFr)%amount))
-   Area_standing = c%specific_area(SOMindex)*(sum(g%surfOM(SOMindex)%Standing(1:MaxFr)%amount))
+   Area_lying = c%specific_area(SOMindex) * (sum(g%surfOM(SOMindex)%Lying(1:MaxFr)%amount))
+   Area_standing = c%specific_area(SOMindex) * (sum(g%surfOM(SOMindex)%Standing(1:MaxFr)%amount))
 
-   F_Cover = add_cover(1.0 - exp (-Area_lying),1.0 - exp (-(c%standing_extinct_coeff)*Area_standing))
+   F_Cover = add_cover(1.0 - exp (-Area_lying),1.0 - exp (-(c%standing_extinct_coeff) * Area_standing))
    F_Cover = Bound (F_Cover, 0.0, 1.0)
 
    Surfom_Cover = F_Cover
@@ -2544,7 +2543,7 @@ subroutine surfom_ON_Crop_chopped ()
    	   endif
 
    	   ! Report Additions
-   	   if (p%report_additions.eq.'yes') then
+   	   if (p%report_additions .eq. 'yes') then
    !	      Write (Event_string, '(1x, 2a, 2(40x, 3a), 40x, a, f8.2, a, 40x, a, f8.5, a)' )   &
    !	            ' Added surfom', New_Line   &
    !	            ,'surfom Type         = ', trim(crop_type), New_Line   &
@@ -2565,16 +2564,16 @@ subroutine surfom_ON_Crop_chopped ()
 
    	   ! Assume the 'crop_type' is the unique name.  Now check whether this unique 'name' already exists in the system.
 
-   	   if (SOMNo.eq.0) then
+   	   if (SOMNo .eq. 0) then
    	      ! THIS IS A NEW COMPONENT TO THE SYSTEM
    	      g%num_surfom = g%num_surfom + 1
    	      SOMNo = g%num_surfom
    	      g%SurfOM(SOMNo)%name = crop_type
    	      g%SurfOM(SOMNo)%OrganicMatterType = crop_type
-   	      g%SurfOM(SOMNo)%PotDecompRate=0.0
-   	      g%SurfOM(SOMNo)%no3 =0.0
-   	      g%SurfOM(SOMNo)%nh4 =0.0
-   	      g%SurfOM(SOMNo)%po4 =0.0
+   	      g%SurfOM(SOMNo)%PotDecompRate = 0.0
+   	      g%SurfOM(SOMNo)%no3  = 0.0
+   	      g%SurfOM(SOMNo)%nh4  = 0.0
+   	      g%SurfOM(SOMNo)%po4  = 0.0
    	      g%SurfOM(SOMNo)%Standing(:)%amount = 0.0
    	      g%SurfOM(SOMNo)%Standing(:)%C = 0.0
    	      g%SurfOM(SOMNo)%Standing(:)%N = 0.0
@@ -2594,15 +2593,15 @@ subroutine surfom_ON_Crop_chopped ()
          endif
 
          ! convert the ppm figures into kg/ha
-         g%SurfOM(SOMNo)%no3 = g%SurfOM(SOMNo)%no3+  divide(c%no3ppm(SOMNo),1000000.0,0.0) * surfom_added
-         g%SurfOM(SOMNo)%nh4 = g%SurfOM(SOMNo)%nh4+  divide(c%nh4ppm(SOMNo),1000000.0,0.0) * surfom_added
-         g%SurfOM(SOMNo)%po4 = g%SurfOM(SOMNo)%po4+  divide(c%po4ppm(SOMNo),1000000.0,0.0) * surfom_added
+         g%SurfOM(SOMNo)%no3 = g%SurfOM(SOMNo)%no3 +   divide(c%no3ppm(SOMNo), 1000000.0, 0.0) * surfom_added
+         g%SurfOM(SOMNo)%nh4 = g%SurfOM(SOMNo)%nh4 +   divide(c%nh4ppm(SOMNo), 1000000.0, 0.0) * surfom_added
+         g%SurfOM(SOMNo)%po4 = g%SurfOM(SOMNo)%po4 +   divide(c%po4ppm(SOMNo), 1000000.0, 0.0) * surfom_added
 
          ! Assume all surfom added is in the LYING pool, ie No STANDING component
-         g%SurfOM(SOMNo)%Lying(1:MaxFr)%amount =g%SurfOM(SOMNo)%Lying(1:MaxFr)%amount+ surfom_added*c%fr_pool_c(1:MaxFr,SOMNo)
-         g%SurfOM(SOMNo)%Lying(1:MaxFr)%C =g%SurfOM(SOMNo)%Lying(1:MaxFr)%C+ surfom_added * c%c_fract(SOMNo)* c%fr_pool_c(1:MaxFr,SOMNo)
-         g%SurfOM(SOMNo)%Lying(1:MaxFr)%N =g%SurfOM(SOMNo)%Lying(1:MaxFr)%N +surfom_N_added * c%fr_pool_n(1:MaxFr,SOMNo)
-         g%SurfOM(SOMNo)%Lying(1:MaxFr)%P =g%SurfOM(SOMNo)%Lying(1:MaxFr)%P +surfom_P_added * c%fr_pool_p(1:MaxFr,SOMNo)
+         g%SurfOM(SOMNo)%Lying(1:MaxFr)%amount  = g%SurfOM(SOMNo)%Lying(1:MaxFr)%amount +  surfom_added * c%fr_pool_c(1:MaxFr,SOMNo)
+         g%SurfOM(SOMNo)%Lying(1:MaxFr)%C  = g%SurfOM(SOMNo)%Lying(1:MaxFr)%C +  surfom_added * c%c_fract(SOMNo) *  c%fr_pool_c(1:MaxFr,SOMNo)
+         g%SurfOM(SOMNo)%Lying(1:MaxFr)%N  = g%SurfOM(SOMNo)%Lying(1:MaxFr)%N  + surfom_N_added * c%fr_pool_n(1:MaxFr,SOMNo)
+         g%SurfOM(SOMNo)%Lying(1:MaxFr)%P  = g%SurfOM(SOMNo)%Lying(1:MaxFr)%P  + surfom_P_added * c%fr_pool_p(1:MaxFr,SOMNo)
          g%SurfOM(SOMNo)%Lying(1:MaxFr)%AshAlk = 0.0
 
 
@@ -2887,41 +2886,41 @@ subroutine Main (action, data_string)
 
    call push_routine (my_name)
 
-   if (Action.eq.ACTION_Get_variable) then
+   if (Action .eq. ACTION_Get_variable) then
       call surfom_Send_my_variable (data_string)
 
    else if (Action .eq. ACTION_Set_variable) then
       call surfom_set_my_variable (Data_String)
 
-   else if (Action.eq.ACTION_Process) then
+   else if (Action .eq. ACTION_Process) then
       call surfom_get_other_variables ()
       call surfom_Process ()
 
-   else if (Action.eq.ACTION_Till) then
+   else if (Action .eq. ACTION_Till) then
       call surfom_tillage ()
 
-   else if (Action.eq.'add_surfaceom') then
+   else if (Action .eq. 'add_surfaceom') then
       call surfom_Add_surfom ()
 
-   else if (Action.eq.'prop_up') then
+   else if (Action .eq. 'prop_up') then
       call surfom_prop_up ()
 
-   elseif (Action .eq. EVENT_Crop_Chopped) then
+   elseif (Action  .eq.  EVENT_Crop_Chopped) then
       call surfom_ON_Crop_Chopped ()
 
-   else if (Action.eq.EVENT_irrigated) then
+   else if (Action .eq. EVENT_irrigated) then
       call surfom_ONirrigated ()
 
-   else if ((Action.eq.ACTION_Reset).or.(Action.eq.ACTION_user_init)) then
+   else if ((Action .eq. ACTION_Reset)  .OR.  (Action .eq. ACTION_user_init)) then
       call surfom_Reset ()
 
-   else if (Action.eq.ACTION_Sum_Report) then
+   else if (Action .eq. ACTION_Sum_Report) then
       call surfom_Sum_Report ()
 
-   else if (Action.eq.ACTION_Init) then
+   else if (Action .eq. ACTION_Init) then
       call surfom_reset ()
 
-   elseif (Action.eq.ACTION_Create) then
+   elseif (Action .eq. ACTION_Create) then
       call doRegistrations(id)
       call surfom_zero_all_globals ()
       call surfom_zero_event_data ()
@@ -2951,9 +2950,9 @@ subroutine respondToEvent(fromID, eventID, variant)
 
    if (eventID .eq. id%newmet) then
       call surfom_ONnewmet(variant)
-   elseif (eventID .eq.id%ActualResidueDecompositionCalculated) then
+   elseif (eventID  .eq. id%ActualResidueDecompositionCalculated) then
       call surfom_decompose_surfom(variant)
-   elseif (eventID .eq.id%remove_surfaceOM) then
+   elseif (eventID  .eq. id%remove_surfaceOM) then
       call surfom_remove_surfom(variant)
    endif
    return
