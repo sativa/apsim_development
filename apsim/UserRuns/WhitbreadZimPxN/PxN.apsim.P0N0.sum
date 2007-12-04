@@ -63,10 +63,10 @@ Component   "tracker1" = c:\development\apsim\tracker\lib\tracker.dll
         maize.flowering_date
         maize.yield as yield
         maize.biomass as biomass
-        maize.p_green() as p_uptake
+        maize.GreenP as p_uptake
         maize.green_biomass_n as n_uptake
         maize.root_depth
-        maize.root_wt
+        maize.RootGreenWt
         soiln2.no3
         soilp.unavail_p(1)
         tracker1.sum@soilwat2_no3_leach[5] as N_leach
