@@ -560,6 +560,10 @@
                      ! Init probably won't work via this method. Stop dead.
                         call Fatal_error(ERR_user,
      .                 'INIT messages do not work anymore. Use RESET')
+
+            else if (Action .eq. 'kill_crop') then
+               call PublishKillCrop(destination, Line)
+
             else
 
                call New_postbox ()
@@ -586,6 +590,39 @@
 
       call pop_routine (my_name)
       return
+      end subroutine
+
+* ====================================================================
+      recursive subroutine PublishKillCrop(ModuleName, DataString)
+* ====================================================================
+      use ConstantsModule
+      use ErrorModule
+      use StringModule
+      use DataStrModule
+      Use infrastructure
+
+      implicit none
+      
+      character DataString*(*)        ! (INPUT) Should be blank or have a plants_kill_fraction
+      character ModuleName*(*)        ! (INPUT) Name of module to send event to.
+      character Name*(MAX_VARIABLE_NAME_SIZE)
+      character Value*(500)
+      type(KillCropType) Kill
+      integer KillCropID
+      integer NumVals
+      
+      call Get_next_variable(DataString, Name, Value)
+      Name = Lower_case(Name)
+      if (Name .eq. 'plants_kill_fraction') then
+         call String_to_real_var(Value, Kill%KillFraction, NumVals)
+      else
+         Kill%KillFraction = 1.0
+      endif
+      KillCropID = add_registration(eventReg, 
+     .                              'kill_crop',
+     .                              KillCropTypeDDML, '', ModuleName)
+      call publish_KillCrop(KillCropID, Kill)
+
       end subroutine
 
 * ====================================================================
