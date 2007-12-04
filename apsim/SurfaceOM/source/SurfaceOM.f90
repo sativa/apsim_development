@@ -64,6 +64,7 @@ module SurfaceOMModule
       real       dlayer (max_layer)
       real       leaching_fr
       logical    phosphorus_aware
+      type(OMFractionType) :: oldSOMState
    end type SurfaceOMGlobals
 !     ================================================================
    type SurfaceOMParameters
@@ -71,6 +72,7 @@ module SurfaceOMModule
       real       standing_fraction(max_residues) ! standing fraction array
       character  report_additions*5
       character  report_removals*5
+
    end type SurfaceOMParameters
 !     ================================================================
    type SurfaceOMConstants
@@ -220,12 +222,104 @@ subroutine surfom_Reset ()
 
    call push_routine (my_name)
 
+   ! Save State
+   call surfom_save_state ()
    call surfom_zero_variables ()
    call surfom_get_other_variables ()
    call surfom_read_coeff ()
    call surfom_read_param ()
+   ! Change of State
+   call surfom_delta_state ()
 
    call pop_routine (my_name)
+   return
+end subroutine
+
+!     ===========================================================
+subroutine surfom_save_state ()
+!     ===========================================================
+   Use Infrastructure
+   implicit none
+
+!- Implementation Section ----------------------------------
+
+   call surfom_total_state(g%oldSOMState)
+
+   return
+end subroutine
+
+!     ===========================================================
+subroutine surfom_delta_state ()
+!     ===========================================================
+   Use Infrastructure
+   implicit none
+
+!+  Local Variables
+   type(OMFractionType) :: newSOMState
+   type (ExternalMassFlowType) :: massBalanceChange
+
+!- Implementation Section ----------------------------------
+   call surfom_total_state(newSOMState)
+
+      massBalanceChange%DM = newSOMState%amount - g%oldSOMState%amount
+      massBalanceChange%C  = newSOMState%C - g%oldSOMState%C
+      massBalanceChange%N  = newSOMState%N - g%oldSOMState%N
+      massBalanceChange%P  = newSOMState%P - g%oldSOMState%P
+      massBalanceChange%SW = 0.0
+
+      if (massBalanceChange%DM >= 0.0) then
+         massBalanceChange%FlowType = "gain"
+      else
+         massBalanceChange%FlowType = "loss"
+      endif
+
+   call surfom_ExternalMassFlow (massBalanceChange)
+
+   return
+end subroutine
+
+!     ===========================================================
+      subroutine surfom_ExternalMassFlow (massBalanceChange)
+!     ===========================================================
+      Use Infrastructure
+      implicit none
+
+     type (ExternalMassFlowType) :: massBalanceChange
+
+!- Implementation Section ----------------------------------
+
+      massBalanceChange%PoolClass = "surface"
+      call publish_ExternalMassFlow(ID%ExternalMassFlow, massBalanceChange)
+
+      return
+      end subroutine
+
+!     ===========================================================
+ subroutine surfom_total_state (SOMstate)
+!     ===========================================================
+   Use Infrastructure
+   implicit none
+   type(OMFractionType) :: SOMState
+   integer :: pool
+
+!- Implementation Section ----------------------------------
+
+      SOMstate%amount = 0.0
+      SOMstate%C  = 0.0
+      SOMstate%N  = 0.0
+      SOMstate%P  = 0.0
+      SOMstate%AshAlk  = 0.0
+
+      do pool = 1, MaxFr
+
+         SOMstate%amount = SOMstate%amount + (sum(g%SurfOM(:)%Lying(pool)%amount) + sum(g%SurfOM(:)%Standing(pool)%amount))
+         SOMstate%C  = SOMstate%C + (sum(g%SurfOM(:)%Lying(pool)%C)      + sum(g%SurfOM(:)%Standing(pool)%C)     )
+         SOMstate%N  = SOMstate%N + (sum(g%SurfOM(:)%Lying(pool)%N)      + sum(g%SurfOM(:)%Standing(pool)%N)     )
+         SOMstate%P  = SOMstate%P + (sum(g%SurfOM(:)%Lying(pool)%P)      + sum(g%SurfOM(:)%Standing(pool)%P)     )
+         SOMstate%AshAlk  = SOMstate%AshAlk + (sum(g%SurfOM(:)%Lying(pool)%AshAlk)      + sum(g%SurfOM(:)%Standing(pool)%AshAlk)     )
+
+      end do
+
    return
 end subroutine
 
@@ -1542,7 +1636,7 @@ subroutine surfom_incorp (action_type, F_incorp, Tillage_depth)
          massBalanceChange%P  = massBalanceChange%P + (sum(g%SurfOM(:)%Lying(pool)%P)      + sum(g%SurfOM(:)%Standing(pool)%P)     ) * F_incorp
 
       end do
-      call publish_ExternalMassFlow(ID%ExternalMassFlow, massBalanceChange)
+   call surfom_ExternalMassFlow (massBalanceChange)
    else
    endif
 
