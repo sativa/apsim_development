@@ -194,6 +194,7 @@
          real   pond                                  ! surface water ponding depth
          real   water_table                           ! water table depth
          real   sws(max_layer)                        ! temporary soil water array
+         real   oldSWDep
 
       end type Soilwat2Globals
 ! ====================================================================
@@ -6127,6 +6128,54 @@ cjh            out_solute = solute_kg_layer*divide (out_w, water, 0.0) *0.5
       return
       end subroutine
 
+!     ===========================================================
+      subroutine soilwat2_save_state ()
+!     ===========================================================
+      Use Infrastructure
+      implicit none
+
+
+!- Implementation Section ----------------------------------
+
+         g%oldSWDep = soilwat2_total_sw_dep()
+
+         return
+      end subroutine
+
+!     ===========================================================
+      subroutine soilwat2_delta_state ()
+!     ===========================================================
+      Use Infrastructure
+      implicit none
+
+!+  Local Variables
+      real       dltSWDep
+      real       newSWDep
+
+
+!- Implementation Section ----------------------------------
+         newSWDep = soilwat2_total_sw_dep()
+         dltSWDep = newSWDep - g%oldSWDep
+         call soilwat2_ExternalMassFlow (dltSWDep)
+
+         return
+      end subroutine
+
+!     ===========================================================
+      real function soilwat2_total_sw_dep ()
+!     ===========================================================
+      Use Infrastructure
+      implicit none
+      integer    num_layers
+
+!- Implementation Section ----------------------------------
+
+         num_layers = count_of_real_vals (p%dlayer, max_layer)
+         soilwat2_total_sw_dep = sum(g%sw_dep(1:num_layers))
+
+         return
+      end function
+
 
 * ====================================================================
        subroutine Soilwat2_runoff_depth_factor (runoff_wf)
@@ -7225,15 +7274,22 @@ c dsg 150302  saturated layer = layer, layer above not over dul
          call soilwat2_on_new_solute ()
 
       else if (action.eq.ACTION_init) then
-
+         ! Save State
+         call soilwat2_save_state ()
          call soilwat2_init ()
          call soilwat2_sum_report ()
+         ! Change of State
+         call soilwat2_delta_state ()
 
       else if ((action.eq.ACTION_reset)
      :        .or.(action.eq.ACTION_user_init)) then
+         ! Save State
+         call soilwat2_save_state ()
          call soilwat2_zero_variables ()
          call soilwat2_get_other_variables ()
          call soilwat2_init ()
+         ! Change of State
+         call soilwat2_delta_state ()
 
       else if (action.eq.ACTION_sum_report) then
          call soilwat2_sum_report ()
