@@ -156,9 +156,9 @@
       dummy = add_registration_with_units(respondToGetReg,
      :                        'root_part', floatTypeDDML, '')
       dummy = add_registration_with_units(respondToGetReg,
-     :                        'leaf_wt', floatTypeDDML, 'g/m^2')
+     :                        'LeafGreenWt', floatTypeDDML, 'g/m^2')
       dummy = add_registration_with_units(respondToGetReg,
-     :                        'stem_wt', floatTypeDDML, 'g/m^2')
+     :                        'StemGreenWt', floatTypeDDML, 'g/m^2')
       dummy = add_registration_with_units(respondToGetReg,
      :                        'flower_wt', floatTypeDDML, 'g/m^2')
       dummy = add_registration_with_units(respondToGetReg,
@@ -166,7 +166,7 @@
       dummy = add_registration_with_units(respondToGetReg,
      :                        'grain_wt', floatTypeDDML, 'g/m^2')
       dummy = add_registration_with_units(respondToGetReg,
-     :                        'root_wt', floatTypeDDML, 'g/m^2')
+     :                        'RootGreenWt', floatTypeDDML, 'g/m^2')
       dummy = add_registration_with_units(respondToGetReg,
      :                        'droot_wt', floatTypeDDML, 'g/m^2')
       dummy = add_registration_with_units(respondToGetReg,
