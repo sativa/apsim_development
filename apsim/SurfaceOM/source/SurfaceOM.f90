@@ -306,8 +306,8 @@ end subroutine
 
       SOMstate%amount = 0.0
       SOMstate%C  = 0.0
-      SOMstate%N  = 0.0
-      SOMstate%P  = 0.0
+      SOMstate%N  = sum(g%SurfOM(:)%no3) + sum(g%SurfOM(:)%nh4)
+      SOMstate%P  = sum(g%SurfOM(:)%po4)
       SOMstate%AshAlk  = 0.0
 
       do pool = 1, MaxFr
