@@ -159,6 +159,9 @@
    <component name="stock" executable="C:\Program Files\AusFarm\stock.dll">
     <initdata>
         <initsection>
+          <init name="rand_seed" kind="integer4">
+            <val>1</val>
+          </init>
           <init name="genotypes" array="T">
             <element>
               <field name="name" kind="string">
