@@ -451,9 +451,6 @@ c     include   'fertiliz.inc'
                   massBalanceChange%P  = 0.0
               else
               endif
-       write(message, *) 'SOM no3 =',components(counter)
-     :                 , delta_array(1:array_size)
-       call write_string (message)
 
                call publish_ExternalMassFlow(ID%ExternalMassFlow
      :                                     , massBalanceChange)
