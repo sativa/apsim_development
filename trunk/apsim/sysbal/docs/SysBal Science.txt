@@ -13,6 +13,8 @@
 
       state_soil    = nit_tot()
       state_surface = surfaceom_n
+     :              + surfaceom_no3
+     :              + surfaceom_nh4
 
   ! define system losses
   !--------------
@@ -52,6 +54,7 @@
      :           + banded_p()
 
       state_surface = surfaceom_p
+     :              + surfaceom_labile_p
 
   ! define system losses
   !--------------
