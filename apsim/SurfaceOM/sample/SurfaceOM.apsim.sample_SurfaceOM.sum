@@ -198,8 +198,6 @@ Component     "sysbal" = c:\development\apsim\sysbal\lib\sysbal.dll
            Totals  149295.9 10296.3   926.1   115.8   400.0    20.0
           ---------------------------------------------------------
 ------- Start of simulation  --------------------------------------------------
-4 January 1988(Day of year=4), sysbal: 
-     **** N balance - unaccounted gain (kg/ha) =      0.039063
 15 January 1988(Day of year=15), manager: 
      Manager sending message :- surfaceom tillage  type = disc
 15 January 1988(Day of year=15), SurfaceOM: 
@@ -209,9 +207,5 @@ Component     "sysbal" = c:\development\apsim\sysbal\lib\sysbal.dll
                                              Fraction Incorporated =     0.50
                                              Incorporated Depth    =   200.00
      Manager sending message :- surfaceom add_surfaceom  name = aaaaaa, type = manure, mass = 300, cnr = 50, cpr = 60
-15 January 1988(Day of year=15), sysbal: 
-     **** N balance - unaccounted gain (kg/ha) =      0.480469
-     **** C balance - unaccounted gain (kg/ha) =     23.986141
-     ****        equivalent DM as FOM  (kg/ha) =     59.965351
 30 January 1988(Day of year=30), clock: 
      Simulation is terminating due to end criteria being met.
