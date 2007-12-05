@@ -402,8 +402,6 @@ Component     "sysbal" = c:\development\apsim\sysbal\lib\sysbal.dll
         - Reading Fertiliser Type Parameters
         40.00 of N as nitrate (no3_n)
                                               added at depth   10.00 (layer   1)
-20 June 1985(Day of year=171), sysbal: 
-     **** N balance - unaccounted gain (kg/ha) =     39.999512
 21 June 1985(Day of year=172), operatns: 
       Sending sow message to millet
 21 June 1985(Day of year=172), millet: 
@@ -470,10 +468,6 @@ Component     "sysbal" = c:\development\apsim\sysbal\lib\sysbal.dll
       stage    3.0 emergence
                           biomass =          0.3600000E-01   lai =    0.1800000E-02
                           stover N conc =    4.400000       extractable sw =    14.30367
-24 June 1985(Day of year=175), sysbal: 
-     **** N balance - unaccounted gain (kg/ha) =      0.027832
-     **** C balance - unaccounted gain (kg/ha) =      0.362313
-     ****        equivalent DM as FOM  (kg/ha) =      0.905783
 3 July 1985(Day of year=184), millet1: 
      Initiate
      
@@ -974,10 +968,6 @@ Component     "sysbal" = c:\development\apsim\sysbal\lib\sysbal.dll
      Residue removed using burn
                                              Fraction Incorporated =     1.00
                                              Incorporated Depth    =     0.00
-17 August 1985(Day of year=229), sysbal: 
-     **** N balance - unaccounted loss (kg/ha) =     -4.014159
-     **** C balance - unaccounted loss (kg/ha) =   -109.054016
-      ****        equivalent DM as FOM  (kg/ha) =  -272.635040
 18 August 1985(Day of year=230), millet4: 
      plant_kill. 100% failure because of barreness.
          kill. Standing above-ground dm =   104.0 (kg/ha)
@@ -1051,10 +1041,6 @@ Component     "sysbal" = c:\development\apsim\sysbal\lib\sysbal.dll
      Residue removed using burn
                                              Fraction Incorporated =     1.00
                                              Incorporated Depth    =     0.00
-18 August 1985(Day of year=230), sysbal: 
-     **** N balance - unaccounted loss (kg/ha) =     -1.648926
-     **** C balance - unaccounted loss (kg/ha) =    -43.034275
-      ****        equivalent DM as FOM  (kg/ha) =  -107.585686
 19 August 1985(Day of year=231), millet5: 
      plant_kill. 100% failure because of barreness.
          kill. Standing above-ground dm =    49.9 (kg/ha)
@@ -1128,10 +1114,6 @@ Component     "sysbal" = c:\development\apsim\sysbal\lib\sysbal.dll
      Residue removed using burn
                                              Fraction Incorporated =     1.00
                                              Incorporated Depth    =     0.00
-19 August 1985(Day of year=231), sysbal: 
-     **** N balance - unaccounted loss (kg/ha) =     -0.807617
-     **** C balance - unaccounted loss (kg/ha) =    -20.651638
-      ****        equivalent DM as FOM  (kg/ha) =  -51.6290932
 21 August 1985(Day of year=233), operatns: 
       Sending apply message to irrigate
 5 September 1985(Day of year=248), millet: 
@@ -1376,9 +1358,5 @@ Component     "sysbal" = c:\development\apsim\sysbal\lib\sysbal.dll
      Residue removed using burn
                                              Fraction Incorporated =     1.00
                                              Incorporated Depth    =     0.00
-8 September 1985(Day of year=251), sysbal: 
-     **** N balance - unaccounted loss (kg/ha) =    -53.935024
-     **** C balance - unaccounted loss (kg/ha) =  -2866.344240
-      ****        equivalent DM as FOM  (kg/ha) =  -7165.86035
 30 September 1985(Day of year=273), clock: 
      Simulation is terminating due to end criteria being met.
