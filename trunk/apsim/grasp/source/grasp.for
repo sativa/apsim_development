@@ -2595,7 +2595,7 @@ c     Bound to reasonable values:
 
       g%year          = 0
       g%day_of_year   = 0
-      g%crop_status   = 0
+      g%crop_status   = crop_out
 
       g%current_stage   = 0.0
       g%previous_stage  = 0.0
@@ -3771,6 +3771,20 @@ c     real       N_demand              ! sum N demand for plant parts (g/plant)
      :        'crop_status',
      :        '()', g%crop_status)
 
+      elseif (variable_name .eq. 'plant_status') then
+         if (g%crop_status .eq. crop_out) then
+           call respond2get_char_var (
+     :        variable_name,
+     :        '()', 'out')
+         elseif (g%crop_status .eq. crop_alive) then
+           call respond2get_char_var (
+     :        variable_name,
+     :        '()', 'alive')
+         elseif (g%crop_status .eq. crop_dead) then
+           call respond2get_char_var (
+     :        variable_name,
+     :        '()', 'dead')
+         endif
       elseif (variable_name .eq. 'stage') then
          call respond2get_real_var (
      :        'stage',
