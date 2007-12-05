@@ -39,8 +39,8 @@ void processPredObs(DataContainer& parent,
    result.FieldDefs->Clear();
    if (sourceNames.size() == 2 && keyFieldNames.size() > 0)
       {
-      TDataSet* obs = parent.data(sourceNames[0]);
-      TDataSet* pred = parent.data(sourceNames[1]);
+      TDataSet* pred = parent.data(sourceNames[0]);
+      TDataSet* obs = parent.data(sourceNames[1]);
 
       if (obs != NULL && pred != NULL && obs->Active && pred->Active)
          {

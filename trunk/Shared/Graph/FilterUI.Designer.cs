@@ -55,6 +55,7 @@ namespace Graph
             this.FilterBox.Name = "FilterBox";
             this.FilterBox.Size = new System.Drawing.Size(126, 20);
             this.FilterBox.TabIndex = 1;
+            this.FilterBox.TextChanged += new System.EventHandler(this.OnFilterChanged);
             // 
             // label1
             // 
