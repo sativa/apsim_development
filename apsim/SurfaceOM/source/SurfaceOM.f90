@@ -1635,7 +1635,7 @@ subroutine surfom_incorp (action_type, F_incorp, Tillage_depth)
          massBalanceChange%P  = massBalanceChange%P + (sum(g%SurfOM(:)%Lying(pool)%P)      + sum(g%SurfOM(:)%Standing(pool)%P)     ) * F_incorp
 
       end do
-   call surfom_ExternalMassFlow (massBalanceChange)
+      call surfom_ExternalMassFlow (massBalanceChange)
    else
    endif
 
@@ -1695,14 +1695,19 @@ subroutine surfom_add_surfom ()
    character  surfom_name*30        ! unique 'name' of residue to be added ()
    character  surfom_type*30        ! 'type' of residue to be added ()
    real       surfom_added          ! Mass of new surfom added (kg/ha)
+   real       surfom_c_added        ! C added in new material (kg/ha)
    real       surfom_n_added        ! N added in new material (kg/ha)
+   real       surfom_no3_added        ! NO3 added in new material (kg/ha)
+   real       surfom_nh4_added        ! NH4 added in new material (kg/ha)
    real       surfom_cnr_added      ! C:N ratio of new material
    real       surfom_p_added        ! P added in new material (kg/ha)
+   real       surfom_po4_added        ! PO4 added in new material (kg/ha)
    real       surfom_cpr_added      ! C:P ratio of new material
    real       added_wt
    real       tot_mass
    real       removed_from_standing
    real       removed_from_lying
+   type (ExternalMassFlowType) :: massBalanceChange
 
 
 !- Implementation Section ----------------------------------
@@ -1745,6 +1750,7 @@ subroutine surfom_add_surfom ()
 
    ! Get Mass of material added
    call collect_real_var ('mass', '(kg/ha)', surfom_added, numvals, -100000.0, 100000.0)
+   surfom_c_added = surfom_added * c%c_fract(SOMNo)
 
    if (surfom_added .gt. -10000.0) then
       ! Get N content of material added
@@ -1781,9 +1787,13 @@ subroutine surfom_add_surfom ()
       endif
 
       ! convert the ppm figures into kg/ha
-      g%SurfOM(SOMNo)%no3 = g%SurfOM(SOMNo)%no3 +   divide(c%no3ppm(SOMNo), 1000000.0, 0.0) * surfom_added
-      g%SurfOM(SOMNo)%nh4 = g%SurfOM(SOMNo)%nh4 +   divide(c%nh4ppm(SOMNo), 1000000.0, 0.0) * surfom_added
-      g%SurfOM(SOMNo)%po4 = g%SurfOM(SOMNo)%po4 +   divide(c%po4ppm(SOMNo), 1000000.0, 0.0) * surfom_added
+      surfom_no3_added = divide(c%no3ppm(SOMNo), 1000000.0, 0.0) * surfom_added
+      surfom_nh4_added = divide(c%nh4ppm(SOMNo), 1000000.0, 0.0) * surfom_added
+      surfom_po4_added = divide(c%po4ppm(SOMNo), 1000000.0, 0.0) * surfom_added
+
+      g%SurfOM(SOMNo)%no3 = g%SurfOM(SOMNo)%no3 +   surfom_no3_added
+      g%SurfOM(SOMNo)%nh4 = g%SurfOM(SOMNo)%nh4 +   surfom_nh4_added
+      g%SurfOM(SOMNo)%po4 = g%SurfOM(SOMNo)%po4 +   surfom_po4_added
 
 
       if(surfom_added .gt. 0.0) then
@@ -1833,6 +1843,17 @@ subroutine surfom_add_surfom ()
                                           , surfom_added   &
                                           , surfom_N_added   &
                                           , surfom_P_added)
+
+      ! assumption is this event comes only from the manager for applying from an external source.
+      massBalanceChange%PoolClass = "surface"
+      massBalanceChange%FlowType = "gain"
+      massBalanceChange%DM = surfom_added
+      massBalanceChange%C  = surfom_c_added
+      massBalanceChange%N  = surfom_N_added + surfom_no3_added + surfom_nh4_added
+      massBalanceChange%P  = surfom_P_added + surfom_po4_added
+      massBalanceChange%SW = 0.0
+
+      call surfom_ExternalMassFlow (massBalanceChange)
    else
          ! nothing to add
    endif
