@@ -1147,14 +1147,16 @@
       </ApsimToSim>
    </erosion>
    <grasp>
-      <UItype>VBUserInterface.GenericUI</UItype>
+      <UItype>APSIMUI.EmptyUI</UItype>
       <ShowInMainTree>Yes</ShowInMainTree>
       <Image>%apsuite\apsimui\images\banner2.jpg</Image>
-      <LargeIcon>%apsuite\apsimui\Images\cubes32.png</LargeIcon>
-      <SmallIcon>%apsuite\apsimui\Images\cubes16.png</SmallIcon>
+      <LargeIcon>%apsuite\apsimui\Images\leaf32.bmp</LargeIcon>
+      <SmallIcon>%apsuite\apsimui\Images\leaf16.bmp</SmallIcon>
       <drops>
          <drop name="simulation"/>
          <drop name="folder"/>
+         <drop name="toolbox"/>
+         <drop name="area"/>
      </drops>
       <variables>
          <variable name="height" description="height: Sward height"/>
@@ -1201,6 +1203,12 @@
       </variables>
       <events>
       </events>
+     <ApsimToSim>
+         <type>component</type>
+         <dll>%apsuite\apsim\grasp\lib\grasp.dll</dll>
+         <ini>%apsuite\apsim\grasp\grasp.ini</ini>
+         <sim/>
+     </ApsimToSim>
    </grasp>
    <broccoli>
       <UItype>APSIMUI.EmptyUI</UItype>
