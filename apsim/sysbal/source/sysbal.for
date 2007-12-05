@@ -2715,8 +2715,8 @@
       elseif (Action .eq. EVENT_Crop_Chopped) then
          call sysbal_ON_Crop_Chopped ()
 
-      else if (Action.eq.'add_surfaceom') then
-         call sysbal_Add_surfom ()
+!      else if (Action.eq.'add_surfaceom') then
+!         call sysbal_Add_surfom ()
 
       elseif (Action .eq. EVENT_Residue_removed) then
          call sysbal_ON_Residue_removed ()
