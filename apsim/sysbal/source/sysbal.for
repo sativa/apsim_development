@@ -593,16 +593,6 @@
      :             + g%addedCrop%N
       gain_surface = g%N_added + g%addedSurface%N
 
-!  ! define system discontinuities
-!  !------------------------------
-!      if (g%massBalanceChange%N >= 0.0) then   ! a gain
-!         gain_discontinuity = g%massBalanceChange%N
-!         loss_discontinuity = 0.0
-!      else                                     ! a loss
-!         loss_discontinuity = - g%massBalanceChange%N
-!         gain_discontinuity = 0.0
-!      endif
-
       call pop_routine (my_name)
       return
       end subroutine
@@ -736,16 +726,6 @@
       gain_soil    = g%addedSoil%P
       gain_crop    = g%addedCrop%P
       gain_surface = g%P_added + g%addedSurface%P
-
-!  ! define system discontinuities
-!  !------------------------------
-!      if (g%massBalanceChange%P >= 0.0) then   ! a gain
-!         gain_discontinuity = g%massBalanceChange%P
-!         loss_discontinuity = 0.0
-!      else                                     ! a loss
-!         loss_discontinuity = - g%massBalanceChange%P
-!         gain_discontinuity = 0.0
-!      endif
 
       call pop_routine (my_name)
       return
@@ -894,16 +874,6 @@
       gain_surface = g%dm_added * 0.4
      :             + g%addedSurface%C
 
-!  ! define system discontinuities
-!  !------------------------------
-!      if (g%massBalanceChange%C >= 0.0) then   ! a gain
-!         gain_discontinuity = g%massBalanceChange%C
-!         loss_discontinuity = 0.0
-!      else                                     ! a loss
-!         loss_discontinuity = - g%massBalanceChange%C
-!         gain_discontinuity = 0.0
-!      endif
-
       call pop_routine (my_name)
       return
       end subroutine
@@ -1043,16 +1013,6 @@
      :          + g%addedCrop%DM
       gain_surface = g%dm_added + g%addedSurface%DM
 
-!  ! define system discontinuities
-!  !------------------------------
-!      if (g%massBalanceChange%DM >= 0.0) then   ! a gain
-!         gain_discontinuity = g%massBalanceChange%DM
-!         loss_discontinuity = 0.0
-!      else                                     ! a loss
-!         loss_discontinuity = - g%massBalanceChange%DM
-!         gain_discontinuity = 0.0
-!      endif
-
       call pop_routine (my_name)
       return
       end subroutine
@@ -1154,16 +1114,6 @@
       gain_crop    = g%addedCrop%SW
       gain_surface = sysbal_get_variable(rain, mm)
      :             + g%irrigation + g%addedSurface%SW
-
-  ! define system discontinuities
-  !------------------------------
-!      if (g%massBalanceChange%SW >= 0.0) then   ! a gain
-!         gain_discontinuity = g%massBalanceChange%SW
-!         loss_discontinuity = 0.0
-!      else                                     ! a loss
-!         loss_discontinuity = - g%massBalanceChange%SW
-!         gain_discontinuity = 0.0
-!      endif
 
       call pop_routine (my_name)
       return
