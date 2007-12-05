@@ -352,6 +352,7 @@ c     include   'fertiliz.inc'
       integer    numvals               ! number of values returned
       integer    owner_module          ! module that owns 'array'
       character  string*200            ! output string
+      character*200  message
 
       type (ExternalMassFlowType) :: massBalanceChange
 
@@ -430,26 +431,29 @@ c     include   'fertiliz.inc'
                massBalanceChange%P  = 0.0
                massBalanceChange%SW = 0.0
 
-              if (components(counter) == 'labile_p') then
+              if (Lower_case(components(counter)) == 'labile_p') then
                   massBalanceChange%N  = 0.0
                   massBalanceChange%P  = sum(delta_array(:))
-              elseif (components(counter) == 'rock_p') then
+              elseif (Lower_case(components(counter)) == 'rock_p') then
                   massBalanceChange%N  = 0.0
                   massBalanceChange%P  = sum(delta_array(:))
-              elseif (components(counter) == 'banded_p') then
+              elseif (Lower_case(components(counter)) == 'banded_p')then
                   massBalanceChange%N  = 0.0
                   massBalanceChange%P  = sum(delta_array(:))
-              elseif (components(counter) == 'no3') then
+              elseif (Lower_case(components(counter)) == 'no3') then
                   massBalanceChange%N  = sum(delta_array(:))
                   massBalanceChange%P  = 0.0
-              elseif (components(counter) == 'nh4') then
+              elseif (Lower_case(components(counter)) == 'nh4') then
                   massBalanceChange%N  = sum(delta_array(:))
                   massBalanceChange%P  = 0.0
-              elseif (components(counter) == 'urea') then
+              elseif (Lower_case(components(counter)) == 'urea') then
                   massBalanceChange%N  = sum(delta_array(:))
                   massBalanceChange%P  = 0.0
               else
               endif
+       write(message, *) 'SOM no3 =',components(counter)
+     :                 , delta_array(1:array_size)
+       call write_string (message)
 
                call publish_ExternalMassFlow(ID%ExternalMassFlow
      :                                     , massBalanceChange)
