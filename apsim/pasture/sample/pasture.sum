@@ -14,7 +14,6 @@ Title                  = Pasture PI SAMPLE Simulation
 Component        "Log" = c:\development\apsim\log\lib\log.dll
 Component      "clock" = c:\development\apsim\clock\lib\clock.dll
 Component        "Met" = c:\development\apsim\Input\lib\Input.dll
-Component     "sysbal" = c:\development\apsim\sysbal\lib\sysbal.dll
 Component     "report" = c:\development\apsim\report\lib\report.dll
 Component    "manager" = c:\development\apsim\manager\lib\manager.dll
 Component   "soilwat2" = c:\development\apsim\soilwat2\lib\soilwat2.dll
@@ -276,9 +275,6 @@ Component    "Pasture" = C:\Program Files\Ausfarm\PASTURE.dll
         layer 7 = 0 (kg/ha)
         uptake_nh4 total = 0.0284667 (kg/ha)
      
-1 May 2002(Day of year=121), sysbal: 
-     **** N balance - unaccounted loss (kg/ha) =     -8.603516
-     **** SW balance - unaccounted loss (mm) =     -0.736645
 1 May 2002(Day of year=121), pastureconverter: 
      
      sw_uptake:-
@@ -313,9 +309,6 @@ Component    "Pasture" = C:\Program Files\Ausfarm\PASTURE.dll
         layer 7 = 0 (kg/ha)
         uptake_nh4 total = 0.021717 (kg/ha)
      
-2 May 2002(Day of year=122), sysbal: 
-     **** N balance - unaccounted loss (kg/ha) =     -6.353516
-     **** SW balance - unaccounted loss (mm) =     -0.764249
 2 May 2002(Day of year=122), pastureconverter: 
      
      sw_uptake:-
@@ -350,9 +343,6 @@ Component    "Pasture" = C:\Program Files\Ausfarm\PASTURE.dll
         layer 7 = 0 (kg/ha)
         uptake_nh4 total = 0.0210788 (kg/ha)
      
-3 May 2002(Day of year=123), sysbal: 
-     **** N balance - unaccounted loss (kg/ha) =     -6.037109
-     **** SW balance - unaccounted loss (mm) =     -0.607031
 3 May 2002(Day of year=123), pastureconverter: 
      
      sw_uptake:-
@@ -394,9 +384,6 @@ Component    "Pasture" = C:\Program Files\Ausfarm\PASTURE.dll
      Pasture Cut gathered = 0.5 (-)
      Pasture Cut dmd_loss = 0.1 (-)
      Pasture Cut dm_content = 0.9 (kg/kg)
-4 May 2002(Day of year=124), sysbal: 
-     **** N balance - unaccounted loss (kg/ha) =     -5.523438
-     **** SW balance - unaccounted loss (mm) =     -0.735022
      
      sw_uptake:-
         layer 1 = 0.494257 (mm)
@@ -430,9 +417,6 @@ Component    "Pasture" = C:\Program Files\Ausfarm\PASTURE.dll
         layer 7 = 0 (kg/ha)
         uptake_nh4 total = 0.010779 (kg/ha)
      
-5 May 2002(Day of year=125), sysbal: 
-     **** N balance - unaccounted loss (kg/ha) =     -3.215820
-     **** SW balance - unaccounted loss (mm) =     -0.504699
 5 May 2002(Day of year=125), pastureconverter: 
      
      sw_uptake:-
@@ -473,9 +457,6 @@ Component    "Pasture" = C:\Program Files\Ausfarm\PASTURE.dll
      Pasture Burn kill_plants = 0.5 (-)
      Pasture Burn kill_seed = 0.5 (-)
      Pasture Burn propn_unburnt = 0.2 (-)
-6 May 2002(Day of year=126), sysbal: 
-     **** N balance - unaccounted loss (kg/ha) =     -3.114258
-     **** SW balance - unaccounted loss (mm) =     -0.406123
      
      sw_uptake:-
         layer 1 = 0.1153 (mm)
@@ -509,9 +490,6 @@ Component    "Pasture" = C:\Program Files\Ausfarm\PASTURE.dll
         layer 7 = 0 (kg/ha)
         uptake_nh4 total = 0.0012173 (kg/ha)
      
-7 May 2002(Day of year=127), sysbal: 
-     **** N balance - unaccounted loss (kg/ha) =     -0.402344
-     **** SW balance - unaccounted loss (mm) =     -0.117704
 7 May 2002(Day of year=127), pastureconverter: 
      
      sw_uptake:-
@@ -551,9 +529,6 @@ Component    "Pasture" = C:\Program Files\Ausfarm\PASTURE.dll
 8 May 2002(Day of year=128), pastureconverter: 
      Pasture Kill propn_herbage = 0.5 (-)
      Pasture Kill propn_seed = 0.5 (-)
-8 May 2002(Day of year=128), sysbal: 
-     **** N balance - unaccounted loss (kg/ha) =     -0.625000
-     **** SW balance - unaccounted loss (mm) =     -0.181591
      
      sw_uptake:-
         layer 1 = 0.12434 (mm)
@@ -587,9 +562,6 @@ Component    "Pasture" = C:\Program Files\Ausfarm\PASTURE.dll
         layer 7 = 0 (kg/ha)
         uptake_nh4 total = 0.000872799 (kg/ha)
      
-9 May 2002(Day of year=129), sysbal: 
-     **** N balance - unaccounted loss (kg/ha) =     -0.309570
-     **** SW balance - unaccounted loss (mm) =     -0.127128
 9 May 2002(Day of year=129), pastureconverter: 
      
      sw_uptake:-
@@ -628,9 +600,6 @@ Component    "Pasture" = C:\Program Files\Ausfarm\PASTURE.dll
      Manager sending message :- pastureconverter sowpasture  rate = 100.0
 10 May 2002(Day of year=130), pastureconverter: 
      Pasture Sow rate = 100 (kg/ha)
-10 May 2002(Day of year=130), sysbal: 
-     **** N balance - unaccounted loss (kg/ha) =     -0.355469
-     **** SW balance - unaccounted loss (mm) =     -0.118516
      
      sw_uptake:-
         layer 1 = 0.486931 (mm)
@@ -664,9 +633,6 @@ Component    "Pasture" = C:\Program Files\Ausfarm\PASTURE.dll
         layer 7 = 0 (kg/ha)
         uptake_nh4 total = 0.00374572 (kg/ha)
      
-11 May 2002(Day of year=131), sysbal: 
-     **** N balance - unaccounted loss (kg/ha) =     -1.252930
-     **** SW balance - unaccounted loss (mm) =     -0.496302
 11 May 2002(Day of year=131), pastureconverter: 
      
      sw_uptake:-
@@ -701,9 +667,6 @@ Component    "Pasture" = C:\Program Files\Ausfarm\PASTURE.dll
         layer 7 = 0 (kg/ha)
         uptake_nh4 total = 0.00137596 (kg/ha)
      
-12 May 2002(Day of year=132), sysbal: 
-     **** N balance - unaccounted loss (kg/ha) =     -0.498047
-     **** SW balance - unaccounted loss (mm) =     -0.436986
 12 May 2002(Day of year=132), pastureconverter: 
      
      sw_uptake:-
@@ -738,9 +701,6 @@ Component    "Pasture" = C:\Program Files\Ausfarm\PASTURE.dll
         layer 7 = 0 (kg/ha)
         uptake_nh4 total = 0.00118148 (kg/ha)
      
-13 May 2002(Day of year=133), sysbal: 
-     **** N balance - unaccounted loss (kg/ha) =     -0.444336
-     **** SW balance - unaccounted loss (mm) =     -0.217987
 13 May 2002(Day of year=133), pastureconverter: 
      
      sw_uptake:-
@@ -775,9 +735,6 @@ Component    "Pasture" = C:\Program Files\Ausfarm\PASTURE.dll
         layer 7 = 0 (kg/ha)
         uptake_nh4 total = 0.00107184 (kg/ha)
      
-14 May 2002(Day of year=134), sysbal: 
-     **** N balance - unaccounted loss (kg/ha) =     -0.416016
-     **** SW balance - unaccounted loss (mm) =     -0.195215
 14 May 2002(Day of year=134), pastureconverter: 
      
      sw_uptake:-
@@ -812,9 +769,6 @@ Component    "Pasture" = C:\Program Files\Ausfarm\PASTURE.dll
         layer 7 = 0 (kg/ha)
         uptake_nh4 total = 0.00098621 (kg/ha)
      
-15 May 2002(Day of year=135), sysbal: 
-     **** N balance - unaccounted loss (kg/ha) =     -0.393555
-     **** SW balance - unaccounted loss (mm) =     -0.302706
 15 May 2002(Day of year=135), pastureconverter: 
      
      sw_uptake:-
@@ -849,9 +803,6 @@ Component    "Pasture" = C:\Program Files\Ausfarm\PASTURE.dll
         layer 7 = 0 (kg/ha)
         uptake_nh4 total = 0.00106321 (kg/ha)
      
-16 May 2002(Day of year=136), sysbal: 
-     **** N balance - unaccounted loss (kg/ha) =     -0.441406
-     **** SW balance - unaccounted loss (mm) =     -0.286395
 16 May 2002(Day of year=136), pastureconverter: 
      
      sw_uptake:-
@@ -886,9 +837,6 @@ Component    "Pasture" = C:\Program Files\Ausfarm\PASTURE.dll
         layer 7 = 0 (kg/ha)
         uptake_nh4 total = 0.000956916 (kg/ha)
      
-17 May 2002(Day of year=137), sysbal: 
-     **** N balance - unaccounted loss (kg/ha) =     -0.412109
-     **** SW balance - unaccounted loss (mm) =     -0.272321
 17 May 2002(Day of year=137), pastureconverter: 
      
      sw_uptake:-
@@ -923,9 +871,6 @@ Component    "Pasture" = C:\Program Files\Ausfarm\PASTURE.dll
         layer 7 = 0 (kg/ha)
         uptake_nh4 total = 0.000905392 (kg/ha)
      
-18 May 2002(Day of year=138), sysbal: 
-     **** N balance - unaccounted loss (kg/ha) =     -0.404297
-     **** SW balance - unaccounted loss (mm) =     -0.217025
 18 May 2002(Day of year=138), pastureconverter: 
      
      sw_uptake:-
@@ -960,9 +905,6 @@ Component    "Pasture" = C:\Program Files\Ausfarm\PASTURE.dll
         layer 7 = 0 (kg/ha)
         uptake_nh4 total = 0.000929512 (kg/ha)
      
-19 May 2002(Day of year=139), sysbal: 
-     **** N balance - unaccounted loss (kg/ha) =     -0.428711
-     **** SW balance - unaccounted loss (mm) =     -0.144987
 19 May 2002(Day of year=139), pastureconverter: 
      
      sw_uptake:-
@@ -997,9 +939,6 @@ Component    "Pasture" = C:\Program Files\Ausfarm\PASTURE.dll
         layer 7 = 0 (kg/ha)
         uptake_nh4 total = 0.00120365 (kg/ha)
      
-20 May 2002(Day of year=140), sysbal: 
-     **** N balance - unaccounted loss (kg/ha) =     -0.418945
-     **** SW balance - unaccounted loss (mm) =     -0.149502
 20 May 2002(Day of year=140), pastureconverter: 
      
      sw_uptake:-
@@ -1034,9 +973,6 @@ Component    "Pasture" = C:\Program Files\Ausfarm\PASTURE.dll
         layer 7 = 0 (kg/ha)
         uptake_nh4 total = 0.00131985 (kg/ha)
      
-21 May 2002(Day of year=141), sysbal: 
-     **** N balance - unaccounted loss (kg/ha) =     -0.390625
-     **** SW balance - unaccounted loss (mm) =     -0.514467
 21 May 2002(Day of year=141), pastureconverter: 
      
      sw_uptake:-
@@ -1071,9 +1007,6 @@ Component    "Pasture" = C:\Program Files\Ausfarm\PASTURE.dll
         layer 7 = 0 (kg/ha)
         uptake_nh4 total = 0.00147939 (kg/ha)
      
-22 May 2002(Day of year=142), sysbal: 
-     **** N balance - unaccounted loss (kg/ha) =     -0.408203
-     **** SW balance - unaccounted loss (mm) =     -0.304271
 22 May 2002(Day of year=142), pastureconverter: 
      
      sw_uptake:-
@@ -1108,9 +1041,6 @@ Component    "Pasture" = C:\Program Files\Ausfarm\PASTURE.dll
         layer 7 = 0 (kg/ha)
         uptake_nh4 total = 0.0015092 (kg/ha)
      
-23 May 2002(Day of year=143), sysbal: 
-     **** N balance - unaccounted loss (kg/ha) =     -0.384766
-     **** SW balance - unaccounted loss (mm) =     -0.473543
 23 May 2002(Day of year=143), pastureconverter: 
      
      sw_uptake:-
@@ -1145,9 +1075,6 @@ Component    "Pasture" = C:\Program Files\Ausfarm\PASTURE.dll
         layer 7 = 0 (kg/ha)
         uptake_nh4 total = 0.00166595 (kg/ha)
      
-24 May 2002(Day of year=144), sysbal: 
-     **** N balance - unaccounted loss (kg/ha) =     -0.397461
-     **** SW balance - unaccounted loss (mm) =     -0.355935
 24 May 2002(Day of year=144), pastureconverter: 
      
      sw_uptake:-
@@ -1182,9 +1109,6 @@ Component    "Pasture" = C:\Program Files\Ausfarm\PASTURE.dll
         layer 7 = 0 (kg/ha)
         uptake_nh4 total = 0.00172802 (kg/ha)
      
-25 May 2002(Day of year=145), sysbal: 
-     **** N balance - unaccounted loss (kg/ha) =     -0.389648
-     **** SW balance - unaccounted loss (mm) =     -0.516309
 25 May 2002(Day of year=145), pastureconverter: 
      
      sw_uptake:-
@@ -1219,9 +1143,6 @@ Component    "Pasture" = C:\Program Files\Ausfarm\PASTURE.dll
         layer 7 = 0 (kg/ha)
         uptake_nh4 total = 0.0017245 (kg/ha)
      
-26 May 2002(Day of year=146), sysbal: 
-     **** N balance - unaccounted loss (kg/ha) =     -0.372070
-     **** SW balance - unaccounted loss (mm) =     -0.531365
 26 May 2002(Day of year=146), pastureconverter: 
      
      sw_uptake:-
@@ -1256,9 +1177,6 @@ Component    "Pasture" = C:\Program Files\Ausfarm\PASTURE.dll
         layer 7 = 0 (kg/ha)
         uptake_nh4 total = 0.00181153 (kg/ha)
      
-27 May 2002(Day of year=147), sysbal: 
-     **** N balance - unaccounted loss (kg/ha) =     -0.375977
-     **** SW balance - unaccounted loss (mm) =     -0.455594
 27 May 2002(Day of year=147), pastureconverter: 
      
      sw_uptake:-
@@ -1293,9 +1211,6 @@ Component    "Pasture" = C:\Program Files\Ausfarm\PASTURE.dll
         layer 7 = 0 (kg/ha)
         uptake_nh4 total = 0.00191579 (kg/ha)
      
-28 May 2002(Day of year=148), sysbal: 
-     **** N balance - unaccounted loss (kg/ha) =     -0.386719
-     **** SW balance - unaccounted loss (mm) =     -0.322337
 28 May 2002(Day of year=148), pastureconverter: 
      
      sw_uptake:-
@@ -1330,9 +1245,6 @@ Component    "Pasture" = C:\Program Files\Ausfarm\PASTURE.dll
         layer 7 = 0 (kg/ha)
         uptake_nh4 total = 0.0019117 (kg/ha)
      
-29 May 2002(Day of year=149), sysbal: 
-     **** N balance - unaccounted loss (kg/ha) =     -0.365234
-     **** SW balance - unaccounted loss (mm) =     -0.545759
 29 May 2002(Day of year=149), pastureconverter: 
      
      sw_uptake:-
@@ -1367,9 +1279,6 @@ Component    "Pasture" = C:\Program Files\Ausfarm\PASTURE.dll
         layer 7 = 0 (kg/ha)
         uptake_nh4 total = 0.0019426 (kg/ha)
      
-30 May 2002(Day of year=150), sysbal: 
-     **** N balance - unaccounted loss (kg/ha) =     -0.362305
-     **** SW balance - unaccounted loss (mm) =     -0.538911
 30 May 2002(Day of year=150), pastureconverter: 
      
      sw_uptake:-
@@ -1404,9 +1313,6 @@ Component    "Pasture" = C:\Program Files\Ausfarm\PASTURE.dll
         layer 7 = 0 (kg/ha)
         uptake_nh4 total = 0.00204902 (kg/ha)
      
-31 May 2002(Day of year=151), sysbal: 
-     **** N balance - unaccounted loss (kg/ha) =     -0.375000
-     **** SW balance - unaccounted loss (mm) =     -0.320353
 31 May 2002(Day of year=151), pastureconverter: 
      
      sw_uptake:-
@@ -1441,9 +1347,6 @@ Component    "Pasture" = C:\Program Files\Ausfarm\PASTURE.dll
         layer 7 = 0 (kg/ha)
         uptake_nh4 total = 0.00210233 (kg/ha)
      
-1 June 2002(Day of year=152), sysbal: 
-     **** N balance - unaccounted loss (kg/ha) =     -0.364258
-     **** SW balance - unaccounted loss (mm) =     -0.463635
 1 June 2002(Day of year=152), pastureconverter: 
      
      sw_uptake:-
@@ -1478,9 +1381,6 @@ Component    "Pasture" = C:\Program Files\Ausfarm\PASTURE.dll
         layer 7 = 0 (kg/ha)
         uptake_nh4 total = 0.0021278 (kg/ha)
      
-2 June 2002(Day of year=153), sysbal: 
-     **** N balance - unaccounted loss (kg/ha) =     -0.363281
-     **** SW balance - unaccounted loss (mm) =     -0.409147
 2 June 2002(Day of year=153), pastureconverter: 
      
      sw_uptake:-
@@ -1515,9 +1415,6 @@ Component    "Pasture" = C:\Program Files\Ausfarm\PASTURE.dll
         layer 7 = 0 (kg/ha)
         uptake_nh4 total = 0.00211358 (kg/ha)
      
-3 June 2002(Day of year=154), sysbal: 
-     **** N balance - unaccounted loss (kg/ha) =     -0.355469
-     **** SW balance - unaccounted loss (mm) =     -0.567385
 3 June 2002(Day of year=154), pastureconverter: 
      
      sw_uptake:-
@@ -1552,9 +1449,6 @@ Component    "Pasture" = C:\Program Files\Ausfarm\PASTURE.dll
         layer 7 = 0 (kg/ha)
         uptake_nh4 total = 0.00214121 (kg/ha)
      
-4 June 2002(Day of year=155), sysbal: 
-     **** N balance - unaccounted loss (kg/ha) =     -0.360352
-     **** SW balance - unaccounted loss (mm) =     -0.492904
 4 June 2002(Day of year=155), pastureconverter: 
      
      sw_uptake:-
@@ -1589,9 +1483,6 @@ Component    "Pasture" = C:\Program Files\Ausfarm\PASTURE.dll
         layer 7 = 0 (kg/ha)
         uptake_nh4 total = 0.0021184 (kg/ha)
      
-5 June 2002(Day of year=156), sysbal: 
-     **** N balance - unaccounted loss (kg/ha) =     -0.357422
-     **** SW balance - unaccounted loss (mm) =     -0.448789
 5 June 2002(Day of year=156), pastureconverter: 
      
      sw_uptake:-
@@ -1626,9 +1517,6 @@ Component    "Pasture" = C:\Program Files\Ausfarm\PASTURE.dll
         layer 7 = 0 (kg/ha)
         uptake_nh4 total = 0.00211326 (kg/ha)
      
-6 June 2002(Day of year=157), sysbal: 
-     **** N balance - unaccounted loss (kg/ha) =     -0.361328
-     **** SW balance - unaccounted loss (mm) =     -0.354914
 6 June 2002(Day of year=157), pastureconverter: 
      
      sw_uptake:-
@@ -1663,9 +1551,6 @@ Component    "Pasture" = C:\Program Files\Ausfarm\PASTURE.dll
         layer 7 = 0 (kg/ha)
         uptake_nh4 total = 0.00214312 (kg/ha)
      
-7 June 2002(Day of year=158), sysbal: 
-     **** N balance - unaccounted loss (kg/ha) =     -0.375000
-     **** SW balance - unaccounted loss (mm) =     -0.328892
 7 June 2002(Day of year=158), pastureconverter: 
      
      sw_uptake:-
@@ -1700,9 +1585,6 @@ Component    "Pasture" = C:\Program Files\Ausfarm\PASTURE.dll
         layer 7 = 0 (kg/ha)
         uptake_nh4 total = 0.00193466 (kg/ha)
      
-8 June 2002(Day of year=159), sysbal: 
-     **** N balance - unaccounted loss (kg/ha) =     -0.347656
-     **** SW balance - unaccounted loss (mm) =     -0.481093
 8 June 2002(Day of year=159), pastureconverter: 
      
      sw_uptake:-
@@ -1737,9 +1619,6 @@ Component    "Pasture" = C:\Program Files\Ausfarm\PASTURE.dll
         layer 7 = 0 (kg/ha)
         uptake_nh4 total = 0.00185117 (kg/ha)
      
-9 June 2002(Day of year=160), sysbal: 
-     **** N balance - unaccounted loss (kg/ha) =     -0.333984
-     **** SW balance - unaccounted loss (mm) =     -0.506358
 9 June 2002(Day of year=160), pastureconverter: 
      
      sw_uptake:-
@@ -1774,9 +1653,6 @@ Component    "Pasture" = C:\Program Files\Ausfarm\PASTURE.dll
         layer 7 = 0 (kg/ha)
         uptake_nh4 total = 0.00189567 (kg/ha)
      
-10 June 2002(Day of year=161), sysbal: 
-     **** N balance - unaccounted loss (kg/ha) =     -0.342773
-     **** SW balance - unaccounted loss (mm) =     -0.374075
 10 June 2002(Day of year=161), pastureconverter: 
      
      sw_uptake:-
@@ -1811,9 +1687,6 @@ Component    "Pasture" = C:\Program Files\Ausfarm\PASTURE.dll
         layer 7 = 0 (kg/ha)
         uptake_nh4 total = 0.00192623 (kg/ha)
      
-11 June 2002(Day of year=162), sysbal: 
-     **** N balance - unaccounted loss (kg/ha) =     -0.344727
-     **** SW balance - unaccounted loss (mm) =     -0.325162
 11 June 2002(Day of year=162), pastureconverter: 
      
      sw_uptake:-
@@ -1848,9 +1721,6 @@ Component    "Pasture" = C:\Program Files\Ausfarm\PASTURE.dll
         layer 7 = 0 (kg/ha)
         uptake_nh4 total = 0.0018566 (kg/ha)
      
-12 June 2002(Day of year=163), sysbal: 
-     **** N balance - unaccounted loss (kg/ha) =     -0.331055
-     **** SW balance - unaccounted loss (mm) =     -0.374667
 12 June 2002(Day of year=163), pastureconverter: 
      
      sw_uptake:-
@@ -1885,9 +1755,6 @@ Component    "Pasture" = C:\Program Files\Ausfarm\PASTURE.dll
         layer 7 = 0 (kg/ha)
         uptake_nh4 total = 0.00178451 (kg/ha)
      
-13 June 2002(Day of year=164), sysbal: 
-     **** N balance - unaccounted loss (kg/ha) =     -0.321289
-     **** SW balance - unaccounted loss (mm) =     -0.575774
 13 June 2002(Day of year=164), pastureconverter: 
      
      sw_uptake:-
@@ -1922,9 +1789,6 @@ Component    "Pasture" = C:\Program Files\Ausfarm\PASTURE.dll
         layer 7 = 0 (kg/ha)
         uptake_nh4 total = 0.00174683 (kg/ha)
      
-14 June 2002(Day of year=165), sysbal: 
-     **** N balance - unaccounted loss (kg/ha) =     -0.312500
-     **** SW balance - unaccounted loss (mm) =     -0.435886
 14 June 2002(Day of year=165), pastureconverter: 
      
      sw_uptake:-
@@ -1959,9 +1823,6 @@ Component    "Pasture" = C:\Program Files\Ausfarm\PASTURE.dll
         layer 7 = 0 (kg/ha)
         uptake_nh4 total = 0.00175747 (kg/ha)
      
-15 June 2002(Day of year=166), sysbal: 
-     **** N balance - unaccounted loss (kg/ha) =     -0.311523
-     **** SW balance - unaccounted loss (mm) =     -0.378615
 15 June 2002(Day of year=166), pastureconverter: 
      
      sw_uptake:-
@@ -1996,9 +1857,6 @@ Component    "Pasture" = C:\Program Files\Ausfarm\PASTURE.dll
         layer 7 = 0 (kg/ha)
         uptake_nh4 total = 0.0017131 (kg/ha)
      
-16 June 2002(Day of year=167), sysbal: 
-     **** N balance - unaccounted loss (kg/ha) =     -0.301758
-     **** SW balance - unaccounted loss (mm) =     -0.434751
 16 June 2002(Day of year=167), pastureconverter: 
      
      sw_uptake:-
@@ -2033,9 +1891,6 @@ Component    "Pasture" = C:\Program Files\Ausfarm\PASTURE.dll
         layer 7 = 0 (kg/ha)
         uptake_nh4 total = 0.00167306 (kg/ha)
      
-17 June 2002(Day of year=168), sysbal: 
-     **** N balance - unaccounted loss (kg/ha) =     -0.300781
-     **** SW balance - unaccounted loss (mm) =     -0.440732
 17 June 2002(Day of year=168), pastureconverter: 
      
      sw_uptake:-
@@ -2070,9 +1925,6 @@ Component    "Pasture" = C:\Program Files\Ausfarm\PASTURE.dll
         layer 7 = 0 (kg/ha)
         uptake_nh4 total = 0.00168015 (kg/ha)
      
-18 June 2002(Day of year=169), sysbal: 
-     **** N balance - unaccounted loss (kg/ha) =     -0.287109
-     **** SW balance - unaccounted loss (mm) =     -0.543385
 18 June 2002(Day of year=169), pastureconverter: 
      
      sw_uptake:-
@@ -2107,9 +1959,6 @@ Component    "Pasture" = C:\Program Files\Ausfarm\PASTURE.dll
         layer 7 = 0 (kg/ha)
         uptake_nh4 total = 0.00166243 (kg/ha)
      
-19 June 2002(Day of year=170), sysbal: 
-     **** N balance - unaccounted loss (kg/ha) =     -0.282227
-     **** SW balance - unaccounted loss (mm) =     -0.616160
 19 June 2002(Day of year=170), pastureconverter: 
      
      sw_uptake:-
@@ -2144,9 +1993,6 @@ Component    "Pasture" = C:\Program Files\Ausfarm\PASTURE.dll
         layer 7 = 0 (kg/ha)
         uptake_nh4 total = 0.00169098 (kg/ha)
      
-20 June 2002(Day of year=171), sysbal: 
-     **** N balance - unaccounted loss (kg/ha) =     -0.282227
-     **** SW balance - unaccounted loss (mm) =     -0.467962
 20 June 2002(Day of year=171), pastureconverter: 
      
      sw_uptake:-
@@ -2181,9 +2027,6 @@ Component    "Pasture" = C:\Program Files\Ausfarm\PASTURE.dll
         layer 7 = 0 (kg/ha)
         uptake_nh4 total = 0.00171084 (kg/ha)
      
-21 June 2002(Day of year=172), sysbal: 
-     **** N balance - unaccounted loss (kg/ha) =     -0.287109
-     **** SW balance - unaccounted loss (mm) =     -0.368438
 21 June 2002(Day of year=172), pastureconverter: 
      
      sw_uptake:-
@@ -2218,9 +2061,6 @@ Component    "Pasture" = C:\Program Files\Ausfarm\PASTURE.dll
         layer 7 = 0 (kg/ha)
         uptake_nh4 total = 0.00165187 (kg/ha)
      
-22 June 2002(Day of year=173), sysbal: 
-     **** N balance - unaccounted loss (kg/ha) =     -0.279297
-     **** SW balance - unaccounted loss (mm) =     -0.553322
 22 June 2002(Day of year=173), pastureconverter: 
      
      sw_uptake:-
@@ -2255,9 +2095,6 @@ Component    "Pasture" = C:\Program Files\Ausfarm\PASTURE.dll
         layer 7 = 0 (kg/ha)
         uptake_nh4 total = 0.00167846 (kg/ha)
      
-23 June 2002(Day of year=174), sysbal: 
-     **** N balance - unaccounted loss (kg/ha) =     -0.283203
-     **** SW balance - unaccounted loss (mm) =     -0.395781
 23 June 2002(Day of year=174), pastureconverter: 
      
      sw_uptake:-
@@ -2292,9 +2129,6 @@ Component    "Pasture" = C:\Program Files\Ausfarm\PASTURE.dll
         layer 7 = 0 (kg/ha)
         uptake_nh4 total = 0.00162562 (kg/ha)
      
-24 June 2002(Day of year=175), sysbal: 
-     **** N balance - unaccounted loss (kg/ha) =     -0.274414
-     **** SW balance - unaccounted loss (mm) =     -0.450286
 24 June 2002(Day of year=175), pastureconverter: 
      
      sw_uptake:-
@@ -2329,9 +2163,6 @@ Component    "Pasture" = C:\Program Files\Ausfarm\PASTURE.dll
         layer 7 = 0 (kg/ha)
         uptake_nh4 total = 0.00158974 (kg/ha)
      
-25 June 2002(Day of year=176), sysbal: 
-     **** N balance - unaccounted loss (kg/ha) =     -0.266602
-     **** SW balance - unaccounted loss (mm) =     -0.565134
 25 June 2002(Day of year=176), pastureconverter: 
      
      sw_uptake:-
@@ -2366,9 +2197,6 @@ Component    "Pasture" = C:\Program Files\Ausfarm\PASTURE.dll
         layer 7 = 0 (kg/ha)
         uptake_nh4 total = 0.00157012 (kg/ha)
      
-26 June 2002(Day of year=177), sysbal: 
-     **** N balance - unaccounted loss (kg/ha) =     -0.264648
-     **** SW balance - unaccounted loss (mm) =     -0.518746
 26 June 2002(Day of year=177), pastureconverter: 
      
      sw_uptake:-
@@ -2403,9 +2231,6 @@ Component    "Pasture" = C:\Program Files\Ausfarm\PASTURE.dll
         layer 7 = 0 (kg/ha)
         uptake_nh4 total = 0.00149318 (kg/ha)
      
-27 June 2002(Day of year=178), sysbal: 
-     **** N balance - unaccounted loss (kg/ha) =     -0.255859
-     **** SW balance - unaccounted loss (mm) =     -0.602325
 27 June 2002(Day of year=178), pastureconverter: 
      
      sw_uptake:-
@@ -2440,9 +2265,6 @@ Component    "Pasture" = C:\Program Files\Ausfarm\PASTURE.dll
         layer 7 = 0 (kg/ha)
         uptake_nh4 total = 0.00148979 (kg/ha)
      
-28 June 2002(Day of year=179), sysbal: 
-     **** N balance - unaccounted loss (kg/ha) =     -0.257813
-     **** SW balance - unaccounted loss (mm) =     -0.435028
 28 June 2002(Day of year=179), pastureconverter: 
      
      sw_uptake:-
@@ -2477,9 +2299,6 @@ Component    "Pasture" = C:\Program Files\Ausfarm\PASTURE.dll
         layer 7 = 0 (kg/ha)
         uptake_nh4 total = 0.00149211 (kg/ha)
      
-29 June 2002(Day of year=180), sysbal: 
-     **** N balance - unaccounted loss (kg/ha) =     -0.250977
-     **** SW balance - unaccounted loss (mm) =     -0.534587
 29 June 2002(Day of year=180), pastureconverter: 
      
      sw_uptake:-
@@ -2514,9 +2333,6 @@ Component    "Pasture" = C:\Program Files\Ausfarm\PASTURE.dll
         layer 7 = 0 (kg/ha)
         uptake_nh4 total = 0.00149191 (kg/ha)
      
-30 June 2002(Day of year=181), sysbal: 
-     **** N balance - unaccounted loss (kg/ha) =     -0.250000
-     **** SW balance - unaccounted loss (mm) =     -0.599110
 30 June 2002(Day of year=181), pastureconverter: 
      
      sw_uptake:-
@@ -2551,9 +2367,6 @@ Component    "Pasture" = C:\Program Files\Ausfarm\PASTURE.dll
         layer 7 = 0 (kg/ha)
         uptake_nh4 total = 0.0014997 (kg/ha)
      
-1 July 2002(Day of year=182), sysbal: 
-     **** N balance - unaccounted loss (kg/ha) =     -0.250977
-     **** SW balance - unaccounted loss (mm) =     -0.473822
 1 July 2002(Day of year=182), pastureconverter: 
      
      sw_uptake:-
@@ -2588,9 +2401,6 @@ Component    "Pasture" = C:\Program Files\Ausfarm\PASTURE.dll
         layer 7 = 0 (kg/ha)
         uptake_nh4 total = 0.00146094 (kg/ha)
      
-2 July 2002(Day of year=183), sysbal: 
-     **** N balance - unaccounted loss (kg/ha) =     -0.247070
-     **** SW balance - unaccounted loss (mm) =     -0.643753
 2 July 2002(Day of year=183), pastureconverter: 
      
      sw_uptake:-
@@ -2625,9 +2435,6 @@ Component    "Pasture" = C:\Program Files\Ausfarm\PASTURE.dll
         layer 7 = 0 (kg/ha)
         uptake_nh4 total = 0.00143205 (kg/ha)
      
-3 July 2002(Day of year=184), sysbal: 
-     **** N balance - unaccounted loss (kg/ha) =     -0.245117
-     **** SW balance - unaccounted loss (mm) =     -0.620668
 3 July 2002(Day of year=184), pastureconverter: 
      
      sw_uptake:-
@@ -2662,9 +2469,6 @@ Component    "Pasture" = C:\Program Files\Ausfarm\PASTURE.dll
         layer 7 = 0 (kg/ha)
         uptake_nh4 total = 0.00144837 (kg/ha)
      
-4 July 2002(Day of year=185), sysbal: 
-     **** N balance - unaccounted loss (kg/ha) =     -0.250000
-     **** SW balance - unaccounted loss (mm) =     -0.442271
 4 July 2002(Day of year=185), pastureconverter: 
      
      sw_uptake:-
@@ -2699,9 +2503,6 @@ Component    "Pasture" = C:\Program Files\Ausfarm\PASTURE.dll
         layer 7 = 0 (kg/ha)
         uptake_nh4 total = 0.0014302 (kg/ha)
      
-5 July 2002(Day of year=186), sysbal: 
-     **** N balance - unaccounted loss (kg/ha) =     -0.241211
-     **** SW balance - unaccounted loss (mm) =     -0.581012
 5 July 2002(Day of year=186), pastureconverter: 
      
      sw_uptake:-
@@ -2736,9 +2537,6 @@ Component    "Pasture" = C:\Program Files\Ausfarm\PASTURE.dll
         layer 7 = 0 (kg/ha)
         uptake_nh4 total = 0.00145819 (kg/ha)
      
-6 July 2002(Day of year=187), sysbal: 
-     **** N balance - unaccounted loss (kg/ha) =     -0.249023
-     **** SW balance - unaccounted loss (mm) =     -0.349690
 6 July 2002(Day of year=187), pastureconverter: 
      
      sw_uptake:-
@@ -2773,9 +2571,6 @@ Component    "Pasture" = C:\Program Files\Ausfarm\PASTURE.dll
         layer 7 = 0 (kg/ha)
         uptake_nh4 total = 0.00141383 (kg/ha)
      
-7 July 2002(Day of year=188), sysbal: 
-     **** N balance - unaccounted loss (kg/ha) =     -0.234375
-     **** SW balance - unaccounted loss (mm) =     -0.519474
 7 July 2002(Day of year=188), pastureconverter: 
      
      sw_uptake:-
@@ -2810,9 +2605,6 @@ Component    "Pasture" = C:\Program Files\Ausfarm\PASTURE.dll
         layer 7 = 0 (kg/ha)
         uptake_nh4 total = 0.0041696 (kg/ha)
      
-8 July 2002(Day of year=189), sysbal: 
-     **** N balance - unaccounted loss (kg/ha) =     -0.686523
-     **** SW balance - unaccounted loss (mm) =     -0.628886
 8 July 2002(Day of year=189), pastureconverter: 
      
      sw_uptake:-
@@ -2847,9 +2639,6 @@ Component    "Pasture" = C:\Program Files\Ausfarm\PASTURE.dll
         layer 7 = 0 (kg/ha)
         uptake_nh4 total = 0.00430528 (kg/ha)
      
-9 July 2002(Day of year=190), sysbal: 
-     **** N balance - unaccounted loss (kg/ha) =     -0.712891
-     **** SW balance - unaccounted loss (mm) =     -0.725849
 9 July 2002(Day of year=190), pastureconverter: 
      
      sw_uptake:-
@@ -2884,9 +2673,6 @@ Component    "Pasture" = C:\Program Files\Ausfarm\PASTURE.dll
         layer 7 = 0 (kg/ha)
         uptake_nh4 total = 0.00516282 (kg/ha)
      
-10 July 2002(Day of year=191), sysbal: 
-     **** N balance - unaccounted loss (kg/ha) =     -0.865234
-     **** SW balance - unaccounted loss (mm) =     -0.648668
 10 July 2002(Day of year=191), pastureconverter: 
      
      sw_uptake:-
@@ -2921,9 +2707,6 @@ Component    "Pasture" = C:\Program Files\Ausfarm\PASTURE.dll
         layer 7 = 0 (kg/ha)
         uptake_nh4 total = 0.00637082 (kg/ha)
      
-11 July 2002(Day of year=192), sysbal: 
-     **** N balance - unaccounted loss (kg/ha) =     -1.087891
-     **** SW balance - unaccounted loss (mm) =     -0.661822
 11 July 2002(Day of year=192), pastureconverter: 
      
      sw_uptake:-
@@ -2958,9 +2741,6 @@ Component    "Pasture" = C:\Program Files\Ausfarm\PASTURE.dll
         layer 7 = 0 (kg/ha)
         uptake_nh4 total = 0.00561926 (kg/ha)
      
-12 July 2002(Day of year=193), sysbal: 
-     **** N balance - unaccounted loss (kg/ha) =     -0.987305
-     **** SW balance - unaccounted loss (mm) =     -0.561045
 12 July 2002(Day of year=193), pastureconverter: 
      
      sw_uptake:-
@@ -2995,9 +2775,6 @@ Component    "Pasture" = C:\Program Files\Ausfarm\PASTURE.dll
         layer 7 = 0 (kg/ha)
         uptake_nh4 total = 0.00591672 (kg/ha)
      
-13 July 2002(Day of year=194), sysbal: 
-     **** N balance - unaccounted loss (kg/ha) =     -1.080078
-     **** SW balance - unaccounted loss (mm) =     -0.815893
 13 July 2002(Day of year=194), pastureconverter: 
      
      sw_uptake:-
@@ -3032,9 +2809,6 @@ Component    "Pasture" = C:\Program Files\Ausfarm\PASTURE.dll
         layer 7 = 0 (kg/ha)
         uptake_nh4 total = 0.00677743 (kg/ha)
      
-14 July 2002(Day of year=195), sysbal: 
-     **** N balance - unaccounted loss (kg/ha) =     -1.280273
-     **** SW balance - unaccounted loss (mm) =     -0.341496
 14 July 2002(Day of year=195), pastureconverter: 
      
      sw_uptake:-
@@ -3069,9 +2843,6 @@ Component    "Pasture" = C:\Program Files\Ausfarm\PASTURE.dll
         layer 7 = 0 (kg/ha)
         uptake_nh4 total = 0.00746988 (kg/ha)
      
-15 July 2002(Day of year=196), sysbal: 
-     **** N balance - unaccounted loss (kg/ha) =     -1.371094
-     **** SW balance - unaccounted loss (mm) =     -0.621414
 15 July 2002(Day of year=196), pastureconverter: 
      
      sw_uptake:-
@@ -3106,9 +2877,6 @@ Component    "Pasture" = C:\Program Files\Ausfarm\PASTURE.dll
         layer 7 = 0 (kg/ha)
         uptake_nh4 total = 0.00755114 (kg/ha)
      
-16 July 2002(Day of year=197), sysbal: 
-     **** N balance - unaccounted loss (kg/ha) =     -1.363281
-     **** SW balance - unaccounted loss (mm) =     -0.592219
 16 July 2002(Day of year=197), pastureconverter: 
      
      sw_uptake:-
@@ -3143,9 +2911,6 @@ Component    "Pasture" = C:\Program Files\Ausfarm\PASTURE.dll
         layer 7 = 0 (kg/ha)
         uptake_nh4 total = 0.00782676 (kg/ha)
      
-17 July 2002(Day of year=198), sysbal: 
-     **** N balance - unaccounted loss (kg/ha) =     -1.415039
-     **** SW balance - unaccounted loss (mm) =     -0.597685
 17 July 2002(Day of year=198), pastureconverter: 
      
      sw_uptake:-
@@ -3180,9 +2945,6 @@ Component    "Pasture" = C:\Program Files\Ausfarm\PASTURE.dll
         layer 7 = 0 (kg/ha)
         uptake_nh4 total = 0.00817349 (kg/ha)
      
-18 July 2002(Day of year=199), sysbal: 
-     **** N balance - unaccounted loss (kg/ha) =     -1.469727
-     **** SW balance - unaccounted loss (mm) =     -0.599212
 18 July 2002(Day of year=199), pastureconverter: 
      
      sw_uptake:-
@@ -3217,9 +2979,6 @@ Component    "Pasture" = C:\Program Files\Ausfarm\PASTURE.dll
         layer 7 = 0 (kg/ha)
         uptake_nh4 total = 0.00843683 (kg/ha)
      
-19 July 2002(Day of year=200), sysbal: 
-     **** N balance - unaccounted loss (kg/ha) =     -1.517578
-     **** SW balance - unaccounted loss (mm) =     -0.730060
 19 July 2002(Day of year=200), pastureconverter: 
      
      sw_uptake:-
@@ -3254,9 +3013,6 @@ Component    "Pasture" = C:\Program Files\Ausfarm\PASTURE.dll
         layer 7 = 0 (kg/ha)
         uptake_nh4 total = 0.00868993 (kg/ha)
      
-20 July 2002(Day of year=201), sysbal: 
-     **** N balance - unaccounted loss (kg/ha) =     -1.575195
-     **** SW balance - unaccounted loss (mm) =     -0.419151
 20 July 2002(Day of year=201), pastureconverter: 
      
      sw_uptake:-
@@ -3291,9 +3047,6 @@ Component    "Pasture" = C:\Program Files\Ausfarm\PASTURE.dll
         layer 7 = 0 (kg/ha)
         uptake_nh4 total = 0.00858029 (kg/ha)
      
-21 July 2002(Day of year=202), sysbal: 
-     **** N balance - unaccounted loss (kg/ha) =     -1.587891
-     **** SW balance - unaccounted loss (mm) =     -0.795350
 21 July 2002(Day of year=202), pastureconverter: 
      
      sw_uptake:-
@@ -3328,9 +3081,6 @@ Component    "Pasture" = C:\Program Files\Ausfarm\PASTURE.dll
         layer 7 = 0 (kg/ha)
         uptake_nh4 total = 0.00888126 (kg/ha)
      
-22 July 2002(Day of year=203), sysbal: 
-     **** N balance - unaccounted loss (kg/ha) =     -1.689453
-     **** SW balance - unaccounted loss (mm) =     -0.687360
 22 July 2002(Day of year=203), pastureconverter: 
      
      sw_uptake:-
@@ -3365,9 +3115,6 @@ Component    "Pasture" = C:\Program Files\Ausfarm\PASTURE.dll
         layer 7 = 0 (kg/ha)
         uptake_nh4 total = 0.00828477 (kg/ha)
      
-23 July 2002(Day of year=204), sysbal: 
-     **** N balance - unaccounted loss (kg/ha) =     -1.627930
-     **** SW balance - unaccounted loss (mm) =     -0.375587
 23 July 2002(Day of year=204), pastureconverter: 
      
      sw_uptake:-
@@ -3402,9 +3149,6 @@ Component    "Pasture" = C:\Program Files\Ausfarm\PASTURE.dll
         layer 7 = 0 (kg/ha)
         uptake_nh4 total = 0.00799262 (kg/ha)
      
-24 July 2002(Day of year=205), sysbal: 
-     **** N balance - unaccounted loss (kg/ha) =     -1.636719
-     **** SW balance - unaccounted loss (mm) =     -0.570414
 24 July 2002(Day of year=205), pastureconverter: 
      
      sw_uptake:-
@@ -3439,9 +3183,6 @@ Component    "Pasture" = C:\Program Files\Ausfarm\PASTURE.dll
         layer 7 = 0 (kg/ha)
         uptake_nh4 total = 0.00787873 (kg/ha)
      
-25 July 2002(Day of year=206), sysbal: 
-     **** N balance - unaccounted loss (kg/ha) =     -1.691406
-     **** SW balance - unaccounted loss (mm) =     -0.709635
 25 July 2002(Day of year=206), pastureconverter: 
      
      sw_uptake:-
@@ -3476,9 +3217,6 @@ Component    "Pasture" = C:\Program Files\Ausfarm\PASTURE.dll
         layer 7 = 0 (kg/ha)
         uptake_nh4 total = 0.00782723 (kg/ha)
      
-26 July 2002(Day of year=207), sysbal: 
-     **** N balance - unaccounted loss (kg/ha) =     -1.715820
-     **** SW balance - unaccounted loss (mm) =     -0.287378
 26 July 2002(Day of year=207), pastureconverter: 
      
      sw_uptake:-
@@ -3513,9 +3251,6 @@ Component    "Pasture" = C:\Program Files\Ausfarm\PASTURE.dll
         layer 7 = 0 (kg/ha)
         uptake_nh4 total = 0.00741955 (kg/ha)
      
-27 July 2002(Day of year=208), sysbal: 
-     **** N balance - unaccounted loss (kg/ha) =     -1.655273
-     **** SW balance - unaccounted loss (mm) =     -0.740395
 27 July 2002(Day of year=208), pastureconverter: 
      
      sw_uptake:-
@@ -3550,9 +3285,6 @@ Component    "Pasture" = C:\Program Files\Ausfarm\PASTURE.dll
         layer 7 = 0 (kg/ha)
         uptake_nh4 total = 0.00693732 (kg/ha)
      
-28 July 2002(Day of year=209), sysbal: 
-     **** N balance - unaccounted loss (kg/ha) =     -1.605469
-     **** SW balance - unaccounted loss (mm) =     -0.801788
 28 July 2002(Day of year=209), pastureconverter: 
      
      sw_uptake:-
@@ -3587,9 +3319,6 @@ Component    "Pasture" = C:\Program Files\Ausfarm\PASTURE.dll
         layer 7 = 0 (kg/ha)
         uptake_nh4 total = 0.00700802 (kg/ha)
      
-29 July 2002(Day of year=210), sysbal: 
-     **** N balance - unaccounted loss (kg/ha) =     -1.641602
-     **** SW balance - unaccounted loss (mm) =     -0.290359
 29 July 2002(Day of year=210), pastureconverter: 
      
      sw_uptake:-
@@ -3624,9 +3353,6 @@ Component    "Pasture" = C:\Program Files\Ausfarm\PASTURE.dll
         layer 7 = 0 (kg/ha)
         uptake_nh4 total = 0.00752191 (kg/ha)
      
-30 July 2002(Day of year=211), sysbal: 
-     **** N balance - unaccounted loss (kg/ha) =     -1.650391
-     **** SW balance - unaccounted loss (mm) =     -0.666461
 30 July 2002(Day of year=211), pastureconverter: 
      
      sw_uptake:-
@@ -3661,9 +3387,6 @@ Component    "Pasture" = C:\Program Files\Ausfarm\PASTURE.dll
         layer 7 = 0 (kg/ha)
         uptake_nh4 total = 0.0076465 (kg/ha)
      
-31 July 2002(Day of year=212), sysbal: 
-     **** N balance - unaccounted loss (kg/ha) =     -1.609375
-     **** SW balance - unaccounted loss (mm) =     -0.816072
 31 July 2002(Day of year=212), pastureconverter: 
      
      sw_uptake:-
@@ -3698,9 +3421,6 @@ Component    "Pasture" = C:\Program Files\Ausfarm\PASTURE.dll
         layer 7 = 0 (kg/ha)
         uptake_nh4 total = 0.00741411 (kg/ha)
      
-1 August 2002(Day of year=213), sysbal: 
-     **** N balance - unaccounted loss (kg/ha) =     -1.540039
-     **** SW balance - unaccounted loss (mm) =     -0.757124
 1 August 2002(Day of year=213), pastureconverter: 
      
      sw_uptake:-
@@ -3735,9 +3455,6 @@ Component    "Pasture" = C:\Program Files\Ausfarm\PASTURE.dll
         layer 7 = 0 (kg/ha)
         uptake_nh4 total = 0.00733422 (kg/ha)
      
-2 August 2002(Day of year=214), sysbal: 
-     **** N balance - unaccounted loss (kg/ha) =     -1.526367
-     **** SW balance - unaccounted loss (mm) =     -0.713993
 2 August 2002(Day of year=214), pastureconverter: 
      
      sw_uptake:-
@@ -3772,9 +3489,6 @@ Component    "Pasture" = C:\Program Files\Ausfarm\PASTURE.dll
         layer 7 = 0 (kg/ha)
         uptake_nh4 total = 0.00725537 (kg/ha)
      
-3 August 2002(Day of year=215), sysbal: 
-     **** N balance - unaccounted loss (kg/ha) =     -1.526367
-     **** SW balance - unaccounted loss (mm) =     -0.558995
 3 August 2002(Day of year=215), pastureconverter: 
      
      sw_uptake:-
@@ -3809,9 +3523,6 @@ Component    "Pasture" = C:\Program Files\Ausfarm\PASTURE.dll
         layer 7 = 0 (kg/ha)
         uptake_nh4 total = 0.00686628 (kg/ha)
      
-4 August 2002(Day of year=216), sysbal: 
-     **** N balance - unaccounted loss (kg/ha) =     -1.477539
-     **** SW balance - unaccounted loss (mm) =     -0.694205
 4 August 2002(Day of year=216), pastureconverter: 
      
      sw_uptake:-
@@ -3846,9 +3557,6 @@ Component    "Pasture" = C:\Program Files\Ausfarm\PASTURE.dll
         layer 7 = 0 (kg/ha)
         uptake_nh4 total = 0.00659624 (kg/ha)
      
-5 August 2002(Day of year=217), sysbal: 
-     **** N balance - unaccounted loss (kg/ha) =     -1.466797
-     **** SW balance - unaccounted loss (mm) =     -0.728912
 5 August 2002(Day of year=217), pastureconverter: 
      
      sw_uptake:-
@@ -3883,9 +3591,6 @@ Component    "Pasture" = C:\Program Files\Ausfarm\PASTURE.dll
         layer 7 = 0 (kg/ha)
         uptake_nh4 total = 0.00688863 (kg/ha)
      
-6 August 2002(Day of year=218), sysbal: 
-     **** N balance - unaccounted loss (kg/ha) =     -1.414063
-     **** SW balance - unaccounted loss (mm) =     -0.539512
 6 August 2002(Day of year=218), pastureconverter: 
      
      sw_uptake:-
@@ -3920,9 +3625,6 @@ Component    "Pasture" = C:\Program Files\Ausfarm\PASTURE.dll
         layer 7 = 0 (kg/ha)
         uptake_nh4 total = 0.00705874 (kg/ha)
      
-7 August 2002(Day of year=219), sysbal: 
-     **** N balance - unaccounted loss (kg/ha) =     -1.356445
-     **** SW balance - unaccounted loss (mm) =     -0.675014
 7 August 2002(Day of year=219), pastureconverter: 
      
      sw_uptake:-
@@ -3957,9 +3659,6 @@ Component    "Pasture" = C:\Program Files\Ausfarm\PASTURE.dll
         layer 7 = 0 (kg/ha)
         uptake_nh4 total = 0.00705855 (kg/ha)
      
-8 August 2002(Day of year=220), sysbal: 
-     **** N balance - unaccounted loss (kg/ha) =     -1.291992
-     **** SW balance - unaccounted loss (mm) =     -0.570772
 8 August 2002(Day of year=220), pastureconverter: 
      
      sw_uptake:-
@@ -3994,9 +3693,6 @@ Component    "Pasture" = C:\Program Files\Ausfarm\PASTURE.dll
         layer 7 = 0 (kg/ha)
         uptake_nh4 total = 0.00694996 (kg/ha)
      
-9 August 2002(Day of year=221), sysbal: 
-     **** N balance - unaccounted loss (kg/ha) =     -1.235352
-     **** SW balance - unaccounted loss (mm) =     -0.940015
 9 August 2002(Day of year=221), pastureconverter: 
      
      sw_uptake:-
@@ -4031,9 +3727,6 @@ Component    "Pasture" = C:\Program Files\Ausfarm\PASTURE.dll
         layer 7 = 0 (kg/ha)
         uptake_nh4 total = 0.00669187 (kg/ha)
      
-10 August 2002(Day of year=222), sysbal: 
-     **** N balance - unaccounted loss (kg/ha) =     -1.176758
-     **** SW balance - unaccounted loss (mm) =     -0.883756
 10 August 2002(Day of year=222), pastureconverter: 
      
      sw_uptake:-
@@ -4068,9 +3761,6 @@ Component    "Pasture" = C:\Program Files\Ausfarm\PASTURE.dll
         layer 7 = 0 (kg/ha)
         uptake_nh4 total = 0.00611274 (kg/ha)
      
-11 August 2002(Day of year=223), sysbal: 
-     **** N balance - unaccounted loss (kg/ha) =     -1.091797
-     **** SW balance - unaccounted loss (mm) =     -1.014667
 11 August 2002(Day of year=223), pastureconverter: 
      
      sw_uptake:-
@@ -4105,9 +3795,6 @@ Component    "Pasture" = C:\Program Files\Ausfarm\PASTURE.dll
         layer 7 = 0 (kg/ha)
         uptake_nh4 total = 0.00568322 (kg/ha)
      
-12 August 2002(Day of year=224), sysbal: 
-     **** N balance - unaccounted loss (kg/ha) =     -1.047852
-     **** SW balance - unaccounted loss (mm) =     -0.670181
 12 August 2002(Day of year=224), pastureconverter: 
      
      sw_uptake:-
@@ -4142,9 +3829,6 @@ Component    "Pasture" = C:\Program Files\Ausfarm\PASTURE.dll
         layer 7 = 0 (kg/ha)
         uptake_nh4 total = 0.00537138 (kg/ha)
      
-13 August 2002(Day of year=225), sysbal: 
-     **** N balance - unaccounted loss (kg/ha) =     -1.010742
-     **** SW balance - unaccounted loss (mm) =     -0.806540
 13 August 2002(Day of year=225), pastureconverter: 
      
      sw_uptake:-
@@ -4179,9 +3863,6 @@ Component    "Pasture" = C:\Program Files\Ausfarm\PASTURE.dll
         layer 7 = 0 (kg/ha)
         uptake_nh4 total = 0.00516788 (kg/ha)
      
-14 August 2002(Day of year=226), sysbal: 
-     **** N balance - unaccounted loss (kg/ha) =     -0.991211
-     **** SW balance - unaccounted loss (mm) =     -0.715210
 14 August 2002(Day of year=226), pastureconverter: 
      
      sw_uptake:-
@@ -4216,9 +3897,6 @@ Component    "Pasture" = C:\Program Files\Ausfarm\PASTURE.dll
         layer 7 = 0 (kg/ha)
         uptake_nh4 total = 0.00495006 (kg/ha)
      
-15 August 2002(Day of year=227), sysbal: 
-     **** N balance - unaccounted loss (kg/ha) =     -0.975586
-     **** SW balance - unaccounted loss (mm) =     -0.701286
 15 August 2002(Day of year=227), pastureconverter: 
      
      sw_uptake:-
@@ -4253,9 +3931,6 @@ Component    "Pasture" = C:\Program Files\Ausfarm\PASTURE.dll
         layer 7 = 0 (kg/ha)
         uptake_nh4 total = 0.00469386 (kg/ha)
      
-16 August 2002(Day of year=228), sysbal: 
-     **** N balance - unaccounted loss (kg/ha) =     -0.951172
-     **** SW balance - unaccounted loss (mm) =     -0.937998
 16 August 2002(Day of year=228), pastureconverter: 
      
      sw_uptake:-
@@ -4290,9 +3965,6 @@ Component    "Pasture" = C:\Program Files\Ausfarm\PASTURE.dll
         layer 7 = 0 (kg/ha)
         uptake_nh4 total = 0.00443283 (kg/ha)
      
-17 August 2002(Day of year=229), sysbal: 
-     **** N balance - unaccounted loss (kg/ha) =     -0.928711
-     **** SW balance - unaccounted loss (mm) =     -0.956192
 17 August 2002(Day of year=229), pastureconverter: 
      
      sw_uptake:-
@@ -4327,9 +3999,6 @@ Component    "Pasture" = C:\Program Files\Ausfarm\PASTURE.dll
         layer 7 = 0 (kg/ha)
         uptake_nh4 total = 0.00415439 (kg/ha)
      
-18 August 2002(Day of year=230), sysbal: 
-     **** N balance - unaccounted loss (kg/ha) =     -0.902344
-     **** SW balance - unaccounted loss (mm) =     -0.899142
 18 August 2002(Day of year=230), pastureconverter: 
      
      sw_uptake:-
@@ -4364,9 +4033,6 @@ Component    "Pasture" = C:\Program Files\Ausfarm\PASTURE.dll
         layer 7 = 0 (kg/ha)
         uptake_nh4 total = 0.00392419 (kg/ha)
      
-19 August 2002(Day of year=231), sysbal: 
-     **** N balance - unaccounted loss (kg/ha) =     -0.887695
-     **** SW balance - unaccounted loss (mm) =     -0.870574
 19 August 2002(Day of year=231), pastureconverter: 
      
      sw_uptake:-
@@ -4401,9 +4067,6 @@ Component    "Pasture" = C:\Program Files\Ausfarm\PASTURE.dll
         layer 7 = 0 (kg/ha)
         uptake_nh4 total = 0.00375049 (kg/ha)
      
-20 August 2002(Day of year=232), sysbal: 
-     **** N balance - unaccounted loss (kg/ha) =     -0.882813
-     **** SW balance - unaccounted loss (mm) =     -0.219827
 20 August 2002(Day of year=232), pastureconverter: 
      
      sw_uptake:-
@@ -4438,9 +4101,6 @@ Component    "Pasture" = C:\Program Files\Ausfarm\PASTURE.dll
         layer 7 = 0 (kg/ha)
         uptake_nh4 total = 0.00342776 (kg/ha)
      
-21 August 2002(Day of year=233), sysbal: 
-     **** N balance - unaccounted loss (kg/ha) =     -0.846680
-     **** SW balance - unaccounted loss (mm) =     -0.208451
 21 August 2002(Day of year=233), pastureconverter: 
      
      sw_uptake:-
@@ -4475,9 +4135,6 @@ Component    "Pasture" = C:\Program Files\Ausfarm\PASTURE.dll
         layer 7 = 0 (kg/ha)
         uptake_nh4 total = 0.00365803 (kg/ha)
      
-22 August 2002(Day of year=234), sysbal: 
-     **** N balance - unaccounted loss (kg/ha) =     -0.951172
-     **** SW balance - unaccounted loss (mm) =     -0.321834
 22 August 2002(Day of year=234), pastureconverter: 
      
      sw_uptake:-
@@ -4512,9 +4169,6 @@ Component    "Pasture" = C:\Program Files\Ausfarm\PASTURE.dll
         layer 7 = 0 (kg/ha)
         uptake_nh4 total = 0.00301823 (kg/ha)
      
-23 August 2002(Day of year=235), sysbal: 
-     **** N balance - unaccounted loss (kg/ha) =     -0.829102
-     **** SW balance - unaccounted loss (mm) =     -0.220281
 23 August 2002(Day of year=235), pastureconverter: 
      
      sw_uptake:-
@@ -4549,9 +4203,6 @@ Component    "Pasture" = C:\Program Files\Ausfarm\PASTURE.dll
         layer 7 = 0 (kg/ha)
         uptake_nh4 total = 0.00273185 (kg/ha)
      
-24 August 2002(Day of year=236), sysbal: 
-     **** N balance - unaccounted loss (kg/ha) =     -0.794922
-     **** SW balance - unaccounted loss (mm) =     -0.183908
 24 August 2002(Day of year=236), pastureconverter: 
      
      sw_uptake:-
@@ -4586,9 +4237,6 @@ Component    "Pasture" = C:\Program Files\Ausfarm\PASTURE.dll
         layer 7 = 0 (kg/ha)
         uptake_nh4 total = 0.00251718 (kg/ha)
      
-25 August 2002(Day of year=237), sysbal: 
-     **** N balance - unaccounted loss (kg/ha) =     -0.779297
-     **** SW balance - unaccounted loss (mm) =     -0.217168
 25 August 2002(Day of year=237), pastureconverter: 
      
      sw_uptake:-
@@ -4623,9 +4271,6 @@ Component    "Pasture" = C:\Program Files\Ausfarm\PASTURE.dll
         layer 7 = 0 (kg/ha)
         uptake_nh4 total = 0.00230725 (kg/ha)
      
-26 August 2002(Day of year=238), sysbal: 
-     **** N balance - unaccounted loss (kg/ha) =     -0.764648
-     **** SW balance - unaccounted loss (mm) =     -0.167241
 26 August 2002(Day of year=238), pastureconverter: 
      
      sw_uptake:-
@@ -4660,9 +4305,6 @@ Component    "Pasture" = C:\Program Files\Ausfarm\PASTURE.dll
         layer 7 = 0 (kg/ha)
         uptake_nh4 total = 0.00198403 (kg/ha)
      
-27 August 2002(Day of year=239), sysbal: 
-     **** N balance - unaccounted loss (kg/ha) =     -0.701172
-     **** SW balance - unaccounted loss (mm) =     -0.165718
 27 August 2002(Day of year=239), pastureconverter: 
      
      sw_uptake:-
@@ -4697,9 +4339,6 @@ Component    "Pasture" = C:\Program Files\Ausfarm\PASTURE.dll
         layer 7 = 0 (kg/ha)
         uptake_nh4 total = 0.00173935 (kg/ha)
      
-28 August 2002(Day of year=240), sysbal: 
-     **** N balance - unaccounted loss (kg/ha) =     -0.644531
-     **** SW balance - unaccounted loss (mm) =     -0.145791
 28 August 2002(Day of year=240), pastureconverter: 
      
      sw_uptake:-
@@ -4734,9 +4373,6 @@ Component    "Pasture" = C:\Program Files\Ausfarm\PASTURE.dll
         layer 7 = 0 (kg/ha)
         uptake_nh4 total = 0.00158123 (kg/ha)
      
-29 August 2002(Day of year=241), sysbal: 
-     **** N balance - unaccounted loss (kg/ha) =     -0.615234
-     **** SW balance - unaccounted loss (mm) =     -0.108164
 29 August 2002(Day of year=241), pastureconverter: 
      
      sw_uptake:-
@@ -4771,8 +4407,6 @@ Component    "Pasture" = C:\Program Files\Ausfarm\PASTURE.dll
         layer 7 = 0 (kg/ha)
         uptake_nh4 total = 0.00149017 (kg/ha)
      
-30 August 2002(Day of year=242), sysbal: 
-     **** N balance - unaccounted loss (kg/ha) =     -0.601563
 30 August 2002(Day of year=242), pastureconverter: 
      
      sw_uptake:-
@@ -4807,8 +4441,6 @@ Component    "Pasture" = C:\Program Files\Ausfarm\PASTURE.dll
         layer 7 = 0 (kg/ha)
         uptake_nh4 total = 0.00137216 (kg/ha)
      
-31 August 2002(Day of year=243), sysbal: 
-     **** N balance - unaccounted loss (kg/ha) =     -0.572266
 31 August 2002(Day of year=243), pastureconverter: 
      
      sw_uptake:-
@@ -4843,8 +4475,6 @@ Component    "Pasture" = C:\Program Files\Ausfarm\PASTURE.dll
         layer 7 = 0 (kg/ha)
         uptake_nh4 total = 0.00124855 (kg/ha)
      
-1 September 2002(Day of year=244), sysbal: 
-     **** N balance - unaccounted loss (kg/ha) =     -0.534180
 1 September 2002(Day of year=244), pastureconverter: 
      
      sw_uptake:-
@@ -4879,8 +4509,6 @@ Component    "Pasture" = C:\Program Files\Ausfarm\PASTURE.dll
         layer 7 = 0 (kg/ha)
         uptake_nh4 total = 0.00113113 (kg/ha)
      
-2 September 2002(Day of year=245), sysbal: 
-     **** N balance - unaccounted loss (kg/ha) =     -0.495117
 2 September 2002(Day of year=245), pastureconverter: 
      
      sw_uptake:-
@@ -4915,8 +4543,6 @@ Component    "Pasture" = C:\Program Files\Ausfarm\PASTURE.dll
         layer 7 = 0 (kg/ha)
         uptake_nh4 total = 0.000964349 (kg/ha)
      
-3 September 2002(Day of year=246), sysbal: 
-     **** N balance - unaccounted loss (kg/ha) =     -0.424805
 3 September 2002(Day of year=246), pastureconverter: 
      
      sw_uptake:-
@@ -4951,8 +4577,6 @@ Component    "Pasture" = C:\Program Files\Ausfarm\PASTURE.dll
         layer 7 = 0 (kg/ha)
         uptake_nh4 total = 0.000878274 (kg/ha)
      
-4 September 2002(Day of year=247), sysbal: 
-     **** N balance - unaccounted loss (kg/ha) =     -0.386719
 4 September 2002(Day of year=247), pastureconverter: 
      
      sw_uptake:-
@@ -4987,8 +4611,6 @@ Component    "Pasture" = C:\Program Files\Ausfarm\PASTURE.dll
         layer 7 = 0 (kg/ha)
         uptake_nh4 total = 0.000774529 (kg/ha)
      
-5 September 2002(Day of year=248), sysbal: 
-     **** N balance - unaccounted loss (kg/ha) =     -0.360352
 5 September 2002(Day of year=248), pastureconverter: 
      
      sw_uptake:-
@@ -5023,9 +4645,6 @@ Component    "Pasture" = C:\Program Files\Ausfarm\PASTURE.dll
         layer 7 = 0 (kg/ha)
         uptake_nh4 total = 0.000697101 (kg/ha)
      
-6 September 2002(Day of year=249), sysbal: 
-     **** N balance - unaccounted loss (kg/ha) =     -0.330078
-     **** SW balance - unaccounted loss (mm) =     -0.135826
 6 September 2002(Day of year=249), pastureconverter: 
      
      sw_uptake:-
@@ -5060,8 +4679,6 @@ Component    "Pasture" = C:\Program Files\Ausfarm\PASTURE.dll
         layer 7 = 0 (kg/ha)
         uptake_nh4 total = 0.000694682 (kg/ha)
      
-7 September 2002(Day of year=250), sysbal: 
-     **** N balance - unaccounted loss (kg/ha) =     -0.321289
 7 September 2002(Day of year=250), pastureconverter: 
      
      sw_uptake:-
@@ -5096,8 +4713,6 @@ Component    "Pasture" = C:\Program Files\Ausfarm\PASTURE.dll
         layer 7 = 0 (kg/ha)
         uptake_nh4 total = 0.000619747 (kg/ha)
      
-8 September 2002(Day of year=251), sysbal: 
-     **** N balance - unaccounted loss (kg/ha) =     -0.289063
 8 September 2002(Day of year=251), pastureconverter: 
      
      sw_uptake:-
@@ -5132,8 +4747,6 @@ Component    "Pasture" = C:\Program Files\Ausfarm\PASTURE.dll
         layer 7 = 0 (kg/ha)
         uptake_nh4 total = 0.000583407 (kg/ha)
      
-9 September 2002(Day of year=252), sysbal: 
-     **** N balance - unaccounted loss (kg/ha) =     -0.277344
 9 September 2002(Day of year=252), pastureconverter: 
      
      sw_uptake:-
@@ -5168,8 +4781,6 @@ Component    "Pasture" = C:\Program Files\Ausfarm\PASTURE.dll
         layer 7 = 0 (kg/ha)
         uptake_nh4 total = 0.000520905 (kg/ha)
      
-10 September 2002(Day of year=253), sysbal: 
-     **** N balance - unaccounted loss (kg/ha) =     -0.252930
 10 September 2002(Day of year=253), pastureconverter: 
      
      sw_uptake:-
@@ -5204,8 +4815,6 @@ Component    "Pasture" = C:\Program Files\Ausfarm\PASTURE.dll
         layer 7 = 0 (kg/ha)
         uptake_nh4 total = 0.000499483 (kg/ha)
      
-11 September 2002(Day of year=254), sysbal: 
-     **** N balance - unaccounted loss (kg/ha) =     -0.248047
 11 September 2002(Day of year=254), pastureconverter: 
      
      sw_uptake:-
@@ -5240,8 +4849,6 @@ Component    "Pasture" = C:\Program Files\Ausfarm\PASTURE.dll
         layer 7 = 0 (kg/ha)
         uptake_nh4 total = 0.000482083 (kg/ha)
      
-12 September 2002(Day of year=255), sysbal: 
-     **** N balance - unaccounted loss (kg/ha) =     -0.243164
 12 September 2002(Day of year=255), pastureconverter: 
      
      sw_uptake:-
@@ -5276,8 +4883,6 @@ Component    "Pasture" = C:\Program Files\Ausfarm\PASTURE.dll
         layer 7 = 0 (kg/ha)
         uptake_nh4 total = 0.000408976 (kg/ha)
      
-13 September 2002(Day of year=256), sysbal: 
-     **** N balance - unaccounted loss (kg/ha) =     -0.208984
 13 September 2002(Day of year=256), pastureconverter: 
      
      sw_uptake:-
@@ -5312,8 +4917,6 @@ Component    "Pasture" = C:\Program Files\Ausfarm\PASTURE.dll
         layer 7 = 0 (kg/ha)
         uptake_nh4 total = 0.000357463 (kg/ha)
      
-14 September 2002(Day of year=257), sysbal: 
-     **** N balance - unaccounted loss (kg/ha) =     -0.184570
 14 September 2002(Day of year=257), pastureconverter: 
      
      sw_uptake:-
@@ -5348,8 +4951,6 @@ Component    "Pasture" = C:\Program Files\Ausfarm\PASTURE.dll
         layer 7 = 0 (kg/ha)
         uptake_nh4 total = 0.000284414 (kg/ha)
      
-15 September 2002(Day of year=258), sysbal: 
-     **** N balance - unaccounted loss (kg/ha) =     -0.148438
 15 September 2002(Day of year=258), pastureconverter: 
      
      sw_uptake:-
@@ -5384,8 +4985,6 @@ Component    "Pasture" = C:\Program Files\Ausfarm\PASTURE.dll
         layer 7 = 0 (kg/ha)
         uptake_nh4 total = 0.000229357 (kg/ha)
      
-16 September 2002(Day of year=259), sysbal: 
-     **** N balance - unaccounted loss (kg/ha) =     -0.120117
 16 September 2002(Day of year=259), pastureconverter: 
      
      sw_uptake:-
@@ -5420,8 +5019,6 @@ Component    "Pasture" = C:\Program Files\Ausfarm\PASTURE.dll
         layer 7 = 0 (kg/ha)
         uptake_nh4 total = 0.000219673 (kg/ha)
      
-17 September 2002(Day of year=260), sysbal: 
-     **** N balance - unaccounted loss (kg/ha) =     -0.117188
 17 September 2002(Day of year=260), pastureconverter: 
      
      sw_uptake:-
@@ -5456,9 +5053,6 @@ Component    "Pasture" = C:\Program Files\Ausfarm\PASTURE.dll
         layer 7 = 0 (kg/ha)
         uptake_nh4 total = 8.06453e-05 (kg/ha)
      
-18 September 2002(Day of year=261), sysbal: 
-     **** N balance - unaccounted loss (kg/ha) =     -0.041016
-     **** SW balance - unaccounted loss (mm) =     -0.255597
 18 September 2002(Day of year=261), pastureconverter: 
      
      sw_uptake:-
@@ -5493,9 +5087,6 @@ Component    "Pasture" = C:\Program Files\Ausfarm\PASTURE.dll
         layer 7 = 0 (kg/ha)
         uptake_nh4 total = 7.84969e-05 (kg/ha)
      
-19 September 2002(Day of year=262), sysbal: 
-     **** N balance - unaccounted loss (kg/ha) =     -0.038086
-     **** SW balance - unaccounted loss (mm) =     -0.303451
 19 September 2002(Day of year=262), pastureconverter: 
      
      sw_uptake:-
@@ -5530,9 +5121,6 @@ Component    "Pasture" = C:\Program Files\Ausfarm\PASTURE.dll
         layer 7 = 0 (kg/ha)
         uptake_nh4 total = 7.24965e-05 (kg/ha)
      
-20 September 2002(Day of year=263), sysbal: 
-     **** N balance - unaccounted loss (kg/ha) =     -0.035156
-     **** SW balance - unaccounted loss (mm) =     -0.308911
 20 September 2002(Day of year=263), pastureconverter: 
      
      sw_uptake:-
@@ -5567,9 +5155,6 @@ Component    "Pasture" = C:\Program Files\Ausfarm\PASTURE.dll
         layer 7 = 0 (kg/ha)
         uptake_nh4 total = 6.55593e-05 (kg/ha)
      
-21 September 2002(Day of year=264), sysbal: 
-     **** N balance - unaccounted loss (kg/ha) =     -0.033203
-     **** SW balance - unaccounted loss (mm) =     -0.305977
 21 September 2002(Day of year=264), pastureconverter: 
      
      sw_uptake:-
@@ -5604,9 +5189,6 @@ Component    "Pasture" = C:\Program Files\Ausfarm\PASTURE.dll
         layer 7 = 0 (kg/ha)
         uptake_nh4 total = 5.72138e-05 (kg/ha)
      
-22 September 2002(Day of year=265), sysbal: 
-     **** N balance - unaccounted loss (kg/ha) =     -0.029297
-     **** SW balance - unaccounted loss (mm) =     -0.261559
 22 September 2002(Day of year=265), pastureconverter: 
      
      sw_uptake:-
@@ -5641,9 +5223,6 @@ Component    "Pasture" = C:\Program Files\Ausfarm\PASTURE.dll
         layer 7 = 0 (kg/ha)
         uptake_nh4 total = 5.1383e-05 (kg/ha)
      
-23 September 2002(Day of year=266), sysbal: 
-     **** N balance - unaccounted loss (kg/ha) =     -0.028320
-     **** SW balance - unaccounted loss (mm) =     -0.145114
 23 September 2002(Day of year=266), pastureconverter: 
      
      sw_uptake:-
@@ -5678,9 +5257,6 @@ Component    "Pasture" = C:\Program Files\Ausfarm\PASTURE.dll
         layer 7 = 0 (kg/ha)
         uptake_nh4 total = 4.53005e-05 (kg/ha)
      
-24 September 2002(Day of year=267), sysbal: 
-     **** N balance - unaccounted loss (kg/ha) =     -0.025391
-     **** SW balance - unaccounted loss (mm) =     -0.186269
 24 September 2002(Day of year=267), pastureconverter: 
      
      sw_uptake:-
@@ -5715,9 +5291,6 @@ Component    "Pasture" = C:\Program Files\Ausfarm\PASTURE.dll
         layer 7 = 0 (kg/ha)
         uptake_nh4 total = 4.26184e-05 (kg/ha)
      
-25 September 2002(Day of year=268), sysbal: 
-     **** N balance - unaccounted loss (kg/ha) =     -0.023438
-     **** SW balance - unaccounted loss (mm) =     -0.129474
 25 September 2002(Day of year=268), pastureconverter: 
      
      sw_uptake:-
@@ -5752,8 +5325,6 @@ Component    "Pasture" = C:\Program Files\Ausfarm\PASTURE.dll
         layer 7 = 0 (kg/ha)
         uptake_nh4 total = 3.90695e-05 (kg/ha)
      
-26 September 2002(Day of year=269), sysbal: 
-     **** N balance - unaccounted loss (kg/ha) =     -0.021484
 26 September 2002(Day of year=269), pastureconverter: 
      
      sw_uptake:-
@@ -5788,8 +5359,6 @@ Component    "Pasture" = C:\Program Files\Ausfarm\PASTURE.dll
         layer 7 = 0 (kg/ha)
         uptake_nh4 total = 3.59194e-05 (kg/ha)
      
-27 September 2002(Day of year=270), sysbal: 
-     **** N balance - unaccounted loss (kg/ha) =     -0.020508
 27 September 2002(Day of year=270), pastureconverter: 
      
      sw_uptake:-
@@ -5824,8 +5393,6 @@ Component    "Pasture" = C:\Program Files\Ausfarm\PASTURE.dll
         layer 7 = 0 (kg/ha)
         uptake_nh4 total = 3.31316e-05 (kg/ha)
      
-28 September 2002(Day of year=271), sysbal: 
-     **** N balance - unaccounted loss (kg/ha) =     -0.020508
 28 September 2002(Day of year=271), pastureconverter: 
      
      sw_uptake:-
@@ -5860,8 +5427,6 @@ Component    "Pasture" = C:\Program Files\Ausfarm\PASTURE.dll
         layer 7 = 0 (kg/ha)
         uptake_nh4 total = 3.09813e-05 (kg/ha)
      
-29 September 2002(Day of year=272), sysbal: 
-     **** N balance - unaccounted loss (kg/ha) =     -0.018555
 29 September 2002(Day of year=272), pastureconverter: 
      
      sw_uptake:-
@@ -5896,8 +5461,6 @@ Component    "Pasture" = C:\Program Files\Ausfarm\PASTURE.dll
         layer 7 = 0 (kg/ha)
         uptake_nh4 total = 2.79025e-05 (kg/ha)
      
-30 September 2002(Day of year=273), sysbal: 
-     **** N balance - unaccounted loss (kg/ha) =     -0.019531
 30 September 2002(Day of year=273), pastureconverter: 
      
      sw_uptake:-
@@ -5932,8 +5495,6 @@ Component    "Pasture" = C:\Program Files\Ausfarm\PASTURE.dll
         layer 7 = 0 (kg/ha)
         uptake_nh4 total = 2.60961e-05 (kg/ha)
      
-1 October 2002(Day of year=274), sysbal: 
-     **** N balance - unaccounted loss (kg/ha) =     -0.015625
 1 October 2002(Day of year=274), pastureconverter: 
      
      sw_uptake:-
@@ -5968,8 +5529,6 @@ Component    "Pasture" = C:\Program Files\Ausfarm\PASTURE.dll
         layer 7 = 0 (kg/ha)
         uptake_nh4 total = 2.33646e-05 (kg/ha)
      
-2 October 2002(Day of year=275), sysbal: 
-     **** N balance - unaccounted loss (kg/ha) =     -0.015625
 2 October 2002(Day of year=275), pastureconverter: 
      
      sw_uptake:-
@@ -6004,8 +5563,6 @@ Component    "Pasture" = C:\Program Files\Ausfarm\PASTURE.dll
         layer 7 = 0 (kg/ha)
         uptake_nh4 total = 2.07638e-05 (kg/ha)
      
-3 October 2002(Day of year=276), sysbal: 
-     **** N balance - unaccounted loss (kg/ha) =     -0.014648
 3 October 2002(Day of year=276), pastureconverter: 
      
      sw_uptake:-
@@ -6040,8 +5597,6 @@ Component    "Pasture" = C:\Program Files\Ausfarm\PASTURE.dll
         layer 7 = 0 (kg/ha)
         uptake_nh4 total = 1.90221e-05 (kg/ha)
      
-4 October 2002(Day of year=277), sysbal: 
-     **** N balance - unaccounted loss (kg/ha) =     -0.012695
 4 October 2002(Day of year=277), pastureconverter: 
      
      sw_uptake:-
@@ -6076,8 +5631,6 @@ Component    "Pasture" = C:\Program Files\Ausfarm\PASTURE.dll
         layer 7 = 0 (kg/ha)
         uptake_nh4 total = 1.90544e-05 (kg/ha)
      
-5 October 2002(Day of year=278), sysbal: 
-     **** N balance - unaccounted loss (kg/ha) =     -0.011719
 5 October 2002(Day of year=278), pastureconverter: 
      
      sw_uptake:-
@@ -6112,8 +5665,6 @@ Component    "Pasture" = C:\Program Files\Ausfarm\PASTURE.dll
         layer 7 = 0 (kg/ha)
         uptake_nh4 total = 1.71788e-05 (kg/ha)
      
-6 October 2002(Day of year=279), sysbal: 
-     **** N balance - unaccounted loss (kg/ha) =     -0.011719
 6 October 2002(Day of year=279), pastureconverter: 
      
      sw_uptake:-
@@ -6182,8 +5733,6 @@ Component    "Pasture" = C:\Program Files\Ausfarm\PASTURE.dll
         layer 7 = 0 (kg/ha)
         uptake_nh4 total = 1.41194e-05 (kg/ha)
      
-8 October 2002(Day of year=281), sysbal: 
-     **** N balance - unaccounted loss (kg/ha) =     -0.010742
 8 October 2002(Day of year=281), pastureconverter: 
      
      sw_uptake:-
