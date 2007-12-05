@@ -9923,7 +9923,7 @@ c      pause
       if (eventID .eq. id%tick) then
          call apswim_ONtick (variant)
       elseif (eventID .eq. id%prenewmet) then
-         call apswim_set_rain_variable ()
+!         call apswim_set_rain_variable ()
 !      elseif (eventID .eq. id%subsurfaceflow) then
 !         call apswim_OnSubSurfaceFlow(variant)
       endif
