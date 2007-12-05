@@ -16,7 +16,7 @@ STATICOBJ=	../../../Shared/ComponentInterface/SimpleWrapper.o \
             ../../../Shared/ComponentInterface/FORTRANdatatypes.o   \
             ../../../Shared/ComponentInterface/datatypes.o
 
-OBJ=	sysbal.o Registrations.o $(STATICOBJ)
+OBJ=	Registrations.o sysbal.o $(STATICOBJ)
 
 #-----------------------------------------------------------------------
 # Compiler options
