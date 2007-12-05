@@ -533,6 +533,12 @@
       character  surfaceom_n*30
       parameter (surfaceom_n = 'surfaceom_n')
 
+      character  surfaceom_no3*30
+      parameter (surfaceom_no3 = 'surfaceom_no3')
+
+      character  surfaceom_nh4*30
+      parameter (surfaceom_nh4 = 'surfaceom_nh4')
+
       character  dlt_no3_dnit*30
       parameter (dlt_no3_dnit = 'dlt_no3_dnit()')
 
@@ -567,6 +573,8 @@
 
       state_soil = sysbal_get_variable(nit_tot, kgha)
       state_surface = sysbal_get_variable(surfaceom_n, kgha)
+     :    + sysbal_get_variable(surfaceom_no3, kgha)
+     :    + sysbal_get_variable(surfaceom_nh4, kgha)
 
   ! define system losses
   !--------------
@@ -687,6 +695,9 @@
       character  surfaceom_p*30
       parameter (surfaceom_p = 'surfaceom_p')
 
+      character  surfaceom_labile_p*30
+      parameter (surfaceom_labile_p = 'surfaceom_labile_p')
+
 !+  Local Variables
       character*200   message          !
 
@@ -712,6 +723,7 @@
      :           + sysbal_get_variable(unavail_p, kgha)
      :           + sysbal_get_variable(labile_p, kgha)
       state_surface = sysbal_get_variable(surfaceom_p, kgha)
+     :           + sysbal_get_variable(surfaceom_labile_p, kgha)
 
   ! define system losses
   !--------------
