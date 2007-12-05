@@ -1533,7 +1533,7 @@ c      read(ret_string, *, iostat = err_code) g%rain
 
 *- Implementation Section ----------------------------------
 
-      call apswim_set_rain_variable ()
+
       return
       end subroutine
 
@@ -1558,6 +1558,7 @@ c      read(ret_string, *, iostat = err_code) g%rain
 
 *- Implementation Section ----------------------------------
 
+      if (g%day > 0) then
          start_of_day = apswim_time (g%year,g%day,
      :                               apswim_time_to_mins(g%apsim_time))
          end_of_day = apswim_time (g%year
@@ -1573,7 +1574,10 @@ c      read(ret_string, *, iostat = err_code) g%rain
      :                       , trim(units)
      :                       , daily_rain)
 
-      return
+      else
+      endif
+
+         return
       end subroutine
 
 
@@ -9918,8 +9922,8 @@ c      pause
 
       if (eventID .eq. id%tick) then
          call apswim_ONtick (variant)
-!      elseif (eventID .eq. id%prenewmet) then
-!         call apswim_set_rain_variable ()
+      elseif (eventID .eq. id%prenewmet) then
+         call apswim_set_rain_variable ()
 !      elseif (eventID .eq. id%subsurfaceflow) then
 !         call apswim_OnSubSurfaceFlow(variant)
       endif
