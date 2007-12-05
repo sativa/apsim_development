@@ -400,8 +400,6 @@ Component     "sysbal" = c:\development\apsim\sysbal\lib\sysbal.dll
         - Reading Fertiliser Type Parameters
        150.00 of di-ammonium phosphate (dap)
                                               added at depth   10.00 (layer   1)
-10 June 1994(Day of year=161), sysbal: 
-     **** N balance - unaccounted gain (kg/ha) =     26.999487
 15 June 1994(Day of year=166), operatns: 
       Sending sow message to millet
 15 June 1994(Day of year=166), millet: 
@@ -468,10 +466,6 @@ Component     "sysbal" = c:\development\apsim\sysbal\lib\sysbal.dll
       stage    3.0 emergence
                           biomass =          0.2680000E-01   lai =    0.1340000E-02
                           stover N conc =    4.399999       extractable sw =    20.40000
-18 June 1994(Day of year=169), sysbal: 
-     **** N balance - unaccounted gain (kg/ha) =      0.021220
-     **** C balance - unaccounted gain (kg/ha) =      0.260609
-     ****        equivalent DM as FOM  (kg/ha) =      0.651522
 27 June 1994(Day of year=178), millet1: 
      Initiate
      
@@ -799,7 +793,7 @@ Component     "sysbal" = c:\development\apsim\sysbal\lib\sysbal.dll
                           biomass =          0.6700000E-02   lai =    0.1340000E-02
                           stover N conc =    4.400000       extractable sw =    13.82828
 7 July 1994(Day of year=188), sysbal: 
-     **** N balance - unaccounted gain (kg/ha) =     46.001640
+     **** N balance - unaccounted gain (kg/ha) =     45.998692
 8 July 1994(Day of year=189), millet2: 
       stage    4.0 end_of_juvenile
                           biomass =          0.5656766       lai =    0.2568343E-01
@@ -965,10 +959,6 @@ Component     "sysbal" = c:\development\apsim\sysbal\lib\sysbal.dll
      Residue removed using burn
                                              Fraction Incorporated =     1.00
                                              Incorporated Depth    =     0.00
-3 August 1994(Day of year=215), sysbal: 
-     **** N balance - unaccounted loss (kg/ha) =     -2.247373
-     **** C balance - unaccounted loss (kg/ha) =    -65.908417
-      ****        equivalent DM as FOM  (kg/ha) =  -164.771042
 4 August 1994(Day of year=216), millet2: 
       stage    8.0 start_grain_fill
                           biomass =           34.67080       lai =    0.3688287
@@ -1046,10 +1036,6 @@ Component     "sysbal" = c:\development\apsim\sysbal\lib\sysbal.dll
      Residue removed using burn
                                              Fraction Incorporated =     1.00
                                              Incorporated Depth    =     0.00
-4 August 1994(Day of year=216), sysbal: 
-     **** N balance - unaccounted loss (kg/ha) =     -1.353117
-     **** C balance - unaccounted loss (kg/ha) =    -38.739883
-      ****        equivalent DM as FOM  (kg/ha) =  -96.8497086
 7 August 1994(Day of year=219), millet5: 
      plant_kill. 100% failure because of barreness.
          kill. Standing above-ground dm =    26.0 (kg/ha)
@@ -1123,10 +1109,6 @@ Component     "sysbal" = c:\development\apsim\sysbal\lib\sysbal.dll
      Residue removed using burn
                                              Fraction Incorporated =     1.00
                                              Incorporated Depth    =     0.00
-7 August 1994(Day of year=219), sysbal: 
-     **** N balance - unaccounted loss (kg/ha) =     -0.376640
-     **** C balance - unaccounted loss (kg/ha) =    -11.067389
-      ****        equivalent DM as FOM  (kg/ha) =  -27.6684704
 25 August 1994(Day of year=237), millet: 
       stage    9.0 end_grain_fill
                           biomass =           440.9435       lai =    0.4631638
@@ -1221,10 +1203,6 @@ Component     "sysbal" = c:\development\apsim\sysbal\lib\sysbal.dll
      Residue removed using burn
                                              Fraction Incorporated =     1.00
                                              Incorporated Depth    =     0.00
-28 August 1994(Day of year=240), sysbal: 
-     **** N balance - unaccounted loss (kg/ha) =    -21.609943
-     **** C balance - unaccounted loss (kg/ha) =  -1217.330570
-      ****        equivalent DM as FOM  (kg/ha) =  -3043.32642
 29 August 1994(Day of year=241), millet1: 
       stage   11.0 harvest_ripe
                           biomass =           190.8338       lai =    0.1340091E-02
@@ -1303,10 +1281,6 @@ Component     "sysbal" = c:\development\apsim\sysbal\lib\sysbal.dll
      Residue removed using burn
                                              Fraction Incorporated =     1.00
                                              Incorporated Depth    =     0.00
-29 August 1994(Day of year=241), sysbal: 
-     **** N balance - unaccounted loss (kg/ha) =     -7.621681
-     **** C balance - unaccounted loss (kg/ha) =   -456.256653
-      ****        equivalent DM as FOM  (kg/ha) =  -1140.64160
 30 August 1994(Day of year=242), millet2: 
       stage   11.0 harvest_ripe
                           biomass =           63.14536       lai =    0.1339942E-02
@@ -1381,9 +1355,5 @@ Component     "sysbal" = c:\development\apsim\sysbal\lib\sysbal.dll
      Residue removed using burn
                                              Fraction Incorporated =     1.00
                                              Incorporated Depth    =     0.00
-30 August 1994(Day of year=242), sysbal: 
-     **** N balance - unaccounted loss (kg/ha) =     -3.394332
-     **** C balance - unaccounted loss (kg/ha) =   -179.451172
-      ****        equivalent DM as FOM  (kg/ha) =  -448.627930
 31 October 1994(Day of year=304), clock: 
      Simulation is terminating due to end criteria being met.
