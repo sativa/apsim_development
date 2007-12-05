@@ -262,6 +262,7 @@ namespace Graph
                 NewControl.Parent = this;
                 NewControl.Name = NewChild.Name;
                 NewControl.OnLoad(Controller, XmlHelper.FullPath(NewChild), NewChild.OuterXml);
+                NewControl.ViewChanged += OnViewChanged;
                 }
             }
         private void OnRemoveMenuItem(object sender, EventArgs e)
