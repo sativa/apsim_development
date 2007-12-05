@@ -11,15 +11,15 @@
 
 Version                = 5.4
 Title                  = sysbal Sample Simulation
-Component      "clock" = c:\data\apsim\development\apsim\clock\lib\clock.dll
-Component     "report" = c:\data\apsim\development\apsim\report\lib\report.dll
-Component        "met" = c:\data\apsim\development\apsim\input\lib\input.dll
-Component    "manager" = c:\data\apsim\development\apsim\manager\lib\manager.dll
-Component   "soilwat2" = c:\data\apsim\development\apsim\soilwat2\lib\soilwat2.dll
-Component  "SurfaceOM" = c:\data\apsim\development\apsim\SurfaceOM\lib\SurfaceOM.dll
-Component     "soiln2" = c:\data\apsim\development\apsim\soiln2\lib\soiln2.dll
-Component      "wheat" = c:\data\apsim\development\apsim\plant\lib\plant.dll
-Component     "sysbal" = c:\data\apsim\development\apsim\sysbal\lib\sysbal.dll
+Component      "clock" = c:\development\apsim\clock\lib\clock.dll
+Component     "report" = c:\development\apsim\report\lib\report.dll
+Component        "met" = c:\development\apsim\input\lib\input.dll
+Component    "manager" = c:\development\apsim\manager\lib\manager.dll
+Component   "soilwat2" = c:\development\apsim\soilwat2\lib\soilwat2.dll
+Component  "SurfaceOM" = c:\development\apsim\SurfaceOM\lib\SurfaceOM.dll
+Component     "soiln2" = c:\development\apsim\soiln2\lib\soiln2.dll
+Component      "wheat" = c:\development\apsim\plant\lib\plant.dll
+Component     "sysbal" = c:\development\apsim\sysbal\lib\sysbal.dll
 
 ------- clock Initialisation --------------------------------------------------
      Sequencer phases:
@@ -111,7 +111,7 @@ Component     "sysbal" = c:\data\apsim\development\apsim\sysbal\lib\sysbal.dll
 
 ------- met Initialisation ----------------------------------------------------
      Sparse data is not allowed
-     INPUT File name: c:\data\apsim\development\apsim\MET\SAMPLE\DALBY.MET
+     INPUT File name: c:\development\apsim\MET\SAMPLE\DALBY.MET
 
 ------- manager Initialisation ------------------------------------------------
      Manager rules:
@@ -325,10 +325,6 @@ Component     "sysbal" = c:\data\apsim\development\apsim\sysbal\lib\sysbal.dll
       stage 3.0 emergence
                      biomass =           0.55 (g/m^2)   lai          =   0.024 (m^2/m^2)
                      stover N conc =     5.85 (%)    extractable sw =   20.39 (mm)
-24 June 1988(Day of year=176), sysbal: 
-     **** N balance - unaccounted gain (kg/ha) =      0.562500
-     **** C balance - unaccounted gain (kg/ha) =      6.995025
-     ****        equivalent DM as FOM  (kg/ha) =     17.487562
 25 June 1988(Day of year=177), wheat: 
       stage 4.0 end_of_juvenile
                      biomass =           0.73 (g/m^2)   lai          =   0.027 (m^2/m^2)
