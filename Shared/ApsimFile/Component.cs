@@ -477,25 +477,27 @@ namespace ApsimFile
                         Node = Node.AppendChild(Doc.CreateElement("initdata"));
 
                     // See if user has an ini component in the .apsim file.
-                    string IniFileName = "";
+                    List<string> IniFileNames = new List<string>();
                     foreach (Component Child in ChildNodes)
                         if (Child.Type.ToLower() == "ini")
                             {
                             XmlDocument IniDoc = new XmlDocument();
                             IniDoc.LoadXml(Child.Contents);
-                            IniFileName = XmlHelper.Value(IniDoc.DocumentElement, "filename");
+                            string IniFileName = XmlHelper.Value(IniDoc.DocumentElement, "filename");
+                            IniFileName.Replace(APSIMSettings.ApsimDirectory(), "%apsuite");
+                            IniFileNames.Add(IniFileName);
                             }
 
                     // If user didn't specify an ini component then see if types has an ini for us
-                    if (IniFileName == "")
-                        IniFileName = XmlHelper.Value(ApsimToSim, "ini");
+                    string defaultIni = XmlHelper.Value(ApsimToSim, "ini");
+                    defaultIni.Replace(APSIMSettings.ApsimDirectory(), "%apsuite");
+
+                    if (IniFileNames.Count == 0 && defaultIni != "")
+                        IniFileNames.Add(defaultIni);
 
                     // If we have an ini filename then write it to the sim.
-                    if (IniFileName != "")
-                        {
-                        IniFileName = IniFileName.Replace(APSIMSettings.ApsimDirectory(), "%apsuite");
-                        XmlHelper.SetValue(Node, "include", IniFileName);
-                        }
+                    if (IniFileNames.Count > 0)
+                        XmlHelper.SetValues(Node, "include", IniFileNames);
                     }
 
                 // write module contents bit.
