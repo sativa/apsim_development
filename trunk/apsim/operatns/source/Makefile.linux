@@ -14,6 +14,7 @@ SRC=	Registrations.f90	\
 STATICOBJ=	../../../Shared/ComponentInterface/SimpleWrapper.o \
             ../../../Shared/ComponentInterface/EntryPoints.o   \
             ../../../Shared/ComponentInterface/FORTRANComponentWrapper.o   \
+            ../../../Shared/ComponentInterface/FORTRANdatatypes.o \
             ../../../Shared/ComponentInterface/datatypes.o
 
 OBJ=	Registrations.o		\
