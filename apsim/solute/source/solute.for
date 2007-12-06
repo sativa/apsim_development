@@ -380,6 +380,7 @@
       integer    numvals               ! number of values read
       real       sol(max_layer)
       character parname*100
+      integer    regid
 
 *- Implementation Section ----------------------------------
 
@@ -430,6 +431,10 @@
             if (numvals.lt.1) then
                p%d0(solnum) = 0.0
             endif
+            
+            regid = add_registration_with_units(respondToGetSetReg, 
+     .                     p%solute_names(solnum),
+     .                     floatArrayTypeDDML, 'kg/ha')
 
          else
             ! solute is blank so ignore it.
