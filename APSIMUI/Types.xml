@@ -852,6 +852,9 @@
             [foreach variables.variable]
             <variable>[variable.name]</variable>
             [endfor]
+            [foreach variables.constants]
+            [constants.innerxml]
+            [endfor]            
          </sim>
       </ApsimToSim>     
    </variables>

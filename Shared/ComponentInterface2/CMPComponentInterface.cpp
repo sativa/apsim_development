@@ -171,7 +171,7 @@ void CMPComponentInterface::set(const std::string& name,
 	sendMessage(requestSetValueMessage);
    }
 
-bool CMPComponentInterface::readRaw(const string& parName, vector<string> &values)
+bool CMPComponentInterface::readFiltered(const string& parName, vector<string> &values)
    {
    // -----------------------------------------------------------------------
    // return the raw data for this component. Used to discover manager rules etc.
@@ -186,6 +186,26 @@ bool CMPComponentInterface::readRaw(const string& parName, vector<string> &value
 
    return (values.size() > 0);
    }
+bool CMPComponentInterface::readAll(std::vector<std::string> &names, std::vector<std::string> &values)
+   {
+   // -----------------------------------------------------------------------
+   // return the raw data for this component. Used to discover manager rules etc.
+   // -----------------------------------------------------------------------
+   XMLNode::iterator initData = find_if(simScript->documentElement().begin(),
+                                        simScript->documentElement().end(),
+                                        EqualToName<XMLNode>("initdata"));
+
+   for (XMLNode::iterator i = initData->begin();
+                          i != initData->end();
+                          i++)
+      {                       
+      names.push_back(i->getName());
+      values.push_back(i->getValue());
+      }
+
+   return (names.size() > 0);
+   }
+
 
 bool CMPComponentInterface::read(const std::string& parName, IPackableData* value, bool optional)
    {

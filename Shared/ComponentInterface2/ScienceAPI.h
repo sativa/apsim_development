@@ -42,7 +42,8 @@ class ScienceAPI
       virtual void getSearchOrder(std::vector<std::string> &)=0;
 
       // Methods for reading raw strings
-      virtual bool readRaw(const std::string& parName, std::vector<std::string> &values) = 0;
+      virtual bool readFiltered(const std::string& filterName, std::vector<std::string> &values) = 0;
+      virtual bool readAll(std::vector<std::string>& names, std::vector<std::string> &values) = 0;
 
       // null
       #define nullFunction(address) boost::function0<void>(boost::bind(address, this))

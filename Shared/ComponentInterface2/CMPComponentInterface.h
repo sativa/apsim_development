@@ -29,7 +29,8 @@ class EXPORT CMPComponentInterface
 
       void setSearchOrder(const std::vector<std::string> &list) {simSectionsToSearch = list;};
       void getSearchOrder(std::vector<std::string> &list) {list = simSectionsToSearch;};
-      bool readRaw(const std::string& parName, std::vector<std::string> &values);
+      bool readFiltered(const std::string& filterName, std::vector<std::string> &values); 
+      bool readAll(std::vector<std::string> &names, std::vector<std::string> &values);
 
       // Export a variable. The variable passed in is stored directly
       // in our map so the assumption is that we are now owners.

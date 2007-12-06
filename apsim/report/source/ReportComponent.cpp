@@ -331,7 +331,7 @@ void ReportComponent::onInit2(void)
    // enumerate through all output variables
    // and create a field for each.
    cout << "     Output variables:" << endl;
-   scienceAPI.readRaw("variable", variableLines);
+   scienceAPI.readFiltered("variable", variableLines);
    for (unsigned i = 0; i != variableLines.size(); i++)
       cout << "        " + variableLines[i] << endl;
 
@@ -526,12 +526,33 @@ void ReportComponent::writeHeadings(void)
       }
 
    // output header
-   file << "APSIM output file, version = " << getApsimVersion() << endl;
+   file << "ApsimVersion = " << getApsimVersion() << endl;
 
-   // output title
-   string title;
-   scienceAPI.get("title", "", true, title);
-   file << "Title = " << title << endl;
+   // write out all constants
+   vector<string> names, values;
+   scienceAPI.readAll(names, values);
+   bool ConstantsFound = false;
+   for (unsigned i = 0; i != names.size(); i++)
+      {
+      if (!Str_i_Eq(names[i], "variable") &&
+          !Str_i_Eq(names[i], "outputfrequency") &&
+          !Str_i_Eq(names[i], "outputfile") &&
+          !Str_i_Eq(names[i], "nastring") &&
+          !Str_i_Eq(names[i], "format") &&
+          !Str_i_Eq(names[i], "precision"))
+         {
+         ConstantsFound = true;
+         file << names[i] << " = " << values[i] << endl;
+         }
+      }
+
+   // output title if no other constants found.
+   if (!ConstantsFound)
+      {
+      string title;
+      scienceAPI.get("title", "", true, title);
+      file << "Title = " << title << endl;
+      }
 
    // output headings and units
    file << headingLine.str() << endl;

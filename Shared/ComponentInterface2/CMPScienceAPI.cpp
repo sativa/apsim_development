@@ -24,8 +24,10 @@ void CMPScienceAPI::query(const string& pattern, vector<QueryMatch>& matches)
 void CMPScienceAPI::setSearchOrder(const std::vector<string> &list) {componentInterface.setSearchOrder(list);};
 void CMPScienceAPI::getSearchOrder(std::vector<string> &list) {componentInterface.getSearchOrder(list);};
 
-bool CMPScienceAPI::readRaw(const string& parName, vector<string> &values)
-   {return componentInterface.readRaw(parName, values);}
+bool CMPScienceAPI::readFiltered(const string& filterName, vector<string> &values)
+   {return componentInterface.readFiltered(filterName, values);}
+bool CMPScienceAPI::readAll(std::vector<std::string>& names, std::vector<std::string> &values)
+   {return componentInterface.readAll(names, values);}
 
 // null
 void CMPScienceAPI::subscribe(const std::string& name, boost::function0<void> handler)
