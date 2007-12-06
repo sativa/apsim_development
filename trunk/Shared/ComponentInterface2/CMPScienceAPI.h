@@ -28,7 +28,8 @@ class EXPORT CMPScienceAPI : public ScienceAPI
       virtual void query(const std::string& pattern, std::vector<QueryMatch>& matches);
 
       // Methods for reading raw strings
-      virtual bool readRaw(const std::string& parName, std::vector<std::string> &values);
+      virtual bool readFiltered(const std::string& filterName, std::vector<std::string> &values);
+      virtual bool readAll(std::vector<std::string>& names, std::vector<std::string> &values);
 
       // null
       virtual void subscribe(const std::string& name, boost::function0<void> handler);

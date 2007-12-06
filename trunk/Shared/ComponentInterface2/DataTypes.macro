@@ -130,7 +130,8 @@ class ScienceAPI
       virtual void getSearchOrder(std::vector<std::string> &)=0;
 
       // Methods for reading raw strings
-      virtual bool readRaw(const std::string& parName, std::vector<std::string> &values) = 0;
+      virtual bool readFiltered(const std::string& filterName, std::vector<std::string> &values) = 0;
+      virtual bool readAll(std::vector<std::string>& names, std::vector<std::string> &values) = 0;
 
       // null
       #define nullFunction(address) boost::function0<void>(boost::bind(address, this))
@@ -204,7 +205,8 @@ class EXPORT CMPScienceAPI : public ScienceAPI
       virtual void query(const std::string& pattern, std::vector<QueryMatch>& matches);
 
       // Methods for reading raw strings
-      virtual bool readRaw(const std::string& parName, std::vector<std::string> &values);
+      virtual bool readFiltered(const std::string& filterName, std::vector<std::string> &values);
+      virtual bool readAll(std::vector<std::string>& names, std::vector<std::string> &values);
 
       // null
       virtual void subscribe(const std::string& name, boost::function0<void> handler);
@@ -272,8 +274,10 @@ void CMPScienceAPI::query(const string& pattern, vector<QueryMatch>& matches)
 void CMPScienceAPI::setSearchOrder(const std::vector<string> &list) {componentInterface.setSearchOrder(list);};
 void CMPScienceAPI::getSearchOrder(std::vector<string> &list) {componentInterface.getSearchOrder(list);};
 
-bool CMPScienceAPI::readRaw(const string& parName, vector<string> &values)
-   {return componentInterface.readRaw(parName, values);}
+bool CMPScienceAPI::readFiltered(const string& filterName, vector<string> &values)
+   {return componentInterface.readFiltered(filterName, values);}
+bool CMPScienceAPI::readAll(std::vector<std::string>& names, std::vector<std::string> &values)
+   {return componentInterface.readAll(names, values);}
 
 // null
 void CMPScienceAPI::subscribe(const std::string& name, boost::function0<void> handler)
