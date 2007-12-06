@@ -431,9 +431,13 @@
             if (numvals.lt.1) then
                p%d0(solnum) = 0.0
             endif
-            
-            regid = add_registration_with_units(respondToGetSetReg, 
+
+            regid = add_registration_with_units(respondToGetSetReg,
      .                     p%solute_names(solnum),
+     .                     floatArrayTypeDDML, 'kg/ha')
+
+            regid = add_registration_with_units(respondToGetSetReg,
+     .                     'dlt_'//p%solute_names(solnum),
      .                     floatArrayTypeDDML, 'kg/ha')
 
          else
