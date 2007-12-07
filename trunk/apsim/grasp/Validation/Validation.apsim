@@ -237,31 +237,31 @@ grasp_dlt_dm = grasp.dlt_dm * 10.0
       <operations>
         <operation condition="end_of_day">
           <date>11-Oct-1991</date>
-          <action>grasp set green_pool= 702 (kg/ha)</action>
+          <action>grasp set green_pool= 702 !(kg/ha)</action>
         </operation>
         <operation condition="end_of_day">
           <date>11-Oct-1991</date>
-          <action>grasp set dead_pool= 0 (kg/ha)</action>
+          <action>grasp set dead_pool = 0 !(kg/ha)</action>
         </operation>
         <operation condition="end_of_day">
           <date>15-Oct-1991</date>
-          <action>soilwat2 set sw_dep = 5 39.5 42.4 (mm)</action>
+          <action>'Site67 Water' set sw_dep = 5 39.5 42.4 3 !(mm)</action>
         </operation>
         <operation condition="end_of_day">
           <date>10-Nov-1992</date>
-          <action>grasp set green_pool= 80 (kg/ha)</action>
+          <action>grasp set green_pool= 80 !(kg/ha)</action>
         </operation>
         <operation condition="end_of_day">
           <date>10-Nov-1992</date>
-          <action>grasp set dead_pool= 0 (kg/ha)</action>
+          <action>grasp set dead_pool= 0 !(kg/ha)</action>
         </operation>
         <operation condition="end_of_day">
           <date>29-Oct-1993</date>
-          <action>grasp set green_pool= 50 (kg/ha)</action>
+          <action>grasp set green_pool= 50 !(kg/ha)</action>
         </operation>
         <operation condition="end_of_day">
           <date>29-Oct-1993</date>
-          <action>grasp set green_pool= 0 (kg/ha)</action>
+          <action>grasp set green_pool= 0 !(kg/ha)</action>
         </operation>
       </operations>
     </area>
