@@ -31,6 +31,14 @@
 
 class plantPart : public plantThing
    {
+ protected:
+   plantInterface *plant;                 // The plant we are attached to
+
+//   float SoilNDemand;
+//   float NCapacity;                  // amount of nitrogen this part can take(g/m^2)
+   float NMax ;                      // maximum plant nitrogen demand (g/m^2)
+   float NDemand ;                   // critical plant nitrogen demand (g/m^2)
+
  private:
 //1) Need to make Senesced() method in PlantPart
 //2) Make a Total() method = Green+Senesced
@@ -42,34 +50,26 @@ class plantPart : public plantThing
       float n_conc_min;                   // minimum N concentration (g N/g biomass)
    } g;
 
-   float DMPlantMin;                 // minimum weight of each plant part (g/plant)
-   float Height;                     // The height of this part (mm)
-   float Width;                      // The width of this part (mm)
+//   float DMPlantMin;                 // minimum weight of each plant part (g/plant)
+//   float Height;                     // The height of this part (mm)
+//   float Width;                      // The width of this part (mm)
 
    // deltas
-   struct {
-      float dm_green_removed;                     // green biomass removed (g/m^2)
-      float dm_senesced_removed;                  // senesced biomass removed (g/m^2)
-   } dlt;
+//   struct {
+//      float dm_green_removed;                     // green biomass removed (g/m^2)
+//      float dm_senesced_removed;                  // senesced biomass removed (g/m^2)
+//   } dlt;
 
    // "Constants"
    struct {
-      float dm_init;                      // Initial value
-      float n_init_conc;                  // Initial N value
-      float p_init_conc;                  // Initial P value
+//      float dm_init;                      // Initial value
+//      float n_init_conc;                  // Initial N value
+//      float p_init_conc;                  // Initial P value
 
-      float trans_frac;                   // fraction of part used in translocation to grain
-      int   trans_frac_option;            // flag to say how trans_frac is to be used.
+//      float trans_frac;                   // fraction of part used in translocation to grain
+//      int   trans_frac_option;            // flag to say how trans_frac is to be used.
       string name;                        // What we call ourselves
    } c;
-
- protected:
-   plantInterface *plant;                 // The plant we are attached to
-
-   float SoilNDemand;
-   float NCapacity;                  // amount of nitrogen this part can take(g/m^2)
-   float NMax ;                      // maximum plant nitrogen demand (g/m^2)
-   float NDemand ;                   // critical plant nitrogen demand (g/m^2)
 
 public:
 
@@ -94,9 +94,29 @@ public:
    CompositePool Vegetative;
    CompositePool VegetativeTotal;
 
+      // plantPart
+   virtual float nMin(void);
+   virtual float nCrit(void);
+
+      // GrainPart
+   virtual float dmGreenNew(void);
+
+      // compositePart public
+   virtual void zeroDeltas(void);
+   virtual void zeroAllGlobals(void);
+   virtual void onInit1(protocol::Component *system);
+
       // plant
    bool tempFlagToShortCircuitInit1;
 
+   virtual void checkBounds(void);
+   virtual void prepare(void);
+   const string &name(void);
+   virtual void doNFixRetranslocate(float NFix, float NDemandDifferentialTotal);   //???
+   virtual float dlt_dm_green_retrans_hack(float);
+   virtual void  doNPartition(float nSupply, float n_demand_sum, float n_capacity_sum);  //???
+
+      //PURE
    virtual float dmGreenDemand(void) = 0;
    virtual float dltDmGreen(void)  = 0;
    virtual void doDmRetranslocate(float DMAvail, float DMDemandDifferentialTotal) = 0;
@@ -112,19 +132,14 @@ public:
    virtual void doNSenescence(void) = 0;
    virtual float dltNSenescedRetrans(void) = 0;
    virtual void doCover (PlantSpatial &spatial) = 0;
-   virtual void checkBounds(void);
    virtual float interceptRadiationGreen(float radiation) = 0;
    virtual float interceptRadiationTotal(float radiation) = 0;
-   virtual void  doNPartition(float nSupply, float n_demand_sum, float n_capacity_sum);  //???
    virtual float dltNGreen(void)  = 0;
-   virtual void doNFixRetranslocate(float NFix, float NDemandDifferentialTotal);   //???
-   virtual float dlt_dm_green_retrans_hack(float);
    virtual float dmRetransSupply(void) = 0;
 
    virtual float availableRetranslocateN(void) = 0;
    virtual void doNRetranslocate( float N_supply, float g_grain_n_demand) = 0;
    virtual float dltNRetransOut(void) = 0;
-   const string &name(void);
    virtual void zeroDltNSenescedTrans(void) = 0;
    virtual void doNSenescedRetrans(float navail, float n_demand_tot) = 0;
    virtual void morphology(void) = 0;
@@ -167,7 +182,6 @@ public:
                                           , vector<float> &dm_p
                                           , vector<float> &fract) = 0;
 
-   virtual void prepare(void);
    virtual void doTECO2(void) = 0;                                       // (OUTPUT) transpiration coefficient                         //FIXME
    virtual void doSWDemand(float SWDemandMaxFactor) = 0;
    virtual float dmGrainWetTotal(void) = 0;
@@ -192,7 +206,6 @@ public:
    virtual void doPRetranslocate(float total_p_supply, float total_p_demand) = 0;
 
       // compositePart public
-   virtual void onInit1(protocol::Component *system);
    virtual float nConcMin() = 0;
    virtual float dltPGreen(void)  = 0;
    virtual float dltDmSenesced(void) = 0;
@@ -219,9 +232,7 @@ public:
    virtual void get_dlt_dm_senesced(vector<float> &) = 0;
    virtual void doGrainNumber (void) = 0;
    virtual void readCultivarParameters (protocol::Component *, const string &) = 0;
-   virtual void zeroAllGlobals(void);
    virtual float nConcCrit() = 0;
-   virtual void zeroDeltas(void);
    virtual void zeroDltDmGreen(void) = 0;
    virtual float dltDmSenescedRemoved(void) = 0;
    virtual void  removeBiomass2(float) = 0;
@@ -260,60 +271,54 @@ public:
    virtual bool isRetransPart(void) = 0;
    virtual bool isYieldPart(void) = 0;
 
-      // plantPart
-   virtual float nMin(void);
-   virtual float nCrit(void);
-
-      // GrainPart
-   virtual float dmGreenNew(void);
-
 protected:
-
-   virtual void zeroDltDmGreenRetrans(void);
-
-   virtual float dltNGreenRemoved(void);
-   virtual float dltNSenescedRemoved(void);
-   virtual float dltPGreenRemoved(void);
-   virtual float dltPSenescedRemoved(void);
-   virtual float dltPRemoved(void);
-
-   virtual float giveDmSenesced(float);
-   virtual float giveNGreen(float);
-
-   virtual float giveDmGreenRemoved(float);           //
-   virtual float giveDmSenescedRemoved(float);
-
-   virtual float dltDmGreenNew(void);
-
-   virtual float height(void);
-   virtual float width(void);
-
-   virtual void onHarvest_GenericAboveGroundPart(float remove_fr,
-                          vector<string> &dm_type,
-                          vector<float> &dlt_crop_dm,
-                          vector<float> &dlt_dm_n,
-                          vector<float> &dlt_dm_p,
-                          vector<float> &fraction_to_residue);
-
-   //needed to standardise interface for composite subclass
-
-   virtual float dltLeafAreaPot(void);
-
-   virtual void write();
-   virtual void onRemoveBiomass(float);
-
-    void doInit1(protocol::Component *system);
-
-      virtual void onSowing(void);
-      virtual void onGermination(void);
-
-      virtual void onTransplanting(void);
-      virtual void onFlowering(void);
-      virtual void onStartGrainFill(void);
 
       // protected constructor called by CompositePart only.
       plantPart(ScienceAPI& api, plantInterface *p, const string &name,
                 Pool& green, Pool& senesced);
+
+    void doInit1(protocol::Component *system);
+
+      //++++++ NOT IMPLEMENTED IN COMPOSITEPART
+
+//      virtual void onSowing(void);
+//      virtual void onGermination(void);
+
+//      virtual void onTransplanting(void);
+//      virtual void onFlowering(void);
+//      virtual void onStartGrainFill(void);
+
+
+//   virtual float dltNGreenRemoved(void);
+//   virtual float dltNSenescedRemoved(void);
+//   virtual float dltPGreenRemoved(void);
+//   virtual float dltPSenescedRemoved(void);
+//   virtual float dltPRemoved(void);
+
+//   virtual float giveDmSenesced(float);
+//   virtual float giveNGreen(float);
+
+//   virtual float giveDmGreenRemoved(float);           //
+//   virtual float giveDmSenescedRemoved(float);
+
+//   virtual float dltDmGreenNew(void);
+
+//   virtual float height(void);
+//   virtual float width(void);
+
+//   virtual void onHarvest_GenericAboveGroundPart(float remove_fr,
+//                          vector<string> &dm_type,
+//                          vector<float> &dlt_crop_dm,
+//                          vector<float> &dlt_dm_n,
+//                          vector<float> &dlt_dm_p,
+//                          vector<float> &fraction_to_residue);
+
+   //needed to standardise interface for composite subclass
+
+//   virtual float dltLeafAreaPot(void);
+
+//   virtual void write();
+//   virtual void onRemoveBiomass(float);
 
    private:
       void get_dm_green_demand(protocol::Component *system, protocol::QueryValueData &qd);

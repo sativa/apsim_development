@@ -194,7 +194,6 @@ protected:
    virtual void doPDemand(void);
    virtual void doPSenescence(void);
 
-   virtual void zeroDltDmGreenRetrans(void);
 
    virtual void collectDetachedForResidue(vector<string> &part_name
                                           , vector<float> &dm_residue
@@ -217,12 +216,7 @@ protected:
    virtual float dltNSenescedRetrans(void);
    virtual float dltDmSenescedRemoved(void);
    virtual float dltDmRemoved(void);
-   virtual float dltNGreenRemoved(void);
-   virtual float dltNSenescedRemoved(void);
    virtual float dltNRemoved(void);
-   virtual float dltPGreenRemoved(void);
-   virtual float dltPSenescedRemoved(void);
-   virtual float dltPRemoved(void);
 
    virtual float dmDemandDifferential(void) ;
 
@@ -336,27 +330,31 @@ protected:
 
    virtual void onEmergence(void);
 
-   protected:
+   virtual void onSowing(void){};
+   virtual void onGermination(void){};
 
-      virtual void onSowing(void){};
-      virtual void onGermination(void){};
+   virtual void onTransplanting(void) {};
+   virtual void onFlowering(void);
+   virtual void onStartGrainFill(void);
 
-      virtual void onTransplanting(void) {};
-      virtual void onFlowering(void);
-      virtual void onStartGrainFill(void);
+   // protected constructor called by CompositePart only.
+   SimplePart(ScienceAPI& api, plantInterface *p, const string &name,
+             Pool& green, Pool& senesced);
 
-      // protected constructor called by CompositePart only.
-      SimplePart(ScienceAPI& api, plantInterface *p, const string &name,
-                Pool& green, Pool& senesced);
+private:
+   virtual float dltNGreenRemoved(void);
+   virtual float dltNSenescedRemoved(void);
+   virtual float dltPGreenRemoved(void);
+   virtual float dltPSenescedRemoved(void);
+   virtual float dltPRemoved(void);
 
-   private:
-      float nConcCrit();
-      float nConcMin();
-      void get_dm_green_demand(protocol::Component *system, protocol::QueryValueData &qd);
-      std::string addPartToVar(const std::string& variableName);
-      std::string addPartToDesc(const std::string& description);
+   float nConcCrit();
+   float nConcMin();
+   void get_dm_green_demand(protocol::Component *system, protocol::QueryValueData &qd);
+   std::string addPartToVar(const std::string& variableName);
+   std::string addPartToDesc(const std::string& description);
 
-      void Initialise();
+   void Initialise();
 
 };
 

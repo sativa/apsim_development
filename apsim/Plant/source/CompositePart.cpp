@@ -329,7 +329,7 @@ float CompositePart::nDemandGrain2(void)
 float CompositePart::soilNDemand(void)
    //============================================================================
 {
-   SoilNDemand = 0.0;
+   float SoilNDemand = 0.0;
    for (vector <plantPart * >::iterator part = myParts.begin(); part != myParts.end(); part++)
       SoilNDemand += (*part)->soilNDemand();
    return SoilNDemand;
@@ -347,7 +347,7 @@ float CompositePart::nDemand(void)
 float CompositePart::nCapacity(void)
    //============================================================================
 {
-   NCapacity = 0.0;
+   float NCapacity = 0.0;
    vector <plantPart *>::iterator part;
    for (part = myParts.begin(); part != myParts.end(); part++)
       NCapacity += (*part)->nCapacity();
