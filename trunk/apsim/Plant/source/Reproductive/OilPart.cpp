@@ -2,13 +2,13 @@
 #include <math.h>
 #include <stdexcept>
 #include <string>
-#include "PlantPart.h"
+#include "SimplePart.h"
 
 #include "OilPart.h"
 using namespace std;
 
 fruitOilPart::fruitOilPart(ScienceAPI& scienceAPI, plantInterface *p, const string &name)
-   : plantPart(scienceAPI, p, name)
+   : SimplePart(scienceAPI, p, name)
    {
    Vegetative.ClearPools();
    VegetativeTotal.ClearPools();
@@ -20,7 +20,7 @@ fruitOilPart::fruitOilPart(ScienceAPI& scienceAPI, plantInterface *p, const stri
 void fruitOilPart::onInit1(protocol::Component *system)
 //===========================================================================
    {
-   plantPart::onInit1(system);
+   SimplePart::onInit1(system);
    system->addGettableVar("dlt_dm_oil_conv",gDlt_dm_oil_conv,"g/m^2", "change in oil via ??");
    system->addGettableVar("dlt_dm_oil_conv_retrans", dmOil_conv_retranslocate, "g/m^2", "change in oil via retranslocation");
    system->addGettableVar("grain_oil_conc", cGrain_oil_conc, "%", "??");
@@ -33,7 +33,7 @@ void fruitOilPart::zeroAllGlobals(void)
 //=======================================================================================
 // Zero all data
    {
-   plantPart::zeroAllGlobals();
+   SimplePart::zeroAllGlobals();
    cCarbo_oil_conv_ratio  = 0.0;
    cGrain_oil_conc  = 0.0;
    gGrain_energy = 0.0;
@@ -44,7 +44,7 @@ void fruitOilPart::zeroDeltas(void)
 //=======================================================================================
 // Zero daily deltas
    {
-   plantPart::zeroDeltas();
+   SimplePart::zeroDeltas();
    gDlt_dm_oil_conv = 0.0;
    }
 
@@ -167,7 +167,7 @@ float fruitOilPart::dmDemandDifferential(void)
 void fruitOilPart::readSpeciesParameters(protocol::Component *system, vector<string> &sections)
 //=======================================================================================
    {
-   plantPart::readSpeciesParameters(system, sections);
+   SimplePart::readSpeciesParameters(system, sections);
 
    scienceAPI.read("carbo_oil_conv_ratio", cCarbo_oil_conv_ratio, 0.0f, 20.0f);
    scienceAPI.read("grain_oil_conc", cGrain_oil_conc, 0.0f, 1.0f);

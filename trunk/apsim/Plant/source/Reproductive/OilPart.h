@@ -1,9 +1,9 @@
 #ifndef OilPartH
 #define OilPartH
-#include "PlantPart.h"
+#include "SimplePart.h"
 
 
-class fruitOilPart : public plantPart {
+class fruitOilPart : public SimplePart {
   public:
    fruitOilPart(ScienceAPI& scienceAPI, plantInterface *p, const string &name);
    ~fruitOilPart() {};

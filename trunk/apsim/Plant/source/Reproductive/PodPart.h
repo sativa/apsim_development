@@ -1,9 +1,9 @@
 #ifndef PodPartH
 #define PodPartH
-#include "PlantPart.h"
+#include "SimplePart.h"
 
 class fruitGrainPart;
-class fruitPodPart : public plantPart {
+class fruitPodPart : public SimplePart {
   public:
    fruitPodPart(ScienceAPI& scienceAPI, plantInterface *p, fruitGrainPart *g, const string &name) ;
    ~fruitPodPart() {};

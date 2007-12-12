@@ -2,7 +2,7 @@
 #include <math.h>
 #include <stdexcept>
 #include <string>
-#include "PlantPart.h"
+#include "SimplePart.h"
 
 #include "MultiRoot.h"
 #include "RootGrowthOption1.h"
@@ -162,7 +162,7 @@ void MultiRoot::onInit1(protocol::Component *system)
 //=======================================================================================
 // Perform all component initialisation.
    {
-   plantPart::onInit1(system);
+   SimplePart::onInit1(system);
    system->addGettableVar("ep",
                SWDemand, "mm", "ep");
 
@@ -173,4 +173,4 @@ void MultiRoot::onInit1(protocol::Component *system)
 void MultiRoot::plant_water_uptake (int option, float swDemand)
     {
     SWDemand = swDemand;
-    }   
+    }

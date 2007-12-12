@@ -2,14 +2,14 @@
 #include <math.h>
 #include <stdexcept>
 #include <string>
-#include "PlantPart.h"
+#include "SimplePart.h"
 
 #include "CompositePart.h"
 #include "FloretPart.h"
 using namespace std;
 
 FloretPart::FloretPart(ScienceAPI& scienceAPI, plantInterface *p, const string &name)
-   : plantPart(scienceAPI, p, name)
+   : SimplePart(scienceAPI, p, name)
    {
    fill_real_array (cX_co2_te_modifier, 0.0, max_table);
    fill_real_array (cY_co2_te_modifier, 0.0, max_table);
@@ -20,7 +20,7 @@ FloretPart::FloretPart(ScienceAPI& scienceAPI, plantInterface *p, const string &
 void FloretPart::onInit1(protocol::Component *system)
 //=======================================================================================
 {
-   plantPart::onInit1(system);
+   SimplePart::onInit1(system);
 
    system->addGettableVar("pai", gPai, "m^2/m^2", "Floret area index");
    system->addGettableVar("dlt_pai", gDlt_pai, "m^2/m^2", "Delta Floret area index");
@@ -32,7 +32,7 @@ void FloretPart::onInit1(protocol::Component *system)
 void FloretPart::update(void)
 //=======================================================================================
 {
-   plantPart::update();
+   SimplePart::update();
    gPai += gDlt_pai;
 }
 
@@ -116,7 +116,7 @@ float FloretPart::dltDmRetranslocateSupply(float DemandDifferential)
 void FloretPart::zeroAllGlobals(void)
 //=======================================================================================
 {
-   plantPart::zeroAllGlobals();
+   SimplePart::zeroAllGlobals();
    coverFloret.green = 0.0;
    coverFloret.sen   = 0.0;
    gPai = 0.0;
@@ -125,7 +125,7 @@ void FloretPart::zeroAllGlobals(void)
 void FloretPart::zeroDeltas(void)
 //=======================================================================================
 {
-   plantPart::zeroDeltas();
+   SimplePart::zeroDeltas();
 
    gDlt_pai = 0.0;
 }
@@ -133,13 +133,13 @@ void FloretPart::zeroDeltas(void)
 
 void FloretPart::readConstants (protocol::Component *system, const string &section)
    {
-   plantPart::readConstants(system, section);
+   SimplePart::readConstants(system, section);
    }
 
 void FloretPart::readSpeciesParameters(protocol::Component *system, vector<string> &sections)
 //=======================================================================================
 {
-   plantPart::readSpeciesParameters(system, sections);
+   SimplePart::readSpeciesParameters(system, sections);
 
    int   numvals;                                // number of values returned
 

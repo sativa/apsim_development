@@ -2,7 +2,8 @@
 #include <math.h>
 #include <stdexcept>
 #include <string>
-#include "PlantPart.h"
+#include "plantPart.h"
+#include "simplePart.h"
 
 #include "Plant.h"
 #include "CompositePart.h"

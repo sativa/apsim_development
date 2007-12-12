@@ -1,11 +1,12 @@
 #ifndef LeafPartH
 #define LeafPartH
+#include "SimplePart.h"
 
 // Abstract class for leaf objects
-class plantLeafPart : public plantPart {
+class plantLeafPart : public SimplePart {
   public:
    plantLeafPart(ScienceAPI& scienceAPI, plantInterface *p, const string &name)
-      : plantPart(scienceAPI, p, name) {};
+      : SimplePart(scienceAPI, p, name) {};
    virtual ~plantLeafPart() {};
 
    virtual void onHarvest(float height, float remove_fr,

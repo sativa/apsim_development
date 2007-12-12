@@ -30,7 +30,7 @@
       Utility\ExternalFunction.obj Utility\InterpolationFunction.obj 
       Utility\LookupFunction.obj Delta.obj Pool.obj CompositePool.obj 
       Biomass.obj Population.obj ReproductivePart.obj 
-      StageBasedInterpolationFunction.obj"/>
+      StageBasedInterpolationFunction.obj SimplePart.obj"/>
     <RESFILES value=""/>
     <IDLFILES value=""/>
     <DEFFILE value=""/>
@@ -147,6 +147,7 @@
       <FILE FILENAME="Population.cpp" FORMNAME="" UNITNAME="Population" CONTAINERID="CCompiler" DESIGNCLASS="" LOCALCOMMAND=""/>
       <FILE FILENAME="ReproductivePart.cpp" FORMNAME="" UNITNAME="ReproductivePart" CONTAINERID="CCompiler" DESIGNCLASS="" LOCALCOMMAND=""/>
       <FILE FILENAME="StageBasedInterpolationFunction.cpp" FORMNAME="" UNITNAME="StageBasedInterpolationFunction" CONTAINERID="CCompiler" DESIGNCLASS="" LOCALCOMMAND=""/>
+      <FILE FILENAME="SimplePart.cpp" FORMNAME="" UNITNAME="SimplePart" CONTAINERID="CCompiler" DESIGNCLASS="" LOCALCOMMAND=""/>
   </FILELIST>
   <BUILDTOOLS>
   </BUILDTOOLS>
@@ -251,11 +252,11 @@ Item1=..\lib
 DebugSourceDirs=$(BCB)\source\vcl;c:\data\Apsim\development\Shared\ComponentInterface\;c:\data\Apsim\development\apsim\SummaryFile\Source\
 
 [Parameters]
-RunParams=c:\development\apsim\wheat\sample\debug.sim
+RunParams=&quot;C:\data\Apsim\development\apsim\mungbean\PSample\mungbean.APSIM.Psample_mungbean.sim&quot;
 Launcher=
 UseLauncher=0
 DebugCWD=
-HostApplication=C:\development\Bin\apsim.exe
+HostApplication=C:\data\apsim\development\Bin\apsim.exe
 RemoteHost=
 RemotePath=
 RemoteLauncher=

@@ -2,7 +2,7 @@
 #include <math.h>
 #include <stdexcept>
 #include <string>
-#include "PlantPart.h"
+#include "SimplePart.h"
 
 #include "RootPart.h"
 #include "RootGrowthOption1.h"
@@ -30,7 +30,7 @@ void RootPart::zeroAllGlobals(void)
 //=======================================================================================
 // Zero all global values
    {
-   plantPart::zeroAllGlobals();
+   SimplePart::zeroAllGlobals();
    root_depth            = 0.0;
    initialRootDepth = 0.0;
    rootDieBackFraction = 0.0;
@@ -113,7 +113,7 @@ void RootPart::zeroDeltas(void)
 //=======================================================================================
 // Zero all daily deltas
    {
-   plantPart::zeroDeltas();
+   SimplePart::zeroDeltas();
    dltRootDepth = 0.0;
    setTo(dltRootLength, (float)0.0);
    setTo(dltRootLengthSenesced, (float)0.0);
@@ -134,7 +134,7 @@ void RootPart::onInit1(protocol::Component *system)
 //=======================================================================================
 // Perform all component initialisation.
    {
-   plantPart::onInit1(system);
+   SimplePart::onInit1(system);
    system->addGettableVar("root_depth",
                root_depth, "mm", "depth of roots");
 
@@ -203,9 +203,9 @@ void RootPart::read()
 //=======================================================================================
 // Read all parameters
    {
-   //plantPart::readConstants(NULL, "");
-   //plantPart::readSpeciesParameters(NULL, vector<string>());
-   //plantPart::readCultivarParameters(NULL, "");
+   //SimplePart::readConstants(NULL, "");
+   //SimplePart::readSpeciesParameters(NULL, vector<string>());
+   //SimplePart::readCultivarParameters(NULL, "");
 
    scienceAPI.readOptional("crop_type", crop_type);
    scienceAPI.read("n_supply_preference", n_supply_preference);
@@ -379,7 +379,7 @@ void RootPart::onGermination(void)
 //=======================================================================================
 // Germination Event Handler
    {
-   plantPart::onGermination();
+   SimplePart::onGermination();
    root_depth = initialRootDepth;
    DMPlantMin = 0.0;
    }
@@ -389,7 +389,7 @@ void RootPart::onEmergence(void)
 //     Initialise crop root length at emergence based on root weight
 //     at emergence and specific root length.
    {
-   plantPart::onEmergence();
+   SimplePart::onEmergence();
    DMPlantMin = 0.0;
 
    // initial root length (mm/mm^2)
@@ -459,7 +459,7 @@ void RootPart::onKillStem(void)
    Green = Green - Dead;
    Senesced = Senesced + Dead;
 
-   plantPart::onKillStem();
+   SimplePart::onKillStem();
    }
 
 void RootPart::plant_root_depth (void)
@@ -527,7 +527,7 @@ void RootPart::update(void)
 //=======================================================================================
 // Update Daily State
    {
-   plantPart::update();
+   SimplePart::update();
    root_depth += dltRootDepth;
 
    for (int layer = 0; layer < num_layers; layer++)
@@ -727,11 +727,11 @@ float RootPart::root_proportion (int layer)
 
 void RootPart::doNConccentrationLimits(float)
 //==========================================================================
-// N targets are static - override plantPart's implementation
+// N targets are static - override SimplePart's implementation
    {
-   plantPart::g.n_conc_crit = RootPart::n_conc_crit;
-   plantPart::g.n_conc_min =  RootPart::n_conc_min;
-   plantPart::g.n_conc_max =  RootPart::n_conc_max;
+   SimplePart::g.n_conc_crit = RootPart::n_conc_crit;
+   SimplePart::g.n_conc_min =  RootPart::n_conc_min;
+   SimplePart::g.n_conc_max =  RootPart::n_conc_max;
    }
 
 void RootPart::redistribute(const vector<float> &dlayer_old,        //  old soil profile layers (mm)
@@ -1065,27 +1065,27 @@ void RootPart::onNewProfile(protocol::NewProfileType &v)
 
     vector<float> scratch = v.dlayer;
     num_layers = scratch.size();
-    for (unsigned i = 0; i < scratch.size(); i++) 
+    for (unsigned i = 0; i < scratch.size(); i++)
       dlayer[i] = scratch[i];
 
     scratch = v.ll15_dep;
-    for (unsigned i = 0; i < scratch.size(); i++) 
+    for (unsigned i = 0; i < scratch.size(); i++)
       ll15_dep[i] = scratch[i];
-      
+
     scratch = v.dul_dep;
-    for (unsigned i = 0; i < scratch.size(); i++) 
+    for (unsigned i = 0; i < scratch.size(); i++)
       dul_dep[i] = scratch[i];
-    
+
     scratch = v.sat_dep;
-    for (unsigned i = 0; i < scratch.size(); i++) 
+    for (unsigned i = 0; i < scratch.size(); i++)
       sat_dep[i] = scratch[i];
-      
+
     scratch = v.sw_dep;
-    for (unsigned i = 0; i < scratch.size(); i++) 
+    for (unsigned i = 0; i < scratch.size(); i++)
       sw_dep[i] = scratch[i];
 
     scratch = v.bd;
-    for (unsigned i = 0; i < scratch.size(); i++) 
+    for (unsigned i = 0; i < scratch.size(); i++)
       bd[i] = scratch[i];
 
     if (xf.size()==0)

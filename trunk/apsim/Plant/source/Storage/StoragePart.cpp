@@ -2,7 +2,7 @@
 #include <math.h>
 #include <stdexcept>
 #include <string>
-#include "PlantPart.h"
+#include "SimplePart.h"
 
 #include "StoragePart.h"
 using namespace std;
@@ -54,7 +54,7 @@ void StoragePart::onHarvest(float cutting_height, float remove_fr,
 void StoragePart::update(void)
 //=======================================================================================
    {
-   plantPart::update();
+   SimplePart::update();
    }
 
 void StoragePart::removeBiomass2(float )
