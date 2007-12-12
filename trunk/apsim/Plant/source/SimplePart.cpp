@@ -254,12 +254,6 @@ void SimplePart::zeroDltDmGreen(void)
    Growth = Biomass(0.0, Growth.N(), Growth.P());
    }
 
-void SimplePart::zeroDltDmGreenRetrans(void)
-//=======================================================================================
-   {
-   Retranslocation = Biomass(0.0, Retranslocation.N(), Retranslocation.P());
-   }
-
 void SimplePart::zeroAllGlobals(void)
 //=======================================================================================
    {

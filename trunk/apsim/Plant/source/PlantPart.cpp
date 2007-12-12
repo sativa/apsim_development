@@ -69,11 +69,11 @@ void plantPart::Initialise()
    VegetativeTotal.AddPool(Senesced);
 
      zeroAllGlobals();
-     c.dm_init = 0;
-     c.n_init_conc = 0;
-     c.p_init_conc = 0;
-     c.trans_frac = 1;
-     c.trans_frac_option = false;
+//     c.dm_init = 0;
+//     c.n_init_conc = 0;
+//     c.p_init_conc = 0;
+//     c.trans_frac = 1;
+//     c.trans_frac_option = false;
      }
 
 
@@ -157,24 +157,19 @@ float plantPart::dltDmSenesced(void)
    return Senescing.DM();
 }
 
-void plantPart::zeroDltDmGreenRetrans(void)
-//=======================================================================================
-   {
-   Retranslocation = Biomass(0.0, Retranslocation.N(), Retranslocation.P());
-   }
-
 void plantPart::zeroAllGlobals(void)
 //=======================================================================================
    {
    Green.Clear();
    Senesced.Clear();
-   Height=0.0;
-   Width=0.0;
    g.n_conc_crit=0.0;
    g.n_conc_min=0.0;
-   DMPlantMin=0.0;
 
    zeroDeltas();
+
+//   DMPlantMin=0.0;
+//   Height=0.0;
+//   Width=0.0;
    }
 
 void plantPart::zeroDeltas(void)
@@ -184,35 +179,12 @@ void plantPart::zeroDeltas(void)
    Senescing.Clear();
    Detaching.Clear();
    Retranslocation.Clear();
-   dlt.dm_green_removed = 0.0;
-   dlt.dm_senesced_removed = 0.0;
-
-   NCapacity = 0.0;
    NDemand = 0.0 ;
-   SoilNDemand = 0.0;
    NMax = 0.0 ;
-   }
-
-void plantPart::onFlowering(void)
-//=======================================================================================
-   {
-   float dm_plant = divide (Green.DM(), plant->getPlants(), 0.0);
-   if (c.trans_frac_option==1)
-      DMPlantMin = dm_plant;
-   else
-      DMPlantMin = dm_plant * (1.0 - c.trans_frac);
-   }
-
-void plantPart::onStartGrainFill(void)
-//=======================================================================================
-// set the minimum weight of part; used for retranslocation to grain
-   {
-   float dm_plant = divide (Green.DM(), plant->getPlants(), 0.0);
-   if (c.trans_frac_option==1)
-      DMPlantMin = dm_plant * (1.0 - c.trans_frac);
-   //else
-      //DMPlantMin = DMPlantMin + (dm_plant - DMPlantMin) * (1.0 - c.trans_frac);
-      //DMPlantMin = DMPlantMin + (dm_plant - DMPlantMin);
+//   SoilNDemand = 0.0;
+//   dlt.dm_green_removed = 0.0;
+//   dlt.dm_senesced_removed = 0.0;
+//   NCapacity = 0.0;
    }
 
 void plantPart::prepare(void)
@@ -227,82 +199,6 @@ void plantPart::doNFixRetranslocate(float NFix, float NDemandDifferentialTotal)
    Growth = Growth + Biomass(0, NFix * divide (nDemandDifferential(), NDemandDifferentialTotal, 0.0),
                                  0);
    }
-void plantPart::onHarvest_GenericAboveGroundPart( float remove_fr,
-                             vector<string> &dm_type,
-                             vector<float> &dlt_crop_dm,
-                             vector<float> &dlt_dm_n,
-                             vector<float> &dlt_dm_p,
-                             vector<float> &fraction_to_residue)
-//=======================================================================================
-// Generic harvest method for above ground parts that lose all dm to residue (eg leaf & stem, not grain..)
-{
-   float fractToResidue = 1.0 - remove_fr;
-
-   float dm_init = u_bound (c.dm_init * plant->getPlants(), Green.DM());
-   float n_init  = u_bound (  dm_init * plantPart::c.n_init_conc, Green.N());
-   float p_init  = u_bound (  dm_init * plantPart::c.p_init_conc, Green.P());
-
-   float retain_fr_green = divide(dm_init, Green.DM(), 0.0);
-   float retain_fr_sen   = 0.0;
-
-   float dlt_dm_harvest = Green.DM() + Senesced.DM() - dm_init;
-   float dlt_n_harvest  = Green.N()  + Senesced.N()  - n_init;
-   float dlt_p_harvest  = Green.P()  + Senesced.P() - p_init;
-
-   Senesced = Senesced * retain_fr_sen;
-   Green = Biomass(Green.DM() * retain_fr_green, n_init, p_init);
-
-   dm_type.push_back(c.name);
-   fraction_to_residue.push_back(fractToResidue);
-   dlt_crop_dm.push_back (dlt_dm_harvest * gm2kg/sm2ha);
-   dlt_dm_n.push_back    (dlt_n_harvest  * gm2kg/sm2ha);
-   dlt_dm_p.push_back    (dlt_p_harvest  * gm2kg/sm2ha);
-}
-
-
-float plantPart::dmGreenNew(void)
-//=======================================================================================
-   {
-   return (Green.DM() + Growth.DM() + Retranslocation.DM());
-   }
-float plantPart::dltDmGreenNew(void)
-//=======================================================================================
-   {
-   return (Growth.DM() + Retranslocation.DM());
-   }
-
-float plantPart::dltNGreenRemoved(void)
-//=======================================================================================
-   {
-   return (Green.N() * divide(dlt.dm_green_removed, Green.DM(), 0.0));
-   }
-
-
-float plantPart::dltNSenescedRemoved(void)
-//=======================================================================================
-   {
-   return (Senesced.N() * divide(dlt.dm_senesced_removed, Senesced.DM(), 0.0));
-   }
-float plantPart::dltPGreenRemoved(void)
-//=======================================================================================
-   {
-   return (Green.P() * divide(dlt.dm_green_removed, Green.DM(), 0.0));
-   }
-
-float plantPart::dltPSenescedRemoved(void)
-//=======================================================================================
-   {
-   return (Senesced.P() * divide(dlt.dm_senesced_removed, Senesced.DM(), 0.0));
-   }
-
-float plantPart::dltPRemoved(void)
-//=======================================================================================
-   {
-   return (dltPGreenRemoved() + dltPSenescedRemoved());
-   }
-
-float plantPart::height(void) {return Height;}
-float plantPart::width(void) {return Width;}
 
 void plantPart::doNPartition(float nSupply, float n_demand_sum, float n_capacity_sum)
    //============================================================================
@@ -326,32 +222,6 @@ void plantPart::doNPartition(float nSupply, float n_demand_sum, float n_capacity
       }
 }
 
-void plantPart::onPlantEvent(const string &event)
-//=======================================================================================
-   {
-   if (event == "sowing") onSowing();
-   else if (event == "germination") onGermination();
-   else if (event == "emergence") onEmergence();
-   else if (event == "transplanting")onTransplanting();
-   else if (event == "flowering") onFlowering();
-   else if (event == "start_grain_fill") onStartGrainFill();
-   }
-
-   //needed to standardise interface for composite subclass
-
-float plantPart::giveNGreen(float delta)
-//=======================================================================================
-   {
-   Growth = Growth + Biomass(0, delta, 0);
-   return delta;
-   }
-
-float plantPart::giveDmSenesced (float delta)
-//=======================================================================================
-   {
-   Senescing = Senescing + Biomass(delta, 0, 0);
-   return delta;
-   }
 
 float plantPart::dlt_dm_green_retrans_hack(float delta)
    {
@@ -359,36 +229,12 @@ float plantPart::dlt_dm_green_retrans_hack(float delta)
    return delta;
    }
 
-float plantPart::giveDmGreenRemoved (float delta)
+float plantPart::dmGreenNew(void)
 //=======================================================================================
-// addXXX: something is removing some XXX. return the delta.
    {
-   dlt.dm_green_removed = delta;
-   float error_margin = 1.0e-6 ;
-   if (delta > Green.DM() + error_margin)
-   {
-       ostringstream msg;
-       msg << "Attempting to remove more green " << name() << " biomass than available:-" << endl;
-       msg << "Removing " << -delta << " (g/m2) from " << Green.DM() << " (g/m2) available." << ends;
-       throw std::runtime_error (msg.str().c_str());
-   }
-   return delta;
+   return (Green.DM() + Growth.DM() + Retranslocation.DM());
    }
 
-float plantPart::giveDmSenescedRemoved (float delta)
-//=======================================================================================
-   {
-   dlt.dm_senesced_removed = delta;
-   float error_margin = 1.0e-6 ;
-   if (delta > Senesced.DM() + error_margin)
-   {
-       ostringstream msg;
-       msg << "Attempting to remove more Senesced " << name() << " biomass than available:-" << endl;
-       msg << "Removing " << -delta << " (g/m2) from " << Senesced.DM() << " (g/m2) available." << ends;
-       throw std::runtime_error (msg.str().c_str());
-   }
-   return delta;
-   }
 
 float critNFactor(vector< plantPart *> &parts, float multiplier)
 //=======================================================================================
@@ -439,16 +285,168 @@ float critNFactor(vector< plantPart *> &parts, float multiplier)
 
 void plantPart::doInit1(protocol::Component *system){this->onInit1(system) ;}
 
-void plantPart::onSowing(void){}
-void plantPart::onGermination(void){}
-
-void plantPart::onTransplanting(void) {}
-float plantPart::dltLeafAreaPot(void) {throw std::runtime_error("plantPart::dltLeafAreaPot() called") ;}
 float plantPart::nMin(void)  {return g.n_conc_min * Green.DM();}
 float plantPart::nCrit(void)  {return g.n_conc_crit * Green.DM();}
-void plantPart::onRemoveBiomass(float) {}
-void plantPart::write() {}
 void plantPart::checkBounds(void) {}
 const string &plantPart::name(void) {return c.name ;}
 
+      //++++++ NOT IMPLEMENTED IN COMPOSITEPART
 
+//void plantPart::onRemoveBiomass(float) {}
+//void plantPart::write() {}
+
+//void plantPart::onSowing(void){}
+//void plantPart::onGermination(void){}
+
+//void plantPart::onTransplanting(void) {}
+//float plantPart::dltLeafAreaPot(void) {throw std::runtime_error("plantPart::dltLeafAreaPot() called") ;}
+
+//void plantPart::onFlowering(void)
+////=======================================================================================
+//   {
+//   float dm_plant = divide (Green.DM(), plant->getPlants(), 0.0);
+//   if (c.trans_frac_option==1)
+//      DMPlantMin = dm_plant;
+//   else
+//      DMPlantMin = dm_plant * (1.0 - c.trans_frac);
+//   }
+//
+//void plantPart::onStartGrainFill(void)
+////=======================================================================================
+//// set the minimum weight of part; used for retranslocation to grain
+//   {
+//   float dm_plant = divide (Green.DM(), plant->getPlants(), 0.0);
+//   if (c.trans_frac_option==1)
+//      DMPlantMin = dm_plant * (1.0 - c.trans_frac);
+//   //else
+//      //DMPlantMin = DMPlantMin + (dm_plant - DMPlantMin) * (1.0 - c.trans_frac);
+//      //DMPlantMin = DMPlantMin + (dm_plant - DMPlantMin);
+//   }
+
+//void plantPart::onHarvest_GenericAboveGroundPart( float remove_fr,
+//                             vector<string> &dm_type,
+//                             vector<float> &dlt_crop_dm,
+//                             vector<float> &dlt_dm_n,
+//                             vector<float> &dlt_dm_p,
+//                             vector<float> &fraction_to_residue)
+////=======================================================================================
+//// Generic harvest method for above ground parts that lose all dm to residue (eg leaf & stem, not grain..)
+//{
+//   float fractToResidue = 1.0 - remove_fr;
+//
+//   float dm_init = u_bound (c.dm_init * plant->getPlants(), Green.DM());
+//   float n_init  = u_bound (  dm_init * plantPart::c.n_init_conc, Green.N());
+//   float p_init  = u_bound (  dm_init * plantPart::c.p_init_conc, Green.P());
+//
+//   float retain_fr_green = divide(dm_init, Green.DM(), 0.0);
+//   float retain_fr_sen   = 0.0;
+//
+//   float dlt_dm_harvest = Green.DM() + Senesced.DM() - dm_init;
+//   float dlt_n_harvest  = Green.N()  + Senesced.N()  - n_init;
+//   float dlt_p_harvest  = Green.P()  + Senesced.P() - p_init;
+//
+//   Senesced = Senesced * retain_fr_sen;
+//   Green = Biomass(Green.DM() * retain_fr_green, n_init, p_init);
+//
+//   dm_type.push_back(c.name);
+//   fraction_to_residue.push_back(fractToResidue);
+//   dlt_crop_dm.push_back (dlt_dm_harvest * gm2kg/sm2ha);
+//   dlt_dm_n.push_back    (dlt_n_harvest  * gm2kg/sm2ha);
+//   dlt_dm_p.push_back    (dlt_p_harvest  * gm2kg/sm2ha);
+//}
+
+
+//float plantPart::dltDmGreenNew(void)
+////=======================================================================================
+//   {
+//   return (Growth.DM() + Retranslocation.DM());
+//   }
+
+//float plantPart::dltNGreenRemoved(void)
+////=======================================================================================
+//   {
+//   return (Green.N() * divide(dlt.dm_green_removed, Green.DM(), 0.0));
+//   }
+//
+
+//float plantPart::dltNSenescedRemoved(void)
+////=======================================================================================
+//   {
+//   return (Senesced.N() * divide(dlt.dm_senesced_removed, Senesced.DM(), 0.0));
+//   }
+//float plantPart::dltPGreenRemoved(void)
+////=======================================================================================
+//   {
+//   return (Green.P() * divide(dlt.dm_green_removed, Green.DM(), 0.0));
+//   }
+
+//float plantPart::dltPSenescedRemoved(void)
+////=======================================================================================
+//   {
+//   return (Senesced.P() * divide(dlt.dm_senesced_removed, Senesced.DM(), 0.0));
+//   }
+
+//float plantPart::dltPRemoved(void)
+////=======================================================================================
+//   {
+//   return (dltPGreenRemoved() + dltPSenescedRemoved());
+//   }
+
+//float plantPart::height(void) {return Height;}
+//float plantPart::width(void) {return Width;}
+//void plantPart::onPlantEvent(const string &event)
+////=======================================================================================
+//   {
+//   if (event == "sowing") onSowing();
+//   else if (event == "germination") onGermination();
+//   else if (event == "emergence") onEmergence();
+//   else if (event == "transplanting")onTransplanting();
+//   else if (event == "flowering") onFlowering();
+//   else if (event == "start_grain_fill") onStartGrainFill();
+//   }
+
+   //needed to standardise interface for composite subclass
+
+//float plantPart::giveNGreen(float delta)
+////=======================================================================================
+//   {
+//   Growth = Growth + Biomass(0, delta, 0);
+//   return delta;
+//   }
+
+//float plantPart::giveDmSenesced (float delta)
+////=======================================================================================
+//   {
+//   Senescing = Senescing + Biomass(delta, 0, 0);
+//   return delta;
+//   }
+//float plantPart::giveDmGreenRemoved (float delta)
+////=======================================================================================
+//// addXXX: something is removing some XXX. return the delta.
+//   {
+//   dlt.dm_green_removed = delta;
+//   float error_margin = 1.0e-6 ;
+//   if (delta > Green.DM() + error_margin)
+//   {
+//       ostringstream msg;
+//       msg << "Attempting to remove more green " << name() << " biomass than available:-" << endl;
+//       msg << "Removing " << -delta << " (g/m2) from " << Green.DM() << " (g/m2) available." << ends;
+//       throw std::runtime_error (msg.str().c_str());
+//   }
+//   return delta;
+//   }
+
+//float plantPart::giveDmSenescedRemoved (float delta)
+////=======================================================================================
+//   {
+//   dlt.dm_senesced_removed = delta;
+//   float error_margin = 1.0e-6 ;
+//   if (delta > Senesced.DM() + error_margin)
+//   {
+//       ostringstream msg;
+//       msg << "Attempting to remove more Senesced " << name() << " biomass than available:-" << endl;
+//       msg << "Removing " << -delta << " (g/m2) from " << Senesced.DM() << " (g/m2) available." << ends;
+//       throw std::runtime_error (msg.str().c_str());
+//   }
+//   return delta;
+//   }
