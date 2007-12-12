@@ -128,9 +128,41 @@ public:
 ////   CompositePool Vegetative;
 ////   CompositePool VegetativeTotal;
 
+public:
+      // plant
+   virtual float SWDemand(void);
+   virtual void doDmPotTE(float swSupply);                         //(OUTPUT) potential dry matter production by transpiration (g/m^2)
+   virtual float dltNDetached(void);
+   virtual float giveNGreen(float) ;
+   virtual float width(void);
+   virtual float interceptRadiationGreen(float radiation);
+   virtual float dltDmSenesced(void);
+   virtual float dltNSenesced(void);
+   virtual float dltDmGreenRemoved(void);
+   virtual float height(void);
+   virtual float n_conc_crit(void);
+   virtual float n_conc_min(void);
+   virtual float transpirationEfficiency(void);
+   virtual float dltDmPotRue(void);
+   virtual float dltNSenescedTrans(void);
+
+      //grainpart
+   virtual float dltDmGreenNew(void) ;
+   virtual float nDemand(void);
+
+      //grainpartHI
+   virtual float dmGreenDemand(void);
+
+      //allometricArbitrator
+   virtual void zeroDltDmGreen(void);
+   virtual float dltLeafAreaPot(void) {throw std::runtime_error("SimplePart::dltLeafAreaPot() called");};
+   virtual float giveDmGreen(float) ;           // Arbitrator gives this part dm; return amount used
+   virtual float dltDmGreen(void) ;
+
+protected:
+   virtual void zeroDltNSenescedTrans(void);
    virtual void zeroAllGlobals(void);
    virtual void zeroDeltas(void);
-   virtual void zeroDltNSenescedTrans(void);
    virtual void checkBounds(void) {};
 
    bool tempFlagToShortCircuitInit1;
@@ -162,7 +194,6 @@ public:
    virtual void doPDemand(void);
    virtual void doPSenescence(void);
 
-   virtual void zeroDltDmGreen(void);
    virtual void zeroDltDmGreenRetrans(void);
 
    virtual void collectDetachedForResidue(vector<string> &part_name
@@ -176,21 +207,14 @@ public:
    virtual float dltNRetransOut(void);
    virtual float dltDmGreenRetransUptake(void);
    virtual float dltDmGreenRetrans(void);
-   virtual float dltDmGreen(void) ;
    virtual float dltDmRetranslocate(void);
    virtual float dltDmDetached(void);
-   virtual float dltDmGreenNew(void) ;
-   virtual float dltDmSenesced(void);
    virtual float dltNGreen(void) ;
    virtual float dltPGreen(void) ;
-   virtual float dltNSenesced(void);
    virtual float dltPSenesced(void);
-   virtual float dltNDetached(void);
    virtual float dltPDetached(void);
    virtual float dltNRetrans(void);
    virtual float dltNSenescedRetrans(void);
-   virtual float dltNSenescedTrans(void);
-   virtual float dltDmGreenRemoved(void);
    virtual float dltDmSenescedRemoved(void);
    virtual float dltDmRemoved(void);
    virtual float dltNGreenRemoved(void);
@@ -200,15 +224,9 @@ public:
    virtual float dltPSenescedRemoved(void);
    virtual float dltPRemoved(void);
 
-   virtual float n_conc_crit(void);
-   virtual float n_conc_min(void);
-
-   virtual float dmGreenDemand(void);
    virtual float dmDemandDifferential(void) ;
 
-   virtual float giveDmGreen(float) ;           // Arbitrator gives this part dm; return amount used
    virtual float giveDmSenesced(float) ;
-   virtual float giveNGreen(float) ;
 
    virtual float giveDmGreenRemoved(float) ;           //
    virtual float giveDmSenescedRemoved(float) ;
@@ -218,7 +236,6 @@ public:
    virtual float dmRetransDemand(void){return 0.0;} ;
    virtual float dmGreenStressDeterminant(void);
 
-   virtual float nDemand(void);
    virtual float nMax(void);
    virtual float nCapacity(void);
 
@@ -238,8 +255,6 @@ public:
    virtual float pDemand(void);
    virtual float pRetransSupply(void);
    virtual float pRetransDemand(void);
-   virtual float height(void);
-   virtual float width(void);
 
    virtual void  doRemoveBiomass(protocol::RemoveCropDmType dmRemoved, string &c_remove_biomass_report);
    virtual void  removeBiomass(void);
@@ -294,28 +309,22 @@ public:
    virtual float coverSen(void) ;
    virtual float coverTotal(void) ;
    virtual float dltDmGrainDemand(void);
-   virtual float transpirationEfficiency(void);
-   virtual float dltDmPotRue(void);
    virtual float dltDmPotTe(void);
    virtual float dltDm(void);
-   virtual float dltLeafAreaPot(void) {throw std::runtime_error("SimplePart::dltLeafAreaPot() called");};
    virtual float grainWaterContent(void);
    virtual float dmGrainWetTotal(void);
    virtual float grainNo(void);
    virtual float grainWt(void);
-   virtual float interceptRadiationGreen(float radiation);
    virtual float interceptRadiationTotal(float radiation);
    virtual float nDemandGrain(void);
    virtual float nDemandGrain2(void);
 
    virtual void doSWDemand(float SWDemandMaxFactor);
-   virtual float SWDemand(void);
    virtual float SWDemandTE(void);
    virtual void calcDlt_pod_area (void);   //FIXME
    virtual void doBioActual (void);
    virtual void doDmDemand (float dlt_dm_supply_by_veg);
    virtual void doDmPotRUE (void );                      // (OUTPUT) potential dry matter (carbohydrate) production (g/m^2)
-   virtual void doDmPotTE(float swSupply);                         //(OUTPUT) potential dry matter production by transpiration (g/m^2)
    virtual void doGrainNumber (void);
    virtual void doNDemandGrain(float nfact_grain_conc, float swdef_expansion);
    virtual void doNInit (void);

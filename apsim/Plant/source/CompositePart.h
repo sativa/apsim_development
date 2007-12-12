@@ -11,9 +11,35 @@ public:                                             // member functions
 
    const CompositePart &operator=(const CompositePart &other);      // Assigment operator
 
+#if TEST_CompositePart
+   virtual ~CompositePart();                            // destructor
+#else
+   ~CompositePart();
+#endif
+
+
    void add(plantPart* part);
 
-   virtual void onInit1(protocol::Component *);
+      // plant
+   virtual float coverGreen(void) ;
+   virtual float coverSen(void) ;
+   virtual void  Detachment(void);
+   virtual float dltDm(void);
+   virtual float dltDmGreen(void)  ;
+   virtual float dltDmPotRue(void);
+   virtual float dltNGreen(void);
+   virtual void  doDmMin(void);
+   virtual void  doNConccentrationLimits(float);
+   virtual void  doPDemand(void);
+   virtual void  doPSenescence(void);
+   virtual void  doSenescence (float sen_fr);
+   virtual float nCapacity(void);
+   virtual float nDemand(void);
+   virtual void  onInit1(protocol::Component *);
+   virtual float SWDemand(void);                         //(OUTPUT) crop water demand (mm)               //FIXME
+   virtual void  update(void);
+
+protected:
    virtual void readConstants (protocol::Component *, const string &);
    virtual void readSpeciesParameters (protocol::Component *, vector<string> &);
    virtual void readCultivarParameters (protocol::Component *, const string &);
@@ -42,9 +68,6 @@ public:                                             // member functions
    virtual void doNDemand2(float, float);
    virtual void doSoilNDemand(void);
    virtual void doNSenescence(void);
-   virtual void doPDemand(void);
-   virtual void Detachment(void);
-   virtual void doPSenescence(void);
    virtual void  doRemoveBiomass(protocol::RemoveCropDmType dmRemoved, string &c_remove_biomass_report);
    virtual void  removeBiomass(void);
    virtual void  removeBiomass2(float);
@@ -76,14 +99,10 @@ public:                                             // member functions
                                           , vector<float> &dm_p
                                           , vector<float> &fract);
 
-   virtual void update(void);
-   virtual void doNConccentrationLimits(float);
    virtual void zeroDltDmGreen(void);
 
 
    virtual float coverTotal(void) ;
-   virtual float coverGreen(void) ;
-   virtual float coverSen(void) ;
    virtual float interceptRadiationGreen(float radiation);
    virtual float interceptRadiationTotal(float radiation);
    virtual float grainNo(void);
@@ -95,10 +114,7 @@ public:                                             // member functions
    virtual float dltDmGreenRetransUptake(void);
    virtual float transpirationEfficiency(void);
    virtual float dltDmPotTe(void);
-   virtual float dltDmPotRue(void);
-   virtual float dltDm(void);
 
-   virtual float dltDmGreen(void)  ;
    virtual float dltDmSenesced(void);
    virtual float dltDmDetached(void);
    virtual float dltDmGreenRetrans(void);
@@ -123,10 +139,7 @@ public:                                             // member functions
 
    virtual float dltNRetransOut(void);
    virtual float dltNSenescedRetrans(void);
-   virtual float dltNGreen(void);
-   virtual float nDemand(void);
    virtual float soilNDemand(void);
-   virtual float nCapacity(void);
    virtual void  doNPartition(float nSupply, float n_demand_sum, float n_capacity_sum);
 
    virtual float nMax(void);
@@ -146,7 +159,6 @@ public:                                             // member functions
    virtual void doDmPotRUE (void );                      // (OUTPUT) potential dry matter (carbohydrate) production (g/m^2)
    virtual void doTECO2(void);                           // (OUTPUT) transpiration coefficient                         //FIXME
    virtual void doSWDemand(float SWDemandMaxFactor);     //(OUTPUT) crop water demand (mm)               //FIXME
-   virtual float SWDemand(void);                         //(OUTPUT) crop water demand (mm)               //FIXME
    virtual float SWDemandTE(void);                       //(OUTPUT) crop water demand (mm)               //FIXME
    virtual void doDmPotTE(float swSupply);                         //(OUTPUT) potential dry matter production by transpiration (g/m^2)//FIXME
 
@@ -158,8 +170,6 @@ public:                                             // member functions
    virtual float nDemandDifferential(void);
    virtual void doNFixRetranslocate(float NFix, float NDemandDifferentialTotal);
    virtual void doBioActual (void);
-   virtual void doSenescence (float sen_fr);
-   virtual void doDmMin(void);
 
    virtual void doNInit (void);
    virtual void doNRetranslocate( float N_avail_rep, float grain_n_demand);
@@ -180,13 +190,6 @@ public:                                             // member functions
    virtual bool isYieldPart(void);
    virtual bool isRetransPart(void);
 
-#if TEST_CompositePart
-   virtual ~CompositePart();                            // destructor
-#else
-   ~CompositePart();
-#endif
-
-protected:
    float dmGreenStressDeterminant(void);
    float pGreenStressDeterminant(void);
    float pMaxPotStressDeterminant(void);
