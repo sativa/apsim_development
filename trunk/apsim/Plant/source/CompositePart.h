@@ -22,6 +22,7 @@ public:                                             // member functions
    virtual void onDayOf(const string &);
    virtual float availableRetranslocateN(void);
    virtual void onEmergence();
+   virtual void onPlantEvent(const string &);
    virtual void get_name(vector<string> &name);
    virtual void get_p_demand(vector<float> &p_demand);
    virtual void get_dlt_p_retrans(vector<float> &dlt_p_retrans);

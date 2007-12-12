@@ -127,6 +127,13 @@ void plantPart::onInit1(protocol::Component*)
    scienceAPI.exposeFunction(addPartToVar("n_conc_min"), "%", addPartToDesc("Minimum N content in "), FloatFunction(&plantPart::nConcMin));
 
    scienceAPI.exposeFunction(addPartToVar("dlt_dm_retrans"), "g/m^2", addPartToDesc("DM retranslocated to/from "), FloatFunction(&plantPart::dltDmGreenRetrans));
+   scienceAPI.exposeFunction(addPartToVar("dm_demand"), "g/m^2", addPartToDesc("DM demand of "), FloatFunction(&plantPart::dmGreenDemand));
+   }
+
+void plantPart::get_dm_green_demand(protocol::Component *system, protocol::QueryValueData &qd)
+//=======================================================================================
+   {
+   system->sendVariable(qd, dmGreenDemand());
    }
 
 

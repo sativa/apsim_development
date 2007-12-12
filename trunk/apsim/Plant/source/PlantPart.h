@@ -48,15 +48,8 @@ class plantPart : public plantThing
 
    // deltas
    struct {
-      float dm_pot_te;
-      float dm_pot_rue;
-      float dm;
       float dm_green_removed;                     // green biomass removed (g/m^2)
       float dm_senesced_removed;                  // senesced biomass removed (g/m^2)
-      float n_senesced_retrans;           // plant N retranslocated to/from (+/-) senesced part to/from <<somewhere else??>> (g/m^2)
-      float n_senesced_trans;
-      float height;                       // growth upwards (mm)
-      float width;                        // growth outwards (mm)
    } dlt;
 
    // "Constants"
@@ -292,19 +285,19 @@ public:
    virtual bool isRetransPart(void) = 0;
 
    virtual void onEmergence(void) = 0;
-
      virtual float nConcCrit() = 0;
      virtual float nConcMin() = 0;
 
    virtual void prepare(void);
    virtual void write();
    virtual void onRemoveBiomass(float);
-   virtual void onPlantEvent(const string &);
+   virtual void onPlantEvent(const string &) = 0;
    virtual void checkBounds(void);
    const string &name(void);
 
    protected:
     void doInit1(protocol::Component *system);
+
 
       virtual void onSowing(void);
       virtual void onGermination(void);
@@ -323,6 +316,7 @@ public:
       std::string addPartToDesc(const std::string& description);
 
       void Initialise();
+
 
 };
 
