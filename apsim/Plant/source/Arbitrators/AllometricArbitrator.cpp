@@ -2,7 +2,7 @@
 #include <math.h>
 #include <stdexcept>
 #include <string>
-#include "PlantPart.h"
+#include "plantPart.h"
 
 #include "Leaf/LeafPart.h"
 #include "arbitrator.h"

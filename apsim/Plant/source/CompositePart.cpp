@@ -40,10 +40,48 @@ const CompositePart &CompositePart::operator=(const CompositePart &/*other*/)
    throw std::invalid_argument("Assignment operator NI for CompositePart");
 }
 
+string CompositePart::addPartToVar(const string& variableName)
+   {
+   // --------------------------------------------------------------------------
+   // add the part name, if it isn't blank, to the specified variable name.
+   // --------------------------------------------------------------------------
+   string LcaseName = c.name;
+   To_lower(LcaseName);
+   if (c.name != "")
+      return variableName + "_" + LcaseName;
+   else
+      return variableName;
+   }
+
+string CompositePart::addPartToDesc(const string& description)
+   {
+   // --------------------------------------------------------------------------
+   // add the part name, if it isn't blank, to the specified description
+   // --------------------------------------------------------------------------
+   if (c.name != "")
+      return description + c.name;
+   else
+      return description + " plant";
+   }
 void CompositePart::onInit1(protocol::Component *system)
    //===========================================================================
    {
-   plantPart::onInit1(system);
+   scienceAPI.exposeFunction(addPartToVar("dlt_dm_green"), "g/m^2", addPartToDesc("Delta Weight of "), FloatFunction(&CompositePart::dltDmGreen));
+   scienceAPI.exposeFunction(addPartToVar("dlt_dm_detached"), "g/m^2", addPartToDesc("Delta Weight of detached "), FloatFunction(&CompositePart::dltDmDetached));
+   scienceAPI.exposeFunction(addPartToVar("dlt_dm_senesced"), "g/m^2", addPartToDesc("Delta Weight of senesced "), FloatFunction(&CompositePart::dltDmSenesced));
+
+   scienceAPI.exposeFunction(addPartToVar("dlt_n_green"), "g/m^2", addPartToDesc("Delta N in "), FloatFunction(&CompositePart::dltNGreen));
+   scienceAPI.exposeFunction(addPartToVar("dlt_n_retrans"), "g/m^2", addPartToDesc("N retranslocated to/from "), FloatFunction(&CompositePart::dltNRetrans));
+   scienceAPI.exposeFunction(addPartToVar("dlt_n_detached"), "g/m^2", addPartToDesc("Delta N in detached "), FloatFunction(&CompositePart::dltNDetached));
+   scienceAPI.exposeFunction(addPartToVar("dlt_n_senesced"), "g/m^2", addPartToDesc("Delta N in senesced "), FloatFunction(&CompositePart::dltNSenesced));
+   scienceAPI.exposeFunction(addPartToVar("dlt_n_senesced_trans"), "g/m^2", addPartToDesc("N translocated to/from senesced "), FloatFunction(&CompositePart::dltNSenescedTrans));
+   scienceAPI.exposeFunction(addPartToVar("dlt_n_senesced_retrans"), "g/m^2", addPartToDesc("N retranslocated to/from senesced "), FloatFunction(&CompositePart::dltNSenescedRetrans));
+   scienceAPI.exposeFunction(addPartToVar("n_demand"), "g/m^2", addPartToDesc("N demand of "), FloatFunction(&CompositePart::nDemand));
+
+   scienceAPI.exposeFunction(addPartToVar("dlt_p_green"), "g/m^2", addPartToDesc("Delta P in "), FloatFunction(&CompositePart::dltPGreen));
+   scienceAPI.exposeFunction(addPartToVar("dlt_p_senesced"), "g/m^2", addPartToDesc("Delta P in senesced "), FloatFunction(&CompositePart::dltPSenesced));
+   scienceAPI.exposeFunction(addPartToVar("dlt_p_detached"), "g/m^2", addPartToDesc("Delta P in detached "), FloatFunction(&CompositePart::dltPDetached));
+
 
    vector <plantPart *>::iterator part;
    if (c.name == "")  // If you don't have this then we get a TopsSWDemand - not needed.
@@ -57,6 +95,16 @@ void CompositePart::onInit1(protocol::Component *system)
       }
    for (part =  myParts.begin(); part != myParts.end(); part++)
       (*part)->onInit1(system);
+
+   if (tempFlagToShortCircuitInit1) return;
+
+
+   scienceAPI.exposeFunction(addPartToVar("n_conc_crit"), "%", addPartToDesc("Critical N content in "), FloatFunction(&CompositePart::nConcCrit));
+   scienceAPI.exposeFunction(addPartToVar("n_conc_min"), "%", addPartToDesc("Minimum N content in "), FloatFunction(&CompositePart::nConcMin));
+
+   scienceAPI.exposeFunction(addPartToVar("dlt_dm_retrans"), "g/m^2", addPartToDesc("DM retranslocated to/from "), FloatFunction(&CompositePart::dltDmGreenRetrans));
+   scienceAPI.exposeFunction(addPartToVar("dm_demand"), "g/m^2", addPartToDesc("DM demand of "), FloatFunction(&CompositePart::dmGreenDemand));
+
    }
 
 void CompositePart::add(plantPart* part)
@@ -77,6 +125,28 @@ void CompositePart::add(plantPart* part)
 
    GrainPool.AddPool(part->Grain);
    GrainTotalPool.AddPool(part->GrainTotal);
+   }
+
+float CompositePart::nConcCrit()
+//=======================================================================================
+   {
+   float sum = 0.0;
+   float count = 0.0;
+   for (vector <plantPart * >::const_iterator part = myParts.begin(); part != myParts.end(); part++)
+      sum += (*part)->nConcCrit();
+      count++;
+   return sum/count;
+   }
+
+float CompositePart::nConcMin()
+//=======================================================================================
+   {
+   float sum = 0.0;
+   float count = 0.0;
+   for (vector <plantPart * >::const_iterator part = myParts.begin(); part != myParts.end(); part++)
+      sum += (*part)->nConcMin();
+      count++;
+   return sum/count;
    }
 
 float CompositePart::dltNGreen(void)

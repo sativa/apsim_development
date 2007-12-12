@@ -2,7 +2,7 @@
 #include <math.h>
 #include <stdexcept>
 #include <string>
-#include "PlantPart.h"
+#include "SimplePart.h"
 
 #include "LeafPart.h"
 #include "cohortingLeafPart.h"
@@ -13,7 +13,7 @@ void cohortingLeafPart::readConstants (protocol::Component *system, const string
 //=======================================================================================
 // Read Constants
    {
-   plantPart::readConstants(system, section);
+   SimplePart::readConstants(system, section);
    // Nothing to do here..
    }
 
@@ -21,7 +21,7 @@ void cohortingLeafPart::readSpeciesParameters (protocol::Component *system, vect
 //=======================================================================================
 // Read species specific parameters
    {
-   plantPart::readSpeciesParameters(system, search_order);
+   SimplePart::readSpeciesParameters(system, search_order);
    scienceAPI.read("leaf_no_at_emerg", cLeafNumberAtEmerg, 0.0f, 100.0f);
    scienceAPI.read("initial_tpla", cInitialTPLA, 0.0f, 100000.0f);
    scienceAPI.read("min_tpla", cMinTPLA, 0.0f, 100000.0f);
@@ -94,7 +94,7 @@ void cohortingLeafPart::onInit1(protocol::Component *system)
 //=======================================================================================
 // Connect our bits to the system
    {
-   plantPart::onInit1(system);
+   SimplePart::onInit1(system);
    setupGetFunction(system, "node_no", protocol::DTsingle, false,
                     &cohortingLeafPart::get_node_no, "/plant", "Number of main stem nodes");
 
@@ -294,7 +294,7 @@ void cohortingLeafPart::zeroDeltas(void)
 //=======================================================================================
 // Clean out yesterday's rate calculations
 {
-   plantPart::zeroDeltas();
+   SimplePart::zeroDeltas();
    dltLAI = 0.0;
    dltLAI_pot = 0.0;
    dltLAI_stressed = 0.0;
@@ -313,7 +313,7 @@ void cohortingLeafPart::zeroAllGlobals(void)
 //=======================================================================================
 // Initialise all constants & parameters
 {
-   plantPart::zeroAllGlobals();
+   SimplePart::zeroAllGlobals();
    cLeafNumberAtEmerg = 0.0;
    cSLAMin = 0.0;
    cInitialTPLA = 0.0;
@@ -341,14 +341,14 @@ void cohortingLeafPart::onEmergence(void)
 //=======================================================================================
 // Leaf, Node number and area initialisation
    {
-   plantPart::onEmergence();
+   SimplePart::onEmergence();
    initialiseAreas();
    }
 
 void cohortingLeafPart::onTransplanting(void)
    {
    cout << "ON TRANSPLANTING"<<endl;
-   plantPart::onEmergence();
+   SimplePart::onEmergence();
    initialiseAreas();
    }
 
@@ -356,7 +356,7 @@ void cohortingLeafPart::onKillStem(void)
 //=======================================================================================
 // transfer plant leaf area to dead pool
    {
-   plantPart::onKillStem();
+   SimplePart::onKillStem();
    vector <float> dying = gLeafArea;
    onEmergence();
 
@@ -398,7 +398,7 @@ void cohortingLeafPart::initialiseAreas(void)
 
       tpla -= cAreaPot[cohort+1];
       }
-   
+
    }
 
 void cohortingLeafPart::onHarvest(float /* cutting_height */, float remove_fr,
@@ -418,7 +418,7 @@ void cohortingLeafPart::checkBounds(void)
 //=======================================================================================
 // Sanity checks
    {
-   plantPart::checkBounds();
+   SimplePart::checkBounds();
    if (gNodeNo < 0) throw std::runtime_error(c.name + " node number is negative! (" + ftoa(gNodeNo,".6") + ")");
 
    for (unsigned int cohort = 0; cohort != gLeafArea.size(); cohort++)
@@ -519,7 +519,7 @@ void cohortingLeafPart::leaf_no_pot (float stressFactor, float dlt_tt)
         else
            gLeavesPerNode +=  dlt_leaves_per_node;
         gLeavesPerNode = max(1.0, gLeavesPerNode);
-                   
+
         dltLeafNoPot = dltNodeNo * gLeavesPerNode;
         }
     }
@@ -570,7 +570,7 @@ void cohortingLeafPart::Detachment (void)
         }
       }
 
-    plantPart::Detachment();
+    SimplePart::Detachment();
   }
 
 void cohortingLeafPart::leaf_area_sen(float swdef_photo , float mint)
@@ -615,7 +615,7 @@ void cohortingLeafPart::update(void)
 //=======================================================================================
 {
    unsigned int cohort;
-   plantPart::update();
+   SimplePart::update();
 
    if (((int)gNodeNo) != ((int)(gNodeNo + dltNodeNo))) {
       // Initiate a new cohort

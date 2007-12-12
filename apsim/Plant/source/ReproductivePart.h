@@ -23,9 +23,9 @@
 #include <ComponentInterface/ScienceAPI.h>
 
 
-#include "PlantPart.h"
+#include "SimplePart.h"
 
-class ReproductivePart : public plantPart
+class ReproductivePart : public SimplePart
    {
    public:
    ReproductivePart(ScienceAPI& api, plantInterface *p, const string &name);

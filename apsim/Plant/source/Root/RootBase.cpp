@@ -2,7 +2,7 @@
 #include <math.h>
 #include <stdexcept>
 #include <string>
-#include "PlantPart.h"
+#include "SimplePart.h"
 
 #include "RootBase.h"
 #include "RootGrowthOption1.h"
@@ -30,6 +30,6 @@ RootBase* RootBase::construct(ScienceAPI& scienceAPI, plantInterface *p, const s
    }
 
 RootBase::RootBase(ScienceAPI& scienceAPI, plantInterface *p, const string &name)
-   : plantPart(scienceAPI,p,name)
+   : SimplePart(scienceAPI,p,name)
    {
-   }   
+   }

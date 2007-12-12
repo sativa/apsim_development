@@ -2,7 +2,7 @@
 #include <math.h>
 #include <stdexcept>
 #include <string>
-#include "PlantPart.h"
+#include "plantPart.h"
 
 //+  Purpose
 //       Derives seneseced plant nitrogen (g N/m^2)

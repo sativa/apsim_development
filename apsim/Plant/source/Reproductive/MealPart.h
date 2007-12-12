@@ -1,7 +1,7 @@
 #ifndef MealPartH
 #define MealPartH
 #include "ReproductivePart.h"
-#include "PlantPart.h"
+#include "SimplePart.h"
 
 
 class fruitMealPart : public ReproductivePart {

@@ -1,8 +1,8 @@
 #ifndef FloretPartH
 #define FloretPartH
-#include "PlantPart.h"
+#include "SimplePart.h"
 
-class FloretPart : public plantPart {
+class FloretPart : public SimplePart {
   public:
    FloretPart(ScienceAPI& scienceAPI, plantInterface *p, const string &name) ;
    ~FloretPart() {};

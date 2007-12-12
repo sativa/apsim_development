@@ -192,9 +192,16 @@ protected:
    float pMinPotStressDeterminant(void);
 
    vector <plantPart *> myParts;
+   struct {
+      string name;                        // What we call ourselves
+   } c;
 
 
 private:
+      float nConcCrit();
+      float nConcMin();
+      std::string addPartToVar(const std::string& variableName);
+      std::string addPartToDesc(const std::string& description);
 
 };
 

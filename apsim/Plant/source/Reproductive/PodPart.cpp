@@ -2,14 +2,14 @@
 #include <math.h>
 #include <stdexcept>
 #include <string>
-#include "PlantPart.h"
+#include "SimplePart.h"
 
 #include "GrainPart.h"
 #include "PodPart.h"
 using namespace std;
 
 fruitPodPart::fruitPodPart(ScienceAPI& scienceAPI, plantInterface *p, fruitGrainPart *g, const string &name)
-   : plantPart(scienceAPI, p, name)
+   : SimplePart(scienceAPI, p, name)
    {
    myGrain = g;
    fill_real_array (cX_co2_te_modifier, 0.0, max_table);
@@ -21,7 +21,7 @@ fruitPodPart::fruitPodPart(ScienceAPI& scienceAPI, plantInterface *p, fruitGrain
 void fruitPodPart::onInit1(protocol::Component *system)
 //=======================================================================================
 {
-   plantPart::onInit1(system);
+   SimplePart::onInit1(system);
 
    system->addGettableVar("pai", gPai, "m^2/m^2", "Pod area index");
    system->addGettableVar("dlt_pai", gDlt_pai, "m^2/m^2", "Delta Pod area index");
@@ -33,7 +33,7 @@ void fruitPodPart::onInit1(protocol::Component *system)
 void fruitPodPart::update(void)
 //=======================================================================================
 {
-   plantPart::update();
+   SimplePart::update();
    gPai += gDlt_pai;
 }
 
@@ -130,7 +130,7 @@ float fruitPodPart::dltDmRetranslocateSupply(float DemandDifferential)
 void fruitPodPart::zeroAllGlobals(void)
 //=======================================================================================
 {
-   plantPart::zeroAllGlobals();
+   SimplePart::zeroAllGlobals();
    coverPod.green = 0.0;
    coverPod.sen   = 0.0;
    gPai = 0.0;
@@ -139,7 +139,7 @@ void fruitPodPart::zeroAllGlobals(void)
 void fruitPodPart::zeroDeltas(void)
 //=======================================================================================
 {
-   plantPart::zeroDeltas();
+   SimplePart::zeroDeltas();
 
    gDlt_pai = 0.0;
 }
@@ -148,7 +148,7 @@ void fruitPodPart::zeroDeltas(void)
 void fruitPodPart::readSpeciesParameters(protocol::Component *system, vector<string> &sections)
 //=======================================================================================
 {
-   plantPart::readSpeciesParameters(system, sections);
+   SimplePart::readSpeciesParameters(system, sections);
 
    int   numvals;                                // number of values returned
 

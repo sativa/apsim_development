@@ -1,8 +1,8 @@
 #ifndef RootBaseH
 #define RootBaseH
-#include "../PlantPart.h"
+#include "../SimplePart.h"
 
-class RootBase : public plantPart
+class RootBase : public SimplePart
    {
    public:
       RootBase(ScienceAPI& scienceAPI, plantInterface *p, const string &name);

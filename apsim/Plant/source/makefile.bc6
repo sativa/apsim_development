@@ -47,6 +47,7 @@ OBJFILES=PlantComponent.obj \
    Reproductive\FruitCohort.obj \
    Reproductive\PlantFruit.obj \
    CompositePart.obj \
+   SimplePart.obj \
    Root\RootBase.obj \
    Root\RootPart.obj \
    Root\NoRoot.obj \
@@ -125,7 +126,7 @@ clean:
     del $(OBJFILES) *.bak *.csm
 
 PlantComponent.obj: PlantComponent.cpp plant.h
-Plant.obj: plant.cpp plant.h PlantLibrary.h Phenology\PlantPhenology.h Reproductive\PlantFruit.h PlantPart.h Leaf\LeafPart.h
+Plant.obj: plant.cpp plant.h PlantLibrary.h Phenology\PlantPhenology.h Reproductive\PlantFruit.h PlantPart.h SimplePart.h Leaf\LeafPart.h
 PlantBiomass.obj: PlantBiomass.cpp PlantLibrary.h
 PlantCanopy.obj: PlantCanopy.cpp PlantLibrary.h
 PlantComms.obj: PlantComms.cpp PlantLibrary.h
@@ -135,6 +136,7 @@ PlantTemp.obj: PlantTemp.cpp PlantLibrary.h
 Utility\PlantUtility.obj: Utility\PlantUtility.cpp Utility\PlantUtility.h PlantLibrary.h
 PlantP.obj: PlantP.cpp
 PlantPart.obj: PlantPart.cpp PlantPart.h
+SimplePart.obj: SimplePart.cpp SimplePart.h PlantPart.h
 CompositePart.obj: CompositePart.cpp CompositePart.h PlantPart.h
 Reproductive\PlantFruit.obj: Reproductive\PlantFruit.cpp Reproductive\PlantFruit.h CompositePart.h
 Reproductive\FruitCohort.obj: Reproductive\FruitCohort.cpp Reproductive\FruitCohort.h PlantPart.h CompositePart.h
@@ -147,23 +149,23 @@ Science.obj: Utility\Science.cpp PlantLibrary.h
 Error.obj: Error.cpp PlantLibrary.h
 Environment.obj: Environment.cpp Environment.h
 Utility\Observers.obj: Utility\Observers.cpp Utility\Observers.h
-Leaf\LeafPart.obj: Leaf\LeafPart.cpp PlantPart.h Leaf\LeafPart.h
-StemPart.obj: StemPart.cpp StemPart.h PlantPart.h
-Storage\StoragePart.obj: Storage\StoragePart.cpp Storage\StoragePart.h PlantPart.h
-ReproductivePart.obj: ReproductivePart.cpp ReproductivePart.h PlantPart.h
-Reproductive\PodPart.obj: Reproductive\PodPart.cpp Reproductive\PodPart.h PlantPart.h
-Reproductive\FloretPart.obj: Reproductive\FloretPart.cpp Reproductive\FloretPart.h PlantPart.h
-Reproductive\MealPart.obj: Reproductive\MealPart.cpp Reproductive\MealPart.h PlantPart.h
-Root\RootBase.obj: Root\RootBase.cpp Root\RootBase.h PlantPart.h
+Leaf\LeafPart.obj: Leaf\LeafPart.cpp PlantPart.h Leaf\LeafPart.h SimplePart.h
+StemPart.obj: StemPart.cpp StemPart.h PlantPart.h SimplePart.h
+Storage\StoragePart.obj: Storage\StoragePart.cpp Storage\StoragePart.h PlantPart.h SimplePart.h
+ReproductivePart.obj: ReproductivePart.cpp ReproductivePart.h PlantPart.h SimplePart.h
+Reproductive\PodPart.obj: Reproductive\PodPart.cpp Reproductive\PodPart.h PlantPart.h SimplePart.h
+Reproductive\FloretPart.obj: Reproductive\FloretPart.cpp Reproductive\FloretPart.h PlantPart.h SimplePart.h
+Reproductive\MealPart.obj: Reproductive\MealPart.cpp Reproductive\MealPart.h PlantPart.h SimplePart.h
+Root\RootBase.obj: Root\RootBase.cpp Root\RootBase.h PlantPart.h SimplePart.h
 Root\RootPart.obj: Root\RootPart.cpp Root\RootPart.h Root\RootBase.h
 Root\NoRoot.obj: Root\NoRoot.cpp Root\NoRoot.h Root\RootBase.h
 Root\NoRoot.obj: Root\MultiRoot.cpp Root\MultiRoot.h Root\RootBase.h
-Root\RootGrowthOption1.obj: Root\RootPart.cpp Root\RootPart.h PlantPart.h Root\RootGrowthOption1.cpp Root\RootGrowthOption1.h
-Root\RootGrowthOption2.obj: Root\RootPart.cpp Root\RootPart.h PlantPart.h Root\RootGrowthOption2.cpp Root\RootGrowthOption2.h
-Reproductive\OilPart.obj: Reproductive\OilPart.cpp Reproductive\OilPart.h PlantPart.h
-Reproductive\GrainPart.obj: Reproductive\GrainPart.cpp Reproductive\GrainPart.h CompositePart.h PlantPart.h
-GrainPartHI.obj: Reproductive\GrainPartHI.cpp Reproductive\GrainPartHI.h Reproductive\GrainPart.cpp Reproductive\GrainPart.h CompositePart.h PlantPart.h
-GrainPartGN.obj: Reproductive\GrainPartGN.cpp Reproductive\GrainPartGN.h Reproductive\GrainPart.cpp Reproductive\GrainPart.h CompositePart.h PlantPart.h
+Root\RootGrowthOption1.obj: Root\RootPart.cpp Root\RootPart.h PlantPart.h Root\RootGrowthOption1.cpp Root\RootGrowthOption1.h SimplePart.h
+Root\RootGrowthOption2.obj: Root\RootPart.cpp Root\RootPart.h PlantPart.h Root\RootGrowthOption2.cpp Root\RootGrowthOption2.h SimplePart.h
+Reproductive\OilPart.obj: Reproductive\OilPart.cpp Reproductive\OilPart.h PlantPart.h SimplePart.h
+Reproductive\GrainPart.obj: Reproductive\GrainPart.cpp Reproductive\GrainPart.h CompositePart.h PlantPart.h SimplePart.h
+GrainPartHI.obj: Reproductive\GrainPartHI.cpp Reproductive\GrainPartHI.h Reproductive\GrainPart.cpp Reproductive\GrainPart.h CompositePart.h PlantPart.h SimplePart.h
+GrainPartGN.obj: Reproductive\GrainPartGN.cpp Reproductive\GrainPartGN.h Reproductive\GrainPart.cpp Reproductive\GrainPart.h CompositePart.h PlantPart.h SimplePart.h.h
 LeafAppPhase.obj: LeafAppPhase.cpp LeafAppPhase.h
 Utility\Output.obj: Utility\Output.cpp Utility\Output.h
 Utility\OutputVariable.obj: Utility\OutputVariable.cpp Utility\OutputVariable.h

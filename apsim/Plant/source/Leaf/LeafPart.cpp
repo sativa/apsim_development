@@ -2,7 +2,7 @@
 #include <math.h>
 #include <stdexcept>
 #include <string>
-#include "PlantPart.h"
+#include "SimplePart.h"
 
 #include "LeafPart.h"
 #include "genericLeafPart.h"
@@ -26,7 +26,7 @@ plantLeafPart* constructLeafPart (ScienceAPI& scienceAPI, plantInterface *p, con
 
 void plantLeafPart::doNConccentrationLimits(float modifier)
 {
-   plantPart::doNConccentrationLimits(modifier);
+   SimplePart::doNConccentrationLimits(modifier);
    g.n_conc_crit *= modifier;
    if (g.n_conc_crit <= g.n_conc_min)
       throw std::runtime_error("Aiieeee!!\nnconc_crit < nconc_min!\nWhat's happened to CO2??");

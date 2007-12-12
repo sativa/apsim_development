@@ -2,7 +2,7 @@
 #include <math.h>
 #include <stdexcept>
 #include <string>
-#include "PlantPart.h"
+#include "SimplePart.h"
 
 #include "LeafPart.h"
 #include "genericLeafPart.h"
@@ -14,14 +14,14 @@ const float  tolerance_lai = 1.0e-4 ;
 // Read Constants
 void genericLeafPart::readConstants (protocol::Component *system, const string &section)
 {
-    plantPart::readConstants(system, section);
+    SimplePart::readConstants(system, section);
    // Nothing to do here..
 }
 
 // Read species specific parameters
 void genericLeafPart::readSpeciesParameters (protocol::Component *system, vector<string> &search_order)
    {
-   plantPart::readSpeciesParameters(system, search_order);
+   SimplePart::readSpeciesParameters(system, search_order);
    scienceAPI.read("leaf_no_at_emerg", cLeafNumberAtEmerg, 0.0f, 100.0f);
    scienceAPI.read("initial_tpla", cInitialTPLA, 0.0f, 100000.0f);
    scienceAPI.read("min_tpla", cMinTPLA, 0.0f, 100000.0f);
@@ -73,7 +73,7 @@ void genericLeafPart::readSpeciesParameters (protocol::Component *system, vector
 // Connect our bits to the system
 void genericLeafPart::onInit1(protocol::Component *system)
 {
-   plantPart::onInit1(system);
+   SimplePart::onInit1(system);
    setupGetFunction(system, "leaf_no", protocol::DTsingle, false,
                     &genericLeafPart::get_leaf_no, "leaves/plant", "Number of leaves per plant");
 
@@ -164,7 +164,7 @@ void genericLeafPart::get_leaf_area(protocol::Component *system, protocol::Query
 // Clean out yesterday's rate calculations
 void genericLeafPart::zeroDeltas(void)
 {
-   plantPart::zeroDeltas();
+   SimplePart::zeroDeltas();
    dltLAI = 0.0;
    dltSLAI = 0.0;
    dltLAI_pot = 0.0;
@@ -183,7 +183,7 @@ void genericLeafPart::zeroDeltas(void)
 // Initialise all constants & parameters
 void genericLeafPart::zeroAllGlobals(void)
 {
-   plantPart::zeroAllGlobals();
+   SimplePart::zeroAllGlobals();
    cLeafNumberAtEmerg = 0.0;
    cSLAMin = 0.0;
    cInitialTPLA = 0.0;
@@ -211,19 +211,19 @@ void genericLeafPart::zeroAllGlobals(void)
 // Leaf, Node number and area initialisation
 void genericLeafPart::onEmergence(void)
    {
-   plantPart::onEmergence();
+   SimplePart::onEmergence();
    initialiseAreas();
    }
 
 void genericLeafPart::onTransplanting(void)
    {
-   plantPart::onEmergence();
+   SimplePart::onEmergence();
    initialiseAreas();
    }
 void genericLeafPart::onKillStem(void)
    // transfer plant leaf area
    {
-   plantPart::onKillStem();
+   SimplePart::onKillStem();
    //float deadLAI = gLAI;
    onEmergence();
    //gSLAI += deadLAI;
@@ -272,7 +272,7 @@ void genericLeafPart::onHarvest(float /* cutting_height */, float remove_fr,
 // Sanity checks
 void genericLeafPart::checkBounds(void)
 {
-   plantPart::checkBounds();
+   SimplePart::checkBounds();
    if (gLAI < 0.0) throw std::runtime_error(c.name + " LAI is negative! (" + ftoa(gLAI,".6") + ")");
    if (gSLAI < 0.0) throw std::runtime_error(c.name + " SLAI is negative! (" + ftoa(gSLAI,".6") + ")");
    if (gNodeNo < 0) throw std::runtime_error(c.name + " node number is negative! (" + ftoa(gNodeNo,".6") + ")");
@@ -491,7 +491,7 @@ void genericLeafPart::Detachment (void)
                                , 1.0  //required because gLeafArea is on an area basis not a plant basis
                                , max_node);
 
-    plantPart::Detachment();
+    SimplePart::Detachment();
    }
 
 //   Calculate todays leaf area senescence
@@ -530,7 +530,7 @@ void genericLeafPart::leaf_area_sen(float swdef_photo , float mint)
 // Update state variables
 void genericLeafPart::update(void)
 {
-    plantPart::update();
+    SimplePart::update();
     // need to account for truncation of partially developed leaf (add 1)
     float node_no = 1.0 + gNodeNo;
 
@@ -653,7 +653,7 @@ void genericLeafPart::removeBiomass(void)
     gSLAI -= dlt_slai;
     remove_detachment (dlt_slai, dlt_lai);
 
-     plantPart::removeBiomass();
+     SimplePart::removeBiomass();
 
    // keep dm above a minimum
     float dm_init = c.dm_init * plant->getPlants();

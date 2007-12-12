@@ -1,14 +1,14 @@
 #ifndef StoragePartH
 #define StoragePartH
-#include "PlantPart.h"
+#include "SimplePart.h"
 
-class StoragePart : public plantPart
+class StoragePart : public SimplePart
    {
    public:
 
       static StoragePart* construct(ScienceAPI& scienceAPI, plantInterface *p, const string &name) ;
       StoragePart(ScienceAPI& scienceAPI, plantInterface *p, const string &name)
-         : plantPart(scienceAPI, p, name) {};
+         : SimplePart(scienceAPI, p, name) {};
       ~StoragePart() {};
       void onHarvest(float height, float remove_fr,
                      vector<string> &dm_type,
