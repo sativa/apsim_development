@@ -38,6 +38,7 @@ public:                                             // member functions
    virtual void  onInit1(protocol::Component *);
    virtual float SWDemand(void);                         //(OUTPUT) crop water demand (mm)               //FIXME
    virtual void  update(void);
+   virtual float dmGreenDemand(void);
 
 protected:
    virtual void readConstants (protocol::Component *, const string &);
@@ -125,7 +126,6 @@ protected:
    virtual float dltNRemoved(void);
 
    virtual float grainWaterContent(void);
-   virtual float dmGreenDemand(void);
    virtual float dmGrainWetTotal(void);
 
    virtual float grainWt(void);
@@ -190,10 +190,10 @@ protected:
    virtual bool isYieldPart(void);
    virtual bool isRetransPart(void);
 
-   float dmGreenStressDeterminant(void);
-   float pGreenStressDeterminant(void);
-   float pMaxPotStressDeterminant(void);
-   float pMinPotStressDeterminant(void);
+   virtual float dmGreenStressDeterminant(void);
+   virtual float pGreenStressDeterminant(void);
+   virtual float pMaxPotStressDeterminant(void);
+   virtual float pMinPotStressDeterminant(void);
 
    vector <plantPart *> myParts;
    struct {
