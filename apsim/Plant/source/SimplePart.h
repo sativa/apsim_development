@@ -130,21 +130,21 @@ public:
 
 public:
       // plant
-   virtual float SWDemand(void);
-   virtual void doDmPotTE(float swSupply);                         //(OUTPUT) potential dry matter production by transpiration (g/m^2)
-   virtual float dltNDetached(void);
-   virtual float giveNGreen(float) ;
-   virtual float width(void);
-   virtual float interceptRadiationGreen(float radiation);
-   virtual float dltDmSenesced(void);
-   virtual float dltNSenesced(void);
    virtual float dltDmGreenRemoved(void);
-   virtual float height(void);
+   virtual float dltDmPotRue(void);
+   virtual float dltDmSenesced(void);
+   virtual float dltNDetached(void);
+   virtual float dltNSenesced(void);
+   virtual float dltNSenescedTrans(void);
+   virtual void  doDmPotTE(float swSupply);                         //(OUTPUT) potential dry matter production by transpiration (g/m^2)
+   virtual float giveNGreen(float) ;
+   virtual float interceptRadiationGreen(float radiation);
    virtual float n_conc_crit(void);
    virtual float n_conc_min(void);
+   virtual float SWDemand(void);
    virtual float transpirationEfficiency(void);
-   virtual float dltDmPotRue(void);
-   virtual float dltNSenescedTrans(void);
+   virtual float height(void);
+   virtual float width(void);
 
       //grainpart
    virtual float dltDmGreenNew(void) ;
@@ -166,30 +166,30 @@ protected:
    virtual void checkBounds(void) {};
 
    bool tempFlagToShortCircuitInit1;
-   virtual void onInit1(protocol::Component *);
-   virtual void readConstants (protocol::Component *, const string &);
-   virtual void readSpeciesParameters (protocol::Component *, vector<string> &);
-   virtual void readCultivarParameters (protocol::Component *, const string &);
-   virtual void onPlantEvent(const string &);
-   virtual void onRemoveBiomass(float) {};
-   virtual void write() {};
-   virtual void prepare(void);
-   virtual void update(void);
-   virtual void morphology(void);
-   virtual void doNConccentrationLimits(float);
-   virtual void doDmRetranslocate(float DMAvail, float DMDemandDifferentialTotal);
+   virtual void Detachment(void);
    virtual void doDmMin(void){};
+   virtual void doDmRetranslocate(float DMAvail, float DMDemandDifferentialTotal);
+   virtual void doNConccentrationLimits(float);
    virtual void doNDemand1(float, float);
    virtual void doNDemand1Pot(float, float);
    virtual void doNDemand2(float, float);
-   virtual void doSoilNDemand(void);
-   virtual void doSenescence(float);
-   virtual void doNSenescence(void);
-   virtual void doNSenescedRetrans(float navail, float n_demand_tot);
-   virtual void doNRetranslocate( float N_supply, float g_grain_n_demand);
    virtual void doNFixRetranslocate(float NFix, float NDemandDifferentialTotal);
-   virtual void Detachment(void);
+   virtual void doNRetranslocate( float N_supply, float g_grain_n_demand);
+   virtual void doNSenescedRetrans(float navail, float n_demand_tot);
+   virtual void doNSenescence(void);
    virtual void doProcessBioDemand(void){};
+   virtual void doSenescence(float);
+   virtual void doSoilNDemand(void);
+   virtual void morphology(void);
+   virtual void onInit1(protocol::Component *);
+   virtual void onPlantEvent(const string &);
+   virtual void onRemoveBiomass(float) {};
+   virtual void prepare(void);
+   virtual void readConstants (protocol::Component *, const string &);
+   virtual void readCultivarParameters (protocol::Component *, const string &);
+   virtual void readSpeciesParameters (protocol::Component *, vector<string> &);
+   virtual void update(void);
+   virtual void write() {};
 
    virtual void doPDemand(void);
    virtual void doPSenescence(void);
@@ -298,7 +298,7 @@ protected:
    //needed to standardise interface for composite subclass
 
    virtual float availableRetranslocateN(void);
-   virtual void doCover (PlantSpatial &spatial);
+   virtual void  doCover (PlantSpatial &spatial);
    virtual float coverGreen(void) ;
    virtual float coverSen(void) ;
    virtual float coverTotal(void) ;
