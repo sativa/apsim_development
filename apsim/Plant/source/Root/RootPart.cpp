@@ -1429,7 +1429,7 @@ float RootPart::plant_nit_supply(float biomass, float stageNumber, float swdef_f
    return n_fix_pot;
    }
 
-void RootPart::plant_nit_uptake(float sumNMax, float sumSoilNDemand, float nDemand)
+void RootPart::doNUptake(float sumNMax, float sumSoilNDemand, float nDemand)
 //=======================================================================================
 //       Find nitrogen uptake.
     {

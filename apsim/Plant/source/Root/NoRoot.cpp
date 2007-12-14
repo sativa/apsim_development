@@ -148,7 +148,7 @@ float NoRoot::fasw(int depth)
    }
 
 
-void NoRoot::plant_nit_uptake(float sumNMax, float sumSoilNDemand, float nDemand)
+void NoRoot::doNUptake(float sumNMax, float sumSoilNDemand, float nDemand)
 //=======================================================================================
 //       Find nitrogen uptake.
     {

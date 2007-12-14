@@ -76,7 +76,7 @@ void Plant::prepare_p(void)
 
 
 // ===============================
-void Plant::PlantP_partition (vector<plantPart*>&parts)
+void Plant::doPPartition (vector<plantPart*>&parts)
 {
       vector<float> values;               // Scratch area
       vector<plantPart*>::iterator part;
@@ -221,19 +221,12 @@ void Plant::PlantP_Stress (vector<plantPart *> &allParts)
       g.pfact_grain = bound(g.pfact_grain, 0.0, 1.0);
 
 }
-void Plant::plant_p_retrans(void)
-{
-   if (g.phosphorus_aware == true)
-      {
-      PlantP_retrans (myParts);
-      }
-}
 
-void Plant::PlantP_retrans (vector<plantPart*>&parts)
+void Plant::doPRetranslocate (void)
 //      Calculate retranslocation between pools
 {
-      vector<float>    supply(parts.size());
-      vector<float>    demand(parts.size());
+      vector<float>    supply(myParts.size());
+      vector<float>    demand(myParts.size());
 
       unsigned int ipart;
       float    totSupply, totDemand;
@@ -242,14 +235,14 @@ void Plant::PlantP_retrans (vector<plantPart*>&parts)
 
       totSupply = 0.0;
       totDemand = 0.0;
-      for (ipart =0; ipart != parts.size(); ipart++)
+      for (ipart =0; ipart != myParts.size(); ipart++)
          {
-         totSupply += parts[ipart]->pRetransSupply();
-         totDemand += parts[ipart]->pRetransDemand();
+         totSupply += myParts[ipart]->pRetransSupply();
+         totDemand += myParts[ipart]->pRetransDemand();
          }
 
-      for (ipart =0; ipart != parts.size(); ipart++)
-         parts[ipart]->doPRetranslocate(totSupply, totDemand);
+      for (ipart =0; ipart != myParts.size(); ipart++)
+         myParts[ipart]->doPRetranslocate(totSupply, totDemand);
 
 }
 

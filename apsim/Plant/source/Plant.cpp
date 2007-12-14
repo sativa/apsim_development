@@ -130,7 +130,7 @@ Plant::Plant(PlantComponent *P, ScienceAPI& api)
     plantSpatial.init(this);
     }
 
-Plant::~Plant()
+Plant::~Plant(void)
 //=======================================================================================
     {
     for (vector<plantThing *>::iterator t = myThings.begin();
@@ -140,7 +140,7 @@ Plant::~Plant()
     }
 
 
-void Plant::onInit1()
+void Plant::onInit1(void)
 //=======================================================================================
 // Init1. Set up plant structure
     {
@@ -513,7 +513,7 @@ void Plant::onInit1()
       }
    }
 
-void Plant::onInit2()
+void Plant::onInit2(void)
 //=======================================================================================
 // Init2. The rest of the system is here now..
    {
@@ -698,8 +698,7 @@ void Plant::doAutoClassChange(unsigned &/*fromId*/, unsigned &eventId, protocol:
   string ps = IDtoAction[eventId];
   plant_auto_class_change(ps.c_str());
   }
-
-void Plant::plant_bio_retrans (void)
+void Plant::doDmRetranslocate (void)
 //=======================================================================================
 //       Retranslocate biomass.
    {
@@ -757,7 +756,7 @@ void Plant::plant_temp_stress (void)
    }
 
 
-void Plant::plant_bio_water (void)
+void Plant::doDmPotTE (void)
 //     ===========================================================
 //     Calculate biomass transpiration efficiency
     {
@@ -773,17 +772,17 @@ void Plant::plant_bio_water (void)
 
 
 
-void Plant::plant_nit_retrans (int option/* (INPUT) option number*/)
+void Plant::doNRetranslocate (int option/* (INPUT) option number*/)
 //=======================================================================================
 // Do Plant Nitrogen Retranslocation
     {
     if (option == 1)
         {
-        legnew_n_retranslocate(fruitPart->nDemandGrain());
+        doNRetranslocate(fruitPart->nDemandGrain());
         }
     else if (option == 2)
         {
-        legnew_n_retranslocate(fruitPart->nDemandGrain2());  //FIXME
+        doNRetranslocate(fruitPart->nDemandGrain2());  //FIXME
         }
     else
         {
@@ -791,7 +790,7 @@ void Plant::plant_nit_retrans (int option/* (INPUT) option number*/)
         }
     }
 
-void Plant::plant_nit_demand (int option /* (INPUT) option number*/)
+void Plant::doNDemand (int option /* (INPUT) option number*/)
 //=======================================================================================
 //       Find nitrogen demand.
     {
@@ -817,7 +816,7 @@ void Plant::plant_nit_demand (int option /* (INPUT) option number*/)
         }
     }
 
-void Plant::plant_soil_nit_demand()
+void Plant::doSoilNDemand(void)
 //=======================================================================================
 //      Find soil nitrogen demand.
    {
@@ -827,7 +826,7 @@ void Plant::plant_soil_nit_demand()
          (*t)->doSoilNDemand();
    }
 
-void Plant::plant_nit_uptake ()
+void Plant::doNUptake (void)
 //=======================================================================================
 //       Find nitrogen uptake.
    {
@@ -839,22 +838,18 @@ void Plant::plant_nit_uptake ()
       n_max += (*t)->nMax();
       }
 
-    rootPart->plant_nit_uptake(n_max, soil_n_demand, plant.nDemand());
+    rootPart->doNUptake(n_max, soil_n_demand, plant.nDemand());
     }
 
 
-void Plant::plant_nit_partition ()                                     //FIXME - another candidate for rootPart??
+void Plant::doNPartition (void)                                     //FIXME - another candidate for rootPart??
 //=======================================================================================
 //     Calculate the nitrogen and phosporous partitioning in the plant
     {
-    legnew_n_partition(g.n_fix_pot
-                      , &g.n_fix_uptake
-                      , myParts);
+    doNPartition(g.n_fix_pot
+                , g.n_fix_uptake
+                , myParts);
 
-    if (g.phosphorus_aware)
-       {
-       PlantP_partition(myParts);
-       }
     }
 
 void Plant::plant_nit_stress (int option /* (INPUT) option number*/)
@@ -896,7 +891,7 @@ void Plant::plant_nit_stress (int option /* (INPUT) option number*/)
 
     }
 
-void Plant::plant_nit_demand_est (int option)
+void Plant::doNDemandEstimate (int option)
 //=======================================================================================
 //      Calculate an approximate nitrogen demand for today's growth.
 //      The estimate basically = n to fill the plant up to maximum
@@ -947,7 +942,7 @@ void Plant::plant_nit_demand_est (int option)
         }
     }
 
-void Plant::plant_sen_nit (int   option/*(INPUT) option number*/)
+void Plant::doNSenescence (int   option/*(INPUT) option number*/)
 //=======================================================================================
 //       Simulate plant nitrogen senescence.
     {
@@ -960,7 +955,13 @@ void Plant::plant_sen_nit (int   option/*(INPUT) option number*/)
         }
     else if (option == 2)
         {
-        plant_N_senescence();
+        for (vector<plantPart *>::iterator t = myParts.begin();
+             t != myParts.end();
+             t++)
+           (*t)->doNSenescence();
+
+        //! now get N to retranslocate out of senescing leaves
+        doNSenescedRetrans();
         }
     else
         {
@@ -971,7 +972,7 @@ void Plant::plant_sen_nit (int   option/*(INPUT) option number*/)
        plant.doPSenescence();
     }
 
-void Plant::plant_cleanup ()
+void Plant::plant_cleanup (void)
 //=======================================================================================
 //       cleanup after crop processes
     {
@@ -1017,7 +1018,7 @@ void Plant::plant_cleanup ()
 
 
 
-void Plant::plant_update()
+void Plant::plant_update(void)
    {
    // Update states
 
@@ -1106,7 +1107,7 @@ void Plant::plant_totals
 //       Report occurence of event and the current status of specific
 //       variables.
 //       Called when a new phase has begun.
-void Plant::plant_event()
+void Plant::plant_event(void)
     {
 //+  Local Variables
     float biomass;                                // total above ground plant wt (g/m^2)
@@ -1239,11 +1240,11 @@ void Plant::plant_rue_co2_modifier(float co2,                 //!CO2 level (ppm)
 //+  Purpose
 //       Return actual plant nitrogen uptake to each plant part.
 
-void Plant::legnew_n_partition
-    (float  g_n_fix_pot         // (INPUT)  N fixation potential (g/m^2)
-    ,float  *n_fix_uptake        // (OUTPUT) actual N fixation (g/m^2)
-    ,vector<plantPart *> &allParts        // (INPUT) vector of plant parts
-    ) {
+void Plant::doNPartition
+                         (float  g_n_fix_pot         // (INPUT)  N fixation potential (g/m^2)
+                         ,float  &n_fix_uptake        // (OUTPUT) actual N fixation (g/m^2)
+                         ,vector<plantPart *> &allParts        // (INPUT) vector of plant parts
+                         ) {
 
 //+  Local Variables
 
@@ -1276,10 +1277,10 @@ void Plant::legnew_n_partition
         }
 
     n_fix_demand_tot = l_bound (n_demand_sum - n_uptake_sum, 0.0);
-    *n_fix_uptake = bound (g_n_fix_pot, 0.0, n_fix_demand_tot);
+    n_fix_uptake = bound (g_n_fix_pot, 0.0, n_fix_demand_tot);
 
     for (part = allParts.begin(); part != allParts.end(); part++)
-         (*part)->doNFixRetranslocate (*n_fix_uptake, n_fix_demand_tot);
+         (*part)->doNFixRetranslocate (n_fix_uptake, n_fix_demand_tot);
     }
 
 
@@ -1306,6 +1307,7 @@ void Plant::legnew_dm_retranslocate
 
 //- Implementation Section ----------------------------------
 
+
 // now translocate carbohydrate between plant components
 // this is different for each stage
 
@@ -1329,6 +1331,7 @@ void Plant::legnew_dm_retranslocate
         }
 
     *dlt_dm_retrans_to_fruit = - dm_retranslocate;
+
 }
 
 
@@ -1336,7 +1339,7 @@ void Plant::legnew_dm_retranslocate
 //     Calculate the nitrogen retranslocation from the various plant parts
 //     to the grain.
 
-void Plant::legnew_n_retranslocate (float g_grain_n_demand)
+void Plant::doNRetranslocate (float g_grain_n_demand)
 {
 //+  Constant Values
     const float  tolerence = 0.001 ;
@@ -1370,19 +1373,13 @@ void Plant::legnew_n_retranslocate (float g_grain_n_demand)
 
 
 
-void Plant::plant_N_senescence (void)
+void Plant::doNSenescedRetrans (void)
 //=====================================================================
 //      Derives seneseced plant nitrogen (g N/m^2)
    {
    float    dlt_n_in_senescing_leaf;
    float    navail;
    float    n_demand_tot;
-
-   // Find N in senesced material
-   for (vector<plantPart *>::iterator t = myParts.begin();
-        t != myParts.end();
-        t++)
-      (*t)->doNSenescence();
 
    //! now get N to retranslocate out of senescing leaves
    for (vector<plantPart *>::iterator t = myParts.begin();
@@ -1473,7 +1470,7 @@ void Plant::plant_process ( void )
 
         leafPart->leaf_area_stressed (min(g.swdef_expansion, min(g.nfact_expansion, g.pfact_expansion)));
 
-        plant_bio_water ();
+        doDmPotTE ();
         // Calculate Potential Photosynthesis
         for (vector<plantPart *>::const_iterator part = myParts.begin(); part != myParts.end(); part++)
            (*part)->doDmPotRUE();
@@ -1495,7 +1492,7 @@ void Plant::plant_process ( void )
 
         arbitrator->partitionDM(dlt_dm, myParts, fruitPart->name());
 
-        plant_bio_retrans ();
+        doDmRetranslocate ();
 
         leafPart->actual ();
         fruitPart->calcDlt_pod_area ();
@@ -1519,29 +1516,28 @@ void Plant::plant_process ( void )
 
         if (c.n_retrans_option==1)
            {
-           // this option requires retrans to happen before working out
-           // n demand from soil
+           // this option requires retrans to happen before working out n demand from soil
            // NOTE: two processes are linked.
-           plant_nit_retrans (c.n_retrans_option);
-           plant_nit_demand (c.n_retrans_option);
+           doNRetranslocate (c.n_retrans_option);
+           doNDemand (c.n_retrans_option);
            }
          else
            {
-           plant_nit_demand (c.n_retrans_option);
+           doNDemand (c.n_retrans_option);
            }
 
-        plant_sen_nit (c.n_senescence_option);
-        plant_soil_nit_demand ();
-        plant_nit_uptake ();     // allows preference of N source
-        plant_nit_partition ();                  // allows output of n fixed
-        if (c.n_retrans_option==2)
-           {
-           // this option requires soil uptake to satisfy grain n before
-           // retranslocation
-           plant_nit_retrans (c.n_retrans_option);
-           }
+        doNSenescence (c.n_senescence_option);
+        doSoilNDemand ();
+        doNUptake ();     // allows preference of N source
+        doNPartition ();                  // allows output of n fixed
+        if (g.phosphorus_aware)
+            doPPartition(myParts);
 
-        plant_p_retrans();
+        if (c.n_retrans_option==2)  // this option requires soil uptake to satisfy grain n before retranslocation
+           doNRetranslocate (c.n_retrans_option);
+
+        if (g.phosphorus_aware)
+           doPRetranslocate();
 
         population.PlantDeath();
         }
@@ -2198,7 +2194,7 @@ void Plant::plant_zero_variables (void)
 
 //+  Purpose
 //       Zero crop daily variables & arrays
-void Plant::plant_zero_daily_variables ()
+void Plant::plant_zero_daily_variables (void)
     {
 
 //- Implementation Section ----------------------------------
@@ -2338,7 +2334,7 @@ void Plant::plant_start_crop (protocol::Variant &v/*(INPUT) message arguments*/)
 
     }
 
-void Plant::read()
+void Plant::read(void)
    {
    plant_read_species_const ();
     for (vector<plantThing *>::iterator t = myThings.begin();
@@ -2358,7 +2354,7 @@ void Plant::read()
 //+  Purpose
 //       End crop
 
-void Plant::plant_end_crop ()
+void Plant::plant_end_crop (void)
     {
 
     float dm_residue;                             // dry matter added to residue (g/m^2)
@@ -2457,7 +2453,7 @@ void Plant::plant_end_crop ()
     }
 //+  Purpose
 //      Get the values of variables/arrays from other modules.
-void Plant::plant_get_other_variables ()
+void Plant::plant_get_other_variables (void)
     {
     std::vector<float> values;               // Scratch area
 
@@ -2577,7 +2573,7 @@ void Plant::plant_prepare (void)
    float SWDemandMaxFactor = p.eo_crop_factor * g.eo ;
    for (vector<plantPart *>::const_iterator part = myParts.begin(); part != myParts.end(); part++)
        (*part)->doSWDemand(SWDemandMaxFactor);
-   plant_nit_demand_est(1);
+   doNDemandEstimate(1);
 
    // Note actually should send total plant
    // potential growth rather than just tops - NIH
@@ -2615,7 +2611,7 @@ void Plant::registerClassActions(void)
 
 //+  Purpose
 //       Species initialisation - reads constants from constants file
-void Plant::plant_read_species_const ()
+void Plant::plant_read_species_const (void)
     {
 
 //+  Local Variables
@@ -2694,7 +2690,7 @@ void Plant::plant_read_species_const ()
 
     }
 
-void Plant::plant_harvest_report ()
+void Plant::plant_harvest_report (void)
 //=======================================================================================
 // Report the state of the crop at harvest time
     {
