@@ -431,8 +431,8 @@ void fruitGrainPart::doNDemand1(float /*dlt_dm*/             // (INPUT)  Whole p
    //============================================================================
    //     Return plant nitrogen demand for each plant component
 {
-   NDemand = 0.0;
-   NMax = 0.0;
+//   NDemand = 0.0;
+//   NMax = 0.0;
 }
 
 void fruitGrainPart::doNDemand1Pot(float /*dlt_dm*/             // (INPUT)  Whole plant the daily biomass production (g/m^2)
@@ -440,8 +440,8 @@ void fruitGrainPart::doNDemand1Pot(float /*dlt_dm*/             // (INPUT)  Whol
    //============================================================================
    //     Return plant nitrogen demand for each plant component
 {
-   NDemand = 0.0;
-   NMax = 0.0;
+//   NDemand = 0.0;
+//   NMax = 0.0;
 }
 
 void fruitGrainPart::doNDemand2(float /*dlt_dm*/             // (INPUT)  Whole plant the daily biomass production (g/m^2)
@@ -449,11 +449,11 @@ void fruitGrainPart::doNDemand2(float /*dlt_dm*/             // (INPUT)  Whole p
    //============================================================================
    //     Return plant nitrogen demand for each plant component
 {
-   NDemand = 0.0;
-   NMax = 0.0;
-   NDemand -= mealPart->nDemand();           //FIXME can do this stuff better in mealpart?
+//   NDemand = 0.0;
+//   NMax = 0.0;
+//   NDemand -= mealPart->nDemand();           //FIXME can do this stuff better in mealpart?
    mealPart->doNDemand(gN_grain_demand);
-   NDemand += mealPart->nDemand();
+//   NDemand += mealPart->nDemand();
 }
 
 float fruitGrainPart::dmGrainWetTotal(void)
