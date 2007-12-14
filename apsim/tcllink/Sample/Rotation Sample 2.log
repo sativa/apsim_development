@@ -24987,7 +24987,7 @@ changeState Paddock2 F1
    Paddock3,target=Cotton,rule=[canPlant_cotton], value=0
    Paddock3,target=Cotton,rule=[areaPlanted Cotton] < 0.66, value=1
 184,1947
-   Paddock1,State is Chickpea. (esw=139)
+   Paddock1,State is Chickpea. (esw=138)
    Paddock1,target=SummerFallow1,rule={[apsimGet chickpea.stage_name] == "harvest_ripe" || [apsimGet chickpea.plant_status] == "dead"}, value=0
    Paddock2,State is F1. (esw=171)
    Paddock2,target=SummerFallow1,rule=[apsimGet day]  == 192, value=0
@@ -32225,7 +32225,7 @@ changeState Paddock1 Cotton
    Paddock3,State is Wheat. (esw=127)
    Paddock3,target=SummerFallow2,rule={[apsimGet wheat.stage_name] == "harvest_ripe" || [apsimGet wheat.plant_status] == "dead"}, value=0
 292,1949
-   Paddock1,State is Cotton. (esw=212)
+   Paddock1,State is Cotton. (esw=213)
    Paddock1,target=F1,rule=[apsimGet ozcot_status] > 0, value=0
    Paddock2,State is Wheat. (esw=119)
    Paddock2,target=SummerFallow2,rule={[apsimGet wheat.stage_name] == "harvest_ripe" || [apsimGet wheat.plant_status] == "dead"}, value=0
