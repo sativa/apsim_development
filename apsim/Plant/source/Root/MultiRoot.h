@@ -18,14 +18,7 @@ class MultiRoot : public RootBase
 
       float sw_avail_ratio(int layer);
 
-      void plant_water_stress (
-                                       float sw_demand,
-                                       float& swdef_photo,
-                                       float& swdef_pheno,
-                                       float& swdef_pheno_flower,
-                                       float& swdef_pheno_grainfill,
-                                       float& swdef_expansion,
-                                       float& swdef_fixation );
+      void plant_water_stress (float sw_demand, StressDeficit& swDef);
 
       void doWaterUptake(float sw_demand);
       float waterUptake(void);

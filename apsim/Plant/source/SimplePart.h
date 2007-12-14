@@ -90,7 +90,6 @@ class SimplePart : public plantPart
 
       interpolationFunction dm_sen_frac;
       interpolationFunction fr_remain;
-      string name;                        // What we call ourselves
       float transpEffCf[max_table];                  // transpiration efficiency coefficient
                                                         // to convert vpd to
                                                         // transpiration efficiency (kpa)
@@ -109,24 +108,6 @@ public:
 
    SimplePart(ScienceAPI& scienceAPI, plantInterface *p, const string &name);
    virtual ~SimplePart() {};
-
-////   // deltas
-////   Delta Senescing;
-////   Delta Growth;
-////   Delta Detaching;
-////   Delta Retranslocation;
-////
-////   // pools
-////   Pool& Green;
-////   Pool& Senesced;
-////
-////   CompositePool Grain;
-////
-////   // summary pools
-////   CompositePool Total;
-////   CompositePool GrainTotal;
-////   CompositePool Vegetative;
-////   CompositePool VegetativeTotal;
 
 public:
       // plant
@@ -281,7 +262,7 @@ protected:
    virtual void onKillStem(void);
    virtual void onDayOf(const string &);
 
-   const string &name(void) {return c.name;};
+   const string &name(void) {return myName;};
 
    virtual void get_name(vector<string> &names);
    virtual void get_p_demand(vector<float> &p_demand);
@@ -357,7 +338,5 @@ private:
    void Initialise();
 
 };
-
-////float critNFactor(vector< plantPart *> &, float );
 
 #endif /* SimplePartsH */

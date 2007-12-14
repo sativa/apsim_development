@@ -438,7 +438,7 @@ void RootPart::onHarvest(float /*cutting_height*/, float /* remove_fr*/,
    Senesced = Senesced + Dead;
 
    // Unlike above ground parts, no roots go to surface residue module.
-   dm_type.push_back(c.name);
+   dm_type.push_back(myName);
    fraction_to_residue.push_back(0.0);
    dlt_crop_dm.push_back(0.0);
    dlt_dm_n.push_back(0.0);
@@ -875,13 +875,13 @@ void RootPart::checkBounds(void)
 // Check for data outside of realistic bounds
    {
    if (root_depth < 0)
-     throw std::runtime_error(c.name + " depth is negative! (" + ftoa(root_depth,".4") +")");
+     throw std::runtime_error(myName + " depth is negative! (" + ftoa(root_depth,".4") +")");
    for (int layer = 0; layer < num_layers; layer++)
       {
       if (root_length[layer] < 0)
-         throw std::runtime_error(c.name + " length in layer " + itoa(layer+1) + " is negative! (" + ftoa(root_length[layer],".4") +")");
+         throw std::runtime_error(myName + " length in layer " + itoa(layer+1) + " is negative! (" + ftoa(root_length[layer],".4") +")");
       if (root_length_senesced[layer] < 0)
-         throw std::runtime_error(c.name + " length dead in layer " + itoa(layer+1) + " is negative! (" + ftoa(root_length[layer],".4") +")");
+         throw std::runtime_error(myName + " length dead in layer " + itoa(layer+1) + " is negative! (" + ftoa(root_length[layer],".4") +")");
       }
    }
 
@@ -977,29 +977,22 @@ void RootPart::doWaterUptake (float sw_demand)
       }
    }
 
-void RootPart::plant_water_stress (
-                                       float sw_demand,
-                                       float& swdef_photo,
-                                       float& swdef_pheno,
-                                       float& swdef_pheno_flower,
-                                       float& swdef_pheno_grainfill,
-                                       float& swdef_expansion,
-                                       float& swdef_fixation )
+void RootPart::plant_water_stress (float sw_demand, StressDeficit& swDef)
 //     ===========================================================
 //         Get current water stress factors (0-1)
    {
-   swdef_photo = SWDefPhoto(sw_demand);
-   swdef_pheno = SWDefPheno(num_sw_avail_ratio,
+   swDef.photo = SWDefPhoto(sw_demand);
+   swDef.pheno = SWDefPheno(num_sw_avail_ratio,
                             x_sw_avail_ratio,
                             y_swdef_pheno);
-   swdef_pheno_flower = SWDefPheno(num_sw_avail_ratio_flower,
+   swDef.pheno_flower = SWDefPheno(num_sw_avail_ratio_flower,
                                    x_sw_avail_ratio_flower,
                                    y_swdef_pheno_flower);
-   swdef_pheno_grainfill = SWDefPheno(num_sw_avail_ratio_grainfill,
+   swDef.pheno_grainfill = SWDefPheno(num_sw_avail_ratio_grainfill,
                                       x_sw_avail_ratio_grainfill,
                                       y_swdef_pheno_grainfill);
-   swdef_expansion = SWDefExpansion(sw_demand);
-   swdef_fixation = SWDefFixation();
+   swDef.expansion = SWDefExpansion(sw_demand);
+   swDef.fixation = SWDefFixation();
    }
 
 float RootPart::oxdef_stress ()

@@ -9,25 +9,9 @@ using namespace std;
 SimplePart::SimplePart(ScienceAPI& api, plantInterface *p, const string &name)
 //=======================================================================================
      : plantPart(api, p, name)//,
-////       // deltas
-////       Senescing(api, "Senescing", name),
-////       Growth(api, "Growth", name),
-////       Detaching(api, "Detaching", name),
-////       Retranslocation (api, "Retranslocation", name),
-////
-////       // pools
-////       Green(*new Pool(*p, api, "Green", name)),
-////       Senesced(*new Pool(*p, api, "Senesced", name)),
-////
-////       // summary pools
-////       Total(*p, api, "Total", name),
-////       Grain(*p, api, "Grain", name),
-////       GrainTotal(*p, api, "GrainTotal", name),
-////       Vegetative(*p, api, "Vegetative", name),
-////       VegetativeTotal(*p, api, "VegetativeTotal", name)
      {
      plant = p;
-     c.name = name;
+     myName = name;
 
      Initialise();
      }
@@ -36,38 +20,14 @@ SimplePart::SimplePart(ScienceAPI& api, plantInterface *p, const string &name,
                      Pool& green, Pool& senesced)
 //=======================================================================================
      : plantPart(api, p, name)//,
-////       // deltas
-////       Senescing(api, "Senescing", name),
-////       Growth(api, "Growth", name),
-////       Detaching(api, "Detaching", name),
-////       Retranslocation (api, "Retranslocation", name),
-////
-////       // pools
-////       Green(green),
-////       Senesced(senesced),
-////
-////       // summary pools
-////       Total(*p, api, "Total", name),
-////       Grain(*p, api, "Grain", name),
-////       GrainTotal(*p, api, "GrainTotal", name),
-////       Vegetative(*p, api, "Vegetative", name),
-////       VegetativeTotal(*p, api, "VegetativeTotal", name)
    {
    plant = p;
-   c.name = name;
+   myName = name;
    Initialise();
    }
 
 void SimplePart::Initialise()
    {
-   // setup summary pools
-////   Vegetative.AddPool(Green);
-////
-////   Total.AddPool(Green);
-////   Total.AddPool(Senesced);
-////   VegetativeTotal.AddPool(Green);
-////   VegetativeTotal.AddPool(Senesced);
-
      zeroAllGlobals();
      c.dm_init = 0;
      c.n_init_conc = 0;
@@ -91,9 +51,9 @@ string SimplePart::addPartToVar(const string& variableName)
    // --------------------------------------------------------------------------
    // add the part name, if it isn't blank, to the specified variable name.
    // --------------------------------------------------------------------------
-   string LcaseName = c.name;
+   string LcaseName = myName;
    To_lower(LcaseName);
-   if (c.name != "")
+   if (myName != "")
       return variableName + "_" + LcaseName;
    else
       return variableName;
@@ -104,8 +64,8 @@ string SimplePart::addPartToDesc(const string& description)
    // --------------------------------------------------------------------------
    // add the part name, if it isn't blank, to the specified description
    // --------------------------------------------------------------------------
-   if (c.name != "")
-      return description + c.name;
+   if (myName != "")
+      return description + myName;
    else
       return description + " plant";
    }
@@ -318,7 +278,7 @@ void SimplePart::readConstants(protocol::Component *, const string &)
     {
     vector<string> parts;
     scienceAPI.readOptional("stress_determinants", parts);
-    if (find_if(parts.begin(), parts.end(), CaseInsensitiveStringComparison(c.name)) != parts.end())
+    if (find_if(parts.begin(), parts.end(), CaseInsensitiveStringComparison(myName)) != parts.end())
        {
        c.p_stress_determinant = true;
        }
@@ -328,7 +288,7 @@ void SimplePart::readConstants(protocol::Component *, const string &)
        }
 
     scienceAPI.readOptional("yield_parts", parts);
-    if (find_if(parts.begin(),parts.end(), CaseInsensitiveStringComparison(c.name)) != parts.end())
+    if (find_if(parts.begin(),parts.end(), CaseInsensitiveStringComparison(myName)) != parts.end())
        {
        c.yield_part = true;
        }
@@ -338,7 +298,7 @@ void SimplePart::readConstants(protocol::Component *, const string &)
        }
 
     scienceAPI.readOptional("retrans_parts", parts);
-    if (find_if(parts.begin(),parts.end(), CaseInsensitiveStringComparison(c.name)) != parts.end())
+    if (find_if(parts.begin(),parts.end(), CaseInsensitiveStringComparison(myName)) != parts.end())
        {
        c.p_retrans_part = true;
        c.retrans_part = true;
@@ -352,10 +312,10 @@ void SimplePart::readConstants(protocol::Component *, const string &)
     if (plant->phosphorusAware())
        {
        scienceAPI.read("x_p_stage_code", c.x_p_stage_code, c.num_x_p_stage_code, 0.0, 12.0);
-       scienceAPI.read("y_p_conc_max_" + c.name, c.y_p_conc_max, c.num_x_p_stage_code, 0.0, 1.0);
-       scienceAPI.read("y_p_conc_sen_" + c.name, c.y_p_conc_sen, c.num_x_p_stage_code, 0.0, 1.0);
-       scienceAPI.read("y_p_conc_min_" + c.name, c.y_p_conc_min, c.num_x_p_stage_code, 0.0, 1.0);
-       scienceAPI.read(c.name + "_p_conc_init", c.p_init_conc, 0.0f, 1.0f);
+       scienceAPI.read("y_p_conc_max_" + myName, c.y_p_conc_max, c.num_x_p_stage_code, 0.0, 1.0);
+       scienceAPI.read("y_p_conc_sen_" + myName, c.y_p_conc_sen, c.num_x_p_stage_code, 0.0, 1.0);
+       scienceAPI.read("y_p_conc_min_" + myName, c.y_p_conc_min, c.num_x_p_stage_code, 0.0, 1.0);
+       scienceAPI.read(myName + "_p_conc_init", c.p_init_conc, 0.0f, 1.0f);
        }
      else
        {
@@ -367,37 +327,37 @@ void SimplePart::readConstants(protocol::Component *, const string &)
 void SimplePart::readSpeciesParameters (protocol::Component *, vector<string> &)
 //=======================================================================================
     {
-    scienceAPI.read(c.name + "_trans_frac", c.trans_frac, 0.0f, 1.0f);
-    if (!scienceAPI.readOptional(c.name + "_trans_frac_option", c.trans_frac_option, 1, 2))
+    scienceAPI.read(myName + "_trans_frac", c.trans_frac, 0.0f, 1.0f);
+    if (!scienceAPI.readOptional(myName + "_trans_frac_option", c.trans_frac_option, 1, 2))
       c.trans_frac_option=1;
 
-    scienceAPI.read(c.name + "_sen_detach_frac", c.sen_detach_frac, 0.0f, 1.0f);
-    scienceAPI.read(c.name + "_dm_init", c.dm_init, 0.0f, 1.0f);
-    scienceAPI.read(c.name + "_n_init_conc", c.n_init_conc, 0.0f, 1.0f);
+    scienceAPI.read(myName + "_sen_detach_frac", c.sen_detach_frac, 0.0f, 1.0f);
+    scienceAPI.read(myName + "_dm_init", c.dm_init, 0.0f, 1.0f);
+    scienceAPI.read(myName + "_n_init_conc", c.n_init_conc, 0.0f, 1.0f);
 
     c.n_conc_crit.read(scienceAPI
                         , "x_stage_code" , "()", 1.0, 100.0
-                        , ("y_n_conc_crit_" + c.name).c_str(), "()", 0.0, 100.0);
+                        , ("y_n_conc_crit_" + myName).c_str(), "()", 0.0, 100.0);
 
     c.n_conc_min.read(scienceAPI
                         , "x_stage_code" , "()", 1.0, 100.0
-                        , ("y_n_conc_min_" + c.name).c_str(), "()", 0.0, 100.0);
+                        , ("y_n_conc_min_" + myName).c_str(), "()", 0.0, 100.0);
 
     c.n_conc_max.read(scienceAPI
                         , "x_stage_code" , "()", 1.0, 100.0
-                        , ("y_n_conc_max_" + c.name).c_str(), "()", 0.0, 100.0);
+                        , ("y_n_conc_max_" + myName).c_str(), "()", 0.0, 100.0);
 
     c.dm_sen_frac.read(scienceAPI
-                        , ("x_dm_sen_frac_" + c.name).c_str(), "()", 0.0, 100.0
-                        , ("y_dm_sen_frac_" + c.name).c_str(), "()", 0.0, 1.0);
+                        , ("x_dm_sen_frac_" + myName).c_str(), "()", 0.0, 100.0
+                        , ("y_dm_sen_frac_" + myName).c_str(), "()", 0.0, 1.0);
 
-    scienceAPI.read(c.name + "_n_sen_conc", c.n_sen_conc, 0.0f, 1.0f);
+    scienceAPI.read(myName + "_n_sen_conc", c.n_sen_conc, 0.0f, 1.0f);
 
     c.fr_remain.read(scienceAPI
                      , "fr_height_cut",  "(0-1)", 0.0, 1.0
-                     , ("fr_"+c.name+"_remain").c_str(), "(0-1)", 0.0, 1.0);
+                     , ("fr_"+myName+"_remain").c_str(), "(0-1)", 0.0, 1.0);
 
-    if (!scienceAPI.readOptional(c.name + "_n_retrans_fraction", c.n_retrans_fraction, 0.0f, 1.0f))
+    if (!scienceAPI.readOptional(myName + "_n_retrans_fraction", c.n_retrans_fraction, 0.0f, 1.0f))
         c.n_retrans_fraction = 1.0;
 
     if (!scienceAPI.readOptional("n_deficit_uptake_fraction", c.n_deficit_uptake_fraction, 0.0f, 1.0f))
@@ -409,10 +369,10 @@ void SimplePart::readCultivarParameters (protocol::Component*, const string&)
 //=======================================================================================
    {
    c.height.read(scienceAPI
-                , ("x_" + c.name + "_wt").c_str() , "(g/plant)", 0.0, 1000.0
+                , ("x_" + myName + "_wt").c_str() , "(g/plant)", 0.0, 1000.0
                 , "y_height", "(mm)", 0.0, 5000.0);
    c.width.read(scienceAPI
-                , ("x_" + c.name + "_wt").c_str() , "(g/plant)", 0.0, 1000.0
+                , ("x_" + myName + "_wt").c_str() , "(g/plant)", 0.0, 1000.0
                 , "y_width", "(mm)", 0.0, 5000.0);
    }
 
@@ -581,19 +541,19 @@ void SimplePart::doRemoveBiomass(protocol::RemoveCropDmType dmRemoved, string &c
        {
           if (Str_i_Eq(dmRemoved.dm[pool].pool, "green"))
           {
-             if (Str_i_Eq(dmRemoved.dm[pool].part[part], c.name))       {giveDmGreenRemoved(dmRemoved.dm[pool].dlt[part]); }
+             if (Str_i_Eq(dmRemoved.dm[pool].part[part], myName))       {giveDmGreenRemoved(dmRemoved.dm[pool].dlt[part]); }
              else {  /* not my part */ }
           }
 
           else if (Str_i_Eq(dmRemoved.dm[pool].pool, "senesced"))
           {
-             if (Str_i_Eq(dmRemoved.dm[pool].part[part], c.name))       {giveDmSenescedRemoved(dmRemoved.dm[pool].dlt[part]); }
+             if (Str_i_Eq(dmRemoved.dm[pool].part[part], myName))       {giveDmSenescedRemoved(dmRemoved.dm[pool].dlt[part]); }
              else { /* not my part */ }
           }
 
           else if (Str_i_Eq(dmRemoved.dm[pool].pool, "dead"))
           {
-             if (Str_i_Eq(dmRemoved.dm[pool].part[part], c.name) && dmRemoved.dm[pool].dlt[part] != 0.0)       {throw std::runtime_error(c.name + " cannot have dead dm removed "); }
+             if (Str_i_Eq(dmRemoved.dm[pool].part[part], myName) && dmRemoved.dm[pool].dlt[part] != 0.0)       {throw std::runtime_error(myName + " cannot have dead dm removed "); }
              else { /* not my part */ }
           }
           else { /* unknown type */ }
@@ -606,13 +566,13 @@ void SimplePart::doRemoveBiomass(protocol::RemoveCropDmType dmRemoved, string &c
        msg1 << "Remove Crop Biomass 2:-" << endl;
        float dmTotal1 = 0.0;
 
-       msg1 << ("   dm green "+c.name+" = ") << dltDmGreenRemoved() << " (g/m2)" << endl;
+       msg1 << ("   dm green "+myName+" = ") << dltDmGreenRemoved() << " (g/m2)" << endl;
        dmTotal1 += dltDmGreenRemoved();
 
-       msg1 << ("   dm senesced "+c.name+" = ") << dltDmSenescedRemoved() << " (g/m2)" << endl;
+       msg1 << ("   dm senesced "+myName+" = ") << dltDmSenescedRemoved() << " (g/m2)" << endl;
        dmTotal1 +=  dltDmSenescedRemoved();
 
-       msg1 << endl << ("   dm total "+c.name+" = ") << dmTotal1 << " (g/m2)" << endl << ends;
+       msg1 << endl << ("   dm total "+myName+" = ") << dmTotal1 << " (g/m2)" << endl << ends;
 
        plant->writeString (msg1.str().c_str());
 
@@ -620,13 +580,13 @@ void SimplePart::doRemoveBiomass(protocol::RemoveCropDmType dmRemoved, string &c
        msg2 << "Crop Biomass Available:-" << endl;
        float dmTotal2 = 0.0;
 
-       msg2 << ("   dm green "+c.name+" = ") << Green.DM() << " (g/m2)" << endl;
+       msg2 << ("   dm green "+myName+" = ") << Green.DM() << " (g/m2)" << endl;
        dmTotal2 +=  Green.DM();
 
-       msg2 << ("   dm senesced "+c.name+" = ") << Senesced.DM() << " (g/m2)" << endl;
+       msg2 << ("   dm senesced "+myName+" = ") << Senesced.DM() << " (g/m2)" << endl;
        dmTotal2 +=  Senesced.DM();
 
-       msg2 << endl << ("   dm total "+c.name+" = ") << dmTotal2 << " (g/m2)" << endl << ends;
+       msg2 << endl << ("   dm total "+myName+" = ") << dmTotal2 << " (g/m2)" << endl << ends;
 
        plant->writeString (msg2.str().c_str());
     }
@@ -837,12 +797,6 @@ void SimplePart::doSenescence(float sen_fr)
                        Senescing.N(), Senescing.P());
    }
 
-//void SimplePart::doDmPartition(float DMAvail, float DMDemandTotal)
-//=======================================================================================
-//   {
-//   dlt.dm_green = DMAvail * divide (DMGreenDemand, DMDemandTotal, 0.0);
-//   }
-
 void SimplePart::doDmRetranslocate(float DMAvail, float DMDemandDifferentialTotal)
 //=======================================================================================
    {
@@ -955,7 +909,7 @@ void SimplePart::onEndCrop(vector<string> &dm_type,
                           vector<float> &fraction_to_residue)
 //=======================================================================================
    {
-   dm_type.push_back(c.name);
+   dm_type.push_back(myName);
    dlt_crop_dm.push_back ((Green.DM() + Senesced.DM()) * gm2kg/sm2ha);
    dlt_dm_n.push_back    ((Green.N()  + Senesced.N())  * gm2kg/sm2ha);
    dlt_dm_p.push_back    ((Green.P()  + Senesced.P())       * gm2kg/sm2ha);
@@ -992,7 +946,7 @@ void SimplePart::onHarvest_GenericAboveGroundPart( float remove_fr,
    Senesced = Senesced * retain_fr_sen;
    Green = Biomass(Green.DM() * retain_fr_green, n_init, p_init);
 
-   dm_type.push_back(c.name);
+   dm_type.push_back(myName);
    fraction_to_residue.push_back(fractToResidue);
    dlt_crop_dm.push_back (dlt_dm_harvest * gm2kg/sm2ha);
    dlt_dm_n.push_back    (dlt_n_harvest  * gm2kg/sm2ha);
@@ -1016,7 +970,7 @@ void SimplePart::collectDetachedForResidue(vector<string> &part_name
                               , vector<float> &fraction_to_residue)
 //=======================================================================================
    {
-   part_name.push_back(c.name);
+   part_name.push_back(myName);
    dm_residue.push_back(Detaching.DM() * gm2kg/sm2ha);
    dm_n.push_back(Detaching.N() * gm2kg/sm2ha);
    dm_p.push_back(Detaching.P() * gm2kg/sm2ha);
@@ -1334,7 +1288,7 @@ void SimplePart::onPlantEvent(const string &event)
    else if (event == "start_grain_fill") onStartGrainFill();
    }
 
-void SimplePart::get_name(vector<string> &names) {names.push_back(c.name);}
+void SimplePart::get_name(vector<string> &names) {names.push_back(myName);}
 void SimplePart::get_p_demand(vector<float> &demands) {demands.push_back(PDemand);}
 void SimplePart::get_dlt_p_retrans(vector<float> &dlt_p_retrans) {dlt_p_retrans.push_back(Retranslocation.P());}
 void SimplePart::get_dm_plant_min(vector<float> &dm_min) {dm_min.push_back(DMPlantMin);}
@@ -1355,7 +1309,6 @@ float SimplePart::coverGreen(void) {return 0;}
 float SimplePart::coverSen(void) {return 0;}
 float SimplePart::coverTotal(void) {return 0;}
 float SimplePart::dltDmGrainDemand(void)  {return 0;}
-////float SimplePart::dltDmRetranslocate(void){return 0;}
 float SimplePart::dmGrainWetTotal(void) {return 0;}
 float SimplePart::grainWaterContent(void) {return 0;}
 float SimplePart::grainNo(void)  {return 0;}
@@ -1437,51 +1390,3 @@ float SimplePart::giveDmSenescedRemoved (float delta)
    return delta;
    }
 
-////float critNFactor(vector< plantPart *> &parts, float multiplier)
-//////=======================================================================================
-//////   Calculate Nitrogen stress factor from a bunch of parts
-/////*  Purpose
-////*   The concentration of Nitrogen in plant parts is used to derive a Nitrogen stress index
-////*   for many processes. This stress index is calculated from today's relative nutitional
-////*   status between a critical and minimum Nitrogen concentration.
-////*/
-////   {
-////   vector< plantPart *>::iterator part;
-////
-////   float dm = 0.0, N = 0.0;
-////   for (part = parts.begin(); part != parts.end(); part++)
-////      {
-////      dm += (*part)->Green.DM();
-////      N += (*part)->Green.N();
-////      }
-////
-////   if (dm > 0.0)
-////      {
-////      float N_conc = divide (N, dm, 0.0);
-////
-////      // calculate critical N concentrations
-////      float N_crit = 0.0;
-////      for (part = parts.begin(); part != parts.end(); part++)
-////          N_crit += (*part)->nCrit();
-////
-////      float N_conc_crit = divide (N_crit, dm, 0.0);
-////
-////      // calculate minimum N concentrations
-////      float N_min = 0.0;
-////      for (part = parts.begin(); part != parts.end(); part++)
-////         N_min += (*part)->nMin();
-////
-////      float N_conc_min = divide (N_min, dm, 0.0);
-////
-////      //calculate shortfall in N concentrations
-////      float dividend =  N_conc - N_conc_min;
-////      float divisor =   N_conc_crit - N_conc_min;
-////      float result = multiplier * divide (dividend, divisor, 1.0);
-////      result = bound (result, 0.0, 1.0);
-////      return (result);
-////      }
-////   else
-////      return (1.0);
-////   }
-////
-////

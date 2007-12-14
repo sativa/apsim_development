@@ -273,10 +273,10 @@ void genericLeafPart::onHarvest(float /* cutting_height */, float remove_fr,
 void genericLeafPart::checkBounds(void)
 {
    SimplePart::checkBounds();
-   if (gLAI < 0.0) throw std::runtime_error(c.name + " LAI is negative! (" + ftoa(gLAI,".6") + ")");
-   if (gSLAI < 0.0) throw std::runtime_error(c.name + " SLAI is negative! (" + ftoa(gSLAI,".6") + ")");
-   if (gNodeNo < 0) throw std::runtime_error(c.name + " node number is negative! (" + ftoa(gNodeNo,".6") + ")");
-   if (gNodeNo >= max_node) throw std::runtime_error(c.name + " node number exceeds array size! (" + ftoa(gNodeNo,".6") + ")");
+   if (gLAI < 0.0) throw std::runtime_error(myName + " LAI is negative! (" + ftoa(gLAI,".6") + ")");
+   if (gSLAI < 0.0) throw std::runtime_error(myName + " SLAI is negative! (" + ftoa(gSLAI,".6") + ")");
+   if (gNodeNo < 0) throw std::runtime_error(myName + " node number is negative! (" + ftoa(gNodeNo,".6") + ")");
+   if (gNodeNo >= max_node) throw std::runtime_error(myName + " node number exceeds array size! (" + ftoa(gNodeNo,".6") + ")");
 
    //     Check that leaf records agree
    float leaf_area_tot = sum_real_array (gLeafArea, max_node) * smm2sm;

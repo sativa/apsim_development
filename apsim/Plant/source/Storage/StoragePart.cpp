@@ -44,7 +44,7 @@ void StoragePart::onHarvest(float cutting_height, float remove_fr,
    Green.Clear();
    Senesced.Clear();
 
-   dm_type.push_back(c.name);
+   dm_type.push_back(myName);
    fraction_to_residue.push_back(fractToResidue);
    dlt_crop_dm.push_back(dlt_dm_harvest * gm2kg/sm2ha);
    dlt_dm_n.push_back(dlt_n_harvest * gm2kg/sm2ha);

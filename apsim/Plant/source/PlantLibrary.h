@@ -78,8 +78,39 @@ namespace protocol {
   class Component;
 };
 
-
-
+// Class containing stress deficits
+class StressDeficit {
+   public:
+     StressDeficit() {
+         photo = 1.0;
+         pheno = 1.0;
+         pheno_flower = 1.0;
+         pheno_grainfill = 1.0;
+         grain = 1.0;
+         expansion = 1.0;
+         fixation = 1.0;
+};
+     ~StressDeficit() {};
+const  StressDeficit &operator=(const float &y)
+{
+         photo = y;
+         pheno = y;
+         pheno_flower = y;
+         pheno_grainfill = y;
+         grain = y;
+         expansion = y;
+         fixation = y;
+      return *this;
+}
+   public:
+      float photo;
+      float pheno;
+      float pheno_flower;
+      float pheno_grainfill;
+      float grain;
+      float expansion;
+      float fixation;
+};
 
 
 // A class that observes variables. Mostly report-related.

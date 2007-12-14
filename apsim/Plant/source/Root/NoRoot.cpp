@@ -43,23 +43,11 @@ void NoRoot::doWaterUptake (float sw_demand_in)
    SWDemand = sw_demand_in;
    }
 
-void NoRoot::plant_water_stress (
-                                       float sw_demand,
-                                       float& swdef_photo,
-                                       float& swdef_pheno,
-                                       float& swdef_pheno_flower,
-                                       float& swdef_pheno_grainfill,
-                                       float& swdef_expansion,
-                                       float& swdef_fixation )
+void NoRoot::plant_water_stress (float sw_demand, StressDeficit& swDef)
 //     ===========================================================
 //         Get current water stress factors (0-1)
    {
-   swdef_photo = 1.0;
-   swdef_pheno = 1.0;
-   swdef_pheno_flower = 1.0;
-   swdef_pheno_grainfill = 1.0;
-   swdef_expansion = 1.0;
-   swdef_fixation = 1.0;
+   swDef = 1.0;
    }
 
 float NoRoot::oxdef_stress ()
