@@ -2,7 +2,7 @@
 #include <math.h>
 #include <stdexcept>
 #include <string>
-#include "plantPart.h"
+#include "PlantPart.h"
 
 #include "Environment.h"
 
