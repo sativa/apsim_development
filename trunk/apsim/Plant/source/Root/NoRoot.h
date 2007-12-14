@@ -11,7 +11,7 @@ class NoRoot : public RootBase
       void read();
       void onInit1(protocol::Component *system);
       void plant_water_uptake (int option, float swDemand);
-      void plant_nit_uptake(float sumNMax, float sumSoilNDemand, float NDemand);
+      void doNUptake(float sumNMax, float sumSoilNDemand, float NDemand);
 
       void zeroAllGlobals(void){};
       void zeroDeltas(void){};

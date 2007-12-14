@@ -148,7 +148,7 @@ float MultiRoot::fasw(int depth)
    }
 
 
-void MultiRoot::plant_nit_uptake(float sumNMax, float sumSoilNDemand, float nDemand)
+void MultiRoot::doNUptake(float sumNMax, float sumSoilNDemand, float nDemand)
 //=======================================================================================
 //       Find nitrogen uptake.
     {

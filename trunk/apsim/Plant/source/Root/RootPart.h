@@ -67,7 +67,7 @@ class RootPart : public RootBase
       virtual void write();
 
       float plant_nit_supply(float biomass, float stageNumber, float swdef_fixation);
-      void plant_nit_uptake(float sumNMax, float sumSoilNDemand, float NDemand);
+      void doNUptake(float sumNMax, float sumSoilNDemand, float NDemand);
       void plant_water_uptake (int option, float SWDemand);
       float peswTotal();
       float pesw(int depth);
