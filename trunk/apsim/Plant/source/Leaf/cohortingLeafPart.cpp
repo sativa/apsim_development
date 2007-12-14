@@ -419,16 +419,16 @@ void cohortingLeafPart::checkBounds(void)
 // Sanity checks
    {
    SimplePart::checkBounds();
-   if (gNodeNo < 0) throw std::runtime_error(c.name + " node number is negative! (" + ftoa(gNodeNo,".6") + ")");
+   if (gNodeNo < 0) throw std::runtime_error(myName + " node number is negative! (" + ftoa(gNodeNo,".6") + ")");
 
    for (unsigned int cohort = 0; cohort != gLeafArea.size(); cohort++)
       {
       if (gLeafArea[cohort] < 0.0)
-         throw std::runtime_error(c.name + " LA cohort is negative! (" + ftoa(gLeafArea[cohort],".6") + ")");
+         throw std::runtime_error(myName + " LA cohort is negative! (" + ftoa(gLeafArea[cohort],".6") + ")");
       if (gLeafAreaSen[cohort] < 0.0)
-         throw std::runtime_error(c.name + " LA Senesced cohort is negative! (" + ftoa(gLeafAreaSen[cohort],".6") + ")");
+         throw std::runtime_error(myName + " LA Senesced cohort is negative! (" + ftoa(gLeafAreaSen[cohort],".6") + ")");
       if (gLeafNo[cohort] < 0)
-         throw std::runtime_error(c.name + " leaf number is negative! (" + ftoa(gLeafNo[cohort],".6") + ")");
+         throw std::runtime_error(myName + " leaf number is negative! (" + ftoa(gLeafNo[cohort],".6") + ")");
       }
    }
 

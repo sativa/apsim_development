@@ -196,9 +196,6 @@ protected:
    virtual float pMinPotStressDeterminant(void);
 
    vector <plantPart *> myParts;
-   struct {
-      string name;                        // What we call ourselves
-   } c;
 
 
 private:

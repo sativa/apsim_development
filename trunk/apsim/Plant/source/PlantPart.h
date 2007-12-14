@@ -33,11 +33,8 @@ class plantPart : public plantThing
    {
  protected:
    plantInterface *plant;                 // The plant we are attached to
+   string myName;                        // What we call ourselves
 
-//   float SoilNDemand;
-//   float NCapacity;                  // amount of nitrogen this part can take(g/m^2)
-//   float NMax ;                      // maximum plant nitrogen demand (g/m^2)
-//   float NDemand ;                   // critical plant nitrogen demand (g/m^2)
 
  private:
 //1) Need to make Senesced() method in PlantPart
@@ -50,27 +47,7 @@ class plantPart : public plantThing
       float n_conc_min;                   // minimum N concentration (g N/g biomass)
    } g;
 
-//   float DMPlantMin;                 // minimum weight of each plant part (g/plant)
-//   float Height;                     // The height of this part (mm)
-//   float Width;                      // The width of this part (mm)
-
-   // deltas
-//   struct {
-//      float dm_green_removed;                     // green biomass removed (g/m^2)
-//      float dm_senesced_removed;                  // senesced biomass removed (g/m^2)
-//   } dlt;
-
    // "Constants"
-   struct {
-//      float dm_init;                      // Initial value
-//      float n_init_conc;                  // Initial N value
-//      float p_init_conc;                  // Initial P value
-
-//      float trans_frac;                   // fraction of part used in translocation to grain
-//      int   trans_frac_option;            // flag to say how trans_frac is to be used.
-      string name;                        // What we call ourselves
-   } c;
-
 public:
 
    plantPart(ScienceAPI& scienceAPI, plantInterface *p, const string &name);

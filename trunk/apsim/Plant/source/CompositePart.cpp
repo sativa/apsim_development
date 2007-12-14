@@ -45,9 +45,9 @@ string CompositePart::addPartToVar(const string& variableName)
    // --------------------------------------------------------------------------
    // add the part name, if it isn't blank, to the specified variable name.
    // --------------------------------------------------------------------------
-   string LcaseName = c.name;
+   string LcaseName = myName;
    To_lower(LcaseName);
-   if (c.name != "")
+   if (myName != "")
       return variableName + "_" + LcaseName;
    else
       return variableName;
@@ -58,8 +58,8 @@ string CompositePart::addPartToDesc(const string& description)
    // --------------------------------------------------------------------------
    // add the part name, if it isn't blank, to the specified description
    // --------------------------------------------------------------------------
-   if (c.name != "")
-      return description + c.name;
+   if (myName != "")
+      return description + myName;
    else
       return description + " plant";
    }
@@ -70,7 +70,7 @@ void CompositePart::onInit1(protocol::Component *system)
 
 
    vector <plantPart *>::iterator part;
-   if (c.name == "")  // If you don't have this then we get a TopsSWDemand - not needed.
+   if (myName == "")  // If you don't have this then we get a TopsSWDemand - not needed.
       {
       scienceAPI.exposeFunction("sw_demand", "mm",  "Demand for soil water", FloatFunction(&CompositePart::SWDemand));
       scienceAPI.exposeFunction("sw_demand_te", "mm",  "TE Demand for soil water", FloatFunction(&CompositePart::SWDemandTE));
@@ -369,7 +369,7 @@ void CompositePart::doNPartition(float nSupply, float n_demand_sum, float n_capa
    float dlt_n_green_sum = dltNGreen();
    if (!reals_are_equal(dlt_n_green_sum - Growth.N(), 0.0))
       {
-      string msg = c.name + " dlt_n_green mass balance is off: dlt_n_green_sum ="
+      string msg = myName + " dlt_n_green mass balance is off: dlt_n_green_sum ="
                   + ftoa(dlt_n_green_sum, ".6")
                   + " vs nSupply ="
                   + ftoa(Growth.N(), ".6");
@@ -1052,7 +1052,7 @@ float CompositePart::giveDmGreen(float dmSupplied)
    // do mass balance check
    if (!reals_are_equal(uptake, dmSupplied, 1.0E-4))
        {
-       string msg = c.name + " giveDmGreen mass balance is off:\n"
+       string msg = myName + " giveDmGreen mass balance is off:\n"
                    + "uptake = " + ftoa(uptake, ".6")
                    + " vs "
                    + "supplied = " + ftoa(dmSupplied, ".6") +"\n";
@@ -1094,7 +1094,7 @@ void CompositePart::doDmRetranslocate(float DMAvail, float DMDemandDifferentialT
 
    if (!reals_are_equal(dltDmGreenRetransUptake (), dlt_dm_green_retrans, 1.0E-4))  // XX this is probably too much slop - try doubles XX
       {
-      string msg = c.name + " dlt_dm_green_retrans_tot mass balance is off: "
+      string msg = myName + " dlt_dm_green_retrans_tot mass balance is off: "
                    + ftoa(dltDmGreenRetransUptake (), ".6")
                    + " vs "
                    + ftoa(dlt_dm_green_retrans, ".6");

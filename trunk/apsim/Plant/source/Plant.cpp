@@ -115,11 +115,11 @@ Plant::Plant(PlantComponent *P, ScienceAPI& api)
     {
     parent = P;
 
-    g.cswd_pheno.setup(&g.swdef_pheno);
-    g.cswd_photo.setup(&g.swdef_photo);
-    g.cnd_grain_conc.setup(&g.nfact_grain_conc);
-    g.cnd_photo.setup(&g.nfact_photo);
-    g.cswd_expansion.setup(&g.swdef_expansion);
+    g.cswd_pheno.setup(&swDef.pheno);
+    g.cswd_photo.setup(&swDef.photo);
+    g.cnd_grain_conc.setup(&nFact.grain);
+    g.cnd_photo.setup(&nFact.photo);
+    g.cswd_expansion.setup(&swDef.expansion);
 
     stageObservers.addObserver(&g.cswd_photo);
     stageObservers.addObserver(&g.cswd_expansion);
@@ -309,16 +309,16 @@ void Plant::onInit1(void)
                g.temp_stress_photo, "", "Temperature Stress in photosynthesis");
 
    parent->addGettableVar("swdef_pheno",
-               g.swdef_pheno, "", "Soil water deficit in phenological development");
+               swDef.pheno, "", "Soil water deficit in phenological development");
 
    parent->addGettableVar("swdef_photo",
-               g.swdef_photo, "", "Soil water deficit in photosynthesis");
+               swDef.photo, "", "Soil water deficit in photosynthesis");
 
    parent->addGettableVar("swdef_expan",
-               g.swdef_expansion, "", "Soil water deficit in leaf expansion");
+               swDef.expansion, "", "Soil water deficit in leaf expansion");
 
    parent->addGettableVar("swdef_fixation",
-               g.swdef_fixation, "", "Soil water deficit in N fixation");
+               swDef.fixation, "", "Soil water deficit in N fixation");
 
    parent->addGettableVar("oxdef_photo",
                g.oxdef_photo, "", "Oxygen deficit in photosynthesis");
@@ -371,16 +371,16 @@ void Plant::onInit1(void)
                g.n_fixed_tops, "g/m^2", "N fixation");
 
    parent->addGettableVar("nfact_photo",
-               g.nfact_photo, "", "N factor for photosynthesis");
+               nFact.photo, "", "N factor for photosynthesis");
 
    parent->addGettableVar("nfact_pheno",
-               g.nfact_pheno, "", "N factor for phenology");
+               nFact.pheno, "", "N factor for phenology");
 
    parent->addGettableVar("nfact_expan",
-               g.nfact_expansion, "", "N factor for leaf expansion");
+               nFact.expansion, "", "N factor for leaf expansion");
 
    parent->addGettableVar("nfact_grain",
-               g.nfact_grain_conc, "", "N factor for ??");
+               nFact.grain, "", "N factor for ??");
 
    parent->addGettableVar("remove_biom_pheno",
                g.remove_biom_pheno, "", "biomass removal factor for phenology");
@@ -423,19 +423,19 @@ void Plant::onInit1(void)
                     "g/m^2","");
 
    parent->addGettableVar("pfact_photo",
-               g.pfact_photo,
+               pFact.photo,
                "", "P factor in photosynthesis");
 
    parent->addGettableVar("pfact_pheno",
-               g.pfact_pheno,
+               pFact.pheno,
                "", "P factor in phenology");
 
    parent->addGettableVar("pfact_expansion",
-               g.pfact_expansion,
+               pFact.expansion,
                "", "P factor in leaf expansion");
 
    parent->addGettableVar("pfact_grain",
-               g.pfact_grain,
+               pFact.grain,
                "", "P factor in grain");
 
    setupGetFunction(parent, "p_stress_photo", protocol::DTsingle, false,
@@ -698,53 +698,6 @@ void Plant::doAutoClassChange(unsigned &/*fromId*/, unsigned &eventId, protocol:
   string ps = IDtoAction[eventId];
   plant_auto_class_change(ps.c_str());
   }
-void Plant::doDmRetranslocate (void)
-//=======================================================================================
-//       Retranslocate biomass.
-   {
-   vector<plantPart *> supply_pools_by_veg;
-   supply_pools_by_veg.push_back(stemPart);
-   supply_pools_by_veg.push_back(leafPart);
-
-   float dm_demand_differential = fruitPart->dmDemandDifferential ();   //FIXME - should be returned from a fruitPart method
-
-//   float dm_demand_differential = fruitPart->dmGreenDemand ()   //FIXME - should be returned from a fruitPart method
-//                                - fruitPart->dltDmGreen();
-
-   float dlt_dm_retrans_to_fruit = 0.0;                    // dry matter retranslocated to fruit (g/m^2)
-   legnew_dm_retranslocate(myParts
-                           , supply_pools_by_veg
-                           , dm_demand_differential
-                           , getPlants()
-                           , &dlt_dm_retrans_to_fruit);
-
-   fruitPart->doDmRetranslocate (dlt_dm_retrans_to_fruit, dm_demand_differential);
-
-   // Finally, a mass balance check
-//   float mbSum = 0.0;                                                    //FIXME - need to reinstate this check
-//   for (vector<plantPart *>::iterator part = myParts.begin();
-//        part != myParts.end();
-//        part++)
-//       mbSum += (*part)->dlt_dm_green_retrans();
-//
-//   if (fabs(mbSum) > 0.001)
-//      {
-//      string msg ="Crop dm retranslocate mass balance is off: error="
-//              + ftoa(mbSum, ".6")
-//              + "\n";
-//      string msg;
-//      for (vector<plantPart *>::iterator part = myParts.begin();
-//           part != myParts.end();
-//           part++)
-//         msg += (*part)->name() + "=" +
-//                  ftoa((*part)->dltDmGreenRetransUptake(), ".6") +"\n";
-//
-//      msg += "dlt_dm_retrans_to_fruit = " + ftoa(dlt_dm_retrans_to_fruit, ".6") + "\n";
-//            fprintf(stdout,"%s",msg.c_str()) ;
-//
-//      parent->warningError(msg.c_str());
-//      }
-   }
 
 void Plant::plant_temp_stress (void)
 //     ===========================================================
@@ -862,13 +815,13 @@ void Plant::plant_nit_stress (int option /* (INPUT) option number*/)
 
         // Expansion uses leaves only
         parts.push_back(leafPart);
-        g.nfact_expansion = critNFactor(parts, c.n_fact_expansion);
+        nFact.expansion = critNFactor(parts, c.nFact.expansion);
 
         // Rest have leaf & stem
         parts.push_back(stemPart);
-        g.nfact_pheno = critNFactor(parts, c.n_fact_pheno);
-        g.nfact_photo = critNFactor(parts, c.n_fact_photo);
-        g.nfact_grain_conc = critNFactor(parts, 1.0);
+        nFact.pheno = critNFactor(parts, c.nFact.pheno);
+        nFact.photo = critNFactor(parts, c.nFact.photo);
+        nFact.grain = critNFactor(parts, c.nFact.grain);
         }
     else if (option == 2)
         {
@@ -876,13 +829,13 @@ void Plant::plant_nit_stress (int option /* (INPUT) option number*/)
 
         // Expansion & photosynthesis from leaves only
         parts.push_back(leafPart);
-        g.nfact_expansion = critNFactor(parts, c.n_fact_expansion);
-        g.nfact_photo = critNFactor(parts, c.n_fact_photo);
+        nFact.expansion = critNFactor(parts, c.nFact.expansion);
+        nFact.photo = critNFactor(parts, c.nFact.photo);
 
         // leaf & stem
         parts.push_back(stemPart);
-        g.nfact_pheno = critNFactor(parts, c.n_fact_pheno);
-        g.nfact_grain_conc = critNFactor(parts, 1.0);
+        nFact.pheno = critNFactor(parts, c.nFact.pheno);
+        nFact.grain = critNFactor(parts, 1.0);
         }
     else
         {
@@ -918,7 +871,7 @@ void Plant::doNDemandEstimate (int option)
         crop_n_fixation_pot1(phenology->stageNumber()
                              , c.n_fix_rate
                              , tops.Green.DM()
-                             , g.swdef_fixation
+                             , swDef.fixation
                              , &n_fix_pot);
 
         if (Str_i_Eq(c.n_supply_preference,"active"))
@@ -1263,6 +1216,7 @@ void Plant::doNPartition
    for (part = allParts.begin(); part != allParts.end(); part++)
       (*part)->doNPartition(n_uptake_sum, n_demand_sum, n_capacity_sum);
 
+      // Check Mass Balance
     float dlt_n_green_sum = 0.0;
     for (part = allParts.begin(); part != allParts.end(); part++)
          dlt_n_green_sum += (*part)->dltNGreen();
@@ -1276,6 +1230,7 @@ void Plant::doNPartition
         parent->warningError(msg.c_str());
         }
 
+      // Retranslocate N Fixed
     n_fix_demand_tot = l_bound (n_demand_sum - n_uptake_sum, 0.0);
     n_fix_uptake = bound (g_n_fix_pot, 0.0, n_fix_demand_tot);
 
@@ -1286,12 +1241,7 @@ void Plant::doNPartition
 
 
 //     ===========================================================
-void Plant::legnew_dm_retranslocate
-    (vector<plantPart *> &allParts         // (INPUT) all parts of plant
-    ,vector<plantPart *> &supply_pools     // (INPUT) parts that can supply retranslocate
-    ,float  g_dm_demand_differential      // (INPUT)  grain dm demand (g/m^2)
-    ,float // g_plants                      // (INPUT)  Plant density (plants/m^2)
-    ,float  *dlt_dm_retrans_to_fruit)      // (OUTPUT) dm retranslocated to fruit (g/m^2)
+void Plant::doDmRetranslocate (void)
 {
 
 //+  Purpose
@@ -1301,23 +1251,26 @@ void Plant::legnew_dm_retranslocate
     vector<plantPart *>::iterator part;
 
     float dlt_dm_retrans_part;                    // carbohydrate removed from part (g/m^2)
-    float demand_differential;                    // demand in excess of available supply (g/m^2)
     float dm_part_avail;                          // carbohydrate avail from part(g/m^2)
     float dm_retranslocate = 0.0;
 
 //- Implementation Section ----------------------------------
+   vector<plantPart *> supplyPoolsByVeg;
+   supplyPoolsByVeg.push_back(stemPart);
+   supplyPoolsByVeg.push_back(leafPart);
 
 
 // now translocate carbohydrate between plant components
 // this is different for each stage
 
-    for (part = allParts.begin(); part != allParts.end(); part++)
+    for (part = myParts.begin(); part != myParts.end(); part++)
         (*part)->dlt_dm_green_retrans_hack( 0.0 );
 
-    demand_differential = g_dm_demand_differential;
+    float demand_differential_begin = fruitPart->dmDemandDifferential ();   //FIXME - should be returned from a fruitPart method
+    float demand_differential = demand_differential_begin;
 
     // get available carbohydrate from supply pools
-    for (part = supply_pools.begin(); part != supply_pools.end(); part++)
+    for (part = supplyPoolsByVeg.begin(); part != supplyPoolsByVeg.end(); part++)
         {
            dm_part_avail = (*part)->dmRetransSupply();
 
@@ -1330,8 +1283,34 @@ void Plant::legnew_dm_retranslocate
            demand_differential = demand_differential - dlt_dm_retrans_part;
         }
 
-    *dlt_dm_retrans_to_fruit = - dm_retranslocate;
+    float dlt_dm_retrans_to_fruit = - dm_retranslocate;
 
+    fruitPart->doDmRetranslocate (dlt_dm_retrans_to_fruit, demand_differential_begin);
+
+   // Finally, a mass balance check
+//   float mbSum = 0.0;                                                    //FIXME - need to reinstate this check
+//   for (vector<plantPart *>::iterator part = myParts.begin();
+//        part != myParts.end();
+//        part++)
+//       mbSum += (*part)->dlt_dm_green_retrans();
+//
+//   if (fabs(mbSum) > 0.001)
+//      {
+//      string msg ="Crop dm retranslocate mass balance is off: error="
+//              + ftoa(mbSum, ".6")
+//              + "\n";
+//      string msg;
+//      for (vector<plantPart *>::iterator part = myParts.begin();
+//           part != myParts.end();
+//           part++)
+//         msg += (*part)->name() + "=" +
+//                  ftoa((*part)->dltDmGreenRetransUptake(), ".6") +"\n";
+//
+//      msg += "dlt_dm_retrans_to_fruit = " + ftoa(dlt_dm_retrans_to_fruit, ".6") + "\n";
+//            fprintf(stdout,"%s",msg.c_str()) ;
+//
+//      parent->warningError(msg.c_str());
+//      }
 }
 
 
@@ -1435,23 +1414,17 @@ void Plant::plant_process ( void )
 
 
         rootPart->plant_water_uptake(1, tops.SWDemand());
-       rootPart->plant_water_stress (tops.SWDemand(),
-                                     g.swdef_photo,
-                                     g.swdef_pheno,
-                                     g.swdef_pheno_flower,
-                                     g.swdef_pheno_grainfill,
-                                     g.swdef_expansion,
-                                     g.swdef_fixation );
+       rootPart->plant_water_stress (tops.SWDemand(), swDef);
 
         g.oxdef_photo = rootPart->oxdef_stress ();
 
         phenology->prepare (Environment);
 
         pheno_stress_t ps;
-        ps.swdef = g.swdef_pheno;
-        ps.nfact = min(g.nfact_pheno, g.pfact_pheno);
-        ps.swdef_flower = g.swdef_pheno_flower;
-        ps.swdef_grainfill = g.swdef_pheno_grainfill;
+        ps.swdef = swDef.pheno;
+        ps.nfact = min(nFact.pheno, pFact.pheno);
+        ps.swdef_flower = swDef.pheno_flower;
+        ps.swdef_grainfill = swDef.pheno_grainfill;
         ps.remove_biom_pheno = g.remove_biom_pheno;
 
         float fasw_seed = rootPart->fasw((int)plantSpatial.sowing_depth);
@@ -1465,10 +1438,10 @@ void Plant::plant_process ( void )
            (*t)->morphology();
 
         leafPart->potential(c.leaf_no_pot_option,
-                            min(pow(min(g.nfact_expansion, g.pfact_expansion),2),g.swdef_expansion),
+                            min(pow(min(nFact.expansion, pFact.expansion),2),swDef.expansion),
                             phenology->get_dlt_tt() );
 
-        leafPart->leaf_area_stressed (min(g.swdef_expansion, min(g.nfact_expansion, g.pfact_expansion)));
+        leafPart->leaf_area_stressed (min(swDef.expansion, min(nFact.expansion, pFact.expansion)));
 
         doDmPotTE ();
         // Calculate Potential Photosynthesis
@@ -1499,8 +1472,8 @@ void Plant::plant_process ( void )
 
         rootPart->root_length_growth();
 
-        leafPart->leaf_death( min(g.nfact_expansion, g.pfact_expansion), phenology->get_dlt_tt());
-        leafPart->leaf_area_sen( g.swdef_photo , Environment.mint);
+        leafPart->leaf_death( min(nFact.expansion, pFact.expansion), phenology->get_dlt_tt());
+        leafPart->leaf_area_sen( swDef.photo , Environment.mint);
 
         plant.doSenescence(leafPart->senFract());
         rootPart->sen_length();
@@ -1508,11 +1481,11 @@ void Plant::plant_process ( void )
         for (vector<plantPart *>::iterator t = myParts.begin(); t != myParts.end(); t++)
            {
            (*t)->doNInit();
-           (*t)->doNDemandGrain(g.nfact_grain_conc, g.swdef_expansion);
+           (*t)->doNDemandGrain(nFact.grain, swDef.expansion);
            }
 
         float biomass = tops.Green.DM() + plant.dltDm();
-        g.n_fix_pot = rootPart->plant_nit_supply(biomass, phenology->stageNumber(), g.swdef_fixation);
+        g.n_fix_pot = rootPart->plant_nit_supply(biomass, phenology->stageNumber(), swDef.fixation);
 
         if (c.n_retrans_option==1)
            {
@@ -1551,13 +1524,7 @@ void Plant::plant_process ( void )
 
     plant_cleanup();
 
-    rootPart->plant_water_stress (tops.SWDemand(),
-                                  g.swdef_photo,
-                                  g.swdef_pheno,
-                                  g.swdef_pheno_flower,
-                                  g.swdef_pheno_grainfill,
-                                  g.swdef_expansion,
-                                  g.swdef_fixation );
+    rootPart->plant_water_stress (tops.SWDemand(), swDef);
     plant_nit_stress (c.n_stress_option);
 
     }
@@ -2075,14 +2042,8 @@ void Plant::plant_zero_all_globals (void)
       g.plant_status = out;
       g.cultivar = "";
       g.pre_dormancy_crop_class = "";
-      g.swdef_expansion = 1.0;
-      g.swdef_photo = 1.0;
-      g.swdef_pheno = 1.0;
-      g.swdef_fixation = 1.0;
-      g.nfact_expansion = 1.0;
-      g.nfact_photo = 1.0;
-      g.nfact_grain_conc = 1.0;
-      g.nfact_pheno = 1.0;
+      swDef = 1.0;
+      nFact = 1.0;
       g.remove_biom_pheno = 1.0;
       g.temp_stress_photo = 1.0;
       g.oxdef_photo = 1.0;
@@ -2112,9 +2073,7 @@ void Plant::plant_zero_all_globals (void)
 
       c.n_supply_preference = "";
 
-      c.n_fact_photo = 0.0;
-      c.n_fact_pheno = 0.0;
-      c.n_fact_expansion = 0.0;
+      c.nFact = 0.0;
       fill_real_array (c.n_fix_rate, 0.0,max_table);
       fill_real_array (c.x_ave_temp, 0.0, max_table);
       fill_real_array (c.y_stress_photo, 0.0, max_table);
@@ -2168,13 +2127,9 @@ void Plant::plant_zero_variables (void)
     g.lai_max               = 0.0;
 
 
-    g.swdef_pheno = 1.0;
-    g.swdef_photo = 1.0;
-    g.swdef_expansion = 1.0;
-    g.swdef_fixation = 1.0;
-    g.nfact_pheno = 1.0;
-    g.nfact_photo = 1.0;
-    g.nfact_grain_conc = 1.0;
+    swDef = 1.0;
+    nFact = 1.0;
+    pFact = 1.0;
 
 //    g.remove_biom_pheno = 1.0;
 
@@ -2184,10 +2139,6 @@ void Plant::plant_zero_variables (void)
 
     g.dm_parasite_retranslocate   = 0.0;
 
-    g.pfact_photo        = 1.0;
-    g.pfact_expansion    = 1.0;
-    g.pfact_pheno        = 1.0;
-    g.pfact_grain        = 1.0;
 
     }
 
@@ -2665,9 +2616,10 @@ void Plant::plant_read_species_const (void)
     scienceAPI.read("n_stress_option", c.n_stress_option, 1, 2);
 
     scienceAPI.read("N_stress_start_stage", c.n_stress_start_stage, 0.0f, 100.0f);
-    scienceAPI.read("n_fact_photo", c.n_fact_photo, 0.0f, 100.0f);
-    scienceAPI.read("n_fact_pheno", c.n_fact_pheno, 0.0f, 100.0f);
-    scienceAPI.read("n_fact_expansion", c.n_fact_expansion, 0.0f, 100.0f);
+    scienceAPI.read("n_fact_photo", c.nFact.photo, 0.0f, 100.0f);
+    scienceAPI.read("n_fact_pheno", c.nFact.pheno, 0.0f, 100.0f);
+    scienceAPI.read("n_fact_expansion", c.nFact.expansion, 0.0f, 100.0f);
+    c.nFact.grain = 1.0;
 
     //    plant_rue_reduction
     scienceAPI.read("x_ave_temp", c.x_ave_temp, c.num_ave_temp, 0.0f, 100.0f);
@@ -3076,8 +3028,8 @@ void Plant::get_transp_eff(protocol::Component *system, protocol::QueryValueData
 void Plant::get_swstress_pheno(protocol::Component *systemInterface, protocol::QueryValueData &qd)
 {
     float swstress_pheno;
-    if (g.swdef_pheno > 0.0)
-       swstress_pheno = 1.0 - g.swdef_pheno;
+    if (swDef.pheno > 0.0)
+       swstress_pheno = 1.0 - swDef.pheno;
     else
        swstress_pheno = 0.0;
     systemInterface->sendVariable(qd, swstress_pheno);  //()
@@ -3086,8 +3038,8 @@ void Plant::get_swstress_pheno(protocol::Component *systemInterface, protocol::Q
 void Plant::get_swstress_photo(protocol::Component *systemInterface, protocol::QueryValueData &qd)
 {
     float swstress_photo;
-    if (g.swdef_photo > 0.0)
-       swstress_photo = 1.0 - g.swdef_photo;
+    if (swDef.photo > 0.0)
+       swstress_photo = 1.0 - swDef.photo;
     else
        swstress_photo = 0.0;
     systemInterface->sendVariable(qd, swstress_photo);  //()
@@ -3096,8 +3048,8 @@ void Plant::get_swstress_photo(protocol::Component *systemInterface, protocol::Q
 void Plant::get_swstress_expan(protocol::Component *systemInterface, protocol::QueryValueData &qd)
 {
     float swstress_expan;
-    if (g.swdef_expansion > 0.0)
-       swstress_expan = 1.0 - g.swdef_expansion;
+    if (swDef.expansion > 0.0)
+       swstress_expan = 1.0 - swDef.expansion;
     else
        swstress_expan = 0.0;
     systemInterface->sendVariable(qd, swstress_expan);  //()
@@ -3106,8 +3058,8 @@ void Plant::get_swstress_expan(protocol::Component *systemInterface, protocol::Q
 void Plant::get_swstress_fixation(protocol::Component *systemInterface, protocol::QueryValueData &qd)
 {
     float swstress_fixation;
-    if (g.swdef_fixation > 0.0)
-       swstress_fixation = 1.0 - g.swdef_fixation;
+    if (swDef.fixation > 0.0)
+       swstress_fixation = 1.0 - swDef.fixation;
     else
        swstress_fixation = 0.0;
     systemInterface->sendVariable(qd, swstress_fixation);  //()
@@ -3116,8 +3068,8 @@ void Plant::get_swstress_fixation(protocol::Component *systemInterface, protocol
 void Plant::get_nstress_pheno(protocol::Component *systemInterface, protocol::QueryValueData &qd)
 {
     float nstress_pheno;
-    if (g.nfact_pheno > 0.0)
-       nstress_pheno = 1.0 - g.nfact_pheno;
+    if (nFact.pheno > 0.0)
+       nstress_pheno = 1.0 - nFact.pheno;
     else
        nstress_pheno = 0.0;
     systemInterface->sendVariable(qd, nstress_pheno);  //()
@@ -3126,8 +3078,8 @@ void Plant::get_nstress_pheno(protocol::Component *systemInterface, protocol::Qu
 void Plant::get_nstress_photo(protocol::Component *systemInterface, protocol::QueryValueData &qd)
 {
     float nstress_photo;
-    if (g.nfact_photo > 0.0)
-       nstress_photo = 1.0 - g.nfact_photo;
+    if (nFact.photo > 0.0)
+       nstress_photo = 1.0 - nFact.photo;
     else
        nstress_photo = 0.0;
     systemInterface->sendVariable(qd, nstress_photo);  //()
@@ -3136,8 +3088,8 @@ void Plant::get_nstress_photo(protocol::Component *systemInterface, protocol::Qu
 void Plant::get_nstress_expan(protocol::Component *systemInterface, protocol::QueryValueData &qd)
 {
     float nstress_expan;
-    if (g.nfact_expansion > 0.0)
-       nstress_expan = 1.0 - g.nfact_expansion;
+    if (nFact.expansion > 0.0)
+       nstress_expan = 1.0 - nFact.expansion;
     else
        nstress_expan = 0.0;
     systemInterface->sendVariable(qd, nstress_expan);  //()
@@ -3146,8 +3098,8 @@ void Plant::get_nstress_expan(protocol::Component *systemInterface, protocol::Qu
 void Plant::get_nstress_grain(protocol::Component *systemInterface, protocol::QueryValueData &qd)
 {
     float nstress_grain;
-    if (g.nfact_grain_conc > 0.0)
-       nstress_grain = 1.0 - g.nfact_grain_conc;
+    if (nFact.grain > 0.0)
+       nstress_grain = 1.0 - nFact.grain;
     else
        nstress_grain = 0.0;
     systemInterface->sendVariable(qd, nstress_grain);  //()
@@ -3166,14 +3118,14 @@ void Plant::get_dm_parasite_retranslocate(protocol::Component *system, protocol:
 
 void Plant::get_pfact_grain(protocol::Component *systemInterface, protocol::QueryValueData &qd)
 {
-    systemInterface->sendVariable(qd, g.pfact_grain);  //()
+    systemInterface->sendVariable(qd, pFact.grain);  //()
 }
 
 void Plant::get_pstress_photo(protocol::Component *systemInterface, protocol::QueryValueData &qd)
 {
     float pstress_photo;
-    if (g.pfact_photo > 0.0)
-       pstress_photo = 1.0 - g.pfact_photo;
+    if (pFact.photo > 0.0)
+       pstress_photo = 1.0 - pFact.photo;
     else
        pstress_photo = 0.0;
     systemInterface->sendVariable(qd, pstress_photo);  //()
@@ -3182,8 +3134,8 @@ void Plant::get_pstress_photo(protocol::Component *systemInterface, protocol::Qu
 void Plant::get_pstress_pheno(protocol::Component *systemInterface, protocol::QueryValueData &qd)
 {
     float pstress_pheno;
-    if (g.pfact_pheno > 0.0)
-       pstress_pheno = 1.0 - g.pfact_pheno;
+    if (pFact.pheno > 0.0)
+       pstress_pheno = 1.0 - pFact.pheno;
     else
        pstress_pheno = 0.0;
     systemInterface->sendVariable(qd, pstress_pheno);  //()
@@ -3192,8 +3144,8 @@ void Plant::get_pstress_pheno(protocol::Component *systemInterface, protocol::Qu
 void Plant::get_pstress_expansion(protocol::Component *systemInterface, protocol::QueryValueData &qd)
 {
     float pstress_expansion;
-    if (g.pfact_expansion > 0.0)
-       pstress_expansion = 1.0 - g.pfact_expansion;
+    if (pFact.expansion > 0.0)
+       pstress_expansion = 1.0 - pFact.expansion;
     else
        pstress_expansion = 0.0;
     systemInterface->sendVariable(qd, pstress_expansion);  //()
@@ -3202,8 +3154,8 @@ void Plant::get_pstress_expansion(protocol::Component *systemInterface, protocol
 void Plant::get_pstress_grain(protocol::Component *systemInterface, protocol::QueryValueData &qd)
 {
     float pstress_grain;
-    if (g.pfact_grain > 0.0)
-       pstress_grain = 1.0 - g.pfact_grain;
+    if (pFact.grain > 0.0)
+       pstress_grain = 1.0 - pFact.grain;
     else
        pstress_grain = 0.0;
     systemInterface->sendVariable(qd, pstress_grain);  //()
@@ -3310,11 +3262,11 @@ float Plant::getCo2ModifierTe(void)  {return g.co2_modifier_te;}
 float Plant::getCo2ModifierNConc(void)  {return g.co2_modifier_n_conc;}
 float Plant::getVpd(void)  {return Environment.vpdEstimate();}
 float Plant::getTempStressPhoto(void)  {return g.temp_stress_photo;}
-float Plant::getNfactPhoto(void)  {return g.nfact_photo;}
-float Plant::getNfactGrainConc(void)  {return g.nfact_grain_conc;}
+float Plant::getNfactPhoto(void)  {return nFact.photo;}
+float Plant::getNfactGrainConc(void)  {return nFact.grain;}
 float Plant::getOxdefPhoto(void)  {return g.oxdef_photo;}
-float Plant::getPfactPhoto(void)  {return g.pfact_photo;}
-float Plant::getSwdefPhoto(void)  {return g.swdef_photo;}
+float Plant::getPfactPhoto(void)  {return pFact.photo;}
+float Plant::getSwdefPhoto(void)  {return swDef.photo;}
 bool  Plant::on_day_of(const string &what) {return (phenology->on_day_of(what));};
 bool  Plant::inPhase(const string &what) {return (phenology->inPhase(what));};
 void Plant::writeString (const char *line) {parent->writeString(line);};

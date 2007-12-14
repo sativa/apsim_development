@@ -51,14 +51,7 @@ class RootBase : public SimplePart
 //      virtual int find_layer_no(float, float *, int){};
       virtual float sw_avail_ratio(int layer) {return 0;}
 
-      virtual void plant_water_stress (
-                                       float sw_demand,
-                                       float& swdef_photo,
-                                       float& swdef_pheno,
-                                       float& swdef_pheno_flower,
-                                       float& swdef_pheno_grainfill,
-                                       float& swdef_expansion,
-                                       float& swdef_fixation ){};
+      virtual void plant_water_stress (float sw_demand, StressDeficit& swDef) {};
 
       virtual void waterSupply(){};
       virtual void doWaterUptake(float sw_demand){};

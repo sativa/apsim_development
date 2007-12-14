@@ -32,14 +32,9 @@ void Plant::zero_p_variables ()
 // =======================================
 //     Set all variables in this module to zero.
 {
-      g.pfact_photo        = 1.0;
-      g.pfact_expansion    = 1.0;
-      g.pfact_pheno        = 1.0;
-      g.pfact_grain        = 1.0;
+      pFact = 1.0;
 
-      c.pfact_photo_slope = 0.0;
-      c.pfact_expansion_slope = 0.0;
-      c.pfact_pheno_slope = 0.0;
+      c.pFactSlope = 0.0;
       c.num_x_p_stage_code = 0;
       g.phosphorus_aware = false;
 
@@ -59,10 +54,10 @@ void Plant::read_p_constants (PlantComponent *systemInterface)
     const char*  section_name = "constants" ;
 
 //+  Local Variables
-    scienceAPI.read("pfact_photo_slope", c.pfact_photo_slope, 0.0f, 100.0f);
-    scienceAPI.read("pfact_expansion_slope", c.pfact_expansion_slope, 0.0f, 100.0f);
-    scienceAPI.read("pfact_pheno_slope", c.pfact_pheno_slope, 0.0f, 100.0f);
-    scienceAPI.read("pfact_grain_slope", c.pfact_grain_slope, 0.0f, 100.0f);
+    scienceAPI.read("pfact_photo_slope", c.pFactSlope.photo, 0.0f, 100.0f);
+    scienceAPI.read("pfact_expansion_slope", c.pFactSlope.expansion, 0.0f, 100.0f);
+    scienceAPI.read("pfact_pheno_slope", c.pFactSlope.pheno, 0.0f, 100.0f);
+    scienceAPI.read("pfact_grain_slope", c.pFactSlope.grain, 0.0f, 100.0f);
 }
 
 void Plant::prepare_p(void)
@@ -208,17 +203,17 @@ void Plant::PlantP_Stress (vector<plantPart *> &allParts)
 {
       float    pfact = PlantP_Pfact(allParts);
 
-      g.pfact_photo = pfact * c.pfact_photo_slope;
-      g.pfact_photo = bound(g.pfact_photo, 0.0, 1.0);
+      pFact.photo = pfact * c.pFactSlope.photo;
+      pFact.photo = bound(pFact.photo, 0.0, 1.0);
 
-      g.pfact_expansion = pfact * c.pfact_expansion_slope;
-      g.pfact_expansion = bound(g.pfact_expansion, 0.0, 1.0);
+      pFact.expansion = pfact * c.pFactSlope.expansion;
+      pFact.expansion = bound(pFact.expansion, 0.0, 1.0);
 
-      g.pfact_pheno = pfact * c.pfact_pheno_slope;
-      g.pfact_pheno = bound(g.pfact_pheno, 0.0, 1.0);
+      pFact.pheno = pfact * c.pFactSlope.pheno;
+      pFact.pheno = bound(pFact.pheno, 0.0, 1.0);
 
-      g.pfact_grain = pfact * c.pfact_grain_slope;
-      g.pfact_grain = bound(g.pfact_grain, 0.0, 1.0);
+      pFact.grain = pfact * c.pFactSlope.grain;
+      pFact.grain = bound(pFact.grain, 0.0, 1.0);
 
 }
 

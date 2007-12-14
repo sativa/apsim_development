@@ -75,6 +75,10 @@ private:
    eventObserver *maturityEventObserver;   // Bookkeeper for maturity events
    Arbitrator    *arbitrator;
 
+   StressDeficit swDef;
+   StressDeficit nFact;
+   StressDeficit pFact;
+
    float grainGreen(void);
    float grainSenesced(void);
    float grainDead(void);
@@ -193,7 +197,6 @@ public:
    void legnew_dm_retranslocate (vector<plantPart *> &allParts        // (INPUT) all parts of plant
                                  ,vector<plantPart *> &supply_pools   // (INPUT)
                                  ,float  g_dm_demand_differential     // (INPUT)  grain dm demand (g/m^2)
-                                 ,float  g_plants                     // (INPUT)  Plant density (plants/m^2)
                                  ,float  *dlt_dm_retrans_to_fruit);   // (OUTPUT) dm retranslocated to fruit (g/m^2)
 
    void doNRetranslocate(float g_grain_n_demand);
@@ -469,14 +472,6 @@ private:
       string   cultivar;                                // name of cultivar
       string   pre_dormancy_crop_class;
       string   averageStressMessage;                    // Message of average stresses for each phase
-      float swdef_expansion;
-      float swdef_photo;
-      float swdef_pheno;
-      float swdef_fixation;
-      float nfact_expansion;
-      float nfact_photo;
-      float nfact_grain_conc;
-      float nfact_pheno;
       float remove_biom_pheno;
       float temp_stress_photo;
       float oxdef_photo;
@@ -500,9 +495,6 @@ private:
       float lai_max;                                    // maximum lai - occurs at flowering
       float ext_n_demand;
 
-      float swdef_pheno_flower;
-      float swdef_pheno_grainfill;
-
       // parasite
       float       dlt_dm_parasite_demand;  // parasite dm demand [g/m^2]
       float       dlt_sw_parasite_demand;  // parasite dm demand [g/m^2]
@@ -510,10 +502,6 @@ private:
       float       dlt_dm_parasite;         // parasite biomass growth [g/m^2]
 
       // Phosphorous
-      float pfact_photo;
-      float pfact_expansion;
-      float pfact_pheno;
-      float pfact_grain;
       bool  phosphorus_aware;
 
       float     co2_modifier_rue;
@@ -546,9 +534,6 @@ private:
       string default_crop_class;                         // crop class
       vector<string> part_names;                         // names of plant parts
       string n_supply_preference;                        // preference of n supply
-      float n_fact_photo;                               // multipler for N deficit effect on photosynthesis
-      float n_fact_pheno;                               // multipler for N deficit effect on phenology
-      float n_fact_expansion;
 
       float svp_fract;                                  // fraction of distance between svp at
                                                         // min temp and svp at max temp where
@@ -590,11 +575,8 @@ private:
 
       float x_p_stage_code [max_table];
       int   num_x_p_stage_code;
-      float pfact_photo_slope;
-      float pfact_expansion_slope;
-      float pfact_pheno_slope;
-      float pfact_grain_slope;
-
+      StressDeficit pFactSlope;
+      StressDeficit nFact;      // multipler for N deficit effect
    }  c;   // Constants
 
 };  // Plant
