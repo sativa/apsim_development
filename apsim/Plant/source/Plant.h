@@ -41,6 +41,38 @@ const int  grain_conc = 3 ;
 // N fixation flag
 const int  fixation = 4 ;
 
+class Phosphorus {
+public:
+   Phosphorus(ScienceAPI& scienceAPI,PlantComponent *p);
+   ~Phosphorus(void);
+   bool isPresent(void);
+   void  PlantP_Stress (vector<plantPart *>&);
+   void read_p_constants (void);
+   void get_pfact_photo(protocol::Component *, protocol::QueryValueData &qd);
+   void get_pfact_pheno(protocol::Component *, protocol::QueryValueData &qd);
+   void get_pfact_expansion(protocol::Component *, protocol::QueryValueData &qd);
+   void get_pfact_expan(protocol::Component *, protocol::QueryValueData &qd);
+   void get_pfact_grain(protocol::Component *, protocol::QueryValueData &qd);
+   void get_pstress_photo(protocol::Component *, protocol::QueryValueData &qd);
+   void get_pstress_pheno(protocol::Component *, protocol::QueryValueData &qd);
+   void get_pstress_expansion(protocol::Component *, protocol::QueryValueData &qd);
+   void get_pstress_grain(protocol::Component *, protocol::QueryValueData &qd);
+
+   StressDeficit pFact;
+
+private:
+   ScienceAPI& scienceAPI;
+   void PlantP_set_phosphorus_aware (void);
+   float PlantP_Pfact (vector<plantPart *>&);
+
+   PlantComponent *parent;                 // The plant we are attached to
+   bool  phosphorus_aware;
+   struct {
+      StressDeficit pFactSlope;
+   }  c;   // Constants
+
+}; //Phosphorus
+
 
 //   This class performs crop crop growth
 //     simulates root, leaf, head, stem and grain development. Water and
@@ -78,6 +110,7 @@ private:
    StressDeficit swDef;
    StressDeficit nFact;
    StressDeficit pFact;
+   Phosphorus *phosphorus;
 
    float grainGreen(void);
    float grainSenesced(void);
@@ -376,15 +409,6 @@ public:
 
    void get_p_demand(protocol::Component *, protocol::QueryValueData &qd);
    void get_p_demand_parts(protocol::Component *, protocol::QueryValueData &qd);
-   void get_pfact_photo(protocol::Component *, protocol::QueryValueData &qd);
-   void get_pfact_pheno(protocol::Component *, protocol::QueryValueData &qd);
-   void get_pfact_expansion(protocol::Component *, protocol::QueryValueData &qd);
-   void get_pfact_expan(protocol::Component *, protocol::QueryValueData &qd);
-   void get_pfact_grain(protocol::Component *, protocol::QueryValueData &qd);
-   void get_pstress_photo(protocol::Component *, protocol::QueryValueData &qd);
-   void get_pstress_pheno(protocol::Component *, protocol::QueryValueData &qd);
-   void get_pstress_expansion(protocol::Component *, protocol::QueryValueData &qd);
-   void get_pstress_grain(protocol::Component *, protocol::QueryValueData &qd);
    void get_biomass_p(protocol::Component *, protocol::QueryValueData &qd);
    void get_p_uptake(protocol::Component *, protocol::QueryValueData &qd);
    void get_green_biomass_p(protocol::Component *, protocol::QueryValueData &qd);
@@ -407,9 +431,7 @@ public:
    void zero_p_variables (void);
    void read_p_constants (PlantComponent *systemInterface);
    void doPInit(PlantComponent *systemInterface);
-   void PlantP_set_phosphorus_aware (PlantComponent *systemInterface);
-
-   bool phosphorusAware(void)  {return g.phosphorus_aware;};
+   bool phosphorusAware(void)  {return phosphorus->isPresent();};
    bool removeBiomassReport(void)  {return c.remove_biomass_report == "on";};
    void prepare_p(void);
    void summary_p (void);

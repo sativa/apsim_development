@@ -422,42 +422,6 @@ void Plant::onInit1(void)
                     &Plant::get_p_demand_parts,
                     "g/m^2","");
 
-   parent->addGettableVar("pfact_photo",
-               pFact.photo,
-               "", "P factor in photosynthesis");
-
-   parent->addGettableVar("pfact_pheno",
-               pFact.pheno,
-               "", "P factor in phenology");
-
-   parent->addGettableVar("pfact_expansion",
-               pFact.expansion,
-               "", "P factor in leaf expansion");
-
-   parent->addGettableVar("pfact_grain",
-               pFact.grain,
-               "", "P factor in grain");
-
-   setupGetFunction(parent, "p_stress_photo", protocol::DTsingle, false,
-                    &Plant::get_pstress_photo,
-                    "", "P stress in photosynthesis");
-
-   setupGetFunction(parent, "p_stress_pheno", protocol::DTsingle, false,
-                    &Plant::get_pstress_pheno,
-                    "", "P stress in phenology");
-
-   setupGetFunction(parent, "p_stress_expansion", protocol::DTsingle, false,
-                    &Plant::get_pstress_expansion,
-                    "", "P stress in leaf expansion");
-
-   setupGetFunction(parent, "p_stress_expan", protocol::DTsingle, false,
-                    &Plant::get_pstress_expansion,
-                    "", "P stress in leaf expansion");
-
-   setupGetFunction(parent, "p_stress_grain", protocol::DTsingle, false,
-                    &Plant::get_pstress_grain,
-                    "", "P stress in grain");
-
    setupGetFunction(parent, "biomass_p", protocol::DTsingle, false,
                     &Plant::get_biomass_p,
                     "g/m^2","P in biomass");
@@ -517,7 +481,7 @@ void Plant::onInit2(void)
 //=======================================================================================
 // Init2. The rest of the system is here now..
    {
-   PlantP_set_phosphorus_aware(parent); // See whether a P module is plugged in
+   phosphorus = new Phosphorus(scienceAPI, parent);
 
    // Read the default crop class and cultivar and setup the
    // scienceAPI.
@@ -537,6 +501,7 @@ void Plant::onInit2(void)
    g.plant_status = out;
    g.module_name = parent->getName();
    doPInit(parent);
+
    plant_get_other_variables (); // sw etc..
    }
 
@@ -921,7 +886,7 @@ void Plant::doNSenescence (int   option/*(INPUT) option number*/)
         throw std::invalid_argument ("invalid sen nit option");
         }
 
-    if (g.phosphorus_aware == true)
+    if (phosphorus->isPresent())
        plant.doPSenescence();
     }
 
@@ -1422,7 +1387,7 @@ void Plant::plant_process ( void )
 
         pheno_stress_t ps;
         ps.swdef = swDef.pheno;
-        ps.nfact = min(nFact.pheno, pFact.pheno);
+        ps.nfact = min(nFact.pheno, phosphorus->pFact.pheno);
         ps.swdef_flower = swDef.pheno_flower;
         ps.swdef_grainfill = swDef.pheno_grainfill;
         ps.remove_biom_pheno = g.remove_biom_pheno;
@@ -1438,10 +1403,10 @@ void Plant::plant_process ( void )
            (*t)->morphology();
 
         leafPart->potential(c.leaf_no_pot_option,
-                            min(pow(min(nFact.expansion, pFact.expansion),2),swDef.expansion),
+                            min(pow(min(nFact.expansion, phosphorus->pFact.expansion),2),swDef.expansion),
                             phenology->get_dlt_tt() );
 
-        leafPart->leaf_area_stressed (min(swDef.expansion, min(nFact.expansion, pFact.expansion)));
+        leafPart->leaf_area_stressed (min(swDef.expansion, min(nFact.expansion, phosphorus->pFact.expansion)));
 
         doDmPotTE ();
         // Calculate Potential Photosynthesis
@@ -1472,7 +1437,7 @@ void Plant::plant_process ( void )
 
         rootPart->root_length_growth();
 
-        leafPart->leaf_death( min(nFact.expansion, pFact.expansion), phenology->get_dlt_tt());
+        leafPart->leaf_death( min(nFact.expansion, phosphorus->pFact.expansion), phenology->get_dlt_tt());
         leafPart->leaf_area_sen( swDef.photo , Environment.mint);
 
         plant.doSenescence(leafPart->senFract());
@@ -1503,13 +1468,13 @@ void Plant::plant_process ( void )
         doSoilNDemand ();
         doNUptake ();     // allows preference of N source
         doNPartition ();                  // allows output of n fixed
-        if (g.phosphorus_aware)
+        if (phosphorus->isPresent())
             doPPartition(myParts);
 
         if (c.n_retrans_option==2)  // this option requires soil uptake to satisfy grain n before retranslocation
            doNRetranslocate (c.n_retrans_option);
 
-        if (g.phosphorus_aware)
+        if (phosphorus->isPresent())
            doPRetranslocate();
 
         population.PlantDeath();
@@ -1813,7 +1778,7 @@ void Plant::plant_harvest_update (protocol::Variant &v/*(INPUT)message arguments
 
     sprintf (msg, "%48s%8.2f%24.2f", "N  (kg/ha) =               ", n_tops_residue, n_root_residue);
     parent->writeString (msg);
-    if (g.phosphorus_aware)
+    if (phosphorus->isPresent())
        {
        sprintf (msg, "%48s%7.1f%24.2f",
                                      "P  (kg/ha) =               ", p_tops_residue, p_root_residue);
@@ -1835,7 +1800,7 @@ void Plant::plant_harvest_update (protocol::Variant &v/*(INPUT)message arguments
 
     sprintf (msg, "%48s%8.2f%24.2f", "N  (kg/ha) =               ", n_removed_tops, n_removed_root);
     parent->writeString (msg);
-    if (g.phosphorus_aware)
+    if (phosphorus->isPresent())
        {
        sprintf (msg, "%48s%7.2f%24.2f",
                                      "P  (kg/ha) =               ", p_removed_tops, p_removed_root);
@@ -2381,7 +2346,7 @@ void Plant::plant_end_crop (void)
                            , "N  (kg/ha) =               ", n_residue * gm2kg /sm2ha, n_root * gm2kg /sm2ha);
         parent->writeString (msg);
 
-        if (g.phosphorus_aware)
+        if (phosphorus->isPresent())
            {
            sprintf (msg, "%48s%7.2f%24.2f"
                            , "P  (kg/ha) =               ", p_residue * gm2kg /sm2ha, p_root * gm2kg /sm2ha);
@@ -2478,7 +2443,7 @@ void Plant::plant_read_constants ( void )
          t++)
       (*t)->readConstants(parent, section_name);
 
-    if (g.phosphorus_aware)
+    if (phosphorus->isPresent())
        read_p_constants(parent);
 
     }
@@ -3116,51 +3081,6 @@ void Plant::get_dm_parasite_retranslocate(protocol::Component *system, protocol:
   system->sendVariable(qd, g.dm_parasite_retranslocate);
 }
 
-void Plant::get_pfact_grain(protocol::Component *systemInterface, protocol::QueryValueData &qd)
-{
-    systemInterface->sendVariable(qd, pFact.grain);  //()
-}
-
-void Plant::get_pstress_photo(protocol::Component *systemInterface, protocol::QueryValueData &qd)
-{
-    float pstress_photo;
-    if (pFact.photo > 0.0)
-       pstress_photo = 1.0 - pFact.photo;
-    else
-       pstress_photo = 0.0;
-    systemInterface->sendVariable(qd, pstress_photo);  //()
-}
-
-void Plant::get_pstress_pheno(protocol::Component *systemInterface, protocol::QueryValueData &qd)
-{
-    float pstress_pheno;
-    if (pFact.pheno > 0.0)
-       pstress_pheno = 1.0 - pFact.pheno;
-    else
-       pstress_pheno = 0.0;
-    systemInterface->sendVariable(qd, pstress_pheno);  //()
-}
-
-void Plant::get_pstress_expansion(protocol::Component *systemInterface, protocol::QueryValueData &qd)
-{
-    float pstress_expansion;
-    if (pFact.expansion > 0.0)
-       pstress_expansion = 1.0 - pFact.expansion;
-    else
-       pstress_expansion = 0.0;
-    systemInterface->sendVariable(qd, pstress_expansion);  //()
-}
-
-void Plant::get_pstress_grain(protocol::Component *systemInterface, protocol::QueryValueData &qd)
-{
-    float pstress_grain;
-    if (pFact.grain > 0.0)
-       pstress_grain = 1.0 - pFact.grain;
-    else
-       pstress_grain = 0.0;
-    systemInterface->sendVariable(qd, pstress_grain);  //()
-}
-
 void Plant::get_biomass_p(protocol::Component *systemInterface, protocol::QueryValueData &qd)
 {
     systemInterface->sendVariable(qd, tops.Total.P());  //()
@@ -3265,7 +3185,7 @@ float Plant::getTempStressPhoto(void)  {return g.temp_stress_photo;}
 float Plant::getNfactPhoto(void)  {return nFact.photo;}
 float Plant::getNfactGrainConc(void)  {return nFact.grain;}
 float Plant::getOxdefPhoto(void)  {return g.oxdef_photo;}
-float Plant::getPfactPhoto(void)  {return pFact.photo;}
+float Plant::getPfactPhoto(void)  {return phosphorus->pFact.photo;}
 float Plant::getSwdefPhoto(void)  {return swDef.photo;}
 bool  Plant::on_day_of(const string &what) {return (phenology->on_day_of(what));};
 bool  Plant::inPhase(const string &what) {return (phenology->inPhase(what));};

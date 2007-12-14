@@ -4,10 +4,10 @@
 * Acknowledgements: Neil Huth, CSIRO, Sustainable Ecosystems.                  *
 * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 //
-//			PlantP.cpp
-//             	PlantP class definition (Orthodox Canonical Form)
+//          PlantP.cpp
+//              PlantP class definition (Orthodox Canonical Form)
 //
-//             	Defines default constructor, copy constructor and
+//              Defines default constructor, copy constructor and
 //                assignment operator.
 //
 // Modification log
@@ -36,7 +36,6 @@ void Plant::zero_p_variables ()
 
       c.pFactSlope = 0.0;
       c.num_x_p_stage_code = 0;
-      g.phosphorus_aware = false;
 
  }
 
@@ -59,13 +58,15 @@ void Plant::read_p_constants (PlantComponent *systemInterface)
     scienceAPI.read("pfact_pheno_slope", c.pFactSlope.pheno, 0.0f, 100.0f);
     scienceAPI.read("pfact_grain_slope", c.pFactSlope.grain, 0.0f, 100.0f);
 }
+// ===============================
 
 void Plant::prepare_p(void)
 {
-   if (g.phosphorus_aware == true)
+   if (phosphorus->isPresent())
       {
       plant.doPDemand();
       PlantP_Stress(myParts);
+      phosphorus->PlantP_Stress(myParts);
       }
 }
 
@@ -86,7 +87,7 @@ void Plant::doPPartition (vector<plantPart*>&parts)
           parent->getVariable(id.layered_p_uptake, values, 0.0, 100.0);
           float sumValue = 0.0;
           for (unsigned int i = 0; i < values.size(); i++)
-          	sumValue += values[i];
+            sumValue += values[i];
 
           p_uptake = sumValue * kg2gm/ha2sm;
       }
@@ -100,42 +101,15 @@ void Plant::doPPartition (vector<plantPart*>&parts)
 // ====================================================================
 void Plant::doPInit (PlantComponent *systemInterface)
 {
-      if (g.phosphorus_aware == true)
+      if (phosphorus->isPresent())
       {
          read_p_constants (systemInterface);
+         phosphorus->read_p_constants();
 
          string keyword = "uptake_p_" + c.crop_type;
          id.layered_p_uptake = systemInterface->addRegistration(RegistrationType::get,
                                                                keyword.c_str(), floatArrayType,
                                                                "", "");
-      }
-}
-
-
-void Plant::PlantP_set_phosphorus_aware (PlantComponent *systemInterface)
-// ====================================================================
-//      Check that soil phosphorus is in system
-{
-//+  Local Variables
-      vector<float> values;               // Scratch area
-      bool soilpPresent;
-
-      unsigned int idSoilpVar = systemInterface->addRegistration(RegistrationType::get,
-                                                               "labile_p", floatArrayType,
-                                                               "", "");
-      systemInterface->getVariable(idSoilpVar, values, 0.0, 1000000.0, true);
-      soilpPresent = (values.size() > 0);
-
-      if(soilpPresent == true)
-      {
-           //module is p aware
-         g.phosphorus_aware = true;
-         parent->writeString ("   - Module is set phosphorus aware");
-         parent->writeString (" ");
-      }
-      else
-      {
-         g.phosphorus_aware = false;
       }
 
 }
@@ -154,7 +128,7 @@ float Plant::PlantP_Pfact (vector<plantPart *> &allParts)
       float    pfact;
       vector<plantPart*>::iterator part;
 
-   if (g.phosphorus_aware == true)
+   if (phosphorus->isPresent())
    {
       act_p = 0.0;
       min_p = 0.0;
@@ -253,7 +227,7 @@ void Plant::summary_p (void)
 
 //- Implementation Section ----------------------------------          g.p_green(1:g.num_parts)
 
-   if (g.phosphorus_aware == true)
+   if (phosphorus->isPresent())
    {
        P_grain_conc_percent = fruitPart->GrainTotal.PconcPercent();
 
@@ -279,6 +253,231 @@ void Plant::summary_p (void)
                 , " dead P content (kg/ha) = ", P_dead);
        parent->writeString (msg);
    }
+}
+
+
+//#####################################################################################
+// Phosphorus implementation
+//######################################################################################
+
+Phosphorus::Phosphorus(ScienceAPI& scienceAPI, PlantComponent *p)
+   : scienceAPI(scienceAPI)
+   , parent(p)
+{
+      pFact = 1.0;
+      c.pFactSlope = 0.0;
+   PlantP_set_phosphorus_aware ();
+
+   parent->addGettableVar("pfact_photo",
+               pFact.photo,
+               "", "P factor in photosynthesis");
+
+   parent->addGettableVar("pfact_pheno",
+               pFact.pheno,
+               "", "P factor in phenology");
+
+   parent->addGettableVar("pfact_expansion",
+               pFact.expansion,
+               "", "P factor in leaf expansion");
+
+   parent->addGettableVar("pfact_grain",
+               pFact.grain,
+               "", "P factor in grain");
+
+   setupGetFunction(parent, "p_stress_photo", protocol::DTsingle, false,
+                    &Phosphorus::get_pstress_photo,
+                    "", "P stress in photosynthesis");
+
+   setupGetFunction(parent, "p_stress_pheno", protocol::DTsingle, false,
+                    &Phosphorus::get_pstress_pheno,
+                    "", "P stress in phenology");
+
+   setupGetFunction(parent, "p_stress_expansion", protocol::DTsingle, false,
+                    &Phosphorus::get_pstress_expansion,
+                    "", "P stress in leaf expansion");
+
+   setupGetFunction(parent, "p_stress_expan", protocol::DTsingle, false,
+                    &Phosphorus::get_pstress_expansion,
+                    "", "P stress in leaf expansion");
+
+   setupGetFunction(parent, "p_stress_grain", protocol::DTsingle, false,
+                    &Phosphorus::get_pstress_grain,
+                    "", "P stress in grain");
+
+   }
+
+// destructor
+Phosphorus::~Phosphorus()
+{
+}
+
+bool Phosphorus::isPresent(void)
+{
+   return phosphorus_aware;
+};
+
+void Phosphorus::PlantP_set_phosphorus_aware ()
+// ====================================================================
+//      Check that soil phosphorus is in system
+{
+//+  Local Variables
+      vector<float> values;               // Scratch area
+      bool soilpPresent;
+
+      unsigned int idSoilpVar = parent->addRegistration(RegistrationType::get,
+                                                               "labile_p", floatArrayType,
+                                                               "", "");
+      parent->getVariable(idSoilpVar, values, 0.0, 1000000.0, true);
+      soilpPresent = (values.size() > 0);
+
+      if(soilpPresent == true)
+      {
+           //module is p aware
+         phosphorus_aware = true;
+         parent->writeString ("   - Module is set phosphorus aware");
+         parent->writeString (" ");
+      }
+      else
+      {
+         phosphorus_aware = false;
+      }
+}
+
+//     ===========================================================
+void Phosphorus::read_p_constants (void)
+{
+//+  Purpose
+//       Read all module constants.
+
+//+  Constant Values
+    const char*  section_name = "constants" ;
+
+//+  Local Variables
+    scienceAPI.read("pfact_photo_slope", c.pFactSlope.photo, 0.0f, 100.0f);
+    scienceAPI.read("pfact_expansion_slope", c.pFactSlope.expansion, 0.0f, 100.0f);
+    scienceAPI.read("pfact_pheno_slope", c.pFactSlope.pheno, 0.0f, 100.0f);
+    scienceAPI.read("pfact_grain_slope", c.pFactSlope.grain, 0.0f, 100.0f);
+}
+float Phosphorus::PlantP_Pfact (vector<plantPart *> &allParts)
+// ====================================================================
+//      Provide value of generic P factor
+{
+      float    max_p;
+      float    min_p;
+      float    act_p;
+      float    max_p_conc;
+      float    min_p_conc;
+      float    act_p_conc;
+      float    determinants_wt;
+      float    pfact;
+      vector<plantPart*>::iterator part;
+
+   if (isPresent())
+   {
+      act_p = 0.0;
+      min_p = 0.0;
+      max_p = 0.0;
+      determinants_wt = 0.0;
+
+
+      for (part = allParts.begin(); part != allParts.end(); part++)
+         {
+            act_p += (*part)->pGreenStressDeterminant();
+            max_p += (*part)->pMaxPotStressDeterminant();
+            min_p += (*part)->pMinPotStressDeterminant();
+            determinants_wt += (*part)->dmGreenStressDeterminant();
+
+         }
+
+      act_p_conc = divide(act_p, determinants_wt, 0.0);
+      max_p_conc = divide(max_p, determinants_wt, 0.0);
+      min_p_conc = divide(min_p, determinants_wt, 0.0);
+
+      if ((determinants_wt <= 0.0) || (act_p <= 0.0))
+      {
+         // appears that things are not yet initialised
+         pfact = 1.0;
+      }
+      else
+      {
+         pfact = divide(act_p_conc - min_p_conc
+                       , max_p_conc - min_p_conc
+                       , 1.0);
+      }
+
+      pfact = bound(pfact, 0.0, 1.0);
+   }
+   else
+   {
+      pfact = 1.0;
+   }
+
+   return pfact;
+}
+
+void Phosphorus::PlantP_Stress (vector<plantPart *> &allParts)
+// ====================================================================
+//      Provide value of  P stress factors
+{
+      float    pfact = PlantP_Pfact(allParts);
+
+      pFact.photo = pfact * c.pFactSlope.photo;
+      pFact.photo = bound(pFact.photo, 0.0, 1.0);
+
+      pFact.expansion = pfact * c.pFactSlope.expansion;
+      pFact.expansion = bound(pFact.expansion, 0.0, 1.0);
+
+      pFact.pheno = pfact * c.pFactSlope.pheno;
+      pFact.pheno = bound(pFact.pheno, 0.0, 1.0);
+
+      pFact.grain = pfact * c.pFactSlope.grain;
+      pFact.grain = bound(pFact.grain, 0.0, 1.0);
+
+}
+
+void Phosphorus::get_pfact_grain(protocol::Component *systemInterface, protocol::QueryValueData &qd)
+{
+    systemInterface->sendVariable(qd, pFact.grain);  //()
+}
+
+void Phosphorus::get_pstress_photo(protocol::Component *systemInterface, protocol::QueryValueData &qd)
+{
+    float pstress_photo;
+    if (pFact.photo > 0.0)
+       pstress_photo = 1.0 - pFact.photo;
+    else
+       pstress_photo = 0.0;
+    systemInterface->sendVariable(qd, pstress_photo);  //()
+}
+
+void Phosphorus::get_pstress_pheno(protocol::Component *systemInterface, protocol::QueryValueData &qd)
+{
+    float pstress_pheno;
+    if (pFact.pheno > 0.0)
+       pstress_pheno = 1.0 - pFact.pheno;
+    else
+       pstress_pheno = 0.0;
+    systemInterface->sendVariable(qd, pstress_pheno);  //()
+}
+
+void Phosphorus::get_pstress_expansion(protocol::Component *systemInterface, protocol::QueryValueData &qd)
+{
+    float pstress_expansion;
+    if (pFact.expansion > 0.0)
+       pstress_expansion = 1.0 - pFact.expansion;
+    else
+       pstress_expansion = 0.0;
+    systemInterface->sendVariable(qd, pstress_expansion);  //()
+}
+
+void Phosphorus::get_pstress_grain(protocol::Component *systemInterface, protocol::QueryValueData &qd)
+{
+    float pstress_grain;
+    if (pFact.grain > 0.0)
+       pstress_grain = 1.0 - pFact.grain;
+    else
+       pstress_grain = 0.0;
+    systemInterface->sendVariable(qd, pstress_grain);  //()
 }
 
 
