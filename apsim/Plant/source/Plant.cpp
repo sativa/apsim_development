@@ -707,8 +707,10 @@ void Plant::plant_bio_retrans (void)
    supply_pools_by_veg.push_back(stemPart);
    supply_pools_by_veg.push_back(leafPart);
 
-   float dm_demand_differential = fruitPart->dmGreenDemand ()   //FIXME - should be returned from a fruitPart method
-                                - fruitPart->dltDmGreen();
+   float dm_demand_differential = fruitPart->dmDemandDifferential ();   //FIXME - should be returned from a fruitPart method
+
+//   float dm_demand_differential = fruitPart->dmGreenDemand ()   //FIXME - should be returned from a fruitPart method
+//                                - fruitPart->dltDmGreen();
 
    float dlt_dm_retrans_to_fruit = 0.0;                    // dry matter retranslocated to fruit (g/m^2)
    legnew_dm_retranslocate(myParts

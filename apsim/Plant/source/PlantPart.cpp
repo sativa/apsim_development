@@ -179,8 +179,8 @@ void plantPart::zeroDeltas(void)
    Senescing.Clear();
    Detaching.Clear();
    Retranslocation.Clear();
-   NDemand = 0.0 ;
-   NMax = 0.0 ;
+//   NDemand = 0.0 ;
+//   NMax = 0.0 ;
 //   SoilNDemand = 0.0;
 //   dlt.dm_green_removed = 0.0;
 //   dlt.dm_senesced_removed = 0.0;

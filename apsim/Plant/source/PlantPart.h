@@ -36,8 +36,8 @@ class plantPart : public plantThing
 
 //   float SoilNDemand;
 //   float NCapacity;                  // amount of nitrogen this part can take(g/m^2)
-   float NMax ;                      // maximum plant nitrogen demand (g/m^2)
-   float NDemand ;                   // critical plant nitrogen demand (g/m^2)
+//   float NMax ;                      // maximum plant nitrogen demand (g/m^2)
+//   float NDemand ;                   // critical plant nitrogen demand (g/m^2)
 
  private:
 //1) Need to make Senesced() method in PlantPart
