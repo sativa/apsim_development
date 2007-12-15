@@ -1,5 +1,5 @@
 
-version = 5.4
+version = 5.3
 [apsim.maize]
 module = clock               sample.man [all]       %apsuite/apsim/clock/clock.ini [standard]
 module = report              report.par [sorghum]     report.par [sorghumF]    report.par  [all]
@@ -12,4 +12,4 @@ module = soiln2              soil.par   [sample]     %apsuite/apsim/soiln2/soiln
 module = SurfaceOM           soil.par   [sample]     %apsuite/apsim/SurfaceOM/SurfaceOM.ini [standard]
 module = SoilP               soil.par   [sample]     %apsuite/apsim/SoilP/soilp.ini [standard]
 module = sorghum             soil.par   [sample]     %apsuite/apsim/sorghum/sorghum.ini [standard]
-!module = sysbal
+module = sysbal

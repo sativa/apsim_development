@@ -20,7 +20,7 @@
 
 !!!!!!!!!!!!!!!!!!!!!!!!!!PATANCHERU RABI 1977 NOTTINGHAM GROUP RAINFED!!!!!
 
-version = 5.4
+version = 5.3
 [apsim.pat77_rf.control]
 
 !!!!!!!!!!!!!!!!!!!!!!!!!!PATANCHERU RABI 1977 NOTTINGHAM GROUP IRRIGATED!!!
@@ -412,6 +412,7 @@ module = millet (millet3)       soils.par [jodhpur_aridisol]     %apsuite/apsim/
 module = millet (millet4)       soils.par [jodhpur_aridisol]     %apsuite/apsim/millet/millet.ini [standard]
 module = millet (millet5)       soils.par [jodhpur_aridisol]     %apsuite/apsim/millet/millet.ini [standard]
 module = sysbal
+module = log
 [apsim.jod95_n20.control]
 
 !!!!!!!!!!!!!!!!!!!!!!!!!!JODHPUR KHARIF 1995 EJ VAN OOSTEROM: 40N!!!!!!!!!
@@ -569,7 +570,7 @@ module = millet (millet3)       soils.par [icrisat_alf2]     %apsuite/apsim/mill
 module = millet (millet4)       soils.par [icrisat_alf2]     %apsuite/apsim/millet/millet.ini [standard]
 module = millet (millet5)       soils.par [icrisat_alf2]     %apsuite/apsim/millet/millet.ini [standard]
 module = sysbal
-[apsim.pat97_rcbic911.control]    
+[apsim.pat97_rcbic911.control]
 
 title=pat97_rcbic911
 module = clock    valid_1.man [pat97] %apsuite/apsim/clock/clock.ini[standard]
