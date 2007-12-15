@@ -1,4 +1,4 @@
-version = 5.4
+version = 5.3
 [apsim.Test1]
 title= Surface Organic Matter Module Test 1
 module = clock    Test.par [sample] %apsuite/apsim/clock/clock.ini[standard]
@@ -90,4 +90,5 @@ module = soilwat2 Test.par [sample]     %apsuite/apsim/soilwat2/soilwat2.ini [st
 module = SurfaceOM   Test.par [test7] %apsuite/apsim/SurfaceOM/SurfaceOM.ini [standard]
 module = soiln2   Test.par [sample]     %apsuite/apsim/soiln2/soiln2.ini [standard]
 module = soilp    Test.par [sample]     %apsuite/apsim/SoilP/soilp.ini [standard]
+module = sysbal
 module = log Test.par[test6]

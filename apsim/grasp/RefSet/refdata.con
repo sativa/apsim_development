@@ -1,4 +1,4 @@
-version = 5.4
+version = 5.3
 ! Derived from McKeon's 7 steps.
 
 ! All off.
@@ -58,6 +58,7 @@ module = sysbal
 title = Step 8. swim
 module = clock    refdata.par [gmtb0] %apsuite/apsim/clock/clock.ini[standard]
 module = report   refdata.par [allswim] refdata.par [wupt] refdata.par [step8]
+module = report(sysbalreport) refdata.par[sysbal]
 module = input(met)      GMTAPSIM.DAT [weather]
 module = manager  refdata.par [all]
 module = apswim   refdata.par [gmtb0]   %apsuite/apsim/apswim/apswim.ini [standard]

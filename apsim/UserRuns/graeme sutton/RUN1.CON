@@ -11,5 +11,6 @@ module = SurfaceOM   RUN1.PAR [run1] %apsuite/apsim/SurfaceOM/SurfaceOM.ini [sta
 module = ozcot       RUN1.PAR [run1] %apsuite/apsim/ozcot/ozcot.ini [standard]
 module = accum       RUN1.PAR [run1]
 module = fertiliz    %apsuite/apsim/fertiliz/fertiliz.ini [standard]
+module = sysbal
 
 title = GrantCottonKamaniV1.61(61-62)

@@ -1,5 +1,5 @@
-version = 5.4
-[apsim.sample_soilwat2]  
+version = 5.3
+[apsim.sample_soilwat2]
 
 title=Soilwat2 Sample Simulation
 module = clock    soilwat2.par [sample] %apsuite/apsim/clock/clock.ini[standard]
@@ -7,3 +7,4 @@ module = report   soilwat2.par [sample]
 module = input(Met)      %apsuite/apsim/met/sample/dalby.met[weather]
 module = manager  soilwat2.par [sample]
 module = soilwat2 soilwat2.par [black_earth]     %apsuite/apsim/soilwat2/soilwat2.ini [standard]
+module = sysbal
