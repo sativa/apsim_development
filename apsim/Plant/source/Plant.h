@@ -41,6 +41,38 @@ const int  grain_conc = 3 ;
 // N fixation flag
 const int  fixation = 4 ;
 
+class Nitrogen {
+public:
+   Nitrogen(ScienceAPI& scienceAPI,PlantComponent *p);
+   ~Nitrogen(void);
+   void init(PlantComponent *p);
+   void plant_nit_stress (plantPart* leafPart, plantPart* stemPart);
+   float critNFactor(vector< plantPart *> &, float );
+   void read_n_constants (void);
+   void get_nfact_pheno(protocol::Component *, protocol::QueryValueData &);
+   void get_dlt_n_fixed_pot(protocol::Component *, protocol::QueryValueData &);
+   void get_dlt_n_fixed(protocol::Component *, protocol::QueryValueData &);
+   void get_nfact_photo(protocol::Component *, protocol::QueryValueData &);
+   void get_nfact_expan(protocol::Component *, protocol::QueryValueData &);
+   void get_nfact_grain(protocol::Component *, protocol::QueryValueData &);
+   void get_nstress_photo(protocol::Component *, protocol::QueryValueData &);
+   void get_nstress_pheno(protocol::Component *, protocol::QueryValueData &);
+   void get_nstress_expan(protocol::Component *, protocol::QueryValueData &);
+   void get_nstress_grain(protocol::Component *, protocol::QueryValueData &);
+
+   StressDeficit nFact;
+
+private:
+   ScienceAPI& scienceAPI;
+
+   PlantComponent *parent;                 // The plant we are attached to
+   struct {
+      StressDeficit nFact;
+      int   n_stress_option;
+   }  c;   // Constants
+
+}; //Nitrogen
+
 class Phosphorus {
 public:
    Phosphorus(ScienceAPI& scienceAPI,PlantComponent *p);
@@ -111,6 +143,7 @@ private:
    StressDeficit nFact;
    StressDeficit pFact;
    Phosphorus *phosphorus;
+   Nitrogen *nitrogen;
 
    float grainGreen(void);
    float grainSenesced(void);
@@ -175,7 +208,6 @@ public:
    void doNDemand (int option       /* (INPUT) option number*/);
    void doNUptake (void);
    void doNPartition (void);
-   void plant_nit_stress (int option       /* (INPUT) option number*/);
    void doSoilNDemand (void);
 
    void doNDemandEstimate (int option);
@@ -380,17 +412,7 @@ public:
    void get_n_uptake_stover(protocol::Component *, protocol::QueryValueData &);
    void get_no3_tot(protocol::Component *, protocol::QueryValueData &);
    void get_n_demanded(protocol::Component *, protocol::QueryValueData &);
-   void get_nfact_pheno(protocol::Component *, protocol::QueryValueData &);
-   void get_dlt_n_fixed_pot(protocol::Component *, protocol::QueryValueData &);
-   void get_dlt_n_fixed(protocol::Component *, protocol::QueryValueData &);
-   void get_nfact_photo(protocol::Component *, protocol::QueryValueData &);
-   void get_nfact_expan(protocol::Component *, protocol::QueryValueData &);
-   void get_nfact_grain(protocol::Component *, protocol::QueryValueData &);
    void get_nfact_grain_tot(protocol::Component *, protocol::QueryValueData &);
-   void get_nstress_photo(protocol::Component *, protocol::QueryValueData &);
-   void get_nstress_pheno(protocol::Component *, protocol::QueryValueData &);
-   void get_nstress_expan(protocol::Component *, protocol::QueryValueData &);
-   void get_nstress_grain(protocol::Component *, protocol::QueryValueData &);
    void get_rlv(protocol::Component *, protocol::QueryValueData &);
    void get_no3_demand(protocol::Component *, protocol::QueryValueData &);
    void get_sw_demand(protocol::Component *, protocol::QueryValueData &);
@@ -547,7 +569,6 @@ private:
    struct {
       int   leaf_no_pot_option;
       int   n_retrans_option;
-      int   n_stress_option;
       int   n_senescence_option;
 
       float n_stress_start_stage;

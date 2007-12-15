@@ -220,54 +220,6 @@ float plantPart::dmGreenNew(void)
    return (Green.DM() + Growth.DM() + Retranslocation.DM());
    }
 
-
-float critNFactor(vector< plantPart *> &parts, float multiplier)
-//=======================================================================================
-//   Calculate Nitrogen stress factor from a bunch of parts
-/*  Purpose
-*   The concentration of Nitrogen in plant parts is used to derive a Nitrogen stress index
-*   for many processes. This stress index is calculated from today's relative nutitional
-*   status between a critical and minimum Nitrogen concentration.
-*/
-   {
-   vector< plantPart *>::iterator part;
-
-   float dm = 0.0, N = 0.0;
-   for (part = parts.begin(); part != parts.end(); part++)
-      {
-      dm += (*part)->Green.DM();
-      N += (*part)->Green.N();
-      }
-
-   if (dm > 0.0)
-      {
-      float N_conc = divide (N, dm, 0.0);
-
-      // calculate critical N concentrations
-      float N_crit = 0.0;
-      for (part = parts.begin(); part != parts.end(); part++)
-          N_crit += (*part)->nCrit();
-
-      float N_conc_crit = divide (N_crit, dm, 0.0);
-
-      // calculate minimum N concentrations
-      float N_min = 0.0;
-      for (part = parts.begin(); part != parts.end(); part++)
-         N_min += (*part)->nMin();
-
-      float N_conc_min = divide (N_min, dm, 0.0);
-
-      //calculate shortfall in N concentrations
-      float dividend =  N_conc - N_conc_min;
-      float divisor =   N_conc_crit - N_conc_min;
-      float result = multiplier * divide (dividend, divisor, 1.0);
-      result = bound (result, 0.0, 1.0);
-      return (result);
-      }
-   else
-      return (1.0);
-   }
-
 void plantPart::doInit1(protocol::Component *system){this->onInit1(system) ;}
 
 float plantPart::nMin(void)  {return g.n_conc_min * Green.DM();}

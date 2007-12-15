@@ -114,11 +114,12 @@ Plant::Plant(PlantComponent *P, ScienceAPI& api)
      population(scienceAPI, *this)
     {
     parent = P;
+    nitrogen = new Nitrogen(scienceAPI, parent);
 
     g.cswd_pheno.setup(&swDef.pheno);
     g.cswd_photo.setup(&swDef.photo);
-    g.cnd_grain_conc.setup(&nFact.grain);
-    g.cnd_photo.setup(&nFact.photo);
+    g.cnd_grain_conc.setup(&nitrogen->nFact.grain);
+    g.cnd_photo.setup(&nitrogen->nFact.photo);
     g.cswd_expansion.setup(&swDef.expansion);
 
     stageObservers.addObserver(&g.cswd_photo);
@@ -370,40 +371,12 @@ void Plant::onInit1(void)
    parent->addGettableVar("n_fixed_tops",
                g.n_fixed_tops, "g/m^2", "N fixation");
 
-   parent->addGettableVar("nfact_photo",
-               nFact.photo, "", "N factor for photosynthesis");
-
-   parent->addGettableVar("nfact_pheno",
-               nFact.pheno, "", "N factor for phenology");
-
-   parent->addGettableVar("nfact_expan",
-               nFact.expansion, "", "N factor for leaf expansion");
-
-   parent->addGettableVar("nfact_grain",
-               nFact.grain, "", "N factor for ??");
-
    parent->addGettableVar("remove_biom_pheno",
                g.remove_biom_pheno, "", "biomass removal factor for phenology");
 
    setupGetFunction(parent, "nfact_grain_tot", protocol::DTsingle, false,
                     &Plant::get_nfact_grain_tot,
                     "", "Summed grain N factor for current stage");
-
-   setupGetFunction(parent, "n_stress_photo", protocol::DTsingle, false,
-                    &Plant::get_nstress_photo,
-                    "","N stress for photosyntesis");
-
-   setupGetFunction(parent, "n_stress_pheno", protocol::DTsingle, false,
-                    &Plant::get_nstress_pheno,
-                    "","N stress for phenology");
-
-   setupGetFunction(parent, "n_stress_expan", protocol::DTsingle, false,
-                    &Plant::get_nstress_expan,
-                    "","N stress for leaf expansion");
-
-   setupGetFunction(parent, "n_stress_grain", protocol::DTsingle, false,
-                    &Plant::get_nstress_grain,
-                    "","N stress for grain filling");
 
    setupGetFunction(parent, "no3_demand", protocol::DTsingle, false,
                     &Plant::get_no3_demand,
@@ -482,6 +455,7 @@ void Plant::onInit2(void)
 // Init2. The rest of the system is here now..
    {
    phosphorus = new Phosphorus(scienceAPI, parent);
+   nitrogen->init(parent);
 
    // Read the default crop class and cultivar and setup the
    // scienceAPI.
@@ -767,45 +741,6 @@ void Plant::doNPartition (void)                                     //FIXME - an
     doNPartition(g.n_fix_pot
                 , g.n_fix_uptake
                 , myParts);
-
-    }
-
-void Plant::plant_nit_stress (int option /* (INPUT) option number*/)
-//=======================================================================================
-// Calculate Plant Nitrogen Stress Factors
-    {
-    if (option == 1)
-        {
-        vector<plantPart *> parts;
-
-        // Expansion uses leaves only
-        parts.push_back(leafPart);
-        nFact.expansion = critNFactor(parts, c.nFact.expansion);
-
-        // Rest have leaf & stem
-        parts.push_back(stemPart);
-        nFact.pheno = critNFactor(parts, c.nFact.pheno);
-        nFact.photo = critNFactor(parts, c.nFact.photo);
-        nFact.grain = critNFactor(parts, c.nFact.grain);
-        }
-    else if (option == 2)
-        {
-        vector< plantPart *> parts;
-
-        // Expansion & photosynthesis from leaves only
-        parts.push_back(leafPart);
-        nFact.expansion = critNFactor(parts, c.nFact.expansion);
-        nFact.photo = critNFactor(parts, c.nFact.photo);
-
-        // leaf & stem
-        parts.push_back(stemPart);
-        nFact.pheno = critNFactor(parts, c.nFact.pheno);
-        nFact.grain = critNFactor(parts, 1.0);
-        }
-    else
-        {
-        throw std::invalid_argument ("invalid template option in plant_nit_stress");
-        }
 
     }
 
@@ -1387,7 +1322,7 @@ void Plant::plant_process ( void )
 
         pheno_stress_t ps;
         ps.swdef = swDef.pheno;
-        ps.nfact = min(nFact.pheno, phosphorus->pFact.pheno);
+        ps.nfact = min(nitrogen->nFact.pheno, phosphorus->pFact.pheno);
         ps.swdef_flower = swDef.pheno_flower;
         ps.swdef_grainfill = swDef.pheno_grainfill;
         ps.remove_biom_pheno = g.remove_biom_pheno;
@@ -1403,10 +1338,10 @@ void Plant::plant_process ( void )
            (*t)->morphology();
 
         leafPart->potential(c.leaf_no_pot_option,
-                            min(pow(min(nFact.expansion, phosphorus->pFact.expansion),2),swDef.expansion),
+                            min(pow(min(nitrogen->nFact.expansion, phosphorus->pFact.expansion),2),swDef.expansion),
                             phenology->get_dlt_tt() );
 
-        leafPart->leaf_area_stressed (min(swDef.expansion, min(nFact.expansion, phosphorus->pFact.expansion)));
+        leafPart->leaf_area_stressed (min(swDef.expansion, min(nitrogen->nFact.expansion, phosphorus->pFact.expansion)));
 
         doDmPotTE ();
         // Calculate Potential Photosynthesis
@@ -1437,7 +1372,7 @@ void Plant::plant_process ( void )
 
         rootPart->root_length_growth();
 
-        leafPart->leaf_death( min(nFact.expansion, phosphorus->pFact.expansion), phenology->get_dlt_tt());
+        leafPart->leaf_death( min(nitrogen->nFact.expansion, phosphorus->pFact.expansion), phenology->get_dlt_tt());
         leafPart->leaf_area_sen( swDef.photo , Environment.mint);
 
         plant.doSenescence(leafPart->senFract());
@@ -1446,7 +1381,7 @@ void Plant::plant_process ( void )
         for (vector<plantPart *>::iterator t = myParts.begin(); t != myParts.end(); t++)
            {
            (*t)->doNInit();
-           (*t)->doNDemandGrain(nFact.grain, swDef.expansion);
+           (*t)->doNDemandGrain(nitrogen->nFact.grain, swDef.expansion);
            }
 
         float biomass = tops.Green.DM() + plant.dltDm();
@@ -1490,7 +1425,7 @@ void Plant::plant_process ( void )
     plant_cleanup();
 
     rootPart->plant_water_stress (tops.SWDemand(), swDef);
-    plant_nit_stress (c.n_stress_option);
+    nitrogen->plant_nit_stress (leafPart, stemPart);
 
     }
 
@@ -2008,7 +1943,6 @@ void Plant::plant_zero_all_globals (void)
       g.cultivar = "";
       g.pre_dormancy_crop_class = "";
       swDef = 1.0;
-      nFact = 1.0;
       g.remove_biom_pheno = 1.0;
       g.temp_stress_photo = 1.0;
       g.oxdef_photo = 1.0;
@@ -2038,7 +1972,6 @@ void Plant::plant_zero_all_globals (void)
 
       c.n_supply_preference = "";
 
-      c.nFact = 0.0;
       fill_real_array (c.n_fix_rate, 0.0,max_table);
       fill_real_array (c.x_ave_temp, 0.0, max_table);
       fill_real_array (c.y_stress_photo, 0.0, max_table);
@@ -2475,7 +2408,7 @@ void Plant::plant_prepare (void)
    for (vector<plantPart *>::iterator t = myParts.begin(); t != myParts.end(); t++)
       (*t)->prepare();
 
-   plant_nit_stress (c.n_stress_option);
+   nitrogen->plant_nit_stress (leafPart, stemPart);
    plant_temp_stress ();
    plant_light_supply_partition (1);
 
@@ -2578,13 +2511,8 @@ void Plant::plant_read_species_const (void)
     scienceAPI.read("n_senescence_option", c.n_senescence_option, 1, 2);
 
     //    plant_nfact
-    scienceAPI.read("n_stress_option", c.n_stress_option, 1, 2);
-
     scienceAPI.read("N_stress_start_stage", c.n_stress_start_stage, 0.0f, 100.0f);
-    scienceAPI.read("n_fact_photo", c.nFact.photo, 0.0f, 100.0f);
-    scienceAPI.read("n_fact_pheno", c.nFact.pheno, 0.0f, 100.0f);
-    scienceAPI.read("n_fact_expansion", c.nFact.expansion, 0.0f, 100.0f);
-    c.nFact.grain = 1.0;
+    nitrogen->read_n_constants ();
 
     //    plant_rue_reduction
     scienceAPI.read("x_ave_temp", c.x_ave_temp, c.num_ave_temp, 0.0f, 100.0f);
@@ -3030,46 +2958,6 @@ void Plant::get_swstress_fixation(protocol::Component *systemInterface, protocol
     systemInterface->sendVariable(qd, swstress_fixation);  //()
 }
 
-void Plant::get_nstress_pheno(protocol::Component *systemInterface, protocol::QueryValueData &qd)
-{
-    float nstress_pheno;
-    if (nFact.pheno > 0.0)
-       nstress_pheno = 1.0 - nFact.pheno;
-    else
-       nstress_pheno = 0.0;
-    systemInterface->sendVariable(qd, nstress_pheno);  //()
-}
-
-void Plant::get_nstress_photo(protocol::Component *systemInterface, protocol::QueryValueData &qd)
-{
-    float nstress_photo;
-    if (nFact.photo > 0.0)
-       nstress_photo = 1.0 - nFact.photo;
-    else
-       nstress_photo = 0.0;
-    systemInterface->sendVariable(qd, nstress_photo);  //()
-}
-
-void Plant::get_nstress_expan(protocol::Component *systemInterface, protocol::QueryValueData &qd)
-{
-    float nstress_expan;
-    if (nFact.expansion > 0.0)
-       nstress_expan = 1.0 - nFact.expansion;
-    else
-       nstress_expan = 0.0;
-    systemInterface->sendVariable(qd, nstress_expan);  //()
-}
-
-void Plant::get_nstress_grain(protocol::Component *systemInterface, protocol::QueryValueData &qd)
-{
-    float nstress_grain;
-    if (nFact.grain > 0.0)
-       nstress_grain = 1.0 - nFact.grain;
-    else
-       nstress_grain = 0.0;
-    systemInterface->sendVariable(qd, nstress_grain);  //()
-}
-
 void Plant::get_parasite_c_gain(protocol::Component *system, protocol::QueryValueData &qd)
 {
   float dlt_wt = g.dlt_dm_parasite + g.dm_parasite_retranslocate;
@@ -3182,8 +3070,8 @@ float Plant::getCo2ModifierTe(void)  {return g.co2_modifier_te;}
 float Plant::getCo2ModifierNConc(void)  {return g.co2_modifier_n_conc;}
 float Plant::getVpd(void)  {return Environment.vpdEstimate();}
 float Plant::getTempStressPhoto(void)  {return g.temp_stress_photo;}
-float Plant::getNfactPhoto(void)  {return nFact.photo;}
-float Plant::getNfactGrainConc(void)  {return nFact.grain;}
+float Plant::getNfactPhoto(void)  {return nitrogen->nFact.photo;}
+float Plant::getNfactGrainConc(void)  {return nitrogen->nFact.grain;}
 float Plant::getOxdefPhoto(void)  {return g.oxdef_photo;}
 float Plant::getPfactPhoto(void)  {return phosphorus->pFact.photo;}
 float Plant::getSwdefPhoto(void)  {return swDef.photo;}
