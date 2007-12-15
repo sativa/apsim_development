@@ -480,10 +480,201 @@ void Phosphorus::get_pstress_grain(protocol::Component *systemInterface, protoco
     systemInterface->sendVariable(qd, pstress_grain);  //()
 }
 
+//#####################################################################################
+// Nitrogen implementation
+//######################################################################################
+
+Nitrogen::Nitrogen(ScienceAPI& scienceAPI, PlantComponent *p)
+   : scienceAPI(scienceAPI)
+   , parent(p)
+{
+}
+
+// destructor
+Nitrogen::~Nitrogen()
+{
+}
+
+void Nitrogen::init(PlantComponent *p)
+   {
+      nFact = 1.0;
+      c.nFact = 0.0;
+   parent->addGettableVar("nfact_photo",
+               nFact.photo, "", "N factor for photosynthesis");
+
+   parent->addGettableVar("nfact_pheno",
+               nFact.pheno, "", "N factor for phenology");
+
+   parent->addGettableVar("nfact_expan",
+               nFact.expansion, "", "N factor for leaf expansion");
+
+   parent->addGettableVar("nfact_grain",
+               nFact.grain, "", "N factor for ??");
+
+   setupGetFunction(parent, "n_stress_photo", protocol::DTsingle, false,
+                    &Nitrogen::get_nstress_photo,
+                    "","N stress for photosyntesis");
+
+   setupGetFunction(parent, "n_stress_pheno", protocol::DTsingle, false,
+                    &Nitrogen::get_nstress_pheno,
+                    "","N stress for phenology");
+
+   setupGetFunction(parent, "n_stress_expan", protocol::DTsingle, false,
+                    &Nitrogen::get_nstress_expan,
+                    "","N stress for leaf expansion");
+
+   setupGetFunction(parent, "n_stress_grain", protocol::DTsingle, false,
+                    &Nitrogen::get_nstress_grain,
+                    "","N stress for grain filling");
 
 
+   }
+
+//     ===========================================================
+void Nitrogen::read_n_constants (void)
+{
+//+  Purpose
+//       Read all module constants.
+
+//+  Constant Values
+    const char*  section_name = "constants" ;
+
+//+  Local Variables
+    //    plant_nfact
+    scienceAPI.read("n_stress_option", c.n_stress_option, 1, 2);
+
+//    scienceAPI.read("N_stress_start_stage", c.n_stress_start_stage, 0.0f, 100.0f);
+    scienceAPI.read("n_fact_photo", c.nFact.photo, 0.0f, 100.0f);
+    scienceAPI.read("n_fact_pheno", c.nFact.pheno, 0.0f, 100.0f);
+    scienceAPI.read("n_fact_expansion", c.nFact.expansion, 0.0f, 100.0f);
+    c.nFact.grain = 1.0;
+}
+
+void Nitrogen::plant_nit_stress (plantPart* leafPart, plantPart* stemPart)
+//=======================================================================================
+// Calculate Plant Nitrogen Stress Factors
+    {
+    if (c.n_stress_option == 1)
+        {
+        vector<plantPart *> parts;
+
+        // Expansion uses leaves only
+        parts.push_back(leafPart);
+        nFact.expansion = critNFactor(parts, c.nFact.expansion);
+
+        // Rest have leaf & stem
+        parts.push_back(stemPart);
+        nFact.pheno = critNFactor(parts, c.nFact.pheno);
+        nFact.photo = critNFactor(parts, c.nFact.photo);
+        nFact.grain = critNFactor(parts, c.nFact.grain);
+        }
+    else if (c.n_stress_option == 2)
+        {
+        vector< plantPart *> parts;
+
+        // Expansion & photosynthesis from leaves only
+        parts.push_back(leafPart);
+        nFact.expansion = critNFactor(parts, c.nFact.expansion);
+        nFact.photo = critNFactor(parts, c.nFact.photo);
+
+        // leaf & stem
+        parts.push_back(stemPart);
+        nFact.pheno = critNFactor(parts, c.nFact.pheno);
+        nFact.grain = critNFactor(parts, 1.0);
+        }
+    else
+        {
+        throw std::invalid_argument ("invalid template option in plant_nit_stress");
+        }
+
+    }
 
 
+float Nitrogen::critNFactor(vector< plantPart *> &parts, float multiplier)
+//=======================================================================================
+//   Calculate Nitrogen stress factor from a bunch of parts
+/*  Purpose
+*   The concentration of Nitrogen in plant parts is used to derive a Nitrogen stress index
+*   for many processes. This stress index is calculated from today's relative nutitional
+*   status between a critical and minimum Nitrogen concentration.
+*/
+   {
+   vector< plantPart *>::iterator part;
 
+   float dm = 0.0, N = 0.0;
+   for (part = parts.begin(); part != parts.end(); part++)
+      {
+      dm += (*part)->Green.DM();
+      N += (*part)->Green.N();
+      }
+
+   if (dm > 0.0)
+      {
+      float N_conc = divide (N, dm, 0.0);
+
+      // calculate critical N concentrations
+      float N_crit = 0.0;
+      for (part = parts.begin(); part != parts.end(); part++)
+          N_crit += (*part)->nCrit();
+
+      float N_conc_crit = divide (N_crit, dm, 0.0);
+
+      // calculate minimum N concentrations
+      float N_min = 0.0;
+      for (part = parts.begin(); part != parts.end(); part++)
+         N_min += (*part)->nMin();
+
+      float N_conc_min = divide (N_min, dm, 0.0);
+
+      //calculate shortfall in N concentrations
+      float dividend =  N_conc - N_conc_min;
+      float divisor =   N_conc_crit - N_conc_min;
+      float result = multiplier * divide (dividend, divisor, 1.0);
+      result = bound (result, 0.0, 1.0);
+      return (result);
+      }
+   else
+      return (1.0);
+   }
+
+void Nitrogen::get_nstress_pheno(protocol::Component *systemInterface, protocol::QueryValueData &qd)
+{
+    float nstress_pheno;
+    if (nFact.pheno > 0.0)
+       nstress_pheno = 1.0 - nFact.pheno;
+    else
+       nstress_pheno = 0.0;
+    systemInterface->sendVariable(qd, nstress_pheno);  //()
+}
+
+void Nitrogen::get_nstress_photo(protocol::Component *systemInterface, protocol::QueryValueData &qd)
+{
+    float nstress_photo;
+    if (nFact.photo > 0.0)
+       nstress_photo = 1.0 - nFact.photo;
+    else
+       nstress_photo = 0.0;
+    systemInterface->sendVariable(qd, nstress_photo);  //()
+}
+
+void Nitrogen::get_nstress_expan(protocol::Component *systemInterface, protocol::QueryValueData &qd)
+{
+    float nstress_expan;
+    if (nFact.expansion > 0.0)
+       nstress_expan = 1.0 - nFact.expansion;
+    else
+       nstress_expan = 0.0;
+    systemInterface->sendVariable(qd, nstress_expan);  //()
+}
+
+void Nitrogen::get_nstress_grain(protocol::Component *systemInterface, protocol::QueryValueData &qd)
+{
+    float nstress_grain;
+    if (nFact.grain > 0.0)
+       nstress_grain = 1.0 - nFact.grain;
+    else
+       nstress_grain = 0.0;
+    systemInterface->sendVariable(qd, nstress_grain);  //()
+}
 
 

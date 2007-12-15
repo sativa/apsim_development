@@ -320,5 +320,4 @@ protected:
       void Initialise();
 };
 
-float critNFactor(vector< plantPart *> &, float );
 #endif /* PlantPartsH */
