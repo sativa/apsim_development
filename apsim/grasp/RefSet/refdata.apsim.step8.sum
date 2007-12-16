@@ -13,6 +13,7 @@ Version                = 5.4
 Title                  = Step 8. swim
 Component      "clock" = c:\development\apsim\clock\lib\clock.dll
 Component     "report" = c:\development\apsim\report\lib\report.dll
+Component "sysbalreport" = c:\development\apsim\report\lib\report.dll
 Component        "met" = c:\development\apsim\input\lib\input.dll
 Component     "canopy" = c:\development\apsim\canopy\lib\canopy.dll
 Component    "manager" = c:\development\apsim\manager\lib\manager.dll
@@ -53,6 +54,12 @@ Component      "grasp" = c:\development\apsim\grasp\lib\grasp.dll
         manager.transpiration
 
      Output file = step8.out
+     Format = normal
+
+------- sysbalreport Initialisation -------------------------------------------
+     Output variables:
+
+     Output file = Step 8. swim sysbalreport.out
      Format = normal
 
 ------- met Initialisation ----------------------------------------------------
