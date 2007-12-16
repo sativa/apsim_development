@@ -22,6 +22,7 @@ Component  "SurfaceOM" = c:\development\apsim\SurfaceOM\lib\SurfaceOM.dll
 Component     "soiln2" = c:\development\apsim\soiln2\lib\soiln2.dll
 Component      "SoilP" = c:\development\apsim\SoilP\lib\SoilP.dll
 Component    "sorghum" = c:\development\apsim\sorghum\lib\sorghum.dll
+Component     "sysbal" = c:\development\apsim\sysbal\lib\sysbal.dll
 
 ------- clock Initialisation --------------------------------------------------
      Sequencer phases:
@@ -474,6 +475,11 @@ Component    "sorghum" = c:\development\apsim\sorghum\lib\sorghum.dll
       stage 3.0 emergence
      		biomass =   0.00 		 lai =   0.00
      		stover N conc =   0.00 		 extractable sw =   8.87
+4 November 1992(Day of year=309), sysbal: 
+     **** N balance - unaccounted gain (kg/ha) =      0.328125
+     **** P balance - unaccounted gain (kg/ha) =      0.216064
+     **** C balance - unaccounted gain (kg/ha) =     11.984791
+     ****        equivalent DM as FOM  (kg/ha) =     29.961977
 15 November 1992(Day of year=320), sorghum: 
       stage 4.0 end_of_juvenile
      		biomass =   6.14 		 lai =   0.08
@@ -494,6 +500,8 @@ Component    "sorghum" = c:\development\apsim\sorghum\lib\sorghum.dll
       stage 8.0 start_grain_fill
      		biomass = 469.67 		 lai =   2.39
      		stover N conc =   3.62 		 extractable sw = 143.21
+29 December 1992(Day of year=364), sysbal: 
+     **** P balance - unaccounted gain (kg/ha) =      0.254639
 29 January 1993(Day of year=29), sorghum: 
       stage 9.0 end_grain_fill
      		biomass = 843.41 		 lai =   0.99
@@ -549,5 +557,10 @@ Component    "sorghum" = c:\development\apsim\sorghum\lib\sorghum.dll
                          DM (kg/ha) =               4259.44		 1648.84
                          N  (kg/ha) =                 13.11		    3.30
                          P  (kg/ha) =                  0.91		    0.84
+2 February 1993(Day of year=33), sysbal: 
+     **** N balance - unaccounted loss (kg/ha) =    -26.957237
+     **** P balance - unaccounted loss (kg/ha) =     -3.107639
+     **** C balance - unaccounted loss (kg/ha) =  -1008.805600
+      ****        equivalent DM as FOM  (kg/ha) =  -2522.01392
 19 February 1993(Day of year=50), clock: 
      Simulation is terminating due to end criteria being met.

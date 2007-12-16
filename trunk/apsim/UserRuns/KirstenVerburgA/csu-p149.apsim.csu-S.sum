@@ -35,6 +35,7 @@ Component   "Tracker1" = c:\development\apsim\Tracker\lib\Tracker.dll
 Component   "Tracker2" = c:\development\apsim\Tracker\lib\Tracker.dll
 Component   "Tracker3" = c:\development\apsim\Tracker\lib\Tracker.dll
 Component   "Tracker4" = c:\development\apsim\Tracker\lib\Tracker.dll
+Component     "sysbal" = c:\development\apsim\sysbal\lib\sysbal.dll
 
 ------- clock Initialisation --------------------------------------------------
      Sequencer phases:
@@ -1251,6 +1252,10 @@ Component   "Tracker4" = c:\development\apsim\Tracker\lib\Tracker.dll
 31 October 1993(Day of year=304), wheat: 
      Crop failure because of total leaf senescence.
      Plant death. standing above-ground dm = 4386.13 (kg/ha)
+1 November 1993(Day of year=305), sysbal: 
+     **** N balance - unaccounted loss (kg/ha) =     -5.004659
+     **** C balance - unaccounted loss (kg/ha) =   -252.203262
+      ****        equivalent DM as FOM  (kg/ha) =  -630.508118
 8 November 1993(Day of year=312), operatns: 
       Sending do_end_day_output message to report3
       Sending do_end_day_output message to report6
