@@ -28,36 +28,10 @@ using namespace std;
 
 static const char* floatArrayType =   "<type kind=\"single\" array=\"T\"/>";
 
-void Plant::zero_p_variables ()
-// =======================================
-//     Set all variables in this module to zero.
-{
-      pFact = 1.0;
-
-      c.pFactSlope = 0.0;
-      c.num_x_p_stage_code = 0;
-
- }
 
 
 
 
-
-//     ===========================================================
-void Plant::read_p_constants (PlantComponent *systemInterface)
-{
-//+  Purpose
-//       Read all module constants.
-
-//+  Constant Values
-    const char*  section_name = "constants" ;
-
-//+  Local Variables
-    scienceAPI.read("pfact_photo_slope", c.pFactSlope.photo, 0.0f, 100.0f);
-    scienceAPI.read("pfact_expansion_slope", c.pFactSlope.expansion, 0.0f, 100.0f);
-    scienceAPI.read("pfact_pheno_slope", c.pFactSlope.pheno, 0.0f, 100.0f);
-    scienceAPI.read("pfact_grain_slope", c.pFactSlope.grain, 0.0f, 100.0f);
-}
 // ===============================
 
 void Plant::prepare_p(void)
@@ -65,7 +39,6 @@ void Plant::prepare_p(void)
    if (phosphorus->isPresent())
       {
       plant.doPDemand();
-      PlantP_Stress(myParts);
       phosphorus->PlantP_Stress(myParts);
       }
 }
@@ -103,7 +76,6 @@ void Plant::doPInit (PlantComponent *systemInterface)
 {
       if (phosphorus->isPresent())
       {
-         read_p_constants (systemInterface);
          phosphorus->read_p_constants();
 
          string keyword = "uptake_p_" + c.crop_type;
@@ -169,26 +141,6 @@ float Plant::PlantP_Pfact (vector<plantPart *> &allParts)
    }
 
    return pfact;
-}
-
-void Plant::PlantP_Stress (vector<plantPart *> &allParts)
-// ====================================================================
-//      Provide value of  P stress factors
-{
-      float    pfact = PlantP_Pfact(allParts);
-
-      pFact.photo = pfact * c.pFactSlope.photo;
-      pFact.photo = bound(pFact.photo, 0.0, 1.0);
-
-      pFact.expansion = pfact * c.pFactSlope.expansion;
-      pFact.expansion = bound(pFact.expansion, 0.0, 1.0);
-
-      pFact.pheno = pfact * c.pFactSlope.pheno;
-      pFact.pheno = bound(pFact.pheno, 0.0, 1.0);
-
-      pFact.grain = pfact * c.pFactSlope.grain;
-      pFact.grain = bound(pFact.grain, 0.0, 1.0);
-
 }
 
 void Plant::doPRetranslocate (void)
@@ -263,9 +215,16 @@ void Plant::summary_p (void)
 Phosphorus::Phosphorus(ScienceAPI& scienceAPI, PlantComponent *p)
    : scienceAPI(scienceAPI)
    , parent(p)
+{}
+
+// destructor
+Phosphorus::~Phosphorus()
 {
-      pFact = 1.0;
-      c.pFactSlope = 0.0;
+}
+
+void Phosphorus::init(void)
+   {
+   zero_p_variables ();
    PlantP_set_phosphorus_aware ();
 
    parent->addGettableVar("pfact_photo",
@@ -306,11 +265,6 @@ Phosphorus::Phosphorus(ScienceAPI& scienceAPI, PlantComponent *p)
 
    }
 
-// destructor
-Phosphorus::~Phosphorus()
-{
-}
-
 bool Phosphorus::isPresent(void)
 {
    return phosphorus_aware;
@@ -342,6 +296,15 @@ void Phosphorus::PlantP_set_phosphorus_aware ()
          phosphorus_aware = false;
       }
 }
+
+void Phosphorus::zero_p_variables ()
+// =======================================
+//     Set all variables in this module to zero.
+{
+      pFact = 1.0;
+      c.pFactSlope = 0.0;
+ }
+
 
 //     ===========================================================
 void Phosphorus::read_p_constants (void)
@@ -495,7 +458,7 @@ Nitrogen::~Nitrogen()
 {
 }
 
-void Nitrogen::init(PlantComponent *p)
+void Nitrogen::init(void)
    {
       nFact = 1.0;
       c.nFact = 0.0;

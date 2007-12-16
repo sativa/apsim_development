@@ -115,6 +115,7 @@ Plant::Plant(PlantComponent *P, ScienceAPI& api)
     {
     parent = P;
     nitrogen = new Nitrogen(scienceAPI, parent);
+    phosphorus = new Phosphorus(scienceAPI, parent);
 
     g.cswd_pheno.setup(&swDef.pheno);
     g.cswd_photo.setup(&swDef.photo);
@@ -219,7 +220,6 @@ void Plant::onInit1(void)
     myThings.push_back(maturityEventObserver);
 
     plant_zero_all_globals();
-    zero_p_variables();
 
    id.eo = parent->addRegistration(RegistrationType::get,
                                    "eo", addUnitsToDDML(floatType, "mm").c_str(),
@@ -454,8 +454,8 @@ void Plant::onInit2(void)
 //=======================================================================================
 // Init2. The rest of the system is here now..
    {
-   phosphorus = new Phosphorus(scienceAPI, parent);
-   nitrogen->init(parent);
+   nitrogen->init();
+   phosphorus->init();
 
    // Read the default crop class and cultivar and setup the
    // scienceAPI.
@@ -2026,8 +2026,8 @@ void Plant::plant_zero_variables (void)
 
 
     swDef = 1.0;
-    nFact = 1.0;
-    pFact = 1.0;
+    nitrogen->nFact = 1.0;
+    phosphorus->pFact = 1.0;
 
 //    g.remove_biom_pheno = 1.0;
 
@@ -2375,10 +2375,6 @@ void Plant::plant_read_constants ( void )
          t != myThings.end();
          t++)
       (*t)->readConstants(parent, section_name);
-
-    if (phosphorus->isPresent())
-       read_p_constants(parent);
-
     }
 
 
