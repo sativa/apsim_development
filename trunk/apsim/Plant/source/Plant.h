@@ -45,7 +45,7 @@ class Nitrogen {
 public:
    Nitrogen(ScienceAPI& scienceAPI,PlantComponent *p);
    ~Nitrogen(void);
-   void init(PlantComponent *p);
+   void init(void);
    void plant_nit_stress (plantPart* leafPart, plantPart* stemPart);
    float critNFactor(vector< plantPart *> &, float );
    void read_n_constants (void);
@@ -77,7 +77,9 @@ class Phosphorus {
 public:
    Phosphorus(ScienceAPI& scienceAPI,PlantComponent *p);
    ~Phosphorus(void);
+   void init(void);
    bool isPresent(void);
+   void zero_p_variables (void);
    void  PlantP_Stress (vector<plantPart *>&);
    void read_p_constants (void);
    void get_pfact_photo(protocol::Component *, protocol::QueryValueData &qd);
@@ -450,15 +452,12 @@ public:
    int  getDayOfYear(void) {return (Environment.day_of_year);};
 
    //Phosporousy things:
-   void zero_p_variables (void);
-   void read_p_constants (PlantComponent *systemInterface);
    void doPInit(PlantComponent *systemInterface);
    bool phosphorusAware(void)  {return phosphorus->isPresent();};
    bool removeBiomassReport(void)  {return c.remove_biomass_report == "on";};
    void prepare_p(void);
    void summary_p (void);
 
-   void  PlantP_Stress (vector<plantPart *>&);
    void  doPPartition (vector<plantPart*>&);
    void  doPRetranslocate (void);
 
