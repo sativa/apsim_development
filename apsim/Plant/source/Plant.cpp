@@ -114,14 +114,16 @@ Plant::Plant(PlantComponent *P, ScienceAPI& api)
      population(scienceAPI, *this)
     {
     parent = P;
-    nitrogen = new Nitrogen(scienceAPI, parent);
-    phosphorus = new Phosphorus(scienceAPI, parent);
+    nStress = new NStress(scienceAPI, parent);
+    pStress = new PStress(scienceAPI, parent);
+    swStress = new SWStress(scienceAPI, parent);
+    tempStress = new TempStress(scienceAPI, parent);
 
-    g.cswd_pheno.setup(&swDef.pheno);
-    g.cswd_photo.setup(&swDef.photo);
-    g.cnd_grain_conc.setup(&nitrogen->nFact.grain);
-    g.cnd_photo.setup(&nitrogen->nFact.photo);
-    g.cswd_expansion.setup(&swDef.expansion);
+    g.cswd_pheno.setup(&swStress->swDef.pheno);
+    g.cswd_photo.setup(&swStress->swDef.photo);
+    g.cnd_grain_conc.setup(&nStress->nFact.grain);
+    g.cnd_photo.setup(&nStress->nFact.photo);
+    g.cswd_expansion.setup(&swStress->swDef.expansion);
 
     stageObservers.addObserver(&g.cswd_photo);
     stageObservers.addObserver(&g.cswd_expansion);
@@ -303,43 +305,6 @@ void Plant::onInit1(void)
    setupGetFunction(parent, "green_biomass_n", protocol::DTsingle, false,
                     &Plant::get_green_biomass_n, "g/m^2", "N in green biomass");
 
-
-
-
-   parent->addGettableVar("temp_stress_photo",
-               g.temp_stress_photo, "", "Temperature Stress in photosynthesis");
-
-   parent->addGettableVar("swdef_pheno",
-               swDef.pheno, "", "Soil water deficit in phenological development");
-
-   parent->addGettableVar("swdef_photo",
-               swDef.photo, "", "Soil water deficit in photosynthesis");
-
-   parent->addGettableVar("swdef_expan",
-               swDef.expansion, "", "Soil water deficit in leaf expansion");
-
-   parent->addGettableVar("swdef_fixation",
-               swDef.fixation, "", "Soil water deficit in N fixation");
-
-   parent->addGettableVar("oxdef_photo",
-               g.oxdef_photo, "", "Oxygen deficit in photosynthesis");
-
-   setupGetFunction(parent, "sw_stress_pheno", protocol::DTsingle, false,
-                    &Plant::get_swstress_pheno,
-                          "","Soil water stress for phenological development");
-
-   setupGetFunction(parent, "sw_stress_photo", protocol::DTsingle, false,
-                    &Plant::get_swstress_photo,
-                    "","Soil water stress for photosynthesis");
-
-   setupGetFunction(parent, "sw_stress_expan", protocol::DTsingle, false,
-                    &Plant::get_swstress_expan,
-                    "","Soil water stress for leaf expansion");
-
-   setupGetFunction(parent, "sw_stress_fixation", protocol::DTsingle, false,
-                    &Plant::get_swstress_fixation,
-                    "","Soil water stress for N fixation");
-
    setupGetFunction(parent, "transp_eff", protocol::DTsingle, false,
                     &Plant::get_transp_eff,
                     "g/m2/mm", "Transpiration Efficiency");
@@ -454,8 +419,10 @@ void Plant::onInit2(void)
 //=======================================================================================
 // Init2. The rest of the system is here now..
    {
-   nitrogen->init();
-   phosphorus->init();
+   nStress->init();
+   pStress->init();
+   swStress->init(rootPart);
+   tempStress->init();
 
    // Read the default crop class and cultivar and setup the
    // scienceAPI.
@@ -638,16 +605,6 @@ void Plant::doAutoClassChange(unsigned &/*fromId*/, unsigned &eventId, protocol:
   plant_auto_class_change(ps.c_str());
   }
 
-void Plant::plant_temp_stress (void)
-//     ===========================================================
-//         Get current temperature stress factors (0-1)
-   {
-   float ave_temp = (Environment.maxt + Environment.mint) / 2.0;
-   g.temp_stress_photo = linear_interp_real (ave_temp, c.x_ave_temp, c.y_stress_photo, c.num_ave_temp);
-   g.temp_stress_photo = bound (g.temp_stress_photo, 0.0, 1.0);
-   }
-
-
 void Plant::doDmPotTE (void)
 //     ===========================================================
 //     Calculate biomass transpiration efficiency
@@ -771,7 +728,7 @@ void Plant::doNDemandEstimate (int option)
         crop_n_fixation_pot1(phenology->stageNumber()
                              , c.n_fix_rate
                              , tops.Green.DM()
-                             , swDef.fixation
+                             , swStress->swDef.fixation
                              , &n_fix_pot);
 
         if (Str_i_Eq(c.n_supply_preference,"active"))
@@ -821,7 +778,7 @@ void Plant::doNSenescence (int   option/*(INPUT) option number*/)
         throw std::invalid_argument ("invalid sen nit option");
         }
 
-    if (phosphorus->isPresent())
+    if (pStress->isPhosphorusAware())
        plant.doPSenescence();
     }
 
@@ -1290,7 +1247,7 @@ void Plant::plant_process ( void )
     //!!!!!!!! check order dependency of deltas
 
     rootPart->plant_root_depth ();
-    rootPart->waterSupply();
+    rootPart->doWaterSupply();
 
     if (g.plant_status == alive)
         {
@@ -1313,18 +1270,16 @@ void Plant::plant_process ( void )
                                                , c.num_co2_nconc_modifier);
 
 
-        rootPart->plant_water_uptake(1, tops.SWDemand());
-       rootPart->plant_water_stress (tops.SWDemand(), swDef);
-
-        g.oxdef_photo = rootPart->oxdef_stress ();
+        rootPart->doWaterUptake(1, tops.SWDemand());
+        rootPart->doPlantWaterStress (tops.SWDemand(), swStress);
 
         phenology->prepare (Environment);
 
         pheno_stress_t ps;
-        ps.swdef = swDef.pheno;
-        ps.nfact = min(nitrogen->nFact.pheno, phosphorus->pFact.pheno);
-        ps.swdef_flower = swDef.pheno_flower;
-        ps.swdef_grainfill = swDef.pheno_grainfill;
+        ps.swdef = swStress->swDef.pheno;
+        ps.nfact = min(nStress->nFact.pheno, pStress->pFact.pheno);
+        ps.swdef_flower = swStress->swDef.pheno_flower;
+        ps.swdef_grainfill = swStress->swDef.pheno_grainfill;
         ps.remove_biom_pheno = g.remove_biom_pheno;
 
         float fasw_seed = rootPart->fasw((int)plantSpatial.sowing_depth);
@@ -1338,10 +1293,10 @@ void Plant::plant_process ( void )
            (*t)->morphology();
 
         leafPart->potential(c.leaf_no_pot_option,
-                            min(pow(min(nitrogen->nFact.expansion, phosphorus->pFact.expansion),2),swDef.expansion),
+                            min(pow(min(nStress->nFact.expansion, pStress->pFact.expansion),2),swStress->swDef.expansion),
                             phenology->get_dlt_tt() );
 
-        leafPart->leaf_area_stressed (min(swDef.expansion, min(nitrogen->nFact.expansion, phosphorus->pFact.expansion)));
+        leafPart->leaf_area_stressed (min(swStress->swDef.expansion, min(nStress->nFact.expansion, pStress->pFact.expansion)));
 
         doDmPotTE ();
         // Calculate Potential Photosynthesis
@@ -1372,8 +1327,8 @@ void Plant::plant_process ( void )
 
         rootPart->root_length_growth();
 
-        leafPart->leaf_death( min(nitrogen->nFact.expansion, phosphorus->pFact.expansion), phenology->get_dlt_tt());
-        leafPart->leaf_area_sen( swDef.photo , Environment.mint);
+        leafPart->leaf_death( min(nStress->nFact.expansion, pStress->pFact.expansion), phenology->get_dlt_tt());
+        leafPart->leaf_area_sen( swStress->swDef.photo , Environment.mint);
 
         plant.doSenescence(leafPart->senFract());
         rootPart->sen_length();
@@ -1381,11 +1336,11 @@ void Plant::plant_process ( void )
         for (vector<plantPart *>::iterator t = myParts.begin(); t != myParts.end(); t++)
            {
            (*t)->doNInit();
-           (*t)->doNDemandGrain(nitrogen->nFact.grain, swDef.expansion);
+           (*t)->doNDemandGrain(nStress->nFact.grain, swStress->swDef.expansion);
            }
 
         float biomass = tops.Green.DM() + plant.dltDm();
-        g.n_fix_pot = rootPart->plant_nit_supply(biomass, phenology->stageNumber(), swDef.fixation);
+        g.n_fix_pot = rootPart->plant_nit_supply(biomass, phenology->stageNumber(), swStress->swDef.fixation);
 
         if (c.n_retrans_option==1)
            {
@@ -1403,13 +1358,13 @@ void Plant::plant_process ( void )
         doSoilNDemand ();
         doNUptake ();     // allows preference of N source
         doNPartition ();                  // allows output of n fixed
-        if (phosphorus->isPresent())
+        if (pStress->isPhosphorusAware())
             doPPartition(myParts);
 
         if (c.n_retrans_option==2)  // this option requires soil uptake to satisfy grain n before retranslocation
            doNRetranslocate (c.n_retrans_option);
 
-        if (phosphorus->isPresent())
+        if (pStress->isPhosphorusAware())
            doPRetranslocate();
 
         population.PlantDeath();
@@ -1424,8 +1379,8 @@ void Plant::plant_process ( void )
 
     plant_cleanup();
 
-    rootPart->plant_water_stress (tops.SWDemand(), swDef);
-    nitrogen->plant_nit_stress (leafPart, stemPart);
+    swStress->doPlantWaterStress (tops.SWDemand());
+    nStress->plant_nit_stress (leafPart, stemPart);
 
     }
 
@@ -1713,7 +1668,7 @@ void Plant::plant_harvest_update (protocol::Variant &v/*(INPUT)message arguments
 
     sprintf (msg, "%48s%8.2f%24.2f", "N  (kg/ha) =               ", n_tops_residue, n_root_residue);
     parent->writeString (msg);
-    if (phosphorus->isPresent())
+    if (pStress->isPhosphorusAware())
        {
        sprintf (msg, "%48s%7.1f%24.2f",
                                      "P  (kg/ha) =               ", p_tops_residue, p_root_residue);
@@ -1735,7 +1690,7 @@ void Plant::plant_harvest_update (protocol::Variant &v/*(INPUT)message arguments
 
     sprintf (msg, "%48s%8.2f%24.2f", "N  (kg/ha) =               ", n_removed_tops, n_removed_root);
     parent->writeString (msg);
-    if (phosphorus->isPresent())
+    if (pStress->isPhosphorusAware())
        {
        sprintf (msg, "%48s%7.2f%24.2f",
                                      "P  (kg/ha) =               ", p_removed_tops, p_removed_root);
@@ -1942,10 +1897,9 @@ void Plant::plant_zero_all_globals (void)
       g.plant_status = out;
       g.cultivar = "";
       g.pre_dormancy_crop_class = "";
-      swDef = 1.0;
+      swStress->swDef = 1.0;
+      tempStress->tFact = 1.0;
       g.remove_biom_pheno = 1.0;
-      g.temp_stress_photo = 1.0;
-      g.oxdef_photo = 1.0;
       g.fr_intc_radn = 0.0;
 
       g.eo = 0.0;
@@ -1973,10 +1927,6 @@ void Plant::plant_zero_all_globals (void)
       c.n_supply_preference = "";
 
       fill_real_array (c.n_fix_rate, 0.0,max_table);
-      fill_real_array (c.x_ave_temp, 0.0, max_table);
-      fill_real_array (c.y_stress_photo, 0.0, max_table);
-      c.num_ave_temp = 0;
-      c.num_factors = 0;
 
       c.class_action.clear();
       c.class_change.clear();
@@ -2025,9 +1975,9 @@ void Plant::plant_zero_variables (void)
     g.lai_max               = 0.0;
 
 
-    swDef = 1.0;
-    nitrogen->nFact = 1.0;
-    phosphorus->pFact = 1.0;
+    swStress->swDef = 1.0;
+    nStress->nFact = 1.0;
+    pStress->pFact = 1.0;
 
 //    g.remove_biom_pheno = 1.0;
 
@@ -2279,7 +2229,7 @@ void Plant::plant_end_crop (void)
                            , "N  (kg/ha) =               ", n_residue * gm2kg /sm2ha, n_root * gm2kg /sm2ha);
         parent->writeString (msg);
 
-        if (phosphorus->isPresent())
+        if (pStress->isPhosphorusAware())
            {
            sprintf (msg, "%48s%7.2f%24.2f"
                            , "P  (kg/ha) =               ", p_residue * gm2kg /sm2ha, p_root * gm2kg /sm2ha);
@@ -2404,8 +2354,8 @@ void Plant::plant_prepare (void)
    for (vector<plantPart *>::iterator t = myParts.begin(); t != myParts.end(); t++)
       (*t)->prepare();
 
-   nitrogen->plant_nit_stress (leafPart, stemPart);
-   plant_temp_stress ();
+   nStress->plant_nit_stress (leafPart, stemPart);
+   tempStress->doPlant_temp_stress (Environment);
    plant_light_supply_partition (1);
 
    // Calculate Potential Photosynthesis
@@ -2508,11 +2458,9 @@ void Plant::plant_read_species_const (void)
 
     //    plant_nfact
     scienceAPI.read("N_stress_start_stage", c.n_stress_start_stage, 0.0f, 100.0f);
-    nitrogen->read_n_constants ();
+    nStress->read_n_constants ();
 
     //    plant_rue_reduction
-    scienceAPI.read("x_ave_temp", c.x_ave_temp, c.num_ave_temp, 0.0f, 100.0f);
-    scienceAPI.read("y_stress_photo", c.y_stress_photo, c.num_factors, 0.0f, 1.0f);
     scienceAPI.read("x_co2_te_modifier", c.x_co2_te_modifier, c.num_co2_te_modifier, 0.0f, 1000.0f);
     scienceAPI.read("y_co2_te_modifier", c.y_co2_te_modifier, c.num_co2_te_modifier, 0.0f, 10.0f);
     scienceAPI.read("x_co2_nconc_modifier", c.x_co2_nconc_modifier, c.num_co2_nconc_modifier, 0.0f, 1000.0f);
@@ -2914,46 +2862,6 @@ void Plant::get_transp_eff(protocol::Component *system, protocol::QueryValueData
     system->sendVariable(qd, transp_eff);
 }
 
-void Plant::get_swstress_pheno(protocol::Component *systemInterface, protocol::QueryValueData &qd)
-{
-    float swstress_pheno;
-    if (swDef.pheno > 0.0)
-       swstress_pheno = 1.0 - swDef.pheno;
-    else
-       swstress_pheno = 0.0;
-    systemInterface->sendVariable(qd, swstress_pheno);  //()
-}
-
-void Plant::get_swstress_photo(protocol::Component *systemInterface, protocol::QueryValueData &qd)
-{
-    float swstress_photo;
-    if (swDef.photo > 0.0)
-       swstress_photo = 1.0 - swDef.photo;
-    else
-       swstress_photo = 0.0;
-    systemInterface->sendVariable(qd, swstress_photo);  //()
-}
-
-void Plant::get_swstress_expan(protocol::Component *systemInterface, protocol::QueryValueData &qd)
-{
-    float swstress_expan;
-    if (swDef.expansion > 0.0)
-       swstress_expan = 1.0 - swDef.expansion;
-    else
-       swstress_expan = 0.0;
-    systemInterface->sendVariable(qd, swstress_expan);  //()
-}
-
-void Plant::get_swstress_fixation(protocol::Component *systemInterface, protocol::QueryValueData &qd)
-{
-    float swstress_fixation;
-    if (swDef.fixation > 0.0)
-       swstress_fixation = 1.0 - swDef.fixation;
-    else
-       swstress_fixation = 0.0;
-    systemInterface->sendVariable(qd, swstress_fixation);  //()
-}
-
 void Plant::get_parasite_c_gain(protocol::Component *system, protocol::QueryValueData &qd)
 {
   float dlt_wt = g.dlt_dm_parasite + g.dm_parasite_retranslocate;
@@ -3065,12 +2973,12 @@ float Plant::getCo2ModifierRue(void)  {return g.co2_modifier_rue;}
 float Plant::getCo2ModifierTe(void)  {return g.co2_modifier_te;}
 float Plant::getCo2ModifierNConc(void)  {return g.co2_modifier_n_conc;}
 float Plant::getVpd(void)  {return Environment.vpdEstimate();}
-float Plant::getTempStressPhoto(void)  {return g.temp_stress_photo;}
-float Plant::getNfactPhoto(void)  {return nitrogen->nFact.photo;}
-float Plant::getNfactGrainConc(void)  {return nitrogen->nFact.grain;}
-float Plant::getOxdefPhoto(void)  {return g.oxdef_photo;}
-float Plant::getPfactPhoto(void)  {return phosphorus->pFact.photo;}
-float Plant::getSwdefPhoto(void)  {return swDef.photo;}
+float Plant::getTempStressPhoto(void)  {return tempStress->tFact.photo;}
+float Plant::getNfactPhoto(void)  {return nStress->nFact.photo;}
+float Plant::getNfactGrainConc(void)  {return nStress->nFact.grain;}
+float Plant::getOxdefPhoto(void)  {return swStress->swDef.oxdef_photo;}
+float Plant::getPfactPhoto(void)  {return pStress->pFact.photo;}
+float Plant::getSwdefPhoto(void)  {return swStress->swDef.photo;}
 bool  Plant::on_day_of(const string &what) {return (phenology->on_day_of(what));};
 bool  Plant::inPhase(const string &what) {return (phenology->inPhase(what));};
 void Plant::writeString (const char *line) {parent->writeString(line);};

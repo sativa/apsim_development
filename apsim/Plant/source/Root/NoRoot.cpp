@@ -36,27 +36,19 @@ float NoRoot::waterUptake (void)
    return SWDemand;
    }
 
-void NoRoot::doWaterUptake (float sw_demand_in)
+void NoRoot::doWaterUptakeInternal (float sw_demand_in)
 //=======================================================================================
 // Calculate todays daily water uptake by this root system
    {
    SWDemand = sw_demand_in;
    }
 
-void NoRoot::plant_water_stress (float sw_demand, StressDeficit& swDef)
+void NoRoot::doPlantWaterStress (float sw_demand, SWStress *swStress)
 //     ===========================================================
 //         Get current water stress factors (0-1)
    {
-   swDef = 1.0;
+   swStress->swDef = 1.0;
    }
-
-float NoRoot::oxdef_stress ()
-//=======================================================================================
-// Calculate today's oxygen deficit (i.e. water logging) stress factor
-   {
-      return 1.0;
-   }
-
 
 //int NoRoot::find_layer_no(float depth)
 ////=======================================================================================
@@ -158,7 +150,7 @@ void NoRoot::onInit1(protocol::Component *system)
 
 //+  Purpose
 //       Plant transpiration and soil water extraction
-void NoRoot::plant_water_uptake (int option, float swDemand)
+void NoRoot::doWaterUptake (int option, float swDemand)
     {
     SWDemand = swDemand;
     }

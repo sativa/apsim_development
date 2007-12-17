@@ -78,6 +78,8 @@ namespace protocol {
   class Component;
 };
 
+class SWStress;
+
 // Class containing stress deficits
 class StressDeficit {
    public:
@@ -89,6 +91,7 @@ class StressDeficit {
          grain = 1.0;
          expansion = 1.0;
          fixation = 1.0;
+         oxdef_photo = 1.0;
 };
      ~StressDeficit() {};
 const  StressDeficit &operator=(const float &y)
@@ -100,6 +103,7 @@ const  StressDeficit &operator=(const float &y)
          grain = y;
          expansion = y;
          fixation = y;
+         oxdef_photo = y;
       return *this;
 }
    public:
@@ -110,6 +114,7 @@ const  StressDeficit &operator=(const float &y)
       float grain;
       float expansion;
       float fixation;
+      float oxdef_photo;
 };
 
 

@@ -49,28 +49,31 @@ class RootBase : public SimplePart
 //      virtual int find_layer_no(float) {};
 //      virtual int find_layer_no(float,const vector<float>&){};
 //      virtual int find_layer_no(float, float *, int){};
-      virtual float sw_avail_ratio(int layer) {return 0;}
+      virtual float sw_avail_ratio(int layer) {return 0;};
 
-      virtual void plant_water_stress (float sw_demand, StressDeficit& swDef) {};
+      virtual void doPlantWaterStress (float sw_demand, SWStress *swStress) {};
 
-      virtual void waterSupply(){};
-      virtual void doWaterUptake(float sw_demand){};
-      virtual float waterUptake(void){return 0;}
+      virtual void doWaterSupply(){};
+      virtual void doWaterUptakeInternal(float sw_demand){};
+      virtual float waterUptake(void){return 0;};
       virtual void getOtherVariables(){};
       virtual void UpdateOtherVariables(){};
 
-      virtual float oxdef_stress (){return 0;}
+      virtual float wet_root_fr (void){return 0;};
       virtual void onNewProfile(protocol::NewProfileType &v){};
       virtual void write(){};
 
-      virtual float plant_nit_supply(float biomass, float stageNumber, float swdef_fixation){return 0;}
+      virtual float plant_nit_supply(float biomass, float stageNumber, float swdef_fixation){return 0;};
       virtual void doNUptake(float sumNMax, float sumSoilNDemand, float NDemand){};
-      virtual void plant_water_uptake (int option, float SWDemand){};
-      virtual float peswTotal(){return 0;}
-      virtual float pesw(int depth){return 0;}
-      virtual float dltSwDep(){return 0;}
-      virtual float nUptake(){return 0;}
-      virtual float fasw(int depth){return 0;}
+      virtual void doWaterUptake (int option, float SWDemand){};
+      virtual float peswTotal(){return 0;};
+      virtual float pesw(int depth){return 0;};
+      virtual float dltSwDep(){return 0;};
+      virtual float swSupply(){return 0.0;};
+      virtual float swAvailable(){return 0.0;};
+      virtual float swAvailablePotential(){return 0.0;};
+      virtual float nUptake(){return 0;};
+      virtual float fasw(int depth){return 0;};
 
 
    };
