@@ -28,6 +28,7 @@
 #include "PlantSpatial.h"
 #include "CompositePool.h"
 #include "Delta.h"
+#include "PlantStress.h"
 
 class plantPart : public plantThing
    {

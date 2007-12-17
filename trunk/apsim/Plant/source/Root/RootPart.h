@@ -14,7 +14,7 @@ class RootPart : public RootBase
       void onSowing(void);
       void onGermination(void);
       void onEmergence(void);
-      void onTransplanting(void);      
+      void onTransplanting(void);
       void onFlowering(void);
       void onStartGrainFill(void);
       void onHarvest(float height, float remove_fr,
@@ -47,26 +47,31 @@ class RootPart : public RootBase
 
       float sw_avail_ratio(int layer);
 
-      void plant_water_stress (float sw_demand, StressDeficit& swDef);
+      void doPlantWaterStress (float sw_demand, SWStress *swStress);
 
-      void waterSupply();
-      void doWaterUptake(float sw_demand);
+      void doWaterSupply();
+      void doWaterUptakeInternal(float sw_demand);
+      void doWaterUptakeExternal(float sw_demand);
       float waterUptake(void);
       void getOtherVariables();
       void UpdateOtherVariables();
 
-      float oxdef_stress ();
+      float wet_root_fr (void);
       void onNewProfile(protocol::NewProfileType &v);
       virtual void write();
 
       float plant_nit_supply(float biomass, float stageNumber, float swdef_fixation);
       void doNUptake(float sumNMax, float sumSoilNDemand, float NDemand);
-      void plant_water_uptake (int option, float SWDemand);
+      void doWaterUptake (int option, float SWDemand);
       float peswTotal();
       float pesw(int depth);
       float dltSwDep();
+      float swSupply();
+      float swAvailable();
+      float swAvailablePotential();
       float nUptake();
       float fasw(int depth);
+
 
    protected:
       RootPart(ScienceAPI& scienceAPI, plantInterface *p, const string &name);
@@ -123,30 +128,6 @@ class RootPart : public RootBase
       float rootDieBackFraction;                      // fraction of roots dying at harvest or kill_stem
 
       unsigned int incorp_fom_ID;
-
-      int   num_sw_avail_ratio;
-      float x_sw_avail_ratio [max_table];
-      float y_swdef_pheno [max_table];
-
-      int        num_sw_avail_ratio_flower;
-      float      x_sw_avail_ratio_flower[max_table];
-      float      y_swdef_pheno_flower [max_table];
-
-      int        num_sw_avail_ratio_grainfill;
-      float      x_sw_avail_ratio_grainfill [max_table];
-      float      y_swdef_pheno_grainfill [max_table];
-
-      int   num_sw_demand_ratio;
-      float x_sw_demand_ratio [max_table];
-      float y_swdef_leaf [max_table];
-
-      int   num_sw_avail_fix;
-      float x_sw_avail_fix [max_table];
-      float y_swdef_fix [max_table];
-
-      float oxdef_photo [max_table];
-      float oxdef_photo_rtfr[max_table];
-      int   num_oxdef_photo;
 
       int   n_uptake_option;
       float n_fix_rate[max_table];                      // potential rate of N fixation (g N fixed
@@ -218,13 +199,9 @@ class RootPart : public RootBase
                            float uptake_ubound,              //(INPUT) uptake upper limit
                            float *uptake_array);              //(OUTPUT) crop uptake array
 
-      void potentialExtractableSW();
-      void SWSupply();
-      void SWAvailable();
-      float SWDefExpansion(float sw_demand);
-      float SWDefPhoto(float sw_demand);
-      float SWDefPheno(int num_sw_avail_ratio, float x_sw_avail_ratio[], float y_swdef_pheno[]);
-      float SWDefFixation();
+      void doPotentialExtractableSW();
+      void doSWSupply();
+      void doSWAvailable();
       void rootDist(float root_sum, std::vector<float>& rootArray);
 
    };

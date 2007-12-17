@@ -36,27 +36,19 @@ float MultiRoot::waterUptake (void)
    return SWDemand;
    }
 
-void MultiRoot::doWaterUptake (float sw_demand_in)
+void MultiRoot::doWaterUptakeInternal (float sw_demand_in)
 //=======================================================================================
 // Calculate todays daily water uptake by this root system
    {
    SWDemand = sw_demand_in;
    }
 
-void MultiRoot::plant_water_stress (float sw_demand, StressDeficit& swDef)
+void MultiRoot::doPlantWaterStress (float sw_demand, SWStress *swStress)
 //     ===========================================================
 //         Get current water stress factors (0-1)
    {
-   swDef = 1.0;
+   swStress->swDef = 1.0;
    }
-
-float MultiRoot::oxdef_stress ()
-//=======================================================================================
-// Calculate today's oxygen deficit (i.e. water logging) stress factor
-   {
-      return 1.0;
-   }
-
 
 //int MultiRoot::find_layer_no(float depth)
 ////=======================================================================================
@@ -158,7 +150,7 @@ void MultiRoot::onInit1(protocol::Component *system)
 
 //+  Purpose
 //       Plant transpiration and soil water extraction
-void MultiRoot::plant_water_uptake (int option, float swDemand)
+void MultiRoot::doWaterUptake (int option, float swDemand)
     {
     SWDemand = swDemand;
     }

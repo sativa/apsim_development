@@ -10,7 +10,7 @@ class MultiRoot : public RootBase
 
       void read();
       void onInit1(protocol::Component *system);
-      void plant_water_uptake (int option, float swDemand);
+      void doWaterUptake (int option, float swDemand);
       void doNUptake(float sumNMax, float sumSoilNDemand, float NDemand);
 
       void zeroAllGlobals(void){};
@@ -18,12 +18,11 @@ class MultiRoot : public RootBase
 
       float sw_avail_ratio(int layer);
 
-      void plant_water_stress (float sw_demand, StressDeficit& swDef);
+      void doPlantWaterStress (float sw_demand, SWStress *swStress);
 
-      void doWaterUptake(float sw_demand);
+      void doWaterUptakeInternal(float sw_demand);
       float waterUptake(void);
 
-      float oxdef_stress ();
       virtual void write();
 
       float plant_nit_supply(float biomass, float stageNumber, float swdef_fixation);

@@ -19,6 +19,7 @@ class Arbitrator;
 #include "PlantSpatial.h"
 #include "CompositePart.h"
 #include "Population.h"
+#include "PlantStress.h"
 typedef bool (Plant::*ptr2setFn) (protocol::QuerySetValueData&);
 
 typedef std::map<unsigned, ptr2setFn>   UInt2SetFnMap;
@@ -40,73 +41,6 @@ const int  pheno = 2 ;
 const int  grain_conc = 3 ;
 // N fixation flag
 const int  fixation = 4 ;
-
-class Nitrogen {
-public:
-   Nitrogen(ScienceAPI& scienceAPI,PlantComponent *p);
-   ~Nitrogen(void);
-   void init(void);
-   void plant_nit_stress (plantPart* leafPart, plantPart* stemPart);
-   float critNFactor(vector< plantPart *> &, float );
-   void read_n_constants (void);
-   void get_nfact_pheno(protocol::Component *, protocol::QueryValueData &);
-   void get_dlt_n_fixed_pot(protocol::Component *, protocol::QueryValueData &);
-   void get_dlt_n_fixed(protocol::Component *, protocol::QueryValueData &);
-   void get_nfact_photo(protocol::Component *, protocol::QueryValueData &);
-   void get_nfact_expan(protocol::Component *, protocol::QueryValueData &);
-   void get_nfact_grain(protocol::Component *, protocol::QueryValueData &);
-   void get_nstress_photo(protocol::Component *, protocol::QueryValueData &);
-   void get_nstress_pheno(protocol::Component *, protocol::QueryValueData &);
-   void get_nstress_expan(protocol::Component *, protocol::QueryValueData &);
-   void get_nstress_grain(protocol::Component *, protocol::QueryValueData &);
-
-   StressDeficit nFact;
-
-private:
-   ScienceAPI& scienceAPI;
-
-   PlantComponent *parent;                 // The plant we are attached to
-   struct {
-      StressDeficit nFact;
-      int   n_stress_option;
-   }  c;   // Constants
-
-}; //Nitrogen
-
-class Phosphorus {
-public:
-   Phosphorus(ScienceAPI& scienceAPI,PlantComponent *p);
-   ~Phosphorus(void);
-   void init(void);
-   bool isPresent(void);
-   void zero_p_variables (void);
-   void  PlantP_Stress (vector<plantPart *>&);
-   void read_p_constants (void);
-   void get_pfact_photo(protocol::Component *, protocol::QueryValueData &qd);
-   void get_pfact_pheno(protocol::Component *, protocol::QueryValueData &qd);
-   void get_pfact_expansion(protocol::Component *, protocol::QueryValueData &qd);
-   void get_pfact_expan(protocol::Component *, protocol::QueryValueData &qd);
-   void get_pfact_grain(protocol::Component *, protocol::QueryValueData &qd);
-   void get_pstress_photo(protocol::Component *, protocol::QueryValueData &qd);
-   void get_pstress_pheno(protocol::Component *, protocol::QueryValueData &qd);
-   void get_pstress_expansion(protocol::Component *, protocol::QueryValueData &qd);
-   void get_pstress_grain(protocol::Component *, protocol::QueryValueData &qd);
-
-   StressDeficit pFact;
-
-private:
-   ScienceAPI& scienceAPI;
-   void PlantP_set_phosphorus_aware (void);
-   float PlantP_Pfact (vector<plantPart *>&);
-
-   PlantComponent *parent;                 // The plant we are attached to
-   bool  phosphorus_aware;
-   struct {
-      StressDeficit pFactSlope;
-   }  c;   // Constants
-
-}; //Phosphorus
-
 
 //   This class performs crop crop growth
 //     simulates root, leaf, head, stem and grain development. Water and
@@ -144,8 +78,10 @@ private:
    StressDeficit swDef;
    StressDeficit nFact;
    StressDeficit pFact;
-   Phosphorus *phosphorus;
-   Nitrogen *nitrogen;
+   PStress *pStress;
+   NStress *nStress;
+   SWStress *swStress;
+   TempStress *tempStress;
 
    float grainGreen(void);
    float grainSenesced(void);
@@ -195,7 +131,6 @@ public:
    std::string Name(void) {return g.module_name;}
 
    void doDmRetranslocate (void);
-   void plant_temp_stress (void);
    void plant_oxdef_stress (void);
    void doDmPotTE (void);
    void plant_retrans_init (int option);
@@ -392,14 +327,6 @@ public:
    void get_root_n(protocol::Component *, protocol::QueryValueData &);
    void get_deadleaf_n(protocol::Component *, protocol::QueryValueData &);
    void get_temp_stress_photo(protocol::Component *, protocol::QueryValueData &);
-   void get_swdef_pheno(protocol::Component *, protocol::QueryValueData &);
-   void get_swdef_photo(protocol::Component *, protocol::QueryValueData &);
-   void get_swdef_expan(protocol::Component *, protocol::QueryValueData &);
-   void get_swdef_fixation(protocol::Component *, protocol::QueryValueData &);
-   void get_swstress_pheno(protocol::Component *, protocol::QueryValueData &);
-   void get_swstress_photo(protocol::Component *, protocol::QueryValueData &);
-   void get_swstress_expan(protocol::Component *, protocol::QueryValueData &);
-   void get_swstress_fixation(protocol::Component *, protocol::QueryValueData &);
    void get_oxdef_photo(protocol::Component *, protocol::QueryValueData &);
    void get_transp_eff(protocol::Component *, protocol::QueryValueData &);
    void get_ep(protocol::Component *, protocol::QueryValueData &);
@@ -453,7 +380,7 @@ public:
 
    //Phosporousy things:
    void doPInit(PlantComponent *systemInterface);
-   bool phosphorusAware(void)  {return phosphorus->isPresent();};
+   bool phosphorusAware(void)  {return pStress->isPhosphorusAware();};
    bool removeBiomassReport(void)  {return c.remove_biomass_report == "on";};
    void prepare_p(void);
    void summary_p (void);
@@ -516,8 +443,6 @@ private:
       string   pre_dormancy_crop_class;
       string   averageStressMessage;                    // Message of average stresses for each phase
       float remove_biom_pheno;
-      float temp_stress_photo;
-      float oxdef_photo;
       float fr_intc_radn;                               // fraction of radiation intercepted by canopy
       float eo;                                         // potential evapotranspiration (mm)
       factorObserver cnd_photo;                         // cumulative nitrogen stress type 1
@@ -592,15 +517,9 @@ private:
                                                         // because 1g water = 1 cm^3 water
       float n_fix_rate[max_table];                      // potential rate of N fixation (g N fixed
                                                         // per g above ground biomass
-      float x_ave_temp[max_table];                      // critical temperatures for
-                                                        // photosynthesis (oC)
-      float y_stress_photo[max_table];                  // Factors for critical temperatures
-                                                        // (0-1)
       float x_temp[max_table];                          // temperature table for photosynthesis
                                                         // degree days
       float y_tt[max_table];                            // degree days
-      int   num_ave_temp;                               // size_of critical temperature table
-      int   num_factors;                                // size_of table
 
 
       vector<string> class_action;

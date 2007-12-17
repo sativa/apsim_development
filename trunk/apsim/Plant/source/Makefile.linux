@@ -29,6 +29,7 @@ OBJ=PlantComponent.o \
    PlantComms.o \
    PlantP.o \
    Population.o \
+   PlantStress.o \
    Environment.o \
    Utility/Observers.o \
    Leaf/LeafPart.o \
@@ -45,6 +46,7 @@ OBJ=PlantComponent.o \
    Reproductive/FruitCohort.o \
    Reproductive/PlantFruit.o \
    CompositePart.o \
+   SimplePart.o \
    Root/RootBase.o \
    Root/RootPart.o \
    Root/NoRoot.o \

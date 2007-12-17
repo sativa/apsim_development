@@ -14,6 +14,7 @@ using namespace std;
 string IncorpFOMType = protocol::DDML(protocol::IncorpFomType());
 string floatArrayType = protocol::DDML(vector<float>());
 
+
 RootPart::RootPart(ScienceAPI& scienceAPI, plantInterface *p, const string &name)
    : RootBase(scienceAPI, p, name)
 //=======================================================================================
@@ -39,30 +40,6 @@ void RootPart::zeroAllGlobals(void)
    fill_real_array (root_length , 0.0, max_layer);
    fill_real_array (root_length_senesced, 0.0, max_layer);
    n_conc_min = n_conc_crit = n_conc_max = 0.0;
-
-   num_sw_avail_ratio = 0;
-   fill_real_array (x_sw_avail_ratio , 0.0, max_table);
-   fill_real_array (y_swdef_pheno , 0.0, max_table);
-
-      fill_real_array (x_sw_avail_ratio_flower, 0.0, max_table);
-      fill_real_array (y_swdef_pheno_flower, 0.0, max_table);
-      num_sw_avail_ratio_flower = 0;
-
-      fill_real_array (x_sw_avail_ratio_grainfill, 0.0, max_table);
-      fill_real_array (y_swdef_pheno_grainfill, 0.0, max_table);
-      num_sw_avail_ratio_grainfill = 0;
-
-      num_sw_demand_ratio = 0;
-      fill_real_array (x_sw_demand_ratio , 0.0, max_table);
-      fill_real_array (y_swdef_leaf , 0.0, max_table);
-
-      num_sw_avail_fix = 0;
-      fill_real_array (x_sw_avail_fix , 0.0, max_table);
-      fill_real_array (y_swdef_fix , 0.0, max_table);
-
-      fill_real_array (oxdef_photo , 0.0, max_table);
-      fill_real_array (oxdef_photo_rtfr, 0.0, max_table);
-      num_oxdef_photo = 0;
 
       fill_real_array (kl, 0.0, max_layer);
       kl_ub = 0.0;
@@ -246,19 +223,6 @@ void RootPart::read()
    ws_root_fac.read(scienceAPI,
                          "x_ws_root", "()", 0.0, 1.0,
                          "y_ws_root_fac", "()", 0.0, 1.0);
-
-   scienceAPI.read("x_sw_avail_ratio", x_sw_avail_ratio, num_sw_avail_ratio, 0.0f, 100.0f);
-   scienceAPI.read("y_swdef_pheno", y_swdef_pheno, num_sw_avail_ratio, 0.0f, 100.0f);
-   scienceAPI.read("x_sw_avail_ratio_flower", x_sw_avail_ratio_flower, num_sw_avail_ratio_flower, 0.0f, 1.0f);
-   scienceAPI.read("y_swdef_pheno_flower", y_swdef_pheno_flower, num_sw_avail_ratio_flower, 0.0f, 5.0f);
-   scienceAPI.read("x_sw_avail_ratio_grainfill", x_sw_avail_ratio_grainfill, num_sw_avail_ratio_grainfill, 0.0f, 1.0f);
-   scienceAPI.read("y_swdef_pheno_grainfill", y_swdef_pheno_grainfill, num_sw_avail_ratio_grainfill, 0.0f, 5.0f);
-   scienceAPI.read("x_sw_demand_ratio", x_sw_demand_ratio, num_sw_demand_ratio, 0.0f, 100.0f);
-   scienceAPI.read("y_swdef_leaf", y_swdef_leaf, num_sw_demand_ratio, 0.0f, 100.0f);
-   scienceAPI.read("x_sw_avail_fix", x_sw_avail_fix, num_sw_avail_fix, 0.0f, 100.0f);
-   scienceAPI.read("y_swdef_fix", y_swdef_fix, num_sw_avail_fix, 0.0f, 100.0f);
-   scienceAPI.read("oxdef_photo_rtfr", oxdef_photo_rtfr, num_oxdef_photo, 0.0f, 1.0f);
-   scienceAPI.read("oxdef_photo", oxdef_photo, num_oxdef_photo, 0.0f, 1.0f);
 
    // Read Rooting parameters
     vector<float> ll ;   // lower limit of plant-extractable
@@ -916,7 +880,7 @@ void RootPart::getOtherVariables()
 
    }
 
-void RootPart::waterSupply ()
+void RootPart::doWaterSupply ()
 //=======================================================================================
 // Calculate today's daily water supply from this root system
 // based on the KL approach
@@ -924,12 +888,12 @@ void RootPart::waterSupply ()
    crop_check_sw(plant, sw_lb, dlayer, dul_dep, sw_dep, ll_dep);
 
    // potential extractable sw
-   potentialExtractableSW();
+   doPotentialExtractableSW();
 
    // actual extractable sw (sw-ll)
-   SWAvailable();
+   doSWAvailable();
 
-   SWSupply();
+   doSWSupply();
    }
 
 float RootPart::waterUptake (void)
@@ -939,7 +903,7 @@ float RootPart::waterUptake (void)
    return (- sum_real_array(dlt_sw_dep, max_layer));;
    }
 
-void RootPart::doWaterUptake (float sw_demand)
+void RootPart::doWaterUptakeInternal (float sw_demand)
 //=======================================================================================
 // Calculate todays daily water uptake by this root system
    {
@@ -977,25 +941,35 @@ void RootPart::doWaterUptake (float sw_demand)
       }
    }
 
-void RootPart::plant_water_stress (float sw_demand, StressDeficit& swDef)
+void RootPart::doPlantWaterStress (float sw_demand, SWStress *swStress)
 //     ===========================================================
 //         Get current water stress factors (0-1)
    {
-   swDef.photo = SWDefPhoto(sw_demand);
-   swDef.pheno = SWDefPheno(num_sw_avail_ratio,
-                            x_sw_avail_ratio,
-                            y_swdef_pheno);
-   swDef.pheno_flower = SWDefPheno(num_sw_avail_ratio_flower,
-                                   x_sw_avail_ratio_flower,
-                                   y_swdef_pheno_flower);
-   swDef.pheno_grainfill = SWDefPheno(num_sw_avail_ratio_grainfill,
-                                      x_sw_avail_ratio_grainfill,
-                                      y_swdef_pheno_grainfill);
-   swDef.expansion = SWDefExpansion(sw_demand);
-   swDef.fixation = SWDefFixation();
+	swStress->doPlantWaterStress (sw_demand);
    }
 
-float RootPart::oxdef_stress ()
+void RootPart::doWaterUptakeExternal (float sw_demand)
+//=======================================================================================
+// Gets todays daily water uptake by this root system
+   {
+    int   layer;                                  // layer number of profile ()
+    float ext_sw_supply[max_layer];
+
+     plant_get_ext_uptakes(uptake_source.c_str()
+                          ,crop_type.c_str()
+                          ,"water"
+                          ,1.0
+                          ,0.0
+                          ,100.0
+                          ,ext_sw_supply);
+
+     for (layer = 0; layer < num_layers; layer++)
+        {
+        dlt_sw_dep[layer] = -ext_sw_supply[layer];
+        }
+   }
+
+float RootPart::wet_root_fr (void)
 //=======================================================================================
 // Calculate today's oxygen deficit (i.e. water logging) stress factor
    {
@@ -1014,11 +988,10 @@ float RootPart::oxdef_stress ()
 
          wet_root_fr = wet_root_fr + wfps * root_fr[layer];
          }
-      return linear_interp_real(wet_root_fr, oxdef_photo_rtfr, oxdef_photo,
-                                num_oxdef_photo);
+      return wet_root_fr;
       }
    else
-      return 1.0;
+      return 0.0;
    }
 
 void RootPart::removeBiomass2(float chop_fr)
@@ -1474,29 +1447,15 @@ void RootPart::doNUptake(float sumNMax, float sumSoilNDemand, float nDemand)
 
 //+  Purpose
 //       Plant transpiration and soil water extraction
-void RootPart::plant_water_uptake (int option, float SWDemand)
+void RootPart::doWaterUptake (int option, float SWDemand)
     {
-    int   layer;                                  // layer number of profile ()
-    float ext_sw_supply[max_layer];
-
     if (Str_i_Eq(uptake_source,"apsim"))
         {
-        plant_get_ext_uptakes(uptake_source.c_str()
-                             ,crop_type.c_str()
-                             ,"water"
-                             ,1.0
-                             ,0.0
-                             ,100.0
-                             ,ext_sw_supply);
-
-        for (layer = 0; layer < num_layers; layer++)
-           {
-           dlt_sw_dep[layer] = -ext_sw_supply[layer];
-           }
+        doWaterUptakeExternal(SWDemand);
         }
     else if (option == 1)
         {
-        doWaterUptake(SWDemand);
+        doWaterUptakeInternal(SWDemand);
         }
     else
         {
@@ -1579,6 +1538,30 @@ float RootPart::dltSwDep()
    return -sum_real_array (dlt_sw_dep, deepest_layer+1);
    }
 
+float RootPart::swSupply()
+//=======================================================================================
+// Calculate total plant extractable soil water.
+   {
+   int deepest_layer = find_layer_no (root_depth, dlayer, max_layer);
+   return sum_real_array (sw_supply, deepest_layer+1);
+   }
+
+float RootPart::swAvailablePotential()
+//=======================================================================================
+// Calculate total plant extractable soil water.
+   {
+   int deepest_layer = find_layer_no (root_depth, dlayer, max_layer);
+   return sum_real_array (sw_avail_pot, deepest_layer+1);
+   }
+
+float RootPart::swAvailable()
+//=======================================================================================
+// Calculate total plant extractable soil water.
+   {
+   int deepest_layer = find_layer_no (root_depth, dlayer, max_layer);
+   return sum_real_array (sw_avail_pot, deepest_layer+1);
+   }
+
 float RootPart::nUptake()
 //=======================================================================================
 // find the proportion of uptake to be distributed
@@ -1598,89 +1581,6 @@ float RootPart::fasw(int depth)
                         dul_dep[layerNo] - ll_dep[layerNo], 0.0);
    return bound (fasw, 0.0, 1.0);
    }
-
-float RootPart::SWDefExpansion(float sw_demand)
-//==========================================================================
-// Get the soil water to demand ratio and calculate the 0-1 stress factor for leaf expansion.
-// 1 is no stress, 0 is full stress.
-   {
-   if (sw_demand > 0.0)
-      {
-      int deepest_layer = find_layer_no(root_depth, dlayer, max_layer);
-
-      // get potential water that can be taken up when profile is full
-      float sw_supply_sum = sum_real_array (sw_supply, deepest_layer+1);
-      float sw_demand_ratio = divide (sw_supply_sum, sw_demand, 10.0);
-      return linear_interp_real (sw_demand_ratio, x_sw_demand_ratio,
-                                 y_swdef_leaf, num_sw_demand_ratio);
-      }
-   else
-      return 1.0;
-   }
-
-float RootPart::SWDefPhoto(float sw_demand)
-//========================================================================
-// Calculate the soil water supply to demand ratio and therefore the 0-1 stress factor
-//       for photosysnthesis. 1 is no stress, 0 is full stress.
-   {
-   if (root_depth > 0.0)
-      {
-      int deepest_layer = find_layer_no (root_depth, dlayer, max_layer);
-
-      //get potential water that can be taken up when profile is full
-      float sw_uptake_sum = -sum_real_array (dlt_sw_dep, deepest_layer+1);
-      float sw_demand_ratio = divide (sw_uptake_sum, sw_demand, 1.0);
-      return bound (sw_demand_ratio , 0.0, 1.0);
-      }
-   else
-      return 1.0;
-   }
-
-
-float RootPart::SWDefPheno(int num_sw_avail_ratio,
-                           float x_sw_avail_ratio[],
-                           float y_swdef_pheno[])
-//=========================================================================
-// Get the soil water availability ratio in the root zone
-// and calculate the 0 - 1 stress factor for phenology.
-// 1 is no stress, 0 is full stress.
-   {
-   if (root_depth > 0.0)
-      {
-      int deepest_layer = find_layer_no (root_depth, dlayer, max_layer);
-      float sw_avail_pot_sum = sum_real_array (sw_avail_pot, deepest_layer+1);
-      float sw_avail_sum = sum_real_array (sw_avail, deepest_layer+1);
-      float sw_avail_ratio = divide (sw_avail_sum, sw_avail_pot_sum, 1.0);
-      sw_avail_ratio = bound (sw_avail_ratio , 0.0, 1.0);
-      return linear_interp_real(sw_avail_ratio, x_sw_avail_ratio,
-                                y_swdef_pheno, num_sw_avail_ratio);
-      }
-   else
-      return 1.0;
-   }
-
-float RootPart::SWDefFixation()
-//==========================================================================
-// Get the soil water availability ratio in the root zone and
-// calculate the 0 - 1 stress factor for fixation.
-// 1 is no stress, 0 is full stress.
-   {
-   if (root_depth > 0.0)
-      {
-      int deepest_layer = find_layer_no(root_depth, dlayer, max_layer);
-
-      // get potential water that can be taken up when profile is full
-      float sw_avail_pot_sum = sum_real_array(sw_avail_pot, deepest_layer+1);
-      float sw_avail_sum = sum_real_array(sw_avail, deepest_layer+1);
-      float sw_avail_ratio = divide(sw_avail_sum, sw_avail_pot_sum, 1.0);
-      sw_avail_ratio = bound(sw_avail_ratio , 0.0, 1.0);
-      return linear_interp_real(sw_avail_ratio, x_sw_avail_fix, y_swdef_fix,
-                                num_sw_avail_fix);
-      }
-   else
-      return 1.0;
-   }
-
 
 
 //=========================================================================
@@ -1764,7 +1664,7 @@ void crop_check_sw(plantInterface *iface,
 
 
 
-void RootPart::potentialExtractableSW()
+void RootPart::doPotentialExtractableSW()
 //===========================================================================
 // Return potential available soil water from each layer in the root zone.
    {
@@ -1778,7 +1678,7 @@ void RootPart::potentialExtractableSW()
    sw_avail_pot[deepest_layer] = sw_avail_pot[deepest_layer] * root_proportion(deepest_layer);
    }
 
-void RootPart::SWAvailable()
+void RootPart::doSWAvailable()
 //===========================================================================
 // Return actual water available for extraction from each layer in the
 // soil profile by the crop (mm water)
@@ -1796,7 +1696,7 @@ void RootPart::SWAvailable()
    }
 
 
-void RootPart::SWSupply()
+void RootPart::doSWSupply()
 //=========================================================================
 // Return potential water uptake from each layer of the soil profile
 // by the crop (mm water). This represents the maximum amount in each
