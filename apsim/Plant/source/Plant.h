@@ -317,8 +317,6 @@ public:
    void  doPPartition (vector<plantPart*>&);
    void  doPRetranslocate (void);
 
-   float PlantP_Pfact (vector<plantPart *>&);
-
    const environment_t *getEnvironment(void) {return &Environment;};
 
 private:
