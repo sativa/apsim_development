@@ -476,7 +476,6 @@ void TempStress::init(void)
    c.num_ave_temp = 0;
    c.num_factors = 0;
 
-   read_t_constants ();
    }
 
 //     ===========================================================
@@ -528,18 +527,6 @@ void SWStress::init(RootBase *root)
    rootPart = root;
    swDef = 1.0;
    zeroAllGlobals();
-   scienceAPI.read("x_sw_avail_ratio", x_sw_avail_ratio, num_sw_avail_ratio, 0.0f, 100.0f);
-   scienceAPI.read("y_swdef_pheno", y_swdef_pheno, num_sw_avail_ratio, 0.0f, 100.0f);
-   scienceAPI.read("x_sw_avail_ratio_flower", x_sw_avail_ratio_flower, num_sw_avail_ratio_flower, 0.0f, 1.0f);
-   scienceAPI.read("y_swdef_pheno_flower", y_swdef_pheno_flower, num_sw_avail_ratio_flower, 0.0f, 5.0f);
-   scienceAPI.read("x_sw_avail_ratio_grainfill", x_sw_avail_ratio_grainfill, num_sw_avail_ratio_grainfill, 0.0f, 1.0f);
-   scienceAPI.read("y_swdef_pheno_grainfill", y_swdef_pheno_grainfill, num_sw_avail_ratio_grainfill, 0.0f, 5.0f);
-   scienceAPI.read("x_sw_demand_ratio", x_sw_demand_ratio, num_sw_demand_ratio, 0.0f, 100.0f);
-   scienceAPI.read("y_swdef_leaf", y_swdef_leaf, num_sw_demand_ratio, 0.0f, 100.0f);
-   scienceAPI.read("x_sw_avail_fix", x_sw_avail_fix, num_sw_avail_fix, 0.0f, 100.0f);
-   scienceAPI.read("y_swdef_fix", y_swdef_fix, num_sw_avail_fix, 0.0f, 100.0f);
-   scienceAPI.read("oxdef_photo_rtfr", oxdef_photo_rtfr, num_oxdef_photo, 0.0f, 1.0f);
-   scienceAPI.read("oxdef_photo", oxdef_photo, num_oxdef_photo, 0.0f, 1.0f);
 
 
    parent->addGettableVar("swdef_pheno",
@@ -574,6 +561,23 @@ void SWStress::init(RootBase *root)
                     "","Soil water stress for N fixation");
 
    }
+
+//     ===========================================================
+void SWStress::read_sw_constants (void)
+{
+   scienceAPI.read("x_sw_avail_ratio", x_sw_avail_ratio, num_sw_avail_ratio, 0.0f, 100.0f);
+   scienceAPI.read("y_swdef_pheno", y_swdef_pheno, num_sw_avail_ratio, 0.0f, 100.0f);
+   scienceAPI.read("x_sw_avail_ratio_flower", x_sw_avail_ratio_flower, num_sw_avail_ratio_flower, 0.0f, 1.0f);
+   scienceAPI.read("y_swdef_pheno_flower", y_swdef_pheno_flower, num_sw_avail_ratio_flower, 0.0f, 5.0f);
+   scienceAPI.read("x_sw_avail_ratio_grainfill", x_sw_avail_ratio_grainfill, num_sw_avail_ratio_grainfill, 0.0f, 1.0f);
+   scienceAPI.read("y_swdef_pheno_grainfill", y_swdef_pheno_grainfill, num_sw_avail_ratio_grainfill, 0.0f, 5.0f);
+   scienceAPI.read("x_sw_demand_ratio", x_sw_demand_ratio, num_sw_demand_ratio, 0.0f, 100.0f);
+   scienceAPI.read("y_swdef_leaf", y_swdef_leaf, num_sw_demand_ratio, 0.0f, 100.0f);
+   scienceAPI.read("x_sw_avail_fix", x_sw_avail_fix, num_sw_avail_fix, 0.0f, 100.0f);
+   scienceAPI.read("y_swdef_fix", y_swdef_fix, num_sw_avail_fix, 0.0f, 100.0f);
+   scienceAPI.read("oxdef_photo_rtfr", oxdef_photo_rtfr, num_oxdef_photo, 0.0f, 1.0f);
+   scienceAPI.read("oxdef_photo", oxdef_photo, num_oxdef_photo, 0.0f, 1.0f);
+}
 
 void SWStress::zeroAllGlobals(void)
 //=======================================================================================

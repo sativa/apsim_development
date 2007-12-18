@@ -2461,6 +2461,9 @@ void Plant::plant_read_species_const (void)
     nStress->read_n_constants ();
 
     //    plant_rue_reduction
+   tempStress->read_t_constants ();
+   swStress->read_sw_constants ();
+
     scienceAPI.read("x_co2_te_modifier", c.x_co2_te_modifier, c.num_co2_te_modifier, 0.0f, 1000.0f);
     scienceAPI.read("y_co2_te_modifier", c.y_co2_te_modifier, c.num_co2_te_modifier, 0.0f, 10.0f);
     scienceAPI.read("x_co2_nconc_modifier", c.x_co2_nconc_modifier, c.num_co2_nconc_modifier, 0.0f, 1000.0f);
