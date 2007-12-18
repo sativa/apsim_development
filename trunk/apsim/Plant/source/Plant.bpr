@@ -30,7 +30,8 @@
       Utility\ExternalFunction.obj Utility\InterpolationFunction.obj 
       Utility\LookupFunction.obj Delta.obj Pool.obj CompositePool.obj 
       Biomass.obj Population.obj ReproductivePart.obj 
-      StageBasedInterpolationFunction.obj SimplePart.obj PlantStress.obj"/>
+      StageBasedInterpolationFunction.obj SimplePart.obj PlantStress.obj 
+      Co2Modifier.obj"/>
     <RESFILES value=""/>
     <IDLFILES value=""/>
     <DEFFILE value=""/>
@@ -149,6 +150,7 @@
       <FILE FILENAME="StageBasedInterpolationFunction.cpp" FORMNAME="" UNITNAME="StageBasedInterpolationFunction" CONTAINERID="CCompiler" DESIGNCLASS="" LOCALCOMMAND=""/>
       <FILE FILENAME="SimplePart.cpp" FORMNAME="" UNITNAME="SimplePart" CONTAINERID="CCompiler" DESIGNCLASS="" LOCALCOMMAND=""/>
       <FILE FILENAME="PlantStress.cpp" FORMNAME="" UNITNAME="PlantStress" CONTAINERID="CCompiler" DESIGNCLASS="" LOCALCOMMAND=""/>
+      <FILE FILENAME="Co2Modifier.cpp" FORMNAME="" UNITNAME="Co2Modifier" CONTAINERID="CCompiler" DESIGNCLASS="" LOCALCOMMAND=""/>
   </FILELIST>
   <BUILDTOOLS>
   </BUILDTOOLS>
