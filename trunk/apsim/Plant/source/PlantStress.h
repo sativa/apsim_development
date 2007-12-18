@@ -93,7 +93,7 @@ public:
    TempStress(ScienceAPI& scienceAPI,PlantComponent *p);
    ~TempStress(void);
    void init(void);
-   void doPlant_temp_stress (environment_t& Environment);
+   void doPlantTempStress (environment_t& Environment);
    void read_t_constants (void);
    void get_tstress_photo(protocol::Component *, protocol::QueryValueData &);
 
@@ -120,7 +120,7 @@ public:
    NStress(ScienceAPI& scienceAPI,PlantComponent *p);
    ~NStress(void);
    void init(void);
-   void plant_nit_stress (plantPart* leafPart, plantPart* stemPart);
+   void doPlantNStress (plantPart* leafPart, plantPart* stemPart);
    float critNFactor(vector< plantPart *> &, float );
    void read_n_constants (void);
    void get_nfact_pheno(protocol::Component *, protocol::QueryValueData &);
@@ -154,7 +154,7 @@ public:
    void init(void);
    bool isPhosphorusAware(void);
    void zero_p_variables (void);
-   void  PlantP_Stress (vector<plantPart *>&);
+   void  doPlantPStress (vector<plantPart *>&);
    void read_p_constants (void);
    void get_pfact_photo(protocol::Component *, protocol::QueryValueData &qd);
    void get_pfact_pheno(protocol::Component *, protocol::QueryValueData &qd);

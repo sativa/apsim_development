@@ -39,7 +39,7 @@ void Plant::prepare_p(void)
    if (pStress->isPhosphorusAware())
       {
       plant.doPDemand();
-      pStress->PlantP_Stress(myParts);
+      pStress->doPlantPStress(myParts);
       }
 }
 
