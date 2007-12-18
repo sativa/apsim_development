@@ -129,16 +129,7 @@ public:
    std::string Name(void) {return g.module_name;}
 
    void doDmRetranslocate (void);
-   void plant_oxdef_stress (void);
    void doDmPotTE (void);
-   void plant_retrans_init (int option);
-   void plant_leaf_area_potential (int option /* (INPUT) option number */);
-   void plant_leaf_area_stressed (int option  /* (INPUT) option number*/);
-   void plant_leaf_area_init (int option);
-   void plant_leaf_area_actual (int option /* (INPUT) option number*/);
-   void plant_pod_area (int option         /* (INPUT) option number*/);
-   void plant_leaf_no_actual (int option   /* (INPUT) option number*/);
-   void plant_nit_init (int option         /* (INPUT) option number*/);
    void doNRetranslocate (int option      /* (INPUT) option number*/);
    void doNDemand (int option       /* (INPUT) option number*/);
    void doNUptake (void);
@@ -146,11 +137,7 @@ public:
    void doSoilNDemand (void);
 
    void doNDemandEstimate (int option);
-   void plant_height (int   option/*(INPUT) option number*/);
-   void plant_width (int   option /*(INPUT) option number*/);
    void doNSenescence (int   option/*(INPUT) option number*/);
-   void plant_leaf_death (int   option/*(INPUT) option number*/);
-   void plant_leaf_area_sen (int   option/*(INPUT) option number*/);
    void plant_cleanup (void);
    void plant_update(void) ;
    void plant_check_bounds( float  g_cover_green
@@ -165,13 +152,6 @@ public:
    void plant_root_depth (int option /* (INPUT) option number*/);
    void plant_water_distribute (int option /*(INPUT) option number*/);
    void plant_light_supply_partition (int option /*(INPUT) option number*/);
-   void plant_root_length_growth (int option /*(INPUT) option number*/);
-   void plant_water_supply_partition(float sw_demand
-                                     , float swDemandVeg
-                                     , float swSupply
-                                     , float *swSupplyVeg
-                                     , float *swSupplyFruit);
-
    void doNPartition(float g_n_fix_pot, float &n_fix_uptake, std::vector<plantPart *> &);
 
    void legnew_dm_partition1 (float c_frac_leaf
@@ -226,16 +206,7 @@ public:
                                        ,vector<float>  &fraction_to_residue);
 
 
-   void plant_get_ext_uptakes (const char *uptake_source,        //(INPUT) uptake flag
-                               const char *crop_type,            //(INPUT) crop type name
-                               const char *uptake_type,          //(INPUT) uptake name
-                               float unit_conversion_factor,     //(INPUT) unit conversion factor
-                               float uptake_lbound,              //(INPUT) uptake lower limit
-                               float uptake_ubound,              //(INPUT) uptake upper limit
-                               float *uptake_array);             //(OUTPUT) crop uptake array
-
    bool set_plant_crop_class(protocol::QuerySetValueData&v);
-   bool set_plant_grain_oil_conc(protocol::QuerySetValueData&v);
 
    void get_plant_status(protocol::Component *, protocol::QueryValueData &);
    float getStageCode(void);
@@ -443,11 +414,6 @@ private:
       factorObserver cswd_pheno;                        // cumulative water stress type 1
       factorObserver cswd_photo;                        // cumulative water stress type 1
       factorObserver cswd_expansion ;                   // cumulative water stress type 2
-      float dlt_canopy_height;                          // change in canopy height (mm)
-      float dlt_canopy_width;                           // change in canopy height (mm)
-      float canopy_width;                               // canopy height (mm)
-
-//      float lai_canopy_green;                           // green lai of canopy
 
       float n_fix_pot;                                  // N fixation potential (g/m^2)
       float n_fix_uptake;                               // N fixation actual (g/m^2)
@@ -489,26 +455,8 @@ private:
       vector<string> part_names;                         // names of plant parts
       string n_supply_preference;                        // preference of n supply
 
-      float svp_fract;                                  // fraction of distance between svp at
-                                                        // min temp and svp at max temp where
-                                                        // average svp during transpiration
-                                                        // lies. (0-1)
-      float transp_eff_cf[max_table];                   // transpiration efficiency coefficient
-                                                        // to convert vpd to
-                                                        // transpiration efficiency (kpa)
-                                                        // although this is expressed as a
-                                                        // pressure it is really in the form
-                                                        // kpa*g carbo per m^2 / g water per m^2
-                                                        // and this can be converted to
-                                                        // kpa*g carbo per m^2 / mm water
-                                                        // because 1g water = 1 cm^3 water
       float n_fix_rate[max_table];                      // potential rate of N fixation (g N fixed
                                                         // per g above ground biomass
-      float x_temp[max_table];                          // temperature table for photosynthesis
-                                                        // degree days
-      float y_tt[max_table];                            // degree days
-
-
       vector<string> class_action;
       vector<string> class_change;
 
@@ -516,8 +464,6 @@ private:
 
       string     remove_biomass_report;
 
-      float x_p_stage_code [max_table];
-      int   num_x_p_stage_code;
       StressDeficit pFactSlope;
       StressDeficit nFact;      // multipler for N deficit effect
    }  c;   // Constants
