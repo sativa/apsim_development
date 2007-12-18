@@ -461,12 +461,15 @@ TempStress::~TempStress()
 void TempStress::init(void)
    {
    tFact = 1.0;
-   parent->addGettableVar("temp_fact_photo",
+   parent->addGettableVar("temp_stress_photo",
                tFact.photo, "", "Temperature Stress in photosynthesis");
 
-   setupGetFunction(parent, "temp_stress_photo", protocol::DTsingle, false,
-                    &TempStress::get_tstress_photo,
-                    "","Temperature stress for photosynthesis");
+//   parent->addGettableVar("temp_fact_photo",
+//               tFact.photo, "", "Temperature Stress in photosynthesis");
+//
+//   setupGetFunction(parent, "temp_stress_photo", protocol::DTsingle, false,
+//                    &TempStress::get_tstress_photo,
+//                    "","Temperature stress for photosynthesis");
 
    fill_real_array (c.x_ave_temp, 0.0, max_table);
    fill_real_array (c.y_stress_photo, 0.0, max_table);
