@@ -471,18 +471,13 @@ void TempStress::init(void)
 //                    &TempStress::get_tstress_photo,
 //                    "","Temperature stress for photosynthesis");
 
-   fill_real_array (c.x_ave_temp, 0.0, max_table);
-   fill_real_array (c.y_stress_photo, 0.0, max_table);
-   c.num_ave_temp = 0;
-   c.num_factors = 0;
-
    }
 
 //     ===========================================================
 void TempStress::read_t_constants (void)
 {
-    scienceAPI.read("x_ave_temp", c.x_ave_temp, c.num_ave_temp, 0.0f, 100.0f);
-    scienceAPI.read("y_stress_photo", c.y_stress_photo, c.num_factors, 0.0f, 1.0f);
+    cTStressPhoto.read(scienceAPI, "x_ave_temp", "()", 0.0, 100.0,
+                                   "y_stress_photo", "()", 0.0, 1.0);
 }
 
 void TempStress::doPlantTempStress (environment_t& Environment)
@@ -490,7 +485,7 @@ void TempStress::doPlantTempStress (environment_t& Environment)
 //         Get current temperature stress factors (0-1)
    {
    float ave_temp = (Environment.maxt + Environment.mint) / 2.0;
-   tFact.photo = linear_interp_real (ave_temp, c.x_ave_temp, c.y_stress_photo, c.num_ave_temp);
+   tFact.photo = cTStressPhoto.value (ave_temp);
    tFact.photo = bound (tFact.photo, 0.0, 1.0);
    }
 
@@ -526,7 +521,6 @@ void SWStress::init(RootBase *root)
    {
    rootPart = root;
    swDef = 1.0;
-   zeroAllGlobals();
 
 
    parent->addGettableVar("swdef_pheno",
@@ -565,65 +559,33 @@ void SWStress::init(RootBase *root)
 //     ===========================================================
 void SWStress::read_sw_constants (void)
 {
-   scienceAPI.read("x_sw_avail_ratio", x_sw_avail_ratio, num_sw_avail_ratio, 0.0f, 100.0f);
-   scienceAPI.read("y_swdef_pheno", y_swdef_pheno, num_sw_avail_ratio, 0.0f, 100.0f);
-   scienceAPI.read("x_sw_avail_ratio_flower", x_sw_avail_ratio_flower, num_sw_avail_ratio_flower, 0.0f, 1.0f);
-   scienceAPI.read("y_swdef_pheno_flower", y_swdef_pheno_flower, num_sw_avail_ratio_flower, 0.0f, 5.0f);
-   scienceAPI.read("x_sw_avail_ratio_grainfill", x_sw_avail_ratio_grainfill, num_sw_avail_ratio_grainfill, 0.0f, 1.0f);
-   scienceAPI.read("y_swdef_pheno_grainfill", y_swdef_pheno_grainfill, num_sw_avail_ratio_grainfill, 0.0f, 5.0f);
-   scienceAPI.read("x_sw_demand_ratio", x_sw_demand_ratio, num_sw_demand_ratio, 0.0f, 100.0f);
-   scienceAPI.read("y_swdef_leaf", y_swdef_leaf, num_sw_demand_ratio, 0.0f, 100.0f);
-   scienceAPI.read("x_sw_avail_fix", x_sw_avail_fix, num_sw_avail_fix, 0.0f, 100.0f);
-   scienceAPI.read("y_swdef_fix", y_swdef_fix, num_sw_avail_fix, 0.0f, 100.0f);
-   scienceAPI.read("oxdef_photo_rtfr", oxdef_photo_rtfr, num_oxdef_photo, 0.0f, 1.0f);
-   scienceAPI.read("oxdef_photo", oxdef_photo, num_oxdef_photo, 0.0f, 1.0f);
+   cSwDefPheno.read(scienceAPI, "x_sw_avail_ratio", "()", 0.0, 100.0,
+                                "y_swdef_pheno", "()", 0.0, 100.0);
+
+   cSwwDefPhenoFlower.read(scienceAPI, "x_sw_avail_ratio_flower", "()", 0.0, 1.0,
+                                       "y_swdef_pheno_flower", "()", 0.0, 5.0);
+
+   cSwwDefPhenoGrainfill.read(scienceAPI, "x_sw_avail_ratio_grainfill", "()", 0.0, 1.0,
+                                          "y_swdef_pheno_grainfill", "()", 0.0, 5.0);
+
+   cSwwDefExpansion.read(scienceAPI, "x_sw_demand_ratio", "()", 0.0, 100.0,
+                                     "y_swdef_leaf", "()", 0.0, 100.0);
+
+   cSwwDefFix.read(scienceAPI, "x_sw_avail_fix", "()", 0.0, 100.0,
+                               "y_swdef_fix", "()", 0.0, 100.0);
+
+   cOxDefPhoto.read(scienceAPI, "oxdef_photo_rtfr", "()", 0.0, 1.0,
+                                "oxdef_photo", "()", 0.0, 1.0);
 }
-
-void SWStress::zeroAllGlobals(void)
-//=======================================================================================
-// Zero all global values
-   {
-   num_sw_avail_ratio = 0;
-   fill_real_array (x_sw_avail_ratio , 0.0, max_table);
-   fill_real_array (y_swdef_pheno , 0.0, max_table);
-
-      fill_real_array (x_sw_avail_ratio_flower, 0.0, max_table);
-      fill_real_array (y_swdef_pheno_flower, 0.0, max_table);
-      num_sw_avail_ratio_flower = 0;
-
-      fill_real_array (x_sw_avail_ratio_grainfill, 0.0, max_table);
-      fill_real_array (y_swdef_pheno_grainfill, 0.0, max_table);
-      num_sw_avail_ratio_grainfill = 0;
-
-      num_sw_demand_ratio = 0;
-      fill_real_array (x_sw_demand_ratio , 0.0, max_table);
-      fill_real_array (y_swdef_leaf , 0.0, max_table);
-
-      num_sw_avail_fix = 0;
-      fill_real_array (x_sw_avail_fix , 0.0, max_table);
-      fill_real_array (y_swdef_fix , 0.0, max_table);
-
-      fill_real_array (oxdef_photo , 0.0, max_table);
-      fill_real_array (oxdef_photo_rtfr, 0.0, max_table);
-      num_oxdef_photo = 0;
-
-   }
-
 
 void SWStress::doPlantWaterStress (float sw_demand)
 //     ===========================================================
 //         Get current water stress factors (0-1)
    {
    swDef.photo = SWDefPhoto(sw_demand);
-   swDef.pheno = SWDefPheno(num_sw_avail_ratio,
-                            x_sw_avail_ratio,
-                            y_swdef_pheno);
-   swDef.pheno_flower = SWDefPheno(num_sw_avail_ratio_flower,
-                                   x_sw_avail_ratio_flower,
-                                   y_swdef_pheno_flower);
-   swDef.pheno_grainfill = SWDefPheno(num_sw_avail_ratio_grainfill,
-                                      x_sw_avail_ratio_grainfill,
-                                      y_swdef_pheno_grainfill);
+   swDef.pheno = SWDefPheno(cSwDefPheno);
+   swDef.pheno_flower = SWDefPheno(cSwwDefPhenoFlower);
+   swDef.pheno_grainfill = SWDefPheno(cSwwDefPhenoGrainfill);
    swDef.expansion = SWDefExpansion(sw_demand);
    swDef.fixation = SWDefFixation();
    swDef.oxdef_photo = SWDefOxygen(rootPart->wet_root_fr());
@@ -638,8 +600,7 @@ float SWStress::SWDefExpansion(float sw_demand)
       {
       // get potential water that can be taken up when profile is full
       float sw_demand_ratio = divide (rootPart->swSupply(), sw_demand, 10.0);
-      return linear_interp_real (sw_demand_ratio, x_sw_demand_ratio,
-                                 y_swdef_leaf, num_sw_demand_ratio);
+      return cSwwDefExpansion.value(sw_demand_ratio);
       }
    else
       return 1.0;
@@ -661,9 +622,7 @@ float SWStress::SWDefPhoto(float sw_demand)
    }
 
 
-float SWStress::SWDefPheno(int num_sw_avail_ratio,
-                           float x_sw_avail_ratio[],
-                           float y_swdef_pheno[])
+float SWStress::SWDefPheno(interpolationFunction& cSwDefPheno)
 //=========================================================================
 // Get the soil water availability ratio in the root zone
 // and calculate the 0 - 1 stress factor for phenology.
@@ -673,8 +632,7 @@ float SWStress::SWDefPheno(int num_sw_avail_ratio,
       {
       float sw_avail_ratio = divide (rootPart->swAvailable(), rootPart->swAvailablePotential(), 1.0);
       sw_avail_ratio = bound (sw_avail_ratio , 0.0, 1.0);
-      return linear_interp_real(sw_avail_ratio, x_sw_avail_ratio,
-                                y_swdef_pheno, num_sw_avail_ratio);
+      return cSwDefPheno.value(sw_avail_ratio);
       }
    else
       return 1.0;
@@ -690,8 +648,7 @@ float SWStress::SWDefFixation(void)
       {
       float sw_avail_ratio = divide(rootPart->swAvailable(), rootPart->swAvailablePotential(), 1.0);
       sw_avail_ratio = bound(sw_avail_ratio , 0.0, 1.0);
-      return linear_interp_real(sw_avail_ratio, x_sw_avail_fix, y_swdef_fix,
-                                num_sw_avail_fix);
+      return cSwwDefFix.value(sw_avail_ratio);
       }
    else
       return 1.0;
@@ -702,14 +659,10 @@ float SWStress::SWDefOxygen (float wet_root_fr)
 // Calculate today's oxygen deficit (i.e. water logging) stress factor
    {
    if (wet_root_fr > 0.0)
-      {
-      return linear_interp_real(wet_root_fr, oxdef_photo_rtfr, oxdef_photo,
-                                num_oxdef_photo);
-      }
+      return cOxDefPhoto.value(wet_root_fr);
    else
       return 1.0;
-   }
-
+}
 
 void SWStress::get_swstress_pheno(protocol::Component *systemInterface, protocol::QueryValueData &qd)
 {
