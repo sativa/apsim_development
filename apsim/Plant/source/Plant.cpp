@@ -118,6 +118,7 @@ Plant::Plant(PlantComponent *P, ScienceAPI& api)
     pStress = new PStress(scienceAPI, parent);
     swStress = new SWStress(scienceAPI, parent);
     tempStress = new TempStress(scienceAPI, parent);
+    co2Modifier = new Co2Modifier(scienceAPI, parent);
 
     g.cswd_pheno.setup(&swStress->swDef.pheno);
     g.cswd_photo.setup(&swStress->swDef.photo);
@@ -423,6 +424,7 @@ void Plant::onInit2(void)
    pStress->init();
    swStress->init(rootPart);
    tempStress->init();
+   co2Modifier->init();
 
    // Read the default crop class and cultivar and setup the
    // scienceAPI.
@@ -860,7 +862,7 @@ void Plant::plant_update(void)
 
     population.Update();
 
-    plant.doNConccentrationLimits(g.co2_modifier_n_conc);
+    plant.doNConccentrationLimits(co2Modifier->n_conc());
 
     }
 
@@ -996,56 +998,6 @@ void Plant::plant_light_supply_partition (int option /*(INPUT) option number*/)
     }
 
     }
-
-
-
-
-//==========================================================================
-void Plant::plant_rue_co2_modifier(float co2,                 //!CO2 level (ppm)
-                                   float maxt,                //!daily max temp (C)
-                                   float mint,                //!daily min temp (C)
-                                   float *modifier)           //!modifier (-)
-//==========================================================================
-/*  Purpose
-*     Calculation of the CO2 modification on rue
-*
-*     References
-*     Reyenga, Howden, Meinke, Mckeon (1999), Modelling global change impact on wheat cropping in
-*              south-east Queensland, Australia. Enivironmental Modelling & Software 14:297-306
-*
-*
-*  Purpose
-*     Calculation of the CO2 modification on rue
-*
-*  Changes
-*     20000717   ew programmed
-*/
-   {
-   //  Local Variables
-      float temp;  //daily average temperature (C)
-      float TT;    //co2 compensation point (ppm)
-      float first;            // Temp vars for passing composite arg to a func
-      float second;           // expecting a pointer
-
-   // Implementation Section ----------------------------------
-   if (c.photosynthetic_pathway == photosynthetic_pathway_C3)
-      {
-      temp = 0.5*( maxt + mint);
-      TT  = divide(163.0 - temp, 5.0 - 0.1 * temp, 0.0);
-
-      first = (co2 - TT) * (350.0 + 2.0 * TT);
-      second = (co2 + 2.0 * TT)*(350.0 - TT);
-      *modifier = divide( first, second, 1.0);
-      }
-    else if (c.photosynthetic_pathway == photosynthetic_pathway_C4)
-      {
-      *modifier = 0.000143 * co2 + 0.95; //Mark Howden, personal communication
-      }
-    else
-      throw std::invalid_argument ("Unknown photosynthetic pathway in cproc_rue_co2_modifier()");
-   }
-
-
 
 //+  Purpose
 //       Return actual plant nitrogen uptake to each plant part.
@@ -1251,25 +1203,6 @@ void Plant::plant_process ( void )
 
     if (g.plant_status == alive)
         {
-         // these next three executable lines are copied from the "prepare"
-         // method. They need to be calculated in the case where a crop is
-         // sown during a process method. In this situation, the co2 modifiers
-         // have a value of zero.
-         plant_rue_co2_modifier(Environment.co2,
-                               Environment.maxt,
-                               Environment.mint,
-                               &g.co2_modifier_rue);
-
-         g.co2_modifier_te = linear_interp_real (Environment.co2
-                                               , c.x_co2_te_modifier
-                                               , c.y_co2_te_modifier
-                                               , c.num_co2_te_modifier);
-         g.co2_modifier_n_conc = linear_interp_real (Environment.co2
-                                               , c.x_co2_nconc_modifier
-                                               , c.y_co2_nconc_modifier
-                                               , c.num_co2_nconc_modifier);
-
-
         rootPart->doWaterUptake(1, tops.SWDemand());
         rootPart->doPlantWaterStress (tops.SWDemand(), swStress);
 
@@ -1707,7 +1640,7 @@ void Plant::plant_harvest_update (protocol::Variant &v/*(INPUT)message arguments
        (*t)->doCover(plantSpatial);
 
 // other plant states
-    plant.doNConccentrationLimits(g.co2_modifier_n_conc);
+    plant.doNConccentrationLimits(co2Modifier->n_conc());
 
     if (g.plant_status == alive &&
         phenology->previousStageName() != phenology->stageName())
@@ -1755,7 +1688,7 @@ void Plant::plant_kill_stem_update (protocol::Variant &v/*(INPUT) message argume
    for (vector<plantPart *>::iterator t = myParts.begin(); t != myParts.end(); t++)
        (*t)->doCover(plantSpatial);
 
-    plant.doNConccentrationLimits( g.co2_modifier_n_conc )  ;                  // plant N concentr
+    plant.doNConccentrationLimits( co2Modifier->n_conc() )  ;                  // plant N concentr
 
     if (g.plant_status == alive &&
         phenology->previousStageName() != phenology->stageName())
@@ -1866,7 +1799,7 @@ void Plant::plant_remove_biomass_update (protocol::RemoveCropDmType dmRemoved)
 
     phenology->onRemoveBiomass(g.remove_biom_pheno);
 
-    plant.doNConccentrationLimits(g.co2_modifier_n_conc );
+    plant.doNConccentrationLimits(co2Modifier->n_conc() );
 
     if (g.plant_status == alive &&
         phenology->previousStageName() != phenology->stageName())
@@ -1888,9 +1821,6 @@ void Plant::plant_zero_all_globals (void)
 
 //- Implementation Section ----------------------------------
 
-          g.co2_modifier_te = 0.0;
-      g.co2_modifier_n_conc = 0.0;
-      g.co2_modifier_rue = 0.0;
       g.plant_status_out_today = false;
       g.module_name = "";
       g.crop_class = "";
@@ -1937,17 +1867,6 @@ void Plant::plant_zero_all_globals (void)
       g.dlt_sw_parasite_demand = 0.0;
       g.dm_parasite_retranslocate = 0.0;
       g.dlt_dm_parasite = 0.0;
-
-      fill_real_array (c.x_co2_te_modifier, 0.0, max_table);
-      fill_real_array (c.y_co2_te_modifier, 0.0, max_table);
-      c.num_co2_te_modifier = 0;
-
-      fill_real_array (c.x_co2_nconc_modifier, 0.0, max_table);
-      fill_real_array (c.y_co2_nconc_modifier, 0.0, max_table);
-      c.num_co2_nconc_modifier = 0;
-
-      c.photosynthetic_pathway = photosynthetic_pathway_UNDEF;
-
 
     }
 
@@ -2282,6 +2201,8 @@ void Plant::plant_get_other_variables (void)
     parent->getVariable(id.eo, g.eo, 0.0, 20.0);
     rootPart->getOtherVariables();
     Environment.getOtherVariables(parent);
+    co2Modifier->doPlant_Co2Modifier (Environment);
+
     }
 void Plant::plant_update_other_variables (void)
 //=======================================================================================
@@ -2332,24 +2253,6 @@ void Plant::plant_prepare (void)
 //=======================================================================================
 // Event Handler for the Prepare Event
    {
-   //     APSim allows modules to perform calculations in preparation for
-   //     the standard APSim timestep.  This model uses this opportunity
-   //     to calculate potential growth variables for the coming day
-   //     and phenological development.
-
-   plant_rue_co2_modifier(Environment.co2,
-                         Environment.maxt,
-                         Environment.mint,
-                         &g.co2_modifier_rue);
-
-   g.co2_modifier_te = linear_interp_real (Environment.co2
-                                         , c.x_co2_te_modifier
-                                         , c.y_co2_te_modifier
-                                         , c.num_co2_te_modifier);
-   g.co2_modifier_n_conc = linear_interp_real (Environment.co2
-                                         , c.x_co2_nconc_modifier
-                                         , c.y_co2_nconc_modifier
-                                         , c.num_co2_nconc_modifier);
 
    for (vector<plantPart *>::iterator t = myParts.begin(); t != myParts.end(); t++)
       (*t)->prepare();
@@ -2463,24 +2366,8 @@ void Plant::plant_read_species_const (void)
     //    plant_rue_reduction
    tempStress->read_t_constants ();
    swStress->read_sw_constants ();
-
-    scienceAPI.read("x_co2_te_modifier", c.x_co2_te_modifier, c.num_co2_te_modifier, 0.0f, 1000.0f);
-    scienceAPI.read("y_co2_te_modifier", c.y_co2_te_modifier, c.num_co2_te_modifier, 0.0f, 10.0f);
-    scienceAPI.read("x_co2_nconc_modifier", c.x_co2_nconc_modifier, c.num_co2_nconc_modifier, 0.0f, 1000.0f);
-    scienceAPI.read("y_co2_nconc_modifier", c.y_co2_nconc_modifier, c.num_co2_nconc_modifier, 0.0f, 10.0f);
-
-    string pathway;
-    scienceAPI.read("photosynthetic_pathway", pathway);
-    if (Str_i_Eq(pathway.c_str(), "C3")) {
-      c.photosynthetic_pathway = photosynthetic_pathway_C3;
-    } else if(Str_i_Eq(pathway.c_str(), "C4")) {
-      c.photosynthetic_pathway = photosynthetic_pathway_C4;
-    } else {
-      c.photosynthetic_pathway = photosynthetic_pathway_UNDEF;
-      printf("undefined photosynthetic_pathway read!!!!\n");
-    }
-
-    }
+   co2Modifier->read_co2_constants ();
+   }
 
 void Plant::plant_harvest_report (void)
 //=======================================================================================
@@ -2972,9 +2859,9 @@ float Plant::getDyingFractionPlants(void) {return population.DyingFractionPlants
 float Plant::getLAI() {return leafPart->getLAI();}
 float Plant::getCumSwdefPheno() {return g.cswd_pheno.getSum();}
 float Plant::getCumSwdefPhoto() {return g.cswd_photo.getSum();}
-float Plant::getCo2ModifierRue(void)  {return g.co2_modifier_rue;}
-float Plant::getCo2ModifierTe(void)  {return g.co2_modifier_te;}
-float Plant::getCo2ModifierNConc(void)  {return g.co2_modifier_n_conc;}
+float Plant::getCo2ModifierRue(void)  {return co2Modifier->rue();}
+float Plant::getCo2ModifierTe(void)  {return co2Modifier->te();}
+float Plant::getCo2ModifierNConc(void)  {return co2Modifier->n_conc();}
 float Plant::getVpd(void)  {return Environment.vpdEstimate();}
 float Plant::getTempStressPhoto(void)  {return tempStress->tFact.photo;}
 float Plant::getNfactPhoto(void)  {return nStress->nFact.photo;}
