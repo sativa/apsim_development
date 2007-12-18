@@ -81,20 +81,6 @@ private:
    TempStress *tempStress;
    Co2Modifier *co2Modifier;
 
-   float grainGreen(void);
-   float grainSenesced(void);
-   float grainDead(void);
-   float grainTot(void);
-
-   float grainNGreen(void);
-   float grainNSenesced(void);
-   float grainNDead(void);
-   float grainNTot(void);
-
-   float grainPDead(void);
-   float grainPConc(void);
-   float SWDemandTE(void) ;
-   float SWDemand(void) ;
    void read(void);
 
 public:
@@ -150,29 +136,8 @@ public:
    void plant_event(void);
 
    void plant_root_depth (int option /* (INPUT) option number*/);
-   void plant_water_distribute (int option /*(INPUT) option number*/);
-   void plant_light_supply_partition (int option /*(INPUT) option number*/);
+   void doPlantRadnPartition (int option /*(INPUT) option number*/);
    void doNPartition(float g_n_fix_pot, float &n_fix_uptake, std::vector<plantPart *> &);
-
-   void legnew_dm_partition1 (float c_frac_leaf
-                              , float c_ratio_root_shoot
-                              , double g_dlt_dm
-                              , float dm_yield_demand_fruit
-                              , double *dlt_dm_fruit);
-
-   void legnew_dm_partition2 (float  g_current_stage
-                              , float  *c_x_stage_no_partition
-                              , float  *c_y_frac_leaf
-                              , int    c_num_stage_no_partition
-                              , float *c_y_ratio_root_shoot
-                              , double g_dlt_dm
-                              , float dm_yield_demand_fruit
-                              , double *dlt_dm_fruit);
-
-   void legnew_dm_retranslocate (vector<plantPart *> &allParts        // (INPUT) all parts of plant
-                                 ,vector<plantPart *> &supply_pools   // (INPUT)
-                                 ,float  g_dm_demand_differential     // (INPUT)  grain dm demand (g/m^2)
-                                 ,float  *dlt_dm_retrans_to_fruit);   // (OUTPUT) dm retranslocated to fruit (g/m^2)
 
    void doNRetranslocate(float g_grain_n_demand);
 
@@ -428,7 +393,6 @@ private:
       float       dm_parasite_retranslocate; // plant biomass retranslocated to parasite [g/m^2]
       float       dlt_dm_parasite;         // parasite biomass growth [g/m^2]
 
-      float     vpd;
    } g;   // Globals
 
 
@@ -452,7 +416,6 @@ private:
 
       string crop_type;                                  // crop type
       string default_crop_class;                         // crop class
-      vector<string> part_names;                         // names of plant parts
       string n_supply_preference;                        // preference of n supply
 
       float n_fix_rate[max_table];                      // potential rate of N fixation (g N fixed
@@ -463,9 +426,6 @@ private:
       float eo_crop_factor_default;                     // Default Crop factor for sw demand applied to Eo
 
       string     remove_biomass_report;
-
-      StressDeficit pFactSlope;
-      StressDeficit nFact;      // multipler for N deficit effect
    }  c;   // Constants
 
 };  // Plant

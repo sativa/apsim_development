@@ -181,7 +181,7 @@ float PStress::PlantP_Pfact (vector<plantPart *> &allParts)
    return pfact;
 }
 
-void PStress::PlantP_Stress (vector<plantPart *> &allParts)
+void PStress::doPlantPStress (vector<plantPart *> &allParts)
 // ====================================================================
 //      Provide value of  P stress factors
 {
@@ -316,7 +316,7 @@ void NStress::read_n_constants (void)
     c.nFact.grain = 1.0;
 }
 
-void NStress::plant_nit_stress (plantPart* leafPart, plantPart* stemPart)
+void NStress::doPlantNStress (plantPart* leafPart, plantPart* stemPart)
 //=======================================================================================
 // Calculate Plant Nitrogen Stress Factors
     {
@@ -350,7 +350,7 @@ void NStress::plant_nit_stress (plantPart* leafPart, plantPart* stemPart)
         }
     else
         {
-        throw std::invalid_argument ("invalid template option in plant_nit_stress");
+        throw std::invalid_argument ("invalid template option in doPlantNStress");
         }
 
     }
@@ -485,7 +485,7 @@ void TempStress::read_t_constants (void)
     scienceAPI.read("y_stress_photo", c.y_stress_photo, c.num_factors, 0.0f, 1.0f);
 }
 
-void TempStress::doPlant_temp_stress (environment_t& Environment)
+void TempStress::doPlantTempStress (environment_t& Environment)
 //     ===========================================================
 //         Get current temperature stress factors (0-1)
    {

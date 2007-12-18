@@ -964,7 +964,7 @@ void Plant::plant_event(void)
 
 
 //===========================================================================
-void Plant::plant_light_supply_partition (int option /*(INPUT) option number*/)
+void Plant::doPlantRadnPartition (int option /*(INPUT) option number*/)
 //===========================================================================
 {
 //+  Purpose
@@ -1004,7 +1004,7 @@ void Plant::plant_light_supply_partition (int option /*(INPUT) option number*/)
 
 void Plant::doNPartition
                          (float  g_n_fix_pot         // (INPUT)  N fixation potential (g/m^2)
-                         ,float  &n_fix_uptake        // (OUTPUT) actual N fixation (g/m^2)
+                         ,float  &nFixUptake        // (OUTPUT) actual N fixation (g/m^2)
                          ,vector<plantPart *> &allParts        // (INPUT) vector of plant parts
                          ) {
 
@@ -1012,39 +1012,39 @@ void Plant::doNPartition
 
     vector<plantPart *>::iterator part;           // iterator
     vector<float> n_capacity(allParts.size());    // amount of N that can be stored in plant part above Ncrit (g/m^2)
-    float n_capacity_sum;                         // total excess N storage (g/m^2)
-    float n_demand_sum;                               // total nitrogen demand (g/m^2)
-    float n_fix_demand_tot;                       // total demand for N fixation (g/m^2)
+    float nCapacityTotal;                         // total excess N storage (g/m^2)
+    float nDemandTotal;                               // total nitrogen demand (g/m^2)
+    float nFixDemandTotal;                       // total demand for N fixation (g/m^2)
 
     // find the proportion of uptake to be distributed to
     // each plant part and distribute it.
-    float n_uptake_sum = rootPart->nUptake();     // total plant N uptake (g/m^2)
-    n_demand_sum = plant.nDemand();
-    n_capacity_sum = plant.nCapacity();
+    float nUptakeSum = rootPart->nUptake();     // total plant N uptake (g/m^2)
+    nDemandTotal = plant.nDemand();
+    nCapacityTotal = plant.nCapacity();
 
    for (part = allParts.begin(); part != allParts.end(); part++)
-      (*part)->doNPartition(n_uptake_sum, n_demand_sum, n_capacity_sum);
+      (*part)->doNPartition(nUptakeSum, nDemandTotal, nCapacityTotal);
 
       // Check Mass Balance
-    float dlt_n_green_sum = 0.0;
+    float dltNGreenSum = 0.0;
     for (part = allParts.begin(); part != allParts.end(); part++)
-         dlt_n_green_sum += (*part)->dltNGreen();
+         dltNGreenSum += (*part)->dltNGreen();
 
-    if (!reals_are_equal(dlt_n_green_sum - n_uptake_sum, 0.0))
+    if (!reals_are_equal(dltNGreenSum - nUptakeSum, 0.0))
         {
         string msg ="Crop dlt_n_green mass balance is off: dlt_n_green_sum ="
-              + ftoa(dlt_n_green_sum, ".6")
-              + " vs n_uptake_sum ="
-              + ftoa(n_uptake_sum, ".6");
+                    + ftoa(dltNGreenSum, ".6")
+                    + " vs nUptakeSum ="
+                    + ftoa(nUptakeSum, ".6");
         parent->warningError(msg.c_str());
         }
 
       // Retranslocate N Fixed
-    n_fix_demand_tot = l_bound (n_demand_sum - n_uptake_sum, 0.0);
-    n_fix_uptake = bound (g_n_fix_pot, 0.0, n_fix_demand_tot);
+    nFixDemandTotal = l_bound (nDemandTotal - nUptakeSum, 0.0);
+    nFixUptake = bound (g_n_fix_pot, 0.0, nFixDemandTotal);
 
     for (part = allParts.begin(); part != allParts.end(); part++)
-         (*part)->doNFixRetranslocate (n_fix_uptake, n_fix_demand_tot);
+         (*part)->doNFixRetranslocate (nFixUptake, nFixDemandTotal);
     }
 
 
@@ -1313,7 +1313,7 @@ void Plant::plant_process ( void )
     plant_cleanup();
 
     swStress->doPlantWaterStress (tops.SWDemand());
-    nStress->plant_nit_stress (leafPart, stemPart);
+    nStress->doPlantNStress (leafPart, stemPart);
 
     }
 
@@ -2257,9 +2257,9 @@ void Plant::plant_prepare (void)
    for (vector<plantPart *>::iterator t = myParts.begin(); t != myParts.end(); t++)
       (*t)->prepare();
 
-   nStress->plant_nit_stress (leafPart, stemPart);
-   tempStress->doPlant_temp_stress (Environment);
-   plant_light_supply_partition (1);
+   nStress->doPlantNStress (leafPart, stemPart);
+   tempStress->doPlantTempStress (Environment);
+   doPlantRadnPartition (1);
 
    // Calculate Potential Photosynthesis
    for (vector<plantPart *>::const_iterator part = myParts.begin(); part != myParts.end(); part++)
