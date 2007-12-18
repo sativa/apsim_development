@@ -20,15 +20,12 @@ class Arbitrator;
 #include "CompositePart.h"
 #include "Population.h"
 #include "PlantStress.h"
+#include "Co2Modifier.h"
 typedef bool (Plant::*ptr2setFn) (protocol::QuerySetValueData&);
 
 typedef std::map<unsigned, ptr2setFn>   UInt2SetFnMap;
 typedef std::map<unsigned, string>      UInt2StringMap;
 
-
-
-
-typedef enum {photosynthetic_pathway_UNDEF, photosynthetic_pathway_C3, photosynthetic_pathway_C4} photosynthetic_pathway_t;
 
 //      Process names used for stress
 // photosynthesis flag
@@ -82,6 +79,7 @@ private:
    NStress *nStress;
    SWStress *swStress;
    TempStress *tempStress;
+   Co2Modifier *co2Modifier;
 
    float grainGreen(void);
    float grainSenesced(void);
@@ -173,11 +171,6 @@ public:
                                      , float swSupply
                                      , float *swSupplyVeg
                                      , float *swSupplyFruit);
-
-   void plant_rue_co2_modifier(float co2,                 //!CO2 level (ppm)
-                               float maxt,                //!daily max temp (C)
-                               float mint,                //!daily min temp (C)
-                               float *modifier);          //!modifier (-)
 
    void doNPartition(float g_n_fix_pot, float &n_fix_uptake, std::vector<plantPart *> &);
 
@@ -469,12 +462,6 @@ private:
       float       dm_parasite_retranslocate; // plant biomass retranslocated to parasite [g/m^2]
       float       dlt_dm_parasite;         // parasite biomass growth [g/m^2]
 
-      // Phosphorous
-      bool  phosphorus_aware;
-
-      float     co2_modifier_rue;
-      float     co2_modifier_te;
-      float     co2_modifier_n_conc;
       float     vpd;
    } g;   // Globals
 
@@ -527,11 +514,6 @@ private:
 
       float eo_crop_factor_default;                     // Default Crop factor for sw demand applied to Eo
 
-      float      x_co2_te_modifier[max_table], y_co2_te_modifier[max_table];
-      int        num_co2_te_modifier;
-      float      x_co2_nconc_modifier[max_table], y_co2_nconc_modifier[max_table];
-      int        num_co2_nconc_modifier;
-      photosynthetic_pathway_t photosynthetic_pathway;
       string     remove_biomass_report;
 
       float x_p_stage_code [max_table];
