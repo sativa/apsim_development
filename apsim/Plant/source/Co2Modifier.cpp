@@ -38,14 +38,6 @@ void Co2Modifier::init(void)
 //                    &Co2Modifier::get_tstress_photo,
 //                    "","Temperature stress for photosynthesis");
 
-      fill_real_array (c.x_co2_te_modifier, 0.0, max_table);
-      fill_real_array (c.y_co2_te_modifier, 0.0, max_table);
-      c.num_co2_te_modifier = 0;
-
-      fill_real_array (c.x_co2_nconc_modifier, 0.0, max_table);
-      fill_real_array (c.y_co2_nconc_modifier, 0.0, max_table);
-      c.num_co2_nconc_modifier = 0;
-
       c.photosynthetic_pathway = photosynthetic_pathway_UNDEF;
 
 
@@ -64,22 +56,41 @@ void Co2Modifier::zero_co2_variables (void)
 //     ===========================================================
 void Co2Modifier::read_co2_constants (void)
 {
-    scienceAPI.read("x_co2_te_modifier", c.x_co2_te_modifier, c.num_co2_te_modifier, 0.0f, 1000.0f);
-    scienceAPI.read("y_co2_te_modifier", c.y_co2_te_modifier, c.num_co2_te_modifier, 0.0f, 10.0f);
-    scienceAPI.read("x_co2_nconc_modifier", c.x_co2_nconc_modifier, c.num_co2_nconc_modifier, 0.0f, 1000.0f);
-    scienceAPI.read("y_co2_nconc_modifier", c.y_co2_nconc_modifier, c.num_co2_nconc_modifier, 0.0f, 10.0f);
+    cTE.read(scienceAPI, "x_co2_te_modifier", "()", 0.0, 1000.0,
+                         "y_co2_te_modifier", "()", 0.0, 10.0);
+
+    cNConc.read(scienceAPI, "x_co2_nconc_modifier", "()", 0.0, 1000.0,
+                            "y_co2_nconc_modifier", "()", 0.0, 10.0);
 
     string pathway;
     scienceAPI.read("photosynthetic_pathway", pathway);
+
     if (Str_i_Eq(pathway.c_str(), "C3")) {
       c.photosynthetic_pathway = photosynthetic_pathway_C3;
+
     } else if(Str_i_Eq(pathway.c_str(), "C4")) {
       c.photosynthetic_pathway = photosynthetic_pathway_C4;
+
     } else {
       c.photosynthetic_pathway = photosynthetic_pathway_UNDEF;
       printf("undefined photosynthetic_pathway read!!!!\n");
     }
 }
+
+float Co2Modifier::rue (void)
+   {
+      return co2_modifier_rue;
+   }
+
+float Co2Modifier::te (void)
+   {
+      return co2_modifier_te;
+   }
+
+float Co2Modifier::n_conc (void)
+   {
+      return co2_modifier_n_conc;
+   }
 
 void Co2Modifier::doPlant_Co2Modifier (environment_t& Environment)
 //     ===========================================================
@@ -88,14 +99,8 @@ void Co2Modifier::doPlant_Co2Modifier (environment_t& Environment)
          co2_modifier_rue = plant_rue_co2_modifier(Environment.co2,
                                Environment.avet);
 
-         co2_modifier_te = linear_interp_real (Environment.co2
-                                               , c.x_co2_te_modifier
-                                               , c.y_co2_te_modifier
-                                               , c.num_co2_te_modifier);
-         co2_modifier_n_conc = linear_interp_real (Environment.co2
-                                               , c.x_co2_nconc_modifier
-                                               , c.y_co2_nconc_modifier
-                                               , c.num_co2_nconc_modifier);
+         co2_modifier_te = cTE.value(Environment.co2);
+         co2_modifier_n_conc = cNConc.value(Environment.co2);
 
    }
 

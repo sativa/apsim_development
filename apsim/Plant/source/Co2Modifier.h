@@ -38,9 +38,9 @@ public:
    void zero_co2_variables (void);
    void doPlant_Co2Modifier (environment_t& Environment);
    void read_co2_constants (void);
-   float rue (void) {return co2_modifier_rue;};
-   float te (void) {return co2_modifier_te;};
-   float n_conc (void) {return co2_modifier_n_conc;};
+   float rue (void);
+   float te (void);
+   float n_conc (void);
 
    StressDeficit tFact;
 
@@ -48,16 +48,15 @@ private:
    ScienceAPI& scienceAPI;
 
    PlantComponent *parent;                 // The plant we are attached to
+   interpolationFunction cTE;
+   interpolationFunction cNConc;
+
 
       float     co2_modifier_rue;
       float     co2_modifier_te;
       float     co2_modifier_n_conc;
 
    struct {
-      float      x_co2_te_modifier[max_table], y_co2_te_modifier[max_table];
-      int        num_co2_te_modifier;
-      float      x_co2_nconc_modifier[max_table], y_co2_nconc_modifier[max_table];
-      int        num_co2_nconc_modifier;
       photosynthetic_pathway_t photosynthetic_pathway;
    }  c;   // Constants
 

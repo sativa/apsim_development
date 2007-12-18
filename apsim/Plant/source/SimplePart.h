@@ -99,7 +99,6 @@ class SimplePart : public plantPart
                                                         // and this can be converted to
                                                         // kpa*g carbo per m^2 / mm water
                                                         // because 1g water = 1 cm^3 water
-      float eoCropFactorDefault;                     // Default Crop factor for sw demand applied to Eo
    } c;
 
    plantInterface *plant;                 // The plant we are attached to

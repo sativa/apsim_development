@@ -46,11 +46,10 @@ public:
    void get_swstress_expan(protocol::Component *, protocol::QueryValueData &);
    void get_swstress_fixation(protocol::Component *, protocol::QueryValueData &);
 
-      void zeroAllGlobals(void);
       void doPlantWaterStress (float sw_demand);
       float SWDefExpansion(float sw_demand);
       float SWDefPhoto(float sw_demand);
-      float SWDefPheno(int num_sw_avail_ratio, float x_sw_avail_ratio[], float y_swdef_pheno[]);
+      float SWDefPheno(interpolationFunction& cSwDefPheno);
       float SWDefFixation(void);
       float SWDefOxygen (float wet_root_fr);
 
@@ -62,29 +61,12 @@ private:
    PlantComponent *parent;                 // The plant we are attached to
    RootBase *rootPart;
 
-      int   num_sw_avail_ratio;
-      float x_sw_avail_ratio [max_table];
-      float y_swdef_pheno [max_table];
-
-      int        num_sw_avail_ratio_flower;
-      float      x_sw_avail_ratio_flower[max_table];
-      float      y_swdef_pheno_flower [max_table];
-
-      int        num_sw_avail_ratio_grainfill;
-      float      x_sw_avail_ratio_grainfill [max_table];
-      float      y_swdef_pheno_grainfill [max_table];
-
-      int   num_sw_demand_ratio;
-      float x_sw_demand_ratio [max_table];
-      float y_swdef_leaf [max_table];
-
-      int   num_sw_avail_fix;
-      float x_sw_avail_fix [max_table];
-      float y_swdef_fix [max_table];
-
-      float oxdef_photo [max_table];
-      float oxdef_photo_rtfr[max_table];
-      int   num_oxdef_photo;
+   interpolationFunction cSwDefPheno;
+   interpolationFunction cSwwDefPhenoFlower;
+   interpolationFunction cSwwDefPhenoGrainfill;
+   interpolationFunction cSwwDefExpansion;
+   interpolationFunction cSwwDefFix;
+   interpolationFunction cOxDefPhoto;
 
 }; //SWStress
 
@@ -103,15 +85,7 @@ private:
    ScienceAPI& scienceAPI;
 
    PlantComponent *parent;                 // The plant we are attached to
-
-   struct {
-      float x_ave_temp[max_table];                      // critical temperatures for
-                                                        // photosynthesis (oC)
-      float y_stress_photo[max_table];                  // Factors for critical temperatures
-                                                        // (0-1)
-      int   num_ave_temp;                               // size_of critical temperature table
-      int   num_factors;                                // size_of table
-   }  c;   // Constants
+   interpolationFunction cTStressPhoto;
 
 }; //TempStress
 
