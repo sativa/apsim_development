@@ -29,9 +29,6 @@ using namespace std;
 static const char* floatArrayType =   "<type kind=\"single\" array=\"T\"/>";
 
 
-
-
-
 // ===============================
 
 void Plant::prepare_p(void)
@@ -84,63 +81,6 @@ void Plant::doPInit (PlantComponent *systemInterface)
                                                                "", "");
       }
 
-}
-
-float Plant::PlantP_Pfact (vector<plantPart *> &allParts)
-// ====================================================================
-//      Provide value of generic P factor
-{
-      float    max_p;
-      float    min_p;
-      float    act_p;
-      float    max_p_conc;
-      float    min_p_conc;
-      float    act_p_conc;
-      float    determinants_wt;
-      float    pfact;
-      vector<plantPart*>::iterator part;
-
-   if (pStress->isPhosphorusAware())
-   {
-      act_p = 0.0;
-      min_p = 0.0;
-      max_p = 0.0;
-      determinants_wt = 0.0;
-
-
-      for (part = allParts.begin(); part != allParts.end(); part++)
-         {
-            act_p += (*part)->pGreenStressDeterminant();
-            max_p += (*part)->pMaxPotStressDeterminant();
-            min_p += (*part)->pMinPotStressDeterminant();
-            determinants_wt += (*part)->dmGreenStressDeterminant();
-
-         }
-
-      act_p_conc = divide(act_p, determinants_wt, 0.0);
-      max_p_conc = divide(max_p, determinants_wt, 0.0);
-      min_p_conc = divide(min_p, determinants_wt, 0.0);
-
-      if ((determinants_wt <= 0.0) || (act_p <= 0.0))
-      {
-         // appears that things are not yet initialised
-         pfact = 1.0;
-      }
-      else
-      {
-         pfact = divide(act_p_conc - min_p_conc
-                       , max_p_conc - min_p_conc
-                       , 1.0);
-      }
-
-      pfact = bound(pfact, 0.0, 1.0);
-   }
-   else
-   {
-      pfact = 1.0;
-   }
-
-   return pfact;
 }
 
 void Plant::doPRetranslocate (void)
