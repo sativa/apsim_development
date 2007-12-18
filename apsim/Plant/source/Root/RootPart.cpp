@@ -945,7 +945,7 @@ void RootPart::doPlantWaterStress (float sw_demand, SWStress *swStress)
 //     ===========================================================
 //         Get current water stress factors (0-1)
    {
-	swStress->doPlantWaterStress (sw_demand);
+    swStress->doPlantWaterStress (sw_demand);
    }
 
 void RootPart::doWaterUptakeExternal (float sw_demand)
@@ -1548,7 +1548,7 @@ float RootPart::swSupply()
 
 float RootPart::swAvailablePotential()
 //=======================================================================================
-// Calculate total plant extractable soil water.
+// Calculate total plant potential extractable soil water.
    {
    int deepest_layer = find_layer_no (root_depth, dlayer, max_layer);
    return sum_real_array (sw_avail_pot, deepest_layer+1);
@@ -1559,7 +1559,7 @@ float RootPart::swAvailable()
 // Calculate total plant extractable soil water.
    {
    int deepest_layer = find_layer_no (root_depth, dlayer, max_layer);
-   return sum_real_array (sw_avail_pot, deepest_layer+1);
+   return sum_real_array (sw_avail, deepest_layer+1);
    }
 
 float RootPart::nUptake()
