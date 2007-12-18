@@ -36,6 +36,7 @@ public:
    SWStress(ScienceAPI& scienceAPI,PlantComponent *p);
    ~SWStress(void);
    void init(RootBase *root);
+   void read_sw_constants (void);
    void get_swdef_pheno(protocol::Component *, protocol::QueryValueData &);
    void get_swdef_photo(protocol::Component *, protocol::QueryValueData &);
    void get_swdef_expan(protocol::Component *, protocol::QueryValueData &);
