@@ -42,15 +42,12 @@ void Plant::prepare_p(void)
 
 
 // ===============================
-void Plant::doPPartition (vector<plantPart*>&parts)
+void Plant::doPPartition (void)
 {
+  if (pStress->isPhosphorusAware())
+  {
       vector<float> values;               // Scratch area
-      vector<plantPart*>::iterator part;
       float p_uptake;
-
-      float total_p_demand = 0.0;
-      for (part = parts.begin(); part != parts.end(); part++)
-          total_p_demand += (*part)->pDemand();
 
       if (id.layered_p_uptake != 0)
       {
@@ -62,11 +59,10 @@ void Plant::doPPartition (vector<plantPart*>&parts)
           p_uptake = sumValue * kg2gm/ha2sm;
       }
       else
-          p_uptake = total_p_demand;
+          p_uptake = plant.pDemand();
 
-      for (part = parts.begin(); part != parts.end(); part++)
-         (*part)->doPPartition(p_uptake, total_p_demand);
-
+      plant.doPPartition(p_uptake, plant.pDemand());
+  }
 }
 // ====================================================================
 void Plant::doPInit (PlantComponent *systemInterface)
@@ -86,24 +82,8 @@ void Plant::doPInit (PlantComponent *systemInterface)
 void Plant::doPRetranslocate (void)
 //      Calculate retranslocation between pools
 {
-      vector<float>    supply(myParts.size());
-      vector<float>    demand(myParts.size());
-
-      unsigned int ipart;
-      float    totSupply, totDemand;
-
-//- Implementation Section ----------------------------------
-
-      totSupply = 0.0;
-      totDemand = 0.0;
-      for (ipart =0; ipart != myParts.size(); ipart++)
-         {
-         totSupply += myParts[ipart]->pRetransSupply();
-         totDemand += myParts[ipart]->pRetransDemand();
-         }
-
-      for (ipart =0; ipart != myParts.size(); ipart++)
-         myParts[ipart]->doPRetranslocate(totSupply, totDemand);
+  if (pStress->isPhosphorusAware())
+      plant.doPRetranslocate(plant.pRetransSupply(), plant.pRetransDemand());
 
 }
 

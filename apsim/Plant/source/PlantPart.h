@@ -29,6 +29,7 @@
 #include "CompositePool.h"
 #include "Delta.h"
 #include "PlantStress.h"
+#include "Utility/PlantUtility.h"
 
 class plantPart : public plantThing
    {
@@ -320,5 +321,6 @@ protected:
 
       void Initialise();
 };
+
 
 #endif /* PlantPartsH */

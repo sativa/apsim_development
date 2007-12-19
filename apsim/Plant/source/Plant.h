@@ -115,12 +115,9 @@ public:
    std::string Name(void) {return g.module_name;}
 
    void doDmRetranslocate (void);
-   void doDmPotTE (void);
    void doNRetranslocate (int option      /* (INPUT) option number*/);
    void doNDemand (int option       /* (INPUT) option number*/);
-   void doNUptake (void);
    void doNPartition (void);
-   void doSoilNDemand (void);
 
    void doNDemandEstimate (int option);
    void doNSenescence (int   option/*(INPUT) option number*/);
@@ -137,7 +134,7 @@ public:
 
    void plant_root_depth (int option /* (INPUT) option number*/);
    void doPlantRadnPartition (int option /*(INPUT) option number*/);
-   void doNPartition(float g_n_fix_pot, float &n_fix_uptake, std::vector<plantPart *> &);
+   void doNPartition(float g_n_fix_pot, float &n_fix_uptake);
 
    void doNRetranslocate(float g_grain_n_demand);
 
@@ -314,7 +311,7 @@ public:
    void prepare_p(void);
    void summary_p (void);
 
-   void  doPPartition (vector<plantPart*>&);
+   void  doPPartition (void);
    void  doPRetranslocate (void);
 
    const environment_t *getEnvironment(void) {return &Environment;};
