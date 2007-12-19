@@ -21,6 +21,7 @@ public:                                             // member functions
    void add(plantPart* part);
 
       // plant
+   virtual float availableRetranslocateN(void);
    virtual void collectDetachedForResidue(vector<string> &part_name
                                           , vector<float> &dm_residue
                                           , vector<float> &dm_n
@@ -32,9 +33,13 @@ public:                                             // member functions
    virtual void  Detachment(void);
    virtual float dltDm(void);
    virtual float dltDmGreen(void)  ;
+   virtual float dltDmGreenRemoved(void);
    virtual float dltDmPotRue(void);
+   virtual float dltDmRemoved(void);
    virtual float dltNGreen(void);
+   virtual float dltNRemoved(void);
    virtual float dltNSenescedRetrans(void);
+   virtual float dmGrainWetTotal(void);
    virtual void  doBioActual (void);
    virtual void  doCover (PlantSpatial &spatial);
    virtual void  doDmDemand (float dlt_dm_supply_by_veg);
@@ -49,16 +54,20 @@ public:                                             // member functions
    virtual void  doNFixRetranslocate(float NFix, float NDemandDifferentialTotal);
    virtual void  doNInit (void);
    virtual void  doNPartition(float nSupply, float n_demand_sum, float n_capacity_sum);
+   virtual void  doNRetranslocate( float N_avail_rep, float grain_n_demand);
    virtual void  doNSenescence(void);
    virtual void  doNSenescedRetrans(float navail, float n_demand_tot);
    virtual void  doPDemand(void);
    virtual void  doPPartition(float p_uptake, float total_p_demand);
    virtual void  doPRetranslocate(float total_p_supply, float total_p_demand);
    virtual void  doPSenescence(void);
+   virtual void  doRemoveBiomass(protocol::RemoveCropDmType dmRemoved, string &c_remove_biomass_report);
    virtual void  doSenescence (float sen_fr);
    virtual void  doSoilNDemand(void);
    virtual void  doSWDemand(float SWDemandMaxFactor);     //(OUTPUT) crop water demand (mm)               //FIXME
    virtual void  doTECO2(void);                           // (OUTPUT) transpiration coefficient                         //FIXME
+   virtual float grainNo(void);
+   virtual float grainWt(void);
    virtual void  morphology(void);
    virtual float nCapacity(void);
    virtual float nDemand(void);
@@ -66,6 +75,7 @@ public:                                             // member functions
    virtual float pDemand(void);
    virtual float pRetransSupply(void);
    virtual float pRetransDemand(void);
+   virtual void  removeBiomass(void);
    virtual float soilNDemand(void);
    virtual float SWDemand(void);                         //(OUTPUT) crop water demand (mm)               //FIXME
    virtual void  update(void);
@@ -94,6 +104,8 @@ public:                                             // member functions
    virtual void get_dlt_dm_green_retrans(vector<float> &);
    virtual void get_dlt_p_retrans(vector<float> &dlt_p_retrans);
    virtual void get_dm_plant_min(vector<float> &);
+   virtual void get_dm_senesced(vector<float> &);
+   virtual void get_name(vector<string> &name);
    virtual void get_n_demanded(vector<float> &);
    virtual void get_p_demand(vector<float> &p_demand);
 
@@ -103,18 +115,13 @@ protected:
    virtual void readCultivarParameters (protocol::Component *, const string &);
    virtual void doProcessBioDemand(void);
    virtual void onDayOf(const string &);
-   virtual float availableRetranslocateN(void);
    virtual void onEmergence();
-   virtual void get_name(vector<string> &name);
    virtual void get_dlt_dm_senesced(vector<float> &);
    virtual void get_dlt_dm_detached(vector<float> &);
    virtual void get_dlt_dm_green(vector<float> &);
-   virtual void get_dm_senesced(vector<float> &);
    virtual void get_dm_green(vector<float> &);
 
 
-   virtual void  doRemoveBiomass(protocol::RemoveCropDmType dmRemoved, string &c_remove_biomass_report);
-   virtual void  removeBiomass(void);
    virtual void  removeBiomass2(float);
 
    virtual void doGrainNumber (void);
@@ -128,7 +135,6 @@ protected:
    virtual float coverTotal(void) ;
    virtual float interceptRadiationGreen(float radiation);
    virtual float interceptRadiationTotal(float radiation);
-   virtual float grainNo(void);
    virtual float nDemandGrain(void);
 
    virtual float dltDmGrainDemand(void);
@@ -142,15 +148,10 @@ protected:
    virtual float dltDmDetached(void);
    virtual float dltDmGreenRetrans(void);
 
-   virtual float dltDmGreenRemoved(void);
    virtual float dltDmSenescedRemoved(void);
-   virtual float dltDmRemoved(void);
-   virtual float dltNRemoved(void);
 
    virtual float grainWaterContent(void);
-   virtual float dmGrainWetTotal(void);
 
-   virtual float grainWt(void);
    virtual float dmRetransSupply(void);
    virtual float dmRetransDemand(void) ;
 
@@ -176,9 +177,6 @@ protected:
    virtual void doDmRetranslocate(float DMAvail, float DMDemandDifferentialTotal);
    virtual float dmDemandDifferential(void) ;
    virtual float nDemandDifferential(void);
-
-   virtual void doNRetranslocate( float N_avail_rep, float grain_n_demand);
-
 
    virtual float dltPGreen(void);
    virtual float dltNSenesced(void);

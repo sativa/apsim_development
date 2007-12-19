@@ -178,21 +178,18 @@ void Plant::onInit1(void)
     leafPart = constructLeafPart(scienceAPI, this, leafModel, "Leaf");
     myThings.push_back(leafPart);
     myParts.push_back(leafPart);
-    myTopsParts.push_back(leafPart);
     plant.add(leafPart);
     tops.add(leafPart);
 
     stemPart = new plantStemPart(scienceAPI, this, "Stem");
     myThings.push_back(stemPart);
     myParts.push_back(stemPart);
-    myTopsParts.push_back(stemPart);
     plant.add(stemPart);
     tops.add(stemPart);
 
     fruitPart = PlantFruit::construct(scienceAPI, this, "Fruit");
     myThings.push_back(fruitPart);
     myParts.push_back(fruitPart);
-    myTopsParts.push_back(fruitPart);
     plant.add(fruitPart);
     tops.add(fruitPart);
 
@@ -1054,13 +1051,7 @@ void Plant::doNRetranslocate (float g_grain_n_demand)
           //! available N does not include roots or grain
           //! this should not presume roots and grain are 0.
           // grain N potential (supply)
-    float n_avail_stover = 0.0;
-    for (part = myTopsParts.begin(); part != myTopsParts.end(); part++)
-        n_avail_stover += (*part)->availableRetranslocateN();
-
-
-    for (part = myTopsParts.begin(); part != myTopsParts.end(); part++)
-        (*part)->doNRetranslocate(n_avail_stover, g_grain_n_demand);
+    tops.doNRetranslocate(tops.availableRetranslocateN(), g_grain_n_demand);
 
           // check that we got (some of) the maths right.
     for (part = myParts.begin(); part != myParts.end(); part++)
@@ -1255,14 +1246,10 @@ void Plant::plant_detach_crop_biomass (protocol::Variant &v/*(INPUT) incoming me
       protocol::dmType dm;
 
       dm.pool = "green";
-      vector<plantPart*>::iterator part;
 
       vector<float>  dmParts;
-      for (part = myTopsParts.begin(); part != myTopsParts.end(); part++)
-      {
-         (*part)->get_name(dm.part);
-         (*part)->get_dm_green(dmParts);
-      }
+      tops.get_name(dm.part);
+      tops.get_dm_senesced(dmParts);
 
       for (unsigned int pool=0; pool < dmParts.size(); pool++)
          dm.dlt.push_back(double(dmParts[pool] * 0.0));
@@ -1275,11 +1262,8 @@ void Plant::plant_detach_crop_biomass (protocol::Variant &v/*(INPUT) incoming me
 
       dm.pool = "senesced";
 
-      for (part = myTopsParts.begin(); part != myTopsParts.end(); part++)
-      {
-         (*part)->get_name(dm.part);
-         (*part)->get_dm_senesced(dmParts);
-      }
+      tops.get_name(dm.part);
+      tops.get_dm_senesced(dmParts);
 
       for (unsigned int pool=0; pool < dmParts.size(); pool++)
          dm.dlt.push_back(double(dmParts[pool] * detachRate));
@@ -1623,36 +1607,24 @@ bool Plant::onSetPhase (protocol::QuerySetValueData &v/*(INPUT) message argument
 void Plant::plant_remove_biomass_update (protocol::RemoveCropDmType dmRemoved)
     {
 
-//+  Local Variables
-    vector<plantPart *>::iterator part;
-
 //- Implementation Section ----------------------------------
 
 
     // Unpack the DmRemoved structure
-     for (vector<plantPart *>::iterator part = myTopsParts.begin(); part != myTopsParts.end(); part++)
-        (*part)->doRemoveBiomass(dmRemoved, c.remove_biomass_report);
+     tops.doRemoveBiomass(dmRemoved, c.remove_biomass_report);
 
     // Update biomass and N pools.  Different types of plant pools are affected in different ways.
     // Calculate Root Die Back
     float chop_fr_green_leaf = divide(leafPart->dltDmGreenRemoved(), leafPart->Green.DM(), 0.0);
 
     rootPart->removeBiomass2(chop_fr_green_leaf);
+    float biomassGreenTops    = tops.Green.DM();
+    float dmRemovedGreenTops  = tops.dltDmGreenRemoved();
+    float dmRemovedTops       = tops.dltDmRemoved() * gm2kg/sm2ha;
+    float nRemovedTops        = tops.dltNRemoved() * gm2kg/sm2ha;
 
-    float biomassGreenTops =  0.0;
-    float dmRemovedGreenTops = 0.0;
-    float dmRemovedTops = 0.0;
-    float nRemovedTops = 0.0;
+    tops.removeBiomass();
 
-    for (part = myTopsParts.begin(); part != myTopsParts.end(); part++)
-        {
-        biomassGreenTops +=  (*part)->Green.DM();
-        dmRemovedGreenTops += (*part)->dltDmGreenRemoved();
-        dmRemovedTops += ((*part)->dltDmRemoved()) * gm2kg/sm2ha;
-        nRemovedTops += ((*part)->dltNRemoved()) * gm2kg/sm2ha;
-
-        (*part)->removeBiomass();
-        }
     g.remove_biom_pheno = divide (dmRemovedGreenTops, biomassGreenTops, 0.0);
 
     if (c.remove_biomass_report == "on")
@@ -1976,9 +1948,7 @@ void Plant::plant_end_crop (void)
         otherObservers.reset();
 
         // report
-        yield = 0.0;
-        for (vector<plantPart *>::iterator t = myParts.begin(); t != myParts.end(); t++)
-            yield = yield + (*t)->GrainTotal.DM() * gm2kg / sm2ha;
+        yield = plant.GrainTotal.DM() * gm2kg / sm2ha;
 
         sprintf (msg, "Crop ended. Yield (dw) = %7.1f  (kg/ha)", yield);
         parent->writeString (msg);
@@ -2266,19 +2236,11 @@ void Plant::plant_harvest_report (void)
 
 
     // crop harvested. Report status
-    yield = 0.0;
-    yield_wet = 0.0;
-    grain_wt = 0.0;
-    plant_grain_no = 0.0;
-    n_grain = 0.0;
-    for (vector<plantPart *>::iterator t = myParts.begin(); t != myParts.end(); t++)
-       {
-       yield = yield + (*t)->GrainTotal.DM() * gm2kg / sm2ha;
-       yield_wet = yield_wet +(*t)->dmGrainWetTotal() * gm2kg / sm2ha;
-       grain_wt = grain_wt + (*t)->grainWt();
-       plant_grain_no = plant_grain_no+divide ((*t)->grainNo(), getPlants(), 0.0);
-       n_grain = n_grain + (*t)->GrainTotal.N() * gm2kg/sm2ha;
-       }
+       yield = plant.GrainTotal.DM() * gm2kg / sm2ha;
+       yield_wet = plant.dmGrainWetTotal() * gm2kg / sm2ha;
+       grain_wt = plant.grainWt();
+       plant_grain_no = divide (plant.grainNo(), getPlants(), 0.0);
+       n_grain = plant.GrainTotal.N() * gm2kg/sm2ha;
 
 
     float dmRoot = rootPart->Total.DM() * gm2kg / sm2ha;

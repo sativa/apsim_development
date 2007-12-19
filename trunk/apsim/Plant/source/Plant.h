@@ -56,7 +56,6 @@ private:
 
    vector <plantThing *> myThings;
    vector <plantPart *> myParts;
-   vector <plantPart *> myTopsParts;
 
    plantStemPart  *stemPart;
    plantLeafPart  *leafPart;
