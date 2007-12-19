@@ -607,22 +607,6 @@ void Plant::doAutoClassChange(unsigned &/*fromId*/, unsigned &eventId, protocol:
   plant_auto_class_change(ps.c_str());
   }
 
-void Plant::doDmPotTE (void)
-//     ===========================================================
-//     Calculate biomass transpiration efficiency
-    {
-    float swSupply = rootPart->waterUptake();
-    float swSupplyVeg = swSupply * divide (leafPart->SWDemand(), tops.SWDemand(), 0.0);
-    float swSupplyFruit = swSupply - swSupplyVeg;
-
-    fruitPart->doDmPotTE (swSupplyFruit);
-    leafPart->doDmPotTE (swSupplyVeg);
-    }
-
-
-
-
-
 void Plant::doNRetranslocate (int option/* (INPUT) option number*/)
 //=======================================================================================
 // Do Plant Nitrogen Retranslocation
@@ -645,61 +629,22 @@ void Plant::doNDemand (int option /* (INPUT) option number*/)
 //=======================================================================================
 //       Find nitrogen demand.
     {
-    float dlt_dm = tops.dltDm();
-    float dlt_dm_pot_rue = tops.dltDmPotRue();
     if (option == 1)
-        {
-        for (vector<plantPart *>::iterator t = myParts.begin();
-             t != myParts.end();
-             t++)
-           (*t)->doNDemand1(dlt_dm, dlt_dm_pot_rue);        //FIXME Should be able to do away with the arguments someday
-        }
-     else if (option == 2)
-         {
-         for (vector<plantPart *>::iterator t = myParts.begin();
-              t != myParts.end();
-              t++)
-            (*t)->doNDemand2(dlt_dm, dlt_dm_pot_rue);      //FIXME Should be able to do away with the arguments someday
-        }
+        plant.doNDemand1(tops.dltDm(), tops.dltDmPotRue());        //FIXME Should be able to do away with the arguments someday
+
+    else if (option == 2)
+         plant.doNDemand2(tops.dltDm(), tops.dltDmPotRue());      //FIXME Should be able to do away with the arguments someday
+
     else
-        {
         throw std::invalid_argument ("invalid n demand option");
-        }
     }
-
-void Plant::doSoilNDemand(void)
-//=======================================================================================
-//      Find soil nitrogen demand.
-   {
-      for (vector<plantPart *>::iterator t = myParts.begin();
-           t != myParts.end();
-           t++)
-         (*t)->doSoilNDemand();
-   }
-
-void Plant::doNUptake (void)
-//=======================================================================================
-//       Find nitrogen uptake.
-   {
-   float soil_n_demand = 0.0;
-   float n_max = 0.0;
-   for (vector<plantPart *>::iterator t = myParts.begin(); t != myParts.end(); t++)
-      {
-      soil_n_demand += (*t)->soilNDemand();
-      n_max += (*t)->nMax();
-      }
-
-    rootPart->doNUptake(n_max, soil_n_demand, plant.nDemand());
-    }
-
 
 void Plant::doNPartition (void)                                     //FIXME - another candidate for rootPart??
 //=======================================================================================
 //     Calculate the nitrogen and phosporous partitioning in the plant
     {
     doNPartition(g.n_fix_pot
-                , g.n_fix_uptake
-                , myParts);
+                , g.n_fix_uptake);
 
     }
 
@@ -716,12 +661,7 @@ void Plant::doNDemandEstimate (int option)
         // required to raise all plant parts to max N conc.
 
         float dlt_dm_pot_rue = plant.dltDmPotRue();
-        for (vector<plantPart *>::iterator t = myParts.begin();
-             t != myParts.end();
-             t++)
-           {
-           (*t)->doNDemand1Pot(dlt_dm_pot_rue, dlt_dm_pot_rue);
-           }
+        plant.doNDemand1Pot(dlt_dm_pot_rue, dlt_dm_pot_rue);
 
         g.ext_n_demand = plant.nDemand();
 
@@ -760,17 +700,11 @@ void Plant::doNSenescence (int   option/*(INPUT) option number*/)
     {
     if (option == 1)
         {
-        for (vector<plantPart *>::iterator t = myParts.begin();
-             t != myParts.end();
-             t++)
-           (*t)->doNSenescence();
+        plant.doNSenescence();
         }
     else if (option == 2)
         {
-        for (vector<plantPart *>::iterator t = myParts.begin();
-             t != myParts.end();
-             t++)
-           (*t)->doNSenescence();
+        plant.doNSenescence();
 
         //! now get N to retranslocate out of senescing leaves
         doNSenescedRetrans();
@@ -840,11 +774,7 @@ void Plant::plant_update(void)
     leafPart->giveNGreen(-1.0*n_senesced_trans);
     stemPart->giveNGreen(n_senesced_trans);
 
-    float n_senesced_retrans = 0.0;
-    for (vector<plantPart *>::iterator part = myParts.begin(); part != myParts.end(); part++)
-       n_senesced_retrans += (*part)->dltNSenescedRetrans();
-
-    leafPart->giveNGreen(-1.0*n_senesced_retrans);
+    leafPart->giveNGreen(-1.0*plant.dltNSenescedRetrans());
     rootPart->updateOthers();    // send off detached roots before root structure is updated by plant death
 
     plant.update();
@@ -853,8 +783,7 @@ void Plant::plant_update(void)
     plantSpatial.setPlants(getPlants());
     plantSpatial.setCanopyWidth(leafPart->width());
 
-    for (vector<plantPart *>::iterator t = myParts.begin(); t != myParts.end(); t++)
-       (*t)->doCover(plantSpatial);
+    plant.doCover(plantSpatial);
 
     // plant stress observers
     stageObservers.update();
@@ -884,10 +813,7 @@ void Plant::plant_check_bounds
                          , 1.0
                          , "cover_sen");
 
-    for (vector<plantPart *>::iterator t = myParts.begin(); t != myParts.end(); t++)
-       {
-       (*t)->checkBounds();
-       }
+    plant.checkBounds();
 
     }
 
@@ -1005,14 +931,10 @@ void Plant::doPlantRadnPartition (int option /*(INPUT) option number*/)
 void Plant::doNPartition
                          (float  g_n_fix_pot         // (INPUT)  N fixation potential (g/m^2)
                          ,float  &nFixUptake        // (OUTPUT) actual N fixation (g/m^2)
-                         ,vector<plantPart *> &allParts        // (INPUT) vector of plant parts
                          ) {
 
 //+  Local Variables
 
-    vector<plantPart *>::iterator part;           // iterator
-    vector<float> n_capacity(allParts.size());    // amount of N that can be stored in plant part above Ncrit (g/m^2)
-    float nCapacityTotal;                         // total excess N storage (g/m^2)
     float nDemandTotal;                               // total nitrogen demand (g/m^2)
     float nFixDemandTotal;                       // total demand for N fixation (g/m^2)
 
@@ -1020,20 +942,14 @@ void Plant::doNPartition
     // each plant part and distribute it.
     float nUptakeSum = rootPart->nUptake();     // total plant N uptake (g/m^2)
     nDemandTotal = plant.nDemand();
-    nCapacityTotal = plant.nCapacity();
 
-   for (part = allParts.begin(); part != allParts.end(); part++)
-      (*part)->doNPartition(nUptakeSum, nDemandTotal, nCapacityTotal);
+    plant.doNPartition(nUptakeSum, nDemandTotal, plant.nCapacity());
 
       // Check Mass Balance
-    float dltNGreenSum = 0.0;
-    for (part = allParts.begin(); part != allParts.end(); part++)
-         dltNGreenSum += (*part)->dltNGreen();
-
-    if (!reals_are_equal(dltNGreenSum - nUptakeSum, 0.0))
+    if (!reals_are_equal(plant.dltNGreen() - nUptakeSum, 0.0))
         {
         string msg ="Crop dlt_n_green mass balance is off: dlt_n_green_sum ="
-                    + ftoa(dltNGreenSum, ".6")
+                    + ftoa(plant.dltNGreen(), ".6")
                     + " vs n_uptake_sum ="
                     + ftoa(nUptakeSum, ".6");
         parent->warningError(msg.c_str());
@@ -1043,8 +959,7 @@ void Plant::doNPartition
     nFixDemandTotal = l_bound (nDemandTotal - nUptakeSum, 0.0);
     nFixUptake = bound (g_n_fix_pot, 0.0, nFixDemandTotal);
 
-    for (part = allParts.begin(); part != allParts.end(); part++)
-         (*part)->doNFixRetranslocate (nFixUptake, nFixDemandTotal);
+    plant.doNFixRetranslocate (nFixUptake, nFixDemandTotal);
     }
 
 
@@ -1072,8 +987,7 @@ void Plant::doDmRetranslocate (void)
 // now translocate carbohydrate between plant components
 // this is different for each stage
 
-    for (part = myParts.begin(); part != myParts.end(); part++)
-        (*part)->dlt_dm_green_retrans_hack( 0.0 );
+    plant.dlt_dm_green_retrans_hack( 0.0 );
 
     float demand_differential_begin = fruitPart->dmDemandDifferential ();   //FIXME - should be returned from a fruitPart method
     float demand_differential = demand_differential_begin;
@@ -1170,10 +1084,7 @@ void Plant::doNSenescedRetrans (void)
    float    n_demand_tot;
 
    //! now get N to retranslocate out of senescing leaves
-   for (vector<plantPart *>::iterator t = myParts.begin();
-        t != myParts.end();
-        t++)
-      (*t)->zeroDltNSenescedTrans();
+   plant.zeroDltNSenescedTrans();
 
    dlt_n_in_senescing_leaf = leafPart->dltDmSenesced() * leafPart->Green.Nconc();
 
@@ -1182,10 +1093,7 @@ void Plant::doNSenescedRetrans (void)
    navail = dlt_n_in_senescing_leaf - leafPart->dltNSenesced();
    navail = bound(navail, 0.0, n_demand_tot);
 
-   for (vector<plantPart *>::iterator t = myParts.begin();
-        t != myParts.end();
-        t++)
-      (*t)->doNSenescedRetrans(navail, n_demand_tot);
+   plant.doNSenescedRetrans(navail, n_demand_tot);
    }
 
 //+  Purpose
@@ -1220,10 +1128,7 @@ void Plant::plant_process ( void )
 
         phenology->process (Environment, ps, fasw_seed, pesw_seed);
 
-        for (vector<plantPart *>::iterator t = myParts.begin();
-             t != myParts.end();
-             t++)
-           (*t)->morphology();
+        plant.morphology();
 
         leafPart->potential(c.leaf_no_pot_option,
                             min(pow(min(nStress->nFact.expansion, pStress->pFact.expansion),2),swStress->swDef.expansion),
@@ -1231,27 +1136,21 @@ void Plant::plant_process ( void )
 
         leafPart->leaf_area_stressed (min(swStress->swDef.expansion, min(nStress->nFact.expansion, pStress->pFact.expansion)));
 
-        doDmPotTE ();
+        plant.doDmPotTE(rootPart->waterUptake());
         // Calculate Potential Photosynthesis
-        for (vector<plantPart *>::const_iterator part = myParts.begin(); part != myParts.end(); part++)
-           (*part)->doDmPotRUE();
+        plant.doDmPotRUE();
 
         if(phenology->on_day_of(phenology->stageName()))
            fruitPart->onDayOf(phenology->stageName());
         plant.doDmMin();
 
         // Calculate Actual DM increase from photosynthesis
-        for (vector<plantPart *>::iterator t = myParts.begin(); t != myParts.end(); t++)
-           (*t)->doBioActual();
+        plant.doBioActual();
 
         // Now calculate DM demands
-        float dlt_dm = plant.dltDm();
-        for (vector<plantPart *>::iterator t = myParts.begin();
-             t != myParts.end();
-             t++)
-            (*t)->doDmDemand (dlt_dm);
+        plant.doDmDemand (plant.dltDm());
 
-        arbitrator->partitionDM(dlt_dm, myParts, fruitPart->name());
+        arbitrator->partitionDM(plant.dltDm(), myParts, fruitPart->name());
 
         doDmRetranslocate ();
 
@@ -1266,11 +1165,8 @@ void Plant::plant_process ( void )
         plant.doSenescence(leafPart->senFract());
         rootPart->sen_length();
 
-        for (vector<plantPart *>::iterator t = myParts.begin(); t != myParts.end(); t++)
-           {
-           (*t)->doNInit();
-           (*t)->doNDemandGrain(nStress->nFact.grain, swStress->swDef.expansion);
-           }
+        plant.doNInit();
+        plant.doNDemandGrain(nStress->nFact.grain, swStress->swDef.expansion);
 
         float biomass = tops.Green.DM() + plant.dltDm();
         g.n_fix_pot = rootPart->plant_nit_supply(biomass, phenology->stageNumber(), swStress->swDef.fixation);
@@ -1288,17 +1184,15 @@ void Plant::plant_process ( void )
            }
 
         doNSenescence (c.n_senescence_option);
-        doSoilNDemand ();
-        doNUptake ();     // allows preference of N source
+        plant.doSoilNDemand ();
+        rootPart->doNUptake(plant.nMax(), plant.soilNDemand(), plant.nDemand());     // allows preference of N source
         doNPartition ();                  // allows output of n fixed
-        if (pStress->isPhosphorusAware())
-            doPPartition(myParts);
+        doPPartition();
 
         if (c.n_retrans_option==2)  // this option requires soil uptake to satisfy grain n before retranslocation
            doNRetranslocate (c.n_retrans_option);
 
-        if (pStress->isPhosphorusAware())
-           doPRetranslocate();
+        doPRetranslocate();
 
         population.PlantDeath();
         }
@@ -1539,10 +1433,7 @@ void Plant::plant_harvest_update (protocol::Variant &v/*(INPUT)message arguments
 
     // Update biomass and N pools.
     // Calculate return of biomass to surface residues
-    for (vector<plantPart *>::iterator t = myParts.begin();
-         t != myParts.end();
-         t++)
-       (*t)->onHarvest(height, remove_fr,
+    plant.onHarvest(height, remove_fr,
                         dm_type,
                         dlt_crop_dm,
                         dlt_dm_n,
@@ -1636,8 +1527,7 @@ void Plant::plant_harvest_update (protocol::Variant &v/*(INPUT)message arguments
     plantSpatial.setPlants(getPlants());
     plantSpatial.setCanopyWidth(leafPart->width());
 
-   for (vector<plantPart *>::iterator t = myParts.begin(); t != myParts.end(); t++)
-       (*t)->doCover(plantSpatial);
+    plant.doCover(plantSpatial);
 
 // other plant states
     plant.doNConccentrationLimits(co2Modifier->n_conc());
@@ -1645,8 +1535,7 @@ void Plant::plant_harvest_update (protocol::Variant &v/*(INPUT)message arguments
     if (g.plant_status == alive &&
         phenology->previousStageName() != phenology->stageName())
         {
-        for (vector<plantPart *>::iterator part = myParts.begin(); part != myParts.end(); part++)
-           (*part)->onPlantEvent(phenology->stageName());
+        plant.onPlantEvent(phenology->stageName());
         plant_event ();
         stageObservers.reset();
         otherObservers.reset();
@@ -1677,24 +1566,21 @@ void Plant::plant_kill_stem_update (protocol::Variant &v/*(INPUT) message argume
         population.SetPlants(temp);
 
     // Update biomass and N pools.
-    for (vector<plantPart *>::iterator part = myParts.begin(); part != myParts.end(); part++)
-       (*part)->onKillStem();
+    plant.onKillStem();
 
     // now update new canopy covers
 
     plantSpatial.setPlants(getPlants());
     plantSpatial.setCanopyWidth(leafPart->width());
 
-   for (vector<plantPart *>::iterator t = myParts.begin(); t != myParts.end(); t++)
-       (*t)->doCover(plantSpatial);
+    plant.doCover(plantSpatial);
 
     plant.doNConccentrationLimits( co2Modifier->n_conc() )  ;                  // plant N concentr
 
     if (g.plant_status == alive &&
         phenology->previousStageName() != phenology->stageName())
         {
-        for (vector<plantPart *>::iterator part = myParts.begin(); part != myParts.end(); part++)
-           (*part)->onPlantEvent(phenology->stageName());
+        plant.onPlantEvent(phenology->stageName());
         plant_event ();
         stageObservers.reset();
         otherObservers.reset();
@@ -1794,8 +1680,7 @@ void Plant::plant_remove_biomass_update (protocol::RemoveCropDmType dmRemoved)
     plantSpatial.setPlants(getPlants());
     plantSpatial.setCanopyWidth(leafPart->width());
 
-    for (vector<plantPart *>::iterator t = myParts.begin(); t != myParts.end(); t++)
-       (*t)->doCover(plantSpatial);
+    plant.doCover(plantSpatial);
 
     phenology->onRemoveBiomass(g.remove_biom_pheno);
 
@@ -1804,8 +1689,7 @@ void Plant::plant_remove_biomass_update (protocol::RemoveCropDmType dmRemoved)
     if (g.plant_status == alive &&
         phenology->previousStageName() != phenology->stageName())
         {
-        for (vector<plantPart *>::iterator part = myParts.begin(); part != myParts.end(); part++)
-           (*part)->onPlantEvent(phenology->stageName());
+        plant.onPlantEvent(phenology->stageName());
         plant_event ();
         stageObservers.reset();
         otherObservers.reset();
@@ -1994,8 +1878,7 @@ void Plant::plant_start_crop (protocol::Variant &v/*(INPUT) message arguments*/)
            sprintf (msg, "   %s%s",  "cultivar                   = ", g.cultivar.c_str());
            parent->writeString (msg);
            phenology->writeCultivarInfo(parent);
-           for (vector<plantPart *>::iterator t = myParts.begin(); t != myParts.end(); t++)
-              (*t)->writeCultivarInfo(parent);
+           plant.writeCultivarInfo(parent);
            parent->writeString ("    ------------------------------------------------\n\n");
 
            rootPart->write();
@@ -2095,7 +1978,7 @@ void Plant::plant_end_crop (void)
         // report
         yield = 0.0;
         for (vector<plantPart *>::iterator t = myParts.begin(); t != myParts.end(); t++)
-            yield=yield+(*t)->GrainTotal.DM() * gm2kg / sm2ha;
+            yield = yield + (*t)->GrainTotal.DM() * gm2kg / sm2ha;
 
         sprintf (msg, "Crop ended. Yield (dw) = %7.1f  (kg/ha)", yield);
         parent->writeString (msg);
@@ -2120,10 +2003,7 @@ void Plant::plant_end_crop (void)
           vector<float> dlt_dm_n;                      // N content of changeed dry matter (kg/ha)
           vector<float> dlt_dm_p;                      // P content of changeed dry matter (kg/ha)
 
-          for (vector<plantPart *>::iterator t = myParts.begin();
-               t != myParts.end();
-               t++)
-             (*t)->onEndCrop(part_name,
+          plant.onEndCrop(part_name,
                              dlt_dm_crop,
                              dlt_dm_n,
                              dlt_dm_p,
@@ -2215,10 +2095,7 @@ void Plant::plant_update_other_variables (void)
     vector<float> fraction_to_residue;       // fraction of DM sent to surface residues
 
     // dispose of detached material from senesced parts in the live population
-    for (vector<plantPart *>::iterator t = myParts.begin();
-         t != myParts.end();
-         t++)
-       (*t)->collectDetachedForResidue(part_name,
+    plant.collectDetachedForResidue(part_name,
                                        dm_residue,
                                        dm_n,
                                        dm_p,
@@ -2254,23 +2131,19 @@ void Plant::plant_prepare (void)
 // Event Handler for the Prepare Event
    {
 
-   for (vector<plantPart *>::iterator t = myParts.begin(); t != myParts.end(); t++)
-      (*t)->prepare();
+   plant.prepare();
 
    nStress->doPlantNStress (leafPart, stemPart);
    tempStress->doPlantTempStress (Environment);
    doPlantRadnPartition (1);
 
    // Calculate Potential Photosynthesis
-   for (vector<plantPart *>::const_iterator part = myParts.begin(); part != myParts.end(); part++)
-       (*part)->doDmPotRUE();
+   plant.doDmPotRUE();
    // Calculate Transpiration Efficiency
-   for (vector<plantPart *>::const_iterator part = myParts.begin(); part != myParts.end(); part++)
-       (*part)->doTECO2();
+   plant.doTECO2();
    // Calculate Plant Water Demand
    float SWDemandMaxFactor = p.eo_crop_factor * g.eo ;
-   for (vector<plantPart *>::const_iterator part = myParts.begin(); part != myParts.end(); part++)
-       (*part)->doSWDemand(SWDemandMaxFactor);
+   plant.doSWDemand(SWDemandMaxFactor);
    doNDemandEstimate(1);
 
    // Note actually should send total plant
@@ -2400,8 +2273,8 @@ void Plant::plant_harvest_report (void)
     n_grain = 0.0;
     for (vector<plantPart *>::iterator t = myParts.begin(); t != myParts.end(); t++)
        {
-       yield = yield+(*t)->GrainTotal.DM() * gm2kg / sm2ha;
-       yield_wet = yield_wet+(*t)->dmGrainWetTotal() * gm2kg / sm2ha;
+       yield = yield + (*t)->GrainTotal.DM() * gm2kg / sm2ha;
+       yield_wet = yield_wet +(*t)->dmGrainWetTotal() * gm2kg / sm2ha;
        grain_wt = grain_wt + (*t)->grainWt();
        plant_grain_no = plant_grain_no+divide ((*t)->grainNo(), getPlants(), 0.0);
        n_grain = n_grain + (*t)->GrainTotal.N() * gm2kg/sm2ha;
@@ -2663,11 +2536,9 @@ void Plant::get_stover_biomass_wt(protocol::Component *system, protocol::QueryVa
 
 void Plant::get_dm_plant_min(protocol::Component *system, protocol::QueryValueData &qd)
 {
-   vector<plantPart*>::iterator part;
    vector<float>  dm_min;
 
-   for (part = myParts.begin(); part != myParts.end(); part++)
-      (*part)->get_dm_plant_min(dm_min);
+   plant.get_dm_plant_min(dm_min);
 
    system->sendVariable(qd, dm_min);
 }
@@ -2724,11 +2595,9 @@ void Plant::get_n_uptake_stover(protocol::Component *system, protocol::QueryValu
 
 void Plant::get_n_demanded(protocol::Component *systemInterface, protocol::QueryValueData &qd)
 {
-   vector<plantPart*>::iterator part;
    vector<float>  n_demanded;
 
-   for (part = myParts.begin(); part != myParts.end(); part++)
-      (*part)->get_n_demanded(n_demanded);
+   plant.get_n_demanded(n_demanded);
 
    systemInterface->sendVariable(qd, n_demanded);
 }
@@ -2786,45 +2655,32 @@ void Plant::get_p_uptake_stover(protocol::Component *systemInterface, protocol::
 
 void Plant::get_dlt_dm_green_retrans(protocol::Component *systemInterface, protocol::QueryValueData &qd)
 {
-   vector<plantPart*>::iterator part;
    vector<float>  dlt_dm_green_retrans;
 
-   for (part = myParts.begin(); part != myParts.end(); part++)
-      (*part)->get_dlt_dm_green_retrans(dlt_dm_green_retrans);
+   plant.get_dlt_dm_green_retrans(dlt_dm_green_retrans);
 
    systemInterface->sendVariable(qd, dlt_dm_green_retrans);
 }
 
 void Plant::get_p_demand(protocol::Component *systemInterface, protocol::QueryValueData &qd)
 {
-   vector<plantPart*>::iterator part;
-   vector<float>  p_green;
-
-   float p_demand = 0.0;
-   for (part = myParts.begin(); part != myParts.end(); part++)
-      p_demand += (*part)->pDemand();
-
-   systemInterface->sendVariable(qd, p_demand);   //(g/m^2
+   systemInterface->sendVariable(qd, plant.pDemand());   //(g/m^2
 }
 
 void Plant::get_p_demand_parts(protocol::Component *systemInterface, protocol::QueryValueData &qd)
 {
-   vector<plantPart*>::iterator part;
    vector<float>  p_demand;
 
-   for (part = myParts.begin(); part != myParts.end(); part++)
-      (*part)->get_p_demand(p_demand);
+   plant.get_p_demand(p_demand);
 
    systemInterface->sendVariable(qd, p_demand);   //(g/m^2
 }
 
 void Plant::get_dlt_p_retrans(protocol::Component *systemInterface, protocol::QueryValueData &qd)
 {
-   vector<plantPart*>::iterator part;
    vector<float>  dlt_p_retrans;
 
-   for (part = myParts.begin(); part != myParts.end(); part++)
-      (*part)->get_dlt_p_retrans(dlt_p_retrans);
+   plant.get_dlt_p_retrans(dlt_p_retrans);
 
    systemInterface->sendVariable(qd, dlt_p_retrans);
 }
