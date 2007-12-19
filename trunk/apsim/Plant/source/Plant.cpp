@@ -1034,7 +1034,7 @@ void Plant::doNPartition
         {
         string msg ="Crop dlt_n_green mass balance is off: dlt_n_green_sum ="
                     + ftoa(dltNGreenSum, ".6")
-                    + " vs nUptakeSum ="
+                    + " vs n_uptake_sum ="
                     + ftoa(nUptakeSum, ".6");
         parent->warningError(msg.c_str());
         }
