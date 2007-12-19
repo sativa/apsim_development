@@ -910,9 +910,9 @@ Component     "sysbal" = c:\development\apsim\sysbal\lib\sysbal.dll
      		biomass =   0.00 		 lai =   0.00
      		stover N conc =   0.00 		 extractable sw =  54.03
 24 January 1961(Day of year=24), sysbal: 
-     **** N balance - unaccounted gain (kg/ha) =      0.165288
-     **** C balance - unaccounted gain (kg/ha) =      5.999798
-     ****        equivalent DM as FOM  (kg/ha) =     14.999495
+     **** N balance - unaccounted gain (kg/ha) =      0.165044
+     **** C balance - unaccounted gain (kg/ha) =      5.999786
+     ****        equivalent DM as FOM  (kg/ha) =     14.999466
 3 February 1961(Day of year=34), sorghum: 
       stage 4.0 end_of_juvenile
      		biomass =   2.77 		 lai =   0.04
@@ -997,8 +997,8 @@ Component     "sysbal" = c:\development\apsim\sysbal\lib\sysbal.dll
                                              Incorporated Depth    =     0.00
 1 June 1961(Day of year=152), sysbal: 
      **** N balance - unaccounted loss (kg/ha) =    -20.703321
-     **** C balance - unaccounted loss (kg/ha) =   -422.562256
-      ****        equivalent DM as FOM  (kg/ha) =  -1056.40564
+     **** C balance - unaccounted loss (kg/ha) =   -422.562012
+      ****        equivalent DM as FOM  (kg/ha) =  -1056.40503
 2 July 1961(Day of year=183), manager: 
      Manager sending message :- wheat sow  plants = 100 (/m2), sowing_depth = 40 (mm), cultivar = hartog
 2 July 1961(Day of year=183), wheat: 
@@ -1184,9 +1184,9 @@ Component     "sysbal" = c:\development\apsim\sysbal\lib\sysbal.dll
      		biomass =   0.00 		 lai =   0.00
      		stover N conc =   0.00 		 extractable sw =  87.59
 21 December 1961(Day of year=355), sysbal: 
-     **** N balance - unaccounted gain (kg/ha) =      0.164795
-     **** C balance - unaccounted gain (kg/ha) =      6.002602
-     ****        equivalent DM as FOM  (kg/ha) =     15.006504
+     **** N balance - unaccounted gain (kg/ha) =      0.165039
+     **** C balance - unaccounted gain (kg/ha) =      6.002611
+     ****        equivalent DM as FOM  (kg/ha) =     15.006528
 1 January 1962(Day of year=1), sorghum: 
       stage 4.0 end_of_juvenile
      		biomass =   3.30 		 lai =   0.04
@@ -1270,9 +1270,9 @@ Component     "sysbal" = c:\development\apsim\sysbal\lib\sysbal.dll
                                              Fraction Incorporated =     0.75
                                              Incorporated Depth    =     0.00
 17 April 1962(Day of year=107), sysbal: 
-     **** N balance - unaccounted loss (kg/ha) =     -9.420502
-     **** C balance - unaccounted loss (kg/ha) =   -240.973633
-      ****        equivalent DM as FOM  (kg/ha) =  -602.434082
+     **** N balance - unaccounted loss (kg/ha) =     -9.420496
+     **** C balance - unaccounted loss (kg/ha) =   -240.976929
+      ****        equivalent DM as FOM  (kg/ha) =  -602.442322
 16 May 1962(Day of year=136), manager: 
      Manager sending message :- wheat sow  plants = 100 (/m2), sowing_depth = 40 (mm), cultivar = hartog
 16 May 1962(Day of year=136), wheat: 
@@ -1586,9 +1586,9 @@ Component     "sysbal" = c:\development\apsim\sysbal\lib\sysbal.dll
      		biomass =   0.00 		 lai =   0.00
      		stover N conc =   0.00 		 extractable sw =  45.22
 4 February 1964(Day of year=35), sysbal: 
-     **** N balance - unaccounted gain (kg/ha) =      0.165039
-     **** C balance - unaccounted gain (kg/ha) =      6.003019
-     ****        equivalent DM as FOM  (kg/ha) =     15.007548
+     **** N balance - unaccounted gain (kg/ha) =      0.165283
+     **** C balance - unaccounted gain (kg/ha) =      6.003016
+     ****        equivalent DM as FOM  (kg/ha) =     15.007539
 16 February 1964(Day of year=47), sorghum: 
       stage 4.0 end_of_juvenile
      		biomass =   3.38 		 lai =   0.04
@@ -1660,9 +1660,9 @@ Component     "sysbal" = c:\development\apsim\sysbal\lib\sysbal.dll
                                              Fraction Incorporated =     0.75
                                              Incorporated Depth    =     0.00
 29 June 1964(Day of year=181), sysbal: 
-     **** N balance - unaccounted loss (kg/ha) =    -16.050508
-     **** C balance - unaccounted loss (kg/ha) =   -256.329834
-      ****        equivalent DM as FOM  (kg/ha) =  -640.824585
+     **** N balance - unaccounted loss (kg/ha) =    -16.050503
+     **** C balance - unaccounted loss (kg/ha) =   -256.324951
+      ****        equivalent DM as FOM  (kg/ha) =  -640.812378
 18 July 1964(Day of year=200), manager: 
      Manager sending message :- wheat sow  plants = 100 (/m2), sowing_depth = 40 (mm), cultivar = hartog
 18 July 1964(Day of year=200), wheat: 
@@ -1751,7 +1751,7 @@ Component     "sysbal" = c:\development\apsim\sysbal\lib\sysbal.dll
      
       flowering day          =  303                           stover (kg/ha)         =    10742.6
       maturity day           =  345                           grain yield (kg/ha)    =     2434.1
-      grain % water content  =   12.5                         grain yield wet (kg/ha)=     2781.9
+      grain % water content  =   12.5                         grain yield wet (kg/ha)=     2781.8
       grain wt (g)           =    0.018                       grains/m^2             =    13339.5
       grains/plant           =  133.4                         maximum lai            =      3.906
       total above ground biomass (kg/ha)    =    13176.7
@@ -1977,8 +1977,8 @@ Component     "sysbal" = c:\development\apsim\sysbal\lib\sysbal.dll
      		stover N conc =   0.00 		 extractable sw =  86.21
 13 November 1965(Day of year=317), sysbal: 
      **** N balance - unaccounted gain (kg/ha) =      0.165067
-     **** C balance - unaccounted gain (kg/ha) =      6.007301
-     ****        equivalent DM as FOM  (kg/ha) =     15.018253
+     **** C balance - unaccounted gain (kg/ha) =      6.003399
+     ****        equivalent DM as FOM  (kg/ha) =     15.008497
 28 November 1965(Day of year=332), sorghum: 
       stage 4.0 end_of_juvenile
      		biomass =   2.70 		 lai =   0.04
@@ -2024,7 +2024,7 @@ Component     "sysbal" = c:\development\apsim\sysbal\lib\sysbal.dll
      green above ground biomass    (kg/ha) = 5918.6
      senesced above ground biomass (kg/ha) = 126.9
      dead above ground biomass     (kg/ha) = 0.0
-     stover (kg/ha)        = 3212.9 	 grain yield (kg/ha)     = 2832.6
+     stover (kg/ha)        = 3212.9 	 grain yield (kg/ha)     = 2832.5
      grain % water content = 13.0 	 grain yield wet (kg/ha) = 3255.8
      grain wt (g)          = 0.020 	 grains/m^2              = 14367.6
      grains/head           = 2873.5
@@ -2062,9 +2062,9 @@ Component     "sysbal" = c:\development\apsim\sysbal\lib\sysbal.dll
                                              Fraction Incorporated =     0.75
                                              Incorporated Depth    =     0.00
 9 March 1966(Day of year=68), sysbal: 
-     **** N balance - unaccounted loss (kg/ha) =    -13.162804
-     **** C balance - unaccounted loss (kg/ha) =   -564.875732
-      ****        equivalent DM as FOM  (kg/ha) =  -1412.18933
+     **** N balance - unaccounted loss (kg/ha) =    -13.162306
+     **** C balance - unaccounted loss (kg/ha) =   -564.875244
+      ****        equivalent DM as FOM  (kg/ha) =  -1412.18811
 31 May 1966(Day of year=151), manager: 
      Manager sending message :- wheat sow  plants = 100 (/m2), sowing_depth = 40 (mm), cultivar = hartog
 31 May 1966(Day of year=151), wheat: 
@@ -2379,8 +2379,8 @@ Component     "sysbal" = c:\development\apsim\sysbal\lib\sysbal.dll
      		stover N conc =   0.00 		 extractable sw =  32.85
 1 February 1968(Day of year=32), sysbal: 
      **** N balance - unaccounted gain (kg/ha) =      0.165322
-     **** C balance - unaccounted gain (kg/ha) =      5.989388
-     ****        equivalent DM as FOM  (kg/ha) =     14.973469
+     **** C balance - unaccounted gain (kg/ha) =      5.997200
+     ****        equivalent DM as FOM  (kg/ha) =     14.993000
 11 February 1968(Day of year=42), sorghum: 
       stage 4.0 end_of_juvenile
      		biomass =   2.95 		 lai =   0.04
@@ -2452,9 +2452,9 @@ Component     "sysbal" = c:\development\apsim\sysbal\lib\sysbal.dll
                                              Fraction Incorporated =     0.75
                                              Incorporated Depth    =     0.00
 27 June 1968(Day of year=179), sysbal: 
-     **** N balance - unaccounted loss (kg/ha) =    -13.578156
-     **** C balance - unaccounted loss (kg/ha) =   -218.496582
-      ****        equivalent DM as FOM  (kg/ha) =  -546.241455
+     **** N balance - unaccounted loss (kg/ha) =    -13.577911
+     **** C balance - unaccounted loss (kg/ha) =   -218.493164
+      ****        equivalent DM as FOM  (kg/ha) =  -546.232910
 1 July 1968(Day of year=183), manager: 
      Manager sending message :- wheat sow  plants = 100 (/m2), sowing_depth = 40 (mm), cultivar = hartog
 1 July 1968(Day of year=183), wheat: 
@@ -3024,9 +3024,9 @@ Component     "sysbal" = c:\development\apsim\sysbal\lib\sysbal.dll
      		biomass =   0.00 		 lai =   0.00
      		stover N conc =   0.00 		 extractable sw =  99.52
 22 November 1971(Day of year=326), sysbal: 
-     **** N balance - unaccounted gain (kg/ha) =      0.164850
-     **** C balance - unaccounted gain (kg/ha) =      5.997879
-     ****        equivalent DM as FOM  (kg/ha) =     14.994698
+     **** N balance - unaccounted gain (kg/ha) =      0.164606
+     **** C balance - unaccounted gain (kg/ha) =      6.001785
+     ****        equivalent DM as FOM  (kg/ha) =     15.004463
 11 December 1971(Day of year=345), sorghum: 
       stage 4.0 end_of_juvenile
      		biomass =   4.22 		 lai =   0.04
@@ -3110,9 +3110,9 @@ Component     "sysbal" = c:\development\apsim\sysbal\lib\sysbal.dll
                                              Fraction Incorporated =     0.75
                                              Incorporated Depth    =     0.00
 31 March 1972(Day of year=91), sysbal: 
-     **** N balance - unaccounted loss (kg/ha) =    -15.106947
-     **** C balance - unaccounted loss (kg/ha) =   -333.099854
-      ****        equivalent DM as FOM  (kg/ha) =  -832.749634
+     **** N balance - unaccounted loss (kg/ha) =    -15.106930
+     **** C balance - unaccounted loss (kg/ha) =   -333.097412
+      ****        equivalent DM as FOM  (kg/ha) =  -832.743530
 12 July 1972(Day of year=194), manager: 
      Manager sending message :- wheat sow  plants = 100 (/m2), sowing_depth = 40 (mm), cultivar = hartog
 12 July 1972(Day of year=194), wheat: 
@@ -3683,8 +3683,8 @@ Component     "sysbal" = c:\development\apsim\sysbal\lib\sysbal.dll
      		stover N conc =   0.00 		 extractable sw =  20.91
 24 November 1975(Day of year=328), sysbal: 
      **** N balance - unaccounted gain (kg/ha) =      0.164925
-     **** C balance - unaccounted gain (kg/ha) =      6.001745
-     ****        equivalent DM as FOM  (kg/ha) =     15.004363
+     **** C balance - unaccounted gain (kg/ha) =      6.005650
+     ****        equivalent DM as FOM  (kg/ha) =     15.014124
 6 December 1975(Day of year=340), sorghum: 
       stage 4.0 end_of_juvenile
      		biomass =   3.44 		 lai =   0.04
@@ -3768,9 +3768,9 @@ Component     "sysbal" = c:\development\apsim\sysbal\lib\sysbal.dll
                                              Fraction Incorporated =     0.75
                                              Incorporated Depth    =     0.00
 22 March 1976(Day of year=82), sysbal: 
-     **** N balance - unaccounted loss (kg/ha) =    -13.555998
-     **** C balance - unaccounted loss (kg/ha) =   -154.735107
-      ****        equivalent DM as FOM  (kg/ha) =  -386.837769
+     **** N balance - unaccounted loss (kg/ha) =    -13.555506
+     **** C balance - unaccounted loss (kg/ha) =   -154.734375
+      ****        equivalent DM as FOM  (kg/ha) =  -386.835938
 26 June 1976(Day of year=178), manager: 
      Manager sending message :- wheat sow  plants = 100 (/m2), sowing_depth = 40 (mm), cultivar = hartog
 26 June 1976(Day of year=178), wheat: 
@@ -4085,8 +4085,8 @@ Component     "sysbal" = c:\development\apsim\sysbal\lib\sysbal.dll
      		stover N conc =   0.00 		 extractable sw =  60.72
 6 November 1977(Day of year=310), sysbal: 
      **** N balance - unaccounted gain (kg/ha) =      0.165174
-     **** C balance - unaccounted gain (kg/ha) =      6.002022
-     ****        equivalent DM as FOM  (kg/ha) =     15.005054
+     **** C balance - unaccounted gain (kg/ha) =      5.994213
+     ****        equivalent DM as FOM  (kg/ha) =     14.985533
 22 November 1977(Day of year=326), sorghum: 
       stage 4.0 end_of_juvenile
      		biomass =   3.48 		 lai =   0.04
@@ -4170,9 +4170,9 @@ Component     "sysbal" = c:\development\apsim\sysbal\lib\sysbal.dll
                                              Fraction Incorporated =     0.75
                                              Incorporated Depth    =     0.00
 26 February 1978(Day of year=57), sysbal: 
-     **** N balance - unaccounted loss (kg/ha) =    -15.586197
-     **** C balance - unaccounted loss (kg/ha) =   -308.786377
-      ****        equivalent DM as FOM  (kg/ha) =  -771.965942
+     **** N balance - unaccounted loss (kg/ha) =    -15.586193
+     **** C balance - unaccounted loss (kg/ha) =   -308.781982
+      ****        equivalent DM as FOM  (kg/ha) =  -771.954956
 11 June 1978(Day of year=162), manager: 
      Manager sending message :- wheat sow  plants = 100 (/m2), sowing_depth = 40 (mm), cultivar = hartog
 11 June 1978(Day of year=162), wheat: 
@@ -4261,7 +4261,7 @@ Component     "sysbal" = c:\development\apsim\sysbal\lib\sysbal.dll
      
       flowering day          =  273                           stover (kg/ha)         =     7131.8
       maturity day           =  318                           grain yield (kg/ha)    =     2951.7
-      grain % water content  =   12.5                         grain yield wet (kg/ha)=     3373.4
+      grain % water content  =   12.5                         grain yield wet (kg/ha)=     3373.3
       grain wt (g)           =    0.030                       grains/m^2             =     9740.6
       grains/plant           =   97.4                         maximum lai            =      2.589
       total above ground biomass (kg/ha)    =    10083.5
@@ -4486,9 +4486,9 @@ Component     "sysbal" = c:\development\apsim\sysbal\lib\sysbal.dll
      		biomass =   0.00 		 lai =   0.00
      		stover N conc =   0.00 		 extractable sw =  20.59
 16 November 1979(Day of year=320), sysbal: 
-     **** N balance - unaccounted gain (kg/ha) =      0.165031
-     **** C balance - unaccounted gain (kg/ha) =      5.996336
-     ****        equivalent DM as FOM  (kg/ha) =     14.990840
+     **** N balance - unaccounted gain (kg/ha) =      0.164787
+     **** C balance - unaccounted gain (kg/ha) =      6.000244
+     ****        equivalent DM as FOM  (kg/ha) =     15.000610
 30 November 1979(Day of year=334), sorghum: 
       stage 4.0 end_of_juvenile
      		biomass =   3.19 		 lai =   0.04
@@ -4572,9 +4572,9 @@ Component     "sysbal" = c:\development\apsim\sysbal\lib\sysbal.dll
                                              Fraction Incorporated =     0.75
                                              Incorporated Depth    =     0.00
 12 March 1980(Day of year=72), sysbal: 
-     **** N balance - unaccounted loss (kg/ha) =    -12.453172
-     **** C balance - unaccounted loss (kg/ha) =   -274.011841
-      ****        equivalent DM as FOM  (kg/ha) =  -685.029602
+     **** N balance - unaccounted loss (kg/ha) =    -12.452928
+     **** C balance - unaccounted loss (kg/ha) =   -274.015869
+      ****        equivalent DM as FOM  (kg/ha) =  -685.039673
 9 June 1980(Day of year=161), manager: 
      Manager sending message :- wheat sow  plants = 100 (/m2), sowing_depth = 40 (mm), cultivar = hartog
 9 June 1980(Day of year=161), wheat: 
@@ -4760,9 +4760,9 @@ Component     "sysbal" = c:\development\apsim\sysbal\lib\sysbal.dll
      		biomass =   0.00 		 lai =   0.00
      		stover N conc =   0.00 		 extractable sw =  17.32
 6 December 1980(Day of year=341), sysbal: 
-     **** N balance - unaccounted gain (kg/ha) =      0.164795
-     **** C balance - unaccounted gain (kg/ha) =      5.997387
-     ****        equivalent DM as FOM  (kg/ha) =     14.993467
+     **** N balance - unaccounted gain (kg/ha) =      0.165039
+     **** C balance - unaccounted gain (kg/ha) =      5.997389
+     ****        equivalent DM as FOM  (kg/ha) =     14.993472
 20 December 1980(Day of year=355), sorghum: 
       stage 4.0 end_of_juvenile
      		biomass =   4.13 		 lai =   0.04
@@ -4846,9 +4846,9 @@ Component     "sysbal" = c:\development\apsim\sysbal\lib\sysbal.dll
                                              Fraction Incorporated =     0.75
                                              Incorporated Depth    =     0.00
 6 April 1981(Day of year=96), sysbal: 
-     **** N balance - unaccounted loss (kg/ha) =     -7.669645
-     **** C balance - unaccounted loss (kg/ha) =   -142.933594
-      ****        equivalent DM as FOM  (kg/ha) =  -357.333984
+     **** N balance - unaccounted loss (kg/ha) =     -7.669643
+     **** C balance - unaccounted loss (kg/ha) =   -142.937500
+      ****        equivalent DM as FOM  (kg/ha) =  -357.343750
 31 May 1981(Day of year=151), manager: 
      Manager sending message :- wheat sow  plants = 100 (/m2), sowing_depth = 40 (mm), cultivar = hartog
 31 May 1981(Day of year=151), wheat: 
@@ -5290,9 +5290,9 @@ Component     "sysbal" = c:\development\apsim\sysbal\lib\sysbal.dll
      		biomass =   0.00 		 lai =   0.00
      		stover N conc =   0.00 		 extractable sw =  11.55
 13 December 1983(Day of year=347), sysbal: 
-     **** N balance - unaccounted gain (kg/ha) =      0.164815
-     **** C balance - unaccounted gain (kg/ha) =      5.992758
-     ****        equivalent DM as FOM  (kg/ha) =     14.981894
+     **** N balance - unaccounted gain (kg/ha) =      0.164571
+     **** C balance - unaccounted gain (kg/ha) =      5.992762
+     ****        equivalent DM as FOM  (kg/ha) =     14.981904
 23 December 1983(Day of year=357), sorghum: 
       stage 4.0 end_of_juvenile
      		biomass =   3.15 		 lai =   0.04
@@ -5376,9 +5376,9 @@ Component     "sysbal" = c:\development\apsim\sysbal\lib\sysbal.dll
                                              Fraction Incorporated =     0.75
                                              Incorporated Depth    =     0.00
 5 April 1984(Day of year=96), sysbal: 
-     **** N balance - unaccounted loss (kg/ha) =    -16.095787
-     **** C balance - unaccounted loss (kg/ha) =   -178.193604
-      ****        equivalent DM as FOM  (kg/ha) =  -445.484009
+     **** N balance - unaccounted loss (kg/ha) =    -16.095539
+     **** C balance - unaccounted loss (kg/ha) =   -178.193115
+      ****        equivalent DM as FOM  (kg/ha) =  -445.482788
 8 June 1984(Day of year=160), manager: 
      Manager sending message :- wheat sow  plants = 100 (/m2), sowing_depth = 40 (mm), cultivar = hartog
 8 June 1984(Day of year=160), wheat: 
@@ -5588,7 +5588,7 @@ Component     "sysbal" = c:\development\apsim\sysbal\lib\sysbal.dll
 1 December 1985(Day of year=335), wheat: 
       stage 10.0 harvest_ripe
                      biomass =         680.49 (g/m^2)   lai          =   0.000 (m^2/m^2)
-                     stover N conc =     0.31 (%)    extractable sw =   67.40 (mm)
+                     stover N conc =     0.31 (%)    extractable sw =   67.39 (mm)
 2 December 1985(Day of year=336), manager: 
      Manager sending message :- wheat harvest
 2 December 1985(Day of year=336), wheat: 
@@ -5628,7 +5628,7 @@ Component     "sysbal" = c:\development\apsim\sysbal\lib\sysbal.dll
      
       stage 4.0 end_of_juvenile
                      biomass =           0.00 (g/m^2)   lai          =   0.020 (m^2/m^2)
-                     stover N conc =     6.30 (%)    extractable sw =   67.40 (mm)
+                     stover N conc =     6.30 (%)    extractable sw =   67.39 (mm)
      Manager sending message :- wheat end_crop
      Crop ended. Yield (dw) =     0.0  (kg/ha)
          Organic matter from crop:-      Tops to surface residue      Roots to soil FOM
@@ -5949,8 +5949,8 @@ Component     "sysbal" = c:\development\apsim\sysbal\lib\sysbal.dll
      		stover N conc =   0.00 		 extractable sw =  11.28
 14 November 1987(Day of year=318), sysbal: 
      **** N balance - unaccounted gain (kg/ha) =      0.164795
-     **** C balance - unaccounted gain (kg/ha) =      6.002277
-     ****        equivalent DM as FOM  (kg/ha) =     15.005693
+     **** C balance - unaccounted gain (kg/ha) =      6.002296
+     ****        equivalent DM as FOM  (kg/ha) =     15.005741
 2 December 1987(Day of year=336), sorghum: 
       stage 4.0 end_of_juvenile
      		biomass =   4.09 		 lai =   0.04
@@ -5973,7 +5973,7 @@ Component     "sysbal" = c:\development\apsim\sysbal\lib\sysbal.dll
      		stover N conc =   1.67 		 extractable sw =   3.72
 29 March 1988(Day of year=89), sorghum: 
       stage 9.0 end_grain_fill
-     		biomass = 328.13 		 lai =   0.14
+     		biomass = 328.14 		 lai =   0.14
      		stover N conc =   1.27 		 extractable sw =   6.67
 31 March 1988(Day of year=91), sorghum: 
       stage 10.0 maturity
@@ -5998,7 +5998,7 @@ Component     "sysbal" = c:\development\apsim\sysbal\lib\sysbal.dll
      dead above ground biomass     (kg/ha) = 0.0
      stover (kg/ha)        = 2778.1 	 grain yield (kg/ha)     = 510.0
      grain % water content = 13.0 	 grain yield wet (kg/ha) = 586.2
-     grain wt (g)          = 0.007 	 grains/m^2              = 7685.9
+     grain wt (g)          = 0.007 	 grains/m^2              = 7686.0
      grains/head           = 1537.2
      grain N percent            =     1.181 	 grain N uptake     (kg/ha) =    6.023
      total N content    (kg/ha) =    18.772 	 senesced N content (kg/ha) =    4.896
@@ -6023,7 +6023,7 @@ Component     "sysbal" = c:\development\apsim\sysbal\lib\sysbal.dll
      Manager sending message :- sorghum end_crop
      Crop ended. Yield (dw) =     0.0 kg/ha
      Organic matter from crop:-      Tops to surface residue	 Roots to soil FOM
-                         DM (kg/ha) =               2778.07		  999.76
+                         DM (kg/ha) =               2778.08		  999.76
                          N  (kg/ha) =                  6.38		    1.67
                          P  (kg/ha) =                  0.00		    0.00
      Manager sending message :- surfaceom tillage  type = graze
@@ -6034,9 +6034,9 @@ Component     "sysbal" = c:\development\apsim\sysbal\lib\sysbal.dll
                                              Fraction Incorporated =     0.75
                                              Incorporated Depth    =     0.00
 2 April 1988(Day of year=93), sysbal: 
-     **** N balance - unaccounted loss (kg/ha) =     -4.132641
-     **** C balance - unaccounted gain (kg/ha) =    272.304932
-     ****        equivalent DM as FOM  (kg/ha) =    680.762329
+     **** N balance - unaccounted loss (kg/ha) =     -4.133139
+     **** C balance - unaccounted gain (kg/ha) =    272.299805
+     ****        equivalent DM as FOM  (kg/ha) =    680.749512
 23 May 1988(Day of year=144), manager: 
      Manager sending message :- wheat sow  plants = 100 (/m2), sowing_depth = 40 (mm), cultivar = hartog
 23 May 1988(Day of year=144), wheat: 
@@ -6498,7 +6498,7 @@ Component     "sysbal" = c:\development\apsim\sysbal\lib\sysbal.dll
 13 November 1991(Day of year=317), wheat: 
       stage 9.0 maturity
                      biomass =         788.83 (g/m^2)   lai          =   0.234 (m^2/m^2)
-                     stover N conc =     0.29 (%)    extractable sw =   55.29 (mm)
+                     stover N conc =     0.29 (%)    extractable sw =   55.28 (mm)
 14 November 1991(Day of year=318), wheat: 
       stage 10.0 harvest_ripe
                      biomass =         788.83 (g/m^2)   lai          =   0.000 (m^2/m^2)
@@ -6606,9 +6606,9 @@ Component     "sysbal" = c:\development\apsim\sysbal\lib\sysbal.dll
      		biomass =   0.00 		 lai =   0.00
      		stover N conc =   0.00 		 extractable sw =  11.38
 29 November 1991(Day of year=333), sysbal: 
-     **** N balance - unaccounted gain (kg/ha) =      0.164795
-     **** C balance - unaccounted gain (kg/ha) =      6.001600
-     ****        equivalent DM as FOM  (kg/ha) =     15.004001
+     **** N balance - unaccounted gain (kg/ha) =      0.165039
+     **** C balance - unaccounted gain (kg/ha) =      6.005505
+     ****        equivalent DM as FOM  (kg/ha) =     15.013762
 12 December 1991(Day of year=346), sorghum: 
       stage 4.0 end_of_juvenile
      		biomass =   3.40 		 lai =   0.04
@@ -6658,7 +6658,7 @@ Component     "sysbal" = c:\development\apsim\sysbal\lib\sysbal.dll
      grain % water content = 13.0 	 grain yield wet (kg/ha) = 2196.3
      grain wt (g)          = 0.016 	 grains/m^2              = 11787.1
      grains/head           = 2357.4
-     grain N percent            =     0.715 	 grain N uptake     (kg/ha) =   13.672
+     grain N percent            =     0.716 	 grain N uptake     (kg/ha) =   13.672
      total N content    (kg/ha) =    25.181 	 senesced N content (kg/ha) =    2.769
      green N content    (kg/ha) =    10.993 	 dead N content     (kg/ha) =    0.000
      
@@ -6692,9 +6692,9 @@ Component     "sysbal" = c:\development\apsim\sysbal\lib\sysbal.dll
                                              Fraction Incorporated =     0.75
                                              Incorporated Depth    =     0.00
 20 March 1992(Day of year=80), sysbal: 
-     **** N balance - unaccounted loss (kg/ha) =    -11.419857
-     **** C balance - unaccounted loss (kg/ha) =   -291.647705
-      ****        equivalent DM as FOM  (kg/ha) =  -729.119263
+     **** N balance - unaccounted loss (kg/ha) =    -11.419369
+     **** C balance - unaccounted loss (kg/ha) =   -291.644287
+      ****        equivalent DM as FOM  (kg/ha) =  -729.110718
 19 May 1992(Day of year=140), manager: 
      Manager sending message :- wheat sow  plants = 100 (/m2), sowing_depth = 40 (mm), cultivar = hartog
 19 May 1992(Day of year=140), wheat: 
@@ -6771,11 +6771,11 @@ Component     "sysbal" = c:\development\apsim\sysbal\lib\sysbal.dll
                      stover N conc =     0.31 (%)    extractable sw =   74.39 (mm)
 31 October 1992(Day of year=305), wheat: 
       stage 9.0 maturity
-                     biomass =        1227.94 (g/m^2)   lai          =   0.487 (m^2/m^2)
+                     biomass =        1227.95 (g/m^2)   lai          =   0.487 (m^2/m^2)
                      stover N conc =     0.31 (%)    extractable sw =   73.35 (mm)
 1 November 1992(Day of year=306), wheat: 
       stage 10.0 harvest_ripe
-                     biomass =        1227.94 (g/m^2)   lai          =   0.000 (m^2/m^2)
+                     biomass =        1227.95 (g/m^2)   lai          =   0.000 (m^2/m^2)
                      stover N conc =     0.30 (%)    extractable sw =   72.48 (mm)
 2 November 1992(Day of year=307), manager: 
      Manager sending message :- wheat harvest
@@ -6880,9 +6880,9 @@ Component     "sysbal" = c:\development\apsim\sysbal\lib\sysbal.dll
      		biomass =   0.00 		 lai =   0.00
      		stover N conc =   0.00 		 extractable sw =  55.81
 28 November 1992(Day of year=333), sysbal: 
-     **** N balance - unaccounted gain (kg/ha) =      0.165213
-     **** C balance - unaccounted gain (kg/ha) =      6.003839
-     ****        equivalent DM as FOM  (kg/ha) =     15.009599
+     **** N balance - unaccounted gain (kg/ha) =      0.164725
+     **** C balance - unaccounted gain (kg/ha) =      6.003845
+     ****        equivalent DM as FOM  (kg/ha) =     15.009613
 12 December 1992(Day of year=347), sorghum: 
       stage 4.0 end_of_juvenile
      		biomass =   3.13 		 lai =   0.04
@@ -6966,9 +6966,9 @@ Component     "sysbal" = c:\development\apsim\sysbal\lib\sysbal.dll
                                              Fraction Incorporated =     0.75
                                              Incorporated Depth    =     0.00
 2 April 1993(Day of year=92), sysbal: 
-     **** N balance - unaccounted loss (kg/ha) =     -9.614494
-     **** C balance - unaccounted loss (kg/ha) =   -250.533936
-      ****        equivalent DM as FOM  (kg/ha) =  -626.334839
+     **** N balance - unaccounted loss (kg/ha) =     -9.614225
+     **** C balance - unaccounted loss (kg/ha) =   -250.530518
+      ****        equivalent DM as FOM  (kg/ha) =  -626.326294
 30 May 1993(Day of year=150), manager: 
      Manager sending message :- wheat sow  plants = 100 (/m2), sowing_depth = 40 (mm), cultivar = hartog
 30 May 1993(Day of year=150), wheat: 
@@ -7154,9 +7154,9 @@ Component     "sysbal" = c:\development\apsim\sysbal\lib\sysbal.dll
      		biomass =   0.00 		 lai =   0.00
      		stover N conc =   0.00 		 extractable sw =  58.38
 20 November 1993(Day of year=324), sysbal: 
-     **** N balance - unaccounted gain (kg/ha) =      0.164820
-     **** C balance - unaccounted gain (kg/ha) =      6.005886
-     ****        equivalent DM as FOM  (kg/ha) =     15.014715
+     **** N balance - unaccounted gain (kg/ha) =      0.165064
+     **** C balance - unaccounted gain (kg/ha) =      6.001980
+     ****        equivalent DM as FOM  (kg/ha) =     15.004950
 2 December 1993(Day of year=336), sorghum: 
       stage 4.0 end_of_juvenile
      		biomass =   3.14 		 lai =   0.04
@@ -7170,7 +7170,7 @@ Component     "sysbal" = c:\development\apsim\sysbal\lib\sysbal.dll
      		biomass = 236.57 		 lai =   1.01
      		stover N conc =   2.03 		 extractable sw =   8.46
 22 March 1994(Day of year=81), sorghum: 
-     Plant Death. Standing above-ground dm = 2948.27 (kg/ha)
+     Plant Death. Standing above-ground dm = 2948.28 (kg/ha)
 23 March 1994(Day of year=82), manager: 
      Manager sending message :- sorghum harvest
 23 March 1994(Day of year=82), sorghum: 
@@ -7221,9 +7221,9 @@ Component     "sysbal" = c:\development\apsim\sysbal\lib\sysbal.dll
                                              Fraction Incorporated =     0.75
                                              Incorporated Depth    =     0.00
 23 March 1994(Day of year=82), sysbal: 
-     **** N balance - unaccounted gain (kg/ha) =      1.407009
-     **** C balance - unaccounted gain (kg/ha) =    462.523438
-     ****        equivalent DM as FOM  (kg/ha) =   1156.308590
+     **** N balance - unaccounted gain (kg/ha) =      1.407253
+     **** C balance - unaccounted gain (kg/ha) =    462.523926
+     ****        equivalent DM as FOM  (kg/ha) =   1156.309810
 23 June 1994(Day of year=174), manager: 
      Manager sending message :- wheat sow  plants = 100 (/m2), sowing_depth = 40 (mm), cultivar = hartog
 23 June 1994(Day of year=174), wheat: 
@@ -7296,7 +7296,7 @@ Component     "sysbal" = c:\development\apsim\sysbal\lib\sysbal.dll
                      stover N conc =     0.73 (%)    extractable sw =   31.36 (mm)
 13 November 1994(Day of year=317), wheat: 
       stage 8.0 end_grain_fill
-                     biomass =         940.42 (g/m^2)   lai          =   0.467 (m^2/m^2)
+                     biomass =         940.43 (g/m^2)   lai          =   0.467 (m^2/m^2)
                      stover N conc =     0.31 (%)    extractable sw =    7.80 (mm)
 15 November 1994(Day of year=319), wheat: 
       stage 9.0 maturity
@@ -7409,9 +7409,9 @@ Component     "sysbal" = c:\development\apsim\sysbal\lib\sysbal.dll
      		biomass =   0.00 		 lai =   0.00
      		stover N conc =   0.00 		 extractable sw =  10.05
 26 January 1995(Day of year=26), sysbal: 
-     **** N balance - unaccounted gain (kg/ha) =      0.164551
-     **** C balance - unaccounted gain (kg/ha) =      5.998531
-     ****        equivalent DM as FOM  (kg/ha) =     14.996328
+     **** N balance - unaccounted gain (kg/ha) =      0.165039
+     **** C balance - unaccounted gain (kg/ha) =      6.002449
+     ****        equivalent DM as FOM  (kg/ha) =     15.006123
 8 February 1995(Day of year=39), sorghum: 
       stage 4.0 end_of_juvenile
      		biomass =   3.65 		 lai =   0.04
@@ -7483,9 +7483,9 @@ Component     "sysbal" = c:\development\apsim\sysbal\lib\sysbal.dll
                                              Fraction Incorporated =     0.75
                                              Incorporated Depth    =     0.00
 14 June 1995(Day of year=165), sysbal: 
-     **** N balance - unaccounted loss (kg/ha) =    -17.144510
-     **** C balance - unaccounted loss (kg/ha) =   -249.447021
-      ****        equivalent DM as FOM  (kg/ha) =  -623.617554
+     **** N balance - unaccounted loss (kg/ha) =    -17.144514
+     **** C balance - unaccounted loss (kg/ha) =   -249.450195
+      ****        equivalent DM as FOM  (kg/ha) =  -623.625488
 28 June 1995(Day of year=179), manager: 
      Manager sending message :- wheat sow  plants = 100 (/m2), sowing_depth = 40 (mm), cultivar = hartog
 28 June 1995(Day of year=179), wheat: 
@@ -7928,8 +7928,8 @@ Component     "sysbal" = c:\development\apsim\sysbal\lib\sysbal.dll
      		stover N conc =   0.00 		 extractable sw =  66.68
 22 November 1997(Day of year=326), sysbal: 
      **** N balance - unaccounted gain (kg/ha) =      0.164611
-     **** C balance - unaccounted gain (kg/ha) =      6.005497
-     ****        equivalent DM as FOM  (kg/ha) =     15.013742
+     **** C balance - unaccounted gain (kg/ha) =      6.001599
+     ****        equivalent DM as FOM  (kg/ha) =     15.003998
 3 December 1997(Day of year=337), sorghum: 
       stage 4.0 end_of_juvenile
      		biomass =   3.75 		 lai =   0.05
@@ -8014,8 +8014,8 @@ Component     "sysbal" = c:\development\apsim\sysbal\lib\sysbal.dll
                                              Incorporated Depth    =     0.00
 18 March 1998(Day of year=77), sysbal: 
      **** N balance - unaccounted loss (kg/ha) =     -3.157589
-     **** C balance - unaccounted loss (kg/ha) =     -5.920410
-      ****        equivalent DM as FOM  (kg/ha) =  -14.8010254
+     **** C balance - unaccounted loss (kg/ha) =     -5.920166
+      ****        equivalent DM as FOM  (kg/ha) =  -14.8004150
 9 June 1998(Day of year=160), manager: 
      Manager sending message :- wheat sow  plants = 100 (/m2), sowing_depth = 40 (mm), cultivar = hartog
 9 June 1998(Day of year=160), wheat: 
@@ -8201,9 +8201,9 @@ Component     "sysbal" = c:\development\apsim\sysbal\lib\sysbal.dll
      		biomass =   0.00 		 lai =   0.00
      		stover N conc =   0.00 		 extractable sw =  17.75
 11 January 1999(Day of year=11), sysbal: 
-     **** N balance - unaccounted gain (kg/ha) =      0.165371
-     **** C balance - unaccounted gain (kg/ha) =      6.002388
-     ****        equivalent DM as FOM  (kg/ha) =     15.005970
+     **** N balance - unaccounted gain (kg/ha) =      0.165126
+     **** C balance - unaccounted gain (kg/ha) =      6.002394
+     ****        equivalent DM as FOM  (kg/ha) =     15.005984
 21 January 1999(Day of year=21), sorghum: 
       stage 4.0 end_of_juvenile
      		biomass =   3.20 		 lai =   0.04
@@ -8287,9 +8287,9 @@ Component     "sysbal" = c:\development\apsim\sysbal\lib\sysbal.dll
                                              Fraction Incorporated =     0.75
                                              Incorporated Depth    =     0.00
 7 May 1999(Day of year=127), sysbal: 
-     **** N balance - unaccounted loss (kg/ha) =    -14.120621
-     **** C balance - unaccounted loss (kg/ha) =   -244.710449
-      ****        equivalent DM as FOM  (kg/ha) =  -611.776123
+     **** N balance - unaccounted loss (kg/ha) =    -14.120617
+     **** C balance - unaccounted loss (kg/ha) =   -244.713623
+      ****        equivalent DM as FOM  (kg/ha) =  -611.784058
 31 May 1999(Day of year=151), manager: 
      Manager sending message :- wheat sow  plants = 100 (/m2), sowing_depth = 40 (mm), cultivar = hartog
 31 May 1999(Day of year=151), wheat: 
@@ -8636,7 +8636,7 @@ Component     "sysbal" = c:\development\apsim\sysbal\lib\sysbal.dll
                      stover N conc =     0.60 (%)    extractable sw =   70.17 (mm)
 17 October 2000(Day of year=291), wheat: 
       stage 8.0 end_grain_fill
-                     biomass =        1157.77 (g/m^2)   lai          =   0.547 (m^2/m^2)
+                     biomass =        1157.76 (g/m^2)   lai          =   0.547 (m^2/m^2)
                      stover N conc =     0.29 (%)    extractable sw =   17.79 (mm)
 20 October 2000(Day of year=294), wheat: 
       stage 9.0 maturity
@@ -8652,7 +8652,7 @@ Component     "sysbal" = c:\development\apsim\sysbal\lib\sysbal.dll
      
       flowering day          =  247                           stover (kg/ha)         =     9196.7
       maturity day           =  294                           grain yield (kg/ha)    =     2424.1
-      grain % water content  =   12.5                         grain yield wet (kg/ha)=     2770.4
+      grain % water content  =   12.5                         grain yield wet (kg/ha)=     2770.5
       grain wt (g)           =    0.023                       grains/m^2             =    10624.3
       grains/plant           =  106.2                         maximum lai            =      3.025
       total above ground biomass (kg/ha)    =    11620.8
@@ -8750,8 +8750,8 @@ Component     "sysbal" = c:\development\apsim\sysbal\lib\sysbal.dll
      		stover N conc =   0.00 		 extractable sw =  87.61
 28 January 2001(Day of year=28), sysbal: 
      **** N balance - unaccounted gain (kg/ha) =      0.164551
-     **** C balance - unaccounted gain (kg/ha) =      5.997705
-     ****        equivalent DM as FOM  (kg/ha) =     14.994264
+     **** C balance - unaccounted gain (kg/ha) =      6.001602
+     ****        equivalent DM as FOM  (kg/ha) =     15.004005
 7 February 2001(Day of year=38), sorghum: 
       stage 4.0 end_of_juvenile
      		biomass =   2.92 		 lai =   0.04
@@ -8835,9 +8835,9 @@ Component     "sysbal" = c:\development\apsim\sysbal\lib\sysbal.dll
                                              Fraction Incorporated =     0.75
                                              Incorporated Depth    =     0.00
 12 June 2001(Day of year=163), sysbal: 
-     **** N balance - unaccounted loss (kg/ha) =    -15.365967
-     **** C balance - unaccounted loss (kg/ha) =   -151.403076
-      ****        equivalent DM as FOM  (kg/ha) =  -378.507690
+     **** N balance - unaccounted loss (kg/ha) =    -15.366240
+     **** C balance - unaccounted loss (kg/ha) =   -151.398438
+      ****        equivalent DM as FOM  (kg/ha) =  -378.496094
 14 July 2001(Day of year=195), manager: 
      Manager sending message :- wheat sow  plants = 100 (/m2), sowing_depth = 40 (mm), cultivar = hartog
 14 July 2001(Day of year=195), wheat: 
